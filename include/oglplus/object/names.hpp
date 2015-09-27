@@ -4,7 +4,7 @@
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
  *  See accompanying file LICENSE_1_0.txt or copy at
- *  https://www.boost.org/LICENSE_1_0.txt
+ *   http://www.boost.org/LICENSE_1_0.txt
  */
 #ifndef OGLPLUS_OBJECT_NAMES_1509260923_HPP
 #define OGLPLUS_OBJECT_NAMES_1509260923_HPP

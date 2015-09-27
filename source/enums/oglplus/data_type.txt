@@ -1,0 +1,14 @@
+# Copyright Matus Chochlik.
+# Distributed under the Boost Software License, Version 1.0.
+# See accompanying file LICENSE_1_0.txt or copy at
+#  http://www.boost.org/LICENSE_1_0.txt
+BYTE:byte_
+SHORT:short_
+INT:int_
+FIXED
+FLOAT:float_
+HALF_FLOAT
+DOUBLE:double_
+UNSIGNED_BYTE
+UNSIGNED_SHORT
+UNSIGNED_INT
