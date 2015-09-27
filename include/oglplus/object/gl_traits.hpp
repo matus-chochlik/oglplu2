@@ -10,6 +10,8 @@
 #define OGLPLUS_OBJECT_GL_TRAITS_1509260923_HPP
 
 #include "fwd.hpp"
+#include "../utils/identity.hpp"
+#include "../utils/nothing.hpp"
 
 namespace oglplus {
 namespace tag {
@@ -31,6 +33,11 @@ struct object_traits<tag::gl_obj_tag<Tag>>
 		return ~GLuint(0);
 	}
 };
+
+template <GLenum Tag>
+struct object_subtype<tag::gl_obj_tag<Tag>>
+ : nothing_t
+{ };
 
 } // namespace oglplus
 

@@ -16,6 +16,9 @@ namespace oglplus {
 template <typename ObjTag>
 struct object_traits;
 
+template <typename ObjTag>
+struct object_subtype;
+
 template <typename ObjTag, typename Storage>
 class object_names;
 

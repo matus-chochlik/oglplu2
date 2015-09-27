@@ -12,6 +12,7 @@
 #include "object/gl_name.hpp"
 #include "utils/gl_func.hpp"
 #include "error/handling.hpp"
+#include "enum_types.hpp"
 
 namespace oglplus {
 namespace tag {
@@ -24,10 +25,14 @@ using shader_name = object_name<tag::shader>;
 using shader = object_owner<tag::shader>;
 
 template <>
+struct object_subtype<tag::shader>
+{
+	typedef shader_type type;
+};
+
+template <>
 struct obj_gen_del_ops<tag::shader>
 {
-	typedef GLenum shader_type; // TODO: replace with enum
-
 	static
 	deferred_error_handler
 	_gen(array_view<GLuint> names, shader_type type)

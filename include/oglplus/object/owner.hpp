@@ -31,7 +31,7 @@ public:
 		obj_lifetime_ops<ObjTag>::gen_objects(*this);
 	}
 
-	object_owner(GLenum subtype) // TODO: subtype
+	object_owner(typename object_subtype<ObjTag>::type subtype)
 	{
 		obj_lifetime_ops<ObjTag>::gen_objects(*this, subtype);
 	}
