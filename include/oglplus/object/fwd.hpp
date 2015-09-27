@@ -19,6 +19,9 @@ struct object_traits;
 template <typename ObjTag, typename Storage>
 class object_names;
 
+template <typename ObjectNames>
+class owned;
+
 template <typename ObjTag>
 class object_owner;
 

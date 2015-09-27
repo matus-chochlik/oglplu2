@@ -14,15 +14,12 @@
 namespace oglplus {
 
 template <typename ObjTag>
-struct obj_lifetime_ops;
-
-template <typename ObjTag>
 struct obj_lifetime_ops
 {
 	template <typename Storage>
 	static inline
 	auto
-	gen_objects(object_names<ObjTag, Storage>& names)
+	gen_objects(owned<object_names<ObjTag, Storage>>& names)
 	noexcept
 	{
 		return obj_gen_del_ops<ObjTag>::_gen(
@@ -33,7 +30,7 @@ struct obj_lifetime_ops
 	template <typename Storage, typename Param>
 	static inline
 	auto
-	gen_objects(object_names<ObjTag, Storage>& names, Param param)
+	gen_objects(owned<object_names<ObjTag, Storage>>& names, Param param)
 	noexcept
 	{
 		return obj_gen_del_ops<ObjTag>::_gen(
@@ -45,7 +42,7 @@ struct obj_lifetime_ops
 	template <typename Storage>
 	static inline
 	auto
-	delete_objects(object_names<ObjTag, Storage>& names)
+	delete_objects(owned<object_names<ObjTag, Storage>>& names)
 	noexcept
 	{
 		return obj_gen_del_ops<ObjTag>::_delete(

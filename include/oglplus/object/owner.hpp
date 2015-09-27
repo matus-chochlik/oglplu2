@@ -14,9 +14,16 @@
 
 namespace oglplus {
 
+template <typename ObjTag, typename Storage>
+class owned<object_names<ObjTag, Storage>>
+ : public object_names<ObjTag, Storage>
+{
+public:
+};
+
 template <typename ObjTag>
 class object_owner
- : public object_name<ObjTag>
+ : public owned<object_name<ObjTag>>
 {
 public:
 	object_owner(void)
@@ -53,9 +60,6 @@ public:
 	{
 		return is_object(*this);
 	}
-
-	using object_name<ObjTag>::operator bool;
-	using object_name<ObjTag>::operator !;
 };
 
 } // namespace oglplus
