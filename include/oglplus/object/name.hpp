@@ -12,6 +12,7 @@
 #include <utility>
 #include <cstddef>
 #include "fwd.hpp"
+#include "../utils/array_view.hpp"
 
 namespace oglplus {
 
@@ -37,6 +38,12 @@ public:
 	 : _name(_traits::invalid_name())
 	{ }
 
+	constexpr
+	object_names(typename _traits::name_type name)
+	noexcept
+	 : _name(name)
+	{ }
+
 	object_names(const object_names&) = default;
 	object_names& operator = (const object_names&) = default;
 
@@ -48,7 +55,7 @@ public:
 	object_names& operator = (object_names&& temp)
 	noexcept
 	{
-		swap(temp, *this);
+		swap(temp);
 		return *this;
 	}
 
@@ -116,27 +123,26 @@ public:
 
 	friend inline constexpr
 	typename _traits::name_type
-	get_name(object_names nt)
+	get_raw_name(object_names nt)
 	noexcept
 	{
 		return nt._name;
 	}
 
 	friend inline constexpr
-	typename _traits::name_type*
-	get_name_pointer(object_names& ntr)
+	array_view<typename _traits::name_type>
+	get_raw_names(object_names& ntr)
 	noexcept
 	{
-		return &ntr._name;
-	}
-
-	friend inline constexpr
-	std::size_t get_name_count(object_names)
-	noexcept
-	{
-		return 1;
+		return {&ntr._name, 1};
 	}
 };
+
+template <typename ObjTag>
+using object_name = object_names<
+	ObjTag,
+	typename object_traits<ObjTag>::name_type
+>;
 
 } // namespace oglplus
 

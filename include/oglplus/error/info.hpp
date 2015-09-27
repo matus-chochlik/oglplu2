@@ -126,7 +126,7 @@ public:
 	error_info& object(const object_names<ObjTag, Storage>& obj)
 	noexcept
 	{
-		return object_name(get_name(obj));
+		return object_name(get_raw_name(obj));
 	}
 
 	GLuint object_name(void) const
@@ -146,7 +146,7 @@ public:
 	error_info& subject(const object_names<ObjTag, Storage>& sub)
 	noexcept
 	{
-		return subject_name(get_name(sub));
+		return subject_name(get_raw_name(sub));
 	}
 
 	GLuint subject_name(void) const

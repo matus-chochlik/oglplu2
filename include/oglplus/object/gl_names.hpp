@@ -12,11 +12,4 @@
 #include "names.hpp"
 #include "gl_traits.hpp"
 
-namespace oglplus {
-
-template <typename ObjTag, std::size_t N>
-using object_name_array = object_names<ObjTag, std::array<GLuint, N>>;
-
-} // namespace oglplus
-
 #endif // include guard

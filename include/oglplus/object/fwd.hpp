@@ -20,6 +20,9 @@ template <typename ObjTag, typename Storage>
 class object_names;
 
 template <typename ObjTag>
+class object_owner;
+
+template <typename ObjTag>
 struct obj_gen_del_ops;
 
 } // namespace oglplus

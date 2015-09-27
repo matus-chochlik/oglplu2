@@ -26,8 +26,7 @@ struct obj_lifetime_ops
 	noexcept
 	{
 		return obj_gen_del_ops<ObjTag>::_gen(
-			get_name_count(names),
-			get_name_pointer(names)
+			get_raw_names(names)
 		);
 	}
 
@@ -38,8 +37,7 @@ struct obj_lifetime_ops
 	noexcept
 	{
 		return obj_gen_del_ops<ObjTag>::_gen(
-			get_name_count(names),
-			get_name_pointer(names),
+			get_raw_names(names),
 			param
 		);
 	}
@@ -51,8 +49,17 @@ struct obj_lifetime_ops
 	noexcept
 	{
 		return obj_gen_del_ops<ObjTag>::_delete(
-			get_name_count(names),
-			get_name_pointer(names)
+			get_raw_names(names)
+		);
+	}
+
+	static inline
+	auto
+	is_object(object_name<ObjTag>& name)
+	noexcept
+	{
+		return obj_gen_del_ops<ObjTag>::_is_a(
+			get_raw_name(name)
 		);
 	}
 };

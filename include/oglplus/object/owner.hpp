@@ -41,6 +41,19 @@ public:
 		catch(...) { } // TODO rethrow exceptions or cancel ?
 	}
 
+	static
+	auto is_object(object_name<ObjTag> name)
+	noexcept
+	{
+		return obj_lifetime_ops<ObjTag>::is_object(name);
+	}
+
+	auto is_object(void) const
+	noexcept
+	{
+		return is_object(*this);
+	}
+
 	using object_name<ObjTag>::operator bool;
 	using object_name<ObjTag>::operator !;
 };

@@ -20,11 +20,34 @@ template <typename T>
 class outcome_storage;
 
 template <typename T>
+class outcome_storage
+{
+private:
+	T _val;
+public:
+	outcome_storage(void) = default;
+
+	constexpr
+	outcome_storage(T val)
+	noexcept
+	 : _val(val)
+	{ }
+
+	constexpr
+	T get(void) const
+	noexcept
+	{
+		return _val;
+	}
+};
+
+template <typename T>
 class outcome_storage<T&>
 {
 private:
 	T* _ref;
 public:
+	constexpr
 	outcome_storage(void)
 	noexcept
 	 : _ref(nullptr)
@@ -35,7 +58,8 @@ public:
 	 : _ref(&ref)
 	{ }
 
-	T& get(void)
+	T& get(void) const
+	noexcept
 	{
 		assert(_ref != nullptr);
 		return *_ref;
@@ -63,6 +87,11 @@ public:
 	{
 		_handler.trigger();
 		return _value.get();
+	}
+
+	operator T (void)
+	{
+		return get();
 	}
 
 	outcome& ignore_error(void)

@@ -12,6 +12,7 @@
 #include "object/gl_name.hpp"
 #include "utils/gl_func.hpp"
 #include "error/handling.hpp"
+#include "error/outcome.hpp"
 
 namespace oglplus {
 namespace tag {
@@ -21,26 +22,25 @@ using program = gl_obj_tag<GL_PROGRAM>;
 } // namespace tag
 
 using program_name = object_name<tag::program>;
+using program = object_owner<tag::program>;
 
 template <>
 struct obj_gen_del_ops<tag::program>
 {
-	deferred_error_handler
 	static
-	_gen(std::size_t count, GLuint* names)
+	deferred_error_handler
+	_gen(array_view<GLuint> names)
 	noexcept
 	{
-		assert(names != nullptr);
-
-		for(std::size_t i=0; i<count; ++i)
+		for(auto b=names.begin(), i=b, e=names.end(); i!=e; ++i)
 		{
-			names[i] = OGLPLUS_GLFUNC(CreateProgram)();
+			*i = OGLPLUS_GLFUNC(CreateProgram)();
 			GLenum error_code = OGLPLUS_GLFUNC(GetError)();
 			if(error_code != GL_NO_ERROR)
 			{
-				for(std::size_t j=0; j<i; ++j)
+				for(auto j=b; j!=i; ++j)
 				{
-					OGLPLUS_GLFUNC(DeleteProgram)(names[j]);
+					OGLPLUS_GLFUNC(DeleteProgram)(*j);
 					OGLPLUS_VERIFY_SIMPLE(DeleteProgram,fatal);
 				}
 				OGLPLUS_RETURN_HANDLER_IF_GL_ERROR(
@@ -54,19 +54,26 @@ struct obj_gen_del_ops<tag::program>
 		return {};
 	}
 
-	deferred_error_handler
 	static
-	_delete(std::size_t count, GLuint* names)
+	deferred_error_handler
+	_delete(array_view<GLuint> names)
 	noexcept
 	{
-		assert(names != nullptr);
-
-		for(std::size_t i=0; i<count; ++i)
+		for(auto& name : names)
 		{
-			OGLPLUS_GLFUNC(DeleteProgram)(names[i]);
+			OGLPLUS_GLFUNC(DeleteProgram)(name);
 			OGLPLUS_VERIFY_SIMPLE(DeleteProgram,severe);
 		}
 		return {};
+	}
+
+	static
+	outcome<bool> _is_a(GLuint name)
+	noexcept
+	{
+		GLboolean res = OGLPLUS_GLFUNC(IsProgram)(name);
+		OGLPLUS_VERIFY_SIMPLE(IsProgram,warning);
+		return res == GL_TRUE;
 	}
 };
 

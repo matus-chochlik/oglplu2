@@ -1,13 +1,13 @@
 /**
- *  @file oglplus/texture.hpp
+ *  @file oglplus/sampler.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
  *  See accompanying file LICENSE_1_0.txt or copy at
  *  https://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_TEXTURE_1509260923_HPP
-#define OGLPLUS_TEXTURE_1509260923_HPP
+#ifndef OGLPLUS_SAMPLER_1509260923_HPP
+#define OGLPLUS_SAMPLER_1509260923_HPP
 
 #include "object/gl_name.hpp"
 #include "utils/gl_func.hpp"
@@ -16,26 +16,26 @@
 namespace oglplus {
 namespace tag {
 
-using texture = gl_obj_tag<GL_TEXTURE>;
+using sampler = gl_obj_tag<GL_SAMPLER>;
 
 } // namespace tag
 
-using texture_name = object_name<tag::texture>;
-using texture = object_owner<tag::texture>;
+using sampler_name = object_name<tag::sampler>;
+using sampler = object_owner<tag::sampler>;
 
 template <>
-struct obj_gen_del_ops<tag::texture>
+struct obj_gen_del_ops<tag::sampler>
 {
 	static
 	deferred_error_handler
 	_gen(array_view<GLuint> names)
 	noexcept
 	{
-		OGLPLUS_GLFUNC(GenTextures)(
+		OGLPLUS_GLFUNC(GenSamplers)(
 			GLsizei(names.size()),
 			names.data()
 		);
-		OGLPLUS_VERIFY_SIMPLE(GenTextures,severe);
+		OGLPLUS_VERIFY_SIMPLE(GenSamplers,severe);
 		return {};
 	}
 
@@ -44,11 +44,11 @@ struct obj_gen_del_ops<tag::texture>
 	_delete(array_view<GLuint> names)
 	noexcept
 	{
-		OGLPLUS_GLFUNC(DeleteTextures)(
+		OGLPLUS_GLFUNC(DeleteSamplers)(
 			GLsizei(names.size()),
 			names.data()
 		);
-		OGLPLUS_VERIFY_SIMPLE(DeleteTextures,severe);
+		OGLPLUS_VERIFY_SIMPLE(DeleteSamplers,severe);
 		return {};
 	}
 
@@ -56,8 +56,8 @@ struct obj_gen_del_ops<tag::texture>
 	outcome<bool> _is_a(GLuint name)
 	noexcept
 	{
-		GLboolean res = OGLPLUS_GLFUNC(IsTexture)(name);
-		OGLPLUS_VERIFY_SIMPLE(IsTexture,warning);
+		GLboolean res = OGLPLUS_GLFUNC(IsSampler)(name);
+		OGLPLUS_VERIFY_SIMPLE(IsSampler,warning);
 		return res == GL_TRUE;
 	}
 };
