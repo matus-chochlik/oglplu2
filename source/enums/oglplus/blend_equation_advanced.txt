@@ -1,0 +1,19 @@
+# Copyright Matus Chochlik.
+# Distributed under the Boost Software License, Version 1.0.
+# See accompanying file LICENSE_1_0.txt or copy at
+#  http://www.boost.org/LICENSE_1_0.txt
+MULTIPLY_KHR
+SCREEN_KHR
+OVERLAY_KHR
+DARKEN_KHR
+LIGHTEN_KHR
+COLORDODGE_KHR
+COLORBURN_KHR
+HARDLIGHT_KHR
+SOFTLIGHT_KHR
+DIFFERENCE_KHR
+EXCLUSION_KHR
+HSL_HUE_KHR
+HSL_SATURATION_KHR
+HSL_COLOR_KHR
+HSL_LUMINOSITY_KHR

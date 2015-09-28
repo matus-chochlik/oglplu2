@@ -58,6 +58,28 @@ def update_input_options(options, input_path):
 	if not options.enum_name:
 		options.enum_name = os.path.splitext(os.path.basename(input_path))[0]
 
+def src_name_to_dst_name(src_name):
+
+	suffixes = ['ARB', 'EXT']
+
+	for suffix in suffixes:
+		if src_name.endswith('_'+suffix):
+			src_name = src_name[:-len(suffix)-1]
+			break
+
+	dst_name = src_name.lower()
+
+	keywords = [
+		'void','bool','byte','short','int','unsigned','float','double',
+		'not','and','or','xor'
+	]
+
+	for keyword in keywords:
+		if dst_name == keyword:
+			dst_name = dst_name+'_'
+			break
+
+	return dst_name
 
 def parse_source(options, input_path = None):
 
@@ -79,7 +101,7 @@ def parse_source(options, input_path = None):
 				av = dict(zip(attribs, values))
 
 				if not av.get("dst_name"):
-					av["dst_name"] = av["src_name"].lower()
+					av["dst_name"] = src_name_to_dst_name(av["src_name"])
 
 				if not av.get("prefix"):
 					av["prefix"] = options.base_lib_prefix
