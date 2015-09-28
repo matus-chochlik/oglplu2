@@ -10,14 +10,12 @@
 #ifndef OGLPLUS_UTILS_NOTHING_1509260923_HPP
 #define OGLPLUS_UTILS_NOTHING_1509260923_HPP
 
+#include <eagine/nothing.hpp>
+
 namespace oglplus {
 
-struct nothing_t
-{
-	typedef nothing_t type;
-};
-
-static constexpr nothing_t nothing = {};
+using eagine::nothing_t;
+using eagine::nothing;
 
 } // namespace oglplus
 

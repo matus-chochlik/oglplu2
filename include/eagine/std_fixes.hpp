@@ -1,5 +1,5 @@
 /**
- *  @file oglplus/utils/std_fixes.hpp
+ *  @file eagine/std_fixes.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef OGLPLUS_UTILS_STD_FIXES_1509260923_HPP
-#define OGLPLUS_UTILS_STD_FIXES_1509260923_HPP
+#ifndef EAGINE_STD_FIXES_1509260923_HPP
+#define EAGINE_STD_FIXES_1509260923_HPP
 
 namespace std {
 

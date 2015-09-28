@@ -10,26 +10,11 @@
 #ifndef OGLPLUS_UTILS_ARRAY_VIEW_1509260923_HPP
 #define OGLPLUS_UTILS_ARRAY_VIEW_1509260923_HPP
 
-#include "std_fixes.hpp"
-
-#ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunknown-pragmas"
-#pragma clang diagnostic ignored "-Wold-style-cast"
-#pragma clang diagnostic ignored "-Wreserved-id-macro"
-#pragma clang diagnostic ignored "-Wunused-parameter"
-#pragma clang diagnostic ignored "-Wshadow"
-#endif
-
-#include <array_view.h>
-
-#ifdef __clang__
-#pragma clang diagnostic pop
-#endif
+#include <eagine/array_view.hpp>
 
 namespace oglplus {
 
-using Guide::array_view;
+using eagine::array_view;
 
 } // namespace oglplus
 

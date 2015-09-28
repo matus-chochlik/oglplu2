@@ -7,26 +7,18 @@ cmake_minimum_required(VERSION 2.8)
 
 enable_testing()
 include(CTest)
+include(../testing.cmake)
 
 function(add_oglplus_compile_test TEST_NAME)
-	add_library(oglplus_${TEST_NAME} EXCLUDE_FROM_ALL ${TEST_NAME}.cpp)
-	add_test(
-		oglplus-compile_test-${TEST_NAME}
-		"${CMAKE_COMMAND}"
-		--build "${CMAKE_BINARY_DIR}"
-		--target oglplus_${TEST_NAME}
-	)
+	add_compile_test(oglplus ${TEST_NAME})
 endfunction()
 
-add_oglplus_compile_test("vertex_array_c")
-add_oglplus_compile_test("buffer_c")
-add_oglplus_compile_test("framebuffer_c")
-add_oglplus_compile_test("renderbuffer_c")
-add_oglplus_compile_test("texture_c")
-add_oglplus_compile_test("sampler_c")
-add_oglplus_compile_test("shader_c")
-add_oglplus_compile_test("program_c")
-add_oglplus_compile_test("program_pipeline_c")
-add_oglplus_compile_test("transform_feedback_c")
-add_oglplus_compile_test("query_c")
+function(add_oglplus_runtime_test TEST_NAME)
+endfunction()
+
+file(GLOB COMPILE_TESTS *_c.cpp)
+foreach(COMPILE_TEST ${COMPILE_TESTS})
+	get_filename_component(TEST_NAME "${COMPILE_TEST}" NAME_WE)
+	add_oglplus_compile_test(${TEST_NAME})
+endforeach()
 

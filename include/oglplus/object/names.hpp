@@ -16,15 +16,15 @@
 namespace oglplus {
 
 template <typename ObjTag, typename Iterator>
-class object_name_iterator
+class object_name_const_iterator
 {
 private:
 	Iterator _iter;
-	mutable object_name<ObjTag> _name;
+	object_name<ObjTag> _name;
 public:
-	object_name_iterator(void) = default;
+	object_name_const_iterator(void) = default;
 
-	object_name_iterator(Iterator iter)
+	object_name_const_iterator(Iterator iter)
 	noexcept
 	 : _iter(iter)
 	{ }
@@ -32,7 +32,7 @@ public:
 	typedef object_name<ObjTag> value_type;
 	typedef const object_name<ObjTag>& reference;
 
-	void swap(object_name_iterator& that)
+	void swap(object_name_const_iterator& that)
 	noexcept
 	{
 		using std::swap;
@@ -40,7 +40,7 @@ public:
 		swap(_name, that._name);
 	}
 
-	object_name_iterator&
+	object_name_const_iterator&
 	operator ++ (void)
 	{
 		++_iter;
@@ -55,8 +55,8 @@ public:
 
 	friend inline
 	bool operator == (
-		const object_name_iterator& a,
-		const object_name_iterator& b
+		const object_name_const_iterator& a,
+		const object_name_const_iterator& b
 	) noexcept
 	{
 		return a._iter == b._iter;
@@ -64,8 +64,8 @@ public:
 
 	friend inline
 	bool operator != (
-		const object_name_iterator& a,
-		const object_name_iterator& b
+		const object_name_const_iterator& a,
+		const object_name_const_iterator& b
 	) noexcept
 	{
 		return a._iter != b._iter;
@@ -73,8 +73,8 @@ public:
 
 	friend inline
 	bool operator <  (
-		const object_name_iterator& a,
-		const object_name_iterator& b
+		const object_name_const_iterator& a,
+		const object_name_const_iterator& b
 	) noexcept
 	{
 		return a._iter <  b._iter;
@@ -157,7 +157,7 @@ public:
 		return object_name<ObjTag>(_names.at(index));
 	}
 
-	typedef object_name_iterator<
+	typedef object_name_const_iterator<
 		ObjTag,
 		typename Container::const_iterator
 	> iterator;

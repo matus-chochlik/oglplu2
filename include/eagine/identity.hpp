@@ -1,5 +1,5 @@
 /**
- *  @file oglplus/utils/identity.hpp
+ *  @file eagine/identity.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,15 +7,17 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef OGLPLUS_UTILS_IDENTITY_1509260923_HPP
-#define OGLPLUS_UTILS_IDENTITY_1509260923_HPP
+#ifndef EAGINE_IDENTITY_1509260923_HPP
+#define EAGINE_IDENTITY_1509260923_HPP
 
-#include <eagine/identity.hpp>
+namespace eagine {
 
-namespace oglplus {
+template <typename T>
+struct identity
+{
+	typedef T type;
+};
 
-using eagine::identity;
-
-} // namespace oglplus
+} // namespace eagine
 
 #endif // include guard
