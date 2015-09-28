@@ -19,6 +19,13 @@ class owned<object_names<ObjTag, Storage>>
  : public object_names<ObjTag, Storage>
 {
 public:
+	owned(void) = default;
+
+	owned(const owned&) = delete;
+	owned& operator = (const owned&) = delete;
+
+	owned(owned&&) = default;
+	owned& operator = (owned&&) = default;
 };
 
 template <typename ObjTag>
@@ -35,9 +42,6 @@ public:
 	{
 		obj_lifetime_ops<ObjTag>::gen_objects(*this, subtype);
 	}
-
-	object_owner(const object_owner&) = delete;
-	object_owner& operator = (const object_owner&) = delete;
 
 	object_owner(object_owner&&) = default;
 	object_owner& operator = (object_owner&&) = default;

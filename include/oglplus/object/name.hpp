@@ -138,12 +138,6 @@ public:
 	}
 };
 
-template <typename ObjTag>
-using object_name = object_names<
-	ObjTag,
-	typename object_traits<ObjTag>::name_type
->;
-
 } // namespace oglplus
 
 #endif // include guard

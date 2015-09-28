@@ -52,7 +52,7 @@ struct obj_lifetime_ops
 
 	static inline
 	auto
-	is_object(object_name<ObjTag>& name)
+	is_object(object_name<ObjTag> name)
 	noexcept
 	{
 		return obj_gen_del_ops<ObjTag>::_is_a(

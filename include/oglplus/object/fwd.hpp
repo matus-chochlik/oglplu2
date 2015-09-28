@@ -19,8 +19,17 @@ struct object_traits;
 template <typename ObjTag>
 struct object_subtype;
 
+template <typename ObjTag>
+using object_subtype_t = typename object_subtype<ObjTag>::type;
+
 template <typename ObjTag, typename Storage>
 class object_names;
+
+template <typename ObjTag>
+using object_name = object_names<
+	ObjTag,
+	typename object_traits<ObjTag>::name_type
+>;
 
 template <typename ObjectNames>
 class owned;

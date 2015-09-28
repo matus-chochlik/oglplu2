@@ -113,6 +113,39 @@ public:
 	}
 };
 
+template <typename ErrorData>
+class basic_outcome<void, ErrorData>
+{
+private:
+	deferred_handler<ErrorData> _handler;
+public:
+	basic_outcome(void) = default;
+
+	basic_outcome(deferred_handler<ErrorData>&& handler)
+	noexcept
+	 : _handler(std::move(handler))
+	{ }
+
+	basic_outcome& ignore_error(void)
+	noexcept
+	{
+		_handler.cancel();
+		return *this;
+	}
+
+	bool done(void) const
+	noexcept
+	{
+		return !_handler;
+	}
+
+	bool done_without_error(void)
+	noexcept
+	{
+		return !_handler.cancel();
+	}
+};
+
 } // namespace oglplus
 
 #endif // include guard
