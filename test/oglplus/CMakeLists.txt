@@ -6,7 +6,6 @@
 cmake_minimum_required(VERSION 2.8)
 
 enable_testing()
-include(CTest)
 include(../testing.cmake)
 
 function(add_oglplus_compile_test TEST_NAME)
@@ -14,6 +13,7 @@ function(add_oglplus_compile_test TEST_NAME)
 endfunction()
 
 function(add_oglplus_runtime_test TEST_NAME)
+	add_runtime_test(oglplus ${TEST_NAME})
 endfunction()
 
 file(GLOB COMPILE_TESTS *_c.cpp)
@@ -22,3 +22,4 @@ foreach(COMPILE_TEST ${COMPILE_TESTS})
 	add_oglplus_compile_test(${TEST_NAME})
 endforeach()
 
+add_subdirectory(enums)

@@ -13,6 +13,7 @@
 #define OGLPLUS_ENUM_VALUES_HPP
 
 #include "enum_types.hpp"
+#include "utils/mp_list.hpp"
 
 namespace oglplus {
 struct enum_values {
@@ -45,7 +46,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLbitfield,
 	GL_ALL_BARRIER_BITS,
-	mp_list<memory_barrier_bit>
+	mp_list<memory_barrier_bits>
 > all_barrier_bits = {};
 #endif
 
@@ -141,7 +142,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLbitfield,
 	GL_ATOMIC_COUNTER_BARRIER_BIT,
-	mp_list<memory_barrier_bit>
+	mp_list<memory_barrier_bits>
 > atomic_counter_barrier_bit = {};
 #endif
 
@@ -317,7 +318,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLbitfield,
 	GL_BUFFER_UPDATE_BARRIER_BIT,
-	mp_list<memory_barrier_bit>
+	mp_list<memory_barrier_bits>
 > buffer_update_barrier_bit = {};
 #endif
 
@@ -373,7 +374,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLbitfield,
 	GL_CLIENT_MAPPED_BUFFER_BARRIER_BIT,
-	mp_list<memory_barrier_bit>
+	mp_list<memory_barrier_bits>
 > client_mapped_buffer_barrier_bit = {};
 #endif
 
@@ -381,7 +382,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLbitfield,
 	GL_CLIENT_STORAGE_BIT,
-	mp_list<buffer_storage_bit>
+	mp_list<buffer_storage_bits>
 > client_storage_bit = {};
 #endif
 
@@ -549,7 +550,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLbitfield,
 	GL_COLOR_BUFFER_BIT,
-	mp_list<buffer_select_bit>
+	mp_list<buffer_select_bits>
 > color_buffer_bit = {};
 #endif
 
@@ -581,7 +582,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLbitfield,
 	GL_COMMAND_BARRIER_BIT,
-	mp_list<memory_barrier_bit>
+	mp_list<memory_barrier_bits>
 > command_barrier_bit = {};
 #endif
 
@@ -861,7 +862,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLbitfield,
 	GL_CONTEXT_COMPATIBILITY_PROFILE_BIT,
-	mp_list<context_profile_bit>
+	mp_list<context_profile_bits>
 > context_compatibility_profile_bit = {};
 #endif
 
@@ -869,7 +870,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLbitfield,
 	GL_CONTEXT_CORE_PROFILE_BIT,
-	mp_list<context_profile_bit>
+	mp_list<context_profile_bits>
 > context_core_profile_bit = {};
 #endif
 
@@ -877,7 +878,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLbitfield,
 	GL_CONTEXT_FLAG_DEBUG_BIT,
-	mp_list<context_flag_bit>
+	mp_list<context_flag_bits>
 > context_flag_debug_bit = {};
 #endif
 
@@ -885,7 +886,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLbitfield,
 	GL_CONTEXT_FLAG_FORWARD_COMPATIBLE_BIT,
-	mp_list<context_flag_bit>
+	mp_list<context_flag_bits>
 > context_flag_forward_compatible_bit = {};
 #endif
 
@@ -893,7 +894,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLbitfield,
 	GL_CONTEXT_FLAG_ROBUST_ACCESS_BIT_ARB,
-	mp_list<context_flag_bit>
+	mp_list<context_flag_bits>
 > context_flag_robust_access_bit = {};
 #endif
 
@@ -1181,7 +1182,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLbitfield,
 	GL_DEPTH_BUFFER_BIT,
-	mp_list<buffer_select_bit>
+	mp_list<buffer_select_bits>
 > depth_buffer_bit = {};
 #endif
 
@@ -1445,7 +1446,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLbitfield,
 	GL_DYNAMIC_STORAGE_BIT,
-	mp_list<buffer_storage_bit>
+	mp_list<buffer_storage_bits>
 > dynamic_storage_bit = {};
 #endif
 
@@ -1453,7 +1454,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLbitfield,
 	GL_ELEMENT_ARRAY_BARRIER_BIT,
-	mp_list<memory_barrier_bit>
+	mp_list<memory_barrier_bits>
 > element_array_barrier_bit = {};
 #endif
 
@@ -1733,7 +1734,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLbitfield,
 	GL_FRAMEBUFFER_BARRIER_BIT,
-	mp_list<memory_barrier_bit>
+	mp_list<memory_barrier_bits>
 > framebuffer_barrier_bit = {};
 #endif
 
@@ -2581,7 +2582,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLbitfield,
 	GL_MAP_COHERENT_BIT,
-	mp_list<buffer_storage_bit,buffer_map_access>
+	mp_list<buffer_storage_bits,buffer_map_access>
 > map_coherent_bit = {};
 #endif
 
@@ -2613,7 +2614,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLbitfield,
 	GL_MAP_PERSISTENT_BIT,
-	mp_list<buffer_storage_bit,buffer_map_access>
+	mp_list<buffer_storage_bits,buffer_map_access>
 > map_persistent_bit = {};
 #endif
 
@@ -2621,7 +2622,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLbitfield,
 	GL_MAP_READ_BIT,
-	mp_list<buffer_storage_bit,buffer_map_access>
+	mp_list<buffer_storage_bits,buffer_map_access>
 > map_read_bit = {};
 #endif
 
@@ -2637,7 +2638,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLbitfield,
 	GL_MAP_WRITE_BIT,
-	mp_list<buffer_storage_bit,buffer_map_access>
+	mp_list<buffer_storage_bits,buffer_map_access>
 > map_write_bit = {};
 #endif
 
@@ -3957,7 +3958,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLbitfield,
 	GL_PIXEL_BUFFER_BARRIER_BIT,
-	mp_list<memory_barrier_bit>
+	mp_list<memory_barrier_bits>
 > pixel_buffer_barrier_bit = {};
 #endif
 
@@ -5101,7 +5102,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLbitfield,
 	GL_SHADER_IMAGE_ACCESS_BARRIER_BIT,
-	mp_list<memory_barrier_bit>
+	mp_list<memory_barrier_bits>
 > shader_image_access_barrier_bit = {};
 #endif
 
@@ -5117,7 +5118,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLbitfield,
 	GL_SHADER_STORAGE_BARRIER_BIT,
-	mp_list<memory_barrier_bit>
+	mp_list<memory_barrier_bits>
 > shader_storage_barrier_bit = {};
 #endif
 
@@ -5173,7 +5174,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLbitfield,
 	GL_SPARSE_STORAGE_BIT_ARB,
-	mp_list<buffer_storage_bit>
+	mp_list<buffer_storage_bits>
 > sparse_storage_bit = {};
 #endif
 
@@ -5293,7 +5294,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLbitfield,
 	GL_STENCIL_BUFFER_BIT,
-	mp_list<buffer_select_bit>
+	mp_list<buffer_select_bits>
 > stencil_buffer_bit = {};
 #endif
 
@@ -5613,7 +5614,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLbitfield,
 	GL_TEXTURE_FETCH_BARRIER_BIT,
-	mp_list<memory_barrier_bit>
+	mp_list<memory_barrier_bits>
 > texture_fetch_barrier_bit = {};
 #endif
 
@@ -5669,7 +5670,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLbitfield,
 	GL_TEXTURE_UPDATE_BARRIER_BIT,
-	mp_list<memory_barrier_bit>
+	mp_list<memory_barrier_bits>
 > texture_update_barrier_bit = {};
 #endif
 
@@ -5749,7 +5750,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLbitfield,
 	GL_TRANSFORM_FEEDBACK_BARRIER_BIT,
-	mp_list<memory_barrier_bit>
+	mp_list<memory_barrier_bits>
 > transform_feedback_barrier_bit = {};
 #endif
 
@@ -5861,7 +5862,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLbitfield,
 	GL_UNIFORM_BARRIER_BIT,
-	mp_list<memory_barrier_bit>
+	mp_list<memory_barrier_bits>
 > uniform_barrier_bit = {};
 #endif
 
@@ -6365,7 +6366,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLbitfield,
 	GL_VERTEX_ATTRIB_ARRAY_BARRIER_BIT,
-	mp_list<memory_barrier_bit>
+	mp_list<memory_barrier_bits>
 > vertex_attrib_array_barrier_bit = {};
 #endif
 

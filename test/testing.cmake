@@ -4,12 +4,12 @@
 #   http://www.boost.org/LICENSE_1_0.txt
 #
 macro(add_compile_test LIBRARY TEST_NAME)
-	add_library(${LIBRARY}_${TEST_NAME} EXCLUDE_FROM_ALL ${TEST_NAME}.cpp)
+	add_library(${TEST_NAME} EXCLUDE_FROM_ALL ${TEST_NAME}.cpp)
 	add_test(
 		${LIBRARY}-compile_test-${TEST_NAME}
 		"${CMAKE_COMMAND}"
 		--build "${CMAKE_BINARY_DIR}"
-		--target ${LIBRARY}_${TEST_NAME}
+		--target ${TEST_NAME}
 	)
 endmacro()
 

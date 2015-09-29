@@ -44,13 +44,13 @@ struct buffer_map_access
  : enum_class<buffer_map_access, GLbitfield>
 { using enum_class<buffer_map_access, GLbitfield>::enum_class; };
 
-struct buffer_select_bit
- : enum_class<buffer_select_bit, GLbitfield>
-{ using enum_class<buffer_select_bit, GLbitfield>::enum_class; };
+struct buffer_select_bits
+ : enum_class<buffer_select_bits, GLbitfield>
+{ using enum_class<buffer_select_bits, GLbitfield>::enum_class; };
 
-struct buffer_storage_bit
- : enum_class<buffer_storage_bit, GLbitfield>
-{ using enum_class<buffer_storage_bit, GLbitfield>::enum_class; };
+struct buffer_storage_bits
+ : enum_class<buffer_storage_bits, GLbitfield>
+{ using enum_class<buffer_storage_bits, GLbitfield>::enum_class; };
 
 struct buffer_target
  : enum_class<buffer_target, GLenum>
@@ -88,13 +88,13 @@ struct conditional_render_mode
  : enum_class<conditional_render_mode, GLenum>
 { using enum_class<conditional_render_mode, GLenum>::enum_class; };
 
-struct context_flag_bit
- : enum_class<context_flag_bit, GLbitfield>
-{ using enum_class<context_flag_bit, GLbitfield>::enum_class; };
+struct context_flag_bits
+ : enum_class<context_flag_bits, GLbitfield>
+{ using enum_class<context_flag_bits, GLbitfield>::enum_class; };
 
-struct context_profile_bit
- : enum_class<context_profile_bit, GLbitfield>
-{ using enum_class<context_profile_bit, GLbitfield>::enum_class; };
+struct context_profile_bits
+ : enum_class<context_profile_bits, GLbitfield>
+{ using enum_class<context_profile_bits, GLbitfield>::enum_class; };
 
 struct context_release_behavior
  : enum_class<context_release_behavior, GLenum>
@@ -168,9 +168,9 @@ struct limit_query
  : enum_class<limit_query, GLenum>
 { using enum_class<limit_query, GLenum>::enum_class; };
 
-struct memory_barrier_bit
- : enum_class<memory_barrier_bit, GLbitfield>
-{ using enum_class<memory_barrier_bit, GLbitfield>::enum_class; };
+struct memory_barrier_bits
+ : enum_class<memory_barrier_bits, GLbitfield>
+{ using enum_class<memory_barrier_bits, GLbitfield>::enum_class; };
 
 struct named_string_type
  : enum_class<named_string_type, GLenum>

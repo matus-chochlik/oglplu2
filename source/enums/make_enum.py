@@ -160,12 +160,10 @@ def action_incl_enum_types_hpp(options):
 
 def action_incl_enum_values_hpp(options):
 
-	enum_classes = dict()
 	enum_map = dict()
 
 	for input_path in options.inputs:
 		update_input_options(options, input_path)
-		enum_classes[options.enum_name] = options.enum_type
 
 		for value_info in parse_source(options, input_path):
 			try: enum_map[value_info.dst_name]
@@ -185,6 +183,7 @@ def action_incl_enum_values_hpp(options):
 	print_line(options, "#define %s_ENUM_VALUES_HPP" % options.library_uc)
 	print_newline(options)
 	print_line(options, '#include "enum_types.hpp"')
+	print_line(options, '#include "utils/mp_list.hpp"')
 	print_newline(options)
 	print_line(options, "namespace %s {" % options.library)
 	print_line(options, "struct enum_values {")
@@ -215,10 +214,73 @@ def action_incl_enum_values_hpp(options):
 	print_newline(options)
 	print_line(options, "#endif // include guard")
 
+
+def action_test_enums_cpp(options):
+
+	value_infos = dict()
+
+	input_path = options.inputs[0]
+
+	update_input_options(options, input_path)
+
+	for value_info in parse_source(options, input_path):
+		value_infos[value_info.dst_name] = value_info
+
+
+	print_cpp_header(options)
+	print_line(options, "#define BOOST_TEST_DYN_LINK")
+	print_line(options, "#define BOOST_TEST_MODULE %s_%s" % (
+		options.library_uc,
+		options.enum_name
+	))
+	print_newline(options)
+	print_line(options, "#include <boost/test/unit_test.hpp>")
+	print_line(options, '#include "common.hpp"')
+	print_newline(options)
+	print_line(options, "BOOST_AUTO_TEST_SUITE(enum_%s)" % options.enum_name)
+	print_newline(options)
+	print_line(options, "BOOST_AUTO_TEST_CASE(enum_%s_values)" % options.enum_name)
+	print_line(options, "{")
+	print_line(options, "	using namespace %s;" % options.library)
+	print_line(options, "	enum_values ev;")
+	print_line(options, "	%s x;" % options.enum_name)
+
+	for value_name, value_info in sorted(value_infos.items()):
+		print_newline(options)
+		print_line(options, "#ifdef %s_%s" % (
+			options.base_lib_prefix,
+			value_info.src_name
+		))
+		print_line(options, "	x = ev.%s;" % value_name)
+
+		for value_name2, value_info2 in sorted(value_infos.items()):
+
+			if value_name != value_name2:
+				print_line(options, "# ifdef %s_%s" % (
+					options.base_lib_prefix,
+					value_info2.src_name
+				))
+
+			print_line(options, "	BOOST_CHECK(x %s= ev.%s);" % (
+				'=' if value_name == value_name2 else '!',
+				value_name2
+			))
+
+			if value_name != value_name2:
+				print_line(options, "# endif")
+
+		print_line(options, "#endif")
+
+	print_line(options, "}")
+	print_newline(options)
+	print_line(options, "BOOST_AUTO_TEST_SUITE_END()")
+
+
 actions = {
-	"info":    action_info,
 	"incl_enum_types_hpp": action_incl_enum_types_hpp,
-	"incl_enum_values_hpp": action_incl_enum_values_hpp
+	"incl_enum_values_hpp": action_incl_enum_values_hpp,
+	"test_enums_cpp": action_test_enums_cpp,
+	"info":    action_info,
 }
 
 def dispatch_action(options):

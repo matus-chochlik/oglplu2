@@ -6,7 +6,6 @@
 cmake_minimum_required(VERSION 2.8)
 
 enable_testing()
-include(CTest)
 include(../testing.cmake)
 
 function(add_eagine_runtime_test TEST_NAME)
