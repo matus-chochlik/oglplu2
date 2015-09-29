@@ -19,12 +19,21 @@ struct enum_value;
 
 template <typename T, T Value, typename ... Classes>
 struct enum_value<T, Value, mp_list<Classes...>>
-{ };
+{
+	explicit constexpr inline
+	operator T (void) const
+	noexcept
+	{
+		return Value;
+	}
+};
 
 template <typename Self, typename T>
 struct enum_class
 {
-	T _value;
+	typedef T value_type;
+
+	value_type _value;
 
 	enum_class(void) = default;
 
@@ -40,13 +49,13 @@ struct enum_class
 	{ }
 
 	explicit constexpr inline
-	enum_class(T value)
+	enum_class(value_type value)
 	noexcept
 	 : _value(value)
 	{ }
 
 	explicit constexpr inline
-	operator T (void) const
+	operator value_type (void) const
 	noexcept
 	{
 		return _value;
