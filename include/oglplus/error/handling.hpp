@@ -33,6 +33,12 @@ public:
 	 : std::runtime_error(_make_msg(info))
 	 , _info(std::move(info))
 	{ }
+
+	const error_info& info(void) const
+	noexcept
+	{
+		return _info;
+	}
 };
 
 template <typename ErrorInfo>

@@ -10,6 +10,6 @@ enable_testing()
 file(GLOB RUNTIME_TESTS *.cpp)
 foreach(RUNTIME_TEST ${RUNTIME_TESTS})
 	get_filename_component(TEST_NAME "${RUNTIME_TEST}" NAME_WE)
-	add_oglplus_runtime_test(${TEST_NAME})
+	add_runtime_test(oglplus ${TEST_NAME})
 endforeach()
 

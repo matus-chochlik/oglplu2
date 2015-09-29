@@ -8,18 +8,12 @@ cmake_minimum_required(VERSION 2.8)
 enable_testing()
 include(../testing.cmake)
 
-function(add_eagine_runtime_test TEST_NAME)
-	add_runtime_test(eagine ${TEST_NAME})
-endfunction()
-
-function(add_eagine_runtime_test_dependency REQUIRED DEPENDING)
-	add_runtime_test_dependency(eagine ${REQUIRED} ${DEPENDING})
-endfunction()
-
 file(GLOB RUNTIME_TESTS *_r.cpp)
 foreach(RUNTIME_TEST ${RUNTIME_TESTS})
 	get_filename_component(TEST_NAME "${RUNTIME_TEST}" NAME_WE)
-	add_eagine_runtime_test(${TEST_NAME})
+	add_runtime_test(eagine ${TEST_NAME})
 endforeach()
 
-add_eagine_runtime_test_dependency("deferred_handler_r" "outcome_r")
+add_runtime_test_dependency(eagine "deferred_handler_r" "outcome_r")
+add_runtime_test_dependency(eagine "mp_list_r" "enum_class_r")
+add_runtime_test_dependency(eagine "enum_class_r" "enum_bitfield_r")
