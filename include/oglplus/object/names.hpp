@@ -47,7 +47,7 @@ public:
 		return *this;
 	}
 
-	reference operator * (void) const
+	reference operator * (void)
 	{
 		_name = object_name<ObjTag>(*_iter);
 		return _name;

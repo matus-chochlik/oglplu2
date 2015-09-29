@@ -11,11 +11,13 @@
 #define OGLPLUS_UTILS_ENUM_CLASS_1509260923_HPP
 
 #include <eagine/enum_class.hpp>
+#include <eagine/enum_bitfield.hpp>
 
 namespace oglplus {
 
 using eagine::enum_value;
 using eagine::enum_class;
+using eagine::enum_bitfield;
 
 } // namespace oglplus
 
