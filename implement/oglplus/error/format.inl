@@ -23,6 +23,7 @@ std::ostream&
 format_info(
 	const error_info& info,
 	const cstring_view<>& fmt_str,
+	const cstring_view<>& n_a_str,
 	std::ostream& out
 )
 {
@@ -32,12 +33,17 @@ format_info(
 	while(i != e)
 	{
 		auto p = std::find(i, e, '%');
+		if(p == e)
+		{
+			p = std::find(i, e, '\0');
+		}
 		std::copy(i, p, std::ostream_iterator<char>(out));
 
-		if(p == e)
+		if(p == e || *p == '\0')
 		{
 			break;
 		}
+
 		assert(*p == '%');
 		i = p+1;
 
@@ -67,6 +73,8 @@ format_info(
 
 		std::string placeholder;
 		std::string fallback;
+		bool parsed_fallback = false;
+
 		do
 		{
 			p = std::find_if(
@@ -80,16 +88,16 @@ format_info(
 					"by ')' in format string."
 				);
 			}
-			if(p == i)
-			{
-				throw std::runtime_error(
-					"Empty placeholder specified "
-					"in format string."
-				);
-			}
 
 			if(*p == '|')
 			{
+				if(p == i)
+				{
+					throw std::runtime_error(
+						"Empty placeholder specified "
+						"in format string."
+					);
+				}
 				if(!placeholder.empty())
 				{
 					throw std::runtime_error(
@@ -97,69 +105,97 @@ format_info(
 						"placeholder of format string."
 					);
 				}
+			}
+
+			if(placeholder.empty())
+			{
 				placeholder = std::string(i, p);
-				i = p+1;
-			}
-		}
-		while(*p == '|');
-
-		if(placeholder.empty())
-		{
-			placeholder = std::string(i, p);
-		}
-		else
-		{
-			fallback = std::string(i, p);
-		}
-
-		auto print = [&out,&fallback](auto value)
-		{
-			if(value)
-			{
-				out << value;
-			}
-			else if(!fallback.empty())
-			{
-				out << fallback;
 			}
 			else
 			{
-				out << "[N/A]";
+				fallback = std::string(i, p);
+				parsed_fallback = true;
 			}
-		};
+			i = p+1;
+		}
+		while(*p == '|');
+
+		auto print =
+			[&out,&n_a_str,&fallback,parsed_fallback]
+			(auto value, auto nil)
+			{
+				if(value != nil)
+				{
+					out << value;
+				}
+				else if(parsed_fallback)
+				{
+					out << fallback;
+				}
+				else
+				{
+					std::copy(
+						n_a_str.begin(),
+						std::find(
+							n_a_str.begin(),
+							n_a_str.end(),
+							'\0'
+						),
+						std::ostream_iterator<char>(out)
+					);
+				}
+			};
 
 		if(placeholder == "gl_library_name")
 		{
-			print(info.gl_library_name());
+			print(info.gl_library_name(), nullptr);
 		}
 		else if(placeholder == "gl_function_name")
 		{
-			print(info.gl_function_name());
+			print(info.gl_function_name(), nullptr);
 		}
 		else if(placeholder == "source_function")
 		{
-			print(info.source_function());
+			print(info.source_function(), nullptr);
 		}
 		else if(placeholder == "source_file")
 		{
-			print(info.source_file());
+			print(info.source_file(), nullptr);
 		}
 		else if(placeholder == "source_line")
 		{
-			print(info.source_line());
+			print(info.source_line(), 0u);
 		}
 		else if(placeholder == "gl_object_name")
 		{
-			print(info.gl_object_name());
+			print(info.gl_object_name(), info.invalid_gl_obj_name());
 		}
 		else if(placeholder == "gl_subbject_name")
 		{
-			print(info.gl_subject_name());
+			print(info.gl_subject_name(), info.invalid_gl_obj_name());
+		}
+		else
+		{
+			throw std::runtime_error(
+				"Invalid placeholder specified "
+				"in format string."
+			);
 		}
 
 		i = p+1;
 	}
 	return out;
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+std::ostream&
+format_info(
+	const error_info& info,
+	const cstring_view<>& fmt_str,
+	std::ostream& out
+)
+{
+	return format_info(info, fmt_str, "[N/A]", out);
 }
 //------------------------------------------------------------------------------
 #endif

@@ -18,7 +18,14 @@ namespace oglplus {
 std::ostream& format_info(
 	const error_info& info,
 	const cstring_view<>& fmt_str,
-	std::ostream& out
+	const cstring_view<>& n_a_str,
+ 	std::ostream& out
+);
+
+std::ostream& format_info(
+	const error_info& info,
+	const cstring_view<>& fmt_str,
+ 	std::ostream& out
 );
 
 } // namespace oglplus

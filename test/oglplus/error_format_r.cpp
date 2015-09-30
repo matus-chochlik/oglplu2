@@ -14,12 +14,10 @@
 
 BOOST_AUTO_TEST_SUITE(error_format)
 
-BOOST_AUTO_TEST_CASE(error_format_1)
+oglplus::error_info
+get_error_info(void)
 {
-	using namespace oglplus;
-	oglplus::error_info info;
-
-	info
+	return oglplus::error_info()
 		.gl_library_name("GL")
 		.gl_function_name("Function")
 		.source_function("function")
@@ -28,10 +26,230 @@ BOOST_AUTO_TEST_CASE(error_format_1)
 		.gl_object_name(23456)
 		.gl_subject_name(34567)
 		.gl_error_code(GL_OUT_OF_MEMORY);
+}
 
-	//std::stringstream out;
-	// TODO
-	(void)info;
+BOOST_AUTO_TEST_CASE(error_format_empty)
+{
+	using namespace oglplus;
+
+	std::stringstream out;
+
+	format_info(get_error_info(), "", out);
+	BOOST_CHECK(out.str().empty());
+}
+
+BOOST_AUTO_TEST_CASE(error_format_percent)
+{
+	using namespace oglplus;
+
+	std::stringstream out;
+
+	format_info(get_error_info(), "%%", out);
+	BOOST_CHECK(out.str() == "%");
+	out.str(std::string());
+
+	format_info(get_error_info(), "  %%", out);
+	BOOST_CHECK(out.str() == "  %");
+	out.str(std::string());
+
+	format_info(get_error_info(), "%%  ", out);
+	BOOST_CHECK(out.str() == "%  ");
+	out.str(std::string());
+
+	format_info(get_error_info(), "  %%  %% ", out);
+	BOOST_CHECK(out.str() == "  %  % ");
+	out.str(std::string());
+}
+
+BOOST_AUTO_TEST_CASE(error_format_fail)
+{
+	using namespace oglplus;
+
+	std::stringstream out;
+
+	int passed = 0;
+
+	try { format_info(get_error_info(), "%", out); }
+	catch(std::runtime_error&) { ++passed; }
+	out.str(std::string());
+
+	try { format_info(get_error_info(), "%  ", out); }
+	catch(std::runtime_error&) { ++passed; }
+	out.str(std::string());
+
+	try { format_info(get_error_info(), "  %", out); }
+	catch(std::runtime_error&) { ++passed; }
+	out.str(std::string());
+
+	try { format_info(get_error_info(), "%()", out); }
+	catch(std::runtime_error&) { ++passed; }
+	out.str(std::string());
+
+	try { format_info(get_error_info(), "%(|)", out); }
+	catch(std::runtime_error&) { ++passed; }
+	out.str(std::string());
+
+	try { format_info(get_error_info(), "%(|blah)", out); }
+	catch(std::runtime_error&) { ++passed; }
+	out.str(std::string());
+
+	try { format_info(get_error_info(), "%(", out); }
+	catch(std::runtime_error&) { ++passed; }
+	out.str(std::string());
+
+	try { format_info(get_error_info(), "%(invalid)", out); }
+	catch(std::runtime_error&) { ++passed; }
+	out.str(std::string());
+
+	try { format_info(get_error_info(), "%(invalid|)", out); }
+	catch(std::runtime_error&) { ++passed; }
+	out.str(std::string());
+
+	try { format_info(get_error_info(), "%(invalid|blah)", out); }
+	catch(std::runtime_error&) { ++passed; }
+	out.str(std::string());
+
+	BOOST_CHECK_EQUAL(passed, 10);
+}
+
+BOOST_AUTO_TEST_CASE(error_format_gl_library_name)
+{
+	using namespace oglplus;
+
+	std::stringstream out;
+
+	format_info(get_error_info(), "%(gl_library_name)", "N/A", out);
+	BOOST_CHECK(out.str() == "GL" || out.str() == "N/A");
+	out.str(std::string());
+
+	format_info(error_info(), "%(gl_library_name|fallback)", out);
+	BOOST_CHECK(out.str() == "fallback");
+	out.str(std::string());
+
+	format_info(error_info(), "%(gl_library_name|)", out);
+	BOOST_CHECK(out.str().empty());
+	out.str(std::string());
+}
+
+BOOST_AUTO_TEST_CASE(error_format_gl_function_name)
+{
+	using namespace oglplus;
+
+	std::stringstream out;
+
+	format_info(get_error_info(), "%(gl_function_name)", "N/A", out);
+	BOOST_CHECK(out.str() == "Function" || out.str() == "N/A");
+	out.str(std::string());
+
+	format_info(error_info(), "%(gl_function_name|fallback)", out);
+	BOOST_CHECK(out.str() == "fallback");
+	out.str(std::string());
+
+	format_info(error_info(), "%(gl_function_name|)", out);
+	BOOST_CHECK(out.str().empty());
+	out.str(std::string());
+}
+
+BOOST_AUTO_TEST_CASE(error_format_source_function)
+{
+	using namespace oglplus;
+
+	std::stringstream out;
+
+	format_info(get_error_info(), "%(source_function)", "N/A", out);
+	BOOST_CHECK(out.str() == "function" || out.str() == "N/A");
+	out.str(std::string());
+
+	format_info(error_info(), "%(source_function|fallback)", out);
+	BOOST_CHECK(out.str() == "fallback");
+	out.str(std::string());
+
+	format_info(error_info(), "%(source_function|)", out);
+	BOOST_CHECK(out.str().empty());
+	out.str(std::string());
+}
+
+BOOST_AUTO_TEST_CASE(error_format_source_file)
+{
+	using namespace oglplus;
+
+	std::stringstream out;
+
+	format_info(get_error_info(), "%(source_file)", "N/A", out);
+	BOOST_CHECK(out.str() == "file.cpp" || out.str() == "N/A");
+	out.str(std::string());
+
+	format_info(error_info(), "%(source_file|fallback)", out);
+	BOOST_CHECK(out.str() == "fallback");
+	out.str(std::string());
+
+	format_info(error_info(), "%(source_file|)", out);
+	BOOST_CHECK(out.str().empty());
+	out.str(std::string());
+}
+
+BOOST_AUTO_TEST_CASE(error_format_source_line)
+{
+	using namespace oglplus;
+
+	std::stringstream out;
+
+	format_info(get_error_info(), "%(source_line)", "N/A", out);
+	BOOST_CHECK(out.str() == "12345" || out.str() == "N/A");
+	out.str(std::string());
+
+	format_info(error_info(), "%(source_line|fallback)", out);
+	BOOST_CHECK(out.str() == "fallback");
+	out.str(std::string());
+
+	format_info(error_info(), "%(source_line|)", out);
+	BOOST_CHECK(out.str().empty());
+	out.str(std::string());
+}
+
+BOOST_AUTO_TEST_CASE(error_format_gl_object_name)
+{
+	using namespace oglplus;
+
+	std::stringstream out;
+
+	format_info(get_error_info(), "%(gl_object_name)", "N/A", out);
+	BOOST_CHECK(out.str() == "23456" || out.str() == "N/A");
+	out.str(std::string());
+
+	format_info(error_info(), "%(gl_object_name|fallback)", out);
+	BOOST_CHECK(out.str() == "fallback");
+	out.str(std::string());
+
+	format_info(error_info(), "%(gl_object_name|)", "N/A", out);
+	BOOST_CHECK(out.str().empty());
+	out.str(std::string());
+}
+
+BOOST_AUTO_TEST_CASE(error_format_fallback)
+{
+	using namespace oglplus;
+
+	std::stringstream out;
+
+	format_info(error_info(), "%(gl_object_name)", "N/A", out);
+	BOOST_CHECK(out.str() == "N/A");
+	out.str(std::string());
+}
+
+BOOST_AUTO_TEST_CASE(error_format_combine_1)
+{
+	using namespace oglplus;
+
+	std::stringstream out;
+
+	format_info(get_error_info(), "%(gl_library_name|)%(gl_function_name|)", "", out);
+	BOOST_CHECK(out.str() == "GLFunction" || out.str().empty());
+	out.str(std::string());
+
+	format_info(error_info(), "%(gl_library_name|gl)%(gl_function_name|Func)", "", out);
+	BOOST_CHECK(out.str() == "glFunc" || out.str().empty());
+	out.str(std::string());
 }
 
 BOOST_AUTO_TEST_SUITE_END()
