@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_transform_feedback_mode_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	transform_feedback_mode x;
+	(void)x;
 
 #ifdef GL_INTERLEAVED_ATTRIBS
 	x = ev.interleaved_attribs;

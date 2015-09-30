@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_spacing_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	tess_gen_primitive_spacing x;
+	(void)x;
 
 #ifdef GL_EQUAL
 	x = ev.equal;

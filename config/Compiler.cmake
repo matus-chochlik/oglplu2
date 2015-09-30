@@ -8,8 +8,8 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 	add_definitions(
 		-pedantic
 		-Wall
-		#-Weverything
-		#-Werror
+		-Weverything
+		-Werror
 		#-Wno-float-equal
 		#-Wno-sign-conversion
 		#-Wno-old-style-cast

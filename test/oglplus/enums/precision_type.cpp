@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_precision_type_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	precision_type x;
+	(void)x;
 
 #ifdef GL_HIGH_FLOAT
 	x = ev.high_float;

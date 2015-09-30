@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_context_profile_bits_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	context_profile_bits x;
+	(void)x;
 
 #ifdef GL_CONTEXT_COMPATIBILITY_PROFILE_BIT
 	x = ev.context_compatibility_profile_bit;

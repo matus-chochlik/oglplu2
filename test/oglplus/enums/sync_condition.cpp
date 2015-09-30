@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_sync_condition_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	sync_condition x;
+	(void)x;
 
 #ifdef GL_SYNC_GPU_COMMANDS_COMPLETE
 	x = ev.sync_gpu_commands_complete;

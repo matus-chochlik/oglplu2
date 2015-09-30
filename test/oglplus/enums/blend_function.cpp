@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_blend_function_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	blend_function x;
+	(void)x;
 
 #ifdef GL_CONSTANT_ALPHA
 	x = ev.constant_alpha;

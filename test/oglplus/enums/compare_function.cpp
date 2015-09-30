@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_compare_function_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	compare_function x;
+	(void)x;
 
 #ifdef GL_ALWAYS
 	x = ev.always;

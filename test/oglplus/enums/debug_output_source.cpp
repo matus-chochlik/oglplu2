@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_source_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	debug_output_source x;
+	(void)x;
 
 #ifdef GL_DEBUG_SOURCE_API
 	x = ev.debug_source_api;

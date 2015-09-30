@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_sync_wait_result_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	sync_wait_result x;
+	(void)x;
 
 #ifdef GL_ALREADY_SIGNALED
 	x = ev.already_signaled;

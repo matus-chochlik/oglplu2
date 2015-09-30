@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	image_unit_format x;
+	(void)x;
 
 #ifdef GL_R11F_G11F_B10F
 	x = ev.r11f_g11f_b10f;

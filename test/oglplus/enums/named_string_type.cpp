@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_named_string_type_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	named_string_type x;
+	(void)x;
 
 #ifdef GL_SHADER_INCLUDE_ARB
 	x = ev.shader_include;

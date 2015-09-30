@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_hint_target_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	hint_target x;
+	(void)x;
 
 #ifdef GL_FRAGMENT_SHADER_DERIVATIVE_HINT
 	x = ev.fragment_shader_derivative_hint;

@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_memory_barrier_bits_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	memory_barrier_bits x;
+	(void)x;
 
 #ifdef GL_ALL_BARRIER_BITS
 	x = ev.all_barrier_bits;

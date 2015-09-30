@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_texture_wrap_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	texture_wrap x;
+	(void)x;
 
 #ifdef GL_CLAMP_TO_BORDER
 	x = ev.clamp_to_border;

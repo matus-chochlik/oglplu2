@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_type_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	tess_gen_primitive_type x;
+	(void)x;
 
 #ifdef GL_ISOLINES
 	x = ev.isolines;

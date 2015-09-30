@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_query_target_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	query_target x;
+	(void)x;
 
 #ifdef GL_ANY_SAMPLES_PASSED
 	x = ev.any_samples_passed;

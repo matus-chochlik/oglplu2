@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_status_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	framebuffer_status x;
+	(void)x;
 
 #ifdef GL_FRAMEBUFFER_COMPLETE
 	x = ev.framebuffer_complete;

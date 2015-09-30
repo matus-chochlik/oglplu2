@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_buffer_select_bits_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	buffer_select_bits x;
+	(void)x;
 
 #ifdef GL_COLOR_BUFFER_BIT
 	x = ev.color_buffer_bit;

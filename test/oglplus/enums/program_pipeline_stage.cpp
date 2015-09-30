@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_program_pipeline_stage_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	program_pipeline_stage x;
+	(void)x;
 
 #ifdef GL_ALL_SHADER_BITS
 	x = ev.all_shader_bits;

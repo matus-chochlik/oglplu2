@@ -37,10 +37,10 @@ BOOST_AUTO_TEST_CASE(error_info_1)
 		(strcmp(ei1.gl_function_name(), "Function") == 0)
 	));
 
-	ei1.source_func("function");
+	ei1.source_function("function");
 	BOOST_CHECK((
-		(ei1.source_func() == nullptr) ||
-		(strcmp(ei1.source_func(), "function") == 0)
+		(ei1.source_function() == nullptr) ||
+		(strcmp(ei1.source_function(), "function") == 0)
 	));
 
 	ei1.source_file("file.cpp");
@@ -76,7 +76,7 @@ BOOST_AUTO_TEST_CASE(error_info_2)
 	ei1
 		.gl_library_name("GL")
 		.gl_function_name("Function")
-		.source_func("function")
+		.source_function("function")
 		.source_file("file.cpp")
 		.source_line(12345)
 		.gl_object_name(23456)
@@ -98,8 +98,8 @@ BOOST_AUTO_TEST_CASE(error_info_2)
 	));
 
 	BOOST_CHECK((
-		(ei2.source_func() == nullptr) ||
-		(strcmp(ei2.source_func(), "function") == 0)
+		(ei2.source_function() == nullptr) ||
+		(strcmp(ei2.source_function(), "function") == 0)
 	));
 
 	BOOST_CHECK((

@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_shader_type_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	shader_type x;
+	(void)x;
 
 #ifdef GL_COMPUTE_SHADER
 	x = ev.compute_shader;

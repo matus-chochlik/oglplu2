@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_graphics_reset_status_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	graphics_reset_status x;
+	(void)x;
 
 #ifdef GL_GUILTY_CONTEXT_RESET
 	x = ev.guilty_context_reset;

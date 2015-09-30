@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_object_type_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	object_type x;
+	(void)x;
 
 #ifdef GL_BUFFER
 	x = ev.buffer;

@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_stencil_operation_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	stencil_operation x;
+	(void)x;
 
 #ifdef GL_DECR
 	x = ev.decr;

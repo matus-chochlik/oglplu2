@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_patch_parameter_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	patch_parameter x;
+	(void)x;
 
 #ifdef GL_PATCH_DEFAULT_INNER_LEVEL
 	x = ev.patch_default_inner_level;

@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_buffer_target_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	buffer_target x;
+	(void)x;
 
 #ifdef GL_ARRAY_BUFFER
 	x = ev.array_buffer;

@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_reset_notification_strategy_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	reset_notification_strategy x;
+	(void)x;
 
 #ifdef GL_LOSE_CONTEXT_ON_RESET
 	x = ev.lose_context_on_reset;

@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	pixel_parameter x;
+	(void)x;
 
 #ifdef GL_PACK_LSB_FIRST
 	x = ev.PackLSBFirst;

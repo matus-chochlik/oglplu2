@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_polygon_mode_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	polygon_mode x;
+	(void)x;
 
 #ifdef GL_FILL
 	x = ev.fill;

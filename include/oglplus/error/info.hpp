@@ -86,10 +86,10 @@ public:
 	const char* gl_function_name(void) const
 	noexcept;
 
-	error_info& source_func(const char* src_func)
+	error_info& source_function(const char* src_func)
 	noexcept;
 
-	const char* source_func(void) const
+	const char* source_function(void) const
 	noexcept;
 
 	error_info& source_file(const char* src_file)

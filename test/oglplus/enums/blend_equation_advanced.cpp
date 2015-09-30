@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_advanced_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	blend_equation_advanced x;
+	(void)x;
 
 #ifdef GL_COLORBURN_KHR
 	x = ev.colorburn_khr;

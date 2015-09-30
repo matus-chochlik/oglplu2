@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_face_orientation_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	face_orientation x;
+	(void)x;
 
 #ifdef GL_CCW
 	x = ev.ccw;

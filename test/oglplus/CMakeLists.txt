@@ -20,4 +20,7 @@ foreach(RUNTIME_TEST ${RUNTIME_TESTS})
 	add_runtime_test(oglplus ${TEST_NAME})
 endforeach()
 
+add_runtime_test_dependency(oglplus "error_info_r" "error_handling_r")
+add_runtime_test_dependency(oglplus "error_info_r" "error_format_r")
+
 add_subdirectory(enums)

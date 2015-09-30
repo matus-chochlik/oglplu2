@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_buffer_indexed_target_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	buffer_indexed_target x;
+	(void)x;
 
 #ifdef GL_ATOMIC_COUNTER_BUFFER
 	x = ev.atomic_counter_buffer;

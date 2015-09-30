@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_sync_type_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	sync_type x;
+	(void)x;
 
 #ifdef GL_SYNC_FENCE
 	x = ev.sync_fence;

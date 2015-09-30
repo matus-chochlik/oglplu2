@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_single_face_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	single_face x;
+	(void)x;
 
 #ifdef GL_BACK
 	x = ev.back;

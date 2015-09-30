@@ -122,7 +122,7 @@ noexcept
 inline
 error_info&
 error_info::
-source_func(const char* src_func)
+source_function(const char* src_func)
 noexcept
 {
 #if! OGLPLUS_ERROR_NO_SRC_FUNC
@@ -136,7 +136,7 @@ noexcept
 inline
 const char*
 error_info::
-source_func(void) const
+source_function(void) const
 noexcept
 {
 #if! OGLPLUS_ERROR_NO_SRC_FUNC

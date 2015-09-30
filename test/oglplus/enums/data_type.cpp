@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_data_type_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	data_type x;
+	(void)x;
 
 #ifdef GL_BYTE
 	x = ev.byte_;

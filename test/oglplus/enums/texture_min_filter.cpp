@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_texture_min_filter_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	texture_min_filter x;
+	(void)x;
 
 #ifdef GL_LINEAR
 	x = ev.linear;

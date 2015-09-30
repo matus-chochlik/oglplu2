@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_context_release_behavior_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	context_release_behavior x;
+	(void)x;
 
 #ifdef GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH
 	x = ev.context_release_behavior_flush;

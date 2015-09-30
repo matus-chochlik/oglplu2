@@ -243,7 +243,9 @@ def action_test_enums_cpp(options):
 	print_line(options, "{")
 	print_line(options, "	using namespace %s;" % options.library)
 	print_line(options, "	enum_values ev;")
+	print_line(options, "	(void)ev;")
 	print_line(options, "	%s x;" % options.enum_name)
+	print_line(options, "	(void)x;")
 
 	for value_name, value_info in sorted(value_infos.items()):
 		print_newline(options)

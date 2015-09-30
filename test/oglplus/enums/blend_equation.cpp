@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	blend_equation x;
+	(void)x;
 
 #ifdef GL_FUNC_ADD
 	x = ev.func_add;

@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_primitive_type_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	primitive_type x;
+	(void)x;
 
 #ifdef GL_LINE_LOOP
 	x = ev.line_loop;

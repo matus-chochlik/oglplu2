@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_functionality_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	functionality x;
+	(void)x;
 
 #ifdef GL_CLIP_DISTANCE0
 	x = ev.clip_distance;

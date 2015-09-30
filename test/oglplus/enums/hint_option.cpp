@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_hint_option_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	hint_option x;
+	(void)x;
 
 #ifdef GL_DONT_CARE
 	x = ev.dont_care;

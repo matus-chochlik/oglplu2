@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_buffer_usage_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	buffer_usage x;
+	(void)x;
 
 #ifdef GL_DYNAMIC_COPY
 	x = ev.dynamic_copy;

@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_buffer_map_access_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	buffer_map_access x;
+	(void)x;
 
 #ifdef GL_MAP_COHERENT_BIT
 	x = ev.map_coherent_bit;

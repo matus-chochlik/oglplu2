@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_color_logic_operation_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	color_logic_operation x;
+	(void)x;
 
 #ifdef GL_AND
 	x = ev.and_;

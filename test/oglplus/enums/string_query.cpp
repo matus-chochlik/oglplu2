@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_string_query_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	string_query x;
+	(void)x;
 
 #ifdef GL_RENDERER
 	x = ev.renderer;

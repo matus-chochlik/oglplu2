@@ -22,17 +22,9 @@ private:
 	error_info _info;
 
 	static
-	std::string _make_msg(error_info& info)
-	{
-		(void)info;
-		return "GL error"; // TODO
-	}
+	std::string _make_msg(error_info& info);
 public:
-	error(error_info&& info)
-	noexcept
-	 : std::runtime_error(_make_msg(info))
-	 , _info(std::move(info))
-	{ }
+	error(error_info&& info);
 
 	const error_info& info(void) const
 	noexcept
@@ -42,8 +34,9 @@ public:
 };
 
 template <typename ErrorInfo>
+[[noreturn]]
 static inline
-void handle_error(ErrorInfo& info)
+void handle_gl_error(ErrorInfo& info)
 {
 	throw error(std::move(info));
 }
@@ -59,6 +52,8 @@ using deferred_error_handler = deferred_handler<error_info>;
 
 } // namespace oglplus
 
+#include <oglplus/error/handling.inl>
+
 #define OGLPLUS_RETURN_HANDLER_IF(\
 	CONDITION,\
 	ERROR_CODE,\
@@ -70,7 +65,7 @@ using deferred_error_handler = deferred_handler<error_info>;
 	if(CONDITION(oglplus_error_code##__LINE__))\
 	{\
 		return oglplus::make_deferred_handler(\
-			&oglplus::handle_error,\
+			&oglplus::handle_gl_error,\
 			oglplus::error_info(oglplus_error_code##__LINE__)\
 				.ERROR_INFO\
 				.source_file(__FILE__)\

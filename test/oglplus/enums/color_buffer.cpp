@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_color_buffer_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	color_buffer x;
+	(void)x;
 
 #ifdef GL_BACK
 	x = ev.back;

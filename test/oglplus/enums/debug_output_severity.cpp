@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_severity_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	debug_output_severity x;
+	(void)x;
 
 #ifdef GL_DEBUG_SEVERITY_HIGH
 	x = ev.debug_severity_high;

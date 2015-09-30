@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_clip_origin_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	clip_origin x;
+	(void)x;
 
 #ifdef GL_LOWER_LEFT
 	x = ev.lower_left;

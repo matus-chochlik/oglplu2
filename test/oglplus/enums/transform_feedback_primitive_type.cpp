@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_transform_feedback_primitive_type_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	transform_feedback_primitive_type x;
+	(void)x;
 
 #ifdef GL_LINES
 	x = ev.lines;

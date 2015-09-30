@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	texture_swizzle x;
+	(void)x;
 
 #ifdef GL_ALPHA
 	x = ev.alpha;

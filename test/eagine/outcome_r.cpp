@@ -24,6 +24,7 @@ struct mock_error_data
 template <typename T>
 using test_outcome = basic_outcome<T, mock_error_data>;
 
+[[noreturn]]
 void handle_error(mock_error_data& data)
 {
 	throw data;
@@ -147,7 +148,7 @@ BOOST_AUTO_TEST_CASE(outcome_fail_void_ignore)
 		fail_void(tag).ignore_error();
 		passed = true;
 	}
-	catch(mock_error_data& med)
+	catch(mock_error_data&)
 	{
 		BOOST_CHECK_MESSAGE(false, "Should not throw");
 	}
@@ -246,7 +247,7 @@ BOOST_AUTO_TEST_CASE(outcome_fail_string_ignore)
 		fail_string(tag).ignore_error();
 		passed = true;
 	}
-	catch(mock_error_data& med)
+	catch(mock_error_data&)
 	{
 		BOOST_CHECK_MESSAGE(false, "Should not throw");
 	}
@@ -349,7 +350,7 @@ BOOST_AUTO_TEST_CASE(outcome_fail_ref_ignore)
 		fail_ref(i, tag).ignore_error();
 		passed = true;
 	}
-	catch(mock_error_data& med)
+	catch(mock_error_data&)
 	{
 		BOOST_CHECK_MESSAGE(false, "Should not throw");
 	}

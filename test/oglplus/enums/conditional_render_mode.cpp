@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_conditional_render_mode_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	conditional_render_mode x;
+	(void)x;
 
 #ifdef GL_QUERY_BY_REGION_NO_WAIT
 	x = ev.query_by_region_no_wait;

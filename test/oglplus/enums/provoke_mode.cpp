@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_provoke_mode_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	provoke_mode x;
+	(void)x;
 
 #ifdef GL_FIRST_VERTEX_CONVENTION
 	x = ev.first_vertex_convention;

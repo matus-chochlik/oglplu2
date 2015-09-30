@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	pixel_data_internal_format x;
+	(void)x;
 
 #ifdef GL_COMPRESSED_R11_EAC
 	x = ev.compressed_r11_eac;

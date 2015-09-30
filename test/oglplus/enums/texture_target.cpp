@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_texture_target_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	texture_target x;
+	(void)x;
 
 #ifdef GL_TEXTURE_1D
 	x = ev.texture_1d;

@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_clip_depth_mode_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	clip_depth_mode x;
+	(void)x;
 
 #ifdef GL_NEGATIVE_ONE_TO_ONE
 	x = ev.negative_one_to_one;

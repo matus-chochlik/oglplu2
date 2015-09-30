@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_access_specifier_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	access_specifier x;
+	(void)x;
 
 #ifdef GL_READ_ONLY
 	x = ev.read_only;

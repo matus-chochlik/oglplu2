@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_attachment_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	framebuffer_attachment x;
+	(void)x;
 
 #ifdef GL_COLOR_ATTACHMENT0
 	x = ev.color_attachment0;

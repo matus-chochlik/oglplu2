@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_program_resource_property_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	program_resource_property x;
+	(void)x;
 
 #ifdef GL_ACTIVE_VARIABLES
 	x = ev.active_variables;

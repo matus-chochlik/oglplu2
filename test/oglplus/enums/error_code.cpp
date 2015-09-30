@@ -21,7 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_error_code_values)
 {
 	using namespace oglplus;
 	enum_values ev;
+	(void)ev;
 	error_code x;
+	(void)x;
 
 #ifdef GL_CONTEXT_LOST
 	x = ev.context_lost;
