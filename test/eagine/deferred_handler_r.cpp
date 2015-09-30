@@ -44,6 +44,7 @@ BOOST_AUTO_TEST_CASE(deferred_handler_2)
 		BOOST_CHECK_EQUAL(!dh, false);
 		BOOST_CHECK_EQUAL(bool(dh), true);
 		BOOST_CHECK_EQUAL(i, 0);
+		BOOST_CHECK_EQUAL(*dh.data(), 0);
 	}
 	BOOST_CHECK_EQUAL(i, 1);
 }
@@ -60,6 +61,7 @@ BOOST_AUTO_TEST_CASE(deferred_handler_3)
 		BOOST_CHECK_EQUAL(!dh, false);
 		BOOST_CHECK_EQUAL(bool(dh), true);
 		BOOST_CHECK_EQUAL(i, 0);
+		BOOST_CHECK_EQUAL(*dh.data(), 0);
 	}
 	BOOST_CHECK_EQUAL(i, 1);
 	{
@@ -68,6 +70,7 @@ BOOST_AUTO_TEST_CASE(deferred_handler_3)
 		BOOST_CHECK_EQUAL(!dh, false);
 		BOOST_CHECK_EQUAL(bool(dh), true);
 		BOOST_CHECK_EQUAL(i, 1);
+		BOOST_CHECK_EQUAL(*dh.data(), 1);
 	}
 	BOOST_CHECK_EQUAL(i, 2);
 }

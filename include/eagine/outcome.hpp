@@ -66,31 +66,32 @@ public:
 };
 
 template <typename T, typename ErrorData>
-class basic_outcome
+class basic_outcome;
+
+template <typename ErrorData>
+class basic_outcome<void, ErrorData>
 {
-private:
+protected:
 	deferred_handler<ErrorData> _handler;
-	basic_outcome_storage<T> _value;
 public:
+	basic_outcome(void) = default;
+
+	constexpr
 	basic_outcome(deferred_handler<ErrorData>&& handler)
 	noexcept
 	 : _handler(std::move(handler))
 	{ }
 
-	basic_outcome(T value)
+	ErrorData& handler_data(void)
 	noexcept
-	 : _value(value)
-	{ }
-
-	T get(void)
 	{
-		_handler.trigger();
-		return _value.get();
+		return _handler.data();
 	}
 
-	operator T (void)
+	const ErrorData& handler_data(void) const
+	noexcept
 	{
-		return get();
+		return _handler.data();
 	}
 
 	basic_outcome& ignore_error(void)
@@ -98,6 +99,13 @@ public:
 	{
 		_handler.cancel();
 		return *this;
+	}
+
+	template <typename Handler>
+	auto handle_error(Handler new_handler)
+	{
+		_handler.cancel();
+		return new_handler(_handler.data());
 	}
 
 	bool done(void) const
@@ -113,36 +121,33 @@ public:
 	}
 };
 
-template <typename ErrorData>
-class basic_outcome<void, ErrorData>
+template <typename T, typename ErrorData>
+class basic_outcome
+ : public basic_outcome<void, ErrorData>
 {
 private:
-	deferred_handler<ErrorData> _handler;
+	basic_outcome_storage<T> _value;
 public:
-	basic_outcome(void) = default;
-
+	constexpr
 	basic_outcome(deferred_handler<ErrorData>&& handler)
 	noexcept
-	 : _handler(std::move(handler))
+	 : basic_outcome<void, ErrorData>(std::move(handler))
 	{ }
 
-	basic_outcome& ignore_error(void)
+	basic_outcome(T value)
 	noexcept
+	 : _value(value)
+	{ }
+
+	T get(void)
 	{
-		_handler.cancel();
-		return *this;
+		this->_handler.trigger();
+		return _value.get();
 	}
 
-	bool done(void) const
-	noexcept
+	operator T (void)
 	{
-		return !_handler;
-	}
-
-	bool done_without_error(void)
-	noexcept
-	{
-		return !_handler.cancel();
+		return get();
 	}
 };
 

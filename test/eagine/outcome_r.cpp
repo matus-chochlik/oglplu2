@@ -139,20 +139,55 @@ BOOST_AUTO_TEST_CASE(outcome_fail_void_ignore)
 {
 	using namespace eagine;
 
-	bool passed = false;
+	int passed = 0;
 
 	int tag = std::rand();
 
 	try
 	{
 		fail_void(tag).ignore_error();
-		passed = true;
+		++passed;
+		BOOST_CHECK_EQUAL(
+			fail_void(tag).ignore_error().handler_data().tag,
+			tag
+		);
+		++passed;
 	}
 	catch(mock_error_data&)
 	{
 		BOOST_CHECK_MESSAGE(false, "Should not throw");
 	}
-	BOOST_CHECK(passed);
+	BOOST_CHECK_EQUAL(passed,2);
+}
+
+BOOST_AUTO_TEST_CASE(outcome_fail_void_handle)
+{
+	using namespace eagine;
+
+	int passed = 0;
+
+	int tag = std::rand();
+
+	try
+	{
+		fail_void(tag).handle_error(
+			[&passed](const mock_error_data& ed)
+			{
+				++passed;
+				throw ed.tag;
+			}
+		);
+	}
+	catch(mock_error_data&)
+	{
+		BOOST_CHECK_MESSAGE(false, "Should not throw mock_error_data");
+	}
+	catch(int err_tag)
+	{
+		BOOST_CHECK_EQUAL(err_tag, tag);
+		++passed;
+	}
+	BOOST_CHECK_EQUAL(passed,2);
 }
 
 BOOST_AUTO_TEST_CASE(outcome_foo_void)
@@ -238,20 +273,55 @@ BOOST_AUTO_TEST_CASE(outcome_fail_string_ignore)
 {
 	using namespace eagine;
 
-	bool passed = false;
+	int passed = 0;
 
 	int tag = std::rand();
 
 	try
 	{
 		fail_string(tag).ignore_error();
-		passed = true;
+		++passed;
+		BOOST_CHECK_EQUAL(
+			fail_string(tag).ignore_error().handler_data().tag,
+			tag
+		);
+		++passed;
 	}
 	catch(mock_error_data&)
 	{
 		BOOST_CHECK_MESSAGE(false, "Should not throw");
 	}
-	BOOST_CHECK(passed);
+	BOOST_CHECK_EQUAL(passed,2);
+}
+
+BOOST_AUTO_TEST_CASE(outcome_fail_string_handle)
+{
+	using namespace eagine;
+
+	int passed = 0;
+
+	int tag = std::rand();
+
+	try
+	{
+		fail_string(tag).handle_error(
+			[&passed](const mock_error_data& ed)
+			{
+				++passed;
+				throw ed.tag;
+			}
+		);
+	}
+	catch(mock_error_data&)
+	{
+		BOOST_CHECK_MESSAGE(false, "Should not throw mock_error_data");
+	}
+	catch(int err_tag)
+	{
+		BOOST_CHECK_EQUAL(err_tag, tag);
+		++passed;
+	}
+	BOOST_CHECK_EQUAL(passed,2);
 }
 
 BOOST_AUTO_TEST_CASE(outcome_foo_string)
@@ -341,20 +411,55 @@ BOOST_AUTO_TEST_CASE(outcome_fail_ref_ignore)
 {
 	using namespace eagine;
 
-	bool passed = false;
+	int passed = 0;
 
 	int i = 0, tag = std::rand();
 
 	try
 	{
 		fail_ref(i, tag).ignore_error();
-		passed = true;
+		++passed;
+		BOOST_CHECK_EQUAL(
+			fail_string(tag).ignore_error().handler_data().tag,
+			tag
+		);
+		++passed;
 	}
 	catch(mock_error_data&)
 	{
 		BOOST_CHECK_MESSAGE(false, "Should not throw");
 	}
-	BOOST_CHECK(passed);
+	BOOST_CHECK_EQUAL(passed,2);
+}
+
+BOOST_AUTO_TEST_CASE(outcome_fail_ref_handle)
+{
+	using namespace eagine;
+
+	int passed = 0;
+
+	int i = 0, tag = std::rand();
+
+	try
+	{
+		fail_ref(i, tag).handle_error(
+			[&passed](const mock_error_data& ed)
+			{
+				++passed;
+				throw ed.tag;
+			}
+		);
+	}
+	catch(mock_error_data&)
+	{
+		BOOST_CHECK_MESSAGE(false, "Should not throw mock_error_data");
+	}
+	catch(int err_tag)
+	{
+		BOOST_CHECK_EQUAL(err_tag, tag);
+		++passed;
+	}
+	BOOST_CHECK_EQUAL(passed,2);
 }
 
 BOOST_AUTO_TEST_CASE(outcome_foo_ref)

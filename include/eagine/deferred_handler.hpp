@@ -100,6 +100,18 @@ public:
 			handler(_data);
 		}
 	}
+
+	Data& data(void)
+	noexcept
+	{
+		return _data;
+	}
+
+	const Data& data(void) const
+	noexcept
+	{
+		return _data;
+	}
 };
 
 template <typename Data>
