@@ -24,6 +24,7 @@ struct member_function_constant<RV(C::*)(P...), Ptr>
 	typedef RV(*free_pointer)(C*, P...);
 	typedef RV result_type;
 	typedef C scope;
+	typedef std::false_type is_const;
 
 	static constexpr
 	pointer get(void)
@@ -32,12 +33,14 @@ struct member_function_constant<RV(C::*)(P...), Ptr>
 		return Ptr;
 	}
 
-	static RV free_func(C* c, P ... a)
+	static
+	RV free_func(C* c, P ... a)
 	{
 		return (c->*Ptr)(std::forward<P>(a)...);
 	}
 
-	static free_pointer make_free(void)
+	static
+	free_pointer make_free(void)
 	noexcept
 	{
 		return &free_func;
@@ -51,6 +54,7 @@ struct member_function_constant<RV(C::*)(P...) const, Ptr>
 	typedef RV(*free_pointer)(const C*, P...);
 	typedef RV result_type;
 	typedef C scope;
+	typedef std::true_type is_const;
 
 	static constexpr
 	pointer get(void)
@@ -59,12 +63,14 @@ struct member_function_constant<RV(C::*)(P...) const, Ptr>
 		return Ptr;
 	}
 
-	static RV free_func(const C* c, P ... a)
+	static
+	RV free_func(const C* c, P ... a)
 	{
 		return (c->*Ptr)(std::forward<P>(a)...);
 	}
 
-	static free_pointer make_free(void)
+	static
+	free_pointer make_free(void)
 	noexcept
 	{
 		return &free_func;
