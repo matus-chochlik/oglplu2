@@ -65,19 +65,23 @@ public:
 	}
 };
 
-template <typename T, typename ErrorData>
+template <
+	typename T,
+	typename ErrorData,
+	typename HandlerPolicy = default_deferred_handler_policy<ErrorData>
+>
 class basic_outcome;
 
-template <typename ErrorData>
-class basic_outcome<void, ErrorData>
+template <typename ErrorData, typename HandlerPolicy>
+class basic_outcome<void, ErrorData, HandlerPolicy>
 {
 protected:
-	deferred_handler<ErrorData> _handler;
+	deferred_handler<ErrorData, HandlerPolicy> _handler;
 public:
 	basic_outcome(void) = default;
 
 	constexpr
-	basic_outcome(deferred_handler<ErrorData>&& handler)
+	basic_outcome(deferred_handler<ErrorData, HandlerPolicy>&& handler)
 	noexcept
 	 : _handler(std::move(handler))
 	{ }
@@ -121,17 +125,17 @@ public:
 	}
 };
 
-template <typename T, typename ErrorData>
+template <typename T, typename ErrorData, typename HandlerPolicy>
 class basic_outcome
- : public basic_outcome<void, ErrorData>
+ : public basic_outcome<void, ErrorData, HandlerPolicy>
 {
 private:
 	basic_outcome_storage<T> _value;
 public:
 	constexpr
-	basic_outcome(deferred_handler<ErrorData>&& handler)
+	basic_outcome(deferred_handler<ErrorData, HandlerPolicy>&& handler)
 	noexcept
-	 : basic_outcome<void, ErrorData>(std::move(handler))
+	 : basic_outcome<void, ErrorData, HandlerPolicy>(std::move(handler))
 	{ }
 
 	basic_outcome(T value)

@@ -11,15 +11,14 @@
 #define EAGINE_DEFERRED_HANDLER_1509260923_HPP
 
 #include <utility>
+#include <cassert>
 
 namespace eagine {
 
 template <typename Data>
-class deferred_handler
+struct default_deferred_handler_policy
 {
-private:
 	void (*_handler)(Data&);
-	Data _data;
 
 	void (*_release_handler(void) noexcept)(Data&)
 	{
@@ -27,17 +26,90 @@ private:
 		_handler = nullptr;
 		return handler;
 	}
-public:
-	constexpr
-	deferred_handler(void)
+
+	constexpr inline
+	default_deferred_handler_policy(void)
 	noexcept
 	 : _handler(nullptr)
 	{ }
 
 	constexpr inline
-	deferred_handler(void(*handler)(Data&), Data data)
+	default_deferred_handler_policy(void(*handler)(Data&))
 	noexcept
 	 : _handler(handler)
+	{ }
+
+	default_deferred_handler_policy(
+		const default_deferred_handler_policy&
+	) = delete;
+	default_deferred_handler_policy& operator = (
+		const default_deferred_handler_policy&
+	) = delete;
+
+	default_deferred_handler_policy(
+		default_deferred_handler_policy&& temp
+	) noexcept
+	 : _handler(temp._release_handler())
+	{ }
+
+	default_deferred_handler_policy& operator = (
+		default_deferred_handler_policy&& temp
+	) noexcept
+	{
+		this->_handler = temp._release_handler();
+		return *this;
+	}
+
+	inline
+	bool is_valid(const Data&) const
+	noexcept
+	{
+		return _handler != nullptr;
+	}
+
+	inline
+	void invoke(Data& data) const
+	{
+		assert(_handler != nullptr);
+		_handler(data);
+	}
+
+	inline
+	void cancel(Data&)
+	noexcept
+	{
+		_handler = nullptr;
+	}
+};
+
+template <
+	typename Data,
+	typename HandlerPolicy = default_deferred_handler_policy<Data>
+>
+class deferred_handler
+{
+private:
+	HandlerPolicy _handler;
+	Data _data;
+public:
+	constexpr inline
+	deferred_handler(void)
+	noexcept
+	 : _handler()
+	 , _data()
+	{ }
+
+	constexpr inline
+	deferred_handler(Data data)
+	noexcept
+	 : _handler()
+	 , _data(std::move(data))
+	{ }
+
+	constexpr inline
+	deferred_handler(HandlerPolicy handler, Data data)
+	noexcept
+	 : _handler(std::move(handler))
 	 , _data(std::move(data))
 	{ }
 
@@ -46,14 +118,14 @@ public:
 
 	deferred_handler(deferred_handler&& temp)
 	noexcept
-	 : _handler(temp._release_handler())
+	 : _handler(std::move(temp._handler))
 	 , _data(std::move(temp._data))
 	{ }
 
 	deferred_handler& operator = (deferred_handler&& temp)
 	noexcept
 	{
-		this->_handler = temp._release_handler();
+		this->_handler = std::move(temp._handler);
 		this->_data = std::move(temp._data);
 		return *this;
 	}
@@ -61,9 +133,9 @@ public:
 	~deferred_handler(void)
 	noexcept(false)
 	{
-		if(_handler != nullptr)
+		if(_handler.is_valid(_data))
 		{
-			_handler(_data);
+			_handler.invoke(_data);
 		}
 	}
 
@@ -71,21 +143,21 @@ public:
 	operator bool (void) const
 	noexcept
 	{
-		return _handler != nullptr;
+		return _handler.is_valid(_data);
 	}
 
 	bool operator ! (void) const
 	noexcept
 	{
-		return _handler == nullptr;
+		return !_handler.is_valid(_data);
 	}
 
 	bool cancel(void)
 	noexcept
 	{
-		if(_handler)
+		if(_handler.is_valid(_data))
 		{
-			_handler = nullptr;
+			_handler.cancel(_data);
 			return true;
 		}
 		return false;
@@ -93,11 +165,16 @@ public:
 
 	void trigger(void)
 	{
-		if(_handler != nullptr)
+		if(_handler.is_valid(_data))
 		{
-			auto handler = _handler;
-			_handler = nullptr;
-			handler(_data);
+			HandlerPolicy handler = std::move(_handler);
+			try { handler.invoke(_data); }
+			catch(...)
+			{
+				handler.cancel(_data);
+				throw;
+			}
+			handler.cancel(_data);
 		}
 	}
 
