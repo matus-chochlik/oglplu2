@@ -11,12 +11,16 @@
 #define OGLPLUS_ERROR_OUTCOME_1509260923_HPP
 
 #include "../utils/outcome.hpp"
-#include "info.hpp"
+#include "handling.hpp"
 
 namespace oglplus {
 
 template <typename T>
-using outcome = basic_outcome<T, error_info>;
+using outcome = basic_outcome<
+	T,
+	error_info,
+	gl_error_handling_policy
+>;
 
 } // namespace oglplus
 

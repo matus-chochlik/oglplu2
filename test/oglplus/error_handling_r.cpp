@@ -80,4 +80,74 @@ BOOST_AUTO_TEST_CASE(error_handling_1)
 	BOOST_CHECK_EQUAL(passed,1);
 }
 
+BOOST_AUTO_TEST_CASE(error_handling_2)
+{
+	using namespace oglplus;
+
+	int passed = 0;
+
+	try
+	{
+		{
+			auto dh = deferred_error_handler(
+				error_info()
+					.gl_library_name("EGL")
+					.gl_function_name("Func")
+					.source_function("func")
+					.source_file("file.hpp")
+					.source_line(54321)
+					.gl_object_name(65432)
+					.gl_subject_name(76543)
+					.gl_error_code(GL_INVALID_OPERATION)
+			);
+			++passed;
+		}
+		BOOST_CHECK_MESSAGE(
+			false,
+			"Should not get past handle_gl_error"
+		);
+	}
+	catch(oglplus::error& e)
+	{
+		BOOST_CHECK(e.info().gl_error_code() == GL_INVALID_OPERATION);
+
+		BOOST_CHECK((
+			(e.info().gl_library_name() == nullptr) ||
+			(strcmp(e.info().gl_library_name(), "EGL") == 0)
+		));
+
+		BOOST_CHECK((
+			(e.info().gl_function_name() == nullptr) ||
+			(strcmp(e.info().gl_function_name(), "Func") == 0)
+		));
+
+		BOOST_CHECK((
+			(e.info().source_function() == nullptr) ||
+			(strcmp(e.info().source_function(), "func") == 0)
+		));
+
+		BOOST_CHECK((
+			(e.info().source_file() == nullptr) ||
+			(strcmp(e.info().source_file(), "file.hpp") == 0)
+		));
+
+		BOOST_CHECK((
+			(e.info().source_line() == 0) ||
+			(e.info().source_line() ==  54321)
+		));
+
+		BOOST_CHECK((
+			(e.info().gl_object_name() == e.info().invalid_gl_obj_name()) ||
+			(e.info().gl_object_name(), 65432)
+		));
+
+		BOOST_CHECK((
+			(e.info().gl_subject_name() == e.info().invalid_gl_obj_name()) ||
+			(e.info().gl_subject_name(), 76543)
+		));
+		++passed;
+	}
+	BOOST_CHECK_EQUAL(passed,2);
+}
+
 BOOST_AUTO_TEST_SUITE_END()

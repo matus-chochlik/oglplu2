@@ -34,8 +34,7 @@ public:
 };
 
 template <typename ErrorInfo>
-[[noreturn]]
-static inline
+[[noreturn]] static inline
 void handle_gl_error(ErrorInfo& info)
 {
 	throw error(std::move(info));
@@ -48,7 +47,33 @@ noexcept
 	return ec != GL_NO_ERROR;
 }
 
-using deferred_error_handler = deferred_handler<error_info>;
+struct gl_error_handling_policy
+{
+	static
+	bool is_valid(const error_info& info)
+	noexcept
+	{
+		return is_gl_error(info.gl_error_code());
+	}
+
+	[[noreturn]] static
+	void invoke(error_info& info)
+	{
+		handle_gl_error(info);
+	}
+
+	static
+	void cancel(error_info& info)
+	noexcept
+	{
+		info.gl_error_code(GL_NO_ERROR);
+	}
+};
+
+using deferred_error_handler = deferred_handler<
+	error_info,
+	gl_error_handling_policy
+>;
 
 } // namespace oglplus
 
@@ -64,8 +89,7 @@ using deferred_error_handler = deferred_handler<error_info>;
 	GLenum oglplus_error_code##__LINE__ = ERROR_CODE;\
 	if(CONDITION(oglplus_error_code##__LINE__))\
 	{\
-		return oglplus::make_deferred_handler(\
-			&oglplus::handle_gl_error,\
+		return oglplus::deferred_error_handler(\
 			oglplus::error_info(oglplus_error_code##__LINE__)\
 				.ERROR_INFO\
 				.source_file(__FILE__)\
