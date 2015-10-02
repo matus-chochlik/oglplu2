@@ -120,13 +120,16 @@ public:
 	noexcept
 	 : _handler(std::move(temp._handler))
 	 , _data(std::move(temp._data))
-	{ }
+	{
+		temp._handler.cancel(temp._data);
+	}
 
 	deferred_handler& operator = (deferred_handler&& temp)
 	noexcept
 	{
 		this->_handler = std::move(temp._handler);
 		this->_data = std::move(temp._data);
+		temp._handler.cancel(temp._data);
 		return *this;
 	}
 

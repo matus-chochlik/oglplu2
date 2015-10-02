@@ -30,7 +30,8 @@ private:
 		{
 			if(std::uncaught_exception())
 			{
-				_action();
+				try { _action(); }
+				catch(...){ }
 			}
 		}
 	}

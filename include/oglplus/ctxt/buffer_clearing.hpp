@@ -115,7 +115,7 @@ struct buffer_clearing
 	stencil_clear_value(void)
 	noexcept
 	{
-		GLfloat result;
+		GLint result;
 		OGLPLUS_GLFUNC(GetIntegerv)(GL_STENCIL_CLEAR_VALUE, &result);
 		OGLPLUS_VERIFY_SIMPLE(GetIntegerv,warning);
 		return {result};
