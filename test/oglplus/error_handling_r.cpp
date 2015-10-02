@@ -91,7 +91,7 @@ BOOST_AUTO_TEST_CASE(error_handling_2)
 		{
 			auto dh = deferred_error_handler(
 				error_info()
-					.gl_library_name("EGL")
+					.gl_library_name("GLX")
 					.gl_function_name("Func")
 					.source_function("func")
 					.source_file("file.hpp")
@@ -113,7 +113,7 @@ BOOST_AUTO_TEST_CASE(error_handling_2)
 
 		BOOST_CHECK((
 			(e.info().gl_library_name() == nullptr) ||
-			(strcmp(e.info().gl_library_name(), "EGL") == 0)
+			(strcmp(e.info().gl_library_name(), "GLX") == 0)
 		));
 
 		BOOST_CHECK((
@@ -144,6 +144,78 @@ BOOST_AUTO_TEST_CASE(error_handling_2)
 		BOOST_CHECK((
 			(e.info().gl_subject_name() == e.info().invalid_gl_obj_name()) ||
 			(e.info().gl_subject_name(), 76543)
+		));
+		++passed;
+	}
+	BOOST_CHECK_EQUAL(passed,2);
+}
+
+BOOST_AUTO_TEST_CASE(error_handling_3)
+{
+	using namespace oglplus;
+
+	int passed = 0;
+
+	try
+	{
+		auto fn = [](void) -> deferred_error_handler
+		{
+			return deferred_error_handler(
+				error_info()
+					.gl_library_name("WGL")
+					.gl_function_name("FunctionW")
+					.source_function("func")
+					.source_file("file.h")
+					.source_line(11111)
+					.gl_object_name(22222)
+					.gl_subject_name(33333)
+					.gl_error_code(GL_INVALID_VALUE)
+			);
+		};
+		++passed;
+		fn();
+		BOOST_CHECK_MESSAGE(
+			false,
+			"Should not get past handle_gl_error"
+		);
+	}
+	catch(oglplus::error& e)
+	{
+		BOOST_CHECK(e.info().gl_error_code() == GL_INVALID_VALUE);
+
+		BOOST_CHECK((
+			(e.info().gl_library_name() == nullptr) ||
+			(strcmp(e.info().gl_library_name(), "WGL") == 0)
+		));
+
+		BOOST_CHECK((
+			(e.info().gl_function_name() == nullptr) ||
+			(strcmp(e.info().gl_function_name(), "FunctionW") == 0)
+		));
+
+		BOOST_CHECK((
+			(e.info().source_function() == nullptr) ||
+			(strcmp(e.info().source_function(), "func") == 0)
+		));
+
+		BOOST_CHECK((
+			(e.info().source_file() == nullptr) ||
+			(strcmp(e.info().source_file(), "file.h") == 0)
+		));
+
+		BOOST_CHECK((
+			(e.info().source_line() == 0) ||
+			(e.info().source_line() ==  11111)
+		));
+
+		BOOST_CHECK((
+			(e.info().gl_object_name() == e.info().invalid_gl_obj_name()) ||
+			(e.info().gl_object_name(), 22222)
+		));
+
+		BOOST_CHECK((
+			(e.info().gl_subject_name() == e.info().invalid_gl_obj_name()) ||
+			(e.info().gl_subject_name(), 33333)
 		));
 		++passed;
 	}
