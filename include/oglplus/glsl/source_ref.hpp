@@ -21,9 +21,9 @@ private:
 	const GLchar** _parts;
 	const GLint* _lengths;
 public:
-	glsl_source_ref(GLsizei n, const GLchar** ps, const GLint* ls)
+	glsl_source_ref(std::size_t n, const GLchar** ps, const GLint* ls)
 	noexcept
-	 : _count(n)
+	 : _count(GLsizei(n))
 	 , _parts(ps)
 	 , _lengths(ls)
 	{
