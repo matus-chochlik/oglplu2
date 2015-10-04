@@ -13,20 +13,20 @@
 namespace eagine {
 
 struct ec_A
- : enum_class<ec_A, unsigned>
-{ using enum_class<ec_A, unsigned>::enum_class; };
+ : enum_class<ec_A, unsigned, 0, 0>
+{ using enum_class<ec_A, unsigned, 0, 0>::enum_class; };
 
 struct ec_B
- : enum_class<ec_B, unsigned>
-{ using enum_class<ec_B, unsigned>::enum_class; };
+ : enum_class<ec_B, unsigned, 0, 1>
+{ using enum_class<ec_B, unsigned, 0, 1>::enum_class; };
 
 struct ec_C
- : enum_class<ec_C, unsigned>
-{ using enum_class<ec_C, unsigned>::enum_class; };
+ : enum_class<ec_C, unsigned, 0, 2>
+{ using enum_class<ec_C, unsigned, 0, 2>::enum_class; };
 
 struct ec_D
- : enum_class<ec_D, unsigned>
-{ using enum_class<ec_D, unsigned>::enum_class; };
+ : enum_class<ec_D, unsigned, 0, 3>
+{ using enum_class<ec_D, unsigned, 0, 3>::enum_class; };
 
 static constexpr const enum_value<unsigned, 1, mp_list<ec_A>> ev_1 = {};
 static constexpr const enum_value<unsigned, 2, mp_list<ec_A, ec_B>> ev_2 = {};

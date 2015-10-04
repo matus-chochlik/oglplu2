@@ -17,7 +17,7 @@
 namespace oglplus {
 namespace ctxt {
 
-struct capabilities
+struct capability_state
 {
 	static
 	outcome<void>
@@ -45,6 +45,36 @@ struct capabilities
 	noexcept
 	{
 		GLboolean result = OGLPLUS_GLFUNC(IsEnabled)(GLenum(cap));
+		OGLPLUS_VERIFY_SIMPLE(IsEnabled, warning);
+		return {result == GL_TRUE};
+	}
+
+	static
+	outcome<void>
+	enable(functionality func, GLuint idx)
+	noexcept
+	{
+		OGLPLUS_GLFUNC(Enable)(GLenum(func)+idx);
+		OGLPLUS_VERIFY_SIMPLE(Enable, warning);
+		return {};
+	}
+
+	static
+	outcome<void>
+	disable(functionality func, GLuint idx)
+	noexcept
+	{
+		OGLPLUS_GLFUNC(Disable)(GLenum(func)+idx);
+		OGLPLUS_VERIFY_SIMPLE(Disable, warning);
+		return {};
+	}
+
+	static
+	outcome<bool>
+	is_enabled(functionality func, GLuint idx)
+	noexcept
+	{
+		GLboolean result = OGLPLUS_GLFUNC(IsEnabled)(GLenum(func)+idx);
 		OGLPLUS_VERIFY_SIMPLE(IsEnabled, warning);
 		return {result == GL_TRUE};
 	}

@@ -28,10 +28,12 @@ struct enum_value<T, Value, mp_list<Classes...>>
 	}
 };
 
-template <typename Self, typename T>
+template <typename Self, typename T, unsigned LibId, unsigned Id>
 struct enum_class
 {
 	typedef T value_type;
+
+	static constexpr const unsigned id = Id;
 
 	value_type _value;
 
