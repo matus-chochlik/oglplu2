@@ -10,15 +10,15 @@
 //  http://www.boost.org/LICENSE_1_0.txt
 //
 #include <oglplus/config/basic.hpp>
-#if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 
 namespace oglplus {
 
 OGLPLUS_LIB_FUNC
 cstring_view<>
-get_enum_value_name(unsigned enum_id, long value)
+get_enum_value_name(const any_enum_value& aev)
 noexcept
 {
+#if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #ifdef GL_ACTIVE_VARIABLES
 	static const char s_ACTIVE_VARIABLES[17] = 
 		"ACTIVE_VARIABLES";
@@ -3240,10 +3240,10 @@ noexcept
 		"ZERO_TO_ONE";
 #endif
 
-	switch(enum_id)
+	switch(aev._type_id)
 	{
 		case 0: /* access_specifier */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_READ_ONLY
 				case GL_READ_ONLY:
@@ -3261,7 +3261,7 @@ noexcept
 			}
 			break;
 		case 2: /* blend_equation */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_FUNC_ADD
 				case GL_FUNC_ADD:
@@ -3271,13 +3271,13 @@ noexcept
 				case GL_FUNC_SUBTRACT:
 					return s_FUNC_SUBTRACT;
 #endif
-#ifdef GL_FUNC_REVERSE_SUBTRACT
-				case GL_FUNC_REVERSE_SUBTRACT:
-					return s_FUNC_REVERSE_SUBTRACT;
-#endif
 #ifdef GL_MAX
 				case GL_MAX:
 					return s_MAX;
+#endif
+#ifdef GL_FUNC_REVERSE_SUBTRACT
+				case GL_FUNC_REVERSE_SUBTRACT:
+					return s_FUNC_REVERSE_SUBTRACT;
 #endif
 #ifdef GL_MIN
 				case GL_MIN:
@@ -3287,15 +3287,15 @@ noexcept
 			}
 			break;
 		case 1: /* blend_equation_advanced */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
-#ifdef GL_HSL_LUMINOSITY_KHR
-				case GL_HSL_LUMINOSITY_KHR:
-					return s_HSL_LUMINOSITY_KHR;
-#endif
 #ifdef GL_COLORBURN_KHR
 				case GL_COLORBURN_KHR:
 					return s_COLORBURN_KHR;
+#endif
+#ifdef GL_HSL_LUMINOSITY_KHR
+				case GL_HSL_LUMINOSITY_KHR:
+					return s_HSL_LUMINOSITY_KHR;
 #endif
 #ifdef GL_MULTIPLY_KHR
 				case GL_MULTIPLY_KHR:
@@ -3353,7 +3353,7 @@ noexcept
 			}
 			break;
 		case 3: /* blend_function */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_SRC_ALPHA
 				case GL_SRC_ALPHA:
@@ -3435,7 +3435,7 @@ noexcept
 			}
 			break;
 		case 4: /* blit_filter */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_NEAREST
 				case GL_NEAREST:
@@ -3449,7 +3449,7 @@ noexcept
 			}
 			break;
 		case 5: /* buffer_indexed_target */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_UNIFORM_BUFFER
 				case GL_UNIFORM_BUFFER:
@@ -3471,11 +3471,11 @@ noexcept
 			}
 			break;
 		case 6: /* buffer_map_access */
-			switch(GLbitfield(value))
+			switch(GLbitfield(aev._value))
 			{
-#ifdef GL_MAP_INVALIDATE_RANGE_BIT
-				case GL_MAP_INVALIDATE_RANGE_BIT:
-					return s_MAP_INVALIDATE_RANGE_BIT;
+#ifdef GL_MAP_COHERENT_BIT
+				case GL_MAP_COHERENT_BIT:
+					return s_MAP_COHERENT_BIT;
 #endif
 #ifdef GL_MAP_READ_BIT
 				case GL_MAP_READ_BIT:
@@ -3489,13 +3489,13 @@ noexcept
 				case GL_MAP_PERSISTENT_BIT:
 					return s_MAP_PERSISTENT_BIT;
 #endif
-#ifdef GL_MAP_COHERENT_BIT
-				case GL_MAP_COHERENT_BIT:
-					return s_MAP_COHERENT_BIT;
-#endif
 #ifdef GL_MAP_UNSYNCHRONIZED_BIT
 				case GL_MAP_UNSYNCHRONIZED_BIT:
 					return s_MAP_UNSYNCHRONIZED_BIT;
+#endif
+#ifdef GL_MAP_INVALIDATE_RANGE_BIT
+				case GL_MAP_INVALIDATE_RANGE_BIT:
+					return s_MAP_INVALIDATE_RANGE_BIT;
 #endif
 #ifdef GL_MAP_INVALIDATE_BUFFER_BIT
 				case GL_MAP_INVALIDATE_BUFFER_BIT:
@@ -3509,7 +3509,7 @@ noexcept
 			}
 			break;
 		case 7: /* buffer_select_bits */
-			switch(GLbitfield(value))
+			switch(GLbitfield(aev._value))
 			{
 #ifdef GL_COLOR_BUFFER_BIT
 				case GL_COLOR_BUFFER_BIT:
@@ -3527,7 +3527,7 @@ noexcept
 			}
 			break;
 		case 8: /* buffer_storage_bits */
-			switch(GLbitfield(value))
+			switch(GLbitfield(aev._value))
 			{
 #ifdef GL_SPARSE_STORAGE_BIT_ARB
 				case GL_SPARSE_STORAGE_BIT_ARB:
@@ -3561,7 +3561,7 @@ noexcept
 			}
 			break;
 		case 9: /* buffer_target */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_TEXTURE_BUFFER
 				case GL_TEXTURE_BUFFER:
@@ -3631,7 +3631,7 @@ noexcept
 			}
 			break;
 		case 10: /* buffer_usage */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_STREAM_DRAW
 				case GL_STREAM_DRAW:
@@ -3645,13 +3645,13 @@ noexcept
 				case GL_STREAM_COPY:
 					return s_STREAM_COPY;
 #endif
-#ifdef GL_STATIC_DRAW
-				case GL_STATIC_DRAW:
-					return s_STATIC_DRAW;
-#endif
 #ifdef GL_DYNAMIC_COPY
 				case GL_DYNAMIC_COPY:
 					return s_DYNAMIC_COPY;
+#endif
+#ifdef GL_STATIC_DRAW
+				case GL_STATIC_DRAW:
+					return s_STATIC_DRAW;
 #endif
 #ifdef GL_STATIC_READ
 				case GL_STATIC_READ:
@@ -3673,7 +3673,7 @@ noexcept
 			}
 			break;
 		case 11: /* capability */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_POLYGON_SMOOTH
 				case GL_POLYGON_SMOOTH:
@@ -3787,7 +3787,7 @@ noexcept
 			}
 			break;
 		case 12: /* clip_depth_mode */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_NEGATIVE_ONE_TO_ONE
 				case GL_NEGATIVE_ONE_TO_ONE:
@@ -3801,7 +3801,7 @@ noexcept
 			}
 			break;
 		case 13: /* clip_origin */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_LOWER_LEFT
 				case GL_LOWER_LEFT:
@@ -3815,7 +3815,7 @@ noexcept
 			}
 			break;
 		case 14: /* color_buffer */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_FRONT_AND_BACK
 				case GL_FRONT_AND_BACK:
@@ -3861,7 +3861,7 @@ noexcept
 			}
 			break;
 		case 15: /* color_logic_operation */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_XOR
 				case GL_XOR:
@@ -3931,7 +3931,7 @@ noexcept
 			}
 			break;
 		case 16: /* compare_function */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_LEQUAL
 				case GL_LEQUAL:
@@ -3969,7 +3969,7 @@ noexcept
 			}
 			break;
 		case 17: /* conditional_render_mode */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_QUERY_WAIT
 				case GL_QUERY_WAIT:
@@ -4007,7 +4007,7 @@ noexcept
 			}
 			break;
 		case 18: /* context_flag_bits */
-			switch(GLbitfield(value))
+			switch(GLbitfield(aev._value))
 			{
 #ifdef GL_CONTEXT_FLAG_FORWARD_COMPATIBLE_BIT
 				case GL_CONTEXT_FLAG_FORWARD_COMPATIBLE_BIT:
@@ -4025,7 +4025,7 @@ noexcept
 			}
 			break;
 		case 19: /* context_profile_bits */
-			switch(GLbitfield(value))
+			switch(GLbitfield(aev._value))
 			{
 #ifdef GL_CONTEXT_COMPATIBILITY_PROFILE_BIT
 				case GL_CONTEXT_COMPATIBILITY_PROFILE_BIT:
@@ -4039,7 +4039,7 @@ noexcept
 			}
 			break;
 		case 20: /* context_release_behavior */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_NONE
 				case GL_NONE:
@@ -4053,7 +4053,7 @@ noexcept
 			}
 			break;
 		case 21: /* data_type */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_SHORT
 				case GL_SHORT:
@@ -4099,7 +4099,7 @@ noexcept
 			}
 			break;
 		case 22: /* debug_output_severity */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_DEBUG_SEVERITY_HIGH
 				case GL_DEBUG_SEVERITY_HIGH:
@@ -4125,7 +4125,7 @@ noexcept
 			}
 			break;
 		case 23: /* debug_output_source */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_DEBUG_SOURCE_API
 				case GL_DEBUG_SOURCE_API:
@@ -4159,7 +4159,7 @@ noexcept
 			}
 			break;
 		case 24: /* debug_output_type */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_DEBUG_TYPE_ERROR
 				case GL_DEBUG_TYPE_ERROR:
@@ -4205,7 +4205,7 @@ noexcept
 			}
 			break;
 		case 25: /* error_code */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_NO_ERROR
 				case GL_NO_ERROR:
@@ -4251,7 +4251,7 @@ noexcept
 			}
 			break;
 		case 27: /* face */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_FRONT_AND_BACK
 				case GL_FRONT_AND_BACK:
@@ -4269,7 +4269,7 @@ noexcept
 			}
 			break;
 		case 26: /* face_orientation */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_CW
 				case GL_CW:
@@ -4283,7 +4283,7 @@ noexcept
 			}
 			break;
 		case 28: /* framebuffer_attachment */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_COLOR_ATTACHMENT0
 				case GL_COLOR_ATTACHMENT0:
@@ -4365,7 +4365,7 @@ noexcept
 			}
 			break;
 		case 29: /* framebuffer_buffer */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_COLOR
 				case GL_COLOR:
@@ -4387,7 +4387,7 @@ noexcept
 			}
 			break;
 		case 30: /* framebuffer_status */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS
 				case GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS:
@@ -4421,7 +4421,7 @@ noexcept
 			}
 			break;
 		case 31: /* framebuffer_target */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_DRAW_FRAMEBUFFER
 				case GL_DRAW_FRAMEBUFFER:
@@ -4435,7 +4435,7 @@ noexcept
 			}
 			break;
 		case 32: /* functionality */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_CLIP_DISTANCE0
 				case GL_CLIP_DISTANCE0:
@@ -4445,7 +4445,7 @@ noexcept
 			}
 			break;
 		case 33: /* graphics_reset_status */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_UNKNOWN_CONTEXT_RESET
 				case GL_UNKNOWN_CONTEXT_RESET:
@@ -4467,7 +4467,7 @@ noexcept
 			}
 			break;
 		case 34: /* hint_option */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_NICEST
 				case GL_NICEST:
@@ -4485,7 +4485,7 @@ noexcept
 			}
 			break;
 		case 35: /* hint_target */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_LINE_SMOOTH_HINT
 				case GL_LINE_SMOOTH_HINT:
@@ -4507,7 +4507,7 @@ noexcept
 			}
 			break;
 		case 36: /* image_unit_format */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_RGBA32F
 				case GL_RGBA32F:
@@ -4669,7 +4669,7 @@ noexcept
 			}
 			break;
 		case 37: /* limit_query */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_MAX_COLOR_TEXTURE_SAMPLES
 				case GL_MAX_COLOR_TEXTURE_SAMPLES:
@@ -5111,7 +5111,7 @@ noexcept
 			}
 			break;
 		case 38: /* memory_barrier_bits */
-			switch(GLbitfield(value))
+			switch(GLbitfield(aev._value))
 			{
 #ifdef GL_VERTEX_ATTRIB_ARRAY_BARRIER_BIT
 				case GL_VERTEX_ATTRIB_ARRAY_BARRIER_BIT:
@@ -5177,7 +5177,7 @@ noexcept
 			}
 			break;
 		case 39: /* named_string_type */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_SHADER_INCLUDE_ARB
 				case GL_SHADER_INCLUDE_ARB:
@@ -5187,7 +5187,7 @@ noexcept
 			}
 			break;
 		case 40: /* object_type */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_BUFFER
 				case GL_BUFFER:
@@ -5241,7 +5241,7 @@ noexcept
 			}
 			break;
 		case 41: /* patch_parameter */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_PATCH_VERTICES
 				case GL_PATCH_VERTICES:
@@ -5259,7 +5259,7 @@ noexcept
 			}
 			break;
 		case 42: /* pixel_data_format */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_DEPTH_COMPONENT
 				case GL_DEPTH_COMPONENT:
@@ -5341,7 +5341,7 @@ noexcept
 			}
 			break;
 		case 43: /* pixel_data_internal_format */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_DEPTH_COMPONENT
 				case GL_DEPTH_COMPONENT:
@@ -5747,7 +5747,7 @@ noexcept
 			}
 			break;
 		case 44: /* pixel_data_type */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_UNSIGNED_BYTE
 				case GL_UNSIGNED_BYTE:
@@ -5849,7 +5849,7 @@ noexcept
 			}
 			break;
 		case 45: /* pixel_parameter */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_PACK_SWAP_BYTES
 				case GL_PACK_SWAP_BYTES:
@@ -5951,7 +5951,7 @@ noexcept
 			}
 			break;
 		case 46: /* polygon_mode */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_FILL_RECTANGLE_NV
 				case GL_FILL_RECTANGLE_NV:
@@ -5973,7 +5973,7 @@ noexcept
 			}
 			break;
 		case 47: /* precision_type */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_LOW_FLOAT
 				case GL_LOW_FLOAT:
@@ -6003,7 +6003,7 @@ noexcept
 			}
 			break;
 		case 48: /* primitive_type */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_POINTS
 				case GL_POINTS:
@@ -6057,7 +6057,7 @@ noexcept
 			}
 			break;
 		case 49: /* program_interface */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_UNIFORM
 				case GL_UNIFORM:
@@ -6143,7 +6143,7 @@ noexcept
 			}
 			break;
 		case 50: /* program_pipeline_stage */
-			switch(GLbitfield(value))
+			switch(GLbitfield(aev._value))
 			{
 #ifdef GL_VERTEX_SHADER_BIT
 				case GL_VERTEX_SHADER_BIT:
@@ -6177,7 +6177,7 @@ noexcept
 			}
 			break;
 		case 51: /* program_resource_property */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_ARRAY_SIZE
 				case GL_ARRAY_SIZE:
@@ -6291,7 +6291,7 @@ noexcept
 			}
 			break;
 		case 52: /* provoke_mode */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_FIRST_VERTEX_CONVENTION
 				case GL_FIRST_VERTEX_CONVENTION:
@@ -6305,7 +6305,7 @@ noexcept
 			}
 			break;
 		case 53: /* query_target */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_TRANSFORM_FEEDBACK_STREAM_OVERFLOW_ARB
 				case GL_TRANSFORM_FEEDBACK_STREAM_OVERFLOW_ARB:
@@ -6387,7 +6387,7 @@ noexcept
 			}
 			break;
 		case 54: /* renderbuffer_target */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_RENDERBUFFER
 				case GL_RENDERBUFFER:
@@ -6397,7 +6397,7 @@ noexcept
 			}
 			break;
 		case 55: /* reset_notification_strategy */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_NO_RESET_NOTIFICATION
 				case GL_NO_RESET_NOTIFICATION:
@@ -6411,7 +6411,7 @@ noexcept
 			}
 			break;
 		case 56: /* shader_type */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_VERTEX_SHADER
 				case GL_VERTEX_SHADER:
@@ -6441,7 +6441,7 @@ noexcept
 			}
 			break;
 		case 57: /* single_face */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_FRONT
 				case GL_FRONT:
@@ -6455,7 +6455,7 @@ noexcept
 			}
 			break;
 		case 58: /* sl_data_type */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_UNSIGNED_INT_IMAGE_3D
 				case GL_UNSIGNED_INT_IMAGE_3D:
@@ -6901,7 +6901,7 @@ noexcept
 			}
 			break;
 		case 59: /* stencil_operation */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_KEEP
 				case GL_KEEP:
@@ -6939,7 +6939,7 @@ noexcept
 			}
 			break;
 		case 60: /* string_query */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_RENDERER
 				case GL_RENDERER:
@@ -6961,7 +6961,7 @@ noexcept
 			}
 			break;
 		case 61: /* sync_condition */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_SYNC_GPU_COMMANDS_COMPLETE
 				case GL_SYNC_GPU_COMMANDS_COMPLETE:
@@ -6971,7 +6971,7 @@ noexcept
 			}
 			break;
 		case 62: /* sync_status */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_UNSIGNALED
 				case GL_UNSIGNALED:
@@ -6985,7 +6985,7 @@ noexcept
 			}
 			break;
 		case 63: /* sync_type */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_SYNC_FENCE
 				case GL_SYNC_FENCE:
@@ -6995,7 +6995,7 @@ noexcept
 			}
 			break;
 		case 64: /* sync_wait_result */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_CONDITION_SATISFIED
 				case GL_CONDITION_SATISFIED:
@@ -7017,7 +7017,7 @@ noexcept
 			}
 			break;
 		case 65: /* tess_gen_primitive_spacing */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_FRACTIONAL_EVEN
 				case GL_FRACTIONAL_EVEN:
@@ -7035,7 +7035,7 @@ noexcept
 			}
 			break;
 		case 66: /* tess_gen_primitive_type */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_ISOLINES
 				case GL_ISOLINES:
@@ -7053,7 +7053,7 @@ noexcept
 			}
 			break;
 		case 67: /* texture_compare_mode */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_NONE
 				case GL_NONE:
@@ -7067,7 +7067,7 @@ noexcept
 			}
 			break;
 		case 68: /* texture_filter */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_LINEAR
 				case GL_LINEAR:
@@ -7081,7 +7081,7 @@ noexcept
 			}
 			break;
 		case 69: /* texture_mag_filter */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_NEAREST
 				case GL_NEAREST:
@@ -7095,7 +7095,7 @@ noexcept
 			}
 			break;
 		case 70: /* texture_min_filter */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_LINEAR_MIPMAP_LINEAR
 				case GL_LINEAR_MIPMAP_LINEAR:
@@ -7125,7 +7125,7 @@ noexcept
 			}
 			break;
 		case 72: /* texture_swizzle */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_RED
 				case GL_RED:
@@ -7155,7 +7155,7 @@ noexcept
 			}
 			break;
 		case 71: /* texture_swizzle_coord */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_TEXTURE_SWIZZLE_R
 				case GL_TEXTURE_SWIZZLE_R:
@@ -7181,7 +7181,7 @@ noexcept
 			}
 			break;
 		case 73: /* texture_target */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_TEXTURE_1D
 				case GL_TEXTURE_1D:
@@ -7255,7 +7255,7 @@ noexcept
 			}
 			break;
 		case 75: /* texture_wrap */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_MIRROR_CLAMP_TO_EDGE
 				case GL_MIRROR_CLAMP_TO_EDGE:
@@ -7281,7 +7281,7 @@ noexcept
 			}
 			break;
 		case 74: /* texture_wrap_coord */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_TEXTURE_WRAP_S
 				case GL_TEXTURE_WRAP_S:
@@ -7299,7 +7299,7 @@ noexcept
 			}
 			break;
 		case 76: /* transform_feedback_mode */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_INTERLEAVED_ATTRIBS
 				case GL_INTERLEAVED_ATTRIBS:
@@ -7313,7 +7313,7 @@ noexcept
 			}
 			break;
 		case 77: /* transform_feedback_primitive_type */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_POINTS
 				case GL_POINTS:
@@ -7331,7 +7331,7 @@ noexcept
 			}
 			break;
 		case 78: /* transform_feedback_target */
-			switch(GLenum(value))
+			switch(GLenum(aev._value))
 			{
 #ifdef GL_TRANSFORM_FEEDBACK
 				case GL_TRANSFORM_FEEDBACK:
@@ -7342,6 +7342,7 @@ noexcept
 			break;
 	default:;
 	}
+#endif
 
 	(void)enum_id;
 	(void)value;
@@ -7349,4 +7350,3 @@ noexcept
 }
 
 } // namespace oglplus
-#endif

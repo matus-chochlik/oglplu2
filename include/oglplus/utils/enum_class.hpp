@@ -16,8 +16,13 @@
 namespace oglplus {
 
 using eagine::enum_value;
-using eagine::enum_class;
+
+template <typename Self, typename T, unsigned Id>
+using enum_class = eagine::enum_class<Self, T, 0, Id>;
+
 using eagine::enum_bitfield;
+
+using any_enum_value = eagine::any_enum_value<0>;
 
 } // namespace oglplus
 

@@ -25,7 +25,7 @@ struct capability_state
 	noexcept
 	{
 		OGLPLUS_GLFUNC(Enable)(GLenum(cap));
-		OGLPLUS_VERIFY_SIMPLE(Enable, warning);
+		OGLPLUS_VERIFY(Enable, enum_value(cap), warning);
 		return {};
 	}
 
@@ -35,7 +35,11 @@ struct capability_state
 	noexcept
 	{
 		OGLPLUS_GLFUNC(Disable)(GLenum(cap));
-		OGLPLUS_VERIFY_SIMPLE(Disable, warning);
+		OGLPLUS_VERIFY(
+			Disable,
+			enum_value(cap),
+			warning
+		);
 		return {};
 	}
 
@@ -45,7 +49,7 @@ struct capability_state
 	noexcept
 	{
 		GLboolean result = OGLPLUS_GLFUNC(IsEnabled)(GLenum(cap));
-		OGLPLUS_VERIFY_SIMPLE(IsEnabled, warning);
+		OGLPLUS_VERIFY(IsEnabled, enum_value(cap), warning);
 		return {result == GL_TRUE};
 	}
 
@@ -55,7 +59,12 @@ struct capability_state
 	noexcept
 	{
 		OGLPLUS_GLFUNC(Enable)(GLenum(func)+idx);
-		OGLPLUS_VERIFY_SIMPLE(Enable, warning);
+		OGLPLUS_VERIFY(
+			Enable,
+			index(idx).
+			enum_value(func),
+			warning
+		);
 		return {};
 	}
 
@@ -65,7 +74,12 @@ struct capability_state
 	noexcept
 	{
 		OGLPLUS_GLFUNC(Disable)(GLenum(func)+idx);
-		OGLPLUS_VERIFY_SIMPLE(Disable, warning);
+		OGLPLUS_VERIFY(
+			Disable,
+			index(idx).
+			enum_value(func),
+			warning
+		);
 		return {};
 	}
 
@@ -75,7 +89,12 @@ struct capability_state
 	noexcept
 	{
 		GLboolean result = OGLPLUS_GLFUNC(IsEnabled)(GLenum(func)+idx);
-		OGLPLUS_VERIFY_SIMPLE(IsEnabled, warning);
+		OGLPLUS_VERIFY(
+			IsEnabled,
+			index(idx).
+			enum_value(func),
+			warning
+		);
 		return {result == GL_TRUE};
 	}
 };

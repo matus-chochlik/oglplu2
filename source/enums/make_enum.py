@@ -7,10 +7,6 @@
 #
 import os, sys
 
-lib_ids = {
-"oglplus": 0
-}
-
 def print_newline(options):
 	options.out.write(os.linesep)
 
@@ -143,25 +139,17 @@ def action_incl_enum_types_hpp(options):
 	print_line(options, "namespace %s {" % options.library)
 	print_newline(options)
 
-	lib_id = lib_ids[options.library]
 	typ_id = 0
 
 	for enum_class, enum_type in sorted(enum_classes.items()):
 		print_line(options, "struct %s" % enum_class)
-		print_line(options, " : enum_class<%s, %s%s, %d, %d>" % (
+		print_line(options, " : enum_class<%s, %s%s, %d>" % (
 			enum_class,
 			options.base_lib_prefix,
 			enum_type,
-			lib_id,
 			typ_id
 		))
-		print_line(options, "{ using enum_class<%s, %s%s, %d, %d>::enum_class; };" % (
-			enum_class,
-			options.base_lib_prefix,
-			enum_type,
-			lib_id,
-			typ_id
-		))
+		print_line(options, "{ using enum_class::enum_class; };")
 		print_newline(options)
 		typ_id = typ_id+1
 
@@ -226,6 +214,7 @@ def action_incl_enum_values_hpp(options):
 	print_newline(options)
 	print_line(options, "#endif // include guard")
 
+
 def action_impl_enum_value_names_inl(options):
 
 	enum_classes = dict()
@@ -253,18 +242,18 @@ def action_impl_enum_value_names_inl(options):
 	print_cpp_header(options)
 
 	print_line(options, "#include <%s/config/basic.hpp>" % options.library)
-	print_line(options, "#if !%s_LINK_LIBRARY || defined(%s_IMPLEMENTING_LIBRARY)" % (
-		options.library_uc,
-		options.library_uc
-	))
 	print_newline(options)
 	print_line(options, "namespace %s {" % options.library)
 	print_newline(options)
 	print_line(options, "%s_LIB_FUNC" % options.library_uc)
 	print_line(options, "cstring_view<>")
-	print_line(options, "get_enum_value_name(unsigned enum_id, long value)")
+	print_line(options, "get_enum_value_name(const any_enum_value& aev)")
 	print_line(options, "noexcept")
 	print_line(options, "{")
+	print_line(options, "#if !%s_LINK_LIBRARY || defined(%s_IMPLEMENTING_LIBRARY)" % (
+		options.library_uc,
+		options.library_uc
+	))
 
 	for enum_value_name, enum_value_info in sorted(enum_values.items()):
 		print_line(options, "#ifdef %s_%s" % (
@@ -280,7 +269,7 @@ def action_impl_enum_value_names_inl(options):
 
 	print_newline(options)
 
-	print_line(options, "\tswitch(enum_id)")
+	print_line(options, "\tswitch(aev._type_id)")
 	print_line(options, "\t{")
 
 	for enum_class, enum_class_info in sorted(enum_classes.items()):
@@ -289,7 +278,7 @@ def action_impl_enum_value_names_inl(options):
 			enum_class
 		))
 
-		print_line(options, "\t\t\tswitch(%s%s(value))" % (
+		print_line(options, "\t\t\tswitch(%s%s(aev._value))" % (
 			options.base_lib_prefix,
 			enum_class_info.enum_type
 		))
@@ -314,6 +303,7 @@ def action_impl_enum_value_names_inl(options):
 
 	print_line(options, "\tdefault:;")
 	print_line(options, "\t}")
+	print_line(options, "#endif")
 
 
 	print_newline(options)
@@ -323,7 +313,6 @@ def action_impl_enum_value_names_inl(options):
 	print_line(options, "}")
 	print_newline(options)
 	print_line(options, "} // namespace %s" % options.library)
-	print_line(options, "#endif")
 
 
 def action_test_enums_cpp(options):

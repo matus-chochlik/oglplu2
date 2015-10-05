@@ -112,4 +112,15 @@ BOOST_AUTO_TEST_CASE(enum_class_2)
 	BOOST_ASSERT(unsigned(a) == unsigned(ev_3));
 }
 
+BOOST_AUTO_TEST_CASE(enum_class_3)
+{
+	using namespace eagine;
+
+	ec_A a = ev_1;
+
+	any_enum_value<0> aev = a;
+
+	(void)aev;
+}
+
 BOOST_AUTO_TEST_SUITE_END()

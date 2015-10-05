@@ -44,6 +44,12 @@ noexcept
 #if !OGLPLUS_ERROR_NO_SUB_NAME
  , _sub_name(invalid_gl_obj_name())
 #endif
+#if !OGLPLUS_ERROR_NO_INDEX
+ , _index(~GLuint(0))
+#endif
+#if !OGLPLUS_ERROR_NO_ENUM_VALUE
+ , _enum_val()
+#endif
 { }
 //------------------------------------------------------------------------------
 inline
@@ -281,6 +287,61 @@ noexcept
 	return _sub_name;
 #else
 	return invalid_gl_obj_name();
+#endif
+}
+//------------------------------------------------------------------------------
+inline
+error_info&
+error_info::
+index(GLuint idx)
+noexcept
+{
+#if !OGLPLUS_ERROR_NO_INDEX
+	_index = idx;
+#else
+	(void)idx;
+#endif
+	return *this;
+}
+//------------------------------------------------------------------------------
+inline
+GLuint
+error_info::
+index(void) const
+noexcept
+{
+#if !OGLPLUS_ERROR_NO_INDEX
+	return _index;
+#else
+	return ~GLuint(0);
+#endif
+}
+//------------------------------------------------------------------------------
+inline
+error_info&
+error_info::
+enum_value(const any_enum_value& enum_val)
+noexcept
+{
+#if !OGLPLUS_ERROR_NO_ENUM_VALUE
+	_enum_val = enum_val;
+#else
+	(void)enum_val;
+#endif
+	return *this;
+}
+//------------------------------------------------------------------------------
+inline
+const any_enum_value&
+error_info::
+enum_value(void) const
+noexcept
+{
+#if !OGLPLUS_ERROR_NO_ENUM_VALUE
+	return _enum_val;
+#else
+	static any_enum_value enum_val;
+	return enum_val;
 #endif
 }
 //------------------------------------------------------------------------------

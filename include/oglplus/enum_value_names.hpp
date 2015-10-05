@@ -15,7 +15,7 @@
 namespace oglplus {
 
 cstring_view<>
-get_enum_value_name(unsigned enum_id, long value_id)
+get_enum_value_name(const any_enum_value&)
 noexcept;
 
 template <typename EnumClass, typename T, unsigned EnumId>
@@ -24,7 +24,7 @@ cstring_view<>
 enum_value_name(enum_class<EnumClass, T, 0, EnumId> val)
 noexcept
 {
-	return ::oglplus::get_enum_value_name(EnumId, long(T(val)));
+	return ::oglplus::get_enum_value_name(val);
 }
 
 } // namespace oglplus

@@ -11,6 +11,7 @@
 
 #include "../object/fwd.hpp"
 #include "../config/error.hpp"
+#include "../utils/enum_class.hpp"
 
 namespace oglplus {
 
@@ -45,6 +46,14 @@ private:
 
 #if !OGLPLUS_ERROR_NO_SUB_NAME
 	GLuint _sub_name;
+#endif
+
+#if !OGLPLUS_ERROR_NO_INDEX
+	GLuint _index;
+#endif
+
+#if !OGLPLUS_ERROR_NO_ENUM_VALUE
+	any_enum_value _enum_val;
 #endif
 public:
 	static constexpr
@@ -122,6 +131,18 @@ public:
 	noexcept;
 
 	GLuint gl_subject_name(void) const
+	noexcept;
+
+	error_info& index(GLuint idx)
+	noexcept;
+
+	GLuint index(void) const
+	noexcept;
+
+	error_info& enum_value(const any_enum_value& enum_val)
+	noexcept;
+
+	const any_enum_value& enum_value(void) const
 	noexcept;
 };
 

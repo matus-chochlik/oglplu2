@@ -78,6 +78,56 @@ struct enum_class
 	}
 };
 
+template <unsigned LibId>
+struct any_enum_value
+{
+	unsigned _type_id;
+	long _value;
+
+	constexpr inline
+	any_enum_value(void)
+	noexcept
+	 : _type_id(~unsigned(0))
+	 , _value(0)
+	{ }
+
+	template <typename Self, typename T, unsigned Id>
+	constexpr inline
+	any_enum_value(enum_class<Self, T, LibId, Id> v)
+	noexcept
+	 : _type_id(Id)
+	 , _value(long(v._value))
+	{ }
+
+	explicit constexpr inline
+	operator bool (void) const
+	noexcept
+	{
+		return _type_id != ~unsigned(0);
+	}
+
+	constexpr inline
+	bool operator ! (void) const
+	noexcept
+	{
+		return _type_id == ~unsigned(0);
+	}
+
+	friend
+	bool operator == (const any_enum_value& a, const any_enum_value& b)
+	noexcept
+	{
+		return (a._type_id == b._type_id) && (a._value == b._value);
+	}
+
+	friend
+	bool operator != (const any_enum_value& a, const any_enum_value& b)
+	noexcept
+	{
+		return (a._type_id != b._type_id) || (a._value != b._value);
+	}
+};
+
 } // namespace eagine
 
 #endif // include guard
