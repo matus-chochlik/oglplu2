@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_texture_target)
 
@@ -924,6 +925,168 @@ BOOST_AUTO_TEST_CASE(enum_texture_target_values)
 	BOOST_CHECK(x != ev.texture_cube_map_positive_z);
 # endif
 	BOOST_CHECK(x == ev.texture_rectangle);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_texture_target_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	texture_target x;
+	(void)x;
+
+#ifdef GL_TEXTURE_1D
+	x = ev.texture_1d;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TEXTURE_1D"
+	) == 0);
+#endif
+
+#ifdef GL_TEXTURE_1D_ARRAY
+	x = ev.texture_1d_array;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TEXTURE_1D_ARRAY"
+	) == 0);
+#endif
+
+#ifdef GL_TEXTURE_2D
+	x = ev.texture_2d;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TEXTURE_2D"
+	) == 0);
+#endif
+
+#ifdef GL_TEXTURE_2D_ARRAY
+	x = ev.texture_2d_array;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TEXTURE_2D_ARRAY"
+	) == 0);
+#endif
+
+#ifdef GL_TEXTURE_2D_MULTISAMPLE
+	x = ev.texture_2d_multisample;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TEXTURE_2D_MULTISAMPLE"
+	) == 0);
+#endif
+
+#ifdef GL_TEXTURE_2D_MULTISAMPLE_ARRAY
+	x = ev.texture_2d_multisample_array;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TEXTURE_2D_MULTISAMPLE_ARRAY"
+	) == 0);
+#endif
+
+#ifdef GL_TEXTURE_3D
+	x = ev.texture_3d;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TEXTURE_3D"
+	) == 0);
+#endif
+
+#ifdef GL_TEXTURE_BUFFER
+	x = ev.texture_buffer;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TEXTURE_BUFFER"
+	) == 0);
+#endif
+
+#ifdef GL_TEXTURE_CUBE_MAP
+	x = ev.texture_cube_map;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TEXTURE_CUBE_MAP"
+	) == 0);
+#endif
+
+#ifdef GL_TEXTURE_CUBE_MAP_ARRAY
+	x = ev.texture_cube_map_array;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TEXTURE_CUBE_MAP_ARRAY"
+	) == 0);
+#endif
+
+#ifdef GL_TEXTURE_CUBE_MAP_NEGATIVE_X
+	x = ev.texture_cube_map_negative_x;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TEXTURE_CUBE_MAP_NEGATIVE_X"
+	) == 0);
+#endif
+
+#ifdef GL_TEXTURE_CUBE_MAP_NEGATIVE_Y
+	x = ev.texture_cube_map_negative_y;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TEXTURE_CUBE_MAP_NEGATIVE_Y"
+	) == 0);
+#endif
+
+#ifdef GL_TEXTURE_CUBE_MAP_NEGATIVE_Z
+	x = ev.texture_cube_map_negative_z;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TEXTURE_CUBE_MAP_NEGATIVE_Z"
+	) == 0);
+#endif
+
+#ifdef GL_TEXTURE_CUBE_MAP_POSITIVE_X
+	x = ev.texture_cube_map_positive_x;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TEXTURE_CUBE_MAP_POSITIVE_X"
+	) == 0);
+#endif
+
+#ifdef GL_TEXTURE_CUBE_MAP_POSITIVE_Y
+	x = ev.texture_cube_map_positive_y;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TEXTURE_CUBE_MAP_POSITIVE_Y"
+	) == 0);
+#endif
+
+#ifdef GL_TEXTURE_CUBE_MAP_POSITIVE_Z
+	x = ev.texture_cube_map_positive_z;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TEXTURE_CUBE_MAP_POSITIVE_Z"
+	) == 0);
+#endif
+
+#ifdef GL_TEXTURE_RECTANGLE
+	x = ev.texture_rectangle;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TEXTURE_RECTANGLE"
+	) == 0);
 #endif
 }
 

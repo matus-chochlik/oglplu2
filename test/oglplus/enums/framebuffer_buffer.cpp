@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_framebuffer_buffer)
 
@@ -79,6 +80,51 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_buffer_values)
 	BOOST_CHECK(x != ev.depth_stencil);
 # endif
 	BOOST_CHECK(x == ev.stencil);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_framebuffer_buffer_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	framebuffer_buffer x;
+	(void)x;
+
+#ifdef GL_COLOR
+	x = ev.color;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COLOR"
+	) == 0);
+#endif
+
+#ifdef GL_DEPTH
+	x = ev.depth;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DEPTH"
+	) == 0);
+#endif
+
+#ifdef GL_DEPTH_STENCIL
+	x = ev.depth_stencil;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DEPTH_STENCIL"
+	) == 0);
+#endif
+
+#ifdef GL_STENCIL
+	x = ev.stencil;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"STENCIL"
+	) == 0);
 #endif
 }
 

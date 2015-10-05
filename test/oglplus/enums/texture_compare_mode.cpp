@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_texture_compare_mode)
 
@@ -39,6 +40,33 @@ BOOST_AUTO_TEST_CASE(enum_texture_compare_mode_values)
 	BOOST_CHECK(x != ev.compare_ref_to_texture);
 # endif
 	BOOST_CHECK(x == ev.none);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_texture_compare_mode_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	texture_compare_mode x;
+	(void)x;
+
+#ifdef GL_COMPARE_REF_TO_TEXTURE
+	x = ev.compare_ref_to_texture;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COMPARE_REF_TO_TEXTURE"
+	) == 0);
+#endif
+
+#ifdef GL_NONE
+	x = ev.none;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"NONE"
+	) == 0);
 #endif
 }
 

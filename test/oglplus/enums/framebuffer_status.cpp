@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_framebuffer_status)
 
@@ -184,6 +185,78 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_status_values)
 	BOOST_CHECK(x != ev.framebuffer_undefined);
 # endif
 	BOOST_CHECK(x == ev.framebuffer_unsupported);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_framebuffer_status_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	framebuffer_status x;
+	(void)x;
+
+#ifdef GL_FRAMEBUFFER_COMPLETE
+	x = ev.framebuffer_complete;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"FRAMEBUFFER_COMPLETE"
+	) == 0);
+#endif
+
+#ifdef GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT
+	x = ev.framebuffer_incomplete_attachment;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"FRAMEBUFFER_INCOMPLETE_ATTACHMENT"
+	) == 0);
+#endif
+
+#ifdef GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS
+	x = ev.framebuffer_incomplete_layer_targets;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS"
+	) == 0);
+#endif
+
+#ifdef GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT
+	x = ev.framebuffer_incomplete_missing_attachment;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT"
+	) == 0);
+#endif
+
+#ifdef GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE
+	x = ev.framebuffer_incomplete_multisample;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"FRAMEBUFFER_INCOMPLETE_MULTISAMPLE"
+	) == 0);
+#endif
+
+#ifdef GL_FRAMEBUFFER_UNDEFINED
+	x = ev.framebuffer_undefined;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"FRAMEBUFFER_UNDEFINED"
+	) == 0);
+#endif
+
+#ifdef GL_FRAMEBUFFER_UNSUPPORTED
+	x = ev.framebuffer_unsupported;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"FRAMEBUFFER_UNSUPPORTED"
+	) == 0);
 #endif
 }
 

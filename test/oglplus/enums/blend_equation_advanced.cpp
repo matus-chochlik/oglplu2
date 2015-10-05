@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_blend_equation_advanced)
 
@@ -728,6 +729,150 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_advanced_values)
 	BOOST_CHECK(x != ev.screen_khr);
 # endif
 	BOOST_CHECK(x == ev.softlight_khr);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_blend_equation_advanced_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	blend_equation_advanced x;
+	(void)x;
+
+#ifdef GL_COLORBURN_KHR
+	x = ev.colorburn_khr;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COLORBURN_KHR"
+	) == 0);
+#endif
+
+#ifdef GL_COLORDODGE_KHR
+	x = ev.colordodge_khr;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COLORDODGE_KHR"
+	) == 0);
+#endif
+
+#ifdef GL_DARKEN_KHR
+	x = ev.darken_khr;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DARKEN_KHR"
+	) == 0);
+#endif
+
+#ifdef GL_DIFFERENCE_KHR
+	x = ev.difference_khr;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DIFFERENCE_KHR"
+	) == 0);
+#endif
+
+#ifdef GL_EXCLUSION_KHR
+	x = ev.exclusion_khr;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"EXCLUSION_KHR"
+	) == 0);
+#endif
+
+#ifdef GL_HARDLIGHT_KHR
+	x = ev.hardlight_khr;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"HARDLIGHT_KHR"
+	) == 0);
+#endif
+
+#ifdef GL_HSL_COLOR_KHR
+	x = ev.hsl_color_khr;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"HSL_COLOR_KHR"
+	) == 0);
+#endif
+
+#ifdef GL_HSL_HUE_KHR
+	x = ev.hsl_hue_khr;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"HSL_HUE_KHR"
+	) == 0);
+#endif
+
+#ifdef GL_HSL_LUMINOSITY_KHR
+	x = ev.hsl_luminosity_khr;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"HSL_LUMINOSITY_KHR"
+	) == 0);
+#endif
+
+#ifdef GL_HSL_SATURATION_KHR
+	x = ev.hsl_saturation_khr;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"HSL_SATURATION_KHR"
+	) == 0);
+#endif
+
+#ifdef GL_LIGHTEN_KHR
+	x = ev.lighten_khr;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"LIGHTEN_KHR"
+	) == 0);
+#endif
+
+#ifdef GL_MULTIPLY_KHR
+	x = ev.multiply_khr;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MULTIPLY_KHR"
+	) == 0);
+#endif
+
+#ifdef GL_OVERLAY_KHR
+	x = ev.overlay_khr;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"OVERLAY_KHR"
+	) == 0);
+#endif
+
+#ifdef GL_SCREEN_KHR
+	x = ev.screen_khr;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"SCREEN_KHR"
+	) == 0);
+#endif
+
+#ifdef GL_SOFTLIGHT_KHR
+	x = ev.softlight_khr;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"SOFTLIGHT_KHR"
+	) == 0);
 #endif
 }
 

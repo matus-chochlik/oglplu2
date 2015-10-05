@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_sync_wait_result)
 
@@ -79,6 +80,51 @@ BOOST_AUTO_TEST_CASE(enum_sync_wait_result_values)
 	BOOST_CHECK(x != ev.timeout_expired);
 # endif
 	BOOST_CHECK(x == ev.wait_failed);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_sync_wait_result_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	sync_wait_result x;
+	(void)x;
+
+#ifdef GL_ALREADY_SIGNALED
+	x = ev.already_signaled;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"ALREADY_SIGNALED"
+	) == 0);
+#endif
+
+#ifdef GL_CONDITION_SATISFIED
+	x = ev.condition_satisfied;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"CONDITION_SATISFIED"
+	) == 0);
+#endif
+
+#ifdef GL_TIMEOUT_EXPIRED
+	x = ev.timeout_expired;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TIMEOUT_EXPIRED"
+	) == 0);
+#endif
+
+#ifdef GL_WAIT_FAILED
+	x = ev.wait_failed;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"WAIT_FAILED"
+	) == 0);
 #endif
 }
 

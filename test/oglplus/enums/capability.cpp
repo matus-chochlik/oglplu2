@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_capability)
 
@@ -2264,6 +2265,258 @@ BOOST_AUTO_TEST_CASE(enum_capability_values)
 	BOOST_CHECK(x != ev.stream_rasterization);
 # endif
 	BOOST_CHECK(x == ev.texture_cube_map_seamless);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_capability_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	capability x;
+	(void)x;
+
+#ifdef GL_BLEND
+	x = ev.blend;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"BLEND"
+	) == 0);
+#endif
+
+#ifdef GL_BLEND_ADVANCED_COHERENT_KHR
+	x = ev.blend_advanced_coherent;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"BLEND_ADVANCED_COHERENT_KHR"
+	) == 0);
+#endif
+
+#ifdef GL_COLOR_LOGIC_OP
+	x = ev.color_logic_op;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COLOR_LOGIC_OP"
+	) == 0);
+#endif
+
+#ifdef GL_CULL_FACE
+	x = ev.cull_face;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"CULL_FACE"
+	) == 0);
+#endif
+
+#ifdef GL_DEBUG_OUTPUT_SYNCHRONOUS
+	x = ev.debug_output_synchronous;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DEBUG_OUTPUT_SYNCHRONOUS"
+	) == 0);
+#endif
+
+#ifdef GL_DEPTH_TEST
+	x = ev.depth_test;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DEPTH_TEST"
+	) == 0);
+#endif
+
+#ifdef GL_DITHER
+	x = ev.dither;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DITHER"
+	) == 0);
+#endif
+
+#ifdef GL_FRAGMENT_COVERAGE_TO_COLOR_NV
+	x = ev.fragment_coverage_to_color;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"FRAGMENT_COVERAGE_TO_COLOR_NV"
+	) == 0);
+#endif
+
+#ifdef GL_FRAMEBUFFER_SRGB
+	x = ev.framebuffer_srgb;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"FRAMEBUFFER_SRGB"
+	) == 0);
+#endif
+
+#ifdef GL_LINE_SMOOTH
+	x = ev.line_smooth;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"LINE_SMOOTH"
+	) == 0);
+#endif
+
+#ifdef GL_MULTISAMPLE
+	x = ev.multisample;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MULTISAMPLE"
+	) == 0);
+#endif
+
+#ifdef GL_POLYGON_OFFSET_FILL
+	x = ev.polygon_offset_fill;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"POLYGON_OFFSET_FILL"
+	) == 0);
+#endif
+
+#ifdef GL_POLYGON_OFFSET_LINE
+	x = ev.polygon_offset_line;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"POLYGON_OFFSET_LINE"
+	) == 0);
+#endif
+
+#ifdef GL_POLYGON_OFFSET_POINT
+	x = ev.polygon_offset_point;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"POLYGON_OFFSET_POINT"
+	) == 0);
+#endif
+
+#ifdef GL_POLYGON_SMOOTH
+	x = ev.polygon_smooth;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"POLYGON_SMOOTH"
+	) == 0);
+#endif
+
+#ifdef GL_PRIMITIVE_RESTART
+	x = ev.primitive_restart;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"PRIMITIVE_RESTART"
+	) == 0);
+#endif
+
+#ifdef GL_PROGRAM_POINT_SIZE
+	x = ev.program_point_size;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"PROGRAM_POINT_SIZE"
+	) == 0);
+#endif
+
+#ifdef GL_RASTERIZER_DISCARD
+	x = ev.rasterizer_discard;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RASTERIZER_DISCARD"
+	) == 0);
+#endif
+
+#ifdef GL_SAMPLE_ALPHA_TO_COVERAGE
+	x = ev.sample_alpha_to_coverage;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"SAMPLE_ALPHA_TO_COVERAGE"
+	) == 0);
+#endif
+
+#ifdef GL_SAMPLE_ALPHA_TO_ONE
+	x = ev.sample_alpha_to_one;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"SAMPLE_ALPHA_TO_ONE"
+	) == 0);
+#endif
+
+#ifdef GL_SAMPLE_COVERAGE
+	x = ev.sample_coverage;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"SAMPLE_COVERAGE"
+	) == 0);
+#endif
+
+#ifdef GL_SAMPLE_MASK
+	x = ev.sample_mask;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"SAMPLE_MASK"
+	) == 0);
+#endif
+
+#ifdef GL_SAMPLE_SHADING
+	x = ev.sample_shading;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"SAMPLE_SHADING"
+	) == 0);
+#endif
+
+#ifdef GL_SCISSOR_TEST
+	x = ev.scissor_test;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"SCISSOR_TEST"
+	) == 0);
+#endif
+
+#ifdef GL_STENCIL_TEST
+	x = ev.stencil_test;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"STENCIL_TEST"
+	) == 0);
+#endif
+
+#ifdef GL_STREAM_RASTERIZATION_AMD
+	x = ev.stream_rasterization;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"STREAM_RASTERIZATION_AMD"
+	) == 0);
+#endif
+
+#ifdef GL_TEXTURE_CUBE_MAP_SEAMLESS
+	x = ev.texture_cube_map_seamless;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TEXTURE_CUBE_MAP_SEAMLESS"
+	) == 0);
 #endif
 }
 

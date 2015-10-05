@@ -10,6 +10,7 @@
 //  http://www.boost.org/LICENSE_1_0.txt
 //
 #include <oglplus/config/basic.hpp>
+#if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 
 namespace oglplus {
 
@@ -18,7 +19,6 @@ cstring_view<>
 get_enum_value_name(const any_enum_value& aev)
 noexcept
 {
-#if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #ifdef GL_ACTIVE_VARIABLES
 	static const char s_ACTIVE_VARIABLES[17] = 
 		"ACTIVE_VARIABLES";
@@ -3260,9 +3260,13 @@ noexcept
 				default:;
 			}
 			break;
-		case 2: /* blend_equation */
+		case 1: /* blend_equation */
 			switch(GLenum(aev._value))
 			{
+#ifdef GL_MAX
+				case GL_MAX:
+					return s_MAX;
+#endif
 #ifdef GL_FUNC_ADD
 				case GL_FUNC_ADD:
 					return s_FUNC_ADD;
@@ -3270,10 +3274,6 @@ noexcept
 #ifdef GL_FUNC_SUBTRACT
 				case GL_FUNC_SUBTRACT:
 					return s_FUNC_SUBTRACT;
-#endif
-#ifdef GL_MAX
-				case GL_MAX:
-					return s_MAX;
 #endif
 #ifdef GL_FUNC_REVERSE_SUBTRACT
 				case GL_FUNC_REVERSE_SUBTRACT:
@@ -3286,17 +3286,9 @@ noexcept
 				default:;
 			}
 			break;
-		case 1: /* blend_equation_advanced */
+		case 2: /* blend_equation_advanced */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_COLORBURN_KHR
-				case GL_COLORBURN_KHR:
-					return s_COLORBURN_KHR;
-#endif
-#ifdef GL_HSL_LUMINOSITY_KHR
-				case GL_HSL_LUMINOSITY_KHR:
-					return s_HSL_LUMINOSITY_KHR;
-#endif
 #ifdef GL_MULTIPLY_KHR
 				case GL_MULTIPLY_KHR:
 					return s_MULTIPLY_KHR;
@@ -3309,6 +3301,10 @@ noexcept
 				case GL_OVERLAY_KHR:
 					return s_OVERLAY_KHR;
 #endif
+#ifdef GL_HSL_LUMINOSITY_KHR
+				case GL_HSL_LUMINOSITY_KHR:
+					return s_HSL_LUMINOSITY_KHR;
+#endif
 #ifdef GL_DARKEN_KHR
 				case GL_DARKEN_KHR:
 					return s_DARKEN_KHR;
@@ -3320,6 +3316,10 @@ noexcept
 #ifdef GL_COLORDODGE_KHR
 				case GL_COLORDODGE_KHR:
 					return s_COLORDODGE_KHR;
+#endif
+#ifdef GL_COLORBURN_KHR
+				case GL_COLORBURN_KHR:
+					return s_COLORBURN_KHR;
 #endif
 #ifdef GL_HARDLIGHT_KHR
 				case GL_HARDLIGHT_KHR:
@@ -4250,7 +4250,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 27: /* face */
+		case 26: /* face */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_FRONT_AND_BACK
@@ -4268,16 +4268,16 @@ noexcept
 				default:;
 			}
 			break;
-		case 26: /* face_orientation */
+		case 27: /* face_orientation */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_CW
-				case GL_CW:
-					return s_CW;
-#endif
 #ifdef GL_CCW
 				case GL_CCW:
 					return s_CCW;
+#endif
+#ifdef GL_CW
+				case GL_CW:
+					return s_CW;
 #endif
 				default:;
 			}
@@ -7124,7 +7124,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 72: /* texture_swizzle */
+		case 71: /* texture_swizzle */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_RED
@@ -7139,13 +7139,13 @@ noexcept
 				case GL_BLUE:
 					return s_BLUE;
 #endif
-#ifdef GL_ALPHA
-				case GL_ALPHA:
-					return s_ALPHA;
-#endif
 #ifdef GL_ONE
 				case GL_ONE:
 					return s_ONE;
+#endif
+#ifdef GL_ALPHA
+				case GL_ALPHA:
+					return s_ALPHA;
 #endif
 #ifdef GL_ZERO
 				case GL_ZERO:
@@ -7154,7 +7154,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 71: /* texture_swizzle_coord */
+		case 72: /* texture_swizzle_coord */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_TEXTURE_SWIZZLE_R
@@ -7254,13 +7254,9 @@ noexcept
 				default:;
 			}
 			break;
-		case 75: /* texture_wrap */
+		case 74: /* texture_wrap */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_MIRROR_CLAMP_TO_EDGE
-				case GL_MIRROR_CLAMP_TO_EDGE:
-					return s_MIRROR_CLAMP_TO_EDGE;
-#endif
 #ifdef GL_CLAMP_TO_EDGE
 				case GL_CLAMP_TO_EDGE:
 					return s_CLAMP_TO_EDGE;
@@ -7273,6 +7269,10 @@ noexcept
 				case GL_CLAMP_TO_BORDER:
 					return s_CLAMP_TO_BORDER;
 #endif
+#ifdef GL_MIRROR_CLAMP_TO_EDGE
+				case GL_MIRROR_CLAMP_TO_EDGE:
+					return s_MIRROR_CLAMP_TO_EDGE;
+#endif
 #ifdef GL_MIRRORED_REPEAT
 				case GL_MIRRORED_REPEAT:
 					return s_MIRRORED_REPEAT;
@@ -7280,7 +7280,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 74: /* texture_wrap_coord */
+		case 75: /* texture_wrap_coord */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_TEXTURE_WRAP_S
@@ -7301,13 +7301,13 @@ noexcept
 		case 76: /* transform_feedback_mode */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_INTERLEAVED_ATTRIBS
-				case GL_INTERLEAVED_ATTRIBS:
-					return s_INTERLEAVED_ATTRIBS;
-#endif
 #ifdef GL_SEPARATE_ATTRIBS
 				case GL_SEPARATE_ATTRIBS:
 					return s_SEPARATE_ATTRIBS;
+#endif
+#ifdef GL_INTERLEAVED_ATTRIBS
+				case GL_INTERLEAVED_ATTRIBS:
+					return s_INTERLEAVED_ATTRIBS;
 #endif
 				default:;
 			}
@@ -7315,10 +7315,6 @@ noexcept
 		case 77: /* transform_feedback_primitive_type */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_POINTS
-				case GL_POINTS:
-					return s_POINTS;
-#endif
 #ifdef GL_TRIANGLES
 				case GL_TRIANGLES:
 					return s_TRIANGLES;
@@ -7326,6 +7322,10 @@ noexcept
 #ifdef GL_LINES
 				case GL_LINES:
 					return s_LINES;
+#endif
+#ifdef GL_POINTS
+				case GL_POINTS:
+					return s_POINTS;
 #endif
 				default:;
 			}
@@ -7342,11 +7342,10 @@ noexcept
 			break;
 	default:;
 	}
-#endif
 
-	(void)enum_id;
-	(void)value;
+	(void)aev;
 	return {};
 }
 
 } // namespace oglplus
+#endif

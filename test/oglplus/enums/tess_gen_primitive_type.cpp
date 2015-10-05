@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_tess_gen_primitive_type)
 
@@ -56,6 +57,42 @@ BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_type_values)
 	BOOST_CHECK(x != ev.quads);
 # endif
 	BOOST_CHECK(x == ev.triangles);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_type_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	tess_gen_primitive_type x;
+	(void)x;
+
+#ifdef GL_ISOLINES
+	x = ev.isolines;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"ISOLINES"
+	) == 0);
+#endif
+
+#ifdef GL_QUADS
+	x = ev.quads;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"QUADS"
+	) == 0);
+#endif
+
+#ifdef GL_TRIANGLES
+	x = ev.triangles;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TRIANGLES"
+	) == 0);
 #endif
 }
 

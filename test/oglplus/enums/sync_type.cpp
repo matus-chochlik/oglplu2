@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_sync_type)
 
@@ -28,6 +29,24 @@ BOOST_AUTO_TEST_CASE(enum_sync_type_values)
 #ifdef GL_SYNC_FENCE
 	x = ev.sync_fence;
 	BOOST_CHECK(x == ev.sync_fence);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_sync_type_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	sync_type x;
+	(void)x;
+
+#ifdef GL_SYNC_FENCE
+	x = ev.sync_fence;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"SYNC_FENCE"
+	) == 0);
 #endif
 }
 

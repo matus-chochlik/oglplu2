@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_conditional_render_mode)
 
@@ -231,6 +232,87 @@ BOOST_AUTO_TEST_CASE(enum_conditional_render_mode_values)
 	BOOST_CHECK(x != ev.query_wait);
 # endif
 	BOOST_CHECK(x == ev.query_wait_inverted);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_conditional_render_mode_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	conditional_render_mode x;
+	(void)x;
+
+#ifdef GL_QUERY_BY_REGION_NO_WAIT
+	x = ev.query_by_region_no_wait;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"QUERY_BY_REGION_NO_WAIT"
+	) == 0);
+#endif
+
+#ifdef GL_QUERY_BY_REGION_NO_WAIT_INVERTED
+	x = ev.query_by_region_no_wait_inverted;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"QUERY_BY_REGION_NO_WAIT_INVERTED"
+	) == 0);
+#endif
+
+#ifdef GL_QUERY_BY_REGION_WAIT
+	x = ev.query_by_region_wait;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"QUERY_BY_REGION_WAIT"
+	) == 0);
+#endif
+
+#ifdef GL_QUERY_BY_REGION_WAIT_INVERTED
+	x = ev.query_by_region_wait_inverted;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"QUERY_BY_REGION_WAIT_INVERTED"
+	) == 0);
+#endif
+
+#ifdef GL_QUERY_NO_WAIT
+	x = ev.query_no_wait;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"QUERY_NO_WAIT"
+	) == 0);
+#endif
+
+#ifdef GL_QUERY_NO_WAIT_INVERTED
+	x = ev.query_no_wait_inverted;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"QUERY_NO_WAIT_INVERTED"
+	) == 0);
+#endif
+
+#ifdef GL_QUERY_WAIT
+	x = ev.query_wait;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"QUERY_WAIT"
+	) == 0);
+#endif
+
+#ifdef GL_QUERY_WAIT_INVERTED
+	x = ev.query_wait_inverted;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"QUERY_WAIT_INVERTED"
+	) == 0);
 #endif
 }
 

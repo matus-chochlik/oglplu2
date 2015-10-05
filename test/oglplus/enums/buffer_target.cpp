@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_buffer_target)
 
@@ -823,6 +824,159 @@ BOOST_AUTO_TEST_CASE(enum_buffer_target_values)
 	BOOST_CHECK(x != ev.transform_feedback_buffer);
 # endif
 	BOOST_CHECK(x == ev.uniform_buffer);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_buffer_target_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	buffer_target x;
+	(void)x;
+
+#ifdef GL_ARRAY_BUFFER
+	x = ev.array_buffer;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"ARRAY_BUFFER"
+	) == 0);
+#endif
+
+#ifdef GL_ATOMIC_COUNTER_BUFFER
+	x = ev.atomic_counter_buffer;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"ATOMIC_COUNTER_BUFFER"
+	) == 0);
+#endif
+
+#ifdef GL_COPY_READ_BUFFER
+	x = ev.copy_read_buffer;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COPY_READ_BUFFER"
+	) == 0);
+#endif
+
+#ifdef GL_COPY_WRITE_BUFFER
+	x = ev.copy_write_buffer;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COPY_WRITE_BUFFER"
+	) == 0);
+#endif
+
+#ifdef GL_DISPATCH_INDIRECT_BUFFER
+	x = ev.dispatch_indirect_buffer;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DISPATCH_INDIRECT_BUFFER"
+	) == 0);
+#endif
+
+#ifdef GL_DRAW_INDIRECT_BUFFER
+	x = ev.draw_indirect_buffer;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DRAW_INDIRECT_BUFFER"
+	) == 0);
+#endif
+
+#ifdef GL_ELEMENT_ARRAY_BUFFER
+	x = ev.element_array_buffer;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"ELEMENT_ARRAY_BUFFER"
+	) == 0);
+#endif
+
+#ifdef GL_EXTERNAL_VIRTUAL_MEMORY_BUFFER_AMD
+	x = ev.external_virtual_memory_buffer;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"EXTERNAL_VIRTUAL_MEMORY_BUFFER_AMD"
+	) == 0);
+#endif
+
+#ifdef GL_PARAMETER_BUFFER_ARB
+	x = ev.parameter_buffer;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"PARAMETER_BUFFER_ARB"
+	) == 0);
+#endif
+
+#ifdef GL_PIXEL_PACK_BUFFER
+	x = ev.pixel_pack_buffer;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"PIXEL_PACK_BUFFER"
+	) == 0);
+#endif
+
+#ifdef GL_PIXEL_UNPACK_BUFFER
+	x = ev.pixel_unpack_buffer;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"PIXEL_UNPACK_BUFFER"
+	) == 0);
+#endif
+
+#ifdef GL_QUERY_BUFFER
+	x = ev.query_buffer;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"QUERY_BUFFER"
+	) == 0);
+#endif
+
+#ifdef GL_SHADER_STORAGE_BUFFER
+	x = ev.shader_storage_buffer;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"SHADER_STORAGE_BUFFER"
+	) == 0);
+#endif
+
+#ifdef GL_TEXTURE_BUFFER
+	x = ev.texture_buffer;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TEXTURE_BUFFER"
+	) == 0);
+#endif
+
+#ifdef GL_TRANSFORM_FEEDBACK_BUFFER
+	x = ev.transform_feedback_buffer;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TRANSFORM_FEEDBACK_BUFFER"
+	) == 0);
+#endif
+
+#ifdef GL_UNIFORM_BUFFER
+	x = ev.uniform_buffer;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"UNIFORM_BUFFER"
+	) == 0);
 #endif
 }
 

@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_buffer_usage)
 
@@ -284,6 +285,96 @@ BOOST_AUTO_TEST_CASE(enum_buffer_usage_values)
 	BOOST_CHECK(x != ev.stream_draw);
 # endif
 	BOOST_CHECK(x == ev.stream_read);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_buffer_usage_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	buffer_usage x;
+	(void)x;
+
+#ifdef GL_DYNAMIC_COPY
+	x = ev.dynamic_copy;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DYNAMIC_COPY"
+	) == 0);
+#endif
+
+#ifdef GL_DYNAMIC_DRAW
+	x = ev.dynamic_draw;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DYNAMIC_DRAW"
+	) == 0);
+#endif
+
+#ifdef GL_DYNAMIC_READ
+	x = ev.dynamic_read;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DYNAMIC_READ"
+	) == 0);
+#endif
+
+#ifdef GL_STATIC_COPY
+	x = ev.static_copy;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"STATIC_COPY"
+	) == 0);
+#endif
+
+#ifdef GL_STATIC_DRAW
+	x = ev.static_draw;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"STATIC_DRAW"
+	) == 0);
+#endif
+
+#ifdef GL_STATIC_READ
+	x = ev.static_read;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"STATIC_READ"
+	) == 0);
+#endif
+
+#ifdef GL_STREAM_COPY
+	x = ev.stream_copy;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"STREAM_COPY"
+	) == 0);
+#endif
+
+#ifdef GL_STREAM_DRAW
+	x = ev.stream_draw;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"STREAM_DRAW"
+	) == 0);
+#endif
+
+#ifdef GL_STREAM_READ
+	x = ev.stream_read;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"STREAM_READ"
+	) == 0);
 #endif
 }
 

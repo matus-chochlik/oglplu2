@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_tess_gen_primitive_spacing)
 
@@ -56,6 +57,42 @@ BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_spacing_values)
 	BOOST_CHECK(x != ev.fractional_even);
 # endif
 	BOOST_CHECK(x == ev.fractional_odd);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_spacing_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	tess_gen_primitive_spacing x;
+	(void)x;
+
+#ifdef GL_EQUAL
+	x = ev.equal;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"EQUAL"
+	) == 0);
+#endif
+
+#ifdef GL_FRACTIONAL_EVEN
+	x = ev.fractional_even;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"FRACTIONAL_EVEN"
+	) == 0);
+#endif
+
+#ifdef GL_FRACTIONAL_ODD
+	x = ev.fractional_odd;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"FRACTIONAL_ODD"
+	) == 0);
 #endif
 }
 

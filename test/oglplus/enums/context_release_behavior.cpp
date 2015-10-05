@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_context_release_behavior)
 
@@ -39,6 +40,33 @@ BOOST_AUTO_TEST_CASE(enum_context_release_behavior_values)
 	BOOST_CHECK(x != ev.context_release_behavior_flush);
 # endif
 	BOOST_CHECK(x == ev.none);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_context_release_behavior_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	context_release_behavior x;
+	(void)x;
+
+#ifdef GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH
+	x = ev.context_release_behavior_flush;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"CONTEXT_RELEASE_BEHAVIOR_FLUSH"
+	) == 0);
+#endif
+
+#ifdef GL_NONE
+	x = ev.none;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"NONE"
+	) == 0);
 #endif
 }
 

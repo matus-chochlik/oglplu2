@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_object_type)
 
@@ -479,6 +480,123 @@ BOOST_AUTO_TEST_CASE(enum_object_type_values)
 	BOOST_CHECK(x != ev.transform_feedback);
 # endif
 	BOOST_CHECK(x == ev.vertex_array);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_object_type_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	object_type x;
+	(void)x;
+
+#ifdef GL_BUFFER
+	x = ev.buffer;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"BUFFER"
+	) == 0);
+#endif
+
+#ifdef GL_FRAMEBUFFER
+	x = ev.framebuffer;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"FRAMEBUFFER"
+	) == 0);
+#endif
+
+#ifdef GL_NONE
+	x = ev.none;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"NONE"
+	) == 0);
+#endif
+
+#ifdef GL_PROGRAM
+	x = ev.program;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"PROGRAM"
+	) == 0);
+#endif
+
+#ifdef GL_PROGRAM_PIPELINE
+	x = ev.program_pipeline;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"PROGRAM_PIPELINE"
+	) == 0);
+#endif
+
+#ifdef GL_QUERY
+	x = ev.query;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"QUERY"
+	) == 0);
+#endif
+
+#ifdef GL_RENDERBUFFER
+	x = ev.renderbuffer;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RENDERBUFFER"
+	) == 0);
+#endif
+
+#ifdef GL_SAMPLER
+	x = ev.sampler;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"SAMPLER"
+	) == 0);
+#endif
+
+#ifdef GL_SHADER
+	x = ev.shader;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"SHADER"
+	) == 0);
+#endif
+
+#ifdef GL_TEXTURE
+	x = ev.texture;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TEXTURE"
+	) == 0);
+#endif
+
+#ifdef GL_TRANSFORM_FEEDBACK
+	x = ev.transform_feedback;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TRANSFORM_FEEDBACK"
+	) == 0);
+#endif
+
+#ifdef GL_VERTEX_ARRAY
+	x = ev.vertex_array;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"VERTEX_ARRAY"
+	) == 0);
 #endif
 }
 

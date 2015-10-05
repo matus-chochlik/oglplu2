@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_single_face)
 
@@ -39,6 +40,33 @@ BOOST_AUTO_TEST_CASE(enum_single_face_values)
 	BOOST_CHECK(x != ev.back);
 # endif
 	BOOST_CHECK(x == ev.front);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_single_face_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	single_face x;
+	(void)x;
+
+#ifdef GL_BACK
+	x = ev.back;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"BACK"
+	) == 0);
+#endif
+
+#ifdef GL_FRONT
+	x = ev.front;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"FRONT"
+	) == 0);
 #endif
 }
 

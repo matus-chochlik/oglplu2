@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_access_specifier)
 
@@ -56,6 +57,42 @@ BOOST_AUTO_TEST_CASE(enum_access_specifier_values)
 	BOOST_CHECK(x != ev.read_write);
 # endif
 	BOOST_CHECK(x == ev.write_only);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_access_specifier_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	access_specifier x;
+	(void)x;
+
+#ifdef GL_READ_ONLY
+	x = ev.read_only;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"READ_ONLY"
+	) == 0);
+#endif
+
+#ifdef GL_READ_WRITE
+	x = ev.read_write;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"READ_WRITE"
+	) == 0);
+#endif
+
+#ifdef GL_WRITE_ONLY
+	x = ev.write_only;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"WRITE_ONLY"
+	) == 0);
 #endif
 }
 

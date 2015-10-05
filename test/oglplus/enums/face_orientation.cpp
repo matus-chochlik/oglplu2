@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_face_orientation)
 
@@ -39,6 +40,33 @@ BOOST_AUTO_TEST_CASE(enum_face_orientation_values)
 	BOOST_CHECK(x != ev.ccw);
 # endif
 	BOOST_CHECK(x == ev.cw);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_face_orientation_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	face_orientation x;
+	(void)x;
+
+#ifdef GL_CCW
+	x = ev.ccw;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"CCW"
+	) == 0);
+#endif
+
+#ifdef GL_CW
+	x = ev.cw;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"CW"
+	) == 0);
 #endif
 }
 

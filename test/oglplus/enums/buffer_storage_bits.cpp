@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_buffer_storage_bits)
 
@@ -184,6 +185,78 @@ BOOST_AUTO_TEST_CASE(enum_buffer_storage_bits_values)
 	BOOST_CHECK(x != ev.map_write_bit);
 # endif
 	BOOST_CHECK(x == ev.sparse_storage_bit);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_buffer_storage_bits_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	buffer_storage_bits x;
+	(void)x;
+
+#ifdef GL_CLIENT_STORAGE_BIT
+	x = ev.client_storage_bit;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"CLIENT_STORAGE_BIT"
+	) == 0);
+#endif
+
+#ifdef GL_DYNAMIC_STORAGE_BIT
+	x = ev.dynamic_storage_bit;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DYNAMIC_STORAGE_BIT"
+	) == 0);
+#endif
+
+#ifdef GL_MAP_COHERENT_BIT
+	x = ev.map_coherent_bit;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAP_COHERENT_BIT"
+	) == 0);
+#endif
+
+#ifdef GL_MAP_PERSISTENT_BIT
+	x = ev.map_persistent_bit;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAP_PERSISTENT_BIT"
+	) == 0);
+#endif
+
+#ifdef GL_MAP_READ_BIT
+	x = ev.map_read_bit;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAP_READ_BIT"
+	) == 0);
+#endif
+
+#ifdef GL_MAP_WRITE_BIT
+	x = ev.map_write_bit;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAP_WRITE_BIT"
+	) == 0);
+#endif
+
+#ifdef GL_SPARSE_STORAGE_BIT_ARB
+	x = ev.sparse_storage_bit;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"SPARSE_STORAGE_BIT_ARB"
+	) == 0);
 #endif
 }
 

@@ -21,7 +21,7 @@ noexcept;
 template <typename EnumClass, typename T, unsigned EnumId>
 static inline
 cstring_view<>
-enum_value_name(enum_class<EnumClass, T, 0, EnumId> val)
+enum_value_name(enum_class<EnumClass, T, EnumId> val)
 noexcept
 {
 	return ::oglplus::get_enum_value_name(val);

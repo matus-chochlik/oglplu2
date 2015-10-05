@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_primitive_type)
 
@@ -479,6 +480,123 @@ BOOST_AUTO_TEST_CASE(enum_primitive_type_values)
 	BOOST_CHECK(x != ev.triangles);
 # endif
 	BOOST_CHECK(x == ev.triangles_adjacency);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_primitive_type_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	primitive_type x;
+	(void)x;
+
+#ifdef GL_LINE_LOOP
+	x = ev.line_loop;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"LINE_LOOP"
+	) == 0);
+#endif
+
+#ifdef GL_LINE_STRIP
+	x = ev.line_strip;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"LINE_STRIP"
+	) == 0);
+#endif
+
+#ifdef GL_LINE_STRIP_ADJACENCY
+	x = ev.line_strip_adjacency;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"LINE_STRIP_ADJACENCY"
+	) == 0);
+#endif
+
+#ifdef GL_LINES
+	x = ev.lines;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"LINES"
+	) == 0);
+#endif
+
+#ifdef GL_LINES_ADJACENCY
+	x = ev.lines_adjacency;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"LINES_ADJACENCY"
+	) == 0);
+#endif
+
+#ifdef GL_PATCHES
+	x = ev.patches;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"PATCHES"
+	) == 0);
+#endif
+
+#ifdef GL_POINTS
+	x = ev.points;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"POINTS"
+	) == 0);
+#endif
+
+#ifdef GL_TRIANGLE_FAN
+	x = ev.triangle_fan;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TRIANGLE_FAN"
+	) == 0);
+#endif
+
+#ifdef GL_TRIANGLE_STRIP
+	x = ev.triangle_strip;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TRIANGLE_STRIP"
+	) == 0);
+#endif
+
+#ifdef GL_TRIANGLE_STRIP_ADJACENCY
+	x = ev.triangle_strip_adjacency;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TRIANGLE_STRIP_ADJACENCY"
+	) == 0);
+#endif
+
+#ifdef GL_TRIANGLES
+	x = ev.triangles;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TRIANGLES"
+	) == 0);
+#endif
+
+#ifdef GL_TRIANGLES_ADJACENCY
+	x = ev.triangles_adjacency;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TRIANGLES_ADJACENCY"
+	) == 0);
 #endif
 }
 

@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_framebuffer_attachment)
 
@@ -1144,6 +1145,186 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_attachment_values)
 	BOOST_CHECK(x != ev.depth_stencil_attachment);
 # endif
 	BOOST_CHECK(x == ev.stencil_attachment);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_framebuffer_attachment_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	framebuffer_attachment x;
+	(void)x;
+
+#ifdef GL_COLOR_ATTACHMENT0
+	x = ev.color_attachment0;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COLOR_ATTACHMENT0"
+	) == 0);
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT1
+	x = ev.color_attachment1;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COLOR_ATTACHMENT1"
+	) == 0);
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT10
+	x = ev.color_attachment10;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COLOR_ATTACHMENT10"
+	) == 0);
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT11
+	x = ev.color_attachment11;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COLOR_ATTACHMENT11"
+	) == 0);
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT12
+	x = ev.color_attachment12;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COLOR_ATTACHMENT12"
+	) == 0);
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT13
+	x = ev.color_attachment13;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COLOR_ATTACHMENT13"
+	) == 0);
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT14
+	x = ev.color_attachment14;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COLOR_ATTACHMENT14"
+	) == 0);
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT15
+	x = ev.color_attachment15;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COLOR_ATTACHMENT15"
+	) == 0);
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT2
+	x = ev.color_attachment2;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COLOR_ATTACHMENT2"
+	) == 0);
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT3
+	x = ev.color_attachment3;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COLOR_ATTACHMENT3"
+	) == 0);
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT4
+	x = ev.color_attachment4;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COLOR_ATTACHMENT4"
+	) == 0);
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT5
+	x = ev.color_attachment5;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COLOR_ATTACHMENT5"
+	) == 0);
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT6
+	x = ev.color_attachment6;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COLOR_ATTACHMENT6"
+	) == 0);
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT7
+	x = ev.color_attachment7;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COLOR_ATTACHMENT7"
+	) == 0);
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT8
+	x = ev.color_attachment8;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COLOR_ATTACHMENT8"
+	) == 0);
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT9
+	x = ev.color_attachment9;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COLOR_ATTACHMENT9"
+	) == 0);
+#endif
+
+#ifdef GL_DEPTH_ATTACHMENT
+	x = ev.depth_attachment;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DEPTH_ATTACHMENT"
+	) == 0);
+#endif
+
+#ifdef GL_DEPTH_STENCIL_ATTACHMENT
+	x = ev.depth_stencil_attachment;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DEPTH_STENCIL_ATTACHMENT"
+	) == 0);
+#endif
+
+#ifdef GL_STENCIL_ATTACHMENT
+	x = ev.stencil_attachment;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"STENCIL_ATTACHMENT"
+	) == 0);
 #endif
 }
 

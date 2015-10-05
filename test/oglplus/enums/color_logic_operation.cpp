@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_color_logic_operation)
 
@@ -823,6 +824,159 @@ BOOST_AUTO_TEST_CASE(enum_color_logic_operation_values)
 	BOOST_CHECK(x != ev.set);
 # endif
 	BOOST_CHECK(x == ev.xor_);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_color_logic_operation_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	color_logic_operation x;
+	(void)x;
+
+#ifdef GL_AND
+	x = ev.and_;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"AND"
+	) == 0);
+#endif
+
+#ifdef GL_AND_INVERTED
+	x = ev.and_inverted;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"AND_INVERTED"
+	) == 0);
+#endif
+
+#ifdef GL_AND_REVERSE
+	x = ev.and_reverse;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"AND_REVERSE"
+	) == 0);
+#endif
+
+#ifdef GL_CLEAR
+	x = ev.clear;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"CLEAR"
+	) == 0);
+#endif
+
+#ifdef GL_COPY
+	x = ev.copy;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COPY"
+	) == 0);
+#endif
+
+#ifdef GL_COPY_INVERTED
+	x = ev.copy_inverted;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COPY_INVERTED"
+	) == 0);
+#endif
+
+#ifdef GL_EQUIV
+	x = ev.equiv;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"EQUIV"
+	) == 0);
+#endif
+
+#ifdef GL_INVERT
+	x = ev.invert;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"INVERT"
+	) == 0);
+#endif
+
+#ifdef GL_NAND
+	x = ev.nand;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"NAND"
+	) == 0);
+#endif
+
+#ifdef GL_NOOP
+	x = ev.noop;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"NOOP"
+	) == 0);
+#endif
+
+#ifdef GL_NOR
+	x = ev.nor;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"NOR"
+	) == 0);
+#endif
+
+#ifdef GL_OR
+	x = ev.or_;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"OR"
+	) == 0);
+#endif
+
+#ifdef GL_OR_INVERTED
+	x = ev.or_inverted;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"OR_INVERTED"
+	) == 0);
+#endif
+
+#ifdef GL_OR_REVERSE
+	x = ev.or_reverse;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"OR_REVERSE"
+	) == 0);
+#endif
+
+#ifdef GL_SET
+	x = ev.set;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"SET"
+	) == 0);
+#endif
+
+#ifdef GL_XOR
+	x = ev.xor_;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"XOR"
+	) == 0);
 #endif
 }
 

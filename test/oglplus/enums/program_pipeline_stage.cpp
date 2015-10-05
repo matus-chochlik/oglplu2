@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_program_pipeline_stage)
 
@@ -184,6 +185,78 @@ BOOST_AUTO_TEST_CASE(enum_program_pipeline_stage_values)
 	BOOST_CHECK(x != ev.tess_evaluation_shader_bit);
 # endif
 	BOOST_CHECK(x == ev.vertex_shader_bit);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_program_pipeline_stage_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	program_pipeline_stage x;
+	(void)x;
+
+#ifdef GL_ALL_SHADER_BITS
+	x = ev.all_shader_bits;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"ALL_SHADER_BITS"
+	) == 0);
+#endif
+
+#ifdef GL_COMPUTE_SHADER_BIT
+	x = ev.compute_shader_bit;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COMPUTE_SHADER_BIT"
+	) == 0);
+#endif
+
+#ifdef GL_FRAGMENT_SHADER_BIT
+	x = ev.fragment_shader_bit;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"FRAGMENT_SHADER_BIT"
+	) == 0);
+#endif
+
+#ifdef GL_GEOMETRY_SHADER_BIT
+	x = ev.geometry_shader_bit;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"GEOMETRY_SHADER_BIT"
+	) == 0);
+#endif
+
+#ifdef GL_TESS_CONTROL_SHADER_BIT
+	x = ev.tess_control_shader_bit;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TESS_CONTROL_SHADER_BIT"
+	) == 0);
+#endif
+
+#ifdef GL_TESS_EVALUATION_SHADER_BIT
+	x = ev.tess_evaluation_shader_bit;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TESS_EVALUATION_SHADER_BIT"
+	) == 0);
+#endif
+
+#ifdef GL_VERTEX_SHADER_BIT
+	x = ev.vertex_shader_bit;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"VERTEX_SHADER_BIT"
+	) == 0);
 #endif
 }
 

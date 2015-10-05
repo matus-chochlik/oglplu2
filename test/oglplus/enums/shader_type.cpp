@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_shader_type)
 
@@ -143,6 +144,69 @@ BOOST_AUTO_TEST_CASE(enum_shader_type_values)
 	BOOST_CHECK(x != ev.tess_evaluation_shader);
 # endif
 	BOOST_CHECK(x == ev.vertex_shader);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_shader_type_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	shader_type x;
+	(void)x;
+
+#ifdef GL_COMPUTE_SHADER
+	x = ev.compute_shader;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COMPUTE_SHADER"
+	) == 0);
+#endif
+
+#ifdef GL_FRAGMENT_SHADER
+	x = ev.fragment_shader;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"FRAGMENT_SHADER"
+	) == 0);
+#endif
+
+#ifdef GL_GEOMETRY_SHADER
+	x = ev.geometry_shader;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"GEOMETRY_SHADER"
+	) == 0);
+#endif
+
+#ifdef GL_TESS_CONTROL_SHADER
+	x = ev.tess_control_shader;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TESS_CONTROL_SHADER"
+	) == 0);
+#endif
+
+#ifdef GL_TESS_EVALUATION_SHADER
+	x = ev.tess_evaluation_shader;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TESS_EVALUATION_SHADER"
+	) == 0);
+#endif
+
+#ifdef GL_VERTEX_SHADER
+	x = ev.vertex_shader;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"VERTEX_SHADER"
+	) == 0);
 #endif
 }
 

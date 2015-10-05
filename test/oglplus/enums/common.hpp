@@ -5,3 +5,4 @@
  */
 #include <oglplus/gl.hpp>
 #include <oglplus/enum_values.hpp>
+#include <oglplus/enum_value_names.hpp>

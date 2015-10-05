@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_buffer_select_bits)
 
@@ -56,6 +57,42 @@ BOOST_AUTO_TEST_CASE(enum_buffer_select_bits_values)
 	BOOST_CHECK(x != ev.depth_buffer_bit);
 # endif
 	BOOST_CHECK(x == ev.stencil_buffer_bit);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_buffer_select_bits_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	buffer_select_bits x;
+	(void)x;
+
+#ifdef GL_COLOR_BUFFER_BIT
+	x = ev.color_buffer_bit;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COLOR_BUFFER_BIT"
+	) == 0);
+#endif
+
+#ifdef GL_DEPTH_BUFFER_BIT
+	x = ev.depth_buffer_bit;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DEPTH_BUFFER_BIT"
+	) == 0);
+#endif
+
+#ifdef GL_STENCIL_BUFFER_BIT
+	x = ev.stencil_buffer_bit;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"STENCIL_BUFFER_BIT"
+	) == 0);
 #endif
 }
 

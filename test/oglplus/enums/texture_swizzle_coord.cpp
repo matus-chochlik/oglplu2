@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_texture_swizzle_coord)
 
@@ -108,6 +109,60 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_coord_values)
 	BOOST_CHECK(x != ev.texture_swizzle_r);
 # endif
 	BOOST_CHECK(x == ev.texture_swizzle_rgba);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_texture_swizzle_coord_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	texture_swizzle_coord x;
+	(void)x;
+
+#ifdef GL_TEXTURE_SWIZZLE_A
+	x = ev.texture_swizzle_a;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TEXTURE_SWIZZLE_A"
+	) == 0);
+#endif
+
+#ifdef GL_TEXTURE_SWIZZLE_B
+	x = ev.texture_swizzle_b;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TEXTURE_SWIZZLE_B"
+	) == 0);
+#endif
+
+#ifdef GL_TEXTURE_SWIZZLE_G
+	x = ev.texture_swizzle_g;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TEXTURE_SWIZZLE_G"
+	) == 0);
+#endif
+
+#ifdef GL_TEXTURE_SWIZZLE_R
+	x = ev.texture_swizzle_r;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TEXTURE_SWIZZLE_R"
+	) == 0);
+#endif
+
+#ifdef GL_TEXTURE_SWIZZLE_RGBA
+	x = ev.texture_swizzle_rgba;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TEXTURE_SWIZZLE_RGBA"
+	) == 0);
 #endif
 }
 

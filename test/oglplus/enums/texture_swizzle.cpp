@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_texture_swizzle)
 
@@ -143,6 +144,69 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_values)
 	BOOST_CHECK(x != ev.red);
 # endif
 	BOOST_CHECK(x == ev.zero);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_texture_swizzle_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	texture_swizzle x;
+	(void)x;
+
+#ifdef GL_ALPHA
+	x = ev.alpha;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"ALPHA"
+	) == 0);
+#endif
+
+#ifdef GL_BLUE
+	x = ev.blue;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"BLUE"
+	) == 0);
+#endif
+
+#ifdef GL_GREEN
+	x = ev.green;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"GREEN"
+	) == 0);
+#endif
+
+#ifdef GL_ONE
+	x = ev.one;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"ONE"
+	) == 0);
+#endif
+
+#ifdef GL_RED
+	x = ev.red;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RED"
+	) == 0);
+#endif
+
+#ifdef GL_ZERO
+	x = ev.zero;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"ZERO"
+	) == 0);
 #endif
 }
 

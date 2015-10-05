@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_named_string_type)
 
@@ -28,6 +29,24 @@ BOOST_AUTO_TEST_CASE(enum_named_string_type_values)
 #ifdef GL_SHADER_INCLUDE_ARB
 	x = ev.shader_include;
 	BOOST_CHECK(x == ev.shader_include);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_named_string_type_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	named_string_type x;
+	(void)x;
+
+#ifdef GL_SHADER_INCLUDE_ARB
+	x = ev.shader_include;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"SHADER_INCLUDE_ARB"
+	) == 0);
 #endif
 }
 

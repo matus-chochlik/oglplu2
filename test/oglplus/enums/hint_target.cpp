@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_hint_target)
 
@@ -79,6 +80,51 @@ BOOST_AUTO_TEST_CASE(enum_hint_target_values)
 	BOOST_CHECK(x != ev.polygon_smooth_hint);
 # endif
 	BOOST_CHECK(x == ev.texture_compression_hint);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_hint_target_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	hint_target x;
+	(void)x;
+
+#ifdef GL_FRAGMENT_SHADER_DERIVATIVE_HINT
+	x = ev.fragment_shader_derivative_hint;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"FRAGMENT_SHADER_DERIVATIVE_HINT"
+	) == 0);
+#endif
+
+#ifdef GL_LINE_SMOOTH_HINT
+	x = ev.line_smooth_hint;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"LINE_SMOOTH_HINT"
+	) == 0);
+#endif
+
+#ifdef GL_POLYGON_SMOOTH_HINT
+	x = ev.polygon_smooth_hint;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"POLYGON_SMOOTH_HINT"
+	) == 0);
+#endif
+
+#ifdef GL_TEXTURE_COMPRESSION_HINT
+	x = ev.texture_compression_hint;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TEXTURE_COMPRESSION_HINT"
+	) == 0);
 #endif
 }
 

@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_sync_condition)
 
@@ -28,6 +29,24 @@ BOOST_AUTO_TEST_CASE(enum_sync_condition_values)
 #ifdef GL_SYNC_GPU_COMMANDS_COMPLETE
 	x = ev.sync_gpu_commands_complete;
 	BOOST_CHECK(x == ev.sync_gpu_commands_complete);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_sync_condition_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	sync_condition x;
+	(void)x;
+
+#ifdef GL_SYNC_GPU_COMMANDS_COMPLETE
+	x = ev.sync_gpu_commands_complete;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"SYNC_GPU_COMMANDS_COMPLETE"
+	) == 0);
 #endif
 }
 

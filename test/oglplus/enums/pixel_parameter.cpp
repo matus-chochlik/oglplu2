@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_pixel_parameter)
 
@@ -1799,6 +1800,231 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 	BOOST_CHECK(x != ev.unpack_skip_rows);
 # endif
 	BOOST_CHECK(x == ev.unpack_swap_bytes);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_pixel_parameter_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	pixel_parameter x;
+	(void)x;
+
+#ifdef GL_PACK_LSB_FIRST
+	x = ev.PackLSBFirst;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"PACK_LSB_FIRST"
+	) == 0);
+#endif
+
+#ifdef GL_UNPACK_LSB_FIRST
+	x = ev.UnpackLSBFirst;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"UNPACK_LSB_FIRST"
+	) == 0);
+#endif
+
+#ifdef GL_PACK_ALIGNMENT
+	x = ev.pack_alignment;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"PACK_ALIGNMENT"
+	) == 0);
+#endif
+
+#ifdef GL_PACK_COMPRESSED_BLOCK_DEPTH
+	x = ev.pack_compressed_block_depth;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"PACK_COMPRESSED_BLOCK_DEPTH"
+	) == 0);
+#endif
+
+#ifdef GL_PACK_COMPRESSED_BLOCK_HEIGHT
+	x = ev.pack_compressed_block_height;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"PACK_COMPRESSED_BLOCK_HEIGHT"
+	) == 0);
+#endif
+
+#ifdef GL_PACK_COMPRESSED_BLOCK_SIZE
+	x = ev.pack_compressed_block_size;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"PACK_COMPRESSED_BLOCK_SIZE"
+	) == 0);
+#endif
+
+#ifdef GL_PACK_COMPRESSED_BLOCK_WIDTH
+	x = ev.pack_compressed_block_width;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"PACK_COMPRESSED_BLOCK_WIDTH"
+	) == 0);
+#endif
+
+#ifdef GL_PACK_IMAGE_HEIGHT
+	x = ev.pack_image_height;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"PACK_IMAGE_HEIGHT"
+	) == 0);
+#endif
+
+#ifdef GL_PACK_ROW_LENGTH
+	x = ev.pack_row_length;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"PACK_ROW_LENGTH"
+	) == 0);
+#endif
+
+#ifdef GL_PACK_SKIP_IMAGES
+	x = ev.pack_skip_images;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"PACK_SKIP_IMAGES"
+	) == 0);
+#endif
+
+#ifdef GL_PACK_SKIP_PIXELS
+	x = ev.pack_skip_pixels;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"PACK_SKIP_PIXELS"
+	) == 0);
+#endif
+
+#ifdef GL_PACK_SKIP_ROWS
+	x = ev.pack_skip_rows;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"PACK_SKIP_ROWS"
+	) == 0);
+#endif
+
+#ifdef GL_PACK_SWAP_BYTES
+	x = ev.pack_swap_bytes;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"PACK_SWAP_BYTES"
+	) == 0);
+#endif
+
+#ifdef GL_UNPACK_ALIGNMENT
+	x = ev.unpack_alignment;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"UNPACK_ALIGNMENT"
+	) == 0);
+#endif
+
+#ifdef GL_UNPACK_COMPRESSED_BLOCK_DEPTH
+	x = ev.unpack_compressed_block_depth;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"UNPACK_COMPRESSED_BLOCK_DEPTH"
+	) == 0);
+#endif
+
+#ifdef GL_UNPACK_COMPRESSED_BLOCK_HEIGHT
+	x = ev.unpack_compressed_block_height;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"UNPACK_COMPRESSED_BLOCK_HEIGHT"
+	) == 0);
+#endif
+
+#ifdef GL_UNPACK_COMPRESSED_BLOCK_SIZE
+	x = ev.unpack_compressed_block_size;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"UNPACK_COMPRESSED_BLOCK_SIZE"
+	) == 0);
+#endif
+
+#ifdef GL_UNPACK_COMPRESSED_BLOCK_WIDTH
+	x = ev.unpack_compressed_block_width;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"UNPACK_COMPRESSED_BLOCK_WIDTH"
+	) == 0);
+#endif
+
+#ifdef GL_UNPACK_IMAGE_HEIGHT
+	x = ev.unpack_image_height;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"UNPACK_IMAGE_HEIGHT"
+	) == 0);
+#endif
+
+#ifdef GL_UNPACK_ROW_LENGTH
+	x = ev.unpack_row_length;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"UNPACK_ROW_LENGTH"
+	) == 0);
+#endif
+
+#ifdef GL_UNPACK_SKIP_IMAGES
+	x = ev.unpack_skip_images;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"UNPACK_SKIP_IMAGES"
+	) == 0);
+#endif
+
+#ifdef GL_UNPACK_SKIP_PIXELS
+	x = ev.unpack_skip_pixels;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"UNPACK_SKIP_PIXELS"
+	) == 0);
+#endif
+
+#ifdef GL_UNPACK_SKIP_ROWS
+	x = ev.unpack_skip_rows;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"UNPACK_SKIP_ROWS"
+	) == 0);
+#endif
+
+#ifdef GL_UNPACK_SWAP_BYTES
+	x = ev.unpack_swap_bytes;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"UNPACK_SWAP_BYTES"
+	) == 0);
 #endif
 }
 

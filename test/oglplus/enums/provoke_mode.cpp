@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_provoke_mode)
 
@@ -39,6 +40,33 @@ BOOST_AUTO_TEST_CASE(enum_provoke_mode_values)
 	BOOST_CHECK(x != ev.first_vertex_convention);
 # endif
 	BOOST_CHECK(x == ev.last_vertex_convention);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_provoke_mode_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	provoke_mode x;
+	(void)x;
+
+#ifdef GL_FIRST_VERTEX_CONVENTION
+	x = ev.first_vertex_convention;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"FIRST_VERTEX_CONVENTION"
+	) == 0);
+#endif
+
+#ifdef GL_LAST_VERTEX_CONVENTION
+	x = ev.last_vertex_convention;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"LAST_VERTEX_CONVENTION"
+	) == 0);
 #endif
 }
 

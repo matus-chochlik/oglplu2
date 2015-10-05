@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_blend_function)
 
@@ -1144,6 +1145,186 @@ BOOST_AUTO_TEST_CASE(enum_blend_function_values)
 	BOOST_CHECK(x != ev.src_color);
 # endif
 	BOOST_CHECK(x == ev.zero);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_blend_function_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	blend_function x;
+	(void)x;
+
+#ifdef GL_CONSTANT_ALPHA
+	x = ev.constant_alpha;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"CONSTANT_ALPHA"
+	) == 0);
+#endif
+
+#ifdef GL_CONSTANT_COLOR
+	x = ev.constant_color;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"CONSTANT_COLOR"
+	) == 0);
+#endif
+
+#ifdef GL_DST_ALPHA
+	x = ev.dst_alpha;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DST_ALPHA"
+	) == 0);
+#endif
+
+#ifdef GL_DST_COLOR
+	x = ev.dst_color;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DST_COLOR"
+	) == 0);
+#endif
+
+#ifdef GL_ONE
+	x = ev.one;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"ONE"
+	) == 0);
+#endif
+
+#ifdef GL_ONE_MINUS_CONSTANT_ALPHA
+	x = ev.one_minus_constant_alpha;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"ONE_MINUS_CONSTANT_ALPHA"
+	) == 0);
+#endif
+
+#ifdef GL_ONE_MINUS_CONSTANT_COLOR
+	x = ev.one_minus_constant_color;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"ONE_MINUS_CONSTANT_COLOR"
+	) == 0);
+#endif
+
+#ifdef GL_ONE_MINUS_DST_ALPHA
+	x = ev.one_minus_dst_alpha;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"ONE_MINUS_DST_ALPHA"
+	) == 0);
+#endif
+
+#ifdef GL_ONE_MINUS_DST_COLOR
+	x = ev.one_minus_dst_color;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"ONE_MINUS_DST_COLOR"
+	) == 0);
+#endif
+
+#ifdef GL_ONE_MINUS_SRC1_ALPHA
+	x = ev.one_minus_src1_alpha;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"ONE_MINUS_SRC1_ALPHA"
+	) == 0);
+#endif
+
+#ifdef GL_ONE_MINUS_SRC1_COLOR
+	x = ev.one_minus_src1_color;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"ONE_MINUS_SRC1_COLOR"
+	) == 0);
+#endif
+
+#ifdef GL_ONE_MINUS_SRC_ALPHA
+	x = ev.one_minus_src_alpha;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"ONE_MINUS_SRC_ALPHA"
+	) == 0);
+#endif
+
+#ifdef GL_ONE_MINUS_SRC_COLOR
+	x = ev.one_minus_src_color;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"ONE_MINUS_SRC_COLOR"
+	) == 0);
+#endif
+
+#ifdef GL_SRC1_ALPHA
+	x = ev.src1_alpha;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"SRC1_ALPHA"
+	) == 0);
+#endif
+
+#ifdef GL_SRC1_COLOR
+	x = ev.src1_color;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"SRC1_COLOR"
+	) == 0);
+#endif
+
+#ifdef GL_SRC_ALPHA
+	x = ev.src_alpha;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"SRC_ALPHA"
+	) == 0);
+#endif
+
+#ifdef GL_SRC_ALPHA_SATURATE
+	x = ev.src_alpha_saturate;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"SRC_ALPHA_SATURATE"
+	) == 0);
+#endif
+
+#ifdef GL_SRC_COLOR
+	x = ev.src_color;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"SRC_COLOR"
+	) == 0);
+#endif
+
+#ifdef GL_ZERO
+	x = ev.zero;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"ZERO"
+	) == 0);
 #endif
 }
 

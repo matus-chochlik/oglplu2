@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_debug_output_severity)
 
@@ -108,6 +109,60 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_severity_values)
 	BOOST_CHECK(x != ev.debug_severity_notification);
 # endif
 	BOOST_CHECK(x == ev.dont_care);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_debug_output_severity_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	debug_output_severity x;
+	(void)x;
+
+#ifdef GL_DEBUG_SEVERITY_HIGH
+	x = ev.debug_severity_high;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DEBUG_SEVERITY_HIGH"
+	) == 0);
+#endif
+
+#ifdef GL_DEBUG_SEVERITY_LOW
+	x = ev.debug_severity_low;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DEBUG_SEVERITY_LOW"
+	) == 0);
+#endif
+
+#ifdef GL_DEBUG_SEVERITY_MEDIUM
+	x = ev.debug_severity_medium;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DEBUG_SEVERITY_MEDIUM"
+	) == 0);
+#endif
+
+#ifdef GL_DEBUG_SEVERITY_NOTIFICATION
+	x = ev.debug_severity_notification;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DEBUG_SEVERITY_NOTIFICATION"
+	) == 0);
+#endif
+
+#ifdef GL_DONT_CARE
+	x = ev.dont_care;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DONT_CARE"
+	) == 0);
 #endif
 }
 

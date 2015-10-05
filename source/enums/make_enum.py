@@ -126,9 +126,18 @@ def action_incl_enum_types_hpp(options):
 
 	enum_classes = dict()
 
-	for input_path in options.inputs:
+	typ_id = 0
+
+	for input_path in sorted(options.inputs):
 		update_input_options(options, input_path)
-		enum_classes[options.enum_name] = options.enum_type
+		enum_classes[options.enum_name] = type(
+			"EnumClassInfo",
+			(object,), {
+				"typ_id": typ_id,
+				"enum_type": options.enum_type
+			}
+		)
+		typ_id = typ_id+1
 
 	print_cpp_header(options)
 	print_line(options, "#ifndef %s_ENUM_TYPES_HPP" % options.library_uc)
@@ -139,19 +148,16 @@ def action_incl_enum_types_hpp(options):
 	print_line(options, "namespace %s {" % options.library)
 	print_newline(options)
 
-	typ_id = 0
-
-	for enum_class, enum_type in sorted(enum_classes.items()):
+	for enum_class, enum_info in sorted(enum_classes.items()):
 		print_line(options, "struct %s" % enum_class)
 		print_line(options, " : enum_class<%s, %s%s, %d>" % (
 			enum_class,
 			options.base_lib_prefix,
-			enum_type,
-			typ_id
+			enum_info.enum_type,
+			enum_info.typ_id
 		))
 		print_line(options, "{ using enum_class::enum_class; };")
 		print_newline(options)
-		typ_id = typ_id+1
 
 	print_line(options, "} // namespace %s" % options.library)
 	print_newline(options)
@@ -222,7 +228,7 @@ def action_impl_enum_value_names_inl(options):
 
 	typ_id = 0
 
-	for input_path in options.inputs:
+	for input_path in sorted(options.inputs):
 		update_input_options(options, input_path)
 
 		enum_classes[options.enum_name] = type(
@@ -242,6 +248,10 @@ def action_impl_enum_value_names_inl(options):
 	print_cpp_header(options)
 
 	print_line(options, "#include <%s/config/basic.hpp>" % options.library)
+	print_line(options, "#if !%s_LINK_LIBRARY || defined(%s_IMPLEMENTING_LIBRARY)" % (
+		options.library_uc,
+		options.library_uc
+	))
 	print_newline(options)
 	print_line(options, "namespace %s {" % options.library)
 	print_newline(options)
@@ -250,10 +260,6 @@ def action_impl_enum_value_names_inl(options):
 	print_line(options, "get_enum_value_name(const any_enum_value& aev)")
 	print_line(options, "noexcept")
 	print_line(options, "{")
-	print_line(options, "#if !%s_LINK_LIBRARY || defined(%s_IMPLEMENTING_LIBRARY)" % (
-		options.library_uc,
-		options.library_uc
-	))
 
 	for enum_value_name, enum_value_info in sorted(enum_values.items()):
 		print_line(options, "#ifdef %s_%s" % (
@@ -303,16 +309,15 @@ def action_impl_enum_value_names_inl(options):
 
 	print_line(options, "\tdefault:;")
 	print_line(options, "\t}")
-	print_line(options, "#endif")
 
 
 	print_newline(options)
-	print_line(options, "	(void)enum_id;")
-	print_line(options, "	(void)value;")
+	print_line(options, "	(void)aev;")
 	print_line(options, "	return {};")
 	print_line(options, "}")
 	print_newline(options)
 	print_line(options, "} // namespace %s" % options.library)
+	print_line(options, "#endif")
 
 
 def action_test_enums_cpp(options):
@@ -336,6 +341,7 @@ def action_test_enums_cpp(options):
 	print_newline(options)
 	print_line(options, "#include <boost/test/unit_test.hpp>")
 	print_line(options, '#include "common.hpp"')
+	print_line(options, '#include <cstring>')
 	print_newline(options)
 	print_line(options, "BOOST_AUTO_TEST_SUITE(enum_%s)" % options.enum_name)
 	print_newline(options)
@@ -370,6 +376,32 @@ def action_test_enums_cpp(options):
 
 			if value_name != value_name2:
 				print_line(options, "# endif")
+
+		print_line(options, "#endif")
+
+	print_line(options, "}")
+	print_newline(options)
+	print_line(options, "BOOST_AUTO_TEST_CASE(enum_%s_names)" % options.enum_name)
+	print_line(options, "{")
+	print_line(options, "	using namespace %s;" % options.library)
+	print_line(options, "	enum_values ev;")
+	print_line(options, "	(void)ev;")
+	print_line(options, "	%s x;" % options.enum_name)
+	print_line(options, "	(void)x;")
+
+	for value_name, value_info in sorted(value_infos.items()):
+		print_newline(options)
+		print_line(options, "#ifdef %s_%s" % (
+			options.base_lib_prefix,
+			value_info.src_name
+		))
+		print_line(options, "	x = ev.%s;" % value_name)
+		print_line(options, "	BOOST_ASSERT(enum_value_name(x).data() != nullptr);")
+		print_line(options, "	BOOST_CHECK(std::strcmp(")
+		print_line(options, "		enum_value_name(x).data(),")
+		print_line(options, '		"%s"' % value_info.src_name)
+		print_line(options, "	) == 0);")
+
 
 		print_line(options, "#endif")
 

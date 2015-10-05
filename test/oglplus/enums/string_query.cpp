@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_string_query)
 
@@ -79,6 +80,51 @@ BOOST_AUTO_TEST_CASE(enum_string_query_values)
 	BOOST_CHECK(x != ev.vendor);
 # endif
 	BOOST_CHECK(x == ev.version);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_string_query_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	string_query x;
+	(void)x;
+
+#ifdef GL_RENDERER
+	x = ev.renderer;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RENDERER"
+	) == 0);
+#endif
+
+#ifdef GL_SHADING_LANGUAGE_VERSION
+	x = ev.shading_language_version;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"SHADING_LANGUAGE_VERSION"
+	) == 0);
+#endif
+
+#ifdef GL_VENDOR
+	x = ev.vendor;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"VENDOR"
+	) == 0);
+#endif
+
+#ifdef GL_VERSION
+	x = ev.version;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"VERSION"
+	) == 0);
 #endif
 }
 

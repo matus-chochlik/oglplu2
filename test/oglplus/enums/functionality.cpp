@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_functionality)
 
@@ -28,6 +29,24 @@ BOOST_AUTO_TEST_CASE(enum_functionality_values)
 #ifdef GL_CLIP_DISTANCE0
 	x = ev.clip_distance;
 	BOOST_CHECK(x == ev.clip_distance);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_functionality_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	functionality x;
+	(void)x;
+
+#ifdef GL_CLIP_DISTANCE0
+	x = ev.clip_distance;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"CLIP_DISTANCE0"
+	) == 0);
 #endif
 }
 

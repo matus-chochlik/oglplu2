@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_program_interface)
 
@@ -1263,6 +1264,195 @@ BOOST_AUTO_TEST_CASE(enum_program_interface_values)
 	BOOST_CHECK(x != ev.vertex_subroutine);
 # endif
 	BOOST_CHECK(x == ev.vertex_subroutine_uniform);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_program_interface_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	program_interface x;
+	(void)x;
+
+#ifdef GL_ATOMIC_COUNTER_BUFFER
+	x = ev.atomic_counter_buffer;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"ATOMIC_COUNTER_BUFFER"
+	) == 0);
+#endif
+
+#ifdef GL_BUFFER_VARIABLE
+	x = ev.buffer_variable;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"BUFFER_VARIABLE"
+	) == 0);
+#endif
+
+#ifdef GL_COMPUTE_SUBROUTINE
+	x = ev.compute_subroutine;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COMPUTE_SUBROUTINE"
+	) == 0);
+#endif
+
+#ifdef GL_COMPUTE_SUBROUTINE_UNIFORM
+	x = ev.compute_subroutine_uniform;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COMPUTE_SUBROUTINE_UNIFORM"
+	) == 0);
+#endif
+
+#ifdef GL_FRAGMENT_SUBROUTINE
+	x = ev.fragment_subroutine;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"FRAGMENT_SUBROUTINE"
+	) == 0);
+#endif
+
+#ifdef GL_FRAGMENT_SUBROUTINE_UNIFORM
+	x = ev.fragment_subroutine_uniform;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"FRAGMENT_SUBROUTINE_UNIFORM"
+	) == 0);
+#endif
+
+#ifdef GL_GEOMETRY_SUBROUTINE
+	x = ev.geometry_subroutine;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"GEOMETRY_SUBROUTINE"
+	) == 0);
+#endif
+
+#ifdef GL_GEOMETRY_SUBROUTINE_UNIFORM
+	x = ev.geometry_subroutine_uniform;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"GEOMETRY_SUBROUTINE_UNIFORM"
+	) == 0);
+#endif
+
+#ifdef GL_PROGRAM_INPUT
+	x = ev.program_input;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"PROGRAM_INPUT"
+	) == 0);
+#endif
+
+#ifdef GL_PROGRAM_OUTPUT
+	x = ev.program_output;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"PROGRAM_OUTPUT"
+	) == 0);
+#endif
+
+#ifdef GL_SHADER_STORAGE_BLOCK
+	x = ev.shader_storage_block;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"SHADER_STORAGE_BLOCK"
+	) == 0);
+#endif
+
+#ifdef GL_TESS_CONTROL_SUBROUTINE
+	x = ev.tess_control_subroutine;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TESS_CONTROL_SUBROUTINE"
+	) == 0);
+#endif
+
+#ifdef GL_TESS_CONTROL_SUBROUTINE_UNIFORM
+	x = ev.tess_control_subroutine_uniform;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TESS_CONTROL_SUBROUTINE_UNIFORM"
+	) == 0);
+#endif
+
+#ifdef GL_TESS_EVALUATION_SUBROUTINE
+	x = ev.tess_evaluation_subroutine;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TESS_EVALUATION_SUBROUTINE"
+	) == 0);
+#endif
+
+#ifdef GL_TESS_EVALUATION_SUBROUTINE_UNIFORM
+	x = ev.tess_evaluation_subroutine_uniform;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TESS_EVALUATION_SUBROUTINE_UNIFORM"
+	) == 0);
+#endif
+
+#ifdef GL_TRANSFORM_FEEDEBACK_VARYING
+	x = ev.transform_feedeback_varying;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TRANSFORM_FEEDEBACK_VARYING"
+	) == 0);
+#endif
+
+#ifdef GL_UNIFORM
+	x = ev.uniform;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"UNIFORM"
+	) == 0);
+#endif
+
+#ifdef GL_UNIFORM_BLOCK
+	x = ev.uniform_block;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"UNIFORM_BLOCK"
+	) == 0);
+#endif
+
+#ifdef GL_VERTEX_SUBROUTINE
+	x = ev.vertex_subroutine;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"VERTEX_SUBROUTINE"
+	) == 0);
+#endif
+
+#ifdef GL_VERTEX_SUBROUTINE_UNIFORM
+	x = ev.vertex_subroutine_uniform;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"VERTEX_SUBROUTINE_UNIFORM"
+	) == 0);
 #endif
 }
 

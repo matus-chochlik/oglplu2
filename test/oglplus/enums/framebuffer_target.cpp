@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_framebuffer_target)
 
@@ -39,6 +40,33 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_target_values)
 	BOOST_CHECK(x != ev.draw_framebuffer);
 # endif
 	BOOST_CHECK(x == ev.read_framebuffer);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_framebuffer_target_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	framebuffer_target x;
+	(void)x;
+
+#ifdef GL_DRAW_FRAMEBUFFER
+	x = ev.draw_framebuffer;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DRAW_FRAMEBUFFER"
+	) == 0);
+#endif
+
+#ifdef GL_READ_FRAMEBUFFER
+	x = ev.read_framebuffer;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"READ_FRAMEBUFFER"
+	) == 0);
 #endif
 }
 

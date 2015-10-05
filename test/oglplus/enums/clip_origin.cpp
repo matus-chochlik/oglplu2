@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_clip_origin)
 
@@ -39,6 +40,33 @@ BOOST_AUTO_TEST_CASE(enum_clip_origin_values)
 	BOOST_CHECK(x != ev.lower_left);
 # endif
 	BOOST_CHECK(x == ev.upper_left);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_clip_origin_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	clip_origin x;
+	(void)x;
+
+#ifdef GL_LOWER_LEFT
+	x = ev.lower_left;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"LOWER_LEFT"
+	) == 0);
+#endif
+
+#ifdef GL_UPPER_LEFT
+	x = ev.upper_left;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"UPPER_LEFT"
+	) == 0);
 #endif
 }
 

@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_transform_feedback_mode)
 
@@ -39,6 +40,33 @@ BOOST_AUTO_TEST_CASE(enum_transform_feedback_mode_values)
 	BOOST_CHECK(x != ev.interleaved_attribs);
 # endif
 	BOOST_CHECK(x == ev.separate_attribs);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_transform_feedback_mode_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	transform_feedback_mode x;
+	(void)x;
+
+#ifdef GL_INTERLEAVED_ATTRIBS
+	x = ev.interleaved_attribs;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"INTERLEAVED_ATTRIBS"
+	) == 0);
+#endif
+
+#ifdef GL_SEPARATE_ATTRIBS
+	x = ev.separate_attribs;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"SEPARATE_ATTRIBS"
+	) == 0);
 #endif
 }
 

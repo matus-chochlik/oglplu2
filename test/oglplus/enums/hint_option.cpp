@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_hint_option)
 
@@ -56,6 +57,42 @@ BOOST_AUTO_TEST_CASE(enum_hint_option_values)
 	BOOST_CHECK(x != ev.fastest);
 # endif
 	BOOST_CHECK(x == ev.nicest);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_hint_option_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	hint_option x;
+	(void)x;
+
+#ifdef GL_DONT_CARE
+	x = ev.dont_care;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DONT_CARE"
+	) == 0);
+#endif
+
+#ifdef GL_FASTEST
+	x = ev.fastest;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"FASTEST"
+	) == 0);
+#endif
+
+#ifdef GL_NICEST
+	x = ev.nicest;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"NICEST"
+	) == 0);
 #endif
 }
 

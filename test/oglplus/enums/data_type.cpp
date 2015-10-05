@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_data_type)
 
@@ -343,6 +344,105 @@ BOOST_AUTO_TEST_CASE(enum_data_type_values)
 	BOOST_CHECK(x != ev.unsigned_int);
 # endif
 	BOOST_CHECK(x == ev.unsigned_short);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_data_type_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	data_type x;
+	(void)x;
+
+#ifdef GL_BYTE
+	x = ev.byte_;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"BYTE"
+	) == 0);
+#endif
+
+#ifdef GL_DOUBLE
+	x = ev.double_;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DOUBLE"
+	) == 0);
+#endif
+
+#ifdef GL_FIXED
+	x = ev.fixed;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"FIXED"
+	) == 0);
+#endif
+
+#ifdef GL_FLOAT
+	x = ev.float_;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"FLOAT"
+	) == 0);
+#endif
+
+#ifdef GL_HALF_FLOAT
+	x = ev.half_float;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"HALF_FLOAT"
+	) == 0);
+#endif
+
+#ifdef GL_INT
+	x = ev.int_;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"INT"
+	) == 0);
+#endif
+
+#ifdef GL_SHORT
+	x = ev.short_;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"SHORT"
+	) == 0);
+#endif
+
+#ifdef GL_UNSIGNED_BYTE
+	x = ev.unsigned_byte;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"UNSIGNED_BYTE"
+	) == 0);
+#endif
+
+#ifdef GL_UNSIGNED_INT
+	x = ev.unsigned_int;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"UNSIGNED_INT"
+	) == 0);
+#endif
+
+#ifdef GL_UNSIGNED_SHORT
+	x = ev.unsigned_short;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"UNSIGNED_SHORT"
+	) == 0);
 #endif
 }
 

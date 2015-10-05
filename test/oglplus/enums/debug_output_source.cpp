@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_debug_output_source)
 
@@ -184,6 +185,78 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_source_values)
 	BOOST_CHECK(x != ev.debug_source_window_system);
 # endif
 	BOOST_CHECK(x == ev.dont_care);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_debug_output_source_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	debug_output_source x;
+	(void)x;
+
+#ifdef GL_DEBUG_SOURCE_API
+	x = ev.debug_source_api;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DEBUG_SOURCE_API"
+	) == 0);
+#endif
+
+#ifdef GL_DEBUG_SOURCE_APPLICATION
+	x = ev.debug_source_application;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DEBUG_SOURCE_APPLICATION"
+	) == 0);
+#endif
+
+#ifdef GL_DEBUG_SOURCE_OTHER
+	x = ev.debug_source_other;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DEBUG_SOURCE_OTHER"
+	) == 0);
+#endif
+
+#ifdef GL_DEBUG_SOURCE_SHADER_COMPILER
+	x = ev.debug_source_shader_compiler;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DEBUG_SOURCE_SHADER_COMPILER"
+	) == 0);
+#endif
+
+#ifdef GL_DEBUG_SOURCE_THIRD_PARTY
+	x = ev.debug_source_third_party;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DEBUG_SOURCE_THIRD_PARTY"
+	) == 0);
+#endif
+
+#ifdef GL_DEBUG_SOURCE_WINDOW_SYSTEM
+	x = ev.debug_source_window_system;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DEBUG_SOURCE_WINDOW_SYSTEM"
+	) == 0);
+#endif
+
+#ifdef GL_DONT_CARE
+	x = ev.dont_care;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DONT_CARE"
+	) == 0);
 #endif
 }
 

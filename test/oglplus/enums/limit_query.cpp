@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_limit_query)
 
@@ -35884,6 +35885,996 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_values)
 	BOOST_CHECK(x != ev.min_program_texel_offset);
 # endif
 	BOOST_CHECK(x == ev.min_program_texture_gather_offset);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_limit_query_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	limit_query x;
+	(void)x;
+
+#ifdef GL_MAX_3D_TEXTURE_SIZE
+	x = ev.max_3d_texture_size;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_3D_TEXTURE_SIZE"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_ARRAY_TEXTURE_LAYERS
+	x = ev.max_array_texture_layers;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_ARRAY_TEXTURE_LAYERS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_ATOMIC_COUNTER_BUFFER_BINDINGS
+	x = ev.max_atomic_counter_buffer_bindings;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_ATOMIC_COUNTER_BUFFER_BINDINGS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_ATOMIC_COUNTER_BUFFER_SIZE
+	x = ev.max_atomic_counter_buffer_size;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_ATOMIC_COUNTER_BUFFER_SIZE"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_CLIP_DISTANCES
+	x = ev.max_clip_distances;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_CLIP_DISTANCES"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_COLOR_ATTACHMENTS
+	x = ev.max_color_attachments;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_COLOR_ATTACHMENTS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_COLOR_TEXTURE_SAMPLES
+	x = ev.max_color_texture_samples;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_COLOR_TEXTURE_SAMPLES"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_COMBINED_ATOMIC_COUNTER_BUFFERS
+	x = ev.max_combined_atomic_counter_buffers;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_COMBINED_ATOMIC_COUNTER_BUFFERS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_COMBINED_ATOMIC_COUNTERS
+	x = ev.max_combined_atomic_counters;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_COMBINED_ATOMIC_COUNTERS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_COMBINED_CLIP_AND_CULL_DISTANCES
+	x = ev.max_combined_clip_and_cull_distances;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_COMBINED_CLIP_AND_CULL_DISTANCES"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_COMBINED_FRAGMENT_UNIFORM_COMPONENTS
+	x = ev.max_combined_fragment_uniform_components;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_COMBINED_FRAGMENT_UNIFORM_COMPONENTS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_COMBINED_GEOMETRY_UNIFORM_COMPONENTS
+	x = ev.max_combined_geometry_uniform_components;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_COMBINED_GEOMETRY_UNIFORM_COMPONENTS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_COMBINED_IMAGE_UNIFORMS
+	x = ev.max_combined_image_uniforms;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_COMBINED_IMAGE_UNIFORMS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_COMBINED_IMAGE_UNITS_AND_FRAGMENT_OUTPUTS
+	x = ev.max_combined_image_units_and_fragment_outputs;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_COMBINED_IMAGE_UNITS_AND_FRAGMENT_OUTPUTS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_COMBINED_TESS_CONTROL_UNIFORM_COMPONENTS
+	x = ev.max_combined_tess_control_uniform_components;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_COMBINED_TESS_CONTROL_UNIFORM_COMPONENTS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_COMBINED_TESS_EVALUATION_UNIFORM_COMPONENTS
+	x = ev.max_combined_tess_evaluation_uniform_components;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_COMBINED_TESS_EVALUATION_UNIFORM_COMPONENTS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS
+	x = ev.max_combined_texture_image_units;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_COMBINED_TEXTURE_IMAGE_UNITS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_COMBINED_UNIFORM_BLOCKS
+	x = ev.max_combined_uniform_blocks;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_COMBINED_UNIFORM_BLOCKS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_COMBINED_VERTEX_UNIFORM_COMPONENTS
+	x = ev.max_combined_vertex_uniform_components;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_COMBINED_VERTEX_UNIFORM_COMPONENTS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_COMPUTE_SHARED_MEMORY_SIZE
+	x = ev.max_compute_shared_memory_size;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_COMPUTE_SHARED_MEMORY_SIZE"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_COMPUTE_WORK_GROUP_COUNT
+	x = ev.max_compute_work_group_count;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_COMPUTE_WORK_GROUP_COUNT"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_COMPUTE_WORK_GROUP_INVOCATIONS
+	x = ev.max_compute_work_group_invocations;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_COMPUTE_WORK_GROUP_INVOCATIONS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_COMPUTE_WORK_GROUP_SIZE
+	x = ev.max_compute_work_group_size;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_COMPUTE_WORK_GROUP_SIZE"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_CUBE_MAP_TEXTURE_SIZE
+	x = ev.max_cube_map_texture_size;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_CUBE_MAP_TEXTURE_SIZE"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_CULL_DISTANCES
+	x = ev.max_cull_distances;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_CULL_DISTANCES"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_DEPTH_TEXTURE_SAMPLES
+	x = ev.max_depth_texture_samples;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_DEPTH_TEXTURE_SAMPLES"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_DRAW_BUFFERS
+	x = ev.max_draw_buffers;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_DRAW_BUFFERS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_DUAL_SOURCE_DRAW_BUFFERS
+	x = ev.max_dual_source_draw_buffers;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_DUAL_SOURCE_DRAW_BUFFERS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_ELEMENTS_INDICES
+	x = ev.max_elements_indices;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_ELEMENTS_INDICES"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_ELEMENTS_VERTICES
+	x = ev.max_elements_vertices;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_ELEMENTS_VERTICES"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_FRAGMENT_ATOMIC_COUNTER_BUFFERS
+	x = ev.max_fragment_atomic_counter_buffers;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_FRAGMENT_ATOMIC_COUNTER_BUFFERS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_FRAGMENT_ATOMIC_COUNTERS
+	x = ev.max_fragment_atomic_counters;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_FRAGMENT_ATOMIC_COUNTERS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_FRAGMENT_IMAGE_UNIFORMS
+	x = ev.max_fragment_image_uniforms;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_FRAGMENT_IMAGE_UNIFORMS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_FRAGMENT_INPUT_COMPONENTS
+	x = ev.max_fragment_input_components;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_FRAGMENT_INPUT_COMPONENTS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_FRAGMENT_INTERPOLATION_OFFSET
+	x = ev.max_fragment_interpolation_offset;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_FRAGMENT_INTERPOLATION_OFFSET"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_FRAGMENT_UNIFORM_BLOCKS
+	x = ev.max_fragment_uniform_blocks;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_FRAGMENT_UNIFORM_BLOCKS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_FRAGMENT_UNIFORM_COMPONENTS
+	x = ev.max_fragment_uniform_components;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_FRAGMENT_UNIFORM_COMPONENTS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_FRAGMENT_UNIFORM_VECTORS
+	x = ev.max_fragment_uniform_vectors;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_FRAGMENT_UNIFORM_VECTORS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_GEOMETRY_ATOMIC_COUNTER_BUFFERS
+	x = ev.max_geometry_atomic_counter_buffers;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_GEOMETRY_ATOMIC_COUNTER_BUFFERS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_GEOMETRY_ATOMIC_COUNTERS
+	x = ev.max_geometry_atomic_counters;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_GEOMETRY_ATOMIC_COUNTERS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_GEOMETRY_IMAGE_UNIFORMS
+	x = ev.max_geometry_image_uniforms;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_GEOMETRY_IMAGE_UNIFORMS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_GEOMETRY_INPUT_COMPONENTS
+	x = ev.max_geometry_input_components;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_GEOMETRY_INPUT_COMPONENTS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_GEOMETRY_OUTPUT_COMPONENTS
+	x = ev.max_geometry_output_components;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_GEOMETRY_OUTPUT_COMPONENTS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_GEOMETRY_OUTPUT_VERTICES
+	x = ev.max_geometry_output_vertices;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_GEOMETRY_OUTPUT_VERTICES"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_GEOMETRY_SHADER_INVOCATIONS
+	x = ev.max_geometry_shader_invocations;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_GEOMETRY_SHADER_INVOCATIONS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_GEOMETRY_TEXTURE_IMAGE_UNITS
+	x = ev.max_geometry_texture_image_units;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_GEOMETRY_TEXTURE_IMAGE_UNITS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_GEOMETRY_TOTAL_OUTPUT_COMPONENTS
+	x = ev.max_geometry_total_output_components;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_GEOMETRY_TOTAL_OUTPUT_COMPONENTS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_GEOMETRY_UNIFORM_BLOCKS
+	x = ev.max_geometry_uniform_blocks;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_GEOMETRY_UNIFORM_BLOCKS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_GEOMETRY_UNIFORM_COMPONENTS
+	x = ev.max_geometry_uniform_components;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_GEOMETRY_UNIFORM_COMPONENTS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_IMAGE_SAMPLES
+	x = ev.max_image_samples;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_IMAGE_SAMPLES"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_IMAGE_UNITS
+	x = ev.max_image_units;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_IMAGE_UNITS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_INTEGER_SAMPLES
+	x = ev.max_integer_samples;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_INTEGER_SAMPLES"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_PATCH_VERTICES
+	x = ev.max_patch_vertices;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_PATCH_VERTICES"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_PROGRAM_TEXEL_OFFSET
+	x = ev.max_program_texel_offset;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_PROGRAM_TEXEL_OFFSET"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_PROGRAM_TEXTURE_GATHER_OFFSET
+	x = ev.max_program_texture_gather_offset;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_PROGRAM_TEXTURE_GATHER_OFFSET"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_RECTANGLE_TEXTURE_SIZE
+	x = ev.max_rectangle_texture_size;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_RECTANGLE_TEXTURE_SIZE"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_RENDERBUFFER_SIZE
+	x = ev.max_renderbuffer_size;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_RENDERBUFFER_SIZE"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_SAMPLE_MASK_WORDS
+	x = ev.max_sample_mask_words;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_SAMPLE_MASK_WORDS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_SAMPLES
+	x = ev.max_samples;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_SAMPLES"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_SERVER_WAIT_TIMEOUT
+	x = ev.max_server_wait_timeout;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_SERVER_WAIT_TIMEOUT"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_SUBROUTINE_UNIFORM_LOCATIONS
+	x = ev.max_subroutine_uniform_locations;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_SUBROUTINE_UNIFORM_LOCATIONS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_SUBROUTINES
+	x = ev.max_subroutines;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_SUBROUTINES"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_TESS_CONTROL_ATOMIC_COUNTER_BUFFERS
+	x = ev.max_tess_control_atomic_counter_buffers;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_TESS_CONTROL_ATOMIC_COUNTER_BUFFERS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_TESS_CONTROL_ATOMIC_COUNTERS
+	x = ev.max_tess_control_atomic_counters;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_TESS_CONTROL_ATOMIC_COUNTERS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_TESS_CONTROL_IMAGE_UNIFORMS
+	x = ev.max_tess_control_image_uniforms;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_TESS_CONTROL_IMAGE_UNIFORMS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_TESS_CONTROL_INPUT_COMPONENTS
+	x = ev.max_tess_control_input_components;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_TESS_CONTROL_INPUT_COMPONENTS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_TESS_CONTROL_OUTPUT_COMPONENTS
+	x = ev.max_tess_control_output_components;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_TESS_CONTROL_OUTPUT_COMPONENTS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_TESS_CONTROL_TEXTURE_IMAGE_UNITS
+	x = ev.max_tess_control_texture_image_units;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_TESS_CONTROL_TEXTURE_IMAGE_UNITS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_TESS_CONTROL_TOTAL_OUTPUT_COMPONENTS
+	x = ev.max_tess_control_total_output_components;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_TESS_CONTROL_TOTAL_OUTPUT_COMPONENTS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_TESS_CONTROL_UNIFORM_BLOCKS
+	x = ev.max_tess_control_uniform_blocks;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_TESS_CONTROL_UNIFORM_BLOCKS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_TESS_CONTROL_UNIFORM_COMPONENTS
+	x = ev.max_tess_control_uniform_components;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_TESS_CONTROL_UNIFORM_COMPONENTS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_TESS_EVALUATION_ATOMIC_COUNTER_BUFFERS
+	x = ev.max_tess_evaluation_atomic_counter_buffers;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_TESS_EVALUATION_ATOMIC_COUNTER_BUFFERS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_TESS_EVALUATION_ATOMIC_COUNTERS
+	x = ev.max_tess_evaluation_atomic_counters;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_TESS_EVALUATION_ATOMIC_COUNTERS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_TESS_EVALUATION_IMAGE_UNIFORMS
+	x = ev.max_tess_evaluation_image_uniforms;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_TESS_EVALUATION_IMAGE_UNIFORMS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_TESS_EVALUATION_INPUT_COMPONENTS
+	x = ev.max_tess_evaluation_input_components;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_TESS_EVALUATION_INPUT_COMPONENTS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_TESS_EVALUATION_OUTPUT_COMPONENTS
+	x = ev.max_tess_evaluation_output_components;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_TESS_EVALUATION_OUTPUT_COMPONENTS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_TESS_EVALUATION_TEXTURE_IMAGE_UNITS
+	x = ev.max_tess_evaluation_texture_image_units;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_TESS_EVALUATION_TEXTURE_IMAGE_UNITS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_TESS_EVALUATION_UNIFORM_BLOCKS
+	x = ev.max_tess_evaluation_uniform_blocks;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_TESS_EVALUATION_UNIFORM_BLOCKS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_TESS_EVALUATION_UNIFORM_COMPONENTS
+	x = ev.max_tess_evaluation_uniform_components;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_TESS_EVALUATION_UNIFORM_COMPONENTS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_TESS_GEN_LEVEL
+	x = ev.max_tess_gen_level;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_TESS_GEN_LEVEL"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_TESS_PATCH_COMPONENTS
+	x = ev.max_tess_patch_components;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_TESS_PATCH_COMPONENTS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_TEXTURE_BUFFER_SIZE
+	x = ev.max_texture_buffer_size;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_TEXTURE_BUFFER_SIZE"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_TEXTURE_IMAGE_UNITS
+	x = ev.max_texture_image_units;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_TEXTURE_IMAGE_UNITS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_TEXTURE_LOD_BIAS
+	x = ev.max_texture_lod_bias;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_TEXTURE_LOD_BIAS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_TEXTURE_SIZE
+	x = ev.max_texture_size;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_TEXTURE_SIZE"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_TRANSFORM_FEEDBACK_BUFFERS
+	x = ev.max_transform_feedback_buffers;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_TRANSFORM_FEEDBACK_BUFFERS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_TRANSFORM_FEEDBACK_INTERLEAVED_COMPONENTS
+	x = ev.max_transform_feedback_interleaved_components;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_TRANSFORM_FEEDBACK_INTERLEAVED_COMPONENTS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_TRANSFORM_FEEDBACK_SEPARATE_ATTRIBS
+	x = ev.max_transform_feedback_separate_attribs;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_TRANSFORM_FEEDBACK_SEPARATE_ATTRIBS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_TRANSFORM_FEEDBACK_SEPARATE_COMPONENTS
+	x = ev.max_transform_feedback_separate_components;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_TRANSFORM_FEEDBACK_SEPARATE_COMPONENTS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_UNIFORM_BLOCK_SIZE
+	x = ev.max_uniform_block_size;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_UNIFORM_BLOCK_SIZE"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_UNIFORM_BUFFER_BINDINGS
+	x = ev.max_uniform_buffer_bindings;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_UNIFORM_BUFFER_BINDINGS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_VARYING_COMPONENTS
+	x = ev.max_varying_components;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_VARYING_COMPONENTS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_VARYING_VECTORS
+	x = ev.max_varying_vectors;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_VARYING_VECTORS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_VERTEX_ATOMIC_COUNTER_BUFFERS
+	x = ev.max_vertex_atomic_counter_buffers;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_VERTEX_ATOMIC_COUNTER_BUFFERS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_VERTEX_ATOMIC_COUNTERS
+	x = ev.max_vertex_atomic_counters;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_VERTEX_ATOMIC_COUNTERS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_VERTEX_ATTRIBS
+	x = ev.max_vertex_attribs;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_VERTEX_ATTRIBS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_VERTEX_IMAGE_UNIFORMS
+	x = ev.max_vertex_image_uniforms;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_VERTEX_IMAGE_UNIFORMS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_VERTEX_OUTPUT_COMPONENTS
+	x = ev.max_vertex_output_components;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_VERTEX_OUTPUT_COMPONENTS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_VERTEX_STREAMS
+	x = ev.max_vertex_streams;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_VERTEX_STREAMS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS
+	x = ev.max_vertex_texture_image_units;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_VERTEX_TEXTURE_IMAGE_UNITS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_VERTEX_UNIFORM_BLOCKS
+	x = ev.max_vertex_uniform_blocks;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_VERTEX_UNIFORM_BLOCKS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_VERTEX_UNIFORM_COMPONENTS
+	x = ev.max_vertex_uniform_components;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_VERTEX_UNIFORM_COMPONENTS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_VERTEX_UNIFORM_VECTORS
+	x = ev.max_vertex_uniform_vectors;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_VERTEX_UNIFORM_VECTORS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_VIEWPORT_DIMS
+	x = ev.max_viewport_dims;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_VIEWPORT_DIMS"
+	) == 0);
+#endif
+
+#ifdef GL_MAX_VIEWPORTS
+	x = ev.max_viewports;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX_VIEWPORTS"
+	) == 0);
+#endif
+
+#ifdef GL_MIN_FRAGMENT_INTERPOLATION_OFFSET
+	x = ev.min_fragment_interpolation_offset;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MIN_FRAGMENT_INTERPOLATION_OFFSET"
+	) == 0);
+#endif
+
+#ifdef GL_MIN_MAP_BUFFER_ALIGNMENT
+	x = ev.min_map_buffer_alignment;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MIN_MAP_BUFFER_ALIGNMENT"
+	) == 0);
+#endif
+
+#ifdef GL_MIN_PROGRAM_TEXEL_OFFSET
+	x = ev.min_program_texel_offset;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MIN_PROGRAM_TEXEL_OFFSET"
+	) == 0);
+#endif
+
+#ifdef GL_MIN_PROGRAM_TEXTURE_GATHER_OFFSET
+	x = ev.min_program_texture_gather_offset;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MIN_PROGRAM_TEXTURE_GATHER_OFFSET"
+	) == 0);
 #endif
 }
 

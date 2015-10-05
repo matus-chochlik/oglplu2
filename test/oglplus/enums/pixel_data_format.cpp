@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_pixel_data_format)
 
@@ -1144,6 +1145,186 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_format_values)
 	BOOST_CHECK(x != ev.rgba_integer);
 # endif
 	BOOST_CHECK(x == ev.stencil_index);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_pixel_data_format_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	pixel_data_format x;
+	(void)x;
+
+#ifdef GL_BGR
+	x = ev.bgr;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"BGR"
+	) == 0);
+#endif
+
+#ifdef GL_BGR_INTEGER
+	x = ev.bgr_integer;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"BGR_INTEGER"
+	) == 0);
+#endif
+
+#ifdef GL_BGRA
+	x = ev.bgra;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"BGRA"
+	) == 0);
+#endif
+
+#ifdef GL_BGRA_INTEGER
+	x = ev.bgra_integer;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"BGRA_INTEGER"
+	) == 0);
+#endif
+
+#ifdef GL_BLUE
+	x = ev.blue;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"BLUE"
+	) == 0);
+#endif
+
+#ifdef GL_BLUE_INTEGER
+	x = ev.blue_integer;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"BLUE_INTEGER"
+	) == 0);
+#endif
+
+#ifdef GL_DEPTH_COMPONENT
+	x = ev.depth_component;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DEPTH_COMPONENT"
+	) == 0);
+#endif
+
+#ifdef GL_DEPTH_STENCIL
+	x = ev.depth_stencil;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DEPTH_STENCIL"
+	) == 0);
+#endif
+
+#ifdef GL_GREEN
+	x = ev.green;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"GREEN"
+	) == 0);
+#endif
+
+#ifdef GL_GREEN_INTEGER
+	x = ev.green_integer;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"GREEN_INTEGER"
+	) == 0);
+#endif
+
+#ifdef GL_RED
+	x = ev.red;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RED"
+	) == 0);
+#endif
+
+#ifdef GL_RED_INTEGER
+	x = ev.red_integer;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RED_INTEGER"
+	) == 0);
+#endif
+
+#ifdef GL_RG
+	x = ev.rg;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RG"
+	) == 0);
+#endif
+
+#ifdef GL_RG_INTEGER
+	x = ev.rg_integer;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RG_INTEGER"
+	) == 0);
+#endif
+
+#ifdef GL_RGB
+	x = ev.rgb;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RGB"
+	) == 0);
+#endif
+
+#ifdef GL_RGB_INTEGER
+	x = ev.rgb_integer;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RGB_INTEGER"
+	) == 0);
+#endif
+
+#ifdef GL_RGBA
+	x = ev.rgba;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RGBA"
+	) == 0);
+#endif
+
+#ifdef GL_RGBA_INTEGER
+	x = ev.rgba_integer;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RGBA_INTEGER"
+	) == 0);
+#endif
+
+#ifdef GL_STENCIL_INDEX
+	x = ev.stencil_index;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"STENCIL_INDEX"
+	) == 0);
 #endif
 }
 

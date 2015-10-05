@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_renderbuffer_target)
 
@@ -28,6 +29,24 @@ BOOST_AUTO_TEST_CASE(enum_renderbuffer_target_values)
 #ifdef GL_RENDERBUFFER
 	x = ev.renderbuffer;
 	BOOST_CHECK(x == ev.renderbuffer);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_renderbuffer_target_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	renderbuffer_target x;
+	(void)x;
+
+#ifdef GL_RENDERBUFFER
+	x = ev.renderbuffer;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RENDERBUFFER"
+	) == 0);
 #endif
 }
 

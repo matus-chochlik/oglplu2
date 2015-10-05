@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_reset_notification_strategy)
 
@@ -39,6 +40,33 @@ BOOST_AUTO_TEST_CASE(enum_reset_notification_strategy_values)
 	BOOST_CHECK(x != ev.lose_context_on_reset);
 # endif
 	BOOST_CHECK(x == ev.no_reset_notification);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_reset_notification_strategy_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	reset_notification_strategy x;
+	(void)x;
+
+#ifdef GL_LOSE_CONTEXT_ON_RESET
+	x = ev.lose_context_on_reset;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"LOSE_CONTEXT_ON_RESET"
+	) == 0);
+#endif
+
+#ifdef GL_NO_RESET_NOTIFICATION
+	x = ev.no_reset_notification;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"NO_RESET_NOTIFICATION"
+	) == 0);
 #endif
 }
 

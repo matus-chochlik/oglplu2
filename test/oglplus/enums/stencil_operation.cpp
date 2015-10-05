@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_stencil_operation)
 
@@ -231,6 +232,87 @@ BOOST_AUTO_TEST_CASE(enum_stencil_operation_values)
 	BOOST_CHECK(x != ev.replace);
 # endif
 	BOOST_CHECK(x == ev.zero);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_stencil_operation_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	stencil_operation x;
+	(void)x;
+
+#ifdef GL_DECR
+	x = ev.decr;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DECR"
+	) == 0);
+#endif
+
+#ifdef GL_DECR_WRAP
+	x = ev.decr_wrap;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DECR_WRAP"
+	) == 0);
+#endif
+
+#ifdef GL_INCR
+	x = ev.incr;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"INCR"
+	) == 0);
+#endif
+
+#ifdef GL_INCR_WRAP
+	x = ev.incr_wrap;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"INCR_WRAP"
+	) == 0);
+#endif
+
+#ifdef GL_INVERT
+	x = ev.invert;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"INVERT"
+	) == 0);
+#endif
+
+#ifdef GL_KEEP
+	x = ev.keep;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"KEEP"
+	) == 0);
+#endif
+
+#ifdef GL_REPLACE
+	x = ev.replace;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"REPLACE"
+	) == 0);
+#endif
+
+#ifdef GL_ZERO
+	x = ev.zero;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"ZERO"
+	) == 0);
 #endif
 }
 

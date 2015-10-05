@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_blend_equation)
 
@@ -108,6 +109,60 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_values)
 	BOOST_CHECK(x != ev.max);
 # endif
 	BOOST_CHECK(x == ev.min);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_blend_equation_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	blend_equation x;
+	(void)x;
+
+#ifdef GL_FUNC_ADD
+	x = ev.func_add;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"FUNC_ADD"
+	) == 0);
+#endif
+
+#ifdef GL_FUNC_REVERSE_SUBTRACT
+	x = ev.func_reverse_subtract;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"FUNC_REVERSE_SUBTRACT"
+	) == 0);
+#endif
+
+#ifdef GL_FUNC_SUBTRACT
+	x = ev.func_subtract;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"FUNC_SUBTRACT"
+	) == 0);
+#endif
+
+#ifdef GL_MAX
+	x = ev.max;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAX"
+	) == 0);
+#endif
+
+#ifdef GL_MIN
+	x = ev.min;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MIN"
+	) == 0);
 #endif
 }
 

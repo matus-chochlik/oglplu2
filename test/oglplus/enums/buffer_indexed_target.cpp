@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_buffer_indexed_target)
 
@@ -79,6 +80,51 @@ BOOST_AUTO_TEST_CASE(enum_buffer_indexed_target_values)
 	BOOST_CHECK(x != ev.transform_feedback_buffer);
 # endif
 	BOOST_CHECK(x == ev.uniform_buffer);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_buffer_indexed_target_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	buffer_indexed_target x;
+	(void)x;
+
+#ifdef GL_ATOMIC_COUNTER_BUFFER
+	x = ev.atomic_counter_buffer;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"ATOMIC_COUNTER_BUFFER"
+	) == 0);
+#endif
+
+#ifdef GL_SHADER_STORAGE_BUFFER
+	x = ev.shader_storage_buffer;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"SHADER_STORAGE_BUFFER"
+	) == 0);
+#endif
+
+#ifdef GL_TRANSFORM_FEEDBACK_BUFFER
+	x = ev.transform_feedback_buffer;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TRANSFORM_FEEDBACK_BUFFER"
+	) == 0);
+#endif
+
+#ifdef GL_UNIFORM_BUFFER
+	x = ev.uniform_buffer;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"UNIFORM_BUFFER"
+	) == 0);
 #endif
 }
 

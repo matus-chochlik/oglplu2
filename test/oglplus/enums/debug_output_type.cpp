@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_debug_output_type)
 
@@ -343,6 +344,105 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_type_values)
 	BOOST_CHECK(x != ev.debug_type_undefined_behavior);
 # endif
 	BOOST_CHECK(x == ev.dont_care);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_debug_output_type_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	debug_output_type x;
+	(void)x;
+
+#ifdef GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR
+	x = ev.debug_type_deprecated_behavior;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DEBUG_TYPE_DEPRECATED_BEHAVIOR"
+	) == 0);
+#endif
+
+#ifdef GL_DEBUG_TYPE_ERROR
+	x = ev.debug_type_error;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DEBUG_TYPE_ERROR"
+	) == 0);
+#endif
+
+#ifdef GL_DEBUG_TYPE_MARKER
+	x = ev.debug_type_marker;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DEBUG_TYPE_MARKER"
+	) == 0);
+#endif
+
+#ifdef GL_DEBUG_TYPE_OTHER
+	x = ev.debug_type_other;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DEBUG_TYPE_OTHER"
+	) == 0);
+#endif
+
+#ifdef GL_DEBUG_TYPE_PERFORMANCE
+	x = ev.debug_type_performance;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DEBUG_TYPE_PERFORMANCE"
+	) == 0);
+#endif
+
+#ifdef GL_DEBUG_TYPE_POP_GROUP
+	x = ev.debug_type_pop_group;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DEBUG_TYPE_POP_GROUP"
+	) == 0);
+#endif
+
+#ifdef GL_DEBUG_TYPE_PORTABILITY
+	x = ev.debug_type_portability;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DEBUG_TYPE_PORTABILITY"
+	) == 0);
+#endif
+
+#ifdef GL_DEBUG_TYPE_PUSH_GROUP
+	x = ev.debug_type_push_group;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DEBUG_TYPE_PUSH_GROUP"
+	) == 0);
+#endif
+
+#ifdef GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR
+	x = ev.debug_type_undefined_behavior;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DEBUG_TYPE_UNDEFINED_BEHAVIOR"
+	) == 0);
+#endif
+
+#ifdef GL_DONT_CARE
+	x = ev.dont_care;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DONT_CARE"
+	) == 0);
 #endif
 }
 

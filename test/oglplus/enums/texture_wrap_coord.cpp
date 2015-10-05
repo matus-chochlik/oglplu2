@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_texture_wrap_coord)
 
@@ -56,6 +57,42 @@ BOOST_AUTO_TEST_CASE(enum_texture_wrap_coord_values)
 	BOOST_CHECK(x != ev.texture_wrap_s);
 # endif
 	BOOST_CHECK(x == ev.texture_wrap_t);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_texture_wrap_coord_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	texture_wrap_coord x;
+	(void)x;
+
+#ifdef GL_TEXTURE_WRAP_R
+	x = ev.texture_wrap_r;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TEXTURE_WRAP_R"
+	) == 0);
+#endif
+
+#ifdef GL_TEXTURE_WRAP_S
+	x = ev.texture_wrap_s;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TEXTURE_WRAP_S"
+	) == 0);
+#endif
+
+#ifdef GL_TEXTURE_WRAP_T
+	x = ev.texture_wrap_t;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"TEXTURE_WRAP_T"
+	) == 0);
 #endif
 }
 

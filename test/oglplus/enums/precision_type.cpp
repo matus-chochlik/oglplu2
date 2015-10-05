@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_precision_type)
 
@@ -143,6 +144,69 @@ BOOST_AUTO_TEST_CASE(enum_precision_type_values)
 	BOOST_CHECK(x != ev.medium_float);
 # endif
 	BOOST_CHECK(x == ev.medium_int);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_precision_type_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	precision_type x;
+	(void)x;
+
+#ifdef GL_HIGH_FLOAT
+	x = ev.high_float;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"HIGH_FLOAT"
+	) == 0);
+#endif
+
+#ifdef GL_HIGH_INT
+	x = ev.high_int;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"HIGH_INT"
+	) == 0);
+#endif
+
+#ifdef GL_LOW_FLOAT
+	x = ev.low_float;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"LOW_FLOAT"
+	) == 0);
+#endif
+
+#ifdef GL_LOW_INT
+	x = ev.low_int;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"LOW_INT"
+	) == 0);
+#endif
+
+#ifdef GL_MEDIUM_FLOAT
+	x = ev.medium_float;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MEDIUM_FLOAT"
+	) == 0);
+#endif
+
+#ifdef GL_MEDIUM_INT
+	x = ev.medium_int;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MEDIUM_INT"
+	) == 0);
 #endif
 }
 

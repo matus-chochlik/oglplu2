@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_buffer_map_access)
 
@@ -231,6 +232,87 @@ BOOST_AUTO_TEST_CASE(enum_buffer_map_access_values)
 	BOOST_CHECK(x != ev.map_unsynchronized_bit);
 # endif
 	BOOST_CHECK(x == ev.map_write_bit);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_buffer_map_access_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	buffer_map_access x;
+	(void)x;
+
+#ifdef GL_MAP_COHERENT_BIT
+	x = ev.map_coherent_bit;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAP_COHERENT_BIT"
+	) == 0);
+#endif
+
+#ifdef GL_MAP_FLUSH_EXPLICIT_BIT
+	x = ev.map_flush_explicit_bit;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAP_FLUSH_EXPLICIT_BIT"
+	) == 0);
+#endif
+
+#ifdef GL_MAP_INVALIDATE_BUFFER_BIT
+	x = ev.map_invalidate_buffer_bit;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAP_INVALIDATE_BUFFER_BIT"
+	) == 0);
+#endif
+
+#ifdef GL_MAP_INVALIDATE_RANGE_BIT
+	x = ev.map_invalidate_range_bit;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAP_INVALIDATE_RANGE_BIT"
+	) == 0);
+#endif
+
+#ifdef GL_MAP_PERSISTENT_BIT
+	x = ev.map_persistent_bit;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAP_PERSISTENT_BIT"
+	) == 0);
+#endif
+
+#ifdef GL_MAP_READ_BIT
+	x = ev.map_read_bit;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAP_READ_BIT"
+	) == 0);
+#endif
+
+#ifdef GL_MAP_UNSYNCHRONIZED_BIT
+	x = ev.map_unsynchronized_bit;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAP_UNSYNCHRONIZED_BIT"
+	) == 0);
+#endif
+
+#ifdef GL_MAP_WRITE_BIT
+	x = ev.map_write_bit;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"MAP_WRITE_BIT"
+	) == 0);
 #endif
 }
 

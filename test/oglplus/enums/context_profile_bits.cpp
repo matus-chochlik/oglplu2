@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_context_profile_bits)
 
@@ -39,6 +40,33 @@ BOOST_AUTO_TEST_CASE(enum_context_profile_bits_values)
 	BOOST_CHECK(x != ev.context_compatibility_profile_bit);
 # endif
 	BOOST_CHECK(x == ev.context_core_profile_bit);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_context_profile_bits_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	context_profile_bits x;
+	(void)x;
+
+#ifdef GL_CONTEXT_COMPATIBILITY_PROFILE_BIT
+	x = ev.context_compatibility_profile_bit;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"CONTEXT_COMPATIBILITY_PROFILE_BIT"
+	) == 0);
+#endif
+
+#ifdef GL_CONTEXT_CORE_PROFILE_BIT
+	x = ev.context_core_profile_bit;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"CONTEXT_CORE_PROFILE_BIT"
+	) == 0);
 #endif
 }
 

@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_color_buffer)
 
@@ -343,6 +344,105 @@ BOOST_AUTO_TEST_CASE(enum_color_buffer_values)
 	BOOST_CHECK(x != ev.none);
 # endif
 	BOOST_CHECK(x == ev.right);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_color_buffer_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	color_buffer x;
+	(void)x;
+
+#ifdef GL_BACK
+	x = ev.back;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"BACK"
+	) == 0);
+#endif
+
+#ifdef GL_BACK_LEFT
+	x = ev.back_left;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"BACK_LEFT"
+	) == 0);
+#endif
+
+#ifdef GL_BACK_RIGHT
+	x = ev.back_right;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"BACK_RIGHT"
+	) == 0);
+#endif
+
+#ifdef GL_FRONT
+	x = ev.front;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"FRONT"
+	) == 0);
+#endif
+
+#ifdef GL_FRONT_AND_BACK
+	x = ev.front_and_back;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"FRONT_AND_BACK"
+	) == 0);
+#endif
+
+#ifdef GL_FRONT_LEFT
+	x = ev.front_left;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"FRONT_LEFT"
+	) == 0);
+#endif
+
+#ifdef GL_FRONT_RIGHT
+	x = ev.front_right;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"FRONT_RIGHT"
+	) == 0);
+#endif
+
+#ifdef GL_LEFT
+	x = ev.left;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"LEFT"
+	) == 0);
+#endif
+
+#ifdef GL_NONE
+	x = ev.none;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"NONE"
+	) == 0);
+#endif
+
+#ifdef GL_RIGHT
+	x = ev.right;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RIGHT"
+	) == 0);
 #endif
 }
 

@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_graphics_reset_status)
 
@@ -79,6 +80,51 @@ BOOST_AUTO_TEST_CASE(enum_graphics_reset_status_values)
 	BOOST_CHECK(x != ev.no_error);
 # endif
 	BOOST_CHECK(x == ev.unknown_context_reset);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_graphics_reset_status_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	graphics_reset_status x;
+	(void)x;
+
+#ifdef GL_GUILTY_CONTEXT_RESET
+	x = ev.guilty_context_reset;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"GUILTY_CONTEXT_RESET"
+	) == 0);
+#endif
+
+#ifdef GL_INNOCENT_CONTEXT_RESET
+	x = ev.innocent_context_reset;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"INNOCENT_CONTEXT_RESET"
+	) == 0);
+#endif
+
+#ifdef GL_NO_ERROR
+	x = ev.no_error;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"NO_ERROR"
+	) == 0);
+#endif
+
+#ifdef GL_UNKNOWN_CONTEXT_RESET
+	x = ev.unknown_context_reset;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"UNKNOWN_CONTEXT_RESET"
+	) == 0);
 #endif
 }
 

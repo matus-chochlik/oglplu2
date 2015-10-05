@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_pixel_data_internal_format)
 
@@ -30223,6 +30224,915 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_values)
 	BOOST_CHECK(x != ev.srgb8_alpha8);
 # endif
 	BOOST_CHECK(x == ev.stencil_index8);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	pixel_data_internal_format x;
+	(void)x;
+
+#ifdef GL_COMPRESSED_R11_EAC
+	x = ev.compressed_r11_eac;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COMPRESSED_R11_EAC"
+	) == 0);
+#endif
+
+#ifdef GL_COMPRESSED_RED
+	x = ev.compressed_red;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COMPRESSED_RED"
+	) == 0);
+#endif
+
+#ifdef GL_COMPRESSED_RED_RGTC1
+	x = ev.compressed_red_rgtc1;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COMPRESSED_RED_RGTC1"
+	) == 0);
+#endif
+
+#ifdef GL_COMPRESSED_RG
+	x = ev.compressed_rg;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COMPRESSED_RG"
+	) == 0);
+#endif
+
+#ifdef GL_COMPRESSED_RG11_EAC
+	x = ev.compressed_rg11_eac;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COMPRESSED_RG11_EAC"
+	) == 0);
+#endif
+
+#ifdef GL_COMPRESSED_RG_RGTC2
+	x = ev.compressed_rg_rgtc2;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COMPRESSED_RG_RGTC2"
+	) == 0);
+#endif
+
+#ifdef GL_COMPRESSED_RGB
+	x = ev.compressed_rgb;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COMPRESSED_RGB"
+	) == 0);
+#endif
+
+#ifdef GL_COMPRESSED_RGB8_ETC2
+	x = ev.compressed_rgb8_etc2;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COMPRESSED_RGB8_ETC2"
+	) == 0);
+#endif
+
+#ifdef GL_COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2
+	x = ev.compressed_rgb8_punchthrough_alpha1_etc2;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2"
+	) == 0);
+#endif
+
+#ifdef GL_COMPRESSED_RGB_BPTC_SIGNED_FLOAT
+	x = ev.compressed_rgb_bptc_signed_float;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COMPRESSED_RGB_BPTC_SIGNED_FLOAT"
+	) == 0);
+#endif
+
+#ifdef GL_COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT
+	x = ev.compressed_rgb_bptc_unsigned_float;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT"
+	) == 0);
+#endif
+
+#ifdef GL_COMPRESSED_RGBA
+	x = ev.compressed_rgba;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COMPRESSED_RGBA"
+	) == 0);
+#endif
+
+#ifdef GL_COMPRESSED_RGBA8_ETC2_EAC
+	x = ev.compressed_rgba8_etc2_eac;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COMPRESSED_RGBA8_ETC2_EAC"
+	) == 0);
+#endif
+
+#ifdef GL_COMPRESSED_RGBA_BPTC_UNORM
+	x = ev.compressed_rgba_bptc_unorm;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COMPRESSED_RGBA_BPTC_UNORM"
+	) == 0);
+#endif
+
+#ifdef GL_COMPRESSED_SIGNED_R11_EAC
+	x = ev.compressed_signed_r11_eac;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COMPRESSED_SIGNED_R11_EAC"
+	) == 0);
+#endif
+
+#ifdef GL_COMPRESSED_SIGNED_RED_RGTC1
+	x = ev.compressed_signed_red_rgtc1;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COMPRESSED_SIGNED_RED_RGTC1"
+	) == 0);
+#endif
+
+#ifdef GL_COMPRESSED_SIGNED_RG11_EAC
+	x = ev.compressed_signed_rg11_eac;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COMPRESSED_SIGNED_RG11_EAC"
+	) == 0);
+#endif
+
+#ifdef GL_COMPRESSED_SIGNED_RG_RGTC2
+	x = ev.compressed_signed_rg_rgtc2;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COMPRESSED_SIGNED_RG_RGTC2"
+	) == 0);
+#endif
+
+#ifdef GL_COMPRESSED_SRGB
+	x = ev.compressed_srgb;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COMPRESSED_SRGB"
+	) == 0);
+#endif
+
+#ifdef GL_COMPRESSED_SRGB8_ALPHA8_ETC2_EAC
+	x = ev.compressed_srgb8_alpha8_etc2_eac;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COMPRESSED_SRGB8_ALPHA8_ETC2_EAC"
+	) == 0);
+#endif
+
+#ifdef GL_COMPRESSED_SRGB8_ETC2
+	x = ev.compressed_srgb8_etc2;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COMPRESSED_SRGB8_ETC2"
+	) == 0);
+#endif
+
+#ifdef GL_COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2
+	x = ev.compressed_srgb8_punchthrough_alpha1_etc2;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2"
+	) == 0);
+#endif
+
+#ifdef GL_COMPRESSED_SRGB_ALPHA
+	x = ev.compressed_srgb_alpha;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COMPRESSED_SRGB_ALPHA"
+	) == 0);
+#endif
+
+#ifdef GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM
+	x = ev.compressed_srgb_alpha_bptc_unorm;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"COMPRESSED_SRGB_ALPHA_BPTC_UNORM"
+	) == 0);
+#endif
+
+#ifdef GL_DEPTH24_STENCIL8
+	x = ev.depth24_stencil8;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DEPTH24_STENCIL8"
+	) == 0);
+#endif
+
+#ifdef GL_DEPTH32F_STENCIL8
+	x = ev.depth32f_stencil8;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DEPTH32F_STENCIL8"
+	) == 0);
+#endif
+
+#ifdef GL_DEPTH_COMPONENT
+	x = ev.depth_component;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DEPTH_COMPONENT"
+	) == 0);
+#endif
+
+#ifdef GL_DEPTH_COMPONENT16
+	x = ev.depth_component16;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DEPTH_COMPONENT16"
+	) == 0);
+#endif
+
+#ifdef GL_DEPTH_COMPONENT24
+	x = ev.depth_component24;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DEPTH_COMPONENT24"
+	) == 0);
+#endif
+
+#ifdef GL_DEPTH_COMPONENT32
+	x = ev.depth_component32;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DEPTH_COMPONENT32"
+	) == 0);
+#endif
+
+#ifdef GL_DEPTH_COMPONENT32F
+	x = ev.depth_component32f;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DEPTH_COMPONENT32F"
+	) == 0);
+#endif
+
+#ifdef GL_DEPTH_STENCIL
+	x = ev.depth_stencil;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DEPTH_STENCIL"
+	) == 0);
+#endif
+
+#ifdef GL_R11F_G11F_B10F
+	x = ev.r11f_g11f_b10f;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"R11F_G11F_B10F"
+	) == 0);
+#endif
+
+#ifdef GL_R16
+	x = ev.r16;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"R16"
+	) == 0);
+#endif
+
+#ifdef GL_R16_SNORM
+	x = ev.r16_snorm;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"R16_SNORM"
+	) == 0);
+#endif
+
+#ifdef GL_R16F
+	x = ev.r16f;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"R16F"
+	) == 0);
+#endif
+
+#ifdef GL_R16I
+	x = ev.r16i;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"R16I"
+	) == 0);
+#endif
+
+#ifdef GL_R16UI
+	x = ev.r16ui;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"R16UI"
+	) == 0);
+#endif
+
+#ifdef GL_R32F
+	x = ev.r32f;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"R32F"
+	) == 0);
+#endif
+
+#ifdef GL_R32I
+	x = ev.r32i;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"R32I"
+	) == 0);
+#endif
+
+#ifdef GL_R32UI
+	x = ev.r32ui;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"R32UI"
+	) == 0);
+#endif
+
+#ifdef GL_R3_G3_B2
+	x = ev.r3_g3_b2;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"R3_G3_B2"
+	) == 0);
+#endif
+
+#ifdef GL_R8
+	x = ev.r8;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"R8"
+	) == 0);
+#endif
+
+#ifdef GL_R8_SNORM
+	x = ev.r8_snorm;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"R8_SNORM"
+	) == 0);
+#endif
+
+#ifdef GL_R8I
+	x = ev.r8i;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"R8I"
+	) == 0);
+#endif
+
+#ifdef GL_R8UI
+	x = ev.r8ui;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"R8UI"
+	) == 0);
+#endif
+
+#ifdef GL_RED
+	x = ev.red;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RED"
+	) == 0);
+#endif
+
+#ifdef GL_RG
+	x = ev.rg;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RG"
+	) == 0);
+#endif
+
+#ifdef GL_RG16
+	x = ev.rg16;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RG16"
+	) == 0);
+#endif
+
+#ifdef GL_RG16_SNORM
+	x = ev.rg16_snorm;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RG16_SNORM"
+	) == 0);
+#endif
+
+#ifdef GL_RG16F
+	x = ev.rg16f;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RG16F"
+	) == 0);
+#endif
+
+#ifdef GL_RG16I
+	x = ev.rg16i;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RG16I"
+	) == 0);
+#endif
+
+#ifdef GL_RG16UI
+	x = ev.rg16ui;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RG16UI"
+	) == 0);
+#endif
+
+#ifdef GL_RG32F
+	x = ev.rg32f;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RG32F"
+	) == 0);
+#endif
+
+#ifdef GL_RG32I
+	x = ev.rg32i;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RG32I"
+	) == 0);
+#endif
+
+#ifdef GL_RG32UI
+	x = ev.rg32ui;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RG32UI"
+	) == 0);
+#endif
+
+#ifdef GL_RG8
+	x = ev.rg8;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RG8"
+	) == 0);
+#endif
+
+#ifdef GL_RG8_SNORM
+	x = ev.rg8_snorm;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RG8_SNORM"
+	) == 0);
+#endif
+
+#ifdef GL_RG8I
+	x = ev.rg8i;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RG8I"
+	) == 0);
+#endif
+
+#ifdef GL_RG8UI
+	x = ev.rg8ui;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RG8UI"
+	) == 0);
+#endif
+
+#ifdef GL_RGB
+	x = ev.rgb;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RGB"
+	) == 0);
+#endif
+
+#ifdef GL_RGB10
+	x = ev.rgb10;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RGB10"
+	) == 0);
+#endif
+
+#ifdef GL_RGB10_A2
+	x = ev.rgb10_a2;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RGB10_A2"
+	) == 0);
+#endif
+
+#ifdef GL_RGB10_A2UI
+	x = ev.rgb10_a2ui;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RGB10_A2UI"
+	) == 0);
+#endif
+
+#ifdef GL_RGB12
+	x = ev.rgb12;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RGB12"
+	) == 0);
+#endif
+
+#ifdef GL_RGB16
+	x = ev.rgb16;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RGB16"
+	) == 0);
+#endif
+
+#ifdef GL_RGB16_SNORM
+	x = ev.rgb16_snorm;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RGB16_SNORM"
+	) == 0);
+#endif
+
+#ifdef GL_RGB16F
+	x = ev.rgb16f;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RGB16F"
+	) == 0);
+#endif
+
+#ifdef GL_RGB16I
+	x = ev.rgb16i;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RGB16I"
+	) == 0);
+#endif
+
+#ifdef GL_RGB16UI
+	x = ev.rgb16ui;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RGB16UI"
+	) == 0);
+#endif
+
+#ifdef GL_RGB32F
+	x = ev.rgb32f;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RGB32F"
+	) == 0);
+#endif
+
+#ifdef GL_RGB32I
+	x = ev.rgb32i;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RGB32I"
+	) == 0);
+#endif
+
+#ifdef GL_RGB32UI
+	x = ev.rgb32ui;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RGB32UI"
+	) == 0);
+#endif
+
+#ifdef GL_RGB4
+	x = ev.rgb4;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RGB4"
+	) == 0);
+#endif
+
+#ifdef GL_RGB5
+	x = ev.rgb5;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RGB5"
+	) == 0);
+#endif
+
+#ifdef GL_RGB5_A1
+	x = ev.rgb5_a1;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RGB5_A1"
+	) == 0);
+#endif
+
+#ifdef GL_RGB8
+	x = ev.rgb8;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RGB8"
+	) == 0);
+#endif
+
+#ifdef GL_RGB8_SNORM
+	x = ev.rgb8_snorm;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RGB8_SNORM"
+	) == 0);
+#endif
+
+#ifdef GL_RGB8I
+	x = ev.rgb8i;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RGB8I"
+	) == 0);
+#endif
+
+#ifdef GL_RGB8UI
+	x = ev.rgb8ui;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RGB8UI"
+	) == 0);
+#endif
+
+#ifdef GL_RGB9_E5
+	x = ev.rgb9_e5;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RGB9_E5"
+	) == 0);
+#endif
+
+#ifdef GL_RGBA
+	x = ev.rgba;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RGBA"
+	) == 0);
+#endif
+
+#ifdef GL_RGBA12
+	x = ev.rgba12;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RGBA12"
+	) == 0);
+#endif
+
+#ifdef GL_RGBA16
+	x = ev.rgba16;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RGBA16"
+	) == 0);
+#endif
+
+#ifdef GL_RGBA16_SNORM
+	x = ev.rgba16_snorm;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RGBA16_SNORM"
+	) == 0);
+#endif
+
+#ifdef GL_RGBA16F
+	x = ev.rgba16f;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RGBA16F"
+	) == 0);
+#endif
+
+#ifdef GL_RGBA16I
+	x = ev.rgba16i;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RGBA16I"
+	) == 0);
+#endif
+
+#ifdef GL_RGBA16UI
+	x = ev.rgba16ui;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RGBA16UI"
+	) == 0);
+#endif
+
+#ifdef GL_RGBA2
+	x = ev.rgba2;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RGBA2"
+	) == 0);
+#endif
+
+#ifdef GL_RGBA32F
+	x = ev.rgba32f;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RGBA32F"
+	) == 0);
+#endif
+
+#ifdef GL_RGBA32I
+	x = ev.rgba32i;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RGBA32I"
+	) == 0);
+#endif
+
+#ifdef GL_RGBA32UI
+	x = ev.rgba32ui;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RGBA32UI"
+	) == 0);
+#endif
+
+#ifdef GL_RGBA4
+	x = ev.rgba4;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RGBA4"
+	) == 0);
+#endif
+
+#ifdef GL_RGBA8
+	x = ev.rgba8;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RGBA8"
+	) == 0);
+#endif
+
+#ifdef GL_RGBA8_SNORM
+	x = ev.rgba8_snorm;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RGBA8_SNORM"
+	) == 0);
+#endif
+
+#ifdef GL_RGBA8I
+	x = ev.rgba8i;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RGBA8I"
+	) == 0);
+#endif
+
+#ifdef GL_RGBA8UI
+	x = ev.rgba8ui;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"RGBA8UI"
+	) == 0);
+#endif
+
+#ifdef GL_SRGB8
+	x = ev.srgb8;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"SRGB8"
+	) == 0);
+#endif
+
+#ifdef GL_SRGB8_ALPHA8
+	x = ev.srgb8_alpha8;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"SRGB8_ALPHA8"
+	) == 0);
+#endif
+
+#ifdef GL_STENCIL_INDEX8
+	x = ev.stencil_index8;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"STENCIL_INDEX8"
+	) == 0);
 #endif
 }
 

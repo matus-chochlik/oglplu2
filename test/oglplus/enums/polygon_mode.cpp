@@ -14,6 +14,7 @@
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_polygon_mode)
 
@@ -79,6 +80,51 @@ BOOST_AUTO_TEST_CASE(enum_polygon_mode_values)
 	BOOST_CHECK(x != ev.line);
 # endif
 	BOOST_CHECK(x == ev.point);
+#endif
+}
+
+BOOST_AUTO_TEST_CASE(enum_polygon_mode_names)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	polygon_mode x;
+	(void)x;
+
+#ifdef GL_FILL
+	x = ev.fill;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"FILL"
+	) == 0);
+#endif
+
+#ifdef GL_FILL_RECTANGLE_NV
+	x = ev.fill_rectangle;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"FILL_RECTANGLE_NV"
+	) == 0);
+#endif
+
+#ifdef GL_LINE
+	x = ev.line;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"LINE"
+	) == 0);
+#endif
+
+#ifdef GL_POINT
+	x = ev.point;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"POINT"
+	) == 0);
 #endif
 }
 
