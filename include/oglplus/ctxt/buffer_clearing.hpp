@@ -46,18 +46,8 @@ struct rgba_value
 	}
 };
 
-struct buffer_clearing
+struct buffer_clearing_state
 {
-	static
-	outcome<void>
-	clear(enum_bitfield<buffer_select_bits> bits)
-	noexcept
-	{
-		OGLPLUS_GLFUNC(Clear)(GLbitfield(bits));
-		OGLPLUS_VERIFY_SIMPLE(Clear,warning);
-		return {};
-	}
-
 	static
 	outcome<void>
 	clear_color(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
@@ -119,6 +109,19 @@ struct buffer_clearing
 		OGLPLUS_GLFUNC(GetIntegerv)(GL_STENCIL_CLEAR_VALUE, &result);
 		OGLPLUS_VERIFY_SIMPLE(GetIntegerv,warning);
 		return {result};
+	}
+};
+
+struct buffer_clearing_ops
+{
+	static
+	outcome<void>
+	clear(enum_bitfield<buffer_select_bits> bits)
+	noexcept
+	{
+		OGLPLUS_GLFUNC(Clear)(GLbitfield(bits));
+		OGLPLUS_VERIFY_SIMPLE(Clear,warning);
+		return {};
 	}
 };
 

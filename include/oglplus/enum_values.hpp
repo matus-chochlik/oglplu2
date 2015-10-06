@@ -5990,7 +5990,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_UNSIGNED_BYTE,
-	mp_list<pixel_data_type,data_type>
+	mp_list<index_type,pixel_data_type,data_type>
 > unsigned_byte = {};
 #endif
 
@@ -6014,7 +6014,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_UNSIGNED_INT,
-	mp_list<sl_data_type,pixel_data_type,data_type>
+	mp_list<index_type,sl_data_type,pixel_data_type,data_type>
 > unsigned_int = {};
 #endif
 
@@ -6278,7 +6278,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_UNSIGNED_SHORT,
-	mp_list<pixel_data_type,data_type>
+	mp_list<index_type,pixel_data_type,data_type>
 > unsigned_short = {};
 #endif
 
