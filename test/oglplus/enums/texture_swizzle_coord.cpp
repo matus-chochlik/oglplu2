@@ -166,4 +166,61 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_coord_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_texture_swizzle_coord_range)
+{
+	using namespace oglplus;
+	texture_swizzle_coord x;
+	(void)x;
+
+#ifdef GL_TEXTURE_SWIZZLE_A
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TEXTURE_SWIZZLE_A
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TEXTURE_SWIZZLE_B
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TEXTURE_SWIZZLE_B
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TEXTURE_SWIZZLE_G
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TEXTURE_SWIZZLE_G
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TEXTURE_SWIZZLE_R
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TEXTURE_SWIZZLE_R
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TEXTURE_SWIZZLE_RGBA
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TEXTURE_SWIZZLE_RGBA
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

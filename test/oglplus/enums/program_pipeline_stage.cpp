@@ -260,4 +260,81 @@ BOOST_AUTO_TEST_CASE(enum_program_pipeline_stage_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_program_pipeline_stage_range)
+{
+	using namespace oglplus;
+	program_pipeline_stage x;
+	(void)x;
+
+#ifdef GL_ALL_SHADER_BITS
+{
+	array_view<const GLbitfield> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_ALL_SHADER_BITS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_COMPUTE_SHADER_BIT
+{
+	array_view<const GLbitfield> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_COMPUTE_SHADER_BIT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_FRAGMENT_SHADER_BIT
+{
+	array_view<const GLbitfield> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_FRAGMENT_SHADER_BIT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_GEOMETRY_SHADER_BIT
+{
+	array_view<const GLbitfield> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_GEOMETRY_SHADER_BIT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TESS_CONTROL_SHADER_BIT
+{
+	array_view<const GLbitfield> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TESS_CONTROL_SHADER_BIT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TESS_EVALUATION_SHADER_BIT
+{
+	array_view<const GLbitfield> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TESS_EVALUATION_SHADER_BIT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_VERTEX_SHADER_BIT
+{
+	array_view<const GLbitfield> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_VERTEX_SHADER_BIT
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

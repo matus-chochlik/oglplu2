@@ -446,4 +446,111 @@ BOOST_AUTO_TEST_CASE(enum_color_buffer_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_color_buffer_range)
+{
+	using namespace oglplus;
+	color_buffer x;
+	(void)x;
+
+#ifdef GL_BACK
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_BACK
+	) != r.end());
+}
+#endif
+
+#ifdef GL_BACK_LEFT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_BACK_LEFT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_BACK_RIGHT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_BACK_RIGHT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_FRONT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_FRONT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_FRONT_AND_BACK
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_FRONT_AND_BACK
+	) != r.end());
+}
+#endif
+
+#ifdef GL_FRONT_LEFT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_FRONT_LEFT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_FRONT_RIGHT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_FRONT_RIGHT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_LEFT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_LEFT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_NONE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_NONE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_RIGHT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_RIGHT
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

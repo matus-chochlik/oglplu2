@@ -1328,4 +1328,201 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_attachment_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_framebuffer_attachment_range)
+{
+	using namespace oglplus;
+	framebuffer_attachment x;
+	(void)x;
+
+#ifdef GL_COLOR_ATTACHMENT0
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_COLOR_ATTACHMENT0
+	) != r.end());
+}
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT1
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_COLOR_ATTACHMENT1
+	) != r.end());
+}
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT10
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_COLOR_ATTACHMENT10
+	) != r.end());
+}
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT11
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_COLOR_ATTACHMENT11
+	) != r.end());
+}
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT12
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_COLOR_ATTACHMENT12
+	) != r.end());
+}
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT13
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_COLOR_ATTACHMENT13
+	) != r.end());
+}
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT14
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_COLOR_ATTACHMENT14
+	) != r.end());
+}
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT15
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_COLOR_ATTACHMENT15
+	) != r.end());
+}
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT2
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_COLOR_ATTACHMENT2
+	) != r.end());
+}
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT3
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_COLOR_ATTACHMENT3
+	) != r.end());
+}
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT4
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_COLOR_ATTACHMENT4
+	) != r.end());
+}
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT5
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_COLOR_ATTACHMENT5
+	) != r.end());
+}
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT6
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_COLOR_ATTACHMENT6
+	) != r.end());
+}
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT7
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_COLOR_ATTACHMENT7
+	) != r.end());
+}
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT8
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_COLOR_ATTACHMENT8
+	) != r.end());
+}
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT9
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_COLOR_ATTACHMENT9
+	) != r.end());
+}
+#endif
+
+#ifdef GL_DEPTH_ATTACHMENT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DEPTH_ATTACHMENT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_DEPTH_STENCIL_ATTACHMENT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DEPTH_STENCIL_ATTACHMENT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_STENCIL_ATTACHMENT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_STENCIL_ATTACHMENT
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

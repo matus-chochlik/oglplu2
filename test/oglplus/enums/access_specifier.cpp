@@ -96,4 +96,41 @@ BOOST_AUTO_TEST_CASE(enum_access_specifier_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_access_specifier_range)
+{
+	using namespace oglplus;
+	access_specifier x;
+	(void)x;
+
+#ifdef GL_READ_ONLY
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_READ_ONLY
+	) != r.end());
+}
+#endif
+
+#ifdef GL_READ_WRITE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_READ_WRITE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_WRITE_ONLY
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_WRITE_ONLY
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

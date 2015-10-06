@@ -2520,4 +2520,281 @@ BOOST_AUTO_TEST_CASE(enum_capability_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_capability_range)
+{
+	using namespace oglplus;
+	capability x;
+	(void)x;
+
+#ifdef GL_BLEND
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_BLEND
+	) != r.end());
+}
+#endif
+
+#ifdef GL_BLEND_ADVANCED_COHERENT_KHR
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_BLEND_ADVANCED_COHERENT_KHR
+	) != r.end());
+}
+#endif
+
+#ifdef GL_COLOR_LOGIC_OP
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_COLOR_LOGIC_OP
+	) != r.end());
+}
+#endif
+
+#ifdef GL_CULL_FACE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_CULL_FACE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_DEBUG_OUTPUT_SYNCHRONOUS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DEBUG_OUTPUT_SYNCHRONOUS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_DEPTH_TEST
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DEPTH_TEST
+	) != r.end());
+}
+#endif
+
+#ifdef GL_DITHER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DITHER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_FRAGMENT_COVERAGE_TO_COLOR_NV
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_FRAGMENT_COVERAGE_TO_COLOR_NV
+	) != r.end());
+}
+#endif
+
+#ifdef GL_FRAMEBUFFER_SRGB
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_FRAMEBUFFER_SRGB
+	) != r.end());
+}
+#endif
+
+#ifdef GL_LINE_SMOOTH
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_LINE_SMOOTH
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MULTISAMPLE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MULTISAMPLE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_POLYGON_OFFSET_FILL
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_POLYGON_OFFSET_FILL
+	) != r.end());
+}
+#endif
+
+#ifdef GL_POLYGON_OFFSET_LINE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_POLYGON_OFFSET_LINE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_POLYGON_OFFSET_POINT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_POLYGON_OFFSET_POINT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_POLYGON_SMOOTH
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_POLYGON_SMOOTH
+	) != r.end());
+}
+#endif
+
+#ifdef GL_PRIMITIVE_RESTART
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_PRIMITIVE_RESTART
+	) != r.end());
+}
+#endif
+
+#ifdef GL_PROGRAM_POINT_SIZE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_PROGRAM_POINT_SIZE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_RASTERIZER_DISCARD
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_RASTERIZER_DISCARD
+	) != r.end());
+}
+#endif
+
+#ifdef GL_SAMPLE_ALPHA_TO_COVERAGE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_SAMPLE_ALPHA_TO_COVERAGE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_SAMPLE_ALPHA_TO_ONE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_SAMPLE_ALPHA_TO_ONE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_SAMPLE_COVERAGE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_SAMPLE_COVERAGE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_SAMPLE_MASK
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_SAMPLE_MASK
+	) != r.end());
+}
+#endif
+
+#ifdef GL_SAMPLE_SHADING
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_SAMPLE_SHADING
+	) != r.end());
+}
+#endif
+
+#ifdef GL_SCISSOR_TEST
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_SCISSOR_TEST
+	) != r.end());
+}
+#endif
+
+#ifdef GL_STENCIL_TEST
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_STENCIL_TEST
+	) != r.end());
+}
+#endif
+
+#ifdef GL_STREAM_RASTERIZATION_AMD
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_STREAM_RASTERIZATION_AMD
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TEXTURE_CUBE_MAP_SEAMLESS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TEXTURE_CUBE_MAP_SEAMLESS
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

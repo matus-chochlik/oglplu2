@@ -128,4 +128,51 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_buffer_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_framebuffer_buffer_range)
+{
+	using namespace oglplus;
+	framebuffer_buffer x;
+	(void)x;
+
+#ifdef GL_COLOR
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_COLOR
+	) != r.end());
+}
+#endif
+
+#ifdef GL_DEPTH
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DEPTH
+	) != r.end());
+}
+#endif
+
+#ifdef GL_DEPTH_STENCIL
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DEPTH_STENCIL
+	) != r.end());
+}
+#endif
+
+#ifdef GL_STENCIL
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_STENCIL
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

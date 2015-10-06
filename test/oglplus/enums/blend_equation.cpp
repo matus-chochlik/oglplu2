@@ -166,4 +166,61 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_blend_equation_range)
+{
+	using namespace oglplus;
+	blend_equation x;
+	(void)x;
+
+#ifdef GL_FUNC_ADD
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_FUNC_ADD
+	) != r.end());
+}
+#endif
+
+#ifdef GL_FUNC_REVERSE_SUBTRACT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_FUNC_REVERSE_SUBTRACT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_FUNC_SUBTRACT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_FUNC_SUBTRACT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MIN
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MIN
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

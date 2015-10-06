@@ -70,4 +70,31 @@ BOOST_AUTO_TEST_CASE(enum_texture_compare_mode_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_texture_compare_mode_range)
+{
+	using namespace oglplus;
+	texture_compare_mode x;
+	(void)x;
+
+#ifdef GL_COMPARE_REF_TO_TEXTURE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_COMPARE_REF_TO_TEXTURE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_NONE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_NONE
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

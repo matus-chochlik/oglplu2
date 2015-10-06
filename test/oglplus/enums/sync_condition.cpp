@@ -50,4 +50,21 @@ BOOST_AUTO_TEST_CASE(enum_sync_condition_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_sync_condition_range)
+{
+	using namespace oglplus;
+	sync_condition x;
+	(void)x;
+
+#ifdef GL_SYNC_GPU_COMMANDS_COMPLETE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_SYNC_GPU_COMMANDS_COMPLETE
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

@@ -70,4 +70,31 @@ BOOST_AUTO_TEST_CASE(enum_context_release_behavior_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_context_release_behavior_range)
+{
+	using namespace oglplus;
+	context_release_behavior x;
+	(void)x;
+
+#ifdef GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH
+	) != r.end());
+}
+#endif
+
+#ifdef GL_NONE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_NONE
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

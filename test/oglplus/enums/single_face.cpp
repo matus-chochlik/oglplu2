@@ -70,4 +70,31 @@ BOOST_AUTO_TEST_CASE(enum_single_face_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_single_face_range)
+{
+	using namespace oglplus;
+	single_face x;
+	(void)x;
+
+#ifdef GL_BACK
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_BACK
+	) != r.end());
+}
+#endif
+
+#ifdef GL_FRONT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_FRONT
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

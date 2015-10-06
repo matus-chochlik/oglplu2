@@ -128,4 +128,51 @@ BOOST_AUTO_TEST_CASE(enum_sync_wait_result_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_sync_wait_result_range)
+{
+	using namespace oglplus;
+	sync_wait_result x;
+	(void)x;
+
+#ifdef GL_ALREADY_SIGNALED
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_ALREADY_SIGNALED
+	) != r.end());
+}
+#endif
+
+#ifdef GL_CONDITION_SATISFIED
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_CONDITION_SATISFIED
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TIMEOUT_EXPIRED
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TIMEOUT_EXPIRED
+	) != r.end());
+}
+#endif
+
+#ifdef GL_WAIT_FAILED
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_WAIT_FAILED
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

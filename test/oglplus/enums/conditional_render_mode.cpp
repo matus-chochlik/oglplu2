@@ -316,4 +316,91 @@ BOOST_AUTO_TEST_CASE(enum_conditional_render_mode_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_conditional_render_mode_range)
+{
+	using namespace oglplus;
+	conditional_render_mode x;
+	(void)x;
+
+#ifdef GL_QUERY_BY_REGION_NO_WAIT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_QUERY_BY_REGION_NO_WAIT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_QUERY_BY_REGION_NO_WAIT_INVERTED
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_QUERY_BY_REGION_NO_WAIT_INVERTED
+	) != r.end());
+}
+#endif
+
+#ifdef GL_QUERY_BY_REGION_WAIT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_QUERY_BY_REGION_WAIT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_QUERY_BY_REGION_WAIT_INVERTED
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_QUERY_BY_REGION_WAIT_INVERTED
+	) != r.end());
+}
+#endif
+
+#ifdef GL_QUERY_NO_WAIT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_QUERY_NO_WAIT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_QUERY_NO_WAIT_INVERTED
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_QUERY_NO_WAIT_INVERTED
+	) != r.end());
+}
+#endif
+
+#ifdef GL_QUERY_WAIT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_QUERY_WAIT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_QUERY_WAIT_INVERTED
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_QUERY_WAIT_INVERTED
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

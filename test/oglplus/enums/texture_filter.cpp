@@ -70,4 +70,31 @@ BOOST_AUTO_TEST_CASE(enum_texture_filter_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_texture_filter_range)
+{
+	using namespace oglplus;
+	texture_filter x;
+	(void)x;
+
+#ifdef GL_LINEAR
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_LINEAR
+	) != r.end());
+}
+#endif
+
+#ifdef GL_NEAREST
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_NEAREST
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

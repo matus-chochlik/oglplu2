@@ -96,4 +96,41 @@ BOOST_AUTO_TEST_CASE(enum_buffer_select_bits_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_buffer_select_bits_range)
+{
+	using namespace oglplus;
+	buffer_select_bits x;
+	(void)x;
+
+#ifdef GL_COLOR_BUFFER_BIT
+{
+	array_view<const GLbitfield> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_COLOR_BUFFER_BIT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_DEPTH_BUFFER_BIT
+{
+	array_view<const GLbitfield> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DEPTH_BUFFER_BIT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_STENCIL_BUFFER_BIT
+{
+	array_view<const GLbitfield> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_STENCIL_BUFFER_BIT
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

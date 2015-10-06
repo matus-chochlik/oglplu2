@@ -316,4 +316,91 @@ BOOST_AUTO_TEST_CASE(enum_stencil_operation_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_stencil_operation_range)
+{
+	using namespace oglplus;
+	stencil_operation x;
+	(void)x;
+
+#ifdef GL_DECR
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DECR
+	) != r.end());
+}
+#endif
+
+#ifdef GL_DECR_WRAP
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DECR_WRAP
+	) != r.end());
+}
+#endif
+
+#ifdef GL_INCR
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_INCR
+	) != r.end());
+}
+#endif
+
+#ifdef GL_INCR_WRAP
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_INCR_WRAP
+	) != r.end());
+}
+#endif
+
+#ifdef GL_INVERT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_INVERT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_KEEP
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_KEEP
+	) != r.end());
+}
+#endif
+
+#ifdef GL_REPLACE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_REPLACE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_ZERO
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_ZERO
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

@@ -70,4 +70,31 @@ BOOST_AUTO_TEST_CASE(enum_clip_depth_mode_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_clip_depth_mode_range)
+{
+	using namespace oglplus;
+	clip_depth_mode x;
+	(void)x;
+
+#ifdef GL_NEGATIVE_ONE_TO_ONE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_NEGATIVE_ONE_TO_ONE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_ZERO_TO_ONE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_ZERO_TO_ONE
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

@@ -128,4 +128,51 @@ BOOST_AUTO_TEST_CASE(enum_graphics_reset_status_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_graphics_reset_status_range)
+{
+	using namespace oglplus;
+	graphics_reset_status x;
+	(void)x;
+
+#ifdef GL_GUILTY_CONTEXT_RESET
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_GUILTY_CONTEXT_RESET
+	) != r.end());
+}
+#endif
+
+#ifdef GL_INNOCENT_CONTEXT_RESET
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_INNOCENT_CONTEXT_RESET
+	) != r.end());
+}
+#endif
+
+#ifdef GL_NO_ERROR
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_NO_ERROR
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNKNOWN_CONTEXT_RESET
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNKNOWN_CONTEXT_RESET
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

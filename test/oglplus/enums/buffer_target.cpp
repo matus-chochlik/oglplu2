@@ -980,4 +980,171 @@ BOOST_AUTO_TEST_CASE(enum_buffer_target_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_buffer_target_range)
+{
+	using namespace oglplus;
+	buffer_target x;
+	(void)x;
+
+#ifdef GL_ARRAY_BUFFER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_ARRAY_BUFFER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_ATOMIC_COUNTER_BUFFER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_ATOMIC_COUNTER_BUFFER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_COPY_READ_BUFFER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_COPY_READ_BUFFER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_COPY_WRITE_BUFFER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_COPY_WRITE_BUFFER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_DISPATCH_INDIRECT_BUFFER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DISPATCH_INDIRECT_BUFFER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_DRAW_INDIRECT_BUFFER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DRAW_INDIRECT_BUFFER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_ELEMENT_ARRAY_BUFFER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_ELEMENT_ARRAY_BUFFER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_EXTERNAL_VIRTUAL_MEMORY_BUFFER_AMD
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_EXTERNAL_VIRTUAL_MEMORY_BUFFER_AMD
+	) != r.end());
+}
+#endif
+
+#ifdef GL_PARAMETER_BUFFER_ARB
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_PARAMETER_BUFFER_ARB
+	) != r.end());
+}
+#endif
+
+#ifdef GL_PIXEL_PACK_BUFFER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_PIXEL_PACK_BUFFER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_PIXEL_UNPACK_BUFFER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_PIXEL_UNPACK_BUFFER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_QUERY_BUFFER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_QUERY_BUFFER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_SHADER_STORAGE_BUFFER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_SHADER_STORAGE_BUFFER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TEXTURE_BUFFER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TEXTURE_BUFFER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TRANSFORM_FEEDBACK_BUFFER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TRANSFORM_FEEDBACK_BUFFER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNIFORM_BUFFER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNIFORM_BUFFER
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

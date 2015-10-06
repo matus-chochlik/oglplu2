@@ -980,4 +980,171 @@ BOOST_AUTO_TEST_CASE(enum_color_logic_operation_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_color_logic_operation_range)
+{
+	using namespace oglplus;
+	color_logic_operation x;
+	(void)x;
+
+#ifdef GL_AND
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_AND
+	) != r.end());
+}
+#endif
+
+#ifdef GL_AND_INVERTED
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_AND_INVERTED
+	) != r.end());
+}
+#endif
+
+#ifdef GL_AND_REVERSE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_AND_REVERSE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_CLEAR
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_CLEAR
+	) != r.end());
+}
+#endif
+
+#ifdef GL_COPY
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_COPY
+	) != r.end());
+}
+#endif
+
+#ifdef GL_COPY_INVERTED
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_COPY_INVERTED
+	) != r.end());
+}
+#endif
+
+#ifdef GL_EQUIV
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_EQUIV
+	) != r.end());
+}
+#endif
+
+#ifdef GL_INVERT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_INVERT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_NAND
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_NAND
+	) != r.end());
+}
+#endif
+
+#ifdef GL_NOOP
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_NOOP
+	) != r.end());
+}
+#endif
+
+#ifdef GL_NOR
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_NOR
+	) != r.end());
+}
+#endif
+
+#ifdef GL_OR
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_OR
+	) != r.end());
+}
+#endif
+
+#ifdef GL_OR_INVERTED
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_OR_INVERTED
+	) != r.end());
+}
+#endif
+
+#ifdef GL_OR_REVERSE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_OR_REVERSE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_SET
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_SET
+	) != r.end());
+}
+#endif
+
+#ifdef GL_XOR
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_XOR
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

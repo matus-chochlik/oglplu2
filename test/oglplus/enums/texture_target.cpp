@@ -1090,4 +1090,181 @@ BOOST_AUTO_TEST_CASE(enum_texture_target_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_texture_target_range)
+{
+	using namespace oglplus;
+	texture_target x;
+	(void)x;
+
+#ifdef GL_TEXTURE_1D
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TEXTURE_1D
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TEXTURE_1D_ARRAY
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TEXTURE_1D_ARRAY
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TEXTURE_2D
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TEXTURE_2D
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TEXTURE_2D_ARRAY
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TEXTURE_2D_ARRAY
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TEXTURE_2D_MULTISAMPLE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TEXTURE_2D_MULTISAMPLE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TEXTURE_2D_MULTISAMPLE_ARRAY
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TEXTURE_2D_MULTISAMPLE_ARRAY
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TEXTURE_3D
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TEXTURE_3D
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TEXTURE_BUFFER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TEXTURE_BUFFER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TEXTURE_CUBE_MAP
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TEXTURE_CUBE_MAP
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TEXTURE_CUBE_MAP_ARRAY
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TEXTURE_CUBE_MAP_ARRAY
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TEXTURE_CUBE_MAP_NEGATIVE_X
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TEXTURE_CUBE_MAP_NEGATIVE_X
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TEXTURE_CUBE_MAP_NEGATIVE_Y
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TEXTURE_CUBE_MAP_NEGATIVE_Y
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TEXTURE_CUBE_MAP_NEGATIVE_Z
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TEXTURE_CUBE_MAP_NEGATIVE_Z
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TEXTURE_CUBE_MAP_POSITIVE_X
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TEXTURE_CUBE_MAP_POSITIVE_X
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TEXTURE_CUBE_MAP_POSITIVE_Y
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TEXTURE_CUBE_MAP_POSITIVE_Y
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TEXTURE_CUBE_MAP_POSITIVE_Z
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TEXTURE_CUBE_MAP_POSITIVE_Z
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TEXTURE_RECTANGLE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TEXTURE_RECTANGLE
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

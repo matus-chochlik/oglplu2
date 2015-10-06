@@ -166,4 +166,61 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_severity_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_debug_output_severity_range)
+{
+	using namespace oglplus;
+	debug_output_severity x;
+	(void)x;
+
+#ifdef GL_DEBUG_SEVERITY_HIGH
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DEBUG_SEVERITY_HIGH
+	) != r.end());
+}
+#endif
+
+#ifdef GL_DEBUG_SEVERITY_LOW
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DEBUG_SEVERITY_LOW
+	) != r.end());
+}
+#endif
+
+#ifdef GL_DEBUG_SEVERITY_MEDIUM
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DEBUG_SEVERITY_MEDIUM
+	) != r.end());
+}
+#endif
+
+#ifdef GL_DEBUG_SEVERITY_NOTIFICATION
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DEBUG_SEVERITY_NOTIFICATION
+	) != r.end());
+}
+#endif
+
+#ifdef GL_DONT_CARE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DONT_CARE
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

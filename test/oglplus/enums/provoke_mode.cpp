@@ -70,4 +70,31 @@ BOOST_AUTO_TEST_CASE(enum_provoke_mode_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_provoke_mode_range)
+{
+	using namespace oglplus;
+	provoke_mode x;
+	(void)x;
+
+#ifdef GL_FIRST_VERTEX_CONVENTION
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_FIRST_VERTEX_CONVENTION
+	) != r.end());
+}
+#endif
+
+#ifdef GL_LAST_VERTEX_CONVENTION
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_LAST_VERTEX_CONVENTION
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

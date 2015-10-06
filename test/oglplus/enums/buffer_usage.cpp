@@ -378,4 +378,101 @@ BOOST_AUTO_TEST_CASE(enum_buffer_usage_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_buffer_usage_range)
+{
+	using namespace oglplus;
+	buffer_usage x;
+	(void)x;
+
+#ifdef GL_DYNAMIC_COPY
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DYNAMIC_COPY
+	) != r.end());
+}
+#endif
+
+#ifdef GL_DYNAMIC_DRAW
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DYNAMIC_DRAW
+	) != r.end());
+}
+#endif
+
+#ifdef GL_DYNAMIC_READ
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DYNAMIC_READ
+	) != r.end());
+}
+#endif
+
+#ifdef GL_STATIC_COPY
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_STATIC_COPY
+	) != r.end());
+}
+#endif
+
+#ifdef GL_STATIC_DRAW
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_STATIC_DRAW
+	) != r.end());
+}
+#endif
+
+#ifdef GL_STATIC_READ
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_STATIC_READ
+	) != r.end());
+}
+#endif
+
+#ifdef GL_STREAM_COPY
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_STREAM_COPY
+	) != r.end());
+}
+#endif
+
+#ifdef GL_STREAM_DRAW
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_STREAM_DRAW
+	) != r.end());
+}
+#endif
+
+#ifdef GL_STREAM_READ
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_STREAM_READ
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

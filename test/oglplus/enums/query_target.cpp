@@ -1328,4 +1328,201 @@ BOOST_AUTO_TEST_CASE(enum_query_target_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_query_target_range)
+{
+	using namespace oglplus;
+	query_target x;
+	(void)x;
+
+#ifdef GL_ANY_SAMPLES_PASSED
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_ANY_SAMPLES_PASSED
+	) != r.end());
+}
+#endif
+
+#ifdef GL_CLIPPING_INPUT_PRIMITIVES_ARB
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_CLIPPING_INPUT_PRIMITIVES_ARB
+	) != r.end());
+}
+#endif
+
+#ifdef GL_CLIPPING_OUTPUT_PRIMITIVES_ARB
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_CLIPPING_OUTPUT_PRIMITIVES_ARB
+	) != r.end());
+}
+#endif
+
+#ifdef GL_COMPUTE_SHADER_INVOCATIONS_ARB
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_COMPUTE_SHADER_INVOCATIONS_ARB
+	) != r.end());
+}
+#endif
+
+#ifdef GL_FRAGMENT_SHADER_INVOCATIONS_ARB
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_FRAGMENT_SHADER_INVOCATIONS_ARB
+	) != r.end());
+}
+#endif
+
+#ifdef GL_GEOMETRY_SHADER_INVOCATIONS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_GEOMETRY_SHADER_INVOCATIONS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_GEOMETRY_SHADER_PRIMITIVES_EMITTED_ARB
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_GEOMETRY_SHADER_PRIMITIVES_EMITTED_ARB
+	) != r.end());
+}
+#endif
+
+#ifdef GL_PRIMITIVES_GENERATED
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_PRIMITIVES_GENERATED
+	) != r.end());
+}
+#endif
+
+#ifdef GL_PRIMITIVES_SUBMITTED_ARB
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_PRIMITIVES_SUBMITTED_ARB
+	) != r.end());
+}
+#endif
+
+#ifdef GL_SAMPLES_PASSED
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_SAMPLES_PASSED
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TESS_CONTROL_SHADER_PATCHES_ARB
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TESS_CONTROL_SHADER_PATCHES_ARB
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TESS_EVALUATION_SHADER_INVOCATIONS_ARB
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TESS_EVALUATION_SHADER_INVOCATIONS_ARB
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TIME_ELAPSED
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TIME_ELAPSED
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TIMESTAMP
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TIMESTAMP
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TRANSFORM_FEEDBACK_OVERFLOW_ARB
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TRANSFORM_FEEDBACK_OVERFLOW_ARB
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TRANSFORM_FEEDBACK_STREAM_OVERFLOW_ARB
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TRANSFORM_FEEDBACK_STREAM_OVERFLOW_ARB
+	) != r.end());
+}
+#endif
+
+#ifdef GL_VERTEX_SHADER_INVOCATIONS_ARB
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_VERTEX_SHADER_INVOCATIONS_ARB
+	) != r.end());
+}
+#endif
+
+#ifdef GL_VERTICES_SUBMITTED_ARB
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_VERTICES_SUBMITTED_ARB
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

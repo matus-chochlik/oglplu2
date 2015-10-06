@@ -2520,4 +2520,281 @@ BOOST_AUTO_TEST_CASE(enum_program_resource_property_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_program_resource_property_range)
+{
+	using namespace oglplus;
+	program_resource_property x;
+	(void)x;
+
+#ifdef GL_ACTIVE_VARIABLES
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_ACTIVE_VARIABLES
+	) != r.end());
+}
+#endif
+
+#ifdef GL_ARRAY_SIZE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_ARRAY_SIZE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_ARRAY_STRIDE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_ARRAY_STRIDE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_ATOMIC_COUNTER_BUFFER_INDEX
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_ATOMIC_COUNTER_BUFFER_INDEX
+	) != r.end());
+}
+#endif
+
+#ifdef GL_BLOCK_INDEX
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_BLOCK_INDEX
+	) != r.end());
+}
+#endif
+
+#ifdef GL_BUFFER_BINDING
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_BUFFER_BINDING
+	) != r.end());
+}
+#endif
+
+#ifdef GL_BUFFER_DATA_SIZE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_BUFFER_DATA_SIZE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_COMPATIBLE_SUBROUTINES
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_COMPATIBLE_SUBROUTINES
+	) != r.end());
+}
+#endif
+
+#ifdef GL_IS_PER_PATCH
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_IS_PER_PATCH
+	) != r.end());
+}
+#endif
+
+#ifdef GL_IS_ROW_MAJOR
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_IS_ROW_MAJOR
+	) != r.end());
+}
+#endif
+
+#ifdef GL_LOCATION
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_LOCATION
+	) != r.end());
+}
+#endif
+
+#ifdef GL_LOCATION_COMPONENT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_LOCATION_COMPONENT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_LOCATION_INDEX
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_LOCATION_INDEX
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MATRIX_STRIDE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MATRIX_STRIDE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_NUM_ACTIVE_VARIABLES
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_NUM_ACTIVE_VARIABLES
+	) != r.end());
+}
+#endif
+
+#ifdef GL_NUM_COMPATIBLE_SUBROUTINES
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_NUM_COMPATIBLE_SUBROUTINES
+	) != r.end());
+}
+#endif
+
+#ifdef GL_OFFSET
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_OFFSET
+	) != r.end());
+}
+#endif
+
+#ifdef GL_REFERENCED_BY_COMPUTE_SHADER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_REFERENCED_BY_COMPUTE_SHADER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_REFERENCED_BY_FRAGMENT_SHADER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_REFERENCED_BY_FRAGMENT_SHADER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_REFERENCED_BY_GEOMETRY_SHADER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_REFERENCED_BY_GEOMETRY_SHADER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_REFERENCED_BY_TESS_CONTROL_SHADER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_REFERENCED_BY_TESS_CONTROL_SHADER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_REFERENCED_BY_TESS_EVALUATION_SHADER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_REFERENCED_BY_TESS_EVALUATION_SHADER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_REFERENCED_BY_VERTEX_SHADER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_REFERENCED_BY_VERTEX_SHADER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TOP_LEVEL_ARRAY_SIZE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TOP_LEVEL_ARRAY_SIZE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TOP_LEVEL_ARRAY_STRIDE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TOP_LEVEL_ARRAY_STRIDE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TRANSFORM_FEEDBACK_BUFFER_INDEX
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TRANSFORM_FEEDBACK_BUFFER_INDEX
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TRANSFORM_FEEDBACK_BUFFER_STRIDE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TRANSFORM_FEEDBACK_BUFFER_STRIDE
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

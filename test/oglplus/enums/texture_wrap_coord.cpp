@@ -96,4 +96,41 @@ BOOST_AUTO_TEST_CASE(enum_texture_wrap_coord_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_texture_wrap_coord_range)
+{
+	using namespace oglplus;
+	texture_wrap_coord x;
+	(void)x;
+
+#ifdef GL_TEXTURE_WRAP_R
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TEXTURE_WRAP_R
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TEXTURE_WRAP_S
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TEXTURE_WRAP_S
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TEXTURE_WRAP_T
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TEXTURE_WRAP_T
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

@@ -2028,4 +2028,251 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_pixel_data_type_range)
+{
+	using namespace oglplus;
+	pixel_data_type x;
+	(void)x;
+
+#ifdef GL_BYTE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_BYTE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_FLOAT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_FLOAT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_FLOAT_32_UNSIGNED_INT_24_8_REV
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_FLOAT_32_UNSIGNED_INT_24_8_REV
+	) != r.end());
+}
+#endif
+
+#ifdef GL_HALF_FLOAT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_HALF_FLOAT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_INT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_INT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_SHORT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_SHORT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_BYTE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_BYTE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_BYTE_2_3_3_REV
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_BYTE_2_3_3_REV
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_BYTE_3_3_2
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_BYTE_3_3_2
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_INT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_INT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_INT_10_10_10_2
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_INT_10_10_10_2
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_INT_10F_11F_11F_REV
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_INT_10F_11F_11F_REV
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_INT_24_8
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_INT_24_8
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_INT_2_10_10_10_REV
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_INT_2_10_10_10_REV
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_INT_5_9_9_9_REV
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_INT_5_9_9_9_REV
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_INT_8_8_8_8
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_INT_8_8_8_8
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_INT_8_8_8_8_REV
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_INT_8_8_8_8_REV
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_SHORT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_SHORT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_SHORT_1_5_5_5_REV
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_SHORT_1_5_5_5_REV
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_SHORT_4_4_4_4
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_SHORT_4_4_4_4
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_SHORT_4_4_4_4_REV
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_SHORT_4_4_4_4_REV
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_SHORT_5_5_5_1
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_SHORT_5_5_5_1
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_SHORT_5_6_5
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_SHORT_5_6_5
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_SHORT_5_6_5_REV
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_SHORT_5_6_5_REV
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

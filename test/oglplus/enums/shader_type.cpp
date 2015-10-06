@@ -210,4 +210,71 @@ BOOST_AUTO_TEST_CASE(enum_shader_type_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_shader_type_range)
+{
+	using namespace oglplus;
+	shader_type x;
+	(void)x;
+
+#ifdef GL_COMPUTE_SHADER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_COMPUTE_SHADER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_FRAGMENT_SHADER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_FRAGMENT_SHADER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_GEOMETRY_SHADER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_GEOMETRY_SHADER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TESS_CONTROL_SHADER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TESS_CONTROL_SHADER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TESS_EVALUATION_SHADER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TESS_EVALUATION_SHADER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_VERTEX_SHADER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_VERTEX_SHADER
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

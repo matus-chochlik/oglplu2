@@ -446,4 +446,111 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_type_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_debug_output_type_range)
+{
+	using namespace oglplus;
+	debug_output_type x;
+	(void)x;
+
+#ifdef GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR
+	) != r.end());
+}
+#endif
+
+#ifdef GL_DEBUG_TYPE_ERROR
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DEBUG_TYPE_ERROR
+	) != r.end());
+}
+#endif
+
+#ifdef GL_DEBUG_TYPE_MARKER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DEBUG_TYPE_MARKER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_DEBUG_TYPE_OTHER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DEBUG_TYPE_OTHER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_DEBUG_TYPE_PERFORMANCE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DEBUG_TYPE_PERFORMANCE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_DEBUG_TYPE_POP_GROUP
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DEBUG_TYPE_POP_GROUP
+	) != r.end());
+}
+#endif
+
+#ifdef GL_DEBUG_TYPE_PORTABILITY
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DEBUG_TYPE_PORTABILITY
+	) != r.end());
+}
+#endif
+
+#ifdef GL_DEBUG_TYPE_PUSH_GROUP
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DEBUG_TYPE_PUSH_GROUP
+	) != r.end());
+}
+#endif
+
+#ifdef GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR
+	) != r.end());
+}
+#endif
+
+#ifdef GL_DONT_CARE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DONT_CARE
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

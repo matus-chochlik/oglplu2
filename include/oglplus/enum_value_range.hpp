@@ -14,17 +14,27 @@
 
 namespace oglplus {
 
-array_view<const long>
+std::pair<const void*, std::size_t>
 get_enum_value_range(const any_enum_class&)
 noexcept;
 
 template <typename EnumClass, typename T, unsigned EnumId>
 static inline
-array_view<const long>
+array_view<const T>
 enum_value_range(enum_class<EnumClass, T, EnumId> cls)
 noexcept
 {
-	return ::oglplus::get_enum_value_range(cls);
+	auto p = ::oglplus::get_enum_value_range(cls);
+	return {static_cast<const T*>(p.first), p.second};
+}
+
+template <typename EnumClass>
+static inline
+array_view<const typename EnumClass::value_type>
+enum_value_range(void)
+noexcept
+{
+	return enum_value_range(EnumClass());
 }
 
 } // namespace oglplus

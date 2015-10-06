@@ -210,4 +210,71 @@ BOOST_AUTO_TEST_CASE(enum_precision_type_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_precision_type_range)
+{
+	using namespace oglplus;
+	precision_type x;
+	(void)x;
+
+#ifdef GL_HIGH_FLOAT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_HIGH_FLOAT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_HIGH_INT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_HIGH_INT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_LOW_FLOAT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_LOW_FLOAT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_LOW_INT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_LOW_INT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MEDIUM_FLOAT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MEDIUM_FLOAT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MEDIUM_INT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MEDIUM_INT
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

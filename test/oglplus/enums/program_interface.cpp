@@ -1456,4 +1456,211 @@ BOOST_AUTO_TEST_CASE(enum_program_interface_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_program_interface_range)
+{
+	using namespace oglplus;
+	program_interface x;
+	(void)x;
+
+#ifdef GL_ATOMIC_COUNTER_BUFFER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_ATOMIC_COUNTER_BUFFER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_BUFFER_VARIABLE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_BUFFER_VARIABLE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_COMPUTE_SUBROUTINE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_COMPUTE_SUBROUTINE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_COMPUTE_SUBROUTINE_UNIFORM
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_COMPUTE_SUBROUTINE_UNIFORM
+	) != r.end());
+}
+#endif
+
+#ifdef GL_FRAGMENT_SUBROUTINE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_FRAGMENT_SUBROUTINE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_FRAGMENT_SUBROUTINE_UNIFORM
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_FRAGMENT_SUBROUTINE_UNIFORM
+	) != r.end());
+}
+#endif
+
+#ifdef GL_GEOMETRY_SUBROUTINE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_GEOMETRY_SUBROUTINE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_GEOMETRY_SUBROUTINE_UNIFORM
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_GEOMETRY_SUBROUTINE_UNIFORM
+	) != r.end());
+}
+#endif
+
+#ifdef GL_PROGRAM_INPUT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_PROGRAM_INPUT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_PROGRAM_OUTPUT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_PROGRAM_OUTPUT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_SHADER_STORAGE_BLOCK
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_SHADER_STORAGE_BLOCK
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TESS_CONTROL_SUBROUTINE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TESS_CONTROL_SUBROUTINE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TESS_CONTROL_SUBROUTINE_UNIFORM
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TESS_CONTROL_SUBROUTINE_UNIFORM
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TESS_EVALUATION_SUBROUTINE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TESS_EVALUATION_SUBROUTINE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TESS_EVALUATION_SUBROUTINE_UNIFORM
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TESS_EVALUATION_SUBROUTINE_UNIFORM
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TRANSFORM_FEEDEBACK_VARYING
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TRANSFORM_FEEDEBACK_VARYING
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNIFORM
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNIFORM
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNIFORM_BLOCK
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNIFORM_BLOCK
+	) != r.end());
+}
+#endif
+
+#ifdef GL_VERTEX_SUBROUTINE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_VERTEX_SUBROUTINE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_VERTEX_SUBROUTINE_UNIFORM
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_VERTEX_SUBROUTINE_UNIFORM
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

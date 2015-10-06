@@ -5028,4 +5028,401 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_image_unit_format_range)
+{
+	using namespace oglplus;
+	image_unit_format x;
+	(void)x;
+
+#ifdef GL_R11F_G11F_B10F
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_R11F_G11F_B10F
+	) != r.end());
+}
+#endif
+
+#ifdef GL_R16
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_R16
+	) != r.end());
+}
+#endif
+
+#ifdef GL_R16_SNORM
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_R16_SNORM
+	) != r.end());
+}
+#endif
+
+#ifdef GL_R16F
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_R16F
+	) != r.end());
+}
+#endif
+
+#ifdef GL_R16I
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_R16I
+	) != r.end());
+}
+#endif
+
+#ifdef GL_R16UI
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_R16UI
+	) != r.end());
+}
+#endif
+
+#ifdef GL_R32F
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_R32F
+	) != r.end());
+}
+#endif
+
+#ifdef GL_R32I
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_R32I
+	) != r.end());
+}
+#endif
+
+#ifdef GL_R32UI
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_R32UI
+	) != r.end());
+}
+#endif
+
+#ifdef GL_R8
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_R8
+	) != r.end());
+}
+#endif
+
+#ifdef GL_R8_SNORM
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_R8_SNORM
+	) != r.end());
+}
+#endif
+
+#ifdef GL_R8I
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_R8I
+	) != r.end());
+}
+#endif
+
+#ifdef GL_R8UI
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_R8UI
+	) != r.end());
+}
+#endif
+
+#ifdef GL_RG16
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_RG16
+	) != r.end());
+}
+#endif
+
+#ifdef GL_RG16_SNORM
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_RG16_SNORM
+	) != r.end());
+}
+#endif
+
+#ifdef GL_RG16F
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_RG16F
+	) != r.end());
+}
+#endif
+
+#ifdef GL_RG16I
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_RG16I
+	) != r.end());
+}
+#endif
+
+#ifdef GL_RG16UI
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_RG16UI
+	) != r.end());
+}
+#endif
+
+#ifdef GL_RG32F
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_RG32F
+	) != r.end());
+}
+#endif
+
+#ifdef GL_RG32I
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_RG32I
+	) != r.end());
+}
+#endif
+
+#ifdef GL_RG32UI
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_RG32UI
+	) != r.end());
+}
+#endif
+
+#ifdef GL_RG8
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_RG8
+	) != r.end());
+}
+#endif
+
+#ifdef GL_RG8_SNORM
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_RG8_SNORM
+	) != r.end());
+}
+#endif
+
+#ifdef GL_RG8I
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_RG8I
+	) != r.end());
+}
+#endif
+
+#ifdef GL_RG8UI
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_RG8UI
+	) != r.end());
+}
+#endif
+
+#ifdef GL_RGB10_A2
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_RGB10_A2
+	) != r.end());
+}
+#endif
+
+#ifdef GL_RGB10_A2UI
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_RGB10_A2UI
+	) != r.end());
+}
+#endif
+
+#ifdef GL_RGBA16
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_RGBA16
+	) != r.end());
+}
+#endif
+
+#ifdef GL_RGBA16_SNORM
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_RGBA16_SNORM
+	) != r.end());
+}
+#endif
+
+#ifdef GL_RGBA16F
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_RGBA16F
+	) != r.end());
+}
+#endif
+
+#ifdef GL_RGBA16I
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_RGBA16I
+	) != r.end());
+}
+#endif
+
+#ifdef GL_RGBA16UI
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_RGBA16UI
+	) != r.end());
+}
+#endif
+
+#ifdef GL_RGBA32F
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_RGBA32F
+	) != r.end());
+}
+#endif
+
+#ifdef GL_RGBA32I
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_RGBA32I
+	) != r.end());
+}
+#endif
+
+#ifdef GL_RGBA32UI
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_RGBA32UI
+	) != r.end());
+}
+#endif
+
+#ifdef GL_RGBA8
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_RGBA8
+	) != r.end());
+}
+#endif
+
+#ifdef GL_RGBA8_SNORM
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_RGBA8_SNORM
+	) != r.end());
+}
+#endif
+
+#ifdef GL_RGBA8I
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_RGBA8I
+	) != r.end());
+}
+#endif
+
+#ifdef GL_RGBA8UI
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_RGBA8UI
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

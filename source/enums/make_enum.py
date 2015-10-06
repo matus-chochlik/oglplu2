@@ -353,7 +353,7 @@ def action_impl_enum_value_range_inl(options):
 	print_line(options, "namespace %s {" % options.library)
 	print_newline(options)
 	print_line(options, "%s_LIB_FUNC" % options.library_uc)
-	print_line(options, "array_view<const long>")
+	print_line(options, "std::pair<const void*, std::size_t>")
 	print_line(options, "get_enum_value_range(const any_enum_class& aec)")
 	print_line(options, "noexcept")
 	print_line(options, "{")
@@ -368,7 +368,10 @@ def action_impl_enum_value_range_inl(options):
 		))
 		print_line(options, "\t\t{")
 
-		print_line(options, "\t\t\tstatic const long vr[] = {")
+		print_line(options, "\t\t\tstatic const %s%s vr[] = {" % (
+			options.base_lib_prefix,
+			enum_class_info.enum_type
+		))
 
 		for enum_value in sorted(enum_class_info.values, key=lambda x: x.src_name):
 			print_line(options, "#ifdef %s_%s" % (
@@ -391,7 +394,7 @@ def action_impl_enum_value_range_inl(options):
 
 	print_newline(options)
 	print_line(options, "	(void)aec;")
-	print_line(options, "	return {};")
+	print_line(options, "	return {nullptr, 0};")
 	print_line(options, "}")
 	print_newline(options)
 	print_line(options, "} // namespace %s" % options.library)
@@ -458,6 +461,7 @@ def action_test_enums_cpp(options):
 		print_line(options, "#endif")
 
 	print_line(options, "}")
+
 	print_newline(options)
 	print_line(options, "BOOST_AUTO_TEST_CASE(enum_%s_names)" % options.enum_name)
 	print_line(options, "{")
@@ -480,10 +484,41 @@ def action_test_enums_cpp(options):
 		print_line(options, '		"%s"' % value_info.src_name)
 		print_line(options, "	) == 0);")
 
+		print_line(options, "#endif")
+
+	print_line(options, "}")
+
+	print_newline(options)
+	print_line(options, "BOOST_AUTO_TEST_CASE(enum_%s_range)" % options.enum_name)
+	print_line(options, "{")
+	print_line(options, "	using namespace %s;" % options.library)
+	print_line(options, "	%s x;" % options.enum_name)
+	print_line(options, "	(void)x;")
+
+	for value_name, value_info in sorted(value_infos.items()):
+		print_newline(options)
+		print_line(options, "#ifdef %s_%s" % (
+			options.base_lib_prefix,
+			value_info.src_name
+		))
+		print_line(options, "{");
+		print_line(options, "	array_view<const %s%s> r = enum_value_range(x);" % (
+			options.base_lib_prefix,
+			value_info.enum_type
+		))
+		print_line(options, "	BOOST_CHECK(std::find(")
+		print_line(options, "		r.begin(), r.end(),")
+		print_line(options, "		%s_%s" % (
+			options.base_lib_prefix,
+			value_info.src_name
+		))
+		print_line(options, "	) != r.end());")
+		print_line(options, "}");
 
 		print_line(options, "#endif")
 
 	print_line(options, "}")
+
 	print_newline(options)
 	print_line(options, "BOOST_AUTO_TEST_SUITE_END()")
 

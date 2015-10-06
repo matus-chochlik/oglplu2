@@ -96,4 +96,41 @@ BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_type_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_type_range)
+{
+	using namespace oglplus;
+	tess_gen_primitive_type x;
+	(void)x;
+
+#ifdef GL_ISOLINES
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_ISOLINES
+	) != r.end());
+}
+#endif
+
+#ifdef GL_QUADS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_QUADS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TRIANGLES
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TRIANGLES
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

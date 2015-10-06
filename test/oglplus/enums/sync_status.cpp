@@ -70,4 +70,31 @@ BOOST_AUTO_TEST_CASE(enum_sync_status_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_sync_status_range)
+{
+	using namespace oglplus;
+	sync_status x;
+	(void)x;
+
+#ifdef GL_SIGNALED
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_SIGNALED
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNALED
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNALED
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

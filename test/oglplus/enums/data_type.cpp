@@ -446,4 +446,111 @@ BOOST_AUTO_TEST_CASE(enum_data_type_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_data_type_range)
+{
+	using namespace oglplus;
+	data_type x;
+	(void)x;
+
+#ifdef GL_BYTE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_BYTE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_DOUBLE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DOUBLE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_FIXED
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_FIXED
+	) != r.end());
+}
+#endif
+
+#ifdef GL_FLOAT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_FLOAT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_HALF_FLOAT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_HALF_FLOAT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_INT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_INT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_SHORT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_SHORT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_BYTE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_BYTE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_INT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_INT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_SHORT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_SHORT
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

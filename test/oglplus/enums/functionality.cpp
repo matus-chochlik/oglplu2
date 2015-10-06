@@ -50,4 +50,21 @@ BOOST_AUTO_TEST_CASE(enum_functionality_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_functionality_range)
+{
+	using namespace oglplus;
+	functionality x;
+	(void)x;
+
+#ifdef GL_CLIP_DISTANCE0
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_CLIP_DISTANCE0
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

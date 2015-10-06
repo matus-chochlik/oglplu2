@@ -2028,4 +2028,251 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_pixel_parameter_range)
+{
+	using namespace oglplus;
+	pixel_parameter x;
+	(void)x;
+
+#ifdef GL_PACK_LSB_FIRST
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_PACK_LSB_FIRST
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNPACK_LSB_FIRST
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNPACK_LSB_FIRST
+	) != r.end());
+}
+#endif
+
+#ifdef GL_PACK_ALIGNMENT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_PACK_ALIGNMENT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_PACK_COMPRESSED_BLOCK_DEPTH
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_PACK_COMPRESSED_BLOCK_DEPTH
+	) != r.end());
+}
+#endif
+
+#ifdef GL_PACK_COMPRESSED_BLOCK_HEIGHT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_PACK_COMPRESSED_BLOCK_HEIGHT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_PACK_COMPRESSED_BLOCK_SIZE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_PACK_COMPRESSED_BLOCK_SIZE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_PACK_COMPRESSED_BLOCK_WIDTH
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_PACK_COMPRESSED_BLOCK_WIDTH
+	) != r.end());
+}
+#endif
+
+#ifdef GL_PACK_IMAGE_HEIGHT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_PACK_IMAGE_HEIGHT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_PACK_ROW_LENGTH
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_PACK_ROW_LENGTH
+	) != r.end());
+}
+#endif
+
+#ifdef GL_PACK_SKIP_IMAGES
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_PACK_SKIP_IMAGES
+	) != r.end());
+}
+#endif
+
+#ifdef GL_PACK_SKIP_PIXELS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_PACK_SKIP_PIXELS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_PACK_SKIP_ROWS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_PACK_SKIP_ROWS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_PACK_SWAP_BYTES
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_PACK_SWAP_BYTES
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNPACK_ALIGNMENT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNPACK_ALIGNMENT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNPACK_COMPRESSED_BLOCK_DEPTH
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNPACK_COMPRESSED_BLOCK_DEPTH
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNPACK_COMPRESSED_BLOCK_HEIGHT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNPACK_COMPRESSED_BLOCK_HEIGHT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNPACK_COMPRESSED_BLOCK_SIZE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNPACK_COMPRESSED_BLOCK_SIZE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNPACK_COMPRESSED_BLOCK_WIDTH
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNPACK_COMPRESSED_BLOCK_WIDTH
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNPACK_IMAGE_HEIGHT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNPACK_IMAGE_HEIGHT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNPACK_ROW_LENGTH
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNPACK_ROW_LENGTH
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNPACK_SKIP_IMAGES
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNPACK_SKIP_IMAGES
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNPACK_SKIP_PIXELS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNPACK_SKIP_PIXELS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNPACK_SKIP_ROWS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNPACK_SKIP_ROWS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNPACK_SWAP_BYTES
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNPACK_SWAP_BYTES
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

@@ -37546,4 +37546,1111 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
+{
+	using namespace oglplus;
+	sl_data_type x;
+	(void)x;
+
+#ifdef GL_BOOL
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_BOOL
+	) != r.end());
+}
+#endif
+
+#ifdef GL_BOOL_VEC2
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_BOOL_VEC2
+	) != r.end());
+}
+#endif
+
+#ifdef GL_BOOL_VEC3
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_BOOL_VEC3
+	) != r.end());
+}
+#endif
+
+#ifdef GL_BOOL_VEC4
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_BOOL_VEC4
+	) != r.end());
+}
+#endif
+
+#ifdef GL_DOUBLE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DOUBLE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_DOUBLE_MAT2
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DOUBLE_MAT2
+	) != r.end());
+}
+#endif
+
+#ifdef GL_DOUBLE_MAT2x3
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DOUBLE_MAT2x3
+	) != r.end());
+}
+#endif
+
+#ifdef GL_DOUBLE_MAT2x4
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DOUBLE_MAT2x4
+	) != r.end());
+}
+#endif
+
+#ifdef GL_DOUBLE_MAT3
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DOUBLE_MAT3
+	) != r.end());
+}
+#endif
+
+#ifdef GL_DOUBLE_MAT3x2
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DOUBLE_MAT3x2
+	) != r.end());
+}
+#endif
+
+#ifdef GL_DOUBLE_MAT3x4
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DOUBLE_MAT3x4
+	) != r.end());
+}
+#endif
+
+#ifdef GL_DOUBLE_MAT4
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DOUBLE_MAT4
+	) != r.end());
+}
+#endif
+
+#ifdef GL_DOUBLE_MAT4x2
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DOUBLE_MAT4x2
+	) != r.end());
+}
+#endif
+
+#ifdef GL_DOUBLE_MAT4x3
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DOUBLE_MAT4x3
+	) != r.end());
+}
+#endif
+
+#ifdef GL_DOUBLE_VEC2
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DOUBLE_VEC2
+	) != r.end());
+}
+#endif
+
+#ifdef GL_DOUBLE_VEC3
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DOUBLE_VEC3
+	) != r.end());
+}
+#endif
+
+#ifdef GL_DOUBLE_VEC4
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DOUBLE_VEC4
+	) != r.end());
+}
+#endif
+
+#ifdef GL_FLOAT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_FLOAT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_FLOAT_MAT2
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_FLOAT_MAT2
+	) != r.end());
+}
+#endif
+
+#ifdef GL_FLOAT_MAT2x3
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_FLOAT_MAT2x3
+	) != r.end());
+}
+#endif
+
+#ifdef GL_FLOAT_MAT2x4
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_FLOAT_MAT2x4
+	) != r.end());
+}
+#endif
+
+#ifdef GL_FLOAT_MAT3
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_FLOAT_MAT3
+	) != r.end());
+}
+#endif
+
+#ifdef GL_FLOAT_MAT3x2
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_FLOAT_MAT3x2
+	) != r.end());
+}
+#endif
+
+#ifdef GL_FLOAT_MAT3x4
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_FLOAT_MAT3x4
+	) != r.end());
+}
+#endif
+
+#ifdef GL_FLOAT_MAT4
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_FLOAT_MAT4
+	) != r.end());
+}
+#endif
+
+#ifdef GL_FLOAT_MAT4x2
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_FLOAT_MAT4x2
+	) != r.end());
+}
+#endif
+
+#ifdef GL_FLOAT_MAT4x3
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_FLOAT_MAT4x3
+	) != r.end());
+}
+#endif
+
+#ifdef GL_FLOAT_VEC2
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_FLOAT_VEC2
+	) != r.end());
+}
+#endif
+
+#ifdef GL_FLOAT_VEC3
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_FLOAT_VEC3
+	) != r.end());
+}
+#endif
+
+#ifdef GL_FLOAT_VEC4
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_FLOAT_VEC4
+	) != r.end());
+}
+#endif
+
+#ifdef GL_IMAGE_1D
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_IMAGE_1D
+	) != r.end());
+}
+#endif
+
+#ifdef GL_IMAGE_1D_ARRAY
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_IMAGE_1D_ARRAY
+	) != r.end());
+}
+#endif
+
+#ifdef GL_IMAGE_2D
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_IMAGE_2D
+	) != r.end());
+}
+#endif
+
+#ifdef GL_IMAGE_2D_ARRAY
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_IMAGE_2D_ARRAY
+	) != r.end());
+}
+#endif
+
+#ifdef GL_IMAGE_2D_MULTISAMPLE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_IMAGE_2D_MULTISAMPLE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_IMAGE_2D_MULTISAMPLE_ARRAY
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_IMAGE_2D_MULTISAMPLE_ARRAY
+	) != r.end());
+}
+#endif
+
+#ifdef GL_IMAGE_2D_RECT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_IMAGE_2D_RECT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_IMAGE_3D
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_IMAGE_3D
+	) != r.end());
+}
+#endif
+
+#ifdef GL_IMAGE_BUFFER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_IMAGE_BUFFER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_IMAGE_CUBE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_IMAGE_CUBE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_INT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_INT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_INT_IMAGE_1D
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_INT_IMAGE_1D
+	) != r.end());
+}
+#endif
+
+#ifdef GL_INT_IMAGE_1D_ARRAY
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_INT_IMAGE_1D_ARRAY
+	) != r.end());
+}
+#endif
+
+#ifdef GL_INT_IMAGE_2D
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_INT_IMAGE_2D
+	) != r.end());
+}
+#endif
+
+#ifdef GL_INT_IMAGE_2D_ARRAY
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_INT_IMAGE_2D_ARRAY
+	) != r.end());
+}
+#endif
+
+#ifdef GL_INT_IMAGE_2D_MULTISAMPLE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_INT_IMAGE_2D_MULTISAMPLE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_INT_IMAGE_2D_MULTISAMPLE_ARRAY
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_INT_IMAGE_2D_MULTISAMPLE_ARRAY
+	) != r.end());
+}
+#endif
+
+#ifdef GL_INT_IMAGE_2D_RECT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_INT_IMAGE_2D_RECT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_INT_IMAGE_3D
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_INT_IMAGE_3D
+	) != r.end());
+}
+#endif
+
+#ifdef GL_INT_IMAGE_BUFFER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_INT_IMAGE_BUFFER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_INT_IMAGE_CUBE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_INT_IMAGE_CUBE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_INT_SAMPLER_1D
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_INT_SAMPLER_1D
+	) != r.end());
+}
+#endif
+
+#ifdef GL_INT_SAMPLER_1D_ARRAY
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_INT_SAMPLER_1D_ARRAY
+	) != r.end());
+}
+#endif
+
+#ifdef GL_INT_SAMPLER_2D
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_INT_SAMPLER_2D
+	) != r.end());
+}
+#endif
+
+#ifdef GL_INT_SAMPLER_2D_ARRAY
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_INT_SAMPLER_2D_ARRAY
+	) != r.end());
+}
+#endif
+
+#ifdef GL_INT_SAMPLER_2D_MULTISAMPLE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_INT_SAMPLER_2D_MULTISAMPLE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_INT_SAMPLER_2D_MULTISAMPLE_ARRAY
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_INT_SAMPLER_2D_MULTISAMPLE_ARRAY
+	) != r.end());
+}
+#endif
+
+#ifdef GL_INT_SAMPLER_2D_RECT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_INT_SAMPLER_2D_RECT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_INT_SAMPLER_3D
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_INT_SAMPLER_3D
+	) != r.end());
+}
+#endif
+
+#ifdef GL_INT_SAMPLER_BUFFER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_INT_SAMPLER_BUFFER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_INT_SAMPLER_CUBE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_INT_SAMPLER_CUBE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_INT_SAMPLER_CUBE_MAP_ARRAY
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_INT_SAMPLER_CUBE_MAP_ARRAY
+	) != r.end());
+}
+#endif
+
+#ifdef GL_INT_VEC2
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_INT_VEC2
+	) != r.end());
+}
+#endif
+
+#ifdef GL_INT_VEC3
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_INT_VEC3
+	) != r.end());
+}
+#endif
+
+#ifdef GL_INT_VEC4
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_INT_VEC4
+	) != r.end());
+}
+#endif
+
+#ifdef GL_NONE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_NONE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_SAMPLER_1D
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_SAMPLER_1D
+	) != r.end());
+}
+#endif
+
+#ifdef GL_SAMPLER_1D_ARRAY
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_SAMPLER_1D_ARRAY
+	) != r.end());
+}
+#endif
+
+#ifdef GL_SAMPLER_1D_ARRAY_SHADOW
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_SAMPLER_1D_ARRAY_SHADOW
+	) != r.end());
+}
+#endif
+
+#ifdef GL_SAMPLER_1D_SHADOW
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_SAMPLER_1D_SHADOW
+	) != r.end());
+}
+#endif
+
+#ifdef GL_SAMPLER_2D
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_SAMPLER_2D
+	) != r.end());
+}
+#endif
+
+#ifdef GL_SAMPLER_2D_ARRAY
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_SAMPLER_2D_ARRAY
+	) != r.end());
+}
+#endif
+
+#ifdef GL_SAMPLER_2D_ARRAY_SHADOW
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_SAMPLER_2D_ARRAY_SHADOW
+	) != r.end());
+}
+#endif
+
+#ifdef GL_SAMPLER_2D_MULTISAMPLE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_SAMPLER_2D_MULTISAMPLE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_SAMPLER_2D_MULTISAMPLE_ARRAY
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_SAMPLER_2D_MULTISAMPLE_ARRAY
+	) != r.end());
+}
+#endif
+
+#ifdef GL_SAMPLER_2D_RECT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_SAMPLER_2D_RECT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_SAMPLER_2D_RECT_SHADOW
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_SAMPLER_2D_RECT_SHADOW
+	) != r.end());
+}
+#endif
+
+#ifdef GL_SAMPLER_2D_SHADOW
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_SAMPLER_2D_SHADOW
+	) != r.end());
+}
+#endif
+
+#ifdef GL_SAMPLER_3D
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_SAMPLER_3D
+	) != r.end());
+}
+#endif
+
+#ifdef GL_SAMPLER_BUFFER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_SAMPLER_BUFFER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_SAMPLER_CUBE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_SAMPLER_CUBE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_SAMPLER_CUBE_MAP_ARRAY
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_SAMPLER_CUBE_MAP_ARRAY
+	) != r.end());
+}
+#endif
+
+#ifdef GL_SAMPLER_CUBE_MAP_ARRAY_SHADOW
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_SAMPLER_CUBE_MAP_ARRAY_SHADOW
+	) != r.end());
+}
+#endif
+
+#ifdef GL_SAMPLER_CUBE_SHADOW
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_SAMPLER_CUBE_SHADOW
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_INT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_INT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_INT_ATOMIC_COUNTER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_INT_ATOMIC_COUNTER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_INT_IMAGE_1D
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_INT_IMAGE_1D
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_INT_IMAGE_1D_ARRAY
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_INT_IMAGE_1D_ARRAY
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_INT_IMAGE_2D
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_INT_IMAGE_2D
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_INT_IMAGE_2D_ARRAY
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_INT_IMAGE_2D_ARRAY
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE_ARRAY
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE_ARRAY
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_INT_IMAGE_2D_RECT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_INT_IMAGE_2D_RECT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_INT_IMAGE_3D
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_INT_IMAGE_3D
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_INT_IMAGE_BUFFER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_INT_IMAGE_BUFFER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_INT_IMAGE_CUBE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_INT_IMAGE_CUBE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_INT_SAMPLER_1D
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_INT_SAMPLER_1D
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_INT_SAMPLER_1D_ARRAY
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_INT_SAMPLER_1D_ARRAY
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_INT_SAMPLER_2D
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_INT_SAMPLER_2D
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_INT_SAMPLER_2D_ARRAY
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_INT_SAMPLER_2D_ARRAY
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE_ARRAY
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE_ARRAY
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_INT_SAMPLER_2D_RECT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_INT_SAMPLER_2D_RECT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_INT_SAMPLER_3D
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_INT_SAMPLER_3D
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_INT_SAMPLER_BUFFER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_INT_SAMPLER_BUFFER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_INT_SAMPLER_CUBE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_INT_SAMPLER_CUBE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_INT_SAMPLER_CUBE_MAP_ARRAY
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_INT_SAMPLER_CUBE_MAP_ARRAY
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_INT_VEC2
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_INT_VEC2
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_INT_VEC3
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_INT_VEC3
+	) != r.end());
+}
+#endif
+
+#ifdef GL_UNSIGNED_INT_VEC4
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNSIGNED_INT_VEC4
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

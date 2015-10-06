@@ -96,4 +96,41 @@ BOOST_AUTO_TEST_CASE(enum_hint_option_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_hint_option_range)
+{
+	using namespace oglplus;
+	hint_option x;
+	(void)x;
+
+#ifdef GL_DONT_CARE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DONT_CARE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_FASTEST
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_FASTEST
+	) != r.end());
+}
+#endif
+
+#ifdef GL_NICEST
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_NICEST
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

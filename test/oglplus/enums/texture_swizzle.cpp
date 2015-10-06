@@ -210,4 +210,71 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_texture_swizzle_range)
+{
+	using namespace oglplus;
+	texture_swizzle x;
+	(void)x;
+
+#ifdef GL_ALPHA
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_ALPHA
+	) != r.end());
+}
+#endif
+
+#ifdef GL_BLUE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_BLUE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_GREEN
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_GREEN
+	) != r.end());
+}
+#endif
+
+#ifdef GL_ONE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_ONE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_RED
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_RED
+	) != r.end());
+}
+#endif
+
+#ifdef GL_ZERO
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_ZERO
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

@@ -70,4 +70,31 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_target_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_framebuffer_target_range)
+{
+	using namespace oglplus;
+	framebuffer_target x;
+	(void)x;
+
+#ifdef GL_DRAW_FRAMEBUFFER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_DRAW_FRAMEBUFFER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_READ_FRAMEBUFFER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_READ_FRAMEBUFFER
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

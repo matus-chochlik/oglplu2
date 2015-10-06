@@ -96,4 +96,41 @@ BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_spacing_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_spacing_range)
+{
+	using namespace oglplus;
+	tess_gen_primitive_spacing x;
+	(void)x;
+
+#ifdef GL_EQUAL
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_EQUAL
+	) != r.end());
+}
+#endif
+
+#ifdef GL_FRACTIONAL_EVEN
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_FRACTIONAL_EVEN
+	) != r.end());
+}
+#endif
+
+#ifdef GL_FRACTIONAL_ODD
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_FRACTIONAL_ODD
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

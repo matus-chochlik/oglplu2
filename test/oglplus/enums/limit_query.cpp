@@ -36878,4 +36878,1101 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_limit_query_range)
+{
+	using namespace oglplus;
+	limit_query x;
+	(void)x;
+
+#ifdef GL_MAX_3D_TEXTURE_SIZE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_3D_TEXTURE_SIZE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_ARRAY_TEXTURE_LAYERS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_ARRAY_TEXTURE_LAYERS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_ATOMIC_COUNTER_BUFFER_BINDINGS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_ATOMIC_COUNTER_BUFFER_BINDINGS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_ATOMIC_COUNTER_BUFFER_SIZE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_ATOMIC_COUNTER_BUFFER_SIZE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_CLIP_DISTANCES
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_CLIP_DISTANCES
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_COLOR_ATTACHMENTS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_COLOR_ATTACHMENTS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_COLOR_TEXTURE_SAMPLES
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_COLOR_TEXTURE_SAMPLES
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_COMBINED_ATOMIC_COUNTER_BUFFERS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_COMBINED_ATOMIC_COUNTER_BUFFERS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_COMBINED_ATOMIC_COUNTERS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_COMBINED_ATOMIC_COUNTERS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_COMBINED_CLIP_AND_CULL_DISTANCES
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_COMBINED_CLIP_AND_CULL_DISTANCES
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_COMBINED_FRAGMENT_UNIFORM_COMPONENTS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_COMBINED_FRAGMENT_UNIFORM_COMPONENTS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_COMBINED_GEOMETRY_UNIFORM_COMPONENTS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_COMBINED_GEOMETRY_UNIFORM_COMPONENTS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_COMBINED_IMAGE_UNIFORMS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_COMBINED_IMAGE_UNIFORMS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_COMBINED_IMAGE_UNITS_AND_FRAGMENT_OUTPUTS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_COMBINED_IMAGE_UNITS_AND_FRAGMENT_OUTPUTS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_COMBINED_TESS_CONTROL_UNIFORM_COMPONENTS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_COMBINED_TESS_CONTROL_UNIFORM_COMPONENTS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_COMBINED_TESS_EVALUATION_UNIFORM_COMPONENTS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_COMBINED_TESS_EVALUATION_UNIFORM_COMPONENTS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_COMBINED_UNIFORM_BLOCKS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_COMBINED_UNIFORM_BLOCKS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_COMBINED_VERTEX_UNIFORM_COMPONENTS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_COMBINED_VERTEX_UNIFORM_COMPONENTS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_COMPUTE_SHARED_MEMORY_SIZE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_COMPUTE_SHARED_MEMORY_SIZE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_COMPUTE_WORK_GROUP_COUNT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_COMPUTE_WORK_GROUP_COUNT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_COMPUTE_WORK_GROUP_INVOCATIONS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_COMPUTE_WORK_GROUP_INVOCATIONS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_COMPUTE_WORK_GROUP_SIZE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_COMPUTE_WORK_GROUP_SIZE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_CUBE_MAP_TEXTURE_SIZE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_CUBE_MAP_TEXTURE_SIZE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_CULL_DISTANCES
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_CULL_DISTANCES
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_DEPTH_TEXTURE_SAMPLES
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_DEPTH_TEXTURE_SAMPLES
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_DRAW_BUFFERS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_DRAW_BUFFERS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_DUAL_SOURCE_DRAW_BUFFERS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_DUAL_SOURCE_DRAW_BUFFERS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_ELEMENTS_INDICES
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_ELEMENTS_INDICES
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_ELEMENTS_VERTICES
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_ELEMENTS_VERTICES
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_FRAGMENT_ATOMIC_COUNTER_BUFFERS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_FRAGMENT_ATOMIC_COUNTER_BUFFERS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_FRAGMENT_ATOMIC_COUNTERS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_FRAGMENT_ATOMIC_COUNTERS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_FRAGMENT_IMAGE_UNIFORMS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_FRAGMENT_IMAGE_UNIFORMS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_FRAGMENT_INPUT_COMPONENTS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_FRAGMENT_INPUT_COMPONENTS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_FRAGMENT_INTERPOLATION_OFFSET
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_FRAGMENT_INTERPOLATION_OFFSET
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_FRAGMENT_UNIFORM_BLOCKS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_FRAGMENT_UNIFORM_BLOCKS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_FRAGMENT_UNIFORM_COMPONENTS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_FRAGMENT_UNIFORM_COMPONENTS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_FRAGMENT_UNIFORM_VECTORS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_FRAGMENT_UNIFORM_VECTORS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_GEOMETRY_ATOMIC_COUNTER_BUFFERS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_GEOMETRY_ATOMIC_COUNTER_BUFFERS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_GEOMETRY_ATOMIC_COUNTERS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_GEOMETRY_ATOMIC_COUNTERS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_GEOMETRY_IMAGE_UNIFORMS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_GEOMETRY_IMAGE_UNIFORMS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_GEOMETRY_INPUT_COMPONENTS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_GEOMETRY_INPUT_COMPONENTS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_GEOMETRY_OUTPUT_COMPONENTS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_GEOMETRY_OUTPUT_COMPONENTS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_GEOMETRY_OUTPUT_VERTICES
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_GEOMETRY_OUTPUT_VERTICES
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_GEOMETRY_SHADER_INVOCATIONS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_GEOMETRY_SHADER_INVOCATIONS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_GEOMETRY_TEXTURE_IMAGE_UNITS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_GEOMETRY_TEXTURE_IMAGE_UNITS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_GEOMETRY_TOTAL_OUTPUT_COMPONENTS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_GEOMETRY_TOTAL_OUTPUT_COMPONENTS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_GEOMETRY_UNIFORM_BLOCKS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_GEOMETRY_UNIFORM_BLOCKS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_GEOMETRY_UNIFORM_COMPONENTS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_GEOMETRY_UNIFORM_COMPONENTS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_IMAGE_SAMPLES
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_IMAGE_SAMPLES
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_IMAGE_UNITS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_IMAGE_UNITS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_INTEGER_SAMPLES
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_INTEGER_SAMPLES
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_PATCH_VERTICES
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_PATCH_VERTICES
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_PROGRAM_TEXEL_OFFSET
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_PROGRAM_TEXEL_OFFSET
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_PROGRAM_TEXTURE_GATHER_OFFSET
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_PROGRAM_TEXTURE_GATHER_OFFSET
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_RECTANGLE_TEXTURE_SIZE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_RECTANGLE_TEXTURE_SIZE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_RENDERBUFFER_SIZE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_RENDERBUFFER_SIZE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_SAMPLE_MASK_WORDS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_SAMPLE_MASK_WORDS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_SAMPLES
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_SAMPLES
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_SERVER_WAIT_TIMEOUT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_SERVER_WAIT_TIMEOUT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_SUBROUTINE_UNIFORM_LOCATIONS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_SUBROUTINE_UNIFORM_LOCATIONS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_SUBROUTINES
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_SUBROUTINES
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_TESS_CONTROL_ATOMIC_COUNTER_BUFFERS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_TESS_CONTROL_ATOMIC_COUNTER_BUFFERS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_TESS_CONTROL_ATOMIC_COUNTERS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_TESS_CONTROL_ATOMIC_COUNTERS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_TESS_CONTROL_IMAGE_UNIFORMS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_TESS_CONTROL_IMAGE_UNIFORMS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_TESS_CONTROL_INPUT_COMPONENTS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_TESS_CONTROL_INPUT_COMPONENTS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_TESS_CONTROL_OUTPUT_COMPONENTS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_TESS_CONTROL_OUTPUT_COMPONENTS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_TESS_CONTROL_TEXTURE_IMAGE_UNITS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_TESS_CONTROL_TEXTURE_IMAGE_UNITS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_TESS_CONTROL_TOTAL_OUTPUT_COMPONENTS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_TESS_CONTROL_TOTAL_OUTPUT_COMPONENTS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_TESS_CONTROL_UNIFORM_BLOCKS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_TESS_CONTROL_UNIFORM_BLOCKS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_TESS_CONTROL_UNIFORM_COMPONENTS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_TESS_CONTROL_UNIFORM_COMPONENTS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_TESS_EVALUATION_ATOMIC_COUNTER_BUFFERS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_TESS_EVALUATION_ATOMIC_COUNTER_BUFFERS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_TESS_EVALUATION_ATOMIC_COUNTERS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_TESS_EVALUATION_ATOMIC_COUNTERS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_TESS_EVALUATION_IMAGE_UNIFORMS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_TESS_EVALUATION_IMAGE_UNIFORMS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_TESS_EVALUATION_INPUT_COMPONENTS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_TESS_EVALUATION_INPUT_COMPONENTS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_TESS_EVALUATION_OUTPUT_COMPONENTS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_TESS_EVALUATION_OUTPUT_COMPONENTS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_TESS_EVALUATION_TEXTURE_IMAGE_UNITS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_TESS_EVALUATION_TEXTURE_IMAGE_UNITS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_TESS_EVALUATION_UNIFORM_BLOCKS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_TESS_EVALUATION_UNIFORM_BLOCKS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_TESS_EVALUATION_UNIFORM_COMPONENTS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_TESS_EVALUATION_UNIFORM_COMPONENTS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_TESS_GEN_LEVEL
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_TESS_GEN_LEVEL
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_TESS_PATCH_COMPONENTS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_TESS_PATCH_COMPONENTS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_TEXTURE_BUFFER_SIZE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_TEXTURE_BUFFER_SIZE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_TEXTURE_IMAGE_UNITS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_TEXTURE_IMAGE_UNITS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_TEXTURE_LOD_BIAS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_TEXTURE_LOD_BIAS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_TEXTURE_SIZE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_TEXTURE_SIZE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_TRANSFORM_FEEDBACK_BUFFERS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_TRANSFORM_FEEDBACK_BUFFERS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_TRANSFORM_FEEDBACK_INTERLEAVED_COMPONENTS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_TRANSFORM_FEEDBACK_INTERLEAVED_COMPONENTS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_TRANSFORM_FEEDBACK_SEPARATE_ATTRIBS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_TRANSFORM_FEEDBACK_SEPARATE_ATTRIBS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_TRANSFORM_FEEDBACK_SEPARATE_COMPONENTS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_TRANSFORM_FEEDBACK_SEPARATE_COMPONENTS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_UNIFORM_BLOCK_SIZE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_UNIFORM_BLOCK_SIZE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_UNIFORM_BUFFER_BINDINGS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_UNIFORM_BUFFER_BINDINGS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_VARYING_COMPONENTS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_VARYING_COMPONENTS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_VARYING_VECTORS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_VARYING_VECTORS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_VERTEX_ATOMIC_COUNTER_BUFFERS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_VERTEX_ATOMIC_COUNTER_BUFFERS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_VERTEX_ATOMIC_COUNTERS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_VERTEX_ATOMIC_COUNTERS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_VERTEX_ATTRIBS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_VERTEX_ATTRIBS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_VERTEX_IMAGE_UNIFORMS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_VERTEX_IMAGE_UNIFORMS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_VERTEX_OUTPUT_COMPONENTS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_VERTEX_OUTPUT_COMPONENTS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_VERTEX_STREAMS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_VERTEX_STREAMS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_VERTEX_UNIFORM_BLOCKS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_VERTEX_UNIFORM_BLOCKS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_VERTEX_UNIFORM_COMPONENTS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_VERTEX_UNIFORM_COMPONENTS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_VERTEX_UNIFORM_VECTORS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_VERTEX_UNIFORM_VECTORS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_VIEWPORT_DIMS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_VIEWPORT_DIMS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MAX_VIEWPORTS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MAX_VIEWPORTS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MIN_FRAGMENT_INTERPOLATION_OFFSET
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MIN_FRAGMENT_INTERPOLATION_OFFSET
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MIN_MAP_BUFFER_ALIGNMENT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MIN_MAP_BUFFER_ALIGNMENT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MIN_PROGRAM_TEXEL_OFFSET
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MIN_PROGRAM_TEXEL_OFFSET
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MIN_PROGRAM_TEXTURE_GATHER_OFFSET
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MIN_PROGRAM_TEXTURE_GATHER_OFFSET
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

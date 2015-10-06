@@ -50,4 +50,21 @@ BOOST_AUTO_TEST_CASE(enum_renderbuffer_target_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_renderbuffer_target_range)
+{
+	using namespace oglplus;
+	renderbuffer_target x;
+	(void)x;
+
+#ifdef GL_RENDERBUFFER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_RENDERBUFFER
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

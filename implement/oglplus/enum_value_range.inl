@@ -15,7 +15,7 @@
 namespace oglplus {
 
 OGLPLUS_LIB_FUNC
-array_view<const long>
+std::pair<const void*, std::size_t>
 get_enum_value_range(const any_enum_class& aec)
 noexcept
 {
@@ -23,7 +23,7 @@ noexcept
 	{
 		case 0: /* access_specifier */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_READ_ONLY
 				GL_READ_ONLY,
 #endif
@@ -39,7 +39,7 @@ noexcept
 		}
 		case 1: /* blend_equation */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_FUNC_ADD
 				GL_FUNC_ADD,
 #endif
@@ -61,7 +61,7 @@ noexcept
 		}
 		case 2: /* blend_equation_advanced */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_COLORBURN_KHR
 				GL_COLORBURN_KHR,
 #endif
@@ -113,7 +113,7 @@ noexcept
 		}
 		case 3: /* blend_function */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_CONSTANT_ALPHA
 				GL_CONSTANT_ALPHA,
 #endif
@@ -177,7 +177,7 @@ noexcept
 		}
 		case 4: /* blit_filter */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_LINEAR
 				GL_LINEAR,
 #endif
@@ -190,7 +190,7 @@ noexcept
 		}
 		case 5: /* buffer_indexed_target */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_ATOMIC_COUNTER_BUFFER
 				GL_ATOMIC_COUNTER_BUFFER,
 #endif
@@ -209,7 +209,7 @@ noexcept
 		}
 		case 6: /* buffer_map_access */
 		{
-			static const long vr[] = {
+			static const GLbitfield vr[] = {
 #ifdef GL_MAP_COHERENT_BIT
 				GL_MAP_COHERENT_BIT,
 #endif
@@ -240,7 +240,7 @@ noexcept
 		}
 		case 7: /* buffer_select_bits */
 		{
-			static const long vr[] = {
+			static const GLbitfield vr[] = {
 #ifdef GL_COLOR_BUFFER_BIT
 				GL_COLOR_BUFFER_BIT,
 #endif
@@ -256,7 +256,7 @@ noexcept
 		}
 		case 8: /* buffer_storage_bits */
 		{
-			static const long vr[] = {
+			static const GLbitfield vr[] = {
 #ifdef GL_CLIENT_STORAGE_BIT
 				GL_CLIENT_STORAGE_BIT,
 #endif
@@ -284,7 +284,7 @@ noexcept
 		}
 		case 9: /* buffer_target */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_ARRAY_BUFFER
 				GL_ARRAY_BUFFER,
 #endif
@@ -339,7 +339,7 @@ noexcept
 		}
 		case 10: /* buffer_usage */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_DYNAMIC_COPY
 				GL_DYNAMIC_COPY,
 #endif
@@ -373,7 +373,7 @@ noexcept
 		}
 		case 11: /* capability */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_BLEND
 				GL_BLEND,
 #endif
@@ -461,7 +461,7 @@ noexcept
 		}
 		case 12: /* clip_depth_mode */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_NEGATIVE_ONE_TO_ONE
 				GL_NEGATIVE_ONE_TO_ONE,
 #endif
@@ -474,7 +474,7 @@ noexcept
 		}
 		case 13: /* clip_origin */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_LOWER_LEFT
 				GL_LOWER_LEFT,
 #endif
@@ -487,7 +487,7 @@ noexcept
 		}
 		case 14: /* color_buffer */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_BACK
 				GL_BACK,
 #endif
@@ -524,7 +524,7 @@ noexcept
 		}
 		case 15: /* color_logic_operation */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_AND
 				GL_AND,
 #endif
@@ -579,7 +579,7 @@ noexcept
 		}
 		case 16: /* compare_function */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_ALWAYS
 				GL_ALWAYS,
 #endif
@@ -610,7 +610,7 @@ noexcept
 		}
 		case 17: /* conditional_render_mode */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_QUERY_BY_REGION_NO_WAIT
 				GL_QUERY_BY_REGION_NO_WAIT,
 #endif
@@ -641,7 +641,7 @@ noexcept
 		}
 		case 18: /* context_flag_bits */
 		{
-			static const long vr[] = {
+			static const GLbitfield vr[] = {
 #ifdef GL_CONTEXT_FLAG_DEBUG_BIT
 				GL_CONTEXT_FLAG_DEBUG_BIT,
 #endif
@@ -657,7 +657,7 @@ noexcept
 		}
 		case 19: /* context_profile_bits */
 		{
-			static const long vr[] = {
+			static const GLbitfield vr[] = {
 #ifdef GL_CONTEXT_COMPATIBILITY_PROFILE_BIT
 				GL_CONTEXT_COMPATIBILITY_PROFILE_BIT,
 #endif
@@ -670,7 +670,7 @@ noexcept
 		}
 		case 20: /* context_release_behavior */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH
 				GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH,
 #endif
@@ -683,7 +683,7 @@ noexcept
 		}
 		case 21: /* data_type */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_BYTE
 				GL_BYTE,
 #endif
@@ -720,7 +720,7 @@ noexcept
 		}
 		case 22: /* debug_output_severity */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_DEBUG_SEVERITY_HIGH
 				GL_DEBUG_SEVERITY_HIGH,
 #endif
@@ -742,7 +742,7 @@ noexcept
 		}
 		case 23: /* debug_output_source */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_DEBUG_SOURCE_API
 				GL_DEBUG_SOURCE_API,
 #endif
@@ -770,7 +770,7 @@ noexcept
 		}
 		case 24: /* debug_output_type */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR
 				GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR,
 #endif
@@ -807,7 +807,7 @@ noexcept
 		}
 		case 25: /* error_code */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_CONTEXT_LOST
 				GL_CONTEXT_LOST,
 #endif
@@ -844,7 +844,7 @@ noexcept
 		}
 		case 26: /* face */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_BACK
 				GL_BACK,
 #endif
@@ -860,7 +860,7 @@ noexcept
 		}
 		case 27: /* face_orientation */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_CCW
 				GL_CCW,
 #endif
@@ -873,7 +873,7 @@ noexcept
 		}
 		case 28: /* framebuffer_attachment */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_COLOR_ATTACHMENT0
 				GL_COLOR_ATTACHMENT0,
 #endif
@@ -937,7 +937,7 @@ noexcept
 		}
 		case 29: /* framebuffer_buffer */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_COLOR
 				GL_COLOR,
 #endif
@@ -956,7 +956,7 @@ noexcept
 		}
 		case 30: /* framebuffer_status */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_FRAMEBUFFER_COMPLETE
 				GL_FRAMEBUFFER_COMPLETE,
 #endif
@@ -984,7 +984,7 @@ noexcept
 		}
 		case 31: /* framebuffer_target */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_DRAW_FRAMEBUFFER
 				GL_DRAW_FRAMEBUFFER,
 #endif
@@ -997,7 +997,7 @@ noexcept
 		}
 		case 32: /* functionality */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_CLIP_DISTANCE0
 				GL_CLIP_DISTANCE0,
 #endif
@@ -1007,7 +1007,7 @@ noexcept
 		}
 		case 33: /* graphics_reset_status */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_GUILTY_CONTEXT_RESET
 				GL_GUILTY_CONTEXT_RESET,
 #endif
@@ -1026,7 +1026,7 @@ noexcept
 		}
 		case 34: /* hint_option */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_DONT_CARE
 				GL_DONT_CARE,
 #endif
@@ -1042,7 +1042,7 @@ noexcept
 		}
 		case 35: /* hint_target */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_FRAGMENT_SHADER_DERIVATIVE_HINT
 				GL_FRAGMENT_SHADER_DERIVATIVE_HINT,
 #endif
@@ -1061,7 +1061,7 @@ noexcept
 		}
 		case 36: /* image_unit_format */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_R11F_G11F_B10F
 				GL_R11F_G11F_B10F,
 #endif
@@ -1185,7 +1185,7 @@ noexcept
 		}
 		case 37: /* limit_query */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_MAX_3D_TEXTURE_SIZE
 				GL_MAX_3D_TEXTURE_SIZE,
 #endif
@@ -1519,7 +1519,7 @@ noexcept
 		}
 		case 38: /* memory_barrier_bits */
 		{
-			static const long vr[] = {
+			static const GLbitfield vr[] = {
 #ifdef GL_ALL_BARRIER_BITS
 				GL_ALL_BARRIER_BITS,
 #endif
@@ -1571,7 +1571,7 @@ noexcept
 		}
 		case 39: /* named_string_type */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_SHADER_INCLUDE_ARB
 				GL_SHADER_INCLUDE_ARB,
 #endif
@@ -1581,7 +1581,7 @@ noexcept
 		}
 		case 40: /* object_type */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_BUFFER
 				GL_BUFFER,
 #endif
@@ -1624,7 +1624,7 @@ noexcept
 		}
 		case 41: /* patch_parameter */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_PATCH_DEFAULT_INNER_LEVEL
 				GL_PATCH_DEFAULT_INNER_LEVEL,
 #endif
@@ -1640,7 +1640,7 @@ noexcept
 		}
 		case 42: /* pixel_data_format */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_BGR
 				GL_BGR,
 #endif
@@ -1704,7 +1704,7 @@ noexcept
 		}
 		case 43: /* pixel_data_internal_format */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_COMPRESSED_R11_EAC
 				GL_COMPRESSED_R11_EAC,
 #endif
@@ -2011,7 +2011,7 @@ noexcept
 		}
 		case 44: /* pixel_data_type */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_BYTE
 				GL_BYTE,
 #endif
@@ -2090,7 +2090,7 @@ noexcept
 		}
 		case 45: /* pixel_parameter */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_PACK_ALIGNMENT
 				GL_PACK_ALIGNMENT,
 #endif
@@ -2169,7 +2169,7 @@ noexcept
 		}
 		case 46: /* polygon_mode */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_FILL
 				GL_FILL,
 #endif
@@ -2188,7 +2188,7 @@ noexcept
 		}
 		case 47: /* precision_type */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_HIGH_FLOAT
 				GL_HIGH_FLOAT,
 #endif
@@ -2213,7 +2213,7 @@ noexcept
 		}
 		case 48: /* primitive_type */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_LINES
 				GL_LINES,
 #endif
@@ -2256,7 +2256,7 @@ noexcept
 		}
 		case 49: /* program_interface */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_ATOMIC_COUNTER_BUFFER
 				GL_ATOMIC_COUNTER_BUFFER,
 #endif
@@ -2323,7 +2323,7 @@ noexcept
 		}
 		case 50: /* program_pipeline_stage */
 		{
-			static const long vr[] = {
+			static const GLbitfield vr[] = {
 #ifdef GL_ALL_SHADER_BITS
 				GL_ALL_SHADER_BITS,
 #endif
@@ -2351,7 +2351,7 @@ noexcept
 		}
 		case 51: /* program_resource_property */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_ACTIVE_VARIABLES
 				GL_ACTIVE_VARIABLES,
 #endif
@@ -2439,7 +2439,7 @@ noexcept
 		}
 		case 52: /* provoke_mode */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_FIRST_VERTEX_CONVENTION
 				GL_FIRST_VERTEX_CONVENTION,
 #endif
@@ -2452,7 +2452,7 @@ noexcept
 		}
 		case 53: /* query_target */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_ANY_SAMPLES_PASSED
 				GL_ANY_SAMPLES_PASSED,
 #endif
@@ -2516,7 +2516,7 @@ noexcept
 		}
 		case 54: /* renderbuffer_target */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_RENDERBUFFER
 				GL_RENDERBUFFER,
 #endif
@@ -2526,7 +2526,7 @@ noexcept
 		}
 		case 55: /* reset_notification_strategy */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_LOSE_CONTEXT_ON_RESET
 				GL_LOSE_CONTEXT_ON_RESET,
 #endif
@@ -2539,7 +2539,7 @@ noexcept
 		}
 		case 56: /* shader_type */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_COMPUTE_SHADER
 				GL_COMPUTE_SHADER,
 #endif
@@ -2564,7 +2564,7 @@ noexcept
 		}
 		case 57: /* single_face */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_BACK
 				GL_BACK,
 #endif
@@ -2577,7 +2577,7 @@ noexcept
 		}
 		case 58: /* sl_data_type */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_BOOL
 				GL_BOOL,
 #endif
@@ -2914,7 +2914,7 @@ noexcept
 		}
 		case 59: /* stencil_operation */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_DECR
 				GL_DECR,
 #endif
@@ -2945,7 +2945,7 @@ noexcept
 		}
 		case 60: /* string_query */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_RENDERER
 				GL_RENDERER,
 #endif
@@ -2964,7 +2964,7 @@ noexcept
 		}
 		case 61: /* sync_condition */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_SYNC_GPU_COMMANDS_COMPLETE
 				GL_SYNC_GPU_COMMANDS_COMPLETE,
 #endif
@@ -2974,7 +2974,7 @@ noexcept
 		}
 		case 62: /* sync_status */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_SIGNALED
 				GL_SIGNALED,
 #endif
@@ -2987,7 +2987,7 @@ noexcept
 		}
 		case 63: /* sync_type */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_SYNC_FENCE
 				GL_SYNC_FENCE,
 #endif
@@ -2997,7 +2997,7 @@ noexcept
 		}
 		case 64: /* sync_wait_result */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_ALREADY_SIGNALED
 				GL_ALREADY_SIGNALED,
 #endif
@@ -3016,7 +3016,7 @@ noexcept
 		}
 		case 65: /* tess_gen_primitive_spacing */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_EQUAL
 				GL_EQUAL,
 #endif
@@ -3032,7 +3032,7 @@ noexcept
 		}
 		case 66: /* tess_gen_primitive_type */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_ISOLINES
 				GL_ISOLINES,
 #endif
@@ -3048,7 +3048,7 @@ noexcept
 		}
 		case 67: /* texture_compare_mode */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_COMPARE_REF_TO_TEXTURE
 				GL_COMPARE_REF_TO_TEXTURE,
 #endif
@@ -3061,7 +3061,7 @@ noexcept
 		}
 		case 68: /* texture_filter */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_LINEAR
 				GL_LINEAR,
 #endif
@@ -3074,7 +3074,7 @@ noexcept
 		}
 		case 69: /* texture_mag_filter */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_LINEAR
 				GL_LINEAR,
 #endif
@@ -3087,7 +3087,7 @@ noexcept
 		}
 		case 70: /* texture_min_filter */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_LINEAR
 				GL_LINEAR,
 #endif
@@ -3112,7 +3112,7 @@ noexcept
 		}
 		case 71: /* texture_swizzle */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_ALPHA
 				GL_ALPHA,
 #endif
@@ -3137,7 +3137,7 @@ noexcept
 		}
 		case 72: /* texture_swizzle_coord */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_TEXTURE_SWIZZLE_A
 				GL_TEXTURE_SWIZZLE_A,
 #endif
@@ -3159,7 +3159,7 @@ noexcept
 		}
 		case 73: /* texture_target */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_TEXTURE_1D
 				GL_TEXTURE_1D,
 #endif
@@ -3217,7 +3217,7 @@ noexcept
 		}
 		case 74: /* texture_wrap */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_CLAMP_TO_BORDER
 				GL_CLAMP_TO_BORDER,
 #endif
@@ -3239,7 +3239,7 @@ noexcept
 		}
 		case 75: /* texture_wrap_coord */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_TEXTURE_WRAP_R
 				GL_TEXTURE_WRAP_R,
 #endif
@@ -3255,7 +3255,7 @@ noexcept
 		}
 		case 76: /* transform_feedback_mode */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_INTERLEAVED_ATTRIBS
 				GL_INTERLEAVED_ATTRIBS,
 #endif
@@ -3268,7 +3268,7 @@ noexcept
 		}
 		case 77: /* transform_feedback_primitive_type */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_LINES
 				GL_LINES,
 #endif
@@ -3284,7 +3284,7 @@ noexcept
 		}
 		case 78: /* transform_feedback_target */
 		{
-			static const long vr[] = {
+			static const GLenum vr[] = {
 #ifdef GL_TRANSFORM_FEEDBACK
 				GL_TRANSFORM_FEEDBACK,
 #endif
@@ -3296,7 +3296,7 @@ noexcept
 	}
 
 	(void)aec;
-	return {};
+	return {nullptr, 0};
 }
 
 } // namespace oglplus

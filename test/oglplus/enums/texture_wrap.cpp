@@ -166,4 +166,61 @@ BOOST_AUTO_TEST_CASE(enum_texture_wrap_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_texture_wrap_range)
+{
+	using namespace oglplus;
+	texture_wrap x;
+	(void)x;
+
+#ifdef GL_CLAMP_TO_BORDER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_CLAMP_TO_BORDER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_CLAMP_TO_EDGE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_CLAMP_TO_EDGE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MIRROR_CLAMP_TO_EDGE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MIRROR_CLAMP_TO_EDGE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_MIRRORED_REPEAT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_MIRRORED_REPEAT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_REPEAT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_REPEAT
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

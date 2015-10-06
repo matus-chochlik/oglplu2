@@ -128,4 +128,51 @@ BOOST_AUTO_TEST_CASE(enum_string_query_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_string_query_range)
+{
+	using namespace oglplus;
+	string_query x;
+	(void)x;
+
+#ifdef GL_RENDERER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_RENDERER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_SHADING_LANGUAGE_VERSION
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_SHADING_LANGUAGE_VERSION
+	) != r.end());
+}
+#endif
+
+#ifdef GL_VENDOR
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_VENDOR
+	) != r.end());
+}
+#endif
+
+#ifdef GL_VERSION
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_VERSION
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

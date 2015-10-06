@@ -600,4 +600,131 @@ BOOST_AUTO_TEST_CASE(enum_primitive_type_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_primitive_type_range)
+{
+	using namespace oglplus;
+	primitive_type x;
+	(void)x;
+
+#ifdef GL_LINE_LOOP
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_LINE_LOOP
+	) != r.end());
+}
+#endif
+
+#ifdef GL_LINE_STRIP
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_LINE_STRIP
+	) != r.end());
+}
+#endif
+
+#ifdef GL_LINE_STRIP_ADJACENCY
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_LINE_STRIP_ADJACENCY
+	) != r.end());
+}
+#endif
+
+#ifdef GL_LINES
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_LINES
+	) != r.end());
+}
+#endif
+
+#ifdef GL_LINES_ADJACENCY
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_LINES_ADJACENCY
+	) != r.end());
+}
+#endif
+
+#ifdef GL_PATCHES
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_PATCHES
+	) != r.end());
+}
+#endif
+
+#ifdef GL_POINTS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_POINTS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TRIANGLE_FAN
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TRIANGLE_FAN
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TRIANGLE_STRIP
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TRIANGLE_STRIP
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TRIANGLE_STRIP_ADJACENCY
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TRIANGLE_STRIP_ADJACENCY
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TRIANGLES
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TRIANGLES
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TRIANGLES_ADJACENCY
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TRIANGLES_ADJACENCY
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

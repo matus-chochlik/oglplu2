@@ -600,4 +600,131 @@ BOOST_AUTO_TEST_CASE(enum_object_type_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_object_type_range)
+{
+	using namespace oglplus;
+	object_type x;
+	(void)x;
+
+#ifdef GL_BUFFER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_BUFFER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_FRAMEBUFFER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_FRAMEBUFFER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_NONE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_NONE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_PROGRAM
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_PROGRAM
+	) != r.end());
+}
+#endif
+
+#ifdef GL_PROGRAM_PIPELINE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_PROGRAM_PIPELINE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_QUERY
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_QUERY
+	) != r.end());
+}
+#endif
+
+#ifdef GL_RENDERBUFFER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_RENDERBUFFER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_SAMPLER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_SAMPLER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_SHADER
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_SHADER
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TEXTURE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TEXTURE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_TRANSFORM_FEEDBACK
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_TRANSFORM_FEEDBACK
+	) != r.end());
+}
+#endif
+
+#ifdef GL_VERTEX_ARRAY
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_VERTEX_ARRAY
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

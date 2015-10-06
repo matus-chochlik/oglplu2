@@ -128,4 +128,51 @@ BOOST_AUTO_TEST_CASE(enum_polygon_mode_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_polygon_mode_range)
+{
+	using namespace oglplus;
+	polygon_mode x;
+	(void)x;
+
+#ifdef GL_FILL
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_FILL
+	) != r.end());
+}
+#endif
+
+#ifdef GL_FILL_RECTANGLE_NV
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_FILL_RECTANGLE_NV
+	) != r.end());
+}
+#endif
+
+#ifdef GL_LINE
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_LINE
+	) != r.end());
+}
+#endif
+
+#ifdef GL_POINT
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_POINT
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

@@ -70,4 +70,31 @@ BOOST_AUTO_TEST_CASE(enum_transform_feedback_mode_names)
 #endif
 }
 
+BOOST_AUTO_TEST_CASE(enum_transform_feedback_mode_range)
+{
+	using namespace oglplus;
+	transform_feedback_mode x;
+	(void)x;
+
+#ifdef GL_INTERLEAVED_ATTRIBS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_INTERLEAVED_ATTRIBS
+	) != r.end());
+}
+#endif
+
+#ifdef GL_SEPARATE_ATTRIBS
+{
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_SEPARATE_ATTRIBS
+	) != r.end());
+}
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()
