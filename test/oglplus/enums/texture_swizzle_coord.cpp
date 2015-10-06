@@ -171,9 +171,11 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_coord_range)
 	using namespace oglplus;
 	texture_swizzle_coord x;
 	(void)x;
+	auto count = enum_value_range(x).size();
 
 #ifdef GL_TEXTURE_SWIZZLE_A
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -184,6 +186,7 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_coord_range)
 
 #ifdef GL_TEXTURE_SWIZZLE_B
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -194,6 +197,7 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_coord_range)
 
 #ifdef GL_TEXTURE_SWIZZLE_G
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -204,6 +208,7 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_coord_range)
 
 #ifdef GL_TEXTURE_SWIZZLE_R
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -214,6 +219,7 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_coord_range)
 
 #ifdef GL_TEXTURE_SWIZZLE_RGBA
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -221,6 +227,7 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_coord_range)
 	) != r.end());
 }
 #endif
+	BOOST_CHECK_EQUAL(count, 0);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

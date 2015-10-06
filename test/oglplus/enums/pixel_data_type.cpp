@@ -2033,9 +2033,11 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_range)
 	using namespace oglplus;
 	pixel_data_type x;
 	(void)x;
+	auto count = enum_value_range(x).size();
 
 #ifdef GL_BYTE
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2046,6 +2048,7 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_range)
 
 #ifdef GL_FLOAT
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2056,6 +2059,7 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_range)
 
 #ifdef GL_FLOAT_32_UNSIGNED_INT_24_8_REV
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2066,6 +2070,7 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_range)
 
 #ifdef GL_HALF_FLOAT
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2076,6 +2081,7 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_range)
 
 #ifdef GL_INT
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2086,6 +2092,7 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_range)
 
 #ifdef GL_SHORT
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2096,6 +2103,7 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_range)
 
 #ifdef GL_UNSIGNED_BYTE
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2106,6 +2114,7 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_range)
 
 #ifdef GL_UNSIGNED_BYTE_2_3_3_REV
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2116,6 +2125,7 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_range)
 
 #ifdef GL_UNSIGNED_BYTE_3_3_2
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2126,6 +2136,7 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_range)
 
 #ifdef GL_UNSIGNED_INT
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2136,6 +2147,7 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_range)
 
 #ifdef GL_UNSIGNED_INT_10_10_10_2
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2146,6 +2158,7 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_range)
 
 #ifdef GL_UNSIGNED_INT_10F_11F_11F_REV
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2156,6 +2169,7 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_range)
 
 #ifdef GL_UNSIGNED_INT_24_8
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2166,6 +2180,7 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_range)
 
 #ifdef GL_UNSIGNED_INT_2_10_10_10_REV
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2176,6 +2191,7 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_range)
 
 #ifdef GL_UNSIGNED_INT_5_9_9_9_REV
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2186,6 +2202,7 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_range)
 
 #ifdef GL_UNSIGNED_INT_8_8_8_8
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2196,6 +2213,7 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_range)
 
 #ifdef GL_UNSIGNED_INT_8_8_8_8_REV
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2206,6 +2224,7 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_range)
 
 #ifdef GL_UNSIGNED_SHORT
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2216,6 +2235,7 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_range)
 
 #ifdef GL_UNSIGNED_SHORT_1_5_5_5_REV
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2226,6 +2246,7 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_range)
 
 #ifdef GL_UNSIGNED_SHORT_4_4_4_4
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2236,6 +2257,7 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_range)
 
 #ifdef GL_UNSIGNED_SHORT_4_4_4_4_REV
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2246,6 +2268,7 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_range)
 
 #ifdef GL_UNSIGNED_SHORT_5_5_5_1
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2256,6 +2279,7 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_range)
 
 #ifdef GL_UNSIGNED_SHORT_5_6_5
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2266,6 +2290,7 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_range)
 
 #ifdef GL_UNSIGNED_SHORT_5_6_5_REV
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2273,6 +2298,7 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_range)
 	) != r.end());
 }
 #endif
+	BOOST_CHECK_EQUAL(count, 0);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

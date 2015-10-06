@@ -5033,9 +5033,11 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_range)
 	using namespace oglplus;
 	image_unit_format x;
 	(void)x;
+	auto count = enum_value_range(x).size();
 
 #ifdef GL_R11F_G11F_B10F
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -5046,6 +5048,7 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_range)
 
 #ifdef GL_R16
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -5056,6 +5059,7 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_range)
 
 #ifdef GL_R16_SNORM
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -5066,6 +5070,7 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_range)
 
 #ifdef GL_R16F
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -5076,6 +5081,7 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_range)
 
 #ifdef GL_R16I
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -5086,6 +5092,7 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_range)
 
 #ifdef GL_R16UI
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -5096,6 +5103,7 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_range)
 
 #ifdef GL_R32F
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -5106,6 +5114,7 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_range)
 
 #ifdef GL_R32I
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -5116,6 +5125,7 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_range)
 
 #ifdef GL_R32UI
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -5126,6 +5136,7 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_range)
 
 #ifdef GL_R8
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -5136,6 +5147,7 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_range)
 
 #ifdef GL_R8_SNORM
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -5146,6 +5158,7 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_range)
 
 #ifdef GL_R8I
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -5156,6 +5169,7 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_range)
 
 #ifdef GL_R8UI
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -5166,6 +5180,7 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_range)
 
 #ifdef GL_RG16
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -5176,6 +5191,7 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_range)
 
 #ifdef GL_RG16_SNORM
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -5186,6 +5202,7 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_range)
 
 #ifdef GL_RG16F
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -5196,6 +5213,7 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_range)
 
 #ifdef GL_RG16I
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -5206,6 +5224,7 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_range)
 
 #ifdef GL_RG16UI
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -5216,6 +5235,7 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_range)
 
 #ifdef GL_RG32F
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -5226,6 +5246,7 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_range)
 
 #ifdef GL_RG32I
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -5236,6 +5257,7 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_range)
 
 #ifdef GL_RG32UI
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -5246,6 +5268,7 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_range)
 
 #ifdef GL_RG8
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -5256,6 +5279,7 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_range)
 
 #ifdef GL_RG8_SNORM
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -5266,6 +5290,7 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_range)
 
 #ifdef GL_RG8I
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -5276,6 +5301,7 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_range)
 
 #ifdef GL_RG8UI
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -5286,6 +5312,7 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_range)
 
 #ifdef GL_RGB10_A2
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -5296,6 +5323,7 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_range)
 
 #ifdef GL_RGB10_A2UI
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -5306,6 +5334,7 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_range)
 
 #ifdef GL_RGBA16
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -5316,6 +5345,7 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_range)
 
 #ifdef GL_RGBA16_SNORM
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -5326,6 +5356,7 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_range)
 
 #ifdef GL_RGBA16F
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -5336,6 +5367,7 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_range)
 
 #ifdef GL_RGBA16I
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -5346,6 +5378,7 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_range)
 
 #ifdef GL_RGBA16UI
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -5356,6 +5389,7 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_range)
 
 #ifdef GL_RGBA32F
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -5366,6 +5400,7 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_range)
 
 #ifdef GL_RGBA32I
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -5376,6 +5411,7 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_range)
 
 #ifdef GL_RGBA32UI
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -5386,6 +5422,7 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_range)
 
 #ifdef GL_RGBA8
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -5396,6 +5433,7 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_range)
 
 #ifdef GL_RGBA8_SNORM
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -5406,6 +5444,7 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_range)
 
 #ifdef GL_RGBA8I
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -5416,6 +5455,7 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_range)
 
 #ifdef GL_RGBA8UI
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -5423,6 +5463,7 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_range)
 	) != r.end());
 }
 #endif
+	BOOST_CHECK_EQUAL(count, 0);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

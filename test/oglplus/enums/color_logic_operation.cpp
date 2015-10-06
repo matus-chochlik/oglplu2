@@ -985,9 +985,11 @@ BOOST_AUTO_TEST_CASE(enum_color_logic_operation_range)
 	using namespace oglplus;
 	color_logic_operation x;
 	(void)x;
+	auto count = enum_value_range(x).size();
 
 #ifdef GL_AND
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -998,6 +1000,7 @@ BOOST_AUTO_TEST_CASE(enum_color_logic_operation_range)
 
 #ifdef GL_AND_INVERTED
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1008,6 +1011,7 @@ BOOST_AUTO_TEST_CASE(enum_color_logic_operation_range)
 
 #ifdef GL_AND_REVERSE
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1018,6 +1022,7 @@ BOOST_AUTO_TEST_CASE(enum_color_logic_operation_range)
 
 #ifdef GL_CLEAR
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1028,6 +1033,7 @@ BOOST_AUTO_TEST_CASE(enum_color_logic_operation_range)
 
 #ifdef GL_COPY
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1038,6 +1044,7 @@ BOOST_AUTO_TEST_CASE(enum_color_logic_operation_range)
 
 #ifdef GL_COPY_INVERTED
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1048,6 +1055,7 @@ BOOST_AUTO_TEST_CASE(enum_color_logic_operation_range)
 
 #ifdef GL_EQUIV
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1058,6 +1066,7 @@ BOOST_AUTO_TEST_CASE(enum_color_logic_operation_range)
 
 #ifdef GL_INVERT
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1068,6 +1077,7 @@ BOOST_AUTO_TEST_CASE(enum_color_logic_operation_range)
 
 #ifdef GL_NAND
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1078,6 +1088,7 @@ BOOST_AUTO_TEST_CASE(enum_color_logic_operation_range)
 
 #ifdef GL_NOOP
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1088,6 +1099,7 @@ BOOST_AUTO_TEST_CASE(enum_color_logic_operation_range)
 
 #ifdef GL_NOR
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1098,6 +1110,7 @@ BOOST_AUTO_TEST_CASE(enum_color_logic_operation_range)
 
 #ifdef GL_OR
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1108,6 +1121,7 @@ BOOST_AUTO_TEST_CASE(enum_color_logic_operation_range)
 
 #ifdef GL_OR_INVERTED
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1118,6 +1132,7 @@ BOOST_AUTO_TEST_CASE(enum_color_logic_operation_range)
 
 #ifdef GL_OR_REVERSE
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1128,6 +1143,7 @@ BOOST_AUTO_TEST_CASE(enum_color_logic_operation_range)
 
 #ifdef GL_SET
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1138,6 +1154,7 @@ BOOST_AUTO_TEST_CASE(enum_color_logic_operation_range)
 
 #ifdef GL_XOR
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1145,6 +1162,7 @@ BOOST_AUTO_TEST_CASE(enum_color_logic_operation_range)
 	) != r.end());
 }
 #endif
+	BOOST_CHECK_EQUAL(count, 0);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

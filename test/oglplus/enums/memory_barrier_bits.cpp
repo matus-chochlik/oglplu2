@@ -881,9 +881,11 @@ BOOST_AUTO_TEST_CASE(enum_memory_barrier_bits_range)
 	using namespace oglplus;
 	memory_barrier_bits x;
 	(void)x;
+	auto count = enum_value_range(x).size();
 
 #ifdef GL_ALL_BARRIER_BITS
 {
+	--count;
 	array_view<const GLbitfield> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -894,6 +896,7 @@ BOOST_AUTO_TEST_CASE(enum_memory_barrier_bits_range)
 
 #ifdef GL_ATOMIC_COUNTER_BARRIER_BIT
 {
+	--count;
 	array_view<const GLbitfield> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -904,6 +907,7 @@ BOOST_AUTO_TEST_CASE(enum_memory_barrier_bits_range)
 
 #ifdef GL_BUFFER_UPDATE_BARRIER_BIT
 {
+	--count;
 	array_view<const GLbitfield> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -914,6 +918,7 @@ BOOST_AUTO_TEST_CASE(enum_memory_barrier_bits_range)
 
 #ifdef GL_CLIENT_MAPPED_BUFFER_BARRIER_BIT
 {
+	--count;
 	array_view<const GLbitfield> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -924,6 +929,7 @@ BOOST_AUTO_TEST_CASE(enum_memory_barrier_bits_range)
 
 #ifdef GL_COMMAND_BARRIER_BIT
 {
+	--count;
 	array_view<const GLbitfield> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -934,6 +940,7 @@ BOOST_AUTO_TEST_CASE(enum_memory_barrier_bits_range)
 
 #ifdef GL_ELEMENT_ARRAY_BARRIER_BIT
 {
+	--count;
 	array_view<const GLbitfield> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -944,6 +951,7 @@ BOOST_AUTO_TEST_CASE(enum_memory_barrier_bits_range)
 
 #ifdef GL_FRAMEBUFFER_BARRIER_BIT
 {
+	--count;
 	array_view<const GLbitfield> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -954,6 +962,7 @@ BOOST_AUTO_TEST_CASE(enum_memory_barrier_bits_range)
 
 #ifdef GL_PIXEL_BUFFER_BARRIER_BIT
 {
+	--count;
 	array_view<const GLbitfield> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -964,6 +973,7 @@ BOOST_AUTO_TEST_CASE(enum_memory_barrier_bits_range)
 
 #ifdef GL_SHADER_IMAGE_ACCESS_BARRIER_BIT
 {
+	--count;
 	array_view<const GLbitfield> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -974,6 +984,7 @@ BOOST_AUTO_TEST_CASE(enum_memory_barrier_bits_range)
 
 #ifdef GL_SHADER_STORAGE_BARRIER_BIT
 {
+	--count;
 	array_view<const GLbitfield> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -984,6 +995,7 @@ BOOST_AUTO_TEST_CASE(enum_memory_barrier_bits_range)
 
 #ifdef GL_TEXTURE_FETCH_BARRIER_BIT
 {
+	--count;
 	array_view<const GLbitfield> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -994,6 +1006,7 @@ BOOST_AUTO_TEST_CASE(enum_memory_barrier_bits_range)
 
 #ifdef GL_TEXTURE_UPDATE_BARRIER_BIT
 {
+	--count;
 	array_view<const GLbitfield> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1004,6 +1017,7 @@ BOOST_AUTO_TEST_CASE(enum_memory_barrier_bits_range)
 
 #ifdef GL_TRANSFORM_FEEDBACK_BARRIER_BIT
 {
+	--count;
 	array_view<const GLbitfield> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1014,6 +1028,7 @@ BOOST_AUTO_TEST_CASE(enum_memory_barrier_bits_range)
 
 #ifdef GL_UNIFORM_BARRIER_BIT
 {
+	--count;
 	array_view<const GLbitfield> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1024,6 +1039,7 @@ BOOST_AUTO_TEST_CASE(enum_memory_barrier_bits_range)
 
 #ifdef GL_VERTEX_ATTRIB_ARRAY_BARRIER_BIT
 {
+	--count;
 	array_view<const GLbitfield> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1031,6 +1047,7 @@ BOOST_AUTO_TEST_CASE(enum_memory_barrier_bits_range)
 	) != r.end());
 }
 #endif
+	BOOST_CHECK_EQUAL(count, 0);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

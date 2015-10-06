@@ -383,9 +383,11 @@ BOOST_AUTO_TEST_CASE(enum_buffer_usage_range)
 	using namespace oglplus;
 	buffer_usage x;
 	(void)x;
+	auto count = enum_value_range(x).size();
 
 #ifdef GL_DYNAMIC_COPY
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -396,6 +398,7 @@ BOOST_AUTO_TEST_CASE(enum_buffer_usage_range)
 
 #ifdef GL_DYNAMIC_DRAW
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -406,6 +409,7 @@ BOOST_AUTO_TEST_CASE(enum_buffer_usage_range)
 
 #ifdef GL_DYNAMIC_READ
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -416,6 +420,7 @@ BOOST_AUTO_TEST_CASE(enum_buffer_usage_range)
 
 #ifdef GL_STATIC_COPY
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -426,6 +431,7 @@ BOOST_AUTO_TEST_CASE(enum_buffer_usage_range)
 
 #ifdef GL_STATIC_DRAW
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -436,6 +442,7 @@ BOOST_AUTO_TEST_CASE(enum_buffer_usage_range)
 
 #ifdef GL_STATIC_READ
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -446,6 +453,7 @@ BOOST_AUTO_TEST_CASE(enum_buffer_usage_range)
 
 #ifdef GL_STREAM_COPY
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -456,6 +464,7 @@ BOOST_AUTO_TEST_CASE(enum_buffer_usage_range)
 
 #ifdef GL_STREAM_DRAW
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -466,6 +475,7 @@ BOOST_AUTO_TEST_CASE(enum_buffer_usage_range)
 
 #ifdef GL_STREAM_READ
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -473,6 +483,7 @@ BOOST_AUTO_TEST_CASE(enum_buffer_usage_range)
 	) != r.end());
 }
 #endif
+	BOOST_CHECK_EQUAL(count, 0);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

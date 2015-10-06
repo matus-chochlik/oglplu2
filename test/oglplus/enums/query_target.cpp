@@ -1333,9 +1333,11 @@ BOOST_AUTO_TEST_CASE(enum_query_target_range)
 	using namespace oglplus;
 	query_target x;
 	(void)x;
+	auto count = enum_value_range(x).size();
 
 #ifdef GL_ANY_SAMPLES_PASSED
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1346,6 +1348,7 @@ BOOST_AUTO_TEST_CASE(enum_query_target_range)
 
 #ifdef GL_CLIPPING_INPUT_PRIMITIVES_ARB
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1356,6 +1359,7 @@ BOOST_AUTO_TEST_CASE(enum_query_target_range)
 
 #ifdef GL_CLIPPING_OUTPUT_PRIMITIVES_ARB
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1366,6 +1370,7 @@ BOOST_AUTO_TEST_CASE(enum_query_target_range)
 
 #ifdef GL_COMPUTE_SHADER_INVOCATIONS_ARB
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1376,6 +1381,7 @@ BOOST_AUTO_TEST_CASE(enum_query_target_range)
 
 #ifdef GL_FRAGMENT_SHADER_INVOCATIONS_ARB
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1386,6 +1392,7 @@ BOOST_AUTO_TEST_CASE(enum_query_target_range)
 
 #ifdef GL_GEOMETRY_SHADER_INVOCATIONS
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1396,6 +1403,7 @@ BOOST_AUTO_TEST_CASE(enum_query_target_range)
 
 #ifdef GL_GEOMETRY_SHADER_PRIMITIVES_EMITTED_ARB
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1406,6 +1414,7 @@ BOOST_AUTO_TEST_CASE(enum_query_target_range)
 
 #ifdef GL_PRIMITIVES_GENERATED
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1416,6 +1425,7 @@ BOOST_AUTO_TEST_CASE(enum_query_target_range)
 
 #ifdef GL_PRIMITIVES_SUBMITTED_ARB
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1426,6 +1436,7 @@ BOOST_AUTO_TEST_CASE(enum_query_target_range)
 
 #ifdef GL_SAMPLES_PASSED
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1436,6 +1447,7 @@ BOOST_AUTO_TEST_CASE(enum_query_target_range)
 
 #ifdef GL_TESS_CONTROL_SHADER_PATCHES_ARB
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1446,6 +1458,7 @@ BOOST_AUTO_TEST_CASE(enum_query_target_range)
 
 #ifdef GL_TESS_EVALUATION_SHADER_INVOCATIONS_ARB
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1456,6 +1469,7 @@ BOOST_AUTO_TEST_CASE(enum_query_target_range)
 
 #ifdef GL_TIME_ELAPSED
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1466,6 +1480,7 @@ BOOST_AUTO_TEST_CASE(enum_query_target_range)
 
 #ifdef GL_TIMESTAMP
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1476,6 +1491,7 @@ BOOST_AUTO_TEST_CASE(enum_query_target_range)
 
 #ifdef GL_TRANSFORM_FEEDBACK_OVERFLOW_ARB
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1486,6 +1502,7 @@ BOOST_AUTO_TEST_CASE(enum_query_target_range)
 
 #ifdef GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1496,6 +1513,7 @@ BOOST_AUTO_TEST_CASE(enum_query_target_range)
 
 #ifdef GL_TRANSFORM_FEEDBACK_STREAM_OVERFLOW_ARB
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1506,6 +1524,7 @@ BOOST_AUTO_TEST_CASE(enum_query_target_range)
 
 #ifdef GL_VERTEX_SHADER_INVOCATIONS_ARB
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1516,6 +1535,7 @@ BOOST_AUTO_TEST_CASE(enum_query_target_range)
 
 #ifdef GL_VERTICES_SUBMITTED_ARB
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1523,6 +1543,7 @@ BOOST_AUTO_TEST_CASE(enum_query_target_range)
 	) != r.end());
 }
 #endif
+	BOOST_CHECK_EQUAL(count, 0);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

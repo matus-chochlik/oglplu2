@@ -881,9 +881,11 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_advanced_range)
 	using namespace oglplus;
 	blend_equation_advanced x;
 	(void)x;
+	auto count = enum_value_range(x).size();
 
 #ifdef GL_COLORBURN_KHR
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -894,6 +896,7 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_advanced_range)
 
 #ifdef GL_COLORDODGE_KHR
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -904,6 +907,7 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_advanced_range)
 
 #ifdef GL_DARKEN_KHR
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -914,6 +918,7 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_advanced_range)
 
 #ifdef GL_DIFFERENCE_KHR
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -924,6 +929,7 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_advanced_range)
 
 #ifdef GL_EXCLUSION_KHR
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -934,6 +940,7 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_advanced_range)
 
 #ifdef GL_HARDLIGHT_KHR
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -944,6 +951,7 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_advanced_range)
 
 #ifdef GL_HSL_COLOR_KHR
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -954,6 +962,7 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_advanced_range)
 
 #ifdef GL_HSL_HUE_KHR
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -964,6 +973,7 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_advanced_range)
 
 #ifdef GL_HSL_LUMINOSITY_KHR
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -974,6 +984,7 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_advanced_range)
 
 #ifdef GL_HSL_SATURATION_KHR
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -984,6 +995,7 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_advanced_range)
 
 #ifdef GL_LIGHTEN_KHR
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -994,6 +1006,7 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_advanced_range)
 
 #ifdef GL_MULTIPLY_KHR
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1004,6 +1017,7 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_advanced_range)
 
 #ifdef GL_OVERLAY_KHR
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1014,6 +1028,7 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_advanced_range)
 
 #ifdef GL_SCREEN_KHR
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1024,6 +1039,7 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_advanced_range)
 
 #ifdef GL_SOFTLIGHT_KHR
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1031,6 +1047,7 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_advanced_range)
 	) != r.end());
 }
 #endif
+	BOOST_CHECK_EQUAL(count, 0);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

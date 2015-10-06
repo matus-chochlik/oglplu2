@@ -386,7 +386,7 @@ def action_impl_enum_value_range_inl(options):
 
 		print_line(options, "\t\t\t\t0")
 		print_line(options, "\t\t\t};")
-		print_line(options, "\t\t\treturn {vr, sizeof(vr)/sizeof(vr[0])};")
+		print_line(options, "\t\t\treturn {vr, sizeof(vr)/sizeof(vr[0])-1};")
 		print_line(options, "\t\t}")
 
 	print_line(options, "\tdefault:;")
@@ -494,6 +494,7 @@ def action_test_enums_cpp(options):
 	print_line(options, "	using namespace %s;" % options.library)
 	print_line(options, "	%s x;" % options.enum_name)
 	print_line(options, "	(void)x;")
+	print_line(options, "	auto count = enum_value_range(x).size();");
 
 	for value_name, value_info in sorted(value_infos.items()):
 		print_newline(options)
@@ -502,6 +503,7 @@ def action_test_enums_cpp(options):
 			value_info.src_name
 		))
 		print_line(options, "{");
+		print_line(options, "	--count;")
 		print_line(options, "	array_view<const %s%s> r = enum_value_range(x);" % (
 			options.base_lib_prefix,
 			value_info.enum_type
@@ -517,6 +519,7 @@ def action_test_enums_cpp(options):
 
 		print_line(options, "#endif")
 
+	print_line(options, "	BOOST_CHECK_EQUAL(count, 0);")
 	print_line(options, "}")
 
 	print_newline(options)

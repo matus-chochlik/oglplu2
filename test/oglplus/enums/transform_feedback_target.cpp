@@ -55,9 +55,11 @@ BOOST_AUTO_TEST_CASE(enum_transform_feedback_target_range)
 	using namespace oglplus;
 	transform_feedback_target x;
 	(void)x;
+	auto count = enum_value_range(x).size();
 
 #ifdef GL_TRANSFORM_FEEDBACK
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -65,6 +67,7 @@ BOOST_AUTO_TEST_CASE(enum_transform_feedback_target_range)
 	) != r.end());
 }
 #endif
+	BOOST_CHECK_EQUAL(count, 0);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

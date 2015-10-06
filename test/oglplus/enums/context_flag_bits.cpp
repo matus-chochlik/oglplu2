@@ -101,9 +101,11 @@ BOOST_AUTO_TEST_CASE(enum_context_flag_bits_range)
 	using namespace oglplus;
 	context_flag_bits x;
 	(void)x;
+	auto count = enum_value_range(x).size();
 
 #ifdef GL_CONTEXT_FLAG_DEBUG_BIT
 {
+	--count;
 	array_view<const GLbitfield> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -114,6 +116,7 @@ BOOST_AUTO_TEST_CASE(enum_context_flag_bits_range)
 
 #ifdef GL_CONTEXT_FLAG_FORWARD_COMPATIBLE_BIT
 {
+	--count;
 	array_view<const GLbitfield> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -124,6 +127,7 @@ BOOST_AUTO_TEST_CASE(enum_context_flag_bits_range)
 
 #ifdef GL_CONTEXT_FLAG_ROBUST_ACCESS_BIT_ARB
 {
+	--count;
 	array_view<const GLbitfield> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -131,6 +135,7 @@ BOOST_AUTO_TEST_CASE(enum_context_flag_bits_range)
 	) != r.end());
 }
 #endif
+	BOOST_CHECK_EQUAL(count, 0);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

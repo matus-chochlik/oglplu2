@@ -37551,9 +37551,11 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 	using namespace oglplus;
 	sl_data_type x;
 	(void)x;
+	auto count = enum_value_range(x).size();
 
 #ifdef GL_BOOL
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37564,6 +37566,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_BOOL_VEC2
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37574,6 +37577,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_BOOL_VEC3
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37584,6 +37588,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_BOOL_VEC4
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37594,6 +37599,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_DOUBLE
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37604,6 +37610,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_DOUBLE_MAT2
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37614,6 +37621,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_DOUBLE_MAT2x3
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37624,6 +37632,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_DOUBLE_MAT2x4
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37634,6 +37643,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_DOUBLE_MAT3
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37644,6 +37654,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_DOUBLE_MAT3x2
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37654,6 +37665,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_DOUBLE_MAT3x4
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37664,6 +37676,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_DOUBLE_MAT4
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37674,6 +37687,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_DOUBLE_MAT4x2
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37684,6 +37698,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_DOUBLE_MAT4x3
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37694,6 +37709,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_DOUBLE_VEC2
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37704,6 +37720,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_DOUBLE_VEC3
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37714,6 +37731,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_DOUBLE_VEC4
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37724,6 +37742,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_FLOAT
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37734,6 +37753,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_FLOAT_MAT2
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37744,6 +37764,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_FLOAT_MAT2x3
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37754,6 +37775,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_FLOAT_MAT2x4
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37764,6 +37786,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_FLOAT_MAT3
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37774,6 +37797,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_FLOAT_MAT3x2
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37784,6 +37808,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_FLOAT_MAT3x4
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37794,6 +37819,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_FLOAT_MAT4
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37804,6 +37830,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_FLOAT_MAT4x2
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37814,6 +37841,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_FLOAT_MAT4x3
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37824,6 +37852,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_FLOAT_VEC2
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37834,6 +37863,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_FLOAT_VEC3
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37844,6 +37874,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_FLOAT_VEC4
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37854,6 +37885,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_IMAGE_1D
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37864,6 +37896,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_IMAGE_1D_ARRAY
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37874,6 +37907,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_IMAGE_2D
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37884,6 +37918,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_IMAGE_2D_ARRAY
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37894,6 +37929,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_IMAGE_2D_MULTISAMPLE
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37904,6 +37940,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_IMAGE_2D_MULTISAMPLE_ARRAY
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37914,6 +37951,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_IMAGE_2D_RECT
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37924,6 +37962,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_IMAGE_3D
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37934,6 +37973,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_IMAGE_BUFFER
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37944,6 +37984,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_IMAGE_CUBE
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37954,6 +37995,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_INT
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37964,6 +38006,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_INT_IMAGE_1D
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37974,6 +38017,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_INT_IMAGE_1D_ARRAY
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37984,6 +38028,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_INT_IMAGE_2D
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -37994,6 +38039,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_INT_IMAGE_2D_ARRAY
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38004,6 +38050,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_INT_IMAGE_2D_MULTISAMPLE
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38014,6 +38061,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_INT_IMAGE_2D_MULTISAMPLE_ARRAY
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38024,6 +38072,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_INT_IMAGE_2D_RECT
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38034,6 +38083,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_INT_IMAGE_3D
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38044,6 +38094,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_INT_IMAGE_BUFFER
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38054,6 +38105,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_INT_IMAGE_CUBE
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38064,6 +38116,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_INT_SAMPLER_1D
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38074,6 +38127,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_INT_SAMPLER_1D_ARRAY
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38084,6 +38138,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_INT_SAMPLER_2D
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38094,6 +38149,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_INT_SAMPLER_2D_ARRAY
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38104,6 +38160,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_INT_SAMPLER_2D_MULTISAMPLE
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38114,6 +38171,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_INT_SAMPLER_2D_MULTISAMPLE_ARRAY
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38124,6 +38182,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_INT_SAMPLER_2D_RECT
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38134,6 +38193,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_INT_SAMPLER_3D
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38144,6 +38204,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_INT_SAMPLER_BUFFER
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38154,6 +38215,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_INT_SAMPLER_CUBE
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38164,6 +38226,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_INT_SAMPLER_CUBE_MAP_ARRAY
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38174,6 +38237,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_INT_VEC2
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38184,6 +38248,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_INT_VEC3
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38194,6 +38259,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_INT_VEC4
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38204,6 +38270,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_NONE
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38214,6 +38281,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_SAMPLER_1D
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38224,6 +38292,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_SAMPLER_1D_ARRAY
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38234,6 +38303,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_SAMPLER_1D_ARRAY_SHADOW
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38244,6 +38314,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_SAMPLER_1D_SHADOW
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38254,6 +38325,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_SAMPLER_2D
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38264,6 +38336,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_SAMPLER_2D_ARRAY
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38274,6 +38347,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_SAMPLER_2D_ARRAY_SHADOW
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38284,6 +38358,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_SAMPLER_2D_MULTISAMPLE
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38294,6 +38369,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_SAMPLER_2D_MULTISAMPLE_ARRAY
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38304,6 +38380,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_SAMPLER_2D_RECT
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38314,6 +38391,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_SAMPLER_2D_RECT_SHADOW
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38324,6 +38402,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_SAMPLER_2D_SHADOW
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38334,6 +38413,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_SAMPLER_3D
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38344,6 +38424,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_SAMPLER_BUFFER
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38354,6 +38435,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_SAMPLER_CUBE
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38364,6 +38446,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_SAMPLER_CUBE_MAP_ARRAY
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38374,6 +38457,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_SAMPLER_CUBE_MAP_ARRAY_SHADOW
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38384,6 +38468,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_SAMPLER_CUBE_SHADOW
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38394,6 +38479,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_UNSIGNED_INT
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38404,6 +38490,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_UNSIGNED_INT_ATOMIC_COUNTER
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38414,6 +38501,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_UNSIGNED_INT_IMAGE_1D
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38424,6 +38512,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_UNSIGNED_INT_IMAGE_1D_ARRAY
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38434,6 +38523,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_UNSIGNED_INT_IMAGE_2D
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38444,6 +38534,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_UNSIGNED_INT_IMAGE_2D_ARRAY
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38454,6 +38545,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38464,6 +38556,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE_ARRAY
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38474,6 +38567,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_UNSIGNED_INT_IMAGE_2D_RECT
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38484,6 +38578,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_UNSIGNED_INT_IMAGE_3D
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38494,6 +38589,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_UNSIGNED_INT_IMAGE_BUFFER
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38504,6 +38600,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_UNSIGNED_INT_IMAGE_CUBE
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38514,6 +38611,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_UNSIGNED_INT_SAMPLER_1D
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38524,6 +38622,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_UNSIGNED_INT_SAMPLER_1D_ARRAY
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38534,6 +38633,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_UNSIGNED_INT_SAMPLER_2D
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38544,6 +38644,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_UNSIGNED_INT_SAMPLER_2D_ARRAY
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38554,6 +38655,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38564,6 +38666,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE_ARRAY
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38574,6 +38677,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_UNSIGNED_INT_SAMPLER_2D_RECT
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38584,6 +38688,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_UNSIGNED_INT_SAMPLER_3D
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38594,6 +38699,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_UNSIGNED_INT_SAMPLER_BUFFER
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38604,6 +38710,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_UNSIGNED_INT_SAMPLER_CUBE
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38614,6 +38721,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_UNSIGNED_INT_SAMPLER_CUBE_MAP_ARRAY
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38624,6 +38732,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_UNSIGNED_INT_VEC2
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38634,6 +38743,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_UNSIGNED_INT_VEC3
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38644,6 +38754,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 
 #ifdef GL_UNSIGNED_INT_VEC4
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -38651,6 +38762,7 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 	) != r.end());
 }
 #endif
+	BOOST_CHECK_EQUAL(count, 0);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

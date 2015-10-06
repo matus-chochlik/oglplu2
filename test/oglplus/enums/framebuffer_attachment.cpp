@@ -1333,9 +1333,11 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_attachment_range)
 	using namespace oglplus;
 	framebuffer_attachment x;
 	(void)x;
+	auto count = enum_value_range(x).size();
 
 #ifdef GL_COLOR_ATTACHMENT0
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1346,6 +1348,7 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_attachment_range)
 
 #ifdef GL_COLOR_ATTACHMENT1
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1356,6 +1359,7 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_attachment_range)
 
 #ifdef GL_COLOR_ATTACHMENT10
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1366,6 +1370,7 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_attachment_range)
 
 #ifdef GL_COLOR_ATTACHMENT11
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1376,6 +1381,7 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_attachment_range)
 
 #ifdef GL_COLOR_ATTACHMENT12
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1386,6 +1392,7 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_attachment_range)
 
 #ifdef GL_COLOR_ATTACHMENT13
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1396,6 +1403,7 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_attachment_range)
 
 #ifdef GL_COLOR_ATTACHMENT14
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1406,6 +1414,7 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_attachment_range)
 
 #ifdef GL_COLOR_ATTACHMENT15
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1416,6 +1425,7 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_attachment_range)
 
 #ifdef GL_COLOR_ATTACHMENT2
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1426,6 +1436,7 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_attachment_range)
 
 #ifdef GL_COLOR_ATTACHMENT3
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1436,6 +1447,7 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_attachment_range)
 
 #ifdef GL_COLOR_ATTACHMENT4
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1446,6 +1458,7 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_attachment_range)
 
 #ifdef GL_COLOR_ATTACHMENT5
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1456,6 +1469,7 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_attachment_range)
 
 #ifdef GL_COLOR_ATTACHMENT6
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1466,6 +1480,7 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_attachment_range)
 
 #ifdef GL_COLOR_ATTACHMENT7
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1476,6 +1491,7 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_attachment_range)
 
 #ifdef GL_COLOR_ATTACHMENT8
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1486,6 +1502,7 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_attachment_range)
 
 #ifdef GL_COLOR_ATTACHMENT9
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1496,6 +1513,7 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_attachment_range)
 
 #ifdef GL_DEPTH_ATTACHMENT
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1506,6 +1524,7 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_attachment_range)
 
 #ifdef GL_DEPTH_STENCIL_ATTACHMENT
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1516,6 +1535,7 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_attachment_range)
 
 #ifdef GL_STENCIL_ATTACHMENT
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -1523,6 +1543,7 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_attachment_range)
 	) != r.end());
 }
 #endif
+	BOOST_CHECK_EQUAL(count, 0);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

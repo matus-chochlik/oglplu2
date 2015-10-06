@@ -321,9 +321,11 @@ BOOST_AUTO_TEST_CASE(enum_compare_function_range)
 	using namespace oglplus;
 	compare_function x;
 	(void)x;
+	auto count = enum_value_range(x).size();
 
 #ifdef GL_ALWAYS
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -334,6 +336,7 @@ BOOST_AUTO_TEST_CASE(enum_compare_function_range)
 
 #ifdef GL_EQUAL
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -344,6 +347,7 @@ BOOST_AUTO_TEST_CASE(enum_compare_function_range)
 
 #ifdef GL_GEQUAL
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -354,6 +358,7 @@ BOOST_AUTO_TEST_CASE(enum_compare_function_range)
 
 #ifdef GL_GREATER
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -364,6 +369,7 @@ BOOST_AUTO_TEST_CASE(enum_compare_function_range)
 
 #ifdef GL_LEQUAL
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -374,6 +380,7 @@ BOOST_AUTO_TEST_CASE(enum_compare_function_range)
 
 #ifdef GL_LESS
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -384,6 +391,7 @@ BOOST_AUTO_TEST_CASE(enum_compare_function_range)
 
 #ifdef GL_NEVER
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -394,6 +402,7 @@ BOOST_AUTO_TEST_CASE(enum_compare_function_range)
 
 #ifdef GL_NOTEQUAL
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -401,6 +410,7 @@ BOOST_AUTO_TEST_CASE(enum_compare_function_range)
 	) != r.end());
 }
 #endif
+	BOOST_CHECK_EQUAL(count, 0);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

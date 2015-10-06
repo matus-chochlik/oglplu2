@@ -2525,9 +2525,11 @@ BOOST_AUTO_TEST_CASE(enum_program_resource_property_range)
 	using namespace oglplus;
 	program_resource_property x;
 	(void)x;
+	auto count = enum_value_range(x).size();
 
 #ifdef GL_ACTIVE_VARIABLES
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2538,6 +2540,7 @@ BOOST_AUTO_TEST_CASE(enum_program_resource_property_range)
 
 #ifdef GL_ARRAY_SIZE
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2548,6 +2551,7 @@ BOOST_AUTO_TEST_CASE(enum_program_resource_property_range)
 
 #ifdef GL_ARRAY_STRIDE
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2558,6 +2562,7 @@ BOOST_AUTO_TEST_CASE(enum_program_resource_property_range)
 
 #ifdef GL_ATOMIC_COUNTER_BUFFER_INDEX
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2568,6 +2573,7 @@ BOOST_AUTO_TEST_CASE(enum_program_resource_property_range)
 
 #ifdef GL_BLOCK_INDEX
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2578,6 +2584,7 @@ BOOST_AUTO_TEST_CASE(enum_program_resource_property_range)
 
 #ifdef GL_BUFFER_BINDING
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2588,6 +2595,7 @@ BOOST_AUTO_TEST_CASE(enum_program_resource_property_range)
 
 #ifdef GL_BUFFER_DATA_SIZE
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2598,6 +2606,7 @@ BOOST_AUTO_TEST_CASE(enum_program_resource_property_range)
 
 #ifdef GL_COMPATIBLE_SUBROUTINES
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2608,6 +2617,7 @@ BOOST_AUTO_TEST_CASE(enum_program_resource_property_range)
 
 #ifdef GL_IS_PER_PATCH
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2618,6 +2628,7 @@ BOOST_AUTO_TEST_CASE(enum_program_resource_property_range)
 
 #ifdef GL_IS_ROW_MAJOR
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2628,6 +2639,7 @@ BOOST_AUTO_TEST_CASE(enum_program_resource_property_range)
 
 #ifdef GL_LOCATION
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2638,6 +2650,7 @@ BOOST_AUTO_TEST_CASE(enum_program_resource_property_range)
 
 #ifdef GL_LOCATION_COMPONENT
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2648,6 +2661,7 @@ BOOST_AUTO_TEST_CASE(enum_program_resource_property_range)
 
 #ifdef GL_LOCATION_INDEX
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2658,6 +2672,7 @@ BOOST_AUTO_TEST_CASE(enum_program_resource_property_range)
 
 #ifdef GL_MATRIX_STRIDE
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2668,6 +2683,7 @@ BOOST_AUTO_TEST_CASE(enum_program_resource_property_range)
 
 #ifdef GL_NUM_ACTIVE_VARIABLES
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2678,6 +2694,7 @@ BOOST_AUTO_TEST_CASE(enum_program_resource_property_range)
 
 #ifdef GL_NUM_COMPATIBLE_SUBROUTINES
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2688,6 +2705,7 @@ BOOST_AUTO_TEST_CASE(enum_program_resource_property_range)
 
 #ifdef GL_OFFSET
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2698,6 +2716,7 @@ BOOST_AUTO_TEST_CASE(enum_program_resource_property_range)
 
 #ifdef GL_REFERENCED_BY_COMPUTE_SHADER
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2708,6 +2727,7 @@ BOOST_AUTO_TEST_CASE(enum_program_resource_property_range)
 
 #ifdef GL_REFERENCED_BY_FRAGMENT_SHADER
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2718,6 +2738,7 @@ BOOST_AUTO_TEST_CASE(enum_program_resource_property_range)
 
 #ifdef GL_REFERENCED_BY_GEOMETRY_SHADER
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2728,6 +2749,7 @@ BOOST_AUTO_TEST_CASE(enum_program_resource_property_range)
 
 #ifdef GL_REFERENCED_BY_TESS_CONTROL_SHADER
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2738,6 +2760,7 @@ BOOST_AUTO_TEST_CASE(enum_program_resource_property_range)
 
 #ifdef GL_REFERENCED_BY_TESS_EVALUATION_SHADER
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2748,6 +2771,7 @@ BOOST_AUTO_TEST_CASE(enum_program_resource_property_range)
 
 #ifdef GL_REFERENCED_BY_VERTEX_SHADER
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2758,6 +2782,7 @@ BOOST_AUTO_TEST_CASE(enum_program_resource_property_range)
 
 #ifdef GL_TOP_LEVEL_ARRAY_SIZE
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2768,6 +2793,7 @@ BOOST_AUTO_TEST_CASE(enum_program_resource_property_range)
 
 #ifdef GL_TOP_LEVEL_ARRAY_STRIDE
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2778,6 +2804,7 @@ BOOST_AUTO_TEST_CASE(enum_program_resource_property_range)
 
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER_INDEX
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2788,6 +2815,7 @@ BOOST_AUTO_TEST_CASE(enum_program_resource_property_range)
 
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER_STRIDE
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -2795,6 +2823,7 @@ BOOST_AUTO_TEST_CASE(enum_program_resource_property_range)
 	) != r.end());
 }
 #endif
+	BOOST_CHECK_EQUAL(count, 0);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

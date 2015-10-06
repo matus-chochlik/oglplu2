@@ -265,9 +265,11 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_status_range)
 	using namespace oglplus;
 	framebuffer_status x;
 	(void)x;
+	auto count = enum_value_range(x).size();
 
 #ifdef GL_FRAMEBUFFER_COMPLETE
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -278,6 +280,7 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_status_range)
 
 #ifdef GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -288,6 +291,7 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_status_range)
 
 #ifdef GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -298,6 +302,7 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_status_range)
 
 #ifdef GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -308,6 +313,7 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_status_range)
 
 #ifdef GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -318,6 +324,7 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_status_range)
 
 #ifdef GL_FRAMEBUFFER_UNDEFINED
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -328,6 +335,7 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_status_range)
 
 #ifdef GL_FRAMEBUFFER_UNSUPPORTED
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -335,6 +343,7 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_status_range)
 	) != r.end());
 }
 #endif
+	BOOST_CHECK_EQUAL(count, 0);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

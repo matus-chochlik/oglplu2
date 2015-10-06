@@ -133,9 +133,11 @@ BOOST_AUTO_TEST_CASE(enum_buffer_indexed_target_range)
 	using namespace oglplus;
 	buffer_indexed_target x;
 	(void)x;
+	auto count = enum_value_range(x).size();
 
 #ifdef GL_ATOMIC_COUNTER_BUFFER
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -146,6 +148,7 @@ BOOST_AUTO_TEST_CASE(enum_buffer_indexed_target_range)
 
 #ifdef GL_SHADER_STORAGE_BUFFER
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -156,6 +159,7 @@ BOOST_AUTO_TEST_CASE(enum_buffer_indexed_target_range)
 
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -166,6 +170,7 @@ BOOST_AUTO_TEST_CASE(enum_buffer_indexed_target_range)
 
 #ifdef GL_UNIFORM_BUFFER
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -173,6 +178,7 @@ BOOST_AUTO_TEST_CASE(enum_buffer_indexed_target_range)
 	) != r.end());
 }
 #endif
+	BOOST_CHECK_EQUAL(count, 0);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

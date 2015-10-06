@@ -35,7 +35,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 1: /* blend_equation */
 		{
@@ -57,7 +57,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 2: /* blend_equation_advanced */
 		{
@@ -109,7 +109,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 3: /* blend_function */
 		{
@@ -173,7 +173,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 4: /* blit_filter */
 		{
@@ -186,7 +186,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 5: /* buffer_indexed_target */
 		{
@@ -205,7 +205,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 6: /* buffer_map_access */
 		{
@@ -236,7 +236,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 7: /* buffer_select_bits */
 		{
@@ -252,7 +252,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 8: /* buffer_storage_bits */
 		{
@@ -280,7 +280,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 9: /* buffer_target */
 		{
@@ -335,7 +335,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 10: /* buffer_usage */
 		{
@@ -369,7 +369,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 11: /* capability */
 		{
@@ -457,7 +457,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 12: /* clip_depth_mode */
 		{
@@ -470,7 +470,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 13: /* clip_origin */
 		{
@@ -483,7 +483,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 14: /* color_buffer */
 		{
@@ -520,7 +520,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 15: /* color_logic_operation */
 		{
@@ -575,7 +575,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 16: /* compare_function */
 		{
@@ -606,7 +606,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 17: /* conditional_render_mode */
 		{
@@ -637,7 +637,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 18: /* context_flag_bits */
 		{
@@ -653,7 +653,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 19: /* context_profile_bits */
 		{
@@ -666,7 +666,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 20: /* context_release_behavior */
 		{
@@ -679,7 +679,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 21: /* data_type */
 		{
@@ -716,7 +716,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 22: /* debug_output_severity */
 		{
@@ -738,7 +738,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 23: /* debug_output_source */
 		{
@@ -766,7 +766,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 24: /* debug_output_type */
 		{
@@ -803,7 +803,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 25: /* error_code */
 		{
@@ -840,7 +840,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 26: /* face */
 		{
@@ -856,7 +856,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 27: /* face_orientation */
 		{
@@ -869,7 +869,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 28: /* framebuffer_attachment */
 		{
@@ -933,7 +933,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 29: /* framebuffer_buffer */
 		{
@@ -952,7 +952,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 30: /* framebuffer_status */
 		{
@@ -980,7 +980,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 31: /* framebuffer_target */
 		{
@@ -993,7 +993,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 32: /* functionality */
 		{
@@ -1003,7 +1003,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 33: /* graphics_reset_status */
 		{
@@ -1022,7 +1022,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 34: /* hint_option */
 		{
@@ -1038,7 +1038,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 35: /* hint_target */
 		{
@@ -1057,7 +1057,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 36: /* image_unit_format */
 		{
@@ -1181,7 +1181,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 37: /* limit_query */
 		{
@@ -1515,7 +1515,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 38: /* memory_barrier_bits */
 		{
@@ -1567,7 +1567,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 39: /* named_string_type */
 		{
@@ -1577,7 +1577,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 40: /* object_type */
 		{
@@ -1620,7 +1620,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 41: /* patch_parameter */
 		{
@@ -1636,7 +1636,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 42: /* pixel_data_format */
 		{
@@ -1700,7 +1700,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 43: /* pixel_data_internal_format */
 		{
@@ -2007,7 +2007,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 44: /* pixel_data_type */
 		{
@@ -2086,7 +2086,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 45: /* pixel_parameter */
 		{
@@ -2165,7 +2165,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 46: /* polygon_mode */
 		{
@@ -2184,7 +2184,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 47: /* precision_type */
 		{
@@ -2209,7 +2209,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 48: /* primitive_type */
 		{
@@ -2252,7 +2252,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 49: /* program_interface */
 		{
@@ -2319,7 +2319,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 50: /* program_pipeline_stage */
 		{
@@ -2347,7 +2347,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 51: /* program_resource_property */
 		{
@@ -2435,7 +2435,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 52: /* provoke_mode */
 		{
@@ -2448,7 +2448,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 53: /* query_target */
 		{
@@ -2512,7 +2512,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 54: /* renderbuffer_target */
 		{
@@ -2522,7 +2522,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 55: /* reset_notification_strategy */
 		{
@@ -2535,7 +2535,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 56: /* shader_type */
 		{
@@ -2560,7 +2560,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 57: /* single_face */
 		{
@@ -2573,7 +2573,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 58: /* sl_data_type */
 		{
@@ -2910,7 +2910,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 59: /* stencil_operation */
 		{
@@ -2941,7 +2941,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 60: /* string_query */
 		{
@@ -2960,7 +2960,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 61: /* sync_condition */
 		{
@@ -2970,7 +2970,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 62: /* sync_status */
 		{
@@ -2983,7 +2983,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 63: /* sync_type */
 		{
@@ -2993,7 +2993,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 64: /* sync_wait_result */
 		{
@@ -3012,7 +3012,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 65: /* tess_gen_primitive_spacing */
 		{
@@ -3028,7 +3028,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 66: /* tess_gen_primitive_type */
 		{
@@ -3044,7 +3044,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 67: /* texture_compare_mode */
 		{
@@ -3057,7 +3057,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 68: /* texture_filter */
 		{
@@ -3070,7 +3070,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 69: /* texture_mag_filter */
 		{
@@ -3083,7 +3083,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 70: /* texture_min_filter */
 		{
@@ -3108,7 +3108,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 71: /* texture_swizzle */
 		{
@@ -3133,7 +3133,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 72: /* texture_swizzle_coord */
 		{
@@ -3155,7 +3155,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 73: /* texture_target */
 		{
@@ -3213,7 +3213,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 74: /* texture_wrap */
 		{
@@ -3235,7 +3235,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 75: /* texture_wrap_coord */
 		{
@@ -3251,7 +3251,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 76: /* transform_feedback_mode */
 		{
@@ -3264,7 +3264,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 77: /* transform_feedback_primitive_type */
 		{
@@ -3280,7 +3280,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 		case 78: /* transform_feedback_target */
 		{
@@ -3290,7 +3290,7 @@ noexcept
 #endif
 				0
 			};
-			return {vr, sizeof(vr)/sizeof(vr[0])};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
 	default:;
 	}

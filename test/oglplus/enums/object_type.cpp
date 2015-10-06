@@ -605,9 +605,11 @@ BOOST_AUTO_TEST_CASE(enum_object_type_range)
 	using namespace oglplus;
 	object_type x;
 	(void)x;
+	auto count = enum_value_range(x).size();
 
 #ifdef GL_BUFFER
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -618,6 +620,7 @@ BOOST_AUTO_TEST_CASE(enum_object_type_range)
 
 #ifdef GL_FRAMEBUFFER
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -628,6 +631,7 @@ BOOST_AUTO_TEST_CASE(enum_object_type_range)
 
 #ifdef GL_NONE
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -638,6 +642,7 @@ BOOST_AUTO_TEST_CASE(enum_object_type_range)
 
 #ifdef GL_PROGRAM
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -648,6 +653,7 @@ BOOST_AUTO_TEST_CASE(enum_object_type_range)
 
 #ifdef GL_PROGRAM_PIPELINE
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -658,6 +664,7 @@ BOOST_AUTO_TEST_CASE(enum_object_type_range)
 
 #ifdef GL_QUERY
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -668,6 +675,7 @@ BOOST_AUTO_TEST_CASE(enum_object_type_range)
 
 #ifdef GL_RENDERBUFFER
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -678,6 +686,7 @@ BOOST_AUTO_TEST_CASE(enum_object_type_range)
 
 #ifdef GL_SAMPLER
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -688,6 +697,7 @@ BOOST_AUTO_TEST_CASE(enum_object_type_range)
 
 #ifdef GL_SHADER
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -698,6 +708,7 @@ BOOST_AUTO_TEST_CASE(enum_object_type_range)
 
 #ifdef GL_TEXTURE
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -708,6 +719,7 @@ BOOST_AUTO_TEST_CASE(enum_object_type_range)
 
 #ifdef GL_TRANSFORM_FEEDBACK
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -718,6 +730,7 @@ BOOST_AUTO_TEST_CASE(enum_object_type_range)
 
 #ifdef GL_VERTEX_ARRAY
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -725,6 +738,7 @@ BOOST_AUTO_TEST_CASE(enum_object_type_range)
 	) != r.end());
 }
 #endif
+	BOOST_CHECK_EQUAL(count, 0);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

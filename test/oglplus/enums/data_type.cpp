@@ -451,9 +451,11 @@ BOOST_AUTO_TEST_CASE(enum_data_type_range)
 	using namespace oglplus;
 	data_type x;
 	(void)x;
+	auto count = enum_value_range(x).size();
 
 #ifdef GL_BYTE
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -464,6 +466,7 @@ BOOST_AUTO_TEST_CASE(enum_data_type_range)
 
 #ifdef GL_DOUBLE
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -474,6 +477,7 @@ BOOST_AUTO_TEST_CASE(enum_data_type_range)
 
 #ifdef GL_FIXED
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -484,6 +488,7 @@ BOOST_AUTO_TEST_CASE(enum_data_type_range)
 
 #ifdef GL_FLOAT
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -494,6 +499,7 @@ BOOST_AUTO_TEST_CASE(enum_data_type_range)
 
 #ifdef GL_HALF_FLOAT
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -504,6 +510,7 @@ BOOST_AUTO_TEST_CASE(enum_data_type_range)
 
 #ifdef GL_INT
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -514,6 +521,7 @@ BOOST_AUTO_TEST_CASE(enum_data_type_range)
 
 #ifdef GL_SHORT
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -524,6 +532,7 @@ BOOST_AUTO_TEST_CASE(enum_data_type_range)
 
 #ifdef GL_UNSIGNED_BYTE
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -534,6 +543,7 @@ BOOST_AUTO_TEST_CASE(enum_data_type_range)
 
 #ifdef GL_UNSIGNED_INT
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -544,6 +554,7 @@ BOOST_AUTO_TEST_CASE(enum_data_type_range)
 
 #ifdef GL_UNSIGNED_SHORT
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -551,6 +562,7 @@ BOOST_AUTO_TEST_CASE(enum_data_type_range)
 	) != r.end());
 }
 #endif
+	BOOST_CHECK_EQUAL(count, 0);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

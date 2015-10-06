@@ -75,9 +75,11 @@ BOOST_AUTO_TEST_CASE(enum_context_profile_bits_range)
 	using namespace oglplus;
 	context_profile_bits x;
 	(void)x;
+	auto count = enum_value_range(x).size();
 
 #ifdef GL_CONTEXT_COMPATIBILITY_PROFILE_BIT
 {
+	--count;
 	array_view<const GLbitfield> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -88,6 +90,7 @@ BOOST_AUTO_TEST_CASE(enum_context_profile_bits_range)
 
 #ifdef GL_CONTEXT_CORE_PROFILE_BIT
 {
+	--count;
 	array_view<const GLbitfield> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -95,6 +98,7 @@ BOOST_AUTO_TEST_CASE(enum_context_profile_bits_range)
 	) != r.end());
 }
 #endif
+	BOOST_CHECK_EQUAL(count, 0);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

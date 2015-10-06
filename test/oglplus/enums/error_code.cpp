@@ -451,9 +451,11 @@ BOOST_AUTO_TEST_CASE(enum_error_code_range)
 	using namespace oglplus;
 	error_code x;
 	(void)x;
+	auto count = enum_value_range(x).size();
 
 #ifdef GL_CONTEXT_LOST
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -464,6 +466,7 @@ BOOST_AUTO_TEST_CASE(enum_error_code_range)
 
 #ifdef GL_INVALID_ENUM
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -474,6 +477,7 @@ BOOST_AUTO_TEST_CASE(enum_error_code_range)
 
 #ifdef GL_INVALID_FRAMEBUFFER_OPERATION
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -484,6 +488,7 @@ BOOST_AUTO_TEST_CASE(enum_error_code_range)
 
 #ifdef GL_INVALID_OPERATION
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -494,6 +499,7 @@ BOOST_AUTO_TEST_CASE(enum_error_code_range)
 
 #ifdef GL_INVALID_VALUE
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -504,6 +510,7 @@ BOOST_AUTO_TEST_CASE(enum_error_code_range)
 
 #ifdef GL_NO_ERROR
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -514,6 +521,7 @@ BOOST_AUTO_TEST_CASE(enum_error_code_range)
 
 #ifdef GL_OUT_OF_MEMORY
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -524,6 +532,7 @@ BOOST_AUTO_TEST_CASE(enum_error_code_range)
 
 #ifdef GL_STACK_OVERFLOW
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -534,6 +543,7 @@ BOOST_AUTO_TEST_CASE(enum_error_code_range)
 
 #ifdef GL_STACK_UNDERFLOW
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -544,6 +554,7 @@ BOOST_AUTO_TEST_CASE(enum_error_code_range)
 
 #ifdef GL_TABLE_TOO_LARGE
 {
+	--count;
 	array_view<const GLenum> r = enum_value_range(x);
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
@@ -551,6 +562,7 @@ BOOST_AUTO_TEST_CASE(enum_error_code_range)
 	) != r.end());
 }
 #endif
+	BOOST_CHECK_EQUAL(count, 0);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
