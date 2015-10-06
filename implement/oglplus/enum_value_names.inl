@@ -7,7 +7,7 @@
 //  Copyright Matus Chochlik.
 //  Distributed under the Boost Software License, Version 1.0.
 //  See accompanying file LICENSE_1_0.txt or copy at
-//  http://www.boost.org/LICENSE_1_0.txt
+//   http://www.boost.org/LICENSE_1_0.txt
 //
 #include <oglplus/config/basic.hpp>
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
@@ -3249,13 +3249,13 @@ noexcept
 				case GL_READ_ONLY:
 					return s_READ_ONLY;
 #endif
-#ifdef GL_WRITE_ONLY
-				case GL_WRITE_ONLY:
-					return s_WRITE_ONLY;
-#endif
 #ifdef GL_READ_WRITE
 				case GL_READ_WRITE:
 					return s_READ_WRITE;
+#endif
+#ifdef GL_WRITE_ONLY
+				case GL_WRITE_ONLY:
+					return s_WRITE_ONLY;
 #endif
 				default:;
 			}
@@ -3263,21 +3263,21 @@ noexcept
 		case 1: /* blend_equation */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_MAX
-				case GL_MAX:
-					return s_MAX;
-#endif
 #ifdef GL_FUNC_ADD
 				case GL_FUNC_ADD:
 					return s_FUNC_ADD;
+#endif
+#ifdef GL_FUNC_REVERSE_SUBTRACT
+				case GL_FUNC_REVERSE_SUBTRACT:
+					return s_FUNC_REVERSE_SUBTRACT;
 #endif
 #ifdef GL_FUNC_SUBTRACT
 				case GL_FUNC_SUBTRACT:
 					return s_FUNC_SUBTRACT;
 #endif
-#ifdef GL_FUNC_REVERSE_SUBTRACT
-				case GL_FUNC_REVERSE_SUBTRACT:
-					return s_FUNC_REVERSE_SUBTRACT;
+#ifdef GL_MAX
+				case GL_MAX:
+					return s_MAX;
 #endif
 #ifdef GL_MIN
 				case GL_MIN:
@@ -3289,45 +3289,17 @@ noexcept
 		case 2: /* blend_equation_advanced */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_MULTIPLY_KHR
-				case GL_MULTIPLY_KHR:
-					return s_MULTIPLY_KHR;
-#endif
-#ifdef GL_SCREEN_KHR
-				case GL_SCREEN_KHR:
-					return s_SCREEN_KHR;
-#endif
-#ifdef GL_OVERLAY_KHR
-				case GL_OVERLAY_KHR:
-					return s_OVERLAY_KHR;
-#endif
-#ifdef GL_HSL_LUMINOSITY_KHR
-				case GL_HSL_LUMINOSITY_KHR:
-					return s_HSL_LUMINOSITY_KHR;
-#endif
-#ifdef GL_DARKEN_KHR
-				case GL_DARKEN_KHR:
-					return s_DARKEN_KHR;
-#endif
-#ifdef GL_LIGHTEN_KHR
-				case GL_LIGHTEN_KHR:
-					return s_LIGHTEN_KHR;
+#ifdef GL_COLORBURN_KHR
+				case GL_COLORBURN_KHR:
+					return s_COLORBURN_KHR;
 #endif
 #ifdef GL_COLORDODGE_KHR
 				case GL_COLORDODGE_KHR:
 					return s_COLORDODGE_KHR;
 #endif
-#ifdef GL_COLORBURN_KHR
-				case GL_COLORBURN_KHR:
-					return s_COLORBURN_KHR;
-#endif
-#ifdef GL_HARDLIGHT_KHR
-				case GL_HARDLIGHT_KHR:
-					return s_HARDLIGHT_KHR;
-#endif
-#ifdef GL_SOFTLIGHT_KHR
-				case GL_SOFTLIGHT_KHR:
-					return s_SOFTLIGHT_KHR;
+#ifdef GL_DARKEN_KHR
+				case GL_DARKEN_KHR:
+					return s_DARKEN_KHR;
 #endif
 #ifdef GL_DIFFERENCE_KHR
 				case GL_DIFFERENCE_KHR:
@@ -3337,17 +3309,45 @@ noexcept
 				case GL_EXCLUSION_KHR:
 					return s_EXCLUSION_KHR;
 #endif
+#ifdef GL_HARDLIGHT_KHR
+				case GL_HARDLIGHT_KHR:
+					return s_HARDLIGHT_KHR;
+#endif
+#ifdef GL_HSL_COLOR_KHR
+				case GL_HSL_COLOR_KHR:
+					return s_HSL_COLOR_KHR;
+#endif
 #ifdef GL_HSL_HUE_KHR
 				case GL_HSL_HUE_KHR:
 					return s_HSL_HUE_KHR;
+#endif
+#ifdef GL_HSL_LUMINOSITY_KHR
+				case GL_HSL_LUMINOSITY_KHR:
+					return s_HSL_LUMINOSITY_KHR;
 #endif
 #ifdef GL_HSL_SATURATION_KHR
 				case GL_HSL_SATURATION_KHR:
 					return s_HSL_SATURATION_KHR;
 #endif
-#ifdef GL_HSL_COLOR_KHR
-				case GL_HSL_COLOR_KHR:
-					return s_HSL_COLOR_KHR;
+#ifdef GL_LIGHTEN_KHR
+				case GL_LIGHTEN_KHR:
+					return s_LIGHTEN_KHR;
+#endif
+#ifdef GL_MULTIPLY_KHR
+				case GL_MULTIPLY_KHR:
+					return s_MULTIPLY_KHR;
+#endif
+#ifdef GL_OVERLAY_KHR
+				case GL_OVERLAY_KHR:
+					return s_OVERLAY_KHR;
+#endif
+#ifdef GL_SCREEN_KHR
+				case GL_SCREEN_KHR:
+					return s_SCREEN_KHR;
+#endif
+#ifdef GL_SOFTLIGHT_KHR
+				case GL_SOFTLIGHT_KHR:
+					return s_SOFTLIGHT_KHR;
 #endif
 				default:;
 			}
@@ -3355,81 +3355,81 @@ noexcept
 		case 3: /* blend_function */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_SRC_ALPHA
-				case GL_SRC_ALPHA:
-					return s_SRC_ALPHA;
-#endif
-#ifdef GL_ZERO
-				case GL_ZERO:
-					return s_ZERO;
-#endif
-#ifdef GL_ONE
-				case GL_ONE:
-					return s_ONE;
-#endif
-#ifdef GL_ONE_MINUS_SRC1_ALPHA
-				case GL_ONE_MINUS_SRC1_ALPHA:
-					return s_ONE_MINUS_SRC1_ALPHA;
-#endif
-#ifdef GL_SRC_COLOR
-				case GL_SRC_COLOR:
-					return s_SRC_COLOR;
-#endif
-#ifdef GL_ONE_MINUS_SRC_COLOR
-				case GL_ONE_MINUS_SRC_COLOR:
-					return s_ONE_MINUS_SRC_COLOR;
-#endif
-#ifdef GL_DST_COLOR
-				case GL_DST_COLOR:
-					return s_DST_COLOR;
-#endif
-#ifdef GL_ONE_MINUS_DST_COLOR
-				case GL_ONE_MINUS_DST_COLOR:
-					return s_ONE_MINUS_DST_COLOR;
-#endif
-#ifdef GL_ONE_MINUS_SRC_ALPHA
-				case GL_ONE_MINUS_SRC_ALPHA:
-					return s_ONE_MINUS_SRC_ALPHA;
-#endif
-#ifdef GL_DST_ALPHA
-				case GL_DST_ALPHA:
-					return s_DST_ALPHA;
-#endif
-#ifdef GL_ONE_MINUS_DST_ALPHA
-				case GL_ONE_MINUS_DST_ALPHA:
-					return s_ONE_MINUS_DST_ALPHA;
+#ifdef GL_CONSTANT_ALPHA
+				case GL_CONSTANT_ALPHA:
+					return s_CONSTANT_ALPHA;
 #endif
 #ifdef GL_CONSTANT_COLOR
 				case GL_CONSTANT_COLOR:
 					return s_CONSTANT_COLOR;
 #endif
-#ifdef GL_ONE_MINUS_CONSTANT_COLOR
-				case GL_ONE_MINUS_CONSTANT_COLOR:
-					return s_ONE_MINUS_CONSTANT_COLOR;
+#ifdef GL_DST_ALPHA
+				case GL_DST_ALPHA:
+					return s_DST_ALPHA;
 #endif
-#ifdef GL_CONSTANT_ALPHA
-				case GL_CONSTANT_ALPHA:
-					return s_CONSTANT_ALPHA;
+#ifdef GL_DST_COLOR
+				case GL_DST_COLOR:
+					return s_DST_COLOR;
+#endif
+#ifdef GL_ONE
+				case GL_ONE:
+					return s_ONE;
 #endif
 #ifdef GL_ONE_MINUS_CONSTANT_ALPHA
 				case GL_ONE_MINUS_CONSTANT_ALPHA:
 					return s_ONE_MINUS_CONSTANT_ALPHA;
 #endif
-#ifdef GL_SRC_ALPHA_SATURATE
-				case GL_SRC_ALPHA_SATURATE:
-					return s_SRC_ALPHA_SATURATE;
+#ifdef GL_ONE_MINUS_CONSTANT_COLOR
+				case GL_ONE_MINUS_CONSTANT_COLOR:
+					return s_ONE_MINUS_CONSTANT_COLOR;
 #endif
-#ifdef GL_SRC1_COLOR
-				case GL_SRC1_COLOR:
-					return s_SRC1_COLOR;
+#ifdef GL_ONE_MINUS_DST_ALPHA
+				case GL_ONE_MINUS_DST_ALPHA:
+					return s_ONE_MINUS_DST_ALPHA;
+#endif
+#ifdef GL_ONE_MINUS_DST_COLOR
+				case GL_ONE_MINUS_DST_COLOR:
+					return s_ONE_MINUS_DST_COLOR;
+#endif
+#ifdef GL_ONE_MINUS_SRC1_ALPHA
+				case GL_ONE_MINUS_SRC1_ALPHA:
+					return s_ONE_MINUS_SRC1_ALPHA;
 #endif
 #ifdef GL_ONE_MINUS_SRC1_COLOR
 				case GL_ONE_MINUS_SRC1_COLOR:
 					return s_ONE_MINUS_SRC1_COLOR;
 #endif
+#ifdef GL_ONE_MINUS_SRC_ALPHA
+				case GL_ONE_MINUS_SRC_ALPHA:
+					return s_ONE_MINUS_SRC_ALPHA;
+#endif
+#ifdef GL_ONE_MINUS_SRC_COLOR
+				case GL_ONE_MINUS_SRC_COLOR:
+					return s_ONE_MINUS_SRC_COLOR;
+#endif
 #ifdef GL_SRC1_ALPHA
 				case GL_SRC1_ALPHA:
 					return s_SRC1_ALPHA;
+#endif
+#ifdef GL_SRC1_COLOR
+				case GL_SRC1_COLOR:
+					return s_SRC1_COLOR;
+#endif
+#ifdef GL_SRC_ALPHA
+				case GL_SRC_ALPHA:
+					return s_SRC_ALPHA;
+#endif
+#ifdef GL_SRC_ALPHA_SATURATE
+				case GL_SRC_ALPHA_SATURATE:
+					return s_SRC_ALPHA_SATURATE;
+#endif
+#ifdef GL_SRC_COLOR
+				case GL_SRC_COLOR:
+					return s_SRC_COLOR;
+#endif
+#ifdef GL_ZERO
+				case GL_ZERO:
+					return s_ZERO;
 #endif
 				default:;
 			}
@@ -3437,13 +3437,13 @@ noexcept
 		case 4: /* blit_filter */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_NEAREST
-				case GL_NEAREST:
-					return s_NEAREST;
-#endif
 #ifdef GL_LINEAR
 				case GL_LINEAR:
 					return s_LINEAR;
+#endif
+#ifdef GL_NEAREST
+				case GL_NEAREST:
+					return s_NEAREST;
 #endif
 				default:;
 			}
@@ -3451,10 +3451,6 @@ noexcept
 		case 5: /* buffer_indexed_target */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_UNIFORM_BUFFER
-				case GL_UNIFORM_BUFFER:
-					return s_UNIFORM_BUFFER;
-#endif
 #ifdef GL_ATOMIC_COUNTER_BUFFER
 				case GL_ATOMIC_COUNTER_BUFFER:
 					return s_ATOMIC_COUNTER_BUFFER;
@@ -3467,6 +3463,10 @@ noexcept
 				case GL_TRANSFORM_FEEDBACK_BUFFER:
 					return s_TRANSFORM_FEEDBACK_BUFFER;
 #endif
+#ifdef GL_UNIFORM_BUFFER
+				case GL_UNIFORM_BUFFER:
+					return s_UNIFORM_BUFFER;
+#endif
 				default:;
 			}
 			break;
@@ -3477,33 +3477,33 @@ noexcept
 				case GL_MAP_COHERENT_BIT:
 					return s_MAP_COHERENT_BIT;
 #endif
-#ifdef GL_MAP_READ_BIT
-				case GL_MAP_READ_BIT:
-					return s_MAP_READ_BIT;
-#endif
-#ifdef GL_MAP_WRITE_BIT
-				case GL_MAP_WRITE_BIT:
-					return s_MAP_WRITE_BIT;
-#endif
-#ifdef GL_MAP_PERSISTENT_BIT
-				case GL_MAP_PERSISTENT_BIT:
-					return s_MAP_PERSISTENT_BIT;
-#endif
-#ifdef GL_MAP_UNSYNCHRONIZED_BIT
-				case GL_MAP_UNSYNCHRONIZED_BIT:
-					return s_MAP_UNSYNCHRONIZED_BIT;
-#endif
-#ifdef GL_MAP_INVALIDATE_RANGE_BIT
-				case GL_MAP_INVALIDATE_RANGE_BIT:
-					return s_MAP_INVALIDATE_RANGE_BIT;
+#ifdef GL_MAP_FLUSH_EXPLICIT_BIT
+				case GL_MAP_FLUSH_EXPLICIT_BIT:
+					return s_MAP_FLUSH_EXPLICIT_BIT;
 #endif
 #ifdef GL_MAP_INVALIDATE_BUFFER_BIT
 				case GL_MAP_INVALIDATE_BUFFER_BIT:
 					return s_MAP_INVALIDATE_BUFFER_BIT;
 #endif
-#ifdef GL_MAP_FLUSH_EXPLICIT_BIT
-				case GL_MAP_FLUSH_EXPLICIT_BIT:
-					return s_MAP_FLUSH_EXPLICIT_BIT;
+#ifdef GL_MAP_INVALIDATE_RANGE_BIT
+				case GL_MAP_INVALIDATE_RANGE_BIT:
+					return s_MAP_INVALIDATE_RANGE_BIT;
+#endif
+#ifdef GL_MAP_PERSISTENT_BIT
+				case GL_MAP_PERSISTENT_BIT:
+					return s_MAP_PERSISTENT_BIT;
+#endif
+#ifdef GL_MAP_READ_BIT
+				case GL_MAP_READ_BIT:
+					return s_MAP_READ_BIT;
+#endif
+#ifdef GL_MAP_UNSYNCHRONIZED_BIT
+				case GL_MAP_UNSYNCHRONIZED_BIT:
+					return s_MAP_UNSYNCHRONIZED_BIT;
+#endif
+#ifdef GL_MAP_WRITE_BIT
+				case GL_MAP_WRITE_BIT:
+					return s_MAP_WRITE_BIT;
 #endif
 				default:;
 			}
@@ -3529,9 +3529,21 @@ noexcept
 		case 8: /* buffer_storage_bits */
 			switch(GLbitfield(aev._value))
 			{
-#ifdef GL_SPARSE_STORAGE_BIT_ARB
-				case GL_SPARSE_STORAGE_BIT_ARB:
-					return s_SPARSE_STORAGE_BIT_ARB;
+#ifdef GL_CLIENT_STORAGE_BIT
+				case GL_CLIENT_STORAGE_BIT:
+					return s_CLIENT_STORAGE_BIT;
+#endif
+#ifdef GL_DYNAMIC_STORAGE_BIT
+				case GL_DYNAMIC_STORAGE_BIT:
+					return s_DYNAMIC_STORAGE_BIT;
+#endif
+#ifdef GL_MAP_COHERENT_BIT
+				case GL_MAP_COHERENT_BIT:
+					return s_MAP_COHERENT_BIT;
+#endif
+#ifdef GL_MAP_PERSISTENT_BIT
+				case GL_MAP_PERSISTENT_BIT:
+					return s_MAP_PERSISTENT_BIT;
 #endif
 #ifdef GL_MAP_READ_BIT
 				case GL_MAP_READ_BIT:
@@ -3541,21 +3553,9 @@ noexcept
 				case GL_MAP_WRITE_BIT:
 					return s_MAP_WRITE_BIT;
 #endif
-#ifdef GL_MAP_PERSISTENT_BIT
-				case GL_MAP_PERSISTENT_BIT:
-					return s_MAP_PERSISTENT_BIT;
-#endif
-#ifdef GL_MAP_COHERENT_BIT
-				case GL_MAP_COHERENT_BIT:
-					return s_MAP_COHERENT_BIT;
-#endif
-#ifdef GL_DYNAMIC_STORAGE_BIT
-				case GL_DYNAMIC_STORAGE_BIT:
-					return s_DYNAMIC_STORAGE_BIT;
-#endif
-#ifdef GL_CLIENT_STORAGE_BIT
-				case GL_CLIENT_STORAGE_BIT:
-					return s_CLIENT_STORAGE_BIT;
+#ifdef GL_SPARSE_STORAGE_BIT_ARB
+				case GL_SPARSE_STORAGE_BIT_ARB:
+					return s_SPARSE_STORAGE_BIT_ARB;
 #endif
 				default:;
 			}
@@ -3563,10 +3563,6 @@ noexcept
 		case 9: /* buffer_target */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_TEXTURE_BUFFER
-				case GL_TEXTURE_BUFFER:
-					return s_TEXTURE_BUFFER;
-#endif
 #ifdef GL_ARRAY_BUFFER
 				case GL_ARRAY_BUFFER:
 					return s_ARRAY_BUFFER;
@@ -3578,10 +3574,6 @@ noexcept
 #ifdef GL_COPY_READ_BUFFER
 				case GL_COPY_READ_BUFFER:
 					return s_COPY_READ_BUFFER;
-#endif
-#ifdef GL_EXTERNAL_VIRTUAL_MEMORY_BUFFER_AMD
-				case GL_EXTERNAL_VIRTUAL_MEMORY_BUFFER_AMD:
-					return s_EXTERNAL_VIRTUAL_MEMORY_BUFFER_AMD;
 #endif
 #ifdef GL_COPY_WRITE_BUFFER
 				case GL_COPY_WRITE_BUFFER:
@@ -3599,6 +3591,14 @@ noexcept
 				case GL_ELEMENT_ARRAY_BUFFER:
 					return s_ELEMENT_ARRAY_BUFFER;
 #endif
+#ifdef GL_EXTERNAL_VIRTUAL_MEMORY_BUFFER_AMD
+				case GL_EXTERNAL_VIRTUAL_MEMORY_BUFFER_AMD:
+					return s_EXTERNAL_VIRTUAL_MEMORY_BUFFER_AMD;
+#endif
+#ifdef GL_PARAMETER_BUFFER_ARB
+				case GL_PARAMETER_BUFFER_ARB:
+					return s_PARAMETER_BUFFER_ARB;
+#endif
 #ifdef GL_PIXEL_PACK_BUFFER
 				case GL_PIXEL_PACK_BUFFER:
 					return s_PIXEL_PACK_BUFFER;
@@ -3607,9 +3607,17 @@ noexcept
 				case GL_PIXEL_UNPACK_BUFFER:
 					return s_PIXEL_UNPACK_BUFFER;
 #endif
+#ifdef GL_QUERY_BUFFER
+				case GL_QUERY_BUFFER:
+					return s_QUERY_BUFFER;
+#endif
 #ifdef GL_SHADER_STORAGE_BUFFER
 				case GL_SHADER_STORAGE_BUFFER:
 					return s_SHADER_STORAGE_BUFFER;
+#endif
+#ifdef GL_TEXTURE_BUFFER
+				case GL_TEXTURE_BUFFER:
+					return s_TEXTURE_BUFFER;
 #endif
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER
 				case GL_TRANSFORM_FEEDBACK_BUFFER:
@@ -3619,47 +3627,15 @@ noexcept
 				case GL_UNIFORM_BUFFER:
 					return s_UNIFORM_BUFFER;
 #endif
-#ifdef GL_QUERY_BUFFER
-				case GL_QUERY_BUFFER:
-					return s_QUERY_BUFFER;
-#endif
-#ifdef GL_PARAMETER_BUFFER_ARB
-				case GL_PARAMETER_BUFFER_ARB:
-					return s_PARAMETER_BUFFER_ARB;
-#endif
 				default:;
 			}
 			break;
 		case 10: /* buffer_usage */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_STREAM_DRAW
-				case GL_STREAM_DRAW:
-					return s_STREAM_DRAW;
-#endif
-#ifdef GL_STREAM_READ
-				case GL_STREAM_READ:
-					return s_STREAM_READ;
-#endif
-#ifdef GL_STREAM_COPY
-				case GL_STREAM_COPY:
-					return s_STREAM_COPY;
-#endif
 #ifdef GL_DYNAMIC_COPY
 				case GL_DYNAMIC_COPY:
 					return s_DYNAMIC_COPY;
-#endif
-#ifdef GL_STATIC_DRAW
-				case GL_STATIC_DRAW:
-					return s_STATIC_DRAW;
-#endif
-#ifdef GL_STATIC_READ
-				case GL_STATIC_READ:
-					return s_STATIC_READ;
-#endif
-#ifdef GL_STATIC_COPY
-				case GL_STATIC_COPY:
-					return s_STATIC_COPY;
 #endif
 #ifdef GL_DYNAMIC_DRAW
 				case GL_DYNAMIC_DRAW:
@@ -3669,87 +3645,107 @@ noexcept
 				case GL_DYNAMIC_READ:
 					return s_DYNAMIC_READ;
 #endif
+#ifdef GL_STATIC_COPY
+				case GL_STATIC_COPY:
+					return s_STATIC_COPY;
+#endif
+#ifdef GL_STATIC_DRAW
+				case GL_STATIC_DRAW:
+					return s_STATIC_DRAW;
+#endif
+#ifdef GL_STATIC_READ
+				case GL_STATIC_READ:
+					return s_STATIC_READ;
+#endif
+#ifdef GL_STREAM_COPY
+				case GL_STREAM_COPY:
+					return s_STREAM_COPY;
+#endif
+#ifdef GL_STREAM_DRAW
+				case GL_STREAM_DRAW:
+					return s_STREAM_DRAW;
+#endif
+#ifdef GL_STREAM_READ
+				case GL_STREAM_READ:
+					return s_STREAM_READ;
+#endif
 				default:;
 			}
 			break;
 		case 11: /* capability */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_POLYGON_SMOOTH
-				case GL_POLYGON_SMOOTH:
-					return s_POLYGON_SMOOTH;
-#endif
-#ifdef GL_DEPTH_TEST
-				case GL_DEPTH_TEST:
-					return s_DEPTH_TEST;
-#endif
-#ifdef GL_STENCIL_TEST
-				case GL_STENCIL_TEST:
-					return s_STENCIL_TEST;
-#endif
-#ifdef GL_SCISSOR_TEST
-				case GL_SCISSOR_TEST:
-					return s_SCISSOR_TEST;
-#endif
-#ifdef GL_FRAGMENT_COVERAGE_TO_COLOR_NV
-				case GL_FRAGMENT_COVERAGE_TO_COLOR_NV:
-					return s_FRAGMENT_COVERAGE_TO_COLOR_NV;
-#endif
-#ifdef GL_PRIMITIVE_RESTART
-				case GL_PRIMITIVE_RESTART:
-					return s_PRIMITIVE_RESTART;
-#endif
-#ifdef GL_CULL_FACE
-				case GL_CULL_FACE:
-					return s_CULL_FACE;
-#endif
-#ifdef GL_RASTERIZER_DISCARD
-				case GL_RASTERIZER_DISCARD:
-					return s_RASTERIZER_DISCARD;
-#endif
-#ifdef GL_POLYGON_OFFSET_POINT
-				case GL_POLYGON_OFFSET_POINT:
-					return s_POLYGON_OFFSET_POINT;
-#endif
-#ifdef GL_POLYGON_OFFSET_LINE
-				case GL_POLYGON_OFFSET_LINE:
-					return s_POLYGON_OFFSET_LINE;
-#endif
-#ifdef GL_POLYGON_OFFSET_FILL
-				case GL_POLYGON_OFFSET_FILL:
-					return s_POLYGON_OFFSET_FILL;
-#endif
 #ifdef GL_BLEND
 				case GL_BLEND:
 					return s_BLEND;
+#endif
+#ifdef GL_BLEND_ADVANCED_COHERENT_KHR
+				case GL_BLEND_ADVANCED_COHERENT_KHR:
+					return s_BLEND_ADVANCED_COHERENT_KHR;
 #endif
 #ifdef GL_COLOR_LOGIC_OP
 				case GL_COLOR_LOGIC_OP:
 					return s_COLOR_LOGIC_OP;
 #endif
+#ifdef GL_CULL_FACE
+				case GL_CULL_FACE:
+					return s_CULL_FACE;
+#endif
+#ifdef GL_DEBUG_OUTPUT_SYNCHRONOUS
+				case GL_DEBUG_OUTPUT_SYNCHRONOUS:
+					return s_DEBUG_OUTPUT_SYNCHRONOUS;
+#endif
+#ifdef GL_DEPTH_TEST
+				case GL_DEPTH_TEST:
+					return s_DEPTH_TEST;
+#endif
 #ifdef GL_DITHER
 				case GL_DITHER:
 					return s_DITHER;
 #endif
-#ifdef GL_MULTISAMPLE
-				case GL_MULTISAMPLE:
-					return s_MULTISAMPLE;
+#ifdef GL_FRAGMENT_COVERAGE_TO_COLOR_NV
+				case GL_FRAGMENT_COVERAGE_TO_COLOR_NV:
+					return s_FRAGMENT_COVERAGE_TO_COLOR_NV;
 #endif
-#ifdef GL_SAMPLE_SHADING
-				case GL_SAMPLE_SHADING:
-					return s_SAMPLE_SHADING;
+#ifdef GL_FRAMEBUFFER_SRGB
+				case GL_FRAMEBUFFER_SRGB:
+					return s_FRAMEBUFFER_SRGB;
 #endif
 #ifdef GL_LINE_SMOOTH
 				case GL_LINE_SMOOTH:
 					return s_LINE_SMOOTH;
 #endif
+#ifdef GL_MULTISAMPLE
+				case GL_MULTISAMPLE:
+					return s_MULTISAMPLE;
+#endif
+#ifdef GL_POLYGON_OFFSET_FILL
+				case GL_POLYGON_OFFSET_FILL:
+					return s_POLYGON_OFFSET_FILL;
+#endif
+#ifdef GL_POLYGON_OFFSET_LINE
+				case GL_POLYGON_OFFSET_LINE:
+					return s_POLYGON_OFFSET_LINE;
+#endif
+#ifdef GL_POLYGON_OFFSET_POINT
+				case GL_POLYGON_OFFSET_POINT:
+					return s_POLYGON_OFFSET_POINT;
+#endif
+#ifdef GL_POLYGON_SMOOTH
+				case GL_POLYGON_SMOOTH:
+					return s_POLYGON_SMOOTH;
+#endif
+#ifdef GL_PRIMITIVE_RESTART
+				case GL_PRIMITIVE_RESTART:
+					return s_PRIMITIVE_RESTART;
+#endif
 #ifdef GL_PROGRAM_POINT_SIZE
 				case GL_PROGRAM_POINT_SIZE:
 					return s_PROGRAM_POINT_SIZE;
 #endif
-#ifdef GL_TEXTURE_CUBE_MAP_SEAMLESS
-				case GL_TEXTURE_CUBE_MAP_SEAMLESS:
-					return s_TEXTURE_CUBE_MAP_SEAMLESS;
+#ifdef GL_RASTERIZER_DISCARD
+				case GL_RASTERIZER_DISCARD:
+					return s_RASTERIZER_DISCARD;
 #endif
 #ifdef GL_SAMPLE_ALPHA_TO_COVERAGE
 				case GL_SAMPLE_ALPHA_TO_COVERAGE:
@@ -3767,21 +3763,25 @@ noexcept
 				case GL_SAMPLE_MASK:
 					return s_SAMPLE_MASK;
 #endif
-#ifdef GL_FRAMEBUFFER_SRGB
-				case GL_FRAMEBUFFER_SRGB:
-					return s_FRAMEBUFFER_SRGB;
+#ifdef GL_SAMPLE_SHADING
+				case GL_SAMPLE_SHADING:
+					return s_SAMPLE_SHADING;
 #endif
-#ifdef GL_DEBUG_OUTPUT_SYNCHRONOUS
-				case GL_DEBUG_OUTPUT_SYNCHRONOUS:
-					return s_DEBUG_OUTPUT_SYNCHRONOUS;
+#ifdef GL_SCISSOR_TEST
+				case GL_SCISSOR_TEST:
+					return s_SCISSOR_TEST;
+#endif
+#ifdef GL_STENCIL_TEST
+				case GL_STENCIL_TEST:
+					return s_STENCIL_TEST;
 #endif
 #ifdef GL_STREAM_RASTERIZATION_AMD
 				case GL_STREAM_RASTERIZATION_AMD:
 					return s_STREAM_RASTERIZATION_AMD;
 #endif
-#ifdef GL_BLEND_ADVANCED_COHERENT_KHR
-				case GL_BLEND_ADVANCED_COHERENT_KHR:
-					return s_BLEND_ADVANCED_COHERENT_KHR;
+#ifdef GL_TEXTURE_CUBE_MAP_SEAMLESS
+				case GL_TEXTURE_CUBE_MAP_SEAMLESS:
+					return s_TEXTURE_CUBE_MAP_SEAMLESS;
 #endif
 				default:;
 			}
@@ -3817,21 +3817,9 @@ noexcept
 		case 14: /* color_buffer */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_FRONT_AND_BACK
-				case GL_FRONT_AND_BACK:
-					return s_FRONT_AND_BACK;
-#endif
-#ifdef GL_NONE
-				case GL_NONE:
-					return s_NONE;
-#endif
-#ifdef GL_FRONT_LEFT
-				case GL_FRONT_LEFT:
-					return s_FRONT_LEFT;
-#endif
-#ifdef GL_FRONT_RIGHT
-				case GL_FRONT_RIGHT:
-					return s_FRONT_RIGHT;
+#ifdef GL_BACK
+				case GL_BACK:
+					return s_BACK;
 #endif
 #ifdef GL_BACK_LEFT
 				case GL_BACK_LEFT:
@@ -3845,13 +3833,25 @@ noexcept
 				case GL_FRONT:
 					return s_FRONT;
 #endif
-#ifdef GL_BACK
-				case GL_BACK:
-					return s_BACK;
+#ifdef GL_FRONT_AND_BACK
+				case GL_FRONT_AND_BACK:
+					return s_FRONT_AND_BACK;
+#endif
+#ifdef GL_FRONT_LEFT
+				case GL_FRONT_LEFT:
+					return s_FRONT_LEFT;
+#endif
+#ifdef GL_FRONT_RIGHT
+				case GL_FRONT_RIGHT:
+					return s_FRONT_RIGHT;
 #endif
 #ifdef GL_LEFT
 				case GL_LEFT:
 					return s_LEFT;
+#endif
+#ifdef GL_NONE
+				case GL_NONE:
+					return s_NONE;
 #endif
 #ifdef GL_RIGHT
 				case GL_RIGHT:
@@ -3863,41 +3863,29 @@ noexcept
 		case 15: /* color_logic_operation */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_XOR
-				case GL_XOR:
-					return s_XOR;
-#endif
-#ifdef GL_CLEAR
-				case GL_CLEAR:
-					return s_CLEAR;
-#endif
 #ifdef GL_AND
 				case GL_AND:
 					return s_AND;
-#endif
-#ifdef GL_AND_REVERSE
-				case GL_AND_REVERSE:
-					return s_AND_REVERSE;
-#endif
-#ifdef GL_COPY
-				case GL_COPY:
-					return s_COPY;
 #endif
 #ifdef GL_AND_INVERTED
 				case GL_AND_INVERTED:
 					return s_AND_INVERTED;
 #endif
-#ifdef GL_NOOP
-				case GL_NOOP:
-					return s_NOOP;
+#ifdef GL_AND_REVERSE
+				case GL_AND_REVERSE:
+					return s_AND_REVERSE;
 #endif
-#ifdef GL_OR
-				case GL_OR:
-					return s_OR;
+#ifdef GL_CLEAR
+				case GL_CLEAR:
+					return s_CLEAR;
 #endif
-#ifdef GL_NOR
-				case GL_NOR:
-					return s_NOR;
+#ifdef GL_COPY
+				case GL_COPY:
+					return s_COPY;
+#endif
+#ifdef GL_COPY_INVERTED
+				case GL_COPY_INVERTED:
+					return s_COPY_INVERTED;
 #endif
 #ifdef GL_EQUIV
 				case GL_EQUIV:
@@ -3907,25 +3895,37 @@ noexcept
 				case GL_INVERT:
 					return s_INVERT;
 #endif
-#ifdef GL_OR_REVERSE
-				case GL_OR_REVERSE:
-					return s_OR_REVERSE;
+#ifdef GL_NAND
+				case GL_NAND:
+					return s_NAND;
 #endif
-#ifdef GL_COPY_INVERTED
-				case GL_COPY_INVERTED:
-					return s_COPY_INVERTED;
+#ifdef GL_NOOP
+				case GL_NOOP:
+					return s_NOOP;
+#endif
+#ifdef GL_NOR
+				case GL_NOR:
+					return s_NOR;
+#endif
+#ifdef GL_OR
+				case GL_OR:
+					return s_OR;
 #endif
 #ifdef GL_OR_INVERTED
 				case GL_OR_INVERTED:
 					return s_OR_INVERTED;
 #endif
-#ifdef GL_NAND
-				case GL_NAND:
-					return s_NAND;
+#ifdef GL_OR_REVERSE
+				case GL_OR_REVERSE:
+					return s_OR_REVERSE;
 #endif
 #ifdef GL_SET
 				case GL_SET:
 					return s_SET;
+#endif
+#ifdef GL_XOR
+				case GL_XOR:
+					return s_XOR;
 #endif
 				default:;
 			}
@@ -3933,37 +3933,37 @@ noexcept
 		case 16: /* compare_function */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_LEQUAL
-				case GL_LEQUAL:
-					return s_LEQUAL;
-#endif
-#ifdef GL_GEQUAL
-				case GL_GEQUAL:
-					return s_GEQUAL;
-#endif
-#ifdef GL_LESS
-				case GL_LESS:
-					return s_LESS;
-#endif
-#ifdef GL_GREATER
-				case GL_GREATER:
-					return s_GREATER;
+#ifdef GL_ALWAYS
+				case GL_ALWAYS:
+					return s_ALWAYS;
 #endif
 #ifdef GL_EQUAL
 				case GL_EQUAL:
 					return s_EQUAL;
 #endif
-#ifdef GL_NOTEQUAL
-				case GL_NOTEQUAL:
-					return s_NOTEQUAL;
+#ifdef GL_GEQUAL
+				case GL_GEQUAL:
+					return s_GEQUAL;
 #endif
-#ifdef GL_ALWAYS
-				case GL_ALWAYS:
-					return s_ALWAYS;
+#ifdef GL_GREATER
+				case GL_GREATER:
+					return s_GREATER;
+#endif
+#ifdef GL_LEQUAL
+				case GL_LEQUAL:
+					return s_LEQUAL;
+#endif
+#ifdef GL_LESS
+				case GL_LESS:
+					return s_LESS;
 #endif
 #ifdef GL_NEVER
 				case GL_NEVER:
 					return s_NEVER;
+#endif
+#ifdef GL_NOTEQUAL
+				case GL_NOTEQUAL:
+					return s_NOTEQUAL;
 #endif
 				default:;
 			}
@@ -3971,18 +3971,6 @@ noexcept
 		case 17: /* conditional_render_mode */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_QUERY_WAIT
-				case GL_QUERY_WAIT:
-					return s_QUERY_WAIT;
-#endif
-#ifdef GL_QUERY_NO_WAIT
-				case GL_QUERY_NO_WAIT:
-					return s_QUERY_NO_WAIT;
-#endif
-#ifdef GL_QUERY_BY_REGION_WAIT
-				case GL_QUERY_BY_REGION_WAIT:
-					return s_QUERY_BY_REGION_WAIT;
-#endif
 #ifdef GL_QUERY_BY_REGION_NO_WAIT
 				case GL_QUERY_BY_REGION_NO_WAIT:
 					return s_QUERY_BY_REGION_NO_WAIT;
@@ -3991,17 +3979,29 @@ noexcept
 				case GL_QUERY_BY_REGION_NO_WAIT_INVERTED:
 					return s_QUERY_BY_REGION_NO_WAIT_INVERTED;
 #endif
-#ifdef GL_QUERY_WAIT_INVERTED
-				case GL_QUERY_WAIT_INVERTED:
-					return s_QUERY_WAIT_INVERTED;
+#ifdef GL_QUERY_BY_REGION_WAIT
+				case GL_QUERY_BY_REGION_WAIT:
+					return s_QUERY_BY_REGION_WAIT;
+#endif
+#ifdef GL_QUERY_BY_REGION_WAIT_INVERTED
+				case GL_QUERY_BY_REGION_WAIT_INVERTED:
+					return s_QUERY_BY_REGION_WAIT_INVERTED;
+#endif
+#ifdef GL_QUERY_NO_WAIT
+				case GL_QUERY_NO_WAIT:
+					return s_QUERY_NO_WAIT;
 #endif
 #ifdef GL_QUERY_NO_WAIT_INVERTED
 				case GL_QUERY_NO_WAIT_INVERTED:
 					return s_QUERY_NO_WAIT_INVERTED;
 #endif
-#ifdef GL_QUERY_BY_REGION_WAIT_INVERTED
-				case GL_QUERY_BY_REGION_WAIT_INVERTED:
-					return s_QUERY_BY_REGION_WAIT_INVERTED;
+#ifdef GL_QUERY_WAIT
+				case GL_QUERY_WAIT:
+					return s_QUERY_WAIT;
+#endif
+#ifdef GL_QUERY_WAIT_INVERTED
+				case GL_QUERY_WAIT_INVERTED:
+					return s_QUERY_WAIT_INVERTED;
 #endif
 				default:;
 			}
@@ -4009,13 +4009,13 @@ noexcept
 		case 18: /* context_flag_bits */
 			switch(GLbitfield(aev._value))
 			{
-#ifdef GL_CONTEXT_FLAG_FORWARD_COMPATIBLE_BIT
-				case GL_CONTEXT_FLAG_FORWARD_COMPATIBLE_BIT:
-					return s_CONTEXT_FLAG_FORWARD_COMPATIBLE_BIT;
-#endif
 #ifdef GL_CONTEXT_FLAG_DEBUG_BIT
 				case GL_CONTEXT_FLAG_DEBUG_BIT:
 					return s_CONTEXT_FLAG_DEBUG_BIT;
+#endif
+#ifdef GL_CONTEXT_FLAG_FORWARD_COMPATIBLE_BIT
+				case GL_CONTEXT_FLAG_FORWARD_COMPATIBLE_BIT:
+					return s_CONTEXT_FLAG_FORWARD_COMPATIBLE_BIT;
 #endif
 #ifdef GL_CONTEXT_FLAG_ROBUST_ACCESS_BIT_ARB
 				case GL_CONTEXT_FLAG_ROBUST_ACCESS_BIT_ARB:
@@ -4041,13 +4041,13 @@ noexcept
 		case 20: /* context_release_behavior */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_NONE
-				case GL_NONE:
-					return s_NONE;
-#endif
 #ifdef GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH
 				case GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH:
 					return s_CONTEXT_RELEASE_BEHAVIOR_FLUSH;
+#endif
+#ifdef GL_NONE
+				case GL_NONE:
+					return s_NONE;
 #endif
 				default:;
 			}
@@ -4055,21 +4055,13 @@ noexcept
 		case 21: /* data_type */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_SHORT
-				case GL_SHORT:
-					return s_SHORT;
-#endif
-#ifdef GL_INT
-				case GL_INT:
-					return s_INT;
-#endif
 #ifdef GL_BYTE
 				case GL_BYTE:
 					return s_BYTE;
 #endif
-#ifdef GL_UNSIGNED_INT
-				case GL_UNSIGNED_INT:
-					return s_UNSIGNED_INT;
+#ifdef GL_DOUBLE
+				case GL_DOUBLE:
+					return s_DOUBLE;
 #endif
 #ifdef GL_FIXED
 				case GL_FIXED:
@@ -4083,13 +4075,21 @@ noexcept
 				case GL_HALF_FLOAT:
 					return s_HALF_FLOAT;
 #endif
-#ifdef GL_DOUBLE
-				case GL_DOUBLE:
-					return s_DOUBLE;
+#ifdef GL_INT
+				case GL_INT:
+					return s_INT;
+#endif
+#ifdef GL_SHORT
+				case GL_SHORT:
+					return s_SHORT;
 #endif
 #ifdef GL_UNSIGNED_BYTE
 				case GL_UNSIGNED_BYTE:
 					return s_UNSIGNED_BYTE;
+#endif
+#ifdef GL_UNSIGNED_INT
+				case GL_UNSIGNED_INT:
+					return s_UNSIGNED_INT;
 #endif
 #ifdef GL_UNSIGNED_SHORT
 				case GL_UNSIGNED_SHORT:
@@ -4105,21 +4105,21 @@ noexcept
 				case GL_DEBUG_SEVERITY_HIGH:
 					return s_DEBUG_SEVERITY_HIGH;
 #endif
-#ifdef GL_DEBUG_SEVERITY_MEDIUM
-				case GL_DEBUG_SEVERITY_MEDIUM:
-					return s_DEBUG_SEVERITY_MEDIUM;
-#endif
 #ifdef GL_DEBUG_SEVERITY_LOW
 				case GL_DEBUG_SEVERITY_LOW:
 					return s_DEBUG_SEVERITY_LOW;
 #endif
-#ifdef GL_DONT_CARE
-				case GL_DONT_CARE:
-					return s_DONT_CARE;
+#ifdef GL_DEBUG_SEVERITY_MEDIUM
+				case GL_DEBUG_SEVERITY_MEDIUM:
+					return s_DEBUG_SEVERITY_MEDIUM;
 #endif
 #ifdef GL_DEBUG_SEVERITY_NOTIFICATION
 				case GL_DEBUG_SEVERITY_NOTIFICATION:
 					return s_DEBUG_SEVERITY_NOTIFICATION;
+#endif
+#ifdef GL_DONT_CARE
+				case GL_DONT_CARE:
+					return s_DONT_CARE;
 #endif
 				default:;
 			}
@@ -4131,9 +4131,13 @@ noexcept
 				case GL_DEBUG_SOURCE_API:
 					return s_DEBUG_SOURCE_API;
 #endif
-#ifdef GL_DEBUG_SOURCE_WINDOW_SYSTEM
-				case GL_DEBUG_SOURCE_WINDOW_SYSTEM:
-					return s_DEBUG_SOURCE_WINDOW_SYSTEM;
+#ifdef GL_DEBUG_SOURCE_APPLICATION
+				case GL_DEBUG_SOURCE_APPLICATION:
+					return s_DEBUG_SOURCE_APPLICATION;
+#endif
+#ifdef GL_DEBUG_SOURCE_OTHER
+				case GL_DEBUG_SOURCE_OTHER:
+					return s_DEBUG_SOURCE_OTHER;
 #endif
 #ifdef GL_DEBUG_SOURCE_SHADER_COMPILER
 				case GL_DEBUG_SOURCE_SHADER_COMPILER:
@@ -4143,17 +4147,13 @@ noexcept
 				case GL_DEBUG_SOURCE_THIRD_PARTY:
 					return s_DEBUG_SOURCE_THIRD_PARTY;
 #endif
+#ifdef GL_DEBUG_SOURCE_WINDOW_SYSTEM
+				case GL_DEBUG_SOURCE_WINDOW_SYSTEM:
+					return s_DEBUG_SOURCE_WINDOW_SYSTEM;
+#endif
 #ifdef GL_DONT_CARE
 				case GL_DONT_CARE:
 					return s_DONT_CARE;
-#endif
-#ifdef GL_DEBUG_SOURCE_APPLICATION
-				case GL_DEBUG_SOURCE_APPLICATION:
-					return s_DEBUG_SOURCE_APPLICATION;
-#endif
-#ifdef GL_DEBUG_SOURCE_OTHER
-				case GL_DEBUG_SOURCE_OTHER:
-					return s_DEBUG_SOURCE_OTHER;
 #endif
 				default:;
 			}
@@ -4161,13 +4161,37 @@ noexcept
 		case 24: /* debug_output_type */
 			switch(GLenum(aev._value))
 			{
+#ifdef GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR
+				case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR:
+					return s_DEBUG_TYPE_DEPRECATED_BEHAVIOR;
+#endif
 #ifdef GL_DEBUG_TYPE_ERROR
 				case GL_DEBUG_TYPE_ERROR:
 					return s_DEBUG_TYPE_ERROR;
 #endif
-#ifdef GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR
-				case GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR:
-					return s_DEBUG_TYPE_DEPRECATED_BEHAVIOR;
+#ifdef GL_DEBUG_TYPE_MARKER
+				case GL_DEBUG_TYPE_MARKER:
+					return s_DEBUG_TYPE_MARKER;
+#endif
+#ifdef GL_DEBUG_TYPE_OTHER
+				case GL_DEBUG_TYPE_OTHER:
+					return s_DEBUG_TYPE_OTHER;
+#endif
+#ifdef GL_DEBUG_TYPE_PERFORMANCE
+				case GL_DEBUG_TYPE_PERFORMANCE:
+					return s_DEBUG_TYPE_PERFORMANCE;
+#endif
+#ifdef GL_DEBUG_TYPE_POP_GROUP
+				case GL_DEBUG_TYPE_POP_GROUP:
+					return s_DEBUG_TYPE_POP_GROUP;
+#endif
+#ifdef GL_DEBUG_TYPE_PORTABILITY
+				case GL_DEBUG_TYPE_PORTABILITY:
+					return s_DEBUG_TYPE_PORTABILITY;
+#endif
+#ifdef GL_DEBUG_TYPE_PUSH_GROUP
+				case GL_DEBUG_TYPE_PUSH_GROUP:
+					return s_DEBUG_TYPE_PUSH_GROUP;
 #endif
 #ifdef GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR
 				case GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR:
@@ -4177,36 +4201,32 @@ noexcept
 				case GL_DONT_CARE:
 					return s_DONT_CARE;
 #endif
-#ifdef GL_DEBUG_TYPE_PORTABILITY
-				case GL_DEBUG_TYPE_PORTABILITY:
-					return s_DEBUG_TYPE_PORTABILITY;
-#endif
-#ifdef GL_DEBUG_TYPE_PERFORMANCE
-				case GL_DEBUG_TYPE_PERFORMANCE:
-					return s_DEBUG_TYPE_PERFORMANCE;
-#endif
-#ifdef GL_DEBUG_TYPE_MARKER
-				case GL_DEBUG_TYPE_MARKER:
-					return s_DEBUG_TYPE_MARKER;
-#endif
-#ifdef GL_DEBUG_TYPE_PUSH_GROUP
-				case GL_DEBUG_TYPE_PUSH_GROUP:
-					return s_DEBUG_TYPE_PUSH_GROUP;
-#endif
-#ifdef GL_DEBUG_TYPE_POP_GROUP
-				case GL_DEBUG_TYPE_POP_GROUP:
-					return s_DEBUG_TYPE_POP_GROUP;
-#endif
-#ifdef GL_DEBUG_TYPE_OTHER
-				case GL_DEBUG_TYPE_OTHER:
-					return s_DEBUG_TYPE_OTHER;
-#endif
 				default:;
 			}
 			break;
 		case 25: /* error_code */
 			switch(GLenum(aev._value))
 			{
+#ifdef GL_CONTEXT_LOST
+				case GL_CONTEXT_LOST:
+					return s_CONTEXT_LOST;
+#endif
+#ifdef GL_INVALID_ENUM
+				case GL_INVALID_ENUM:
+					return s_INVALID_ENUM;
+#endif
+#ifdef GL_INVALID_FRAMEBUFFER_OPERATION
+				case GL_INVALID_FRAMEBUFFER_OPERATION:
+					return s_INVALID_FRAMEBUFFER_OPERATION;
+#endif
+#ifdef GL_INVALID_OPERATION
+				case GL_INVALID_OPERATION:
+					return s_INVALID_OPERATION;
+#endif
+#ifdef GL_INVALID_VALUE
+				case GL_INVALID_VALUE:
+					return s_INVALID_VALUE;
+#endif
 #ifdef GL_NO_ERROR
 				case GL_NO_ERROR:
 					return s_NO_ERROR;
@@ -4214,26 +4234,6 @@ noexcept
 #ifdef GL_OUT_OF_MEMORY
 				case GL_OUT_OF_MEMORY:
 					return s_OUT_OF_MEMORY;
-#endif
-#ifdef GL_INVALID_ENUM
-				case GL_INVALID_ENUM:
-					return s_INVALID_ENUM;
-#endif
-#ifdef GL_CONTEXT_LOST
-				case GL_CONTEXT_LOST:
-					return s_CONTEXT_LOST;
-#endif
-#ifdef GL_INVALID_VALUE
-				case GL_INVALID_VALUE:
-					return s_INVALID_VALUE;
-#endif
-#ifdef GL_INVALID_OPERATION
-				case GL_INVALID_OPERATION:
-					return s_INVALID_OPERATION;
-#endif
-#ifdef GL_INVALID_FRAMEBUFFER_OPERATION
-				case GL_INVALID_FRAMEBUFFER_OPERATION:
-					return s_INVALID_FRAMEBUFFER_OPERATION;
 #endif
 #ifdef GL_STACK_OVERFLOW
 				case GL_STACK_OVERFLOW:
@@ -4253,17 +4253,17 @@ noexcept
 		case 26: /* face */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_FRONT_AND_BACK
-				case GL_FRONT_AND_BACK:
-					return s_FRONT_AND_BACK;
+#ifdef GL_BACK
+				case GL_BACK:
+					return s_BACK;
 #endif
 #ifdef GL_FRONT
 				case GL_FRONT:
 					return s_FRONT;
 #endif
-#ifdef GL_BACK
-				case GL_BACK:
-					return s_BACK;
+#ifdef GL_FRONT_AND_BACK
+				case GL_FRONT_AND_BACK:
+					return s_FRONT_AND_BACK;
 #endif
 				default:;
 			}
@@ -4293,6 +4293,30 @@ noexcept
 				case GL_COLOR_ATTACHMENT1:
 					return s_COLOR_ATTACHMENT1;
 #endif
+#ifdef GL_COLOR_ATTACHMENT10
+				case GL_COLOR_ATTACHMENT10:
+					return s_COLOR_ATTACHMENT10;
+#endif
+#ifdef GL_COLOR_ATTACHMENT11
+				case GL_COLOR_ATTACHMENT11:
+					return s_COLOR_ATTACHMENT11;
+#endif
+#ifdef GL_COLOR_ATTACHMENT12
+				case GL_COLOR_ATTACHMENT12:
+					return s_COLOR_ATTACHMENT12;
+#endif
+#ifdef GL_COLOR_ATTACHMENT13
+				case GL_COLOR_ATTACHMENT13:
+					return s_COLOR_ATTACHMENT13;
+#endif
+#ifdef GL_COLOR_ATTACHMENT14
+				case GL_COLOR_ATTACHMENT14:
+					return s_COLOR_ATTACHMENT14;
+#endif
+#ifdef GL_COLOR_ATTACHMENT15
+				case GL_COLOR_ATTACHMENT15:
+					return s_COLOR_ATTACHMENT15;
+#endif
 #ifdef GL_COLOR_ATTACHMENT2
 				case GL_COLOR_ATTACHMENT2:
 					return s_COLOR_ATTACHMENT2;
@@ -4300,10 +4324,6 @@ noexcept
 #ifdef GL_COLOR_ATTACHMENT3
 				case GL_COLOR_ATTACHMENT3:
 					return s_COLOR_ATTACHMENT3;
-#endif
-#ifdef GL_DEPTH_STENCIL_ATTACHMENT
-				case GL_DEPTH_STENCIL_ATTACHMENT:
-					return s_DEPTH_STENCIL_ATTACHMENT;
 #endif
 #ifdef GL_COLOR_ATTACHMENT4
 				case GL_COLOR_ATTACHMENT4:
@@ -4329,33 +4349,13 @@ noexcept
 				case GL_COLOR_ATTACHMENT9:
 					return s_COLOR_ATTACHMENT9;
 #endif
-#ifdef GL_COLOR_ATTACHMENT10
-				case GL_COLOR_ATTACHMENT10:
-					return s_COLOR_ATTACHMENT10;
-#endif
-#ifdef GL_COLOR_ATTACHMENT11
-				case GL_COLOR_ATTACHMENT11:
-					return s_COLOR_ATTACHMENT11;
-#endif
-#ifdef GL_COLOR_ATTACHMENT12
-				case GL_COLOR_ATTACHMENT12:
-					return s_COLOR_ATTACHMENT12;
-#endif
-#ifdef GL_COLOR_ATTACHMENT13
-				case GL_COLOR_ATTACHMENT13:
-					return s_COLOR_ATTACHMENT13;
-#endif
-#ifdef GL_COLOR_ATTACHMENT14
-				case GL_COLOR_ATTACHMENT14:
-					return s_COLOR_ATTACHMENT14;
-#endif
-#ifdef GL_COLOR_ATTACHMENT15
-				case GL_COLOR_ATTACHMENT15:
-					return s_COLOR_ATTACHMENT15;
-#endif
 #ifdef GL_DEPTH_ATTACHMENT
 				case GL_DEPTH_ATTACHMENT:
 					return s_DEPTH_ATTACHMENT;
+#endif
+#ifdef GL_DEPTH_STENCIL_ATTACHMENT
+				case GL_DEPTH_STENCIL_ATTACHMENT:
+					return s_DEPTH_STENCIL_ATTACHMENT;
 #endif
 #ifdef GL_STENCIL_ATTACHMENT
 				case GL_STENCIL_ATTACHMENT:
@@ -4375,13 +4375,13 @@ noexcept
 				case GL_DEPTH:
 					return s_DEPTH;
 #endif
-#ifdef GL_STENCIL
-				case GL_STENCIL:
-					return s_STENCIL;
-#endif
 #ifdef GL_DEPTH_STENCIL
 				case GL_DEPTH_STENCIL:
 					return s_DEPTH_STENCIL;
+#endif
+#ifdef GL_STENCIL
+				case GL_STENCIL:
+					return s_STENCIL;
 #endif
 				default:;
 			}
@@ -4389,33 +4389,33 @@ noexcept
 		case 30: /* framebuffer_status */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS
-				case GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS:
-					return s_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS;
-#endif
 #ifdef GL_FRAMEBUFFER_COMPLETE
 				case GL_FRAMEBUFFER_COMPLETE:
 					return s_FRAMEBUFFER_COMPLETE;
-#endif
-#ifdef GL_FRAMEBUFFER_UNDEFINED
-				case GL_FRAMEBUFFER_UNDEFINED:
-					return s_FRAMEBUFFER_UNDEFINED;
 #endif
 #ifdef GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT
 				case GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT:
 					return s_FRAMEBUFFER_INCOMPLETE_ATTACHMENT;
 #endif
+#ifdef GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS
+				case GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS:
+					return s_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS;
+#endif
 #ifdef GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT
 				case GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT:
 					return s_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT;
 #endif
-#ifdef GL_FRAMEBUFFER_UNSUPPORTED
-				case GL_FRAMEBUFFER_UNSUPPORTED:
-					return s_FRAMEBUFFER_UNSUPPORTED;
-#endif
 #ifdef GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE
 				case GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE:
 					return s_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE;
+#endif
+#ifdef GL_FRAMEBUFFER_UNDEFINED
+				case GL_FRAMEBUFFER_UNDEFINED:
+					return s_FRAMEBUFFER_UNDEFINED;
+#endif
+#ifdef GL_FRAMEBUFFER_UNSUPPORTED
+				case GL_FRAMEBUFFER_UNSUPPORTED:
+					return s_FRAMEBUFFER_UNSUPPORTED;
 #endif
 				default:;
 			}
@@ -4447,14 +4447,6 @@ noexcept
 		case 33: /* graphics_reset_status */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_UNKNOWN_CONTEXT_RESET
-				case GL_UNKNOWN_CONTEXT_RESET:
-					return s_UNKNOWN_CONTEXT_RESET;
-#endif
-#ifdef GL_NO_ERROR
-				case GL_NO_ERROR:
-					return s_NO_ERROR;
-#endif
 #ifdef GL_GUILTY_CONTEXT_RESET
 				case GL_GUILTY_CONTEXT_RESET:
 					return s_GUILTY_CONTEXT_RESET;
@@ -4463,16 +4455,20 @@ noexcept
 				case GL_INNOCENT_CONTEXT_RESET:
 					return s_INNOCENT_CONTEXT_RESET;
 #endif
+#ifdef GL_NO_ERROR
+				case GL_NO_ERROR:
+					return s_NO_ERROR;
+#endif
+#ifdef GL_UNKNOWN_CONTEXT_RESET
+				case GL_UNKNOWN_CONTEXT_RESET:
+					return s_UNKNOWN_CONTEXT_RESET;
+#endif
 				default:;
 			}
 			break;
 		case 34: /* hint_option */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_NICEST
-				case GL_NICEST:
-					return s_NICEST;
-#endif
 #ifdef GL_DONT_CARE
 				case GL_DONT_CARE:
 					return s_DONT_CARE;
@@ -4481,12 +4477,20 @@ noexcept
 				case GL_FASTEST:
 					return s_FASTEST;
 #endif
+#ifdef GL_NICEST
+				case GL_NICEST:
+					return s_NICEST;
+#endif
 				default:;
 			}
 			break;
 		case 35: /* hint_target */
 			switch(GLenum(aev._value))
 			{
+#ifdef GL_FRAGMENT_SHADER_DERIVATIVE_HINT
+				case GL_FRAGMENT_SHADER_DERIVATIVE_HINT:
+					return s_FRAGMENT_SHADER_DERIVATIVE_HINT;
+#endif
 #ifdef GL_LINE_SMOOTH_HINT
 				case GL_LINE_SMOOTH_HINT:
 					return s_LINE_SMOOTH_HINT;
@@ -4499,171 +4503,167 @@ noexcept
 				case GL_TEXTURE_COMPRESSION_HINT:
 					return s_TEXTURE_COMPRESSION_HINT;
 #endif
-#ifdef GL_FRAGMENT_SHADER_DERIVATIVE_HINT
-				case GL_FRAGMENT_SHADER_DERIVATIVE_HINT:
-					return s_FRAGMENT_SHADER_DERIVATIVE_HINT;
-#endif
 				default:;
 			}
 			break;
 		case 36: /* image_unit_format */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_RGBA32F
-				case GL_RGBA32F:
-					return s_RGBA32F;
-#endif
-#ifdef GL_RGBA16F
-				case GL_RGBA16F:
-					return s_RGBA16F;
-#endif
-#ifdef GL_RG32F
-				case GL_RG32F:
-					return s_RG32F;
-#endif
-#ifdef GL_RG16F
-				case GL_RG16F:
-					return s_RG16F;
-#endif
 #ifdef GL_R11F_G11F_B10F
 				case GL_R11F_G11F_B10F:
 					return s_R11F_G11F_B10F;
-#endif
-#ifdef GL_R32F
-				case GL_R32F:
-					return s_R32F;
-#endif
-#ifdef GL_R16F
-				case GL_R16F:
-					return s_R16F;
-#endif
-#ifdef GL_RGBA32UI
-				case GL_RGBA32UI:
-					return s_RGBA32UI;
-#endif
-#ifdef GL_RGBA16UI
-				case GL_RGBA16UI:
-					return s_RGBA16UI;
-#endif
-#ifdef GL_RGB10_A2UI
-				case GL_RGB10_A2UI:
-					return s_RGB10_A2UI;
-#endif
-#ifdef GL_RGBA8UI
-				case GL_RGBA8UI:
-					return s_RGBA8UI;
-#endif
-#ifdef GL_RG32UI
-				case GL_RG32UI:
-					return s_RG32UI;
-#endif
-#ifdef GL_RG16UI
-				case GL_RG16UI:
-					return s_RG16UI;
-#endif
-#ifdef GL_RG8UI
-				case GL_RG8UI:
-					return s_RG8UI;
-#endif
-#ifdef GL_R32UI
-				case GL_R32UI:
-					return s_R32UI;
-#endif
-#ifdef GL_R16UI
-				case GL_R16UI:
-					return s_R16UI;
-#endif
-#ifdef GL_R8UI
-				case GL_R8UI:
-					return s_R8UI;
-#endif
-#ifdef GL_RGBA32I
-				case GL_RGBA32I:
-					return s_RGBA32I;
-#endif
-#ifdef GL_RGBA16I
-				case GL_RGBA16I:
-					return s_RGBA16I;
-#endif
-#ifdef GL_RGBA8I
-				case GL_RGBA8I:
-					return s_RGBA8I;
-#endif
-#ifdef GL_RG32I
-				case GL_RG32I:
-					return s_RG32I;
-#endif
-#ifdef GL_RG16I
-				case GL_RG16I:
-					return s_RG16I;
-#endif
-#ifdef GL_RG8I
-				case GL_RG8I:
-					return s_RG8I;
-#endif
-#ifdef GL_R32I
-				case GL_R32I:
-					return s_R32I;
-#endif
-#ifdef GL_R16I
-				case GL_R16I:
-					return s_R16I;
-#endif
-#ifdef GL_R8I
-				case GL_R8I:
-					return s_R8I;
-#endif
-#ifdef GL_RGBA16
-				case GL_RGBA16:
-					return s_RGBA16;
-#endif
-#ifdef GL_RGB10_A2
-				case GL_RGB10_A2:
-					return s_RGB10_A2;
-#endif
-#ifdef GL_RGBA8
-				case GL_RGBA8:
-					return s_RGBA8;
-#endif
-#ifdef GL_RG16
-				case GL_RG16:
-					return s_RG16;
-#endif
-#ifdef GL_RG8
-				case GL_RG8:
-					return s_RG8;
 #endif
 #ifdef GL_R16
 				case GL_R16:
 					return s_R16;
 #endif
-#ifdef GL_R8
-				case GL_R8:
-					return s_R8;
+#ifdef GL_R16F
+				case GL_R16F:
+					return s_R16F;
 #endif
-#ifdef GL_RGBA16_SNORM
-				case GL_RGBA16_SNORM:
-					return s_RGBA16_SNORM;
+#ifdef GL_R16I
+				case GL_R16I:
+					return s_R16I;
 #endif
-#ifdef GL_RGBA8_SNORM
-				case GL_RGBA8_SNORM:
-					return s_RGBA8_SNORM;
-#endif
-#ifdef GL_RG16_SNORM
-				case GL_RG16_SNORM:
-					return s_RG16_SNORM;
-#endif
-#ifdef GL_RG8_SNORM
-				case GL_RG8_SNORM:
-					return s_RG8_SNORM;
+#ifdef GL_R16UI
+				case GL_R16UI:
+					return s_R16UI;
 #endif
 #ifdef GL_R16_SNORM
 				case GL_R16_SNORM:
 					return s_R16_SNORM;
 #endif
+#ifdef GL_R32F
+				case GL_R32F:
+					return s_R32F;
+#endif
+#ifdef GL_R32I
+				case GL_R32I:
+					return s_R32I;
+#endif
+#ifdef GL_R32UI
+				case GL_R32UI:
+					return s_R32UI;
+#endif
+#ifdef GL_R8
+				case GL_R8:
+					return s_R8;
+#endif
+#ifdef GL_R8I
+				case GL_R8I:
+					return s_R8I;
+#endif
+#ifdef GL_R8UI
+				case GL_R8UI:
+					return s_R8UI;
+#endif
 #ifdef GL_R8_SNORM
 				case GL_R8_SNORM:
 					return s_R8_SNORM;
+#endif
+#ifdef GL_RG16
+				case GL_RG16:
+					return s_RG16;
+#endif
+#ifdef GL_RG16F
+				case GL_RG16F:
+					return s_RG16F;
+#endif
+#ifdef GL_RG16I
+				case GL_RG16I:
+					return s_RG16I;
+#endif
+#ifdef GL_RG16UI
+				case GL_RG16UI:
+					return s_RG16UI;
+#endif
+#ifdef GL_RG16_SNORM
+				case GL_RG16_SNORM:
+					return s_RG16_SNORM;
+#endif
+#ifdef GL_RG32F
+				case GL_RG32F:
+					return s_RG32F;
+#endif
+#ifdef GL_RG32I
+				case GL_RG32I:
+					return s_RG32I;
+#endif
+#ifdef GL_RG32UI
+				case GL_RG32UI:
+					return s_RG32UI;
+#endif
+#ifdef GL_RG8
+				case GL_RG8:
+					return s_RG8;
+#endif
+#ifdef GL_RG8I
+				case GL_RG8I:
+					return s_RG8I;
+#endif
+#ifdef GL_RG8UI
+				case GL_RG8UI:
+					return s_RG8UI;
+#endif
+#ifdef GL_RG8_SNORM
+				case GL_RG8_SNORM:
+					return s_RG8_SNORM;
+#endif
+#ifdef GL_RGB10_A2
+				case GL_RGB10_A2:
+					return s_RGB10_A2;
+#endif
+#ifdef GL_RGB10_A2UI
+				case GL_RGB10_A2UI:
+					return s_RGB10_A2UI;
+#endif
+#ifdef GL_RGBA16
+				case GL_RGBA16:
+					return s_RGBA16;
+#endif
+#ifdef GL_RGBA16F
+				case GL_RGBA16F:
+					return s_RGBA16F;
+#endif
+#ifdef GL_RGBA16I
+				case GL_RGBA16I:
+					return s_RGBA16I;
+#endif
+#ifdef GL_RGBA16UI
+				case GL_RGBA16UI:
+					return s_RGBA16UI;
+#endif
+#ifdef GL_RGBA16_SNORM
+				case GL_RGBA16_SNORM:
+					return s_RGBA16_SNORM;
+#endif
+#ifdef GL_RGBA32F
+				case GL_RGBA32F:
+					return s_RGBA32F;
+#endif
+#ifdef GL_RGBA32I
+				case GL_RGBA32I:
+					return s_RGBA32I;
+#endif
+#ifdef GL_RGBA32UI
+				case GL_RGBA32UI:
+					return s_RGBA32UI;
+#endif
+#ifdef GL_RGBA8
+				case GL_RGBA8:
+					return s_RGBA8;
+#endif
+#ifdef GL_RGBA8I
+				case GL_RGBA8I:
+					return s_RGBA8I;
+#endif
+#ifdef GL_RGBA8UI
+				case GL_RGBA8UI:
+					return s_RGBA8UI;
+#endif
+#ifdef GL_RGBA8_SNORM
+				case GL_RGBA8_SNORM:
+					return s_RGBA8_SNORM;
 #endif
 				default:;
 			}
@@ -4671,18 +4671,6 @@ noexcept
 		case 37: /* limit_query */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_MAX_COLOR_TEXTURE_SAMPLES
-				case GL_MAX_COLOR_TEXTURE_SAMPLES:
-					return s_MAX_COLOR_TEXTURE_SAMPLES;
-#endif
-#ifdef GL_MAX_COMBINED_ATOMIC_COUNTER_BUFFERS
-				case GL_MAX_COMBINED_ATOMIC_COUNTER_BUFFERS:
-					return s_MAX_COMBINED_ATOMIC_COUNTER_BUFFERS;
-#endif
-#ifdef GL_MAX_COMBINED_ATOMIC_COUNTERS
-				case GL_MAX_COMBINED_ATOMIC_COUNTERS:
-					return s_MAX_COMBINED_ATOMIC_COUNTERS;
-#endif
 #ifdef GL_MAX_3D_TEXTURE_SIZE
 				case GL_MAX_3D_TEXTURE_SIZE:
 					return s_MAX_3D_TEXTURE_SIZE;
@@ -4695,10 +4683,6 @@ noexcept
 				case GL_MAX_ATOMIC_COUNTER_BUFFER_BINDINGS:
 					return s_MAX_ATOMIC_COUNTER_BUFFER_BINDINGS;
 #endif
-#ifdef GL_MIN_PROGRAM_TEXTURE_GATHER_OFFSET
-				case GL_MIN_PROGRAM_TEXTURE_GATHER_OFFSET:
-					return s_MIN_PROGRAM_TEXTURE_GATHER_OFFSET;
-#endif
 #ifdef GL_MAX_ATOMIC_COUNTER_BUFFER_SIZE
 				case GL_MAX_ATOMIC_COUNTER_BUFFER_SIZE:
 					return s_MAX_ATOMIC_COUNTER_BUFFER_SIZE;
@@ -4707,25 +4691,25 @@ noexcept
 				case GL_MAX_CLIP_DISTANCES:
 					return s_MAX_CLIP_DISTANCES;
 #endif
-#ifdef GL_MAX_CULL_DISTANCES
-				case GL_MAX_CULL_DISTANCES:
-					return s_MAX_CULL_DISTANCES;
-#endif
-#ifdef GL_MAX_COMBINED_CLIP_AND_CULL_DISTANCES
-				case GL_MAX_COMBINED_CLIP_AND_CULL_DISTANCES:
-					return s_MAX_COMBINED_CLIP_AND_CULL_DISTANCES;
-#endif
 #ifdef GL_MAX_COLOR_ATTACHMENTS
 				case GL_MAX_COLOR_ATTACHMENTS:
 					return s_MAX_COLOR_ATTACHMENTS;
 #endif
-#ifdef GL_MAX_TESS_EVALUATION_TEXTURE_IMAGE_UNITS
-				case GL_MAX_TESS_EVALUATION_TEXTURE_IMAGE_UNITS:
-					return s_MAX_TESS_EVALUATION_TEXTURE_IMAGE_UNITS;
+#ifdef GL_MAX_COLOR_TEXTURE_SAMPLES
+				case GL_MAX_COLOR_TEXTURE_SAMPLES:
+					return s_MAX_COLOR_TEXTURE_SAMPLES;
 #endif
-#ifdef GL_MAX_TESS_EVALUATION_UNIFORM_BLOCKS
-				case GL_MAX_TESS_EVALUATION_UNIFORM_BLOCKS:
-					return s_MAX_TESS_EVALUATION_UNIFORM_BLOCKS;
+#ifdef GL_MAX_COMBINED_ATOMIC_COUNTERS
+				case GL_MAX_COMBINED_ATOMIC_COUNTERS:
+					return s_MAX_COMBINED_ATOMIC_COUNTERS;
+#endif
+#ifdef GL_MAX_COMBINED_ATOMIC_COUNTER_BUFFERS
+				case GL_MAX_COMBINED_ATOMIC_COUNTER_BUFFERS:
+					return s_MAX_COMBINED_ATOMIC_COUNTER_BUFFERS;
+#endif
+#ifdef GL_MAX_COMBINED_CLIP_AND_CULL_DISTANCES
+				case GL_MAX_COMBINED_CLIP_AND_CULL_DISTANCES:
+					return s_MAX_COMBINED_CLIP_AND_CULL_DISTANCES;
 #endif
 #ifdef GL_MAX_COMBINED_FRAGMENT_UNIFORM_COMPONENTS
 				case GL_MAX_COMBINED_FRAGMENT_UNIFORM_COMPONENTS:
@@ -4763,9 +4747,29 @@ noexcept
 				case GL_MAX_COMBINED_VERTEX_UNIFORM_COMPONENTS:
 					return s_MAX_COMBINED_VERTEX_UNIFORM_COMPONENTS;
 #endif
+#ifdef GL_MAX_COMPUTE_SHARED_MEMORY_SIZE
+				case GL_MAX_COMPUTE_SHARED_MEMORY_SIZE:
+					return s_MAX_COMPUTE_SHARED_MEMORY_SIZE;
+#endif
+#ifdef GL_MAX_COMPUTE_WORK_GROUP_COUNT
+				case GL_MAX_COMPUTE_WORK_GROUP_COUNT:
+					return s_MAX_COMPUTE_WORK_GROUP_COUNT;
+#endif
+#ifdef GL_MAX_COMPUTE_WORK_GROUP_INVOCATIONS
+				case GL_MAX_COMPUTE_WORK_GROUP_INVOCATIONS:
+					return s_MAX_COMPUTE_WORK_GROUP_INVOCATIONS;
+#endif
+#ifdef GL_MAX_COMPUTE_WORK_GROUP_SIZE
+				case GL_MAX_COMPUTE_WORK_GROUP_SIZE:
+					return s_MAX_COMPUTE_WORK_GROUP_SIZE;
+#endif
 #ifdef GL_MAX_CUBE_MAP_TEXTURE_SIZE
 				case GL_MAX_CUBE_MAP_TEXTURE_SIZE:
 					return s_MAX_CUBE_MAP_TEXTURE_SIZE;
+#endif
+#ifdef GL_MAX_CULL_DISTANCES
+				case GL_MAX_CULL_DISTANCES:
+					return s_MAX_CULL_DISTANCES;
 #endif
 #ifdef GL_MAX_DEPTH_TEXTURE_SAMPLES
 				case GL_MAX_DEPTH_TEXTURE_SAMPLES:
@@ -4787,13 +4791,13 @@ noexcept
 				case GL_MAX_ELEMENTS_VERTICES:
 					return s_MAX_ELEMENTS_VERTICES;
 #endif
-#ifdef GL_MAX_FRAGMENT_ATOMIC_COUNTER_BUFFERS
-				case GL_MAX_FRAGMENT_ATOMIC_COUNTER_BUFFERS:
-					return s_MAX_FRAGMENT_ATOMIC_COUNTER_BUFFERS;
-#endif
 #ifdef GL_MAX_FRAGMENT_ATOMIC_COUNTERS
 				case GL_MAX_FRAGMENT_ATOMIC_COUNTERS:
 					return s_MAX_FRAGMENT_ATOMIC_COUNTERS;
+#endif
+#ifdef GL_MAX_FRAGMENT_ATOMIC_COUNTER_BUFFERS
+				case GL_MAX_FRAGMENT_ATOMIC_COUNTER_BUFFERS:
+					return s_MAX_FRAGMENT_ATOMIC_COUNTER_BUFFERS;
 #endif
 #ifdef GL_MAX_FRAGMENT_IMAGE_UNIFORMS
 				case GL_MAX_FRAGMENT_IMAGE_UNIFORMS:
@@ -4819,13 +4823,13 @@ noexcept
 				case GL_MAX_FRAGMENT_UNIFORM_VECTORS:
 					return s_MAX_FRAGMENT_UNIFORM_VECTORS;
 #endif
-#ifdef GL_MAX_GEOMETRY_ATOMIC_COUNTER_BUFFERS
-				case GL_MAX_GEOMETRY_ATOMIC_COUNTER_BUFFERS:
-					return s_MAX_GEOMETRY_ATOMIC_COUNTER_BUFFERS;
-#endif
 #ifdef GL_MAX_GEOMETRY_ATOMIC_COUNTERS
 				case GL_MAX_GEOMETRY_ATOMIC_COUNTERS:
 					return s_MAX_GEOMETRY_ATOMIC_COUNTERS;
+#endif
+#ifdef GL_MAX_GEOMETRY_ATOMIC_COUNTER_BUFFERS
+				case GL_MAX_GEOMETRY_ATOMIC_COUNTER_BUFFERS:
+					return s_MAX_GEOMETRY_ATOMIC_COUNTER_BUFFERS;
 #endif
 #ifdef GL_MAX_GEOMETRY_IMAGE_UNIFORMS
 				case GL_MAX_GEOMETRY_IMAGE_UNIFORMS:
@@ -4895,13 +4899,13 @@ noexcept
 				case GL_MAX_RENDERBUFFER_SIZE:
 					return s_MAX_RENDERBUFFER_SIZE;
 #endif
-#ifdef GL_MAX_SAMPLE_MASK_WORDS
-				case GL_MAX_SAMPLE_MASK_WORDS:
-					return s_MAX_SAMPLE_MASK_WORDS;
-#endif
 #ifdef GL_MAX_SAMPLES
 				case GL_MAX_SAMPLES:
 					return s_MAX_SAMPLES;
+#endif
+#ifdef GL_MAX_SAMPLE_MASK_WORDS
+				case GL_MAX_SAMPLE_MASK_WORDS:
+					return s_MAX_SAMPLE_MASK_WORDS;
 #endif
 #ifdef GL_MAX_SERVER_WAIT_TIMEOUT
 				case GL_MAX_SERVER_WAIT_TIMEOUT:
@@ -4915,13 +4919,13 @@ noexcept
 				case GL_MAX_SUBROUTINE_UNIFORM_LOCATIONS:
 					return s_MAX_SUBROUTINE_UNIFORM_LOCATIONS;
 #endif
-#ifdef GL_MAX_TESS_CONTROL_ATOMIC_COUNTER_BUFFERS
-				case GL_MAX_TESS_CONTROL_ATOMIC_COUNTER_BUFFERS:
-					return s_MAX_TESS_CONTROL_ATOMIC_COUNTER_BUFFERS;
-#endif
 #ifdef GL_MAX_TESS_CONTROL_ATOMIC_COUNTERS
 				case GL_MAX_TESS_CONTROL_ATOMIC_COUNTERS:
 					return s_MAX_TESS_CONTROL_ATOMIC_COUNTERS;
+#endif
+#ifdef GL_MAX_TESS_CONTROL_ATOMIC_COUNTER_BUFFERS
+				case GL_MAX_TESS_CONTROL_ATOMIC_COUNTER_BUFFERS:
+					return s_MAX_TESS_CONTROL_ATOMIC_COUNTER_BUFFERS;
 #endif
 #ifdef GL_MAX_TESS_CONTROL_IMAGE_UNIFORMS
 				case GL_MAX_TESS_CONTROL_IMAGE_UNIFORMS:
@@ -4951,13 +4955,13 @@ noexcept
 				case GL_MAX_TESS_CONTROL_UNIFORM_COMPONENTS:
 					return s_MAX_TESS_CONTROL_UNIFORM_COMPONENTS;
 #endif
-#ifdef GL_MAX_TESS_EVALUATION_ATOMIC_COUNTER_BUFFERS
-				case GL_MAX_TESS_EVALUATION_ATOMIC_COUNTER_BUFFERS:
-					return s_MAX_TESS_EVALUATION_ATOMIC_COUNTER_BUFFERS;
-#endif
 #ifdef GL_MAX_TESS_EVALUATION_ATOMIC_COUNTERS
 				case GL_MAX_TESS_EVALUATION_ATOMIC_COUNTERS:
 					return s_MAX_TESS_EVALUATION_ATOMIC_COUNTERS;
+#endif
+#ifdef GL_MAX_TESS_EVALUATION_ATOMIC_COUNTER_BUFFERS
+				case GL_MAX_TESS_EVALUATION_ATOMIC_COUNTER_BUFFERS:
+					return s_MAX_TESS_EVALUATION_ATOMIC_COUNTER_BUFFERS;
 #endif
 #ifdef GL_MAX_TESS_EVALUATION_IMAGE_UNIFORMS
 				case GL_MAX_TESS_EVALUATION_IMAGE_UNIFORMS:
@@ -4970,6 +4974,14 @@ noexcept
 #ifdef GL_MAX_TESS_EVALUATION_OUTPUT_COMPONENTS
 				case GL_MAX_TESS_EVALUATION_OUTPUT_COMPONENTS:
 					return s_MAX_TESS_EVALUATION_OUTPUT_COMPONENTS;
+#endif
+#ifdef GL_MAX_TESS_EVALUATION_TEXTURE_IMAGE_UNITS
+				case GL_MAX_TESS_EVALUATION_TEXTURE_IMAGE_UNITS:
+					return s_MAX_TESS_EVALUATION_TEXTURE_IMAGE_UNITS;
+#endif
+#ifdef GL_MAX_TESS_EVALUATION_UNIFORM_BLOCKS
+				case GL_MAX_TESS_EVALUATION_UNIFORM_BLOCKS:
+					return s_MAX_TESS_EVALUATION_UNIFORM_BLOCKS;
 #endif
 #ifdef GL_MAX_TESS_EVALUATION_UNIFORM_COMPONENTS
 				case GL_MAX_TESS_EVALUATION_UNIFORM_COMPONENTS:
@@ -5031,13 +5043,13 @@ noexcept
 				case GL_MAX_VARYING_VECTORS:
 					return s_MAX_VARYING_VECTORS;
 #endif
-#ifdef GL_MAX_VERTEX_ATOMIC_COUNTER_BUFFERS
-				case GL_MAX_VERTEX_ATOMIC_COUNTER_BUFFERS:
-					return s_MAX_VERTEX_ATOMIC_COUNTER_BUFFERS;
-#endif
 #ifdef GL_MAX_VERTEX_ATOMIC_COUNTERS
 				case GL_MAX_VERTEX_ATOMIC_COUNTERS:
 					return s_MAX_VERTEX_ATOMIC_COUNTERS;
+#endif
+#ifdef GL_MAX_VERTEX_ATOMIC_COUNTER_BUFFERS
+				case GL_MAX_VERTEX_ATOMIC_COUNTER_BUFFERS:
+					return s_MAX_VERTEX_ATOMIC_COUNTER_BUFFERS;
 #endif
 #ifdef GL_MAX_VERTEX_ATTRIBS
 				case GL_MAX_VERTEX_ATTRIBS:
@@ -5071,29 +5083,13 @@ noexcept
 				case GL_MAX_VERTEX_UNIFORM_VECTORS:
 					return s_MAX_VERTEX_UNIFORM_VECTORS;
 #endif
-#ifdef GL_MAX_VIEWPORT_DIMS
-				case GL_MAX_VIEWPORT_DIMS:
-					return s_MAX_VIEWPORT_DIMS;
-#endif
 #ifdef GL_MAX_VIEWPORTS
 				case GL_MAX_VIEWPORTS:
 					return s_MAX_VIEWPORTS;
 #endif
-#ifdef GL_MAX_COMPUTE_WORK_GROUP_COUNT
-				case GL_MAX_COMPUTE_WORK_GROUP_COUNT:
-					return s_MAX_COMPUTE_WORK_GROUP_COUNT;
-#endif
-#ifdef GL_MAX_COMPUTE_WORK_GROUP_SIZE
-				case GL_MAX_COMPUTE_WORK_GROUP_SIZE:
-					return s_MAX_COMPUTE_WORK_GROUP_SIZE;
-#endif
-#ifdef GL_MAX_COMPUTE_WORK_GROUP_INVOCATIONS
-				case GL_MAX_COMPUTE_WORK_GROUP_INVOCATIONS:
-					return s_MAX_COMPUTE_WORK_GROUP_INVOCATIONS;
-#endif
-#ifdef GL_MAX_COMPUTE_SHARED_MEMORY_SIZE
-				case GL_MAX_COMPUTE_SHARED_MEMORY_SIZE:
-					return s_MAX_COMPUTE_SHARED_MEMORY_SIZE;
+#ifdef GL_MAX_VIEWPORT_DIMS
+				case GL_MAX_VIEWPORT_DIMS:
+					return s_MAX_VIEWPORT_DIMS;
 #endif
 #ifdef GL_MIN_FRAGMENT_INTERPOLATION_OFFSET
 				case GL_MIN_FRAGMENT_INTERPOLATION_OFFSET:
@@ -5107,71 +5103,75 @@ noexcept
 				case GL_MIN_PROGRAM_TEXEL_OFFSET:
 					return s_MIN_PROGRAM_TEXEL_OFFSET;
 #endif
+#ifdef GL_MIN_PROGRAM_TEXTURE_GATHER_OFFSET
+				case GL_MIN_PROGRAM_TEXTURE_GATHER_OFFSET:
+					return s_MIN_PROGRAM_TEXTURE_GATHER_OFFSET;
+#endif
 				default:;
 			}
 			break;
 		case 38: /* memory_barrier_bits */
 			switch(GLbitfield(aev._value))
 			{
-#ifdef GL_VERTEX_ATTRIB_ARRAY_BARRIER_BIT
-				case GL_VERTEX_ATTRIB_ARRAY_BARRIER_BIT:
-					return s_VERTEX_ATTRIB_ARRAY_BARRIER_BIT;
-#endif
-#ifdef GL_ELEMENT_ARRAY_BARRIER_BIT
-				case GL_ELEMENT_ARRAY_BARRIER_BIT:
-					return s_ELEMENT_ARRAY_BARRIER_BIT;
-#endif
-#ifdef GL_UNIFORM_BARRIER_BIT
-				case GL_UNIFORM_BARRIER_BIT:
-					return s_UNIFORM_BARRIER_BIT;
-#endif
-#ifdef GL_TEXTURE_FETCH_BARRIER_BIT
-				case GL_TEXTURE_FETCH_BARRIER_BIT:
-					return s_TEXTURE_FETCH_BARRIER_BIT;
-#endif
-#ifdef GL_SHADER_IMAGE_ACCESS_BARRIER_BIT
-				case GL_SHADER_IMAGE_ACCESS_BARRIER_BIT:
-					return s_SHADER_IMAGE_ACCESS_BARRIER_BIT;
-#endif
-#ifdef GL_COMMAND_BARRIER_BIT
-				case GL_COMMAND_BARRIER_BIT:
-					return s_COMMAND_BARRIER_BIT;
-#endif
-#ifdef GL_PIXEL_BUFFER_BARRIER_BIT
-				case GL_PIXEL_BUFFER_BARRIER_BIT:
-					return s_PIXEL_BUFFER_BARRIER_BIT;
-#endif
 #ifdef GL_ALL_BARRIER_BITS
 				case GL_ALL_BARRIER_BITS:
 					return s_ALL_BARRIER_BITS;
-#endif
-#ifdef GL_TEXTURE_UPDATE_BARRIER_BIT
-				case GL_TEXTURE_UPDATE_BARRIER_BIT:
-					return s_TEXTURE_UPDATE_BARRIER_BIT;
-#endif
-#ifdef GL_BUFFER_UPDATE_BARRIER_BIT
-				case GL_BUFFER_UPDATE_BARRIER_BIT:
-					return s_BUFFER_UPDATE_BARRIER_BIT;
-#endif
-#ifdef GL_FRAMEBUFFER_BARRIER_BIT
-				case GL_FRAMEBUFFER_BARRIER_BIT:
-					return s_FRAMEBUFFER_BARRIER_BIT;
-#endif
-#ifdef GL_TRANSFORM_FEEDBACK_BARRIER_BIT
-				case GL_TRANSFORM_FEEDBACK_BARRIER_BIT:
-					return s_TRANSFORM_FEEDBACK_BARRIER_BIT;
 #endif
 #ifdef GL_ATOMIC_COUNTER_BARRIER_BIT
 				case GL_ATOMIC_COUNTER_BARRIER_BIT:
 					return s_ATOMIC_COUNTER_BARRIER_BIT;
 #endif
-#ifdef GL_SHADER_STORAGE_BARRIER_BIT
-				case GL_SHADER_STORAGE_BARRIER_BIT:
-					return s_SHADER_STORAGE_BARRIER_BIT;
+#ifdef GL_BUFFER_UPDATE_BARRIER_BIT
+				case GL_BUFFER_UPDATE_BARRIER_BIT:
+					return s_BUFFER_UPDATE_BARRIER_BIT;
 #endif
 #ifdef GL_CLIENT_MAPPED_BUFFER_BARRIER_BIT
 				case GL_CLIENT_MAPPED_BUFFER_BARRIER_BIT:
 					return s_CLIENT_MAPPED_BUFFER_BARRIER_BIT;
+#endif
+#ifdef GL_COMMAND_BARRIER_BIT
+				case GL_COMMAND_BARRIER_BIT:
+					return s_COMMAND_BARRIER_BIT;
+#endif
+#ifdef GL_ELEMENT_ARRAY_BARRIER_BIT
+				case GL_ELEMENT_ARRAY_BARRIER_BIT:
+					return s_ELEMENT_ARRAY_BARRIER_BIT;
+#endif
+#ifdef GL_FRAMEBUFFER_BARRIER_BIT
+				case GL_FRAMEBUFFER_BARRIER_BIT:
+					return s_FRAMEBUFFER_BARRIER_BIT;
+#endif
+#ifdef GL_PIXEL_BUFFER_BARRIER_BIT
+				case GL_PIXEL_BUFFER_BARRIER_BIT:
+					return s_PIXEL_BUFFER_BARRIER_BIT;
+#endif
+#ifdef GL_SHADER_IMAGE_ACCESS_BARRIER_BIT
+				case GL_SHADER_IMAGE_ACCESS_BARRIER_BIT:
+					return s_SHADER_IMAGE_ACCESS_BARRIER_BIT;
+#endif
+#ifdef GL_SHADER_STORAGE_BARRIER_BIT
+				case GL_SHADER_STORAGE_BARRIER_BIT:
+					return s_SHADER_STORAGE_BARRIER_BIT;
+#endif
+#ifdef GL_TEXTURE_FETCH_BARRIER_BIT
+				case GL_TEXTURE_FETCH_BARRIER_BIT:
+					return s_TEXTURE_FETCH_BARRIER_BIT;
+#endif
+#ifdef GL_TEXTURE_UPDATE_BARRIER_BIT
+				case GL_TEXTURE_UPDATE_BARRIER_BIT:
+					return s_TEXTURE_UPDATE_BARRIER_BIT;
+#endif
+#ifdef GL_TRANSFORM_FEEDBACK_BARRIER_BIT
+				case GL_TRANSFORM_FEEDBACK_BARRIER_BIT:
+					return s_TRANSFORM_FEEDBACK_BARRIER_BIT;
+#endif
+#ifdef GL_UNIFORM_BARRIER_BIT
+				case GL_UNIFORM_BARRIER_BIT:
+					return s_UNIFORM_BARRIER_BIT;
+#endif
+#ifdef GL_VERTEX_ATTRIB_ARRAY_BARRIER_BIT
+				case GL_VERTEX_ATTRIB_ARRAY_BARRIER_BIT:
+					return s_VERTEX_ATTRIB_ARRAY_BARRIER_BIT;
 #endif
 				default:;
 			}
@@ -5193,21 +5193,21 @@ noexcept
 				case GL_BUFFER:
 					return s_BUFFER;
 #endif
-#ifdef GL_NONE
-				case GL_NONE:
-					return s_NONE;
-#endif
 #ifdef GL_FRAMEBUFFER
 				case GL_FRAMEBUFFER:
 					return s_FRAMEBUFFER;
 #endif
-#ifdef GL_PROGRAM_PIPELINE
-				case GL_PROGRAM_PIPELINE:
-					return s_PROGRAM_PIPELINE;
+#ifdef GL_NONE
+				case GL_NONE:
+					return s_NONE;
 #endif
 #ifdef GL_PROGRAM
 				case GL_PROGRAM:
 					return s_PROGRAM;
+#endif
+#ifdef GL_PROGRAM_PIPELINE
+				case GL_PROGRAM_PIPELINE:
+					return s_PROGRAM_PIPELINE;
 #endif
 #ifdef GL_QUERY
 				case GL_QUERY:
@@ -5243,17 +5243,17 @@ noexcept
 		case 41: /* patch_parameter */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_PATCH_VERTICES
-				case GL_PATCH_VERTICES:
-					return s_PATCH_VERTICES;
+#ifdef GL_PATCH_DEFAULT_INNER_LEVEL
+				case GL_PATCH_DEFAULT_INNER_LEVEL:
+					return s_PATCH_DEFAULT_INNER_LEVEL;
 #endif
 #ifdef GL_PATCH_DEFAULT_OUTER_LEVEL
 				case GL_PATCH_DEFAULT_OUTER_LEVEL:
 					return s_PATCH_DEFAULT_OUTER_LEVEL;
 #endif
-#ifdef GL_PATCH_DEFAULT_INNER_LEVEL
-				case GL_PATCH_DEFAULT_INNER_LEVEL:
-					return s_PATCH_DEFAULT_INNER_LEVEL;
+#ifdef GL_PATCH_VERTICES
+				case GL_PATCH_VERTICES:
+					return s_PATCH_VERTICES;
 #endif
 				default:;
 			}
@@ -5261,46 +5261,6 @@ noexcept
 		case 42: /* pixel_data_format */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_DEPTH_COMPONENT
-				case GL_DEPTH_COMPONENT:
-					return s_DEPTH_COMPONENT;
-#endif
-#ifdef GL_DEPTH_STENCIL
-				case GL_DEPTH_STENCIL:
-					return s_DEPTH_STENCIL;
-#endif
-#ifdef GL_BGRA_INTEGER
-				case GL_BGRA_INTEGER:
-					return s_BGRA_INTEGER;
-#endif
-#ifdef GL_STENCIL_INDEX
-				case GL_STENCIL_INDEX:
-					return s_STENCIL_INDEX;
-#endif
-#ifdef GL_RED
-				case GL_RED:
-					return s_RED;
-#endif
-#ifdef GL_GREEN
-				case GL_GREEN:
-					return s_GREEN;
-#endif
-#ifdef GL_BLUE
-				case GL_BLUE:
-					return s_BLUE;
-#endif
-#ifdef GL_RG
-				case GL_RG:
-					return s_RG;
-#endif
-#ifdef GL_RGB
-				case GL_RGB:
-					return s_RGB;
-#endif
-#ifdef GL_RGBA
-				case GL_RGBA:
-					return s_RGBA;
-#endif
 #ifdef GL_BGR
 				case GL_BGR:
 					return s_BGR;
@@ -5309,40 +5269,22 @@ noexcept
 				case GL_BGRA:
 					return s_BGRA;
 #endif
-#ifdef GL_RED_INTEGER
-				case GL_RED_INTEGER:
-					return s_RED_INTEGER;
-#endif
-#ifdef GL_GREEN_INTEGER
-				case GL_GREEN_INTEGER:
-					return s_GREEN_INTEGER;
-#endif
-#ifdef GL_BLUE_INTEGER
-				case GL_BLUE_INTEGER:
-					return s_BLUE_INTEGER;
-#endif
-#ifdef GL_RG_INTEGER
-				case GL_RG_INTEGER:
-					return s_RG_INTEGER;
-#endif
-#ifdef GL_RGB_INTEGER
-				case GL_RGB_INTEGER:
-					return s_RGB_INTEGER;
-#endif
-#ifdef GL_RGBA_INTEGER
-				case GL_RGBA_INTEGER:
-					return s_RGBA_INTEGER;
+#ifdef GL_BGRA_INTEGER
+				case GL_BGRA_INTEGER:
+					return s_BGRA_INTEGER;
 #endif
 #ifdef GL_BGR_INTEGER
 				case GL_BGR_INTEGER:
 					return s_BGR_INTEGER;
 #endif
-				default:;
-			}
-			break;
-		case 43: /* pixel_data_internal_format */
-			switch(GLenum(aev._value))
-			{
+#ifdef GL_BLUE
+				case GL_BLUE:
+					return s_BLUE;
+#endif
+#ifdef GL_BLUE_INTEGER
+				case GL_BLUE_INTEGER:
+					return s_BLUE_INTEGER;
+#endif
 #ifdef GL_DEPTH_COMPONENT
 				case GL_DEPTH_COMPONENT:
 					return s_DEPTH_COMPONENT;
@@ -5351,29 +5293,21 @@ noexcept
 				case GL_DEPTH_STENCIL:
 					return s_DEPTH_STENCIL;
 #endif
-#ifdef GL_STENCIL_INDEX8
-				case GL_STENCIL_INDEX8:
-					return s_STENCIL_INDEX8;
+#ifdef GL_GREEN
+				case GL_GREEN:
+					return s_GREEN;
 #endif
-#ifdef GL_RGB16I
-				case GL_RGB16I:
-					return s_RGB16I;
-#endif
-#ifdef GL_RGB16UI
-				case GL_RGB16UI:
-					return s_RGB16UI;
-#endif
-#ifdef GL_RGB32I
-				case GL_RGB32I:
-					return s_RGB32I;
-#endif
-#ifdef GL_RGB32UI
-				case GL_RGB32UI:
-					return s_RGB32UI;
+#ifdef GL_GREEN_INTEGER
+				case GL_GREEN_INTEGER:
+					return s_GREEN_INTEGER;
 #endif
 #ifdef GL_RED
 				case GL_RED:
 					return s_RED;
+#endif
+#ifdef GL_RED_INTEGER
+				case GL_RED_INTEGER:
+					return s_RED_INTEGER;
 #endif
 #ifdef GL_RG
 				case GL_RG:
@@ -5387,241 +5321,135 @@ noexcept
 				case GL_RGBA:
 					return s_RGBA;
 #endif
-#ifdef GL_R8
-				case GL_R8:
-					return s_R8;
+#ifdef GL_RGBA_INTEGER
+				case GL_RGBA_INTEGER:
+					return s_RGBA_INTEGER;
 #endif
-#ifdef GL_R8_SNORM
-				case GL_R8_SNORM:
-					return s_R8_SNORM;
+#ifdef GL_RGB_INTEGER
+				case GL_RGB_INTEGER:
+					return s_RGB_INTEGER;
 #endif
-#ifdef GL_R16
-				case GL_R16:
-					return s_R16;
+#ifdef GL_RG_INTEGER
+				case GL_RG_INTEGER:
+					return s_RG_INTEGER;
 #endif
-#ifdef GL_R16_SNORM
-				case GL_R16_SNORM:
-					return s_R16_SNORM;
+#ifdef GL_STENCIL_INDEX
+				case GL_STENCIL_INDEX:
+					return s_STENCIL_INDEX;
 #endif
-#ifdef GL_RG8
-				case GL_RG8:
-					return s_RG8;
+				default:;
+			}
+			break;
+		case 43: /* pixel_data_internal_format */
+			switch(GLenum(aev._value))
+			{
+#ifdef GL_COMPRESSED_R11_EAC
+				case GL_COMPRESSED_R11_EAC:
+					return s_COMPRESSED_R11_EAC;
 #endif
-#ifdef GL_RG8_SNORM
-				case GL_RG8_SNORM:
-					return s_RG8_SNORM;
+#ifdef GL_COMPRESSED_RED
+				case GL_COMPRESSED_RED:
+					return s_COMPRESSED_RED;
 #endif
-#ifdef GL_RG16
-				case GL_RG16:
-					return s_RG16;
+#ifdef GL_COMPRESSED_RED_RGTC1
+				case GL_COMPRESSED_RED_RGTC1:
+					return s_COMPRESSED_RED_RGTC1;
 #endif
-#ifdef GL_RG16_SNORM
-				case GL_RG16_SNORM:
-					return s_RG16_SNORM;
+#ifdef GL_COMPRESSED_RG
+				case GL_COMPRESSED_RG:
+					return s_COMPRESSED_RG;
 #endif
-#ifdef GL_R3_G3_B2
-				case GL_R3_G3_B2:
-					return s_R3_G3_B2;
+#ifdef GL_COMPRESSED_RG11_EAC
+				case GL_COMPRESSED_RG11_EAC:
+					return s_COMPRESSED_RG11_EAC;
 #endif
-#ifdef GL_RGB4
-				case GL_RGB4:
-					return s_RGB4;
+#ifdef GL_COMPRESSED_RGB
+				case GL_COMPRESSED_RGB:
+					return s_COMPRESSED_RGB;
 #endif
-#ifdef GL_RGB5
-				case GL_RGB5:
-					return s_RGB5;
+#ifdef GL_COMPRESSED_RGB8_ETC2
+				case GL_COMPRESSED_RGB8_ETC2:
+					return s_COMPRESSED_RGB8_ETC2;
 #endif
-#ifdef GL_RGB8
-				case GL_RGB8:
-					return s_RGB8;
+#ifdef GL_COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2
+				case GL_COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2:
+					return s_COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2;
 #endif
-#ifdef GL_RGB8_SNORM
-				case GL_RGB8_SNORM:
-					return s_RGB8_SNORM;
+#ifdef GL_COMPRESSED_RGBA
+				case GL_COMPRESSED_RGBA:
+					return s_COMPRESSED_RGBA;
 #endif
-#ifdef GL_RGB10
-				case GL_RGB10:
-					return s_RGB10;
+#ifdef GL_COMPRESSED_RGBA8_ETC2_EAC
+				case GL_COMPRESSED_RGBA8_ETC2_EAC:
+					return s_COMPRESSED_RGBA8_ETC2_EAC;
 #endif
-#ifdef GL_RGB12
-				case GL_RGB12:
-					return s_RGB12;
+#ifdef GL_COMPRESSED_RGBA_BPTC_UNORM
+				case GL_COMPRESSED_RGBA_BPTC_UNORM:
+					return s_COMPRESSED_RGBA_BPTC_UNORM;
 #endif
-#ifdef GL_RGB16
-				case GL_RGB16:
-					return s_RGB16;
+#ifdef GL_COMPRESSED_RGB_BPTC_SIGNED_FLOAT
+				case GL_COMPRESSED_RGB_BPTC_SIGNED_FLOAT:
+					return s_COMPRESSED_RGB_BPTC_SIGNED_FLOAT;
 #endif
-#ifdef GL_RGB16_SNORM
-				case GL_RGB16_SNORM:
-					return s_RGB16_SNORM;
+#ifdef GL_COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT
+				case GL_COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT:
+					return s_COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT;
 #endif
-#ifdef GL_RGBA2
-				case GL_RGBA2:
-					return s_RGBA2;
+#ifdef GL_COMPRESSED_RG_RGTC2
+				case GL_COMPRESSED_RG_RGTC2:
+					return s_COMPRESSED_RG_RGTC2;
 #endif
-#ifdef GL_RGBA4
-				case GL_RGBA4:
-					return s_RGBA4;
+#ifdef GL_COMPRESSED_SIGNED_R11_EAC
+				case GL_COMPRESSED_SIGNED_R11_EAC:
+					return s_COMPRESSED_SIGNED_R11_EAC;
 #endif
-#ifdef GL_RGB5_A1
-				case GL_RGB5_A1:
-					return s_RGB5_A1;
+#ifdef GL_COMPRESSED_SIGNED_RED_RGTC1
+				case GL_COMPRESSED_SIGNED_RED_RGTC1:
+					return s_COMPRESSED_SIGNED_RED_RGTC1;
 #endif
-#ifdef GL_RGBA8
-				case GL_RGBA8:
-					return s_RGBA8;
+#ifdef GL_COMPRESSED_SIGNED_RG11_EAC
+				case GL_COMPRESSED_SIGNED_RG11_EAC:
+					return s_COMPRESSED_SIGNED_RG11_EAC;
 #endif
-#ifdef GL_RGBA8_SNORM
-				case GL_RGBA8_SNORM:
-					return s_RGBA8_SNORM;
+#ifdef GL_COMPRESSED_SIGNED_RG_RGTC2
+				case GL_COMPRESSED_SIGNED_RG_RGTC2:
+					return s_COMPRESSED_SIGNED_RG_RGTC2;
 #endif
-#ifdef GL_RGB10_A2
-				case GL_RGB10_A2:
-					return s_RGB10_A2;
+#ifdef GL_COMPRESSED_SRGB
+				case GL_COMPRESSED_SRGB:
+					return s_COMPRESSED_SRGB;
 #endif
-#ifdef GL_RGB10_A2UI
-				case GL_RGB10_A2UI:
-					return s_RGB10_A2UI;
+#ifdef GL_COMPRESSED_SRGB8_ALPHA8_ETC2_EAC
+				case GL_COMPRESSED_SRGB8_ALPHA8_ETC2_EAC:
+					return s_COMPRESSED_SRGB8_ALPHA8_ETC2_EAC;
 #endif
-#ifdef GL_RGBA12
-				case GL_RGBA12:
-					return s_RGBA12;
+#ifdef GL_COMPRESSED_SRGB8_ETC2
+				case GL_COMPRESSED_SRGB8_ETC2:
+					return s_COMPRESSED_SRGB8_ETC2;
 #endif
-#ifdef GL_RGBA16
-				case GL_RGBA16:
-					return s_RGBA16;
+#ifdef GL_COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2
+				case GL_COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2:
+					return s_COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2;
 #endif
-#ifdef GL_RGBA16_SNORM
-				case GL_RGBA16_SNORM:
-					return s_RGBA16_SNORM;
+#ifdef GL_COMPRESSED_SRGB_ALPHA
+				case GL_COMPRESSED_SRGB_ALPHA:
+					return s_COMPRESSED_SRGB_ALPHA;
 #endif
-#ifdef GL_SRGB8
-				case GL_SRGB8:
-					return s_SRGB8;
+#ifdef GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM
+				case GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM:
+					return s_COMPRESSED_SRGB_ALPHA_BPTC_UNORM;
 #endif
-#ifdef GL_SRGB8_ALPHA8
-				case GL_SRGB8_ALPHA8:
-					return s_SRGB8_ALPHA8;
+#ifdef GL_DEPTH24_STENCIL8
+				case GL_DEPTH24_STENCIL8:
+					return s_DEPTH24_STENCIL8;
 #endif
-#ifdef GL_R16F
-				case GL_R16F:
-					return s_R16F;
+#ifdef GL_DEPTH32F_STENCIL8
+				case GL_DEPTH32F_STENCIL8:
+					return s_DEPTH32F_STENCIL8;
 #endif
-#ifdef GL_RG16F
-				case GL_RG16F:
-					return s_RG16F;
-#endif
-#ifdef GL_RGB16F
-				case GL_RGB16F:
-					return s_RGB16F;
-#endif
-#ifdef GL_RGBA16F
-				case GL_RGBA16F:
-					return s_RGBA16F;
-#endif
-#ifdef GL_R32F
-				case GL_R32F:
-					return s_R32F;
-#endif
-#ifdef GL_RG32F
-				case GL_RG32F:
-					return s_RG32F;
-#endif
-#ifdef GL_RGB32F
-				case GL_RGB32F:
-					return s_RGB32F;
-#endif
-#ifdef GL_RGBA32F
-				case GL_RGBA32F:
-					return s_RGBA32F;
-#endif
-#ifdef GL_R11F_G11F_B10F
-				case GL_R11F_G11F_B10F:
-					return s_R11F_G11F_B10F;
-#endif
-#ifdef GL_RGB9_E5
-				case GL_RGB9_E5:
-					return s_RGB9_E5;
-#endif
-#ifdef GL_R8I
-				case GL_R8I:
-					return s_R8I;
-#endif
-#ifdef GL_R8UI
-				case GL_R8UI:
-					return s_R8UI;
-#endif
-#ifdef GL_R16I
-				case GL_R16I:
-					return s_R16I;
-#endif
-#ifdef GL_R16UI
-				case GL_R16UI:
-					return s_R16UI;
-#endif
-#ifdef GL_R32I
-				case GL_R32I:
-					return s_R32I;
-#endif
-#ifdef GL_R32UI
-				case GL_R32UI:
-					return s_R32UI;
-#endif
-#ifdef GL_RG8I
-				case GL_RG8I:
-					return s_RG8I;
-#endif
-#ifdef GL_RG8UI
-				case GL_RG8UI:
-					return s_RG8UI;
-#endif
-#ifdef GL_RG16I
-				case GL_RG16I:
-					return s_RG16I;
-#endif
-#ifdef GL_RG16UI
-				case GL_RG16UI:
-					return s_RG16UI;
-#endif
-#ifdef GL_RG32I
-				case GL_RG32I:
-					return s_RG32I;
-#endif
-#ifdef GL_RG32UI
-				case GL_RG32UI:
-					return s_RG32UI;
-#endif
-#ifdef GL_RGB8I
-				case GL_RGB8I:
-					return s_RGB8I;
-#endif
-#ifdef GL_RGB8UI
-				case GL_RGB8UI:
-					return s_RGB8UI;
-#endif
-#ifdef GL_RGBA8I
-				case GL_RGBA8I:
-					return s_RGBA8I;
-#endif
-#ifdef GL_RGBA8UI
-				case GL_RGBA8UI:
-					return s_RGBA8UI;
-#endif
-#ifdef GL_RGBA16I
-				case GL_RGBA16I:
-					return s_RGBA16I;
-#endif
-#ifdef GL_RGBA16UI
-				case GL_RGBA16UI:
-					return s_RGBA16UI;
-#endif
-#ifdef GL_RGBA32I
-				case GL_RGBA32I:
-					return s_RGBA32I;
-#endif
-#ifdef GL_RGBA32UI
-				case GL_RGBA32UI:
-					return s_RGBA32UI;
+#ifdef GL_DEPTH_COMPONENT
+				case GL_DEPTH_COMPONENT:
+					return s_DEPTH_COMPONENT;
 #endif
 #ifdef GL_DEPTH_COMPONENT16
 				case GL_DEPTH_COMPONENT16:
@@ -5639,109 +5467,281 @@ noexcept
 				case GL_DEPTH_COMPONENT32F:
 					return s_DEPTH_COMPONENT32F;
 #endif
-#ifdef GL_DEPTH24_STENCIL8
-				case GL_DEPTH24_STENCIL8:
-					return s_DEPTH24_STENCIL8;
+#ifdef GL_DEPTH_STENCIL
+				case GL_DEPTH_STENCIL:
+					return s_DEPTH_STENCIL;
 #endif
-#ifdef GL_DEPTH32F_STENCIL8
-				case GL_DEPTH32F_STENCIL8:
-					return s_DEPTH32F_STENCIL8;
+#ifdef GL_R11F_G11F_B10F
+				case GL_R11F_G11F_B10F:
+					return s_R11F_G11F_B10F;
 #endif
-#ifdef GL_COMPRESSED_RED
-				case GL_COMPRESSED_RED:
-					return s_COMPRESSED_RED;
+#ifdef GL_R16
+				case GL_R16:
+					return s_R16;
 #endif
-#ifdef GL_COMPRESSED_RG
-				case GL_COMPRESSED_RG:
-					return s_COMPRESSED_RG;
+#ifdef GL_R16F
+				case GL_R16F:
+					return s_R16F;
 #endif
-#ifdef GL_COMPRESSED_RGB
-				case GL_COMPRESSED_RGB:
-					return s_COMPRESSED_RGB;
+#ifdef GL_R16I
+				case GL_R16I:
+					return s_R16I;
 #endif
-#ifdef GL_COMPRESSED_RGBA
-				case GL_COMPRESSED_RGBA:
-					return s_COMPRESSED_RGBA;
+#ifdef GL_R16UI
+				case GL_R16UI:
+					return s_R16UI;
 #endif
-#ifdef GL_COMPRESSED_SRGB
-				case GL_COMPRESSED_SRGB:
-					return s_COMPRESSED_SRGB;
+#ifdef GL_R16_SNORM
+				case GL_R16_SNORM:
+					return s_R16_SNORM;
 #endif
-#ifdef GL_COMPRESSED_SRGB_ALPHA
-				case GL_COMPRESSED_SRGB_ALPHA:
-					return s_COMPRESSED_SRGB_ALPHA;
+#ifdef GL_R32F
+				case GL_R32F:
+					return s_R32F;
 #endif
-#ifdef GL_COMPRESSED_RED_RGTC1
-				case GL_COMPRESSED_RED_RGTC1:
-					return s_COMPRESSED_RED_RGTC1;
+#ifdef GL_R32I
+				case GL_R32I:
+					return s_R32I;
 #endif
-#ifdef GL_COMPRESSED_SIGNED_RED_RGTC1
-				case GL_COMPRESSED_SIGNED_RED_RGTC1:
-					return s_COMPRESSED_SIGNED_RED_RGTC1;
+#ifdef GL_R32UI
+				case GL_R32UI:
+					return s_R32UI;
 #endif
-#ifdef GL_COMPRESSED_RG_RGTC2
-				case GL_COMPRESSED_RG_RGTC2:
-					return s_COMPRESSED_RG_RGTC2;
+#ifdef GL_R3_G3_B2
+				case GL_R3_G3_B2:
+					return s_R3_G3_B2;
 #endif
-#ifdef GL_COMPRESSED_SIGNED_RG_RGTC2
-				case GL_COMPRESSED_SIGNED_RG_RGTC2:
-					return s_COMPRESSED_SIGNED_RG_RGTC2;
+#ifdef GL_R8
+				case GL_R8:
+					return s_R8;
 #endif
-#ifdef GL_COMPRESSED_RGBA_BPTC_UNORM
-				case GL_COMPRESSED_RGBA_BPTC_UNORM:
-					return s_COMPRESSED_RGBA_BPTC_UNORM;
+#ifdef GL_R8I
+				case GL_R8I:
+					return s_R8I;
 #endif
-#ifdef GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM
-				case GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM:
-					return s_COMPRESSED_SRGB_ALPHA_BPTC_UNORM;
+#ifdef GL_R8UI
+				case GL_R8UI:
+					return s_R8UI;
 #endif
-#ifdef GL_COMPRESSED_RGB_BPTC_SIGNED_FLOAT
-				case GL_COMPRESSED_RGB_BPTC_SIGNED_FLOAT:
-					return s_COMPRESSED_RGB_BPTC_SIGNED_FLOAT;
+#ifdef GL_R8_SNORM
+				case GL_R8_SNORM:
+					return s_R8_SNORM;
 #endif
-#ifdef GL_COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT
-				case GL_COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT:
-					return s_COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT;
+#ifdef GL_RED
+				case GL_RED:
+					return s_RED;
 #endif
-#ifdef GL_COMPRESSED_RGB8_ETC2
-				case GL_COMPRESSED_RGB8_ETC2:
-					return s_COMPRESSED_RGB8_ETC2;
+#ifdef GL_RG
+				case GL_RG:
+					return s_RG;
 #endif
-#ifdef GL_COMPRESSED_SRGB8_ETC2
-				case GL_COMPRESSED_SRGB8_ETC2:
-					return s_COMPRESSED_SRGB8_ETC2;
+#ifdef GL_RG16
+				case GL_RG16:
+					return s_RG16;
 #endif
-#ifdef GL_COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2
-				case GL_COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2:
-					return s_COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2;
+#ifdef GL_RG16F
+				case GL_RG16F:
+					return s_RG16F;
 #endif
-#ifdef GL_COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2
-				case GL_COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2:
-					return s_COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2;
+#ifdef GL_RG16I
+				case GL_RG16I:
+					return s_RG16I;
 #endif
-#ifdef GL_COMPRESSED_RGBA8_ETC2_EAC
-				case GL_COMPRESSED_RGBA8_ETC2_EAC:
-					return s_COMPRESSED_RGBA8_ETC2_EAC;
+#ifdef GL_RG16UI
+				case GL_RG16UI:
+					return s_RG16UI;
 #endif
-#ifdef GL_COMPRESSED_SRGB8_ALPHA8_ETC2_EAC
-				case GL_COMPRESSED_SRGB8_ALPHA8_ETC2_EAC:
-					return s_COMPRESSED_SRGB8_ALPHA8_ETC2_EAC;
+#ifdef GL_RG16_SNORM
+				case GL_RG16_SNORM:
+					return s_RG16_SNORM;
 #endif
-#ifdef GL_COMPRESSED_R11_EAC
-				case GL_COMPRESSED_R11_EAC:
-					return s_COMPRESSED_R11_EAC;
+#ifdef GL_RG32F
+				case GL_RG32F:
+					return s_RG32F;
 #endif
-#ifdef GL_COMPRESSED_SIGNED_R11_EAC
-				case GL_COMPRESSED_SIGNED_R11_EAC:
-					return s_COMPRESSED_SIGNED_R11_EAC;
+#ifdef GL_RG32I
+				case GL_RG32I:
+					return s_RG32I;
 #endif
-#ifdef GL_COMPRESSED_RG11_EAC
-				case GL_COMPRESSED_RG11_EAC:
-					return s_COMPRESSED_RG11_EAC;
+#ifdef GL_RG32UI
+				case GL_RG32UI:
+					return s_RG32UI;
 #endif
-#ifdef GL_COMPRESSED_SIGNED_RG11_EAC
-				case GL_COMPRESSED_SIGNED_RG11_EAC:
-					return s_COMPRESSED_SIGNED_RG11_EAC;
+#ifdef GL_RG8
+				case GL_RG8:
+					return s_RG8;
+#endif
+#ifdef GL_RG8I
+				case GL_RG8I:
+					return s_RG8I;
+#endif
+#ifdef GL_RG8UI
+				case GL_RG8UI:
+					return s_RG8UI;
+#endif
+#ifdef GL_RG8_SNORM
+				case GL_RG8_SNORM:
+					return s_RG8_SNORM;
+#endif
+#ifdef GL_RGB
+				case GL_RGB:
+					return s_RGB;
+#endif
+#ifdef GL_RGB10
+				case GL_RGB10:
+					return s_RGB10;
+#endif
+#ifdef GL_RGB10_A2
+				case GL_RGB10_A2:
+					return s_RGB10_A2;
+#endif
+#ifdef GL_RGB10_A2UI
+				case GL_RGB10_A2UI:
+					return s_RGB10_A2UI;
+#endif
+#ifdef GL_RGB12
+				case GL_RGB12:
+					return s_RGB12;
+#endif
+#ifdef GL_RGB16
+				case GL_RGB16:
+					return s_RGB16;
+#endif
+#ifdef GL_RGB16F
+				case GL_RGB16F:
+					return s_RGB16F;
+#endif
+#ifdef GL_RGB16I
+				case GL_RGB16I:
+					return s_RGB16I;
+#endif
+#ifdef GL_RGB16UI
+				case GL_RGB16UI:
+					return s_RGB16UI;
+#endif
+#ifdef GL_RGB16_SNORM
+				case GL_RGB16_SNORM:
+					return s_RGB16_SNORM;
+#endif
+#ifdef GL_RGB32F
+				case GL_RGB32F:
+					return s_RGB32F;
+#endif
+#ifdef GL_RGB32I
+				case GL_RGB32I:
+					return s_RGB32I;
+#endif
+#ifdef GL_RGB32UI
+				case GL_RGB32UI:
+					return s_RGB32UI;
+#endif
+#ifdef GL_RGB4
+				case GL_RGB4:
+					return s_RGB4;
+#endif
+#ifdef GL_RGB5
+				case GL_RGB5:
+					return s_RGB5;
+#endif
+#ifdef GL_RGB5_A1
+				case GL_RGB5_A1:
+					return s_RGB5_A1;
+#endif
+#ifdef GL_RGB8
+				case GL_RGB8:
+					return s_RGB8;
+#endif
+#ifdef GL_RGB8I
+				case GL_RGB8I:
+					return s_RGB8I;
+#endif
+#ifdef GL_RGB8UI
+				case GL_RGB8UI:
+					return s_RGB8UI;
+#endif
+#ifdef GL_RGB8_SNORM
+				case GL_RGB8_SNORM:
+					return s_RGB8_SNORM;
+#endif
+#ifdef GL_RGB9_E5
+				case GL_RGB9_E5:
+					return s_RGB9_E5;
+#endif
+#ifdef GL_RGBA
+				case GL_RGBA:
+					return s_RGBA;
+#endif
+#ifdef GL_RGBA12
+				case GL_RGBA12:
+					return s_RGBA12;
+#endif
+#ifdef GL_RGBA16
+				case GL_RGBA16:
+					return s_RGBA16;
+#endif
+#ifdef GL_RGBA16F
+				case GL_RGBA16F:
+					return s_RGBA16F;
+#endif
+#ifdef GL_RGBA16I
+				case GL_RGBA16I:
+					return s_RGBA16I;
+#endif
+#ifdef GL_RGBA16UI
+				case GL_RGBA16UI:
+					return s_RGBA16UI;
+#endif
+#ifdef GL_RGBA16_SNORM
+				case GL_RGBA16_SNORM:
+					return s_RGBA16_SNORM;
+#endif
+#ifdef GL_RGBA2
+				case GL_RGBA2:
+					return s_RGBA2;
+#endif
+#ifdef GL_RGBA32F
+				case GL_RGBA32F:
+					return s_RGBA32F;
+#endif
+#ifdef GL_RGBA32I
+				case GL_RGBA32I:
+					return s_RGBA32I;
+#endif
+#ifdef GL_RGBA32UI
+				case GL_RGBA32UI:
+					return s_RGBA32UI;
+#endif
+#ifdef GL_RGBA4
+				case GL_RGBA4:
+					return s_RGBA4;
+#endif
+#ifdef GL_RGBA8
+				case GL_RGBA8:
+					return s_RGBA8;
+#endif
+#ifdef GL_RGBA8I
+				case GL_RGBA8I:
+					return s_RGBA8I;
+#endif
+#ifdef GL_RGBA8UI
+				case GL_RGBA8UI:
+					return s_RGBA8UI;
+#endif
+#ifdef GL_RGBA8_SNORM
+				case GL_RGBA8_SNORM:
+					return s_RGBA8_SNORM;
+#endif
+#ifdef GL_SRGB8
+				case GL_SRGB8:
+					return s_SRGB8;
+#endif
+#ifdef GL_SRGB8_ALPHA8
+				case GL_SRGB8_ALPHA8:
+					return s_SRGB8_ALPHA8;
+#endif
+#ifdef GL_STENCIL_INDEX8
+				case GL_STENCIL_INDEX8:
+					return s_STENCIL_INDEX8;
 #endif
 				default:;
 			}
@@ -5749,57 +5749,81 @@ noexcept
 		case 44: /* pixel_data_type */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_UNSIGNED_BYTE
-				case GL_UNSIGNED_BYTE:
-					return s_UNSIGNED_BYTE;
-#endif
 #ifdef GL_BYTE
 				case GL_BYTE:
 					return s_BYTE;
-#endif
-#ifdef GL_UNSIGNED_SHORT
-				case GL_UNSIGNED_SHORT:
-					return s_UNSIGNED_SHORT;
-#endif
-#ifdef GL_SHORT
-				case GL_SHORT:
-					return s_SHORT;
-#endif
-#ifdef GL_UNSIGNED_INT
-				case GL_UNSIGNED_INT:
-					return s_UNSIGNED_INT;
-#endif
-#ifdef GL_FLOAT_32_UNSIGNED_INT_24_8_REV
-				case GL_FLOAT_32_UNSIGNED_INT_24_8_REV:
-					return s_FLOAT_32_UNSIGNED_INT_24_8_REV;
-#endif
-#ifdef GL_INT
-				case GL_INT:
-					return s_INT;
-#endif
-#ifdef GL_HALF_FLOAT
-				case GL_HALF_FLOAT:
-					return s_HALF_FLOAT;
 #endif
 #ifdef GL_FLOAT
 				case GL_FLOAT:
 					return s_FLOAT;
 #endif
-#ifdef GL_UNSIGNED_BYTE_3_3_2
-				case GL_UNSIGNED_BYTE_3_3_2:
-					return s_UNSIGNED_BYTE_3_3_2;
+#ifdef GL_FLOAT_32_UNSIGNED_INT_24_8_REV
+				case GL_FLOAT_32_UNSIGNED_INT_24_8_REV:
+					return s_FLOAT_32_UNSIGNED_INT_24_8_REV;
+#endif
+#ifdef GL_HALF_FLOAT
+				case GL_HALF_FLOAT:
+					return s_HALF_FLOAT;
+#endif
+#ifdef GL_INT
+				case GL_INT:
+					return s_INT;
+#endif
+#ifdef GL_SHORT
+				case GL_SHORT:
+					return s_SHORT;
+#endif
+#ifdef GL_UNSIGNED_BYTE
+				case GL_UNSIGNED_BYTE:
+					return s_UNSIGNED_BYTE;
 #endif
 #ifdef GL_UNSIGNED_BYTE_2_3_3_REV
 				case GL_UNSIGNED_BYTE_2_3_3_REV:
 					return s_UNSIGNED_BYTE_2_3_3_REV;
 #endif
-#ifdef GL_UNSIGNED_SHORT_5_6_5
-				case GL_UNSIGNED_SHORT_5_6_5:
-					return s_UNSIGNED_SHORT_5_6_5;
+#ifdef GL_UNSIGNED_BYTE_3_3_2
+				case GL_UNSIGNED_BYTE_3_3_2:
+					return s_UNSIGNED_BYTE_3_3_2;
 #endif
-#ifdef GL_UNSIGNED_SHORT_5_6_5_REV
-				case GL_UNSIGNED_SHORT_5_6_5_REV:
-					return s_UNSIGNED_SHORT_5_6_5_REV;
+#ifdef GL_UNSIGNED_INT
+				case GL_UNSIGNED_INT:
+					return s_UNSIGNED_INT;
+#endif
+#ifdef GL_UNSIGNED_INT_10F_11F_11F_REV
+				case GL_UNSIGNED_INT_10F_11F_11F_REV:
+					return s_UNSIGNED_INT_10F_11F_11F_REV;
+#endif
+#ifdef GL_UNSIGNED_INT_10_10_10_2
+				case GL_UNSIGNED_INT_10_10_10_2:
+					return s_UNSIGNED_INT_10_10_10_2;
+#endif
+#ifdef GL_UNSIGNED_INT_24_8
+				case GL_UNSIGNED_INT_24_8:
+					return s_UNSIGNED_INT_24_8;
+#endif
+#ifdef GL_UNSIGNED_INT_2_10_10_10_REV
+				case GL_UNSIGNED_INT_2_10_10_10_REV:
+					return s_UNSIGNED_INT_2_10_10_10_REV;
+#endif
+#ifdef GL_UNSIGNED_INT_5_9_9_9_REV
+				case GL_UNSIGNED_INT_5_9_9_9_REV:
+					return s_UNSIGNED_INT_5_9_9_9_REV;
+#endif
+#ifdef GL_UNSIGNED_INT_8_8_8_8
+				case GL_UNSIGNED_INT_8_8_8_8:
+					return s_UNSIGNED_INT_8_8_8_8;
+#endif
+#ifdef GL_UNSIGNED_INT_8_8_8_8_REV
+				case GL_UNSIGNED_INT_8_8_8_8_REV:
+					return s_UNSIGNED_INT_8_8_8_8_REV;
+#endif
+#ifdef GL_UNSIGNED_SHORT
+				case GL_UNSIGNED_SHORT:
+					return s_UNSIGNED_SHORT;
+#endif
+#ifdef GL_UNSIGNED_SHORT_1_5_5_5_REV
+				case GL_UNSIGNED_SHORT_1_5_5_5_REV:
+					return s_UNSIGNED_SHORT_1_5_5_5_REV;
 #endif
 #ifdef GL_UNSIGNED_SHORT_4_4_4_4
 				case GL_UNSIGNED_SHORT_4_4_4_4:
@@ -5813,37 +5837,13 @@ noexcept
 				case GL_UNSIGNED_SHORT_5_5_5_1:
 					return s_UNSIGNED_SHORT_5_5_5_1;
 #endif
-#ifdef GL_UNSIGNED_SHORT_1_5_5_5_REV
-				case GL_UNSIGNED_SHORT_1_5_5_5_REV:
-					return s_UNSIGNED_SHORT_1_5_5_5_REV;
+#ifdef GL_UNSIGNED_SHORT_5_6_5
+				case GL_UNSIGNED_SHORT_5_6_5:
+					return s_UNSIGNED_SHORT_5_6_5;
 #endif
-#ifdef GL_UNSIGNED_INT_8_8_8_8
-				case GL_UNSIGNED_INT_8_8_8_8:
-					return s_UNSIGNED_INT_8_8_8_8;
-#endif
-#ifdef GL_UNSIGNED_INT_8_8_8_8_REV
-				case GL_UNSIGNED_INT_8_8_8_8_REV:
-					return s_UNSIGNED_INT_8_8_8_8_REV;
-#endif
-#ifdef GL_UNSIGNED_INT_10_10_10_2
-				case GL_UNSIGNED_INT_10_10_10_2:
-					return s_UNSIGNED_INT_10_10_10_2;
-#endif
-#ifdef GL_UNSIGNED_INT_2_10_10_10_REV
-				case GL_UNSIGNED_INT_2_10_10_10_REV:
-					return s_UNSIGNED_INT_2_10_10_10_REV;
-#endif
-#ifdef GL_UNSIGNED_INT_24_8
-				case GL_UNSIGNED_INT_24_8:
-					return s_UNSIGNED_INT_24_8;
-#endif
-#ifdef GL_UNSIGNED_INT_10F_11F_11F_REV
-				case GL_UNSIGNED_INT_10F_11F_11F_REV:
-					return s_UNSIGNED_INT_10F_11F_11F_REV;
-#endif
-#ifdef GL_UNSIGNED_INT_5_9_9_9_REV
-				case GL_UNSIGNED_INT_5_9_9_9_REV:
-					return s_UNSIGNED_INT_5_9_9_9_REV;
+#ifdef GL_UNSIGNED_SHORT_5_6_5_REV
+				case GL_UNSIGNED_SHORT_5_6_5_REV:
+					return s_UNSIGNED_SHORT_5_6_5_REV;
 #endif
 				default:;
 			}
@@ -5851,9 +5851,29 @@ noexcept
 		case 45: /* pixel_parameter */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_PACK_SWAP_BYTES
-				case GL_PACK_SWAP_BYTES:
-					return s_PACK_SWAP_BYTES;
+#ifdef GL_PACK_ALIGNMENT
+				case GL_PACK_ALIGNMENT:
+					return s_PACK_ALIGNMENT;
+#endif
+#ifdef GL_PACK_COMPRESSED_BLOCK_DEPTH
+				case GL_PACK_COMPRESSED_BLOCK_DEPTH:
+					return s_PACK_COMPRESSED_BLOCK_DEPTH;
+#endif
+#ifdef GL_PACK_COMPRESSED_BLOCK_HEIGHT
+				case GL_PACK_COMPRESSED_BLOCK_HEIGHT:
+					return s_PACK_COMPRESSED_BLOCK_HEIGHT;
+#endif
+#ifdef GL_PACK_COMPRESSED_BLOCK_SIZE
+				case GL_PACK_COMPRESSED_BLOCK_SIZE:
+					return s_PACK_COMPRESSED_BLOCK_SIZE;
+#endif
+#ifdef GL_PACK_COMPRESSED_BLOCK_WIDTH
+				case GL_PACK_COMPRESSED_BLOCK_WIDTH:
+					return s_PACK_COMPRESSED_BLOCK_WIDTH;
+#endif
+#ifdef GL_PACK_IMAGE_HEIGHT
+				case GL_PACK_IMAGE_HEIGHT:
+					return s_PACK_IMAGE_HEIGHT;
 #endif
 #ifdef GL_PACK_LSB_FIRST
 				case GL_PACK_LSB_FIRST:
@@ -5863,45 +5883,45 @@ noexcept
 				case GL_PACK_ROW_LENGTH:
 					return s_PACK_ROW_LENGTH;
 #endif
-#ifdef GL_PACK_SKIP_ROWS
-				case GL_PACK_SKIP_ROWS:
-					return s_PACK_SKIP_ROWS;
+#ifdef GL_PACK_SKIP_IMAGES
+				case GL_PACK_SKIP_IMAGES:
+					return s_PACK_SKIP_IMAGES;
 #endif
 #ifdef GL_PACK_SKIP_PIXELS
 				case GL_PACK_SKIP_PIXELS:
 					return s_PACK_SKIP_PIXELS;
 #endif
-#ifdef GL_PACK_ALIGNMENT
-				case GL_PACK_ALIGNMENT:
-					return s_PACK_ALIGNMENT;
+#ifdef GL_PACK_SKIP_ROWS
+				case GL_PACK_SKIP_ROWS:
+					return s_PACK_SKIP_ROWS;
 #endif
-#ifdef GL_PACK_IMAGE_HEIGHT
-				case GL_PACK_IMAGE_HEIGHT:
-					return s_PACK_IMAGE_HEIGHT;
+#ifdef GL_PACK_SWAP_BYTES
+				case GL_PACK_SWAP_BYTES:
+					return s_PACK_SWAP_BYTES;
 #endif
-#ifdef GL_PACK_SKIP_IMAGES
-				case GL_PACK_SKIP_IMAGES:
-					return s_PACK_SKIP_IMAGES;
+#ifdef GL_UNPACK_ALIGNMENT
+				case GL_UNPACK_ALIGNMENT:
+					return s_UNPACK_ALIGNMENT;
 #endif
-#ifdef GL_PACK_COMPRESSED_BLOCK_WIDTH
-				case GL_PACK_COMPRESSED_BLOCK_WIDTH:
-					return s_PACK_COMPRESSED_BLOCK_WIDTH;
+#ifdef GL_UNPACK_COMPRESSED_BLOCK_DEPTH
+				case GL_UNPACK_COMPRESSED_BLOCK_DEPTH:
+					return s_UNPACK_COMPRESSED_BLOCK_DEPTH;
 #endif
-#ifdef GL_PACK_COMPRESSED_BLOCK_HEIGHT
-				case GL_PACK_COMPRESSED_BLOCK_HEIGHT:
-					return s_PACK_COMPRESSED_BLOCK_HEIGHT;
+#ifdef GL_UNPACK_COMPRESSED_BLOCK_HEIGHT
+				case GL_UNPACK_COMPRESSED_BLOCK_HEIGHT:
+					return s_UNPACK_COMPRESSED_BLOCK_HEIGHT;
 #endif
-#ifdef GL_PACK_COMPRESSED_BLOCK_DEPTH
-				case GL_PACK_COMPRESSED_BLOCK_DEPTH:
-					return s_PACK_COMPRESSED_BLOCK_DEPTH;
+#ifdef GL_UNPACK_COMPRESSED_BLOCK_SIZE
+				case GL_UNPACK_COMPRESSED_BLOCK_SIZE:
+					return s_UNPACK_COMPRESSED_BLOCK_SIZE;
 #endif
-#ifdef GL_PACK_COMPRESSED_BLOCK_SIZE
-				case GL_PACK_COMPRESSED_BLOCK_SIZE:
-					return s_PACK_COMPRESSED_BLOCK_SIZE;
+#ifdef GL_UNPACK_COMPRESSED_BLOCK_WIDTH
+				case GL_UNPACK_COMPRESSED_BLOCK_WIDTH:
+					return s_UNPACK_COMPRESSED_BLOCK_WIDTH;
 #endif
-#ifdef GL_UNPACK_SWAP_BYTES
-				case GL_UNPACK_SWAP_BYTES:
-					return s_UNPACK_SWAP_BYTES;
+#ifdef GL_UNPACK_IMAGE_HEIGHT
+				case GL_UNPACK_IMAGE_HEIGHT:
+					return s_UNPACK_IMAGE_HEIGHT;
 #endif
 #ifdef GL_UNPACK_LSB_FIRST
 				case GL_UNPACK_LSB_FIRST:
@@ -5911,41 +5931,21 @@ noexcept
 				case GL_UNPACK_ROW_LENGTH:
 					return s_UNPACK_ROW_LENGTH;
 #endif
-#ifdef GL_UNPACK_SKIP_ROWS
-				case GL_UNPACK_SKIP_ROWS:
-					return s_UNPACK_SKIP_ROWS;
+#ifdef GL_UNPACK_SKIP_IMAGES
+				case GL_UNPACK_SKIP_IMAGES:
+					return s_UNPACK_SKIP_IMAGES;
 #endif
 #ifdef GL_UNPACK_SKIP_PIXELS
 				case GL_UNPACK_SKIP_PIXELS:
 					return s_UNPACK_SKIP_PIXELS;
 #endif
-#ifdef GL_UNPACK_ALIGNMENT
-				case GL_UNPACK_ALIGNMENT:
-					return s_UNPACK_ALIGNMENT;
+#ifdef GL_UNPACK_SKIP_ROWS
+				case GL_UNPACK_SKIP_ROWS:
+					return s_UNPACK_SKIP_ROWS;
 #endif
-#ifdef GL_UNPACK_IMAGE_HEIGHT
-				case GL_UNPACK_IMAGE_HEIGHT:
-					return s_UNPACK_IMAGE_HEIGHT;
-#endif
-#ifdef GL_UNPACK_SKIP_IMAGES
-				case GL_UNPACK_SKIP_IMAGES:
-					return s_UNPACK_SKIP_IMAGES;
-#endif
-#ifdef GL_UNPACK_COMPRESSED_BLOCK_WIDTH
-				case GL_UNPACK_COMPRESSED_BLOCK_WIDTH:
-					return s_UNPACK_COMPRESSED_BLOCK_WIDTH;
-#endif
-#ifdef GL_UNPACK_COMPRESSED_BLOCK_HEIGHT
-				case GL_UNPACK_COMPRESSED_BLOCK_HEIGHT:
-					return s_UNPACK_COMPRESSED_BLOCK_HEIGHT;
-#endif
-#ifdef GL_UNPACK_COMPRESSED_BLOCK_DEPTH
-				case GL_UNPACK_COMPRESSED_BLOCK_DEPTH:
-					return s_UNPACK_COMPRESSED_BLOCK_DEPTH;
-#endif
-#ifdef GL_UNPACK_COMPRESSED_BLOCK_SIZE
-				case GL_UNPACK_COMPRESSED_BLOCK_SIZE:
-					return s_UNPACK_COMPRESSED_BLOCK_SIZE;
+#ifdef GL_UNPACK_SWAP_BYTES
+				case GL_UNPACK_SWAP_BYTES:
+					return s_UNPACK_SWAP_BYTES;
 #endif
 				default:;
 			}
@@ -5953,21 +5953,21 @@ noexcept
 		case 46: /* polygon_mode */
 			switch(GLenum(aev._value))
 			{
+#ifdef GL_FILL
+				case GL_FILL:
+					return s_FILL;
+#endif
 #ifdef GL_FILL_RECTANGLE_NV
 				case GL_FILL_RECTANGLE_NV:
 					return s_FILL_RECTANGLE_NV;
-#endif
-#ifdef GL_POINT
-				case GL_POINT:
-					return s_POINT;
 #endif
 #ifdef GL_LINE
 				case GL_LINE:
 					return s_LINE;
 #endif
-#ifdef GL_FILL
-				case GL_FILL:
-					return s_FILL;
+#ifdef GL_POINT
+				case GL_POINT:
+					return s_POINT;
 #endif
 				default:;
 			}
@@ -5975,29 +5975,29 @@ noexcept
 		case 47: /* precision_type */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_LOW_FLOAT
-				case GL_LOW_FLOAT:
-					return s_LOW_FLOAT;
-#endif
-#ifdef GL_MEDIUM_FLOAT
-				case GL_MEDIUM_FLOAT:
-					return s_MEDIUM_FLOAT;
-#endif
 #ifdef GL_HIGH_FLOAT
 				case GL_HIGH_FLOAT:
 					return s_HIGH_FLOAT;
+#endif
+#ifdef GL_HIGH_INT
+				case GL_HIGH_INT:
+					return s_HIGH_INT;
+#endif
+#ifdef GL_LOW_FLOAT
+				case GL_LOW_FLOAT:
+					return s_LOW_FLOAT;
 #endif
 #ifdef GL_LOW_INT
 				case GL_LOW_INT:
 					return s_LOW_INT;
 #endif
+#ifdef GL_MEDIUM_FLOAT
+				case GL_MEDIUM_FLOAT:
+					return s_MEDIUM_FLOAT;
+#endif
 #ifdef GL_MEDIUM_INT
 				case GL_MEDIUM_INT:
 					return s_MEDIUM_INT;
-#endif
-#ifdef GL_HIGH_INT
-				case GL_HIGH_INT:
-					return s_HIGH_INT;
 #endif
 				default:;
 			}
@@ -6005,49 +6005,49 @@ noexcept
 		case 48: /* primitive_type */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_POINTS
-				case GL_POINTS:
-					return s_POINTS;
-#endif
-#ifdef GL_LINE_STRIP
-				case GL_LINE_STRIP:
-					return s_LINE_STRIP;
-#endif
-#ifdef GL_LINE_LOOP
-				case GL_LINE_LOOP:
-					return s_LINE_LOOP;
-#endif
 #ifdef GL_LINES
 				case GL_LINES:
 					return s_LINES;
-#endif
-#ifdef GL_PATCHES
-				case GL_PATCHES:
-					return s_PATCHES;
-#endif
-#ifdef GL_TRIANGLE_STRIP
-				case GL_TRIANGLE_STRIP:
-					return s_TRIANGLE_STRIP;
-#endif
-#ifdef GL_TRIANGLE_FAN
-				case GL_TRIANGLE_FAN:
-					return s_TRIANGLE_FAN;
-#endif
-#ifdef GL_TRIANGLES
-				case GL_TRIANGLES:
-					return s_TRIANGLES;
 #endif
 #ifdef GL_LINES_ADJACENCY
 				case GL_LINES_ADJACENCY:
 					return s_LINES_ADJACENCY;
 #endif
+#ifdef GL_LINE_LOOP
+				case GL_LINE_LOOP:
+					return s_LINE_LOOP;
+#endif
+#ifdef GL_LINE_STRIP
+				case GL_LINE_STRIP:
+					return s_LINE_STRIP;
+#endif
 #ifdef GL_LINE_STRIP_ADJACENCY
 				case GL_LINE_STRIP_ADJACENCY:
 					return s_LINE_STRIP_ADJACENCY;
 #endif
+#ifdef GL_PATCHES
+				case GL_PATCHES:
+					return s_PATCHES;
+#endif
+#ifdef GL_POINTS
+				case GL_POINTS:
+					return s_POINTS;
+#endif
+#ifdef GL_TRIANGLES
+				case GL_TRIANGLES:
+					return s_TRIANGLES;
+#endif
 #ifdef GL_TRIANGLES_ADJACENCY
 				case GL_TRIANGLES_ADJACENCY:
 					return s_TRIANGLES_ADJACENCY;
+#endif
+#ifdef GL_TRIANGLE_FAN
+				case GL_TRIANGLE_FAN:
+					return s_TRIANGLE_FAN;
+#endif
+#ifdef GL_TRIANGLE_STRIP
+				case GL_TRIANGLE_STRIP:
+					return s_TRIANGLE_STRIP;
 #endif
 #ifdef GL_TRIANGLE_STRIP_ADJACENCY
 				case GL_TRIANGLE_STRIP_ADJACENCY:
@@ -6059,17 +6059,37 @@ noexcept
 		case 49: /* program_interface */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_UNIFORM
-				case GL_UNIFORM:
-					return s_UNIFORM;
-#endif
-#ifdef GL_UNIFORM_BLOCK
-				case GL_UNIFORM_BLOCK:
-					return s_UNIFORM_BLOCK;
-#endif
 #ifdef GL_ATOMIC_COUNTER_BUFFER
 				case GL_ATOMIC_COUNTER_BUFFER:
 					return s_ATOMIC_COUNTER_BUFFER;
+#endif
+#ifdef GL_BUFFER_VARIABLE
+				case GL_BUFFER_VARIABLE:
+					return s_BUFFER_VARIABLE;
+#endif
+#ifdef GL_COMPUTE_SUBROUTINE
+				case GL_COMPUTE_SUBROUTINE:
+					return s_COMPUTE_SUBROUTINE;
+#endif
+#ifdef GL_COMPUTE_SUBROUTINE_UNIFORM
+				case GL_COMPUTE_SUBROUTINE_UNIFORM:
+					return s_COMPUTE_SUBROUTINE_UNIFORM;
+#endif
+#ifdef GL_FRAGMENT_SUBROUTINE
+				case GL_FRAGMENT_SUBROUTINE:
+					return s_FRAGMENT_SUBROUTINE;
+#endif
+#ifdef GL_FRAGMENT_SUBROUTINE_UNIFORM
+				case GL_FRAGMENT_SUBROUTINE_UNIFORM:
+					return s_FRAGMENT_SUBROUTINE_UNIFORM;
+#endif
+#ifdef GL_GEOMETRY_SUBROUTINE
+				case GL_GEOMETRY_SUBROUTINE:
+					return s_GEOMETRY_SUBROUTINE;
+#endif
+#ifdef GL_GEOMETRY_SUBROUTINE_UNIFORM
+				case GL_GEOMETRY_SUBROUTINE_UNIFORM:
+					return s_GEOMETRY_SUBROUTINE_UNIFORM;
 #endif
 #ifdef GL_PROGRAM_INPUT
 				case GL_PROGRAM_INPUT:
@@ -6079,65 +6099,45 @@ noexcept
 				case GL_PROGRAM_OUTPUT:
 					return s_PROGRAM_OUTPUT;
 #endif
-#ifdef GL_VERTEX_SUBROUTINE
-				case GL_VERTEX_SUBROUTINE:
-					return s_VERTEX_SUBROUTINE;
+#ifdef GL_SHADER_STORAGE_BLOCK
+				case GL_SHADER_STORAGE_BLOCK:
+					return s_SHADER_STORAGE_BLOCK;
 #endif
 #ifdef GL_TESS_CONTROL_SUBROUTINE
 				case GL_TESS_CONTROL_SUBROUTINE:
 					return s_TESS_CONTROL_SUBROUTINE;
 #endif
-#ifdef GL_TESS_EVALUATION_SUBROUTINE
-				case GL_TESS_EVALUATION_SUBROUTINE:
-					return s_TESS_EVALUATION_SUBROUTINE;
-#endif
-#ifdef GL_GEOMETRY_SUBROUTINE
-				case GL_GEOMETRY_SUBROUTINE:
-					return s_GEOMETRY_SUBROUTINE;
-#endif
-#ifdef GL_FRAGMENT_SUBROUTINE
-				case GL_FRAGMENT_SUBROUTINE:
-					return s_FRAGMENT_SUBROUTINE;
-#endif
-#ifdef GL_COMPUTE_SUBROUTINE
-				case GL_COMPUTE_SUBROUTINE:
-					return s_COMPUTE_SUBROUTINE;
-#endif
-#ifdef GL_VERTEX_SUBROUTINE_UNIFORM
-				case GL_VERTEX_SUBROUTINE_UNIFORM:
-					return s_VERTEX_SUBROUTINE_UNIFORM;
-#endif
 #ifdef GL_TESS_CONTROL_SUBROUTINE_UNIFORM
 				case GL_TESS_CONTROL_SUBROUTINE_UNIFORM:
 					return s_TESS_CONTROL_SUBROUTINE_UNIFORM;
+#endif
+#ifdef GL_TESS_EVALUATION_SUBROUTINE
+				case GL_TESS_EVALUATION_SUBROUTINE:
+					return s_TESS_EVALUATION_SUBROUTINE;
 #endif
 #ifdef GL_TESS_EVALUATION_SUBROUTINE_UNIFORM
 				case GL_TESS_EVALUATION_SUBROUTINE_UNIFORM:
 					return s_TESS_EVALUATION_SUBROUTINE_UNIFORM;
 #endif
-#ifdef GL_GEOMETRY_SUBROUTINE_UNIFORM
-				case GL_GEOMETRY_SUBROUTINE_UNIFORM:
-					return s_GEOMETRY_SUBROUTINE_UNIFORM;
-#endif
-#ifdef GL_FRAGMENT_SUBROUTINE_UNIFORM
-				case GL_FRAGMENT_SUBROUTINE_UNIFORM:
-					return s_FRAGMENT_SUBROUTINE_UNIFORM;
-#endif
-#ifdef GL_COMPUTE_SUBROUTINE_UNIFORM
-				case GL_COMPUTE_SUBROUTINE_UNIFORM:
-					return s_COMPUTE_SUBROUTINE_UNIFORM;
-#endif
 #ifdef GL_TRANSFORM_FEEDEBACK_VARYING
 				case GL_TRANSFORM_FEEDEBACK_VARYING:
 					return s_TRANSFORM_FEEDEBACK_VARYING;
 #endif
-#ifdef GL_BUFFER_VARIABLE
-				case GL_BUFFER_VARIABLE:
-					return s_BUFFER_VARIABLE;
+#ifdef GL_UNIFORM
+				case GL_UNIFORM:
+					return s_UNIFORM;
 #endif
-#ifdef GL_SHADER_STORAGE_BLOCK
-				case GL_SHADER_STORAGE_BLOCK:
-					return s_SHADER_STORAGE_BLOCK;
+#ifdef GL_UNIFORM_BLOCK
+				case GL_UNIFORM_BLOCK:
+					return s_UNIFORM_BLOCK;
+#endif
+#ifdef GL_VERTEX_SUBROUTINE
+				case GL_VERTEX_SUBROUTINE:
+					return s_VERTEX_SUBROUTINE;
+#endif
+#ifdef GL_VERTEX_SUBROUTINE_UNIFORM
+				case GL_VERTEX_SUBROUTINE_UNIFORM:
+					return s_VERTEX_SUBROUTINE_UNIFORM;
 #endif
 				default:;
 			}
@@ -6145,9 +6145,21 @@ noexcept
 		case 50: /* program_pipeline_stage */
 			switch(GLbitfield(aev._value))
 			{
-#ifdef GL_VERTEX_SHADER_BIT
-				case GL_VERTEX_SHADER_BIT:
-					return s_VERTEX_SHADER_BIT;
+#ifdef GL_ALL_SHADER_BITS
+				case GL_ALL_SHADER_BITS:
+					return s_ALL_SHADER_BITS;
+#endif
+#ifdef GL_COMPUTE_SHADER_BIT
+				case GL_COMPUTE_SHADER_BIT:
+					return s_COMPUTE_SHADER_BIT;
+#endif
+#ifdef GL_FRAGMENT_SHADER_BIT
+				case GL_FRAGMENT_SHADER_BIT:
+					return s_FRAGMENT_SHADER_BIT;
+#endif
+#ifdef GL_GEOMETRY_SHADER_BIT
+				case GL_GEOMETRY_SHADER_BIT:
+					return s_GEOMETRY_SHADER_BIT;
 #endif
 #ifdef GL_TESS_CONTROL_SHADER_BIT
 				case GL_TESS_CONTROL_SHADER_BIT:
@@ -6157,21 +6169,9 @@ noexcept
 				case GL_TESS_EVALUATION_SHADER_BIT:
 					return s_TESS_EVALUATION_SHADER_BIT;
 #endif
-#ifdef GL_ALL_SHADER_BITS
-				case GL_ALL_SHADER_BITS:
-					return s_ALL_SHADER_BITS;
-#endif
-#ifdef GL_GEOMETRY_SHADER_BIT
-				case GL_GEOMETRY_SHADER_BIT:
-					return s_GEOMETRY_SHADER_BIT;
-#endif
-#ifdef GL_FRAGMENT_SHADER_BIT
-				case GL_FRAGMENT_SHADER_BIT:
-					return s_FRAGMENT_SHADER_BIT;
-#endif
-#ifdef GL_COMPUTE_SHADER_BIT
-				case GL_COMPUTE_SHADER_BIT:
-					return s_COMPUTE_SHADER_BIT;
+#ifdef GL_VERTEX_SHADER_BIT
+				case GL_VERTEX_SHADER_BIT:
+					return s_VERTEX_SHADER_BIT;
 #endif
 				default:;
 			}
@@ -6179,37 +6179,25 @@ noexcept
 		case 51: /* program_resource_property */
 			switch(GLenum(aev._value))
 			{
+#ifdef GL_ACTIVE_VARIABLES
+				case GL_ACTIVE_VARIABLES:
+					return s_ACTIVE_VARIABLES;
+#endif
 #ifdef GL_ARRAY_SIZE
 				case GL_ARRAY_SIZE:
 					return s_ARRAY_SIZE;
-#endif
-#ifdef GL_OFFSET
-				case GL_OFFSET:
-					return s_OFFSET;
-#endif
-#ifdef GL_BLOCK_INDEX
-				case GL_BLOCK_INDEX:
-					return s_BLOCK_INDEX;
-#endif
-#ifdef GL_TRANSFORM_FEEDBACK_BUFFER_STRIDE
-				case GL_TRANSFORM_FEEDBACK_BUFFER_STRIDE:
-					return s_TRANSFORM_FEEDBACK_BUFFER_STRIDE;
 #endif
 #ifdef GL_ARRAY_STRIDE
 				case GL_ARRAY_STRIDE:
 					return s_ARRAY_STRIDE;
 #endif
-#ifdef GL_MATRIX_STRIDE
-				case GL_MATRIX_STRIDE:
-					return s_MATRIX_STRIDE;
-#endif
-#ifdef GL_IS_ROW_MAJOR
-				case GL_IS_ROW_MAJOR:
-					return s_IS_ROW_MAJOR;
-#endif
 #ifdef GL_ATOMIC_COUNTER_BUFFER_INDEX
 				case GL_ATOMIC_COUNTER_BUFFER_INDEX:
 					return s_ATOMIC_COUNTER_BUFFER_INDEX;
+#endif
+#ifdef GL_BLOCK_INDEX
+				case GL_BLOCK_INDEX:
+					return s_BLOCK_INDEX;
 #endif
 #ifdef GL_BUFFER_BINDING
 				case GL_BUFFER_BINDING:
@@ -6219,17 +6207,57 @@ noexcept
 				case GL_BUFFER_DATA_SIZE:
 					return s_BUFFER_DATA_SIZE;
 #endif
+#ifdef GL_COMPATIBLE_SUBROUTINES
+				case GL_COMPATIBLE_SUBROUTINES:
+					return s_COMPATIBLE_SUBROUTINES;
+#endif
+#ifdef GL_IS_PER_PATCH
+				case GL_IS_PER_PATCH:
+					return s_IS_PER_PATCH;
+#endif
+#ifdef GL_IS_ROW_MAJOR
+				case GL_IS_ROW_MAJOR:
+					return s_IS_ROW_MAJOR;
+#endif
+#ifdef GL_LOCATION
+				case GL_LOCATION:
+					return s_LOCATION;
+#endif
+#ifdef GL_LOCATION_COMPONENT
+				case GL_LOCATION_COMPONENT:
+					return s_LOCATION_COMPONENT;
+#endif
+#ifdef GL_LOCATION_INDEX
+				case GL_LOCATION_INDEX:
+					return s_LOCATION_INDEX;
+#endif
+#ifdef GL_MATRIX_STRIDE
+				case GL_MATRIX_STRIDE:
+					return s_MATRIX_STRIDE;
+#endif
 #ifdef GL_NUM_ACTIVE_VARIABLES
 				case GL_NUM_ACTIVE_VARIABLES:
 					return s_NUM_ACTIVE_VARIABLES;
 #endif
-#ifdef GL_ACTIVE_VARIABLES
-				case GL_ACTIVE_VARIABLES:
-					return s_ACTIVE_VARIABLES;
+#ifdef GL_NUM_COMPATIBLE_SUBROUTINES
+				case GL_NUM_COMPATIBLE_SUBROUTINES:
+					return s_NUM_COMPATIBLE_SUBROUTINES;
 #endif
-#ifdef GL_REFERENCED_BY_VERTEX_SHADER
-				case GL_REFERENCED_BY_VERTEX_SHADER:
-					return s_REFERENCED_BY_VERTEX_SHADER;
+#ifdef GL_OFFSET
+				case GL_OFFSET:
+					return s_OFFSET;
+#endif
+#ifdef GL_REFERENCED_BY_COMPUTE_SHADER
+				case GL_REFERENCED_BY_COMPUTE_SHADER:
+					return s_REFERENCED_BY_COMPUTE_SHADER;
+#endif
+#ifdef GL_REFERENCED_BY_FRAGMENT_SHADER
+				case GL_REFERENCED_BY_FRAGMENT_SHADER:
+					return s_REFERENCED_BY_FRAGMENT_SHADER;
+#endif
+#ifdef GL_REFERENCED_BY_GEOMETRY_SHADER
+				case GL_REFERENCED_BY_GEOMETRY_SHADER:
+					return s_REFERENCED_BY_GEOMETRY_SHADER;
 #endif
 #ifdef GL_REFERENCED_BY_TESS_CONTROL_SHADER
 				case GL_REFERENCED_BY_TESS_CONTROL_SHADER:
@@ -6239,25 +6267,9 @@ noexcept
 				case GL_REFERENCED_BY_TESS_EVALUATION_SHADER:
 					return s_REFERENCED_BY_TESS_EVALUATION_SHADER;
 #endif
-#ifdef GL_REFERENCED_BY_GEOMETRY_SHADER
-				case GL_REFERENCED_BY_GEOMETRY_SHADER:
-					return s_REFERENCED_BY_GEOMETRY_SHADER;
-#endif
-#ifdef GL_REFERENCED_BY_FRAGMENT_SHADER
-				case GL_REFERENCED_BY_FRAGMENT_SHADER:
-					return s_REFERENCED_BY_FRAGMENT_SHADER;
-#endif
-#ifdef GL_REFERENCED_BY_COMPUTE_SHADER
-				case GL_REFERENCED_BY_COMPUTE_SHADER:
-					return s_REFERENCED_BY_COMPUTE_SHADER;
-#endif
-#ifdef GL_NUM_COMPATIBLE_SUBROUTINES
-				case GL_NUM_COMPATIBLE_SUBROUTINES:
-					return s_NUM_COMPATIBLE_SUBROUTINES;
-#endif
-#ifdef GL_COMPATIBLE_SUBROUTINES
-				case GL_COMPATIBLE_SUBROUTINES:
-					return s_COMPATIBLE_SUBROUTINES;
+#ifdef GL_REFERENCED_BY_VERTEX_SHADER
+				case GL_REFERENCED_BY_VERTEX_SHADER:
+					return s_REFERENCED_BY_VERTEX_SHADER;
 #endif
 #ifdef GL_TOP_LEVEL_ARRAY_SIZE
 				case GL_TOP_LEVEL_ARRAY_SIZE:
@@ -6267,25 +6279,13 @@ noexcept
 				case GL_TOP_LEVEL_ARRAY_STRIDE:
 					return s_TOP_LEVEL_ARRAY_STRIDE;
 #endif
-#ifdef GL_LOCATION
-				case GL_LOCATION:
-					return s_LOCATION;
-#endif
-#ifdef GL_LOCATION_INDEX
-				case GL_LOCATION_INDEX:
-					return s_LOCATION_INDEX;
-#endif
-#ifdef GL_LOCATION_COMPONENT
-				case GL_LOCATION_COMPONENT:
-					return s_LOCATION_COMPONENT;
-#endif
-#ifdef GL_IS_PER_PATCH
-				case GL_IS_PER_PATCH:
-					return s_IS_PER_PATCH;
-#endif
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER_INDEX
 				case GL_TRANSFORM_FEEDBACK_BUFFER_INDEX:
 					return s_TRANSFORM_FEEDBACK_BUFFER_INDEX;
+#endif
+#ifdef GL_TRANSFORM_FEEDBACK_BUFFER_STRIDE
+				case GL_TRANSFORM_FEEDBACK_BUFFER_STRIDE:
+					return s_TRANSFORM_FEEDBACK_BUFFER_STRIDE;
 #endif
 				default:;
 			}
@@ -6307,69 +6307,9 @@ noexcept
 		case 53: /* query_target */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_TRANSFORM_FEEDBACK_STREAM_OVERFLOW_ARB
-				case GL_TRANSFORM_FEEDBACK_STREAM_OVERFLOW_ARB:
-					return s_TRANSFORM_FEEDBACK_STREAM_OVERFLOW_ARB;
-#endif
-#ifdef GL_TIME_ELAPSED
-				case GL_TIME_ELAPSED:
-					return s_TIME_ELAPSED;
-#endif
-#ifdef GL_TIMESTAMP
-				case GL_TIMESTAMP:
-					return s_TIMESTAMP;
-#endif
-#ifdef GL_SAMPLES_PASSED
-				case GL_SAMPLES_PASSED:
-					return s_SAMPLES_PASSED;
-#endif
 #ifdef GL_ANY_SAMPLES_PASSED
 				case GL_ANY_SAMPLES_PASSED:
 					return s_ANY_SAMPLES_PASSED;
-#endif
-#ifdef GL_PRIMITIVES_GENERATED
-				case GL_PRIMITIVES_GENERATED:
-					return s_PRIMITIVES_GENERATED;
-#endif
-#ifdef GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN
-				case GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN:
-					return s_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN;
-#endif
-#ifdef GL_VERTICES_SUBMITTED_ARB
-				case GL_VERTICES_SUBMITTED_ARB:
-					return s_VERTICES_SUBMITTED_ARB;
-#endif
-#ifdef GL_PRIMITIVES_SUBMITTED_ARB
-				case GL_PRIMITIVES_SUBMITTED_ARB:
-					return s_PRIMITIVES_SUBMITTED_ARB;
-#endif
-#ifdef GL_VERTEX_SHADER_INVOCATIONS_ARB
-				case GL_VERTEX_SHADER_INVOCATIONS_ARB:
-					return s_VERTEX_SHADER_INVOCATIONS_ARB;
-#endif
-#ifdef GL_TESS_CONTROL_SHADER_PATCHES_ARB
-				case GL_TESS_CONTROL_SHADER_PATCHES_ARB:
-					return s_TESS_CONTROL_SHADER_PATCHES_ARB;
-#endif
-#ifdef GL_TESS_EVALUATION_SHADER_INVOCATIONS_ARB
-				case GL_TESS_EVALUATION_SHADER_INVOCATIONS_ARB:
-					return s_TESS_EVALUATION_SHADER_INVOCATIONS_ARB;
-#endif
-#ifdef GL_GEOMETRY_SHADER_INVOCATIONS
-				case GL_GEOMETRY_SHADER_INVOCATIONS:
-					return s_GEOMETRY_SHADER_INVOCATIONS;
-#endif
-#ifdef GL_GEOMETRY_SHADER_PRIMITIVES_EMITTED_ARB
-				case GL_GEOMETRY_SHADER_PRIMITIVES_EMITTED_ARB:
-					return s_GEOMETRY_SHADER_PRIMITIVES_EMITTED_ARB;
-#endif
-#ifdef GL_FRAGMENT_SHADER_INVOCATIONS_ARB
-				case GL_FRAGMENT_SHADER_INVOCATIONS_ARB:
-					return s_FRAGMENT_SHADER_INVOCATIONS_ARB;
-#endif
-#ifdef GL_COMPUTE_SHADER_INVOCATIONS_ARB
-				case GL_COMPUTE_SHADER_INVOCATIONS_ARB:
-					return s_COMPUTE_SHADER_INVOCATIONS_ARB;
 #endif
 #ifdef GL_CLIPPING_INPUT_PRIMITIVES_ARB
 				case GL_CLIPPING_INPUT_PRIMITIVES_ARB:
@@ -6379,9 +6319,69 @@ noexcept
 				case GL_CLIPPING_OUTPUT_PRIMITIVES_ARB:
 					return s_CLIPPING_OUTPUT_PRIMITIVES_ARB;
 #endif
+#ifdef GL_COMPUTE_SHADER_INVOCATIONS_ARB
+				case GL_COMPUTE_SHADER_INVOCATIONS_ARB:
+					return s_COMPUTE_SHADER_INVOCATIONS_ARB;
+#endif
+#ifdef GL_FRAGMENT_SHADER_INVOCATIONS_ARB
+				case GL_FRAGMENT_SHADER_INVOCATIONS_ARB:
+					return s_FRAGMENT_SHADER_INVOCATIONS_ARB;
+#endif
+#ifdef GL_GEOMETRY_SHADER_INVOCATIONS
+				case GL_GEOMETRY_SHADER_INVOCATIONS:
+					return s_GEOMETRY_SHADER_INVOCATIONS;
+#endif
+#ifdef GL_GEOMETRY_SHADER_PRIMITIVES_EMITTED_ARB
+				case GL_GEOMETRY_SHADER_PRIMITIVES_EMITTED_ARB:
+					return s_GEOMETRY_SHADER_PRIMITIVES_EMITTED_ARB;
+#endif
+#ifdef GL_PRIMITIVES_GENERATED
+				case GL_PRIMITIVES_GENERATED:
+					return s_PRIMITIVES_GENERATED;
+#endif
+#ifdef GL_PRIMITIVES_SUBMITTED_ARB
+				case GL_PRIMITIVES_SUBMITTED_ARB:
+					return s_PRIMITIVES_SUBMITTED_ARB;
+#endif
+#ifdef GL_SAMPLES_PASSED
+				case GL_SAMPLES_PASSED:
+					return s_SAMPLES_PASSED;
+#endif
+#ifdef GL_TESS_CONTROL_SHADER_PATCHES_ARB
+				case GL_TESS_CONTROL_SHADER_PATCHES_ARB:
+					return s_TESS_CONTROL_SHADER_PATCHES_ARB;
+#endif
+#ifdef GL_TESS_EVALUATION_SHADER_INVOCATIONS_ARB
+				case GL_TESS_EVALUATION_SHADER_INVOCATIONS_ARB:
+					return s_TESS_EVALUATION_SHADER_INVOCATIONS_ARB;
+#endif
+#ifdef GL_TIMESTAMP
+				case GL_TIMESTAMP:
+					return s_TIMESTAMP;
+#endif
+#ifdef GL_TIME_ELAPSED
+				case GL_TIME_ELAPSED:
+					return s_TIME_ELAPSED;
+#endif
 #ifdef GL_TRANSFORM_FEEDBACK_OVERFLOW_ARB
 				case GL_TRANSFORM_FEEDBACK_OVERFLOW_ARB:
 					return s_TRANSFORM_FEEDBACK_OVERFLOW_ARB;
+#endif
+#ifdef GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN
+				case GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN:
+					return s_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN;
+#endif
+#ifdef GL_TRANSFORM_FEEDBACK_STREAM_OVERFLOW_ARB
+				case GL_TRANSFORM_FEEDBACK_STREAM_OVERFLOW_ARB:
+					return s_TRANSFORM_FEEDBACK_STREAM_OVERFLOW_ARB;
+#endif
+#ifdef GL_VERTEX_SHADER_INVOCATIONS_ARB
+				case GL_VERTEX_SHADER_INVOCATIONS_ARB:
+					return s_VERTEX_SHADER_INVOCATIONS_ARB;
+#endif
+#ifdef GL_VERTICES_SUBMITTED_ARB
+				case GL_VERTICES_SUBMITTED_ARB:
+					return s_VERTICES_SUBMITTED_ARB;
 #endif
 				default:;
 			}
@@ -6399,13 +6399,13 @@ noexcept
 		case 55: /* reset_notification_strategy */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_NO_RESET_NOTIFICATION
-				case GL_NO_RESET_NOTIFICATION:
-					return s_NO_RESET_NOTIFICATION;
-#endif
 #ifdef GL_LOSE_CONTEXT_ON_RESET
 				case GL_LOSE_CONTEXT_ON_RESET:
 					return s_LOSE_CONTEXT_ON_RESET;
+#endif
+#ifdef GL_NO_RESET_NOTIFICATION
+				case GL_NO_RESET_NOTIFICATION:
+					return s_NO_RESET_NOTIFICATION;
 #endif
 				default:;
 			}
@@ -6413,29 +6413,29 @@ noexcept
 		case 56: /* shader_type */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_VERTEX_SHADER
-				case GL_VERTEX_SHADER:
-					return s_VERTEX_SHADER;
-#endif
-#ifdef GL_TESS_CONTROL_SHADER
-				case GL_TESS_CONTROL_SHADER:
-					return s_TESS_CONTROL_SHADER;
-#endif
 #ifdef GL_COMPUTE_SHADER
 				case GL_COMPUTE_SHADER:
 					return s_COMPUTE_SHADER;
 #endif
-#ifdef GL_TESS_EVALUATION_SHADER
-				case GL_TESS_EVALUATION_SHADER:
-					return s_TESS_EVALUATION_SHADER;
+#ifdef GL_FRAGMENT_SHADER
+				case GL_FRAGMENT_SHADER:
+					return s_FRAGMENT_SHADER;
 #endif
 #ifdef GL_GEOMETRY_SHADER
 				case GL_GEOMETRY_SHADER:
 					return s_GEOMETRY_SHADER;
 #endif
-#ifdef GL_FRAGMENT_SHADER
-				case GL_FRAGMENT_SHADER:
-					return s_FRAGMENT_SHADER;
+#ifdef GL_TESS_CONTROL_SHADER
+				case GL_TESS_CONTROL_SHADER:
+					return s_TESS_CONTROL_SHADER;
+#endif
+#ifdef GL_TESS_EVALUATION_SHADER
+				case GL_TESS_EVALUATION_SHADER:
+					return s_TESS_EVALUATION_SHADER;
+#endif
+#ifdef GL_VERTEX_SHADER
+				case GL_VERTEX_SHADER:
+					return s_VERTEX_SHADER;
 #endif
 				default:;
 			}
@@ -6443,13 +6443,13 @@ noexcept
 		case 57: /* single_face */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_FRONT
-				case GL_FRONT:
-					return s_FRONT;
-#endif
 #ifdef GL_BACK
 				case GL_BACK:
 					return s_BACK;
+#endif
+#ifdef GL_FRONT
+				case GL_FRONT:
+					return s_FRONT;
 #endif
 				default:;
 			}
@@ -6457,98 +6457,6 @@ noexcept
 		case 58: /* sl_data_type */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_UNSIGNED_INT_IMAGE_3D
-				case GL_UNSIGNED_INT_IMAGE_3D:
-					return s_UNSIGNED_INT_IMAGE_3D;
-#endif
-#ifdef GL_UNSIGNED_INT_IMAGE_2D_RECT
-				case GL_UNSIGNED_INT_IMAGE_2D_RECT:
-					return s_UNSIGNED_INT_IMAGE_2D_RECT;
-#endif
-#ifdef GL_UNSIGNED_INT_IMAGE_CUBE
-				case GL_UNSIGNED_INT_IMAGE_CUBE:
-					return s_UNSIGNED_INT_IMAGE_CUBE;
-#endif
-#ifdef GL_UNSIGNED_INT_IMAGE_BUFFER
-				case GL_UNSIGNED_INT_IMAGE_BUFFER:
-					return s_UNSIGNED_INT_IMAGE_BUFFER;
-#endif
-#ifdef GL_UNSIGNED_INT_IMAGE_1D_ARRAY
-				case GL_UNSIGNED_INT_IMAGE_1D_ARRAY:
-					return s_UNSIGNED_INT_IMAGE_1D_ARRAY;
-#endif
-#ifdef GL_UNSIGNED_INT_IMAGE_2D_ARRAY
-				case GL_UNSIGNED_INT_IMAGE_2D_ARRAY:
-					return s_UNSIGNED_INT_IMAGE_2D_ARRAY;
-#endif
-#ifdef GL_NONE
-				case GL_NONE:
-					return s_NONE;
-#endif
-#ifdef GL_FLOAT
-				case GL_FLOAT:
-					return s_FLOAT;
-#endif
-#ifdef GL_FLOAT_VEC2
-				case GL_FLOAT_VEC2:
-					return s_FLOAT_VEC2;
-#endif
-#ifdef GL_FLOAT_VEC3
-				case GL_FLOAT_VEC3:
-					return s_FLOAT_VEC3;
-#endif
-#ifdef GL_FLOAT_VEC4
-				case GL_FLOAT_VEC4:
-					return s_FLOAT_VEC4;
-#endif
-#ifdef GL_DOUBLE
-				case GL_DOUBLE:
-					return s_DOUBLE;
-#endif
-#ifdef GL_DOUBLE_VEC2
-				case GL_DOUBLE_VEC2:
-					return s_DOUBLE_VEC2;
-#endif
-#ifdef GL_DOUBLE_VEC3
-				case GL_DOUBLE_VEC3:
-					return s_DOUBLE_VEC3;
-#endif
-#ifdef GL_DOUBLE_VEC4
-				case GL_DOUBLE_VEC4:
-					return s_DOUBLE_VEC4;
-#endif
-#ifdef GL_INT
-				case GL_INT:
-					return s_INT;
-#endif
-#ifdef GL_INT_VEC2
-				case GL_INT_VEC2:
-					return s_INT_VEC2;
-#endif
-#ifdef GL_INT_VEC3
-				case GL_INT_VEC3:
-					return s_INT_VEC3;
-#endif
-#ifdef GL_INT_VEC4
-				case GL_INT_VEC4:
-					return s_INT_VEC4;
-#endif
-#ifdef GL_UNSIGNED_INT
-				case GL_UNSIGNED_INT:
-					return s_UNSIGNED_INT;
-#endif
-#ifdef GL_UNSIGNED_INT_VEC2
-				case GL_UNSIGNED_INT_VEC2:
-					return s_UNSIGNED_INT_VEC2;
-#endif
-#ifdef GL_UNSIGNED_INT_VEC3
-				case GL_UNSIGNED_INT_VEC3:
-					return s_UNSIGNED_INT_VEC3;
-#endif
-#ifdef GL_UNSIGNED_INT_VEC4
-				case GL_UNSIGNED_INT_VEC4:
-					return s_UNSIGNED_INT_VEC4;
-#endif
 #ifdef GL_BOOL
 				case GL_BOOL:
 					return s_BOOL;
@@ -6565,53 +6473,13 @@ noexcept
 				case GL_BOOL_VEC4:
 					return s_BOOL_VEC4;
 #endif
-#ifdef GL_FLOAT_MAT2
-				case GL_FLOAT_MAT2:
-					return s_FLOAT_MAT2;
-#endif
-#ifdef GL_FLOAT_MAT3
-				case GL_FLOAT_MAT3:
-					return s_FLOAT_MAT3;
-#endif
-#ifdef GL_FLOAT_MAT4
-				case GL_FLOAT_MAT4:
-					return s_FLOAT_MAT4;
-#endif
-#ifdef GL_FLOAT_MAT2x3
-				case GL_FLOAT_MAT2x3:
-					return s_FLOAT_MAT2x3;
-#endif
-#ifdef GL_FLOAT_MAT2x4
-				case GL_FLOAT_MAT2x4:
-					return s_FLOAT_MAT2x4;
-#endif
-#ifdef GL_FLOAT_MAT3x2
-				case GL_FLOAT_MAT3x2:
-					return s_FLOAT_MAT3x2;
-#endif
-#ifdef GL_FLOAT_MAT3x4
-				case GL_FLOAT_MAT3x4:
-					return s_FLOAT_MAT3x4;
-#endif
-#ifdef GL_FLOAT_MAT4x2
-				case GL_FLOAT_MAT4x2:
-					return s_FLOAT_MAT4x2;
-#endif
-#ifdef GL_FLOAT_MAT4x3
-				case GL_FLOAT_MAT4x3:
-					return s_FLOAT_MAT4x3;
+#ifdef GL_DOUBLE
+				case GL_DOUBLE:
+					return s_DOUBLE;
 #endif
 #ifdef GL_DOUBLE_MAT2
 				case GL_DOUBLE_MAT2:
 					return s_DOUBLE_MAT2;
-#endif
-#ifdef GL_DOUBLE_MAT3
-				case GL_DOUBLE_MAT3:
-					return s_DOUBLE_MAT3;
-#endif
-#ifdef GL_DOUBLE_MAT4
-				case GL_DOUBLE_MAT4:
-					return s_DOUBLE_MAT4;
 #endif
 #ifdef GL_DOUBLE_MAT2x3
 				case GL_DOUBLE_MAT2x3:
@@ -6621,6 +6489,10 @@ noexcept
 				case GL_DOUBLE_MAT2x4:
 					return s_DOUBLE_MAT2x4;
 #endif
+#ifdef GL_DOUBLE_MAT3
+				case GL_DOUBLE_MAT3:
+					return s_DOUBLE_MAT3;
+#endif
 #ifdef GL_DOUBLE_MAT3x2
 				case GL_DOUBLE_MAT3x2:
 					return s_DOUBLE_MAT3x2;
@@ -6628,6 +6500,10 @@ noexcept
 #ifdef GL_DOUBLE_MAT3x4
 				case GL_DOUBLE_MAT3x4:
 					return s_DOUBLE_MAT3x4;
+#endif
+#ifdef GL_DOUBLE_MAT4
+				case GL_DOUBLE_MAT4:
+					return s_DOUBLE_MAT4;
 #endif
 #ifdef GL_DOUBLE_MAT4x2
 				case GL_DOUBLE_MAT4x2:
@@ -6637,193 +6513,81 @@ noexcept
 				case GL_DOUBLE_MAT4x3:
 					return s_DOUBLE_MAT4x3;
 #endif
-#ifdef GL_SAMPLER_1D
-				case GL_SAMPLER_1D:
-					return s_SAMPLER_1D;
+#ifdef GL_DOUBLE_VEC2
+				case GL_DOUBLE_VEC2:
+					return s_DOUBLE_VEC2;
 #endif
-#ifdef GL_SAMPLER_2D
-				case GL_SAMPLER_2D:
-					return s_SAMPLER_2D;
+#ifdef GL_DOUBLE_VEC3
+				case GL_DOUBLE_VEC3:
+					return s_DOUBLE_VEC3;
 #endif
-#ifdef GL_SAMPLER_3D
-				case GL_SAMPLER_3D:
-					return s_SAMPLER_3D;
+#ifdef GL_DOUBLE_VEC4
+				case GL_DOUBLE_VEC4:
+					return s_DOUBLE_VEC4;
 #endif
-#ifdef GL_SAMPLER_CUBE
-				case GL_SAMPLER_CUBE:
-					return s_SAMPLER_CUBE;
+#ifdef GL_FLOAT
+				case GL_FLOAT:
+					return s_FLOAT;
 #endif
-#ifdef GL_SAMPLER_1D_SHADOW
-				case GL_SAMPLER_1D_SHADOW:
-					return s_SAMPLER_1D_SHADOW;
+#ifdef GL_FLOAT_MAT2
+				case GL_FLOAT_MAT2:
+					return s_FLOAT_MAT2;
 #endif
-#ifdef GL_SAMPLER_2D_SHADOW
-				case GL_SAMPLER_2D_SHADOW:
-					return s_SAMPLER_2D_SHADOW;
+#ifdef GL_FLOAT_MAT2x3
+				case GL_FLOAT_MAT2x3:
+					return s_FLOAT_MAT2x3;
 #endif
-#ifdef GL_SAMPLER_1D_ARRAY
-				case GL_SAMPLER_1D_ARRAY:
-					return s_SAMPLER_1D_ARRAY;
+#ifdef GL_FLOAT_MAT2x4
+				case GL_FLOAT_MAT2x4:
+					return s_FLOAT_MAT2x4;
 #endif
-#ifdef GL_SAMPLER_2D_ARRAY
-				case GL_SAMPLER_2D_ARRAY:
-					return s_SAMPLER_2D_ARRAY;
+#ifdef GL_FLOAT_MAT3
+				case GL_FLOAT_MAT3:
+					return s_FLOAT_MAT3;
 #endif
-#ifdef GL_SAMPLER_CUBE_MAP_ARRAY
-				case GL_SAMPLER_CUBE_MAP_ARRAY:
-					return s_SAMPLER_CUBE_MAP_ARRAY;
+#ifdef GL_FLOAT_MAT3x2
+				case GL_FLOAT_MAT3x2:
+					return s_FLOAT_MAT3x2;
 #endif
-#ifdef GL_SAMPLER_1D_ARRAY_SHADOW
-				case GL_SAMPLER_1D_ARRAY_SHADOW:
-					return s_SAMPLER_1D_ARRAY_SHADOW;
+#ifdef GL_FLOAT_MAT3x4
+				case GL_FLOAT_MAT3x4:
+					return s_FLOAT_MAT3x4;
 #endif
-#ifdef GL_SAMPLER_2D_ARRAY_SHADOW
-				case GL_SAMPLER_2D_ARRAY_SHADOW:
-					return s_SAMPLER_2D_ARRAY_SHADOW;
+#ifdef GL_FLOAT_MAT4
+				case GL_FLOAT_MAT4:
+					return s_FLOAT_MAT4;
 #endif
-#ifdef GL_SAMPLER_2D_MULTISAMPLE
-				case GL_SAMPLER_2D_MULTISAMPLE:
-					return s_SAMPLER_2D_MULTISAMPLE;
+#ifdef GL_FLOAT_MAT4x2
+				case GL_FLOAT_MAT4x2:
+					return s_FLOAT_MAT4x2;
 #endif
-#ifdef GL_SAMPLER_2D_MULTISAMPLE_ARRAY
-				case GL_SAMPLER_2D_MULTISAMPLE_ARRAY:
-					return s_SAMPLER_2D_MULTISAMPLE_ARRAY;
+#ifdef GL_FLOAT_MAT4x3
+				case GL_FLOAT_MAT4x3:
+					return s_FLOAT_MAT4x3;
 #endif
-#ifdef GL_SAMPLER_CUBE_SHADOW
-				case GL_SAMPLER_CUBE_SHADOW:
-					return s_SAMPLER_CUBE_SHADOW;
+#ifdef GL_FLOAT_VEC2
+				case GL_FLOAT_VEC2:
+					return s_FLOAT_VEC2;
 #endif
-#ifdef GL_SAMPLER_CUBE_MAP_ARRAY_SHADOW
-				case GL_SAMPLER_CUBE_MAP_ARRAY_SHADOW:
-					return s_SAMPLER_CUBE_MAP_ARRAY_SHADOW;
+#ifdef GL_FLOAT_VEC3
+				case GL_FLOAT_VEC3:
+					return s_FLOAT_VEC3;
 #endif
-#ifdef GL_SAMPLER_BUFFER
-				case GL_SAMPLER_BUFFER:
-					return s_SAMPLER_BUFFER;
-#endif
-#ifdef GL_SAMPLER_2D_RECT
-				case GL_SAMPLER_2D_RECT:
-					return s_SAMPLER_2D_RECT;
-#endif
-#ifdef GL_SAMPLER_2D_RECT_SHADOW
-				case GL_SAMPLER_2D_RECT_SHADOW:
-					return s_SAMPLER_2D_RECT_SHADOW;
-#endif
-#ifdef GL_INT_SAMPLER_1D
-				case GL_INT_SAMPLER_1D:
-					return s_INT_SAMPLER_1D;
-#endif
-#ifdef GL_INT_SAMPLER_2D
-				case GL_INT_SAMPLER_2D:
-					return s_INT_SAMPLER_2D;
-#endif
-#ifdef GL_INT_SAMPLER_3D
-				case GL_INT_SAMPLER_3D:
-					return s_INT_SAMPLER_3D;
-#endif
-#ifdef GL_INT_SAMPLER_CUBE
-				case GL_INT_SAMPLER_CUBE:
-					return s_INT_SAMPLER_CUBE;
-#endif
-#ifdef GL_INT_SAMPLER_1D_ARRAY
-				case GL_INT_SAMPLER_1D_ARRAY:
-					return s_INT_SAMPLER_1D_ARRAY;
-#endif
-#ifdef GL_INT_SAMPLER_2D_ARRAY
-				case GL_INT_SAMPLER_2D_ARRAY:
-					return s_INT_SAMPLER_2D_ARRAY;
-#endif
-#ifdef GL_INT_SAMPLER_CUBE_MAP_ARRAY
-				case GL_INT_SAMPLER_CUBE_MAP_ARRAY:
-					return s_INT_SAMPLER_CUBE_MAP_ARRAY;
-#endif
-#ifdef GL_INT_SAMPLER_2D_MULTISAMPLE
-				case GL_INT_SAMPLER_2D_MULTISAMPLE:
-					return s_INT_SAMPLER_2D_MULTISAMPLE;
-#endif
-#ifdef GL_INT_SAMPLER_2D_MULTISAMPLE_ARRAY
-				case GL_INT_SAMPLER_2D_MULTISAMPLE_ARRAY:
-					return s_INT_SAMPLER_2D_MULTISAMPLE_ARRAY;
-#endif
-#ifdef GL_INT_SAMPLER_BUFFER
-				case GL_INT_SAMPLER_BUFFER:
-					return s_INT_SAMPLER_BUFFER;
-#endif
-#ifdef GL_INT_SAMPLER_2D_RECT
-				case GL_INT_SAMPLER_2D_RECT:
-					return s_INT_SAMPLER_2D_RECT;
-#endif
-#ifdef GL_UNSIGNED_INT_SAMPLER_1D
-				case GL_UNSIGNED_INT_SAMPLER_1D:
-					return s_UNSIGNED_INT_SAMPLER_1D;
-#endif
-#ifdef GL_UNSIGNED_INT_SAMPLER_2D
-				case GL_UNSIGNED_INT_SAMPLER_2D:
-					return s_UNSIGNED_INT_SAMPLER_2D;
-#endif
-#ifdef GL_UNSIGNED_INT_SAMPLER_3D
-				case GL_UNSIGNED_INT_SAMPLER_3D:
-					return s_UNSIGNED_INT_SAMPLER_3D;
-#endif
-#ifdef GL_UNSIGNED_INT_SAMPLER_CUBE
-				case GL_UNSIGNED_INT_SAMPLER_CUBE:
-					return s_UNSIGNED_INT_SAMPLER_CUBE;
-#endif
-#ifdef GL_UNSIGNED_INT_SAMPLER_1D_ARRAY
-				case GL_UNSIGNED_INT_SAMPLER_1D_ARRAY:
-					return s_UNSIGNED_INT_SAMPLER_1D_ARRAY;
-#endif
-#ifdef GL_UNSIGNED_INT_SAMPLER_2D_ARRAY
-				case GL_UNSIGNED_INT_SAMPLER_2D_ARRAY:
-					return s_UNSIGNED_INT_SAMPLER_2D_ARRAY;
-#endif
-#ifdef GL_UNSIGNED_INT_SAMPLER_CUBE_MAP_ARRAY
-				case GL_UNSIGNED_INT_SAMPLER_CUBE_MAP_ARRAY:
-					return s_UNSIGNED_INT_SAMPLER_CUBE_MAP_ARRAY;
-#endif
-#ifdef GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE
-				case GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE:
-					return s_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE;
-#endif
-#ifdef GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE_ARRAY
-				case GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE_ARRAY:
-					return s_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE_ARRAY;
-#endif
-#ifdef GL_UNSIGNED_INT_SAMPLER_BUFFER
-				case GL_UNSIGNED_INT_SAMPLER_BUFFER:
-					return s_UNSIGNED_INT_SAMPLER_BUFFER;
-#endif
-#ifdef GL_UNSIGNED_INT_SAMPLER_2D_RECT
-				case GL_UNSIGNED_INT_SAMPLER_2D_RECT:
-					return s_UNSIGNED_INT_SAMPLER_2D_RECT;
+#ifdef GL_FLOAT_VEC4
+				case GL_FLOAT_VEC4:
+					return s_FLOAT_VEC4;
 #endif
 #ifdef GL_IMAGE_1D
 				case GL_IMAGE_1D:
 					return s_IMAGE_1D;
 #endif
-#ifdef GL_IMAGE_2D
-				case GL_IMAGE_2D:
-					return s_IMAGE_2D;
-#endif
-#ifdef GL_IMAGE_3D
-				case GL_IMAGE_3D:
-					return s_IMAGE_3D;
-#endif
-#ifdef GL_IMAGE_2D_RECT
-				case GL_IMAGE_2D_RECT:
-					return s_IMAGE_2D_RECT;
-#endif
-#ifdef GL_IMAGE_CUBE
-				case GL_IMAGE_CUBE:
-					return s_IMAGE_CUBE;
-#endif
-#ifdef GL_IMAGE_BUFFER
-				case GL_IMAGE_BUFFER:
-					return s_IMAGE_BUFFER;
-#endif
 #ifdef GL_IMAGE_1D_ARRAY
 				case GL_IMAGE_1D_ARRAY:
 					return s_IMAGE_1D_ARRAY;
+#endif
+#ifdef GL_IMAGE_2D
+				case GL_IMAGE_2D:
+					return s_IMAGE_2D;
 #endif
 #ifdef GL_IMAGE_2D_ARRAY
 				case GL_IMAGE_2D_ARRAY:
@@ -6837,33 +6601,37 @@ noexcept
 				case GL_IMAGE_2D_MULTISAMPLE_ARRAY:
 					return s_IMAGE_2D_MULTISAMPLE_ARRAY;
 #endif
+#ifdef GL_IMAGE_2D_RECT
+				case GL_IMAGE_2D_RECT:
+					return s_IMAGE_2D_RECT;
+#endif
+#ifdef GL_IMAGE_3D
+				case GL_IMAGE_3D:
+					return s_IMAGE_3D;
+#endif
+#ifdef GL_IMAGE_BUFFER
+				case GL_IMAGE_BUFFER:
+					return s_IMAGE_BUFFER;
+#endif
+#ifdef GL_IMAGE_CUBE
+				case GL_IMAGE_CUBE:
+					return s_IMAGE_CUBE;
+#endif
+#ifdef GL_INT
+				case GL_INT:
+					return s_INT;
+#endif
 #ifdef GL_INT_IMAGE_1D
 				case GL_INT_IMAGE_1D:
 					return s_INT_IMAGE_1D;
 #endif
-#ifdef GL_INT_IMAGE_2D
-				case GL_INT_IMAGE_2D:
-					return s_INT_IMAGE_2D;
-#endif
-#ifdef GL_INT_IMAGE_3D
-				case GL_INT_IMAGE_3D:
-					return s_INT_IMAGE_3D;
-#endif
-#ifdef GL_INT_IMAGE_2D_RECT
-				case GL_INT_IMAGE_2D_RECT:
-					return s_INT_IMAGE_2D_RECT;
-#endif
-#ifdef GL_INT_IMAGE_CUBE
-				case GL_INT_IMAGE_CUBE:
-					return s_INT_IMAGE_CUBE;
-#endif
-#ifdef GL_INT_IMAGE_BUFFER
-				case GL_INT_IMAGE_BUFFER:
-					return s_INT_IMAGE_BUFFER;
-#endif
 #ifdef GL_INT_IMAGE_1D_ARRAY
 				case GL_INT_IMAGE_1D_ARRAY:
 					return s_INT_IMAGE_1D_ARRAY;
+#endif
+#ifdef GL_INT_IMAGE_2D
+				case GL_INT_IMAGE_2D:
+					return s_INT_IMAGE_2D;
 #endif
 #ifdef GL_INT_IMAGE_2D_ARRAY
 				case GL_INT_IMAGE_2D_ARRAY:
@@ -6877,13 +6645,177 @@ noexcept
 				case GL_INT_IMAGE_2D_MULTISAMPLE_ARRAY:
 					return s_INT_IMAGE_2D_MULTISAMPLE_ARRAY;
 #endif
+#ifdef GL_INT_IMAGE_2D_RECT
+				case GL_INT_IMAGE_2D_RECT:
+					return s_INT_IMAGE_2D_RECT;
+#endif
+#ifdef GL_INT_IMAGE_3D
+				case GL_INT_IMAGE_3D:
+					return s_INT_IMAGE_3D;
+#endif
+#ifdef GL_INT_IMAGE_BUFFER
+				case GL_INT_IMAGE_BUFFER:
+					return s_INT_IMAGE_BUFFER;
+#endif
+#ifdef GL_INT_IMAGE_CUBE
+				case GL_INT_IMAGE_CUBE:
+					return s_INT_IMAGE_CUBE;
+#endif
+#ifdef GL_INT_SAMPLER_1D
+				case GL_INT_SAMPLER_1D:
+					return s_INT_SAMPLER_1D;
+#endif
+#ifdef GL_INT_SAMPLER_1D_ARRAY
+				case GL_INT_SAMPLER_1D_ARRAY:
+					return s_INT_SAMPLER_1D_ARRAY;
+#endif
+#ifdef GL_INT_SAMPLER_2D
+				case GL_INT_SAMPLER_2D:
+					return s_INT_SAMPLER_2D;
+#endif
+#ifdef GL_INT_SAMPLER_2D_ARRAY
+				case GL_INT_SAMPLER_2D_ARRAY:
+					return s_INT_SAMPLER_2D_ARRAY;
+#endif
+#ifdef GL_INT_SAMPLER_2D_MULTISAMPLE
+				case GL_INT_SAMPLER_2D_MULTISAMPLE:
+					return s_INT_SAMPLER_2D_MULTISAMPLE;
+#endif
+#ifdef GL_INT_SAMPLER_2D_MULTISAMPLE_ARRAY
+				case GL_INT_SAMPLER_2D_MULTISAMPLE_ARRAY:
+					return s_INT_SAMPLER_2D_MULTISAMPLE_ARRAY;
+#endif
+#ifdef GL_INT_SAMPLER_2D_RECT
+				case GL_INT_SAMPLER_2D_RECT:
+					return s_INT_SAMPLER_2D_RECT;
+#endif
+#ifdef GL_INT_SAMPLER_3D
+				case GL_INT_SAMPLER_3D:
+					return s_INT_SAMPLER_3D;
+#endif
+#ifdef GL_INT_SAMPLER_BUFFER
+				case GL_INT_SAMPLER_BUFFER:
+					return s_INT_SAMPLER_BUFFER;
+#endif
+#ifdef GL_INT_SAMPLER_CUBE
+				case GL_INT_SAMPLER_CUBE:
+					return s_INT_SAMPLER_CUBE;
+#endif
+#ifdef GL_INT_SAMPLER_CUBE_MAP_ARRAY
+				case GL_INT_SAMPLER_CUBE_MAP_ARRAY:
+					return s_INT_SAMPLER_CUBE_MAP_ARRAY;
+#endif
+#ifdef GL_INT_VEC2
+				case GL_INT_VEC2:
+					return s_INT_VEC2;
+#endif
+#ifdef GL_INT_VEC3
+				case GL_INT_VEC3:
+					return s_INT_VEC3;
+#endif
+#ifdef GL_INT_VEC4
+				case GL_INT_VEC4:
+					return s_INT_VEC4;
+#endif
+#ifdef GL_NONE
+				case GL_NONE:
+					return s_NONE;
+#endif
+#ifdef GL_SAMPLER_1D
+				case GL_SAMPLER_1D:
+					return s_SAMPLER_1D;
+#endif
+#ifdef GL_SAMPLER_1D_ARRAY
+				case GL_SAMPLER_1D_ARRAY:
+					return s_SAMPLER_1D_ARRAY;
+#endif
+#ifdef GL_SAMPLER_1D_ARRAY_SHADOW
+				case GL_SAMPLER_1D_ARRAY_SHADOW:
+					return s_SAMPLER_1D_ARRAY_SHADOW;
+#endif
+#ifdef GL_SAMPLER_1D_SHADOW
+				case GL_SAMPLER_1D_SHADOW:
+					return s_SAMPLER_1D_SHADOW;
+#endif
+#ifdef GL_SAMPLER_2D
+				case GL_SAMPLER_2D:
+					return s_SAMPLER_2D;
+#endif
+#ifdef GL_SAMPLER_2D_ARRAY
+				case GL_SAMPLER_2D_ARRAY:
+					return s_SAMPLER_2D_ARRAY;
+#endif
+#ifdef GL_SAMPLER_2D_ARRAY_SHADOW
+				case GL_SAMPLER_2D_ARRAY_SHADOW:
+					return s_SAMPLER_2D_ARRAY_SHADOW;
+#endif
+#ifdef GL_SAMPLER_2D_MULTISAMPLE
+				case GL_SAMPLER_2D_MULTISAMPLE:
+					return s_SAMPLER_2D_MULTISAMPLE;
+#endif
+#ifdef GL_SAMPLER_2D_MULTISAMPLE_ARRAY
+				case GL_SAMPLER_2D_MULTISAMPLE_ARRAY:
+					return s_SAMPLER_2D_MULTISAMPLE_ARRAY;
+#endif
+#ifdef GL_SAMPLER_2D_RECT
+				case GL_SAMPLER_2D_RECT:
+					return s_SAMPLER_2D_RECT;
+#endif
+#ifdef GL_SAMPLER_2D_RECT_SHADOW
+				case GL_SAMPLER_2D_RECT_SHADOW:
+					return s_SAMPLER_2D_RECT_SHADOW;
+#endif
+#ifdef GL_SAMPLER_2D_SHADOW
+				case GL_SAMPLER_2D_SHADOW:
+					return s_SAMPLER_2D_SHADOW;
+#endif
+#ifdef GL_SAMPLER_3D
+				case GL_SAMPLER_3D:
+					return s_SAMPLER_3D;
+#endif
+#ifdef GL_SAMPLER_BUFFER
+				case GL_SAMPLER_BUFFER:
+					return s_SAMPLER_BUFFER;
+#endif
+#ifdef GL_SAMPLER_CUBE
+				case GL_SAMPLER_CUBE:
+					return s_SAMPLER_CUBE;
+#endif
+#ifdef GL_SAMPLER_CUBE_MAP_ARRAY
+				case GL_SAMPLER_CUBE_MAP_ARRAY:
+					return s_SAMPLER_CUBE_MAP_ARRAY;
+#endif
+#ifdef GL_SAMPLER_CUBE_MAP_ARRAY_SHADOW
+				case GL_SAMPLER_CUBE_MAP_ARRAY_SHADOW:
+					return s_SAMPLER_CUBE_MAP_ARRAY_SHADOW;
+#endif
+#ifdef GL_SAMPLER_CUBE_SHADOW
+				case GL_SAMPLER_CUBE_SHADOW:
+					return s_SAMPLER_CUBE_SHADOW;
+#endif
+#ifdef GL_UNSIGNED_INT
+				case GL_UNSIGNED_INT:
+					return s_UNSIGNED_INT;
+#endif
+#ifdef GL_UNSIGNED_INT_ATOMIC_COUNTER
+				case GL_UNSIGNED_INT_ATOMIC_COUNTER:
+					return s_UNSIGNED_INT_ATOMIC_COUNTER;
+#endif
 #ifdef GL_UNSIGNED_INT_IMAGE_1D
 				case GL_UNSIGNED_INT_IMAGE_1D:
 					return s_UNSIGNED_INT_IMAGE_1D;
 #endif
+#ifdef GL_UNSIGNED_INT_IMAGE_1D_ARRAY
+				case GL_UNSIGNED_INT_IMAGE_1D_ARRAY:
+					return s_UNSIGNED_INT_IMAGE_1D_ARRAY;
+#endif
 #ifdef GL_UNSIGNED_INT_IMAGE_2D
 				case GL_UNSIGNED_INT_IMAGE_2D:
 					return s_UNSIGNED_INT_IMAGE_2D;
+#endif
+#ifdef GL_UNSIGNED_INT_IMAGE_2D_ARRAY
+				case GL_UNSIGNED_INT_IMAGE_2D_ARRAY:
+					return s_UNSIGNED_INT_IMAGE_2D_ARRAY;
 #endif
 #ifdef GL_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE
 				case GL_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE:
@@ -6893,9 +6825,77 @@ noexcept
 				case GL_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE_ARRAY:
 					return s_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE_ARRAY;
 #endif
-#ifdef GL_UNSIGNED_INT_ATOMIC_COUNTER
-				case GL_UNSIGNED_INT_ATOMIC_COUNTER:
-					return s_UNSIGNED_INT_ATOMIC_COUNTER;
+#ifdef GL_UNSIGNED_INT_IMAGE_2D_RECT
+				case GL_UNSIGNED_INT_IMAGE_2D_RECT:
+					return s_UNSIGNED_INT_IMAGE_2D_RECT;
+#endif
+#ifdef GL_UNSIGNED_INT_IMAGE_3D
+				case GL_UNSIGNED_INT_IMAGE_3D:
+					return s_UNSIGNED_INT_IMAGE_3D;
+#endif
+#ifdef GL_UNSIGNED_INT_IMAGE_BUFFER
+				case GL_UNSIGNED_INT_IMAGE_BUFFER:
+					return s_UNSIGNED_INT_IMAGE_BUFFER;
+#endif
+#ifdef GL_UNSIGNED_INT_IMAGE_CUBE
+				case GL_UNSIGNED_INT_IMAGE_CUBE:
+					return s_UNSIGNED_INT_IMAGE_CUBE;
+#endif
+#ifdef GL_UNSIGNED_INT_SAMPLER_1D
+				case GL_UNSIGNED_INT_SAMPLER_1D:
+					return s_UNSIGNED_INT_SAMPLER_1D;
+#endif
+#ifdef GL_UNSIGNED_INT_SAMPLER_1D_ARRAY
+				case GL_UNSIGNED_INT_SAMPLER_1D_ARRAY:
+					return s_UNSIGNED_INT_SAMPLER_1D_ARRAY;
+#endif
+#ifdef GL_UNSIGNED_INT_SAMPLER_2D
+				case GL_UNSIGNED_INT_SAMPLER_2D:
+					return s_UNSIGNED_INT_SAMPLER_2D;
+#endif
+#ifdef GL_UNSIGNED_INT_SAMPLER_2D_ARRAY
+				case GL_UNSIGNED_INT_SAMPLER_2D_ARRAY:
+					return s_UNSIGNED_INT_SAMPLER_2D_ARRAY;
+#endif
+#ifdef GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE
+				case GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE:
+					return s_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE;
+#endif
+#ifdef GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE_ARRAY
+				case GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE_ARRAY:
+					return s_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE_ARRAY;
+#endif
+#ifdef GL_UNSIGNED_INT_SAMPLER_2D_RECT
+				case GL_UNSIGNED_INT_SAMPLER_2D_RECT:
+					return s_UNSIGNED_INT_SAMPLER_2D_RECT;
+#endif
+#ifdef GL_UNSIGNED_INT_SAMPLER_3D
+				case GL_UNSIGNED_INT_SAMPLER_3D:
+					return s_UNSIGNED_INT_SAMPLER_3D;
+#endif
+#ifdef GL_UNSIGNED_INT_SAMPLER_BUFFER
+				case GL_UNSIGNED_INT_SAMPLER_BUFFER:
+					return s_UNSIGNED_INT_SAMPLER_BUFFER;
+#endif
+#ifdef GL_UNSIGNED_INT_SAMPLER_CUBE
+				case GL_UNSIGNED_INT_SAMPLER_CUBE:
+					return s_UNSIGNED_INT_SAMPLER_CUBE;
+#endif
+#ifdef GL_UNSIGNED_INT_SAMPLER_CUBE_MAP_ARRAY
+				case GL_UNSIGNED_INT_SAMPLER_CUBE_MAP_ARRAY:
+					return s_UNSIGNED_INT_SAMPLER_CUBE_MAP_ARRAY;
+#endif
+#ifdef GL_UNSIGNED_INT_VEC2
+				case GL_UNSIGNED_INT_VEC2:
+					return s_UNSIGNED_INT_VEC2;
+#endif
+#ifdef GL_UNSIGNED_INT_VEC3
+				case GL_UNSIGNED_INT_VEC3:
+					return s_UNSIGNED_INT_VEC3;
+#endif
+#ifdef GL_UNSIGNED_INT_VEC4
+				case GL_UNSIGNED_INT_VEC4:
+					return s_UNSIGNED_INT_VEC4;
 #endif
 				default:;
 			}
@@ -6903,37 +6903,37 @@ noexcept
 		case 59: /* stencil_operation */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_KEEP
-				case GL_KEEP:
-					return s_KEEP;
-#endif
-#ifdef GL_ZERO
-				case GL_ZERO:
-					return s_ZERO;
-#endif
-#ifdef GL_REPLACE
-				case GL_REPLACE:
-					return s_REPLACE;
-#endif
-#ifdef GL_INCR
-				case GL_INCR:
-					return s_INCR;
+#ifdef GL_DECR
+				case GL_DECR:
+					return s_DECR;
 #endif
 #ifdef GL_DECR_WRAP
 				case GL_DECR_WRAP:
 					return s_DECR_WRAP;
 #endif
-#ifdef GL_DECR
-				case GL_DECR:
-					return s_DECR;
+#ifdef GL_INCR
+				case GL_INCR:
+					return s_INCR;
+#endif
+#ifdef GL_INCR_WRAP
+				case GL_INCR_WRAP:
+					return s_INCR_WRAP;
 #endif
 #ifdef GL_INVERT
 				case GL_INVERT:
 					return s_INVERT;
 #endif
-#ifdef GL_INCR_WRAP
-				case GL_INCR_WRAP:
-					return s_INCR_WRAP;
+#ifdef GL_KEEP
+				case GL_KEEP:
+					return s_KEEP;
+#endif
+#ifdef GL_REPLACE
+				case GL_REPLACE:
+					return s_REPLACE;
+#endif
+#ifdef GL_ZERO
+				case GL_ZERO:
+					return s_ZERO;
 #endif
 				default:;
 			}
@@ -6945,6 +6945,10 @@ noexcept
 				case GL_RENDERER:
 					return s_RENDERER;
 #endif
+#ifdef GL_SHADING_LANGUAGE_VERSION
+				case GL_SHADING_LANGUAGE_VERSION:
+					return s_SHADING_LANGUAGE_VERSION;
+#endif
 #ifdef GL_VENDOR
 				case GL_VENDOR:
 					return s_VENDOR;
@@ -6952,10 +6956,6 @@ noexcept
 #ifdef GL_VERSION
 				case GL_VERSION:
 					return s_VERSION;
-#endif
-#ifdef GL_SHADING_LANGUAGE_VERSION
-				case GL_SHADING_LANGUAGE_VERSION:
-					return s_SHADING_LANGUAGE_VERSION;
 #endif
 				default:;
 			}
@@ -6973,13 +6973,13 @@ noexcept
 		case 62: /* sync_status */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_UNSIGNALED
-				case GL_UNSIGNALED:
-					return s_UNSIGNALED;
-#endif
 #ifdef GL_SIGNALED
 				case GL_SIGNALED:
 					return s_SIGNALED;
+#endif
+#ifdef GL_UNSIGNALED
+				case GL_UNSIGNALED:
+					return s_UNSIGNALED;
 #endif
 				default:;
 			}
@@ -6997,21 +6997,21 @@ noexcept
 		case 64: /* sync_wait_result */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_CONDITION_SATISFIED
-				case GL_CONDITION_SATISFIED:
-					return s_CONDITION_SATISFIED;
-#endif
-#ifdef GL_WAIT_FAILED
-				case GL_WAIT_FAILED:
-					return s_WAIT_FAILED;
-#endif
 #ifdef GL_ALREADY_SIGNALED
 				case GL_ALREADY_SIGNALED:
 					return s_ALREADY_SIGNALED;
 #endif
+#ifdef GL_CONDITION_SATISFIED
+				case GL_CONDITION_SATISFIED:
+					return s_CONDITION_SATISFIED;
+#endif
 #ifdef GL_TIMEOUT_EXPIRED
 				case GL_TIMEOUT_EXPIRED:
 					return s_TIMEOUT_EXPIRED;
+#endif
+#ifdef GL_WAIT_FAILED
+				case GL_WAIT_FAILED:
+					return s_WAIT_FAILED;
 #endif
 				default:;
 			}
@@ -7019,6 +7019,10 @@ noexcept
 		case 65: /* tess_gen_primitive_spacing */
 			switch(GLenum(aev._value))
 			{
+#ifdef GL_EQUAL
+				case GL_EQUAL:
+					return s_EQUAL;
+#endif
 #ifdef GL_FRACTIONAL_EVEN
 				case GL_FRACTIONAL_EVEN:
 					return s_FRACTIONAL_EVEN;
@@ -7026,10 +7030,6 @@ noexcept
 #ifdef GL_FRACTIONAL_ODD
 				case GL_FRACTIONAL_ODD:
 					return s_FRACTIONAL_ODD;
-#endif
-#ifdef GL_EQUAL
-				case GL_EQUAL:
-					return s_EQUAL;
 #endif
 				default:;
 			}
@@ -7055,13 +7055,13 @@ noexcept
 		case 67: /* texture_compare_mode */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_NONE
-				case GL_NONE:
-					return s_NONE;
-#endif
 #ifdef GL_COMPARE_REF_TO_TEXTURE
 				case GL_COMPARE_REF_TO_TEXTURE:
 					return s_COMPARE_REF_TO_TEXTURE;
+#endif
+#ifdef GL_NONE
+				case GL_NONE:
+					return s_NONE;
 #endif
 				default:;
 			}
@@ -7083,13 +7083,13 @@ noexcept
 		case 69: /* texture_mag_filter */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_NEAREST
-				case GL_NEAREST:
-					return s_NEAREST;
-#endif
 #ifdef GL_LINEAR
 				case GL_LINEAR:
 					return s_LINEAR;
+#endif
+#ifdef GL_NEAREST
+				case GL_NEAREST:
+					return s_NEAREST;
 #endif
 				default:;
 			}
@@ -7097,29 +7097,29 @@ noexcept
 		case 70: /* texture_min_filter */
 			switch(GLenum(aev._value))
 			{
+#ifdef GL_LINEAR
+				case GL_LINEAR:
+					return s_LINEAR;
+#endif
 #ifdef GL_LINEAR_MIPMAP_LINEAR
 				case GL_LINEAR_MIPMAP_LINEAR:
 					return s_LINEAR_MIPMAP_LINEAR;
+#endif
+#ifdef GL_LINEAR_MIPMAP_NEAREST
+				case GL_LINEAR_MIPMAP_NEAREST:
+					return s_LINEAR_MIPMAP_NEAREST;
 #endif
 #ifdef GL_NEAREST
 				case GL_NEAREST:
 					return s_NEAREST;
 #endif
-#ifdef GL_LINEAR
-				case GL_LINEAR:
-					return s_LINEAR;
-#endif
-#ifdef GL_NEAREST_MIPMAP_NEAREST
-				case GL_NEAREST_MIPMAP_NEAREST:
-					return s_NEAREST_MIPMAP_NEAREST;
-#endif
 #ifdef GL_NEAREST_MIPMAP_LINEAR
 				case GL_NEAREST_MIPMAP_LINEAR:
 					return s_NEAREST_MIPMAP_LINEAR;
 #endif
-#ifdef GL_LINEAR_MIPMAP_NEAREST
-				case GL_LINEAR_MIPMAP_NEAREST:
-					return s_LINEAR_MIPMAP_NEAREST;
+#ifdef GL_NEAREST_MIPMAP_NEAREST
+				case GL_NEAREST_MIPMAP_NEAREST:
+					return s_NEAREST_MIPMAP_NEAREST;
 #endif
 				default:;
 			}
@@ -7127,25 +7127,25 @@ noexcept
 		case 71: /* texture_swizzle */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_RED
-				case GL_RED:
-					return s_RED;
-#endif
-#ifdef GL_GREEN
-				case GL_GREEN:
-					return s_GREEN;
+#ifdef GL_ALPHA
+				case GL_ALPHA:
+					return s_ALPHA;
 #endif
 #ifdef GL_BLUE
 				case GL_BLUE:
 					return s_BLUE;
 #endif
+#ifdef GL_GREEN
+				case GL_GREEN:
+					return s_GREEN;
+#endif
 #ifdef GL_ONE
 				case GL_ONE:
 					return s_ONE;
 #endif
-#ifdef GL_ALPHA
-				case GL_ALPHA:
-					return s_ALPHA;
+#ifdef GL_RED
+				case GL_RED:
+					return s_RED;
 #endif
 #ifdef GL_ZERO
 				case GL_ZERO:
@@ -7157,25 +7157,25 @@ noexcept
 		case 72: /* texture_swizzle_coord */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_TEXTURE_SWIZZLE_R
-				case GL_TEXTURE_SWIZZLE_R:
-					return s_TEXTURE_SWIZZLE_R;
-#endif
-#ifdef GL_TEXTURE_SWIZZLE_G
-				case GL_TEXTURE_SWIZZLE_G:
-					return s_TEXTURE_SWIZZLE_G;
+#ifdef GL_TEXTURE_SWIZZLE_A
+				case GL_TEXTURE_SWIZZLE_A:
+					return s_TEXTURE_SWIZZLE_A;
 #endif
 #ifdef GL_TEXTURE_SWIZZLE_B
 				case GL_TEXTURE_SWIZZLE_B:
 					return s_TEXTURE_SWIZZLE_B;
 #endif
+#ifdef GL_TEXTURE_SWIZZLE_G
+				case GL_TEXTURE_SWIZZLE_G:
+					return s_TEXTURE_SWIZZLE_G;
+#endif
+#ifdef GL_TEXTURE_SWIZZLE_R
+				case GL_TEXTURE_SWIZZLE_R:
+					return s_TEXTURE_SWIZZLE_R;
+#endif
 #ifdef GL_TEXTURE_SWIZZLE_RGBA
 				case GL_TEXTURE_SWIZZLE_RGBA:
 					return s_TEXTURE_SWIZZLE_RGBA;
-#endif
-#ifdef GL_TEXTURE_SWIZZLE_A
-				case GL_TEXTURE_SWIZZLE_A:
-					return s_TEXTURE_SWIZZLE_A;
 #endif
 				default:;
 			}
@@ -7187,29 +7187,29 @@ noexcept
 				case GL_TEXTURE_1D:
 					return s_TEXTURE_1D;
 #endif
-#ifdef GL_TEXTURE_2D
-				case GL_TEXTURE_2D:
-					return s_TEXTURE_2D;
-#endif
-#ifdef GL_TEXTURE_3D
-				case GL_TEXTURE_3D:
-					return s_TEXTURE_3D;
-#endif
-#ifdef GL_TEXTURE_CUBE_MAP_NEGATIVE_Z
-				case GL_TEXTURE_CUBE_MAP_NEGATIVE_Z:
-					return s_TEXTURE_CUBE_MAP_NEGATIVE_Z;
-#endif
 #ifdef GL_TEXTURE_1D_ARRAY
 				case GL_TEXTURE_1D_ARRAY:
 					return s_TEXTURE_1D_ARRAY;
+#endif
+#ifdef GL_TEXTURE_2D
+				case GL_TEXTURE_2D:
+					return s_TEXTURE_2D;
 #endif
 #ifdef GL_TEXTURE_2D_ARRAY
 				case GL_TEXTURE_2D_ARRAY:
 					return s_TEXTURE_2D_ARRAY;
 #endif
-#ifdef GL_TEXTURE_RECTANGLE
-				case GL_TEXTURE_RECTANGLE:
-					return s_TEXTURE_RECTANGLE;
+#ifdef GL_TEXTURE_2D_MULTISAMPLE
+				case GL_TEXTURE_2D_MULTISAMPLE:
+					return s_TEXTURE_2D_MULTISAMPLE;
+#endif
+#ifdef GL_TEXTURE_2D_MULTISAMPLE_ARRAY
+				case GL_TEXTURE_2D_MULTISAMPLE_ARRAY:
+					return s_TEXTURE_2D_MULTISAMPLE_ARRAY;
+#endif
+#ifdef GL_TEXTURE_3D
+				case GL_TEXTURE_3D:
+					return s_TEXTURE_3D;
 #endif
 #ifdef GL_TEXTURE_BUFFER
 				case GL_TEXTURE_BUFFER:
@@ -7223,33 +7223,33 @@ noexcept
 				case GL_TEXTURE_CUBE_MAP_ARRAY:
 					return s_TEXTURE_CUBE_MAP_ARRAY;
 #endif
-#ifdef GL_TEXTURE_2D_MULTISAMPLE
-				case GL_TEXTURE_2D_MULTISAMPLE:
-					return s_TEXTURE_2D_MULTISAMPLE;
-#endif
-#ifdef GL_TEXTURE_2D_MULTISAMPLE_ARRAY
-				case GL_TEXTURE_2D_MULTISAMPLE_ARRAY:
-					return s_TEXTURE_2D_MULTISAMPLE_ARRAY;
-#endif
-#ifdef GL_TEXTURE_CUBE_MAP_POSITIVE_X
-				case GL_TEXTURE_CUBE_MAP_POSITIVE_X:
-					return s_TEXTURE_CUBE_MAP_POSITIVE_X;
-#endif
 #ifdef GL_TEXTURE_CUBE_MAP_NEGATIVE_X
 				case GL_TEXTURE_CUBE_MAP_NEGATIVE_X:
 					return s_TEXTURE_CUBE_MAP_NEGATIVE_X;
-#endif
-#ifdef GL_TEXTURE_CUBE_MAP_POSITIVE_Y
-				case GL_TEXTURE_CUBE_MAP_POSITIVE_Y:
-					return s_TEXTURE_CUBE_MAP_POSITIVE_Y;
 #endif
 #ifdef GL_TEXTURE_CUBE_MAP_NEGATIVE_Y
 				case GL_TEXTURE_CUBE_MAP_NEGATIVE_Y:
 					return s_TEXTURE_CUBE_MAP_NEGATIVE_Y;
 #endif
+#ifdef GL_TEXTURE_CUBE_MAP_NEGATIVE_Z
+				case GL_TEXTURE_CUBE_MAP_NEGATIVE_Z:
+					return s_TEXTURE_CUBE_MAP_NEGATIVE_Z;
+#endif
+#ifdef GL_TEXTURE_CUBE_MAP_POSITIVE_X
+				case GL_TEXTURE_CUBE_MAP_POSITIVE_X:
+					return s_TEXTURE_CUBE_MAP_POSITIVE_X;
+#endif
+#ifdef GL_TEXTURE_CUBE_MAP_POSITIVE_Y
+				case GL_TEXTURE_CUBE_MAP_POSITIVE_Y:
+					return s_TEXTURE_CUBE_MAP_POSITIVE_Y;
+#endif
 #ifdef GL_TEXTURE_CUBE_MAP_POSITIVE_Z
 				case GL_TEXTURE_CUBE_MAP_POSITIVE_Z:
 					return s_TEXTURE_CUBE_MAP_POSITIVE_Z;
+#endif
+#ifdef GL_TEXTURE_RECTANGLE
+				case GL_TEXTURE_RECTANGLE:
+					return s_TEXTURE_RECTANGLE;
 #endif
 				default:;
 			}
@@ -7257,25 +7257,25 @@ noexcept
 		case 74: /* texture_wrap */
 			switch(GLenum(aev._value))
 			{
+#ifdef GL_CLAMP_TO_BORDER
+				case GL_CLAMP_TO_BORDER:
+					return s_CLAMP_TO_BORDER;
+#endif
 #ifdef GL_CLAMP_TO_EDGE
 				case GL_CLAMP_TO_EDGE:
 					return s_CLAMP_TO_EDGE;
 #endif
-#ifdef GL_REPEAT
-				case GL_REPEAT:
-					return s_REPEAT;
-#endif
-#ifdef GL_CLAMP_TO_BORDER
-				case GL_CLAMP_TO_BORDER:
-					return s_CLAMP_TO_BORDER;
+#ifdef GL_MIRRORED_REPEAT
+				case GL_MIRRORED_REPEAT:
+					return s_MIRRORED_REPEAT;
 #endif
 #ifdef GL_MIRROR_CLAMP_TO_EDGE
 				case GL_MIRROR_CLAMP_TO_EDGE:
 					return s_MIRROR_CLAMP_TO_EDGE;
 #endif
-#ifdef GL_MIRRORED_REPEAT
-				case GL_MIRRORED_REPEAT:
-					return s_MIRRORED_REPEAT;
+#ifdef GL_REPEAT
+				case GL_REPEAT:
+					return s_REPEAT;
 #endif
 				default:;
 			}
@@ -7283,6 +7283,10 @@ noexcept
 		case 75: /* texture_wrap_coord */
 			switch(GLenum(aev._value))
 			{
+#ifdef GL_TEXTURE_WRAP_R
+				case GL_TEXTURE_WRAP_R:
+					return s_TEXTURE_WRAP_R;
+#endif
 #ifdef GL_TEXTURE_WRAP_S
 				case GL_TEXTURE_WRAP_S:
 					return s_TEXTURE_WRAP_S;
@@ -7291,23 +7295,19 @@ noexcept
 				case GL_TEXTURE_WRAP_T:
 					return s_TEXTURE_WRAP_T;
 #endif
-#ifdef GL_TEXTURE_WRAP_R
-				case GL_TEXTURE_WRAP_R:
-					return s_TEXTURE_WRAP_R;
-#endif
 				default:;
 			}
 			break;
 		case 76: /* transform_feedback_mode */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_SEPARATE_ATTRIBS
-				case GL_SEPARATE_ATTRIBS:
-					return s_SEPARATE_ATTRIBS;
-#endif
 #ifdef GL_INTERLEAVED_ATTRIBS
 				case GL_INTERLEAVED_ATTRIBS:
 					return s_INTERLEAVED_ATTRIBS;
+#endif
+#ifdef GL_SEPARATE_ATTRIBS
+				case GL_SEPARATE_ATTRIBS:
+					return s_SEPARATE_ATTRIBS;
 #endif
 				default:;
 			}
@@ -7315,10 +7315,6 @@ noexcept
 		case 77: /* transform_feedback_primitive_type */
 			switch(GLenum(aev._value))
 			{
-#ifdef GL_TRIANGLES
-				case GL_TRIANGLES:
-					return s_TRIANGLES;
-#endif
 #ifdef GL_LINES
 				case GL_LINES:
 					return s_LINES;
@@ -7326,6 +7322,10 @@ noexcept
 #ifdef GL_POINTS
 				case GL_POINTS:
 					return s_POINTS;
+#endif
+#ifdef GL_TRIANGLES
+				case GL_TRIANGLES:
+					return s_TRIANGLES;
 #endif
 				default:;
 			}

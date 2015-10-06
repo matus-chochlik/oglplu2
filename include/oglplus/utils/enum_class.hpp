@@ -22,6 +22,7 @@ using enum_class = eagine::enum_class<Self, T, 0, Id>;
 
 using eagine::enum_bitfield;
 
+using any_enum_class = eagine::any_enum_class<0>;
 using any_enum_value = eagine::any_enum_value<0>;
 
 } // namespace oglplus

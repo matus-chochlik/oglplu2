@@ -11,6 +11,7 @@ all: \
 	_incl_enum_types_hpp \
 	_incl_enum_values_hpp \
 	_impl_enum_value_names_inl \
+	_impl_enum_value_range_inl \
 	_test_enums_cpp
 
 .PHONY: _incl_enum_types_hpp
@@ -45,6 +46,18 @@ $(ROOT)/implement/$(LIBRARY)/enum_value_names.inl: $(SOURCES) $(MAKE_ENUM)
 		--library $(LIBRARY) \
 		--base-lib-prefix $(LIB_PREFIX)\
 		--action impl_enum_value_names_inl \
+		--output "$@" \
+		$(filter %.txt,$^)
+	git add "$@"
+
+.PHONY: _impl_enum_value_range_inl
+_impl_enum_value_range_inl: $(ROOT)/implement/$(LIBRARY)/enum_value_range.inl
+
+$(ROOT)/implement/$(LIBRARY)/enum_value_range.inl: $(SOURCES) $(MAKE_ENUM)
+	$(MAKE_ENUM) \
+		--library $(LIBRARY) \
+		--base-lib-prefix $(LIB_PREFIX)\
+		--action impl_enum_value_range_inl \
 		--output "$@" \
 		$(filter %.txt,$^)
 	git add "$@"

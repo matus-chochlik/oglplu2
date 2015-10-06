@@ -28,7 +28,7 @@ def print_header(options, cs):
 	print_comment(options, cs, "  Copyright Matus Chochlik.")
 	print_comment(options, cs, "  Distributed under the Boost Software License, Version 1.0.")
 	print_comment(options, cs, "  See accompanying file LICENSE_1_0.txt or copy at")
-	print_comment(options, cs, "  http://www.boost.org/LICENSE_1_0.txt")
+	print_comment(options, cs, "   http://www.boost.org/LICENSE_1_0.txt")
 	print_comment(options, cs)
 
 def print_cpp_header(options):
@@ -289,7 +289,7 @@ def action_impl_enum_value_names_inl(options):
 			enum_class_info.enum_type
 		))
 		print_line(options, "\t\t\t{")
-		for enum_value in sorted(enum_class_info.values):
+		for enum_value in sorted(enum_class_info.values, key=lambda x: x.src_name):
 			print_line(options, "#ifdef %s_%s" % (
 				options.base_lib_prefix,
 				enum_value.src_name
@@ -313,6 +313,84 @@ def action_impl_enum_value_names_inl(options):
 
 	print_newline(options)
 	print_line(options, "	(void)aev;")
+	print_line(options, "	return {};")
+	print_line(options, "}")
+	print_newline(options)
+	print_line(options, "} // namespace %s" % options.library)
+	print_line(options, "#endif")
+
+
+def action_impl_enum_value_range_inl(options):
+
+	enum_classes = dict()
+
+	typ_id = 0
+
+	for input_path in sorted(options.inputs):
+		update_input_options(options, input_path)
+
+		enum_classes[options.enum_name] = type(
+			"EnumClassInfo",
+			(object,), {
+				"typ_id": typ_id,
+				"enum_type": options.enum_type,
+				"values": set()
+			}
+		)
+		typ_id = typ_id + 1
+
+		for value_info in parse_source(options, input_path):
+			enum_classes[options.enum_name].values.add(value_info)
+
+	print_cpp_header(options)
+
+	print_line(options, "#include <%s/config/basic.hpp>" % options.library)
+	print_line(options, "#if !%s_LINK_LIBRARY || defined(%s_IMPLEMENTING_LIBRARY)" % (
+		options.library_uc,
+		options.library_uc
+	))
+	print_newline(options)
+	print_line(options, "namespace %s {" % options.library)
+	print_newline(options)
+	print_line(options, "%s_LIB_FUNC" % options.library_uc)
+	print_line(options, "array_view<const long>")
+	print_line(options, "get_enum_value_range(const any_enum_class& aec)")
+	print_line(options, "noexcept")
+	print_line(options, "{")
+
+	print_line(options, "\tswitch(aec._type_id)")
+	print_line(options, "\t{")
+
+	for enum_class, enum_class_info in sorted(enum_classes.items()):
+		print_line(options, "\t\tcase %d: /* %s */" % (
+			enum_class_info.typ_id,
+			enum_class
+		))
+		print_line(options, "\t\t{")
+
+		print_line(options, "\t\t\tstatic const long vr[] = {")
+
+		for enum_value in sorted(enum_class_info.values, key=lambda x: x.src_name):
+			print_line(options, "#ifdef %s_%s" % (
+				options.base_lib_prefix,
+				enum_value.src_name
+			))
+			print_line(options, "\t\t\t\t%s_%s," % (
+				options.base_lib_prefix,
+				enum_value.src_name
+			))
+			print_line(options, "#endif")
+
+		print_line(options, "\t\t\t\t0")
+		print_line(options, "\t\t\t};")
+		print_line(options, "\t\t\treturn {vr, sizeof(vr)/sizeof(vr[0])};")
+		print_line(options, "\t\t}")
+
+	print_line(options, "\tdefault:;")
+	print_line(options, "\t}")
+
+	print_newline(options)
+	print_line(options, "	(void)aec;")
 	print_line(options, "	return {};")
 	print_line(options, "}")
 	print_newline(options)
@@ -414,6 +492,7 @@ actions = {
 	"incl_enum_types_hpp": action_incl_enum_types_hpp,
 	"incl_enum_values_hpp": action_incl_enum_values_hpp,
 	"impl_enum_value_names_inl": action_impl_enum_value_names_inl,
+	"impl_enum_value_range_inl": action_impl_enum_value_range_inl,
 	"test_enums_cpp": action_test_enums_cpp,
 	"info":    action_info,
 }

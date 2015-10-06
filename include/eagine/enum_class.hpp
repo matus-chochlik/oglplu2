@@ -79,6 +79,53 @@ struct enum_class
 };
 
 template <unsigned LibId>
+struct any_enum_class
+{
+	unsigned _type_id;
+
+	constexpr inline
+	any_enum_class(void)
+	noexcept
+	 : _type_id(~unsigned(0))
+	{ }
+
+	template <typename Self, typename T, unsigned Id>
+	constexpr inline
+	any_enum_class(enum_class<Self, T, LibId, Id>)
+	noexcept
+	 : _type_id(Id)
+	{ }
+
+	explicit constexpr inline
+	operator bool (void) const
+	noexcept
+	{
+		return _type_id != ~unsigned(0);
+	}
+
+	constexpr inline
+	bool operator ! (void) const
+	noexcept
+	{
+		return _type_id == ~unsigned(0);
+	}
+
+	friend
+	bool operator == (const any_enum_class& a, const any_enum_class& b)
+	noexcept
+	{
+		return a._type_id == b._type_id;
+	}
+
+	friend
+	bool operator != (const any_enum_class& a, const any_enum_class& b)
+	noexcept
+	{
+		return a._type_id != b._type_id;
+	}
+};
+
+template <unsigned LibId>
 struct any_enum_value
 {
 	long _value;
