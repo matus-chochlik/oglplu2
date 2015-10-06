@@ -346,4 +346,86 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_source_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_debug_output_source_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	debug_output_source x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_DEBUG_SOURCE_API
+	x = ev.debug_source_api;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.debug_source_api);
+#endif
+
+#ifdef GL_DEBUG_SOURCE_APPLICATION
+	x = ev.debug_source_application;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.debug_source_application);
+#endif
+
+#ifdef GL_DEBUG_SOURCE_OTHER
+	x = ev.debug_source_other;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.debug_source_other);
+#endif
+
+#ifdef GL_DEBUG_SOURCE_SHADER_COMPILER
+	x = ev.debug_source_shader_compiler;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.debug_source_shader_compiler);
+#endif
+
+#ifdef GL_DEBUG_SOURCE_THIRD_PARTY
+	x = ev.debug_source_third_party;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.debug_source_third_party);
+#endif
+
+#ifdef GL_DEBUG_SOURCE_WINDOW_SYSTEM
+	x = ev.debug_source_window_system;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.debug_source_window_system);
+#endif
+
+#ifdef GL_DONT_CARE
+	x = ev.dont_care;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.dont_care);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

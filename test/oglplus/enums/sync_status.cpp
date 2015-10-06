@@ -101,4 +101,36 @@ BOOST_AUTO_TEST_CASE(enum_sync_status_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_sync_status_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	sync_status x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_SIGNALED
+	x = ev.signaled;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.signaled);
+#endif
+
+#ifdef GL_UNSIGNALED
+	x = ev.unsignaled;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsignaled);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

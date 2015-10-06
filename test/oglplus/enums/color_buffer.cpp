@@ -565,4 +565,116 @@ BOOST_AUTO_TEST_CASE(enum_color_buffer_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_color_buffer_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	color_buffer x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_BACK
+	x = ev.back;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.back);
+#endif
+
+#ifdef GL_BACK_LEFT
+	x = ev.back_left;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.back_left);
+#endif
+
+#ifdef GL_BACK_RIGHT
+	x = ev.back_right;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.back_right);
+#endif
+
+#ifdef GL_FRONT
+	x = ev.front;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.front);
+#endif
+
+#ifdef GL_FRONT_AND_BACK
+	x = ev.front_and_back;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.front_and_back);
+#endif
+
+#ifdef GL_FRONT_LEFT
+	x = ev.front_left;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.front_left);
+#endif
+
+#ifdef GL_FRONT_RIGHT
+	x = ev.front_right;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.front_right);
+#endif
+
+#ifdef GL_LEFT
+	x = ev.left;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.left);
+#endif
+
+#ifdef GL_NONE
+	x = ev.none;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.none);
+#endif
+
+#ifdef GL_RIGHT
+	x = ev.right;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.right);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

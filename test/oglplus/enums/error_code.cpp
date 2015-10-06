@@ -565,4 +565,116 @@ BOOST_AUTO_TEST_CASE(enum_error_code_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_error_code_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	error_code x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_CONTEXT_LOST
+	x = ev.context_lost;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.context_lost);
+#endif
+
+#ifdef GL_INVALID_ENUM
+	x = ev.invalid_enum;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.invalid_enum);
+#endif
+
+#ifdef GL_INVALID_FRAMEBUFFER_OPERATION
+	x = ev.invalid_framebuffer_operation;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.invalid_framebuffer_operation);
+#endif
+
+#ifdef GL_INVALID_OPERATION
+	x = ev.invalid_operation;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.invalid_operation);
+#endif
+
+#ifdef GL_INVALID_VALUE
+	x = ev.invalid_value;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.invalid_value);
+#endif
+
+#ifdef GL_NO_ERROR
+	x = ev.no_error;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.no_error);
+#endif
+
+#ifdef GL_OUT_OF_MEMORY
+	x = ev.out_of_memory;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.out_of_memory);
+#endif
+
+#ifdef GL_STACK_OVERFLOW
+	x = ev.stack_overflow;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.stack_overflow);
+#endif
+
+#ifdef GL_STACK_UNDERFLOW
+	x = ev.stack_underflow;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.stack_underflow);
+#endif
+
+#ifdef GL_TABLE_TOO_LARGE
+	x = ev.table_too_large;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.table_too_large);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

@@ -523,6 +523,37 @@ def action_test_enums_cpp(options):
 	print_line(options, "}")
 
 	print_newline(options)
+	print_line(options, "BOOST_AUTO_TEST_CASE(enum_%s_any)" % options.enum_name)
+	print_line(options, "{")
+	print_line(options, "	using namespace %s;" % options.library)
+	print_line(options, "	enum_values ev;")
+	print_line(options, "	(void)ev;")
+	print_line(options, "	%s x, y;" % options.enum_name)
+	print_line(options, "	(void)x;")
+	print_line(options, "	(void)y;")
+	print_line(options, "	any_enum_value a;")
+	print_line(options, "	(void)a;")
+
+
+	for value_name, value_info in sorted(value_infos.items()):
+		print_newline(options)
+		print_line(options, "#ifdef %s_%s" % (
+			options.base_lib_prefix,
+			value_info.src_name
+		))
+		print_line(options, "	x = ev.%s;" % value_name)
+		print_line(options, "	a = x;")
+		print_line(options, "	y = a;")
+		print_line(options, "	BOOST_CHECK(same_enum_class(x, a));")
+		print_line(options, "	BOOST_CHECK(same_enum_class(a, y));")
+		print_line(options, "	BOOST_CHECK(same_enum_class(x, y));")
+		print_line(options, "	BOOST_CHECK(y == ev.%s);" % value_name)
+
+		print_line(options, "#endif")
+
+	print_line(options, "}")
+
+	print_newline(options)
 	print_line(options, "BOOST_AUTO_TEST_SUITE_END()")
 
 

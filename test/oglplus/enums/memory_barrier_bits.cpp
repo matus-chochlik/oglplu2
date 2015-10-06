@@ -1050,4 +1050,166 @@ BOOST_AUTO_TEST_CASE(enum_memory_barrier_bits_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_memory_barrier_bits_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	memory_barrier_bits x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_ALL_BARRIER_BITS
+	x = ev.all_barrier_bits;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.all_barrier_bits);
+#endif
+
+#ifdef GL_ATOMIC_COUNTER_BARRIER_BIT
+	x = ev.atomic_counter_barrier_bit;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.atomic_counter_barrier_bit);
+#endif
+
+#ifdef GL_BUFFER_UPDATE_BARRIER_BIT
+	x = ev.buffer_update_barrier_bit;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.buffer_update_barrier_bit);
+#endif
+
+#ifdef GL_CLIENT_MAPPED_BUFFER_BARRIER_BIT
+	x = ev.client_mapped_buffer_barrier_bit;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.client_mapped_buffer_barrier_bit);
+#endif
+
+#ifdef GL_COMMAND_BARRIER_BIT
+	x = ev.command_barrier_bit;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.command_barrier_bit);
+#endif
+
+#ifdef GL_ELEMENT_ARRAY_BARRIER_BIT
+	x = ev.element_array_barrier_bit;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.element_array_barrier_bit);
+#endif
+
+#ifdef GL_FRAMEBUFFER_BARRIER_BIT
+	x = ev.framebuffer_barrier_bit;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.framebuffer_barrier_bit);
+#endif
+
+#ifdef GL_PIXEL_BUFFER_BARRIER_BIT
+	x = ev.pixel_buffer_barrier_bit;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.pixel_buffer_barrier_bit);
+#endif
+
+#ifdef GL_SHADER_IMAGE_ACCESS_BARRIER_BIT
+	x = ev.shader_image_access_barrier_bit;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.shader_image_access_barrier_bit);
+#endif
+
+#ifdef GL_SHADER_STORAGE_BARRIER_BIT
+	x = ev.shader_storage_barrier_bit;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.shader_storage_barrier_bit);
+#endif
+
+#ifdef GL_TEXTURE_FETCH_BARRIER_BIT
+	x = ev.texture_fetch_barrier_bit;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.texture_fetch_barrier_bit);
+#endif
+
+#ifdef GL_TEXTURE_UPDATE_BARRIER_BIT
+	x = ev.texture_update_barrier_bit;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.texture_update_barrier_bit);
+#endif
+
+#ifdef GL_TRANSFORM_FEEDBACK_BARRIER_BIT
+	x = ev.transform_feedback_barrier_bit;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.transform_feedback_barrier_bit);
+#endif
+
+#ifdef GL_UNIFORM_BARRIER_BIT
+	x = ev.uniform_barrier_bit;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.uniform_barrier_bit);
+#endif
+
+#ifdef GL_VERTEX_ATTRIB_ARRAY_BARRIER_BIT
+	x = ev.vertex_attrib_array_barrier_bit;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.vertex_attrib_array_barrier_bit);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

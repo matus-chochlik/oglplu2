@@ -2301,4 +2301,256 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_pixel_parameter_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	pixel_parameter x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_PACK_LSB_FIRST
+	x = ev.PackLSBFirst;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.PackLSBFirst);
+#endif
+
+#ifdef GL_UNPACK_LSB_FIRST
+	x = ev.UnpackLSBFirst;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.UnpackLSBFirst);
+#endif
+
+#ifdef GL_PACK_ALIGNMENT
+	x = ev.pack_alignment;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.pack_alignment);
+#endif
+
+#ifdef GL_PACK_COMPRESSED_BLOCK_DEPTH
+	x = ev.pack_compressed_block_depth;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.pack_compressed_block_depth);
+#endif
+
+#ifdef GL_PACK_COMPRESSED_BLOCK_HEIGHT
+	x = ev.pack_compressed_block_height;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.pack_compressed_block_height);
+#endif
+
+#ifdef GL_PACK_COMPRESSED_BLOCK_SIZE
+	x = ev.pack_compressed_block_size;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.pack_compressed_block_size);
+#endif
+
+#ifdef GL_PACK_COMPRESSED_BLOCK_WIDTH
+	x = ev.pack_compressed_block_width;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.pack_compressed_block_width);
+#endif
+
+#ifdef GL_PACK_IMAGE_HEIGHT
+	x = ev.pack_image_height;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.pack_image_height);
+#endif
+
+#ifdef GL_PACK_ROW_LENGTH
+	x = ev.pack_row_length;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.pack_row_length);
+#endif
+
+#ifdef GL_PACK_SKIP_IMAGES
+	x = ev.pack_skip_images;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.pack_skip_images);
+#endif
+
+#ifdef GL_PACK_SKIP_PIXELS
+	x = ev.pack_skip_pixels;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.pack_skip_pixels);
+#endif
+
+#ifdef GL_PACK_SKIP_ROWS
+	x = ev.pack_skip_rows;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.pack_skip_rows);
+#endif
+
+#ifdef GL_PACK_SWAP_BYTES
+	x = ev.pack_swap_bytes;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.pack_swap_bytes);
+#endif
+
+#ifdef GL_UNPACK_ALIGNMENT
+	x = ev.unpack_alignment;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unpack_alignment);
+#endif
+
+#ifdef GL_UNPACK_COMPRESSED_BLOCK_DEPTH
+	x = ev.unpack_compressed_block_depth;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unpack_compressed_block_depth);
+#endif
+
+#ifdef GL_UNPACK_COMPRESSED_BLOCK_HEIGHT
+	x = ev.unpack_compressed_block_height;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unpack_compressed_block_height);
+#endif
+
+#ifdef GL_UNPACK_COMPRESSED_BLOCK_SIZE
+	x = ev.unpack_compressed_block_size;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unpack_compressed_block_size);
+#endif
+
+#ifdef GL_UNPACK_COMPRESSED_BLOCK_WIDTH
+	x = ev.unpack_compressed_block_width;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unpack_compressed_block_width);
+#endif
+
+#ifdef GL_UNPACK_IMAGE_HEIGHT
+	x = ev.unpack_image_height;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unpack_image_height);
+#endif
+
+#ifdef GL_UNPACK_ROW_LENGTH
+	x = ev.unpack_row_length;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unpack_row_length);
+#endif
+
+#ifdef GL_UNPACK_SKIP_IMAGES
+	x = ev.unpack_skip_images;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unpack_skip_images);
+#endif
+
+#ifdef GL_UNPACK_SKIP_PIXELS
+	x = ev.unpack_skip_pixels;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unpack_skip_pixels);
+#endif
+
+#ifdef GL_UNPACK_SKIP_ROWS
+	x = ev.unpack_skip_rows;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unpack_skip_rows);
+#endif
+
+#ifdef GL_UNPACK_SWAP_BYTES
+	x = ev.unpack_swap_bytes;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unpack_swap_bytes);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

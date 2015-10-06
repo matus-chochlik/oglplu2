@@ -741,4 +741,136 @@ BOOST_AUTO_TEST_CASE(enum_primitive_type_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_primitive_type_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	primitive_type x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_LINE_LOOP
+	x = ev.line_loop;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.line_loop);
+#endif
+
+#ifdef GL_LINE_STRIP
+	x = ev.line_strip;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.line_strip);
+#endif
+
+#ifdef GL_LINE_STRIP_ADJACENCY
+	x = ev.line_strip_adjacency;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.line_strip_adjacency);
+#endif
+
+#ifdef GL_LINES
+	x = ev.lines;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.lines);
+#endif
+
+#ifdef GL_LINES_ADJACENCY
+	x = ev.lines_adjacency;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.lines_adjacency);
+#endif
+
+#ifdef GL_PATCHES
+	x = ev.patches;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.patches);
+#endif
+
+#ifdef GL_POINTS
+	x = ev.points;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.points);
+#endif
+
+#ifdef GL_TRIANGLE_FAN
+	x = ev.triangle_fan;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.triangle_fan);
+#endif
+
+#ifdef GL_TRIANGLE_STRIP
+	x = ev.triangle_strip;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.triangle_strip);
+#endif
+
+#ifdef GL_TRIANGLE_STRIP_ADJACENCY
+	x = ev.triangle_strip_adjacency;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.triangle_strip_adjacency);
+#endif
+
+#ifdef GL_TRIANGLES
+	x = ev.triangles;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.triangles);
+#endif
+
+#ifdef GL_TRIANGLES_ADJACENCY
+	x = ev.triangles_adjacency;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.triangles_adjacency);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

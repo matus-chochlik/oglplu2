@@ -32245,4 +32245,1016 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	pixel_data_internal_format x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_COMPRESSED_R11_EAC
+	x = ev.compressed_r11_eac;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.compressed_r11_eac);
+#endif
+
+#ifdef GL_COMPRESSED_RED
+	x = ev.compressed_red;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.compressed_red);
+#endif
+
+#ifdef GL_COMPRESSED_RED_RGTC1
+	x = ev.compressed_red_rgtc1;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.compressed_red_rgtc1);
+#endif
+
+#ifdef GL_COMPRESSED_RG
+	x = ev.compressed_rg;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.compressed_rg);
+#endif
+
+#ifdef GL_COMPRESSED_RG11_EAC
+	x = ev.compressed_rg11_eac;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.compressed_rg11_eac);
+#endif
+
+#ifdef GL_COMPRESSED_RG_RGTC2
+	x = ev.compressed_rg_rgtc2;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.compressed_rg_rgtc2);
+#endif
+
+#ifdef GL_COMPRESSED_RGB
+	x = ev.compressed_rgb;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.compressed_rgb);
+#endif
+
+#ifdef GL_COMPRESSED_RGB8_ETC2
+	x = ev.compressed_rgb8_etc2;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.compressed_rgb8_etc2);
+#endif
+
+#ifdef GL_COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2
+	x = ev.compressed_rgb8_punchthrough_alpha1_etc2;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.compressed_rgb8_punchthrough_alpha1_etc2);
+#endif
+
+#ifdef GL_COMPRESSED_RGB_BPTC_SIGNED_FLOAT
+	x = ev.compressed_rgb_bptc_signed_float;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.compressed_rgb_bptc_signed_float);
+#endif
+
+#ifdef GL_COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT
+	x = ev.compressed_rgb_bptc_unsigned_float;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.compressed_rgb_bptc_unsigned_float);
+#endif
+
+#ifdef GL_COMPRESSED_RGBA
+	x = ev.compressed_rgba;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.compressed_rgba);
+#endif
+
+#ifdef GL_COMPRESSED_RGBA8_ETC2_EAC
+	x = ev.compressed_rgba8_etc2_eac;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.compressed_rgba8_etc2_eac);
+#endif
+
+#ifdef GL_COMPRESSED_RGBA_BPTC_UNORM
+	x = ev.compressed_rgba_bptc_unorm;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.compressed_rgba_bptc_unorm);
+#endif
+
+#ifdef GL_COMPRESSED_SIGNED_R11_EAC
+	x = ev.compressed_signed_r11_eac;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.compressed_signed_r11_eac);
+#endif
+
+#ifdef GL_COMPRESSED_SIGNED_RED_RGTC1
+	x = ev.compressed_signed_red_rgtc1;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.compressed_signed_red_rgtc1);
+#endif
+
+#ifdef GL_COMPRESSED_SIGNED_RG11_EAC
+	x = ev.compressed_signed_rg11_eac;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.compressed_signed_rg11_eac);
+#endif
+
+#ifdef GL_COMPRESSED_SIGNED_RG_RGTC2
+	x = ev.compressed_signed_rg_rgtc2;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.compressed_signed_rg_rgtc2);
+#endif
+
+#ifdef GL_COMPRESSED_SRGB
+	x = ev.compressed_srgb;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.compressed_srgb);
+#endif
+
+#ifdef GL_COMPRESSED_SRGB8_ALPHA8_ETC2_EAC
+	x = ev.compressed_srgb8_alpha8_etc2_eac;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.compressed_srgb8_alpha8_etc2_eac);
+#endif
+
+#ifdef GL_COMPRESSED_SRGB8_ETC2
+	x = ev.compressed_srgb8_etc2;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.compressed_srgb8_etc2);
+#endif
+
+#ifdef GL_COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2
+	x = ev.compressed_srgb8_punchthrough_alpha1_etc2;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.compressed_srgb8_punchthrough_alpha1_etc2);
+#endif
+
+#ifdef GL_COMPRESSED_SRGB_ALPHA
+	x = ev.compressed_srgb_alpha;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.compressed_srgb_alpha);
+#endif
+
+#ifdef GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM
+	x = ev.compressed_srgb_alpha_bptc_unorm;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.compressed_srgb_alpha_bptc_unorm);
+#endif
+
+#ifdef GL_DEPTH24_STENCIL8
+	x = ev.depth24_stencil8;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.depth24_stencil8);
+#endif
+
+#ifdef GL_DEPTH32F_STENCIL8
+	x = ev.depth32f_stencil8;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.depth32f_stencil8);
+#endif
+
+#ifdef GL_DEPTH_COMPONENT
+	x = ev.depth_component;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.depth_component);
+#endif
+
+#ifdef GL_DEPTH_COMPONENT16
+	x = ev.depth_component16;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.depth_component16);
+#endif
+
+#ifdef GL_DEPTH_COMPONENT24
+	x = ev.depth_component24;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.depth_component24);
+#endif
+
+#ifdef GL_DEPTH_COMPONENT32
+	x = ev.depth_component32;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.depth_component32);
+#endif
+
+#ifdef GL_DEPTH_COMPONENT32F
+	x = ev.depth_component32f;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.depth_component32f);
+#endif
+
+#ifdef GL_DEPTH_STENCIL
+	x = ev.depth_stencil;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.depth_stencil);
+#endif
+
+#ifdef GL_R11F_G11F_B10F
+	x = ev.r11f_g11f_b10f;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.r11f_g11f_b10f);
+#endif
+
+#ifdef GL_R16
+	x = ev.r16;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.r16);
+#endif
+
+#ifdef GL_R16_SNORM
+	x = ev.r16_snorm;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.r16_snorm);
+#endif
+
+#ifdef GL_R16F
+	x = ev.r16f;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.r16f);
+#endif
+
+#ifdef GL_R16I
+	x = ev.r16i;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.r16i);
+#endif
+
+#ifdef GL_R16UI
+	x = ev.r16ui;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.r16ui);
+#endif
+
+#ifdef GL_R32F
+	x = ev.r32f;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.r32f);
+#endif
+
+#ifdef GL_R32I
+	x = ev.r32i;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.r32i);
+#endif
+
+#ifdef GL_R32UI
+	x = ev.r32ui;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.r32ui);
+#endif
+
+#ifdef GL_R3_G3_B2
+	x = ev.r3_g3_b2;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.r3_g3_b2);
+#endif
+
+#ifdef GL_R8
+	x = ev.r8;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.r8);
+#endif
+
+#ifdef GL_R8_SNORM
+	x = ev.r8_snorm;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.r8_snorm);
+#endif
+
+#ifdef GL_R8I
+	x = ev.r8i;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.r8i);
+#endif
+
+#ifdef GL_R8UI
+	x = ev.r8ui;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.r8ui);
+#endif
+
+#ifdef GL_RED
+	x = ev.red;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.red);
+#endif
+
+#ifdef GL_RG
+	x = ev.rg;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rg);
+#endif
+
+#ifdef GL_RG16
+	x = ev.rg16;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rg16);
+#endif
+
+#ifdef GL_RG16_SNORM
+	x = ev.rg16_snorm;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rg16_snorm);
+#endif
+
+#ifdef GL_RG16F
+	x = ev.rg16f;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rg16f);
+#endif
+
+#ifdef GL_RG16I
+	x = ev.rg16i;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rg16i);
+#endif
+
+#ifdef GL_RG16UI
+	x = ev.rg16ui;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rg16ui);
+#endif
+
+#ifdef GL_RG32F
+	x = ev.rg32f;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rg32f);
+#endif
+
+#ifdef GL_RG32I
+	x = ev.rg32i;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rg32i);
+#endif
+
+#ifdef GL_RG32UI
+	x = ev.rg32ui;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rg32ui);
+#endif
+
+#ifdef GL_RG8
+	x = ev.rg8;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rg8);
+#endif
+
+#ifdef GL_RG8_SNORM
+	x = ev.rg8_snorm;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rg8_snorm);
+#endif
+
+#ifdef GL_RG8I
+	x = ev.rg8i;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rg8i);
+#endif
+
+#ifdef GL_RG8UI
+	x = ev.rg8ui;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rg8ui);
+#endif
+
+#ifdef GL_RGB
+	x = ev.rgb;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rgb);
+#endif
+
+#ifdef GL_RGB10
+	x = ev.rgb10;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rgb10);
+#endif
+
+#ifdef GL_RGB10_A2
+	x = ev.rgb10_a2;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rgb10_a2);
+#endif
+
+#ifdef GL_RGB10_A2UI
+	x = ev.rgb10_a2ui;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rgb10_a2ui);
+#endif
+
+#ifdef GL_RGB12
+	x = ev.rgb12;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rgb12);
+#endif
+
+#ifdef GL_RGB16
+	x = ev.rgb16;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rgb16);
+#endif
+
+#ifdef GL_RGB16_SNORM
+	x = ev.rgb16_snorm;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rgb16_snorm);
+#endif
+
+#ifdef GL_RGB16F
+	x = ev.rgb16f;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rgb16f);
+#endif
+
+#ifdef GL_RGB16I
+	x = ev.rgb16i;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rgb16i);
+#endif
+
+#ifdef GL_RGB16UI
+	x = ev.rgb16ui;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rgb16ui);
+#endif
+
+#ifdef GL_RGB32F
+	x = ev.rgb32f;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rgb32f);
+#endif
+
+#ifdef GL_RGB32I
+	x = ev.rgb32i;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rgb32i);
+#endif
+
+#ifdef GL_RGB32UI
+	x = ev.rgb32ui;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rgb32ui);
+#endif
+
+#ifdef GL_RGB4
+	x = ev.rgb4;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rgb4);
+#endif
+
+#ifdef GL_RGB5
+	x = ev.rgb5;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rgb5);
+#endif
+
+#ifdef GL_RGB5_A1
+	x = ev.rgb5_a1;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rgb5_a1);
+#endif
+
+#ifdef GL_RGB8
+	x = ev.rgb8;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rgb8);
+#endif
+
+#ifdef GL_RGB8_SNORM
+	x = ev.rgb8_snorm;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rgb8_snorm);
+#endif
+
+#ifdef GL_RGB8I
+	x = ev.rgb8i;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rgb8i);
+#endif
+
+#ifdef GL_RGB8UI
+	x = ev.rgb8ui;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rgb8ui);
+#endif
+
+#ifdef GL_RGB9_E5
+	x = ev.rgb9_e5;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rgb9_e5);
+#endif
+
+#ifdef GL_RGBA
+	x = ev.rgba;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rgba);
+#endif
+
+#ifdef GL_RGBA12
+	x = ev.rgba12;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rgba12);
+#endif
+
+#ifdef GL_RGBA16
+	x = ev.rgba16;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rgba16);
+#endif
+
+#ifdef GL_RGBA16_SNORM
+	x = ev.rgba16_snorm;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rgba16_snorm);
+#endif
+
+#ifdef GL_RGBA16F
+	x = ev.rgba16f;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rgba16f);
+#endif
+
+#ifdef GL_RGBA16I
+	x = ev.rgba16i;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rgba16i);
+#endif
+
+#ifdef GL_RGBA16UI
+	x = ev.rgba16ui;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rgba16ui);
+#endif
+
+#ifdef GL_RGBA2
+	x = ev.rgba2;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rgba2);
+#endif
+
+#ifdef GL_RGBA32F
+	x = ev.rgba32f;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rgba32f);
+#endif
+
+#ifdef GL_RGBA32I
+	x = ev.rgba32i;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rgba32i);
+#endif
+
+#ifdef GL_RGBA32UI
+	x = ev.rgba32ui;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rgba32ui);
+#endif
+
+#ifdef GL_RGBA4
+	x = ev.rgba4;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rgba4);
+#endif
+
+#ifdef GL_RGBA8
+	x = ev.rgba8;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rgba8);
+#endif
+
+#ifdef GL_RGBA8_SNORM
+	x = ev.rgba8_snorm;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rgba8_snorm);
+#endif
+
+#ifdef GL_RGBA8I
+	x = ev.rgba8i;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rgba8i);
+#endif
+
+#ifdef GL_RGBA8UI
+	x = ev.rgba8ui;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rgba8ui);
+#endif
+
+#ifdef GL_SRGB8
+	x = ev.srgb8;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.srgb8);
+#endif
+
+#ifdef GL_SRGB8_ALPHA8
+	x = ev.srgb8_alpha8;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.srgb8_alpha8);
+#endif
+
+#ifdef GL_STENCIL_INDEX8
+	x = ev.stencil_index8;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.stencil_index8);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

@@ -101,4 +101,36 @@ BOOST_AUTO_TEST_CASE(enum_transform_feedback_mode_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_transform_feedback_mode_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	transform_feedback_mode x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_INTERLEAVED_ATTRIBS
+	x = ev.interleaved_attribs;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.interleaved_attribs);
+#endif
+
+#ifdef GL_SEPARATE_ATTRIBS
+	x = ev.separate_attribs;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.separate_attribs);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

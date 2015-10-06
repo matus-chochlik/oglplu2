@@ -101,4 +101,36 @@ BOOST_AUTO_TEST_CASE(enum_context_release_behavior_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_context_release_behavior_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	context_release_behavior x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH
+	x = ev.context_release_behavior_flush;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.context_release_behavior_flush);
+#endif
+
+#ifdef GL_NONE
+	x = ev.none;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.none);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

@@ -413,4 +413,96 @@ BOOST_AUTO_TEST_CASE(enum_conditional_render_mode_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_conditional_render_mode_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	conditional_render_mode x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_QUERY_BY_REGION_NO_WAIT
+	x = ev.query_by_region_no_wait;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.query_by_region_no_wait);
+#endif
+
+#ifdef GL_QUERY_BY_REGION_NO_WAIT_INVERTED
+	x = ev.query_by_region_no_wait_inverted;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.query_by_region_no_wait_inverted);
+#endif
+
+#ifdef GL_QUERY_BY_REGION_WAIT
+	x = ev.query_by_region_wait;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.query_by_region_wait);
+#endif
+
+#ifdef GL_QUERY_BY_REGION_WAIT_INVERTED
+	x = ev.query_by_region_wait_inverted;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.query_by_region_wait_inverted);
+#endif
+
+#ifdef GL_QUERY_NO_WAIT
+	x = ev.query_no_wait;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.query_no_wait);
+#endif
+
+#ifdef GL_QUERY_NO_WAIT_INVERTED
+	x = ev.query_no_wait_inverted;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.query_no_wait_inverted);
+#endif
+
+#ifdef GL_QUERY_WAIT
+	x = ev.query_wait;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.query_wait);
+#endif
+
+#ifdef GL_QUERY_WAIT_INVERTED
+	x = ev.query_wait_inverted;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.query_wait_inverted);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

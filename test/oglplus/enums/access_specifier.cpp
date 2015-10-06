@@ -138,4 +138,46 @@ BOOST_AUTO_TEST_CASE(enum_access_specifier_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_access_specifier_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	access_specifier x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_READ_ONLY
+	x = ev.read_only;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.read_only);
+#endif
+
+#ifdef GL_READ_WRITE
+	x = ev.read_write;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.read_write);
+#endif
+
+#ifdef GL_WRITE_ONLY
+	x = ev.write_only;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.write_only);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

@@ -138,4 +138,46 @@ BOOST_AUTO_TEST_CASE(enum_patch_parameter_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_patch_parameter_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	patch_parameter x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_PATCH_DEFAULT_INNER_LEVEL
+	x = ev.patch_default_inner_level;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.patch_default_inner_level);
+#endif
+
+#ifdef GL_PATCH_DEFAULT_OUTER_LEVEL
+	x = ev.patch_default_outer_level;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.patch_default_outer_level);
+#endif
+
+#ifdef GL_PATCH_VERTICES
+	x = ev.patch_vertices;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.patch_vertices);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

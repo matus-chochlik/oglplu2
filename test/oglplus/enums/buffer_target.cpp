@@ -1165,4 +1165,176 @@ BOOST_AUTO_TEST_CASE(enum_buffer_target_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_buffer_target_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	buffer_target x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_ARRAY_BUFFER
+	x = ev.array_buffer;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.array_buffer);
+#endif
+
+#ifdef GL_ATOMIC_COUNTER_BUFFER
+	x = ev.atomic_counter_buffer;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.atomic_counter_buffer);
+#endif
+
+#ifdef GL_COPY_READ_BUFFER
+	x = ev.copy_read_buffer;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.copy_read_buffer);
+#endif
+
+#ifdef GL_COPY_WRITE_BUFFER
+	x = ev.copy_write_buffer;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.copy_write_buffer);
+#endif
+
+#ifdef GL_DISPATCH_INDIRECT_BUFFER
+	x = ev.dispatch_indirect_buffer;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.dispatch_indirect_buffer);
+#endif
+
+#ifdef GL_DRAW_INDIRECT_BUFFER
+	x = ev.draw_indirect_buffer;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.draw_indirect_buffer);
+#endif
+
+#ifdef GL_ELEMENT_ARRAY_BUFFER
+	x = ev.element_array_buffer;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.element_array_buffer);
+#endif
+
+#ifdef GL_EXTERNAL_VIRTUAL_MEMORY_BUFFER_AMD
+	x = ev.external_virtual_memory_buffer;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.external_virtual_memory_buffer);
+#endif
+
+#ifdef GL_PARAMETER_BUFFER_ARB
+	x = ev.parameter_buffer;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.parameter_buffer);
+#endif
+
+#ifdef GL_PIXEL_PACK_BUFFER
+	x = ev.pixel_pack_buffer;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.pixel_pack_buffer);
+#endif
+
+#ifdef GL_PIXEL_UNPACK_BUFFER
+	x = ev.pixel_unpack_buffer;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.pixel_unpack_buffer);
+#endif
+
+#ifdef GL_QUERY_BUFFER
+	x = ev.query_buffer;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.query_buffer);
+#endif
+
+#ifdef GL_SHADER_STORAGE_BUFFER
+	x = ev.shader_storage_buffer;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.shader_storage_buffer);
+#endif
+
+#ifdef GL_TEXTURE_BUFFER
+	x = ev.texture_buffer;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.texture_buffer);
+#endif
+
+#ifdef GL_TRANSFORM_FEEDBACK_BUFFER
+	x = ev.transform_feedback_buffer;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.transform_feedback_buffer);
+#endif
+
+#ifdef GL_UNIFORM_BUFFER
+	x = ev.uniform_buffer;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.uniform_buffer);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

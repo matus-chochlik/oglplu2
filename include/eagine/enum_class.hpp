@@ -28,6 +28,9 @@ struct enum_value<T, Value, mp_list<Classes...>>
 	}
 };
 
+template <unsigned LibId>
+struct any_enum_value;
+
 template <typename Self, typename T, unsigned LibId, unsigned Id>
 struct enum_class
 {
@@ -49,6 +52,14 @@ struct enum_class
 	noexcept
 	 : _value(Value)
 	{ }
+
+	constexpr
+	enum_class(const any_enum_value<LibId>& aev)
+	noexcept
+	 : _value(static_cast<T>(aev._value))
+	{
+		assert(aev._type_id == Id);
+	}
 
 	explicit constexpr inline
 	enum_class(value_type value)
@@ -91,9 +102,15 @@ struct any_enum_class
 
 	template <typename Self, typename T, unsigned Id>
 	constexpr inline
-	any_enum_class(enum_class<Self, T, LibId, Id>)
+	any_enum_class(const enum_class<Self, T, LibId, Id>&)
 	noexcept
 	 : _type_id(Id)
+	{ }
+
+	constexpr inline
+	any_enum_class(const any_enum_value<LibId>& aev)
+	noexcept
+	 : _type_id(aev._type_id)
 	{ }
 
 	explicit constexpr inline
@@ -174,6 +191,14 @@ struct any_enum_value
 		return (a._value != b._value) || (a._type_id != b._type_id);
 	}
 };
+
+template <unsigned LibId>
+static constexpr inline
+bool same_enum_class(any_enum_class<LibId> a, any_enum_class<LibId> b)
+noexcept
+{
+	return a._type_id == b._type_id;
+}
 
 } // namespace eagine
 

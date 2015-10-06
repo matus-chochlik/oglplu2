@@ -181,4 +181,56 @@ BOOST_AUTO_TEST_CASE(enum_hint_target_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_hint_target_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	hint_target x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_FRAGMENT_SHADER_DERIVATIVE_HINT
+	x = ev.fragment_shader_derivative_hint;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.fragment_shader_derivative_hint);
+#endif
+
+#ifdef GL_LINE_SMOOTH_HINT
+	x = ev.line_smooth_hint;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.line_smooth_hint);
+#endif
+
+#ifdef GL_POLYGON_SMOOTH_HINT
+	x = ev.polygon_smooth_hint;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.polygon_smooth_hint);
+#endif
+
+#ifdef GL_TEXTURE_COMPRESSION_HINT
+	x = ev.texture_compression_hint;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.texture_compression_hint);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

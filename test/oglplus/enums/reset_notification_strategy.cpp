@@ -101,4 +101,36 @@ BOOST_AUTO_TEST_CASE(enum_reset_notification_strategy_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_reset_notification_strategy_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	reset_notification_strategy x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_LOSE_CONTEXT_ON_RESET
+	x = ev.lose_context_on_reset;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.lose_context_on_reset);
+#endif
+
+#ifdef GL_NO_RESET_NOTIFICATION
+	x = ev.no_reset_notification;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.no_reset_notification);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

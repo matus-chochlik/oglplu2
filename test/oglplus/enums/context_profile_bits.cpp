@@ -101,4 +101,36 @@ BOOST_AUTO_TEST_CASE(enum_context_profile_bits_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_context_profile_bits_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	context_profile_bits x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_CONTEXT_COMPATIBILITY_PROFILE_BIT
+	x = ev.context_compatibility_profile_bit;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.context_compatibility_profile_bit);
+#endif
+
+#ifdef GL_CONTEXT_CORE_PROFILE_BIT
+	x = ev.context_core_profile_bit;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.context_core_profile_bit);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

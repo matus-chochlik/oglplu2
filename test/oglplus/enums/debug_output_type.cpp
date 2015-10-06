@@ -565,4 +565,116 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_type_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_debug_output_type_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	debug_output_type x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR
+	x = ev.debug_type_deprecated_behavior;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.debug_type_deprecated_behavior);
+#endif
+
+#ifdef GL_DEBUG_TYPE_ERROR
+	x = ev.debug_type_error;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.debug_type_error);
+#endif
+
+#ifdef GL_DEBUG_TYPE_MARKER
+	x = ev.debug_type_marker;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.debug_type_marker);
+#endif
+
+#ifdef GL_DEBUG_TYPE_OTHER
+	x = ev.debug_type_other;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.debug_type_other);
+#endif
+
+#ifdef GL_DEBUG_TYPE_PERFORMANCE
+	x = ev.debug_type_performance;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.debug_type_performance);
+#endif
+
+#ifdef GL_DEBUG_TYPE_POP_GROUP
+	x = ev.debug_type_pop_group;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.debug_type_pop_group);
+#endif
+
+#ifdef GL_DEBUG_TYPE_PORTABILITY
+	x = ev.debug_type_portability;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.debug_type_portability);
+#endif
+
+#ifdef GL_DEBUG_TYPE_PUSH_GROUP
+	x = ev.debug_type_push_group;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.debug_type_push_group);
+#endif
+
+#ifdef GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR
+	x = ev.debug_type_undefined_behavior;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.debug_type_undefined_behavior);
+#endif
+
+#ifdef GL_DONT_CARE
+	x = ev.dont_care;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.dont_care);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

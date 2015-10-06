@@ -38765,4 +38765,1116 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_sl_data_type_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	sl_data_type x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_BOOL
+	x = ev.bool_;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.bool_);
+#endif
+
+#ifdef GL_BOOL_VEC2
+	x = ev.bool_vec2;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.bool_vec2);
+#endif
+
+#ifdef GL_BOOL_VEC3
+	x = ev.bool_vec3;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.bool_vec3);
+#endif
+
+#ifdef GL_BOOL_VEC4
+	x = ev.bool_vec4;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.bool_vec4);
+#endif
+
+#ifdef GL_DOUBLE
+	x = ev.double_;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.double_);
+#endif
+
+#ifdef GL_DOUBLE_MAT2
+	x = ev.double_mat2;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.double_mat2);
+#endif
+
+#ifdef GL_DOUBLE_MAT2x3
+	x = ev.double_mat2x3;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.double_mat2x3);
+#endif
+
+#ifdef GL_DOUBLE_MAT2x4
+	x = ev.double_mat2x4;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.double_mat2x4);
+#endif
+
+#ifdef GL_DOUBLE_MAT3
+	x = ev.double_mat3;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.double_mat3);
+#endif
+
+#ifdef GL_DOUBLE_MAT3x2
+	x = ev.double_mat3x2;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.double_mat3x2);
+#endif
+
+#ifdef GL_DOUBLE_MAT3x4
+	x = ev.double_mat3x4;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.double_mat3x4);
+#endif
+
+#ifdef GL_DOUBLE_MAT4
+	x = ev.double_mat4;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.double_mat4);
+#endif
+
+#ifdef GL_DOUBLE_MAT4x2
+	x = ev.double_mat4x2;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.double_mat4x2);
+#endif
+
+#ifdef GL_DOUBLE_MAT4x3
+	x = ev.double_mat4x3;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.double_mat4x3);
+#endif
+
+#ifdef GL_DOUBLE_VEC2
+	x = ev.double_vec2;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.double_vec2);
+#endif
+
+#ifdef GL_DOUBLE_VEC3
+	x = ev.double_vec3;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.double_vec3);
+#endif
+
+#ifdef GL_DOUBLE_VEC4
+	x = ev.double_vec4;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.double_vec4);
+#endif
+
+#ifdef GL_FLOAT
+	x = ev.float_;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.float_);
+#endif
+
+#ifdef GL_FLOAT_MAT2
+	x = ev.float_mat2;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.float_mat2);
+#endif
+
+#ifdef GL_FLOAT_MAT2x3
+	x = ev.float_mat2x3;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.float_mat2x3);
+#endif
+
+#ifdef GL_FLOAT_MAT2x4
+	x = ev.float_mat2x4;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.float_mat2x4);
+#endif
+
+#ifdef GL_FLOAT_MAT3
+	x = ev.float_mat3;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.float_mat3);
+#endif
+
+#ifdef GL_FLOAT_MAT3x2
+	x = ev.float_mat3x2;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.float_mat3x2);
+#endif
+
+#ifdef GL_FLOAT_MAT3x4
+	x = ev.float_mat3x4;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.float_mat3x4);
+#endif
+
+#ifdef GL_FLOAT_MAT4
+	x = ev.float_mat4;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.float_mat4);
+#endif
+
+#ifdef GL_FLOAT_MAT4x2
+	x = ev.float_mat4x2;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.float_mat4x2);
+#endif
+
+#ifdef GL_FLOAT_MAT4x3
+	x = ev.float_mat4x3;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.float_mat4x3);
+#endif
+
+#ifdef GL_FLOAT_VEC2
+	x = ev.float_vec2;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.float_vec2);
+#endif
+
+#ifdef GL_FLOAT_VEC3
+	x = ev.float_vec3;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.float_vec3);
+#endif
+
+#ifdef GL_FLOAT_VEC4
+	x = ev.float_vec4;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.float_vec4);
+#endif
+
+#ifdef GL_IMAGE_1D
+	x = ev.image_1d;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.image_1d);
+#endif
+
+#ifdef GL_IMAGE_1D_ARRAY
+	x = ev.image_1d_array;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.image_1d_array);
+#endif
+
+#ifdef GL_IMAGE_2D
+	x = ev.image_2d;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.image_2d);
+#endif
+
+#ifdef GL_IMAGE_2D_ARRAY
+	x = ev.image_2d_array;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.image_2d_array);
+#endif
+
+#ifdef GL_IMAGE_2D_MULTISAMPLE
+	x = ev.image_2d_multisample;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.image_2d_multisample);
+#endif
+
+#ifdef GL_IMAGE_2D_MULTISAMPLE_ARRAY
+	x = ev.image_2d_multisample_array;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.image_2d_multisample_array);
+#endif
+
+#ifdef GL_IMAGE_2D_RECT
+	x = ev.image_2d_rect;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.image_2d_rect);
+#endif
+
+#ifdef GL_IMAGE_3D
+	x = ev.image_3d;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.image_3d);
+#endif
+
+#ifdef GL_IMAGE_BUFFER
+	x = ev.image_buffer;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.image_buffer);
+#endif
+
+#ifdef GL_IMAGE_CUBE
+	x = ev.image_cube;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.image_cube);
+#endif
+
+#ifdef GL_INT
+	x = ev.int_;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.int_);
+#endif
+
+#ifdef GL_INT_IMAGE_1D
+	x = ev.int_image_1d;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.int_image_1d);
+#endif
+
+#ifdef GL_INT_IMAGE_1D_ARRAY
+	x = ev.int_image_1d_array;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.int_image_1d_array);
+#endif
+
+#ifdef GL_INT_IMAGE_2D
+	x = ev.int_image_2d;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.int_image_2d);
+#endif
+
+#ifdef GL_INT_IMAGE_2D_ARRAY
+	x = ev.int_image_2d_array;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.int_image_2d_array);
+#endif
+
+#ifdef GL_INT_IMAGE_2D_MULTISAMPLE
+	x = ev.int_image_2d_multisample;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.int_image_2d_multisample);
+#endif
+
+#ifdef GL_INT_IMAGE_2D_MULTISAMPLE_ARRAY
+	x = ev.int_image_2d_multisample_array;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.int_image_2d_multisample_array);
+#endif
+
+#ifdef GL_INT_IMAGE_2D_RECT
+	x = ev.int_image_2d_rect;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.int_image_2d_rect);
+#endif
+
+#ifdef GL_INT_IMAGE_3D
+	x = ev.int_image_3d;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.int_image_3d);
+#endif
+
+#ifdef GL_INT_IMAGE_BUFFER
+	x = ev.int_image_buffer;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.int_image_buffer);
+#endif
+
+#ifdef GL_INT_IMAGE_CUBE
+	x = ev.int_image_cube;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.int_image_cube);
+#endif
+
+#ifdef GL_INT_SAMPLER_1D
+	x = ev.int_sampler_1d;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.int_sampler_1d);
+#endif
+
+#ifdef GL_INT_SAMPLER_1D_ARRAY
+	x = ev.int_sampler_1d_array;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.int_sampler_1d_array);
+#endif
+
+#ifdef GL_INT_SAMPLER_2D
+	x = ev.int_sampler_2d;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.int_sampler_2d);
+#endif
+
+#ifdef GL_INT_SAMPLER_2D_ARRAY
+	x = ev.int_sampler_2d_array;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.int_sampler_2d_array);
+#endif
+
+#ifdef GL_INT_SAMPLER_2D_MULTISAMPLE
+	x = ev.int_sampler_2d_multisample;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.int_sampler_2d_multisample);
+#endif
+
+#ifdef GL_INT_SAMPLER_2D_MULTISAMPLE_ARRAY
+	x = ev.int_sampler_2d_multisample_array;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.int_sampler_2d_multisample_array);
+#endif
+
+#ifdef GL_INT_SAMPLER_2D_RECT
+	x = ev.int_sampler_2d_rect;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.int_sampler_2d_rect);
+#endif
+
+#ifdef GL_INT_SAMPLER_3D
+	x = ev.int_sampler_3d;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.int_sampler_3d);
+#endif
+
+#ifdef GL_INT_SAMPLER_BUFFER
+	x = ev.int_sampler_buffer;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.int_sampler_buffer);
+#endif
+
+#ifdef GL_INT_SAMPLER_CUBE
+	x = ev.int_sampler_cube;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.int_sampler_cube);
+#endif
+
+#ifdef GL_INT_SAMPLER_CUBE_MAP_ARRAY
+	x = ev.int_sampler_cube_map_array;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.int_sampler_cube_map_array);
+#endif
+
+#ifdef GL_INT_VEC2
+	x = ev.int_vec2;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.int_vec2);
+#endif
+
+#ifdef GL_INT_VEC3
+	x = ev.int_vec3;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.int_vec3);
+#endif
+
+#ifdef GL_INT_VEC4
+	x = ev.int_vec4;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.int_vec4);
+#endif
+
+#ifdef GL_NONE
+	x = ev.none;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.none);
+#endif
+
+#ifdef GL_SAMPLER_1D
+	x = ev.sampler_1d;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.sampler_1d);
+#endif
+
+#ifdef GL_SAMPLER_1D_ARRAY
+	x = ev.sampler_1d_array;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.sampler_1d_array);
+#endif
+
+#ifdef GL_SAMPLER_1D_ARRAY_SHADOW
+	x = ev.sampler_1d_array_shadow;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.sampler_1d_array_shadow);
+#endif
+
+#ifdef GL_SAMPLER_1D_SHADOW
+	x = ev.sampler_1d_shadow;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.sampler_1d_shadow);
+#endif
+
+#ifdef GL_SAMPLER_2D
+	x = ev.sampler_2d;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.sampler_2d);
+#endif
+
+#ifdef GL_SAMPLER_2D_ARRAY
+	x = ev.sampler_2d_array;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.sampler_2d_array);
+#endif
+
+#ifdef GL_SAMPLER_2D_ARRAY_SHADOW
+	x = ev.sampler_2d_array_shadow;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.sampler_2d_array_shadow);
+#endif
+
+#ifdef GL_SAMPLER_2D_MULTISAMPLE
+	x = ev.sampler_2d_multisample;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.sampler_2d_multisample);
+#endif
+
+#ifdef GL_SAMPLER_2D_MULTISAMPLE_ARRAY
+	x = ev.sampler_2d_multisample_array;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.sampler_2d_multisample_array);
+#endif
+
+#ifdef GL_SAMPLER_2D_RECT
+	x = ev.sampler_2d_rect;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.sampler_2d_rect);
+#endif
+
+#ifdef GL_SAMPLER_2D_RECT_SHADOW
+	x = ev.sampler_2d_rect_shadow;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.sampler_2d_rect_shadow);
+#endif
+
+#ifdef GL_SAMPLER_2D_SHADOW
+	x = ev.sampler_2d_shadow;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.sampler_2d_shadow);
+#endif
+
+#ifdef GL_SAMPLER_3D
+	x = ev.sampler_3d;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.sampler_3d);
+#endif
+
+#ifdef GL_SAMPLER_BUFFER
+	x = ev.sampler_buffer;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.sampler_buffer);
+#endif
+
+#ifdef GL_SAMPLER_CUBE
+	x = ev.sampler_cube;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.sampler_cube);
+#endif
+
+#ifdef GL_SAMPLER_CUBE_MAP_ARRAY
+	x = ev.sampler_cube_map_array;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.sampler_cube_map_array);
+#endif
+
+#ifdef GL_SAMPLER_CUBE_MAP_ARRAY_SHADOW
+	x = ev.sampler_cube_map_array_shadow;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.sampler_cube_map_array_shadow);
+#endif
+
+#ifdef GL_SAMPLER_CUBE_SHADOW
+	x = ev.sampler_cube_shadow;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.sampler_cube_shadow);
+#endif
+
+#ifdef GL_UNSIGNED_INT
+	x = ev.unsigned_int;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_int);
+#endif
+
+#ifdef GL_UNSIGNED_INT_ATOMIC_COUNTER
+	x = ev.unsigned_int_atomic_counter;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_int_atomic_counter);
+#endif
+
+#ifdef GL_UNSIGNED_INT_IMAGE_1D
+	x = ev.unsigned_int_image_1d;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_int_image_1d);
+#endif
+
+#ifdef GL_UNSIGNED_INT_IMAGE_1D_ARRAY
+	x = ev.unsigned_int_image_1d_array;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_int_image_1d_array);
+#endif
+
+#ifdef GL_UNSIGNED_INT_IMAGE_2D
+	x = ev.unsigned_int_image_2d;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_int_image_2d);
+#endif
+
+#ifdef GL_UNSIGNED_INT_IMAGE_2D_ARRAY
+	x = ev.unsigned_int_image_2d_array;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_int_image_2d_array);
+#endif
+
+#ifdef GL_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE
+	x = ev.unsigned_int_image_2d_multisample;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_int_image_2d_multisample);
+#endif
+
+#ifdef GL_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE_ARRAY
+	x = ev.unsigned_int_image_2d_multisample_array;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_int_image_2d_multisample_array);
+#endif
+
+#ifdef GL_UNSIGNED_INT_IMAGE_2D_RECT
+	x = ev.unsigned_int_image_2d_rect;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_int_image_2d_rect);
+#endif
+
+#ifdef GL_UNSIGNED_INT_IMAGE_3D
+	x = ev.unsigned_int_image_3d;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_int_image_3d);
+#endif
+
+#ifdef GL_UNSIGNED_INT_IMAGE_BUFFER
+	x = ev.unsigned_int_image_buffer;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_int_image_buffer);
+#endif
+
+#ifdef GL_UNSIGNED_INT_IMAGE_CUBE
+	x = ev.unsigned_int_image_cube;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_int_image_cube);
+#endif
+
+#ifdef GL_UNSIGNED_INT_SAMPLER_1D
+	x = ev.unsigned_int_sampler_1d;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_int_sampler_1d);
+#endif
+
+#ifdef GL_UNSIGNED_INT_SAMPLER_1D_ARRAY
+	x = ev.unsigned_int_sampler_1d_array;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_int_sampler_1d_array);
+#endif
+
+#ifdef GL_UNSIGNED_INT_SAMPLER_2D
+	x = ev.unsigned_int_sampler_2d;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_int_sampler_2d);
+#endif
+
+#ifdef GL_UNSIGNED_INT_SAMPLER_2D_ARRAY
+	x = ev.unsigned_int_sampler_2d_array;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_int_sampler_2d_array);
+#endif
+
+#ifdef GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE
+	x = ev.unsigned_int_sampler_2d_multisample;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_int_sampler_2d_multisample);
+#endif
+
+#ifdef GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE_ARRAY
+	x = ev.unsigned_int_sampler_2d_multisample_array;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_int_sampler_2d_multisample_array);
+#endif
+
+#ifdef GL_UNSIGNED_INT_SAMPLER_2D_RECT
+	x = ev.unsigned_int_sampler_2d_rect;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_int_sampler_2d_rect);
+#endif
+
+#ifdef GL_UNSIGNED_INT_SAMPLER_3D
+	x = ev.unsigned_int_sampler_3d;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_int_sampler_3d);
+#endif
+
+#ifdef GL_UNSIGNED_INT_SAMPLER_BUFFER
+	x = ev.unsigned_int_sampler_buffer;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_int_sampler_buffer);
+#endif
+
+#ifdef GL_UNSIGNED_INT_SAMPLER_CUBE
+	x = ev.unsigned_int_sampler_cube;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_int_sampler_cube);
+#endif
+
+#ifdef GL_UNSIGNED_INT_SAMPLER_CUBE_MAP_ARRAY
+	x = ev.unsigned_int_sampler_cube_map_array;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_int_sampler_cube_map_array);
+#endif
+
+#ifdef GL_UNSIGNED_INT_VEC2
+	x = ev.unsigned_int_vec2;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_int_vec2);
+#endif
+
+#ifdef GL_UNSIGNED_INT_VEC3
+	x = ev.unsigned_int_vec3;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_int_vec3);
+#endif
+
+#ifdef GL_UNSIGNED_INT_VEC4
+	x = ev.unsigned_int_vec4;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_int_vec4);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

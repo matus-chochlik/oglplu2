@@ -138,4 +138,46 @@ BOOST_AUTO_TEST_CASE(enum_transform_feedback_primitive_type_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_transform_feedback_primitive_type_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	transform_feedback_primitive_type x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_LINES
+	x = ev.lines;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.lines);
+#endif
+
+#ifdef GL_POINTS
+	x = ev.points;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.points);
+#endif
+
+#ifdef GL_TRIANGLES
+	x = ev.triangles;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.triangles);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

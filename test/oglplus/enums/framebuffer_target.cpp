@@ -101,4 +101,36 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_target_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_framebuffer_target_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	framebuffer_target x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_DRAW_FRAMEBUFFER
+	x = ev.draw_framebuffer;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.draw_framebuffer);
+#endif
+
+#ifdef GL_READ_FRAMEBUFFER
+	x = ev.read_framebuffer;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.read_framebuffer);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

@@ -101,4 +101,36 @@ BOOST_AUTO_TEST_CASE(enum_clip_origin_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_clip_origin_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	clip_origin x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_LOWER_LEFT
+	x = ev.lower_left;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.lower_left);
+#endif
+
+#ifdef GL_UPPER_LEFT
+	x = ev.upper_left;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.upper_left);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

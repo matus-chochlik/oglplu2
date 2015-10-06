@@ -413,4 +413,96 @@ BOOST_AUTO_TEST_CASE(enum_buffer_map_access_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_buffer_map_access_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	buffer_map_access x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_MAP_COHERENT_BIT
+	x = ev.map_coherent_bit;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.map_coherent_bit);
+#endif
+
+#ifdef GL_MAP_FLUSH_EXPLICIT_BIT
+	x = ev.map_flush_explicit_bit;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.map_flush_explicit_bit);
+#endif
+
+#ifdef GL_MAP_INVALIDATE_BUFFER_BIT
+	x = ev.map_invalidate_buffer_bit;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.map_invalidate_buffer_bit);
+#endif
+
+#ifdef GL_MAP_INVALIDATE_RANGE_BIT
+	x = ev.map_invalidate_range_bit;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.map_invalidate_range_bit);
+#endif
+
+#ifdef GL_MAP_PERSISTENT_BIT
+	x = ev.map_persistent_bit;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.map_persistent_bit);
+#endif
+
+#ifdef GL_MAP_READ_BIT
+	x = ev.map_read_bit;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.map_read_bit);
+#endif
+
+#ifdef GL_MAP_UNSYNCHRONIZED_BIT
+	x = ev.map_unsynchronized_bit;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.map_unsynchronized_bit);
+#endif
+
+#ifdef GL_MAP_WRITE_BIT
+	x = ev.map_write_bit;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.map_write_bit);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

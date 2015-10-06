@@ -230,4 +230,66 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_severity_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_debug_output_severity_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	debug_output_severity x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_DEBUG_SEVERITY_HIGH
+	x = ev.debug_severity_high;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.debug_severity_high);
+#endif
+
+#ifdef GL_DEBUG_SEVERITY_LOW
+	x = ev.debug_severity_low;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.debug_severity_low);
+#endif
+
+#ifdef GL_DEBUG_SEVERITY_MEDIUM
+	x = ev.debug_severity_medium;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.debug_severity_medium);
+#endif
+
+#ifdef GL_DEBUG_SEVERITY_NOTIFICATION
+	x = ev.debug_severity_notification;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.debug_severity_notification);
+#endif
+
+#ifdef GL_DONT_CARE
+	x = ev.dont_care;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.dont_care);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

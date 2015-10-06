@@ -138,4 +138,46 @@ BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_type_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_type_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	tess_gen_primitive_type x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_ISOLINES
+	x = ev.isolines;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.isolines);
+#endif
+
+#ifdef GL_QUADS
+	x = ev.quads;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.quads);
+#endif
+
+#ifdef GL_TRIANGLES
+	x = ev.triangles;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.triangles);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

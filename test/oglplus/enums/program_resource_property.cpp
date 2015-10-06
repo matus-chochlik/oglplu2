@@ -2826,4 +2826,286 @@ BOOST_AUTO_TEST_CASE(enum_program_resource_property_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_program_resource_property_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	program_resource_property x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_ACTIVE_VARIABLES
+	x = ev.active_variables;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.active_variables);
+#endif
+
+#ifdef GL_ARRAY_SIZE
+	x = ev.array_size;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.array_size);
+#endif
+
+#ifdef GL_ARRAY_STRIDE
+	x = ev.array_stride;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.array_stride);
+#endif
+
+#ifdef GL_ATOMIC_COUNTER_BUFFER_INDEX
+	x = ev.atomic_counter_buffer_index;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.atomic_counter_buffer_index);
+#endif
+
+#ifdef GL_BLOCK_INDEX
+	x = ev.block_index;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.block_index);
+#endif
+
+#ifdef GL_BUFFER_BINDING
+	x = ev.buffer_binding;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.buffer_binding);
+#endif
+
+#ifdef GL_BUFFER_DATA_SIZE
+	x = ev.buffer_data_size;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.buffer_data_size);
+#endif
+
+#ifdef GL_COMPATIBLE_SUBROUTINES
+	x = ev.compatible_subroutines;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.compatible_subroutines);
+#endif
+
+#ifdef GL_IS_PER_PATCH
+	x = ev.is_per_patch;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.is_per_patch);
+#endif
+
+#ifdef GL_IS_ROW_MAJOR
+	x = ev.is_row_major;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.is_row_major);
+#endif
+
+#ifdef GL_LOCATION
+	x = ev.location;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.location);
+#endif
+
+#ifdef GL_LOCATION_COMPONENT
+	x = ev.location_component;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.location_component);
+#endif
+
+#ifdef GL_LOCATION_INDEX
+	x = ev.location_index;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.location_index);
+#endif
+
+#ifdef GL_MATRIX_STRIDE
+	x = ev.matrix_stride;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.matrix_stride);
+#endif
+
+#ifdef GL_NUM_ACTIVE_VARIABLES
+	x = ev.num_active_variables;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.num_active_variables);
+#endif
+
+#ifdef GL_NUM_COMPATIBLE_SUBROUTINES
+	x = ev.num_compatible_subroutines;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.num_compatible_subroutines);
+#endif
+
+#ifdef GL_OFFSET
+	x = ev.offset;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.offset);
+#endif
+
+#ifdef GL_REFERENCED_BY_COMPUTE_SHADER
+	x = ev.referenced_by_compute_shader;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.referenced_by_compute_shader);
+#endif
+
+#ifdef GL_REFERENCED_BY_FRAGMENT_SHADER
+	x = ev.referenced_by_fragment_shader;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.referenced_by_fragment_shader);
+#endif
+
+#ifdef GL_REFERENCED_BY_GEOMETRY_SHADER
+	x = ev.referenced_by_geometry_shader;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.referenced_by_geometry_shader);
+#endif
+
+#ifdef GL_REFERENCED_BY_TESS_CONTROL_SHADER
+	x = ev.referenced_by_tess_control_shader;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.referenced_by_tess_control_shader);
+#endif
+
+#ifdef GL_REFERENCED_BY_TESS_EVALUATION_SHADER
+	x = ev.referenced_by_tess_evaluation_shader;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.referenced_by_tess_evaluation_shader);
+#endif
+
+#ifdef GL_REFERENCED_BY_VERTEX_SHADER
+	x = ev.referenced_by_vertex_shader;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.referenced_by_vertex_shader);
+#endif
+
+#ifdef GL_TOP_LEVEL_ARRAY_SIZE
+	x = ev.top_level_array_size;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.top_level_array_size);
+#endif
+
+#ifdef GL_TOP_LEVEL_ARRAY_STRIDE
+	x = ev.top_level_array_stride;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.top_level_array_stride);
+#endif
+
+#ifdef GL_TRANSFORM_FEEDBACK_BUFFER_INDEX
+	x = ev.transform_feedback_buffer_index;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.transform_feedback_buffer_index);
+#endif
+
+#ifdef GL_TRANSFORM_FEEDBACK_BUFFER_STRIDE
+	x = ev.transform_feedback_buffer_stride;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.transform_feedback_buffer_stride);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

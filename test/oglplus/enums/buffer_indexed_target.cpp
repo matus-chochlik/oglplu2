@@ -181,4 +181,56 @@ BOOST_AUTO_TEST_CASE(enum_buffer_indexed_target_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_buffer_indexed_target_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	buffer_indexed_target x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_ATOMIC_COUNTER_BUFFER
+	x = ev.atomic_counter_buffer;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.atomic_counter_buffer);
+#endif
+
+#ifdef GL_SHADER_STORAGE_BUFFER
+	x = ev.shader_storage_buffer;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.shader_storage_buffer);
+#endif
+
+#ifdef GL_TRANSFORM_FEEDBACK_BUFFER
+	x = ev.transform_feedback_buffer;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.transform_feedback_buffer);
+#endif
+
+#ifdef GL_UNIFORM_BUFFER
+	x = ev.uniform_buffer;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.uniform_buffer);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

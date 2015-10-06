@@ -181,4 +181,56 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_buffer_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_framebuffer_buffer_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	framebuffer_buffer x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_COLOR
+	x = ev.color;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.color);
+#endif
+
+#ifdef GL_DEPTH
+	x = ev.depth;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.depth);
+#endif
+
+#ifdef GL_DEPTH_STENCIL
+	x = ev.depth_stencil;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.depth_stencil);
+#endif
+
+#ifdef GL_STENCIL
+	x = ev.stencil;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.stencil);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

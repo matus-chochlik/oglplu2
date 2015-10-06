@@ -70,4 +70,26 @@ BOOST_AUTO_TEST_CASE(enum_named_string_type_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_named_string_type_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	named_string_type x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_SHADER_INCLUDE_ARB
+	x = ev.shader_include;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.shader_include);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

@@ -181,4 +181,56 @@ BOOST_AUTO_TEST_CASE(enum_sync_wait_result_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_sync_wait_result_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	sync_wait_result x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_ALREADY_SIGNALED
+	x = ev.already_signaled;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.already_signaled);
+#endif
+
+#ifdef GL_CONDITION_SATISFIED
+	x = ev.condition_satisfied;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.condition_satisfied);
+#endif
+
+#ifdef GL_TIMEOUT_EXPIRED
+	x = ev.timeout_expired;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.timeout_expired);
+#endif
+
+#ifdef GL_WAIT_FAILED
+	x = ev.wait_failed;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.wait_failed);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

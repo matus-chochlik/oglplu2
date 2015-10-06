@@ -1546,4 +1546,206 @@ BOOST_AUTO_TEST_CASE(enum_blend_function_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_blend_function_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	blend_function x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_CONSTANT_ALPHA
+	x = ev.constant_alpha;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.constant_alpha);
+#endif
+
+#ifdef GL_CONSTANT_COLOR
+	x = ev.constant_color;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.constant_color);
+#endif
+
+#ifdef GL_DST_ALPHA
+	x = ev.dst_alpha;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.dst_alpha);
+#endif
+
+#ifdef GL_DST_COLOR
+	x = ev.dst_color;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.dst_color);
+#endif
+
+#ifdef GL_ONE
+	x = ev.one;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.one);
+#endif
+
+#ifdef GL_ONE_MINUS_CONSTANT_ALPHA
+	x = ev.one_minus_constant_alpha;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.one_minus_constant_alpha);
+#endif
+
+#ifdef GL_ONE_MINUS_CONSTANT_COLOR
+	x = ev.one_minus_constant_color;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.one_minus_constant_color);
+#endif
+
+#ifdef GL_ONE_MINUS_DST_ALPHA
+	x = ev.one_minus_dst_alpha;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.one_minus_dst_alpha);
+#endif
+
+#ifdef GL_ONE_MINUS_DST_COLOR
+	x = ev.one_minus_dst_color;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.one_minus_dst_color);
+#endif
+
+#ifdef GL_ONE_MINUS_SRC1_ALPHA
+	x = ev.one_minus_src1_alpha;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.one_minus_src1_alpha);
+#endif
+
+#ifdef GL_ONE_MINUS_SRC1_COLOR
+	x = ev.one_minus_src1_color;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.one_minus_src1_color);
+#endif
+
+#ifdef GL_ONE_MINUS_SRC_ALPHA
+	x = ev.one_minus_src_alpha;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.one_minus_src_alpha);
+#endif
+
+#ifdef GL_ONE_MINUS_SRC_COLOR
+	x = ev.one_minus_src_color;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.one_minus_src_color);
+#endif
+
+#ifdef GL_SRC1_ALPHA
+	x = ev.src1_alpha;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.src1_alpha);
+#endif
+
+#ifdef GL_SRC1_COLOR
+	x = ev.src1_color;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.src1_color);
+#endif
+
+#ifdef GL_SRC_ALPHA
+	x = ev.src_alpha;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.src_alpha);
+#endif
+
+#ifdef GL_SRC_ALPHA_SATURATE
+	x = ev.src_alpha_saturate;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.src_alpha_saturate);
+#endif
+
+#ifdef GL_SRC_COLOR
+	x = ev.src_color;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.src_color);
+#endif
+
+#ifdef GL_ZERO
+	x = ev.zero;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.zero);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

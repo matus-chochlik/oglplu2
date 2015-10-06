@@ -101,4 +101,36 @@ BOOST_AUTO_TEST_CASE(enum_blit_filter_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_blit_filter_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	blit_filter x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_LINEAR
+	x = ev.linear;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.linear);
+#endif
+
+#ifdef GL_NEAREST
+	x = ev.nearest;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.nearest);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

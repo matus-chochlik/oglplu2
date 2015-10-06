@@ -138,4 +138,46 @@ BOOST_AUTO_TEST_CASE(enum_context_flag_bits_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_context_flag_bits_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	context_flag_bits x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_CONTEXT_FLAG_DEBUG_BIT
+	x = ev.context_flag_debug_bit;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.context_flag_debug_bit);
+#endif
+
+#ifdef GL_CONTEXT_FLAG_FORWARD_COMPATIBLE_BIT
+	x = ev.context_flag_forward_compatible_bit;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.context_flag_forward_compatible_bit);
+#endif
+
+#ifdef GL_CONTEXT_FLAG_ROBUST_ACCESS_BIT_ARB
+	x = ev.context_flag_robust_access_bit;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.context_flag_robust_access_bit);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

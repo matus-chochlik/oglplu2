@@ -181,4 +181,56 @@ BOOST_AUTO_TEST_CASE(enum_polygon_mode_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_polygon_mode_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	polygon_mode x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_FILL
+	x = ev.fill;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.fill);
+#endif
+
+#ifdef GL_FILL_RECTANGLE_NV
+	x = ev.fill_rectangle;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.fill_rectangle);
+#endif
+
+#ifdef GL_LINE
+	x = ev.line;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.line);
+#endif
+
+#ifdef GL_POINT
+	x = ev.point;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.point);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

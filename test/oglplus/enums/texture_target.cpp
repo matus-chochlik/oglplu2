@@ -1286,4 +1286,186 @@ BOOST_AUTO_TEST_CASE(enum_texture_target_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_texture_target_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	texture_target x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_TEXTURE_1D
+	x = ev.texture_1d;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.texture_1d);
+#endif
+
+#ifdef GL_TEXTURE_1D_ARRAY
+	x = ev.texture_1d_array;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.texture_1d_array);
+#endif
+
+#ifdef GL_TEXTURE_2D
+	x = ev.texture_2d;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.texture_2d);
+#endif
+
+#ifdef GL_TEXTURE_2D_ARRAY
+	x = ev.texture_2d_array;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.texture_2d_array);
+#endif
+
+#ifdef GL_TEXTURE_2D_MULTISAMPLE
+	x = ev.texture_2d_multisample;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.texture_2d_multisample);
+#endif
+
+#ifdef GL_TEXTURE_2D_MULTISAMPLE_ARRAY
+	x = ev.texture_2d_multisample_array;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.texture_2d_multisample_array);
+#endif
+
+#ifdef GL_TEXTURE_3D
+	x = ev.texture_3d;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.texture_3d);
+#endif
+
+#ifdef GL_TEXTURE_BUFFER
+	x = ev.texture_buffer;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.texture_buffer);
+#endif
+
+#ifdef GL_TEXTURE_CUBE_MAP
+	x = ev.texture_cube_map;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.texture_cube_map);
+#endif
+
+#ifdef GL_TEXTURE_CUBE_MAP_ARRAY
+	x = ev.texture_cube_map_array;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.texture_cube_map_array);
+#endif
+
+#ifdef GL_TEXTURE_CUBE_MAP_NEGATIVE_X
+	x = ev.texture_cube_map_negative_x;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.texture_cube_map_negative_x);
+#endif
+
+#ifdef GL_TEXTURE_CUBE_MAP_NEGATIVE_Y
+	x = ev.texture_cube_map_negative_y;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.texture_cube_map_negative_y);
+#endif
+
+#ifdef GL_TEXTURE_CUBE_MAP_NEGATIVE_Z
+	x = ev.texture_cube_map_negative_z;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.texture_cube_map_negative_z);
+#endif
+
+#ifdef GL_TEXTURE_CUBE_MAP_POSITIVE_X
+	x = ev.texture_cube_map_positive_x;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.texture_cube_map_positive_x);
+#endif
+
+#ifdef GL_TEXTURE_CUBE_MAP_POSITIVE_Y
+	x = ev.texture_cube_map_positive_y;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.texture_cube_map_positive_y);
+#endif
+
+#ifdef GL_TEXTURE_CUBE_MAP_POSITIVE_Z
+	x = ev.texture_cube_map_positive_z;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.texture_cube_map_positive_z);
+#endif
+
+#ifdef GL_TEXTURE_RECTANGLE
+	x = ev.texture_rectangle;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.texture_rectangle);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

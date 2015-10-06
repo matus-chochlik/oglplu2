@@ -2301,4 +2301,256 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_pixel_data_type_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	pixel_data_type x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_BYTE
+	x = ev.byte_;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.byte_);
+#endif
+
+#ifdef GL_FLOAT
+	x = ev.float_;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.float_);
+#endif
+
+#ifdef GL_FLOAT_32_UNSIGNED_INT_24_8_REV
+	x = ev.float_32_unsigned_int_24_8_rev;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.float_32_unsigned_int_24_8_rev);
+#endif
+
+#ifdef GL_HALF_FLOAT
+	x = ev.half_float;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.half_float);
+#endif
+
+#ifdef GL_INT
+	x = ev.int_;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.int_);
+#endif
+
+#ifdef GL_SHORT
+	x = ev.short_;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.short_);
+#endif
+
+#ifdef GL_UNSIGNED_BYTE
+	x = ev.unsigned_byte;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_byte);
+#endif
+
+#ifdef GL_UNSIGNED_BYTE_2_3_3_REV
+	x = ev.unsigned_byte_2_3_3_rev;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_byte_2_3_3_rev);
+#endif
+
+#ifdef GL_UNSIGNED_BYTE_3_3_2
+	x = ev.unsigned_byte_3_3_2;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_byte_3_3_2);
+#endif
+
+#ifdef GL_UNSIGNED_INT
+	x = ev.unsigned_int;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_int);
+#endif
+
+#ifdef GL_UNSIGNED_INT_10_10_10_2
+	x = ev.unsigned_int_10_10_10_2;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_int_10_10_10_2);
+#endif
+
+#ifdef GL_UNSIGNED_INT_10F_11F_11F_REV
+	x = ev.unsigned_int_10f_11f_11f_rev;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_int_10f_11f_11f_rev);
+#endif
+
+#ifdef GL_UNSIGNED_INT_24_8
+	x = ev.unsigned_int_24_8;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_int_24_8);
+#endif
+
+#ifdef GL_UNSIGNED_INT_2_10_10_10_REV
+	x = ev.unsigned_int_2_10_10_10_rev;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_int_2_10_10_10_rev);
+#endif
+
+#ifdef GL_UNSIGNED_INT_5_9_9_9_REV
+	x = ev.unsigned_int_5_9_9_9_rev;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_int_5_9_9_9_rev);
+#endif
+
+#ifdef GL_UNSIGNED_INT_8_8_8_8
+	x = ev.unsigned_int_8_8_8_8;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_int_8_8_8_8);
+#endif
+
+#ifdef GL_UNSIGNED_INT_8_8_8_8_REV
+	x = ev.unsigned_int_8_8_8_8_rev;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_int_8_8_8_8_rev);
+#endif
+
+#ifdef GL_UNSIGNED_SHORT
+	x = ev.unsigned_short;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_short);
+#endif
+
+#ifdef GL_UNSIGNED_SHORT_1_5_5_5_REV
+	x = ev.unsigned_short_1_5_5_5_rev;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_short_1_5_5_5_rev);
+#endif
+
+#ifdef GL_UNSIGNED_SHORT_4_4_4_4
+	x = ev.unsigned_short_4_4_4_4;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_short_4_4_4_4);
+#endif
+
+#ifdef GL_UNSIGNED_SHORT_4_4_4_4_REV
+	x = ev.unsigned_short_4_4_4_4_rev;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_short_4_4_4_4_rev);
+#endif
+
+#ifdef GL_UNSIGNED_SHORT_5_5_5_1
+	x = ev.unsigned_short_5_5_5_1;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_short_5_5_5_1);
+#endif
+
+#ifdef GL_UNSIGNED_SHORT_5_6_5
+	x = ev.unsigned_short_5_6_5;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_short_5_6_5);
+#endif
+
+#ifdef GL_UNSIGNED_SHORT_5_6_5_REV
+	x = ev.unsigned_short_5_6_5_rev;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_short_5_6_5_rev);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

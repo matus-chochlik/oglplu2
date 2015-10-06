@@ -25,6 +25,13 @@ using eagine::enum_bitfield;
 using any_enum_class = eagine::any_enum_class<0>;
 using any_enum_value = eagine::any_enum_value<0>;
 
+static constexpr inline
+bool same_enum_class(any_enum_class a, any_enum_class b)
+noexcept
+{
+	return ::eagine::same_enum_class(a, b);
+}
+
 } // namespace oglplus
 
 #endif // include guard

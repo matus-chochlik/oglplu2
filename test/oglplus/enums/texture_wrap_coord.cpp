@@ -138,4 +138,46 @@ BOOST_AUTO_TEST_CASE(enum_texture_wrap_coord_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_texture_wrap_coord_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	texture_wrap_coord x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_TEXTURE_WRAP_R
+	x = ev.texture_wrap_r;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.texture_wrap_r);
+#endif
+
+#ifdef GL_TEXTURE_WRAP_S
+	x = ev.texture_wrap_s;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.texture_wrap_s);
+#endif
+
+#ifdef GL_TEXTURE_WRAP_T
+	x = ev.texture_wrap_t;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.texture_wrap_t);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

@@ -285,4 +285,76 @@ BOOST_AUTO_TEST_CASE(enum_shader_type_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_shader_type_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	shader_type x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_COMPUTE_SHADER
+	x = ev.compute_shader;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.compute_shader);
+#endif
+
+#ifdef GL_FRAGMENT_SHADER
+	x = ev.fragment_shader;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.fragment_shader);
+#endif
+
+#ifdef GL_GEOMETRY_SHADER
+	x = ev.geometry_shader;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.geometry_shader);
+#endif
+
+#ifdef GL_TESS_CONTROL_SHADER
+	x = ev.tess_control_shader;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.tess_control_shader);
+#endif
+
+#ifdef GL_TESS_EVALUATION_SHADER
+	x = ev.tess_evaluation_shader;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.tess_evaluation_shader);
+#endif
+
+#ifdef GL_VERTEX_SHADER
+	x = ev.vertex_shader;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.vertex_shader);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

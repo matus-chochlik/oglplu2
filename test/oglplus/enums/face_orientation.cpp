@@ -101,4 +101,36 @@ BOOST_AUTO_TEST_CASE(enum_face_orientation_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_face_orientation_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	face_orientation x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_CCW
+	x = ev.ccw;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.ccw);
+#endif
+
+#ifdef GL_CW
+	x = ev.cw;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.cw);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

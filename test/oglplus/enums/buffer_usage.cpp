@@ -486,4 +486,106 @@ BOOST_AUTO_TEST_CASE(enum_buffer_usage_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_buffer_usage_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	buffer_usage x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_DYNAMIC_COPY
+	x = ev.dynamic_copy;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.dynamic_copy);
+#endif
+
+#ifdef GL_DYNAMIC_DRAW
+	x = ev.dynamic_draw;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.dynamic_draw);
+#endif
+
+#ifdef GL_DYNAMIC_READ
+	x = ev.dynamic_read;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.dynamic_read);
+#endif
+
+#ifdef GL_STATIC_COPY
+	x = ev.static_copy;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.static_copy);
+#endif
+
+#ifdef GL_STATIC_DRAW
+	x = ev.static_draw;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.static_draw);
+#endif
+
+#ifdef GL_STATIC_READ
+	x = ev.static_read;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.static_read);
+#endif
+
+#ifdef GL_STREAM_COPY
+	x = ev.stream_copy;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.stream_copy);
+#endif
+
+#ifdef GL_STREAM_DRAW
+	x = ev.stream_draw;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.stream_draw);
+#endif
+
+#ifdef GL_STREAM_READ
+	x = ev.stream_read;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.stream_read);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

@@ -1050,4 +1050,166 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_advanced_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_blend_equation_advanced_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	blend_equation_advanced x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_COLORBURN_KHR
+	x = ev.colorburn_khr;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.colorburn_khr);
+#endif
+
+#ifdef GL_COLORDODGE_KHR
+	x = ev.colordodge_khr;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.colordodge_khr);
+#endif
+
+#ifdef GL_DARKEN_KHR
+	x = ev.darken_khr;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.darken_khr);
+#endif
+
+#ifdef GL_DIFFERENCE_KHR
+	x = ev.difference_khr;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.difference_khr);
+#endif
+
+#ifdef GL_EXCLUSION_KHR
+	x = ev.exclusion_khr;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.exclusion_khr);
+#endif
+
+#ifdef GL_HARDLIGHT_KHR
+	x = ev.hardlight_khr;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.hardlight_khr);
+#endif
+
+#ifdef GL_HSL_COLOR_KHR
+	x = ev.hsl_color_khr;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.hsl_color_khr);
+#endif
+
+#ifdef GL_HSL_HUE_KHR
+	x = ev.hsl_hue_khr;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.hsl_hue_khr);
+#endif
+
+#ifdef GL_HSL_LUMINOSITY_KHR
+	x = ev.hsl_luminosity_khr;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.hsl_luminosity_khr);
+#endif
+
+#ifdef GL_HSL_SATURATION_KHR
+	x = ev.hsl_saturation_khr;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.hsl_saturation_khr);
+#endif
+
+#ifdef GL_LIGHTEN_KHR
+	x = ev.lighten_khr;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.lighten_khr);
+#endif
+
+#ifdef GL_MULTIPLY_KHR
+	x = ev.multiply_khr;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.multiply_khr);
+#endif
+
+#ifdef GL_OVERLAY_KHR
+	x = ev.overlay_khr;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.overlay_khr);
+#endif
+
+#ifdef GL_SCREEN_KHR
+	x = ev.screen_khr;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.screen_khr);
+#endif
+
+#ifdef GL_SOFTLIGHT_KHR
+	x = ev.softlight_khr;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.softlight_khr);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

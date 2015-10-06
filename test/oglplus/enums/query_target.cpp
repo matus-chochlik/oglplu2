@@ -1546,4 +1546,206 @@ BOOST_AUTO_TEST_CASE(enum_query_target_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_query_target_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	query_target x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_ANY_SAMPLES_PASSED
+	x = ev.any_samples_passed;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.any_samples_passed);
+#endif
+
+#ifdef GL_CLIPPING_INPUT_PRIMITIVES_ARB
+	x = ev.clipping_input_primitives;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.clipping_input_primitives);
+#endif
+
+#ifdef GL_CLIPPING_OUTPUT_PRIMITIVES_ARB
+	x = ev.clipping_output_primitives;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.clipping_output_primitives);
+#endif
+
+#ifdef GL_COMPUTE_SHADER_INVOCATIONS_ARB
+	x = ev.compute_shader_invocations;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.compute_shader_invocations);
+#endif
+
+#ifdef GL_FRAGMENT_SHADER_INVOCATIONS_ARB
+	x = ev.fragment_shader_invocations;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.fragment_shader_invocations);
+#endif
+
+#ifdef GL_GEOMETRY_SHADER_INVOCATIONS
+	x = ev.geometry_shader_invocations;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.geometry_shader_invocations);
+#endif
+
+#ifdef GL_GEOMETRY_SHADER_PRIMITIVES_EMITTED_ARB
+	x = ev.geometry_shader_primitives_emitted;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.geometry_shader_primitives_emitted);
+#endif
+
+#ifdef GL_PRIMITIVES_GENERATED
+	x = ev.primitives_generated;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.primitives_generated);
+#endif
+
+#ifdef GL_PRIMITIVES_SUBMITTED_ARB
+	x = ev.primitives_submitted;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.primitives_submitted);
+#endif
+
+#ifdef GL_SAMPLES_PASSED
+	x = ev.samples_passed;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.samples_passed);
+#endif
+
+#ifdef GL_TESS_CONTROL_SHADER_PATCHES_ARB
+	x = ev.tess_control_shader_patches;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.tess_control_shader_patches);
+#endif
+
+#ifdef GL_TESS_EVALUATION_SHADER_INVOCATIONS_ARB
+	x = ev.tess_evaluation_shader_invocations;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.tess_evaluation_shader_invocations);
+#endif
+
+#ifdef GL_TIME_ELAPSED
+	x = ev.time_elapsed;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.time_elapsed);
+#endif
+
+#ifdef GL_TIMESTAMP
+	x = ev.timestamp;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.timestamp);
+#endif
+
+#ifdef GL_TRANSFORM_FEEDBACK_OVERFLOW_ARB
+	x = ev.transform_feedback_overflow;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.transform_feedback_overflow);
+#endif
+
+#ifdef GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN
+	x = ev.transform_feedback_primitives_written;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.transform_feedback_primitives_written);
+#endif
+
+#ifdef GL_TRANSFORM_FEEDBACK_STREAM_OVERFLOW_ARB
+	x = ev.transform_feedback_stream_overflow;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.transform_feedback_stream_overflow);
+#endif
+
+#ifdef GL_VERTEX_SHADER_INVOCATIONS_ARB
+	x = ev.vertex_shader_invocations;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.vertex_shader_invocations);
+#endif
+
+#ifdef GL_VERTICES_SUBMITTED_ARB
+	x = ev.vertices_submitted;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.vertices_submitted);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

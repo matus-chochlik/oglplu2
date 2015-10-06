@@ -1546,4 +1546,206 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_attachment_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_framebuffer_attachment_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	framebuffer_attachment x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_COLOR_ATTACHMENT0
+	x = ev.color_attachment0;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.color_attachment0);
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT1
+	x = ev.color_attachment1;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.color_attachment1);
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT10
+	x = ev.color_attachment10;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.color_attachment10);
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT11
+	x = ev.color_attachment11;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.color_attachment11);
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT12
+	x = ev.color_attachment12;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.color_attachment12);
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT13
+	x = ev.color_attachment13;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.color_attachment13);
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT14
+	x = ev.color_attachment14;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.color_attachment14);
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT15
+	x = ev.color_attachment15;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.color_attachment15);
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT2
+	x = ev.color_attachment2;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.color_attachment2);
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT3
+	x = ev.color_attachment3;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.color_attachment3);
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT4
+	x = ev.color_attachment4;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.color_attachment4);
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT5
+	x = ev.color_attachment5;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.color_attachment5);
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT6
+	x = ev.color_attachment6;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.color_attachment6);
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT7
+	x = ev.color_attachment7;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.color_attachment7);
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT8
+	x = ev.color_attachment8;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.color_attachment8);
+#endif
+
+#ifdef GL_COLOR_ATTACHMENT9
+	x = ev.color_attachment9;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.color_attachment9);
+#endif
+
+#ifdef GL_DEPTH_ATTACHMENT
+	x = ev.depth_attachment;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.depth_attachment);
+#endif
+
+#ifdef GL_DEPTH_STENCIL_ATTACHMENT
+	x = ev.depth_stencil_attachment;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.depth_stencil_attachment);
+#endif
+
+#ifdef GL_STENCIL_ATTACHMENT
+	x = ev.stencil_attachment;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.stencil_attachment);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

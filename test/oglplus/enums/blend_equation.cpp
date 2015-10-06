@@ -230,4 +230,66 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_blend_equation_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	blend_equation x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_FUNC_ADD
+	x = ev.func_add;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.func_add);
+#endif
+
+#ifdef GL_FUNC_REVERSE_SUBTRACT
+	x = ev.func_reverse_subtract;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.func_reverse_subtract);
+#endif
+
+#ifdef GL_FUNC_SUBTRACT
+	x = ev.func_subtract;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.func_subtract);
+#endif
+
+#ifdef GL_MAX
+	x = ev.max;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.max);
+#endif
+
+#ifdef GL_MIN
+	x = ev.min;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.min);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

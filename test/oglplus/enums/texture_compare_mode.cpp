@@ -101,4 +101,36 @@ BOOST_AUTO_TEST_CASE(enum_texture_compare_mode_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_texture_compare_mode_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	texture_compare_mode x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_COMPARE_REF_TO_TEXTURE
+	x = ev.compare_ref_to_texture;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.compare_ref_to_texture);
+#endif
+
+#ifdef GL_NONE
+	x = ev.none;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.none);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

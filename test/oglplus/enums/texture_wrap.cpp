@@ -230,4 +230,66 @@ BOOST_AUTO_TEST_CASE(enum_texture_wrap_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_texture_wrap_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	texture_wrap x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_CLAMP_TO_BORDER
+	x = ev.clamp_to_border;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.clamp_to_border);
+#endif
+
+#ifdef GL_CLAMP_TO_EDGE
+	x = ev.clamp_to_edge;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.clamp_to_edge);
+#endif
+
+#ifdef GL_MIRROR_CLAMP_TO_EDGE
+	x = ev.mirror_clamp_to_edge;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.mirror_clamp_to_edge);
+#endif
+
+#ifdef GL_MIRRORED_REPEAT
+	x = ev.mirrored_repeat;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.mirrored_repeat);
+#endif
+
+#ifdef GL_REPEAT
+	x = ev.repeat;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.repeat);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

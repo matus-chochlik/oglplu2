@@ -138,4 +138,46 @@ BOOST_AUTO_TEST_CASE(enum_buffer_select_bits_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_buffer_select_bits_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	buffer_select_bits x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_COLOR_BUFFER_BIT
+	x = ev.color_buffer_bit;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.color_buffer_bit);
+#endif
+
+#ifdef GL_DEPTH_BUFFER_BIT
+	x = ev.depth_buffer_bit;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.depth_buffer_bit);
+#endif
+
+#ifdef GL_STENCIL_BUFFER_BIT
+	x = ev.stencil_buffer_bit;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.stencil_buffer_bit);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

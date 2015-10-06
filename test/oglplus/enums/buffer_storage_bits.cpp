@@ -346,4 +346,86 @@ BOOST_AUTO_TEST_CASE(enum_buffer_storage_bits_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_buffer_storage_bits_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	buffer_storage_bits x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_CLIENT_STORAGE_BIT
+	x = ev.client_storage_bit;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.client_storage_bit);
+#endif
+
+#ifdef GL_DYNAMIC_STORAGE_BIT
+	x = ev.dynamic_storage_bit;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.dynamic_storage_bit);
+#endif
+
+#ifdef GL_MAP_COHERENT_BIT
+	x = ev.map_coherent_bit;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.map_coherent_bit);
+#endif
+
+#ifdef GL_MAP_PERSISTENT_BIT
+	x = ev.map_persistent_bit;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.map_persistent_bit);
+#endif
+
+#ifdef GL_MAP_READ_BIT
+	x = ev.map_read_bit;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.map_read_bit);
+#endif
+
+#ifdef GL_MAP_WRITE_BIT
+	x = ev.map_write_bit;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.map_write_bit);
+#endif
+
+#ifdef GL_SPARSE_STORAGE_BIT_ARB
+	x = ev.sparse_storage_bit;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.sparse_storage_bit);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

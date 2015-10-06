@@ -138,4 +138,46 @@ BOOST_AUTO_TEST_CASE(enum_hint_option_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_hint_option_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	hint_option x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_DONT_CARE
+	x = ev.dont_care;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.dont_care);
+#endif
+
+#ifdef GL_FASTEST
+	x = ev.fastest;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.fastest);
+#endif
+
+#ifdef GL_NICEST
+	x = ev.nicest;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.nicest);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

@@ -230,4 +230,66 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_coord_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_texture_swizzle_coord_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	texture_swizzle_coord x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_TEXTURE_SWIZZLE_A
+	x = ev.texture_swizzle_a;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.texture_swizzle_a);
+#endif
+
+#ifdef GL_TEXTURE_SWIZZLE_B
+	x = ev.texture_swizzle_b;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.texture_swizzle_b);
+#endif
+
+#ifdef GL_TEXTURE_SWIZZLE_G
+	x = ev.texture_swizzle_g;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.texture_swizzle_g);
+#endif
+
+#ifdef GL_TEXTURE_SWIZZLE_R
+	x = ev.texture_swizzle_r;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.texture_swizzle_r);
+#endif
+
+#ifdef GL_TEXTURE_SWIZZLE_RGBA
+	x = ev.texture_swizzle_rgba;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.texture_swizzle_rgba);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

@@ -2826,4 +2826,286 @@ BOOST_AUTO_TEST_CASE(enum_capability_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_capability_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	capability x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_BLEND
+	x = ev.blend;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.blend);
+#endif
+
+#ifdef GL_BLEND_ADVANCED_COHERENT_KHR
+	x = ev.blend_advanced_coherent;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.blend_advanced_coherent);
+#endif
+
+#ifdef GL_COLOR_LOGIC_OP
+	x = ev.color_logic_op;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.color_logic_op);
+#endif
+
+#ifdef GL_CULL_FACE
+	x = ev.cull_face;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.cull_face);
+#endif
+
+#ifdef GL_DEBUG_OUTPUT_SYNCHRONOUS
+	x = ev.debug_output_synchronous;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.debug_output_synchronous);
+#endif
+
+#ifdef GL_DEPTH_TEST
+	x = ev.depth_test;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.depth_test);
+#endif
+
+#ifdef GL_DITHER
+	x = ev.dither;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.dither);
+#endif
+
+#ifdef GL_FRAGMENT_COVERAGE_TO_COLOR_NV
+	x = ev.fragment_coverage_to_color;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.fragment_coverage_to_color);
+#endif
+
+#ifdef GL_FRAMEBUFFER_SRGB
+	x = ev.framebuffer_srgb;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.framebuffer_srgb);
+#endif
+
+#ifdef GL_LINE_SMOOTH
+	x = ev.line_smooth;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.line_smooth);
+#endif
+
+#ifdef GL_MULTISAMPLE
+	x = ev.multisample;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.multisample);
+#endif
+
+#ifdef GL_POLYGON_OFFSET_FILL
+	x = ev.polygon_offset_fill;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.polygon_offset_fill);
+#endif
+
+#ifdef GL_POLYGON_OFFSET_LINE
+	x = ev.polygon_offset_line;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.polygon_offset_line);
+#endif
+
+#ifdef GL_POLYGON_OFFSET_POINT
+	x = ev.polygon_offset_point;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.polygon_offset_point);
+#endif
+
+#ifdef GL_POLYGON_SMOOTH
+	x = ev.polygon_smooth;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.polygon_smooth);
+#endif
+
+#ifdef GL_PRIMITIVE_RESTART
+	x = ev.primitive_restart;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.primitive_restart);
+#endif
+
+#ifdef GL_PROGRAM_POINT_SIZE
+	x = ev.program_point_size;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.program_point_size);
+#endif
+
+#ifdef GL_RASTERIZER_DISCARD
+	x = ev.rasterizer_discard;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.rasterizer_discard);
+#endif
+
+#ifdef GL_SAMPLE_ALPHA_TO_COVERAGE
+	x = ev.sample_alpha_to_coverage;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.sample_alpha_to_coverage);
+#endif
+
+#ifdef GL_SAMPLE_ALPHA_TO_ONE
+	x = ev.sample_alpha_to_one;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.sample_alpha_to_one);
+#endif
+
+#ifdef GL_SAMPLE_COVERAGE
+	x = ev.sample_coverage;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.sample_coverage);
+#endif
+
+#ifdef GL_SAMPLE_MASK
+	x = ev.sample_mask;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.sample_mask);
+#endif
+
+#ifdef GL_SAMPLE_SHADING
+	x = ev.sample_shading;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.sample_shading);
+#endif
+
+#ifdef GL_SCISSOR_TEST
+	x = ev.scissor_test;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.scissor_test);
+#endif
+
+#ifdef GL_STENCIL_TEST
+	x = ev.stencil_test;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.stencil_test);
+#endif
+
+#ifdef GL_STREAM_RASTERIZATION_AMD
+	x = ev.stream_rasterization;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.stream_rasterization);
+#endif
+
+#ifdef GL_TEXTURE_CUBE_MAP_SEAMLESS
+	x = ev.texture_cube_map_seamless;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.texture_cube_map_seamless);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

@@ -346,4 +346,86 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_status_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_framebuffer_status_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	framebuffer_status x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_FRAMEBUFFER_COMPLETE
+	x = ev.framebuffer_complete;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.framebuffer_complete);
+#endif
+
+#ifdef GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT
+	x = ev.framebuffer_incomplete_attachment;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.framebuffer_incomplete_attachment);
+#endif
+
+#ifdef GL_FRAMEBUFFER_INCOMPLETE_LAYER_TARGETS
+	x = ev.framebuffer_incomplete_layer_targets;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.framebuffer_incomplete_layer_targets);
+#endif
+
+#ifdef GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT
+	x = ev.framebuffer_incomplete_missing_attachment;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.framebuffer_incomplete_missing_attachment);
+#endif
+
+#ifdef GL_FRAMEBUFFER_INCOMPLETE_MULTISAMPLE
+	x = ev.framebuffer_incomplete_multisample;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.framebuffer_incomplete_multisample);
+#endif
+
+#ifdef GL_FRAMEBUFFER_UNDEFINED
+	x = ev.framebuffer_undefined;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.framebuffer_undefined);
+#endif
+
+#ifdef GL_FRAMEBUFFER_UNSUPPORTED
+	x = ev.framebuffer_unsupported;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.framebuffer_unsupported);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

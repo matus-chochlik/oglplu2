@@ -285,4 +285,76 @@ BOOST_AUTO_TEST_CASE(enum_precision_type_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_precision_type_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	precision_type x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_HIGH_FLOAT
+	x = ev.high_float;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.high_float);
+#endif
+
+#ifdef GL_HIGH_INT
+	x = ev.high_int;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.high_int);
+#endif
+
+#ifdef GL_LOW_FLOAT
+	x = ev.low_float;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.low_float);
+#endif
+
+#ifdef GL_LOW_INT
+	x = ev.low_int;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.low_int);
+#endif
+
+#ifdef GL_MEDIUM_FLOAT
+	x = ev.medium_float;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.medium_float);
+#endif
+
+#ifdef GL_MEDIUM_INT
+	x = ev.medium_int;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.medium_int);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

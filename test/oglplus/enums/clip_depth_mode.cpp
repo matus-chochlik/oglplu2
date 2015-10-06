@@ -101,4 +101,36 @@ BOOST_AUTO_TEST_CASE(enum_clip_depth_mode_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_clip_depth_mode_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	clip_depth_mode x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_NEGATIVE_ONE_TO_ONE
+	x = ev.negative_one_to_one;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.negative_one_to_one);
+#endif
+
+#ifdef GL_ZERO_TO_ONE
+	x = ev.zero_to_one;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.zero_to_one);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

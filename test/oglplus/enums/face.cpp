@@ -138,4 +138,46 @@ BOOST_AUTO_TEST_CASE(enum_face_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_face_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	face x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_BACK
+	x = ev.back;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.back);
+#endif
+
+#ifdef GL_FRONT
+	x = ev.front;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.front);
+#endif
+
+#ifdef GL_FRONT_AND_BACK
+	x = ev.front_and_back;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.front_and_back);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

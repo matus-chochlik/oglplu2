@@ -346,4 +346,86 @@ BOOST_AUTO_TEST_CASE(enum_program_pipeline_stage_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_program_pipeline_stage_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	program_pipeline_stage x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_ALL_SHADER_BITS
+	x = ev.all_shader_bits;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.all_shader_bits);
+#endif
+
+#ifdef GL_COMPUTE_SHADER_BIT
+	x = ev.compute_shader_bit;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.compute_shader_bit);
+#endif
+
+#ifdef GL_FRAGMENT_SHADER_BIT
+	x = ev.fragment_shader_bit;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.fragment_shader_bit);
+#endif
+
+#ifdef GL_GEOMETRY_SHADER_BIT
+	x = ev.geometry_shader_bit;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.geometry_shader_bit);
+#endif
+
+#ifdef GL_TESS_CONTROL_SHADER_BIT
+	x = ev.tess_control_shader_bit;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.tess_control_shader_bit);
+#endif
+
+#ifdef GL_TESS_EVALUATION_SHADER_BIT
+	x = ev.tess_evaluation_shader_bit;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.tess_evaluation_shader_bit);
+#endif
+
+#ifdef GL_VERTEX_SHADER_BIT
+	x = ev.vertex_shader_bit;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.vertex_shader_bit);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

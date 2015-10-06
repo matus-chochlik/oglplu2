@@ -70,4 +70,26 @@ BOOST_AUTO_TEST_CASE(enum_functionality_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_functionality_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	functionality x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_CLIP_DISTANCE0
+	x = ev.clip_distance;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.clip_distance);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

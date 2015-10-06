@@ -413,4 +413,96 @@ BOOST_AUTO_TEST_CASE(enum_stencil_operation_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_stencil_operation_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	stencil_operation x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_DECR
+	x = ev.decr;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.decr);
+#endif
+
+#ifdef GL_DECR_WRAP
+	x = ev.decr_wrap;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.decr_wrap);
+#endif
+
+#ifdef GL_INCR
+	x = ev.incr;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.incr);
+#endif
+
+#ifdef GL_INCR_WRAP
+	x = ev.incr_wrap;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.incr_wrap);
+#endif
+
+#ifdef GL_INVERT
+	x = ev.invert;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.invert);
+#endif
+
+#ifdef GL_KEEP
+	x = ev.keep;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.keep);
+#endif
+
+#ifdef GL_REPLACE
+	x = ev.replace;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.replace);
+#endif
+
+#ifdef GL_ZERO
+	x = ev.zero;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.zero);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

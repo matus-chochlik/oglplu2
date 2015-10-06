@@ -565,4 +565,116 @@ BOOST_AUTO_TEST_CASE(enum_data_type_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_data_type_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	data_type x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_BYTE
+	x = ev.byte_;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.byte_);
+#endif
+
+#ifdef GL_DOUBLE
+	x = ev.double_;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.double_);
+#endif
+
+#ifdef GL_FIXED
+	x = ev.fixed;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.fixed);
+#endif
+
+#ifdef GL_FLOAT
+	x = ev.float_;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.float_);
+#endif
+
+#ifdef GL_HALF_FLOAT
+	x = ev.half_float;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.half_float);
+#endif
+
+#ifdef GL_INT
+	x = ev.int_;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.int_);
+#endif
+
+#ifdef GL_SHORT
+	x = ev.short_;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.short_);
+#endif
+
+#ifdef GL_UNSIGNED_BYTE
+	x = ev.unsigned_byte;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_byte);
+#endif
+
+#ifdef GL_UNSIGNED_INT
+	x = ev.unsigned_int;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_int);
+#endif
+
+#ifdef GL_UNSIGNED_SHORT
+	x = ev.unsigned_short;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unsigned_short);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()

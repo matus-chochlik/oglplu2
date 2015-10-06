@@ -181,4 +181,56 @@ BOOST_AUTO_TEST_CASE(enum_graphics_reset_status_range)
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
+BOOST_AUTO_TEST_CASE(enum_graphics_reset_status_any)
+{
+	using namespace oglplus;
+	enum_values ev;
+	(void)ev;
+	graphics_reset_status x, y;
+	(void)x;
+	(void)y;
+	any_enum_value a;
+	(void)a;
+
+#ifdef GL_GUILTY_CONTEXT_RESET
+	x = ev.guilty_context_reset;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.guilty_context_reset);
+#endif
+
+#ifdef GL_INNOCENT_CONTEXT_RESET
+	x = ev.innocent_context_reset;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.innocent_context_reset);
+#endif
+
+#ifdef GL_NO_ERROR
+	x = ev.no_error;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.no_error);
+#endif
+
+#ifdef GL_UNKNOWN_CONTEXT_RESET
+	x = ev.unknown_context_reset;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unknown_context_reset);
+#endif
+}
+
 BOOST_AUTO_TEST_SUITE_END()
