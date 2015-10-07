@@ -1,20 +1,20 @@
 /**
- *  @file oglplus/object/name.hpp
+ *  @file eagine/object/name.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_OBJECT_NAME_1509260923_HPP
-#define OGLPLUS_OBJECT_NAME_1509260923_HPP
+#ifndef EAGINE_OBJECT_NAME_1509260923_HPP
+#define EAGINE_OBJECT_NAME_1509260923_HPP
 
 #include <utility>
 #include <cstddef>
 #include "fwd.hpp"
-#include "../utils/array_view.hpp"
+#include "../array_view.hpp"
 
-namespace oglplus {
+namespace eagine {
 
 template <typename ObjTag>
 class object_names<ObjTag, typename object_traits<ObjTag>::name_type>
@@ -138,6 +138,6 @@ public:
 	}
 };
 
-} // namespace oglplus
+} // namespace eagine
 
 #endif // include guard

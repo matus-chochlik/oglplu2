@@ -23,15 +23,22 @@ namespace tag {
 using shader = gl_obj_tag<GL_SHADER>;
 
 } // namespace tag
+} // namespace oglplus
+
+namespace eagine {
+
+template <>
+struct object_subtype<oglplus::tag::shader>
+{
+	typedef oglplus::shader_type type;
+};
+
+} // namespace eagine
+
+namespace oglplus {
 
 using shader_name = object_name<tag::shader>;
 using shader = object_owner<tag::shader>;
-
-template <>
-struct object_subtype<tag::shader>
-{
-	typedef shader_type type;
-};
 
 template <>
 struct obj_gen_del_ops<tag::shader>

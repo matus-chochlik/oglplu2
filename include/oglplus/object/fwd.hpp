@@ -9,33 +9,23 @@
 #ifndef OGLPLUS_OBJECT_FWD_1509260923_HPP
 #define OGLPLUS_OBJECT_FWD_1509260923_HPP
 
-#include "../utils/nothing.hpp"
+#include <eagine/object/fwd.hpp>
 
 namespace oglplus {
 
-template <typename ObjTag>
-struct object_traits;
+using eagine::object_traits;
 
-template <typename ObjTag>
-struct object_subtype;
+using eagine::object_subtype;
 
-template <typename ObjTag>
-using object_subtype_t = typename object_subtype<ObjTag>::type;
+using eagine::object_subtype_t;
 
-template <typename ObjTag, typename Storage>
-class object_names;
+using eagine::object_names;
 
-template <typename ObjTag>
-using object_name = object_names<
-	ObjTag,
-	typename object_traits<ObjTag>::name_type
->;
+using eagine::object_name;
 
-template <typename ObjectNames>
-class owned;
+using eagine::owned;
 
-template <typename ObjTag>
-class object_owner;
+using eagine::object_owner;
 
 template <typename ObjTag>
 struct obj_gen_del_ops;

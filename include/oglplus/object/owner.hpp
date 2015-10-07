@@ -9,62 +9,12 @@
 #ifndef OGLPLUS_OBJECT_OWNER_1509260923_HPP
 #define OGLPLUS_OBJECT_OWNER_1509260923_HPP
 
-#include "name.hpp"
-#include "lifetime.hpp"
+#include <eagine/object/owner.hpp>
+#include "../utils/array_view.hpp"
 
 namespace oglplus {
 
-template <typename ObjTag, typename Storage>
-class owned<object_names<ObjTag, Storage>>
- : public object_names<ObjTag, Storage>
-{
-public:
-	owned(void) = default;
-
-	owned(const owned&) = delete;
-	owned& operator = (const owned&) = delete;
-
-	owned(owned&&) = default;
-	owned& operator = (owned&&) = default;
-};
-
-template <typename ObjTag>
-class object_owner
- : public owned<object_name<ObjTag>>
-{
-public:
-	object_owner(void)
-	{
-		obj_lifetime_ops<ObjTag>::gen_objects(*this);
-	}
-
-	object_owner(typename object_subtype<ObjTag>::type subtype)
-	{
-		obj_lifetime_ops<ObjTag>::gen_objects(*this, subtype);
-	}
-
-	object_owner(object_owner&&) = default;
-	object_owner& operator = (object_owner&&) = default;
-
-	~object_owner(void)
-	{
-		try { obj_lifetime_ops<ObjTag>::delete_objects(*this); }
-		catch(...) { } // TODO rethrow exceptions or cancel ?
-	}
-
-	static
-	auto is_object(object_name<ObjTag> name)
-	noexcept
-	{
-		return obj_lifetime_ops<ObjTag>::is_object(name);
-	}
-
-	auto is_object(void) const
-	noexcept
-	{
-		return is_object(*this);
-	}
-};
+using eagine::object_owner;
 
 } // namespace oglplus
 

@@ -1,19 +1,19 @@
 /**
- *  @file oglplus/object/names.hpp
+ *  @file eagine/object/names.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_OBJECT_NAMES_1509260923_HPP
-#define OGLPLUS_OBJECT_NAMES_1509260923_HPP
+#ifndef EAGINE_OBJECT_NAMES_1509260923_HPP
+#define EAGINE_OBJECT_NAMES_1509260923_HPP
 
 #include <array>
 #include <algorithm>
 #include "name.hpp"
 
-namespace oglplus {
+namespace eagine {
 
 template <typename ObjTag, typename Iterator>
 class object_name_const_iterator
@@ -205,6 +205,6 @@ using object_name_array = object_names<
 	std::array<typename object_traits<ObjTag>::name_type, N>
 >;
 
-} // namespace oglplus
+} // namespace eagine
 
 #endif // include guard
