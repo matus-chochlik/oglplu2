@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_CTXT_DRAWING_1509260923_HPP
-#define OGLPLUS_CTXT_DRAWING_1509260923_HPP
+#ifndef OGLPLUS_CTXT_VIEWPORT_1509260923_HPP
+#define OGLPLUS_CTXT_VIEWPORT_1509260923_HPP
 
 #include "../utils/gl_func.hpp"
 #include "../error/handling.hpp"
@@ -17,30 +17,25 @@
 namespace oglplus {
 namespace ctxt {
 
-struct drawing_ops
+struct viewport_state
 {
 	static
 	outcome<void>
-	draw_arrays(primitive_type mode, GLint first, GLsizei count)
+	viewport(GLint x, GLint y, GLsizei w, GLsizei h)
 	noexcept
 	{
-		OGLPLUS_GLFUNC(DrawArrays)(GLenum(mode), first, count);
-		OGLPLUS_VERIFY(DrawArrays, enum_value(mode), warning);
+		OGLPLUS_GLFUNC(Viewport)(x, y, w, h);
+		OGLPLUS_VERIFY_SIMPLE(Viewport,warning);
 		return {};
 	}
 
 	static
 	outcome<void>
-	draw_elements(primitive_type mode, GLsizei count, index_type type)
+	viewport(GLsizei w, GLsizei h)
 	noexcept
 	{
-		OGLPLUS_GLFUNC(DrawElements)(
-			GLenum(mode),
-			count,
-			GLenum(type),
-			nullptr
-		);
-		OGLPLUS_VERIFY(DrawElements, enum_value(mode), warning);
+		OGLPLUS_GLFUNC(Viewport)(0, 0, w, h);
+		OGLPLUS_VERIFY_SIMPLE(Viewport,warning);
 		return {};
 	}
 };

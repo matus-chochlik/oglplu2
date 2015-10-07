@@ -13,10 +13,11 @@
 #include "callable_ref.hpp"
 #include "nothing.hpp"
 #include <type_traits>
+#include <exception>
 
 namespace eagine {
 
-template <typename OnException>
+template <typename OnException = nothing_t>
 class on_scope_exit
 {
 public:

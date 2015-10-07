@@ -17,7 +17,7 @@
 namespace oglplus {
 namespace ctxt {
 
-struct object_lifetime
+struct object_lifetime_ops
 {
 	template <typename ObjTag, typename Storage>
 	static inline
