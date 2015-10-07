@@ -34,12 +34,44 @@ static constexpr const enum_value<
 > UnpackLSBFirst = {};
 #endif
 
+#ifdef GL_ACCUM_ADJACENT_PAIRS_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_ACCUM_ADJACENT_PAIRS_NV,
+	mp_list<path_list_mode_nv>
+> accum_adjacent_pairs_nv = {};
+#endif
+
 #ifdef GL_ACTIVE_VARIABLES
 static constexpr const enum_value<
 	GLenum,
 	GL_ACTIVE_VARIABLES,
 	mp_list<program_resource_property>
 > active_variables = {};
+#endif
+
+#ifdef GL_ADJACENT_PAIRS_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_ADJACENT_PAIRS_NV,
+	mp_list<path_list_mode_nv>
+> adjacent_pairs_nv = {};
+#endif
+
+#ifdef GL_AFFINE_2D_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_AFFINE_2D_NV,
+	mp_list<path_transform_type_nv>
+> affine_2d_nv = {};
+#endif
+
+#ifdef GL_AFFINE_3D_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_AFFINE_3D_NV,
+	mp_list<path_transform_type_nv>
+> affine_3d_nv = {};
 #endif
 
 #ifdef GL_ALL_BARRIER_BITS
@@ -62,7 +94,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_ALPHA,
-	mp_list<texture_swizzle>
+	mp_list<texture_swizzle,path_color_format_nv>
 > alpha = {};
 #endif
 
@@ -112,6 +144,14 @@ static constexpr const enum_value<
 	GL_ANY_SAMPLES_PASSED,
 	mp_list<query_target>
 > any_samples_passed = {};
+#endif
+
+#ifdef GL_ARC_TO_NV
+static constexpr const enum_value<
+	GLubyte,
+	GL_ARC_TO_NV,
+	mp_list<path_command_nv>
+> arc_to_nv = {};
 #endif
 
 #ifdef GL_ARRAY_BUFFER
@@ -186,6 +226,14 @@ static constexpr const enum_value<
 > back_right = {};
 #endif
 
+#ifdef GL_BEVEL_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_BEVEL_NV,
+	mp_list<path_join_style_nv>
+> bevel_nv = {};
+#endif
+
 #ifdef GL_BGR
 static constexpr const enum_value<
 	GLenum,
@@ -258,6 +306,14 @@ static constexpr const enum_value<
 > blue_integer = {};
 #endif
 
+#ifdef GL_BOLD_BIT_NV
+static constexpr const enum_value<
+	GLbitfield,
+	GL_BOLD_BIT_NV,
+	mp_list<path_font_style_nv>
+> bold_bit_nv = {};
+#endif
+
 #ifdef GL_BOOL
 static constexpr const enum_value<
 	GLenum,
@@ -288,6 +344,22 @@ static constexpr const enum_value<
 	GL_BOOL_VEC4,
 	mp_list<sl_data_type>
 > bool_vec4 = {};
+#endif
+
+#ifdef GL_BOUNDING_BOX_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_BOUNDING_BOX_NV,
+	mp_list<path_stroke_cover_mode_nv,path_fill_cover_mode_nv>
+> bounding_box_nv = {};
+#endif
+
+#ifdef GL_BOUNDING_BOX_OF_BOUNDING_BOXES_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_BOUNDING_BOX_OF_BOUNDING_BOXES_NV,
+	mp_list<path_stroke_cover_mode_nv,path_fill_cover_mode_nv>
+> bounding_box_of_bounding_boxes_nv = {};
 #endif
 
 #ifdef GL_BUFFER
@@ -344,6 +416,30 @@ static constexpr const enum_value<
 	GL_CCW,
 	mp_list<face_orientation>
 > ccw = {};
+#endif
+
+#ifdef GL_CIRCULAR_CCW_ARC_TO_NV
+static constexpr const enum_value<
+	GLubyte,
+	GL_CIRCULAR_CCW_ARC_TO_NV,
+	mp_list<path_command_nv>
+> circular_ccw_arc_to_nv = {};
+#endif
+
+#ifdef GL_CIRCULAR_CW_ARC_TO_NV
+static constexpr const enum_value<
+	GLubyte,
+	GL_CIRCULAR_CW_ARC_TO_NV,
+	mp_list<path_command_nv>
+> circular_cw_arc_to_nv = {};
+#endif
+
+#ifdef GL_CIRCULAR_TANGENT_ARC_TO_NV
+static constexpr const enum_value<
+	GLubyte,
+	GL_CIRCULAR_TANGENT_ARC_TO_NV,
+	mp_list<path_command_nv>
+> circular_tangent_arc_to_nv = {};
 #endif
 
 #ifdef GL_CLAMP_TO_BORDER
@@ -408,6 +504,14 @@ static constexpr const enum_value<
 	GL_CLIPPING_OUTPUT_PRIMITIVES_ARB,
 	mp_list<query_target>
 > clipping_output_primitives = {};
+#endif
+
+#ifdef GL_CLOSE_PATH_NV
+static constexpr const enum_value<
+	GLubyte,
+	GL_CLOSE_PATH_NV,
+	mp_list<path_command_nv>
+> close_path_nv = {};
 #endif
 
 #ifdef GL_COLOR
@@ -914,6 +1018,14 @@ static constexpr const enum_value<
 > context_release_behavior_flush = {};
 #endif
 
+#ifdef GL_CONVEX_HULL_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_CONVEX_HULL_NV,
+	mp_list<path_stroke_cover_mode_nv,path_fill_cover_mode_nv>
+> convex_hull_nv = {};
+#endif
+
 #ifdef GL_COPY
 static constexpr const enum_value<
 	GLenum,
@@ -944,6 +1056,30 @@ static constexpr const enum_value<
 	GL_COPY_WRITE_BUFFER,
 	mp_list<buffer_target>
 > copy_write_buffer = {};
+#endif
+
+#ifdef GL_COUNT_DOWN_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_COUNT_DOWN_NV,
+	mp_list<path_fill_mode_nv>
+> count_down_nv = {};
+#endif
+
+#ifdef GL_COUNT_UP_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_COUNT_UP_NV,
+	mp_list<path_fill_mode_nv>
+> count_up_nv = {};
+#endif
+
+#ifdef GL_CUBIC_CURVE_TO_NV
+static constexpr const enum_value<
+	GLubyte,
+	GL_CUBIC_CURVE_TO_NV,
+	mp_list<path_command_nv>
+> cubic_curve_to_nv = {};
 #endif
 
 #ifdef GL_CULL_FACE
@@ -1418,6 +1554,22 @@ static constexpr const enum_value<
 > dst_color = {};
 #endif
 
+#ifdef GL_DUP_FIRST_CUBIC_CURVE_TO_NV
+static constexpr const enum_value<
+	GLubyte,
+	GL_DUP_FIRST_CUBIC_CURVE_TO_NV,
+	mp_list<path_command_nv>
+> dup_first_cubic_curve_to_nv = {};
+#endif
+
+#ifdef GL_DUP_LAST_CUBIC_CURVE_TO_NV
+static constexpr const enum_value<
+	GLubyte,
+	GL_DUP_LAST_CUBIC_CURVE_TO_NV,
+	mp_list<path_command_nv>
+> dup_last_cubic_curve_to_nv = {};
+#endif
+
 #ifdef GL_DYNAMIC_COPY
 static constexpr const enum_value<
 	GLenum,
@@ -1498,12 +1650,28 @@ static constexpr const enum_value<
 > external_virtual_memory_buffer = {};
 #endif
 
+#ifdef GL_EYE_LINEAR
+static constexpr const enum_value<
+	GLenum,
+	GL_EYE_LINEAR,
+	mp_list<path_gen_mode_nv>
+> eye_linear = {};
+#endif
+
 #ifdef GL_FASTEST
 static constexpr const enum_value<
 	GLenum,
 	GL_FASTEST,
 	mp_list<hint_option>
 > fastest = {};
+#endif
+
+#ifdef GL_FILE_NAME_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_FILE_NAME_NV,
+	mp_list<path_font_target_nv>
+> file_name_nv = {};
 #endif
 
 #ifdef GL_FILL
@@ -1522,6 +1690,14 @@ static constexpr const enum_value<
 > fill_rectangle = {};
 #endif
 
+#ifdef GL_FIRST_TO_REST_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_FIRST_TO_REST_NV,
+	mp_list<path_list_mode_nv>
+> first_to_rest_nv = {};
+#endif
+
 #ifdef GL_FIRST_VERTEX_CONVENTION
 static constexpr const enum_value<
 	GLenum,
@@ -1536,6 +1712,14 @@ static constexpr const enum_value<
 	GL_FIXED,
 	mp_list<data_type>
 > fixed = {};
+#endif
+
+#ifdef GL_FLAT
+static constexpr const enum_value<
+	GLenum,
+	GL_FLAT,
+	mp_list<path_cap_style_nv>
+> flat = {};
 #endif
 
 #ifdef GL_FLOAT
@@ -1648,6 +1832,110 @@ static constexpr const enum_value<
 	GL_FLOAT_VEC4,
 	mp_list<sl_data_type>
 > float_vec4 = {};
+#endif
+
+#ifdef GL_FONT_ASCENDER_BIT_NV
+static constexpr const enum_value<
+	GLbitfield,
+	GL_FONT_ASCENDER_BIT_NV,
+	mp_list<path_metric_query_nv>
+> font_ascender_bit_nv = {};
+#endif
+
+#ifdef GL_FONT_DESCENDER_BIT_NV
+static constexpr const enum_value<
+	GLbitfield,
+	GL_FONT_DESCENDER_BIT_NV,
+	mp_list<path_metric_query_nv>
+> font_descender_bit_nv = {};
+#endif
+
+#ifdef GL_FONT_HAS_KERNING_BIT_NV
+static constexpr const enum_value<
+	GLbitfield,
+	GL_FONT_HAS_KERNING_BIT_NV,
+	mp_list<path_metric_query_nv>
+> font_has_kerning_bit_nv = {};
+#endif
+
+#ifdef GL_FONT_HEIGHT_BIT_NV
+static constexpr const enum_value<
+	GLbitfield,
+	GL_FONT_HEIGHT_BIT_NV,
+	mp_list<path_metric_query_nv>
+> font_height_bit_nv = {};
+#endif
+
+#ifdef GL_FONT_MAX_ADVANCE_HEIGHT_BIT_NV
+static constexpr const enum_value<
+	GLbitfield,
+	GL_FONT_MAX_ADVANCE_HEIGHT_BIT_NV,
+	mp_list<path_metric_query_nv>
+> font_max_advance_height_bit_nv = {};
+#endif
+
+#ifdef GL_FONT_MAX_ADVANCE_WIDTH_BIT_NV
+static constexpr const enum_value<
+	GLbitfield,
+	GL_FONT_MAX_ADVANCE_WIDTH_BIT_NV,
+	mp_list<path_metric_query_nv>
+> font_max_advance_width_bit_nv = {};
+#endif
+
+#ifdef GL_FONT_UNDERLINE_POSITION_BIT_NV
+static constexpr const enum_value<
+	GLbitfield,
+	GL_FONT_UNDERLINE_POSITION_BIT_NV,
+	mp_list<path_metric_query_nv>
+> font_underline_position_bit_nv = {};
+#endif
+
+#ifdef GL_FONT_UNDERLINE_THICKNESS_BIT_NV
+static constexpr const enum_value<
+	GLbitfield,
+	GL_FONT_UNDERLINE_THICKNESS_BIT_NV,
+	mp_list<path_metric_query_nv>
+> font_underline_thickness_bit_nv = {};
+#endif
+
+#ifdef GL_FONT_UNITS_PER_EM_BIT_NV
+static constexpr const enum_value<
+	GLbitfield,
+	GL_FONT_UNITS_PER_EM_BIT_NV,
+	mp_list<path_metric_query_nv>
+> font_units_per_em_bit_nv = {};
+#endif
+
+#ifdef GL_FONT_X_MAX_BOUNDS_BIT_NV
+static constexpr const enum_value<
+	GLbitfield,
+	GL_FONT_X_MAX_BOUNDS_BIT_NV,
+	mp_list<path_metric_query_nv>
+> font_x_max_bounds_bit_nv = {};
+#endif
+
+#ifdef GL_FONT_X_MIN_BOUNDS_BIT_NV
+static constexpr const enum_value<
+	GLbitfield,
+	GL_FONT_X_MIN_BOUNDS_BIT_NV,
+	mp_list<path_metric_query_nv>
+> font_x_min_bounds_bit_nv = {};
+#endif
+
+#ifdef GL_FONT_Y_MAX_BOUNDS_BIT_NV
+static constexpr const enum_value<
+	GLbitfield,
+	GL_FONT_Y_MAX_BOUNDS_BIT_NV,
+	mp_list<path_metric_query_nv>
+> font_y_max_bounds_bit_nv = {};
+#endif
+
+#ifdef GL_FONT_Y_MIN_BOUNDS_BIT_NV
+static constexpr const enum_value<
+	GLbitfield,
+	GL_FONT_Y_MIN_BOUNDS_BIT_NV,
+	mp_list<path_metric_query_nv>
+> font_y_min_bounds_bit_nv = {};
 #endif
 
 #ifdef GL_FRACTIONAL_EVEN
@@ -1914,6 +2202,78 @@ static constexpr const enum_value<
 > gequal = {};
 #endif
 
+#ifdef GL_GLYPH_HAS_KERNING_BIT_NV
+static constexpr const enum_value<
+	GLbitfield,
+	GL_GLYPH_HAS_KERNING_BIT_NV,
+	mp_list<path_metric_query_nv>
+> glyph_has_kerning_bit_nv = {};
+#endif
+
+#ifdef GL_GLYPH_HEIGHT_BIT_NV
+static constexpr const enum_value<
+	GLbitfield,
+	GL_GLYPH_HEIGHT_BIT_NV,
+	mp_list<path_metric_query_nv>
+> glyph_height_bit_nv = {};
+#endif
+
+#ifdef GL_GLYPH_HORIZONTAL_BEARING_ADVANCE_BIT_NV
+static constexpr const enum_value<
+	GLbitfield,
+	GL_GLYPH_HORIZONTAL_BEARING_ADVANCE_BIT_NV,
+	mp_list<path_metric_query_nv>
+> glyph_horizontal_bearing_advance_bit_nv = {};
+#endif
+
+#ifdef GL_GLYPH_HORIZONTAL_BEARING_X_BIT_NV
+static constexpr const enum_value<
+	GLbitfield,
+	GL_GLYPH_HORIZONTAL_BEARING_X_BIT_NV,
+	mp_list<path_metric_query_nv>
+> glyph_horizontal_bearing_x_bit_nv = {};
+#endif
+
+#ifdef GL_GLYPH_HORIZONTAL_BEARING_Y_BIT_NV
+static constexpr const enum_value<
+	GLbitfield,
+	GL_GLYPH_HORIZONTAL_BEARING_Y_BIT_NV,
+	mp_list<path_metric_query_nv>
+> glyph_horizontal_bearing_y_bit_nv = {};
+#endif
+
+#ifdef GL_GLYPH_VERTICAL_BEARING_ADVANCE_BIT_NV
+static constexpr const enum_value<
+	GLbitfield,
+	GL_GLYPH_VERTICAL_BEARING_ADVANCE_BIT_NV,
+	mp_list<path_metric_query_nv>
+> glyph_vertical_bearing_advance_bit_nv = {};
+#endif
+
+#ifdef GL_GLYPH_VERTICAL_BEARING_X_BIT_NV
+static constexpr const enum_value<
+	GLbitfield,
+	GL_GLYPH_VERTICAL_BEARING_X_BIT_NV,
+	mp_list<path_metric_query_nv>
+> glyph_vertical_bearing_x_bit_nv = {};
+#endif
+
+#ifdef GL_GLYPH_VERTICAL_BEARING_Y_BIT_NV
+static constexpr const enum_value<
+	GLbitfield,
+	GL_GLYPH_VERTICAL_BEARING_Y_BIT_NV,
+	mp_list<path_metric_query_nv>
+> glyph_vertical_bearing_y_bit_nv = {};
+#endif
+
+#ifdef GL_GLYPH_WIDTH_BIT_NV
+static constexpr const enum_value<
+	GLbitfield,
+	GL_GLYPH_WIDTH_BIT_NV,
+	mp_list<path_metric_query_nv>
+> glyph_width_bit_nv = {};
+#endif
+
 #ifdef GL_GREATER
 static constexpr const enum_value<
 	GLenum,
@@ -1976,6 +2336,14 @@ static constexpr const enum_value<
 	GL_HIGH_INT,
 	mp_list<precision_type>
 > high_int = {};
+#endif
+
+#ifdef GL_HORIZONTAL_LINE_TO_NV
+static constexpr const enum_value<
+	GLubyte,
+	GL_HORIZONTAL_LINE_TO_NV,
+	mp_list<path_command_nv>
+> horizontal_line_to_nv = {};
 #endif
 
 #ifdef GL_HSL_COLOR_KHR
@@ -2314,6 +2682,14 @@ static constexpr const enum_value<
 > int_vec4 = {};
 #endif
 
+#ifdef GL_INTENSITY
+static constexpr const enum_value<
+	GLenum,
+	GL_INTENSITY,
+	mp_list<path_color_format_nv>
+> intensity = {};
+#endif
+
 #ifdef GL_INTERLEAVED_ATTRIBS
 static constexpr const enum_value<
 	GLenum,
@@ -2358,7 +2734,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_INVERT,
-	mp_list<color_logic_operation,stencil_operation>
+	mp_list<path_fill_mode_nv,color_logic_operation,stencil_operation>
 > invert = {};
 #endif
 
@@ -2386,12 +2762,36 @@ static constexpr const enum_value<
 > isolines = {};
 #endif
 
+#ifdef GL_ITALIC_BIT_NV
+static constexpr const enum_value<
+	GLbitfield,
+	GL_ITALIC_BIT_NV,
+	mp_list<path_font_style_nv>
+> italic_bit_nv = {};
+#endif
+
 #ifdef GL_KEEP
 static constexpr const enum_value<
 	GLenum,
 	GL_KEEP,
 	mp_list<stencil_operation>
 > keep = {};
+#endif
+
+#ifdef GL_LARGE_CCW_ARC_TO_NV
+static constexpr const enum_value<
+	GLubyte,
+	GL_LARGE_CCW_ARC_TO_NV,
+	mp_list<path_command_nv>
+> large_ccw_arc_to_nv = {};
+#endif
+
+#ifdef GL_LARGE_CW_ARC_TO_NV
+static constexpr const enum_value<
+	GLubyte,
+	GL_LARGE_CW_ARC_TO_NV,
+	mp_list<path_command_nv>
+> large_cw_arc_to_nv = {};
 #endif
 
 #ifdef GL_LAST_VERTEX_CONVENTION
@@ -2480,6 +2880,14 @@ static constexpr const enum_value<
 	GL_LINE_STRIP_ADJACENCY,
 	mp_list<primitive_type>
 > line_strip_adjacency = {};
+#endif
+
+#ifdef GL_LINE_TO_NV
+static constexpr const enum_value<
+	GLubyte,
+	GL_LINE_TO_NV,
+	mp_list<path_command_nv>
+> line_to_nv = {};
 #endif
 
 #ifdef GL_LINEAR
@@ -2576,6 +2984,22 @@ static constexpr const enum_value<
 	GL_LOWER_LEFT,
 	mp_list<clip_origin>
 > lower_left = {};
+#endif
+
+#ifdef GL_LUMINANCE
+static constexpr const enum_value<
+	GLenum,
+	GL_LUMINANCE,
+	mp_list<path_color_format_nv>
+> luminance = {};
+#endif
+
+#ifdef GL_LUMINANCE_ALPHA
+static constexpr const enum_value<
+	GLenum,
+	GL_LUMINANCE_ALPHA,
+	mp_list<path_color_format_nv>
+> luminance_alpha = {};
 #endif
 
 #ifdef GL_MAP_COHERENT_BIT
@@ -3570,6 +3994,46 @@ static constexpr const enum_value<
 > mirrored_repeat = {};
 #endif
 
+#ifdef GL_MITER_REVERT_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_MITER_REVERT_NV,
+	mp_list<path_join_style_nv>
+> miter_revert_nv = {};
+#endif
+
+#ifdef GL_MITER_TRUNCATE_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_MITER_TRUNCATE_NV,
+	mp_list<path_join_style_nv>
+> miter_truncate_nv = {};
+#endif
+
+#ifdef GL_MOVE_TO_CONTINUES_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_MOVE_TO_CONTINUES_NV,
+	mp_list<path_dash_offset_reset_nv>
+> move_to_continues_nv = {};
+#endif
+
+#ifdef GL_MOVE_TO_NV
+static constexpr const enum_value<
+	GLubyte,
+	GL_MOVE_TO_NV,
+	mp_list<path_command_nv>
+> move_to_nv = {};
+#endif
+
+#ifdef GL_MOVE_TO_RESET_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_MOVE_TO_RESET_NV,
+	mp_list<path_dash_offset_reset_nv>
+> move_to_reset_nv = {};
+#endif
+
 #ifdef GL_MULTIPLY_KHR
 static constexpr const enum_value<
 	GLenum,
@@ -3662,7 +4126,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_NONE,
-	mp_list<sl_data_type,texture_compare_mode,color_buffer,object_type,context_release_behavior>
+	mp_list<sl_data_type,context_release_behavior,color_buffer,object_type,texture_compare_mode,path_transform_type_nv,path_join_style_nv,path_gen_mode_nv>
 > none = {};
 #endif
 
@@ -3704,6 +4168,14 @@ static constexpr const enum_value<
 	GL_NUM_COMPATIBLE_SUBROUTINES,
 	mp_list<program_resource_property>
 > num_compatible_subroutines = {};
+#endif
+
+#ifdef GL_OBJECT_LINEAR
+static constexpr const enum_value<
+	GLenum,
+	GL_OBJECT_LINEAR,
+	mp_list<path_gen_mode_nv>
+> object_linear = {};
 #endif
 
 #ifdef GL_OFFSET
@@ -3954,6 +4426,54 @@ static constexpr const enum_value<
 > patches = {};
 #endif
 
+#ifdef GL_PATH_FILL_COVER_MODE_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_PATH_FILL_COVER_MODE_NV,
+	mp_list<path_fill_cover_mode_nv>
+> path_fill_cover_mode_nv = {};
+#endif
+
+#ifdef GL_PATH_FILL_MODE_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_PATH_FILL_MODE_NV,
+	mp_list<path_fill_mode_nv>
+> path_fill_mode_nv = {};
+#endif
+
+#ifdef GL_PATH_FORMAT_PS_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_PATH_FORMAT_PS_NV,
+	mp_list<path_format_nv>
+> path_format_ps_nv = {};
+#endif
+
+#ifdef GL_PATH_FORMAT_SVG_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_PATH_FORMAT_SVG_NV,
+	mp_list<path_format_nv>
+> path_format_svg_nv = {};
+#endif
+
+#ifdef GL_PATH_OBJECT_BOUNDING_BOX_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_PATH_OBJECT_BOUNDING_BOX_NV,
+	mp_list<path_gen_mode_nv>
+> path_object_bounding_box_nv = {};
+#endif
+
+#ifdef GL_PATH_STROKE_COVER_MODE_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_PATH_STROKE_COVER_MODE_NV,
+	mp_list<path_stroke_cover_mode_nv>
+> path_stroke_cover_mode_nv = {};
+#endif
+
 #ifdef GL_PIXEL_BUFFER_BARRIER_BIT
 static constexpr const enum_value<
 	GLbitfield,
@@ -4034,6 +4554,14 @@ static constexpr const enum_value<
 > polygon_smooth_hint = {};
 #endif
 
+#ifdef GL_PRIMARY_COLOR_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_PRIMARY_COLOR_NV,
+	mp_list<path_color_nv>
+> primary_color_nv = {};
+#endif
+
 #ifdef GL_PRIMITIVE_RESTART
 static constexpr const enum_value<
 	GLenum,
@@ -4096,6 +4624,14 @@ static constexpr const enum_value<
 	GL_PROGRAM_POINT_SIZE,
 	mp_list<capability>
 > program_point_size = {};
+#endif
+
+#ifdef GL_QUADRATIC_CURVE_TO_NV
+static constexpr const enum_value<
+	GLubyte,
+	GL_QUADRATIC_CURVE_TO_NV,
+	mp_list<path_command_nv>
+> quadratic_curve_to_nv = {};
 #endif
 
 #ifdef GL_QUADS
@@ -4330,6 +4866,14 @@ static constexpr const enum_value<
 > read_write = {};
 #endif
 
+#ifdef GL_RECT_NV
+static constexpr const enum_value<
+	GLubyte,
+	GL_RECT_NV,
+	mp_list<path_command_nv>
+> rect_nv = {};
+#endif
+
 #ifdef GL_RED
 static constexpr const enum_value<
 	GLenum,
@@ -4394,6 +4938,110 @@ static constexpr const enum_value<
 > referenced_by_vertex_shader = {};
 #endif
 
+#ifdef GL_RELATIVE_ARC_TO_NV
+static constexpr const enum_value<
+	GLubyte,
+	GL_RELATIVE_ARC_TO_NV,
+	mp_list<path_command_nv>
+> relative_arc_to_nv = {};
+#endif
+
+#ifdef GL_RELATIVE_CUBIC_CURVE_TO_NV
+static constexpr const enum_value<
+	GLubyte,
+	GL_RELATIVE_CUBIC_CURVE_TO_NV,
+	mp_list<path_command_nv>
+> relative_cubic_curve_to_nv = {};
+#endif
+
+#ifdef GL_RELATIVE_HORIZONTAL_LINE_TO_NV
+static constexpr const enum_value<
+	GLubyte,
+	GL_RELATIVE_HORIZONTAL_LINE_TO_NV,
+	mp_list<path_command_nv>
+> relative_horizontal_line_to_nv = {};
+#endif
+
+#ifdef GL_RELATIVE_LARGE_CCW_ARC_TO_NV
+static constexpr const enum_value<
+	GLubyte,
+	GL_RELATIVE_LARGE_CCW_ARC_TO_NV,
+	mp_list<path_command_nv>
+> relative_large_ccw_arc_to_nv = {};
+#endif
+
+#ifdef GL_RELATIVE_LARGE_CW_ARC_TO_NV
+static constexpr const enum_value<
+	GLubyte,
+	GL_RELATIVE_LARGE_CW_ARC_TO_NV,
+	mp_list<path_command_nv>
+> relative_large_cw_arc_to_nv = {};
+#endif
+
+#ifdef GL_RELATIVE_LINE_TO_NV
+static constexpr const enum_value<
+	GLubyte,
+	GL_RELATIVE_LINE_TO_NV,
+	mp_list<path_command_nv>
+> relative_line_to_nv = {};
+#endif
+
+#ifdef GL_RELATIVE_MOVE_TO_NV
+static constexpr const enum_value<
+	GLubyte,
+	GL_RELATIVE_MOVE_TO_NV,
+	mp_list<path_command_nv>
+> relative_move_to_nv = {};
+#endif
+
+#ifdef GL_RELATIVE_QUADRATIC_CURVE_TO_NV
+static constexpr const enum_value<
+	GLubyte,
+	GL_RELATIVE_QUADRATIC_CURVE_TO_NV,
+	mp_list<path_command_nv>
+> relative_quadratic_curve_to_nv = {};
+#endif
+
+#ifdef GL_RELATIVE_SMALL_CCW_ARC_TO_NV
+static constexpr const enum_value<
+	GLubyte,
+	GL_RELATIVE_SMALL_CCW_ARC_TO_NV,
+	mp_list<path_command_nv>
+> relative_small_ccw_arc_to_nv = {};
+#endif
+
+#ifdef GL_RELATIVE_SMALL_CW_ARC_TO_NV
+static constexpr const enum_value<
+	GLubyte,
+	GL_RELATIVE_SMALL_CW_ARC_TO_NV,
+	mp_list<path_command_nv>
+> relative_small_cw_arc_to_nv = {};
+#endif
+
+#ifdef GL_RELATIVE_SMOOTH_CUBIC_CURVE_TO_NV
+static constexpr const enum_value<
+	GLubyte,
+	GL_RELATIVE_SMOOTH_CUBIC_CURVE_TO_NV,
+	mp_list<path_command_nv>
+> relative_smooth_cubic_curve_to_nv = {};
+#endif
+
+#ifdef GL_RELATIVE_SMOOTH_QUADRATIC_CURVE_TO_NV
+static constexpr const enum_value<
+	GLubyte,
+	GL_RELATIVE_SMOOTH_QUADRATIC_CURVE_TO_NV,
+	mp_list<path_command_nv>
+> relative_smooth_quadratic_curve_to_nv = {};
+#endif
+
+#ifdef GL_RELATIVE_VERTICAL_LINE_TO_NV
+static constexpr const enum_value<
+	GLubyte,
+	GL_RELATIVE_VERTICAL_LINE_TO_NV,
+	mp_list<path_command_nv>
+> relative_vertical_line_to_nv = {};
+#endif
+
 #ifdef GL_RENDERBUFFER
 static constexpr const enum_value<
 	GLenum,
@@ -4424,6 +5072,14 @@ static constexpr const enum_value<
 	GL_REPLACE,
 	mp_list<stencil_operation>
 > replace = {};
+#endif
+
+#ifdef GL_RESTART_PATH_NV
+static constexpr const enum_value<
+	GLubyte,
+	GL_RESTART_PATH_NV,
+	mp_list<path_command_nv>
+> restart_path_nv = {};
 #endif
 
 #ifdef GL_RG
@@ -4542,7 +5198,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_RGB,
-	mp_list<pixel_data_format,pixel_data_internal_format>
+	mp_list<path_color_format_nv,pixel_data_format,pixel_data_internal_format>
 > rgb = {};
 #endif
 
@@ -4718,7 +5374,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_RGBA,
-	mp_list<pixel_data_format,pixel_data_internal_format>
+	mp_list<path_color_format_nv,pixel_data_format,pixel_data_internal_format>
 > rgba = {};
 #endif
 
@@ -4856,6 +5512,14 @@ static constexpr const enum_value<
 	GL_RIGHT,
 	mp_list<color_buffer>
 > right = {};
+#endif
+
+#ifdef GL_ROUND_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_ROUND_NV,
+	mp_list<path_cap_style_nv,path_join_style_nv>
+> round_nv = {};
 #endif
 
 #ifdef GL_SAMPLE_ALPHA_TO_COVERAGE
@@ -5074,6 +5738,14 @@ static constexpr const enum_value<
 > screen_khr = {};
 #endif
 
+#ifdef GL_SECONDARY_COLOR_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_SECONDARY_COLOR_NV,
+	mp_list<path_color_nv>
+> secondary_color_nv = {};
+#endif
+
 #ifdef GL_SEPARATE_ATTRIBS
 static constexpr const enum_value<
 	GLenum,
@@ -5162,6 +5834,46 @@ static constexpr const enum_value<
 > signaled = {};
 #endif
 
+#ifdef GL_SKIP_MISSING_GLYPH_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_SKIP_MISSING_GLYPH_NV,
+	mp_list<path_missing_glyph_nv>
+> skip_missing_glyph_nv = {};
+#endif
+
+#ifdef GL_SMALL_CCW_ARC_TO_NV
+static constexpr const enum_value<
+	GLubyte,
+	GL_SMALL_CCW_ARC_TO_NV,
+	mp_list<path_command_nv>
+> small_ccw_arc_to_nv = {};
+#endif
+
+#ifdef GL_SMALL_CW_ARC_TO_NV
+static constexpr const enum_value<
+	GLubyte,
+	GL_SMALL_CW_ARC_TO_NV,
+	mp_list<path_command_nv>
+> small_cw_arc_to_nv = {};
+#endif
+
+#ifdef GL_SMOOTH_CUBIC_CURVE_TO_NV
+static constexpr const enum_value<
+	GLubyte,
+	GL_SMOOTH_CUBIC_CURVE_TO_NV,
+	mp_list<path_command_nv>
+> smooth_cubic_curve_to_nv = {};
+#endif
+
+#ifdef GL_SMOOTH_QUADRATIC_CURVE_TO_NV
+static constexpr const enum_value<
+	GLubyte,
+	GL_SMOOTH_QUADRATIC_CURVE_TO_NV,
+	mp_list<path_command_nv>
+> smooth_quadratic_curve_to_nv = {};
+#endif
+
 #ifdef GL_SOFTLIGHT_KHR
 static constexpr const enum_value<
 	GLenum,
@@ -5176,6 +5888,14 @@ static constexpr const enum_value<
 	GL_SPARSE_STORAGE_BIT_ARB,
 	mp_list<buffer_storage_bits>
 > sparse_storage_bit = {};
+#endif
+
+#ifdef GL_SQUARE_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_SQUARE_NV,
+	mp_list<path_cap_style_nv>
+> square_nv = {};
 #endif
 
 #ifdef GL_SRC1_ALPHA
@@ -5248,6 +5968,14 @@ static constexpr const enum_value<
 	GL_STACK_UNDERFLOW,
 	mp_list<error_code>
 > stack_underflow = {};
+#endif
+
+#ifdef GL_STANDARD_FONT_NAME_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_STANDARD_FONT_NAME_NV,
+	mp_list<path_font_target_nv>
+> standard_font_name_nv = {};
 #endif
 
 #ifdef GL_STATIC_COPY
@@ -5368,6 +6096,14 @@ static constexpr const enum_value<
 	GL_SYNC_GPU_COMMANDS_COMPLETE,
 	mp_list<sync_condition>
 > sync_gpu_commands_complete = {};
+#endif
+
+#ifdef GL_SYSTEM_FONT_NAME_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_SYSTEM_FONT_NAME_NV,
+	mp_list<path_font_target_nv>
+> system_font_name_nv = {};
 #endif
 
 #ifdef GL_TABLE_TOO_LARGE
@@ -5810,6 +6546,54 @@ static constexpr const enum_value<
 > transform_feedeback_varying = {};
 #endif
 
+#ifdef GL_TRANSLATE_2D_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_TRANSLATE_2D_NV,
+	mp_list<path_transform_type_nv>
+> translate_2d_nv = {};
+#endif
+
+#ifdef GL_TRANSLATE_3D_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_TRANSLATE_3D_NV,
+	mp_list<path_transform_type_nv>
+> translate_3d_nv = {};
+#endif
+
+#ifdef GL_TRANSLATE_X_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_TRANSLATE_X_NV,
+	mp_list<path_transform_type_nv>
+> translate_x_nv = {};
+#endif
+
+#ifdef GL_TRANSLATE_Y_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_TRANSLATE_Y_NV,
+	mp_list<path_transform_type_nv>
+> translate_y_nv = {};
+#endif
+
+#ifdef GL_TRANSPOSE_AFFINE_2D_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_TRANSPOSE_AFFINE_2D_NV,
+	mp_list<path_transform_type_nv>
+> transpose_affine_2d_nv = {};
+#endif
+
+#ifdef GL_TRANSPOSE_AFFINE_3D_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_TRANSPOSE_AFFINE_3D_NV,
+	mp_list<path_transform_type_nv>
+> transpose_affine_3d_nv = {};
+#endif
+
 #ifdef GL_TRIANGLE_FAN
 static constexpr const enum_value<
 	GLenum,
@@ -5848,6 +6632,14 @@ static constexpr const enum_value<
 	GL_TRIANGLES_ADJACENCY,
 	mp_list<primitive_type>
 > triangles_adjacency = {};
+#endif
+
+#ifdef GL_TRIANGULAR_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_TRIANGULAR_NV,
+	mp_list<path_cap_style_nv>
+> triangular_nv = {};
 #endif
 
 #ifdef GL_UNIFORM
@@ -6338,6 +7130,30 @@ static constexpr const enum_value<
 > upper_left = {};
 #endif
 
+#ifdef GL_USE_MISSING_GLYPH_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_USE_MISSING_GLYPH_NV,
+	mp_list<path_missing_glyph_nv>
+> use_missing_glyph_nv = {};
+#endif
+
+#ifdef GL_UTF16_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_UTF16_NV,
+	mp_list<path_text_encoding_nv>
+> utf16_nv = {};
+#endif
+
+#ifdef GL_UTF8_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_UTF8_NV,
+	mp_list<path_text_encoding_nv>
+> utf8_nv = {};
+#endif
+
 #ifdef GL_VENDOR
 static constexpr const enum_value<
 	GLenum,
@@ -6408,6 +7224,14 @@ static constexpr const enum_value<
 	GL_VERTEX_SUBROUTINE_UNIFORM,
 	mp_list<program_interface>
 > vertex_subroutine_uniform = {};
+#endif
+
+#ifdef GL_VERTICAL_LINE_TO_NV
+static constexpr const enum_value<
+	GLubyte,
+	GL_VERTICAL_LINE_TO_NV,
+	mp_list<path_command_nv>
+> vertical_line_to_nv = {};
 #endif
 
 #ifdef GL_VERTICES_SUBMITTED_ARB

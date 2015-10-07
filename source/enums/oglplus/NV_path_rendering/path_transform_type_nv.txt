@@ -1,0 +1,13 @@
+# Copyright Matus Chochlik.
+# Distributed under the Boost Software License, Version 1.0.
+# See accompanying file LICENSE_1_0.txt or copy at
+#  http://www.boost.org/LICENSE_1_0.txt
+NONE
+TRANSLATE_X_NV
+TRANSLATE_Y_NV
+TRANSLATE_2D_NV
+TRANSLATE_3D_NV
+AFFINE_2D_NV
+AFFINE_3D_NV
+TRANSPOSE_AFFINE_2D_NV
+TRANSPOSE_AFFINE_3D_NV

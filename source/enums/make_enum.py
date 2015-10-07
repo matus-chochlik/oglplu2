@@ -128,7 +128,7 @@ def action_incl_enum_types_hpp(options):
 
 	typ_id = 0
 
-	for input_path in sorted(options.inputs):
+	for input_path in sorted(options.inputs, key=lambda x: os.path.basename(x)):
 		update_input_options(options, input_path)
 		enum_classes[options.enum_name] = type(
 			"EnumClassInfo",
@@ -228,7 +228,7 @@ def action_impl_enum_value_names_inl(options):
 
 	typ_id = 0
 
-	for input_path in sorted(options.inputs):
+	for input_path in sorted(options.inputs, key=lambda x: os.path.basename(x)):
 		update_input_options(options, input_path)
 
 		enum_classes[options.enum_name] = type(
@@ -326,7 +326,7 @@ def action_impl_enum_value_range_inl(options):
 
 	typ_id = 0
 
-	for input_path in sorted(options.inputs):
+	for input_path in sorted(options.inputs, key=lambda x: os.path.basename(x)):
 		update_input_options(options, input_path)
 
 		enum_classes[options.enum_name] = type(
