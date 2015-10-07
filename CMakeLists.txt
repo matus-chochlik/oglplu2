@@ -12,8 +12,20 @@ project(OGLplus)
 include(config/Compiler.cmake)
 include(config/CppFeature.cmake)
 
+include(FindPkgConfig)
+include(config/CommonFindMod.cmake)
+
+# GL-libraries
+include(config/FindGL.cmake)
+include(config/FindGLEW.cmake)
+include(config/FindGLFW.cmake)
+
+# setting up executable requirements
+include(config/ExeRequirements.cmake)
+
 include_directories("include")
 include_directories("implement")
 include_directories("third_party/GSL/include")
 
+add_subdirectory("example")
 add_subdirectory("test")

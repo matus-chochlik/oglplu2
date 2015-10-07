@@ -6,7 +6,11 @@
 # we need C++14
 if(${CMAKE_COMPILER_IS_GNUCXX})
 	add_definitions(-std=c++14)
+	set(CPP_STD_COMPILER_SWITCH -std=c++14)
 elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
-	add_definitions(-std=c++14)
+	set(CPP_STD_COMPILER_SWITCH -std=c++14)
 endif()
 # TODO add support for other compilers
+
+add_definitions(${CPP_STD_COMPILER_SWITCH})
+
