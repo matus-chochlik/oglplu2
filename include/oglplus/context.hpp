@@ -15,7 +15,10 @@
 #include "ctxt/object_lifetime.hpp"
 #include "ctxt/drawing.hpp"
 #include "ctxt/synchronization.hpp"
+
+#ifdef GL_ARB_compatibility
 #include "ctxt/compatibility.hpp"
+#endif
 
 namespace oglplus {
 
@@ -27,7 +30,9 @@ class context
  , public ctxt::object_lifetime_ops
  , public ctxt::drawing_ops
  , public ctxt::synchronization
+#ifdef GL_ARB_compatibility
  , public ctxt::compatibility
+#endif
 { };
 
 } // namespace oglplus
