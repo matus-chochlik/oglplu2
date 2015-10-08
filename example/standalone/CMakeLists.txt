@@ -27,5 +27,6 @@ endfunction()
 
 if(GLFW_FOUND AND GLEW_FOUND)
 	standalone_example_common(001_glfw_glew_clear GLFW GLEW) 
+	standalone_example_common(002_glfw_glew_triangle GLFW GLEW) 
 endif()
 

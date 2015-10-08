@@ -1638,7 +1638,63 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 42: /* patch_parameter */
+		case 42: /* old_matrix_mode */
+		{
+			static const GLenum vr[] = {
+#ifdef GL_COLOR
+				GL_COLOR,
+#endif
+#ifdef GL_MODELVIEW
+				GL_MODELVIEW,
+#endif
+#ifdef GL_PROJECTION
+				GL_PROJECTION,
+#endif
+#ifdef GL_TEXTURE
+				GL_TEXTURE,
+#endif
+				0
+			};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
+		}
+		case 43: /* old_primitive_type */
+		{
+			static const GLenum vr[] = {
+#ifdef GL_LINES
+				GL_LINES,
+#endif
+#ifdef GL_LINE_LOOP
+				GL_LINE_LOOP,
+#endif
+#ifdef GL_LINE_STRIP
+				GL_LINE_STRIP,
+#endif
+#ifdef GL_POINTS
+				GL_POINTS,
+#endif
+#ifdef GL_POLYGON
+				GL_POLYGON,
+#endif
+#ifdef GL_QUADS
+				GL_QUADS,
+#endif
+#ifdef GL_QUAD_STRIP
+				GL_QUAD_STRIP,
+#endif
+#ifdef GL_TRIANGLES
+				GL_TRIANGLES,
+#endif
+#ifdef GL_TRIANGLE_FAN
+				GL_TRIANGLE_FAN,
+#endif
+#ifdef GL_TRIANGLE_STRIP
+				GL_TRIANGLE_STRIP,
+#endif
+				0
+			};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
+		}
+		case 44: /* patch_parameter */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_PATCH_DEFAULT_INNER_LEVEL
@@ -1654,7 +1710,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 43: /* path_cap_style_nv */
+		case 45: /* path_cap_style_nv */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_FLAT
@@ -1673,7 +1729,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 44: /* path_color_format_nv */
+		case 46: /* path_color_format_nv */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_ALPHA
@@ -1698,7 +1754,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 45: /* path_color_nv */
+		case 47: /* path_color_nv */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_PRIMARY_COLOR_NV
@@ -1711,7 +1767,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 46: /* path_command_nv */
+		case 48: /* path_command_nv */
 		{
 			static const GLubyte vr[] = {
 #ifdef GL_ARC_TO_NV
@@ -1820,7 +1876,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 47: /* path_dash_offset_reset_nv */
+		case 49: /* path_dash_offset_reset_nv */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_MOVE_TO_CONTINUES_NV
@@ -1833,7 +1889,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 48: /* path_fill_cover_mode_nv */
+		case 50: /* path_fill_cover_mode_nv */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_BOUNDING_BOX_NV
@@ -1852,7 +1908,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 49: /* path_fill_mode_nv */
+		case 51: /* path_fill_mode_nv */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_COUNT_DOWN_NV
@@ -1871,7 +1927,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 50: /* path_font_style_nv */
+		case 52: /* path_font_style_nv */
 		{
 			static const GLbitfield vr[] = {
 #ifdef GL_BOLD_BIT_NV
@@ -1884,7 +1940,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 51: /* path_font_target_nv */
+		case 53: /* path_font_target_nv */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_FILE_NAME_NV
@@ -1900,7 +1956,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 52: /* path_format_nv */
+		case 54: /* path_format_nv */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_PATH_FORMAT_PS_NV
@@ -1913,7 +1969,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 53: /* path_gen_mode_nv */
+		case 55: /* path_gen_mode_nv */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_EYE_LINEAR
@@ -1932,7 +1988,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 54: /* path_join_style_nv */
+		case 56: /* path_join_style_nv */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_BEVEL_NV
@@ -1954,7 +2010,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 55: /* path_list_mode_nv */
+		case 57: /* path_list_mode_nv */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_ACCUM_ADJACENT_PAIRS_NV
@@ -1970,7 +2026,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 56: /* path_metric_query_nv */
+		case 58: /* path_metric_query_nv */
 		{
 			static const GLbitfield vr[] = {
 #ifdef GL_FONT_ASCENDER_BIT_NV
@@ -2043,7 +2099,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 57: /* path_missing_glyph_nv */
+		case 59: /* path_missing_glyph_nv */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_SKIP_MISSING_GLYPH_NV
@@ -2056,7 +2112,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 58: /* path_stroke_cover_mode_nv */
+		case 60: /* path_stroke_cover_mode_nv */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_BOUNDING_BOX_NV
@@ -2075,7 +2131,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 59: /* path_text_encoding_nv */
+		case 61: /* path_text_encoding_nv */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_UTF16_NV
@@ -2088,7 +2144,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 60: /* path_transform_type_nv */
+		case 62: /* path_transform_type_nv */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_AFFINE_2D_NV
@@ -2122,7 +2178,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 61: /* pixel_data_format */
+		case 63: /* pixel_data_format */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_BGR
@@ -2186,7 +2242,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 62: /* pixel_data_internal_format */
+		case 64: /* pixel_data_internal_format */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_COMPRESSED_R11_EAC
@@ -2493,7 +2549,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 63: /* pixel_data_type */
+		case 65: /* pixel_data_type */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_BYTE
@@ -2572,7 +2628,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 64: /* pixel_parameter */
+		case 66: /* pixel_parameter */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_PACK_ALIGNMENT
@@ -2651,7 +2707,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 65: /* polygon_mode */
+		case 67: /* polygon_mode */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_FILL
@@ -2670,7 +2726,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 66: /* precision_type */
+		case 68: /* precision_type */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_HIGH_FLOAT
@@ -2695,7 +2751,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 67: /* primitive_type */
+		case 69: /* primitive_type */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_LINES
@@ -2738,7 +2794,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 68: /* program_interface */
+		case 70: /* program_interface */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_ATOMIC_COUNTER_BUFFER
@@ -2805,7 +2861,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 69: /* program_pipeline_stage */
+		case 71: /* program_pipeline_stage */
 		{
 			static const GLbitfield vr[] = {
 #ifdef GL_ALL_SHADER_BITS
@@ -2833,7 +2889,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 70: /* program_resource_property */
+		case 72: /* program_resource_property */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_ACTIVE_VARIABLES
@@ -2921,7 +2977,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 71: /* provoke_mode */
+		case 73: /* provoke_mode */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_FIRST_VERTEX_CONVENTION
@@ -2934,7 +2990,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 72: /* query_target */
+		case 74: /* query_target */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_ANY_SAMPLES_PASSED
@@ -2998,7 +3054,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 73: /* renderbuffer_target */
+		case 75: /* renderbuffer_target */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_RENDERBUFFER
@@ -3008,7 +3064,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 74: /* reset_notification_strategy */
+		case 76: /* reset_notification_strategy */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_LOSE_CONTEXT_ON_RESET
@@ -3021,7 +3077,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 75: /* shader_type */
+		case 77: /* shader_type */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_COMPUTE_SHADER
@@ -3046,7 +3102,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 76: /* single_face */
+		case 78: /* single_face */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_BACK
@@ -3059,7 +3115,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 77: /* sl_data_type */
+		case 79: /* sl_data_type */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_BOOL
@@ -3396,7 +3452,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 78: /* stencil_operation */
+		case 80: /* stencil_operation */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_DECR
@@ -3427,7 +3483,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 79: /* string_query */
+		case 81: /* string_query */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_RENDERER
@@ -3446,7 +3502,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 80: /* sync_condition */
+		case 82: /* sync_condition */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_SYNC_GPU_COMMANDS_COMPLETE
@@ -3456,7 +3512,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 81: /* sync_status */
+		case 83: /* sync_status */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_SIGNALED
@@ -3469,7 +3525,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 82: /* sync_type */
+		case 84: /* sync_type */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_SYNC_FENCE
@@ -3479,7 +3535,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 83: /* sync_wait_result */
+		case 85: /* sync_wait_result */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_ALREADY_SIGNALED
@@ -3498,7 +3554,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 84: /* tess_gen_primitive_spacing */
+		case 86: /* tess_gen_primitive_spacing */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_EQUAL
@@ -3514,7 +3570,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 85: /* tess_gen_primitive_type */
+		case 87: /* tess_gen_primitive_type */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_ISOLINES
@@ -3530,7 +3586,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 86: /* texture_compare_mode */
+		case 88: /* texture_compare_mode */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_COMPARE_REF_TO_TEXTURE
@@ -3543,7 +3599,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 87: /* texture_filter */
+		case 89: /* texture_filter */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_LINEAR
@@ -3556,7 +3612,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 88: /* texture_mag_filter */
+		case 90: /* texture_mag_filter */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_LINEAR
@@ -3569,7 +3625,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 89: /* texture_min_filter */
+		case 91: /* texture_min_filter */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_LINEAR
@@ -3594,7 +3650,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 90: /* texture_swizzle */
+		case 92: /* texture_swizzle */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_ALPHA
@@ -3619,7 +3675,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 91: /* texture_swizzle_coord */
+		case 93: /* texture_swizzle_coord */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_TEXTURE_SWIZZLE_A
@@ -3641,7 +3697,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 92: /* texture_target */
+		case 94: /* texture_target */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_TEXTURE_1D
@@ -3699,7 +3755,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 93: /* texture_wrap */
+		case 95: /* texture_wrap */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_CLAMP_TO_BORDER
@@ -3721,7 +3777,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 94: /* texture_wrap_coord */
+		case 96: /* texture_wrap_coord */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_TEXTURE_WRAP_R
@@ -3737,7 +3793,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 95: /* transform_feedback_mode */
+		case 97: /* transform_feedback_mode */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_INTERLEAVED_ATTRIBS
@@ -3750,7 +3806,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 96: /* transform_feedback_primitive_type */
+		case 98: /* transform_feedback_primitive_type */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_LINES
@@ -3766,7 +3822,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 97: /* transform_feedback_target */
+		case 99: /* transform_feedback_target */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_TRANSFORM_FEEDBACK

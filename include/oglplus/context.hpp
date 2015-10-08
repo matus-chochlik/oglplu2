@@ -14,6 +14,7 @@
 #include "ctxt/buffer_clearing.hpp"
 #include "ctxt/object_lifetime.hpp"
 #include "ctxt/drawing.hpp"
+#include "ctxt/compatibility.hpp"
 
 namespace oglplus {
 
@@ -24,6 +25,7 @@ class context
  , public ctxt::buffer_clearing_ops
  , public ctxt::object_lifetime_ops
  , public ctxt::drawing_ops
+ , public ctxt::compatibility_ops
 { };
 
 } // namespace oglplus

@@ -518,7 +518,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_COLOR,
-	mp_list<framebuffer_buffer>
+	mp_list<framebuffer_buffer,old_matrix_mode>
 > color = {};
 #endif
 
@@ -2846,7 +2846,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_LINE_LOOP,
-	mp_list<primitive_type>
+	mp_list<primitive_type,old_primitive_type>
 > line_loop = {};
 #endif
 
@@ -2870,7 +2870,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_LINE_STRIP,
-	mp_list<primitive_type>
+	mp_list<primitive_type,old_primitive_type>
 > line_strip = {};
 #endif
 
@@ -2918,7 +2918,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_LINES,
-	mp_list<primitive_type,transform_feedback_primitive_type>
+	mp_list<primitive_type,old_primitive_type,transform_feedback_primitive_type>
 > lines = {};
 #endif
 
@@ -4010,6 +4010,14 @@ static constexpr const enum_value<
 > miter_truncate_nv = {};
 #endif
 
+#ifdef GL_MODELVIEW
+static constexpr const enum_value<
+	GLenum,
+	GL_MODELVIEW,
+	mp_list<old_matrix_mode>
+> modelview = {};
+#endif
+
 #ifdef GL_MOVE_TO_CONTINUES_NV
 static constexpr const enum_value<
 	GLenum,
@@ -4510,8 +4518,16 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_POINTS,
-	mp_list<primitive_type,transform_feedback_primitive_type>
+	mp_list<primitive_type,old_primitive_type,transform_feedback_primitive_type>
 > points = {};
+#endif
+
+#ifdef GL_POLYGON
+static constexpr const enum_value<
+	GLenum,
+	GL_POLYGON,
+	mp_list<old_primitive_type>
+> polygon = {};
 #endif
 
 #ifdef GL_POLYGON_OFFSET_FILL
@@ -4626,6 +4642,22 @@ static constexpr const enum_value<
 > program_point_size = {};
 #endif
 
+#ifdef GL_PROJECTION
+static constexpr const enum_value<
+	GLenum,
+	GL_PROJECTION,
+	mp_list<old_matrix_mode>
+> projection = {};
+#endif
+
+#ifdef GL_QUAD_STRIP
+static constexpr const enum_value<
+	GLenum,
+	GL_QUAD_STRIP,
+	mp_list<old_primitive_type>
+> quad_strip = {};
+#endif
+
 #ifdef GL_QUADRATIC_CURVE_TO_NV
 static constexpr const enum_value<
 	GLubyte,
@@ -4638,7 +4670,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_QUADS,
-	mp_list<tess_gen_primitive_type>
+	mp_list<old_primitive_type,tess_gen_primitive_type>
 > quads = {};
 #endif
 
@@ -6198,7 +6230,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_TEXTURE,
-	mp_list<object_type>
+	mp_list<old_matrix_mode,object_type>
 > texture = {};
 #endif
 
@@ -6598,7 +6630,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_TRIANGLE_FAN,
-	mp_list<primitive_type>
+	mp_list<primitive_type,old_primitive_type>
 > triangle_fan = {};
 #endif
 
@@ -6606,7 +6638,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_TRIANGLE_STRIP,
-	mp_list<primitive_type>
+	mp_list<primitive_type,old_primitive_type>
 > triangle_strip = {};
 #endif
 
@@ -6622,7 +6654,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_TRIANGLES,
-	mp_list<primitive_type,transform_feedback_primitive_type,tess_gen_primitive_type>
+	mp_list<primitive_type,old_primitive_type,transform_feedback_primitive_type,tess_gen_primitive_type>
 > triangles = {};
 #endif
 
