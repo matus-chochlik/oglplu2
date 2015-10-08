@@ -21,7 +21,7 @@
 namespace oglplus {
 namespace ctxt {
 
-struct compatibility_drawing_ops
+struct compatibility_drawing
 {
 #ifdef GL_ARB_compatibility
 	static

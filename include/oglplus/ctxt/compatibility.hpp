@@ -22,10 +22,10 @@
 namespace oglplus {
 namespace ctxt {
 
-struct compatibility_ops
+struct compatibility
 #ifdef GL_ARB_compatibility
- : compatibility_matrix_ops
- , compatibility_drawing_ops
+ : compatibility_matrix
+ , compatibility_drawing
 {
 };
 #else
