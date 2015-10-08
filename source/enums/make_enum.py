@@ -247,11 +247,6 @@ def action_impl_enum_value_names_inl(options):
 
 	print_cpp_header(options)
 
-	print_line(options, "#include <%s/config/basic.hpp>" % options.library)
-	print_line(options, "#if !%s_LINK_LIBRARY || defined(%s_IMPLEMENTING_LIBRARY)" % (
-		options.library_uc,
-		options.library_uc
-	))
 	print_newline(options)
 	print_line(options, "namespace %s {" % options.library)
 	print_newline(options)
@@ -317,7 +312,6 @@ def action_impl_enum_value_names_inl(options):
 	print_line(options, "}")
 	print_newline(options)
 	print_line(options, "} // namespace %s" % options.library)
-	print_line(options, "#endif")
 
 
 def action_impl_enum_value_range_inl(options):
@@ -344,11 +338,6 @@ def action_impl_enum_value_range_inl(options):
 
 	print_cpp_header(options)
 
-	print_line(options, "#include <%s/config/basic.hpp>" % options.library)
-	print_line(options, "#if !%s_LINK_LIBRARY || defined(%s_IMPLEMENTING_LIBRARY)" % (
-		options.library_uc,
-		options.library_uc
-	))
 	print_newline(options)
 	print_line(options, "namespace %s {" % options.library)
 	print_newline(options)
@@ -398,7 +387,6 @@ def action_impl_enum_value_range_inl(options):
 	print_line(options, "}")
 	print_newline(options)
 	print_line(options, "} // namespace %s" % options.library)
-	print_line(options, "#endif")
 
 
 def action_test_enums_cpp(options):

@@ -11,6 +11,7 @@
 
 #include "utils/enum_class.hpp"
 #include "utils/array_view.hpp"
+#include "config/basic.hpp"
 
 namespace oglplus {
 
@@ -39,6 +40,8 @@ noexcept
 
 } // namespace oglplus
 
+#if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include <oglplus/enum_value_range.inl>
+#endif
 
 #endif // include guard
