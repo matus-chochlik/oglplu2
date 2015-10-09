@@ -119,8 +119,7 @@ void init_and_run(void)
 	}
 	else
 	{
-		auto cleanup_glfw = [](void) { glfwTerminate(); };
-		eagine::on_scope_exit<> ensure_glfw_cleanup(cleanup_glfw);
+		auto ensure_glfw_cleanup = eagine::finally(glfwTerminate);
 
 		int width = 800, height = 600;
 
