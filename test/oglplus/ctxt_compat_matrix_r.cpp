@@ -415,7 +415,7 @@ BOOST_AUTO_TEST_CASE(compat_matrix_rotate_f)
 	{
 		fake_glRotatef.reset_params(a, x, y, z);
 		BOOST_CHECK(!fake_glRotatef.all_ok_exclusive());
-		gl.rotate_f(a, x, y, z);
+		gl.rotate_f(degrees(a), x, y, z);
 		BOOST_CHECK( fake_glRotatef.all_ok_exclusive());
 	}
 #ifdef GL_EXT_direct_state_access
@@ -423,7 +423,7 @@ BOOST_AUTO_TEST_CASE(compat_matrix_rotate_f)
 		old_matrix_mode m = GL.projection;
 		fake_glMatrixRotatefEXT.reset_params(GLenum(m), a, x, y, z);
 		BOOST_CHECK(!fake_glMatrixRotatefEXT.all_ok_exclusive());
-		gl.rotate_f(m, a, x, y, z);
+		gl.rotate_f(m, degrees(a), x, y, z);
 		BOOST_CHECK( fake_glMatrixRotatefEXT.all_ok_exclusive());
 	}
 #endif
@@ -449,7 +449,7 @@ BOOST_AUTO_TEST_CASE(compat_matrix_rotate_d)
 	{
 		fake_glRotated.reset_params(a, x, y, z);
 		BOOST_CHECK(!fake_glRotated.all_ok_exclusive());
-		gl.rotate_d(a, x, y, z);
+		gl.rotate_d(degrees(a), x, y, z);
 		BOOST_CHECK( fake_glRotated.all_ok_exclusive());
 	}
 #ifdef GL_EXT_direct_state_access
@@ -457,7 +457,7 @@ BOOST_AUTO_TEST_CASE(compat_matrix_rotate_d)
 		old_matrix_mode m = GL.projection;
 		fake_glMatrixRotatedEXT.reset_params(GLenum(m), a, x, y, z);
 		BOOST_CHECK(!fake_glMatrixRotatedEXT.all_ok_exclusive());
-		gl.rotate_d(m, a, x, y, z);
+		gl.rotate_d(m, degrees(a), x, y, z);
 		BOOST_CHECK( fake_glMatrixRotatedEXT.all_ok_exclusive());
 	}
 #endif

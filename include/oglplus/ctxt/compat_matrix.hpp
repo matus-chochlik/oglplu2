@@ -13,6 +13,7 @@
 #include "../error/handling.hpp"
 #include "../error/outcome.hpp"
 #include "../utils/array_view.hpp"
+#include "../utils/angles.hpp"
 #include "../enum_types.hpp"
 
 namespace oglplus {
@@ -235,10 +236,10 @@ struct compatibility_matrix
 
 	static
 	outcome<void>
-	rotate_f(GLfloat a, GLfloat x, GLfloat y, GLfloat z) // TODO angle ?
+	rotate_f(degrees_t<GLfloat> a, GLfloat x, GLfloat y, GLfloat z)
 	noexcept
 	{
-		OGLPLUS_GLFUNC(Rotatef)(a, x, y, z);
+		OGLPLUS_GLFUNC(Rotatef)(GLfloat(a), x, y, z);
 		OGLPLUS_VERIFY_SIMPLE(Rotatef,warning);
 		return {};
 	}
@@ -246,10 +247,10 @@ struct compatibility_matrix
 #ifdef GL_EXT_direct_state_access
 	static
 	outcome<void>
-	rotate_f(old_matrix_mode mode, GLfloat a, GLfloat x, GLfloat y, GLfloat z)
+	rotate_f(old_matrix_mode mode, degrees_t<GLfloat> a, GLfloat x, GLfloat y, GLfloat z)
 	noexcept
 	{
-		OGLPLUS_GLFUNC(MatrixRotatefEXT)(GLenum(mode), a, x, y, z);
+		OGLPLUS_GLFUNC(MatrixRotatefEXT)(GLenum(mode), GLfloat(a), x, y, z);
 		OGLPLUS_VERIFY_SIMPLE(MatrixRotatefEXT,warning);
 		return {};
 	}
@@ -257,10 +258,10 @@ struct compatibility_matrix
 
 	static
 	outcome<void>
-	rotate_d(GLdouble a, GLdouble x, GLdouble y, GLdouble z) // TODO angle ?
+	rotate_d(degrees_t<GLdouble> a, GLdouble x, GLdouble y, GLdouble z)
 	noexcept
 	{
-		OGLPLUS_GLFUNC(Rotated)(a, x, y, z);
+		OGLPLUS_GLFUNC(Rotated)(GLdouble(a), x, y, z);
 		OGLPLUS_VERIFY_SIMPLE(Rotated,warning);
 		return {};
 	}
@@ -268,10 +269,10 @@ struct compatibility_matrix
 #ifdef GL_EXT_direct_state_access
 	static
 	outcome<void>
-	rotate_d(old_matrix_mode mode, GLdouble a, GLdouble x, GLdouble y, GLdouble z)
+	rotate_d(old_matrix_mode mode, degrees_t<GLdouble> a, GLdouble x, GLdouble y, GLdouble z)
 	noexcept
 	{
-		OGLPLUS_GLFUNC(MatrixRotatedEXT)(GLenum(mode), a, x, y, z);
+		OGLPLUS_GLFUNC(MatrixRotatedEXT)(GLenum(mode), GLdouble(a), x, y, z);
 		OGLPLUS_VERIFY_SIMPLE(MatrixRotatedEXT,warning);
 		return {};
 	}

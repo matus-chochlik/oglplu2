@@ -57,11 +57,11 @@ void run_loop(int width, int height)
 
 #ifdef GL_EXT_direct_state_access
 		gl.load_identity(GL.modelview);
-		gl.rotate_f(GL.modelview, deg++, 0, 0, 1);
+		gl.rotate_f(GL.modelview, degrees(deg++), 0, 0, 1);
 #else
 		gl.matrix_mode(GL.modelview);
 		gl.load_identity();
-		gl.rotate_f(deg++, 0, 0, 1);
+		gl.rotate_f(degrees(deg++), 0, 0, 1);
 #endif
 
 		gl.begin(GL.triangles);
