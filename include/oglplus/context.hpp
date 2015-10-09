@@ -16,6 +16,9 @@
 #include "ctxt/drawing.hpp"
 #include "ctxt/synchronization.hpp"
 
+#include "ctxt/shader.hpp"
+#include "ctxt/program.hpp"
+
 #ifdef GL_ARB_compatibility
 #include "ctxt/compatibility.hpp"
 #endif
@@ -30,6 +33,10 @@ class context
  , public ctxt::object_lifetime_ops
  , public ctxt::drawing_ops
  , public ctxt::synchronization
+
+ , public ctxt::shader_ops
+ , public ctxt::program_ops
+
 #ifdef GL_ARB_compatibility
  , public ctxt::compatibility
 #endif

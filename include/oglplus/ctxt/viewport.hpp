@@ -1,5 +1,5 @@
 /**
- *  @file oglplus/ctxt/drawing.hpp
+ *  @file oglplus/ctxt/viewport.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
