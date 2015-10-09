@@ -8,8 +8,8 @@
 #define BOOST_TEST_MODULE OGLPLUS_ctxt_compat_drawing
 #include <boost/test/unit_test.hpp>
 
-#include "helper/fake_gl_func.hpp"
 #include <oglplus/gl.hpp>
+#include "helper/fake_gl_func.hpp"
 
 static oglplus::fake_gl_func_tester<void, GLenum>
 fake_glBegin("Begin");

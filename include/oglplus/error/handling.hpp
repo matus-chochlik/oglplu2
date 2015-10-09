@@ -79,6 +79,10 @@ using deferred_error_handler = deferred_handler<
 
 #include <oglplus/error/handling.inl>
 
+#ifndef OGLPLUS_GL_GET_ERROR
+#define OGLPLUS_GL_GET_ERROR() ::glGetError()
+#endif
+
 #define OGLPLUS_RETURN_HANDLER_IF(\
 	CONDITION,\
 	ERROR_CODE,\
@@ -114,7 +118,7 @@ using deferred_error_handler = deferred_handler<
 	ERROR_INFO,\
 	SEVERITY\
 ) OGLPLUS_RETURN_HANDLER_IF_GL_ERROR(\
-	::glGetError(),\
+	OGLPLUS_GL_GET_ERROR(),\
 	ERROR_INFO.gl_function_name(#GLFUNC),\
 	SEVERITY\
 )

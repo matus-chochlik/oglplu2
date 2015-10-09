@@ -99,9 +99,10 @@ struct compatibility_matrix
 
 	static
 	outcome<void>
-	load_matrix_f(array_view<const GLfloat> mat)
+	load_matrix(array_view<const GLfloat> mat)
 	noexcept
 	{
+		assert(mat.size() >= 16);
 		OGLPLUS_GLFUNC(LoadMatrixf)(mat.data());
 		OGLPLUS_VERIFY_SIMPLE(LoadMatrixf,warning);
 		return {};
@@ -110,9 +111,10 @@ struct compatibility_matrix
 #ifdef GL_EXT_direct_state_access
 	static
 	outcome<void>
-	load_matrix_f(old_matrix_mode mode, array_view<const GLfloat> mat)
+	load_matrix(old_matrix_mode mode, array_view<const GLfloat> mat)
 	noexcept
 	{
+		assert(mat.size() >= 16);
 		OGLPLUS_GLFUNC(MatrixLoadfEXT)(GLenum(mode), mat.data());
 		OGLPLUS_VERIFY_SIMPLE(MatrixLoadfEXT,warning);
 		return {};
@@ -121,9 +123,10 @@ struct compatibility_matrix
 
 	static
 	outcome<void>
-	load_matrix_transpose_f(array_view<const GLfloat> mat)
+	load_transpose_matrix(array_view<const GLfloat> mat)
 	noexcept
 	{
+		assert(mat.size() >= 16);
 		OGLPLUS_GLFUNC(LoadTransposeMatrixf)(mat.data());
 		OGLPLUS_VERIFY_SIMPLE(LoadTransposeMatrixf,warning);
 		return {};
@@ -132,18 +135,19 @@ struct compatibility_matrix
 #ifdef GL_EXT_direct_state_access
 	static
 	outcome<void>
-	load_matrix_transpose_f(old_matrix_mode mode, array_view<const GLfloat> mat)
+	load_transpose_matrix(old_matrix_mode mode, array_view<const GLfloat> mat)
 	noexcept
 	{
-		OGLPLUS_GLFUNC(MatrixLoadfEXT)(GLenum(mode), mat.data());
-		OGLPLUS_VERIFY_SIMPLE(MatrixLoadfEXT,warning);
+		assert(mat.size() >= 16);
+		OGLPLUS_GLFUNC(MatrixLoadTransposefEXT)(GLenum(mode), mat.data());
+		OGLPLUS_VERIFY_SIMPLE(MatrixLoadTransposefEXT,warning);
 		return {};
 	}
 #endif
 
 	static
 	outcome<void>
-	load_matrix_d(array_view<const GLdouble> mat)
+	load_matrix(array_view<const GLdouble> mat)
 	noexcept
 	{
 		OGLPLUS_GLFUNC(LoadMatrixd)(mat.data());
@@ -154,18 +158,18 @@ struct compatibility_matrix
 #ifdef GL_EXT_direct_state_access
 	static
 	outcome<void>
-	load_matrix_d(old_matrix_mode mode, array_view<const GLdouble> mat)
+	load_matrix(old_matrix_mode mode, array_view<const GLdouble> mat)
 	noexcept
 	{
-		OGLPLUS_GLFUNC(MatrixLoadTransposedEXT)(GLenum(mode), mat.data());
-		OGLPLUS_VERIFY_SIMPLE(MatrixLoadTransposedEXT,warning);
+		OGLPLUS_GLFUNC(MatrixLoaddEXT)(GLenum(mode), mat.data());
+		OGLPLUS_VERIFY_SIMPLE(MatrixLoaddEXT,warning);
 		return {};
 	}
 #endif
 
 	static
 	outcome<void>
-	load_matrix_transpose_d(array_view<const GLdouble> mat)
+	load_transpose_matrix(array_view<const GLdouble> mat)
 	noexcept
 	{
 		OGLPLUS_GLFUNC(LoadTransposeMatrixd)(mat.data());
@@ -176,7 +180,7 @@ struct compatibility_matrix
 #ifdef GL_EXT_direct_state_access
 	static
 	outcome<void>
-	load_matrix_transpose_d(old_matrix_mode mode, array_view<const GLdouble> mat)
+	load_transpose_matrix(old_matrix_mode mode, array_view<const GLdouble> mat)
 	noexcept
 	{
 		OGLPLUS_GLFUNC(MatrixLoadTransposedEXT)(GLenum(mode), mat.data());

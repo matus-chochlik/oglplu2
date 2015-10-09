@@ -121,8 +121,18 @@ public:
 	}
 };
 
+static inline
+GLenum fake_glGetError(void)
+noexcept
+{
+	return GL_NO_ERROR;
+}
+
 #define OGLPLUS_GLFUNC(FUNC) \
 	fake_gl##FUNC.called_function(#FUNC)
+
+#define OGLPLUS_GL_GET_ERROR() \
+	oglplus::fake_glGetError()
 
 } // namespace oglplus
 
