@@ -34,7 +34,7 @@ BOOST_AUTO_TEST_CASE(error_format_empty)
 
 	std::stringstream out;
 
-	format_info(get_error_info(), "", out);
+	format_error_info(get_error_info(), "", out);
 	BOOST_CHECK(out.str().empty());
 }
 
@@ -44,19 +44,19 @@ BOOST_AUTO_TEST_CASE(error_format_percent)
 
 	std::stringstream out;
 
-	format_info(get_error_info(), "%%", out);
+	format_error_info(get_error_info(), "%%", out);
 	BOOST_CHECK(out.str() == "%");
 	out.str(std::string());
 
-	format_info(get_error_info(), "  %%", out);
+	format_error_info(get_error_info(), "  %%", out);
 	BOOST_CHECK(out.str() == "  %");
 	out.str(std::string());
 
-	format_info(get_error_info(), "%%  ", out);
+	format_error_info(get_error_info(), "%%  ", out);
 	BOOST_CHECK(out.str() == "%  ");
 	out.str(std::string());
 
-	format_info(get_error_info(), "  %%  %% ", out);
+	format_error_info(get_error_info(), "  %%  %% ", out);
 	BOOST_CHECK(out.str() == "  %  % ");
 	out.str(std::string());
 }
@@ -69,43 +69,43 @@ BOOST_AUTO_TEST_CASE(error_format_fail)
 
 	int passed = 0;
 
-	try { format_info(get_error_info(), "%", out); }
+	try { format_error_info(get_error_info(), "%", out); }
 	catch(std::runtime_error&) { ++passed; }
 	out.str(std::string());
 
-	try { format_info(get_error_info(), "%  ", out); }
+	try { format_error_info(get_error_info(), "%  ", out); }
 	catch(std::runtime_error&) { ++passed; }
 	out.str(std::string());
 
-	try { format_info(get_error_info(), "  %", out); }
+	try { format_error_info(get_error_info(), "  %", out); }
 	catch(std::runtime_error&) { ++passed; }
 	out.str(std::string());
 
-	try { format_info(get_error_info(), "%()", out); }
+	try { format_error_info(get_error_info(), "%()", out); }
 	catch(std::runtime_error&) { ++passed; }
 	out.str(std::string());
 
-	try { format_info(get_error_info(), "%(|)", out); }
+	try { format_error_info(get_error_info(), "%(|)", out); }
 	catch(std::runtime_error&) { ++passed; }
 	out.str(std::string());
 
-	try { format_info(get_error_info(), "%(|blah)", out); }
+	try { format_error_info(get_error_info(), "%(|blah)", out); }
 	catch(std::runtime_error&) { ++passed; }
 	out.str(std::string());
 
-	try { format_info(get_error_info(), "%(", out); }
+	try { format_error_info(get_error_info(), "%(", out); }
 	catch(std::runtime_error&) { ++passed; }
 	out.str(std::string());
 
-	try { format_info(get_error_info(), "%(invalid)", out); }
+	try { format_error_info(get_error_info(), "%(invalid)", out); }
 	catch(std::runtime_error&) { ++passed; }
 	out.str(std::string());
 
-	try { format_info(get_error_info(), "%(invalid|)", out); }
+	try { format_error_info(get_error_info(), "%(invalid|)", out); }
 	catch(std::runtime_error&) { ++passed; }
 	out.str(std::string());
 
-	try { format_info(get_error_info(), "%(invalid|blah)", out); }
+	try { format_error_info(get_error_info(), "%(invalid|blah)", out); }
 	catch(std::runtime_error&) { ++passed; }
 	out.str(std::string());
 
@@ -118,15 +118,15 @@ BOOST_AUTO_TEST_CASE(error_format_gl_library_name)
 
 	std::stringstream out;
 
-	format_info(get_error_info(), "%(gl_library_name)", "N/A", out);
+	format_error_info(get_error_info(), "%(gl_library_name)", "N/A", out);
 	BOOST_CHECK(out.str() == "GL" || out.str() == "N/A");
 	out.str(std::string());
 
-	format_info(error_info(), "%(gl_library_name|fallback)", out);
+	format_error_info(error_info(), "%(gl_library_name|fallback)", out);
 	BOOST_CHECK(out.str() == "fallback");
 	out.str(std::string());
 
-	format_info(error_info(), "%(gl_library_name|)", out);
+	format_error_info(error_info(), "%(gl_library_name|)", out);
 	BOOST_CHECK(out.str().empty());
 	out.str(std::string());
 }
@@ -137,15 +137,15 @@ BOOST_AUTO_TEST_CASE(error_format_gl_function_name)
 
 	std::stringstream out;
 
-	format_info(get_error_info(), "%(gl_function_name)", "N/A", out);
+	format_error_info(get_error_info(), "%(gl_function_name)", "N/A", out);
 	BOOST_CHECK(out.str() == "Function" || out.str() == "N/A");
 	out.str(std::string());
 
-	format_info(error_info(), "%(gl_function_name|fallback)", out);
+	format_error_info(error_info(), "%(gl_function_name|fallback)", out);
 	BOOST_CHECK(out.str() == "fallback");
 	out.str(std::string());
 
-	format_info(error_info(), "%(gl_function_name|)", out);
+	format_error_info(error_info(), "%(gl_function_name|)", out);
 	BOOST_CHECK(out.str().empty());
 	out.str(std::string());
 }
@@ -156,15 +156,15 @@ BOOST_AUTO_TEST_CASE(error_format_source_function)
 
 	std::stringstream out;
 
-	format_info(get_error_info(), "%(source_function)", "N/A", out);
+	format_error_info(get_error_info(), "%(source_function)", "N/A", out);
 	BOOST_CHECK(out.str() == "function" || out.str() == "N/A");
 	out.str(std::string());
 
-	format_info(error_info(), "%(source_function|fallback)", out);
+	format_error_info(error_info(), "%(source_function|fallback)", out);
 	BOOST_CHECK(out.str() == "fallback");
 	out.str(std::string());
 
-	format_info(error_info(), "%(source_function|)", out);
+	format_error_info(error_info(), "%(source_function|)", out);
 	BOOST_CHECK(out.str().empty());
 	out.str(std::string());
 }
@@ -175,15 +175,15 @@ BOOST_AUTO_TEST_CASE(error_format_source_file)
 
 	std::stringstream out;
 
-	format_info(get_error_info(), "%(source_file)", "N/A", out);
+	format_error_info(get_error_info(), "%(source_file)", "N/A", out);
 	BOOST_CHECK(out.str() == "file.cpp" || out.str() == "N/A");
 	out.str(std::string());
 
-	format_info(error_info(), "%(source_file|fallback)", out);
+	format_error_info(error_info(), "%(source_file|fallback)", out);
 	BOOST_CHECK(out.str() == "fallback");
 	out.str(std::string());
 
-	format_info(error_info(), "%(source_file|)", out);
+	format_error_info(error_info(), "%(source_file|)", out);
 	BOOST_CHECK(out.str().empty());
 	out.str(std::string());
 }
@@ -194,15 +194,15 @@ BOOST_AUTO_TEST_CASE(error_format_source_line)
 
 	std::stringstream out;
 
-	format_info(get_error_info(), "%(source_line)", "N/A", out);
+	format_error_info(get_error_info(), "%(source_line)", "N/A", out);
 	BOOST_CHECK(out.str() == "12345" || out.str() == "N/A");
 	out.str(std::string());
 
-	format_info(error_info(), "%(source_line|fallback)", out);
+	format_error_info(error_info(), "%(source_line|fallback)", out);
 	BOOST_CHECK(out.str() == "fallback");
 	out.str(std::string());
 
-	format_info(error_info(), "%(source_line|)", out);
+	format_error_info(error_info(), "%(source_line|)", out);
 	BOOST_CHECK(out.str().empty());
 	out.str(std::string());
 }
@@ -213,15 +213,15 @@ BOOST_AUTO_TEST_CASE(error_format_gl_object_name)
 
 	std::stringstream out;
 
-	format_info(get_error_info(), "%(gl_object_name)", "N/A", out);
+	format_error_info(get_error_info(), "%(gl_object_name)", "N/A", out);
 	BOOST_CHECK(out.str() == "23456" || out.str() == "N/A");
 	out.str(std::string());
 
-	format_info(error_info(), "%(gl_object_name|fallback)", out);
+	format_error_info(error_info(), "%(gl_object_name|fallback)", out);
 	BOOST_CHECK(out.str() == "fallback");
 	out.str(std::string());
 
-	format_info(error_info(), "%(gl_object_name|)", "N/A", out);
+	format_error_info(error_info(), "%(gl_object_name|)", "", out);
 	BOOST_CHECK(out.str().empty());
 	out.str(std::string());
 }
@@ -232,7 +232,7 @@ BOOST_AUTO_TEST_CASE(error_format_fallback)
 
 	std::stringstream out;
 
-	format_info(error_info(), "%(gl_object_name)", "N/A", out);
+	format_error_info(error_info(), "%(gl_object_name)", "N/A", out);
 	BOOST_CHECK(out.str() == "N/A");
 	out.str(std::string());
 }
@@ -243,11 +243,11 @@ BOOST_AUTO_TEST_CASE(error_format_combine_1)
 
 	std::stringstream out;
 
-	format_info(get_error_info(), "%(gl_library_name|)%(gl_function_name|)", "", out);
+	format_error_info(get_error_info(), "%(gl_library_name|)%(gl_function_name|)", "", out);
 	BOOST_CHECK(out.str() == "GLFunction" || out.str().empty());
 	out.str(std::string());
 
-	format_info(error_info(), "%(gl_library_name|gl)%(gl_function_name|Func)", "", out);
+	format_error_info(error_info(), "%(gl_library_name|gl)%(gl_function_name|Func)", "", out);
 	BOOST_CHECK(out.str() == "glFunc" || out.str().empty());
 	out.str(std::string());
 }

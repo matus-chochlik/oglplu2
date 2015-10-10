@@ -86,6 +86,13 @@ public:
 	 : _handler(std::move(handler))
 	{ }
 
+	deferred_handler<ErrorData, HandlerPolicy>
+	release_handler(void)
+	noexcept
+	{
+		return std::move(_handler);
+	}
+
 	ErrorData& handler_data(void)
 	noexcept
 	{
@@ -110,6 +117,12 @@ public:
 	{
 		_handler.cancel();
 		return new_handler(_handler.data());
+	}
+
+	bool failed(void) const
+	noexcept
+	{
+		return bool(_handler);
 	}
 
 	bool done(void) const

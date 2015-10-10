@@ -293,8 +293,9 @@ def action_impl_enum_value_names_inl(options):
 				options.base_lib_prefix,
 				enum_value.src_name
 			))
-			print_line(options, "\t\t\t\t\treturn s_%s;" % (
-				enum_value.src_name
+			print_line(options, "\t\t\t\t\treturn {s_%s, %d};" % (
+				enum_value.src_name,
+				len(enum_value.src_name)
 			))
 			print_line(options, "#endif")
 

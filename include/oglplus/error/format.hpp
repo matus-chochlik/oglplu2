@@ -9,27 +9,53 @@
 #ifndef OGLPLUS_ERROR_FORMAT_1509260923_HPP
 #define OGLPLUS_ERROR_FORMAT_1509260923_HPP
 
+#include "fwd.hpp"
 #include "info.hpp"
 #include "../utils/string_view.hpp"
 #include <iosfwd>
 
 namespace oglplus {
 
-std::ostream& format_info(
+cstring_view<> error_message(error&);
+
+std::ostream& format_error_info(
 	const error_info& info,
+	const cstring_view<>& msg_str,
 	const cstring_view<>& fmt_str,
 	const cstring_view<>& n_a_str,
  	std::ostream& out
 );
 
-std::ostream& format_info(
+std::ostream& format_error_info(
 	const error_info& info,
+	const cstring_view<>& msg_str,
+	const cstring_view<>& fmt_str,
+ 	std::ostream& out
+);
+
+std::ostream& format_error_info(
+	const error_info& info,
+	const cstring_view<>& fmt_str,
+ 	std::ostream& out
+);
+
+std::ostream& format_error(
+	error& err,
+	const cstring_view<>& fmt_str,
+	const cstring_view<>& n_a_str,
+ 	std::ostream& out
+);
+
+std::ostream& format_error(
+	error& err,
 	const cstring_view<>& fmt_str,
  	std::ostream& out
 );
 
 } // namespace oglplus
 
+#if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include <oglplus/error/format.inl>
+#endif
 
 #endif // include guard

@@ -11,6 +11,7 @@
 #include <oglplus/context.hpp>
 #include <oglplus/enum_values.hpp>
 #include <oglplus/glsl/string_ref.hpp>
+#include <oglplus/error/format.hpp>
 
 #include <eagine/scope_exit.hpp>
 
@@ -175,12 +176,15 @@ int main(void)
 	try { init_and_run(); return 0; }
 	catch(oglplus::error& gle)
 	{
-		std::cerr
-			<< "OpenGL error: "
-			<< gle.what()
-			<< " in "
-			<< gle.info().gl_function_name()
-			<< std::endl;
+		oglplus::format_error(
+			gle,
+			"OpenGL error\n"
+			"in GL function: %(gl_function_name)\n"
+			"with enum parameter: %(enum_value)\n"
+			"from source file: %(source_file)\n"
+			"%(message)",
+			std::cerr
+		) << std::endl;
 	}
 	catch(std::runtime_error& sre)
 	{

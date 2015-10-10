@@ -6,22 +6,32 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
+#include <oglplus/error/error.hpp>
+#include <oglplus/enum_value_names.hpp>
 #include <iostream>
 #include <stdexcept>
 #include <algorithm>
 #include <iterator>
 #include <cassert>
-#endif
+#include <cstring>
 
 namespace oglplus {
 //------------------------------------------------------------------------------
-#if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
+static
+void _write_str(const cstring_view<>& str, std::ostream& out)
+{
+	std::copy(
+		str.begin(),
+		std::find(str.begin(), str.end(), '\0'),
+		std::ostream_iterator<char>(out)
+	);
+}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 std::ostream&
-format_info(
+format_error_info(
 	const error_info& info,
+	const cstring_view<>& msg_str,
 	const cstring_view<>& fmt_str,
 	const cstring_view<>& n_a_str,
 	std::ostream& out
@@ -134,19 +144,15 @@ format_info(
 				}
 				else
 				{
-					std::copy(
-						n_a_str.begin(),
-						std::find(
-							n_a_str.begin(),
-							n_a_str.end(),
-							'\0'
-						),
-						std::ostream_iterator<char>(out)
-					);
+					_write_str(n_a_str, out);
 				}
 			};
 
-		if(placeholder == "gl_library_name")
+		if(placeholder == "message")
+		{
+			_write_str(msg_str, out);
+		}
+		else if(placeholder == "gl_library_name")
 		{
 			print(info.gl_library_name(), nullptr);
 		}
@@ -170,9 +176,25 @@ format_info(
 		{
 			print(info.gl_object_name(), info.invalid_gl_obj_name());
 		}
-		else if(placeholder == "gl_subbject_name")
+		else if(placeholder == "gl_subject_name")
 		{
 			print(info.gl_subject_name(), info.invalid_gl_obj_name());
+		}
+		else if(placeholder == "enum_value")
+		{
+			auto ev_name = get_enum_value_name(info.enum_value());
+			if(ev_name)
+			{
+				_write_str(ev_name, out);
+			}
+			else if(parsed_fallback)
+			{
+				out << fallback;
+			}
+			else
+			{
+				_write_str(n_a_str, out);
+			}
 		}
 		else
 		{
@@ -189,15 +211,54 @@ format_info(
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 std::ostream&
-format_info(
+format_error_info(
+	const error_info& info,
+	const cstring_view<>& msg_str,
+	const cstring_view<>& fmt_str,
+	std::ostream& out
+)
+{
+	return format_error_info(info, msg_str, fmt_str, "[N/A]", out);
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+std::ostream&
+format_error_info(
 	const error_info& info,
 	const cstring_view<>& fmt_str,
 	std::ostream& out
 )
 {
-	return format_info(info, fmt_str, "[N/A]", out);
+	return format_error_info(info, "", fmt_str, "[N/A]", out);
 }
 //------------------------------------------------------------------------------
-#endif
+OGLPLUS_LIB_FUNC
+std::ostream&
+format_error(
+	error& err,
+	const cstring_view<>& fmt_str,
+	const cstring_view<>& n_a_str,
+ 	std::ostream& out
+)
+{
+	return format_error_info(
+		err.info(),
+		{err.what(), std::strlen(err.what())},
+		fmt_str,
+		n_a_str,
+		out
+	);
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+std::ostream&
+format_error(
+	error& err,
+	const cstring_view<>& fmt_str,
+ 	std::ostream& out
+)
+{
+	return format_error(err, fmt_str, "[N/A]", out);
+}
 //------------------------------------------------------------------------------
 } // namespace oglplus

@@ -9,29 +9,10 @@
 #ifndef OGLPLUS_ERROR_HANDLING_1509260923_HPP
 #define OGLPLUS_ERROR_HANDLING_1509260923_HPP
 
-#include "info.hpp"
+#include "error.hpp"
 #include "../utils/deferred_handler.hpp"
-#include <stdexcept>
 
 namespace oglplus {
-
-class error
- : public std::runtime_error
-{
-private:
-	error_info _info;
-
-	static
-	std::string _make_msg(error_info& info);
-public:
-	error(error_info&& info);
-
-	const error_info& info(void) const
-	noexcept
-	{
-		return _info;
-	}
-};
 
 template <typename ErrorInfo>
 [[noreturn]] static inline
@@ -76,8 +57,6 @@ using deferred_error_handler = deferred_handler<
 >;
 
 } // namespace oglplus
-
-#include <oglplus/error/handling.inl>
 
 #ifndef OGLPLUS_GL_GET_ERROR
 #define OGLPLUS_GL_GET_ERROR() ::glGetError()
