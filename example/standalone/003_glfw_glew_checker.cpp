@@ -1,5 +1,5 @@
 /**
- *  @example standalone/001_glfw_glew_triangle.cpp
+ *  @example standalone/003_glfw_glew_checker.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.

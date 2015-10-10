@@ -22,7 +22,7 @@ noexcept
 		GLsizei(names.size()),
 		names.data()
 	);
-	OGLPLUS_VERIFY_SIMPLE(GenTransformFeedbacks,severe);
+	OGLPLUS_VERIFY_SIMPLE(GenTransformFeedbacks,debug);
 	return {};
 }
 //------------------------------------------------------------------------------
@@ -38,7 +38,7 @@ noexcept
 		GLsizei(names.size()),
 		names.data()
 	);
-	OGLPLUS_VERIFY_SIMPLE(DeleteTransformFeedbacks,severe);
+	OGLPLUS_VERIFY_SIMPLE(DeleteTransformFeedbacks,debug);
 	return {};
 }
 //------------------------------------------------------------------------------
@@ -51,7 +51,7 @@ _is_a(GLuint name)
 noexcept
 {
 	GLboolean res = OGLPLUS_GLFUNC(IsTransformFeedback)(name);
-	OGLPLUS_VERIFY_SIMPLE(IsTransformFeedback,warning);
+	OGLPLUS_VERIFY_SIMPLE(IsTransformFeedback,debug);
 	return res == GL_TRUE;
 }
 //------------------------------------------------------------------------------

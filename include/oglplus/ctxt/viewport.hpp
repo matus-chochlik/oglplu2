@@ -25,7 +25,7 @@ struct viewport_state
 	noexcept
 	{
 		OGLPLUS_GLFUNC(Viewport)(x, y, w, h);
-		OGLPLUS_VERIFY_SIMPLE(Viewport,warning);
+		OGLPLUS_VERIFY_SIMPLE(Viewport,always);
 		return {};
 	}
 
@@ -35,7 +35,7 @@ struct viewport_state
 	noexcept
 	{
 		OGLPLUS_GLFUNC(Viewport)(0, 0, w, h);
-		OGLPLUS_VERIFY_SIMPLE(Viewport,warning);
+		OGLPLUS_VERIFY_SIMPLE(Viewport,always);
 		return {};
 	}
 };

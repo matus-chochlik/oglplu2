@@ -33,7 +33,7 @@ noexcept
 				error_code,
 				gl_library_name("gl").
 				gl_function_name("CreateProgram"),
-				severe
+				debug
 			);
 		}
 	}
@@ -51,7 +51,7 @@ noexcept
 	for(auto& name : names)
 	{
 		OGLPLUS_GLFUNC(DeleteProgram)(name);
-		OGLPLUS_VERIFY_SIMPLE(DeleteProgram,severe);
+		OGLPLUS_VERIFY_SIMPLE(DeleteProgram,debug);
 	}
 	return {};
 }
@@ -65,7 +65,7 @@ _is_a(GLuint name)
 noexcept
 {
 	GLboolean res = OGLPLUS_GLFUNC(IsProgram)(name);
-	OGLPLUS_VERIFY_SIMPLE(IsProgram,warning);
+	OGLPLUS_VERIFY_SIMPLE(IsProgram,debug);
 	return {res == GL_TRUE};
 }
 //------------------------------------------------------------------------------

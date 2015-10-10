@@ -40,7 +40,7 @@ struct compatibility_drawing
 	noexcept
 	{
 		OGLPLUS_GLFUNC(End)();
-		OGLPLUS_VERIFY_SIMPLE(End, warning);
+		OGLPLUS_VERIFY_SIMPLE(End, debug);
 		return {};
 	}
 

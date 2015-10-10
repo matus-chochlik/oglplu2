@@ -22,7 +22,7 @@ noexcept
 		GLsizei(names.size()),
 		names.data()
 	);
-	OGLPLUS_VERIFY_SIMPLE(GenVertexArrays,severe);
+	OGLPLUS_VERIFY_SIMPLE(GenVertexArrays,debug);
 	return {};
 }
 //------------------------------------------------------------------------------
@@ -38,7 +38,7 @@ noexcept
 		GLsizei(names.size()),
 		names.data()
 	);
-	OGLPLUS_VERIFY_SIMPLE(DeleteVertexArrays,severe);
+	OGLPLUS_VERIFY_SIMPLE(DeleteVertexArrays,debug);
 	return {};
 }
 //------------------------------------------------------------------------------
@@ -51,7 +51,7 @@ _is_a(GLuint name)
 noexcept
 {
 	GLboolean res = OGLPLUS_GLFUNC(IsVertexArray)(name);
-	OGLPLUS_VERIFY_SIMPLE(IsVertexArray,warning);
+	OGLPLUS_VERIFY_SIMPLE(IsVertexArray,debug);
 	return res == GL_TRUE;
 }
 //------------------------------------------------------------------------------

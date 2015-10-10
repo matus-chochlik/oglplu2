@@ -22,7 +22,7 @@ noexcept
 		GLsizei(names.size()),
 		names.data()
 	);
-	OGLPLUS_VERIFY_SIMPLE(GenBuffers,severe);
+	OGLPLUS_VERIFY_SIMPLE(GenBuffers,debug);
 	return {};
 }
 //------------------------------------------------------------------------------
@@ -38,7 +38,7 @@ noexcept
 		GLsizei(names.size()),
 		names.data()
 	);
-	OGLPLUS_VERIFY_SIMPLE(DeleteBuffers,severe);
+	OGLPLUS_VERIFY_SIMPLE(DeleteBuffers,debug);
 	return {};
 }
 //------------------------------------------------------------------------------
@@ -51,7 +51,7 @@ _is_a(GLuint name)
 noexcept
 {
 	GLboolean res = OGLPLUS_GLFUNC(IsBuffer)(name);
-	OGLPLUS_VERIFY_SIMPLE(IsBuffer,warning);
+	OGLPLUS_VERIFY_SIMPLE(IsBuffer,debug);
 	return res == GL_TRUE;
 }
 //------------------------------------------------------------------------------

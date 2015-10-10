@@ -22,7 +22,7 @@ noexcept
 		GLsizei(names.size()),
 		names.data()
 	);
-	OGLPLUS_VERIFY_SIMPLE(GenSamplers,severe);
+	OGLPLUS_VERIFY_SIMPLE(GenSamplers,debug);
 	return {};
 }
 //------------------------------------------------------------------------------
@@ -38,7 +38,7 @@ noexcept
 		GLsizei(names.size()),
 		names.data()
 	);
-	OGLPLUS_VERIFY_SIMPLE(DeleteSamplers,severe);
+	OGLPLUS_VERIFY_SIMPLE(DeleteSamplers,debug);
 	return {};
 }
 //------------------------------------------------------------------------------
@@ -51,7 +51,7 @@ _is_a(GLuint name)
 noexcept
 {
 	GLboolean res = OGLPLUS_GLFUNC(IsSampler)(name);
-	OGLPLUS_VERIFY_SIMPLE(IsSampler,warning);
+	OGLPLUS_VERIFY_SIMPLE(IsSampler,debug);
 	return res == GL_TRUE;
 }
 //------------------------------------------------------------------------------

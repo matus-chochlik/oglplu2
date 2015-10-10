@@ -33,7 +33,7 @@ noexcept
 				error_code,
 				gl_library_name("gl").
 				gl_function_name("CreateShader"),
-				severe
+				debug
 			);
 		}
 	}
@@ -51,7 +51,7 @@ noexcept
 	for(auto& name : names)
 	{
 		OGLPLUS_GLFUNC(DeleteShader)(name);
-		OGLPLUS_VERIFY_SIMPLE(DeleteShader,severe);
+		OGLPLUS_VERIFY_SIMPLE(DeleteShader,debug);
 	}
 	return {};
 }
@@ -65,7 +65,7 @@ _is_a(GLuint name)
 noexcept
 {
 	GLboolean res = OGLPLUS_GLFUNC(IsShader)(name);
-	OGLPLUS_VERIFY_SIMPLE(IsShader,warning);
+	OGLPLUS_VERIFY_SIMPLE(IsShader,debug);
 	return res == GL_TRUE;
 }
 //------------------------------------------------------------------------------

@@ -22,7 +22,7 @@ noexcept
 		GLsizei(names.size()),
 		names.data()
 	);
-	OGLPLUS_VERIFY_SIMPLE(GenRenderbuffers,severe);
+	OGLPLUS_VERIFY_SIMPLE(GenRenderbuffers,debug);
 	return {};
 }
 //------------------------------------------------------------------------------
@@ -38,7 +38,7 @@ noexcept
 		GLsizei(names.size()),
 		names.data()
 	);
-	OGLPLUS_VERIFY_SIMPLE(DeleteRenderbuffers,severe);
+	OGLPLUS_VERIFY_SIMPLE(DeleteRenderbuffers,debug);
 	return {};
 }
 //------------------------------------------------------------------------------
@@ -51,7 +51,7 @@ _is_a(GLuint name)
 noexcept
 {
 	GLboolean res = OGLPLUS_GLFUNC(IsRenderbuffer)(name);
-	OGLPLUS_VERIFY_SIMPLE(IsRenderbuffer,warning);
+	OGLPLUS_VERIFY_SIMPLE(IsRenderbuffer,debug);
 	return res == GL_TRUE;
 }
 //------------------------------------------------------------------------------

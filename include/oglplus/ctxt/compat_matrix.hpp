@@ -28,7 +28,7 @@ struct compatibility_matrix
 	noexcept
 	{
 		OGLPLUS_GLFUNC(MatrixMode)(GLenum(mode));
-		OGLPLUS_VERIFY_SIMPLE(MatrixMode,warning);
+		OGLPLUS_VERIFY_SIMPLE(MatrixMode,debug);
 		return {};
 	}
 
@@ -38,7 +38,7 @@ struct compatibility_matrix
 	noexcept
 	{
 		OGLPLUS_GLFUNC(PushMatrix)();
-		OGLPLUS_VERIFY_SIMPLE(PushMatrix,warning);
+		OGLPLUS_VERIFY_SIMPLE(PushMatrix,debug);
 		return {};
 	}
 
@@ -49,7 +49,7 @@ struct compatibility_matrix
 	noexcept
 	{
 		OGLPLUS_GLFUNC(MatrixPushEXT)(GLenum(mode));
-		OGLPLUS_VERIFY_SIMPLE(MatrixPushEXT,warning);
+		OGLPLUS_VERIFY_SIMPLE(MatrixPushEXT,debug);
 		return {};
 	}
 #endif
@@ -60,7 +60,7 @@ struct compatibility_matrix
 	noexcept
 	{
 		OGLPLUS_GLFUNC(PopMatrix)();
-		OGLPLUS_VERIFY_SIMPLE(PopMatrix,warning);
+		OGLPLUS_VERIFY_SIMPLE(PopMatrix,debug);
 		return {};
 	}
 
@@ -71,7 +71,7 @@ struct compatibility_matrix
 	noexcept
 	{
 		OGLPLUS_GLFUNC(MatrixPopEXT)(GLenum(mode));
-		OGLPLUS_VERIFY_SIMPLE(MatrixPopEXT,warning);
+		OGLPLUS_VERIFY_SIMPLE(MatrixPopEXT,debug);
 		return {};
 	}
 #endif
@@ -82,7 +82,7 @@ struct compatibility_matrix
 	noexcept
 	{
 		OGLPLUS_GLFUNC(LoadIdentity)();
-		OGLPLUS_VERIFY_SIMPLE(LoadIdentity,warning);
+		OGLPLUS_VERIFY_SIMPLE(LoadIdentity,debug);
 		return {};
 	}
 
@@ -93,7 +93,7 @@ struct compatibility_matrix
 	noexcept
 	{
 		OGLPLUS_GLFUNC(MatrixLoadIdentityEXT)(GLenum(mode));
-		OGLPLUS_VERIFY_SIMPLE(MatrixLoadIdentityEXT,warning);
+		OGLPLUS_VERIFY_SIMPLE(MatrixLoadIdentityEXT,debug);
 		return {};
 	}
 #endif
@@ -105,7 +105,7 @@ struct compatibility_matrix
 	{
 		assert(mat.size() >= 16);
 		OGLPLUS_GLFUNC(LoadMatrixf)(mat.data());
-		OGLPLUS_VERIFY_SIMPLE(LoadMatrixf,warning);
+		OGLPLUS_VERIFY_SIMPLE(LoadMatrixf,debug);
 		return {};
 	}
 
@@ -117,7 +117,7 @@ struct compatibility_matrix
 	{
 		assert(mat.size() >= 16);
 		OGLPLUS_GLFUNC(MatrixLoadfEXT)(GLenum(mode), mat.data());
-		OGLPLUS_VERIFY_SIMPLE(MatrixLoadfEXT,warning);
+		OGLPLUS_VERIFY_SIMPLE(MatrixLoadfEXT,debug);
 		return {};
 	}
 #endif
@@ -129,7 +129,7 @@ struct compatibility_matrix
 	{
 		assert(mat.size() >= 16);
 		OGLPLUS_GLFUNC(LoadTransposeMatrixf)(mat.data());
-		OGLPLUS_VERIFY_SIMPLE(LoadTransposeMatrixf,warning);
+		OGLPLUS_VERIFY_SIMPLE(LoadTransposeMatrixf,debug);
 		return {};
 	}
 
@@ -141,7 +141,7 @@ struct compatibility_matrix
 	{
 		assert(mat.size() >= 16);
 		OGLPLUS_GLFUNC(MatrixLoadTransposefEXT)(GLenum(mode), mat.data());
-		OGLPLUS_VERIFY_SIMPLE(MatrixLoadTransposefEXT,warning);
+		OGLPLUS_VERIFY_SIMPLE(MatrixLoadTransposefEXT,debug);
 		return {};
 	}
 #endif
@@ -152,7 +152,7 @@ struct compatibility_matrix
 	noexcept
 	{
 		OGLPLUS_GLFUNC(LoadMatrixd)(mat.data());
-		OGLPLUS_VERIFY_SIMPLE(LoadMatrixd,warning);
+		OGLPLUS_VERIFY_SIMPLE(LoadMatrixd,debug);
 		return {};
 	}
 
@@ -163,7 +163,7 @@ struct compatibility_matrix
 	noexcept
 	{
 		OGLPLUS_GLFUNC(MatrixLoaddEXT)(GLenum(mode), mat.data());
-		OGLPLUS_VERIFY_SIMPLE(MatrixLoaddEXT,warning);
+		OGLPLUS_VERIFY_SIMPLE(MatrixLoaddEXT,debug);
 		return {};
 	}
 #endif
@@ -174,7 +174,7 @@ struct compatibility_matrix
 	noexcept
 	{
 		OGLPLUS_GLFUNC(LoadTransposeMatrixd)(mat.data());
-		OGLPLUS_VERIFY_SIMPLE(LoadTransposeMatrixd,warning);
+		OGLPLUS_VERIFY_SIMPLE(LoadTransposeMatrixd,debug);
 		return {};
 	}
 
@@ -185,7 +185,7 @@ struct compatibility_matrix
 	noexcept
 	{
 		OGLPLUS_GLFUNC(MatrixLoadTransposedEXT)(GLenum(mode), mat.data());
-		OGLPLUS_VERIFY_SIMPLE(MatrixLoadTransposedEXT,warning);
+		OGLPLUS_VERIFY_SIMPLE(MatrixLoadTransposedEXT,debug);
 		return {};
 	}
 #endif
@@ -196,7 +196,7 @@ struct compatibility_matrix
 	noexcept
 	{
 		OGLPLUS_GLFUNC(Translatef)(x, y, z);
-		OGLPLUS_VERIFY_SIMPLE(Translatef,warning);
+		OGLPLUS_VERIFY_SIMPLE(Translatef,debug);
 		return {};
 	}
 
@@ -207,7 +207,7 @@ struct compatibility_matrix
 	noexcept
 	{
 		OGLPLUS_GLFUNC(MatrixTranslatefEXT)(GLenum(mode), x, y, z);
-		OGLPLUS_VERIFY_SIMPLE(MatrixTranslatefEXT,warning);
+		OGLPLUS_VERIFY_SIMPLE(MatrixTranslatefEXT,debug);
 		return {};
 	}
 #endif
@@ -218,7 +218,7 @@ struct compatibility_matrix
 	noexcept
 	{
 		OGLPLUS_GLFUNC(Translated)(x, y, z);
-		OGLPLUS_VERIFY_SIMPLE(Translated,warning);
+		OGLPLUS_VERIFY_SIMPLE(Translated,debug);
 		return {};
 	}
 
@@ -229,7 +229,7 @@ struct compatibility_matrix
 	noexcept
 	{
 		OGLPLUS_GLFUNC(MatrixTranslatedEXT)(GLenum(mode), x, y, z);
-		OGLPLUS_VERIFY_SIMPLE(MatrixTranslatedEXT,warning);
+		OGLPLUS_VERIFY_SIMPLE(MatrixTranslatedEXT,debug);
 		return {};
 	}
 #endif
@@ -240,7 +240,7 @@ struct compatibility_matrix
 	noexcept
 	{
 		OGLPLUS_GLFUNC(Rotatef)(GLfloat(a), x, y, z);
-		OGLPLUS_VERIFY_SIMPLE(Rotatef,warning);
+		OGLPLUS_VERIFY_SIMPLE(Rotatef,debug);
 		return {};
 	}
 
@@ -251,7 +251,7 @@ struct compatibility_matrix
 	noexcept
 	{
 		OGLPLUS_GLFUNC(MatrixRotatefEXT)(GLenum(mode), GLfloat(a), x, y, z);
-		OGLPLUS_VERIFY_SIMPLE(MatrixRotatefEXT,warning);
+		OGLPLUS_VERIFY_SIMPLE(MatrixRotatefEXT,debug);
 		return {};
 	}
 #endif
@@ -262,7 +262,7 @@ struct compatibility_matrix
 	noexcept
 	{
 		OGLPLUS_GLFUNC(Rotated)(GLdouble(a), x, y, z);
-		OGLPLUS_VERIFY_SIMPLE(Rotated,warning);
+		OGLPLUS_VERIFY_SIMPLE(Rotated,debug);
 		return {};
 	}
 
@@ -273,7 +273,7 @@ struct compatibility_matrix
 	noexcept
 	{
 		OGLPLUS_GLFUNC(MatrixRotatedEXT)(GLenum(mode), GLdouble(a), x, y, z);
-		OGLPLUS_VERIFY_SIMPLE(MatrixRotatedEXT,warning);
+		OGLPLUS_VERIFY_SIMPLE(MatrixRotatedEXT,debug);
 		return {};
 	}
 #endif
@@ -284,7 +284,7 @@ struct compatibility_matrix
 	noexcept
 	{
 		OGLPLUS_GLFUNC(Scalef)(x, y, z);
-		OGLPLUS_VERIFY_SIMPLE(Scalef,warning);
+		OGLPLUS_VERIFY_SIMPLE(Scalef,debug);
 		return {};
 	}
 
@@ -295,7 +295,7 @@ struct compatibility_matrix
 	noexcept
 	{
 		OGLPLUS_GLFUNC(MatrixScalefEXT)(GLenum(mode), x, y, z);
-		OGLPLUS_VERIFY_SIMPLE(MatrixScalefEXT,warning);
+		OGLPLUS_VERIFY_SIMPLE(MatrixScalefEXT,debug);
 		return {};
 	}
 #endif
@@ -306,7 +306,7 @@ struct compatibility_matrix
 	noexcept
 	{
 		OGLPLUS_GLFUNC(Scaled)(x, y, z);
-		OGLPLUS_VERIFY_SIMPLE(Scaled,warning);
+		OGLPLUS_VERIFY_SIMPLE(Scaled,debug);
 		return {};
 	}
 
@@ -317,7 +317,7 @@ struct compatibility_matrix
 	noexcept
 	{
 		OGLPLUS_GLFUNC(MatrixScaledEXT)(GLenum(mode), x, y, z);
-		OGLPLUS_VERIFY_SIMPLE(MatrixScaledEXT,warning);
+		OGLPLUS_VERIFY_SIMPLE(MatrixScaledEXT,debug);
 		return {};
 	}
 #endif
@@ -335,7 +335,7 @@ struct compatibility_matrix
 	noexcept
 	{
 		OGLPLUS_GLFUNC(Ortho)(l, r, b, t, n, f);
-		OGLPLUS_VERIFY_SIMPLE(Ortho,warning);
+		OGLPLUS_VERIFY_SIMPLE(Ortho,always);
 		return {};
 	}
 
@@ -354,7 +354,7 @@ struct compatibility_matrix
 	noexcept
 	{
 		OGLPLUS_GLFUNC(MatrixOrthoEXT)(GLenum(mode), l, r, b, t, n, f);
-		OGLPLUS_VERIFY_SIMPLE(MatrixOrthoEXT,warning);
+		OGLPLUS_VERIFY_SIMPLE(MatrixOrthoEXT,always);
 		return {};
 	}
 #endif
@@ -372,7 +372,7 @@ struct compatibility_matrix
 	noexcept
 	{
 		OGLPLUS_GLFUNC(Frustum)(l, r, b, t, n, f);
-		OGLPLUS_VERIFY_SIMPLE(Frustum,warning);
+		OGLPLUS_VERIFY_SIMPLE(Frustum,always);
 		return {};
 	}
 
@@ -391,7 +391,7 @@ struct compatibility_matrix
 	noexcept
 	{
 		OGLPLUS_GLFUNC(MatrixFrustumEXT)(GLenum(mode), l, r, b, t, n, f);
-		OGLPLUS_VERIFY_SIMPLE(MatrixFrustumEXT,warning);
+		OGLPLUS_VERIFY_SIMPLE(MatrixFrustumEXT,always);
 		return {};
 	}
 #endif

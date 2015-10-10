@@ -19,26 +19,26 @@ struct shader_ops
 {
 	static
 	outcome<void>
-	shader_source(shader_name shader, const glsl_source_ref& source)
+	shader_source(shader_name shdr, const glsl_source_ref& source)
 	noexcept
 	{
 		OGLPLUS_GLFUNC(ShaderSource)(
-			get_raw_name(shader),
+			get_raw_name(shdr),
 			source.count(),
 			source.parts(),
 			source.lengths()
 		);
-		OGLPLUS_VERIFY(ShaderSource, gl_object(shader), warning);
+		OGLPLUS_VERIFY(ShaderSource, gl_object(shdr), always);
 		return {};
 	}
 
 	static
 	outcome<void>
-	compile(shader_name shader)
+	compile(shader_name shdr)
 	noexcept
 	{
-		OGLPLUS_GLFUNC(CompileShader)(get_raw_name(shader));
-		OGLPLUS_VERIFY(CompileShader, gl_object(shader), warning);
+		OGLPLUS_GLFUNC(CompileShader)(get_raw_name(shdr));
+		OGLPLUS_VERIFY(CompileShader, gl_object(shdr), always);
 		return {};
 	}
 };

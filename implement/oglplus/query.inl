@@ -22,7 +22,7 @@ noexcept
 		GLsizei(names.size()),
 		names.data()
 	);
-	OGLPLUS_VERIFY_SIMPLE(GenQueries,severe);
+	OGLPLUS_VERIFY_SIMPLE(GenQueries,debug);
 	return {};
 }
 //------------------------------------------------------------------------------
@@ -38,7 +38,7 @@ noexcept
 		GLsizei(names.size()),
 		names.data()
 	);
-	OGLPLUS_VERIFY_SIMPLE(DeleteQueries,severe);
+	OGLPLUS_VERIFY_SIMPLE(DeleteQueries,debug);
 	return {};
 }
 //------------------------------------------------------------------------------
@@ -51,7 +51,7 @@ _is_a(GLuint name)
 noexcept
 {
 	GLboolean res = OGLPLUS_GLFUNC(IsQuery)(name);
-	OGLPLUS_VERIFY_SIMPLE(IsQuery,warning);
+	OGLPLUS_VERIFY_SIMPLE(IsQuery,debug);
 	return res == GL_TRUE;
 }
 //------------------------------------------------------------------------------

@@ -25,7 +25,7 @@ struct drawing_ops
 	noexcept
 	{
 		OGLPLUS_GLFUNC(DrawArrays)(GLenum(mode), first, count);
-		OGLPLUS_VERIFY(DrawArrays, enum_value(mode), warning);
+		OGLPLUS_VERIFY(DrawArrays, enum_value(mode), debug);
 		return {};
 	}
 
@@ -40,7 +40,7 @@ struct drawing_ops
 			GLenum(type),
 			nullptr
 		);
-		OGLPLUS_VERIFY(DrawElements, enum_value(mode), warning);
+		OGLPLUS_VERIFY(DrawElements, enum_value(mode), debug);
 		return {};
 	}
 };

@@ -54,7 +54,7 @@ struct buffer_clearing_state
 	noexcept
 	{
 		OGLPLUS_GLFUNC(ClearColor)(r,g,b,a);
-		OGLPLUS_VERIFY_SIMPLE(ClearColor,warning);
+		OGLPLUS_VERIFY_SIMPLE(ClearColor,always);
 		return {};
 	}
 
@@ -64,7 +64,7 @@ struct buffer_clearing_state
 	noexcept
 	{
 		OGLPLUS_GLFUNC(ClearDepthf)(d);
-		OGLPLUS_VERIFY_SIMPLE(ClearDepthf,warning);
+		OGLPLUS_VERIFY_SIMPLE(ClearDepthf,always);
 		return {};
 	}
 
@@ -74,7 +74,7 @@ struct buffer_clearing_state
 	noexcept
 	{
 		OGLPLUS_GLFUNC(ClearStencil)(s);
-		OGLPLUS_VERIFY_SIMPLE(ClearStencil,warning);
+		OGLPLUS_VERIFY_SIMPLE(ClearStencil,always);
 		return {};
 	}
 
@@ -85,7 +85,7 @@ struct buffer_clearing_state
 	{
 		rgba_value result;
 		OGLPLUS_GLFUNC(GetFloatv)(GL_COLOR_CLEAR_VALUE, result._v);
-		OGLPLUS_VERIFY_SIMPLE(GetFloatv,warning);
+		OGLPLUS_VERIFY_SIMPLE(GetFloatv,debug);
 		return {result};
 	}
 
@@ -96,7 +96,7 @@ struct buffer_clearing_state
 	{
 		GLfloat result;
 		OGLPLUS_GLFUNC(GetFloatv)(GL_DEPTH_CLEAR_VALUE, &result);
-		OGLPLUS_VERIFY_SIMPLE(GetFloatv,warning);
+		OGLPLUS_VERIFY_SIMPLE(GetFloatv,debug);
 		return {result};
 	}
 
@@ -107,7 +107,7 @@ struct buffer_clearing_state
 	{
 		GLint result;
 		OGLPLUS_GLFUNC(GetIntegerv)(GL_STENCIL_CLEAR_VALUE, &result);
-		OGLPLUS_VERIFY_SIMPLE(GetIntegerv,warning);
+		OGLPLUS_VERIFY_SIMPLE(GetIntegerv,debug);
 		return {result};
 	}
 };
@@ -120,7 +120,7 @@ struct buffer_clearing_ops
 	noexcept
 	{
 		OGLPLUS_GLFUNC(Clear)(GLbitfield(bits));
-		OGLPLUS_VERIFY_SIMPLE(Clear,warning);
+		OGLPLUS_VERIFY_SIMPLE(Clear,debug);
 		return {};
 	}
 };

@@ -22,7 +22,7 @@ noexcept
 		GLsizei(names.size()),
 		names.data()
 	);
-	OGLPLUS_VERIFY_SIMPLE(GenTextures,severe);
+	OGLPLUS_VERIFY_SIMPLE(GenTextures,debug);
 	return {};
 }
 //------------------------------------------------------------------------------
@@ -38,7 +38,7 @@ noexcept
 		GLsizei(names.size()),
 		names.data()
 	);
-	OGLPLUS_VERIFY_SIMPLE(DeleteTextures,severe);
+	OGLPLUS_VERIFY_SIMPLE(DeleteTextures,debug);
 	return {};
 }
 //------------------------------------------------------------------------------
@@ -51,7 +51,7 @@ _is_a(GLuint name)
 noexcept
 {
 	GLboolean res = OGLPLUS_GLFUNC(IsTexture)(name);
-	OGLPLUS_VERIFY_SIMPLE(IsTexture,warning);
+	OGLPLUS_VERIFY_SIMPLE(IsTexture,debug);
 	return res == GL_TRUE;
 }
 //------------------------------------------------------------------------------

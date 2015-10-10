@@ -22,7 +22,7 @@ noexcept
 		GLsizei(names.size()),
 		names.data()
 	);
-	OGLPLUS_VERIFY_SIMPLE(GenFramebuffers,severe);
+	OGLPLUS_VERIFY_SIMPLE(GenFramebuffers,debug);
 	return {};
 }
 //------------------------------------------------------------------------------
@@ -38,7 +38,7 @@ noexcept
 		GLsizei(names.size()),
 		names.data()
 	);
-	OGLPLUS_VERIFY_SIMPLE(DeleteFramebuffers,severe);
+	OGLPLUS_VERIFY_SIMPLE(DeleteFramebuffers,debug);
 	return {};
 }
 //------------------------------------------------------------------------------
@@ -51,7 +51,7 @@ _is_a(GLuint name)
 noexcept
 {
 	GLboolean res = OGLPLUS_GLFUNC(IsFramebuffer)(name);
-	OGLPLUS_VERIFY_SIMPLE(IsFramebuffer,warning);
+	OGLPLUS_VERIFY_SIMPLE(IsFramebuffer,debug);
 	return res == GL_TRUE;
 }
 //------------------------------------------------------------------------------

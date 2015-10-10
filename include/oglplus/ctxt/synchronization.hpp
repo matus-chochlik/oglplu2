@@ -26,7 +26,7 @@ struct synchronization
 	noexcept
 	{
 		OGLPLUS_GLFUNC(MemoryBarrier)(GLbitfield(bits));
-		OGLPLUS_VERIFY_SIMPLE(MemoryBarrier, warning);
+		OGLPLUS_VERIFY_SIMPLE(MemoryBarrier, debug);
 		return {};
 	}
 #endif
@@ -37,7 +37,7 @@ struct synchronization
 	noexcept
 	{
 		OGLPLUS_GLFUNC(Flush)();
-		OGLPLUS_VERIFY_SIMPLE(Flush, warning);
+		OGLPLUS_VERIFY_SIMPLE(Flush, debug);
 		return {};
 	}
 
@@ -47,7 +47,7 @@ struct synchronization
 	noexcept
 	{
 		OGLPLUS_GLFUNC(Finish)();
-		OGLPLUS_VERIFY_SIMPLE(Finish, warning);
+		OGLPLUS_VERIFY_SIMPLE(Finish, debug);
 		return {};
 	}
 };
