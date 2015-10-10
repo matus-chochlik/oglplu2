@@ -16,6 +16,7 @@
 #include "ctxt/drawing.hpp"
 #include "ctxt/synchronization.hpp"
 
+#include "ctxt/vertex_array.hpp"
 #include "ctxt/buffer.hpp"
 #include "ctxt/shader.hpp"
 #include "ctxt/program.hpp"
@@ -35,6 +36,7 @@ class context
  , public ctxt::drawing_ops
  , public ctxt::synchronization
 
+ , public ctxt::vertex_array_ops
  , public ctxt::buffer_ops
  , public ctxt::shader_ops
  , public ctxt::program_ops
