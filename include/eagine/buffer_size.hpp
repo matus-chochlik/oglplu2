@@ -10,6 +10,8 @@
 #define EAGINE_UTILS_BUFFER_SIZE_1509260923_HPP
 
 #include "array_view.hpp"
+#include "identity.hpp"
+#include <type_traits>
 
 namespace eagine {
 
@@ -17,6 +19,7 @@ template <typename S>
 class buffer_size
 {
 private:
+	static_assert(std::is_integral<S>::value, "");
 	S _v;
 public:
 	constexpr inline
@@ -33,7 +36,7 @@ public:
 
 	template <typename T>
 	constexpr inline
-	buffer_size(std::size_t count, const T* = nullptr)
+	buffer_size(identity<T>, std::size_t count)
 	noexcept
 	 : _v(S(sizeof(T)*count))
 	{ }
@@ -44,6 +47,13 @@ public:
 	noexcept
 	 : _v(S(sizeof(T)*av.size()))
 	{ }
+
+	constexpr inline
+	S get(void) const
+	noexcept
+	{
+		return _v;
+	}
 
 	constexpr inline
 	operator S (void) const

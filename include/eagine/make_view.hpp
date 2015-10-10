@@ -11,12 +11,23 @@
 #define EAGINE_MAKE_VIEW_1509260923_HPP
 
 #include "array_view.hpp"
+#include "identity.hpp"
 
 namespace eagine {
 
 template <typename T>
 static inline
-array_view<T> make_view(T *data, std::size_t n)
+array_view<T>
+make_view(identity<T> = {})
+noexcept
+{
+	return {nullptr, 0};
+}
+
+template <typename T>
+static inline
+array_view<T>
+make_view(T *data, std::size_t n)
 noexcept
 {
 	return {data, n};
@@ -24,7 +35,8 @@ noexcept
 
 template <typename T, std::size_t N>
 static inline
-array_view<T> make_view(T (&data)[N])
+array_view<T>
+make_view(T (&data)[N])
 noexcept
 {
 	return {data, N};

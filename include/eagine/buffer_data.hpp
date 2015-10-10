@@ -21,10 +21,16 @@ private:
 	buffer_size<S> _size;
 	const void* _data;
 public:
+	buffer_data(void)
+	noexcept
+	 : _size()
+	 , _data(nullptr)
+	{ }
+
 	template <typename T, std::size_t N>
 	buffer_data(const T (&data) [N])
 	noexcept
-	 : _size(N, data)
+	 : _size(identity<T>(), N)
 	 , _data(data)
 	{ }
 
@@ -34,6 +40,12 @@ public:
 	 : _size(av)
 	 , _data(av.data())
 	{ }
+
+	bool empty(void) const
+	noexcept
+	{
+		return _size.get() == 0;
+	}
 
 	buffer_size<S> size(void) const
 	noexcept
