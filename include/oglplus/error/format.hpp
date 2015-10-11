@@ -11,44 +11,44 @@
 
 #include "fwd.hpp"
 #include "info.hpp"
-#include "../utils/string_view.hpp"
+#include "../utils/cstr_ref.hpp"
 #include <iosfwd>
 
 namespace oglplus {
 
-cstring_view<> error_message(error&);
+cstr_ref error_message(error&);
 
 std::ostream& format_error_info(
 	const error_info& info,
-	const cstring_view<>& msg_str,
-	const cstring_view<>& fmt_str,
-	const cstring_view<>& n_a_str,
+	const cstr_ref& msg_str,
+	const cstr_ref& fmt_str,
+	const cstr_ref& n_a_str,
  	std::ostream& out
 );
 
 std::ostream& format_error_info(
 	const error_info& info,
-	const cstring_view<>& msg_str,
-	const cstring_view<>& fmt_str,
+	const cstr_ref& msg_str,
+	const cstr_ref& fmt_str,
  	std::ostream& out
 );
 
 std::ostream& format_error_info(
 	const error_info& info,
-	const cstring_view<>& fmt_str,
+	const cstr_ref& fmt_str,
  	std::ostream& out
 );
 
 std::ostream& format_error(
 	error& err,
-	const cstring_view<>& fmt_str,
-	const cstring_view<>& n_a_str,
+	const cstr_ref& fmt_str,
+	const cstr_ref& n_a_str,
  	std::ostream& out
 );
 
 std::ostream& format_error(
 	error& err,
-	const cstring_view<>& fmt_str,
+	const cstr_ref& fmt_str,
  	std::ostream& out
 );
 

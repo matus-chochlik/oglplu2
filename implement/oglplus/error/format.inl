@@ -17,23 +17,13 @@
 
 namespace oglplus {
 //------------------------------------------------------------------------------
-static
-void _write_str(const cstring_view<>& str, std::ostream& out)
-{
-	std::copy(
-		str.begin(),
-		std::find(str.begin(), str.end(), '\0'),
-		std::ostream_iterator<char>(out)
-	);
-}
-//------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 std::ostream&
 format_error_info(
 	const error_info& info,
-	const cstring_view<>& msg_str,
-	const cstring_view<>& fmt_str,
-	const cstring_view<>& n_a_str,
+	const cstr_ref& msg_str,
+	const cstr_ref& fmt_str,
+	const cstr_ref& n_a_str,
 	std::ostream& out
 )
 {
@@ -144,13 +134,13 @@ format_error_info(
 				}
 				else
 				{
-					_write_str(n_a_str, out);
+					out << n_a_str;
 				}
 			};
 
 		if(placeholder == "message")
 		{
-			_write_str(msg_str, out);
+			out << msg_str;
 		}
 		else if(placeholder == "gl_library_name")
 		{
@@ -185,7 +175,7 @@ format_error_info(
 			auto ev_name = get_enum_value_name(info.enum_value());
 			if(ev_name)
 			{
-				_write_str(ev_name, out);
+				out << ev_name;
 			}
 			else if(parsed_fallback)
 			{
@@ -193,7 +183,7 @@ format_error_info(
 			}
 			else
 			{
-				_write_str(n_a_str, out);
+				out << n_a_str;
 			}
 		}
 		else
@@ -213,8 +203,8 @@ OGLPLUS_LIB_FUNC
 std::ostream&
 format_error_info(
 	const error_info& info,
-	const cstring_view<>& msg_str,
-	const cstring_view<>& fmt_str,
+	const cstr_ref& msg_str,
+	const cstr_ref& fmt_str,
 	std::ostream& out
 )
 {
@@ -225,7 +215,7 @@ OGLPLUS_LIB_FUNC
 std::ostream&
 format_error_info(
 	const error_info& info,
-	const cstring_view<>& fmt_str,
+	const cstr_ref& fmt_str,
 	std::ostream& out
 )
 {
@@ -236,8 +226,8 @@ OGLPLUS_LIB_FUNC
 std::ostream&
 format_error(
 	error& err,
-	const cstring_view<>& fmt_str,
-	const cstring_view<>& n_a_str,
+	const cstr_ref& fmt_str,
+	const cstr_ref& n_a_str,
  	std::ostream& out
 )
 {
@@ -254,7 +244,7 @@ OGLPLUS_LIB_FUNC
 std::ostream&
 format_error(
 	error& err,
-	const cstring_view<>& fmt_str,
+	const cstr_ref& fmt_str,
  	std::ostream& out
 )
 {

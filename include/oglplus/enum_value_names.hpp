@@ -10,18 +10,18 @@
 #define OGLPLUS_ENUM_VALUE_NAMES_1509260923_HPP
 
 #include "utils/enum_class.hpp"
-#include "utils/string_view.hpp"
+#include "utils/cstr_ref.hpp"
 #include "config/basic.hpp"
 
 namespace oglplus {
 
-cstring_view<>
+cstr_ref
 get_enum_value_name(const any_enum_value&)
 noexcept;
 
 template <typename EnumClass, typename T, unsigned EnumId>
 static inline
-cstring_view<>
+cstr_ref
 enum_value_name(enum_class<EnumClass, T, EnumId> val)
 noexcept
 {

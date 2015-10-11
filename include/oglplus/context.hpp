@@ -18,6 +18,7 @@
 
 #include "ctxt/vertex_array.hpp"
 #include "ctxt/buffer.hpp"
+#include "ctxt/texture.hpp"
 #include "ctxt/shader.hpp"
 #include "ctxt/program.hpp"
 
@@ -38,6 +39,7 @@ class context
 
  , public ctxt::vertex_array_ops
  , public ctxt::buffer_ops
+ , public ctxt::texture_ops
  , public ctxt::shader_ops
  , public ctxt::program_ops
 

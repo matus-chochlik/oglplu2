@@ -13,7 +13,7 @@
 namespace oglplus {
 
 OGLPLUS_LIB_FUNC
-cstring_view<>
+cstr_ref
 get_enum_value_name(const any_enum_value& aev)
 noexcept
 {
