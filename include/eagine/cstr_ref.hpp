@@ -12,6 +12,7 @@
 
 #include "string_view.hpp"
 #include <cstring>
+#include <cassert>
 #include <iosfwd>
 
 namespace eagine {
@@ -49,6 +50,17 @@ public:
 	noexcept
 	{
 		return size() == 0u;
+	}
+
+	const char* c_str(void) const
+	noexcept
+	{
+		if(data() == nullptr)
+		{
+			return "";
+		}
+		assert(data()[size()] == '\0');
+		return data();
 	}
 
 	template <typename Out>

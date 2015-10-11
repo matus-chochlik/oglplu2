@@ -125,7 +125,7 @@ public:
 		return bool(_handler);
 	}
 
-	bool done(void) const
+	bool succeeded(void) const
 	noexcept
 	{
 		return !_handler;
@@ -167,6 +167,39 @@ public:
 		return get();
 	}
 };
+
+template <typename T, typename ErrorData, typename HandlerPolicy>
+class basic_positive_outcome
+ : public basic_outcome<T, ErrorData, HandlerPolicy>
+{
+public:
+	basic_positive_outcome(basic_outcome<T, ErrorData, HandlerPolicy>&& o)
+	noexcept
+	 : basic_outcome<T, ErrorData, HandlerPolicy>(std::move(o))
+	{ }
+
+	explicit
+	operator bool (void) const
+	noexcept
+	{
+		return this->succeeded();
+	}
+
+	bool operator ! (void) const
+	noexcept
+	{
+		return this->failed();
+	}
+};
+
+template <typename T, typename ErrorData, typename HandlerPolicy>
+static inline
+basic_positive_outcome<T, ErrorData, HandlerPolicy>
+success(basic_outcome<T, ErrorData, HandlerPolicy>&& o)
+noexcept
+{
+	return std::move(o);
+}
 
 } // namespace eagine
 
