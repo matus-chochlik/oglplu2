@@ -50,4 +50,6 @@ struct prog_var_loc_ops<tag::vertex_attrib>
 
 } // namespace oglplus
 
+#include <oglplus/vertex_attrib_get_set.inl>
+
 #endif // include guard

@@ -41,7 +41,226 @@ def action_info(options):
 	print("Output: %s" % options.output)
 
 
-def action_uniform_get_set(options):
+type_infos = {
+	"byte": type("TI", (object,), {
+		"suffix": 'b'
+	}),
+	"ubyte": type("TI", (object,), {
+		"suffix": 'ub'
+	}),
+	"short": type("TI", (object,), {
+		"suffix": 's'
+	}),
+	"ushort": type("TI", (object,), {
+		"suffix": 'us'
+	}),
+	"int": type("TI", (object,), {
+		"suffix": 'i'
+	}),
+	"uint": type("TI", (object,), {
+		"suffix": 'ui'
+	}),
+	"float": type("TI", (object,), {
+		"suffix": 'f'
+	}),
+	"double": type("TI", (object,), {
+		"suffix": 'd'
+	})
+}
+
+def print_glUniformNT(options, typ, n):
+	info = type_infos[typ]
+	print_newline(options)
+	print_line(options, "\tstatic")
+	print_line(options, "\toutcome<void>")
+	print_line(options, "\tset(")
+	print_line(options, "\t\tidentity<GL%s>," % typ)
+	print_line(options, "\t\tuniform_location u,")
+
+	print_line(options, "\t\t" + ", ".join(
+		["GL%s v%d" % (typ, i) for i in range(n)]
+	))
+
+	print_line(options, "\t) noexcept")
+	print_line(options, "\t{")
+	print_line(
+		options,
+		"\t\tOGLPLUS_GLFUNC(Uniform%d%s)" % (n, info.suffix) +
+		"(u.location(), " +
+		", ".join(["v%d" % i for i in range(n)]) +
+		");"
+	)
+	print_line(
+		options,
+		"\t\tOGLPLUS_VERIFY_SIMPLE"+
+		"(Uniform%d%s, always);" % (n, info.suffix)
+	)
+	print_line(options, "\t\treturn {};")
+	print_line(options, "\t}")
+
+def print_glUniformNTv(options, typ, n):
+	info = type_infos[typ]
+	print_newline(options)
+	print_line(options, "\tstatic")
+	print_line(options, "\toutcome<void>")
+	print_line(options, "\tset(")
+	print_line(options, "\t\tidentity<GL%s[%d]>," % (typ, n))
+	print_line(options, "\t\tuniform_location u,")
+	print_line(options, "\t\tGLsizei count,")
+	print_line(options, "\t\tconst array_view<const GL%s>& v" % typ)
+	print_line(options, "\t) noexcept")
+	print_line(options, "\t{")
+	print_line(options, "\t\tassert(count >= 0);")
+	print_line(options, "\t\tassert(v.size() >= std::size_t(%d*count));" % (n))
+	print_line(
+		options,
+		"\t\tOGLPLUS_GLFUNC(Uniform%d%sv)" % (n, info.suffix) +
+		"(u.location(), count, v.data());"
+	)
+	print_line(
+		options,
+		"\t\tOGLPLUS_VERIFY_SIMPLE"+
+		"(Uniform%d%sv, always);" % (n, info.suffix)
+	)
+	print_line(options, "\t\treturn {};")
+	print_line(options, "\t}")
+
+def print_glUniformMatrixMxNTv(options, typ, m, n):
+	info = type_infos[typ]
+	print_newline(options)
+	print_line(options, "\tstatic")
+	print_line(options, "\toutcome<void>")
+	print_line(options, "\tset(")
+	print_line(options, "\t\tidentity<GL%s[%d][%d]>," % (typ, m, n))
+	print_line(options, "\t\tuniform_location u,")
+	print_line(options, "\t\tGLsizei count,")
+	print_line(options, "\t\tGLboolean transpose,")
+	print_line(options, "\t\tconst array_view<const GL%s>& v" % typ)
+	print_line(options, "\t) noexcept")
+	print_line(options, "\t{")
+	print_line(options, "\t\tassert(count >= 0);")
+	print_line(options, "\t\tassert(v.size() >= std::size_t(%d*%d*count));" % (m,n))
+
+	glfunc = "UniformMatrix%s%sv" % (
+		"%dx%d" % (m, n) if m != n else "%d" % m,
+		info.suffix
+	)
+
+	print_line(
+		options,
+		"\t\tOGLPLUS_GLFUNC(%s)" % glfunc +
+		"(u.location(), count, transpose, v.data());"
+	)
+	print_line(
+		options,
+		"\t\tOGLPLUS_VERIFY_SIMPLE"+
+		"(%s, always);" % glfunc
+	)
+	print_line(options, "\t\treturn {};")
+	print_line(options, "\t}")
+
+def print_glProgramUniformNT(options, typ, n):
+	info = type_infos[typ]
+	print_newline(options)
+	print_line(options, "\tstatic")
+	print_line(options, "\toutcome<void>")
+	print_line(options, "\tset(")
+	print_line(options, "\t\tidentity<GL%s>," % typ)
+	print_line(options, "\t\tprogram_uniform_location pu,")
+
+	print_line(options, "\t\t" + ", ".join(
+		["GL%s v%d" % (typ, i) for i in range(n)]
+	))
+
+	print_line(options, "\t) noexcept")
+	print_line(options, "\t{")
+	print_line(
+		options,
+		"\t\tOGLPLUS_GLFUNC(ProgramUniform%d%s)(" % (n, info.suffix)
+	)
+	print_line(options, "\t\t\tget_raw_name(pu.program()),")
+	print_line(options, "\t\t\tpu.location(),")
+	print_line(
+		options,
+		"\t\t\t"+", ".join(["v%d" % i for i in range(n)])
+	)
+	print_line(options, "\t\t);")
+	print_line(options, "\t\tOGLPLUS_VERIFY(")
+	print_line(options, "\t\t\tProgramUniform%d%sv," % (n, info.suffix))
+	print_line(options, "\t\t\tgl_object(pu.program()),")
+	print_line(options, "\t\t\talways")
+	print_line(options, "\t\t);")
+	print_line(options, "\t\treturn {};")
+	print_line(options, "\t}")
+
+def print_glProgramUniformNTv(options, typ, n):
+	info = type_infos[typ]
+	print_newline(options)
+	print_line(options, "\tstatic")
+	print_line(options, "\toutcome<void>")
+	print_line(options, "\tset(")
+	print_line(options, "\t\tidentity<GL%s[%d]>," % (typ, n))
+	print_line(options, "\t\tprogram_uniform_location pu,")
+	print_line(options, "\t\tGLsizei count,")
+	print_line(options, "\t\tconst array_view<const GL%s>& v" % typ)
+	print_line(options, "\t) noexcept")
+	print_line(options, "\t{")
+	print_line(options, "\t\tassert(count >= 0);")
+	print_line(options, "\t\tassert(v.size() >= std::size_t(%d*count));" % (n))
+	print_line(
+		options,
+		"\t\tOGLPLUS_GLFUNC(ProgramUniform%d%sv)(" % (n, info.suffix)
+	)
+	print_line(options, "\t\t\tget_raw_name(pu.program()),")
+	print_line(options, "\t\t\tpu.location(),")
+	print_line(options, "\t\t\tcount,")
+	print_line(options, "\t\t\tv.data()")
+	print_line(options, "\t\t);")
+	print_line(options, "\t\tOGLPLUS_VERIFY(")
+	print_line(options, "\t\t\tProgramUniform%d%sv," % (n, info.suffix))
+	print_line(options, "\t\t\tgl_object(pu.program()),")
+	print_line(options, "\t\t\talways")
+	print_line(options, "\t\t);")
+	print_line(options, "\t\treturn {};")
+	print_line(options, "\t}")
+
+def print_glProgramUniformMatrixMxNTv(options, typ, m, n):
+	info = type_infos[typ]
+	print_newline(options)
+	print_line(options, "\tstatic")
+	print_line(options, "\toutcome<void>")
+	print_line(options, "\tset(")
+	print_line(options, "\t\tidentity<GL%s[%d][%d]>," % (typ, m, n))
+	print_line(options, "\t\tprogram_uniform_location pu,")
+	print_line(options, "\t\tGLsizei count,")
+	print_line(options, "\t\tGLboolean transpose,")
+	print_line(options, "\t\tconst array_view<const GL%s>& v" % typ)
+	print_line(options, "\t) noexcept")
+	print_line(options, "\t{")
+	print_line(options, "\t\tassert(count >= 0);")
+	print_line(options, "\t\tassert(v.size() >= std::size_t(%d*%d*count));" % (m,n))
+
+	glfunc = "ProgramUniformMatrix%s%sv" % (
+		"%dx%d" % (m, n) if m != n else "%d" % m,
+		info.suffix
+	)
+
+	print_line(options, "\t\tOGLPLUS_GLFUNC(%s)(" % glfunc)
+	print_line(options, "\t\t\tget_raw_name(pu.program()),")
+	print_line(options, "\t\t\tpu.location(),")
+	print_line(options, "\t\t\tcount,")
+	print_line(options, "\t\t\ttranspose,")
+	print_line(options, "\t\t\tv.data()")
+	print_line(options, "\t\t);")
+	print_line(
+		options,
+		"\t\tOGLPLUS_VERIFY_SIMPLE"+
+		"(%s, always);" % glfunc
+	)
+	print_line(options, "\t\treturn {};")
+	print_line(options, "\t}")
+
+def action_gl_uniform_get_set(options):
 	print_cpp_header(options)
 
 	print_line(options, "#include <cassert>")
@@ -52,64 +271,17 @@ def action_uniform_get_set(options):
 	print_line(options, "struct prog_var_get_set_ops<tag::uniform>")
 	print_line(options, "{")
 
-	data_types = [("int", "i"),("uint", "ui"),("float", "f"),]
+	for typ in ["int", "uint", "float"]:
+		for n in range(1,5):
+			print_glUniformNT(options, typ, n)
 
-	for typ, pfx in data_types:
-		for n in range(4):
-			print_newline(options)
-			print_line(options, "\tstatic")
-			print_line(options, "\toutcome<void>")
-			print_line(options, "\tset(")
-			print_line(options, "\t\tidentity<GL%s>," % typ)
-			print_line(options, "\t\tuniform_location u,")
+		for n in range(1,5):
+			print_glUniformNTv(options, typ, n)
 
-			print_line(options, "\t\t" + ", ".join(
-				["GL%s v%d" % (typ, i) for i in range(n+1)]
-			))
-
-			print_line(options, "\t) noexcept")
-			print_line(options, "\t{")
-			print_line(
-				options,
-				"\t\tOGLPLUS_GLFUNC(Uniform%d%s)" % (n+1, pfx) +
-				"(u.location(), " +
-				", ".join(["v%d" % i for i in range(n+1)]) +
-				");"
-			)
-			print_line(
-				options,
-				"\t\tOGLPLUS_VERIFY_SIMPLE"+
-				"(Uniform%d%s, always);" % (n+1, pfx)
-			)
-			print_line(options, "\t\treturn {};")
-			print_line(options, "\t}")
-
-		for n in range(4):
-			print_newline(options)
-			print_line(options, "\tstatic")
-			print_line(options, "\toutcome<void>")
-			print_line(options, "\tset(")
-			print_line(options, "\t\tidentity<GL%s>," % typ)
-			print_line(options, "\t\tstd::integral_constant<int, %d>," % (n+1))
-			print_line(options, "\t\tuniform_location u,")
-			print_line(options, "\t\tGLsizei count,")
-			print_line(options, "\t\tconst array_view<const GL%s>& v" % typ)
-			print_line(options, "\t) noexcept")
-			print_line(options, "\t{")
-			print_line(options, "\t\tassert(count >= 0);")
-			print_line(options, "\t\tassert(v.size() >= std::size_t(%d*count));" % (n+1))
-			print_line(
-				options,
-				"\t\tOGLPLUS_GLFUNC(Uniform%d%sv)" % (n+1, pfx) +
-				"(u.location(), count, v.data());"
-			)
-			print_line(
-				options,
-				"\t\tOGLPLUS_VERIFY_SIMPLE"+
-				"(Uniform%d%sv, always);" % (n+1, pfx)
-			)
-			print_line(options, "\t\treturn {};")
-			print_line(options, "\t}")
+	for typ in ["float"]:
+		for m in range(2,5):
+			for n in range(2,5):
+				print_glUniformMatrixMxNTv(options, typ, m, n)
 
 	print_newline(options)
 	print_line(
@@ -119,70 +291,18 @@ def action_uniform_get_set(options):
 		"defined(GL_ARB_separate_shader_objects)"
 	)
 
-	for typ, pfx in data_types:
-		for n in range(4):
-			print_newline(options)
-			print_line(options, "\tstatic")
-			print_line(options, "\toutcome<void>")
-			print_line(options, "\tset(")
-			print_line(options, "\t\tidentity<GL%s>," % typ)
-			print_line(options, "\t\tprogram_uniform_location pu,")
+	for typ in ["int", "uint", "float"]:
+		for n in range(1,5):
+			print_glProgramUniformNT(options, typ, n)
 
-			print_line(options, "\t\t" + ", ".join(
-				["GL%s v%d" % (typ, i) for i in range(n+1)]
-			))
+		for n in range(1,5):
+			print_glProgramUniformNTv(options, typ, n)
 
-			print_line(options, "\t) noexcept")
-			print_line(options, "\t{")
-			print_line(
-				options,
-				"\t\tOGLPLUS_GLFUNC(ProgramUniform%d%s)(" % (n+1, pfx)
-			)
-			print_line(options, "\t\t\tget_raw_name(pu.program()),")
-			print_line(options, "\t\t\tpu.location(),")
-			print_line(
-				options,
-				"\t\t\t"+", ".join(["v%d" % i for i in range(n+1)])
-			)
-			print_line(options, "\t\t);")
-			print_line(options, "\t\tOGLPLUS_VERIFY(")
-			print_line(options, "\t\t\tProgramUniform%d%sv," % (n+1, pfx))
-			print_line(options, "\t\t\tgl_object(pu.program()),")
-			print_line(options, "\t\t\talways")
-			print_line(options, "\t\t);")
-			print_line(options, "\t\treturn {};")
-			print_line(options, "\t}")
-
-		for n in range(4):
-			print_newline(options)
-			print_line(options, "\tstatic")
-			print_line(options, "\toutcome<void>")
-			print_line(options, "\tset(")
-			print_line(options, "\t\tidentity<GL%s>," % typ)
-			print_line(options, "\t\tstd::integral_constant<int, %d>," % (n+1))
-			print_line(options, "\t\tprogram_uniform_location pu,")
-			print_line(options, "\t\tGLsizei count,")
-			print_line(options, "\t\tconst array_view<const GL%s>& v" % typ)
-			print_line(options, "\t) noexcept")
-			print_line(options, "\t{")
-			print_line(options, "\t\tassert(count >= 0);")
-			print_line(options, "\t\tassert(v.size() >= std::size_t(%d*count));" % (n+1))
-			print_line(
-				options,
-				"\t\tOGLPLUS_GLFUNC(ProgramUniform%d%sv)(" % (n+1, pfx)
-			)
-			print_line(options, "\t\t\tget_raw_name(pu.program()),")
-			print_line(options, "\t\t\tpu.location(),")
-			print_line(options, "\t\t\tcount,")
-			print_line(options, "\t\t\tv.data()")
-			print_line(options, "\t\t);")
-			print_line(options, "\t\tOGLPLUS_VERIFY(")
-			print_line(options, "\t\t\tProgramUniform%d%sv," % (n+1, pfx))
-			print_line(options, "\t\t\tgl_object(pu.program()),")
-			print_line(options, "\t\t\talways")
-			print_line(options, "\t\t);")
-			print_line(options, "\t\treturn {};")
-			print_line(options, "\t}")
+	for typ in ["float"]:
+		info = type_infos[typ]
+		for m in range(2,5):
+			for n in range(2,5):
+				print_glProgramUniformMatrixMxNTv(options, typ, m, n)
 
 	print_line(options, "#endif") 
 
@@ -190,8 +310,67 @@ def action_uniform_get_set(options):
 	print_newline(options)
 	print_line(options, "} // namespace %s" % options.library)
 
+
+def print_glVertexAttribNTv(options, typ, prefix, n, infix):
+	info = type_infos[typ]
+	print_newline(options)
+	print_line(options, "\tstatic")
+	print_line(options, "\toutcome<void>")
+	print_line(options, "\tset%s%s(" % (prefix, infix))
+	print_line(options, "\t\tidentity<GL%s>," % typ)
+	print_line(options, "\t\tvertex_attrib_location va,")
+
+	print_line(options, "\t\t" + ", ".join(
+		["GL%s v%d" % (typ, i) for i in range(n)]
+	))
+
+	print_line(options, "\t) noexcept")
+	print_line(options, "\t{")
+	glfunc = "VertexAttrib%s%d%s%s" % (prefix, n, infix, info.suffix)
+	print_line(
+		options,
+		"\t\tOGLPLUS_GLFUNC(%s)" % glfunc +
+		"(va.index(), " +
+		", ".join(["v%d" % i for i in range(n)]) +
+		");"
+	)
+	print_line(
+		options,
+		"\t\tOGLPLUS_VERIFY_SIMPLE"+
+		"(%s, always);" % glfunc
+	)
+	print_line(options, "\t\treturn {};")
+	print_line(options, "\t}")
+
+def action_gl_vertex_attrib_get_set(options):
+	print_cpp_header(options)
+
+	print_line(options, "#include <cassert>")
+	print_newline(options)
+	print_line(options, "namespace %s {" % options.library)
+	print_newline(options)
+	print_line(options, "template <>")
+	print_line(options, "struct prog_var_get_set_ops<tag::vertex_attrib>")
+	print_line(options, "{")
+
+	for typ in ["short", "int", "uint", "float", "double"]:
+		prefix = "I" if typ in ["int", "uint"] else ""
+		for n in range(1,5):
+			print_glVertexAttribNTv(options, typ, prefix, n, "")
+
+	print_glVertexAttribNTv(options, "ubyte", "", 4, "N")
+
+	for n in range(1,5):
+		print_glVertexAttribNTv(options, "double", "L", n, "")
+
+
+	print_line(options, "};")
+	print_newline(options)
+	print_line(options, "} // namespace %s" % options.library)
+
 actions = {
-	"uniform_get_set" : action_uniform_get_set,
+	"gl_uniform_get_set" : action_gl_uniform_get_set,
+	"gl_vertex_attrib_get_set" : action_gl_vertex_attrib_get_set,
 	"info":    action_info
 }
 

@@ -71,8 +71,7 @@ struct prog_var_get_set_ops<tag::uniform>
 	static
 	outcome<void>
 	set(
-		identity<GLint>,
-		std::integral_constant<int, 1>,
+		identity<GLint[1]>,
 		uniform_location u,
 		GLsizei count,
 		const array_view<const GLint>& v
@@ -88,8 +87,7 @@ struct prog_var_get_set_ops<tag::uniform>
 	static
 	outcome<void>
 	set(
-		identity<GLint>,
-		std::integral_constant<int, 2>,
+		identity<GLint[2]>,
 		uniform_location u,
 		GLsizei count,
 		const array_view<const GLint>& v
@@ -105,8 +103,7 @@ struct prog_var_get_set_ops<tag::uniform>
 	static
 	outcome<void>
 	set(
-		identity<GLint>,
-		std::integral_constant<int, 3>,
+		identity<GLint[3]>,
 		uniform_location u,
 		GLsizei count,
 		const array_view<const GLint>& v
@@ -122,8 +119,7 @@ struct prog_var_get_set_ops<tag::uniform>
 	static
 	outcome<void>
 	set(
-		identity<GLint>,
-		std::integral_constant<int, 4>,
+		identity<GLint[4]>,
 		uniform_location u,
 		GLsizei count,
 		const array_view<const GLint>& v
@@ -191,8 +187,7 @@ struct prog_var_get_set_ops<tag::uniform>
 	static
 	outcome<void>
 	set(
-		identity<GLuint>,
-		std::integral_constant<int, 1>,
+		identity<GLuint[1]>,
 		uniform_location u,
 		GLsizei count,
 		const array_view<const GLuint>& v
@@ -208,8 +203,7 @@ struct prog_var_get_set_ops<tag::uniform>
 	static
 	outcome<void>
 	set(
-		identity<GLuint>,
-		std::integral_constant<int, 2>,
+		identity<GLuint[2]>,
 		uniform_location u,
 		GLsizei count,
 		const array_view<const GLuint>& v
@@ -225,8 +219,7 @@ struct prog_var_get_set_ops<tag::uniform>
 	static
 	outcome<void>
 	set(
-		identity<GLuint>,
-		std::integral_constant<int, 3>,
+		identity<GLuint[3]>,
 		uniform_location u,
 		GLsizei count,
 		const array_view<const GLuint>& v
@@ -242,8 +235,7 @@ struct prog_var_get_set_ops<tag::uniform>
 	static
 	outcome<void>
 	set(
-		identity<GLuint>,
-		std::integral_constant<int, 4>,
+		identity<GLuint[4]>,
 		uniform_location u,
 		GLsizei count,
 		const array_view<const GLuint>& v
@@ -311,8 +303,7 @@ struct prog_var_get_set_ops<tag::uniform>
 	static
 	outcome<void>
 	set(
-		identity<GLfloat>,
-		std::integral_constant<int, 1>,
+		identity<GLfloat[1]>,
 		uniform_location u,
 		GLsizei count,
 		const array_view<const GLfloat>& v
@@ -328,8 +319,7 @@ struct prog_var_get_set_ops<tag::uniform>
 	static
 	outcome<void>
 	set(
-		identity<GLfloat>,
-		std::integral_constant<int, 2>,
+		identity<GLfloat[2]>,
 		uniform_location u,
 		GLsizei count,
 		const array_view<const GLfloat>& v
@@ -345,8 +335,7 @@ struct prog_var_get_set_ops<tag::uniform>
 	static
 	outcome<void>
 	set(
-		identity<GLfloat>,
-		std::integral_constant<int, 3>,
+		identity<GLfloat[3]>,
 		uniform_location u,
 		GLsizei count,
 		const array_view<const GLfloat>& v
@@ -362,8 +351,7 @@ struct prog_var_get_set_ops<tag::uniform>
 	static
 	outcome<void>
 	set(
-		identity<GLfloat>,
-		std::integral_constant<int, 4>,
+		identity<GLfloat[4]>,
 		uniform_location u,
 		GLsizei count,
 		const array_view<const GLfloat>& v
@@ -373,6 +361,159 @@ struct prog_var_get_set_ops<tag::uniform>
 		assert(v.size() >= std::size_t(4*count));
 		OGLPLUS_GLFUNC(Uniform4fv)(u.location(), count, v.data());
 		OGLPLUS_VERIFY_SIMPLE(Uniform4fv, always);
+		return {};
+	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLfloat[2][2]>,
+		uniform_location u,
+		GLsizei count,
+		GLboolean transpose,
+		const array_view<const GLfloat>& v
+	) noexcept
+	{
+		assert(count >= 0);
+		assert(v.size() >= std::size_t(2*2*count));
+		OGLPLUS_GLFUNC(UniformMatrix2fv)(u.location(), count, transpose, v.data());
+		OGLPLUS_VERIFY_SIMPLE(UniformMatrix2fv, always);
+		return {};
+	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLfloat[2][3]>,
+		uniform_location u,
+		GLsizei count,
+		GLboolean transpose,
+		const array_view<const GLfloat>& v
+	) noexcept
+	{
+		assert(count >= 0);
+		assert(v.size() >= std::size_t(2*3*count));
+		OGLPLUS_GLFUNC(UniformMatrix2x3fv)(u.location(), count, transpose, v.data());
+		OGLPLUS_VERIFY_SIMPLE(UniformMatrix2x3fv, always);
+		return {};
+	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLfloat[2][4]>,
+		uniform_location u,
+		GLsizei count,
+		GLboolean transpose,
+		const array_view<const GLfloat>& v
+	) noexcept
+	{
+		assert(count >= 0);
+		assert(v.size() >= std::size_t(2*4*count));
+		OGLPLUS_GLFUNC(UniformMatrix2x4fv)(u.location(), count, transpose, v.data());
+		OGLPLUS_VERIFY_SIMPLE(UniformMatrix2x4fv, always);
+		return {};
+	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLfloat[3][2]>,
+		uniform_location u,
+		GLsizei count,
+		GLboolean transpose,
+		const array_view<const GLfloat>& v
+	) noexcept
+	{
+		assert(count >= 0);
+		assert(v.size() >= std::size_t(3*2*count));
+		OGLPLUS_GLFUNC(UniformMatrix3x2fv)(u.location(), count, transpose, v.data());
+		OGLPLUS_VERIFY_SIMPLE(UniformMatrix3x2fv, always);
+		return {};
+	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLfloat[3][3]>,
+		uniform_location u,
+		GLsizei count,
+		GLboolean transpose,
+		const array_view<const GLfloat>& v
+	) noexcept
+	{
+		assert(count >= 0);
+		assert(v.size() >= std::size_t(3*3*count));
+		OGLPLUS_GLFUNC(UniformMatrix3fv)(u.location(), count, transpose, v.data());
+		OGLPLUS_VERIFY_SIMPLE(UniformMatrix3fv, always);
+		return {};
+	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLfloat[3][4]>,
+		uniform_location u,
+		GLsizei count,
+		GLboolean transpose,
+		const array_view<const GLfloat>& v
+	) noexcept
+	{
+		assert(count >= 0);
+		assert(v.size() >= std::size_t(3*4*count));
+		OGLPLUS_GLFUNC(UniformMatrix3x4fv)(u.location(), count, transpose, v.data());
+		OGLPLUS_VERIFY_SIMPLE(UniformMatrix3x4fv, always);
+		return {};
+	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLfloat[4][2]>,
+		uniform_location u,
+		GLsizei count,
+		GLboolean transpose,
+		const array_view<const GLfloat>& v
+	) noexcept
+	{
+		assert(count >= 0);
+		assert(v.size() >= std::size_t(4*2*count));
+		OGLPLUS_GLFUNC(UniformMatrix4x2fv)(u.location(), count, transpose, v.data());
+		OGLPLUS_VERIFY_SIMPLE(UniformMatrix4x2fv, always);
+		return {};
+	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLfloat[4][3]>,
+		uniform_location u,
+		GLsizei count,
+		GLboolean transpose,
+		const array_view<const GLfloat>& v
+	) noexcept
+	{
+		assert(count >= 0);
+		assert(v.size() >= std::size_t(4*3*count));
+		OGLPLUS_GLFUNC(UniformMatrix4x3fv)(u.location(), count, transpose, v.data());
+		OGLPLUS_VERIFY_SIMPLE(UniformMatrix4x3fv, always);
+		return {};
+	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLfloat[4][4]>,
+		uniform_location u,
+		GLsizei count,
+		GLboolean transpose,
+		const array_view<const GLfloat>& v
+	) noexcept
+	{
+		assert(count >= 0);
+		assert(v.size() >= std::size_t(4*4*count));
+		OGLPLUS_GLFUNC(UniformMatrix4fv)(u.location(), count, transpose, v.data());
+		OGLPLUS_VERIFY_SIMPLE(UniformMatrix4fv, always);
 		return {};
 	}
 
@@ -465,8 +606,7 @@ struct prog_var_get_set_ops<tag::uniform>
 	static
 	outcome<void>
 	set(
-		identity<GLint>,
-		std::integral_constant<int, 1>,
+		identity<GLint[1]>,
 		program_uniform_location pu,
 		GLsizei count,
 		const array_view<const GLint>& v
@@ -491,8 +631,7 @@ struct prog_var_get_set_ops<tag::uniform>
 	static
 	outcome<void>
 	set(
-		identity<GLint>,
-		std::integral_constant<int, 2>,
+		identity<GLint[2]>,
 		program_uniform_location pu,
 		GLsizei count,
 		const array_view<const GLint>& v
@@ -517,8 +656,7 @@ struct prog_var_get_set_ops<tag::uniform>
 	static
 	outcome<void>
 	set(
-		identity<GLint>,
-		std::integral_constant<int, 3>,
+		identity<GLint[3]>,
 		program_uniform_location pu,
 		GLsizei count,
 		const array_view<const GLint>& v
@@ -543,8 +681,7 @@ struct prog_var_get_set_ops<tag::uniform>
 	static
 	outcome<void>
 	set(
-		identity<GLint>,
-		std::integral_constant<int, 4>,
+		identity<GLint[4]>,
 		program_uniform_location pu,
 		GLsizei count,
 		const array_view<const GLint>& v
@@ -653,8 +790,7 @@ struct prog_var_get_set_ops<tag::uniform>
 	static
 	outcome<void>
 	set(
-		identity<GLuint>,
-		std::integral_constant<int, 1>,
+		identity<GLuint[1]>,
 		program_uniform_location pu,
 		GLsizei count,
 		const array_view<const GLuint>& v
@@ -679,8 +815,7 @@ struct prog_var_get_set_ops<tag::uniform>
 	static
 	outcome<void>
 	set(
-		identity<GLuint>,
-		std::integral_constant<int, 2>,
+		identity<GLuint[2]>,
 		program_uniform_location pu,
 		GLsizei count,
 		const array_view<const GLuint>& v
@@ -705,8 +840,7 @@ struct prog_var_get_set_ops<tag::uniform>
 	static
 	outcome<void>
 	set(
-		identity<GLuint>,
-		std::integral_constant<int, 3>,
+		identity<GLuint[3]>,
 		program_uniform_location pu,
 		GLsizei count,
 		const array_view<const GLuint>& v
@@ -731,8 +865,7 @@ struct prog_var_get_set_ops<tag::uniform>
 	static
 	outcome<void>
 	set(
-		identity<GLuint>,
-		std::integral_constant<int, 4>,
+		identity<GLuint[4]>,
 		program_uniform_location pu,
 		GLsizei count,
 		const array_view<const GLuint>& v
@@ -841,8 +974,7 @@ struct prog_var_get_set_ops<tag::uniform>
 	static
 	outcome<void>
 	set(
-		identity<GLfloat>,
-		std::integral_constant<int, 1>,
+		identity<GLfloat[1]>,
 		program_uniform_location pu,
 		GLsizei count,
 		const array_view<const GLfloat>& v
@@ -867,8 +999,7 @@ struct prog_var_get_set_ops<tag::uniform>
 	static
 	outcome<void>
 	set(
-		identity<GLfloat>,
-		std::integral_constant<int, 2>,
+		identity<GLfloat[2]>,
 		program_uniform_location pu,
 		GLsizei count,
 		const array_view<const GLfloat>& v
@@ -893,8 +1024,7 @@ struct prog_var_get_set_ops<tag::uniform>
 	static
 	outcome<void>
 	set(
-		identity<GLfloat>,
-		std::integral_constant<int, 3>,
+		identity<GLfloat[3]>,
 		program_uniform_location pu,
 		GLsizei count,
 		const array_view<const GLfloat>& v
@@ -919,8 +1049,7 @@ struct prog_var_get_set_ops<tag::uniform>
 	static
 	outcome<void>
 	set(
-		identity<GLfloat>,
-		std::integral_constant<int, 4>,
+		identity<GLfloat[4]>,
 		program_uniform_location pu,
 		GLsizei count,
 		const array_view<const GLfloat>& v
@@ -939,6 +1068,213 @@ struct prog_var_get_set_ops<tag::uniform>
 			gl_object(pu.program()),
 			always
 		);
+		return {};
+	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLfloat[2][2]>,
+		program_uniform_location pu,
+		GLsizei count,
+		GLboolean transpose,
+		const array_view<const GLfloat>& v
+	) noexcept
+	{
+		assert(count >= 0);
+		assert(v.size() >= std::size_t(2*2*count));
+		OGLPLUS_GLFUNC(ProgramUniformMatrix2fv)(
+			get_raw_name(pu.program()),
+			pu.location(),
+			count,
+			transpose,
+			v.data()
+		);
+		OGLPLUS_VERIFY_SIMPLE(ProgramUniformMatrix2fv, always);
+		return {};
+	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLfloat[2][3]>,
+		program_uniform_location pu,
+		GLsizei count,
+		GLboolean transpose,
+		const array_view<const GLfloat>& v
+	) noexcept
+	{
+		assert(count >= 0);
+		assert(v.size() >= std::size_t(2*3*count));
+		OGLPLUS_GLFUNC(ProgramUniformMatrix2x3fv)(
+			get_raw_name(pu.program()),
+			pu.location(),
+			count,
+			transpose,
+			v.data()
+		);
+		OGLPLUS_VERIFY_SIMPLE(ProgramUniformMatrix2x3fv, always);
+		return {};
+	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLfloat[2][4]>,
+		program_uniform_location pu,
+		GLsizei count,
+		GLboolean transpose,
+		const array_view<const GLfloat>& v
+	) noexcept
+	{
+		assert(count >= 0);
+		assert(v.size() >= std::size_t(2*4*count));
+		OGLPLUS_GLFUNC(ProgramUniformMatrix2x4fv)(
+			get_raw_name(pu.program()),
+			pu.location(),
+			count,
+			transpose,
+			v.data()
+		);
+		OGLPLUS_VERIFY_SIMPLE(ProgramUniformMatrix2x4fv, always);
+		return {};
+	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLfloat[3][2]>,
+		program_uniform_location pu,
+		GLsizei count,
+		GLboolean transpose,
+		const array_view<const GLfloat>& v
+	) noexcept
+	{
+		assert(count >= 0);
+		assert(v.size() >= std::size_t(3*2*count));
+		OGLPLUS_GLFUNC(ProgramUniformMatrix3x2fv)(
+			get_raw_name(pu.program()),
+			pu.location(),
+			count,
+			transpose,
+			v.data()
+		);
+		OGLPLUS_VERIFY_SIMPLE(ProgramUniformMatrix3x2fv, always);
+		return {};
+	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLfloat[3][3]>,
+		program_uniform_location pu,
+		GLsizei count,
+		GLboolean transpose,
+		const array_view<const GLfloat>& v
+	) noexcept
+	{
+		assert(count >= 0);
+		assert(v.size() >= std::size_t(3*3*count));
+		OGLPLUS_GLFUNC(ProgramUniformMatrix3fv)(
+			get_raw_name(pu.program()),
+			pu.location(),
+			count,
+			transpose,
+			v.data()
+		);
+		OGLPLUS_VERIFY_SIMPLE(ProgramUniformMatrix3fv, always);
+		return {};
+	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLfloat[3][4]>,
+		program_uniform_location pu,
+		GLsizei count,
+		GLboolean transpose,
+		const array_view<const GLfloat>& v
+	) noexcept
+	{
+		assert(count >= 0);
+		assert(v.size() >= std::size_t(3*4*count));
+		OGLPLUS_GLFUNC(ProgramUniformMatrix3x4fv)(
+			get_raw_name(pu.program()),
+			pu.location(),
+			count,
+			transpose,
+			v.data()
+		);
+		OGLPLUS_VERIFY_SIMPLE(ProgramUniformMatrix3x4fv, always);
+		return {};
+	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLfloat[4][2]>,
+		program_uniform_location pu,
+		GLsizei count,
+		GLboolean transpose,
+		const array_view<const GLfloat>& v
+	) noexcept
+	{
+		assert(count >= 0);
+		assert(v.size() >= std::size_t(4*2*count));
+		OGLPLUS_GLFUNC(ProgramUniformMatrix4x2fv)(
+			get_raw_name(pu.program()),
+			pu.location(),
+			count,
+			transpose,
+			v.data()
+		);
+		OGLPLUS_VERIFY_SIMPLE(ProgramUniformMatrix4x2fv, always);
+		return {};
+	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLfloat[4][3]>,
+		program_uniform_location pu,
+		GLsizei count,
+		GLboolean transpose,
+		const array_view<const GLfloat>& v
+	) noexcept
+	{
+		assert(count >= 0);
+		assert(v.size() >= std::size_t(4*3*count));
+		OGLPLUS_GLFUNC(ProgramUniformMatrix4x3fv)(
+			get_raw_name(pu.program()),
+			pu.location(),
+			count,
+			transpose,
+			v.data()
+		);
+		OGLPLUS_VERIFY_SIMPLE(ProgramUniformMatrix4x3fv, always);
+		return {};
+	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLfloat[4][4]>,
+		program_uniform_location pu,
+		GLsizei count,
+		GLboolean transpose,
+		const array_view<const GLfloat>& v
+	) noexcept
+	{
+		assert(count >= 0);
+		assert(v.size() >= std::size_t(4*4*count));
+		OGLPLUS_GLFUNC(ProgramUniformMatrix4fv)(
+			get_raw_name(pu.program()),
+			pu.location(),
+			count,
+			transpose,
+			v.data()
+		);
+		OGLPLUS_VERIFY_SIMPLE(ProgramUniformMatrix4fv, always);
 		return {};
 	}
 #endif
