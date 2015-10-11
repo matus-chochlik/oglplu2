@@ -100,7 +100,7 @@ BOOST_AUTO_TEST_CASE(outcome_ok_void)
 	try
 	{
 		ok_void();
-		BOOST_CHECK(ok_void().done());
+		BOOST_CHECK(ok_void().succeeded());
 		BOOST_CHECK(ok_void().done_without_error());
 		passed = true;
 	}
@@ -234,7 +234,7 @@ BOOST_AUTO_TEST_CASE(outcome_ok_string)
 	try
 	{
 		BOOST_CHECK_EQUAL(ok_string().get(), "ok");
-		BOOST_CHECK(ok_string().done());
+		BOOST_CHECK(ok_string().succeeded());
 		BOOST_CHECK(ok_string().done_without_error());
 		passed = true;
 	}
@@ -372,7 +372,7 @@ BOOST_AUTO_TEST_CASE(outcome_ok_ref)
 		BOOST_CHECK_EQUAL(ok_ref(i).get(), i);
 		BOOST_CHECK_EQUAL(&ok_ref(i).get(), &i);
 
-		BOOST_CHECK(ok_ref(i).done());
+		BOOST_CHECK(ok_ref(i).succeeded());
 		BOOST_CHECK(ok_ref(i).done_without_error());
 		passed = true;
 	}

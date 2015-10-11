@@ -11,7 +11,8 @@
 
 #include "prog_var/location.hpp"
 #include "prog_var/wrapper.hpp"
-#include "utils/cstr_ref.hpp"
+#include "utils/identity.hpp"
+#include "utils/array_view.hpp"
 
 namespace oglplus {
 namespace tag {
@@ -24,6 +25,11 @@ using uniform_location = prog_var_loc<tag::uniform>;
 
 template <typename T>
 using uniform = prog_var_wrapper<uniform_location, T>;
+
+using program_uniform_location = dsa_prog_var_loc<tag::uniform>;
+
+template <typename T>
+using program_uniform = prog_var_wrapper<program_uniform_location, T>;
 
 template <>
 struct prog_var_loc_ops<tag::uniform>
@@ -42,7 +48,7 @@ struct prog_var_loc_ops<tag::uniform>
 		OGLPLUS_VERIFY(
 			GetAttribLocation,
 			gl_object(prog), // TODO identifier
-			debug
+			always
 		);
 
 		return {prog_var_loc<tag>{loc}};
@@ -50,5 +56,7 @@ struct prog_var_loc_ops<tag::uniform>
 };
 
 } // namespace oglplus
+
+#include <oglplus/uniform_get_set.inl>
 
 #endif // include guard

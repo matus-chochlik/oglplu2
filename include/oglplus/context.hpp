@@ -14,6 +14,7 @@
 #include "ctxt/buffer_clearing.hpp"
 #include "ctxt/object_lifetime.hpp"
 #include "ctxt/prog_var_location.hpp"
+#include "ctxt/prog_var_get_set.hpp"
 #include "ctxt/drawing.hpp"
 #include "ctxt/synchronization.hpp"
 
@@ -37,17 +38,18 @@ class context
  , public ctxt::viewport_state
  , public ctxt::buffer_clearing_state
  , public ctxt::buffer_clearing_ops
- , public ctxt::object_lifetime_ops
- , public ctxt::prog_var_location_ops
  , public ctxt::drawing_ops
  , public ctxt::synchronization
 
+ , public ctxt::object_lifetime_ops
  , public ctxt::vertex_array_ops
  , public ctxt::buffer_ops
  , public ctxt::texture_ops
  , public ctxt::shader_ops
  , public ctxt::program_ops
 
+ , public ctxt::prog_var_location_ops
+ , public ctxt::prog_var_get_set_ops
  , public ctxt::vertex_attrib_ops
  , public ctxt::uniform_ops
 

@@ -11,6 +11,7 @@
 
 #include "fwd.hpp"
 #include "../program.hpp"
+#include "../utils/cstr_ref.hpp"
 
 namespace oglplus {
 

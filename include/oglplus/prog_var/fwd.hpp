@@ -17,6 +17,9 @@ class prog_var_loc;
 template <typename VarTag>
 struct prog_var_loc_ops;
 
+template <typename VarTag>
+struct prog_var_get_set_ops;
+
 template <typename ProgVarLoc, typename T>
 class prog_var_wrapper;
 

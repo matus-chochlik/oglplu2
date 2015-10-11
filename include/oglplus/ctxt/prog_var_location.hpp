@@ -9,7 +9,6 @@
 #ifndef OGLPLUS_CTXT_PROG_VAR_LOCATION_1509260923_HPP
 #define OGLPLUS_CTXT_PROG_VAR_LOCATION_1509260923_HPP
 
-#include "../utils/gl_func.hpp"
 #include "../utils/cstr_ref.hpp"
 #include "../error/handling.hpp"
 #include "../error/outcome.hpp"

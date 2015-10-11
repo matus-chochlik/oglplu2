@@ -35,6 +35,13 @@ public:
 	{ }
 
 	constexpr
+	dsa_prog_var_loc(program_name prog, prog_var_loc<VarTag> loc)
+	noexcept
+	 : prog_var_loc<VarTag>(loc)
+	 , _prog(get_raw_name(prog))
+	{ }
+
+	constexpr
 	program_name program(void) const
 	noexcept
 	{

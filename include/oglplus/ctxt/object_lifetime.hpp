@@ -9,7 +9,6 @@
 #ifndef OGLPLUS_CTXT_OBJECT_LIFETIME_1509260923_HPP
 #define OGLPLUS_CTXT_OBJECT_LIFETIME_1509260923_HPP
 
-#include "../utils/gl_func.hpp"
 #include "../error/handling.hpp"
 #include "../error/outcome.hpp"
 #include "../object/lifetime.hpp"

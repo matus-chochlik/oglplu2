@@ -11,7 +11,6 @@
 
 #include "prog_var/location.hpp"
 #include "prog_var/wrapper.hpp"
-#include "utils/cstr_ref.hpp"
 
 namespace oglplus {
 namespace tag {
@@ -42,7 +41,7 @@ struct prog_var_loc_ops<tag::vertex_attrib>
 		OGLPLUS_VERIFY(
 			GetAttribLocation,
 			gl_object(prog), // TODO identifier
-			debug
+			always
 		);
 
 		return {prog_var_loc<tag>{loc}};
