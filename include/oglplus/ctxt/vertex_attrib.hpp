@@ -17,6 +17,96 @@ namespace ctxt {
 
 struct vertex_attrib_ops
 {
+	template <
+		typename T,
+		bool D,
+		typename V0
+	>
+	static inline
+	outcome<void>
+	vertex_attrib(
+		prog_var_wrapper<prog_var_loc<tag::vertex_attrib, D>, T> loc,
+		V0 v0,
+		bool check_error = true
+	) noexcept
+	{
+		return oglplus::prog_var_get_set_ops<tag::vertex_attrib>::set(
+			identity<T>(),
+			loc,
+			check_error,
+			v0
+		);
+	}
+
+	template <
+		typename T,
+		bool D,
+		typename V0,
+		typename V1
+	>
+	static inline
+	outcome<void>
+	vertex_attrib(
+		prog_var_wrapper<prog_var_loc<tag::vertex_attrib, D>, T> loc,
+		V0 v0, V1 v1,
+		bool check_error = true
+	) noexcept
+	{
+		return oglplus::prog_var_get_set_ops<tag::vertex_attrib>::set(
+			identity<T>(),
+			loc,
+			check_error,
+			v0, v1
+		);
+	}
+
+	template <
+		typename T,
+		bool D,
+		typename V0,
+		typename V1,
+		typename V2
+	>
+	static inline
+	outcome<void>
+	vertex_attrib(
+		prog_var_wrapper<prog_var_loc<tag::vertex_attrib, D>, T> loc,
+		V0 v0, V1 v1, V2 v2,
+		bool check_error = true
+	) noexcept
+	{
+		return oglplus::prog_var_get_set_ops<tag::vertex_attrib>::set(
+			identity<T>(),
+			loc,
+			check_error,
+			v0, v1, v2
+		);
+	}
+
+	template <
+		typename T,
+		bool D,
+		typename V0,
+		typename V1,
+		typename V2,
+		typename V3
+	>
+	static inline
+	outcome<void>
+	vertex_attrib(
+		prog_var_wrapper<prog_var_loc<tag::vertex_attrib, D>, T> loc,
+		V0 v0, V1 v1, V2 v2, V3 v3,
+		bool check_error = true
+	) noexcept
+	{
+		return oglplus::prog_var_get_set_ops<tag::vertex_attrib>::set(
+			identity<T>(),
+			loc,
+			check_error,
+			v0, v1, v2, v3
+		);
+	}
+
 	static
 	outcome<void>
 	enable_array(vertex_attrib_location va)

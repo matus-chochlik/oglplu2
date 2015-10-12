@@ -12,12 +12,11 @@
 #include "ctxt/capabilities.hpp"
 #include "ctxt/viewport.hpp"
 #include "ctxt/buffer_clearing.hpp"
-#include "ctxt/object_lifetime.hpp"
 #include "ctxt/prog_var_location.hpp"
-#include "ctxt/prog_var_get_set.hpp"
 #include "ctxt/drawing.hpp"
 #include "ctxt/synchronization.hpp"
 
+#include "ctxt/object_lifetime.hpp"
 #include "ctxt/vertex_array.hpp"
 #include "ctxt/buffer.hpp"
 #include "ctxt/texture.hpp"
@@ -49,7 +48,6 @@ class context
  , public ctxt::program_ops
 
  , public ctxt::prog_var_location_ops
- , public ctxt::prog_var_get_set_ops
  , public ctxt::vertex_attrib_ops
  , public ctxt::uniform_ops
 

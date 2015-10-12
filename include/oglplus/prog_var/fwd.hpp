@@ -11,7 +11,7 @@
 
 namespace oglplus {
 
-template <typename VarTag>
+template <typename VarTag, bool IsDSA = false>
 class prog_var_loc;
 
 template <typename VarTag>

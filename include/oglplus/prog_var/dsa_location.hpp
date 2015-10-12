@@ -14,8 +14,8 @@
 namespace oglplus {
 
 template <typename VarTag>
-class dsa_prog_var_loc
- : public prog_var_loc<VarTag>
+class prog_var_loc<VarTag, true>
+ : public prog_var_loc<VarTag, false>
 {
 private:
 	GLuint _prog;
@@ -28,14 +28,14 @@ private:
 	}
 public:
 	constexpr
-	dsa_prog_var_loc(void)
+	prog_var_loc(void)
 	noexcept
 	 : prog_var_loc<VarTag>()
 	 , _prog(_invalid_prog())
 	{ }
 
 	constexpr
-	dsa_prog_var_loc(program_name prog, prog_var_loc<VarTag> loc)
+	prog_var_loc(program_name prog, prog_var_loc<VarTag> loc)
 	noexcept
 	 : prog_var_loc<VarTag>(loc)
 	 , _prog(get_raw_name(prog))
@@ -70,19 +70,22 @@ public:
 	}
 
 	friend constexpr
-	bool operator == (dsa_prog_var_loc a, dsa_prog_var_loc b)
+	bool operator == (prog_var_loc a, prog_var_loc b)
 	noexcept
 	{
 		return (a._prog == b._prog) && (a._loc == b._loc);
 	}
 
 	friend constexpr
-	bool operator != (dsa_prog_var_loc a, dsa_prog_var_loc b)
+	bool operator != (prog_var_loc a, prog_var_loc b)
 	noexcept
 	{
 		return (a._prog != b._prog) || (a._loc != b._loc);
 	}
 };
+
+template <typename VarTag>
+using dsa_prog_var_loc = prog_var_loc<VarTag, true>;
 
 } // namespace oglplus
 

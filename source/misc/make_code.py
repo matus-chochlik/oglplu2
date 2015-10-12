@@ -320,6 +320,7 @@ def print_glVertexAttribNT(options, typ, prefix, n, infix):
 	print_line(options, "\tset%s%s(" % (prefix, infix))
 	print_line(options, "\t\tidentity<GL%s>," % typ)
 	print_line(options, "\t\tvertex_attrib_location va,")
+	print_line(options, "\t\tbool ge,")
 
 	print_line(options, "\t\t" + ", ".join(
 		["GL%s v%d" % (typ, i) for i in range(n)]
@@ -337,8 +338,8 @@ def print_glVertexAttribNT(options, typ, prefix, n, infix):
 	)
 	print_line(
 		options,
-		"\t\tOGLPLUS_VERIFY_SIMPLE"+
-		"(%s, always);" % glfunc
+		"\t\tif(ge) { OGLPLUS_VERIFY_SIMPLE"+
+		"(%s, always); }" % glfunc
 	)
 	print_line(options, "\t\treturn {};")
 	print_line(options, "\t}")
@@ -351,6 +352,7 @@ def print_glVertexAttribNTv(options, typ, prefix, n, infix):
 	print_line(options, "\tset%s%s(" % (prefix, infix))
 	print_line(options, "\t\tidentity<GL%s[%d]>," % (typ, n))
 	print_line(options, "\t\tvertex_attrib_location va,")
+	print_line(options, "\t\tbool ge,")
 	print_line(options, "\t\tconst array_view<const GL%s>& v" % typ)
 	print_line(options, "\t) noexcept")
 	print_line(options, "\t{")
@@ -363,8 +365,8 @@ def print_glVertexAttribNTv(options, typ, prefix, n, infix):
 	)
 	print_line(
 		options,
-		"\t\tOGLPLUS_VERIFY_SIMPLE"+
-		"(%s, always);" % glfunc
+		"\t\tif(ge) { OGLPLUS_VERIFY_SIMPLE"+
+		"(%s, always); }" % glfunc
 	)
 	print_line(options, "\t\treturn {};")
 	print_line(options, "\t}")

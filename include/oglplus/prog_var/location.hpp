@@ -15,7 +15,7 @@
 namespace oglplus {
 
 template <typename VarTag>
-class prog_var_loc
+class prog_var_loc<VarTag, false>
 {
 protected:
 	GLint _loc;

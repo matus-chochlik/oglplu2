@@ -11,6 +11,7 @@
 
 #include "prog_var/location.hpp"
 #include "prog_var/wrapper.hpp"
+#include "utils/identity.hpp"
 
 namespace oglplus {
 namespace tag {
