@@ -26,6 +26,8 @@ using buffer = gl_obj_tag<GL_BUFFER>;
 using buffer_name = object_name<tag::buffer>;
 using buffer = object_owner<tag::buffer>;
 
+static const object_zero<tag::buffer> no_buffer = {};
+
 template <>
 struct obj_gen_del_ops<tag::buffer>
 {

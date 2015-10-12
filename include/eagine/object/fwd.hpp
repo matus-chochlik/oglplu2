@@ -33,6 +33,9 @@ using object_name = object_names<
 	typename object_traits<ObjTag>::name_type
 >;
 
+template <typename ObjTag>
+class object_zero;
+
 template <typename ObjectNames>
 class owned;
 

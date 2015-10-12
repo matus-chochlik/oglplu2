@@ -26,6 +26,8 @@ using renderbuffer = gl_obj_tag<GL_RENDERBUFFER>;
 using renderbuffer_name = object_name<tag::renderbuffer>;
 using renderbuffer = object_owner<tag::renderbuffer>;
 
+static const object_zero<tag::renderbuffer> no_renderbuffer = {};
+
 template <>
 struct obj_gen_del_ops<tag::renderbuffer>
 {

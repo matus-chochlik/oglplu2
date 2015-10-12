@@ -22,6 +22,7 @@ using eagine::object_subtype_t;
 using eagine::object_names;
 
 using eagine::object_name;
+using eagine::object_zero;
 
 using eagine::owned;
 

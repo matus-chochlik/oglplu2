@@ -26,6 +26,8 @@ using transform_feedback = gl_obj_tag<GL_TRANSFORM_FEEDBACK>;
 using transform_feedback_name = object_name<tag::transform_feedback>;
 using transform_feedback = object_owner<tag::transform_feedback>;
 
+static const object_zero<tag::transform_feedback> default_transform_feedback = {};
+
 template <>
 struct obj_gen_del_ops<tag::transform_feedback>
 {

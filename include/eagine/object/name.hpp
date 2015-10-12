@@ -138,6 +138,18 @@ public:
 	}
 };
 
+template <typename ObjTag>
+class object_zero
+ : public object_name<ObjTag>
+{
+public:
+	constexpr inline
+	object_zero(void)
+	noexcept
+	 : object_name<ObjTag>(0)
+	{ }
+};
+
 } // namespace eagine
 
 #endif // include guard

@@ -26,6 +26,8 @@ using sampler = gl_obj_tag<GL_SAMPLER>;
 using sampler_name = object_name<tag::sampler>;
 using sampler = object_owner<tag::sampler>;
 
+static const object_zero<tag::sampler> no_sampler = {};
+
 template <>
 struct obj_gen_del_ops<tag::sampler>
 {

@@ -146,7 +146,7 @@ void init_and_run(void)
 
 		int width = 800, height = 600;
 
-		if(!glfwOpenWindow(width, height, 8, 8, 8, 8, 24, 8, GLFW_WINDOW))
+		if(!glfwOpenWindow(width, height, 8, 8, 8, 0, 0, 0, GLFW_WINDOW))
 		{
 			throw std::runtime_error("Error creating GLFW window");
 		}

@@ -26,6 +26,8 @@ using vertex_array = gl_obj_tag<GL_VERTEX_ARRAY>;
 using vertex_array_name = object_name<tag::vertex_array>;
 using vertex_array = object_owner<tag::vertex_array>;
 
+static const object_zero<tag::vertex_array> no_vertex_array = {};
+
 template <>
 struct obj_gen_del_ops<tag::vertex_array>
 {

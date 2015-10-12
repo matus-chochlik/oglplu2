@@ -26,6 +26,8 @@ using program = gl_obj_tag<GL_PROGRAM>;
 using program_name = object_name<tag::program>;
 using program = object_owner<tag::program>;
 
+static const object_zero<tag::program> no_program = {};
+
 template <>
 struct obj_gen_del_ops<tag::program>
 {

@@ -26,6 +26,8 @@ using framebuffer = gl_obj_tag<GL_FRAMEBUFFER>;
 using framebuffer_name = object_name<tag::framebuffer>;
 using framebuffer = object_owner<tag::framebuffer>;
 
+static const object_zero<tag::framebuffer> default_framebuffer = {};
+
 template <>
 struct obj_gen_del_ops<tag::framebuffer>
 {

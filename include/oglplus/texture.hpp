@@ -26,6 +26,8 @@ using texture = gl_obj_tag<GL_TEXTURE>;
 using texture_name = object_name<tag::texture>;
 using texture = object_owner<tag::texture>;
 
+static const object_zero<tag::texture> default_texture = {};
+
 template <>
 struct obj_gen_del_ops<tag::texture>
 {
