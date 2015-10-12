@@ -83,9 +83,10 @@ def print_glUniformNT(options, typ, n):
 
 	print_line(options, "\t) noexcept")
 	print_line(options, "\t{")
+	glfunc = "Uniform%d%s" % (n, info.suffix)
 	print_line(
 		options,
-		"\t\tOGLPLUS_GLFUNC(Uniform%d%s)" % (n, info.suffix) +
+		"\t\tOGLPLUS_GLFUNC(%s)" % glfunc +
 		"(u.location(), " +
 		", ".join(["v%d" % i for i in range(n)]) +
 		");"
@@ -93,7 +94,7 @@ def print_glUniformNT(options, typ, n):
 	print_line(
 		options,
 		"\t\tOGLPLUS_VERIFY_SIMPLE"+
-		"(Uniform%d%s, always);" % (n, info.suffix)
+		"(%s, always);" % glfunc
 	)
 	print_line(options, "\t\treturn {};")
 	print_line(options, "\t}")
@@ -112,15 +113,16 @@ def print_glUniformNTv(options, typ, n):
 	print_line(options, "\t{")
 	print_line(options, "\t\tassert(count >= 0);")
 	print_line(options, "\t\tassert(v.size() >= std::size_t(%d*count));" % (n))
+	glfunc = "Uniform%d%sv" % (n, info.suffix)
 	print_line(
 		options,
-		"\t\tOGLPLUS_GLFUNC(Uniform%d%sv)" % (n, info.suffix) +
+		"\t\tOGLPLUS_GLFUNC(%s)" % glfunc +
 		"(u.location(), count, v.data());"
 	)
 	print_line(
 		options,
 		"\t\tOGLPLUS_VERIFY_SIMPLE"+
-		"(Uniform%d%sv, always);" % (n, info.suffix)
+		"(%s, always);" % glfunc
 	)
 	print_line(options, "\t\treturn {};")
 	print_line(options, "\t}")
@@ -174,9 +176,10 @@ def print_glProgramUniformNT(options, typ, n):
 
 	print_line(options, "\t) noexcept")
 	print_line(options, "\t{")
+	glfunc = "ProgramUniform%d%s"  % (n, info.suffix)
 	print_line(
 		options,
-		"\t\tOGLPLUS_GLFUNC(ProgramUniform%d%s)(" % (n, info.suffix)
+		"\t\tOGLPLUS_GLFUNC(%s)(" % glfunc
 	)
 	print_line(options, "\t\t\tget_raw_name(pu.program()),")
 	print_line(options, "\t\t\tpu.location(),")
@@ -186,7 +189,7 @@ def print_glProgramUniformNT(options, typ, n):
 	)
 	print_line(options, "\t\t);")
 	print_line(options, "\t\tOGLPLUS_VERIFY(")
-	print_line(options, "\t\t\tProgramUniform%d%sv," % (n, info.suffix))
+	print_line(options, "\t\t\t%s," % glfunc) 
 	print_line(options, "\t\t\tgl_object(pu.program()),")
 	print_line(options, "\t\t\talways")
 	print_line(options, "\t\t);")
@@ -207,17 +210,15 @@ def print_glProgramUniformNTv(options, typ, n):
 	print_line(options, "\t{")
 	print_line(options, "\t\tassert(count >= 0);")
 	print_line(options, "\t\tassert(v.size() >= std::size_t(%d*count));" % (n))
-	print_line(
-		options,
-		"\t\tOGLPLUS_GLFUNC(ProgramUniform%d%sv)(" % (n, info.suffix)
-	)
+	glfunc = "ProgramUniform%d%sv"  % (n, info.suffix)
+	print_line(options, "\t\tOGLPLUS_GLFUNC(%s)(" % glfunc)
 	print_line(options, "\t\t\tget_raw_name(pu.program()),")
 	print_line(options, "\t\t\tpu.location(),")
 	print_line(options, "\t\t\tcount,")
 	print_line(options, "\t\t\tv.data()")
 	print_line(options, "\t\t);")
 	print_line(options, "\t\tOGLPLUS_VERIFY(")
-	print_line(options, "\t\t\tProgramUniform%d%sv," % (n, info.suffix))
+	print_line(options, "\t\t\t%s," % glfunc)
 	print_line(options, "\t\t\tgl_object(pu.program()),")
 	print_line(options, "\t\t\talways")
 	print_line(options, "\t\t);")
@@ -311,7 +312,7 @@ def action_gl_uniform_get_set(options):
 	print_line(options, "} // namespace %s" % options.library)
 
 
-def print_glVertexAttribNTv(options, typ, prefix, n, infix):
+def print_glVertexAttribNT(options, typ, prefix, n, infix):
 	info = type_infos[typ]
 	print_newline(options)
 	print_line(options, "\tstatic")
@@ -342,6 +343,32 @@ def print_glVertexAttribNTv(options, typ, prefix, n, infix):
 	print_line(options, "\t\treturn {};")
 	print_line(options, "\t}")
 
+def print_glVertexAttribNTv(options, typ, prefix, n, infix):
+	info = type_infos[typ]
+	print_newline(options)
+	print_line(options, "\tstatic")
+	print_line(options, "\toutcome<void>")
+	print_line(options, "\tset%s%s(" % (prefix, infix))
+	print_line(options, "\t\tidentity<GL%s[%d]>," % (typ, n))
+	print_line(options, "\t\tvertex_attrib_location va,")
+	print_line(options, "\t\tconst array_view<const GL%s>& v" % typ)
+	print_line(options, "\t) noexcept")
+	print_line(options, "\t{")
+	print_line(options, "\t\tassert(v.size() >= %d);" % (n))
+	glfunc = "VertexAttrib%s%d%s%sv" % (prefix, n, infix, info.suffix)
+	print_line(
+		options,
+		"\t\tOGLPLUS_GLFUNC(%s)" % glfunc +
+		"(va.index(), v.data());"
+	)
+	print_line(
+		options,
+		"\t\tOGLPLUS_VERIFY_SIMPLE"+
+		"(%s, always);" % glfunc
+	)
+	print_line(options, "\t\treturn {};")
+	print_line(options, "\t}")
+
 def action_gl_vertex_attrib_get_set(options):
 	print_cpp_header(options)
 
@@ -356,12 +383,17 @@ def action_gl_vertex_attrib_get_set(options):
 	for typ in ["short", "int", "uint", "float", "double"]:
 		prefix = "I" if typ in ["int", "uint"] else ""
 		for n in range(1,5):
-			print_glVertexAttribNTv(options, typ, prefix, n, "")
+			print_glVertexAttribNT(options, typ, prefix, n, "")
 
-	print_glVertexAttribNTv(options, "ubyte", "", 4, "N")
+	print_glVertexAttribNT(options, "ubyte", "", 4, "N")
 
 	for n in range(1,5):
-		print_glVertexAttribNTv(options, "double", "L", n, "")
+		print_glVertexAttribNT(options, "double", "L", n, "")
+
+	for typ in ["short", "int", "uint", "float", "double"]:
+		prefix = "I" if typ in ["int", "uint"] else ""
+		for n in range(1,5):
+			print_glVertexAttribNTv(options, typ, prefix, n, "")
 
 
 	print_line(options, "};")

@@ -533,7 +533,7 @@ struct prog_var_get_set_ops<tag::uniform>
 			v0
 		);
 		OGLPLUS_VERIFY(
-			ProgramUniform1iv,
+			ProgramUniform1i,
 			gl_object(pu.program()),
 			always
 		);
@@ -554,7 +554,7 @@ struct prog_var_get_set_ops<tag::uniform>
 			v0, v1
 		);
 		OGLPLUS_VERIFY(
-			ProgramUniform2iv,
+			ProgramUniform2i,
 			gl_object(pu.program()),
 			always
 		);
@@ -575,7 +575,7 @@ struct prog_var_get_set_ops<tag::uniform>
 			v0, v1, v2
 		);
 		OGLPLUS_VERIFY(
-			ProgramUniform3iv,
+			ProgramUniform3i,
 			gl_object(pu.program()),
 			always
 		);
@@ -596,7 +596,7 @@ struct prog_var_get_set_ops<tag::uniform>
 			v0, v1, v2, v3
 		);
 		OGLPLUS_VERIFY(
-			ProgramUniform4iv,
+			ProgramUniform4i,
 			gl_object(pu.program()),
 			always
 		);
@@ -717,7 +717,7 @@ struct prog_var_get_set_ops<tag::uniform>
 			v0
 		);
 		OGLPLUS_VERIFY(
-			ProgramUniform1uiv,
+			ProgramUniform1ui,
 			gl_object(pu.program()),
 			always
 		);
@@ -738,7 +738,7 @@ struct prog_var_get_set_ops<tag::uniform>
 			v0, v1
 		);
 		OGLPLUS_VERIFY(
-			ProgramUniform2uiv,
+			ProgramUniform2ui,
 			gl_object(pu.program()),
 			always
 		);
@@ -759,7 +759,7 @@ struct prog_var_get_set_ops<tag::uniform>
 			v0, v1, v2
 		);
 		OGLPLUS_VERIFY(
-			ProgramUniform3uiv,
+			ProgramUniform3ui,
 			gl_object(pu.program()),
 			always
 		);
@@ -780,7 +780,7 @@ struct prog_var_get_set_ops<tag::uniform>
 			v0, v1, v2, v3
 		);
 		OGLPLUS_VERIFY(
-			ProgramUniform4uiv,
+			ProgramUniform4ui,
 			gl_object(pu.program()),
 			always
 		);
@@ -901,7 +901,7 @@ struct prog_var_get_set_ops<tag::uniform>
 			v0
 		);
 		OGLPLUS_VERIFY(
-			ProgramUniform1fv,
+			ProgramUniform1f,
 			gl_object(pu.program()),
 			always
 		);
@@ -922,7 +922,7 @@ struct prog_var_get_set_ops<tag::uniform>
 			v0, v1
 		);
 		OGLPLUS_VERIFY(
-			ProgramUniform2fv,
+			ProgramUniform2f,
 			gl_object(pu.program()),
 			always
 		);
@@ -943,7 +943,7 @@ struct prog_var_get_set_ops<tag::uniform>
 			v0, v1, v2
 		);
 		OGLPLUS_VERIFY(
-			ProgramUniform3fv,
+			ProgramUniform3f,
 			gl_object(pu.program()),
 			always
 		);
@@ -964,7 +964,7 @@ struct prog_var_get_set_ops<tag::uniform>
 			v0, v1, v2, v3
 		);
 		OGLPLUS_VERIFY(
-			ProgramUniform4fv,
+			ProgramUniform4f,
 			gl_object(pu.program()),
 			always
 		);

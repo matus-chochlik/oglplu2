@@ -340,6 +340,286 @@ struct prog_var_get_set_ops<tag::vertex_attrib>
 		OGLPLUS_VERIFY_SIMPLE(VertexAttribL4d, always);
 		return {};
 	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLshort[1]>,
+		vertex_attrib_location va,
+		const array_view<const GLshort>& v
+	) noexcept
+	{
+		assert(v.size() >= 1);
+		OGLPLUS_GLFUNC(VertexAttrib1sv)(va.index(), v.data());
+		OGLPLUS_VERIFY_SIMPLE(VertexAttrib1sv, always);
+		return {};
+	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLshort[2]>,
+		vertex_attrib_location va,
+		const array_view<const GLshort>& v
+	) noexcept
+	{
+		assert(v.size() >= 2);
+		OGLPLUS_GLFUNC(VertexAttrib2sv)(va.index(), v.data());
+		OGLPLUS_VERIFY_SIMPLE(VertexAttrib2sv, always);
+		return {};
+	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLshort[3]>,
+		vertex_attrib_location va,
+		const array_view<const GLshort>& v
+	) noexcept
+	{
+		assert(v.size() >= 3);
+		OGLPLUS_GLFUNC(VertexAttrib3sv)(va.index(), v.data());
+		OGLPLUS_VERIFY_SIMPLE(VertexAttrib3sv, always);
+		return {};
+	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLshort[4]>,
+		vertex_attrib_location va,
+		const array_view<const GLshort>& v
+	) noexcept
+	{
+		assert(v.size() >= 4);
+		OGLPLUS_GLFUNC(VertexAttrib4sv)(va.index(), v.data());
+		OGLPLUS_VERIFY_SIMPLE(VertexAttrib4sv, always);
+		return {};
+	}
+
+	static
+	outcome<void>
+	setI(
+		identity<GLint[1]>,
+		vertex_attrib_location va,
+		const array_view<const GLint>& v
+	) noexcept
+	{
+		assert(v.size() >= 1);
+		OGLPLUS_GLFUNC(VertexAttribI1iv)(va.index(), v.data());
+		OGLPLUS_VERIFY_SIMPLE(VertexAttribI1iv, always);
+		return {};
+	}
+
+	static
+	outcome<void>
+	setI(
+		identity<GLint[2]>,
+		vertex_attrib_location va,
+		const array_view<const GLint>& v
+	) noexcept
+	{
+		assert(v.size() >= 2);
+		OGLPLUS_GLFUNC(VertexAttribI2iv)(va.index(), v.data());
+		OGLPLUS_VERIFY_SIMPLE(VertexAttribI2iv, always);
+		return {};
+	}
+
+	static
+	outcome<void>
+	setI(
+		identity<GLint[3]>,
+		vertex_attrib_location va,
+		const array_view<const GLint>& v
+	) noexcept
+	{
+		assert(v.size() >= 3);
+		OGLPLUS_GLFUNC(VertexAttribI3iv)(va.index(), v.data());
+		OGLPLUS_VERIFY_SIMPLE(VertexAttribI3iv, always);
+		return {};
+	}
+
+	static
+	outcome<void>
+	setI(
+		identity<GLint[4]>,
+		vertex_attrib_location va,
+		const array_view<const GLint>& v
+	) noexcept
+	{
+		assert(v.size() >= 4);
+		OGLPLUS_GLFUNC(VertexAttribI4iv)(va.index(), v.data());
+		OGLPLUS_VERIFY_SIMPLE(VertexAttribI4iv, always);
+		return {};
+	}
+
+	static
+	outcome<void>
+	setI(
+		identity<GLuint[1]>,
+		vertex_attrib_location va,
+		const array_view<const GLuint>& v
+	) noexcept
+	{
+		assert(v.size() >= 1);
+		OGLPLUS_GLFUNC(VertexAttribI1uiv)(va.index(), v.data());
+		OGLPLUS_VERIFY_SIMPLE(VertexAttribI1uiv, always);
+		return {};
+	}
+
+	static
+	outcome<void>
+	setI(
+		identity<GLuint[2]>,
+		vertex_attrib_location va,
+		const array_view<const GLuint>& v
+	) noexcept
+	{
+		assert(v.size() >= 2);
+		OGLPLUS_GLFUNC(VertexAttribI2uiv)(va.index(), v.data());
+		OGLPLUS_VERIFY_SIMPLE(VertexAttribI2uiv, always);
+		return {};
+	}
+
+	static
+	outcome<void>
+	setI(
+		identity<GLuint[3]>,
+		vertex_attrib_location va,
+		const array_view<const GLuint>& v
+	) noexcept
+	{
+		assert(v.size() >= 3);
+		OGLPLUS_GLFUNC(VertexAttribI3uiv)(va.index(), v.data());
+		OGLPLUS_VERIFY_SIMPLE(VertexAttribI3uiv, always);
+		return {};
+	}
+
+	static
+	outcome<void>
+	setI(
+		identity<GLuint[4]>,
+		vertex_attrib_location va,
+		const array_view<const GLuint>& v
+	) noexcept
+	{
+		assert(v.size() >= 4);
+		OGLPLUS_GLFUNC(VertexAttribI4uiv)(va.index(), v.data());
+		OGLPLUS_VERIFY_SIMPLE(VertexAttribI4uiv, always);
+		return {};
+	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLfloat[1]>,
+		vertex_attrib_location va,
+		const array_view<const GLfloat>& v
+	) noexcept
+	{
+		assert(v.size() >= 1);
+		OGLPLUS_GLFUNC(VertexAttrib1fv)(va.index(), v.data());
+		OGLPLUS_VERIFY_SIMPLE(VertexAttrib1fv, always);
+		return {};
+	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLfloat[2]>,
+		vertex_attrib_location va,
+		const array_view<const GLfloat>& v
+	) noexcept
+	{
+		assert(v.size() >= 2);
+		OGLPLUS_GLFUNC(VertexAttrib2fv)(va.index(), v.data());
+		OGLPLUS_VERIFY_SIMPLE(VertexAttrib2fv, always);
+		return {};
+	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLfloat[3]>,
+		vertex_attrib_location va,
+		const array_view<const GLfloat>& v
+	) noexcept
+	{
+		assert(v.size() >= 3);
+		OGLPLUS_GLFUNC(VertexAttrib3fv)(va.index(), v.data());
+		OGLPLUS_VERIFY_SIMPLE(VertexAttrib3fv, always);
+		return {};
+	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLfloat[4]>,
+		vertex_attrib_location va,
+		const array_view<const GLfloat>& v
+	) noexcept
+	{
+		assert(v.size() >= 4);
+		OGLPLUS_GLFUNC(VertexAttrib4fv)(va.index(), v.data());
+		OGLPLUS_VERIFY_SIMPLE(VertexAttrib4fv, always);
+		return {};
+	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLdouble[1]>,
+		vertex_attrib_location va,
+		const array_view<const GLdouble>& v
+	) noexcept
+	{
+		assert(v.size() >= 1);
+		OGLPLUS_GLFUNC(VertexAttrib1dv)(va.index(), v.data());
+		OGLPLUS_VERIFY_SIMPLE(VertexAttrib1dv, always);
+		return {};
+	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLdouble[2]>,
+		vertex_attrib_location va,
+		const array_view<const GLdouble>& v
+	) noexcept
+	{
+		assert(v.size() >= 2);
+		OGLPLUS_GLFUNC(VertexAttrib2dv)(va.index(), v.data());
+		OGLPLUS_VERIFY_SIMPLE(VertexAttrib2dv, always);
+		return {};
+	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLdouble[3]>,
+		vertex_attrib_location va,
+		const array_view<const GLdouble>& v
+	) noexcept
+	{
+		assert(v.size() >= 3);
+		OGLPLUS_GLFUNC(VertexAttrib3dv)(va.index(), v.data());
+		OGLPLUS_VERIFY_SIMPLE(VertexAttrib3dv, always);
+		return {};
+	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLdouble[4]>,
+		vertex_attrib_location va,
+		const array_view<const GLdouble>& v
+	) noexcept
+	{
+		assert(v.size() >= 4);
+		OGLPLUS_GLFUNC(VertexAttrib4dv)(va.index(), v.data());
+		OGLPLUS_VERIFY_SIMPLE(VertexAttrib4dv, always);
+		return {};
+	}
 };
 
 } // namespace oglplus
