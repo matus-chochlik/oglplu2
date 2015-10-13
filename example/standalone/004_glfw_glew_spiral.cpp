@@ -156,7 +156,9 @@ void run_loop(int width, int height)
 		gl.end();
 
 		gl.vertex_attrib(color1, 0.2f, 0.1f, 0.1f, true);
-		gl.vertex_attrib(color2, 0.3f, 0.1f, 0.2f, true);
+
+		const GLfloat c2[3] = {0.3f, 0.1f, 0.2f};
+		gl.vertex_attrib(color2, c2, true);
 
 		gl.begin(GL.line_loop);
 		for(int s=0; s<nseg; ++s)

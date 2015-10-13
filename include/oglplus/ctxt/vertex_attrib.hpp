@@ -10,7 +10,8 @@
 #define OGLPLUS_CTXT_VERTEX_ATTRIB_1509260923_HPP
 
 #include "../vertex_attrib.hpp"
-
+#include "../utils/vec_mat_traits.hpp"
+#include <type_traits>
 
 namespace oglplus {
 namespace ctxt {
@@ -147,6 +148,29 @@ struct vertex_attrib_ops
 			loc,
 			check_error,
 			v
+		);
+	}
+
+	template <
+		bool D,
+		typename X,
+		typename = typename std::enable_if<
+			is_known_vector_type<X>::value
+		>::type
+	>
+	static inline
+	outcome<void>
+	vertex_attrib(
+		prog_var_loc<tag::vertex_attrib, D> loc,
+		const X& x,
+		bool check_error
+	) noexcept
+	{
+		return oglplus::prog_var_get_set_ops<tag::vertex_attrib>::set(
+			canonical_compound_type<X>(),
+			loc,
+			check_error,
+			element_view(x)
 		);
 	}
 
