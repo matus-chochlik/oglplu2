@@ -54,7 +54,12 @@ class context
 #ifdef GL_ARB_compatibility
  , public ctxt::compatibility
 #endif
-{ };
+{
+public:
+	using ctxt::vertex_array_ops::bind;
+	using ctxt::buffer_ops::bind;
+	using ctxt::texture_ops::bind;
+};
 
 } // namespace oglplus
 

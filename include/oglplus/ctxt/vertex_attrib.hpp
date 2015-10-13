@@ -10,6 +10,7 @@
 #define OGLPLUS_CTXT_VERTEX_ATTRIB_1509260923_HPP
 
 #include "../vertex_attrib.hpp"
+#include "../utils/boolean.hpp"
 #include "../utils/vec_mat_traits.hpp"
 #include <type_traits>
 
@@ -172,6 +173,34 @@ struct vertex_attrib_ops
 			check_error,
 			element_view(x)
 		);
+	}
+
+	static
+	outcome<void>
+	pointer(
+		vertex_attrib_location loc,
+		GLint values_per_vertex,
+		data_type type,
+		boolean normalized,
+		GLsizei stride,
+		const void* pointer
+	) noexcept
+	{
+		OGLPLUS_GLFUNC(VertexAttribPointer)(
+			loc.index(),
+			values_per_vertex,
+			GLenum(type),
+			normalized,
+			stride,
+			pointer
+		);
+		OGLPLUS_VERIFY(
+			VertexAttribPointer,
+			enum_value(type).
+			index(loc.index()),
+			always
+		);
+		return {};	
 	}
 
 	static

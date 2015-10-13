@@ -39,7 +39,7 @@ struct buffer_ops
 
 	static
 	outcome<void>
-	buffer_data(
+	data(
 		buffer_target target,
 		buffer_data data,
 		buffer_usage usage

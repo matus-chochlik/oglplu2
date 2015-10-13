@@ -1,5 +1,5 @@
 /**
- *  @example standalone/004_glfw_glew_circles.cpp
+ *  @example standalone/004_glfw_glew_spiral.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
