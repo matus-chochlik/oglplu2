@@ -26,162 +26,8 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 	pixel_parameter x;
 	(void)x;
 
-#ifdef GL_PACK_LSB_FIRST
-	x = ev.PackLSBFirst;
-	BOOST_CHECK(x == ev.PackLSBFirst);
-# ifdef GL_UNPACK_LSB_FIRST
-	BOOST_CHECK(x != ev.UnpackLSBFirst);
-# endif
-# ifdef GL_PACK_ALIGNMENT
-	BOOST_CHECK(x != ev.pack_alignment);
-# endif
-# ifdef GL_PACK_COMPRESSED_BLOCK_DEPTH
-	BOOST_CHECK(x != ev.pack_compressed_block_depth);
-# endif
-# ifdef GL_PACK_COMPRESSED_BLOCK_HEIGHT
-	BOOST_CHECK(x != ev.pack_compressed_block_height);
-# endif
-# ifdef GL_PACK_COMPRESSED_BLOCK_SIZE
-	BOOST_CHECK(x != ev.pack_compressed_block_size);
-# endif
-# ifdef GL_PACK_COMPRESSED_BLOCK_WIDTH
-	BOOST_CHECK(x != ev.pack_compressed_block_width);
-# endif
-# ifdef GL_PACK_IMAGE_HEIGHT
-	BOOST_CHECK(x != ev.pack_image_height);
-# endif
-# ifdef GL_PACK_ROW_LENGTH
-	BOOST_CHECK(x != ev.pack_row_length);
-# endif
-# ifdef GL_PACK_SKIP_IMAGES
-	BOOST_CHECK(x != ev.pack_skip_images);
-# endif
-# ifdef GL_PACK_SKIP_PIXELS
-	BOOST_CHECK(x != ev.pack_skip_pixels);
-# endif
-# ifdef GL_PACK_SKIP_ROWS
-	BOOST_CHECK(x != ev.pack_skip_rows);
-# endif
-# ifdef GL_PACK_SWAP_BYTES
-	BOOST_CHECK(x != ev.pack_swap_bytes);
-# endif
-# ifdef GL_UNPACK_ALIGNMENT
-	BOOST_CHECK(x != ev.unpack_alignment);
-# endif
-# ifdef GL_UNPACK_COMPRESSED_BLOCK_DEPTH
-	BOOST_CHECK(x != ev.unpack_compressed_block_depth);
-# endif
-# ifdef GL_UNPACK_COMPRESSED_BLOCK_HEIGHT
-	BOOST_CHECK(x != ev.unpack_compressed_block_height);
-# endif
-# ifdef GL_UNPACK_COMPRESSED_BLOCK_SIZE
-	BOOST_CHECK(x != ev.unpack_compressed_block_size);
-# endif
-# ifdef GL_UNPACK_COMPRESSED_BLOCK_WIDTH
-	BOOST_CHECK(x != ev.unpack_compressed_block_width);
-# endif
-# ifdef GL_UNPACK_IMAGE_HEIGHT
-	BOOST_CHECK(x != ev.unpack_image_height);
-# endif
-# ifdef GL_UNPACK_ROW_LENGTH
-	BOOST_CHECK(x != ev.unpack_row_length);
-# endif
-# ifdef GL_UNPACK_SKIP_IMAGES
-	BOOST_CHECK(x != ev.unpack_skip_images);
-# endif
-# ifdef GL_UNPACK_SKIP_PIXELS
-	BOOST_CHECK(x != ev.unpack_skip_pixels);
-# endif
-# ifdef GL_UNPACK_SKIP_ROWS
-	BOOST_CHECK(x != ev.unpack_skip_rows);
-# endif
-# ifdef GL_UNPACK_SWAP_BYTES
-	BOOST_CHECK(x != ev.unpack_swap_bytes);
-# endif
-#endif
-
-#ifdef GL_UNPACK_LSB_FIRST
-	x = ev.UnpackLSBFirst;
-# ifdef GL_PACK_LSB_FIRST
-	BOOST_CHECK(x != ev.PackLSBFirst);
-# endif
-	BOOST_CHECK(x == ev.UnpackLSBFirst);
-# ifdef GL_PACK_ALIGNMENT
-	BOOST_CHECK(x != ev.pack_alignment);
-# endif
-# ifdef GL_PACK_COMPRESSED_BLOCK_DEPTH
-	BOOST_CHECK(x != ev.pack_compressed_block_depth);
-# endif
-# ifdef GL_PACK_COMPRESSED_BLOCK_HEIGHT
-	BOOST_CHECK(x != ev.pack_compressed_block_height);
-# endif
-# ifdef GL_PACK_COMPRESSED_BLOCK_SIZE
-	BOOST_CHECK(x != ev.pack_compressed_block_size);
-# endif
-# ifdef GL_PACK_COMPRESSED_BLOCK_WIDTH
-	BOOST_CHECK(x != ev.pack_compressed_block_width);
-# endif
-# ifdef GL_PACK_IMAGE_HEIGHT
-	BOOST_CHECK(x != ev.pack_image_height);
-# endif
-# ifdef GL_PACK_ROW_LENGTH
-	BOOST_CHECK(x != ev.pack_row_length);
-# endif
-# ifdef GL_PACK_SKIP_IMAGES
-	BOOST_CHECK(x != ev.pack_skip_images);
-# endif
-# ifdef GL_PACK_SKIP_PIXELS
-	BOOST_CHECK(x != ev.pack_skip_pixels);
-# endif
-# ifdef GL_PACK_SKIP_ROWS
-	BOOST_CHECK(x != ev.pack_skip_rows);
-# endif
-# ifdef GL_PACK_SWAP_BYTES
-	BOOST_CHECK(x != ev.pack_swap_bytes);
-# endif
-# ifdef GL_UNPACK_ALIGNMENT
-	BOOST_CHECK(x != ev.unpack_alignment);
-# endif
-# ifdef GL_UNPACK_COMPRESSED_BLOCK_DEPTH
-	BOOST_CHECK(x != ev.unpack_compressed_block_depth);
-# endif
-# ifdef GL_UNPACK_COMPRESSED_BLOCK_HEIGHT
-	BOOST_CHECK(x != ev.unpack_compressed_block_height);
-# endif
-# ifdef GL_UNPACK_COMPRESSED_BLOCK_SIZE
-	BOOST_CHECK(x != ev.unpack_compressed_block_size);
-# endif
-# ifdef GL_UNPACK_COMPRESSED_BLOCK_WIDTH
-	BOOST_CHECK(x != ev.unpack_compressed_block_width);
-# endif
-# ifdef GL_UNPACK_IMAGE_HEIGHT
-	BOOST_CHECK(x != ev.unpack_image_height);
-# endif
-# ifdef GL_UNPACK_ROW_LENGTH
-	BOOST_CHECK(x != ev.unpack_row_length);
-# endif
-# ifdef GL_UNPACK_SKIP_IMAGES
-	BOOST_CHECK(x != ev.unpack_skip_images);
-# endif
-# ifdef GL_UNPACK_SKIP_PIXELS
-	BOOST_CHECK(x != ev.unpack_skip_pixels);
-# endif
-# ifdef GL_UNPACK_SKIP_ROWS
-	BOOST_CHECK(x != ev.unpack_skip_rows);
-# endif
-# ifdef GL_UNPACK_SWAP_BYTES
-	BOOST_CHECK(x != ev.unpack_swap_bytes);
-# endif
-#endif
-
 #ifdef GL_PACK_ALIGNMENT
 	x = ev.pack_alignment;
-# ifdef GL_PACK_LSB_FIRST
-	BOOST_CHECK(x != ev.PackLSBFirst);
-# endif
-# ifdef GL_UNPACK_LSB_FIRST
-	BOOST_CHECK(x != ev.UnpackLSBFirst);
-# endif
 	BOOST_CHECK(x == ev.pack_alignment);
 # ifdef GL_PACK_COMPRESSED_BLOCK_DEPTH
 	BOOST_CHECK(x != ev.pack_compressed_block_depth);
@@ -198,6 +44,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 # ifdef GL_PACK_IMAGE_HEIGHT
 	BOOST_CHECK(x != ev.pack_image_height);
 # endif
+# ifdef GL_PACK_LSB_FIRST
+	BOOST_CHECK(x != ev.pack_lsb_first);
+# endif
 # ifdef GL_PACK_ROW_LENGTH
 	BOOST_CHECK(x != ev.pack_row_length);
 # endif
@@ -230,6 +79,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 # endif
 # ifdef GL_UNPACK_IMAGE_HEIGHT
 	BOOST_CHECK(x != ev.unpack_image_height);
+# endif
+# ifdef GL_UNPACK_LSB_FIRST
+	BOOST_CHECK(x != ev.unpack_lsb_first);
 # endif
 # ifdef GL_UNPACK_ROW_LENGTH
 	BOOST_CHECK(x != ev.unpack_row_length);
@@ -250,12 +102,6 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 
 #ifdef GL_PACK_COMPRESSED_BLOCK_DEPTH
 	x = ev.pack_compressed_block_depth;
-# ifdef GL_PACK_LSB_FIRST
-	BOOST_CHECK(x != ev.PackLSBFirst);
-# endif
-# ifdef GL_UNPACK_LSB_FIRST
-	BOOST_CHECK(x != ev.UnpackLSBFirst);
-# endif
 # ifdef GL_PACK_ALIGNMENT
 	BOOST_CHECK(x != ev.pack_alignment);
 # endif
@@ -271,6 +117,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 # endif
 # ifdef GL_PACK_IMAGE_HEIGHT
 	BOOST_CHECK(x != ev.pack_image_height);
+# endif
+# ifdef GL_PACK_LSB_FIRST
+	BOOST_CHECK(x != ev.pack_lsb_first);
 # endif
 # ifdef GL_PACK_ROW_LENGTH
 	BOOST_CHECK(x != ev.pack_row_length);
@@ -304,6 +153,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 # endif
 # ifdef GL_UNPACK_IMAGE_HEIGHT
 	BOOST_CHECK(x != ev.unpack_image_height);
+# endif
+# ifdef GL_UNPACK_LSB_FIRST
+	BOOST_CHECK(x != ev.unpack_lsb_first);
 # endif
 # ifdef GL_UNPACK_ROW_LENGTH
 	BOOST_CHECK(x != ev.unpack_row_length);
@@ -324,12 +176,6 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 
 #ifdef GL_PACK_COMPRESSED_BLOCK_HEIGHT
 	x = ev.pack_compressed_block_height;
-# ifdef GL_PACK_LSB_FIRST
-	BOOST_CHECK(x != ev.PackLSBFirst);
-# endif
-# ifdef GL_UNPACK_LSB_FIRST
-	BOOST_CHECK(x != ev.UnpackLSBFirst);
-# endif
 # ifdef GL_PACK_ALIGNMENT
 	BOOST_CHECK(x != ev.pack_alignment);
 # endif
@@ -345,6 +191,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 # endif
 # ifdef GL_PACK_IMAGE_HEIGHT
 	BOOST_CHECK(x != ev.pack_image_height);
+# endif
+# ifdef GL_PACK_LSB_FIRST
+	BOOST_CHECK(x != ev.pack_lsb_first);
 # endif
 # ifdef GL_PACK_ROW_LENGTH
 	BOOST_CHECK(x != ev.pack_row_length);
@@ -378,6 +227,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 # endif
 # ifdef GL_UNPACK_IMAGE_HEIGHT
 	BOOST_CHECK(x != ev.unpack_image_height);
+# endif
+# ifdef GL_UNPACK_LSB_FIRST
+	BOOST_CHECK(x != ev.unpack_lsb_first);
 # endif
 # ifdef GL_UNPACK_ROW_LENGTH
 	BOOST_CHECK(x != ev.unpack_row_length);
@@ -398,12 +250,6 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 
 #ifdef GL_PACK_COMPRESSED_BLOCK_SIZE
 	x = ev.pack_compressed_block_size;
-# ifdef GL_PACK_LSB_FIRST
-	BOOST_CHECK(x != ev.PackLSBFirst);
-# endif
-# ifdef GL_UNPACK_LSB_FIRST
-	BOOST_CHECK(x != ev.UnpackLSBFirst);
-# endif
 # ifdef GL_PACK_ALIGNMENT
 	BOOST_CHECK(x != ev.pack_alignment);
 # endif
@@ -419,6 +265,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 # endif
 # ifdef GL_PACK_IMAGE_HEIGHT
 	BOOST_CHECK(x != ev.pack_image_height);
+# endif
+# ifdef GL_PACK_LSB_FIRST
+	BOOST_CHECK(x != ev.pack_lsb_first);
 # endif
 # ifdef GL_PACK_ROW_LENGTH
 	BOOST_CHECK(x != ev.pack_row_length);
@@ -452,6 +301,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 # endif
 # ifdef GL_UNPACK_IMAGE_HEIGHT
 	BOOST_CHECK(x != ev.unpack_image_height);
+# endif
+# ifdef GL_UNPACK_LSB_FIRST
+	BOOST_CHECK(x != ev.unpack_lsb_first);
 # endif
 # ifdef GL_UNPACK_ROW_LENGTH
 	BOOST_CHECK(x != ev.unpack_row_length);
@@ -472,12 +324,6 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 
 #ifdef GL_PACK_COMPRESSED_BLOCK_WIDTH
 	x = ev.pack_compressed_block_width;
-# ifdef GL_PACK_LSB_FIRST
-	BOOST_CHECK(x != ev.PackLSBFirst);
-# endif
-# ifdef GL_UNPACK_LSB_FIRST
-	BOOST_CHECK(x != ev.UnpackLSBFirst);
-# endif
 # ifdef GL_PACK_ALIGNMENT
 	BOOST_CHECK(x != ev.pack_alignment);
 # endif
@@ -493,6 +339,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 	BOOST_CHECK(x == ev.pack_compressed_block_width);
 # ifdef GL_PACK_IMAGE_HEIGHT
 	BOOST_CHECK(x != ev.pack_image_height);
+# endif
+# ifdef GL_PACK_LSB_FIRST
+	BOOST_CHECK(x != ev.pack_lsb_first);
 # endif
 # ifdef GL_PACK_ROW_LENGTH
 	BOOST_CHECK(x != ev.pack_row_length);
@@ -526,6 +375,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 # endif
 # ifdef GL_UNPACK_IMAGE_HEIGHT
 	BOOST_CHECK(x != ev.unpack_image_height);
+# endif
+# ifdef GL_UNPACK_LSB_FIRST
+	BOOST_CHECK(x != ev.unpack_lsb_first);
 # endif
 # ifdef GL_UNPACK_ROW_LENGTH
 	BOOST_CHECK(x != ev.unpack_row_length);
@@ -546,12 +398,6 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 
 #ifdef GL_PACK_IMAGE_HEIGHT
 	x = ev.pack_image_height;
-# ifdef GL_PACK_LSB_FIRST
-	BOOST_CHECK(x != ev.PackLSBFirst);
-# endif
-# ifdef GL_UNPACK_LSB_FIRST
-	BOOST_CHECK(x != ev.UnpackLSBFirst);
-# endif
 # ifdef GL_PACK_ALIGNMENT
 	BOOST_CHECK(x != ev.pack_alignment);
 # endif
@@ -568,6 +414,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 	BOOST_CHECK(x != ev.pack_compressed_block_width);
 # endif
 	BOOST_CHECK(x == ev.pack_image_height);
+# ifdef GL_PACK_LSB_FIRST
+	BOOST_CHECK(x != ev.pack_lsb_first);
+# endif
 # ifdef GL_PACK_ROW_LENGTH
 	BOOST_CHECK(x != ev.pack_row_length);
 # endif
@@ -601,6 +450,83 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 # ifdef GL_UNPACK_IMAGE_HEIGHT
 	BOOST_CHECK(x != ev.unpack_image_height);
 # endif
+# ifdef GL_UNPACK_LSB_FIRST
+	BOOST_CHECK(x != ev.unpack_lsb_first);
+# endif
+# ifdef GL_UNPACK_ROW_LENGTH
+	BOOST_CHECK(x != ev.unpack_row_length);
+# endif
+# ifdef GL_UNPACK_SKIP_IMAGES
+	BOOST_CHECK(x != ev.unpack_skip_images);
+# endif
+# ifdef GL_UNPACK_SKIP_PIXELS
+	BOOST_CHECK(x != ev.unpack_skip_pixels);
+# endif
+# ifdef GL_UNPACK_SKIP_ROWS
+	BOOST_CHECK(x != ev.unpack_skip_rows);
+# endif
+# ifdef GL_UNPACK_SWAP_BYTES
+	BOOST_CHECK(x != ev.unpack_swap_bytes);
+# endif
+#endif
+
+#ifdef GL_PACK_LSB_FIRST
+	x = ev.pack_lsb_first;
+# ifdef GL_PACK_ALIGNMENT
+	BOOST_CHECK(x != ev.pack_alignment);
+# endif
+# ifdef GL_PACK_COMPRESSED_BLOCK_DEPTH
+	BOOST_CHECK(x != ev.pack_compressed_block_depth);
+# endif
+# ifdef GL_PACK_COMPRESSED_BLOCK_HEIGHT
+	BOOST_CHECK(x != ev.pack_compressed_block_height);
+# endif
+# ifdef GL_PACK_COMPRESSED_BLOCK_SIZE
+	BOOST_CHECK(x != ev.pack_compressed_block_size);
+# endif
+# ifdef GL_PACK_COMPRESSED_BLOCK_WIDTH
+	BOOST_CHECK(x != ev.pack_compressed_block_width);
+# endif
+# ifdef GL_PACK_IMAGE_HEIGHT
+	BOOST_CHECK(x != ev.pack_image_height);
+# endif
+	BOOST_CHECK(x == ev.pack_lsb_first);
+# ifdef GL_PACK_ROW_LENGTH
+	BOOST_CHECK(x != ev.pack_row_length);
+# endif
+# ifdef GL_PACK_SKIP_IMAGES
+	BOOST_CHECK(x != ev.pack_skip_images);
+# endif
+# ifdef GL_PACK_SKIP_PIXELS
+	BOOST_CHECK(x != ev.pack_skip_pixels);
+# endif
+# ifdef GL_PACK_SKIP_ROWS
+	BOOST_CHECK(x != ev.pack_skip_rows);
+# endif
+# ifdef GL_PACK_SWAP_BYTES
+	BOOST_CHECK(x != ev.pack_swap_bytes);
+# endif
+# ifdef GL_UNPACK_ALIGNMENT
+	BOOST_CHECK(x != ev.unpack_alignment);
+# endif
+# ifdef GL_UNPACK_COMPRESSED_BLOCK_DEPTH
+	BOOST_CHECK(x != ev.unpack_compressed_block_depth);
+# endif
+# ifdef GL_UNPACK_COMPRESSED_BLOCK_HEIGHT
+	BOOST_CHECK(x != ev.unpack_compressed_block_height);
+# endif
+# ifdef GL_UNPACK_COMPRESSED_BLOCK_SIZE
+	BOOST_CHECK(x != ev.unpack_compressed_block_size);
+# endif
+# ifdef GL_UNPACK_COMPRESSED_BLOCK_WIDTH
+	BOOST_CHECK(x != ev.unpack_compressed_block_width);
+# endif
+# ifdef GL_UNPACK_IMAGE_HEIGHT
+	BOOST_CHECK(x != ev.unpack_image_height);
+# endif
+# ifdef GL_UNPACK_LSB_FIRST
+	BOOST_CHECK(x != ev.unpack_lsb_first);
+# endif
 # ifdef GL_UNPACK_ROW_LENGTH
 	BOOST_CHECK(x != ev.unpack_row_length);
 # endif
@@ -620,12 +546,6 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 
 #ifdef GL_PACK_ROW_LENGTH
 	x = ev.pack_row_length;
-# ifdef GL_PACK_LSB_FIRST
-	BOOST_CHECK(x != ev.PackLSBFirst);
-# endif
-# ifdef GL_UNPACK_LSB_FIRST
-	BOOST_CHECK(x != ev.UnpackLSBFirst);
-# endif
 # ifdef GL_PACK_ALIGNMENT
 	BOOST_CHECK(x != ev.pack_alignment);
 # endif
@@ -643,6 +563,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 # endif
 # ifdef GL_PACK_IMAGE_HEIGHT
 	BOOST_CHECK(x != ev.pack_image_height);
+# endif
+# ifdef GL_PACK_LSB_FIRST
+	BOOST_CHECK(x != ev.pack_lsb_first);
 # endif
 	BOOST_CHECK(x == ev.pack_row_length);
 # ifdef GL_PACK_SKIP_IMAGES
@@ -675,6 +598,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 # ifdef GL_UNPACK_IMAGE_HEIGHT
 	BOOST_CHECK(x != ev.unpack_image_height);
 # endif
+# ifdef GL_UNPACK_LSB_FIRST
+	BOOST_CHECK(x != ev.unpack_lsb_first);
+# endif
 # ifdef GL_UNPACK_ROW_LENGTH
 	BOOST_CHECK(x != ev.unpack_row_length);
 # endif
@@ -694,12 +620,6 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 
 #ifdef GL_PACK_SKIP_IMAGES
 	x = ev.pack_skip_images;
-# ifdef GL_PACK_LSB_FIRST
-	BOOST_CHECK(x != ev.PackLSBFirst);
-# endif
-# ifdef GL_UNPACK_LSB_FIRST
-	BOOST_CHECK(x != ev.UnpackLSBFirst);
-# endif
 # ifdef GL_PACK_ALIGNMENT
 	BOOST_CHECK(x != ev.pack_alignment);
 # endif
@@ -717,6 +637,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 # endif
 # ifdef GL_PACK_IMAGE_HEIGHT
 	BOOST_CHECK(x != ev.pack_image_height);
+# endif
+# ifdef GL_PACK_LSB_FIRST
+	BOOST_CHECK(x != ev.pack_lsb_first);
 # endif
 # ifdef GL_PACK_ROW_LENGTH
 	BOOST_CHECK(x != ev.pack_row_length);
@@ -749,6 +672,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 # ifdef GL_UNPACK_IMAGE_HEIGHT
 	BOOST_CHECK(x != ev.unpack_image_height);
 # endif
+# ifdef GL_UNPACK_LSB_FIRST
+	BOOST_CHECK(x != ev.unpack_lsb_first);
+# endif
 # ifdef GL_UNPACK_ROW_LENGTH
 	BOOST_CHECK(x != ev.unpack_row_length);
 # endif
@@ -768,12 +694,6 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 
 #ifdef GL_PACK_SKIP_PIXELS
 	x = ev.pack_skip_pixels;
-# ifdef GL_PACK_LSB_FIRST
-	BOOST_CHECK(x != ev.PackLSBFirst);
-# endif
-# ifdef GL_UNPACK_LSB_FIRST
-	BOOST_CHECK(x != ev.UnpackLSBFirst);
-# endif
 # ifdef GL_PACK_ALIGNMENT
 	BOOST_CHECK(x != ev.pack_alignment);
 # endif
@@ -791,6 +711,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 # endif
 # ifdef GL_PACK_IMAGE_HEIGHT
 	BOOST_CHECK(x != ev.pack_image_height);
+# endif
+# ifdef GL_PACK_LSB_FIRST
+	BOOST_CHECK(x != ev.pack_lsb_first);
 # endif
 # ifdef GL_PACK_ROW_LENGTH
 	BOOST_CHECK(x != ev.pack_row_length);
@@ -823,6 +746,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 # ifdef GL_UNPACK_IMAGE_HEIGHT
 	BOOST_CHECK(x != ev.unpack_image_height);
 # endif
+# ifdef GL_UNPACK_LSB_FIRST
+	BOOST_CHECK(x != ev.unpack_lsb_first);
+# endif
 # ifdef GL_UNPACK_ROW_LENGTH
 	BOOST_CHECK(x != ev.unpack_row_length);
 # endif
@@ -842,12 +768,6 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 
 #ifdef GL_PACK_SKIP_ROWS
 	x = ev.pack_skip_rows;
-# ifdef GL_PACK_LSB_FIRST
-	BOOST_CHECK(x != ev.PackLSBFirst);
-# endif
-# ifdef GL_UNPACK_LSB_FIRST
-	BOOST_CHECK(x != ev.UnpackLSBFirst);
-# endif
 # ifdef GL_PACK_ALIGNMENT
 	BOOST_CHECK(x != ev.pack_alignment);
 # endif
@@ -865,6 +785,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 # endif
 # ifdef GL_PACK_IMAGE_HEIGHT
 	BOOST_CHECK(x != ev.pack_image_height);
+# endif
+# ifdef GL_PACK_LSB_FIRST
+	BOOST_CHECK(x != ev.pack_lsb_first);
 # endif
 # ifdef GL_PACK_ROW_LENGTH
 	BOOST_CHECK(x != ev.pack_row_length);
@@ -897,6 +820,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 # ifdef GL_UNPACK_IMAGE_HEIGHT
 	BOOST_CHECK(x != ev.unpack_image_height);
 # endif
+# ifdef GL_UNPACK_LSB_FIRST
+	BOOST_CHECK(x != ev.unpack_lsb_first);
+# endif
 # ifdef GL_UNPACK_ROW_LENGTH
 	BOOST_CHECK(x != ev.unpack_row_length);
 # endif
@@ -916,12 +842,6 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 
 #ifdef GL_PACK_SWAP_BYTES
 	x = ev.pack_swap_bytes;
-# ifdef GL_PACK_LSB_FIRST
-	BOOST_CHECK(x != ev.PackLSBFirst);
-# endif
-# ifdef GL_UNPACK_LSB_FIRST
-	BOOST_CHECK(x != ev.UnpackLSBFirst);
-# endif
 # ifdef GL_PACK_ALIGNMENT
 	BOOST_CHECK(x != ev.pack_alignment);
 # endif
@@ -939,6 +859,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 # endif
 # ifdef GL_PACK_IMAGE_HEIGHT
 	BOOST_CHECK(x != ev.pack_image_height);
+# endif
+# ifdef GL_PACK_LSB_FIRST
+	BOOST_CHECK(x != ev.pack_lsb_first);
 # endif
 # ifdef GL_PACK_ROW_LENGTH
 	BOOST_CHECK(x != ev.pack_row_length);
@@ -971,6 +894,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 # ifdef GL_UNPACK_IMAGE_HEIGHT
 	BOOST_CHECK(x != ev.unpack_image_height);
 # endif
+# ifdef GL_UNPACK_LSB_FIRST
+	BOOST_CHECK(x != ev.unpack_lsb_first);
+# endif
 # ifdef GL_UNPACK_ROW_LENGTH
 	BOOST_CHECK(x != ev.unpack_row_length);
 # endif
@@ -990,12 +916,6 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 
 #ifdef GL_UNPACK_ALIGNMENT
 	x = ev.unpack_alignment;
-# ifdef GL_PACK_LSB_FIRST
-	BOOST_CHECK(x != ev.PackLSBFirst);
-# endif
-# ifdef GL_UNPACK_LSB_FIRST
-	BOOST_CHECK(x != ev.UnpackLSBFirst);
-# endif
 # ifdef GL_PACK_ALIGNMENT
 	BOOST_CHECK(x != ev.pack_alignment);
 # endif
@@ -1013,6 +933,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 # endif
 # ifdef GL_PACK_IMAGE_HEIGHT
 	BOOST_CHECK(x != ev.pack_image_height);
+# endif
+# ifdef GL_PACK_LSB_FIRST
+	BOOST_CHECK(x != ev.pack_lsb_first);
 # endif
 # ifdef GL_PACK_ROW_LENGTH
 	BOOST_CHECK(x != ev.pack_row_length);
@@ -1045,6 +968,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 # ifdef GL_UNPACK_IMAGE_HEIGHT
 	BOOST_CHECK(x != ev.unpack_image_height);
 # endif
+# ifdef GL_UNPACK_LSB_FIRST
+	BOOST_CHECK(x != ev.unpack_lsb_first);
+# endif
 # ifdef GL_UNPACK_ROW_LENGTH
 	BOOST_CHECK(x != ev.unpack_row_length);
 # endif
@@ -1064,12 +990,6 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 
 #ifdef GL_UNPACK_COMPRESSED_BLOCK_DEPTH
 	x = ev.unpack_compressed_block_depth;
-# ifdef GL_PACK_LSB_FIRST
-	BOOST_CHECK(x != ev.PackLSBFirst);
-# endif
-# ifdef GL_UNPACK_LSB_FIRST
-	BOOST_CHECK(x != ev.UnpackLSBFirst);
-# endif
 # ifdef GL_PACK_ALIGNMENT
 	BOOST_CHECK(x != ev.pack_alignment);
 # endif
@@ -1087,6 +1007,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 # endif
 # ifdef GL_PACK_IMAGE_HEIGHT
 	BOOST_CHECK(x != ev.pack_image_height);
+# endif
+# ifdef GL_PACK_LSB_FIRST
+	BOOST_CHECK(x != ev.pack_lsb_first);
 # endif
 # ifdef GL_PACK_ROW_LENGTH
 	BOOST_CHECK(x != ev.pack_row_length);
@@ -1119,6 +1042,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 # ifdef GL_UNPACK_IMAGE_HEIGHT
 	BOOST_CHECK(x != ev.unpack_image_height);
 # endif
+# ifdef GL_UNPACK_LSB_FIRST
+	BOOST_CHECK(x != ev.unpack_lsb_first);
+# endif
 # ifdef GL_UNPACK_ROW_LENGTH
 	BOOST_CHECK(x != ev.unpack_row_length);
 # endif
@@ -1138,12 +1064,6 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 
 #ifdef GL_UNPACK_COMPRESSED_BLOCK_HEIGHT
 	x = ev.unpack_compressed_block_height;
-# ifdef GL_PACK_LSB_FIRST
-	BOOST_CHECK(x != ev.PackLSBFirst);
-# endif
-# ifdef GL_UNPACK_LSB_FIRST
-	BOOST_CHECK(x != ev.UnpackLSBFirst);
-# endif
 # ifdef GL_PACK_ALIGNMENT
 	BOOST_CHECK(x != ev.pack_alignment);
 # endif
@@ -1161,6 +1081,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 # endif
 # ifdef GL_PACK_IMAGE_HEIGHT
 	BOOST_CHECK(x != ev.pack_image_height);
+# endif
+# ifdef GL_PACK_LSB_FIRST
+	BOOST_CHECK(x != ev.pack_lsb_first);
 # endif
 # ifdef GL_PACK_ROW_LENGTH
 	BOOST_CHECK(x != ev.pack_row_length);
@@ -1193,6 +1116,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 # ifdef GL_UNPACK_IMAGE_HEIGHT
 	BOOST_CHECK(x != ev.unpack_image_height);
 # endif
+# ifdef GL_UNPACK_LSB_FIRST
+	BOOST_CHECK(x != ev.unpack_lsb_first);
+# endif
 # ifdef GL_UNPACK_ROW_LENGTH
 	BOOST_CHECK(x != ev.unpack_row_length);
 # endif
@@ -1212,12 +1138,6 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 
 #ifdef GL_UNPACK_COMPRESSED_BLOCK_SIZE
 	x = ev.unpack_compressed_block_size;
-# ifdef GL_PACK_LSB_FIRST
-	BOOST_CHECK(x != ev.PackLSBFirst);
-# endif
-# ifdef GL_UNPACK_LSB_FIRST
-	BOOST_CHECK(x != ev.UnpackLSBFirst);
-# endif
 # ifdef GL_PACK_ALIGNMENT
 	BOOST_CHECK(x != ev.pack_alignment);
 # endif
@@ -1235,6 +1155,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 # endif
 # ifdef GL_PACK_IMAGE_HEIGHT
 	BOOST_CHECK(x != ev.pack_image_height);
+# endif
+# ifdef GL_PACK_LSB_FIRST
+	BOOST_CHECK(x != ev.pack_lsb_first);
 # endif
 # ifdef GL_PACK_ROW_LENGTH
 	BOOST_CHECK(x != ev.pack_row_length);
@@ -1267,6 +1190,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 # ifdef GL_UNPACK_IMAGE_HEIGHT
 	BOOST_CHECK(x != ev.unpack_image_height);
 # endif
+# ifdef GL_UNPACK_LSB_FIRST
+	BOOST_CHECK(x != ev.unpack_lsb_first);
+# endif
 # ifdef GL_UNPACK_ROW_LENGTH
 	BOOST_CHECK(x != ev.unpack_row_length);
 # endif
@@ -1286,12 +1212,6 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 
 #ifdef GL_UNPACK_COMPRESSED_BLOCK_WIDTH
 	x = ev.unpack_compressed_block_width;
-# ifdef GL_PACK_LSB_FIRST
-	BOOST_CHECK(x != ev.PackLSBFirst);
-# endif
-# ifdef GL_UNPACK_LSB_FIRST
-	BOOST_CHECK(x != ev.UnpackLSBFirst);
-# endif
 # ifdef GL_PACK_ALIGNMENT
 	BOOST_CHECK(x != ev.pack_alignment);
 # endif
@@ -1309,6 +1229,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 # endif
 # ifdef GL_PACK_IMAGE_HEIGHT
 	BOOST_CHECK(x != ev.pack_image_height);
+# endif
+# ifdef GL_PACK_LSB_FIRST
+	BOOST_CHECK(x != ev.pack_lsb_first);
 # endif
 # ifdef GL_PACK_ROW_LENGTH
 	BOOST_CHECK(x != ev.pack_row_length);
@@ -1341,6 +1264,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 # ifdef GL_UNPACK_IMAGE_HEIGHT
 	BOOST_CHECK(x != ev.unpack_image_height);
 # endif
+# ifdef GL_UNPACK_LSB_FIRST
+	BOOST_CHECK(x != ev.unpack_lsb_first);
+# endif
 # ifdef GL_UNPACK_ROW_LENGTH
 	BOOST_CHECK(x != ev.unpack_row_length);
 # endif
@@ -1360,12 +1286,6 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 
 #ifdef GL_UNPACK_IMAGE_HEIGHT
 	x = ev.unpack_image_height;
-# ifdef GL_PACK_LSB_FIRST
-	BOOST_CHECK(x != ev.PackLSBFirst);
-# endif
-# ifdef GL_UNPACK_LSB_FIRST
-	BOOST_CHECK(x != ev.UnpackLSBFirst);
-# endif
 # ifdef GL_PACK_ALIGNMENT
 	BOOST_CHECK(x != ev.pack_alignment);
 # endif
@@ -1383,6 +1303,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 # endif
 # ifdef GL_PACK_IMAGE_HEIGHT
 	BOOST_CHECK(x != ev.pack_image_height);
+# endif
+# ifdef GL_PACK_LSB_FIRST
+	BOOST_CHECK(x != ev.pack_lsb_first);
 # endif
 # ifdef GL_PACK_ROW_LENGTH
 	BOOST_CHECK(x != ev.pack_row_length);
@@ -1415,6 +1338,83 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 	BOOST_CHECK(x != ev.unpack_compressed_block_width);
 # endif
 	BOOST_CHECK(x == ev.unpack_image_height);
+# ifdef GL_UNPACK_LSB_FIRST
+	BOOST_CHECK(x != ev.unpack_lsb_first);
+# endif
+# ifdef GL_UNPACK_ROW_LENGTH
+	BOOST_CHECK(x != ev.unpack_row_length);
+# endif
+# ifdef GL_UNPACK_SKIP_IMAGES
+	BOOST_CHECK(x != ev.unpack_skip_images);
+# endif
+# ifdef GL_UNPACK_SKIP_PIXELS
+	BOOST_CHECK(x != ev.unpack_skip_pixels);
+# endif
+# ifdef GL_UNPACK_SKIP_ROWS
+	BOOST_CHECK(x != ev.unpack_skip_rows);
+# endif
+# ifdef GL_UNPACK_SWAP_BYTES
+	BOOST_CHECK(x != ev.unpack_swap_bytes);
+# endif
+#endif
+
+#ifdef GL_UNPACK_LSB_FIRST
+	x = ev.unpack_lsb_first;
+# ifdef GL_PACK_ALIGNMENT
+	BOOST_CHECK(x != ev.pack_alignment);
+# endif
+# ifdef GL_PACK_COMPRESSED_BLOCK_DEPTH
+	BOOST_CHECK(x != ev.pack_compressed_block_depth);
+# endif
+# ifdef GL_PACK_COMPRESSED_BLOCK_HEIGHT
+	BOOST_CHECK(x != ev.pack_compressed_block_height);
+# endif
+# ifdef GL_PACK_COMPRESSED_BLOCK_SIZE
+	BOOST_CHECK(x != ev.pack_compressed_block_size);
+# endif
+# ifdef GL_PACK_COMPRESSED_BLOCK_WIDTH
+	BOOST_CHECK(x != ev.pack_compressed_block_width);
+# endif
+# ifdef GL_PACK_IMAGE_HEIGHT
+	BOOST_CHECK(x != ev.pack_image_height);
+# endif
+# ifdef GL_PACK_LSB_FIRST
+	BOOST_CHECK(x != ev.pack_lsb_first);
+# endif
+# ifdef GL_PACK_ROW_LENGTH
+	BOOST_CHECK(x != ev.pack_row_length);
+# endif
+# ifdef GL_PACK_SKIP_IMAGES
+	BOOST_CHECK(x != ev.pack_skip_images);
+# endif
+# ifdef GL_PACK_SKIP_PIXELS
+	BOOST_CHECK(x != ev.pack_skip_pixels);
+# endif
+# ifdef GL_PACK_SKIP_ROWS
+	BOOST_CHECK(x != ev.pack_skip_rows);
+# endif
+# ifdef GL_PACK_SWAP_BYTES
+	BOOST_CHECK(x != ev.pack_swap_bytes);
+# endif
+# ifdef GL_UNPACK_ALIGNMENT
+	BOOST_CHECK(x != ev.unpack_alignment);
+# endif
+# ifdef GL_UNPACK_COMPRESSED_BLOCK_DEPTH
+	BOOST_CHECK(x != ev.unpack_compressed_block_depth);
+# endif
+# ifdef GL_UNPACK_COMPRESSED_BLOCK_HEIGHT
+	BOOST_CHECK(x != ev.unpack_compressed_block_height);
+# endif
+# ifdef GL_UNPACK_COMPRESSED_BLOCK_SIZE
+	BOOST_CHECK(x != ev.unpack_compressed_block_size);
+# endif
+# ifdef GL_UNPACK_COMPRESSED_BLOCK_WIDTH
+	BOOST_CHECK(x != ev.unpack_compressed_block_width);
+# endif
+# ifdef GL_UNPACK_IMAGE_HEIGHT
+	BOOST_CHECK(x != ev.unpack_image_height);
+# endif
+	BOOST_CHECK(x == ev.unpack_lsb_first);
 # ifdef GL_UNPACK_ROW_LENGTH
 	BOOST_CHECK(x != ev.unpack_row_length);
 # endif
@@ -1434,12 +1434,6 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 
 #ifdef GL_UNPACK_ROW_LENGTH
 	x = ev.unpack_row_length;
-# ifdef GL_PACK_LSB_FIRST
-	BOOST_CHECK(x != ev.PackLSBFirst);
-# endif
-# ifdef GL_UNPACK_LSB_FIRST
-	BOOST_CHECK(x != ev.UnpackLSBFirst);
-# endif
 # ifdef GL_PACK_ALIGNMENT
 	BOOST_CHECK(x != ev.pack_alignment);
 # endif
@@ -1457,6 +1451,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 # endif
 # ifdef GL_PACK_IMAGE_HEIGHT
 	BOOST_CHECK(x != ev.pack_image_height);
+# endif
+# ifdef GL_PACK_LSB_FIRST
+	BOOST_CHECK(x != ev.pack_lsb_first);
 # endif
 # ifdef GL_PACK_ROW_LENGTH
 	BOOST_CHECK(x != ev.pack_row_length);
@@ -1490,6 +1487,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 # endif
 # ifdef GL_UNPACK_IMAGE_HEIGHT
 	BOOST_CHECK(x != ev.unpack_image_height);
+# endif
+# ifdef GL_UNPACK_LSB_FIRST
+	BOOST_CHECK(x != ev.unpack_lsb_first);
 # endif
 	BOOST_CHECK(x == ev.unpack_row_length);
 # ifdef GL_UNPACK_SKIP_IMAGES
@@ -1508,12 +1508,6 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 
 #ifdef GL_UNPACK_SKIP_IMAGES
 	x = ev.unpack_skip_images;
-# ifdef GL_PACK_LSB_FIRST
-	BOOST_CHECK(x != ev.PackLSBFirst);
-# endif
-# ifdef GL_UNPACK_LSB_FIRST
-	BOOST_CHECK(x != ev.UnpackLSBFirst);
-# endif
 # ifdef GL_PACK_ALIGNMENT
 	BOOST_CHECK(x != ev.pack_alignment);
 # endif
@@ -1531,6 +1525,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 # endif
 # ifdef GL_PACK_IMAGE_HEIGHT
 	BOOST_CHECK(x != ev.pack_image_height);
+# endif
+# ifdef GL_PACK_LSB_FIRST
+	BOOST_CHECK(x != ev.pack_lsb_first);
 # endif
 # ifdef GL_PACK_ROW_LENGTH
 	BOOST_CHECK(x != ev.pack_row_length);
@@ -1564,6 +1561,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 # endif
 # ifdef GL_UNPACK_IMAGE_HEIGHT
 	BOOST_CHECK(x != ev.unpack_image_height);
+# endif
+# ifdef GL_UNPACK_LSB_FIRST
+	BOOST_CHECK(x != ev.unpack_lsb_first);
 # endif
 # ifdef GL_UNPACK_ROW_LENGTH
 	BOOST_CHECK(x != ev.unpack_row_length);
@@ -1582,12 +1582,6 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 
 #ifdef GL_UNPACK_SKIP_PIXELS
 	x = ev.unpack_skip_pixels;
-# ifdef GL_PACK_LSB_FIRST
-	BOOST_CHECK(x != ev.PackLSBFirst);
-# endif
-# ifdef GL_UNPACK_LSB_FIRST
-	BOOST_CHECK(x != ev.UnpackLSBFirst);
-# endif
 # ifdef GL_PACK_ALIGNMENT
 	BOOST_CHECK(x != ev.pack_alignment);
 # endif
@@ -1605,6 +1599,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 # endif
 # ifdef GL_PACK_IMAGE_HEIGHT
 	BOOST_CHECK(x != ev.pack_image_height);
+# endif
+# ifdef GL_PACK_LSB_FIRST
+	BOOST_CHECK(x != ev.pack_lsb_first);
 # endif
 # ifdef GL_PACK_ROW_LENGTH
 	BOOST_CHECK(x != ev.pack_row_length);
@@ -1638,6 +1635,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 # endif
 # ifdef GL_UNPACK_IMAGE_HEIGHT
 	BOOST_CHECK(x != ev.unpack_image_height);
+# endif
+# ifdef GL_UNPACK_LSB_FIRST
+	BOOST_CHECK(x != ev.unpack_lsb_first);
 # endif
 # ifdef GL_UNPACK_ROW_LENGTH
 	BOOST_CHECK(x != ev.unpack_row_length);
@@ -1656,12 +1656,6 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 
 #ifdef GL_UNPACK_SKIP_ROWS
 	x = ev.unpack_skip_rows;
-# ifdef GL_PACK_LSB_FIRST
-	BOOST_CHECK(x != ev.PackLSBFirst);
-# endif
-# ifdef GL_UNPACK_LSB_FIRST
-	BOOST_CHECK(x != ev.UnpackLSBFirst);
-# endif
 # ifdef GL_PACK_ALIGNMENT
 	BOOST_CHECK(x != ev.pack_alignment);
 # endif
@@ -1679,6 +1673,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 # endif
 # ifdef GL_PACK_IMAGE_HEIGHT
 	BOOST_CHECK(x != ev.pack_image_height);
+# endif
+# ifdef GL_PACK_LSB_FIRST
+	BOOST_CHECK(x != ev.pack_lsb_first);
 # endif
 # ifdef GL_PACK_ROW_LENGTH
 	BOOST_CHECK(x != ev.pack_row_length);
@@ -1712,6 +1709,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 # endif
 # ifdef GL_UNPACK_IMAGE_HEIGHT
 	BOOST_CHECK(x != ev.unpack_image_height);
+# endif
+# ifdef GL_UNPACK_LSB_FIRST
+	BOOST_CHECK(x != ev.unpack_lsb_first);
 # endif
 # ifdef GL_UNPACK_ROW_LENGTH
 	BOOST_CHECK(x != ev.unpack_row_length);
@@ -1730,12 +1730,6 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 
 #ifdef GL_UNPACK_SWAP_BYTES
 	x = ev.unpack_swap_bytes;
-# ifdef GL_PACK_LSB_FIRST
-	BOOST_CHECK(x != ev.PackLSBFirst);
-# endif
-# ifdef GL_UNPACK_LSB_FIRST
-	BOOST_CHECK(x != ev.UnpackLSBFirst);
-# endif
 # ifdef GL_PACK_ALIGNMENT
 	BOOST_CHECK(x != ev.pack_alignment);
 # endif
@@ -1753,6 +1747,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 # endif
 # ifdef GL_PACK_IMAGE_HEIGHT
 	BOOST_CHECK(x != ev.pack_image_height);
+# endif
+# ifdef GL_PACK_LSB_FIRST
+	BOOST_CHECK(x != ev.pack_lsb_first);
 # endif
 # ifdef GL_PACK_ROW_LENGTH
 	BOOST_CHECK(x != ev.pack_row_length);
@@ -1786,6 +1783,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 # endif
 # ifdef GL_UNPACK_IMAGE_HEIGHT
 	BOOST_CHECK(x != ev.unpack_image_height);
+# endif
+# ifdef GL_UNPACK_LSB_FIRST
+	BOOST_CHECK(x != ev.unpack_lsb_first);
 # endif
 # ifdef GL_UNPACK_ROW_LENGTH
 	BOOST_CHECK(x != ev.unpack_row_length);
@@ -1810,24 +1810,6 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_names)
 	(void)ev;
 	pixel_parameter x;
 	(void)x;
-
-#ifdef GL_PACK_LSB_FIRST
-	x = ev.PackLSBFirst;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"PACK_LSB_FIRST"
-	) == 0);
-#endif
-
-#ifdef GL_UNPACK_LSB_FIRST
-	x = ev.UnpackLSBFirst;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"UNPACK_LSB_FIRST"
-	) == 0);
-#endif
 
 #ifdef GL_PACK_ALIGNMENT
 	x = ev.pack_alignment;
@@ -1880,6 +1862,15 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_names)
 	BOOST_CHECK(std::strcmp(
 		enum_value_name(x).data(),
 		"PACK_IMAGE_HEIGHT"
+	) == 0);
+#endif
+
+#ifdef GL_PACK_LSB_FIRST
+	x = ev.pack_lsb_first;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"PACK_LSB_FIRST"
 	) == 0);
 #endif
 
@@ -1982,6 +1973,15 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_names)
 	) == 0);
 #endif
 
+#ifdef GL_UNPACK_LSB_FIRST
+	x = ev.unpack_lsb_first;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"UNPACK_LSB_FIRST"
+	) == 0);
+#endif
+
 #ifdef GL_UNPACK_ROW_LENGTH
 	x = ev.unpack_row_length;
 	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
@@ -2034,28 +2034,6 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_range)
 	pixel_parameter x;
 	(void)x;
 	auto count = enum_value_range(x).size();
-
-#ifdef GL_PACK_LSB_FIRST
-{
-	--count;
-	array_view<const GLenum> r = enum_value_range(x);
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		GL_PACK_LSB_FIRST
-	) != r.end());
-}
-#endif
-
-#ifdef GL_UNPACK_LSB_FIRST
-{
-	--count;
-	array_view<const GLenum> r = enum_value_range(x);
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		GL_UNPACK_LSB_FIRST
-	) != r.end());
-}
-#endif
 
 #ifdef GL_PACK_ALIGNMENT
 {
@@ -2119,6 +2097,17 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_range)
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
 		GL_PACK_IMAGE_HEIGHT
+	) != r.end());
+}
+#endif
+
+#ifdef GL_PACK_LSB_FIRST
+{
+	--count;
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_PACK_LSB_FIRST
 	) != r.end());
 }
 #endif
@@ -2244,6 +2233,17 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_range)
 }
 #endif
 
+#ifdef GL_UNPACK_LSB_FIRST
+{
+	--count;
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_UNPACK_LSB_FIRST
+	) != r.end());
+}
+#endif
+
 #ifdef GL_UNPACK_ROW_LENGTH
 {
 	--count;
@@ -2312,26 +2312,6 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_any)
 	any_enum_value a;
 	(void)a;
 
-#ifdef GL_PACK_LSB_FIRST
-	x = ev.PackLSBFirst;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.PackLSBFirst);
-#endif
-
-#ifdef GL_UNPACK_LSB_FIRST
-	x = ev.UnpackLSBFirst;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.UnpackLSBFirst);
-#endif
-
 #ifdef GL_PACK_ALIGNMENT
 	x = ev.pack_alignment;
 	a = x;
@@ -2390,6 +2370,16 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_any)
 	BOOST_CHECK(same_enum_class(a, y));
 	BOOST_CHECK(same_enum_class(x, y));
 	BOOST_CHECK(y == ev.pack_image_height);
+#endif
+
+#ifdef GL_PACK_LSB_FIRST
+	x = ev.pack_lsb_first;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.pack_lsb_first);
 #endif
 
 #ifdef GL_PACK_ROW_LENGTH
@@ -2500,6 +2490,16 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_any)
 	BOOST_CHECK(same_enum_class(a, y));
 	BOOST_CHECK(same_enum_class(x, y));
 	BOOST_CHECK(y == ev.unpack_image_height);
+#endif
+
+#ifdef GL_UNPACK_LSB_FIRST
+	x = ev.unpack_lsb_first;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.unpack_lsb_first);
 #endif
 
 #ifdef GL_UNPACK_ROW_LENGTH

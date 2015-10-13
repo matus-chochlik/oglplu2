@@ -18,22 +18,6 @@
 namespace oglplus {
 struct enum_values {
 
-#ifdef GL_PACK_LSB_FIRST
-static constexpr const enum_value<
-	GLenum,
-	GL_PACK_LSB_FIRST,
-	mp_list<pixel_parameter>
-> PackLSBFirst = {};
-#endif
-
-#ifdef GL_UNPACK_LSB_FIRST
-static constexpr const enum_value<
-	GLenum,
-	GL_UNPACK_LSB_FIRST,
-	mp_list<pixel_parameter>
-> UnpackLSBFirst = {};
-#endif
-
 #ifdef GL_ACCUM_ADJACENT_PAIRS_NV
 static constexpr const enum_value<
 	GLenum,
@@ -1656,6 +1640,14 @@ static constexpr const enum_value<
 	GL_EYE_LINEAR,
 	mp_list<path_gen_mode_nv>
 > eye_linear = {};
+#endif
+
+#ifdef GL_FALSE
+static constexpr const enum_value<
+	GLboolean,
+	GL_FALSE,
+	mp_list<true_false>
+> false_ = {};
 #endif
 
 #ifdef GL_FASTEST
@@ -4354,6 +4346,14 @@ static constexpr const enum_value<
 > pack_image_height = {};
 #endif
 
+#ifdef GL_PACK_LSB_FIRST
+static constexpr const enum_value<
+	GLenum,
+	GL_PACK_LSB_FIRST,
+	mp_list<pixel_parameter>
+> pack_lsb_first = {};
+#endif
+
 #ifdef GL_PACK_ROW_LENGTH
 static constexpr const enum_value<
 	GLenum,
@@ -6674,6 +6674,14 @@ static constexpr const enum_value<
 > triangular_nv = {};
 #endif
 
+#ifdef GL_TRUE
+static constexpr const enum_value<
+	GLboolean,
+	GL_TRUE,
+	mp_list<true_false>
+> true_ = {};
+#endif
+
 #ifdef GL_UNIFORM
 static constexpr const enum_value<
 	GLenum,
@@ -6760,6 +6768,14 @@ static constexpr const enum_value<
 	GL_UNPACK_IMAGE_HEIGHT,
 	mp_list<pixel_parameter>
 > unpack_image_height = {};
+#endif
+
+#ifdef GL_UNPACK_LSB_FIRST
+static constexpr const enum_value<
+	GLenum,
+	GL_UNPACK_LSB_FIRST,
+	mp_list<pixel_parameter>
+> unpack_lsb_first = {};
 #endif
 
 #ifdef GL_UNPACK_ROW_LENGTH

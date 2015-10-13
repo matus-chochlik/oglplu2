@@ -12,6 +12,7 @@
 #include <oglplus/enum_values.hpp>
 #include <oglplus/glsl/string_ref.hpp>
 #include <oglplus/error/format.hpp>
+#include <oglplus/utils/make_view.hpp>
 
 #include <eagine/scope_exit.hpp>
 
@@ -97,7 +98,7 @@ void run_loop(int width, int height)
 	gl.link(p);
 	gl.use(p);
 
-	vertex_attrib<GLfloat> coord(p, "Coord");
+	vertex_attrib<GLfloat[2]> coord(p, "Coord");
 	vertex_attrib<GLfloat> color1(p, "Color1");
 	vertex_attrib<GLfloat> color2(p, "Color2");
 
@@ -111,6 +112,7 @@ void run_loop(int width, int height)
 	const int nseg = 72;
 	const float sstep = float(twopi/nseg);
 	const float spart = float(1.0f/nseg);
+	const float z = 0, o = 1;
 	float a;
 
 	while(true)
@@ -129,37 +131,37 @@ void run_loop(int width, int height)
 		{
 			a = (s+0)*spart;
 
-			gl.vertex_attrib(coord, 0, a, false);
+			gl.vertex_attrib(coord, make_view({z, a}), false);
 			gl.vertex_attrib(color1, 0.2f, 0.1f, 0.1f, false);
 			gl.vertex_attrib(color2, 0.3f, 0.1f, 0.2f, false);
 			gl.vertex_f(0, 0);
 
-			gl.vertex_attrib(coord, 1, a, false);
+			gl.vertex_attrib(coord, make_view({o, a}), false);
 			gl.vertex_attrib(color1, 0.0f, 0.0f, 0.0f, false);
 			gl.vertex_attrib(color2, 0.9f, 0.3f, 0.4f, false);
 			gl.vertex_f(cos((s+0)*sstep), sin((s+0)*sstep));
 
 			a = (s+1)*spart;
 
-			gl.vertex_attrib(coord, 0, a, false);
+			gl.vertex_attrib(coord, make_view({z, a}), false);
 			gl.vertex_attrib(color1, 0.2f, 0.1f, 0.1f, false);
 			gl.vertex_attrib(color2, 0.3f, 0.1f, 0.2f, false);
 			gl.vertex_f(0, 0);
 
-			gl.vertex_attrib(coord, 1, a, false);
+			gl.vertex_attrib(coord, make_view({o, a}), false);
 			gl.vertex_attrib(color1, 0.0f, 0.0f, 0.0f, false);
 			gl.vertex_attrib(color2, 0.9f, 0.3f, 0.4f, false);
 			gl.vertex_f(cos((s+1)*sstep), sin((s+1)*sstep));
 		}
 		gl.end();
 
-		gl.vertex_attrib(color1, 0.2f, 0.1f, 0.1f);
-		gl.vertex_attrib(color2, 0.3f, 0.1f, 0.2f);
+		gl.vertex_attrib(color1, 0.2f, 0.1f, 0.1f, true);
+		gl.vertex_attrib(color2, 0.3f, 0.1f, 0.2f, true);
 
 		gl.begin(GL.line_loop);
 		for(int s=0; s<nseg; ++s)
 		{
-			gl.vertex_attrib(coord, 1, s*spart, false);
+			gl.vertex_attrib(coord, make_view({o, s*spart}), false);
 			gl.vertex_f(cos(s*sstep), sin(s*sstep));
 		}
 		gl.end();

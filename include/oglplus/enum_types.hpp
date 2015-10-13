@@ -416,6 +416,10 @@ struct transform_feedback_target
  : enum_class<transform_feedback_target, GLenum, 99>
 { using enum_class::enum_class; };
 
+struct true_false
+ : enum_class<true_false, GLboolean, 100>
+{ using enum_class::enum_class; };
+
 } // namespace oglplus
 
 #endif // include guard

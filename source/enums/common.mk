@@ -65,6 +65,14 @@ $(ROOT)/implement/$(LIBRARY)/enum_value_range.inl: $(SOURCES) $(MAKE_ENUM)
 .PHONY: _test_enums_cpp
 _test_enums_cpp: $(addprefix $(ROOT)/test/$(LIBRARY)/enums/,$(notdir $(patsubst %.txt,%.cpp,$(SOURCES))))
 
+$(ROOT)/test/$(LIBRARY)/enums/%.cpp: %.txt $(MAKE_ENUM)
+	$(MAKE_ENUM) \
+		--library $(LIBRARY) \
+		--base-lib-prefix $(LIB_PREFIX)\
+		--action test_enums_cpp \
+		--output "$@" "$<" 
+	git add "$@"
+
 $(ROOT)/test/$(LIBRARY)/enums/%.cpp: */%.txt $(MAKE_ENUM)
 	$(MAKE_ENUM) \
 		--library $(LIBRARY) \

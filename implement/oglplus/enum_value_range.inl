@@ -3830,6 +3830,19 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
+		case 100: /* true_false */
+		{
+			static const GLboolean vr[] = {
+#ifdef GL_FALSE
+				GL_FALSE,
+#endif
+#ifdef GL_TRUE
+				GL_TRUE,
+#endif
+				0
+			};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
+		}
 	default:;
 	}
 

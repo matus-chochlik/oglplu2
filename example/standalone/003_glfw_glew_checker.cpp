@@ -12,6 +12,7 @@
 #include <oglplus/enum_values.hpp>
 #include <oglplus/glsl/string_ref.hpp>
 #include <oglplus/error/format.hpp>
+#include <oglplus/utils/make_view.hpp>
 
 #include <eagine/scope_exit.hpp>
 
@@ -47,6 +48,9 @@ void run_loop(int width, int height)
 	gl.shader_source(fs, glsl_literal(
 	"#version 120\n"
 
+	"uniform vec3 Color1;\n"
+	"uniform vec3 Color2;\n"
+
 	"float checker(vec2 c)\n"
 	"{\n"
 	"	return mod(int(c.x*8)+int(c.y*8), 2);\n"
@@ -55,7 +59,7 @@ void run_loop(int width, int height)
 	"void main(void)\n"
 	"{\n"
 	"	float c = checker(gl_TexCoord[0].st);\n"
-	"	gl_FragColor = vec4(c,c,c,1);\n"
+	"	gl_FragColor = vec4(mix(Color1, Color2, c),1);\n"
 	"}\n"
 	));
 
@@ -66,6 +70,9 @@ void run_loop(int width, int height)
 	gl.attach_shader(p, fs);
 	gl.link(p);
 	gl.use(p);
+
+	gl.uniform(uniform<GLfloat>(p, "Color1"), 0.2f, 0.2f, 0.2f);
+	gl.uniform(uniform<GLfloat[3]>(p, "Color2"), 1, make_view({0.4f, 0.4f, 0.6f}));
 
 	gl.clear_color(0.6f, 0.7f, 0.6f, 0.0f);
 

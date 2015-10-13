@@ -829,6 +829,10 @@ noexcept
 	static const char s_EYE_LINEAR[11] = 
 		"EYE_LINEAR";
 #endif
+#ifdef GL_FALSE
+	static const char s_FALSE[6] = 
+		"FALSE";
+#endif
 #ifdef GL_FASTEST
 	static const char s_FASTEST[8] = 
 		"FASTEST";
@@ -3340,6 +3344,10 @@ noexcept
 #ifdef GL_TRIANGULAR_NV
 	static const char s_TRIANGULAR_NV[14] = 
 		"TRIANGULAR_NV";
+#endif
+#ifdef GL_TRUE
+	static const char s_TRUE[5] = 
+		"TRUE";
 #endif
 #ifdef GL_UNIFORM
 	static const char s_UNIFORM[8] = 
@@ -8412,6 +8420,20 @@ noexcept
 #ifdef GL_TRANSFORM_FEEDBACK
 				case GL_TRANSFORM_FEEDBACK:
 					return {s_TRANSFORM_FEEDBACK, 18};
+#endif
+				default:;
+			}
+			break;
+		case 100: /* true_false */
+			switch(GLboolean(aev._value))
+			{
+#ifdef GL_FALSE
+				case GL_FALSE:
+					return {s_FALSE, 5};
+#endif
+#ifdef GL_TRUE
+				case GL_TRUE:
+					return {s_TRUE, 4};
 #endif
 				default:;
 			}

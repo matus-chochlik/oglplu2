@@ -71,7 +71,7 @@ def src_name_to_dst_name(src_name):
 
 	keywords = [
 		'void','bool','byte','short','int','unsigned','float','double',
-		'not','and','or','xor'
+		'not','and','or','xor', 'true', 'false'
 	]
 
 	for keyword in keywords:

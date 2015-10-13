@@ -12,6 +12,7 @@
 
 #include "array_view.hpp"
 #include "identity.hpp"
+#include <initializer_list>
 
 namespace eagine {
 
@@ -40,6 +41,15 @@ make_view(T (&data)[N])
 noexcept
 {
 	return {data, N};
+}
+
+template <typename T>
+static inline
+array_view<const T>
+make_view(std::initializer_list<T> il)
+noexcept
+{
+	return {il.begin(), il.size()};
 }
 
 // TODO std::vector, std::array, ...

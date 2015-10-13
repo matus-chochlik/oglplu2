@@ -3,7 +3,7 @@
 # See accompanying file LICENSE_1_0.txt or copy at
 #  http://www.boost.org/LICENSE_1_0.txt
 PACK_SWAP_BYTES::::bool
-PACK_LSB_FIRST:PackLSBFirst:::bool
+PACK_LSB_FIRST::::bool
 PACK_ROW_LENGTH::::int
 PACK_SKIP_ROWS::::int
 PACK_SKIP_PIXELS::::int
@@ -16,7 +16,7 @@ PACK_COMPRESSED_BLOCK_DEPTH::::int
 PACK_COMPRESSED_BLOCK_SIZE::::int
 
 UNPACK_SWAP_BYTES::::bool
-UNPACK_LSB_FIRST:UnpackLSBFirst:::bool
+UNPACK_LSB_FIRST::::bool
 UNPACK_ROW_LENGTH::::int
 UNPACK_SKIP_ROWS::::int
 UNPACK_SKIP_PIXELS::::int
