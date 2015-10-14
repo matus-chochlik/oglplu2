@@ -103,6 +103,13 @@ struct object_traits<tag::mock_object>
 	{
 		return ~unsigned(0);
 	}
+
+	static constexpr inline
+	unsigned get_type(void)
+	noexcept
+	{
+		return 12345u;
+	}
 };
 
 using mock_object_name = object_name<tag::mock_object>;

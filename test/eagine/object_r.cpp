@@ -10,6 +10,7 @@
 
 #include "helper/mock_object.hpp"
 #include "helper/object_c.hpp"
+#include <cstdlib>
 
 BOOST_AUTO_TEST_SUITE(object)
 
@@ -23,6 +24,19 @@ BOOST_AUTO_TEST_CASE(object_1)
 {
 	using namespace eagine;
 	eagine_object_test<mock_object>();
+}
+
+BOOST_AUTO_TEST_CASE(object_any)
+{
+	using namespace eagine;
+
+	unsigned n = 1+unsigned(std::rand()%10000);
+
+	mock_object_name mon1(n);
+	any_object_name<unsigned, unsigned, ~unsigned(0), 0> aon(mon1);
+	mock_object_name mon2(aon);
+
+	BOOST_CHECK_EQUAL(get_raw_name(mon2), n);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
