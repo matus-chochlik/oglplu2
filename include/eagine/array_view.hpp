@@ -29,7 +29,8 @@
 
 namespace eagine {
 
-using Guide::array_view;
+using gsl::array_view;
+using gsl::as_array_view;
 
 } // namespace eagine
 

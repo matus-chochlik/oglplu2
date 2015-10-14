@@ -10,10 +10,12 @@
 
 #include <eagine/make_view.hpp>
 #include <cstdlib>
+#include <vector>
+#include <array>
 
 BOOST_AUTO_TEST_SUITE(make_view)
 
-BOOST_AUTO_TEST_CASE(make_view_1)
+BOOST_AUTO_TEST_CASE(make_view_default)
 {
 	using namespace eagine;
 
@@ -24,7 +26,7 @@ BOOST_AUTO_TEST_CASE(make_view_1)
 	BOOST_CHECK(vci.size() == 0);
 }
 
-BOOST_AUTO_TEST_CASE(make_view_2)
+BOOST_AUTO_TEST_CASE(make_view_ptr_size)
 {
 	using namespace eagine;
 
@@ -41,7 +43,7 @@ BOOST_AUTO_TEST_CASE(make_view_2)
 	BOOST_CHECK(vcf.data() == cfv);
 }
 
-BOOST_AUTO_TEST_CASE(make_view_3)
+BOOST_AUTO_TEST_CASE(make_view_carray)
 {
 	using namespace eagine;
 
@@ -58,6 +60,76 @@ BOOST_AUTO_TEST_CASE(make_view_3)
 	BOOST_CHECK(vcf.data() == cfv);
 }
 
-// TODO
+BOOST_AUTO_TEST_CASE(make_view_init_list)
+{
+	using namespace eagine;
+
+	array_view<const float> vf = eagine::make_view({1.f, 2.f, 3.f, 4.f});
+	BOOST_CHECK(vf.size() == 4);
+	BOOST_CHECK(vf[0] == 1.f);
+	BOOST_CHECK(vf[1] == 2.f);
+	BOOST_CHECK(vf[2] == 3.f);
+	BOOST_CHECK(vf[3] == 4.f);
+}
+
+BOOST_AUTO_TEST_CASE(make_view_std_vector)
+{
+	using namespace eagine;
+
+	std::vector<int> v;
+
+	for(int i=0, n=10+std::rand()%100; i<n; ++i)
+	{	
+		v.push_back(std::rand());
+	}
+
+	array_view<int> vi = eagine::make_view(v);
+	BOOST_CHECK(vi.size() == v.size());
+
+	for(std::size_t l=0; l<v.size(); ++l)
+	{
+		BOOST_CHECK(vi[l] == v[l]);
+	}
+
+	const std::vector<int>& vr = v;
+
+	array_view<const int> cvi = eagine::make_view(vr);
+	BOOST_CHECK(cvi.size() == vr.size());
+
+	for(std::size_t l=0; l<vr.size(); ++l)
+	{
+		BOOST_CHECK(cvi[l] == vr[l]);
+	}
+}
+
+BOOST_AUTO_TEST_CASE(make_view_std_array)
+{
+	using namespace eagine;
+
+	std::array<int, 100> a;
+
+	for(std::size_t l=0; l<a.size(); ++l)
+	{	
+		a[l] = std::rand();
+	}
+
+	array_view<int> vi = eagine::make_view(a);
+	BOOST_CHECK(vi.size() == a.size());
+
+	for(std::size_t l=0; l<a.size(); ++l)
+	{
+		BOOST_CHECK(vi[l] == a[l]);
+	}
+
+	const std::array<int, 100>& ar = a;
+
+	array_view<const int> cvi = eagine::make_view(ar);
+	BOOST_CHECK(cvi.size() == ar.size());
+
+	for(std::size_t l=0; l<ar.size(); ++l)
+	{
+		BOOST_CHECK(cvi[l] == ar[l]);
+	}
+}
 
 BOOST_AUTO_TEST_SUITE_END()

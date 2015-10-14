@@ -1,5 +1,5 @@
 /**
- *  @file eagine/string_view.hpp
+ *  @file eagine/not_null.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_STRING_VIEW_1509260923_HPP
-#define EAGINE_STRING_VIEW_1509260923_HPP
+#ifndef EAGINE_NOT_NULL_1509260923_HPP
+#define EAGINE_NOT_NULL_1509260923_HPP
 
 #include "std_fixes.hpp"
 
@@ -21,7 +21,7 @@
 #pragma clang diagnostic ignored "-Wshadow"
 #endif
 
-#include <string_view.h>
+#include <gsl.h>
 
 #ifdef __clang__
 #pragma clang diagnostic pop
@@ -29,8 +29,7 @@
 
 namespace eagine {
 
-using gsl::string_view;
-using gsl::cstring_view;
+using gsl::not_null;
 
 } // namespace eagine
 
