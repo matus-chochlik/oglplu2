@@ -10,6 +10,7 @@
 
 #include <oglplus/gl.hpp>
 #include <oglplus/error/format.hpp>
+#include "helper/mock_object.hpp"
 #include <sstream>
 
 BOOST_AUTO_TEST_SUITE(error_format)
@@ -17,15 +18,18 @@ BOOST_AUTO_TEST_SUITE(error_format)
 oglplus::error_info
 get_error_info(void)
 {
-	return oglplus::error_info()
-		.gl_library_name("GL")
-		.gl_function_name("Function")
-		.source_function("function")
-		.source_file("file.cpp")
-		.source_line(12345)
-		.gl_object_name(23456)
-		.gl_subject_name(34567)
-		.gl_error_code(GL_OUT_OF_MEMORY);
+	using namespace oglplus;
+	return std::move(
+		oglplus::error_info()
+			.gl_library_name("GL")
+			.gl_function_name("Function")
+			.source_function("function")
+			.source_file("file.cpp")
+			.source_line(12345)
+			.gl_object(mock_object_name(23456))
+			.gl_subject(mock_object_name(34567))
+			.gl_error_code(GL_OUT_OF_MEMORY)
+	);
 }
 
 BOOST_AUTO_TEST_CASE(error_format_empty)
@@ -213,15 +217,15 @@ BOOST_AUTO_TEST_CASE(error_format_gl_object_name)
 
 	std::stringstream out;
 
-	format_error_info(get_error_info(), "%(gl_object_name)", "N/A", out);
+	format_error_info(get_error_info(), "%(gl_object)", "N/A", out);
 	BOOST_CHECK(out.str() == "23456" || out.str() == "N/A");
 	out.str(std::string());
 
-	format_error_info(error_info(), "%(gl_object_name|fallback)", out);
+	format_error_info(error_info(), "%(gl_object|fallback)", out);
 	BOOST_CHECK(out.str() == "fallback");
 	out.str(std::string());
 
-	format_error_info(error_info(), "%(gl_object_name|)", "", out);
+	format_error_info(error_info(), "%(gl_object|)", "", out);
 	BOOST_CHECK(out.str().empty());
 	out.str(std::string());
 }
@@ -232,7 +236,7 @@ BOOST_AUTO_TEST_CASE(error_format_fallback)
 
 	std::stringstream out;
 
-	format_error_info(error_info(), "%(gl_object_name)", "N/A", out);
+	format_error_info(error_info(), "%(gl_object)", "N/A", out);
 	BOOST_CHECK(out.str() == "N/A");
 	out.str(std::string());
 }

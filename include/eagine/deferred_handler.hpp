@@ -100,17 +100,31 @@ public:
 	{ }
 
 	constexpr inline
-	deferred_handler(Data data)
+	deferred_handler(Data&& data)
 	noexcept
 	 : _handler()
 	 , _data(std::move(data))
 	{ }
 
 	constexpr inline
-	deferred_handler(HandlerPolicy handler, Data data)
+	deferred_handler(const Data& data)
+	noexcept
+	 : _handler()
+	 , _data(data)
+	{ }
+
+	constexpr inline
+	deferred_handler(HandlerPolicy handler, Data&& data)
 	noexcept
 	 : _handler(std::move(handler))
 	 , _data(std::move(data))
+	{ }
+
+	constexpr inline
+	deferred_handler(HandlerPolicy handler, const Data& data)
+	noexcept
+	 : _handler(std::move(handler))
+	 , _data(data)
 	{ }
 
 	deferred_handler(const deferred_handler&) = delete;

@@ -72,12 +72,12 @@ using deferred_error_handler = deferred_handler<
 	GLenum oglplus_error_code##__LINE__ = ERROR_CODE;\
 	if(CONDITION(oglplus_error_code##__LINE__))\
 	{\
-		return oglplus::deferred_error_handler(\
+		return oglplus::deferred_error_handler(std::move(\
 			oglplus::error_info(oglplus_error_code##__LINE__)\
 				.ERROR_INFO\
 				.source_file(__FILE__)\
 				.source_line(__LINE__)\
-		);\
+		));\
 	}\
 }
 

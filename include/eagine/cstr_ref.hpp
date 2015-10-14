@@ -40,7 +40,10 @@ public:
 	 : cstr_ref(cstr, std::strlen(cstr))
 	{ }
 
-	template <typename Container>
+	template <
+		typename Container,
+		typename = typename Container::value_type
+	>
 	cstr_ref(const Container& cont)
 	noexcept
 	 : cstr_ref(cont.data(), cont.size())

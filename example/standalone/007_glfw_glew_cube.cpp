@@ -310,6 +310,7 @@ int main(void)
 			gle,
 			"OpenGL error\n"
 			"in GL function: %(gl_function_name)\n"
+			"with object: %(gl_object)\n"
 			"with enum parameter: %(enum_value)\n"
 			"from source file: %(source_file)\n"
 			"%(message)",

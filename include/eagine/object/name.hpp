@@ -21,10 +21,10 @@ class object_names<ObjTag, typename object_traits<ObjTag>::name_type>
 {
 private:
 	typedef object_traits<ObjTag> _traits;
-	typename _traits::name_type _name;
+	typedef typename _traits::name_type _name_type;
+	_name_type _name;
 
-	typename _traits::name_type
-	_release_name(void)
+	_name_type _release_name(void)
 	noexcept
 	{
 		auto name = _name;
@@ -38,11 +38,20 @@ public:
 	 : _name(_traits::invalid_name())
 	{ }
 
-	constexpr
-	object_names(typename _traits::name_type name)
+	explicit constexpr
+	object_names(_name_type name)
 	noexcept
 	 : _name(name)
 	{ }
+
+	template <typename TypeT, _name_type In, TypeT It>
+	explicit constexpr
+	object_names(const any_object_name<_name_type, TypeT, In, It>& name)
+	noexcept
+	 : _name(name._name)
+	{
+		assert(name._type == _traits::get_type());
+	}
 
 	object_names(const object_names&) = default;
 	object_names& operator = (const object_names&) = default;
@@ -59,18 +68,25 @@ public:
 		return *this;
 	}
 
+	constexpr inline
+	bool is_valid(void) const
+	noexcept
+	{
+		return _name != _traits::invalid_name();
+	}
+
 	explicit constexpr inline
 	operator bool (void) const
 	noexcept
 	{
-		return _name != _traits::invalid_name();
+		return is_valid();
 	}
 
 	constexpr inline
 	bool operator ! (void) const
 	noexcept
 	{
-		return _name == _traits::invalid_name();
+		return !is_valid();
 	}
 
 	friend constexpr inline
@@ -122,7 +138,7 @@ public:
 	}
 
 	friend inline constexpr
-	typename _traits::name_type
+	_name_type
 	get_raw_name(object_names nt)
 	noexcept
 	{
@@ -130,7 +146,7 @@ public:
 	}
 
 	friend inline constexpr
-	array_view<typename _traits::name_type>
+	array_view<_name_type>
 	get_raw_names(object_names& ntr)
 	noexcept
 	{
@@ -149,6 +165,73 @@ public:
 	 : object_name<ObjTag>(0)
 	{ }
 };
+
+template <typename NameT, typename TypeT, NameT InvalidName, TypeT InvalidType>
+struct any_object_name
+{
+	NameT _name;
+	TypeT _type;
+
+	constexpr inline
+	any_object_name(void)
+	noexcept
+	 : _name(InvalidName)
+	 , _type(InvalidType)
+	{ }
+
+	template <typename ObjTag>
+	constexpr
+	any_object_name(object_names<ObjTag, NameT> name)
+	noexcept
+	 : _name(get_raw_name(name))
+	 , _type(object_traits<ObjTag>::get_type())
+	{ }
+
+	constexpr inline
+	bool is_valid(void) const
+	noexcept
+	{
+		return (_name != InvalidName) && (_type != InvalidType);
+	}
+
+	explicit constexpr inline
+	operator bool (void) const
+	noexcept
+	{
+		return is_valid();
+	}
+
+	constexpr inline
+	bool operator ! (void) const
+	noexcept
+	{
+		return !is_valid();
+	}
+
+	friend constexpr inline
+	bool operator == (const any_object_name& a, const any_object_name& b)
+	noexcept
+	{
+		return (a._name == b._name) && (a._type == b._type);
+	}
+
+	friend constexpr inline
+	bool operator != (const any_object_name& a, const any_object_name& b)
+	noexcept
+	{
+		return (a._name != b._name) || (a._type != b._type);
+	}
+};
+
+template <typename NameT, typename TypeT, NameT In, TypeT It>
+static constexpr inline
+bool same_object_type(
+	const any_object_name<NameT, TypeT, In, It>& a,
+	const any_object_name<NameT, TypeT, In, It>& b
+) noexcept
+{
+	return a._type == b._type;
+}
 
 } // namespace eagine
 

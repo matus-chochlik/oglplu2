@@ -36,6 +36,13 @@ struct object_traits<oglplus::tag::gl_obj_tag<Tag>>
 	{
 		return ~GLuint(0);
 	}
+
+	static inline constexpr
+	GLenum get_type(void)
+	noexcept
+	{
+		return Tag;
+	}
 };
 
 } // namespace eagine

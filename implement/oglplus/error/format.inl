@@ -7,7 +7,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <oglplus/error/error.hpp>
-#include <oglplus/enum_value_names.hpp>
+#include <oglplus/object/ios.hpp>
 #include <iostream>
 #include <stdexcept>
 #include <algorithm>
@@ -162,13 +162,13 @@ format_error_info(
 		{
 			print(info.source_line(), 0u);
 		}
-		else if(placeholder == "gl_object_name")
+		else if(placeholder == "gl_object")
 		{
-			print(info.gl_object_name(), info.invalid_gl_obj_name());
+			print(info.gl_object(), any_object_name());
 		}
-		else if(placeholder == "gl_subject_name")
+		else if(placeholder == "gl_subject")
 		{
-			print(info.gl_subject_name(), info.invalid_gl_obj_name());
+			print(info.gl_subject(), any_object_name());
 		}
 		else if(placeholder == "enum_value")
 		{

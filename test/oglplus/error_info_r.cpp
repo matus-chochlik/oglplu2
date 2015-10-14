@@ -8,8 +8,20 @@
 #define BOOST_TEST_MODULE OGLPLUS_error_info
 #include <boost/test/unit_test.hpp>
 
+# define OGLPLUS_ERROR_NO_GL_LIB 0
+# define OGLPLUS_ERROR_NO_GL_FUNC 0
+# define OGLPLUS_ERROR_NO_SRC_FILE 0
+# define OGLPLUS_ERROR_NO_SRC_LINE 0
+# define OGLPLUS_ERROR_NO_SRC_FUNC 0
+# define OGLPLUS_ERROR_NO_OBJECT 0
+# define OGLPLUS_ERROR_NO_SUBJECT 0
+# define OGLPLUS_ERROR_NO_INDEX 0
+# define OGLPLUS_ERROR_NO_ENUM_VALUE 0
+# define OGLPLUS_ERROR_NO_BUILD_LOG 0
+
 #include <oglplus/gl.hpp>
 #include <oglplus/error/info.hpp>
+#include "helper/mock_object.hpp"
 #include <cstring>
 
 BOOST_AUTO_TEST_SUITE(error_info)
@@ -55,16 +67,16 @@ BOOST_AUTO_TEST_CASE(error_info_1)
 		(ei1.source_line() ==  12345)
 	));
 
-	ei1.gl_object_name(23456);
+	ei1.gl_object(mock_object_name(23456));
 	BOOST_CHECK((
-		(ei1.gl_object_name() == ei1.invalid_gl_obj_name()) ||
-		(ei1.gl_object_name(), 23456)
+		(ei1.gl_object() == mock_object_name()) ||
+		(ei1.gl_object(), mock_object_name(23456))
 	));
 
-	ei1.gl_subject_name(34567);
+	ei1.gl_subject(mock_object_name(34567));
 	BOOST_CHECK((
-		(ei1.gl_subject_name() == ei1.invalid_gl_obj_name()) ||
-		(ei1.gl_subject_name(), 34567)
+		(ei1.gl_subject() == mock_object_name()) ||
+		(ei1.gl_subject(), mock_object_name(34567))
 	));
 }
 
@@ -79,11 +91,11 @@ BOOST_AUTO_TEST_CASE(error_info_2)
 		.source_function("function")
 		.source_file("file.cpp")
 		.source_line(12345)
-		.gl_object_name(23456)
-		.gl_subject_name(34567)
+		.gl_object(mock_object_name(23456))
+		.gl_subject(mock_object_name(34567))
 		.gl_error_code(GL_OUT_OF_MEMORY);
 
-	oglplus::error_info ei2(ei1);
+	oglplus::error_info ei2(std::move(ei1));
 
 	BOOST_CHECK(ei2.gl_error_code() == GL_OUT_OF_MEMORY);
 
@@ -113,13 +125,13 @@ BOOST_AUTO_TEST_CASE(error_info_2)
 	));
 
 	BOOST_CHECK((
-		(ei2.gl_object_name() == ei2.invalid_gl_obj_name()) ||
-		(ei2.gl_object_name(), 23456)
+		(ei2.gl_object() == mock_object_name()) ||
+		(ei2.gl_object(), mock_object_name(23456))
 	));
 
 	BOOST_CHECK((
-		(ei2.gl_subject_name() == ei2.invalid_gl_obj_name()) ||
-		(ei2.gl_subject_name(), 34567)
+		(ei2.gl_subject() == mock_object_name()) ||
+		(ei2.gl_subject(), mock_object_name(34567))
 	));
 }
 

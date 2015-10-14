@@ -42,6 +42,9 @@ class owned;
 template <typename ObjTag>
 class object_owner;
 
+template <typename NameT, typename TypeT, NameT InvalidName, TypeT InvalidType>
+struct any_object_name;
+
 } // namespace eagine
 
 #endif // include guard

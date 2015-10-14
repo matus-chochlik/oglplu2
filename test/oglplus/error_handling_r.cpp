@@ -10,6 +10,7 @@
 
 #include <oglplus/gl.hpp>
 #include <oglplus/error/handling.hpp>
+#include "helper/mock_object.hpp"
 
 BOOST_AUTO_TEST_SUITE(error_handling)
 
@@ -28,8 +29,8 @@ BOOST_AUTO_TEST_CASE(error_handling_1)
 				.source_function("function")
 				.source_file("file.cpp")
 				.source_line(12345)
-				.gl_object_name(23456)
-				.gl_subject_name(34567)
+				.gl_object(mock_object_name(23456))
+				.gl_subject(mock_object_name(34567))
 				.gl_error_code(GL_OUT_OF_MEMORY)
 		);
 		BOOST_CHECK_MESSAGE(
@@ -67,13 +68,13 @@ BOOST_AUTO_TEST_CASE(error_handling_1)
 		));
 
 		BOOST_CHECK((
-			(e.info().gl_object_name() == e.info().invalid_gl_obj_name()) ||
-			(e.info().gl_object_name(), 23456)
+			(e.info().gl_object() == mock_object_name()) ||
+			(e.info().gl_object(), mock_object_name(23456))
 		));
 
 		BOOST_CHECK((
-			(e.info().gl_subject_name() == e.info().invalid_gl_obj_name()) ||
-			(e.info().gl_subject_name(), 34567)
+			(e.info().gl_subject() == mock_object_name()) ||
+			(e.info().gl_subject(), mock_object_name(34567))
 		));
 		++passed;
 	}
@@ -89,17 +90,17 @@ BOOST_AUTO_TEST_CASE(error_handling_2)
 	try
 	{
 		{
-			auto dh = deferred_error_handler(
+			auto dh = deferred_error_handler(std::move(
 				error_info()
 					.gl_library_name("GLX")
 					.gl_function_name("Func")
 					.source_function("func")
 					.source_file("file.hpp")
 					.source_line(54321)
-					.gl_object_name(65432)
-					.gl_subject_name(76543)
+					.gl_object(mock_object_name(65432))
+					.gl_subject(mock_object_name(76543))
 					.gl_error_code(GL_INVALID_OPERATION)
-			);
+			));
 			++passed;
 		}
 		BOOST_CHECK_MESSAGE(
@@ -137,13 +138,13 @@ BOOST_AUTO_TEST_CASE(error_handling_2)
 		));
 
 		BOOST_CHECK((
-			(e.info().gl_object_name() == e.info().invalid_gl_obj_name()) ||
-			(e.info().gl_object_name(), 65432)
+			(e.info().gl_object() == mock_object_name()) ||
+			(e.info().gl_object(), mock_object_name(65432))
 		));
 
 		BOOST_CHECK((
-			(e.info().gl_subject_name() == e.info().invalid_gl_obj_name()) ||
-			(e.info().gl_subject_name(), 76543)
+			(e.info().gl_subject() == mock_object_name()) ||
+			(e.info().gl_subject(), mock_object_name(76543))
 		));
 		++passed;
 	}
@@ -160,17 +161,17 @@ BOOST_AUTO_TEST_CASE(error_handling_3)
 	{
 		auto fn = [](void) -> deferred_error_handler
 		{
-			return deferred_error_handler(
+			return deferred_error_handler(std::move(
 				error_info()
 					.gl_library_name("WGL")
 					.gl_function_name("FunctionW")
 					.source_function("func")
 					.source_file("file.h")
 					.source_line(11111)
-					.gl_object_name(22222)
-					.gl_subject_name(33333)
+					.gl_object(mock_object_name(22222))
+					.gl_subject(mock_object_name(33333))
 					.gl_error_code(GL_INVALID_VALUE)
-			);
+			));
 		};
 		++passed;
 		fn();
@@ -209,13 +210,13 @@ BOOST_AUTO_TEST_CASE(error_handling_3)
 		));
 
 		BOOST_CHECK((
-			(e.info().gl_object_name() == e.info().invalid_gl_obj_name()) ||
-			(e.info().gl_object_name(), 22222)
+			(e.info().gl_object() == mock_object_name()) ||
+			(e.info().gl_object(), mock_object_name(22222))
 		));
 
 		BOOST_CHECK((
-			(e.info().gl_subject_name() == e.info().invalid_gl_obj_name()) ||
-			(e.info().gl_subject_name(), 33333)
+			(e.info().gl_subject() == mock_object_name()) ||
+			(e.info().gl_subject(), mock_object_name(33333))
 		));
 		++passed;
 	}

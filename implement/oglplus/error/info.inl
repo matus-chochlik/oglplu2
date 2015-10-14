@@ -6,23 +6,59 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
+#include <string>
+#endif
 
 namespace oglplus {
 //------------------------------------------------------------------------------
-constexpr inline
-GLuint
+#if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
+//------------------------------------------------------------------------------
+#if !OGLPLUS_ERROR_NO_EXTENDED_INFO
+//------------------------------------------------------------------------------
+struct extended_error_info
+{
+#if !OGLPLUS_ERROR_NO_SUBJECT
+	any_object_name _sub_name;
+#endif
+
+#if !OGLPLUS_ERROR_NO_BUILD_LOG
+	std::string _build_log;
+#endif
+	extended_error_info(void)
+	noexcept
+	{ }
+};
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+extended_error_info&
 error_info::
-invalid_gl_obj_name(void)
+_ext_info(void) const
 noexcept
 {
-	return ~GLuint(0);
+	if(!_ext_info_ptr)
+	{
+		try { _ext_info_ptr.reset(new extended_error_info()); }
+		catch(...) { }
+	}
+	if(!_ext_info_ptr)
+	{
+		static extended_error_info fbk;
+		return fbk;
+	}
+	return *_ext_info_ptr;
 }
+//------------------------------------------------------------------------------
+#endif // NO_EXTENDED_INFO
+//------------------------------------------------------------------------------
+#endif // LINK_LIBRARY
 //------------------------------------------------------------------------------
 constexpr inline
 error_info::
 error_info(GLenum gl_err_code)
 noexcept
  : _gl_err_code(gl_err_code)
+ , _ext_info_ptr()
 #if! OGLPLUS_ERROR_NO_GL_LIB
  , _gl_lb_name(nullptr)
 #endif
@@ -38,11 +74,8 @@ noexcept
 #if! OGLPLUS_ERROR_NO_SRC_LINE
  , _src_line(0)
 #endif
-#if !OGLPLUS_ERROR_NO_OBJ_NAME
- , _obj_name(invalid_gl_obj_name())
-#endif
-#if !OGLPLUS_ERROR_NO_SUB_NAME
- , _sub_name(invalid_gl_obj_name())
+#if !OGLPLUS_ERROR_NO_OBJECT
+ , _obj_name()
 #endif
 #if !OGLPLUS_ERROR_NO_INDEX
  , _index(~GLuint(0))
@@ -209,10 +242,10 @@ noexcept
 inline
 error_info&
 error_info::
-gl_object_name(GLuint obj_name)
+gl_object(const any_object_name& obj_name)
 noexcept
 {
-#if !OGLPLUS_ERROR_NO_OBJ_NAME
+#if !OGLPLUS_ERROR_NO_OBJECT
 	_obj_name = obj_name;
 #else
 	(void)obj_name;
@@ -220,75 +253,49 @@ noexcept
 	return *this;
 }
 //------------------------------------------------------------------------------
-template <typename ObjTag>
 inline
-error_info&
+any_object_name
 error_info::
-gl_object(const object_names<ObjTag, GLuint>& obj)
+gl_object(void) const
 noexcept
 {
-#if !OGLPLUS_ERROR_NO_OBJ_NAME
-	return gl_object_name(get_raw_name(obj));
-#else
-	(void)obj;
-	return *this;
-#endif
-}
-//------------------------------------------------------------------------------
-inline
-GLuint
-error_info::
-gl_object_name(void) const
-noexcept
-{
-#if !OGLPLUS_ERROR_NO_OBJ_NAME
+#if !OGLPLUS_ERROR_NO_OBJECT
 	return _obj_name;
 #else
 	return invalid_gl_obj_name();
 #endif
 }
 //------------------------------------------------------------------------------
-inline
+#if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
 error_info&
 error_info::
-gl_subject_name(GLuint sub_name)
+gl_subject(const any_object_name& sub_name)
 noexcept
 {
-#if !OGLPLUS_ERROR_NO_SUB_NAME
-	_sub_name = sub_name;
+#if !OGLPLUS_ERROR_NO_SUBJECT
+	_ext_info()._sub_name = sub_name;
 #else
 	(void)sub_name;
 #endif
 	return *this;
 }
 //------------------------------------------------------------------------------
-template <typename ObjTag>
-inline
-error_info&
+OGLPLUS_LIB_FUNC
+any_object_name
 error_info::
-gl_subject(const object_names<ObjTag, GLuint>& sub)
+gl_subject(void) const
 noexcept
 {
-#if !OGLPLUS_ERROR_NO_SUB_NAME
-	return gl_subject_name(get_raw_name(sub));
-#else
-	(void)sub;
-	return *this;
-#endif
-}
-//------------------------------------------------------------------------------
-inline
-GLuint
-error_info::
-gl_subject_name(void) const
-noexcept
-{
-#if !OGLPLUS_ERROR_NO_SUB_NAME
-	return _sub_name;
+#if !OGLPLUS_ERROR_NO_SUBJECT
+	return _ext_info()._sub_name;
 #else
 	return invalid_gl_obj_name();
 #endif
 }
+//------------------------------------------------------------------------------
+#endif // LINK_LIBRARY
 //------------------------------------------------------------------------------
 inline
 error_info&
@@ -344,5 +351,37 @@ noexcept
 	return enum_val;
 #endif
 }
+//------------------------------------------------------------------------------
+#if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+error_info&
+error_info::
+build_log(const cstring_view<>& log)
+noexcept
+{
+#if !OGLPLUS_NO_BUILD_LOG
+	try { _ext_info()._build_log.assign(log.begin(), log.end()); }
+	catch(...) { }
+#else
+	(void)log;
+#endif
+	return *this;
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+cstring_view<>
+error_info::
+build_log(void) const
+noexcept
+{
+#if !OGLPLUS_NO_BUILD_LOG
+	return _ext_info()._build_log;
+#else
+	return {};
+#endif
+}
+//------------------------------------------------------------------------------
+#endif // LINK_LIBRARY
 //------------------------------------------------------------------------------
 } // namespace oglplus
