@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_VECT_CAST_1308281038_HPP
-#define EAGINE_VECT_CAST_1308281038_HPP
+#ifndef EAGINE_VECT_CAST_1509260923_HPP
+#define EAGINE_VECT_CAST_1509260923_HPP
 
 #include "fill.hpp"
 #include "../int_sequence.hpp"

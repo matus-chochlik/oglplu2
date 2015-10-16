@@ -25,4 +25,7 @@ add_runtime_test_dependency(eagine "vect_data_r" "vect_axis_r")
 add_runtime_test_dependency(eagine "vect_data_r" "vect_from_r")
 add_runtime_test_dependency(eagine "vect_data_r" "vect_shuffle_r")
 add_runtime_test_dependency(eagine "vect_shuffle_r" "vect_hsum_r")
+add_runtime_test_dependency(eagine "vect_data_r" "vect_abs_r")
+add_runtime_test_dependency(eagine "vect_abs_r" "vect_diff_r")
+add_runtime_test_dependency(eagine "vect_esum_r" "vect_diff_r")
 
