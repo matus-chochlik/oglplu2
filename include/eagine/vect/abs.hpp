@@ -18,6 +18,8 @@ namespace vect {
 template <typename T, unsigned N, bool V>
 struct abs
 {
+	// TODO: SIMD version?
+
 	static
 	data_t<T, N, V>
 	apply(data_t<T, N, V> v)

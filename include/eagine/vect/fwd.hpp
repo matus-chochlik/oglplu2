@@ -29,6 +29,9 @@ template <typename T, unsigned N, bool V>
 struct has_vect_data;
 
 template <typename T, unsigned N, bool V>
+using has_vect_data_t = typename has_vect_data<T, N, V>::type;
+
+template <typename T, unsigned N, bool V>
 struct data;
 
 template <typename T, unsigned N, bool V>
