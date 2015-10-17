@@ -10,6 +10,8 @@
 #define OGLPLUS_CTXT_BUFFER_CLEARING_1509260923_HPP
 
 #include "../utils/gl_func.hpp"
+#include "../utils/vec_mat_traits.hpp"
+#include "../utils/array_view.hpp"
 #include "../error/handling.hpp"
 #include "../error/outcome.hpp"
 #include "../enum_types.hpp"
@@ -56,6 +58,21 @@ struct buffer_clearing_state
 		OGLPLUS_GLFUNC(ClearColor)(r,g,b,a);
 		OGLPLUS_VERIFY_SIMPLE(ClearColor,always);
 		return {};
+	}
+
+	template <
+		typename V,
+		typename = typename std::enable_if<
+			has_canonical_type<V, GLfloat[4]>::value
+		>::type
+	>
+	static
+	outcome<void>
+	clear_color(const V& cc)
+	noexcept
+	{
+		auto ccv = element_view(cc);
+		return clear_color(ccv[0],ccv[1],ccv[2],ccv[3]);
 	}
 
 	static

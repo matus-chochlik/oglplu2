@@ -18,7 +18,7 @@ using eagine::is_known_vector_type;
 using eagine::is_known_matrix_type;
 
 using eagine::canonical_compound_type;
-using eagine::has_canonical_compound_type;
+using eagine::has_canonical_type;
 
 using eagine::element_view;
 using eagine::is_row_major;

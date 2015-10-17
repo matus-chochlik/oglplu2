@@ -13,6 +13,7 @@
 #include <oglplus/glsl/string_ref.hpp>
 #include <oglplus/error/format.hpp>
 #include <oglplus/utils/make_view.hpp>
+#include <oglplus/math/vector.hpp>
 
 #include <eagine/scope_exit.hpp>
 
@@ -74,7 +75,7 @@ void run_loop(int width, int height)
 	gl.uniform(uniform<GLfloat>(p, "Color1"), 0.2f, 0.2f, 0.2f);
 	gl.uniform(uniform<GLfloat[3]>(p, "Color2"), 1, make_view({0.4f, 0.4f, 0.6f}));
 
-	gl.clear_color(0.6f, 0.7f, 0.6f, 0.0f);
+	gl.clear_color(vec4(0.6f, 0.7f, 0.6f, 0.0f));
 
 	handle_resize(width, height);
 

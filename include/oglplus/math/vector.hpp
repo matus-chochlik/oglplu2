@@ -14,16 +14,15 @@
 namespace oglplus {
 
 using eagine::math::vector;
-using eagine::math::tvec;
 
-template <typename T, bool V = true>
-using vec2 = tvec<T, 2, V>;
+template <typename T, unsigned N, bool V = true>
+using tvec = eagine::math::tvec<T, N, V>;
 
-template <typename T, bool V = true>
-using vec3 = tvec<T, 3, V>;
+using vec2 = tvec<GLfloat, 2>;
 
-template <typename T, bool V = true>
-using vec4 = tvec<T, 4, V>;
+using vec3 = tvec<GLfloat, 3>;
+
+using vec4 = tvec<GLfloat, 4>;
 
 } // namespace oglplus
 

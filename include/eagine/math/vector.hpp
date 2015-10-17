@@ -201,13 +201,15 @@ struct canonical_compound_type<math::vector<T, N, V>>
 { };
 
 template <typename T, unsigned N, bool V>
-static inline
-auto element_view(const math::vector<T, N, V>& v)
-noexcept
+struct compound_view_maker<math::vector<T, N, V>>
 {
-	return eagine::vect::view<T, N, V>::apply(v._v);
-}
-
+	inline
+	auto operator()(const math::vector<T, N, V>& v) const
+	noexcept
+	{
+		return vect::view<T, N, V>::apply(v._v);
+	}
+};
 
 } // namespace eagine
 

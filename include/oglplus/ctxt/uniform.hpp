@@ -196,7 +196,7 @@ struct uniform_ops
 		return oglplus::prog_var_get_set_ops<tag::uniform>::set(
 			canonical_compound_type<X>(),
 			loc,
-			1, is_row_major(x), element_view(x)
+			1, is_row_major<X>::value, element_view(x)
 		);
 	}
 

@@ -116,6 +116,17 @@ struct canonical_compound_type<math::tvec<T, N, V>>
  : identity<typename std::remove_cv<T[N]>::type>
 { };
 
+template <typename T, unsigned N, bool V>
+struct compound_view_maker<math::tvec<T, N, V>>
+{
+	inline
+	auto operator()(const math::vector<T, N, V>& v) const
+	noexcept
+	{
+		return vect::view<T, N, V>::apply(v._v);
+	}
+};
+
 } // namespace eagine
 
 #endif //include guard

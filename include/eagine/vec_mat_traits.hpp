@@ -43,7 +43,7 @@ struct canonical_compound_type
 { };
 
 template <typename C, typename CT>
-struct has_canonical_compound_type
+struct has_canonical_type
  : std::is_same<typename canonical_compound_type<C>::type, CT>
 { };
 
@@ -57,36 +57,59 @@ struct canonical_compound_type<T[C][R]>
  : identity<typename std::remove_cv<T[C][R]>::type>
 { };
 
+template <typename C>
+struct compound_view_maker;
+
+template <typename C>
+static inline
+auto element_view(const C& c)
+noexcept
+{
+	return compound_view_maker<C>()(c);
+}
+
+template <typename T, std::size_t N>
+struct compound_view_maker<T[N]>
+{
+	inline
+	array_view<T> operator()(T (&v)[N]) const
+	noexcept
+	{
+		return {v, N};
+	}
+};
+
 template <typename T, std::size_t N>
 static inline
-array_view<T>
-element_view(T (&v)[N])
+auto element_view(T (&v) [N])
 noexcept
 {
-	return {v, N};
+	return compound_view_maker<T[N]>()(v);
 }
+
+template <typename T, std::size_t C, std::size_t R>
+struct compound_view_maker<T[C][R]>
+{
+	inline
+	array_view<T> operator()(T (&v)[C][R]) const
+	noexcept
+	{
+		return {v[0], C*R};
+	}
+};
 
 template <typename T, std::size_t C, std::size_t R>
 static inline
-array_view<T>
-element_view(T (&v)[C][R])
+auto element_view(T (&m) [C][R])
 noexcept
 {
-	return {v[0], C*R};
+	return compound_view_maker<T[C][R]>()(m);
 }
 
-template <typename R>
-static constexpr inline
-bool is_row_major(R)
-noexcept;
-
-template <typename T, std::size_t C, std::size_t R>
-static constexpr inline
-bool is_row_major(T (&)[C][R])
-noexcept
-{
-	return false;
-}
+template <typename C>
+struct is_row_major
+ : std::false_type
+{ };
 
 } // namespace eagine
 
