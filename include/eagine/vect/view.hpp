@@ -20,20 +20,20 @@ struct view
 {
 private:
 	static inline
-	array_view<const T>
-	_apply(const data_t<T, N, V>& d, std::false_type)
+	const T*
+	_addr(const data_t<T, N, V>& d, std::false_type)
 	noexcept
 	{
-		return {d._v, N};
+		return d._v;
 	}
 
 	static inline
-	array_view<const T>
-	_apply(const data_t<T, N, V>& d, std::true_type)
+	const T*
+	_addr(const data_t<T, N, V>& d, std::true_type)
 	noexcept
 	{
 		// TODO: strict aliasing?
-		return {reinterpret_cast<const T*>(&d), N};
+		return reinterpret_cast<const T*>(&d);
 	}
 
 public:
@@ -42,7 +42,18 @@ public:
 	apply(const data_t<T, N, V>& d)
 	noexcept
 	{
-		return _apply(d, has_vect_data<T, N, V>());
+		static_assert(sizeof(T[N]) == sizeof(data_t<T, N, V>), "");
+		return {_addr(d, has_vect_data<T, N, V>()), N};
+	}
+
+	template <unsigned M>
+	static inline
+	array_view<const T>
+	apply(const data_t<T, N, V> (&d)[M])
+	noexcept
+	{
+		static_assert(sizeof(T[N][M])== sizeof(data_t<T, N, V>[M]), "");
+		return {_addr(d[0], has_vect_data<T, N, V>()), N*M};
 	}
 };
 
