@@ -13,6 +13,8 @@
 #include "../vect/axis.hpp"
 #include "../vect/cast.hpp"
 #include "../vect/from.hpp"
+#include "../vect/view.hpp"
+#include "../vec_mat_traits.hpp"
 #include <utility>
 #include <cassert>
 
@@ -186,8 +188,27 @@ struct vector
 	}
 };
 
-
 } // namespace math
+
+template <typename T, unsigned N, bool V>
+struct is_known_vector_type<math::vector<T, N, V>>
+ : std::is_scalar<T>
+{ };
+
+template <typename T, unsigned N, bool V>
+struct canonical_compound_type<math::vector<T, N, V>>
+ : identity<typename std::remove_cv<T[N]>::type>
+{ };
+
+template <typename T, unsigned N, bool V>
+static inline
+auto element_view(const math::vector<T, N, V>& v)
+noexcept
+{
+	return eagine::vect::view<T, N, V>::apply(v._v);
+}
+
+
 } // namespace eagine
 
 #endif //include guard

@@ -24,7 +24,7 @@ void test_vect_hsum_TNV(void)
 
 		for(unsigned i=0; i<N; ++i)
 		{
-			T n = std::rand() / T(2);
+			T n = std::rand()%10000 / T(2);
 			v[i] = n;
 			s += n;
 		}

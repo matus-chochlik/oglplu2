@@ -105,6 +105,17 @@ struct tvec : vector<T, N, V>
 };
 
 } // namespace math
+
+template <typename T, unsigned N, bool V>
+struct is_known_vector_type<math::tvec<T, N, V>>
+ : std::is_scalar<T>
+{ };
+
+template <typename T, unsigned N, bool V>
+struct canonical_compound_type<math::tvec<T, N, V>>
+ : identity<typename std::remove_cv<T[N]>::type>
+{ };
+
 } // namespace eagine
 
 #endif //include guard

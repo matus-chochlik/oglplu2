@@ -10,76 +10,18 @@
 #ifndef OGLPLUS_UTILS_VEC_MAT_TRAITS_1509260923_HPP
 #define OGLPLUS_UTILS_VEC_MAT_TRAITS_1509260923_HPP
 
-#include "array_view.hpp"
-#include "identity.hpp"
-#include <type_traits>
+#include <eagine/vec_mat_traits.hpp>
 
 namespace oglplus {
 
-template <typename T>
-struct is_known_vector_type
- : std::false_type
-{ };
+using eagine::is_known_vector_type;
+using eagine::is_known_matrix_type;
 
-template <typename T, std::size_t N>
-struct is_known_vector_type<T[N]>
- : std::is_scalar<T>
-{ };
+using eagine::canonical_compound_type;
+using eagine::has_canonical_compound_type;
 
-template <typename T>
-struct is_known_matrix_type
- : std::false_type
-{ };
-
-template <typename T, std::size_t C, std::size_t R>
-struct is_known_matrix_type<T[C][R]>
- : std::is_scalar<T>
-{ };
-
-template <typename T>
-struct canonical_compound_type;
-
-template <typename T, std::size_t N>
-struct canonical_compound_type<T[N]>
- : identity<typename std::remove_cv<T[N]>::type>
-{ };
-
-template <typename T, std::size_t C, std::size_t R>
-struct canonical_compound_type<T[C][R]>
- : identity<typename std::remove_cv<T[C][R]>::type>
-{ };
-
-template <typename T, std::size_t N>
-static inline
-array_view<T>
-element_view(T (&v)[N])
-noexcept
-{
-	return {v, N};
-}
-
-template <typename T, std::size_t C, std::size_t R>
-static inline
-array_view<T>
-element_view(T (&v)[C][R])
-noexcept
-{
-	return {v[0], C*R};
-}
-
-template <typename R>
-static constexpr inline
-bool is_row_major(R)
-noexcept;
-
-template <typename T, std::size_t C, std::size_t R>
-static constexpr inline
-bool is_row_major(T (&)[C][R])
-noexcept
-{
-	return false;
-}
-
+using eagine::element_view;
+using eagine::is_row_major;
 
 } // namespace oglplus
 
