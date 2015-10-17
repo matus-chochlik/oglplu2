@@ -21,6 +21,12 @@ struct vector;
 template <typename T, unsigned N, bool V>
 struct tvec;
 
+template <typename T, unsigned R, unsigned C, bool RM, bool V>
+struct matrix;
+
+template <typename T, unsigned R, unsigned C, bool RM, bool V>
+struct tmat;
+
 } // namespace math
 } // namespace eagine
 

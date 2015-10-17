@@ -14,6 +14,10 @@
 #include "../vect/cast.hpp"
 #include "../vect/from.hpp"
 #include "../vect/view.hpp"
+#include "../vect/sdiv.hpp"
+#include "../vect/hsum.hpp"
+#include "../vect/esum.hpp"
+#include "../vect/sqrt.hpp"
 #include "../vec_mat_traits.hpp"
 #include <utility>
 #include <cassert>
@@ -25,6 +29,7 @@ template <typename T, unsigned N, bool V>
 struct vector
 {
 	typedef vector type;
+	typedef scalar<T, N, V> scalar_type;
 
 	typedef T value_type;
 
@@ -34,18 +39,21 @@ struct vector
 
 	data_type _v;
 
+	typedef const vector& _cpT;
+	typedef const scalar_type& _cspT;
+
 	static inline
 	vector zero(void)
 	noexcept
 	{
-		return vector{vect::fill<T,N,V>::apply(T(0))};
+		return vector{vect::fill<T, N, V>::apply(T(0))};
 	}
 
 	static inline
 	vector fill(T v)
 	noexcept
 	{
-		return vector{vect::fill<T,N,V>::apply(v)};
+		return vector{vect::fill<T, N, V>::apply(v)};
 	}
 
 	template <unsigned I>
@@ -127,21 +135,14 @@ struct vector
 	vector from(const T* dt, std::size_t sz)
 	noexcept
 	{
-		return vector{vect::from_array<T,N,V>::apply(dt, sz)};
+		return vector{vect::from_array<T, N, V>::apply(dt, sz)};
 	}
 
 	static inline
 	vector from(const T* dt, std::size_t sz, T fv)
 	noexcept
 	{
-		return vector{vect::from_saafv<T,N,V>::apply(dt, sz, fv)};
-	}
-
-	static constexpr inline
-	unsigned dimension(void)
-	noexcept
-	{
-		return N;
+		return vector{vect::from_saafv<T, N, V>::apply(dt, sz, fv)};
 	}
 
 	constexpr inline
@@ -186,7 +187,242 @@ struct vector
 		static_assert(M == N, "");
 		return _v[3];
 	}
+
+	friend constexpr
+	vector operator + (_cpT a)
+	noexcept
+	{
+		return a;
+	}
+
+	friend constexpr
+	vector operator - (_cpT a)
+	noexcept
+	{
+		return vector{-a._v};
+	}
+
+	friend constexpr
+	vector operator + (_cpT a, _cpT b)
+	noexcept
+	{
+		return vector{a._v+b._v};
+	}
+
+	vector& operator += (_cpT a)
+	noexcept
+	{
+		_v = _v + a._v;
+		return *this;
+	}
+
+	friend constexpr
+	vector operator - (_cpT a, _cpT b)
+	noexcept
+	{
+		return vector{a._v-b._v};
+	}
+
+	vector& operator -= (_cpT a)
+	noexcept
+	{
+		_v = _v - a._v;
+		return *this;
+	}
+
+	friend constexpr
+	vector operator * (_cpT a, _cpT b)
+	noexcept
+	{
+		return vector{a._v*b._v};
+	}
+
+	vector& operator *= (_cpT a)
+	noexcept
+	{
+		_v = _v*a._v;
+		return *this;
+	}
+
+	template <typename Vec = vector>
+	friend constexpr
+	typename std::enable_if<scalar_type::is_vectorized::value, Vec>::type
+	operator * (_cspT c, _cpT a)
+	noexcept
+	{
+		return vector{c._v*a._v};
+	}
+
+	template <typename Vec = vector>
+	friend constexpr
+	typename std::enable_if<scalar_type::is_vectorized::value, Vec>::type
+	operator * (_cpT a, _cspT c)
+	noexcept
+	{
+		return vector{a._v*c._v};
+	}
+
+	template <typename Vec = vector>
+	typename std::enable_if<scalar_type::is_vectorized::value, Vec>::type&
+	operator *= (_cspT c)
+	noexcept
+	{
+		_v = _v*c._v;
+		return *this;
+	}
+
+	friend constexpr
+	vector operator * (T c, _cpT a)
+	noexcept
+	{
+		return vector{a._v*vect::fill<T, N, V>::apply(c)};
+	}
+
+	friend constexpr
+	vector operator * (_cpT a, T c)
+	noexcept
+	{
+		return vector{a._v*vect::fill<T, N, V>::apply(c)};
+	}
+
+	vector& operator *= (T c)
+	noexcept
+	{
+		_v = _v*vect::fill<T, N, V>::apply(c);
+		return *this;
+	}
+
+	friend constexpr
+	vector operator / (_cpT a, _cpT b)
+	noexcept
+	{
+		return vector{vect::sdiv<T, N, V>::apply(a._v, b._v)};
+	}
+
+	template <typename Vec = vector>
+	friend constexpr
+	typename std::enable_if<scalar_type::is_vectorized::value, Vec>::type
+	operator / (_cspT c, _cpT a)
+	noexcept
+	{
+		return vector{vect::sdiv<T, N, V>::apply(c._v, a._v)};
+	}
+
+	template <typename Vec = vector>
+	friend constexpr
+	typename std::enable_if<scalar_type::is_vectorized::value, Vec>::type
+	operator / (_cpT a, _cspT c)
+	noexcept
+	{
+		return vector{vect::sdiv<T, N, V>::apply(a._v, c._v)};
+	}
+
+	friend constexpr
+	vector operator / (_cpT a, T c)
+	noexcept
+	{
+		return vector{vect::sdiv<T, N, V>::apply(
+			a._v,
+			vect::fill<T, N, V>::apply(c)
+		)};
+	}
+
+	friend constexpr
+	vector operator / (T c, _cpT a)
+	noexcept
+	{
+		return vector{vect::sdiv<T, N, V>::apply(
+			vect::fill<T, N, V>::apply(c),
+			a._v
+		)};
+	}
 };
+
+template <typename T, unsigned N, bool V>
+static constexpr inline
+unsigned dimension(const vector<T, N, V>&)
+noexcept
+{
+	return N;
+}
+
+template <typename T, unsigned N, bool V>
+static constexpr inline
+scalar<T, N, V>
+_dot(const vector<T, N, V>& a, const vector<T, N, V>& b, std::true_type)
+noexcept
+{
+	return scalar<T, N, V>{vect::hsum<T, N, V>::apply(a._v * b._v)};
+}
+
+template <typename T, unsigned N, bool V>
+static constexpr inline
+scalar<T, N, V>
+_dot(const vector<T, N, V>& a, const vector<T, N, V>& b, std::false_type)
+noexcept
+{
+	return scalar<T, N, V>{vect::esum<T, N, V>::apply(a._v * b._v)};
+}
+
+template <typename T, unsigned N, bool V>
+static constexpr inline
+scalar<T, N, V>
+dot(const vector<T, N, V>& a, const vector<T, N, V>& b)
+noexcept
+{
+	return _dot(a, b, vect::has_vect_data<T, N, V>());
+}
+
+template <typename T, unsigned N, bool V>
+static constexpr inline
+scalar<T, N, V>
+_mag(const vector<T, N, V>a, std::true_type)
+noexcept
+{
+	return scalar<T, N, V>{
+		vect::sqrt<T, N, V>::apply(
+			vect::hsum<T, N, V>::apply(a._v * a._v)
+		)
+	};
+}
+
+template <typename T, unsigned N, bool V>
+static constexpr inline
+scalar<T, N, V>
+_mag(const vector<T, N, V>a, std::false_type)
+noexcept
+{
+	using std::sqrt;
+	return scalar<T, N, V>
+		{T(sqrt(vect::esum<T, N, V>::apply(a._v * a._v)))};
+}
+
+template <typename T, unsigned N, bool V>
+static constexpr inline
+scalar<T, N, V>
+magnitude(const vector<T, N, V>& a)
+noexcept
+{
+	return _mag(a, vect::has_vect_data<T, N, V>());
+}
+
+template <typename T, unsigned N, bool V>
+static constexpr inline
+scalar<T, N, V>
+length(const vector<T, N, V>& a)
+noexcept
+{
+	return magnitude(a);
+}
+
+template <typename T, unsigned N, bool V>
+static constexpr inline
+scalar<T, N, V>
+distance(const vector<T, N, V>& a, const vector<T, N, V>& b)
+noexcept
+{
+	return magnitude(a-b);
+}
 
 } // namespace math
 

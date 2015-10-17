@@ -35,6 +35,8 @@ struct scalar
 
 	data_type _v;
 
+	typedef const scalar& _cpT;
+
 	static constexpr inline
 	scalar _from(data_type v)
 	noexcept

@@ -27,7 +27,7 @@ struct sqrt
 		using std::sqrt;
 		for(unsigned i=0; i<N; ++i)
 		{
-			v[i] = sqrt(v[i]);
+			v[i] = T(sqrt(v[i]));
 		}
 		return v;
 	}
