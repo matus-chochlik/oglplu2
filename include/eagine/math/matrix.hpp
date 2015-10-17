@@ -82,6 +82,11 @@ struct matrix
 };
 
 template <typename T, unsigned C, unsigned R, bool RM, bool V>
+struct is_row_major<matrix<T,C,R,RM,V>>
+ : std::integral_constant<bool, RM>
+{ };
+
+template <typename T, unsigned C, unsigned R, bool RM, bool V>
 static constexpr inline
 unsigned rows(const matrix<T, C, R, RM, V>&)
 noexcept
@@ -260,6 +265,9 @@ noexcept
 template <typename X>
 struct reordered_matrix;
 
+template <typename X>
+using reordered_matrix_t = typename reordered_matrix<X>::type;
+
 // reordered matrix
 template <typename T, unsigned C, unsigned R, bool RM, bool V>
 struct reordered_matrix<matrix<T, C, R, RM, V>>
@@ -314,6 +322,139 @@ make_column_major(const matrix<T, C, R, true, V>& m)
 noexcept
 {
 	return reorder(m);
+}
+
+// is_matrix_constructor trait
+template <typename X>
+struct is_matrix_constructor
+ : std::false_type
+{ };
+
+template <bool RM, typename T, unsigned C, unsigned R, bool V>
+struct is_matrix_constructor<matrix<T,C,R,RM,V>>
+ : std::true_type
+{ };
+
+// constructed_matrix trait
+template <typename X>
+struct constructed_matrix;
+
+template <typename X>
+using constructed_matrix_t = typename constructed_matrix<X>::type;
+
+// constructed_matrix trait
+template <
+	typename T,
+	unsigned C,
+	unsigned R,
+	bool RM,
+	bool V
+> struct constructed_matrix<matrix<T,C,R,RM,V>>
+ : matrix<T,C,R,RM,V>
+{ };
+
+// construct_matrix (noop)
+template <bool RM, typename T, unsigned C, unsigned R, bool V>
+static constexpr inline
+const matrix<T,C,R,RM,V>&
+construct_matrix(const matrix<T,C,R,RM,V>& m)
+noexcept
+{
+	return m;
+}
+
+// construct_matrix (reorder)
+template <bool RM, typename T, unsigned C, unsigned R, bool V>
+static constexpr inline
+matrix<T,C,R,RM,V>
+construct_matrix(const matrix<T,C,R,!RM,V>& m)
+noexcept
+{
+	return reorder(m);
+}
+
+
+// are_multiplicable
+template <
+	typename T,
+	unsigned M,
+	unsigned N,
+	unsigned K,
+	bool RM1,
+	bool RM2,
+	bool V
+>
+struct are_multiplicable<
+	matrix<T, M, K, RM1, V>,
+	matrix<T, K, N, RM2, V>
+>: std::true_type
+{ };
+
+// multiplication_result MxM
+template <
+	typename T,
+	unsigned M,
+	unsigned N,
+	unsigned K,
+	bool RM1,
+	bool RM2,
+	bool V
+>
+struct multiplication_result<
+	matrix<T, M, K, RM1, V>,
+	matrix<T, K, N, RM2, V>
+>: matrix<T, M, N, RM1, V>
+{ };
+ 
+// multiply MxM
+template <
+	typename T,
+	unsigned M,
+	unsigned N,
+	unsigned K,
+	bool RM1,
+	bool RM2,
+	bool V
+>
+static inline
+matrix<T, M, N, RM1, V>
+multiply(const matrix<T, M, K, RM1, V>& m1, const matrix<T, K, N, RM2, V>& m2)
+noexcept
+{
+	matrix<T, M, N, RM1, V> m3;
+
+	for(unsigned i=0; i<M; ++i)
+	for(unsigned j=0; j<N; ++j)
+	{
+		T s = T(0);
+
+		for(unsigned k=0; k<K; ++k)
+		{
+			s += get(m1,i,k)*get(m2,k,j);
+		}
+
+		set(m3, i, j, s);
+	}
+	return m3;
+}
+
+template <
+	typename MC1,
+	typename MC2,
+	typename = typename std::enable_if<
+		is_matrix_constructor<MC1>::value &&
+		is_matrix_constructor<MC2>::value &&
+		are_multiplicable<
+			constructed_matrix_t<MC1>,
+			constructed_matrix_t<MC2>
+		>::value
+	>::type
+>
+static inline
+auto operator * (const MC1& mc1, const MC2& mc2)
+noexcept
+{
+	return multiply(mc1, mc2);
 }
 
 } // namespace math

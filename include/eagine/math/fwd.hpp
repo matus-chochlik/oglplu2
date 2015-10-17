@@ -9,6 +9,8 @@
 #ifndef EAGINE_MATH_FWD_1509260923_HPP
 #define EAGINE_MATH_FWD_1509260923_HPP
 
+#include <type_traits>
+
 namespace eagine {
 namespace math {
 
@@ -24,8 +26,19 @@ struct tvec;
 template <typename T, unsigned R, unsigned C, bool RM, bool V>
 struct matrix;
 
+template <typename X>
+struct is_row_major;
+
 template <typename T, unsigned R, unsigned C, bool RM, bool V>
 struct tmat;
+
+template <typename T1, typename T2>
+struct are_multiplicable
+ : std::false_type
+{ };
+
+template <typename T1, typename T2>
+struct multiplication_result;
 
 } // namespace math
 } // namespace eagine
