@@ -19,6 +19,7 @@ template <typename T, unsigned C, unsigned R, bool RM, bool V>
 struct matrix
 {
 	typedef matrix type;
+	typedef T element_type;
 
 	template <unsigned ... U>
 	using _useq = integer_sequence<unsigned, U...>;

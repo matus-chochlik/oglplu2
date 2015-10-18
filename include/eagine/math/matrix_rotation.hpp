@@ -132,6 +132,19 @@ using rotation_z = rotation_I<M, 2>;
 template <typename M>
 using roll = rotation_z<M>;
 
+// matrix_*
+template <typename T, bool V>
+using matrix_rotation_x =
+	convertible_matrix_constructor<rotation_x<matrix<T,4,4,true,V>>>;
+
+template <typename T, bool V>
+using matrix_rotation_y =
+	convertible_matrix_constructor<rotation_y<matrix<T,4,4,true,V>>>;
+
+template <typename T, bool V>
+using matrix_rotation_z =
+	convertible_matrix_constructor<rotation_z<matrix<T,4,4,true,V>>>;
+
 } // namespace math
 } // namespace eagine
 

@@ -96,6 +96,11 @@ noexcept
 	return {c._v};
 }
 
+// matrix_*
+template <typename T, bool V>
+using matrix_translation =
+	convertible_matrix_constructor<translation<matrix<T,4,4,true,V>>>;
+
 } // namespace math
 } // namespace eagine
 

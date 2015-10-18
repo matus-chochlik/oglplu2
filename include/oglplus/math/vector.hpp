@@ -10,12 +10,13 @@
 #define OGLPLUS_MATH_VECTOR_1509260923_HPP
 
 #include <eagine/math/tvec.hpp>
+#include "config.hpp"
 
 namespace oglplus {
 
 using eagine::math::vector;
 
-template <typename T, unsigned N, bool V = true>
+template <typename T, unsigned N, bool V = math_use_simd>
 using tvec = eagine::math::tvec<T, N, V>;
 
 using vec2 = tvec<GLfloat, 2>;

@@ -134,6 +134,15 @@ noexcept
 	return {c._v};
 }
 
+// matrix_*
+template <typename T, bool V>
+using matrix_scale =
+	convertible_matrix_constructor<scale<matrix<T,4,4,true,V>>>;
+
+template <typename T, bool V>
+using matrix_uniform_scale =
+	convertible_matrix_constructor<uniform_scale<matrix<T,4,4,true,V>>>;
+
 } // namespace math
 } // namespace eagine
 

@@ -60,7 +60,7 @@ private:
 public:
 	template <
 		typename ... P,
-		typename = typename meta::enable_if<
+		typename = typename std::enable_if<
 			((sizeof...(P)) == (R*C))
 		>::type
 	>
@@ -76,7 +76,7 @@ public:
 		>::type
 	>
 	constexpr inline
-	tmat(const vector<P, RM?C:R>&... v)
+	tmat(const vector<P, RM?C:R, V>&... v)
 	noexcept
 	 : _base{{v._v...}}
 	{ }
@@ -91,7 +91,7 @@ public:
 		>::type
 	>
 	constexpr inline
-	tmat(const matrix<P,M,N,RM>& m)
+	tmat(const matrix<P,M,N,RM,V>& m)
 	noexcept
 	 : _base(_base::from(m))
 	{ }
@@ -121,7 +121,7 @@ struct compound_view_maker<math::tmat<T, C, R, RM, V>>
 };
 
 template <typename T, unsigned C, unsigned R, bool RM, bool V>
-struct is_row_major<math::matrix<T,C,R,RM,V>>
+struct is_row_major<math::tmat<T,C,R,RM,V>>
  : std::integral_constant<bool, RM>
 { };
 

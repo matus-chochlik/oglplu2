@@ -14,6 +14,10 @@
 #include <oglplus/error/format.hpp>
 #include <oglplus/utils/make_view.hpp>
 
+#include <oglplus/math/vector.hpp>
+#include <oglplus/math/matrix.hpp>
+#include <oglplus/math/matrix_ctrs.hpp>
+
 #include <eagine/scope_exit.hpp>
 
 #include <GL/glfw.h>
@@ -26,7 +30,10 @@ static oglplus::enum_values GL;
 static oglplus::context gl;
 
 static
-void handle_resize(int width, int height)
+void handle_resize(
+	int width, int height,
+	const oglplus::uniform_location& projection
+)
 {
 	gl.viewport(0, 0, width, height);
 	GLfloat asp = GLfloat(width)/height;
@@ -34,10 +41,11 @@ void handle_resize(int width, int height)
 	GLfloat h = 0.5f*1.618f;
 	GLfloat w = h*asp;
 
-	gl.matrix_mode(GL.projection);
-	gl.load_identity();
-	gl.frustum(-w,+w, -h,+h, 1, 3);
-	gl.translate_f(0, 0,-2);
+	gl.uniform(
+		projection,
+		oglplus::matrix_perspective(-w,+w, -h,+h, 1, 3)*
+		oglplus::matrix_translation(0,0,-2)
+	);
 }
 
 static
@@ -50,7 +58,10 @@ void run_loop(int width, int height)
 	gl.shader_source(vs, glsl_literal(
 	"#version 120\n"
 
-	"attribute vec3 Position;\n"
+	"uniform mat4 Projection;"
+	"uniform mat4 Modelview;"
+
+	"attribute vec4 Position;\n"
 	"attribute vec3 Normal;\n"
 	"attribute vec2 Coord;\n"
 
@@ -60,8 +71,8 @@ void run_loop(int width, int height)
 
 	"void main(void)\n"
 	"{\n"
-	"	gl_Position = ftransform();\n"
-	"	vertPosition = Position;\n"
+	"	gl_Position = Projection*Modelview*Position;\n"
+	"	vertPosition = Position.xyz;\n"
 	"	vertNormal = Normal;\n"
 	"	vertCoord = Coord;\n"
 	"}\n"
@@ -80,23 +91,28 @@ void run_loop(int width, int height)
 	"{"
 	"	vec2 vc = abs(vertCoord);\n"
 	"	float c1 = max(max(vc.x, vc.y)-0.9875, 0.0)*100;\n"
-	"	float c2 = 1.0-0.45*dot(vc, vc);\n"
+	"	float c2 = 1.0-0.4*dot(vc, vc);\n"
 	"	vec3 lc = vec3(0);\n"
 	"	vec3 fc1 = normalize(abs(vec3(1, 1, 1) - vertPosition));\n"
 	"	vec3 fc2 = normalize(abs(vec3(1, 1, 1) - vertNormal));\n"
-	"	vec3 fc = mix(fc1, fc2, 0.5);\n"
+	"	vec3 fc = mix(fc1, fc2, 0.4);\n"
 	"	gl_FragColor = vec4(mix(fc, lc, c1)*c2, 1.0);\n"
 	"}\n"
 	));
 
 	gl.compile(fs);
 
-	program p;
+	program prog;
 
-	gl.attach_shader(p, vs);
-	gl.attach_shader(p, fs);
-	gl.link(p);
-	gl.use(p);
+	gl.attach_shader(prog, vs);
+	gl.attach_shader(prog, fs);
+	gl.link(prog);
+	gl.use(prog);
+
+	uniform_location projection, modelview;
+
+	gl.query_location(projection, prog, "Projection");
+	gl.query_location(modelview, prog, "Modelview");
 
 	vertex_array vao;
 
@@ -149,7 +165,7 @@ void run_loop(int width, int height)
 	gl.enable_array(vertex_attrib_location(0));
 
 	vertex_attrib_location va_p;
-	gl.query_location(va_p, p, "Position");
+	gl.query_location(va_p, prog, "Position");
 	gl.pointer(va_p, 3, GL.float_, false, 0, nullptr);
 	gl.enable_array(va_p);
 
@@ -179,7 +195,7 @@ void run_loop(int width, int height)
 	gl.data(GL.array_buffer, cube_normals, GL.static_draw);
 
 	vertex_attrib_location va_n;
-	gl.query_location(va_n, p, "Normal");
+	gl.query_location(va_n, prog, "Normal");
 	gl.pointer(va_n, 3, GL.float_, false, 0, nullptr);
 	gl.enable_array(va_n);
 
@@ -211,29 +227,32 @@ void run_loop(int width, int height)
 	gl.data(GL.array_buffer, cube_coords, GL.static_draw);
 
 	vertex_attrib_location va_c;
-	gl.query_location(va_c, p, "Coord");
+	gl.query_location(va_c, prog, "Coord");
 	gl.pointer(va_c, 2, GL.float_, false, 0, nullptr);
 	gl.enable_array(va_c);
 
 
-	gl.clear_color(0.3f, 0.3f, 0.3f, 0.0f);
+	gl.clear_color(0.7f, 0.7f, 0.7f, 0.0f);
 	gl.clear_depth(1.0f);
 
 	gl.enable(GL.depth_test);
 
-	handle_resize(width, height);
+	handle_resize(width, height, projection);
 
-	int deg = 0;
+	float rad = 0.0f;
 
 	while(true)
 	{
 		gl.clear(GL.color_buffer_bit|GL.depth_buffer_bit);
 
-		gl.matrix_mode(GL.modelview);
-		gl.load_identity();
-		gl.rotate_f(degrees(0.1f*(deg+=1)), 1, 0, 0);
-		gl.rotate_f(degrees(0.1f*(deg+=2)), 0, 1, 0);
-		gl.rotate_f(degrees(0.1f*(deg+=3)), 0, 0, 1);
+		gl.uniform(
+			modelview,
+			matrix_rotation_x(eagine::radians(rad*1))*
+			matrix_rotation_y(eagine::radians(rad*2))*
+			matrix_rotation_z(eagine::radians(rad*3))
+		);
+
+		rad += 0.01f;
 
 		gl.draw_arrays(GL.triangles, 0, 6 * 2 * 3);
 
@@ -247,7 +266,7 @@ void run_loop(int width, int height)
 			width = new_width;
 			height = new_height;
 
-			handle_resize(width, height);
+			handle_resize(width, height, projection);
 		}
 		
 

@@ -31,5 +31,6 @@ if(GLFW_FOUND AND GLEW_FOUND)
 	standalone_example_common(003_glfw_glew_checker GLFW GLEW) 
 	standalone_example_common(004_glfw_glew_spiral GLFW GLEW) 
 	standalone_example_common(007_glfw_glew_cube GLFW GLEW) 
+	standalone_example_common(008_glfw_glew_cube GLFW GLEW) 
 endif()
 

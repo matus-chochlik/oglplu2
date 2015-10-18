@@ -139,6 +139,11 @@ noexcept
 	return {c._v};
 }
 
+// matrix_*
+template <typename T, bool V>
+using matrix_ortho =
+	convertible_matrix_constructor<ortho<matrix<T,4,4,true,V>>>;
+
 } // namespace math
 } // namespace eagine
 
