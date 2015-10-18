@@ -9,6 +9,8 @@ set(CMAKE_DEBUG_POSTFIX d)
 
 project(OGLplus)
 
+file(READ VERSION OGLPLUS_VERSION)
+
 set(HEADER_SEARCH_PATHS ${HEADER_SEARCH_PATHS};${PROJECT_SOURCE_DIR}/third_party/include)
 
 include(config/Compiler.cmake)
