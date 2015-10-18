@@ -5,7 +5,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE EAGINE_math_matrix
+#define BOOST_TEST_MODULE EAGINE_math_matrix_1
 #include <boost/test/unit_test.hpp>
 
 #include <eagine/math/matrix.hpp>
@@ -229,7 +229,13 @@ struct matrix_get_set_tester
 			for(unsigned i=0; i<C; ++i)
 			for(unsigned j=0; j<R; ++j)
 			{
-				set(m, i, j, get(m, i, j)+1);
+				set_cm(m, i, j, get_cm(m, i, j)+1);
+			}
+
+			for(unsigned i=0; i<R; ++i)
+			for(unsigned j=0; j<C; ++j)
+			{
+				BOOST_CHECK_EQUAL(get_rm(m, i, j), get_cm(m, j, i));
 			}
 
 			for(unsigned i=0; i<(RM?R:C); ++i)
@@ -270,7 +276,8 @@ struct matrix_transpose_tester
 			for(unsigned i=0; i<M; ++i)
 			for(unsigned j=0; j<N; ++j)
 			{
-				BOOST_CHECK_EQUAL(get(m, i, j), get(n, j, i));
+				BOOST_CHECK_EQUAL(get_cm(m, i, j), get_cm(n, j, i));
+				BOOST_CHECK_EQUAL(get_rm(m, j, i), get_rm(n, i, j));
 			}
 		}
 	};
@@ -308,7 +315,8 @@ struct matrix_reorder_tester
 			for(unsigned i=0; i<M; ++i)
 			for(unsigned j=0; j<N; ++j)
 			{
-				BOOST_CHECK_EQUAL(get(m, i, j), get(n, i, j));
+				BOOST_CHECK_EQUAL(get_cm(m, i, j), get_cm(n, i, j));
+				BOOST_CHECK_EQUAL(get_rm(m, j, i), get_rm(n, j, i));
 			}
 		}
 	};

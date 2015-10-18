@@ -20,15 +20,13 @@ struct matrix
 {
 	typedef matrix type;
 
-	typedef typename vect::data<T, RM?C:R, V>::type _vT;
-
 	template <unsigned ... U>
 	using _useq = integer_sequence<unsigned, U...>;
 
 	template <unsigned N>
 	using _make_useq = make_integer_sequence<unsigned, N>;
 
-	_vT _v[RM?R:C];
+	vect::data_t<T, RM?C:R, V> _v[RM?R:C];
 
 	template <typename P, unsigned ... I>
 	static inline
@@ -118,80 +116,160 @@ noexcept
 	return N;
 }
 
-// get (Column-major)
+// get_cm (Column-major)
 template <unsigned CI, unsigned RI, typename T, unsigned C, unsigned R, bool V>
 static constexpr inline
 typename std::enable_if<(CI<C && RI<R), T>::type
-get(const matrix<T, C, R,false, V>& m)
+get_cm(const matrix<T, C, R,false, V>& m)
 noexcept
 {
 	return m._v[CI][RI];
 }
 
-// get (Row-major)
+// get_cm (Row-major)
 template <unsigned CI, unsigned RI, typename T, unsigned C, unsigned R, bool V>
 static constexpr inline
 typename std::enable_if<(CI<C && RI<R), T>::type
-get(const matrix<T, C, R, true, V>& m)
+get_cm(const matrix<T, C, R, true, V>& m)
 noexcept
 {
 	return m._v[RI][CI];
 }
 
-// get (Column-major, run-time)
+// get_cm (Column-major, run-time)
 template <typename T, unsigned C, unsigned R, bool V>
 static constexpr inline
-T get(const matrix<T, C, R,false, V>& m, unsigned ci, unsigned ri)
+T get_cm(const matrix<T, C, R,false, V>& m, unsigned ci, unsigned ri)
 noexcept
 {
 	assert(ci<C && ri<R);
 	return m._v[ci][ri];
 }
 
-// get (Row-major, run-time)
+// get_cm (Row-major, run-time)
 template <typename T, unsigned C, unsigned R, bool V>
 static constexpr inline
-T get(const matrix<T, C, R, true, V>& m, unsigned ci, unsigned ri)
+T get_cm(const matrix<T, C, R, true, V>& m, unsigned ci, unsigned ri)
 noexcept
 {
 	assert(ci<C && ri<R);
 	return m._v[ri][ci];
 }
 
-// set (Column-major)
+// get_rm (Column-major)
+template <unsigned RI, unsigned CI, typename T, unsigned C, unsigned R, bool V>
+static constexpr inline
+typename std::enable_if<(CI<C && RI<R), T>::type
+get_rm(const matrix<T, C, R,false, V>& m)
+noexcept
+{
+	return m._v[CI][RI];
+}
+
+// get_rm (Row-major)
+template <unsigned RI, unsigned CI, typename T, unsigned C, unsigned R, bool V>
+static constexpr inline
+typename std::enable_if<(CI<C && RI<R), T>::type
+get_rm(const matrix<T, C, R, true, V>& m)
+noexcept
+{
+	return m._v[RI][CI];
+}
+
+// get_rm (Column-major, run-time)
+template <typename T, unsigned C, unsigned R, bool V>
+static constexpr inline
+T get_rm(const matrix<T, C, R,false, V>& m, unsigned ri, unsigned ci)
+noexcept
+{
+	assert(ci<C && ri<R);
+	return m._v[ci][ri];
+}
+
+// get_rm (Row-major, run-time)
+template <typename T, unsigned C, unsigned R, bool V>
+static constexpr inline
+T get_rm(const matrix<T, C, R, true, V>& m, unsigned ri, unsigned ci)
+noexcept
+{
+	assert(ci<C && ri<R);
+	return m._v[ri][ci];
+}
+
+// set_cm (Column-major)
 template <unsigned CI, unsigned RI, typename T, unsigned C, unsigned R, bool V>
 static inline
 typename std::enable_if<(CI<C && RI<R), void>::type
-set(matrix<T, C, R,false, V>& m, T v)
+set_cm(matrix<T, C, R,false, V>& m, T v)
 noexcept
 {
 	m._v[CI][RI] = v;
 }
 
-// get (Row-major)
+// set_cm (Row-major)
 template <unsigned CI, unsigned RI, typename T, unsigned C, unsigned R, bool V>
 static inline
 typename std::enable_if<(CI<C && RI<R), void>::type
-set(matrix<T, C, R, true, V>& m, T v)
+set_cm(matrix<T, C, R, true, V>& m, T v)
 noexcept
 {
 	m._v[RI][CI] = v;
 }
 
-// get (Column-major, run-time)
+// set_cm (Column-major, run-time)
 template <typename T, unsigned C, unsigned R, bool V>
 static inline
-void set(matrix<T, C, R,false, V>& m, unsigned ci, unsigned ri, T v)
+void set_cm(matrix<T, C, R,false, V>& m, unsigned ci, unsigned ri, T v)
 noexcept
 {
 	assert(ci<C && ri<R);
 	m._v[ci][ri] = v;
 }
 
-// get (Row-major, run-time)
+// set_cm (Row-major, run-time)
 template <typename T, unsigned C, unsigned R, bool V>
 static inline
-void set(matrix<T, C, R, true, V>& m, unsigned ci, unsigned ri, T v)
+void set_cm(matrix<T, C, R, true, V>& m, unsigned ci, unsigned ri, T v)
+noexcept
+{
+	assert(ci<C && ri<R);
+	m._v[ri][ci] = v;
+}
+
+// set_rm (Column-major)
+template <unsigned RI, unsigned CI, typename T, unsigned C, unsigned R, bool V>
+static inline
+typename std::enable_if<(CI<C && RI<R), void>::type
+set_rm(matrix<T, C, R,false, V>& m, T v)
+noexcept
+{
+	m._v[CI][RI] = v;
+}
+
+// set_rm (Row-major)
+template <unsigned RI, unsigned CI, typename T, unsigned C, unsigned R, bool V>
+static inline
+typename std::enable_if<(CI<C && RI<R), void>::type
+set_rm(matrix<T, C, R, true, V>& m, T v)
+noexcept
+{
+	m._v[RI][CI] = v;
+}
+
+// set_rm (Column-major, run-time)
+template <typename T, unsigned C, unsigned R, bool V>
+static inline
+void set_rm(matrix<T, C, R,false, V>& m, unsigned ri, unsigned ci, T v)
+noexcept
+{
+	assert(ci<C && ri<R);
+	m._v[ci][ri] = v;
+}
+
+// set_rm (Row-major, run-time)
+template <typename T, unsigned C, unsigned R, bool V>
+static inline
+void set_rm(matrix<T, C, R, true, V>& m, unsigned ri, unsigned ci, T v)
 noexcept
 {
 	assert(ci<C && ri<R);
@@ -242,10 +320,10 @@ noexcept
 	static const bool S = (DstRM != SrcRM);
 	matrix<T, (S?C:R), (S?R:C), DstRM, V> r;
 
-	for(unsigned i=0; i<C; ++i)
-	for(unsigned j=0; j<R; ++j)
+	for(unsigned i=0; i<R; ++i)
+	for(unsigned j=0; j<C; ++j)
 	{
-		set(r, S?i:j, S?j:i, get(m,i,j));
+		set_rm(r, S?i:j, S?j:i, get_rm(m, i, j));
 	}
 
 	return r;
@@ -322,6 +400,159 @@ make_column_major(const matrix<T, C, R, true, V>& m)
 noexcept
 {
 	return reorder(m);
+}
+
+// major_vector
+template <unsigned I, typename T, unsigned C, unsigned R, bool RM, bool V>
+static constexpr inline
+typename std::enable_if<(I<(RM?R:C)), vector<T, (RM?C:R), V>>::type
+major_vector(const matrix<T,C,R,RM,V>& m)
+noexcept
+{
+	return {m._v[I]};
+}
+
+// minor_vector
+template <unsigned I, typename T, unsigned C, unsigned R, bool RM, bool V>
+static inline
+typename std::enable_if<(I<(RM?C:R)), vector<T, (RM?R:C), V>>::type
+minor_vector(const matrix<T,C,R,RM,V>& m)
+noexcept
+{
+	return major_vector<I>(reorder(m));
+}
+
+// minor_vector mat4x4
+template <unsigned I, typename T, bool RM, bool V>
+static inline
+typename std::enable_if<(I<4), vector<T, 4, V>>::type
+minor_vector(const matrix<T,4,4,RM,V>& m)
+noexcept
+{
+	return {vect::shuffle2<T,4,V>::template apply<0,1,4,5>(
+		vect::shuffle2<T,4,V>::template apply<0+I,4+I,-1,-1>(
+			m._v[0],
+			m._v[1]
+		),
+		vect::shuffle2<T,4,V>::template apply<0+I,4+I,-1,-1>(
+			m._v[2],
+			m._v[3]
+		)
+	)};
+}
+
+// row (Row-Major)
+template <unsigned I, typename T, unsigned C, unsigned R, bool V>
+static constexpr inline
+vector<T, C, V>
+row(const matrix<T,C,R,true,V>& m)
+noexcept
+{
+	static_assert(I < R, "");
+	return major_vector<I>(m);
+}
+
+// row (Column-Major)
+template <unsigned I, typename T, unsigned C, unsigned R, bool V>
+static inline
+vector<T, C, V>
+row(const matrix<T,C,R,false,V>& m)
+noexcept
+{
+	static_assert(I < R, "");
+	return minor_vector<I>(m);
+}
+
+// _row_hlp
+template <typename T, unsigned C, unsigned R, bool RM, bool V>
+static inline
+vector<T, C, V> _row_hlp(
+	const matrix<T,C,R,RM,V>& m,
+	std::integral_constant<unsigned, 0u>,
+	unsigned i
+) noexcept
+{
+	assert(i == 0u);
+	return row<0u>(m);
+}
+
+// _row_hlp
+template <typename T, unsigned R, unsigned C, bool RM, bool V, unsigned I>
+static inline
+vector<T, C, V> _row_hlp(
+	const matrix<T,C,R,RM,V>& m,
+	std::integral_constant<unsigned, I>,
+	unsigned i
+) noexcept
+{
+	if(I == i) return row<I>(m);
+	return _row_hlp(m, std::integral_constant<unsigned, I-1>(), i);
+}
+
+// row - run-time
+template <typename T, unsigned R, unsigned C, bool RM, bool V>
+static inline
+vector<T, C, V>
+row(const matrix<T,C,R,RM,V>& m, unsigned i)
+noexcept
+{
+	return _row_hlp(m, std::integral_constant<unsigned,R-1>(), i);
+}
+
+// column (Column-Major)
+template <unsigned I, typename T, unsigned C, unsigned R, bool V>
+static constexpr inline
+vector<T, R, V>
+column(const matrix<T,C,R,false,V>& m)
+noexcept
+{
+	return major_vector<I>(m);
+}
+
+// column (Row-Major)
+template <unsigned I, typename T, unsigned C, unsigned R, bool V>
+static inline
+vector<T, R, V>
+column(const matrix<T,C,R,true,V>& m)
+noexcept
+{
+	return minor_vector<I>(m);
+}
+
+// _col_hlp
+template <typename T, unsigned C, unsigned R, bool RM, bool V>
+static inline
+vector<T, R, V> _col_hlp(
+	const matrix<T,C,R,RM,V>& m,
+	std::integral_constant<unsigned, 0u>,
+	unsigned i
+) noexcept
+{
+	assert(i == 0);
+	return column<0>(m);
+}
+
+// _col_hlp
+template <typename T, unsigned C, unsigned R, bool RM, bool V, unsigned I>
+static inline
+vector<T, R, V> _col_hlp(
+	const matrix<T,C,R,RM,V>& m,
+	std::integral_constant<unsigned, I>,
+	unsigned i
+) noexcept
+{
+	if(I == i) return column<I>(m);
+	return _col_hlp(m, std::integral_constant<unsigned, I-1>(), i);
+}
+
+// column - run-time
+template <typename T, unsigned R, unsigned C, bool RM, bool V>
+static inline
+vector<T, R, V>
+column(const matrix<T,C,R,RM,V>& m, unsigned i)
+noexcept
+{
+	return _col_hlp(m, std::integral_constant<unsigned, C-1>(), i);
 }
 
 // is_matrix_constructor trait
@@ -401,9 +632,9 @@ template <
 	bool V
 >
 struct multiplication_result<
-	matrix<T, M, K, RM1, V>,
-	matrix<T, K, N, RM2, V>
->: matrix<T, M, N, RM1, V>
+	matrix<T, K, M, RM1, V>,
+	matrix<T, N, K, RM2, V>
+>: matrix<T, N, M, RM1, V>
 { };
  
 // multiply MxM
@@ -417,11 +648,11 @@ template <
 	bool V
 >
 static inline
-matrix<T, M, N, RM1, V>
-multiply(const matrix<T, M, K, RM1, V>& m1, const matrix<T, K, N, RM2, V>& m2)
+matrix<T, N, M, RM1, V>
+multiply(const matrix<T, K, M, RM1, V>& m1, const matrix<T, N, K, RM2, V>& m2)
 noexcept
 {
-	matrix<T, M, N, RM1, V> m3;
+	matrix<T, N, M, RM1, V> m3;
 
 	for(unsigned i=0; i<M; ++i)
 	for(unsigned j=0; j<N; ++j)
@@ -430,10 +661,10 @@ noexcept
 
 		for(unsigned k=0; k<K; ++k)
 		{
-			s += get(m1,i,k)*get(m2,k,j);
+			s += get_rm(m1, i, k)*get_rm(m2, k, j);
 		}
 
-		set(m3, i, j, s);
+		set_rm(m3, i, j, s);
 	}
 	return m3;
 }
@@ -460,7 +691,7 @@ noexcept
 } // namespace math
 
 template <typename T, unsigned C, unsigned R, bool RM, bool V>
-struct is_known_vector_type<math::matrix<T, C, R, RM, V>>
+struct is_known_matrix_type<math::matrix<T, C, R, RM, V>>
  : std::is_scalar<T>
 { };
 

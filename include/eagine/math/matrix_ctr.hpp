@@ -27,6 +27,19 @@ struct constructed_matrix<MC<matrix<T,C,R,RM,V>>>
 >::type
 { };
 
+template <
+	template <class, unsigned> class MC,
+	typename T, unsigned C, unsigned R, bool RM, bool V,
+	unsigned I
+>
+struct constructed_matrix<MC<matrix<T,C,R,RM,V>, I>>
+ : std::conditional<
+	is_matrix_constructor<MC<matrix<T,C,R,RM,V>, I>>::value,
+	matrix<T,C,R,RM,V>,
+	nothing_t
+>::type
+{ };
+
 // construct_matrix (noop)
 template <bool RM, typename MC>
 static constexpr inline
