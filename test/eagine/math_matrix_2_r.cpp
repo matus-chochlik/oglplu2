@@ -5,15 +5,14 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE EAGINE_math_matrix_1
+#define BOOST_TEST_MODULE EAGINE_math_matrix_2
 #include <boost/test/unit_test.hpp>
 
 #include <eagine/math/matrix.hpp>
-#include <eagine/math/io.hpp>
 #include <eagine/int_sequence.hpp>
 #include <cstdlib>
 
-BOOST_AUTO_TEST_SUITE(math_matrix)
+BOOST_AUTO_TEST_SUITE(math_matrix_2)
 
 template <typename T, unsigned N, bool V, unsigned K, unsigned ... I>
 static

@@ -373,6 +373,33 @@ noexcept
 	return _dot(a, b, vect::has_vect_data<T, N, V>());
 }
 
+// perpendicular
+template <typename T, bool V>
+static inline
+vector<T, 2, V>
+perpendicular(const vector<T, 2, V>& a)
+noexcept
+{
+	return vector<T, 2, V>
+		{{-a._v[1], a._v[0]}};
+}
+
+// cross
+template <typename T, bool V>
+static inline
+vector<T, 3, V>
+cross(const vector<T, 3, V>& a, const vector<T, 3, V>& b)
+noexcept
+{
+	typedef vect::shuffle<T, 3, V> _sh;
+	return vector<T, 3, V>{
+		_sh::template apply<1,2,0>(a._v)*
+		_sh::template apply<2,0,1>(b._v)-
+		_sh::template apply<2,0,1>(a._v)*
+		_sh::template apply<1,2,0>(b._v)
+	};
+}
+
 template <typename T, unsigned N, bool V>
 static constexpr inline
 scalar<T, N, V>

@@ -90,10 +90,10 @@ multiply(
 template <typename T, unsigned N, bool RM, bool V>
 static constexpr inline
 translation<matrix<T,N,N,!RM,V>>
-reorder_mat_ctr(const translation<matrix<T,N,N,RM,V>>& t)
+reorder_mat_ctr(const translation<matrix<T,N,N,RM,V>>& c)
 noexcept
 {
-	return {t._v};
+	return {c._v};
 }
 
 } // namespace math

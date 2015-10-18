@@ -53,6 +53,17 @@ struct identity<matrix<T,R,C,RM,V>>
 };
 
 // multiply
+template <typename T, unsigned C, unsigned R, bool RM1, bool RM2, bool V>
+static constexpr inline
+identity<matrix<T,C,R,RM1,V>> multiply(
+	const identity<matrix<T,C,R,RM1,V>>&,
+	const identity<matrix<T,C,R,RM2,V>>&
+) noexcept
+{
+	return {};
+}
+
+// multiply
 template <
 	typename MC,
 	typename T, unsigned C, unsigned R, bool RM, bool V,

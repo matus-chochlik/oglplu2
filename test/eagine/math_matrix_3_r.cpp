@@ -11,7 +11,7 @@
 #include <eagine/math/matrix.hpp>
 #include <cstdlib>
 
-BOOST_AUTO_TEST_SUITE(math_matrix)
+BOOST_AUTO_TEST_SUITE(math_matrix_3)
 
 template <typename T, unsigned M, unsigned N, unsigned K, bool RM1, bool RM2, bool V>
 void test_math_matrix_mult_TCRRMV(void)
