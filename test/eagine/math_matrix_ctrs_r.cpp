@@ -15,6 +15,7 @@
 
 #include <eagine/math/matrix_orbiting.hpp>
 #include <eagine/math/matrix_ortho.hpp>
+#include <eagine/math/matrix_perspective.hpp>
 #include <cstdlib>
 
 BOOST_AUTO_TEST_SUITE(math_matrix_ctrs)
@@ -82,7 +83,12 @@ void test_math_matrix_ctrs_TRMV(void)
 		radians(r())
 	));
 
-	test_math_matrix_ctr_MC(ortho<matrix<T,4,4,RM,V>>(-r(),+r(),-r(),+r(),1,10));
+	test_math_matrix_ctr_MC(ortho<matrix<T,4,4,RM,V>>(
+		-r(),+r(),-r(),+r(),1,10
+	));
+	test_math_matrix_ctr_MC(perspective<matrix<T,4,4,RM,V>>(
+		-r(),+r(),-r(),+r(),1,10
+	));
 }
 
 template <typename T>

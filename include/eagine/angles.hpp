@@ -72,6 +72,14 @@ auto cos(radians_t<T> v)
 }
 
 template <typename T>
+static constexpr inline
+auto tan(radians_t<T> v)
+{
+	using std::tan;
+	return tan(T(v));
+}
+
+template <typename T>
 struct degrees_t
 {
 	static_assert(std::is_arithmetic<T>::value, "");
