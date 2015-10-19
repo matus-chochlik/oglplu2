@@ -443,6 +443,37 @@ noexcept
 }
 
 template <typename T, unsigned N, bool V>
+static inline
+vector<T, N, V>
+_nmld(const vector<T, N, V>& a, const scalar<T, N, V>& l, std::true_type)
+noexcept
+{
+	return {vect::sdiv<T, N, V>::apply(a._v, l._v)};
+}
+
+template <typename T, unsigned N, bool V>
+static inline
+vector<T, N, V>
+_nmld(const vector<T, N, V>& a, const scalar<T, N, V>& l, std::false_type)
+noexcept
+{
+	return {vect::sdiv<T, N, V>::apply(
+		a._v,
+		vect::fill<T, N, V>::apply(l._v)
+	)};
+}
+
+template <typename T, unsigned N, bool V>
+static inline
+vector<T, N, V>
+normalized(const vector<T, N, V>& a)
+noexcept
+{
+	scalar<T, N, V> l = length(a);
+	return _nmld(a, l, vect::has_vect_data<T, N, V>());
+}
+
+template <typename T, unsigned N, bool V>
 static constexpr inline
 scalar<T, N, V>
 distance(const vector<T, N, V>& a, const vector<T, N, V>& b)

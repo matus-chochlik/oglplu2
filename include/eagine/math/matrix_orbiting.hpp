@@ -115,6 +115,11 @@ noexcept
 	return {c._t,c._x,c._y,c._z,c._r};
 }
 
+// matrix_*
+template <typename T, bool V>
+using matrix_orbiting_y_up =
+	convertible_matrix_constructor<orbiting_y_up<matrix<T,4,4,true,V>>>;
+
 } // namespace math
 } // namespace eagine
 

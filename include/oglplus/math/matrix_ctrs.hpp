@@ -12,6 +12,10 @@
 #include <eagine/math/matrix_scale.hpp>
 #include <eagine/math/matrix_rotation.hpp>
 #include <eagine/math/matrix_translation.hpp>
+#include <eagine/math/matrix_reflection.hpp>
+
+#include <eagine/math/matrix_orbiting.hpp>
+#include <eagine/math/matrix_looking_at.hpp>
 
 #include <eagine/math/matrix_ortho.hpp>
 #include <eagine/math/matrix_perspective.hpp>
@@ -37,6 +41,23 @@ using matrix_rotation_z =
 
 using matrix_translation =
 	eagine::math::matrix_translation<GLfloat, math_use_simd>;
+
+using matrix_reflection_x =
+	eagine::math::matrix_reflection_x<GLfloat, math_use_simd>;
+
+using matrix_reflection_y =
+	eagine::math::matrix_reflection_y<GLfloat, math_use_simd>;
+
+using matrix_reflection_z =
+	eagine::math::matrix_reflection_z<GLfloat, math_use_simd>;
+
+
+using matrix_orbiting_y_up =
+	eagine::math::matrix_orbiting_y_up<GLfloat, math_use_simd>;
+
+using matrix_looking_at_y_up =
+	eagine::math::matrix_looking_at_y_up<GLfloat, math_use_simd>;
+
 
 using matrix_ortho =
 	eagine::math::matrix_ortho<GLfloat, math_use_simd>;

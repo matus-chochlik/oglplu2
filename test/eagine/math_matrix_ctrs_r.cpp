@@ -12,8 +12,11 @@
 #include <eagine/math/matrix_translation.hpp>
 #include <eagine/math/matrix_scale.hpp>
 #include <eagine/math/matrix_rotation.hpp>
+#include <eagine/math/matrix_reflection.hpp>
 
 #include <eagine/math/matrix_orbiting.hpp>
+#include <eagine/math/matrix_looking_at.hpp>
+
 #include <eagine/math/matrix_ortho.hpp>
 #include <eagine/math/matrix_perspective.hpp>
 #include <cstdlib>
@@ -75,12 +78,19 @@ void test_math_matrix_ctrs_TRMV(void)
 	test_math_matrix_ctr_MC(rotation_x<matrix<T,4,4,RM,V>>(radians(r())));
 	test_math_matrix_ctr_MC(rotation_y<matrix<T,4,4,RM,V>>(radians(r())));
 	test_math_matrix_ctr_MC(rotation_z<matrix<T,4,4,RM,V>>(radians(r())));
+	test_math_matrix_ctr_MC(reflection_x<matrix<T,4,4,RM,V>>(true));
+	test_math_matrix_ctr_MC(reflection_y<matrix<T,4,4,RM,V>>(true));
+	test_math_matrix_ctr_MC(reflection_z<matrix<T,4,4,RM,V>>(true));
 
 	test_math_matrix_ctr_MC(orbiting_y_up<matrix<T,4,4,RM,V>>(
 		vector<T, 3, V>{{r(), r(), r()}},
 		r(),
 		radians(r()),
 		radians(r())
+	));
+	test_math_matrix_ctr_MC(looking_at_y_up<matrix<T,4,4,RM,V>>(
+		vector<T, 3, V>{{r(), r(), r()}},
+		vector<T, 3, V>{{r(), r(), r()}}
 	));
 
 	test_math_matrix_ctr_MC(ortho<matrix<T,4,4,RM,V>>(
