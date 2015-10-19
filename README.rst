@@ -50,10 +50,11 @@ At the moment there is no user-friendly configuration script,
 but the examples can be built by issuing the following commands:
 
 ::
-	mkdir _build &&
-	cd _build &&
-	cmake .. &&
-	make
+
+ mkdir _build &&
+ cd _build &&
+ cmake .. &&
+ make
 
 Why rebooting OGLplus?
 ======================
@@ -62,13 +63,13 @@ After several years of work on the original `OGLplus`_ library and after
 using it in multiple different applications, some issues were identified.
 OGLplus2 tries to address these issues:
 
- * Original OGLplus uses a naming convention which tries to match OpenGLs
+*  Original OGLplus uses a naming convention which tries to match OpenGLs
    naming. This does not look very good when combined with other code
    using the naming conventions more typical for C++.
    OGLplus2 uses a more C++-ish naming convention similar to the one used
    by the standard library.
 
- * The enumeration types in the original OGLplus are rather verbose
+*  The enumeration types in the original OGLplus are rather verbose
    and require the library user to learn a lot of new names invented by
    OGLplus. In OGLplus2 the enumerations are still type-safe, but the enumeration
    values are directly based on the OpenGL constants.
@@ -76,23 +77,23 @@ OGLplus2 tries to address these issues:
    ``gl.Enable(Capability::DepthTest)``, or ``gl.begin(GL.triangles)``
    instead of ``gl.Begin(CompatibilityPrimitiveType::Triangles)``, etc.
 
- * In OGLplus most of the functions eagerly throw an exception immediately
+*  In OGLplus most of the functions eagerly throw an exception immediately
    after a GL error is detected. In OGLplus2 the GL-wrapping functions
    return an object which either handles the error by default in its destructor
    or this behavior can be overriden by specifying a user-defined error handler
    or even cancelled on per-call basis as necessary.
 
- * The original OGLplus defines several abstractions which diverge from
+*  The original OGLplus defines several abstractions which diverge from
    the OpenGL 'programming model', which may be misleading in some cases.
    OGLplus2 tries to stay closer to how things are done in OpenGL.
 
- * OGLplus2 provides a more fine-grained control over GL object lifetime.
+*  OGLplus2 provides a more fine-grained control over GL object lifetime.
 
- * Some parts of OGLplus (for example the object naming registry, the limited
+*  Some parts of OGLplus (for example the object naming registry, the limited
    value checkers, etc.) don't work very well in applications using multiple
    GL contexts.
 
- * In order to ensure backward compatiblity OGLplus source code is full of various
+*  In order to ensure backward compatiblity OGLplus source code is full of various
    workarounds which makes it rather messy. By using modern C++ many features
    can be implemented in a more straithtforward way without using lots of
    C++-feature-related ``#ifdefs``.
