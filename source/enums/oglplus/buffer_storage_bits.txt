@@ -1,0 +1,12 @@
+# Copyright Matus Chochlik.
+# Distributed under the Boost Software License, Version 1.0.
+# See accompanying file LICENSE_1_0.txt or copy at
+#  http://www.boost.org/LICENSE_1_0.txt
+#@bitfield#
+MAP_READ_BIT
+MAP_WRITE_BIT
+MAP_PERSISTENT_BIT
+MAP_COHERENT_BIT
+DYNAMIC_STORAGE_BIT
+CLIENT_STORAGE_BIT
+SPARSE_STORAGE_BIT_ARB

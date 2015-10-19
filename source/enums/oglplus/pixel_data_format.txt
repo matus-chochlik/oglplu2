@@ -1,0 +1,23 @@
+# Copyright Matus Chochlik.
+# Distributed under the Boost Software License, Version 1.0.
+# See accompanying file LICENSE_1_0.txt or copy at
+#  http://www.boost.org/LICENSE_1_0.txt
+DEPTH_COMPONENT
+DEPTH_STENCIL
+STENCIL_INDEX
+RED
+GREEN
+BLUE
+RG
+RGB
+RGBA
+BGR
+BGRA
+RED_INTEGER
+GREEN_INTEGER
+BLUE_INTEGER
+RG_INTEGER
+RGB_INTEGER
+RGBA_INTEGER
+BGR_INTEGER
+BGRA_INTEGER
