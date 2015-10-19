@@ -98,6 +98,16 @@ OGLplus2 tries to address these issues:
    can be implemented in a more straithtforward way without using lots of
    C++-feature-related ``#ifdefs``.
 
+*  The OALplus and EGLplus reuse some code defined in the original OGLplus.
+   Here the common code like vectors, matrices, the framework for wrapping
+   OpenGL or OpenAL objects, code related to error handling, etc. is implemented
+   in the low-level ``eagine`` library and then reused by OGLplus and
+   in the future by OALplus, EGLplus, possibly OVGplus, etc.
+
+*  In OGLplus 'testing' was mostly done by trying out the various features
+   in the examples. OGLplus2 brings a more comprehensive and more thorough
+   testing suite.
+
 TODO
 
 License
