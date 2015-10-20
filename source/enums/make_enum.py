@@ -71,7 +71,8 @@ def src_name_to_dst_name(src_name):
 
 	keywords = [
 		'void','bool','byte','short','int','unsigned','float','double',
-		'not','and','or','xor', 'true', 'false'
+		'not','and','or','xor', 'true', 'false',
+		"static"
 	]
 
 	for keyword in keywords:
@@ -209,7 +210,9 @@ def action_incl_enum_values_hpp(options):
 			options.base_lib_prefix,
 			value_info.info.src_name
 		))
-		print_line(options, "	mp_list<%s>" % ",".join(value_info.classes))
+		print_line(options, "	mp_list<%s>" % (
+			",".join(["%s::%s" % (options.library, x) for x in value_info.classes])
+		))
 		print_line(options, "> %s = {};" % value_name);
 		print_line(options, "#endif")
 		print_newline(options)
