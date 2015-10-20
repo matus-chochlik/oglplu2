@@ -8,6 +8,8 @@ cmake_minimum_required(VERSION 2.8)
 enable_testing()
 include(../testing.cmake)
 
+include_directories(${EGL_INCLUDE_DIRS})
+
 file(GLOB COMPILE_TESTS *_c.cpp)
 foreach(COMPILE_TEST ${COMPILE_TESTS})
 	get_filename_component(TEST_NAME "${COMPILE_TEST}" NAME_WE)
