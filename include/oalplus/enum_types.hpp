@@ -9,8 +9,8 @@
 //  See accompanying file LICENSE_1_0.txt or copy at
 //   http://www.boost.org/LICENSE_1_0.txt
 //
-#ifndef OALPLUS_ENUM_TYPES_HPP
-#define OALPLUS_ENUM_TYPES_HPP
+#ifndef OALPLUS_AL_ENUM_TYPES_HPP
+#define OALPLUS_AL_ENUM_TYPES_HPP
 
 #include "utils/enum_class.hpp"
 

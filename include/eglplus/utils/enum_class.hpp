@@ -18,12 +18,12 @@ namespace eglplus {
 using eagine::enum_value;
 
 template <typename Self, typename T, unsigned Id>
-using enum_class = eagine::enum_class<Self, T, 1, Id>;
+using enum_class = eagine::enum_class<Self, T, 100, Id>;
 
 using eagine::enum_bitfield;
 
-using any_enum_class = eagine::any_enum_class<1>;
-using any_enum_value = eagine::any_enum_value<1>;
+using any_enum_class = eagine::any_enum_class<100>;
+using any_enum_value = eagine::any_enum_value<100>;
 
 static constexpr inline
 bool same_enum_class(any_enum_class a, any_enum_class b)

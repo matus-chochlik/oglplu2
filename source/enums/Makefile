@@ -3,7 +3,7 @@
 #  See accompanying file LICENSE_1_0.txt or copy at
 #   http://www.boost.org/LICENSE_1_0.txt)
 #
-LIBS = oglplus eglplus oalplus
+LIBS = oglplus eglplus oalplus oalplus_alc
 
 .PHONY: all
 all: $(addprefix all-,$(LIBS))

@@ -9,8 +9,8 @@
 //  See accompanying file LICENSE_1_0.txt or copy at
 //   http://www.boost.org/LICENSE_1_0.txt
 //
-#ifndef EGLPLUS_ENUM_VALUES_HPP
-#define EGLPLUS_ENUM_VALUES_HPP
+#ifndef EGLPLUS_EGL_ENUM_VALUES_HPP
+#define EGLPLUS_EGL_ENUM_VALUES_HPP
 
 #include "enum_types.hpp"
 #include "utils/mp_list.hpp"

@@ -16,17 +16,31 @@
 namespace oalplus {
 
 using eagine::enum_value;
-
-template <typename Self, typename T, unsigned Id>
-using enum_class = eagine::enum_class<Self, T, 2, Id>;
-
 using eagine::enum_bitfield;
 
-using any_enum_class = eagine::any_enum_class<2>;
-using any_enum_value = eagine::any_enum_value<2>;
+// AL
+template <typename Self, typename T, unsigned Id>
+using enum_class = eagine::enum_class<Self, T, 200, Id>;
+
+using any_enum_class = eagine::any_enum_class<200>;
+using any_enum_value = eagine::any_enum_value<200>;
 
 static constexpr inline
 bool same_enum_class(any_enum_class a, any_enum_class b)
+noexcept
+{
+	return ::eagine::same_enum_class(a, b);
+}
+
+// ALC
+template <typename Self, typename T, unsigned Id>
+using enum_class_alc = eagine::enum_class<Self, T, 201, Id>;
+
+using any_enum_class_alc = eagine::any_enum_class<201>;
+using any_enum_value_alc = eagine::any_enum_value<201>;
+
+static constexpr inline
+bool same_enum_class(any_enum_class_alc a, any_enum_class_alc b)
 noexcept
 {
 	return ::eagine::same_enum_class(a, b);
