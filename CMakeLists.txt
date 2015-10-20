@@ -24,6 +24,12 @@ include(config/FindGL.cmake)
 include(config/FindGLEW.cmake)
 include(config/FindGLFW.cmake)
 
+# EGL
+include(config/FindEGL.cmake)
+
+# OpenAL
+include(config/FindAL.cmake)
+
 # setting up executable requirements
 include(config/ExeRequirements.cmake)
 
