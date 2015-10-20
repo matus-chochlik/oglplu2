@@ -18,6 +18,14 @@
 namespace oalplus {
 struct enum_values_alc {
 
+#ifdef ALC_FREQUENCY
+static constexpr const enum_value<
+	ALCenum,
+	ALC_FREQUENCY,
+	mp_list<oalplus::context_attrib>
+> frequency = {};
+#endif
+
 #ifdef ALC_INVALID_CONTEXT
 static constexpr const enum_value<
 	ALCenum,
@@ -50,6 +58,14 @@ static constexpr const enum_value<
 > invalid_value = {};
 #endif
 
+#ifdef ALC_MONO_SOURCES
+static constexpr const enum_value<
+	ALCenum,
+	ALC_MONO_SOURCES,
+	mp_list<oalplus::context_attrib>
+> mono_sources = {};
+#endif
+
 #ifdef ALC_NO_ERROR
 static constexpr const enum_value<
 	ALCenum,
@@ -64,6 +80,30 @@ static constexpr const enum_value<
 	ALC_OUT_OF_MEMORY,
 	mp_list<oalplus::alc_error_code>
 > out_of_memory = {};
+#endif
+
+#ifdef ALC_REFRESH
+static constexpr const enum_value<
+	ALCenum,
+	ALC_REFRESH,
+	mp_list<oalplus::context_attrib>
+> refresh = {};
+#endif
+
+#ifdef ALC_STEREO_SOURCES
+static constexpr const enum_value<
+	ALCenum,
+	ALC_STEREO_SOURCES,
+	mp_list<oalplus::context_attrib>
+> stereo_sources = {};
+#endif
+
+#ifdef ALC_SYNC
+static constexpr const enum_value<
+	ALCenum,
+	ALC_SYNC,
+	mp_list<oalplus::context_attrib>
+> sync = {};
 #endif
 
 };// struct enum_values

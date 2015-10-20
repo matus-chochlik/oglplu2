@@ -57,13 +57,15 @@ def update_input_options(options, input_path):
 
 
 	options.enum_name = None
-	options.enum_type = "enum"
+	options.enum_type = "%senum" % options.base_lib_prefix
 
 	with open(input_path, "r") as f:
 		for line in f:
 			line = line.strip()
-			if line.startswith("#@"):
-				options.enum_type = line[2:-1]
+			if line.startswith("#@!"):
+				options.enum_type = line[3:-1]
+			elif line.startswith("#@"):
+				options.enum_type = "%s%s" % (options.base_lib_prefix, line[2:-1])
 			elif line.startswith("#") and line.endswith("#"):
 				options.enum_name = line[1:-1]
 
@@ -162,10 +164,9 @@ def action_incl_enum_types_hpp(options):
 
 	for enum_class, enum_info in sorted(enum_classes.items()):
 		print_line(options, "struct %s" % enum_class)
-		print_line(options, " : enum_class%s<%s, %s%s, %d>" % (
+		print_line(options, " : enum_class%s<%s, %s, %d>" % (
 			options.lib_suffix,
 			enum_class,
-			options.base_lib_prefix,
 			enum_info.enum_type,
 			enum_info.typ_id
 		))
@@ -213,10 +214,7 @@ def action_incl_enum_values_hpp(options):
 			value_info.info.src_name
 		))
 		print_line(options, "static constexpr const enum_value<")
-		print_line(options, "	%s%s," % (
-			options.base_lib_prefix,
-			value_info.info.enum_type
-		))
+		print_line(options, "	%s," % value_info.info.enum_type)
 		print_line(options, "	%s_%s," % (
 			options.base_lib_prefix,
 			value_info.info.src_name
@@ -295,10 +293,7 @@ def action_impl_enum_value_names_inl(options):
 			enum_class
 		))
 
-		print_line(options, "\t\t\tswitch(%s%s(aev._value))" % (
-			options.base_lib_prefix,
-			enum_class_info.enum_type
-		))
+		print_line(options, "\t\t\tswitch(%s(aev._value))" % enum_class_info.enum_type)
 		print_line(options, "\t\t\t{")
 		for enum_value in sorted(enum_class_info.values, key=lambda x: x.src_name):
 			print_line(options, "#ifdef %s_%s" % (
@@ -376,10 +371,7 @@ def action_impl_enum_value_range_inl(options):
 		))
 		print_line(options, "\t\t{")
 
-		print_line(options, "\t\t\tstatic const %s%s vr[] = {" % (
-			options.base_lib_prefix,
-			enum_class_info.enum_type
-		))
+		print_line(options, "\t\t\tstatic const %s vr[] = {" % enum_class_info.enum_type)
 
 		for enum_value in sorted(enum_class_info.values, key=lambda x: x.src_name):
 			print_line(options, "#ifdef %s_%s" % (
@@ -511,8 +503,7 @@ def action_test_enums_cpp(options):
 		))
 		print_line(options, "{");
 		print_line(options, "	--count;")
-		print_line(options, "	array_view<const %s%s> r = enum_value_range(x);" % (
-			options.base_lib_prefix,
+		print_line(options, "	array_view<const %s> r = enum_value_range(x);" % (
 			value_info.enum_type
 		))
 		print_line(options, "	BOOST_CHECK(std::find(")

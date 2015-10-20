@@ -2,9 +2,10 @@
 # Distributed under the Boost Software License, Version 1.0.
 # See accompanying file LICENSE_1_0.txt or copy at
 #  http://www.boost.org/LICENSE_1_0.txt
-NO_ERROR
-INVALID_DEVICE
-INVALID_CONTEXT
-INVALID_ENUM
-INVALID_VALUE
-OUT_OF_MEMORY
+LIB_PREFIX = ALUT
+LIBRARY = oalplus
+LIB_SUFFIX = _alut
+SOURCES = $(wildcard *.txt)
+PARENT = ..
+
+sinclude ../common.mk

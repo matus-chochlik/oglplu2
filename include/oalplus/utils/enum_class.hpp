@@ -46,6 +46,20 @@ noexcept
 	return ::eagine::same_enum_class(a, b);
 }
 
+// ALUT
+template <typename Self, typename T, unsigned Id>
+using enum_class_alut = eagine::enum_class<Self, T, 202, Id>;
+
+using any_enum_class_alut = eagine::any_enum_class<202>;
+using any_enum_value_alut = eagine::any_enum_value<202>;
+
+static constexpr inline
+bool same_enum_class(any_enum_class_alut a, any_enum_class_alut b)
+noexcept
+{
+	return ::eagine::same_enum_class(a, b);
+}
+
 } // namespace oalplus
 
 #endif // include guard

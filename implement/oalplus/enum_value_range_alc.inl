@@ -44,6 +44,28 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
+		case 1: /* context_attrib */
+		{
+			static const ALCenum vr[] = {
+#ifdef ALC_FREQUENCY
+				ALC_FREQUENCY,
+#endif
+#ifdef ALC_MONO_SOURCES
+				ALC_MONO_SOURCES,
+#endif
+#ifdef ALC_REFRESH
+				ALC_REFRESH,
+#endif
+#ifdef ALC_STEREO_SOURCES
+				ALC_STEREO_SOURCES,
+#endif
+#ifdef ALC_SYNC
+				ALC_SYNC,
+#endif
+				0
+			};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
+		}
 	default:;
 	}
 

@@ -1,4 +1,4 @@
-//  File include/oalplus/enum_types_alc.hpp
+//  File include/oalplus/enum_types_alut.hpp
 //
 //  Automatically generated file, DO NOT modify manually.
 //  Edit the enumeration source files in 'source/enums/oalplus'
@@ -9,19 +9,15 @@
 //  See accompanying file LICENSE_1_0.txt or copy at
 //   http://www.boost.org/LICENSE_1_0.txt
 //
-#ifndef OALPLUS_ALC_ENUM_TYPES_HPP
-#define OALPLUS_ALC_ENUM_TYPES_HPP
+#ifndef OALPLUS_ALUT_ENUM_TYPES_HPP
+#define OALPLUS_ALUT_ENUM_TYPES_HPP
 
 #include "utils/enum_class.hpp"
 
 namespace oalplus {
 
-struct alc_error_code
- : enum_class_alc<alc_error_code, ALCenum, 0>
-{ using enum_class::enum_class; };
-
-struct context_attrib
- : enum_class_alc<context_attrib, ALCenum, 1>
+struct alut_error_code
+ : enum_class_alut<alut_error_code, ALenum, 0>
 { using enum_class::enum_class; };
 
 } // namespace oalplus
