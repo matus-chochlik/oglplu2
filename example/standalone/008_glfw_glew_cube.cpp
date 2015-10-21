@@ -55,7 +55,7 @@ void run_loop(int width, int height)
 
 	shader vs(GL.vertex_shader);
 
-	gl.shader_source(vs, glsl_literal(
+	vs.source(glsl_literal(
 	"#version 120\n"
 
 	"uniform mat4 Projection;"
@@ -77,10 +77,11 @@ void run_loop(int width, int height)
 	"	vertCoord = Coord;\n"
 	"}\n"
 	));
+	vs.compile();
 
 	shader fs(GL.fragment_shader);
 
-	gl.shader_source(fs, glsl_literal(
+	fs.source(glsl_literal(
 	"#version 120\n"
 
 	"varying vec3 vertPosition;\n"
@@ -99,15 +100,15 @@ void run_loop(int width, int height)
 	"	gl_FragColor = vec4(mix(fc, lc, c1)*c2, 1.0);\n"
 	"}\n"
 	));
-
-	gl.compile(fs);
+	fs.compile();
 
 	program prog;
 
-	gl.attach_shader(prog, vs);
-	gl.attach_shader(prog, fs);
-	gl.link(prog);
-	gl.use(prog);
+	prog.attach(vs);
+	prog.attach(fs);
+	prog.link();
+
+	gl.use_program(prog);
 
 	uniform_location projection, modelview;
 

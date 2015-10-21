@@ -13,8 +13,13 @@
 #include "object/owner.hpp"
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
+#include "utils/gl_func.hpp"
+#include "utils/buffer_data.hpp"
+#include "enum_values.hpp"
 
-#ifdef GL_BUFFER
+#ifndef GL_BUFFER
+#define GL_BUFFER 0x82E0
+#endif
 
 namespace oglplus {
 namespace tag {
@@ -24,9 +29,55 @@ using buffer = gl_obj_tag<GL_BUFFER>;
 } // namespace tag
 
 using buffer_name = object_name<tag::buffer>;
-using buffer = object_owner<tag::buffer>;
 
-static const object_zero<tag::buffer> no_buffer = {};
+namespace ctxt {
+
+struct buffer_ops
+{
+	static
+	outcome<void>
+	bind_buffer(buffer_target target, buffer_name buf)
+	noexcept
+	{
+		OGLPLUS_GLFUNC(BindBuffer)(
+			GLenum(target),
+			get_raw_name(buf)
+		);
+		OGLPLUS_VERIFY(
+			BindBuffer,
+			enum_value(target).
+			gl_object(buf),
+			debug
+		);
+		return {};
+	}
+
+	static
+	outcome<void>
+	data(
+		buffer_target target,
+		buffer_data data,
+		buffer_usage usage
+	)
+	noexcept
+	{
+		OGLPLUS_GLFUNC(BufferData)(
+			GLenum(target),
+			GLsizei(data.size()),
+			data.data(),
+			GLenum(usage)
+		);
+		OGLPLUS_VERIFY(
+			BufferData,
+			enum_value(target),
+			debug
+		);
+		return {};
+	}
+
+};
+
+} // namespace ctxt
 
 template <>
 struct obj_gen_del_ops<tag::buffer>
@@ -46,10 +97,13 @@ struct obj_gen_del_ops<tag::buffer>
 	noexcept;
 };
 
+using buffer = object_owner<tag::buffer>;
+
+static const object_zero_and_ops<tag::buffer>
+	no_buffer = {};
+
 } // namespace oglplus
 
 #include <oglplus/buffer.inl>
-
-#endif // GL_BUFFER
 
 #endif // include guard

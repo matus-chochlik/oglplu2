@@ -63,17 +63,16 @@ void run_loop(int width, int height)
 	"	gl_FragColor = vec4(mix(Color1, Color2, c),1);\n"
 	"}\n"
 	));
+	gl.compile_shader(fs);
 
-	gl.compile(fs);
+	program prog;
 
-	program p;
+	gl.attach_shader(prog, fs);
+	gl.link_program(prog);
+	gl.use_program(prog);
 
-	gl.attach_shader(p, fs);
-	gl.link(p);
-	gl.use(p);
-
-	gl.uniform(uniform<GLfloat>(p, "Color1"), 0.2f, 0.2f, 0.2f);
-	gl.uniform(uniform<GLfloat[3]>(p, "Color2"), 1, make_view({0.4f, 0.4f, 0.6f}));
+	gl.uniform(uniform<GLfloat>(prog, "Color1"), 0.2f, 0.2f, 0.2f);
+	gl.uniform(uniform<GLfloat[3]>(prog, "Color2"), 1, make_view({0.4f, 0.4f, 0.6f}));
 
 	gl.clear_color(vec4(0.6f, 0.7f, 0.6f, 0.0f));
 

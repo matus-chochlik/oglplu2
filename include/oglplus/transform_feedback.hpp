@@ -14,7 +14,9 @@
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
 
-#ifdef GL_TRANSFORM_FEEDBACK
+#ifndef GL_TRANSFORM_FEEDBACK
+#define GL_TRANSFORM_FEEDBACK 0x8E22
+#endif
 
 namespace oglplus {
 namespace tag {
@@ -24,9 +26,6 @@ using transform_feedback = gl_obj_tag<GL_TRANSFORM_FEEDBACK>;
 } // namespace tag
 
 using transform_feedback_name = object_name<tag::transform_feedback>;
-using transform_feedback = object_owner<tag::transform_feedback>;
-
-static const object_zero<tag::transform_feedback> default_transform_feedback = {};
 
 template <>
 struct obj_gen_del_ops<tag::transform_feedback>
@@ -46,10 +45,13 @@ struct obj_gen_del_ops<tag::transform_feedback>
 	noexcept;
 };
 
+using transform_feedback = object_owner<tag::transform_feedback>;
+
+static const object_zero_and_ops<tag::transform_feedback>
+	default_transform_feedback = {};
+
 } // namespace oglplus
 
 #include <oglplus/transform_feedback.inl>
-
-#endif // GL_TRANSFORM_FEEDBACK
 
 #endif // include guard

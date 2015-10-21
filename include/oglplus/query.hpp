@@ -14,7 +14,9 @@
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
 
-#ifdef GL_QUERY
+#ifndef GL_QUERY
+#define GL_QUERY 0x82E3
+#endif
 
 namespace oglplus {
 namespace tag {
@@ -24,7 +26,6 @@ using query = gl_obj_tag<GL_QUERY>;
 } // namespace tag
 
 using query_name = object_name<tag::query>;
-using query = object_owner<tag::query>;
 
 template <>
 struct obj_gen_del_ops<tag::query>
@@ -44,10 +45,10 @@ struct obj_gen_del_ops<tag::query>
 	noexcept;
 };
 
+using query = object_owner<tag::query>;
+
 } // namespace oglplus
 
 #include <oglplus/query.inl>
-
-#endif // GL_QUERY
 
 #endif // include guard

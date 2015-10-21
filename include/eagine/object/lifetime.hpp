@@ -27,6 +27,14 @@ struct obj_lifetime_ops
 		return gen_del_ops::_gen(get_raw_names(names));
 	}
 
+	static inline
+	auto
+	gen_objects(owned<object_name_and_ops<ObjTag>>& name)
+	noexcept
+	{
+		return gen_del_ops::_gen(get_raw_names(name));
+	}
+
 	template <typename Storage, typename Param>
 	static inline
 	auto
@@ -36,6 +44,15 @@ struct obj_lifetime_ops
 		return gen_del_ops::_gen(get_raw_names(names), param);
 	}
 
+	template <typename Param>
+	static inline
+	auto
+	gen_objects(owned<object_name_and_ops<ObjTag>>& name, Param param)
+	noexcept
+	{
+		return gen_del_ops::_gen(get_raw_names(name), param);
+	}
+
 	template <typename Storage>
 	static inline
 	auto
@@ -43,6 +60,14 @@ struct obj_lifetime_ops
 	noexcept
 	{
 		return gen_del_ops::_delete(get_raw_names(names));
+	}
+
+	static inline
+	auto
+	delete_objects(owned<object_name_and_ops<ObjTag>>& name)
+	noexcept
+	{
+		return gen_del_ops::_delete(get_raw_names(name));
 	}
 
 	static inline

@@ -14,7 +14,9 @@
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
 
-#ifdef GL_RENDERBUFFER
+#ifndef GL_RENDERBUFFER
+#define GL_RENDERBUFFER 0x8D41
+#endif
 
 namespace oglplus {
 namespace tag {
@@ -24,9 +26,6 @@ using renderbuffer = gl_obj_tag<GL_RENDERBUFFER>;
 } // namespace tag
 
 using renderbuffer_name = object_name<tag::renderbuffer>;
-using renderbuffer = object_owner<tag::renderbuffer>;
-
-static const object_zero<tag::renderbuffer> no_renderbuffer = {};
 
 template <>
 struct obj_gen_del_ops<tag::renderbuffer>
@@ -46,10 +45,13 @@ struct obj_gen_del_ops<tag::renderbuffer>
 	noexcept;
 };
 
+using renderbuffer = object_owner<tag::renderbuffer>;
+
+static const object_zero_and_ops<tag::renderbuffer>
+	no_renderbuffer = {};
+
 } // namespace oglplus
 
 #include <oglplus/renderbuffer.inl>
-
-#endif // GL_RENDERBUFFER
 
 #endif // include guard

@@ -47,7 +47,7 @@ void run_loop(int width, int height)
 
 	shader vs(GL.vertex_shader);
 
-	gl.shader_source(vs, glsl_literal(
+	vs.source(glsl_literal(
 	"#version 120\n"
 
 	"attribute vec3 Position;\n"
@@ -66,10 +66,11 @@ void run_loop(int width, int height)
 	"	vertCoord = Coord;\n"
 	"}\n"
 	));
+	vs.compile();
 
 	shader fs(GL.fragment_shader);
 
-	gl.shader_source(fs, glsl_literal(
+	fs.source(glsl_literal(
 	"#version 120\n"
 
 	"varying vec3 vertPosition;\n"
@@ -88,15 +89,15 @@ void run_loop(int width, int height)
 	"	gl_FragColor = vec4(mix(fc, lc, c1)*c2, 1.0);\n"
 	"}\n"
 	));
+	fs.compile();
 
-	gl.compile(fs);
+	program prog;
 
-	program p;
+	prog.attach(vs);
+	prog.attach(fs);
+	prog.link();
 
-	gl.attach_shader(p, vs);
-	gl.attach_shader(p, fs);
-	gl.link(p);
-	gl.use(p);
+	gl.use_program(prog);
 
 	vertex_array vao;
 
@@ -149,7 +150,7 @@ void run_loop(int width, int height)
 	gl.enable_array(vertex_attrib_location(0));
 
 	vertex_attrib_location va_p;
-	gl.query_location(va_p, p, "Position");
+	gl.query_location(va_p, prog, "Position");
 	gl.pointer(va_p, 3, GL.float_, false, 0, nullptr);
 	gl.enable_array(va_p);
 
@@ -179,7 +180,7 @@ void run_loop(int width, int height)
 	gl.data(GL.array_buffer, cube_normals, GL.static_draw);
 
 	vertex_attrib_location va_n;
-	gl.query_location(va_n, p, "Normal");
+	gl.query_location(va_n, prog, "Normal");
 	gl.pointer(va_n, 3, GL.float_, false, 0, nullptr);
 	gl.enable_array(va_n);
 
@@ -211,7 +212,7 @@ void run_loop(int width, int height)
 	gl.data(GL.array_buffer, cube_coords, GL.static_draw);
 
 	vertex_attrib_location va_c;
-	gl.query_location(va_c, p, "Coord");
+	gl.query_location(va_c, prog, "Coord");
 	gl.pointer(va_c, 2, GL.float_, false, 0, nullptr);
 	gl.enable_array(va_c);
 

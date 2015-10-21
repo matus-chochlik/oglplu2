@@ -14,7 +14,9 @@
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
 
-#ifdef GL_PROGRAM_PIPELINE
+#ifndef GL_PROGRAM_PIPELINE
+#define GL_PROGRAM_PIPELINE 0x82E4
+#endif
 
 namespace oglplus {
 namespace tag {
@@ -24,7 +26,6 @@ using program_pipeline = gl_obj_tag<GL_PROGRAM_PIPELINE>;
 } // namespace tag
 
 using program_pipeline_name = object_name<tag::program_pipeline>;
-using program_pipeline = object_owner<tag::program_pipeline>;
 
 template <>
 struct obj_gen_del_ops<tag::program_pipeline>
@@ -44,10 +45,13 @@ struct obj_gen_del_ops<tag::program_pipeline>
 	noexcept;
 };
 
+using program_pipeline = object_owner<tag::program_pipeline>;
+
+static const object_zero_and_ops<tag::program_pipeline>
+	no_program_pipeline = {};
+
 } // namespace oglplus
 
 #include <oglplus/program_pipeline.inl>
-
-#endif // GL_PROGRAM_PIPELINE
 
 #endif // include guard

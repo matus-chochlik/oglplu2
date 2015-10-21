@@ -11,6 +11,7 @@
 #include <eagine/object/owner.hpp>
 #include <eagine/deferred_handler.hpp>
 #include <eagine/outcome.hpp>
+#include <eagine/nothing.hpp>
 #include <set>
 #include <stdexcept>
 
@@ -96,6 +97,12 @@ struct object_traits<tag::mock_object>
 	typedef unsigned name_type;
 
 	typedef mock_obj_gen_del_ops gen_del_ops;
+
+	template <typename ObjName>
+	using dsa_zero_ops_t = ObjName;
+
+	template <typename ObjName>
+	using dsa_ops_t = ObjName;
 
 	static constexpr inline
 	unsigned invalid_name(void)

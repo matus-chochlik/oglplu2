@@ -14,7 +14,9 @@
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
 
-#ifdef GL_FRAMEBUFFER
+#ifndef GL_FRAMEBUFFER
+#define GL_FRAMEBUFFER 0x8D40
+#endif
 
 namespace oglplus {
 namespace tag {
@@ -24,9 +26,6 @@ using framebuffer = gl_obj_tag<GL_FRAMEBUFFER>;
 } // namespace tag
 
 using framebuffer_name = object_name<tag::framebuffer>;
-using framebuffer = object_owner<tag::framebuffer>;
-
-static const object_zero<tag::framebuffer> default_framebuffer = {};
 
 template <>
 struct obj_gen_del_ops<tag::framebuffer>
@@ -46,10 +45,13 @@ struct obj_gen_del_ops<tag::framebuffer>
 	noexcept;
 };
 
+using framebuffer = object_owner<tag::framebuffer>;
+
+static const object_zero_and_ops<tag::framebuffer>
+	default_framebuffer = {};
+
 } // namespace oglplus
 
 #include <oglplus/framebuffer.inl>
-
-#endif // GL_FRAMEBUFFER
 
 #endif // include guard

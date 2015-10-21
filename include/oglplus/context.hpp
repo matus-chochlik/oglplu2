@@ -17,11 +17,11 @@
 #include "ctxt/synchronization.hpp"
 
 #include "ctxt/object_lifetime.hpp"
-#include "ctxt/vertex_array.hpp"
-#include "ctxt/buffer.hpp"
-#include "ctxt/texture.hpp"
-#include "ctxt/shader.hpp"
-#include "ctxt/program.hpp"
+#include "vertex_array.hpp"
+#include "buffer.hpp"
+#include "texture.hpp"
+#include "shader.hpp"
+#include "program.hpp"
 
 #include "ctxt/vertex_attrib.hpp"
 #include "ctxt/uniform.hpp"
@@ -56,9 +56,33 @@ class context
 #endif
 {
 public:
-	using ctxt::vertex_array_ops::bind;
-	using ctxt::buffer_ops::bind;
-	using ctxt::texture_ops::bind;
+	static
+	auto bind(vertex_array_name vao)
+	noexcept
+	{
+		return bind_vertex_array(vao);
+	}
+
+	static
+	auto bind(buffer_target tgt, buffer_name buf)
+	noexcept
+	{
+		return bind_buffer(tgt, buf);
+	}
+
+	static
+	auto bind(texture_target tgt, texture_name tex)
+	noexcept
+	{
+		return bind_texture(tgt, tex);
+	}
+
+	static
+	auto use(program_name prg)
+	noexcept
+	{
+		return use_program(prg);
+	}
 };
 
 } // namespace oglplus

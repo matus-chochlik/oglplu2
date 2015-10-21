@@ -18,7 +18,6 @@ using eagine::object_traits;
 using eagine::object_names;
 
 using eagine::object_name;
-using eagine::object_zero;
 
 using eagine::owned;
 

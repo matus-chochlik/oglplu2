@@ -156,6 +156,14 @@ public:
 	 : _value(value)
 	{ }
 
+	basic_outcome(
+		basic_outcome<void, ErrorData, HandlerPolicy>&& that,
+		T value
+	) noexcept
+	 : basic_outcome<void, ErrorData, HandlerPolicy>(std::move(that))
+	 , _value(value)
+	{ }
+
 	T get(void)
 	{
 		this->_handler.trigger();

@@ -64,6 +64,7 @@ void run_loop(int width, int height)
 	"	vertColor2 = Color2;\n"
 	"}\n"
 	));
+	gl.compile_shader(vs);
 
 	shader fs(GL.fragment_shader);
 
@@ -88,19 +89,18 @@ void run_loop(int width, int height)
 	"	), 1);\n"
 	"}\n"
 	));
+	gl.compile_shader(fs);
 
-	gl.compile(fs);
+	program prog;
 
-	program p;
+	gl.attach_shader(prog, vs);
+	gl.attach_shader(prog, fs);
+	gl.link_program(prog);
+	gl.use_program(prog);
 
-	gl.attach_shader(p, vs);
-	gl.attach_shader(p, fs);
-	gl.link(p);
-	gl.use(p);
-
-	vertex_attrib<GLfloat[2]> coord(p, "Coord");
-	vertex_attrib<GLfloat> color1(p, "Color1");
-	vertex_attrib<GLfloat> color2(p, "Color2");
+	vertex_attrib<GLfloat[2]> coord(prog, "Coord");
+	vertex_attrib<GLfloat> color1(prog, "Color1");
+	vertex_attrib<GLfloat> color2(prog, "Color2");
 
 	gl.clear_color(0.7f, 0.7f, 0.6f, 0.0f);
 

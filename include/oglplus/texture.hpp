@@ -13,8 +13,12 @@
 #include "object/owner.hpp"
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
+#include "utils/gl_func.hpp"
+#include "enum_values.hpp"
 
-#ifdef GL_TEXTURE
+#ifndef GL_TEXTURE
+#define GL_TEXTURE 0x1702
+#endif
 
 namespace oglplus {
 namespace tag {
@@ -22,11 +26,46 @@ namespace tag {
 using texture = gl_obj_tag<GL_TEXTURE>;
 
 } // namespace tag
+} // namespace oglplus
+
+namespace eagine {
+
+template <>
+struct object_subtype<oglplus::tag::texture>
+{
+	typedef oglplus::texture_target type;
+};
+
+} // namespace eagine
+
+namespace oglplus {
 
 using texture_name = object_name<tag::texture>;
-using texture = object_owner<tag::texture>;
 
-static const object_zero<tag::texture> default_texture = {};
+namespace ctxt {
+
+struct texture_ops
+{
+	static
+	outcome<void>
+	bind_texture(texture_target target, texture_name tex)
+	noexcept
+	{
+		OGLPLUS_GLFUNC(BindTexture)(
+			GLenum(target),
+			get_raw_name(tex)
+		);
+		OGLPLUS_VERIFY(
+			BindTexture,
+			enum_value(target).
+			gl_object(tex),
+			debug
+		);
+		return {};
+	}
+};
+
+} // namespace ctxt
 
 template <>
 struct obj_gen_del_ops<tag::texture>
@@ -46,10 +85,13 @@ struct obj_gen_del_ops<tag::texture>
 	noexcept;
 };
 
+using texture = object_owner<tag::texture>;
+
+static const object_zero_and_ops<tag::texture>
+	default_texture = {};
+
 } // namespace oglplus
 
 #include <oglplus/texture.inl>
-
-#endif // GL_TEXTURE
 
 #endif // include guard

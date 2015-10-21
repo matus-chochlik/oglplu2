@@ -13,9 +13,13 @@
 #include "object/owner.hpp"
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
+#include "glsl/source_ref.hpp"
+#include "utils/gl_func.hpp"
 #include "enum_types.hpp"
 
-#ifdef GL_SHADER
+#ifndef GL_SHADER
+#define GL_SHADER 0x82E1
+#endif
 
 namespace oglplus {
 namespace tag {
@@ -38,8 +42,62 @@ struct object_subtype<oglplus::tag::shader>
 namespace oglplus {
 
 using shader_name = object_name<tag::shader>;
-using shader = object_owner<tag::shader>;
 
+namespace ctxt {
+
+struct shader_ops
+{
+	static
+	outcome<void>
+	shader_source(shader_name shdr, const glsl_source_ref& source)
+	noexcept
+	{
+		OGLPLUS_GLFUNC(ShaderSource)(
+			get_raw_name(shdr),
+			source.count(),
+			source.parts(),
+			source.lengths()
+		);
+		OGLPLUS_VERIFY(ShaderSource, gl_object(shdr), always);
+		return {};
+	}
+
+	static
+	outcome<void>
+	compile_shader(shader_name shdr)
+	noexcept
+	{
+		OGLPLUS_GLFUNC(CompileShader)(get_raw_name(shdr));
+		OGLPLUS_VERIFY(CompileShader, gl_object(shdr), always);
+		return {};
+	}
+};
+
+} // namespace ctxt
+
+// obj_dsa_ops
+template <>
+struct obj_dsa_ops<shader_name>
+ : obj_zero_dsa_ops<shader_name>
+{
+	typedef ctxt::shader_ops _ops;
+
+	outcome<obj_dsa_ops&>
+	source(const glsl_source_ref& source)
+	noexcept
+	{
+		return {_ops::shader_source(*this, source), *this};
+	}
+
+	outcome<obj_dsa_ops&>
+	compile(void)
+	noexcept
+	{
+		return {_ops::compile_shader(*this), *this};
+	}
+};
+
+// obj_gen_del_ops
 template <>
 struct obj_gen_del_ops<tag::shader>
 {
@@ -58,10 +116,10 @@ struct obj_gen_del_ops<tag::shader>
 	noexcept;
 };
 
+using shader = object_owner<tag::shader>;
+
 } // namespace oglplus
 
 #include <oglplus/shader.inl>
-
-#endif // GL_SHADER
 
 #endif // include guard

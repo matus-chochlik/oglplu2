@@ -34,7 +34,10 @@ using object_name = object_names<
 >;
 
 template <typename ObjTag>
-class object_zero;
+class object_zero_and_ops;
+
+template <typename ObjTag>
+class object_name_and_ops;
 
 template <typename ObjectNames>
 class owned;
