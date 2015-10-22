@@ -74,14 +74,14 @@ struct enum_class
 		return _value;
 	}
 
-	friend inline
+	friend constexpr inline
 	bool operator == (enum_class a, enum_class b)
 	noexcept
 	{
 		return a._value == b._value;
 	}
 
-	friend inline
+	friend constexpr inline
 	bool operator != (enum_class a, enum_class b)
 	noexcept
 	{
