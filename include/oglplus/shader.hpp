@@ -15,7 +15,7 @@
 #include "error/outcome.hpp"
 #include "glsl/source_ref.hpp"
 #include "utils/gl_func.hpp"
-#include "enum_types.hpp"
+#include "enum/types.hpp"
 
 #ifndef GL_SHADER
 #define GL_SHADER 0x82E1

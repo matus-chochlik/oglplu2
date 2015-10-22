@@ -9,7 +9,7 @@
 #include <GL/glew.h>
 
 #include <oglplus/context.hpp>
-#include <oglplus/enum_values.hpp>
+#include <oglplus/enum/values.hpp>
 
 #include <eagine/scope_exit.hpp>
 

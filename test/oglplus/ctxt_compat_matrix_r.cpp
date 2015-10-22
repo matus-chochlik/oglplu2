@@ -120,7 +120,7 @@ fake_glMatrixFrustumEXT("MatrixFrustumEXT");
 #endif
 
 #include <oglplus/ctxt/compat_matrix.hpp>
-#include <oglplus/enum_values.hpp>
+#include <oglplus/enum/values.hpp>
 #include <cstring>
 #include <cstdlib>
 

@@ -14,7 +14,7 @@
 #include "../utils/array_view.hpp"
 #include "../error/handling.hpp"
 #include "../error/outcome.hpp"
-#include "../enum_types.hpp"
+#include "../enum/types.hpp"
 
 #include <cassert>
 #endif // ARB_compatibility

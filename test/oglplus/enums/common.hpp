@@ -4,6 +4,6 @@
  *  http://www.boost.org/LICENSE_1_0.txt
  */
 #include <oglplus/gl.hpp>
-#include <oglplus/enum_values.hpp>
-#include <oglplus/enum_value_names.hpp>
-#include <oglplus/enum_value_range.hpp>
+#include <oglplus/enum/values.hpp>
+#include <oglplus/enum/value_names.hpp>
+#include <oglplus/enum/value_range.hpp>

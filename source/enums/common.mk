@@ -17,9 +17,9 @@ all: \
 
 .PHONY: _incl_enum_types_hpp
 _incl_enum_types_hpp: \
-	$(ROOT)/include/$(LIBRARY)/enum_types$(LIB_SUFFIX).hpp
+	$(ROOT)/include/$(LIBRARY)/enum/gen_types$(LIB_SUFFIX).hpp
 
-$(ROOT)/include/$(LIBRARY)/enum_types$(LIB_SUFFIX).hpp: $(SOURCES) $(MAKE_ENUM)
+$(ROOT)/include/$(LIBRARY)/enum/gen_types$(LIB_SUFFIX).hpp: $(SOURCES) $(MAKE_ENUM)
 	$(MAKE_ENUM) $(MEFLAGS) \
 		--action incl_enum_types_hpp \
 		--output "$@" \
@@ -28,9 +28,9 @@ $(ROOT)/include/$(LIBRARY)/enum_types$(LIB_SUFFIX).hpp: $(SOURCES) $(MAKE_ENUM)
 
 .PHONY: _incl_enum_values_hpp
 _incl_enum_values_hpp: \
-	$(ROOT)/include/$(LIBRARY)/enum_values$(LIB_SUFFIX).hpp
+	$(ROOT)/include/$(LIBRARY)/enum/gen_values$(LIB_SUFFIX).hpp
 
-$(ROOT)/include/$(LIBRARY)/enum_values$(LIB_SUFFIX).hpp: $(SOURCES) $(MAKE_ENUM)
+$(ROOT)/include/$(LIBRARY)/enum/gen_values$(LIB_SUFFIX).hpp: $(SOURCES) $(MAKE_ENUM)
 	$(MAKE_ENUM) $(MEFLAGS) \
 		--action incl_enum_values_hpp \
 		--output "$@" \
@@ -39,9 +39,9 @@ $(ROOT)/include/$(LIBRARY)/enum_values$(LIB_SUFFIX).hpp: $(SOURCES) $(MAKE_ENUM)
 
 .PHONY: _impl_enum_value_names_inl
 _impl_enum_value_names_inl: \
-	$(ROOT)/implement/$(LIBRARY)/enum_value_names$(LIB_SUFFIX).inl
+	$(ROOT)/implement/$(LIBRARY)/enum/value_names$(LIB_SUFFIX).inl
 
-$(ROOT)/implement/$(LIBRARY)/enum_value_names$(LIB_SUFFIX).inl: $(SOURCES) $(MAKE_ENUM)
+$(ROOT)/implement/$(LIBRARY)/enum/value_names$(LIB_SUFFIX).inl: $(SOURCES) $(MAKE_ENUM)
 	$(MAKE_ENUM) $(MEFLAGS) \
 		--action impl_enum_value_names_inl \
 		--output "$@" \
@@ -50,9 +50,9 @@ $(ROOT)/implement/$(LIBRARY)/enum_value_names$(LIB_SUFFIX).inl: $(SOURCES) $(MAK
 
 .PHONY: _impl_enum_value_range_inl
 _impl_enum_value_range_inl: \
-	$(ROOT)/implement/$(LIBRARY)/enum_value_range$(LIB_SUFFIX).inl
+	$(ROOT)/implement/$(LIBRARY)/enum/value_range$(LIB_SUFFIX).inl
 
-$(ROOT)/implement/$(LIBRARY)/enum_value_range$(LIB_SUFFIX).inl: $(SOURCES) $(MAKE_ENUM)
+$(ROOT)/implement/$(LIBRARY)/enum/value_range$(LIB_SUFFIX).inl: $(SOURCES) $(MAKE_ENUM)
 	$(MAKE_ENUM) $(MEFLAGS) \
 		--action impl_enum_value_range_inl \
 		--output "$@" \

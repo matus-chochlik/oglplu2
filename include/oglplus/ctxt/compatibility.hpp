@@ -13,7 +13,7 @@
 #include "../utils/gl_func.hpp"
 #include "../error/handling.hpp"
 #include "../error/outcome.hpp"
-#include "../enum_types.hpp"
+#include "../enum/types.hpp"
 
 #include "compat_matrix.hpp"
 #include "compat_drawing.hpp"

@@ -155,9 +155,9 @@ def action_incl_enum_types_hpp(options):
 		typ_id = typ_id+1
 
 	print_cpp_header(options)
-	print_incl_guard(options, "ENUM_TYPES_HPP")
+	print_incl_guard(options, "GEN_ENUM_TYPES_HPP")
 	print_newline(options)
-	print_line(options, '#include "utils/enum_class.hpp"')
+	print_line(options, '#include "../utils/enum_class.hpp"')
 	print_newline(options)
 	print_line(options, "namespace %s {" % options.library)
 	print_newline(options)
@@ -199,13 +199,13 @@ def action_incl_enum_values_hpp(options):
 			enum_map[value_info.dst_name].classes.add(options.enum_name)
 
 	print_cpp_header(options)
-	print_incl_guard(options, "ENUM_VALUES_HPP")
+	print_incl_guard(options, "GEN_ENUM_VALUES_HPP")
 	print_newline(options)
-	print_line(options, '#include "enum_types%s.hpp"' % options.lib_suffix)
-	print_line(options, '#include "utils/mp_list.hpp"')
+	print_line(options, '#include "gen_types%s.hpp"' % options.lib_suffix)
+	print_line(options, '#include "../utils/mp_list.hpp"')
 	print_newline(options)
 	print_line(options, "namespace %s {" % options.library)
-	print_line(options, "struct enum_values%s {" % options.lib_suffix)
+	print_line(options, "struct generated_enum_values%s {" % options.lib_suffix)
 	print_newline(options)
 
 	for value_name, value_info in sorted(enum_map.items()):

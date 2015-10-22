@@ -14,7 +14,7 @@
 #include "../error/outcome.hpp"
 #include "../utils/array_view.hpp"
 #include "../utils/angles.hpp"
-#include "../enum_types.hpp"
+#include "../enum/types.hpp"
 
 namespace oglplus {
 namespace ctxt {

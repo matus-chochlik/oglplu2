@@ -15,7 +15,7 @@
 #include "error/outcome.hpp"
 #include "utils/gl_func.hpp"
 #include "utils/buffer_data.hpp"
-#include "enum_values.hpp"
+#include "enum/types.hpp"
 
 #ifndef GL_BUFFER
 #define GL_BUFFER 0x82E0

@@ -10,7 +10,7 @@
 #ifndef OGLPLUS_UTILS_BOOLEAN_1509260923_HPP
 #define OGLPLUS_UTILS_BOOLEAN_1509260923_HPP
 
-#include "../enum_types.hpp"
+#include "../enum/types.hpp"
 
 namespace oglplus {
 
