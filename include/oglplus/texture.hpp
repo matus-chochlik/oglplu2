@@ -57,7 +57,7 @@ struct texture_ops
 		);
 		OGLPLUS_VERIFY(
 			BindTexture,
-			enum_value(target).
+			gl_enum_value(target).
 			gl_object(tex),
 			debug
 		);

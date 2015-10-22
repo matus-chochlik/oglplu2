@@ -83,6 +83,34 @@ struct program_ops
 		OGLPLUS_VERIFY(UseProgram, gl_object(prog), always);
 		return {};
 	}
+
+	static
+	outcome<void>
+	get_program_iv(
+		program_name prog,
+		program_parameter param,
+		array_view<GLint> values
+	) noexcept;
+
+	static
+	outcome<true_false>
+	get_program_delete_status(program_name prog)
+	noexcept;
+
+	static
+	outcome<true_false>
+	get_program_link_status(program_name prog)
+	noexcept;
+
+	static
+	outcome<GLsizei>
+	get_program_info_log_length(program_name prog)
+	noexcept;
+
+	static
+	outcome<GLsizei>
+	get_program_info_log(program_name prog, array_view<char> dest)
+	noexcept;
 };
 
 } // namespace ctxt
@@ -113,6 +141,34 @@ struct obj_dsa_ops<program_name>
 	noexcept
 	{
 		return {_ops::link_program(*this), *this};
+	}
+
+	outcome<true_false>
+	link_status(void) const
+	noexcept
+	{
+		return _ops::get_program_link_status(*this);
+	}
+
+	outcome<true_false>
+	delete_status(void) const
+	noexcept
+	{
+		return _ops::get_program_delete_status(*this);
+	}
+
+	outcome<GLsizei>
+	info_log_length(void) const
+	noexcept
+	{
+		return _ops::get_program_info_log_length(*this);
+	}
+
+	outcome<GLsizei>
+	info_log(array_view<char> dest) const
+	noexcept
+	{
+		return _ops::get_program_info_log(*this, dest);
 	}
 };
 

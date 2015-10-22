@@ -29,7 +29,7 @@ noexcept
 	OGLPLUS_GLFUNC(GetIntegerv)(Query, &value);
 	OGLPLUS_VERIFY(
 		GetIntegerv,
-		enum_value(limit_query(Query)),
+		gl_enum_value(limit_query(Query)),
 		debug
 	);
 	return {value};
@@ -62,7 +62,7 @@ noexcept
 	{
 		return deferred_error_handler(
 			error_info(GL_INVALID_VALUE)
-				.enum_value(limit_query(Query))
+				.gl_enum_value(limit_query(Query))
 				.source_file(__FILE__)
 				.source_line(__LINE__)
 		);

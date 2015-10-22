@@ -26,6 +26,38 @@ static constexpr const enum_value<
 > accum_adjacent_pairs_nv = {};
 #endif
 
+#ifdef GL_ACTIVE_ATTRIBUTE_MAX_LENGTH
+static constexpr const enum_value<
+	GLenum,
+	GL_ACTIVE_ATTRIBUTE_MAX_LENGTH,
+	mp_list<oglplus::program_parameter>
+> active_attribute_max_length = {};
+#endif
+
+#ifdef GL_ACTIVE_ATTRIBUTES
+static constexpr const enum_value<
+	GLenum,
+	GL_ACTIVE_ATTRIBUTES,
+	mp_list<oglplus::program_parameter>
+> active_attributes = {};
+#endif
+
+#ifdef GL_ACTIVE_UNIFORM_MAX_LENGTH
+static constexpr const enum_value<
+	GLenum,
+	GL_ACTIVE_UNIFORM_MAX_LENGTH,
+	mp_list<oglplus::program_parameter>
+> active_uniform_max_length = {};
+#endif
+
+#ifdef GL_ACTIVE_UNIFORMS
+static constexpr const enum_value<
+	GLenum,
+	GL_ACTIVE_UNIFORMS,
+	mp_list<oglplus::program_parameter>
+> active_uniforms = {};
+#endif
+
 #ifdef GL_ACTIVE_VARIABLES
 static constexpr const enum_value<
 	GLenum,
@@ -184,6 +216,14 @@ static constexpr const enum_value<
 	GL_ATOMIC_COUNTER_BUFFER_INDEX,
 	mp_list<oglplus::program_resource_property>
 > atomic_counter_buffer_index = {};
+#endif
+
+#ifdef GL_ATTACHED_SHADERS
+static constexpr const enum_value<
+	GLenum,
+	GL_ATTACHED_SHADERS,
+	mp_list<oglplus::program_parameter>
+> attached_shaders = {};
 #endif
 
 #ifdef GL_BACK
@@ -688,6 +728,14 @@ static constexpr const enum_value<
 	GL_COMPATIBLE_SUBROUTINES,
 	mp_list<oglplus::program_resource_property>
 > compatible_subroutines = {};
+#endif
+
+#ifdef GL_COMPILE_STATUS
+static constexpr const enum_value<
+	GLenum,
+	GL_COMPILE_STATUS,
+	mp_list<oglplus::shader_parameter>
+> compile_status = {};
 #endif
 
 #ifdef GL_COMPRESSED_R11_EAC
@@ -1264,6 +1312,14 @@ static constexpr const enum_value<
 	GL_DECR_WRAP,
 	mp_list<oglplus::stencil_operation>
 > decr_wrap = {};
+#endif
+
+#ifdef GL_DELETE_STATUS
+static constexpr const enum_value<
+	GLenum,
+	GL_DELETE_STATUS,
+	mp_list<oglplus::program_parameter,oglplus::shader_parameter>
+> delete_status = {};
 #endif
 
 #ifdef GL_DEPTH
@@ -2466,6 +2522,14 @@ static constexpr const enum_value<
 > incr_wrap = {};
 #endif
 
+#ifdef GL_INFO_LOG_LENGTH
+static constexpr const enum_value<
+	GLenum,
+	GL_INFO_LOG_LENGTH,
+	mp_list<oglplus::program_parameter,oglplus::shader_parameter>
+> info_log_length = {};
+#endif
+
 #ifdef GL_INNOCENT_CONTEXT_RESET
 static constexpr const enum_value<
 	GLenum,
@@ -2920,6 +2984,14 @@ static constexpr const enum_value<
 	GL_LINES_ADJACENCY,
 	mp_list<oglplus::primitive_type>
 > lines_adjacency = {};
+#endif
+
+#ifdef GL_LINK_STATUS
+static constexpr const enum_value<
+	GLenum,
+	GL_LINK_STATUS,
+	mp_list<oglplus::program_parameter>
+> link_status = {};
 #endif
 
 #ifdef GL_LOCATION
@@ -5818,6 +5890,14 @@ static constexpr const enum_value<
 > shader_include = {};
 #endif
 
+#ifdef GL_SHADER_SOURCE_LENGTH
+static constexpr const enum_value<
+	GLenum,
+	GL_SHADER_SOURCE_LENGTH,
+	mp_list<oglplus::shader_parameter>
+> shader_source_length = {};
+#endif
+
 #ifdef GL_SHADER_STORAGE_BARRIER_BIT
 static constexpr const enum_value<
 	GLbitfield,
@@ -5840,6 +5920,14 @@ static constexpr const enum_value<
 	GL_SHADER_STORAGE_BUFFER,
 	mp_list<oglplus::buffer_indexed_target,oglplus::buffer_target>
 > shader_storage_buffer = {};
+#endif
+
+#ifdef GL_SHADER_TYPE
+static constexpr const enum_value<
+	GLenum,
+	GL_SHADER_TYPE,
+	mp_list<oglplus::shader_parameter>
+> shader_type = {};
 #endif
 
 #ifdef GL_SHADING_LANGUAGE_VERSION
@@ -7200,6 +7288,14 @@ static constexpr const enum_value<
 	GL_UTF8_NV,
 	mp_list<oglplus::path_text_encoding_nv>
 > utf8_nv = {};
+#endif
+
+#ifdef GL_VALIDATE_STATUS
+static constexpr const enum_value<
+	GLenum,
+	GL_VALIDATE_STATUS,
+	mp_list<oglplus::program_parameter>
+> validate_status = {};
 #endif
 
 #ifdef GL_VENDOR

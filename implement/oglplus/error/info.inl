@@ -327,7 +327,7 @@ noexcept
 inline
 error_info&
 error_info::
-enum_value(const any_enum_value& enum_val)
+gl_enum_value(const any_enum_value& enum_val)
 noexcept
 {
 #if !OGLPLUS_ERROR_NO_ENUM_VALUE
@@ -341,7 +341,7 @@ noexcept
 inline
 const any_enum_value&
 error_info::
-enum_value(void) const
+gl_enum_value(void) const
 noexcept
 {
 #if !OGLPLUS_ERROR_NO_ENUM_VALUE

@@ -141,10 +141,10 @@ public:
 	GLuint index(void) const
 	noexcept;
 
-	error_info& enum_value(const any_enum_value& enum_val)
+	error_info& gl_enum_value(const any_enum_value& enum_val)
 	noexcept;
 
-	const any_enum_value& enum_value(void) const
+	const any_enum_value& gl_enum_value(void) const
 	noexcept;
 
 	error_info& build_log(const cstring_view<>& log)

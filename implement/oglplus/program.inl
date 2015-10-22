@@ -10,6 +10,97 @@
 
 namespace oglplus {
 //------------------------------------------------------------------------------
+namespace ctxt {
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+program_ops::
+get_program_iv(
+	program_name prog,
+	program_parameter para,
+	array_view<GLint> values
+) noexcept
+{
+	assert(values.size() > 0);
+	OGLPLUS_GLFUNC(GetProgramiv)(
+		get_raw_name(prog),
+		GLenum(para),
+		values.data()
+	);
+	OGLPLUS_VERIFY(
+		GetProgramiv,
+		gl_enum_value(para).
+		gl_object(prog),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<true_false>
+program_ops::
+get_program_delete_status(program_name prog)
+noexcept
+{
+	GLint result = GL_FALSE;
+	return get_program_iv(
+		prog,
+		program_parameter(GL_DELETE_STATUS),
+		{&result, 1}
+	), true_false(GLboolean(result));
+}
+//------------------------------------------------------------------------------
+inline
+outcome<true_false>
+program_ops::
+get_program_link_status(program_name prog)
+noexcept
+{
+	GLint result = GL_FALSE;
+	return get_program_iv(
+		prog,
+		program_parameter(GL_LINK_STATUS),
+		{&result, 1}
+	), true_false(GLboolean(result));
+}
+//------------------------------------------------------------------------------
+inline
+outcome<GLsizei>
+program_ops::
+get_program_info_log_length(program_name prog)
+noexcept
+{
+	GLint result = 0;
+	return get_program_iv(
+		prog,
+		program_parameter(GL_INFO_LOG_LENGTH),
+		{&result, 1}
+	), GLsizei(result);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<GLsizei>
+program_ops::
+get_program_info_log(program_name prog, array_view<char> dest)
+noexcept
+{
+	GLsizei reallen = 0;
+	OGLPLUS_GLFUNC(GetShaderInfoLog)(
+		get_raw_name(prog),
+		GLsizei(dest.size()),
+		&reallen,
+		dest.data()
+	);
+	OGLPLUS_VERIFY(
+		GetShaderInfoLog,
+		gl_object(prog),
+		always
+	);
+	return {reallen};
+}
+//------------------------------------------------------------------------------
+} // namespace ctxt
+//------------------------------------------------------------------------------
 // obj_gen_del_ops::_gen
 //------------------------------------------------------------------------------
 inline

@@ -196,7 +196,7 @@ struct vertex_attrib_ops
 		);
 		OGLPLUS_VERIFY(
 			VertexAttribPointer,
-			enum_value(type).
+			gl_enum_value(type).
 			index(loc.index()),
 			always
 		);

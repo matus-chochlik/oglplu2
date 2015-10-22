@@ -177,6 +177,15 @@ public:
 };
 
 template <typename T, typename ErrorData, typename HandlerPolicy>
+static inline
+basic_outcome<T, ErrorData, HandlerPolicy>
+operator , (basic_outcome<void, ErrorData, HandlerPolicy>&& bo, T value)
+noexcept
+{
+	return {std::move(bo), value};
+}
+
+template <typename T, typename ErrorData, typename HandlerPolicy>
 class basic_positive_outcome
  : public basic_outcome<T, ErrorData, HandlerPolicy>
 {

@@ -45,7 +45,7 @@ struct buffer_ops
 		);
 		OGLPLUS_VERIFY(
 			BindBuffer,
-			enum_value(target).
+			gl_enum_value(target).
 			gl_object(buf),
 			debug
 		);
@@ -69,7 +69,7 @@ struct buffer_ops
 		);
 		OGLPLUS_VERIFY(
 			BufferData,
-			enum_value(target),
+			gl_enum_value(target),
 			debug
 		);
 		return {};
