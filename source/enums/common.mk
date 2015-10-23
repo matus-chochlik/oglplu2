@@ -17,9 +17,9 @@ all: \
 
 .PHONY: _incl_enum_types_hpp
 _incl_enum_types_hpp: \
-	$(ROOT)/include/$(LIBRARY)/enum/gen_types$(LIB_SUFFIX).hpp
+	$(ROOT)/include/$(LIBRARY)/enum/types$(LIB_SUFFIX).hpp
 
-$(ROOT)/include/$(LIBRARY)/enum/gen_types$(LIB_SUFFIX).hpp: $(SOURCES) $(MAKE_ENUM)
+$(ROOT)/include/$(LIBRARY)/enum/types$(LIB_SUFFIX).hpp: $(SOURCES) $(MAKE_ENUM)
 	$(MAKE_ENUM) $(MEFLAGS) \
 		--action incl_enum_types_hpp \
 		--output "$@" \
@@ -28,9 +28,9 @@ $(ROOT)/include/$(LIBRARY)/enum/gen_types$(LIB_SUFFIX).hpp: $(SOURCES) $(MAKE_EN
 
 .PHONY: _incl_enum_values_hpp
 _incl_enum_values_hpp: \
-	$(ROOT)/include/$(LIBRARY)/enum/gen_values$(LIB_SUFFIX).hpp
+	$(ROOT)/include/$(LIBRARY)/enum/values$(LIB_SUFFIX).hpp
 
-$(ROOT)/include/$(LIBRARY)/enum/gen_values$(LIB_SUFFIX).hpp: $(SOURCES) $(MAKE_ENUM)
+$(ROOT)/include/$(LIBRARY)/enum/values$(LIB_SUFFIX).hpp: $(SOURCES) $(MAKE_ENUM)
 	$(MAKE_ENUM) $(MEFLAGS) \
 		--action incl_enum_values_hpp \
 		--output "$@" \

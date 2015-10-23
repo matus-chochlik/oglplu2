@@ -11,18 +11,74 @@
 #define OGLPLUS_LIMITED_VALUE_1509260923_HPP
 
 #include "utils/gl_func.hpp"
+#include "utils/indexed_enum.hpp"
+#include "utils/identity.hpp"
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
 #include "enum/types.hpp"
 
 namespace oglplus {
 
-template <GLenum Query>
-struct limited_value;
+template <GLenum Query, typename T>
+struct limited_value
+{
+	T _value;
 
-template <GLenum Query>
-outcome<GLint>
-limit(const limited_value<Query>&)
+	limited_value(void) = default;
+
+	constexpr
+	limited_value(T value)
+	noexcept
+	 : _value(value)
+	{ }
+
+	explicit constexpr
+	operator T (void) const
+	noexcept
+	{
+		return _value;
+	}
+};
+
+template <GLenum Query, GLenum Base>
+struct limited_value<Query, indexed_enum_value<Base>>
+ : indexed_enum_value<Base>
+{
+	limited_value(void) = default;
+
+	constexpr
+	limited_value(indexed_enum_value<Base> iev)
+	noexcept
+	 : indexed_enum_value<Base>(iev)
+	{ }
+
+	explicit constexpr
+	limited_value(unsigned offset)
+	noexcept
+	 : indexed_enum_value<Base>(offset)
+	{ }
+};
+
+template <typename X>
+struct is_limited_value
+ : std::false_type
+{ };
+
+template <GLenum Query, typename T>
+struct is_limited_value<limited_value<Query, T>>
+ : std::true_type
+{ };
+
+template <
+	GLenum Query,
+	typename T,
+	typename = typename std::enable_if<
+		std::is_integral<T>::value
+	>::type
+>
+static inline
+outcome<T>
+get_limit(identity<limited_value<Query, T>>)
 noexcept
 {
 	GLint value = 0;
@@ -32,28 +88,41 @@ noexcept
 		gl_enum_value(limit_query(Query)),
 		debug
 	);
-	return {value};
+	return {T(value)};
 }
 
-template <GLenum Query>
-struct limited_value
-{
-	GLint _value;
-
-	constexpr
-	limited_value(GLint value)
-	noexcept
-	 : _value(value)
-	{ }
-};
-
-template <GLenum Query>
+template <GLenum Query, GLenum Base>
 static inline
-outcome<GLint>
-get_value(limited_value<Query> lv)
+outcome<unsigned>
+get_limit(identity<limited_value<Query, indexed_enum_value<Base>>>)
 noexcept
 {
-	outcome<GLint> lim = limit(lv);
+	return outcome_cast<unsigned>(
+		get_limit(identity<limited_value<Query, GLenum>>())
+	);
+}
+
+template <
+	typename LimitedValue,
+	typename = typename std::enable_if<
+		is_limited_value<LimitedValue>::value
+	>::type
+>
+static inline
+auto limit(void)
+noexcept
+{
+	return get_limit(identity<LimitedValue>());
+}
+
+
+template <GLenum Query, typename T>
+static inline
+outcome<T>
+check_value(limited_value<Query, T> lv)
+noexcept
+{
+	outcome<T> lim = limit(lv);
 	if(lim.failed())
 	{
 		return lim.release_handler();

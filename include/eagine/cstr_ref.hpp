@@ -20,6 +20,22 @@ namespace eagine {
 class cstr_ref
  : public cstring_view<>
 {
+private:
+	static
+	std::false_type _is_v_c(...);
+
+	template <typename C, typename VT = typename C::value_type>
+	static
+	std::true_type _is_v_c(
+		C*,
+		const VT* (C::*)(void) const = &C::data,
+		std::size_t (C::*)(void) const = &C::size
+	);
+
+	template <typename X>
+	struct _is_compatible_container
+	 : decltype(_is_v_c(static_cast<X*>(nullptr)))
+	{ };
 public:
 	cstr_ref(void) = default;
 
@@ -42,7 +58,9 @@ public:
 
 	template <
 		typename Container,
-		typename = typename Container::value_type
+		typename = typename std::enable_if<
+			_is_compatible_container<Container>::value
+		>::type
 	>
 	cstr_ref(const Container& cont)
 	noexcept

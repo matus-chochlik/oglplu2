@@ -11,6 +11,7 @@
 #define EAGINE_OUTCOME_1509260923_HPP
 
 #include "deferred_handler.hpp"
+#include <type_traits>
 #include <cassert>
 
 namespace eagine {
@@ -175,6 +176,19 @@ public:
 		return get();
 	}
 };
+
+template <typename T, typename U, typename ErrorData, typename HandlerPolicy>
+static inline
+basic_outcome<T, ErrorData, HandlerPolicy>
+outcome_cast(basic_outcome<U, ErrorData, HandlerPolicy>&& that)
+noexcept
+{
+	if(that.failed())
+	{
+		return {that.release_handler()};
+	}
+	return {T(that.get())};
+}
 
 template <typename T, typename ErrorData, typename HandlerPolicy>
 static inline

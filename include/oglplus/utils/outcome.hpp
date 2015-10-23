@@ -15,6 +15,7 @@
 namespace oglplus {
 
 using eagine::basic_outcome;
+using eagine::outcome_cast;
 using eagine::success;
 
 } // namespace oglplus

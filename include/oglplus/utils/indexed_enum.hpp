@@ -14,11 +14,13 @@
 
 namespace oglplus {
 
-template <typename T, T Base>
-using indexed_enum_base = eagine::indexed_enum_base<T, Base, 0>;
+template <GLenum Base>
+using indexed_enum_base = eagine::indexed_enum_base<GLenum, Base, 0>;
 
-template <typename T, T Base>
-using indexed_enum_class = eagine::indexed_enum_class<T, Base, 0>;
+template <GLenum Base>
+using indexed_enum_value = eagine::indexed_enum_value<GLenum, Base, 0>;
+
+using any_indexed_enum_value = eagine::any_indexed_enum_value<GLenum, 0>;
 
 } // namespace oglplus
 

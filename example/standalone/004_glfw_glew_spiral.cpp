@@ -9,7 +9,7 @@
 #include <GL/glew.h>
 
 #include <oglplus/context.hpp>
-#include <oglplus/enum/values.hpp>
+#include <oglplus/constants.hpp>
 #include <oglplus/glsl/string_ref.hpp>
 #include <oglplus/error/format.hpp>
 #include <oglplus/utils/make_view.hpp>
@@ -22,7 +22,7 @@
 #include <stdexcept>
 #include <cmath>
 
-static oglplus::enum_values GL;
+static oglplus::constants GL;
 static oglplus::context gl;
 
 static

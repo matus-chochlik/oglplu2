@@ -9,7 +9,7 @@
 #include <GL/glew.h>
 
 #include <oglplus/context.hpp>
-#include <oglplus/enum/values.hpp>
+#include <oglplus/constants.hpp>
 
 #include <eagine/scope_exit.hpp>
 
@@ -18,7 +18,7 @@
 #include <iostream>
 #include <stdexcept>
 
-static oglplus::enum_values GL;
+static oglplus::constants GL;
 static oglplus::context gl;
 
 static
