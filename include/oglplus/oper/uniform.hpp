@@ -1,13 +1,13 @@
 /**
- *  @file oglplus/ctxt/uniform.hpp
+ *  @file oglplus/oper/uniform.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_CTXT_UNIFORM_1509260923_HPP
-#define OGLPLUS_CTXT_UNIFORM_1509260923_HPP
+#ifndef OGLPLUS_OPER_UNIFORM_1509260923_HPP
+#define OGLPLUS_OPER_UNIFORM_1509260923_HPP
 
 #include "../uniform.hpp"
 #include "../utils/boolean.hpp"
@@ -15,7 +15,7 @@
 #include <type_traits>
 
 namespace oglplus {
-namespace ctxt {
+namespace oper {
 
 struct uniform_ops
 {
@@ -219,7 +219,7 @@ struct uniform_ops
 	}
 };
 
-} // namespace ctxt
+} // namespace oper
 } // namespace oglplus
 
 #endif // include guard

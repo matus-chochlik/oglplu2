@@ -1,13 +1,13 @@
 /**
- *  @file oglplus/ctxt/compatibility.hpp
+ *  @file oglplus/oper/compatibility.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_CTXT_COMPATIBILITY_1509260923_HPP
-#define OGLPLUS_CTXT_COMPATIBILITY_1509260923_HPP
+#ifndef OGLPLUS_OPER_COMPATIBILITY_1509260923_HPP
+#define OGLPLUS_OPER_COMPATIBILITY_1509260923_HPP
 
 #ifdef GL_ARB_compatibility
 #include "../utils/gl_func.hpp"
@@ -20,7 +20,7 @@
 #endif // ARB_compatibility
 
 namespace oglplus {
-namespace ctxt {
+namespace oper {
 
 struct compatibility
 #ifdef GL_ARB_compatibility
@@ -32,7 +32,7 @@ struct compatibility
 { };
 #endif // ARB_compatibility
 
-} // namespace ctxt
+} // namespace oper
 } // namespace oglplus
 
 #endif // include guard

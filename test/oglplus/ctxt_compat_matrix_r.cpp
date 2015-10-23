@@ -5,7 +5,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE OGLPLUS_ctxt_compat_matrix
+#define BOOST_TEST_MODULE OGLPLUS_oper_compat_matrix
 #include <boost/test/unit_test.hpp>
 
 #include <oglplus/gl.hpp>
@@ -119,7 +119,7 @@ static oglplus::fake_gl_func_tester<void, GLenum, GLdouble, GLdouble, GLdouble, 
 fake_glMatrixFrustumEXT("MatrixFrustumEXT");
 #endif
 
-#include <oglplus/ctxt/compat_matrix.hpp>
+#include <oglplus/oper/compat_matrix.hpp>
 #include <oglplus/enum/values.hpp>
 #include <cstring>
 #include <cstdlib>
@@ -136,7 +136,7 @@ BOOST_AUTO_TEST_CASE(compat_matrix_mode)
 {
 	using namespace oglplus;
 
-	ctxt::compatibility_matrix gl;
+	oper::compatibility_matrix gl;
 	oglplus::enum_values GL;
 
 	{
@@ -154,7 +154,7 @@ BOOST_AUTO_TEST_CASE(compat_matrix_push_pop)
 {
 	using namespace oglplus;
 
-	ctxt::compatibility_matrix gl;
+	oper::compatibility_matrix gl;
 	oglplus::enum_values GL;
 
 	{
@@ -201,7 +201,7 @@ BOOST_AUTO_TEST_CASE(compat_matrix_load_identity)
 {
 	using namespace oglplus;
 
-	ctxt::compatibility_matrix gl;
+	oper::compatibility_matrix gl;
 	oglplus::enum_values GL;
 
 	{
@@ -230,7 +230,7 @@ BOOST_AUTO_TEST_CASE(compat_matrix_load_f)
 {
 	using namespace oglplus;
 
-	ctxt::compatibility_matrix gl;
+	oper::compatibility_matrix gl;
 	oglplus::enum_values GL;
 
 	GLfloat v[16];
@@ -284,7 +284,7 @@ BOOST_AUTO_TEST_CASE(compat_matrix_load_d)
 {
 	using namespace oglplus;
 
-	ctxt::compatibility_matrix gl;
+	oper::compatibility_matrix gl;
 	oglplus::enum_values GL;
 
 	GLdouble v[16];
@@ -338,7 +338,7 @@ BOOST_AUTO_TEST_CASE(compat_matrix_translate_f)
 {
 	using namespace oglplus;
 
-	ctxt::compatibility_matrix gl;
+	oper::compatibility_matrix gl;
 	oglplus::enum_values GL;
 
 	GLfloat x = get<GLfloat>();
@@ -371,7 +371,7 @@ BOOST_AUTO_TEST_CASE(compat_matrix_translate_d)
 {
 	using namespace oglplus;
 
-	ctxt::compatibility_matrix gl;
+	oper::compatibility_matrix gl;
 	oglplus::enum_values GL;
 
 	GLdouble x = get<GLdouble>();
@@ -404,7 +404,7 @@ BOOST_AUTO_TEST_CASE(compat_matrix_rotate_f)
 {
 	using namespace oglplus;
 
-	ctxt::compatibility_matrix gl;
+	oper::compatibility_matrix gl;
 	oglplus::enum_values GL;
 
 	GLfloat a = get<GLfloat>();
@@ -438,7 +438,7 @@ BOOST_AUTO_TEST_CASE(compat_matrix_rotate_d)
 {
 	using namespace oglplus;
 
-	ctxt::compatibility_matrix gl;
+	oper::compatibility_matrix gl;
 	oglplus::enum_values GL;
 
 	GLdouble a = get<GLdouble>();
@@ -472,7 +472,7 @@ BOOST_AUTO_TEST_CASE(compat_matrix_scale_f)
 {
 	using namespace oglplus;
 
-	ctxt::compatibility_matrix gl;
+	oper::compatibility_matrix gl;
 	oglplus::enum_values GL;
 
 	GLfloat x = get<GLfloat>();
@@ -505,7 +505,7 @@ BOOST_AUTO_TEST_CASE(compat_matrix_scale_d)
 {
 	using namespace oglplus;
 
-	ctxt::compatibility_matrix gl;
+	oper::compatibility_matrix gl;
 	oglplus::enum_values GL;
 
 	GLdouble x = get<GLdouble>();
@@ -538,7 +538,7 @@ BOOST_AUTO_TEST_CASE(compat_matrix_ortho)
 {
 	using namespace oglplus;
 
-	ctxt::compatibility_matrix gl;
+	oper::compatibility_matrix gl;
 	oglplus::enum_values GL;
 
 	GLdouble l = get<GLdouble>();
@@ -574,7 +574,7 @@ BOOST_AUTO_TEST_CASE(compat_matrix_frustum)
 {
 	using namespace oglplus;
 
-	ctxt::compatibility_matrix gl;
+	oper::compatibility_matrix gl;
 	oglplus::enum_values GL;
 
 	GLdouble l = get<GLdouble>();

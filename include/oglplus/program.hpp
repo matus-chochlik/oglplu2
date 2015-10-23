@@ -24,7 +24,7 @@ using program = gl_obj_tag<GL_PROGRAM>;
 
 using program_name = object_name<tag::program>;
 
-namespace ctxt {
+namespace oper {
 
 struct program_ops
 {
@@ -113,14 +113,14 @@ struct program_ops
 	noexcept;
 };
 
-} // namespace ctxt
+} // namespace oper
 
 // obj_dsa_ops
 template <>
 struct obj_dsa_ops<program_name>
  : obj_zero_dsa_ops<program_name>
 {
-	typedef ctxt::program_ops _ops;
+	typedef oper::program_ops _ops;
 
 	outcome<obj_dsa_ops&>
 	attach(shader_name shdr)

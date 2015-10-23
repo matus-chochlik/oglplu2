@@ -42,7 +42,7 @@ namespace oglplus {
 
 using texture_name = object_name<tag::texture>;
 
-namespace ctxt {
+namespace oper {
 
 struct texture_ops
 {
@@ -65,7 +65,7 @@ struct texture_ops
 	}
 };
 
-} // namespace ctxt
+} // namespace oper
 
 template <>
 struct obj_gen_del_ops<tag::texture>

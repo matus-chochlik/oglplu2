@@ -28,7 +28,7 @@ using vertex_array = gl_obj_tag<GL_VERTEX_ARRAY>;
 
 using vertex_array_name = object_name<tag::vertex_array>;
 
-namespace ctxt {
+namespace oper {
 
 struct vertex_array_ops
 {
@@ -43,7 +43,7 @@ struct vertex_array_ops
 	}
 };
 
-} // namespace ctxt
+} // namespace oper
 
 template <>
 struct obj_gen_del_ops<tag::vertex_array>

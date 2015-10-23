@@ -30,7 +30,7 @@ using buffer = gl_obj_tag<GL_BUFFER>;
 
 using buffer_name = object_name<tag::buffer>;
 
-namespace ctxt {
+namespace oper {
 
 struct buffer_ops
 {
@@ -77,7 +77,7 @@ struct buffer_ops
 
 };
 
-} // namespace ctxt
+} // namespace oper
 
 template <>
 struct obj_gen_del_ops<tag::buffer>

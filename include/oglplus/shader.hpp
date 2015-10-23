@@ -43,7 +43,7 @@ namespace oglplus {
 
 using shader_name = object_name<tag::shader>;
 
-namespace ctxt {
+namespace oper {
 
 struct shader_ops
 {
@@ -91,14 +91,14 @@ struct shader_ops
 	noexcept;
 };
 
-} // namespace ctxt
+} // namespace oper
 
 // obj_dsa_ops
 template <>
 struct obj_dsa_ops<shader_name>
  : obj_zero_dsa_ops<shader_name>
 {
-	typedef ctxt::shader_ops _ops;
+	typedef oper::shader_ops _ops;
 
 	outcome<shader_type>
 	type(void) const

@@ -5,7 +5,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE OGLPLUS_ctxt_compat_drawing
+#define BOOST_TEST_MODULE OGLPLUS_oper_compat_drawing
 #include <boost/test/unit_test.hpp>
 
 #include <oglplus/gl.hpp>
@@ -188,7 +188,7 @@ static oglplus::fake_gl_func_tester<void, const GLdouble*>
 fake_glTexCoord4dv("TexCoord4dv");
 
 
-#include <oglplus/ctxt/compat_drawing.hpp>
+#include <oglplus/oper/compat_drawing.hpp>
 #include <cstring>
 #include <cstdlib>
 
@@ -204,7 +204,7 @@ BOOST_AUTO_TEST_CASE(compat_drawing_vertex_s)
 {
 	using namespace oglplus;
 
-	ctxt::compatibility_drawing gl;
+	oper::compatibility_drawing gl;
 
 	{
 		GLshort x = get<GLshort>();
@@ -246,7 +246,7 @@ BOOST_AUTO_TEST_CASE(compat_drawing_vertex_sv)
 {
 	using namespace oglplus;
 
-	ctxt::compatibility_drawing gl;
+	oper::compatibility_drawing gl;
 
 	{
 		const GLshort v[2] = {get<GLshort>(), get<GLshort>()};
@@ -282,7 +282,7 @@ BOOST_AUTO_TEST_CASE(compat_drawing_vertex_i)
 {
 	using namespace oglplus;
 
-	ctxt::compatibility_drawing gl;
+	oper::compatibility_drawing gl;
 
 	{
 		GLint x = get<GLint>();
@@ -324,7 +324,7 @@ BOOST_AUTO_TEST_CASE(compat_drawing_vertex_iv)
 {
 	using namespace oglplus;
 
-	ctxt::compatibility_drawing gl;
+	oper::compatibility_drawing gl;
 
 	{
 		const GLint v[2] = {get<GLint>(), get<GLint>()};
@@ -360,7 +360,7 @@ BOOST_AUTO_TEST_CASE(compat_drawing_vertex_f)
 {
 	using namespace oglplus;
 
-	ctxt::compatibility_drawing gl;
+	oper::compatibility_drawing gl;
 
 	{
 		GLint x = get<GLint>();
@@ -402,7 +402,7 @@ BOOST_AUTO_TEST_CASE(compat_drawing_vertex_fv)
 {
 	using namespace oglplus;
 
-	ctxt::compatibility_drawing gl;
+	oper::compatibility_drawing gl;
 
 	{
 		const GLfloat v[2] = {get<GLfloat>(), get<GLfloat>()};
@@ -438,7 +438,7 @@ BOOST_AUTO_TEST_CASE(compat_drawing_vertex_d)
 {
 	using namespace oglplus;
 
-	ctxt::compatibility_drawing gl;
+	oper::compatibility_drawing gl;
 
 	{
 		GLint x = get<GLint>();
@@ -480,7 +480,7 @@ BOOST_AUTO_TEST_CASE(compat_drawing_vertex_dv)
 {
 	using namespace oglplus;
 
-	ctxt::compatibility_drawing gl;
+	oper::compatibility_drawing gl;
 
 	{
 		const GLdouble v[2] = {get<GLdouble>(), get<GLdouble>()};
@@ -516,7 +516,7 @@ BOOST_AUTO_TEST_CASE(compat_drawing_color_ub)
 {
 	using namespace oglplus;
 
-	ctxt::compatibility_drawing gl;
+	oper::compatibility_drawing gl;
 
 	{
 		GLubyte r = get<GLubyte>();
@@ -548,7 +548,7 @@ BOOST_AUTO_TEST_CASE(compat_drawing_color_ubv)
 {
 	using namespace oglplus;
 
-	ctxt::compatibility_drawing gl;
+	oper::compatibility_drawing gl;
 
 	{
 		const GLubyte v[3] = {get<GLubyte>(), get<GLubyte>(), get<GLubyte>()};
@@ -575,7 +575,7 @@ BOOST_AUTO_TEST_CASE(compat_drawing_color_i)
 {
 	using namespace oglplus;
 
-	ctxt::compatibility_drawing gl;
+	oper::compatibility_drawing gl;
 
 	{
 		GLint r = get<GLint>();
@@ -607,7 +607,7 @@ BOOST_AUTO_TEST_CASE(compat_drawing_color_iv)
 {
 	using namespace oglplus;
 
-	ctxt::compatibility_drawing gl;
+	oper::compatibility_drawing gl;
 
 	{
 		const GLint v[3] = {get<GLint>(), get<GLint>(), get<GLint>()};
@@ -634,7 +634,7 @@ BOOST_AUTO_TEST_CASE(compat_drawing_color_f)
 {
 	using namespace oglplus;
 
-	ctxt::compatibility_drawing gl;
+	oper::compatibility_drawing gl;
 
 	{
 		GLfloat r = get<GLfloat>();
@@ -666,7 +666,7 @@ BOOST_AUTO_TEST_CASE(compat_drawing_color_fv)
 {
 	using namespace oglplus;
 
-	ctxt::compatibility_drawing gl;
+	oper::compatibility_drawing gl;
 
 	{
 		const GLfloat v[3] = {get<GLfloat>(), get<GLfloat>(), get<GLfloat>()};
@@ -693,7 +693,7 @@ BOOST_AUTO_TEST_CASE(compat_drawing_color_d)
 {
 	using namespace oglplus;
 
-	ctxt::compatibility_drawing gl;
+	oper::compatibility_drawing gl;
 
 	{
 		GLdouble r = get<GLdouble>();
@@ -725,7 +725,7 @@ BOOST_AUTO_TEST_CASE(compat_drawing_color_dv)
 {
 	using namespace oglplus;
 
-	ctxt::compatibility_drawing gl;
+	oper::compatibility_drawing gl;
 
 	{
 		const GLdouble v[3] = {get<GLdouble>(), get<GLdouble>(), get<GLdouble>()};
@@ -752,7 +752,7 @@ BOOST_AUTO_TEST_CASE(compat_drawing_tex_coord_s)
 {
 	using namespace oglplus;
 
-	ctxt::compatibility_drawing gl;
+	oper::compatibility_drawing gl;
 
 	{
 		GLshort s = get<GLshort>();
@@ -803,7 +803,7 @@ BOOST_AUTO_TEST_CASE(compat_drawing_tex_coord_sv)
 {
 	using namespace oglplus;
 
-	ctxt::compatibility_drawing gl;
+	oper::compatibility_drawing gl;
 
 	{
 		const GLshort v[1] = {get<GLshort>()};
@@ -848,7 +848,7 @@ BOOST_AUTO_TEST_CASE(compat_drawing_tex_coord_i)
 {
 	using namespace oglplus;
 
-	ctxt::compatibility_drawing gl;
+	oper::compatibility_drawing gl;
 
 	{
 		GLint s = get<GLint>();
@@ -899,7 +899,7 @@ BOOST_AUTO_TEST_CASE(compat_drawing_tex_coord_iv)
 {
 	using namespace oglplus;
 
-	ctxt::compatibility_drawing gl;
+	oper::compatibility_drawing gl;
 
 	{
 		const GLint v[1] = {get<GLint>()};
@@ -944,7 +944,7 @@ BOOST_AUTO_TEST_CASE(compat_drawing_tex_coord_f)
 {
 	using namespace oglplus;
 
-	ctxt::compatibility_drawing gl;
+	oper::compatibility_drawing gl;
 
 	{
 		GLfloat s = get<GLfloat>();
@@ -995,7 +995,7 @@ BOOST_AUTO_TEST_CASE(compat_drawing_tex_coord_fv)
 {
 	using namespace oglplus;
 
-	ctxt::compatibility_drawing gl;
+	oper::compatibility_drawing gl;
 
 	{
 		const GLfloat v[1] = {get<GLfloat>()};
@@ -1040,7 +1040,7 @@ BOOST_AUTO_TEST_CASE(compat_drawing_tex_coord_d)
 {
 	using namespace oglplus;
 
-	ctxt::compatibility_drawing gl;
+	oper::compatibility_drawing gl;
 
 	{
 		GLdouble s = get<GLdouble>();
@@ -1091,7 +1091,7 @@ BOOST_AUTO_TEST_CASE(compat_drawing_tex_coord_dv)
 {
 	using namespace oglplus;
 
-	ctxt::compatibility_drawing gl;
+	oper::compatibility_drawing gl;
 
 	{
 		const GLdouble v[1] = {get<GLdouble>()};

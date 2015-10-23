@@ -1,20 +1,20 @@
 /**
- *  @file oglplus/ctxt/object_lifetime.hpp
+ *  @file oglplus/oper/object_lifetime.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_CTXT_OBJECT_LIFETIME_1509260923_HPP
-#define OGLPLUS_CTXT_OBJECT_LIFETIME_1509260923_HPP
+#ifndef OGLPLUS_OPER_OBJECT_LIFETIME_1509260923_HPP
+#define OGLPLUS_OPER_OBJECT_LIFETIME_1509260923_HPP
 
 #include "../error/handling.hpp"
 #include "../error/outcome.hpp"
 #include "../object/lifetime.hpp"
 
 namespace oglplus {
-namespace ctxt {
+namespace oper {
 
 struct object_lifetime_ops
 {
@@ -58,7 +58,7 @@ struct object_lifetime_ops
 	}
 };
 
-} // namespace ctxt
+} // namespace oper
 } // namespace oglplus
 
 #endif // include guard

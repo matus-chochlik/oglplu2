@@ -8,7 +8,7 @@
  */
 #include <GL/glew.h>
 
-#include <oglplus/context.hpp>
+#include <oglplus/operations.hpp>
 #include <oglplus/constants.hpp>
 #include <oglplus/glsl/string_ref.hpp>
 #include <oglplus/error/format.hpp>
@@ -23,7 +23,7 @@
 #include <stdexcept>
 
 static oglplus::constants GL;
-static oglplus::context gl;
+static oglplus::operations gl;
 
 static
 void handle_resize(int width, int height)

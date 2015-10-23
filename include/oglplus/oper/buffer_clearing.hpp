@@ -1,13 +1,13 @@
 /**
- *  @file oglplus/ctxt/buffer_clearing.hpp
+ *  @file oglplus/oper/buffer_clearing.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_CTXT_BUFFER_CLEARING_1509260923_HPP
-#define OGLPLUS_CTXT_BUFFER_CLEARING_1509260923_HPP
+#ifndef OGLPLUS_OPER_BUFFER_CLEARING_1509260923_HPP
+#define OGLPLUS_OPER_BUFFER_CLEARING_1509260923_HPP
 
 #include "../utils/gl_func.hpp"
 #include "../utils/vec_mat_traits.hpp"
@@ -17,7 +17,7 @@
 #include "../enum/types.hpp"
 
 namespace oglplus {
-namespace ctxt {
+namespace oper {
 
 struct rgba_value
 {
@@ -142,7 +142,7 @@ struct buffer_clearing_ops
 	}
 };
 
-} // namespace ctxt
+} // namespace oper
 } // namespace oglplus
 
 #endif // include guard

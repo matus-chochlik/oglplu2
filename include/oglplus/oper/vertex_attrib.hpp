@@ -1,13 +1,13 @@
 /**
- *  @file oglplus/ctxt/vertex_attrib.hpp
+ *  @file oglplus/oper/vertex_attrib.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_CTXT_VERTEX_ATTRIB_1509260923_HPP
-#define OGLPLUS_CTXT_VERTEX_ATTRIB_1509260923_HPP
+#ifndef OGLPLUS_OPER_VERTEX_ATTRIB_1509260923_HPP
+#define OGLPLUS_OPER_VERTEX_ATTRIB_1509260923_HPP
 
 #include "../vertex_attrib.hpp"
 #include "../utils/boolean.hpp"
@@ -15,7 +15,7 @@
 #include <type_traits>
 
 namespace oglplus {
-namespace ctxt {
+namespace oper {
 
 struct vertex_attrib_ops
 {
@@ -249,7 +249,7 @@ struct vertex_attrib_ops
 #endif
 };
 
-} // namespace ctxt
+} // namespace oper
 } // namespace oglplus
 
 #endif // include guard
