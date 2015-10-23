@@ -18,47 +18,47 @@ get_enum_value_name(const any_enum_value_alc& aev)
 noexcept
 {
 #ifdef ALC_FREQUENCY
-	static const char s_FREQUENCY[10] = 
+	static const char s_FREQUENCY[10] =
 		"FREQUENCY";
 #endif
 #ifdef ALC_INVALID_CONTEXT
-	static const char s_INVALID_CONTEXT[16] = 
+	static const char s_INVALID_CONTEXT[16] =
 		"INVALID_CONTEXT";
 #endif
 #ifdef ALC_INVALID_DEVICE
-	static const char s_INVALID_DEVICE[15] = 
+	static const char s_INVALID_DEVICE[15] =
 		"INVALID_DEVICE";
 #endif
 #ifdef ALC_INVALID_ENUM
-	static const char s_INVALID_ENUM[13] = 
+	static const char s_INVALID_ENUM[13] =
 		"INVALID_ENUM";
 #endif
 #ifdef ALC_INVALID_VALUE
-	static const char s_INVALID_VALUE[14] = 
+	static const char s_INVALID_VALUE[14] =
 		"INVALID_VALUE";
 #endif
 #ifdef ALC_MONO_SOURCES
-	static const char s_MONO_SOURCES[13] = 
+	static const char s_MONO_SOURCES[13] =
 		"MONO_SOURCES";
 #endif
 #ifdef ALC_NO_ERROR
-	static const char s_NO_ERROR[9] = 
+	static const char s_NO_ERROR[9] =
 		"NO_ERROR";
 #endif
 #ifdef ALC_OUT_OF_MEMORY
-	static const char s_OUT_OF_MEMORY[14] = 
+	static const char s_OUT_OF_MEMORY[14] =
 		"OUT_OF_MEMORY";
 #endif
 #ifdef ALC_REFRESH
-	static const char s_REFRESH[8] = 
+	static const char s_REFRESH[8] =
 		"REFRESH";
 #endif
 #ifdef ALC_STEREO_SOURCES
-	static const char s_STEREO_SOURCES[15] = 
+	static const char s_STEREO_SOURCES[15] =
 		"STEREO_SOURCES";
 #endif
 #ifdef ALC_SYNC
-	static const char s_SYNC[5] = 
+	static const char s_SYNC[5] =
 		"SYNC";
 #endif
 

@@ -275,7 +275,7 @@ def action_impl_enum_value_names_inl(options):
 			options.base_lib_prefix,
 			enum_value_name
 		))
-		print_line(options, '\tstatic const char s_%s[%d] = \n\t\t"%s";' % (
+		print_line(options, '\tstatic const char s_%s[%d] =\n\t\t"%s";' % (
 			enum_value_name,
 			len(enum_value_name)+1,
 			enum_value_name

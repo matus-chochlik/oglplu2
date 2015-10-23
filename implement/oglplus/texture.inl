@@ -10,6 +10,31 @@
 
 namespace oglplus {
 //------------------------------------------------------------------------------
+namespace oper {
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+active_texture(texture_unit unit)
+noexcept
+{
+#if !OGLPLUS_LOW_PROFILE
+	if(auto res = failure(check_value(unit)))
+	{
+		return res.release_handler();
+	}
+#endif
+	OGLPLUS_GLFUNC(ActiveTexture)(GLenum(unit));
+	OGLPLUS_VERIFY(
+		ActiveTexture,
+		gl_enum_value(unit),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+} // namespace oper
+//------------------------------------------------------------------------------
 // obj_gen_del_ops::_gen
 //------------------------------------------------------------------------------
 inline

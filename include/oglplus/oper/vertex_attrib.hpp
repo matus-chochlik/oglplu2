@@ -197,7 +197,7 @@ struct vertex_attrib_ops
 		OGLPLUS_VERIFY(
 			VertexAttribPointer,
 			gl_enum_value(type).
-			index(loc.index()),
+			gl_index(loc.index()),
 			always
 		);
 		return {};	
@@ -211,7 +211,7 @@ struct vertex_attrib_ops
 		OGLPLUS_GLFUNC(EnableVertexAttribArray)(va.index());
 		OGLPLUS_VERIFY(
 			EnableVertexAttribArray,
-			index(va.index()),
+			gl_index(va.index()),
 			always
 		);
 		return {};
@@ -225,7 +225,7 @@ struct vertex_attrib_ops
 		OGLPLUS_GLFUNC(DisableVertexAttribArray)(va.index());
 		OGLPLUS_VERIFY(
 			DisableVertexAttribArray,
-			index(va.index()),
+			gl_index(va.index()),
 			always
 		);
 		return {};
@@ -243,7 +243,11 @@ struct vertex_attrib_ops
 			va.index(),
 			div
 		);
-		OGLPLUS_VERIFY_SIMPLE(VertexAttribDivisor, always);
+		OGLPLUS_VERIFY(
+			VertexAttribDivisor,
+			gl_index(va.index()),
+			always
+		);
 		return {};
 	}
 #endif

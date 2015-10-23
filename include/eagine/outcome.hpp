@@ -232,6 +232,39 @@ noexcept
 	return std::move(o);
 }
 
+template <typename T, typename ErrorData, typename HandlerPolicy>
+class basic_negative_outcome
+ : public basic_outcome<T, ErrorData, HandlerPolicy>
+{
+public:
+	basic_negative_outcome(basic_outcome<T, ErrorData, HandlerPolicy>&& o)
+	noexcept
+	 : basic_outcome<T, ErrorData, HandlerPolicy>(std::move(o))
+	{ }
+
+	explicit
+	operator bool (void) const
+	noexcept
+	{
+		return this->failed();
+	}
+
+	bool operator ! (void) const
+	noexcept
+	{
+		return this->succeeded();
+	}
+};
+
+template <typename T, typename ErrorData, typename HandlerPolicy>
+static inline
+basic_negative_outcome<T, ErrorData, HandlerPolicy>
+failure(basic_outcome<T, ErrorData, HandlerPolicy>&& o)
+noexcept
+{
+	return std::move(o);
+}
+
 } // namespace eagine
 
 #endif // include guard

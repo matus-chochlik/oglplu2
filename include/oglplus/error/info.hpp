@@ -12,6 +12,7 @@
 #include "../config/error.hpp"
 #include "../object/gl_name.hpp"
 #include "../utils/enum_class.hpp"
+#include "../utils/indexed_enum.hpp"
 
 #if !OGLPLUS_ERROR_NO_BUILD_LOG
 #include "../utils/string_view.hpp"
@@ -70,6 +71,13 @@ private:
 	any_enum_value _enum_val;
 #endif
 public:
+	static constexpr inline
+	GLuint invalid_index(void)
+	noexcept
+	{
+		return ~GLuint(0);
+	}
+
 	constexpr
 	error_info(GLenum gl_err_code)
 	noexcept;
@@ -135,13 +143,16 @@ public:
 	any_object_name gl_subject(void) const
 	noexcept;
 
-	error_info& index(GLuint idx)
+	error_info& gl_index(GLuint idx)
 	noexcept;
 
-	GLuint index(void) const
+	GLuint gl_index(void) const
 	noexcept;
 
 	error_info& gl_enum_value(const any_enum_value& enum_val)
+	noexcept;
+
+	error_info& gl_enum_value(const any_indexed_enum_value& enum_val)
 	noexcept;
 
 	const any_enum_value& gl_enum_value(void) const

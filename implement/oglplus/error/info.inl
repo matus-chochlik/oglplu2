@@ -7,6 +7,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
+#include <oglplus/enum/types.hpp>
 #include <string>
 #endif
 
@@ -78,7 +79,7 @@ noexcept
  , _obj_name()
 #endif
 #if !OGLPLUS_ERROR_NO_INDEX
- , _index(~GLuint(0))
+ , _index(invalid_index())
 #endif
 #if !OGLPLUS_ERROR_NO_ENUM_VALUE
  , _enum_val()
@@ -300,7 +301,7 @@ noexcept
 inline
 error_info&
 error_info::
-index(GLuint idx)
+gl_index(GLuint idx)
 noexcept
 {
 #if !OGLPLUS_ERROR_NO_INDEX
@@ -314,13 +315,13 @@ noexcept
 inline
 GLuint
 error_info::
-index(void) const
+gl_index(void) const
 noexcept
 {
 #if !OGLPLUS_ERROR_NO_INDEX
 	return _index;
 #else
-	return ~GLuint(0);
+	return invalid_index();
 #endif
 }
 //------------------------------------------------------------------------------
@@ -337,6 +338,26 @@ noexcept
 #endif
 	return *this;
 }
+//------------------------------------------------------------------------------
+#if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
+//------------------------------------------------------------------------------
+inline
+error_info&
+error_info::
+gl_enum_value(const any_indexed_enum_value& enum_val)
+noexcept
+{
+#if !OGLPLUS_ERROR_NO_ENUM_VALUE
+	_enum_val = indexed_value_base(enum_val.base());
+#endif
+#if !OGLPLUS_ERROR_NO_INDEX
+	_index = GLuint(enum_val.offset());
+#endif
+	(void)enum_val;
+	return *this;
+}
+//------------------------------------------------------------------------------
+#endif
 //------------------------------------------------------------------------------
 inline
 const any_enum_value&

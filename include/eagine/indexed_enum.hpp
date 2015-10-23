@@ -75,6 +75,20 @@ struct indexed_enum_value
 	{
 		return a._offset < b._offset;
 	}
+
+	static constexpr inline
+	T base(void)
+	noexcept
+	{
+		return Base;
+	}
+
+	constexpr inline
+	unsigned offset(void) const
+	noexcept
+	{
+		return _offset;
+	}
 };
 
 template <typename T, T Base, unsigned LibId>
@@ -133,6 +147,20 @@ struct any_indexed_enum_value
 	noexcept
 	{
 		return (a._offset != b._offset) || (a._base_id |= b._base_id);
+	}
+
+	constexpr inline
+	T base(void) const
+	noexcept
+	{
+		return _base_id;
+	}
+
+	constexpr inline
+	unsigned offset(void) const
+	noexcept
+	{
+		return _offset;
 	}
 };
 

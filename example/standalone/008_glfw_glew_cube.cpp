@@ -332,6 +332,7 @@ int main(void)
 			"in GL function: %(gl_function_name)\n"
 			"with object: %(gl_object)\n"
 			"with enum parameter: %(gl_enum_value)\n"
+			"with index: %(gl_index)\n"
 			"from source file: %(source_file)\n"
 			"%(message)",
 			std::cerr

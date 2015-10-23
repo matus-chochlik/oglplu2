@@ -186,6 +186,10 @@ format_error_info(
 				out << n_a_str;
 			}
 		}
+		else if(placeholder == "gl_index")
+		{
+			print(info.gl_index(), info.invalid_index());
+		}
 		else
 		{
 			throw std::runtime_error(

@@ -18,6 +18,14 @@ struct identity
 	typedef T type;
 };
 
+template <typename T>
+static constexpr inline
+identity<T> make_identity(const T&)
+noexcept
+{
+	return {};
+}
+
 } // namespace eagine
 
 #endif // include guard

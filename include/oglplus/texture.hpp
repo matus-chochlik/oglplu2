@@ -14,7 +14,7 @@
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
 #include "utils/gl_func.hpp"
-#include "enum/types.hpp"
+#include "constants.hpp"
 
 #ifndef GL_TEXTURE
 #define GL_TEXTURE 0x1702
@@ -46,6 +46,11 @@ namespace oper {
 
 struct texture_ops
 {
+	static
+	outcome<void>
+	active_texture(texture_unit unit)
+	noexcept;
+
 	static
 	outcome<void>
 	bind_texture(texture_target target, texture_name tex)

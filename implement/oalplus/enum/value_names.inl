@@ -18,115 +18,115 @@ get_enum_value_name(const any_enum_value& aev)
 noexcept
 {
 #ifdef AL_EXPONENT_DISTANCE
-	static const char s_EXPONENT_DISTANCE[18] = 
+	static const char s_EXPONENT_DISTANCE[18] =
 		"EXPONENT_DISTANCE";
 #endif
 #ifdef AL_EXPONENT_DISTANCE_CLAMPED
-	static const char s_EXPONENT_DISTANCE_CLAMPED[26] = 
+	static const char s_EXPONENT_DISTANCE_CLAMPED[26] =
 		"EXPONENT_DISTANCE_CLAMPED";
 #endif
 #ifdef AL_EXTENSIONS
-	static const char s_EXTENSIONS[11] = 
+	static const char s_EXTENSIONS[11] =
 		"EXTENSIONS";
 #endif
 #ifdef AL_FORMAT_MONO16
-	static const char s_FORMAT_MONO16[14] = 
+	static const char s_FORMAT_MONO16[14] =
 		"FORMAT_MONO16";
 #endif
 #ifdef AL_FORMAT_MONO8
-	static const char s_FORMAT_MONO8[13] = 
+	static const char s_FORMAT_MONO8[13] =
 		"FORMAT_MONO8";
 #endif
 #ifdef AL_FORMAT_STEREO16
-	static const char s_FORMAT_STEREO16[16] = 
+	static const char s_FORMAT_STEREO16[16] =
 		"FORMAT_STEREO16";
 #endif
 #ifdef AL_FORMAT_STEREO8
-	static const char s_FORMAT_STEREO8[15] = 
+	static const char s_FORMAT_STEREO8[15] =
 		"FORMAT_STEREO8";
 #endif
 #ifdef AL_INITIAL
-	static const char s_INITIAL[8] = 
+	static const char s_INITIAL[8] =
 		"INITIAL";
 #endif
 #ifdef AL_INVALID_ENUM
-	static const char s_INVALID_ENUM[13] = 
+	static const char s_INVALID_ENUM[13] =
 		"INVALID_ENUM";
 #endif
 #ifdef AL_INVALID_NAME
-	static const char s_INVALID_NAME[13] = 
+	static const char s_INVALID_NAME[13] =
 		"INVALID_NAME";
 #endif
 #ifdef AL_INVALID_OPERATION
-	static const char s_INVALID_OPERATION[18] = 
+	static const char s_INVALID_OPERATION[18] =
 		"INVALID_OPERATION";
 #endif
 #ifdef AL_INVALID_VALUE
-	static const char s_INVALID_VALUE[14] = 
+	static const char s_INVALID_VALUE[14] =
 		"INVALID_VALUE";
 #endif
 #ifdef AL_INVERSE_DISTANCE
-	static const char s_INVERSE_DISTANCE[17] = 
+	static const char s_INVERSE_DISTANCE[17] =
 		"INVERSE_DISTANCE";
 #endif
 #ifdef AL_INVERSE_DISTANCE_CLAMPED
-	static const char s_INVERSE_DISTANCE_CLAMPED[25] = 
+	static const char s_INVERSE_DISTANCE_CLAMPED[25] =
 		"INVERSE_DISTANCE_CLAMPED";
 #endif
 #ifdef AL_LINEAR_DISTANCE
-	static const char s_LINEAR_DISTANCE[16] = 
+	static const char s_LINEAR_DISTANCE[16] =
 		"LINEAR_DISTANCE";
 #endif
 #ifdef AL_LINEAR_DISTANCE_CLAMPED
-	static const char s_LINEAR_DISTANCE_CLAMPED[24] = 
+	static const char s_LINEAR_DISTANCE_CLAMPED[24] =
 		"LINEAR_DISTANCE_CLAMPED";
 #endif
 #ifdef AL_NONE
-	static const char s_NONE[5] = 
+	static const char s_NONE[5] =
 		"NONE";
 #endif
 #ifdef AL_NO_ERROR
-	static const char s_NO_ERROR[9] = 
+	static const char s_NO_ERROR[9] =
 		"NO_ERROR";
 #endif
 #ifdef AL_OUT_OF_MEMORY
-	static const char s_OUT_OF_MEMORY[14] = 
+	static const char s_OUT_OF_MEMORY[14] =
 		"OUT_OF_MEMORY";
 #endif
 #ifdef AL_PAUSED
-	static const char s_PAUSED[7] = 
+	static const char s_PAUSED[7] =
 		"PAUSED";
 #endif
 #ifdef AL_PLAYING
-	static const char s_PLAYING[8] = 
+	static const char s_PLAYING[8] =
 		"PLAYING";
 #endif
 #ifdef AL_RENDERER
-	static const char s_RENDERER[9] = 
+	static const char s_RENDERER[9] =
 		"RENDERER";
 #endif
 #ifdef AL_STATIC
-	static const char s_STATIC[7] = 
+	static const char s_STATIC[7] =
 		"STATIC";
 #endif
 #ifdef AL_STOPPED
-	static const char s_STOPPED[8] = 
+	static const char s_STOPPED[8] =
 		"STOPPED";
 #endif
 #ifdef AL_STREAMING
-	static const char s_STREAMING[10] = 
+	static const char s_STREAMING[10] =
 		"STREAMING";
 #endif
 #ifdef AL_UNDETERMINED
-	static const char s_UNDETERMINED[13] = 
+	static const char s_UNDETERMINED[13] =
 		"UNDETERMINED";
 #endif
 #ifdef AL_VENDOR
-	static const char s_VENDOR[7] = 
+	static const char s_VENDOR[7] =
 		"VENDOR";
 #endif
 #ifdef AL_VERSION
-	static const char s_VERSION[8] = 
+	static const char s_VERSION[8] =
 		"VERSION";
 #endif
 

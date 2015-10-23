@@ -514,6 +514,14 @@ static constexpr const enum_value<
 > clip_distance = {};
 #endif
 
+#ifdef GL_CLIP_DISTANCE0
+static constexpr const enum_value<
+	GLenum,
+	GL_CLIP_DISTANCE0,
+	mp_list<oglplus::indexed_value_base>
+> clip_distance0 = {};
+#endif
+
 #ifdef GL_CLIPPING_INPUT_PRIMITIVES_ARB
 static constexpr const enum_value<
 	GLenum,
@@ -550,7 +558,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_COLOR_ATTACHMENT0,
-	mp_list<oglplus::framebuffer_attachment>
+	mp_list<oglplus::framebuffer_attachment,oglplus::indexed_value_base>
 > color_attachment0 = {};
 #endif
 
@@ -1560,6 +1568,14 @@ static constexpr const enum_value<
 	GL_DOUBLE_VEC4,
 	mp_list<oglplus::sl_data_type>
 > double_vec4 = {};
+#endif
+
+#ifdef GL_DRAW_BUFFER0
+static constexpr const enum_value<
+	GLenum,
+	GL_DRAW_BUFFER0,
+	mp_list<oglplus::indexed_value_base>
+> draw_buffer0 = {};
 #endif
 
 #ifdef GL_DRAW_FRAMEBUFFER
@@ -6320,6 +6336,14 @@ static constexpr const enum_value<
 	GL_TEXTURE,
 	mp_list<oglplus::old_matrix_mode,oglplus::object_type>
 > texture = {};
+#endif
+
+#ifdef GL_TEXTURE0
+static constexpr const enum_value<
+	GLenum,
+	GL_TEXTURE0,
+	mp_list<oglplus::indexed_value_base>
+> texture0 = {};
 #endif
 
 #ifdef GL_TEXTURE_1D

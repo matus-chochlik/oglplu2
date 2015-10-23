@@ -15,7 +15,9 @@
 namespace oalplus {
 
 using eagine::basic_outcome;
+using eagine::outcome_cast;
 using eagine::success;
+using eagine::failure;
 
 } // namespace oalplus
 

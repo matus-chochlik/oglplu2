@@ -15,6 +15,7 @@
 namespace oglplus {
 
 using eagine::identity;
+using eagine::make_identity;
 
 } // namespace oglplus
 

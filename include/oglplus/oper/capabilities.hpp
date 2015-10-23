@@ -61,7 +61,7 @@ struct capability_state
 		OGLPLUS_GLFUNC(Enable)(GLenum(func)+idx);
 		OGLPLUS_VERIFY(
 			Enable,
-			index(idx).
+			gl_index(idx).
 			gl_enum_value(func),
 			debug
 		);
@@ -76,7 +76,7 @@ struct capability_state
 		OGLPLUS_GLFUNC(Disable)(GLenum(func)+idx);
 		OGLPLUS_VERIFY(
 			Disable,
-			index(idx).
+			gl_index(idx).
 			gl_enum_value(func),
 			debug
 		);
@@ -91,7 +91,7 @@ struct capability_state
 		GLboolean result = OGLPLUS_GLFUNC(IsEnabled)(GLenum(func)+idx);
 		OGLPLUS_VERIFY(
 			IsEnabled,
-			index(idx).
+			gl_index(idx).
 			gl_enum_value(func),
 			always
 		);

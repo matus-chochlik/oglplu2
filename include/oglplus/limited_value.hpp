@@ -52,6 +52,12 @@ struct limited_value<Query, indexed_enum_value<Base>>
 	 : indexed_enum_value<Base>(iev)
 	{ }
 
+	constexpr
+	limited_value(indexed_enum_base<Base> ieb)
+	noexcept
+	 : indexed_enum_value<Base>(ieb)
+	{ }
+
 	explicit constexpr
 	limited_value(unsigned offset)
 	noexcept
@@ -93,11 +99,11 @@ noexcept
 
 template <GLenum Query, GLenum Base>
 static inline
-outcome<unsigned>
+outcome<indexed_enum_value<Base>>
 get_limit(identity<limited_value<Query, indexed_enum_value<Base>>>)
 noexcept
 {
-	return outcome_cast<unsigned>(
+	return outcome_cast<indexed_enum_value<Base>>(
 		get_limit(identity<limited_value<Query, GLenum>>())
 	);
 }
@@ -115,28 +121,45 @@ noexcept
 	return get_limit(identity<LimitedValue>());
 }
 
+template <GLenum Query, typename T>
+static inline
+bool exceeds_limit(limited_value<Query, T> lv, T limit)
+noexcept
+{
+	return T(lv) >= limit;
+}
+
+template <GLenum Query, GLenum Base>
+static inline
+bool exceeds_limit(
+	limited_value<Query, indexed_enum_value<Base>> lv,
+	indexed_enum_value<Base> limit
+) noexcept
+{
+	return lv.offset() >= limit.offset();
+}
 
 template <GLenum Query, typename T>
 static inline
-outcome<T>
+outcome<void>
 check_value(limited_value<Query, T> lv)
 noexcept
 {
-	outcome<T> lim = limit(lv);
+	outcome<T> lim = get_limit(make_identity(lv));
 	if(lim.failed())
 	{
 		return lim.release_handler();
 	}
-	if(!(lv._value < lim.get()))
+	if(exceeds_limit(lv, lim.get()))
 	{
-		return deferred_error_handler(
+		return deferred_error_handler(std::move(
 			error_info(GL_INVALID_VALUE)
 				.gl_enum_value(limit_query(Query))
 				.source_file(__FILE__)
 				.source_line(__LINE__)
-		);
+		));
 	}
-	return {lv._value};
+	return {};
 }
 
 } // namespace oglplus
