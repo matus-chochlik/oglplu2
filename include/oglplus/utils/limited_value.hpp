@@ -58,10 +58,10 @@ struct limited_value<Query, indexed_enum_value<Base>>
 	 : indexed_enum_value<Base>(ieb)
 	{ }
 
-	explicit constexpr
-	limited_value(unsigned offset)
+	constexpr explicit
+	limited_value(GLenum value)
 	noexcept
-	 : indexed_enum_value<Base>(offset)
+	 : indexed_enum_value<Base>(value)
 	{ }
 };
 
@@ -136,7 +136,7 @@ bool exceeds_limit(
 	indexed_enum_value<Base> limit
 ) noexcept
 {
-	return lv.offset() >= limit.offset();
+	return lv.index() >= limit.index();
 }
 
 template <GLenum Query, typename T>

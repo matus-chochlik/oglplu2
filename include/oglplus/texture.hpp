@@ -52,6 +52,11 @@ struct texture_ops
 	noexcept;
 
 	static
+	outcome<texture_unit>
+	active_texture(void)
+	noexcept;
+
+	static
 	outcome<void>
 	bind_texture(texture_target target, texture_name tex)
 	noexcept

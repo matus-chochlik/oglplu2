@@ -53,6 +53,10 @@ noexcept
 	static const char s_AFFINE_3D_NV[13] =
 		"AFFINE_3D_NV";
 #endif
+#ifdef GL_ALIASED_LINE_WIDTH_RANGE
+	static const char s_ALIASED_LINE_WIDTH_RANGE[25] =
+		"ALIASED_LINE_WIDTH_RANGE";
+#endif
 #ifdef GL_ALL_BARRIER_BITS
 	static const char s_ALL_BARRIER_BITS[17] =
 		"ALL_BARRIER_BITS";
@@ -160,6 +164,34 @@ noexcept
 #ifdef GL_BLEND_ADVANCED_COHERENT_KHR
 	static const char s_BLEND_ADVANCED_COHERENT_KHR[28] =
 		"BLEND_ADVANCED_COHERENT_KHR";
+#endif
+#ifdef GL_BLEND_COLOR
+	static const char s_BLEND_COLOR[12] =
+		"BLEND_COLOR";
+#endif
+#ifdef GL_BLEND_DST_ALPHA
+	static const char s_BLEND_DST_ALPHA[16] =
+		"BLEND_DST_ALPHA";
+#endif
+#ifdef GL_BLEND_DST_RGB
+	static const char s_BLEND_DST_RGB[14] =
+		"BLEND_DST_RGB";
+#endif
+#ifdef GL_BLEND_EQUATION_ALPHA
+	static const char s_BLEND_EQUATION_ALPHA[21] =
+		"BLEND_EQUATION_ALPHA";
+#endif
+#ifdef GL_BLEND_EQUATION_RGB
+	static const char s_BLEND_EQUATION_RGB[19] =
+		"BLEND_EQUATION_RGB";
+#endif
+#ifdef GL_BLEND_SRC_ALPHA
+	static const char s_BLEND_SRC_ALPHA[16] =
+		"BLEND_SRC_ALPHA";
+#endif
+#ifdef GL_BLEND_SRC_RGB
+	static const char s_BLEND_SRC_RGB[14] =
+		"BLEND_SRC_RGB";
 #endif
 #ifdef GL_BLOCK_INDEX
 	static const char s_BLOCK_INDEX[12] =
@@ -357,9 +389,17 @@ noexcept
 	static const char s_COLOR_BUFFER_BIT[17] =
 		"COLOR_BUFFER_BIT";
 #endif
+#ifdef GL_COLOR_CLEAR_VALUE
+	static const char s_COLOR_CLEAR_VALUE[18] =
+		"COLOR_CLEAR_VALUE";
+#endif
 #ifdef GL_COLOR_LOGIC_OP
 	static const char s_COLOR_LOGIC_OP[15] =
 		"COLOR_LOGIC_OP";
+#endif
+#ifdef GL_COLOR_WRITEMASK
+	static const char s_COLOR_WRITEMASK[16] =
+		"COLOR_WRITEMASK";
 #endif
 #ifdef GL_COMMAND_BARRIER_BIT
 	static const char s_COMMAND_BARRIER_BIT[20] =
@@ -473,6 +513,10 @@ noexcept
 	static const char s_COMPRESSED_SRGB_ALPHA_BPTC_UNORM[33] =
 		"COMPRESSED_SRGB_ALPHA_BPTC_UNORM";
 #endif
+#ifdef GL_COMPRESSED_TEXTURE_FORMATS
+	static const char s_COMPRESSED_TEXTURE_FORMATS[27] =
+		"COMPRESSED_TEXTURE_FORMATS";
+#endif
 #ifdef GL_COMPUTE_SHADER
 	static const char s_COMPUTE_SHADER[15] =
 		"COMPUTE_SHADER";
@@ -512,6 +556,10 @@ noexcept
 #ifdef GL_CONTEXT_CORE_PROFILE_BIT
 	static const char s_CONTEXT_CORE_PROFILE_BIT[25] =
 		"CONTEXT_CORE_PROFILE_BIT";
+#endif
+#ifdef GL_CONTEXT_FLAGS
+	static const char s_CONTEXT_FLAGS[14] =
+		"CONTEXT_FLAGS";
 #endif
 #ifdef GL_CONTEXT_FLAG_DEBUG_BIT
 	static const char s_CONTEXT_FLAG_DEBUG_BIT[23] =
@@ -576,6 +624,10 @@ noexcept
 #ifdef GL_DARKEN_KHR
 	static const char s_DARKEN_KHR[11] =
 		"DARKEN_KHR";
+#endif
+#ifdef GL_DEBUG_GROUP_STACK_DEPTH
+	static const char s_DEBUG_GROUP_STACK_DEPTH[24] =
+		"DEBUG_GROUP_STACK_DEPTH";
 #endif
 #ifdef GL_DEBUG_OUTPUT_SYNCHRONOUS
 	static const char s_DEBUG_OUTPUT_SYNCHRONOUS[25] =
@@ -689,6 +741,10 @@ noexcept
 	static const char s_DEPTH_BUFFER_BIT[17] =
 		"DEPTH_BUFFER_BIT";
 #endif
+#ifdef GL_DEPTH_CLEAR_VALUE
+	static const char s_DEPTH_CLEAR_VALUE[18] =
+		"DEPTH_CLEAR_VALUE";
+#endif
 #ifdef GL_DEPTH_COMPONENT
 	static const char s_DEPTH_COMPONENT[16] =
 		"DEPTH_COMPONENT";
@@ -709,6 +765,14 @@ noexcept
 	static const char s_DEPTH_COMPONENT32F[19] =
 		"DEPTH_COMPONENT32F";
 #endif
+#ifdef GL_DEPTH_FUNC
+	static const char s_DEPTH_FUNC[11] =
+		"DEPTH_FUNC";
+#endif
+#ifdef GL_DEPTH_RANGE
+	static const char s_DEPTH_RANGE[12] =
+		"DEPTH_RANGE";
+#endif
 #ifdef GL_DEPTH_STENCIL
 	static const char s_DEPTH_STENCIL[14] =
 		"DEPTH_STENCIL";
@@ -717,9 +781,17 @@ noexcept
 	static const char s_DEPTH_STENCIL_ATTACHMENT[25] =
 		"DEPTH_STENCIL_ATTACHMENT";
 #endif
+#ifdef GL_DEPTH_STENCIL_TEXTURE_MODE
+	static const char s_DEPTH_STENCIL_TEXTURE_MODE[27] =
+		"DEPTH_STENCIL_TEXTURE_MODE";
+#endif
 #ifdef GL_DEPTH_TEST
 	static const char s_DEPTH_TEST[11] =
 		"DEPTH_TEST";
+#endif
+#ifdef GL_DEPTH_WRITEMASK
+	static const char s_DEPTH_WRITEMASK[16] =
+		"DEPTH_WRITEMASK";
 #endif
 #ifdef GL_DIFFERENCE_KHR
 	static const char s_DIFFERENCE_KHR[15] =
@@ -740,6 +812,10 @@ noexcept
 #ifdef GL_DOUBLE
 	static const char s_DOUBLE[7] =
 		"DOUBLE";
+#endif
+#ifdef GL_DOUBLEBUFFER
+	static const char s_DOUBLEBUFFER[13] =
+		"DOUBLEBUFFER";
 #endif
 #ifdef GL_DOUBLE_MAT2
 	static const char s_DOUBLE_MAT2[12] =
@@ -788,6 +864,10 @@ noexcept
 #ifdef GL_DOUBLE_VEC4
 	static const char s_DOUBLE_VEC4[12] =
 		"DOUBLE_VEC4";
+#endif
+#ifdef GL_DRAW_BUFFER
+	static const char s_DRAW_BUFFER[12] =
+		"DRAW_BUFFER";
 #endif
 #ifdef GL_DRAW_BUFFER0
 	static const char s_DRAW_BUFFER0[13] =
@@ -1265,6 +1345,18 @@ noexcept
 	static const char s_IMAGE_CUBE[11] =
 		"IMAGE_CUBE";
 #endif
+#ifdef GL_IMAGE_FORMAT_COMPATIBILITY_TYPE
+	static const char s_IMAGE_FORMAT_COMPATIBILITY_TYPE[32] =
+		"IMAGE_FORMAT_COMPATIBILITY_TYPE";
+#endif
+#ifdef GL_IMPLEMENTATION_COLOR_READ_FORMAT
+	static const char s_IMPLEMENTATION_COLOR_READ_FORMAT[33] =
+		"IMPLEMENTATION_COLOR_READ_FORMAT";
+#endif
+#ifdef GL_IMPLEMENTATION_COLOR_READ_TYPE
+	static const char s_IMPLEMENTATION_COLOR_READ_TYPE[31] =
+		"IMPLEMENTATION_COLOR_READ_TYPE";
+#endif
 #ifdef GL_INCR
 	static const char s_INCR[5] =
 		"INCR";
@@ -1441,6 +1533,10 @@ noexcept
 	static const char s_LAST_VERTEX_CONVENTION[23] =
 		"LAST_VERTEX_CONVENTION";
 #endif
+#ifdef GL_LAYER_PROVOKING_VERTEX
+	static const char s_LAYER_PROVOKING_VERTEX[23] =
+		"LAYER_PROVOKING_VERTEX";
+#endif
 #ifdef GL_LEFT
 	static const char s_LEFT[5] =
 		"LEFT";
@@ -1505,6 +1601,10 @@ noexcept
 	static const char s_LINE_TO_NV[11] =
 		"LINE_TO_NV";
 #endif
+#ifdef GL_LINE_WIDTH
+	static const char s_LINE_WIDTH[11] =
+		"LINE_WIDTH";
+#endif
 #ifdef GL_LINK_STATUS
 	static const char s_LINK_STATUS[12] =
 		"LINK_STATUS";
@@ -1520,6 +1620,10 @@ noexcept
 #ifdef GL_LOCATION_INDEX
 	static const char s_LOCATION_INDEX[15] =
 		"LOCATION_INDEX";
+#endif
+#ifdef GL_LOGIC_OP_MODE
+	static const char s_LOGIC_OP_MODE[14] =
+		"LOGIC_OP_MODE";
 #endif
 #ifdef GL_LOSE_CONTEXT_ON_RESET
 	static const char s_LOSE_CONTEXT_ON_RESET[22] =
@@ -2133,6 +2237,22 @@ noexcept
 	static const char s_NUM_COMPATIBLE_SUBROUTINES[27] =
 		"NUM_COMPATIBLE_SUBROUTINES";
 #endif
+#ifdef GL_NUM_COMPRESSED_TEXTURE_FORMATS
+	static const char s_NUM_COMPRESSED_TEXTURE_FORMATS[31] =
+		"NUM_COMPRESSED_TEXTURE_FORMATS";
+#endif
+#ifdef GL_NUM_EXTENSIONS
+	static const char s_NUM_EXTENSIONS[15] =
+		"NUM_EXTENSIONS";
+#endif
+#ifdef GL_NUM_PROGRAM_BINARY_FORMATS
+	static const char s_NUM_PROGRAM_BINARY_FORMATS[27] =
+		"NUM_PROGRAM_BINARY_FORMATS";
+#endif
+#ifdef GL_NUM_SHADER_BINARY_FORMATS
+	static const char s_NUM_SHADER_BINARY_FORMATS[26] =
+		"NUM_SHADER_BINARY_FORMATS";
+#endif
 #ifdef GL_OBJECT_LINEAR
 	static const char s_OBJECT_LINEAR[14] =
 		"OBJECT_LINEAR";
@@ -2309,9 +2429,29 @@ noexcept
 	static const char s_POINTS[7] =
 		"POINTS";
 #endif
+#ifdef GL_POINT_FADE_THRESHOLD_SIZE
+	static const char s_POINT_FADE_THRESHOLD_SIZE[26] =
+		"POINT_FADE_THRESHOLD_SIZE";
+#endif
+#ifdef GL_POINT_SIZE
+	static const char s_POINT_SIZE[11] =
+		"POINT_SIZE";
+#endif
+#ifdef GL_POINT_SIZE_GRANULARITY
+	static const char s_POINT_SIZE_GRANULARITY[23] =
+		"POINT_SIZE_GRANULARITY";
+#endif
+#ifdef GL_POINT_SIZE_RANGE
+	static const char s_POINT_SIZE_RANGE[17] =
+		"POINT_SIZE_RANGE";
+#endif
 #ifdef GL_POLYGON
 	static const char s_POLYGON[8] =
 		"POLYGON";
+#endif
+#ifdef GL_POLYGON_OFFSET_FACTOR
+	static const char s_POLYGON_OFFSET_FACTOR[22] =
+		"POLYGON_OFFSET_FACTOR";
 #endif
 #ifdef GL_POLYGON_OFFSET_FILL
 	static const char s_POLYGON_OFFSET_FILL[20] =
@@ -2324,6 +2464,10 @@ noexcept
 #ifdef GL_POLYGON_OFFSET_POINT
 	static const char s_POLYGON_OFFSET_POINT[21] =
 		"POLYGON_OFFSET_POINT";
+#endif
+#ifdef GL_POLYGON_OFFSET_UNITS
+	static const char s_POLYGON_OFFSET_UNITS[21] =
+		"POLYGON_OFFSET_UNITS";
 #endif
 #ifdef GL_POLYGON_SMOOTH
 	static const char s_POLYGON_SMOOTH[15] =
@@ -2349,9 +2493,17 @@ noexcept
 	static const char s_PRIMITIVE_RESTART[18] =
 		"PRIMITIVE_RESTART";
 #endif
+#ifdef GL_PRIMITIVE_RESTART_INDEX
+	static const char s_PRIMITIVE_RESTART_INDEX[24] =
+		"PRIMITIVE_RESTART_INDEX";
+#endif
 #ifdef GL_PROGRAM
 	static const char s_PROGRAM[8] =
 		"PROGRAM";
+#endif
+#ifdef GL_PROGRAM_BINARY_FORMATS
+	static const char s_PROGRAM_BINARY_FORMATS[23] =
+		"PROGRAM_BINARY_FORMATS";
 #endif
 #ifdef GL_PROGRAM_INPUT
 	static const char s_PROGRAM_INPUT[14] =
@@ -2372,6 +2524,10 @@ noexcept
 #ifdef GL_PROJECTION
 	static const char s_PROJECTION[11] =
 		"PROJECTION";
+#endif
+#ifdef GL_PROVOKING_VERTEX
+	static const char s_PROVOKING_VERTEX[17] =
+		"PROVOKING_VERTEX";
 #endif
 #ifdef GL_QUADRATIC_CURVE_TO_NV
 	static const char s_QUADRATIC_CURVE_TO_NV[22] =
@@ -2484,6 +2640,10 @@ noexcept
 #ifdef GL_RASTERIZER_DISCARD
 	static const char s_RASTERIZER_DISCARD[19] =
 		"RASTERIZER_DISCARD";
+#endif
+#ifdef GL_READ_BUFFER
+	static const char s_READ_BUFFER[12] =
+		"READ_BUFFER";
 #endif
 #ifdef GL_READ_FRAMEBUFFER
 	static const char s_READ_FRAMEBUFFER[17] =
@@ -2901,6 +3061,10 @@ noexcept
 	static const char s_SAMPLER_CUBE_SHADOW[20] =
 		"SAMPLER_CUBE_SHADOW";
 #endif
+#ifdef GL_SAMPLES
+	static const char s_SAMPLES[8] =
+		"SAMPLES";
+#endif
 #ifdef GL_SAMPLES_PASSED
 	static const char s_SAMPLES_PASSED[15] =
 		"SAMPLES_PASSED";
@@ -2913,9 +3077,21 @@ noexcept
 	static const char s_SAMPLE_ALPHA_TO_ONE[20] =
 		"SAMPLE_ALPHA_TO_ONE";
 #endif
+#ifdef GL_SAMPLE_BUFFERS
+	static const char s_SAMPLE_BUFFERS[15] =
+		"SAMPLE_BUFFERS";
+#endif
 #ifdef GL_SAMPLE_COVERAGE
 	static const char s_SAMPLE_COVERAGE[16] =
 		"SAMPLE_COVERAGE";
+#endif
+#ifdef GL_SAMPLE_COVERAGE_INVERT
+	static const char s_SAMPLE_COVERAGE_INVERT[23] =
+		"SAMPLE_COVERAGE_INVERT";
+#endif
+#ifdef GL_SAMPLE_COVERAGE_VALUE
+	static const char s_SAMPLE_COVERAGE_VALUE[22] =
+		"SAMPLE_COVERAGE_VALUE";
 #endif
 #ifdef GL_SAMPLE_MASK
 	static const char s_SAMPLE_MASK[12] =
@@ -2924,6 +3100,10 @@ noexcept
 #ifdef GL_SAMPLE_SHADING
 	static const char s_SAMPLE_SHADING[15] =
 		"SAMPLE_SHADING";
+#endif
+#ifdef GL_SCISSOR_BOX
+	static const char s_SCISSOR_BOX[12] =
+		"SCISSOR_BOX";
 #endif
 #ifdef GL_SCISSOR_TEST
 	static const char s_SCISSOR_TEST[13] =
@@ -2949,6 +3129,10 @@ noexcept
 	static const char s_SHADER[7] =
 		"SHADER";
 #endif
+#ifdef GL_SHADER_COMPILER
+	static const char s_SHADER_COMPILER[16] =
+		"SHADER_COMPILER";
+#endif
 #ifdef GL_SHADER_IMAGE_ACCESS_BARRIER_BIT
 	static const char s_SHADER_IMAGE_ACCESS_BARRIER_BIT[32] =
 		"SHADER_IMAGE_ACCESS_BARRIER_BIT";
@@ -2972,6 +3156,18 @@ noexcept
 #ifdef GL_SHADER_STORAGE_BUFFER
 	static const char s_SHADER_STORAGE_BUFFER[22] =
 		"SHADER_STORAGE_BUFFER";
+#endif
+#ifdef GL_SHADER_STORAGE_BUFFER_OFFSET_ALIGNMENT
+	static const char s_SHADER_STORAGE_BUFFER_OFFSET_ALIGNMENT[39] =
+		"SHADER_STORAGE_BUFFER_OFFSET_ALIGNMENT";
+#endif
+#ifdef GL_SHADER_STORAGE_BUFFER_SIZE
+	static const char s_SHADER_STORAGE_BUFFER_SIZE[27] =
+		"SHADER_STORAGE_BUFFER_SIZE";
+#endif
+#ifdef GL_SHADER_STORAGE_BUFFER_START
+	static const char s_SHADER_STORAGE_BUFFER_START[28] =
+		"SHADER_STORAGE_BUFFER_START";
 #endif
 #ifdef GL_SHADER_TYPE
 	static const char s_SHADER_TYPE[12] =
@@ -3004,6 +3200,14 @@ noexcept
 #ifdef GL_SMOOTH_CUBIC_CURVE_TO_NV
 	static const char s_SMOOTH_CUBIC_CURVE_TO_NV[25] =
 		"SMOOTH_CUBIC_CURVE_TO_NV";
+#endif
+#ifdef GL_SMOOTH_LINE_WIDTH_GRANULARITY
+	static const char s_SMOOTH_LINE_WIDTH_GRANULARITY[30] =
+		"SMOOTH_LINE_WIDTH_GRANULARITY";
+#endif
+#ifdef GL_SMOOTH_LINE_WIDTH_RANGE
+	static const char s_SMOOTH_LINE_WIDTH_RANGE[24] =
+		"SMOOTH_LINE_WIDTH_RANGE";
 #endif
 #ifdef GL_SMOOTH_QUADRATIC_CURVE_TO_NV
 	static const char s_SMOOTH_QUADRATIC_CURVE_TO_NV[29] =
@@ -3081,9 +3285,49 @@ noexcept
 	static const char s_STENCIL_ATTACHMENT[19] =
 		"STENCIL_ATTACHMENT";
 #endif
+#ifdef GL_STENCIL_BACK_FAIL
+	static const char s_STENCIL_BACK_FAIL[18] =
+		"STENCIL_BACK_FAIL";
+#endif
+#ifdef GL_STENCIL_BACK_FUNC
+	static const char s_STENCIL_BACK_FUNC[18] =
+		"STENCIL_BACK_FUNC";
+#endif
+#ifdef GL_STENCIL_BACK_PASS_DEPTH_FAIL
+	static const char s_STENCIL_BACK_PASS_DEPTH_FAIL[29] =
+		"STENCIL_BACK_PASS_DEPTH_FAIL";
+#endif
+#ifdef GL_STENCIL_BACK_PASS_DEPTH_PASS
+	static const char s_STENCIL_BACK_PASS_DEPTH_PASS[29] =
+		"STENCIL_BACK_PASS_DEPTH_PASS";
+#endif
+#ifdef GL_STENCIL_BACK_REF
+	static const char s_STENCIL_BACK_REF[17] =
+		"STENCIL_BACK_REF";
+#endif
+#ifdef GL_STENCIL_BACK_VALUE_MASK
+	static const char s_STENCIL_BACK_VALUE_MASK[24] =
+		"STENCIL_BACK_VALUE_MASK";
+#endif
+#ifdef GL_STENCIL_BACK_WRITEMASK
+	static const char s_STENCIL_BACK_WRITEMASK[23] =
+		"STENCIL_BACK_WRITEMASK";
+#endif
 #ifdef GL_STENCIL_BUFFER_BIT
 	static const char s_STENCIL_BUFFER_BIT[19] =
 		"STENCIL_BUFFER_BIT";
+#endif
+#ifdef GL_STENCIL_CLEAR_VALUE
+	static const char s_STENCIL_CLEAR_VALUE[20] =
+		"STENCIL_CLEAR_VALUE";
+#endif
+#ifdef GL_STENCIL_FAIL
+	static const char s_STENCIL_FAIL[13] =
+		"STENCIL_FAIL";
+#endif
+#ifdef GL_STENCIL_FUNC
+	static const char s_STENCIL_FUNC[13] =
+		"STENCIL_FUNC";
 #endif
 #ifdef GL_STENCIL_INDEX
 	static const char s_STENCIL_INDEX[14] =
@@ -3093,9 +3337,33 @@ noexcept
 	static const char s_STENCIL_INDEX8[15] =
 		"STENCIL_INDEX8";
 #endif
+#ifdef GL_STENCIL_PASS_DEPTH_FAIL
+	static const char s_STENCIL_PASS_DEPTH_FAIL[24] =
+		"STENCIL_PASS_DEPTH_FAIL";
+#endif
+#ifdef GL_STENCIL_PASS_DEPTH_PASS
+	static const char s_STENCIL_PASS_DEPTH_PASS[24] =
+		"STENCIL_PASS_DEPTH_PASS";
+#endif
+#ifdef GL_STENCIL_REF
+	static const char s_STENCIL_REF[12] =
+		"STENCIL_REF";
+#endif
 #ifdef GL_STENCIL_TEST
 	static const char s_STENCIL_TEST[13] =
 		"STENCIL_TEST";
+#endif
+#ifdef GL_STENCIL_VALUE_MASK
+	static const char s_STENCIL_VALUE_MASK[19] =
+		"STENCIL_VALUE_MASK";
+#endif
+#ifdef GL_STENCIL_WRITEMASK
+	static const char s_STENCIL_WRITEMASK[18] =
+		"STENCIL_WRITEMASK";
+#endif
+#ifdef GL_STEREO
+	static const char s_STEREO[7] =
+		"STEREO";
 #endif
 #ifdef GL_STREAM_COPY
 	static const char s_STREAM_COPY[12] =
@@ -3112,6 +3380,10 @@ noexcept
 #ifdef GL_STREAM_READ
 	static const char s_STREAM_READ[12] =
 		"STREAM_READ";
+#endif
+#ifdef GL_SUBPIXEL_BITS
+	static const char s_SUBPIXEL_BITS[14] =
+		"SUBPIXEL_BITS";
 #endif
 #ifdef GL_SYNC_FENCE
 	static const char s_SYNC_FENCE[11] =
@@ -3205,9 +3477,29 @@ noexcept
 	static const char s_TEXTURE_3D[11] =
 		"TEXTURE_3D";
 #endif
+#ifdef GL_TEXTURE_BASE_LEVEL
+	static const char s_TEXTURE_BASE_LEVEL[19] =
+		"TEXTURE_BASE_LEVEL";
+#endif
+#ifdef GL_TEXTURE_BORDER_COLOR
+	static const char s_TEXTURE_BORDER_COLOR[21] =
+		"TEXTURE_BORDER_COLOR";
+#endif
 #ifdef GL_TEXTURE_BUFFER
 	static const char s_TEXTURE_BUFFER[15] =
 		"TEXTURE_BUFFER";
+#endif
+#ifdef GL_TEXTURE_BUFFER_OFFSET_ALIGNMENT
+	static const char s_TEXTURE_BUFFER_OFFSET_ALIGNMENT[32] =
+		"TEXTURE_BUFFER_OFFSET_ALIGNMENT";
+#endif
+#ifdef GL_TEXTURE_COMPARE_FUNC
+	static const char s_TEXTURE_COMPARE_FUNC[21] =
+		"TEXTURE_COMPARE_FUNC";
+#endif
+#ifdef GL_TEXTURE_COMPARE_MODE
+	static const char s_TEXTURE_COMPARE_MODE[21] =
+		"TEXTURE_COMPARE_MODE";
 #endif
 #ifdef GL_TEXTURE_COMPRESSION_HINT
 	static const char s_TEXTURE_COMPRESSION_HINT[25] =
@@ -3253,6 +3545,38 @@ noexcept
 	static const char s_TEXTURE_FETCH_BARRIER_BIT[26] =
 		"TEXTURE_FETCH_BARRIER_BIT";
 #endif
+#ifdef GL_TEXTURE_IMMUTABLE_FORMAT
+	static const char s_TEXTURE_IMMUTABLE_FORMAT[25] =
+		"TEXTURE_IMMUTABLE_FORMAT";
+#endif
+#ifdef GL_TEXTURE_IMMUTABLE_LEVELS
+	static const char s_TEXTURE_IMMUTABLE_LEVELS[25] =
+		"TEXTURE_IMMUTABLE_LEVELS";
+#endif
+#ifdef GL_TEXTURE_LOD_BIAS
+	static const char s_TEXTURE_LOD_BIAS[17] =
+		"TEXTURE_LOD_BIAS";
+#endif
+#ifdef GL_TEXTURE_MAG_FILTER
+	static const char s_TEXTURE_MAG_FILTER[19] =
+		"TEXTURE_MAG_FILTER";
+#endif
+#ifdef GL_TEXTURE_MAX_LEVEL
+	static const char s_TEXTURE_MAX_LEVEL[18] =
+		"TEXTURE_MAX_LEVEL";
+#endif
+#ifdef GL_TEXTURE_MAX_LOD
+	static const char s_TEXTURE_MAX_LOD[16] =
+		"TEXTURE_MAX_LOD";
+#endif
+#ifdef GL_TEXTURE_MIN_FILTER
+	static const char s_TEXTURE_MIN_FILTER[19] =
+		"TEXTURE_MIN_FILTER";
+#endif
+#ifdef GL_TEXTURE_MIN_LOD
+	static const char s_TEXTURE_MIN_LOD[16] =
+		"TEXTURE_MIN_LOD";
+#endif
 #ifdef GL_TEXTURE_RECTANGLE
 	static const char s_TEXTURE_RECTANGLE[18] =
 		"TEXTURE_RECTANGLE";
@@ -3277,9 +3601,29 @@ noexcept
 	static const char s_TEXTURE_SWIZZLE_RGBA[21] =
 		"TEXTURE_SWIZZLE_RGBA";
 #endif
+#ifdef GL_TEXTURE_TARGET
+	static const char s_TEXTURE_TARGET[15] =
+		"TEXTURE_TARGET";
+#endif
 #ifdef GL_TEXTURE_UPDATE_BARRIER_BIT
 	static const char s_TEXTURE_UPDATE_BARRIER_BIT[27] =
 		"TEXTURE_UPDATE_BARRIER_BIT";
+#endif
+#ifdef GL_TEXTURE_VIEW_MIN_LAYER
+	static const char s_TEXTURE_VIEW_MIN_LAYER[23] =
+		"TEXTURE_VIEW_MIN_LAYER";
+#endif
+#ifdef GL_TEXTURE_VIEW_MIN_LEVEL
+	static const char s_TEXTURE_VIEW_MIN_LEVEL[23] =
+		"TEXTURE_VIEW_MIN_LEVEL";
+#endif
+#ifdef GL_TEXTURE_VIEW_NUM_LAYERS
+	static const char s_TEXTURE_VIEW_NUM_LAYERS[24] =
+		"TEXTURE_VIEW_NUM_LAYERS";
+#endif
+#ifdef GL_TEXTURE_VIEW_NUM_LEVELS
+	static const char s_TEXTURE_VIEW_NUM_LEVELS[24] =
+		"TEXTURE_VIEW_NUM_LEVELS";
 #endif
 #ifdef GL_TEXTURE_WRAP_R
 	static const char s_TEXTURE_WRAP_R[15] =
@@ -3328,6 +3672,14 @@ noexcept
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER_INDEX
 	static const char s_TRANSFORM_FEEDBACK_BUFFER_INDEX[32] =
 		"TRANSFORM_FEEDBACK_BUFFER_INDEX";
+#endif
+#ifdef GL_TRANSFORM_FEEDBACK_BUFFER_SIZE
+	static const char s_TRANSFORM_FEEDBACK_BUFFER_SIZE[31] =
+		"TRANSFORM_FEEDBACK_BUFFER_SIZE";
+#endif
+#ifdef GL_TRANSFORM_FEEDBACK_BUFFER_START
+	static const char s_TRANSFORM_FEEDBACK_BUFFER_START[32] =
+		"TRANSFORM_FEEDBACK_BUFFER_START";
 #endif
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER_STRIDE
 	static const char s_TRANSFORM_FEEDBACK_BUFFER_STRIDE[33] =
@@ -3416,6 +3768,18 @@ noexcept
 #ifdef GL_UNIFORM_BUFFER
 	static const char s_UNIFORM_BUFFER[15] =
 		"UNIFORM_BUFFER";
+#endif
+#ifdef GL_UNIFORM_BUFFER_OFFSET_ALIGNMENT
+	static const char s_UNIFORM_BUFFER_OFFSET_ALIGNMENT[32] =
+		"UNIFORM_BUFFER_OFFSET_ALIGNMENT";
+#endif
+#ifdef GL_UNIFORM_BUFFER_SIZE
+	static const char s_UNIFORM_BUFFER_SIZE[20] =
+		"UNIFORM_BUFFER_SIZE";
+#endif
+#ifdef GL_UNIFORM_BUFFER_START
+	static const char s_UNIFORM_BUFFER_START[21] =
+		"UNIFORM_BUFFER_START";
 #endif
 #ifdef GL_UNKNOWN_CONTEXT_RESET
 	static const char s_UNKNOWN_CONTEXT_RESET[22] =
@@ -3708,6 +4072,22 @@ noexcept
 #ifdef GL_VERTICES_SUBMITTED_ARB
 	static const char s_VERTICES_SUBMITTED_ARB[23] =
 		"VERTICES_SUBMITTED_ARB";
+#endif
+#ifdef GL_VIEWPORT
+	static const char s_VIEWPORT[9] =
+		"VIEWPORT";
+#endif
+#ifdef GL_VIEWPORT_BOUNDS_RANGE
+	static const char s_VIEWPORT_BOUNDS_RANGE[22] =
+		"VIEWPORT_BOUNDS_RANGE";
+#endif
+#ifdef GL_VIEWPORT_INDEX_PROVOKING_VERTEX
+	static const char s_VIEWPORT_INDEX_PROVOKING_VERTEX[32] =
+		"VIEWPORT_INDEX_PROVOKING_VERTEX";
+#endif
+#ifdef GL_VIEWPORT_SUBPIXEL_BITS
+	static const char s_VIEWPORT_SUBPIXEL_BITS[23] =
+		"VIEWPORT_SUBPIXEL_BITS";
 #endif
 #ifdef GL_WAIT_FAILED
 	static const char s_WAIT_FAILED[12] =
@@ -5716,7 +6096,405 @@ noexcept
 				default:;
 			}
 			break;
-		case 42: /* object_type */
+		case 42: /* numeric_query */
+			switch(GLenum(aev._value))
+			{
+#ifdef GL_ALIASED_LINE_WIDTH_RANGE
+				case GL_ALIASED_LINE_WIDTH_RANGE:
+					return {s_ALIASED_LINE_WIDTH_RANGE, 24};
+#endif
+#ifdef GL_BLEND_COLOR
+				case GL_BLEND_COLOR:
+					return {s_BLEND_COLOR, 11};
+#endif
+#ifdef GL_BLEND_DST_ALPHA
+				case GL_BLEND_DST_ALPHA:
+					return {s_BLEND_DST_ALPHA, 15};
+#endif
+#ifdef GL_BLEND_DST_RGB
+				case GL_BLEND_DST_RGB:
+					return {s_BLEND_DST_RGB, 13};
+#endif
+#ifdef GL_BLEND_EQUATION_ALPHA
+				case GL_BLEND_EQUATION_ALPHA:
+					return {s_BLEND_EQUATION_ALPHA, 20};
+#endif
+#ifdef GL_BLEND_EQUATION_RGB
+				case GL_BLEND_EQUATION_RGB:
+					return {s_BLEND_EQUATION_RGB, 18};
+#endif
+#ifdef GL_BLEND_SRC_ALPHA
+				case GL_BLEND_SRC_ALPHA:
+					return {s_BLEND_SRC_ALPHA, 15};
+#endif
+#ifdef GL_BLEND_SRC_RGB
+				case GL_BLEND_SRC_RGB:
+					return {s_BLEND_SRC_RGB, 13};
+#endif
+#ifdef GL_COLOR_CLEAR_VALUE
+				case GL_COLOR_CLEAR_VALUE:
+					return {s_COLOR_CLEAR_VALUE, 17};
+#endif
+#ifdef GL_COLOR_WRITEMASK
+				case GL_COLOR_WRITEMASK:
+					return {s_COLOR_WRITEMASK, 15};
+#endif
+#ifdef GL_COMPRESSED_TEXTURE_FORMATS
+				case GL_COMPRESSED_TEXTURE_FORMATS:
+					return {s_COMPRESSED_TEXTURE_FORMATS, 26};
+#endif
+#ifdef GL_CONTEXT_FLAGS
+				case GL_CONTEXT_FLAGS:
+					return {s_CONTEXT_FLAGS, 13};
+#endif
+#ifdef GL_DEBUG_GROUP_STACK_DEPTH
+				case GL_DEBUG_GROUP_STACK_DEPTH:
+					return {s_DEBUG_GROUP_STACK_DEPTH, 23};
+#endif
+#ifdef GL_DEPTH_CLEAR_VALUE
+				case GL_DEPTH_CLEAR_VALUE:
+					return {s_DEPTH_CLEAR_VALUE, 17};
+#endif
+#ifdef GL_DEPTH_FUNC
+				case GL_DEPTH_FUNC:
+					return {s_DEPTH_FUNC, 10};
+#endif
+#ifdef GL_DEPTH_RANGE
+				case GL_DEPTH_RANGE:
+					return {s_DEPTH_RANGE, 11};
+#endif
+#ifdef GL_DEPTH_WRITEMASK
+				case GL_DEPTH_WRITEMASK:
+					return {s_DEPTH_WRITEMASK, 15};
+#endif
+#ifdef GL_DOUBLEBUFFER
+				case GL_DOUBLEBUFFER:
+					return {s_DOUBLEBUFFER, 12};
+#endif
+#ifdef GL_DRAW_BUFFER
+				case GL_DRAW_BUFFER:
+					return {s_DRAW_BUFFER, 11};
+#endif
+#ifdef GL_FRAGMENT_SHADER_DERIVATIVE_HINT
+				case GL_FRAGMENT_SHADER_DERIVATIVE_HINT:
+					return {s_FRAGMENT_SHADER_DERIVATIVE_HINT, 31};
+#endif
+#ifdef GL_IMPLEMENTATION_COLOR_READ_FORMAT
+				case GL_IMPLEMENTATION_COLOR_READ_FORMAT:
+					return {s_IMPLEMENTATION_COLOR_READ_FORMAT, 32};
+#endif
+#ifdef GL_IMPLEMENTATION_COLOR_READ_TYPE
+				case GL_IMPLEMENTATION_COLOR_READ_TYPE:
+					return {s_IMPLEMENTATION_COLOR_READ_TYPE, 30};
+#endif
+#ifdef GL_LAYER_PROVOKING_VERTEX
+				case GL_LAYER_PROVOKING_VERTEX:
+					return {s_LAYER_PROVOKING_VERTEX, 22};
+#endif
+#ifdef GL_LINE_SMOOTH_HINT
+				case GL_LINE_SMOOTH_HINT:
+					return {s_LINE_SMOOTH_HINT, 16};
+#endif
+#ifdef GL_LINE_WIDTH
+				case GL_LINE_WIDTH:
+					return {s_LINE_WIDTH, 10};
+#endif
+#ifdef GL_LOGIC_OP_MODE
+				case GL_LOGIC_OP_MODE:
+					return {s_LOGIC_OP_MODE, 13};
+#endif
+#ifdef GL_NUM_COMPRESSED_TEXTURE_FORMATS
+				case GL_NUM_COMPRESSED_TEXTURE_FORMATS:
+					return {s_NUM_COMPRESSED_TEXTURE_FORMATS, 30};
+#endif
+#ifdef GL_NUM_EXTENSIONS
+				case GL_NUM_EXTENSIONS:
+					return {s_NUM_EXTENSIONS, 14};
+#endif
+#ifdef GL_NUM_PROGRAM_BINARY_FORMATS
+				case GL_NUM_PROGRAM_BINARY_FORMATS:
+					return {s_NUM_PROGRAM_BINARY_FORMATS, 26};
+#endif
+#ifdef GL_NUM_SHADER_BINARY_FORMATS
+				case GL_NUM_SHADER_BINARY_FORMATS:
+					return {s_NUM_SHADER_BINARY_FORMATS, 25};
+#endif
+#ifdef GL_PACK_ALIGNMENT
+				case GL_PACK_ALIGNMENT:
+					return {s_PACK_ALIGNMENT, 14};
+#endif
+#ifdef GL_PACK_IMAGE_HEIGHT
+				case GL_PACK_IMAGE_HEIGHT:
+					return {s_PACK_IMAGE_HEIGHT, 17};
+#endif
+#ifdef GL_PACK_LSB_FIRST
+				case GL_PACK_LSB_FIRST:
+					return {s_PACK_LSB_FIRST, 14};
+#endif
+#ifdef GL_PACK_ROW_LENGTH
+				case GL_PACK_ROW_LENGTH:
+					return {s_PACK_ROW_LENGTH, 15};
+#endif
+#ifdef GL_PACK_SKIP_IMAGES
+				case GL_PACK_SKIP_IMAGES:
+					return {s_PACK_SKIP_IMAGES, 16};
+#endif
+#ifdef GL_PACK_SKIP_PIXELS
+				case GL_PACK_SKIP_PIXELS:
+					return {s_PACK_SKIP_PIXELS, 16};
+#endif
+#ifdef GL_PACK_SKIP_ROWS
+				case GL_PACK_SKIP_ROWS:
+					return {s_PACK_SKIP_ROWS, 14};
+#endif
+#ifdef GL_PACK_SWAP_BYTES
+				case GL_PACK_SWAP_BYTES:
+					return {s_PACK_SWAP_BYTES, 15};
+#endif
+#ifdef GL_POINT_FADE_THRESHOLD_SIZE
+				case GL_POINT_FADE_THRESHOLD_SIZE:
+					return {s_POINT_FADE_THRESHOLD_SIZE, 25};
+#endif
+#ifdef GL_POINT_SIZE
+				case GL_POINT_SIZE:
+					return {s_POINT_SIZE, 10};
+#endif
+#ifdef GL_POINT_SIZE_GRANULARITY
+				case GL_POINT_SIZE_GRANULARITY:
+					return {s_POINT_SIZE_GRANULARITY, 22};
+#endif
+#ifdef GL_POINT_SIZE_RANGE
+				case GL_POINT_SIZE_RANGE:
+					return {s_POINT_SIZE_RANGE, 16};
+#endif
+#ifdef GL_POLYGON_OFFSET_FACTOR
+				case GL_POLYGON_OFFSET_FACTOR:
+					return {s_POLYGON_OFFSET_FACTOR, 21};
+#endif
+#ifdef GL_POLYGON_OFFSET_UNITS
+				case GL_POLYGON_OFFSET_UNITS:
+					return {s_POLYGON_OFFSET_UNITS, 20};
+#endif
+#ifdef GL_POLYGON_SMOOTH_HINT
+				case GL_POLYGON_SMOOTH_HINT:
+					return {s_POLYGON_SMOOTH_HINT, 19};
+#endif
+#ifdef GL_PRIMITIVE_RESTART_INDEX
+				case GL_PRIMITIVE_RESTART_INDEX:
+					return {s_PRIMITIVE_RESTART_INDEX, 23};
+#endif
+#ifdef GL_PROGRAM_BINARY_FORMATS
+				case GL_PROGRAM_BINARY_FORMATS:
+					return {s_PROGRAM_BINARY_FORMATS, 22};
+#endif
+#ifdef GL_PROGRAM_POINT_SIZE
+				case GL_PROGRAM_POINT_SIZE:
+					return {s_PROGRAM_POINT_SIZE, 18};
+#endif
+#ifdef GL_PROVOKING_VERTEX
+				case GL_PROVOKING_VERTEX:
+					return {s_PROVOKING_VERTEX, 16};
+#endif
+#ifdef GL_READ_BUFFER
+				case GL_READ_BUFFER:
+					return {s_READ_BUFFER, 11};
+#endif
+#ifdef GL_SAMPLES
+				case GL_SAMPLES:
+					return {s_SAMPLES, 7};
+#endif
+#ifdef GL_SAMPLE_BUFFERS
+				case GL_SAMPLE_BUFFERS:
+					return {s_SAMPLE_BUFFERS, 14};
+#endif
+#ifdef GL_SAMPLE_COVERAGE_INVERT
+				case GL_SAMPLE_COVERAGE_INVERT:
+					return {s_SAMPLE_COVERAGE_INVERT, 22};
+#endif
+#ifdef GL_SAMPLE_COVERAGE_VALUE
+				case GL_SAMPLE_COVERAGE_VALUE:
+					return {s_SAMPLE_COVERAGE_VALUE, 21};
+#endif
+#ifdef GL_SCISSOR_BOX
+				case GL_SCISSOR_BOX:
+					return {s_SCISSOR_BOX, 11};
+#endif
+#ifdef GL_SHADER_COMPILER
+				case GL_SHADER_COMPILER:
+					return {s_SHADER_COMPILER, 15};
+#endif
+#ifdef GL_SHADER_STORAGE_BUFFER_OFFSET_ALIGNMENT
+				case GL_SHADER_STORAGE_BUFFER_OFFSET_ALIGNMENT:
+					return {s_SHADER_STORAGE_BUFFER_OFFSET_ALIGNMENT, 38};
+#endif
+#ifdef GL_SHADER_STORAGE_BUFFER_SIZE
+				case GL_SHADER_STORAGE_BUFFER_SIZE:
+					return {s_SHADER_STORAGE_BUFFER_SIZE, 26};
+#endif
+#ifdef GL_SHADER_STORAGE_BUFFER_START
+				case GL_SHADER_STORAGE_BUFFER_START:
+					return {s_SHADER_STORAGE_BUFFER_START, 27};
+#endif
+#ifdef GL_SMOOTH_LINE_WIDTH_GRANULARITY
+				case GL_SMOOTH_LINE_WIDTH_GRANULARITY:
+					return {s_SMOOTH_LINE_WIDTH_GRANULARITY, 29};
+#endif
+#ifdef GL_SMOOTH_LINE_WIDTH_RANGE
+				case GL_SMOOTH_LINE_WIDTH_RANGE:
+					return {s_SMOOTH_LINE_WIDTH_RANGE, 23};
+#endif
+#ifdef GL_STENCIL_BACK_FAIL
+				case GL_STENCIL_BACK_FAIL:
+					return {s_STENCIL_BACK_FAIL, 17};
+#endif
+#ifdef GL_STENCIL_BACK_FUNC
+				case GL_STENCIL_BACK_FUNC:
+					return {s_STENCIL_BACK_FUNC, 17};
+#endif
+#ifdef GL_STENCIL_BACK_PASS_DEPTH_FAIL
+				case GL_STENCIL_BACK_PASS_DEPTH_FAIL:
+					return {s_STENCIL_BACK_PASS_DEPTH_FAIL, 28};
+#endif
+#ifdef GL_STENCIL_BACK_PASS_DEPTH_PASS
+				case GL_STENCIL_BACK_PASS_DEPTH_PASS:
+					return {s_STENCIL_BACK_PASS_DEPTH_PASS, 28};
+#endif
+#ifdef GL_STENCIL_BACK_REF
+				case GL_STENCIL_BACK_REF:
+					return {s_STENCIL_BACK_REF, 16};
+#endif
+#ifdef GL_STENCIL_BACK_VALUE_MASK
+				case GL_STENCIL_BACK_VALUE_MASK:
+					return {s_STENCIL_BACK_VALUE_MASK, 23};
+#endif
+#ifdef GL_STENCIL_BACK_WRITEMASK
+				case GL_STENCIL_BACK_WRITEMASK:
+					return {s_STENCIL_BACK_WRITEMASK, 22};
+#endif
+#ifdef GL_STENCIL_CLEAR_VALUE
+				case GL_STENCIL_CLEAR_VALUE:
+					return {s_STENCIL_CLEAR_VALUE, 19};
+#endif
+#ifdef GL_STENCIL_FAIL
+				case GL_STENCIL_FAIL:
+					return {s_STENCIL_FAIL, 12};
+#endif
+#ifdef GL_STENCIL_FUNC
+				case GL_STENCIL_FUNC:
+					return {s_STENCIL_FUNC, 12};
+#endif
+#ifdef GL_STENCIL_PASS_DEPTH_FAIL
+				case GL_STENCIL_PASS_DEPTH_FAIL:
+					return {s_STENCIL_PASS_DEPTH_FAIL, 23};
+#endif
+#ifdef GL_STENCIL_PASS_DEPTH_PASS
+				case GL_STENCIL_PASS_DEPTH_PASS:
+					return {s_STENCIL_PASS_DEPTH_PASS, 23};
+#endif
+#ifdef GL_STENCIL_REF
+				case GL_STENCIL_REF:
+					return {s_STENCIL_REF, 11};
+#endif
+#ifdef GL_STENCIL_VALUE_MASK
+				case GL_STENCIL_VALUE_MASK:
+					return {s_STENCIL_VALUE_MASK, 18};
+#endif
+#ifdef GL_STENCIL_WRITEMASK
+				case GL_STENCIL_WRITEMASK:
+					return {s_STENCIL_WRITEMASK, 17};
+#endif
+#ifdef GL_STEREO
+				case GL_STEREO:
+					return {s_STEREO, 6};
+#endif
+#ifdef GL_SUBPIXEL_BITS
+				case GL_SUBPIXEL_BITS:
+					return {s_SUBPIXEL_BITS, 13};
+#endif
+#ifdef GL_TEXTURE_BUFFER_OFFSET_ALIGNMENT
+				case GL_TEXTURE_BUFFER_OFFSET_ALIGNMENT:
+					return {s_TEXTURE_BUFFER_OFFSET_ALIGNMENT, 31};
+#endif
+#ifdef GL_TEXTURE_COMPRESSION_HINT
+				case GL_TEXTURE_COMPRESSION_HINT:
+					return {s_TEXTURE_COMPRESSION_HINT, 24};
+#endif
+#ifdef GL_TIMESTAMP
+				case GL_TIMESTAMP:
+					return {s_TIMESTAMP, 9};
+#endif
+#ifdef GL_TRANSFORM_FEEDBACK_BUFFER_SIZE
+				case GL_TRANSFORM_FEEDBACK_BUFFER_SIZE:
+					return {s_TRANSFORM_FEEDBACK_BUFFER_SIZE, 30};
+#endif
+#ifdef GL_TRANSFORM_FEEDBACK_BUFFER_START
+				case GL_TRANSFORM_FEEDBACK_BUFFER_START:
+					return {s_TRANSFORM_FEEDBACK_BUFFER_START, 31};
+#endif
+#ifdef GL_UNIFORM_BUFFER_OFFSET_ALIGNMENT
+				case GL_UNIFORM_BUFFER_OFFSET_ALIGNMENT:
+					return {s_UNIFORM_BUFFER_OFFSET_ALIGNMENT, 31};
+#endif
+#ifdef GL_UNIFORM_BUFFER_SIZE
+				case GL_UNIFORM_BUFFER_SIZE:
+					return {s_UNIFORM_BUFFER_SIZE, 19};
+#endif
+#ifdef GL_UNIFORM_BUFFER_START
+				case GL_UNIFORM_BUFFER_START:
+					return {s_UNIFORM_BUFFER_START, 20};
+#endif
+#ifdef GL_UNPACK_ALIGNMENT
+				case GL_UNPACK_ALIGNMENT:
+					return {s_UNPACK_ALIGNMENT, 16};
+#endif
+#ifdef GL_UNPACK_IMAGE_HEIGHT
+				case GL_UNPACK_IMAGE_HEIGHT:
+					return {s_UNPACK_IMAGE_HEIGHT, 19};
+#endif
+#ifdef GL_UNPACK_LSB_FIRST
+				case GL_UNPACK_LSB_FIRST:
+					return {s_UNPACK_LSB_FIRST, 16};
+#endif
+#ifdef GL_UNPACK_ROW_LENGTH
+				case GL_UNPACK_ROW_LENGTH:
+					return {s_UNPACK_ROW_LENGTH, 17};
+#endif
+#ifdef GL_UNPACK_SKIP_IMAGES
+				case GL_UNPACK_SKIP_IMAGES:
+					return {s_UNPACK_SKIP_IMAGES, 18};
+#endif
+#ifdef GL_UNPACK_SKIP_PIXELS
+				case GL_UNPACK_SKIP_PIXELS:
+					return {s_UNPACK_SKIP_PIXELS, 18};
+#endif
+#ifdef GL_UNPACK_SKIP_ROWS
+				case GL_UNPACK_SKIP_ROWS:
+					return {s_UNPACK_SKIP_ROWS, 16};
+#endif
+#ifdef GL_UNPACK_SWAP_BYTES
+				case GL_UNPACK_SWAP_BYTES:
+					return {s_UNPACK_SWAP_BYTES, 17};
+#endif
+#ifdef GL_VIEWPORT
+				case GL_VIEWPORT:
+					return {s_VIEWPORT, 8};
+#endif
+#ifdef GL_VIEWPORT_BOUNDS_RANGE
+				case GL_VIEWPORT_BOUNDS_RANGE:
+					return {s_VIEWPORT_BOUNDS_RANGE, 21};
+#endif
+#ifdef GL_VIEWPORT_INDEX_PROVOKING_VERTEX
+				case GL_VIEWPORT_INDEX_PROVOKING_VERTEX:
+					return {s_VIEWPORT_INDEX_PROVOKING_VERTEX, 31};
+#endif
+#ifdef GL_VIEWPORT_SUBPIXEL_BITS
+				case GL_VIEWPORT_SUBPIXEL_BITS:
+					return {s_VIEWPORT_SUBPIXEL_BITS, 22};
+#endif
+				default:;
+			}
+			break;
+		case 43: /* object_type */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_BUFFER
@@ -5770,7 +6548,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 43: /* old_matrix_mode */
+		case 44: /* old_matrix_mode */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_COLOR
@@ -5792,7 +6570,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 44: /* old_primitive_type */
+		case 45: /* old_primitive_type */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_LINES
@@ -5838,7 +6616,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 45: /* patch_parameter */
+		case 46: /* patch_parameter */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_PATCH_DEFAULT_INNER_LEVEL
@@ -5856,7 +6634,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 46: /* path_cap_style_nv */
+		case 47: /* path_cap_style_nv */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_FLAT
@@ -5878,7 +6656,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 47: /* path_color_format_nv */
+		case 48: /* path_color_format_nv */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_ALPHA
@@ -5908,7 +6686,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 48: /* path_color_nv */
+		case 49: /* path_color_nv */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_PRIMARY_COLOR_NV
@@ -5922,7 +6700,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 49: /* path_command_nv */
+		case 50: /* path_command_nv */
 			switch(GLubyte(aev._value))
 			{
 #ifdef GL_ARC_TO_NV
@@ -6064,7 +6842,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 50: /* path_dash_offset_reset_nv */
+		case 51: /* path_dash_offset_reset_nv */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_MOVE_TO_CONTINUES_NV
@@ -6078,7 +6856,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 51: /* path_fill_cover_mode_nv */
+		case 52: /* path_fill_cover_mode_nv */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_BOUNDING_BOX_NV
@@ -6100,7 +6878,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 52: /* path_fill_mode_nv */
+		case 53: /* path_fill_mode_nv */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_COUNT_DOWN_NV
@@ -6122,7 +6900,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 53: /* path_font_style_nv */
+		case 54: /* path_font_style_nv */
 			switch(GLbitfield(aev._value))
 			{
 #ifdef GL_BOLD_BIT_NV
@@ -6136,7 +6914,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 54: /* path_font_target_nv */
+		case 55: /* path_font_target_nv */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_FILE_NAME_NV
@@ -6154,7 +6932,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 55: /* path_format_nv */
+		case 56: /* path_format_nv */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_PATH_FORMAT_PS_NV
@@ -6168,7 +6946,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 56: /* path_gen_mode_nv */
+		case 57: /* path_gen_mode_nv */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_EYE_LINEAR
@@ -6190,7 +6968,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 57: /* path_join_style_nv */
+		case 58: /* path_join_style_nv */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_BEVEL_NV
@@ -6216,7 +6994,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 58: /* path_list_mode_nv */
+		case 59: /* path_list_mode_nv */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_ACCUM_ADJACENT_PAIRS_NV
@@ -6234,7 +7012,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 59: /* path_metric_query_nv */
+		case 60: /* path_metric_query_nv */
 			switch(GLbitfield(aev._value))
 			{
 #ifdef GL_FONT_ASCENDER_BIT_NV
@@ -6328,7 +7106,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 60: /* path_missing_glyph_nv */
+		case 61: /* path_missing_glyph_nv */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_SKIP_MISSING_GLYPH_NV
@@ -6342,7 +7120,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 61: /* path_stroke_cover_mode_nv */
+		case 62: /* path_stroke_cover_mode_nv */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_BOUNDING_BOX_NV
@@ -6364,7 +7142,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 62: /* path_text_encoding_nv */
+		case 63: /* path_text_encoding_nv */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_UTF16_NV
@@ -6378,7 +7156,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 63: /* path_transform_type_nv */
+		case 64: /* path_transform_type_nv */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_AFFINE_2D_NV
@@ -6420,7 +7198,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 64: /* pixel_data_format */
+		case 65: /* pixel_data_format */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_BGR
@@ -6502,7 +7280,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 65: /* pixel_data_internal_format */
+		case 66: /* pixel_data_internal_format */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_COMPRESSED_R11_EAC
@@ -6908,7 +7686,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 66: /* pixel_data_type */
+		case 67: /* pixel_data_type */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_BYTE
@@ -7010,7 +7788,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 67: /* pixel_parameter */
+		case 68: /* pixel_parameter */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_PACK_ALIGNMENT
@@ -7112,7 +7890,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 68: /* polygon_mode */
+		case 69: /* polygon_mode */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_FILL
@@ -7134,7 +7912,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 69: /* precision_type */
+		case 70: /* precision_type */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_HIGH_FLOAT
@@ -7164,7 +7942,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 70: /* primitive_type */
+		case 71: /* primitive_type */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_LINES
@@ -7218,7 +7996,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 71: /* program_interface */
+		case 72: /* program_interface */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_ATOMIC_COUNTER_BUFFER
@@ -7304,7 +8082,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 72: /* program_parameter */
+		case 73: /* program_parameter */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_ACTIVE_ATTRIBUTES
@@ -7346,7 +8124,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 73: /* program_pipeline_stage */
+		case 74: /* program_pipeline_stage */
 			switch(GLbitfield(aev._value))
 			{
 #ifdef GL_ALL_SHADER_BITS
@@ -7380,7 +8158,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 74: /* program_resource_property */
+		case 75: /* program_resource_property */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_ACTIVE_VARIABLES
@@ -7494,7 +8272,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 75: /* provoke_mode */
+		case 76: /* provoke_mode */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_FIRST_VERTEX_CONVENTION
@@ -7508,7 +8286,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 76: /* query_target */
+		case 77: /* query_target */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_ANY_SAMPLES_PASSED
@@ -7590,7 +8368,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 77: /* renderbuffer_target */
+		case 78: /* renderbuffer_target */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_RENDERBUFFER
@@ -7600,7 +8378,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 78: /* reset_notification_strategy */
+		case 79: /* reset_notification_strategy */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_LOSE_CONTEXT_ON_RESET
@@ -7614,7 +8392,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 79: /* shader_parameter */
+		case 80: /* shader_parameter */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_COMPILE_STATUS
@@ -7640,7 +8418,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 80: /* shader_type */
+		case 81: /* shader_type */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_COMPUTE_SHADER
@@ -7670,7 +8448,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 81: /* single_face */
+		case 82: /* single_face */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_BACK
@@ -7684,7 +8462,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 82: /* sl_data_type */
+		case 83: /* sl_data_type */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_BOOL
@@ -8130,7 +8908,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 83: /* stencil_operation */
+		case 84: /* stencil_operation */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_DECR
@@ -8168,7 +8946,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 84: /* string_query */
+		case 85: /* string_query */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_RENDERER
@@ -8190,7 +8968,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 85: /* sync_condition */
+		case 86: /* sync_condition */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_SYNC_GPU_COMMANDS_COMPLETE
@@ -8200,7 +8978,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 86: /* sync_status */
+		case 87: /* sync_status */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_SIGNALED
@@ -8214,7 +8992,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 87: /* sync_type */
+		case 88: /* sync_type */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_SYNC_FENCE
@@ -8224,7 +9002,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 88: /* sync_wait_result */
+		case 89: /* sync_wait_result */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_ALREADY_SIGNALED
@@ -8246,7 +9024,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 89: /* tess_gen_primitive_spacing */
+		case 90: /* tess_gen_primitive_spacing */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_EQUAL
@@ -8264,7 +9042,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 90: /* tess_gen_primitive_type */
+		case 91: /* tess_gen_primitive_type */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_ISOLINES
@@ -8282,7 +9060,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 91: /* texture_compare_mode */
+		case 92: /* texture_compare_mode */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_COMPARE_REF_TO_TEXTURE
@@ -8296,7 +9074,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 92: /* texture_filter */
+		case 93: /* texture_filter */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_LINEAR
@@ -8310,7 +9088,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 93: /* texture_mag_filter */
+		case 94: /* texture_mag_filter */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_LINEAR
@@ -8324,7 +9102,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 94: /* texture_min_filter */
+		case 95: /* texture_min_filter */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_LINEAR
@@ -8354,7 +9132,121 @@ noexcept
 				default:;
 			}
 			break;
-		case 95: /* texture_swizzle */
+		case 96: /* texture_parameter */
+			switch(GLenum(aev._value))
+			{
+#ifdef GL_DEPTH_STENCIL_TEXTURE_MODE
+				case GL_DEPTH_STENCIL_TEXTURE_MODE:
+					return {s_DEPTH_STENCIL_TEXTURE_MODE, 26};
+#endif
+#ifdef GL_IMAGE_FORMAT_COMPATIBILITY_TYPE
+				case GL_IMAGE_FORMAT_COMPATIBILITY_TYPE:
+					return {s_IMAGE_FORMAT_COMPATIBILITY_TYPE, 31};
+#endif
+#ifdef GL_TEXTURE_BASE_LEVEL
+				case GL_TEXTURE_BASE_LEVEL:
+					return {s_TEXTURE_BASE_LEVEL, 18};
+#endif
+#ifdef GL_TEXTURE_BORDER_COLOR
+				case GL_TEXTURE_BORDER_COLOR:
+					return {s_TEXTURE_BORDER_COLOR, 20};
+#endif
+#ifdef GL_TEXTURE_COMPARE_FUNC
+				case GL_TEXTURE_COMPARE_FUNC:
+					return {s_TEXTURE_COMPARE_FUNC, 20};
+#endif
+#ifdef GL_TEXTURE_COMPARE_MODE
+				case GL_TEXTURE_COMPARE_MODE:
+					return {s_TEXTURE_COMPARE_MODE, 20};
+#endif
+#ifdef GL_TEXTURE_IMMUTABLE_FORMAT
+				case GL_TEXTURE_IMMUTABLE_FORMAT:
+					return {s_TEXTURE_IMMUTABLE_FORMAT, 24};
+#endif
+#ifdef GL_TEXTURE_IMMUTABLE_LEVELS
+				case GL_TEXTURE_IMMUTABLE_LEVELS:
+					return {s_TEXTURE_IMMUTABLE_LEVELS, 24};
+#endif
+#ifdef GL_TEXTURE_LOD_BIAS
+				case GL_TEXTURE_LOD_BIAS:
+					return {s_TEXTURE_LOD_BIAS, 16};
+#endif
+#ifdef GL_TEXTURE_MAG_FILTER
+				case GL_TEXTURE_MAG_FILTER:
+					return {s_TEXTURE_MAG_FILTER, 18};
+#endif
+#ifdef GL_TEXTURE_MAX_LEVEL
+				case GL_TEXTURE_MAX_LEVEL:
+					return {s_TEXTURE_MAX_LEVEL, 17};
+#endif
+#ifdef GL_TEXTURE_MAX_LOD
+				case GL_TEXTURE_MAX_LOD:
+					return {s_TEXTURE_MAX_LOD, 15};
+#endif
+#ifdef GL_TEXTURE_MIN_FILTER
+				case GL_TEXTURE_MIN_FILTER:
+					return {s_TEXTURE_MIN_FILTER, 18};
+#endif
+#ifdef GL_TEXTURE_MIN_LOD
+				case GL_TEXTURE_MIN_LOD:
+					return {s_TEXTURE_MIN_LOD, 15};
+#endif
+#ifdef GL_TEXTURE_SWIZZLE_A
+				case GL_TEXTURE_SWIZZLE_A:
+					return {s_TEXTURE_SWIZZLE_A, 17};
+#endif
+#ifdef GL_TEXTURE_SWIZZLE_B
+				case GL_TEXTURE_SWIZZLE_B:
+					return {s_TEXTURE_SWIZZLE_B, 17};
+#endif
+#ifdef GL_TEXTURE_SWIZZLE_G
+				case GL_TEXTURE_SWIZZLE_G:
+					return {s_TEXTURE_SWIZZLE_G, 17};
+#endif
+#ifdef GL_TEXTURE_SWIZZLE_R
+				case GL_TEXTURE_SWIZZLE_R:
+					return {s_TEXTURE_SWIZZLE_R, 17};
+#endif
+#ifdef GL_TEXTURE_SWIZZLE_RGBA
+				case GL_TEXTURE_SWIZZLE_RGBA:
+					return {s_TEXTURE_SWIZZLE_RGBA, 20};
+#endif
+#ifdef GL_TEXTURE_TARGET
+				case GL_TEXTURE_TARGET:
+					return {s_TEXTURE_TARGET, 14};
+#endif
+#ifdef GL_TEXTURE_VIEW_MIN_LAYER
+				case GL_TEXTURE_VIEW_MIN_LAYER:
+					return {s_TEXTURE_VIEW_MIN_LAYER, 22};
+#endif
+#ifdef GL_TEXTURE_VIEW_MIN_LEVEL
+				case GL_TEXTURE_VIEW_MIN_LEVEL:
+					return {s_TEXTURE_VIEW_MIN_LEVEL, 22};
+#endif
+#ifdef GL_TEXTURE_VIEW_NUM_LAYERS
+				case GL_TEXTURE_VIEW_NUM_LAYERS:
+					return {s_TEXTURE_VIEW_NUM_LAYERS, 23};
+#endif
+#ifdef GL_TEXTURE_VIEW_NUM_LEVELS
+				case GL_TEXTURE_VIEW_NUM_LEVELS:
+					return {s_TEXTURE_VIEW_NUM_LEVELS, 23};
+#endif
+#ifdef GL_TEXTURE_WRAP_R
+				case GL_TEXTURE_WRAP_R:
+					return {s_TEXTURE_WRAP_R, 14};
+#endif
+#ifdef GL_TEXTURE_WRAP_S
+				case GL_TEXTURE_WRAP_S:
+					return {s_TEXTURE_WRAP_S, 14};
+#endif
+#ifdef GL_TEXTURE_WRAP_T
+				case GL_TEXTURE_WRAP_T:
+					return {s_TEXTURE_WRAP_T, 14};
+#endif
+				default:;
+			}
+			break;
+		case 97: /* texture_swizzle */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_ALPHA
@@ -8384,7 +9276,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 96: /* texture_swizzle_coord */
+		case 98: /* texture_swizzle_coord */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_TEXTURE_SWIZZLE_A
@@ -8410,7 +9302,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 97: /* texture_target */
+		case 99: /* texture_target */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_TEXTURE_1D
@@ -8484,7 +9376,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 98: /* texture_wrap */
+		case 100: /* texture_wrap */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_CLAMP_TO_BORDER
@@ -8510,7 +9402,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 99: /* texture_wrap_coord */
+		case 101: /* texture_wrap_coord */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_TEXTURE_WRAP_R
@@ -8528,7 +9420,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 100: /* transform_feedback_mode */
+		case 102: /* transform_feedback_mode */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_INTERLEAVED_ATTRIBS
@@ -8542,7 +9434,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 101: /* transform_feedback_primitive_type */
+		case 103: /* transform_feedback_primitive_type */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_LINES
@@ -8560,7 +9452,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 102: /* transform_feedback_target */
+		case 104: /* transform_feedback_target */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_TRANSFORM_FEEDBACK
@@ -8570,7 +9462,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 103: /* true_false */
+		case 105: /* true_false */
 			switch(GLboolean(aev._value))
 			{
 #ifdef GL_FALSE

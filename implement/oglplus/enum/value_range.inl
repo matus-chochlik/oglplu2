@@ -1612,7 +1612,308 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 42: /* object_type */
+		case 42: /* numeric_query */
+		{
+			static const GLenum vr[] = {
+#ifdef GL_ALIASED_LINE_WIDTH_RANGE
+				GL_ALIASED_LINE_WIDTH_RANGE,
+#endif
+#ifdef GL_BLEND_COLOR
+				GL_BLEND_COLOR,
+#endif
+#ifdef GL_BLEND_DST_ALPHA
+				GL_BLEND_DST_ALPHA,
+#endif
+#ifdef GL_BLEND_DST_RGB
+				GL_BLEND_DST_RGB,
+#endif
+#ifdef GL_BLEND_EQUATION_ALPHA
+				GL_BLEND_EQUATION_ALPHA,
+#endif
+#ifdef GL_BLEND_EQUATION_RGB
+				GL_BLEND_EQUATION_RGB,
+#endif
+#ifdef GL_BLEND_SRC_ALPHA
+				GL_BLEND_SRC_ALPHA,
+#endif
+#ifdef GL_BLEND_SRC_RGB
+				GL_BLEND_SRC_RGB,
+#endif
+#ifdef GL_COLOR_CLEAR_VALUE
+				GL_COLOR_CLEAR_VALUE,
+#endif
+#ifdef GL_COLOR_WRITEMASK
+				GL_COLOR_WRITEMASK,
+#endif
+#ifdef GL_COMPRESSED_TEXTURE_FORMATS
+				GL_COMPRESSED_TEXTURE_FORMATS,
+#endif
+#ifdef GL_CONTEXT_FLAGS
+				GL_CONTEXT_FLAGS,
+#endif
+#ifdef GL_DEBUG_GROUP_STACK_DEPTH
+				GL_DEBUG_GROUP_STACK_DEPTH,
+#endif
+#ifdef GL_DEPTH_CLEAR_VALUE
+				GL_DEPTH_CLEAR_VALUE,
+#endif
+#ifdef GL_DEPTH_FUNC
+				GL_DEPTH_FUNC,
+#endif
+#ifdef GL_DEPTH_RANGE
+				GL_DEPTH_RANGE,
+#endif
+#ifdef GL_DEPTH_WRITEMASK
+				GL_DEPTH_WRITEMASK,
+#endif
+#ifdef GL_DOUBLEBUFFER
+				GL_DOUBLEBUFFER,
+#endif
+#ifdef GL_DRAW_BUFFER
+				GL_DRAW_BUFFER,
+#endif
+#ifdef GL_FRAGMENT_SHADER_DERIVATIVE_HINT
+				GL_FRAGMENT_SHADER_DERIVATIVE_HINT,
+#endif
+#ifdef GL_IMPLEMENTATION_COLOR_READ_FORMAT
+				GL_IMPLEMENTATION_COLOR_READ_FORMAT,
+#endif
+#ifdef GL_IMPLEMENTATION_COLOR_READ_TYPE
+				GL_IMPLEMENTATION_COLOR_READ_TYPE,
+#endif
+#ifdef GL_LAYER_PROVOKING_VERTEX
+				GL_LAYER_PROVOKING_VERTEX,
+#endif
+#ifdef GL_LINE_SMOOTH_HINT
+				GL_LINE_SMOOTH_HINT,
+#endif
+#ifdef GL_LINE_WIDTH
+				GL_LINE_WIDTH,
+#endif
+#ifdef GL_LOGIC_OP_MODE
+				GL_LOGIC_OP_MODE,
+#endif
+#ifdef GL_NUM_COMPRESSED_TEXTURE_FORMATS
+				GL_NUM_COMPRESSED_TEXTURE_FORMATS,
+#endif
+#ifdef GL_NUM_EXTENSIONS
+				GL_NUM_EXTENSIONS,
+#endif
+#ifdef GL_NUM_PROGRAM_BINARY_FORMATS
+				GL_NUM_PROGRAM_BINARY_FORMATS,
+#endif
+#ifdef GL_NUM_SHADER_BINARY_FORMATS
+				GL_NUM_SHADER_BINARY_FORMATS,
+#endif
+#ifdef GL_PACK_ALIGNMENT
+				GL_PACK_ALIGNMENT,
+#endif
+#ifdef GL_PACK_IMAGE_HEIGHT
+				GL_PACK_IMAGE_HEIGHT,
+#endif
+#ifdef GL_PACK_LSB_FIRST
+				GL_PACK_LSB_FIRST,
+#endif
+#ifdef GL_PACK_ROW_LENGTH
+				GL_PACK_ROW_LENGTH,
+#endif
+#ifdef GL_PACK_SKIP_IMAGES
+				GL_PACK_SKIP_IMAGES,
+#endif
+#ifdef GL_PACK_SKIP_PIXELS
+				GL_PACK_SKIP_PIXELS,
+#endif
+#ifdef GL_PACK_SKIP_ROWS
+				GL_PACK_SKIP_ROWS,
+#endif
+#ifdef GL_PACK_SWAP_BYTES
+				GL_PACK_SWAP_BYTES,
+#endif
+#ifdef GL_POINT_FADE_THRESHOLD_SIZE
+				GL_POINT_FADE_THRESHOLD_SIZE,
+#endif
+#ifdef GL_POINT_SIZE
+				GL_POINT_SIZE,
+#endif
+#ifdef GL_POINT_SIZE_GRANULARITY
+				GL_POINT_SIZE_GRANULARITY,
+#endif
+#ifdef GL_POINT_SIZE_RANGE
+				GL_POINT_SIZE_RANGE,
+#endif
+#ifdef GL_POLYGON_OFFSET_FACTOR
+				GL_POLYGON_OFFSET_FACTOR,
+#endif
+#ifdef GL_POLYGON_OFFSET_UNITS
+				GL_POLYGON_OFFSET_UNITS,
+#endif
+#ifdef GL_POLYGON_SMOOTH_HINT
+				GL_POLYGON_SMOOTH_HINT,
+#endif
+#ifdef GL_PRIMITIVE_RESTART_INDEX
+				GL_PRIMITIVE_RESTART_INDEX,
+#endif
+#ifdef GL_PROGRAM_BINARY_FORMATS
+				GL_PROGRAM_BINARY_FORMATS,
+#endif
+#ifdef GL_PROGRAM_POINT_SIZE
+				GL_PROGRAM_POINT_SIZE,
+#endif
+#ifdef GL_PROVOKING_VERTEX
+				GL_PROVOKING_VERTEX,
+#endif
+#ifdef GL_READ_BUFFER
+				GL_READ_BUFFER,
+#endif
+#ifdef GL_SAMPLES
+				GL_SAMPLES,
+#endif
+#ifdef GL_SAMPLE_BUFFERS
+				GL_SAMPLE_BUFFERS,
+#endif
+#ifdef GL_SAMPLE_COVERAGE_INVERT
+				GL_SAMPLE_COVERAGE_INVERT,
+#endif
+#ifdef GL_SAMPLE_COVERAGE_VALUE
+				GL_SAMPLE_COVERAGE_VALUE,
+#endif
+#ifdef GL_SCISSOR_BOX
+				GL_SCISSOR_BOX,
+#endif
+#ifdef GL_SHADER_COMPILER
+				GL_SHADER_COMPILER,
+#endif
+#ifdef GL_SHADER_STORAGE_BUFFER_OFFSET_ALIGNMENT
+				GL_SHADER_STORAGE_BUFFER_OFFSET_ALIGNMENT,
+#endif
+#ifdef GL_SHADER_STORAGE_BUFFER_SIZE
+				GL_SHADER_STORAGE_BUFFER_SIZE,
+#endif
+#ifdef GL_SHADER_STORAGE_BUFFER_START
+				GL_SHADER_STORAGE_BUFFER_START,
+#endif
+#ifdef GL_SMOOTH_LINE_WIDTH_GRANULARITY
+				GL_SMOOTH_LINE_WIDTH_GRANULARITY,
+#endif
+#ifdef GL_SMOOTH_LINE_WIDTH_RANGE
+				GL_SMOOTH_LINE_WIDTH_RANGE,
+#endif
+#ifdef GL_STENCIL_BACK_FAIL
+				GL_STENCIL_BACK_FAIL,
+#endif
+#ifdef GL_STENCIL_BACK_FUNC
+				GL_STENCIL_BACK_FUNC,
+#endif
+#ifdef GL_STENCIL_BACK_PASS_DEPTH_FAIL
+				GL_STENCIL_BACK_PASS_DEPTH_FAIL,
+#endif
+#ifdef GL_STENCIL_BACK_PASS_DEPTH_PASS
+				GL_STENCIL_BACK_PASS_DEPTH_PASS,
+#endif
+#ifdef GL_STENCIL_BACK_REF
+				GL_STENCIL_BACK_REF,
+#endif
+#ifdef GL_STENCIL_BACK_VALUE_MASK
+				GL_STENCIL_BACK_VALUE_MASK,
+#endif
+#ifdef GL_STENCIL_BACK_WRITEMASK
+				GL_STENCIL_BACK_WRITEMASK,
+#endif
+#ifdef GL_STENCIL_CLEAR_VALUE
+				GL_STENCIL_CLEAR_VALUE,
+#endif
+#ifdef GL_STENCIL_FAIL
+				GL_STENCIL_FAIL,
+#endif
+#ifdef GL_STENCIL_FUNC
+				GL_STENCIL_FUNC,
+#endif
+#ifdef GL_STENCIL_PASS_DEPTH_FAIL
+				GL_STENCIL_PASS_DEPTH_FAIL,
+#endif
+#ifdef GL_STENCIL_PASS_DEPTH_PASS
+				GL_STENCIL_PASS_DEPTH_PASS,
+#endif
+#ifdef GL_STENCIL_REF
+				GL_STENCIL_REF,
+#endif
+#ifdef GL_STENCIL_VALUE_MASK
+				GL_STENCIL_VALUE_MASK,
+#endif
+#ifdef GL_STENCIL_WRITEMASK
+				GL_STENCIL_WRITEMASK,
+#endif
+#ifdef GL_STEREO
+				GL_STEREO,
+#endif
+#ifdef GL_SUBPIXEL_BITS
+				GL_SUBPIXEL_BITS,
+#endif
+#ifdef GL_TEXTURE_BUFFER_OFFSET_ALIGNMENT
+				GL_TEXTURE_BUFFER_OFFSET_ALIGNMENT,
+#endif
+#ifdef GL_TEXTURE_COMPRESSION_HINT
+				GL_TEXTURE_COMPRESSION_HINT,
+#endif
+#ifdef GL_TIMESTAMP
+				GL_TIMESTAMP,
+#endif
+#ifdef GL_TRANSFORM_FEEDBACK_BUFFER_SIZE
+				GL_TRANSFORM_FEEDBACK_BUFFER_SIZE,
+#endif
+#ifdef GL_TRANSFORM_FEEDBACK_BUFFER_START
+				GL_TRANSFORM_FEEDBACK_BUFFER_START,
+#endif
+#ifdef GL_UNIFORM_BUFFER_OFFSET_ALIGNMENT
+				GL_UNIFORM_BUFFER_OFFSET_ALIGNMENT,
+#endif
+#ifdef GL_UNIFORM_BUFFER_SIZE
+				GL_UNIFORM_BUFFER_SIZE,
+#endif
+#ifdef GL_UNIFORM_BUFFER_START
+				GL_UNIFORM_BUFFER_START,
+#endif
+#ifdef GL_UNPACK_ALIGNMENT
+				GL_UNPACK_ALIGNMENT,
+#endif
+#ifdef GL_UNPACK_IMAGE_HEIGHT
+				GL_UNPACK_IMAGE_HEIGHT,
+#endif
+#ifdef GL_UNPACK_LSB_FIRST
+				GL_UNPACK_LSB_FIRST,
+#endif
+#ifdef GL_UNPACK_ROW_LENGTH
+				GL_UNPACK_ROW_LENGTH,
+#endif
+#ifdef GL_UNPACK_SKIP_IMAGES
+				GL_UNPACK_SKIP_IMAGES,
+#endif
+#ifdef GL_UNPACK_SKIP_PIXELS
+				GL_UNPACK_SKIP_PIXELS,
+#endif
+#ifdef GL_UNPACK_SKIP_ROWS
+				GL_UNPACK_SKIP_ROWS,
+#endif
+#ifdef GL_UNPACK_SWAP_BYTES
+				GL_UNPACK_SWAP_BYTES,
+#endif
+#ifdef GL_VIEWPORT
+				GL_VIEWPORT,
+#endif
+#ifdef GL_VIEWPORT_BOUNDS_RANGE
+				GL_VIEWPORT_BOUNDS_RANGE,
+#endif
+#ifdef GL_VIEWPORT_INDEX_PROVOKING_VERTEX
+				GL_VIEWPORT_INDEX_PROVOKING_VERTEX,
+#endif
+#ifdef GL_VIEWPORT_SUBPIXEL_BITS
+				GL_VIEWPORT_SUBPIXEL_BITS,
+#endif
+				0
+			};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
+		}
+		case 43: /* object_type */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_BUFFER
@@ -1655,7 +1956,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 43: /* old_matrix_mode */
+		case 44: /* old_matrix_mode */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_COLOR
@@ -1674,7 +1975,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 44: /* old_primitive_type */
+		case 45: /* old_primitive_type */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_LINES
@@ -1711,7 +2012,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 45: /* patch_parameter */
+		case 46: /* patch_parameter */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_PATCH_DEFAULT_INNER_LEVEL
@@ -1727,7 +2028,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 46: /* path_cap_style_nv */
+		case 47: /* path_cap_style_nv */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_FLAT
@@ -1746,7 +2047,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 47: /* path_color_format_nv */
+		case 48: /* path_color_format_nv */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_ALPHA
@@ -1771,7 +2072,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 48: /* path_color_nv */
+		case 49: /* path_color_nv */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_PRIMARY_COLOR_NV
@@ -1784,7 +2085,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 49: /* path_command_nv */
+		case 50: /* path_command_nv */
 		{
 			static const GLubyte vr[] = {
 #ifdef GL_ARC_TO_NV
@@ -1893,7 +2194,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 50: /* path_dash_offset_reset_nv */
+		case 51: /* path_dash_offset_reset_nv */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_MOVE_TO_CONTINUES_NV
@@ -1906,7 +2207,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 51: /* path_fill_cover_mode_nv */
+		case 52: /* path_fill_cover_mode_nv */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_BOUNDING_BOX_NV
@@ -1925,7 +2226,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 52: /* path_fill_mode_nv */
+		case 53: /* path_fill_mode_nv */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_COUNT_DOWN_NV
@@ -1944,7 +2245,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 53: /* path_font_style_nv */
+		case 54: /* path_font_style_nv */
 		{
 			static const GLbitfield vr[] = {
 #ifdef GL_BOLD_BIT_NV
@@ -1957,7 +2258,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 54: /* path_font_target_nv */
+		case 55: /* path_font_target_nv */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_FILE_NAME_NV
@@ -1973,7 +2274,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 55: /* path_format_nv */
+		case 56: /* path_format_nv */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_PATH_FORMAT_PS_NV
@@ -1986,7 +2287,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 56: /* path_gen_mode_nv */
+		case 57: /* path_gen_mode_nv */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_EYE_LINEAR
@@ -2005,7 +2306,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 57: /* path_join_style_nv */
+		case 58: /* path_join_style_nv */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_BEVEL_NV
@@ -2027,7 +2328,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 58: /* path_list_mode_nv */
+		case 59: /* path_list_mode_nv */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_ACCUM_ADJACENT_PAIRS_NV
@@ -2043,7 +2344,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 59: /* path_metric_query_nv */
+		case 60: /* path_metric_query_nv */
 		{
 			static const GLbitfield vr[] = {
 #ifdef GL_FONT_ASCENDER_BIT_NV
@@ -2116,7 +2417,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 60: /* path_missing_glyph_nv */
+		case 61: /* path_missing_glyph_nv */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_SKIP_MISSING_GLYPH_NV
@@ -2129,7 +2430,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 61: /* path_stroke_cover_mode_nv */
+		case 62: /* path_stroke_cover_mode_nv */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_BOUNDING_BOX_NV
@@ -2148,7 +2449,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 62: /* path_text_encoding_nv */
+		case 63: /* path_text_encoding_nv */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_UTF16_NV
@@ -2161,7 +2462,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 63: /* path_transform_type_nv */
+		case 64: /* path_transform_type_nv */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_AFFINE_2D_NV
@@ -2195,7 +2496,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 64: /* pixel_data_format */
+		case 65: /* pixel_data_format */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_BGR
@@ -2259,7 +2560,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 65: /* pixel_data_internal_format */
+		case 66: /* pixel_data_internal_format */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_COMPRESSED_R11_EAC
@@ -2566,7 +2867,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 66: /* pixel_data_type */
+		case 67: /* pixel_data_type */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_BYTE
@@ -2645,7 +2946,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 67: /* pixel_parameter */
+		case 68: /* pixel_parameter */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_PACK_ALIGNMENT
@@ -2724,7 +3025,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 68: /* polygon_mode */
+		case 69: /* polygon_mode */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_FILL
@@ -2743,7 +3044,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 69: /* precision_type */
+		case 70: /* precision_type */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_HIGH_FLOAT
@@ -2768,7 +3069,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 70: /* primitive_type */
+		case 71: /* primitive_type */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_LINES
@@ -2811,7 +3112,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 71: /* program_interface */
+		case 72: /* program_interface */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_ATOMIC_COUNTER_BUFFER
@@ -2878,7 +3179,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 72: /* program_parameter */
+		case 73: /* program_parameter */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_ACTIVE_ATTRIBUTES
@@ -2912,7 +3213,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 73: /* program_pipeline_stage */
+		case 74: /* program_pipeline_stage */
 		{
 			static const GLbitfield vr[] = {
 #ifdef GL_ALL_SHADER_BITS
@@ -2940,7 +3241,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 74: /* program_resource_property */
+		case 75: /* program_resource_property */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_ACTIVE_VARIABLES
@@ -3028,7 +3329,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 75: /* provoke_mode */
+		case 76: /* provoke_mode */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_FIRST_VERTEX_CONVENTION
@@ -3041,7 +3342,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 76: /* query_target */
+		case 77: /* query_target */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_ANY_SAMPLES_PASSED
@@ -3105,7 +3406,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 77: /* renderbuffer_target */
+		case 78: /* renderbuffer_target */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_RENDERBUFFER
@@ -3115,7 +3416,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 78: /* reset_notification_strategy */
+		case 79: /* reset_notification_strategy */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_LOSE_CONTEXT_ON_RESET
@@ -3128,7 +3429,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 79: /* shader_parameter */
+		case 80: /* shader_parameter */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_COMPILE_STATUS
@@ -3150,7 +3451,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 80: /* shader_type */
+		case 81: /* shader_type */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_COMPUTE_SHADER
@@ -3175,7 +3476,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 81: /* single_face */
+		case 82: /* single_face */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_BACK
@@ -3188,7 +3489,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 82: /* sl_data_type */
+		case 83: /* sl_data_type */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_BOOL
@@ -3525,7 +3826,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 83: /* stencil_operation */
+		case 84: /* stencil_operation */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_DECR
@@ -3556,7 +3857,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 84: /* string_query */
+		case 85: /* string_query */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_RENDERER
@@ -3575,7 +3876,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 85: /* sync_condition */
+		case 86: /* sync_condition */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_SYNC_GPU_COMMANDS_COMPLETE
@@ -3585,7 +3886,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 86: /* sync_status */
+		case 87: /* sync_status */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_SIGNALED
@@ -3598,7 +3899,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 87: /* sync_type */
+		case 88: /* sync_type */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_SYNC_FENCE
@@ -3608,7 +3909,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 88: /* sync_wait_result */
+		case 89: /* sync_wait_result */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_ALREADY_SIGNALED
@@ -3627,7 +3928,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 89: /* tess_gen_primitive_spacing */
+		case 90: /* tess_gen_primitive_spacing */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_EQUAL
@@ -3643,7 +3944,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 90: /* tess_gen_primitive_type */
+		case 91: /* tess_gen_primitive_type */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_ISOLINES
@@ -3659,7 +3960,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 91: /* texture_compare_mode */
+		case 92: /* texture_compare_mode */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_COMPARE_REF_TO_TEXTURE
@@ -3672,7 +3973,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 92: /* texture_filter */
+		case 93: /* texture_filter */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_LINEAR
@@ -3685,7 +3986,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 93: /* texture_mag_filter */
+		case 94: /* texture_mag_filter */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_LINEAR
@@ -3698,7 +3999,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 94: /* texture_min_filter */
+		case 95: /* texture_min_filter */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_LINEAR
@@ -3723,7 +4024,95 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 95: /* texture_swizzle */
+		case 96: /* texture_parameter */
+		{
+			static const GLenum vr[] = {
+#ifdef GL_DEPTH_STENCIL_TEXTURE_MODE
+				GL_DEPTH_STENCIL_TEXTURE_MODE,
+#endif
+#ifdef GL_IMAGE_FORMAT_COMPATIBILITY_TYPE
+				GL_IMAGE_FORMAT_COMPATIBILITY_TYPE,
+#endif
+#ifdef GL_TEXTURE_BASE_LEVEL
+				GL_TEXTURE_BASE_LEVEL,
+#endif
+#ifdef GL_TEXTURE_BORDER_COLOR
+				GL_TEXTURE_BORDER_COLOR,
+#endif
+#ifdef GL_TEXTURE_COMPARE_FUNC
+				GL_TEXTURE_COMPARE_FUNC,
+#endif
+#ifdef GL_TEXTURE_COMPARE_MODE
+				GL_TEXTURE_COMPARE_MODE,
+#endif
+#ifdef GL_TEXTURE_IMMUTABLE_FORMAT
+				GL_TEXTURE_IMMUTABLE_FORMAT,
+#endif
+#ifdef GL_TEXTURE_IMMUTABLE_LEVELS
+				GL_TEXTURE_IMMUTABLE_LEVELS,
+#endif
+#ifdef GL_TEXTURE_LOD_BIAS
+				GL_TEXTURE_LOD_BIAS,
+#endif
+#ifdef GL_TEXTURE_MAG_FILTER
+				GL_TEXTURE_MAG_FILTER,
+#endif
+#ifdef GL_TEXTURE_MAX_LEVEL
+				GL_TEXTURE_MAX_LEVEL,
+#endif
+#ifdef GL_TEXTURE_MAX_LOD
+				GL_TEXTURE_MAX_LOD,
+#endif
+#ifdef GL_TEXTURE_MIN_FILTER
+				GL_TEXTURE_MIN_FILTER,
+#endif
+#ifdef GL_TEXTURE_MIN_LOD
+				GL_TEXTURE_MIN_LOD,
+#endif
+#ifdef GL_TEXTURE_SWIZZLE_A
+				GL_TEXTURE_SWIZZLE_A,
+#endif
+#ifdef GL_TEXTURE_SWIZZLE_B
+				GL_TEXTURE_SWIZZLE_B,
+#endif
+#ifdef GL_TEXTURE_SWIZZLE_G
+				GL_TEXTURE_SWIZZLE_G,
+#endif
+#ifdef GL_TEXTURE_SWIZZLE_R
+				GL_TEXTURE_SWIZZLE_R,
+#endif
+#ifdef GL_TEXTURE_SWIZZLE_RGBA
+				GL_TEXTURE_SWIZZLE_RGBA,
+#endif
+#ifdef GL_TEXTURE_TARGET
+				GL_TEXTURE_TARGET,
+#endif
+#ifdef GL_TEXTURE_VIEW_MIN_LAYER
+				GL_TEXTURE_VIEW_MIN_LAYER,
+#endif
+#ifdef GL_TEXTURE_VIEW_MIN_LEVEL
+				GL_TEXTURE_VIEW_MIN_LEVEL,
+#endif
+#ifdef GL_TEXTURE_VIEW_NUM_LAYERS
+				GL_TEXTURE_VIEW_NUM_LAYERS,
+#endif
+#ifdef GL_TEXTURE_VIEW_NUM_LEVELS
+				GL_TEXTURE_VIEW_NUM_LEVELS,
+#endif
+#ifdef GL_TEXTURE_WRAP_R
+				GL_TEXTURE_WRAP_R,
+#endif
+#ifdef GL_TEXTURE_WRAP_S
+				GL_TEXTURE_WRAP_S,
+#endif
+#ifdef GL_TEXTURE_WRAP_T
+				GL_TEXTURE_WRAP_T,
+#endif
+				0
+			};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
+		}
+		case 97: /* texture_swizzle */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_ALPHA
@@ -3748,7 +4137,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 96: /* texture_swizzle_coord */
+		case 98: /* texture_swizzle_coord */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_TEXTURE_SWIZZLE_A
@@ -3770,7 +4159,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 97: /* texture_target */
+		case 99: /* texture_target */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_TEXTURE_1D
@@ -3828,7 +4217,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 98: /* texture_wrap */
+		case 100: /* texture_wrap */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_CLAMP_TO_BORDER
@@ -3850,7 +4239,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 99: /* texture_wrap_coord */
+		case 101: /* texture_wrap_coord */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_TEXTURE_WRAP_R
@@ -3866,7 +4255,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 100: /* transform_feedback_mode */
+		case 102: /* transform_feedback_mode */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_INTERLEAVED_ATTRIBS
@@ -3879,7 +4268,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 101: /* transform_feedback_primitive_type */
+		case 103: /* transform_feedback_primitive_type */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_LINES
@@ -3895,7 +4284,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 102: /* transform_feedback_target */
+		case 104: /* transform_feedback_target */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_TRANSFORM_FEEDBACK
@@ -3905,7 +4294,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 103: /* true_false */
+		case 105: /* true_false */
 		{
 			static const GLboolean vr[] = {
 #ifdef GL_FALSE

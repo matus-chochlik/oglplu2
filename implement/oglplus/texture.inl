@@ -7,6 +7,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <oglplus/utils/gl_func.hpp>
+#include <oglplus/oper/numeric_queries.hpp>
 
 namespace oglplus {
 //------------------------------------------------------------------------------
@@ -31,6 +32,19 @@ noexcept
 		always
 	);
 	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<texture_unit>
+texture_ops::
+active_texture(void)
+noexcept
+{
+	GLint result;
+	return numeric_queries::get_integer_v(
+		numeric_query(GL_ACTIVE_TEXTURE),
+		{&result, 1}
+	), texture_unit(GLenum(result));
 }
 //------------------------------------------------------------------------------
 } // namespace oper

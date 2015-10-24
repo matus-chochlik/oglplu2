@@ -90,6 +90,14 @@ static constexpr const enum_value<
 > affine_3d_nv = {};
 #endif
 
+#ifdef GL_ALIASED_LINE_WIDTH_RANGE
+static constexpr const enum_value<
+	GLenum,
+	GL_ALIASED_LINE_WIDTH_RANGE,
+	mp_list<oglplus::numeric_query>
+> aliased_line_width_range = {};
+#endif
+
 #ifdef GL_ALL_BARRIER_BITS
 static constexpr const enum_value<
 	GLbitfield,
@@ -304,6 +312,62 @@ static constexpr const enum_value<
 	GL_BLEND_ADVANCED_COHERENT_KHR,
 	mp_list<oglplus::capability>
 > blend_advanced_coherent = {};
+#endif
+
+#ifdef GL_BLEND_COLOR
+static constexpr const enum_value<
+	GLenum,
+	GL_BLEND_COLOR,
+	mp_list<oglplus::numeric_query>
+> blend_color = {};
+#endif
+
+#ifdef GL_BLEND_DST_ALPHA
+static constexpr const enum_value<
+	GLenum,
+	GL_BLEND_DST_ALPHA,
+	mp_list<oglplus::numeric_query>
+> blend_dst_alpha = {};
+#endif
+
+#ifdef GL_BLEND_DST_RGB
+static constexpr const enum_value<
+	GLenum,
+	GL_BLEND_DST_RGB,
+	mp_list<oglplus::numeric_query>
+> blend_dst_rgb = {};
+#endif
+
+#ifdef GL_BLEND_EQUATION_ALPHA
+static constexpr const enum_value<
+	GLenum,
+	GL_BLEND_EQUATION_ALPHA,
+	mp_list<oglplus::numeric_query>
+> blend_equation_alpha = {};
+#endif
+
+#ifdef GL_BLEND_EQUATION_RGB
+static constexpr const enum_value<
+	GLenum,
+	GL_BLEND_EQUATION_RGB,
+	mp_list<oglplus::numeric_query>
+> blend_equation_rgb = {};
+#endif
+
+#ifdef GL_BLEND_SRC_ALPHA
+static constexpr const enum_value<
+	GLenum,
+	GL_BLEND_SRC_ALPHA,
+	mp_list<oglplus::numeric_query>
+> blend_src_alpha = {};
+#endif
+
+#ifdef GL_BLEND_SRC_RGB
+static constexpr const enum_value<
+	GLenum,
+	GL_BLEND_SRC_RGB,
+	mp_list<oglplus::numeric_query>
+> blend_src_rgb = {};
 #endif
 
 #ifdef GL_BLOCK_INDEX
@@ -690,12 +754,28 @@ static constexpr const enum_value<
 > color_buffer_bit = {};
 #endif
 
+#ifdef GL_COLOR_CLEAR_VALUE
+static constexpr const enum_value<
+	GLenum,
+	GL_COLOR_CLEAR_VALUE,
+	mp_list<oglplus::numeric_query>
+> color_clear_value = {};
+#endif
+
 #ifdef GL_COLOR_LOGIC_OP
 static constexpr const enum_value<
 	GLenum,
 	GL_COLOR_LOGIC_OP,
 	mp_list<oglplus::capability>
 > color_logic_op = {};
+#endif
+
+#ifdef GL_COLOR_WRITEMASK
+static constexpr const enum_value<
+	GLenum,
+	GL_COLOR_WRITEMASK,
+	mp_list<oglplus::numeric_query>
+> color_writemask = {};
 #endif
 
 #ifdef GL_COLORBURN_KHR
@@ -938,6 +1018,14 @@ static constexpr const enum_value<
 > compressed_srgb_alpha_bptc_unorm = {};
 #endif
 
+#ifdef GL_COMPRESSED_TEXTURE_FORMATS
+static constexpr const enum_value<
+	GLenum,
+	GL_COMPRESSED_TEXTURE_FORMATS,
+	mp_list<oglplus::numeric_query>
+> compressed_texture_formats = {};
+#endif
+
 #ifdef GL_COMPUTE_SHADER
 static constexpr const enum_value<
 	GLenum,
@@ -1042,6 +1130,14 @@ static constexpr const enum_value<
 > context_flag_robust_access_bit = {};
 #endif
 
+#ifdef GL_CONTEXT_FLAGS
+static constexpr const enum_value<
+	GLenum,
+	GL_CONTEXT_FLAGS,
+	mp_list<oglplus::numeric_query>
+> context_flags = {};
+#endif
+
 #ifdef GL_CONTEXT_LOST
 static constexpr const enum_value<
 	GLenum,
@@ -1144,6 +1240,14 @@ static constexpr const enum_value<
 	GL_DARKEN_KHR,
 	mp_list<oglplus::blend_equation_advanced>
 > darken_khr = {};
+#endif
+
+#ifdef GL_DEBUG_GROUP_STACK_DEPTH
+static constexpr const enum_value<
+	GLenum,
+	GL_DEBUG_GROUP_STACK_DEPTH,
+	mp_list<oglplus::numeric_query>
+> debug_group_stack_depth = {};
 #endif
 
 #ifdef GL_DEBUG_OUTPUT_SYNCHRONOUS
@@ -1370,6 +1474,14 @@ static constexpr const enum_value<
 > depth_buffer_bit = {};
 #endif
 
+#ifdef GL_DEPTH_CLEAR_VALUE
+static constexpr const enum_value<
+	GLenum,
+	GL_DEPTH_CLEAR_VALUE,
+	mp_list<oglplus::numeric_query>
+> depth_clear_value = {};
+#endif
+
 #ifdef GL_DEPTH_COMPONENT
 static constexpr const enum_value<
 	GLenum,
@@ -1410,6 +1522,22 @@ static constexpr const enum_value<
 > depth_component32f = {};
 #endif
 
+#ifdef GL_DEPTH_FUNC
+static constexpr const enum_value<
+	GLenum,
+	GL_DEPTH_FUNC,
+	mp_list<oglplus::numeric_query>
+> depth_func = {};
+#endif
+
+#ifdef GL_DEPTH_RANGE
+static constexpr const enum_value<
+	GLenum,
+	GL_DEPTH_RANGE,
+	mp_list<oglplus::numeric_query>
+> depth_range = {};
+#endif
+
 #ifdef GL_DEPTH_STENCIL
 static constexpr const enum_value<
 	GLenum,
@@ -1426,12 +1554,28 @@ static constexpr const enum_value<
 > depth_stencil_attachment = {};
 #endif
 
+#ifdef GL_DEPTH_STENCIL_TEXTURE_MODE
+static constexpr const enum_value<
+	GLenum,
+	GL_DEPTH_STENCIL_TEXTURE_MODE,
+	mp_list<oglplus::texture_parameter>
+> depth_stencil_texture_mode = {};
+#endif
+
 #ifdef GL_DEPTH_TEST
 static constexpr const enum_value<
 	GLenum,
 	GL_DEPTH_TEST,
 	mp_list<oglplus::capability>
 > depth_test = {};
+#endif
+
+#ifdef GL_DEPTH_WRITEMASK
+static constexpr const enum_value<
+	GLenum,
+	GL_DEPTH_WRITEMASK,
+	mp_list<oglplus::numeric_query>
+> depth_writemask = {};
 #endif
 
 #ifdef GL_DIFFERENCE_KHR
@@ -1568,6 +1712,22 @@ static constexpr const enum_value<
 	GL_DOUBLE_VEC4,
 	mp_list<oglplus::sl_data_type>
 > double_vec4 = {};
+#endif
+
+#ifdef GL_DOUBLEBUFFER
+static constexpr const enum_value<
+	GLenum,
+	GL_DOUBLEBUFFER,
+	mp_list<oglplus::numeric_query>
+> doublebuffer = {};
+#endif
+
+#ifdef GL_DRAW_BUFFER
+static constexpr const enum_value<
+	GLenum,
+	GL_DRAW_BUFFER,
+	mp_list<oglplus::numeric_query>
+> draw_buffer = {};
 #endif
 
 #ifdef GL_DRAW_BUFFER0
@@ -2046,7 +2206,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_FRAGMENT_SHADER_DERIVATIVE_HINT,
-	mp_list<oglplus::hint_target>
+	mp_list<oglplus::hint_target,oglplus::numeric_query>
 > fragment_shader_derivative_hint = {};
 #endif
 
@@ -2522,6 +2682,30 @@ static constexpr const enum_value<
 > image_cube = {};
 #endif
 
+#ifdef GL_IMAGE_FORMAT_COMPATIBILITY_TYPE
+static constexpr const enum_value<
+	GLenum,
+	GL_IMAGE_FORMAT_COMPATIBILITY_TYPE,
+	mp_list<oglplus::texture_parameter>
+> image_format_compatibility_type = {};
+#endif
+
+#ifdef GL_IMPLEMENTATION_COLOR_READ_FORMAT
+static constexpr const enum_value<
+	GLenum,
+	GL_IMPLEMENTATION_COLOR_READ_FORMAT,
+	mp_list<oglplus::numeric_query>
+> implementation_color_read_format = {};
+#endif
+
+#ifdef GL_IMPLEMENTATION_COLOR_READ_TYPE
+static constexpr const enum_value<
+	GLenum,
+	GL_IMPLEMENTATION_COLOR_READ_TYPE,
+	mp_list<oglplus::numeric_query>
+> implementation_color_read_type = {};
+#endif
+
 #ifdef GL_INCR
 static constexpr const enum_value<
 	GLenum,
@@ -2874,6 +3058,14 @@ static constexpr const enum_value<
 > last_vertex_convention = {};
 #endif
 
+#ifdef GL_LAYER_PROVOKING_VERTEX
+static constexpr const enum_value<
+	GLenum,
+	GL_LAYER_PROVOKING_VERTEX,
+	mp_list<oglplus::numeric_query>
+> layer_provoking_vertex = {};
+#endif
+
 #ifdef GL_LEFT
 static constexpr const enum_value<
 	GLenum,
@@ -2934,7 +3126,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_LINE_SMOOTH_HINT,
-	mp_list<oglplus::hint_target>
+	mp_list<oglplus::hint_target,oglplus::numeric_query>
 > line_smooth_hint = {};
 #endif
 
@@ -2960,6 +3152,14 @@ static constexpr const enum_value<
 	GL_LINE_TO_NV,
 	mp_list<oglplus::path_command_nv>
 > line_to_nv = {};
+#endif
+
+#ifdef GL_LINE_WIDTH
+static constexpr const enum_value<
+	GLenum,
+	GL_LINE_WIDTH,
+	mp_list<oglplus::numeric_query>
+> line_width = {};
 #endif
 
 #ifdef GL_LINEAR
@@ -3032,6 +3232,14 @@ static constexpr const enum_value<
 	GL_LOCATION_INDEX,
 	mp_list<oglplus::program_resource_property>
 > location_index = {};
+#endif
+
+#ifdef GL_LOGIC_OP_MODE
+static constexpr const enum_value<
+	GLenum,
+	GL_LOGIC_OP_MODE,
+	mp_list<oglplus::numeric_query>
+> logic_op_mode = {};
 #endif
 
 #ifdef GL_LOSE_CONTEXT_ON_RESET
@@ -4258,6 +4466,38 @@ static constexpr const enum_value<
 > num_compatible_subroutines = {};
 #endif
 
+#ifdef GL_NUM_COMPRESSED_TEXTURE_FORMATS
+static constexpr const enum_value<
+	GLenum,
+	GL_NUM_COMPRESSED_TEXTURE_FORMATS,
+	mp_list<oglplus::numeric_query>
+> num_compressed_texture_formats = {};
+#endif
+
+#ifdef GL_NUM_EXTENSIONS
+static constexpr const enum_value<
+	GLenum,
+	GL_NUM_EXTENSIONS,
+	mp_list<oglplus::numeric_query>
+> num_extensions = {};
+#endif
+
+#ifdef GL_NUM_PROGRAM_BINARY_FORMATS
+static constexpr const enum_value<
+	GLenum,
+	GL_NUM_PROGRAM_BINARY_FORMATS,
+	mp_list<oglplus::numeric_query>
+> num_program_binary_formats = {};
+#endif
+
+#ifdef GL_NUM_SHADER_BINARY_FORMATS
+static constexpr const enum_value<
+	GLenum,
+	GL_NUM_SHADER_BINARY_FORMATS,
+	mp_list<oglplus::numeric_query>
+> num_shader_binary_formats = {};
+#endif
+
 #ifdef GL_OBJECT_LINEAR
 static constexpr const enum_value<
 	GLenum,
@@ -4390,7 +4630,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_PACK_ALIGNMENT,
-	mp_list<oglplus::pixel_parameter>
+	mp_list<oglplus::numeric_query,oglplus::pixel_parameter>
 > pack_alignment = {};
 #endif
 
@@ -4430,7 +4670,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_PACK_IMAGE_HEIGHT,
-	mp_list<oglplus::pixel_parameter>
+	mp_list<oglplus::numeric_query,oglplus::pixel_parameter>
 > pack_image_height = {};
 #endif
 
@@ -4438,7 +4678,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_PACK_LSB_FIRST,
-	mp_list<oglplus::pixel_parameter>
+	mp_list<oglplus::numeric_query,oglplus::pixel_parameter>
 > pack_lsb_first = {};
 #endif
 
@@ -4446,7 +4686,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_PACK_ROW_LENGTH,
-	mp_list<oglplus::pixel_parameter>
+	mp_list<oglplus::numeric_query,oglplus::pixel_parameter>
 > pack_row_length = {};
 #endif
 
@@ -4454,7 +4694,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_PACK_SKIP_IMAGES,
-	mp_list<oglplus::pixel_parameter>
+	mp_list<oglplus::numeric_query,oglplus::pixel_parameter>
 > pack_skip_images = {};
 #endif
 
@@ -4462,7 +4702,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_PACK_SKIP_PIXELS,
-	mp_list<oglplus::pixel_parameter>
+	mp_list<oglplus::numeric_query,oglplus::pixel_parameter>
 > pack_skip_pixels = {};
 #endif
 
@@ -4470,7 +4710,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_PACK_SKIP_ROWS,
-	mp_list<oglplus::pixel_parameter>
+	mp_list<oglplus::numeric_query,oglplus::pixel_parameter>
 > pack_skip_rows = {};
 #endif
 
@@ -4478,7 +4718,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_PACK_SWAP_BYTES,
-	mp_list<oglplus::pixel_parameter>
+	mp_list<oglplus::numeric_query,oglplus::pixel_parameter>
 > pack_swap_bytes = {};
 #endif
 
@@ -4602,6 +4842,38 @@ static constexpr const enum_value<
 > point = {};
 #endif
 
+#ifdef GL_POINT_FADE_THRESHOLD_SIZE
+static constexpr const enum_value<
+	GLenum,
+	GL_POINT_FADE_THRESHOLD_SIZE,
+	mp_list<oglplus::numeric_query>
+> point_fade_threshold_size = {};
+#endif
+
+#ifdef GL_POINT_SIZE
+static constexpr const enum_value<
+	GLenum,
+	GL_POINT_SIZE,
+	mp_list<oglplus::numeric_query>
+> point_size = {};
+#endif
+
+#ifdef GL_POINT_SIZE_GRANULARITY
+static constexpr const enum_value<
+	GLenum,
+	GL_POINT_SIZE_GRANULARITY,
+	mp_list<oglplus::numeric_query>
+> point_size_granularity = {};
+#endif
+
+#ifdef GL_POINT_SIZE_RANGE
+static constexpr const enum_value<
+	GLenum,
+	GL_POINT_SIZE_RANGE,
+	mp_list<oglplus::numeric_query>
+> point_size_range = {};
+#endif
+
 #ifdef GL_POINTS
 static constexpr const enum_value<
 	GLenum,
@@ -4616,6 +4888,14 @@ static constexpr const enum_value<
 	GL_POLYGON,
 	mp_list<oglplus::old_primitive_type>
 > polygon = {};
+#endif
+
+#ifdef GL_POLYGON_OFFSET_FACTOR
+static constexpr const enum_value<
+	GLenum,
+	GL_POLYGON_OFFSET_FACTOR,
+	mp_list<oglplus::numeric_query>
+> polygon_offset_factor = {};
 #endif
 
 #ifdef GL_POLYGON_OFFSET_FILL
@@ -4642,6 +4922,14 @@ static constexpr const enum_value<
 > polygon_offset_point = {};
 #endif
 
+#ifdef GL_POLYGON_OFFSET_UNITS
+static constexpr const enum_value<
+	GLenum,
+	GL_POLYGON_OFFSET_UNITS,
+	mp_list<oglplus::numeric_query>
+> polygon_offset_units = {};
+#endif
+
 #ifdef GL_POLYGON_SMOOTH
 static constexpr const enum_value<
 	GLenum,
@@ -4654,7 +4942,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_POLYGON_SMOOTH_HINT,
-	mp_list<oglplus::hint_target>
+	mp_list<oglplus::hint_target,oglplus::numeric_query>
 > polygon_smooth_hint = {};
 #endif
 
@@ -4672,6 +4960,14 @@ static constexpr const enum_value<
 	GL_PRIMITIVE_RESTART,
 	mp_list<oglplus::capability>
 > primitive_restart = {};
+#endif
+
+#ifdef GL_PRIMITIVE_RESTART_INDEX
+static constexpr const enum_value<
+	GLenum,
+	GL_PRIMITIVE_RESTART_INDEX,
+	mp_list<oglplus::numeric_query>
+> primitive_restart_index = {};
 #endif
 
 #ifdef GL_PRIMITIVES_GENERATED
@@ -4696,6 +4992,14 @@ static constexpr const enum_value<
 	GL_PROGRAM,
 	mp_list<oglplus::object_type>
 > program = {};
+#endif
+
+#ifdef GL_PROGRAM_BINARY_FORMATS
+static constexpr const enum_value<
+	GLenum,
+	GL_PROGRAM_BINARY_FORMATS,
+	mp_list<oglplus::numeric_query>
+> program_binary_formats = {};
 #endif
 
 #ifdef GL_PROGRAM_INPUT
@@ -4726,7 +5030,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_PROGRAM_POINT_SIZE,
-	mp_list<oglplus::capability>
+	mp_list<oglplus::capability,oglplus::numeric_query>
 > program_point_size = {};
 #endif
 
@@ -4736,6 +5040,14 @@ static constexpr const enum_value<
 	GL_PROJECTION,
 	mp_list<oglplus::old_matrix_mode>
 > projection = {};
+#endif
+
+#ifdef GL_PROVOKING_VERTEX
+static constexpr const enum_value<
+	GLenum,
+	GL_PROVOKING_VERTEX,
+	mp_list<oglplus::numeric_query>
+> provoking_vertex = {};
 #endif
 
 #ifdef GL_QUAD_STRIP
@@ -4960,6 +5272,14 @@ static constexpr const enum_value<
 	GL_RASTERIZER_DISCARD,
 	mp_list<oglplus::capability>
 > rasterizer_discard = {};
+#endif
+
+#ifdef GL_READ_BUFFER
+static constexpr const enum_value<
+	GLenum,
+	GL_READ_BUFFER,
+	mp_list<oglplus::numeric_query>
+> read_buffer = {};
 #endif
 
 #ifdef GL_READ_FRAMEBUFFER
@@ -5658,12 +5978,36 @@ static constexpr const enum_value<
 > sample_alpha_to_one = {};
 #endif
 
+#ifdef GL_SAMPLE_BUFFERS
+static constexpr const enum_value<
+	GLenum,
+	GL_SAMPLE_BUFFERS,
+	mp_list<oglplus::numeric_query>
+> sample_buffers = {};
+#endif
+
 #ifdef GL_SAMPLE_COVERAGE
 static constexpr const enum_value<
 	GLenum,
 	GL_SAMPLE_COVERAGE,
 	mp_list<oglplus::capability>
 > sample_coverage = {};
+#endif
+
+#ifdef GL_SAMPLE_COVERAGE_INVERT
+static constexpr const enum_value<
+	GLenum,
+	GL_SAMPLE_COVERAGE_INVERT,
+	mp_list<oglplus::numeric_query>
+> sample_coverage_invert = {};
+#endif
+
+#ifdef GL_SAMPLE_COVERAGE_VALUE
+static constexpr const enum_value<
+	GLenum,
+	GL_SAMPLE_COVERAGE_VALUE,
+	mp_list<oglplus::numeric_query>
+> sample_coverage_value = {};
 #endif
 
 #ifdef GL_SAMPLE_MASK
@@ -5834,12 +6178,28 @@ static constexpr const enum_value<
 > sampler_cube_shadow = {};
 #endif
 
+#ifdef GL_SAMPLES
+static constexpr const enum_value<
+	GLenum,
+	GL_SAMPLES,
+	mp_list<oglplus::numeric_query>
+> samples = {};
+#endif
+
 #ifdef GL_SAMPLES_PASSED
 static constexpr const enum_value<
 	GLenum,
 	GL_SAMPLES_PASSED,
 	mp_list<oglplus::query_target>
 > samples_passed = {};
+#endif
+
+#ifdef GL_SCISSOR_BOX
+static constexpr const enum_value<
+	GLenum,
+	GL_SCISSOR_BOX,
+	mp_list<oglplus::numeric_query>
+> scissor_box = {};
 #endif
 
 #ifdef GL_SCISSOR_TEST
@@ -5890,6 +6250,14 @@ static constexpr const enum_value<
 > shader = {};
 #endif
 
+#ifdef GL_SHADER_COMPILER
+static constexpr const enum_value<
+	GLenum,
+	GL_SHADER_COMPILER,
+	mp_list<oglplus::numeric_query>
+> shader_compiler = {};
+#endif
+
 #ifdef GL_SHADER_IMAGE_ACCESS_BARRIER_BIT
 static constexpr const enum_value<
 	GLbitfield,
@@ -5936,6 +6304,30 @@ static constexpr const enum_value<
 	GL_SHADER_STORAGE_BUFFER,
 	mp_list<oglplus::buffer_indexed_target,oglplus::buffer_target>
 > shader_storage_buffer = {};
+#endif
+
+#ifdef GL_SHADER_STORAGE_BUFFER_OFFSET_ALIGNMENT
+static constexpr const enum_value<
+	GLenum,
+	GL_SHADER_STORAGE_BUFFER_OFFSET_ALIGNMENT,
+	mp_list<oglplus::numeric_query>
+> shader_storage_buffer_offset_alignment = {};
+#endif
+
+#ifdef GL_SHADER_STORAGE_BUFFER_SIZE
+static constexpr const enum_value<
+	GLenum,
+	GL_SHADER_STORAGE_BUFFER_SIZE,
+	mp_list<oglplus::numeric_query>
+> shader_storage_buffer_size = {};
+#endif
+
+#ifdef GL_SHADER_STORAGE_BUFFER_START
+static constexpr const enum_value<
+	GLenum,
+	GL_SHADER_STORAGE_BUFFER_START,
+	mp_list<oglplus::numeric_query>
+> shader_storage_buffer_start = {};
 #endif
 
 #ifdef GL_SHADER_TYPE
@@ -6000,6 +6392,22 @@ static constexpr const enum_value<
 	GL_SMOOTH_CUBIC_CURVE_TO_NV,
 	mp_list<oglplus::path_command_nv>
 > smooth_cubic_curve_to_nv = {};
+#endif
+
+#ifdef GL_SMOOTH_LINE_WIDTH_GRANULARITY
+static constexpr const enum_value<
+	GLenum,
+	GL_SMOOTH_LINE_WIDTH_GRANULARITY,
+	mp_list<oglplus::numeric_query>
+> smooth_line_width_granularity = {};
+#endif
+
+#ifdef GL_SMOOTH_LINE_WIDTH_RANGE
+static constexpr const enum_value<
+	GLenum,
+	GL_SMOOTH_LINE_WIDTH_RANGE,
+	mp_list<oglplus::numeric_query>
+> smooth_line_width_range = {};
 #endif
 
 #ifdef GL_SMOOTH_QUADRATIC_CURVE_TO_NV
@@ -6154,12 +6562,92 @@ static constexpr const enum_value<
 > stencil_attachment = {};
 #endif
 
+#ifdef GL_STENCIL_BACK_FAIL
+static constexpr const enum_value<
+	GLenum,
+	GL_STENCIL_BACK_FAIL,
+	mp_list<oglplus::numeric_query>
+> stencil_back_fail = {};
+#endif
+
+#ifdef GL_STENCIL_BACK_FUNC
+static constexpr const enum_value<
+	GLenum,
+	GL_STENCIL_BACK_FUNC,
+	mp_list<oglplus::numeric_query>
+> stencil_back_func = {};
+#endif
+
+#ifdef GL_STENCIL_BACK_PASS_DEPTH_FAIL
+static constexpr const enum_value<
+	GLenum,
+	GL_STENCIL_BACK_PASS_DEPTH_FAIL,
+	mp_list<oglplus::numeric_query>
+> stencil_back_pass_depth_fail = {};
+#endif
+
+#ifdef GL_STENCIL_BACK_PASS_DEPTH_PASS
+static constexpr const enum_value<
+	GLenum,
+	GL_STENCIL_BACK_PASS_DEPTH_PASS,
+	mp_list<oglplus::numeric_query>
+> stencil_back_pass_depth_pass = {};
+#endif
+
+#ifdef GL_STENCIL_BACK_REF
+static constexpr const enum_value<
+	GLenum,
+	GL_STENCIL_BACK_REF,
+	mp_list<oglplus::numeric_query>
+> stencil_back_ref = {};
+#endif
+
+#ifdef GL_STENCIL_BACK_VALUE_MASK
+static constexpr const enum_value<
+	GLenum,
+	GL_STENCIL_BACK_VALUE_MASK,
+	mp_list<oglplus::numeric_query>
+> stencil_back_value_mask = {};
+#endif
+
+#ifdef GL_STENCIL_BACK_WRITEMASK
+static constexpr const enum_value<
+	GLenum,
+	GL_STENCIL_BACK_WRITEMASK,
+	mp_list<oglplus::numeric_query>
+> stencil_back_writemask = {};
+#endif
+
 #ifdef GL_STENCIL_BUFFER_BIT
 static constexpr const enum_value<
 	GLbitfield,
 	GL_STENCIL_BUFFER_BIT,
 	mp_list<oglplus::buffer_select_bits>
 > stencil_buffer_bit = {};
+#endif
+
+#ifdef GL_STENCIL_CLEAR_VALUE
+static constexpr const enum_value<
+	GLenum,
+	GL_STENCIL_CLEAR_VALUE,
+	mp_list<oglplus::numeric_query>
+> stencil_clear_value = {};
+#endif
+
+#ifdef GL_STENCIL_FAIL
+static constexpr const enum_value<
+	GLenum,
+	GL_STENCIL_FAIL,
+	mp_list<oglplus::numeric_query>
+> stencil_fail = {};
+#endif
+
+#ifdef GL_STENCIL_FUNC
+static constexpr const enum_value<
+	GLenum,
+	GL_STENCIL_FUNC,
+	mp_list<oglplus::numeric_query>
+> stencil_func = {};
 #endif
 
 #ifdef GL_STENCIL_INDEX
@@ -6178,12 +6666,60 @@ static constexpr const enum_value<
 > stencil_index8 = {};
 #endif
 
+#ifdef GL_STENCIL_PASS_DEPTH_FAIL
+static constexpr const enum_value<
+	GLenum,
+	GL_STENCIL_PASS_DEPTH_FAIL,
+	mp_list<oglplus::numeric_query>
+> stencil_pass_depth_fail = {};
+#endif
+
+#ifdef GL_STENCIL_PASS_DEPTH_PASS
+static constexpr const enum_value<
+	GLenum,
+	GL_STENCIL_PASS_DEPTH_PASS,
+	mp_list<oglplus::numeric_query>
+> stencil_pass_depth_pass = {};
+#endif
+
+#ifdef GL_STENCIL_REF
+static constexpr const enum_value<
+	GLenum,
+	GL_STENCIL_REF,
+	mp_list<oglplus::numeric_query>
+> stencil_ref = {};
+#endif
+
 #ifdef GL_STENCIL_TEST
 static constexpr const enum_value<
 	GLenum,
 	GL_STENCIL_TEST,
 	mp_list<oglplus::capability>
 > stencil_test = {};
+#endif
+
+#ifdef GL_STENCIL_VALUE_MASK
+static constexpr const enum_value<
+	GLenum,
+	GL_STENCIL_VALUE_MASK,
+	mp_list<oglplus::numeric_query>
+> stencil_value_mask = {};
+#endif
+
+#ifdef GL_STENCIL_WRITEMASK
+static constexpr const enum_value<
+	GLenum,
+	GL_STENCIL_WRITEMASK,
+	mp_list<oglplus::numeric_query>
+> stencil_writemask = {};
+#endif
+
+#ifdef GL_STEREO
+static constexpr const enum_value<
+	GLenum,
+	GL_STEREO,
+	mp_list<oglplus::numeric_query>
+> stereo = {};
 #endif
 
 #ifdef GL_STREAM_COPY
@@ -6216,6 +6752,14 @@ static constexpr const enum_value<
 	GL_STREAM_READ,
 	mp_list<oglplus::buffer_usage>
 > stream_read = {};
+#endif
+
+#ifdef GL_SUBPIXEL_BITS
+static constexpr const enum_value<
+	GLenum,
+	GL_SUBPIXEL_BITS,
+	mp_list<oglplus::numeric_query>
+> subpixel_bits = {};
 #endif
 
 #ifdef GL_SYNC_FENCE
@@ -6402,6 +6946,22 @@ static constexpr const enum_value<
 > texture_3d = {};
 #endif
 
+#ifdef GL_TEXTURE_BASE_LEVEL
+static constexpr const enum_value<
+	GLenum,
+	GL_TEXTURE_BASE_LEVEL,
+	mp_list<oglplus::texture_parameter>
+> texture_base_level = {};
+#endif
+
+#ifdef GL_TEXTURE_BORDER_COLOR
+static constexpr const enum_value<
+	GLenum,
+	GL_TEXTURE_BORDER_COLOR,
+	mp_list<oglplus::texture_parameter>
+> texture_border_color = {};
+#endif
+
 #ifdef GL_TEXTURE_BUFFER
 static constexpr const enum_value<
 	GLenum,
@@ -6410,11 +6970,35 @@ static constexpr const enum_value<
 > texture_buffer = {};
 #endif
 
+#ifdef GL_TEXTURE_BUFFER_OFFSET_ALIGNMENT
+static constexpr const enum_value<
+	GLenum,
+	GL_TEXTURE_BUFFER_OFFSET_ALIGNMENT,
+	mp_list<oglplus::numeric_query>
+> texture_buffer_offset_alignment = {};
+#endif
+
+#ifdef GL_TEXTURE_COMPARE_FUNC
+static constexpr const enum_value<
+	GLenum,
+	GL_TEXTURE_COMPARE_FUNC,
+	mp_list<oglplus::texture_parameter>
+> texture_compare_func = {};
+#endif
+
+#ifdef GL_TEXTURE_COMPARE_MODE
+static constexpr const enum_value<
+	GLenum,
+	GL_TEXTURE_COMPARE_MODE,
+	mp_list<oglplus::texture_parameter>
+> texture_compare_mode = {};
+#endif
+
 #ifdef GL_TEXTURE_COMPRESSION_HINT
 static constexpr const enum_value<
 	GLenum,
 	GL_TEXTURE_COMPRESSION_HINT,
-	mp_list<oglplus::hint_target>
+	mp_list<oglplus::hint_target,oglplus::numeric_query>
 > texture_compression_hint = {};
 #endif
 
@@ -6498,6 +7082,70 @@ static constexpr const enum_value<
 > texture_fetch_barrier_bit = {};
 #endif
 
+#ifdef GL_TEXTURE_IMMUTABLE_FORMAT
+static constexpr const enum_value<
+	GLenum,
+	GL_TEXTURE_IMMUTABLE_FORMAT,
+	mp_list<oglplus::texture_parameter>
+> texture_immutable_format = {};
+#endif
+
+#ifdef GL_TEXTURE_IMMUTABLE_LEVELS
+static constexpr const enum_value<
+	GLenum,
+	GL_TEXTURE_IMMUTABLE_LEVELS,
+	mp_list<oglplus::texture_parameter>
+> texture_immutable_levels = {};
+#endif
+
+#ifdef GL_TEXTURE_LOD_BIAS
+static constexpr const enum_value<
+	GLenum,
+	GL_TEXTURE_LOD_BIAS,
+	mp_list<oglplus::texture_parameter>
+> texture_lod_bias = {};
+#endif
+
+#ifdef GL_TEXTURE_MAG_FILTER
+static constexpr const enum_value<
+	GLenum,
+	GL_TEXTURE_MAG_FILTER,
+	mp_list<oglplus::texture_parameter>
+> texture_mag_filter = {};
+#endif
+
+#ifdef GL_TEXTURE_MAX_LEVEL
+static constexpr const enum_value<
+	GLenum,
+	GL_TEXTURE_MAX_LEVEL,
+	mp_list<oglplus::texture_parameter>
+> texture_max_level = {};
+#endif
+
+#ifdef GL_TEXTURE_MAX_LOD
+static constexpr const enum_value<
+	GLenum,
+	GL_TEXTURE_MAX_LOD,
+	mp_list<oglplus::texture_parameter>
+> texture_max_lod = {};
+#endif
+
+#ifdef GL_TEXTURE_MIN_FILTER
+static constexpr const enum_value<
+	GLenum,
+	GL_TEXTURE_MIN_FILTER,
+	mp_list<oglplus::texture_parameter>
+> texture_min_filter = {};
+#endif
+
+#ifdef GL_TEXTURE_MIN_LOD
+static constexpr const enum_value<
+	GLenum,
+	GL_TEXTURE_MIN_LOD,
+	mp_list<oglplus::texture_parameter>
+> texture_min_lod = {};
+#endif
+
 #ifdef GL_TEXTURE_RECTANGLE
 static constexpr const enum_value<
 	GLenum,
@@ -6510,7 +7158,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_TEXTURE_SWIZZLE_A,
-	mp_list<oglplus::texture_swizzle_coord>
+	mp_list<oglplus::texture_parameter,oglplus::texture_swizzle_coord>
 > texture_swizzle_a = {};
 #endif
 
@@ -6518,7 +7166,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_TEXTURE_SWIZZLE_B,
-	mp_list<oglplus::texture_swizzle_coord>
+	mp_list<oglplus::texture_parameter,oglplus::texture_swizzle_coord>
 > texture_swizzle_b = {};
 #endif
 
@@ -6526,7 +7174,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_TEXTURE_SWIZZLE_G,
-	mp_list<oglplus::texture_swizzle_coord>
+	mp_list<oglplus::texture_parameter,oglplus::texture_swizzle_coord>
 > texture_swizzle_g = {};
 #endif
 
@@ -6534,7 +7182,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_TEXTURE_SWIZZLE_R,
-	mp_list<oglplus::texture_swizzle_coord>
+	mp_list<oglplus::texture_parameter,oglplus::texture_swizzle_coord>
 > texture_swizzle_r = {};
 #endif
 
@@ -6542,8 +7190,16 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_TEXTURE_SWIZZLE_RGBA,
-	mp_list<oglplus::texture_swizzle_coord>
+	mp_list<oglplus::texture_parameter,oglplus::texture_swizzle_coord>
 > texture_swizzle_rgba = {};
+#endif
+
+#ifdef GL_TEXTURE_TARGET
+static constexpr const enum_value<
+	GLenum,
+	GL_TEXTURE_TARGET,
+	mp_list<oglplus::texture_parameter>
+> texture_target = {};
 #endif
 
 #ifdef GL_TEXTURE_UPDATE_BARRIER_BIT
@@ -6554,11 +7210,43 @@ static constexpr const enum_value<
 > texture_update_barrier_bit = {};
 #endif
 
+#ifdef GL_TEXTURE_VIEW_MIN_LAYER
+static constexpr const enum_value<
+	GLenum,
+	GL_TEXTURE_VIEW_MIN_LAYER,
+	mp_list<oglplus::texture_parameter>
+> texture_view_min_layer = {};
+#endif
+
+#ifdef GL_TEXTURE_VIEW_MIN_LEVEL
+static constexpr const enum_value<
+	GLenum,
+	GL_TEXTURE_VIEW_MIN_LEVEL,
+	mp_list<oglplus::texture_parameter>
+> texture_view_min_level = {};
+#endif
+
+#ifdef GL_TEXTURE_VIEW_NUM_LAYERS
+static constexpr const enum_value<
+	GLenum,
+	GL_TEXTURE_VIEW_NUM_LAYERS,
+	mp_list<oglplus::texture_parameter>
+> texture_view_num_layers = {};
+#endif
+
+#ifdef GL_TEXTURE_VIEW_NUM_LEVELS
+static constexpr const enum_value<
+	GLenum,
+	GL_TEXTURE_VIEW_NUM_LEVELS,
+	mp_list<oglplus::texture_parameter>
+> texture_view_num_levels = {};
+#endif
+
 #ifdef GL_TEXTURE_WRAP_R
 static constexpr const enum_value<
 	GLenum,
 	GL_TEXTURE_WRAP_R,
-	mp_list<oglplus::texture_wrap_coord>
+	mp_list<oglplus::texture_parameter,oglplus::texture_wrap_coord>
 > texture_wrap_r = {};
 #endif
 
@@ -6566,7 +7254,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_TEXTURE_WRAP_S,
-	mp_list<oglplus::texture_wrap_coord>
+	mp_list<oglplus::texture_parameter,oglplus::texture_wrap_coord>
 > texture_wrap_s = {};
 #endif
 
@@ -6574,7 +7262,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_TEXTURE_WRAP_T,
-	mp_list<oglplus::texture_wrap_coord>
+	mp_list<oglplus::texture_parameter,oglplus::texture_wrap_coord>
 > texture_wrap_t = {};
 #endif
 
@@ -6598,7 +7286,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_TIMESTAMP,
-	mp_list<oglplus::query_target>
+	mp_list<oglplus::query_target,oglplus::numeric_query>
 > timestamp = {};
 #endif
 
@@ -6648,6 +7336,22 @@ static constexpr const enum_value<
 	GL_TRANSFORM_FEEDBACK_BUFFER_INDEX,
 	mp_list<oglplus::program_resource_property>
 > transform_feedback_buffer_index = {};
+#endif
+
+#ifdef GL_TRANSFORM_FEEDBACK_BUFFER_SIZE
+static constexpr const enum_value<
+	GLenum,
+	GL_TRANSFORM_FEEDBACK_BUFFER_SIZE,
+	mp_list<oglplus::numeric_query>
+> transform_feedback_buffer_size = {};
+#endif
+
+#ifdef GL_TRANSFORM_FEEDBACK_BUFFER_START
+static constexpr const enum_value<
+	GLenum,
+	GL_TRANSFORM_FEEDBACK_BUFFER_START,
+	mp_list<oglplus::numeric_query>
+> transform_feedback_buffer_start = {};
 #endif
 
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER_STRIDE
@@ -6826,6 +7530,30 @@ static constexpr const enum_value<
 > uniform_buffer = {};
 #endif
 
+#ifdef GL_UNIFORM_BUFFER_OFFSET_ALIGNMENT
+static constexpr const enum_value<
+	GLenum,
+	GL_UNIFORM_BUFFER_OFFSET_ALIGNMENT,
+	mp_list<oglplus::numeric_query>
+> uniform_buffer_offset_alignment = {};
+#endif
+
+#ifdef GL_UNIFORM_BUFFER_SIZE
+static constexpr const enum_value<
+	GLenum,
+	GL_UNIFORM_BUFFER_SIZE,
+	mp_list<oglplus::numeric_query>
+> uniform_buffer_size = {};
+#endif
+
+#ifdef GL_UNIFORM_BUFFER_START
+static constexpr const enum_value<
+	GLenum,
+	GL_UNIFORM_BUFFER_START,
+	mp_list<oglplus::numeric_query>
+> uniform_buffer_start = {};
+#endif
+
 #ifdef GL_UNKNOWN_CONTEXT_RESET
 static constexpr const enum_value<
 	GLenum,
@@ -6838,7 +7566,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_UNPACK_ALIGNMENT,
-	mp_list<oglplus::pixel_parameter>
+	mp_list<oglplus::numeric_query,oglplus::pixel_parameter>
 > unpack_alignment = {};
 #endif
 
@@ -6878,7 +7606,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_UNPACK_IMAGE_HEIGHT,
-	mp_list<oglplus::pixel_parameter>
+	mp_list<oglplus::numeric_query,oglplus::pixel_parameter>
 > unpack_image_height = {};
 #endif
 
@@ -6886,7 +7614,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_UNPACK_LSB_FIRST,
-	mp_list<oglplus::pixel_parameter>
+	mp_list<oglplus::numeric_query,oglplus::pixel_parameter>
 > unpack_lsb_first = {};
 #endif
 
@@ -6894,7 +7622,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_UNPACK_ROW_LENGTH,
-	mp_list<oglplus::pixel_parameter>
+	mp_list<oglplus::numeric_query,oglplus::pixel_parameter>
 > unpack_row_length = {};
 #endif
 
@@ -6902,7 +7630,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_UNPACK_SKIP_IMAGES,
-	mp_list<oglplus::pixel_parameter>
+	mp_list<oglplus::numeric_query,oglplus::pixel_parameter>
 > unpack_skip_images = {};
 #endif
 
@@ -6910,7 +7638,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_UNPACK_SKIP_PIXELS,
-	mp_list<oglplus::pixel_parameter>
+	mp_list<oglplus::numeric_query,oglplus::pixel_parameter>
 > unpack_skip_pixels = {};
 #endif
 
@@ -6918,7 +7646,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_UNPACK_SKIP_ROWS,
-	mp_list<oglplus::pixel_parameter>
+	mp_list<oglplus::numeric_query,oglplus::pixel_parameter>
 > unpack_skip_rows = {};
 #endif
 
@@ -6926,7 +7654,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_UNPACK_SWAP_BYTES,
-	mp_list<oglplus::pixel_parameter>
+	mp_list<oglplus::numeric_query,oglplus::pixel_parameter>
 > unpack_swap_bytes = {};
 #endif
 
@@ -7408,6 +8136,38 @@ static constexpr const enum_value<
 	GL_VERTICES_SUBMITTED_ARB,
 	mp_list<oglplus::query_target>
 > vertices_submitted = {};
+#endif
+
+#ifdef GL_VIEWPORT
+static constexpr const enum_value<
+	GLenum,
+	GL_VIEWPORT,
+	mp_list<oglplus::numeric_query>
+> viewport = {};
+#endif
+
+#ifdef GL_VIEWPORT_BOUNDS_RANGE
+static constexpr const enum_value<
+	GLenum,
+	GL_VIEWPORT_BOUNDS_RANGE,
+	mp_list<oglplus::numeric_query>
+> viewport_bounds_range = {};
+#endif
+
+#ifdef GL_VIEWPORT_INDEX_PROVOKING_VERTEX
+static constexpr const enum_value<
+	GLenum,
+	GL_VIEWPORT_INDEX_PROVOKING_VERTEX,
+	mp_list<oglplus::numeric_query>
+> viewport_index_provoking_vertex = {};
+#endif
+
+#ifdef GL_VIEWPORT_SUBPIXEL_BITS
+static constexpr const enum_value<
+	GLenum,
+	GL_VIEWPORT_SUBPIXEL_BITS,
+	mp_list<oglplus::numeric_query>
+> viewport_subpixel_bits = {};
 #endif
 
 #ifdef GL_WAIT_FAILED

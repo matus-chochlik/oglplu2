@@ -351,7 +351,7 @@ noexcept
 	_enum_val = indexed_value_base(enum_val.base());
 #endif
 #if !OGLPLUS_ERROR_NO_INDEX
-	_index = GLuint(enum_val.offset());
+	_index = GLuint(enum_val.index());
 #endif
 	(void)enum_val;
 	return *this;
