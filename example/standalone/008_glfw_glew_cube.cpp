@@ -35,7 +35,6 @@ void handle_resize(
 	const oglplus::uniform_location& projection
 )
 {
-gl.active_texture(GL.texture0+1);
 	gl.viewport(0, 0, width, height);
 	GLfloat asp = GLfloat(width)/height;
 
