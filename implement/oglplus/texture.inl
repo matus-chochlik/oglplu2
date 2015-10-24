@@ -18,10 +18,10 @@ texture_ops::
 active_texture(texture_unit unit)
 noexcept
 {
-#if !OGLPLUS_LOW_PROFILE
-	if(auto res = failure(check_value(unit)))
+#if !OGLPLUS_NO_LIMIT_CHECKS
+	if(auto over_limit = failure(check_below_limit(unit)))
 	{
-		return res.release_handler();
+		return std::move(over_limit);
 	}
 #endif
 	OGLPLUS_GLFUNC(ActiveTexture)(GLenum(unit));

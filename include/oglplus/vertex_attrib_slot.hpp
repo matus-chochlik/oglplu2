@@ -9,11 +9,11 @@
 #ifndef OGLPLUS_VERTEX_ATTRIB_SLOT_1509260923_HPP
 #define OGLPLUS_VERTEX_ATTRIB_SLOT_1509260923_HPP
 
-#include "limited_value.hpp"
+#include "utils/limited_value.hpp"
 
 namespace oglplus {
 
-using vertex_attrib_slot = limited_value<GL_MAX_VERTEX_ATTRIBS>;
+using vertex_attrib_slot = limited_value<GL_MAX_VERTEX_ATTRIBS, GLuint>;
 
 } // namespace oglplus
 

@@ -1,5 +1,5 @@
 /**
- *  @file oglplus/limited_value.hpp
+ *  @file oglplus/utils/limited_value.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,15 +7,15 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef OGLPLUS_LIMITED_VALUE_1509260923_HPP
-#define OGLPLUS_LIMITED_VALUE_1509260923_HPP
+#ifndef OGLPLUS_UTILS_LIMITED_VALUE_1509260923_HPP
+#define OGLPLUS_UTILS_LIMITED_VALUE_1509260923_HPP
 
-#include "utils/gl_func.hpp"
-#include "utils/indexed_enum.hpp"
-#include "utils/identity.hpp"
-#include "error/handling.hpp"
-#include "error/outcome.hpp"
-#include "enum/types.hpp"
+#include "gl_func.hpp"
+#include "indexed_enum.hpp"
+#include "identity.hpp"
+#include "../error/handling.hpp"
+#include "../error/outcome.hpp"
+#include "../enum/types.hpp"
 
 namespace oglplus {
 
@@ -142,7 +142,7 @@ bool exceeds_limit(
 template <GLenum Query, typename T>
 static inline
 outcome<void>
-check_value(limited_value<Query, T> lv)
+check_below_limit(limited_value<Query, T> lv)
 noexcept
 {
 	outcome<T> lim = get_limit(make_identity(lv));

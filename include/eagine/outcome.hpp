@@ -80,6 +80,7 @@ protected:
 	deferred_handler<ErrorData, HandlerPolicy> _handler;
 public:
 	basic_outcome(void) = default;
+	basic_outcome(basic_outcome&&) = default;
 
 	constexpr
 	basic_outcome(deferred_handler<ErrorData, HandlerPolicy>&& handler)
@@ -146,6 +147,8 @@ class basic_outcome
 private:
 	basic_outcome_storage<T> _value;
 public:
+	basic_outcome(basic_outcome&&) = default;
+
 	constexpr
 	basic_outcome(deferred_handler<ErrorData, HandlerPolicy>&& handler)
 	noexcept

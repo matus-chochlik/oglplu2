@@ -11,7 +11,7 @@
 
 #include "enum/values.hpp"
 #include "utils/indexed_enum.hpp"
-#include "limited_value.hpp"
+#include "utils/limited_value.hpp"
 
 namespace oglplus {
 
