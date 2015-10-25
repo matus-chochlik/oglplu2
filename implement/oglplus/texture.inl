@@ -9,6 +9,10 @@
 #include <oglplus/utils/gl_func.hpp>
 #include <oglplus/oper/numeric_queries.hpp>
 
+#if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
+#include "enum/texture_target_bq.inl"
+#endif
+//------------------------------------------------------------------------------
 namespace oglplus {
 //------------------------------------------------------------------------------
 namespace oper {
@@ -108,9 +112,5 @@ noexcept
 }
 //------------------------------------------------------------------------------
 } // namespace oglplus
-//------------------------------------------------------------------------------
-#if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
-#include "enum/texture_target_bq.inl"
-#endif
 //------------------------------------------------------------------------------
 

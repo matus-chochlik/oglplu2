@@ -71,10 +71,24 @@ public:
 	}
 
 	static
+	auto binding(buffer_target tgt)
+	noexcept
+	{
+		return buffer_binding(tgt);
+	}
+
+	static
 	auto bind(texture_target tgt, texture_name tex)
 	noexcept
 	{
 		return bind_texture(tgt, tex);
+	}
+
+	static
+	auto binding(texture_target tgt)
+	noexcept
+	{
+		return texture_binding(tgt);
 	}
 
 	static

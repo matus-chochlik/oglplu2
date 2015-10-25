@@ -1258,6 +1258,14 @@ static constexpr const enum_value<
 > cull_face = {};
 #endif
 
+#ifdef GL_CURRENT_PROGRAM
+static constexpr const enum_value<
+	GLenum,
+	GL_CURRENT_PROGRAM,
+	mp_list<oglplus::binding_query>
+> current_program = {};
+#endif
+
 #ifdef GL_CW
 static constexpr const enum_value<
 	GLenum,
@@ -8304,6 +8312,14 @@ static constexpr const enum_value<
 	GL_VERTEX_ARRAY,
 	mp_list<oglplus::object_type>
 > vertex_array = {};
+#endif
+
+#ifdef GL_VERTEX_ARRAY_BINDING
+static constexpr const enum_value<
+	GLenum,
+	GL_VERTEX_ARRAY_BINDING,
+	mp_list<oglplus::binding_query>
+> vertex_array_binding = {};
 #endif
 
 #ifdef GL_VERTEX_ATTRIB_ARRAY_BARRIER_BIT

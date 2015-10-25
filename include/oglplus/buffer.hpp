@@ -30,6 +30,10 @@ using buffer = gl_obj_tag<GL_BUFFER>;
 
 using buffer_name = object_name<tag::buffer>;
 
+binding_query
+get_binding_query(buffer_target tgt)
+noexcept;
+
 namespace oper {
 
 struct buffer_ops
@@ -51,6 +55,11 @@ struct buffer_ops
 		);
 		return {};
 	}
+
+	static
+	outcome<buffer_name>
+	buffer_binding(buffer_target target)
+	noexcept;
 
 	static
 	outcome<void>

@@ -85,6 +85,11 @@ struct program_ops
 	}
 
 	static
+	outcome<program_name>
+	current_program(void)
+	noexcept;
+
+	static
 	outcome<void>
 	get_program_iv(
 		program_name prog,

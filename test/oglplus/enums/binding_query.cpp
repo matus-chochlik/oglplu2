@@ -41,6 +41,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # ifdef GL_COPY_WRITE_BUFFER_BINDING
 	BOOST_CHECK(x != ev.copy_write_buffer_binding);
 # endif
+# ifdef GL_CURRENT_PROGRAM
+	BOOST_CHECK(x != ev.current_program);
+# endif
 # ifdef GL_DISPATCH_INDIRECT_BUFFER_BINDING
 	BOOST_CHECK(x != ev.dispatch_indirect_buffer_binding);
 # endif
@@ -115,6 +118,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # endif
 # ifdef GL_UNIFORM_BUFFER_BINDING
 	BOOST_CHECK(x != ev.uniform_buffer_binding);
+# endif
+# ifdef GL_VERTEX_ARRAY_BINDING
+	BOOST_CHECK(x != ev.vertex_array_binding);
 # endif
 #endif
 
@@ -133,6 +139,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # ifdef GL_COPY_WRITE_BUFFER_BINDING
 	BOOST_CHECK(x != ev.copy_write_buffer_binding);
 # endif
+# ifdef GL_CURRENT_PROGRAM
+	BOOST_CHECK(x != ev.current_program);
+# endif
 # ifdef GL_DISPATCH_INDIRECT_BUFFER_BINDING
 	BOOST_CHECK(x != ev.dispatch_indirect_buffer_binding);
 # endif
@@ -207,6 +216,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # endif
 # ifdef GL_UNIFORM_BUFFER_BINDING
 	BOOST_CHECK(x != ev.uniform_buffer_binding);
+# endif
+# ifdef GL_VERTEX_ARRAY_BINDING
+	BOOST_CHECK(x != ev.vertex_array_binding);
 # endif
 #endif
 
@@ -225,6 +237,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # ifdef GL_COPY_WRITE_BUFFER_BINDING
 	BOOST_CHECK(x != ev.copy_write_buffer_binding);
 # endif
+# ifdef GL_CURRENT_PROGRAM
+	BOOST_CHECK(x != ev.current_program);
+# endif
 # ifdef GL_DISPATCH_INDIRECT_BUFFER_BINDING
 	BOOST_CHECK(x != ev.dispatch_indirect_buffer_binding);
 # endif
@@ -299,6 +314,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # endif
 # ifdef GL_UNIFORM_BUFFER_BINDING
 	BOOST_CHECK(x != ev.uniform_buffer_binding);
+# endif
+# ifdef GL_VERTEX_ARRAY_BINDING
+	BOOST_CHECK(x != ev.vertex_array_binding);
 # endif
 #endif
 
@@ -317,6 +335,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # ifdef GL_COPY_WRITE_BUFFER_BINDING
 	BOOST_CHECK(x != ev.copy_write_buffer_binding);
 # endif
+# ifdef GL_CURRENT_PROGRAM
+	BOOST_CHECK(x != ev.current_program);
+# endif
 # ifdef GL_DISPATCH_INDIRECT_BUFFER_BINDING
 	BOOST_CHECK(x != ev.dispatch_indirect_buffer_binding);
 # endif
@@ -391,6 +412,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # endif
 # ifdef GL_UNIFORM_BUFFER_BINDING
 	BOOST_CHECK(x != ev.uniform_buffer_binding);
+# endif
+# ifdef GL_VERTEX_ARRAY_BINDING
+	BOOST_CHECK(x != ev.vertex_array_binding);
 # endif
 #endif
 
@@ -409,6 +433,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 	BOOST_CHECK(x != ev.copy_read_buffer_binding);
 # endif
 	BOOST_CHECK(x == ev.copy_write_buffer_binding);
+# ifdef GL_CURRENT_PROGRAM
+	BOOST_CHECK(x != ev.current_program);
+# endif
 # ifdef GL_DISPATCH_INDIRECT_BUFFER_BINDING
 	BOOST_CHECK(x != ev.dispatch_indirect_buffer_binding);
 # endif
@@ -483,6 +510,107 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # endif
 # ifdef GL_UNIFORM_BUFFER_BINDING
 	BOOST_CHECK(x != ev.uniform_buffer_binding);
+# endif
+# ifdef GL_VERTEX_ARRAY_BINDING
+	BOOST_CHECK(x != ev.vertex_array_binding);
+# endif
+#endif
+
+#ifdef GL_CURRENT_PROGRAM
+	x = ev.current_program;
+# ifdef GL_ARRAY_BUFFER_BINDING
+	BOOST_CHECK(x != ev.array_buffer_binding);
+# endif
+# ifdef GL_ATOMIC_COUNTER_BUFFER_BINDING
+	BOOST_CHECK(x != ev.atomic_counter_buffer_binding);
+# endif
+# ifdef GL_BUFFER_BINDING
+	BOOST_CHECK(x != ev.buffer_binding);
+# endif
+# ifdef GL_COPY_READ_BUFFER_BINDING
+	BOOST_CHECK(x != ev.copy_read_buffer_binding);
+# endif
+# ifdef GL_COPY_WRITE_BUFFER_BINDING
+	BOOST_CHECK(x != ev.copy_write_buffer_binding);
+# endif
+	BOOST_CHECK(x == ev.current_program);
+# ifdef GL_DISPATCH_INDIRECT_BUFFER_BINDING
+	BOOST_CHECK(x != ev.dispatch_indirect_buffer_binding);
+# endif
+# ifdef GL_DRAW_FRAMEBUFFER_BINDING
+	BOOST_CHECK(x != ev.draw_framebuffer_binding);
+# endif
+# ifdef GL_DRAW_INDIRECT_BUFFER_BINDING
+	BOOST_CHECK(x != ev.draw_indirect_buffer_binding);
+# endif
+# ifdef GL_ELEMENT_ARRAY_BUFFER_BINDING
+	BOOST_CHECK(x != ev.element_array_buffer_binding);
+# endif
+# ifdef GL_PARAMETER_BUFFER_BINDING_ARB
+	BOOST_CHECK(x != ev.parameter_buffer_binding);
+# endif
+# ifdef GL_PIXEL_PACK_BUFFER_BINDING
+	BOOST_CHECK(x != ev.pixel_pack_buffer_binding);
+# endif
+# ifdef GL_PIXEL_UNPACK_BUFFER_BINDING
+	BOOST_CHECK(x != ev.pixel_unpack_buffer_binding);
+# endif
+# ifdef GL_QUERY_BUFFER_BINDING
+	BOOST_CHECK(x != ev.query_buffer_binding);
+# endif
+# ifdef GL_RENDERBUFFER_BINDING
+	BOOST_CHECK(x != ev.renderbuffer_binding);
+# endif
+# ifdef GL_SHADER_STORAGE_BUFFER_BINDING
+	BOOST_CHECK(x != ev.shader_storage_buffer_binding);
+# endif
+# ifdef GL_TEXTURE_BINDING_1D
+	BOOST_CHECK(x != ev.texture_binding_1d);
+# endif
+# ifdef GL_TEXTURE_BINDING_1D_ARRAY
+	BOOST_CHECK(x != ev.texture_binding_1d_array);
+# endif
+# ifdef GL_TEXTURE_BINDING_2D
+	BOOST_CHECK(x != ev.texture_binding_2d);
+# endif
+# ifdef GL_TEXTURE_BINDING_2D_ARRAY
+	BOOST_CHECK(x != ev.texture_binding_2d_array);
+# endif
+# ifdef GL_TEXTURE_BINDING_2D_MULTISAMPLE
+	BOOST_CHECK(x != ev.texture_binding_2d_multisample);
+# endif
+# ifdef GL_TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY
+	BOOST_CHECK(x != ev.texture_binding_2d_multisample_array);
+# endif
+# ifdef GL_TEXTURE_BINDING_3D
+	BOOST_CHECK(x != ev.texture_binding_3d);
+# endif
+# ifdef GL_TEXTURE_BINDING_BUFFER
+	BOOST_CHECK(x != ev.texture_binding_buffer);
+# endif
+# ifdef GL_TEXTURE_BINDING_CUBE_MAP
+	BOOST_CHECK(x != ev.texture_binding_cube_map);
+# endif
+# ifdef GL_TEXTURE_BINDING_CUBE_MAP_ARRAY
+	BOOST_CHECK(x != ev.texture_binding_cube_map_array);
+# endif
+# ifdef GL_TEXTURE_BINDING_RECTANGLE
+	BOOST_CHECK(x != ev.texture_binding_rectangle);
+# endif
+# ifdef GL_TEXTURE_BUFFER_BINDING
+	BOOST_CHECK(x != ev.texture_buffer_binding);
+# endif
+# ifdef GL_TRANSFORM_FEEDBACK_BINDING
+	BOOST_CHECK(x != ev.transform_feedback_binding);
+# endif
+# ifdef GL_TRANSFORM_FEEDBACK_BUFFER_BINDING
+	BOOST_CHECK(x != ev.transform_feedback_buffer_binding);
+# endif
+# ifdef GL_UNIFORM_BUFFER_BINDING
+	BOOST_CHECK(x != ev.uniform_buffer_binding);
+# endif
+# ifdef GL_VERTEX_ARRAY_BINDING
+	BOOST_CHECK(x != ev.vertex_array_binding);
 # endif
 #endif
 
@@ -502,6 +630,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # endif
 # ifdef GL_COPY_WRITE_BUFFER_BINDING
 	BOOST_CHECK(x != ev.copy_write_buffer_binding);
+# endif
+# ifdef GL_CURRENT_PROGRAM
+	BOOST_CHECK(x != ev.current_program);
 # endif
 	BOOST_CHECK(x == ev.dispatch_indirect_buffer_binding);
 # ifdef GL_DRAW_FRAMEBUFFER_BINDING
@@ -576,6 +707,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # ifdef GL_UNIFORM_BUFFER_BINDING
 	BOOST_CHECK(x != ev.uniform_buffer_binding);
 # endif
+# ifdef GL_VERTEX_ARRAY_BINDING
+	BOOST_CHECK(x != ev.vertex_array_binding);
+# endif
 #endif
 
 #ifdef GL_DRAW_FRAMEBUFFER_BINDING
@@ -594,6 +728,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # endif
 # ifdef GL_COPY_WRITE_BUFFER_BINDING
 	BOOST_CHECK(x != ev.copy_write_buffer_binding);
+# endif
+# ifdef GL_CURRENT_PROGRAM
+	BOOST_CHECK(x != ev.current_program);
 # endif
 # ifdef GL_DISPATCH_INDIRECT_BUFFER_BINDING
 	BOOST_CHECK(x != ev.dispatch_indirect_buffer_binding);
@@ -668,6 +805,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # ifdef GL_UNIFORM_BUFFER_BINDING
 	BOOST_CHECK(x != ev.uniform_buffer_binding);
 # endif
+# ifdef GL_VERTEX_ARRAY_BINDING
+	BOOST_CHECK(x != ev.vertex_array_binding);
+# endif
 #endif
 
 #ifdef GL_DRAW_INDIRECT_BUFFER_BINDING
@@ -686,6 +826,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # endif
 # ifdef GL_COPY_WRITE_BUFFER_BINDING
 	BOOST_CHECK(x != ev.copy_write_buffer_binding);
+# endif
+# ifdef GL_CURRENT_PROGRAM
+	BOOST_CHECK(x != ev.current_program);
 # endif
 # ifdef GL_DISPATCH_INDIRECT_BUFFER_BINDING
 	BOOST_CHECK(x != ev.dispatch_indirect_buffer_binding);
@@ -760,6 +903,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # ifdef GL_UNIFORM_BUFFER_BINDING
 	BOOST_CHECK(x != ev.uniform_buffer_binding);
 # endif
+# ifdef GL_VERTEX_ARRAY_BINDING
+	BOOST_CHECK(x != ev.vertex_array_binding);
+# endif
 #endif
 
 #ifdef GL_ELEMENT_ARRAY_BUFFER_BINDING
@@ -778,6 +924,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # endif
 # ifdef GL_COPY_WRITE_BUFFER_BINDING
 	BOOST_CHECK(x != ev.copy_write_buffer_binding);
+# endif
+# ifdef GL_CURRENT_PROGRAM
+	BOOST_CHECK(x != ev.current_program);
 # endif
 # ifdef GL_DISPATCH_INDIRECT_BUFFER_BINDING
 	BOOST_CHECK(x != ev.dispatch_indirect_buffer_binding);
@@ -852,6 +1001,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # ifdef GL_UNIFORM_BUFFER_BINDING
 	BOOST_CHECK(x != ev.uniform_buffer_binding);
 # endif
+# ifdef GL_VERTEX_ARRAY_BINDING
+	BOOST_CHECK(x != ev.vertex_array_binding);
+# endif
 #endif
 
 #ifdef GL_PARAMETER_BUFFER_BINDING_ARB
@@ -870,6 +1022,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # endif
 # ifdef GL_COPY_WRITE_BUFFER_BINDING
 	BOOST_CHECK(x != ev.copy_write_buffer_binding);
+# endif
+# ifdef GL_CURRENT_PROGRAM
+	BOOST_CHECK(x != ev.current_program);
 # endif
 # ifdef GL_DISPATCH_INDIRECT_BUFFER_BINDING
 	BOOST_CHECK(x != ev.dispatch_indirect_buffer_binding);
@@ -944,6 +1099,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # ifdef GL_UNIFORM_BUFFER_BINDING
 	BOOST_CHECK(x != ev.uniform_buffer_binding);
 # endif
+# ifdef GL_VERTEX_ARRAY_BINDING
+	BOOST_CHECK(x != ev.vertex_array_binding);
+# endif
 #endif
 
 #ifdef GL_PIXEL_PACK_BUFFER_BINDING
@@ -962,6 +1120,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # endif
 # ifdef GL_COPY_WRITE_BUFFER_BINDING
 	BOOST_CHECK(x != ev.copy_write_buffer_binding);
+# endif
+# ifdef GL_CURRENT_PROGRAM
+	BOOST_CHECK(x != ev.current_program);
 # endif
 # ifdef GL_DISPATCH_INDIRECT_BUFFER_BINDING
 	BOOST_CHECK(x != ev.dispatch_indirect_buffer_binding);
@@ -1036,6 +1197,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # ifdef GL_UNIFORM_BUFFER_BINDING
 	BOOST_CHECK(x != ev.uniform_buffer_binding);
 # endif
+# ifdef GL_VERTEX_ARRAY_BINDING
+	BOOST_CHECK(x != ev.vertex_array_binding);
+# endif
 #endif
 
 #ifdef GL_PIXEL_UNPACK_BUFFER_BINDING
@@ -1054,6 +1218,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # endif
 # ifdef GL_COPY_WRITE_BUFFER_BINDING
 	BOOST_CHECK(x != ev.copy_write_buffer_binding);
+# endif
+# ifdef GL_CURRENT_PROGRAM
+	BOOST_CHECK(x != ev.current_program);
 # endif
 # ifdef GL_DISPATCH_INDIRECT_BUFFER_BINDING
 	BOOST_CHECK(x != ev.dispatch_indirect_buffer_binding);
@@ -1128,6 +1295,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # ifdef GL_UNIFORM_BUFFER_BINDING
 	BOOST_CHECK(x != ev.uniform_buffer_binding);
 # endif
+# ifdef GL_VERTEX_ARRAY_BINDING
+	BOOST_CHECK(x != ev.vertex_array_binding);
+# endif
 #endif
 
 #ifdef GL_QUERY_BUFFER_BINDING
@@ -1146,6 +1316,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # endif
 # ifdef GL_COPY_WRITE_BUFFER_BINDING
 	BOOST_CHECK(x != ev.copy_write_buffer_binding);
+# endif
+# ifdef GL_CURRENT_PROGRAM
+	BOOST_CHECK(x != ev.current_program);
 # endif
 # ifdef GL_DISPATCH_INDIRECT_BUFFER_BINDING
 	BOOST_CHECK(x != ev.dispatch_indirect_buffer_binding);
@@ -1220,6 +1393,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # ifdef GL_UNIFORM_BUFFER_BINDING
 	BOOST_CHECK(x != ev.uniform_buffer_binding);
 # endif
+# ifdef GL_VERTEX_ARRAY_BINDING
+	BOOST_CHECK(x != ev.vertex_array_binding);
+# endif
 #endif
 
 #ifdef GL_RENDERBUFFER_BINDING
@@ -1238,6 +1414,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # endif
 # ifdef GL_COPY_WRITE_BUFFER_BINDING
 	BOOST_CHECK(x != ev.copy_write_buffer_binding);
+# endif
+# ifdef GL_CURRENT_PROGRAM
+	BOOST_CHECK(x != ev.current_program);
 # endif
 # ifdef GL_DISPATCH_INDIRECT_BUFFER_BINDING
 	BOOST_CHECK(x != ev.dispatch_indirect_buffer_binding);
@@ -1312,6 +1491,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # ifdef GL_UNIFORM_BUFFER_BINDING
 	BOOST_CHECK(x != ev.uniform_buffer_binding);
 # endif
+# ifdef GL_VERTEX_ARRAY_BINDING
+	BOOST_CHECK(x != ev.vertex_array_binding);
+# endif
 #endif
 
 #ifdef GL_SHADER_STORAGE_BUFFER_BINDING
@@ -1330,6 +1512,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # endif
 # ifdef GL_COPY_WRITE_BUFFER_BINDING
 	BOOST_CHECK(x != ev.copy_write_buffer_binding);
+# endif
+# ifdef GL_CURRENT_PROGRAM
+	BOOST_CHECK(x != ev.current_program);
 # endif
 # ifdef GL_DISPATCH_INDIRECT_BUFFER_BINDING
 	BOOST_CHECK(x != ev.dispatch_indirect_buffer_binding);
@@ -1404,6 +1589,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # ifdef GL_UNIFORM_BUFFER_BINDING
 	BOOST_CHECK(x != ev.uniform_buffer_binding);
 # endif
+# ifdef GL_VERTEX_ARRAY_BINDING
+	BOOST_CHECK(x != ev.vertex_array_binding);
+# endif
 #endif
 
 #ifdef GL_TEXTURE_BINDING_1D
@@ -1422,6 +1610,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # endif
 # ifdef GL_COPY_WRITE_BUFFER_BINDING
 	BOOST_CHECK(x != ev.copy_write_buffer_binding);
+# endif
+# ifdef GL_CURRENT_PROGRAM
+	BOOST_CHECK(x != ev.current_program);
 # endif
 # ifdef GL_DISPATCH_INDIRECT_BUFFER_BINDING
 	BOOST_CHECK(x != ev.dispatch_indirect_buffer_binding);
@@ -1496,6 +1687,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # ifdef GL_UNIFORM_BUFFER_BINDING
 	BOOST_CHECK(x != ev.uniform_buffer_binding);
 # endif
+# ifdef GL_VERTEX_ARRAY_BINDING
+	BOOST_CHECK(x != ev.vertex_array_binding);
+# endif
 #endif
 
 #ifdef GL_TEXTURE_BINDING_1D_ARRAY
@@ -1514,6 +1708,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # endif
 # ifdef GL_COPY_WRITE_BUFFER_BINDING
 	BOOST_CHECK(x != ev.copy_write_buffer_binding);
+# endif
+# ifdef GL_CURRENT_PROGRAM
+	BOOST_CHECK(x != ev.current_program);
 # endif
 # ifdef GL_DISPATCH_INDIRECT_BUFFER_BINDING
 	BOOST_CHECK(x != ev.dispatch_indirect_buffer_binding);
@@ -1588,6 +1785,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # ifdef GL_UNIFORM_BUFFER_BINDING
 	BOOST_CHECK(x != ev.uniform_buffer_binding);
 # endif
+# ifdef GL_VERTEX_ARRAY_BINDING
+	BOOST_CHECK(x != ev.vertex_array_binding);
+# endif
 #endif
 
 #ifdef GL_TEXTURE_BINDING_2D
@@ -1606,6 +1806,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # endif
 # ifdef GL_COPY_WRITE_BUFFER_BINDING
 	BOOST_CHECK(x != ev.copy_write_buffer_binding);
+# endif
+# ifdef GL_CURRENT_PROGRAM
+	BOOST_CHECK(x != ev.current_program);
 # endif
 # ifdef GL_DISPATCH_INDIRECT_BUFFER_BINDING
 	BOOST_CHECK(x != ev.dispatch_indirect_buffer_binding);
@@ -1680,6 +1883,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # ifdef GL_UNIFORM_BUFFER_BINDING
 	BOOST_CHECK(x != ev.uniform_buffer_binding);
 # endif
+# ifdef GL_VERTEX_ARRAY_BINDING
+	BOOST_CHECK(x != ev.vertex_array_binding);
+# endif
 #endif
 
 #ifdef GL_TEXTURE_BINDING_2D_ARRAY
@@ -1698,6 +1904,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # endif
 # ifdef GL_COPY_WRITE_BUFFER_BINDING
 	BOOST_CHECK(x != ev.copy_write_buffer_binding);
+# endif
+# ifdef GL_CURRENT_PROGRAM
+	BOOST_CHECK(x != ev.current_program);
 # endif
 # ifdef GL_DISPATCH_INDIRECT_BUFFER_BINDING
 	BOOST_CHECK(x != ev.dispatch_indirect_buffer_binding);
@@ -1772,6 +1981,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # ifdef GL_UNIFORM_BUFFER_BINDING
 	BOOST_CHECK(x != ev.uniform_buffer_binding);
 # endif
+# ifdef GL_VERTEX_ARRAY_BINDING
+	BOOST_CHECK(x != ev.vertex_array_binding);
+# endif
 #endif
 
 #ifdef GL_TEXTURE_BINDING_2D_MULTISAMPLE
@@ -1790,6 +2002,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # endif
 # ifdef GL_COPY_WRITE_BUFFER_BINDING
 	BOOST_CHECK(x != ev.copy_write_buffer_binding);
+# endif
+# ifdef GL_CURRENT_PROGRAM
+	BOOST_CHECK(x != ev.current_program);
 # endif
 # ifdef GL_DISPATCH_INDIRECT_BUFFER_BINDING
 	BOOST_CHECK(x != ev.dispatch_indirect_buffer_binding);
@@ -1864,6 +2079,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # ifdef GL_UNIFORM_BUFFER_BINDING
 	BOOST_CHECK(x != ev.uniform_buffer_binding);
 # endif
+# ifdef GL_VERTEX_ARRAY_BINDING
+	BOOST_CHECK(x != ev.vertex_array_binding);
+# endif
 #endif
 
 #ifdef GL_TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY
@@ -1882,6 +2100,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # endif
 # ifdef GL_COPY_WRITE_BUFFER_BINDING
 	BOOST_CHECK(x != ev.copy_write_buffer_binding);
+# endif
+# ifdef GL_CURRENT_PROGRAM
+	BOOST_CHECK(x != ev.current_program);
 # endif
 # ifdef GL_DISPATCH_INDIRECT_BUFFER_BINDING
 	BOOST_CHECK(x != ev.dispatch_indirect_buffer_binding);
@@ -1956,6 +2177,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # ifdef GL_UNIFORM_BUFFER_BINDING
 	BOOST_CHECK(x != ev.uniform_buffer_binding);
 # endif
+# ifdef GL_VERTEX_ARRAY_BINDING
+	BOOST_CHECK(x != ev.vertex_array_binding);
+# endif
 #endif
 
 #ifdef GL_TEXTURE_BINDING_3D
@@ -1974,6 +2198,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # endif
 # ifdef GL_COPY_WRITE_BUFFER_BINDING
 	BOOST_CHECK(x != ev.copy_write_buffer_binding);
+# endif
+# ifdef GL_CURRENT_PROGRAM
+	BOOST_CHECK(x != ev.current_program);
 # endif
 # ifdef GL_DISPATCH_INDIRECT_BUFFER_BINDING
 	BOOST_CHECK(x != ev.dispatch_indirect_buffer_binding);
@@ -2048,6 +2275,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # ifdef GL_UNIFORM_BUFFER_BINDING
 	BOOST_CHECK(x != ev.uniform_buffer_binding);
 # endif
+# ifdef GL_VERTEX_ARRAY_BINDING
+	BOOST_CHECK(x != ev.vertex_array_binding);
+# endif
 #endif
 
 #ifdef GL_TEXTURE_BINDING_BUFFER
@@ -2066,6 +2296,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # endif
 # ifdef GL_COPY_WRITE_BUFFER_BINDING
 	BOOST_CHECK(x != ev.copy_write_buffer_binding);
+# endif
+# ifdef GL_CURRENT_PROGRAM
+	BOOST_CHECK(x != ev.current_program);
 # endif
 # ifdef GL_DISPATCH_INDIRECT_BUFFER_BINDING
 	BOOST_CHECK(x != ev.dispatch_indirect_buffer_binding);
@@ -2140,6 +2373,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # ifdef GL_UNIFORM_BUFFER_BINDING
 	BOOST_CHECK(x != ev.uniform_buffer_binding);
 # endif
+# ifdef GL_VERTEX_ARRAY_BINDING
+	BOOST_CHECK(x != ev.vertex_array_binding);
+# endif
 #endif
 
 #ifdef GL_TEXTURE_BINDING_CUBE_MAP
@@ -2158,6 +2394,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # endif
 # ifdef GL_COPY_WRITE_BUFFER_BINDING
 	BOOST_CHECK(x != ev.copy_write_buffer_binding);
+# endif
+# ifdef GL_CURRENT_PROGRAM
+	BOOST_CHECK(x != ev.current_program);
 # endif
 # ifdef GL_DISPATCH_INDIRECT_BUFFER_BINDING
 	BOOST_CHECK(x != ev.dispatch_indirect_buffer_binding);
@@ -2232,6 +2471,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # ifdef GL_UNIFORM_BUFFER_BINDING
 	BOOST_CHECK(x != ev.uniform_buffer_binding);
 # endif
+# ifdef GL_VERTEX_ARRAY_BINDING
+	BOOST_CHECK(x != ev.vertex_array_binding);
+# endif
 #endif
 
 #ifdef GL_TEXTURE_BINDING_CUBE_MAP_ARRAY
@@ -2250,6 +2492,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # endif
 # ifdef GL_COPY_WRITE_BUFFER_BINDING
 	BOOST_CHECK(x != ev.copy_write_buffer_binding);
+# endif
+# ifdef GL_CURRENT_PROGRAM
+	BOOST_CHECK(x != ev.current_program);
 # endif
 # ifdef GL_DISPATCH_INDIRECT_BUFFER_BINDING
 	BOOST_CHECK(x != ev.dispatch_indirect_buffer_binding);
@@ -2324,6 +2569,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # ifdef GL_UNIFORM_BUFFER_BINDING
 	BOOST_CHECK(x != ev.uniform_buffer_binding);
 # endif
+# ifdef GL_VERTEX_ARRAY_BINDING
+	BOOST_CHECK(x != ev.vertex_array_binding);
+# endif
 #endif
 
 #ifdef GL_TEXTURE_BINDING_RECTANGLE
@@ -2342,6 +2590,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # endif
 # ifdef GL_COPY_WRITE_BUFFER_BINDING
 	BOOST_CHECK(x != ev.copy_write_buffer_binding);
+# endif
+# ifdef GL_CURRENT_PROGRAM
+	BOOST_CHECK(x != ev.current_program);
 # endif
 # ifdef GL_DISPATCH_INDIRECT_BUFFER_BINDING
 	BOOST_CHECK(x != ev.dispatch_indirect_buffer_binding);
@@ -2416,6 +2667,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # ifdef GL_UNIFORM_BUFFER_BINDING
 	BOOST_CHECK(x != ev.uniform_buffer_binding);
 # endif
+# ifdef GL_VERTEX_ARRAY_BINDING
+	BOOST_CHECK(x != ev.vertex_array_binding);
+# endif
 #endif
 
 #ifdef GL_TEXTURE_BUFFER_BINDING
@@ -2434,6 +2688,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # endif
 # ifdef GL_COPY_WRITE_BUFFER_BINDING
 	BOOST_CHECK(x != ev.copy_write_buffer_binding);
+# endif
+# ifdef GL_CURRENT_PROGRAM
+	BOOST_CHECK(x != ev.current_program);
 # endif
 # ifdef GL_DISPATCH_INDIRECT_BUFFER_BINDING
 	BOOST_CHECK(x != ev.dispatch_indirect_buffer_binding);
@@ -2508,6 +2765,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # ifdef GL_UNIFORM_BUFFER_BINDING
 	BOOST_CHECK(x != ev.uniform_buffer_binding);
 # endif
+# ifdef GL_VERTEX_ARRAY_BINDING
+	BOOST_CHECK(x != ev.vertex_array_binding);
+# endif
 #endif
 
 #ifdef GL_TRANSFORM_FEEDBACK_BINDING
@@ -2526,6 +2786,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # endif
 # ifdef GL_COPY_WRITE_BUFFER_BINDING
 	BOOST_CHECK(x != ev.copy_write_buffer_binding);
+# endif
+# ifdef GL_CURRENT_PROGRAM
+	BOOST_CHECK(x != ev.current_program);
 # endif
 # ifdef GL_DISPATCH_INDIRECT_BUFFER_BINDING
 	BOOST_CHECK(x != ev.dispatch_indirect_buffer_binding);
@@ -2600,6 +2863,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # ifdef GL_UNIFORM_BUFFER_BINDING
 	BOOST_CHECK(x != ev.uniform_buffer_binding);
 # endif
+# ifdef GL_VERTEX_ARRAY_BINDING
+	BOOST_CHECK(x != ev.vertex_array_binding);
+# endif
 #endif
 
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER_BINDING
@@ -2618,6 +2884,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # endif
 # ifdef GL_COPY_WRITE_BUFFER_BINDING
 	BOOST_CHECK(x != ev.copy_write_buffer_binding);
+# endif
+# ifdef GL_CURRENT_PROGRAM
+	BOOST_CHECK(x != ev.current_program);
 # endif
 # ifdef GL_DISPATCH_INDIRECT_BUFFER_BINDING
 	BOOST_CHECK(x != ev.dispatch_indirect_buffer_binding);
@@ -2692,6 +2961,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # ifdef GL_UNIFORM_BUFFER_BINDING
 	BOOST_CHECK(x != ev.uniform_buffer_binding);
 # endif
+# ifdef GL_VERTEX_ARRAY_BINDING
+	BOOST_CHECK(x != ev.vertex_array_binding);
+# endif
 #endif
 
 #ifdef GL_UNIFORM_BUFFER_BINDING
@@ -2710,6 +2982,9 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 # endif
 # ifdef GL_COPY_WRITE_BUFFER_BINDING
 	BOOST_CHECK(x != ev.copy_write_buffer_binding);
+# endif
+# ifdef GL_CURRENT_PROGRAM
+	BOOST_CHECK(x != ev.current_program);
 # endif
 # ifdef GL_DISPATCH_INDIRECT_BUFFER_BINDING
 	BOOST_CHECK(x != ev.dispatch_indirect_buffer_binding);
@@ -2784,6 +3059,107 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_values)
 	BOOST_CHECK(x != ev.transform_feedback_buffer_binding);
 # endif
 	BOOST_CHECK(x == ev.uniform_buffer_binding);
+# ifdef GL_VERTEX_ARRAY_BINDING
+	BOOST_CHECK(x != ev.vertex_array_binding);
+# endif
+#endif
+
+#ifdef GL_VERTEX_ARRAY_BINDING
+	x = ev.vertex_array_binding;
+# ifdef GL_ARRAY_BUFFER_BINDING
+	BOOST_CHECK(x != ev.array_buffer_binding);
+# endif
+# ifdef GL_ATOMIC_COUNTER_BUFFER_BINDING
+	BOOST_CHECK(x != ev.atomic_counter_buffer_binding);
+# endif
+# ifdef GL_BUFFER_BINDING
+	BOOST_CHECK(x != ev.buffer_binding);
+# endif
+# ifdef GL_COPY_READ_BUFFER_BINDING
+	BOOST_CHECK(x != ev.copy_read_buffer_binding);
+# endif
+# ifdef GL_COPY_WRITE_BUFFER_BINDING
+	BOOST_CHECK(x != ev.copy_write_buffer_binding);
+# endif
+# ifdef GL_CURRENT_PROGRAM
+	BOOST_CHECK(x != ev.current_program);
+# endif
+# ifdef GL_DISPATCH_INDIRECT_BUFFER_BINDING
+	BOOST_CHECK(x != ev.dispatch_indirect_buffer_binding);
+# endif
+# ifdef GL_DRAW_FRAMEBUFFER_BINDING
+	BOOST_CHECK(x != ev.draw_framebuffer_binding);
+# endif
+# ifdef GL_DRAW_INDIRECT_BUFFER_BINDING
+	BOOST_CHECK(x != ev.draw_indirect_buffer_binding);
+# endif
+# ifdef GL_ELEMENT_ARRAY_BUFFER_BINDING
+	BOOST_CHECK(x != ev.element_array_buffer_binding);
+# endif
+# ifdef GL_PARAMETER_BUFFER_BINDING_ARB
+	BOOST_CHECK(x != ev.parameter_buffer_binding);
+# endif
+# ifdef GL_PIXEL_PACK_BUFFER_BINDING
+	BOOST_CHECK(x != ev.pixel_pack_buffer_binding);
+# endif
+# ifdef GL_PIXEL_UNPACK_BUFFER_BINDING
+	BOOST_CHECK(x != ev.pixel_unpack_buffer_binding);
+# endif
+# ifdef GL_QUERY_BUFFER_BINDING
+	BOOST_CHECK(x != ev.query_buffer_binding);
+# endif
+# ifdef GL_RENDERBUFFER_BINDING
+	BOOST_CHECK(x != ev.renderbuffer_binding);
+# endif
+# ifdef GL_SHADER_STORAGE_BUFFER_BINDING
+	BOOST_CHECK(x != ev.shader_storage_buffer_binding);
+# endif
+# ifdef GL_TEXTURE_BINDING_1D
+	BOOST_CHECK(x != ev.texture_binding_1d);
+# endif
+# ifdef GL_TEXTURE_BINDING_1D_ARRAY
+	BOOST_CHECK(x != ev.texture_binding_1d_array);
+# endif
+# ifdef GL_TEXTURE_BINDING_2D
+	BOOST_CHECK(x != ev.texture_binding_2d);
+# endif
+# ifdef GL_TEXTURE_BINDING_2D_ARRAY
+	BOOST_CHECK(x != ev.texture_binding_2d_array);
+# endif
+# ifdef GL_TEXTURE_BINDING_2D_MULTISAMPLE
+	BOOST_CHECK(x != ev.texture_binding_2d_multisample);
+# endif
+# ifdef GL_TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY
+	BOOST_CHECK(x != ev.texture_binding_2d_multisample_array);
+# endif
+# ifdef GL_TEXTURE_BINDING_3D
+	BOOST_CHECK(x != ev.texture_binding_3d);
+# endif
+# ifdef GL_TEXTURE_BINDING_BUFFER
+	BOOST_CHECK(x != ev.texture_binding_buffer);
+# endif
+# ifdef GL_TEXTURE_BINDING_CUBE_MAP
+	BOOST_CHECK(x != ev.texture_binding_cube_map);
+# endif
+# ifdef GL_TEXTURE_BINDING_CUBE_MAP_ARRAY
+	BOOST_CHECK(x != ev.texture_binding_cube_map_array);
+# endif
+# ifdef GL_TEXTURE_BINDING_RECTANGLE
+	BOOST_CHECK(x != ev.texture_binding_rectangle);
+# endif
+# ifdef GL_TEXTURE_BUFFER_BINDING
+	BOOST_CHECK(x != ev.texture_buffer_binding);
+# endif
+# ifdef GL_TRANSFORM_FEEDBACK_BINDING
+	BOOST_CHECK(x != ev.transform_feedback_binding);
+# endif
+# ifdef GL_TRANSFORM_FEEDBACK_BUFFER_BINDING
+	BOOST_CHECK(x != ev.transform_feedback_buffer_binding);
+# endif
+# ifdef GL_UNIFORM_BUFFER_BINDING
+	BOOST_CHECK(x != ev.uniform_buffer_binding);
+# endif
+	BOOST_CHECK(x == ev.vertex_array_binding);
 #endif
 }
 
@@ -2837,6 +3213,15 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_names)
 	BOOST_CHECK(std::strcmp(
 		enum_value_name(x).data(),
 		"COPY_WRITE_BUFFER_BINDING"
+	) == 0);
+#endif
+
+#ifdef GL_CURRENT_PROGRAM
+	x = ev.current_program;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"CURRENT_PROGRAM"
 	) == 0);
 #endif
 
@@ -3064,6 +3449,15 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_names)
 		"UNIFORM_BUFFER_BINDING"
 	) == 0);
 #endif
+
+#ifdef GL_VERTEX_ARRAY_BINDING
+	x = ev.vertex_array_binding;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"VERTEX_ARRAY_BINDING"
+	) == 0);
+#endif
 }
 
 BOOST_AUTO_TEST_CASE(enum_binding_query_range)
@@ -3124,6 +3518,17 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_range)
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
 		GL_COPY_WRITE_BUFFER_BINDING
+	) != r.end());
+}
+#endif
+
+#ifdef GL_CURRENT_PROGRAM
+{
+	--count;
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_CURRENT_PROGRAM
 	) != r.end());
 }
 #endif
@@ -3402,6 +3807,17 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_range)
 	) != r.end());
 }
 #endif
+
+#ifdef GL_VERTEX_ARRAY_BINDING
+{
+	--count;
+	array_view<const GLenum> r = enum_value_range(x);
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		GL_VERTEX_ARRAY_BINDING
+	) != r.end());
+}
+#endif
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
@@ -3464,6 +3880,16 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_any)
 	BOOST_CHECK(same_enum_class(a, y));
 	BOOST_CHECK(same_enum_class(x, y));
 	BOOST_CHECK(y == ev.copy_write_buffer_binding);
+#endif
+
+#ifdef GL_CURRENT_PROGRAM
+	x = ev.current_program;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.current_program);
 #endif
 
 #ifdef GL_DISPATCH_INDIRECT_BUFFER_BINDING
@@ -3714,6 +4140,16 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_any)
 	BOOST_CHECK(same_enum_class(a, y));
 	BOOST_CHECK(same_enum_class(x, y));
 	BOOST_CHECK(y == ev.uniform_buffer_binding);
+#endif
+
+#ifdef GL_VERTEX_ARRAY_BINDING
+	x = ev.vertex_array_binding;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.vertex_array_binding);
 #endif
 }
 

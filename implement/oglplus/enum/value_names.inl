@@ -633,6 +633,10 @@ noexcept
 	static const char s_CULL_FACE[10] =
 		"CULL_FACE";
 #endif
+#ifdef GL_CURRENT_PROGRAM
+	static const char s_CURRENT_PROGRAM[16] =
+		"CURRENT_PROGRAM";
+#endif
 #ifdef GL_CW
 	static const char s_CW[3] =
 		"CW";
@@ -4157,6 +4161,10 @@ noexcept
 	static const char s_VERTEX_ARRAY[13] =
 		"VERTEX_ARRAY";
 #endif
+#ifdef GL_VERTEX_ARRAY_BINDING
+	static const char s_VERTEX_ARRAY_BINDING[21] =
+		"VERTEX_ARRAY_BINDING";
+#endif
 #ifdef GL_VERTEX_ATTRIB_ARRAY_BARRIER_BIT
 	static const char s_VERTEX_ATTRIB_ARRAY_BARRIER_BIT[32] =
 		"VERTEX_ATTRIB_ARRAY_BARRIER_BIT";
@@ -4269,6 +4277,10 @@ noexcept
 				case GL_COPY_WRITE_BUFFER_BINDING:
 					return {s_COPY_WRITE_BUFFER_BINDING, 25};
 #endif
+#ifdef GL_CURRENT_PROGRAM
+				case GL_CURRENT_PROGRAM:
+					return {s_CURRENT_PROGRAM, 15};
+#endif
 #ifdef GL_DISPATCH_INDIRECT_BUFFER_BINDING
 				case GL_DISPATCH_INDIRECT_BUFFER_BINDING:
 					return {s_DISPATCH_INDIRECT_BUFFER_BINDING, 32};
@@ -4368,6 +4380,10 @@ noexcept
 #ifdef GL_UNIFORM_BUFFER_BINDING
 				case GL_UNIFORM_BUFFER_BINDING:
 					return {s_UNIFORM_BUFFER_BINDING, 22};
+#endif
+#ifdef GL_VERTEX_ARRAY_BINDING
+				case GL_VERTEX_ARRAY_BINDING:
+					return {s_VERTEX_ARRAY_BINDING, 20};
 #endif
 				default:;
 			}

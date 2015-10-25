@@ -41,6 +41,11 @@ struct vertex_array_ops
 		OGLPLUS_VERIFY(BindVertexArray, gl_object(vao), debug);
 		return {};
 	}
+
+	static
+	outcome<vertex_array_name>
+	vertex_array_binding(void)
+	noexcept;
 };
 
 } // namespace oper

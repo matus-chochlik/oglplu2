@@ -13,6 +13,23 @@ namespace oglplus {
 namespace oper {
 //------------------------------------------------------------------------------
 inline
+outcome<program_name>
+program_ops::
+current_program(void)
+noexcept
+{
+#ifdef GL_CURRENT_PROGRAK
+	GLint result;
+	return numeric_queries::get_integer_v(
+		binding_query(GL_CURRENT_PROGRAM),
+		{&result, 1}
+	), program_name(GLuint(result));
+#else
+	return program_name(0);
+#endif
+}
+//------------------------------------------------------------------------------
+inline
 outcome<void>
 program_ops::
 get_program_iv(
