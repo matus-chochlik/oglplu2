@@ -7,8 +7,30 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <oglplus/utils/gl_func.hpp>
+#include <oglplus/oper/numeric_queries.hpp>
 
 namespace oglplus {
+//------------------------------------------------------------------------------
+namespace oper {
+//------------------------------------------------------------------------------
+inline
+outcome<program_pipeline_name>
+program_pipeline_ops::
+program_pipeline_binding(void)
+noexcept
+{
+#ifdef GL_PROGRAM_PIPELINE_BINDING
+	GLint result;
+	return numeric_queries::get_integer_v(
+		binding_query(GL_PROGRAM_PIPELINE_BINDING),
+		{&result, 1}
+	), program_pipeline_name(GLuint(result));
+#else
+	return program_pipeline_name(0);
+#endif
+}
+//------------------------------------------------------------------------------
+} // namespace oper
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_gen
 //------------------------------------------------------------------------------

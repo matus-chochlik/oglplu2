@@ -3097,6 +3097,10 @@ noexcept
 	static const char s_SAMPLER_3D[11] =
 		"SAMPLER_3D";
 #endif
+#ifdef GL_SAMPLER_BINDING
+	static const char s_SAMPLER_BINDING[16] =
+		"SAMPLER_BINDING";
+#endif
 #ifdef GL_SAMPLER_BUFFER
 	static const char s_SAMPLER_BUFFER[15] =
 		"SAMPLER_BUFFER";
@@ -4316,6 +4320,10 @@ noexcept
 #ifdef GL_RENDERBUFFER_BINDING
 				case GL_RENDERBUFFER_BINDING:
 					return {s_RENDERBUFFER_BINDING, 20};
+#endif
+#ifdef GL_SAMPLER_BINDING
+				case GL_SAMPLER_BINDING:
+					return {s_SAMPLER_BINDING, 15};
 #endif
 #ifdef GL_SHADER_STORAGE_BUFFER_BINDING
 				case GL_SHADER_STORAGE_BUFFER_BINDING:

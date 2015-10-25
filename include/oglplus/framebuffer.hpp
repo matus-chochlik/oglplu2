@@ -13,6 +13,7 @@
 #include "object/owner.hpp"
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
+#include "utils/gl_func.hpp"
 
 #ifndef GL_FRAMEBUFFER
 #define GL_FRAMEBUFFER 0x8D40
@@ -26,6 +27,40 @@ using framebuffer = gl_obj_tag<GL_FRAMEBUFFER>;
 } // namespace tag
 
 using framebuffer_name = object_name<tag::framebuffer>;
+
+binding_query
+get_binding_query(framebuffer_target tgt)
+noexcept;
+
+namespace oper {
+
+struct framebuffer_ops
+{
+	static
+	outcome<void>
+	bind_framebuffer(framebuffer_target target, framebuffer_name fbo)
+	noexcept
+	{
+		OGLPLUS_GLFUNC(BindFramebuffer)(
+			GLenum(target),
+			get_raw_name(fbo)
+		);
+		OGLPLUS_VERIFY(
+			BindFramebuffer,
+			gl_enum_value(target).
+			gl_object(fbo),
+			debug
+		);
+		return {};
+	}
+
+	static
+	outcome<framebuffer_name>
+	framebuffer_binding(framebuffer_target target)
+	noexcept;
+};
+
+} // namespace oper
 
 template <>
 struct obj_gen_del_ops<tag::framebuffer>

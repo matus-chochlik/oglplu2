@@ -7,8 +7,30 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <oglplus/utils/gl_func.hpp>
+#include <oglplus/oper/numeric_queries.hpp>
+
+#if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
+#include "enum/transform_feedback_target_bq.inl"
+#endif
 
 namespace oglplus {
+//------------------------------------------------------------------------------
+namespace oper {
+//------------------------------------------------------------------------------
+inline
+outcome<transform_feedback_name>
+transform_feedback_ops::
+transform_feedback_binding(transform_feedback_target target)
+noexcept
+{
+	GLint result;
+	return numeric_queries::get_integer_v(
+		get_binding_query(target),
+		{&result, 1}
+	), transform_feedback_name(GLuint(result));
+}
+//------------------------------------------------------------------------------
+} // namespace oper
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_gen
 //------------------------------------------------------------------------------

@@ -1,0 +1,33 @@
+/**
+ *  @file oglplus/enum/indexed_types.hpp
+ *
+ *  Copyright Matus Chochlik.
+ *  Distributed under the Boost Software License, Version 1.0.
+ *  See accompanying file LICENSE_1_0.txt or copy at
+ *   http://www.boost.org/LICENSE_1_0.txt
+ */
+#ifndef OGLPLUS_ENUM_INDEXED_TYPES_1509260923_HPP
+#define OGLPLUS_ENUM_INDEXED_TYPES_1509260923_HPP
+
+#include "../utils/indexed_enum.hpp"
+#include "../utils/limited_value.hpp"
+
+namespace oglplus {
+
+#ifdef GL_TEXTURE0
+typedef limited_value<
+	GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS,
+	indexed_enum_value<GL_TEXTURE0>
+> texture_unit;
+#endif
+
+#ifdef GL_DRAW_BUFFER0
+typedef limited_value<
+	GL_MAX_DRAW_BUFFERS,
+	indexed_enum_value<GL_DRAW_BUFFER0>
+> draw_buffer;
+#endif
+
+} // namespace oglplus
+
+#endif // include guard

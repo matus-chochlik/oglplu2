@@ -13,6 +13,7 @@
 #include "object/owner.hpp"
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
+#include "utils/gl_func.hpp"
 
 #ifndef GL_PROGRAM_PIPELINE
 #define GL_PROGRAM_PIPELINE 0x82E4
@@ -26,6 +27,28 @@ using program_pipeline = gl_obj_tag<GL_PROGRAM_PIPELINE>;
 } // namespace tag
 
 using program_pipeline_name = object_name<tag::program_pipeline>;
+
+namespace oper {
+
+struct program_pipeline_ops
+{
+	static
+	outcome<void>
+	bind_program_pipeline(program_pipeline_name ppo)
+	noexcept
+	{
+		OGLPLUS_GLFUNC(BindProgramPipeline)(get_raw_name(ppo));
+		OGLPLUS_VERIFY(BindProgramPipeline, gl_object(ppo), debug);
+		return {};
+	}
+
+	static
+	outcome<program_pipeline_name>
+	program_pipeline_binding(void)
+	noexcept;
+};
+
+} // namespace oper
 
 template <>
 struct obj_gen_del_ops<tag::program_pipeline>

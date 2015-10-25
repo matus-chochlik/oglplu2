@@ -20,8 +20,13 @@
 #include "vertex_array.hpp"
 #include "buffer.hpp"
 #include "texture.hpp"
+#include "sampler.hpp"
+#include "renderbuffer.hpp"
+#include "framebuffer.hpp"
 #include "shader.hpp"
 #include "program.hpp"
+#include "program_pipeline.hpp"
+#include "transform_feedback.hpp"
 
 #include "oper/vertex_attrib.hpp"
 #include "oper/uniform.hpp"
@@ -44,8 +49,13 @@ class operations
  , public oper::vertex_array_ops
  , public oper::buffer_ops
  , public oper::texture_ops
+ , public oper::sampler_ops
+ , public oper::renderbuffer_ops
+ , public oper::framebuffer_ops
  , public oper::shader_ops
  , public oper::program_ops
+ , public oper::program_pipeline_ops
+ , public oper::transform_feedback_ops
 
  , public oper::prog_var_location_ops
  , public oper::vertex_attrib_ops
@@ -78,6 +88,13 @@ public:
 	}
 
 	static
+	auto bind(texture_unit unit, sampler_name sam)
+	noexcept
+	{
+		return bind_sampler(unit, sam);
+	}
+
+	static
 	auto bind(texture_target tgt, texture_name tex)
 	noexcept
 	{
@@ -89,6 +106,55 @@ public:
 	noexcept
 	{
 		return texture_binding(tgt);
+	}
+
+	static
+	auto bind(framebuffer_target tgt, framebuffer_name fbo)
+	noexcept
+	{
+		return bind_framebuffer(tgt, fbo);
+	}
+
+	static
+	auto binding(framebuffer_target tgt)
+	noexcept
+	{
+		return framebuffer_binding(tgt);
+	}
+
+	static
+	auto bind(renderbuffer_target tgt, renderbuffer_name rbo)
+	noexcept
+	{
+		return bind_renderbuffer(tgt, rbo);
+	}
+
+	static
+	auto binding(renderbuffer_target tgt)
+	noexcept
+	{
+		return renderbuffer_binding(tgt);
+	}
+
+	static
+	auto bind(program_pipeline_name ppo)
+	noexcept
+	{
+		return bind_program_pipeline(ppo);
+	}
+
+	static
+	auto bind(transform_feedback_target tgt, transform_feedback_name xfb)
+	noexcept
+	{
+		return bind_transform_feedback(tgt, xfb);
+	}
+
+	static
+	auto binding(transform_feedback_target tgt)
+	noexcept
+	{
+		return transform_feedback_binding(tgt);
 	}
 
 	static

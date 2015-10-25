@@ -7,8 +7,30 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <oglplus/utils/gl_func.hpp>
+#include <oglplus/oper/numeric_queries.hpp>
+
+#if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
+#include "enum/renderbuffer_target_bq.inl"
+#endif
 
 namespace oglplus {
+//------------------------------------------------------------------------------
+namespace oper {
+//------------------------------------------------------------------------------
+inline
+outcome<renderbuffer_name>
+renderbuffer_ops::
+renderbuffer_binding(renderbuffer_target target)
+noexcept
+{
+	GLint result;
+	return numeric_queries::get_integer_v(
+		get_binding_query(target),
+		{&result, 1}
+	), renderbuffer_name(GLuint(result));
+}
+//------------------------------------------------------------------------------
+} // namespace oper
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_gen
 //------------------------------------------------------------------------------

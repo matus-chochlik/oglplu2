@@ -12,7 +12,7 @@
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include "enum/buffer_target_bq.inl"
 #endif
-//------------------------------------------------------------------------------
+
 namespace oglplus {
 //------------------------------------------------------------------------------
 namespace oper {

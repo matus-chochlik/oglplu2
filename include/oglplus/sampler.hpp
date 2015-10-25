@@ -13,6 +13,8 @@
 #include "object/owner.hpp"
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
+#include "utils/gl_func.hpp"
+#include "enum/indexed_types.hpp"
 
 #ifndef GL_SAMPLER
 #define GL_SAMPLER 0x82E6
@@ -26,6 +28,36 @@ using sampler = gl_obj_tag<GL_SAMPLER>;
 } // namespace tag
 
 using sampler_name = object_name<tag::sampler>;
+
+namespace oper {
+
+struct sampler_ops
+{
+	static
+	outcome<void>
+	bind_sampler(texture_unit unit, sampler_name sam)
+	noexcept
+	{
+		OGLPLUS_GLFUNC(BindFramebuffer)(
+			GLenum(unit),
+			get_raw_name(sam)
+		);
+		OGLPLUS_VERIFY(
+			BindFramebuffer,
+			gl_enum_value(unit).
+			gl_object(sam),
+			debug
+		);
+		return {};
+	}
+
+	static
+	outcome<sampler_name>
+	sampler_binding(texture_unit unit)
+	noexcept;
+};
+
+} // namespace oper
 
 template <>
 struct obj_gen_del_ops<tag::sampler>

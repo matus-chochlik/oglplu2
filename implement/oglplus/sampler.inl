@@ -7,8 +7,32 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <oglplus/utils/gl_func.hpp>
+#include <oglplus/oper/numeric_queries.hpp>
 
 namespace oglplus {
+//------------------------------------------------------------------------------
+namespace oper {
+//------------------------------------------------------------------------------
+inline
+outcome<sampler_name>
+sampler_ops::
+sampler_binding(texture_unit unit)
+noexcept
+{
+	OGLPLUS_GLFUNC(ActiveTexture)(GLenum(unit));
+	OGLPLUS_VERIFY(
+		ActiveTexture,
+		gl_enum_value(unit),
+		always
+	);
+	GLint result;
+	return numeric_queries::get_integer_v(
+		binding_query(GL_SAMPLER_BINDING),
+		{&result, 1}
+	), sampler_name(GLuint(result));
+}
+//------------------------------------------------------------------------------
+} // namespace oper
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_gen
 //------------------------------------------------------------------------------

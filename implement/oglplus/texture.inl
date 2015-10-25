@@ -12,7 +12,7 @@
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include "enum/texture_target_bq.inl"
 #endif
-//------------------------------------------------------------------------------
+
 namespace oglplus {
 //------------------------------------------------------------------------------
 namespace oper {

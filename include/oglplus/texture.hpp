@@ -15,7 +15,8 @@
 #include "error/outcome.hpp"
 #include "utils/nothing.hpp"
 #include "utils/gl_func.hpp"
-#include "constants.hpp"
+#include "enum/types.hpp"
+#include "enum/indexed_types.hpp"
 
 #ifndef GL_TEXTURE
 #define GL_TEXTURE 0x1702

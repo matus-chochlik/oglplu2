@@ -6250,6 +6250,14 @@ static constexpr const enum_value<
 > sampler_3d = {};
 #endif
 
+#ifdef GL_SAMPLER_BINDING
+static constexpr const enum_value<
+	GLenum,
+	GL_SAMPLER_BINDING,
+	mp_list<oglplus::binding_query>
+> sampler_binding = {};
+#endif
+
 #ifdef GL_SAMPLER_BUFFER
 static constexpr const enum_value<
 	GLenum,
