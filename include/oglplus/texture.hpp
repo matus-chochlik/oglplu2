@@ -13,6 +13,7 @@
 #include "object/owner.hpp"
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
+#include "utils/nothing.hpp"
 #include "utils/gl_func.hpp"
 #include "constants.hpp"
 
@@ -45,6 +46,88 @@ using texture_name = object_name<tag::texture>;
 binding_query
 get_binding_query(texture_target tgt)
 noexcept;
+
+template <typename Name, typename Target>
+struct texture_name_or_target;
+
+template <typename Name, typename Target>
+static constexpr inline
+texture_name_or_target<Name, Target>
+make_texture_name_and_target(texture_name_or_target<Name, Target> tnt)
+noexcept
+{
+	return tnt;
+}
+
+template <>
+struct texture_name_or_target<nothing_t, texture_target>
+{
+	texture_target _target;
+
+	constexpr inline
+	texture_name_or_target(texture_target target)
+	noexcept
+	 : _target(target)
+	{ }
+};
+
+typedef texture_name_or_target<nothing_t, texture_target> texture_target_only;
+
+static constexpr inline
+texture_target_only
+make_texture_name_or_target(texture_target target)
+noexcept
+{
+	return {target};
+}
+
+template <>
+struct texture_name_or_target<texture_name, nothing_t>
+{
+	texture_name _name;
+
+	constexpr inline
+	texture_name_or_target(texture_name name)
+	noexcept
+	 : _name(name)
+	{ }
+};
+
+typedef texture_name_or_target<texture_name, nothing_t> texture_name_only;
+
+static constexpr inline
+texture_name_only
+make_texture_name_or_target(texture_name name)
+noexcept
+{
+	return {name};
+}
+
+template <>
+struct texture_name_or_target<texture_name, texture_target>
+{
+	texture_name _name;
+	texture_target _target;
+
+	constexpr inline
+	texture_name_or_target(
+		texture_name name,
+		texture_target target
+	) noexcept
+	 : _name(name)
+	 , _target(target)
+	{ }
+};
+
+typedef texture_name_or_target<texture_name, texture_target> texture_name_and_target;
+
+static constexpr inline
+texture_name_and_target
+make_texture_name_or_target(texture_name name, texture_target target)
+noexcept
+{
+	return {name, target};
+}
 
 namespace oper {
 
@@ -82,6 +165,116 @@ struct texture_ops
 	outcome<texture_name>
 	texture_binding(texture_target target)
 	noexcept;
+
+	static
+	outcome<void>
+	texture_parameter_i(
+		texture_target_only tnt,
+		oglplus::texture_parameter param,
+		GLint value
+	) noexcept;
+
+	static
+	outcome<void>
+	get_texture_parameter_i(
+		texture_target_only tnt,
+		oglplus::texture_parameter param,
+		array_view<GLint> values
+	) noexcept;
+
+#ifdef GL_VERSION_4_5
+	static
+	outcome<void>
+	texture_parameter_i(
+		texture_name_only tnt,
+		oglplus::texture_parameter param,
+		GLint value
+	) noexcept;
+
+	static
+	outcome<void>
+	get_texture_parameter_i(
+		texture_name_only tnt,
+		oglplus::texture_parameter param,
+		array_view<GLint> values
+	) noexcept;
+#endif
+
+#ifdef GL_EXT_direct_state_access
+	static
+	outcome<void>
+	texture_parameter_i(
+		texture_name_and_target tnt,
+		oglplus::texture_parameter param,
+		GLint value
+	) noexcept;
+
+	static
+	outcome<void>
+	get_texture_parameter_i(
+		texture_name_and_target tnt,
+		oglplus::texture_parameter param,
+		array_view<GLint> values
+	) noexcept;
+#endif
+
+	template <typename TNT>
+	static 
+	outcome<void>
+	texture_min_filter(
+		TNT tnt,
+		oglplus::texture_min_filter value
+	) noexcept
+	{
+		return texture_parameter_i(
+			make_texture_name_or_target(tnt),
+			oglplus::texture_parameter(GL_TEXTURE_MIN_FILTER),
+			GLint(GLenum(value))
+		);
+	}
+
+	template <typename TNT>
+	static 
+	outcome<oglplus::texture_min_filter>
+	texture_min_filter(TNT tnt)
+	noexcept
+	{
+		GLint result;
+		return get_texture_parameter_i(
+			make_texture_name_or_target(tnt),
+			oglplus::texture_parameter(GL_TEXTURE_MIN_FILTER),
+			{&result, 1}
+		), oglplus::texture_min_filter(GLenum(result));
+	}
+
+	template <typename TNT>
+	static 
+	outcome<void>
+	texture_mag_filter(
+		TNT tnt,
+		oglplus::texture_mag_filter value
+	) noexcept
+	{
+		return texture_parameter_i(
+			make_texture_name_or_target(tnt),
+			oglplus::texture_parameter(GL_TEXTURE_MAG_FILTER),
+			GLint(GLenum(value))
+		);
+	}
+
+	template <typename TNT>
+	static 
+	outcome<oglplus::texture_mag_filter>
+	texture_mag_filter(TNT tnt)
+	noexcept
+	{
+		GLint result;
+		return get_texture_parameter_i(
+			make_texture_name_or_target(tnt),
+			oglplus::texture_parameter(GL_TEXTURE_MAG_FILTER),
+			{&result, 1}
+		), oglplus::texture_mag_filter(GLenum(result));
+	}
 };
 
 } // namespace oper

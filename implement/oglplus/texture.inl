@@ -64,6 +64,153 @@ noexcept
 	), texture_name(GLuint(result));
 }
 //------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+texture_parameter_i(
+	texture_target_only tnt,
+	oglplus::texture_parameter param,
+	GLint value
+) noexcept
+{
+	OGLPLUS_GLFUNC(TexParameteri)(
+		GLenum(tnt._target),
+		GLenum(param),
+		value
+	);
+	OGLPLUS_VERIFY(
+		TexParameteri,
+		//gl_object(texture_binding(target)). TODO
+		gl_enum_value(param),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+get_texture_parameter_i(
+	texture_target_only tnt,
+	oglplus::texture_parameter param,
+	array_view<GLint> values
+) noexcept
+{
+	assert(values.size() > 0);
+	OGLPLUS_GLFUNC(GetTexParameteriv)(
+		GLenum(tnt._target),
+		GLenum(param),
+		values.data()
+	);
+	OGLPLUS_VERIFY(
+		GetTexParameteriv,
+		//gl_object(texture_binding(target)). TODO
+		gl_enum_value(param),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+#ifdef GL_VERSION_4_5
+inline
+outcome<void>
+texture_ops::
+texture_parameter_i(
+	texture_name_only tnt,
+	oglplus::texture_parameter param,
+	GLint value
+) noexcept
+{
+	OGLPLUS_GLFUNC(TextureParameteri)(
+		get_raw_name(tnt._name),
+		GLenum(param),
+		value
+	);
+	OGLPLUS_VERIFY(
+		TextureParameteri,
+		gl_object(tnt._name).
+		gl_enum_value(param),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+get_texture_parameter_i(
+	texture_name_only tnt,
+	oglplus::texture_parameter param,
+	array_view<GLint> values
+) noexcept
+{
+	assert(value.size() > 0);
+	OGLPLUS_GLFUNC(GetTextureParameteriv)(
+		get_raw_name(tnt._name),
+		GLenum(param),
+		values.data()
+	);
+	OGLPLUS_VERIFY(
+		GetTextureParameteriv,
+		gl_object(tnt._name).
+		gl_enum_value(param),
+		always
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
+#ifdef GL_EXT_direct_state_access
+inline
+outcome<void>
+texture_ops::
+texture_parameter_i(
+	texture_name_and_target tnt,
+	oglplus::texture_parameter param,
+	GLint value
+) noexcept
+{
+	OGLPLUS_GLFUNC(TextureParameteriEXT)(
+		get_raw_name(tnt._name),
+		GLenum(tnt._target),
+		GLenum(param),
+		value
+	);
+	OGLPLUS_VERIFY(
+		TextureParameteriEXT,
+		gl_object(tnt._name).
+		gl_enum_value(param),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+get_texture_parameter_i(
+	texture_name_and_target tnt,
+	oglplus::texture_parameter param,
+	array_view<GLint> values
+) noexcept
+{
+	assert(values.size() > 0);
+	OGLPLUS_GLFUNC(GetTextureParameterivEXT)(
+		get_raw_name(tnt._name),
+		GLenum(tnt._target),
+		GLenum(param),
+		values.data()
+	);
+	OGLPLUS_VERIFY(
+		GetTextureParameterivEXT,
+		gl_object(tnt._name).
+		gl_enum_value(param),
+		always
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
 } // namespace oper
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_gen
