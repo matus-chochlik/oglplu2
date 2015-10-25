@@ -13,7 +13,19 @@ all: \
 	_incl_enum_values_hpp \
 	_impl_enum_value_names_inl \
 	_impl_enum_value_range_inl \
+	_impl_enum_bq_inl \
 	_test_enums_cpp
+
+.PHONY:	_binding_queries_mk
+_binding_queries_mk: ./binding_queries.mk
+
+#.INTERMEDIATE: ./binding_queries.mk
+./binding_queries.mk: $(MAKE_ENUM) $(SOURCES)
+	$(MAKE_ENUM) $(MEFLAGS) \
+		--action binding_queries_mk \
+		--output "$@" \
+		$(filter %.txt,$^)
+	git add "$@"
 
 .PHONY: _incl_enum_types_hpp
 _incl_enum_types_hpp: \
@@ -59,6 +71,16 @@ $(ROOT)/implement/$(LIBRARY)/enum/value_range$(LIB_SUFFIX).inl: $(SOURCES) $(MAK
 		$(filter %.txt,$^)
 	git add "$@"
 
+.PHONY: _impl_enum_bq_inl
+_impl_enum_bq_inl:
+
+$(ROOT)/implement/$(LIBRARY)/enum/%_bq$(LIB_SUFFIX).inl: $(MAKE_ENUM)
+	$(MAKE_ENUM) $(MEFLAGS) \
+		--action impl_enum_bq_inl \
+		--output "$@" \
+		$(filter %.txt,$^)
+	git add "$@"
+
 .PHONY: _test_enums_cpp
 _test_enums_cpp: $(addprefix $(ROOT)/test/$(LIBRARY)/enums/,$(notdir $(patsubst %.txt,%.cpp,$(SOURCES))))
 
@@ -74,3 +96,4 @@ $(ROOT)/test/$(LIBRARY)/enums/%.cpp: */%.txt $(MAKE_ENUM)
 		--output "$@" "$<" 
 	git add "$@"
 
+sinclude ./binding_queries.mk

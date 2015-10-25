@@ -47,6 +47,19 @@ noexcept
 	), texture_unit(GLenum(result));
 }
 //------------------------------------------------------------------------------
+inline
+outcome<texture_name>
+texture_ops::
+texture_binding(texture_target target)
+noexcept
+{
+	GLint result;
+	return numeric_queries::get_integer_v(
+		get_binding_query(target),
+		{&result, 1}
+	), texture_name(GLuint(result));
+}
+//------------------------------------------------------------------------------
 } // namespace oper
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_gen
@@ -95,3 +108,9 @@ noexcept
 }
 //------------------------------------------------------------------------------
 } // namespace oglplus
+//------------------------------------------------------------------------------
+#if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
+#include "enum/texture_target_bq.inl"
+#endif
+//------------------------------------------------------------------------------
+

@@ -42,6 +42,10 @@ namespace oglplus {
 
 using texture_name = object_name<tag::texture>;
 
+binding_query
+get_binding_query(texture_target tgt)
+noexcept;
+
 namespace oper {
 
 struct texture_ops
@@ -73,6 +77,11 @@ struct texture_ops
 		);
 		return {};
 	}
+
+	static
+	outcome<texture_name>
+	texture_binding(texture_target target)
+	noexcept;
 };
 
 } // namespace oper

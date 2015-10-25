@@ -186,6 +186,14 @@ static constexpr const enum_value<
 > array_buffer = {};
 #endif
 
+#ifdef GL_ARRAY_BUFFER_BINDING
+static constexpr const enum_value<
+	GLenum,
+	GL_ARRAY_BUFFER_BINDING,
+	mp_list<oglplus::binding_query>
+> array_buffer_binding = {};
+#endif
+
 #ifdef GL_ARRAY_SIZE
 static constexpr const enum_value<
 	GLenum,
@@ -216,6 +224,14 @@ static constexpr const enum_value<
 	GL_ATOMIC_COUNTER_BUFFER,
 	mp_list<oglplus::buffer_indexed_target,oglplus::buffer_target,oglplus::program_interface>
 > atomic_counter_buffer = {};
+#endif
+
+#ifdef GL_ATOMIC_COUNTER_BUFFER_BINDING
+static constexpr const enum_value<
+	GLenum,
+	GL_ATOMIC_COUNTER_BUFFER_BINDING,
+	mp_list<oglplus::binding_query>
+> atomic_counter_buffer_binding = {};
 #endif
 
 #ifdef GL_ATOMIC_COUNTER_BUFFER_INDEX
@@ -462,7 +478,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_BUFFER_BINDING,
-	mp_list<oglplus::program_resource_property>
+	mp_list<oglplus::program_resource_property,oglplus::binding_query>
 > buffer_binding = {};
 #endif
 
@@ -1186,12 +1202,28 @@ static constexpr const enum_value<
 > copy_read_buffer = {};
 #endif
 
+#ifdef GL_COPY_READ_BUFFER_BINDING
+static constexpr const enum_value<
+	GLenum,
+	GL_COPY_READ_BUFFER_BINDING,
+	mp_list<oglplus::binding_query>
+> copy_read_buffer_binding = {};
+#endif
+
 #ifdef GL_COPY_WRITE_BUFFER
 static constexpr const enum_value<
 	GLenum,
 	GL_COPY_WRITE_BUFFER,
 	mp_list<oglplus::buffer_target>
 > copy_write_buffer = {};
+#endif
+
+#ifdef GL_COPY_WRITE_BUFFER_BINDING
+static constexpr const enum_value<
+	GLenum,
+	GL_COPY_WRITE_BUFFER_BINDING,
+	mp_list<oglplus::binding_query>
+> copy_write_buffer_binding = {};
 #endif
 
 #ifdef GL_COUNT_DOWN_NV
@@ -1594,6 +1626,14 @@ static constexpr const enum_value<
 > dispatch_indirect_buffer = {};
 #endif
 
+#ifdef GL_DISPATCH_INDIRECT_BUFFER_BINDING
+static constexpr const enum_value<
+	GLenum,
+	GL_DISPATCH_INDIRECT_BUFFER_BINDING,
+	mp_list<oglplus::binding_query>
+> dispatch_indirect_buffer_binding = {};
+#endif
+
 #ifdef GL_DITHER
 static constexpr const enum_value<
 	GLenum,
@@ -1746,12 +1786,28 @@ static constexpr const enum_value<
 > draw_framebuffer = {};
 #endif
 
+#ifdef GL_DRAW_FRAMEBUFFER_BINDING
+static constexpr const enum_value<
+	GLenum,
+	GL_DRAW_FRAMEBUFFER_BINDING,
+	mp_list<oglplus::binding_query>
+> draw_framebuffer_binding = {};
+#endif
+
 #ifdef GL_DRAW_INDIRECT_BUFFER
 static constexpr const enum_value<
 	GLenum,
 	GL_DRAW_INDIRECT_BUFFER,
 	mp_list<oglplus::buffer_target>
 > draw_indirect_buffer = {};
+#endif
+
+#ifdef GL_DRAW_INDIRECT_BUFFER_BINDING
+static constexpr const enum_value<
+	GLenum,
+	GL_DRAW_INDIRECT_BUFFER_BINDING,
+	mp_list<oglplus::binding_query>
+> draw_indirect_buffer_binding = {};
 #endif
 
 #ifdef GL_DST_ALPHA
@@ -1832,6 +1888,14 @@ static constexpr const enum_value<
 	GL_ELEMENT_ARRAY_BUFFER,
 	mp_list<oglplus::buffer_target>
 > element_array_buffer = {};
+#endif
+
+#ifdef GL_ELEMENT_ARRAY_BUFFER_BINDING
+static constexpr const enum_value<
+	GLenum,
+	GL_ELEMENT_ARRAY_BUFFER_BINDING,
+	mp_list<oglplus::binding_query>
+> element_array_buffer_binding = {};
 #endif
 
 #ifdef GL_EQUAL
@@ -4730,6 +4794,14 @@ static constexpr const enum_value<
 > parameter_buffer = {};
 #endif
 
+#ifdef GL_PARAMETER_BUFFER_BINDING_ARB
+static constexpr const enum_value<
+	GLenum,
+	GL_PARAMETER_BUFFER_BINDING_ARB,
+	mp_list<oglplus::binding_query>
+> parameter_buffer_binding = {};
+#endif
+
 #ifdef GL_PATCH_DEFAULT_INNER_LEVEL
 static constexpr const enum_value<
 	GLenum,
@@ -4826,12 +4898,28 @@ static constexpr const enum_value<
 > pixel_pack_buffer = {};
 #endif
 
+#ifdef GL_PIXEL_PACK_BUFFER_BINDING
+static constexpr const enum_value<
+	GLenum,
+	GL_PIXEL_PACK_BUFFER_BINDING,
+	mp_list<oglplus::binding_query>
+> pixel_pack_buffer_binding = {};
+#endif
+
 #ifdef GL_PIXEL_UNPACK_BUFFER
 static constexpr const enum_value<
 	GLenum,
 	GL_PIXEL_UNPACK_BUFFER,
 	mp_list<oglplus::buffer_target>
 > pixel_unpack_buffer = {};
+#endif
+
+#ifdef GL_PIXEL_UNPACK_BUFFER_BINDING
+static constexpr const enum_value<
+	GLenum,
+	GL_PIXEL_UNPACK_BUFFER_BINDING,
+	mp_list<oglplus::binding_query>
+> pixel_unpack_buffer_binding = {};
 #endif
 
 #ifdef GL_POINT
@@ -5088,6 +5176,14 @@ static constexpr const enum_value<
 	GL_QUERY_BUFFER,
 	mp_list<oglplus::buffer_target>
 > query_buffer = {};
+#endif
+
+#ifdef GL_QUERY_BUFFER_BINDING
+static constexpr const enum_value<
+	GLenum,
+	GL_QUERY_BUFFER_BINDING,
+	mp_list<oglplus::binding_query>
+> query_buffer_binding = {};
 #endif
 
 #ifdef GL_QUERY_BY_REGION_NO_WAIT
@@ -5488,6 +5584,14 @@ static constexpr const enum_value<
 	GL_RENDERBUFFER,
 	mp_list<oglplus::object_type,oglplus::renderbuffer_target>
 > renderbuffer = {};
+#endif
+
+#ifdef GL_RENDERBUFFER_BINDING
+static constexpr const enum_value<
+	GLenum,
+	GL_RENDERBUFFER_BINDING,
+	mp_list<oglplus::binding_query>
+> renderbuffer_binding = {};
 #endif
 
 #ifdef GL_RENDERER
@@ -6306,6 +6410,14 @@ static constexpr const enum_value<
 > shader_storage_buffer = {};
 #endif
 
+#ifdef GL_SHADER_STORAGE_BUFFER_BINDING
+static constexpr const enum_value<
+	GLenum,
+	GL_SHADER_STORAGE_BUFFER_BINDING,
+	mp_list<oglplus::binding_query>
+> shader_storage_buffer_binding = {};
+#endif
+
 #ifdef GL_SHADER_STORAGE_BUFFER_OFFSET_ALIGNMENT
 static constexpr const enum_value<
 	GLenum,
@@ -6954,6 +7066,94 @@ static constexpr const enum_value<
 > texture_base_level = {};
 #endif
 
+#ifdef GL_TEXTURE_BINDING_1D
+static constexpr const enum_value<
+	GLenum,
+	GL_TEXTURE_BINDING_1D,
+	mp_list<oglplus::binding_query>
+> texture_binding_1d = {};
+#endif
+
+#ifdef GL_TEXTURE_BINDING_1D_ARRAY
+static constexpr const enum_value<
+	GLenum,
+	GL_TEXTURE_BINDING_1D_ARRAY,
+	mp_list<oglplus::binding_query>
+> texture_binding_1d_array = {};
+#endif
+
+#ifdef GL_TEXTURE_BINDING_2D
+static constexpr const enum_value<
+	GLenum,
+	GL_TEXTURE_BINDING_2D,
+	mp_list<oglplus::binding_query>
+> texture_binding_2d = {};
+#endif
+
+#ifdef GL_TEXTURE_BINDING_2D_ARRAY
+static constexpr const enum_value<
+	GLenum,
+	GL_TEXTURE_BINDING_2D_ARRAY,
+	mp_list<oglplus::binding_query>
+> texture_binding_2d_array = {};
+#endif
+
+#ifdef GL_TEXTURE_BINDING_2D_MULTISAMPLE
+static constexpr const enum_value<
+	GLenum,
+	GL_TEXTURE_BINDING_2D_MULTISAMPLE,
+	mp_list<oglplus::binding_query>
+> texture_binding_2d_multisample = {};
+#endif
+
+#ifdef GL_TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY
+static constexpr const enum_value<
+	GLenum,
+	GL_TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY,
+	mp_list<oglplus::binding_query>
+> texture_binding_2d_multisample_array = {};
+#endif
+
+#ifdef GL_TEXTURE_BINDING_3D
+static constexpr const enum_value<
+	GLenum,
+	GL_TEXTURE_BINDING_3D,
+	mp_list<oglplus::binding_query>
+> texture_binding_3d = {};
+#endif
+
+#ifdef GL_TEXTURE_BINDING_BUFFER
+static constexpr const enum_value<
+	GLenum,
+	GL_TEXTURE_BINDING_BUFFER,
+	mp_list<oglplus::binding_query>
+> texture_binding_buffer = {};
+#endif
+
+#ifdef GL_TEXTURE_BINDING_CUBE_MAP
+static constexpr const enum_value<
+	GLenum,
+	GL_TEXTURE_BINDING_CUBE_MAP,
+	mp_list<oglplus::binding_query>
+> texture_binding_cube_map = {};
+#endif
+
+#ifdef GL_TEXTURE_BINDING_CUBE_MAP_ARRAY
+static constexpr const enum_value<
+	GLenum,
+	GL_TEXTURE_BINDING_CUBE_MAP_ARRAY,
+	mp_list<oglplus::binding_query>
+> texture_binding_cube_map_array = {};
+#endif
+
+#ifdef GL_TEXTURE_BINDING_RECTANGLE
+static constexpr const enum_value<
+	GLenum,
+	GL_TEXTURE_BINDING_RECTANGLE,
+	mp_list<oglplus::binding_query>
+> texture_binding_rectangle = {};
+#endif
+
 #ifdef GL_TEXTURE_BORDER_COLOR
 static constexpr const enum_value<
 	GLenum,
@@ -6968,6 +7168,14 @@ static constexpr const enum_value<
 	GL_TEXTURE_BUFFER,
 	mp_list<oglplus::texture_target,oglplus::buffer_target>
 > texture_buffer = {};
+#endif
+
+#ifdef GL_TEXTURE_BUFFER_BINDING
+static constexpr const enum_value<
+	GLenum,
+	GL_TEXTURE_BUFFER_BINDING,
+	mp_list<oglplus::binding_query>
+> texture_buffer_binding = {};
 #endif
 
 #ifdef GL_TEXTURE_BUFFER_OFFSET_ALIGNMENT
@@ -7322,12 +7530,28 @@ static constexpr const enum_value<
 > transform_feedback_barrier_bit = {};
 #endif
 
+#ifdef GL_TRANSFORM_FEEDBACK_BINDING
+static constexpr const enum_value<
+	GLenum,
+	GL_TRANSFORM_FEEDBACK_BINDING,
+	mp_list<oglplus::binding_query>
+> transform_feedback_binding = {};
+#endif
+
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER
 static constexpr const enum_value<
 	GLenum,
 	GL_TRANSFORM_FEEDBACK_BUFFER,
 	mp_list<oglplus::buffer_indexed_target,oglplus::buffer_target>
 > transform_feedback_buffer = {};
+#endif
+
+#ifdef GL_TRANSFORM_FEEDBACK_BUFFER_BINDING
+static constexpr const enum_value<
+	GLenum,
+	GL_TRANSFORM_FEEDBACK_BUFFER_BINDING,
+	mp_list<oglplus::binding_query>
+> transform_feedback_buffer_binding = {};
 #endif
 
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER_INDEX
@@ -7528,6 +7752,14 @@ static constexpr const enum_value<
 	GL_UNIFORM_BUFFER,
 	mp_list<oglplus::buffer_indexed_target,oglplus::buffer_target>
 > uniform_buffer = {};
+#endif
+
+#ifdef GL_UNIFORM_BUFFER_BINDING
+static constexpr const enum_value<
+	GLenum,
+	GL_UNIFORM_BUFFER_BINDING,
+	mp_list<oglplus::binding_query>
+> uniform_buffer_binding = {};
 #endif
 
 #ifdef GL_UNIFORM_BUFFER_OFFSET_ALIGNMENT

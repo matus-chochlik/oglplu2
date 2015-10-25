@@ -22,6 +22,24 @@ struct numeric_queries
 {
 	static
 	outcome<void>
+	get_integer_v(binding_query query, array_view<GLint> data)
+	noexcept
+	{
+		assert(data.size() > 0);
+		OGLPLUS_GLFUNC(GetIntegerv)(
+			GLenum(query),
+			data.data()
+		);
+		OGLPLUS_VERIFY(
+			GetIntegerv,
+			gl_enum_value(query),
+			always
+		);
+		return {};
+	}
+
+	static
+	outcome<void>
 	get_integer_v(numeric_query query, array_view<GLint> data)
 	noexcept
 	{

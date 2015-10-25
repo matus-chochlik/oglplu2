@@ -126,6 +126,9 @@ def parse_source(options, input_path = None):
 				else:
 					av["comma_doc"] = str()
 
+				if not av.get("bind_query"):
+					av["bind_query"] = None
+
 				av["enum_class"] = options.enum_name
 				av["enum_type"] = options.enum_type
 
@@ -136,6 +139,46 @@ def parse_source(options, input_path = None):
 def action_info(options):
 	print("Inputs: %s" % options.inputs)
 	print("Output: %s" % options.output)
+
+def action_binding_queries_mk(options):
+
+	out_dir = os.path.join(options.root_dir,"implement",options.library,"enum")
+
+	inputs_with_bq = list()
+
+	for input_path in sorted(options.inputs, key=lambda x: os.path.basename(x)):
+		update_input_options(options, input_path)
+		for value_info in parse_source(options, input_path):
+			if value_info.bind_query is not None:
+				inputs_with_bq.append(input_path)
+				break
+	outputs_with_bq = dict()
+
+	for input_with_bq in inputs_with_bq:
+		outputs_with_bq[
+			os.path.relpath(
+				os.path.join(
+					out_dir,
+					"%s_bq.inl" %
+					os.path.splitext(
+						os.path.basename(input_with_bq)
+					)[0]
+				)
+			)
+		] = os.path.relpath(input_with_bq, options.work_dir)
+
+	if len(outputs_with_bq) > 0:
+		print_line(options, "_impl_enum_bq_inl:\\\n\t%s" % (
+			' \\\n\t'.join(outputs_with_bq)
+		))
+		print_newline(options)
+
+		for output_with_bq, input_with_bq in outputs_with_bq.iteritems():
+			print_line(options, "%s: %s" % (output_with_bq, input_with_bq))
+			print_newline(options)
+	else:
+		print_line(options, "_impl_enum_bq_inl:")
+
 
 def action_incl_enum_types_hpp(options):
 
@@ -400,6 +443,59 @@ def action_impl_enum_value_range_inl(options):
 	print_line(options, "} // namespace %s" % options.library)
 
 
+def action_impl_enum_bq_inl(options):
+
+	value_infos = dict()
+
+	input_path = options.inputs[0]
+
+	update_input_options(options, input_path)
+
+	for value_info in parse_source(options, input_path):
+		value_infos[value_info.dst_name] = value_info
+
+	print_cpp_header(options)
+	print_line(options, "namespace %s {" % options.library)
+	print_newline(options)
+	print_line(options, "%s_LIB_FUNC" % options.library_uc)
+	print_line(options, "binding_query")
+	print_line(options, "get_binding_query(%s tgt)" % options.enum_name)
+	print_line(options, "noexcept")
+	print_line(options, "{")
+
+	print_line(options, "	%s result = 0;" % options.enum_type)
+	print_line(options, "	switch(%s(tgt))" % options.enum_type)
+	print_line(options, "	{")
+	for value_name, value_info in sorted(value_infos.items()):
+		if value_info.bind_query is not None:
+			print_line(options, "#if	defined(%s_%s) && \\" % (
+				options.base_lib_prefix,
+				value_info.src_name
+			))
+			print_line(options, "	defined(%s_%s)" % (
+				options.base_lib_prefix,
+				value_info.bind_query
+			))
+			print_line(options, "		case %s_%s:" % (
+				options.base_lib_prefix,
+				value_info.src_name
+			))
+			print_line(options, "			result = %s_%s;" % (
+				options.base_lib_prefix,
+				value_info.bind_query
+			))
+			print_line(options, "			break;")
+			print_line(options, "#endif")
+
+	print_line(options, "		default:;")
+	print_line(options, "	}")
+
+	print_line(options, "	return binding_query(result);")
+	print_line(options, "}")
+	print_newline(options)
+	print_line(options, "} // namespace %s" % options.library)
+
+
 def action_test_enums_cpp(options):
 
 	value_infos = dict()
@@ -556,10 +652,12 @@ def action_test_enums_cpp(options):
 
 
 actions = {
+	"binding_queries_mk": action_binding_queries_mk,
 	"incl_enum_types_hpp": action_incl_enum_types_hpp,
 	"incl_enum_values_hpp": action_incl_enum_values_hpp,
 	"impl_enum_value_names_inl": action_impl_enum_value_names_inl,
 	"impl_enum_value_range_inl": action_impl_enum_value_range_inl,
+	"impl_enum_bq_inl": action_impl_enum_bq_inl,
 	"test_enums_cpp": action_test_enums_cpp,
 	"info":    action_info,
 }
@@ -611,6 +709,7 @@ def get_argument_parser():
 
 	argparser.add_argument(
 		"--lib-suffix",
+		default=str(),
 		action="store",
 		help=""" The library suffix. """
 	)
@@ -661,6 +760,7 @@ def get_options():
 
 	options.root_dir = os.path.abspath(options.root_dir)
 	options.rel_self = os.path.relpath(sys.argv[0], options.root_dir)
+	options.enum_dir = os.path.abspath(os.path.dirname(sys.argv[0]))
 
 	options.inputs += options.input
 	options.input = None
@@ -676,6 +776,8 @@ def get_options():
 
 	if options.library:
 		options.library_uc = options.library.upper()
+
+	options.work_dir = os.path.join(options.enum_dir, "%s%s" % (options.library, options.lib_suffix))
 
 	return options
 
