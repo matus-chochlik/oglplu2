@@ -40,6 +40,33 @@ struct numeric_queries
 
 	static
 	outcome<void>
+	get_boolean_v(numeric_query query, array_view<GLboolean> data)
+	noexcept
+	{
+		assert(data.size() > 0);
+		OGLPLUS_GLFUNC(GetBooleanv)(
+			GLenum(query),
+			data.data()
+		);
+		OGLPLUS_VERIFY(
+			GetBooleanv,
+			gl_enum_value(query),
+			always
+		);
+		return {};
+	}
+
+	static
+	outcome<bool>
+	get_boolean(numeric_query query)
+	noexcept
+	{
+		GLboolean result = 0;
+		return get_boolean_v(query, {&result, 1}), result == GL_TRUE;
+	}
+
+	static
+	outcome<void>
 	get_integer_v(numeric_query query, array_view<GLint> data)
 	noexcept
 	{
@@ -54,6 +81,15 @@ struct numeric_queries
 			always
 		);
 		return {};
+	}
+
+	static
+	outcome<GLint>
+	get_integer(numeric_query query)
+	noexcept
+	{
+		GLint result = 0;
+		return get_integer_v(query, {&result, 1}), result;
 	}
 
 	static
@@ -72,6 +108,15 @@ struct numeric_queries
 			always
 		);
 		return {};
+	}
+
+	static
+	outcome<GLfloat>
+	get_float(numeric_query query)
+	noexcept
+	{
+		GLfloat result = 0;
+		return get_float_v(query, {&result, 1}), result;
 	}
 };
 

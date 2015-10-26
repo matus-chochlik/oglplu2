@@ -28,6 +28,13 @@ typedef limited_value<
 > draw_buffer;
 #endif
 
+#ifdef GL_CLIP_DISTANCE0
+typedef limited_value<
+	GL_MAX_CLIP_PLANES,
+	indexed_enum_value<GL_CLIP_DISTANCE0>
+> clip_plane;
+#endif
+
 } // namespace oglplus
 
 #endif // include guard

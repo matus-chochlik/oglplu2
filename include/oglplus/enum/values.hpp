@@ -590,14 +590,6 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_CLIP_DISTANCE0,
-	mp_list<oglplus::functionality>
-> clip_distance = {};
-#endif
-
-#ifdef GL_CLIP_DISTANCE0
-static constexpr const enum_value<
-	GLenum,
-	GL_CLIP_DISTANCE0,
 	mp_list<oglplus::indexed_value_base>
 > clip_distance0 = {};
 #endif

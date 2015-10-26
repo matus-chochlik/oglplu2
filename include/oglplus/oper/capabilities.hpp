@@ -13,6 +13,8 @@
 #include "../error/handling.hpp"
 #include "../error/outcome.hpp"
 #include "../enum/types.hpp"
+#include "../enum/indexed_types.hpp"
+#include "numeric_queries.hpp"
 
 namespace oglplus {
 namespace oper {
@@ -35,11 +37,7 @@ struct capability_state
 	noexcept
 	{
 		OGLPLUS_GLFUNC(Disable)(GLenum(cap));
-		OGLPLUS_VERIFY(
-			Disable,
-			gl_enum_value(cap),
-			debug
-		);
+		OGLPLUS_VERIFY(Disable, gl_enum_value(cap), debug);
 		return {};
 	}
 
@@ -55,48 +53,114 @@ struct capability_state
 
 	static
 	outcome<void>
-	enable(functionality func, GLuint idx)
+	enable(clip_plane cap)
 	noexcept
 	{
-		OGLPLUS_GLFUNC(Enable)(GLenum(func)+idx);
-		OGLPLUS_VERIFY(
-			Enable,
-			gl_index(idx).
-			gl_enum_value(func),
-			debug
-		);
+		OGLPLUS_GLFUNC(Enable)(GLenum(cap));
+		OGLPLUS_VERIFY(Enable, gl_enum_value(cap), debug);
 		return {};
 	}
 
 	static
 	outcome<void>
-	disable(functionality func, GLuint idx)
+	disable(clip_plane cap)
 	noexcept
 	{
-		OGLPLUS_GLFUNC(Disable)(GLenum(func)+idx);
-		OGLPLUS_VERIFY(
-			Disable,
-			gl_index(idx).
-			gl_enum_value(func),
-			debug
-		);
+		OGLPLUS_GLFUNC(Disable)(GLenum(cap));
+		OGLPLUS_VERIFY(Disable, gl_enum_value(cap), debug);
 		return {};
 	}
 
 	static
 	outcome<bool>
-	is_enabled(functionality func, GLuint idx)
+	is_enabled(clip_plane cap)
 	noexcept
 	{
-		GLboolean result = OGLPLUS_GLFUNC(IsEnabled)(GLenum(func)+idx);
-		OGLPLUS_VERIFY(
-			IsEnabled,
-			gl_index(idx).
-			gl_enum_value(func),
-			always
-		);
+		GLboolean result = OGLPLUS_GLFUNC(IsEnabled)(GLenum(cap));
+		OGLPLUS_VERIFY(IsEnabled, gl_enum_value(cap), always);
 		return {result == GL_TRUE};
 	}
+
+	static
+	outcome<GLint>
+	red_bits(void)
+	noexcept
+	{
+		return numeric_queries::get_integer(
+			numeric_query(GL_RED_BITS)
+		);
+	}
+
+	static
+	outcome<GLint>
+	green_bits(void)
+	noexcept
+	{
+		return numeric_queries::get_integer(
+			numeric_query(GL_GREEN_BITS)
+		);
+	}
+
+	static
+	outcome<GLint>
+	blue_bits(void)
+	noexcept
+	{
+		return numeric_queries::get_integer(
+			numeric_query(GL_BLUE_BITS)
+		);
+	}
+
+	static
+	outcome<GLint>
+	alpha_bits(void)
+	noexcept
+	{
+		return numeric_queries::get_integer(
+			numeric_query(GL_ALPHA_BITS)
+		);
+	}
+
+	static
+	outcome<GLint>
+	depth_bits(void)
+	noexcept
+	{
+		return numeric_queries::get_integer(
+			numeric_query(GL_DEPTH_BITS)
+		);
+	}
+
+	static
+	outcome<GLint>
+	stencil_bits(void)
+	noexcept
+	{
+		return numeric_queries::get_integer(
+			numeric_query(GL_STENCIL_BITS)
+		);
+	}
+
+	static
+	outcome<bool>
+	doublebuffer(void)
+	noexcept
+	{
+		return numeric_queries::get_boolean(
+			numeric_query(GL_DOUBLEBUFFER)
+		);
+	}
+
+	static
+	outcome<bool>
+	stereo(void)
+	noexcept
+	{
+		return numeric_queries::get_boolean(
+			numeric_query(GL_STEREO)
+		);
+	}
+
 };
 
 } // namespace oper

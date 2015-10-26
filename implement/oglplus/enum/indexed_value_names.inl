@@ -49,7 +49,7 @@ noexcept
 {
 	auto str = get_enum_value_name_cstr(aiev);
 	return std::string(str.begin(), str.end()) +
-		std::to_string(aiev._offset);
+		std::to_string(aiev.index());
 }
 
 } // namespace oglplus

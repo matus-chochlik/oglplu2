@@ -104,7 +104,8 @@ get_limit(identity<limited_value<Query, indexed_enum_value<Base>>>)
 noexcept
 {
 	return outcome_cast<indexed_enum_value<Base>>(
-		get_limit(identity<limited_value<Query, GLenum>>())
+		get_limit(identity<limited_value<Query, GLenum>>())|
+		[](GLenum& val) { val += Base; }
 	);
 }
 

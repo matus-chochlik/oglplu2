@@ -39,6 +39,14 @@ public:
 	{
 		return _val;
 	}
+
+	template <typename Func>
+	void apply(Func func)
+	noexcept
+	{
+		try { func(_val); }
+		catch(...) { }
+	}
 };
 
 template <typename T>
@@ -63,6 +71,14 @@ public:
 	{
 		assert(_ref != nullptr);
 		return *_ref;
+	}
+
+	template <typename Func>
+	void apply(Func func)
+	noexcept
+	{
+		try { func(get()); }
+		catch(...) { }
 	}
 };
 
@@ -160,6 +176,15 @@ public:
 	 : _value(value)
 	{ }
 
+	constexpr
+	basic_outcome(
+		deferred_handler<ErrorData, HandlerPolicy>&& handler,
+		T value
+	) noexcept
+	 : basic_outcome<void, ErrorData, HandlerPolicy>(std::move(handler))
+	 , _value(value)
+	{ }
+
 	basic_outcome(
 		basic_outcome<void, ErrorData, HandlerPolicy>&& that,
 		T value
@@ -177,6 +202,16 @@ public:
 	operator T (void)
 	{
 		return get();
+	}
+
+	template <typename Func>
+	void apply(Func func)
+	noexcept
+	{
+		if(this->succeeded())
+		{
+			_value.apply(func);
+		}
 	}
 };
 
@@ -200,6 +235,16 @@ operator , (basic_outcome<void, ErrorData, HandlerPolicy>&& bo, T value)
 noexcept
 {
 	return {std::move(bo), value};
+}
+
+template <typename T, typename ErrorData, typename HandlerPolicy, typename Func>
+static inline
+basic_outcome<T, ErrorData, HandlerPolicy>&&
+operator | (basic_outcome<T, ErrorData, HandlerPolicy>&& bo, Func func)
+noexcept
+{
+	bo.apply(func);
+	return std::move(bo);
 }
 
 template <typename T, typename ErrorData, typename HandlerPolicy>
