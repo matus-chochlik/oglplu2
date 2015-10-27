@@ -276,6 +276,64 @@ struct texture_ops
 			{&result, 1}
 		), oglplus::texture_mag_filter(GLenum(result));
 	}
+
+	template <typename TNT>
+	static 
+	outcome<void>
+	texture_compare_func(
+		TNT tnt,
+		oglplus::compare_function value
+	) noexcept
+	{
+		return texture_parameter_i(
+			make_texture_name_or_target(tnt),
+			oglplus::texture_parameter(GL_TEXTURE_COMPARE_FUNC),
+			GLint(GLenum(value))
+		);
+	}
+
+	template <typename TNT>
+	static 
+	outcome<oglplus::compare_function>
+	texture_compare_func(TNT tnt)
+	noexcept
+	{
+		GLint result;
+		return get_texture_parameter_i(
+			make_texture_name_or_target(tnt),
+			oglplus::texture_parameter(GL_TEXTURE_COMPARE_FUNC),
+			{&result, 1}
+		), oglplus::compare_function(GLenum(result));
+	}
+
+	template <typename TNT>
+	static 
+	outcome<void>
+	texture_compare_mode(
+		TNT tnt,
+		oglplus::texture_compare_mode value
+	) noexcept
+	{
+		return texture_parameter_i(
+			make_texture_name_or_target(tnt),
+			oglplus::texture_parameter(GL_TEXTURE_COMPARE_MODE),
+			GLint(GLenum(value))
+		);
+	}
+
+	template <typename TNT>
+	static 
+	outcome<oglplus::texture_compare_mode>
+	texture_compare_mode(TNT tnt)
+	noexcept
+	{
+		GLint result;
+		return get_texture_parameter_i(
+			make_texture_name_or_target(tnt),
+			oglplus::texture_parameter(GL_TEXTURE_COMPARE_MODE),
+			{&result, 1}
+		), oglplus::texture_compare_mode(GLenum(result));
+	}
 };
 
 } // namespace oper

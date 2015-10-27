@@ -19,9 +19,6 @@ typedef limited_value<
 	GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS,
 	indexed_enum_value<GL_TEXTURE0>
 > texture_unit;
-
-typedef limited_value_range<texture_unit>
-all_texture_units;
 #endif
 
 #ifdef GL_DRAW_BUFFER0
@@ -29,9 +26,6 @@ typedef limited_value<
 	GL_MAX_DRAW_BUFFERS,
 	indexed_enum_value<GL_DRAW_BUFFER0>
 > draw_buffer;
-
-typedef limited_value_range<draw_buffer>
-all_draw_buffers;
 #endif
 
 #ifdef GL_CLIP_DISTANCE0
@@ -39,9 +33,6 @@ typedef limited_value<
 	GL_MAX_CLIP_PLANES,
 	indexed_enum_value<GL_CLIP_DISTANCE0>
 > clip_plane;
-
-typedef limited_value_range<clip_plane>
-all_clip_planes;
 #endif
 
 } // namespace oglplus

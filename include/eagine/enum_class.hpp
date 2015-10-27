@@ -11,6 +11,7 @@
 #define EAGINE_ENUM_CLASS_1509260923_HPP
 
 #include "mp_list.hpp"
+#include <type_traits>
 
 namespace eagine {
 
@@ -20,6 +21,8 @@ struct enum_value;
 template <typename T, T Value, typename ... Classes>
 struct enum_value<T, Value, mp_list<Classes...>>
 {
+	typedef enum_value type;
+
 	explicit constexpr inline
 	operator T (void) const
 	noexcept
@@ -34,6 +37,8 @@ struct any_enum_value;
 template <typename Self, typename T, unsigned LibId, unsigned Id>
 struct enum_class
 {
+	typedef enum_class type;
+
 	typedef T value_type;
 
 	static constexpr const unsigned id = Id;
@@ -88,6 +93,16 @@ struct enum_class
 		return a._value != b._value;
 	}
 };
+
+template <typename T>
+struct is_enum_class
+ : std::false_type
+{ };
+
+template <typename Self, typename T, unsigned LibId, unsigned Id>
+struct is_enum_class<enum_class<Self, T, LibId, Id>>
+ : std::true_type
+{ };
 
 template <unsigned LibId>
 struct any_enum_class

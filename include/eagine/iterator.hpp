@@ -191,12 +191,18 @@ private:
 	typedef basic_selfref_iterator<Iterator, Derived> _base;
 	Transform _transf;
 	mutable T _tempval;
+
+	const _base& _base_iter(void) const
+	noexcept
+	{
+		return *this;
+	}
 public:
 	basic_transforming_iterator(void) = default;
 
-	basic_transforming_iterator(Iterator&& iter, Transform&& transf)
-	 : _base(std::move(iter))
-	 , _transf(std::move(transf))
+	basic_transforming_iterator(Iterator iter, Transform transf)
+	 : _base(iter)
+	 , _transf(transf)
 	 , _tempval()
 	{ }
 
@@ -206,7 +212,7 @@ public:
 
 	const T& operator * (void) const
 	{
-		_tempval = _transf(_base::operator*().operator*());
+		_tempval = _transf(**_base_iter());
 		return _tempval;
 	}
 };

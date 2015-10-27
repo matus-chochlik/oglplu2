@@ -164,52 +164,6 @@ noexcept
 	return {};
 }
 
-template <typename LimitedValue>
-class limited_value_range;
-
-template <GLenum Query, GLenum Base>
-class limited_value_range<limited_value<Query, indexed_enum_value<Base>>>
-{
-private:
-	GLenum _limit;
-
-	typedef limited_value<Query, indexed_enum_value<Base>> _lv_t;
-
-	static
-	_lv_t _wrap_enum(GLenum e)
-	noexcept
-	{
-		return _lv_t{e};
-	}
-	
-public:
-	limited_value_range(_lv_t limit)
-	noexcept
-	 : _limit(GLenum(limit))
-	{ }
-
-	limited_value_range(void)
-	 : limited_value_range(get_limit(identity<_lv_t>()).get())
-	{ }
-
-	typedef eagine::transforming_iterator<
-		eagine::selfref_iterator<GLenum>,
-		_lv_t, _lv_t(*)(GLenum) noexcept
-	> iterator;
-
-	iterator begin(void) const
-	noexcept
-	{
-		return iterator(Base, &_wrap_enum);
-	}
-
-	iterator end(void) const
-	noexcept
-	{
-		return iterator(_limit, &_wrap_enum);
-	}
-};
-
 } // namespace oglplus
 
 #endif // include guard
