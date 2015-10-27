@@ -73,17 +73,15 @@ BOOST_AUTO_TEST_CASE(enum_color_buffer_type_names)
 BOOST_AUTO_TEST_CASE(enum_color_buffer_type_range)
 {
 	using namespace eglplus;
-	color_buffer_type x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<color_buffer_type>().size();
 
 #ifdef EGL_LUMINANCE_BUFFER
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<color_buffer_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_LUMINANCE_BUFFER
+		color_buffer_type(EGL_LUMINANCE_BUFFER)
 	) != r.end());
 }
 #endif
@@ -91,10 +89,10 @@ BOOST_AUTO_TEST_CASE(enum_color_buffer_type_range)
 #ifdef EGL_RGB_BUFFER
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<color_buffer_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_RGB_BUFFER
+		color_buffer_type(EGL_RGB_BUFFER)
 	) != r.end());
 }
 #endif

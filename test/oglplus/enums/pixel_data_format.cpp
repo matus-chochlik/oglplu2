@@ -1331,17 +1331,15 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_format_names)
 BOOST_AUTO_TEST_CASE(enum_pixel_data_format_range)
 {
 	using namespace oglplus;
-	pixel_data_format x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<pixel_data_format>().size();
 
 #ifdef GL_BGR
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_BGR
+		pixel_data_format(GL_BGR)
 	) != r.end());
 }
 #endif
@@ -1349,10 +1347,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_format_range)
 #ifdef GL_BGR_INTEGER
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_BGR_INTEGER
+		pixel_data_format(GL_BGR_INTEGER)
 	) != r.end());
 }
 #endif
@@ -1360,10 +1358,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_format_range)
 #ifdef GL_BGRA
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_BGRA
+		pixel_data_format(GL_BGRA)
 	) != r.end());
 }
 #endif
@@ -1371,10 +1369,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_format_range)
 #ifdef GL_BGRA_INTEGER
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_BGRA_INTEGER
+		pixel_data_format(GL_BGRA_INTEGER)
 	) != r.end());
 }
 #endif
@@ -1382,10 +1380,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_format_range)
 #ifdef GL_BLUE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_BLUE
+		pixel_data_format(GL_BLUE)
 	) != r.end());
 }
 #endif
@@ -1393,10 +1391,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_format_range)
 #ifdef GL_BLUE_INTEGER
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_BLUE_INTEGER
+		pixel_data_format(GL_BLUE_INTEGER)
 	) != r.end());
 }
 #endif
@@ -1404,10 +1402,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_format_range)
 #ifdef GL_DEPTH_COMPONENT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DEPTH_COMPONENT
+		pixel_data_format(GL_DEPTH_COMPONENT)
 	) != r.end());
 }
 #endif
@@ -1415,10 +1413,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_format_range)
 #ifdef GL_DEPTH_STENCIL
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DEPTH_STENCIL
+		pixel_data_format(GL_DEPTH_STENCIL)
 	) != r.end());
 }
 #endif
@@ -1426,10 +1424,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_format_range)
 #ifdef GL_GREEN
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_GREEN
+		pixel_data_format(GL_GREEN)
 	) != r.end());
 }
 #endif
@@ -1437,10 +1435,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_format_range)
 #ifdef GL_GREEN_INTEGER
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_GREEN_INTEGER
+		pixel_data_format(GL_GREEN_INTEGER)
 	) != r.end());
 }
 #endif
@@ -1448,10 +1446,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_format_range)
 #ifdef GL_RED
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RED
+		pixel_data_format(GL_RED)
 	) != r.end());
 }
 #endif
@@ -1459,10 +1457,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_format_range)
 #ifdef GL_RED_INTEGER
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RED_INTEGER
+		pixel_data_format(GL_RED_INTEGER)
 	) != r.end());
 }
 #endif
@@ -1470,10 +1468,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_format_range)
 #ifdef GL_RG
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RG
+		pixel_data_format(GL_RG)
 	) != r.end());
 }
 #endif
@@ -1481,10 +1479,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_format_range)
 #ifdef GL_RG_INTEGER
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RG_INTEGER
+		pixel_data_format(GL_RG_INTEGER)
 	) != r.end());
 }
 #endif
@@ -1492,10 +1490,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_format_range)
 #ifdef GL_RGB
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RGB
+		pixel_data_format(GL_RGB)
 	) != r.end());
 }
 #endif
@@ -1503,10 +1501,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_format_range)
 #ifdef GL_RGB_INTEGER
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RGB_INTEGER
+		pixel_data_format(GL_RGB_INTEGER)
 	) != r.end());
 }
 #endif
@@ -1514,10 +1512,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_format_range)
 #ifdef GL_RGBA
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RGBA
+		pixel_data_format(GL_RGBA)
 	) != r.end());
 }
 #endif
@@ -1525,10 +1523,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_format_range)
 #ifdef GL_RGBA_INTEGER
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RGBA_INTEGER
+		pixel_data_format(GL_RGBA_INTEGER)
 	) != r.end());
 }
 #endif
@@ -1536,10 +1534,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_format_range)
 #ifdef GL_STENCIL_INDEX
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_STENCIL_INDEX
+		pixel_data_format(GL_STENCIL_INDEX)
 	) != r.end());
 }
 #endif

@@ -131,17 +131,15 @@ BOOST_AUTO_TEST_CASE(enum_rendering_api_names)
 BOOST_AUTO_TEST_CASE(enum_rendering_api_range)
 {
 	using namespace eglplus;
-	rendering_api x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<rendering_api>().size();
 
 #ifdef EGL_NONE
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<rendering_api>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_NONE
+		rendering_api(EGL_NONE)
 	) != r.end());
 }
 #endif
@@ -149,10 +147,10 @@ BOOST_AUTO_TEST_CASE(enum_rendering_api_range)
 #ifdef EGL_OPENGL_API
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<rendering_api>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_OPENGL_API
+		rendering_api(EGL_OPENGL_API)
 	) != r.end());
 }
 #endif
@@ -160,10 +158,10 @@ BOOST_AUTO_TEST_CASE(enum_rendering_api_range)
 #ifdef EGL_OPENGL_ES_API
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<rendering_api>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_OPENGL_ES_API
+		rendering_api(EGL_OPENGL_ES_API)
 	) != r.end());
 }
 #endif
@@ -171,10 +169,10 @@ BOOST_AUTO_TEST_CASE(enum_rendering_api_range)
 #ifdef EGL_OPENVG_API
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<rendering_api>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_OPENVG_API
+		rendering_api(EGL_OPENVG_API)
 	) != r.end());
 }
 #endif

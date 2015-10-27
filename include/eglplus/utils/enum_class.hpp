@@ -20,6 +20,8 @@ using eagine::enum_value;
 template <typename Self, typename T, unsigned Id>
 using enum_class = eagine::enum_class<Self, T, 100, Id>;
 
+using eagine::is_enum_class;
+
 using eagine::enum_bitfield;
 
 using any_enum_class = eagine::any_enum_class<100>;

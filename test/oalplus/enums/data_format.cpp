@@ -131,17 +131,15 @@ BOOST_AUTO_TEST_CASE(enum_data_format_names)
 BOOST_AUTO_TEST_CASE(enum_data_format_range)
 {
 	using namespace oalplus;
-	data_format x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<data_format>().size();
 
 #ifdef AL_FORMAT_MONO16
 {
 	--count;
-	array_view<const ALenum> r = enum_value_range(x);
+	auto r = enum_value_range<data_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		AL_FORMAT_MONO16
+		data_format(AL_FORMAT_MONO16)
 	) != r.end());
 }
 #endif
@@ -149,10 +147,10 @@ BOOST_AUTO_TEST_CASE(enum_data_format_range)
 #ifdef AL_FORMAT_MONO8
 {
 	--count;
-	array_view<const ALenum> r = enum_value_range(x);
+	auto r = enum_value_range<data_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		AL_FORMAT_MONO8
+		data_format(AL_FORMAT_MONO8)
 	) != r.end());
 }
 #endif
@@ -160,10 +158,10 @@ BOOST_AUTO_TEST_CASE(enum_data_format_range)
 #ifdef AL_FORMAT_STEREO16
 {
 	--count;
-	array_view<const ALenum> r = enum_value_range(x);
+	auto r = enum_value_range<data_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		AL_FORMAT_STEREO16
+		data_format(AL_FORMAT_STEREO16)
 	) != r.end());
 }
 #endif
@@ -171,10 +169,10 @@ BOOST_AUTO_TEST_CASE(enum_data_format_range)
 #ifdef AL_FORMAT_STEREO8
 {
 	--count;
-	array_view<const ALenum> r = enum_value_range(x);
+	auto r = enum_value_range<data_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		AL_FORMAT_STEREO8
+		data_format(AL_FORMAT_STEREO8)
 	) != r.end());
 }
 #endif

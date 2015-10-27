@@ -169,17 +169,15 @@ BOOST_AUTO_TEST_CASE(enum_renderable_type_bit_names)
 BOOST_AUTO_TEST_CASE(enum_renderable_type_bit_range)
 {
 	using namespace eglplus;
-	renderable_type_bit x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<renderable_type_bit>().size();
 
 #ifdef EGL_OPENGL_BIT
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<renderable_type_bit>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_OPENGL_BIT
+		renderable_type_bit(EGL_OPENGL_BIT)
 	) != r.end());
 }
 #endif
@@ -187,10 +185,10 @@ BOOST_AUTO_TEST_CASE(enum_renderable_type_bit_range)
 #ifdef EGL_OPENGL_ES2_BIT
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<renderable_type_bit>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_OPENGL_ES2_BIT
+		renderable_type_bit(EGL_OPENGL_ES2_BIT)
 	) != r.end());
 }
 #endif
@@ -198,10 +196,10 @@ BOOST_AUTO_TEST_CASE(enum_renderable_type_bit_range)
 #ifdef EGL_OPENGL_ES3_BIT
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<renderable_type_bit>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_OPENGL_ES3_BIT
+		renderable_type_bit(EGL_OPENGL_ES3_BIT)
 	) != r.end());
 }
 #endif
@@ -209,10 +207,10 @@ BOOST_AUTO_TEST_CASE(enum_renderable_type_bit_range)
 #ifdef EGL_OPENGL_ES_BIT
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<renderable_type_bit>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_OPENGL_ES_BIT
+		renderable_type_bit(EGL_OPENGL_ES_BIT)
 	) != r.end());
 }
 #endif
@@ -220,10 +218,10 @@ BOOST_AUTO_TEST_CASE(enum_renderable_type_bit_range)
 #ifdef EGL_OPENVG_BIT
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<renderable_type_bit>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_OPENVG_BIT
+		renderable_type_bit(EGL_OPENVG_BIT)
 	) != r.end());
 }
 #endif

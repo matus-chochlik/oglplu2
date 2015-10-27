@@ -131,17 +131,15 @@ BOOST_AUTO_TEST_CASE(enum_string_query_names)
 BOOST_AUTO_TEST_CASE(enum_string_query_range)
 {
 	using namespace eglplus;
-	string_query x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<string_query>().size();
 
 #ifdef EGL_CLIENT_APIS
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<string_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_CLIENT_APIS
+		string_query(EGL_CLIENT_APIS)
 	) != r.end());
 }
 #endif
@@ -149,10 +147,10 @@ BOOST_AUTO_TEST_CASE(enum_string_query_range)
 #ifdef EGL_EXTENSIONS
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<string_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_EXTENSIONS
+		string_query(EGL_EXTENSIONS)
 	) != r.end());
 }
 #endif
@@ -160,10 +158,10 @@ BOOST_AUTO_TEST_CASE(enum_string_query_range)
 #ifdef EGL_VENDOR
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<string_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_VENDOR
+		string_query(EGL_VENDOR)
 	) != r.end());
 }
 #endif
@@ -171,10 +169,10 @@ BOOST_AUTO_TEST_CASE(enum_string_query_range)
 #ifdef EGL_VERSION
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<string_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_VERSION
+		string_query(EGL_VERSION)
 	) != r.end());
 }
 #endif

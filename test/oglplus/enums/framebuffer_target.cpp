@@ -73,17 +73,15 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_target_names)
 BOOST_AUTO_TEST_CASE(enum_framebuffer_target_range)
 {
 	using namespace oglplus;
-	framebuffer_target x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<framebuffer_target>().size();
 
 #ifdef GL_DRAW_FRAMEBUFFER
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<framebuffer_target>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DRAW_FRAMEBUFFER
+		framebuffer_target(GL_DRAW_FRAMEBUFFER)
 	) != r.end());
 }
 #endif
@@ -91,10 +89,10 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_target_range)
 #ifdef GL_READ_FRAMEBUFFER
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<framebuffer_target>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_READ_FRAMEBUFFER
+		framebuffer_target(GL_READ_FRAMEBUFFER)
 	) != r.end());
 }
 #endif

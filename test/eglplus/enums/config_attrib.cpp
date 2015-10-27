@@ -3463,17 +3463,15 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_names)
 BOOST_AUTO_TEST_CASE(enum_config_attrib_range)
 {
 	using namespace eglplus;
-	config_attrib x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<config_attrib>().size();
 
 #ifdef EGL_ALPHA_MASK_SIZE
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<config_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_ALPHA_MASK_SIZE
+		config_attrib(EGL_ALPHA_MASK_SIZE)
 	) != r.end());
 }
 #endif
@@ -3481,10 +3479,10 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_range)
 #ifdef EGL_ALPHA_SIZE
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<config_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_ALPHA_SIZE
+		config_attrib(EGL_ALPHA_SIZE)
 	) != r.end());
 }
 #endif
@@ -3492,10 +3490,10 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_range)
 #ifdef EGL_BIND_TO_TEXTURE_RGB
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<config_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_BIND_TO_TEXTURE_RGB
+		config_attrib(EGL_BIND_TO_TEXTURE_RGB)
 	) != r.end());
 }
 #endif
@@ -3503,10 +3501,10 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_range)
 #ifdef EGL_BIND_TO_TEXTURE_RGBA
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<config_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_BIND_TO_TEXTURE_RGBA
+		config_attrib(EGL_BIND_TO_TEXTURE_RGBA)
 	) != r.end());
 }
 #endif
@@ -3514,10 +3512,10 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_range)
 #ifdef EGL_BLUE_SIZE
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<config_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_BLUE_SIZE
+		config_attrib(EGL_BLUE_SIZE)
 	) != r.end());
 }
 #endif
@@ -3525,10 +3523,10 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_range)
 #ifdef EGL_BUFFER_SIZE
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<config_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_BUFFER_SIZE
+		config_attrib(EGL_BUFFER_SIZE)
 	) != r.end());
 }
 #endif
@@ -3536,10 +3534,10 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_range)
 #ifdef EGL_COLOR_BUFFER_TYPE
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<config_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_COLOR_BUFFER_TYPE
+		config_attrib(EGL_COLOR_BUFFER_TYPE)
 	) != r.end());
 }
 #endif
@@ -3547,10 +3545,10 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_range)
 #ifdef EGL_CONFIG_CAVEAT
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<config_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_CONFIG_CAVEAT
+		config_attrib(EGL_CONFIG_CAVEAT)
 	) != r.end());
 }
 #endif
@@ -3558,10 +3556,10 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_range)
 #ifdef EGL_CONFIG_ID
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<config_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_CONFIG_ID
+		config_attrib(EGL_CONFIG_ID)
 	) != r.end());
 }
 #endif
@@ -3569,10 +3567,10 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_range)
 #ifdef EGL_CONFORMANT
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<config_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_CONFORMANT
+		config_attrib(EGL_CONFORMANT)
 	) != r.end());
 }
 #endif
@@ -3580,10 +3578,10 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_range)
 #ifdef EGL_DEPTH_SIZE
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<config_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_DEPTH_SIZE
+		config_attrib(EGL_DEPTH_SIZE)
 	) != r.end());
 }
 #endif
@@ -3591,10 +3589,10 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_range)
 #ifdef EGL_GREEN_SIZE
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<config_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_GREEN_SIZE
+		config_attrib(EGL_GREEN_SIZE)
 	) != r.end());
 }
 #endif
@@ -3602,10 +3600,10 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_range)
 #ifdef EGL_LEVEL
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<config_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_LEVEL
+		config_attrib(EGL_LEVEL)
 	) != r.end());
 }
 #endif
@@ -3613,10 +3611,10 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_range)
 #ifdef EGL_LUMINANCE_SIZE
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<config_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_LUMINANCE_SIZE
+		config_attrib(EGL_LUMINANCE_SIZE)
 	) != r.end());
 }
 #endif
@@ -3624,10 +3622,10 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_range)
 #ifdef EGL_MAX_PBUFFER_HEIGHT
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<config_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_MAX_PBUFFER_HEIGHT
+		config_attrib(EGL_MAX_PBUFFER_HEIGHT)
 	) != r.end());
 }
 #endif
@@ -3635,10 +3633,10 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_range)
 #ifdef EGL_MAX_PBUFFER_PIXELS
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<config_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_MAX_PBUFFER_PIXELS
+		config_attrib(EGL_MAX_PBUFFER_PIXELS)
 	) != r.end());
 }
 #endif
@@ -3646,10 +3644,10 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_range)
 #ifdef EGL_MAX_PBUFFER_WIDTH
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<config_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_MAX_PBUFFER_WIDTH
+		config_attrib(EGL_MAX_PBUFFER_WIDTH)
 	) != r.end());
 }
 #endif
@@ -3657,10 +3655,10 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_range)
 #ifdef EGL_MAX_SWAP_INTERVAL
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<config_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_MAX_SWAP_INTERVAL
+		config_attrib(EGL_MAX_SWAP_INTERVAL)
 	) != r.end());
 }
 #endif
@@ -3668,10 +3666,10 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_range)
 #ifdef EGL_MIN_SWAP_INTERVAL
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<config_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_MIN_SWAP_INTERVAL
+		config_attrib(EGL_MIN_SWAP_INTERVAL)
 	) != r.end());
 }
 #endif
@@ -3679,10 +3677,10 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_range)
 #ifdef EGL_NATIVE_RENDERABLE
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<config_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_NATIVE_RENDERABLE
+		config_attrib(EGL_NATIVE_RENDERABLE)
 	) != r.end());
 }
 #endif
@@ -3690,10 +3688,10 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_range)
 #ifdef EGL_NATIVE_VISUAL_ID
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<config_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_NATIVE_VISUAL_ID
+		config_attrib(EGL_NATIVE_VISUAL_ID)
 	) != r.end());
 }
 #endif
@@ -3701,10 +3699,10 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_range)
 #ifdef EGL_NATIVE_VISUAL_TYPE
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<config_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_NATIVE_VISUAL_TYPE
+		config_attrib(EGL_NATIVE_VISUAL_TYPE)
 	) != r.end());
 }
 #endif
@@ -3712,10 +3710,10 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_range)
 #ifdef EGL_RED_SIZE
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<config_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_RED_SIZE
+		config_attrib(EGL_RED_SIZE)
 	) != r.end());
 }
 #endif
@@ -3723,10 +3721,10 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_range)
 #ifdef EGL_RENDERABLE_TYPE
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<config_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_RENDERABLE_TYPE
+		config_attrib(EGL_RENDERABLE_TYPE)
 	) != r.end());
 }
 #endif
@@ -3734,10 +3732,10 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_range)
 #ifdef EGL_SAMPLE_BUFFERS
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<config_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_SAMPLE_BUFFERS
+		config_attrib(EGL_SAMPLE_BUFFERS)
 	) != r.end());
 }
 #endif
@@ -3745,10 +3743,10 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_range)
 #ifdef EGL_SAMPLES
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<config_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_SAMPLES
+		config_attrib(EGL_SAMPLES)
 	) != r.end());
 }
 #endif
@@ -3756,10 +3754,10 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_range)
 #ifdef EGL_STENCIL_SIZE
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<config_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_STENCIL_SIZE
+		config_attrib(EGL_STENCIL_SIZE)
 	) != r.end());
 }
 #endif
@@ -3767,10 +3765,10 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_range)
 #ifdef EGL_SURFACE_TYPE
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<config_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_SURFACE_TYPE
+		config_attrib(EGL_SURFACE_TYPE)
 	) != r.end());
 }
 #endif
@@ -3778,10 +3776,10 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_range)
 #ifdef EGL_TRANSPARENT_BLUE_VALUE
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<config_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_TRANSPARENT_BLUE_VALUE
+		config_attrib(EGL_TRANSPARENT_BLUE_VALUE)
 	) != r.end());
 }
 #endif
@@ -3789,10 +3787,10 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_range)
 #ifdef EGL_TRANSPARENT_GREEN_VALUE
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<config_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_TRANSPARENT_GREEN_VALUE
+		config_attrib(EGL_TRANSPARENT_GREEN_VALUE)
 	) != r.end());
 }
 #endif
@@ -3800,10 +3798,10 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_range)
 #ifdef EGL_TRANSPARENT_RED_VALUE
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<config_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_TRANSPARENT_RED_VALUE
+		config_attrib(EGL_TRANSPARENT_RED_VALUE)
 	) != r.end());
 }
 #endif
@@ -3811,10 +3809,10 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_range)
 #ifdef EGL_TRANSPARENT_TYPE
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<config_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_TRANSPARENT_TYPE
+		config_attrib(EGL_TRANSPARENT_TYPE)
 	) != r.end());
 }
 #endif

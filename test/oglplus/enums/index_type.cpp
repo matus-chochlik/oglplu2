@@ -99,17 +99,15 @@ BOOST_AUTO_TEST_CASE(enum_index_type_names)
 BOOST_AUTO_TEST_CASE(enum_index_type_range)
 {
 	using namespace oglplus;
-	index_type x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<index_type>().size();
 
 #ifdef GL_UNSIGNED_BYTE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<index_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_UNSIGNED_BYTE
+		index_type(GL_UNSIGNED_BYTE)
 	) != r.end());
 }
 #endif
@@ -117,10 +115,10 @@ BOOST_AUTO_TEST_CASE(enum_index_type_range)
 #ifdef GL_UNSIGNED_INT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<index_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_UNSIGNED_INT
+		index_type(GL_UNSIGNED_INT)
 	) != r.end());
 }
 #endif
@@ -128,10 +126,10 @@ BOOST_AUTO_TEST_CASE(enum_index_type_range)
 #ifdef GL_UNSIGNED_SHORT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<index_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_UNSIGNED_SHORT
+		index_type(GL_UNSIGNED_SHORT)
 	) != r.end());
 }
 #endif

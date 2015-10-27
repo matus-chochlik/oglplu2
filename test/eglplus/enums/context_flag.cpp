@@ -99,17 +99,15 @@ BOOST_AUTO_TEST_CASE(enum_context_flag_names)
 BOOST_AUTO_TEST_CASE(enum_context_flag_range)
 {
 	using namespace eglplus;
-	context_flag x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<context_flag>().size();
 
 #ifdef EGL_CONTEXT_OPENGL_DEBUG_BIT
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<context_flag>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_CONTEXT_OPENGL_DEBUG_BIT
+		context_flag(EGL_CONTEXT_OPENGL_DEBUG_BIT)
 	) != r.end());
 }
 #endif
@@ -117,10 +115,10 @@ BOOST_AUTO_TEST_CASE(enum_context_flag_range)
 #ifdef EGL_CONTEXT_OPENGL_FORWARD_COMPATIBLE_BIT
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<context_flag>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_CONTEXT_OPENGL_FORWARD_COMPATIBLE_BIT
+		context_flag(EGL_CONTEXT_OPENGL_FORWARD_COMPATIBLE_BIT)
 	) != r.end());
 }
 #endif
@@ -128,10 +126,10 @@ BOOST_AUTO_TEST_CASE(enum_context_flag_range)
 #ifdef EGL_CONTEXT_OPENGL_ROBUST_ACCESS_BIT
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<context_flag>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_CONTEXT_OPENGL_ROBUST_ACCESS_BIT
+		context_flag(EGL_CONTEXT_OPENGL_ROBUST_ACCESS_BIT)
 	) != r.end());
 }
 #endif

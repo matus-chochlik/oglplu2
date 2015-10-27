@@ -213,17 +213,15 @@ BOOST_AUTO_TEST_CASE(enum_al_error_code_names)
 BOOST_AUTO_TEST_CASE(enum_al_error_code_range)
 {
 	using namespace oalplus;
-	al_error_code x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<al_error_code>().size();
 
 #ifdef AL_INVALID_ENUM
 {
 	--count;
-	array_view<const ALenum> r = enum_value_range(x);
+	auto r = enum_value_range<al_error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		AL_INVALID_ENUM
+		al_error_code(AL_INVALID_ENUM)
 	) != r.end());
 }
 #endif
@@ -231,10 +229,10 @@ BOOST_AUTO_TEST_CASE(enum_al_error_code_range)
 #ifdef AL_INVALID_NAME
 {
 	--count;
-	array_view<const ALenum> r = enum_value_range(x);
+	auto r = enum_value_range<al_error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		AL_INVALID_NAME
+		al_error_code(AL_INVALID_NAME)
 	) != r.end());
 }
 #endif
@@ -242,10 +240,10 @@ BOOST_AUTO_TEST_CASE(enum_al_error_code_range)
 #ifdef AL_INVALID_OPERATION
 {
 	--count;
-	array_view<const ALenum> r = enum_value_range(x);
+	auto r = enum_value_range<al_error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		AL_INVALID_OPERATION
+		al_error_code(AL_INVALID_OPERATION)
 	) != r.end());
 }
 #endif
@@ -253,10 +251,10 @@ BOOST_AUTO_TEST_CASE(enum_al_error_code_range)
 #ifdef AL_INVALID_VALUE
 {
 	--count;
-	array_view<const ALenum> r = enum_value_range(x);
+	auto r = enum_value_range<al_error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		AL_INVALID_VALUE
+		al_error_code(AL_INVALID_VALUE)
 	) != r.end());
 }
 #endif
@@ -264,10 +262,10 @@ BOOST_AUTO_TEST_CASE(enum_al_error_code_range)
 #ifdef AL_NO_ERROR
 {
 	--count;
-	array_view<const ALenum> r = enum_value_range(x);
+	auto r = enum_value_range<al_error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		AL_NO_ERROR
+		al_error_code(AL_NO_ERROR)
 	) != r.end());
 }
 #endif
@@ -275,10 +273,10 @@ BOOST_AUTO_TEST_CASE(enum_al_error_code_range)
 #ifdef AL_OUT_OF_MEMORY
 {
 	--count;
-	array_view<const ALenum> r = enum_value_range(x);
+	auto r = enum_value_range<al_error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		AL_OUT_OF_MEMORY
+		al_error_code(AL_OUT_OF_MEMORY)
 	) != r.end());
 }
 #endif

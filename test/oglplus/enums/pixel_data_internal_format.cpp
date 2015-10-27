@@ -31139,17 +31139,15 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_names)
 BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 {
 	using namespace oglplus;
-	pixel_data_internal_format x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<pixel_data_internal_format>().size();
 
 #ifdef GL_COMPRESSED_R11_EAC
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_COMPRESSED_R11_EAC
+		pixel_data_internal_format(GL_COMPRESSED_R11_EAC)
 	) != r.end());
 }
 #endif
@@ -31157,10 +31155,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_COMPRESSED_RED
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_COMPRESSED_RED
+		pixel_data_internal_format(GL_COMPRESSED_RED)
 	) != r.end());
 }
 #endif
@@ -31168,10 +31166,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_COMPRESSED_RED_RGTC1
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_COMPRESSED_RED_RGTC1
+		pixel_data_internal_format(GL_COMPRESSED_RED_RGTC1)
 	) != r.end());
 }
 #endif
@@ -31179,10 +31177,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_COMPRESSED_RG
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_COMPRESSED_RG
+		pixel_data_internal_format(GL_COMPRESSED_RG)
 	) != r.end());
 }
 #endif
@@ -31190,10 +31188,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_COMPRESSED_RG11_EAC
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_COMPRESSED_RG11_EAC
+		pixel_data_internal_format(GL_COMPRESSED_RG11_EAC)
 	) != r.end());
 }
 #endif
@@ -31201,10 +31199,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_COMPRESSED_RG_RGTC2
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_COMPRESSED_RG_RGTC2
+		pixel_data_internal_format(GL_COMPRESSED_RG_RGTC2)
 	) != r.end());
 }
 #endif
@@ -31212,10 +31210,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_COMPRESSED_RGB
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_COMPRESSED_RGB
+		pixel_data_internal_format(GL_COMPRESSED_RGB)
 	) != r.end());
 }
 #endif
@@ -31223,10 +31221,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_COMPRESSED_RGB8_ETC2
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_COMPRESSED_RGB8_ETC2
+		pixel_data_internal_format(GL_COMPRESSED_RGB8_ETC2)
 	) != r.end());
 }
 #endif
@@ -31234,10 +31232,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2
+		pixel_data_internal_format(GL_COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2)
 	) != r.end());
 }
 #endif
@@ -31245,10 +31243,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_COMPRESSED_RGB_BPTC_SIGNED_FLOAT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_COMPRESSED_RGB_BPTC_SIGNED_FLOAT
+		pixel_data_internal_format(GL_COMPRESSED_RGB_BPTC_SIGNED_FLOAT)
 	) != r.end());
 }
 #endif
@@ -31256,10 +31254,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT
+		pixel_data_internal_format(GL_COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT)
 	) != r.end());
 }
 #endif
@@ -31267,10 +31265,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_COMPRESSED_RGBA
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_COMPRESSED_RGBA
+		pixel_data_internal_format(GL_COMPRESSED_RGBA)
 	) != r.end());
 }
 #endif
@@ -31278,10 +31276,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_COMPRESSED_RGBA8_ETC2_EAC
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_COMPRESSED_RGBA8_ETC2_EAC
+		pixel_data_internal_format(GL_COMPRESSED_RGBA8_ETC2_EAC)
 	) != r.end());
 }
 #endif
@@ -31289,10 +31287,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_COMPRESSED_RGBA_BPTC_UNORM
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_COMPRESSED_RGBA_BPTC_UNORM
+		pixel_data_internal_format(GL_COMPRESSED_RGBA_BPTC_UNORM)
 	) != r.end());
 }
 #endif
@@ -31300,10 +31298,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_COMPRESSED_SIGNED_R11_EAC
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_COMPRESSED_SIGNED_R11_EAC
+		pixel_data_internal_format(GL_COMPRESSED_SIGNED_R11_EAC)
 	) != r.end());
 }
 #endif
@@ -31311,10 +31309,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_COMPRESSED_SIGNED_RED_RGTC1
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_COMPRESSED_SIGNED_RED_RGTC1
+		pixel_data_internal_format(GL_COMPRESSED_SIGNED_RED_RGTC1)
 	) != r.end());
 }
 #endif
@@ -31322,10 +31320,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_COMPRESSED_SIGNED_RG11_EAC
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_COMPRESSED_SIGNED_RG11_EAC
+		pixel_data_internal_format(GL_COMPRESSED_SIGNED_RG11_EAC)
 	) != r.end());
 }
 #endif
@@ -31333,10 +31331,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_COMPRESSED_SIGNED_RG_RGTC2
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_COMPRESSED_SIGNED_RG_RGTC2
+		pixel_data_internal_format(GL_COMPRESSED_SIGNED_RG_RGTC2)
 	) != r.end());
 }
 #endif
@@ -31344,10 +31342,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_COMPRESSED_SRGB
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_COMPRESSED_SRGB
+		pixel_data_internal_format(GL_COMPRESSED_SRGB)
 	) != r.end());
 }
 #endif
@@ -31355,10 +31353,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_COMPRESSED_SRGB8_ALPHA8_ETC2_EAC
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_COMPRESSED_SRGB8_ALPHA8_ETC2_EAC
+		pixel_data_internal_format(GL_COMPRESSED_SRGB8_ALPHA8_ETC2_EAC)
 	) != r.end());
 }
 #endif
@@ -31366,10 +31364,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_COMPRESSED_SRGB8_ETC2
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_COMPRESSED_SRGB8_ETC2
+		pixel_data_internal_format(GL_COMPRESSED_SRGB8_ETC2)
 	) != r.end());
 }
 #endif
@@ -31377,10 +31375,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2
+		pixel_data_internal_format(GL_COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2)
 	) != r.end());
 }
 #endif
@@ -31388,10 +31386,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_COMPRESSED_SRGB_ALPHA
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_COMPRESSED_SRGB_ALPHA
+		pixel_data_internal_format(GL_COMPRESSED_SRGB_ALPHA)
 	) != r.end());
 }
 #endif
@@ -31399,10 +31397,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM
+		pixel_data_internal_format(GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM)
 	) != r.end());
 }
 #endif
@@ -31410,10 +31408,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_DEPTH24_STENCIL8
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DEPTH24_STENCIL8
+		pixel_data_internal_format(GL_DEPTH24_STENCIL8)
 	) != r.end());
 }
 #endif
@@ -31421,10 +31419,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_DEPTH32F_STENCIL8
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DEPTH32F_STENCIL8
+		pixel_data_internal_format(GL_DEPTH32F_STENCIL8)
 	) != r.end());
 }
 #endif
@@ -31432,10 +31430,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_DEPTH_COMPONENT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DEPTH_COMPONENT
+		pixel_data_internal_format(GL_DEPTH_COMPONENT)
 	) != r.end());
 }
 #endif
@@ -31443,10 +31441,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_DEPTH_COMPONENT16
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DEPTH_COMPONENT16
+		pixel_data_internal_format(GL_DEPTH_COMPONENT16)
 	) != r.end());
 }
 #endif
@@ -31454,10 +31452,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_DEPTH_COMPONENT24
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DEPTH_COMPONENT24
+		pixel_data_internal_format(GL_DEPTH_COMPONENT24)
 	) != r.end());
 }
 #endif
@@ -31465,10 +31463,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_DEPTH_COMPONENT32
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DEPTH_COMPONENT32
+		pixel_data_internal_format(GL_DEPTH_COMPONENT32)
 	) != r.end());
 }
 #endif
@@ -31476,10 +31474,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_DEPTH_COMPONENT32F
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DEPTH_COMPONENT32F
+		pixel_data_internal_format(GL_DEPTH_COMPONENT32F)
 	) != r.end());
 }
 #endif
@@ -31487,10 +31485,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_DEPTH_STENCIL
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DEPTH_STENCIL
+		pixel_data_internal_format(GL_DEPTH_STENCIL)
 	) != r.end());
 }
 #endif
@@ -31498,10 +31496,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_R11F_G11F_B10F
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_R11F_G11F_B10F
+		pixel_data_internal_format(GL_R11F_G11F_B10F)
 	) != r.end());
 }
 #endif
@@ -31509,10 +31507,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_R16
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_R16
+		pixel_data_internal_format(GL_R16)
 	) != r.end());
 }
 #endif
@@ -31520,10 +31518,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_R16_SNORM
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_R16_SNORM
+		pixel_data_internal_format(GL_R16_SNORM)
 	) != r.end());
 }
 #endif
@@ -31531,10 +31529,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_R16F
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_R16F
+		pixel_data_internal_format(GL_R16F)
 	) != r.end());
 }
 #endif
@@ -31542,10 +31540,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_R16I
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_R16I
+		pixel_data_internal_format(GL_R16I)
 	) != r.end());
 }
 #endif
@@ -31553,10 +31551,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_R16UI
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_R16UI
+		pixel_data_internal_format(GL_R16UI)
 	) != r.end());
 }
 #endif
@@ -31564,10 +31562,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_R32F
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_R32F
+		pixel_data_internal_format(GL_R32F)
 	) != r.end());
 }
 #endif
@@ -31575,10 +31573,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_R32I
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_R32I
+		pixel_data_internal_format(GL_R32I)
 	) != r.end());
 }
 #endif
@@ -31586,10 +31584,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_R32UI
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_R32UI
+		pixel_data_internal_format(GL_R32UI)
 	) != r.end());
 }
 #endif
@@ -31597,10 +31595,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_R3_G3_B2
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_R3_G3_B2
+		pixel_data_internal_format(GL_R3_G3_B2)
 	) != r.end());
 }
 #endif
@@ -31608,10 +31606,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_R8
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_R8
+		pixel_data_internal_format(GL_R8)
 	) != r.end());
 }
 #endif
@@ -31619,10 +31617,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_R8_SNORM
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_R8_SNORM
+		pixel_data_internal_format(GL_R8_SNORM)
 	) != r.end());
 }
 #endif
@@ -31630,10 +31628,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_R8I
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_R8I
+		pixel_data_internal_format(GL_R8I)
 	) != r.end());
 }
 #endif
@@ -31641,10 +31639,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_R8UI
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_R8UI
+		pixel_data_internal_format(GL_R8UI)
 	) != r.end());
 }
 #endif
@@ -31652,10 +31650,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RED
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RED
+		pixel_data_internal_format(GL_RED)
 	) != r.end());
 }
 #endif
@@ -31663,10 +31661,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RG
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RG
+		pixel_data_internal_format(GL_RG)
 	) != r.end());
 }
 #endif
@@ -31674,10 +31672,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RG16
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RG16
+		pixel_data_internal_format(GL_RG16)
 	) != r.end());
 }
 #endif
@@ -31685,10 +31683,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RG16_SNORM
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RG16_SNORM
+		pixel_data_internal_format(GL_RG16_SNORM)
 	) != r.end());
 }
 #endif
@@ -31696,10 +31694,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RG16F
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RG16F
+		pixel_data_internal_format(GL_RG16F)
 	) != r.end());
 }
 #endif
@@ -31707,10 +31705,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RG16I
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RG16I
+		pixel_data_internal_format(GL_RG16I)
 	) != r.end());
 }
 #endif
@@ -31718,10 +31716,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RG16UI
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RG16UI
+		pixel_data_internal_format(GL_RG16UI)
 	) != r.end());
 }
 #endif
@@ -31729,10 +31727,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RG32F
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RG32F
+		pixel_data_internal_format(GL_RG32F)
 	) != r.end());
 }
 #endif
@@ -31740,10 +31738,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RG32I
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RG32I
+		pixel_data_internal_format(GL_RG32I)
 	) != r.end());
 }
 #endif
@@ -31751,10 +31749,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RG32UI
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RG32UI
+		pixel_data_internal_format(GL_RG32UI)
 	) != r.end());
 }
 #endif
@@ -31762,10 +31760,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RG8
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RG8
+		pixel_data_internal_format(GL_RG8)
 	) != r.end());
 }
 #endif
@@ -31773,10 +31771,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RG8_SNORM
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RG8_SNORM
+		pixel_data_internal_format(GL_RG8_SNORM)
 	) != r.end());
 }
 #endif
@@ -31784,10 +31782,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RG8I
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RG8I
+		pixel_data_internal_format(GL_RG8I)
 	) != r.end());
 }
 #endif
@@ -31795,10 +31793,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RG8UI
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RG8UI
+		pixel_data_internal_format(GL_RG8UI)
 	) != r.end());
 }
 #endif
@@ -31806,10 +31804,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RGB
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RGB
+		pixel_data_internal_format(GL_RGB)
 	) != r.end());
 }
 #endif
@@ -31817,10 +31815,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RGB10
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RGB10
+		pixel_data_internal_format(GL_RGB10)
 	) != r.end());
 }
 #endif
@@ -31828,10 +31826,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RGB10_A2
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RGB10_A2
+		pixel_data_internal_format(GL_RGB10_A2)
 	) != r.end());
 }
 #endif
@@ -31839,10 +31837,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RGB10_A2UI
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RGB10_A2UI
+		pixel_data_internal_format(GL_RGB10_A2UI)
 	) != r.end());
 }
 #endif
@@ -31850,10 +31848,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RGB12
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RGB12
+		pixel_data_internal_format(GL_RGB12)
 	) != r.end());
 }
 #endif
@@ -31861,10 +31859,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RGB16
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RGB16
+		pixel_data_internal_format(GL_RGB16)
 	) != r.end());
 }
 #endif
@@ -31872,10 +31870,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RGB16_SNORM
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RGB16_SNORM
+		pixel_data_internal_format(GL_RGB16_SNORM)
 	) != r.end());
 }
 #endif
@@ -31883,10 +31881,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RGB16F
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RGB16F
+		pixel_data_internal_format(GL_RGB16F)
 	) != r.end());
 }
 #endif
@@ -31894,10 +31892,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RGB16I
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RGB16I
+		pixel_data_internal_format(GL_RGB16I)
 	) != r.end());
 }
 #endif
@@ -31905,10 +31903,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RGB16UI
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RGB16UI
+		pixel_data_internal_format(GL_RGB16UI)
 	) != r.end());
 }
 #endif
@@ -31916,10 +31914,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RGB32F
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RGB32F
+		pixel_data_internal_format(GL_RGB32F)
 	) != r.end());
 }
 #endif
@@ -31927,10 +31925,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RGB32I
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RGB32I
+		pixel_data_internal_format(GL_RGB32I)
 	) != r.end());
 }
 #endif
@@ -31938,10 +31936,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RGB32UI
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RGB32UI
+		pixel_data_internal_format(GL_RGB32UI)
 	) != r.end());
 }
 #endif
@@ -31949,10 +31947,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RGB4
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RGB4
+		pixel_data_internal_format(GL_RGB4)
 	) != r.end());
 }
 #endif
@@ -31960,10 +31958,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RGB5
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RGB5
+		pixel_data_internal_format(GL_RGB5)
 	) != r.end());
 }
 #endif
@@ -31971,10 +31969,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RGB5_A1
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RGB5_A1
+		pixel_data_internal_format(GL_RGB5_A1)
 	) != r.end());
 }
 #endif
@@ -31982,10 +31980,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RGB8
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RGB8
+		pixel_data_internal_format(GL_RGB8)
 	) != r.end());
 }
 #endif
@@ -31993,10 +31991,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RGB8_SNORM
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RGB8_SNORM
+		pixel_data_internal_format(GL_RGB8_SNORM)
 	) != r.end());
 }
 #endif
@@ -32004,10 +32002,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RGB8I
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RGB8I
+		pixel_data_internal_format(GL_RGB8I)
 	) != r.end());
 }
 #endif
@@ -32015,10 +32013,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RGB8UI
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RGB8UI
+		pixel_data_internal_format(GL_RGB8UI)
 	) != r.end());
 }
 #endif
@@ -32026,10 +32024,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RGB9_E5
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RGB9_E5
+		pixel_data_internal_format(GL_RGB9_E5)
 	) != r.end());
 }
 #endif
@@ -32037,10 +32035,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RGBA
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RGBA
+		pixel_data_internal_format(GL_RGBA)
 	) != r.end());
 }
 #endif
@@ -32048,10 +32046,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RGBA12
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RGBA12
+		pixel_data_internal_format(GL_RGBA12)
 	) != r.end());
 }
 #endif
@@ -32059,10 +32057,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RGBA16
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RGBA16
+		pixel_data_internal_format(GL_RGBA16)
 	) != r.end());
 }
 #endif
@@ -32070,10 +32068,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RGBA16_SNORM
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RGBA16_SNORM
+		pixel_data_internal_format(GL_RGBA16_SNORM)
 	) != r.end());
 }
 #endif
@@ -32081,10 +32079,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RGBA16F
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RGBA16F
+		pixel_data_internal_format(GL_RGBA16F)
 	) != r.end());
 }
 #endif
@@ -32092,10 +32090,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RGBA16I
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RGBA16I
+		pixel_data_internal_format(GL_RGBA16I)
 	) != r.end());
 }
 #endif
@@ -32103,10 +32101,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RGBA16UI
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RGBA16UI
+		pixel_data_internal_format(GL_RGBA16UI)
 	) != r.end());
 }
 #endif
@@ -32114,10 +32112,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RGBA2
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RGBA2
+		pixel_data_internal_format(GL_RGBA2)
 	) != r.end());
 }
 #endif
@@ -32125,10 +32123,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RGBA32F
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RGBA32F
+		pixel_data_internal_format(GL_RGBA32F)
 	) != r.end());
 }
 #endif
@@ -32136,10 +32134,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RGBA32I
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RGBA32I
+		pixel_data_internal_format(GL_RGBA32I)
 	) != r.end());
 }
 #endif
@@ -32147,10 +32145,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RGBA32UI
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RGBA32UI
+		pixel_data_internal_format(GL_RGBA32UI)
 	) != r.end());
 }
 #endif
@@ -32158,10 +32156,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RGBA4
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RGBA4
+		pixel_data_internal_format(GL_RGBA4)
 	) != r.end());
 }
 #endif
@@ -32169,10 +32167,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RGBA8
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RGBA8
+		pixel_data_internal_format(GL_RGBA8)
 	) != r.end());
 }
 #endif
@@ -32180,10 +32178,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RGBA8_SNORM
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RGBA8_SNORM
+		pixel_data_internal_format(GL_RGBA8_SNORM)
 	) != r.end());
 }
 #endif
@@ -32191,10 +32189,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RGBA8I
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RGBA8I
+		pixel_data_internal_format(GL_RGBA8I)
 	) != r.end());
 }
 #endif
@@ -32202,10 +32200,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_RGBA8UI
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RGBA8UI
+		pixel_data_internal_format(GL_RGBA8UI)
 	) != r.end());
 }
 #endif
@@ -32213,10 +32211,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_SRGB8
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_SRGB8
+		pixel_data_internal_format(GL_SRGB8)
 	) != r.end());
 }
 #endif
@@ -32224,10 +32222,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_SRGB8_ALPHA8
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_SRGB8_ALPHA8
+		pixel_data_internal_format(GL_SRGB8_ALPHA8)
 	) != r.end());
 }
 #endif
@@ -32235,10 +32233,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range)
 #ifdef GL_STENCIL_INDEX8
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_data_internal_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_STENCIL_INDEX8
+		pixel_data_internal_format(GL_STENCIL_INDEX8)
 	) != r.end());
 }
 #endif

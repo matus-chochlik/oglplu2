@@ -3669,17 +3669,15 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_names)
 BOOST_AUTO_TEST_CASE(enum_binding_query_range)
 {
 	using namespace oglplus;
-	binding_query x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<binding_query>().size();
 
 #ifdef GL_ARRAY_BUFFER_BINDING
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<binding_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_ARRAY_BUFFER_BINDING
+		binding_query(GL_ARRAY_BUFFER_BINDING)
 	) != r.end());
 }
 #endif
@@ -3687,10 +3685,10 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_range)
 #ifdef GL_ATOMIC_COUNTER_BUFFER_BINDING
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<binding_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_ATOMIC_COUNTER_BUFFER_BINDING
+		binding_query(GL_ATOMIC_COUNTER_BUFFER_BINDING)
 	) != r.end());
 }
 #endif
@@ -3698,10 +3696,10 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_range)
 #ifdef GL_BUFFER_BINDING
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<binding_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_BUFFER_BINDING
+		binding_query(GL_BUFFER_BINDING)
 	) != r.end());
 }
 #endif
@@ -3709,10 +3707,10 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_range)
 #ifdef GL_COPY_READ_BUFFER_BINDING
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<binding_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_COPY_READ_BUFFER_BINDING
+		binding_query(GL_COPY_READ_BUFFER_BINDING)
 	) != r.end());
 }
 #endif
@@ -3720,10 +3718,10 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_range)
 #ifdef GL_COPY_WRITE_BUFFER_BINDING
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<binding_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_COPY_WRITE_BUFFER_BINDING
+		binding_query(GL_COPY_WRITE_BUFFER_BINDING)
 	) != r.end());
 }
 #endif
@@ -3731,10 +3729,10 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_range)
 #ifdef GL_CURRENT_PROGRAM
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<binding_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_CURRENT_PROGRAM
+		binding_query(GL_CURRENT_PROGRAM)
 	) != r.end());
 }
 #endif
@@ -3742,10 +3740,10 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_range)
 #ifdef GL_DISPATCH_INDIRECT_BUFFER_BINDING
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<binding_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DISPATCH_INDIRECT_BUFFER_BINDING
+		binding_query(GL_DISPATCH_INDIRECT_BUFFER_BINDING)
 	) != r.end());
 }
 #endif
@@ -3753,10 +3751,10 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_range)
 #ifdef GL_DRAW_FRAMEBUFFER_BINDING
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<binding_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DRAW_FRAMEBUFFER_BINDING
+		binding_query(GL_DRAW_FRAMEBUFFER_BINDING)
 	) != r.end());
 }
 #endif
@@ -3764,10 +3762,10 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_range)
 #ifdef GL_DRAW_INDIRECT_BUFFER_BINDING
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<binding_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DRAW_INDIRECT_BUFFER_BINDING
+		binding_query(GL_DRAW_INDIRECT_BUFFER_BINDING)
 	) != r.end());
 }
 #endif
@@ -3775,10 +3773,10 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_range)
 #ifdef GL_ELEMENT_ARRAY_BUFFER_BINDING
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<binding_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_ELEMENT_ARRAY_BUFFER_BINDING
+		binding_query(GL_ELEMENT_ARRAY_BUFFER_BINDING)
 	) != r.end());
 }
 #endif
@@ -3786,10 +3784,10 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_range)
 #ifdef GL_PARAMETER_BUFFER_BINDING_ARB
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<binding_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_PARAMETER_BUFFER_BINDING_ARB
+		binding_query(GL_PARAMETER_BUFFER_BINDING_ARB)
 	) != r.end());
 }
 #endif
@@ -3797,10 +3795,10 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_range)
 #ifdef GL_PIXEL_PACK_BUFFER_BINDING
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<binding_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_PIXEL_PACK_BUFFER_BINDING
+		binding_query(GL_PIXEL_PACK_BUFFER_BINDING)
 	) != r.end());
 }
 #endif
@@ -3808,10 +3806,10 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_range)
 #ifdef GL_PIXEL_UNPACK_BUFFER_BINDING
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<binding_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_PIXEL_UNPACK_BUFFER_BINDING
+		binding_query(GL_PIXEL_UNPACK_BUFFER_BINDING)
 	) != r.end());
 }
 #endif
@@ -3819,10 +3817,10 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_range)
 #ifdef GL_QUERY_BUFFER_BINDING
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<binding_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_QUERY_BUFFER_BINDING
+		binding_query(GL_QUERY_BUFFER_BINDING)
 	) != r.end());
 }
 #endif
@@ -3830,10 +3828,10 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_range)
 #ifdef GL_RENDERBUFFER_BINDING
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<binding_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RENDERBUFFER_BINDING
+		binding_query(GL_RENDERBUFFER_BINDING)
 	) != r.end());
 }
 #endif
@@ -3841,10 +3839,10 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_range)
 #ifdef GL_SAMPLER_BINDING
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<binding_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_SAMPLER_BINDING
+		binding_query(GL_SAMPLER_BINDING)
 	) != r.end());
 }
 #endif
@@ -3852,10 +3850,10 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_range)
 #ifdef GL_SHADER_STORAGE_BUFFER_BINDING
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<binding_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_SHADER_STORAGE_BUFFER_BINDING
+		binding_query(GL_SHADER_STORAGE_BUFFER_BINDING)
 	) != r.end());
 }
 #endif
@@ -3863,10 +3861,10 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_range)
 #ifdef GL_TEXTURE_BINDING_1D
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<binding_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE_BINDING_1D
+		binding_query(GL_TEXTURE_BINDING_1D)
 	) != r.end());
 }
 #endif
@@ -3874,10 +3872,10 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_range)
 #ifdef GL_TEXTURE_BINDING_1D_ARRAY
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<binding_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE_BINDING_1D_ARRAY
+		binding_query(GL_TEXTURE_BINDING_1D_ARRAY)
 	) != r.end());
 }
 #endif
@@ -3885,10 +3883,10 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_range)
 #ifdef GL_TEXTURE_BINDING_2D
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<binding_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE_BINDING_2D
+		binding_query(GL_TEXTURE_BINDING_2D)
 	) != r.end());
 }
 #endif
@@ -3896,10 +3894,10 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_range)
 #ifdef GL_TEXTURE_BINDING_2D_ARRAY
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<binding_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE_BINDING_2D_ARRAY
+		binding_query(GL_TEXTURE_BINDING_2D_ARRAY)
 	) != r.end());
 }
 #endif
@@ -3907,10 +3905,10 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_range)
 #ifdef GL_TEXTURE_BINDING_2D_MULTISAMPLE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<binding_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE_BINDING_2D_MULTISAMPLE
+		binding_query(GL_TEXTURE_BINDING_2D_MULTISAMPLE)
 	) != r.end());
 }
 #endif
@@ -3918,10 +3916,10 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_range)
 #ifdef GL_TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<binding_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY
+		binding_query(GL_TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY)
 	) != r.end());
 }
 #endif
@@ -3929,10 +3927,10 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_range)
 #ifdef GL_TEXTURE_BINDING_3D
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<binding_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE_BINDING_3D
+		binding_query(GL_TEXTURE_BINDING_3D)
 	) != r.end());
 }
 #endif
@@ -3940,10 +3938,10 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_range)
 #ifdef GL_TEXTURE_BINDING_BUFFER
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<binding_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE_BINDING_BUFFER
+		binding_query(GL_TEXTURE_BINDING_BUFFER)
 	) != r.end());
 }
 #endif
@@ -3951,10 +3949,10 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_range)
 #ifdef GL_TEXTURE_BINDING_CUBE_MAP
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<binding_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE_BINDING_CUBE_MAP
+		binding_query(GL_TEXTURE_BINDING_CUBE_MAP)
 	) != r.end());
 }
 #endif
@@ -3962,10 +3960,10 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_range)
 #ifdef GL_TEXTURE_BINDING_CUBE_MAP_ARRAY
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<binding_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE_BINDING_CUBE_MAP_ARRAY
+		binding_query(GL_TEXTURE_BINDING_CUBE_MAP_ARRAY)
 	) != r.end());
 }
 #endif
@@ -3973,10 +3971,10 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_range)
 #ifdef GL_TEXTURE_BINDING_RECTANGLE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<binding_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE_BINDING_RECTANGLE
+		binding_query(GL_TEXTURE_BINDING_RECTANGLE)
 	) != r.end());
 }
 #endif
@@ -3984,10 +3982,10 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_range)
 #ifdef GL_TEXTURE_BUFFER_BINDING
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<binding_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE_BUFFER_BINDING
+		binding_query(GL_TEXTURE_BUFFER_BINDING)
 	) != r.end());
 }
 #endif
@@ -3995,10 +3993,10 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_range)
 #ifdef GL_TRANSFORM_FEEDBACK_BINDING
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<binding_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TRANSFORM_FEEDBACK_BINDING
+		binding_query(GL_TRANSFORM_FEEDBACK_BINDING)
 	) != r.end());
 }
 #endif
@@ -4006,10 +4004,10 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_range)
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER_BINDING
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<binding_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TRANSFORM_FEEDBACK_BUFFER_BINDING
+		binding_query(GL_TRANSFORM_FEEDBACK_BUFFER_BINDING)
 	) != r.end());
 }
 #endif
@@ -4017,10 +4015,10 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_range)
 #ifdef GL_UNIFORM_BUFFER_BINDING
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<binding_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_UNIFORM_BUFFER_BINDING
+		binding_query(GL_UNIFORM_BUFFER_BINDING)
 	) != r.end());
 }
 #endif
@@ -4028,10 +4026,10 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_range)
 #ifdef GL_VERTEX_ARRAY_BINDING
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<binding_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_VERTEX_ARRAY_BINDING
+		binding_query(GL_VERTEX_ARRAY_BINDING)
 	) != r.end());
 }
 #endif

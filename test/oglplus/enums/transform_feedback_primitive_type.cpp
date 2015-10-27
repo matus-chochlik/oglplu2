@@ -99,17 +99,15 @@ BOOST_AUTO_TEST_CASE(enum_transform_feedback_primitive_type_names)
 BOOST_AUTO_TEST_CASE(enum_transform_feedback_primitive_type_range)
 {
 	using namespace oglplus;
-	transform_feedback_primitive_type x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<transform_feedback_primitive_type>().size();
 
 #ifdef GL_LINES
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<transform_feedback_primitive_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_LINES
+		transform_feedback_primitive_type(GL_LINES)
 	) != r.end());
 }
 #endif
@@ -117,10 +115,10 @@ BOOST_AUTO_TEST_CASE(enum_transform_feedback_primitive_type_range)
 #ifdef GL_POINTS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<transform_feedback_primitive_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_POINTS
+		transform_feedback_primitive_type(GL_POINTS)
 	) != r.end());
 }
 #endif
@@ -128,10 +126,10 @@ BOOST_AUTO_TEST_CASE(enum_transform_feedback_primitive_type_range)
 #ifdef GL_TRIANGLES
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<transform_feedback_primitive_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TRIANGLES
+		transform_feedback_primitive_type(GL_TRIANGLES)
 	) != r.end());
 }
 #endif

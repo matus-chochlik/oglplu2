@@ -99,17 +99,15 @@ BOOST_AUTO_TEST_CASE(enum_texture_format_names)
 BOOST_AUTO_TEST_CASE(enum_texture_format_range)
 {
 	using namespace eglplus;
-	texture_format x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<texture_format>().size();
 
 #ifdef EGL_NO_TEXTURE
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_NO_TEXTURE
+		texture_format(EGL_NO_TEXTURE)
 	) != r.end());
 }
 #endif
@@ -117,10 +115,10 @@ BOOST_AUTO_TEST_CASE(enum_texture_format_range)
 #ifdef EGL_TEXTURE_RGB
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_TEXTURE_RGB
+		texture_format(EGL_TEXTURE_RGB)
 	) != r.end());
 }
 #endif
@@ -128,10 +126,10 @@ BOOST_AUTO_TEST_CASE(enum_texture_format_range)
 #ifdef EGL_TEXTURE_RGBA
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_TEXTURE_RGBA
+		texture_format(EGL_TEXTURE_RGBA)
 	) != r.end());
 }
 #endif

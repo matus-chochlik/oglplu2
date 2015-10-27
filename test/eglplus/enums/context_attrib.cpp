@@ -169,17 +169,15 @@ BOOST_AUTO_TEST_CASE(enum_context_attrib_names)
 BOOST_AUTO_TEST_CASE(enum_context_attrib_range)
 {
 	using namespace eglplus;
-	context_attrib x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<context_attrib>().size();
 
 #ifdef EGL_CONTEXT_FLAGS
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<context_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_CONTEXT_FLAGS
+		context_attrib(EGL_CONTEXT_FLAGS)
 	) != r.end());
 }
 #endif
@@ -187,10 +185,10 @@ BOOST_AUTO_TEST_CASE(enum_context_attrib_range)
 #ifdef EGL_CONTEXT_MAJOR_VERSION
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<context_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_CONTEXT_MAJOR_VERSION
+		context_attrib(EGL_CONTEXT_MAJOR_VERSION)
 	) != r.end());
 }
 #endif
@@ -198,10 +196,10 @@ BOOST_AUTO_TEST_CASE(enum_context_attrib_range)
 #ifdef EGL_CONTEXT_MINOR_VERSION
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<context_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_CONTEXT_MINOR_VERSION
+		context_attrib(EGL_CONTEXT_MINOR_VERSION)
 	) != r.end());
 }
 #endif
@@ -209,10 +207,10 @@ BOOST_AUTO_TEST_CASE(enum_context_attrib_range)
 #ifdef EGL_CONTEXT_OPENGL_PROFILE_MASK
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<context_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_CONTEXT_OPENGL_PROFILE_MASK
+		context_attrib(EGL_CONTEXT_OPENGL_PROFILE_MASK)
 	) != r.end());
 }
 #endif
@@ -220,10 +218,10 @@ BOOST_AUTO_TEST_CASE(enum_context_attrib_range)
 #ifdef EGL_CONTEXT_OPENGL_RESET_NOTIFICATION_STRATEGY
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<context_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_CONTEXT_OPENGL_RESET_NOTIFICATION_STRATEGY
+		context_attrib(EGL_CONTEXT_OPENGL_RESET_NOTIFICATION_STRATEGY)
 	) != r.end());
 }
 #endif

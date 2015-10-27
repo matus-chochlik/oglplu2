@@ -16,7 +16,6 @@
 #include "../error/handling.hpp"
 #include "../error/outcome.hpp"
 #include "../enum/types.hpp"
-#include <eagine/iterator.hpp>
 
 namespace oglplus {
 

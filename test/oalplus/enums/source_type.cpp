@@ -99,17 +99,15 @@ BOOST_AUTO_TEST_CASE(enum_source_type_names)
 BOOST_AUTO_TEST_CASE(enum_source_type_range)
 {
 	using namespace oalplus;
-	source_type x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<source_type>().size();
 
 #ifdef AL_STATIC
 {
 	--count;
-	array_view<const ALenum> r = enum_value_range(x);
+	auto r = enum_value_range<source_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		AL_STATIC
+		source_type(AL_STATIC)
 	) != r.end());
 }
 #endif
@@ -117,10 +115,10 @@ BOOST_AUTO_TEST_CASE(enum_source_type_range)
 #ifdef AL_STREAMING
 {
 	--count;
-	array_view<const ALenum> r = enum_value_range(x);
+	auto r = enum_value_range<source_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		AL_STREAMING
+		source_type(AL_STREAMING)
 	) != r.end());
 }
 #endif
@@ -128,10 +126,10 @@ BOOST_AUTO_TEST_CASE(enum_source_type_range)
 #ifdef AL_UNDETERMINED
 {
 	--count;
-	array_view<const ALenum> r = enum_value_range(x);
+	auto r = enum_value_range<source_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		AL_UNDETERMINED
+		source_type(AL_UNDETERMINED)
 	) != r.end());
 }
 #endif

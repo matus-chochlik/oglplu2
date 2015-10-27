@@ -73,17 +73,15 @@ BOOST_AUTO_TEST_CASE(enum_vg_alpha_format_names)
 BOOST_AUTO_TEST_CASE(enum_vg_alpha_format_range)
 {
 	using namespace eglplus;
-	vg_alpha_format x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<vg_alpha_format>().size();
 
 #ifdef EGL_VG_ALPHA_FORMAT_NONPRE
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<vg_alpha_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_VG_ALPHA_FORMAT_NONPRE
+		vg_alpha_format(EGL_VG_ALPHA_FORMAT_NONPRE)
 	) != r.end());
 }
 #endif
@@ -91,10 +89,10 @@ BOOST_AUTO_TEST_CASE(enum_vg_alpha_format_range)
 #ifdef EGL_VG_ALPHA_FORMAT_PRE
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<vg_alpha_format>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_VG_ALPHA_FORMAT_PRE
+		vg_alpha_format(EGL_VG_ALPHA_FORMAT_PRE)
 	) != r.end());
 }
 #endif

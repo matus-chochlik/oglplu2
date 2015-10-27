@@ -73,17 +73,15 @@ BOOST_AUTO_TEST_CASE(enum_reset_notification_strategy_names)
 BOOST_AUTO_TEST_CASE(enum_reset_notification_strategy_range)
 {
 	using namespace oglplus;
-	reset_notification_strategy x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<reset_notification_strategy>().size();
 
 #ifdef GL_LOSE_CONTEXT_ON_RESET
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<reset_notification_strategy>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_LOSE_CONTEXT_ON_RESET
+		reset_notification_strategy(GL_LOSE_CONTEXT_ON_RESET)
 	) != r.end());
 }
 #endif
@@ -91,10 +89,10 @@ BOOST_AUTO_TEST_CASE(enum_reset_notification_strategy_range)
 #ifdef GL_NO_RESET_NOTIFICATION
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<reset_notification_strategy>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_NO_RESET_NOTIFICATION
+		reset_notification_strategy(GL_NO_RESET_NOTIFICATION)
 	) != r.end());
 }
 #endif

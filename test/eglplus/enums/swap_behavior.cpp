@@ -73,17 +73,15 @@ BOOST_AUTO_TEST_CASE(enum_swap_behavior_names)
 BOOST_AUTO_TEST_CASE(enum_swap_behavior_range)
 {
 	using namespace eglplus;
-	swap_behavior x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<swap_behavior>().size();
 
 #ifdef EGL_BUFFER_DESTROYED
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<swap_behavior>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_BUFFER_DESTROYED
+		swap_behavior(EGL_BUFFER_DESTROYED)
 	) != r.end());
 }
 #endif
@@ -91,10 +89,10 @@ BOOST_AUTO_TEST_CASE(enum_swap_behavior_range)
 #ifdef EGL_BUFFER_PRESERVED
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<swap_behavior>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_BUFFER_PRESERVED
+		swap_behavior(EGL_BUFFER_PRESERVED)
 	) != r.end());
 }
 #endif

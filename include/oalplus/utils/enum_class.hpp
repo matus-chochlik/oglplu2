@@ -17,6 +17,7 @@ namespace oalplus {
 
 using eagine::enum_value;
 using eagine::enum_bitfield;
+using eagine::is_enum_class;
 
 // AL
 template <typename Self, typename T, unsigned Id>

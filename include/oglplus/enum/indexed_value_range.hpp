@@ -11,6 +11,8 @@
 
 #include "../utils/indexed_enum.hpp"
 #include "../utils/limited_value.hpp"
+#include <eagine/iterator.hpp>
+#include <cassert>
 
 namespace oglplus {
 
@@ -33,10 +35,15 @@ private:
 	}
 	
 public:
+	typedef _lv_t value_type;
+	typedef std::size_t size_type;
+
 	limited_value_range(_lv_t limit)
 	noexcept
 	 : _limit(GLenum(limit))
-	{ }
+	{
+		assert(Base <= _limit);
+	}
 
 	limited_value_range(void)
 	 : limited_value_range(get_limit(identity<_lv_t>()).get())
@@ -46,6 +53,12 @@ public:
 		eagine::selfref_iterator<GLenum>,
 		_lv_t, _lv_t(*)(GLenum) noexcept
 	> iterator;
+
+	size_type size(void) const
+	noexcept
+	{
+		return size_type(_limit - Base);
+	}
 
 	iterator begin(void) const
 	noexcept

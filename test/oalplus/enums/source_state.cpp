@@ -131,17 +131,15 @@ BOOST_AUTO_TEST_CASE(enum_source_state_names)
 BOOST_AUTO_TEST_CASE(enum_source_state_range)
 {
 	using namespace oalplus;
-	source_state x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<source_state>().size();
 
 #ifdef AL_INITIAL
 {
 	--count;
-	array_view<const ALenum> r = enum_value_range(x);
+	auto r = enum_value_range<source_state>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		AL_INITIAL
+		source_state(AL_INITIAL)
 	) != r.end());
 }
 #endif
@@ -149,10 +147,10 @@ BOOST_AUTO_TEST_CASE(enum_source_state_range)
 #ifdef AL_PAUSED
 {
 	--count;
-	array_view<const ALenum> r = enum_value_range(x);
+	auto r = enum_value_range<source_state>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		AL_PAUSED
+		source_state(AL_PAUSED)
 	) != r.end());
 }
 #endif
@@ -160,10 +158,10 @@ BOOST_AUTO_TEST_CASE(enum_source_state_range)
 #ifdef AL_PLAYING
 {
 	--count;
-	array_view<const ALenum> r = enum_value_range(x);
+	auto r = enum_value_range<source_state>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		AL_PLAYING
+		source_state(AL_PLAYING)
 	) != r.end());
 }
 #endif
@@ -171,10 +169,10 @@ BOOST_AUTO_TEST_CASE(enum_source_state_range)
 #ifdef AL_STOPPED
 {
 	--count;
-	array_view<const ALenum> r = enum_value_range(x);
+	auto r = enum_value_range<source_state>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		AL_STOPPED
+		source_state(AL_STOPPED)
 	) != r.end());
 }
 #endif

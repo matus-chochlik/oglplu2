@@ -1093,17 +1093,15 @@ BOOST_AUTO_TEST_CASE(enum_surface_attrib_names)
 BOOST_AUTO_TEST_CASE(enum_surface_attrib_range)
 {
 	using namespace eglplus;
-	surface_attrib x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<surface_attrib>().size();
 
 #ifdef EGL_CONFIG_ID
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<surface_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_CONFIG_ID
+		surface_attrib(EGL_CONFIG_ID)
 	) != r.end());
 }
 #endif
@@ -1111,10 +1109,10 @@ BOOST_AUTO_TEST_CASE(enum_surface_attrib_range)
 #ifdef EGL_GL_COLORSPACE
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<surface_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_GL_COLORSPACE
+		surface_attrib(EGL_GL_COLORSPACE)
 	) != r.end());
 }
 #endif
@@ -1122,10 +1120,10 @@ BOOST_AUTO_TEST_CASE(enum_surface_attrib_range)
 #ifdef EGL_HEIGHT
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<surface_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_HEIGHT
+		surface_attrib(EGL_HEIGHT)
 	) != r.end());
 }
 #endif
@@ -1133,10 +1131,10 @@ BOOST_AUTO_TEST_CASE(enum_surface_attrib_range)
 #ifdef EGL_HORIZONTAL_RESOLUTION
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<surface_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_HORIZONTAL_RESOLUTION
+		surface_attrib(EGL_HORIZONTAL_RESOLUTION)
 	) != r.end());
 }
 #endif
@@ -1144,10 +1142,10 @@ BOOST_AUTO_TEST_CASE(enum_surface_attrib_range)
 #ifdef EGL_LARGEST_PBUFFER
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<surface_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_LARGEST_PBUFFER
+		surface_attrib(EGL_LARGEST_PBUFFER)
 	) != r.end());
 }
 #endif
@@ -1155,10 +1153,10 @@ BOOST_AUTO_TEST_CASE(enum_surface_attrib_range)
 #ifdef EGL_MIPMAP_LEVEL
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<surface_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_MIPMAP_LEVEL
+		surface_attrib(EGL_MIPMAP_LEVEL)
 	) != r.end());
 }
 #endif
@@ -1166,10 +1164,10 @@ BOOST_AUTO_TEST_CASE(enum_surface_attrib_range)
 #ifdef EGL_MIPMAP_TEXTURE
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<surface_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_MIPMAP_TEXTURE
+		surface_attrib(EGL_MIPMAP_TEXTURE)
 	) != r.end());
 }
 #endif
@@ -1177,10 +1175,10 @@ BOOST_AUTO_TEST_CASE(enum_surface_attrib_range)
 #ifdef EGL_MULTISAMPLE_RESOLVE
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<surface_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_MULTISAMPLE_RESOLVE
+		surface_attrib(EGL_MULTISAMPLE_RESOLVE)
 	) != r.end());
 }
 #endif
@@ -1188,10 +1186,10 @@ BOOST_AUTO_TEST_CASE(enum_surface_attrib_range)
 #ifdef EGL_PIXEL_ASPECT_RATIO
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<surface_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_PIXEL_ASPECT_RATIO
+		surface_attrib(EGL_PIXEL_ASPECT_RATIO)
 	) != r.end());
 }
 #endif
@@ -1199,10 +1197,10 @@ BOOST_AUTO_TEST_CASE(enum_surface_attrib_range)
 #ifdef EGL_RENDER_BUFFER
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<surface_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_RENDER_BUFFER
+		surface_attrib(EGL_RENDER_BUFFER)
 	) != r.end());
 }
 #endif
@@ -1210,10 +1208,10 @@ BOOST_AUTO_TEST_CASE(enum_surface_attrib_range)
 #ifdef EGL_SWAP_BEHAVIOR
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<surface_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_SWAP_BEHAVIOR
+		surface_attrib(EGL_SWAP_BEHAVIOR)
 	) != r.end());
 }
 #endif
@@ -1221,10 +1219,10 @@ BOOST_AUTO_TEST_CASE(enum_surface_attrib_range)
 #ifdef EGL_TEXTURE_FORMAT
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<surface_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_TEXTURE_FORMAT
+		surface_attrib(EGL_TEXTURE_FORMAT)
 	) != r.end());
 }
 #endif
@@ -1232,10 +1230,10 @@ BOOST_AUTO_TEST_CASE(enum_surface_attrib_range)
 #ifdef EGL_TEXTURE_TARGET
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<surface_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_TEXTURE_TARGET
+		surface_attrib(EGL_TEXTURE_TARGET)
 	) != r.end());
 }
 #endif
@@ -1243,10 +1241,10 @@ BOOST_AUTO_TEST_CASE(enum_surface_attrib_range)
 #ifdef EGL_VERTICAL_RESOLUTION
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<surface_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_VERTICAL_RESOLUTION
+		surface_attrib(EGL_VERTICAL_RESOLUTION)
 	) != r.end());
 }
 #endif
@@ -1254,10 +1252,10 @@ BOOST_AUTO_TEST_CASE(enum_surface_attrib_range)
 #ifdef EGL_VG_ALPHA_FORMAT
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<surface_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_VG_ALPHA_FORMAT
+		surface_attrib(EGL_VG_ALPHA_FORMAT)
 	) != r.end());
 }
 #endif
@@ -1265,10 +1263,10 @@ BOOST_AUTO_TEST_CASE(enum_surface_attrib_range)
 #ifdef EGL_VG_COLORSPACE
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<surface_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_VG_COLORSPACE
+		surface_attrib(EGL_VG_COLORSPACE)
 	) != r.end());
 }
 #endif
@@ -1276,10 +1274,10 @@ BOOST_AUTO_TEST_CASE(enum_surface_attrib_range)
 #ifdef EGL_WIDTH
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<surface_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_WIDTH
+		surface_attrib(EGL_WIDTH)
 	) != r.end());
 }
 #endif

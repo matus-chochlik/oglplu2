@@ -73,17 +73,15 @@ BOOST_AUTO_TEST_CASE(enum_opengl_profile_bit_names)
 BOOST_AUTO_TEST_CASE(enum_opengl_profile_bit_range)
 {
 	using namespace eglplus;
-	opengl_profile_bit x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<opengl_profile_bit>().size();
 
 #ifdef EGL_CONTEXT_OPENGL_COMPATIBILITY_PROFILE_BIT
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<opengl_profile_bit>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_CONTEXT_OPENGL_COMPATIBILITY_PROFILE_BIT
+		opengl_profile_bit(EGL_CONTEXT_OPENGL_COMPATIBILITY_PROFILE_BIT)
 	) != r.end());
 }
 #endif
@@ -91,10 +89,10 @@ BOOST_AUTO_TEST_CASE(enum_opengl_profile_bit_range)
 #ifdef EGL_CONTEXT_OPENGL_CORE_PROFILE_BIT
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<opengl_profile_bit>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_CONTEXT_OPENGL_CORE_PROFILE_BIT
+		opengl_profile_bit(EGL_CONTEXT_OPENGL_CORE_PROFILE_BIT)
 	) != r.end());
 }
 #endif

@@ -449,17 +449,15 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_type_names)
 BOOST_AUTO_TEST_CASE(enum_debug_output_type_range)
 {
 	using namespace oglplus;
-	debug_output_type x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<debug_output_type>().size();
 
 #ifdef GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<debug_output_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR
+		debug_output_type(GL_DEBUG_TYPE_DEPRECATED_BEHAVIOR)
 	) != r.end());
 }
 #endif
@@ -467,10 +465,10 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_type_range)
 #ifdef GL_DEBUG_TYPE_ERROR
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<debug_output_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DEBUG_TYPE_ERROR
+		debug_output_type(GL_DEBUG_TYPE_ERROR)
 	) != r.end());
 }
 #endif
@@ -478,10 +476,10 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_type_range)
 #ifdef GL_DEBUG_TYPE_MARKER
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<debug_output_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DEBUG_TYPE_MARKER
+		debug_output_type(GL_DEBUG_TYPE_MARKER)
 	) != r.end());
 }
 #endif
@@ -489,10 +487,10 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_type_range)
 #ifdef GL_DEBUG_TYPE_OTHER
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<debug_output_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DEBUG_TYPE_OTHER
+		debug_output_type(GL_DEBUG_TYPE_OTHER)
 	) != r.end());
 }
 #endif
@@ -500,10 +498,10 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_type_range)
 #ifdef GL_DEBUG_TYPE_PERFORMANCE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<debug_output_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DEBUG_TYPE_PERFORMANCE
+		debug_output_type(GL_DEBUG_TYPE_PERFORMANCE)
 	) != r.end());
 }
 #endif
@@ -511,10 +509,10 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_type_range)
 #ifdef GL_DEBUG_TYPE_POP_GROUP
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<debug_output_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DEBUG_TYPE_POP_GROUP
+		debug_output_type(GL_DEBUG_TYPE_POP_GROUP)
 	) != r.end());
 }
 #endif
@@ -522,10 +520,10 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_type_range)
 #ifdef GL_DEBUG_TYPE_PORTABILITY
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<debug_output_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DEBUG_TYPE_PORTABILITY
+		debug_output_type(GL_DEBUG_TYPE_PORTABILITY)
 	) != r.end());
 }
 #endif
@@ -533,10 +531,10 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_type_range)
 #ifdef GL_DEBUG_TYPE_PUSH_GROUP
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<debug_output_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DEBUG_TYPE_PUSH_GROUP
+		debug_output_type(GL_DEBUG_TYPE_PUSH_GROUP)
 	) != r.end());
 }
 #endif
@@ -544,10 +542,10 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_type_range)
 #ifdef GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<debug_output_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR
+		debug_output_type(GL_DEBUG_TYPE_UNDEFINED_BEHAVIOR)
 	) != r.end());
 }
 #endif
@@ -555,10 +553,10 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_type_range)
 #ifdef GL_DONT_CARE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<debug_output_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DONT_CARE
+		debug_output_type(GL_DONT_CARE)
 	) != r.end());
 }
 #endif

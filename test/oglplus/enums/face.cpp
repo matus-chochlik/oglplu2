@@ -99,17 +99,15 @@ BOOST_AUTO_TEST_CASE(enum_face_names)
 BOOST_AUTO_TEST_CASE(enum_face_range)
 {
 	using namespace oglplus;
-	face x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<face>().size();
 
 #ifdef GL_BACK
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<face>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_BACK
+		face(GL_BACK)
 	) != r.end());
 }
 #endif
@@ -117,10 +115,10 @@ BOOST_AUTO_TEST_CASE(enum_face_range)
 #ifdef GL_FRONT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<face>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_FRONT
+		face(GL_FRONT)
 	) != r.end());
 }
 #endif
@@ -128,10 +126,10 @@ BOOST_AUTO_TEST_CASE(enum_face_range)
 #ifdef GL_FRONT_AND_BACK
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<face>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_FRONT_AND_BACK
+		face(GL_FRONT_AND_BACK)
 	) != r.end());
 }
 #endif

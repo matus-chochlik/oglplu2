@@ -144,7 +144,7 @@ get_texture_parameter_i(
 	array_view<GLint> values
 ) noexcept
 {
-	assert(value.size() > 0);
+	assert(values.size() > 0);
 	OGLPLUS_GLFUNC(GetTextureParameteriv)(
 		get_raw_name(tnt._name),
 		GLenum(param),

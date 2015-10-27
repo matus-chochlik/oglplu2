@@ -131,17 +131,15 @@ BOOST_AUTO_TEST_CASE(enum_path_cap_style_nv_names)
 BOOST_AUTO_TEST_CASE(enum_path_cap_style_nv_range)
 {
 	using namespace oglplus;
-	path_cap_style_nv x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<path_cap_style_nv>().size();
 
 #ifdef GL_FLAT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<path_cap_style_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_FLAT
+		path_cap_style_nv(GL_FLAT)
 	) != r.end());
 }
 #endif
@@ -149,10 +147,10 @@ BOOST_AUTO_TEST_CASE(enum_path_cap_style_nv_range)
 #ifdef GL_ROUND_NV
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<path_cap_style_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_ROUND_NV
+		path_cap_style_nv(GL_ROUND_NV)
 	) != r.end());
 }
 #endif
@@ -160,10 +158,10 @@ BOOST_AUTO_TEST_CASE(enum_path_cap_style_nv_range)
 #ifdef GL_SQUARE_NV
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<path_cap_style_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_SQUARE_NV
+		path_cap_style_nv(GL_SQUARE_NV)
 	) != r.end());
 }
 #endif
@@ -171,10 +169,10 @@ BOOST_AUTO_TEST_CASE(enum_path_cap_style_nv_range)
 #ifdef GL_TRIANGULAR_NV
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<path_cap_style_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TRIANGULAR_NV
+		path_cap_style_nv(GL_TRIANGULAR_NV)
 	) != r.end());
 }
 #endif

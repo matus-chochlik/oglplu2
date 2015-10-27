@@ -73,17 +73,15 @@ BOOST_AUTO_TEST_CASE(enum_true_false_names)
 BOOST_AUTO_TEST_CASE(enum_true_false_range)
 {
 	using namespace oglplus;
-	true_false x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<true_false>().size();
 
 #ifdef GL_FALSE
 {
 	--count;
-	array_view<const GLboolean> r = enum_value_range(x);
+	auto r = enum_value_range<true_false>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_FALSE
+		true_false(GL_FALSE)
 	) != r.end());
 }
 #endif
@@ -91,10 +89,10 @@ BOOST_AUTO_TEST_CASE(enum_true_false_range)
 #ifdef GL_TRUE
 {
 	--count;
-	array_view<const GLboolean> r = enum_value_range(x);
+	auto r = enum_value_range<true_false>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TRUE
+		true_false(GL_TRUE)
 	) != r.end());
 }
 #endif

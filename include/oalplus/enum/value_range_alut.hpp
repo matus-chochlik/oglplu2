@@ -17,16 +17,6 @@ std::pair<const void*, std::size_t>
 get_enum_value_range(const any_enum_class_alut&)
 noexcept;
 
-template <typename EnumClass, typename T, unsigned EnumId>
-static inline
-array_view<const T>
-enum_value_range(enum_class_alut<EnumClass, T, EnumId> cls)
-noexcept
-{
-	auto p = ::oalplus::get_enum_value_range(cls);
-	return {static_cast<const T*>(p.first), p.second};
-}
-
 } // namespace oalplus
 
 #if !OALPLUS_LINK_LIBRARY || defined(OALPLUS_IMPLEMENTING_LIBRARY)

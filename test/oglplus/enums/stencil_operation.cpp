@@ -319,17 +319,15 @@ BOOST_AUTO_TEST_CASE(enum_stencil_operation_names)
 BOOST_AUTO_TEST_CASE(enum_stencil_operation_range)
 {
 	using namespace oglplus;
-	stencil_operation x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<stencil_operation>().size();
 
 #ifdef GL_DECR
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<stencil_operation>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DECR
+		stencil_operation(GL_DECR)
 	) != r.end());
 }
 #endif
@@ -337,10 +335,10 @@ BOOST_AUTO_TEST_CASE(enum_stencil_operation_range)
 #ifdef GL_DECR_WRAP
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<stencil_operation>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DECR_WRAP
+		stencil_operation(GL_DECR_WRAP)
 	) != r.end());
 }
 #endif
@@ -348,10 +346,10 @@ BOOST_AUTO_TEST_CASE(enum_stencil_operation_range)
 #ifdef GL_INCR
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<stencil_operation>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_INCR
+		stencil_operation(GL_INCR)
 	) != r.end());
 }
 #endif
@@ -359,10 +357,10 @@ BOOST_AUTO_TEST_CASE(enum_stencil_operation_range)
 #ifdef GL_INCR_WRAP
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<stencil_operation>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_INCR_WRAP
+		stencil_operation(GL_INCR_WRAP)
 	) != r.end());
 }
 #endif
@@ -370,10 +368,10 @@ BOOST_AUTO_TEST_CASE(enum_stencil_operation_range)
 #ifdef GL_INVERT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<stencil_operation>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_INVERT
+		stencil_operation(GL_INVERT)
 	) != r.end());
 }
 #endif
@@ -381,10 +379,10 @@ BOOST_AUTO_TEST_CASE(enum_stencil_operation_range)
 #ifdef GL_KEEP
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<stencil_operation>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_KEEP
+		stencil_operation(GL_KEEP)
 	) != r.end());
 }
 #endif
@@ -392,10 +390,10 @@ BOOST_AUTO_TEST_CASE(enum_stencil_operation_range)
 #ifdef GL_REPLACE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<stencil_operation>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_REPLACE
+		stencil_operation(GL_REPLACE)
 	) != r.end());
 }
 #endif
@@ -403,10 +401,10 @@ BOOST_AUTO_TEST_CASE(enum_stencil_operation_range)
 #ifdef GL_ZERO
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<stencil_operation>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_ZERO
+		stencil_operation(GL_ZERO)
 	) != r.end());
 }
 #endif

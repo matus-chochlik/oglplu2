@@ -73,17 +73,15 @@ BOOST_AUTO_TEST_CASE(enum_opengl_rns_names)
 BOOST_AUTO_TEST_CASE(enum_opengl_rns_range)
 {
 	using namespace eglplus;
-	opengl_rns x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<opengl_rns>().size();
 
 #ifdef EGL_LOSE_CONTEXT_ON_RESET
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<opengl_rns>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_LOSE_CONTEXT_ON_RESET
+		opengl_rns(EGL_LOSE_CONTEXT_ON_RESET)
 	) != r.end());
 }
 #endif
@@ -91,10 +89,10 @@ BOOST_AUTO_TEST_CASE(enum_opengl_rns_range)
 #ifdef EGL_NO_RESET_NOTIFICATION
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<opengl_rns>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_NO_RESET_NOTIFICATION
+		opengl_rns(EGL_NO_RESET_NOTIFICATION)
 	) != r.end());
 }
 #endif

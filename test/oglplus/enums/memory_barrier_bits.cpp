@@ -879,17 +879,15 @@ BOOST_AUTO_TEST_CASE(enum_memory_barrier_bits_names)
 BOOST_AUTO_TEST_CASE(enum_memory_barrier_bits_range)
 {
 	using namespace oglplus;
-	memory_barrier_bits x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<memory_barrier_bits>().size();
 
 #ifdef GL_ALL_BARRIER_BITS
 {
 	--count;
-	array_view<const GLbitfield> r = enum_value_range(x);
+	auto r = enum_value_range<memory_barrier_bits>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_ALL_BARRIER_BITS
+		memory_barrier_bits(GL_ALL_BARRIER_BITS)
 	) != r.end());
 }
 #endif
@@ -897,10 +895,10 @@ BOOST_AUTO_TEST_CASE(enum_memory_barrier_bits_range)
 #ifdef GL_ATOMIC_COUNTER_BARRIER_BIT
 {
 	--count;
-	array_view<const GLbitfield> r = enum_value_range(x);
+	auto r = enum_value_range<memory_barrier_bits>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_ATOMIC_COUNTER_BARRIER_BIT
+		memory_barrier_bits(GL_ATOMIC_COUNTER_BARRIER_BIT)
 	) != r.end());
 }
 #endif
@@ -908,10 +906,10 @@ BOOST_AUTO_TEST_CASE(enum_memory_barrier_bits_range)
 #ifdef GL_BUFFER_UPDATE_BARRIER_BIT
 {
 	--count;
-	array_view<const GLbitfield> r = enum_value_range(x);
+	auto r = enum_value_range<memory_barrier_bits>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_BUFFER_UPDATE_BARRIER_BIT
+		memory_barrier_bits(GL_BUFFER_UPDATE_BARRIER_BIT)
 	) != r.end());
 }
 #endif
@@ -919,10 +917,10 @@ BOOST_AUTO_TEST_CASE(enum_memory_barrier_bits_range)
 #ifdef GL_CLIENT_MAPPED_BUFFER_BARRIER_BIT
 {
 	--count;
-	array_view<const GLbitfield> r = enum_value_range(x);
+	auto r = enum_value_range<memory_barrier_bits>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_CLIENT_MAPPED_BUFFER_BARRIER_BIT
+		memory_barrier_bits(GL_CLIENT_MAPPED_BUFFER_BARRIER_BIT)
 	) != r.end());
 }
 #endif
@@ -930,10 +928,10 @@ BOOST_AUTO_TEST_CASE(enum_memory_barrier_bits_range)
 #ifdef GL_COMMAND_BARRIER_BIT
 {
 	--count;
-	array_view<const GLbitfield> r = enum_value_range(x);
+	auto r = enum_value_range<memory_barrier_bits>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_COMMAND_BARRIER_BIT
+		memory_barrier_bits(GL_COMMAND_BARRIER_BIT)
 	) != r.end());
 }
 #endif
@@ -941,10 +939,10 @@ BOOST_AUTO_TEST_CASE(enum_memory_barrier_bits_range)
 #ifdef GL_ELEMENT_ARRAY_BARRIER_BIT
 {
 	--count;
-	array_view<const GLbitfield> r = enum_value_range(x);
+	auto r = enum_value_range<memory_barrier_bits>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_ELEMENT_ARRAY_BARRIER_BIT
+		memory_barrier_bits(GL_ELEMENT_ARRAY_BARRIER_BIT)
 	) != r.end());
 }
 #endif
@@ -952,10 +950,10 @@ BOOST_AUTO_TEST_CASE(enum_memory_barrier_bits_range)
 #ifdef GL_FRAMEBUFFER_BARRIER_BIT
 {
 	--count;
-	array_view<const GLbitfield> r = enum_value_range(x);
+	auto r = enum_value_range<memory_barrier_bits>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_FRAMEBUFFER_BARRIER_BIT
+		memory_barrier_bits(GL_FRAMEBUFFER_BARRIER_BIT)
 	) != r.end());
 }
 #endif
@@ -963,10 +961,10 @@ BOOST_AUTO_TEST_CASE(enum_memory_barrier_bits_range)
 #ifdef GL_PIXEL_BUFFER_BARRIER_BIT
 {
 	--count;
-	array_view<const GLbitfield> r = enum_value_range(x);
+	auto r = enum_value_range<memory_barrier_bits>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_PIXEL_BUFFER_BARRIER_BIT
+		memory_barrier_bits(GL_PIXEL_BUFFER_BARRIER_BIT)
 	) != r.end());
 }
 #endif
@@ -974,10 +972,10 @@ BOOST_AUTO_TEST_CASE(enum_memory_barrier_bits_range)
 #ifdef GL_SHADER_IMAGE_ACCESS_BARRIER_BIT
 {
 	--count;
-	array_view<const GLbitfield> r = enum_value_range(x);
+	auto r = enum_value_range<memory_barrier_bits>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_SHADER_IMAGE_ACCESS_BARRIER_BIT
+		memory_barrier_bits(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT)
 	) != r.end());
 }
 #endif
@@ -985,10 +983,10 @@ BOOST_AUTO_TEST_CASE(enum_memory_barrier_bits_range)
 #ifdef GL_SHADER_STORAGE_BARRIER_BIT
 {
 	--count;
-	array_view<const GLbitfield> r = enum_value_range(x);
+	auto r = enum_value_range<memory_barrier_bits>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_SHADER_STORAGE_BARRIER_BIT
+		memory_barrier_bits(GL_SHADER_STORAGE_BARRIER_BIT)
 	) != r.end());
 }
 #endif
@@ -996,10 +994,10 @@ BOOST_AUTO_TEST_CASE(enum_memory_barrier_bits_range)
 #ifdef GL_TEXTURE_FETCH_BARRIER_BIT
 {
 	--count;
-	array_view<const GLbitfield> r = enum_value_range(x);
+	auto r = enum_value_range<memory_barrier_bits>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE_FETCH_BARRIER_BIT
+		memory_barrier_bits(GL_TEXTURE_FETCH_BARRIER_BIT)
 	) != r.end());
 }
 #endif
@@ -1007,10 +1005,10 @@ BOOST_AUTO_TEST_CASE(enum_memory_barrier_bits_range)
 #ifdef GL_TEXTURE_UPDATE_BARRIER_BIT
 {
 	--count;
-	array_view<const GLbitfield> r = enum_value_range(x);
+	auto r = enum_value_range<memory_barrier_bits>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE_UPDATE_BARRIER_BIT
+		memory_barrier_bits(GL_TEXTURE_UPDATE_BARRIER_BIT)
 	) != r.end());
 }
 #endif
@@ -1018,10 +1016,10 @@ BOOST_AUTO_TEST_CASE(enum_memory_barrier_bits_range)
 #ifdef GL_TRANSFORM_FEEDBACK_BARRIER_BIT
 {
 	--count;
-	array_view<const GLbitfield> r = enum_value_range(x);
+	auto r = enum_value_range<memory_barrier_bits>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TRANSFORM_FEEDBACK_BARRIER_BIT
+		memory_barrier_bits(GL_TRANSFORM_FEEDBACK_BARRIER_BIT)
 	) != r.end());
 }
 #endif
@@ -1029,10 +1027,10 @@ BOOST_AUTO_TEST_CASE(enum_memory_barrier_bits_range)
 #ifdef GL_UNIFORM_BARRIER_BIT
 {
 	--count;
-	array_view<const GLbitfield> r = enum_value_range(x);
+	auto r = enum_value_range<memory_barrier_bits>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_UNIFORM_BARRIER_BIT
+		memory_barrier_bits(GL_UNIFORM_BARRIER_BIT)
 	) != r.end());
 }
 #endif
@@ -1040,10 +1038,10 @@ BOOST_AUTO_TEST_CASE(enum_memory_barrier_bits_range)
 #ifdef GL_VERTEX_ATTRIB_ARRAY_BARRIER_BIT
 {
 	--count;
-	array_view<const GLbitfield> r = enum_value_range(x);
+	auto r = enum_value_range<memory_barrier_bits>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_VERTEX_ATTRIB_ARRAY_BARRIER_BIT
+		memory_barrier_bits(GL_VERTEX_ATTRIB_ARRAY_BARRIER_BIT)
 	) != r.end());
 }
 #endif

@@ -73,17 +73,15 @@ BOOST_AUTO_TEST_CASE(enum_texture_compare_mode_names)
 BOOST_AUTO_TEST_CASE(enum_texture_compare_mode_range)
 {
 	using namespace oglplus;
-	texture_compare_mode x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<texture_compare_mode>().size();
 
 #ifdef GL_COMPARE_REF_TO_TEXTURE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_compare_mode>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_COMPARE_REF_TO_TEXTURE
+		texture_compare_mode(GL_COMPARE_REF_TO_TEXTURE)
 	) != r.end());
 }
 #endif
@@ -91,10 +89,10 @@ BOOST_AUTO_TEST_CASE(enum_texture_compare_mode_range)
 #ifdef GL_NONE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_compare_mode>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_NONE
+		texture_compare_mode(GL_NONE)
 	) != r.end());
 }
 #endif

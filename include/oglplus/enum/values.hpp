@@ -7166,7 +7166,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_TEXTURE_BORDER_COLOR,
-	mp_list<oglplus::texture_parameter>
+	mp_list<oglplus::texture_parameter,oglplus::sampler_parameter>
 > texture_border_color = {};
 #endif
 
@@ -7198,7 +7198,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_TEXTURE_COMPARE_FUNC,
-	mp_list<oglplus::texture_parameter>
+	mp_list<oglplus::texture_parameter,oglplus::sampler_parameter>
 > texture_compare_func = {};
 #endif
 
@@ -7206,7 +7206,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_TEXTURE_COMPARE_MODE,
-	mp_list<oglplus::texture_parameter>
+	mp_list<oglplus::texture_parameter,oglplus::sampler_parameter>
 > texture_compare_mode = {};
 #endif
 
@@ -7318,7 +7318,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_TEXTURE_LOD_BIAS,
-	mp_list<oglplus::texture_parameter>
+	mp_list<oglplus::texture_parameter,oglplus::sampler_parameter>
 > texture_lod_bias = {};
 #endif
 
@@ -7326,7 +7326,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_TEXTURE_MAG_FILTER,
-	mp_list<oglplus::texture_parameter>
+	mp_list<oglplus::texture_parameter,oglplus::sampler_parameter>
 > texture_mag_filter = {};
 #endif
 
@@ -7342,7 +7342,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_TEXTURE_MAX_LOD,
-	mp_list<oglplus::texture_parameter>
+	mp_list<oglplus::texture_parameter,oglplus::sampler_parameter>
 > texture_max_lod = {};
 #endif
 
@@ -7350,7 +7350,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_TEXTURE_MIN_FILTER,
-	mp_list<oglplus::texture_parameter>
+	mp_list<oglplus::texture_parameter,oglplus::sampler_parameter>
 > texture_min_filter = {};
 #endif
 
@@ -7358,7 +7358,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_TEXTURE_MIN_LOD,
-	mp_list<oglplus::texture_parameter>
+	mp_list<oglplus::texture_parameter,oglplus::sampler_parameter>
 > texture_min_lod = {};
 #endif
 
@@ -7462,7 +7462,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_TEXTURE_WRAP_R,
-	mp_list<oglplus::texture_parameter,oglplus::texture_wrap_coord>
+	mp_list<oglplus::texture_parameter,oglplus::sampler_parameter,oglplus::texture_wrap_coord>
 > texture_wrap_r = {};
 #endif
 
@@ -7470,7 +7470,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_TEXTURE_WRAP_S,
-	mp_list<oglplus::texture_parameter,oglplus::texture_wrap_coord>
+	mp_list<oglplus::texture_parameter,oglplus::sampler_parameter,oglplus::texture_wrap_coord>
 > texture_wrap_s = {};
 #endif
 
@@ -7478,7 +7478,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_TEXTURE_WRAP_T,
-	mp_list<oglplus::texture_parameter,oglplus::texture_wrap_coord>
+	mp_list<oglplus::texture_parameter,oglplus::sampler_parameter,oglplus::texture_wrap_coord>
 > texture_wrap_t = {};
 #endif
 

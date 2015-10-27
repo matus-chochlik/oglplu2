@@ -55,6 +55,22 @@ struct sampler_ops
 	outcome<sampler_name>
 	sampler_binding(texture_unit unit)
 	noexcept;
+
+	static
+	outcome<void>
+	sampler_parameter_i(
+		sampler_name sam,
+		oglplus::sampler_parameter param,
+		GLint value
+	) noexcept;
+
+	static
+	outcome<void>
+	get_sampler_parameter_i(
+		sampler_name sam,
+		oglplus::sampler_parameter param,
+		array_view<GLint> values
+	) noexcept;
 };
 
 } // namespace oper

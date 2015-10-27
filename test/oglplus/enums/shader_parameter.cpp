@@ -169,17 +169,15 @@ BOOST_AUTO_TEST_CASE(enum_shader_parameter_names)
 BOOST_AUTO_TEST_CASE(enum_shader_parameter_range)
 {
 	using namespace oglplus;
-	shader_parameter x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<shader_parameter>().size();
 
 #ifdef GL_COMPILE_STATUS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<shader_parameter>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_COMPILE_STATUS
+		shader_parameter(GL_COMPILE_STATUS)
 	) != r.end());
 }
 #endif
@@ -187,10 +185,10 @@ BOOST_AUTO_TEST_CASE(enum_shader_parameter_range)
 #ifdef GL_DELETE_STATUS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<shader_parameter>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DELETE_STATUS
+		shader_parameter(GL_DELETE_STATUS)
 	) != r.end());
 }
 #endif
@@ -198,10 +196,10 @@ BOOST_AUTO_TEST_CASE(enum_shader_parameter_range)
 #ifdef GL_INFO_LOG_LENGTH
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<shader_parameter>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_INFO_LOG_LENGTH
+		shader_parameter(GL_INFO_LOG_LENGTH)
 	) != r.end());
 }
 #endif
@@ -209,10 +207,10 @@ BOOST_AUTO_TEST_CASE(enum_shader_parameter_range)
 #ifdef GL_SHADER_SOURCE_LENGTH
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<shader_parameter>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_SHADER_SOURCE_LENGTH
+		shader_parameter(GL_SHADER_SOURCE_LENGTH)
 	) != r.end());
 }
 #endif
@@ -220,10 +218,10 @@ BOOST_AUTO_TEST_CASE(enum_shader_parameter_range)
 #ifdef GL_SHADER_TYPE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<shader_parameter>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_SHADER_TYPE
+		shader_parameter(GL_SHADER_TYPE)
 	) != r.end());
 }
 #endif

@@ -73,17 +73,15 @@ BOOST_AUTO_TEST_CASE(enum_transparent_type_names)
 BOOST_AUTO_TEST_CASE(enum_transparent_type_range)
 {
 	using namespace eglplus;
-	transparent_type x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<transparent_type>().size();
 
 #ifdef EGL_NONE
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<transparent_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_NONE
+		transparent_type(EGL_NONE)
 	) != r.end());
 }
 #endif
@@ -91,10 +89,10 @@ BOOST_AUTO_TEST_CASE(enum_transparent_type_range)
 #ifdef EGL_TRANSPARENT_RGB
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<transparent_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_TRANSPARENT_RGB
+		transparent_type(EGL_TRANSPARENT_RGB)
 	) != r.end());
 }
 #endif

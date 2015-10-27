@@ -73,17 +73,15 @@ BOOST_AUTO_TEST_CASE(enum_texture_mag_filter_names)
 BOOST_AUTO_TEST_CASE(enum_texture_mag_filter_range)
 {
 	using namespace oglplus;
-	texture_mag_filter x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<texture_mag_filter>().size();
 
 #ifdef GL_LINEAR
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_mag_filter>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_LINEAR
+		texture_mag_filter(GL_LINEAR)
 	) != r.end());
 }
 #endif
@@ -91,10 +89,10 @@ BOOST_AUTO_TEST_CASE(enum_texture_mag_filter_range)
 #ifdef GL_NEAREST
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_mag_filter>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_NEAREST
+		texture_mag_filter(GL_NEAREST)
 	) != r.end());
 }
 #endif

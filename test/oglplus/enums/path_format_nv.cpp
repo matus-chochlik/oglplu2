@@ -73,17 +73,15 @@ BOOST_AUTO_TEST_CASE(enum_path_format_nv_names)
 BOOST_AUTO_TEST_CASE(enum_path_format_nv_range)
 {
 	using namespace oglplus;
-	path_format_nv x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<path_format_nv>().size();
 
 #ifdef GL_PATH_FORMAT_PS_NV
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<path_format_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_PATH_FORMAT_PS_NV
+		path_format_nv(GL_PATH_FORMAT_PS_NV)
 	) != r.end());
 }
 #endif
@@ -91,10 +89,10 @@ BOOST_AUTO_TEST_CASE(enum_path_format_nv_range)
 #ifdef GL_PATH_FORMAT_SVG_NV
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<path_format_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_PATH_FORMAT_SVG_NV
+		path_format_nv(GL_PATH_FORMAT_SVG_NV)
 	) != r.end());
 }
 #endif

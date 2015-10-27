@@ -1331,17 +1331,15 @@ BOOST_AUTO_TEST_CASE(enum_alut_error_code_names)
 BOOST_AUTO_TEST_CASE(enum_alut_error_code_range)
 {
 	using namespace oalplus;
-	alut_error_code x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<alut_error_code>().size();
 
 #ifdef ALUT_ERROR_AL_ERROR_ON_ENTRY
 {
 	--count;
-	array_view<const ALenum> r = enum_value_range(x);
+	auto r = enum_value_range<alut_error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		ALUT_ERROR_AL_ERROR_ON_ENTRY
+		alut_error_code(ALUT_ERROR_AL_ERROR_ON_ENTRY)
 	) != r.end());
 }
 #endif
@@ -1349,10 +1347,10 @@ BOOST_AUTO_TEST_CASE(enum_alut_error_code_range)
 #ifdef ALUT_ERROR_ALC_ERROR_ON_ENTRY
 {
 	--count;
-	array_view<const ALenum> r = enum_value_range(x);
+	auto r = enum_value_range<alut_error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		ALUT_ERROR_ALC_ERROR_ON_ENTRY
+		alut_error_code(ALUT_ERROR_ALC_ERROR_ON_ENTRY)
 	) != r.end());
 }
 #endif
@@ -1360,10 +1358,10 @@ BOOST_AUTO_TEST_CASE(enum_alut_error_code_range)
 #ifdef ALUT_ERROR_BUFFER_DATA
 {
 	--count;
-	array_view<const ALenum> r = enum_value_range(x);
+	auto r = enum_value_range<alut_error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		ALUT_ERROR_BUFFER_DATA
+		alut_error_code(ALUT_ERROR_BUFFER_DATA)
 	) != r.end());
 }
 #endif
@@ -1371,10 +1369,10 @@ BOOST_AUTO_TEST_CASE(enum_alut_error_code_range)
 #ifdef ALUT_ERROR_CLOSE_DEVICE
 {
 	--count;
-	array_view<const ALenum> r = enum_value_range(x);
+	auto r = enum_value_range<alut_error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		ALUT_ERROR_CLOSE_DEVICE
+		alut_error_code(ALUT_ERROR_CLOSE_DEVICE)
 	) != r.end());
 }
 #endif
@@ -1382,10 +1380,10 @@ BOOST_AUTO_TEST_CASE(enum_alut_error_code_range)
 #ifdef ALUT_ERROR_CORRUPT_OR_TRUNCATED_DATA
 {
 	--count;
-	array_view<const ALenum> r = enum_value_range(x);
+	auto r = enum_value_range<alut_error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		ALUT_ERROR_CORRUPT_OR_TRUNCATED_DATA
+		alut_error_code(ALUT_ERROR_CORRUPT_OR_TRUNCATED_DATA)
 	) != r.end());
 }
 #endif
@@ -1393,10 +1391,10 @@ BOOST_AUTO_TEST_CASE(enum_alut_error_code_range)
 #ifdef ALUT_ERROR_CREATE_CONTEXT
 {
 	--count;
-	array_view<const ALenum> r = enum_value_range(x);
+	auto r = enum_value_range<alut_error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		ALUT_ERROR_CREATE_CONTEXT
+		alut_error_code(ALUT_ERROR_CREATE_CONTEXT)
 	) != r.end());
 }
 #endif
@@ -1404,10 +1402,10 @@ BOOST_AUTO_TEST_CASE(enum_alut_error_code_range)
 #ifdef ALUT_ERROR_DESTROY_CONTEXT
 {
 	--count;
-	array_view<const ALenum> r = enum_value_range(x);
+	auto r = enum_value_range<alut_error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		ALUT_ERROR_DESTROY_CONTEXT
+		alut_error_code(ALUT_ERROR_DESTROY_CONTEXT)
 	) != r.end());
 }
 #endif
@@ -1415,10 +1413,10 @@ BOOST_AUTO_TEST_CASE(enum_alut_error_code_range)
 #ifdef ALUT_ERROR_GEN_BUFFERS
 {
 	--count;
-	array_view<const ALenum> r = enum_value_range(x);
+	auto r = enum_value_range<alut_error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		ALUT_ERROR_GEN_BUFFERS
+		alut_error_code(ALUT_ERROR_GEN_BUFFERS)
 	) != r.end());
 }
 #endif
@@ -1426,10 +1424,10 @@ BOOST_AUTO_TEST_CASE(enum_alut_error_code_range)
 #ifdef ALUT_ERROR_INVALID_ENUM
 {
 	--count;
-	array_view<const ALenum> r = enum_value_range(x);
+	auto r = enum_value_range<alut_error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		ALUT_ERROR_INVALID_ENUM
+		alut_error_code(ALUT_ERROR_INVALID_ENUM)
 	) != r.end());
 }
 #endif
@@ -1437,10 +1435,10 @@ BOOST_AUTO_TEST_CASE(enum_alut_error_code_range)
 #ifdef ALUT_ERROR_INVALID_OPERATION
 {
 	--count;
-	array_view<const ALenum> r = enum_value_range(x);
+	auto r = enum_value_range<alut_error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		ALUT_ERROR_INVALID_OPERATION
+		alut_error_code(ALUT_ERROR_INVALID_OPERATION)
 	) != r.end());
 }
 #endif
@@ -1448,10 +1446,10 @@ BOOST_AUTO_TEST_CASE(enum_alut_error_code_range)
 #ifdef ALUT_ERROR_INVALID_VALUE
 {
 	--count;
-	array_view<const ALenum> r = enum_value_range(x);
+	auto r = enum_value_range<alut_error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		ALUT_ERROR_INVALID_VALUE
+		alut_error_code(ALUT_ERROR_INVALID_VALUE)
 	) != r.end());
 }
 #endif
@@ -1459,10 +1457,10 @@ BOOST_AUTO_TEST_CASE(enum_alut_error_code_range)
 #ifdef ALUT_ERROR_IO_ERROR
 {
 	--count;
-	array_view<const ALenum> r = enum_value_range(x);
+	auto r = enum_value_range<alut_error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		ALUT_ERROR_IO_ERROR
+		alut_error_code(ALUT_ERROR_IO_ERROR)
 	) != r.end());
 }
 #endif
@@ -1470,10 +1468,10 @@ BOOST_AUTO_TEST_CASE(enum_alut_error_code_range)
 #ifdef ALUT_ERROR_MAKE_CONTEXT_CURRENT
 {
 	--count;
-	array_view<const ALenum> r = enum_value_range(x);
+	auto r = enum_value_range<alut_error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		ALUT_ERROR_MAKE_CONTEXT_CURRENT
+		alut_error_code(ALUT_ERROR_MAKE_CONTEXT_CURRENT)
 	) != r.end());
 }
 #endif
@@ -1481,10 +1479,10 @@ BOOST_AUTO_TEST_CASE(enum_alut_error_code_range)
 #ifdef ALUT_ERROR_NO_CURRENT_CONTEXT
 {
 	--count;
-	array_view<const ALenum> r = enum_value_range(x);
+	auto r = enum_value_range<alut_error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		ALUT_ERROR_NO_CURRENT_CONTEXT
+		alut_error_code(ALUT_ERROR_NO_CURRENT_CONTEXT)
 	) != r.end());
 }
 #endif
@@ -1492,10 +1490,10 @@ BOOST_AUTO_TEST_CASE(enum_alut_error_code_range)
 #ifdef ALUT_ERROR_NO_ERROR
 {
 	--count;
-	array_view<const ALenum> r = enum_value_range(x);
+	auto r = enum_value_range<alut_error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		ALUT_ERROR_NO_ERROR
+		alut_error_code(ALUT_ERROR_NO_ERROR)
 	) != r.end());
 }
 #endif
@@ -1503,10 +1501,10 @@ BOOST_AUTO_TEST_CASE(enum_alut_error_code_range)
 #ifdef ALUT_ERROR_OPEN_DEVICE
 {
 	--count;
-	array_view<const ALenum> r = enum_value_range(x);
+	auto r = enum_value_range<alut_error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		ALUT_ERROR_OPEN_DEVICE
+		alut_error_code(ALUT_ERROR_OPEN_DEVICE)
 	) != r.end());
 }
 #endif
@@ -1514,10 +1512,10 @@ BOOST_AUTO_TEST_CASE(enum_alut_error_code_range)
 #ifdef ALUT_ERROR_OUT_OF_MEMORY
 {
 	--count;
-	array_view<const ALenum> r = enum_value_range(x);
+	auto r = enum_value_range<alut_error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		ALUT_ERROR_OUT_OF_MEMORY
+		alut_error_code(ALUT_ERROR_OUT_OF_MEMORY)
 	) != r.end());
 }
 #endif
@@ -1525,10 +1523,10 @@ BOOST_AUTO_TEST_CASE(enum_alut_error_code_range)
 #ifdef ALUT_ERROR_UNSUPPORTED_FILE_SUBTYPE
 {
 	--count;
-	array_view<const ALenum> r = enum_value_range(x);
+	auto r = enum_value_range<alut_error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		ALUT_ERROR_UNSUPPORTED_FILE_SUBTYPE
+		alut_error_code(ALUT_ERROR_UNSUPPORTED_FILE_SUBTYPE)
 	) != r.end());
 }
 #endif
@@ -1536,10 +1534,10 @@ BOOST_AUTO_TEST_CASE(enum_alut_error_code_range)
 #ifdef ALUT_ERROR_UNSUPPORTED_FILE_TYPE
 {
 	--count;
-	array_view<const ALenum> r = enum_value_range(x);
+	auto r = enum_value_range<alut_error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		ALUT_ERROR_UNSUPPORTED_FILE_TYPE
+		alut_error_code(ALUT_ERROR_UNSUPPORTED_FILE_TYPE)
 	) != r.end());
 }
 #endif

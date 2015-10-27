@@ -73,17 +73,15 @@ BOOST_AUTO_TEST_CASE(enum_face_orientation_names)
 BOOST_AUTO_TEST_CASE(enum_face_orientation_range)
 {
 	using namespace oglplus;
-	face_orientation x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<face_orientation>().size();
 
 #ifdef GL_CCW
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<face_orientation>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_CCW
+		face_orientation(GL_CCW)
 	) != r.end());
 }
 #endif
@@ -91,10 +89,10 @@ BOOST_AUTO_TEST_CASE(enum_face_orientation_range)
 #ifdef GL_CW
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<face_orientation>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_CW
+		face_orientation(GL_CW)
 	) != r.end());
 }
 #endif

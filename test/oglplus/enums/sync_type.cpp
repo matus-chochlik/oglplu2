@@ -53,17 +53,15 @@ BOOST_AUTO_TEST_CASE(enum_sync_type_names)
 BOOST_AUTO_TEST_CASE(enum_sync_type_range)
 {
 	using namespace oglplus;
-	sync_type x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<sync_type>().size();
 
 #ifdef GL_SYNC_FENCE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<sync_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_SYNC_FENCE
+		sync_type(GL_SYNC_FENCE)
 	) != r.end());
 }
 #endif

@@ -99,17 +99,15 @@ BOOST_AUTO_TEST_CASE(enum_config_caveat_names)
 BOOST_AUTO_TEST_CASE(enum_config_caveat_range)
 {
 	using namespace eglplus;
-	config_caveat x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<config_caveat>().size();
 
 #ifdef EGL_NON_CONFORMANT_CONFIG
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<config_caveat>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_NON_CONFORMANT_CONFIG
+		config_caveat(EGL_NON_CONFORMANT_CONFIG)
 	) != r.end());
 }
 #endif
@@ -117,10 +115,10 @@ BOOST_AUTO_TEST_CASE(enum_config_caveat_range)
 #ifdef EGL_NONE
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<config_caveat>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_NONE
+		config_caveat(EGL_NONE)
 	) != r.end());
 }
 #endif
@@ -128,10 +126,10 @@ BOOST_AUTO_TEST_CASE(enum_config_caveat_range)
 #ifdef EGL_SLOW_CONFIG
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<config_caveat>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_SLOW_CONFIG
+		config_caveat(EGL_SLOW_CONFIG)
 	) != r.end());
 }
 #endif

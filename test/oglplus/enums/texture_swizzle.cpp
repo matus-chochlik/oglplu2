@@ -213,17 +213,15 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_names)
 BOOST_AUTO_TEST_CASE(enum_texture_swizzle_range)
 {
 	using namespace oglplus;
-	texture_swizzle x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<texture_swizzle>().size();
 
 #ifdef GL_ALPHA
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_swizzle>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_ALPHA
+		texture_swizzle(GL_ALPHA)
 	) != r.end());
 }
 #endif
@@ -231,10 +229,10 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_range)
 #ifdef GL_BLUE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_swizzle>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_BLUE
+		texture_swizzle(GL_BLUE)
 	) != r.end());
 }
 #endif
@@ -242,10 +240,10 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_range)
 #ifdef GL_GREEN
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_swizzle>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_GREEN
+		texture_swizzle(GL_GREEN)
 	) != r.end());
 }
 #endif
@@ -253,10 +251,10 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_range)
 #ifdef GL_ONE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_swizzle>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_ONE
+		texture_swizzle(GL_ONE)
 	) != r.end());
 }
 #endif
@@ -264,10 +262,10 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_range)
 #ifdef GL_RED
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_swizzle>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RED
+		texture_swizzle(GL_RED)
 	) != r.end());
 }
 #endif
@@ -275,10 +273,10 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_range)
 #ifdef GL_ZERO
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_swizzle>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_ZERO
+		texture_swizzle(GL_ZERO)
 	) != r.end());
 }
 #endif

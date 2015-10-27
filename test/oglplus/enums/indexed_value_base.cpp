@@ -131,17 +131,15 @@ BOOST_AUTO_TEST_CASE(enum_indexed_value_base_names)
 BOOST_AUTO_TEST_CASE(enum_indexed_value_base_range)
 {
 	using namespace oglplus;
-	indexed_value_base x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<indexed_value_base>().size();
 
 #ifdef GL_CLIP_DISTANCE0
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<indexed_value_base>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_CLIP_DISTANCE0
+		indexed_value_base(GL_CLIP_DISTANCE0)
 	) != r.end());
 }
 #endif
@@ -149,10 +147,10 @@ BOOST_AUTO_TEST_CASE(enum_indexed_value_base_range)
 #ifdef GL_COLOR_ATTACHMENT0
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<indexed_value_base>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_COLOR_ATTACHMENT0
+		indexed_value_base(GL_COLOR_ATTACHMENT0)
 	) != r.end());
 }
 #endif
@@ -160,10 +158,10 @@ BOOST_AUTO_TEST_CASE(enum_indexed_value_base_range)
 #ifdef GL_DRAW_BUFFER0
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<indexed_value_base>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DRAW_BUFFER0
+		indexed_value_base(GL_DRAW_BUFFER0)
 	) != r.end());
 }
 #endif
@@ -171,10 +169,10 @@ BOOST_AUTO_TEST_CASE(enum_indexed_value_base_range)
 #ifdef GL_TEXTURE0
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<indexed_value_base>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE0
+		indexed_value_base(GL_TEXTURE0)
 	) != r.end());
 }
 #endif

@@ -781,17 +781,15 @@ BOOST_AUTO_TEST_CASE(enum_error_code_names)
 BOOST_AUTO_TEST_CASE(enum_error_code_range)
 {
 	using namespace eglplus;
-	error_code x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<error_code>().size();
 
 #ifdef EGL_BAD_ACCESS
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_BAD_ACCESS
+		error_code(EGL_BAD_ACCESS)
 	) != r.end());
 }
 #endif
@@ -799,10 +797,10 @@ BOOST_AUTO_TEST_CASE(enum_error_code_range)
 #ifdef EGL_BAD_ALLOC
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_BAD_ALLOC
+		error_code(EGL_BAD_ALLOC)
 	) != r.end());
 }
 #endif
@@ -810,10 +808,10 @@ BOOST_AUTO_TEST_CASE(enum_error_code_range)
 #ifdef EGL_BAD_ATTRIBUTE
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_BAD_ATTRIBUTE
+		error_code(EGL_BAD_ATTRIBUTE)
 	) != r.end());
 }
 #endif
@@ -821,10 +819,10 @@ BOOST_AUTO_TEST_CASE(enum_error_code_range)
 #ifdef EGL_BAD_CONFIG
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_BAD_CONFIG
+		error_code(EGL_BAD_CONFIG)
 	) != r.end());
 }
 #endif
@@ -832,10 +830,10 @@ BOOST_AUTO_TEST_CASE(enum_error_code_range)
 #ifdef EGL_BAD_CONTEXT
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_BAD_CONTEXT
+		error_code(EGL_BAD_CONTEXT)
 	) != r.end());
 }
 #endif
@@ -843,10 +841,10 @@ BOOST_AUTO_TEST_CASE(enum_error_code_range)
 #ifdef EGL_BAD_CURRENT_SURFACE
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_BAD_CURRENT_SURFACE
+		error_code(EGL_BAD_CURRENT_SURFACE)
 	) != r.end());
 }
 #endif
@@ -854,10 +852,10 @@ BOOST_AUTO_TEST_CASE(enum_error_code_range)
 #ifdef EGL_BAD_DISPLAY
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_BAD_DISPLAY
+		error_code(EGL_BAD_DISPLAY)
 	) != r.end());
 }
 #endif
@@ -865,10 +863,10 @@ BOOST_AUTO_TEST_CASE(enum_error_code_range)
 #ifdef EGL_BAD_MATCH
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_BAD_MATCH
+		error_code(EGL_BAD_MATCH)
 	) != r.end());
 }
 #endif
@@ -876,10 +874,10 @@ BOOST_AUTO_TEST_CASE(enum_error_code_range)
 #ifdef EGL_BAD_NATIVE_PIXMAP
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_BAD_NATIVE_PIXMAP
+		error_code(EGL_BAD_NATIVE_PIXMAP)
 	) != r.end());
 }
 #endif
@@ -887,10 +885,10 @@ BOOST_AUTO_TEST_CASE(enum_error_code_range)
 #ifdef EGL_BAD_NATIVE_WINDOW
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_BAD_NATIVE_WINDOW
+		error_code(EGL_BAD_NATIVE_WINDOW)
 	) != r.end());
 }
 #endif
@@ -898,10 +896,10 @@ BOOST_AUTO_TEST_CASE(enum_error_code_range)
 #ifdef EGL_BAD_PARAMETER
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_BAD_PARAMETER
+		error_code(EGL_BAD_PARAMETER)
 	) != r.end());
 }
 #endif
@@ -909,10 +907,10 @@ BOOST_AUTO_TEST_CASE(enum_error_code_range)
 #ifdef EGL_BAD_SURFACE
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_BAD_SURFACE
+		error_code(EGL_BAD_SURFACE)
 	) != r.end());
 }
 #endif
@@ -920,10 +918,10 @@ BOOST_AUTO_TEST_CASE(enum_error_code_range)
 #ifdef EGL_CONTEXT_LOST
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_CONTEXT_LOST
+		error_code(EGL_CONTEXT_LOST)
 	) != r.end());
 }
 #endif
@@ -931,10 +929,10 @@ BOOST_AUTO_TEST_CASE(enum_error_code_range)
 #ifdef EGL_NOT_INITIALIZED
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_NOT_INITIALIZED
+		error_code(EGL_NOT_INITIALIZED)
 	) != r.end());
 }
 #endif

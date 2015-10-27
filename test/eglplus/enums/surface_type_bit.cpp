@@ -263,17 +263,15 @@ BOOST_AUTO_TEST_CASE(enum_surface_type_bit_names)
 BOOST_AUTO_TEST_CASE(enum_surface_type_bit_range)
 {
 	using namespace eglplus;
-	surface_type_bit x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<surface_type_bit>().size();
 
 #ifdef EGL_MULTISAMPLE_RESOLVE_BOX_BIT
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<surface_type_bit>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_MULTISAMPLE_RESOLVE_BOX_BIT
+		surface_type_bit(EGL_MULTISAMPLE_RESOLVE_BOX_BIT)
 	) != r.end());
 }
 #endif
@@ -281,10 +279,10 @@ BOOST_AUTO_TEST_CASE(enum_surface_type_bit_range)
 #ifdef EGL_PBUFFER_BIT
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<surface_type_bit>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_PBUFFER_BIT
+		surface_type_bit(EGL_PBUFFER_BIT)
 	) != r.end());
 }
 #endif
@@ -292,10 +290,10 @@ BOOST_AUTO_TEST_CASE(enum_surface_type_bit_range)
 #ifdef EGL_PIXMAP_BIT
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<surface_type_bit>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_PIXMAP_BIT
+		surface_type_bit(EGL_PIXMAP_BIT)
 	) != r.end());
 }
 #endif
@@ -303,10 +301,10 @@ BOOST_AUTO_TEST_CASE(enum_surface_type_bit_range)
 #ifdef EGL_SWAP_BEHAVIOR_PRESERVED_BIT
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<surface_type_bit>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_SWAP_BEHAVIOR_PRESERVED_BIT
+		surface_type_bit(EGL_SWAP_BEHAVIOR_PRESERVED_BIT)
 	) != r.end());
 }
 #endif
@@ -314,10 +312,10 @@ BOOST_AUTO_TEST_CASE(enum_surface_type_bit_range)
 #ifdef EGL_VG_ALPHA_FORMAT_PRE_BIT
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<surface_type_bit>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_VG_ALPHA_FORMAT_PRE_BIT
+		surface_type_bit(EGL_VG_ALPHA_FORMAT_PRE_BIT)
 	) != r.end());
 }
 #endif
@@ -325,10 +323,10 @@ BOOST_AUTO_TEST_CASE(enum_surface_type_bit_range)
 #ifdef EGL_VG_COLORSPACE_LINEAR_BIT
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<surface_type_bit>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_VG_COLORSPACE_LINEAR_BIT
+		surface_type_bit(EGL_VG_COLORSPACE_LINEAR_BIT)
 	) != r.end());
 }
 #endif
@@ -336,10 +334,10 @@ BOOST_AUTO_TEST_CASE(enum_surface_type_bit_range)
 #ifdef EGL_WINDOW_BIT
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<surface_type_bit>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_WINDOW_BIT
+		surface_type_bit(EGL_WINDOW_BIT)
 	) != r.end());
 }
 #endif

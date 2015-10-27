@@ -319,17 +319,15 @@ BOOST_AUTO_TEST_CASE(enum_buffer_map_access_names)
 BOOST_AUTO_TEST_CASE(enum_buffer_map_access_range)
 {
 	using namespace oglplus;
-	buffer_map_access x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<buffer_map_access>().size();
 
 #ifdef GL_MAP_COHERENT_BIT
 {
 	--count;
-	array_view<const GLbitfield> r = enum_value_range(x);
+	auto r = enum_value_range<buffer_map_access>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAP_COHERENT_BIT
+		buffer_map_access(GL_MAP_COHERENT_BIT)
 	) != r.end());
 }
 #endif
@@ -337,10 +335,10 @@ BOOST_AUTO_TEST_CASE(enum_buffer_map_access_range)
 #ifdef GL_MAP_FLUSH_EXPLICIT_BIT
 {
 	--count;
-	array_view<const GLbitfield> r = enum_value_range(x);
+	auto r = enum_value_range<buffer_map_access>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAP_FLUSH_EXPLICIT_BIT
+		buffer_map_access(GL_MAP_FLUSH_EXPLICIT_BIT)
 	) != r.end());
 }
 #endif
@@ -348,10 +346,10 @@ BOOST_AUTO_TEST_CASE(enum_buffer_map_access_range)
 #ifdef GL_MAP_INVALIDATE_BUFFER_BIT
 {
 	--count;
-	array_view<const GLbitfield> r = enum_value_range(x);
+	auto r = enum_value_range<buffer_map_access>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAP_INVALIDATE_BUFFER_BIT
+		buffer_map_access(GL_MAP_INVALIDATE_BUFFER_BIT)
 	) != r.end());
 }
 #endif
@@ -359,10 +357,10 @@ BOOST_AUTO_TEST_CASE(enum_buffer_map_access_range)
 #ifdef GL_MAP_INVALIDATE_RANGE_BIT
 {
 	--count;
-	array_view<const GLbitfield> r = enum_value_range(x);
+	auto r = enum_value_range<buffer_map_access>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAP_INVALIDATE_RANGE_BIT
+		buffer_map_access(GL_MAP_INVALIDATE_RANGE_BIT)
 	) != r.end());
 }
 #endif
@@ -370,10 +368,10 @@ BOOST_AUTO_TEST_CASE(enum_buffer_map_access_range)
 #ifdef GL_MAP_PERSISTENT_BIT
 {
 	--count;
-	array_view<const GLbitfield> r = enum_value_range(x);
+	auto r = enum_value_range<buffer_map_access>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAP_PERSISTENT_BIT
+		buffer_map_access(GL_MAP_PERSISTENT_BIT)
 	) != r.end());
 }
 #endif
@@ -381,10 +379,10 @@ BOOST_AUTO_TEST_CASE(enum_buffer_map_access_range)
 #ifdef GL_MAP_READ_BIT
 {
 	--count;
-	array_view<const GLbitfield> r = enum_value_range(x);
+	auto r = enum_value_range<buffer_map_access>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAP_READ_BIT
+		buffer_map_access(GL_MAP_READ_BIT)
 	) != r.end());
 }
 #endif
@@ -392,10 +390,10 @@ BOOST_AUTO_TEST_CASE(enum_buffer_map_access_range)
 #ifdef GL_MAP_UNSYNCHRONIZED_BIT
 {
 	--count;
-	array_view<const GLbitfield> r = enum_value_range(x);
+	auto r = enum_value_range<buffer_map_access>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAP_UNSYNCHRONIZED_BIT
+		buffer_map_access(GL_MAP_UNSYNCHRONIZED_BIT)
 	) != r.end());
 }
 #endif
@@ -403,10 +401,10 @@ BOOST_AUTO_TEST_CASE(enum_buffer_map_access_range)
 #ifdef GL_MAP_WRITE_BIT
 {
 	--count;
-	array_view<const GLbitfield> r = enum_value_range(x);
+	auto r = enum_value_range<buffer_map_access>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAP_WRITE_BIT
+		buffer_map_access(GL_MAP_WRITE_BIT)
 	) != r.end());
 }
 #endif

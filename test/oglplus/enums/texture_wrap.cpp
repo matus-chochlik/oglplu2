@@ -169,17 +169,15 @@ BOOST_AUTO_TEST_CASE(enum_texture_wrap_names)
 BOOST_AUTO_TEST_CASE(enum_texture_wrap_range)
 {
 	using namespace oglplus;
-	texture_wrap x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<texture_wrap>().size();
 
 #ifdef GL_CLAMP_TO_BORDER
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_wrap>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_CLAMP_TO_BORDER
+		texture_wrap(GL_CLAMP_TO_BORDER)
 	) != r.end());
 }
 #endif
@@ -187,10 +185,10 @@ BOOST_AUTO_TEST_CASE(enum_texture_wrap_range)
 #ifdef GL_CLAMP_TO_EDGE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_wrap>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_CLAMP_TO_EDGE
+		texture_wrap(GL_CLAMP_TO_EDGE)
 	) != r.end());
 }
 #endif
@@ -198,10 +196,10 @@ BOOST_AUTO_TEST_CASE(enum_texture_wrap_range)
 #ifdef GL_MIRROR_CLAMP_TO_EDGE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_wrap>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MIRROR_CLAMP_TO_EDGE
+		texture_wrap(GL_MIRROR_CLAMP_TO_EDGE)
 	) != r.end());
 }
 #endif
@@ -209,10 +207,10 @@ BOOST_AUTO_TEST_CASE(enum_texture_wrap_range)
 #ifdef GL_MIRRORED_REPEAT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_wrap>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MIRRORED_REPEAT
+		texture_wrap(GL_MIRRORED_REPEAT)
 	) != r.end());
 }
 #endif
@@ -220,10 +218,10 @@ BOOST_AUTO_TEST_CASE(enum_texture_wrap_range)
 #ifdef GL_REPEAT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_wrap>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_REPEAT
+		texture_wrap(GL_REPEAT)
 	) != r.end());
 }
 #endif

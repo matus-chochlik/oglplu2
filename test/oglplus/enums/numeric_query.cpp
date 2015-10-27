@@ -29929,17 +29929,15 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_names)
 BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 {
 	using namespace oglplus;
-	numeric_query x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<numeric_query>().size();
 
 #ifdef GL_ALIASED_LINE_WIDTH_RANGE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_ALIASED_LINE_WIDTH_RANGE
+		numeric_query(GL_ALIASED_LINE_WIDTH_RANGE)
 	) != r.end());
 }
 #endif
@@ -29947,10 +29945,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_BLEND_COLOR
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_BLEND_COLOR
+		numeric_query(GL_BLEND_COLOR)
 	) != r.end());
 }
 #endif
@@ -29958,10 +29956,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_BLEND_DST_ALPHA
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_BLEND_DST_ALPHA
+		numeric_query(GL_BLEND_DST_ALPHA)
 	) != r.end());
 }
 #endif
@@ -29969,10 +29967,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_BLEND_DST_RGB
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_BLEND_DST_RGB
+		numeric_query(GL_BLEND_DST_RGB)
 	) != r.end());
 }
 #endif
@@ -29980,10 +29978,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_BLEND_EQUATION_ALPHA
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_BLEND_EQUATION_ALPHA
+		numeric_query(GL_BLEND_EQUATION_ALPHA)
 	) != r.end());
 }
 #endif
@@ -29991,10 +29989,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_BLEND_EQUATION_RGB
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_BLEND_EQUATION_RGB
+		numeric_query(GL_BLEND_EQUATION_RGB)
 	) != r.end());
 }
 #endif
@@ -30002,10 +30000,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_BLEND_SRC_ALPHA
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_BLEND_SRC_ALPHA
+		numeric_query(GL_BLEND_SRC_ALPHA)
 	) != r.end());
 }
 #endif
@@ -30013,10 +30011,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_BLEND_SRC_RGB
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_BLEND_SRC_RGB
+		numeric_query(GL_BLEND_SRC_RGB)
 	) != r.end());
 }
 #endif
@@ -30024,10 +30022,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_COLOR_CLEAR_VALUE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_COLOR_CLEAR_VALUE
+		numeric_query(GL_COLOR_CLEAR_VALUE)
 	) != r.end());
 }
 #endif
@@ -30035,10 +30033,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_COLOR_WRITEMASK
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_COLOR_WRITEMASK
+		numeric_query(GL_COLOR_WRITEMASK)
 	) != r.end());
 }
 #endif
@@ -30046,10 +30044,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_COMPRESSED_TEXTURE_FORMATS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_COMPRESSED_TEXTURE_FORMATS
+		numeric_query(GL_COMPRESSED_TEXTURE_FORMATS)
 	) != r.end());
 }
 #endif
@@ -30057,10 +30055,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_CONTEXT_FLAGS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_CONTEXT_FLAGS
+		numeric_query(GL_CONTEXT_FLAGS)
 	) != r.end());
 }
 #endif
@@ -30068,10 +30066,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_DEBUG_GROUP_STACK_DEPTH
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DEBUG_GROUP_STACK_DEPTH
+		numeric_query(GL_DEBUG_GROUP_STACK_DEPTH)
 	) != r.end());
 }
 #endif
@@ -30079,10 +30077,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_DEPTH_CLEAR_VALUE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DEPTH_CLEAR_VALUE
+		numeric_query(GL_DEPTH_CLEAR_VALUE)
 	) != r.end());
 }
 #endif
@@ -30090,10 +30088,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_DEPTH_FUNC
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DEPTH_FUNC
+		numeric_query(GL_DEPTH_FUNC)
 	) != r.end());
 }
 #endif
@@ -30101,10 +30099,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_DEPTH_RANGE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DEPTH_RANGE
+		numeric_query(GL_DEPTH_RANGE)
 	) != r.end());
 }
 #endif
@@ -30112,10 +30110,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_DEPTH_WRITEMASK
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DEPTH_WRITEMASK
+		numeric_query(GL_DEPTH_WRITEMASK)
 	) != r.end());
 }
 #endif
@@ -30123,10 +30121,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_DOUBLEBUFFER
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DOUBLEBUFFER
+		numeric_query(GL_DOUBLEBUFFER)
 	) != r.end());
 }
 #endif
@@ -30134,10 +30132,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_DRAW_BUFFER
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DRAW_BUFFER
+		numeric_query(GL_DRAW_BUFFER)
 	) != r.end());
 }
 #endif
@@ -30145,10 +30143,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_FRAGMENT_SHADER_DERIVATIVE_HINT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_FRAGMENT_SHADER_DERIVATIVE_HINT
+		numeric_query(GL_FRAGMENT_SHADER_DERIVATIVE_HINT)
 	) != r.end());
 }
 #endif
@@ -30156,10 +30154,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_IMPLEMENTATION_COLOR_READ_FORMAT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_IMPLEMENTATION_COLOR_READ_FORMAT
+		numeric_query(GL_IMPLEMENTATION_COLOR_READ_FORMAT)
 	) != r.end());
 }
 #endif
@@ -30167,10 +30165,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_IMPLEMENTATION_COLOR_READ_TYPE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_IMPLEMENTATION_COLOR_READ_TYPE
+		numeric_query(GL_IMPLEMENTATION_COLOR_READ_TYPE)
 	) != r.end());
 }
 #endif
@@ -30178,10 +30176,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_LAYER_PROVOKING_VERTEX
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_LAYER_PROVOKING_VERTEX
+		numeric_query(GL_LAYER_PROVOKING_VERTEX)
 	) != r.end());
 }
 #endif
@@ -30189,10 +30187,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_LINE_SMOOTH_HINT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_LINE_SMOOTH_HINT
+		numeric_query(GL_LINE_SMOOTH_HINT)
 	) != r.end());
 }
 #endif
@@ -30200,10 +30198,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_LINE_WIDTH
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_LINE_WIDTH
+		numeric_query(GL_LINE_WIDTH)
 	) != r.end());
 }
 #endif
@@ -30211,10 +30209,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_LOGIC_OP_MODE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_LOGIC_OP_MODE
+		numeric_query(GL_LOGIC_OP_MODE)
 	) != r.end());
 }
 #endif
@@ -30222,10 +30220,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_NUM_COMPRESSED_TEXTURE_FORMATS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_NUM_COMPRESSED_TEXTURE_FORMATS
+		numeric_query(GL_NUM_COMPRESSED_TEXTURE_FORMATS)
 	) != r.end());
 }
 #endif
@@ -30233,10 +30231,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_NUM_EXTENSIONS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_NUM_EXTENSIONS
+		numeric_query(GL_NUM_EXTENSIONS)
 	) != r.end());
 }
 #endif
@@ -30244,10 +30242,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_NUM_PROGRAM_BINARY_FORMATS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_NUM_PROGRAM_BINARY_FORMATS
+		numeric_query(GL_NUM_PROGRAM_BINARY_FORMATS)
 	) != r.end());
 }
 #endif
@@ -30255,10 +30253,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_NUM_SHADER_BINARY_FORMATS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_NUM_SHADER_BINARY_FORMATS
+		numeric_query(GL_NUM_SHADER_BINARY_FORMATS)
 	) != r.end());
 }
 #endif
@@ -30266,10 +30264,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_PACK_ALIGNMENT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_PACK_ALIGNMENT
+		numeric_query(GL_PACK_ALIGNMENT)
 	) != r.end());
 }
 #endif
@@ -30277,10 +30275,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_PACK_IMAGE_HEIGHT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_PACK_IMAGE_HEIGHT
+		numeric_query(GL_PACK_IMAGE_HEIGHT)
 	) != r.end());
 }
 #endif
@@ -30288,10 +30286,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_PACK_LSB_FIRST
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_PACK_LSB_FIRST
+		numeric_query(GL_PACK_LSB_FIRST)
 	) != r.end());
 }
 #endif
@@ -30299,10 +30297,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_PACK_ROW_LENGTH
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_PACK_ROW_LENGTH
+		numeric_query(GL_PACK_ROW_LENGTH)
 	) != r.end());
 }
 #endif
@@ -30310,10 +30308,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_PACK_SKIP_IMAGES
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_PACK_SKIP_IMAGES
+		numeric_query(GL_PACK_SKIP_IMAGES)
 	) != r.end());
 }
 #endif
@@ -30321,10 +30319,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_PACK_SKIP_PIXELS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_PACK_SKIP_PIXELS
+		numeric_query(GL_PACK_SKIP_PIXELS)
 	) != r.end());
 }
 #endif
@@ -30332,10 +30330,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_PACK_SKIP_ROWS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_PACK_SKIP_ROWS
+		numeric_query(GL_PACK_SKIP_ROWS)
 	) != r.end());
 }
 #endif
@@ -30343,10 +30341,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_PACK_SWAP_BYTES
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_PACK_SWAP_BYTES
+		numeric_query(GL_PACK_SWAP_BYTES)
 	) != r.end());
 }
 #endif
@@ -30354,10 +30352,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_POINT_FADE_THRESHOLD_SIZE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_POINT_FADE_THRESHOLD_SIZE
+		numeric_query(GL_POINT_FADE_THRESHOLD_SIZE)
 	) != r.end());
 }
 #endif
@@ -30365,10 +30363,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_POINT_SIZE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_POINT_SIZE
+		numeric_query(GL_POINT_SIZE)
 	) != r.end());
 }
 #endif
@@ -30376,10 +30374,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_POINT_SIZE_GRANULARITY
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_POINT_SIZE_GRANULARITY
+		numeric_query(GL_POINT_SIZE_GRANULARITY)
 	) != r.end());
 }
 #endif
@@ -30387,10 +30385,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_POINT_SIZE_RANGE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_POINT_SIZE_RANGE
+		numeric_query(GL_POINT_SIZE_RANGE)
 	) != r.end());
 }
 #endif
@@ -30398,10 +30396,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_POLYGON_OFFSET_FACTOR
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_POLYGON_OFFSET_FACTOR
+		numeric_query(GL_POLYGON_OFFSET_FACTOR)
 	) != r.end());
 }
 #endif
@@ -30409,10 +30407,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_POLYGON_OFFSET_UNITS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_POLYGON_OFFSET_UNITS
+		numeric_query(GL_POLYGON_OFFSET_UNITS)
 	) != r.end());
 }
 #endif
@@ -30420,10 +30418,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_POLYGON_SMOOTH_HINT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_POLYGON_SMOOTH_HINT
+		numeric_query(GL_POLYGON_SMOOTH_HINT)
 	) != r.end());
 }
 #endif
@@ -30431,10 +30429,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_PRIMITIVE_RESTART_INDEX
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_PRIMITIVE_RESTART_INDEX
+		numeric_query(GL_PRIMITIVE_RESTART_INDEX)
 	) != r.end());
 }
 #endif
@@ -30442,10 +30440,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_PROGRAM_BINARY_FORMATS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_PROGRAM_BINARY_FORMATS
+		numeric_query(GL_PROGRAM_BINARY_FORMATS)
 	) != r.end());
 }
 #endif
@@ -30453,10 +30451,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_PROGRAM_POINT_SIZE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_PROGRAM_POINT_SIZE
+		numeric_query(GL_PROGRAM_POINT_SIZE)
 	) != r.end());
 }
 #endif
@@ -30464,10 +30462,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_PROVOKING_VERTEX
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_PROVOKING_VERTEX
+		numeric_query(GL_PROVOKING_VERTEX)
 	) != r.end());
 }
 #endif
@@ -30475,10 +30473,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_READ_BUFFER
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_READ_BUFFER
+		numeric_query(GL_READ_BUFFER)
 	) != r.end());
 }
 #endif
@@ -30486,10 +30484,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_SAMPLE_BUFFERS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_SAMPLE_BUFFERS
+		numeric_query(GL_SAMPLE_BUFFERS)
 	) != r.end());
 }
 #endif
@@ -30497,10 +30495,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_SAMPLE_COVERAGE_INVERT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_SAMPLE_COVERAGE_INVERT
+		numeric_query(GL_SAMPLE_COVERAGE_INVERT)
 	) != r.end());
 }
 #endif
@@ -30508,10 +30506,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_SAMPLE_COVERAGE_VALUE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_SAMPLE_COVERAGE_VALUE
+		numeric_query(GL_SAMPLE_COVERAGE_VALUE)
 	) != r.end());
 }
 #endif
@@ -30519,10 +30517,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_SAMPLES
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_SAMPLES
+		numeric_query(GL_SAMPLES)
 	) != r.end());
 }
 #endif
@@ -30530,10 +30528,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_SCISSOR_BOX
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_SCISSOR_BOX
+		numeric_query(GL_SCISSOR_BOX)
 	) != r.end());
 }
 #endif
@@ -30541,10 +30539,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_SHADER_COMPILER
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_SHADER_COMPILER
+		numeric_query(GL_SHADER_COMPILER)
 	) != r.end());
 }
 #endif
@@ -30552,10 +30550,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_SHADER_STORAGE_BUFFER_OFFSET_ALIGNMENT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_SHADER_STORAGE_BUFFER_OFFSET_ALIGNMENT
+		numeric_query(GL_SHADER_STORAGE_BUFFER_OFFSET_ALIGNMENT)
 	) != r.end());
 }
 #endif
@@ -30563,10 +30561,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_SHADER_STORAGE_BUFFER_SIZE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_SHADER_STORAGE_BUFFER_SIZE
+		numeric_query(GL_SHADER_STORAGE_BUFFER_SIZE)
 	) != r.end());
 }
 #endif
@@ -30574,10 +30572,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_SHADER_STORAGE_BUFFER_START
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_SHADER_STORAGE_BUFFER_START
+		numeric_query(GL_SHADER_STORAGE_BUFFER_START)
 	) != r.end());
 }
 #endif
@@ -30585,10 +30583,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_SMOOTH_LINE_WIDTH_GRANULARITY
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_SMOOTH_LINE_WIDTH_GRANULARITY
+		numeric_query(GL_SMOOTH_LINE_WIDTH_GRANULARITY)
 	) != r.end());
 }
 #endif
@@ -30596,10 +30594,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_SMOOTH_LINE_WIDTH_RANGE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_SMOOTH_LINE_WIDTH_RANGE
+		numeric_query(GL_SMOOTH_LINE_WIDTH_RANGE)
 	) != r.end());
 }
 #endif
@@ -30607,10 +30605,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_STENCIL_BACK_FAIL
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_STENCIL_BACK_FAIL
+		numeric_query(GL_STENCIL_BACK_FAIL)
 	) != r.end());
 }
 #endif
@@ -30618,10 +30616,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_STENCIL_BACK_FUNC
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_STENCIL_BACK_FUNC
+		numeric_query(GL_STENCIL_BACK_FUNC)
 	) != r.end());
 }
 #endif
@@ -30629,10 +30627,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_STENCIL_BACK_PASS_DEPTH_FAIL
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_STENCIL_BACK_PASS_DEPTH_FAIL
+		numeric_query(GL_STENCIL_BACK_PASS_DEPTH_FAIL)
 	) != r.end());
 }
 #endif
@@ -30640,10 +30638,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_STENCIL_BACK_PASS_DEPTH_PASS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_STENCIL_BACK_PASS_DEPTH_PASS
+		numeric_query(GL_STENCIL_BACK_PASS_DEPTH_PASS)
 	) != r.end());
 }
 #endif
@@ -30651,10 +30649,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_STENCIL_BACK_REF
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_STENCIL_BACK_REF
+		numeric_query(GL_STENCIL_BACK_REF)
 	) != r.end());
 }
 #endif
@@ -30662,10 +30660,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_STENCIL_BACK_VALUE_MASK
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_STENCIL_BACK_VALUE_MASK
+		numeric_query(GL_STENCIL_BACK_VALUE_MASK)
 	) != r.end());
 }
 #endif
@@ -30673,10 +30671,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_STENCIL_BACK_WRITEMASK
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_STENCIL_BACK_WRITEMASK
+		numeric_query(GL_STENCIL_BACK_WRITEMASK)
 	) != r.end());
 }
 #endif
@@ -30684,10 +30682,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_STENCIL_CLEAR_VALUE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_STENCIL_CLEAR_VALUE
+		numeric_query(GL_STENCIL_CLEAR_VALUE)
 	) != r.end());
 }
 #endif
@@ -30695,10 +30693,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_STENCIL_FAIL
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_STENCIL_FAIL
+		numeric_query(GL_STENCIL_FAIL)
 	) != r.end());
 }
 #endif
@@ -30706,10 +30704,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_STENCIL_FUNC
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_STENCIL_FUNC
+		numeric_query(GL_STENCIL_FUNC)
 	) != r.end());
 }
 #endif
@@ -30717,10 +30715,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_STENCIL_PASS_DEPTH_FAIL
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_STENCIL_PASS_DEPTH_FAIL
+		numeric_query(GL_STENCIL_PASS_DEPTH_FAIL)
 	) != r.end());
 }
 #endif
@@ -30728,10 +30726,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_STENCIL_PASS_DEPTH_PASS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_STENCIL_PASS_DEPTH_PASS
+		numeric_query(GL_STENCIL_PASS_DEPTH_PASS)
 	) != r.end());
 }
 #endif
@@ -30739,10 +30737,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_STENCIL_REF
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_STENCIL_REF
+		numeric_query(GL_STENCIL_REF)
 	) != r.end());
 }
 #endif
@@ -30750,10 +30748,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_STENCIL_VALUE_MASK
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_STENCIL_VALUE_MASK
+		numeric_query(GL_STENCIL_VALUE_MASK)
 	) != r.end());
 }
 #endif
@@ -30761,10 +30759,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_STENCIL_WRITEMASK
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_STENCIL_WRITEMASK
+		numeric_query(GL_STENCIL_WRITEMASK)
 	) != r.end());
 }
 #endif
@@ -30772,10 +30770,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_STEREO
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_STEREO
+		numeric_query(GL_STEREO)
 	) != r.end());
 }
 #endif
@@ -30783,10 +30781,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_SUBPIXEL_BITS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_SUBPIXEL_BITS
+		numeric_query(GL_SUBPIXEL_BITS)
 	) != r.end());
 }
 #endif
@@ -30794,10 +30792,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_TEXTURE_BUFFER_OFFSET_ALIGNMENT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE_BUFFER_OFFSET_ALIGNMENT
+		numeric_query(GL_TEXTURE_BUFFER_OFFSET_ALIGNMENT)
 	) != r.end());
 }
 #endif
@@ -30805,10 +30803,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_TEXTURE_COMPRESSION_HINT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE_COMPRESSION_HINT
+		numeric_query(GL_TEXTURE_COMPRESSION_HINT)
 	) != r.end());
 }
 #endif
@@ -30816,10 +30814,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_TIMESTAMP
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TIMESTAMP
+		numeric_query(GL_TIMESTAMP)
 	) != r.end());
 }
 #endif
@@ -30827,10 +30825,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER_SIZE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TRANSFORM_FEEDBACK_BUFFER_SIZE
+		numeric_query(GL_TRANSFORM_FEEDBACK_BUFFER_SIZE)
 	) != r.end());
 }
 #endif
@@ -30838,10 +30836,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER_START
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TRANSFORM_FEEDBACK_BUFFER_START
+		numeric_query(GL_TRANSFORM_FEEDBACK_BUFFER_START)
 	) != r.end());
 }
 #endif
@@ -30849,10 +30847,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_UNIFORM_BUFFER_OFFSET_ALIGNMENT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_UNIFORM_BUFFER_OFFSET_ALIGNMENT
+		numeric_query(GL_UNIFORM_BUFFER_OFFSET_ALIGNMENT)
 	) != r.end());
 }
 #endif
@@ -30860,10 +30858,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_UNIFORM_BUFFER_SIZE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_UNIFORM_BUFFER_SIZE
+		numeric_query(GL_UNIFORM_BUFFER_SIZE)
 	) != r.end());
 }
 #endif
@@ -30871,10 +30869,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_UNIFORM_BUFFER_START
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_UNIFORM_BUFFER_START
+		numeric_query(GL_UNIFORM_BUFFER_START)
 	) != r.end());
 }
 #endif
@@ -30882,10 +30880,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_UNPACK_ALIGNMENT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_UNPACK_ALIGNMENT
+		numeric_query(GL_UNPACK_ALIGNMENT)
 	) != r.end());
 }
 #endif
@@ -30893,10 +30891,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_UNPACK_IMAGE_HEIGHT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_UNPACK_IMAGE_HEIGHT
+		numeric_query(GL_UNPACK_IMAGE_HEIGHT)
 	) != r.end());
 }
 #endif
@@ -30904,10 +30902,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_UNPACK_LSB_FIRST
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_UNPACK_LSB_FIRST
+		numeric_query(GL_UNPACK_LSB_FIRST)
 	) != r.end());
 }
 #endif
@@ -30915,10 +30913,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_UNPACK_ROW_LENGTH
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_UNPACK_ROW_LENGTH
+		numeric_query(GL_UNPACK_ROW_LENGTH)
 	) != r.end());
 }
 #endif
@@ -30926,10 +30924,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_UNPACK_SKIP_IMAGES
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_UNPACK_SKIP_IMAGES
+		numeric_query(GL_UNPACK_SKIP_IMAGES)
 	) != r.end());
 }
 #endif
@@ -30937,10 +30935,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_UNPACK_SKIP_PIXELS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_UNPACK_SKIP_PIXELS
+		numeric_query(GL_UNPACK_SKIP_PIXELS)
 	) != r.end());
 }
 #endif
@@ -30948,10 +30946,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_UNPACK_SKIP_ROWS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_UNPACK_SKIP_ROWS
+		numeric_query(GL_UNPACK_SKIP_ROWS)
 	) != r.end());
 }
 #endif
@@ -30959,10 +30957,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_UNPACK_SWAP_BYTES
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_UNPACK_SWAP_BYTES
+		numeric_query(GL_UNPACK_SWAP_BYTES)
 	) != r.end());
 }
 #endif
@@ -30970,10 +30968,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_VIEWPORT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_VIEWPORT
+		numeric_query(GL_VIEWPORT)
 	) != r.end());
 }
 #endif
@@ -30981,10 +30979,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_VIEWPORT_BOUNDS_RANGE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_VIEWPORT_BOUNDS_RANGE
+		numeric_query(GL_VIEWPORT_BOUNDS_RANGE)
 	) != r.end());
 }
 #endif
@@ -30992,10 +30990,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_VIEWPORT_INDEX_PROVOKING_VERTEX
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_VIEWPORT_INDEX_PROVOKING_VERTEX
+		numeric_query(GL_VIEWPORT_INDEX_PROVOKING_VERTEX)
 	) != r.end());
 }
 #endif
@@ -31003,10 +31001,10 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range)
 #ifdef GL_VIEWPORT_SUBPIXEL_BITS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<numeric_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_VIEWPORT_SUBPIXEL_BITS
+		numeric_query(GL_VIEWPORT_SUBPIXEL_BITS)
 	) != r.end());
 }
 #endif

@@ -32,6 +32,53 @@ noexcept
 	), sampler_name(GLuint(result));
 }
 //------------------------------------------------------------------------------
+inline
+outcome<void>
+sampler_ops::
+sampler_parameter_i(
+	sampler_name sam,
+	oglplus::sampler_parameter param,
+	GLint value
+) noexcept
+{
+	OGLPLUS_GLFUNC(SamplerParameteri)(
+		get_raw_name(sam),
+		GLenum(param),
+		value
+	);
+	OGLPLUS_VERIFY(
+		SamplerParameteri,
+		gl_object(sam).
+		gl_enum_value(param),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+sampler_ops::
+get_sampler_parameter_i(
+	sampler_name sam,
+	oglplus::sampler_parameter param,
+	array_view<GLint> values
+) noexcept
+{
+	assert(values.size() > 0);
+	OGLPLUS_GLFUNC(GetSamplerParameteriv)(
+		get_raw_name(sam),
+		GLenum(param),
+		values.data()
+	);
+	OGLPLUS_VERIFY(
+		GetSamplerParameteriv,
+		gl_object(sam).
+		gl_enum_value(param),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
 } // namespace oper
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_gen

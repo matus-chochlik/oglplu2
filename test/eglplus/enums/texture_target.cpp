@@ -73,17 +73,15 @@ BOOST_AUTO_TEST_CASE(enum_texture_target_names)
 BOOST_AUTO_TEST_CASE(enum_texture_target_range)
 {
 	using namespace eglplus;
-	texture_target x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<texture_target>().size();
 
 #ifdef EGL_NO_TEXTURE
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_target>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_NO_TEXTURE
+		texture_target(EGL_NO_TEXTURE)
 	) != r.end());
 }
 #endif
@@ -91,10 +89,10 @@ BOOST_AUTO_TEST_CASE(enum_texture_target_range)
 #ifdef EGL_TEXTURE_2D
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_target>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_TEXTURE_2D
+		texture_target(EGL_TEXTURE_2D)
 	) != r.end());
 }
 #endif

@@ -263,17 +263,15 @@ BOOST_AUTO_TEST_CASE(enum_distance_model_names)
 BOOST_AUTO_TEST_CASE(enum_distance_model_range)
 {
 	using namespace oalplus;
-	distance_model x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<distance_model>().size();
 
 #ifdef AL_EXPONENT_DISTANCE
 {
 	--count;
-	array_view<const ALenum> r = enum_value_range(x);
+	auto r = enum_value_range<distance_model>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		AL_EXPONENT_DISTANCE
+		distance_model(AL_EXPONENT_DISTANCE)
 	) != r.end());
 }
 #endif
@@ -281,10 +279,10 @@ BOOST_AUTO_TEST_CASE(enum_distance_model_range)
 #ifdef AL_EXPONENT_DISTANCE_CLAMPED
 {
 	--count;
-	array_view<const ALenum> r = enum_value_range(x);
+	auto r = enum_value_range<distance_model>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		AL_EXPONENT_DISTANCE_CLAMPED
+		distance_model(AL_EXPONENT_DISTANCE_CLAMPED)
 	) != r.end());
 }
 #endif
@@ -292,10 +290,10 @@ BOOST_AUTO_TEST_CASE(enum_distance_model_range)
 #ifdef AL_INVERSE_DISTANCE
 {
 	--count;
-	array_view<const ALenum> r = enum_value_range(x);
+	auto r = enum_value_range<distance_model>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		AL_INVERSE_DISTANCE
+		distance_model(AL_INVERSE_DISTANCE)
 	) != r.end());
 }
 #endif
@@ -303,10 +301,10 @@ BOOST_AUTO_TEST_CASE(enum_distance_model_range)
 #ifdef AL_INVERSE_DISTANCE_CLAMPED
 {
 	--count;
-	array_view<const ALenum> r = enum_value_range(x);
+	auto r = enum_value_range<distance_model>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		AL_INVERSE_DISTANCE_CLAMPED
+		distance_model(AL_INVERSE_DISTANCE_CLAMPED)
 	) != r.end());
 }
 #endif
@@ -314,10 +312,10 @@ BOOST_AUTO_TEST_CASE(enum_distance_model_range)
 #ifdef AL_LINEAR_DISTANCE
 {
 	--count;
-	array_view<const ALenum> r = enum_value_range(x);
+	auto r = enum_value_range<distance_model>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		AL_LINEAR_DISTANCE
+		distance_model(AL_LINEAR_DISTANCE)
 	) != r.end());
 }
 #endif
@@ -325,10 +323,10 @@ BOOST_AUTO_TEST_CASE(enum_distance_model_range)
 #ifdef AL_LINEAR_DISTANCE_CLAMPED
 {
 	--count;
-	array_view<const ALenum> r = enum_value_range(x);
+	auto r = enum_value_range<distance_model>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		AL_LINEAR_DISTANCE_CLAMPED
+		distance_model(AL_LINEAR_DISTANCE_CLAMPED)
 	) != r.end());
 }
 #endif
@@ -336,10 +334,10 @@ BOOST_AUTO_TEST_CASE(enum_distance_model_range)
 #ifdef AL_NONE
 {
 	--count;
-	array_view<const ALenum> r = enum_value_range(x);
+	auto r = enum_value_range<distance_model>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		AL_NONE
+		distance_model(AL_NONE)
 	) != r.end());
 }
 #endif

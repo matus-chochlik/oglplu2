@@ -587,9 +587,9 @@ def action_test_enums_cpp(options):
 	print_line(options, "BOOST_AUTO_TEST_CASE(enum_%s_range)" % options.enum_name)
 	print_line(options, "{")
 	print_line(options, "	using namespace %s;" % options.library)
-	print_line(options, "	%s x;" % options.enum_name)
-	print_line(options, "	(void)x;")
-	print_line(options, "	auto count = enum_value_range(x).size();");
+	print_line(options, "	auto count = enum_value_range<%s>().size();" % (
+		options.enum_name
+	));
 
 	for value_name, value_info in sorted(value_infos.items()):
 		print_newline(options)
@@ -599,12 +599,13 @@ def action_test_enums_cpp(options):
 		))
 		print_line(options, "{");
 		print_line(options, "	--count;")
-		print_line(options, "	array_view<const %s> r = enum_value_range(x);" % (
-			value_info.enum_type
+		print_line(options, "	auto r = enum_value_range<%s>();" % (
+			options.enum_name
 		))
 		print_line(options, "	BOOST_CHECK(std::find(")
 		print_line(options, "		r.begin(), r.end(),")
-		print_line(options, "		%s_%s" % (
+		print_line(options, "		%s(%s_%s)" % (
+			options.enum_name,
 			options.base_lib_prefix,
 			value_info.src_name
 		))

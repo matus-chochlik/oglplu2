@@ -73,17 +73,15 @@ BOOST_AUTO_TEST_CASE(enum_multisample_resolve_names)
 BOOST_AUTO_TEST_CASE(enum_multisample_resolve_range)
 {
 	using namespace eglplus;
-	multisample_resolve x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<multisample_resolve>().size();
 
 #ifdef EGL_MULTISAMPLE_RESOLVE_BOX
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<multisample_resolve>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_MULTISAMPLE_RESOLVE_BOX
+		multisample_resolve(EGL_MULTISAMPLE_RESOLVE_BOX)
 	) != r.end());
 }
 #endif
@@ -91,10 +89,10 @@ BOOST_AUTO_TEST_CASE(enum_multisample_resolve_range)
 #ifdef EGL_MULTISAMPLE_RESOLVE_DEFAULT
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<multisample_resolve>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_MULTISAMPLE_RESOLVE_DEFAULT
+		multisample_resolve(EGL_MULTISAMPLE_RESOLVE_DEFAULT)
 	) != r.end());
 }
 #endif

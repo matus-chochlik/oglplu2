@@ -73,17 +73,15 @@ BOOST_AUTO_TEST_CASE(enum_path_missing_glyph_nv_names)
 BOOST_AUTO_TEST_CASE(enum_path_missing_glyph_nv_range)
 {
 	using namespace oglplus;
-	path_missing_glyph_nv x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<path_missing_glyph_nv>().size();
 
 #ifdef GL_SKIP_MISSING_GLYPH_NV
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<path_missing_glyph_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_SKIP_MISSING_GLYPH_NV
+		path_missing_glyph_nv(GL_SKIP_MISSING_GLYPH_NV)
 	) != r.end());
 }
 #endif
@@ -91,10 +89,10 @@ BOOST_AUTO_TEST_CASE(enum_path_missing_glyph_nv_range)
 #ifdef GL_USE_MISSING_GLYPH_NV
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<path_missing_glyph_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_USE_MISSING_GLYPH_NV
+		path_missing_glyph_nv(GL_USE_MISSING_GLYPH_NV)
 	) != r.end());
 }
 #endif

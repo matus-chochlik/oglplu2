@@ -169,17 +169,15 @@ BOOST_AUTO_TEST_CASE(enum_context_attrib_names)
 BOOST_AUTO_TEST_CASE(enum_context_attrib_range)
 {
 	using namespace oalplus;
-	context_attrib x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<context_attrib>().size();
 
 #ifdef ALC_FREQUENCY
 {
 	--count;
-	array_view<const ALCenum> r = enum_value_range(x);
+	auto r = enum_value_range<context_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		ALC_FREQUENCY
+		context_attrib(ALC_FREQUENCY)
 	) != r.end());
 }
 #endif
@@ -187,10 +185,10 @@ BOOST_AUTO_TEST_CASE(enum_context_attrib_range)
 #ifdef ALC_MONO_SOURCES
 {
 	--count;
-	array_view<const ALCenum> r = enum_value_range(x);
+	auto r = enum_value_range<context_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		ALC_MONO_SOURCES
+		context_attrib(ALC_MONO_SOURCES)
 	) != r.end());
 }
 #endif
@@ -198,10 +196,10 @@ BOOST_AUTO_TEST_CASE(enum_context_attrib_range)
 #ifdef ALC_REFRESH
 {
 	--count;
-	array_view<const ALCenum> r = enum_value_range(x);
+	auto r = enum_value_range<context_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		ALC_REFRESH
+		context_attrib(ALC_REFRESH)
 	) != r.end());
 }
 #endif
@@ -209,10 +207,10 @@ BOOST_AUTO_TEST_CASE(enum_context_attrib_range)
 #ifdef ALC_STEREO_SOURCES
 {
 	--count;
-	array_view<const ALCenum> r = enum_value_range(x);
+	auto r = enum_value_range<context_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		ALC_STEREO_SOURCES
+		context_attrib(ALC_STEREO_SOURCES)
 	) != r.end());
 }
 #endif
@@ -220,10 +218,10 @@ BOOST_AUTO_TEST_CASE(enum_context_attrib_range)
 #ifdef ALC_SYNC
 {
 	--count;
-	array_view<const ALCenum> r = enum_value_range(x);
+	auto r = enum_value_range<context_attrib>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		ALC_SYNC
+		context_attrib(ALC_SYNC)
 	) != r.end());
 }
 #endif

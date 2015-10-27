@@ -73,17 +73,15 @@ BOOST_AUTO_TEST_CASE(enum_render_buffer_names)
 BOOST_AUTO_TEST_CASE(enum_render_buffer_range)
 {
 	using namespace eglplus;
-	render_buffer x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<render_buffer>().size();
 
 #ifdef EGL_BACK_BUFFER
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<render_buffer>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_BACK_BUFFER
+		render_buffer(EGL_BACK_BUFFER)
 	) != r.end());
 }
 #endif
@@ -91,10 +89,10 @@ BOOST_AUTO_TEST_CASE(enum_render_buffer_range)
 #ifdef EGL_SINGLE_BUFFER
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<render_buffer>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_SINGLE_BUFFER
+		render_buffer(EGL_SINGLE_BUFFER)
 	) != r.end());
 }
 #endif

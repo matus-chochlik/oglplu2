@@ -381,17 +381,15 @@ BOOST_AUTO_TEST_CASE(enum_program_parameter_names)
 BOOST_AUTO_TEST_CASE(enum_program_parameter_range)
 {
 	using namespace oglplus;
-	program_parameter x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<program_parameter>().size();
 
 #ifdef GL_ACTIVE_ATTRIBUTE_MAX_LENGTH
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<program_parameter>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_ACTIVE_ATTRIBUTE_MAX_LENGTH
+		program_parameter(GL_ACTIVE_ATTRIBUTE_MAX_LENGTH)
 	) != r.end());
 }
 #endif
@@ -399,10 +397,10 @@ BOOST_AUTO_TEST_CASE(enum_program_parameter_range)
 #ifdef GL_ACTIVE_ATTRIBUTES
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<program_parameter>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_ACTIVE_ATTRIBUTES
+		program_parameter(GL_ACTIVE_ATTRIBUTES)
 	) != r.end());
 }
 #endif
@@ -410,10 +408,10 @@ BOOST_AUTO_TEST_CASE(enum_program_parameter_range)
 #ifdef GL_ACTIVE_UNIFORM_MAX_LENGTH
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<program_parameter>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_ACTIVE_UNIFORM_MAX_LENGTH
+		program_parameter(GL_ACTIVE_UNIFORM_MAX_LENGTH)
 	) != r.end());
 }
 #endif
@@ -421,10 +419,10 @@ BOOST_AUTO_TEST_CASE(enum_program_parameter_range)
 #ifdef GL_ACTIVE_UNIFORMS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<program_parameter>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_ACTIVE_UNIFORMS
+		program_parameter(GL_ACTIVE_UNIFORMS)
 	) != r.end());
 }
 #endif
@@ -432,10 +430,10 @@ BOOST_AUTO_TEST_CASE(enum_program_parameter_range)
 #ifdef GL_ATTACHED_SHADERS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<program_parameter>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_ATTACHED_SHADERS
+		program_parameter(GL_ATTACHED_SHADERS)
 	) != r.end());
 }
 #endif
@@ -443,10 +441,10 @@ BOOST_AUTO_TEST_CASE(enum_program_parameter_range)
 #ifdef GL_DELETE_STATUS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<program_parameter>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DELETE_STATUS
+		program_parameter(GL_DELETE_STATUS)
 	) != r.end());
 }
 #endif
@@ -454,10 +452,10 @@ BOOST_AUTO_TEST_CASE(enum_program_parameter_range)
 #ifdef GL_INFO_LOG_LENGTH
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<program_parameter>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_INFO_LOG_LENGTH
+		program_parameter(GL_INFO_LOG_LENGTH)
 	) != r.end());
 }
 #endif
@@ -465,10 +463,10 @@ BOOST_AUTO_TEST_CASE(enum_program_parameter_range)
 #ifdef GL_LINK_STATUS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<program_parameter>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_LINK_STATUS
+		program_parameter(GL_LINK_STATUS)
 	) != r.end());
 }
 #endif
@@ -476,10 +474,10 @@ BOOST_AUTO_TEST_CASE(enum_program_parameter_range)
 #ifdef GL_VALIDATE_STATUS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<program_parameter>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_VALIDATE_STATUS
+		program_parameter(GL_VALIDATE_STATUS)
 	) != r.end());
 }
 #endif

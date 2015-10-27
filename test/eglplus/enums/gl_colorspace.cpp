@@ -73,17 +73,15 @@ BOOST_AUTO_TEST_CASE(enum_gl_colorspace_names)
 BOOST_AUTO_TEST_CASE(enum_gl_colorspace_range)
 {
 	using namespace eglplus;
-	gl_colorspace x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<gl_colorspace>().size();
 
 #ifdef EGL_GL_COLORSPACE_LINEAR
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<gl_colorspace>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_GL_COLORSPACE_LINEAR
+		gl_colorspace(EGL_GL_COLORSPACE_LINEAR)
 	) != r.end());
 }
 #endif
@@ -91,10 +89,10 @@ BOOST_AUTO_TEST_CASE(enum_gl_colorspace_range)
 #ifdef EGL_GL_COLORSPACE_sRGB
 {
 	--count;
-	array_view<const EGLenum> r = enum_value_range(x);
+	auto r = enum_value_range<gl_colorspace>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		EGL_GL_COLORSPACE_sRGB
+		gl_colorspace(EGL_GL_COLORSPACE_sRGB)
 	) != r.end());
 }
 #endif

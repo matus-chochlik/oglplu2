@@ -131,17 +131,15 @@ BOOST_AUTO_TEST_CASE(enum_old_matrix_mode_names)
 BOOST_AUTO_TEST_CASE(enum_old_matrix_mode_range)
 {
 	using namespace oglplus;
-	old_matrix_mode x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<old_matrix_mode>().size();
 
 #ifdef GL_COLOR
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<old_matrix_mode>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_COLOR
+		old_matrix_mode(GL_COLOR)
 	) != r.end());
 }
 #endif
@@ -149,10 +147,10 @@ BOOST_AUTO_TEST_CASE(enum_old_matrix_mode_range)
 #ifdef GL_MODELVIEW
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<old_matrix_mode>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MODELVIEW
+		old_matrix_mode(GL_MODELVIEW)
 	) != r.end());
 }
 #endif
@@ -160,10 +158,10 @@ BOOST_AUTO_TEST_CASE(enum_old_matrix_mode_range)
 #ifdef GL_PROJECTION
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<old_matrix_mode>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_PROJECTION
+		old_matrix_mode(GL_PROJECTION)
 	) != r.end());
 }
 #endif
@@ -171,10 +169,10 @@ BOOST_AUTO_TEST_CASE(enum_old_matrix_mode_range)
 #ifdef GL_TEXTURE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<old_matrix_mode>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE
+		old_matrix_mode(GL_TEXTURE)
 	) != r.end());
 }
 #endif

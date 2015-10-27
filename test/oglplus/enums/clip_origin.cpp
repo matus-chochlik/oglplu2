@@ -73,17 +73,15 @@ BOOST_AUTO_TEST_CASE(enum_clip_origin_names)
 BOOST_AUTO_TEST_CASE(enum_clip_origin_range)
 {
 	using namespace oglplus;
-	clip_origin x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<clip_origin>().size();
 
 #ifdef GL_LOWER_LEFT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<clip_origin>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_LOWER_LEFT
+		clip_origin(GL_LOWER_LEFT)
 	) != r.end());
 }
 #endif
@@ -91,10 +89,10 @@ BOOST_AUTO_TEST_CASE(enum_clip_origin_range)
 #ifdef GL_UPPER_LEFT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<clip_origin>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_UPPER_LEFT
+		clip_origin(GL_UPPER_LEFT)
 	) != r.end());
 }
 #endif

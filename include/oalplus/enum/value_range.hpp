@@ -12,6 +12,7 @@
 #include "../utils/enum_class.hpp"
 #include "../utils/array_view.hpp"
 #include "../config/basic.hpp"
+#include <eagine/enum_range.hpp>
 
 namespace oalplus {
 
@@ -19,24 +20,24 @@ std::pair<const void*, std::size_t>
 get_enum_value_range(const any_enum_class&)
 noexcept;
 
-template <typename EnumClass, typename T, unsigned EnumId>
-static inline
-array_view<const T>
-enum_value_range(enum_class<EnumClass, T, EnumId> cls)
-noexcept
-{
-	auto p = ::oalplus::get_enum_value_range(cls);
-	return {static_cast<const T*>(p.first), p.second};
-}
+using eagine::enumerated_value_range;
 
-template <typename EnumClass>
+template <
+	typename EnumClass,
+	typename = typename std::enable_if<
+		is_enum_class<typename EnumClass::type>::value
+	>::type
+>
 static inline
-array_view<const typename EnumClass::value_type>
+enumerated_value_range<typename EnumClass::type>
 enum_value_range(void)
 noexcept
 {
-	return enum_value_range(EnumClass());
+	return enumerated_value_range<typename EnumClass::type>(
+		get_enum_value_range(typename EnumClass::type())
+	);
 }
+
 
 } // namespace oalplus
 
