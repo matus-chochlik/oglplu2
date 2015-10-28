@@ -75,6 +75,21 @@ struct is_limited_value<limited_value<Query, T>>
  : std::true_type
 { };
 
+static inline
+outcome<GLint>
+get_integer_limit(limit_query lq)
+noexcept
+{
+	GLint value = 0;
+	OGLPLUS_GLFUNC(GetIntegerv)(GLenum(lq), &value);
+	OGLPLUS_VERIFY(
+		GetIntegerv,
+		gl_enum_value(lq),
+		debug
+	);
+	return {value};
+}
+
 template <
 	GLenum Query,
 	typename T,
@@ -87,14 +102,7 @@ outcome<T>
 get_limit(identity<limited_value<Query, T>>)
 noexcept
 {
-	GLint value = 0;
-	OGLPLUS_GLFUNC(GetIntegerv)(Query, &value);
-	OGLPLUS_VERIFY(
-		GetIntegerv,
-		gl_enum_value(limit_query(Query)),
-		debug
-	);
-	return {T(value)};
+	return outcome_cast<T>(get_integer_limit(limit_query(Query)));
 }
 
 template <GLenum Query, GLenum Base>
@@ -140,6 +148,19 @@ bool exceeds_limit(
 	return lv.index() >= limit.index();
 }
 
+static inline
+deferred_error_handler
+handle_above_limit(limit_query lq)
+noexcept
+{
+	return deferred_error_handler(std::move(
+		error_info(GL_INVALID_VALUE)
+			.gl_enum_value(lq)
+			.source_file(__FILE__)
+			.source_line(__LINE__)
+	));
+}
+
 template <GLenum Query, typename T>
 static inline
 outcome<void>
@@ -153,12 +174,7 @@ noexcept
 	}
 	if(exceeds_limit(lv, lim.get()))
 	{
-		return deferred_error_handler(std::move(
-			error_info(GL_INVALID_VALUE)
-				.gl_enum_value(limit_query(Query))
-				.source_file(__FILE__)
-				.source_line(__LINE__)
-		));
+		handle_above_limit(limit_query(Query));
 	}
 	return {};
 }
