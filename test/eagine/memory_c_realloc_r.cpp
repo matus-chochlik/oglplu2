@@ -29,6 +29,7 @@ void eagine_test_memory_c_realloc_1_T(std::size_t n)
 
 	BOOST_CHECK_EQUAL(b1.empty(), n == 0);
 	BOOST_CHECK(b1.size() >= sz);
+	BOOST_CHECK(b1.is_aligned_to(ao));
 
 	BOOST_CHECK(!!a.has_allocated(b1, ao));
 

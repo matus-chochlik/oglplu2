@@ -20,6 +20,7 @@ add_runtime_test_dependency(eagine "enum_class_r" "enum_bitfield_r")
 add_runtime_test_dependency(eagine "make_view_r" "buffer_size_r")
 add_runtime_test_dependency(eagine "buffer_size_r" "buffer_data_r")
 
+# vect
 add_runtime_test_dependency(eagine "vect_data_r" "vect_fill_r")
 add_runtime_test_dependency(eagine "vect_data_r" "vect_axis_r")
 add_runtime_test_dependency(eagine "vect_data_r" "vect_from_r")
@@ -30,6 +31,7 @@ add_runtime_test_dependency(eagine "vect_data_r" "vect_abs_r")
 add_runtime_test_dependency(eagine "vect_abs_r" "vect_diff_r")
 add_runtime_test_dependency(eagine "vect_esum_r" "vect_diff_r")
 
+# math
 add_runtime_test_dependency(eagine "vect_fill_r" "math_scalar_r")
 add_runtime_test_dependency(eagine "math_scalar_r" "math_vector_r")
 add_runtime_test_dependency(eagine "vect_axis_r" "math_vector_r")
@@ -43,3 +45,8 @@ add_runtime_test_dependency(eagine  "math_vector_r" "math_matrix_2_r")
 add_runtime_test_dependency(eagine  "math_vector_r" "math_matrix_3_r")
 add_runtime_test_dependency(eagine  "math_matrix_2_r" "math_matrix_ctrs_r")
 add_runtime_test_dependency(eagine  "math_matrix_3_r" "math_matrix_ctrs_r")
+
+# memory
+add_runtime_test_dependency(eagine "memory_block_r" "memory_null_alloc_r")
+add_runtime_test_dependency(eagine "memory_block_r" "memory_c_realloc_r")
+add_runtime_test_dependency(eagine "memory_c_realloc_r" "memory_shared_alloc_r")

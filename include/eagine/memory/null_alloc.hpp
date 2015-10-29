@@ -17,8 +17,8 @@ namespace eagine {
 namespace memory {
 
 template <typename Policy = default_byte_allocator_policy>
-class null_allocator
- : public byte_allocator_impl<Policy, null_allocator>
+class null_byte_allocator
+ : public byte_allocator_impl<Policy, null_byte_allocator>
 {
 public:
 	typedef std::size_t size_type;
@@ -27,7 +27,7 @@ public:
 	noexcept
 	override
 	{
-		return this == dynamic_cast<null_allocator*>(a);
+		return dynamic_cast<null_byte_allocator*>(a) != null;
 	}
 
 	size_type max_size(size_type)

@@ -20,6 +20,8 @@ void eagine_test_memory_block_0(void)
 
 	basic_memory_block<is_const> bmb;
 
+	BOOST_CHECK(!bool(bmb));
+	BOOST_CHECK(!bmb);
 	BOOST_CHECK(bmb.empty());
 	BOOST_CHECK(bmb.size() == 0);
 	BOOST_CHECK(bmb.begin() == bmb.end());
@@ -41,6 +43,8 @@ void eagine_test_memory_block_1(void)
 	basic_memory_block<false> bmb1;
 	basic_memory_block<is_const> bmb2 = bmb1;
 
+	BOOST_CHECK(!bool(bmb2));
+	BOOST_CHECK(!bmb2);
 	BOOST_CHECK(bmb2.empty());
 	BOOST_CHECK(bmb2.size() == 0);
 	BOOST_CHECK(bmb2.begin() == bmb2.end());
@@ -63,6 +67,8 @@ void eagine_test_memory_block_2(void)
 
 	basic_memory_block<is_const> bmb(x);
 
+	BOOST_CHECK(bool(bmb));
+	BOOST_CHECK(!!bmb);
 	BOOST_CHECK(!bmb.empty());
 	BOOST_CHECK(bmb.size() == sizeof(x));
 	BOOST_CHECK(bmb.begin() != bmb.end());
@@ -91,6 +97,8 @@ void eagine_test_memory_block_3(void)
 
 	basic_memory_block<is_const> bmb(x);
 
+	BOOST_CHECK(bool(bmb));
+	BOOST_CHECK(!!bmb);
 	BOOST_CHECK(!bmb.empty());
 	BOOST_CHECK(bmb.size() == sizeof(x));
 	BOOST_CHECK(bmb.begin() != bmb.end());
@@ -119,6 +127,8 @@ void eagine_test_memory_block_4(void)
 
 	basic_memory_block<is_const> bmb(x, 42);
 
+	BOOST_CHECK(bool(bmb));
+	BOOST_CHECK(!!bmb);
 	BOOST_CHECK(!bmb.empty());
 	BOOST_CHECK(bmb.size() == sizeof(x));
 	BOOST_CHECK(bmb.begin() != bmb.end());
@@ -152,6 +162,8 @@ void eagine_test_memory_block_5(void)
 
 	basic_memory_block<is_const> bmb(x);
 
+	BOOST_CHECK(bool(bmb));
+	BOOST_CHECK(!!bmb);
 	BOOST_CHECK(!bmb.empty());
 	BOOST_ASSERT(bmb.size() == sizeof(x));
 
@@ -178,10 +190,14 @@ void eagine_test_memory_block_6(void)
 
 	basic_memory_block<is_const> bmb1(x);
 
+	BOOST_CHECK(bool(bmb1));
+	BOOST_CHECK(!!bmb1);
 	BOOST_CHECK(!bmb1.empty());
 
 	basic_memory_block<is_const> bmb2(std::move(bmb1));
 
+	BOOST_CHECK(!bool(bmb1));
+	BOOST_CHECK(!bmb1);
 	BOOST_CHECK( bmb1.empty());
 	BOOST_CHECK(!bmb2.empty());
 

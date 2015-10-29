@@ -58,7 +58,7 @@ public:
 		void* p = std::malloc(n);
 
 		// TODO fix if misaligned ?
-		assert((reinterpret_cast<std::uintptr_t>(p) % a) == 0);
+		assert(is_aligned_to(p, a));
 
 		return this->acquire_block({p, n});
 	}
@@ -98,7 +98,7 @@ public:
 		this->release_block(std::move(b));
 
 		// TODO fix if misaligned ?
-		assert((reinterpret_cast<std::uintptr_t>(p) % a) == 0);
+		assert(is_aligned_to(p, a));
 
 		return this->acquire_block({p, n});
 	}

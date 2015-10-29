@@ -12,10 +12,24 @@
 
 #include "../types.hpp"
 #include <type_traits>
-#include <cstdint>
+#include <cstddef>
 
 namespace eagine {
 namespace memory {
+
+static constexpr inline
+bool is_aligned_to(std::nullptr_t, std::size_t)
+noexcept
+{
+	return true;
+}
+
+static inline
+bool is_aligned_to(const void* addr, std::size_t align)
+noexcept
+{
+	return (reinterpret_cast<std::uintptr_t>(addr) % align) == 0;
+}
 
 template <bool is_const>
 class basic_block
@@ -130,6 +144,19 @@ public:
 		return !(size() > 0);
 	}
 
+	explicit
+	operator bool (void) const
+	noexcept
+	{
+		return _addr != nullptr && _size != 0u;
+	}
+
+	bool operator ! (void) const
+	noexcept
+	{
+		return _addr == nullptr || _size == 0u;
+	}
+
 	void clear(void)
 	noexcept
 	{
@@ -161,6 +188,12 @@ public:
 	noexcept
 	{
 		return (a._addr != b._addr) || (a._size != b._size);
+	}
+
+	bool is_aligned_to(std::size_t a) const
+	noexcept
+	{
+		return memory::is_aligned_to(_addr, a);
 	}
 };
 
