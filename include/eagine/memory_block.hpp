@@ -53,6 +53,13 @@ public:
 	 , _size(sizeof(T)*N)
 	{ }
 
+	template <typename T>
+	basic_memory_block(T *a, std::size_t count)
+	noexcept
+	 : _addr(static_cast<pointer>(a))
+	 , _size(sizeof(T)*count)
+	{ }
+
 	basic_memory_block(pointer addr_, size_type size_)
 	noexcept
 	 : _addr(addr_)
@@ -66,6 +73,11 @@ public:
 	 , _size(0)
 	{ }
 
+	basic_memory_block(const basic_memory_block&) = default;
+	basic_memory_block& operator = (const basic_memory_block&) = default;
+	basic_memory_block(basic_memory_block&&) = default;
+	basic_memory_block& operator = (basic_memory_block&&) = default;
+
 	constexpr
 	basic_memory_block(basic_memory_block<false> b)
 	noexcept
@@ -77,6 +89,12 @@ public:
 	noexcept
 	{
 		return _addr;
+	}
+
+	iterator data(void) const
+	noexcept
+	{
+		return static_cast<iterator>(addr());
 	}
 
 	size_type size(void) const
@@ -94,18 +112,34 @@ public:
 	iterator begin(void) const
 	noexcept
 	{
-		return static_cast<iterator>(addr());
+		return data();
 	}
 
 	iterator end(void) const
 	noexcept
 	{
-		return begin()+size();
+		return data()+size();
 	}
 };
 
 typedef basic_memory_block<false> memory_block;
 typedef basic_memory_block<true> const_memory_block;
+
+class owned_memory_block
+ : public memory_block
+{
+private:
+	owned_memory_block(void* addr_, std::size_t size_)
+	noexcept
+	 : memory_block(addr_, size_)
+	{ }
+public:
+	owned_memory_block(void) = default;
+	owned_memory_block(owned_memory_block&&) = default;
+	owned_memory_block& operator = (owned_memory_block&&) = default;
+	owned_memory_block(const owned_memory_block&) = delete;
+	owned_memory_block& operator = (const owned_memory_block&) = delete;
+};
 
 } // namespace eagine
 

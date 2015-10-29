@@ -11,8 +11,19 @@
 
 #include "enum/types.hpp"
 #include "utils/identity.hpp"
+#include <type_traits>
 
 namespace oglplus {
+
+template <typename T>
+struct is_gl_data_type
+ : std::false_type
+{ };
+
+template <>
+struct is_gl_data_type<GLbyte>
+ : std::true_type
+{ };
 
 static constexpr inline
 data_type get_data_type(identity<GLbyte>)
@@ -21,12 +32,22 @@ noexcept
 	return data_type(GL_BYTE);
 }
 
+template <>
+struct is_gl_data_type<GLubyte>
+ : std::true_type
+{ };
+
 static constexpr inline
 data_type get_data_type(identity<GLubyte>)
 noexcept
 {
 	return data_type(GL_UNSIGNED_BYTE);
 }
+
+template <>
+struct is_gl_data_type<GLshort>
+ : std::true_type
+{ };
 
 static constexpr inline
 data_type get_data_type(identity<GLshort>)
@@ -35,12 +56,22 @@ noexcept
 	return data_type(GL_SHORT);
 }
 
+template <>
+struct is_gl_data_type<GLushort>
+ : std::true_type
+{ };
+
 static constexpr inline
 data_type get_data_type(identity<GLushort>)
 noexcept
 {
 	return data_type(GL_UNSIGNED_SHORT);
 }
+
+template <>
+struct is_gl_data_type<GLint>
+ : std::true_type
+{ };
 
 static constexpr inline
 data_type get_data_type(identity<GLint>)
@@ -49,12 +80,22 @@ noexcept
 	return data_type(GL_INT);
 }
 
+template <>
+struct is_gl_data_type<GLuint>
+ : std::true_type
+{ };
+
 static constexpr inline
 data_type get_data_type(identity<GLuint>)
 noexcept
 {
 	return data_type(GL_UNSIGNED_INT);
 }
+
+template <>
+struct is_gl_data_type<GLfloat>
+ : std::true_type
+{ };
 
 static constexpr inline
 data_type get_data_type(identity<GLfloat>)
@@ -64,6 +105,11 @@ noexcept
 }
 
 #ifdef GL_DOUBLE
+template <>
+struct is_gl_data_type<GLdouble>
+ : std::true_type
+{ };
+
 static constexpr inline
 data_type get_data_type(identity<GLdouble>)
 noexcept

@@ -14,7 +14,7 @@
 BOOST_AUTO_TEST_SUITE(memory_block)
 
 template <bool is_const>
-void eagine_test_memory_block_1(void)
+void eagine_test_memory_block_0(void)
 {
 	using namespace eagine;
 
@@ -23,6 +23,27 @@ void eagine_test_memory_block_1(void)
 	BOOST_CHECK(bmb.empty());
 	BOOST_CHECK(bmb.size() == 0);
 	BOOST_CHECK(bmb.begin() == bmb.end());
+}
+
+BOOST_AUTO_TEST_CASE(memory_block_0)
+{
+	using namespace eagine;
+
+	eagine_test_memory_block_0<true>();
+	eagine_test_memory_block_0<false>();
+}
+
+template <bool is_const>
+void eagine_test_memory_block_1(void)
+{
+	using namespace eagine;
+
+	basic_memory_block<false> bmb1;
+	basic_memory_block<is_const> bmb2 = bmb1;
+
+	BOOST_CHECK(bmb2.empty());
+	BOOST_CHECK(bmb2.size() == 0);
+	BOOST_CHECK(bmb2.begin() == bmb2.end());
 }
 
 BOOST_AUTO_TEST_CASE(memory_block_1)
@@ -94,12 +115,19 @@ void eagine_test_memory_block_4(void)
 {
 	using namespace eagine;
 
-	basic_memory_block<false> bmb1;
-	basic_memory_block<is_const> bmb2 = bmb1;
+	double x[42];
 
-	BOOST_CHECK(bmb2.empty());
-	BOOST_CHECK(bmb2.size() == 0);
-	BOOST_CHECK(bmb2.begin() == bmb2.end());
+	basic_memory_block<is_const> bmb(x, 42);
+
+	BOOST_CHECK(!bmb.empty());
+	BOOST_CHECK(bmb.size() == sizeof(x));
+	BOOST_CHECK(bmb.begin() != bmb.end());
+
+	std::size_t s = 0;
+
+	for(byte b : bmb) { ++s; (void)b; }
+
+	BOOST_CHECK(bmb.size() == s);
 }
 
 BOOST_AUTO_TEST_CASE(memory_block_4)
@@ -108,6 +136,37 @@ BOOST_AUTO_TEST_CASE(memory_block_4)
 
 	eagine_test_memory_block_4<true>();
 	eagine_test_memory_block_4<false>();
+}
+
+template <bool is_const>
+void eagine_test_memory_block_5(void)
+{
+	using namespace eagine;
+
+	byte x[256];
+
+	for(byte& b : x)
+	{
+		b = byte(std::rand() % 0xFF);
+	}
+
+	basic_memory_block<is_const> bmb(x);
+
+	BOOST_CHECK(!bmb.empty());
+	BOOST_ASSERT(bmb.size() == sizeof(x));
+
+	for(std::size_t i=0; i<bmb.size(); ++i)
+	{
+		BOOST_CHECK_EQUAL(bmb.data()[i], x[i]);
+	}
+}
+
+BOOST_AUTO_TEST_CASE(memory_block_5)
+{
+	using namespace eagine;
+
+	eagine_test_memory_block_5<true>();
+	eagine_test_memory_block_5<false>();
 }
 
 // TODO
