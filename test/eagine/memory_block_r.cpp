@@ -169,6 +169,46 @@ BOOST_AUTO_TEST_CASE(memory_block_5)
 	eagine_test_memory_block_5<false>();
 }
 
+template <bool is_const>
+void eagine_test_memory_block_6(void)
+{
+	using namespace eagine;
+
+	unsigned x[10];
+
+	basic_memory_block<is_const> bmb1(x);
+
+	BOOST_CHECK(!bmb1.empty());
+
+	basic_memory_block<is_const> bmb2(std::move(bmb1));
+
+	BOOST_CHECK( bmb1.empty());
+	BOOST_CHECK(!bmb2.empty());
+
+	basic_memory_block<is_const> bmb3;
+
+	BOOST_CHECK( bmb3.empty());
+
+	bmb3 = std::move(bmb2);
+
+	BOOST_CHECK( bmb2.empty());
+	BOOST_CHECK(!bmb3.empty());
+
+	basic_memory_block<is_const> bmb4(x);
+
+	BOOST_CHECK(bmb1 == bmb2);
+	BOOST_CHECK(bmb2 != bmb3);
+	BOOST_CHECK(bmb3 == bmb4);
+}
+
+BOOST_AUTO_TEST_CASE(memory_block_6)
+{
+	using namespace eagine;
+
+	eagine_test_memory_block_6<true>();
+	eagine_test_memory_block_6<false>();
+}
+
 // TODO
 
 BOOST_AUTO_TEST_SUITE_END()

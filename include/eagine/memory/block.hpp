@@ -38,7 +38,12 @@ private:
 	pointer _addr;
 	size_type _size;
 public:
-	template <typename T>
+	template <
+		typename T,
+		typename = typename std::enable_if<
+			!std::is_same<T, basic_block>::value
+		>::type
+	>
 	explicit
 	basic_block(T& v)
 	noexcept
@@ -82,8 +87,7 @@ public:
 	 : _addr(temp._addr)
 	 , _size(temp._size)
 	{
-		temp._addr = nullptr;
-		temp._size = 0;
+		temp.clear();
 	}
 
 	basic_block& operator = (basic_block&& temp)
@@ -124,6 +128,13 @@ public:
 	noexcept
 	{
 		return !(size() > 0);
+	}
+
+	void clear(void)
+	noexcept
+	{
+		_addr = nullptr;
+		_size = 0;
 	}
 
 	iterator begin(void) const
@@ -168,6 +179,10 @@ private:
 	noexcept
 	 : block(b)
 	{ }
+
+protected:
+	using block::clear;
+
 public:
 	owned_block(void) = default;
 	owned_block(owned_block&&) = default;
@@ -194,11 +209,12 @@ protected:
 	}
 
 	static inline
-	void release_block(owned_block&&)
+	void
+	release_block(owned_block&& b)
 	noexcept
 	{
+		b.clear();
 	}
-	
 };
 
 } // namespace memory

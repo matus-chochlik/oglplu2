@@ -29,7 +29,7 @@ void eagine_test_memory_null_alloc_1_T(std::size_t n)
 
 	BOOST_CHECK(b1.empty());
 
-	BOOST_CHECK(!!na.has_allocated(b1));
+	BOOST_CHECK(!!na.has_allocated(b1, ao));
 
 	memory::owned_block b2 = na.reallocate(std::move(b1), sz, ao);
 

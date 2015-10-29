@@ -49,7 +49,7 @@ struct byte_allocator : block_owner
 	noexcept = 0;
 
 	virtual
-	tribool has_allocated(const owned_block& b)
+	tribool has_allocated(const owned_block& b, size_type a)
 	noexcept = 0;
 
 	virtual

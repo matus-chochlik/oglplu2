@@ -37,7 +37,7 @@ public:
 		return 0;
 	}
 
-	tribool has_allocated(const owned_block&)
+	tribool has_allocated(const owned_block&, size_type)
 	noexcept
 	override
 	{
