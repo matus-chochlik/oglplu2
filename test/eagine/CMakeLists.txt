@@ -49,4 +49,6 @@ add_runtime_test_dependency(eagine  "math_matrix_3_r" "math_matrix_ctrs_r")
 # memory
 add_runtime_test_dependency(eagine "memory_block_r" "memory_null_alloc_r")
 add_runtime_test_dependency(eagine "memory_block_r" "memory_c_realloc_r")
+add_runtime_test_dependency(eagine "memory_block_r" "memory_std_alloc_r")
 add_runtime_test_dependency(eagine "memory_c_realloc_r" "memory_shared_alloc_r")
+add_runtime_test_dependency(eagine "memory_c_realloc_r" "memory_std_alloc_r")

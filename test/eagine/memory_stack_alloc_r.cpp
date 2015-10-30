@@ -5,39 +5,40 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE EAGINE_memory_c_realloc
+#define BOOST_TEST_MODULE EAGINE_memory_stack_alloc
 #include <boost/test/unit_test.hpp>
 
-#include <eagine/memory/c_realloc.hpp>
+#include <eagine/memory/stack_alloc.hpp>
 #include <cstdlib>
 #include <deque>
 
-BOOST_AUTO_TEST_SUITE(memory_c_realloc)
+BOOST_AUTO_TEST_SUITE(memory_stack_alloc)
 
 template <typename T>
-void eagine_test_memory_c_realloc_1_T(std::size_t n)
+void eagine_test_memory_stack_alloc_1_T(std::size_t n)
 {
 	using namespace eagine;
 
-	memory::c_byte_reallocator<> a;
+	char buf[1024*1024];
+
+	memory::stack_byte_allocator<> a((memory::block(buf)));
 
 	const std::size_t ao = alignof(T);
 	const std::size_t sz = sizeof(T)*n;
 
-	BOOST_CHECK(a.max_size(ao) >= sz);
+	BOOST_CHECK(a.max_size(ao) > 0);
 
 	memory::owned_block b1 = a.allocate(sz, ao);
 
-	BOOST_CHECK_EQUAL(b1.empty(), n == 0);
+	BOOST_CHECK(!b1.empty());
 	BOOST_CHECK(b1.size() >= sz);
 	BOOST_CHECK(b1.is_aligned_to(ao));
 
-	BOOST_CHECK(!!a.has_allocated(b1, ao));
+	BOOST_CHECK(a.has_allocated(b1, ao));
 
 	memory::owned_block b2 = a.reallocate(std::move(b1), sz, ao);
 
-	BOOST_CHECK(b1.empty());
-	BOOST_CHECK(b2.size() >= sz);
+	BOOST_CHECK(a.has_allocated(b2, ao));
 
 	a.deallocate(std::move(b2), ao);
 
@@ -63,7 +64,7 @@ void eagine_test_memory_c_realloc_1_T(std::size_t n)
 	a.release();
 }
 
-BOOST_AUTO_TEST_CASE(memory_c_realloc_1)
+BOOST_AUTO_TEST_CASE(memory_stack_alloc_1)
 {
 	std::size_t f[2] = {0,1};
 
@@ -72,11 +73,11 @@ BOOST_AUTO_TEST_CASE(memory_c_realloc_1)
 		std::size_t n = f[(i+0)%2]+f[(i+1)%2];
 		f[i%2] = n;
 
-		eagine_test_memory_c_realloc_1_T<char>(n);
-		eagine_test_memory_c_realloc_1_T<short>(n);
-		eagine_test_memory_c_realloc_1_T<int>(n);
-		eagine_test_memory_c_realloc_1_T<float>(n);
-		eagine_test_memory_c_realloc_1_T<double>(n);
+		eagine_test_memory_stack_alloc_1_T<char>(n);
+		eagine_test_memory_stack_alloc_1_T<short>(n);
+		eagine_test_memory_stack_alloc_1_T<int>(n);
+		eagine_test_memory_stack_alloc_1_T<float>(n);
+		eagine_test_memory_stack_alloc_1_T<double>(n);
 	}
 }
 

@@ -10,26 +10,12 @@
 #ifndef EAGINE_MEMORY_BLOCK_1510290655_HPP
 #define EAGINE_MEMORY_BLOCK_1510290655_HPP
 
-#include "../types.hpp"
+#include "address.hpp"
 #include <type_traits>
 #include <cstddef>
 
 namespace eagine {
 namespace memory {
-
-static constexpr inline
-bool is_aligned_to(std::nullptr_t, std::size_t)
-noexcept
-{
-	return true;
-}
-
-static inline
-bool is_aligned_to(const void* addr, std::size_t align)
-noexcept
-{
-	return (reinterpret_cast<std::uintptr_t>(addr) % align) == 0;
-}
 
 template <bool is_const>
 class basic_block
@@ -51,6 +37,15 @@ public:
 private:
 	pointer _addr;
 	size_type _size;
+
+	template <typename T>
+	static 
+	std::size_t _positive_distance(T* a, T* b)
+	noexcept
+	{
+		assert(a <= b);
+		return std::size_t(b-a);
+	}
 public:
 	template <
 		typename T,
@@ -78,6 +73,13 @@ public:
 	noexcept
 	 : _addr(static_cast<pointer>(a))
 	 , _size(sizeof(T)*count)
+	{ }
+
+	template <typename T>
+	basic_block(T *a, T* b)
+	noexcept
+	 : _addr(static_cast<pointer>(a))
+	 , _size(sizeof(T)*_positive_distance(a, b))
 	{ }
 
 	basic_block(pointer addr_, size_type size_)
@@ -190,10 +192,16 @@ public:
 		return (a._addr != b._addr) || (a._size != b._size);
 	}
 
-	bool is_aligned_to(std::size_t a) const
+	bool is_aligned_to(std::uintptr_t align) const
 	noexcept
 	{
-		return memory::is_aligned_to(_addr, a);
+		return memory::is_aligned_to(_addr, align);
+	}
+
+	bool contains(const basic_block& b) const
+	noexcept
+	{
+		return (begin() <= b.begin()) && (b.end() <= end());
 	}
 };
 

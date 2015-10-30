@@ -27,7 +27,7 @@ public:
 	noexcept
 	override
 	{
-		return dynamic_cast<null_byte_allocator*>(a) != null;
+		return dynamic_cast<null_byte_allocator*>(a) != nullptr;
 	}
 
 	size_type max_size(size_type)
