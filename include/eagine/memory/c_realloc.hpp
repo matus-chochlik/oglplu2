@@ -25,7 +25,8 @@ public:
 	typedef std::size_t size_type;
 
 	bool equal(byte_allocator* a) const
-	noexcept override
+	noexcept
+	override
 	{
 		return dynamic_cast<c_byte_reallocator*>(a) != nullptr;
 	}

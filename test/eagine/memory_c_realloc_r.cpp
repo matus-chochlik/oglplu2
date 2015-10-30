@@ -50,6 +50,7 @@ void eagine_test_memory_c_realloc_1_T(std::size_t n)
 
 	for(memory::owned_block& blk : blks)
 	{
+		BOOST_CHECK(blks.back().is_aligned_to(ao));
 		BOOST_CHECK(a.has_allocated(blk, ao));
 	}
 

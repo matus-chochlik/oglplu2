@@ -285,21 +285,152 @@ public:
 		return _alloc.has_allocated(b);
 	}
 
-	owned_block allocate(size_type n, size_type)
+	owned_block allocate(size_type n, size_type a)
 	noexcept
 	override
 	{
-		return _alloc.allocate(n);
+		size_type m = a - _alloc.allocated_size() % a;
+
+		assert((m < 255) && "must fit into a byte"); 
+
+		owned_block b = _alloc.allocate(m+n);
+
+		if(b)
+		{
+			assert(is_aligned_to(b.begin()+m, a));
+			b[m-1] = byte(m);
+		}
+
+		assert(m <= b.size());
+
+		owned_block r = this->acquire_block({b.begin()+m, b.end()});
+
+		this->release_block(std::move(b));
+
+		return std::move(r);
 	}
 
 	void deallocate(owned_block&& b, size_type)
 	noexcept
 	override
 	{
-		_alloc.deallocate(std::move(b));
+		assert(_alloc.has_allocated(b));
+
+		byte* p = b.data();
+
+		assert(reinterpret_cast<std::uintptr_t>(p) >= 1);
+
+		size_type m = size_type(p[-1]);
+
+		assert(reinterpret_cast<std::uintptr_t>(p) >= m);
+
+		_alloc.deallocate(this->acquire_block({p-m, b.size()+m}));
+
+		this->release_block(std::move(b));
 	}
 };
 
+// stack_aligned_byte_allocator
+template <typename Policy = default_byte_allocator_policy>
+class stack_aligned_byte_allocator
+ : public byte_allocator_impl<Policy, stack_aligned_byte_allocator>
+{
+private:
+	std::size_t _align;
+
+	base_stack_allocator<byte> _alloc;
+	typedef stack_aligned_byte_allocator _this_class;
+public:
+	typedef byte value_type;
+	typedef std::size_t size_type;
+
+	stack_aligned_byte_allocator(stack_aligned_byte_allocator&&) = default;
+
+	stack_aligned_byte_allocator(const block& blk, std::size_t align)
+	 : _align(align)
+	 , _alloc(blk, _align)
+	{ }
+
+	bool equal(byte_allocator* a) const
+	noexcept
+	override
+	{
+		auto* sba = dynamic_cast<_this_class*>(a);
+
+		return (sba != nullptr) && (this->_alloc == sba->_alloc);
+	}
+
+	size_type max_size(size_type)
+	noexcept
+	override
+	{
+		return _alloc.max_size();
+	}
+
+	tribool has_allocated(const owned_block& b, std::size_t)
+	noexcept
+	override
+	{
+		return _alloc.has_allocated(b);
+	}
+
+	owned_block allocate(size_type n, size_type a)
+	noexcept
+	override
+	{
+		auto b = _alloc.allocate(n, a);
+
+		assert(b.is_aligned_to(a));
+
+		return std::move(b);
+	}
+
+	void deallocate(owned_block&& b, size_type a)
+	noexcept
+	override
+	{
+		assert(b.is_aligned_to(a));
+		_alloc.deallocate(std::move(b));
+	}
+
+	std::size_t _own_end_misalign(_this_class* p) const
+	noexcept
+	{
+		std::uintptr_t e =
+			reinterpret_cast<std::uintptr_t>(p)+
+			sizeof(_this_class);
+
+		return (_align - (e % _align)) % _align;
+	}
+
+	byte_allocator* accomodate_self(void)
+	noexcept
+	{
+		auto* ba = this->accomodate_derived(*this);
+
+		if(std::size_t m = _own_end_misalign(ba))
+		{
+			this->release_block(ba->_alloc.allocate(m));
+		}
+
+		return ba;
+	}
+
+	void eject_self(void)
+	noexcept
+	override
+	{
+		if(std::size_t m = _own_end_misalign(this))
+		{
+			byte* p = reinterpret_cast<byte*>(this);
+			p += sizeof(_this_class);
+
+			_alloc.deallocate(this->acquire_block({p, m}));
+		}
+
+		this->eject_derived(*this);
+	}
+};
 
 } // namespace memory
 } // namespace eagine

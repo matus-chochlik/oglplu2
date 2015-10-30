@@ -33,6 +33,12 @@ public:
 		byte*
 	>::type iterator;
 
+	typedef typename std::conditional<
+		is_const,
+		const byte&,
+		byte&
+	>::type reference;
+
 	typedef std::size_t size_type;
 private:
 	pointer _addr;
@@ -178,6 +184,13 @@ public:
 		return data()+size();
 	}
 
+	reference operator [] (std::size_t i)
+	noexcept
+	{
+		assert(i < size());
+		return *(begin()+i);
+	}
+
 	friend
 	bool operator == (const basic_block& a, const basic_block& b)
 	noexcept
@@ -198,10 +211,23 @@ public:
 		return memory::is_aligned_to(_addr, align);
 	}
 
+	bool encloses(const_address a) const
+	noexcept
+	{
+		return (begin() <= a) && (a <= end());
+	}
+
 	bool contains(const basic_block& b) const
 	noexcept
 	{
 		return (begin() <= b.begin()) && (b.end() <= end());
+	}
+
+	bool overlaps(const basic_block& b) const
+	noexcept
+	{
+		return	encloses(b.begin()) || encloses(b.end()) ||
+			b.encloses(begin()) || b.encloses(end());
 	}
 };
 
