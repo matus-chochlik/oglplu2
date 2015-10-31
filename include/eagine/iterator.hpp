@@ -183,14 +183,21 @@ struct selfref_iterator
 		basic_selfref_iterator;
 };
 
-template <typename Iterator, typename T, typename Transform, typename Derived>
+template <
+	typename Iterator,
+	typename T,
+	typename S,
+	typename Transform,
+	typename Derived
+>
 class basic_transforming_iterator
  : public basic_selfref_iterator<Iterator, Derived>
 {
 private:
 	typedef basic_selfref_iterator<Iterator, Derived> _base;
 	Transform _transf;
-	mutable T _tempval;
+
+	mutable S _tempval;
 
 	const _base& _base_iter(void) const
 	noexcept
@@ -217,19 +224,106 @@ public:
 	}
 };
 
-template <typename Iterator, typename T, typename Transform>
+template <
+	typename Iterator,
+	typename T,
+	typename Transform,
+	typename Derived
+>
+class basic_transforming_iterator<Iterator, T, T&, Transform, Derived>
+ : public basic_selfref_iterator<Iterator, Derived>
+{
+private:
+	typedef basic_selfref_iterator<Iterator, Derived> _base;
+	Transform _transf;
+
+	const _base& _base_iter(void) const
+	noexcept
+	{
+		return *this;
+	}
+public:
+	basic_transforming_iterator(void) = default;
+
+	basic_transforming_iterator(Iterator iter, Transform transf)
+	 : _base(iter)
+	 , _transf(transf)
+	{ }
+
+	typedef T value_type;
+	typedef const T& reference;
+	typedef const T* pointer;
+
+	T& operator * (void)
+	{
+		return _transf(**_base_iter());
+	}
+
+	const T& operator * (void) const
+	{
+		return _transf(**_base_iter());
+	}
+};
+
+template <typename Iterator, typename T, typename S, typename Transform>
 struct transforming_iterator
  : basic_transforming_iterator<
 	Iterator,
-	T, Transform,
-	transforming_iterator<Iterator, T, Transform>
+	T, S, Transform,
+	transforming_iterator<Iterator, T, S, Transform>
 >
 {
 	using basic_transforming_iterator<
 		Iterator,
-		T, Transform,
-		transforming_iterator<Iterator, T, Transform>
+		T, S, Transform,
+		transforming_iterator<Iterator, T, S, Transform>
 	>::basic_transforming_iterator;
+};
+
+template <typename Iterator, typename T, typename S, typename Derived>
+class basic_noexcept_casting_iterator
+ : public basic_transforming_iterator<
+	Iterator,
+	T, S,
+	S (*)(typename std::iterator_traits<Iterator>::reference)
+	noexcept,
+	Derived
+>
+{
+private:
+	typedef basic_transforming_iterator<
+		Iterator,
+		T, S,
+		S (*)(typename std::iterator_traits<Iterator>::reference)
+		noexcept,
+		Derived
+	> _base;
+
+	static
+	S _cast(typename std::iterator_traits<Iterator>::reference r)
+	noexcept
+	{
+		return static_cast<S>(r);
+	}
+public:
+	basic_noexcept_casting_iterator(Iterator iter)
+	 : _base(iter, &_cast)
+	{ }
+};
+
+template <typename Iterator, typename T, typename S>
+struct noexcept_casting_iterator
+ : basic_noexcept_casting_iterator<
+	Iterator,
+	T, S,
+	noexcept_casting_iterator<Iterator, T, S>
+>
+{
+	using basic_noexcept_casting_iterator<
+		Iterator,
+		T, S,
+		noexcept_casting_iterator<Iterator, T, S>
+	>::basic_noexcept_casting_iterator;
 };
 
 } // namespace eagine

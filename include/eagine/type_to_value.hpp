@@ -12,6 +12,7 @@
 
 #include "instead_of.hpp"
 #include "identity.hpp"
+#include "iterator.hpp"
 #include <utility>
 #include <cassert>
 
@@ -178,6 +179,23 @@ struct type_to_value
 	noexcept
 	{
 		return ref(pos);
+	}
+
+	typedef noexcept_casting_iterator<
+		type_to_value_unit_base<Value>*,
+		Value, Value&
+	> iterator;
+
+	iterator begin(void)
+	noexcept
+	{
+		return iterator(units());
+	}
+
+	iterator end(void)
+	noexcept
+	{
+		return iterator(units()+size());
 	}
 
 	friend

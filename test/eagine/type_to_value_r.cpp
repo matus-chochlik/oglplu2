@@ -59,12 +59,22 @@ BOOST_AUTO_TEST_CASE(type_to_value_1)
 	BOOST_CHECK(ttv1 == ttv2);
 	BOOST_CHECK(!(ttv1 != ttv2));
 
+	for(std::size_t s : ttv2)
+	{
+		BOOST_CHECK(s > 0);
+	}
+
 	type_to_value<std::size_t, char, short, int, long> ttv3((
 		test_zero_getter()
 	));
 
 	BOOST_CHECK(ttv1 != ttv3);
 	BOOST_CHECK(!(ttv1 == ttv3));
+
+	for(std::size_t s : ttv3)
+	{
+		BOOST_CHECK(s == 0);
+	}
 }
 
 

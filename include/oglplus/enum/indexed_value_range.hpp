@@ -51,7 +51,7 @@ public:
 
 	typedef eagine::transforming_iterator<
 		eagine::selfref_iterator<GLenum>,
-		_lv_t, _lv_t(*)(GLenum) noexcept
+		_lv_t, _lv_t, _lv_t(*)(GLenum) noexcept
 	> iterator;
 
 	size_type size(void) const

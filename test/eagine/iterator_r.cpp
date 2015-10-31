@@ -16,7 +16,7 @@ using int_iterator = eagine::selfref_iterator<int>;
 
 using strint_iterator = eagine::transforming_iterator<
 	int_iterator,
-	std::string,
+	std::string, std::string,
 	std::string(*)(int)
 >;
 

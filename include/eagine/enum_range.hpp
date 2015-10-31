@@ -59,7 +59,7 @@ public:
 
 	typedef transforming_iterator<
 		const T*,
-		_ec_t, _ec_t(*)(T) noexcept
+		_ec_t, _ec_t, _ec_t(*)(T) noexcept
 	> iterator;
 
 	size_type size(void) const
