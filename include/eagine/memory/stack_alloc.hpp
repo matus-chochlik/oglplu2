@@ -378,7 +378,7 @@ public:
 	noexcept
 	override
 	{
-		auto b = _alloc.allocate(n, a);
+		auto b = _alloc.allocate(n);
 
 		assert(b.is_aligned_to(a));
 

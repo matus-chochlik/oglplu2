@@ -48,6 +48,7 @@ void eagine_test_memory_stack_alloc_TA(std::size_t n, Alloc& a)
 
 	for(memory::owned_block& blk : blks)
 	{
+		BOOST_CHECK(blks.back().size() >= sizeof(T));
 		BOOST_CHECK(blks.back().is_aligned_to(ao));
 		BOOST_CHECK(a.has_allocated(blk, ao));
 	}

@@ -5,28 +5,38 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE EAGINE_memory_fallback_alloc
+#define BOOST_TEST_MODULE EAGINE_memory_align_alloc
 #include <boost/test/unit_test.hpp>
 
-#include <eagine/memory/fallback_alloc.hpp>
+#include <eagine/memory/align_alloc.hpp>
 #include <eagine/memory/stack_alloc.hpp>
 #include <cstdlib>
+#include <vector>
 #include <deque>
 
-BOOST_AUTO_TEST_SUITE(memory_fallback_alloc)
+BOOST_AUTO_TEST_SUITE(memory_align_alloc)
 
 template <typename T>
-void eagine_test_memory_fallback_alloc_T(std::size_t n)
+void eagine_test_memory_align_alloc_T(std::size_t n)
 {
 	using namespace eagine;
 
-	char buf[1024];
+	std::vector<char> buf1( 32*1024);
+	std::vector<char> buf2( 64*1024);
+	std::vector<char> buf4(128*1024);
+	std::vector<char> buf8(256*1024);
 
-	memory::block b(buf);
+	memory::block blk1(buf1.data(), buf1.size());
+	memory::block blk2(buf2.data(), buf2.size());
+	memory::block blk4(buf4.data(), buf4.size());
+	memory::block blk8(buf8.data(), buf8.size());
 
-	memory::byte_allocator_with_fallback<> a((
-		memory::stack_byte_allocator<>(b)
-	));
+	memory::multi_align_byte_allocator<index_sequence<1,2,4,8>> a(
+		memory::stack_aligned_byte_allocator<>(blk1, 1),
+		memory::stack_aligned_byte_allocator<>(blk2, 2),
+		memory::stack_aligned_byte_allocator<>(blk4, 4),
+		memory::stack_aligned_byte_allocator<>(blk8, 8)
+	);
 
 	const std::size_t ao = alignof(T);
 	const std::size_t sz = sizeof(T)*n;
@@ -71,7 +81,7 @@ void eagine_test_memory_fallback_alloc_T(std::size_t n)
 	a.release();
 }
 
-BOOST_AUTO_TEST_CASE(memory_fallback_alloc_1)
+BOOST_AUTO_TEST_CASE(memory_align_alloc_1)
 {
 	std::size_t f[2] = {0,1};
 
@@ -80,11 +90,11 @@ BOOST_AUTO_TEST_CASE(memory_fallback_alloc_1)
 		std::size_t n = f[(i+0)%2]+f[(i+1)%2];
 		f[i%2] = n;
 
-		eagine_test_memory_fallback_alloc_T<char>(n);
-		eagine_test_memory_fallback_alloc_T<short>(n);
-		eagine_test_memory_fallback_alloc_T<int>(n);
-		eagine_test_memory_fallback_alloc_T<float>(n);
-		eagine_test_memory_fallback_alloc_T<double>(n);
+		eagine_test_memory_align_alloc_T<char>(n);
+		eagine_test_memory_align_alloc_T<short>(n);
+		eagine_test_memory_align_alloc_T<int>(n);
+		eagine_test_memory_align_alloc_T<float>(n);
+		eagine_test_memory_align_alloc_T<double>(n);
 	}
 }
 
