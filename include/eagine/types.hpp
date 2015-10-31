@@ -1,5 +1,5 @@
 /**
- *  @file eagine/utils/types.hpp
+ *  @file eagine/types.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UTILS_TYPES_1509260923_HPP
-#define EAGINE_UTILS_TYPES_1509260923_HPP
+#ifndef EAGINE_TYPES_1509260923_HPP
+#define EAGINE_TYPES_1509260923_HPP
 
 namespace eagine {
 
