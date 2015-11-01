@@ -111,6 +111,33 @@ get_texture_parameter_i(
 	return {};
 }
 //------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+get_texture_level_parameter_i(
+	texture_target_only tnt,
+	GLint level,
+	oglplus::texture_parameter param,
+	array_view<GLint> values
+) noexcept
+{
+	assert(values.size() > 0);
+	OGLPLUS_GLFUNC(GetTexLevelParameteriv)(
+		GLenum(tnt._target),
+		level,
+		GLenum(param),
+		values.data()
+	);
+	OGLPLUS_VERIFY(
+		GetTexLevelParameteriv,
+		//gl_object(texture_binding(target)). TODO
+		gl_index(GLuint(level)).
+		gl_enum_value(param),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
 #ifdef GL_VERSION_4_5
 inline
 outcome<void>
@@ -153,6 +180,33 @@ get_texture_parameter_i(
 	OGLPLUS_VERIFY(
 		GetTextureParameteriv,
 		gl_object(tnt._name).
+		gl_enum_value(param),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+get_texture_level_parameter_i(
+	texture_name_only tnt,
+	GLint level,
+	oglplus::texture_parameter param,
+	array_view<GLint> values
+) noexcept
+{
+	assert(values.size() > 0);
+	OGLPLUS_GLFUNC(GetTextureLevelParameteriv)(
+		get_raw_name(tnt._name),
+		level,
+		GLenum(param),
+		values.data()
+	);
+	OGLPLUS_VERIFY(
+		GetTextureLevelParameteriv,
+		gl_object(tnt._name).
+		gl_index(GLuint(level)).
 		gl_enum_value(param),
 		always
 	);
@@ -204,6 +258,34 @@ get_texture_parameter_i(
 	OGLPLUS_VERIFY(
 		GetTextureParameterivEXT,
 		gl_object(tnt._name).
+		gl_enum_value(param),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+get_texture_level_parameter_i(
+	texture_name_and_target tnt,
+	GLint level,
+	oglplus::texture_parameter param,
+	array_view<GLint> values
+) noexcept
+{
+	assert(values.size() > 0);
+	OGLPLUS_GLFUNC(GetTextureLevelParameterivEXT)(
+		get_raw_name(tnt._name),
+		GLenum(tnt._target),
+		level,
+		GLenum(param),
+		values.data()
+	);
+	OGLPLUS_VERIFY(
+		GetTextureLevelParameterivEXT,
+		gl_object(tnt._name).
+		gl_index(GLuint(level)).
 		gl_enum_value(param),
 		always
 	);

@@ -74,7 +74,7 @@ struct texture_name_or_target<nothing_t, texture_target>
 
 typedef texture_name_or_target<nothing_t, texture_target> texture_target_only;
 
-static constexpr inline
+static inline
 texture_target_only
 make_texture_name_or_target(texture_target target)
 noexcept
@@ -96,7 +96,7 @@ struct texture_name_or_target<texture_name, nothing_t>
 
 typedef texture_name_or_target<texture_name, nothing_t> texture_name_only;
 
-static constexpr inline
+static inline
 texture_name_only
 make_texture_name_or_target(texture_name name)
 noexcept
@@ -122,7 +122,15 @@ struct texture_name_or_target<texture_name, texture_target>
 
 typedef texture_name_or_target<texture_name, texture_target> texture_name_and_target;
 
-static constexpr inline
+static inline
+texture_name_and_target
+make_texture_name_or_target(texture_name_and_target tnt)
+noexcept
+{
+	return tnt;
+}
+
+static inline
 texture_name_and_target
 make_texture_name_or_target(texture_name name, texture_target target)
 noexcept
@@ -183,6 +191,15 @@ struct texture_ops
 		array_view<GLint> values
 	) noexcept;
 
+	static
+	outcome<void>
+	get_texture_level_parameter_i(
+		texture_target_only tnt,
+		GLint level,
+		oglplus::texture_parameter param,
+		array_view<GLint> values
+	) noexcept;
+
 #ifdef GL_VERSION_4_5
 	static
 	outcome<void>
@@ -196,6 +213,15 @@ struct texture_ops
 	outcome<void>
 	get_texture_parameter_i(
 		texture_name_only tnt,
+		oglplus::texture_parameter param,
+		array_view<GLint> values
+	) noexcept;
+
+	static
+	outcome<void>
+	get_texture_level_parameter_i(
+		texture_name_only tnt,
+		GLint level,
 		oglplus::texture_parameter param,
 		array_view<GLint> values
 	) noexcept;
@@ -217,7 +243,240 @@ struct texture_ops
 		oglplus::texture_parameter param,
 		array_view<GLint> values
 	) noexcept;
+
+	static
+	outcome<void>
+	get_texture_level_parameter_i(
+		texture_name_and_target tnt,
+		GLint level,
+		oglplus::texture_parameter param,
+		array_view<GLint> values
+	) noexcept;
 #endif
+
+	template <typename R, typename T, typename TNT>
+	static
+	outcome<R>
+	return_texture_parameter_i(
+		TNT tnt, 
+		oglplus::texture_parameter parameter
+	) noexcept
+	{
+		GLint result;
+		return get_texture_parameter_i(
+			make_texture_name_or_target(tnt),
+			parameter,
+			{&result, 1}
+		), R(T(result));
+	}
+
+	template <typename R, typename T, typename TNT>
+	static
+	outcome<R>
+	return_texture_level_parameter_i(
+		TNT tnt, 
+		GLint level,
+		oglplus::texture_parameter parameter
+	) noexcept
+	{
+		GLint result;
+		return get_texture_level_parameter_i(
+			make_texture_name_or_target(tnt),
+			level,
+			parameter,
+			{&result, 1}
+		), R(T(result));
+	}
+
+	template <typename TNT>
+	static 
+	outcome<GLsizei>
+	texture_width(TNT tnt, GLint level = 0)
+	noexcept
+	{
+		return return_texture_level_parameter_i<GLsizei, GLsizei>(
+			tnt, 
+			level,
+			oglplus::texture_parameter(GL_TEXTURE_WIDTH)
+		);
+	}
+
+	template <typename TNT>
+	static 
+	outcome<GLsizei>
+	texture_height(TNT tnt, GLint level = 0)
+	noexcept
+	{
+		return return_texture_level_parameter_i<GLsizei, GLsizei>(
+			tnt, 
+			level,
+			oglplus::texture_parameter(GL_TEXTURE_HEIGHT)
+		);
+	}
+
+	template <typename TNT>
+	static 
+	outcome<GLsizei>
+	texture_depth(TNT tnt, GLint level = 0)
+	noexcept
+	{
+		return return_texture_level_parameter_i<GLsizei, GLsizei>(
+			tnt, 
+			level,
+			oglplus::texture_parameter(GL_TEXTURE_DEPTH)
+		);
+	}
+
+	template <typename TNT>
+	static 
+	outcome<pixel_data_type>
+	texture_red_type(TNT tnt)
+	noexcept
+	{
+		return return_texture_parameter_i<pixel_data_type, GLenum>(
+			tnt,
+			oglplus::texture_parameter(GL_TEXTURE_RED_TYPE)
+		);
+	}
+
+	template <typename TNT>
+	static 
+	outcome<GLsizei>
+	texture_red_size(TNT tnt, GLint level = 0)
+	noexcept
+	{
+		return return_texture_level_parameter_i<GLsizei, GLsizei>(
+			tnt, 
+			level,
+			oglplus::texture_parameter(GL_TEXTURE_RED_SIZE)
+		);
+	}
+
+	template <typename TNT>
+	static 
+	outcome<pixel_data_type>
+	texture_green_type(TNT tnt)
+	noexcept
+	{
+		return return_texture_parameter_i<pixel_data_type, GLenum>(
+			tnt,
+			oglplus::texture_parameter(GL_TEXTURE_GREEN_TYPE)
+		);
+	}
+
+	template <typename TNT>
+	static 
+	outcome<GLsizei>
+	texture_green_size(TNT tnt, GLint level = 0)
+	noexcept
+	{
+		return return_texture_level_parameter_i<GLsizei, GLsizei>(
+			tnt, 
+			level,
+			oglplus::texture_parameter(GL_TEXTURE_GREEN_SIZE)
+		);
+	}
+
+	template <typename TNT>
+	static 
+	outcome<pixel_data_type>
+	texture_blue_type(TNT tnt)
+	noexcept
+	{
+		return return_texture_parameter_i<pixel_data_type, GLenum>(
+			tnt,
+			oglplus::texture_parameter(GL_TEXTURE_BLUE_TYPE)
+		);
+	}
+
+	template <typename TNT>
+	static 
+	outcome<GLsizei>
+	texture_blue_size(TNT tnt, GLint level = 0)
+	noexcept
+	{
+		return return_texture_level_parameter_i<GLsizei, GLsizei>(
+			tnt, 
+			level,
+			oglplus::texture_parameter(GL_TEXTURE_BLUE_SIZE)
+		);
+	}
+
+	template <typename TNT>
+	static 
+	outcome<pixel_data_type>
+	texture_alpha_type(TNT tnt)
+	noexcept
+	{
+		return return_texture_parameter_i<pixel_data_type, GLenum>(
+			tnt,
+			oglplus::texture_parameter(GL_TEXTURE_ALPHA_TYPE)
+		);
+	}
+
+	template <typename TNT>
+	static 
+	outcome<GLsizei>
+	texture_alpha_size(TNT tnt, GLint level = 0)
+	noexcept
+	{
+		return return_texture_level_parameter_i<GLsizei, GLsizei>(
+			tnt, 
+			level,
+			oglplus::texture_parameter(GL_TEXTURE_ALPHA_SIZE)
+		);
+	}
+
+	template <typename TNT>
+	static 
+	outcome<pixel_data_type>
+	texture_depth_type(TNT tnt)
+	noexcept
+	{
+		return return_texture_parameter_i<pixel_data_type, GLenum>(
+			tnt,
+			oglplus::texture_parameter(GL_TEXTURE_DEPTH_TYPE)
+		);
+	}
+
+	template <typename TNT>
+	static 
+	outcome<GLsizei>
+	texture_depth_size(TNT tnt, GLint level = 0)
+	noexcept
+	{
+		return return_texture_level_parameter_i<GLsizei, GLsizei>(
+			tnt, 
+			level,
+			oglplus::texture_parameter(GL_TEXTURE_DEPTH_SIZE)
+		);
+	}
+
+	template <typename TNT>
+	static 
+	outcome<GLsizei>
+	texture_stencil_size(TNT tnt, GLint level = 0)
+	noexcept
+	{
+		return return_texture_level_parameter_i<GLsizei, GLsizei>(
+			tnt, 
+			level,
+			oglplus::texture_parameter(GL_TEXTURE_STENCIL_SIZE)
+		);
+	}
+
+	template <typename TNT>
+	static 
+	outcome<GLsizei>
+	texture_shared_size(TNT tnt, GLint level = 0)
+	noexcept
+	{
+		return return_texture_level_parameter_i<GLsizei, GLsizei>(
+			tnt, 
+			level,
+			oglplus::texture_parameter(GL_TEXTURE_SHARED_SIZE)
+		);
+	}
 
 	template <typename TNT>
 	static 
@@ -240,12 +499,13 @@ struct texture_ops
 	texture_min_filter(TNT tnt)
 	noexcept
 	{
-		GLint result;
-		return get_texture_parameter_i(
-			make_texture_name_or_target(tnt),
-			oglplus::texture_parameter(GL_TEXTURE_MIN_FILTER),
-			{&result, 1}
-		), oglplus::texture_min_filter(GLenum(result));
+		return return_texture_parameter_i<
+			oglplus::texture_min_filter,
+			GLenum
+		>(
+			tnt,
+			oglplus::texture_parameter(GL_TEXTURE_MIN_FILTER)
+		);
 	}
 
 	template <typename TNT>
@@ -269,12 +529,13 @@ struct texture_ops
 	texture_mag_filter(TNT tnt)
 	noexcept
 	{
-		GLint result;
-		return get_texture_parameter_i(
-			make_texture_name_or_target(tnt),
-			oglplus::texture_parameter(GL_TEXTURE_MAG_FILTER),
-			{&result, 1}
-		), oglplus::texture_mag_filter(GLenum(result));
+		return return_texture_parameter_i<
+			oglplus::texture_mag_filter,
+			GLenum
+		>(
+			tnt,
+			oglplus::texture_parameter(GL_TEXTURE_MAG_FILTER)
+		);
 	}
 
 	template <typename TNT>
@@ -298,12 +559,13 @@ struct texture_ops
 	texture_compare_func(TNT tnt)
 	noexcept
 	{
-		GLint result;
-		return get_texture_parameter_i(
-			make_texture_name_or_target(tnt),
-			oglplus::texture_parameter(GL_TEXTURE_COMPARE_FUNC),
-			{&result, 1}
-		), oglplus::compare_function(GLenum(result));
+		return return_texture_parameter_i<
+			oglplus::compare_function,
+			GLenum
+		>(
+			tnt,
+			oglplus::texture_parameter(GL_TEXTURE_COMPARE_FUNC)
+		);
 	}
 
 	template <typename TNT>
@@ -327,16 +589,234 @@ struct texture_ops
 	texture_compare_mode(TNT tnt)
 	noexcept
 	{
-		GLint result;
-		return get_texture_parameter_i(
-			make_texture_name_or_target(tnt),
-			oglplus::texture_parameter(GL_TEXTURE_COMPARE_MODE),
-			{&result, 1}
-		), oglplus::texture_compare_mode(GLenum(result));
+		return return_texture_parameter_i<
+			oglplus::texture_compare_mode,
+			GLenum
+		>(
+			tnt,
+			oglplus::texture_parameter(GL_TEXTURE_COMPARE_MODE)
+		);
 	}
 };
 
 } // namespace oper
+
+#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+
+template <>
+#if defined(GL_VERSION_4_5)
+struct obj_dsa_ops<texture_name>
+ : obj_zero_dsa_ops<texture_name>
+#elif defined(GL_EXT_direct_state_access)
+struct obj_zero_dsa_ops<texture_name>
+ : texture_name
+#endif
+{
+#if defined(GL_VERSION_4_5)
+	obj_zero_dsa_ops<texture_name>::obj_zero_dsa_ops;
+
+	texture_name_only _get_tnt(void) const
+	noexcept
+	{
+		return {*this};
+	}
+#elif defined(GL_EXT_direct_state_access)
+	texture_target target;
+
+	obj_zero_dsa_ops(void)
+	noexcept
+	 : texture_name(0)
+	{ }
+
+	texture_name_and_target _get_tnt(void) const
+	noexcept
+	{
+		return {*this, target};
+	}
+#endif
+
+	outcome<GLsizei>
+	width(GLint level = 0) const
+	noexcept
+	{
+		return oper::texture_ops::texture_width(_get_tnt(), level);
+	}
+
+	outcome<GLsizei>
+	height(GLint level = 0) const
+	noexcept
+	{
+		return oper::texture_ops::texture_height(_get_tnt(), level);
+	}
+
+	outcome<GLsizei>
+	depth(GLint level = 0) const
+	noexcept
+	{
+		return oper::texture_ops::texture_depth(_get_tnt(), level);
+	}
+
+	outcome<pixel_data_type>
+	red_type(void) const
+	noexcept
+	{
+		return oper::texture_ops::texture_red_type(_get_tnt());
+	}
+
+	outcome<GLsizei>
+	red_size(GLint level = 0) const
+	noexcept
+	{
+		return oper::texture_ops::texture_red_size(_get_tnt(), level);
+	}
+
+	outcome<pixel_data_type>
+	green_type(void) const
+	noexcept
+	{
+		return oper::texture_ops::texture_green_type(_get_tnt());
+	}
+
+	outcome<GLsizei>
+	green_size(GLint level = 0) const
+	noexcept
+	{
+		return oper::texture_ops::texture_green_size(_get_tnt(), level);
+	}
+
+	outcome<pixel_data_type>
+	blue_type(void) const
+	noexcept
+	{
+		return oper::texture_ops::texture_blue_type(_get_tnt());
+	}
+
+	outcome<GLsizei>
+	blue_size(GLint level = 0) const
+	noexcept
+	{
+		return oper::texture_ops::texture_blue_size(_get_tnt(), level);
+	}
+
+	outcome<pixel_data_type>
+	alpha_type(void) const
+	noexcept
+	{
+		return oper::texture_ops::texture_alpha_type(_get_tnt());
+	}
+
+	outcome<GLsizei>
+	alpha_size(GLint level = 0) const
+	noexcept
+	{
+		return oper::texture_ops::texture_alpha_size(_get_tnt(), level);
+	}
+
+	outcome<pixel_data_type>
+	depth_type(void) const
+	noexcept
+	{
+		return oper::texture_ops::texture_depth_type(_get_tnt());
+	}
+
+	outcome<GLsizei>
+	depth_size(GLint level = 0) const
+	noexcept
+	{
+		return oper::texture_ops::texture_depth_size(_get_tnt(), level);
+	}
+
+	outcome<GLsizei>
+	stencil_size(GLint level = 0) const
+	noexcept
+	{
+		return oper::texture_ops::texture_stencil_size(
+			_get_tnt(),
+			level
+		);
+	}
+
+	outcome<GLsizei>
+	shared_size(GLint level = 0) const
+	noexcept
+	{
+		return oper::texture_ops::texture_shared_size(
+			_get_tnt(),
+			level
+		);
+	}
+
+	outcome<void>
+	min_filter(oglplus::texture_min_filter value)
+	noexcept
+	{
+		return oper::texture_ops::texture_min_filter(
+			_get_tnt(),
+			value
+		);
+	}
+
+	outcome<oglplus::texture_min_filter>
+	min_filter(void) const
+	noexcept
+	{
+		return oper::texture_ops::texture_min_filter(_get_tnt());
+	}
+
+	outcome<void>
+	mag_filter(oglplus::texture_mag_filter value)
+	noexcept
+	{
+		return oper::texture_ops::texture_mag_filter(
+			_get_tnt(),
+			value
+		);
+	}
+
+	outcome<oglplus::texture_mag_filter>
+	mag_filter(void) const
+	noexcept
+	{
+		return oper::texture_ops::texture_mag_filter(_get_tnt());
+	}
+
+	outcome<void>
+	compare_func(oglplus::compare_function value)
+	noexcept
+	{
+		return oper::texture_ops::texture_compare_func(
+			_get_tnt(),
+			value
+		);
+	}
+
+	outcome<oglplus::compare_function>
+	compare_func(void) const
+	noexcept
+	{
+		return oper::texture_ops::texture_compare_func(_get_tnt());
+	}
+
+	outcome<void>
+	compare_mode(oglplus::texture_compare_mode value)
+	noexcept
+	{
+		return oper::texture_ops::texture_compare_mode(
+			_get_tnt(),
+			value
+		);
+	}
+
+	outcome<oglplus::texture_compare_mode>
+	compare_mode(void) const
+	noexcept
+	{
+		return oper::texture_ops::texture_compare_mode(_get_tnt());
+	}
+};
+
+#endif // GL_VERSION_4_5 || GL_EXT_direct_state_access
+
 
 template <>
 struct obj_gen_del_ops<tag::texture>
