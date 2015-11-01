@@ -15,6 +15,7 @@
 #include "error/outcome.hpp"
 #include "utils/nothing.hpp"
 #include "utils/gl_func.hpp"
+#include "utils/boolean.hpp"
 #include "enum/types.hpp"
 #include "enum/indexed_types.hpp"
 
@@ -200,6 +201,22 @@ struct texture_ops
 		array_view<GLint> values
 	) noexcept;
 
+	static
+	outcome<void>
+	texture_parameter_f(
+		texture_target_only tnt,
+		oglplus::texture_parameter param,
+		GLfloat value
+	) noexcept;
+
+	static
+	outcome<void>
+	get_texture_parameter_f(
+		texture_target_only tnt,
+		oglplus::texture_parameter param,
+		array_view<GLfloat> values
+	) noexcept;
+
 #ifdef GL_VERSION_4_5
 	static
 	outcome<void>
@@ -225,6 +242,23 @@ struct texture_ops
 		oglplus::texture_parameter param,
 		array_view<GLint> values
 	) noexcept;
+
+	static
+	outcome<void>
+	texture_parameter_f(
+		texture_name_only tnt,
+		oglplus::texture_parameter param,
+		GLfloat value
+	) noexcept;
+
+	static
+	outcome<void>
+	get_texture_parameter_f(
+		texture_name_only tnt,
+		oglplus::texture_parameter param,
+		array_view<GLfloat> values
+	) noexcept;
+
 #endif
 
 #ifdef GL_EXT_direct_state_access
@@ -252,6 +286,23 @@ struct texture_ops
 		oglplus::texture_parameter param,
 		array_view<GLint> values
 	) noexcept;
+
+	static
+	outcome<void>
+	texture_parameter_f(
+		texture_name_and_target tnt,
+		oglplus::texture_parameter param,
+		GLfloat value
+	) noexcept;
+
+	static
+	outcome<void>
+	get_texture_parameter_f(
+		texture_name_and_target tnt,
+		oglplus::texture_parameter param,
+		array_view<GLfloat> values
+	) noexcept;
+
 #endif
 
 	template <typename R, typename T, typename TNT>
@@ -286,6 +337,22 @@ struct texture_ops
 			parameter,
 			{&result, 1}
 		), R(T(result));
+	}
+
+	template <typename R, typename TNT>
+	static
+	outcome<R>
+	return_texture_parameter_f(
+		TNT tnt, 
+		oglplus::texture_parameter parameter
+	) noexcept
+	{
+		GLfloat result;
+		return get_texture_parameter_f(
+			make_texture_name_or_target(tnt),
+			parameter,
+			{&result, 1}
+		), R(result);
 	}
 
 	template <typename TNT>
@@ -480,6 +547,53 @@ struct texture_ops
 
 	template <typename TNT>
 	static 
+	outcome<boolean>
+	texture_compressed(TNT tnt, GLint level = 0)
+	noexcept
+	{
+		return return_texture_level_parameter_i<
+			boolean,
+			GLboolean
+		>(
+			tnt, 
+			level,
+			oglplus::texture_parameter(GL_TEXTURE_COMPRESSED)
+		);
+	}
+
+	template <typename TNT>
+	static 
+	outcome<GLsizei>
+	texture_compressed_image_size(TNT tnt, GLint level = 0)
+	noexcept
+	{
+		return return_texture_level_parameter_i<GLsizei, GLsizei>(
+			tnt, 
+			level,
+			oglplus::texture_parameter(
+				GL_TEXTURE_COMPRESSED_IMAGE_SIZE
+			)
+		);
+	}
+
+	template <typename TNT>
+	static 
+	outcome<oglplus::pixel_data_internal_format>
+	texture_internal_format(TNT tnt, GLint level = 0)
+	noexcept
+	{
+		return return_texture_level_parameter_i<
+			oglplus::pixel_data_internal_format,
+			GLenum
+		>(
+			tnt,
+			level,
+			oglplus::texture_parameter(GL_TEXTURE_INTERNAL_FORMAT)
+		);
+	}
+
+	template <typename TNT>
+	static 
 	outcome<void>
 	texture_min_filter(
 		TNT tnt,
@@ -595,6 +709,31 @@ struct texture_ops
 		>(
 			tnt,
 			oglplus::texture_parameter(GL_TEXTURE_COMPARE_MODE)
+		);
+	}
+
+	template <typename TNT>
+	static 
+	outcome<void>
+	texture_lod_bias(TNT tnt, GLfloat value)
+	noexcept
+	{
+		return texture_parameter_f(
+			make_texture_name_or_target(tnt),
+			oglplus::texture_parameter(GL_TEXTURE_LOD_BIAS),
+			value
+		);
+	}
+
+	template <typename TNT>
+	static 
+	outcome<GLfloat>
+	texture_lod_bias(TNT tnt)
+	noexcept
+	{
+		return return_texture_parameter_f<GLfloat>(
+			tnt,
+			oglplus::texture_parameter(GL_TEXTURE_LOD_BIAS)
 		);
 	}
 };
@@ -746,6 +885,36 @@ struct obj_zero_dsa_ops<texture_name>
 		);
 	}
 
+	outcome<boolean>
+	compressed(GLint level = 0) const
+	noexcept
+	{
+		return oper::texture_ops::texture_compressed(
+			_get_tnt(),
+			level
+		);
+	}
+
+	outcome<GLsizei>
+	compressed_image_size(GLint level = 0) const
+	noexcept
+	{
+		return oper::texture_ops::texture_compressed_image_size(
+			_get_tnt(),
+			level
+		);
+	}
+
+	outcome<oglplus::pixel_data_internal_format>
+	internal_format(GLint level = 0) const
+	noexcept
+	{
+		return oper::texture_ops::texture_internal_format(
+			_get_tnt(),
+			level
+		);
+	}
+
 	outcome<void>
 	min_filter(oglplus::texture_min_filter value)
 	noexcept
@@ -813,6 +982,20 @@ struct obj_zero_dsa_ops<texture_name>
 	{
 		return oper::texture_ops::texture_compare_mode(_get_tnt());
 	}
+
+	outcome<void>
+	lod_bias(GLfloat value)
+	noexcept
+	{
+		return oper::texture_ops::texture_lod_bias(_get_tnt(), value);
+	}
+
+	outcome<GLfloat>
+	lod_bias(void) const
+	noexcept
+	{
+		return oper::texture_ops::texture_lod_bias(_get_tnt());
+	}
 };
 
 #endif // GL_VERSION_4_5 || GL_EXT_direct_state_access
@@ -832,7 +1015,7 @@ struct obj_gen_del_ops<tag::texture>
 	noexcept;
 
 	static
-	outcome<bool> _is_a(GLuint name)
+	outcome<boolean> _is_a(GLuint name)
 	noexcept;
 };
 

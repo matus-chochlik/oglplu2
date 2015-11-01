@@ -67,14 +67,14 @@ noexcept
 // obj_gen_del_ops::_is_a
 //------------------------------------------------------------------------------
 inline
-outcome<bool>
+outcome<boolean>
 obj_gen_del_ops<tag::transform_feedback>::
 _is_a(GLuint name)
 noexcept
 {
 	GLboolean res = OGLPLUS_GLFUNC(IsTransformFeedback)(name);
 	OGLPLUS_VERIFY_SIMPLE(IsTransformFeedback,debug);
-	return res == GL_TRUE;
+	return boolean(res);
 }
 //------------------------------------------------------------------------------
 } // namespace oglplus

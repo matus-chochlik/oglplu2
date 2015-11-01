@@ -14,6 +14,7 @@
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
 #include "utils/gl_func.hpp"
+#include "utils/boolean.hpp"
 
 #ifndef GL_RENDERBUFFER
 #define GL_RENDERBUFFER 0x8D41
@@ -76,7 +77,7 @@ struct obj_gen_del_ops<tag::renderbuffer>
 	noexcept;
 
 	static
-	outcome<bool> _is_a(GLuint name)
+	outcome<boolean> _is_a(GLuint name)
 	noexcept;
 };
 

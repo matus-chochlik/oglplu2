@@ -15,6 +15,7 @@
 #include "error/outcome.hpp"
 #include "utils/gl_func.hpp"
 #include "utils/buffer_data.hpp"
+#include "utils/boolean.hpp"
 #include "enum/types.hpp"
 
 #ifndef GL_BUFFER
@@ -102,7 +103,7 @@ struct obj_gen_del_ops<tag::buffer>
 	noexcept;
 
 	static
-	outcome<bool> _is_a(GLuint name)
+	outcome<boolean> _is_a(GLuint name)
 	noexcept;
 };
 

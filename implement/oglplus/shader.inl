@@ -189,14 +189,14 @@ noexcept
 // obj_gen_del_ops::_is_a
 //------------------------------------------------------------------------------
 inline
-outcome<bool>
+outcome<boolean>
 obj_gen_del_ops<tag::shader>::
 _is_a(GLuint name)
 noexcept
 {
 	GLboolean res = OGLPLUS_GLFUNC(IsShader)(name);
 	OGLPLUS_VERIFY_SIMPLE(IsShader,debug);
-	return res == GL_TRUE;
+	return boolean(res);
 }
 //------------------------------------------------------------------------------
 } // namespace oglplus

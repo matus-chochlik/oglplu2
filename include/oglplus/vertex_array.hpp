@@ -14,6 +14,7 @@
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
 #include "utils/gl_func.hpp"
+#include "utils/boolean.hpp"
 
 #ifndef GL_VERTEX_ARRAY
 #define GL_VERTEX_ARRAY 0x8074
@@ -64,7 +65,7 @@ struct obj_gen_del_ops<tag::vertex_array>
 	noexcept;
 
 	static
-	outcome<bool> _is_a(GLuint name)
+	outcome<boolean> _is_a(GLuint name)
 	noexcept;
 };
 

@@ -11,12 +11,27 @@
 #define OGLPLUS_UTILS_BOOLEAN_1509260923_HPP
 
 #include "../enum/types.hpp"
+#include <cassert>
 
 namespace oglplus {
 
 struct boolean
 {
 	GLboolean _v;
+
+	constexpr
+	boolean(void)
+	noexcept
+	 : _v(GL_FALSE)
+	{ }
+
+	explicit inline
+	boolean(GLboolean v)
+	noexcept
+	 : _v(v)
+	{
+		assert((_v == GL_TRUE) || (_v == GL_FALSE));
+	}
 
 	constexpr inline
 	boolean(bool v)

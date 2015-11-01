@@ -138,6 +138,53 @@ get_texture_level_parameter_i(
 	return {};
 }
 //------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+texture_parameter_f(
+	texture_target_only tnt,
+	oglplus::texture_parameter param,
+	GLfloat value
+) noexcept
+{
+	OGLPLUS_GLFUNC(TexParameterf)(
+		GLenum(tnt._target),
+		GLenum(param),
+		value
+	);
+	OGLPLUS_VERIFY(
+		TexParameterf,
+		//gl_object(texture_binding(target)). TODO
+		gl_enum_value(param),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+get_texture_parameter_f(
+	texture_target_only tnt,
+	oglplus::texture_parameter param,
+	array_view<GLfloat> values
+) noexcept
+{
+	assert(values.size() > 0);
+	OGLPLUS_GLFUNC(GetTexParameterfv)(
+		GLenum(tnt._target),
+		GLenum(param),
+		values.data()
+	);
+	OGLPLUS_VERIFY(
+		GetTexParameterfv,
+		//gl_object(texture_binding(target)). TODO
+		gl_enum_value(param),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
 #ifdef GL_VERSION_4_5
 inline
 outcome<void>
@@ -207,6 +254,53 @@ get_texture_level_parameter_i(
 		GetTextureLevelParameteriv,
 		gl_object(tnt._name).
 		gl_index(GLuint(level)).
+		gl_enum_value(param),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+texture_parameter_f(
+	texture_name_only tnt,
+	oglplus::texture_parameter param,
+	GLfloat value
+) noexcept
+{
+	OGLPLUS_GLFUNC(TextureParameterf)(
+		get_raw_name(tnt._name),
+		GLenum(param),
+		value
+	);
+	OGLPLUS_VERIFY(
+		TextureParameterf,
+		gl_object(tnt._name).
+		gl_enum_value(param),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+get_texture_parameter_f(
+	texture_name_only tnt,
+	oglplus::texture_parameter param,
+	array_view<GLfloat> values
+) noexcept
+{
+	assert(values.size() > 0);
+	OGLPLUS_GLFUNC(GetTextureParameterfv)(
+		get_raw_name(tnt._name),
+		GLenum(param),
+		values.data()
+	);
+	OGLPLUS_VERIFY(
+		GetTextureParameterfv,
+		gl_object(tnt._name).
 		gl_enum_value(param),
 		always
 	);
@@ -291,6 +385,55 @@ get_texture_level_parameter_i(
 	);
 	return {};
 }
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+texture_parameter_f(
+	texture_name_and_target tnt,
+	oglplus::texture_parameter param,
+	GLfloat value
+) noexcept
+{
+	OGLPLUS_GLFUNC(TextureParameterfEXT)(
+		get_raw_name(tnt._name),
+		GLenum(tnt._target),
+		GLenum(param),
+		value
+	);
+	OGLPLUS_VERIFY(
+		TextureParameterfEXT,
+		gl_object(tnt._name).
+		gl_enum_value(param),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+get_texture_parameter_f(
+	texture_name_and_target tnt,
+	oglplus::texture_parameter param,
+	array_view<GLfloat> values
+) noexcept
+{
+	assert(values.size() > 0);
+	OGLPLUS_GLFUNC(GetTextureParameterfvEXT)(
+		get_raw_name(tnt._name),
+		GLenum(tnt._target),
+		GLenum(param),
+		values.data()
+	);
+	OGLPLUS_VERIFY(
+		GetTextureParameterfvEXT,
+		gl_object(tnt._name).
+		gl_enum_value(param),
+		always
+	);
+	return {};
+}
 #endif
 //------------------------------------------------------------------------------
 } // namespace oper
@@ -330,14 +473,14 @@ noexcept
 // obj_gen_del_ops::_is_a
 //------------------------------------------------------------------------------
 inline
-outcome<bool>
+outcome<boolean>
 obj_gen_del_ops<tag::texture>::
 _is_a(GLuint name)
 noexcept
 {
 	GLboolean res = OGLPLUS_GLFUNC(IsTexture)(name);
 	OGLPLUS_VERIFY_SIMPLE(IsTexture,debug);
-	return res == GL_TRUE;
+	return boolean(res);
 }
 //------------------------------------------------------------------------------
 } // namespace oglplus

@@ -13,6 +13,7 @@
 #include "object/owner.hpp"
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
+#include "utils/boolean.hpp"
 
 #ifndef GL_QUERY
 #define GL_QUERY 0x82E3
@@ -41,7 +42,7 @@ struct obj_gen_del_ops<tag::query>
 	noexcept;
 
 	static
-	outcome<bool> _is_a(GLuint name)
+	outcome<boolean> _is_a(GLuint name)
 	noexcept;
 };
 

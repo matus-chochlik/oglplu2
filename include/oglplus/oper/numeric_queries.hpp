@@ -11,6 +11,7 @@
 
 #include "../utils/gl_func.hpp"
 #include "../utils/array_view.hpp"
+#include "../utils/boolean.hpp"
 #include "../error/handling.hpp"
 #include "../error/outcome.hpp"
 #include "../enum/types.hpp"
@@ -57,12 +58,12 @@ struct numeric_queries
 	}
 
 	static
-	outcome<bool>
+	outcome<boolean>
 	get_boolean(numeric_query query)
 	noexcept
 	{
 		GLboolean result = 0;
-		return get_boolean_v(query, {&result, 1}), result == GL_TRUE;
+		return get_boolean_v(query, {&result, 1}), boolean(result);
 	}
 
 	static

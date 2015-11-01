@@ -192,7 +192,7 @@ struct obj_gen_del_ops<tag::program>
 	noexcept;
 
 	static
-	outcome<bool> _is_a(GLuint name)
+	outcome<boolean> _is_a(GLuint name)
 	noexcept;
 };
 

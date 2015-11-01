@@ -67,14 +67,14 @@ noexcept
 // obj_gen_del_ops::_is_a
 //------------------------------------------------------------------------------
 inline
-outcome<bool>
+outcome<boolean>
 obj_gen_del_ops<tag::buffer>::
 _is_a(GLuint name)
 noexcept
 {
 	GLboolean res = OGLPLUS_GLFUNC(IsBuffer)(name);
 	OGLPLUS_VERIFY_SIMPLE(IsBuffer,debug);
-	return res == GL_TRUE;
+	return boolean(res);
 }
 //------------------------------------------------------------------------------
 } // namespace oglplus

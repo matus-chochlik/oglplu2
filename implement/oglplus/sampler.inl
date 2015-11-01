@@ -116,14 +116,14 @@ noexcept
 // obj_gen_del_ops::_is_a
 //------------------------------------------------------------------------------
 inline
-outcome<bool>
+outcome<boolean>
 obj_gen_del_ops<tag::sampler>::
 _is_a(GLuint name)
 noexcept
 {
 	GLboolean res = OGLPLUS_GLFUNC(IsSampler)(name);
 	OGLPLUS_VERIFY_SIMPLE(IsSampler,debug);
-	return res == GL_TRUE;
+	return boolean(res);
 }
 //------------------------------------------------------------------------------
 } // namespace oglplus

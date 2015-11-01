@@ -10,6 +10,7 @@
 #define OGLPLUS_OPER_CAPABILITIES_1509260923_HPP
 
 #include "../utils/gl_func.hpp"
+#include "../utils/boolean.hpp"
 #include "../error/handling.hpp"
 #include "../error/outcome.hpp"
 #include "../enum/types.hpp"
@@ -42,13 +43,13 @@ struct capability_state
 	}
 
 	static
-	outcome<bool>
+	outcome<boolean>
 	is_enabled(capability cap)
 	noexcept
 	{
 		GLboolean result = OGLPLUS_GLFUNC(IsEnabled)(GLenum(cap));
 		OGLPLUS_VERIFY(IsEnabled, gl_enum_value(cap), always);
-		return {result == GL_TRUE};
+		return {boolean(result)};
 	}
 
 	static
@@ -72,13 +73,13 @@ struct capability_state
 	}
 
 	static
-	outcome<bool>
+	outcome<boolean>
 	is_enabled(clip_plane cap)
 	noexcept
 	{
 		GLboolean result = OGLPLUS_GLFUNC(IsEnabled)(GLenum(cap));
 		OGLPLUS_VERIFY(IsEnabled, gl_enum_value(cap), always);
-		return {result == GL_TRUE};
+		return {boolean(result)};
 	}
 
 	static
@@ -142,7 +143,7 @@ struct capability_state
 	}
 
 	static
-	outcome<bool>
+	outcome<boolean>
 	doublebuffer(void)
 	noexcept
 	{
@@ -152,7 +153,7 @@ struct capability_state
 	}
 
 	static
-	outcome<bool>
+	outcome<boolean>
 	stereo(void)
 	noexcept
 	{

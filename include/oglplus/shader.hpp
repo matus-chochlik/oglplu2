@@ -15,6 +15,7 @@
 #include "error/outcome.hpp"
 #include "glsl/source_ref.hpp"
 #include "utils/gl_func.hpp"
+#include "utils/boolean.hpp"
 #include "enum/types.hpp"
 
 #ifndef GL_SHADER
@@ -165,7 +166,7 @@ struct obj_gen_del_ops<tag::shader>
 	noexcept;
 
 	static
-	outcome<bool> _is_a(GLuint name)
+	outcome<boolean> _is_a(GLuint name)
 	noexcept;
 };
 

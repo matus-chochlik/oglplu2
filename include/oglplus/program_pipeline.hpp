@@ -14,6 +14,7 @@
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
 #include "utils/gl_func.hpp"
+#include "utils/boolean.hpp"
 
 #ifndef GL_PROGRAM_PIPELINE
 #define GL_PROGRAM_PIPELINE 0x82E4
@@ -64,7 +65,7 @@ struct obj_gen_del_ops<tag::program_pipeline>
 	noexcept;
 
 	static
-	outcome<bool> _is_a(GLuint name)
+	outcome<boolean> _is_a(GLuint name)
 	noexcept;
 };
 

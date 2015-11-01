@@ -14,6 +14,7 @@
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
 #include "utils/gl_func.hpp"
+#include "utils/boolean.hpp"
 #include "enum/indexed_types.hpp"
 
 #ifndef GL_SAMPLER
@@ -89,7 +90,7 @@ struct obj_gen_del_ops<tag::sampler>
 	noexcept;
 
 	static
-	outcome<bool> _is_a(GLuint name)
+	outcome<boolean> _is_a(GLuint name)
 	noexcept;
 };
 

@@ -12,6 +12,7 @@
 #include "../utils/cstr_ref.hpp"
 #include "../error/handling.hpp"
 #include "../error/outcome.hpp"
+#include "../utils/boolean.hpp"
 #include "../prog_var/dsa_location.hpp"
 
 namespace oglplus {
@@ -30,7 +31,7 @@ struct prog_var_location_ops
 
 	template <typename VarTag>
 	static inline
-	outcome<bool>
+	outcome<boolean>
 	query_location(
 		prog_var_loc<VarTag>& pvl,
 		program_name prog,
@@ -48,7 +49,7 @@ struct prog_var_location_ops
 
 	template <typename VarTag>
 	static inline
-	outcome<bool>
+	outcome<boolean>
 	query_location(
 		dsa_prog_var_loc<VarTag>& pvl,
 		const cstr_ref& identifier

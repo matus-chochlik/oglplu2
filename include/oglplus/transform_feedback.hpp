@@ -14,6 +14,7 @@
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
 #include "utils/gl_func.hpp"
+#include "utils/boolean.hpp"
 
 #ifndef GL_TRANSFORM_FEEDBACK
 #define GL_TRANSFORM_FEEDBACK 0x8E22
@@ -78,7 +79,7 @@ struct obj_gen_del_ops<tag::transform_feedback>
 	noexcept;
 
 	static
-	outcome<bool> _is_a(GLuint name)
+	outcome<boolean> _is_a(GLuint name)
 	noexcept;
 };
 
