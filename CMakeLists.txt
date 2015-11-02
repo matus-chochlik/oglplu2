@@ -22,7 +22,15 @@ include(config/CommonFindMod.cmake)
 # GL-libraries
 include(config/FindGL.cmake)
 include(config/FindGLEW.cmake)
+include(config/FindGL3W.cmake)
+
+include(config/FindGLX.cmake)
 include(config/FindGLFW.cmake)
+include(config/FindGLFW3.cmake)
+include(config/FindGLUT.cmake)
+include(config/FindSDL.cmake)
+
+include(config/FindGLM.cmake)
 
 # EGL
 include(config/FindEGL.cmake)
