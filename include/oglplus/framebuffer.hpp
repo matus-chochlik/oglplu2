@@ -59,9 +59,92 @@ struct framebuffer_ops
 	outcome<framebuffer_name>
 	framebuffer_binding(framebuffer_target target)
 	noexcept;
+
+	static
+	outcome<framebuffer_status>
+	check_framebuffer_status(framebuffer_target target)
+	noexcept;
+
+#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+	static
+	outcome<framebuffer_status>
+	check_framebuffer_status(framebuffer_name, framebuffer_target target)
+	noexcept;
+#endif
+
+	static
+	outcome<void>
+	draw_buffer(color_buffer buf)
+	noexcept;
+
+#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+	static
+	outcome<void>
+	framebuffer_draw_buffer(framebuffer_name fbo, color_buffer buf)
+	noexcept;
+#endif
+
+	static
+	outcome<void>
+	read_buffer(color_buffer buf)
+	noexcept;
+
+#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+	static
+	outcome<void>
+	framebuffer_read_buffer(framebuffer_name fbo, color_buffer buf)
+	noexcept;
+#endif
 };
 
 } // namespace oper
+
+#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+template <>
+struct obj_zero_dsa_ops<framebuffer_name>
+ : framebuffer_name
+{
+	obj_zero_dsa_ops(void)
+	noexcept
+	 : framebuffer_name(0)
+	{ }
+
+	outcome<void>
+	draw_buffer(color_buffer buf)
+	noexcept
+	{
+		return oper::framebuffer_ops::framebuffer_draw_buffer(
+			*this, buf
+		);
+	}
+
+	outcome<void>
+	read_buffer(color_buffer buf)
+	noexcept
+	{
+		return oper::framebuffer_ops::framebuffer_read_buffer(
+			*this, buf
+		);
+	}
+};
+
+template <>
+struct obj_dsa_ops<framebuffer_name>
+ : obj_zero_dsa_ops<framebuffer_name>
+{
+	using obj_zero_dsa_ops<framebuffer_name>::obj_zero_dsa_ops;
+
+	outcome<framebuffer_status>
+	check_status(framebuffer_target target)
+	noexcept
+	{
+		return oper::framebuffer_ops::check_framebuffer_status(
+			*this,
+			target
+		);
+	}
+};
+#endif
 
 template <>
 struct obj_gen_del_ops<tag::framebuffer>

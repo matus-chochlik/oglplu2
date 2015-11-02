@@ -30,6 +30,132 @@ noexcept
 	), framebuffer_name(GLuint(result));
 }
 //------------------------------------------------------------------------------
+inline
+outcome<framebuffer_status>
+framebuffer_ops::
+check_framebuffer_status(framebuffer_target target)
+noexcept
+{
+	GLenum result = OGLPLUS_GLFUNC(CheckFramebufferStatus)(GLenum(target));
+	if(result == 0)
+	{
+		OGLPLUS_VERIFY(
+			CheckFramebufferStatus,
+			gl_enum_value(target),
+			debug
+		);
+	}
+	return {framebuffer_status(result)};
+}
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+inline
+outcome<framebuffer_status>
+framebuffer_ops::
+check_framebuffer_status(framebuffer_name fbo, framebuffer_target target)
+noexcept
+{
+#ifdef GL_VERSION_4_5
+	GLenum result = OGLPLUS_GLFUNC(CheckNamedFramebufferStatus)(
+#else
+	GLenum result = OGLPLUS_GLFUNC(CheckNamedFramebufferStatusEXT)(
+#endif
+		get_raw_name(fbo),
+		GLenum(target)
+	);
+	if(result == 0)
+	{
+		OGLPLUS_VERIFY(
+			OGLPLUS_GL_DSA_FUNC_NAME(CheckNamedFramebufferStatus),
+			gl_object(fbo).
+			gl_enum_value(target),
+			debug
+		);
+	}
+	return {framebuffer_status(result)};
+}
+#endif
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+framebuffer_ops::
+draw_buffer(color_buffer buf)
+noexcept
+{
+	OGLPLUS_GLFUNC(DrawBuffer)(GLenum(buf));
+	OGLPLUS_VERIFY(
+		DrawBuffer,
+		gl_enum_value(buf),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+inline
+outcome<void>
+framebuffer_ops::
+framebuffer_draw_buffer(framebuffer_name fbo, color_buffer buf)
+noexcept
+{
+#ifdef GL_VERSION_4_5
+	OGLPLUS_GLFUNC(NamedFramebufferDrawBuffer)(
+#else
+	OGLPLUS_GLFUNC(FramebufferDrawBufferEXT)(
+#endif
+		get_raw_name(fbo),
+		GLenum(buf)
+	);
+	OGLPLUS_VERIFY(
+		OGLPLUS_GL_DSA_FUNC_NAME(NamedFramebufferDrawBuffer),
+		gl_object(fbo).
+		gl_enum_value(buf),
+		debug
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+framebuffer_ops::
+read_buffer(color_buffer buf)
+noexcept
+{
+	OGLPLUS_GLFUNC(ReadBuffer)(GLenum(buf));
+	OGLPLUS_VERIFY(
+		ReadBuffer,
+		gl_enum_value(buf),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+inline
+outcome<void>
+framebuffer_ops::
+framebuffer_read_buffer(framebuffer_name fbo, color_buffer buf)
+noexcept
+{
+#ifdef GL_VERSION_4_5
+	OGLPLUS_GLFUNC(NamedFramebufferReadBuffer)(
+#else
+	OGLPLUS_GLFUNC(FramebufferReadBufferEXT)(
+#endif
+		get_raw_name(fbo),
+		GLenum(buf)
+	);
+	OGLPLUS_VERIFY(
+		OGLPLUS_GL_DSA_FUNC_NAME(NamedFramebufferReadBuffer),
+		gl_object(fbo).
+		gl_enum_value(buf),
+		debug
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
 } // namespace oper
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_gen
