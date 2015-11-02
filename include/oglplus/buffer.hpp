@@ -9,7 +9,7 @@
 #ifndef OGLPLUS_BUFFER_1509260923_HPP
 #define OGLPLUS_BUFFER_1509260923_HPP
 
-#include "object/gl_name.hpp"
+#include "buffer_name.hpp"
 #include "object/owner.hpp"
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
@@ -19,18 +19,7 @@
 #include "utils/boolean.hpp"
 #include "enum/types.hpp"
 
-#ifndef GL_BUFFER
-#define GL_BUFFER 0x82E0
-#endif
-
 namespace oglplus {
-namespace tag {
-
-using buffer = gl_obj_tag<GL_BUFFER>;
-
-} // namespace tag
-
-using buffer_name = object_name<tag::buffer>;
 
 binding_query
 get_binding_query(buffer_target tgt)

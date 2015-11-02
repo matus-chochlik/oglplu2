@@ -228,6 +228,21 @@ noexcept
 	return {T(that.get())};
 }
 
+template <typename T, typename U, typename ErrorData, typename HandlerPolicy>
+static inline
+basic_outcome<T, ErrorData, HandlerPolicy>
+outcome_conversion(
+	basic_outcome<U, ErrorData, HandlerPolicy>&& that,
+	T (*convert)(U)
+) noexcept
+{
+	if(that.failed())
+	{
+		return {that.release_handler()};
+	}
+	return {convert(that.get())};
+}
+
 template <typename T, typename ErrorData, typename HandlerPolicy>
 static inline
 basic_outcome<T, ErrorData, HandlerPolicy>

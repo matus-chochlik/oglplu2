@@ -9,25 +9,14 @@
 #ifndef OGLPLUS_RENDERBUFFER_1509260923_HPP
 #define OGLPLUS_RENDERBUFFER_1509260923_HPP
 
-#include "object/gl_name.hpp"
+#include "renderbuffer_name.hpp"
 #include "object/owner.hpp"
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
 #include "utils/gl_func.hpp"
 #include "utils/boolean.hpp"
 
-#ifndef GL_RENDERBUFFER
-#define GL_RENDERBUFFER 0x8D41
-#endif
-
 namespace oglplus {
-namespace tag {
-
-using renderbuffer = gl_obj_tag<GL_RENDERBUFFER>;
-
-} // namespace tag
-
-using renderbuffer_name = object_name<tag::renderbuffer>;
 
 binding_query
 get_binding_query(renderbuffer_target tgt)

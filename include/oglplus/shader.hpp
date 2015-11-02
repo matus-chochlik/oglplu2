@@ -9,7 +9,7 @@
 #ifndef OGLPLUS_SHADER_1509260923_HPP
 #define OGLPLUS_SHADER_1509260923_HPP
 
-#include "object/gl_name.hpp"
+#include "shader_name.hpp"
 #include "object/owner.hpp"
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
@@ -17,18 +17,6 @@
 #include "utils/gl_func.hpp"
 #include "utils/boolean.hpp"
 #include "enum/types.hpp"
-
-#ifndef GL_SHADER
-#define GL_SHADER 0x82E1
-#endif
-
-namespace oglplus {
-namespace tag {
-
-using shader = gl_obj_tag<GL_SHADER>;
-
-} // namespace tag
-} // namespace oglplus
 
 namespace eagine {
 

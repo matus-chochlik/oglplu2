@@ -9,25 +9,14 @@
 #ifndef OGLPLUS_FRAMEBUFFER_1509260923_HPP
 #define OGLPLUS_FRAMEBUFFER_1509260923_HPP
 
-#include "object/gl_name.hpp"
+#include "framebuffer_name.hpp"
 #include "object/owner.hpp"
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
 #include "utils/gl_func.hpp"
 #include "utils/boolean.hpp"
 
-#ifndef GL_FRAMEBUFFER
-#define GL_FRAMEBUFFER 0x8D40
-#endif
-
 namespace oglplus {
-namespace tag {
-
-using framebuffer = gl_obj_tag<GL_FRAMEBUFFER>;
-
-} // namespace tag
-
-using framebuffer_name = object_name<tag::framebuffer>;
 
 binding_query
 get_binding_query(framebuffer_target tgt)
@@ -65,11 +54,43 @@ struct framebuffer_ops
 	check_framebuffer_status(framebuffer_target target)
 	noexcept;
 
+	static
+	outcome<bool>
+	is_framebuffer_complete(framebuffer_target target)
+	noexcept
+	{
+		return outcome_conversion<bool, framebuffer_status>(
+			check_framebuffer_status(target),
+			[](framebuffer_status status) -> bool
+			{
+				return status == framebuffer_status(
+					GL_FRAMEBUFFER_COMPLETE
+				);
+			}
+		);
+	}
+
 #if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
 	static
 	outcome<framebuffer_status>
 	check_framebuffer_status(framebuffer_name, framebuffer_target target)
 	noexcept;
+
+	static
+	outcome<bool>
+	is_framebuffer_complete(framebuffer_name fb, framebuffer_target target)
+	noexcept
+	{
+		return outcome_conversion<bool, framebuffer_status>(
+			check_framebuffer_status(fb, target),
+			[](framebuffer_status status) -> bool
+			{
+				return status == framebuffer_status(
+					GL_FRAMEBUFFER_COMPLETE
+				);
+			}
+		);
+	}
 #endif
 
 	static
@@ -139,6 +160,16 @@ struct obj_dsa_ops<framebuffer_name>
 	noexcept
 	{
 		return oper::framebuffer_ops::check_framebuffer_status(
+			*this,
+			target
+		);
+	}
+
+	outcome<bool>
+	is_complete(framebuffer_target target)
+	noexcept
+	{
+		return oper::framebuffer_ops::is_framebuffer_complete(
 			*this,
 			target
 		);

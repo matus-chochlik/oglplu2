@@ -9,26 +9,14 @@
 #ifndef OGLPLUS_VERTEX_ARRAY_1509260923_HPP
 #define OGLPLUS_VERTEX_ARRAY_1509260923_HPP
 
-#include "object/gl_name.hpp"
+#include "vertex_array_name.hpp"
 #include "object/owner.hpp"
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
 #include "utils/gl_func.hpp"
 #include "utils/boolean.hpp"
 
-#ifndef GL_VERTEX_ARRAY
-#define GL_VERTEX_ARRAY 0x8074
-#endif
-
 namespace oglplus {
-namespace tag {
-
-using vertex_array = gl_obj_tag<GL_VERTEX_ARRAY>;
-
-} // namespace tag
-
-using vertex_array_name = object_name<tag::vertex_array>;
-
 namespace oper {
 
 struct vertex_array_ops

@@ -9,25 +9,14 @@
 #ifndef OGLPLUS_TRANSFORM_FEEDBACK_1509260923_HPP
 #define OGLPLUS_TRANSFORM_FEEDBACK_1509260923_HPP
 
-#include "object/gl_name.hpp"
+#include "transform_feedback_name.hpp"
 #include "object/owner.hpp"
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
 #include "utils/gl_func.hpp"
 #include "utils/boolean.hpp"
 
-#ifndef GL_TRANSFORM_FEEDBACK
-#define GL_TRANSFORM_FEEDBACK 0x8E22
-#endif
-
 namespace oglplus {
-namespace tag {
-
-using transform_feedback = gl_obj_tag<GL_TRANSFORM_FEEDBACK>;
-
-} // namespace tag
-
-using transform_feedback_name = object_name<tag::transform_feedback>;
 
 binding_query
 get_binding_query(transform_feedback_target tgt)

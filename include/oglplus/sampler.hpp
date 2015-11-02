@@ -9,7 +9,7 @@
 #ifndef OGLPLUS_SAMPLER_1509260923_HPP
 #define OGLPLUS_SAMPLER_1509260923_HPP
 
-#include "object/gl_name.hpp"
+#include "sampler_name.hpp"
 #include "object/owner.hpp"
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
@@ -17,19 +17,7 @@
 #include "utils/boolean.hpp"
 #include "enum/indexed_types.hpp"
 
-#ifndef GL_SAMPLER
-#define GL_SAMPLER 0x82E6
-#endif
-
 namespace oglplus {
-namespace tag {
-
-using sampler = gl_obj_tag<GL_SAMPLER>;
-
-} // namespace tag
-
-using sampler_name = object_name<tag::sampler>;
-
 namespace oper {
 
 struct sampler_ops

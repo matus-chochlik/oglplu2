@@ -9,24 +9,13 @@
 #ifndef OGLPLUS_QUERY_1509260923_HPP
 #define OGLPLUS_QUERY_1509260923_HPP
 
-#include "object/gl_name.hpp"
+#include "query_name.hpp"
 #include "object/owner.hpp"
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
 #include "utils/boolean.hpp"
 
-#ifndef GL_QUERY
-#define GL_QUERY 0x82E3
-#endif
-
 namespace oglplus {
-namespace tag {
-
-using query = gl_obj_tag<GL_QUERY>;
-
-} // namespace tag
-
-using query_name = object_name<tag::query>;
 
 template <>
 struct obj_gen_del_ops<tag::query>

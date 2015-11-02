@@ -9,26 +9,14 @@
 #ifndef OGLPLUS_PROGRAM_PIPELINE_1509260923_HPP
 #define OGLPLUS_PROGRAM_PIPELINE_1509260923_HPP
 
-#include "object/gl_name.hpp"
+#include "program_pipeline_name.hpp"
 #include "object/owner.hpp"
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
 #include "utils/gl_func.hpp"
 #include "utils/boolean.hpp"
 
-#ifndef GL_PROGRAM_PIPELINE
-#define GL_PROGRAM_PIPELINE 0x82E4
-#endif
-
 namespace oglplus {
-namespace tag {
-
-using program_pipeline = gl_obj_tag<GL_PROGRAM_PIPELINE>;
-
-} // namespace tag
-
-using program_pipeline_name = object_name<tag::program_pipeline>;
-
 namespace oper {
 
 struct program_pipeline_ops

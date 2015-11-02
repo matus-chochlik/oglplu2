@@ -9,21 +9,17 @@
 #ifndef OGLPLUS_PROGRAM_1509260923_HPP
 #define OGLPLUS_PROGRAM_1509260923_HPP
 
-#include "shader.hpp"
-
-#ifndef GL_PROGRAM
-#define GL_PROGRAM 0x82E2
-#endif
+#include "program_name.hpp"
+#include "shader_name.hpp"
+#include "object/owner.hpp"
+#include "error/handling.hpp"
+#include "error/outcome.hpp"
+#include "glsl/source_ref.hpp"
+#include "utils/gl_func.hpp"
+#include "utils/boolean.hpp"
+#include "enum/types.hpp"
 
 namespace oglplus {
-namespace tag {
-
-using program = gl_obj_tag<GL_PROGRAM>;
-
-} // namespace tag
-
-using program_name = object_name<tag::program>;
-
 namespace oper {
 
 struct program_ops
