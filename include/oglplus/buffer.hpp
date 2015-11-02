@@ -14,6 +14,7 @@
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
 #include "utils/gl_func.hpp"
+#include "utils/buffer_size.hpp"
 #include "utils/buffer_data.hpp"
 #include "utils/boolean.hpp"
 #include "enum/types.hpp"
@@ -61,6 +62,29 @@ struct buffer_ops
 	outcome<buffer_name>
 	buffer_binding(buffer_target target)
 	noexcept;
+
+	static
+	outcome<void>
+	bind_buffer_base(
+		buffer_indexed_target target,
+		GLuint index,
+		buffer_name buf
+	) noexcept
+	{
+		OGLPLUS_GLFUNC(BindBufferBase)(
+			GLenum(target),
+			index,
+			get_raw_name(buf)
+		);
+		OGLPLUS_VERIFY(
+			BindBufferBase,
+			gl_enum_value(target).
+			gl_index(index).
+			gl_object(buf),
+			debug
+		);
+		return {};
+	}
 
 	static
 	outcome<void>
@@ -197,6 +221,63 @@ struct buffer_ops
 		oglplus::buffer_usage usage
 	) noexcept;
 #endif
+
+	static
+	outcome<void>
+	buffer_sub_data(
+		buffer_target target,
+		oglplus::buffer_size offset,
+		const buffer_data_spec& data
+	) noexcept;
+
+#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+	static
+	outcome<void>
+	buffer_sub_data(
+		buffer_name buf,
+		oglplus::buffer_size offset,
+		const buffer_data_spec& data
+	) noexcept;
+#endif
+
+#if defined(GL_VERSION_3_1) || defined(GL_ARB_copy_buffer)
+	static
+	outcome<void>
+	copy_buffer_sub_data(
+		buffer_target read_target,
+		buffer_target write_target,
+		oglplus::buffer_size read_offset,
+		oglplus::buffer_size write_offset,
+		oglplus::buffer_size size
+	) noexcept;
+
+#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+	static
+	outcome<void>
+	copy_buffer_sub_data(
+		buffer_name read_buffer,
+		buffer_name write_buffer,
+		oglplus::buffer_size read_offset,
+		oglplus::buffer_size write_offset,
+		oglplus::buffer_size size
+	) noexcept;
+#endif
+#endif
+
+#if defined(GL_VERSION_4_3) || defined(GL_ARB_invalidate_subdata)
+	static
+	outcome<void>
+	invalidate_buffer_data(buffer_name buf)
+	noexcept;
+
+	static
+	outcome<void>
+	invalidate_buffer_sub_data(
+		buffer_name buf,
+		oglplus::buffer_size offset,
+		oglplus::buffer_size size
+	) noexcept;
+#endif
 };
 
 } // namespace oper
@@ -212,6 +293,33 @@ struct obj_dsa_ops<buffer_name>
 	{
 		return oper::buffer_ops::buffer_data(*this, data, usage);
 	}
+
+	outcome<void>
+	sub_data(buffer_size offset, const buffer_data_spec& data)
+	noexcept
+	{
+		return oper::buffer_ops::buffer_sub_data(*this, offset, data);
+	}
+
+#if defined(GL_VERSION_4_3) || defined(GL_ARB_invalidate_subdata)
+	outcome<void>
+	invalidate_data(void)
+	noexcept
+	{
+		return oper::buffer_ops::invalidate_buffer_data(*this);
+	}
+
+	outcome<void>
+	invalidate_sub_data(buffer_size offset, buffer_size size)
+	noexcept
+	{
+		return oper::buffer_ops::invalidate_buffer_sub_data(
+			*this,
+			offset,
+			size
+		);
+	}
+#endif
 
 	outcome<GLint>
 	size(void) const

@@ -187,6 +187,159 @@ buffer_data(
 }
 #endif
 //------------------------------------------------------------------------------
+inline
+outcome<void>
+buffer_ops::
+buffer_sub_data(
+	buffer_target target,
+	oglplus::buffer_size offset,
+	const buffer_data_spec& data
+) noexcept
+{
+	OGLPLUS_GLFUNC(BufferSubData)(
+		GLenum(target),
+		GLintptr(offset),
+		GLsizei(data.size()),
+		data.data()
+	);
+	OGLPLUS_VERIFY(
+		BufferSubData,
+		gl_enum_value(target),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+inline
+outcome<void>
+buffer_ops::
+buffer_sub_data(
+	buffer_name buf,
+	oglplus::buffer_size offset,
+	const buffer_data_spec& data
+) noexcept
+{
+#ifdef GL_VERSION_4_5
+	OGLPLUS_GLFUNC(NamedBufferSubData)(
+#else
+	OGLPLUS_GLFUNC(NamedBufferSubDataEXT)(
+#endif
+		get_raw_name(buf),
+		GLintptr(offset),
+		GLsizei(data.size()),
+		data.data()
+	);
+
+	OGLPLUS_VERIFY_STR(
+		OGLPLUS_GL_DSA_FUNC_NAME(NamedBufferSubData),
+		gl_object(buf),
+		debug
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_3_1) || defined(GL_ARB_copy_buffer)
+inline
+outcome<void>
+buffer_ops::
+copy_buffer_sub_data(
+	buffer_target read_target,
+	buffer_target write_target,
+	oglplus::buffer_size read_offset,
+	oglplus::buffer_size write_offset,
+	oglplus::buffer_size size
+) noexcept
+{
+	OGLPLUS_GLFUNC(CopyBufferSubData)(
+		GLenum(read_target),
+		GLenum(write_target),
+		GLintptr(read_offset),
+		GLintptr(write_offset),
+		GLsizei(size)
+	);
+	OGLPLUS_VERIFY(
+		CopyBufferSubData,
+		gl_enum_value(read_target),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+inline
+outcome<void>
+buffer_ops::
+copy_buffer_sub_data(
+	buffer_name read_buffer,
+	buffer_name write_buffer,
+	oglplus::buffer_size read_offset,
+	oglplus::buffer_size write_offset,
+	oglplus::buffer_size size
+) noexcept
+{
+#ifdef GL_VERSION_4_5
+	OGLPLUS_GLFUNC(CopyNamedBufferSubData)(
+#else
+	OGLPLUS_GLFUNC(NamedCopyBufferSubDataEXT)(
+#endif
+		get_raw_name(read_buffer),
+		get_raw_name(write_buffer),
+		GLintptr(read_offset),
+		GLintptr(write_offset),
+		GLsizei(size)
+	);
+	OGLPLUS_VERIFY_STR(
+		OGLPLUS_GL_DSA_FUNC_NAME(CopyNamedBufferSubData),
+		gl_object(read_buffer).
+		gl_object(write_buffer),
+		debug
+	);
+	return {};
+}
+#endif
+#endif
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_3) || defined(GL_ARB_invalidate_subdata)
+inline
+outcome<void>
+buffer_ops::
+invalidate_buffer_data(buffer_name buf)
+noexcept
+{
+	OGLPLUS_GLFUNC(InvalidateBufferData)(get_raw_name(buf));
+	OGLPLUS_VERIFY(
+		InvalidateBufferData,
+		gl_object(buf),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+buffer_ops::
+invalidate_buffer_sub_data(
+	buffer_name buf,
+	oglplus::buffer_size offset,
+	oglplus::buffer_size size
+) noexcept
+{
+	OGLPLUS_GLFUNC(InvalidateBufferSubData)(
+		get_raw_name(buf),
+		GLintptr(offset),
+		GLsizeiptr(size)
+	);
+	OGLPLUS_VERIFY(
+		InvalidateBufferSubData,
+		gl_object(buf),
+		debug
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
 } // namespace oper
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_gen
