@@ -90,7 +90,7 @@ texture_parameter_i(
 inline
 outcome<void>
 texture_ops::
-get_texture_parameter_i(
+get_texture_parameter_iv(
 	texture_target_only tnt,
 	oglplus::texture_parameter param,
 	array_view<GLint> values
@@ -114,7 +114,7 @@ get_texture_parameter_i(
 inline
 outcome<void>
 texture_ops::
-get_texture_level_parameter_i(
+get_texture_level_parameter_iv(
 	texture_target_only tnt,
 	GLint level,
 	oglplus::texture_parameter param,
@@ -164,7 +164,7 @@ texture_parameter_f(
 inline
 outcome<void>
 texture_ops::
-get_texture_parameter_f(
+get_texture_parameter_fv(
 	texture_target_only tnt,
 	oglplus::texture_parameter param,
 	array_view<GLfloat> values
@@ -212,7 +212,7 @@ texture_parameter_i(
 inline
 outcome<void>
 texture_ops::
-get_texture_parameter_i(
+get_texture_parameter_iv(
 	texture_name_only tnt,
 	oglplus::texture_parameter param,
 	array_view<GLint> values
@@ -236,7 +236,7 @@ get_texture_parameter_i(
 inline
 outcome<void>
 texture_ops::
-get_texture_level_parameter_i(
+get_texture_level_parameter_iv(
 	texture_name_only tnt,
 	GLint level,
 	oglplus::texture_parameter param,
@@ -286,7 +286,7 @@ texture_parameter_f(
 inline
 outcome<void>
 texture_ops::
-get_texture_parameter_f(
+get_texture_parameter_fv(
 	texture_name_only tnt,
 	oglplus::texture_parameter param,
 	array_view<GLfloat> values
@@ -336,7 +336,7 @@ texture_parameter_i(
 inline
 outcome<void>
 texture_ops::
-get_texture_parameter_i(
+get_texture_parameter_iv(
 	texture_name_and_target tnt,
 	oglplus::texture_parameter param,
 	array_view<GLint> values
@@ -361,7 +361,7 @@ get_texture_parameter_i(
 inline
 outcome<void>
 texture_ops::
-get_texture_level_parameter_i(
+get_texture_level_parameter_iv(
 	texture_name_and_target tnt,
 	GLint level,
 	oglplus::texture_parameter param,
@@ -413,7 +413,7 @@ texture_parameter_f(
 inline
 outcome<void>
 texture_ops::
-get_texture_parameter_f(
+get_texture_parameter_fv(
 	texture_name_and_target tnt,
 	oglplus::texture_parameter param,
 	array_view<GLfloat> values

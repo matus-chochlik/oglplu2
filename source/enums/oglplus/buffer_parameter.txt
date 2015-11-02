@@ -1,0 +1,13 @@
+# Copyright Matus Chochlik.
+# Distributed under the Boost Software License, Version 1.0.
+# See accompanying file LICENSE_1_0.txt or copy at
+#  http://www.boost.org/LICENSE_1_0.txt
+BUFFER_ACCESS
+BUFFER_ACCESS_FLAGS
+BUFFER_IMMUTABLE_STORAGE
+BUFFER_MAPPED
+BUFFER_MAP_LENGTH
+BUFFER_MAP_OFFSET
+BUFFER_SIZE
+BUFFER_STORAGE_FLAGS
+BUFFER_USAGE

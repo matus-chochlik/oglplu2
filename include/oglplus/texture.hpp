@@ -186,7 +186,7 @@ struct texture_ops
 
 	static
 	outcome<void>
-	get_texture_parameter_i(
+	get_texture_parameter_iv(
 		texture_target_only tnt,
 		oglplus::texture_parameter param,
 		array_view<GLint> values
@@ -194,7 +194,7 @@ struct texture_ops
 
 	static
 	outcome<void>
-	get_texture_level_parameter_i(
+	get_texture_level_parameter_iv(
 		texture_target_only tnt,
 		GLint level,
 		oglplus::texture_parameter param,
@@ -211,7 +211,7 @@ struct texture_ops
 
 	static
 	outcome<void>
-	get_texture_parameter_f(
+	get_texture_parameter_fv(
 		texture_target_only tnt,
 		oglplus::texture_parameter param,
 		array_view<GLfloat> values
@@ -228,7 +228,7 @@ struct texture_ops
 
 	static
 	outcome<void>
-	get_texture_parameter_i(
+	get_texture_parameter_iv(
 		texture_name_only tnt,
 		oglplus::texture_parameter param,
 		array_view<GLint> values
@@ -236,7 +236,7 @@ struct texture_ops
 
 	static
 	outcome<void>
-	get_texture_level_parameter_i(
+	get_texture_level_parameter_iv(
 		texture_name_only tnt,
 		GLint level,
 		oglplus::texture_parameter param,
@@ -253,7 +253,7 @@ struct texture_ops
 
 	static
 	outcome<void>
-	get_texture_parameter_f(
+	get_texture_parameter_fv(
 		texture_name_only tnt,
 		oglplus::texture_parameter param,
 		array_view<GLfloat> values
@@ -272,7 +272,7 @@ struct texture_ops
 
 	static
 	outcome<void>
-	get_texture_parameter_i(
+	get_texture_parameter_iv(
 		texture_name_and_target tnt,
 		oglplus::texture_parameter param,
 		array_view<GLint> values
@@ -280,7 +280,7 @@ struct texture_ops
 
 	static
 	outcome<void>
-	get_texture_level_parameter_i(
+	get_texture_level_parameter_iv(
 		texture_name_and_target tnt,
 		GLint level,
 		oglplus::texture_parameter param,
@@ -297,7 +297,7 @@ struct texture_ops
 
 	static
 	outcome<void>
-	get_texture_parameter_f(
+	get_texture_parameter_fv(
 		texture_name_and_target tnt,
 		oglplus::texture_parameter param,
 		array_view<GLfloat> values
@@ -314,7 +314,7 @@ struct texture_ops
 	) noexcept
 	{
 		GLint result;
-		return get_texture_parameter_i(
+		return get_texture_parameter_iv(
 			make_texture_name_or_target(tnt),
 			parameter,
 			{&result, 1}
@@ -331,7 +331,7 @@ struct texture_ops
 	) noexcept
 	{
 		GLint result;
-		return get_texture_level_parameter_i(
+		return get_texture_level_parameter_iv(
 			make_texture_name_or_target(tnt),
 			level,
 			parameter,
@@ -348,7 +348,7 @@ struct texture_ops
 	) noexcept
 	{
 		GLfloat result;
-		return get_texture_parameter_f(
+		return get_texture_parameter_fv(
 			make_texture_name_or_target(tnt),
 			parameter,
 			{&result, 1}

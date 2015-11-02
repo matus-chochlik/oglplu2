@@ -160,7 +160,7 @@ void run_loop(int width, int height)
 
 	buffer pos;
 	gl.bind(GL.array_buffer, pos);
-	gl.data(GL.array_buffer, cube_vertices, GL.static_draw);
+	gl.buffer_data(GL.array_buffer, cube_vertices, GL.static_draw);
 
 	gl.pointer(vertex_attrib_location(0), 3, GL.float_, false, 0, nullptr);
 	gl.enable_array(vertex_attrib_location(0));
@@ -193,7 +193,7 @@ void run_loop(int width, int height)
 
 	buffer nml;
 	gl.bind(GL.array_buffer, nml);
-	gl.data(GL.array_buffer, cube_normals, GL.static_draw);
+	gl.buffer_data(GL.array_buffer, cube_normals, GL.static_draw);
 
 	vertex_attrib_location va_n;
 	gl.query_location(va_n, prog, "Normal");
@@ -225,7 +225,7 @@ void run_loop(int width, int height)
 
 	buffer crd;
 	gl.bind(GL.array_buffer, crd);
-	gl.data(GL.array_buffer, cube_coords, GL.static_draw);
+	gl.buffer_data(GL.array_buffer, cube_coords, GL.static_draw);
 
 	vertex_attrib_location va_c;
 	gl.query_location(va_c, prog, "Coord");

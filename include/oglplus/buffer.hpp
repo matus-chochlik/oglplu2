@@ -64,30 +64,191 @@ struct buffer_ops
 
 	static
 	outcome<void>
-	data(
-		buffer_target target,
-		buffer_data data,
-		buffer_usage usage
-	)
-	noexcept
+	get_buffer_parameter_iv(
+		buffer_target tgt,
+		oglplus::buffer_parameter param,
+		array_view<GLint> values
+	) noexcept;
+
+	static
+	outcome<void>
+	get_buffer_parameter_i64v(
+		buffer_target tgt,
+		oglplus::buffer_parameter param,
+		array_view<GLint64> values
+	) noexcept;
+
+#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+	static
+	outcome<void>
+	get_buffer_parameter_iv(
+		buffer_name buf,
+		oglplus::buffer_parameter param,
+		array_view<GLint> values
+	) noexcept;
+#endif
+
+#if defined(GL_VERSION_4_5)
+	static
+	outcome<void>
+	get_buffer_parameter_i64v(
+		buffer_name buf,
+		oglplus::buffer_parameter param,
+		array_view<GLint64> values
+	) noexcept;
+#endif
+
+	template <typename R, typename T, typename BNT>
+	static
+	outcome<R>
+	return_buffer_parameter_i(
+		BNT bnt,
+		oglplus::buffer_parameter parameter
+	) noexcept
 	{
-		OGLPLUS_GLFUNC(BufferData)(
-			GLenum(target),
-			GLsizei(data.size()),
-			data.data(),
-			GLenum(usage)
-		);
-		OGLPLUS_VERIFY(
-			BufferData,
-			gl_enum_value(target),
-			debug
-		);
-		return {};
+		GLint result;
+		return get_buffer_parameter_iv(
+			bnt,
+			parameter,
+			{&result, 1}
+		), R(T(result));
 	}
 
+	template <typename BNT>
+	static
+	outcome<GLint>
+	buffer_size(BNT bnt)
+	noexcept
+	{
+		return return_buffer_parameter_i<GLint, GLint>(
+			bnt,
+			oglplus::buffer_parameter(GL_BUFFER_SIZE)
+		);
+	}
+
+	template <typename BNT>
+	static
+	outcome<boolean>
+	buffer_mapped(BNT bnt)
+	noexcept
+	{
+		return return_buffer_parameter_i<boolean, GLboolean>(
+			bnt,
+			oglplus::buffer_parameter(GL_BUFFER_MAPPED)
+		);
+	}
+
+	template <typename BNT>
+	static
+	outcome<boolean>
+	buffer_immutable_storage(BNT bnt)
+	noexcept
+	{
+		return return_buffer_parameter_i<boolean, GLboolean>(
+			bnt,
+			oglplus::buffer_parameter(GL_BUFFER_IMMUTABLE_STORAGE)
+		);
+	}
+
+	template <typename BNT>
+	static
+	outcome<oglplus::buffer_usage>
+	buffer_usage(BNT bnt)
+	noexcept
+	{
+		return return_buffer_parameter_i<
+			oglplus::buffer_usage,
+			GLboolean
+		>(
+			bnt,
+			oglplus::buffer_parameter(GL_BUFFER_USAGE)
+		);
+	}
+
+	template <typename BNT>
+	static
+	outcome<enum_bitfield<buffer_storage_bits>>
+	buffer_storage_flags(BNT bnt)
+	noexcept
+	{
+		return return_buffer_parameter_i<
+			enum_bitfield<buffer_storage_bits>,
+			GLbitfield
+		>(
+			bnt,
+			oglplus::buffer_parameter(GL_BUFFER_STORAGE_FLAGS)
+		);
+	}
+
+	static
+	outcome<void>
+	buffer_data(
+		buffer_target target,
+		const buffer_data_spec& data,
+		oglplus::buffer_usage usage
+	) noexcept;
+
+#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+	static
+	outcome<void>
+	buffer_data(
+		buffer_name buf,
+		const buffer_data_spec& data,
+		oglplus::buffer_usage usage
+	) noexcept;
+#endif
 };
 
 } // namespace oper
+
+#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+template <>
+struct obj_dsa_ops<buffer_name>
+ : obj_zero_dsa_ops<buffer_name>
+{
+	outcome<void>
+	data(const buffer_data_spec& data, buffer_usage usage)
+	noexcept
+	{
+		return oper::buffer_ops::buffer_data(*this, data, usage);
+	}
+
+	outcome<GLint>
+	size(void) const
+	noexcept
+	{
+		return oper::buffer_ops::buffer_size(*this);
+	}
+
+	outcome<boolean>
+	mapped(void) const
+	noexcept
+	{
+		return oper::buffer_ops::buffer_mapped(*this);
+	}
+
+	outcome<boolean>
+	immutable_storage(void) const
+	noexcept
+	{
+		return oper::buffer_ops::buffer_immutable_storage(*this);
+	}
+
+	outcome<buffer_usage>
+	usage(void) const
+	noexcept
+	{
+		return oper::buffer_ops::buffer_usage(*this);
+	}
+
+	outcome<enum_bitfield<buffer_storage_bits>>
+	storage_flags(void) const
+	noexcept
+	{
+		return oper::buffer_ops::buffer_storage_flags(*this);
+	}
+};
+#endif
 
 template <>
 struct obj_gen_del_ops<tag::buffer>

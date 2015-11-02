@@ -474,6 +474,22 @@ static constexpr const enum_value<
 > buffer = {};
 #endif
 
+#ifdef GL_BUFFER_ACCESS
+static constexpr const enum_value<
+	GLenum,
+	GL_BUFFER_ACCESS,
+	mp_list<oglplus::buffer_parameter>
+> buffer_access = {};
+#endif
+
+#ifdef GL_BUFFER_ACCESS_FLAGS
+static constexpr const enum_value<
+	GLenum,
+	GL_BUFFER_ACCESS_FLAGS,
+	mp_list<oglplus::buffer_parameter>
+> buffer_access_flags = {};
+#endif
+
 #ifdef GL_BUFFER_BINDING
 static constexpr const enum_value<
 	GLenum,
@@ -490,12 +506,68 @@ static constexpr const enum_value<
 > buffer_data_size = {};
 #endif
 
+#ifdef GL_BUFFER_IMMUTABLE_STORAGE
+static constexpr const enum_value<
+	GLenum,
+	GL_BUFFER_IMMUTABLE_STORAGE,
+	mp_list<oglplus::buffer_parameter>
+> buffer_immutable_storage = {};
+#endif
+
+#ifdef GL_BUFFER_MAP_LENGTH
+static constexpr const enum_value<
+	GLenum,
+	GL_BUFFER_MAP_LENGTH,
+	mp_list<oglplus::buffer_parameter>
+> buffer_map_length = {};
+#endif
+
+#ifdef GL_BUFFER_MAP_OFFSET
+static constexpr const enum_value<
+	GLenum,
+	GL_BUFFER_MAP_OFFSET,
+	mp_list<oglplus::buffer_parameter>
+> buffer_map_offset = {};
+#endif
+
+#ifdef GL_BUFFER_MAPPED
+static constexpr const enum_value<
+	GLenum,
+	GL_BUFFER_MAPPED,
+	mp_list<oglplus::buffer_parameter>
+> buffer_mapped = {};
+#endif
+
+#ifdef GL_BUFFER_SIZE
+static constexpr const enum_value<
+	GLenum,
+	GL_BUFFER_SIZE,
+	mp_list<oglplus::buffer_parameter>
+> buffer_size = {};
+#endif
+
+#ifdef GL_BUFFER_STORAGE_FLAGS
+static constexpr const enum_value<
+	GLenum,
+	GL_BUFFER_STORAGE_FLAGS,
+	mp_list<oglplus::buffer_parameter>
+> buffer_storage_flags = {};
+#endif
+
 #ifdef GL_BUFFER_UPDATE_BARRIER_BIT
 static constexpr const enum_value<
 	GLbitfield,
 	GL_BUFFER_UPDATE_BARRIER_BIT,
 	mp_list<oglplus::memory_barrier_bits>
 > buffer_update_barrier_bit = {};
+#endif
+
+#ifdef GL_BUFFER_USAGE
+static constexpr const enum_value<
+	GLenum,
+	GL_BUFFER_USAGE,
+	mp_list<oglplus::buffer_parameter>
+> buffer_usage = {};
 #endif
 
 #ifdef GL_BUFFER_VARIABLE

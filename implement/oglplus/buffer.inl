@@ -30,6 +30,163 @@ noexcept
 	), buffer_name(GLuint(result));
 }
 //------------------------------------------------------------------------------
+inline
+outcome<void>
+buffer_ops::
+get_buffer_parameter_iv(
+	buffer_target tgt,
+	oglplus::buffer_parameter param,
+	array_view<GLint> values
+) noexcept
+{
+	assert(values.size() > 0);
+	OGLPLUS_GLFUNC(GetBufferParameteriv)(
+		GLenum(tgt),
+		GLenum(param),
+		values.data()
+	);
+	OGLPLUS_VERIFY(
+		GetBufferParameteriv,
+		//gl_object(texture_binding(target)). TODO
+		gl_enum_value(param),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+buffer_ops::
+get_buffer_parameter_i64v(
+	buffer_target tgt,
+	oglplus::buffer_parameter param,
+	array_view<GLint64> values
+) noexcept
+{
+	assert(values.size() > 0);
+	OGLPLUS_GLFUNC(GetBufferParameteri64v)(
+		GLenum(tgt),
+		GLenum(param),
+		values.data()
+	);
+	OGLPLUS_VERIFY(
+		GetBufferParameteri64v,
+		//gl_object(texture_binding(target)). TODO
+		gl_enum_value(param),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+inline
+outcome<void>
+buffer_ops::
+get_buffer_parameter_iv(
+	buffer_name buf,
+	oglplus::buffer_parameter param,
+	array_view<GLint> values
+) noexcept
+{
+	assert(values.size() > 0);
+#ifdef GL_VERSION_4_5
+	OGLPLUS_GLFUNC(GetNamedBufferParameteriv)(
+#else
+	OGLPLUS_GLFUNC(GetNamedBufferParameterivEXT)(
+#endif
+		get_raw_name(buf),
+		GLenum(param),
+		values.data()
+	);
+	OGLPLUS_VERIFY(
+		OGLPLUS_GL_DSA_FUNC_NAME(GetNamedBufferParameteriv),
+		gl_object(buf).
+		gl_enum_value(param),
+		always
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_5)
+inline
+outcome<void>
+buffer_ops::
+get_buffer_parameter_i64v(
+	buffer_name buf,
+	oglplus::buffer_parameter param,
+	array_view<GLint64> values
+) noexcept
+{
+	assert(values.size() > 0);
+	OGLPLUS_GLFUNC(GetNamedBufferParameteri64v)(
+		get_raw_name(buf),
+		GLenum(param),
+		values.data()
+	);
+	OGLPLUS_VERIFY(
+		GetNamedBufferParameteri64v,
+		gl_object(buf).
+		gl_enum_value(param),
+		always
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+buffer_ops::
+buffer_data(
+	buffer_target target,
+	const buffer_data_spec& data,
+	oglplus::buffer_usage usage
+) noexcept
+{
+	OGLPLUS_GLFUNC(BufferData)(
+		GLenum(target),
+		GLsizei(data.size()),
+		data.data(),
+		GLenum(usage)
+	);
+	OGLPLUS_VERIFY(
+		BufferData,
+		gl_enum_value(target),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+inline
+outcome<void>
+buffer_ops::
+buffer_data(
+	buffer_name buf,
+	const buffer_data_spec& data,
+	oglplus::buffer_usage usage
+) noexcept
+{
+#ifdef GL_VERSION_4_5
+	OGLPLUS_GLFUNC(NamedBufferData)(
+#else
+	OGLPLUS_GLFUNC(NamedBufferDataEXT)(
+#endif
+		get_raw_name(buf),
+		GLsizei(data.size()),
+		data.data(),
+		GLenum(usage)
+	);
+
+	OGLPLUS_VERIFY_STR(
+		OGLPLUS_GL_DSA_FUNC_NAME(NamedBufferData),
+		gl_object(buf),
+		debug
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
 } // namespace oper
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_gen

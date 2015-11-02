@@ -15,27 +15,27 @@
 namespace eagine {
 
 template <typename S>
-class buffer_data
+class buffer_data_spec
 {
 private:
 	buffer_size<S> _size;
 	const void* _data;
 public:
-	buffer_data(void)
+	buffer_data_spec(void)
 	noexcept
 	 : _size()
 	 , _data(nullptr)
 	{ }
 
 	template <typename T, std::size_t N>
-	buffer_data(const T (&data) [N])
+	buffer_data_spec(const T (&data) [N])
 	noexcept
 	 : _size(identity<T>(), N)
 	 , _data(data)
 	{ }
 
 	template <typename T>
-	buffer_data(array_view<T> av)
+	buffer_data_spec(array_view<T> av)
 	noexcept
 	 : _size(av)
 	 , _data(av.data())
