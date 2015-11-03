@@ -11,6 +11,7 @@
 
 #include "framebuffer_name.hpp"
 #include "renderbuffer_name.hpp"
+#include "texture_name.hpp"
 #include "object/owner.hpp"
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
@@ -117,6 +118,72 @@ struct framebuffer_ops
 
 	static
 	outcome<void>
+	framebuffer_texture_2d(
+		framebuffer_target fb_target,
+		framebuffer_attachment fb_attch,
+		texture_target tx_target,
+		texture_name tex,
+		GLint level
+	) noexcept;
+
+#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+	static
+	outcome<void>
+	framebuffer_texture_2d(
+		framebuffer_name fbo,
+		framebuffer_attachment fb_attch,
+		texture_target tx_target,
+		texture_name tex,
+		GLint level
+	) noexcept;
+#endif
+
+	static
+	outcome<void>
+	framebuffer_texture_3d(
+		framebuffer_target fb_target,
+		framebuffer_attachment fb_attch,
+		texture_target tx_target,
+		texture_name tex,
+		GLint level,
+		GLint layer
+	) noexcept;
+
+#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+	static
+	outcome<void>
+	framebuffer_texture_3d(
+		framebuffer_name fbo,
+		framebuffer_attachment fb_attch,
+		texture_target tx_target,
+		texture_name tex,
+		GLint level,
+		GLint layer
+	) noexcept;
+#endif
+
+	static
+	outcome<void>
+	framebuffer_texture(
+		framebuffer_target fb_target,
+		framebuffer_attachment fb_attch,
+		texture_name tex,
+		GLint level
+	) noexcept;
+
+#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+	static
+	outcome<void>
+	framebuffer_texture(
+		framebuffer_name fbo,
+		framebuffer_attachment fb_attch,
+		texture_name tex,
+		GLint level
+	) noexcept;
+#endif
+
+	static
+	outcome<void>
 	draw_buffer(color_buffer buf)
 	noexcept;
 
@@ -205,6 +272,50 @@ struct obj_dsa_ops<framebuffer_name>
 		return oper::framebuffer_ops::framebuffer_renderbuffer(
 			*this, fb_attch, 
 			rb_target, rbo
+		);
+	}
+
+	outcome<void>
+	texture_2d(
+		framebuffer_attachment fb_attch,
+		texture_target tx_target,
+		texture_name tex,
+		GLint level
+	) noexcept
+	{
+		return oper::framebuffer_ops::framebuffer_texture_2d(
+			*this, fb_attch, 
+			tx_target, tex,
+			level
+		);
+	}
+
+	outcome<void>
+	texture_3d(
+		framebuffer_attachment fb_attch,
+		texture_target tx_target,
+		texture_name tex,
+		GLint level,
+		GLint layer
+	) noexcept
+	{
+		return oper::framebuffer_ops::framebuffer_texture_3d(
+			*this, fb_attch, 
+			tx_target, tex,
+			level, layer
+		);
+	}
+
+	outcome<void>
+	texture(
+		framebuffer_attachment fb_attch,
+		texture_name tex,
+		GLint level
+	) noexcept
+	{
+		return oper::framebuffer_ops::framebuffer_texture(
+			*this, fb_attch, 
+			tex, level
 		);
 	}
 };

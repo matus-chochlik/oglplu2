@@ -124,9 +124,192 @@ framebuffer_renderbuffer(
 	);
 	OGLPLUS_VERIFY_STR(
 		OGLPLUS_GL_DSA_FUNC_NAME(NamedFramebufferRenderbuffer),
-		gl_object(rbo).
+		gl_object(fbo).
 		//gl_enum_value(fb_target).
 		gl_subject(rbo),
+		debug
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+framebuffer_ops::
+framebuffer_texture_2d(
+	framebuffer_target fb_target,
+	framebuffer_attachment fb_attach,
+	texture_target tx_target,
+	texture_name tex,
+	GLint level
+) noexcept
+{
+	OGLPLUS_GLFUNC(FramebufferTexture2D)(
+		GLenum(fb_target),
+		GLenum(fb_attach),
+		GLenum(tx_target),
+		get_raw_name(tex),
+		level
+	);
+	OGLPLUS_VERIFY(
+		FramebufferTexture2D,
+		gl_enum_value(fb_target).
+		gl_subject(tex),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+inline
+outcome<void>
+framebuffer_ops::
+framebuffer_texture_2d(
+	framebuffer_name fbo,
+	framebuffer_attachment fb_attach,
+	texture_target tx_target,
+	texture_name tex,
+	GLint level
+) noexcept
+{
+#ifdef GL_VERSION_4_5
+	OGLPLUS_GLFUNC(NamedFramebufferTexture2D)(
+#else
+	OGLPLUS_GLFUNC(NamedFramebufferTexture2DEXT)(
+#endif
+		get_raw_name(fbo),
+		GLenum(fb_attach),
+		GLenum(tx_target),
+		get_raw_name(tex),
+		level
+	);
+	OGLPLUS_VERIFY_STR(
+		OGLPLUS_GL_DSA_FUNC_NAME(NamedFramebufferTexture2D),
+		gl_object(fbo).
+		//gl_enum_value(fb_target).
+		gl_subject(tex),
+		debug
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+framebuffer_ops::
+framebuffer_texture_3d(
+	framebuffer_target fb_target,
+	framebuffer_attachment fb_attach,
+	texture_target tx_target,
+	texture_name tex,
+	GLint level,
+	GLint layer
+) noexcept
+{
+	OGLPLUS_GLFUNC(FramebufferTexture3D)(
+		GLenum(fb_target),
+		GLenum(fb_attach),
+		GLenum(tx_target),
+		get_raw_name(tex),
+		level,
+		layer
+	);
+	OGLPLUS_VERIFY(
+		FramebufferTexture3D,
+		gl_enum_value(fb_target).
+		gl_subject(tex),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+inline
+outcome<void>
+framebuffer_ops::
+framebuffer_texture_3d(
+	framebuffer_name fbo,
+	framebuffer_attachment fb_attach,
+	texture_target tx_target,
+	texture_name tex,
+	GLint level,
+	GLint layer
+) noexcept
+{
+#ifdef GL_VERSION_4_5
+	OGLPLUS_GLFUNC(NamedFramebufferTexture3D)(
+#else
+	OGLPLUS_GLFUNC(NamedFramebufferTexture3DEXT)(
+#endif
+		get_raw_name(fbo),
+		GLenum(fb_attach),
+		GLenum(tx_target),
+		get_raw_name(tex),
+		level,
+		layer
+	);
+	OGLPLUS_VERIFY_STR(
+		OGLPLUS_GL_DSA_FUNC_NAME(NamedFramebufferTexture3D),
+		gl_object(fbo).
+		//gl_enum_value(fb_target).
+		gl_subject(tex),
+		debug
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+framebuffer_ops::
+framebuffer_texture(
+	framebuffer_target fb_target,
+	framebuffer_attachment fb_attach,
+	texture_name tex,
+	GLint level
+) noexcept
+{
+	OGLPLUS_GLFUNC(FramebufferTexture)(
+		GLenum(fb_target),
+		GLenum(fb_attach),
+		get_raw_name(tex),
+		level
+	);
+	OGLPLUS_VERIFY(
+		FramebufferTexture,
+		gl_enum_value(fb_target).
+		gl_subject(tex),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+inline
+outcome<void>
+framebuffer_ops::
+framebuffer_texture(
+	framebuffer_name fbo,
+	framebuffer_attachment fb_attach,
+	texture_name tex,
+	GLint level
+) noexcept
+{
+#ifdef GL_VERSION_4_5
+	OGLPLUS_GLFUNC(NamedFramebufferTexture)(
+#else
+	OGLPLUS_GLFUNC(NamedFramebufferTextureEXT)(
+#endif
+		get_raw_name(fbo),
+		GLenum(fb_attach),
+		get_raw_name(tex),
+		level
+	);
+	OGLPLUS_VERIFY_STR(
+		OGLPLUS_GL_DSA_FUNC_NAME(NamedFramebufferTexture),
+		gl_object(fbo).
+		//gl_enum_value(fb_target).
+		gl_subject(tex),
 		debug
 	);
 	return {};
