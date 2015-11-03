@@ -65,7 +65,7 @@ noexcept
 	);
 	if(result == 0)
 	{
-		OGLPLUS_VERIFY(
+		OGLPLUS_VERIFY_STR(
 			OGLPLUS_GL_DSA_FUNC_NAME(CheckNamedFramebufferStatus),
 			gl_object(fbo).
 			gl_enum_value(target),
@@ -73,6 +73,63 @@ noexcept
 		);
 	}
 	return {framebuffer_status(result)};
+}
+#endif
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+framebuffer_ops::
+framebuffer_renderbuffer(
+	framebuffer_target fb_target,
+	framebuffer_attachment fb_attach,
+	renderbuffer_target rb_target,
+	renderbuffer_name rbo
+) noexcept
+{
+	OGLPLUS_GLFUNC(FramebufferRenderbuffer)(
+		GLenum(fb_target),
+		GLenum(fb_attach),
+		GLenum(rb_target),
+		get_raw_name(rbo)
+	);
+	OGLPLUS_VERIFY(
+		FramebufferRenderbuffer,
+		gl_enum_value(fb_target).
+		gl_subject(rbo),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+inline
+outcome<void>
+framebuffer_ops::
+framebuffer_renderbuffer(
+	framebuffer_name fbo,
+	framebuffer_attachment fb_attach,
+	renderbuffer_target rb_target,
+	renderbuffer_name rbo
+) noexcept
+{
+#ifdef GL_VERSION_4_5
+	OGLPLUS_GLFUNC(NamedFramebufferRenderbuffer)(
+#else
+	OGLPLUS_GLFUNC(NamedFramebufferRenderbufferEXT)(
+#endif
+		get_raw_name(fbo),
+		GLenum(fb_attach),
+		GLenum(rb_target),
+		get_raw_name(rbo)
+	);
+	OGLPLUS_VERIFY_STR(
+		OGLPLUS_GL_DSA_FUNC_NAME(NamedFramebufferRenderbuffer),
+		gl_object(rbo).
+		//gl_enum_value(fb_target).
+		gl_subject(rbo),
+		debug
+	);
+	return {};
 }
 #endif
 //------------------------------------------------------------------------------
@@ -106,7 +163,7 @@ noexcept
 		get_raw_name(fbo),
 		GLenum(buf)
 	);
-	OGLPLUS_VERIFY(
+	OGLPLUS_VERIFY_STR(
 		OGLPLUS_GL_DSA_FUNC_NAME(NamedFramebufferDrawBuffer),
 		gl_object(fbo).
 		gl_enum_value(buf),
@@ -146,7 +203,7 @@ noexcept
 		get_raw_name(fbo),
 		GLenum(buf)
 	);
-	OGLPLUS_VERIFY(
+	OGLPLUS_VERIFY_STR(
 		OGLPLUS_GL_DSA_FUNC_NAME(NamedFramebufferReadBuffer),
 		gl_object(fbo).
 		gl_enum_value(buf),

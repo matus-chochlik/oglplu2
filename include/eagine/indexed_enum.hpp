@@ -23,6 +23,8 @@ template <typename T, T Base, unsigned LibId>
 struct indexed_enum_value
 {
 	typedef T value_type;
+	static constexpr const unsigned lib_id = LibId;
+	static constexpr const T base_value = Base;
 
 	unsigned _index;
 

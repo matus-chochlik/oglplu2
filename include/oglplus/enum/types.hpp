@@ -136,12 +136,12 @@ struct face_orientation
  : enum_class<face_orientation, GLenum, 29>
 { using enum_class::enum_class; };
 
-struct framebuffer_attachment
- : enum_class<framebuffer_attachment, GLenum, 30>
+struct framebuffer_buffer
+ : enum_class<framebuffer_buffer, GLenum, 30>
 { using enum_class::enum_class; };
 
-struct framebuffer_buffer
- : enum_class<framebuffer_buffer, GLenum, 31>
+struct framebuffer_other_attachment
+ : enum_class<framebuffer_other_attachment, GLenum, 31>
 { using enum_class::enum_class; };
 
 struct framebuffer_status

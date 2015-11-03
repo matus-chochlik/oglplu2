@@ -35,6 +35,13 @@ typedef limited_value<
 > clip_plane;
 #endif
 
+#ifdef GL_CLIP_DISTANCE0
+typedef limited_value<
+	GL_MAX_COLOR_ATTACHMENTS,
+	indexed_enum_value<GL_COLOR_ATTACHMENT0>
+> framebuffer_color_attachment;
+#endif
+
 } // namespace oglplus
 
 #endif // include guard

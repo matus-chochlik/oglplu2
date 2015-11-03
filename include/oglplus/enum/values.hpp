@@ -702,128 +702,8 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_COLOR_ATTACHMENT0,
-	mp_list<oglplus::framebuffer_attachment,oglplus::indexed_value_base>
+	mp_list<oglplus::indexed_value_base>
 > color_attachment0 = {};
-#endif
-
-#ifdef GL_COLOR_ATTACHMENT1
-static constexpr const enum_value<
-	GLenum,
-	GL_COLOR_ATTACHMENT1,
-	mp_list<oglplus::framebuffer_attachment>
-> color_attachment1 = {};
-#endif
-
-#ifdef GL_COLOR_ATTACHMENT10
-static constexpr const enum_value<
-	GLenum,
-	GL_COLOR_ATTACHMENT10,
-	mp_list<oglplus::framebuffer_attachment>
-> color_attachment10 = {};
-#endif
-
-#ifdef GL_COLOR_ATTACHMENT11
-static constexpr const enum_value<
-	GLenum,
-	GL_COLOR_ATTACHMENT11,
-	mp_list<oglplus::framebuffer_attachment>
-> color_attachment11 = {};
-#endif
-
-#ifdef GL_COLOR_ATTACHMENT12
-static constexpr const enum_value<
-	GLenum,
-	GL_COLOR_ATTACHMENT12,
-	mp_list<oglplus::framebuffer_attachment>
-> color_attachment12 = {};
-#endif
-
-#ifdef GL_COLOR_ATTACHMENT13
-static constexpr const enum_value<
-	GLenum,
-	GL_COLOR_ATTACHMENT13,
-	mp_list<oglplus::framebuffer_attachment>
-> color_attachment13 = {};
-#endif
-
-#ifdef GL_COLOR_ATTACHMENT14
-static constexpr const enum_value<
-	GLenum,
-	GL_COLOR_ATTACHMENT14,
-	mp_list<oglplus::framebuffer_attachment>
-> color_attachment14 = {};
-#endif
-
-#ifdef GL_COLOR_ATTACHMENT15
-static constexpr const enum_value<
-	GLenum,
-	GL_COLOR_ATTACHMENT15,
-	mp_list<oglplus::framebuffer_attachment>
-> color_attachment15 = {};
-#endif
-
-#ifdef GL_COLOR_ATTACHMENT2
-static constexpr const enum_value<
-	GLenum,
-	GL_COLOR_ATTACHMENT2,
-	mp_list<oglplus::framebuffer_attachment>
-> color_attachment2 = {};
-#endif
-
-#ifdef GL_COLOR_ATTACHMENT3
-static constexpr const enum_value<
-	GLenum,
-	GL_COLOR_ATTACHMENT3,
-	mp_list<oglplus::framebuffer_attachment>
-> color_attachment3 = {};
-#endif
-
-#ifdef GL_COLOR_ATTACHMENT4
-static constexpr const enum_value<
-	GLenum,
-	GL_COLOR_ATTACHMENT4,
-	mp_list<oglplus::framebuffer_attachment>
-> color_attachment4 = {};
-#endif
-
-#ifdef GL_COLOR_ATTACHMENT5
-static constexpr const enum_value<
-	GLenum,
-	GL_COLOR_ATTACHMENT5,
-	mp_list<oglplus::framebuffer_attachment>
-> color_attachment5 = {};
-#endif
-
-#ifdef GL_COLOR_ATTACHMENT6
-static constexpr const enum_value<
-	GLenum,
-	GL_COLOR_ATTACHMENT6,
-	mp_list<oglplus::framebuffer_attachment>
-> color_attachment6 = {};
-#endif
-
-#ifdef GL_COLOR_ATTACHMENT7
-static constexpr const enum_value<
-	GLenum,
-	GL_COLOR_ATTACHMENT7,
-	mp_list<oglplus::framebuffer_attachment>
-> color_attachment7 = {};
-#endif
-
-#ifdef GL_COLOR_ATTACHMENT8
-static constexpr const enum_value<
-	GLenum,
-	GL_COLOR_ATTACHMENT8,
-	mp_list<oglplus::framebuffer_attachment>
-> color_attachment8 = {};
-#endif
-
-#ifdef GL_COLOR_ATTACHMENT9
-static constexpr const enum_value<
-	GLenum,
-	GL_COLOR_ATTACHMENT9,
-	mp_list<oglplus::framebuffer_attachment>
-> color_attachment9 = {};
 #endif
 
 #ifdef GL_COLOR_BUFFER_BIT
@@ -1566,7 +1446,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_DEPTH_ATTACHMENT,
-	mp_list<oglplus::framebuffer_attachment>
+	mp_list<oglplus::framebuffer_other_attachment>
 > depth_attachment = {};
 #endif
 
@@ -1654,7 +1534,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_DEPTH_STENCIL_ATTACHMENT,
-	mp_list<oglplus::framebuffer_attachment>
+	mp_list<oglplus::framebuffer_other_attachment>
 > depth_stencil_attachment = {};
 #endif
 
@@ -6750,7 +6630,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_STENCIL_ATTACHMENT,
-	mp_list<oglplus::framebuffer_attachment>
+	mp_list<oglplus::framebuffer_other_attachment>
 > stencil_attachment = {};
 #endif
 

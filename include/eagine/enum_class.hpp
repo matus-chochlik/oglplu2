@@ -41,6 +41,7 @@ struct enum_class
 
 	typedef T value_type;
 
+	static constexpr const unsigned lib_id = LibId;
 	static constexpr const unsigned id = Id;
 
 	value_type _value;

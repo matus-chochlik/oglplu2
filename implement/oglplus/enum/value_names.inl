@@ -369,66 +369,6 @@ noexcept
 	static const char s_COLOR_ATTACHMENT0[18] =
 		"COLOR_ATTACHMENT0";
 #endif
-#ifdef GL_COLOR_ATTACHMENT1
-	static const char s_COLOR_ATTACHMENT1[18] =
-		"COLOR_ATTACHMENT1";
-#endif
-#ifdef GL_COLOR_ATTACHMENT10
-	static const char s_COLOR_ATTACHMENT10[19] =
-		"COLOR_ATTACHMENT10";
-#endif
-#ifdef GL_COLOR_ATTACHMENT11
-	static const char s_COLOR_ATTACHMENT11[19] =
-		"COLOR_ATTACHMENT11";
-#endif
-#ifdef GL_COLOR_ATTACHMENT12
-	static const char s_COLOR_ATTACHMENT12[19] =
-		"COLOR_ATTACHMENT12";
-#endif
-#ifdef GL_COLOR_ATTACHMENT13
-	static const char s_COLOR_ATTACHMENT13[19] =
-		"COLOR_ATTACHMENT13";
-#endif
-#ifdef GL_COLOR_ATTACHMENT14
-	static const char s_COLOR_ATTACHMENT14[19] =
-		"COLOR_ATTACHMENT14";
-#endif
-#ifdef GL_COLOR_ATTACHMENT15
-	static const char s_COLOR_ATTACHMENT15[19] =
-		"COLOR_ATTACHMENT15";
-#endif
-#ifdef GL_COLOR_ATTACHMENT2
-	static const char s_COLOR_ATTACHMENT2[18] =
-		"COLOR_ATTACHMENT2";
-#endif
-#ifdef GL_COLOR_ATTACHMENT3
-	static const char s_COLOR_ATTACHMENT3[18] =
-		"COLOR_ATTACHMENT3";
-#endif
-#ifdef GL_COLOR_ATTACHMENT4
-	static const char s_COLOR_ATTACHMENT4[18] =
-		"COLOR_ATTACHMENT4";
-#endif
-#ifdef GL_COLOR_ATTACHMENT5
-	static const char s_COLOR_ATTACHMENT5[18] =
-		"COLOR_ATTACHMENT5";
-#endif
-#ifdef GL_COLOR_ATTACHMENT6
-	static const char s_COLOR_ATTACHMENT6[18] =
-		"COLOR_ATTACHMENT6";
-#endif
-#ifdef GL_COLOR_ATTACHMENT7
-	static const char s_COLOR_ATTACHMENT7[18] =
-		"COLOR_ATTACHMENT7";
-#endif
-#ifdef GL_COLOR_ATTACHMENT8
-	static const char s_COLOR_ATTACHMENT8[18] =
-		"COLOR_ATTACHMENT8";
-#endif
-#ifdef GL_COLOR_ATTACHMENT9
-	static const char s_COLOR_ATTACHMENT9[18] =
-		"COLOR_ATTACHMENT9";
-#endif
 #ifdef GL_COLOR_BUFFER_BIT
 	static const char s_COLOR_BUFFER_BIT[17] =
 		"COLOR_BUFFER_BIT";
@@ -5496,89 +5436,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 30: /* framebuffer_attachment */
-			switch(GLenum(aev._value))
-			{
-#ifdef GL_COLOR_ATTACHMENT0
-				case GL_COLOR_ATTACHMENT0:
-					return {s_COLOR_ATTACHMENT0, 17};
-#endif
-#ifdef GL_COLOR_ATTACHMENT1
-				case GL_COLOR_ATTACHMENT1:
-					return {s_COLOR_ATTACHMENT1, 17};
-#endif
-#ifdef GL_COLOR_ATTACHMENT10
-				case GL_COLOR_ATTACHMENT10:
-					return {s_COLOR_ATTACHMENT10, 18};
-#endif
-#ifdef GL_COLOR_ATTACHMENT11
-				case GL_COLOR_ATTACHMENT11:
-					return {s_COLOR_ATTACHMENT11, 18};
-#endif
-#ifdef GL_COLOR_ATTACHMENT12
-				case GL_COLOR_ATTACHMENT12:
-					return {s_COLOR_ATTACHMENT12, 18};
-#endif
-#ifdef GL_COLOR_ATTACHMENT13
-				case GL_COLOR_ATTACHMENT13:
-					return {s_COLOR_ATTACHMENT13, 18};
-#endif
-#ifdef GL_COLOR_ATTACHMENT14
-				case GL_COLOR_ATTACHMENT14:
-					return {s_COLOR_ATTACHMENT14, 18};
-#endif
-#ifdef GL_COLOR_ATTACHMENT15
-				case GL_COLOR_ATTACHMENT15:
-					return {s_COLOR_ATTACHMENT15, 18};
-#endif
-#ifdef GL_COLOR_ATTACHMENT2
-				case GL_COLOR_ATTACHMENT2:
-					return {s_COLOR_ATTACHMENT2, 17};
-#endif
-#ifdef GL_COLOR_ATTACHMENT3
-				case GL_COLOR_ATTACHMENT3:
-					return {s_COLOR_ATTACHMENT3, 17};
-#endif
-#ifdef GL_COLOR_ATTACHMENT4
-				case GL_COLOR_ATTACHMENT4:
-					return {s_COLOR_ATTACHMENT4, 17};
-#endif
-#ifdef GL_COLOR_ATTACHMENT5
-				case GL_COLOR_ATTACHMENT5:
-					return {s_COLOR_ATTACHMENT5, 17};
-#endif
-#ifdef GL_COLOR_ATTACHMENT6
-				case GL_COLOR_ATTACHMENT6:
-					return {s_COLOR_ATTACHMENT6, 17};
-#endif
-#ifdef GL_COLOR_ATTACHMENT7
-				case GL_COLOR_ATTACHMENT7:
-					return {s_COLOR_ATTACHMENT7, 17};
-#endif
-#ifdef GL_COLOR_ATTACHMENT8
-				case GL_COLOR_ATTACHMENT8:
-					return {s_COLOR_ATTACHMENT8, 17};
-#endif
-#ifdef GL_COLOR_ATTACHMENT9
-				case GL_COLOR_ATTACHMENT9:
-					return {s_COLOR_ATTACHMENT9, 17};
-#endif
-#ifdef GL_DEPTH_ATTACHMENT
-				case GL_DEPTH_ATTACHMENT:
-					return {s_DEPTH_ATTACHMENT, 16};
-#endif
-#ifdef GL_DEPTH_STENCIL_ATTACHMENT
-				case GL_DEPTH_STENCIL_ATTACHMENT:
-					return {s_DEPTH_STENCIL_ATTACHMENT, 24};
-#endif
-#ifdef GL_STENCIL_ATTACHMENT
-				case GL_STENCIL_ATTACHMENT:
-					return {s_STENCIL_ATTACHMENT, 18};
-#endif
-				default:;
-			}
-			break;
-		case 31: /* framebuffer_buffer */
+		case 30: /* framebuffer_buffer */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_COLOR
@@ -5596,6 +5454,24 @@ noexcept
 #ifdef GL_STENCIL
 				case GL_STENCIL:
 					return {s_STENCIL, 7};
+#endif
+				default:;
+			}
+			break;
+		case 31: /* framebuffer_other_attachment */
+			switch(GLenum(aev._value))
+			{
+#ifdef GL_DEPTH_ATTACHMENT
+				case GL_DEPTH_ATTACHMENT:
+					return {s_DEPTH_ATTACHMENT, 16};
+#endif
+#ifdef GL_DEPTH_STENCIL_ATTACHMENT
+				case GL_DEPTH_STENCIL_ATTACHMENT:
+					return {s_DEPTH_STENCIL_ATTACHMENT, 24};
+#endif
+#ifdef GL_STENCIL_ATTACHMENT
+				case GL_STENCIL_ATTACHMENT:
+					return {s_STENCIL_ATTACHMENT, 18};
 #endif
 				default:;
 			}

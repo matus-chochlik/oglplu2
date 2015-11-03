@@ -10,9 +10,11 @@
 #define OGLPLUS_FRAMEBUFFER_1509260923_HPP
 
 #include "framebuffer_name.hpp"
+#include "renderbuffer_name.hpp"
 #include "object/owner.hpp"
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
+#include "enum/combined_types.hpp"
 #include "utils/gl_func.hpp"
 #include "utils/boolean.hpp"
 
@@ -95,6 +97,26 @@ struct framebuffer_ops
 
 	static
 	outcome<void>
+	framebuffer_renderbuffer(
+		framebuffer_target fb_target,
+		framebuffer_attachment fb_attch,
+		renderbuffer_target rb_target,
+		renderbuffer_name rbo
+	) noexcept;
+
+#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+	static
+	outcome<void>
+	framebuffer_renderbuffer(
+		framebuffer_name fbo,
+		framebuffer_attachment fb_attch,
+		renderbuffer_target rb_target,
+		renderbuffer_name rbo
+	) noexcept;
+#endif
+
+	static
+	outcome<void>
 	draw_buffer(color_buffer buf)
 	noexcept;
 
@@ -160,8 +182,7 @@ struct obj_dsa_ops<framebuffer_name>
 	noexcept
 	{
 		return oper::framebuffer_ops::check_framebuffer_status(
-			*this,
-			target
+			*this, target
 		);
 	}
 
@@ -170,8 +191,20 @@ struct obj_dsa_ops<framebuffer_name>
 	noexcept
 	{
 		return oper::framebuffer_ops::is_framebuffer_complete(
-			*this,
-			target
+			*this, target
+		);
+	}
+
+	outcome<void>
+	renderbuffer(
+		framebuffer_attachment fb_attch,
+		renderbuffer_target rb_target,
+		renderbuffer_name rbo
+	) noexcept
+	{
+		return oper::framebuffer_ops::framebuffer_renderbuffer(
+			*this, fb_attch, 
+			rb_target, rbo
 		);
 	}
 };
