@@ -58,7 +58,7 @@ sampler_parameter_i(
 inline
 outcome<void>
 sampler_ops::
-get_sampler_parameter_i(
+get_sampler_parameter_iv(
 	sampler_name sam,
 	oglplus::sampler_parameter param,
 	array_view<GLint> values
@@ -72,6 +72,53 @@ get_sampler_parameter_i(
 	);
 	OGLPLUS_VERIFY(
 		GetSamplerParameteriv,
+		gl_object(sam).
+		gl_enum_value(param),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+sampler_ops::
+sampler_parameter_f(
+	sampler_name sam,
+	oglplus::sampler_parameter param,
+	GLfloat value
+) noexcept
+{
+	OGLPLUS_GLFUNC(SamplerParameterf)(
+		get_raw_name(sam),
+		GLenum(param),
+		value
+	);
+	OGLPLUS_VERIFY(
+		SamplerParameterf,
+		gl_object(sam).
+		gl_enum_value(param),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+sampler_ops::
+get_sampler_parameter_fv(
+	sampler_name sam,
+	oglplus::sampler_parameter param,
+	array_view<GLfloat> values
+) noexcept
+{
+	assert(values.size() > 0);
+	OGLPLUS_GLFUNC(GetSamplerParameterfv)(
+		get_raw_name(sam),
+		GLenum(param),
+		values.data()
+	);
+	OGLPLUS_VERIFY(
+		GetSamplerParameterfv,
 		gl_object(sam).
 		gl_enum_value(param),
 		always

@@ -255,6 +255,8 @@ template <>
 struct obj_dsa_ops<renderbuffer_name>
  : obj_zero_dsa_ops<renderbuffer_name>
 {
+	using obj_zero_dsa_ops<renderbuffer_name>::obj_zero_dsa_ops;
+
 	outcome<void>
 	storage(
 		pixel_data_internal_format ifmt,
