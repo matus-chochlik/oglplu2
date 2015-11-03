@@ -30,6 +30,172 @@ noexcept
 	), renderbuffer_name(GLuint(result));
 }
 //------------------------------------------------------------------------------
+inline
+outcome<void>
+renderbuffer_ops::
+renderbuffer_storage(
+	renderbuffer_target target,
+	pixel_data_internal_format ifmt,
+	GLsizei width,
+	GLsizei height
+) noexcept
+{
+	OGLPLUS_GLFUNC(RenderbufferStorage)(
+		GLenum(target),
+		GLenum(ifmt),
+		width, height
+	);
+	OGLPLUS_VERIFY(
+		RenderbufferStorage,
+		//gl_object(renderbuffer_binding(target)). TODO
+		gl_enum_value(ifmt),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+inline
+outcome<void>
+renderbuffer_ops::
+renderbuffer_storage(
+	renderbuffer_name rbo,
+	pixel_data_internal_format ifmt,
+	GLsizei width,
+	GLsizei height
+) noexcept
+{
+#ifdef GL_VERSION_4_5
+	OGLPLUS_GLFUNC(NamedRenderbufferStorage)(
+#else
+	OGLPLUS_GLFUNC(NamedRenderbufferStorageEXT)(
+#endif
+		get_raw_name(rbo),
+		GLenum(ifmt),
+		width, height
+	);
+	OGLPLUS_VERIFY_STR(
+		OGLPLUS_GL_DSA_FUNC_NAME(NamedRenderbufferStorage),
+		gl_object(rbo).
+		gl_enum_value(ifmt),
+		always
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+renderbuffer_ops::
+renderbuffer_storage_multisample(
+	renderbuffer_target target,
+	GLsizei samples,
+	pixel_data_internal_format ifmt,
+	GLsizei width,
+	GLsizei height
+) noexcept
+{
+	OGLPLUS_GLFUNC(RenderbufferStorageMultisample)(
+		GLenum(target),
+		samples,
+		GLenum(ifmt),
+		width, height
+	);
+	OGLPLUS_VERIFY(
+		RenderbufferStorage,
+		//gl_object(renderbuffer_binding(target)). TODO
+		gl_enum_value(ifmt),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+inline
+outcome<void>
+renderbuffer_ops::
+renderbuffer_storage_multisample(
+	renderbuffer_name rbo,
+	GLsizei samples,
+	pixel_data_internal_format ifmt,
+	GLsizei width,
+	GLsizei height
+) noexcept
+{
+#ifdef GL_VERSION_4_5
+	OGLPLUS_GLFUNC(NamedRenderbufferStorageMultisample)(
+#else
+	OGLPLUS_GLFUNC(NamedRenderbufferStorageMultisampleEXT)(
+#endif
+		get_raw_name(rbo),
+		samples,
+		GLenum(ifmt),
+		width, height
+	);
+	OGLPLUS_VERIFY_STR(
+		OGLPLUS_GL_DSA_FUNC_NAME(NamedRenderbufferStorageMultisample),
+		gl_object(rbo).
+		gl_enum_value(ifmt),
+		always
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+renderbuffer_ops::
+get_renderbuffer_parameter_iv(
+	renderbuffer_target target,
+	oglplus::renderbuffer_parameter param,
+	array_view<GLint> values
+) noexcept
+{
+	assert(values.size() > 0);
+	OGLPLUS_GLFUNC(GetRenderbufferParameteriv)(
+		GLenum(target),
+		GLenum(param),
+		values.data()
+	);
+	OGLPLUS_VERIFY(
+		GetRenderbufferParameteriv,
+		//gl_object(texture_binding(target)). TODO
+		gl_enum_value(param),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+inline
+outcome<void>
+renderbuffer_ops::
+get_renderbuffer_parameter_iv(
+	renderbuffer_name buf,
+	oglplus::renderbuffer_parameter param,
+	array_view<GLint> values
+) noexcept
+{
+	assert(values.size() > 0);
+#ifdef GL_VERSION_4_5
+	OGLPLUS_GLFUNC(GetNamedRenderbufferParameteriv)(
+#else
+	OGLPLUS_GLFUNC(GetNamedRenderbufferParameterivEXT)(
+#endif
+		get_raw_name(buf),
+		GLenum(param),
+		values.data()
+	);
+	OGLPLUS_VERIFY_STR(
+		OGLPLUS_GL_DSA_FUNC_NAME(GetNamedRenderbufferParameteriv),
+		gl_object(buf).
+		gl_enum_value(param),
+		always
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
 } // namespace oper
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_gen

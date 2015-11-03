@@ -5538,12 +5538,92 @@ static constexpr const enum_value<
 > renderbuffer = {};
 #endif
 
+#ifdef GL_RENDERBUFFER_ALPHA_SIZE
+static constexpr const enum_value<
+	GLenum,
+	GL_RENDERBUFFER_ALPHA_SIZE,
+	mp_list<oglplus::renderbuffer_parameter>
+> renderbuffer_alpha_size = {};
+#endif
+
 #ifdef GL_RENDERBUFFER_BINDING
 static constexpr const enum_value<
 	GLenum,
 	GL_RENDERBUFFER_BINDING,
 	mp_list<oglplus::binding_query>
 > renderbuffer_binding = {};
+#endif
+
+#ifdef GL_RENDERBUFFER_BLUE_SIZE
+static constexpr const enum_value<
+	GLenum,
+	GL_RENDERBUFFER_BLUE_SIZE,
+	mp_list<oglplus::renderbuffer_parameter>
+> renderbuffer_blue_size = {};
+#endif
+
+#ifdef GL_RENDERBUFFER_DEPTH_SIZE
+static constexpr const enum_value<
+	GLenum,
+	GL_RENDERBUFFER_DEPTH_SIZE,
+	mp_list<oglplus::renderbuffer_parameter>
+> renderbuffer_depth_size = {};
+#endif
+
+#ifdef GL_RENDERBUFFER_GREEN_SIZE
+static constexpr const enum_value<
+	GLenum,
+	GL_RENDERBUFFER_GREEN_SIZE,
+	mp_list<oglplus::renderbuffer_parameter>
+> renderbuffer_green_size = {};
+#endif
+
+#ifdef GL_RENDERBUFFER_HEIGHT
+static constexpr const enum_value<
+	GLenum,
+	GL_RENDERBUFFER_HEIGHT,
+	mp_list<oglplus::renderbuffer_parameter>
+> renderbuffer_height = {};
+#endif
+
+#ifdef GL_RENDERBUFFER_INTERNAL_FORMAT
+static constexpr const enum_value<
+	GLenum,
+	GL_RENDERBUFFER_INTERNAL_FORMAT,
+	mp_list<oglplus::renderbuffer_parameter>
+> renderbuffer_internal_format = {};
+#endif
+
+#ifdef GL_RENDERBUFFER_RED_SIZE
+static constexpr const enum_value<
+	GLenum,
+	GL_RENDERBUFFER_RED_SIZE,
+	mp_list<oglplus::renderbuffer_parameter>
+> renderbuffer_red_size = {};
+#endif
+
+#ifdef GL_RENDERBUFFER_SAMPLES
+static constexpr const enum_value<
+	GLenum,
+	GL_RENDERBUFFER_SAMPLES,
+	mp_list<oglplus::renderbuffer_parameter>
+> renderbuffer_samples = {};
+#endif
+
+#ifdef GL_RENDERBUFFER_STENCIL_SIZE
+static constexpr const enum_value<
+	GLenum,
+	GL_RENDERBUFFER_STENCIL_SIZE,
+	mp_list<oglplus::renderbuffer_parameter>
+> renderbuffer_stencil_size = {};
+#endif
+
+#ifdef GL_RENDERBUFFER_WIDTH
+static constexpr const enum_value<
+	GLenum,
+	GL_RENDERBUFFER_WIDTH,
+	mp_list<oglplus::renderbuffer_parameter>
+> renderbuffer_width = {};
 #endif
 
 #ifdef GL_RENDERER
