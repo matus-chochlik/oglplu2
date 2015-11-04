@@ -18,6 +18,25 @@ namespace oglplus {
 namespace oper {
 //------------------------------------------------------------------------------
 inline
+outcome<void>
+renderbuffer_ops::
+bind_renderbuffer(renderbuffer_target target, renderbuffer_name rbo)
+noexcept
+{
+	OGLPLUS_GLFUNC(BindRenderbuffer)(
+		GLenum(target),
+		get_raw_name(rbo)
+	);
+	OGLPLUS_VERIFY(
+		BindRenderbuffer,
+		gl_enum_value(target).
+		gl_object(rbo),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
 outcome<renderbuffer_name>
 renderbuffer_ops::
 renderbuffer_binding(renderbuffer_target target)
@@ -195,6 +214,156 @@ get_renderbuffer_parameter_iv(
 	return {};
 }
 #endif
+//------------------------------------------------------------------------------
+template <typename R, typename T, typename RNT>
+inline
+outcome<R>
+renderbuffer_ops::
+return_renderbuffer_parameter_i(
+	RNT rnt,
+	oglplus::renderbuffer_parameter parameter
+) noexcept
+{
+	GLint result;
+	return get_renderbuffer_parameter_iv(
+		rnt,
+		parameter,
+		{&result, 1}
+	), R(T(result));
+}
+//------------------------------------------------------------------------------
+template <typename RNT>
+inline
+outcome<GLsizei>
+renderbuffer_ops::
+renderbuffer_width(RNT rnt)
+noexcept
+{
+	return return_renderbuffer_parameter_i<GLsizei, GLsizei>(
+		rnt, 
+		renderbuffer_parameter(GL_RENDERBUFFER_WIDTH)
+	);
+}
+//------------------------------------------------------------------------------
+template <typename RNT>
+inline
+outcome<GLsizei>
+renderbuffer_ops::
+renderbuffer_height(RNT rnt)
+noexcept
+{
+	return return_renderbuffer_parameter_i<GLsizei, GLsizei>(
+		rnt, 
+		renderbuffer_parameter(GL_RENDERBUFFER_HEIGHT)
+	);
+}
+//------------------------------------------------------------------------------
+template <typename RNT>
+inline
+outcome<GLsizei>
+renderbuffer_ops::
+renderbuffer_red_size(RNT rnt)
+noexcept
+{
+	return return_renderbuffer_parameter_i<GLsizei, GLsizei>(
+		rnt, 
+		renderbuffer_parameter(GL_RENDERBUFFER_RED_SIZE)
+	);
+}
+//------------------------------------------------------------------------------
+template <typename RNT>
+inline
+outcome<GLsizei>
+renderbuffer_ops::
+renderbuffer_green_size(RNT rnt)
+noexcept
+{
+	return return_renderbuffer_parameter_i<GLsizei, GLsizei>(
+		rnt, 
+		renderbuffer_parameter(GL_RENDERBUFFER_GREEN_SIZE)
+	);
+}
+//------------------------------------------------------------------------------
+template <typename RNT>
+inline
+outcome<GLsizei>
+renderbuffer_ops::
+renderbuffer_blue_size(RNT rnt)
+noexcept
+{
+	return return_renderbuffer_parameter_i<GLsizei, GLsizei>(
+		rnt, 
+		renderbuffer_parameter(GL_RENDERBUFFER_BLUE_SIZE)
+	);
+}
+//------------------------------------------------------------------------------
+template <typename RNT>
+inline
+outcome<GLsizei>
+renderbuffer_ops::
+renderbuffer_alpha_size(RNT rnt)
+noexcept
+{
+	return return_renderbuffer_parameter_i<GLsizei, GLsizei>(
+		rnt, 
+		renderbuffer_parameter(GL_RENDERBUFFER_ALPHA_SIZE)
+	);
+}
+//------------------------------------------------------------------------------
+template <typename RNT>
+inline
+outcome<GLsizei>
+renderbuffer_ops::
+renderbuffer_depth_size(RNT rnt)
+noexcept
+{
+	return return_renderbuffer_parameter_i<GLsizei, GLsizei>(
+		rnt, 
+		renderbuffer_parameter(GL_RENDERBUFFER_DEPTH_SIZE)
+	);
+}
+//------------------------------------------------------------------------------
+template <typename RNT>
+inline
+outcome<GLsizei>
+renderbuffer_ops::
+renderbuffer_stencil_size(RNT rnt)
+noexcept
+{
+	return return_renderbuffer_parameter_i<GLsizei, GLsizei>(
+		rnt, 
+		renderbuffer_parameter(GL_RENDERBUFFER_STENCIL_SIZE)
+	);
+}
+//------------------------------------------------------------------------------
+template <typename RNT>
+inline
+outcome<GLsizei>
+renderbuffer_ops::
+renderbuffer_samples(RNT rnt)
+noexcept
+{
+	return return_renderbuffer_parameter_i<GLsizei, GLsizei>(
+		rnt, 
+		renderbuffer_parameter(GL_RENDERBUFFER_SAMPLES)
+	);
+}
+//------------------------------------------------------------------------------
+template <typename RNT>
+inline
+outcome<pixel_data_internal_format>
+renderbuffer_ops::
+renderbuffer_internal_format(RNT rnt)
+noexcept
+{
+	return return_renderbuffer_parameter_i<
+		pixel_data_internal_format,
+		GLenum
+	>(
+		rnt, 
+		renderbuffer_parameter(GL_RENDERBUFFER_INTERNAL_FORMAT)
+	);
+}
 //------------------------------------------------------------------------------
 } // namespace oper
 //------------------------------------------------------------------------------

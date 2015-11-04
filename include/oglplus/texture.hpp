@@ -142,20 +142,7 @@ struct texture_ops
 	static
 	outcome<void>
 	bind_texture(texture_target target, texture_name tex)
-	noexcept
-	{
-		OGLPLUS_GLFUNC(BindTexture)(
-			GLenum(target),
-			get_raw_name(tex)
-		);
-		OGLPLUS_VERIFY(
-			BindTexture,
-			gl_enum_value(target).
-			gl_object(tex),
-			debug
-		);
-		return {};
-	}
+	noexcept;
 
 	static
 	outcome<texture_name>
@@ -737,6 +724,8 @@ struct obj_zero_dsa_ops<texture_name>
  : texture_name
 #endif
 {
+	typedef oper::texture_ops _ops;
+
 #if defined(GL_VERSION_4_5)
 	obj_zero_dsa_ops<texture_name>::obj_zero_dsa_ops;
 
@@ -764,223 +753,196 @@ struct obj_zero_dsa_ops<texture_name>
 	width(GLint level = 0) const
 	noexcept
 	{
-		return oper::texture_ops::texture_width(_get_tnt(), level);
+		return _ops::texture_width(_get_tnt(), level);
 	}
 
 	outcome<GLsizei>
 	height(GLint level = 0) const
 	noexcept
 	{
-		return oper::texture_ops::texture_height(_get_tnt(), level);
+		return _ops::texture_height(_get_tnt(), level);
 	}
 
 	outcome<GLsizei>
 	depth(GLint level = 0) const
 	noexcept
 	{
-		return oper::texture_ops::texture_depth(_get_tnt(), level);
+		return _ops::texture_depth(_get_tnt(), level);
 	}
 
 	outcome<pixel_data_type>
 	red_type(void) const
 	noexcept
 	{
-		return oper::texture_ops::texture_red_type(_get_tnt());
+		return _ops::texture_red_type(_get_tnt());
 	}
 
 	outcome<GLsizei>
 	red_size(GLint level = 0) const
 	noexcept
 	{
-		return oper::texture_ops::texture_red_size(_get_tnt(), level);
+		return _ops::texture_red_size(_get_tnt(), level);
 	}
 
 	outcome<pixel_data_type>
 	green_type(void) const
 	noexcept
 	{
-		return oper::texture_ops::texture_green_type(_get_tnt());
+		return _ops::texture_green_type(_get_tnt());
 	}
 
 	outcome<GLsizei>
 	green_size(GLint level = 0) const
 	noexcept
 	{
-		return oper::texture_ops::texture_green_size(_get_tnt(), level);
+		return _ops::texture_green_size(_get_tnt(), level);
 	}
 
 	outcome<pixel_data_type>
 	blue_type(void) const
 	noexcept
 	{
-		return oper::texture_ops::texture_blue_type(_get_tnt());
+		return _ops::texture_blue_type(_get_tnt());
 	}
 
 	outcome<GLsizei>
 	blue_size(GLint level = 0) const
 	noexcept
 	{
-		return oper::texture_ops::texture_blue_size(_get_tnt(), level);
+		return _ops::texture_blue_size(_get_tnt(), level);
 	}
 
 	outcome<pixel_data_type>
 	alpha_type(void) const
 	noexcept
 	{
-		return oper::texture_ops::texture_alpha_type(_get_tnt());
+		return _ops::texture_alpha_type(_get_tnt());
 	}
 
 	outcome<GLsizei>
 	alpha_size(GLint level = 0) const
 	noexcept
 	{
-		return oper::texture_ops::texture_alpha_size(_get_tnt(), level);
+		return _ops::texture_alpha_size(_get_tnt(), level);
 	}
 
 	outcome<pixel_data_type>
 	depth_type(void) const
 	noexcept
 	{
-		return oper::texture_ops::texture_depth_type(_get_tnt());
+		return _ops::texture_depth_type(_get_tnt());
 	}
 
 	outcome<GLsizei>
 	depth_size(GLint level = 0) const
 	noexcept
 	{
-		return oper::texture_ops::texture_depth_size(_get_tnt(), level);
+		return _ops::texture_depth_size(_get_tnt(), level);
 	}
 
 	outcome<GLsizei>
 	stencil_size(GLint level = 0) const
 	noexcept
 	{
-		return oper::texture_ops::texture_stencil_size(
-			_get_tnt(),
-			level
-		);
+		return _ops::texture_stencil_size(_get_tnt(), level);
 	}
 
 	outcome<GLsizei>
 	shared_size(GLint level = 0) const
 	noexcept
 	{
-		return oper::texture_ops::texture_shared_size(
-			_get_tnt(),
-			level
-		);
+		return _ops::texture_shared_size(_get_tnt(), level);
 	}
 
 	outcome<boolean>
 	compressed(GLint level = 0) const
 	noexcept
 	{
-		return oper::texture_ops::texture_compressed(
-			_get_tnt(),
-			level
-		);
+		return _ops::texture_compressed(_get_tnt(), level);
 	}
 
 	outcome<GLsizei>
 	compressed_image_size(GLint level = 0) const
 	noexcept
 	{
-		return oper::texture_ops::texture_compressed_image_size(
-			_get_tnt(),
-			level
-		);
+		return _ops::texture_compressed_image_size(_get_tnt(), level);
 	}
 
 	outcome<oglplus::pixel_data_internal_format>
 	internal_format(GLint level = 0) const
 	noexcept
 	{
-		return oper::texture_ops::texture_internal_format(
-			_get_tnt(),
-			level
-		);
+		return _ops::texture_internal_format(_get_tnt(), level);
 	}
 
 	outcome<void>
 	min_filter(oglplus::texture_min_filter value)
 	noexcept
 	{
-		return oper::texture_ops::texture_min_filter(
-			_get_tnt(),
-			value
-		);
+		return _ops::texture_min_filter(_get_tnt(), value);
 	}
 
 	outcome<oglplus::texture_min_filter>
 	min_filter(void) const
 	noexcept
 	{
-		return oper::texture_ops::texture_min_filter(_get_tnt());
+		return _ops::texture_min_filter(_get_tnt());
 	}
 
 	outcome<void>
 	mag_filter(oglplus::texture_mag_filter value)
 	noexcept
 	{
-		return oper::texture_ops::texture_mag_filter(
-			_get_tnt(),
-			value
-		);
+		return _ops::texture_mag_filter(_get_tnt(), value);
 	}
 
 	outcome<oglplus::texture_mag_filter>
 	mag_filter(void) const
 	noexcept
 	{
-		return oper::texture_ops::texture_mag_filter(_get_tnt());
+		return _ops::texture_mag_filter(_get_tnt());
 	}
 
 	outcome<void>
 	compare_func(oglplus::compare_function value)
 	noexcept
 	{
-		return oper::texture_ops::texture_compare_func(
-			_get_tnt(),
-			value
-		);
+		return _ops::texture_compare_func(_get_tnt(), value);
 	}
 
 	outcome<oglplus::compare_function>
 	compare_func(void) const
 	noexcept
 	{
-		return oper::texture_ops::texture_compare_func(_get_tnt());
+		return _ops::texture_compare_func(_get_tnt());
 	}
 
 	outcome<void>
 	compare_mode(oglplus::texture_compare_mode value)
 	noexcept
 	{
-		return oper::texture_ops::texture_compare_mode(
-			_get_tnt(),
-			value
-		);
+		return _ops::texture_compare_mode(_get_tnt(), value);
 	}
 
 	outcome<oglplus::texture_compare_mode>
 	compare_mode(void) const
 	noexcept
 	{
-		return oper::texture_ops::texture_compare_mode(_get_tnt());
+		return _ops::texture_compare_mode(_get_tnt());
 	}
 
 	outcome<void>
 	lod_bias(GLfloat value)
 	noexcept
 	{
-		return oper::texture_ops::texture_lod_bias(_get_tnt(), value);
+		return _ops::texture_lod_bias(_get_tnt(), value);
 	}
 
 	outcome<GLfloat>
 	lod_bias(void) const
 	noexcept
 	{
-		return oper::texture_ops::texture_lod_bias(_get_tnt());
+		return _ops::texture_lod_bias(_get_tnt());
 	}
 };
 

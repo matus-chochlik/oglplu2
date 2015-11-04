@@ -54,29 +54,35 @@ struct shader_ops
 		array_view<GLint> values
 	) noexcept;
 
+	template <typename R, typename T>
+	static
+	outcome<R>
+	return_shader_i(shader_name shdr, shader_parameter parameter)
+	noexcept;
+
 	static
 	outcome<shader_type>
-	get_shader_type(shader_name shdr)
+	shader_type(shader_name shdr)
 	noexcept;
 
 	static
-	outcome<true_false>
-	get_shader_delete_status(shader_name shdr)
+	outcome<boolean>
+	shader_delete_status(shader_name shdr)
 	noexcept;
 
 	static
-	outcome<true_false>
-	get_shader_compile_status(shader_name shdr)
-	noexcept;
-
-	static
-	outcome<GLsizei>
-	get_shader_info_log_length(shader_name shdr)
+	outcome<boolean>
+	shader_compile_status(shader_name shdr)
 	noexcept;
 
 	static
 	outcome<GLsizei>
-	get_shader_info_log(shader_name shdr, array_view<char> dest)
+	shader_info_log_length(shader_name shdr)
+	noexcept;
+
+	static
+	outcome<GLsizei>
+	shader_info_log(shader_name shdr, array_view<char> dest)
 	noexcept;
 };
 
@@ -93,7 +99,7 @@ struct obj_dsa_ops<shader_name>
 	type(void) const
 	noexcept
 	{
-		return _ops::get_shader_type(*this);
+		return _ops::shader_type(*this);
 	}
 
 	outcome<obj_dsa_ops&>
@@ -110,32 +116,32 @@ struct obj_dsa_ops<shader_name>
 		return {_ops::compile_shader(*this), *this};
 	}
 
-	outcome<true_false>
+	outcome<boolean>
 	compile_status(void) const
 	noexcept
 	{
-		return _ops::get_shader_compile_status(*this);
+		return _ops::shader_compile_status(*this);
 	}
 
-	outcome<true_false>
+	outcome<boolean>
 	delete_status(void) const
 	noexcept
 	{
-		return _ops::get_shader_delete_status(*this);
+		return _ops::shader_delete_status(*this);
 	}
 
 	outcome<GLsizei>
 	info_log_length(void) const
 	noexcept
 	{
-		return _ops::get_shader_info_log_length(*this);
+		return _ops::shader_info_log_length(*this);
 	}
 
 	outcome<GLsizei>
 	info_log(array_view<char> dest) const
 	noexcept
 	{
-		return _ops::get_shader_info_log(*this, dest);
+		return _ops::shader_info_log(*this, dest);
 	}
 };
 

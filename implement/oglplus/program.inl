@@ -13,6 +13,66 @@ namespace oglplus {
 namespace oper {
 //------------------------------------------------------------------------------
 inline
+outcome<void>
+program_ops::
+attach_shader(program_name prog, shader_name shdr)
+noexcept
+{
+	OGLPLUS_GLFUNC(AttachShader)(
+		get_raw_name(prog),
+		get_raw_name(shdr)
+	);
+	OGLPLUS_VERIFY(
+		AttachShader,
+		gl_subject(prog).
+		gl_object(shdr),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+program_ops::
+detach_shader(program_name prog, shader_name shdr)
+noexcept
+{
+	OGLPLUS_GLFUNC(DetachShader)(
+		get_raw_name(prog),
+		get_raw_name(shdr)
+	);
+	OGLPLUS_VERIFY(
+		DetachShader,
+		gl_subject(prog).
+		gl_object(shdr),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+program_ops::
+link_program(program_name prog)
+noexcept
+{
+	OGLPLUS_GLFUNC(LinkProgram)(get_raw_name(prog));
+	OGLPLUS_VERIFY(LinkProgram, gl_object(prog), always);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+program_ops::
+use_program(program_name prog)
+noexcept
+{
+	OGLPLUS_GLFUNC(UseProgram)(get_raw_name(prog));
+	OGLPLUS_VERIFY(UseProgram, gl_object(prog), always);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
 outcome<program_name>
 program_ops::
 current_program(void)
@@ -53,63 +113,72 @@ get_program_iv(
 	return {};
 }
 //------------------------------------------------------------------------------
+template <typename R, typename T>
 inline
-outcome<true_false>
+outcome<R>
 program_ops::
-get_program_delete_status(program_name prog)
+return_program_parameter_i(program_name prog, program_parameter parameter)
 noexcept
 {
-	GLint result = GL_FALSE;
+	GLint result;
 	return get_program_iv(
 		prog,
-		program_parameter(GL_DELETE_STATUS),
+		parameter,
 		{&result, 1}
-	), true_false(GLboolean(result));
+	), R(T(result));
 }
 //------------------------------------------------------------------------------
 inline
-outcome<true_false>
+outcome<boolean>
 program_ops::
-get_program_link_status(program_name prog)
+program_delete_status(program_name prog)
 noexcept
 {
-	GLint result = GL_FALSE;
-	return get_program_iv(
+	return return_program_parameter_i<boolean, GLboolean>(
 		prog,
-		program_parameter(GL_LINK_STATUS),
-		{&result, 1}
-	), true_false(GLboolean(result));
+		program_parameter(GL_DELETE_STATUS)
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<boolean>
+program_ops::
+program_link_status(program_name prog)
+noexcept
+{
+	return return_program_parameter_i<boolean, GLboolean>(
+		prog,
+		program_parameter(GL_LINK_STATUS)
+	);
 }
 //------------------------------------------------------------------------------
 inline
 outcome<GLsizei>
 program_ops::
-get_program_info_log_length(program_name prog)
+program_info_log_length(program_name prog)
 noexcept
 {
-	GLint result = 0;
-	return get_program_iv(
+	return return_program_parameter_i<GLsizei, GLsizei>(
 		prog,
-		program_parameter(GL_INFO_LOG_LENGTH),
-		{&result, 1}
-	), GLsizei(result);
+		program_parameter(GL_INFO_LOG_LENGTH)
+	);
 }
 //------------------------------------------------------------------------------
 inline
 outcome<GLsizei>
 program_ops::
-get_program_info_log(program_name prog, array_view<char> dest)
+program_info_log(program_name prog, array_view<char> dest)
 noexcept
 {
 	GLsizei reallen = 0;
-	OGLPLUS_GLFUNC(GetShaderInfoLog)(
+	OGLPLUS_GLFUNC(GetProgramInfoLog)(
 		get_raw_name(prog),
 		GLsizei(dest.size()),
 		&reallen,
 		dest.data()
 	);
 	OGLPLUS_VERIFY(
-		GetShaderInfoLog,
+		GetProgramInfoLog,
 		gl_object(prog),
 		always
 	);

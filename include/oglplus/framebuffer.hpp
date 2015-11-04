@@ -32,20 +32,7 @@ struct framebuffer_ops
 	static
 	outcome<void>
 	bind_framebuffer(framebuffer_target target, framebuffer_name fbo)
-	noexcept
-	{
-		OGLPLUS_GLFUNC(BindFramebuffer)(
-			GLenum(target),
-			get_raw_name(fbo)
-		);
-		OGLPLUS_VERIFY(
-			BindFramebuffer,
-			gl_enum_value(target).
-			gl_object(fbo),
-			debug
-		);
-		return {};
-	}
+	noexcept;
 
 	static
 	outcome<framebuffer_name>
@@ -60,18 +47,7 @@ struct framebuffer_ops
 	static
 	outcome<bool>
 	is_framebuffer_complete(framebuffer_target target)
-	noexcept
-	{
-		return outcome_conversion<bool, framebuffer_status>(
-			check_framebuffer_status(target),
-			[](framebuffer_status status) -> bool
-			{
-				return status == framebuffer_status(
-					GL_FRAMEBUFFER_COMPLETE
-				);
-			}
-		);
-	}
+	noexcept;
 
 #if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
 	static
@@ -82,18 +58,7 @@ struct framebuffer_ops
 	static
 	outcome<bool>
 	is_framebuffer_complete(framebuffer_name fb, framebuffer_target target)
-	noexcept
-	{
-		return outcome_conversion<bool, framebuffer_status>(
-			check_framebuffer_status(fb, target),
-			[](framebuffer_status status) -> bool
-			{
-				return status == framebuffer_status(
-					GL_FRAMEBUFFER_COMPLETE
-				);
-			}
-		);
-	}
+	noexcept;
 #endif
 
 	static
@@ -214,27 +179,25 @@ template <>
 struct obj_zero_dsa_ops<framebuffer_name>
  : framebuffer_name
 {
+	typedef oper::framebuffer_ops _ops;
+
 	obj_zero_dsa_ops(void)
 	noexcept
 	 : framebuffer_name(0)
 	{ }
 
-	outcome<void>
+	outcome<obj_zero_dsa_ops&>
 	draw_buffer(color_buffer buf)
 	noexcept
 	{
-		return oper::framebuffer_ops::framebuffer_draw_buffer(
-			*this, buf
-		);
+		return {_ops::framebuffer_draw_buffer(*this, buf), *this};
 	}
 
-	outcome<void>
+	outcome<obj_zero_dsa_ops&>
 	read_buffer(color_buffer buf)
 	noexcept
 	{
-		return oper::framebuffer_ops::framebuffer_read_buffer(
-			*this, buf
-		);
+		return {_ops::framebuffer_read_buffer(*this, buf), *this};
 	}
 };
 
@@ -242,40 +205,38 @@ template <>
 struct obj_dsa_ops<framebuffer_name>
  : obj_zero_dsa_ops<framebuffer_name>
 {
+	typedef oper::framebuffer_ops _ops;
+
 	using obj_zero_dsa_ops<framebuffer_name>::obj_zero_dsa_ops;
 
 	outcome<framebuffer_status>
 	check_status(framebuffer_target target)
 	noexcept
 	{
-		return oper::framebuffer_ops::check_framebuffer_status(
-			*this, target
-		);
+		return _ops::check_framebuffer_status(*this, target);
 	}
 
 	outcome<bool>
 	is_complete(framebuffer_target target)
 	noexcept
 	{
-		return oper::framebuffer_ops::is_framebuffer_complete(
-			*this, target
-		);
+		return _ops::is_framebuffer_complete(*this, target);
 	}
 
-	outcome<void>
+	outcome<obj_dsa_ops&>
 	renderbuffer(
 		framebuffer_attachment fb_attch,
 		renderbuffer_target rb_target,
 		renderbuffer_name rbo
 	) noexcept
 	{
-		return oper::framebuffer_ops::framebuffer_renderbuffer(
-			*this, fb_attch, 
+		return {_ops::framebuffer_renderbuffer(
+			*this, fb_attch,
 			rb_target, rbo
-		);
+		), *this};
 	}
 
-	outcome<void>
+	outcome<obj_dsa_ops&>
 	texture_2d(
 		framebuffer_attachment fb_attch,
 		texture_target tx_target,
@@ -283,14 +244,14 @@ struct obj_dsa_ops<framebuffer_name>
 		GLint level
 	) noexcept
 	{
-		return oper::framebuffer_ops::framebuffer_texture_2d(
+		return {_ops::framebuffer_texture_2d(
 			*this, fb_attch, 
 			tx_target, tex,
 			level
-		);
+		), *this};
 	}
 
-	outcome<void>
+	outcome<obj_dsa_ops&>
 	texture_3d(
 		framebuffer_attachment fb_attch,
 		texture_target tx_target,
@@ -299,24 +260,24 @@ struct obj_dsa_ops<framebuffer_name>
 		GLint layer
 	) noexcept
 	{
-		return oper::framebuffer_ops::framebuffer_texture_3d(
+		return {_ops::framebuffer_texture_3d(
 			*this, fb_attch, 
 			tx_target, tex,
 			level, layer
-		);
+		), *this};
 	}
 
-	outcome<void>
+	outcome<obj_dsa_ops&>
 	texture(
 		framebuffer_attachment fb_attch,
 		texture_name tex,
 		GLint level
 	) noexcept
 	{
-		return oper::framebuffer_ops::framebuffer_texture(
+		return {_ops::framebuffer_texture(
 			*this, fb_attch, 
 			tex, level
-		);
+		), *this};
 	}
 };
 #endif

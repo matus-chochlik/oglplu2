@@ -29,20 +29,7 @@ struct renderbuffer_ops
 	static
 	outcome<void>
 	bind_renderbuffer(renderbuffer_target target, renderbuffer_name rbo)
-	noexcept
-	{
-		OGLPLUS_GLFUNC(BindRenderbuffer)(
-			GLenum(target),
-			get_raw_name(rbo)
-		);
-		OGLPLUS_VERIFY(
-			BindRenderbuffer,
-			gl_enum_value(target).
-			gl_object(rbo),
-			debug
-		);
-		return {};
-	}
+	noexcept;
 
 	static
 	outcome<renderbuffer_name>
@@ -114,138 +101,67 @@ struct renderbuffer_ops
 	return_renderbuffer_parameter_i(
 		RNT rnt,
 		oglplus::renderbuffer_parameter parameter
-	) noexcept
-	{
-		GLint result;
-		return get_renderbuffer_parameter_iv(
-			rnt,
-			parameter,
-			{&result, 1}
-		), R(T(result));
-	}
+	) noexcept;
 
 	template <typename RNT>
 	static 
 	outcome<GLsizei>
 	renderbuffer_width(RNT rnt)
-	noexcept
-	{
-		return return_renderbuffer_parameter_i<GLsizei, GLsizei>(
-			rnt, 
-			renderbuffer_parameter(GL_RENDERBUFFER_WIDTH)
-		);
-	}
+	noexcept;
 
 	template <typename RNT>
 	static 
 	outcome<GLsizei>
 	renderbuffer_height(RNT rnt)
-	noexcept
-	{
-		return return_renderbuffer_parameter_i<GLsizei, GLsizei>(
-			rnt, 
-			renderbuffer_parameter(GL_RENDERBUFFER_HEIGHT)
-		);
-	}
+	noexcept;
 
 	template <typename RNT>
 	static 
 	outcome<GLsizei>
 	renderbuffer_red_size(RNT rnt)
-	noexcept
-	{
-		return return_renderbuffer_parameter_i<GLsizei, GLsizei>(
-			rnt, 
-			renderbuffer_parameter(GL_RENDERBUFFER_RED_SIZE)
-		);
-	}
+	noexcept;
 
 	template <typename RNT>
 	static 
 	outcome<GLsizei>
 	renderbuffer_green_size(RNT rnt)
-	noexcept
-	{
-		return return_renderbuffer_parameter_i<GLsizei, GLsizei>(
-			rnt, 
-			renderbuffer_parameter(GL_RENDERBUFFER_GREEN_SIZE)
-		);
-	}
+	noexcept;
 
 	template <typename RNT>
 	static 
 	outcome<GLsizei>
 	renderbuffer_blue_size(RNT rnt)
-	noexcept
-	{
-		return return_renderbuffer_parameter_i<GLsizei, GLsizei>(
-			rnt, 
-			renderbuffer_parameter(GL_RENDERBUFFER_BLUE_SIZE)
-		);
-	}
+	noexcept;
 
 	template <typename RNT>
 	static 
 	outcome<GLsizei>
 	renderbuffer_alpha_size(RNT rnt)
-	noexcept
-	{
-		return return_renderbuffer_parameter_i<GLsizei, GLsizei>(
-			rnt, 
-			renderbuffer_parameter(GL_RENDERBUFFER_ALPHA_SIZE)
-		);
-	}
+	noexcept;
 
 	template <typename RNT>
 	static 
 	outcome<GLsizei>
 	renderbuffer_depth_size(RNT rnt)
-	noexcept
-	{
-		return return_renderbuffer_parameter_i<GLsizei, GLsizei>(
-			rnt, 
-			renderbuffer_parameter(GL_RENDERBUFFER_DEPTH_SIZE)
-		);
-	}
+	noexcept;
 
 	template <typename RNT>
 	static 
 	outcome<GLsizei>
 	renderbuffer_stencil_size(RNT rnt)
-	noexcept
-	{
-		return return_renderbuffer_parameter_i<GLsizei, GLsizei>(
-			rnt, 
-			renderbuffer_parameter(GL_RENDERBUFFER_STENCIL_SIZE)
-		);
-	}
+	noexcept;
 
 	template <typename RNT>
 	static 
 	outcome<GLsizei>
 	renderbuffer_samples(RNT rnt)
-	noexcept
-	{
-		return return_renderbuffer_parameter_i<GLsizei, GLsizei>(
-			rnt, 
-			renderbuffer_parameter(GL_RENDERBUFFER_SAMPLES)
-		);
-	}
+	noexcept;
 
 	template <typename RNT>
 	static 
 	outcome<pixel_data_internal_format>
 	renderbuffer_internal_format(RNT rnt)
-	noexcept
-	{
-		return return_renderbuffer_parameter_i<
-			pixel_data_internal_format,
-			GLenum
-		>(
-			rnt, 
-			renderbuffer_parameter(GL_RENDERBUFFER_INTERNAL_FORMAT)
-		);
-	}
+	noexcept;
 };
 
 } // namespace oper
@@ -257,7 +173,9 @@ struct obj_dsa_ops<renderbuffer_name>
 {
 	using obj_zero_dsa_ops<renderbuffer_name>::obj_zero_dsa_ops;
 
-	outcome<void>
+	typedef oper::renderbuffer_ops _ops;
+
+	outcome<obj_dsa_ops&>
 	storage(
 		pixel_data_internal_format ifmt,
 		GLsizei width,
@@ -265,14 +183,14 @@ struct obj_dsa_ops<renderbuffer_name>
 	)
 	noexcept
 	{
-		return oper::renderbuffer_ops::renderbuffer_storage(
+		return {_ops::renderbuffer_storage(
 			*this,
 			ifmt,
 			width, height
-		);
+		), *this};
 	}
 
-	outcome<void>
+	outcome<obj_dsa_ops&>
 	storage_multisample(
 		GLsizei samples,
 		pixel_data_internal_format ifmt,
@@ -281,84 +199,82 @@ struct obj_dsa_ops<renderbuffer_name>
 	)
 	noexcept
 	{
-		return oper::renderbuffer_ops::renderbuffer_storage_multisample(
+		return {_ops::renderbuffer_storage_multisample(
 			*this,
 			samples,
 			ifmt,
 			width, height
-		);
+		), *this};
 	}
 
 	outcome<GLsizei>
 	width(void) const
 	noexcept
 	{
-		return oper::renderbuffer_ops::renderbuffer_width(*this);
+		return _ops::renderbuffer_width(*this);
 	}
 
 	outcome<GLsizei>
 	height(void) const
 	noexcept
 	{
-		return oper::renderbuffer_ops::renderbuffer_height(*this);
+		return _ops::renderbuffer_height(*this);
 	}
 
 	outcome<GLsizei>
 	red_size(void) const
 	noexcept
 	{
-		return oper::renderbuffer_ops::renderbuffer_red_size(*this);
+		return _ops::renderbuffer_red_size(*this);
 	}
 
 	outcome<GLsizei>
 	green_size(void) const
 	noexcept
 	{
-		return oper::renderbuffer_ops::renderbuffer_green_size(*this);
+		return _ops::renderbuffer_green_size(*this);
 	}
 
 	outcome<GLsizei>
 	blue_size(void) const
 	noexcept
 	{
-		return oper::renderbuffer_ops::renderbuffer_blue_size(*this);
+		return _ops::renderbuffer_blue_size(*this);
 	}
 
 	outcome<GLsizei>
 	alpha_size(void) const
 	noexcept
 	{
-		return oper::renderbuffer_ops::renderbuffer_alpha_size(*this);
+		return _ops::renderbuffer_alpha_size(*this);
 	}
 
 	outcome<GLsizei>
 	depth_size(void) const
 	noexcept
 	{
-		return oper::renderbuffer_ops::renderbuffer_depth_size(*this);
+		return _ops::renderbuffer_depth_size(*this);
 	}
 
 	outcome<GLsizei>
 	stencil_size(void) const
 	noexcept
 	{
-		return oper::renderbuffer_ops::renderbuffer_stencil_size(*this);
+		return _ops::renderbuffer_stencil_size(*this);
 	}
 
 	outcome<GLsizei>
 	samples(void) const
 	noexcept
 	{
-		return oper::renderbuffer_ops::renderbuffer_samples(*this);
+		return _ops::renderbuffer_samples(*this);
 	}
 
 	outcome<pixel_data_internal_format>
 	internal_format(void) const
 	noexcept
 	{
-		return oper::renderbuffer_ops::renderbuffer_internal_format(
-			*this
-		);
+		return _ops::renderbuffer_internal_format(*this);
 	}
 };
 #endif

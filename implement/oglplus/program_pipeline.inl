@@ -14,6 +14,17 @@ namespace oglplus {
 namespace oper {
 //------------------------------------------------------------------------------
 inline
+outcome<void>
+program_pipeline_ops::
+bind_program_pipeline(program_pipeline_name ppo)
+noexcept
+{
+	OGLPLUS_GLFUNC(BindProgramPipeline)(get_raw_name(ppo));
+	OGLPLUS_VERIFY(BindProgramPipeline, gl_object(ppo), debug);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
 outcome<program_pipeline_name>
 program_pipeline_ops::
 program_pipeline_binding(void)
@@ -52,6 +63,47 @@ get_program_pipeline_iv(
 		always
 	);
 	return {};
+}
+//------------------------------------------------------------------------------
+template <typename R, typename T>
+inline
+outcome<R>
+program_pipeline_ops::
+return_program_pipeline_i(
+	program_pipeline_name ppl,
+	program_pipeline_parameter parameter
+) noexcept
+{
+	GLint result;
+	return get_program_pipeline_iv(
+		ppl,
+		parameter,
+		{&result, 1}
+	), R(T(result));
+}
+//------------------------------------------------------------------------------
+inline
+outcome<program_name>
+program_pipeline_ops::
+program_pipeline_active_program(program_pipeline_name ppl)
+noexcept
+{
+	return return_program_pipeline_i<program_name, GLuint>(
+		ppl,
+		program_pipeline_parameter(GL_ACTIVE_PROGRAM)
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<GLsizei>
+program_pipeline_ops::
+program_pipeline_info_log_length(program_pipeline_name ppl)
+noexcept
+{
+	return return_program_pipeline_i<GLsizei, GLsizei>(
+		ppl,
+		program_pipeline_parameter(GL_INFO_LOG_LENGTH)
+	);
 }
 //------------------------------------------------------------------------------
 } // namespace oper

@@ -27,58 +27,22 @@ struct program_ops
 	static
 	outcome<void>
 	attach_shader(program_name prog, shader_name shdr)
-	noexcept
-	{
-		OGLPLUS_GLFUNC(AttachShader)(
-			get_raw_name(prog),
-			get_raw_name(shdr)
-		);
-		OGLPLUS_VERIFY(
-			AttachShader,
-			gl_subject(prog).
-			gl_object(shdr),
-			debug
-		);
-		return {};
-	}
+	noexcept;
 
 	static
 	outcome<void>
 	detach_shader(program_name prog, shader_name shdr)
-	noexcept
-	{
-		OGLPLUS_GLFUNC(DetachShader)(
-			get_raw_name(prog),
-			get_raw_name(shdr)
-		);
-		OGLPLUS_VERIFY(
-			DetachShader,
-			gl_subject(prog).
-			gl_object(shdr),
-			debug
-		);
-		return {};
-	}
+	noexcept;
 
 	static
 	outcome<void>
 	link_program(program_name prog)
-	noexcept
-	{
-		OGLPLUS_GLFUNC(LinkProgram)(get_raw_name(prog));
-		OGLPLUS_VERIFY(LinkProgram, gl_object(prog), always);
-		return {};
-	}
+	noexcept;
 
 	static
 	outcome<void>
 	use_program(program_name prog)
-	noexcept
-	{
-		OGLPLUS_GLFUNC(UseProgram)(get_raw_name(prog));
-		OGLPLUS_VERIFY(UseProgram, gl_object(prog), always);
-		return {};
-	}
+	noexcept;
 
 	static
 	outcome<program_name>
@@ -93,24 +57,30 @@ struct program_ops
 		array_view<GLint> values
 	) noexcept;
 
+	template <typename R, typename T>
 	static
-	outcome<true_false>
-	get_program_delete_status(program_name prog)
+	outcome<R>
+	return_program_parameter_i(program_name, program_parameter parameter)
 	noexcept;
 
 	static
-	outcome<true_false>
-	get_program_link_status(program_name prog)
+	outcome<boolean>
+	program_delete_status(program_name prog)
+	noexcept;
+
+	static
+	outcome<boolean>
+	program_link_status(program_name prog)
 	noexcept;
 
 	static
 	outcome<GLsizei>
-	get_program_info_log_length(program_name prog)
+	program_info_log_length(program_name prog)
 	noexcept;
 
 	static
 	outcome<GLsizei>
-	get_program_info_log(program_name prog, array_view<char> dest)
+	program_info_log(program_name prog, array_view<char> dest)
 	noexcept;
 };
 
@@ -144,32 +114,32 @@ struct obj_dsa_ops<program_name>
 		return {_ops::link_program(*this), *this};
 	}
 
-	outcome<true_false>
+	outcome<boolean>
 	link_status(void) const
 	noexcept
 	{
-		return _ops::get_program_link_status(*this);
+		return _ops::program_link_status(*this);
 	}
 
-	outcome<true_false>
+	outcome<boolean>
 	delete_status(void) const
 	noexcept
 	{
-		return _ops::get_program_delete_status(*this);
+		return _ops::program_delete_status(*this);
 	}
 
 	outcome<GLsizei>
 	info_log_length(void) const
 	noexcept
 	{
-		return _ops::get_program_info_log_length(*this);
+		return _ops::program_info_log_length(*this);
 	}
 
 	outcome<GLsizei>
 	info_log(array_view<char> dest) const
 	noexcept
 	{
-		return _ops::get_program_info_log(*this, dest);
+		return _ops::program_info_log(*this, dest);
 	}
 };
 

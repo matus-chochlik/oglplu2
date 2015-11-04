@@ -52,6 +52,25 @@ noexcept
 }
 //------------------------------------------------------------------------------
 inline
+outcome<void>
+texture_ops::
+bind_texture(texture_target target, texture_name tex)
+noexcept
+{
+	OGLPLUS_GLFUNC(BindTexture)(
+		GLenum(target),
+		get_raw_name(tex)
+	);
+	OGLPLUS_VERIFY(
+		BindTexture,
+		gl_enum_value(target).
+		gl_object(tex),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
 outcome<texture_name>
 texture_ops::
 texture_binding(texture_target target)

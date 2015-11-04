@@ -32,20 +32,7 @@ struct buffer_ops
 	static
 	outcome<void>
 	bind_buffer(buffer_target target, buffer_name buf)
-	noexcept
-	{
-		OGLPLUS_GLFUNC(BindBuffer)(
-			GLenum(target),
-			get_raw_name(buf)
-		);
-		OGLPLUS_VERIFY(
-			BindBuffer,
-			gl_enum_value(target).
-			gl_object(buf),
-			debug
-		);
-		return {};
-	}
+	noexcept;
 
 	static
 	outcome<buffer_name>
@@ -58,22 +45,7 @@ struct buffer_ops
 		buffer_indexed_target target,
 		GLuint index,
 		buffer_name buf
-	) noexcept
-	{
-		OGLPLUS_GLFUNC(BindBufferBase)(
-			GLenum(target),
-			index,
-			get_raw_name(buf)
-		);
-		OGLPLUS_VERIFY(
-			BindBufferBase,
-			gl_enum_value(target).
-			gl_index(index).
-			gl_object(buf),
-			debug
-		);
-		return {};
-	}
+	) noexcept;
 
 	static
 	outcome<void>
@@ -114,84 +86,38 @@ struct buffer_ops
 	template <typename R, typename T, typename BNT>
 	static
 	outcome<R>
-	return_buffer_parameter_i(
-		BNT bnt,
-		oglplus::buffer_parameter parameter
-	) noexcept
-	{
-		GLint result;
-		return get_buffer_parameter_iv(
-			bnt,
-			parameter,
-			{&result, 1}
-		), R(T(result));
-	}
+	return_buffer_parameter_i(BNT bnt, buffer_parameter parameter)
+	noexcept;
 
 	template <typename BNT>
 	static
 	outcome<GLint>
 	buffer_size(BNT bnt)
-	noexcept
-	{
-		return return_buffer_parameter_i<GLint, GLint>(
-			bnt,
-			oglplus::buffer_parameter(GL_BUFFER_SIZE)
-		);
-	}
+	noexcept;
 
 	template <typename BNT>
 	static
 	outcome<boolean>
 	buffer_mapped(BNT bnt)
-	noexcept
-	{
-		return return_buffer_parameter_i<boolean, GLboolean>(
-			bnt,
-			oglplus::buffer_parameter(GL_BUFFER_MAPPED)
-		);
-	}
+	noexcept;
 
 	template <typename BNT>
 	static
 	outcome<boolean>
 	buffer_immutable_storage(BNT bnt)
-	noexcept
-	{
-		return return_buffer_parameter_i<boolean, GLboolean>(
-			bnt,
-			oglplus::buffer_parameter(GL_BUFFER_IMMUTABLE_STORAGE)
-		);
-	}
+	noexcept;
 
 	template <typename BNT>
 	static
 	outcome<oglplus::buffer_usage>
 	buffer_usage(BNT bnt)
-	noexcept
-	{
-		return return_buffer_parameter_i<
-			oglplus::buffer_usage,
-			GLboolean
-		>(
-			bnt,
-			oglplus::buffer_parameter(GL_BUFFER_USAGE)
-		);
-	}
+	noexcept;
 
 	template <typename BNT>
 	static
 	outcome<enum_bitfield<buffer_storage_bits>>
 	buffer_storage_flags(BNT bnt)
-	noexcept
-	{
-		return return_buffer_parameter_i<
-			enum_bitfield<buffer_storage_bits>,
-			GLbitfield
-		>(
-			bnt,
-			oglplus::buffer_parameter(GL_BUFFER_STORAGE_FLAGS)
-		);
-	}
+	noexcept;
 
 	static
 	outcome<void>
@@ -276,37 +202,38 @@ template <>
 struct obj_dsa_ops<buffer_name>
  : obj_zero_dsa_ops<buffer_name>
 {
-	outcome<void>
+	typedef oper::buffer_ops _ops;
+
+	outcome<obj_dsa_ops&>
 	data(const buffer_data_spec& data, buffer_usage usage)
 	noexcept
 	{
-		return oper::buffer_ops::buffer_data(*this, data, usage);
+		return {_ops::buffer_data(*this, data, usage), *this};
 	}
 
-	outcome<void>
+	outcome<obj_dsa_ops&>
 	sub_data(buffer_size offset, const buffer_data_spec& data)
 	noexcept
 	{
-		return oper::buffer_ops::buffer_sub_data(*this, offset, data);
+		return {_ops::buffer_sub_data(*this, offset, data), *this};
 	}
 
 #if defined(GL_VERSION_4_3) || defined(GL_ARB_invalidate_subdata)
-	outcome<void>
+	outcome<obj_dsa_ops&>
 	invalidate_data(void)
 	noexcept
 	{
-		return oper::buffer_ops::invalidate_buffer_data(*this);
+		return {_ops::invalidate_buffer_data(*this), *this};
 	}
 
-	outcome<void>
+	outcome<obj_dsa_ops&>
 	invalidate_sub_data(buffer_size offset, buffer_size size)
 	noexcept
 	{
-		return oper::buffer_ops::invalidate_buffer_sub_data(
-			*this,
-			offset,
-			size
-		);
+		return {
+			_ops::invalidate_buffer_sub_data( *this, offset, size),
+			*this
+		};
 	}
 #endif
 
@@ -314,35 +241,35 @@ struct obj_dsa_ops<buffer_name>
 	size(void) const
 	noexcept
 	{
-		return oper::buffer_ops::buffer_size(*this);
+		return _ops::buffer_size(*this);
 	}
 
 	outcome<boolean>
 	mapped(void) const
 	noexcept
 	{
-		return oper::buffer_ops::buffer_mapped(*this);
+		return _ops::buffer_mapped(*this);
 	}
 
 	outcome<boolean>
 	immutable_storage(void) const
 	noexcept
 	{
-		return oper::buffer_ops::buffer_immutable_storage(*this);
+		return _ops::buffer_immutable_storage(*this);
 	}
 
 	outcome<buffer_usage>
 	usage(void) const
 	noexcept
 	{
-		return oper::buffer_ops::buffer_usage(*this);
+		return _ops::buffer_usage(*this);
 	}
 
 	outcome<enum_bitfield<buffer_storage_bits>>
 	storage_flags(void) const
 	noexcept
 	{
-		return oper::buffer_ops::buffer_storage_flags(*this);
+		return _ops::buffer_storage_flags(*this);
 	}
 };
 #endif

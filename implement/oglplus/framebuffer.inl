@@ -18,6 +18,25 @@ namespace oglplus {
 namespace oper {
 //------------------------------------------------------------------------------
 inline
+outcome<void>
+framebuffer_ops::
+bind_framebuffer(framebuffer_target target, framebuffer_name fbo)
+noexcept
+{
+	OGLPLUS_GLFUNC(BindFramebuffer)(
+		GLenum(target),
+		get_raw_name(fbo)
+	);
+	OGLPLUS_VERIFY(
+		BindFramebuffer,
+		gl_enum_value(target).
+		gl_object(fbo),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
 outcome<framebuffer_name>
 framebuffer_ops::
 framebuffer_binding(framebuffer_target target)
@@ -48,6 +67,23 @@ noexcept
 	return {framebuffer_status(result)};
 }
 //------------------------------------------------------------------------------
+inline
+outcome<bool>
+framebuffer_ops::
+is_framebuffer_complete(framebuffer_target target)
+noexcept
+{
+	return outcome_conversion<bool, framebuffer_status>(
+		check_framebuffer_status(target),
+		[](framebuffer_status status) -> bool
+		{
+			return status == framebuffer_status(
+				GL_FRAMEBUFFER_COMPLETE
+			);
+		}
+	);
+}
+//------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
 inline
 outcome<framebuffer_status>
@@ -73,6 +109,23 @@ noexcept
 		);
 	}
 	return {framebuffer_status(result)};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<bool>
+framebuffer_ops::
+is_framebuffer_complete(framebuffer_name fb, framebuffer_target target)
+noexcept
+{
+	return outcome_conversion<bool, framebuffer_status>(
+		check_framebuffer_status(fb, target),
+		[](framebuffer_status status) -> bool
+		{
+			return status == framebuffer_status(
+				GL_FRAMEBUFFER_COMPLETE
+			);
+		}
+	);
 }
 #endif
 //------------------------------------------------------------------------------

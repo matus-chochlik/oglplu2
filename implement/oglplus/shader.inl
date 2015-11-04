@@ -64,7 +64,7 @@ noexcept
 inline
 outcome<shader_type>
 shader_ops::
-get_shader_type(shader_name shdr)
+shader_type(shader_name shdr)
 noexcept
 {
 	GLint result = GL_NONE;
@@ -72,55 +72,64 @@ noexcept
 		shdr,
 		shader_parameter(GL_SHADER_TYPE),
 		{&result, 1}
-	), shader_type(GLenum(result));
+	), oglplus::shader_type(GLenum(result));
+}
+//------------------------------------------------------------------------------
+template <typename R, typename T>
+inline
+outcome<R>
+shader_ops::
+return_shader_i(shader_name shdr, shader_parameter parameter)
+noexcept
+{
+	GLint result;
+	return get_shader_iv(
+		shdr,
+		parameter,
+		{&result, 1}
+	), R(T(result));
 }
 //------------------------------------------------------------------------------
 inline
-outcome<true_false>
+outcome<boolean>
 shader_ops::
-get_shader_delete_status(shader_name shdr)
+shader_delete_status(shader_name shdr)
 noexcept
 {
-	GLint result = GL_FALSE;
-	return get_shader_iv(
-		shdr,
-		shader_parameter(GL_DELETE_STATUS),
-		{&result, 1}
-	), true_false(GLboolean(result));
+	return return_shader_i<boolean, GLboolean>(
+		shdr, 
+		shader_parameter(GL_DELETE_STATUS)
+	);
 }
 //------------------------------------------------------------------------------
 inline
-outcome<true_false>
+outcome<boolean>
 shader_ops::
-get_shader_compile_status(shader_name shdr)
+shader_compile_status(shader_name shdr)
 noexcept
 {
-	GLint result = GL_FALSE;
-	return get_shader_iv(
-		shdr,
-		shader_parameter(GL_COMPILE_STATUS),
-		{&result, 1}
-	), true_false(GLboolean(result));
+	return return_shader_i<boolean, GLboolean>(
+		shdr, 
+		shader_parameter(GL_COMPILE_STATUS)
+	);
 }
 //------------------------------------------------------------------------------
 inline
 outcome<GLsizei>
 shader_ops::
-get_shader_info_log_length(shader_name shdr)
+shader_info_log_length(shader_name shdr)
 noexcept
 {
-	GLint result = 0;
-	return get_shader_iv(
-		shdr,
-		shader_parameter(GL_INFO_LOG_LENGTH),
-		{&result, 1}
-	), GLsizei(result);
+	return return_shader_i<GLsizei, GLsizei>(
+		shdr, 
+		shader_parameter(GL_INFO_LOG_LENGTH)
+	);
 }
 //------------------------------------------------------------------------------
 inline
 outcome<GLsizei>
 shader_ops::
-get_shader_info_log(shader_name shdr, array_view<char> dest)
+shader_info_log(shader_name shdr, array_view<char> dest)
 noexcept
 {
 	GLsizei reallen = 0;

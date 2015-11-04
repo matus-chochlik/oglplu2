@@ -14,6 +14,25 @@ namespace oglplus {
 namespace oper {
 //------------------------------------------------------------------------------
 inline
+outcome<void>
+sampler_ops::
+bind_sampler(texture_unit unit, sampler_name sam)
+noexcept
+{
+	OGLPLUS_GLFUNC(BindFramebuffer)(
+		GLenum(unit),
+		get_raw_name(sam)
+	);
+	OGLPLUS_VERIFY(
+		BindFramebuffer,
+		gl_enum_value(unit).
+		gl_object(sam),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
 outcome<sampler_name>
 sampler_ops::
 sampler_binding(texture_unit unit)
@@ -124,6 +143,305 @@ get_sampler_parameter_fv(
 		always
 	);
 	return {};
+}
+//------------------------------------------------------------------------------
+template <typename R, typename T>
+inline
+outcome<R>
+sampler_ops::
+return_sampler_parameter_i(
+	sampler_name sam,
+	sampler_parameter parameter
+) noexcept
+{
+	GLint result;
+	return get_sampler_parameter_iv(
+		sam,
+		parameter,
+		{&result, 1}
+	), R(T(result));
+}
+//------------------------------------------------------------------------------
+template <typename R>
+inline
+outcome<R>
+sampler_ops::
+return_sampler_parameter_f(
+	sampler_name sam,
+	sampler_parameter parameter
+) noexcept
+{
+	GLfloat result;
+	return get_sampler_parameter_fv(
+		sam,
+		parameter,
+		{&result, 1}
+	), R(result);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+sampler_ops::
+sampler_min_filter(sampler_name sam, texture_min_filter value)
+noexcept
+{
+	return sampler_parameter_i(
+		sam,
+		sampler_parameter(GL_TEXTURE_MIN_FILTER),
+		GLint(GLenum(value))
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<texture_min_filter>
+sampler_ops::
+sampler_min_filter(sampler_name sam)
+noexcept
+{
+	return return_sampler_parameter_i<texture_min_filter, GLenum>(
+		sam,
+		sampler_parameter(GL_TEXTURE_MIN_FILTER)
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+sampler_ops::
+sampler_mag_filter(sampler_name sam, texture_mag_filter value)
+noexcept
+{
+	return sampler_parameter_i(
+		sam,
+		sampler_parameter(GL_TEXTURE_MAG_FILTER),
+		GLint(GLenum(value))
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<texture_mag_filter>
+sampler_ops::
+sampler_mag_filter(sampler_name sam)
+noexcept
+{
+	return return_sampler_parameter_i<
+		texture_mag_filter,
+		GLenum
+	>(
+		sam,
+		sampler_parameter(GL_TEXTURE_MAG_FILTER)
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+sampler_ops::
+sampler_compare_mode(sampler_name sam, texture_compare_mode value)
+noexcept
+{
+	return sampler_parameter_i(
+		sam,
+		sampler_parameter(GL_TEXTURE_COMPARE_MODE),
+		GLint(GLenum(value))
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<texture_compare_mode>
+sampler_ops::
+sampler_compare_mode(sampler_name sam)
+noexcept
+{
+	return return_sampler_parameter_i<
+		texture_compare_mode,
+		GLenum
+	>(
+		sam,
+		sampler_parameter(GL_TEXTURE_COMPARE_MODE)
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+sampler_ops::
+sampler_compare_func(sampler_name sam, compare_function value)
+noexcept
+{
+	return sampler_parameter_i(
+		sam,
+		sampler_parameter(GL_TEXTURE_COMPARE_FUNC),
+		GLint(GLenum(value))
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<compare_function>
+sampler_ops::
+sampler_compare_func(sampler_name sam)
+noexcept
+{
+	return return_sampler_parameter_i<
+		compare_function,
+		GLenum
+	>(
+		sam,
+		sampler_parameter(GL_TEXTURE_COMPARE_FUNC)
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+sampler_ops::
+sampler_wrap(
+	sampler_name sam,
+	texture_wrap_coord coord,
+	texture_wrap value
+) noexcept
+{
+	return sampler_parameter_i(
+		sam,
+		sampler_parameter(GLenum(coord)),
+		GLint(GLenum(value))
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<texture_wrap>
+sampler_ops::
+sampler_wrap(sampler_name sam, texture_wrap_coord coord)
+noexcept
+{
+	return return_sampler_parameter_i<
+		texture_wrap,
+		GLenum
+	>(sam, sampler_parameter(GLenum(coord)));
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+sampler_ops::
+sampler_wrap_s(sampler_name sam, texture_wrap value)
+noexcept
+{
+	return sampler_parameter_i(
+		sam,
+		sampler_parameter(GL_TEXTURE_WRAP_S),
+		GLint(GLenum(value))
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<texture_wrap>
+sampler_ops::
+sampler_wrap_s(sampler_name sam)
+noexcept
+{
+	return return_sampler_parameter_i<texture_wrap, GLenum>(
+		sam,
+		sampler_parameter(GL_TEXTURE_WRAP_S)
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+sampler_ops::
+sampler_wrap_t(sampler_name sam, texture_wrap value)
+noexcept
+{
+	return sampler_parameter_i(
+		sam,
+		sampler_parameter(GL_TEXTURE_WRAP_T),
+		GLint(GLenum(value))
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<texture_wrap>
+sampler_ops::
+sampler_wrap_t(sampler_name sam)
+noexcept
+{
+	return return_sampler_parameter_i<texture_wrap, GLenum>(
+		sam,
+		sampler_parameter(GL_TEXTURE_WRAP_T)
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+sampler_ops::
+sampler_wrap_r(sampler_name sam, texture_wrap value)
+noexcept
+{
+	return sampler_parameter_i(
+		sam,
+		sampler_parameter(GL_TEXTURE_WRAP_R),
+		GLint(GLenum(value))
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<texture_wrap>
+sampler_ops::
+sampler_wrap_r(sampler_name sam)
+noexcept
+{
+	return return_sampler_parameter_i<texture_wrap, GLenum>(
+		sam,
+		sampler_parameter(GL_TEXTURE_WRAP_R)
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+sampler_ops::
+sampler_min_lod(sampler_name sam, GLfloat value)
+noexcept
+{
+	return sampler_parameter_f(
+		sam,
+		sampler_parameter(GL_TEXTURE_MIN_LOD),
+		value
+	);
+}
+
+//------------------------------------------------------------------------------
+inline
+outcome<GLfloat>
+sampler_ops::
+sampler_min_lod(sampler_name sam)
+noexcept
+{
+	return return_sampler_parameter_f<GLfloat>(
+		sam,
+		sampler_parameter(GL_TEXTURE_MIN_LOD)
+	);
+}
+
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+sampler_ops::
+sampler_max_lod(sampler_name sam, GLfloat value)
+noexcept
+{
+	return sampler_parameter_f(
+		sam,
+		sampler_parameter(GL_TEXTURE_MAX_LOD),
+		value
+	);
+}
+
+//------------------------------------------------------------------------------
+inline
+outcome<GLfloat>
+sampler_ops::
+sampler_max_lod(sampler_name sam)
+noexcept
+{
+	return return_sampler_parameter_f<GLfloat>(
+		sam,
+		sampler_parameter(GL_TEXTURE_MAX_LOD)
+	);
 }
 //------------------------------------------------------------------------------
 } // namespace oper

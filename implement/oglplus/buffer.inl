@@ -18,6 +18,25 @@ namespace oglplus {
 namespace oper {
 //------------------------------------------------------------------------------
 inline
+outcome<void>
+buffer_ops::
+bind_buffer(buffer_target target, buffer_name buf)
+noexcept
+{
+	OGLPLUS_GLFUNC(BindBuffer)(
+		GLenum(target),
+		get_raw_name(buf)
+	);
+	OGLPLUS_VERIFY(
+		BindBuffer,
+		gl_enum_value(target).
+		gl_object(buf),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
 outcome<buffer_name>
 buffer_ops::
 buffer_binding(buffer_target target)
@@ -28,6 +47,30 @@ noexcept
 		get_binding_query(target),
 		{&result, 1}
 	), buffer_name(GLuint(result));
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+buffer_ops::
+bind_buffer_base(
+	buffer_indexed_target target,
+	GLuint index,
+	buffer_name buf
+) noexcept
+{
+	OGLPLUS_GLFUNC(BindBufferBase)(
+		GLenum(target),
+		index,
+		get_raw_name(buf)
+	);
+	OGLPLUS_VERIFY(
+		BindBufferBase,
+		gl_enum_value(target).
+		gl_index(index).
+		gl_object(buf),
+		debug
+	);
+	return {};
 }
 //------------------------------------------------------------------------------
 inline
@@ -133,6 +176,94 @@ get_buffer_parameter_i64v(
 	return {};
 }
 #endif
+//------------------------------------------------------------------------------
+template <typename R, typename T, typename BNT>
+inline
+outcome<R>
+buffer_ops::
+return_buffer_parameter_i(
+	BNT bnt,
+	oglplus::buffer_parameter parameter
+) noexcept
+{
+	GLint result;
+	return get_buffer_parameter_iv(
+		bnt,
+		parameter,
+		{&result, 1}
+	), R(T(result));
+}
+//------------------------------------------------------------------------------
+template <typename BNT>
+inline
+outcome<GLint>
+buffer_ops::
+buffer_size(BNT bnt)
+noexcept
+{
+	return return_buffer_parameter_i<GLint, GLint>(
+		bnt,
+		oglplus::buffer_parameter(GL_BUFFER_SIZE)
+	);
+}
+//------------------------------------------------------------------------------
+template <typename BNT>
+inline
+outcome<boolean>
+buffer_ops::
+buffer_mapped(BNT bnt)
+noexcept
+{
+	return return_buffer_parameter_i<boolean, GLboolean>(
+		bnt,
+		oglplus::buffer_parameter(GL_BUFFER_MAPPED)
+	);
+}
+//------------------------------------------------------------------------------
+template <typename BNT>
+inline
+outcome<boolean>
+buffer_ops::
+buffer_immutable_storage(BNT bnt)
+noexcept
+{
+	return return_buffer_parameter_i<boolean, GLboolean>(
+		bnt,
+		oglplus::buffer_parameter(GL_BUFFER_IMMUTABLE_STORAGE)
+	);
+}
+//------------------------------------------------------------------------------
+template <typename BNT>
+inline
+outcome<oglplus::buffer_usage>
+buffer_ops::
+buffer_usage(BNT bnt)
+noexcept
+{
+	return return_buffer_parameter_i<
+		oglplus::buffer_usage,
+		GLboolean
+	>(
+		bnt,
+		oglplus::buffer_parameter(GL_BUFFER_USAGE)
+	);
+}
+//------------------------------------------------------------------------------
+template <typename BNT>
+inline
+outcome<enum_bitfield<buffer_storage_bits>>
+buffer_ops::
+buffer_storage_flags(BNT bnt)
+noexcept
+{
+	return return_buffer_parameter_i<
+		enum_bitfield<buffer_storage_bits>,
+		GLbitfield
+	>(
+		bnt,
+		oglplus::buffer_parameter(GL_BUFFER_STORAGE_FLAGS)
+	);
+}
 //------------------------------------------------------------------------------
 inline
 outcome<void>

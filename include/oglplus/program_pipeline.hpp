@@ -10,6 +10,7 @@
 #define OGLPLUS_PROGRAM_PIPELINE_1509260923_HPP
 
 #include "program_pipeline_name.hpp"
+#include "program_name.hpp"
 #include "object/owner.hpp"
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
@@ -24,12 +25,7 @@ struct program_pipeline_ops
 	static
 	outcome<void>
 	bind_program_pipeline(program_pipeline_name ppo)
-	noexcept
-	{
-		OGLPLUS_GLFUNC(BindProgramPipeline)(get_raw_name(ppo));
-		OGLPLUS_VERIFY(BindProgramPipeline, gl_object(ppo), debug);
-		return {};
-	}
+	noexcept;
 
 	static
 	outcome<program_pipeline_name>
@@ -49,19 +45,43 @@ struct program_pipeline_ops
 	outcome<R>
 	return_program_pipeline_i(
 		program_pipeline_name ppl,
-		oglplus::program_pipeline_parameter parameter
-	) noexcept
-	{
-		GLint result;
-		return get_program_pipeline_iv(
-			ppl,
-			parameter,
-			{&result, 1}
-		), R(T(result));
-	}
+		program_pipeline_parameter parameter
+	) noexcept;
+
+	static
+	outcome<program_name>
+	program_pipeline_active_program(program_pipeline_name ppl)
+	noexcept;
+
+	static
+	outcome<GLsizei>
+	program_pipeline_info_log_length(program_pipeline_name ppl)
+	noexcept;
 };
 
 } // namespace oper
+
+// obj_dsa_ops
+template <>
+struct obj_dsa_ops<program_pipeline_name>
+ : obj_zero_dsa_ops<program_pipeline_name>
+{
+	typedef oper::program_pipeline_ops _ops;
+
+	outcome<program_name>
+	active_program(void) const
+	noexcept
+	{
+		return _ops::program_pipeline_active_program(*this);
+	}
+
+	outcome<GLsizei>
+	info_log_length(void) const
+	noexcept
+	{
+		return _ops::program_pipeline_info_log_length(*this);
+	}
+};
 
 template <>
 struct obj_gen_del_ops<tag::program_pipeline>
