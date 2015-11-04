@@ -30,6 +30,30 @@ noexcept
 #endif
 }
 //------------------------------------------------------------------------------
+inline
+outcome<void>
+program_pipeline_ops::
+get_program_pipeline_iv(
+	program_pipeline_name buf,
+	oglplus::program_pipeline_parameter param,
+	array_view<GLint> values
+) noexcept
+{
+	assert(values.size() > 0);
+	OGLPLUS_GLFUNC(GetProgramPipelineiv)(
+		get_raw_name(buf),
+		GLenum(param),
+		values.data()
+	);
+	OGLPLUS_VERIFY(
+		GetProgramPipelineiv,
+		gl_object(buf).
+		gl_enum_value(param),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
 } // namespace oper
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_gen

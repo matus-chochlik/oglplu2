@@ -42,6 +42,14 @@ static constexpr const enum_value<
 > active_attributes = {};
 #endif
 
+#ifdef GL_ACTIVE_PROGRAM
+static constexpr const enum_value<
+	GLenum,
+	GL_ACTIVE_PROGRAM,
+	mp_list<oglplus::program_pipeline_parameter>
+> active_program = {};
+#endif
+
 #ifdef GL_ACTIVE_UNIFORM_MAX_LENGTH
 static constexpr const enum_value<
 	GLenum,
@@ -2206,7 +2214,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_FRAGMENT_SHADER,
-	mp_list<oglplus::shader_type>
+	mp_list<oglplus::shader_type,oglplus::program_pipeline_parameter>
 > fragment_shader = {};
 #endif
 
@@ -2390,7 +2398,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_GEOMETRY_SHADER,
-	mp_list<oglplus::shader_type>
+	mp_list<oglplus::shader_type,oglplus::program_pipeline_parameter>
 > geometry_shader = {};
 #endif
 
@@ -2742,7 +2750,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_INFO_LOG_LENGTH,
-	mp_list<oglplus::program_parameter,oglplus::shader_parameter>
+	mp_list<oglplus::shader_parameter,oglplus::program_parameter,oglplus::program_pipeline_parameter>
 > info_log_length = {};
 #endif
 
@@ -6950,7 +6958,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_TESS_CONTROL_SHADER,
-	mp_list<oglplus::shader_type>
+	mp_list<oglplus::shader_type,oglplus::program_pipeline_parameter>
 > tess_control_shader = {};
 #endif
 
@@ -6990,7 +6998,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_TESS_EVALUATION_SHADER,
-	mp_list<oglplus::shader_type>
+	mp_list<oglplus::shader_type,oglplus::program_pipeline_parameter>
 > tess_evaluation_shader = {};
 #endif
 
@@ -8366,7 +8374,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_VERTEX_SHADER,
-	mp_list<oglplus::shader_type>
+	mp_list<oglplus::shader_type,oglplus::program_pipeline_parameter>
 > vertex_shader = {};
 #endif
 

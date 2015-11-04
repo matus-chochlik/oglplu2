@@ -35,6 +35,30 @@ struct program_pipeline_ops
 	outcome<program_pipeline_name>
 	program_pipeline_binding(void)
 	noexcept;
+
+	static
+	outcome<void>
+	get_program_pipeline_iv(
+		program_pipeline_name buf,
+		program_pipeline_parameter param,
+		array_view<GLint> values
+	) noexcept;
+
+	template <typename R, typename T>
+	static
+	outcome<R>
+	return_program_pipeline_i(
+		program_pipeline_name ppl,
+		oglplus::program_pipeline_parameter parameter
+	) noexcept
+	{
+		GLint result;
+		return get_program_pipeline_iv(
+			ppl,
+			parameter,
+			{&result, 1}
+		), R(T(result));
+	}
 };
 
 } // namespace oper
