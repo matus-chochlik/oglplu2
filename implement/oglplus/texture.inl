@@ -455,6 +455,452 @@ get_texture_parameter_fv(
 }
 #endif
 //------------------------------------------------------------------------------
+template <typename R, typename T, typename TNT>
+inline
+outcome<R>
+texture_ops::
+return_texture_parameter_i(
+	TNT tnt, 
+	oglplus::texture_parameter parameter
+) noexcept
+{
+	GLint result;
+	return get_texture_parameter_iv(
+		make_texture_name_or_target(tnt),
+		parameter,
+		{&result, 1}
+	), R(T(result));
+}
+//------------------------------------------------------------------------------
+template <typename R, typename T, typename TNT>
+inline
+outcome<R>
+texture_ops::
+return_texture_level_parameter_i(
+	TNT tnt, 
+	GLint level,
+	oglplus::texture_parameter parameter
+) noexcept
+{
+	GLint result;
+	return get_texture_level_parameter_iv(
+		make_texture_name_or_target(tnt),
+		level,
+		parameter,
+		{&result, 1}
+	), R(T(result));
+}
+//------------------------------------------------------------------------------
+template <typename R, typename TNT>
+inline
+outcome<R>
+texture_ops::
+return_texture_parameter_f(
+	TNT tnt, 
+	oglplus::texture_parameter parameter
+) noexcept
+{
+	GLfloat result;
+	return get_texture_parameter_fv(
+		make_texture_name_or_target(tnt),
+		parameter,
+		{&result, 1}
+	), R(result);
+}
+//------------------------------------------------------------------------------
+template <typename TNT>
+inline
+outcome<GLsizei>
+texture_ops::
+texture_width(TNT tnt, GLint level)
+noexcept
+{
+	return return_texture_level_parameter_i<GLsizei, GLsizei>(
+		tnt, 
+		level,
+		oglplus::texture_parameter(GL_TEXTURE_WIDTH)
+	);
+}
+//------------------------------------------------------------------------------
+template <typename TNT>
+inline
+outcome<GLsizei>
+texture_ops::
+texture_height(TNT tnt, GLint level)
+noexcept
+{
+	return return_texture_level_parameter_i<GLsizei, GLsizei>(
+		tnt, 
+		level,
+		oglplus::texture_parameter(GL_TEXTURE_HEIGHT)
+	);
+}
+//------------------------------------------------------------------------------
+template <typename TNT>
+inline
+outcome<GLsizei>
+texture_ops::
+texture_depth(TNT tnt, GLint level)
+noexcept
+{
+	return return_texture_level_parameter_i<GLsizei, GLsizei>(
+		tnt, 
+		level,
+		oglplus::texture_parameter(GL_TEXTURE_DEPTH)
+	);
+}
+//------------------------------------------------------------------------------
+template <typename TNT>
+inline
+outcome<pixel_data_type>
+texture_ops::
+texture_red_type(TNT tnt)
+noexcept
+{
+	return return_texture_parameter_i<pixel_data_type, GLenum>(
+		tnt,
+		oglplus::texture_parameter(GL_TEXTURE_RED_TYPE)
+	);
+}
+//------------------------------------------------------------------------------
+template <typename TNT>
+inline
+outcome<GLsizei>
+texture_ops::
+texture_red_size(TNT tnt, GLint level)
+noexcept
+{
+	return return_texture_level_parameter_i<GLsizei, GLsizei>(
+		tnt, 
+		level,
+		oglplus::texture_parameter(GL_TEXTURE_RED_SIZE)
+	);
+}
+//------------------------------------------------------------------------------
+template <typename TNT>
+inline
+outcome<pixel_data_type>
+texture_ops::
+texture_green_type(TNT tnt)
+noexcept
+{
+	return return_texture_parameter_i<pixel_data_type, GLenum>(
+		tnt,
+		oglplus::texture_parameter(GL_TEXTURE_GREEN_TYPE)
+	);
+}
+//------------------------------------------------------------------------------
+template <typename TNT>
+inline
+outcome<GLsizei>
+texture_ops::
+texture_green_size(TNT tnt, GLint level)
+noexcept
+{
+	return return_texture_level_parameter_i<GLsizei, GLsizei>(
+		tnt, 
+		level,
+		oglplus::texture_parameter(GL_TEXTURE_GREEN_SIZE)
+	);
+}
+//------------------------------------------------------------------------------
+template <typename TNT>
+inline
+outcome<pixel_data_type>
+texture_ops::
+texture_blue_type(TNT tnt)
+noexcept
+{
+	return return_texture_parameter_i<pixel_data_type, GLenum>(
+		tnt,
+		oglplus::texture_parameter(GL_TEXTURE_BLUE_TYPE)
+	);
+}
+//------------------------------------------------------------------------------
+template <typename TNT>
+inline
+outcome<GLsizei>
+texture_ops::
+texture_blue_size(TNT tnt, GLint level)
+noexcept
+{
+	return return_texture_level_parameter_i<GLsizei, GLsizei>(
+		tnt, 
+		level,
+		oglplus::texture_parameter(GL_TEXTURE_BLUE_SIZE)
+	);
+}
+//------------------------------------------------------------------------------
+template <typename TNT>
+inline
+outcome<pixel_data_type>
+texture_ops::
+texture_alpha_type(TNT tnt)
+noexcept
+{
+	return return_texture_parameter_i<pixel_data_type, GLenum>(
+		tnt,
+		oglplus::texture_parameter(GL_TEXTURE_ALPHA_TYPE)
+	);
+}
+//------------------------------------------------------------------------------
+template <typename TNT>
+inline
+outcome<GLsizei>
+texture_ops::
+texture_alpha_size(TNT tnt, GLint level)
+noexcept
+{
+	return return_texture_level_parameter_i<GLsizei, GLsizei>(
+		tnt, 
+		level,
+		oglplus::texture_parameter(GL_TEXTURE_ALPHA_SIZE)
+	);
+}
+//------------------------------------------------------------------------------
+template <typename TNT>
+inline
+outcome<pixel_data_type>
+texture_ops::
+texture_depth_type(TNT tnt)
+noexcept
+{
+	return return_texture_parameter_i<pixel_data_type, GLenum>(
+		tnt,
+		oglplus::texture_parameter(GL_TEXTURE_DEPTH_TYPE)
+	);
+}
+//------------------------------------------------------------------------------
+template <typename TNT>
+inline
+outcome<GLsizei>
+texture_ops::
+texture_depth_size(TNT tnt, GLint level)
+noexcept
+{
+	return return_texture_level_parameter_i<GLsizei, GLsizei>(
+		tnt, 
+		level,
+		oglplus::texture_parameter(GL_TEXTURE_DEPTH_SIZE)
+	);
+}
+//------------------------------------------------------------------------------
+template <typename TNT>
+inline
+outcome<GLsizei>
+texture_ops::
+texture_stencil_size(TNT tnt, GLint level)
+noexcept
+{
+	return return_texture_level_parameter_i<GLsizei, GLsizei>(
+		tnt, 
+		level,
+		oglplus::texture_parameter(GL_TEXTURE_STENCIL_SIZE)
+	);
+}
+//------------------------------------------------------------------------------
+template <typename TNT>
+inline
+outcome<GLsizei>
+texture_ops::
+texture_shared_size(TNT tnt, GLint level)
+noexcept
+{
+	return return_texture_level_parameter_i<GLsizei, GLsizei>(
+		tnt, 
+		level,
+		oglplus::texture_parameter(GL_TEXTURE_SHARED_SIZE)
+	);
+}
+//------------------------------------------------------------------------------
+template <typename TNT>
+inline
+outcome<boolean>
+texture_ops::
+texture_compressed(TNT tnt, GLint level)
+noexcept
+{
+	return return_texture_level_parameter_i<
+		boolean,
+		GLboolean
+	>(
+		tnt, 
+		level,
+		oglplus::texture_parameter(GL_TEXTURE_COMPRESSED)
+	);
+}
+//------------------------------------------------------------------------------
+template <typename TNT>
+inline
+outcome<GLsizei>
+texture_ops::
+texture_compressed_image_size(TNT tnt, GLint level)
+noexcept
+{
+	return return_texture_level_parameter_i<GLsizei, GLsizei>(
+		tnt, 
+		level,
+		oglplus::texture_parameter(
+			GL_TEXTURE_COMPRESSED_IMAGE_SIZE
+		)
+	);
+}
+//------------------------------------------------------------------------------
+template <typename TNT>
+inline
+outcome<oglplus::pixel_data_internal_format>
+texture_ops::
+texture_internal_format(TNT tnt, GLint level)
+noexcept
+{
+	return return_texture_level_parameter_i<
+		oglplus::pixel_data_internal_format,
+		GLenum
+	>(
+		tnt,
+		level,
+		oglplus::texture_parameter(GL_TEXTURE_INTERNAL_FORMAT)
+	);
+}
+//------------------------------------------------------------------------------
+template <typename TNT>
+inline
+outcome<void>
+texture_ops::
+texture_min_filter(TNT tnt, oglplus::texture_min_filter value)
+noexcept
+{
+	return texture_parameter_i(
+		make_texture_name_or_target(tnt),
+		oglplus::texture_parameter(GL_TEXTURE_MIN_FILTER),
+		GLint(GLenum(value))
+	);
+}
+//------------------------------------------------------------------------------
+template <typename TNT>
+inline
+outcome<oglplus::texture_min_filter>
+texture_ops::
+texture_min_filter(TNT tnt)
+noexcept
+{
+	return return_texture_parameter_i<oglplus::texture_min_filter, GLenum>(
+		tnt,
+		oglplus::texture_parameter(GL_TEXTURE_MIN_FILTER)
+	);
+}
+//------------------------------------------------------------------------------
+template <typename TNT>
+inline
+outcome<void>
+texture_ops::
+texture_mag_filter(TNT tnt, oglplus::texture_mag_filter value)
+noexcept
+{
+	return texture_parameter_i(
+		make_texture_name_or_target(tnt),
+		oglplus::texture_parameter(GL_TEXTURE_MAG_FILTER),
+		GLint(GLenum(value))
+	);
+}
+//------------------------------------------------------------------------------
+template <typename TNT>
+inline
+outcome<oglplus::texture_mag_filter>
+texture_ops::
+texture_mag_filter(TNT tnt)
+noexcept
+{
+	return return_texture_parameter_i<oglplus::texture_mag_filter, GLenum>(
+		tnt,
+		oglplus::texture_parameter(GL_TEXTURE_MAG_FILTER)
+	);
+}
+//------------------------------------------------------------------------------
+template <typename TNT>
+inline
+outcome<void>
+texture_ops::
+texture_compare_func(TNT tnt, oglplus::compare_function value)
+noexcept
+{
+	return texture_parameter_i(
+		make_texture_name_or_target(tnt),
+		oglplus::texture_parameter(GL_TEXTURE_COMPARE_FUNC),
+		GLint(GLenum(value))
+	);
+}
+//------------------------------------------------------------------------------
+template <typename TNT>
+inline
+outcome<oglplus::compare_function>
+texture_ops::
+texture_compare_func(TNT tnt)
+noexcept
+{
+	return return_texture_parameter_i<oglplus::compare_function, GLenum>(
+		tnt,
+		oglplus::texture_parameter(GL_TEXTURE_COMPARE_FUNC)
+	);
+}
+//------------------------------------------------------------------------------
+template <typename TNT>
+inline
+outcome<void>
+texture_ops::
+texture_compare_mode(TNT tnt, oglplus::texture_compare_mode value)
+noexcept
+{
+	return texture_parameter_i(
+		make_texture_name_or_target(tnt),
+		oglplus::texture_parameter(GL_TEXTURE_COMPARE_MODE),
+		GLint(GLenum(value))
+	);
+}
+//------------------------------------------------------------------------------
+template <typename TNT>
+inline
+outcome<oglplus::texture_compare_mode>
+texture_ops::
+texture_compare_mode(TNT tnt)
+noexcept
+{
+	return return_texture_parameter_i<
+		oglplus::texture_compare_mode,
+		GLenum
+	>(
+		tnt,
+		oglplus::texture_parameter(GL_TEXTURE_COMPARE_MODE)
+	);
+}
+//------------------------------------------------------------------------------
+template <typename TNT>
+inline
+outcome<void>
+texture_ops::
+texture_lod_bias(TNT tnt, GLfloat value)
+noexcept
+{
+	return texture_parameter_f(
+		make_texture_name_or_target(tnt),
+		oglplus::texture_parameter(GL_TEXTURE_LOD_BIAS),
+		value
+	);
+}
+//------------------------------------------------------------------------------
+template <typename TNT>
+inline
+outcome<GLfloat>
+texture_ops::
+texture_lod_bias(TNT tnt)
+noexcept
+{
+	return return_texture_parameter_f<GLfloat>(
+		tnt,
+		oglplus::texture_parameter(GL_TEXTURE_LOD_BIAS)
+	);
+}
+//------------------------------------------------------------------------------
 } // namespace oper
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_gen
