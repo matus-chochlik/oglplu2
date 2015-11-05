@@ -163,12 +163,12 @@ void run_loop(int width, int height)
 	gl.buffer_data(GL.array_buffer, cube_vertices, GL.static_draw);
 
 	gl.pointer(vertex_attrib_location(0), 3, GL.float_, false, 0, nullptr);
-	gl.enable_array(vertex_attrib_location(0));
+	gl.enable_vertex_array_attrib(vertex_attrib_location(0));
 
 	vertex_attrib_location va_p;
 	gl.query_location(va_p, prog, "Position");
 	gl.pointer(va_p, 3, GL.float_, false, 0, nullptr);
-	gl.enable_array(va_p);
+	gl.enable_vertex_array_attrib(va_p);
 
 	// normals
 	const GLfloat n[6][3] = {
@@ -198,7 +198,7 @@ void run_loop(int width, int height)
 	vertex_attrib_location va_n;
 	gl.query_location(va_n, prog, "Normal");
 	gl.pointer(va_n, 3, GL.float_, false, 0, nullptr);
-	gl.enable_array(va_n);
+	gl.enable_vertex_array_attrib(va_n);
 
 	// face-coords
 	const GLfloat c[6][2] = {
@@ -230,7 +230,7 @@ void run_loop(int width, int height)
 	vertex_attrib_location va_c;
 	gl.query_location(va_c, prog, "Coord");
 	gl.pointer(va_c, 2, GL.float_, false, 0, nullptr);
-	gl.enable_array(va_c);
+	gl.enable_vertex_array_attrib(va_c);
 
 
 	gl.clear_color(0.7f, 0.7f, 0.7f, 0.0f);

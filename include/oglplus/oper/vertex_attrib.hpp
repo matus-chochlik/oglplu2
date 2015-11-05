@@ -203,34 +203,6 @@ struct vertex_attrib_ops
 		return {};	
 	}
 
-	static
-	outcome<void>
-	enable_array(vertex_attrib_location va)
-	noexcept
-	{
-		OGLPLUS_GLFUNC(EnableVertexAttribArray)(va.index());
-		OGLPLUS_VERIFY(
-			EnableVertexAttribArray,
-			gl_index(va.index()),
-			always
-		);
-		return {};
-	}
-
-	static
-	outcome<void>
-	disable_array(vertex_attrib_location va)
-	noexcept
-	{
-		OGLPLUS_GLFUNC(DisableVertexAttribArray)(va.index());
-		OGLPLUS_VERIFY(
-			DisableVertexAttribArray,
-			gl_index(va.index()),
-			always
-		);
-		return {};
-	}
-
 	// TODO
 
 #ifdef GL_VERSION_3_3

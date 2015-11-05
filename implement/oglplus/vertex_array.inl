@@ -14,6 +14,17 @@ namespace oglplus {
 namespace oper {
 //------------------------------------------------------------------------------
 inline
+outcome<void>
+vertex_array_ops::
+bind_vertex_array(vertex_array_name vao)
+noexcept
+{
+	OGLPLUS_GLFUNC(BindVertexArray)(get_raw_name(vao));
+	OGLPLUS_VERIFY(BindVertexArray, gl_object(vao), debug);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
 outcome<vertex_array_name>
 vertex_array_ops::
 vertex_array_binding(void)
@@ -29,6 +40,84 @@ noexcept
 	return vertex_array_name(0);
 #endif
 }
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+vertex_array_ops::
+enable_vertex_array_attrib(vertex_attrib_location va)
+noexcept
+{
+	OGLPLUS_GLFUNC(EnableVertexAttribArray)(va.index());
+	OGLPLUS_VERIFY(
+		EnableVertexAttribArray,
+		gl_index(va.index()),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+vertex_array_ops::
+disable_vertex_array_attrib(vertex_attrib_location va)
+noexcept
+{
+	OGLPLUS_GLFUNC(DisableVertexAttribArray)(va.index());
+	OGLPLUS_VERIFY(
+		DisableVertexAttribArray,
+		gl_index(va.index()),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+inline
+outcome<void>
+vertex_array_ops::
+enable_vertex_array_attrib(vertex_array_name vao, vertex_attrib_location va)
+noexcept
+{
+#ifdef GL_VERSION_4_5
+	OGLPLUS_GLFUNC(EnableVertexArrayAttrib)(
+#else
+	OGLPLUS_GLFUNC(EnableVertexArrayAttribEXT)(
+#endif
+		get_raw_name(vao),
+		va.index()
+	);
+	OGLPLUS_VERIFY_STR(
+		OGLPLUS_GL_DSA_FUNC_NAME(EnableVertexArrayAttrib),
+		gl_object(vao).
+		gl_index(va.index()),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+vertex_array_ops::
+disable_vertex_array_attrib(vertex_array_name vao, vertex_attrib_location va)
+noexcept
+{
+#ifdef GL_VERSION_4_5
+	OGLPLUS_GLFUNC(DisableVertexArrayAttrib)(
+#else
+	OGLPLUS_GLFUNC(DisableVertexArrayAttribEXT)(
+#endif
+		get_raw_name(vao),
+		va.index()
+	);
+	OGLPLUS_VERIFY_STR(
+		OGLPLUS_GL_DSA_FUNC_NAME(DisableVertexArrayAttrib),
+		gl_object(vao).
+		gl_index(va.index()),
+		always
+	);
+	return {};
+}
+#endif
 //------------------------------------------------------------------------------
 } // namespace oper
 //------------------------------------------------------------------------------

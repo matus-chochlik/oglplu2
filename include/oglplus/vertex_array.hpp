@@ -10,6 +10,7 @@
 #define OGLPLUS_VERTEX_ARRAY_1509260923_HPP
 
 #include "vertex_array_name.hpp"
+#include "vertex_attrib.hpp"
 #include "object/owner.hpp"
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
@@ -24,20 +25,60 @@ struct vertex_array_ops
 	static
 	outcome<void>
 	bind_vertex_array(vertex_array_name vao)
-	noexcept
-	{
-		OGLPLUS_GLFUNC(BindVertexArray)(get_raw_name(vao));
-		OGLPLUS_VERIFY(BindVertexArray, gl_object(vao), debug);
-		return {};
-	}
+	noexcept;
 
 	static
 	outcome<vertex_array_name>
 	vertex_array_binding(void)
 	noexcept;
+
+	static
+	outcome<void>
+	enable_vertex_array_attrib(vertex_attrib_location va)
+	noexcept;
+
+	static
+	outcome<void>
+	disable_vertex_array_attrib(vertex_attrib_location va)
+	noexcept;
+
+#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+	static
+	outcome<void>
+	enable_vertex_array_attrib(vertex_array_name, vertex_attrib_location)
+	noexcept;
+
+	static
+	outcome<void>
+	disable_vertex_array_attrib(vertex_array_name, vertex_attrib_location)
+	noexcept;
+#endif
 };
 
 } // namespace oper
+
+#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+template <>
+struct obj_dsa_ops<vertex_array_name>
+ : obj_zero_dsa_ops<vertex_array_name>
+{
+	typedef oper::vertex_array_ops _ops;
+
+	outcome<obj_dsa_ops&>
+	enable_attrib(vertex_attrib_location loc)
+	noexcept
+	{
+		return {_ops::enable_vertex_array_attrib(*this, loc), *this};
+	}
+
+	outcome<obj_dsa_ops&>
+	disable_attrib(vertex_attrib_location loc)
+	noexcept
+	{
+		return {_ops::disable_vertex_array_attrib(*this, loc), *this};
+	}
+};
+#endif
 
 template <>
 struct obj_gen_del_ops<tag::vertex_array>
