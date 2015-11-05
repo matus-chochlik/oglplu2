@@ -10,6 +10,7 @@
 #define OGLPLUS_VERTEX_ARRAY_1509260923_HPP
 
 #include "vertex_array_name.hpp"
+#include "buffer_name.hpp"
 #include "vertex_attrib.hpp"
 #include "object/owner.hpp"
 #include "error/handling.hpp"
@@ -52,6 +53,100 @@ struct vertex_array_ops
 	outcome<void>
 	disable_vertex_array_attrib(vertex_array_name, vertex_attrib_location)
 	noexcept;
+#endif
+
+	static
+	outcome<void>
+	vertex_array_attrib_pointer(
+		vertex_attrib_location,
+		GLint values_per_vertex,
+		data_type type,
+		boolean normalized,
+		GLsizei stride,
+		const void* pointer
+	) noexcept;
+
+	static
+	outcome<void>
+	vertex_array_attrib_i_pointer(
+		vertex_attrib_location,
+		GLint values_per_vertex,
+		data_type type,
+		GLsizei stride,
+		const void* pointer
+	) noexcept;
+
+#if defined(GL_VERSION_4_3) || defined(GL_ARB_vertex_attrib_binding)
+	static
+	outcome<void>
+	vertex_array_attrib_format(
+		vertex_attrib_location,
+		GLint values_per_vertex,
+		data_type type,
+		boolean normalized,
+		GLuint relative_offset
+	) noexcept;
+
+	static
+	outcome<void>
+	vertex_array_attrib_i_format(
+		vertex_attrib_location,
+		GLint values_per_vertex,
+		data_type type,
+		GLuint relative_offset
+	) noexcept;
+
+	static
+	outcome<void>
+	vertex_array_attrib_l_format(
+		vertex_attrib_location,
+		GLint values_per_vertex,
+		data_type type,
+		GLuint relative_offset
+	) noexcept;
+#endif
+
+#if defined(GL_VERSION_4_5)
+	static
+	outcome<void>
+	vertex_array_vertex_buffer(
+		vertex_array_name vao,
+		vertex_attrib_location,
+		buffer_name buf,
+		GLintptr offset,
+		GLsizei stride
+	) noexcept;
+
+	static
+	outcome<void>
+	vertex_array_attrib_format(
+		vertex_array_name vao,
+		vertex_attrib_location,
+		GLint values_per_vertex,
+		data_type type,
+		boolean normalized,
+		GLuint relative_offset
+	) noexcept;
+
+	static
+	outcome<void>
+	vertex_array_attrib_i_format(
+		vertex_array_name vao,
+		vertex_attrib_location,
+		GLint values_per_vertex,
+		data_type type,
+		GLuint relative_offset
+	) noexcept;
+
+	static
+	outcome<void>
+	vertex_array_attrib_l_format(
+		vertex_array_name vao,
+		vertex_attrib_location,
+		GLint values_per_vertex,
+		data_type type,
+		GLuint relative_offset
+	) noexcept;
 #endif
 };
 

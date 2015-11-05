@@ -119,6 +119,257 @@ noexcept
 }
 #endif
 //------------------------------------------------------------------------------
+inline
+outcome<void>
+vertex_array_ops::
+vertex_array_attrib_pointer(
+	vertex_attrib_location loc,
+	GLint values_per_vertex,
+	data_type type,
+	boolean normalized,
+	GLsizei stride,
+	const void* pointer
+) noexcept
+{
+	OGLPLUS_GLFUNC(VertexAttribPointer)(
+		loc.index(),
+		values_per_vertex,
+		GLenum(type),
+		normalized,
+		stride,
+		pointer
+	);
+	OGLPLUS_VERIFY(
+		VertexAttribPointer,
+		gl_enum_value(type).
+		gl_index(loc.index()),
+		always
+	);
+	return {};	
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+vertex_array_ops::
+vertex_array_attrib_i_pointer(
+	vertex_attrib_location loc,
+	GLint values_per_vertex,
+	data_type type,
+	GLsizei stride,
+	const void* pointer
+) noexcept
+{
+	OGLPLUS_GLFUNC(VertexAttribIPointer)(
+		loc.index(),
+		values_per_vertex,
+		GLenum(type),
+		stride,
+		pointer
+	);
+	OGLPLUS_VERIFY(
+		VertexAttribIPointer,
+		gl_enum_value(type).
+		gl_index(loc.index()),
+		always
+	);
+	return {};	
+}
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_3) || defined(GL_ARB_vertex_attrib_binding)
+inline
+outcome<void>
+vertex_array_ops::
+vertex_array_attrib_format(
+	vertex_attrib_location loc,
+	GLint values_per_vertex,
+	data_type type,
+	boolean normalized,
+	GLuint relative_offset
+) noexcept
+{
+	OGLPLUS_GLFUNC(VertexAttribFormat)(
+		loc.index(),
+		values_per_vertex,
+		GLenum(type),
+		normalized,
+		relative_offset
+	);
+	OGLPLUS_VERIFY(
+		VertexAttribFormat,
+		gl_enum_value(type).
+		gl_index(loc.index()),
+		always
+	);
+	return {};	
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+vertex_array_ops::
+vertex_array_attrib_i_format(
+	vertex_attrib_location loc,
+	GLint values_per_vertex,
+	data_type type,
+	GLuint relative_offset
+) noexcept
+{
+	OGLPLUS_GLFUNC(VertexAttribIFormat)(
+		loc.index(),
+		values_per_vertex,
+		GLenum(type),
+		relative_offset
+	);
+	OGLPLUS_VERIFY(
+		VertexAttribIFormat,
+		gl_enum_value(type).
+		gl_index(loc.index()),
+		always
+	);
+	return {};	
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+vertex_array_ops::
+vertex_array_attrib_l_format(
+	vertex_attrib_location loc,
+	GLint values_per_vertex,
+	data_type type,
+	GLuint relative_offset
+) noexcept
+{
+	OGLPLUS_GLFUNC(VertexAttribLFormat)(
+		loc.index(),
+		values_per_vertex,
+		GLenum(type),
+		relative_offset
+	);
+	OGLPLUS_VERIFY(
+		VertexAttribLFormat,
+		gl_enum_value(type).
+		gl_index(loc.index()),
+		always
+	);
+	return {};	
+}
+#endif
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_5)
+inline
+outcome<void>
+vertex_array_ops::
+vertex_array_vertex_buffer(
+	vertex_array_name vao,
+	vertex_attrib_location loc,
+	buffer_name buf,
+	GLintptr offset,
+	GLsizei stride
+) noexcept
+{
+	OGLPLUS_GLFUNC(VertexArrayVertexBuffer)(
+		get_raw_name(vao),
+		loc.index(),
+		get_raw_name(buf),
+		offset,
+		stride
+	);
+	OGLPLUS_VERIFY(
+		VertexArrayVertexBuffer,
+		gl_object(vao).
+		gl_subject(buf).
+		gl_index(loc.index()),
+		always
+	);
+	return {};	
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+vertex_array_ops::
+vertex_array_attrib_format(
+	vertex_array_name vao,
+	vertex_attrib_location loc,
+	GLint values_per_vertex,
+	data_type type,
+	boolean normalized,
+	GLuint relative_offset
+) noexcept
+{
+	OGLPLUS_GLFUNC(VertexArrayAttribFormat)(
+		get_raw_name(vao),
+		loc.index(),
+		values_per_vertex,
+		GLenum(type),
+		normalized,
+		relative_offset
+	);
+	OGLPLUS_VERIFY(
+		VertexAttribFormat,
+		gl_object(vao).
+		gl_enum_value(type).
+		gl_index(loc.index()),
+		always
+	);
+	return {};	
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+vertex_array_ops::
+vertex_array_attrib_i_format(
+	vertex_array_name vao,
+	vertex_attrib_location loc,
+	GLint values_per_vertex,
+	data_type type,
+	GLuint relative_offset
+) noexcept
+{
+	OGLPLUS_GLFUNC(VertexArrayAttribIFormat)(
+		get_raw_name(vao),
+		loc.index(),
+		values_per_vertex,
+		GLenum(type),
+		relative_offset
+	);
+	OGLPLUS_VERIFY(
+		VertexAttribIFormat,
+		gl_object(vao).
+		gl_enum_value(type).
+		gl_index(loc.index()),
+		always
+	);
+	return {};	
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+vertex_array_ops::
+vertex_array_attrib_l_format(
+	vertex_array_name vao,
+	vertex_attrib_location loc,
+	GLint values_per_vertex,
+	data_type type,
+	GLuint relative_offset
+) noexcept
+{
+	OGLPLUS_GLFUNC(VertexArrayAttribLFormat)(
+		get_raw_name(vao),
+		loc.index(),
+		values_per_vertex,
+		GLenum(type),
+		relative_offset
+	);
+	OGLPLUS_VERIFY(
+		VertexAttribLFormat,
+		gl_object(vao).
+		gl_enum_value(type).
+		gl_index(loc.index()),
+		always
+	);
+	return {};	
+}
+#endif
+//------------------------------------------------------------------------------
 } // namespace oper
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_gen

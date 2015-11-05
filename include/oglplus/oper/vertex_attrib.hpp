@@ -175,36 +175,6 @@ struct vertex_attrib_ops
 		);
 	}
 
-	static
-	outcome<void>
-	pointer(
-		vertex_attrib_location loc,
-		GLint values_per_vertex,
-		data_type type,
-		boolean normalized,
-		GLsizei stride,
-		const void* pointer
-	) noexcept
-	{
-		OGLPLUS_GLFUNC(VertexAttribPointer)(
-			loc.index(),
-			values_per_vertex,
-			GLenum(type),
-			normalized,
-			stride,
-			pointer
-		);
-		OGLPLUS_VERIFY(
-			VertexAttribPointer,
-			gl_enum_value(type).
-			gl_index(loc.index()),
-			always
-		);
-		return {};	
-	}
-
-	// TODO
-
 #ifdef GL_VERSION_3_3
 	static
 	outcome<void>
