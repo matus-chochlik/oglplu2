@@ -28,6 +28,10 @@
 #include "program_pipeline.hpp"
 #include "transform_feedback.hpp"
 
+#ifdef GL_NV_path_rendering
+#include "path_nv.hpp"
+#endif
+
 #include "oper/vertex_attrib.hpp"
 #include "oper/uniform.hpp"
 
