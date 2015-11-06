@@ -370,6 +370,74 @@ vertex_array_attrib_l_format(
 }
 #endif
 //------------------------------------------------------------------------------
+#if defined(GL_EXT_direct_state_access)
+inline
+outcome<void>
+vertex_array_ops::
+vertex_array_attrib_offset(
+	vertex_array_name vao,
+	buffer_name buf,
+	vertex_attrib_location loc,
+	GLint values_per_vertex,
+	data_type type,
+	boolean normalized,
+	GLsizei stride,
+	GLintptr offset
+) noexcept
+{
+	OGLPLUS_GLFUNC(VertexArrayVertexAttribOffsetEXT)(
+		get_raw_name(vao),
+		get_raw_name(buf),
+		loc.index(),
+		values_per_vertex,
+		GLenum(type),
+		normalized,
+		stride, offset
+	);
+	OGLPLUS_VERIFY(
+		VertexArrayVertexAttribOffsetEXT,
+		gl_object(vao).
+		gl_subject(buf).
+		gl_enum_value(type).
+		gl_index(loc.index()),
+		always
+	);
+	return {};	
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+vertex_array_ops::
+vertex_array_attrib_i_offset(
+	vertex_array_name vao,
+	buffer_name buf,
+	vertex_attrib_location loc,
+	GLint values_per_vertex,
+	data_type type,
+	GLsizei stride,
+	GLintptr offset
+) noexcept
+{
+	OGLPLUS_GLFUNC(VertexArrayVertexAttribIOffsetEXT)(
+		get_raw_name(vao),
+		get_raw_name(buf),
+		loc.index(),
+		values_per_vertex,
+		GLenum(type),
+		stride, offset
+	);
+	OGLPLUS_VERIFY(
+		VertexArrayVertexAttribIOffsetEXT,
+		gl_object(vao).
+		gl_subject(buf).
+		gl_enum_value(type).
+		gl_index(loc.index()),
+		always
+	);
+	return {};	
+}
+#endif
+//------------------------------------------------------------------------------
 } // namespace oper
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_gen

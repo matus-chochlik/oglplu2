@@ -58,7 +58,7 @@ struct vertex_array_ops
 	static
 	outcome<void>
 	vertex_array_attrib_pointer(
-		vertex_attrib_location,
+		vertex_attrib_location loc,
 		GLint values_per_vertex,
 		data_type type,
 		boolean normalized,
@@ -69,7 +69,7 @@ struct vertex_array_ops
 	static
 	outcome<void>
 	vertex_array_attrib_i_pointer(
-		vertex_attrib_location,
+		vertex_attrib_location loc,
 		GLint values_per_vertex,
 		data_type type,
 		GLsizei stride,
@@ -80,7 +80,7 @@ struct vertex_array_ops
 	static
 	outcome<void>
 	vertex_array_attrib_format(
-		vertex_attrib_location,
+		vertex_attrib_location loc,
 		GLint values_per_vertex,
 		data_type type,
 		boolean normalized,
@@ -90,7 +90,7 @@ struct vertex_array_ops
 	static
 	outcome<void>
 	vertex_array_attrib_i_format(
-		vertex_attrib_location,
+		vertex_attrib_location loc,
 		GLint values_per_vertex,
 		data_type type,
 		GLuint relative_offset
@@ -99,7 +99,7 @@ struct vertex_array_ops
 	static
 	outcome<void>
 	vertex_array_attrib_l_format(
-		vertex_attrib_location,
+		vertex_attrib_location loc,
 		GLint values_per_vertex,
 		data_type type,
 		GLuint relative_offset
@@ -111,7 +111,7 @@ struct vertex_array_ops
 	outcome<void>
 	vertex_array_vertex_buffer(
 		vertex_array_name vao,
-		vertex_attrib_location,
+		vertex_attrib_location loc,
 		buffer_name buf,
 		GLintptr offset,
 		GLsizei stride
@@ -121,7 +121,7 @@ struct vertex_array_ops
 	outcome<void>
 	vertex_array_attrib_format(
 		vertex_array_name vao,
-		vertex_attrib_location,
+		vertex_attrib_location loc,
 		GLint values_per_vertex,
 		data_type type,
 		boolean normalized,
@@ -132,7 +132,7 @@ struct vertex_array_ops
 	outcome<void>
 	vertex_array_attrib_i_format(
 		vertex_array_name vao,
-		vertex_attrib_location,
+		vertex_attrib_location loc,
 		GLint values_per_vertex,
 		data_type type,
 		GLuint relative_offset
@@ -142,10 +142,37 @@ struct vertex_array_ops
 	outcome<void>
 	vertex_array_attrib_l_format(
 		vertex_array_name vao,
-		vertex_attrib_location,
+		vertex_attrib_location loc,
 		GLint values_per_vertex,
 		data_type type,
 		GLuint relative_offset
+	) noexcept;
+#endif
+
+#if defined(GL_EXT_direct_state_access)
+	static
+	outcome<void>
+	vertex_array_attrib_offset(
+		vertex_array_name vao,
+		buffer_name buf,
+		vertex_attrib_location loc,
+		GLint values_per_vertex,
+		data_type type,
+		boolean normalized,
+		GLsizei stride,
+		GLintptr offset
+	) noexcept;
+
+	static
+	outcome<void>
+	vertex_array_attrib_i_offset(
+		vertex_array_name vao,
+		buffer_name buf,
+		vertex_attrib_location loc,
+		GLint values_per_vertex,
+		data_type type,
+		GLsizei stride,
+		GLintptr offset
 	) noexcept;
 #endif
 };
@@ -172,6 +199,111 @@ struct obj_dsa_ops<vertex_array_name>
 	{
 		return {_ops::disable_vertex_array_attrib(*this, loc), *this};
 	}
+
+#if defined(GL_VERSION_4_5)
+	outcome<obj_dsa_ops&>
+	vertex_buffer(
+		vertex_attrib_location loc,
+		buffer_name buf,
+		GLintptr offset,
+		GLsizei stride
+	) noexcept
+	{
+		return {_ops::vertex_array_vertex_buffer(
+			*this, loc,
+			buf,
+			offset, stride
+		), *this};
+	}
+
+	outcome<obj_dsa_ops&>
+	attrib_format(
+		vertex_attrib_location loc,
+		GLint values_per_vertex,
+		data_type type,
+		boolean normalized,
+		GLuint relative_offset
+	) noexcept
+	{
+		return {_ops::vertex_array_attrib_format(
+			*this, loc,
+			values_per_vertex,
+			type, normalized,
+			relative_offset
+		), *this};
+	}
+
+	outcome<obj_dsa_ops&>
+	attrib_i_format(
+		vertex_attrib_location loc,
+		GLint values_per_vertex,
+		data_type type,
+		GLuint relative_offset
+	) noexcept
+	{
+		return {_ops::vertex_array_attrib_i_format(
+			*this, loc,
+			values_per_vertex,
+			type,
+			relative_offset
+		), *this};
+	}
+
+	outcome<obj_dsa_ops&>
+	attrib_l_format(
+		vertex_attrib_location loc,
+		GLint values_per_vertex,
+		data_type type,
+		GLuint relative_offset
+	) noexcept
+	{
+		return {_ops::vertex_array_attrib_l_format(
+			*this, loc,
+			values_per_vertex,
+			type,
+			relative_offset
+		), *this};
+	}
+#endif
+
+#if defined(GL_EXT_direct_state_access)
+	outcome<obj_dsa_ops&>
+	attrib_offset(
+		buffer_name buf,
+		vertex_attrib_location loc,
+		GLint values_per_vertex,
+		data_type type,
+		boolean normalized,
+		GLsizei stride,
+		GLintptr offset
+	) noexcept
+	{
+		return {_ops::vertex_array_attrib_offset(
+			*this, buf, loc,
+			values_per_vertex,
+			type, normalized,
+			stride, offset
+		), *this};
+	}
+
+	outcome<obj_dsa_ops&>
+	attrib_i_offset(
+		buffer_name buf,
+		vertex_attrib_location loc,
+		GLint values_per_vertex,
+		data_type type,
+		GLsizei stride,
+		GLintptr offset
+	) noexcept
+	{
+		return {_ops::vertex_array_attrib_i_offset(
+			*this, buf, loc,
+			values_per_vertex,
+			type,
+			stride, offset
+		), *this};
+	}
+#endif
 };
 #endif
 
