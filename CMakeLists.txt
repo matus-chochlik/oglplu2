@@ -29,6 +29,7 @@ include(config/FindGLFW.cmake)
 include(config/FindGLFW3.cmake)
 include(config/FindGLUT.cmake)
 include(config/FindSDL.cmake)
+include(config/FindWXGL.cmake)
 
 include(config/FindGLM.cmake)
 

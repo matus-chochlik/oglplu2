@@ -91,7 +91,7 @@ struct framebuffer_ops
 		GLint level
 	) noexcept;
 
-#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+#if defined(GL_EXT_direct_state_access)
 	static
 	outcome<void>
 	framebuffer_texture_2d(
@@ -114,7 +114,7 @@ struct framebuffer_ops
 		GLint layer
 	) noexcept;
 
-#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+#if defined(GL_EXT_direct_state_access)
 	static
 	outcome<void>
 	framebuffer_texture_3d(
@@ -236,6 +236,7 @@ struct obj_dsa_ops<framebuffer_name>
 		), *this};
 	}
 
+#if defined(GL_EXT_direct_state_access)
 	outcome<obj_dsa_ops&>
 	texture_2d(
 		framebuffer_attachment fb_attch,
@@ -266,6 +267,7 @@ struct obj_dsa_ops<framebuffer_name>
 			level, layer
 		), *this};
 	}
+#endif
 
 	outcome<obj_dsa_ops&>
 	texture(

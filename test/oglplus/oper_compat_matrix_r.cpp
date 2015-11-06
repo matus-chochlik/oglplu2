@@ -126,6 +126,10 @@ fake_glMatrixFrustumEXT("MatrixFrustumEXT");
 
 BOOST_AUTO_TEST_SUITE(compat_matrix)
 
+#if	defined(GL_MODELVIEW) &&\
+	defined(GL_PROJECTION) &&\
+	defined(GL_ARB_compatibility)
+
 template <typename T>
 static T get(void)
 {
@@ -605,5 +609,9 @@ BOOST_AUTO_TEST_CASE(compat_matrix_frustum)
 	BOOST_CHECK(fake_glMatrixFrustumEXT.was_called());
 #endif
 }
+
+#else
+BOOST_AUTO_TEST_CASE(compat_matrix_dummy) { }
+#endif
 
 BOOST_AUTO_TEST_SUITE_END()

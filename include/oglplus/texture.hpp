@@ -498,9 +498,9 @@ struct obj_zero_dsa_ops<texture_name>
 #if defined(GL_VERSION_4_5)
 	typedef obj_dsa_ops _dsa_ops;
 
-	obj_zero_dsa_ops<texture_name>::obj_zero_dsa_ops;
+	using obj_zero_dsa_ops<texture_name>::obj_zero_dsa_ops;
 
-	texture_name_only _get_tnt(void) const
+	texture_name _get_tnt(void) const
 	noexcept
 	{
 		return {*this};

@@ -30,7 +30,7 @@ typedef limited_value<
 
 #ifdef GL_CLIP_DISTANCE0
 typedef limited_value<
-	GL_MAX_CLIP_PLANES,
+	GL_MAX_CLIP_DISTANCES,
 	indexed_enum_value<GL_CLIP_DISTANCE0>
 > clip_plane;
 #endif

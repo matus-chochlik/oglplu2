@@ -213,7 +213,7 @@ framebuffer_texture_2d(
 	return {};
 }
 //------------------------------------------------------------------------------
-#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+#if defined(GL_EXT_direct_state_access)
 inline
 outcome<void>
 framebuffer_ops::
@@ -225,11 +225,7 @@ framebuffer_texture_2d(
 	GLint level
 ) noexcept
 {
-#ifdef GL_VERSION_4_5
-	OGLPLUS_GLFUNC(NamedFramebufferTexture2D)(
-#else
 	OGLPLUS_GLFUNC(NamedFramebufferTexture2DEXT)(
-#endif
 		get_raw_name(fbo),
 		GLenum(fb_attach),
 		GLenum(tx_target),
@@ -276,7 +272,7 @@ framebuffer_texture_3d(
 	return {};
 }
 //------------------------------------------------------------------------------
-#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+#if defined(GL_EXT_direct_state_access)
 inline
 outcome<void>
 framebuffer_ops::
@@ -289,11 +285,7 @@ framebuffer_texture_3d(
 	GLint layer
 ) noexcept
 {
-#ifdef GL_VERSION_4_5
-	OGLPLUS_GLFUNC(NamedFramebufferTexture3D)(
-#else
 	OGLPLUS_GLFUNC(NamedFramebufferTexture3DEXT)(
-#endif
 		get_raw_name(fbo),
 		GLenum(fb_attach),
 		GLenum(tx_target),
