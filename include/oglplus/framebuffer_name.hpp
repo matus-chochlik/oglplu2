@@ -10,6 +10,7 @@
 #define OGLPLUS_FRAMEBUFFER_NAME_1509260923_HPP
 
 #include "object/gl_name.hpp"
+#include "enum/types.hpp"
 
 #ifndef GL_FRAMEBUFFER
 #define GL_FRAMEBUFFER 0x8D40
@@ -23,6 +24,12 @@ using framebuffer = gl_obj_tag<GL_FRAMEBUFFER>;
 } // namespace tag
 
 using framebuffer_name = object_name<tag::framebuffer>;
+
+template <>
+struct get_obj_binding_point<tag::framebuffer>
+{
+	typedef framebuffer_target type;
+};
 
 } // namespace oglplus
 

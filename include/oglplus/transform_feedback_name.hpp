@@ -10,6 +10,7 @@
 #define OGLPLUS_TRANSFORM_FEEDBACK_NAME_1509260923_HPP
 
 #include "object/gl_name.hpp"
+#include "enum/types.hpp"
 
 #ifndef GL_TRANSFORM_FEEDBACK
 #define GL_TRANSFORM_FEEDBACK 0x8E22
@@ -23,6 +24,12 @@ using transform_feedback = gl_obj_tag<GL_TRANSFORM_FEEDBACK>;
 } // namespace tag
 
 using transform_feedback_name = object_name<tag::transform_feedback>;
+
+template <>
+struct get_obj_binding_point<tag::transform_feedback>
+{
+	typedef transform_feedback_target type;
+};
 
 } // namespace oglplus
 

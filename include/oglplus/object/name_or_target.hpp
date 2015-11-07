@@ -1,0 +1,120 @@
+/**
+ *  @file oglplus/object/name_or_target.hpp
+ *
+ *  Copyright Matus Chochlik.
+ *  Distributed under the Boost Software License, Version 1.0.
+ *  See accompanying file LICENSE_1_0.txt or copy at
+ *   http://www.boost.org/LICENSE_1_0.txt
+ */
+#ifndef OGLPLUS_OBJECT_NAME_OR_TARGET_1509260923_HPP
+#define OGLPLUS_OBJECT_NAME_OR_TARGET_1509260923_HPP
+
+#include "gl_name.hpp"
+#include "../utils/nothing.hpp"
+
+namespace oglplus {
+
+template <typename Name, typename Target>
+struct object_name_or_target;
+
+template <typename Name, typename Target>
+static constexpr inline
+object_name_or_target<Name, Target>
+make_object_name_and_target(object_name_or_target<Name, Target> ont)
+noexcept
+{
+	return ont;
+}
+
+template <typename ObjBindingPoint>
+struct object_name_or_target<nothing_t, ObjBindingPoint>
+{
+	ObjBindingPoint _target;
+
+	constexpr inline
+	object_name_or_target(ObjBindingPoint target)
+	noexcept
+	 : _target(target)
+	{ }
+};
+
+template <typename ObjTag>
+using object_target_only =
+	object_name_or_target<nothing_t, obj_binding_point<ObjTag>>;
+
+template <typename ObjTag>
+static inline
+object_target_only<ObjTag>
+make_object_name_or_target(obj_binding_point<ObjTag> target)
+noexcept
+{
+	return {target};
+}
+
+template <typename ObjTag>
+struct object_name_or_target<object_name<ObjTag>, nothing_t>
+{
+	object_name<ObjTag> _name;
+
+	constexpr inline
+	object_name_or_target(object_name<ObjTag> name)
+	noexcept
+	 : _name(name)
+	{ }
+};
+
+template <typename ObjTag>
+using object_name_only =
+	object_name_or_target<object_name<ObjTag>, nothing_t>;
+
+template <typename ObjTag>
+static inline
+object_name_only<ObjTag>
+make_object_name_or_target(object_name<ObjTag> name)
+noexcept
+{
+	return {name};
+}
+
+template <typename ObjTag>
+struct object_name_or_target<object_name<ObjTag>, obj_binding_point<ObjTag>>
+{
+	object_name<ObjTag> _name;
+	obj_binding_point<ObjTag> _target;
+
+	constexpr inline
+	object_name_or_target(
+		object_name<ObjTag> name,
+		obj_binding_point<ObjTag> target
+	) noexcept
+	 : _name(name)
+	 , _target(target)
+	{ }
+};
+template <typename ObjTag>
+using object_name_and_target =
+	object_name_or_target<object_name<ObjTag>, obj_binding_point<ObjTag>>;
+
+template <typename ObjTag>
+static inline
+object_name_and_target<ObjTag>
+make_object_name_or_target(object_name_and_target<ObjTag> ont)
+noexcept
+{
+	return ont;
+}
+
+template <typename ObjTag>
+static inline
+object_name_and_target<ObjTag>
+make_object_name_or_target(
+	object_name<ObjTag> name,
+	obj_binding_point<ObjTag> target
+) noexcept
+{
+	return {name, target};
+}
+
+} // namespace oglplus
+
+#endif // include guard

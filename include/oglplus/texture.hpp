@@ -11,13 +11,12 @@
 
 #include "texture_name.hpp"
 #include "object/owner.hpp"
+#include "object/name_or_target.hpp"
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
-#include "utils/nothing.hpp"
 #include "utils/gl_func.hpp"
 #include "utils/boolean.hpp"
 #include "utils/image_spec.hpp"
-#include "enum/types.hpp"
 #include "enum/indexed_types.hpp"
 
 namespace eagine {
@@ -36,95 +35,9 @@ binding_query
 get_binding_query(texture_target tgt)
 noexcept;
 
-template <typename Name, typename Target>
-struct texture_name_or_target;
-
-template <typename Name, typename Target>
-static constexpr inline
-texture_name_or_target<Name, Target>
-make_texture_name_and_target(texture_name_or_target<Name, Target> tnt)
-noexcept
-{
-	return tnt;
-}
-
-template <>
-struct texture_name_or_target<nothing_t, texture_target>
-{
-	texture_target _target;
-
-	constexpr inline
-	texture_name_or_target(texture_target target)
-	noexcept
-	 : _target(target)
-	{ }
-};
-
-typedef texture_name_or_target<nothing_t, texture_target> texture_target_only;
-
-static inline
-texture_target_only
-make_texture_name_or_target(texture_target target)
-noexcept
-{
-	return {target};
-}
-
-template <>
-struct texture_name_or_target<texture_name, nothing_t>
-{
-	texture_name _name;
-
-	constexpr inline
-	texture_name_or_target(texture_name name)
-	noexcept
-	 : _name(name)
-	{ }
-};
-
-typedef texture_name_or_target<texture_name, nothing_t> texture_name_only;
-
-static inline
-texture_name_only
-make_texture_name_or_target(texture_name name)
-noexcept
-{
-	return {name};
-}
-
-template <>
-struct texture_name_or_target<texture_name, texture_target>
-{
-	texture_name _name;
-	texture_target _target;
-
-	constexpr inline
-	texture_name_or_target(
-		texture_name name,
-		texture_target target
-	) noexcept
-	 : _name(name)
-	 , _target(target)
-	{ }
-};
-
-typedef texture_name_or_target<texture_name, texture_target> texture_name_and_target;
-
-static inline
-texture_name_and_target
-make_texture_name_or_target(texture_name_and_target tnt)
-noexcept
-{
-	return tnt;
-}
-
-static inline
-texture_name_and_target
-make_texture_name_or_target(texture_name name, texture_target target)
-noexcept
-{
-	return {name, target};
-}
+typedef object_target_only<tag::texture> texture_target_only;
+typedef object_name_only<tag::texture> texture_name_only;
+typedef object_name_and_target<tag::texture> texture_name_and_target;
 
 namespace oper {
 

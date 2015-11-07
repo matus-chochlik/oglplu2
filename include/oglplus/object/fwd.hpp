@@ -37,6 +37,12 @@ using any_object_name =
 template <typename ObjTag>
 struct obj_gen_del_ops;
 
+template <typename ObjTag>
+struct get_obj_binding_point;
+
+template <typename ObjTag>
+using obj_binding_point = typename get_obj_binding_point<ObjTag>::type;
+
 } // namespace oglplus
 
 #endif // include guard

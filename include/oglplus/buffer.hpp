@@ -17,7 +17,6 @@
 #include "utils/buffer_size.hpp"
 #include "utils/buffer_data.hpp"
 #include "utils/boolean.hpp"
-#include "enum/types.hpp"
 
 namespace oglplus {
 

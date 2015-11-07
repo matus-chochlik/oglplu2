@@ -816,7 +816,7 @@ return_texture_parameter_i(
 {
 	GLint result;
 	return get_texture_parameter_iv(
-		make_texture_name_or_target(tnt),
+		make_object_name_or_target(tnt),
 		parameter,
 		{&result, 1}
 	), R(T(result));
@@ -834,7 +834,7 @@ return_texture_level_parameter_i(
 {
 	GLint result;
 	return get_texture_level_parameter_iv(
-		make_texture_name_or_target(tnt),
+		make_object_name_or_target(tnt),
 		level,
 		parameter,
 		{&result, 1}
@@ -852,7 +852,7 @@ return_texture_parameter_f(
 {
 	GLfloat result;
 	return get_texture_parameter_fv(
-		make_texture_name_or_target(tnt),
+		make_object_name_or_target(tnt),
 		parameter,
 		{&result, 1}
 	), R(result);
@@ -1121,7 +1121,7 @@ texture_min_filter(TNT tnt, oglplus::texture_min_filter value)
 noexcept
 {
 	return texture_parameter_i(
-		make_texture_name_or_target(tnt),
+		make_object_name_or_target(tnt),
 		oglplus::texture_parameter(GL_TEXTURE_MIN_FILTER),
 		GLint(GLenum(value))
 	);
@@ -1148,7 +1148,7 @@ texture_mag_filter(TNT tnt, oglplus::texture_mag_filter value)
 noexcept
 {
 	return texture_parameter_i(
-		make_texture_name_or_target(tnt),
+		make_object_name_or_target(tnt),
 		oglplus::texture_parameter(GL_TEXTURE_MAG_FILTER),
 		GLint(GLenum(value))
 	);
@@ -1175,7 +1175,7 @@ texture_compare_func(TNT tnt, oglplus::compare_function value)
 noexcept
 {
 	return texture_parameter_i(
-		make_texture_name_or_target(tnt),
+		make_object_name_or_target(tnt),
 		oglplus::texture_parameter(GL_TEXTURE_COMPARE_FUNC),
 		GLint(GLenum(value))
 	);
@@ -1202,7 +1202,7 @@ texture_compare_mode(TNT tnt, oglplus::texture_compare_mode value)
 noexcept
 {
 	return texture_parameter_i(
-		make_texture_name_or_target(tnt),
+		make_object_name_or_target(tnt),
 		oglplus::texture_parameter(GL_TEXTURE_COMPARE_MODE),
 		GLint(GLenum(value))
 	);
@@ -1232,7 +1232,7 @@ texture_lod_bias(TNT tnt, GLfloat value)
 noexcept
 {
 	return texture_parameter_f(
-		make_texture_name_or_target(tnt),
+		make_object_name_or_target(tnt),
 		oglplus::texture_parameter(GL_TEXTURE_LOD_BIAS),
 		value
 	);
