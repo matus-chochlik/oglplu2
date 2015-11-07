@@ -11,7 +11,9 @@ project(OGLplus)
 
 file(READ VERSION OGLPLUS_VERSION)
 
-set(HEADER_SEARCH_PATHS ${HEADER_SEARCH_PATHS};${PROJECT_SOURCE_DIR}/third_party/include)
+set(HEADER_SEARCH_PATHS
+	${HEADER_SEARCH_PATHS};${PROJECT_SOURCE_DIR}/third_party/include
+)
 
 include(config/Compiler.cmake)
 include(config/CppFeature.cmake)
@@ -42,9 +44,32 @@ include(config/FindAL.cmake)
 # setting up executable requirements
 include(config/ExeRequirements.cmake)
 
+# configure GL API and Context-init libraries
+include(config/ConfigGL.cmake)
+
+# now create the site-configuration header
+configure_file(
+	${PROJECT_SOURCE_DIR}/config/oglplus/config/site.hpp.in
+	${PROJECT_BINARY_DIR}/include/oglplus/config/site.hpp
+)
+
 include_directories("include")
 include_directories("implement")
+include_directories("third_party/include")
 include_directories("third_party/GSL/include")
+
+# common functions for GL version and extension detection
+include(config/GLVerExt.cmake)
+# GL version detection
+include(config/GLVer.cmake)
+# GL extension detection
+include(config/GLExt.cmake)
+
+# re-create the site-configuration header
+configure_file(
+	${PROJECT_SOURCE_DIR}/config/oglplus/config/site.hpp.in
+	${PROJECT_BINARY_DIR}/include/oglplus/config/site.hpp
+)
 
 add_subdirectory("example")
 add_subdirectory("test")
