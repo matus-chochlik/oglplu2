@@ -40,11 +40,14 @@ obj_gen_del_ops<tag::path_nv>::
 _delete(array_view<GLuint> names)
 noexcept
 {
-	OGLPLUS_GLFUNC(DeletePathsNV)(
-		GLsizei(names.size()),
-		names.data()
-	);
-	OGLPLUS_VERIFY_SIMPLE(DeletePathsNV,debug);
+	if(names.begin() != names.end())
+	{
+		OGLPLUS_GLFUNC(DeletePathsNV)(
+			*names.begin(),
+			GLsizei(names.size())
+		);
+		OGLPLUS_VERIFY_SIMPLE(DeletePathsNV,debug);
+	}
 	return {};
 }
 //------------------------------------------------------------------------------

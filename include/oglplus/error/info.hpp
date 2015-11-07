@@ -131,11 +131,21 @@ public:
 	unsigned source_line(void) const
 	noexcept;
 
+	error_info& gl_object_binding(
+		const any_object_type& typ,
+		const any_enum_value& tgt
+	) noexcept;
+
 	error_info& gl_object(const any_object_name& obj)
 	noexcept;
 
 	any_object_name gl_object(void) const
 	noexcept;
+
+	error_info& gl_subject_binding(
+		const any_object_type& typ,
+		const any_enum_value& tgt
+	) noexcept;
 
 	error_info& gl_subject(const any_object_name& sub)
 	noexcept;

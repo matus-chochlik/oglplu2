@@ -7947,6 +7947,10 @@ noexcept
 				case GL_BYTE:
 					return {s_BYTE, 4};
 #endif
+#ifdef GL_DOUBLE
+				case GL_DOUBLE:
+					return {s_DOUBLE, 6};
+#endif
 #ifdef GL_FLOAT
 				case GL_FLOAT:
 					return {s_FLOAT, 5};

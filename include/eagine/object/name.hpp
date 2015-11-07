@@ -154,6 +154,60 @@ public:
 	}
 };
 
+template <typename TypeT, TypeT InvalidType>
+struct any_object_type
+{
+	TypeT _type;
+
+	constexpr inline
+	any_object_type(void)
+	noexcept
+	 : _type(InvalidType)
+	{ }
+
+	template <typename ObjTag>
+	constexpr inline
+	any_object_type(ObjTag)
+	noexcept
+	 : _type(object_traits<ObjTag>::get_type())
+	{ }
+
+	constexpr inline
+	bool is_valid(void) const
+	noexcept
+	{
+		return (_type != InvalidType);
+	}
+
+	explicit constexpr inline
+	operator bool (void) const
+	noexcept
+	{
+		return is_valid();
+	}
+
+	constexpr inline
+	bool operator ! (void) const
+	noexcept
+	{
+		return !is_valid();
+	}
+
+	friend constexpr inline
+	bool operator == (const any_object_type& a, const any_object_type& b)
+	noexcept
+	{
+		return (a._type == b._type);
+	}
+
+	friend constexpr inline
+	bool operator != (const any_object_type& a, const any_object_type& b)
+	noexcept
+	{
+		return (a._type != b._type);
+	}
+};
+
 template <typename NameT, typename TypeT, NameT InvalidName, TypeT InvalidType>
 struct any_object_name
 {
@@ -208,6 +262,14 @@ struct any_object_name
 	noexcept
 	{
 		return (a._name != b._name) || (a._type != b._type);
+	}
+
+	constexpr inline
+	any_object_type<TypeT, InvalidType>
+	type(void) const
+	noexcept
+	{
+		return {_type};
 	}
 };
 

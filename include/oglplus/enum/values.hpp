@@ -1614,7 +1614,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_DOUBLE,
-	mp_list<oglplus::sl_data_type,oglplus::data_type>
+	mp_list<oglplus::sl_data_type,oglplus::pixel_data_type,oglplus::data_type>
 > double_ = {};
 #endif
 

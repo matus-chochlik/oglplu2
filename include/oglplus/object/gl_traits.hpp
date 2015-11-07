@@ -15,7 +15,8 @@ namespace oglplus {
 namespace tag {
 
 template <GLenum Tag>
-struct gl_obj_tag;
+struct gl_obj_tag
+{ };
 
 } // namespace tag
 

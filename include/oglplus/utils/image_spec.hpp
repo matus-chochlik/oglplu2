@@ -69,32 +69,32 @@ public:
 class image_pixel_format
 {
 private:
-	GLenum _format;
-	GLenum _internal_format;
+	pixel_data_format _format;
+	pixel_data_internal_format _internal_format;
 public:
 	constexpr
 	image_pixel_format(
 		pixel_data_format fmt,
 		pixel_data_internal_format ifmt
 	) noexcept
-	 : _format(GLenum(fmt))
-	 , _internal_format(GLenum(ifmt))
+	 : _format(fmt)
+	 , _internal_format(ifmt)
 	{ }
 
 	constexpr
 	image_pixel_format(pixel_data_format fmt)
 	noexcept
-	 : _format(GLenum(fmt))
-	 , _internal_format(GLenum(fmt))
+	 : _format(fmt)
+	 , _internal_format(pixel_data_internal_format(GLenum(fmt)))
 	{ }
 
-	GLenum format(void) const
+	pixel_data_format format(void) const
 	noexcept
 	{
 		return _format;
 	}
 
-	GLenum internal_format(void) const
+	pixel_data_internal_format internal_format(void) const
 	noexcept
 	{
 		return _internal_format;
@@ -104,14 +104,14 @@ public:
 class image_pixel_data
 {
 private:
-	GLenum _type;
+	pixel_data_type _type;
 	const_memory_block _pixels;
 	std::size_t _elem_size;
 public:
 	template <typename T>
 	image_pixel_data(array_view<T> pix_view)
 	noexcept
-	 : _type(get_data_type<T>())
+	 : _type(pixel_data_type(GLenum(get_data_type<T>())))
 	 , _pixels(pix_view.data(), pix_view.size())
 	 , _elem_size(sizeof(T))
 	{ }
@@ -121,29 +121,23 @@ public:
 		const_memory_block pix_data,
 		std::size_t type_size
 	) noexcept
-	 : _type(GLenum(pix_type))
+	 : _type(pix_type)
 	 , _pixels(pix_data)
 	 , _elem_size(type_size)
 	{
 		assert(_elem_size > 0);
 	}
 
-	GLenum type(void) const
+	pixel_data_type type(void) const
 	noexcept
 	{
 		return _type;
 	}
 
-	const GLvoid* data(void) const
+	const_memory_block data(void) const
 	noexcept
 	{
-		return _pixels.addr();
-	}
-
-	std::size_t size(void) const
-	noexcept
-	{
-		return _pixels.size();
+		return _pixels;
 	}
 
 	std::size_t elem_size(void) const

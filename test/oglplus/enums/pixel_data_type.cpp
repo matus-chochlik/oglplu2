@@ -29,6 +29,86 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_values)
 #ifdef GL_BYTE
 	x = ev.byte_;
 	BOOST_CHECK(x == ev.byte_);
+# ifdef GL_DOUBLE
+	BOOST_CHECK(x != ev.double_);
+# endif
+# ifdef GL_FLOAT
+	BOOST_CHECK(x != ev.float_);
+# endif
+# ifdef GL_FLOAT_32_UNSIGNED_INT_24_8_REV
+	BOOST_CHECK(x != ev.float_32_unsigned_int_24_8_rev);
+# endif
+# ifdef GL_HALF_FLOAT
+	BOOST_CHECK(x != ev.half_float);
+# endif
+# ifdef GL_INT
+	BOOST_CHECK(x != ev.int_);
+# endif
+# ifdef GL_SHORT
+	BOOST_CHECK(x != ev.short_);
+# endif
+# ifdef GL_UNSIGNED_BYTE
+	BOOST_CHECK(x != ev.unsigned_byte);
+# endif
+# ifdef GL_UNSIGNED_BYTE_2_3_3_REV
+	BOOST_CHECK(x != ev.unsigned_byte_2_3_3_rev);
+# endif
+# ifdef GL_UNSIGNED_BYTE_3_3_2
+	BOOST_CHECK(x != ev.unsigned_byte_3_3_2);
+# endif
+# ifdef GL_UNSIGNED_INT
+	BOOST_CHECK(x != ev.unsigned_int);
+# endif
+# ifdef GL_UNSIGNED_INT_10_10_10_2
+	BOOST_CHECK(x != ev.unsigned_int_10_10_10_2);
+# endif
+# ifdef GL_UNSIGNED_INT_10F_11F_11F_REV
+	BOOST_CHECK(x != ev.unsigned_int_10f_11f_11f_rev);
+# endif
+# ifdef GL_UNSIGNED_INT_24_8
+	BOOST_CHECK(x != ev.unsigned_int_24_8);
+# endif
+# ifdef GL_UNSIGNED_INT_2_10_10_10_REV
+	BOOST_CHECK(x != ev.unsigned_int_2_10_10_10_rev);
+# endif
+# ifdef GL_UNSIGNED_INT_5_9_9_9_REV
+	BOOST_CHECK(x != ev.unsigned_int_5_9_9_9_rev);
+# endif
+# ifdef GL_UNSIGNED_INT_8_8_8_8
+	BOOST_CHECK(x != ev.unsigned_int_8_8_8_8);
+# endif
+# ifdef GL_UNSIGNED_INT_8_8_8_8_REV
+	BOOST_CHECK(x != ev.unsigned_int_8_8_8_8_rev);
+# endif
+# ifdef GL_UNSIGNED_SHORT
+	BOOST_CHECK(x != ev.unsigned_short);
+# endif
+# ifdef GL_UNSIGNED_SHORT_1_5_5_5_REV
+	BOOST_CHECK(x != ev.unsigned_short_1_5_5_5_rev);
+# endif
+# ifdef GL_UNSIGNED_SHORT_4_4_4_4
+	BOOST_CHECK(x != ev.unsigned_short_4_4_4_4);
+# endif
+# ifdef GL_UNSIGNED_SHORT_4_4_4_4_REV
+	BOOST_CHECK(x != ev.unsigned_short_4_4_4_4_rev);
+# endif
+# ifdef GL_UNSIGNED_SHORT_5_5_5_1
+	BOOST_CHECK(x != ev.unsigned_short_5_5_5_1);
+# endif
+# ifdef GL_UNSIGNED_SHORT_5_6_5
+	BOOST_CHECK(x != ev.unsigned_short_5_6_5);
+# endif
+# ifdef GL_UNSIGNED_SHORT_5_6_5_REV
+	BOOST_CHECK(x != ev.unsigned_short_5_6_5_rev);
+# endif
+#endif
+
+#ifdef GL_DOUBLE
+	x = ev.double_;
+# ifdef GL_BYTE
+	BOOST_CHECK(x != ev.byte_);
+# endif
+	BOOST_CHECK(x == ev.double_);
 # ifdef GL_FLOAT
 	BOOST_CHECK(x != ev.float_);
 # endif
@@ -105,6 +185,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_values)
 # ifdef GL_BYTE
 	BOOST_CHECK(x != ev.byte_);
 # endif
+# ifdef GL_DOUBLE
+	BOOST_CHECK(x != ev.double_);
+# endif
 	BOOST_CHECK(x == ev.float_);
 # ifdef GL_FLOAT_32_UNSIGNED_INT_24_8_REV
 	BOOST_CHECK(x != ev.float_32_unsigned_int_24_8_rev);
@@ -178,6 +261,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_values)
 	x = ev.float_32_unsigned_int_24_8_rev;
 # ifdef GL_BYTE
 	BOOST_CHECK(x != ev.byte_);
+# endif
+# ifdef GL_DOUBLE
+	BOOST_CHECK(x != ev.double_);
 # endif
 # ifdef GL_FLOAT
 	BOOST_CHECK(x != ev.float_);
@@ -253,6 +339,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_values)
 # ifdef GL_BYTE
 	BOOST_CHECK(x != ev.byte_);
 # endif
+# ifdef GL_DOUBLE
+	BOOST_CHECK(x != ev.double_);
+# endif
 # ifdef GL_FLOAT
 	BOOST_CHECK(x != ev.float_);
 # endif
@@ -326,6 +415,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_values)
 	x = ev.int_;
 # ifdef GL_BYTE
 	BOOST_CHECK(x != ev.byte_);
+# endif
+# ifdef GL_DOUBLE
+	BOOST_CHECK(x != ev.double_);
 # endif
 # ifdef GL_FLOAT
 	BOOST_CHECK(x != ev.float_);
@@ -401,6 +493,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_values)
 # ifdef GL_BYTE
 	BOOST_CHECK(x != ev.byte_);
 # endif
+# ifdef GL_DOUBLE
+	BOOST_CHECK(x != ev.double_);
+# endif
 # ifdef GL_FLOAT
 	BOOST_CHECK(x != ev.float_);
 # endif
@@ -474,6 +569,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_values)
 	x = ev.unsigned_byte;
 # ifdef GL_BYTE
 	BOOST_CHECK(x != ev.byte_);
+# endif
+# ifdef GL_DOUBLE
+	BOOST_CHECK(x != ev.double_);
 # endif
 # ifdef GL_FLOAT
 	BOOST_CHECK(x != ev.float_);
@@ -549,6 +647,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_values)
 # ifdef GL_BYTE
 	BOOST_CHECK(x != ev.byte_);
 # endif
+# ifdef GL_DOUBLE
+	BOOST_CHECK(x != ev.double_);
+# endif
 # ifdef GL_FLOAT
 	BOOST_CHECK(x != ev.float_);
 # endif
@@ -622,6 +723,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_values)
 	x = ev.unsigned_byte_3_3_2;
 # ifdef GL_BYTE
 	BOOST_CHECK(x != ev.byte_);
+# endif
+# ifdef GL_DOUBLE
+	BOOST_CHECK(x != ev.double_);
 # endif
 # ifdef GL_FLOAT
 	BOOST_CHECK(x != ev.float_);
@@ -697,6 +801,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_values)
 # ifdef GL_BYTE
 	BOOST_CHECK(x != ev.byte_);
 # endif
+# ifdef GL_DOUBLE
+	BOOST_CHECK(x != ev.double_);
+# endif
 # ifdef GL_FLOAT
 	BOOST_CHECK(x != ev.float_);
 # endif
@@ -770,6 +877,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_values)
 	x = ev.unsigned_int_10_10_10_2;
 # ifdef GL_BYTE
 	BOOST_CHECK(x != ev.byte_);
+# endif
+# ifdef GL_DOUBLE
+	BOOST_CHECK(x != ev.double_);
 # endif
 # ifdef GL_FLOAT
 	BOOST_CHECK(x != ev.float_);
@@ -845,6 +955,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_values)
 # ifdef GL_BYTE
 	BOOST_CHECK(x != ev.byte_);
 # endif
+# ifdef GL_DOUBLE
+	BOOST_CHECK(x != ev.double_);
+# endif
 # ifdef GL_FLOAT
 	BOOST_CHECK(x != ev.float_);
 # endif
@@ -918,6 +1031,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_values)
 	x = ev.unsigned_int_24_8;
 # ifdef GL_BYTE
 	BOOST_CHECK(x != ev.byte_);
+# endif
+# ifdef GL_DOUBLE
+	BOOST_CHECK(x != ev.double_);
 # endif
 # ifdef GL_FLOAT
 	BOOST_CHECK(x != ev.float_);
@@ -993,6 +1109,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_values)
 # ifdef GL_BYTE
 	BOOST_CHECK(x != ev.byte_);
 # endif
+# ifdef GL_DOUBLE
+	BOOST_CHECK(x != ev.double_);
+# endif
 # ifdef GL_FLOAT
 	BOOST_CHECK(x != ev.float_);
 # endif
@@ -1066,6 +1185,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_values)
 	x = ev.unsigned_int_5_9_9_9_rev;
 # ifdef GL_BYTE
 	BOOST_CHECK(x != ev.byte_);
+# endif
+# ifdef GL_DOUBLE
+	BOOST_CHECK(x != ev.double_);
 # endif
 # ifdef GL_FLOAT
 	BOOST_CHECK(x != ev.float_);
@@ -1141,6 +1263,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_values)
 # ifdef GL_BYTE
 	BOOST_CHECK(x != ev.byte_);
 # endif
+# ifdef GL_DOUBLE
+	BOOST_CHECK(x != ev.double_);
+# endif
 # ifdef GL_FLOAT
 	BOOST_CHECK(x != ev.float_);
 # endif
@@ -1214,6 +1339,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_values)
 	x = ev.unsigned_int_8_8_8_8_rev;
 # ifdef GL_BYTE
 	BOOST_CHECK(x != ev.byte_);
+# endif
+# ifdef GL_DOUBLE
+	BOOST_CHECK(x != ev.double_);
 # endif
 # ifdef GL_FLOAT
 	BOOST_CHECK(x != ev.float_);
@@ -1289,6 +1417,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_values)
 # ifdef GL_BYTE
 	BOOST_CHECK(x != ev.byte_);
 # endif
+# ifdef GL_DOUBLE
+	BOOST_CHECK(x != ev.double_);
+# endif
 # ifdef GL_FLOAT
 	BOOST_CHECK(x != ev.float_);
 # endif
@@ -1362,6 +1493,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_values)
 	x = ev.unsigned_short_1_5_5_5_rev;
 # ifdef GL_BYTE
 	BOOST_CHECK(x != ev.byte_);
+# endif
+# ifdef GL_DOUBLE
+	BOOST_CHECK(x != ev.double_);
 # endif
 # ifdef GL_FLOAT
 	BOOST_CHECK(x != ev.float_);
@@ -1437,6 +1571,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_values)
 # ifdef GL_BYTE
 	BOOST_CHECK(x != ev.byte_);
 # endif
+# ifdef GL_DOUBLE
+	BOOST_CHECK(x != ev.double_);
+# endif
 # ifdef GL_FLOAT
 	BOOST_CHECK(x != ev.float_);
 # endif
@@ -1510,6 +1647,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_values)
 	x = ev.unsigned_short_4_4_4_4_rev;
 # ifdef GL_BYTE
 	BOOST_CHECK(x != ev.byte_);
+# endif
+# ifdef GL_DOUBLE
+	BOOST_CHECK(x != ev.double_);
 # endif
 # ifdef GL_FLOAT
 	BOOST_CHECK(x != ev.float_);
@@ -1585,6 +1725,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_values)
 # ifdef GL_BYTE
 	BOOST_CHECK(x != ev.byte_);
 # endif
+# ifdef GL_DOUBLE
+	BOOST_CHECK(x != ev.double_);
+# endif
 # ifdef GL_FLOAT
 	BOOST_CHECK(x != ev.float_);
 # endif
@@ -1659,6 +1802,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_values)
 # ifdef GL_BYTE
 	BOOST_CHECK(x != ev.byte_);
 # endif
+# ifdef GL_DOUBLE
+	BOOST_CHECK(x != ev.double_);
+# endif
 # ifdef GL_FLOAT
 	BOOST_CHECK(x != ev.float_);
 # endif
@@ -1732,6 +1878,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_values)
 	x = ev.unsigned_short_5_6_5_rev;
 # ifdef GL_BYTE
 	BOOST_CHECK(x != ev.byte_);
+# endif
+# ifdef GL_DOUBLE
+	BOOST_CHECK(x != ev.double_);
 # endif
 # ifdef GL_FLOAT
 	BOOST_CHECK(x != ev.float_);
@@ -1817,6 +1966,15 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_names)
 	BOOST_CHECK(std::strcmp(
 		enum_value_name(x).data(),
 		"BYTE"
+	) == 0);
+#endif
+
+#ifdef GL_DOUBLE
+	x = ev.double_;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"DOUBLE"
 	) == 0);
 #endif
 
@@ -2040,6 +2198,17 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_range)
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
 		pixel_data_type(GL_BYTE)
+	) != r.end());
+}
+#endif
+
+#ifdef GL_DOUBLE
+{
+	--count;
+	auto r = enum_value_range<pixel_data_type>();
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		pixel_data_type(GL_DOUBLE)
 	) != r.end());
 }
 #endif
@@ -2318,6 +2487,16 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_any)
 	BOOST_CHECK(same_enum_class(a, y));
 	BOOST_CHECK(same_enum_class(x, y));
 	BOOST_CHECK(y == ev.byte_);
+#endif
+
+#ifdef GL_DOUBLE
+	x = ev.double_;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.double_);
 #endif
 
 #ifdef GL_FLOAT

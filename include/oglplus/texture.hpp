@@ -16,6 +16,7 @@
 #include "utils/nothing.hpp"
 #include "utils/gl_func.hpp"
 #include "utils/boolean.hpp"
+#include "utils/image_spec.hpp"
 #include "enum/types.hpp"
 #include "enum/indexed_types.hpp"
 
@@ -148,6 +149,139 @@ struct texture_ops
 	outcome<texture_name>
 	texture_binding(texture_target target)
 	noexcept;
+
+#if defined(GL_VERSION_4_2) || defined(GL_ARB_texture_storage)
+	static
+	outcome<void>
+	texture_storage_1d(
+		texture_target_only tnt,
+		GLsizei levels,
+		pixel_data_internal_format iformat,
+		GLsizei width
+	) noexcept;
+
+	static
+	outcome<void>
+	texture_storage_2d(
+		texture_target_only tnt,
+		GLsizei levels,
+		pixel_data_internal_format iformat,
+		GLsizei width,
+		GLsizei height
+	) noexcept;
+
+	static
+	outcome<void>
+	texture_storage_3d(
+		texture_target_only tnt,
+		GLsizei levels,
+		pixel_data_internal_format iformat,
+		GLsizei width,
+		GLsizei height,
+		GLsizei depth
+	) noexcept;
+#endif
+
+#if defined(GL_VERSION_4_5)
+	static
+	outcome<void>
+	texture_storage_1d(
+		texture_name_only tnt,
+		GLsizei levels,
+		pixel_data_internal_format iformat,
+		GLsizei width
+	) noexcept;
+
+	static
+	outcome<void>
+	texture_storage_2d(
+		texture_name_only tnt,
+		GLsizei levels,
+		pixel_data_internal_format iformat,
+		GLsizei width,
+		GLsizei height
+	) noexcept;
+
+	static
+	outcome<void>
+	texture_storage_3d(
+		texture_name_only tnt,
+		GLsizei levels,
+		pixel_data_internal_format iformat,
+		GLsizei width,
+		GLsizei height,
+		GLsizei depth
+	) noexcept;
+#endif
+
+	static
+	outcome<void>
+	texture_image_1d(
+		texture_target_only tnt,
+		GLint level,
+		pixel_data_internal_format iformat,
+		GLsizei width,
+		GLint border,
+		pixel_data_format format,
+		pixel_data_type type,
+		const_memory_block data
+	) noexcept;
+
+	static
+	outcome<void>
+	texture_image_1d(
+		texture_target_only tnt,
+		const image_spec& img,
+		GLint level = 0,
+		GLint border = 0
+	) noexcept;
+
+	static
+	outcome<void>
+	texture_image_2d(
+		texture_target_only tnt,
+		GLint level,
+		pixel_data_internal_format iformat,
+		GLsizei width,
+		GLsizei height,
+		GLint border,
+		pixel_data_format format,
+		pixel_data_type type,
+		const_memory_block data
+	) noexcept;
+
+	static
+	outcome<void>
+	texture_image_2d(
+		texture_target_only tnt,
+		const image_spec& img,
+		GLint level = 0,
+		GLint border = 0
+	) noexcept;
+
+	static
+	outcome<void>
+	texture_image_3d(
+		texture_target_only tnt,
+		GLint level,
+		pixel_data_internal_format iformat,
+		GLsizei width,
+		GLsizei height,
+		GLsizei depth,
+		GLint border,
+		pixel_data_format format,
+		pixel_data_type type,
+		const_memory_block data
+	) noexcept;
+
+	static
+	outcome<void>
+	texture_image_3d(
+		texture_target_only tnt,
+		const image_spec& img,
+		GLint level = 0,
+		GLint border = 0
+	) noexcept;
 
 	static
 	outcome<void>

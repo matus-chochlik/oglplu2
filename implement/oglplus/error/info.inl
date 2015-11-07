@@ -255,6 +255,16 @@ noexcept
 }
 //------------------------------------------------------------------------------
 inline
+error_info&
+error_info::
+gl_object_binding(const any_object_type&, const any_enum_value&)
+noexcept
+{
+	// TODO
+	return *this;
+}
+//------------------------------------------------------------------------------
+inline
 any_object_name
 error_info::
 gl_object(void) const
@@ -268,6 +278,16 @@ noexcept
 }
 //------------------------------------------------------------------------------
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+error_info&
+error_info::
+gl_subject_binding(const any_object_type&, const any_enum_value&)
+noexcept
+{
+	// TODO
+	return *this;
+}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 error_info&

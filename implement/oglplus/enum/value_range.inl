@@ -2955,6 +2955,9 @@ noexcept
 #ifdef GL_BYTE
 				GL_BYTE,
 #endif
+#ifdef GL_DOUBLE
+				GL_DOUBLE,
+#endif
 #ifdef GL_FLOAT
 				GL_FLOAT,
 #endif

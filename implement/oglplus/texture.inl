@@ -83,6 +83,356 @@ noexcept
 	), texture_name(GLuint(result));
 }
 //------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_2) || defined(GL_ARB_texture_storage)
+inline
+outcome<void>
+texture_ops::
+texture_storage_1d(
+	texture_target_only tnt,
+	GLsizei levels,
+	pixel_data_internal_format iformat,
+	GLsizei width
+) noexcept
+{
+	OGLPLUS_GLFUNC(TexStorage1D)(
+		GLenum(tnt._target),
+		levels,
+		GLenum(iformat),
+		width
+	);
+	OGLPLUS_VERIFY(
+		TexStorage1D,
+		gl_object_binding(tag::texture(), tnt._target).
+		gl_enum_value(iformat),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+texture_storage_2d(
+	texture_target_only tnt,
+	GLsizei levels,
+	pixel_data_internal_format iformat,
+	GLsizei width,
+	GLsizei height
+) noexcept
+{
+	OGLPLUS_GLFUNC(TexStorage2D)(
+		GLenum(tnt._target),
+		levels,
+		GLenum(iformat),
+		width,
+		height
+	);
+	OGLPLUS_VERIFY(
+		TexStorage2D,
+		gl_object_binding(tag::texture(), tnt._target).
+		gl_enum_value(iformat),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+texture_storage_3d(
+	texture_target_only tnt,
+	GLsizei levels,
+	pixel_data_internal_format iformat,
+	GLsizei width,
+	GLsizei height,
+	GLsizei depth
+) noexcept
+{
+	OGLPLUS_GLFUNC(TexStorage3D)(
+		GLenum(tnt._target),
+		levels,
+		GLenum(iformat),
+		width,
+		height,
+		depth
+	);
+	OGLPLUS_VERIFY(
+		TexStorage3D,
+		gl_object_binding(tag::texture(), tnt._target).
+		gl_enum_value(iformat),
+		always
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_5)
+inline
+outcome<void>
+texture_ops::
+texture_storage_1d(
+	texture_name_only tnt,
+	GLsizei levels,
+	pixel_data_internal_format iformat,
+	GLsizei width
+) noexcept
+{
+	OGLPLUS_GLFUNC(TextureStorage1D)(
+		get_raw_name(tnt._name),
+		levels,
+		GLenum(iformat),
+		width
+	);
+	OGLPLUS_VERIFY(
+		TextureStorage1D,
+		gl_object(tnt._name).
+		gl_enum_value(iformat),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+texture_storage_2d(
+	texture_name_only tnt,
+	GLsizei levels,
+	pixel_data_internal_format iformat,
+	GLsizei width,
+	GLsizei height
+) noexcept
+{
+	OGLPLUS_GLFUNC(TextureStorage2D)(
+		get_raw_name(tnt._name),
+		levels,
+		GLenum(iformat),
+		width,
+		height
+	);
+	OGLPLUS_VERIFY(
+		TextureStorage2D,
+		gl_object(tnt._name).
+		gl_enum_value(iformat),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+texture_storage_3d(
+	texture_name_only tnt,
+	GLsizei levels,
+	pixel_data_internal_format iformat,
+	GLsizei width,
+	GLsizei height,
+	GLsizei depth
+) noexcept
+{
+	OGLPLUS_GLFUNC(TextureStorage3D)(
+		get_raw_name(tnt._name),
+		levels,
+		GLenum(iformat),
+		width,
+		height,
+		depth
+	);
+	OGLPLUS_VERIFY(
+		TextureStorage3D,
+		gl_object(tnt._name).
+		gl_enum_value(iformat),
+		always
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
+// TODO throw this out once the type of internalformat in GLEW is fixed
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wsign-conversion"
+#endif
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+texture_image_1d(
+	texture_target_only tnt,
+	GLint level,
+	pixel_data_internal_format iformat,
+	GLsizei width,
+	GLint border,
+	pixel_data_format format,
+	pixel_data_type type,
+	const_memory_block data
+) noexcept
+{
+	OGLPLUS_GLFUNC(TexImage1D)(
+		GLenum(tnt._target),
+		level,
+		GLenum(iformat),
+		width,
+		border,
+		GLenum(format),
+		GLenum(type),
+		data.addr()
+	);
+	OGLPLUS_VERIFY(
+		TexImage1D,
+		gl_object_binding(tag::texture(), tnt._target).
+		gl_enum_value(iformat),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+texture_image_1d(
+	texture_target_only tnt,
+	const image_spec& img,
+	GLint level,
+	GLint border
+) noexcept
+{
+	return texture_image_1d(
+		tnt,
+		level,
+		img.internal_format(),
+		img.width(),
+		border,
+		img.format(),
+		img.type(),
+		img.data()
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+texture_image_2d(
+	texture_target_only tnt,
+	GLint level,
+	pixel_data_internal_format iformat,
+	GLsizei width,
+	GLsizei height,
+	GLint border,
+	pixel_data_format format,
+	pixel_data_type type,
+	const_memory_block data
+) noexcept
+{
+	OGLPLUS_GLFUNC(TexImage2D)(
+		GLenum(tnt._target),
+		level,
+		GLenum(iformat),
+		width,
+		height,
+		border,
+		GLenum(format),
+		GLenum(type),
+		data.addr()
+	);
+	OGLPLUS_VERIFY(
+		TexImage2D,
+		gl_object_binding(tag::texture(), tnt._target).
+		gl_enum_value(iformat),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+texture_image_2d(
+	texture_target_only tnt,
+	const image_spec& img,
+	GLint level,
+	GLint border
+) noexcept
+{
+	return texture_image_2d(
+		tnt,
+		level,
+		img.internal_format(),
+		img.width(),
+		img.height(),
+		border,
+		img.format(),
+		img.type(),
+		img.data()
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+texture_image_3d(
+	texture_target_only tnt,
+	GLint level,
+	pixel_data_internal_format iformat,
+	GLsizei width,
+	GLsizei height,
+	GLsizei depth,
+	GLint border,
+	pixel_data_format format,
+	pixel_data_type type,
+	const_memory_block data
+) noexcept
+{
+	OGLPLUS_GLFUNC(TexImage3D)(
+		GLenum(tnt._target),
+		level,
+		GLenum(iformat),
+		width,
+		height,
+		depth,
+		border,
+		GLenum(format),
+		GLenum(type),
+		data.addr()
+	);
+	OGLPLUS_VERIFY(
+		TexImage2D,
+		gl_object_binding(tag::texture(), tnt._target).
+		gl_enum_value(iformat),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+texture_image_3d(
+	texture_target_only tnt,
+	const image_spec& img,
+	GLint level,
+	GLint border
+) noexcept
+{
+	return texture_image_3d(
+		tnt,
+		level,
+		img.internal_format(),
+		img.width(),
+		img.height(),
+		img.depth(),
+		border,
+		img.format(),
+		img.type(),
+		img.data()
+	);
+}
+//------------------------------------------------------------------------------
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+//------------------------------------------------------------------------------
 inline
 outcome<void>
 texture_ops::
@@ -99,7 +449,7 @@ texture_parameter_i(
 	);
 	OGLPLUS_VERIFY(
 		TexParameteri,
-		//gl_object(texture_binding(target)). TODO
+		gl_object_binding(tag::texture(), tnt._target).
 		gl_enum_value(param),
 		always
 	);
@@ -123,7 +473,7 @@ get_texture_parameter_iv(
 	);
 	OGLPLUS_VERIFY(
 		GetTexParameteriv,
-		//gl_object(texture_binding(target)). TODO
+		gl_object_binding(tag::texture(), tnt._target).
 		gl_enum_value(param),
 		always
 	);
@@ -149,7 +499,7 @@ get_texture_level_parameter_iv(
 	);
 	OGLPLUS_VERIFY(
 		GetTexLevelParameteriv,
-		//gl_object(texture_binding(target)). TODO
+		gl_object_binding(tag::texture(), tnt._target).
 		gl_index(GLuint(level)).
 		gl_enum_value(param),
 		always
@@ -173,7 +523,7 @@ texture_parameter_f(
 	);
 	OGLPLUS_VERIFY(
 		TexParameterf,
-		//gl_object(texture_binding(target)). TODO
+		gl_object_binding(tag::texture(), tnt._target).
 		gl_enum_value(param),
 		always
 	);
@@ -197,7 +547,7 @@ get_texture_parameter_fv(
 	);
 	OGLPLUS_VERIFY(
 		GetTexParameterfv,
-		//gl_object(texture_binding(target)). TODO
+		gl_object_binding(tag::texture(), tnt._target).
 		gl_enum_value(param),
 		always
 	);
@@ -460,7 +810,7 @@ inline
 outcome<R>
 texture_ops::
 return_texture_parameter_i(
-	TNT tnt, 
+	TNT tnt,
 	oglplus::texture_parameter parameter
 ) noexcept
 {
