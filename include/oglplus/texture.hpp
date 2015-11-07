@@ -95,7 +95,7 @@ struct texture_ops
 	) noexcept;
 #endif
 
-#if defined(GL_VERSION_4_5)
+#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
 	static
 	outcome<void>
 	texture_storage_1d(

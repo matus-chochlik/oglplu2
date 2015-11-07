@@ -31,8 +31,9 @@ struct object_name_or_target<nothing_t, ObjBindingPoint>
 {
 	ObjBindingPoint _target;
 
+	template <typename Target>
 	constexpr inline
-	object_name_or_target(ObjBindingPoint target)
+	object_name_or_target(Target target)
 	noexcept
 	 : _target(target)
 	{ }

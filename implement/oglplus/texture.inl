@@ -166,7 +166,7 @@ texture_storage_3d(
 }
 #endif
 //------------------------------------------------------------------------------
-#if defined(GL_VERSION_4_5)
+#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
 inline
 outcome<void>
 texture_ops::
