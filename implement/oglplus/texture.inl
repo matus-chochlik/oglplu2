@@ -805,64 +805,64 @@ get_texture_parameter_fv(
 }
 #endif
 //------------------------------------------------------------------------------
-template <typename R, typename T, typename TNT>
+template <typename R, typename P, typename N, typename T>
 inline
 outcome<R>
 texture_ops::
 return_texture_parameter_i(
-	TNT tnt,
+	object_name_or_target<N, T> tnt,
 	oglplus::texture_parameter parameter
 ) noexcept
 {
 	GLint result;
 	return get_texture_parameter_iv(
-		make_object_name_or_target(tnt),
+		tnt,
 		parameter,
 		{&result, 1}
-	), R(T(result));
+	), R(P(result));
 }
 //------------------------------------------------------------------------------
-template <typename R, typename T, typename TNT>
+template <typename R, typename P, typename N, typename T>
 inline
 outcome<R>
 texture_ops::
 return_texture_level_parameter_i(
-	TNT tnt, 
+	object_name_or_target<N, T> tnt,
 	GLint level,
 	oglplus::texture_parameter parameter
 ) noexcept
 {
 	GLint result;
 	return get_texture_level_parameter_iv(
-		make_object_name_or_target(tnt),
+		tnt,
 		level,
 		parameter,
 		{&result, 1}
-	), R(T(result));
+	), R(P(result));
 }
 //------------------------------------------------------------------------------
-template <typename R, typename TNT>
+template <typename R, typename N, typename T>
 inline
 outcome<R>
 texture_ops::
 return_texture_parameter_f(
-	TNT tnt, 
+	object_name_or_target<N, T> tnt,
 	oglplus::texture_parameter parameter
 ) noexcept
 {
 	GLfloat result;
 	return get_texture_parameter_fv(
-		make_object_name_or_target(tnt),
+		tnt,
 		parameter,
 		{&result, 1}
 	), R(result);
 }
 //------------------------------------------------------------------------------
-template <typename TNT>
+template <typename N, typename T>
 inline
 outcome<GLsizei>
 texture_ops::
-texture_width(TNT tnt, GLint level)
+texture_width(object_name_or_target<N, T> tnt, GLint level)
 noexcept
 {
 	return return_texture_level_parameter_i<GLsizei, GLsizei>(
@@ -872,11 +872,11 @@ noexcept
 	);
 }
 //------------------------------------------------------------------------------
-template <typename TNT>
+template <typename N, typename T>
 inline
 outcome<GLsizei>
 texture_ops::
-texture_height(TNT tnt, GLint level)
+texture_height(object_name_or_target<N, T> tnt, GLint level)
 noexcept
 {
 	return return_texture_level_parameter_i<GLsizei, GLsizei>(
@@ -886,11 +886,11 @@ noexcept
 	);
 }
 //------------------------------------------------------------------------------
-template <typename TNT>
+template <typename N, typename T>
 inline
 outcome<GLsizei>
 texture_ops::
-texture_depth(TNT tnt, GLint level)
+texture_depth(object_name_or_target<N, T> tnt, GLint level)
 noexcept
 {
 	return return_texture_level_parameter_i<GLsizei, GLsizei>(
@@ -900,11 +900,11 @@ noexcept
 	);
 }
 //------------------------------------------------------------------------------
-template <typename TNT>
+template <typename N, typename T>
 inline
 outcome<pixel_data_type>
 texture_ops::
-texture_red_type(TNT tnt)
+texture_red_type(object_name_or_target<N, T> tnt)
 noexcept
 {
 	return return_texture_parameter_i<pixel_data_type, GLenum>(
@@ -913,11 +913,11 @@ noexcept
 	);
 }
 //------------------------------------------------------------------------------
-template <typename TNT>
+template <typename N, typename T>
 inline
 outcome<GLsizei>
 texture_ops::
-texture_red_size(TNT tnt, GLint level)
+texture_red_size(object_name_or_target<N, T> tnt, GLint level)
 noexcept
 {
 	return return_texture_level_parameter_i<GLsizei, GLsizei>(
@@ -927,11 +927,11 @@ noexcept
 	);
 }
 //------------------------------------------------------------------------------
-template <typename TNT>
+template <typename N, typename T>
 inline
 outcome<pixel_data_type>
 texture_ops::
-texture_green_type(TNT tnt)
+texture_green_type(object_name_or_target<N, T> tnt)
 noexcept
 {
 	return return_texture_parameter_i<pixel_data_type, GLenum>(
@@ -940,11 +940,11 @@ noexcept
 	);
 }
 //------------------------------------------------------------------------------
-template <typename TNT>
+template <typename N, typename T>
 inline
 outcome<GLsizei>
 texture_ops::
-texture_green_size(TNT tnt, GLint level)
+texture_green_size(object_name_or_target<N, T> tnt, GLint level)
 noexcept
 {
 	return return_texture_level_parameter_i<GLsizei, GLsizei>(
@@ -954,11 +954,11 @@ noexcept
 	);
 }
 //------------------------------------------------------------------------------
-template <typename TNT>
+template <typename N, typename T>
 inline
 outcome<pixel_data_type>
 texture_ops::
-texture_blue_type(TNT tnt)
+texture_blue_type(object_name_or_target<N, T> tnt)
 noexcept
 {
 	return return_texture_parameter_i<pixel_data_type, GLenum>(
@@ -967,11 +967,11 @@ noexcept
 	);
 }
 //------------------------------------------------------------------------------
-template <typename TNT>
+template <typename N, typename T>
 inline
 outcome<GLsizei>
 texture_ops::
-texture_blue_size(TNT tnt, GLint level)
+texture_blue_size(object_name_or_target<N, T> tnt, GLint level)
 noexcept
 {
 	return return_texture_level_parameter_i<GLsizei, GLsizei>(
@@ -981,11 +981,11 @@ noexcept
 	);
 }
 //------------------------------------------------------------------------------
-template <typename TNT>
+template <typename N, typename T>
 inline
 outcome<pixel_data_type>
 texture_ops::
-texture_alpha_type(TNT tnt)
+texture_alpha_type(object_name_or_target<N, T> tnt)
 noexcept
 {
 	return return_texture_parameter_i<pixel_data_type, GLenum>(
@@ -994,11 +994,11 @@ noexcept
 	);
 }
 //------------------------------------------------------------------------------
-template <typename TNT>
+template <typename N, typename T>
 inline
 outcome<GLsizei>
 texture_ops::
-texture_alpha_size(TNT tnt, GLint level)
+texture_alpha_size(object_name_or_target<N, T> tnt, GLint level)
 noexcept
 {
 	return return_texture_level_parameter_i<GLsizei, GLsizei>(
@@ -1008,11 +1008,11 @@ noexcept
 	);
 }
 //------------------------------------------------------------------------------
-template <typename TNT>
+template <typename N, typename T>
 inline
 outcome<pixel_data_type>
 texture_ops::
-texture_depth_type(TNT tnt)
+texture_depth_type(object_name_or_target<N, T> tnt)
 noexcept
 {
 	return return_texture_parameter_i<pixel_data_type, GLenum>(
@@ -1021,11 +1021,11 @@ noexcept
 	);
 }
 //------------------------------------------------------------------------------
-template <typename TNT>
+template <typename N, typename T>
 inline
 outcome<GLsizei>
 texture_ops::
-texture_depth_size(TNT tnt, GLint level)
+texture_depth_size(object_name_or_target<N, T> tnt, GLint level)
 noexcept
 {
 	return return_texture_level_parameter_i<GLsizei, GLsizei>(
@@ -1035,11 +1035,11 @@ noexcept
 	);
 }
 //------------------------------------------------------------------------------
-template <typename TNT>
+template <typename N, typename T>
 inline
 outcome<GLsizei>
 texture_ops::
-texture_stencil_size(TNT tnt, GLint level)
+texture_stencil_size(object_name_or_target<N, T> tnt, GLint level)
 noexcept
 {
 	return return_texture_level_parameter_i<GLsizei, GLsizei>(
@@ -1049,11 +1049,11 @@ noexcept
 	);
 }
 //------------------------------------------------------------------------------
-template <typename TNT>
+template <typename N, typename T>
 inline
 outcome<GLsizei>
 texture_ops::
-texture_shared_size(TNT tnt, GLint level)
+texture_shared_size(object_name_or_target<N, T> tnt, GLint level)
 noexcept
 {
 	return return_texture_level_parameter_i<GLsizei, GLsizei>(
@@ -1063,11 +1063,11 @@ noexcept
 	);
 }
 //------------------------------------------------------------------------------
-template <typename TNT>
+template <typename N, typename T>
 inline
 outcome<boolean>
 texture_ops::
-texture_compressed(TNT tnt, GLint level)
+texture_compressed(object_name_or_target<N, T> tnt, GLint level)
 noexcept
 {
 	return return_texture_level_parameter_i<
@@ -1080,11 +1080,11 @@ noexcept
 	);
 }
 //------------------------------------------------------------------------------
-template <typename TNT>
+template <typename N, typename T>
 inline
 outcome<GLsizei>
 texture_ops::
-texture_compressed_image_size(TNT tnt, GLint level)
+texture_compressed_image_size(object_name_or_target<N, T> tnt, GLint level)
 noexcept
 {
 	return return_texture_level_parameter_i<GLsizei, GLsizei>(
@@ -1096,11 +1096,11 @@ noexcept
 	);
 }
 //------------------------------------------------------------------------------
-template <typename TNT>
+template <typename N, typename T>
 inline
 outcome<oglplus::pixel_data_internal_format>
 texture_ops::
-texture_internal_format(TNT tnt, GLint level)
+texture_internal_format(object_name_or_target<N, T> tnt, GLint level)
 noexcept
 {
 	return return_texture_level_parameter_i<
@@ -1113,25 +1113,27 @@ noexcept
 	);
 }
 //------------------------------------------------------------------------------
-template <typename TNT>
+template <typename N, typename T>
 inline
 outcome<void>
 texture_ops::
-texture_min_filter(TNT tnt, oglplus::texture_min_filter value)
-noexcept
+texture_min_filter(
+	object_name_or_target<N, T> tnt,
+	oglplus::texture_min_filter value
+) noexcept
 {
 	return texture_parameter_i(
-		make_object_name_or_target(tnt),
+		tnt,
 		oglplus::texture_parameter(GL_TEXTURE_MIN_FILTER),
 		GLint(GLenum(value))
 	);
 }
 //------------------------------------------------------------------------------
-template <typename TNT>
+template <typename N, typename T>
 inline
 outcome<oglplus::texture_min_filter>
 texture_ops::
-texture_min_filter(TNT tnt)
+texture_min_filter(object_name_or_target<N, T> tnt)
 noexcept
 {
 	return return_texture_parameter_i<oglplus::texture_min_filter, GLenum>(
@@ -1140,25 +1142,27 @@ noexcept
 	);
 }
 //------------------------------------------------------------------------------
-template <typename TNT>
+template <typename N, typename T>
 inline
 outcome<void>
 texture_ops::
-texture_mag_filter(TNT tnt, oglplus::texture_mag_filter value)
-noexcept
+texture_mag_filter(
+	object_name_or_target<N, T> tnt,
+	oglplus::texture_mag_filter value
+) noexcept
 {
 	return texture_parameter_i(
-		make_object_name_or_target(tnt),
+		tnt,
 		oglplus::texture_parameter(GL_TEXTURE_MAG_FILTER),
 		GLint(GLenum(value))
 	);
 }
 //------------------------------------------------------------------------------
-template <typename TNT>
+template <typename N, typename T>
 inline
 outcome<oglplus::texture_mag_filter>
 texture_ops::
-texture_mag_filter(TNT tnt)
+texture_mag_filter(object_name_or_target<N, T> tnt)
 noexcept
 {
 	return return_texture_parameter_i<oglplus::texture_mag_filter, GLenum>(
@@ -1167,25 +1171,27 @@ noexcept
 	);
 }
 //------------------------------------------------------------------------------
-template <typename TNT>
+template <typename N, typename T>
 inline
 outcome<void>
 texture_ops::
-texture_compare_func(TNT tnt, oglplus::compare_function value)
-noexcept
+texture_compare_func(
+	object_name_or_target<N, T> tnt,
+	oglplus::compare_function value
+) noexcept
 {
 	return texture_parameter_i(
-		make_object_name_or_target(tnt),
+		tnt,
 		oglplus::texture_parameter(GL_TEXTURE_COMPARE_FUNC),
 		GLint(GLenum(value))
 	);
 }
 //------------------------------------------------------------------------------
-template <typename TNT>
+template <typename N, typename T>
 inline
 outcome<oglplus::compare_function>
 texture_ops::
-texture_compare_func(TNT tnt)
+texture_compare_func(object_name_or_target<N, T> tnt)
 noexcept
 {
 	return return_texture_parameter_i<oglplus::compare_function, GLenum>(
@@ -1194,25 +1200,27 @@ noexcept
 	);
 }
 //------------------------------------------------------------------------------
-template <typename TNT>
+template <typename N, typename T>
 inline
 outcome<void>
 texture_ops::
-texture_compare_mode(TNT tnt, oglplus::texture_compare_mode value)
-noexcept
+texture_compare_mode(
+	object_name_or_target<N, T> tnt,
+	oglplus::texture_compare_mode value
+) noexcept
 {
 	return texture_parameter_i(
-		make_object_name_or_target(tnt),
+		tnt,
 		oglplus::texture_parameter(GL_TEXTURE_COMPARE_MODE),
 		GLint(GLenum(value))
 	);
 }
 //------------------------------------------------------------------------------
-template <typename TNT>
+template <typename N, typename T>
 inline
 outcome<oglplus::texture_compare_mode>
 texture_ops::
-texture_compare_mode(TNT tnt)
+texture_compare_mode(object_name_or_target<N, T> tnt)
 noexcept
 {
 	return return_texture_parameter_i<
@@ -1224,25 +1232,25 @@ noexcept
 	);
 }
 //------------------------------------------------------------------------------
-template <typename TNT>
+template <typename N, typename T>
 inline
 outcome<void>
 texture_ops::
-texture_lod_bias(TNT tnt, GLfloat value)
+texture_lod_bias(object_name_or_target<N, T> tnt, GLfloat value)
 noexcept
 {
 	return texture_parameter_f(
-		make_object_name_or_target(tnt),
+		tnt,
 		oglplus::texture_parameter(GL_TEXTURE_LOD_BIAS),
 		value
 	);
 }
 //------------------------------------------------------------------------------
-template <typename TNT>
+template <typename N, typename T>
 inline
 outcome<GLfloat>
 texture_ops::
-texture_lod_bias(TNT tnt)
+texture_lod_bias(object_name_or_target<N, T> tnt)
 noexcept
 {
 	return return_texture_parameter_f<GLfloat>(

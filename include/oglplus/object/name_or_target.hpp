@@ -31,7 +31,12 @@ struct object_name_or_target<nothing_t, ObjBindingPoint>
 {
 	ObjBindingPoint _target;
 
-	template <typename Target>
+	template <
+		typename Target,
+		typename = typename std::enable_if<
+			std::is_convertible<Target, ObjBindingPoint>::value
+		>::type
+	>
 	constexpr inline
 	object_name_or_target(Target target)
 	noexcept
@@ -43,14 +48,6 @@ template <typename ObjTag>
 using object_target_only =
 	object_name_or_target<nothing_t, obj_binding_point<ObjTag>>;
 
-template <typename ObjTag>
-static inline
-object_target_only<ObjTag>
-make_object_name_or_target(obj_binding_point<ObjTag> target)
-noexcept
-{
-	return {target};
-}
 
 template <typename ObjTag>
 struct object_name_or_target<object_name<ObjTag>, nothing_t>
@@ -67,15 +64,6 @@ struct object_name_or_target<object_name<ObjTag>, nothing_t>
 template <typename ObjTag>
 using object_name_only =
 	object_name_or_target<object_name<ObjTag>, nothing_t>;
-
-template <typename ObjTag>
-static inline
-object_name_only<ObjTag>
-make_object_name_or_target(object_name<ObjTag> name)
-noexcept
-{
-	return {name};
-}
 
 template <typename ObjTag>
 struct object_name_or_target<object_name<ObjTag>, obj_binding_point<ObjTag>>
@@ -95,26 +83,6 @@ struct object_name_or_target<object_name<ObjTag>, obj_binding_point<ObjTag>>
 template <typename ObjTag>
 using object_name_and_target =
 	object_name_or_target<object_name<ObjTag>, obj_binding_point<ObjTag>>;
-
-template <typename ObjTag>
-static inline
-object_name_and_target<ObjTag>
-make_object_name_or_target(object_name_and_target<ObjTag> ont)
-noexcept
-{
-	return ont;
-}
-
-template <typename ObjTag>
-static inline
-object_name_and_target<ObjTag>
-make_object_name_or_target(
-	object_name<ObjTag> name,
-	obj_binding_point<ObjTag> target
-) noexcept
-{
-	return {name, target};
-}
 
 } // namespace oglplus
 
