@@ -4302,7 +4302,29 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 101: /* texture_swizzle */
+		case 101: /* texture_swizzle_coord */
+		{
+			static const GLenum vr[] = {
+#ifdef GL_TEXTURE_SWIZZLE_A
+				GL_TEXTURE_SWIZZLE_A,
+#endif
+#ifdef GL_TEXTURE_SWIZZLE_B
+				GL_TEXTURE_SWIZZLE_B,
+#endif
+#ifdef GL_TEXTURE_SWIZZLE_G
+				GL_TEXTURE_SWIZZLE_G,
+#endif
+#ifdef GL_TEXTURE_SWIZZLE_R
+				GL_TEXTURE_SWIZZLE_R,
+#endif
+#ifdef GL_TEXTURE_SWIZZLE_RGBA
+				GL_TEXTURE_SWIZZLE_RGBA,
+#endif
+				0
+			};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
+		}
+		case 102: /* texture_swizzle_mode */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_ALPHA
@@ -4322,28 +4344,6 @@ noexcept
 #endif
 #ifdef GL_ZERO
 				GL_ZERO,
-#endif
-				0
-			};
-			return {vr, sizeof(vr)/sizeof(vr[0])-1};
-		}
-		case 102: /* texture_swizzle_coord */
-		{
-			static const GLenum vr[] = {
-#ifdef GL_TEXTURE_SWIZZLE_A
-				GL_TEXTURE_SWIZZLE_A,
-#endif
-#ifdef GL_TEXTURE_SWIZZLE_B
-				GL_TEXTURE_SWIZZLE_B,
-#endif
-#ifdef GL_TEXTURE_SWIZZLE_G
-				GL_TEXTURE_SWIZZLE_G,
-#endif
-#ifdef GL_TEXTURE_SWIZZLE_R
-				GL_TEXTURE_SWIZZLE_R,
-#endif
-#ifdef GL_TEXTURE_SWIZZLE_RGBA
-				GL_TEXTURE_SWIZZLE_RGBA,
 #endif
 				0
 			};
@@ -4407,7 +4407,23 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 104: /* texture_wrap */
+		case 104: /* texture_wrap_coord */
+		{
+			static const GLenum vr[] = {
+#ifdef GL_TEXTURE_WRAP_R
+				GL_TEXTURE_WRAP_R,
+#endif
+#ifdef GL_TEXTURE_WRAP_S
+				GL_TEXTURE_WRAP_S,
+#endif
+#ifdef GL_TEXTURE_WRAP_T
+				GL_TEXTURE_WRAP_T,
+#endif
+				0
+			};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
+		}
+		case 105: /* texture_wrap_mode */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_CLAMP_TO_BORDER
@@ -4424,22 +4440,6 @@ noexcept
 #endif
 #ifdef GL_REPEAT
 				GL_REPEAT,
-#endif
-				0
-			};
-			return {vr, sizeof(vr)/sizeof(vr[0])-1};
-		}
-		case 105: /* texture_wrap_coord */
-		{
-			static const GLenum vr[] = {
-#ifdef GL_TEXTURE_WRAP_R
-				GL_TEXTURE_WRAP_R,
-#endif
-#ifdef GL_TEXTURE_WRAP_S
-				GL_TEXTURE_WRAP_S,
-#endif
-#ifdef GL_TEXTURE_WRAP_T
-				GL_TEXTURE_WRAP_T,
 #endif
 				0
 			};

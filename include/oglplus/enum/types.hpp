@@ -420,24 +420,24 @@ struct texture_parameter
  : enum_class<texture_parameter, GLenum, 100>
 { using enum_class::enum_class; };
 
-struct texture_swizzle
- : enum_class<texture_swizzle, GLenum, 101>
+struct texture_swizzle_coord
+ : enum_class<texture_swizzle_coord, GLenum, 101>
 { using enum_class::enum_class; };
 
-struct texture_swizzle_coord
- : enum_class<texture_swizzle_coord, GLenum, 102>
+struct texture_swizzle_mode
+ : enum_class<texture_swizzle_mode, GLenum, 102>
 { using enum_class::enum_class; };
 
 struct texture_target
  : enum_class<texture_target, GLenum, 103>
 { using enum_class::enum_class; };
 
-struct texture_wrap
- : enum_class<texture_wrap, GLenum, 104>
+struct texture_wrap_coord
+ : enum_class<texture_wrap_coord, GLenum, 104>
 { using enum_class::enum_class; };
 
-struct texture_wrap_coord
- : enum_class<texture_wrap_coord, GLenum, 105>
+struct texture_wrap_mode
+ : enum_class<texture_wrap_mode, GLenum, 105>
 { using enum_class::enum_class; };
 
 struct transform_feedback_mode

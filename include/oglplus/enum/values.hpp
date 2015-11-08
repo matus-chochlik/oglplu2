@@ -126,7 +126,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_ALPHA,
-	mp_list<oglplus::texture_swizzle,oglplus::path_color_format_nv>
+	mp_list<oglplus::path_color_format_nv,oglplus::texture_swizzle_mode>
 > alpha = {};
 #endif
 
@@ -406,7 +406,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_BLUE,
-	mp_list<oglplus::texture_swizzle,oglplus::pixel_data_format>
+	mp_list<oglplus::texture_swizzle_mode,oglplus::pixel_data_format>
 > blue = {};
 #endif
 
@@ -630,7 +630,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_CLAMP_TO_BORDER,
-	mp_list<oglplus::texture_wrap>
+	mp_list<oglplus::texture_wrap_mode>
 > clamp_to_border = {};
 #endif
 
@@ -638,7 +638,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_CLAMP_TO_EDGE,
-	mp_list<oglplus::texture_wrap>
+	mp_list<oglplus::texture_wrap_mode>
 > clamp_to_edge = {};
 #endif
 
@@ -2534,7 +2534,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_GREEN,
-	mp_list<oglplus::texture_swizzle,oglplus::pixel_data_format>
+	mp_list<oglplus::texture_swizzle_mode,oglplus::pixel_data_format>
 > green = {};
 #endif
 
@@ -4294,7 +4294,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_MIRROR_CLAMP_TO_EDGE,
-	mp_list<oglplus::texture_wrap>
+	mp_list<oglplus::texture_wrap_mode>
 > mirror_clamp_to_edge = {};
 #endif
 
@@ -4302,7 +4302,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_MIRRORED_REPEAT,
-	mp_list<oglplus::texture_wrap>
+	mp_list<oglplus::texture_wrap_mode>
 > mirrored_repeat = {};
 #endif
 
@@ -4542,7 +4542,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_ONE,
-	mp_list<oglplus::texture_swizzle,oglplus::blend_function>
+	mp_list<oglplus::blend_function,oglplus::texture_swizzle_mode>
 > one = {};
 #endif
 
@@ -5374,7 +5374,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_RED,
-	mp_list<oglplus::texture_swizzle,oglplus::pixel_data_format,oglplus::pixel_data_internal_format>
+	mp_list<oglplus::texture_swizzle_mode,oglplus::pixel_data_format,oglplus::pixel_data_internal_format>
 > red = {};
 #endif
 
@@ -5646,7 +5646,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_REPEAT,
-	mp_list<oglplus::texture_wrap>
+	mp_list<oglplus::texture_wrap_mode>
 > repeat = {};
 #endif
 
@@ -8486,7 +8486,7 @@ static constexpr const enum_value<
 static constexpr const enum_value<
 	GLenum,
 	GL_ZERO,
-	mp_list<oglplus::texture_swizzle,oglplus::blend_function,oglplus::stencil_operation>
+	mp_list<oglplus::blend_function,oglplus::texture_swizzle_mode,oglplus::stencil_operation>
 > zero = {};
 #endif
 

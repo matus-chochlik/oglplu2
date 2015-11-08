@@ -125,41 +125,41 @@ struct sampler_ops
 	sampler_wrap(
 		sampler_name sam,
 		texture_wrap_coord coord,
-		texture_wrap value
+		texture_wrap_mode value
 	) noexcept;
 
 	static
-	outcome<texture_wrap>
+	outcome<texture_wrap_mode>
 	sampler_wrap(sampler_name sam, texture_wrap_coord coord)
 	noexcept;
 
 	static
 	outcome<void>
-	sampler_wrap_s(sampler_name sam, texture_wrap value)
+	sampler_wrap_s(sampler_name sam, texture_wrap_mode value)
 	noexcept;
 
 	static
-	outcome<texture_wrap>
+	outcome<texture_wrap_mode>
 	sampler_wrap_s(sampler_name sam)
 	noexcept;
 
 	static
 	outcome<void>
-	sampler_wrap_t(sampler_name sam, texture_wrap value)
+	sampler_wrap_t(sampler_name sam, texture_wrap_mode value)
 	noexcept;
 
 	static
-	outcome<texture_wrap>
+	outcome<texture_wrap_mode>
 	sampler_wrap_t(sampler_name sam)
 	noexcept;
 
 	static
 	outcome<void>
-	sampler_wrap_r(sampler_name sam, texture_wrap value)
+	sampler_wrap_r(sampler_name sam, texture_wrap_mode value)
 	noexcept;
 
 	static
-	outcome<texture_wrap>
+	outcome<texture_wrap_mode>
 	sampler_wrap_r(sampler_name sam)
 	noexcept;
 
@@ -251,13 +251,13 @@ struct obj_dsa_ops<sampler_name>
 	}
 
 	outcome<obj_dsa_ops&>
-	wrap(texture_wrap_coord coord, texture_wrap value)
+	wrap(texture_wrap_coord coord, texture_wrap_mode value)
 	noexcept
 	{
 		return {_ops::sampler_wrap(*this, coord, value), *this};
 	}
 
-	outcome<texture_wrap>
+	outcome<texture_wrap_mode>
 	wrap(texture_wrap_coord coord) const
 	noexcept
 	{
@@ -265,13 +265,13 @@ struct obj_dsa_ops<sampler_name>
 	}
 
 	outcome<obj_dsa_ops&>
-	wrap_s(texture_wrap value)
+	wrap_s(texture_wrap_mode value)
 	noexcept
 	{
 		return {_ops::sampler_wrap_s(*this, value), *this};
 	}
 
-	outcome<texture_wrap>
+	outcome<texture_wrap_mode>
 	wrap_s(void) const
 	noexcept
 	{
@@ -279,13 +279,13 @@ struct obj_dsa_ops<sampler_name>
 	}
 
 	outcome<obj_dsa_ops&>
-	wrap_t(texture_wrap value)
+	wrap_t(texture_wrap_mode value)
 	noexcept
 	{
 		return {_ops::sampler_wrap_t(*this, value), *this};
 	}
 
-	outcome<texture_wrap>
+	outcome<texture_wrap_mode>
 	wrap_t(void) const
 	noexcept
 	{
@@ -293,13 +293,13 @@ struct obj_dsa_ops<sampler_name>
 	}
 
 	outcome<obj_dsa_ops&>
-	wrap_r(texture_wrap value)
+	wrap_r(texture_wrap_mode value)
 	noexcept
 	{
 		return {_ops::sampler_wrap_r(*this, value), *this};
 	}
 
-	outcome<texture_wrap>
+	outcome<texture_wrap_mode>
 	wrap_r(void) const
 	noexcept
 	{

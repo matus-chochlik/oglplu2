@@ -294,7 +294,7 @@ sampler_ops::
 sampler_wrap(
 	sampler_name sam,
 	texture_wrap_coord coord,
-	texture_wrap value
+	texture_wrap_mode value
 ) noexcept
 {
 	return sampler_parameter_i(
@@ -305,13 +305,13 @@ sampler_wrap(
 }
 //------------------------------------------------------------------------------
 inline
-outcome<texture_wrap>
+outcome<texture_wrap_mode>
 sampler_ops::
 sampler_wrap(sampler_name sam, texture_wrap_coord coord)
 noexcept
 {
 	return return_sampler_parameter_i<
-		texture_wrap,
+		texture_wrap_mode,
 		GLenum
 	>(sam, sampler_parameter(GLenum(coord)));
 }
@@ -319,7 +319,7 @@ noexcept
 inline
 outcome<void>
 sampler_ops::
-sampler_wrap_s(sampler_name sam, texture_wrap value)
+sampler_wrap_s(sampler_name sam, texture_wrap_mode value)
 noexcept
 {
 	return sampler_parameter_i(
@@ -330,12 +330,12 @@ noexcept
 }
 //------------------------------------------------------------------------------
 inline
-outcome<texture_wrap>
+outcome<texture_wrap_mode>
 sampler_ops::
 sampler_wrap_s(sampler_name sam)
 noexcept
 {
-	return return_sampler_parameter_i<texture_wrap, GLenum>(
+	return return_sampler_parameter_i<texture_wrap_mode, GLenum>(
 		sam,
 		sampler_parameter(GL_TEXTURE_WRAP_S)
 	);
@@ -344,7 +344,7 @@ noexcept
 inline
 outcome<void>
 sampler_ops::
-sampler_wrap_t(sampler_name sam, texture_wrap value)
+sampler_wrap_t(sampler_name sam, texture_wrap_mode value)
 noexcept
 {
 	return sampler_parameter_i(
@@ -355,12 +355,12 @@ noexcept
 }
 //------------------------------------------------------------------------------
 inline
-outcome<texture_wrap>
+outcome<texture_wrap_mode>
 sampler_ops::
 sampler_wrap_t(sampler_name sam)
 noexcept
 {
-	return return_sampler_parameter_i<texture_wrap, GLenum>(
+	return return_sampler_parameter_i<texture_wrap_mode, GLenum>(
 		sam,
 		sampler_parameter(GL_TEXTURE_WRAP_T)
 	);
@@ -369,7 +369,7 @@ noexcept
 inline
 outcome<void>
 sampler_ops::
-sampler_wrap_r(sampler_name sam, texture_wrap value)
+sampler_wrap_r(sampler_name sam, texture_wrap_mode value)
 noexcept
 {
 	return sampler_parameter_i(
@@ -380,12 +380,12 @@ noexcept
 }
 //------------------------------------------------------------------------------
 inline
-outcome<texture_wrap>
+outcome<texture_wrap_mode>
 sampler_ops::
 sampler_wrap_r(sampler_name sam)
 noexcept
 {
-	return return_sampler_parameter_i<texture_wrap, GLenum>(
+	return return_sampler_parameter_i<texture_wrap_mode, GLenum>(
 		sam,
 		sampler_parameter(GL_TEXTURE_WRAP_R)
 	);

@@ -53,7 +53,7 @@ private:
 
 	template <typename X>
 	static
-	auto _wrap(X& x)
+	auto _wrap(const X& x)
 	noexcept
 	{
 		return wrap_texture_name_or_target(x);
@@ -218,6 +218,77 @@ public:
 		GLint border = 0
 	) noexcept;
 
+#if defined(GL_EXT_direct_state_access)
+	static
+	outcome<void>
+	texture_image_1d(
+		texture_name_and_target tnt,
+		GLint level,
+		pixel_data_internal_format iformat,
+		GLsizei width,
+		GLint border,
+		pixel_data_format format,
+		pixel_data_type type,
+		const_memory_block data
+	) noexcept;
+
+	static
+	outcome<void>
+	texture_image_1d(
+		texture_name_and_target tnt,
+		const image_spec& img,
+		GLint level = 0,
+		GLint border = 0
+	) noexcept;
+
+	static
+	outcome<void>
+	texture_image_2d(
+		texture_name_and_target tnt,
+		GLint level,
+		pixel_data_internal_format iformat,
+		GLsizei width,
+		GLsizei height,
+		GLint border,
+		pixel_data_format format,
+		pixel_data_type type,
+		const_memory_block data
+	) noexcept;
+
+	static
+	outcome<void>
+	texture_image_2d(
+		texture_name_and_target tnt,
+		const image_spec& img,
+		GLint level = 0,
+		GLint border = 0
+	) noexcept;
+
+	static
+	outcome<void>
+	texture_image_3d(
+		texture_name_and_target tnt,
+		GLint level,
+		pixel_data_internal_format iformat,
+		GLsizei width,
+		GLsizei height,
+		GLsizei depth,
+		GLint border,
+		pixel_data_format format,
+		pixel_data_type type,
+		const_memory_block data
+	) noexcept;
+
+	static
+	outcome<void>
+	texture_image_3d(
+		texture_name_and_target tnt,
+		const image_spec& img,
+		GLint level = 0,
+		GLint border = 0
+	) noexcept;
+#endif
+
 	static
 	outcome<void>
 	texture_parameter_i(
@@ -259,7 +330,7 @@ public:
 		array_view<GLfloat> values
 	) noexcept;
 
-#ifdef GL_VERSION_4_5
+#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
 	static
 	outcome<void>
 	texture_parameter_i(
@@ -388,7 +459,7 @@ public:
 	template <typename X, typename = _disable_if_target<X>>
 	static 
 	outcome<GLsizei>
-	texture_width(X& tex, GLint level = 0)
+	texture_width(const X& tex, GLint level = 0)
 	noexcept
 	{ return texture_width(_wrap(tex), level); }
 
@@ -408,7 +479,7 @@ public:
 	template <typename X, typename = _disable_if_target<X>>
 	static 
 	outcome<GLsizei>
-	texture_height(X& tex, GLint level = 0)
+	texture_height(const X& tex, GLint level = 0)
 	noexcept
 	{ return texture_height(_wrap(tex), level); }
 
@@ -428,7 +499,7 @@ public:
 	template <typename X, typename = _disable_if_target<X>>
 	static 
 	outcome<GLsizei>
-	texture_depth(X& tex, GLint level = 0)
+	texture_depth(const X& tex, GLint level = 0)
 	noexcept
 	{ return texture_depth(_wrap(tex), level); }
 
@@ -448,7 +519,7 @@ public:
 	template <typename X, typename = _disable_if_target<X>>
 	static 
 	outcome<pixel_data_type>
-	texture_red_type(X& tex)
+	texture_red_type(const X& tex)
 	noexcept
 	{ return texture_red_type(_wrap(tex)); }
 
@@ -468,7 +539,7 @@ public:
 	template <typename X, typename = _disable_if_target<X>>
 	static 
 	outcome<GLsizei>
-	texture_red_size(X& tex, GLint level = 0)
+	texture_red_size(const X& tex, GLint level = 0)
 	noexcept
 	{ return texture_red_size(_wrap(tex), level); }
 
@@ -488,7 +559,7 @@ public:
 	template <typename X, typename = _disable_if_target<X>>
 	static 
 	outcome<pixel_data_type>
-	texture_green_type(X& tex)
+	texture_green_type(const X& tex)
 	noexcept
 	{ return texture_green_type(_wrap(tex)); }
 
@@ -508,7 +579,7 @@ public:
 	template <typename X, typename = _disable_if_target<X>>
 	static 
 	outcome<GLsizei>
-	texture_green_size(X& tex, GLint level = 0)
+	texture_green_size(const X& tex, GLint level = 0)
 	noexcept
 	{ return texture_green_size(_wrap(tex), level); }
 
@@ -528,7 +599,7 @@ public:
 	template <typename X, typename = _disable_if_target<X>>
 	static 
 	outcome<pixel_data_type>
-	texture_blue_type(X& tex)
+	texture_blue_type(const X& tex)
 	noexcept
 	{ return texture_blue_type(_wrap(tex)); }
 
@@ -548,7 +619,7 @@ public:
 	template <typename X, typename = _disable_if_target<X>>
 	static 
 	outcome<GLsizei>
-	texture_blue_size(X& tex, GLint level = 0)
+	texture_blue_size(const X& tex, GLint level = 0)
 	noexcept
 	{ return texture_blue_size(_wrap(tex), level); }
 
@@ -568,7 +639,7 @@ public:
 	template <typename X, typename = _disable_if_target<X>>
 	static 
 	outcome<pixel_data_type>
-	texture_alpha_type(X& tex)
+	texture_alpha_type(const X& tex)
 	noexcept
 	{ return texture_alpha_type(_wrap(tex)); }
 
@@ -588,7 +659,7 @@ public:
 	template <typename X, typename = _disable_if_target<X>>
 	static 
 	outcome<GLsizei>
-	texture_alpha_size(X& tex, GLint level = 0)
+	texture_alpha_size(const X& tex, GLint level = 0)
 	noexcept
 	{ return texture_alpha_size(_wrap(tex), level); }
 
@@ -608,7 +679,7 @@ public:
 	template <typename X, typename = _disable_if_target<X>>
 	static 
 	outcome<pixel_data_type>
-	texture_depth_type(X& tex)
+	texture_depth_type(const X& tex)
 	noexcept
 	{ return texture_depth_type(_wrap(tex)); }
 
@@ -628,7 +699,7 @@ public:
 	template <typename X, typename = _disable_if_target<X>>
 	static 
 	outcome<GLsizei>
-	texture_depth_size(X& tex, GLint level = 0)
+	texture_depth_size(const X& tex, GLint level = 0)
 	noexcept
 	{ return texture_depth_size(_wrap(tex), level); }
 
@@ -648,7 +719,7 @@ public:
 	template <typename X, typename = _disable_if_target<X>>
 	static 
 	outcome<GLsizei>
-	texture_stencil_size(X& tex, GLint level = 0)
+	texture_stencil_size(const X& tex, GLint level = 0)
 	noexcept
 	{ return texture_stencil_size(_wrap(tex), level); }
 
@@ -668,7 +739,7 @@ public:
 	template <typename X, typename = _disable_if_target<X>>
 	static 
 	outcome<GLsizei>
-	texture_shared_size(X& tex, GLint level = 0)
+	texture_shared_size(const X& tex, GLint level = 0)
 	noexcept
 	{ return texture_shared_size(_wrap(tex), level); }
 
@@ -688,7 +759,7 @@ public:
 	template <typename X, typename = _disable_if_target<X>>
 	static 
 	outcome<boolean>
-	texture_compressed(X& tex, GLint level = 0)
+	texture_compressed(const X& tex, GLint level = 0)
 	noexcept
 	{ return texture_compressed(_wrap(tex), level); }
 
@@ -710,7 +781,7 @@ public:
 	template <typename X, typename = _disable_if_target<X>>
 	static 
 	outcome<GLsizei>
-	texture_compressed_image_size(X& tex, GLint level = 0)
+	texture_compressed_image_size(const X& tex, GLint level = 0)
 	noexcept
 	{ return texture_compressed_image_size(_wrap(tex), level); }
 
@@ -732,7 +803,7 @@ public:
 	template <typename X, typename = _disable_if_target<X>>
 	static 
 	outcome<oglplus::pixel_data_internal_format>
-	texture_internal_format(X& tex, GLint level = 0)
+	texture_internal_format(const X& tex, GLint level = 0)
 	noexcept
 	{ return texture_internal_format(_wrap(tex), level); }
 
@@ -777,7 +848,7 @@ public:
 	template <typename X, typename = _disable_if_target<X>>
 	static 
 	outcome<oglplus::texture_min_filter>
-	texture_min_filter(X& tex)
+	texture_min_filter(const X& tex)
 	noexcept
 	{ return texture_min_filter(_wrap(tex)); }
 
@@ -822,7 +893,7 @@ public:
 	template <typename X, typename = _disable_if_target<X>>
 	static 
 	outcome<oglplus::texture_mag_filter>
-	texture_mag_filter(X& tex)
+	texture_mag_filter(const X& tex)
 	noexcept
 	{ return texture_mag_filter(_wrap(tex)); }
 
@@ -867,7 +938,7 @@ public:
 	template <typename X, typename = _disable_if_target<X>>
 	static 
 	outcome<oglplus::compare_function>
-	texture_compare_func(X& tex)
+	texture_compare_func(const X& tex)
 	noexcept
 	{ return texture_compare_func(_wrap(tex)); }
 
@@ -912,9 +983,107 @@ public:
 	template <typename X, typename = _disable_if_target<X>>
 	static 
 	outcome<oglplus::texture_compare_mode>
-	texture_compare_mode(X& tex)
+	texture_compare_mode(const X& tex)
 	noexcept
 	{ return texture_compare_mode(_wrap(tex)); }
+
+	// texture_wrap
+	template <typename N, typename T>
+	static
+	outcome<void>
+	texture_wrap(
+		object_name_or_target<N, T> tnt,
+		texture_wrap_coord coord,
+		texture_wrap_mode value
+	) noexcept;
+
+	static
+	outcome<void>
+	texture_wrap(
+		texture_target tgt,
+		texture_wrap_coord coord,
+		texture_wrap_mode value
+	) noexcept
+	{ return texture_wrap(_wrap(tgt), coord, value); }
+
+	template <typename X, typename = _disable_if_target<X>>
+	static
+	outcome<void>
+	texture_wrap(
+		X& tex,
+		texture_wrap_coord coord,
+		texture_wrap_mode value
+	) noexcept
+	{ return texture_wrap(_wrap(tex), coord, value); }
+
+	template <typename N, typename T>
+	static
+	outcome<texture_wrap_mode>
+	texture_wrap(object_name_or_target<N, T> tnt, texture_wrap_coord coord)
+	noexcept;
+
+	static
+	outcome<texture_wrap_mode>
+	texture_wrap(texture_target tgt, texture_wrap_coord coord)
+	noexcept
+	{ return texture_wrap(_wrap(tgt), coord); }
+
+	template <typename X, typename = _disable_if_target<X>>
+	static
+	outcome<texture_wrap_mode>
+	texture_wrap(const X& tex, texture_wrap_coord coord)
+	noexcept
+	{ return texture_wrap(_wrap(tex), coord); }
+
+	// texture_swizzle
+	template <typename N, typename T>
+	static
+	outcome<void>
+	texture_swizzle(
+		object_name_or_target<N, T> tnt,
+		texture_swizzle_coord coord,
+		texture_swizzle_mode value
+	) noexcept;
+
+	static
+	outcome<void>
+	texture_swizzle(
+		texture_target tgt,
+		texture_swizzle_coord coord,
+		texture_swizzle_mode value
+	) noexcept
+	{ return texture_swizzle(_wrap(tgt), coord, value); }
+
+	template <typename X, typename = _disable_if_target<X>>
+	static
+	outcome<void>
+	texture_swizzle(
+		X& tex,
+		texture_swizzle_coord coord,
+		texture_swizzle_mode value
+	) noexcept
+	{ return texture_swizzle(_wrap(tex), coord, value); }
+
+	template <typename N, typename T>
+	static
+	outcome<texture_swizzle_mode>
+	texture_swizzle(
+		object_name_or_target<N, T> tnt,
+		texture_swizzle_coord coord
+	) noexcept;
+
+	static
+	outcome<texture_swizzle_mode>
+	texture_swizzle(texture_target tgt, texture_swizzle_coord coord)
+	noexcept
+	{ return texture_swizzle(_wrap(tgt), coord); }
+
+	template <typename X, typename = _disable_if_target<X>>
+	static
+	outcome<texture_swizzle_mode>
+	texture_swizzle(const X& tex, texture_swizzle_coord coord)
+	noexcept
+	{ return texture_swizzle(_wrap(tex), coord); }
 
 	// texture_lod_bias
 	template <typename N, typename T>
@@ -951,17 +1120,97 @@ public:
 	template <typename X, typename = _disable_if_target<X>>
 	static 
 	outcome<GLfloat>
-	texture_lod_bias(X& tex)
+	texture_lod_bias(const X& tex)
 	noexcept
 	{ return texture_lod_bias(_wrap(tex)); }
+
+	// texture_min_lod
+	template <typename N, typename T>
+	static 
+	outcome<void>
+	texture_min_lod(object_name_or_target<N, T> tnt, GLfloat value)
+	noexcept;
+
+	static 
+	outcome<void>
+	texture_min_lod(texture_target tgt, GLfloat value)
+	noexcept
+	{ return texture_min_lod(_wrap(tgt), value); }
+
+	template <typename X, typename = _disable_if_target<X>>
+	static 
+	outcome<void>
+	texture_min_lod(X& tex, GLfloat value)
+	noexcept
+	{ return texture_min_lod(_wrap(tex), value); }
+
+	template <typename N, typename T>
+	static 
+	outcome<GLfloat>
+	texture_min_lod(object_name_or_target<N, T> tnt)
+	noexcept;
+
+	static 
+	outcome<GLfloat>
+	texture_min_lod(texture_target tgt)
+	noexcept
+	{ return texture_min_lod(_wrap(tgt)); }
+
+	template <typename X, typename = _disable_if_target<X>>
+	static 
+	outcome<GLfloat>
+	texture_min_lod(const X& tex)
+	noexcept
+	{ return texture_min_lod(_wrap(tex)); }
+
+	// texture_max_lod
+	template <typename N, typename T>
+	static 
+	outcome<void>
+	texture_max_lod(object_name_or_target<N, T> tnt, GLfloat value)
+	noexcept;
+
+	static 
+	outcome<void>
+	texture_max_lod(texture_target tgt, GLfloat value)
+	noexcept
+	{ return texture_max_lod(_wrap(tgt), value); }
+
+	template <typename X, typename = _disable_if_target<X>>
+	static 
+	outcome<void>
+	texture_max_lod(X& tex, GLfloat value)
+	noexcept
+	{ return texture_max_lod(_wrap(tex), value); }
+
+	template <typename N, typename T>
+	static 
+	outcome<GLfloat>
+	texture_max_lod(object_name_or_target<N, T> tnt)
+	noexcept;
+
+	static 
+	outcome<GLfloat>
+	texture_max_lod(texture_target tgt)
+	noexcept
+	{ return texture_max_lod(_wrap(tgt)); }
+
+	template <typename X, typename = _disable_if_target<X>>
+	static 
+	outcome<GLfloat>
+	texture_max_lod(const X& tex)
+	noexcept
+	{ return texture_max_lod(_wrap(tex)); }
 };
 
 } // namespace oper
 
-#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+#if defined(GL_VERSION_4_5) ||\
+	 defined(GL_ARB_direct_state_access) ||\
+	 defined(GL_EXT_direct_state_access)
 
 template <>
-#if defined(GL_VERSION_4_5)
+#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
 struct obj_dsa_ops<texture_name>
  : obj_zero_dsa_ops<texture_name>
 #elif defined(GL_EXT_direct_state_access)
@@ -971,12 +1220,12 @@ struct obj_zero_dsa_ops<texture_name>
 {
 	typedef oper::texture_ops _ops;
 
-#if defined(GL_VERSION_4_5)
+#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
 	typedef obj_dsa_ops _dsa_ops;
 
 	using obj_zero_dsa_ops<texture_name>::obj_zero_dsa_ops;
 
-	texture_name _get_tnt(void) const
+	texture_name_only _get_tnt(void) const
 	noexcept
 	{
 		return {*this};
@@ -1184,6 +1433,34 @@ struct obj_zero_dsa_ops<texture_name>
 	noexcept
 	{
 		return _ops::texture_compare_mode(_get_tnt());
+	}
+
+	outcome<_dsa_ops&>
+	wrap(texture_wrap_coord coord, texture_wrap_mode value)
+	noexcept
+	{
+		return {_ops::texture_wrap(_get_tnt(), coord, value), *this};
+	}
+
+	outcome<texture_wrap_mode>
+	wrap(texture_wrap_coord coord) const
+	noexcept
+	{
+		return _ops::texture_wrap(_get_tnt(), coord);
+	}
+
+	outcome<_dsa_ops&>
+	swizzle(texture_swizzle_coord coord, texture_swizzle_mode value)
+	noexcept
+	{
+		return {_ops::texture_swizzle(_get_tnt(), coord, value), *this};
+	}
+
+	outcome<texture_swizzle_mode>
+	swizzle(texture_swizzle_coord coord) const
+	noexcept
+	{
+		return _ops::texture_swizzle(_get_tnt(), coord);
 	}
 
 	outcome<_dsa_ops&>

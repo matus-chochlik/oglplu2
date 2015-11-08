@@ -1,4 +1,4 @@
-//  File test/oglplus/enums/texture_swizzle.cpp
+//  File test/oglplus/enums/texture_swizzle_mode.cpp
 //
 //  Automatically generated file, DO NOT modify manually.
 //  Edit the enumeration source files in 'source/enums/oglplus'
@@ -10,20 +10,20 @@
 //   http://www.boost.org/LICENSE_1_0.txt
 //
 #define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE OGLPLUS_texture_swizzle
+#define BOOST_TEST_MODULE OGLPLUS_texture_swizzle_mode
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(enum_texture_swizzle)
+BOOST_AUTO_TEST_SUITE(enum_texture_swizzle_mode)
 
-BOOST_AUTO_TEST_CASE(enum_texture_swizzle_values)
+BOOST_AUTO_TEST_CASE(enum_texture_swizzle_mode_values)
 {
 	using namespace oglplus;
 	enum_values ev;
 	(void)ev;
-	texture_swizzle x;
+	texture_swizzle_mode x;
 	(void)x;
 
 #ifdef GL_ALPHA
@@ -147,12 +147,12 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_values)
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_texture_swizzle_names)
+BOOST_AUTO_TEST_CASE(enum_texture_swizzle_mode_names)
 {
 	using namespace oglplus;
 	enum_values ev;
 	(void)ev;
-	texture_swizzle x;
+	texture_swizzle_mode x;
 	(void)x;
 
 #ifdef GL_ALPHA
@@ -210,18 +210,18 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_names)
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_texture_swizzle_range)
+BOOST_AUTO_TEST_CASE(enum_texture_swizzle_mode_range)
 {
 	using namespace oglplus;
-	auto count = enum_value_range<texture_swizzle>().size();
+	auto count = enum_value_range<texture_swizzle_mode>().size();
 
 #ifdef GL_ALPHA
 {
 	--count;
-	auto r = enum_value_range<texture_swizzle>();
+	auto r = enum_value_range<texture_swizzle_mode>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		texture_swizzle(GL_ALPHA)
+		texture_swizzle_mode(GL_ALPHA)
 	) != r.end());
 }
 #endif
@@ -229,10 +229,10 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_range)
 #ifdef GL_BLUE
 {
 	--count;
-	auto r = enum_value_range<texture_swizzle>();
+	auto r = enum_value_range<texture_swizzle_mode>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		texture_swizzle(GL_BLUE)
+		texture_swizzle_mode(GL_BLUE)
 	) != r.end());
 }
 #endif
@@ -240,10 +240,10 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_range)
 #ifdef GL_GREEN
 {
 	--count;
-	auto r = enum_value_range<texture_swizzle>();
+	auto r = enum_value_range<texture_swizzle_mode>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		texture_swizzle(GL_GREEN)
+		texture_swizzle_mode(GL_GREEN)
 	) != r.end());
 }
 #endif
@@ -251,10 +251,10 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_range)
 #ifdef GL_ONE
 {
 	--count;
-	auto r = enum_value_range<texture_swizzle>();
+	auto r = enum_value_range<texture_swizzle_mode>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		texture_swizzle(GL_ONE)
+		texture_swizzle_mode(GL_ONE)
 	) != r.end());
 }
 #endif
@@ -262,10 +262,10 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_range)
 #ifdef GL_RED
 {
 	--count;
-	auto r = enum_value_range<texture_swizzle>();
+	auto r = enum_value_range<texture_swizzle_mode>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		texture_swizzle(GL_RED)
+		texture_swizzle_mode(GL_RED)
 	) != r.end());
 }
 #endif
@@ -273,22 +273,22 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_range)
 #ifdef GL_ZERO
 {
 	--count;
-	auto r = enum_value_range<texture_swizzle>();
+	auto r = enum_value_range<texture_swizzle_mode>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		texture_swizzle(GL_ZERO)
+		texture_swizzle_mode(GL_ZERO)
 	) != r.end());
 }
 #endif
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
-BOOST_AUTO_TEST_CASE(enum_texture_swizzle_any)
+BOOST_AUTO_TEST_CASE(enum_texture_swizzle_mode_any)
 {
 	using namespace oglplus;
 	enum_values ev;
 	(void)ev;
-	texture_swizzle x, y;
+	texture_swizzle_mode x, y;
 	(void)x;
 	(void)y;
 	any_enum_value a;

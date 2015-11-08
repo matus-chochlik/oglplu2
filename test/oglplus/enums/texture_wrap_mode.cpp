@@ -1,4 +1,4 @@
-//  File test/oglplus/enums/texture_wrap.cpp
+//  File test/oglplus/enums/texture_wrap_mode.cpp
 //
 //  Automatically generated file, DO NOT modify manually.
 //  Edit the enumeration source files in 'source/enums/oglplus'
@@ -10,20 +10,20 @@
 //   http://www.boost.org/LICENSE_1_0.txt
 //
 #define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE OGLPLUS_texture_wrap
+#define BOOST_TEST_MODULE OGLPLUS_texture_wrap_mode
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(enum_texture_wrap)
+BOOST_AUTO_TEST_SUITE(enum_texture_wrap_mode)
 
-BOOST_AUTO_TEST_CASE(enum_texture_wrap_values)
+BOOST_AUTO_TEST_CASE(enum_texture_wrap_mode_values)
 {
 	using namespace oglplus;
 	enum_values ev;
 	(void)ev;
-	texture_wrap x;
+	texture_wrap_mode x;
 	(void)x;
 
 #ifdef GL_CLAMP_TO_BORDER
@@ -112,12 +112,12 @@ BOOST_AUTO_TEST_CASE(enum_texture_wrap_values)
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_texture_wrap_names)
+BOOST_AUTO_TEST_CASE(enum_texture_wrap_mode_names)
 {
 	using namespace oglplus;
 	enum_values ev;
 	(void)ev;
-	texture_wrap x;
+	texture_wrap_mode x;
 	(void)x;
 
 #ifdef GL_CLAMP_TO_BORDER
@@ -166,18 +166,18 @@ BOOST_AUTO_TEST_CASE(enum_texture_wrap_names)
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_texture_wrap_range)
+BOOST_AUTO_TEST_CASE(enum_texture_wrap_mode_range)
 {
 	using namespace oglplus;
-	auto count = enum_value_range<texture_wrap>().size();
+	auto count = enum_value_range<texture_wrap_mode>().size();
 
 #ifdef GL_CLAMP_TO_BORDER
 {
 	--count;
-	auto r = enum_value_range<texture_wrap>();
+	auto r = enum_value_range<texture_wrap_mode>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		texture_wrap(GL_CLAMP_TO_BORDER)
+		texture_wrap_mode(GL_CLAMP_TO_BORDER)
 	) != r.end());
 }
 #endif
@@ -185,10 +185,10 @@ BOOST_AUTO_TEST_CASE(enum_texture_wrap_range)
 #ifdef GL_CLAMP_TO_EDGE
 {
 	--count;
-	auto r = enum_value_range<texture_wrap>();
+	auto r = enum_value_range<texture_wrap_mode>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		texture_wrap(GL_CLAMP_TO_EDGE)
+		texture_wrap_mode(GL_CLAMP_TO_EDGE)
 	) != r.end());
 }
 #endif
@@ -196,10 +196,10 @@ BOOST_AUTO_TEST_CASE(enum_texture_wrap_range)
 #ifdef GL_MIRROR_CLAMP_TO_EDGE
 {
 	--count;
-	auto r = enum_value_range<texture_wrap>();
+	auto r = enum_value_range<texture_wrap_mode>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		texture_wrap(GL_MIRROR_CLAMP_TO_EDGE)
+		texture_wrap_mode(GL_MIRROR_CLAMP_TO_EDGE)
 	) != r.end());
 }
 #endif
@@ -207,10 +207,10 @@ BOOST_AUTO_TEST_CASE(enum_texture_wrap_range)
 #ifdef GL_MIRRORED_REPEAT
 {
 	--count;
-	auto r = enum_value_range<texture_wrap>();
+	auto r = enum_value_range<texture_wrap_mode>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		texture_wrap(GL_MIRRORED_REPEAT)
+		texture_wrap_mode(GL_MIRRORED_REPEAT)
 	) != r.end());
 }
 #endif
@@ -218,22 +218,22 @@ BOOST_AUTO_TEST_CASE(enum_texture_wrap_range)
 #ifdef GL_REPEAT
 {
 	--count;
-	auto r = enum_value_range<texture_wrap>();
+	auto r = enum_value_range<texture_wrap_mode>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		texture_wrap(GL_REPEAT)
+		texture_wrap_mode(GL_REPEAT)
 	) != r.end());
 }
 #endif
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
-BOOST_AUTO_TEST_CASE(enum_texture_wrap_any)
+BOOST_AUTO_TEST_CASE(enum_texture_wrap_mode_any)
 {
 	using namespace oglplus;
 	enum_values ev;
 	(void)ev;
-	texture_wrap x, y;
+	texture_wrap_mode x, y;
 	(void)x;
 	(void)y;
 	any_enum_value a;

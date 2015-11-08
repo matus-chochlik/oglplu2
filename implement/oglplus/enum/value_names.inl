@@ -9634,7 +9634,33 @@ noexcept
 				default:;
 			}
 			break;
-		case 101: /* texture_swizzle */
+		case 101: /* texture_swizzle_coord */
+			switch(GLenum(aev._value))
+			{
+#ifdef GL_TEXTURE_SWIZZLE_A
+				case GL_TEXTURE_SWIZZLE_A:
+					return {s_TEXTURE_SWIZZLE_A, 17};
+#endif
+#ifdef GL_TEXTURE_SWIZZLE_B
+				case GL_TEXTURE_SWIZZLE_B:
+					return {s_TEXTURE_SWIZZLE_B, 17};
+#endif
+#ifdef GL_TEXTURE_SWIZZLE_G
+				case GL_TEXTURE_SWIZZLE_G:
+					return {s_TEXTURE_SWIZZLE_G, 17};
+#endif
+#ifdef GL_TEXTURE_SWIZZLE_R
+				case GL_TEXTURE_SWIZZLE_R:
+					return {s_TEXTURE_SWIZZLE_R, 17};
+#endif
+#ifdef GL_TEXTURE_SWIZZLE_RGBA
+				case GL_TEXTURE_SWIZZLE_RGBA:
+					return {s_TEXTURE_SWIZZLE_RGBA, 20};
+#endif
+				default:;
+			}
+			break;
+		case 102: /* texture_swizzle_mode */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_ALPHA
@@ -9660,32 +9686,6 @@ noexcept
 #ifdef GL_ZERO
 				case GL_ZERO:
 					return {s_ZERO, 4};
-#endif
-				default:;
-			}
-			break;
-		case 102: /* texture_swizzle_coord */
-			switch(GLenum(aev._value))
-			{
-#ifdef GL_TEXTURE_SWIZZLE_A
-				case GL_TEXTURE_SWIZZLE_A:
-					return {s_TEXTURE_SWIZZLE_A, 17};
-#endif
-#ifdef GL_TEXTURE_SWIZZLE_B
-				case GL_TEXTURE_SWIZZLE_B:
-					return {s_TEXTURE_SWIZZLE_B, 17};
-#endif
-#ifdef GL_TEXTURE_SWIZZLE_G
-				case GL_TEXTURE_SWIZZLE_G:
-					return {s_TEXTURE_SWIZZLE_G, 17};
-#endif
-#ifdef GL_TEXTURE_SWIZZLE_R
-				case GL_TEXTURE_SWIZZLE_R:
-					return {s_TEXTURE_SWIZZLE_R, 17};
-#endif
-#ifdef GL_TEXTURE_SWIZZLE_RGBA
-				case GL_TEXTURE_SWIZZLE_RGBA:
-					return {s_TEXTURE_SWIZZLE_RGBA, 20};
 #endif
 				default:;
 			}
@@ -9764,7 +9764,25 @@ noexcept
 				default:;
 			}
 			break;
-		case 104: /* texture_wrap */
+		case 104: /* texture_wrap_coord */
+			switch(GLenum(aev._value))
+			{
+#ifdef GL_TEXTURE_WRAP_R
+				case GL_TEXTURE_WRAP_R:
+					return {s_TEXTURE_WRAP_R, 14};
+#endif
+#ifdef GL_TEXTURE_WRAP_S
+				case GL_TEXTURE_WRAP_S:
+					return {s_TEXTURE_WRAP_S, 14};
+#endif
+#ifdef GL_TEXTURE_WRAP_T
+				case GL_TEXTURE_WRAP_T:
+					return {s_TEXTURE_WRAP_T, 14};
+#endif
+				default:;
+			}
+			break;
+		case 105: /* texture_wrap_mode */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_CLAMP_TO_BORDER
@@ -9786,24 +9804,6 @@ noexcept
 #ifdef GL_REPEAT
 				case GL_REPEAT:
 					return {s_REPEAT, 6};
-#endif
-				default:;
-			}
-			break;
-		case 105: /* texture_wrap_coord */
-			switch(GLenum(aev._value))
-			{
-#ifdef GL_TEXTURE_WRAP_R
-				case GL_TEXTURE_WRAP_R:
-					return {s_TEXTURE_WRAP_R, 14};
-#endif
-#ifdef GL_TEXTURE_WRAP_S
-				case GL_TEXTURE_WRAP_S:
-					return {s_TEXTURE_WRAP_S, 14};
-#endif
-#ifdef GL_TEXTURE_WRAP_T
-				case GL_TEXTURE_WRAP_T:
-					return {s_TEXTURE_WRAP_T, 14};
 #endif
 				default:;
 			}

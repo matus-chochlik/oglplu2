@@ -397,7 +397,7 @@ texture_image_3d(
 		data.addr()
 	);
 	OGLPLUS_VERIFY(
-		TexImage2D,
+		TexImage3D,
 		gl_object_binding(tag::texture(), tnt._target).
 		gl_enum_value(iformat),
 		always
@@ -428,6 +428,185 @@ texture_image_3d(
 		img.data()
 	);
 }
+//------------------------------------------------------------------------------
+#if defined(GL_EXT_direct_state_access)
+inline
+outcome<void>
+texture_ops::
+texture_image_1d(
+	texture_name_and_target tnt,
+	GLint level,
+	pixel_data_internal_format iformat,
+	GLsizei width,
+	GLint border,
+	pixel_data_format format,
+	pixel_data_type type,
+	const_memory_block data
+) noexcept
+{
+	OGLPLUS_GLFUNC(TextureImage1DEXT)(
+		get_raw_name(tnt._name),
+		GLenum(tnt._target),
+		level,
+		GLenum(iformat),
+		width,
+		border,
+		GLenum(format),
+		GLenum(type),
+		data.addr()
+	);
+	OGLPLUS_VERIFY(
+		TextureImage1DEXT,
+		gl_object_binding(tag::texture(), tnt._target).
+		gl_enum_value(iformat),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+texture_image_1d(
+	texture_name_and_target tnt,
+	const image_spec& img,
+	GLint level,
+	GLint border
+) noexcept
+{
+	return texture_image_1d(
+		tnt,
+		level,
+		img.internal_format(),
+		img.width(),
+		border,
+		img.format(),
+		img.type(),
+		img.data()
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+texture_image_2d(
+	texture_name_and_target tnt,
+	GLint level,
+	pixel_data_internal_format iformat,
+	GLsizei width,
+	GLsizei height,
+	GLint border,
+	pixel_data_format format,
+	pixel_data_type type,
+	const_memory_block data
+) noexcept
+{
+	OGLPLUS_GLFUNC(TextureImage2DEXT)(
+		get_raw_name(tnt._name),
+		GLenum(tnt._target),
+		level,
+		GLenum(iformat),
+		width,
+		height,
+		border,
+		GLenum(format),
+		GLenum(type),
+		data.addr()
+	);
+	OGLPLUS_VERIFY(
+		TextureImage2DEXT,
+		gl_object_binding(tag::texture(), tnt._target).
+		gl_enum_value(iformat),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+texture_image_2d(
+	texture_name_and_target tnt,
+	const image_spec& img,
+	GLint level,
+	GLint border
+) noexcept
+{
+	return texture_image_2d(
+		tnt,
+		level,
+		img.internal_format(),
+		img.width(),
+		img.height(),
+		border,
+		img.format(),
+		img.type(),
+		img.data()
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+texture_image_3d(
+	texture_name_and_target tnt,
+	GLint level,
+	pixel_data_internal_format iformat,
+	GLsizei width,
+	GLsizei height,
+	GLsizei depth,
+	GLint border,
+	pixel_data_format format,
+	pixel_data_type type,
+	const_memory_block data
+) noexcept
+{
+	OGLPLUS_GLFUNC(TextureImage3DEXT)(
+		get_raw_name(tnt._name),
+		GLenum(tnt._target),
+		level,
+		GLenum(iformat),
+		width,
+		height,
+		depth,
+		border,
+		GLenum(format),
+		GLenum(type),
+		data.addr()
+	);
+	OGLPLUS_VERIFY(
+		TextureImage3DEXT,
+		gl_object_binding(tag::texture(), tnt._target).
+		gl_enum_value(iformat),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+texture_image_3d(
+	texture_name_and_target tnt,
+	const image_spec& img,
+	GLint level,
+	GLint border
+) noexcept
+{
+	return texture_image_3d(
+		tnt,
+		level,
+		img.internal_format(),
+		img.width(),
+		img.height(),
+		img.depth(),
+		border,
+		img.format(),
+		img.type(),
+		img.data()
+	);
+}
+#endif
 //------------------------------------------------------------------------------
 #ifdef __clang__
 #pragma clang diagnostic pop
@@ -1236,6 +1415,66 @@ template <typename N, typename T>
 inline
 outcome<void>
 texture_ops::
+texture_wrap(
+	object_name_or_target<N, T> tnt,
+	texture_wrap_coord coord,
+	texture_wrap_mode value
+) noexcept
+{
+	return texture_parameter_i(
+		tnt,
+		oglplus::texture_parameter(GLenum(coord)),
+		GLint(GLenum(value))
+	);
+}
+//------------------------------------------------------------------------------
+template <typename N, typename T>
+inline
+outcome<texture_wrap_mode>
+texture_ops::
+texture_wrap(object_name_or_target<N, T> tnt, texture_wrap_coord coord)
+noexcept
+{
+	return return_texture_parameter_i<texture_wrap_mode, GLenum>(
+		tnt,
+		oglplus::texture_parameter(GLenum(coord))
+	);
+}
+//------------------------------------------------------------------------------
+template <typename N, typename T>
+inline
+outcome<void>
+texture_ops::
+texture_swizzle(
+	object_name_or_target<N, T> tnt,
+	texture_swizzle_coord coord,
+	texture_swizzle_mode value
+) noexcept
+{
+	return texture_parameter_i(
+		tnt,
+		oglplus::texture_parameter(GLenum(coord)),
+		GLint(GLenum(value))
+	);
+}
+//------------------------------------------------------------------------------
+template <typename N, typename T>
+inline
+outcome<texture_swizzle_mode>
+texture_ops::
+texture_swizzle(object_name_or_target<N, T> tnt, texture_swizzle_coord coord)
+noexcept
+{
+	return return_texture_parameter_i<texture_swizzle_mode, GLenum>(
+		tnt,
+		oglplus::texture_parameter(GLenum(coord))
+	);
+}
+//------------------------------------------------------------------------------
+template <typename N, typename T>
+inline
+outcome<void>
+texture_ops::
 texture_lod_bias(object_name_or_target<N, T> tnt, GLfloat value)
 noexcept
 {
@@ -1256,6 +1495,60 @@ noexcept
 	return return_texture_parameter_f<GLfloat>(
 		tnt,
 		oglplus::texture_parameter(GL_TEXTURE_LOD_BIAS)
+	);
+}
+//------------------------------------------------------------------------------
+template <typename N, typename T>
+inline
+outcome<void>
+texture_ops::
+texture_min_lod(object_name_or_target<N, T> tnt, GLfloat value)
+noexcept
+{
+	return texture_parameter_f(
+		tnt,
+		oglplus::texture_parameter(GL_TEXTURE_MIN_LOD),
+		value
+	);
+}
+//------------------------------------------------------------------------------
+template <typename N, typename T>
+inline
+outcome<GLfloat>
+texture_ops::
+texture_min_lod(object_name_or_target<N, T> tnt)
+noexcept
+{
+	return return_texture_parameter_f<GLfloat>(
+		tnt,
+		oglplus::texture_parameter(GL_TEXTURE_MIN_LOD)
+	);
+}
+//------------------------------------------------------------------------------
+template <typename N, typename T>
+inline
+outcome<void>
+texture_ops::
+texture_max_lod(object_name_or_target<N, T> tnt, GLfloat value)
+noexcept
+{
+	return texture_parameter_f(
+		tnt,
+		oglplus::texture_parameter(GL_TEXTURE_MAX_LOD),
+		value
+	);
+}
+//------------------------------------------------------------------------------
+template <typename N, typename T>
+inline
+outcome<GLfloat>
+texture_ops::
+texture_max_lod(object_name_or_target<N, T> tnt)
+noexcept
+{
+	return return_texture_parameter_f<GLfloat>(
+		tnt,
+		oglplus::texture_parameter(GL_TEXTURE_MAX_LOD)
 	);
 }
 //------------------------------------------------------------------------------
