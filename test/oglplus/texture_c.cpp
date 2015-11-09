@@ -82,6 +82,8 @@ void oglplus_texture_test_ops1(void)
 	gl.texture_mag_filter(tgt);
 	gl.texture_compare_mode(tgt, texture_compare_mode(GL_NONE));
 	gl.texture_compare_mode(tgt);
+	gl.texture_compare_func(tgt, compare_function(GL_EQUAL));
+	gl.texture_compare_func(tgt);
 	gl.texture_wrap(tgt, wrap_s, texture_wrap_mode(GL_REPEAT));
 	gl.texture_wrap(tgt, wrap_s);
 	gl.texture_swizzle(tgt, swizzle_r, texture_swizzle_mode(GL_ONE));
@@ -121,6 +123,8 @@ void oglplus_texture_test_ops1(void)
 	gl.texture_mag_filter(tnt);
 	gl.texture_compare_mode(tnt, texture_compare_mode(GL_NONE));
 	gl.texture_compare_mode(tnt);
+	gl.texture_compare_func(tnt, compare_function(GL_EQUAL));
+	gl.texture_compare_func(tnt);
 	gl.texture_wrap(tnt, wrap_s, texture_wrap_mode(GL_REPEAT));
 	gl.texture_wrap(tnt, wrap_s);
 	gl.texture_swizzle(tnt, swizzle_r, texture_swizzle_mode(GL_ONE));
@@ -161,6 +165,8 @@ void oglplus_texture_test_ops1(void)
 	gl.texture_mag_filter(tex);
 	gl.texture_compare_mode(tex, texture_compare_mode(GL_NONE));
 	gl.texture_compare_mode(tex);
+	gl.texture_compare_func(tex, compare_function(GL_EQUAL));
+	gl.texture_compare_func(tex);
 	gl.texture_wrap(tex, wrap_s, texture_wrap_mode(GL_REPEAT));
 	gl.texture_wrap(tex, wrap_s);
 	gl.texture_swizzle(tex, swizzle_r, texture_swizzle_mode(GL_ONE));
@@ -172,6 +178,49 @@ void oglplus_texture_test_ops1(void)
 	gl.texture_min_lod(tex);
 	gl.texture_max_lod(tex, 1000.0f);
 	gl.texture_max_lod(tex);
+#endif
+
+#if defined(GL_VERSION_4_5) ||\
+	defined(GL_ARB_direct_state_access) ||\
+	defined(GL_EXT_direct_state_access)
+
+	tex.width();
+	tex.height();
+	tex.depth();
+
+	tex.red_type();
+	tex.red_size();
+	tex.green_type();
+	tex.green_size();
+	tex.blue_type();
+	tex.blue_size();
+	tex.alpha_type();
+	tex.alpha_size();
+	tex.depth_type();
+	tex.depth_size();
+	tex.stencil_size();
+	tex.shared_size();
+
+	tex.min_filter(texture_min_filter(GL_NEAREST));
+	tex.min_filter();
+	tex.mag_filter(texture_mag_filter(GL_NEAREST));
+	tex.mag_filter();
+
+	tex.compare_mode(texture_compare_mode(GL_NONE));
+	tex.compare_mode();
+	tex.compare_func(compare_function(GL_LESS));
+	tex.compare_func();
+	tex.wrap(wrap_s, texture_wrap_mode(GL_REPEAT));
+	tex.wrap(wrap_s);
+	tex.swizzle(swizzle_r, texture_swizzle_mode(GL_ONE));
+	tex.swizzle(swizzle_r);
+
+	tex.lod_bias(1.0f);
+	tex.lod_bias();
+	tex.min_lod(-1000.0f);
+	tex.min_lod();
+	tex.max_lod(1000.0f);
+	tex.max_lod();
 #endif
 }
 

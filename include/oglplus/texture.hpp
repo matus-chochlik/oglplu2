@@ -1476,6 +1476,34 @@ struct obj_zero_dsa_ops<texture_name>
 	{
 		return _ops::texture_lod_bias(_get_tnt());
 	}
+
+	outcome<_dsa_ops&>
+	min_lod(GLfloat value)
+	noexcept
+	{
+		return {_ops::texture_min_lod(_get_tnt(), value), *this};
+	}
+
+	outcome<GLfloat>
+	min_lod(void) const
+	noexcept
+	{
+		return _ops::texture_min_lod(_get_tnt());
+	}
+
+	outcome<_dsa_ops&>
+	max_lod(GLfloat value)
+	noexcept
+	{
+		return {_ops::texture_max_lod(_get_tnt(), value), *this};
+	}
+
+	outcome<GLfloat>
+	max_lod(void) const
+	noexcept
+	{
+		return _ops::texture_max_lod(_get_tnt());
+	}
 };
 
 #endif // GL_VERSION_4_5 || GL_EXT_direct_state_access

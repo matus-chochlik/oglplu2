@@ -165,6 +165,16 @@ struct sampler_ops
 
 	static
 	outcome<void>
+	sampler_lod_bias(sampler_name sam, GLfloat value)
+	noexcept;
+
+	static
+	outcome<GLfloat>
+	sampler_lod_bias(sampler_name sam)
+	noexcept;
+
+	static
+	outcome<void>
 	sampler_min_lod(sampler_name sam, GLfloat value)
 	noexcept;
 
@@ -304,6 +314,20 @@ struct obj_dsa_ops<sampler_name>
 	noexcept
 	{
 		return _ops::sampler_wrap_r(*this);
+	}
+
+	outcome<obj_dsa_ops&>
+	lod_bias(GLfloat value)
+	noexcept
+	{
+		return {_ops::sampler_lod_bias(*this, value), *this};
+	}
+
+	outcome<GLfloat>
+	lod_bias(void) const
+	noexcept
+	{
+		return _ops::sampler_lod_bias(*this);
 	}
 
 	outcome<obj_dsa_ops&>

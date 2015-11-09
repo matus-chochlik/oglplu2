@@ -394,6 +394,33 @@ noexcept
 inline
 outcome<void>
 sampler_ops::
+sampler_lod_bias(sampler_name sam, GLfloat value)
+noexcept
+{
+	return sampler_parameter_f(
+		sam,
+		sampler_parameter(GL_TEXTURE_LOD_BIAS),
+		value
+	);
+}
+
+//------------------------------------------------------------------------------
+inline
+outcome<GLfloat>
+sampler_ops::
+sampler_lod_bias(sampler_name sam)
+noexcept
+{
+	return return_sampler_parameter_f<GLfloat>(
+		sam,
+		sampler_parameter(GL_TEXTURE_LOD_BIAS)
+	);
+}
+
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+sampler_ops::
 sampler_min_lod(sampler_name sam, GLfloat value)
 noexcept
 {
