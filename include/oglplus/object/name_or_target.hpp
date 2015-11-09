@@ -20,7 +20,7 @@ struct object_name_or_target;
 template <typename Name, typename Target>
 static constexpr inline
 object_name_or_target<Name, Target>
-make_object_name_and_target(object_name_or_target<Name, Target> ont)
+wrap_object_name_or_target(object_name_or_target<Name, Target> ont)
 noexcept
 {
 	return ont;

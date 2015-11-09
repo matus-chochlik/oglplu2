@@ -276,6 +276,55 @@ def action_incl_enum_values_hpp(options):
 	print_line(options, "#endif // include guard")
 
 
+def action_impl_enum_value_defs_inl(options):
+
+	enum_map = dict()
+
+	for input_path in options.inputs:
+		update_input_options(options, input_path)
+
+		for value_info in parse_source(options, input_path):
+			try: enum_map[value_info.dst_name]
+			except KeyError:
+				enum_map[value_info.dst_name] = type(
+					"EnumMapItem",
+					(object,), {
+						"info": value_info,
+						"classes": set()
+					}
+				)
+
+			enum_map[value_info.dst_name].classes.add(options.enum_name)
+
+	print_cpp_header(options)
+	print_newline(options)
+	print_line(options, "namespace %s {" % options.library)
+	print_newline(options)
+
+	for value_name, value_info in sorted(enum_map.items()):
+		print_line(options, "#ifdef %s_%s" % (
+			options.base_lib_prefix,
+			value_info.info.src_name
+		))
+		print_line(options, "const enum_value<")
+		print_line(options, "	%s," % value_info.info.enum_type)
+		print_line(options, "	%s_%s," % (
+			options.base_lib_prefix,
+			value_info.info.src_name
+		))
+		print_line(options, "	mp_list<%s>" % (
+			",".join(["%s::%s" % (options.library, x) for x in value_info.classes])
+		))
+		print_line(options, "> enum_value::%s;" % value_name);
+		print_line(options, "#endif")
+		print_newline(options)
+
+
+	print_line(options, "} // namespace %s" % options.library)
+	print_newline(options)
+	print_line(options, "#endif // include guard")
+
+
 def action_impl_enum_value_names_inl(options):
 
 	enum_classes = dict()
@@ -656,6 +705,7 @@ actions = {
 	"binding_queries_mk": action_binding_queries_mk,
 	"incl_enum_types_hpp": action_incl_enum_types_hpp,
 	"incl_enum_values_hpp": action_incl_enum_values_hpp,
+	"impl_enum_value_defs_inl": action_impl_enum_value_defs_inl,
 	"impl_enum_value_names_inl": action_impl_enum_value_names_inl,
 	"impl_enum_value_range_inl": action_impl_enum_value_range_inl,
 	"impl_enum_bq_inl": action_impl_enum_bq_inl,

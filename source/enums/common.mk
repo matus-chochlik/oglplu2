@@ -11,6 +11,7 @@ MEFLAGS = --library "$(LIBRARY)" --lib-suffix "$(LIB_SUFFIX)" --base-lib-prefix 
 all: \
 	_incl_enum_types_hpp \
 	_incl_enum_values_hpp \
+	_impl_enum_value_defs_inl \
 	_impl_enum_value_names_inl \
 	_impl_enum_value_range_inl \
 	_impl_enum_bq_inl \
@@ -45,6 +46,17 @@ _incl_enum_values_hpp: \
 $(ROOT)/include/$(LIBRARY)/enum/values$(LIB_SUFFIX).hpp: $(SOURCES) $(MAKE_ENUM)
 	$(MAKE_ENUM) $(MEFLAGS) \
 		--action incl_enum_values_hpp \
+		--output "$@" \
+		$(filter %.txt,$^)
+	git add "$@"
+
+.PHONY: _impl_enum_value_defs_inl
+_impl_enum_value_defs_inl: \
+	$(ROOT)/implement/$(LIBRARY)/enum/value_defs$(LIB_SUFFIX).inl
+
+$(ROOT)/implement/$(LIBRARY)/enum/value_defs$(LIB_SUFFIX).inl: $(SOURCES) $(MAKE_ENUM)
+	$(MAKE_ENUM) $(MEFLAGS) \
+		--action impl_enum_value_defs_inl \
 		--output "$@" \
 		$(filter %.txt,$^)
 	git add "$@"
