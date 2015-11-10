@@ -182,7 +182,7 @@ inline
 outcome<R>
 buffer_ops::
 return_buffer_parameter_i(
-	BNT bnt,
+	const BNT& bnt,
 	oglplus::buffer_parameter parameter
 ) noexcept
 {
@@ -198,7 +198,7 @@ template <typename BNT>
 inline
 outcome<GLint>
 buffer_ops::
-buffer_size(BNT bnt)
+buffer_size(const BNT& bnt)
 noexcept
 {
 	return return_buffer_parameter_i<GLint, GLint>(
@@ -211,7 +211,7 @@ template <typename BNT>
 inline
 outcome<boolean>
 buffer_ops::
-buffer_mapped(BNT bnt)
+buffer_mapped(const BNT& bnt)
 noexcept
 {
 	return return_buffer_parameter_i<boolean, GLboolean>(
@@ -224,7 +224,7 @@ template <typename BNT>
 inline
 outcome<boolean>
 buffer_ops::
-buffer_immutable_storage(BNT bnt)
+buffer_immutable_storage(const BNT& bnt)
 noexcept
 {
 	return return_buffer_parameter_i<boolean, GLboolean>(
@@ -237,7 +237,7 @@ template <typename BNT>
 inline
 outcome<oglplus::buffer_usage>
 buffer_ops::
-buffer_usage(BNT bnt)
+buffer_usage(const BNT& bnt)
 noexcept
 {
 	return return_buffer_parameter_i<
@@ -253,7 +253,7 @@ template <typename BNT>
 inline
 outcome<enum_bitfield<buffer_storage_bits>>
 buffer_ops::
-buffer_storage_flags(BNT bnt)
+buffer_storage_flags(const BNT& bnt)
 noexcept
 {
 	return return_buffer_parameter_i<

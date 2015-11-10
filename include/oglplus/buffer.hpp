@@ -18,6 +18,12 @@
 #include "utils/buffer_data.hpp"
 #include "utils/boolean.hpp"
 
+#if defined(GL_VERSION_4_5) ||\
+	defined(GL_ARB_direct_state_access) ||\
+	defined(GL_EXT_direct_state_access)
+#define OGLPLUS_DSA_BUFFER 1
+#endif
+
 namespace oglplus {
 
 binding_query
@@ -62,7 +68,7 @@ struct buffer_ops
 		array_view<GLint64> values
 	) noexcept;
 
-#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+#if defined(OGLPLUS_DSA_BUFFER)
 	static
 	outcome<void>
 	get_buffer_parameter_iv(
@@ -85,37 +91,37 @@ struct buffer_ops
 	template <typename R, typename T, typename BNT>
 	static
 	outcome<R>
-	return_buffer_parameter_i(BNT bnt, buffer_parameter parameter)
+	return_buffer_parameter_i(const BNT& bnt, buffer_parameter parameter)
 	noexcept;
 
 	template <typename BNT>
 	static
 	outcome<GLint>
-	buffer_size(BNT bnt)
+	buffer_size(const BNT& bnt)
 	noexcept;
 
 	template <typename BNT>
 	static
 	outcome<boolean>
-	buffer_mapped(BNT bnt)
+	buffer_mapped(const BNT& bnt)
 	noexcept;
 
 	template <typename BNT>
 	static
 	outcome<boolean>
-	buffer_immutable_storage(BNT bnt)
+	buffer_immutable_storage(const BNT& bnt)
 	noexcept;
 
 	template <typename BNT>
 	static
 	outcome<oglplus::buffer_usage>
-	buffer_usage(BNT bnt)
+	buffer_usage(const BNT& bnt)
 	noexcept;
 
 	template <typename BNT>
 	static
 	outcome<enum_bitfield<buffer_storage_bits>>
-	buffer_storage_flags(BNT bnt)
+	buffer_storage_flags(const BNT& bnt)
 	noexcept;
 
 	static
@@ -126,7 +132,7 @@ struct buffer_ops
 		oglplus::buffer_usage usage
 	) noexcept;
 
-#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+#if defined(OGLPLUS_DSA_BUFFER)
 	static
 	outcome<void>
 	buffer_data(
@@ -144,7 +150,7 @@ struct buffer_ops
 		const buffer_data_spec& data
 	) noexcept;
 
-#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+#if defined(OGLPLUS_DSA_BUFFER)
 	static
 	outcome<void>
 	buffer_sub_data(
@@ -165,7 +171,7 @@ struct buffer_ops
 		oglplus::buffer_size size
 	) noexcept;
 
-#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+#if defined(OGLPLUS_DSA_BUFFER)
 	static
 	outcome<void>
 	copy_buffer_sub_data(
@@ -196,7 +202,7 @@ struct buffer_ops
 
 } // namespace oper
 
-#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+#if defined(OGLPLUS_DSA_BUFFER)
 template <>
 struct obj_dsa_ops<buffer_name>
  : obj_zero_dsa_ops<buffer_name>
@@ -299,5 +305,9 @@ static const object_zero_and_ops<tag::buffer>
 } // namespace oglplus
 
 #include <oglplus/buffer.inl>
+
+#ifdef OGLPLUS_DSA_BUFFER
+#undef OGLPLUS_DSA_BUFFER
+#endif
 
 #endif // include guard
