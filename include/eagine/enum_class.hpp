@@ -12,6 +12,7 @@
 
 #include "mp_list.hpp"
 #include <type_traits>
+#include <cassert>
 
 namespace eagine {
 

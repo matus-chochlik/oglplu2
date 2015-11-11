@@ -23,8 +23,12 @@ void oglplus_buffer_test_ops1(void)
 	oper::buffer_ops gl;
 	buffer buf;
 	buffer_target tgt(GL_ARRAY_BUFFER);
+	bound_buffer curbuf(tgt);
 	buffer_data_spec data;
 	buffer_size size;
+
+	gl.bind_buffer(tgt, buf);
+	gl.buffer_binding(tgt);
 
 	gl.buffer_data(tgt, data, buffer_usage(GL_STATIC_DRAW));
 	gl.buffer_sub_data(tgt, size, data);
@@ -35,6 +39,14 @@ void oglplus_buffer_test_ops1(void)
 	gl.buffer_usage(tgt);
 	gl.buffer_immutable_storage(tgt);
 	gl.buffer_storage_flags(tgt);
+
+	curbuf.data(data, buffer_usage(GL_STATIC_DRAW));
+	curbuf.sub_data(size, data);
+	curbuf.size();
+	curbuf.mapped();
+	curbuf.usage();
+	curbuf.immutable_storage();
+	curbuf.storage_flags();
 
 #if defined(GL_VERSION_4_3) || defined(GL_ARB_invalidate_subdata)
 	gl.invalidate_buffer_data(buf);

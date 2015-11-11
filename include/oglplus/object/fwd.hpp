@@ -22,6 +22,7 @@ using eagine::object_subtype_t;
 using eagine::object_names;
 
 using eagine::object_name;
+using eagine::object_zero_name;
 
 using eagine::object_zero_and_ops;
 
@@ -42,6 +43,12 @@ struct get_obj_binding_point;
 
 template <typename ObjTag>
 using obj_binding_point = typename get_obj_binding_point<ObjTag>::type;
+
+template <typename ObjTag, typename Derived, typename Base>
+struct obj_member_ops;
+
+template <typename ObjTag>
+struct object_binding;
 
 } // namespace oglplus
 

@@ -707,54 +707,74 @@ public:
 
 } // namespace oper
 
-#if defined(GL_VERSION_4_5) ||\
-	 defined(GL_ARB_direct_state_access) ||\
-	 defined(GL_EXT_direct_state_access)
-
-template <>
-#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
-struct obj_dsa_ops<texture_name>
- : obj_zero_dsa_ops<texture_name>
-#elif defined(GL_EXT_direct_state_access)
-struct obj_zero_dsa_ops<texture_name>
- : texture_name
-#endif
+template <typename Derived, typename Base>
+struct obj_member_ops<tag::texture, Derived, Base>
+ : Base
 {
+private:
 	typedef oper::texture_ops _ops;
 
-#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
-	typedef obj_dsa_ops _dsa_ops;
-
-	using obj_zero_dsa_ops<texture_name>::obj_zero_dsa_ops;
-
-	texture_name_only _get_tnt(void) const
+	Derived& _self(void)
 	noexcept
 	{
-		return {*this};
+		return *static_cast<Derived*>(this);
+	}
+
+	const Base& _base(void) const
+	noexcept
+	{
+		return *static_cast<const Base*>(this);
+	}
+
+#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
+	typedef typename std::conditional<
+		std::is_same<Base, texture_target>::value,
+		texture_target_only,
+		texture_name_only
+	>::type _tnt;
+
+	static
+	texture_target_only _do_get_tnt(texture_target tgt)
+	{
+		return {tgt};
+	}
+
+	static
+	texture_name_only _do_get_tnt(texture_name name)
+	{
+		return {name};
 	}
 #elif defined(GL_EXT_direct_state_access)
-	typedef obj_zero_dsa_ops _dsa_ops;
-
 	texture_target target;
 
-	obj_zero_dsa_ops(void)
-	noexcept
-	 : texture_name(0)
-	{ }
+	typedef typename std::conditional<
+		std::is_same<Base, texture_target>::value,
+		texture_target_only,
+		texture_name_and_target
+	>::type _tnt;
 
-	texture_name_and_target _get_tnt(void) const
+	texture_name_and_target _do_get_tnt(texture_name name) const
 	noexcept
 	{
-		return {*this, target};
-	}
-
-	operator texture_name_and_target (void) const
-	noexcept
-	{
-		return _get_tnt();
+		return {name, target};
 	}
 #endif
+	_tnt _get_tnt(void) const
+	noexcept
+	{
+		return _do_get_tnt(_base());
+	}
 
+	friend inline
+	_tnt
+	wrap_object_name_or_target(const obj_member_ops& tex)
+	noexcept
+	{
+		return tex._get_tnt();
+	}
+protected:
+	using Base::Base;
+public:
 	outcome<GLsizei>
 	width(GLint level = 0) const
 	noexcept
@@ -881,11 +901,11 @@ struct obj_zero_dsa_ops<texture_name>
 		return _ops::texture_internal_format(_get_tnt(), level);
 	}
 
-	outcome<_dsa_ops&>
+	outcome<Derived&>
 	min_filter(oglplus::texture_min_filter value)
 	noexcept
 	{
-		return {_ops::texture_min_filter(_get_tnt(), value), *this};
+		return {_ops::texture_min_filter(_get_tnt(), value), _self()};
 	}
 
 	outcome<oglplus::texture_min_filter>
@@ -895,11 +915,11 @@ struct obj_zero_dsa_ops<texture_name>
 		return _ops::texture_min_filter(_get_tnt());
 	}
 
-	outcome<_dsa_ops&>
+	outcome<Derived&>
 	mag_filter(oglplus::texture_mag_filter value)
 	noexcept
 	{
-		return {_ops::texture_mag_filter(_get_tnt(), value), *this};
+		return {_ops::texture_mag_filter(_get_tnt(), value), _self()};
 	}
 
 	outcome<oglplus::texture_mag_filter>
@@ -909,11 +929,14 @@ struct obj_zero_dsa_ops<texture_name>
 		return _ops::texture_mag_filter(_get_tnt());
 	}
 
-	outcome<_dsa_ops&>
+	outcome<Derived&>
 	compare_func(oglplus::compare_function value)
 	noexcept
 	{
-		return {_ops::texture_compare_func(_get_tnt(), value), *this};
+		return {
+			_ops::texture_compare_func(_get_tnt(), value),
+			_self()
+		};
 	}
 
 	outcome<oglplus::compare_function>
@@ -923,11 +946,14 @@ struct obj_zero_dsa_ops<texture_name>
 		return _ops::texture_compare_func(_get_tnt());
 	}
 
-	outcome<_dsa_ops&>
+	outcome<Derived&>
 	compare_mode(oglplus::texture_compare_mode value)
 	noexcept
 	{
-		return {_ops::texture_compare_mode(_get_tnt(), value), *this};
+		return {
+			_ops::texture_compare_mode(_get_tnt(), value),
+			_self()
+		};
 	}
 
 	outcome<oglplus::texture_compare_mode>
@@ -937,11 +963,11 @@ struct obj_zero_dsa_ops<texture_name>
 		return _ops::texture_compare_mode(_get_tnt());
 	}
 
-	outcome<_dsa_ops&>
+	outcome<Derived&>
 	wrap(texture_wrap_coord coord, texture_wrap_mode value)
 	noexcept
 	{
-		return {_ops::texture_wrap(_get_tnt(), coord, value), *this};
+		return {_ops::texture_wrap(_get_tnt(), coord, value), _self()};
 	}
 
 	outcome<texture_wrap_mode>
@@ -951,11 +977,14 @@ struct obj_zero_dsa_ops<texture_name>
 		return _ops::texture_wrap(_get_tnt(), coord);
 	}
 
-	outcome<_dsa_ops&>
+	outcome<Derived&>
 	swizzle(texture_swizzle_coord coord, texture_swizzle_mode value)
 	noexcept
 	{
-		return {_ops::texture_swizzle(_get_tnt(), coord, value), *this};
+		return {
+			_ops::texture_swizzle(_get_tnt(), coord, value),
+			_self()
+		};
 	}
 
 	outcome<texture_swizzle_mode>
@@ -965,11 +994,11 @@ struct obj_zero_dsa_ops<texture_name>
 		return _ops::texture_swizzle(_get_tnt(), coord);
 	}
 
-	outcome<_dsa_ops&>
+	outcome<Derived&>
 	lod_bias(GLfloat value)
 	noexcept
 	{
-		return {_ops::texture_lod_bias(_get_tnt(), value), *this};
+		return {_ops::texture_lod_bias(_get_tnt(), value), _self()};
 	}
 
 	outcome<GLfloat>
@@ -979,11 +1008,11 @@ struct obj_zero_dsa_ops<texture_name>
 		return _ops::texture_lod_bias(_get_tnt());
 	}
 
-	outcome<_dsa_ops&>
+	outcome<Derived&>
 	min_lod(GLfloat value)
 	noexcept
 	{
-		return {_ops::texture_min_lod(_get_tnt(), value), *this};
+		return {_ops::texture_min_lod(_get_tnt(), value), _self()};
 	}
 
 	outcome<GLfloat>
@@ -993,11 +1022,11 @@ struct obj_zero_dsa_ops<texture_name>
 		return _ops::texture_min_lod(_get_tnt());
 	}
 
-	outcome<_dsa_ops&>
+	outcome<Derived&>
 	max_lod(GLfloat value)
 	noexcept
 	{
-		return {_ops::texture_max_lod(_get_tnt(), value), *this};
+		return {_ops::texture_max_lod(_get_tnt(), value), _self()};
 	}
 
 	outcome<GLfloat>
@@ -1006,6 +1035,48 @@ struct obj_zero_dsa_ops<texture_name>
 	{
 		return _ops::texture_max_lod(_get_tnt());
 	}
+};
+
+
+template <>
+struct object_binding<tag::texture>
+ : obj_member_ops<
+	tag::texture,
+	object_binding<tag::texture>,
+	texture_target
+>
+{
+	object_binding(texture_target target)
+	noexcept
+	 : obj_member_ops<
+		tag::texture,
+		object_binding<tag::texture>,
+		texture_target
+	>(target)
+	{ }
+};
+
+#if defined(GL_VERSION_4_5) ||\
+	 defined(GL_ARB_direct_state_access) ||\
+	 defined(GL_EXT_direct_state_access)
+
+template <>
+#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
+struct obj_dsa_ops<texture_name>
+ : obj_member_ops<
+	tag::texture,
+	obj_dsa_ops<texture_name>,
+	obj_zero_dsa_ops<texture_name>
+>
+#elif defined(GL_EXT_direct_state_access)
+struct obj_zero_dsa_ops<texture_name>
+ : obj_member_ops<
+	tag::texture,
+	obj_zero_dsa_ops<texture_name>,
+	object_zero_name<tag::texture>
+>
+#endif
+{
 };
 
 #endif // GL_VERSION_4_5 || GL_EXT_direct_state_access
@@ -1030,13 +1101,7 @@ struct obj_gen_del_ops<tag::texture>
 };
 
 using texture = object_owner<tag::texture>;
-
-static inline
-auto wrap_object_name_or_target(const texture& tex)
-noexcept
-{
-	return tex._get_tnt();
-}
+using bound_texture = object_binding<tag::texture>;
 
 static const object_zero_and_ops<tag::texture>
 	default_texture = {};

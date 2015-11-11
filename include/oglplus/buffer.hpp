@@ -202,42 +202,51 @@ struct buffer_ops
 
 } // namespace oper
 
-#if defined(OGLPLUS_DSA_BUFFER)
-template <>
-struct obj_dsa_ops<buffer_name>
- : obj_zero_dsa_ops<buffer_name>
+template <typename Derived, typename Base>
+struct obj_member_ops<tag::buffer, Derived, Base>
+ : Base
 {
-	typedef oper::buffer_ops _ops;
+private:
+	Derived& _self()
+	noexcept
+	{
+		return *static_cast<Derived*>(this);
+	}
 
-	outcome<obj_dsa_ops&>
+	typedef oper::buffer_ops _ops;
+protected:
+	using Base::Base;
+public:
+
+	outcome<Derived&>
 	data(const buffer_data_spec& data, buffer_usage usage)
 	noexcept
 	{
-		return {_ops::buffer_data(*this, data, usage), *this};
+		return {_ops::buffer_data(*this, data, usage),_self()};
 	}
 
-	outcome<obj_dsa_ops&>
+	outcome<Derived&>
 	sub_data(buffer_size offset, const buffer_data_spec& data)
 	noexcept
 	{
-		return {_ops::buffer_sub_data(*this, offset, data), *this};
+		return {_ops::buffer_sub_data(*this, offset, data),_self()};
 	}
 
 #if defined(GL_VERSION_4_3) || defined(GL_ARB_invalidate_subdata)
-	outcome<obj_dsa_ops&>
+	outcome<Derived&>
 	invalidate_data(void)
 	noexcept
 	{
-		return {_ops::invalidate_buffer_data(*this), *this};
+		return {_ops::invalidate_buffer_data(*this),_self()};
 	}
 
-	outcome<obj_dsa_ops&>
+	outcome<Derived&>
 	invalidate_sub_data(buffer_size offset, buffer_size size)
 	noexcept
 	{
 		return {
-			_ops::invalidate_buffer_sub_data( *this, offset, size),
-			*this
+			_ops::invalidate_buffer_sub_data(*this, offset, size),
+			_self()
 		};
 	}
 #endif
@@ -277,6 +286,35 @@ struct obj_dsa_ops<buffer_name>
 		return _ops::buffer_storage_flags(*this);
 	}
 };
+
+template <>
+struct object_binding<tag::buffer>
+ : obj_member_ops<
+	tag::buffer,
+	object_binding<tag::buffer>,
+	buffer_target
+>
+{
+	object_binding(buffer_target target)
+	noexcept
+	 : obj_member_ops<
+		tag::buffer,
+		object_binding<tag::buffer>,
+		buffer_target
+	>(target)
+	{ }
+};
+
+#if defined(OGLPLUS_DSA_BUFFER)
+template <>
+struct obj_dsa_ops<buffer_name>
+ : obj_member_ops<
+	tag::buffer,
+	obj_dsa_ops<buffer_name>,
+	obj_zero_dsa_ops<buffer_name>
+>
+{
+};
 #endif
 
 template <>
@@ -298,6 +336,7 @@ struct obj_gen_del_ops<tag::buffer>
 };
 
 using buffer = object_owner<tag::buffer>;
+using bound_buffer = object_binding<tag::buffer>;
 
 static const object_zero_and_ops<tag::buffer>
 	no_buffer = {};

@@ -189,6 +189,63 @@ framebuffer_renderbuffer(
 inline
 outcome<void>
 framebuffer_ops::
+framebuffer_texture_1d(
+	framebuffer_target fb_target,
+	framebuffer_attachment fb_attach,
+	texture_target tx_target,
+	texture_name tex,
+	GLint level
+) noexcept
+{
+	OGLPLUS_GLFUNC(FramebufferTexture1D)(
+		GLenum(fb_target),
+		GLenum(fb_attach),
+		GLenum(tx_target),
+		get_raw_name(tex),
+		level
+	);
+	OGLPLUS_VERIFY(
+		FramebufferTexture1D,
+		gl_enum_value(fb_target).
+		gl_subject(tex),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+#if defined(GL_EXT_direct_state_access)
+inline
+outcome<void>
+framebuffer_ops::
+framebuffer_texture_1d(
+	framebuffer_name fbo,
+	framebuffer_attachment fb_attach,
+	texture_target tx_target,
+	texture_name tex,
+	GLint level
+) noexcept
+{
+	OGLPLUS_GLFUNC(NamedFramebufferTexture1DEXT)(
+		get_raw_name(fbo),
+		GLenum(fb_attach),
+		GLenum(tx_target),
+		get_raw_name(tex),
+		level
+	);
+	OGLPLUS_VERIFY(
+		NamedFramebufferTexture1DEXT,
+		gl_object(fbo).
+		//gl_enum_value(fb_target).
+		gl_subject(tex),
+		debug
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+framebuffer_ops::
 framebuffer_texture_2d(
 	framebuffer_target fb_target,
 	framebuffer_attachment fb_attach,
@@ -232,8 +289,8 @@ framebuffer_texture_2d(
 		get_raw_name(tex),
 		level
 	);
-	OGLPLUS_VERIFY_STR(
-		OGLPLUS_GL_DSA_FUNC_NAME(NamedFramebufferTexture2D),
+	OGLPLUS_VERIFY(
+		NamedFramebufferTexture2DEXT,
 		gl_object(fbo).
 		//gl_enum_value(fb_target).
 		gl_subject(tex),
@@ -293,8 +350,8 @@ framebuffer_texture_3d(
 		level,
 		layer
 	);
-	OGLPLUS_VERIFY_STR(
-		OGLPLUS_GL_DSA_FUNC_NAME(NamedFramebufferTexture3D),
+	OGLPLUS_VERIFY(
+		NamedFramebufferTexture3DEXT,
 		gl_object(fbo).
 		//gl_enum_value(fb_target).
 		gl_subject(tex),
@@ -380,8 +437,10 @@ noexcept
 inline
 outcome<void>
 framebuffer_ops::
-framebuffer_draw_buffer(framebuffer_name fbo, color_buffer buf)
-noexcept
+framebuffer_draw_buffer(
+	framebuffer_name fbo,
+	framebuffer_color_attachment buf
+) noexcept
 {
 #ifdef GL_VERSION_4_5
 	OGLPLUS_GLFUNC(NamedFramebufferDrawBuffer)(
@@ -420,7 +479,10 @@ noexcept
 inline
 outcome<void>
 framebuffer_ops::
-framebuffer_read_buffer(framebuffer_name fbo, color_buffer buf)
+framebuffer_read_buffer(
+	framebuffer_name fbo,
+	framebuffer_color_attachment buf
+)
 noexcept
 {
 #ifdef GL_VERSION_4_5

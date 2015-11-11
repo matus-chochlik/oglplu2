@@ -154,6 +154,16 @@ public:
 	}
 };
 
+template <typename ObjTag>
+struct object_zero_name
+ : object_name<ObjTag>
+{
+	object_zero_name(void)
+	noexcept
+	 : object_name<ObjTag>(0)
+	{ }
+};
+
 template <typename TypeT, TypeT InvalidType>
 struct any_object_type
 {

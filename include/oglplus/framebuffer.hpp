@@ -19,6 +19,12 @@
 #include "utils/gl_func.hpp"
 #include "utils/boolean.hpp"
 
+#if defined(GL_VERSION_4_5) ||\
+	defined(GL_ARB_direct_state_access) ||\
+	defined(GL_EXT_direct_state_access)
+#define OGLPLUS_DSA_FRAMEBUFFER 1
+#endif
+
 namespace oglplus {
 
 binding_query
@@ -49,7 +55,7 @@ struct framebuffer_ops
 	is_framebuffer_complete(framebuffer_target target)
 	noexcept;
 
-#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+#ifdef OGLPLUS_DSA_FRAMEBUFFER
 	static
 	outcome<framebuffer_status>
 	check_framebuffer_status(framebuffer_name, framebuffer_target target)
@@ -70,7 +76,7 @@ struct framebuffer_ops
 		renderbuffer_name rbo
 	) noexcept;
 
-#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+#ifdef OGLPLUS_DSA_FRAMEBUFFER
 	static
 	outcome<void>
 	framebuffer_renderbuffer(
@@ -83,6 +89,28 @@ struct framebuffer_ops
 
 	static
 	outcome<void>
+	framebuffer_texture_1d(
+		framebuffer_target fb_target,
+		framebuffer_attachment fb_attch,
+		texture_target tx_target,
+		texture_name tex,
+		GLint level
+	) noexcept;
+
+#if defined(GL_EXT_direct_state_access)
+	static
+	outcome<void>
+	framebuffer_texture_1d(
+		framebuffer_name fbo,
+		framebuffer_attachment fb_attch,
+		texture_target tx_target,
+		texture_name tex,
+		GLint level
+	) noexcept;
+#endif
+
+	static
+	outcome<void>
 	framebuffer_texture_2d(
 		framebuffer_target fb_target,
 		framebuffer_attachment fb_attch,
@@ -136,7 +164,7 @@ struct framebuffer_ops
 		GLint level
 	) noexcept;
 
-#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+#ifdef OGLPLUS_DSA_FRAMEBUFFER
 	static
 	outcome<void>
 	framebuffer_texture(
@@ -152,11 +180,14 @@ struct framebuffer_ops
 	draw_buffer(color_buffer buf)
 	noexcept;
 
-#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+#ifdef OGLPLUS_DSA_FRAMEBUFFER
 	static
 	outcome<void>
-	framebuffer_draw_buffer(framebuffer_name fbo, color_buffer buf)
-	noexcept;
+	framebuffer_draw_buffer(
+		framebuffer_name fbo,
+		framebuffer_color_attachment buf
+	) noexcept;
+	// TODO GL_NONE
 #endif
 
 	static
@@ -164,17 +195,20 @@ struct framebuffer_ops
 	read_buffer(color_buffer buf)
 	noexcept;
 
-#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+#ifdef OGLPLUS_DSA_FRAMEBUFFER
 	static
 	outcome<void>
-	framebuffer_read_buffer(framebuffer_name fbo, color_buffer buf)
-	noexcept;
+	framebuffer_read_buffer(
+		framebuffer_name fbo,
+		framebuffer_color_attachment buf
+	) noexcept;
+	// TODO GL_NONE
 #endif
 };
 
 } // namespace oper
 
-#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+#ifdef OGLPLUS_DSA_FRAMEBUFFER
 template <>
 struct obj_zero_dsa_ops<framebuffer_name>
  : framebuffer_name
@@ -187,14 +221,14 @@ struct obj_zero_dsa_ops<framebuffer_name>
 	{ }
 
 	outcome<obj_zero_dsa_ops&>
-	draw_buffer(color_buffer buf)
+	draw_buffer(framebuffer_color_attachment buf)
 	noexcept
 	{
 		return {_ops::framebuffer_draw_buffer(*this, buf), *this};
 	}
 
 	outcome<obj_zero_dsa_ops&>
-	read_buffer(color_buffer buf)
+	read_buffer(framebuffer_color_attachment buf)
 	noexcept
 	{
 		return {_ops::framebuffer_read_buffer(*this, buf), *this};
@@ -237,6 +271,21 @@ struct obj_dsa_ops<framebuffer_name>
 	}
 
 #if defined(GL_EXT_direct_state_access)
+	outcome<obj_dsa_ops&>
+	texture_1d(
+		framebuffer_attachment fb_attch,
+		texture_target tx_target,
+		texture_name tex,
+		GLint level
+	) noexcept
+	{
+		return {_ops::framebuffer_texture_1d(
+			*this, fb_attch, 
+			tx_target, tex,
+			level
+		), *this};
+	}
+
 	outcome<obj_dsa_ops&>
 	texture_2d(
 		framebuffer_attachment fb_attch,
@@ -281,6 +330,20 @@ struct obj_dsa_ops<framebuffer_name>
 			tex, level
 		), *this};
 	}
+
+	outcome<obj_dsa_ops&>
+	draw_buffer(framebuffer_color_attachment buf)
+	noexcept
+	{
+		return {_ops::framebuffer_draw_buffer(*this, buf), *this};
+	}
+
+	outcome<obj_dsa_ops&>
+	read_buffer(framebuffer_color_attachment buf)
+	noexcept
+	{
+		return {_ops::framebuffer_read_buffer(*this, buf), *this};
+	}
 };
 #endif
 
@@ -310,5 +373,9 @@ static const object_zero_and_ops<tag::framebuffer>
 } // namespace oglplus
 
 #include <oglplus/framebuffer.inl>
+
+#ifdef OGLPLUS_DSA_FRAMEBUFFER
+#undef OGLPLUS_DSA_FRAMEBUFFER
+#endif
 
 #endif // include guard

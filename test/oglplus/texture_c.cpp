@@ -24,6 +24,7 @@ void oglplus_texture_test_ops1(void)
 	texture tex;
 	texture_target tgt(GL_TEXTURE_2D);
 	texture_name_and_target tnt(tex,tgt);
+	bound_texture curtex(tgt);
 
 	pixel_data_internal_format ifmt(GL_RGBA);
 	pixel_data_format fmt(GL_RGBA);
@@ -33,6 +34,7 @@ void oglplus_texture_test_ops1(void)
 	const_memory_block blk;
 
 	gl.bind_texture(tgt, tex);
+	gl.texture_binding(tgt);
 
 	gl.texture_image_1d(tgt, 0, ifmt, 64, 0, fmt, typ, blk);
 	gl.texture_image_2d(tgt, 0, ifmt, 64, 64, 0, fmt, typ, blk);
@@ -179,6 +181,44 @@ void oglplus_texture_test_ops1(void)
 	gl.texture_max_lod(tex, 1000.0f);
 	gl.texture_max_lod(tex);
 #endif
+
+	curtex.width();
+	curtex.height();
+	curtex.depth();
+
+	curtex.red_type();
+	curtex.red_size();
+	curtex.green_type();
+	curtex.green_size();
+	curtex.blue_type();
+	curtex.blue_size();
+	curtex.alpha_type();
+	curtex.alpha_size();
+	curtex.depth_type();
+	curtex.depth_size();
+	curtex.stencil_size();
+	curtex.shared_size();
+
+	curtex.min_filter(texture_min_filter(GL_NEAREST));
+	curtex.min_filter();
+	curtex.mag_filter(texture_mag_filter(GL_NEAREST));
+	curtex.mag_filter();
+
+	curtex.compare_mode(texture_compare_mode(GL_NONE));
+	curtex.compare_mode();
+	curtex.compare_func(compare_function(GL_LESS));
+	curtex.compare_func();
+	curtex.wrap(wrap_s, texture_wrap_mode(GL_REPEAT));
+	curtex.wrap(wrap_s);
+	curtex.swizzle(swizzle_r, texture_swizzle_mode(GL_ONE));
+	curtex.swizzle(swizzle_r);
+
+	curtex.lod_bias(1.0f);
+	curtex.lod_bias();
+	curtex.min_lod(-1000.0f);
+	curtex.min_lod();
+	curtex.max_lod(1000.0f);
+	curtex.max_lod();
 
 #if defined(GL_VERSION_4_5) ||\
 	defined(GL_ARB_direct_state_access) ||\
