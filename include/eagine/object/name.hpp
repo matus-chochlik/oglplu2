@@ -158,6 +158,7 @@ template <typename ObjTag>
 struct object_zero_name
  : object_name<ObjTag>
 {
+	constexpr inline
 	object_zero_name(void)
 	noexcept
 	 : object_name<ObjTag>(0)

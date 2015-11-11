@@ -208,40 +208,141 @@ struct framebuffer_ops
 
 } // namespace oper
 
-#ifdef OGLPLUS_DSA_FRAMEBUFFER
-template <>
-struct obj_zero_dsa_ops<framebuffer_name>
- : framebuffer_name
+template <typename Derived, typename Base>
+struct obj_member_ops<tag::framebuffer, Derived, Base>
+ : Base
 {
-	typedef oper::framebuffer_ops _ops;
-
-	obj_zero_dsa_ops(void)
-	noexcept
-	 : framebuffer_name(0)
-	{ }
-
-	outcome<obj_zero_dsa_ops&>
-	draw_buffer(framebuffer_color_attachment buf)
+private:
+	Derived& _self()
 	noexcept
 	{
-		return {_ops::framebuffer_draw_buffer(*this, buf), *this};
+		return *static_cast<Derived*>(this);
 	}
 
-	outcome<obj_zero_dsa_ops&>
-	read_buffer(framebuffer_color_attachment buf)
-	noexcept
+	typedef oper::framebuffer_ops _ops;
+protected:
+	using Base::Base;
+public:
+	outcome<Derived&>
+	renderbuffer(
+		framebuffer_attachment fb_attch,
+		renderbuffer_target rb_target,
+		renderbuffer_name rbo
+	) noexcept
 	{
-		return {_ops::framebuffer_read_buffer(*this, buf), *this};
+		return {_ops::framebuffer_renderbuffer(
+			*this, fb_attch,
+			rb_target, rbo
+		), _self()};
+	}
+
+	outcome<Derived&>
+	texture(
+		framebuffer_attachment fb_attch,
+		texture_name tex,
+		GLint level
+	) noexcept
+	{
+		return {_ops::framebuffer_texture(
+			*this, fb_attch, 
+			tex, level
+		), _self()};
 	}
 };
 
 template <>
-struct obj_dsa_ops<framebuffer_name>
- : obj_zero_dsa_ops<framebuffer_name>
+struct object_binding<tag::framebuffer>
+ : obj_member_ops<
+	tag::framebuffer,
+	object_binding<tag::framebuffer>,
+	framebuffer_target
+>
 {
+	using obj_member_ops<
+		tag::framebuffer,
+		object_binding<tag::framebuffer>,
+		framebuffer_target
+	>::obj_member_ops;
+
 	typedef oper::framebuffer_ops _ops;
 
-	using obj_zero_dsa_ops<framebuffer_name>::obj_zero_dsa_ops;
+	outcome<framebuffer_status>
+	check_status(void)
+	noexcept
+	{
+		return _ops::check_framebuffer_status(*this);
+	}
+
+	outcome<bool>
+	is_complete(void)
+	noexcept
+	{
+		return _ops::is_framebuffer_complete(*this);
+	}
+
+	outcome<object_binding&>
+	texture_1d(
+		framebuffer_attachment fb_attch,
+		texture_target tx_target,
+		texture_name tex,
+		GLint level
+	) noexcept
+	{
+		return {_ops::framebuffer_texture_1d(
+			*this, fb_attch, 
+			tx_target, tex,
+			level
+		), *this};
+	}
+
+	outcome<object_binding&>
+	texture_2d(
+		framebuffer_attachment fb_attch,
+		texture_target tx_target,
+		texture_name tex,
+		GLint level
+	) noexcept
+	{
+		return {_ops::framebuffer_texture_2d(
+			*this, fb_attch, 
+			tx_target, tex,
+			level
+		), *this};
+	}
+
+	outcome<object_binding&>
+	texture_3d(
+		framebuffer_attachment fb_attch,
+		texture_target tx_target,
+		texture_name tex,
+		GLint level,
+		GLint layer
+	) noexcept
+	{
+		return {_ops::framebuffer_texture_3d(
+			*this, fb_attch, 
+			tx_target, tex,
+			level, layer
+		), *this};
+	}
+};
+
+#ifdef OGLPLUS_DSA_FRAMEBUFFER
+template <>
+struct obj_dsa_ops<framebuffer_name>
+ : obj_member_ops<
+	tag::framebuffer,
+	obj_dsa_ops<framebuffer_name>,
+	obj_zero_dsa_ops<framebuffer_name>
+>
+{
+	using obj_member_ops<
+		tag::framebuffer,
+		obj_dsa_ops<framebuffer_name>,
+		obj_zero_dsa_ops<framebuffer_name>
+	>::obj_member_ops;
+
+	typedef oper::framebuffer_ops _ops;
 
 	outcome<framebuffer_status>
 	check_status(framebuffer_target target)
@@ -255,19 +356,6 @@ struct obj_dsa_ops<framebuffer_name>
 	noexcept
 	{
 		return _ops::is_framebuffer_complete(*this, target);
-	}
-
-	outcome<obj_dsa_ops&>
-	renderbuffer(
-		framebuffer_attachment fb_attch,
-		renderbuffer_target rb_target,
-		renderbuffer_name rbo
-	) noexcept
-	{
-		return {_ops::framebuffer_renderbuffer(
-			*this, fb_attch,
-			rb_target, rbo
-		), *this};
 	}
 
 #if defined(GL_EXT_direct_state_access)
@@ -319,19 +407,6 @@ struct obj_dsa_ops<framebuffer_name>
 #endif
 
 	outcome<obj_dsa_ops&>
-	texture(
-		framebuffer_attachment fb_attch,
-		texture_name tex,
-		GLint level
-	) noexcept
-	{
-		return {_ops::framebuffer_texture(
-			*this, fb_attch, 
-			tex, level
-		), *this};
-	}
-
-	outcome<obj_dsa_ops&>
 	draw_buffer(framebuffer_color_attachment buf)
 	noexcept
 	{
@@ -366,6 +441,7 @@ struct obj_gen_del_ops<tag::framebuffer>
 };
 
 using framebuffer = object_owner<tag::framebuffer>;
+using bound_framebuffer = object_binding<tag::framebuffer>;
 
 static const object_zero_and_ops<tag::framebuffer>
 	default_framebuffer = {};

@@ -295,14 +295,11 @@ struct object_binding<tag::buffer>
 	buffer_target
 >
 {
-	object_binding(buffer_target target)
-	noexcept
-	 : obj_member_ops<
+	using obj_member_ops<
 		tag::buffer,
 		object_binding<tag::buffer>,
 		buffer_target
-	>(target)
-	{ }
+	>::obj_member_ops;
 };
 
 #if defined(OGLPLUS_DSA_BUFFER)
@@ -314,6 +311,11 @@ struct obj_dsa_ops<buffer_name>
 	obj_zero_dsa_ops<buffer_name>
 >
 {
+	using obj_member_ops<
+		tag::buffer,
+		obj_dsa_ops<buffer_name>,
+		obj_zero_dsa_ops<buffer_name>
+	>::obj_member_ops;
 };
 #endif
 

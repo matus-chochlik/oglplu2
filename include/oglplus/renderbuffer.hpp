@@ -16,6 +16,12 @@
 #include "utils/gl_func.hpp"
 #include "utils/boolean.hpp"
 
+#if defined(GL_VERSION_4_5) ||\
+	defined(GL_ARB_direct_state_access) ||\
+	defined(GL_EXT_direct_state_access)
+#define OGLPLUS_DSA_RENDERBUFFER 1
+#endif
+
 namespace oglplus {
 
 binding_query
@@ -45,7 +51,7 @@ struct renderbuffer_ops
 		GLsizei height
 	) noexcept;
 
-#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+#ifdef OGLPLUS_DSA_RENDERBUFFER
 	static
 	outcome<void>
 	renderbuffer_storage(
@@ -65,7 +71,7 @@ struct renderbuffer_ops
 		GLsizei height
 	) noexcept;
 
-#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+#ifdef OGLPLUS_DSA_RENDERBUFFER
 	static
 	outcome<void>
 	renderbuffer_storage_multisample(
@@ -85,7 +91,7 @@ struct renderbuffer_ops
 		array_view<GLint> values
 	) noexcept;
 
-#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+#ifdef OGLPLUS_DSA_RENDERBUFFER
 	static
 	outcome<void>
 	get_renderbuffer_parameter_iv(
@@ -99,83 +105,89 @@ struct renderbuffer_ops
 	static
 	outcome<R>
 	return_renderbuffer_parameter_i(
-		RNT rnt,
+		const RNT& rnt,
 		oglplus::renderbuffer_parameter parameter
 	) noexcept;
 
 	template <typename RNT>
 	static 
 	outcome<GLsizei>
-	renderbuffer_width(RNT rnt)
+	renderbuffer_width(const RNT& rnt)
 	noexcept;
 
 	template <typename RNT>
 	static 
 	outcome<GLsizei>
-	renderbuffer_height(RNT rnt)
+	renderbuffer_height(const RNT& rnt)
 	noexcept;
 
 	template <typename RNT>
 	static 
 	outcome<GLsizei>
-	renderbuffer_red_size(RNT rnt)
+	renderbuffer_red_size(const RNT& rnt)
 	noexcept;
 
 	template <typename RNT>
 	static 
 	outcome<GLsizei>
-	renderbuffer_green_size(RNT rnt)
+	renderbuffer_green_size(const RNT& rnt)
 	noexcept;
 
 	template <typename RNT>
 	static 
 	outcome<GLsizei>
-	renderbuffer_blue_size(RNT rnt)
+	renderbuffer_blue_size(const RNT& rnt)
 	noexcept;
 
 	template <typename RNT>
 	static 
 	outcome<GLsizei>
-	renderbuffer_alpha_size(RNT rnt)
+	renderbuffer_alpha_size(const RNT& rnt)
 	noexcept;
 
 	template <typename RNT>
 	static 
 	outcome<GLsizei>
-	renderbuffer_depth_size(RNT rnt)
+	renderbuffer_depth_size(const RNT& rnt)
 	noexcept;
 
 	template <typename RNT>
 	static 
 	outcome<GLsizei>
-	renderbuffer_stencil_size(RNT rnt)
+	renderbuffer_stencil_size(const RNT& rnt)
 	noexcept;
 
 	template <typename RNT>
 	static 
 	outcome<GLsizei>
-	renderbuffer_samples(RNT rnt)
+	renderbuffer_samples(const RNT& rnt)
 	noexcept;
 
 	template <typename RNT>
 	static 
 	outcome<pixel_data_internal_format>
-	renderbuffer_internal_format(RNT rnt)
+	renderbuffer_internal_format(const RNT& rnt)
 	noexcept;
 };
 
 } // namespace oper
 
-#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
-template <>
-struct obj_dsa_ops<renderbuffer_name>
- : obj_zero_dsa_ops<renderbuffer_name>
+template <typename Derived, typename Base>
+struct obj_member_ops<tag::renderbuffer, Derived, Base>
+ : Base
 {
-	using obj_zero_dsa_ops<renderbuffer_name>::obj_zero_dsa_ops;
+private:
+	Derived& _self()
+	noexcept
+	{
+		return *static_cast<Derived*>(this);
+	}
 
 	typedef oper::renderbuffer_ops _ops;
-
-	outcome<obj_dsa_ops&>
+protected:
+	using Base::Base;
+public:
+	outcome<Derived&>
 	storage(
 		pixel_data_internal_format ifmt,
 		GLsizei width,
@@ -187,10 +199,10 @@ struct obj_dsa_ops<renderbuffer_name>
 			*this,
 			ifmt,
 			width, height
-		), *this};
+		), _self()};
 	}
 
-	outcome<obj_dsa_ops&>
+	outcome<Derived&>
 	storage_multisample(
 		GLsizei samples,
 		pixel_data_internal_format ifmt,
@@ -204,7 +216,7 @@ struct obj_dsa_ops<renderbuffer_name>
 			samples,
 			ifmt,
 			width, height
-		), *this};
+		), _self()};
 	}
 
 	outcome<GLsizei>
@@ -277,6 +289,37 @@ struct obj_dsa_ops<renderbuffer_name>
 		return _ops::renderbuffer_internal_format(*this);
 	}
 };
+
+template <>
+struct object_binding<tag::renderbuffer>
+ : obj_member_ops<
+	tag::renderbuffer,
+	object_binding<tag::renderbuffer>,
+	renderbuffer_target
+>
+{
+	using obj_member_ops<
+		tag::renderbuffer,
+		object_binding<tag::renderbuffer>,
+		renderbuffer_target
+	>::obj_member_ops;
+};
+
+#ifdef OGLPLUS_DSA_RENDERBUFFER
+template <>
+struct obj_dsa_ops<renderbuffer_name>
+ : obj_member_ops<
+	tag::renderbuffer,
+	obj_dsa_ops<renderbuffer_name>,
+	obj_zero_dsa_ops<renderbuffer_name>
+>
+{
+	using obj_member_ops<
+		tag::renderbuffer,
+		obj_dsa_ops<renderbuffer_name>,
+		obj_zero_dsa_ops<renderbuffer_name>
+	>::obj_member_ops;
+};
 #endif
 
 template <>
@@ -298,6 +341,7 @@ struct obj_gen_del_ops<tag::renderbuffer>
 };
 
 using renderbuffer = object_owner<tag::renderbuffer>;
+using bound_renderbuffer = object_binding<tag::renderbuffer>;
 
 static const object_zero_and_ops<tag::renderbuffer>
 	no_renderbuffer = {};
@@ -305,5 +349,9 @@ static const object_zero_and_ops<tag::renderbuffer>
 } // namespace oglplus
 
 #include <oglplus/renderbuffer.inl>
+
+#ifdef OGLPLUS_DSA_RENDERBUFFER
+#undef OGLPLUS_DSA_RENDERBUFFER
+#endif
 
 #endif // include guard

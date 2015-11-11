@@ -1046,14 +1046,11 @@ struct object_binding<tag::texture>
 	texture_target
 >
 {
-	object_binding(texture_target target)
-	noexcept
-	 : obj_member_ops<
+	using obj_member_ops<
 		tag::texture,
 		object_binding<tag::texture>,
 		texture_target
-	>(target)
-	{ }
+	>::obj_member_ops;
 };
 
 #if defined(GL_VERSION_4_5) ||\
@@ -1068,6 +1065,13 @@ struct obj_dsa_ops<texture_name>
 	obj_dsa_ops<texture_name>,
 	obj_zero_dsa_ops<texture_name>
 >
+{
+	using obj_member_ops<
+		tag::texture,
+		obj_dsa_ops<texture_name>,
+		obj_zero_dsa_ops<texture_name>
+	>::obj_member_ops;
+};
 #elif defined(GL_EXT_direct_state_access)
 struct obj_zero_dsa_ops<texture_name>
  : obj_member_ops<
@@ -1075,9 +1079,14 @@ struct obj_zero_dsa_ops<texture_name>
 	obj_zero_dsa_ops<texture_name>,
 	object_zero_name<tag::texture>
 >
-#endif
 {
+	using obj_member_ops<
+		tag::texture,
+		obj_zero_dsa_ops<texture_name>,
+		object_zero_name<tag::texture>
+	>::obj_member_ops;
 };
+#endif
 
 #endif // GL_VERSION_4_5 || GL_EXT_direct_state_access
 

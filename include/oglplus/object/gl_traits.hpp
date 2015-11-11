@@ -21,15 +21,12 @@ struct gl_obj_tag
 } // namespace tag
 
 template <typename ObjName>
-struct obj_zero_dsa_ops
- : ObjName
-{
-	constexpr inline
-	obj_zero_dsa_ops(void)
-	noexcept
-	 : ObjName(0)
-	{ }
-};
+struct obj_zero_dsa_ops;
+
+template <typename ObjTag>
+struct obj_zero_dsa_ops<object_name<ObjTag>>
+ : object_zero_name<ObjTag>
+{ };
 
 template <typename ObjName>
 struct obj_dsa_ops

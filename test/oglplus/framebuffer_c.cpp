@@ -23,6 +23,7 @@ void oglplus_framebuffer_test_ops1(void)
 	oper::framebuffer_ops gl;
 	framebuffer fbo;
 	framebuffer_target tgt(GL_DRAW_FRAMEBUFFER);
+	bound_framebuffer curfbo(tgt);
 	framebuffer_attachment attch(GL_DEPTH_ATTACHMENT);
 	framebuffer_color_attachment cattch(GL_COLOR_ATTACHMENT0);
 	color_buffer cbuf(GL_FRONT);
@@ -44,6 +45,15 @@ void oglplus_framebuffer_test_ops1(void)
 	gl.framebuffer_texture_3d(tgt, attch, textgt1, tex, 0, 0);
 	gl.draw_buffer(cbuf);
 	gl.read_buffer(cbuf);
+
+	curfbo.check_status();
+	curfbo.is_complete();
+	curfbo.renderbuffer(attch, rbt, rbo);
+	curfbo.texture(attch, tex, 0);
+
+	curfbo.texture_1d(attch, textgt1, tex, 0);
+	curfbo.texture_2d(attch, textgt1, tex, 0);
+	curfbo.texture_3d(attch, textgt1, tex, 0, 0);
 
 #if defined(GL_VERSION_4_5) ||\
 	defined(GL_ARB_direct_state_access) ||\
