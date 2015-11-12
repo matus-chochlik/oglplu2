@@ -16,4 +16,8 @@ void oglplus_query_test_1(void)
 	oglplus_object_test<query>();
 }
 
+void oglplus_query_test_ops1(void)
+{
+}
+
 // TODO

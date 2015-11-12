@@ -66,7 +66,7 @@ renderbuffer_storage(
 	);
 	OGLPLUS_VERIFY(
 		RenderbufferStorage,
-		//gl_object(renderbuffer_binding(target)). TODO
+		gl_object_binding(tag::renderbuffer(), target).
 		gl_enum_value(ifmt),
 		always
 	);
@@ -122,7 +122,7 @@ renderbuffer_storage_multisample(
 	);
 	OGLPLUS_VERIFY(
 		RenderbufferStorage,
-		//gl_object(renderbuffer_binding(target)). TODO
+		gl_object_binding(tag::renderbuffer(), target).
 		gl_enum_value(ifmt),
 		always
 	);
@@ -178,7 +178,7 @@ get_renderbuffer_parameter_iv(
 	);
 	OGLPLUS_VERIFY(
 		GetRenderbufferParameteriv,
-		//gl_object(texture_binding(target)). TODO
+		gl_object_binding(tag::renderbuffer(), target).
 		gl_enum_value(param),
 		always
 	);

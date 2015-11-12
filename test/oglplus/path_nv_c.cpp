@@ -16,4 +16,8 @@ void oglplus_path_nv_test_1(void)
 	oglplus_object_test<path_nv>();
 }
 
+void oglplus_path_nv_test_ops1(void)
+{
+}
+
 // TODO

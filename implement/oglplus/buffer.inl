@@ -90,7 +90,7 @@ get_buffer_parameter_iv(
 	);
 	OGLPLUS_VERIFY(
 		GetBufferParameteriv,
-		//gl_object(texture_binding(target)). TODO
+		gl_object_binding(tag::buffer(), tgt).
 		gl_enum_value(param),
 		always
 	);
@@ -114,7 +114,7 @@ get_buffer_parameter_i64v(
 	);
 	OGLPLUS_VERIFY(
 		GetBufferParameteri64v,
-		//gl_object(texture_binding(target)). TODO
+		gl_object_binding(tag::buffer(), tgt).
 		gl_enum_value(param),
 		always
 	);

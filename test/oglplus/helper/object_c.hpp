@@ -21,6 +21,12 @@ void oglplus_object_test(void)
 	eagine_object_test<Object>();
 }
 
+template <typename Object, typename ObjectType>
+void oglplus_object_test(ObjectType type)
+{
+	eagine_object_test<Object>(type);
+}
+
 // TODO
 
 #endif // include guard

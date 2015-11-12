@@ -16,4 +16,75 @@ void oglplus_vertex_array_test_1(void)
 	oglplus_object_test<vertex_array>();
 }
 
+void oglplus_vertex_array_test_ops1(void)
+{
+	using namespace oglplus;
+
+	oper::vertex_array_ops gl;
+	vertex_array vao;
+	bound_vertex_array curvao;
+	vertex_attrib_location loc(0);
+	buffer_name buf(0);
+
+	gl.bind_vertex_array(vao);
+	gl.vertex_array_binding();
+	gl.enable_vertex_array_attrib(loc);
+	gl.disable_vertex_array_attrib(loc);
+	gl.vertex_array_attrib_pointer(loc, 1, data_type(GL_FLOAT), true, 0, nullptr);
+	gl.vertex_array_attrib_i_pointer(loc, 1, data_type(GL_INT), 0, nullptr);
+	gl.vertex_array_attrib_format(loc, 1, data_type(GL_FLOAT), true, 0);
+	gl.vertex_array_attrib_i_format(loc, 1, data_type(GL_INT), 0);
+	gl.vertex_array_attrib_l_format(loc, 1, data_type(GL_DOUBLE), 0);
+
+	curvao.enable_attrib(loc);
+	curvao.disable_attrib(loc);
+	curvao.attrib_pointer(loc, 1, data_type(GL_FLOAT), true, 0, nullptr);
+	curvao.attrib_i_pointer(loc, 1, data_type(GL_INT), 0, nullptr);
+	curvao.attrib_format(loc, 1, data_type(GL_FLOAT), true, 0);
+	curvao.attrib_i_format(loc, 1, data_type(GL_INT), 0);
+	curvao.attrib_l_format(loc, 1, data_type(GL_DOUBLE), 0);
+
+#if defined(GL_VERSION_4_5) ||\
+	defined(GL_ARB_direct_state_access) ||\
+	defined(GL_EXT_direct_state_access)
+
+	vertex_array_attrib vaa(vao, loc);
+
+	gl.enable_vertex_array_attrib(vao, loc);
+	gl.disable_vertex_array_attrib(vao, loc);
+
+	vaa.enable();
+	vaa.disable();
+
+#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
+	gl.vertex_array_vertex_buffer(vao, loc, buf, 0, 1);
+	gl.vertex_array_attrib_format(vao, loc, 1, data_type(GL_FLOAT), false, 0);
+	gl.vertex_array_attrib_i_format(vao, loc, 1, data_type(GL_INT), 0);
+	gl.vertex_array_attrib_l_format(vao, loc, 1, data_type(GL_DOUBLE), 0);
+
+	vao.vertex_buffer(loc, buf, 0, 1);
+	vao.attrib_format(loc, 1, data_type(GL_FLOAT), false, 0);
+	vao.attrib_i_format(loc, 1, data_type(GL_INT), 0);
+	vao.attrib_l_format(loc, 1, data_type(GL_DOUBLE), 0);
+
+	vaa.vertex_buffer(buf, 0, 1);
+	vaa.format(1, data_type(GL_FLOAT), false, 0);
+	vaa.i_format(1, data_type(GL_INT), 0);
+	vaa.l_format(1, data_type(GL_FLOAT), 0);
+#endif
+
+#if defined(GL_EXT_direct_state_access)
+	gl.vertex_array_attrib_offset(vao, buf, loc, 1, data_type(GL_FLOAT), true, 1, 0);
+	gl.vertex_array_attrib_i_offset(vao, buf, loc, 1, data_type(GL_SHORT), 1, 0);
+
+	vao.attrib_offset(buf, loc, 1, data_type(GL_FLOAT), true, 1, 0);
+	vao.attrib_i_offset(buf, loc, 1, data_type(GL_SHORT), 1, 0);
+
+	vaa.offset(buf, 1, data_type(GL_FLOAT), true, 1, 0);
+	vaa.i_offset(buf, 1, data_type(GL_SHORT), 1, 0);
+#endif
+
+#endif
+}
+
 // TODO
