@@ -406,7 +406,7 @@ error_info::
 identifier(const cstring_view<>& ident)
 noexcept
 {
-#if !OGLPLUS_NO_IDENTIFIER
+#if !OGLPLUS_ERROR_NO_IDENTIFIER
 	try { _ext_info()._identifier.assign(ident.begin(), ident.end()); }
 	catch(...) { }
 #else
@@ -421,7 +421,7 @@ error_info::
 identifier(void) const
 noexcept
 {
-#if !OGLPLUS_NO_IDENTIFIER
+#if !OGLPLUS_ERROR_NO_IDENTIFIER
 	return _ext_info()._identifier;
 #else
 	return {};
@@ -434,7 +434,7 @@ error_info::
 build_log(const cstring_view<>& log)
 noexcept
 {
-#if !OGLPLUS_NO_BUILD_LOG
+#if !OGLPLUS_ERROR_NO_BUILD_LOG
 	try { _ext_info()._build_log.assign(log.begin(), log.end()); }
 	catch(...) { }
 #else
@@ -449,7 +449,7 @@ error_info::
 build_log(void) const
 noexcept
 {
-#if !OGLPLUS_NO_BUILD_LOG
+#if !OGLPLUS_ERROR_NO_BUILD_LOG
 	return _ext_info()._build_log;
 #else
 	return {};
