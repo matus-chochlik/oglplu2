@@ -26,6 +26,11 @@ struct extended_error_info
 #if !OGLPLUS_ERROR_NO_BUILD_LOG
 	std::string _build_log;
 #endif
+
+#if !OGLPLUS_ERROR_NO_IDENTIFIER
+	std::string _identifier;
+#endif
+
 	extended_error_info(void)
 	noexcept
 	{ }
@@ -394,6 +399,34 @@ noexcept
 }
 //------------------------------------------------------------------------------
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+error_info&
+error_info::
+identifier(const cstring_view<>& ident)
+noexcept
+{
+#if !OGLPLUS_NO_IDENTIFIER
+	try { _ext_info()._identifier.assign(ident.begin(), ident.end()); }
+	catch(...) { }
+#else
+	(void)ident;
+#endif
+	return *this;
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+cstring_view<>
+error_info::
+identifier(void) const
+noexcept
+{
+#if !OGLPLUS_NO_IDENTIFIER
+	return _ext_info()._identifier;
+#else
+	return {};
+#endif
+}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 error_info&

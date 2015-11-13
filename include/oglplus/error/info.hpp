@@ -168,6 +168,12 @@ public:
 	const any_enum_value& gl_enum_value(void) const
 	noexcept;
 
+	error_info& identifier(const cstring_view<>& log)
+	noexcept;
+
+	cstring_view<> identifier(void) const
+	noexcept;
+
 	error_info& build_log(const cstring_view<>& log)
 	noexcept;
 
