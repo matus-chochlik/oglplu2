@@ -12,6 +12,110 @@ namespace oglplus {
 //------------------------------------------------------------------------------
 namespace oper {
 //------------------------------------------------------------------------------
+template <typename T>
+inline
+outcome<void>
+path_nv_ops::
+path_commands(
+	path_nv_name path,
+	array_view<const GLubyte> commands,
+	array_view<const T> coords
+) noexcept
+{
+	OGLPLUS_GLFUNC(PathCommandsNV)(
+		get_raw_name(path),
+		GLsizei(commands.size()),
+		commands.data(),
+		GLsizei(coords.size()),
+		GLenum(get_data_type<T>()),
+		static_cast<const void*>(coords.data())
+	);
+	OGLPLUS_VERIFY(
+		PathCommandsNV,
+		gl_object(path),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+template <typename T>
+inline
+outcome<void>
+path_nv_ops::
+path_commands(path_nv_name path, const path_nv_spec<T>& spec)
+noexcept
+{
+	return path_commands<T>(path, spec._commands, spec._coords);
+}
+//------------------------------------------------------------------------------
+template <typename T>
+inline
+outcome<void>
+path_nv_ops::
+path_sub_commands(
+	path_nv_name path,
+	GLsizei command_start,
+	GLsizei commands_to_delete,
+	array_view<const GLubyte> commands,
+	array_view<const T> coords
+) noexcept
+{
+	OGLPLUS_GLFUNC(PathSubCommandsNV)(
+		get_raw_name(path),
+		command_start,
+		commands_to_delete,
+		GLsizei(commands.size()),
+		commands.data(),
+		GLsizei(coords.size()),
+		GLenum(get_data_type<T>()),
+		static_cast<const void*>(coords.data())
+	);
+	OGLPLUS_VERIFY(
+		PathSubCommandsNV,
+		gl_object(path),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+template <typename T>
+inline
+outcome<void>
+path_nv_ops::
+path_sub_commands(
+	path_nv_name path,
+	GLsizei command_start,
+	GLsizei commands_to_delete,
+	const path_nv_spec<T>& spec
+) noexcept
+{
+	return path_sub_commands<T>(
+		path,
+		command_start, commands_to_delete,
+		spec._commands, spec._coords
+	);
+}
+//------------------------------------------------------------------------------
+template <typename T>
+inline
+outcome<void>
+path_nv_ops::
+path_coords(path_nv_name path, array_view<const T> coords)
+noexcept
+{
+	OGLPLUS_GLFUNC(PathCoordsNV)(
+		get_raw_name(path),
+		GLsizei(coords.size()),
+		GLenum(get_data_type<T>()),
+		static_cast<const void*>(coords.data())
+	);
+	OGLPLUS_VERIFY(
+		PathCoordsNV,
+		gl_object(path),
+		always
+	);
+	return {};
+}
 //------------------------------------------------------------------------------
 } // namespace oper
 //------------------------------------------------------------------------------

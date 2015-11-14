@@ -15,24 +15,143 @@
 #include "error/outcome.hpp"
 #include "utils/gl_func.hpp"
 #include "utils/boolean.hpp"
+#include "path_nv_spec.hpp"
+#include "data_type.hpp"
 
 namespace oglplus {
 namespace oper {
 
 struct path_nv_ops
 {
+	template <typename T>
+	static
+	outcome<void>
+	path_commands(
+		path_nv_name path,
+		array_view<const GLubyte> commands,
+		array_view<const T> coords
+	) noexcept;
+
+	template <typename T>
+	static
+	outcome<void>
+	path_commands(path_nv_name path, const path_nv_spec<T>& spec)
+	noexcept;
+
+	template <typename T>
+	static
+	outcome<void>
+	path_sub_commands(
+		path_nv_name path,
+		GLsizei command_start,
+		GLsizei commands_to_delete,
+		array_view<const GLubyte> commands,
+		array_view<const T> coords
+	) noexcept;
+
+	template <typename T>
+	static
+	outcome<void>
+	path_sub_commands(
+		path_nv_name path,
+		GLsizei command_start,
+		GLsizei commands_to_delete,
+		const path_nv_spec<T>& spec
+	) noexcept;
+
+	template <typename T>
+	static
+	outcome<void>
+	path_coords(path_nv_name path, array_view<const T> coords)
+	noexcept;
 };
 
 } // namespace oper
 
+template <typename Derived, typename Base>
+struct obj_member_ops<tag::path_nv, Derived, Base>
+ : Base
+{
+private:
+	Derived& _self()
+	noexcept
+	{
+		return *static_cast<Derived*>(this);
+	}
+
+	typedef oper::path_nv_ops _ops;
+protected:
+	using Base::Base;
+public:
+	template <typename T>
+	outcome<Derived&>
+	commands(array_view<const GLubyte> cmds, array_view<const T> coords)
+	noexcept
+	{
+		return {_ops::path_commands(*this, cmds, coords), _self()};
+	}
+
+	template <typename T>
+	outcome<Derived&>
+	commands(const path_nv_spec<T>& spec)
+	noexcept
+	{
+		return {_ops::path_commands(*this, spec), _self()};
+	}
+
+	template <typename T>
+	outcome<Derived&>
+	sub_commands(
+		GLsizei cmd_start,
+		GLsizei cmds_to_delete,
+		array_view<const GLubyte> cmds,
+		array_view<const T> coords
+	) noexcept
+	{
+		return {_ops::path_sub_commands(
+			*this,
+			cmd_start, cmds_to_delete,
+			cmds, coords
+		), _self()};
+	}
+
+	template <typename T>
+	outcome<Derived&>
+	sub_commands(
+		GLsizei cmd_start,
+		GLsizei cmds_to_delete,
+		const path_nv_spec<T>& spec
+	) noexcept
+	{
+		return {_ops::path_sub_commands(
+			*this,
+			cmd_start, cmds_to_delete,
+			spec
+		), _self()};
+	}
+
+	template <typename T>
+	outcome<Derived&>
+	coords(array_view<const T> crds)
+	noexcept
+	{
+		return {_ops::path_coords(*this, crds), _self()};
+	}
+};
+
 template <>
 struct obj_dsa_ops<path_nv_name>
- : obj_zero_dsa_ops<path_nv_name>
+ : obj_member_ops<
+	tag::path_nv,
+	obj_dsa_ops<path_nv_name>,
+	obj_zero_dsa_ops<path_nv_name>
+>
 {
-	typedef oper::path_nv_ops _ops;
-
-	using obj_zero_dsa_ops<path_nv_name>::obj_zero_dsa_ops;
-
+	using obj_member_ops<
+		tag::path_nv,
+		obj_dsa_ops<path_nv_name>,
+		obj_zero_dsa_ops<path_nv_name>
+	>::obj_member_ops;
 };
 
 template <>

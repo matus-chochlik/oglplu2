@@ -18,6 +18,11 @@
 #include <cassert>
 
 namespace oglplus {
+namespace oper {
+
+struct path_nv_ops;
+
+} // namespace oper
 
 template <typename CoordType>
 class path_nv_spec
@@ -25,6 +30,8 @@ class path_nv_spec
 private:
 	std::vector<GLubyte> _commands;
 	std::vector<CoordType> _coords;
+
+	friend oper::path_nv_ops;
 
 	typedef CoordType T;
 
@@ -43,21 +50,31 @@ private:
 		return *this;
 	}
 
+	path_nv_spec& _append(GLubyte command, array_view<const T> coords)
+	{
+		_commands.push_back(command);
+		_coords.insert(_coords.end(), coords.begin(), coords.end());
+
+		return *this;
+	}
+
 	template <typename ... C>
 	path_nv_spec& _add(GLubyte command, C ... c)
 	{
 		const std::size_t N = sizeof ... (C);
 		const T coords[N] = { T(c)... };
-
-		_commands.push_back(command);
-		_coords.insert(_coords.end(), coords, coords+N);
-
-		return *this;
+		return _append(command, coords);
 	}
 public:
 	path_nv_spec(void) = default;
 	path_nv_spec(path_nv_spec&&) = default;
 	path_nv_spec& operator = (path_nv_spec&&) = default;
+
+	path_nv_spec&
+	add(path_command_nv command, array_view<const T> coords)
+	{
+		return _append(GLubyte(command), coords);
+	}
 
 	path_nv_spec&
 	close(void)
