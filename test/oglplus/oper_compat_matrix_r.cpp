@@ -9,114 +9,83 @@
 #include <boost/test/unit_test.hpp>
 
 #include <oglplus/gl.hpp>
-#include "helper/fake_gl_func.hpp"
+#include "helper/mock_gl_func.hpp"
 
-static oglplus::fake_gl_func_tester<void, GLenum>
-fake_glMatrixMode("MatrixMode");
+OGLPLUS_MOCK_GLFUNC(MatrixMode, void(GLenum));
 
-static oglplus::fake_gl_func_tester<void>
-fake_glPushMatrix("PushMatrix");
+OGLPLUS_MOCK_GLFUNC(PushMatrix, void(void));
 #ifdef GL_EXT_direct_state_access
-static oglplus::fake_gl_func_tester<void, GLenum>
-fake_glMatrixPushEXT("MatrixPushEXT");
+OGLPLUS_MOCK_GLFUNC(MatrixPushEXT, void(GLenum));
 #endif
 
-static oglplus::fake_gl_func_tester<void>
-fake_glPopMatrix("PopMatrix");
+OGLPLUS_MOCK_GLFUNC(PopMatrix, void(void));
 #ifdef GL_EXT_direct_state_access
-static oglplus::fake_gl_func_tester<void, GLenum>
-fake_glMatrixPopEXT("MatrixPopEXT");
+OGLPLUS_MOCK_GLFUNC(MatrixPopEXT, void(GLenum));
 #endif
 
-static oglplus::fake_gl_func_tester<void>
-fake_glLoadIdentity("LoadIdentity");
+OGLPLUS_MOCK_GLFUNC(LoadIdentity, void(void));
 #ifdef GL_EXT_direct_state_access
-static oglplus::fake_gl_func_tester<void, GLenum>
-fake_glMatrixLoadIdentityEXT("MatrixLoadIdentityEXT");
+OGLPLUS_MOCK_GLFUNC(MatrixLoadIdentityEXT, void(GLenum));
 #endif
 
-static oglplus::fake_gl_func_tester<void, const GLfloat*>
-fake_glLoadMatrixf("LoadMatrixf");
+OGLPLUS_MOCK_GLFUNC(LoadMatrixf, void(const GLfloat*));
 #ifdef GL_EXT_direct_state_access
-static oglplus::fake_gl_func_tester<void, GLenum, const GLfloat*>
-fake_glMatrixLoadfEXT("MatrixLoadfEXT");
+OGLPLUS_MOCK_GLFUNC(MatrixLoadfEXT, void(GLenum, const GLfloat*));
 #endif
 
-static oglplus::fake_gl_func_tester<void, const GLfloat*>
-fake_glLoadTransposeMatrixf("LoadTransposeMatrixf");
+OGLPLUS_MOCK_GLFUNC(LoadTransposeMatrixf, void(const GLfloat*));
 #ifdef GL_EXT_direct_state_access
-static oglplus::fake_gl_func_tester<void, GLenum, const GLfloat*>
-fake_glMatrixLoadTransposefEXT("MatrixLoadTransposefEXT");
+OGLPLUS_MOCK_GLFUNC(MatrixLoadTransposefEXT, void(GLenum, const GLfloat*));
 #endif
 
-static oglplus::fake_gl_func_tester<void, const GLdouble*>
-fake_glLoadMatrixd("LoadMatrixd");
+OGLPLUS_MOCK_GLFUNC(LoadMatrixd, void(const GLdouble*));
 #ifdef GL_EXT_direct_state_access
-static oglplus::fake_gl_func_tester<void, GLenum, const GLdouble*>
-fake_glMatrixLoaddEXT("MatrixLoaddEXT");
+OGLPLUS_MOCK_GLFUNC(MatrixLoaddEXT, void(GLenum, const GLdouble*));
 #endif
 
-static oglplus::fake_gl_func_tester<void, const GLdouble*>
-fake_glLoadTransposeMatrixd("LoadTransposeMatrixd");
+OGLPLUS_MOCK_GLFUNC(LoadTransposeMatrixd, void(const GLdouble*));
 #ifdef GL_EXT_direct_state_access
-static oglplus::fake_gl_func_tester<void, GLenum, const GLdouble*>
-fake_glMatrixLoadTransposedEXT("MatrixLoadTransposedEXT");
+OGLPLUS_MOCK_GLFUNC(MatrixLoadTransposedEXT, void(GLenum, const GLdouble*));
 #endif
 
-static oglplus::fake_gl_func_tester<void, GLfloat, GLfloat, GLfloat>
-fake_glTranslatef("Translatef");
+OGLPLUS_MOCK_GLFUNC(Translatef, void(GLfloat, GLfloat, GLfloat));
 #ifdef GL_EXT_direct_state_access
-static oglplus::fake_gl_func_tester<void, GLenum, GLfloat, GLfloat, GLfloat>
-fake_glMatrixTranslatefEXT("MatrixTranslatefEXT");
+OGLPLUS_MOCK_GLFUNC(MatrixTranslatefEXT, void(GLenum, GLfloat, GLfloat, GLfloat));
 #endif
 
-static oglplus::fake_gl_func_tester<void, GLdouble, GLdouble, GLdouble>
-fake_glTranslated("Translated");
+OGLPLUS_MOCK_GLFUNC(Translated, void(GLdouble, GLdouble, GLdouble));
 #ifdef GL_EXT_direct_state_access
-static oglplus::fake_gl_func_tester<void, GLenum, GLdouble, GLdouble, GLdouble>
-fake_glMatrixTranslatedEXT("MatrixTranslatedEXT");
+OGLPLUS_MOCK_GLFUNC(MatrixTranslatedEXT, void(GLenum, GLdouble, GLdouble, GLdouble));
 #endif
 
-static oglplus::fake_gl_func_tester<void, GLfloat, GLfloat, GLfloat, GLfloat>
-fake_glRotatef("Rotatef");
+OGLPLUS_MOCK_GLFUNC(Rotatef, void(GLfloat, GLfloat, GLfloat, GLfloat));
 #ifdef GL_EXT_direct_state_access
-static oglplus::fake_gl_func_tester<void, GLenum, GLfloat, GLfloat, GLfloat, GLfloat>
-fake_glMatrixRotatefEXT("MatrixRotatefEXT");
+OGLPLUS_MOCK_GLFUNC(MatrixRotatefEXT, void(GLenum, GLfloat, GLfloat, GLfloat, GLfloat));
 #endif
 
-static oglplus::fake_gl_func_tester<void, GLdouble, GLdouble, GLdouble, GLdouble>
-fake_glRotated("Rotated");
+OGLPLUS_MOCK_GLFUNC(Rotated, void(GLdouble, GLdouble, GLdouble, GLdouble));
 #ifdef GL_EXT_direct_state_access
-static oglplus::fake_gl_func_tester<void, GLenum, GLdouble, GLdouble, GLdouble, GLdouble>
-fake_glMatrixRotatedEXT("MatrixRotatedEXT");
+OGLPLUS_MOCK_GLFUNC(MatrixRotatedEXT, void(GLenum, GLdouble, GLdouble, GLdouble, GLdouble));
 #endif
 
-static oglplus::fake_gl_func_tester<void, GLfloat, GLfloat, GLfloat>
-fake_glScalef("Scalef");
+OGLPLUS_MOCK_GLFUNC(Scalef, void(GLfloat, GLfloat, GLfloat));
 #ifdef GL_EXT_direct_state_access
-static oglplus::fake_gl_func_tester<void, GLenum, GLfloat, GLfloat, GLfloat>
-fake_glMatrixScalefEXT("MatrixScalefEXT");
+OGLPLUS_MOCK_GLFUNC(MatrixScalefEXT, void(GLenum, GLfloat, GLfloat, GLfloat));
 #endif
 
-static oglplus::fake_gl_func_tester<void, GLdouble, GLdouble, GLdouble>
-fake_glScaled("Scaled");
+OGLPLUS_MOCK_GLFUNC(Scaled, void(GLdouble, GLdouble, GLdouble));
 #ifdef GL_EXT_direct_state_access
-static oglplus::fake_gl_func_tester<void, GLenum, GLdouble, GLdouble, GLdouble>
-fake_glMatrixScaledEXT("MatrixScaledEXT");
+OGLPLUS_MOCK_GLFUNC(MatrixScaledEXT, void(GLenum, GLdouble, GLdouble, GLdouble));
 #endif
 
-static oglplus::fake_gl_func_tester<void, GLdouble, GLdouble, GLdouble, GLdouble, GLdouble, GLdouble>
-fake_glOrtho("Ortho");
+OGLPLUS_MOCK_GLFUNC(Ortho, void(GLdouble, GLdouble, GLdouble, GLdouble, GLdouble, GLdouble));
 #ifdef GL_EXT_direct_state_access
-static oglplus::fake_gl_func_tester<void, GLenum, GLdouble, GLdouble, GLdouble, GLdouble, GLdouble, GLdouble>
-fake_glMatrixOrthoEXT("MatrixOrthoEXT");
+OGLPLUS_MOCK_GLFUNC(MatrixOrthoEXT, void(GLenum, GLdouble, GLdouble, GLdouble, GLdouble, GLdouble, GLdouble));
 #endif
 
-static oglplus::fake_gl_func_tester<void, GLdouble, GLdouble, GLdouble, GLdouble, GLdouble, GLdouble>
-fake_glFrustum("Frustum");
+OGLPLUS_MOCK_GLFUNC(Frustum, void(GLdouble, GLdouble, GLdouble, GLdouble, GLdouble, GLdouble));
 #ifdef GL_EXT_direct_state_access
-static oglplus::fake_gl_func_tester<void, GLenum, GLdouble, GLdouble, GLdouble, GLdouble, GLdouble, GLdouble>
-fake_glMatrixFrustumEXT("MatrixFrustumEXT");
+OGLPLUS_MOCK_GLFUNC(MatrixFrustumEXT, void(GLenum, GLdouble, GLdouble, GLdouble, GLdouble, GLdouble, GLdouble));
 #endif
 
 #include <oglplus/oper/compat_matrix.hpp>
@@ -145,13 +114,13 @@ BOOST_AUTO_TEST_CASE(compat_matrix_mode)
 
 	{
 		old_matrix_mode m = GL.projection;
-		fake_glMatrixMode.reset_params(GLenum(m));
-		BOOST_CHECK(!fake_glMatrixMode.all_ok_exclusive());
+		mock_glMatrixMode.reset_params(GLenum(m));
+		BOOST_CHECK(!mock_glMatrixMode.all_ok_exclusive());
 		gl.matrix_mode(m);
-		BOOST_CHECK( fake_glMatrixMode.all_ok_exclusive());
+		BOOST_CHECK( mock_glMatrixMode.all_ok_exclusive());
 	}
 
-	BOOST_CHECK(fake_glMatrixMode.was_called());
+	BOOST_CHECK(mock_glMatrixMode.was_called());
 }
 
 BOOST_AUTO_TEST_CASE(compat_matrix_push_pop)
@@ -162,42 +131,42 @@ BOOST_AUTO_TEST_CASE(compat_matrix_push_pop)
 	oglplus::enum_values GL;
 
 	{
-		fake_glPushMatrix.reset_params();
-		BOOST_CHECK(!fake_glPushMatrix.all_ok_exclusive());
+		mock_glPushMatrix.reset_params();
+		BOOST_CHECK(!mock_glPushMatrix.all_ok_exclusive());
 		gl.push_matrix();
-		BOOST_CHECK( fake_glPushMatrix.all_ok_exclusive());
+		BOOST_CHECK( mock_glPushMatrix.all_ok_exclusive());
 	}
 #ifdef GL_EXT_direct_state_access
 	{
 		old_matrix_mode m = GL.projection;
-		fake_glMatrixPushEXT.reset_params(GLenum(m));
-		BOOST_CHECK(!fake_glMatrixPushEXT.all_ok_exclusive());
+		mock_glMatrixPushEXT.reset_params(GLenum(m));
+		BOOST_CHECK(!mock_glMatrixPushEXT.all_ok_exclusive());
 		gl.push_matrix(m);
-		BOOST_CHECK( fake_glMatrixPushEXT.all_ok_exclusive());
+		BOOST_CHECK( mock_glMatrixPushEXT.all_ok_exclusive());
 	}
 #endif
 
 	{
-		fake_glPopMatrix.reset_params();
-		BOOST_CHECK(!fake_glPopMatrix.all_ok_exclusive());
+		mock_glPopMatrix.reset_params();
+		BOOST_CHECK(!mock_glPopMatrix.all_ok_exclusive());
 		gl.pop_matrix();
-		BOOST_CHECK( fake_glPopMatrix.all_ok_exclusive());
+		BOOST_CHECK( mock_glPopMatrix.all_ok_exclusive());
 	}
 #ifdef GL_EXT_direct_state_access
 	{
 		old_matrix_mode m = GL.modelview;
-		fake_glMatrixPopEXT.reset_params(GLenum(m));
-		BOOST_CHECK(!fake_glMatrixPopEXT.all_ok_exclusive());
+		mock_glMatrixPopEXT.reset_params(GLenum(m));
+		BOOST_CHECK(!mock_glMatrixPopEXT.all_ok_exclusive());
 		gl.pop_matrix(m);
-		BOOST_CHECK( fake_glMatrixPopEXT.all_ok_exclusive());
+		BOOST_CHECK( mock_glMatrixPopEXT.all_ok_exclusive());
 	}
 #endif
 
-	BOOST_CHECK(fake_glPushMatrix.was_called());
-	BOOST_CHECK(fake_glPopMatrix.was_called());
+	BOOST_CHECK(mock_glPushMatrix.was_called());
+	BOOST_CHECK(mock_glPopMatrix.was_called());
 #ifdef GL_EXT_direct_state_access
-	BOOST_CHECK(fake_glMatrixPushEXT.was_called());
-	BOOST_CHECK(fake_glMatrixPopEXT.was_called());
+	BOOST_CHECK(mock_glMatrixPushEXT.was_called());
+	BOOST_CHECK(mock_glMatrixPopEXT.was_called());
 #endif
 }
 
@@ -209,24 +178,24 @@ BOOST_AUTO_TEST_CASE(compat_matrix_load_identity)
 	oglplus::enum_values GL;
 
 	{
-		fake_glLoadIdentity.reset_params();
-		BOOST_CHECK(!fake_glLoadIdentity.all_ok_exclusive());
+		mock_glLoadIdentity.reset_params();
+		BOOST_CHECK(!mock_glLoadIdentity.all_ok_exclusive());
 		gl.load_identity();
-		BOOST_CHECK( fake_glLoadIdentity.all_ok_exclusive());
+		BOOST_CHECK( mock_glLoadIdentity.all_ok_exclusive());
 	}
 #ifdef GL_EXT_direct_state_access
 	{
 		old_matrix_mode m = GL.projection;
-		fake_glMatrixLoadIdentityEXT.reset_params(GLenum(m));
-		BOOST_CHECK(!fake_glMatrixLoadIdentityEXT.all_ok_exclusive());
+		mock_glMatrixLoadIdentityEXT.reset_params(GLenum(m));
+		BOOST_CHECK(!mock_glMatrixLoadIdentityEXT.all_ok_exclusive());
 		gl.load_identity(m);
-		BOOST_CHECK( fake_glMatrixLoadIdentityEXT.all_ok_exclusive());
+		BOOST_CHECK( mock_glMatrixLoadIdentityEXT.all_ok_exclusive());
 	}
 #endif
 
-	BOOST_CHECK(fake_glLoadIdentity.was_called());
+	BOOST_CHECK(mock_glLoadIdentity.was_called());
 #ifdef GL_EXT_direct_state_access
-	BOOST_CHECK(fake_glMatrixLoadIdentityEXT.was_called());
+	BOOST_CHECK(mock_glMatrixLoadIdentityEXT.was_called());
 #endif
 }
 
@@ -245,42 +214,42 @@ BOOST_AUTO_TEST_CASE(compat_matrix_load_f)
 	}
 
 	{
-		fake_glLoadMatrixf.reset_params(v);
-		BOOST_CHECK(!fake_glLoadMatrixf.all_ok_exclusive());
+		mock_glLoadMatrixf.reset_params(v);
+		BOOST_CHECK(!mock_glLoadMatrixf.all_ok_exclusive());
 		gl.load_matrix(v);
-		BOOST_CHECK( fake_glLoadMatrixf.all_ok_exclusive());
+		BOOST_CHECK( mock_glLoadMatrixf.all_ok_exclusive());
 	}
 #ifdef GL_EXT_direct_state_access
 	{
 		old_matrix_mode m = GL.projection;
-		fake_glMatrixLoadfEXT.reset_params(GLenum(m), v);
-		BOOST_CHECK(!fake_glMatrixLoadfEXT.all_ok_exclusive());
+		mock_glMatrixLoadfEXT.reset_params(GLenum(m), v);
+		BOOST_CHECK(!mock_glMatrixLoadfEXT.all_ok_exclusive());
 		gl.load_matrix(m, v);
-		BOOST_CHECK( fake_glMatrixLoadfEXT.all_ok_exclusive());
+		BOOST_CHECK( mock_glMatrixLoadfEXT.all_ok_exclusive());
 	}
 #endif
 
 	{
-		fake_glLoadTransposeMatrixf.reset_params(v);
-		BOOST_CHECK(!fake_glLoadTransposeMatrixf.all_ok_exclusive());
+		mock_glLoadTransposeMatrixf.reset_params(v);
+		BOOST_CHECK(!mock_glLoadTransposeMatrixf.all_ok_exclusive());
 		gl.load_transpose_matrix(v);
-		BOOST_CHECK( fake_glLoadTransposeMatrixf.all_ok_exclusive());
+		BOOST_CHECK( mock_glLoadTransposeMatrixf.all_ok_exclusive());
 	}
 #ifdef GL_EXT_direct_state_access
 	{
 		old_matrix_mode m = GL.projection;
-		fake_glMatrixLoadTransposefEXT.reset_params(GLenum(m), v);
-		BOOST_CHECK(!fake_glMatrixLoadTransposefEXT.all_ok_exclusive());
+		mock_glMatrixLoadTransposefEXT.reset_params(GLenum(m), v);
+		BOOST_CHECK(!mock_glMatrixLoadTransposefEXT.all_ok_exclusive());
 		gl.load_transpose_matrix(m, v);
-		BOOST_CHECK( fake_glMatrixLoadTransposefEXT.all_ok_exclusive());
+		BOOST_CHECK( mock_glMatrixLoadTransposefEXT.all_ok_exclusive());
 	}
 #endif
 
-	BOOST_CHECK(fake_glLoadMatrixf.was_called());
-	BOOST_CHECK(fake_glLoadTransposeMatrixf.was_called());
+	BOOST_CHECK(mock_glLoadMatrixf.was_called());
+	BOOST_CHECK(mock_glLoadTransposeMatrixf.was_called());
 #ifdef GL_EXT_direct_state_access
-	BOOST_CHECK(fake_glMatrixLoadfEXT.was_called());
-	BOOST_CHECK(fake_glMatrixLoadTransposefEXT.was_called());
+	BOOST_CHECK(mock_glMatrixLoadfEXT.was_called());
+	BOOST_CHECK(mock_glMatrixLoadTransposefEXT.was_called());
 #endif
 }
 
@@ -299,42 +268,42 @@ BOOST_AUTO_TEST_CASE(compat_matrix_load_d)
 	}
 
 	{
-		fake_glLoadMatrixd.reset_params(v);
-		BOOST_CHECK(!fake_glLoadMatrixd.all_ok_exclusive());
+		mock_glLoadMatrixd.reset_params(v);
+		BOOST_CHECK(!mock_glLoadMatrixd.all_ok_exclusive());
 		gl.load_matrix(v);
-		BOOST_CHECK( fake_glLoadMatrixd.all_ok_exclusive());
+		BOOST_CHECK( mock_glLoadMatrixd.all_ok_exclusive());
 	}
 #ifdef GL_EXT_direct_state_access
 	{
 		old_matrix_mode m = GL.projection;
-		fake_glMatrixLoaddEXT.reset_params(GLenum(m), v);
-		BOOST_CHECK(!fake_glMatrixLoaddEXT.all_ok_exclusive());
+		mock_glMatrixLoaddEXT.reset_params(GLenum(m), v);
+		BOOST_CHECK(!mock_glMatrixLoaddEXT.all_ok_exclusive());
 		gl.load_matrix(m, v);
-		BOOST_CHECK( fake_glMatrixLoaddEXT.all_ok_exclusive());
+		BOOST_CHECK( mock_glMatrixLoaddEXT.all_ok_exclusive());
 	}
 #endif
 
 	{
-		fake_glLoadTransposeMatrixd.reset_params(v);
-		BOOST_CHECK(!fake_glLoadTransposeMatrixd.all_ok_exclusive());
+		mock_glLoadTransposeMatrixd.reset_params(v);
+		BOOST_CHECK(!mock_glLoadTransposeMatrixd.all_ok_exclusive());
 		gl.load_transpose_matrix(v);
-		BOOST_CHECK( fake_glLoadTransposeMatrixd.all_ok_exclusive());
+		BOOST_CHECK( mock_glLoadTransposeMatrixd.all_ok_exclusive());
 	}
 #ifdef GL_EXT_direct_state_access
 	{
 		old_matrix_mode m = GL.projection;
-		fake_glMatrixLoadTransposedEXT.reset_params(GLenum(m), v);
-		BOOST_CHECK(!fake_glMatrixLoadTransposedEXT.all_ok_exclusive());
+		mock_glMatrixLoadTransposedEXT.reset_params(GLenum(m), v);
+		BOOST_CHECK(!mock_glMatrixLoadTransposedEXT.all_ok_exclusive());
 		gl.load_transpose_matrix(m, v);
-		BOOST_CHECK( fake_glMatrixLoadTransposedEXT.all_ok_exclusive());
+		BOOST_CHECK( mock_glMatrixLoadTransposedEXT.all_ok_exclusive());
 	}
 #endif
 
-	BOOST_CHECK(fake_glLoadMatrixd.was_called());
-	BOOST_CHECK(fake_glLoadTransposeMatrixd.was_called());
+	BOOST_CHECK(mock_glLoadMatrixd.was_called());
+	BOOST_CHECK(mock_glLoadTransposeMatrixd.was_called());
 #ifdef GL_EXT_direct_state_access
-	BOOST_CHECK(fake_glMatrixLoaddEXT.was_called());
-	BOOST_CHECK(fake_glMatrixLoadTransposedEXT.was_called());
+	BOOST_CHECK(mock_glMatrixLoaddEXT.was_called());
+	BOOST_CHECK(mock_glMatrixLoadTransposedEXT.was_called());
 #endif
 }
 
@@ -350,24 +319,24 @@ BOOST_AUTO_TEST_CASE(compat_matrix_translate_f)
 	GLfloat z = get<GLfloat>();
 
 	{
-		fake_glTranslatef.reset_params(x, y, z);
-		BOOST_CHECK(!fake_glTranslatef.all_ok_exclusive());
+		mock_glTranslatef.reset_params(x, y, z);
+		BOOST_CHECK(!mock_glTranslatef.all_ok_exclusive());
 		gl.translate_f(x, y, z);
-		BOOST_CHECK( fake_glTranslatef.all_ok_exclusive());
+		BOOST_CHECK( mock_glTranslatef.all_ok_exclusive());
 	}
 #ifdef GL_EXT_direct_state_access
 	{
 		old_matrix_mode m = GL.projection;
-		fake_glMatrixTranslatefEXT.reset_params(GLenum(m), x, y, z);
-		BOOST_CHECK(!fake_glMatrixTranslatefEXT.all_ok_exclusive());
+		mock_glMatrixTranslatefEXT.reset_params(GLenum(m), x, y, z);
+		BOOST_CHECK(!mock_glMatrixTranslatefEXT.all_ok_exclusive());
 		gl.translate_f(m, x, y, z);
-		BOOST_CHECK( fake_glMatrixTranslatefEXT.all_ok_exclusive());
+		BOOST_CHECK( mock_glMatrixTranslatefEXT.all_ok_exclusive());
 	}
 #endif
 
-	BOOST_CHECK(fake_glTranslatef.was_called());
+	BOOST_CHECK(mock_glTranslatef.was_called());
 #ifdef GL_EXT_direct_state_access
-	BOOST_CHECK(fake_glMatrixTranslatefEXT.was_called());
+	BOOST_CHECK(mock_glMatrixTranslatefEXT.was_called());
 #endif
 }
 
@@ -383,24 +352,24 @@ BOOST_AUTO_TEST_CASE(compat_matrix_translate_d)
 	GLdouble z = get<GLdouble>();
 
 	{
-		fake_glTranslated.reset_params(x, y, z);
-		BOOST_CHECK(!fake_glTranslated.all_ok_exclusive());
+		mock_glTranslated.reset_params(x, y, z);
+		BOOST_CHECK(!mock_glTranslated.all_ok_exclusive());
 		gl.translate_d(x, y, z);
-		BOOST_CHECK( fake_glTranslated.all_ok_exclusive());
+		BOOST_CHECK( mock_glTranslated.all_ok_exclusive());
 	}
 #ifdef GL_EXT_direct_state_access
 	{
 		old_matrix_mode m = GL.projection;
-		fake_glMatrixTranslatedEXT.reset_params(GLenum(m), x, y, z);
-		BOOST_CHECK(!fake_glMatrixTranslatedEXT.all_ok_exclusive());
+		mock_glMatrixTranslatedEXT.reset_params(GLenum(m), x, y, z);
+		BOOST_CHECK(!mock_glMatrixTranslatedEXT.all_ok_exclusive());
 		gl.translate_d(m, x, y, z);
-		BOOST_CHECK( fake_glMatrixTranslatedEXT.all_ok_exclusive());
+		BOOST_CHECK( mock_glMatrixTranslatedEXT.all_ok_exclusive());
 	}
 #endif
 
-	BOOST_CHECK(fake_glTranslated.was_called());
+	BOOST_CHECK(mock_glTranslated.was_called());
 #ifdef GL_EXT_direct_state_access
-	BOOST_CHECK(fake_glMatrixTranslatedEXT.was_called());
+	BOOST_CHECK(mock_glMatrixTranslatedEXT.was_called());
 #endif
 }
 
@@ -417,24 +386,24 @@ BOOST_AUTO_TEST_CASE(compat_matrix_rotate_f)
 	GLfloat z = get<GLfloat>();
 
 	{
-		fake_glRotatef.reset_params(a, x, y, z);
-		BOOST_CHECK(!fake_glRotatef.all_ok_exclusive());
+		mock_glRotatef.reset_params(a, x, y, z);
+		BOOST_CHECK(!mock_glRotatef.all_ok_exclusive());
 		gl.rotate_f(degrees(a), x, y, z);
-		BOOST_CHECK( fake_glRotatef.all_ok_exclusive());
+		BOOST_CHECK( mock_glRotatef.all_ok_exclusive());
 	}
 #ifdef GL_EXT_direct_state_access
 	{
 		old_matrix_mode m = GL.projection;
-		fake_glMatrixRotatefEXT.reset_params(GLenum(m), a, x, y, z);
-		BOOST_CHECK(!fake_glMatrixRotatefEXT.all_ok_exclusive());
+		mock_glMatrixRotatefEXT.reset_params(GLenum(m), a, x, y, z);
+		BOOST_CHECK(!mock_glMatrixRotatefEXT.all_ok_exclusive());
 		gl.rotate_f(m, degrees(a), x, y, z);
-		BOOST_CHECK( fake_glMatrixRotatefEXT.all_ok_exclusive());
+		BOOST_CHECK( mock_glMatrixRotatefEXT.all_ok_exclusive());
 	}
 #endif
 
-	BOOST_CHECK(fake_glRotatef.was_called());
+	BOOST_CHECK(mock_glRotatef.was_called());
 #ifdef GL_EXT_direct_state_access
-	BOOST_CHECK(fake_glMatrixRotatefEXT.was_called());
+	BOOST_CHECK(mock_glMatrixRotatefEXT.was_called());
 #endif
 }
 
@@ -451,24 +420,24 @@ BOOST_AUTO_TEST_CASE(compat_matrix_rotate_d)
 	GLdouble z = get<GLdouble>();
 
 	{
-		fake_glRotated.reset_params(a, x, y, z);
-		BOOST_CHECK(!fake_glRotated.all_ok_exclusive());
+		mock_glRotated.reset_params(a, x, y, z);
+		BOOST_CHECK(!mock_glRotated.all_ok_exclusive());
 		gl.rotate_d(degrees(a), x, y, z);
-		BOOST_CHECK( fake_glRotated.all_ok_exclusive());
+		BOOST_CHECK( mock_glRotated.all_ok_exclusive());
 	}
 #ifdef GL_EXT_direct_state_access
 	{
 		old_matrix_mode m = GL.projection;
-		fake_glMatrixRotatedEXT.reset_params(GLenum(m), a, x, y, z);
-		BOOST_CHECK(!fake_glMatrixRotatedEXT.all_ok_exclusive());
+		mock_glMatrixRotatedEXT.reset_params(GLenum(m), a, x, y, z);
+		BOOST_CHECK(!mock_glMatrixRotatedEXT.all_ok_exclusive());
 		gl.rotate_d(m, degrees(a), x, y, z);
-		BOOST_CHECK( fake_glMatrixRotatedEXT.all_ok_exclusive());
+		BOOST_CHECK( mock_glMatrixRotatedEXT.all_ok_exclusive());
 	}
 #endif
 
-	BOOST_CHECK(fake_glRotated.was_called());
+	BOOST_CHECK(mock_glRotated.was_called());
 #ifdef GL_EXT_direct_state_access
-	BOOST_CHECK(fake_glMatrixRotatedEXT.was_called());
+	BOOST_CHECK(mock_glMatrixRotatedEXT.was_called());
 #endif
 }
 
@@ -484,24 +453,24 @@ BOOST_AUTO_TEST_CASE(compat_matrix_scale_f)
 	GLfloat z = get<GLfloat>();
 
 	{
-		fake_glScalef.reset_params(x, y, z);
-		BOOST_CHECK(!fake_glScalef.all_ok_exclusive());
+		mock_glScalef.reset_params(x, y, z);
+		BOOST_CHECK(!mock_glScalef.all_ok_exclusive());
 		gl.scale_f(x, y, z);
-		BOOST_CHECK( fake_glScalef.all_ok_exclusive());
+		BOOST_CHECK( mock_glScalef.all_ok_exclusive());
 	}
 #ifdef GL_EXT_direct_state_access
 	{
 		old_matrix_mode m = GL.projection;
-		fake_glMatrixScalefEXT.reset_params(GLenum(m), x, y, z);
-		BOOST_CHECK(!fake_glMatrixScalefEXT.all_ok_exclusive());
+		mock_glMatrixScalefEXT.reset_params(GLenum(m), x, y, z);
+		BOOST_CHECK(!mock_glMatrixScalefEXT.all_ok_exclusive());
 		gl.scale_f(m, x, y, z);
-		BOOST_CHECK( fake_glMatrixScalefEXT.all_ok_exclusive());
+		BOOST_CHECK( mock_glMatrixScalefEXT.all_ok_exclusive());
 	}
 #endif
 
-	BOOST_CHECK(fake_glScalef.was_called());
+	BOOST_CHECK(mock_glScalef.was_called());
 #ifdef GL_EXT_direct_state_access
-	BOOST_CHECK(fake_glMatrixScalefEXT.was_called());
+	BOOST_CHECK(mock_glMatrixScalefEXT.was_called());
 #endif
 }
 
@@ -517,24 +486,24 @@ BOOST_AUTO_TEST_CASE(compat_matrix_scale_d)
 	GLdouble z = get<GLdouble>();
 
 	{
-		fake_glScaled.reset_params(x, y, z);
-		BOOST_CHECK(!fake_glScaled.all_ok_exclusive());
+		mock_glScaled.reset_params(x, y, z);
+		BOOST_CHECK(!mock_glScaled.all_ok_exclusive());
 		gl.scale_d(x, y, z);
-		BOOST_CHECK( fake_glScaled.all_ok_exclusive());
+		BOOST_CHECK( mock_glScaled.all_ok_exclusive());
 	}
 #ifdef GL_EXT_direct_state_access
 	{
 		old_matrix_mode m = GL.projection;
-		fake_glMatrixScaledEXT.reset_params(GLenum(m), x, y, z);
-		BOOST_CHECK(!fake_glMatrixScaledEXT.all_ok_exclusive());
+		mock_glMatrixScaledEXT.reset_params(GLenum(m), x, y, z);
+		BOOST_CHECK(!mock_glMatrixScaledEXT.all_ok_exclusive());
 		gl.scale_d(m, x, y, z);
-		BOOST_CHECK( fake_glMatrixScaledEXT.all_ok_exclusive());
+		BOOST_CHECK( mock_glMatrixScaledEXT.all_ok_exclusive());
 	}
 #endif
 
-	BOOST_CHECK(fake_glScaled.was_called());
+	BOOST_CHECK(mock_glScaled.was_called());
 #ifdef GL_EXT_direct_state_access
-	BOOST_CHECK(fake_glMatrixScaledEXT.was_called());
+	BOOST_CHECK(mock_glMatrixScaledEXT.was_called());
 #endif
 }
 
@@ -553,24 +522,24 @@ BOOST_AUTO_TEST_CASE(compat_matrix_ortho)
 	GLdouble f = get<GLdouble>();
 
 	{
-		fake_glOrtho.reset_params(l, r, b, t, n, f);
-		BOOST_CHECK(!fake_glOrtho.all_ok_exclusive());
+		mock_glOrtho.reset_params(l, r, b, t, n, f);
+		BOOST_CHECK(!mock_glOrtho.all_ok_exclusive());
 		gl.ortho(l, r, b, t, n, f);
-		BOOST_CHECK( fake_glOrtho.all_ok_exclusive());
+		BOOST_CHECK( mock_glOrtho.all_ok_exclusive());
 	}
 #ifdef GL_EXT_direct_state_access
 	{
 		old_matrix_mode m = GL.projection;
-		fake_glMatrixOrthoEXT.reset_params(GLenum(m), l, r, b, t, n, f);
-		BOOST_CHECK(!fake_glMatrixOrthoEXT.all_ok_exclusive());
+		mock_glMatrixOrthoEXT.reset_params(GLenum(m), l, r, b, t, n, f);
+		BOOST_CHECK(!mock_glMatrixOrthoEXT.all_ok_exclusive());
 		gl.ortho(m, l, r, b, t, n, f);
-		BOOST_CHECK( fake_glMatrixOrthoEXT.all_ok_exclusive());
+		BOOST_CHECK( mock_glMatrixOrthoEXT.all_ok_exclusive());
 	}
 #endif
 
-	BOOST_CHECK(fake_glOrtho.was_called());
+	BOOST_CHECK(mock_glOrtho.was_called());
 #ifdef GL_EXT_direct_state_access
-	BOOST_CHECK(fake_glMatrixOrthoEXT.was_called());
+	BOOST_CHECK(mock_glMatrixOrthoEXT.was_called());
 #endif
 }
 
@@ -589,24 +558,24 @@ BOOST_AUTO_TEST_CASE(compat_matrix_frustum)
 	GLdouble f = get<GLdouble>();
 
 	{
-		fake_glFrustum.reset_params(l, r, b, t, n, f);
-		BOOST_CHECK(!fake_glFrustum.all_ok_exclusive());
+		mock_glFrustum.reset_params(l, r, b, t, n, f);
+		BOOST_CHECK(!mock_glFrustum.all_ok_exclusive());
 		gl.frustum(l, r, b, t, n, f);
-		BOOST_CHECK( fake_glFrustum.all_ok_exclusive());
+		BOOST_CHECK( mock_glFrustum.all_ok_exclusive());
 	}
 #ifdef GL_EXT_direct_state_access
 	{
 		old_matrix_mode m = GL.projection;
-		fake_glMatrixFrustumEXT.reset_params(GLenum(m), l, r, b, t, n, f);
-		BOOST_CHECK(!fake_glMatrixFrustumEXT.all_ok_exclusive());
+		mock_glMatrixFrustumEXT.reset_params(GLenum(m), l, r, b, t, n, f);
+		BOOST_CHECK(!mock_glMatrixFrustumEXT.all_ok_exclusive());
 		gl.frustum(m, l, r, b, t, n, f);
-		BOOST_CHECK( fake_glMatrixFrustumEXT.all_ok_exclusive());
+		BOOST_CHECK( mock_glMatrixFrustumEXT.all_ok_exclusive());
 	}
 #endif
 
-	BOOST_CHECK(fake_glFrustum.was_called());
+	BOOST_CHECK(mock_glFrustum.was_called());
 #ifdef GL_EXT_direct_state_access
-	BOOST_CHECK(fake_glMatrixFrustumEXT.was_called());
+	BOOST_CHECK(mock_glMatrixFrustumEXT.was_called());
 #endif
 }
 
