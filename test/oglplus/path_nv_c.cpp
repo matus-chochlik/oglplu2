@@ -44,6 +44,16 @@ void oglplus_path_nv_test_ops1(void)
 	gl.path_stroke_width(pnv);
 	gl.path_miter_limit(pnv, 4.f);
 	gl.path_miter_limit(pnv);
+	gl.path_join_style(pnv, path_join_style_nv(GL_ROUND_NV));
+	gl.path_join_style(pnv);
+	gl.path_initial_end_cap(pnv, path_cap_style_nv(GL_ROUND_NV));
+	gl.path_initial_end_cap(pnv);
+	gl.path_terminal_end_cap(pnv, path_cap_style_nv(GL_ROUND_NV));
+	gl.path_terminal_end_cap(pnv);
+	gl.path_initial_dash_cap(pnv, path_cap_style_nv(GL_ROUND_NV));
+	gl.path_initial_dash_cap(pnv);
+	gl.path_terminal_dash_cap(pnv, path_cap_style_nv(GL_ROUND_NV));
+	gl.path_terminal_dash_cap(pnv);
 
 	pnv.commands(path_nv_spec<GLint>());
 	pnv.commands(path_nv_spec<GLfloat>());
@@ -67,6 +77,16 @@ void oglplus_path_nv_test_ops1(void)
 	pnv.stroke_width();
 	pnv.miter_limit(4.f);
 	pnv.miter_limit();
+	pnv.join_style(path_join_style_nv(GL_ROUND_NV));
+	pnv.join_style();
+	pnv.initial_end_cap(path_cap_style_nv(GL_ROUND_NV));
+	pnv.initial_end_cap();
+	pnv.terminal_end_cap(path_cap_style_nv(GL_ROUND_NV));
+	pnv.terminal_end_cap();
+	pnv.initial_dash_cap(path_cap_style_nv(GL_ROUND_NV));
+	pnv.initial_dash_cap();
+	pnv.terminal_dash_cap(path_cap_style_nv(GL_ROUND_NV));
+	pnv.terminal_dash_cap();
 }
 
 // TODO

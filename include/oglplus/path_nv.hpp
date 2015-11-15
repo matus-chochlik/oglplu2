@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_SAMPLER_1509260923_HPP
-#define OGLPLUS_SAMPLER_1509260923_HPP
+#ifndef OGLPLUS_PATH_NV_1509260923_HPP
+#define OGLPLUS_PATH_NV_1509260923_HPP
 
 #include "path_nv_name.hpp"
 #include "object/owner.hpp"
@@ -198,6 +198,56 @@ struct path_nv_ops
 	static
 	outcome<GLfloat>
 	path_miter_limit(path_nv_name)
+	noexcept;
+
+	static
+	outcome<void>
+	path_join_style(path_nv_name, path_join_style_nv value)
+	noexcept;
+
+	static
+	outcome<path_join_style_nv>
+	path_join_style(path_nv_name)
+	noexcept;
+
+	static
+	outcome<void>
+	path_initial_end_cap(path_nv_name, path_cap_style_nv value)
+	noexcept;
+
+	static
+	outcome<path_cap_style_nv>
+	path_initial_end_cap(path_nv_name)
+	noexcept;
+
+	static
+	outcome<void>
+	path_terminal_end_cap(path_nv_name, path_cap_style_nv value)
+	noexcept;
+
+	static
+	outcome<path_cap_style_nv>
+	path_terminal_end_cap(path_nv_name)
+	noexcept;
+
+	static
+	outcome<void>
+	path_initial_dash_cap(path_nv_name, path_cap_style_nv value)
+	noexcept;
+
+	static
+	outcome<path_cap_style_nv>
+	path_initial_dash_cap(path_nv_name)
+	noexcept;
+
+	static
+	outcome<void>
+	path_terminal_dash_cap(path_nv_name, path_cap_style_nv value)
+	noexcept;
+
+	static
+	outcome<path_cap_style_nv>
+	path_terminal_dash_cap(path_nv_name)
 	noexcept;
 };
 
@@ -396,6 +446,76 @@ public:
 	noexcept
 	{
 		return _ops::path_miter_limit(*this);
+	}
+
+	outcome<Derived&>
+	join_style(path_join_style_nv value)
+	noexcept
+	{
+		return {_ops::path_join_style(*this, value), _self()};
+	}
+
+	outcome<path_join_style_nv>
+	join_style(void)
+	noexcept
+	{
+		return _ops::path_join_style(*this);
+	}
+
+	outcome<Derived&>
+	initial_end_cap(path_cap_style_nv value)
+	noexcept
+	{
+		return {_ops::path_initial_end_cap(*this, value),_self()};
+	}
+
+	outcome<path_cap_style_nv>
+	initial_end_cap(void)
+	noexcept
+	{
+		return _ops::path_initial_end_cap(*this);
+	}
+
+	outcome<Derived&>
+	terminal_end_cap(path_cap_style_nv value)
+	noexcept
+	{
+		return {_ops::path_terminal_end_cap(*this, value),_self()};
+	}
+
+	outcome<path_cap_style_nv>
+	terminal_end_cap(void)
+	noexcept
+	{
+		return _ops::path_terminal_end_cap(*this);
+	}
+
+	outcome<Derived&>
+	initial_dash_cap(path_cap_style_nv value)
+	noexcept
+	{
+		return {_ops::path_initial_dash_cap(*this, value),_self()};
+	}
+
+	outcome<path_cap_style_nv>
+	initial_dash_cap(void)
+	noexcept
+	{
+		return _ops::path_initial_dash_cap(*this);
+	}
+
+	outcome<Derived&>
+	terminal_dash_cap(path_cap_style_nv value)
+	noexcept
+	{
+		return {_ops::path_terminal_dash_cap(*this, value),_self()};
+	}
+
+	outcome<path_cap_style_nv>
+	terminal_dash_cap(void)
+	noexcept
+	{
+		return _ops::path_terminal_dash_cap(*this);
 	}
 };
 

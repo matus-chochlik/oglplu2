@@ -44,7 +44,7 @@ struct rgba_value
 	GLfloat alpha(void) const
 	noexcept
 	{
-		return _v[2];
+		return _v[3];
 	}
 };
 

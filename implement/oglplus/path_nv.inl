@@ -506,6 +506,81 @@ noexcept
 	);
 }
 //------------------------------------------------------------------------------
+inline
+outcome<void>
+path_nv_ops::
+path_join_style(path_nv_name path, path_join_style_nv value)
+noexcept
+{
+	return path_parameter_i(
+		path,
+		path_parameter_nv(GL_PATH_JOIN_STYLE_NV),
+		GLint(GLenum(value))
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<path_join_style_nv>
+path_nv_ops::
+path_join_style(path_nv_name path)
+noexcept
+{
+	return return_path_parameter_i<path_join_style_nv, GLenum>(
+		path,
+		path_parameter_nv(GL_PATH_JOIN_STYLE_NV)
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+path_nv_ops::
+path_initial_dash_cap(path_nv_name path, path_cap_style_nv value)
+noexcept
+{
+	return path_parameter_i(
+		path,
+		path_parameter_nv(GL_PATH_INITIAL_DASH_CAP_NV),
+		GLint(GLenum(value))
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<path_cap_style_nv>
+path_nv_ops::
+path_initial_dash_cap(path_nv_name path)
+noexcept
+{
+	return return_path_parameter_i<path_cap_style_nv, GLenum>(
+		path,
+		path_parameter_nv(GL_PATH_INITIAL_DASH_CAP_NV)
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+path_nv_ops::
+path_terminal_dash_cap(path_nv_name path, path_cap_style_nv value)
+noexcept
+{
+	return path_parameter_i(
+		path,
+		path_parameter_nv(GL_PATH_TERMINAL_DASH_CAP_NV),
+		GLint(GLenum(value))
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<path_cap_style_nv>
+path_nv_ops::
+path_terminal_dash_cap(path_nv_name path)
+noexcept
+{
+	return return_path_parameter_i<path_cap_style_nv, GLenum>(
+		path,
+		path_parameter_nv(GL_PATH_TERMINAL_DASH_CAP_NV)
+	);
+}
+//------------------------------------------------------------------------------
 } // namespace oper
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_gen

@@ -70,6 +70,12 @@ public:
 	path_nv_spec(path_nv_spec&&) = default;
 	path_nv_spec& operator = (path_nv_spec&&) = default;
 
+	path_nv_spec(std::size_t cmd_cap, std::size_t coord_cap)
+	{
+		_commands.reserve(cmd_cap);
+		_coords.reserve(coord_cap);
+	}
+
 	path_nv_spec&
 	add(path_command_nv command, array_view<const T> coords)
 	{
