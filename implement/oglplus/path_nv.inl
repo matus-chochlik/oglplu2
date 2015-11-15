@@ -117,6 +117,132 @@ noexcept
 	return {};
 }
 //------------------------------------------------------------------------------
+inline
+outcome<void>
+path_nv_ops::
+path_string(
+	path_nv_name path,
+	path_format_nv format,
+	array_view<const char> path_str
+) noexcept
+{
+	OGLPLUS_GLFUNC(PathStringNV)(
+		get_raw_name(path),
+		GLenum(format),
+		GLsizei(path_str.size()),
+		static_cast<const void*>(path_str.data())
+	);
+	OGLPLUS_VERIFY(
+		PathStringNV,
+		gl_enum_value(format).
+		gl_object(path),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+path_nv_ops::
+path_svg_string(path_nv_name path, array_view<const char> str)
+noexcept
+{
+	return path_string(path, path_format_nv(GL_PATH_FORMAT_SVG_NV), str);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+path_nv_ops::
+path_ps_string(path_nv_name path, array_view<const char> str)
+noexcept
+{
+	return path_string(path, path_format_nv(GL_PATH_FORMAT_PS_NV), str);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<boolean>
+path_nv_ops::
+is_point_in_fill_path(path_nv_name path, GLuint mask, GLfloat x, GLfloat y)
+noexcept
+{
+	boolean result = OGLPLUS_GLFUNC(IsPointInFillPathNV)(
+		get_raw_name(path),
+		mask, x, y
+	);
+	OGLPLUS_VERIFY(
+		IsPointInFillPathNV,
+		gl_object(path),
+		debug
+	);
+	return {result};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<boolean>
+path_nv_ops::
+is_point_in_stroke_path(path_nv_name path, GLfloat x, GLfloat y)
+noexcept
+{
+	boolean result = OGLPLUS_GLFUNC(IsPointInStrokePathNV)(
+		get_raw_name(path),
+		x, y
+	);
+	OGLPLUS_VERIFY(
+		IsPointInStrokePathNV,
+		gl_object(path),
+		debug
+	);
+	return {result};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<GLfloat>
+path_nv_ops::
+get_path_length(path_nv_name path, GLsizei start_segment, GLsizei num_segments)
+noexcept
+{
+	GLfloat result = OGLPLUS_GLFUNC(GetPathLengthNV)(
+		get_raw_name(path),
+		start_segment,
+		num_segments
+	);
+	OGLPLUS_VERIFY(
+		GetPathLengthNV,
+		gl_object(path),
+		debug
+	);
+	return {result};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<boolean>
+path_nv_ops::
+point_along_path(
+	path_nv_name path,
+	GLsizei start_seg,
+	GLsizei num_segs,
+	GLfloat distance,
+	GLfloat& ref_x,
+	GLfloat& ref_y,
+	GLfloat& ref_tg_x,
+	GLfloat& ref_tg_y
+) noexcept
+{
+	boolean result = OGLPLUS_GLFUNC(PointAlongPathNV)(
+		get_raw_name(path),
+		start_seg, num_segs,
+		distance,
+		&ref_x, &ref_y,
+		&ref_tg_x, &ref_tg_y
+	);
+	OGLPLUS_VERIFY(
+		PointAlongPathNV,
+		gl_object(path),
+		debug
+	);
+	return {result};
+}
+//------------------------------------------------------------------------------
 } // namespace oper
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_gen

@@ -64,6 +64,52 @@ struct path_nv_ops
 	outcome<void>
 	path_coords(path_nv_name path, array_view<const T> coords)
 	noexcept;
+
+	static
+	outcome<void>
+	path_string(
+		path_nv_name,
+		path_format_nv format,
+		array_view<const char> path_str
+	) noexcept;
+
+	static
+	outcome<void>
+	path_svg_string(path_nv_name, array_view<const char> path_str)
+	noexcept;
+
+	static
+	outcome<void>
+	path_ps_string(path_nv_name, array_view<const char> path_str)
+	noexcept;
+
+	static
+	outcome<boolean>
+	is_point_in_fill_path(path_nv_name, GLuint mask, GLfloat x, GLfloat y)
+	noexcept;
+
+	static
+	outcome<boolean>
+	is_point_in_stroke_path(path_nv_name, GLfloat x, GLfloat y)
+	noexcept;
+
+	static
+	outcome<GLfloat>
+	get_path_length(path_nv_name, GLsizei start_seg, GLsizei num_segs)
+	noexcept;
+
+	static
+	outcome<boolean>
+	point_along_path(
+		path_nv_name,
+		GLsizei start_seg,
+		GLsizei num_segs,
+		GLfloat distance,
+		GLfloat& ref_x,
+		GLfloat& ref_y,
+		GLfloat& ref_tg_x,
+		GLfloat& ref_tg_y
+	) noexcept;
 };
 
 } // namespace oper
@@ -136,6 +182,68 @@ public:
 	noexcept
 	{
 		return {_ops::path_coords(*this, crds), _self()};
+	}
+
+	outcome<Derived&>
+	string(path_format_nv format, array_view<const char> path_str)
+	noexcept
+	{
+		return {_ops::path_string(*this, format, path_str), _self()};
+	}
+
+	outcome<Derived&>
+	svg_string(array_view<const char> path_str)
+	noexcept
+	{
+		return {_ops::path_svg_string(*this, path_str), _self()};
+	}
+
+	outcome<Derived&>
+	ps_string(array_view<const char> path_str)
+	noexcept
+	{
+		return {_ops::path_ps_string(*this, path_str), _self()};
+	}
+
+	outcome<boolean>
+	is_point_in_fill(GLuint mask, GLfloat x, GLfloat y)
+	noexcept
+	{
+		return _ops::is_point_in_fill_path(*this, mask, x, y);
+	}
+
+	outcome<boolean>
+	is_point_in_stroke(GLfloat x, GLfloat y)
+	noexcept
+	{
+		return _ops::is_point_in_stroke_path(*this, x, y);
+	}
+
+	outcome<GLfloat>
+	get_length(GLsizei start_seg, GLsizei num_segs)
+	noexcept
+	{
+		return _ops::get_path_length(*this, start_seg, num_segs);
+	}
+
+	outcome<boolean>
+	point_along(
+		GLsizei start_seg,
+		GLsizei num_segs,
+		GLfloat distance,
+		GLfloat& ref_x,
+		GLfloat& ref_y,
+		GLfloat& ref_tg_x,
+		GLfloat& ref_tg_y
+	) noexcept
+	{
+		return _ops::point_along_path(
+			*this,
+			start_seg, num_segs,
+			distance,
+			ref_x, ref_y,
+			ref_tg_x, ref_tg_y
+		);
 	}
 };
 
