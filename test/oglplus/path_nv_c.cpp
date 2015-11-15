@@ -35,6 +35,15 @@ void oglplus_path_nv_test_ops1(void)
 	gl.is_point_in_stroke_path(pnv, 0.0f, 0.0f);
 	gl.get_path_length(pnv, 0, 0);
 	gl.point_along_path(pnv, 0, 0, 0, f, f, f, f);
+	gl.stencil_fill_path(pnv, path_fill_mode_nv(GL_COUNT_UP_NV), 0);
+	gl.cover_fill_path(pnv, path_fill_cover_mode_nv(GL_CONVEX_HULL_NV));
+	gl.stencil_stroke_path(pnv, 0, 0);
+	gl.cover_stroke_path(pnv, path_stroke_cover_mode_nv(GL_CONVEX_HULL_NV));
+	gl.path_computed_length(pnv);
+	gl.path_stroke_width(pnv, 1.f);
+	gl.path_stroke_width(pnv);
+	gl.path_miter_limit(pnv, 4.f);
+	gl.path_miter_limit(pnv);
 
 	pnv.commands(path_nv_spec<GLint>());
 	pnv.commands(path_nv_spec<GLfloat>());
@@ -49,6 +58,15 @@ void oglplus_path_nv_test_ops1(void)
 	pnv.is_point_in_stroke(0.0f, 0.0f);
 	pnv.get_length(0, 0);
 	pnv.point_along(0, 0, 0, f, f, f, f);
+	pnv.stencil_fill(path_fill_mode_nv(GL_COUNT_UP_NV), 0);
+	pnv.cover_fill(path_fill_cover_mode_nv(GL_CONVEX_HULL_NV));
+	pnv.cover_stroke(path_stroke_cover_mode_nv(GL_CONVEX_HULL_NV));
+	pnv.stencil_stroke(0, 0);
+	pnv.computed_length();
+	pnv.stroke_width(1.f);
+	pnv.stroke_width();
+	pnv.miter_limit(4.f);
+	pnv.miter_limit();
 }
 
 // TODO

@@ -110,6 +110,95 @@ struct path_nv_ops
 		GLfloat& ref_tg_x,
 		GLfloat& ref_tg_y
 	) noexcept;
+
+	static
+	outcome<void>
+	stencil_fill_path(path_nv_name, path_fill_mode_nv mode, GLuint mask)
+	noexcept;
+
+	static
+	outcome<void>
+	cover_fill_path(path_nv_name, path_fill_cover_mode_nv mode)
+	noexcept;
+
+	static
+	outcome<void>
+	stencil_stroke_path(path_nv_name, GLint reference, GLuint mask)
+	noexcept;
+
+	static
+	outcome<void>
+	cover_stroke_path(path_nv_name, path_stroke_cover_mode_nv mode)
+	noexcept;
+
+	static
+	outcome<void>
+	path_parameter_i(
+		path_nv_name path,
+		oglplus::path_parameter_nv param,
+		GLint value
+	) noexcept;
+
+	static
+	outcome<void>
+	path_parameter_f(
+		path_nv_name path,
+		oglplus::path_parameter_nv param,
+		GLfloat value
+	) noexcept;
+
+	static
+	outcome<void>
+	get_path_parameter_iv(
+		path_nv_name path,
+		oglplus::path_parameter_nv param,
+		array_view<GLint> values
+	) noexcept;
+
+	static
+	outcome<void>
+	get_path_parameter_fv(
+		path_nv_name path,
+		oglplus::path_parameter_nv param,
+		array_view<GLfloat> values
+	) noexcept;
+
+	template <typename R, typename T>
+	static
+	outcome<R>
+	return_path_parameter_i(path_nv_name, path_parameter_nv param)
+	noexcept;
+
+	template <typename R>
+	static
+	outcome<R>
+	return_path_parameter_f(path_nv_name, path_parameter_nv param)
+	noexcept;
+
+	static
+	outcome<GLfloat>
+	path_computed_length(path_nv_name)
+	noexcept;
+
+	static
+	outcome<void>
+	path_stroke_width(path_nv_name, GLfloat value)
+	noexcept;
+
+	static
+	outcome<GLfloat>
+	path_stroke_width(path_nv_name)
+	noexcept;
+
+	static
+	outcome<void>
+	path_miter_limit(path_nv_name, GLfloat value)
+	noexcept;
+
+	static
+	outcome<GLfloat>
+	path_miter_limit(path_nv_name)
+	noexcept;
 };
 
 } // namespace oper
@@ -244,6 +333,69 @@ public:
 			ref_x, ref_y,
 			ref_tg_x, ref_tg_y
 		);
+	}
+
+	outcome<Derived&>
+	stencil_fill(path_fill_mode_nv mode, GLuint mask)
+	noexcept
+	{
+		return {_ops::stencil_fill_path(*this, mode, mask), _self()};
+	}
+
+	outcome<Derived&>
+	cover_fill(path_fill_cover_mode_nv mode)
+	noexcept
+	{
+		return {_ops::cover_fill_path(*this, mode), _self()};
+	}
+
+	outcome<Derived&>
+	stencil_stroke(GLint ref, GLuint mask)
+	noexcept
+	{
+		return {_ops::stencil_stroke_path(*this, ref, mask), _self()};
+	}
+
+	outcome<Derived&>
+	cover_stroke(path_stroke_cover_mode_nv mode)
+	noexcept
+	{
+		return {_ops::cover_stroke_path(*this, mode), _self()};
+	}
+
+	outcome<GLfloat>
+	computed_length(void) const
+	noexcept
+	{
+		return _ops::path_computed_length(*this);
+	}
+
+	outcome<Derived&>
+	stroke_width(GLfloat value)
+	noexcept
+	{
+		return {_ops::path_stroke_width(*this, value), _self()};
+	}
+
+	outcome<GLfloat>
+	stroke_width(void) const
+	noexcept
+	{
+		return _ops::path_stroke_width(*this);
+	}
+
+	outcome<Derived&>
+	miter_limit(GLfloat value)
+	noexcept
+	{
+		return {_ops::path_miter_limit(*this, value), _self()};
+	}
+
+	outcome<GLfloat>
+	miter_limit(void) const
+	noexcept
+	{
+		return _ops::path_miter_limit(*this);
 	}
 };
 

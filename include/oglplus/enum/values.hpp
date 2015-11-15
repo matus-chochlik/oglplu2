@@ -4794,19 +4794,91 @@ static constexpr const enum_value<
 > patches = {};
 #endif
 
+#ifdef GL_PATH_CLIENT_LENGTH_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_PATH_CLIENT_LENGTH_NV,
+	mp_list<oglplus::path_parameter_nv>
+> path_client_length_nv = {};
+#endif
+
+#ifdef GL_PATH_COMMAND_COUNT_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_PATH_COMMAND_COUNT_NV,
+	mp_list<oglplus::path_parameter_nv>
+> path_command_count_nv = {};
+#endif
+
+#ifdef GL_PATH_COMPUTED_LENGTH_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_PATH_COMPUTED_LENGTH_NV,
+	mp_list<oglplus::path_parameter_nv>
+> path_computed_length_nv = {};
+#endif
+
+#ifdef GL_PATH_COORD_COUNT_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_PATH_COORD_COUNT_NV,
+	mp_list<oglplus::path_parameter_nv>
+> path_coord_count_nv = {};
+#endif
+
+#ifdef GL_PATH_DASH_ARRAY_COUNT_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_PATH_DASH_ARRAY_COUNT_NV,
+	mp_list<oglplus::path_parameter_nv>
+> path_dash_array_count_nv = {};
+#endif
+
+#ifdef GL_PATH_DASH_OFFSET_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_PATH_DASH_OFFSET_NV,
+	mp_list<oglplus::path_parameter_nv>
+> path_dash_offset_nv = {};
+#endif
+
+#ifdef GL_PATH_DASH_OFFSET_RESET_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_PATH_DASH_OFFSET_RESET_NV,
+	mp_list<oglplus::path_parameter_nv>
+> path_dash_offset_reset_nv = {};
+#endif
+
+#ifdef GL_PATH_FILL_BOUNDING_BOX_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_PATH_FILL_BOUNDING_BOX_NV,
+	mp_list<oglplus::path_parameter_nv>
+> path_fill_bounding_box_nv = {};
+#endif
+
 #ifdef GL_PATH_FILL_COVER_MODE_NV
 static constexpr const enum_value<
 	GLenum,
 	GL_PATH_FILL_COVER_MODE_NV,
-	mp_list<oglplus::path_fill_cover_mode_nv>
+	mp_list<oglplus::path_fill_cover_mode_nv,oglplus::path_parameter_nv>
 > path_fill_cover_mode_nv = {};
+#endif
+
+#ifdef GL_PATH_FILL_MASK_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_PATH_FILL_MASK_NV,
+	mp_list<oglplus::path_parameter_nv>
+> path_fill_mask_nv = {};
 #endif
 
 #ifdef GL_PATH_FILL_MODE_NV
 static constexpr const enum_value<
 	GLenum,
 	GL_PATH_FILL_MODE_NV,
-	mp_list<oglplus::path_fill_mode_nv>
+	mp_list<oglplus::path_fill_mode_nv,oglplus::path_parameter_nv>
 > path_fill_mode_nv = {};
 #endif
 
@@ -4826,20 +4898,100 @@ static constexpr const enum_value<
 > path_format_svg_nv = {};
 #endif
 
+#ifdef GL_PATH_INITIAL_DASH_CAP_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_PATH_INITIAL_DASH_CAP_NV,
+	mp_list<oglplus::path_parameter_nv>
+> path_initial_dash_cap_nv = {};
+#endif
+
+#ifdef GL_PATH_INITIAL_END_CAP_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_PATH_INITIAL_END_CAP_NV,
+	mp_list<oglplus::path_parameter_nv>
+> path_initial_end_cap_nv = {};
+#endif
+
+#ifdef GL_PATH_JOIN_STYLE_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_PATH_JOIN_STYLE_NV,
+	mp_list<oglplus::path_parameter_nv>
+> path_join_style_nv = {};
+#endif
+
+#ifdef GL_PATH_MITER_LIMIT_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_PATH_MITER_LIMIT_NV,
+	mp_list<oglplus::path_parameter_nv>
+> path_miter_limit_nv = {};
+#endif
+
 #ifdef GL_PATH_OBJECT_BOUNDING_BOX_NV
 static constexpr const enum_value<
 	GLenum,
 	GL_PATH_OBJECT_BOUNDING_BOX_NV,
-	mp_list<oglplus::path_gen_mode_nv>
+	mp_list<oglplus::path_parameter_nv,oglplus::path_gen_mode_nv>
 > path_object_bounding_box_nv = {};
+#endif
+
+#ifdef GL_PATH_STROKE_BOUND_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_PATH_STROKE_BOUND_NV,
+	mp_list<oglplus::path_parameter_nv>
+> path_stroke_bound_nv = {};
+#endif
+
+#ifdef GL_PATH_STROKE_BOUNDING_BOX_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_PATH_STROKE_BOUNDING_BOX_NV,
+	mp_list<oglplus::path_parameter_nv>
+> path_stroke_bounding_box_nv = {};
 #endif
 
 #ifdef GL_PATH_STROKE_COVER_MODE_NV
 static constexpr const enum_value<
 	GLenum,
 	GL_PATH_STROKE_COVER_MODE_NV,
-	mp_list<oglplus::path_stroke_cover_mode_nv>
+	mp_list<oglplus::path_stroke_cover_mode_nv,oglplus::path_parameter_nv>
 > path_stroke_cover_mode_nv = {};
+#endif
+
+#ifdef GL_PATH_STROKE_MASK_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_PATH_STROKE_MASK_NV,
+	mp_list<oglplus::path_parameter_nv>
+> path_stroke_mask_nv = {};
+#endif
+
+#ifdef GL_PATH_STROKE_WIDTH_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_PATH_STROKE_WIDTH_NV,
+	mp_list<oglplus::path_parameter_nv>
+> path_stroke_width_nv = {};
+#endif
+
+#ifdef GL_PATH_TERMINAL_DASH_CAP_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_PATH_TERMINAL_DASH_CAP_NV,
+	mp_list<oglplus::path_parameter_nv>
+> path_terminal_dash_cap_nv = {};
+#endif
+
+#ifdef GL_PATH_TERMINAL_END_CAP_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_PATH_TERMINAL_END_CAP_NV,
+	mp_list<oglplus::path_parameter_nv>
+> path_terminal_end_cap_nv = {};
 #endif
 
 #ifdef GL_PIXEL_BUFFER_BARRIER_BIT

@@ -243,6 +243,269 @@ point_along_path(
 	return {result};
 }
 //------------------------------------------------------------------------------
+inline
+outcome<void>
+path_nv_ops::
+stencil_fill_path(path_nv_name path, path_fill_mode_nv mode, GLuint mask)
+noexcept
+{
+	OGLPLUS_GLFUNC(StencilFillPathNV)(
+		get_raw_name(path),
+		GLenum(mode),
+		mask
+	);
+	OGLPLUS_VERIFY(
+		StencilFillPathNV,
+		gl_enum_value(mode).
+		gl_object(path),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+path_nv_ops::
+cover_fill_path(path_nv_name path, path_fill_cover_mode_nv mode)
+noexcept
+{
+	OGLPLUS_GLFUNC(CoverFillPathNV)(
+		get_raw_name(path),
+		GLenum(mode)
+	);
+	OGLPLUS_VERIFY(
+		CoverFillPathNV,
+		gl_enum_value(mode).
+		gl_object(path),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+path_nv_ops::
+stencil_stroke_path(path_nv_name path, GLint reference, GLuint mask)
+noexcept
+{
+	OGLPLUS_GLFUNC(StencilStrokePathNV)(
+		get_raw_name(path),
+		reference,
+		mask
+	);
+	OGLPLUS_VERIFY(
+		StencilStrokePathNV,
+		gl_object(path),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+path_nv_ops::
+cover_stroke_path(path_nv_name path, path_stroke_cover_mode_nv mode)
+noexcept
+{
+	OGLPLUS_GLFUNC(CoverStrokePathNV)(
+		get_raw_name(path),
+		GLenum(mode)
+	);
+	OGLPLUS_VERIFY(
+		CoverStrokePathNV,
+		gl_enum_value(mode).
+		gl_object(path),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+path_nv_ops::
+path_parameter_i(
+	path_nv_name path,
+	oglplus::path_parameter_nv param,
+	GLint value
+) noexcept
+{
+	OGLPLUS_GLFUNC(PathParameteriNV)(
+		get_raw_name(path),
+		GLenum(param),
+		value
+	);
+	OGLPLUS_VERIFY(
+		PathParameteriNV,
+		gl_enum_value(param).
+		gl_object(path),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+path_nv_ops::
+path_parameter_f(
+	path_nv_name path,
+	oglplus::path_parameter_nv param,
+	GLfloat value
+) noexcept
+{
+	OGLPLUS_GLFUNC(PathParameterfNV)(
+		get_raw_name(path),
+		GLenum(param),
+		value
+	);
+	OGLPLUS_VERIFY(
+		PathParameterfNV,
+		gl_enum_value(param).
+		gl_object(path),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+path_nv_ops::
+get_path_parameter_iv(
+	path_nv_name path,
+	oglplus::path_parameter_nv param,
+	array_view<GLint> values
+) noexcept
+{
+	assert(values.size() > 0);
+	OGLPLUS_GLFUNC(GetPathParameterivNV)(
+		get_raw_name(path),
+		GLenum(param),
+		values.data()
+	);
+	OGLPLUS_VERIFY(
+		GetPathParameterivNV,
+		gl_enum_value(param).
+		gl_object(path),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+path_nv_ops::
+get_path_parameter_fv(
+	path_nv_name path,
+	oglplus::path_parameter_nv param,
+	array_view<GLfloat> values
+) noexcept
+{
+	assert(values.size() > 0);
+	OGLPLUS_GLFUNC(GetPathParameterfvNV)(
+		get_raw_name(path),
+		GLenum(param),
+		values.data()
+	);
+	OGLPLUS_VERIFY(
+		GetPathParameterfvNV,
+		gl_enum_value(param).
+		gl_object(path),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+template <typename R, typename T>
+inline
+outcome<R>
+path_nv_ops::
+return_path_parameter_i(path_nv_name path, path_parameter_nv parameter)
+noexcept
+{
+	GLint result;
+	return get_path_parameter_iv(
+		path,
+		parameter,
+		{&result, 1}
+	), R(T(result));
+}
+//------------------------------------------------------------------------------
+template <typename R>
+inline
+outcome<R>
+path_nv_ops::
+return_path_parameter_f(path_nv_name path, path_parameter_nv parameter)
+noexcept
+{
+	GLfloat result;
+	return get_path_parameter_fv(
+		path,
+		parameter,
+		{&result, 1}
+	), R(result);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<GLfloat>
+path_nv_ops::
+path_computed_length(path_nv_name path)
+noexcept
+{
+	return return_path_parameter_f<GLfloat>(
+		path,
+		path_parameter_nv(GL_PATH_COMPUTED_LENGTH_NV)
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+path_nv_ops::
+path_stroke_width(path_nv_name path, GLfloat value)
+noexcept
+{
+	return path_parameter_f(
+		path,
+		path_parameter_nv(GL_PATH_STROKE_WIDTH_NV),
+		value
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<GLfloat>
+path_nv_ops::
+path_stroke_width(path_nv_name path)
+noexcept
+{
+	return return_path_parameter_f<GLfloat>(
+		path,
+		path_parameter_nv(GL_PATH_STROKE_WIDTH_NV)
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+path_nv_ops::
+path_miter_limit(path_nv_name path, GLfloat value)
+noexcept
+{
+	return path_parameter_f(
+		path,
+		path_parameter_nv(GL_PATH_MITER_LIMIT_NV),
+		value
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<GLfloat>
+path_nv_ops::
+path_miter_limit(path_nv_name path)
+noexcept
+{
+	return return_path_parameter_f<GLfloat>(
+		path,
+		path_parameter_nv(GL_PATH_MITER_LIMIT_NV)
+	);
+}
+//------------------------------------------------------------------------------
 } // namespace oper
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_gen
