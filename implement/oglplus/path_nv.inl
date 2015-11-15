@@ -581,6 +581,76 @@ noexcept
 	);
 }
 //------------------------------------------------------------------------------
+inline
+outcome<void>
+path_nv_ops::
+path_dash_offset(path_nv_name path, GLfloat value)
+noexcept
+{
+	return path_parameter_f(
+		path,
+		path_parameter_nv(GL_PATH_DASH_OFFSET_NV),
+		value
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<GLfloat>
+path_nv_ops::
+path_dash_offset(path_nv_name path)
+noexcept
+{
+	return return_path_parameter_f<GLfloat>(
+		path,
+		path_parameter_nv(GL_PATH_DASH_OFFSET_NV)
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+path_nv_ops::
+path_dash_offset_reset(path_nv_name path, path_dash_offset_reset_nv value)
+noexcept
+{
+	return path_parameter_i(
+		path,
+		path_parameter_nv(GL_PATH_DASH_OFFSET_RESET_NV),
+		GLint(GLenum(value))
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<path_dash_offset_reset_nv>
+path_nv_ops::
+path_dash_offset_reset(path_nv_name path)
+noexcept
+{
+	return return_path_parameter_i<path_dash_offset_reset_nv, GLenum>(
+		path,
+		path_parameter_nv(GL_PATH_DASH_OFFSET_RESET_NV)
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+path_nv_ops::
+path_dash_array(path_nv_name path, array_view<const GLfloat> dashes)
+noexcept
+{
+	assert(dashes.size() > 0);
+	OGLPLUS_GLFUNC(PathDashArrayNV)(
+		get_raw_name(path),
+		GLsizei(dashes.size()),
+		dashes.data()
+	);
+	OGLPLUS_VERIFY(
+		PathDashArrayNV,
+		gl_object(path),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
 } // namespace oper
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_gen

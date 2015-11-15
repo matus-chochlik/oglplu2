@@ -57,6 +57,7 @@ void run_loop(int width, int height)
 
 	path.stroke_width(0.01f);
 	path.join_style(GL.round_nv);
+	path.dashes(0.05f, 0.02f);
 
 	gl.clear_color(vec4(0.6f, 0.7f, 0.6f, 0.0f));
 	gl.clear_stencil(0);

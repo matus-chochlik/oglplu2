@@ -249,6 +249,31 @@ struct path_nv_ops
 	outcome<path_cap_style_nv>
 	path_terminal_dash_cap(path_nv_name)
 	noexcept;
+
+	static
+	outcome<void>
+	path_dash_offset(path_nv_name, GLfloat value)
+	noexcept;
+
+	static
+	outcome<GLfloat>
+	path_dash_offset(path_nv_name)
+	noexcept;
+
+	static
+	outcome<void>
+	path_dash_offset_reset(path_nv_name, path_dash_offset_reset_nv value)
+	noexcept;
+
+	static
+	outcome<path_dash_offset_reset_nv>
+	path_dash_offset_reset(path_nv_name)
+	noexcept;
+
+	static
+	outcome<void>
+	path_dash_array(path_nv_name, array_view<const GLfloat> dashes)
+	noexcept;
 };
 
 } // namespace oper
@@ -516,6 +541,51 @@ public:
 	noexcept
 	{
 		return _ops::path_terminal_dash_cap(*this);
+	}
+
+	outcome<Derived&>
+	dash_offset(GLfloat value)
+	noexcept
+	{
+		return {_ops::path_dash_offset(*this, value), _self()};
+	}
+
+	outcome<GLfloat>
+	dash_offset(void) const
+	noexcept
+	{
+		return _ops::path_dash_offset(*this);
+	}
+
+	outcome<Derived&>
+	dash_offset_reset(path_dash_offset_reset_nv value)
+	noexcept
+	{
+		return {_ops::path_dash_offset_reset(*this, value), _self()};
+	}
+
+	outcome<path_dash_offset_reset_nv>
+	dash_offset_reset(void)
+	noexcept
+	{
+		return _ops::path_dash_offset_reset(*this);
+	}
+
+	outcome<Derived&>
+	dash_array(array_view<const GLfloat> dashes)
+	noexcept
+	{
+		return {_ops::path_dash_array(*this, dashes), _self()};
+	}
+
+	template <typename ... T>
+	outcome<Derived&>
+	dashes(T ... dashes)
+	noexcept
+	{
+		const std::size_t N = sizeof ... (T);
+		const GLfloat da[N] = {GLfloat(dashes)...};
+		return dash_array(da);
 	}
 };
 

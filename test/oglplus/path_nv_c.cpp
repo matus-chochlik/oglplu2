@@ -54,6 +54,11 @@ void oglplus_path_nv_test_ops1(void)
 	gl.path_initial_dash_cap(pnv);
 	gl.path_terminal_dash_cap(pnv, path_cap_style_nv(GL_ROUND_NV));
 	gl.path_terminal_dash_cap(pnv);
+	gl.path_dash_offset(pnv, 1.f);
+	gl.path_dash_offset(pnv);
+	gl.path_dash_offset_reset(pnv, path_dash_offset_reset_nv(GL_MOVE_TO_RESETS_NV));
+	gl.path_dash_offset_reset(pnv);
+	gl.path_dash_array(pnv, array_view<const GLfloat>());
 
 	pnv.commands(path_nv_spec<GLint>());
 	pnv.commands(path_nv_spec<GLfloat>());
@@ -87,6 +92,12 @@ void oglplus_path_nv_test_ops1(void)
 	pnv.initial_dash_cap();
 	pnv.terminal_dash_cap(path_cap_style_nv(GL_ROUND_NV));
 	pnv.terminal_dash_cap();
+	pnv.dash_offset(1.f);
+	pnv.dash_offset();
+	pnv.dash_offset_reset(path_dash_offset_reset_nv(GL_MOVE_TO_RESETS_NV));
+	pnv.dash_offset_reset();
+	pnv.dash_array(array_view<const GLfloat>());
+	pnv.dashes(1.0f, 2.0f, 3.0f);
 }
 
 // TODO
