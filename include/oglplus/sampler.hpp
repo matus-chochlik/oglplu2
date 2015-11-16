@@ -197,12 +197,12 @@ struct sampler_ops
 } // namespace oper
 
 template <>
-struct obj_dsa_ops<sampler_name>
- : obj_zero_dsa_ops<sampler_name>
+struct obj_dsa_ops<tag::sampler>
+ : obj_zero_dsa_ops<tag::sampler>
 {
 	typedef oper::sampler_ops _ops;
 
-	using obj_zero_dsa_ops<sampler_name>::obj_zero_dsa_ops;
+	using obj_zero_dsa_ops<tag::sampler>::obj_zero_dsa_ops;
 
 	outcome<obj_dsa_ops&>
 	min_filter(texture_min_filter value)
@@ -378,6 +378,8 @@ struct obj_gen_del_ops<tag::sampler>
 };
 
 using sampler = object_owner<tag::sampler>;
+template <std::size_t N>
+using sampler_array = object_array_owner<tag::sampler, N>;
 
 static const object_zero_and_ops<tag::sampler>
 	no_sampler = {};

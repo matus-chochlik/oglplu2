@@ -88,10 +88,12 @@ struct program_ops
 
 // obj_dsa_ops
 template <>
-struct obj_dsa_ops<program_name>
- : obj_zero_dsa_ops<program_name>
+struct obj_dsa_ops<tag::program>
+ : obj_zero_dsa_ops<tag::program>
 {
 	typedef oper::program_ops _ops;
+
+	using obj_zero_dsa_ops<tag::program>::obj_zero_dsa_ops;
 
 	outcome<obj_dsa_ops&>
 	attach(shader_name shdr)
@@ -163,6 +165,8 @@ struct obj_gen_del_ops<tag::program>
 };
 
 using program = object_owner<tag::program>;
+template <std::size_t N>
+using program_array = object_array_owner<tag::program, N>;
 
 static const object_zero_and_ops<tag::program>
 	no_program = {};

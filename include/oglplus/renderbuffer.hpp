@@ -307,17 +307,17 @@ struct object_binding<tag::renderbuffer>
 
 #ifdef OGLPLUS_DSA_RENDERBUFFER
 template <>
-struct obj_dsa_ops<renderbuffer_name>
+struct obj_dsa_ops<tag::renderbuffer>
  : obj_member_ops<
 	tag::renderbuffer,
-	obj_dsa_ops<renderbuffer_name>,
-	obj_zero_dsa_ops<renderbuffer_name>
+	obj_dsa_ops<tag::renderbuffer>,
+	obj_zero_dsa_ops<tag::renderbuffer>
 >
 {
 	using obj_member_ops<
 		tag::renderbuffer,
-		obj_dsa_ops<renderbuffer_name>,
-		obj_zero_dsa_ops<renderbuffer_name>
+		obj_dsa_ops<tag::renderbuffer>,
+		obj_zero_dsa_ops<tag::renderbuffer>
 	>::obj_member_ops;
 };
 #endif
@@ -342,6 +342,8 @@ struct obj_gen_del_ops<tag::renderbuffer>
 
 using renderbuffer = object_owner<tag::renderbuffer>;
 using bound_renderbuffer = object_binding<tag::renderbuffer>;
+template <std::size_t N>
+using renderbuffer_array = object_array_owner<tag::renderbuffer, N>;
 
 static const object_zero_and_ops<tag::renderbuffer>
 	no_renderbuffer = {};

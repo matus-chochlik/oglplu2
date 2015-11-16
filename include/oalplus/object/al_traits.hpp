@@ -19,14 +19,19 @@ struct al_obj_tag;
 
 } // namespace tag
 
-template <typename ObjName>
+template <typename ObjTag>
 struct obj_zero_dsa_ops;
 
-template <typename ObjName>
+template <typename ObjTag>
 struct obj_dsa_ops
- : ObjName
+ : object_name<ObjTag>
 {
-	using ObjName::ObjName;
+	obj_dsa_ops(void) = default;
+
+	obj_dsa_ops(object_name<ObjTag> name)
+	noexcept
+	 : object_name<ObjTag>(name)
+	{ }
 };
 
 } // namespace oalplus
@@ -41,11 +46,11 @@ struct object_traits<oalplus::tag::al_obj_tag<Tag>>
 
 	typedef oalplus::obj_gen_del_ops<tag> gen_del_ops;
 
-	template <typename ObjName>
-	using zero_dsa_ops_t = oalplus::obj_zero_dsa_ops<ObjName>;
+	template <typename ObjTag>
+	using zero_dsa_ops_t = oalplus::obj_zero_dsa_ops<ObjTag>;
 
-	template <typename ObjName>
-	using dsa_ops_t = oalplus::obj_dsa_ops<ObjName>;
+	template <typename ObjTag>
+	using dsa_ops_t = oalplus::obj_dsa_ops<ObjTag>;
 
 	static inline constexpr
 	ALuint invalid_name(void)

@@ -22,6 +22,7 @@ void oglplus_texture_test_ops1(void)
 
 	oper::texture_ops gl;
 	texture tex;
+	texture_array<4> texs;
 	texture_target tgt(GL_TEXTURE_2D);
 	texture_name_and_target tnt(tex,tgt);
 	bound_texture curtex(tgt);
@@ -35,6 +36,7 @@ void oglplus_texture_test_ops1(void)
 
 	gl.bind_texture(tgt, tex);
 	gl.texture_binding(tgt);
+	gl.bind_texture(tgt, texs[0]);
 
 	gl.texture_image_1d(tgt, 0, ifmt, 64, 0, fmt, typ, blk);
 	gl.texture_image_2d(tgt, 0, ifmt, 64, 64, 0, fmt, typ, blk);

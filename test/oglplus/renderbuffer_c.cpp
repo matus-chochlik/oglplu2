@@ -20,6 +20,7 @@ void oglplus_renderbuffer_test_ops1(void)
 {
 	oper::renderbuffer_ops gl;
 	renderbuffer rbo;
+	renderbuffer_array<4> rbos;
 	renderbuffer_target tgt(GL_RENDERBUFFER);
 	bound_renderbuffer currbo(tgt);
 	pixel_data_internal_format ifmt(GL_RGBA);

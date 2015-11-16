@@ -1059,30 +1059,30 @@ struct object_binding<tag::texture>
 
 template <>
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
-struct obj_dsa_ops<texture_name>
+struct obj_dsa_ops<tag::texture>
  : obj_member_ops<
 	tag::texture,
-	obj_dsa_ops<texture_name>,
-	obj_zero_dsa_ops<texture_name>
+	obj_dsa_ops<tag::texture>,
+	obj_zero_dsa_ops<tag::texture>
 >
 {
 	using obj_member_ops<
 		tag::texture,
-		obj_dsa_ops<texture_name>,
-		obj_zero_dsa_ops<texture_name>
+		obj_dsa_ops<tag::texture>,
+		obj_zero_dsa_ops<tag::texture>
 	>::obj_member_ops;
 };
 #elif defined(GL_EXT_direct_state_access)
-struct obj_zero_dsa_ops<texture_name>
+struct obj_zero_dsa_ops<tag::texture>
  : obj_member_ops<
 	tag::texture,
-	obj_zero_dsa_ops<texture_name>,
+	obj_zero_dsa_ops<tag::texture>,
 	object_zero_name<tag::texture>
 >
 {
 	using obj_member_ops<
 		tag::texture,
-		obj_zero_dsa_ops<texture_name>,
+		obj_zero_dsa_ops<tag::texture>,
 		object_zero_name<tag::texture>
 	>::obj_member_ops;
 };
@@ -1111,6 +1111,8 @@ struct obj_gen_del_ops<tag::texture>
 
 using texture = object_owner<tag::texture>;
 using bound_texture = object_binding<tag::texture>;
+template <std::size_t N>
+using texture_array = object_array_owner<tag::texture, N>;
 
 static const object_zero_and_ops<tag::texture>
 	default_texture = {};

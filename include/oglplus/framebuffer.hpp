@@ -329,17 +329,17 @@ struct object_binding<tag::framebuffer>
 
 #ifdef OGLPLUS_DSA_FRAMEBUFFER
 template <>
-struct obj_dsa_ops<framebuffer_name>
+struct obj_dsa_ops<tag::framebuffer>
  : obj_member_ops<
 	tag::framebuffer,
-	obj_dsa_ops<framebuffer_name>,
-	obj_zero_dsa_ops<framebuffer_name>
+	obj_dsa_ops<tag::framebuffer>,
+	obj_zero_dsa_ops<tag::framebuffer>
 >
 {
 	using obj_member_ops<
 		tag::framebuffer,
-		obj_dsa_ops<framebuffer_name>,
-		obj_zero_dsa_ops<framebuffer_name>
+		obj_dsa_ops<tag::framebuffer>,
+		obj_zero_dsa_ops<tag::framebuffer>
 	>::obj_member_ops;
 
 	typedef oper::framebuffer_ops _ops;
@@ -442,6 +442,8 @@ struct obj_gen_del_ops<tag::framebuffer>
 
 using framebuffer = object_owner<tag::framebuffer>;
 using bound_framebuffer = object_binding<tag::framebuffer>;
+template <std::size_t N>
+using framebuffer_array = object_array_owner<tag::framebuffer, N>;
 
 static const object_zero_and_ops<tag::framebuffer>
 	default_framebuffer = {};

@@ -22,6 +22,7 @@ void oglplus_buffer_test_ops1(void)
 
 	oper::buffer_ops gl;
 	buffer buf;
+	buffer_array<3> bufs;
 	buffer_target tgt(GL_ARRAY_BUFFER);
 	bound_buffer curbuf(tgt);
 	buffer_data_spec data;
@@ -29,6 +30,7 @@ void oglplus_buffer_test_ops1(void)
 
 	gl.bind_buffer(tgt, buf);
 	gl.buffer_binding(tgt);
+	gl.bind_buffer(tgt, bufs[0]);
 
 	gl.buffer_data(tgt, data, buffer_usage(GL_STATIC_DRAW));
 	gl.buffer_sub_data(tgt, size, data);

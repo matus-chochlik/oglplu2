@@ -20,10 +20,12 @@ void oglplus_program_test_ops1(void)
 {
 	oper::program_ops gl;
 	program prog;
+	program_array<4> progs;
 	shader shdr(shader_type(GL_VERTEX_SHADER));
 
 	gl.attach_shader(prog, shdr);
 	gl.detach_shader(prog, shdr);
+	gl.attach_shader(progs[0], shdr);
 	gl.link_program(prog);
 	gl.use_program(prog);
 	gl.current_program();

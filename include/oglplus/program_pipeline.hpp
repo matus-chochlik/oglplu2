@@ -63,8 +63,8 @@ struct program_pipeline_ops
 
 // obj_dsa_ops
 template <>
-struct obj_dsa_ops<program_pipeline_name>
- : obj_zero_dsa_ops<program_pipeline_name>
+struct obj_dsa_ops<tag::program_pipeline>
+ : obj_zero_dsa_ops<tag::program_pipeline>
 {
 	typedef oper::program_pipeline_ops _ops;
 
@@ -102,6 +102,8 @@ struct obj_gen_del_ops<tag::program_pipeline>
 };
 
 using program_pipeline = object_owner<tag::program_pipeline>;
+template <std::size_t N>
+using program_pipeline_array = object_array_owner<tag::program_pipeline, N>;
 
 static const object_zero_and_ops<tag::program_pipeline>
 	no_program_pipeline = {};

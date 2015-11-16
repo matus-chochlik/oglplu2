@@ -20,31 +20,27 @@ struct gl_obj_tag
 
 } // namespace tag
 
-template <typename ObjName>
-struct obj_zero_dsa_ops;
-
 template <typename ObjTag>
-struct obj_zero_dsa_ops<object_name<ObjTag>>
+struct obj_zero_dsa_ops
  : object_zero_name<ObjTag>
 {
 	obj_zero_dsa_ops(void) = default;
 
-protected:
 	obj_zero_dsa_ops(object_name<ObjTag> name)
 	noexcept
 	 : object_zero_name<ObjTag>(name)
 	{ }
 };
 
-template <typename ObjName>
+template <typename ObjTag>
 struct obj_dsa_ops
- : obj_zero_dsa_ops<ObjName>
+ : obj_zero_dsa_ops<ObjTag>
 {
 	obj_dsa_ops(void) = default;
 
-	obj_dsa_ops(ObjName name)
+	obj_dsa_ops(object_name<ObjTag> name)
 	noexcept
-	 : obj_zero_dsa_ops<ObjName>(name)
+	 : obj_zero_dsa_ops<ObjTag>(name)
 	{ }
 };
 
@@ -57,11 +53,11 @@ struct gl_object_traits
 
 	typedef obj_gen_del_ops<tag> gen_del_ops;
 
-	template <typename ObjName>
-	using zero_dsa_ops_t = obj_zero_dsa_ops<ObjName>;
+	template <typename ObjTag>
+	using zero_dsa_ops_t = obj_zero_dsa_ops<ObjTag>;
 
-	template <typename ObjName>
-	using dsa_ops_t = obj_dsa_ops<ObjName>;
+	template <typename ObjTag>
+	using dsa_ops_t = obj_dsa_ops<ObjTag>;
 
 	static inline constexpr
 	GLuint invalid_name(void)

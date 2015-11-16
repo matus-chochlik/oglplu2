@@ -73,6 +73,8 @@ struct obj_gen_del_ops<tag::transform_feedback>
 };
 
 using transform_feedback = object_owner<tag::transform_feedback>;
+template <std::size_t N>
+using transform_feedback_array = object_array_owner<tag::transform_feedback, N>;
 
 static const object_zero_and_ops<tag::transform_feedback>
 	default_transform_feedback = {};

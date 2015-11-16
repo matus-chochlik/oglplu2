@@ -590,17 +590,17 @@ public:
 };
 
 template <>
-struct obj_dsa_ops<path_nv_name>
+struct obj_dsa_ops<tag::path_nv>
  : obj_member_ops<
 	tag::path_nv,
-	obj_dsa_ops<path_nv_name>,
-	obj_zero_dsa_ops<path_nv_name>
+	obj_dsa_ops<tag::path_nv>,
+	obj_zero_dsa_ops<tag::path_nv>
 >
 {
 	using obj_member_ops<
 		tag::path_nv,
-		obj_dsa_ops<path_nv_name>,
-		obj_zero_dsa_ops<path_nv_name>
+		obj_dsa_ops<tag::path_nv>,
+		obj_zero_dsa_ops<tag::path_nv>
 	>::obj_member_ops;
 };
 
@@ -623,6 +623,8 @@ struct obj_gen_del_ops<tag::path_nv>
 };
 
 using path_nv = object_owner<tag::path_nv>;
+template <std::size_t N>
+using path_nv_array = object_array_owner<tag::path_nv, N>;
 
 static const object_zero_and_ops<tag::path_nv>
 	no_path_nv = {};

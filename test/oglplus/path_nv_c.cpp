@@ -20,10 +20,13 @@ void oglplus_path_nv_test_ops1(void)
 {
 	oper::path_nv_ops gl;
 	path_nv pnv;
+	path_nv_array<4> pnvs;
 	GLfloat f;
 
 	gl.path_commands(pnv, path_nv_spec<GLint>());
 	gl.path_commands(pnv, path_nv_spec<GLfloat>());
+	gl.path_commands(pnvs[0], path_nv_spec<GLint>());
+	gl.path_commands(pnvs[0], path_nv_spec<GLfloat>());
 	gl.path_sub_commands(pnv, 0, 0, path_nv_spec<GLint>());
 	gl.path_sub_commands(pnv, 0, 0, path_nv_spec<GLfloat>());
 	gl.path_coords(pnv, array_view<const GLint>());

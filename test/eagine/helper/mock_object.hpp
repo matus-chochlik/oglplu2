@@ -98,11 +98,11 @@ struct object_traits<tag::mock_object>
 
 	typedef mock_obj_gen_del_ops gen_del_ops;
 
-	template <typename ObjName>
-	using dsa_zero_ops_t = ObjName;
+	template <typename ObjTag>
+	using dsa_zero_ops_t = object_name<ObjTag>;
 
-	template <typename ObjName>
-	using dsa_ops_t = ObjName;
+	template <typename ObjTag>
+	using dsa_ops_t = object_name<ObjTag>;
 
 	static constexpr inline
 	unsigned invalid_name(void)

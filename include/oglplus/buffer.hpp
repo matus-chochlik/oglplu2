@@ -304,17 +304,17 @@ struct object_binding<tag::buffer>
 
 #if defined(OGLPLUS_DSA_BUFFER)
 template <>
-struct obj_dsa_ops<buffer_name>
+struct obj_dsa_ops<tag::buffer>
  : obj_member_ops<
 	tag::buffer,
-	obj_dsa_ops<buffer_name>,
-	obj_zero_dsa_ops<buffer_name>
+	obj_dsa_ops<tag::buffer>,
+	obj_zero_dsa_ops<tag::buffer>
 >
 {
 	using obj_member_ops<
 		tag::buffer,
-		obj_dsa_ops<buffer_name>,
-		obj_zero_dsa_ops<buffer_name>
+		obj_dsa_ops<tag::buffer>,
+		obj_zero_dsa_ops<tag::buffer>
 	>::obj_member_ops;
 };
 #endif
@@ -339,6 +339,8 @@ struct obj_gen_del_ops<tag::buffer>
 
 using buffer = object_owner<tag::buffer>;
 using bound_buffer = object_binding<tag::buffer>;
+template <std::size_t N>
+using buffer_array = object_array_owner<tag::buffer, N>;
 
 static const object_zero_and_ops<tag::buffer>
 	no_buffer = {};

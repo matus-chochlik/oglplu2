@@ -20,11 +20,13 @@ void oglplus_sampler_test_ops1(void)
 {
 	oper::sampler_ops gl;
 	sampler sam;
+	sampler_array<4> sams;
 
 	texture_wrap_coord wrap_s(GL_TEXTURE_WRAP_S);
 
 	gl.sampler_min_filter(sam, texture_min_filter(GL_LINEAR));
 	gl.sampler_min_filter(sam);
+	gl.sampler_min_filter(sams[0], texture_min_filter(GL_LINEAR));
 	gl.sampler_mag_filter(sam, texture_mag_filter(GL_LINEAR));
 	gl.sampler_mag_filter(sam);
 	gl.sampler_compare_mode(sam, texture_compare_mode(GL_NONE));

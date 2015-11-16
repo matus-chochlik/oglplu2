@@ -90,10 +90,12 @@ struct shader_ops
 
 // obj_dsa_ops
 template <>
-struct obj_dsa_ops<shader_name>
- : obj_zero_dsa_ops<shader_name>
+struct obj_dsa_ops<tag::shader>
+ : obj_zero_dsa_ops<tag::shader>
 {
 	typedef oper::shader_ops _ops;
+
+	using obj_zero_dsa_ops<tag::shader>::obj_zero_dsa_ops;
 
 	outcome<shader_type>
 	type(void) const
@@ -165,6 +167,8 @@ struct obj_gen_del_ops<tag::shader>
 };
 
 using shader = object_owner<tag::shader>;
+template <std::size_t N>
+using shader_array = object_array_owner<tag::shader, N>;
 
 } // namespace oglplus
 

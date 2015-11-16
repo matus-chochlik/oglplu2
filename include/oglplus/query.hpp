@@ -36,6 +36,8 @@ struct obj_gen_del_ops<tag::query>
 };
 
 using query = object_owner<tag::query>;
+template <std::size_t N>
+using query_array = object_array_owner<tag::query, N>;
 
 } // namespace oglplus
 

@@ -22,6 +22,7 @@ void oglplus_framebuffer_test_ops1(void)
 
 	oper::framebuffer_ops gl;
 	framebuffer fbo;
+	framebuffer_array<4> fbos;
 	framebuffer_target tgt(GL_DRAW_FRAMEBUFFER);
 	bound_framebuffer curfbo(tgt);
 	framebuffer_attachment attch(GL_DEPTH_ATTACHMENT);
@@ -36,6 +37,7 @@ void oglplus_framebuffer_test_ops1(void)
 
 	gl.bind_framebuffer(tgt, fbo);
 	gl.framebuffer_binding(tgt);
+	gl.bind_framebuffer(tgt, fbos[0]);
 
 	gl.check_framebuffer_status(tgt);
 	gl.is_framebuffer_complete(tgt);

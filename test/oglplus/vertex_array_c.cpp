@@ -22,12 +22,15 @@ void oglplus_vertex_array_test_ops1(void)
 
 	oper::vertex_array_ops gl;
 	vertex_array vao;
+	vertex_array_array<4> vaos;
 	bound_vertex_array curvao;
 	vertex_attrib_location loc(0);
 	buffer_name buf(0);
 
 	gl.bind_vertex_array(vao);
 	gl.vertex_array_binding();
+	gl.bind_vertex_array(vaos[0]);
+
 	gl.enable_vertex_array_attrib(loc);
 	gl.disable_vertex_array_attrib(loc);
 	gl.vertex_array_attrib_pointer(loc, 1, data_type(GL_FLOAT), true, 0, nullptr);

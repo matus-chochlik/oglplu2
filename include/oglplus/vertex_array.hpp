@@ -290,10 +290,12 @@ struct object_binding<tag::vertex_array>
 
 #ifdef OGLPLUS_DSA_VERTEX_ARRAY
 template <>
-struct obj_dsa_ops<vertex_array_name>
- : obj_zero_dsa_ops<vertex_array_name>
+struct obj_dsa_ops<tag::vertex_array>
+ : obj_zero_dsa_ops<tag::vertex_array>
 {
 	typedef oper::vertex_array_ops _ops;
+
+	using obj_zero_dsa_ops<tag::vertex_array>::obj_zero_dsa_ops;
 
 	outcome<obj_dsa_ops&>
 	enable_attrib(vertex_attrib_location loc)
@@ -563,6 +565,8 @@ struct obj_gen_del_ops<tag::vertex_array>
 
 using vertex_array = object_owner<tag::vertex_array>;
 using bound_vertex_array = object_binding<tag::vertex_array>;
+template <std::size_t N>
+using vertex_array_array = object_array_owner<tag::vertex_array, N>;
 
 static const object_zero_and_ops<tag::vertex_array>
 	no_vertex_array = {};
