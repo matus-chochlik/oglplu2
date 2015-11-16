@@ -10,11 +10,13 @@
 #define OGLPLUS_OBJECT_OWNER_1509260923_HPP
 
 #include <eagine/object/owner.hpp>
+#include <eagine/object/array_owner.hpp>
 #include "../utils/array_view.hpp"
 
 namespace oglplus {
 
 using eagine::object_owner;
+using eagine::object_array_owner;
 
 } // namespace oglplus
 

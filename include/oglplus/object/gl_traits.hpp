@@ -26,13 +26,26 @@ struct obj_zero_dsa_ops;
 template <typename ObjTag>
 struct obj_zero_dsa_ops<object_name<ObjTag>>
  : object_zero_name<ObjTag>
-{ };
+{
+	obj_zero_dsa_ops(void) = default;
+
+protected:
+	obj_zero_dsa_ops(object_name<ObjTag> name)
+	noexcept
+	 : object_zero_name<ObjTag>(name)
+	{ }
+};
 
 template <typename ObjName>
 struct obj_dsa_ops
  : obj_zero_dsa_ops<ObjName>
 {
-	using obj_zero_dsa_ops<ObjName>::obj_zero_dsa_ops;
+	obj_dsa_ops(void) = default;
+
+	obj_dsa_ops(ObjName name)
+	noexcept
+	 : obj_zero_dsa_ops<ObjName>(name)
+	{ }
 };
 
 template <typename Tag>

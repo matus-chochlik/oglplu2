@@ -163,6 +163,13 @@ struct object_zero_name
 	noexcept
 	 : object_name<ObjTag>(0)
 	{ }
+
+protected:
+	constexpr explicit inline
+	object_zero_name(object_name<ObjTag> name)
+	noexcept
+	 : object_name<ObjTag>(name)
+	{ }
 };
 
 template <typename TypeT, TypeT InvalidType>
