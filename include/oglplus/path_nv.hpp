@@ -695,6 +695,7 @@ struct obj_gen_del_ops<tag::path_nv>
 using path_nv = object_owner<tag::path_nv>;
 template <std::size_t N>
 using path_nv_array = object_array_owner<tag::path_nv, N>;
+using path_nv_vector = object_vector_owner<tag::path_nv>;
 
 static const object_zero_and_ops<tag::path_nv>
 	no_path_nv = {};

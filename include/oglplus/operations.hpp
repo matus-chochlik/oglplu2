@@ -32,6 +32,7 @@
 
 #ifdef GL_NV_path_rendering
 #include "path_nv.hpp"
+#include "path_nv_array.hpp"
 #endif
 
 #include "oper/vertex_attrib.hpp"
@@ -74,6 +75,7 @@ class operations
 #endif
 #ifdef GL_NV_path_rendering
  , public oper::path_nv_ops
+ , public oper::path_nv_array_ops
 #endif
 {
 public:

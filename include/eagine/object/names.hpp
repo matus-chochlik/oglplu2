@@ -12,6 +12,7 @@
 #include "name.hpp"
 #include "../iterator.hpp"
 #include <array>
+#include <vector>
 #include <algorithm>
 #include <cassert>
 
@@ -347,6 +348,12 @@ template <typename ObjTag, std::size_t N>
 using object_name_array = object_names<
 	ObjTag,
 	std::array<object_name_t<ObjTag>, N>
+>;
+
+template <typename ObjTag>
+using object_name_vector = object_names<
+	ObjTag,
+	std::vector<object_name_t<ObjTag>>
 >;
 
 } // namespace eagine

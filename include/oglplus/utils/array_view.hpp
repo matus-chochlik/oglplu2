@@ -15,6 +15,7 @@
 namespace oglplus {
 
 using eagine::array_view;
+using eagine::as_array_view;
 
 } // namespace oglplus
 

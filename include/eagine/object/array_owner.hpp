@@ -55,6 +55,48 @@ public:
 	}
 };
 
+template <typename ObjTag>
+class object_vector_owner
+ : public owned<object_name_vector<ObjTag>>
+{
+private:
+	const object_name_vector<ObjTag>&
+	_ona(void) const
+	{
+		return *this;
+	}
+public:
+	object_vector_owner(std::size_t n)
+	 : owned<object_name_vector<ObjTag>>(n)
+	{
+		obj_lifetime_ops<ObjTag>::gen_objects(*this);
+	}
+
+	object_vector_owner(
+		std::size_t n,
+		typename object_subtype<ObjTag>::type subtype
+	): owned<object_name_vector<ObjTag>>(n)
+	{
+		obj_lifetime_ops<ObjTag>::gen_objects(*this, subtype);
+	}
+
+	object_vector_owner(object_vector_owner&&) = default;
+	object_vector_owner& operator = (object_vector_owner&&) = default;
+
+	~object_vector_owner(void)
+	{
+		try { obj_lifetime_ops<ObjTag>::delete_objects(*this); }
+		catch(...) { } // TODO rethrow exceptions or cancel ?
+	}
+
+	object_name_and_ops<ObjTag>
+	operator [] (std::size_t i) const
+	noexcept
+	{
+		return _ona()[i];
+	}
+};
+
 } // namespace eagine
 
 #endif // include guard

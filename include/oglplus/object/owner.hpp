@@ -17,6 +17,7 @@ namespace oglplus {
 
 using eagine::object_owner;
 using eagine::object_array_owner;
+using eagine::object_vector_owner;
 
 } // namespace oglplus
 

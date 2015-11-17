@@ -14,6 +14,7 @@
 #endif
 
 #include "object/gl_names.hpp"
+#include <vector>
 
 namespace oglplus {
 namespace tag {
@@ -33,6 +34,17 @@ public:
 	object_names(void)
 	noexcept
 	 : object_name_fake_array<oglplus::tag::path_nv>(N)
+	{ }
+};
+
+template <>
+class object_names<oglplus::tag::path_nv, std::vector<GLuint>>
+ : public object_name_fake_array<oglplus::tag::path_nv>
+{
+public:
+	object_names(std::size_t n)
+	noexcept
+	 : object_name_fake_array<oglplus::tag::path_nv>(n)
 	{ }
 };
 
