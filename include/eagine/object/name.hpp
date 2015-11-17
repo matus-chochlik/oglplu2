@@ -17,7 +17,7 @@
 namespace eagine {
 
 template <typename ObjTag>
-class object_names<ObjTag, typename object_traits<ObjTag>::name_type>
+class object_names<ObjTag, object_name_t<ObjTag>>
 {
 private:
 	typedef object_traits<ObjTag> _traits;

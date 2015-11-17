@@ -83,6 +83,12 @@ struct enum_bitfield
 	 : _value(value)
 	{ }
 
+	constexpr inline
+	enum_bitfield(EnumClass e)
+	noexcept
+	 : _value(e._value)
+	{ }
+
 	template <
 		value_type Value,
 		typename Classes,

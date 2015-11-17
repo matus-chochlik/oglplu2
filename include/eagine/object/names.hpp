@@ -9,9 +9,10 @@
 #ifndef EAGINE_OBJECT_NAMES_1509260923_HPP
 #define EAGINE_OBJECT_NAMES_1509260923_HPP
 
+#include "name.hpp"
 #include <array>
 #include <algorithm>
-#include "name.hpp"
+#include <cassert>
 
 namespace eagine {
 
@@ -175,34 +176,51 @@ public:
 	}
 
 	friend inline constexpr
-	array_view<typename _traits::name_type>
-	get_raw_names(object_name_container& ntr)
+	typename _traits::name_type
+	get_raw_name(const object_name_container& ctr)
 	noexcept
 	{
-		return {ntr._names.data(), ntr._names.size()};
+		assert(ctr._names.size() > 0);
+		return *ctr._names.data();
+	}
+
+	friend inline constexpr
+	array_view<typename _traits::name_type>
+	get_raw_names(object_name_container& ctr)
+	noexcept
+	{
+		return {ctr._names.data(), ctr._names.size()};
+	}
+
+	friend inline constexpr
+	array_view<const typename _traits::name_type>
+	get_raw_names(const object_name_container& ctr)
+	noexcept
+	{
+		return {ctr._names.data(), ctr._names.size()};
 	}
 };
 
 template <typename ObjTag, std::size_t N>
 class object_names<
 	ObjTag,
-	std::array<typename object_traits<ObjTag>::name_type, N>
+	std::array<object_name_t<ObjTag>, N>
 > : public object_name_container<
 	ObjTag,
-	std::array<typename object_traits<ObjTag>::name_type, N>
+	std::array<object_name_t<ObjTag>, N>
 >
 {
 public:
 	using object_name_container<
 		ObjTag,
-		std::array<typename object_traits<ObjTag>::name_type, N>
+		std::array<object_name_t<ObjTag>, N>
 	>::object_name_container;
 };
 
 template <typename ObjTag, std::size_t N>
 using object_name_array = object_names<
 	ObjTag,
-	std::array<typename object_traits<ObjTag>::name_type, N>
+	std::array<object_name_t<ObjTag>, N>
 >;
 
 } // namespace eagine

@@ -17,6 +17,9 @@ template <typename ObjTag>
 struct object_traits;
 
 template <typename ObjTag>
+using object_name_t = typename object_traits<ObjTag>::name_type;
+
+template <typename ObjTag>
 struct object_subtype
  : nothing_t
 { };
