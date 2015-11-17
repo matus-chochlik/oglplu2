@@ -63,6 +63,10 @@ void oglplus_path_nv_test_ops1(void)
 	gl.path_dash_offset_reset(pnv);
 	gl.path_dash_array(pnv, array_view<const GLfloat>());
 
+	gl.copy_path(pnv, pnv);
+	gl.interpolate_path(pnv, pnv, pnv, 0.5f);
+	gl.transform_path(pnv, pnv, path_transform_type_nv(GL_NONE), array_view<GLfloat>());
+
 	pnv.commands(path_nv_spec<GLint>());
 	pnv.commands(path_nv_spec<GLfloat>());
 	pnv.sub_commands(0, 0, path_nv_spec<GLint>());
@@ -101,6 +105,10 @@ void oglplus_path_nv_test_ops1(void)
 	pnv.dash_offset_reset();
 	pnv.dash_array(array_view<const GLfloat>());
 	pnv.dashes(1.0f, 2.0f, 3.0f);
+
+	pnv.copy_from(pnv);
+	pnv.interpolate_from(pnv, pnv, 0.5f);
+	pnv.transform_from(pnv, path_transform_type_nv(GL_NONE), array_view<GLfloat>());
 }
 
 // TODO

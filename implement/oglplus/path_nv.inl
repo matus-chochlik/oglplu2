@@ -651,6 +651,76 @@ noexcept
 	return {};
 }
 //------------------------------------------------------------------------------
+inline
+outcome<void>
+path_nv_ops::
+copy_path(path_nv_name dst_path, path_nv_name src_path)
+noexcept
+{
+	OGLPLUS_GLFUNC(CopyPathNV)(
+		get_raw_name(dst_path),
+		get_raw_name(src_path)
+	);
+	OGLPLUS_VERIFY(
+		CopyPathNV,
+		gl_subject(src_path).
+		gl_object(dst_path),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+path_nv_ops::
+interpolate_path(
+	path_nv_name dst_path,
+	path_nv_name path_a,
+	path_nv_name path_b,
+	GLfloat weight
+) noexcept
+{
+	OGLPLUS_GLFUNC(InterpolatePathsNV)(
+		get_raw_name(dst_path),
+		get_raw_name(path_a),
+		get_raw_name(path_b),
+		weight
+	);
+	OGLPLUS_VERIFY(
+		InterpolatePathNV,
+		gl_object(dst_path),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+path_nv_ops::
+transform_path(
+	path_nv_name dst_path,
+	path_nv_name src_path,
+	path_transform_type_nv transform_type,
+	array_view<const GLfloat> transform_values
+) noexcept
+{
+	// TODO: check if we have enough values
+	OGLPLUS_GLFUNC(TransformPathNV)(
+		get_raw_name(dst_path),
+		get_raw_name(src_path),
+		GLenum(transform_type),
+		transform_values.data()
+	);
+	OGLPLUS_VERIFY(
+		TransformPathNV,
+		gl_enum_value(transform_type).
+		gl_subject(src_path).
+		gl_object(dst_path),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
 } // namespace oper
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_gen

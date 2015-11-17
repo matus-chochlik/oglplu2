@@ -16,6 +16,14 @@
 #include "utils/boolean.hpp"
 
 namespace oglplus {
+namespace oper {
+
+struct query_ops
+{
+	// TODO
+};
+
+} // namespace oper
 
 template <>
 struct obj_gen_del_ops<tag::query>

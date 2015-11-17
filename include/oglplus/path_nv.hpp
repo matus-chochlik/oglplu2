@@ -274,6 +274,29 @@ struct path_nv_ops
 	outcome<void>
 	path_dash_array(path_nv_name, array_view<const GLfloat> dashes)
 	noexcept;
+
+	static
+	outcome<void>
+	copy_path(path_nv_name dst_path, path_nv_name src_path)
+	noexcept;
+
+	static
+	outcome<void>
+	interpolate_path(
+		path_nv_name dst_path,
+		path_nv_name path_a,
+		path_nv_name path_b,
+		GLfloat weight
+	) noexcept;
+
+	static
+	outcome<void>
+	transform_path(
+		path_nv_name dst_path,
+		path_nv_name src_path,
+		path_transform_type_nv transform_type,
+		array_view<const GLfloat> transform_values
+	) noexcept;
 };
 
 } // namespace oper
@@ -586,6 +609,43 @@ public:
 		const std::size_t N = sizeof ... (T);
 		const GLfloat da[N] = {GLfloat(dashes)...};
 		return dash_array(da);
+	}
+
+	outcome<Derived&>
+	copy_from(path_nv_name src_path)
+	noexcept
+	{
+		return {_ops::copy_path(*this, src_path), _self()};
+	}
+
+	outcome<Derived&>
+	interpolate_from(
+		path_nv_name path_a,
+		path_nv_name path_b,
+		GLfloat weight
+	) noexcept
+	{
+		return {_ops::interpolate_path(
+			*this,
+			path_a,
+			path_b,
+			weight
+		), _self()};
+	}
+
+	outcome<Derived&>
+	transform_from(
+		path_nv_name src_path,
+		path_transform_type_nv transform_type,
+		array_view<const GLfloat> transform_values
+	) noexcept
+	{
+		return {_ops::transform_path(
+			*this,
+			src_path,
+			transform_type,
+			transform_values
+		), _self()};
 	}
 };
 

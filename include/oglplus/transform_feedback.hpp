@@ -31,25 +31,14 @@ struct transform_feedback_ops
 	bind_transform_feedback(
 		transform_feedback_target target,
 		transform_feedback_name xfb
-	) noexcept
-	{
-		OGLPLUS_GLFUNC(BindTransformFeedback)(
-			GLenum(target),
-			get_raw_name(xfb)
-		);
-		OGLPLUS_VERIFY(
-			BindTransformFeedback,
-			gl_enum_value(target).
-			gl_object(xfb),
-			debug
-		);
-		return {};
-	}
+	) noexcept;
 
 	static
 	outcome<transform_feedback_name>
 	transform_feedback_binding(transform_feedback_target target)
 	noexcept;
+
+	// TODO
 };
 
 } // namespace oper
