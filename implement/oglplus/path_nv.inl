@@ -740,6 +740,17 @@ noexcept
 	return {};
 }
 //------------------------------------------------------------------------------
+inline
+deferred_error_handler
+obj_gen_del_ops<tag::path_nv>::
+_gen(object_name_base_and_count_view<GLuint> names)
+noexcept
+{
+	names.base(OGLPLUS_GLFUNC(GenPathsNV)(GLsizei(names.size())));
+	OGLPLUS_VERIFY_SIMPLE(GenPathsNV,debug);
+	return {};
+}
+//------------------------------------------------------------------------------
 // obj_gen_del_ops::_delete
 //------------------------------------------------------------------------------
 inline
@@ -752,6 +763,23 @@ noexcept
 	{
 		OGLPLUS_GLFUNC(DeletePathsNV)(
 			*names.begin(),
+			GLsizei(names.size())
+		);
+		OGLPLUS_VERIFY_SIMPLE(DeletePathsNV,debug);
+	}
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+deferred_error_handler
+obj_gen_del_ops<tag::path_nv>::
+_delete(object_name_base_and_count_view<GLuint> names)
+noexcept
+{
+	if(names.size() > 0)
+	{
+		OGLPLUS_GLFUNC(DeletePathsNV)(
+			names.base(),
 			GLsizei(names.size())
 		);
 		OGLPLUS_VERIFY_SIMPLE(DeletePathsNV,debug);

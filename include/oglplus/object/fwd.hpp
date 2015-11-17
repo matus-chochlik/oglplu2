@@ -24,6 +24,8 @@ using eagine::object_names;
 using eagine::object_name;
 using eagine::object_zero_name;
 
+using eagine::object_name_base_and_count_view;
+
 using eagine::object_zero_and_ops;
 
 using eagine::owned;

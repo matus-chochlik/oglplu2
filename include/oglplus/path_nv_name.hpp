@@ -13,7 +13,7 @@
 #error NV_path_rendering API is not defined
 #endif
 
-#include "object/gl_name.hpp"
+#include "object/gl_names.hpp"
 
 namespace oglplus {
 namespace tag {
@@ -21,6 +21,24 @@ namespace tag {
 using path_nv = gl_obj_tag<0xC357>;
 
 } // namespace tag
+} // namespace oglplus
+
+namespace eagine {
+
+template <std::size_t N>
+class object_names<oglplus::tag::path_nv, std::array<GLuint, N>>
+ : public object_name_fake_array<oglplus::tag::path_nv>
+{
+public:
+	object_names(void)
+	noexcept
+	 : object_name_fake_array<oglplus::tag::path_nv>(N)
+	{ }
+};
+
+} // namespace eagine
+
+namespace oglplus {
 
 using path_nv_name = object_name<tag::path_nv>;
 

@@ -674,7 +674,17 @@ struct obj_gen_del_ops<tag::path_nv>
 
 	static
 	deferred_error_handler
+	_gen(object_name_base_and_count_view<GLuint> names)
+	noexcept;
+
+	static
+	deferred_error_handler
 	_delete(array_view<GLuint> names)
+	noexcept;
+
+	static
+	deferred_error_handler
+	_delete(object_name_base_and_count_view<GLuint> names)
 	noexcept;
 
 	static

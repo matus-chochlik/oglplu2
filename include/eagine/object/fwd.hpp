@@ -36,6 +36,9 @@ using object_name = object_names<
 	typename object_traits<ObjTag>::name_type
 >;
 
+template <typename NameT>
+class object_name_base_and_count_view;
+
 template <typename ObjTag>
 class object_zero_and_ops;
 
