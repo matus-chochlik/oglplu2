@@ -315,14 +315,12 @@ def action_impl_enum_value_defs_inl(options):
 		print_line(options, "	mp_list<%s>" % (
 			",".join(["%s::%s" % (options.library, x) for x in value_info.classes])
 		))
-		print_line(options, "> enum_value::%s;" % value_name);
+		print_line(options, "> enum_values::%s;" % value_name);
 		print_line(options, "#endif")
 		print_newline(options)
 
 
 	print_line(options, "} // namespace %s" % options.library)
-	print_newline(options)
-	print_line(options, "#endif // include guard")
 
 
 def action_impl_enum_value_names_inl(options):

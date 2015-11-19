@@ -235,7 +235,7 @@ public:
 		path_font_target_nv font_target,
 		cstr_ref font_name,
 		enum_bitfield<path_font_style_nv> font_style,
-		T&& char_codes,
+		span<T> char_codes,
 		path_missing_glyph_nv handle_missing_glyphs,
 		GLuint parameter_template,
 		GLfloat em_scale
@@ -245,7 +245,7 @@ public:
 			*this,
 			font_target, font_name,
 			font_style,
-			std::forward<T>(char_codes),
+			char_codes,
 			handle_missing_glyphs,
 			parameter_template,
 			em_scale
@@ -280,7 +280,7 @@ public:
 	outcome<Derived&>
 	get_spacing(
 		path_list_mode_nv list_mode,
-		T&& indices,
+		span<T> indices,
 		GLfloat advance_scale,
 		GLfloat kerning_scale,
 		path_transform_type_nv transform_type,
@@ -289,7 +289,7 @@ public:
 	{
 		return {_ops::get_path_spacing(
 			list_mode,
-			std::forward<T>(indices),
+			indices,
 			*this,
 			advance_scale,
 			kerning_scale,
@@ -302,14 +302,14 @@ public:
 	outcome<Derived&>
 	get_metrics(
 		enum_bitfield<path_metric_query_nv> query_mask,
-		T&& indices,
+		span<T> indices,
 		GLsizei stride,
 		span<GLfloat> returned_values
 	) noexcept
 	{
 		return {_ops::get_path_metrics(
 			query_mask,
-			std::forward<T>(indices),
+			indices,
 			*this,
 			stride,
 			returned_values
@@ -333,10 +333,10 @@ public:
 		), _self()};
 	}
 
-	template <typename T>
+	template <typename T, span_size_type N>
 	outcome<Derived&>
 	stencil_fill_instanced(
-		T&& indices,
+		span<T, N> indices,
 		path_fill_mode_nv mode,
 		GLuint mask,
 		path_transform_type_nv transform_type,
@@ -344,7 +344,7 @@ public:
 	) noexcept
 	{
 		return {_ops::stencil_fill_path_instanced(
-			std::forward<T>(indices),
+			indices,
 			*this,
 			mode,
 			mask,
@@ -356,14 +356,14 @@ public:
 	template <typename T>
 	outcome<Derived&>
 	cover_fill_instanced(
-		T&& indices,
+		span<T> indices,
 		path_fill_cover_mode_nv mode,
 		path_transform_type_nv transform_type,
 		span<const GLfloat> transform_values
 	) noexcept
 	{
 		return {_ops::cover_fill_path_instanced(
-			std::forward<T>(indices),
+			indices,
 			*this,
 			mode,
 			transform_type,
@@ -374,7 +374,7 @@ public:
 	template <typename T>
 	outcome<Derived&>
 	stencil_stroke_instanced(
-		T&& indices,
+		span<T> indices,
 		GLint reference,
 		GLuint mask,
 		path_transform_type_nv transform_type,
@@ -382,7 +382,7 @@ public:
 	) noexcept
 	{
 		return {_ops::stencil_stroke_path_instanced(
-			std::forward<T>(indices),
+			indices,
 			*this,
 			reference,
 			mask,
@@ -394,14 +394,14 @@ public:
 	template <typename T>
 	outcome<Derived&>
 	cover_stroke_instanced(
-		T&& indices,
+		span<T> indices,
 		path_stroke_cover_mode_nv mode,
 		path_transform_type_nv transform_type,
 		span<const GLfloat> transform_values
 	) noexcept
 	{
 		return {_ops::cover_stroke_path_instanced(
-			std::forward<T>(indices),
+			indices,
 			*this,
 			mode,
 			transform_type,

@@ -12,6 +12,42 @@ namespace oglplus {
 //------------------------------------------------------------------------------
 namespace oper {
 //------------------------------------------------------------------------------
+template <typename S>
+inline
+outcome<void>
+path_nv_array_ops::
+path_glyphs(
+	const object_names<tag::path_nv, S>& paths,
+	path_font_target_nv font_target,
+	cstr_ref font_name,
+	enum_bitfield<path_font_style_nv> font_style,
+	cstring_span<> char_codes,
+	path_missing_glyph_nv handle_missing_glyphs,
+	GLuint parameter_template,
+	GLfloat em_scale
+) noexcept
+{
+	OGLPLUS_GLFUNC(PathGlyphsNV)(
+		get_raw_name(paths),
+		GLenum(font_target),
+		static_cast<const void*>(font_name.data()),
+		GLbitfield(font_style),
+		GLsizei(char_codes.size()),
+		GLenum(GL_UTF8_NV),
+		static_cast<const void*>(char_codes.data()),
+		GLenum(handle_missing_glyphs),
+		parameter_template,
+		em_scale
+	);
+	OGLPLUS_VERIFY(
+		PathGlyphsNV,
+		gl_enum_value(font_target).
+		gl_object(paths[0]),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
 template <typename S, typename T>
 inline
 outcome<void>
