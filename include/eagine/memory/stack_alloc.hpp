@@ -32,25 +32,13 @@ private:
 	std::size_t _dif;
 
 	const_block _store(void) const
-	noexcept
-	{
-		assert(_btm <= _top);
-		return const_block(_btm, _top);
-	}
+	noexcept;
 
 	const_block _allocated(void) const
-	noexcept
-	{
-		assert(_btm <= _pos);
-		return const_block(_btm, _pos);
-	}
+	noexcept;
 
 	const_block _available(void) const
-	noexcept
-	{	
-		assert(_pos <= _top);
-		return const_block(_pos, _top);
-	}
+	noexcept;
 public:
 	typedef T value_type;
 	typedef T* pointer;
@@ -63,51 +51,19 @@ public:
 	base_stack_allocator(const base_stack_allocator&) = delete;
 
 	base_stack_allocator(base_stack_allocator&& tmp)
-	noexcept
-	 : _btm(tmp._btm)
-	 , _top(tmp._top)
-	 , _pos(tmp._pos)
-	 , _min(tmp._min)
-	 , _dif(tmp._dif)
-	{
-		tmp._btm = nullptr;
-		tmp._top = nullptr;
-		tmp._pos = nullptr;
-		tmp._min = nullptr;
-		tmp._dif = 0;
-	}
+	noexcept;
 
 	base_stack_allocator(void)
-	noexcept
-	 : _btm(nullptr)
-	 , _top(nullptr)
-	 , _pos(nullptr)
-	 , _min(nullptr)
-	 , _dif(0)
-	{ }
+	noexcept;
 
 	base_stack_allocator(const block& blk, std::size_t align)
-	noexcept
-	 : _btm(align_up_to<T>(blk.begin(), align))
-	 , _top(align_down_to<T>(blk.end(), align))
-	 , _pos(_btm)
-	 , _min(_btm)
-	 , _dif(0)
-	{ }
+	noexcept;
 
 	base_stack_allocator(const block& blk)
-	noexcept
-	 : base_stack_allocator(blk, alignof(T))
-	{ }
+	noexcept;
 
 	~base_stack_allocator(void)
-	noexcept
-	{
-		if(!std::is_trivially_destructible<T>())
-		{
-			assert(_allocated().empty());
-		}
-	}
+	noexcept;
 
 	size_type max_size(void) const
 	noexcept
@@ -122,115 +78,21 @@ public:
 	}
 
 	tribool has_allocated(const owned_block& b) const
-	noexcept
-	{
-		if(_store().contains(b))
-		{
-			assert(_allocated().contains(b));
-			return true;
-		}
-		return false;
-	}
+	noexcept;
 
 	owned_block allocate(size_type n)
-	noexcept
-	{
-		if(n > max_size())
-		{
-			return {};
-		}
-
-		pointer result = static_cast<pointer>(_pos);
-
-		assert(_min <= _pos);
-		if(_min == _pos)
-		{
-			_min += n;
-		}
-		else
-		{
-			_dif += n;
-		}
-
-		_pos += n;
-		return acquire_block({result, n});
-	}
+	noexcept;
 
 	owned_block truncate(owned_block&& b, size_type nn)
-	noexcept
-	{
-		pointer p = static_cast<pointer>(b.addr());
-		size_type pn = b.size();
-		release_block(std::move(b));
-
-		assert(pn >= nn);
-
-		if(p+pn == _pos)
-		{
-			difference_type d = difference_type(pn - nn);
-			assert(_min <= _pos);
-			if(_min == _pos)
-			{
-				_min -= d;
-			}
-			else
-			{
-				_dif -= d;
-			}
-
-			_pos -= d;
-		}
-		return acquire_block({p, nn});
-	}
+	noexcept;
 
 	void deallocate(owned_block&& b)
-	noexcept
-	{
-		pointer p = static_cast<pointer>(b.addr());
-		size_type n = b.size();
-		release_block(std::move(b));
-
-		assert(p+n <= _pos);
-		if(p+n == _pos)
-		{
-			assert(_min <= _pos);
-			if(_min == _pos)
-			{
-				_min -= n;
-			}
-			else
-			{
-				_dif -= n;
-			}
-
-			_pos -= n;
-		}
-		else
-		{
-			if(p+n == _min)
-			{
-				_min -= n;
-			}
-			else if(p+n > _min)
-			{
-				_dif -= n;
-			}
-			else
-			{
-				_dif += size_type(_min-p)-n;
-				_min = p;
-			}
-		}
-		if(_dif == 0)
-		{
-			_pos = _min;
-		}
-	}
+	noexcept;
 
 	friend bool operator == (
 		const base_stack_allocator& a,
 		const base_stack_allocator& b
-	)
+	) noexcept
 	{
 		if((a._btm == b._btm) && (a._top == b._top))
 		{
@@ -262,13 +124,7 @@ public:
 
 	bool equal(byte_allocator* a) const
 	noexcept
-	override
-	{
-		stack_byte_allocator* sba =
-			dynamic_cast<stack_byte_allocator*>(a);
-
-		return (sba != nullptr) && (this->_alloc == sba->_alloc);
-	}
+	override;
 
 	size_type max_size(size_type a)
 	noexcept
@@ -287,47 +143,11 @@ public:
 
 	owned_block allocate(size_type n, size_type a)
 	noexcept
-	override
-	{
-		size_type m = a - _alloc.allocated_size() % a;
-
-		assert((m < 255) && "must fit into a byte"); 
-
-		owned_block b = _alloc.allocate(m+n);
-
-		if(b)
-		{
-			assert(is_aligned_to(b.begin()+m, a));
-			b[m-1] = byte(m);
-		}
-
-		assert(m <= b.size());
-
-		owned_block r = this->acquire_block({b.begin()+m, b.end()});
-
-		this->release_block(std::move(b));
-
-		return std::move(r);
-	}
+	override;
 
 	void deallocate(owned_block&& b, size_type)
 	noexcept
-	override
-	{
-		assert(_alloc.has_allocated(b));
-
-		byte* p = b.data();
-
-		assert(reinterpret_cast<std::uintptr_t>(p) >= 1);
-
-		size_type m = size_type(p[-1]);
-
-		assert(reinterpret_cast<std::uintptr_t>(p) >= m);
-
-		_alloc.deallocate(this->acquire_block({p-m, b.size()+m}));
-
-		this->release_block(std::move(b));
-	}
+	override;
 };
 
 // stack_aligned_byte_allocator
@@ -353,12 +173,7 @@ public:
 
 	bool equal(byte_allocator* a) const
 	noexcept
-	override
-	{
-		auto* sba = dynamic_cast<_this_class*>(a);
-
-		return (sba != nullptr) && (this->_alloc == sba->_alloc);
-	}
+	override;
 
 	size_type max_size(size_type)
 	noexcept
@@ -369,71 +184,31 @@ public:
 
 	tribool has_allocated(const owned_block& b, std::size_t)
 	noexcept
-	override
-	{
-		return _alloc.has_allocated(b);
-	}
+	override;
 
 	owned_block allocate(size_type n, size_type a)
 	noexcept
-	override
-	{
-		auto b = _alloc.allocate(n);
-
-		assert(b.is_aligned_to(a));
-
-		return std::move(b);
-	}
+	override;
 
 	void deallocate(owned_block&& b, size_type a)
 	noexcept
-	override
-	{
-		assert(b.is_aligned_to(a));
-		_alloc.deallocate(std::move(b));
-	}
+	override;
 
 	std::size_t _own_end_misalign(_this_class* p) const
-	noexcept
-	{
-		std::uintptr_t e =
-			reinterpret_cast<std::uintptr_t>(p)+
-			sizeof(_this_class);
-
-		return (_align - (e % _align)) % _align;
-	}
+	noexcept;
 
 	byte_allocator* accomodate_self(void)
-	noexcept
-	{
-		auto* ba = this->accomodate_derived(*this);
-
-		if(std::size_t m = _own_end_misalign(ba))
-		{
-			this->release_block(ba->_alloc.allocate(m));
-		}
-
-		return ba;
-	}
+	noexcept;
 
 	void eject_self(void)
 	noexcept
-	override
-	{
-		if(std::size_t m = _own_end_misalign(this))
-		{
-			byte* p = reinterpret_cast<byte*>(this);
-			p += sizeof(_this_class);
-
-			_alloc.deallocate(this->acquire_block({p, m}));
-		}
-
-		this->eject_derived(*this);
-	}
+	override;
 };
 
 } // namespace memory
 } // namespace eagine
+
+#include <eagine/memory/stack_alloc.inl>
 
 #endif //include guard
 

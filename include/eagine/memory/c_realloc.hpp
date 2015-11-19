@@ -47,33 +47,11 @@ public:
 
 	owned_block allocate(size_type n, size_type a)
 	noexcept
-	override
-	{
-		assert(a > 0);
-
-		if(n == 0)
-		{
-			return {};
-		}
-
-		void* p = std::malloc(n);
-
-		// TODO fix if misaligned ?
-		assert(is_aligned_to(p, a));
-
-		return this->acquire_block({p, n});
-	}
+	override;
 
 	void deallocate(owned_block&& b, size_type)
 	noexcept
-	override
-	{
-		if(!b.empty())
-		{
-			std::free(b.addr());
-			this->release_block(std::move(b));
-		}
-	}
+	override;
 
 	bool can_reallocate(const owned_block&, size_type, size_type)
 	noexcept
@@ -84,29 +62,13 @@ public:
 
 	owned_block reallocate(owned_block&& b, size_type n, size_type a)
 	noexcept
-	override
-	{
-		assert(a > 0);
-
-		if(n == 0)
-		{
-			deallocate(std::move(b), a);
-			return {};
-		}
-
-		void* p = std::realloc(b.addr(), n);
-
-		this->release_block(std::move(b));
-
-		// TODO fix if misaligned ?
-		assert(is_aligned_to(p, a));
-
-		return this->acquire_block({p, n});
-	}
+	override;
 };
 
 } // namespace memory
 } // namespace eagine
+
+#include <eagine/memory/c_realloc.inl>
 
 #endif //include guard
 
