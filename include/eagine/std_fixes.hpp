@@ -28,10 +28,19 @@ template <class T>
 using remove_const_t = typename remove_const<T>::type;
 
 template <class T>
+using add_const_t = typename add_const<T>::type;
+
+template <class T>
 using remove_cv_t = typename remove_cv<T>::type;
 
 template <class T>
 using remove_reference_t = typename remove_reference<T>::type;
+
+template <class T>
+using add_lvalue_reference_t = typename add_lvalue_reference<T>::type;
+
+template <class T>
+using add_pointer_t = typename add_pointer<T>::type;
 
 } // namespace std
 

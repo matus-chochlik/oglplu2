@@ -1,5 +1,5 @@
 /**
- *  @file eagine/array_view.hpp
+ *  @file eagine/string_span.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_ARRAY_VIEW_1509260923_HPP
-#define EAGINE_ARRAY_VIEW_1509260923_HPP
+#ifndef EAGINE_STRING_SPAN_1509260923_HPP
+#define EAGINE_STRING_SPAN_1509260923_HPP
 
 #include "std_fixes.hpp"
 
@@ -18,10 +18,11 @@
 #pragma clang diagnostic ignored "-Wold-style-cast"
 #pragma clang diagnostic ignored "-Wreserved-id-macro"
 #pragma clang diagnostic ignored "-Wunused-parameter"
+#pragma clang diagnostic ignored "-Wsign-conversion"
 #pragma clang diagnostic ignored "-Wshadow"
 #endif
 
-#include <array_view.h>
+#include <string_span.h>
 
 #ifdef __clang__
 #pragma clang diagnostic pop
@@ -29,8 +30,8 @@
 
 namespace eagine {
 
-using gsl::array_view;
-using gsl::as_array_view;
+using gsl::string_span;
+using gsl::cstring_span;
 
 } // namespace eagine
 

@@ -56,7 +56,7 @@ BOOST_AUTO_TEST_CASE(buffer_data_3)
 
 	{
 		eagine::buffer_data_spec<int> bd;
-		array_view<const byte> v = bd.view();
+		span<const byte> v = bd.view();
 
 		BOOST_CHECK(v.begin() == v.end());
 	}
@@ -65,7 +65,7 @@ BOOST_AUTO_TEST_CASE(buffer_data_3)
 		const short csv[8] = {0,1,2,3,4,5,6,7};
 
 		eagine::buffer_data_spec<short> bd(csv);
-		array_view<const byte> v = bd.view();
+		span<const byte> v = bd.view();
 
 		BOOST_ASSERT(v.begin() != v.end());
 	}
@@ -74,7 +74,7 @@ BOOST_AUTO_TEST_CASE(buffer_data_3)
 		double fv[9] = {1,2,3,4,5,6,7,8,9};
 
 		eagine::buffer_data_spec<unsigned> bd(fv);
-		array_view<const byte> v = bd.view();
+		span<const byte> v = bd.view();
 
 		BOOST_ASSERT(v.begin() != v.end());
 	}

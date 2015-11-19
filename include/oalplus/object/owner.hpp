@@ -10,7 +10,7 @@
 #define OALPLUS_OBJECT_OWNER_1509260923_HPP
 
 #include <eagine/object/owner.hpp>
-#include "../utils/array_view.hpp"
+#include "../utils/span.hpp"
 
 namespace oalplus {
 

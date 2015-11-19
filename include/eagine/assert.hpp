@@ -1,5 +1,5 @@
 /**
- *  @file eagine/array_view.hpp
+ *  @file eagine/assert.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.

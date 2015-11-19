@@ -11,7 +11,7 @@
 
 #include "../utils/gl_func.hpp"
 #include "../utils/vec_mat_traits.hpp"
-#include "../utils/array_view.hpp"
+#include "../utils/span.hpp"
 #include "../error/handling.hpp"
 #include "../error/outcome.hpp"
 #include "../enum/types.hpp"

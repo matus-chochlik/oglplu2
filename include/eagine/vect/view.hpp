@@ -10,7 +10,7 @@
 #define EAGINE_VECT_VIEW_1509260923_HPP
 
 #include "data.hpp"
-#include "../array_view.hpp"
+#include "../span.hpp"
 
 namespace eagine {
 namespace vect {
@@ -38,7 +38,7 @@ private:
 
 public:
 	static inline
-	array_view<const T>
+	span<const T>
 	apply(const data_t<T, N, V>& d)
 	noexcept
 	{
@@ -48,7 +48,7 @@ public:
 
 	template <unsigned M>
 	static inline
-	array_view<const T>
+	span<const T>
 	apply(const data_t<T, N, V> (&d)[M])
 	noexcept
 	{

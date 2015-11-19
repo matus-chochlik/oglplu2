@@ -10,7 +10,7 @@
 #define EGLPLUS_ENUM_VALUE_RANGE_1509260923_HPP
 
 #include "../utils/enum_class.hpp"
-#include "../utils/array_view.hpp"
+#include "../utils/span.hpp"
 #include "../config/basic.hpp"
 #include <eagine/enum_range.hpp>
 

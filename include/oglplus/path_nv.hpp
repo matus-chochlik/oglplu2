@@ -28,8 +28,8 @@ struct path_nv_ops
 	outcome<void>
 	path_commands(
 		path_nv_name path,
-		array_view<const GLubyte> commands,
-		array_view<const T> coords
+		span<const GLubyte> commands,
+		span<const T> coords
 	) noexcept;
 
 	template <typename T>
@@ -45,8 +45,8 @@ struct path_nv_ops
 		path_nv_name path,
 		GLsizei command_start,
 		GLsizei commands_to_delete,
-		array_view<const GLubyte> commands,
-		array_view<const T> coords
+		span<const GLubyte> commands,
+		span<const T> coords
 	) noexcept;
 
 	template <typename T>
@@ -62,7 +62,7 @@ struct path_nv_ops
 	template <typename T>
 	static
 	outcome<void>
-	path_coords(path_nv_name path, array_view<const T> coords)
+	path_coords(path_nv_name path, span<const T> coords)
 	noexcept;
 
 	static
@@ -70,17 +70,17 @@ struct path_nv_ops
 	path_string(
 		path_nv_name,
 		path_format_nv format,
-		array_view<const char> path_str
+		span<const char> path_str
 	) noexcept;
 
 	static
 	outcome<void>
-	path_svg_string(path_nv_name, array_view<const char> path_str)
+	path_svg_string(path_nv_name, span<const char> path_str)
 	noexcept;
 
 	static
 	outcome<void>
-	path_ps_string(path_nv_name, array_view<const char> path_str)
+	path_ps_string(path_nv_name, span<const char> path_str)
 	noexcept;
 
 	static
@@ -152,7 +152,7 @@ struct path_nv_ops
 	get_path_parameter_iv(
 		path_nv_name path,
 		oglplus::path_parameter_nv param,
-		array_view<GLint> values
+		span<GLint> values
 	) noexcept;
 
 	static
@@ -160,7 +160,7 @@ struct path_nv_ops
 	get_path_parameter_fv(
 		path_nv_name path,
 		oglplus::path_parameter_nv param,
-		array_view<GLfloat> values
+		span<GLfloat> values
 	) noexcept;
 
 	template <typename R, typename T>
@@ -272,7 +272,7 @@ struct path_nv_ops
 
 	static
 	outcome<void>
-	path_dash_array(path_nv_name, array_view<const GLfloat> dashes)
+	path_dash_array(path_nv_name, span<const GLfloat> dashes)
 	noexcept;
 
 	static
@@ -295,7 +295,7 @@ struct path_nv_ops
 		path_nv_name dst_path,
 		path_nv_name src_path,
 		path_transform_type_nv transform_type,
-		array_view<const GLfloat> transform_values
+		span<const GLfloat> transform_values
 	) noexcept;
 };
 
@@ -318,7 +318,7 @@ protected:
 public:
 	template <typename T>
 	outcome<Derived&>
-	commands(array_view<const GLubyte> cmds, array_view<const T> coords)
+	commands(span<const GLubyte> cmds, span<const T> coords)
 	noexcept
 	{
 		return {_ops::path_commands(*this, cmds, coords), _self()};
@@ -337,8 +337,8 @@ public:
 	sub_commands(
 		GLsizei cmd_start,
 		GLsizei cmds_to_delete,
-		array_view<const GLubyte> cmds,
-		array_view<const T> coords
+		span<const GLubyte> cmds,
+		span<const T> coords
 	) noexcept
 	{
 		return {_ops::path_sub_commands(
@@ -365,28 +365,28 @@ public:
 
 	template <typename T>
 	outcome<Derived&>
-	coords(array_view<const T> crds)
+	coords(span<const T> crds)
 	noexcept
 	{
 		return {_ops::path_coords(*this, crds), _self()};
 	}
 
 	outcome<Derived&>
-	string(path_format_nv format, array_view<const char> path_str)
+	string(path_format_nv format, span<const char> path_str)
 	noexcept
 	{
 		return {_ops::path_string(*this, format, path_str), _self()};
 	}
 
 	outcome<Derived&>
-	svg_string(array_view<const char> path_str)
+	svg_string(span<const char> path_str)
 	noexcept
 	{
 		return {_ops::path_svg_string(*this, path_str), _self()};
 	}
 
 	outcome<Derived&>
-	ps_string(array_view<const char> path_str)
+	ps_string(span<const char> path_str)
 	noexcept
 	{
 		return {_ops::path_ps_string(*this, path_str), _self()};
@@ -595,7 +595,7 @@ public:
 	}
 
 	outcome<Derived&>
-	dash_array(array_view<const GLfloat> dashes)
+	dash_array(span<const GLfloat> dashes)
 	noexcept
 	{
 		return {_ops::path_dash_array(*this, dashes), _self()};
@@ -637,7 +637,7 @@ public:
 	transform_from(
 		path_nv_name src_path,
 		path_transform_type_nv transform_type,
-		array_view<const GLfloat> transform_values
+		span<const GLfloat> transform_values
 	) noexcept
 	{
 		return {_ops::transform_path(
@@ -669,7 +669,7 @@ struct obj_gen_del_ops<tag::path_nv>
 {
 	static
 	deferred_error_handler
-	_gen(array_view<GLuint> names)
+	_gen(span<GLuint> names)
 	noexcept;
 
 	static
@@ -679,7 +679,7 @@ struct obj_gen_del_ops<tag::path_nv>
 
 	static
 	deferred_error_handler
-	_delete(array_view<GLuint> names)
+	_delete(span<GLuint> names)
 	noexcept;
 
 	static

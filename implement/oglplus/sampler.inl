@@ -80,7 +80,7 @@ sampler_ops::
 get_sampler_parameter_iv(
 	sampler_name sam,
 	oglplus::sampler_parameter param,
-	array_view<GLint> values
+	span<GLint> values
 ) noexcept
 {
 	assert(values.size() > 0);
@@ -127,7 +127,7 @@ sampler_ops::
 get_sampler_parameter_fv(
 	sampler_name sam,
 	oglplus::sampler_parameter param,
-	array_view<GLfloat> values
+	span<GLfloat> values
 ) noexcept
 {
 	assert(values.size() > 0);
@@ -478,7 +478,7 @@ noexcept
 inline
 deferred_error_handler
 obj_gen_del_ops<tag::sampler>::
-_gen(array_view<GLuint> names)
+_gen(span<GLuint> names)
 noexcept
 {
 	OGLPLUS_GLFUNC(GenSamplers)(
@@ -494,7 +494,7 @@ noexcept
 inline
 deferred_error_handler
 obj_gen_del_ops<tag::sampler>::
-_delete(array_view<GLuint> names)
+_delete(span<GLuint> names)
 noexcept
 {
 	OGLPLUS_GLFUNC(DeleteSamplers)(

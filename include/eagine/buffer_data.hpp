@@ -35,7 +35,7 @@ public:
 	{ }
 
 	template <typename T>
-	buffer_data_spec(array_view<T> av)
+	buffer_data_spec(span<T> av)
 	noexcept
 	 : _size(av)
 	 , _data(av.data())
@@ -59,12 +59,12 @@ public:
 		return _data;
 	}
 
-	array_view<const byte> view(void) const
+	span<const byte> view(void) const
 	noexcept
 	{
 		return {
 			static_cast<const byte*>(_data),
-			static_cast<std::size_t>(_size)
+			static_cast<std::ptrdiff_t>(_size)
 		};
 	}
 };

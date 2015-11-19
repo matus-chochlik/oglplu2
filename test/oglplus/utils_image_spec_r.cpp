@@ -10,7 +10,7 @@
 
 #include <oglplus/gl.hpp>
 #include <oglplus/utils/image_spec.hpp>
-#include <oglplus/utils/make_view.hpp>
+#include <oglplus/utils/span.hpp>
 #include <cstring>
 
 BOOST_AUTO_TEST_SUITE(utils_image_spec)
@@ -21,7 +21,7 @@ BOOST_AUTO_TEST_CASE(utils_image_spec_1)
 
 	GLfloat x[64];
 
-	image_spec is({64},{pixel_data_format(GL_RED)},make_view(x));
+	image_spec is({64},{pixel_data_format(GL_RED)},as_span(x));
 
 	BOOST_CHECK_EQUAL(is.width(), 64);
 	BOOST_CHECK_EQUAL(is.height(), 1);
@@ -31,7 +31,7 @@ BOOST_AUTO_TEST_CASE(utils_image_spec_1)
 	BOOST_CHECK(is.internal_format() == pixel_data_internal_format(GL_RED));
 	BOOST_CHECK(is.type() == pixel_data_type(GL_FLOAT));
 
-	BOOST_CHECK(is.data().size() == 64*1*1*sizeof(GLfloat));
+	BOOST_CHECK_EQUAL(is.data().size(), 64*1*1*sizeof(GLfloat));
 	BOOST_CHECK(is.data().addr() != nullptr);
 }
 
@@ -41,7 +41,7 @@ BOOST_AUTO_TEST_CASE(utils_image_spec_2)
 
 	GLint x[32*64*2];
 
-	image_spec is({32,64},{pixel_data_format(GL_RG)},make_view(x));
+	image_spec is({32,64},{pixel_data_format(GL_RG)},as_span(x));
 
 	BOOST_CHECK_EQUAL(is.width(), 32);
 	BOOST_CHECK_EQUAL(is.height(), 64);
@@ -51,7 +51,7 @@ BOOST_AUTO_TEST_CASE(utils_image_spec_2)
 	BOOST_CHECK(is.internal_format() == pixel_data_internal_format(GL_RG));
 	BOOST_CHECK(is.type() == pixel_data_type(GL_INT));
 
-	BOOST_CHECK(is.data().size() == 32*64*1*2*sizeof(GLint));
+	BOOST_CHECK_EQUAL(is.data().size(), 32*64*1*2*sizeof(GLint));
 	BOOST_CHECK(is.data().addr() != nullptr);
 }
 
@@ -61,7 +61,7 @@ BOOST_AUTO_TEST_CASE(utils_image_spec_3)
 
 	GLubyte x[16*32*64*3];
 
-	image_spec is({16,32,64},{pixel_data_format(GL_RGB)},make_view(x));
+	image_spec is({16,32,64},{pixel_data_format(GL_RGB)},as_span(x));
 
 	BOOST_CHECK_EQUAL(is.width(), 16);
 	BOOST_CHECK_EQUAL(is.height(), 32);
@@ -71,7 +71,7 @@ BOOST_AUTO_TEST_CASE(utils_image_spec_3)
 	BOOST_CHECK(is.internal_format() == pixel_data_internal_format(GL_RGB));
 	BOOST_CHECK(is.type() == pixel_data_type(GL_UNSIGNED_BYTE));
 
-	BOOST_CHECK(is.data().size() == 16*32*64*3*sizeof(GLubyte));
+	BOOST_CHECK_EQUAL(is.data().size(), 16*32*64*3*sizeof(GLubyte));
 	BOOST_CHECK(is.data().addr() != nullptr);
 }
 
@@ -81,7 +81,7 @@ BOOST_AUTO_TEST_CASE(utils_image_spec_4)
 
 	GLuint x[64*64*64*4];
 
-	image_spec is({64,64,64},{pixel_data_format(GL_RGBA)},make_view(x));
+	image_spec is({64,64,64},{pixel_data_format(GL_RGBA)},as_span(x));
 
 	BOOST_CHECK_EQUAL(is.width(), 64);
 	BOOST_CHECK_EQUAL(is.height(), 64);
@@ -91,7 +91,7 @@ BOOST_AUTO_TEST_CASE(utils_image_spec_4)
 	BOOST_CHECK(is.internal_format() ==pixel_data_internal_format(GL_RGBA));
 	BOOST_CHECK(is.type() == pixel_data_type(GL_UNSIGNED_INT));
 
-	BOOST_CHECK(is.data().size() == 64*64*64*4*sizeof(GLuint));
+	BOOST_CHECK_EQUAL(is.data().size(), 64*64*64*4*sizeof(GLuint));
 	BOOST_CHECK(is.data().addr() != nullptr);
 }
 

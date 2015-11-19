@@ -9,7 +9,7 @@
 #ifndef EAGINE_UTILS_BUFFER_SIZE_1509260923_HPP
 #define EAGINE_UTILS_BUFFER_SIZE_1509260923_HPP
 
-#include "array_view.hpp"
+#include "span.hpp"
 #include "identity.hpp"
 #include <type_traits>
 
@@ -41,11 +41,11 @@ public:
 	 : _v(S(sizeof(T)*count))
 	{ }
 
-	template <typename T>
+	template <typename T, span_size_type N>
 	constexpr inline
-	buffer_size(const array_view<T>& av)
+	buffer_size(const span<T, N>& s)
 	noexcept
-	 : _v(S(sizeof(T)*av.size()))
+	 : _v(S(sizeof(T))*S(s.size()))
 	{ }
 
 	constexpr inline
@@ -60,13 +60,6 @@ public:
 	noexcept
 	{
 		return _v;
-	}
-
-	constexpr inline
-	operator std::size_t (void) const
-	noexcept
-	{
-		return std::size_t(_v);
 	}
 
 	template <typename T>

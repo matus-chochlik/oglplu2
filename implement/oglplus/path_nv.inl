@@ -18,8 +18,8 @@ outcome<void>
 path_nv_ops::
 path_commands(
 	path_nv_name path,
-	array_view<const GLubyte> commands,
-	array_view<const T> coords
+	span<const GLubyte> commands,
+	span<const T> coords
 ) noexcept
 {
 	OGLPLUS_GLFUNC(PathCommandsNV)(
@@ -56,8 +56,8 @@ path_sub_commands(
 	path_nv_name path,
 	GLsizei command_start,
 	GLsizei commands_to_delete,
-	array_view<const GLubyte> commands,
-	array_view<const T> coords
+	span<const GLubyte> commands,
+	span<const T> coords
 ) noexcept
 {
 	OGLPLUS_GLFUNC(PathSubCommandsNV)(
@@ -100,7 +100,7 @@ template <typename T>
 inline
 outcome<void>
 path_nv_ops::
-path_coords(path_nv_name path, array_view<const T> coords)
+path_coords(path_nv_name path, span<const T> coords)
 noexcept
 {
 	OGLPLUS_GLFUNC(PathCoordsNV)(
@@ -123,7 +123,7 @@ path_nv_ops::
 path_string(
 	path_nv_name path,
 	path_format_nv format,
-	array_view<const char> path_str
+	span<const char> path_str
 ) noexcept
 {
 	OGLPLUS_GLFUNC(PathStringNV)(
@@ -144,7 +144,7 @@ path_string(
 inline
 outcome<void>
 path_nv_ops::
-path_svg_string(path_nv_name path, array_view<const char> str)
+path_svg_string(path_nv_name path, span<const char> str)
 noexcept
 {
 	return path_string(path, path_format_nv(GL_PATH_FORMAT_SVG_NV), str);
@@ -153,7 +153,7 @@ noexcept
 inline
 outcome<void>
 path_nv_ops::
-path_ps_string(path_nv_name path, array_view<const char> str)
+path_ps_string(path_nv_name path, span<const char> str)
 noexcept
 {
 	return path_string(path, path_format_nv(GL_PATH_FORMAT_PS_NV), str);
@@ -372,7 +372,7 @@ path_nv_ops::
 get_path_parameter_iv(
 	path_nv_name path,
 	oglplus::path_parameter_nv param,
-	array_view<GLint> values
+	span<GLint> values
 ) noexcept
 {
 	assert(values.size() > 0);
@@ -396,7 +396,7 @@ path_nv_ops::
 get_path_parameter_fv(
 	path_nv_name path,
 	oglplus::path_parameter_nv param,
-	array_view<GLfloat> values
+	span<GLfloat> values
 ) noexcept
 {
 	assert(values.size() > 0);
@@ -634,7 +634,7 @@ noexcept
 inline
 outcome<void>
 path_nv_ops::
-path_dash_array(path_nv_name path, array_view<const GLfloat> dashes)
+path_dash_array(path_nv_name path, span<const GLfloat> dashes)
 noexcept
 {
 	assert(dashes.size() > 0);
@@ -701,7 +701,7 @@ transform_path(
 	path_nv_name dst_path,
 	path_nv_name src_path,
 	path_transform_type_nv transform_type,
-	array_view<const GLfloat> transform_values
+	span<const GLfloat> transform_values
 ) noexcept
 {
 	// TODO: check if we have enough values
@@ -728,11 +728,11 @@ transform_path(
 inline
 deferred_error_handler
 obj_gen_del_ops<tag::path_nv>::
-_gen(array_view<GLuint> names)
+_gen(span<GLuint> names)
 noexcept
 {
 	GLuint base = OGLPLUS_GLFUNC(GenPathsNV)(GLsizei(names.size()));
-	for(std::size_t i=0; i<names.size(); ++i)
+	for(span_size_type i=0; i<names.size(); ++i)
 	{
 		names[i] = base+GLuint(i);
 	}
@@ -756,7 +756,7 @@ noexcept
 inline
 deferred_error_handler
 obj_gen_del_ops<tag::path_nv>::
-_delete(array_view<GLuint> names)
+_delete(span<GLuint> names)
 noexcept
 {
 	if(names.begin() != names.end())

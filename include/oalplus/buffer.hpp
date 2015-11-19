@@ -29,12 +29,12 @@ struct obj_gen_del_ops<tag::buffer>
 {
 	static
 	deferred_error_handler
-	_gen(array_view<ALuint> names)
+	_gen(span<ALuint> names)
 	noexcept;
 
 	static
 	deferred_error_handler
-	_delete(array_view<ALuint> names)
+	_delete(span<ALuint> names)
 	noexcept;
 
 	static

@@ -57,7 +57,7 @@ struct buffer_ops
 	get_buffer_parameter_iv(
 		buffer_target tgt,
 		oglplus::buffer_parameter param,
-		array_view<GLint> values
+		span<GLint> values
 	) noexcept;
 
 	static
@@ -65,7 +65,7 @@ struct buffer_ops
 	get_buffer_parameter_i64v(
 		buffer_target tgt,
 		oglplus::buffer_parameter param,
-		array_view<GLint64> values
+		span<GLint64> values
 	) noexcept;
 
 #if defined(OGLPLUS_DSA_BUFFER)
@@ -74,7 +74,7 @@ struct buffer_ops
 	get_buffer_parameter_iv(
 		buffer_name buf,
 		oglplus::buffer_parameter param,
-		array_view<GLint> values
+		span<GLint> values
 	) noexcept;
 #endif
 
@@ -84,7 +84,7 @@ struct buffer_ops
 	get_buffer_parameter_i64v(
 		buffer_name buf,
 		oglplus::buffer_parameter param,
-		array_view<GLint64> values
+		span<GLint64> values
 	) noexcept;
 #endif
 
@@ -324,12 +324,12 @@ struct obj_gen_del_ops<tag::buffer>
 {
 	static
 	deferred_error_handler
-	_gen(array_view<GLuint> names)
+	_gen(span<GLuint> names)
 	noexcept;
 
 	static
 	deferred_error_handler
-	_delete(array_view<GLuint> names)
+	_delete(span<GLuint> names)
 	noexcept;
 
 	static

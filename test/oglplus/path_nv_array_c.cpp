@@ -19,7 +19,7 @@ void oglplus_path_nv_array_test_ops1(void)
 		path_font_target_nv(GL_FILE_NAME_NV),
 		"font.ttf",
 		path_font_style_nv(),
-		array_view<const GLubyte>(),
+		span<const GLubyte>(),
 		path_missing_glyph_nv(GL_USE_MISSING_GLYPH_NV),
 		~0u, 1.0f
 	);
@@ -46,11 +46,11 @@ void oglplus_path_nv_array_test_ops1(void)
 
 	gl.get_path_spacing(
 		path_list_mode_nv(GL_ACCUM_ADJACENT_PAIRS_NV),
-		array_view<const GLushort>(),
+		span<const GLushort>(),
 		pnvs,
 		1.0f, 1.0f,
 		path_transform_type_nv(GL_NONE),
-		array_view<GLfloat>()
+		span<GLfloat>()
 	);
 
 	gl.get_path_spacing(
@@ -59,16 +59,16 @@ void oglplus_path_nv_array_test_ops1(void)
 		pnvs,
 		1.0f, 1.0f,
 		path_transform_type_nv(GL_NONE),
-		array_view<GLfloat>()
+		span<GLfloat>()
 	);
 
 	gl.stencil_fill_path_instanced(
-		array_view<const GLuint>(),
+		span<const GLuint>(),
 		pnvs,
 		path_fill_mode_nv(GL_INVERT),
 		~0u,
 		path_transform_type_nv(GL_NONE),
-		array_view<GLfloat>()
+		span<GLfloat>()
 	);
 
 	gl.stencil_fill_path_instanced(
@@ -77,15 +77,15 @@ void oglplus_path_nv_array_test_ops1(void)
 		path_fill_mode_nv(GL_INVERT),
 		~0u,
 		path_transform_type_nv(GL_NONE),
-		array_view<GLfloat>()
+		span<GLfloat>()
 	);
 
 	gl.cover_fill_path_instanced(
-		array_view<const GLuint>(),
+		span<const GLuint>(),
 		pnvs,
 		path_fill_cover_mode_nv(GL_CONVEX_HULL_NV),
 		path_transform_type_nv(GL_NONE),
-		array_view<GLfloat>()
+		span<GLfloat>()
 	);
 
 	gl.cover_fill_path_instanced(
@@ -93,15 +93,15 @@ void oglplus_path_nv_array_test_ops1(void)
 		pnvs,
 		path_fill_cover_mode_nv(GL_BOUNDING_BOX_NV),
 		path_transform_type_nv(GL_NONE),
-		array_view<GLfloat>()
+		span<GLfloat>()
 	);
 
 	gl.stencil_stroke_path_instanced(
-		array_view<const GLuint>(),
+		span<const GLuint>(),
 		pnvs,
 		0, ~0u,
 		path_transform_type_nv(GL_NONE),
-		array_view<GLfloat>()
+		span<GLfloat>()
 	);
 
 	gl.stencil_stroke_path_instanced(
@@ -109,15 +109,15 @@ void oglplus_path_nv_array_test_ops1(void)
 		pnvs,
 		0, ~0u,
 		path_transform_type_nv(GL_NONE),
-		array_view<GLfloat>()
+		span<GLfloat>()
 	);
 
 	gl.cover_stroke_path_instanced(
-		array_view<const GLuint>(),
+		span<const GLuint>(),
 		pnvs,
 		path_stroke_cover_mode_nv(GL_CONVEX_HULL_NV),
 		path_transform_type_nv(GL_NONE),
-		array_view<GLfloat>()
+		span<GLfloat>()
 	);
 
 	gl.cover_stroke_path_instanced(
@@ -125,7 +125,7 @@ void oglplus_path_nv_array_test_ops1(void)
 		pnvs,
 		path_stroke_cover_mode_nv(GL_BOUNDING_BOX_NV),
 		path_transform_type_nv(GL_NONE),
-		array_view<GLfloat>()
+		span<GLfloat>()
 	);
 
 	//
@@ -134,7 +134,7 @@ void oglplus_path_nv_array_test_ops1(void)
 		path_font_target_nv(GL_FILE_NAME_NV),
 		"font.ttf",
 		path_font_style_nv(),
-		array_view<const GLubyte>(),
+		span<const GLubyte>(),
 		path_missing_glyph_nv(GL_USE_MISSING_GLYPH_NV),
 		~0u, 1.0f
 	);
@@ -159,10 +159,10 @@ void oglplus_path_nv_array_test_ops1(void)
 
 	pnvs.get_spacing(
 		path_list_mode_nv(GL_ACCUM_ADJACENT_PAIRS_NV),
-		array_view<const GLushort>(),
+		span<const GLushort>(),
 		1.0f, 1.0f,
 		path_transform_type_nv(GL_NONE),
-		array_view<GLfloat>()
+		span<GLfloat>()
 	);
 
 	pnvs.get_spacing(
@@ -170,15 +170,15 @@ void oglplus_path_nv_array_test_ops1(void)
 		"blah",
 		1.0f, 1.0f,
 		path_transform_type_nv(GL_NONE),
-		array_view<GLfloat>()
+		span<GLfloat>()
 	);
 
 	pnvs.stencil_fill_instanced(
-		array_view<const GLuint>(),
+		span<const GLuint>(),
 		path_fill_mode_nv(GL_INVERT),
 		~0u,
 		path_transform_type_nv(GL_NONE),
-		array_view<GLfloat>()
+		span<GLfloat>()
 	);
 
 	pnvs.stencil_fill_instanced(
@@ -186,49 +186,49 @@ void oglplus_path_nv_array_test_ops1(void)
 		path_fill_mode_nv(GL_INVERT),
 		~0u,
 		path_transform_type_nv(GL_NONE),
-		array_view<GLfloat>()
+		span<GLfloat>()
 	);
 
 	pnvs.cover_fill_instanced(
-		array_view<const GLuint>(),
+		span<const GLuint>(),
 		path_fill_cover_mode_nv(GL_CONVEX_HULL_NV),
 		path_transform_type_nv(GL_NONE),
-		array_view<GLfloat>()
+		span<GLfloat>()
 	);
 
 	pnvs.cover_fill_instanced(
 		"blah",
 		path_fill_cover_mode_nv(GL_BOUNDING_BOX_NV),
 		path_transform_type_nv(GL_NONE),
-		array_view<GLfloat>()
+		span<GLfloat>()
 	);
 
 	pnvs.stencil_stroke_instanced(
-		array_view<const GLuint>(),
+		span<const GLuint>(),
 		0, ~0u,
 		path_transform_type_nv(GL_NONE),
-		array_view<GLfloat>()
+		span<GLfloat>()
 	);
 
 	pnvs.stencil_stroke_instanced(
 		"blah",
 		0, ~0u,
 		path_transform_type_nv(GL_NONE),
-		array_view<GLfloat>()
+		span<GLfloat>()
 	);
 
 	pnvs.cover_stroke_instanced(
-		array_view<const GLuint>(),
+		span<const GLuint>(),
 		path_stroke_cover_mode_nv(GL_CONVEX_HULL_NV),
 		path_transform_type_nv(GL_NONE),
-		array_view<GLfloat>()
+		span<GLfloat>()
 	);
 
 	pnvs.cover_stroke_instanced(
 		"blah",
 		path_stroke_cover_mode_nv(GL_BOUNDING_BOX_NV),
 		path_transform_type_nv(GL_NONE),
-		array_view<GLfloat>()
+		span<GLfloat>()
 	);
 }
 

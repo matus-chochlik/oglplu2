@@ -32,7 +32,7 @@ void oglplus_program_test_ops1(void)
 	gl.program_delete_status(prog);
 	gl.program_link_status(prog);
 	gl.program_info_log_length(prog);
-	gl.program_info_log(prog, array_view<char>());
+	gl.program_info_log(prog, span<char>());
 
 	prog.attach(shdr);
 	prog.detach(shdr);
@@ -40,7 +40,7 @@ void oglplus_program_test_ops1(void)
 	prog.delete_status();
 	prog.link_status();
 	prog.info_log_length();
-	prog.info_log(array_view<char>());
+	prog.info_log(span<char>());
 }
 
 // TODO

@@ -95,7 +95,7 @@ program_ops::
 get_program_iv(
 	program_name prog,
 	program_parameter para,
-	array_view<GLint> values
+	span<GLint> values
 ) noexcept
 {
 	assert(values.size() > 0);
@@ -167,7 +167,7 @@ noexcept
 inline
 outcome<GLsizei>
 program_ops::
-program_info_log(program_name prog, array_view<char> dest)
+program_info_log(program_name prog, span<char> dest)
 noexcept
 {
 	GLsizei reallen = 0;
@@ -192,7 +192,7 @@ noexcept
 inline
 deferred_error_handler
 obj_gen_del_ops<tag::program>::
-_gen(array_view<GLuint> names)
+_gen(span<GLuint> names)
 noexcept
 {
 	for(auto b=names.begin(), i=b, e=names.end(); i!=e; ++i)
@@ -222,7 +222,7 @@ noexcept
 inline
 deferred_error_handler
 obj_gen_del_ops<tag::program>::
-_delete(array_view<GLuint> names)
+_delete(span<GLuint> names)
 noexcept
 {
 	for(auto& name : names)

@@ -12,7 +12,6 @@
 #include <oglplus/constants.hpp>
 #include <oglplus/glsl/string_ref.hpp>
 #include <oglplus/error/format.hpp>
-#include <oglplus/utils/make_view.hpp>
 #include <oglplus/math/vector.hpp>
 
 #include <eagine/scope_exit.hpp>

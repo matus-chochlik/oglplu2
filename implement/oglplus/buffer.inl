@@ -79,7 +79,7 @@ buffer_ops::
 get_buffer_parameter_iv(
 	buffer_target tgt,
 	oglplus::buffer_parameter param,
-	array_view<GLint> values
+	span<GLint> values
 ) noexcept
 {
 	assert(values.size() > 0);
@@ -103,7 +103,7 @@ buffer_ops::
 get_buffer_parameter_i64v(
 	buffer_target tgt,
 	oglplus::buffer_parameter param,
-	array_view<GLint64> values
+	span<GLint64> values
 ) noexcept
 {
 	assert(values.size() > 0);
@@ -128,7 +128,7 @@ buffer_ops::
 get_buffer_parameter_iv(
 	buffer_name buf,
 	oglplus::buffer_parameter param,
-	array_view<GLint> values
+	span<GLint> values
 ) noexcept
 {
 	assert(values.size() > 0);
@@ -158,7 +158,7 @@ buffer_ops::
 get_buffer_parameter_i64v(
 	buffer_name buf,
 	oglplus::buffer_parameter param,
-	array_view<GLint64> values
+	span<GLint64> values
 ) noexcept
 {
 	assert(values.size() > 0);
@@ -478,7 +478,7 @@ invalidate_buffer_sub_data(
 inline
 deferred_error_handler
 obj_gen_del_ops<tag::buffer>::
-_gen(array_view<GLuint> names)
+_gen(span<GLuint> names)
 noexcept
 {
 	OGLPLUS_GLFUNC(GenBuffers)(
@@ -494,7 +494,7 @@ noexcept
 inline
 deferred_error_handler
 obj_gen_del_ops<tag::buffer>::
-_delete(array_view<GLuint> names)
+_delete(span<GLuint> names)
 noexcept
 {
 	OGLPLUS_GLFUNC(DeleteBuffers)(

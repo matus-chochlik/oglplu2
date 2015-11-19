@@ -129,7 +129,7 @@ struct uniform_ops
 	uniform(
 		prog_var_wrapper<prog_var_loc<tag::uniform, D>, T[N]> loc,
 		GLsizei count,
-		const array_view<const T>& v
+		const span<const T>& v
 	) noexcept
 	{
 		return oglplus::prog_var_get_set_ops<tag::uniform>::set(
@@ -146,7 +146,7 @@ struct uniform_ops
 		prog_var_wrapper<prog_var_loc<tag::uniform, D>, T[C][R]> loc,
 		GLsizei count,
 		boolean transpose,
-		const array_view<const T>& v
+		const span<const T>& v
 	) noexcept
 	{
 		return oglplus::prog_var_get_set_ops<tag::uniform>::set(

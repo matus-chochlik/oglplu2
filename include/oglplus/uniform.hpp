@@ -12,7 +12,7 @@
 #include "prog_var/location.hpp"
 #include "prog_var/wrapper.hpp"
 #include "utils/identity.hpp"
-#include "utils/array_view.hpp"
+#include "utils/span.hpp"
 
 namespace oglplus {
 namespace tag {

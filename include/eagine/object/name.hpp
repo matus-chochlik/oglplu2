@@ -12,7 +12,7 @@
 #include <utility>
 #include <cstddef>
 #include "fwd.hpp"
-#include "../array_view.hpp"
+#include "../span.hpp"
 
 namespace eagine {
 
@@ -146,7 +146,7 @@ public:
 	}
 
 	friend inline constexpr
-	array_view<_name_type>
+	span<_name_type>
 	get_raw_names(object_names& ntr)
 	noexcept
 	{

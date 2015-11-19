@@ -510,7 +510,7 @@ noexcept
 inline
 deferred_error_handler
 obj_gen_del_ops<tag::framebuffer>::
-_gen(array_view<GLuint> names)
+_gen(span<GLuint> names)
 noexcept
 {
 	OGLPLUS_GLFUNC(GenFramebuffers)(
@@ -526,7 +526,7 @@ noexcept
 inline
 deferred_error_handler
 obj_gen_del_ops<tag::framebuffer>::
-_delete(array_view<GLuint> names)
+_delete(span<GLuint> names)
 noexcept
 {
 	OGLPLUS_GLFUNC(DeleteFramebuffers)(

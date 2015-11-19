@@ -21,7 +21,7 @@ path_glyphs(
 	path_font_target_nv font_target,
 	cstr_ref font_name,
 	enum_bitfield<path_font_style_nv> font_style,
-	array_view<T> char_codes,
+	span<T> char_codes,
 	path_missing_glyph_nv handle_missing_glyphs,
 	GLuint parameter_template,
 	GLfloat em_scale
@@ -90,12 +90,12 @@ outcome<void>
 path_nv_array_ops::
 get_path_spacing(
 	path_list_mode_nv list_mode,
-	array_view<T> indices,
+	span<T> indices,
 	const object_names<tag::path_nv, S>& paths,
 	GLfloat advance_scale,
 	GLfloat kerning_scale,
 	path_transform_type_nv transform_type,
-	array_view<GLfloat> returned_values
+	span<GLfloat> returned_values
 ) noexcept
 {
 	assert(indices.size() <= returned_values.size());
@@ -126,12 +126,12 @@ outcome<void>
 path_nv_array_ops::
 get_path_spacing(
 	path_list_mode_nv list_mode,
-	cstring_view<> indices,
+	cstring_span<> indices,
 	const object_names<tag::path_nv, S>& paths,
 	GLfloat advance_scale,
 	GLfloat kerning_scale,
 	path_transform_type_nv transform_type,
-	array_view<GLfloat> returned_values
+	span<GLfloat> returned_values
 ) noexcept
 {
 	OGLPLUS_GLFUNC(GetPathSpacingNV)(
@@ -160,10 +160,10 @@ outcome<void>
 path_nv_array_ops::
 get_path_metrics(
 	enum_bitfield<path_metric_query_nv> query_mask,
-	array_view<T> indices,
+	span<T> indices,
 	const object_names<tag::path_nv, S>& paths,
 	GLsizei stride,
-	array_view<GLfloat> returned_values
+	span<GLfloat> returned_values
 ) noexcept
 {
 	assert(indices.size() <= returned_values.size());
@@ -191,10 +191,10 @@ outcome<void>
 path_nv_array_ops::
 get_path_metrics(
 	enum_bitfield<path_metric_query_nv> query_mask,
-	cstring_view<> indices,
+	cstring_span<> indices,
 	const object_names<tag::path_nv, S>& paths,
 	GLsizei stride,
-	array_view<GLfloat> returned_values
+	span<GLfloat> returned_values
 ) noexcept
 {
 	OGLPLUS_GLFUNC(GetPathMetricsNV)(
@@ -223,7 +223,7 @@ get_path_metric_range(
 	const object_names<tag::path_nv, S>& paths,
 	GLsizei num_paths,
 	GLsizei stride,
-	array_view<GLfloat> returned_values
+	span<GLfloat> returned_values
 ) noexcept
 {
 	OGLPLUS_GLFUNC(GetPathMetricRangeNV)(
@@ -246,12 +246,12 @@ inline
 outcome<void>
 path_nv_array_ops::
 stencil_fill_path_instanced(
-	array_view<T> indices,
+	span<T> indices,
 	const object_names<tag::path_nv, S>& paths,
 	path_fill_mode_nv mode,
 	GLuint mask,
 	path_transform_type_nv transform_type,
-	array_view<const GLfloat> transform_values
+	span<const GLfloat> transform_values
 ) noexcept
 {
 	OGLPLUS_GLFUNC(StencilFillPathInstancedNV)(
@@ -278,12 +278,12 @@ inline
 outcome<void>
 path_nv_array_ops::
 stencil_fill_path_instanced(
-	cstring_view<> indices,
+	cstring_span<> indices,
 	const object_names<tag::path_nv, S>& paths,
 	path_fill_mode_nv mode,
 	GLuint mask,
 	path_transform_type_nv transform_type,
-	array_view<const GLfloat> transform_values
+	span<const GLfloat> transform_values
 ) noexcept
 {
 	OGLPLUS_GLFUNC(StencilFillPathInstancedNV)(
@@ -310,11 +310,11 @@ inline
 outcome<void>
 path_nv_array_ops::
 cover_fill_path_instanced(
-	array_view<T> indices,
+	span<T> indices,
 	const object_names<tag::path_nv, S>& paths,
 	path_fill_cover_mode_nv mode,
 	path_transform_type_nv transform_type,
-	array_view<const GLfloat> transform_values
+	span<const GLfloat> transform_values
 ) noexcept
 {
 	OGLPLUS_GLFUNC(CoverFillPathInstancedNV)(
@@ -340,11 +340,11 @@ inline
 outcome<void>
 path_nv_array_ops::
 cover_fill_path_instanced(
-	cstring_view<> indices,
+	cstring_span<> indices,
 	const object_names<tag::path_nv, S>& paths,
 	path_fill_cover_mode_nv mode,
 	path_transform_type_nv transform_type,
-	array_view<const GLfloat> transform_values
+	span<const GLfloat> transform_values
 ) noexcept
 {
 	OGLPLUS_GLFUNC(CoverFillPathInstancedNV)(
@@ -370,12 +370,12 @@ inline
 outcome<void>
 path_nv_array_ops::
 stencil_stroke_path_instanced(
-	array_view<T> indices,
+	span<T> indices,
 	const object_names<tag::path_nv, S>& paths,
 	GLint reference,
 	GLuint mask,
 	path_transform_type_nv transform_type,
-	array_view<const GLfloat> transform_values
+	span<const GLfloat> transform_values
 ) noexcept
 {
 	OGLPLUS_GLFUNC(StencilStrokePathInstancedNV)(
@@ -401,12 +401,12 @@ inline
 outcome<void>
 path_nv_array_ops::
 stencil_stroke_path_instanced(
-	cstring_view<> indices,
+	cstring_span<> indices,
 	const object_names<tag::path_nv, S>& paths,
 	GLint reference,
 	GLuint mask,
 	path_transform_type_nv transform_type,
-	array_view<const GLfloat> transform_values
+	span<const GLfloat> transform_values
 ) noexcept
 {
 	OGLPLUS_GLFUNC(StencilStrokePathInstancedNV)(
@@ -432,11 +432,11 @@ inline
 outcome<void>
 path_nv_array_ops::
 cover_stroke_path_instanced(
-	array_view<T> indices,
+	span<T> indices,
 	const object_names<tag::path_nv, S>& paths,
 	path_stroke_cover_mode_nv mode,
 	path_transform_type_nv transform_type,
-	array_view<const GLfloat> transform_values
+	span<const GLfloat> transform_values
 ) noexcept
 {
 	OGLPLUS_GLFUNC(CoverStrokePathInstancedNV)(
@@ -462,11 +462,11 @@ inline
 outcome<void>
 path_nv_array_ops::
 cover_stroke_path_instanced(
-	cstring_view<> indices,
+	cstring_span<> indices,
 	const object_names<tag::path_nv, S>& paths,
 	path_stroke_cover_mode_nv mode,
 	path_transform_type_nv transform_type,
-	array_view<const GLfloat> transform_values
+	span<const GLfloat> transform_values
 ) noexcept
 {
 	OGLPLUS_GLFUNC(CoverStrokePathInstancedNV)(

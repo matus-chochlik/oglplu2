@@ -38,10 +38,10 @@ private:
 	}
 public:
 	typedef _ec_t value_type;
-	typedef std::size_t size_type;
+	typedef span_size_type size_type;
 
 	explicit
-	enumerated_value_range(array_view<const T> v)
+	enumerated_value_range(span<const T> v)
 	noexcept
 	 : _begin(v.data())
 	 , _end(v.data()+v.size())
@@ -50,10 +50,10 @@ public:
 	}
 
 	explicit
-	enumerated_value_range(std::pair<const void*, std::size_t> p)
+	enumerated_value_range(std::pair<const void*, size_type> p)
 	noexcept
 	 : enumerated_value_range(
-		array_view<const T>{static_cast<const T*>(p.first), p.second}
+		span<const T>{static_cast<const T*>(p.first), p.second}
 	)
 	{ }
 

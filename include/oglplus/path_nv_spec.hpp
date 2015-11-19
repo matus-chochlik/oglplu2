@@ -50,7 +50,7 @@ private:
 		return *this;
 	}
 
-	path_nv_spec& _append(GLubyte command, array_view<const T> coords)
+	path_nv_spec& _append(GLubyte command, span<const T> coords)
 	{
 		_commands.push_back(command);
 		_coords.insert(_coords.end(), coords.begin(), coords.end());
@@ -77,7 +77,7 @@ public:
 	}
 
 	path_nv_spec&
-	add(path_command_nv command, array_view<const T> coords)
+	add(path_command_nv command, span<const T> coords)
 	{
 		return _append(GLubyte(command), coords);
 	}

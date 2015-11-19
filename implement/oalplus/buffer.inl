@@ -15,7 +15,7 @@ namespace oalplus {
 inline
 deferred_error_handler
 obj_gen_del_ops<tag::buffer>::
-_gen(array_view<ALuint> names)
+_gen(span<ALuint> names)
 noexcept
 {
 	OALPLUS_ALFUNC(GenBuffers)(
@@ -31,7 +31,7 @@ noexcept
 inline
 deferred_error_handler
 obj_gen_del_ops<tag::buffer>::
-_delete(array_view<ALuint> names)
+_delete(span<ALuint> names)
 noexcept
 {
 	OALPLUS_ALFUNC(DeleteBuffers)(

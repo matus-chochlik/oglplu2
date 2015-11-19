@@ -58,7 +58,7 @@ noexcept
 inline
 deferred_error_handler
 obj_gen_del_ops<tag::transform_feedback>::
-_gen(array_view<GLuint> names)
+_gen(span<GLuint> names)
 noexcept
 {
 	OGLPLUS_GLFUNC(GenTransformFeedbacks)(
@@ -74,7 +74,7 @@ noexcept
 inline
 deferred_error_handler
 obj_gen_del_ops<tag::transform_feedback>::
-_delete(array_view<GLuint> names)
+_delete(span<GLuint> names)
 noexcept
 {
 	OGLPLUS_GLFUNC(DeleteTransformFeedbacks)(

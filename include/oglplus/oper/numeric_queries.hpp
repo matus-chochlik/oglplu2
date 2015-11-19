@@ -10,7 +10,7 @@
 #define OGLPLUS_OPER_NUMERIC_QUERIES_1509260923_HPP
 
 #include "../utils/gl_func.hpp"
-#include "../utils/array_view.hpp"
+#include "../utils/span.hpp"
 #include "../utils/boolean.hpp"
 #include "../error/handling.hpp"
 #include "../error/outcome.hpp"
@@ -23,7 +23,7 @@ struct numeric_queries
 {
 	static
 	outcome<void>
-	get_integer_v(binding_query query, array_view<GLint> data)
+	get_integer_v(binding_query query, span<GLint> data)
 	noexcept
 	{
 		assert(data.size() > 0);
@@ -41,7 +41,7 @@ struct numeric_queries
 
 	static
 	outcome<void>
-	get_boolean_v(numeric_query query, array_view<GLboolean> data)
+	get_boolean_v(numeric_query query, span<GLboolean> data)
 	noexcept
 	{
 		assert(data.size() > 0);
@@ -68,7 +68,7 @@ struct numeric_queries
 
 	static
 	outcome<void>
-	get_integer_v(numeric_query query, array_view<GLint> data)
+	get_integer_v(numeric_query query, span<GLint> data)
 	noexcept
 	{
 		assert(data.size() > 0);
@@ -95,7 +95,7 @@ struct numeric_queries
 
 	static
 	outcome<void>
-	get_float_v(numeric_query query, array_view<GLfloat> data)
+	get_float_v(numeric_query query, span<GLfloat> data)
 	noexcept
 	{
 		assert(data.size() > 0);

@@ -10,7 +10,6 @@
 #define OGLPLUS_OPER_BUFFER_MASKING_1509260923_HPP
 
 #include "../utils/gl_func.hpp"
-#include "../utils/array_view.hpp"
 #include "../error/handling.hpp"
 #include "../error/outcome.hpp"
 #include "../enum/types.hpp"

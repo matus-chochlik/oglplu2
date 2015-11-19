@@ -51,7 +51,7 @@ struct shader_ops
 	get_shader_iv(
 		shader_name shdr,
 		shader_parameter param,
-		array_view<GLint> values
+		span<GLint> values
 	) noexcept;
 
 	template <typename R, typename T>
@@ -82,7 +82,7 @@ struct shader_ops
 
 	static
 	outcome<GLsizei>
-	shader_info_log(shader_name shdr, array_view<char> dest)
+	shader_info_log(shader_name shdr, span<char> dest)
 	noexcept;
 };
 
@@ -140,7 +140,7 @@ struct obj_dsa_ops<tag::shader>
 	}
 
 	outcome<GLsizei>
-	info_log(array_view<char> dest) const
+	info_log(span<char> dest) const
 	noexcept
 	{
 		return _ops::shader_info_log(*this, dest);
@@ -153,12 +153,12 @@ struct obj_gen_del_ops<tag::shader>
 {
 	static
 	deferred_error_handler
-	_gen(array_view<GLuint> names, shader_type type)
+	_gen(span<GLuint> names, shader_type type)
 	noexcept;
 
 	static
 	deferred_error_handler
-	_delete(array_view<GLuint> names)
+	_delete(span<GLuint> names)
 	noexcept;
 
 	static

@@ -12,7 +12,7 @@
 
 #include "../enum/types.hpp"
 #include "../data_type.hpp"
-#include "array_view.hpp"
+#include "span.hpp"
 #include "memory_block.hpp"
 #include <cassert>
 
@@ -108,11 +108,11 @@ private:
 	const_memory_block _pixels;
 	std::size_t _elem_size;
 public:
-	template <typename T>
-	image_pixel_data(array_view<T> pix_view)
+	template <typename T, span_size_type N>
+	image_pixel_data(span<T, N> pix_view)
 	noexcept
 	 : _type(pixel_data_type(GLenum(get_data_type<T>())))
-	 , _pixels(pix_view.data(), pix_view.size())
+	 , _pixels(pix_view.data(), std::size_t(pix_view.size()))
 	 , _elem_size(sizeof(T))
 	{ }
 

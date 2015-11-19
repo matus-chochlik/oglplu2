@@ -37,7 +37,7 @@ struct program_pipeline_ops
 	get_program_pipeline_iv(
 		program_pipeline_name buf,
 		program_pipeline_parameter param,
-		array_view<GLint> values
+		span<GLint> values
 	) noexcept;
 
 	template <typename R, typename T>
@@ -88,12 +88,12 @@ struct obj_gen_del_ops<tag::program_pipeline>
 {
 	static
 	deferred_error_handler
-	_gen(array_view<GLuint> names)
+	_gen(span<GLuint> names)
 	noexcept;
 
 	static
 	deferred_error_handler
-	_delete(array_view<GLuint> names)
+	_delete(span<GLuint> names)
 	noexcept;
 
 	static

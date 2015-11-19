@@ -29,8 +29,8 @@ void oglplus_path_nv_test_ops1(void)
 	gl.path_commands(pnvs[0], path_nv_spec<GLfloat>());
 	gl.path_sub_commands(pnv, 0, 0, path_nv_spec<GLint>());
 	gl.path_sub_commands(pnv, 0, 0, path_nv_spec<GLfloat>());
-	gl.path_coords(pnv, array_view<const GLint>());
-	gl.path_coords(pnv, array_view<const GLfloat>());
+	gl.path_coords(pnv, span<const GLint>());
+	gl.path_coords(pnv, span<const GLfloat>());
 	gl.path_string(pnv, path_format_nv(GL_PATH_FORMAT_SVG_NV), "");
 	gl.path_svg_string(pnv, "");
 	gl.path_ps_string(pnv, "");
@@ -61,18 +61,18 @@ void oglplus_path_nv_test_ops1(void)
 	gl.path_dash_offset(pnv);
 	gl.path_dash_offset_reset(pnv, path_dash_offset_reset_nv(GL_MOVE_TO_RESETS_NV));
 	gl.path_dash_offset_reset(pnv);
-	gl.path_dash_array(pnv, array_view<const GLfloat>());
+	gl.path_dash_array(pnv, span<const GLfloat>());
 
 	gl.copy_path(pnv, pnv);
 	gl.interpolate_path(pnv, pnv, pnv, 0.5f);
-	gl.transform_path(pnv, pnv, path_transform_type_nv(GL_NONE), array_view<GLfloat>());
+	gl.transform_path(pnv, pnv, path_transform_type_nv(GL_NONE), span<GLfloat>());
 
 	pnv.commands(path_nv_spec<GLint>());
 	pnv.commands(path_nv_spec<GLfloat>());
 	pnv.sub_commands(0, 0, path_nv_spec<GLint>());
 	pnv.sub_commands(0, 0, path_nv_spec<GLfloat>());
-	pnv.coords(array_view<const GLint>());
-	pnv.coords(array_view<const GLfloat>());
+	pnv.coords(span<const GLint>());
+	pnv.coords(span<const GLfloat>());
 	pnv.string(path_format_nv(GL_PATH_FORMAT_SVG_NV), "");
 	pnv.svg_string("");
 	pnv.ps_string("");
@@ -103,12 +103,12 @@ void oglplus_path_nv_test_ops1(void)
 	pnv.dash_offset();
 	pnv.dash_offset_reset(path_dash_offset_reset_nv(GL_MOVE_TO_RESETS_NV));
 	pnv.dash_offset_reset();
-	pnv.dash_array(array_view<const GLfloat>());
+	pnv.dash_array(span<const GLfloat>());
 	pnv.dashes(1.0f, 2.0f, 3.0f);
 
 	pnv.copy_from(pnv);
 	pnv.interpolate_from(pnv, pnv, 0.5f);
-	pnv.transform_from(pnv, path_transform_type_nv(GL_NONE), array_view<GLfloat>());
+	pnv.transform_from(pnv, path_transform_type_nv(GL_NONE), span<GLfloat>());
 }
 
 // TODO

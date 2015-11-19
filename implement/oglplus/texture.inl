@@ -641,7 +641,7 @@ texture_ops::
 get_texture_parameter_iv(
 	texture_target_only tnt,
 	oglplus::texture_parameter param,
-	array_view<GLint> values
+	span<GLint> values
 ) noexcept
 {
 	assert(values.size() > 0);
@@ -666,7 +666,7 @@ get_texture_level_parameter_iv(
 	texture_target_only tnt,
 	GLint level,
 	oglplus::texture_parameter param,
-	array_view<GLint> values
+	span<GLint> values
 ) noexcept
 {
 	assert(values.size() > 0);
@@ -715,7 +715,7 @@ texture_ops::
 get_texture_parameter_fv(
 	texture_target_only tnt,
 	oglplus::texture_parameter param,
-	array_view<GLfloat> values
+	span<GLfloat> values
 ) noexcept
 {
 	assert(values.size() > 0);
@@ -763,7 +763,7 @@ texture_ops::
 get_texture_parameter_iv(
 	texture_name_only tnt,
 	oglplus::texture_parameter param,
-	array_view<GLint> values
+	span<GLint> values
 ) noexcept
 {
 	assert(values.size() > 0);
@@ -788,7 +788,7 @@ get_texture_level_parameter_iv(
 	texture_name_only tnt,
 	GLint level,
 	oglplus::texture_parameter param,
-	array_view<GLint> values
+	span<GLint> values
 ) noexcept
 {
 	assert(values.size() > 0);
@@ -837,7 +837,7 @@ texture_ops::
 get_texture_parameter_fv(
 	texture_name_only tnt,
 	oglplus::texture_parameter param,
-	array_view<GLfloat> values
+	span<GLfloat> values
 ) noexcept
 {
 	assert(values.size() > 0);
@@ -887,7 +887,7 @@ texture_ops::
 get_texture_parameter_iv(
 	texture_name_and_target tnt,
 	oglplus::texture_parameter param,
-	array_view<GLint> values
+	span<GLint> values
 ) noexcept
 {
 	assert(values.size() > 0);
@@ -913,7 +913,7 @@ get_texture_level_parameter_iv(
 	texture_name_and_target tnt,
 	GLint level,
 	oglplus::texture_parameter param,
-	array_view<GLint> values
+	span<GLint> values
 ) noexcept
 {
 	assert(values.size() > 0);
@@ -964,7 +964,7 @@ texture_ops::
 get_texture_parameter_fv(
 	texture_name_and_target tnt,
 	oglplus::texture_parameter param,
-	array_view<GLfloat> values
+	span<GLfloat> values
 ) noexcept
 {
 	assert(values.size() > 0);
@@ -1555,7 +1555,7 @@ noexcept
 inline
 deferred_error_handler
 obj_gen_del_ops<tag::texture>::
-_gen(array_view<GLuint> names)
+_gen(span<GLuint> names)
 noexcept
 {
 	OGLPLUS_GLFUNC(GenTextures)(
@@ -1571,7 +1571,7 @@ noexcept
 inline
 deferred_error_handler
 obj_gen_del_ops<tag::texture>::
-_delete(array_view<GLuint> names)
+_delete(span<GLuint> names)
 noexcept
 {
 	OGLPLUS_GLFUNC(DeleteTextures)(

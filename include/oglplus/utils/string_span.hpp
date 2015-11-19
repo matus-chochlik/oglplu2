@@ -1,5 +1,5 @@
 /**
- *  @file oglplus/utils/string_view.hpp
+ *  @file oglplus/utils/string_span.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,15 +7,15 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef OGLPLUS_UTILS_STRING_VIEW_1509260923_HPP
-#define OGLPLUS_UTILS_STRING_VIEW_1509260923_HPP
+#ifndef OGLPLUS_UTILS_STRING_SPAN_1509260923_HPP
+#define OGLPLUS_UTILS_STRING_SPAN_1509260923_HPP
 
-#include <eagine/string_view.hpp>
+#include <eagine/string_span.hpp>
 
 namespace oglplus {
 
-using eagine::string_view;
-using eagine::cstring_view;
+using eagine::string_span;
+using eagine::cstring_span;
 
 } // namespace oglplus
 

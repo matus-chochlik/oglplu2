@@ -43,7 +43,7 @@ noexcept
 inline
 outcome<void>
 shader_ops::
-get_shader_iv(shader_name shdr, shader_parameter para, array_view<GLint> values)
+get_shader_iv(shader_name shdr, shader_parameter para, span<GLint> values)
 noexcept
 {
 	assert(values.size() > 0);
@@ -129,7 +129,7 @@ noexcept
 inline
 outcome<GLsizei>
 shader_ops::
-shader_info_log(shader_name shdr, array_view<char> dest)
+shader_info_log(shader_name shdr, span<char> dest)
 noexcept
 {
 	GLsizei reallen = 0;
@@ -154,7 +154,7 @@ noexcept
 inline
 deferred_error_handler
 obj_gen_del_ops<tag::shader>::
-_gen(array_view<GLuint> names, shader_type type)
+_gen(span<GLuint> names, shader_type type)
 noexcept
 {
 	for(auto b=names.begin(), i=b, e=names.end(); i!=e; ++i)
@@ -184,7 +184,7 @@ noexcept
 inline
 deferred_error_handler
 obj_gen_del_ops<tag::shader>::
-_delete(array_view<GLuint> names)
+_delete(span<GLuint> names)
 noexcept
 {
 	for(auto& name : names)

@@ -10,6 +10,8 @@
 #ifndef EAGINE_TYPES_1509260923_HPP
 #define EAGINE_TYPES_1509260923_HPP
 
+#include <cstdint>
+
 namespace eagine {
 
 typedef unsigned char byte;

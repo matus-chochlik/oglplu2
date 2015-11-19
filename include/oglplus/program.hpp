@@ -54,7 +54,7 @@ struct program_ops
 	get_program_iv(
 		program_name prog,
 		program_parameter param,
-		array_view<GLint> values
+		span<GLint> values
 	) noexcept;
 
 	template <typename R, typename T>
@@ -80,7 +80,7 @@ struct program_ops
 
 	static
 	outcome<GLsizei>
-	program_info_log(program_name prog, array_view<char> dest)
+	program_info_log(program_name prog, span<char> dest)
 	noexcept;
 };
 
@@ -138,7 +138,7 @@ struct obj_dsa_ops<tag::program>
 	}
 
 	outcome<GLsizei>
-	info_log(array_view<char> dest) const
+	info_log(span<char> dest) const
 	noexcept
 	{
 		return _ops::program_info_log(*this, dest);
@@ -151,12 +151,12 @@ struct obj_gen_del_ops<tag::program>
 {
 	static
 	deferred_error_handler
-	_gen(array_view<GLuint> names)
+	_gen(span<GLuint> names)
 	noexcept;
 
 	static
 	deferred_error_handler
-	_delete(array_view<GLuint> names)
+	_delete(span<GLuint> names)
 	noexcept;
 
 	static

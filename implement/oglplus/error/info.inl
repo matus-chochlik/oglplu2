@@ -403,7 +403,7 @@ noexcept
 OGLPLUS_LIB_FUNC
 error_info&
 error_info::
-identifier(const cstring_view<>& ident)
+identifier(const cstring_span<>& ident)
 noexcept
 {
 #if !OGLPLUS_ERROR_NO_IDENTIFIER
@@ -416,7 +416,7 @@ noexcept
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstring_view<>
+cstring_span<>
 error_info::
 identifier(void) const
 noexcept
@@ -431,7 +431,7 @@ noexcept
 OGLPLUS_LIB_FUNC
 error_info&
 error_info::
-build_log(const cstring_view<>& log)
+build_log(const cstring_span<>& log)
 noexcept
 {
 #if !OGLPLUS_ERROR_NO_BUILD_LOG
@@ -444,13 +444,13 @@ noexcept
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstring_view<>
+cstring_span<>
 error_info::
 build_log(void) const
 noexcept
 {
 #if !OGLPLUS_ERROR_NO_BUILD_LOG
-	return _ext_info()._build_log;
+	return {_ext_info()._build_log};
 #else
 	return {};
 #endif

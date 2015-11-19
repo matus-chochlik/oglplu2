@@ -5,66 +5,55 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE EAGINE_make_view
+#define BOOST_TEST_MODULE EAGINE_as_span
 #include <boost/test/unit_test.hpp>
 
-#include <eagine/make_view.hpp>
+#include <eagine/span.hpp>
 #include <cstdlib>
 #include <vector>
 #include <array>
 
-BOOST_AUTO_TEST_SUITE(make_view)
+BOOST_AUTO_TEST_SUITE(as_span)
 
-BOOST_AUTO_TEST_CASE(make_view_default)
-{
-	using namespace eagine;
-
-	array_view<int> vi = eagine::make_view<int>();
-	BOOST_CHECK(vi.size() == 0);
-
-	array_view<const int> vci = eagine::make_view<const int>();
-	BOOST_CHECK(vci.size() == 0);
-}
-
-BOOST_AUTO_TEST_CASE(make_view_ptr_size)
+BOOST_AUTO_TEST_CASE(as_span_ptr_size)
 {
 	using namespace eagine;
 
 	float fv[5] = {1.f, 2.f, 3.f, 4.f, 5.f};
 
-	array_view<float> vf = eagine::make_view(fv, 5);
+	span<float> vf = eagine::as_span(fv, 5);
 	BOOST_CHECK(vf.size() == 5);
 	BOOST_CHECK(vf.data() == fv);
 
 	const float cfv[5] = {6.f, 7.f, 8.f, 9.f, 0.f};
 
-	array_view<const float> vcf = eagine::make_view(cfv, 3);
+	span<const float> vcf = eagine::as_span(cfv, 3);
 	BOOST_CHECK(vcf.size() == 3);
 	BOOST_CHECK(vcf.data() == cfv);
 }
 
-BOOST_AUTO_TEST_CASE(make_view_carray)
+BOOST_AUTO_TEST_CASE(as_span_carray)
 {
 	using namespace eagine;
 
 	float fv[4] = {1.f, 2.f, 3.f, 4.f};
 
-	array_view<float> vf = eagine::make_view(fv);
+	span<float> vf = eagine::as_span(fv);
 	BOOST_CHECK(vf.size() == sizeof(fv)/sizeof(fv[0]));
 	BOOST_CHECK(vf.data() == fv);
 
 	const float cfv[4] = {5.f, 6.f, 7.f, 8.f};
 
-	array_view<const float> vcf = eagine::make_view(cfv);
+	span<const float> vcf = eagine::as_span(cfv);
 	BOOST_CHECK(vcf.size() == sizeof(cfv)/sizeof(cfv[0]));
 	BOOST_CHECK(vcf.data() == cfv);
 }
 
-BOOST_AUTO_TEST_CASE(make_view_init_list)
+BOOST_AUTO_TEST_CASE(as_span_init_list)
 {
 	using namespace eagine;
 
-	array_view<const float> vf = eagine::make_view({1.f, 2.f, 3.f, 4.f});
+	span<const float> vf = eagine::as_span({1.f, 2.f, 3.f, 4.f});
 	BOOST_CHECK(vf.size() == 4);
 	BOOST_CHECK(vf[0] == 1.f);
 	BOOST_CHECK(vf[1] == 2.f);
@@ -72,7 +61,7 @@ BOOST_AUTO_TEST_CASE(make_view_init_list)
 	BOOST_CHECK(vf[3] == 4.f);
 }
 
-BOOST_AUTO_TEST_CASE(make_view_std_vector)
+BOOST_AUTO_TEST_CASE(as_span_std_vector)
 {
 	using namespace eagine;
 
@@ -83,8 +72,8 @@ BOOST_AUTO_TEST_CASE(make_view_std_vector)
 		v.push_back(std::rand());
 	}
 
-	array_view<int> vi = eagine::make_view(v);
-	BOOST_CHECK(vi.size() == v.size());
+	span<int> vi = eagine::as_span(v);
+	BOOST_CHECK_EQUAL(vi.size(), v.size());
 
 	for(std::size_t l=0; l<v.size(); ++l)
 	{
@@ -93,8 +82,8 @@ BOOST_AUTO_TEST_CASE(make_view_std_vector)
 
 	const std::vector<int>& vr = v;
 
-	array_view<const int> cvi = eagine::make_view(vr);
-	BOOST_CHECK(cvi.size() == vr.size());
+	span<const int> cvi = eagine::as_span(vr);
+	BOOST_CHECK_EQUAL(cvi.size(), vr.size());
 
 	for(std::size_t l=0; l<vr.size(); ++l)
 	{
@@ -102,7 +91,7 @@ BOOST_AUTO_TEST_CASE(make_view_std_vector)
 	}
 }
 
-BOOST_AUTO_TEST_CASE(make_view_std_array)
+BOOST_AUTO_TEST_CASE(as_span_std_array)
 {
 	using namespace eagine;
 
@@ -113,8 +102,8 @@ BOOST_AUTO_TEST_CASE(make_view_std_array)
 		a[l] = std::rand();
 	}
 
-	array_view<int> vi = eagine::make_view(a);
-	BOOST_CHECK(vi.size() == a.size());
+	span<int> vi = eagine::as_span(a);
+	BOOST_CHECK_EQUAL(vi.size(), a.size());
 
 	for(std::size_t l=0; l<a.size(); ++l)
 	{
@@ -123,8 +112,9 @@ BOOST_AUTO_TEST_CASE(make_view_std_array)
 
 	const std::array<int, 100>& ar = a;
 
-	array_view<const int> cvi = eagine::make_view(ar);
-	BOOST_CHECK(cvi.size() == ar.size());
+	span<const int> cvi = eagine::as_span(ar);
+	BOOST_CHECK_EQUAL(cvi.size(), ar.size());
+
 
 	for(std::size_t l=0; l<ar.size(); ++l)
 	{

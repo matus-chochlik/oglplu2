@@ -31,7 +31,7 @@ void oglplus_shader_test_ops1(void)
 	gl.shader_delete_status(shdr);
 	gl.shader_compile_status(shdr);
 	gl.shader_info_log_length(shdr);
-	gl.shader_info_log(shdr, array_view<char>());
+	gl.shader_info_log(shdr, span<char>());
 
 	shdr.type();
 	shdr.source(src);
@@ -39,7 +39,7 @@ void oglplus_shader_test_ops1(void)
 	shdr.compile_status();
 	shdr.delete_status();
 	shdr.info_log_length();
-	shdr.info_log(array_view<char>());
+	shdr.info_log(span<char>());
 }
 
 // TODO

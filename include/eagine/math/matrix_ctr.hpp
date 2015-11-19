@@ -137,7 +137,7 @@ struct compound_view_maker<math::convertible_matrix_constructor<MC>>
 		typedef typename M::element_type T;
 		M _m;
 
-		operator array_view<const T> (void) const
+		operator span<const T> (void) const
 		noexcept
 		{
 			compound_view_maker<M> cvm;

@@ -445,7 +445,7 @@ vertex_array_attrib_i_offset(
 inline
 deferred_error_handler
 obj_gen_del_ops<tag::vertex_array>::
-_gen(array_view<GLuint> names)
+_gen(span<GLuint> names)
 noexcept
 {
 	OGLPLUS_GLFUNC(GenVertexArrays)(
@@ -461,7 +461,7 @@ noexcept
 inline
 deferred_error_handler
 obj_gen_del_ops<tag::vertex_array>::
-_delete(array_view<GLuint> names)
+_delete(span<GLuint> names)
 noexcept
 {
 	OGLPLUS_GLFUNC(DeleteVertexArrays)(

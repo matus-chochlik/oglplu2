@@ -10,6 +10,7 @@
 #define EAGINE_OBJECT_NAMES_1509260923_HPP
 
 #include "name.hpp"
+#include "../types.hpp"
 #include "../iterator.hpp"
 #include <array>
 #include <vector>
@@ -187,11 +188,11 @@ public:
 	}
 
 	friend inline constexpr
-	array_view<typename _traits::name_type>
+	span<typename _traits::name_type>
 	get_raw_names(object_name_container& ctr)
 	noexcept
 	{
-		return {ctr._names.data(), ctr._names.size()};
+		return {ctr._names};
 	}
 };
 

@@ -11,10 +11,11 @@
 
 #ifdef GL_ARB_compatibility
 #include "../utils/gl_func.hpp"
-#include "../utils/array_view.hpp"
+#include "../utils/span.hpp"
 #include "../error/handling.hpp"
 #include "../error/outcome.hpp"
 #include "../enum/types.hpp"
+#include <eagine/types.hpp>
 
 #include <cassert>
 #endif // ARB_compatibility
@@ -73,7 +74,7 @@ struct compatibility_drawing
 
 	static
 	outcome<void>
-	vertex(const array_view<const GLshort>& v, std::size_t n)
+	vertex(const span<const GLshort>& v, span_size_type n)
 	noexcept
 	{
 		assert(n >= 2);
@@ -88,7 +89,7 @@ struct compatibility_drawing
 
 	static
 	outcome<void>
-	vertex(const array_view<const GLshort>& v)
+	vertex(const span<const GLshort>& v)
 	noexcept
 	{
 		return vertex(v, v.size());
@@ -123,7 +124,7 @@ struct compatibility_drawing
 
 	static
 	outcome<void>
-	vertex(const array_view<const GLint>& v, std::size_t n)
+	vertex(const span<const GLint>& v, span_size_type n)
 	noexcept
 	{
 		assert(n >= 2);
@@ -138,7 +139,7 @@ struct compatibility_drawing
 
 	static
 	outcome<void>
-	vertex(const array_view<const GLint>& v)
+	vertex(const span<const GLint>& v)
 	noexcept
 	{
 		return vertex(v, v.size());
@@ -173,7 +174,7 @@ struct compatibility_drawing
 
 	static
 	outcome<void>
-	vertex(const array_view<const GLfloat>& v, std::size_t n)
+	vertex(const span<const GLfloat>& v, span_size_type n)
 	noexcept
 	{
 		assert(n >= 2);
@@ -188,7 +189,7 @@ struct compatibility_drawing
 
 	static
 	outcome<void>
-	vertex(const array_view<const GLfloat>& v)
+	vertex(const span<const GLfloat>& v)
 	noexcept
 	{
 		return vertex(v, v.size());
@@ -223,7 +224,7 @@ struct compatibility_drawing
 
 	static
 	outcome<void>
-	vertex(const array_view<const GLdouble>& v, std::size_t n)
+	vertex(const span<const GLdouble>& v, span_size_type n)
 	noexcept
 	{
 		assert(n >= 2);
@@ -238,7 +239,7 @@ struct compatibility_drawing
 
 	static
 	outcome<void>
-	vertex(const array_view<const GLdouble>& v)
+	vertex(const span<const GLdouble>& v)
 	noexcept
 	{
 		return vertex(v, v.size());
@@ -264,7 +265,7 @@ struct compatibility_drawing
 
 	static
 	outcome<void>
-	color(const array_view<const GLubyte>& v, std::size_t n)
+	color(const span<const GLubyte>& v, span_size_type n)
 	noexcept
 	{
 		assert(n >= 3);
@@ -278,7 +279,7 @@ struct compatibility_drawing
 
 	static
 	outcome<void>
-	color(const array_view<const GLubyte>& v)
+	color(const span<const GLubyte>& v)
 	noexcept
 	{
 		return color(v, v.size());
@@ -304,7 +305,7 @@ struct compatibility_drawing
 
 	static
 	outcome<void>
-	color(const array_view<const GLint>& v, std::size_t n)
+	color(const span<const GLint>& v, span_size_type n)
 	noexcept
 	{
 		assert(n >= 3);
@@ -318,7 +319,7 @@ struct compatibility_drawing
 
 	static
 	outcome<void>
-	color(const array_view<const GLint>& v)
+	color(const span<const GLint>& v)
 	noexcept
 	{
 		return color(v, v.size());
@@ -344,7 +345,7 @@ struct compatibility_drawing
 
 	static
 	outcome<void>
-	color(const array_view<const GLfloat>& v, std::size_t n)
+	color(const span<const GLfloat>& v, span_size_type n)
 	noexcept
 	{
 		assert(n >= 3);
@@ -358,7 +359,7 @@ struct compatibility_drawing
 
 	static
 	outcome<void>
-	color(const array_view<const GLfloat>& v)
+	color(const span<const GLfloat>& v)
 	noexcept
 	{
 		return color(v, v.size());
@@ -384,7 +385,7 @@ struct compatibility_drawing
 
 	static
 	outcome<void>
-	color(const array_view<const GLdouble>& v, std::size_t n)
+	color(const span<const GLdouble>& v, span_size_type n)
 	noexcept
 	{
 		assert(n >= 3);
@@ -398,7 +399,7 @@ struct compatibility_drawing
 
 	static
 	outcome<void>
-	color(const array_view<const GLdouble>& v)
+	color(const span<const GLdouble>& v)
 	noexcept
 	{
 		return color(v, v.size());
@@ -443,7 +444,7 @@ struct compatibility_drawing
 
 	static
 	outcome<void>
-	tex_coord(const array_view<const GLshort>& v, std::size_t n)
+	tex_coord(const span<const GLshort>& v, span_size_type n)
 	noexcept
 	{
 		assert(n >= 1);
@@ -459,7 +460,7 @@ struct compatibility_drawing
 
 	static
 	outcome<void>
-	tex_coord(const array_view<const GLshort>& v)
+	tex_coord(const span<const GLshort>& v)
 	noexcept
 	{
 		return tex_coord(v, v.size());
@@ -504,7 +505,7 @@ struct compatibility_drawing
 
 	static
 	outcome<void>
-	tex_coord(const array_view<const GLint>& v, std::size_t n)
+	tex_coord(const span<const GLint>& v, span_size_type n)
 	noexcept
 	{
 		assert(n >= 1);
@@ -520,7 +521,7 @@ struct compatibility_drawing
 
 	static
 	outcome<void>
-	tex_coord(const array_view<const GLint>& v)
+	tex_coord(const span<const GLint>& v)
 	noexcept
 	{
 		return tex_coord(v, v.size());
@@ -564,7 +565,7 @@ struct compatibility_drawing
 
 	static
 	outcome<void>
-	tex_coord(const array_view<const GLfloat>& v, std::size_t n)
+	tex_coord(const span<const GLfloat>& v, span_size_type n)
 	noexcept
 	{
 		assert(n >= 1);
@@ -580,7 +581,7 @@ struct compatibility_drawing
 
 	static
 	outcome<void>
-	tex_coord(const array_view<const GLfloat>& v)
+	tex_coord(const span<const GLfloat>& v)
 	noexcept
 	{
 		return tex_coord(v, v.size());
@@ -624,7 +625,7 @@ struct compatibility_drawing
 
 	static
 	outcome<void>
-	tex_coord(const array_view<const GLdouble>& v, std::size_t n)
+	tex_coord(const span<const GLdouble>& v, span_size_type n)
 	noexcept
 	{
 		assert(n >= 1);
@@ -640,7 +641,7 @@ struct compatibility_drawing
 
 	static
 	outcome<void>
-	tex_coord(const array_view<const GLdouble>& v)
+	tex_coord(const span<const GLdouble>& v)
 	noexcept
 	{
 		return tex_coord(v, v.size());

@@ -15,7 +15,7 @@
 #include "../utils/indexed_enum.hpp"
 
 #if !OGLPLUS_ERROR_NO_BUILD_LOG
-#include "../utils/string_view.hpp"
+#include "../utils/string_span.hpp"
 #include <string>
 #endif
 
@@ -168,16 +168,16 @@ public:
 	const any_enum_value& gl_enum_value(void) const
 	noexcept;
 
-	error_info& identifier(const cstring_view<>& log)
+	error_info& identifier(const cstring_span<>& log)
 	noexcept;
 
-	cstring_view<> identifier(void) const
+	cstring_span<> identifier(void) const
 	noexcept;
 
-	error_info& build_log(const cstring_view<>& log)
+	error_info& build_log(const cstring_span<>& log)
 	noexcept;
 
-	cstring_view<> build_log(void) const
+	cstring_span<> build_log(void) const
 	noexcept;
 };
 

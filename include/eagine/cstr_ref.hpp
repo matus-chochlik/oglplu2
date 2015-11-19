@@ -10,26 +10,35 @@
 #ifndef EAGINE_UTILS_CSTR_REF_1509260923_HPP
 #define EAGINE_UTILS_CSTR_REF_1509260923_HPP
 
-#include "string_view.hpp"
+#include "string_span.hpp"
 #include <cstring>
 #include <cassert>
 #include <iosfwd>
 
 namespace eagine {
 
+#ifdef __clang__ // TODO: throw this out once GSL is fixed
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wsign-conversion"
+#endif
+
 class cstr_ref
- : public cstring_view<>
+ : public cstring_span<>
 {
 private:
 	static
 	std::false_type _is_v_c(...);
 
-	template <typename C, typename VT = typename C::value_type>
+	template <
+		typename C,
+		typename VT = typename C::value_type,
+		typename ST = typename C::size_type
+	>
 	static
 	std::true_type _is_v_c(
 		C*,
 		const VT* (C::*)(void) const = &C::data,
-		std::size_t (C::*)(void) const = &C::size
+		ST (C::*)(void) const = &C::size
 	);
 
 	template <typename X>
@@ -41,7 +50,7 @@ public:
 
 	cstr_ref(const char* cstr, std::size_t n)
 	noexcept
-	 : cstring_view<>(cstr, (n > 0 && cstr[n-1] == '\0')?n-1:n)
+	 : cstring_span<>(cstr, std::ptrdiff_t(n > 0 && cstr[n-1]=='\0')?n-1:n)
 	{ }
 
 	template <std::size_t N>
@@ -62,6 +71,7 @@ public:
 			_is_compatible_container<Container>::value
 		>::type
 	>
+	explicit
 	cstr_ref(const Container& cont)
 	noexcept
 	 : cstr_ref(cont.data(), cont.size())
@@ -93,6 +103,10 @@ public:
 		}
 	}
 };
+
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 static inline
 std::ostream& operator << (std::ostream& out, const cstr_ref& str)

@@ -11,7 +11,7 @@
 
 #include <eagine/object/owner.hpp>
 #include <eagine/object/array_owner.hpp>
-#include "../utils/array_view.hpp"
+#include "../utils/span.hpp"
 
 namespace oglplus {
 

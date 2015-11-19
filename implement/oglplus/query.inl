@@ -15,7 +15,7 @@ namespace oglplus {
 inline
 deferred_error_handler
 obj_gen_del_ops<tag::query>::
-_gen(array_view<GLuint> names)
+_gen(span<GLuint> names)
 noexcept
 {
 	OGLPLUS_GLFUNC(GenQueries)(
@@ -31,7 +31,7 @@ noexcept
 inline
 deferred_error_handler
 obj_gen_del_ops<tag::query>::
-_delete(array_view<GLuint> names)
+_delete(span<GLuint> names)
 noexcept
 {
 	OGLPLUS_GLFUNC(DeleteQueries)(

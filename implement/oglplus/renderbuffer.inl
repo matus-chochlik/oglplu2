@@ -167,7 +167,7 @@ renderbuffer_ops::
 get_renderbuffer_parameter_iv(
 	renderbuffer_target target,
 	oglplus::renderbuffer_parameter param,
-	array_view<GLint> values
+	span<GLint> values
 ) noexcept
 {
 	assert(values.size() > 0);
@@ -192,7 +192,7 @@ renderbuffer_ops::
 get_renderbuffer_parameter_iv(
 	renderbuffer_name buf,
 	oglplus::renderbuffer_parameter param,
-	array_view<GLint> values
+	span<GLint> values
 ) noexcept
 {
 	assert(values.size() > 0);
@@ -372,7 +372,7 @@ noexcept
 inline
 deferred_error_handler
 obj_gen_del_ops<tag::renderbuffer>::
-_gen(array_view<GLuint> names)
+_gen(span<GLuint> names)
 noexcept
 {
 	OGLPLUS_GLFUNC(GenRenderbuffers)(
@@ -388,7 +388,7 @@ noexcept
 inline
 deferred_error_handler
 obj_gen_del_ops<tag::renderbuffer>::
-_delete(array_view<GLuint> names)
+_delete(span<GLuint> names)
 noexcept
 {
 	OGLPLUS_GLFUNC(DeleteRenderbuffers)(

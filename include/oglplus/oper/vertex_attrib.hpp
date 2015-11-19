@@ -140,7 +140,7 @@ struct vertex_attrib_ops
 	outcome<void>
 	vertex_attrib(
 		prog_var_wrapper<prog_var_loc<tag::vertex_attrib, D>, T[N]> loc,
-		const array_view<const T>& v,
+		const span<const T>& v,
 		bool check_error
 	) noexcept
 	{

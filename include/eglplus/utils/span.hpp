@@ -1,5 +1,5 @@
 /**
- *  @file eglplus/utils/array_view.hpp
+ *  @file eglplus/utils/span.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,14 +7,14 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EGLPLUS_UTILS_ARRAY_VIEW_1509260923_HPP
-#define EGLPLUS_UTILS_ARRAY_VIEW_1509260923_HPP
+#ifndef EGLPLUS_UTILS_SPAN_1509260923_HPP
+#define EGLPLUS_UTILS_SPAN_1509260923_HPP
 
-#include <eagine/array_view.hpp>
+#include <eagine/span.hpp>
 
 namespace eglplus {
 
-using eagine::array_view;
+using eagine::span;
 
 } // namespace eglplus
 

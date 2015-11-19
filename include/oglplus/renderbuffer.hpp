@@ -88,7 +88,7 @@ struct renderbuffer_ops
 	get_renderbuffer_parameter_iv(
 		renderbuffer_target tgt,
 		oglplus::renderbuffer_parameter param,
-		array_view<GLint> values
+		span<GLint> values
 	) noexcept;
 
 #ifdef OGLPLUS_DSA_RENDERBUFFER
@@ -97,7 +97,7 @@ struct renderbuffer_ops
 	get_renderbuffer_parameter_iv(
 		renderbuffer_name buf,
 		oglplus::renderbuffer_parameter param,
-		array_view<GLint> values
+		span<GLint> values
 	) noexcept;
 #endif
 
@@ -327,12 +327,12 @@ struct obj_gen_del_ops<tag::renderbuffer>
 {
 	static
 	deferred_error_handler
-	_gen(array_view<GLuint> names)
+	_gen(span<GLuint> names)
 	noexcept;
 
 	static
 	deferred_error_handler
-	_delete(array_view<GLuint> names)
+	_delete(span<GLuint> names)
 	noexcept;
 
 	static

@@ -46,7 +46,7 @@ struct mock_obj_gen_del_ops
 
 	static
 	deferred_handler<mock_error_info>
-	_gen(array_view<unsigned> names)
+	_gen(span<unsigned> names)
 	noexcept
 	{
 		unsigned next=1;
@@ -65,7 +65,7 @@ struct mock_obj_gen_del_ops
 
 	static
 	deferred_handler<mock_error_info>
-	_delete(array_view<unsigned> names)
+	_delete(span<unsigned> names)
 	noexcept
 	{
 		for(unsigned name : names)

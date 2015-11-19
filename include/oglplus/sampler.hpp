@@ -45,7 +45,7 @@ struct sampler_ops
 	get_sampler_parameter_iv(
 		sampler_name sam,
 		sampler_parameter param,
-		array_view<GLint> values
+		span<GLint> values
 	) noexcept;
 
 	static
@@ -61,7 +61,7 @@ struct sampler_ops
 	get_sampler_parameter_fv(
 		sampler_name sam,
 		sampler_parameter param,
-		array_view<GLfloat> values
+		span<GLfloat> values
 	) noexcept;
 
 	template <typename R, typename T>
@@ -364,12 +364,12 @@ struct obj_gen_del_ops<tag::sampler>
 {
 	static
 	deferred_error_handler
-	_gen(array_view<GLuint> names)
+	_gen(span<GLuint> names)
 	noexcept;
 
 	static
 	deferred_error_handler
-	_delete(array_view<GLuint> names)
+	_delete(span<GLuint> names)
 	noexcept;
 
 	static

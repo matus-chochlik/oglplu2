@@ -13,6 +13,7 @@
 #include "instead_of.hpp"
 #include "identity.hpp"
 #include "iterator.hpp"
+#include "types.hpp"
 #include <utility>
 #include <cassert>
 
@@ -60,7 +61,7 @@ struct type_to_value
  : type_to_value_unit<Value, Keys>...
 {
 	typedef Value value_type;
-	typedef std::size_t size_type;
+	typedef std::ptrdiff_t size_type;
 
 	type_to_value(void) = default;
 
@@ -79,7 +80,7 @@ struct type_to_value
 	{ }
 
 	static constexpr inline
-	std::size_t size(void)
+	size_type size(void)
 	noexcept
 	{
 		return sizeof ... (Keys);
@@ -114,7 +115,7 @@ struct type_to_value
 	}
 
 	type_to_value_unit_base<Value>&
-	unit(std::size_t pos)
+	unit(size_type pos)
 	noexcept
 	{
 		assert(pos < size());
@@ -122,7 +123,7 @@ struct type_to_value
 	}
 
 	const type_to_value_unit_base<Value>&
-	unit(std::size_t pos) const
+	unit(size_type pos) const
 	noexcept
 	{
 		assert(pos < size());
@@ -157,25 +158,25 @@ struct type_to_value
 		return unit<Key>();
 	}
 
-	Value& ref(std::size_t pos)
+	Value& ref(size_type pos)
 	noexcept
 	{
 		return unit(pos);
 	}
 
-	const Value& ref(std::size_t pos) const
+	const Value& ref(size_type pos) const
 	noexcept
 	{
 		return unit(pos);
 	}
 
-	Value& operator [] (std::size_t pos)
+	Value& operator [] (size_type pos)
 	noexcept
 	{
 		return ref(pos);
 	}
 
-	const Value& operator [] (std::size_t pos) const
+	const Value& operator [] (size_type pos) const
 	noexcept
 	{
 		return ref(pos);
@@ -202,7 +203,7 @@ struct type_to_value
 	bool operator == (const type_to_value& a, const type_to_value& b)
 	noexcept
 	{
-		for(std::size_t i=0; i<size(); ++i)
+		for(size_type i=0; i<size(); ++i)
 		{
 			if(a[i] != b[i])
 			{

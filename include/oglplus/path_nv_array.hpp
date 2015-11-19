@@ -25,7 +25,7 @@ struct path_nv_array_ops
 		path_font_target_nv font_target,
 		cstr_ref font_name,
 		enum_bitfield<path_font_style_nv> font_style,
-		cstring_view<> char_codes,
+		cstring_span<> char_codes,
 		path_missing_glyph_nv handle_missing_glyphs,
 		GLuint parameter_template,
 		GLfloat em_scale
@@ -39,7 +39,7 @@ struct path_nv_array_ops
 		path_font_target_nv font_target,
 		cstr_ref font_name,
 		enum_bitfield<path_font_style_nv> font_style,
-		array_view<T> char_codes,
+		span<T> char_codes,
 		path_missing_glyph_nv handle_missing_glyphs,
 		GLuint parameter_template,
 		GLfloat em_scale
@@ -65,12 +65,12 @@ struct path_nv_array_ops
 	outcome<void>
 	get_path_spacing(
 		path_list_mode_nv list_mode,
-		array_view<T> indices,
+		span<T> indices,
 		const object_names<tag::path_nv, S>& paths,
 		GLfloat advance_scale,
 		GLfloat kerning_scale,
 		path_transform_type_nv transform_type,
-		array_view<GLfloat> returned_values
+		span<GLfloat> returned_values
 	) noexcept;
 
 	template <typename S>
@@ -78,12 +78,12 @@ struct path_nv_array_ops
 	outcome<void>
 	get_path_spacing(
 		path_list_mode_nv list_mode,
-		cstring_view<> indices,
+		cstring_span<> indices,
 		const object_names<tag::path_nv, S>& paths,
 		GLfloat advance_scale,
 		GLfloat kerning_scale,
 		path_transform_type_nv transform_type,
-		array_view<GLfloat> returned_values
+		span<GLfloat> returned_values
 	) noexcept;
 
 	template <typename S, typename T>
@@ -91,10 +91,10 @@ struct path_nv_array_ops
 	outcome<void>
 	get_path_metrics(
 		enum_bitfield<path_metric_query_nv> query_mask,
-		array_view<T> indices,
+		span<T> indices,
 		const object_names<tag::path_nv, S>& paths,
 		GLsizei stride,
-		array_view<GLfloat> returned_values
+		span<GLfloat> returned_values
 	) noexcept;
 
 	template <typename S>
@@ -102,10 +102,10 @@ struct path_nv_array_ops
 	outcome<void>
 	get_path_metrics(
 		enum_bitfield<path_metric_query_nv> query_mask,
-		cstring_view<> indices,
+		cstring_span<> indices,
 		const object_names<tag::path_nv, S>& paths,
 		GLsizei stride,
-		array_view<GLfloat> returned_values
+		span<GLfloat> returned_values
 	) noexcept;
 
 	template <typename S>
@@ -116,99 +116,99 @@ struct path_nv_array_ops
 		const object_names<tag::path_nv, S>& paths,
 		GLsizei num_paths,
 		GLsizei stride,
-		array_view<GLfloat> returned_values
+		span<GLfloat> returned_values
 	) noexcept;
 
 	template <typename S, typename T>
 	static
 	outcome<void>
 	stencil_fill_path_instanced(
-		array_view<T> indices,
+		span<T> indices,
 		const object_names<tag::path_nv, S>& paths,
 		path_fill_mode_nv mode,
 		GLuint mask,
 		path_transform_type_nv transform_type,
-		array_view<const GLfloat> transform_values
+		span<const GLfloat> transform_values
 	) noexcept;
 
 	template <typename S>
 	static
 	outcome<void>
 	stencil_fill_path_instanced(
-		cstring_view<> indices,
+		cstring_span<> indices,
 		const object_names<tag::path_nv, S>& paths,
 		path_fill_mode_nv mode,
 		GLuint mask,
 		path_transform_type_nv transform_type,
-		array_view<const GLfloat> transform_values
+		span<const GLfloat> transform_values
 	) noexcept;
 
 	template <typename S, typename T>
 	static
 	outcome<void>
 	cover_fill_path_instanced(
-		array_view<T> indices,
+		span<T> indices,
 		const object_names<tag::path_nv, S>& paths,
 		path_fill_cover_mode_nv mode,
 		path_transform_type_nv transform_type,
-		array_view<const GLfloat> transform_values
+		span<const GLfloat> transform_values
 	) noexcept;
 
 	template <typename S>
 	static
 	outcome<void>
 	cover_fill_path_instanced(
-		cstring_view<> indices,
+		cstring_span<> indices,
 		const object_names<tag::path_nv, S>& paths,
 		path_fill_cover_mode_nv mode,
 		path_transform_type_nv transform_type,
-		array_view<const GLfloat> transform_values
+		span<const GLfloat> transform_values
 	) noexcept;
 
 	template <typename S, typename T>
 	static
 	outcome<void>
 	stencil_stroke_path_instanced(
-		array_view<T> indices,
+		span<T> indices,
 		const object_names<tag::path_nv, S>& paths,
 		GLint reference,
 		GLuint mask,
 		path_transform_type_nv transform_type,
-		array_view<const GLfloat> transform_values
+		span<const GLfloat> transform_values
 	) noexcept;
 
 	template <typename S>
 	static
 	outcome<void>
 	stencil_stroke_path_instanced(
-		cstring_view<> indices,
+		cstring_span<> indices,
 		const object_names<tag::path_nv, S>& paths,
 		GLint reference,
 		GLuint mask,
 		path_transform_type_nv transform_type,
-		array_view<const GLfloat> transform_values
+		span<const GLfloat> transform_values
 	) noexcept;
 
 	template <typename S, typename T>
 	static
 	outcome<void>
 	cover_stroke_path_instanced(
-		array_view<T> indices,
+		span<T> indices,
 		const object_names<tag::path_nv, S>& paths,
 		path_stroke_cover_mode_nv mode,
 		path_transform_type_nv transform_type,
-		array_view<const GLfloat> transform_values
+		span<const GLfloat> transform_values
 	) noexcept;
 
 	template <typename S>
 	static
 	outcome<void>
 	cover_stroke_path_instanced(
-		cstring_view<> indices,
+		cstring_span<> indices,
 		const object_names<tag::path_nv, S>& paths,
 		path_stroke_cover_mode_nv mode,
 		path_transform_type_nv transform_type,
-		array_view<const GLfloat> transform_values
+		span<const GLfloat> transform_values
 	) noexcept;
 };
 
@@ -284,7 +284,7 @@ public:
 		GLfloat advance_scale,
 		GLfloat kerning_scale,
 		path_transform_type_nv transform_type,
-		array_view<GLfloat> returned_values
+		span<GLfloat> returned_values
 	) noexcept
 	{
 		return {_ops::get_path_spacing(
@@ -304,7 +304,7 @@ public:
 		enum_bitfield<path_metric_query_nv> query_mask,
 		T&& indices,
 		GLsizei stride,
-		array_view<GLfloat> returned_values
+		span<GLfloat> returned_values
 	) noexcept
 	{
 		return {_ops::get_path_metrics(
@@ -321,7 +321,7 @@ public:
 		enum_bitfield<path_metric_query_nv> query_mask,
 		GLsizei num_paths,
 		GLsizei stride,
-		array_view<GLfloat> returned_values
+		span<GLfloat> returned_values
 	) noexcept
 	{
 		return {_ops::get_path_metric_range(
@@ -340,7 +340,7 @@ public:
 		path_fill_mode_nv mode,
 		GLuint mask,
 		path_transform_type_nv transform_type,
-		array_view<const GLfloat> transform_values
+		span<const GLfloat> transform_values
 	) noexcept
 	{
 		return {_ops::stencil_fill_path_instanced(
@@ -359,7 +359,7 @@ public:
 		T&& indices,
 		path_fill_cover_mode_nv mode,
 		path_transform_type_nv transform_type,
-		array_view<const GLfloat> transform_values
+		span<const GLfloat> transform_values
 	) noexcept
 	{
 		return {_ops::cover_fill_path_instanced(
@@ -378,7 +378,7 @@ public:
 		GLint reference,
 		GLuint mask,
 		path_transform_type_nv transform_type,
-		array_view<const GLfloat> transform_values
+		span<const GLfloat> transform_values
 	) noexcept
 	{
 		return {_ops::stencil_stroke_path_instanced(
@@ -397,7 +397,7 @@ public:
 		T&& indices,
 		path_stroke_cover_mode_nv mode,
 		path_transform_type_nv transform_type,
-		array_view<const GLfloat> transform_values
+		span<const GLfloat> transform_values
 	) noexcept
 	{
 		return {_ops::cover_stroke_path_instanced(

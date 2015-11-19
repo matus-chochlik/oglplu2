@@ -10,7 +10,7 @@
 #ifndef EAGINE_VEC_MAT_TRAITS_1509260923_HPP
 #define EAGINE_VEC_MAT_TRAITS_1509260923_HPP
 
-#include "array_view.hpp"
+#include "span.hpp"
 #include "identity.hpp"
 #include "nothing.hpp"
 #include <type_traits>
@@ -72,7 +72,7 @@ template <typename T, std::size_t N>
 struct compound_view_maker<T[N]>
 {
 	inline
-	array_view<T> operator()(T (&v)[N]) const
+	span<T> operator()(T (&v)[N]) const
 	noexcept
 	{
 		return {v, N};
@@ -91,7 +91,7 @@ template <typename T, std::size_t C, std::size_t R>
 struct compound_view_maker<T[C][R]>
 {
 	inline
-	array_view<T> operator()(T (&v)[C][R]) const
+	span<T> operator()(T (&v)[C][R]) const
 	noexcept
 	{
 		return {v[0], C*R};

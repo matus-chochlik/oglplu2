@@ -310,7 +310,7 @@ public:
 	get_texture_parameter_iv(
 		texture_target_only tnt,
 		oglplus::texture_parameter param,
-		array_view<GLint> values
+		span<GLint> values
 	) noexcept;
 
 	static
@@ -319,7 +319,7 @@ public:
 		texture_target_only tnt,
 		GLint level,
 		oglplus::texture_parameter param,
-		array_view<GLint> values
+		span<GLint> values
 	) noexcept;
 
 	static
@@ -335,7 +335,7 @@ public:
 	get_texture_parameter_fv(
 		texture_target_only tnt,
 		oglplus::texture_parameter param,
-		array_view<GLfloat> values
+		span<GLfloat> values
 	) noexcept;
 
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
@@ -352,7 +352,7 @@ public:
 	get_texture_parameter_iv(
 		texture_name_only tnt,
 		oglplus::texture_parameter param,
-		array_view<GLint> values
+		span<GLint> values
 	) noexcept;
 
 	static
@@ -361,7 +361,7 @@ public:
 		texture_name_only tnt,
 		GLint level,
 		oglplus::texture_parameter param,
-		array_view<GLint> values
+		span<GLint> values
 	) noexcept;
 
 	static
@@ -377,7 +377,7 @@ public:
 	get_texture_parameter_fv(
 		texture_name_only tnt,
 		oglplus::texture_parameter param,
-		array_view<GLfloat> values
+		span<GLfloat> values
 	) noexcept;
 
 #endif
@@ -396,7 +396,7 @@ public:
 	get_texture_parameter_iv(
 		texture_name_and_target tnt,
 		oglplus::texture_parameter param,
-		array_view<GLint> values
+		span<GLint> values
 	) noexcept;
 
 	static
@@ -405,7 +405,7 @@ public:
 		texture_name_and_target tnt,
 		GLint level,
 		oglplus::texture_parameter param,
-		array_view<GLint> values
+		span<GLint> values
 	) noexcept;
 
 	static
@@ -421,7 +421,7 @@ public:
 	get_texture_parameter_fv(
 		texture_name_and_target tnt,
 		oglplus::texture_parameter param,
-		array_view<GLfloat> values
+		span<GLfloat> values
 	) noexcept;
 
 #endif
@@ -1096,12 +1096,12 @@ struct obj_gen_del_ops<tag::texture>
 {
 	static
 	deferred_error_handler
-	_gen(array_view<GLuint> names)
+	_gen(span<GLuint> names)
 	noexcept;
 
 	static
 	deferred_error_handler
-	_delete(array_view<GLuint> names)
+	_delete(span<GLuint> names)
 	noexcept;
 
 	static
