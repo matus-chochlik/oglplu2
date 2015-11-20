@@ -73,3 +73,20 @@ configure_file(
 
 add_subdirectory("example")
 add_subdirectory("test")
+
+# install the headers
+install(
+	DIRECTORY ${PROJECT_SOURCE_DIR}/include/
+	DESTINATION include
+)
+# install the implementation inline files
+install(
+	DIRECTORY ${PROJECT_SOURCE_DIR}/implement/
+	DESTINATION include
+)
+# install the GSL headers
+install(
+	DIRECTORY ${PROJECT_SOURCE_DIR}/third_party/GSL/include/
+	DESTINATION include
+)
+
