@@ -222,19 +222,6 @@ noexcept
 //------------------------------------------------------------------------------
 template <typename BNT>
 inline
-outcome<boolean>
-buffer_ops::
-buffer_immutable_storage(const BNT& bnt)
-noexcept
-{
-	return return_buffer_parameter_i<boolean, GLboolean>(
-		bnt,
-		oglplus::buffer_parameter(GL_BUFFER_IMMUTABLE_STORAGE)
-	);
-}
-//------------------------------------------------------------------------------
-template <typename BNT>
-inline
 outcome<oglplus::buffer_usage>
 buffer_ops::
 buffer_usage(const BNT& bnt)
@@ -246,6 +233,20 @@ noexcept
 	>(
 		bnt,
 		oglplus::buffer_parameter(GL_BUFFER_USAGE)
+	);
+}
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_4) || defined(GL_ARB_buffer_storage)
+template <typename BNT>
+inline
+outcome<boolean>
+buffer_ops::
+buffer_immutable_storage(const BNT& bnt)
+noexcept
+{
+	return return_buffer_parameter_i<boolean, GLboolean>(
+		bnt,
+		oglplus::buffer_parameter(GL_BUFFER_IMMUTABLE_STORAGE)
 	);
 }
 //------------------------------------------------------------------------------
@@ -264,6 +265,7 @@ noexcept
 		oglplus::buffer_parameter(GL_BUFFER_STORAGE_FLAGS)
 	);
 }
+#endif
 //------------------------------------------------------------------------------
 inline
 outcome<void>

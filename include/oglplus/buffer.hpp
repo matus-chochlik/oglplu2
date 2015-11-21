@@ -108,14 +108,15 @@ struct buffer_ops
 
 	template <typename BNT>
 	static
-	outcome<boolean>
-	buffer_immutable_storage(const BNT& bnt)
-	noexcept;
-
-	template <typename BNT>
-	static
 	outcome<oglplus::buffer_usage>
 	buffer_usage(const BNT& bnt)
+	noexcept;
+
+#if defined(GL_VERSION_4_4) || defined(GL_ARB_buffer_storage)
+	template <typename BNT>
+	static
+	outcome<boolean>
+	buffer_immutable_storage(const BNT& bnt)
 	noexcept;
 
 	template <typename BNT>
@@ -123,6 +124,7 @@ struct buffer_ops
 	outcome<enum_bitfield<buffer_storage_bits>>
 	buffer_storage_flags(const BNT& bnt)
 	noexcept;
+#endif
 
 	static
 	outcome<void>
@@ -265,18 +267,19 @@ public:
 		return _ops::buffer_mapped(*this);
 	}
 
-	outcome<boolean>
-	immutable_storage(void) const
-	noexcept
-	{
-		return _ops::buffer_immutable_storage(*this);
-	}
-
 	outcome<buffer_usage>
 	usage(void) const
 	noexcept
 	{
 		return _ops::buffer_usage(*this);
+	}
+
+#if defined(GL_VERSION_4_4) || defined(GL_ARB_buffer_storage)
+	outcome<boolean>
+	immutable_storage(void) const
+	noexcept
+	{
+		return _ops::buffer_immutable_storage(*this);
 	}
 
 	outcome<enum_bitfield<buffer_storage_bits>>
@@ -285,6 +288,7 @@ public:
 	{
 		return _ops::buffer_storage_flags(*this);
 	}
+#endif
 };
 
 template <>
