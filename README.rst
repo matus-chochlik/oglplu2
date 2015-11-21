@@ -5,6 +5,8 @@ OGLplus2 README
 :Author: Matúš Chochlík <chochlik@gmail.com>
 
 .. contents::
+.. image:: https://travis-ci.org/matus-chochlik/oglplu2.svg?branch=develop
+    :target: https://travis-ci.org/matus-chochlik/oglplu2
 
 .. _OpenGL: http://opengl.org/
 .. _OpenAL: http://openal.org/
