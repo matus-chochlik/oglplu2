@@ -1,26 +1,33 @@
-language: cpp
+language: c++
+os: linux
 sudo: false
 
 matrix:
   include:
     - env: COMPILER=clang++-3.6
-      compiler: clang
       addons: &clang36
         apt:
           packages:
             - clang-3.6
             - cmake
             - g++-5
-            - libboost-test
-            - python
+            - libboost-test-dev
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-precise-3.6
 
+install:
+  - DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"
+  - mkdir ${DEPS_DIR} && cd ${DEPS_DIR}
 
 before_script:
+  - cd ${TRAVIS_BUILD_DIR}
   - ./configure.py --build-dir _build --cmake -DCMAKE_CXX_COMPILER=${COMPILER}
   - cmake --build _build
 
 script:
-  - cd _build
+  - cd ${TRAVIS_BUILD_DIR}/_build/test
   - ctest
 
-install: true
+notifications:
+  email: false
