@@ -12,6 +12,11 @@ matrix:
             - cmake
             - g++-5
             - libboost-test-dev
+            - mesa-common-dev
+            - libgl1-mesa-dev
+            - libegl1-mesa-dev
+            - libglew-dev
+            - libglfw-dev
           sources:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-precise-3.6
