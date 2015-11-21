@@ -1,5 +1,5 @@
 /**
- *  @example standalone/007_glfw_glew_cube.cpp
+ *  @example standalone/009_glfw_glew_cube.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -77,7 +77,7 @@ void run_loop(int width, int height)
 	"varying vec2 vertCoord;\n"
 
 	"void main(void)\n"
-	"{"
+	"{\n"
 	"	vec2 vc = abs(vertCoord);\n"
 	"	float c1 = max(max(vc.x, vc.y)-0.9875, 0.0)*100;\n"
 	"	float c2 = 1.0-0.45*dot(vc, vc);\n"

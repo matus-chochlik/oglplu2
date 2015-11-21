@@ -160,6 +160,29 @@ struct uniform_ops
 		bool D,
 		typename X,
 		typename = typename std::enable_if<
+			is_gl_data_type<X>::value
+		>::type
+	>
+	static inline
+	outcome<void>
+	_uniform_vm(
+		prog_var_loc<tag::uniform, D> loc,
+		const X& x,
+		std::false_type,
+		std::false_type
+	) noexcept
+	{
+		return oglplus::prog_var_get_set_ops<tag::uniform>::set(
+			identity<X>(),
+			loc,
+			x
+		);
+	}
+
+	template <
+		bool D,
+		typename X,
+		typename = typename std::enable_if<
 			is_known_vector_type<X>::value
 		>::type
 	>
@@ -168,6 +191,7 @@ struct uniform_ops
 	_uniform_vm(
 		prog_var_loc<tag::uniform, D> loc,
 		const X& x,
+		std::true_type,
 		std::false_type
 	) noexcept
 	{
@@ -190,6 +214,7 @@ struct uniform_ops
 	_uniform_vm(
 		prog_var_loc<tag::uniform, D> loc,
 		const X& x,
+		std::false_type,
 		std::true_type
 	) noexcept
 	{
@@ -204,6 +229,7 @@ struct uniform_ops
 		bool D,
 		typename X,
 		typename = typename std::enable_if<
+			is_gl_data_type<X>::value ||
 			is_known_vector_type<X>::value ||
 			is_known_matrix_type<X>::value
 		>::type
@@ -215,7 +241,11 @@ struct uniform_ops
 		const X& x
 	) noexcept
 	{
-		return _uniform_vm(loc, x, is_known_matrix_type<X>());
+		return _uniform_vm(
+			loc, x,
+			is_known_vector_type<X>(),
+			is_known_matrix_type<X>()
+		);
 	}
 };
 

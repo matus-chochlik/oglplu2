@@ -1,5 +1,5 @@
 /**
- *  @example standalone/007_glfw_glew_cube.cpp
+ *  @example standalone/020_glfw_glew_recursive_cube.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -10,6 +10,7 @@
 
 #include <oglplus/operations.hpp>
 #include <oglplus/constants.hpp>
+#include <oglplus/enum/value_defs.inl>
 #include <oglplus/glsl/string_ref.hpp>
 #include <oglplus/error/format.hpp>
 
@@ -29,25 +30,6 @@ static oglplus::constants GL;
 static oglplus::operations gl;
 
 static
-void handle_resize(
-	int width, int height,
-	const oglplus::uniform_location& projection
-)
-{
-	gl.viewport(0, 0, width, height);
-	GLfloat asp = GLfloat(width)/height;
-
-	GLfloat h = 0.5f*1.618f;
-	GLfloat w = h*asp;
-
-	gl.uniform(
-		projection,
-		oglplus::matrix_perspective(-w,+w, -h,+h, 1, 3)*
-		oglplus::matrix_translation(0,0,-2)
-	);
-}
-
-static
 void run_loop(int width, int height)
 {
 	using namespace oglplus;
@@ -55,25 +37,27 @@ void run_loop(int width, int height)
 	shader vs(GL.vertex_shader);
 
 	vs.source(glsl_literal(
-	"#version 120\n"
+	"#version 140\n"
 
 	"uniform mat4 Projection;"
 	"uniform mat4 Modelview;"
+	"uniform vec3 LightPos;"
 
-	"attribute vec4 Position;\n"
-	"attribute vec3 Normal;\n"
-	"attribute vec2 Coord;\n"
+	"in vec4 Position;\n"
+	"in vec3 Normal;\n"
+	"in vec2 TexCoord;\n"
 
-	"varying vec3 vertPosition;\n"
-	"varying vec3 vertNormal;\n"
-	"varying vec2 vertCoord;\n"
+	"out vec3 vertNormal;\n"
+	"out vec3 vertLightDir;\n"
+	"out vec2 vertTexCoord;\n"
 
 	"void main(void)\n"
 	"{\n"
-	"	gl_Position = Projection*Modelview*Position;\n"
-	"	vertPosition = Position.xyz;\n"
-	"	vertNormal = Normal;\n"
-	"	vertCoord = Coord;\n"
+	"	gl_Position = Modelview*Position;\n"
+	"	vertNormal = mat3(Modelview)*Normal;\n"
+	"	vertLightDir = LightPos - gl_Position.xyz;\n"
+	"	vertTexCoord = TexCoord;\n"
+	"	gl_Position = Projection*gl_Position;\n"
 	"}\n"
 	));
 	vs.compile();
@@ -81,22 +65,19 @@ void run_loop(int width, int height)
 	shader fs(GL.fragment_shader);
 
 	fs.source(glsl_literal(
-	"#version 120\n"
+	"#version 140\n"
 
-	"varying vec3 vertPosition;\n"
-	"varying vec3 vertNormal;\n"
-	"varying vec2 vertCoord;\n"
+	"uniform sampler2D CubeTex;"
+	"in vec3 vertNormal;\n"
+	"in vec3 vertLightDir;\n"
+	"in vec2 vertTexCoord;\n"
+	"out vec4 fragColor;\n"
 
 	"void main(void)\n"
-	"{"
-	"	vec2 vc = abs(vertCoord);\n"
-	"	float c1 = max(max(vc.x, vc.y)-0.9875, 0.0)*100;\n"
-	"	float c2 = 1.0-0.4*dot(vc, vc);\n"
-	"	vec3 lc = vec3(0);\n"
-	"	vec3 fc1 = normalize(abs(vec3(1, 1, 1) - vertPosition));\n"
-	"	vec3 fc2 = normalize(abs(vec3(1, 1, 1) - vertNormal));\n"
-	"	vec3 fc = mix(fc1, fc2, 0.4);\n"
-	"	gl_FragColor = vec4(mix(fc, lc, c1)*c2, 1.0);\n"
+	"{\n"
+	"	float d = 0.3*dot(vertNormal, normalize(vertLightDir));\n"
+	"	float i = 0.6 + max(d, 0.0);\n"
+	"	fragColor = texture(CubeTex, vertTexCoord)*i;\n"
 	"}\n"
 	));
 	fs.compile();
@@ -109,10 +90,12 @@ void run_loop(int width, int height)
 
 	gl.use_program(prog);
 
-	uniform_location projection, modelview;
+	uniform_location projection, modelview, light_pos, cube_tex;
 
 	gl.query_location(projection, prog, "Projection");
 	gl.query_location(modelview, prog, "Modelview");
+	gl.query_location(light_pos, prog, "LightPos");
+	gl.query_location(cube_tex, prog, "CubeTex");
 
 	vertex_array vao;
 
@@ -205,12 +188,12 @@ void run_loop(int width, int height)
 
 	// face-coords
 	const GLfloat c[6][2] = {
-		{-1.0f, -1.0f},
-		{+1.0f, -1.0f},
-		{-1.0f, +1.0f},
-		{-1.0f, +1.0f},
-		{+1.0f, -1.0f},
-		{+1.0f, +1.0f}
+		{0.0f, 0.0f},
+		{1.0f, 0.0f},
+		{0.0f, 1.0f},
+		{0.0f, 1.0f},
+		{1.0f, 0.0f},
+		{1.0f, 1.0f}
 	};
 
 	GLfloat cube_coords[vertex_count * 2];
@@ -231,23 +214,86 @@ void run_loop(int width, int height)
 	gl.buffer_data(GL.array_buffer, cube_coords, GL.static_draw);
 
 	vertex_attrib_location va_c;
-	gl.query_location(va_c, prog, "Coord");
+	gl.query_location(va_c, prog, "TexCoord");
 	gl.vertex_array_attrib_pointer(va_c, 2, GL.float_, false, 0, nullptr);
 	gl.enable_vertex_array_attrib(va_c);
 
-
-	gl.clear_color(0.7f, 0.7f, 0.7f, 0.0f);
+	gl.clear_color(0.8f, 0.8f, 0.8f, 0.0f);
 	gl.clear_depth(1.0f);
 
+	GLsizei tex_side = 512;
+	texture_array<2> texs;
+	renderbuffer_array<2> rbos;
+	framebuffer_array<2> fbos;
+
+	for(GLuint i=0; i<2u; ++i)
+	{
+		texture_name tex = texs[i];
+
+		gl.active_texture(GL.texture0+i);
+		gl.bind(GL.texture_2d, tex);
+		gl.texture_min_filter(GL.texture_2d, GL.linear);
+		gl.texture_mag_filter(GL.texture_2d, GL.linear);
+		gl.texture_image_2d(
+			GL.texture_2d,
+			0,
+			GL.rgb, 
+			tex_side, tex_side,
+			0,
+			GL.rgb,
+			GL.unsigned_byte,
+			const_memory_block()
+		);
+
+		renderbuffer_name rbo = rbos[i];
+
+		gl.bind(GL.renderbuffer, rbo);
+		gl.renderbuffer_storage(
+			GL.renderbuffer,
+			GL.depth_component,
+			tex_side, tex_side
+		);
+
+		framebuffer_name fbo = fbos[i];
+
+		gl.bind(GL.draw_framebuffer, fbo);
+		gl.framebuffer_texture_2d(
+			GL.draw_framebuffer,
+			GL.color_attachment0,
+			GL.texture_2d,
+			tex, 0
+		);
+		gl.framebuffer_renderbuffer(
+			GL.draw_framebuffer,
+			GL.depth_attachment,
+			GL.renderbuffer,
+			rbo
+		);
+
+		gl.viewport(tex_side, tex_side);
+		gl.clear(GL.color_buffer_bit);
+	}
+
+	gl.bind(GL.draw_framebuffer, default_framebuffer);
+	gl.bind(GL.renderbuffer, no_renderbuffer);
+
 	gl.enable(GL.depth_test);
+	gl.enable(GL.cull_face);
+	// TODO
+	//gl.cull_face(GL.back);
+	//gl.front_face(GL.ccw);
 
-	handle_resize(width, height, projection);
-
+	unsigned current_buf = 0;
 	float rad = 0.0f;
 
 	while(true)
 	{
-		gl.clear(GL.color_buffer_bit|GL.depth_buffer_bit);
+		current_buf = (current_buf+1)%2;
+
+		gl.uniform(
+			light_pos,
+			vec3(std::cos(rad)*4, std::sin(rad)*4, 8)
+		);
 
 		gl.uniform(
 			modelview,
@@ -258,21 +304,44 @@ void run_loop(int width, int height)
 
 		rad += 0.01f;
 
+		// draw into the texture
+		gl.bind(GL.draw_framebuffer, fbos[current_buf]);
+		gl.viewport(tex_side, tex_side);
+
+		GLfloat s = 0.5f;
+
+		gl.uniform(
+			projection,
+			oglplus::matrix_perspective(-s,+s, -s,+s, 1.0f, 5)*
+			oglplus::matrix_translation(0,0,-2)
+		);
+
+		gl.clear(GL.color_buffer_bit|GL.depth_buffer_bit);
+		gl.draw_arrays(GL.triangles, 0, 6 * 2 * 3);
+
+		// draw on screen
+		gl.bind(GL.draw_framebuffer, default_framebuffer);
+		gl.viewport(width, height);
+
+		gl.uniform(cube_tex, GLint(current_buf));
+
+		GLfloat asp = GLfloat(width)/height;
+
+		GLfloat h = 0.55f;
+		GLfloat w = h*asp;
+
+		gl.uniform(
+			projection,
+			oglplus::matrix_perspective(-w,+w, -h,+h, 1, 3)*
+			oglplus::matrix_translation(0,0,-2)
+		);
+
+		gl.clear(GL.color_buffer_bit|GL.depth_buffer_bit);
 		gl.draw_arrays(GL.triangles, 0, 6 * 2 * 3);
 
 		glfwSwapBuffers();
 
-		int new_width, new_height;
-		glfwGetWindowSize(&new_width, &new_height);
-
-		if((width != new_width) || (height != new_height))
-		{
-			width = new_width;
-			height = new_height;
-
-			handle_resize(width, height, projection);
-		}
-		
+		glfwGetWindowSize(&width, &height);
 
 		if(glfwGetKey(GLFW_KEY_ESC))
 		{
@@ -337,7 +406,7 @@ int main(void)
 			"with enum parameter: %(gl_enum_value)\n"
 			"with index: %(gl_index)\n"
 			"from source file: %(source_file)\n"
-			"%(message)",
+			"%(message)\n",
 			std::cerr
 		) << std::endl;
 	}
