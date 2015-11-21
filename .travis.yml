@@ -1,0 +1,26 @@
+language: cpp
+sudo: false
+
+matrix:
+  include:
+    - env: COMPILER=clang++-3.6
+      compiler: clang
+      addons: &clang36
+        apt:
+          packages:
+            - clang-3.6
+            - cmake
+            - g++-5
+            - libboost-test
+            - python
+
+
+before_script:
+  - ./configure.py --build-dir _build --cmake -DCMAKE_CXX_COMPILER=${COMPILER}
+  - cmake --build _build
+
+script:
+  - cd _build
+  - ctest
+
+install: true
