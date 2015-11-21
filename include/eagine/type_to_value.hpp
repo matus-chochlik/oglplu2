@@ -12,6 +12,7 @@
 
 #include "instead_of.hpp"
 #include "identity.hpp"
+#include "type_traits.hpp"
 #include "iterator.hpp"
 #include "types.hpp"
 #include <utility>
@@ -71,9 +72,9 @@ struct type_to_value
 
 	template <
 		typename Transform,
-		typename = typename std::enable_if<
+		typename = std::enable_if_t<
 			!std::is_same<Value, Transform>::value
-		>::type
+		>
 	>
 	type_to_value(const Transform& transform)
 	 : type_to_value_unit<Value, Keys>(transform(identity<Keys>()))...

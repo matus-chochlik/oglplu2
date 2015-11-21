@@ -43,11 +43,11 @@ struct constructed_matrix<MC<matrix<T,C,R,RM,V>, I>>
 // construct_matrix (noop)
 template <bool RM, typename MC>
 static constexpr inline
-typename std::enable_if<
+std::enable_if_t<
 	is_matrix_constructor<MC>::value &&
 	is_row_major<constructed_matrix_t<MC>>::value == RM,
 	constructed_matrix_t<MC>
->::type construct_matrix(const MC& c)
+> construct_matrix(const MC& c)
 noexcept
 {
 	return c();
@@ -56,11 +56,11 @@ noexcept
 // construct_matrix (reorder)
 template <bool RM, typename MC>
 static constexpr inline
-typename std::enable_if<
+std::enable_if_t<
 	is_matrix_constructor<MC>::value &&
 	is_row_major<constructed_matrix_t<MC>>::value != RM,
 	reordered_matrix_t<constructed_matrix_t<MC>>
->::type construct_matrix(const MC& c)
+> construct_matrix(const MC& c)
 noexcept
 {
 	return reorder_mat_ctr(c)();
@@ -69,14 +69,14 @@ noexcept
 template <
 	typename MC1,
 	typename MC2,
-	typename = typename std::enable_if<
+	typename = std::enable_if_t<
 		is_matrix_constructor<MC1>::value &&
 		is_matrix_constructor<MC2>::value &&
 		are_multiplicable<
 			constructed_matrix_t<MC1>,
 			constructed_matrix_t<MC2>
 		>::value
->::type
+	>
 >
 static inline
 auto multiply(const MC1& mc1, const MC2& mc2)

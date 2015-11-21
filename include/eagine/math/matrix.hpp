@@ -65,7 +65,7 @@ struct matrix
 
 	template <typename P, unsigned M, unsigned N, bool W>
 	static inline
-	typename std::enable_if<(C<=M)&&(R<=N), matrix>::type
+	std::enable_if_t<(C<=M)&&(R<=N), matrix>
 	from(const matrix<P,M,N,RM,W>& m)
 	noexcept
 	{
@@ -120,7 +120,7 @@ noexcept
 // get_cm (Column-major)
 template <unsigned CI, unsigned RI, typename T, unsigned C, unsigned R, bool V>
 static constexpr inline
-typename std::enable_if<(CI<C && RI<R), T>::type
+std::enable_if_t<(CI<C && RI<R), T>
 get_cm(const matrix<T, C, R,false, V>& m)
 noexcept
 {
@@ -130,7 +130,7 @@ noexcept
 // get_cm (Row-major)
 template <unsigned CI, unsigned RI, typename T, unsigned C, unsigned R, bool V>
 static constexpr inline
-typename std::enable_if<(CI<C && RI<R), T>::type
+std::enable_if_t<(CI<C && RI<R), T>
 get_cm(const matrix<T, C, R, true, V>& m)
 noexcept
 {
@@ -160,7 +160,7 @@ noexcept
 // get_rm (Column-major)
 template <unsigned RI, unsigned CI, typename T, unsigned C, unsigned R, bool V>
 static constexpr inline
-typename std::enable_if<(CI<C && RI<R), T>::type
+std::enable_if_t<(CI<C && RI<R), T>
 get_rm(const matrix<T, C, R,false, V>& m)
 noexcept
 {
@@ -170,7 +170,7 @@ noexcept
 // get_rm (Row-major)
 template <unsigned RI, unsigned CI, typename T, unsigned C, unsigned R, bool V>
 static constexpr inline
-typename std::enable_if<(CI<C && RI<R), T>::type
+std::enable_if_t<(CI<C && RI<R), T>
 get_rm(const matrix<T, C, R, true, V>& m)
 noexcept
 {
@@ -200,7 +200,7 @@ noexcept
 // set_cm (Column-major)
 template <unsigned CI, unsigned RI, typename T, unsigned C, unsigned R, bool V>
 static inline
-typename std::enable_if<(CI<C && RI<R), void>::type
+std::enable_if_t<(CI<C && RI<R), void>
 set_cm(matrix<T, C, R,false, V>& m, T v)
 noexcept
 {
@@ -210,7 +210,7 @@ noexcept
 // set_cm (Row-major)
 template <unsigned CI, unsigned RI, typename T, unsigned C, unsigned R, bool V>
 static inline
-typename std::enable_if<(CI<C && RI<R), void>::type
+std::enable_if_t<(CI<C && RI<R), void>
 set_cm(matrix<T, C, R, true, V>& m, T v)
 noexcept
 {
@@ -240,7 +240,7 @@ noexcept
 // set_rm (Column-major)
 template <unsigned RI, unsigned CI, typename T, unsigned C, unsigned R, bool V>
 static inline
-typename std::enable_if<(CI<C && RI<R), void>::type
+std::enable_if_t<(CI<C && RI<R), void>
 set_rm(matrix<T, C, R,false, V>& m, T v)
 noexcept
 {
@@ -250,7 +250,7 @@ noexcept
 // set_rm (Row-major)
 template <unsigned RI, unsigned CI, typename T, unsigned C, unsigned R, bool V>
 static inline
-typename std::enable_if<(CI<C && RI<R), void>::type
+std::enable_if_t<(CI<C && RI<R), void>
 set_rm(matrix<T, C, R, true, V>& m, T v)
 noexcept
 {
@@ -406,7 +406,7 @@ noexcept
 // major_vector
 template <unsigned I, typename T, unsigned C, unsigned R, bool RM, bool V>
 static constexpr inline
-typename std::enable_if<(I<(RM?R:C)), vector<T, (RM?C:R), V>>::type
+std::enable_if_t<(I<(RM?R:C)), vector<T, (RM?C:R), V>>
 major_vector(const matrix<T,C,R,RM,V>& m)
 noexcept
 {
@@ -416,7 +416,7 @@ noexcept
 // minor_vector
 template <unsigned I, typename T, unsigned C, unsigned R, bool RM, bool V>
 static inline
-typename std::enable_if<(I<(RM?C:R)), vector<T, (RM?R:C), V>>::type
+std::enable_if_t<(I<(RM?C:R)), vector<T, (RM?R:C), V>>
 minor_vector(const matrix<T,C,R,RM,V>& m)
 noexcept
 {
@@ -426,7 +426,7 @@ noexcept
 // minor_vector mat4x4
 template <unsigned I, typename T, bool RM, bool V>
 static inline
-typename std::enable_if<(I<4), vector<T, 4, V>>::type
+std::enable_if_t<(I<4), vector<T, 4, V>>
 minor_vector(const matrix<T,4,4,RM,V>& m)
 noexcept
 {
@@ -673,14 +673,14 @@ noexcept
 template <
 	typename MC1,
 	typename MC2,
-	typename = typename std::enable_if<
+	typename = std::enable_if_t<
 		is_matrix_constructor<MC1>::value &&
 		is_matrix_constructor<MC2>::value &&
 		are_multiplicable<
 			constructed_matrix_t<MC1>,
 			constructed_matrix_t<MC2>
 		>::value
-	>::type
+	>
 >
 static inline
 auto operator * (const MC1& mc1, const MC2& mc2)

@@ -40,9 +40,7 @@ public:
 	template <
 		value_type Value,
 		typename Classes,
-		typename = typename std::enable_if<
-			mp_contains<Classes,Enum>::value
-		>::type
+		typename = std::enable_if_t<mp_contains<Classes,Enum>::value>
 	>
 	constexpr inline
 	combined_enum_value(enum_value<value_type, Value, Classes>)

@@ -55,10 +55,10 @@ public:
 
 	template <
 		typename Int,
-		typename = typename std::enable_if<
+		typename = std::enable_if_t<
 			std::is_integral<Int>::value &&
 			std::is_convertible<Int, std::ptrdiff_t>::value
-		>::type
+		>
 	>
 	basic_address(pointer addr, Int offs)
 	noexcept
@@ -81,10 +81,10 @@ public:
 
 	template <
 		typename T,
-		typename = typename std::enable_if<
+		typename = std::enable_if_t<
 			!std::is_void<T>::value && 
 			(std::is_const<T>::value || !is_const)
-		>::type
+		>
 	>
 	explicit
 	operator T* (void) const

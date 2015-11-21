@@ -67,9 +67,9 @@ public:
 
 	template <
 		typename Container,
-		typename = typename std::enable_if<
+		typename = std::enable_if_t<
 			_is_compatible_container<Container>::value
-		>::type
+		>
 	>
 	explicit
 	cstr_ref(const Container& cont)

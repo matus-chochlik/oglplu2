@@ -35,9 +35,7 @@ template <
 	typename TL1,
 	T V2,
 	typename TL2,
-	typename = typename std::enable_if<
-		!mp_empty<mp_union_t<TL1,TL2>>::value
-	>::type
+	typename = std::enable_if_t<!mp_empty<mp_union_t<TL1,TL2>>::value>
 >
 static constexpr inline
 enum_bits<T, mp_union_t<TL1, TL2>>
@@ -52,9 +50,7 @@ template <
 	typename TL1,
 	T V2,
 	typename TL2,
-	typename = typename std::enable_if<
-		!mp_empty<mp_union_t<TL1,TL2>>::value
-	>::type
+	typename = std::enable_if_t<!mp_empty<mp_union_t<TL1,TL2>>::value>
 >
 static constexpr inline
 enum_bits<T, mp_union_t<TL1, TL2>>
@@ -92,9 +88,7 @@ struct enum_bitfield
 	template <
 		value_type Value,
 		typename Classes,
-		typename = typename std::enable_if<
-			mp_contains<Classes,EnumClass>::value
-		>::type
+		typename=std::enable_if_t<mp_contains<Classes,EnumClass>::value>
 	>
 	constexpr inline
 	enum_bitfield(enum_value<value_type, Value, Classes>)
@@ -104,9 +98,7 @@ struct enum_bitfield
 
 	template <
 		typename Classes,
-		typename = typename std::enable_if<
-			mp_contains<Classes,EnumClass>::value
-		>::type
+		typename=std::enable_if_t<mp_contains<Classes,EnumClass>::value>
 	>
 	constexpr inline
 	enum_bitfield(enum_bits<value_type, Classes> eb)

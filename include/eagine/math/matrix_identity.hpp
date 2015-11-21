@@ -67,13 +67,13 @@ identity<matrix<T,C,R,RM1,V>> multiply(
 template <
 	typename MC,
 	typename T, unsigned C, unsigned R, bool RM, bool V,
-	typename = typename std::enable_if<
+	typename = std::enable_if_t<
 		is_matrix_constructor<MC>::value &&
 		are_multiplicable<
 			constructed_matrix_t<MC>,
 			matrix<T,C,R,RM,V>
 		>::value
-	>::type
+	>
 >
 static constexpr inline
 MC multiply(
@@ -87,13 +87,13 @@ MC multiply(
 template <
 	typename T, unsigned C, unsigned R, bool RM, bool V,
 	typename MC,
-	typename = typename std::enable_if<
+	typename = std::enable_if_t<
 		is_matrix_constructor<MC>::value &&
 		are_multiplicable<
 			matrix<T,C,R,RM,V>,
 			constructed_matrix_t<MC>
 		>::value
-	>::type
+	>
 >
 static constexpr inline
 MC multiply(

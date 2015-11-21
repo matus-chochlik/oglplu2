@@ -55,9 +55,9 @@ private:
 public:
 	template <
 		typename T,
-		typename = typename std::enable_if<
+		typename = std::enable_if_t<
 			!std::is_same<T, basic_block>::value
-		>::type
+		>
 	>
 	explicit
 	basic_block(T& v)

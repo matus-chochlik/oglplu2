@@ -52,9 +52,7 @@ struct enum_class
 	template <
 		T Value,
 		typename Classes,
-		typename = typename std::enable_if<
-			mp_contains<Classes,Self>::value
-		>::type
+		typename = std::enable_if_t<mp_contains<Classes,Self>::value>
 	>
 	constexpr inline
 	enum_class(enum_value<T, Value, Classes>)

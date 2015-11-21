@@ -30,9 +30,9 @@ private:
 	template <typename X>
 	static byte_allocator* _get_new(
 		X&& that,
-		typename std::enable_if<
+		std::enable_if_t<
 			std::is_convertible<X*, byte_allocator*>::value
-		>::type* = nullptr
+		>* = nullptr
 	) noexcept
 	{
 		try { return that.accomodate_self(); }
@@ -92,9 +92,9 @@ public:
 
 	template <
 		typename X,
-		typename = typename std::enable_if<
+		typename = std::enable_if_t<
 			std::is_convertible<X*, byte_allocator*>::value
-		>::type
+		>
 	>
 	basic_shared_byte_alloc(X&& x)
 	noexcept

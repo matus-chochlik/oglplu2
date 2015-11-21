@@ -97,14 +97,14 @@ public:
 		typename C,
 		typename MF,
 		MF Ptr,
-		typename = typename std::enable_if<
+		typename = std::enable_if_t<
 			std::is_same<
 				typename member_function_constant<
 					MF,
 					Ptr
 				>::scope, C
 			>::value
-		>::type
+		>
 	>
 	callable_ref(
 		C* obj,

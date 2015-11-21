@@ -84,9 +84,9 @@ struct vector
 
 	template <
 		typename P,
-		typename = typename std::enable_if<
+		typename = std::enable_if_t<
 			(N == 1) && (std::is_convertible<P, T>::value)
-		>::type
+		>
 	>
 	static constexpr inline
 	vector make(P&& p)
@@ -97,9 +97,7 @@ struct vector
 
 	template <
 		typename ... P,
-		typename = typename std::enable_if<
-			(N > 1) && (sizeof...(P) == N)
-		>::type
+		typename = std::enable_if_t<(N > 1) && (sizeof...(P) == N)>
 	>
 	static constexpr inline
 	vector make(P&& ... p)
@@ -112,9 +110,9 @@ struct vector
 		typename P,
 		unsigned M,
 		bool W,
-		typename = typename std::enable_if<
+		typename = std::enable_if_t<
 			(!std::is_same<T, P>::value || (N != M) || (V != W))
-		>::type
+		>
 	>
 	static constexpr inline
 	vector from(const vector<P, M, W>& v, T d = T(0))
@@ -154,7 +152,7 @@ struct vector
 
 	template <unsigned M = N>
 	constexpr inline
-	typename std::enable_if<(M > 0), T>::type x(void) const
+	std::enable_if_t<(M > 0), T> x(void) const
 	noexcept
 	{
 		static_assert(M == N, "");
@@ -163,7 +161,7 @@ struct vector
 
 	template <unsigned M = N>
 	constexpr inline
-	typename std::enable_if<(M > 1), T>::type y(void) const
+	std::enable_if_t<(M > 1), T> y(void) const
 	noexcept
 	{
 		static_assert(M == N, "");
@@ -172,7 +170,7 @@ struct vector
 
 	template <unsigned M = N>
 	constexpr inline
-	typename std::enable_if<(M > 2), T>::type z(void) const
+	std::enable_if_t<(M > 2), T> z(void) const
 	noexcept
 	{
 		static_assert(M == N, "");
@@ -181,7 +179,7 @@ struct vector
 
 	template <unsigned M = N>
 	constexpr inline
-	typename std::enable_if<(M > 3), T>::type w(void) const
+	std::enable_if_t<(M > 3), T> w(void) const
 	noexcept
 	{
 		static_assert(M == N, "");
@@ -246,7 +244,7 @@ struct vector
 
 	template <typename Vec = vector>
 	friend constexpr
-	typename std::enable_if<scalar_type::is_vectorized::value, Vec>::type
+	std::enable_if_t<scalar_type::is_vectorized::value, Vec>
 	operator * (_cspT c, _cpT a)
 	noexcept
 	{
@@ -255,7 +253,7 @@ struct vector
 
 	template <typename Vec = vector>
 	friend constexpr
-	typename std::enable_if<scalar_type::is_vectorized::value, Vec>::type
+	std::enable_if_t<scalar_type::is_vectorized::value, Vec>
 	operator * (_cpT a, _cspT c)
 	noexcept
 	{
@@ -263,7 +261,7 @@ struct vector
 	}
 
 	template <typename Vec = vector>
-	typename std::enable_if<scalar_type::is_vectorized::value, Vec>::type&
+	std::enable_if_t<scalar_type::is_vectorized::value, Vec>&
 	operator *= (_cspT c)
 	noexcept
 	{
@@ -301,7 +299,7 @@ struct vector
 
 	template <typename Vec = vector>
 	friend constexpr
-	typename std::enable_if<scalar_type::is_vectorized::value, Vec>::type
+	std::enable_if_t<scalar_type::is_vectorized::value, Vec>
 	operator / (_cspT c, _cpT a)
 	noexcept
 	{
@@ -310,7 +308,7 @@ struct vector
 
 	template <typename Vec = vector>
 	friend constexpr
-	typename std::enable_if<scalar_type::is_vectorized::value, Vec>::type
+	std::enable_if_t<scalar_type::is_vectorized::value, Vec>
 	operator / (_cpT a, _cspT c)
 	noexcept
 	{

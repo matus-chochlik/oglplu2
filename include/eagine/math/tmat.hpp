@@ -47,9 +47,7 @@ public:
 private:
 	template <
 		typename ... P,
-		typename = typename std::enable_if<
-			((sizeof...(P)) == (C*R))
-		>::type
+		typename = std::enable_if_t<((sizeof...(P)) == (C*R))>
 	>
 	static inline
 	_base _make(P&& ... p)
@@ -60,9 +58,7 @@ private:
 public:
 	template <
 		typename ... P,
-		typename = typename std::enable_if<
-			((sizeof...(P)) == (R*C))
-		>::type
+		typename = std::enable_if_t<((sizeof...(P)) == (R*C))>
 	>
 	inline
 	tmat(P&& ... p)
@@ -71,9 +67,7 @@ public:
 
 	template <
 		typename ... P,
-		typename = typename std::enable_if<
-			((sizeof...(P)) == (RM?R:C))
-		>::type
+		typename = std::enable_if_t<((sizeof...(P)) == (RM?R:C))>
 	>
 	constexpr inline
 	tmat(const vector<P, RM?C:R, V>&... v)
@@ -85,10 +79,10 @@ public:
 		typename P,
 		unsigned M,
 		unsigned N,
-		typename = typename std::enable_if<
+		typename = std::enable_if_t<
 			std::is_convertible<P,T>::value &&
 			(C<=M) && (R<=N)
-		>::type
+		>
 	>
 	constexpr inline
 	tmat(const matrix<P,M,N,RM,V>& m)
