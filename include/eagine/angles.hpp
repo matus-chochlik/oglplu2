@@ -10,7 +10,7 @@
 #ifndef EAGINE_ANGLES_1509260923_HPP
 #define EAGINE_ANGLES_1509260923_HPP
 
-#include <type_traits>
+#include "type_traits.hpp"
 #include <cmath>
 
 namespace eagine {

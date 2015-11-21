@@ -11,7 +11,8 @@
 #define EAGINE_CALLABLE_REF_1509260923_HPP
 
 #include "mem_func_const.hpp"
-#include <type_traits>
+#include "type_traits.hpp"
+#include <utility>
 #include <cassert>
 
 namespace eagine {

@@ -17,6 +17,8 @@ set(HEADER_SEARCH_PATHS
 
 include(config/Compiler.cmake)
 include(config/CppFeature.cmake)
+include(config/StdFixes.cmake)
+include(config/LowProfile.cmake)
 
 include(FindPkgConfig)
 include(config/CommonFindMod.cmake)
@@ -47,12 +49,10 @@ include(config/ExeRequirements.cmake)
 # configure GL API and Context-init libraries
 include(config/ConfigGL.cmake)
 
-# now create the site-configuration header
-configure_file(
-	${PROJECT_SOURCE_DIR}/config/oglplus/config/site.hpp.in
-	${PROJECT_BINARY_DIR}/include/oglplus/config/site.hpp
-)
+# now create the site-configuration headers
+include(config/SiteConfig.cmake)
 
+include_directories("${PROJECT_BINARY_DIR}/include")
 include_directories("include")
 include_directories("implement")
 include_directories("third_party/include")
@@ -66,27 +66,10 @@ include(config/GLVer.cmake)
 include(config/GLExt.cmake)
 
 # re-create the site-configuration header
-configure_file(
-	${PROJECT_SOURCE_DIR}/config/oglplus/config/site.hpp.in
-	${PROJECT_BINARY_DIR}/include/oglplus/config/site.hpp
-)
+include(config/SiteConfig.cmake)
 
 add_subdirectory("example")
 add_subdirectory("test")
 
-# install the headers
-install(
-	DIRECTORY ${PROJECT_SOURCE_DIR}/include/
-	DESTINATION include
-)
-# install the implementation inline files
-install(
-	DIRECTORY ${PROJECT_SOURCE_DIR}/implement/
-	DESTINATION include
-)
-# install the GSL headers
-install(
-	DIRECTORY ${PROJECT_SOURCE_DIR}/third_party/GSL/include/
-	DESTINATION include
-)
-
+# installation
+include(config/Installation.cmake)

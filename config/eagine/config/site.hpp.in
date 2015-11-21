@@ -1,0 +1,20 @@
+/**
+ *  @file eagine/config/site.hpp
+ *  @brief System configuration options
+ *
+ * Copyright Matus Chochlik.
+ * Distributed under the Boost Software License, Version 1.0.
+ * See accompanying file LICENSE_1_0.txt or copy at
+ *  http://www.boost.org/LICENSE_1_0.txt
+ *
+ */
+#ifndef EAGINE_SITE_CONFIG_120305_HPP
+#define EAGINE_SITE_CONFIG_120305_HPP
+
+#ifndef EAGINE_LOW_PROFILE
+#if @EAGINE_CONFIG_SET_LOW_PROFILE@
+#define EAGINE_LOW_PROFILE @EAGINE_LOW_PROFILE@
+#endif
+#endif
+
+#endif

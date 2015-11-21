@@ -10,7 +10,7 @@
 #ifndef EAGINE_INT_SEQUENCE_1509260923_HPP
 #define EAGINE_INT_SEQUENCE_1509260923_HPP
 
-#include <type_traits>
+#include "type_traits.hpp"
 #include <cstdint>
 
 // TODO: when std::integer_sequence becomes available remove this header

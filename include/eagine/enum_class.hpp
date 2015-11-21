@@ -11,7 +11,7 @@
 #define EAGINE_ENUM_CLASS_1509260923_HPP
 
 #include "mp_list.hpp"
-#include <type_traits>
+#include "type_traits.hpp"
 #include <cassert>
 
 namespace eagine {

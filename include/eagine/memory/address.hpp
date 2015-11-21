@@ -11,7 +11,7 @@
 #define EAGINE_MEMORY_ADDRESS_1510290655_HPP
 
 #include "../types.hpp"
-#include <type_traits>
+#include "../type_traits.hpp"
 #include <cstddef>
 #include <cassert>
 

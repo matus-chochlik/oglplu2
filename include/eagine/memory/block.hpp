@@ -11,7 +11,7 @@
 #define EAGINE_MEMORY_BLOCK_1510290655_HPP
 
 #include "address.hpp"
-#include <type_traits>
+#include "../type_traits.hpp"
 #include <cstddef>
 
 namespace eagine {

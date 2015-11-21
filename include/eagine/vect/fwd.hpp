@@ -9,7 +9,7 @@
 #ifndef EAGINE_VECT_FWD_1509260923_HPP
 #define EAGINE_VECT_FWD_1509260923_HPP
 
-#include <type_traits>
+#include "../type_traits.hpp"
 
 namespace eagine {
 namespace vect {

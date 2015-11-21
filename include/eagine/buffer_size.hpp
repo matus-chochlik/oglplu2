@@ -11,7 +11,7 @@
 
 #include "span.hpp"
 #include "identity.hpp"
-#include <type_traits>
+#include "type_traits.hpp"
 
 namespace eagine {
 

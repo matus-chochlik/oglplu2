@@ -11,7 +11,7 @@
 #define EAGINE_OUTCOME_1509260923_HPP
 
 #include "deferred_handler.hpp"
-#include <type_traits>
+#include <utility>
 #include <cassert>
 
 namespace eagine {

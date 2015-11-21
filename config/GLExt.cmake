@@ -57,7 +57,6 @@ gl_lib_ext_detection(GL NV path_rendering)
 gl_lib_ext_detection(GL NV copy_image)
 
 file(APPEND ${OGLPLUS_FIX_GL_EXTENSION_HPP} "#endif //include guard\n")
-install(FILES ${OGLPLUS_FIX_GL_EXTENSION_HPP} DESTINATION include/oglplus)
 
 macro(glew_ext_detection EXTENSION_VENDOR EXTENSION_NAME)
 	if(GLEW_FOUND)

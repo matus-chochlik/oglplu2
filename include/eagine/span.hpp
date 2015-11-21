@@ -10,7 +10,7 @@
 #ifndef EAGINE_SPAN_1509260923_HPP
 #define EAGINE_SPAN_1509260923_HPP
 
-#include "std_fixes.hpp"
+#include "type_traits.hpp"
 
 #ifdef __clang__
 #pragma clang diagnostic push
