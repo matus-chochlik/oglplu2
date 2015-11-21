@@ -25,6 +25,7 @@ matrix:
             - libglew-dev
             - libglfw-dev
             - libopenal-dev
+            - libalut-dev
           sources:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-precise-3.6
@@ -34,6 +35,9 @@ install:
   - mkdir ${DEPS_DIR} && cd ${DEPS_DIR}
 
 before_script:
+  - "export DISPLAY=:99.0"
+  - "sh -e /etc/init.d/xvfb start"
+  - sleep 3
   - cd ${TRAVIS_BUILD_DIR}
   - ./configure.py --build-dir _build --cmake -DCMAKE_CXX_COMPILER=${COMPILER}
   - cmake --build _build
