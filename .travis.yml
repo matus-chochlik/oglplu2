@@ -2,7 +2,14 @@ language: c++
 os: linux
 sudo: false
 
+env:
+  matrix:
+    - TRAVIS_NO_EMPTY_JOB=true
+
 matrix:
+  exclude:
+    - env: TRAVIS_NO_EMPTY_JOB=true
+
   include:
     - env: COMPILER=clang++-3.6
       addons: &clang36
@@ -17,6 +24,7 @@ matrix:
             - libegl1-mesa-dev
             - libglew-dev
             - libglfw-dev
+            - libopenal-dev
           sources:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-precise-3.6
