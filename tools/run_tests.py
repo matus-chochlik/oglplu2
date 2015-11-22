@@ -59,18 +59,39 @@ def execute_configure(options, parameters, simulate=None, quiet=False):
 		simulate, quiet
 	)
 
-
 # executes ctest in the configured test directory
 def execute_ctest(options):
 	if options.jobs is None:
 		job_params = list()
 	else: job_params = ["-j", str(options.jobs)]
 
-	execute_command(
-		options,
-		["ctest"]+job_params,
-		os.path.join(get_build_dir(), "test")
-	);
+	test_dir = os.path.join(get_build_dir(), "test")
+
+	import subprocess
+
+	try:
+		execute_command(
+			options,
+			["ctest"]+job_params,
+			test_dir
+		);
+	except subprocess.CalledProcessError:
+		failed_tests_path = os.path.join(
+			test_dir,
+			"Testing", "Temporary", "LastTestsFailed.log"
+		)
+		with open(failed_tests_path) as failed_tests:
+			for line in failed_tests:
+				test_name = line.rstrip().split(':')[1]
+				test_lib = test_name.split('-')[0]
+
+				try:
+					cmd_line = ["ctest", "-VV", "-R", test_name];
+					work_dir = os.path.join(test_dir, test_lib)
+					proc = subprocess.Popen(cmd_line, cwd=work_dir)
+					proc.communicate()
+				except subprocess.CalledProcessError: pass
+
 
 
 # options for the --gl-apis parameter
