@@ -70,16 +70,20 @@ void oglplus_buffer_test_ops1(void)
 	gl.buffer_size(buf);
 	gl.buffer_mapped(buf);
 	gl.buffer_usage(buf);
+#if defined(GL_VERSION_4_4) || defined(GL_ARB_buffer_storage)
 	gl.buffer_immutable_storage(buf);
 	gl.buffer_storage_flags(buf);
+#endif
 
 	buf.data(data, buffer_usage(GL_STATIC_DRAW));
 	buf.sub_data(size, data);
 	buf.size();
 	buf.mapped();
 	buf.usage();
+#if defined(GL_VERSION_4_4) || defined(GL_ARB_buffer_storage)
 	buf.immutable_storage();
 	buf.storage_flags();
+#endif
 #endif
 }
 
