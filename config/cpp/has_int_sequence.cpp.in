@@ -1,10 +1,10 @@
 #include <utility>
 #ifdef EAGINE_TEST_INT_SEQ_FIX
-#include "int_sequence.hpp"
+#include <eagine/int_sequence_fix.hpp>
 #endif
 
 template <typename T, T ... I>
-foo(std::integer_sequence<T, I...>)
+int foo(std::integer_sequence<T, I...>)
 {
 	return 0;
 }
