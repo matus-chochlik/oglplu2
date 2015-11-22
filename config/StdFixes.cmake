@@ -73,3 +73,41 @@ function(make_std_type_traits_fixes)
 endfunction()
 
 make_std_type_traits_fixes()
+
+function(make_std_integer_sequence_fix)
+	message(STATUS "Generating fix for std integer_sequence")
+	configure_file(
+		${PROJECT_SOURCE_DIR}/config/cpp/has_int_sequence.cpp.in
+		${PROJECT_BINARY_DIR}/cpp/has_int_sequence.cpp
+	)
+	try_compile(
+		HAS_INT_SEQUENCE
+		${PROJECT_BINARY_DIR}/cpp
+		${PROJECT_BINARY_DIR}/cpp/has_int_sequence.cpp
+		COMPILE_DEFINITIONS ${CPP_STD_COMPILER_SWITCH}
+	)
+
+	if(${HAS_INT_SEQUENCE})
+		configure_file(
+			${PROJECT_SOURCE_DIR}/config/cpp/int_sequence_std.hpp.in
+			${PROJECT_BINARY_DIR}/include/eagine/int_sequence_fix.hpp
+		)
+	else()
+		configure_file(
+			${PROJECT_SOURCE_DIR}/config/cpp/int_sequence.hpp.in
+			${PROJECT_BINARY_DIR}/include/eagine/int_sequence_fix.hpp
+		)
+	endif()
+	try_compile(
+		HAS_INT_SEQUENCE
+		${PROJECT_BINARY_DIR}/cpp
+		${PROJECT_BINARY_DIR}/cpp/has_int_sequence.cpp
+		COMPILE_DEFINITIONS ${CPP_STD_COMPILER_SWITCH}
+		"-DEAGINE_TEST_INT_SEQ_FIX=1"
+	)
+	if(${HAS_INT_SEQUENCE})
+		message(FATAL_ERROR "Failed to fix std::integer_sequence")
+	endif()
+endfunction()
+
+make_std_integer_sequence_fix()

@@ -22,10 +22,10 @@ struct matrix
 	typedef T element_type;
 
 	template <unsigned ... U>
-	using _useq = integer_sequence<unsigned, U...>;
+	using _useq = std::integer_sequence<unsigned, U...>;
 
 	template <unsigned N>
-	using _make_useq = make_integer_sequence<unsigned, N>;
+	using _make_useq = std::make_integer_sequence<unsigned, N>;
 
 	vect::data_t<T, RM?C:R, V> _v[RM?R:C];
 

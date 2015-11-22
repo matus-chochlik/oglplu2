@@ -40,11 +40,11 @@ struct has_vect_data
 // data_param
 template <typename T, unsigned N, bool V>
 struct data_param
- : std::conditional<
+ : std::conditional_t<
 	_has_vec_data<T, N>::value && V,
 	_vec_data<T, N>,
 	_ary_cref<T, N>
->::type
+>
 { };
 
 // param

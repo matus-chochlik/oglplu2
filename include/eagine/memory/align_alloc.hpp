@@ -27,12 +27,12 @@ class multi_align_byte_allocator;
 // multi_align_byte_allocator
 template <std::size_t ... Align, typename Policy>
 class multi_align_byte_allocator<
-	index_sequence<Align...>,
+	std::index_sequence<Align...>,
 	Policy
 >: public byte_allocator_impl<
 	Policy,
 	multi_align_byte_allocator,
-	index_sequence<Align...>
+	std::index_sequence<Align...>
 >
 {
 private:

@@ -31,7 +31,7 @@ void eagine_test_memory_align_alloc_T(std::size_t n)
 	memory::block blk4(buf4.data(), buf4.size());
 	memory::block blk8(buf8.data(), buf8.size());
 
-	memory::multi_align_byte_allocator<index_sequence<1,2,4,8>> a(
+	memory::multi_align_byte_allocator<std::index_sequence<1,2,4,8>> a(
 		memory::stack_aligned_byte_allocator<>(blk1, 1),
 		memory::stack_aligned_byte_allocator<>(blk2, 2),
 		memory::stack_aligned_byte_allocator<>(blk4, 4),

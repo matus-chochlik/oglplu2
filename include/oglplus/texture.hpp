@@ -68,9 +68,9 @@ private:
 	}
 
 	template <typename X>
-	using _disable_if_target = typename std::enable_if<
+	using _disable_if_target = std::enable_if_t<
 		!std::is_convertible<X, texture_target>::value
-	>::type;
+	>;
 public:
 
 	static
@@ -727,11 +727,11 @@ private:
 	}
 
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
-	typedef typename std::conditional<
+	typedef std::conditional_t<
 		std::is_same<Base, texture_target>::value,
 		texture_target_only,
 		texture_name_only
-	>::type _tnt;
+	> _tnt;
 
 	static
 	texture_target_only _do_get_tnt(texture_target tgt)
@@ -747,11 +747,11 @@ private:
 #elif defined(GL_EXT_direct_state_access)
 	texture_target target;
 
-	typedef typename std::conditional<
+	typedef std::conditional_t<
 		std::is_same<Base, texture_target>::value,
 		texture_target_only,
 		texture_name_and_target
-	>::type _tnt;
+	> _tnt;
 
 	texture_name_and_target _do_get_tnt(texture_name name) const
 	noexcept

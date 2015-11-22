@@ -1,0 +1,15 @@
+#include <utility>
+#ifdef EAGINE_TEST_INT_SEQ_FIX
+#include "int_sequence.hpp"
+#endif
+
+template <typename T, T ... I>
+foo(std::integer_sequence<T, I...>)
+{
+	return 0;
+}
+
+int main(void)
+{
+	return foo(std::make_index_sequence<10>());
+}

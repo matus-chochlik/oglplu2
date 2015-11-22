@@ -123,9 +123,7 @@ static constexpr inline
 data_type get_data_type(void)
 noexcept
 {
-	return get_data_type(identity<
-		typename std::remove_cv<T>::type
-	>());
+	return get_data_type(identity<std::remove_cv_t<T>>());
 }
 
 } // namespace oglplus

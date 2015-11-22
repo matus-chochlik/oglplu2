@@ -19,7 +19,7 @@ static
 eagine::vect::data_t<T, N, V>
 get_test_math_matrix_vec(
 	std::integral_constant<unsigned, K>,
-	eagine::integer_sequence<unsigned, I...>
+	std::integer_sequence<unsigned, I...>
 )
 {
 	return eagine::vect::data_t<T, N, V>{T(K+I)...};
@@ -31,8 +31,8 @@ template <
 	unsigned ... I
 >
 void test_math_matrix_init_TCRRMVJI(
-	eagine::integer_sequence<unsigned, J...>,
-	eagine::integer_sequence<unsigned, I...>
+	std::integer_sequence<unsigned, J...>,
+	std::integer_sequence<unsigned, I...>
 )
 {
 	typedef eagine::math::matrix<T, C, R, RM, V> M;
@@ -40,7 +40,7 @@ void test_math_matrix_init_TCRRMVJI(
 	M m = {{
 		get_test_math_matrix_vec<T, RM?C:R, V>(
 			std::integral_constant<unsigned, J>(),
-			eagine::integer_sequence<unsigned, I...>()
+			std::integer_sequence<unsigned, I...>()
 		)...
 	}};
 
@@ -55,8 +55,8 @@ template <typename T, unsigned C, unsigned R, bool RM, bool V>
 void test_math_matrix_init_TCRRMV(void)
 {
 	test_math_matrix_init_TCRRMVJI<T, C, R, RM, V>(
-		eagine::make_integer_sequence<unsigned, RM?R:C>(),
-		eagine::make_integer_sequence<unsigned, RM?C:R>()
+		std::make_integer_sequence<unsigned, RM?R:C>(),
+		std::make_integer_sequence<unsigned, RM?C:R>()
 	);
 }
 
