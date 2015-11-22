@@ -11,7 +11,7 @@ matrix:
     - env: TRAVIS_NO_EMPTY_JOB=true
 
   include:
-    - env: COMPILER=clang++-3.6
+    - env: COMPILER=clang++-3.6 TEST_LEVEL=basic GL_LIBS=all-apis
       addons: &clang36
         apt:
           packages:
@@ -30,21 +30,13 @@ matrix:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-precise-3.6
 
-install:
-  - DEPS_DIR="${TRAVIS_BUILD_DIR}/deps"
-  - mkdir ${DEPS_DIR} && cd ${DEPS_DIR}
-
 before_script:
   - "export DISPLAY=:99.0"
   - "sh -e /etc/init.d/xvfb start"
   - sleep 3
-  - cd ${TRAVIS_BUILD_DIR}
-  - ./configure.py --build-dir _build --cmake -DCMAKE_CXX_COMPILER=${COMPILER}
-  - cmake --build _build
 
 script:
-  - cd ${TRAVIS_BUILD_DIR}/_build/test
-  - ctest
+  - tools/run_tests.py --test-level=${TEST_LEVEL} --gl-libs=${GL_LIBS} --config --cmake -DCMAKE_CXX_COMPILER=${COMPILER}
 
 notifications:
   email: false
