@@ -4,9 +4,10 @@ OGLplus2 README
 
 :Author: Matúš Chochlík <chochlik@gmail.com>
 
-.. contents::
 .. image:: https://travis-ci.org/matus-chochlik/oglplu2.svg?branch=develop
     :target: https://travis-ci.org/matus-chochlik/oglplu2
+
+.. contents::
 
 .. _OpenGL: http://opengl.org/
 .. _OpenAL: http://openal.org/
@@ -53,10 +54,7 @@ but the examples can be built by issuing the following commands:
 
 ::
 
- mkdir _build &&
- cd _build &&
- cmake .. &&
- make
+ ./configure.py --build
 
 Why rebooting OGLplus?
 ======================
