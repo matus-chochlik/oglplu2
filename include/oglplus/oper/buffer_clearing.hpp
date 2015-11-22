@@ -62,9 +62,9 @@ struct buffer_clearing_state
 
 	template <
 		typename V,
-		typename = typename std::enable_if<
+		typename = std::enable_if_t<
 			has_canonical_type<V, GLfloat[4]>::value
-		>::type
+		>
 	>
 	static
 	outcome<void>

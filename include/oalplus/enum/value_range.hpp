@@ -24,9 +24,9 @@ using eagine::enumerated_value_range;
 
 template <
 	typename EnumClass,
-	typename = typename std::enable_if<
+	typename = std::enable_if_t<
 		is_enum_class<typename EnumClass::type>::value
-	>::type
+	>
 >
 static inline
 enumerated_value_range<typename EnumClass::type>

@@ -32,7 +32,7 @@ public:
 		obj_lifetime_ops<ObjTag>::gen_objects(*this);
 	}
 
-	object_array_owner(typename object_subtype<ObjTag>::type subtype)
+	object_array_owner(object_subtype_t<ObjTag> subtype)
 	 : owned<object_name_array<ObjTag, N>>()
 	{
 		obj_lifetime_ops<ObjTag>::gen_objects(*this, subtype);
@@ -74,7 +74,7 @@ public:
 
 	object_vector_owner(
 		std::size_t n,
-		typename object_subtype<ObjTag>::type subtype
+		object_subtype_t<ObjTag> subtype
 	): owned<object_name_vector<ObjTag>>(n)
 	{
 		obj_lifetime_ops<ObjTag>::gen_objects(*this, subtype);

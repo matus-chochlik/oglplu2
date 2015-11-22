@@ -57,6 +57,7 @@ function(make_std_type_traits_fixes)
 
 	fix_other_std_type_trait(conditional "${FIXES_HPP}")
 	fix_other_std_type_trait(enable_if "${FIXES_HPP}")
+	fix_other_std_type_trait(is_convertible "${FIXES_HPP}")
 
 	fix_simple_std_type_trait(decay "${FIXES_HPP}")
 	fix_simple_std_type_trait(add_const "${FIXES_HPP}")

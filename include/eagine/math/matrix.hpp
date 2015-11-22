@@ -282,10 +282,10 @@ template <bool DstRM, typename T, bool V>
 static inline
 matrix<T, 4, 4, DstRM, V>
 transpose_tpl_hlp(
-	const typename vect::data<T, 4, V>::type& q0,
-	const typename vect::data<T, 4, V>::type& q1,
-	const typename vect::data<T, 4, V>::type& q2,
-	const typename vect::data<T, 4, V>::type& q3
+	const vect::data_t<T, 4, V>& q0,
+	const vect::data_t<T, 4, V>& q1,
+	const vect::data_t<T, 4, V>& q2,
+	const vect::data_t<T, 4, V>& q3
 ) noexcept
 {
 	return matrix<T, 4, 4, DstRM, V>{{
@@ -698,7 +698,7 @@ struct is_known_matrix_type<math::matrix<T, C, R, RM, V>>
 
 template <typename T, unsigned C, unsigned R, bool RM, bool V>
 struct canonical_compound_type<math::matrix<T, C, R, RM, V>>
- : identity<typename std::remove_cv<T[C][R]>::type>
+ : identity<std::remove_cv_t<T[C][R]>>
 { };
 
 template <typename T, unsigned C, unsigned R, bool RM, bool V>

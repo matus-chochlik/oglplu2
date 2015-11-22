@@ -66,7 +66,7 @@ struct type_to_value
 
 	type_to_value(void) = default;
 
-	type_to_value(typename instead_of<Keys, Value>::type ... values)
+	type_to_value(instead_of_t<Keys, Value> ... values)
 	 : type_to_value_unit<Value, Keys>(values)...
 	{ }
 

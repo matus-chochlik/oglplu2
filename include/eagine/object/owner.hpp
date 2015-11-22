@@ -58,7 +58,7 @@ public:
 		obj_lifetime_ops<ObjTag>::gen_objects(*this);
 	}
 
-	object_owner(typename object_subtype<ObjTag>::type subtype)
+	object_owner(object_subtype_t<ObjTag> subtype)
 	 : owned<object_name_and_ops<ObjTag>>()
 	{
 		obj_lifetime_ops<ObjTag>::gen_objects(*this, subtype);

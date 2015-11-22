@@ -22,17 +22,17 @@ template <bool is_const>
 class basic_address
 {
 public:
-	typedef typename std::conditional<
+	typedef std::conditional_t<
 		is_const,
 		const void*,
 		void*
-	>::type pointer;
+	> pointer;
 
-	typedef typename std::conditional<
+	typedef std::conditional_t<
 		is_const,
 		const byte*,
 		byte*
-	>::type byte_pointer;
+	> byte_pointer;
 private:
 	pointer _addr;
 public:

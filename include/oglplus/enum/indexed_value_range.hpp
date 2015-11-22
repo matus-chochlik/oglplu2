@@ -75,9 +75,7 @@ public:
 
 template <
 	typename LimitedValue,
-	typename = typename std::enable_if<
-		is_limited_value<LimitedValue>::value
-	>::type
+	typename = std::enable_if_t<is_limited_value<LimitedValue>::value>
 >
 static inline
 limited_value_range<LimitedValue>

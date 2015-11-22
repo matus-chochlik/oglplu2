@@ -21,23 +21,23 @@ template <bool is_const>
 class basic_block
 {
 public:
-	typedef typename std::conditional<
+	typedef std::conditional_t<
 		is_const,
 		const void*,
 		void*
-	>::type pointer;
+	> pointer;
 
-	typedef typename std::conditional<
+	typedef std::conditional_t<
 		is_const,
 		const byte*,
 		byte*
-	>::type iterator;
+	> iterator;
 
-	typedef typename std::conditional<
+	typedef std::conditional_t<
 		is_const,
 		const byte&,
 		byte&
-	>::type reference;
+	> reference;
 
 	typedef std::size_t size_type;
 private:

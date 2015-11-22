@@ -42,19 +42,22 @@ struct canonical_compound_type
  : nothing_t
 { };
 
+template <typename T>
+using canonical_compound_type_t = typename canonical_compound_type<T>::type;
+
 template <typename C, typename CT>
 struct has_canonical_type
- : std::is_same<typename canonical_compound_type<C>::type, CT>
+ : std::is_same<canonical_compound_type_t<C>, CT>
 { };
 
 template <typename T, std::size_t N>
 struct canonical_compound_type<T[N]>
- : identity<typename std::remove_cv<T[N]>::type>
+ : identity<std::remove_cv_t<T[N]>>
 { };
 
 template <typename T, std::size_t C, std::size_t R>
 struct canonical_compound_type<T[C][R]>
- : identity<typename std::remove_cv<T[C][R]>::type>
+ : identity<std::remove_cv_t<T[C][R]>>
 { };
 
 template <typename C>

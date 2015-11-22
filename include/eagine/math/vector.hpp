@@ -489,7 +489,7 @@ struct is_known_vector_type<math::vector<T, N, V>>
 
 template <typename T, unsigned N, bool V>
 struct canonical_compound_type<math::vector<T, N, V>>
- : identity<typename std::remove_cv<T[N]>::type>
+ : identity<std::remove_cv_t<T[N]>>
 { };
 
 template <typename T, unsigned N, bool V>

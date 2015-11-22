@@ -24,6 +24,9 @@ struct instead_of
 	}
 };
 
+template <typename Src, typename Dst>
+using instead_of_t = typename instead_of<Src, Dst>::type;
+
 } // namespace eagine
 
 #endif //include guard

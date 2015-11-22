@@ -28,7 +28,7 @@ struct is_matrix_constructor<perspective<matrix<T,N,N,RM,V>>>
 template <typename T, bool RM, bool V>
 struct perspective<matrix<T,4,4,RM,V>>
 {
-	typedef typename vect::data<T, 6, V>::type _dT;
+	typedef vect::data_t<T, 6, V> _dT;
 	_dT _v;
 
 	constexpr

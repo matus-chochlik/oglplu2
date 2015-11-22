@@ -20,11 +20,11 @@ template <
 	typename T, unsigned C, unsigned R, bool RM, bool V
 >
 struct constructed_matrix<MC<matrix<T,C,R,RM,V>>>
- : std::conditional<
+ : std::conditional_t<
 	is_matrix_constructor<MC<matrix<T,C,R,RM,V>>>::value,
 	matrix<T,C,R,RM,V>,
 	nothing_t
->::type
+>
 { };
 
 template <
@@ -33,11 +33,11 @@ template <
 	unsigned I
 >
 struct constructed_matrix<MC<matrix<T,C,R,RM,V>, I>>
- : std::conditional<
+ : std::conditional_t<
 	is_matrix_constructor<MC<matrix<T,C,R,RM,V>, I>>::value,
 	matrix<T,C,R,RM,V>,
 	nothing_t
->::type
+>
 { };
 
 // construct_matrix (noop)

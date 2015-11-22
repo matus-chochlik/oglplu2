@@ -93,9 +93,7 @@ noexcept
 template <
 	GLenum Query,
 	typename T,
-	typename = typename std::enable_if<
-		std::is_integral<T>::value
-	>::type
+	typename = std::enable_if_t<std::is_integral<T>::value>
 >
 static inline
 outcome<T>
@@ -119,9 +117,7 @@ noexcept
 
 template <
 	typename LimitedValue,
-	typename = typename std::enable_if<
-		is_limited_value<LimitedValue>::value
-	>::type
+	typename = std::enable_if_t<is_limited_value<LimitedValue>::value>
 >
 static inline
 auto limit(void)

@@ -20,11 +20,11 @@ namespace vect {
 // data
 template <typename T, unsigned N, bool V>
 struct data
- : std::conditional<
+ : std::conditional_t<
 	_has_vec_data<T, N>::value && V,
 	_vec_data<T, N>,
 	_ary_data<T, N>
->::type
+>
 {
 	typedef T value_type;
 	static constexpr unsigned size = N;

@@ -30,7 +30,7 @@ struct radians_t
 
 	template <
 		typename U,
-		typename = typename std::is_convertible<U, T>::type
+		typename = std::enable_if_t<std::is_convertible<U, T>::value>
 	>
 	constexpr inline
 	radians_t(radians_t<U> d)
@@ -94,7 +94,7 @@ struct degrees_t
 
 	template <
 		typename U,
-		typename = typename std::is_convertible<U, T>::type
+		typename = std::enable_if_t<std::is_convertible<U, T>::value>
 	>
 	constexpr inline
 	degrees_t(degrees_t<U> d)

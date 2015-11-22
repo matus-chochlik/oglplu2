@@ -9,10 +9,10 @@
 #ifndef OGLPLUS_OPER_VERTEX_ATTRIB_1509260923_HPP
 #define OGLPLUS_OPER_VERTEX_ATTRIB_1509260923_HPP
 
+#include <eagine/type_traits.hpp>
 #include "../vertex_attrib.hpp"
 #include "../utils/boolean.hpp"
 #include "../utils/vec_mat_traits.hpp"
-#include <type_traits>
 
 namespace oglplus {
 namespace oper {
@@ -23,10 +23,10 @@ struct vertex_attrib_ops
 		typename T,
 		bool D,
 		typename V0,
-		typename = typename std::enable_if<
+		typename = std::enable_if_t<
 			std::is_convertible<V0, T>::value &&
 			!std::is_array<T>::value
-		>::type
+		>
 
 	>
 	static inline
@@ -50,11 +50,11 @@ struct vertex_attrib_ops
 		bool D,
 		typename V0,
 		typename V1,
-		typename = typename std::enable_if<
+		typename = std::enable_if_t<
 			std::is_convertible<V0, T>::value &&
 			std::is_convertible<V1, T>::value &&
 			!std::is_array<T>::value
-		>::type
+		>
 
 	>
 	static inline
@@ -79,12 +79,12 @@ struct vertex_attrib_ops
 		typename V0,
 		typename V1,
 		typename V2,
-		typename = typename std::enable_if<
+		typename = std::enable_if_t<
 			std::is_convertible<V0, T>::value &&
 			std::is_convertible<V1, T>::value &&
 			std::is_convertible<V2, T>::value &&
 			!std::is_array<T>::value
-		>::type
+		>
 
 	>
 	static inline
@@ -110,13 +110,13 @@ struct vertex_attrib_ops
 		typename V1,
 		typename V2,
 		typename V3,
-		typename = typename std::enable_if<
+		typename = std::enable_if_t<
 			std::is_convertible<V0, T>::value &&
 			std::is_convertible<V1, T>::value &&
 			std::is_convertible<V2, T>::value &&
 			std::is_convertible<V3, T>::value &&
 			!std::is_array<T>::value
-		>::type
+		>
 
 	>
 	static inline
@@ -155,9 +155,7 @@ struct vertex_attrib_ops
 	template <
 		bool D,
 		typename X,
-		typename = typename std::enable_if<
-			is_known_vector_type<X>::value
-		>::type
+		typename = std::enable_if_t<is_known_vector_type<X>::value>
 	>
 	static inline
 	outcome<void>

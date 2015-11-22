@@ -100,7 +100,7 @@ struct is_known_matrix_type<math::tmat<T, C, R, RM, V>>
 
 template <typename T, unsigned C, unsigned R, bool RM, bool V>
 struct canonical_compound_type<math::tmat<T, C, R, RM, V>>
- : identity<typename std::remove_cv<T[C][R]>::type>
+ : identity<std::remove_cv_t<T[C][R]>>
 { };
 
 template <typename T, unsigned C, unsigned R, bool RM, bool V>

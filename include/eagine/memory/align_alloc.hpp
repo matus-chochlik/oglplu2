@@ -62,10 +62,10 @@ private:
 	}
 public:
 	multi_align_byte_allocator(
-		typename instead_of<
+		instead_of_t<
 			std::integral_constant<std::size_t, Align>,
 			shared_byte_allocator
-		>::type ... aligned_alloc,
+		> ... aligned_alloc,
 		shared_byte_allocator fallback_alloc = default_byte_allocator()
 	): _alignment{{Align...}}
 	 , _aligned_alloc{{std::move(aligned_alloc)...}}
