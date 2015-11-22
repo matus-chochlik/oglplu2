@@ -39,16 +39,20 @@ void oglplus_buffer_test_ops1(void)
 	gl.buffer_size(tgt);
 	gl.buffer_mapped(tgt);
 	gl.buffer_usage(tgt);
+#if defined(GL_VERSION_4_4) || defined(GL_ARB_buffer_storage)
 	gl.buffer_immutable_storage(tgt);
 	gl.buffer_storage_flags(tgt);
+#endif
 
 	curbuf.data(data, buffer_usage(GL_STATIC_DRAW));
 	curbuf.sub_data(size, data);
 	curbuf.size();
 	curbuf.mapped();
 	curbuf.usage();
+#if defined(GL_VERSION_4_4) || defined(GL_ARB_buffer_storage)
 	curbuf.immutable_storage();
 	curbuf.storage_flags();
+#endif
 
 #if defined(GL_VERSION_4_3) || defined(GL_ARB_invalidate_subdata)
 	gl.invalidate_buffer_data(buf);

@@ -5,6 +5,9 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <oglplus/gl.hpp>
+
+#if defined(GL_NV_path_rendering)
+
 #include <oglplus/path_nv_array.hpp>
 
 using namespace oglplus;
@@ -233,3 +236,5 @@ void oglplus_path_nv_array_test_ops1(void)
 }
 
 // TODO
+
+#endif // NV_path_rendering

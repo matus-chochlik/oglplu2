@@ -91,7 +91,7 @@ def execute_ctest(options):
 					proc = subprocess.Popen(cmd_line, cwd=work_dir)
 					proc.communicate()
 				except subprocess.CalledProcessError: pass
-
+		raise
 
 
 # options for the --gl-apis parameter

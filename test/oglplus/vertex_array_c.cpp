@@ -35,17 +35,21 @@ void oglplus_vertex_array_test_ops1(void)
 	gl.disable_vertex_array_attrib(loc);
 	gl.vertex_array_attrib_pointer(loc, 1, data_type(GL_FLOAT), true, 0, nullptr);
 	gl.vertex_array_attrib_i_pointer(loc, 1, data_type(GL_INT), 0, nullptr);
+#if defined(GL_VERSION_4_3) || defined(GL_ARB_vertex_attrib_binding)
 	gl.vertex_array_attrib_format(loc, 1, data_type(GL_FLOAT), true, 0);
 	gl.vertex_array_attrib_i_format(loc, 1, data_type(GL_INT), 0);
 	gl.vertex_array_attrib_l_format(loc, 1, data_type(GL_DOUBLE), 0);
+#endif
 
 	curvao.enable_attrib(loc);
 	curvao.disable_attrib(loc);
 	curvao.attrib_pointer(loc, 1, data_type(GL_FLOAT), true, 0, nullptr);
 	curvao.attrib_i_pointer(loc, 1, data_type(GL_INT), 0, nullptr);
+#if defined(GL_VERSION_4_3) || defined(GL_ARB_vertex_attrib_binding)
 	curvao.attrib_format(loc, 1, data_type(GL_FLOAT), true, 0);
 	curvao.attrib_i_format(loc, 1, data_type(GL_INT), 0);
 	curvao.attrib_l_format(loc, 1, data_type(GL_DOUBLE), 0);
+#endif
 
 #if defined(GL_VERSION_4_5) ||\
 	defined(GL_ARB_direct_state_access) ||\
