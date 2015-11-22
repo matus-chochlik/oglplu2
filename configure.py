@@ -13,7 +13,6 @@ from tools import paths
 
 def get_argument_parser():
 	import argparse
-	import datetime
 
 	def BoolArgValue(arg):
 		if(arg in ("True", "true", "Yes", "yes", "Y", "On", "1")):
@@ -27,7 +26,7 @@ def get_argument_parser():
 	def JobCountValue(arg):
 		msg_fmt = "'%s' is not a valid process count value"
 		try:
-			if int(arg) < 0:
+			if int(arg) <= 0:
 				msg = msg_fmt % str(arg)
 				raise argparse.ArgumentTypeError(msg)
 			else:
@@ -58,11 +57,11 @@ def get_argument_parser():
 			Configuration script for the OGLplus library (version %(version)s)
 		""" % { "version" : version },
 		epilog="""
-			Copyright (c) 2008 - %(year)d Matúš Chochlík.
+			Copyright (c) Matúš Chochlík.
 			Permission is granted to copy, distribute and/or modify this document
 			under the terms of the Boost Software License, Version 1.0.
 			(See a copy at http://www.boost.org/LICENSE_1_0.txt)
-		""" % { "year": datetime.datetime.now().year }
+		"""
 	)
 	argparser.add_argument(
 		"--generate-bash-complete",
@@ -178,7 +177,7 @@ def get_argument_parser():
 		default=None,
 		help="""
 			Enables or disables the low profile mode (see the documentation
-			for the OGLPLUS_LOW_PROFILE compile-time switch).
+			for the EAGINE_LOW_PROFILE compile-time switch).
 			If this option is used, then the specified value is written to
 			the oglplus/config/site.hpp file, otherwise it is set to the default
 			value in oglplus/config.hpp and may be overriden in sources by
@@ -194,29 +193,6 @@ def get_argument_parser():
 		help="""
 			With this option configure only generates a python script containing
 			information about the available configurations on the current machine.
-		"""
-	)
-	argparser_use_boost_config_group = argparser.add_mutually_exclusive_group()
-	argparser_use_boost_config_group .add_argument(
-		"--use-boost-config",
-		dest="use_boost_config",
-		type=BoolArgValue,
-		choices=[True, False],
-		action="store",
-		default=True,
-		help="""
-			Enables or disables the use of the Boost.Config library for the
-			detection of availability of C++ language features (default = %(default)s).
-		"""
-	)
-	argparser_use_boost_config_group .add_argument(
-		"--no-boost-config",
-		dest="use_boost_config",
-		action="store_false",
-		help="""
-			Do not use the Boost.Config library for C++ feature availability
-			detection.
-			Equivalent to --use-boost-config=False.
 		"""
 	)
 
@@ -301,7 +277,7 @@ def get_argument_parser():
 		dest="strict_gl_version_detection",
 		type=BoolArgValue,
 		action="store",
-		default=True,
+		default=None,
 		help="""
 			Enables (or disables) strict GL version and extension detection.
 			In relaxed (non-strict) mode the only thing that is detected is
@@ -437,11 +413,11 @@ def get_argument_parser():
 		"""
 	)
 	argparser.add_argument(
-		"--with-tests",
+		"--no-tests",
 		default=False,
 		action="store_true",
 		help="""
-			Configure the testsuite.
+			Disable configuring of the testsuite.
 		"""
 	)
 	argparser.add_argument(
@@ -548,8 +524,9 @@ def search_ldflags():
 	return ldflags_library_dirs
 
 # get some useful information from cmake
-def cmake_system_info(cmake_args):
-	command = ["cmake", "--system-information"] + cmake_args
+def cmake_system_info(options):
+	info_path = os.path.join(options.build_dir, "system-info.txt")
+	command = ["cmake", "--system-information", info_path]
 	try:
 		proc = subprocess.Popen(
 			command,
@@ -568,7 +545,7 @@ def cmake_system_info(cmake_args):
 
 	try:
 		import shlex
-		for line in proc.stdout.readlines():
+		for line in open(info_path).readlines():
 			try:
 				words = shlex.split(line)
 				if(words[0] in (
@@ -613,7 +590,7 @@ def main(argv):
 
 	# get the info from cmake if we are not in a hurry
 	if not options.quick:
-		cmake_info = cmake_system_info(options.cmake_options)
+		cmake_info = cmake_system_info(options)
 	else: cmake_info = list()
 
 	# the search prefix
@@ -651,43 +628,36 @@ def main(argv):
 
 	# set the low profile mode switch
 	if(options.low_profile is not None):
-		cmake_options.append("-DOGLPLUS_CONFIG_SET_LOW_PROFILE=On")
+		cmake_options.append("-DCONFIG_SET_LOW_PROFILE=On")
 		if(options.low_profile):
-			cmake_options.append("-DOGLPLUS_LOW_PROFILE=On")
+			cmake_options.append("-DLOW_PROFILE=On")
 		else:
-			cmake_options.append("-DOGLPLUS_LOW_PROFILE=Off")
+			cmake_options.append("-DLOW_PROFILE=Off")
 
+	# if we just want fo query the system configuration info
 	if(options.info_only):
-		options.build_examples = False
-		options.make_screenshots = False
-		options.build_docs = False
-		options.use_boost_config = False
-		options.build = False
+		cmake_options.append("-DCONFIG_INFO_ONLY=On")
 
 	# disable building the examples
 	if(not options.build_examples):
-		cmake_options.append("-DOGLPLUS_NO_EXAMPLES=On")
-
-	# don't use Boost.Config
-	if(not options.use_boost_config):
-		cmake_options.append("-DOGLPLUS_NO_BOOST_CONFIG=On")
+		cmake_options.append("-DNO_EXAMPLES=On")
 
 	# limit the GL version
 	if(options.max_gl_version):
-		cmake_options.append("-DOGLPLUS_MAX_GL_VERSION="+options.max_gl_version)
+		cmake_options.append("-DCONFIG_MAX_GL_VERSION=%s"%options.max_gl_version)
 
 	# enable/disable strict version detection
 	if(options.strict_gl_version_detection is not None):
 		value = int(options.strict_gl_version_detection)
-		cmake_options.append("-DOGLPLUS_CONFIG_STRICT_VERSION_CHECK="+str(value))
+		cmake_options.append("-DCONFIG_STRICT_GL_VERSION_CHECK=%d"%value)
 
 	# force the GL header to be used
 	if(options.gl_api_lib):
-		cmake_options.append("-DOGLPLUS_FORCE_GL_API_LIB="+options.gl_api_lib)
+		cmake_options.append("-DFORCE_GL_API_LIB=%s"%options.gl_api_lib)
 
 	# force the GL initialization library to be used
 	if(options.gl_init_lib):
-		cmake_options.append("-DOGLPLUS_FORCE_GL_INIT_LIB="+options.gl_init_lib)
+		cmake_options.append("-DFORCE_GL_INIT_LIB=%s"%options.gl_init_lib)
 
 	# add paths for header lookop
 	if(options.include_dirs):
@@ -704,8 +674,8 @@ def main(argv):
 			print("Warning failed to remove build directory")
 
 	# configure the test suite
-	if(options.with_tests):
-		cmake_options.append("-DOGLPLUS_WITH_TESTS=On")
+	if(options.no_tests):
+		cmake_options.append("-DNO_TESTS=On")
 
 	# set the generator if specified
 	if(options.generator):
@@ -714,13 +684,13 @@ def main(argv):
 	# put cmake in debug mode if specified
 	if(options.debug_gl_ver_error):
 		options.debug_config = True
-		cmake_options += ["-DOGLPLUS_DEBUG_GL_VER_ERROR=1"]
+		cmake_options += ["-DDEBUG_GL_VER_ERROR=1"]
 	if(options.debug_gl_ext_error):
 		options.debug_config = True
-		cmake_options += ["-DOGLPLUS_DEBUG_GL_EXT_ERROR="+options.debug_gl_ext_error]
+		cmake_options += ["-DDEBUG_GL_EXT_ERROR=%s"%options.debug_gl_ext_error]
 	if(options.debug_lib_error):
 		options.debug_config = True
-		cmake_options += ["-DOGLPLUS_DEBUG_LIB_ERROR=1"]
+		cmake_options += ["-DDEBUG_LIB_ERROR=1"]
 	if(options.debug_config):
 		cmake_options += ["--debug-output", "--debug-trycompile"]
 

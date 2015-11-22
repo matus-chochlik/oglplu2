@@ -8,13 +8,13 @@
 #define OGLPLUS_CONFIG_QUERY_GL_VER_MINOR 0
 
 #include "init_GL.ipp"
-#include "has_GL_@OGLPLUS_CONFIG_QUERY_GL_EXT_VENDOR@_@OGLPLUS_CONFIG_QUERY_GL_EXT_NAME@.ipp"
+#include "has_GL_@CONFIG_QUERY_GL_EXT_VENDOR@_@CONFIG_QUERY_GL_EXT_NAME@.ipp"
 
 #include <cstring>
 #include <cstddef>
 
 bool do_query_gl(void)
 {
-	return does_have_@OGLPLUS_CONFIG_QUERY_GL_EXT_VENDOR@_@OGLPLUS_CONFIG_QUERY_GL_EXT_NAME@();
+	return does_have_@CONFIG_QUERY_GL_EXT_VENDOR@_@CONFIG_QUERY_GL_EXT_NAME@();
 }
 

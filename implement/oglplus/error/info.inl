@@ -119,7 +119,7 @@ noexcept
 #if! OGLPLUS_ERROR_NO_GL_LIB
 	_gl_lb_name = gl_lb_name;
 #else
-	(void)gl_lib_name;
+	(void)gl_lb_name;
 #endif
 	return *this;
 }
@@ -278,7 +278,7 @@ noexcept
 #if !OGLPLUS_ERROR_NO_OBJECT
 	return _obj_name;
 #else
-	return invalid_gl_obj_name();
+	return any_object_name();
 #endif
 }
 //------------------------------------------------------------------------------
@@ -317,7 +317,7 @@ noexcept
 #if !OGLPLUS_ERROR_NO_SUBJECT
 	return _ext_info()._sub_name;
 #else
-	return invalid_gl_obj_name();
+	return any_object_name();
 #endif
 }
 //------------------------------------------------------------------------------

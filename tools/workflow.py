@@ -193,7 +193,6 @@ def action_finish_hotfix():
 # creates the command line argument parser
 def get_argument_parser():
 	import argparse
-	import datetime
 
 	argparser = argparse.ArgumentParser(
 		prog="workflow",
@@ -201,11 +200,11 @@ def get_argument_parser():
 			Git Workflow utility script
 		""",
 		epilog="""
-			Copyright (c) 2008 - %(year)d Matúš Chochlík.
+			Copyright (c) Matúš Chochlík.
 			Permission is granted to copy, distribute and/or modify this document
 			under the terms of the Boost Software License, Version 1.0.
 			(See a copy at http://www.boost.org/LICENSE_1_0.txt)
-		""" % { "year": datetime.datetime.now().year }
+		"""
 	)
 
 	argparser.add_argument(

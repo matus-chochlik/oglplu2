@@ -726,18 +726,18 @@ private:
 		return *static_cast<const Base*>(this);
 	}
 
+	static
+	texture_target_only _do_get_tnt(texture_target tgt)
+	{
+		return {tgt};
+	}
+
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
 	typedef std::conditional_t<
 		std::is_same<Base, texture_target>::value,
 		texture_target_only,
 		texture_name_only
 	> _tnt;
-
-	static
-	texture_target_only _do_get_tnt(texture_target tgt)
-	{
-		return {tgt};
-	}
 
 	static
 	texture_name_only _do_get_tnt(texture_name name)

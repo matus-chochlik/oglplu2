@@ -35,27 +35,31 @@ macro(add_runtime_test LIBRARY TEST_NAME)
 		${LIBRARY}-execute_test-${TEST_NAME}
 		"${CMAKE_CURRENT_BINARY_DIR}/${LIBRARY}-${TEST_NAME}"
 	)
-	set_tests_properties(
+	set_property(
+		TEST
 		${LIBRARY}-execute_test-${TEST_NAME}
-		PROPERTIES DEPENDS
+		APPEND PROPERTY DEPENDS
 		${LIBRARY}-build_test-${TEST_NAME}
 	)
-	set_tests_properties(
+	set_property(
+		TEST
 		${LIBRARY}-execute_test-${TEST_NAME}
-		PROPERTIES FOLDER
+		APPEND PROPERTY FOLDER
 		"test/${LIBRARY}"
 	)
 endmacro()
 
 function(add_runtime_test_dependency LIBRARY REQUIRED DEPENDING)
-	set_tests_properties(
+	set_property(
+		TEST
 		${LIBRARY}-build_test-${DEPENDING}
-		PROPERTIES DEPENDS
+		APPEND PROPERTY DEPENDS
 		${LIBRARY}-build_test-${REQUIRED}
 	)
-	set_tests_properties(
+	set_property(
+		TEST
 		${LIBRARY}-execute_test-${DEPENDING}
-		PROPERTIES DEPENDS
+		APPEND PROPERTY DEPENDS
 		${LIBRARY}-execute_test-${REQUIRED}
 	)
 endfunction()

@@ -8,15 +8,15 @@
 #include <cstddef>
 
 inline
-bool does_have_@OGLPLUS_CONFIG_QUERY_GL_EXT_VENDOR@_@OGLPLUS_CONFIG_QUERY_GL_EXT_NAME@(void)
+bool does_have_@CONFIG_QUERY_GL_EXT_VENDOR@_@CONFIG_QUERY_GL_EXT_NAME@(void)
 {
-#if !defined GL_@OGLPLUS_CONFIG_QUERY_GL_EXT_VENDOR@_@OGLPLUS_CONFIG_QUERY_GL_EXT_NAME@
+#if !defined GL_@CONFIG_QUERY_GL_EXT_VENDOR@_@CONFIG_QUERY_GL_EXT_NAME@
 	return false;
-#elif !GL_@OGLPLUS_CONFIG_QUERY_GL_EXT_VENDOR@_@OGLPLUS_CONFIG_QUERY_GL_EXT_NAME@
+#elif !GL_@CONFIG_QUERY_GL_EXT_VENDOR@_@CONFIG_QUERY_GL_EXT_NAME@
 	return false;
 #else
-	const char* ext_vendor = "@OGLPLUS_CONFIG_QUERY_GL_EXT_VENDOR@";
-	const char* ext_name = "@OGLPLUS_CONFIG_QUERY_GL_EXT_NAME@";
+	const char* ext_vendor = "@CONFIG_QUERY_GL_EXT_VENDOR@";
+	const char* ext_name = "@CONFIG_QUERY_GL_EXT_NAME@";
 	GLint num_ext = 0;
 	glGetIntegerv(GL_NUM_EXTENSIONS, &num_ext);
 
