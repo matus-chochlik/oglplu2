@@ -213,6 +213,16 @@ def get_argument_parser():
 	)
 
 	argparser.add_argument(
+		"--max-jobs",
+		type=JobCountValue,
+		default=None,
+		action="store",
+		help="""
+		Specifies the maximum number of parallel jobs to be used.
+		"""
+	)
+
+	argparser.add_argument(
 		"--gl-libs",
 		type=gl_libs_value,
 		default="default",
@@ -278,6 +288,13 @@ def main():
 				options.jobs = multiprocessing.cpu_count()+1
 			except: pass
 
+		# limit the number of jobs
+		if options.jobs is not None and options.max_jobs is not None:
+			if options.jobs > options.max_jobs:
+				options.jobs = options.max_jobs
+			
+
+		# if necessary ..
 		if gl_libs_at_least(options, "all-apis"):
 			# get configuration info
 			execute_configure(

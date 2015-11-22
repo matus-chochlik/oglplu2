@@ -36,7 +36,7 @@ before_script:
   - sleep 3
 
 script:
-  - tools/run_tests.py --test-level=${TEST_LEVEL} --gl-libs=${GL_LIBS} --config --cmake -DCMAKE_CXX_COMPILER=${COMPILER}
+  - tools/run_tests.py --max-jobs 4 --test-level=${TEST_LEVEL} --gl-libs=${GL_LIBS} --config --cmake -DCMAKE_CXX_COMPILER=${COMPILER}
 
 notifications:
   email: false
