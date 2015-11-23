@@ -38,7 +38,8 @@ directory and its subdirectories.
 Requirements
 ============
 
-A compiler supporting C++14 and the `GLEW`_ and `GLFW`_ libraries are required.
+A compiler supporting C++14, a python interpreter and the `GLEW`_ and `GLFW`_
+libraries are required.
 Currently the only compiler known to work is clang++-3.6.0.
 Support for other libraries with similar functionality will be added
 in the future.
@@ -48,7 +49,7 @@ be enough to install most of the dependencies for the GLFW+GLEW configuration:
 
 ::
 
- sudo apt-get install cmake g++ libglew-dev libglfw-dev
+ sudo apt-get install python cmake clang-3.6 libglew-dev libglfw-dev
 
 For other configurations using SDL, wxWidgets, GLUT, etc. you need to install
 the appropriate packages (the names vary wildly between distrubutions or even
@@ -69,9 +70,10 @@ The build system handles several important tasks:
  * Detects if the necessary things are installed and makes a site-configuration
    header file
 
- * Detects the support for several C++11 features and builds a config header
+ * Detects the support for C++14 features and builds configuration headers
 
- * Builds several additional, automatically generated headers
+ * Builds several additional, automatically generated headers mostly for
+   compiler deficiency workarounds.
 
  * Installs all header files to a directory specified by the install prefix
 
@@ -95,24 +97,24 @@ Some of the more important command-line options are described below:
                     If this option is not specified, cmake's default prefix
                     is used.
 
---include-dir PATH    Specify additional directiories
-                      to search when looking for header files. It may be used
-                      multiple times to specify multiple directories. Headers
-                      are searched in the directories specified with this option
-                      in the same order in which they appear on the command-line
-                      and the default system header locations are searched only
-                      afterwards. The first header found is used, in case there
-                      are multiple versions of the searched header file.
+--include-dir PATH  Specify additional directiories
+                    to search when looking for header files. It may be used
+                    multiple times to specify multiple directories. Headers
+                    are searched in the directories specified with this option
+                    in the same order in which they appear on the command-line
+                    and the default system header locations are searched only
+                    afterwards. The first header found is used, in case there
+                    are multiple versions of the searched header file.
 
 
---library-dir PATH    Specify additional directiories to search when looking
-                      for compiled libraries. It may beused multiple times
-                      to specify multiple directories. Libraries are
-                      searched in the directories specified with this option
-                      in the same order in which they appear on the command-line
-                      and the default system library locations are searched
-                      afterwards. The first library found is used, in case
-                      there are multiple versions of the searched library.
+--library-dir PATH  Specify additional directiories to search when looking
+                    for compiled libraries. It may beused multiple times
+                    to specify multiple directories. Libraries are
+                    searched in the directories specified with this option
+                    in the same order in which they appear on the command-line
+                    and the default system library locations are searched
+                    afterwards. The first library found is used, in case
+                    there are multiple versions of the searched library.
 
 See the ``--help`` option for the full description and detailed info
 on the usage of these scripts.
