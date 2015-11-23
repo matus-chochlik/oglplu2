@@ -17,6 +17,9 @@ template <typename ObjTag>
 struct object_traits;
 
 template <typename ObjTag>
+using object_name_t = typename object_traits<ObjTag>::name_type;
+
+template <typename ObjTag>
 struct object_subtype
  : nothing_t
 { };
@@ -33,8 +36,14 @@ using object_name = object_names<
 	typename object_traits<ObjTag>::name_type
 >;
 
+template <typename NameT>
+class object_name_base_and_count_view;
+
 template <typename ObjTag>
-class object_zero;
+class object_zero_and_ops;
+
+template <typename ObjTag>
+class object_name_and_ops;
 
 template <typename ObjectNames>
 class owned;

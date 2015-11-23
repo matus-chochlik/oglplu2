@@ -46,9 +46,7 @@ struct tvec : vector<T, N, V>
 
 	template <
 		typename ... P,
-		typename = typename std::enable_if<
-			(1+sizeof...(P) == N)
-		>::type
+		typename = std::enable_if_t<(1+sizeof...(P) == N)>
 	>
 	constexpr inline
 	tvec(T v, P&& ... p)
@@ -60,10 +58,10 @@ struct tvec : vector<T, N, V>
 		typename P,
 		unsigned M,
 		bool W,
-		typename = typename std::enable_if<
+		typename = std::enable_if_t<
 			!std::is_same<P, T>::value ||
 			!(M == N)
-		>::type
+		>
 	>
 	constexpr inline
 	tvec(const vector<P, M, W>& v)
@@ -83,9 +81,9 @@ struct tvec : vector<T, N, V>
 		unsigned M,
 		bool W,
 		typename ... R,
-		typename = typename std::enable_if<
+		typename = std::enable_if_t<
 			(sizeof...(R) > 1) && (M+sizeof...(R) == N)
-		>::type
+		>
 	>
 	constexpr inline
 	tvec(const vector<P, M, W>& v, R&& ... r)
@@ -113,7 +111,7 @@ struct is_known_vector_type<math::tvec<T, N, V>>
 
 template <typename T, unsigned N, bool V>
 struct canonical_compound_type<math::tvec<T, N, V>>
- : identity<typename std::remove_cv<T[N]>::type>
+ : identity<std::remove_cv_t<T[N]>>
 { };
 
 template <typename T, unsigned N, bool V>

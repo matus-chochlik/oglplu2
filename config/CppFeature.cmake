@@ -14,3 +14,18 @@ endif()
 
 add_definitions(${CPP_STD_COMPILER_SWITCH})
 
+configure_file(
+	${PROJECT_SOURCE_DIR}/config/cpp/test_compiler.cpp
+	${PROJECT_BINARY_DIR}/cpp/test_compiler.cpp
+)
+try_compile(
+	SUPPORTED_COMPILER
+	${PROJECT_BINARY_DIR}/cpp
+	${PROJECT_BINARY_DIR}/cpp/test_compiler.cpp
+	COMPILE_DEFINITIONS ${CPP_STD_COMPILER_SWITCH}
+)
+if(NOT ${SUPPORTED_COMPILER})
+	message(FATAL_ERROR
+	"Your compiler does not support all required C++ features."
+	)
+endif()

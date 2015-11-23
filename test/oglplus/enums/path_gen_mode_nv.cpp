@@ -131,17 +131,15 @@ BOOST_AUTO_TEST_CASE(enum_path_gen_mode_nv_names)
 BOOST_AUTO_TEST_CASE(enum_path_gen_mode_nv_range)
 {
 	using namespace oglplus;
-	path_gen_mode_nv x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<path_gen_mode_nv>().size();
 
 #ifdef GL_EYE_LINEAR
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<path_gen_mode_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_EYE_LINEAR
+		path_gen_mode_nv(GL_EYE_LINEAR)
 	) != r.end());
 }
 #endif
@@ -149,10 +147,10 @@ BOOST_AUTO_TEST_CASE(enum_path_gen_mode_nv_range)
 #ifdef GL_NONE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<path_gen_mode_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_NONE
+		path_gen_mode_nv(GL_NONE)
 	) != r.end());
 }
 #endif
@@ -160,10 +158,10 @@ BOOST_AUTO_TEST_CASE(enum_path_gen_mode_nv_range)
 #ifdef GL_OBJECT_LINEAR
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<path_gen_mode_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_OBJECT_LINEAR
+		path_gen_mode_nv(GL_OBJECT_LINEAR)
 	) != r.end());
 }
 #endif
@@ -171,10 +169,10 @@ BOOST_AUTO_TEST_CASE(enum_path_gen_mode_nv_range)
 #ifdef GL_PATH_OBJECT_BOUNDING_BOX_NV
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<path_gen_mode_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_PATH_OBJECT_BOUNDING_BOX_NV
+		path_gen_mode_nv(GL_PATH_OBJECT_BOUNDING_BOX_NV)
 	) != r.end());
 }
 #endif

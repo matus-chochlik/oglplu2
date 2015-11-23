@@ -15,7 +15,7 @@ namespace oglplus {
 inline
 deferred_error_handler
 obj_gen_del_ops<tag::query>::
-_gen(array_view<GLuint> names)
+_gen(span<GLuint> names)
 noexcept
 {
 	OGLPLUS_GLFUNC(GenQueries)(
@@ -31,7 +31,7 @@ noexcept
 inline
 deferred_error_handler
 obj_gen_del_ops<tag::query>::
-_delete(array_view<GLuint> names)
+_delete(span<GLuint> names)
 noexcept
 {
 	OGLPLUS_GLFUNC(DeleteQueries)(
@@ -45,14 +45,14 @@ noexcept
 // obj_gen_del_ops::_is_a
 //------------------------------------------------------------------------------
 inline
-outcome<bool>
+outcome<boolean>
 obj_gen_del_ops<tag::query>::
 _is_a(GLuint name)
 noexcept
 {
 	GLboolean res = OGLPLUS_GLFUNC(IsQuery)(name);
 	OGLPLUS_VERIFY_SIMPLE(IsQuery,debug);
-	return res == GL_TRUE;
+	return boolean(res);
 }
 //------------------------------------------------------------------------------
 } // namespace oglplus

@@ -99,17 +99,15 @@ BOOST_AUTO_TEST_CASE(enum_patch_parameter_names)
 BOOST_AUTO_TEST_CASE(enum_patch_parameter_range)
 {
 	using namespace oglplus;
-	patch_parameter x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<patch_parameter>().size();
 
 #ifdef GL_PATCH_DEFAULT_INNER_LEVEL
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<patch_parameter>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_PATCH_DEFAULT_INNER_LEVEL
+		patch_parameter(GL_PATCH_DEFAULT_INNER_LEVEL)
 	) != r.end());
 }
 #endif
@@ -117,10 +115,10 @@ BOOST_AUTO_TEST_CASE(enum_patch_parameter_range)
 #ifdef GL_PATCH_DEFAULT_OUTER_LEVEL
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<patch_parameter>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_PATCH_DEFAULT_OUTER_LEVEL
+		patch_parameter(GL_PATCH_DEFAULT_OUTER_LEVEL)
 	) != r.end());
 }
 #endif
@@ -128,10 +126,10 @@ BOOST_AUTO_TEST_CASE(enum_patch_parameter_range)
 #ifdef GL_PATCH_VERTICES
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<patch_parameter>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_PATCH_VERTICES
+		patch_parameter(GL_PATCH_VERTICES)
 	) != r.end());
 }
 #endif

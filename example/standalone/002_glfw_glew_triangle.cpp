@@ -8,8 +8,8 @@
  */
 #include <GL/glew.h>
 
-#include <oglplus/context.hpp>
-#include <oglplus/enum_values.hpp>
+#include <oglplus/operations.hpp>
+#include <oglplus/constants.hpp>
 
 #include <eagine/scope_exit.hpp>
 
@@ -18,8 +18,8 @@
 #include <iostream>
 #include <stdexcept>
 
-static oglplus::enum_values GL;
-static oglplus::context gl;
+static oglplus::constants GL;
+static oglplus::operations gl;
 
 static
 void handle_resize(int width, int height)

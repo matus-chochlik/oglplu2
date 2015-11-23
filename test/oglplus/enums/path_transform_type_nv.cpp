@@ -381,17 +381,15 @@ BOOST_AUTO_TEST_CASE(enum_path_transform_type_nv_names)
 BOOST_AUTO_TEST_CASE(enum_path_transform_type_nv_range)
 {
 	using namespace oglplus;
-	path_transform_type_nv x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<path_transform_type_nv>().size();
 
 #ifdef GL_AFFINE_2D_NV
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<path_transform_type_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_AFFINE_2D_NV
+		path_transform_type_nv(GL_AFFINE_2D_NV)
 	) != r.end());
 }
 #endif
@@ -399,10 +397,10 @@ BOOST_AUTO_TEST_CASE(enum_path_transform_type_nv_range)
 #ifdef GL_AFFINE_3D_NV
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<path_transform_type_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_AFFINE_3D_NV
+		path_transform_type_nv(GL_AFFINE_3D_NV)
 	) != r.end());
 }
 #endif
@@ -410,10 +408,10 @@ BOOST_AUTO_TEST_CASE(enum_path_transform_type_nv_range)
 #ifdef GL_NONE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<path_transform_type_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_NONE
+		path_transform_type_nv(GL_NONE)
 	) != r.end());
 }
 #endif
@@ -421,10 +419,10 @@ BOOST_AUTO_TEST_CASE(enum_path_transform_type_nv_range)
 #ifdef GL_TRANSLATE_2D_NV
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<path_transform_type_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TRANSLATE_2D_NV
+		path_transform_type_nv(GL_TRANSLATE_2D_NV)
 	) != r.end());
 }
 #endif
@@ -432,10 +430,10 @@ BOOST_AUTO_TEST_CASE(enum_path_transform_type_nv_range)
 #ifdef GL_TRANSLATE_3D_NV
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<path_transform_type_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TRANSLATE_3D_NV
+		path_transform_type_nv(GL_TRANSLATE_3D_NV)
 	) != r.end());
 }
 #endif
@@ -443,10 +441,10 @@ BOOST_AUTO_TEST_CASE(enum_path_transform_type_nv_range)
 #ifdef GL_TRANSLATE_X_NV
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<path_transform_type_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TRANSLATE_X_NV
+		path_transform_type_nv(GL_TRANSLATE_X_NV)
 	) != r.end());
 }
 #endif
@@ -454,10 +452,10 @@ BOOST_AUTO_TEST_CASE(enum_path_transform_type_nv_range)
 #ifdef GL_TRANSLATE_Y_NV
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<path_transform_type_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TRANSLATE_Y_NV
+		path_transform_type_nv(GL_TRANSLATE_Y_NV)
 	) != r.end());
 }
 #endif
@@ -465,10 +463,10 @@ BOOST_AUTO_TEST_CASE(enum_path_transform_type_nv_range)
 #ifdef GL_TRANSPOSE_AFFINE_2D_NV
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<path_transform_type_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TRANSPOSE_AFFINE_2D_NV
+		path_transform_type_nv(GL_TRANSPOSE_AFFINE_2D_NV)
 	) != r.end());
 }
 #endif
@@ -476,10 +474,10 @@ BOOST_AUTO_TEST_CASE(enum_path_transform_type_nv_range)
 #ifdef GL_TRANSPOSE_AFFINE_3D_NV
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<path_transform_type_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TRANSPOSE_AFFINE_3D_NV
+		path_transform_type_nv(GL_TRANSPOSE_AFFINE_3D_NV)
 	) != r.end());
 }
 #endif

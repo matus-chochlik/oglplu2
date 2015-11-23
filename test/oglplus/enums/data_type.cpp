@@ -449,17 +449,15 @@ BOOST_AUTO_TEST_CASE(enum_data_type_names)
 BOOST_AUTO_TEST_CASE(enum_data_type_range)
 {
 	using namespace oglplus;
-	data_type x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<data_type>().size();
 
 #ifdef GL_BYTE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<data_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_BYTE
+		data_type(GL_BYTE)
 	) != r.end());
 }
 #endif
@@ -467,10 +465,10 @@ BOOST_AUTO_TEST_CASE(enum_data_type_range)
 #ifdef GL_DOUBLE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<data_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DOUBLE
+		data_type(GL_DOUBLE)
 	) != r.end());
 }
 #endif
@@ -478,10 +476,10 @@ BOOST_AUTO_TEST_CASE(enum_data_type_range)
 #ifdef GL_FIXED
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<data_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_FIXED
+		data_type(GL_FIXED)
 	) != r.end());
 }
 #endif
@@ -489,10 +487,10 @@ BOOST_AUTO_TEST_CASE(enum_data_type_range)
 #ifdef GL_FLOAT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<data_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_FLOAT
+		data_type(GL_FLOAT)
 	) != r.end());
 }
 #endif
@@ -500,10 +498,10 @@ BOOST_AUTO_TEST_CASE(enum_data_type_range)
 #ifdef GL_HALF_FLOAT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<data_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_HALF_FLOAT
+		data_type(GL_HALF_FLOAT)
 	) != r.end());
 }
 #endif
@@ -511,10 +509,10 @@ BOOST_AUTO_TEST_CASE(enum_data_type_range)
 #ifdef GL_INT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<data_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_INT
+		data_type(GL_INT)
 	) != r.end());
 }
 #endif
@@ -522,10 +520,10 @@ BOOST_AUTO_TEST_CASE(enum_data_type_range)
 #ifdef GL_SHORT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<data_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_SHORT
+		data_type(GL_SHORT)
 	) != r.end());
 }
 #endif
@@ -533,10 +531,10 @@ BOOST_AUTO_TEST_CASE(enum_data_type_range)
 #ifdef GL_UNSIGNED_BYTE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<data_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_UNSIGNED_BYTE
+		data_type(GL_UNSIGNED_BYTE)
 	) != r.end());
 }
 #endif
@@ -544,10 +542,10 @@ BOOST_AUTO_TEST_CASE(enum_data_type_range)
 #ifdef GL_UNSIGNED_INT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<data_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_UNSIGNED_INT
+		data_type(GL_UNSIGNED_INT)
 	) != r.end());
 }
 #endif
@@ -555,10 +553,10 @@ BOOST_AUTO_TEST_CASE(enum_data_type_range)
 #ifdef GL_UNSIGNED_SHORT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<data_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_UNSIGNED_SHORT
+		data_type(GL_UNSIGNED_SHORT)
 	) != r.end());
 }
 #endif

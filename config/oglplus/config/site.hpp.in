@@ -1,0 +1,42 @@
+/**
+ *  @file oglplus/config/site.hpp
+ *  @brief System configuration options
+ *
+ * Copyright Matus Chochlik.
+ * Distributed under the Boost Software License, Version 1.0.
+ * See accompanying file LICENSE_1_0.txt or copy at
+ *  http://www.boost.org/LICENSE_1_0.txt
+ *
+ */
+#ifndef OGLPLUS_SITE_CONFIG_120305_HPP
+#define OGLPLUS_SITE_CONFIG_120305_HPP
+
+#include <eagine/config/site.hpp>
+
+#define OGLPLUS_OPENAL_FOUND @OPENAL_FOUND@
+#define OGLPLUS_FREEGLUT_FOUND @FREEGLUT_FOUND@
+
+#define OGLPLUS_GL_VERSION_MAJOR @OGLPLUS_GL_VERSION_MAJOR@
+#define OGLPLUS_GL_VERSION_MINOR @OGLPLUS_GL_VERSION_MINOR@
+
+#ifndef OGLPLUS_LOW_PROFILE
+#define OGLPLUS_LOW_PROFILE EAGINE_LOW_PROFILE
+#endif
+
+#ifndef OGLPLUS_USE_GLCOREARB_H
+#define OGLPLUS_USE_GLCOREARB_H @OGLPLUS_USE_GLCOREARB_H@
+#endif
+
+#ifndef OGLPLUS_USE_GL3_H
+#define OGLPLUS_USE_GL3_H @OGLPLUS_USE_GL3_H@
+#endif
+
+#ifndef OGLPLUS_USE_GLEW
+#define OGLPLUS_USE_GLEW @OGLPLUS_USE_GLEW@
+#endif
+
+#ifndef OGLPLUS_USE_GL3W
+#define OGLPLUS_USE_GL3W @OGLPLUS_USE_GL3W@
+#endif
+
+#endif

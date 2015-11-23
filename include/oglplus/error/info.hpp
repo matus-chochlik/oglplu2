@@ -12,9 +12,10 @@
 #include "../config/error.hpp"
 #include "../object/gl_name.hpp"
 #include "../utils/enum_class.hpp"
+#include "../utils/indexed_enum.hpp"
 
 #if !OGLPLUS_ERROR_NO_BUILD_LOG
-#include "../utils/string_view.hpp"
+#include "../utils/string_span.hpp"
 #include <string>
 #endif
 
@@ -70,6 +71,13 @@ private:
 	any_enum_value _enum_val;
 #endif
 public:
+	static constexpr inline
+	GLuint invalid_index(void)
+	noexcept
+	{
+		return ~GLuint(0);
+	}
+
 	constexpr
 	error_info(GLenum gl_err_code)
 	noexcept;
@@ -123,11 +131,21 @@ public:
 	unsigned source_line(void) const
 	noexcept;
 
+	error_info& gl_object_binding(
+		const any_object_type& typ,
+		const any_enum_value& tgt
+	) noexcept;
+
 	error_info& gl_object(const any_object_name& obj)
 	noexcept;
 
 	any_object_name gl_object(void) const
 	noexcept;
+
+	error_info& gl_subject_binding(
+		const any_object_type& typ,
+		const any_enum_value& tgt
+	) noexcept;
 
 	error_info& gl_subject(const any_object_name& sub)
 	noexcept;
@@ -135,22 +153,31 @@ public:
 	any_object_name gl_subject(void) const
 	noexcept;
 
-	error_info& index(GLuint idx)
+	error_info& gl_index(GLuint idx)
 	noexcept;
 
-	GLuint index(void) const
+	GLuint gl_index(void) const
 	noexcept;
 
-	error_info& enum_value(const any_enum_value& enum_val)
+	error_info& gl_enum_value(const any_enum_value& enum_val)
 	noexcept;
 
-	const any_enum_value& enum_value(void) const
+	error_info& gl_enum_value(const any_indexed_enum_value& enum_val)
 	noexcept;
 
-	error_info& build_log(const cstring_view<>& log)
+	const any_enum_value& gl_enum_value(void) const
 	noexcept;
 
-	cstring_view<> build_log(void) const
+	error_info& identifier(const cstring_span<>& log)
+	noexcept;
+
+	cstring_span<> identifier(void) const
+	noexcept;
+
+	error_info& build_log(const cstring_span<>& log)
+	noexcept;
+
+	cstring_span<> build_log(void) const
 	noexcept;
 };
 

@@ -11,10 +11,14 @@ project(OGLplus)
 
 file(READ VERSION OGLPLUS_VERSION)
 
-set(HEADER_SEARCH_PATHS ${HEADER_SEARCH_PATHS};${PROJECT_SOURCE_DIR}/third_party/include)
+include(config/Defaults.cmake)
 
-include(config/Compiler.cmake)
-include(config/CppFeature.cmake)
+if(NOT ${CONFIG_INFO_ONLY})
+	include(config/Compiler.cmake)
+	include(config/CppFeature.cmake)
+	include(config/StdFixes.cmake)
+	include(config/LowProfile.cmake)
+endif()
 
 include(FindPkgConfig)
 include(config/CommonFindMod.cmake)
@@ -22,14 +26,62 @@ include(config/CommonFindMod.cmake)
 # GL-libraries
 include(config/FindGL.cmake)
 include(config/FindGLEW.cmake)
+include(config/FindGL3W.cmake)
+
+include(config/FindGLX.cmake)
 include(config/FindGLFW.cmake)
+include(config/FindGLFW3.cmake)
+include(config/FindGLUT.cmake)
+include(config/FindSDL.cmake)
+include(config/FindWXGL.cmake)
+
+include(config/FindGLM.cmake)
+
+# EGL
+include(config/FindEGL.cmake)
+
+# OpenAL
+include(config/FindAL.cmake)
 
 # setting up executable requirements
 include(config/ExeRequirements.cmake)
 
+# configure GL API and Context-init libraries
+include(config/ConfigGL.cmake)
+
+# if we only want the configuration info
+if(${CONFIG_INFO_ONLY})
+	add_subdirectory("config")
+	return()
+endif()
+
+# now create the site-configuration headers
+include(config/SiteConfig.cmake)
+
+include_directories("${PROJECT_BINARY_DIR}/include")
 include_directories("include")
 include_directories("implement")
+include_directories("third_party/include")
 include_directories("third_party/GSL/include")
 
-add_subdirectory("example")
-add_subdirectory("test")
+# common functions for GL version and extension detection
+include(config/GLVerExt.cmake)
+# GL version detection
+include(config/GLVer.cmake)
+# GL extension detection
+include(config/GLExt.cmake)
+
+# re-create the site-configuration header
+include(config/SiteConfig.cmake)
+
+# examples
+if(NOT ${NO_EXAMPLES})
+	add_subdirectory("example")
+endif()
+
+if(NOT ${NO_TESTS})
+	add_subdirectory("test")
+endif()
+
+# installation
+include(config/Installation.cmake)

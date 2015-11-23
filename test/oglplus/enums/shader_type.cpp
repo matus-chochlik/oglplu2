@@ -213,17 +213,15 @@ BOOST_AUTO_TEST_CASE(enum_shader_type_names)
 BOOST_AUTO_TEST_CASE(enum_shader_type_range)
 {
 	using namespace oglplus;
-	shader_type x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<shader_type>().size();
 
 #ifdef GL_COMPUTE_SHADER
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<shader_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_COMPUTE_SHADER
+		shader_type(GL_COMPUTE_SHADER)
 	) != r.end());
 }
 #endif
@@ -231,10 +229,10 @@ BOOST_AUTO_TEST_CASE(enum_shader_type_range)
 #ifdef GL_FRAGMENT_SHADER
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<shader_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_FRAGMENT_SHADER
+		shader_type(GL_FRAGMENT_SHADER)
 	) != r.end());
 }
 #endif
@@ -242,10 +240,10 @@ BOOST_AUTO_TEST_CASE(enum_shader_type_range)
 #ifdef GL_GEOMETRY_SHADER
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<shader_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_GEOMETRY_SHADER
+		shader_type(GL_GEOMETRY_SHADER)
 	) != r.end());
 }
 #endif
@@ -253,10 +251,10 @@ BOOST_AUTO_TEST_CASE(enum_shader_type_range)
 #ifdef GL_TESS_CONTROL_SHADER
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<shader_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TESS_CONTROL_SHADER
+		shader_type(GL_TESS_CONTROL_SHADER)
 	) != r.end());
 }
 #endif
@@ -264,10 +262,10 @@ BOOST_AUTO_TEST_CASE(enum_shader_type_range)
 #ifdef GL_TESS_EVALUATION_SHADER
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<shader_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TESS_EVALUATION_SHADER
+		shader_type(GL_TESS_EVALUATION_SHADER)
 	) != r.end());
 }
 #endif
@@ -275,10 +273,10 @@ BOOST_AUTO_TEST_CASE(enum_shader_type_range)
 #ifdef GL_VERTEX_SHADER
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<shader_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_VERTEX_SHADER
+		shader_type(GL_VERTEX_SHADER)
 	) != r.end());
 }
 #endif

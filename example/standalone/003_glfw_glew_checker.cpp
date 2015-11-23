@@ -8,11 +8,10 @@
  */
 #include <GL/glew.h>
 
-#include <oglplus/context.hpp>
-#include <oglplus/enum_values.hpp>
+#include <oglplus/operations.hpp>
+#include <oglplus/constants.hpp>
 #include <oglplus/glsl/string_ref.hpp>
 #include <oglplus/error/format.hpp>
-#include <oglplus/utils/make_view.hpp>
 #include <oglplus/math/vector.hpp>
 
 #include <eagine/scope_exit.hpp>
@@ -22,8 +21,8 @@
 #include <iostream>
 #include <stdexcept>
 
-static oglplus::enum_values GL;
-static oglplus::context gl;
+static oglplus::constants GL;
+static oglplus::operations gl;
 
 static
 void handle_resize(int width, int height)
@@ -63,17 +62,16 @@ void run_loop(int width, int height)
 	"	gl_FragColor = vec4(mix(Color1, Color2, c),1);\n"
 	"}\n"
 	));
+	gl.compile_shader(fs);
 
-	gl.compile(fs);
+	program prog;
 
-	program p;
+	gl.attach_shader(prog, fs);
+	gl.link_program(prog);
+	gl.use_program(prog);
 
-	gl.attach_shader(p, fs);
-	gl.link(p);
-	gl.use(p);
-
-	gl.uniform(uniform<GLfloat>(p, "Color1"), 0.2f, 0.2f, 0.2f);
-	gl.uniform(uniform<GLfloat[3]>(p, "Color2"), 1, make_view({0.4f, 0.4f, 0.6f}));
+	gl.uniform(uniform<GLfloat>(prog, "Color1"), 0.2f, 0.2f, 0.2f);
+	gl.uniform(uniform<GLfloat[3]>(prog, "Color2"), 1, as_span({0.4f, 0.4f, 0.6f}));
 
 	gl.clear_color(vec4(0.6f, 0.7f, 0.6f, 0.0f));
 
@@ -188,7 +186,7 @@ int main(void)
 			gle,
 			"OpenGL error\n"
 			"in GL function: %(gl_function_name)\n"
-			"with enum parameter: %(enum_value)\n"
+			"with enum parameter: %(gl_enum_value)\n"
 			"from source file: %(source_file)\n"
 			"%(message)",
 			std::cerr

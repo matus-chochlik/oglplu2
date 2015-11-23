@@ -73,17 +73,15 @@ BOOST_AUTO_TEST_CASE(enum_path_color_nv_names)
 BOOST_AUTO_TEST_CASE(enum_path_color_nv_range)
 {
 	using namespace oglplus;
-	path_color_nv x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<path_color_nv>().size();
 
 #ifdef GL_PRIMARY_COLOR_NV
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<path_color_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_PRIMARY_COLOR_NV
+		path_color_nv(GL_PRIMARY_COLOR_NV)
 	) != r.end());
 }
 #endif
@@ -91,10 +89,10 @@ BOOST_AUTO_TEST_CASE(enum_path_color_nv_range)
 #ifdef GL_SECONDARY_COLOR_NV
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<path_color_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_SECONDARY_COLOR_NV
+		path_color_nv(GL_SECONDARY_COLOR_NV)
 	) != r.end());
 }
 #endif

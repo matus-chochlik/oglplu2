@@ -9,45 +9,107 @@
 #ifndef OGLPLUS_PROGRAM_PIPELINE_1509260923_HPP
 #define OGLPLUS_PROGRAM_PIPELINE_1509260923_HPP
 
-#include "object/gl_name.hpp"
+#include "program_pipeline_name.hpp"
+#include "program_name.hpp"
 #include "object/owner.hpp"
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
-
-#ifdef GL_PROGRAM_PIPELINE
+#include "utils/gl_func.hpp"
+#include "utils/boolean.hpp"
 
 namespace oglplus {
-namespace tag {
+namespace oper {
 
-using program_pipeline = gl_obj_tag<GL_PROGRAM_PIPELINE>;
+struct program_pipeline_ops
+{
+	static
+	outcome<void>
+	bind_program_pipeline(program_pipeline_name ppo)
+	noexcept;
 
-} // namespace tag
+	static
+	outcome<program_pipeline_name>
+	program_pipeline_binding(void)
+	noexcept;
 
-using program_pipeline_name = object_name<tag::program_pipeline>;
-using program_pipeline = object_owner<tag::program_pipeline>;
+	static
+	outcome<void>
+	get_program_pipeline_iv(
+		program_pipeline_name buf,
+		program_pipeline_parameter param,
+		span<GLint> values
+	) noexcept;
+
+	template <typename R, typename T>
+	static
+	outcome<R>
+	return_program_pipeline_i(
+		program_pipeline_name ppl,
+		program_pipeline_parameter parameter
+	) noexcept;
+
+	static
+	outcome<program_name>
+	program_pipeline_active_program(program_pipeline_name ppl)
+	noexcept;
+
+	static
+	outcome<GLsizei>
+	program_pipeline_info_log_length(program_pipeline_name ppl)
+	noexcept;
+};
+
+} // namespace oper
+
+// obj_dsa_ops
+template <>
+struct obj_dsa_ops<tag::program_pipeline>
+ : obj_zero_dsa_ops<tag::program_pipeline>
+{
+	typedef oper::program_pipeline_ops _ops;
+
+	outcome<program_name>
+	active_program(void) const
+	noexcept
+	{
+		return _ops::program_pipeline_active_program(*this);
+	}
+
+	outcome<GLsizei>
+	info_log_length(void) const
+	noexcept
+	{
+		return _ops::program_pipeline_info_log_length(*this);
+	}
+};
 
 template <>
 struct obj_gen_del_ops<tag::program_pipeline>
 {
 	static
 	deferred_error_handler
-	_gen(array_view<GLuint> names)
+	_gen(span<GLuint> names)
 	noexcept;
 
 	static
 	deferred_error_handler
-	_delete(array_view<GLuint> names)
+	_delete(span<GLuint> names)
 	noexcept;
 
 	static
-	outcome<bool> _is_a(GLuint name)
+	outcome<boolean> _is_a(GLuint name)
 	noexcept;
 };
+
+using program_pipeline = object_owner<tag::program_pipeline>;
+template <std::size_t N>
+using program_pipeline_array = object_array_owner<tag::program_pipeline, N>;
+
+static const object_zero_and_ops<tag::program_pipeline>
+	no_program_pipeline = {};
 
 } // namespace oglplus
 
 #include <oglplus/program_pipeline.inl>
-
-#endif // GL_PROGRAM_PIPELINE
 
 #endif // include guard

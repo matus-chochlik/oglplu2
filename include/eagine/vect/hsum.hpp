@@ -18,8 +18,8 @@ template <typename T, unsigned N, bool V>
 struct hsum
 {
 private:
-	typedef typename data<T, N, V>::type _dT;
-	typedef typename data_param<T, 1, V>::type _dpT;
+	typedef data_t<T, N, V> _dT;
+	typedef data_param_t<T, 1, V> _dpT;
 
 	template <unsigned U>
 	using _uint = std::integral_constant<unsigned, U>;

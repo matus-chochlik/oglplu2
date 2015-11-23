@@ -73,17 +73,15 @@ BOOST_AUTO_TEST_CASE(enum_provoke_mode_names)
 BOOST_AUTO_TEST_CASE(enum_provoke_mode_range)
 {
 	using namespace oglplus;
-	provoke_mode x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<provoke_mode>().size();
 
 #ifdef GL_FIRST_VERTEX_CONVENTION
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<provoke_mode>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_FIRST_VERTEX_CONVENTION
+		provoke_mode(GL_FIRST_VERTEX_CONVENTION)
 	) != r.end());
 }
 #endif
@@ -91,10 +89,10 @@ BOOST_AUTO_TEST_CASE(enum_provoke_mode_range)
 #ifdef GL_LAST_VERTEX_CONVENTION
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<provoke_mode>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_LAST_VERTEX_CONVENTION
+		provoke_mode(GL_LAST_VERTEX_CONVENTION)
 	) != r.end());
 }
 #endif

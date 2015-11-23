@@ -9,47 +9,67 @@
 #ifndef OGLPLUS_TRANSFORM_FEEDBACK_1509260923_HPP
 #define OGLPLUS_TRANSFORM_FEEDBACK_1509260923_HPP
 
-#include "object/gl_name.hpp"
+#include "transform_feedback_name.hpp"
 #include "object/owner.hpp"
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
-
-#ifdef GL_TRANSFORM_FEEDBACK
+#include "utils/gl_func.hpp"
+#include "utils/boolean.hpp"
 
 namespace oglplus {
-namespace tag {
 
-using transform_feedback = gl_obj_tag<GL_TRANSFORM_FEEDBACK>;
+binding_query
+get_binding_query(transform_feedback_target tgt)
+noexcept;
 
-} // namespace tag
+namespace oper {
 
-using transform_feedback_name = object_name<tag::transform_feedback>;
-using transform_feedback = object_owner<tag::transform_feedback>;
+struct transform_feedback_ops
+{
+	static
+	outcome<void>
+	bind_transform_feedback(
+		transform_feedback_target target,
+		transform_feedback_name xfb
+	) noexcept;
 
-static const object_zero<tag::transform_feedback> default_transform_feedback = {};
+	static
+	outcome<transform_feedback_name>
+	transform_feedback_binding(transform_feedback_target target)
+	noexcept;
+
+	// TODO
+};
+
+} // namespace oper
 
 template <>
 struct obj_gen_del_ops<tag::transform_feedback>
 {
 	static
 	deferred_error_handler
-	_gen(array_view<GLuint> names)
+	_gen(span<GLuint> names)
 	noexcept;
 
 	static
 	deferred_error_handler
-	_delete(array_view<GLuint> names)
+	_delete(span<GLuint> names)
 	noexcept;
 
 	static
-	outcome<bool> _is_a(GLuint name)
+	outcome<boolean> _is_a(GLuint name)
 	noexcept;
 };
+
+using transform_feedback = object_owner<tag::transform_feedback>;
+template <std::size_t N>
+using transform_feedback_array = object_array_owner<tag::transform_feedback, N>;
+
+static const object_zero_and_ops<tag::transform_feedback>
+	default_transform_feedback = {};
 
 } // namespace oglplus
 
 #include <oglplus/transform_feedback.inl>
-
-#endif // GL_TRANSFORM_FEEDBACK
 
 #endif // include guard

@@ -99,17 +99,15 @@ BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_spacing_names)
 BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_spacing_range)
 {
 	using namespace oglplus;
-	tess_gen_primitive_spacing x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<tess_gen_primitive_spacing>().size();
 
 #ifdef GL_EQUAL
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<tess_gen_primitive_spacing>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_EQUAL
+		tess_gen_primitive_spacing(GL_EQUAL)
 	) != r.end());
 }
 #endif
@@ -117,10 +115,10 @@ BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_spacing_range)
 #ifdef GL_FRACTIONAL_EVEN
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<tess_gen_primitive_spacing>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_FRACTIONAL_EVEN
+		tess_gen_primitive_spacing(GL_FRACTIONAL_EVEN)
 	) != r.end());
 }
 #endif
@@ -128,10 +126,10 @@ BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_spacing_range)
 #ifdef GL_FRACTIONAL_ODD
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<tess_gen_primitive_spacing>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_FRACTIONAL_ODD
+		tess_gen_primitive_spacing(GL_FRACTIONAL_ODD)
 	) != r.end());
 }
 #endif

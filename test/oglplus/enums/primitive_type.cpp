@@ -603,17 +603,15 @@ BOOST_AUTO_TEST_CASE(enum_primitive_type_names)
 BOOST_AUTO_TEST_CASE(enum_primitive_type_range)
 {
 	using namespace oglplus;
-	primitive_type x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<primitive_type>().size();
 
 #ifdef GL_LINE_LOOP
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<primitive_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_LINE_LOOP
+		primitive_type(GL_LINE_LOOP)
 	) != r.end());
 }
 #endif
@@ -621,10 +619,10 @@ BOOST_AUTO_TEST_CASE(enum_primitive_type_range)
 #ifdef GL_LINE_STRIP
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<primitive_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_LINE_STRIP
+		primitive_type(GL_LINE_STRIP)
 	) != r.end());
 }
 #endif
@@ -632,10 +630,10 @@ BOOST_AUTO_TEST_CASE(enum_primitive_type_range)
 #ifdef GL_LINE_STRIP_ADJACENCY
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<primitive_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_LINE_STRIP_ADJACENCY
+		primitive_type(GL_LINE_STRIP_ADJACENCY)
 	) != r.end());
 }
 #endif
@@ -643,10 +641,10 @@ BOOST_AUTO_TEST_CASE(enum_primitive_type_range)
 #ifdef GL_LINES
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<primitive_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_LINES
+		primitive_type(GL_LINES)
 	) != r.end());
 }
 #endif
@@ -654,10 +652,10 @@ BOOST_AUTO_TEST_CASE(enum_primitive_type_range)
 #ifdef GL_LINES_ADJACENCY
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<primitive_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_LINES_ADJACENCY
+		primitive_type(GL_LINES_ADJACENCY)
 	) != r.end());
 }
 #endif
@@ -665,10 +663,10 @@ BOOST_AUTO_TEST_CASE(enum_primitive_type_range)
 #ifdef GL_PATCHES
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<primitive_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_PATCHES
+		primitive_type(GL_PATCHES)
 	) != r.end());
 }
 #endif
@@ -676,10 +674,10 @@ BOOST_AUTO_TEST_CASE(enum_primitive_type_range)
 #ifdef GL_POINTS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<primitive_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_POINTS
+		primitive_type(GL_POINTS)
 	) != r.end());
 }
 #endif
@@ -687,10 +685,10 @@ BOOST_AUTO_TEST_CASE(enum_primitive_type_range)
 #ifdef GL_TRIANGLE_FAN
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<primitive_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TRIANGLE_FAN
+		primitive_type(GL_TRIANGLE_FAN)
 	) != r.end());
 }
 #endif
@@ -698,10 +696,10 @@ BOOST_AUTO_TEST_CASE(enum_primitive_type_range)
 #ifdef GL_TRIANGLE_STRIP
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<primitive_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TRIANGLE_STRIP
+		primitive_type(GL_TRIANGLE_STRIP)
 	) != r.end());
 }
 #endif
@@ -709,10 +707,10 @@ BOOST_AUTO_TEST_CASE(enum_primitive_type_range)
 #ifdef GL_TRIANGLE_STRIP_ADJACENCY
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<primitive_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TRIANGLE_STRIP_ADJACENCY
+		primitive_type(GL_TRIANGLE_STRIP_ADJACENCY)
 	) != r.end());
 }
 #endif
@@ -720,10 +718,10 @@ BOOST_AUTO_TEST_CASE(enum_primitive_type_range)
 #ifdef GL_TRIANGLES
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<primitive_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TRIANGLES
+		primitive_type(GL_TRIANGLES)
 	) != r.end());
 }
 #endif
@@ -731,10 +729,10 @@ BOOST_AUTO_TEST_CASE(enum_primitive_type_range)
 #ifdef GL_TRIANGLES_ADJACENCY
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<primitive_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TRIANGLES_ADJACENCY
+		primitive_type(GL_TRIANGLES_ADJACENCY)
 	) != r.end());
 }
 #endif

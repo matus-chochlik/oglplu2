@@ -131,17 +131,15 @@ BOOST_AUTO_TEST_CASE(enum_polygon_mode_names)
 BOOST_AUTO_TEST_CASE(enum_polygon_mode_range)
 {
 	using namespace oglplus;
-	polygon_mode x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<polygon_mode>().size();
 
 #ifdef GL_FILL
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<polygon_mode>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_FILL
+		polygon_mode(GL_FILL)
 	) != r.end());
 }
 #endif
@@ -149,10 +147,10 @@ BOOST_AUTO_TEST_CASE(enum_polygon_mode_range)
 #ifdef GL_FILL_RECTANGLE_NV
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<polygon_mode>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_FILL_RECTANGLE_NV
+		polygon_mode(GL_FILL_RECTANGLE_NV)
 	) != r.end());
 }
 #endif
@@ -160,10 +158,10 @@ BOOST_AUTO_TEST_CASE(enum_polygon_mode_range)
 #ifdef GL_LINE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<polygon_mode>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_LINE
+		polygon_mode(GL_LINE)
 	) != r.end());
 }
 #endif
@@ -171,10 +169,10 @@ BOOST_AUTO_TEST_CASE(enum_polygon_mode_range)
 #ifdef GL_POINT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<polygon_mode>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_POINT
+		polygon_mode(GL_POINT)
 	) != r.end());
 }
 #endif

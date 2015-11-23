@@ -169,17 +169,15 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_names)
 BOOST_AUTO_TEST_CASE(enum_blend_equation_range)
 {
 	using namespace oglplus;
-	blend_equation x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<blend_equation>().size();
 
 #ifdef GL_FUNC_ADD
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<blend_equation>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_FUNC_ADD
+		blend_equation(GL_FUNC_ADD)
 	) != r.end());
 }
 #endif
@@ -187,10 +185,10 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_range)
 #ifdef GL_FUNC_REVERSE_SUBTRACT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<blend_equation>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_FUNC_REVERSE_SUBTRACT
+		blend_equation(GL_FUNC_REVERSE_SUBTRACT)
 	) != r.end());
 }
 #endif
@@ -198,10 +196,10 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_range)
 #ifdef GL_FUNC_SUBTRACT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<blend_equation>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_FUNC_SUBTRACT
+		blend_equation(GL_FUNC_SUBTRACT)
 	) != r.end());
 }
 #endif
@@ -209,10 +207,10 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_range)
 #ifdef GL_MAX
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<blend_equation>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX
+		blend_equation(GL_MAX)
 	) != r.end());
 }
 #endif
@@ -220,10 +218,10 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_range)
 #ifdef GL_MIN
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<blend_equation>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MIN
+		blend_equation(GL_MIN)
 	) != r.end());
 }
 #endif

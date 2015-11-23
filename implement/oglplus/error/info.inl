@@ -7,6 +7,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
+#include <oglplus/enum/types.hpp>
 #include <string>
 #endif
 
@@ -25,6 +26,11 @@ struct extended_error_info
 #if !OGLPLUS_ERROR_NO_BUILD_LOG
 	std::string _build_log;
 #endif
+
+#if !OGLPLUS_ERROR_NO_IDENTIFIER
+	std::string _identifier;
+#endif
+
 	extended_error_info(void)
 	noexcept
 	{ }
@@ -78,7 +84,7 @@ noexcept
  , _obj_name()
 #endif
 #if !OGLPLUS_ERROR_NO_INDEX
- , _index(~GLuint(0))
+ , _index(invalid_index())
 #endif
 #if !OGLPLUS_ERROR_NO_ENUM_VALUE
  , _enum_val()
@@ -113,7 +119,7 @@ noexcept
 #if! OGLPLUS_ERROR_NO_GL_LIB
 	_gl_lb_name = gl_lb_name;
 #else
-	(void)gl_lib_name;
+	(void)gl_lb_name;
 #endif
 	return *this;
 }
@@ -254,6 +260,16 @@ noexcept
 }
 //------------------------------------------------------------------------------
 inline
+error_info&
+error_info::
+gl_object_binding(const any_object_type&, const any_enum_value&)
+noexcept
+{
+	// TODO
+	return *this;
+}
+//------------------------------------------------------------------------------
+inline
 any_object_name
 error_info::
 gl_object(void) const
@@ -262,11 +278,21 @@ noexcept
 #if !OGLPLUS_ERROR_NO_OBJECT
 	return _obj_name;
 #else
-	return invalid_gl_obj_name();
+	return any_object_name();
 #endif
 }
 //------------------------------------------------------------------------------
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+error_info&
+error_info::
+gl_subject_binding(const any_object_type&, const any_enum_value&)
+noexcept
+{
+	// TODO
+	return *this;
+}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 error_info&
@@ -291,7 +317,7 @@ noexcept
 #if !OGLPLUS_ERROR_NO_SUBJECT
 	return _ext_info()._sub_name;
 #else
-	return invalid_gl_obj_name();
+	return any_object_name();
 #endif
 }
 //------------------------------------------------------------------------------
@@ -300,7 +326,7 @@ noexcept
 inline
 error_info&
 error_info::
-index(GLuint idx)
+gl_index(GLuint idx)
 noexcept
 {
 #if !OGLPLUS_ERROR_NO_INDEX
@@ -314,20 +340,20 @@ noexcept
 inline
 GLuint
 error_info::
-index(void) const
+gl_index(void) const
 noexcept
 {
 #if !OGLPLUS_ERROR_NO_INDEX
 	return _index;
 #else
-	return ~GLuint(0);
+	return invalid_index();
 #endif
 }
 //------------------------------------------------------------------------------
 inline
 error_info&
 error_info::
-enum_value(const any_enum_value& enum_val)
+gl_enum_value(const any_enum_value& enum_val)
 noexcept
 {
 #if !OGLPLUS_ERROR_NO_ENUM_VALUE
@@ -338,10 +364,30 @@ noexcept
 	return *this;
 }
 //------------------------------------------------------------------------------
+#if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
+//------------------------------------------------------------------------------
+inline
+error_info&
+error_info::
+gl_enum_value(const any_indexed_enum_value& enum_val)
+noexcept
+{
+#if !OGLPLUS_ERROR_NO_ENUM_VALUE
+	_enum_val = indexed_value_base(enum_val.base());
+#endif
+#if !OGLPLUS_ERROR_NO_INDEX
+	_index = GLuint(enum_val.index());
+#endif
+	(void)enum_val;
+	return *this;
+}
+//------------------------------------------------------------------------------
+#endif
+//------------------------------------------------------------------------------
 inline
 const any_enum_value&
 error_info::
-enum_value(void) const
+gl_enum_value(void) const
 noexcept
 {
 #if !OGLPLUS_ERROR_NO_ENUM_VALUE
@@ -357,10 +403,38 @@ noexcept
 OGLPLUS_LIB_FUNC
 error_info&
 error_info::
-build_log(const cstring_view<>& log)
+identifier(const cstring_span<>& ident)
 noexcept
 {
-#if !OGLPLUS_NO_BUILD_LOG
+#if !OGLPLUS_ERROR_NO_IDENTIFIER
+	try { _ext_info()._identifier.assign(ident.begin(), ident.end()); }
+	catch(...) { }
+#else
+	(void)ident;
+#endif
+	return *this;
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+cstring_span<>
+error_info::
+identifier(void) const
+noexcept
+{
+#if !OGLPLUS_ERROR_NO_IDENTIFIER
+	return _ext_info()._identifier;
+#else
+	return {};
+#endif
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+error_info&
+error_info::
+build_log(const cstring_span<>& log)
+noexcept
+{
+#if !OGLPLUS_ERROR_NO_BUILD_LOG
 	try { _ext_info()._build_log.assign(log.begin(), log.end()); }
 	catch(...) { }
 #else
@@ -370,13 +444,13 @@ noexcept
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstring_view<>
+cstring_span<>
 error_info::
 build_log(void) const
 noexcept
 {
-#if !OGLPLUS_NO_BUILD_LOG
-	return _ext_info()._build_log;
+#if !OGLPLUS_ERROR_NO_BUILD_LOG
+	return {_ext_info()._build_log};
 #else
 	return {};
 #endif

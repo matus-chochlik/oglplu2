@@ -4,6 +4,9 @@ OGLplus2 README
 
 :Author: Matúš Chochlík <chochlik@gmail.com>
 
+.. image:: https://travis-ci.org/matus-chochlik/oglplu2.svg?branch=develop
+    :target: https://travis-ci.org/matus-chochlik/oglplu2
+
 .. contents::
 
 .. _OpenGL: http://opengl.org/
@@ -26,8 +29,8 @@ OGLplus2 README
 Overview
 ========
 
-OGLplus2 is an experimental wrapper for modern `OpenGL`_, using latest C++ features
-and a different design and naming conventions than `OGLplus`_.
+OGLplus2 is an experimental wrapper for modern `OpenGL`_, using latest C++
+features and a different design and naming conventions than `OGLplus`_.
 OGLplus2 is in a very early stage of development.
 Several examples showing the usage of OGLplus can be found in the ``example/``
 directory and its subdirectories.
@@ -36,8 +39,20 @@ Requirements
 ============
 
 A compiler supporting C++14 and the `GLEW`_ and `GLFW`_ libraries are required.
-Currently the only compiler known to work is clang++-3.5.0.
-Support for other libraries with similar functionality will be added in the future.
+Currently the only compiler known to work is clang++-3.6.0.
+Support for other libraries with similar functionality will be added
+in the future.
+
+On Linux distributions with the ``apt`` package manager, the following should
+be enough to install most of the dependencies for the GLFW+GLEW configuration:
+
+::
+
+ sudo apt-get install cmake g++ libglew-dev libglfw-dev
+
+For other configurations using SDL, wxWidgets, GLUT, etc. you need to install
+the appropriate packages (the names vary wildly between distrubutions or even
+between versions of the same distribution so they are not listed here).
 
 The `GSL`_ library is also required; the ``third_party/GSL`` directory contains
 a git submodule which should be updated before building OGLplus2.
@@ -45,16 +60,73 @@ a git submodule which should be updated before building OGLplus2.
 Building
 ========
 
-OGLplus2 uses simple `CMake`_-based build system.
-At the moment there is no user-friendly configuration script,
-but the examples can be built by issuing the following commands:
+OGLplus2 uses a CMake-based build/configuration system. The library itself
+is header-only, which means that applications using it do not need to link
+to a compiled library, but need just to include the header files.
+
+The build system handles several important tasks:
+
+ * Detects if the necessary things are installed and makes a site-configuration
+   header file
+
+ * Detects the support for several C++11 features and builds a config header
+
+ * Builds several additional, automatically generated headers
+
+ * Installs all header files to a directory specified by the install prefix
+
+ * Configures and builds the example executables.
+
+ * Configures the test suite.
+
+User-friendly configuration script
+----------------------------------
+
+The ``configure.py`` or ``oglplus-config`` scripts
+provide a more user-friendly way to invoke cmake and to specify additional
+parameters for the configuration process.
+
+Some of the more important command-line options are described below:
+
+--help  Display the help screen.
+
+--prefix PATH       Specifies the installation prefix path for cmake (sets
+                    the value of the CMAKE_INSTALL_PREFIX variable).
+                    If this option is not specified, cmake's default prefix
+                    is used.
+
+--include-dir PATH    Specify additional directiories
+                      to search when looking for header files. It may be used
+                      multiple times to specify multiple directories. Headers
+                      are searched in the directories specified with this option
+                      in the same order in which they appear on the command-line
+                      and the default system header locations are searched only
+                      afterwards. The first header found is used, in case there
+                      are multiple versions of the searched header file.
+
+
+--library-dir PATH    Specify additional directiories to search when looking
+                      for compiled libraries. It may beused multiple times
+                      to specify multiple directories. Libraries are
+                      searched in the directories specified with this option
+                      in the same order in which they appear on the command-line
+                      and the default system library locations are searched
+                      afterwards. The first library found is used, in case
+                      there are multiple versions of the searched library.
+
+See the ``--help`` option for the full description and detailed info
+on the usage of these scripts.
+Bash users can also do ``source config/configure.bash_complete``
+to install a bash completion extension that allows to TAB-complete the command
+line arguments for the ``oglplus-config`` configuration script that invokes
+``configure.py``.
+
+To configure and build the examples invoke ``oglplus-config`` in the following
+way:
 
 ::
 
- mkdir _build &&
- cd _build &&
- cmake .. &&
- make
+ ./oglplus-config --build
 
 Why rebooting OGLplus?
 ======================
@@ -71,8 +143,8 @@ OGLplus2 tries to address these issues:
 
 *  The enumeration types in the original OGLplus are rather verbose
    and require the library user to learn a lot of new names invented by
-   OGLplus. In OGLplus2 the enumerations are still type-safe, but the enumeration
-   values are directly based on the OpenGL constants.
+   OGLplus. In OGLplus2 the enumerations are still type-safe,
+   but the enumeration values are directly based on the OpenGL constants.
    This allows for example to use ``gl.enable(GL.depth_test)`` instead of
    ``gl.Enable(Capability::DepthTest)``, or ``gl.begin(GL.triangles)``
    instead of ``gl.Begin(CompatibilityPrimitiveType::Triangles)``, etc.
@@ -93,10 +165,10 @@ OGLplus2 tries to address these issues:
    value checkers, etc.) don't work very well in applications using multiple
    GL contexts.
 
-*  In order to ensure backward compatiblity OGLplus source code is full of various
-   workarounds which makes it rather messy. By using modern C++ many features
-   can be implemented in a more straithtforward way without using lots of
-   C++-feature-related ``#ifdefs``.
+*  In order to ensure backward compatiblity OGLplus source code is full
+   of various workarounds which makes it rather messy. By using modern C++
+   many features can be implemented in a more straithtforward way without using
+   lots of C++-feature-related ``#ifdefs``.
 
 *  The OALplus and EGLplus reuse some code defined in the original OGLplus.
    Here the common code like vectors, matrices, the framework for wrapping
@@ -113,7 +185,7 @@ TODO
 License
 =======
 
-Copyright Matus Chochlik.
+Copyright Matus Chochlik, 2015.
 Distributed under the Boost Software License, Version 1.0.
 See accompanying file LICENSE_1_0.txt or copy at
  http://www.boost.org/LICENSE_1_0.txt

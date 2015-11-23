@@ -169,17 +169,15 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_coord_names)
 BOOST_AUTO_TEST_CASE(enum_texture_swizzle_coord_range)
 {
 	using namespace oglplus;
-	texture_swizzle_coord x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<texture_swizzle_coord>().size();
 
 #ifdef GL_TEXTURE_SWIZZLE_A
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_swizzle_coord>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE_SWIZZLE_A
+		texture_swizzle_coord(GL_TEXTURE_SWIZZLE_A)
 	) != r.end());
 }
 #endif
@@ -187,10 +185,10 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_coord_range)
 #ifdef GL_TEXTURE_SWIZZLE_B
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_swizzle_coord>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE_SWIZZLE_B
+		texture_swizzle_coord(GL_TEXTURE_SWIZZLE_B)
 	) != r.end());
 }
 #endif
@@ -198,10 +196,10 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_coord_range)
 #ifdef GL_TEXTURE_SWIZZLE_G
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_swizzle_coord>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE_SWIZZLE_G
+		texture_swizzle_coord(GL_TEXTURE_SWIZZLE_G)
 	) != r.end());
 }
 #endif
@@ -209,10 +207,10 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_coord_range)
 #ifdef GL_TEXTURE_SWIZZLE_R
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_swizzle_coord>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE_SWIZZLE_R
+		texture_swizzle_coord(GL_TEXTURE_SWIZZLE_R)
 	) != r.end());
 }
 #endif
@@ -220,10 +218,10 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_coord_range)
 #ifdef GL_TEXTURE_SWIZZLE_RGBA
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_swizzle_coord>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE_SWIZZLE_RGBA
+		texture_swizzle_coord(GL_TEXTURE_SWIZZLE_RGBA)
 	) != r.end());
 }
 #endif

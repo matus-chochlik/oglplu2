@@ -10,8 +10,8 @@
 #define OGLPLUS_OBJECT_IOS_1509260923_HPP
 
 #include "gl_name.hpp"
-#include "../enum_types.hpp"
-#include "../enum_value_names.hpp"
+#include "../enum/value_names.hpp"
+#include "../enum/types.hpp"
 #include <iostream>
 
 namespace oglplus {

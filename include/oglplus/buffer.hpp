@@ -9,47 +9,352 @@
 #ifndef OGLPLUS_BUFFER_1509260923_HPP
 #define OGLPLUS_BUFFER_1509260923_HPP
 
-#include "object/gl_name.hpp"
+#include "buffer_name.hpp"
 #include "object/owner.hpp"
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
+#include "utils/gl_func.hpp"
+#include "utils/buffer_size.hpp"
+#include "utils/buffer_data.hpp"
+#include "utils/boolean.hpp"
 
-#ifdef GL_BUFFER
+#if defined(GL_VERSION_4_5) ||\
+	defined(GL_ARB_direct_state_access) ||\
+	defined(GL_EXT_direct_state_access)
+#define OGLPLUS_DSA_BUFFER 1
+#endif
 
 namespace oglplus {
-namespace tag {
 
-using buffer = gl_obj_tag<GL_BUFFER>;
+binding_query
+get_binding_query(buffer_target tgt)
+noexcept;
 
-} // namespace tag
+namespace oper {
 
-using buffer_name = object_name<tag::buffer>;
-using buffer = object_owner<tag::buffer>;
+struct buffer_ops
+{
+	static
+	outcome<void>
+	bind_buffer(buffer_target target, buffer_name buf)
+	noexcept;
 
-static const object_zero<tag::buffer> no_buffer = {};
+	static
+	outcome<buffer_name>
+	buffer_binding(buffer_target target)
+	noexcept;
+
+	static
+	outcome<void>
+	bind_buffer_base(
+		buffer_indexed_target target,
+		GLuint index,
+		buffer_name buf
+	) noexcept;
+
+	static
+	outcome<void>
+	get_buffer_parameter_iv(
+		buffer_target tgt,
+		oglplus::buffer_parameter param,
+		span<GLint> values
+	) noexcept;
+
+	static
+	outcome<void>
+	get_buffer_parameter_i64v(
+		buffer_target tgt,
+		oglplus::buffer_parameter param,
+		span<GLint64> values
+	) noexcept;
+
+#if defined(OGLPLUS_DSA_BUFFER)
+	static
+	outcome<void>
+	get_buffer_parameter_iv(
+		buffer_name buf,
+		oglplus::buffer_parameter param,
+		span<GLint> values
+	) noexcept;
+#endif
+
+#if defined(GL_VERSION_4_5)
+	static
+	outcome<void>
+	get_buffer_parameter_i64v(
+		buffer_name buf,
+		oglplus::buffer_parameter param,
+		span<GLint64> values
+	) noexcept;
+#endif
+
+	template <typename R, typename T, typename BNT>
+	static
+	outcome<R>
+	return_buffer_parameter_i(const BNT& bnt, buffer_parameter parameter)
+	noexcept;
+
+	template <typename BNT>
+	static
+	outcome<GLint>
+	buffer_size(const BNT& bnt)
+	noexcept;
+
+	template <typename BNT>
+	static
+	outcome<boolean>
+	buffer_mapped(const BNT& bnt)
+	noexcept;
+
+	template <typename BNT>
+	static
+	outcome<oglplus::buffer_usage>
+	buffer_usage(const BNT& bnt)
+	noexcept;
+
+#if defined(GL_VERSION_4_4) || defined(GL_ARB_buffer_storage)
+	template <typename BNT>
+	static
+	outcome<boolean>
+	buffer_immutable_storage(const BNT& bnt)
+	noexcept;
+
+	template <typename BNT>
+	static
+	outcome<enum_bitfield<buffer_storage_bits>>
+	buffer_storage_flags(const BNT& bnt)
+	noexcept;
+#endif
+
+	static
+	outcome<void>
+	buffer_data(
+		buffer_target target,
+		const buffer_data_spec& data,
+		oglplus::buffer_usage usage
+	) noexcept;
+
+#if defined(OGLPLUS_DSA_BUFFER)
+	static
+	outcome<void>
+	buffer_data(
+		buffer_name buf,
+		const buffer_data_spec& data,
+		oglplus::buffer_usage usage
+	) noexcept;
+#endif
+
+	static
+	outcome<void>
+	buffer_sub_data(
+		buffer_target target,
+		oglplus::buffer_size offset,
+		const buffer_data_spec& data
+	) noexcept;
+
+#if defined(OGLPLUS_DSA_BUFFER)
+	static
+	outcome<void>
+	buffer_sub_data(
+		buffer_name buf,
+		oglplus::buffer_size offset,
+		const buffer_data_spec& data
+	) noexcept;
+#endif
+
+#if defined(GL_VERSION_3_1) || defined(GL_ARB_copy_buffer)
+	static
+	outcome<void>
+	copy_buffer_sub_data(
+		buffer_target read_target,
+		buffer_target write_target,
+		oglplus::buffer_size read_offset,
+		oglplus::buffer_size write_offset,
+		oglplus::buffer_size size
+	) noexcept;
+
+#if defined(OGLPLUS_DSA_BUFFER)
+	static
+	outcome<void>
+	copy_buffer_sub_data(
+		buffer_name read_buffer,
+		buffer_name write_buffer,
+		oglplus::buffer_size read_offset,
+		oglplus::buffer_size write_offset,
+		oglplus::buffer_size size
+	) noexcept;
+#endif
+#endif
+
+#if defined(GL_VERSION_4_3) || defined(GL_ARB_invalidate_subdata)
+	static
+	outcome<void>
+	invalidate_buffer_data(buffer_name buf)
+	noexcept;
+
+	static
+	outcome<void>
+	invalidate_buffer_sub_data(
+		buffer_name buf,
+		oglplus::buffer_size offset,
+		oglplus::buffer_size size
+	) noexcept;
+#endif
+};
+
+} // namespace oper
+
+template <typename Derived, typename Base>
+struct obj_member_ops<tag::buffer, Derived, Base>
+ : Base
+{
+private:
+	Derived& _self()
+	noexcept
+	{
+		return *static_cast<Derived*>(this);
+	}
+
+	typedef oper::buffer_ops _ops;
+protected:
+	using Base::Base;
+public:
+
+	outcome<Derived&>
+	data(const buffer_data_spec& data, buffer_usage usage)
+	noexcept
+	{
+		return {_ops::buffer_data(*this, data, usage),_self()};
+	}
+
+	outcome<Derived&>
+	sub_data(buffer_size offset, const buffer_data_spec& data)
+	noexcept
+	{
+		return {_ops::buffer_sub_data(*this, offset, data),_self()};
+	}
+
+#if defined(GL_VERSION_4_3) || defined(GL_ARB_invalidate_subdata)
+	outcome<Derived&>
+	invalidate_data(void)
+	noexcept
+	{
+		return {_ops::invalidate_buffer_data(*this),_self()};
+	}
+
+	outcome<Derived&>
+	invalidate_sub_data(buffer_size offset, buffer_size size)
+	noexcept
+	{
+		return {
+			_ops::invalidate_buffer_sub_data(*this, offset, size),
+			_self()
+		};
+	}
+#endif
+
+	outcome<GLint>
+	size(void) const
+	noexcept
+	{
+		return _ops::buffer_size(*this);
+	}
+
+	outcome<boolean>
+	mapped(void) const
+	noexcept
+	{
+		return _ops::buffer_mapped(*this);
+	}
+
+	outcome<buffer_usage>
+	usage(void) const
+	noexcept
+	{
+		return _ops::buffer_usage(*this);
+	}
+
+#if defined(GL_VERSION_4_4) || defined(GL_ARB_buffer_storage)
+	outcome<boolean>
+	immutable_storage(void) const
+	noexcept
+	{
+		return _ops::buffer_immutable_storage(*this);
+	}
+
+	outcome<enum_bitfield<buffer_storage_bits>>
+	storage_flags(void) const
+	noexcept
+	{
+		return _ops::buffer_storage_flags(*this);
+	}
+#endif
+};
+
+template <>
+struct object_binding<tag::buffer>
+ : obj_member_ops<
+	tag::buffer,
+	object_binding<tag::buffer>,
+	buffer_target
+>
+{
+	using obj_member_ops<
+		tag::buffer,
+		object_binding<tag::buffer>,
+		buffer_target
+	>::obj_member_ops;
+};
+
+#if defined(OGLPLUS_DSA_BUFFER)
+template <>
+struct obj_dsa_ops<tag::buffer>
+ : obj_member_ops<
+	tag::buffer,
+	obj_dsa_ops<tag::buffer>,
+	obj_zero_dsa_ops<tag::buffer>
+>
+{
+	using obj_member_ops<
+		tag::buffer,
+		obj_dsa_ops<tag::buffer>,
+		obj_zero_dsa_ops<tag::buffer>
+	>::obj_member_ops;
+};
+#endif
 
 template <>
 struct obj_gen_del_ops<tag::buffer>
 {
 	static
 	deferred_error_handler
-	_gen(array_view<GLuint> names)
+	_gen(span<GLuint> names)
 	noexcept;
 
 	static
 	deferred_error_handler
-	_delete(array_view<GLuint> names)
+	_delete(span<GLuint> names)
 	noexcept;
 
 	static
-	outcome<bool> _is_a(GLuint name)
+	outcome<boolean> _is_a(GLuint name)
 	noexcept;
 };
+
+using buffer = object_owner<tag::buffer>;
+using bound_buffer = object_binding<tag::buffer>;
+template <std::size_t N>
+using buffer_array = object_array_owner<tag::buffer, N>;
+
+static const object_zero_and_ops<tag::buffer>
+	no_buffer = {};
 
 } // namespace oglplus
 
 #include <oglplus/buffer.inl>
 
-#endif // GL_BUFFER
+#ifdef OGLPLUS_DSA_BUFFER
+#undef OGLPLUS_DSA_BUFFER
+#endif
 
 #endif // include guard

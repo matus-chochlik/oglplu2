@@ -12,7 +12,7 @@
 #include "prog_var/location.hpp"
 #include "prog_var/wrapper.hpp"
 #include "utils/identity.hpp"
-#include "utils/array_view.hpp"
+#include "utils/span.hpp"
 
 namespace oglplus {
 namespace tag {
@@ -47,7 +47,8 @@ struct prog_var_loc_ops<tag::uniform>
 		);
 		OGLPLUS_VERIFY(
 			GetAttribLocation,
-			gl_object(prog), // TODO identifier
+			identifier(identifier).
+			gl_object(prog),
 			always
 		);
 

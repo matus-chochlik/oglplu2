@@ -32,9 +32,8 @@ void eagine_object_name_test(void)
 }
 
 template <typename Object>
-void eagine_object_test(void)
+void eagine_do_test_object(Object& o1)
 {
-	Object o1;
 	assert(!o1 == false);
 	assert(bool(o1) == true);
 
@@ -43,6 +42,20 @@ void eagine_object_test(void)
 	assert(bool(o2) == true);
 	assert(!o1 == true);
 	assert(bool(o1) == false);
+}
+
+template <typename Object>
+void eagine_object_test(void)
+{
+	Object o1;
+	eagine_do_test_object(o1);
+}
+
+template <typename Object, typename ObjectType>
+void eagine_object_test(ObjectType type)
+{
+	Object o1(type);
+	eagine_do_test_object(o1);
 }
 
 // TODO

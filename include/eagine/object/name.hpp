@@ -12,12 +12,12 @@
 #include <utility>
 #include <cstddef>
 #include "fwd.hpp"
-#include "../array_view.hpp"
+#include "../span.hpp"
 
 namespace eagine {
 
 template <typename ObjTag>
-class object_names<ObjTag, typename object_traits<ObjTag>::name_type>
+class object_names<ObjTag, object_name_t<ObjTag>>
 {
 private:
 	typedef object_traits<ObjTag> _traits;
@@ -146,7 +146,7 @@ public:
 	}
 
 	friend inline constexpr
-	array_view<_name_type>
+	span<_name_type>
 	get_raw_names(object_names& ntr)
 	noexcept
 	{
@@ -155,15 +155,75 @@ public:
 };
 
 template <typename ObjTag>
-class object_zero
- : public object_name<ObjTag>
+struct object_zero_name
+ : object_name<ObjTag>
 {
-public:
 	constexpr inline
-	object_zero(void)
+	object_zero_name(void)
 	noexcept
 	 : object_name<ObjTag>(0)
 	{ }
+
+protected:
+	constexpr explicit inline
+	object_zero_name(object_name<ObjTag> name)
+	noexcept
+	 : object_name<ObjTag>(name)
+	{ }
+};
+
+template <typename TypeT, TypeT InvalidType>
+struct any_object_type
+{
+	TypeT _type;
+
+	constexpr inline
+	any_object_type(void)
+	noexcept
+	 : _type(InvalidType)
+	{ }
+
+	template <typename ObjTag>
+	constexpr inline
+	any_object_type(ObjTag)
+	noexcept
+	 : _type(object_traits<ObjTag>::get_type())
+	{ }
+
+	constexpr inline
+	bool is_valid(void) const
+	noexcept
+	{
+		return (_type != InvalidType);
+	}
+
+	explicit constexpr inline
+	operator bool (void) const
+	noexcept
+	{
+		return is_valid();
+	}
+
+	constexpr inline
+	bool operator ! (void) const
+	noexcept
+	{
+		return !is_valid();
+	}
+
+	friend constexpr inline
+	bool operator == (const any_object_type& a, const any_object_type& b)
+	noexcept
+	{
+		return (a._type == b._type);
+	}
+
+	friend constexpr inline
+	bool operator != (const any_object_type& a, const any_object_type& b)
+	noexcept
+	{
+		return (a._type != b._type);
+	}
 };
 
 template <typename NameT, typename TypeT, NameT InvalidName, TypeT InvalidType>
@@ -220,6 +280,14 @@ struct any_object_name
 	noexcept
 	{
 		return (a._name != b._name) || (a._type != b._type);
+	}
+
+	constexpr inline
+	any_object_type<TypeT, InvalidType>
+	type(void) const
+	noexcept
+	{
+		return {_type};
 	}
 };
 

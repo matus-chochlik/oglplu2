@@ -53,17 +53,15 @@ BOOST_AUTO_TEST_CASE(enum_renderbuffer_target_names)
 BOOST_AUTO_TEST_CASE(enum_renderbuffer_target_range)
 {
 	using namespace oglplus;
-	renderbuffer_target x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<renderbuffer_target>().size();
 
 #ifdef GL_RENDERBUFFER
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<renderbuffer_target>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RENDERBUFFER
+		renderbuffer_target(GL_RENDERBUFFER)
 	) != r.end());
 }
 #endif

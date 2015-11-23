@@ -3881,17 +3881,15 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_names)
 BOOST_AUTO_TEST_CASE(enum_path_command_nv_range)
 {
 	using namespace oglplus;
-	path_command_nv x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<path_command_nv>().size();
 
 #ifdef GL_ARC_TO_NV
 {
 	--count;
-	array_view<const GLubyte> r = enum_value_range(x);
+	auto r = enum_value_range<path_command_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_ARC_TO_NV
+		path_command_nv(GL_ARC_TO_NV)
 	) != r.end());
 }
 #endif
@@ -3899,10 +3897,10 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_range)
 #ifdef GL_CIRCULAR_CCW_ARC_TO_NV
 {
 	--count;
-	array_view<const GLubyte> r = enum_value_range(x);
+	auto r = enum_value_range<path_command_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_CIRCULAR_CCW_ARC_TO_NV
+		path_command_nv(GL_CIRCULAR_CCW_ARC_TO_NV)
 	) != r.end());
 }
 #endif
@@ -3910,10 +3908,10 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_range)
 #ifdef GL_CIRCULAR_CW_ARC_TO_NV
 {
 	--count;
-	array_view<const GLubyte> r = enum_value_range(x);
+	auto r = enum_value_range<path_command_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_CIRCULAR_CW_ARC_TO_NV
+		path_command_nv(GL_CIRCULAR_CW_ARC_TO_NV)
 	) != r.end());
 }
 #endif
@@ -3921,10 +3919,10 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_range)
 #ifdef GL_CIRCULAR_TANGENT_ARC_TO_NV
 {
 	--count;
-	array_view<const GLubyte> r = enum_value_range(x);
+	auto r = enum_value_range<path_command_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_CIRCULAR_TANGENT_ARC_TO_NV
+		path_command_nv(GL_CIRCULAR_TANGENT_ARC_TO_NV)
 	) != r.end());
 }
 #endif
@@ -3932,10 +3930,10 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_range)
 #ifdef GL_CLOSE_PATH_NV
 {
 	--count;
-	array_view<const GLubyte> r = enum_value_range(x);
+	auto r = enum_value_range<path_command_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_CLOSE_PATH_NV
+		path_command_nv(GL_CLOSE_PATH_NV)
 	) != r.end());
 }
 #endif
@@ -3943,10 +3941,10 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_range)
 #ifdef GL_CUBIC_CURVE_TO_NV
 {
 	--count;
-	array_view<const GLubyte> r = enum_value_range(x);
+	auto r = enum_value_range<path_command_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_CUBIC_CURVE_TO_NV
+		path_command_nv(GL_CUBIC_CURVE_TO_NV)
 	) != r.end());
 }
 #endif
@@ -3954,10 +3952,10 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_range)
 #ifdef GL_DUP_FIRST_CUBIC_CURVE_TO_NV
 {
 	--count;
-	array_view<const GLubyte> r = enum_value_range(x);
+	auto r = enum_value_range<path_command_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DUP_FIRST_CUBIC_CURVE_TO_NV
+		path_command_nv(GL_DUP_FIRST_CUBIC_CURVE_TO_NV)
 	) != r.end());
 }
 #endif
@@ -3965,10 +3963,10 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_range)
 #ifdef GL_DUP_LAST_CUBIC_CURVE_TO_NV
 {
 	--count;
-	array_view<const GLubyte> r = enum_value_range(x);
+	auto r = enum_value_range<path_command_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DUP_LAST_CUBIC_CURVE_TO_NV
+		path_command_nv(GL_DUP_LAST_CUBIC_CURVE_TO_NV)
 	) != r.end());
 }
 #endif
@@ -3976,10 +3974,10 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_range)
 #ifdef GL_HORIZONTAL_LINE_TO_NV
 {
 	--count;
-	array_view<const GLubyte> r = enum_value_range(x);
+	auto r = enum_value_range<path_command_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_HORIZONTAL_LINE_TO_NV
+		path_command_nv(GL_HORIZONTAL_LINE_TO_NV)
 	) != r.end());
 }
 #endif
@@ -3987,10 +3985,10 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_range)
 #ifdef GL_LARGE_CCW_ARC_TO_NV
 {
 	--count;
-	array_view<const GLubyte> r = enum_value_range(x);
+	auto r = enum_value_range<path_command_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_LARGE_CCW_ARC_TO_NV
+		path_command_nv(GL_LARGE_CCW_ARC_TO_NV)
 	) != r.end());
 }
 #endif
@@ -3998,10 +3996,10 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_range)
 #ifdef GL_LARGE_CW_ARC_TO_NV
 {
 	--count;
-	array_view<const GLubyte> r = enum_value_range(x);
+	auto r = enum_value_range<path_command_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_LARGE_CW_ARC_TO_NV
+		path_command_nv(GL_LARGE_CW_ARC_TO_NV)
 	) != r.end());
 }
 #endif
@@ -4009,10 +4007,10 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_range)
 #ifdef GL_LINE_TO_NV
 {
 	--count;
-	array_view<const GLubyte> r = enum_value_range(x);
+	auto r = enum_value_range<path_command_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_LINE_TO_NV
+		path_command_nv(GL_LINE_TO_NV)
 	) != r.end());
 }
 #endif
@@ -4020,10 +4018,10 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_range)
 #ifdef GL_MOVE_TO_NV
 {
 	--count;
-	array_view<const GLubyte> r = enum_value_range(x);
+	auto r = enum_value_range<path_command_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MOVE_TO_NV
+		path_command_nv(GL_MOVE_TO_NV)
 	) != r.end());
 }
 #endif
@@ -4031,10 +4029,10 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_range)
 #ifdef GL_QUADRATIC_CURVE_TO_NV
 {
 	--count;
-	array_view<const GLubyte> r = enum_value_range(x);
+	auto r = enum_value_range<path_command_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_QUADRATIC_CURVE_TO_NV
+		path_command_nv(GL_QUADRATIC_CURVE_TO_NV)
 	) != r.end());
 }
 #endif
@@ -4042,10 +4040,10 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_range)
 #ifdef GL_RECT_NV
 {
 	--count;
-	array_view<const GLubyte> r = enum_value_range(x);
+	auto r = enum_value_range<path_command_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RECT_NV
+		path_command_nv(GL_RECT_NV)
 	) != r.end());
 }
 #endif
@@ -4053,10 +4051,10 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_range)
 #ifdef GL_RELATIVE_ARC_TO_NV
 {
 	--count;
-	array_view<const GLubyte> r = enum_value_range(x);
+	auto r = enum_value_range<path_command_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RELATIVE_ARC_TO_NV
+		path_command_nv(GL_RELATIVE_ARC_TO_NV)
 	) != r.end());
 }
 #endif
@@ -4064,10 +4062,10 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_range)
 #ifdef GL_RELATIVE_CUBIC_CURVE_TO_NV
 {
 	--count;
-	array_view<const GLubyte> r = enum_value_range(x);
+	auto r = enum_value_range<path_command_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RELATIVE_CUBIC_CURVE_TO_NV
+		path_command_nv(GL_RELATIVE_CUBIC_CURVE_TO_NV)
 	) != r.end());
 }
 #endif
@@ -4075,10 +4073,10 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_range)
 #ifdef GL_RELATIVE_HORIZONTAL_LINE_TO_NV
 {
 	--count;
-	array_view<const GLubyte> r = enum_value_range(x);
+	auto r = enum_value_range<path_command_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RELATIVE_HORIZONTAL_LINE_TO_NV
+		path_command_nv(GL_RELATIVE_HORIZONTAL_LINE_TO_NV)
 	) != r.end());
 }
 #endif
@@ -4086,10 +4084,10 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_range)
 #ifdef GL_RELATIVE_LARGE_CCW_ARC_TO_NV
 {
 	--count;
-	array_view<const GLubyte> r = enum_value_range(x);
+	auto r = enum_value_range<path_command_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RELATIVE_LARGE_CCW_ARC_TO_NV
+		path_command_nv(GL_RELATIVE_LARGE_CCW_ARC_TO_NV)
 	) != r.end());
 }
 #endif
@@ -4097,10 +4095,10 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_range)
 #ifdef GL_RELATIVE_LARGE_CW_ARC_TO_NV
 {
 	--count;
-	array_view<const GLubyte> r = enum_value_range(x);
+	auto r = enum_value_range<path_command_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RELATIVE_LARGE_CW_ARC_TO_NV
+		path_command_nv(GL_RELATIVE_LARGE_CW_ARC_TO_NV)
 	) != r.end());
 }
 #endif
@@ -4108,10 +4106,10 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_range)
 #ifdef GL_RELATIVE_LINE_TO_NV
 {
 	--count;
-	array_view<const GLubyte> r = enum_value_range(x);
+	auto r = enum_value_range<path_command_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RELATIVE_LINE_TO_NV
+		path_command_nv(GL_RELATIVE_LINE_TO_NV)
 	) != r.end());
 }
 #endif
@@ -4119,10 +4117,10 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_range)
 #ifdef GL_RELATIVE_MOVE_TO_NV
 {
 	--count;
-	array_view<const GLubyte> r = enum_value_range(x);
+	auto r = enum_value_range<path_command_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RELATIVE_MOVE_TO_NV
+		path_command_nv(GL_RELATIVE_MOVE_TO_NV)
 	) != r.end());
 }
 #endif
@@ -4130,10 +4128,10 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_range)
 #ifdef GL_RELATIVE_QUADRATIC_CURVE_TO_NV
 {
 	--count;
-	array_view<const GLubyte> r = enum_value_range(x);
+	auto r = enum_value_range<path_command_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RELATIVE_QUADRATIC_CURVE_TO_NV
+		path_command_nv(GL_RELATIVE_QUADRATIC_CURVE_TO_NV)
 	) != r.end());
 }
 #endif
@@ -4141,10 +4139,10 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_range)
 #ifdef GL_RELATIVE_SMALL_CCW_ARC_TO_NV
 {
 	--count;
-	array_view<const GLubyte> r = enum_value_range(x);
+	auto r = enum_value_range<path_command_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RELATIVE_SMALL_CCW_ARC_TO_NV
+		path_command_nv(GL_RELATIVE_SMALL_CCW_ARC_TO_NV)
 	) != r.end());
 }
 #endif
@@ -4152,10 +4150,10 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_range)
 #ifdef GL_RELATIVE_SMALL_CW_ARC_TO_NV
 {
 	--count;
-	array_view<const GLubyte> r = enum_value_range(x);
+	auto r = enum_value_range<path_command_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RELATIVE_SMALL_CW_ARC_TO_NV
+		path_command_nv(GL_RELATIVE_SMALL_CW_ARC_TO_NV)
 	) != r.end());
 }
 #endif
@@ -4163,10 +4161,10 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_range)
 #ifdef GL_RELATIVE_SMOOTH_CUBIC_CURVE_TO_NV
 {
 	--count;
-	array_view<const GLubyte> r = enum_value_range(x);
+	auto r = enum_value_range<path_command_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RELATIVE_SMOOTH_CUBIC_CURVE_TO_NV
+		path_command_nv(GL_RELATIVE_SMOOTH_CUBIC_CURVE_TO_NV)
 	) != r.end());
 }
 #endif
@@ -4174,10 +4172,10 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_range)
 #ifdef GL_RELATIVE_SMOOTH_QUADRATIC_CURVE_TO_NV
 {
 	--count;
-	array_view<const GLubyte> r = enum_value_range(x);
+	auto r = enum_value_range<path_command_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RELATIVE_SMOOTH_QUADRATIC_CURVE_TO_NV
+		path_command_nv(GL_RELATIVE_SMOOTH_QUADRATIC_CURVE_TO_NV)
 	) != r.end());
 }
 #endif
@@ -4185,10 +4183,10 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_range)
 #ifdef GL_RELATIVE_VERTICAL_LINE_TO_NV
 {
 	--count;
-	array_view<const GLubyte> r = enum_value_range(x);
+	auto r = enum_value_range<path_command_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RELATIVE_VERTICAL_LINE_TO_NV
+		path_command_nv(GL_RELATIVE_VERTICAL_LINE_TO_NV)
 	) != r.end());
 }
 #endif
@@ -4196,10 +4194,10 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_range)
 #ifdef GL_RESTART_PATH_NV
 {
 	--count;
-	array_view<const GLubyte> r = enum_value_range(x);
+	auto r = enum_value_range<path_command_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RESTART_PATH_NV
+		path_command_nv(GL_RESTART_PATH_NV)
 	) != r.end());
 }
 #endif
@@ -4207,10 +4205,10 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_range)
 #ifdef GL_SMALL_CCW_ARC_TO_NV
 {
 	--count;
-	array_view<const GLubyte> r = enum_value_range(x);
+	auto r = enum_value_range<path_command_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_SMALL_CCW_ARC_TO_NV
+		path_command_nv(GL_SMALL_CCW_ARC_TO_NV)
 	) != r.end());
 }
 #endif
@@ -4218,10 +4216,10 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_range)
 #ifdef GL_SMALL_CW_ARC_TO_NV
 {
 	--count;
-	array_view<const GLubyte> r = enum_value_range(x);
+	auto r = enum_value_range<path_command_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_SMALL_CW_ARC_TO_NV
+		path_command_nv(GL_SMALL_CW_ARC_TO_NV)
 	) != r.end());
 }
 #endif
@@ -4229,10 +4227,10 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_range)
 #ifdef GL_SMOOTH_CUBIC_CURVE_TO_NV
 {
 	--count;
-	array_view<const GLubyte> r = enum_value_range(x);
+	auto r = enum_value_range<path_command_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_SMOOTH_CUBIC_CURVE_TO_NV
+		path_command_nv(GL_SMOOTH_CUBIC_CURVE_TO_NV)
 	) != r.end());
 }
 #endif
@@ -4240,10 +4238,10 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_range)
 #ifdef GL_SMOOTH_QUADRATIC_CURVE_TO_NV
 {
 	--count;
-	array_view<const GLubyte> r = enum_value_range(x);
+	auto r = enum_value_range<path_command_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_SMOOTH_QUADRATIC_CURVE_TO_NV
+		path_command_nv(GL_SMOOTH_QUADRATIC_CURVE_TO_NV)
 	) != r.end());
 }
 #endif
@@ -4251,10 +4249,10 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_range)
 #ifdef GL_VERTICAL_LINE_TO_NV
 {
 	--count;
-	array_view<const GLubyte> r = enum_value_range(x);
+	auto r = enum_value_range<path_command_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_VERTICAL_LINE_TO_NV
+		path_command_nv(GL_VERTICAL_LINE_TO_NV)
 	) != r.end());
 }
 #endif

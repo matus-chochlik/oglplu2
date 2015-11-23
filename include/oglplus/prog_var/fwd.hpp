@@ -15,6 +15,9 @@ template <typename VarTag, bool IsDSA = false>
 class prog_var_loc;
 
 template <typename VarTag>
+using dsa_prog_var_loc = prog_var_loc<VarTag, true>;
+
+template <typename VarTag>
 struct prog_var_loc_ops;
 
 template <typename VarTag>

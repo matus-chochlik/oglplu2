@@ -1459,17 +1459,15 @@ BOOST_AUTO_TEST_CASE(enum_program_interface_names)
 BOOST_AUTO_TEST_CASE(enum_program_interface_range)
 {
 	using namespace oglplus;
-	program_interface x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<program_interface>().size();
 
 #ifdef GL_ATOMIC_COUNTER_BUFFER
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<program_interface>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_ATOMIC_COUNTER_BUFFER
+		program_interface(GL_ATOMIC_COUNTER_BUFFER)
 	) != r.end());
 }
 #endif
@@ -1477,10 +1475,10 @@ BOOST_AUTO_TEST_CASE(enum_program_interface_range)
 #ifdef GL_BUFFER_VARIABLE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<program_interface>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_BUFFER_VARIABLE
+		program_interface(GL_BUFFER_VARIABLE)
 	) != r.end());
 }
 #endif
@@ -1488,10 +1486,10 @@ BOOST_AUTO_TEST_CASE(enum_program_interface_range)
 #ifdef GL_COMPUTE_SUBROUTINE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<program_interface>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_COMPUTE_SUBROUTINE
+		program_interface(GL_COMPUTE_SUBROUTINE)
 	) != r.end());
 }
 #endif
@@ -1499,10 +1497,10 @@ BOOST_AUTO_TEST_CASE(enum_program_interface_range)
 #ifdef GL_COMPUTE_SUBROUTINE_UNIFORM
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<program_interface>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_COMPUTE_SUBROUTINE_UNIFORM
+		program_interface(GL_COMPUTE_SUBROUTINE_UNIFORM)
 	) != r.end());
 }
 #endif
@@ -1510,10 +1508,10 @@ BOOST_AUTO_TEST_CASE(enum_program_interface_range)
 #ifdef GL_FRAGMENT_SUBROUTINE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<program_interface>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_FRAGMENT_SUBROUTINE
+		program_interface(GL_FRAGMENT_SUBROUTINE)
 	) != r.end());
 }
 #endif
@@ -1521,10 +1519,10 @@ BOOST_AUTO_TEST_CASE(enum_program_interface_range)
 #ifdef GL_FRAGMENT_SUBROUTINE_UNIFORM
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<program_interface>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_FRAGMENT_SUBROUTINE_UNIFORM
+		program_interface(GL_FRAGMENT_SUBROUTINE_UNIFORM)
 	) != r.end());
 }
 #endif
@@ -1532,10 +1530,10 @@ BOOST_AUTO_TEST_CASE(enum_program_interface_range)
 #ifdef GL_GEOMETRY_SUBROUTINE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<program_interface>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_GEOMETRY_SUBROUTINE
+		program_interface(GL_GEOMETRY_SUBROUTINE)
 	) != r.end());
 }
 #endif
@@ -1543,10 +1541,10 @@ BOOST_AUTO_TEST_CASE(enum_program_interface_range)
 #ifdef GL_GEOMETRY_SUBROUTINE_UNIFORM
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<program_interface>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_GEOMETRY_SUBROUTINE_UNIFORM
+		program_interface(GL_GEOMETRY_SUBROUTINE_UNIFORM)
 	) != r.end());
 }
 #endif
@@ -1554,10 +1552,10 @@ BOOST_AUTO_TEST_CASE(enum_program_interface_range)
 #ifdef GL_PROGRAM_INPUT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<program_interface>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_PROGRAM_INPUT
+		program_interface(GL_PROGRAM_INPUT)
 	) != r.end());
 }
 #endif
@@ -1565,10 +1563,10 @@ BOOST_AUTO_TEST_CASE(enum_program_interface_range)
 #ifdef GL_PROGRAM_OUTPUT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<program_interface>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_PROGRAM_OUTPUT
+		program_interface(GL_PROGRAM_OUTPUT)
 	) != r.end());
 }
 #endif
@@ -1576,10 +1574,10 @@ BOOST_AUTO_TEST_CASE(enum_program_interface_range)
 #ifdef GL_SHADER_STORAGE_BLOCK
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<program_interface>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_SHADER_STORAGE_BLOCK
+		program_interface(GL_SHADER_STORAGE_BLOCK)
 	) != r.end());
 }
 #endif
@@ -1587,10 +1585,10 @@ BOOST_AUTO_TEST_CASE(enum_program_interface_range)
 #ifdef GL_TESS_CONTROL_SUBROUTINE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<program_interface>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TESS_CONTROL_SUBROUTINE
+		program_interface(GL_TESS_CONTROL_SUBROUTINE)
 	) != r.end());
 }
 #endif
@@ -1598,10 +1596,10 @@ BOOST_AUTO_TEST_CASE(enum_program_interface_range)
 #ifdef GL_TESS_CONTROL_SUBROUTINE_UNIFORM
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<program_interface>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TESS_CONTROL_SUBROUTINE_UNIFORM
+		program_interface(GL_TESS_CONTROL_SUBROUTINE_UNIFORM)
 	) != r.end());
 }
 #endif
@@ -1609,10 +1607,10 @@ BOOST_AUTO_TEST_CASE(enum_program_interface_range)
 #ifdef GL_TESS_EVALUATION_SUBROUTINE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<program_interface>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TESS_EVALUATION_SUBROUTINE
+		program_interface(GL_TESS_EVALUATION_SUBROUTINE)
 	) != r.end());
 }
 #endif
@@ -1620,10 +1618,10 @@ BOOST_AUTO_TEST_CASE(enum_program_interface_range)
 #ifdef GL_TESS_EVALUATION_SUBROUTINE_UNIFORM
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<program_interface>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TESS_EVALUATION_SUBROUTINE_UNIFORM
+		program_interface(GL_TESS_EVALUATION_SUBROUTINE_UNIFORM)
 	) != r.end());
 }
 #endif
@@ -1631,10 +1629,10 @@ BOOST_AUTO_TEST_CASE(enum_program_interface_range)
 #ifdef GL_TRANSFORM_FEEDEBACK_VARYING
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<program_interface>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TRANSFORM_FEEDEBACK_VARYING
+		program_interface(GL_TRANSFORM_FEEDEBACK_VARYING)
 	) != r.end());
 }
 #endif
@@ -1642,10 +1640,10 @@ BOOST_AUTO_TEST_CASE(enum_program_interface_range)
 #ifdef GL_UNIFORM
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<program_interface>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_UNIFORM
+		program_interface(GL_UNIFORM)
 	) != r.end());
 }
 #endif
@@ -1653,10 +1651,10 @@ BOOST_AUTO_TEST_CASE(enum_program_interface_range)
 #ifdef GL_UNIFORM_BLOCK
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<program_interface>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_UNIFORM_BLOCK
+		program_interface(GL_UNIFORM_BLOCK)
 	) != r.end());
 }
 #endif
@@ -1664,10 +1662,10 @@ BOOST_AUTO_TEST_CASE(enum_program_interface_range)
 #ifdef GL_VERTEX_SUBROUTINE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<program_interface>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_VERTEX_SUBROUTINE
+		program_interface(GL_VERTEX_SUBROUTINE)
 	) != r.end());
 }
 #endif
@@ -1675,10 +1673,10 @@ BOOST_AUTO_TEST_CASE(enum_program_interface_range)
 #ifdef GL_VERTEX_SUBROUTINE_UNIFORM
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<program_interface>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_VERTEX_SUBROUTINE_UNIFORM
+		program_interface(GL_VERTEX_SUBROUTINE_UNIFORM)
 	) != r.end());
 }
 #endif

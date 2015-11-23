@@ -10,6 +10,7 @@
 #define EAGINE_OBJECT_OWNER_1509260923_HPP
 
 #include "name.hpp"
+#include "operations.hpp"
 #include "lifetime.hpp"
 
 namespace eagine {
@@ -17,6 +18,24 @@ namespace eagine {
 template <typename ObjTag, typename Storage>
 class owned<object_names<ObjTag, Storage>>
  : public object_names<ObjTag, Storage>
+{
+protected:
+	owned(std::size_t n)
+	 : object_names<ObjTag, Storage>(n)
+	{ }
+public:
+	owned(void) = default;
+
+	owned(const owned&) = delete;
+	owned& operator = (const owned&) = delete;
+
+	owned(owned&&) = default;
+	owned& operator = (owned&&) = default;
+};
+
+template <typename ObjTag>
+class owned<object_name_and_ops<ObjTag>>
+ : public object_name_and_ops<ObjTag>
 {
 public:
 	owned(void) = default;
@@ -30,17 +49,17 @@ public:
 
 template <typename ObjTag>
 class object_owner
- : public owned<object_name<ObjTag>>
+ : public owned<object_name_and_ops<ObjTag>>
 {
 public:
 	object_owner(void)
-	 : owned<object_name<ObjTag>>()
+	 : owned<object_name_and_ops<ObjTag>>()
 	{
 		obj_lifetime_ops<ObjTag>::gen_objects(*this);
 	}
 
-	object_owner(typename object_subtype<ObjTag>::type subtype)
-	 : owned<object_name<ObjTag>>()
+	object_owner(object_subtype_t<ObjTag> subtype)
+	 : owned<object_name_and_ops<ObjTag>>()
 	{
 		obj_lifetime_ops<ObjTag>::gen_objects(*this, subtype);
 	}

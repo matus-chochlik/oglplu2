@@ -36,9 +36,9 @@ struct cast
 {
 private:
 	template <std::size_t ... I>
-	using _idx_seq = integer_sequence<unsigned, I...>;
+	using _idx_seq = std::integer_sequence<unsigned, I...>;
 	template <std::size_t N>
-	using _make_idx_seq = make_integer_sequence<unsigned, N>;
+	using _make_idx_seq = std::make_integer_sequence<unsigned, N>;
 
 	template <unsigned ... I, unsigned ... D>
 	static constexpr inline

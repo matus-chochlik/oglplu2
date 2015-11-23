@@ -213,17 +213,15 @@ BOOST_AUTO_TEST_CASE(enum_path_color_format_nv_names)
 BOOST_AUTO_TEST_CASE(enum_path_color_format_nv_range)
 {
 	using namespace oglplus;
-	path_color_format_nv x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<path_color_format_nv>().size();
 
 #ifdef GL_ALPHA
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<path_color_format_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_ALPHA
+		path_color_format_nv(GL_ALPHA)
 	) != r.end());
 }
 #endif
@@ -231,10 +229,10 @@ BOOST_AUTO_TEST_CASE(enum_path_color_format_nv_range)
 #ifdef GL_INTENSITY
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<path_color_format_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_INTENSITY
+		path_color_format_nv(GL_INTENSITY)
 	) != r.end());
 }
 #endif
@@ -242,10 +240,10 @@ BOOST_AUTO_TEST_CASE(enum_path_color_format_nv_range)
 #ifdef GL_LUMINANCE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<path_color_format_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_LUMINANCE
+		path_color_format_nv(GL_LUMINANCE)
 	) != r.end());
 }
 #endif
@@ -253,10 +251,10 @@ BOOST_AUTO_TEST_CASE(enum_path_color_format_nv_range)
 #ifdef GL_LUMINANCE_ALPHA
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<path_color_format_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_LUMINANCE_ALPHA
+		path_color_format_nv(GL_LUMINANCE_ALPHA)
 	) != r.end());
 }
 #endif
@@ -264,10 +262,10 @@ BOOST_AUTO_TEST_CASE(enum_path_color_format_nv_range)
 #ifdef GL_RGB
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<path_color_format_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RGB
+		path_color_format_nv(GL_RGB)
 	) != r.end());
 }
 #endif
@@ -275,10 +273,10 @@ BOOST_AUTO_TEST_CASE(enum_path_color_format_nv_range)
 #ifdef GL_RGBA
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<path_color_format_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_RGBA
+		path_color_format_nv(GL_RGBA)
 	) != r.end());
 }
 #endif

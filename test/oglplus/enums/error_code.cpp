@@ -449,17 +449,15 @@ BOOST_AUTO_TEST_CASE(enum_error_code_names)
 BOOST_AUTO_TEST_CASE(enum_error_code_range)
 {
 	using namespace oglplus;
-	error_code x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<error_code>().size();
 
 #ifdef GL_CONTEXT_LOST
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_CONTEXT_LOST
+		error_code(GL_CONTEXT_LOST)
 	) != r.end());
 }
 #endif
@@ -467,10 +465,10 @@ BOOST_AUTO_TEST_CASE(enum_error_code_range)
 #ifdef GL_INVALID_ENUM
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_INVALID_ENUM
+		error_code(GL_INVALID_ENUM)
 	) != r.end());
 }
 #endif
@@ -478,10 +476,10 @@ BOOST_AUTO_TEST_CASE(enum_error_code_range)
 #ifdef GL_INVALID_FRAMEBUFFER_OPERATION
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_INVALID_FRAMEBUFFER_OPERATION
+		error_code(GL_INVALID_FRAMEBUFFER_OPERATION)
 	) != r.end());
 }
 #endif
@@ -489,10 +487,10 @@ BOOST_AUTO_TEST_CASE(enum_error_code_range)
 #ifdef GL_INVALID_OPERATION
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_INVALID_OPERATION
+		error_code(GL_INVALID_OPERATION)
 	) != r.end());
 }
 #endif
@@ -500,10 +498,10 @@ BOOST_AUTO_TEST_CASE(enum_error_code_range)
 #ifdef GL_INVALID_VALUE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_INVALID_VALUE
+		error_code(GL_INVALID_VALUE)
 	) != r.end());
 }
 #endif
@@ -511,10 +509,10 @@ BOOST_AUTO_TEST_CASE(enum_error_code_range)
 #ifdef GL_NO_ERROR
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_NO_ERROR
+		error_code(GL_NO_ERROR)
 	) != r.end());
 }
 #endif
@@ -522,10 +520,10 @@ BOOST_AUTO_TEST_CASE(enum_error_code_range)
 #ifdef GL_OUT_OF_MEMORY
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_OUT_OF_MEMORY
+		error_code(GL_OUT_OF_MEMORY)
 	) != r.end());
 }
 #endif
@@ -533,10 +531,10 @@ BOOST_AUTO_TEST_CASE(enum_error_code_range)
 #ifdef GL_STACK_OVERFLOW
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_STACK_OVERFLOW
+		error_code(GL_STACK_OVERFLOW)
 	) != r.end());
 }
 #endif
@@ -544,10 +542,10 @@ BOOST_AUTO_TEST_CASE(enum_error_code_range)
 #ifdef GL_STACK_UNDERFLOW
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_STACK_UNDERFLOW
+		error_code(GL_STACK_UNDERFLOW)
 	) != r.end());
 }
 #endif
@@ -555,10 +553,10 @@ BOOST_AUTO_TEST_CASE(enum_error_code_range)
 #ifdef GL_TABLE_TOO_LARGE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<error_code>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TABLE_TOO_LARGE
+		error_code(GL_TABLE_TOO_LARGE)
 	) != r.end());
 }
 #endif

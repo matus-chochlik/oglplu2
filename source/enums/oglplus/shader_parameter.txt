@@ -1,0 +1,9 @@
+# Copyright Matus Chochlik.
+# Distributed under the Boost Software License, Version 1.0.
+# See accompanying file LICENSE_1_0.txt or copy at
+#  http://www.boost.org/LICENSE_1_0.txt
+SHADER_TYPE
+DELETE_STATUS
+COMPILE_STATUS
+INFO_LOG_LENGTH
+SHADER_SOURCE_LENGTH

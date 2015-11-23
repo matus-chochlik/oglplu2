@@ -1,0 +1,15 @@
+# Copyright Matus Chochlik.
+# Distributed under the Boost Software License, Version 1.0.
+# See accompanying file LICENSE_1_0.txt or copy at
+#  http://www.boost.org/LICENSE_1_0.txt
+TEXTURE_WRAP_S
+TEXTURE_WRAP_T
+TEXTURE_WRAP_R
+TEXTURE_MIN_FILTER
+TEXTURE_MAG_FILTER
+TEXTURE_BORDER_COLOR
+TEXTURE_MIN_LOD
+TEXTURE_MAX_LOD
+TEXTURE_LOD_BIAS
+TEXTURE_COMPARE_MODE
+TEXTURE_COMPARE_FUNC

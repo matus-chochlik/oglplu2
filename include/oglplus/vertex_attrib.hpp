@@ -41,7 +41,8 @@ struct prog_var_loc_ops<tag::vertex_attrib>
 		);
 		OGLPLUS_VERIFY(
 			GetAttribLocation,
-			gl_object(prog), // TODO identifier
+			identifier(identifier).
+			gl_object(prog),
 			always
 		);
 

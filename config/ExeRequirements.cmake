@@ -1,6 +1,7 @@
-#  Copyright 2010-2014 Matus Chochlik. Distributed under the Boost
-#  Software License, Version 1.0. (See accompanying file
-#  LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+#  Copyright Matus Chochlik.
+#  Distributed under the Boost Software License, Version 1.0.
+#  See accompanying file LICENSE_1_0.txt or copy at
+#   http://www.boost.org/LICENSE_1_0.txt
 #
 # checks if an EXE can be built and adds required include directories
 macro(do_use_single_dependency DEPENDENCY)

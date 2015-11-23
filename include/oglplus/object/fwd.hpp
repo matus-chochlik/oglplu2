@@ -22,17 +22,35 @@ using eagine::object_subtype_t;
 using eagine::object_names;
 
 using eagine::object_name;
-using eagine::object_zero;
+using eagine::object_zero_name;
+
+using eagine::object_name_base_and_count_view;
+
+using eagine::object_zero_and_ops;
 
 using eagine::owned;
 
 using eagine::object_owner;
+
+using any_object_type = eagine::any_object_type<GLenum, 0>;
 
 using any_object_name =
 	eagine::any_object_name<GLuint, GLenum, ~GLuint(0), 0>;
 
 template <typename ObjTag>
 struct obj_gen_del_ops;
+
+template <typename ObjTag>
+struct get_obj_binding_point;
+
+template <typename ObjTag>
+using obj_binding_point = typename get_obj_binding_point<ObjTag>::type;
+
+template <typename ObjTag, typename Derived, typename Base>
+struct obj_member_ops;
+
+template <typename ObjTag>
+struct object_binding;
 
 } // namespace oglplus
 

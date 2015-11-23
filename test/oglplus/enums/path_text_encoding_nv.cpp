@@ -73,17 +73,15 @@ BOOST_AUTO_TEST_CASE(enum_path_text_encoding_nv_names)
 BOOST_AUTO_TEST_CASE(enum_path_text_encoding_nv_range)
 {
 	using namespace oglplus;
-	path_text_encoding_nv x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<path_text_encoding_nv>().size();
 
 #ifdef GL_UTF16_NV
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<path_text_encoding_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_UTF16_NV
+		path_text_encoding_nv(GL_UTF16_NV)
 	) != r.end());
 }
 #endif
@@ -91,10 +89,10 @@ BOOST_AUTO_TEST_CASE(enum_path_text_encoding_nv_range)
 #ifdef GL_UTF8_NV
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<path_text_encoding_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_UTF8_NV
+		path_text_encoding_nv(GL_UTF8_NV)
 	) != r.end());
 }
 #endif

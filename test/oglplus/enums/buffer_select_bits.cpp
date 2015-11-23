@@ -99,17 +99,15 @@ BOOST_AUTO_TEST_CASE(enum_buffer_select_bits_names)
 BOOST_AUTO_TEST_CASE(enum_buffer_select_bits_range)
 {
 	using namespace oglplus;
-	buffer_select_bits x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<buffer_select_bits>().size();
 
 #ifdef GL_COLOR_BUFFER_BIT
 {
 	--count;
-	array_view<const GLbitfield> r = enum_value_range(x);
+	auto r = enum_value_range<buffer_select_bits>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_COLOR_BUFFER_BIT
+		buffer_select_bits(GL_COLOR_BUFFER_BIT)
 	) != r.end());
 }
 #endif
@@ -117,10 +115,10 @@ BOOST_AUTO_TEST_CASE(enum_buffer_select_bits_range)
 #ifdef GL_DEPTH_BUFFER_BIT
 {
 	--count;
-	array_view<const GLbitfield> r = enum_value_range(x);
+	auto r = enum_value_range<buffer_select_bits>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DEPTH_BUFFER_BIT
+		buffer_select_bits(GL_DEPTH_BUFFER_BIT)
 	) != r.end());
 }
 #endif
@@ -128,10 +126,10 @@ BOOST_AUTO_TEST_CASE(enum_buffer_select_bits_range)
 #ifdef GL_STENCIL_BUFFER_BIT
 {
 	--count;
-	array_view<const GLbitfield> r = enum_value_range(x);
+	auto r = enum_value_range<buffer_select_bits>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_STENCIL_BUFFER_BIT
+		buffer_select_bits(GL_STENCIL_BUFFER_BIT)
 	) != r.end());
 }
 #endif

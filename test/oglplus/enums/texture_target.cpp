@@ -1093,17 +1093,15 @@ BOOST_AUTO_TEST_CASE(enum_texture_target_names)
 BOOST_AUTO_TEST_CASE(enum_texture_target_range)
 {
 	using namespace oglplus;
-	texture_target x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<texture_target>().size();
 
 #ifdef GL_TEXTURE_1D
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_target>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE_1D
+		texture_target(GL_TEXTURE_1D)
 	) != r.end());
 }
 #endif
@@ -1111,10 +1109,10 @@ BOOST_AUTO_TEST_CASE(enum_texture_target_range)
 #ifdef GL_TEXTURE_1D_ARRAY
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_target>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE_1D_ARRAY
+		texture_target(GL_TEXTURE_1D_ARRAY)
 	) != r.end());
 }
 #endif
@@ -1122,10 +1120,10 @@ BOOST_AUTO_TEST_CASE(enum_texture_target_range)
 #ifdef GL_TEXTURE_2D
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_target>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE_2D
+		texture_target(GL_TEXTURE_2D)
 	) != r.end());
 }
 #endif
@@ -1133,10 +1131,10 @@ BOOST_AUTO_TEST_CASE(enum_texture_target_range)
 #ifdef GL_TEXTURE_2D_ARRAY
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_target>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE_2D_ARRAY
+		texture_target(GL_TEXTURE_2D_ARRAY)
 	) != r.end());
 }
 #endif
@@ -1144,10 +1142,10 @@ BOOST_AUTO_TEST_CASE(enum_texture_target_range)
 #ifdef GL_TEXTURE_2D_MULTISAMPLE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_target>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE_2D_MULTISAMPLE
+		texture_target(GL_TEXTURE_2D_MULTISAMPLE)
 	) != r.end());
 }
 #endif
@@ -1155,10 +1153,10 @@ BOOST_AUTO_TEST_CASE(enum_texture_target_range)
 #ifdef GL_TEXTURE_2D_MULTISAMPLE_ARRAY
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_target>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE_2D_MULTISAMPLE_ARRAY
+		texture_target(GL_TEXTURE_2D_MULTISAMPLE_ARRAY)
 	) != r.end());
 }
 #endif
@@ -1166,10 +1164,10 @@ BOOST_AUTO_TEST_CASE(enum_texture_target_range)
 #ifdef GL_TEXTURE_3D
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_target>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE_3D
+		texture_target(GL_TEXTURE_3D)
 	) != r.end());
 }
 #endif
@@ -1177,10 +1175,10 @@ BOOST_AUTO_TEST_CASE(enum_texture_target_range)
 #ifdef GL_TEXTURE_BUFFER
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_target>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE_BUFFER
+		texture_target(GL_TEXTURE_BUFFER)
 	) != r.end());
 }
 #endif
@@ -1188,10 +1186,10 @@ BOOST_AUTO_TEST_CASE(enum_texture_target_range)
 #ifdef GL_TEXTURE_CUBE_MAP
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_target>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE_CUBE_MAP
+		texture_target(GL_TEXTURE_CUBE_MAP)
 	) != r.end());
 }
 #endif
@@ -1199,10 +1197,10 @@ BOOST_AUTO_TEST_CASE(enum_texture_target_range)
 #ifdef GL_TEXTURE_CUBE_MAP_ARRAY
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_target>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE_CUBE_MAP_ARRAY
+		texture_target(GL_TEXTURE_CUBE_MAP_ARRAY)
 	) != r.end());
 }
 #endif
@@ -1210,10 +1208,10 @@ BOOST_AUTO_TEST_CASE(enum_texture_target_range)
 #ifdef GL_TEXTURE_CUBE_MAP_NEGATIVE_X
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_target>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE_CUBE_MAP_NEGATIVE_X
+		texture_target(GL_TEXTURE_CUBE_MAP_NEGATIVE_X)
 	) != r.end());
 }
 #endif
@@ -1221,10 +1219,10 @@ BOOST_AUTO_TEST_CASE(enum_texture_target_range)
 #ifdef GL_TEXTURE_CUBE_MAP_NEGATIVE_Y
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_target>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE_CUBE_MAP_NEGATIVE_Y
+		texture_target(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y)
 	) != r.end());
 }
 #endif
@@ -1232,10 +1230,10 @@ BOOST_AUTO_TEST_CASE(enum_texture_target_range)
 #ifdef GL_TEXTURE_CUBE_MAP_NEGATIVE_Z
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_target>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE_CUBE_MAP_NEGATIVE_Z
+		texture_target(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z)
 	) != r.end());
 }
 #endif
@@ -1243,10 +1241,10 @@ BOOST_AUTO_TEST_CASE(enum_texture_target_range)
 #ifdef GL_TEXTURE_CUBE_MAP_POSITIVE_X
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_target>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE_CUBE_MAP_POSITIVE_X
+		texture_target(GL_TEXTURE_CUBE_MAP_POSITIVE_X)
 	) != r.end());
 }
 #endif
@@ -1254,10 +1252,10 @@ BOOST_AUTO_TEST_CASE(enum_texture_target_range)
 #ifdef GL_TEXTURE_CUBE_MAP_POSITIVE_Y
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_target>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE_CUBE_MAP_POSITIVE_Y
+		texture_target(GL_TEXTURE_CUBE_MAP_POSITIVE_Y)
 	) != r.end());
 }
 #endif
@@ -1265,10 +1263,10 @@ BOOST_AUTO_TEST_CASE(enum_texture_target_range)
 #ifdef GL_TEXTURE_CUBE_MAP_POSITIVE_Z
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_target>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE_CUBE_MAP_POSITIVE_Z
+		texture_target(GL_TEXTURE_CUBE_MAP_POSITIVE_Z)
 	) != r.end());
 }
 #endif
@@ -1276,10 +1274,10 @@ BOOST_AUTO_TEST_CASE(enum_texture_target_range)
 #ifdef GL_TEXTURE_RECTANGLE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_target>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE_RECTANGLE
+		texture_target(GL_TEXTURE_RECTANGLE)
 	) != r.end());
 }
 #endif

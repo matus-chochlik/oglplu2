@@ -1,0 +1,4 @@
+template <typename T>
+using @TYPE_TRAIT@_t =
+typename @TYPE_TRAIT@<T>::type;
+

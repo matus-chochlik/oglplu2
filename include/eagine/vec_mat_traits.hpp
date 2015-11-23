@@ -10,10 +10,10 @@
 #ifndef EAGINE_VEC_MAT_TRAITS_1509260923_HPP
 #define EAGINE_VEC_MAT_TRAITS_1509260923_HPP
 
-#include "array_view.hpp"
+#include "span.hpp"
 #include "identity.hpp"
 #include "nothing.hpp"
-#include <type_traits>
+#include "type_traits.hpp"
 
 namespace eagine {
 
@@ -42,19 +42,22 @@ struct canonical_compound_type
  : nothing_t
 { };
 
+template <typename T>
+using canonical_compound_type_t = typename canonical_compound_type<T>::type;
+
 template <typename C, typename CT>
 struct has_canonical_type
- : std::is_same<typename canonical_compound_type<C>::type, CT>
+ : std::is_same<canonical_compound_type_t<C>, CT>
 { };
 
 template <typename T, std::size_t N>
 struct canonical_compound_type<T[N]>
- : identity<typename std::remove_cv<T[N]>::type>
+ : identity<std::remove_cv_t<T[N]>>
 { };
 
 template <typename T, std::size_t C, std::size_t R>
 struct canonical_compound_type<T[C][R]>
- : identity<typename std::remove_cv<T[C][R]>::type>
+ : identity<std::remove_cv_t<T[C][R]>>
 { };
 
 template <typename C>
@@ -72,7 +75,7 @@ template <typename T, std::size_t N>
 struct compound_view_maker<T[N]>
 {
 	inline
-	array_view<T> operator()(T (&v)[N]) const
+	span<T> operator()(T (&v)[N]) const
 	noexcept
 	{
 		return {v, N};
@@ -91,7 +94,7 @@ template <typename T, std::size_t C, std::size_t R>
 struct compound_view_maker<T[C][R]>
 {
 	inline
-	array_view<T> operator()(T (&v)[C][R]) const
+	span<T> operator()(T (&v)[C][R]) const
 	noexcept
 	{
 		return {v[0], C*R};

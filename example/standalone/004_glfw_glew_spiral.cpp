@@ -8,11 +8,10 @@
  */
 #include <GL/glew.h>
 
-#include <oglplus/context.hpp>
-#include <oglplus/enum_values.hpp>
+#include <oglplus/operations.hpp>
+#include <oglplus/constants.hpp>
 #include <oglplus/glsl/string_ref.hpp>
 #include <oglplus/error/format.hpp>
-#include <oglplus/utils/make_view.hpp>
 
 #include <eagine/scope_exit.hpp>
 
@@ -22,8 +21,8 @@
 #include <stdexcept>
 #include <cmath>
 
-static oglplus::enum_values GL;
-static oglplus::context gl;
+static oglplus::constants GL;
+static oglplus::operations gl;
 
 static
 void handle_resize(int width, int height)
@@ -64,6 +63,7 @@ void run_loop(int width, int height)
 	"	vertColor2 = Color2;\n"
 	"}\n"
 	));
+	gl.compile_shader(vs);
 
 	shader fs(GL.fragment_shader);
 
@@ -88,19 +88,18 @@ void run_loop(int width, int height)
 	"	), 1);\n"
 	"}\n"
 	));
+	gl.compile_shader(fs);
 
-	gl.compile(fs);
+	program prog;
 
-	program p;
+	gl.attach_shader(prog, vs);
+	gl.attach_shader(prog, fs);
+	gl.link_program(prog);
+	gl.use_program(prog);
 
-	gl.attach_shader(p, vs);
-	gl.attach_shader(p, fs);
-	gl.link(p);
-	gl.use(p);
-
-	vertex_attrib<GLfloat[2]> coord(p, "Coord");
-	vertex_attrib<GLfloat> color1(p, "Color1");
-	vertex_attrib<GLfloat> color2(p, "Color2");
+	vertex_attrib<GLfloat[2]> coord(prog, "Coord");
+	vertex_attrib<GLfloat> color1(prog, "Color1");
+	vertex_attrib<GLfloat> color2(prog, "Color2");
 
 	gl.clear_color(0.7f, 0.7f, 0.6f, 0.0f);
 
@@ -131,24 +130,24 @@ void run_loop(int width, int height)
 		{
 			a = (s+0)*spart;
 
-			gl.vertex_attrib(coord, make_view({z, a}), false);
+			gl.vertex_attrib(coord, as_span({z, a}), false);
 			gl.vertex_attrib(color1, 0.2f, 0.1f, 0.1f, false);
 			gl.vertex_attrib(color2, 0.3f, 0.1f, 0.2f, false);
 			gl.vertex_f(0, 0);
 
-			gl.vertex_attrib(coord, make_view({o, a}), false);
+			gl.vertex_attrib(coord, as_span({o, a}), false);
 			gl.vertex_attrib(color1, 0.0f, 0.0f, 0.0f, false);
 			gl.vertex_attrib(color2, 0.9f, 0.3f, 0.4f, false);
 			gl.vertex_f(cos((s+0)*sstep), sin((s+0)*sstep));
 
 			a = (s+1)*spart;
 
-			gl.vertex_attrib(coord, make_view({z, a}), false);
+			gl.vertex_attrib(coord, as_span({z, a}), false);
 			gl.vertex_attrib(color1, 0.2f, 0.1f, 0.1f, false);
 			gl.vertex_attrib(color2, 0.3f, 0.1f, 0.2f, false);
 			gl.vertex_f(0, 0);
 
-			gl.vertex_attrib(coord, make_view({o, a}), false);
+			gl.vertex_attrib(coord, as_span({o, a}), false);
 			gl.vertex_attrib(color1, 0.0f, 0.0f, 0.0f, false);
 			gl.vertex_attrib(color2, 0.9f, 0.3f, 0.4f, false);
 			gl.vertex_f(cos((s+1)*sstep), sin((s+1)*sstep));
@@ -163,7 +162,7 @@ void run_loop(int width, int height)
 		gl.begin(GL.line_loop);
 		for(int s=0; s<nseg; ++s)
 		{
-			gl.vertex_attrib(coord, make_view({o, s*spart}), false);
+			gl.vertex_attrib(coord, as_span({o, s*spart}), false);
 			gl.vertex_f(cos(s*sstep), sin(s*sstep));
 		}
 		gl.end();
@@ -241,7 +240,7 @@ int main(void)
 			gle,
 			"OpenGL error\n"
 			"in GL function: %(gl_function_name)\n"
-			"with enum parameter: %(enum_value)\n"
+			"with enum parameter: %(gl_enum_value)\n"
 			"from source file: %(source_file)\n"
 			"%(message)",
 			std::cerr

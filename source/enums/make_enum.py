@@ -37,6 +37,18 @@ def print_cpp_header(options):
 def print_scr_header(options):
 	print_header(options, "#")
 
+def print_incl_guard(options, name):
+	print_line(options, "#ifndef %s_%s_%s" % (
+		options.library_uc,
+		options.base_lib_prefix,
+		name
+	))
+	print_line(options, "#define %s_%s_%s" % (
+		options.library_uc,
+		options.base_lib_prefix,
+		name
+	))
+
 def update_input_options(options, input_path):
 
 	options.rel_input = os.path.relpath(input_path, options.root_dir)
@@ -45,13 +57,15 @@ def update_input_options(options, input_path):
 
 
 	options.enum_name = None
-	options.enum_type = "enum"
+	options.enum_type = "%senum" % options.base_lib_prefix
 
 	with open(input_path, "r") as f:
 		for line in f:
 			line = line.strip()
-			if line.startswith("#@"):
-				options.enum_type = line[2:-1]
+			if line.startswith("#@!"):
+				options.enum_type = line[3:-1]
+			elif line.startswith("#@"):
+				options.enum_type = "%s%s" % (options.base_lib_prefix, line[2:-1])
 			elif line.startswith("#") and line.endswith("#"):
 				options.enum_name = line[1:-1]
 
@@ -71,7 +85,8 @@ def src_name_to_dst_name(src_name):
 
 	keywords = [
 		'void','bool','byte','short','int','unsigned','float','double',
-		'not','and','or','xor', 'true', 'false'
+		'not','and','or','xor', 'true', 'false',
+		"static"
 	]
 
 	for keyword in keywords:
@@ -111,6 +126,9 @@ def parse_source(options, input_path = None):
 				else:
 					av["comma_doc"] = str()
 
+				if not av.get("bind_query"):
+					av["bind_query"] = None
+
 				av["enum_class"] = options.enum_name
 				av["enum_type"] = options.enum_type
 
@@ -121,6 +139,46 @@ def parse_source(options, input_path = None):
 def action_info(options):
 	print("Inputs: %s" % options.inputs)
 	print("Output: %s" % options.output)
+
+def action_binding_queries_mk(options):
+
+	out_dir = os.path.join(options.root_dir,"implement",options.library,"enum")
+
+	inputs_with_bq = list()
+
+	for input_path in sorted(options.inputs, key=lambda x: os.path.basename(x)):
+		update_input_options(options, input_path)
+		for value_info in parse_source(options, input_path):
+			if value_info.bind_query is not None:
+				inputs_with_bq.append(input_path)
+				break
+	outputs_with_bq = dict()
+
+	for input_with_bq in inputs_with_bq:
+		outputs_with_bq[
+			os.path.relpath(
+				os.path.join(
+					out_dir,
+					"%s_bq.inl" %
+					os.path.splitext(
+						os.path.basename(input_with_bq)
+					)[0]
+				)
+			)
+		] = os.path.relpath(input_with_bq, options.work_dir)
+
+	if len(outputs_with_bq) > 0:
+		print_line(options, "_impl_enum_bq_inl:\\\n\t%s" % (
+			' \\\n\t'.join(outputs_with_bq)
+		))
+		print_newline(options)
+
+		for output_with_bq, input_with_bq in outputs_with_bq.iteritems():
+			print_line(options, "%s: %s" % (output_with_bq, input_with_bq))
+			print_newline(options)
+	else:
+		print_line(options, "_impl_enum_bq_inl:")
+
 
 def action_incl_enum_types_hpp(options):
 
@@ -140,19 +198,18 @@ def action_incl_enum_types_hpp(options):
 		typ_id = typ_id+1
 
 	print_cpp_header(options)
-	print_line(options, "#ifndef %s_ENUM_TYPES_HPP" % options.library_uc)
-	print_line(options, "#define %s_ENUM_TYPES_HPP" % options.library_uc)
+	print_incl_guard(options, "ENUM_TYPES_HPP")
 	print_newline(options)
-	print_line(options, '#include "utils/enum_class.hpp"')
+	print_line(options, '#include "../utils/enum_class.hpp"')
 	print_newline(options)
 	print_line(options, "namespace %s {" % options.library)
 	print_newline(options)
 
 	for enum_class, enum_info in sorted(enum_classes.items()):
 		print_line(options, "struct %s" % enum_class)
-		print_line(options, " : enum_class<%s, %s%s, %d>" % (
+		print_line(options, " : enum_class%s<%s, %s, %d>" % (
+			options.lib_suffix,
 			enum_class,
-			options.base_lib_prefix,
 			enum_info.enum_type,
 			enum_info.typ_id
 		))
@@ -185,14 +242,13 @@ def action_incl_enum_values_hpp(options):
 			enum_map[value_info.dst_name].classes.add(options.enum_name)
 
 	print_cpp_header(options)
-	print_line(options, "#ifndef %s_ENUM_VALUES_HPP" % options.library_uc)
-	print_line(options, "#define %s_ENUM_VALUES_HPP" % options.library_uc)
+	print_incl_guard(options, "ENUM_VALUES_HPP")
 	print_newline(options)
-	print_line(options, '#include "enum_types.hpp"')
-	print_line(options, '#include "utils/mp_list.hpp"')
+	print_line(options, '#include "types%s.hpp"' % options.lib_suffix)
+	print_line(options, '#include "../utils/mp_list.hpp"')
 	print_newline(options)
 	print_line(options, "namespace %s {" % options.library)
-	print_line(options, "struct enum_values {")
+	print_line(options, "struct enum_values%s {" % options.lib_suffix)
 	print_newline(options)
 
 	for value_name, value_info in sorted(enum_map.items()):
@@ -201,15 +257,14 @@ def action_incl_enum_values_hpp(options):
 			value_info.info.src_name
 		))
 		print_line(options, "static constexpr const enum_value<")
-		print_line(options, "	%s%s," % (
-			options.base_lib_prefix,
-			value_info.info.enum_type
-		))
+		print_line(options, "	%s," % value_info.info.enum_type)
 		print_line(options, "	%s_%s," % (
 			options.base_lib_prefix,
 			value_info.info.src_name
 		))
-		print_line(options, "	mp_list<%s>" % ",".join(value_info.classes))
+		print_line(options, "	mp_list<%s>" % (
+			",".join(["%s::%s" % (options.library, x) for x in value_info.classes])
+		))
 		print_line(options, "> %s = {};" % value_name);
 		print_line(options, "#endif")
 		print_newline(options)
@@ -219,6 +274,53 @@ def action_incl_enum_values_hpp(options):
 	print_line(options, "} // namespace %s" % options.library)
 	print_newline(options)
 	print_line(options, "#endif // include guard")
+
+
+def action_impl_enum_value_defs_inl(options):
+
+	enum_map = dict()
+
+	for input_path in options.inputs:
+		update_input_options(options, input_path)
+
+		for value_info in parse_source(options, input_path):
+			try: enum_map[value_info.dst_name]
+			except KeyError:
+				enum_map[value_info.dst_name] = type(
+					"EnumMapItem",
+					(object,), {
+						"info": value_info,
+						"classes": set()
+					}
+				)
+
+			enum_map[value_info.dst_name].classes.add(options.enum_name)
+
+	print_cpp_header(options)
+	print_newline(options)
+	print_line(options, "namespace %s {" % options.library)
+	print_newline(options)
+
+	for value_name, value_info in sorted(enum_map.items()):
+		print_line(options, "#ifdef %s_%s" % (
+			options.base_lib_prefix,
+			value_info.info.src_name
+		))
+		print_line(options, "const enum_value<")
+		print_line(options, "	%s," % value_info.info.enum_type)
+		print_line(options, "	%s_%s," % (
+			options.base_lib_prefix,
+			value_info.info.src_name
+		))
+		print_line(options, "	mp_list<%s>" % (
+			",".join(["%s::%s" % (options.library, x) for x in value_info.classes])
+		))
+		print_line(options, "> enum_values::%s;" % value_name);
+		print_line(options, "#endif")
+		print_newline(options)
+
+
+	print_line(options, "} // namespace %s" % options.library)
 
 
 def action_impl_enum_value_names_inl(options):
@@ -252,7 +354,9 @@ def action_impl_enum_value_names_inl(options):
 	print_newline(options)
 	print_line(options, "%s_LIB_FUNC" % options.library_uc)
 	print_line(options, "cstr_ref")
-	print_line(options, "get_enum_value_name(const any_enum_value& aev)")
+	print_line(options, "get_enum_value_name(const any_enum_value%s& aev)" %
+		options.lib_suffix
+	)
 	print_line(options, "noexcept")
 	print_line(options, "{")
 
@@ -261,7 +365,7 @@ def action_impl_enum_value_names_inl(options):
 			options.base_lib_prefix,
 			enum_value_name
 		))
-		print_line(options, '\tstatic const char s_%s[%d] = \n\t\t"%s";' % (
+		print_line(options, '\tstatic const char s_%s[%d] =\n\t\t"%s";' % (
 			enum_value_name,
 			len(enum_value_name)+1,
 			enum_value_name
@@ -279,10 +383,7 @@ def action_impl_enum_value_names_inl(options):
 			enum_class
 		))
 
-		print_line(options, "\t\t\tswitch(%s%s(aev._value))" % (
-			options.base_lib_prefix,
-			enum_class_info.enum_type
-		))
+		print_line(options, "\t\t\tswitch(%s(aev._value))" % enum_class_info.enum_type)
 		print_line(options, "\t\t\t{")
 		for enum_value in sorted(enum_class_info.values, key=lambda x: x.src_name):
 			print_line(options, "#ifdef %s_%s" % (
@@ -344,7 +445,9 @@ def action_impl_enum_value_range_inl(options):
 	print_newline(options)
 	print_line(options, "%s_LIB_FUNC" % options.library_uc)
 	print_line(options, "std::pair<const void*, std::size_t>")
-	print_line(options, "get_enum_value_range(const any_enum_class& aec)")
+	print_line(options, "get_enum_value_range(const any_enum_class%s& aec)" %
+		options.lib_suffix
+	)
 	print_line(options, "noexcept")
 	print_line(options, "{")
 
@@ -358,10 +461,7 @@ def action_impl_enum_value_range_inl(options):
 		))
 		print_line(options, "\t\t{")
 
-		print_line(options, "\t\t\tstatic const %s%s vr[] = {" % (
-			options.base_lib_prefix,
-			enum_class_info.enum_type
-		))
+		print_line(options, "\t\t\tstatic const %s vr[] = {" % enum_class_info.enum_type)
 
 		for enum_value in sorted(enum_class_info.values, key=lambda x: x.src_name):
 			print_line(options, "#ifdef %s_%s" % (
@@ -390,6 +490,59 @@ def action_impl_enum_value_range_inl(options):
 	print_line(options, "} // namespace %s" % options.library)
 
 
+def action_impl_enum_bq_inl(options):
+
+	value_infos = dict()
+
+	input_path = options.inputs[0]
+
+	update_input_options(options, input_path)
+
+	for value_info in parse_source(options, input_path):
+		value_infos[value_info.dst_name] = value_info
+
+	print_cpp_header(options)
+	print_line(options, "namespace %s {" % options.library)
+	print_newline(options)
+	print_line(options, "%s_LIB_FUNC" % options.library_uc)
+	print_line(options, "binding_query")
+	print_line(options, "get_binding_query(%s tgt)" % options.enum_name)
+	print_line(options, "noexcept")
+	print_line(options, "{")
+
+	print_line(options, "	%s result = 0;" % options.enum_type)
+	print_line(options, "	switch(%s(tgt))" % options.enum_type)
+	print_line(options, "	{")
+	for value_name, value_info in sorted(value_infos.items()):
+		if value_info.bind_query is not None:
+			print_line(options, "#if	defined(%s_%s) && \\" % (
+				options.base_lib_prefix,
+				value_info.src_name
+			))
+			print_line(options, "	defined(%s_%s)" % (
+				options.base_lib_prefix,
+				value_info.bind_query
+			))
+			print_line(options, "		case %s_%s:" % (
+				options.base_lib_prefix,
+				value_info.src_name
+			))
+			print_line(options, "			result = %s_%s;" % (
+				options.base_lib_prefix,
+				value_info.bind_query
+			))
+			print_line(options, "			break;")
+			print_line(options, "#endif")
+
+	print_line(options, "		default:;")
+	print_line(options, "	}")
+
+	print_line(options, "	return binding_query(result);")
+	print_line(options, "}")
+	print_newline(options)
+	print_line(options, "} // namespace %s" % options.library)
+
+
 def action_test_enums_cpp(options):
 
 	value_infos = dict()
@@ -410,7 +563,7 @@ def action_test_enums_cpp(options):
 	))
 	print_newline(options)
 	print_line(options, "#include <boost/test/unit_test.hpp>")
-	print_line(options, '#include "common.hpp"')
+	print_line(options, '#include "common%s.hpp"' % options.lib_suffix)
 	print_line(options, '#include <cstring>')
 	print_newline(options)
 	print_line(options, "BOOST_AUTO_TEST_SUITE(enum_%s)" % options.enum_name)
@@ -418,7 +571,7 @@ def action_test_enums_cpp(options):
 	print_line(options, "BOOST_AUTO_TEST_CASE(enum_%s_values)" % options.enum_name)
 	print_line(options, "{")
 	print_line(options, "	using namespace %s;" % options.library)
-	print_line(options, "	enum_values ev;")
+	print_line(options, "	enum_values%s ev;" % options.lib_suffix)
 	print_line(options, "	(void)ev;")
 	print_line(options, "	%s x;" % options.enum_name)
 	print_line(options, "	(void)x;")
@@ -455,7 +608,7 @@ def action_test_enums_cpp(options):
 	print_line(options, "BOOST_AUTO_TEST_CASE(enum_%s_names)" % options.enum_name)
 	print_line(options, "{")
 	print_line(options, "	using namespace %s;" % options.library)
-	print_line(options, "	enum_values ev;")
+	print_line(options, "	enum_values%s ev;" % options.lib_suffix)
 	print_line(options, "	(void)ev;")
 	print_line(options, "	%s x;" % options.enum_name)
 	print_line(options, "	(void)x;")
@@ -481,9 +634,9 @@ def action_test_enums_cpp(options):
 	print_line(options, "BOOST_AUTO_TEST_CASE(enum_%s_range)" % options.enum_name)
 	print_line(options, "{")
 	print_line(options, "	using namespace %s;" % options.library)
-	print_line(options, "	%s x;" % options.enum_name)
-	print_line(options, "	(void)x;")
-	print_line(options, "	auto count = enum_value_range(x).size();");
+	print_line(options, "	auto count = enum_value_range<%s>().size();" % (
+		options.enum_name
+	));
 
 	for value_name, value_info in sorted(value_infos.items()):
 		print_newline(options)
@@ -493,13 +646,13 @@ def action_test_enums_cpp(options):
 		))
 		print_line(options, "{");
 		print_line(options, "	--count;")
-		print_line(options, "	array_view<const %s%s> r = enum_value_range(x);" % (
-			options.base_lib_prefix,
-			value_info.enum_type
+		print_line(options, "	auto r = enum_value_range<%s>();" % (
+			options.enum_name
 		))
 		print_line(options, "	BOOST_CHECK(std::find(")
 		print_line(options, "		r.begin(), r.end(),")
-		print_line(options, "		%s_%s" % (
+		print_line(options, "		%s(%s_%s)" % (
+			options.enum_name,
 			options.base_lib_prefix,
 			value_info.src_name
 		))
@@ -515,12 +668,12 @@ def action_test_enums_cpp(options):
 	print_line(options, "BOOST_AUTO_TEST_CASE(enum_%s_any)" % options.enum_name)
 	print_line(options, "{")
 	print_line(options, "	using namespace %s;" % options.library)
-	print_line(options, "	enum_values ev;")
+	print_line(options, "	enum_values%s ev;" % options.lib_suffix)
 	print_line(options, "	(void)ev;")
 	print_line(options, "	%s x, y;" % options.enum_name)
 	print_line(options, "	(void)x;")
 	print_line(options, "	(void)y;")
-	print_line(options, "	any_enum_value a;")
+	print_line(options, "	any_enum_value%s a;" % options.lib_suffix)
 	print_line(options, "	(void)a;")
 
 
@@ -547,10 +700,13 @@ def action_test_enums_cpp(options):
 
 
 actions = {
+	"binding_queries_mk": action_binding_queries_mk,
 	"incl_enum_types_hpp": action_incl_enum_types_hpp,
 	"incl_enum_values_hpp": action_incl_enum_values_hpp,
+	"impl_enum_value_defs_inl": action_impl_enum_value_defs_inl,
 	"impl_enum_value_names_inl": action_impl_enum_value_names_inl,
 	"impl_enum_value_range_inl": action_impl_enum_value_range_inl,
+	"impl_enum_bq_inl": action_impl_enum_bq_inl,
 	"test_enums_cpp": action_test_enums_cpp,
 	"info":    action_info,
 }
@@ -601,6 +757,13 @@ def get_argument_parser():
 	)
 
 	argparser.add_argument(
+		"--lib-suffix",
+		default=str(),
+		action="store",
+		help=""" The library suffix. """
+	)
+
+	argparser.add_argument(
 		"inputs",
 		metavar="FILE",
 		type=os.path.abspath,
@@ -646,6 +809,7 @@ def get_options():
 
 	options.root_dir = os.path.abspath(options.root_dir)
 	options.rel_self = os.path.relpath(sys.argv[0], options.root_dir)
+	options.enum_dir = os.path.abspath(os.path.dirname(sys.argv[0]))
 
 	options.inputs += options.input
 	options.input = None
@@ -661,6 +825,8 @@ def get_options():
 
 	if options.library:
 		options.library_uc = options.library.upper()
+
+	options.work_dir = os.path.join(options.enum_dir, "%s%s" % (options.library, options.lib_suffix))
 
 	return options
 

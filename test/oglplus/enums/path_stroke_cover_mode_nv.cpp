@@ -131,17 +131,15 @@ BOOST_AUTO_TEST_CASE(enum_path_stroke_cover_mode_nv_names)
 BOOST_AUTO_TEST_CASE(enum_path_stroke_cover_mode_nv_range)
 {
 	using namespace oglplus;
-	path_stroke_cover_mode_nv x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<path_stroke_cover_mode_nv>().size();
 
 #ifdef GL_BOUNDING_BOX_NV
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<path_stroke_cover_mode_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_BOUNDING_BOX_NV
+		path_stroke_cover_mode_nv(GL_BOUNDING_BOX_NV)
 	) != r.end());
 }
 #endif
@@ -149,10 +147,10 @@ BOOST_AUTO_TEST_CASE(enum_path_stroke_cover_mode_nv_range)
 #ifdef GL_BOUNDING_BOX_OF_BOUNDING_BOXES_NV
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<path_stroke_cover_mode_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_BOUNDING_BOX_OF_BOUNDING_BOXES_NV
+		path_stroke_cover_mode_nv(GL_BOUNDING_BOX_OF_BOUNDING_BOXES_NV)
 	) != r.end());
 }
 #endif
@@ -160,10 +158,10 @@ BOOST_AUTO_TEST_CASE(enum_path_stroke_cover_mode_nv_range)
 #ifdef GL_CONVEX_HULL_NV
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<path_stroke_cover_mode_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_CONVEX_HULL_NV
+		path_stroke_cover_mode_nv(GL_CONVEX_HULL_NV)
 	) != r.end());
 }
 #endif
@@ -171,10 +169,10 @@ BOOST_AUTO_TEST_CASE(enum_path_stroke_cover_mode_nv_range)
 #ifdef GL_PATH_STROKE_COVER_MODE_NV
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<path_stroke_cover_mode_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_PATH_STROKE_COVER_MODE_NV
+		path_stroke_cover_mode_nv(GL_PATH_STROKE_COVER_MODE_NV)
 	) != r.end());
 }
 #endif

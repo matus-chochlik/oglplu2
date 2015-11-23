@@ -36881,17 +36881,15 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_names)
 BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 {
 	using namespace oglplus;
-	limit_query x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<limit_query>().size();
 
 #ifdef GL_MAX_3D_TEXTURE_SIZE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_3D_TEXTURE_SIZE
+		limit_query(GL_MAX_3D_TEXTURE_SIZE)
 	) != r.end());
 }
 #endif
@@ -36899,10 +36897,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_ARRAY_TEXTURE_LAYERS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_ARRAY_TEXTURE_LAYERS
+		limit_query(GL_MAX_ARRAY_TEXTURE_LAYERS)
 	) != r.end());
 }
 #endif
@@ -36910,10 +36908,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_ATOMIC_COUNTER_BUFFER_BINDINGS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_ATOMIC_COUNTER_BUFFER_BINDINGS
+		limit_query(GL_MAX_ATOMIC_COUNTER_BUFFER_BINDINGS)
 	) != r.end());
 }
 #endif
@@ -36921,10 +36919,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_ATOMIC_COUNTER_BUFFER_SIZE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_ATOMIC_COUNTER_BUFFER_SIZE
+		limit_query(GL_MAX_ATOMIC_COUNTER_BUFFER_SIZE)
 	) != r.end());
 }
 #endif
@@ -36932,10 +36930,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_CLIP_DISTANCES
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_CLIP_DISTANCES
+		limit_query(GL_MAX_CLIP_DISTANCES)
 	) != r.end());
 }
 #endif
@@ -36943,10 +36941,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_COLOR_ATTACHMENTS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_COLOR_ATTACHMENTS
+		limit_query(GL_MAX_COLOR_ATTACHMENTS)
 	) != r.end());
 }
 #endif
@@ -36954,10 +36952,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_COLOR_TEXTURE_SAMPLES
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_COLOR_TEXTURE_SAMPLES
+		limit_query(GL_MAX_COLOR_TEXTURE_SAMPLES)
 	) != r.end());
 }
 #endif
@@ -36965,10 +36963,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_COMBINED_ATOMIC_COUNTER_BUFFERS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_COMBINED_ATOMIC_COUNTER_BUFFERS
+		limit_query(GL_MAX_COMBINED_ATOMIC_COUNTER_BUFFERS)
 	) != r.end());
 }
 #endif
@@ -36976,10 +36974,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_COMBINED_ATOMIC_COUNTERS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_COMBINED_ATOMIC_COUNTERS
+		limit_query(GL_MAX_COMBINED_ATOMIC_COUNTERS)
 	) != r.end());
 }
 #endif
@@ -36987,10 +36985,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_COMBINED_CLIP_AND_CULL_DISTANCES
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_COMBINED_CLIP_AND_CULL_DISTANCES
+		limit_query(GL_MAX_COMBINED_CLIP_AND_CULL_DISTANCES)
 	) != r.end());
 }
 #endif
@@ -36998,10 +36996,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_COMBINED_FRAGMENT_UNIFORM_COMPONENTS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_COMBINED_FRAGMENT_UNIFORM_COMPONENTS
+		limit_query(GL_MAX_COMBINED_FRAGMENT_UNIFORM_COMPONENTS)
 	) != r.end());
 }
 #endif
@@ -37009,10 +37007,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_COMBINED_GEOMETRY_UNIFORM_COMPONENTS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_COMBINED_GEOMETRY_UNIFORM_COMPONENTS
+		limit_query(GL_MAX_COMBINED_GEOMETRY_UNIFORM_COMPONENTS)
 	) != r.end());
 }
 #endif
@@ -37020,10 +37018,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_COMBINED_IMAGE_UNIFORMS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_COMBINED_IMAGE_UNIFORMS
+		limit_query(GL_MAX_COMBINED_IMAGE_UNIFORMS)
 	) != r.end());
 }
 #endif
@@ -37031,10 +37029,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_COMBINED_IMAGE_UNITS_AND_FRAGMENT_OUTPUTS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_COMBINED_IMAGE_UNITS_AND_FRAGMENT_OUTPUTS
+		limit_query(GL_MAX_COMBINED_IMAGE_UNITS_AND_FRAGMENT_OUTPUTS)
 	) != r.end());
 }
 #endif
@@ -37042,10 +37040,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_COMBINED_TESS_CONTROL_UNIFORM_COMPONENTS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_COMBINED_TESS_CONTROL_UNIFORM_COMPONENTS
+		limit_query(GL_MAX_COMBINED_TESS_CONTROL_UNIFORM_COMPONENTS)
 	) != r.end());
 }
 #endif
@@ -37053,10 +37051,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_COMBINED_TESS_EVALUATION_UNIFORM_COMPONENTS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_COMBINED_TESS_EVALUATION_UNIFORM_COMPONENTS
+		limit_query(GL_MAX_COMBINED_TESS_EVALUATION_UNIFORM_COMPONENTS)
 	) != r.end());
 }
 #endif
@@ -37064,10 +37062,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS
+		limit_query(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS)
 	) != r.end());
 }
 #endif
@@ -37075,10 +37073,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_COMBINED_UNIFORM_BLOCKS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_COMBINED_UNIFORM_BLOCKS
+		limit_query(GL_MAX_COMBINED_UNIFORM_BLOCKS)
 	) != r.end());
 }
 #endif
@@ -37086,10 +37084,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_COMBINED_VERTEX_UNIFORM_COMPONENTS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_COMBINED_VERTEX_UNIFORM_COMPONENTS
+		limit_query(GL_MAX_COMBINED_VERTEX_UNIFORM_COMPONENTS)
 	) != r.end());
 }
 #endif
@@ -37097,10 +37095,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_COMPUTE_SHARED_MEMORY_SIZE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_COMPUTE_SHARED_MEMORY_SIZE
+		limit_query(GL_MAX_COMPUTE_SHARED_MEMORY_SIZE)
 	) != r.end());
 }
 #endif
@@ -37108,10 +37106,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_COMPUTE_WORK_GROUP_COUNT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_COMPUTE_WORK_GROUP_COUNT
+		limit_query(GL_MAX_COMPUTE_WORK_GROUP_COUNT)
 	) != r.end());
 }
 #endif
@@ -37119,10 +37117,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_COMPUTE_WORK_GROUP_INVOCATIONS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_COMPUTE_WORK_GROUP_INVOCATIONS
+		limit_query(GL_MAX_COMPUTE_WORK_GROUP_INVOCATIONS)
 	) != r.end());
 }
 #endif
@@ -37130,10 +37128,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_COMPUTE_WORK_GROUP_SIZE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_COMPUTE_WORK_GROUP_SIZE
+		limit_query(GL_MAX_COMPUTE_WORK_GROUP_SIZE)
 	) != r.end());
 }
 #endif
@@ -37141,10 +37139,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_CUBE_MAP_TEXTURE_SIZE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_CUBE_MAP_TEXTURE_SIZE
+		limit_query(GL_MAX_CUBE_MAP_TEXTURE_SIZE)
 	) != r.end());
 }
 #endif
@@ -37152,10 +37150,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_CULL_DISTANCES
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_CULL_DISTANCES
+		limit_query(GL_MAX_CULL_DISTANCES)
 	) != r.end());
 }
 #endif
@@ -37163,10 +37161,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_DEPTH_TEXTURE_SAMPLES
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_DEPTH_TEXTURE_SAMPLES
+		limit_query(GL_MAX_DEPTH_TEXTURE_SAMPLES)
 	) != r.end());
 }
 #endif
@@ -37174,10 +37172,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_DRAW_BUFFERS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_DRAW_BUFFERS
+		limit_query(GL_MAX_DRAW_BUFFERS)
 	) != r.end());
 }
 #endif
@@ -37185,10 +37183,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_DUAL_SOURCE_DRAW_BUFFERS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_DUAL_SOURCE_DRAW_BUFFERS
+		limit_query(GL_MAX_DUAL_SOURCE_DRAW_BUFFERS)
 	) != r.end());
 }
 #endif
@@ -37196,10 +37194,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_ELEMENTS_INDICES
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_ELEMENTS_INDICES
+		limit_query(GL_MAX_ELEMENTS_INDICES)
 	) != r.end());
 }
 #endif
@@ -37207,10 +37205,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_ELEMENTS_VERTICES
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_ELEMENTS_VERTICES
+		limit_query(GL_MAX_ELEMENTS_VERTICES)
 	) != r.end());
 }
 #endif
@@ -37218,10 +37216,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_FRAGMENT_ATOMIC_COUNTER_BUFFERS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_FRAGMENT_ATOMIC_COUNTER_BUFFERS
+		limit_query(GL_MAX_FRAGMENT_ATOMIC_COUNTER_BUFFERS)
 	) != r.end());
 }
 #endif
@@ -37229,10 +37227,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_FRAGMENT_ATOMIC_COUNTERS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_FRAGMENT_ATOMIC_COUNTERS
+		limit_query(GL_MAX_FRAGMENT_ATOMIC_COUNTERS)
 	) != r.end());
 }
 #endif
@@ -37240,10 +37238,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_FRAGMENT_IMAGE_UNIFORMS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_FRAGMENT_IMAGE_UNIFORMS
+		limit_query(GL_MAX_FRAGMENT_IMAGE_UNIFORMS)
 	) != r.end());
 }
 #endif
@@ -37251,10 +37249,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_FRAGMENT_INPUT_COMPONENTS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_FRAGMENT_INPUT_COMPONENTS
+		limit_query(GL_MAX_FRAGMENT_INPUT_COMPONENTS)
 	) != r.end());
 }
 #endif
@@ -37262,10 +37260,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_FRAGMENT_INTERPOLATION_OFFSET
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_FRAGMENT_INTERPOLATION_OFFSET
+		limit_query(GL_MAX_FRAGMENT_INTERPOLATION_OFFSET)
 	) != r.end());
 }
 #endif
@@ -37273,10 +37271,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_FRAGMENT_UNIFORM_BLOCKS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_FRAGMENT_UNIFORM_BLOCKS
+		limit_query(GL_MAX_FRAGMENT_UNIFORM_BLOCKS)
 	) != r.end());
 }
 #endif
@@ -37284,10 +37282,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_FRAGMENT_UNIFORM_COMPONENTS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_FRAGMENT_UNIFORM_COMPONENTS
+		limit_query(GL_MAX_FRAGMENT_UNIFORM_COMPONENTS)
 	) != r.end());
 }
 #endif
@@ -37295,10 +37293,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_FRAGMENT_UNIFORM_VECTORS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_FRAGMENT_UNIFORM_VECTORS
+		limit_query(GL_MAX_FRAGMENT_UNIFORM_VECTORS)
 	) != r.end());
 }
 #endif
@@ -37306,10 +37304,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_GEOMETRY_ATOMIC_COUNTER_BUFFERS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_GEOMETRY_ATOMIC_COUNTER_BUFFERS
+		limit_query(GL_MAX_GEOMETRY_ATOMIC_COUNTER_BUFFERS)
 	) != r.end());
 }
 #endif
@@ -37317,10 +37315,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_GEOMETRY_ATOMIC_COUNTERS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_GEOMETRY_ATOMIC_COUNTERS
+		limit_query(GL_MAX_GEOMETRY_ATOMIC_COUNTERS)
 	) != r.end());
 }
 #endif
@@ -37328,10 +37326,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_GEOMETRY_IMAGE_UNIFORMS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_GEOMETRY_IMAGE_UNIFORMS
+		limit_query(GL_MAX_GEOMETRY_IMAGE_UNIFORMS)
 	) != r.end());
 }
 #endif
@@ -37339,10 +37337,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_GEOMETRY_INPUT_COMPONENTS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_GEOMETRY_INPUT_COMPONENTS
+		limit_query(GL_MAX_GEOMETRY_INPUT_COMPONENTS)
 	) != r.end());
 }
 #endif
@@ -37350,10 +37348,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_GEOMETRY_OUTPUT_COMPONENTS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_GEOMETRY_OUTPUT_COMPONENTS
+		limit_query(GL_MAX_GEOMETRY_OUTPUT_COMPONENTS)
 	) != r.end());
 }
 #endif
@@ -37361,10 +37359,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_GEOMETRY_OUTPUT_VERTICES
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_GEOMETRY_OUTPUT_VERTICES
+		limit_query(GL_MAX_GEOMETRY_OUTPUT_VERTICES)
 	) != r.end());
 }
 #endif
@@ -37372,10 +37370,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_GEOMETRY_SHADER_INVOCATIONS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_GEOMETRY_SHADER_INVOCATIONS
+		limit_query(GL_MAX_GEOMETRY_SHADER_INVOCATIONS)
 	) != r.end());
 }
 #endif
@@ -37383,10 +37381,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_GEOMETRY_TEXTURE_IMAGE_UNITS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_GEOMETRY_TEXTURE_IMAGE_UNITS
+		limit_query(GL_MAX_GEOMETRY_TEXTURE_IMAGE_UNITS)
 	) != r.end());
 }
 #endif
@@ -37394,10 +37392,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_GEOMETRY_TOTAL_OUTPUT_COMPONENTS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_GEOMETRY_TOTAL_OUTPUT_COMPONENTS
+		limit_query(GL_MAX_GEOMETRY_TOTAL_OUTPUT_COMPONENTS)
 	) != r.end());
 }
 #endif
@@ -37405,10 +37403,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_GEOMETRY_UNIFORM_BLOCKS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_GEOMETRY_UNIFORM_BLOCKS
+		limit_query(GL_MAX_GEOMETRY_UNIFORM_BLOCKS)
 	) != r.end());
 }
 #endif
@@ -37416,10 +37414,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_GEOMETRY_UNIFORM_COMPONENTS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_GEOMETRY_UNIFORM_COMPONENTS
+		limit_query(GL_MAX_GEOMETRY_UNIFORM_COMPONENTS)
 	) != r.end());
 }
 #endif
@@ -37427,10 +37425,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_IMAGE_SAMPLES
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_IMAGE_SAMPLES
+		limit_query(GL_MAX_IMAGE_SAMPLES)
 	) != r.end());
 }
 #endif
@@ -37438,10 +37436,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_IMAGE_UNITS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_IMAGE_UNITS
+		limit_query(GL_MAX_IMAGE_UNITS)
 	) != r.end());
 }
 #endif
@@ -37449,10 +37447,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_INTEGER_SAMPLES
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_INTEGER_SAMPLES
+		limit_query(GL_MAX_INTEGER_SAMPLES)
 	) != r.end());
 }
 #endif
@@ -37460,10 +37458,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_PATCH_VERTICES
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_PATCH_VERTICES
+		limit_query(GL_MAX_PATCH_VERTICES)
 	) != r.end());
 }
 #endif
@@ -37471,10 +37469,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_PROGRAM_TEXEL_OFFSET
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_PROGRAM_TEXEL_OFFSET
+		limit_query(GL_MAX_PROGRAM_TEXEL_OFFSET)
 	) != r.end());
 }
 #endif
@@ -37482,10 +37480,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_PROGRAM_TEXTURE_GATHER_OFFSET
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_PROGRAM_TEXTURE_GATHER_OFFSET
+		limit_query(GL_MAX_PROGRAM_TEXTURE_GATHER_OFFSET)
 	) != r.end());
 }
 #endif
@@ -37493,10 +37491,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_RECTANGLE_TEXTURE_SIZE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_RECTANGLE_TEXTURE_SIZE
+		limit_query(GL_MAX_RECTANGLE_TEXTURE_SIZE)
 	) != r.end());
 }
 #endif
@@ -37504,10 +37502,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_RENDERBUFFER_SIZE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_RENDERBUFFER_SIZE
+		limit_query(GL_MAX_RENDERBUFFER_SIZE)
 	) != r.end());
 }
 #endif
@@ -37515,10 +37513,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_SAMPLE_MASK_WORDS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_SAMPLE_MASK_WORDS
+		limit_query(GL_MAX_SAMPLE_MASK_WORDS)
 	) != r.end());
 }
 #endif
@@ -37526,10 +37524,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_SAMPLES
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_SAMPLES
+		limit_query(GL_MAX_SAMPLES)
 	) != r.end());
 }
 #endif
@@ -37537,10 +37535,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_SERVER_WAIT_TIMEOUT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_SERVER_WAIT_TIMEOUT
+		limit_query(GL_MAX_SERVER_WAIT_TIMEOUT)
 	) != r.end());
 }
 #endif
@@ -37548,10 +37546,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_SUBROUTINE_UNIFORM_LOCATIONS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_SUBROUTINE_UNIFORM_LOCATIONS
+		limit_query(GL_MAX_SUBROUTINE_UNIFORM_LOCATIONS)
 	) != r.end());
 }
 #endif
@@ -37559,10 +37557,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_SUBROUTINES
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_SUBROUTINES
+		limit_query(GL_MAX_SUBROUTINES)
 	) != r.end());
 }
 #endif
@@ -37570,10 +37568,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_TESS_CONTROL_ATOMIC_COUNTER_BUFFERS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_TESS_CONTROL_ATOMIC_COUNTER_BUFFERS
+		limit_query(GL_MAX_TESS_CONTROL_ATOMIC_COUNTER_BUFFERS)
 	) != r.end());
 }
 #endif
@@ -37581,10 +37579,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_TESS_CONTROL_ATOMIC_COUNTERS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_TESS_CONTROL_ATOMIC_COUNTERS
+		limit_query(GL_MAX_TESS_CONTROL_ATOMIC_COUNTERS)
 	) != r.end());
 }
 #endif
@@ -37592,10 +37590,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_TESS_CONTROL_IMAGE_UNIFORMS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_TESS_CONTROL_IMAGE_UNIFORMS
+		limit_query(GL_MAX_TESS_CONTROL_IMAGE_UNIFORMS)
 	) != r.end());
 }
 #endif
@@ -37603,10 +37601,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_TESS_CONTROL_INPUT_COMPONENTS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_TESS_CONTROL_INPUT_COMPONENTS
+		limit_query(GL_MAX_TESS_CONTROL_INPUT_COMPONENTS)
 	) != r.end());
 }
 #endif
@@ -37614,10 +37612,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_TESS_CONTROL_OUTPUT_COMPONENTS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_TESS_CONTROL_OUTPUT_COMPONENTS
+		limit_query(GL_MAX_TESS_CONTROL_OUTPUT_COMPONENTS)
 	) != r.end());
 }
 #endif
@@ -37625,10 +37623,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_TESS_CONTROL_TEXTURE_IMAGE_UNITS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_TESS_CONTROL_TEXTURE_IMAGE_UNITS
+		limit_query(GL_MAX_TESS_CONTROL_TEXTURE_IMAGE_UNITS)
 	) != r.end());
 }
 #endif
@@ -37636,10 +37634,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_TESS_CONTROL_TOTAL_OUTPUT_COMPONENTS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_TESS_CONTROL_TOTAL_OUTPUT_COMPONENTS
+		limit_query(GL_MAX_TESS_CONTROL_TOTAL_OUTPUT_COMPONENTS)
 	) != r.end());
 }
 #endif
@@ -37647,10 +37645,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_TESS_CONTROL_UNIFORM_BLOCKS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_TESS_CONTROL_UNIFORM_BLOCKS
+		limit_query(GL_MAX_TESS_CONTROL_UNIFORM_BLOCKS)
 	) != r.end());
 }
 #endif
@@ -37658,10 +37656,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_TESS_CONTROL_UNIFORM_COMPONENTS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_TESS_CONTROL_UNIFORM_COMPONENTS
+		limit_query(GL_MAX_TESS_CONTROL_UNIFORM_COMPONENTS)
 	) != r.end());
 }
 #endif
@@ -37669,10 +37667,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_TESS_EVALUATION_ATOMIC_COUNTER_BUFFERS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_TESS_EVALUATION_ATOMIC_COUNTER_BUFFERS
+		limit_query(GL_MAX_TESS_EVALUATION_ATOMIC_COUNTER_BUFFERS)
 	) != r.end());
 }
 #endif
@@ -37680,10 +37678,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_TESS_EVALUATION_ATOMIC_COUNTERS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_TESS_EVALUATION_ATOMIC_COUNTERS
+		limit_query(GL_MAX_TESS_EVALUATION_ATOMIC_COUNTERS)
 	) != r.end());
 }
 #endif
@@ -37691,10 +37689,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_TESS_EVALUATION_IMAGE_UNIFORMS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_TESS_EVALUATION_IMAGE_UNIFORMS
+		limit_query(GL_MAX_TESS_EVALUATION_IMAGE_UNIFORMS)
 	) != r.end());
 }
 #endif
@@ -37702,10 +37700,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_TESS_EVALUATION_INPUT_COMPONENTS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_TESS_EVALUATION_INPUT_COMPONENTS
+		limit_query(GL_MAX_TESS_EVALUATION_INPUT_COMPONENTS)
 	) != r.end());
 }
 #endif
@@ -37713,10 +37711,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_TESS_EVALUATION_OUTPUT_COMPONENTS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_TESS_EVALUATION_OUTPUT_COMPONENTS
+		limit_query(GL_MAX_TESS_EVALUATION_OUTPUT_COMPONENTS)
 	) != r.end());
 }
 #endif
@@ -37724,10 +37722,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_TESS_EVALUATION_TEXTURE_IMAGE_UNITS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_TESS_EVALUATION_TEXTURE_IMAGE_UNITS
+		limit_query(GL_MAX_TESS_EVALUATION_TEXTURE_IMAGE_UNITS)
 	) != r.end());
 }
 #endif
@@ -37735,10 +37733,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_TESS_EVALUATION_UNIFORM_BLOCKS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_TESS_EVALUATION_UNIFORM_BLOCKS
+		limit_query(GL_MAX_TESS_EVALUATION_UNIFORM_BLOCKS)
 	) != r.end());
 }
 #endif
@@ -37746,10 +37744,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_TESS_EVALUATION_UNIFORM_COMPONENTS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_TESS_EVALUATION_UNIFORM_COMPONENTS
+		limit_query(GL_MAX_TESS_EVALUATION_UNIFORM_COMPONENTS)
 	) != r.end());
 }
 #endif
@@ -37757,10 +37755,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_TESS_GEN_LEVEL
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_TESS_GEN_LEVEL
+		limit_query(GL_MAX_TESS_GEN_LEVEL)
 	) != r.end());
 }
 #endif
@@ -37768,10 +37766,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_TESS_PATCH_COMPONENTS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_TESS_PATCH_COMPONENTS
+		limit_query(GL_MAX_TESS_PATCH_COMPONENTS)
 	) != r.end());
 }
 #endif
@@ -37779,10 +37777,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_TEXTURE_BUFFER_SIZE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_TEXTURE_BUFFER_SIZE
+		limit_query(GL_MAX_TEXTURE_BUFFER_SIZE)
 	) != r.end());
 }
 #endif
@@ -37790,10 +37788,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_TEXTURE_IMAGE_UNITS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_TEXTURE_IMAGE_UNITS
+		limit_query(GL_MAX_TEXTURE_IMAGE_UNITS)
 	) != r.end());
 }
 #endif
@@ -37801,10 +37799,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_TEXTURE_LOD_BIAS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_TEXTURE_LOD_BIAS
+		limit_query(GL_MAX_TEXTURE_LOD_BIAS)
 	) != r.end());
 }
 #endif
@@ -37812,10 +37810,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_TEXTURE_SIZE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_TEXTURE_SIZE
+		limit_query(GL_MAX_TEXTURE_SIZE)
 	) != r.end());
 }
 #endif
@@ -37823,10 +37821,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_TRANSFORM_FEEDBACK_BUFFERS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_TRANSFORM_FEEDBACK_BUFFERS
+		limit_query(GL_MAX_TRANSFORM_FEEDBACK_BUFFERS)
 	) != r.end());
 }
 #endif
@@ -37834,10 +37832,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_TRANSFORM_FEEDBACK_INTERLEAVED_COMPONENTS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_TRANSFORM_FEEDBACK_INTERLEAVED_COMPONENTS
+		limit_query(GL_MAX_TRANSFORM_FEEDBACK_INTERLEAVED_COMPONENTS)
 	) != r.end());
 }
 #endif
@@ -37845,10 +37843,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_TRANSFORM_FEEDBACK_SEPARATE_ATTRIBS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_TRANSFORM_FEEDBACK_SEPARATE_ATTRIBS
+		limit_query(GL_MAX_TRANSFORM_FEEDBACK_SEPARATE_ATTRIBS)
 	) != r.end());
 }
 #endif
@@ -37856,10 +37854,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_TRANSFORM_FEEDBACK_SEPARATE_COMPONENTS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_TRANSFORM_FEEDBACK_SEPARATE_COMPONENTS
+		limit_query(GL_MAX_TRANSFORM_FEEDBACK_SEPARATE_COMPONENTS)
 	) != r.end());
 }
 #endif
@@ -37867,10 +37865,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_UNIFORM_BLOCK_SIZE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_UNIFORM_BLOCK_SIZE
+		limit_query(GL_MAX_UNIFORM_BLOCK_SIZE)
 	) != r.end());
 }
 #endif
@@ -37878,10 +37876,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_UNIFORM_BUFFER_BINDINGS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_UNIFORM_BUFFER_BINDINGS
+		limit_query(GL_MAX_UNIFORM_BUFFER_BINDINGS)
 	) != r.end());
 }
 #endif
@@ -37889,10 +37887,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_VARYING_COMPONENTS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_VARYING_COMPONENTS
+		limit_query(GL_MAX_VARYING_COMPONENTS)
 	) != r.end());
 }
 #endif
@@ -37900,10 +37898,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_VARYING_VECTORS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_VARYING_VECTORS
+		limit_query(GL_MAX_VARYING_VECTORS)
 	) != r.end());
 }
 #endif
@@ -37911,10 +37909,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_VERTEX_ATOMIC_COUNTER_BUFFERS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_VERTEX_ATOMIC_COUNTER_BUFFERS
+		limit_query(GL_MAX_VERTEX_ATOMIC_COUNTER_BUFFERS)
 	) != r.end());
 }
 #endif
@@ -37922,10 +37920,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_VERTEX_ATOMIC_COUNTERS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_VERTEX_ATOMIC_COUNTERS
+		limit_query(GL_MAX_VERTEX_ATOMIC_COUNTERS)
 	) != r.end());
 }
 #endif
@@ -37933,10 +37931,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_VERTEX_ATTRIBS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_VERTEX_ATTRIBS
+		limit_query(GL_MAX_VERTEX_ATTRIBS)
 	) != r.end());
 }
 #endif
@@ -37944,10 +37942,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_VERTEX_IMAGE_UNIFORMS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_VERTEX_IMAGE_UNIFORMS
+		limit_query(GL_MAX_VERTEX_IMAGE_UNIFORMS)
 	) != r.end());
 }
 #endif
@@ -37955,10 +37953,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_VERTEX_OUTPUT_COMPONENTS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_VERTEX_OUTPUT_COMPONENTS
+		limit_query(GL_MAX_VERTEX_OUTPUT_COMPONENTS)
 	) != r.end());
 }
 #endif
@@ -37966,10 +37964,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_VERTEX_STREAMS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_VERTEX_STREAMS
+		limit_query(GL_MAX_VERTEX_STREAMS)
 	) != r.end());
 }
 #endif
@@ -37977,10 +37975,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS
+		limit_query(GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS)
 	) != r.end());
 }
 #endif
@@ -37988,10 +37986,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_VERTEX_UNIFORM_BLOCKS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_VERTEX_UNIFORM_BLOCKS
+		limit_query(GL_MAX_VERTEX_UNIFORM_BLOCKS)
 	) != r.end());
 }
 #endif
@@ -37999,10 +37997,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_VERTEX_UNIFORM_COMPONENTS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_VERTEX_UNIFORM_COMPONENTS
+		limit_query(GL_MAX_VERTEX_UNIFORM_COMPONENTS)
 	) != r.end());
 }
 #endif
@@ -38010,10 +38008,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_VERTEX_UNIFORM_VECTORS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_VERTEX_UNIFORM_VECTORS
+		limit_query(GL_MAX_VERTEX_UNIFORM_VECTORS)
 	) != r.end());
 }
 #endif
@@ -38021,10 +38019,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_VIEWPORT_DIMS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_VIEWPORT_DIMS
+		limit_query(GL_MAX_VIEWPORT_DIMS)
 	) != r.end());
 }
 #endif
@@ -38032,10 +38030,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MAX_VIEWPORTS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAX_VIEWPORTS
+		limit_query(GL_MAX_VIEWPORTS)
 	) != r.end());
 }
 #endif
@@ -38043,10 +38041,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MIN_FRAGMENT_INTERPOLATION_OFFSET
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MIN_FRAGMENT_INTERPOLATION_OFFSET
+		limit_query(GL_MIN_FRAGMENT_INTERPOLATION_OFFSET)
 	) != r.end());
 }
 #endif
@@ -38054,10 +38052,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MIN_MAP_BUFFER_ALIGNMENT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MIN_MAP_BUFFER_ALIGNMENT
+		limit_query(GL_MIN_MAP_BUFFER_ALIGNMENT)
 	) != r.end());
 }
 #endif
@@ -38065,10 +38063,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MIN_PROGRAM_TEXEL_OFFSET
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MIN_PROGRAM_TEXEL_OFFSET
+		limit_query(GL_MIN_PROGRAM_TEXEL_OFFSET)
 	) != r.end());
 }
 #endif
@@ -38076,10 +38074,10 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_range)
 #ifdef GL_MIN_PROGRAM_TEXTURE_GATHER_OFFSET
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<limit_query>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MIN_PROGRAM_TEXTURE_GATHER_OFFSET
+		limit_query(GL_MIN_PROGRAM_TEXTURE_GATHER_OFFSET)
 	) != r.end());
 }
 #endif

@@ -84,9 +84,6 @@ public:
 	}
 };
 
-template <typename VarTag>
-using dsa_prog_var_loc = prog_var_loc<VarTag, true>;
-
 } // namespace oglplus
 
 #endif // include guard

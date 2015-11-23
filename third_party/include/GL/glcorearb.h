@@ -6,7 +6,7 @@ extern "C" {
 #endif
 
 /*
-** Copyright (c) 2013-2014 The Khronos Group Inc.
+** Copyright (c) 2013-2015 The Khronos Group Inc.
 **
 ** Permission is hereby granted, free of charge, to any person obtaining a
 ** copy of this software and/or associated documentation files (the
@@ -33,7 +33,7 @@ extern "C" {
 ** used to make the header, and the header can be found at
 **   http://www.opengl.org/registry/
 **
-** Khronos $Revision: 30645 $ on $Date: 2015-04-09 12:53:39 -0700 (Thu, 09 Apr 2015) $
+** Khronos $Revision: 32155 $ on $Date: 2015-10-22 23:25:39 -0400 (Thu, 22 Oct 2015) $
 */
 
 #if defined(_WIN32) && !defined(APIENTRY) && !defined(__CYGWIN__) && !defined(__SCITECH_SNAP__)
@@ -1160,6 +1160,22 @@ typedef unsigned short GLhalf;
 #define GL_COLOR_ATTACHMENT13             0x8CED
 #define GL_COLOR_ATTACHMENT14             0x8CEE
 #define GL_COLOR_ATTACHMENT15             0x8CEF
+#define GL_COLOR_ATTACHMENT16             0x8CF0
+#define GL_COLOR_ATTACHMENT17             0x8CF1
+#define GL_COLOR_ATTACHMENT18             0x8CF2
+#define GL_COLOR_ATTACHMENT19             0x8CF3
+#define GL_COLOR_ATTACHMENT20             0x8CF4
+#define GL_COLOR_ATTACHMENT21             0x8CF5
+#define GL_COLOR_ATTACHMENT22             0x8CF6
+#define GL_COLOR_ATTACHMENT23             0x8CF7
+#define GL_COLOR_ATTACHMENT24             0x8CF8
+#define GL_COLOR_ATTACHMENT25             0x8CF9
+#define GL_COLOR_ATTACHMENT26             0x8CFA
+#define GL_COLOR_ATTACHMENT27             0x8CFB
+#define GL_COLOR_ATTACHMENT28             0x8CFC
+#define GL_COLOR_ATTACHMENT29             0x8CFD
+#define GL_COLOR_ATTACHMENT30             0x8CFE
+#define GL_COLOR_ATTACHMENT31             0x8CFF
 #define GL_DEPTH_ATTACHMENT               0x8D00
 #define GL_STENCIL_ATTACHMENT             0x8D20
 #define GL_FRAMEBUFFER                    0x8D40
@@ -2690,7 +2706,7 @@ typedef void (APIENTRYP PFNGLINVALIDATENAMEDFRAMEBUFFERSUBDATAPROC) (GLuint fram
 typedef void (APIENTRYP PFNGLCLEARNAMEDFRAMEBUFFERIVPROC) (GLuint framebuffer, GLenum buffer, GLint drawbuffer, const GLint *value);
 typedef void (APIENTRYP PFNGLCLEARNAMEDFRAMEBUFFERUIVPROC) (GLuint framebuffer, GLenum buffer, GLint drawbuffer, const GLuint *value);
 typedef void (APIENTRYP PFNGLCLEARNAMEDFRAMEBUFFERFVPROC) (GLuint framebuffer, GLenum buffer, GLint drawbuffer, const GLfloat *value);
-typedef void (APIENTRYP PFNGLCLEARNAMEDFRAMEBUFFERFIPROC) (GLuint framebuffer, GLenum buffer, const GLfloat depth, GLint stencil);
+typedef void (APIENTRYP PFNGLCLEARNAMEDFRAMEBUFFERFIPROC) (GLuint framebuffer, GLenum buffer, GLint drawbuffer, GLfloat depth, GLint stencil);
 typedef void (APIENTRYP PFNGLBLITNAMEDFRAMEBUFFERPROC) (GLuint readFramebuffer, GLuint drawFramebuffer, GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield mask, GLenum filter);
 typedef GLenum (APIENTRYP PFNGLCHECKNAMEDFRAMEBUFFERSTATUSPROC) (GLuint framebuffer, GLenum target);
 typedef void (APIENTRYP PFNGLGETNAMEDFRAMEBUFFERPARAMETERIVPROC) (GLuint framebuffer, GLenum pname, GLint *param);
@@ -2801,7 +2817,7 @@ GLAPI void APIENTRY glInvalidateNamedFramebufferSubData (GLuint framebuffer, GLs
 GLAPI void APIENTRY glClearNamedFramebufferiv (GLuint framebuffer, GLenum buffer, GLint drawbuffer, const GLint *value);
 GLAPI void APIENTRY glClearNamedFramebufferuiv (GLuint framebuffer, GLenum buffer, GLint drawbuffer, const GLuint *value);
 GLAPI void APIENTRY glClearNamedFramebufferfv (GLuint framebuffer, GLenum buffer, GLint drawbuffer, const GLfloat *value);
-GLAPI void APIENTRY glClearNamedFramebufferfi (GLuint framebuffer, GLenum buffer, const GLfloat depth, GLint stencil);
+GLAPI void APIENTRY glClearNamedFramebufferfi (GLuint framebuffer, GLenum buffer, GLint drawbuffer, GLfloat depth, GLint stencil);
 GLAPI void APIENTRY glBlitNamedFramebuffer (GLuint readFramebuffer, GLuint drawFramebuffer, GLint srcX0, GLint srcY0, GLint srcX1, GLint srcY1, GLint dstX0, GLint dstY0, GLint dstX1, GLint dstY1, GLbitfield mask, GLenum filter);
 GLAPI GLenum APIENTRY glCheckNamedFramebufferStatus (GLuint framebuffer, GLenum target);
 GLAPI void APIENTRY glGetNamedFramebufferParameteriv (GLuint framebuffer, GLenum pname, GLint *param);
@@ -3544,6 +3560,11 @@ GLAPI void APIENTRY glTexPageCommitmentARB (GLenum target, GLint level, GLint xo
 #define GL_KHR_debug 1
 #endif /* GL_KHR_debug */
 
+#ifndef GL_KHR_no_error
+#define GL_KHR_no_error 1
+#define GL_CONTEXT_FLAG_NO_ERROR_BIT_KHR  0x00000008
+#endif /* GL_KHR_no_error */
+
 #ifndef GL_KHR_robust_buffer_access_behavior
 #define GL_KHR_robust_buffer_access_behavior 1
 #endif /* GL_KHR_robust_buffer_access_behavior */
@@ -3588,6 +3609,10 @@ GLAPI void APIENTRY glTexPageCommitmentARB (GLenum target, GLint level, GLint xo
 #ifndef GL_KHR_texture_compression_astc_ldr
 #define GL_KHR_texture_compression_astc_ldr 1
 #endif /* GL_KHR_texture_compression_astc_ldr */
+
+#ifndef GL_KHR_texture_compression_astc_sliced_3d
+#define GL_KHR_texture_compression_astc_sliced_3d 1
+#endif /* GL_KHR_texture_compression_astc_sliced_3d */
 
 #ifdef __cplusplus
 }

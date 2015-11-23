@@ -73,17 +73,15 @@ BOOST_AUTO_TEST_CASE(enum_path_font_style_nv_names)
 BOOST_AUTO_TEST_CASE(enum_path_font_style_nv_range)
 {
 	using namespace oglplus;
-	path_font_style_nv x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<path_font_style_nv>().size();
 
 #ifdef GL_BOLD_BIT_NV
 {
 	--count;
-	array_view<const GLbitfield> r = enum_value_range(x);
+	auto r = enum_value_range<path_font_style_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_BOLD_BIT_NV
+		path_font_style_nv(GL_BOLD_BIT_NV)
 	) != r.end());
 }
 #endif
@@ -91,10 +89,10 @@ BOOST_AUTO_TEST_CASE(enum_path_font_style_nv_range)
 #ifdef GL_ITALIC_BIT_NV
 {
 	--count;
-	array_view<const GLbitfield> r = enum_value_range(x);
+	auto r = enum_value_range<path_font_style_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_ITALIC_BIT_NV
+		path_font_style_nv(GL_ITALIC_BIT_NV)
 	) != r.end());
 }
 #endif

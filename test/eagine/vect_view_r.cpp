@@ -25,7 +25,7 @@ void test_vect_view_TNV(void)
 	}
 
 	auto vv = eagine::vect::view<T, N, V>::apply(v);
-	eagine::array_view<const T> av = vv;
+	eagine::span<const T> av = vv;
 
 	for(unsigned i=0; i<N; ++i)
 	{

@@ -73,17 +73,15 @@ BOOST_AUTO_TEST_CASE(enum_path_dash_offset_reset_nv_names)
 BOOST_AUTO_TEST_CASE(enum_path_dash_offset_reset_nv_range)
 {
 	using namespace oglplus;
-	path_dash_offset_reset_nv x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<path_dash_offset_reset_nv>().size();
 
 #ifdef GL_MOVE_TO_CONTINUES_NV
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<path_dash_offset_reset_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MOVE_TO_CONTINUES_NV
+		path_dash_offset_reset_nv(GL_MOVE_TO_CONTINUES_NV)
 	) != r.end());
 }
 #endif
@@ -91,10 +89,10 @@ BOOST_AUTO_TEST_CASE(enum_path_dash_offset_reset_nv_range)
 #ifdef GL_MOVE_TO_RESET_NV
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<path_dash_offset_reset_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MOVE_TO_RESET_NV
+		path_dash_offset_reset_nv(GL_MOVE_TO_RESET_NV)
 	) != r.end());
 }
 #endif

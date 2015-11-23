@@ -13,7 +13,7 @@
 #include "../vect/data.hpp"
 #include "../vect/fill.hpp"
 #include "../identity.hpp"
-#include <type_traits>
+#include "../type_traits.hpp"
 
 namespace eagine {
 namespace math {
@@ -27,11 +27,11 @@ struct scalar
 
 	typedef vect::has_vect_data_t<T, N, V> is_vectorized;
 
-	typedef typename std::conditional<
+	typedef std::conditional_t<
 		is_vectorized::value,
-		vect::data<T, N, V>,
-		identity<T>
-	>::type::type data_type;
+		vect::data_t<T, N, V>,
+		T
+	> data_type;
 
 	data_type _v;
 

@@ -53,17 +53,15 @@ BOOST_AUTO_TEST_CASE(enum_named_string_type_names)
 BOOST_AUTO_TEST_CASE(enum_named_string_type_range)
 {
 	using namespace oglplus;
-	named_string_type x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<named_string_type>().size();
 
 #ifdef GL_SHADER_INCLUDE_ARB
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<named_string_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_SHADER_INCLUDE_ARB
+		named_string_type(GL_SHADER_INCLUDE_ARB)
 	) != r.end());
 }
 #endif

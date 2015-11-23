@@ -169,17 +169,15 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_severity_names)
 BOOST_AUTO_TEST_CASE(enum_debug_output_severity_range)
 {
 	using namespace oglplus;
-	debug_output_severity x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<debug_output_severity>().size();
 
 #ifdef GL_DEBUG_SEVERITY_HIGH
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<debug_output_severity>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DEBUG_SEVERITY_HIGH
+		debug_output_severity(GL_DEBUG_SEVERITY_HIGH)
 	) != r.end());
 }
 #endif
@@ -187,10 +185,10 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_severity_range)
 #ifdef GL_DEBUG_SEVERITY_LOW
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<debug_output_severity>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DEBUG_SEVERITY_LOW
+		debug_output_severity(GL_DEBUG_SEVERITY_LOW)
 	) != r.end());
 }
 #endif
@@ -198,10 +196,10 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_severity_range)
 #ifdef GL_DEBUG_SEVERITY_MEDIUM
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<debug_output_severity>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DEBUG_SEVERITY_MEDIUM
+		debug_output_severity(GL_DEBUG_SEVERITY_MEDIUM)
 	) != r.end());
 }
 #endif
@@ -209,10 +207,10 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_severity_range)
 #ifdef GL_DEBUG_SEVERITY_NOTIFICATION
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<debug_output_severity>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DEBUG_SEVERITY_NOTIFICATION
+		debug_output_severity(GL_DEBUG_SEVERITY_NOTIFICATION)
 	) != r.end());
 }
 #endif
@@ -220,10 +218,10 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_severity_range)
 #ifdef GL_DONT_CARE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<debug_output_severity>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DONT_CARE
+		debug_output_severity(GL_DONT_CARE)
 	) != r.end());
 }
 #endif

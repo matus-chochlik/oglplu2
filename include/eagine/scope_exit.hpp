@@ -12,7 +12,7 @@
 
 #include "callable_ref.hpp"
 #include "nothing.hpp"
-#include <type_traits>
+#include "type_traits.hpp"
 #include <exception>
 
 namespace eagine {

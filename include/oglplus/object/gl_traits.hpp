@@ -15,20 +15,49 @@ namespace oglplus {
 namespace tag {
 
 template <GLenum Tag>
-struct gl_obj_tag;
+struct gl_obj_tag
+{ };
 
 } // namespace tag
-} // namespace oglplus
 
-namespace eagine {
-
-template <GLenum Tag>
-struct object_traits<oglplus::tag::gl_obj_tag<Tag>>
+template <typename ObjTag>
+struct obj_zero_dsa_ops
+ : object_zero_name<ObjTag>
 {
-	typedef GLuint name_type;
-	typedef oglplus::tag::gl_obj_tag<Tag> tag;
+	obj_zero_dsa_ops(void) = default;
 
-	typedef oglplus::obj_gen_del_ops<tag> gen_del_ops;
+	obj_zero_dsa_ops(object_name<ObjTag> name)
+	noexcept
+	 : object_zero_name<ObjTag>(name)
+	{ }
+};
+
+template <typename ObjTag>
+struct obj_dsa_ops
+ : obj_zero_dsa_ops<ObjTag>
+{
+	obj_dsa_ops(void) = default;
+
+	obj_dsa_ops(object_name<ObjTag> name)
+	noexcept
+	 : obj_zero_dsa_ops<ObjTag>(name)
+	{ }
+};
+
+template <typename Tag>
+struct gl_object_traits
+{
+	typedef Tag tag;
+
+	typedef GLuint name_type;
+
+	typedef obj_gen_del_ops<tag> gen_del_ops;
+
+	template <typename ObjTag>
+	using zero_dsa_ops_t = obj_zero_dsa_ops<ObjTag>;
+
+	template <typename ObjTag>
+	using dsa_ops_t = obj_dsa_ops<ObjTag>;
 
 	static inline constexpr
 	GLuint invalid_name(void)
@@ -36,7 +65,16 @@ struct object_traits<oglplus::tag::gl_obj_tag<Tag>>
 	{
 		return ~GLuint(0);
 	}
+};
 
+} // namespace oglplus
+
+namespace eagine {
+
+template <GLenum Tag>
+struct object_traits<oglplus::tag::gl_obj_tag<Tag>>
+ : oglplus::gl_object_traits<oglplus::tag::gl_obj_tag<Tag>>
+{
 	static inline constexpr
 	GLenum get_type(void)
 	noexcept

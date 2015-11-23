@@ -99,17 +99,15 @@ BOOST_AUTO_TEST_CASE(enum_path_font_target_nv_names)
 BOOST_AUTO_TEST_CASE(enum_path_font_target_nv_range)
 {
 	using namespace oglplus;
-	path_font_target_nv x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<path_font_target_nv>().size();
 
 #ifdef GL_FILE_NAME_NV
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<path_font_target_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_FILE_NAME_NV
+		path_font_target_nv(GL_FILE_NAME_NV)
 	) != r.end());
 }
 #endif
@@ -117,10 +115,10 @@ BOOST_AUTO_TEST_CASE(enum_path_font_target_nv_range)
 #ifdef GL_STANDARD_FONT_NAME_NV
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<path_font_target_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_STANDARD_FONT_NAME_NV
+		path_font_target_nv(GL_STANDARD_FONT_NAME_NV)
 	) != r.end());
 }
 #endif
@@ -128,10 +126,10 @@ BOOST_AUTO_TEST_CASE(enum_path_font_target_nv_range)
 #ifdef GL_SYSTEM_FONT_NAME_NV
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<path_font_target_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_SYSTEM_FONT_NAME_NV
+		path_font_target_nv(GL_SYSTEM_FONT_NAME_NV)
 	) != r.end());
 }
 #endif

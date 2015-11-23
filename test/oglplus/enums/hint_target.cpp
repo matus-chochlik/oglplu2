@@ -131,17 +131,15 @@ BOOST_AUTO_TEST_CASE(enum_hint_target_names)
 BOOST_AUTO_TEST_CASE(enum_hint_target_range)
 {
 	using namespace oglplus;
-	hint_target x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<hint_target>().size();
 
 #ifdef GL_FRAGMENT_SHADER_DERIVATIVE_HINT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<hint_target>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_FRAGMENT_SHADER_DERIVATIVE_HINT
+		hint_target(GL_FRAGMENT_SHADER_DERIVATIVE_HINT)
 	) != r.end());
 }
 #endif
@@ -149,10 +147,10 @@ BOOST_AUTO_TEST_CASE(enum_hint_target_range)
 #ifdef GL_LINE_SMOOTH_HINT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<hint_target>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_LINE_SMOOTH_HINT
+		hint_target(GL_LINE_SMOOTH_HINT)
 	) != r.end());
 }
 #endif
@@ -160,10 +158,10 @@ BOOST_AUTO_TEST_CASE(enum_hint_target_range)
 #ifdef GL_POLYGON_SMOOTH_HINT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<hint_target>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_POLYGON_SMOOTH_HINT
+		hint_target(GL_POLYGON_SMOOTH_HINT)
 	) != r.end());
 }
 #endif
@@ -171,10 +169,10 @@ BOOST_AUTO_TEST_CASE(enum_hint_target_range)
 #ifdef GL_TEXTURE_COMPRESSION_HINT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<hint_target>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE_COMPRESSION_HINT
+		hint_target(GL_TEXTURE_COMPRESSION_HINT)
 	) != r.end());
 }
 #endif

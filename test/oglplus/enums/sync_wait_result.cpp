@@ -131,17 +131,15 @@ BOOST_AUTO_TEST_CASE(enum_sync_wait_result_names)
 BOOST_AUTO_TEST_CASE(enum_sync_wait_result_range)
 {
 	using namespace oglplus;
-	sync_wait_result x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<sync_wait_result>().size();
 
 #ifdef GL_ALREADY_SIGNALED
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<sync_wait_result>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_ALREADY_SIGNALED
+		sync_wait_result(GL_ALREADY_SIGNALED)
 	) != r.end());
 }
 #endif
@@ -149,10 +147,10 @@ BOOST_AUTO_TEST_CASE(enum_sync_wait_result_range)
 #ifdef GL_CONDITION_SATISFIED
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<sync_wait_result>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_CONDITION_SATISFIED
+		sync_wait_result(GL_CONDITION_SATISFIED)
 	) != r.end());
 }
 #endif
@@ -160,10 +158,10 @@ BOOST_AUTO_TEST_CASE(enum_sync_wait_result_range)
 #ifdef GL_TIMEOUT_EXPIRED
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<sync_wait_result>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TIMEOUT_EXPIRED
+		sync_wait_result(GL_TIMEOUT_EXPIRED)
 	) != r.end());
 }
 #endif
@@ -171,10 +169,10 @@ BOOST_AUTO_TEST_CASE(enum_sync_wait_result_range)
 #ifdef GL_WAIT_FAILED
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<sync_wait_result>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_WAIT_FAILED
+		sync_wait_result(GL_WAIT_FAILED)
 	) != r.end());
 }
 #endif

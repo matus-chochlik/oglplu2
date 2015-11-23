@@ -366,13 +366,14 @@ struct prog_var_get_set_ops<tag::vertex_attrib>
 		return {};
 	}
 
+	template <span_size_type N>
 	static
 	outcome<void>
 	set(
 		identity<GLshort[1]>,
 		vertex_attrib_location va,
 		bool ge,
-		const array_view<const GLshort>& v
+		const span<const GLshort, N>& v
 	) noexcept
 	{
 		assert(v.size() >= 1);
@@ -381,13 +382,14 @@ struct prog_var_get_set_ops<tag::vertex_attrib>
 		return {};
 	}
 
+	template <span_size_type N>
 	static
 	outcome<void>
 	set(
 		identity<GLshort[2]>,
 		vertex_attrib_location va,
 		bool ge,
-		const array_view<const GLshort>& v
+		const span<const GLshort, N>& v
 	) noexcept
 	{
 		assert(v.size() >= 2);
@@ -396,13 +398,14 @@ struct prog_var_get_set_ops<tag::vertex_attrib>
 		return {};
 	}
 
+	template <span_size_type N>
 	static
 	outcome<void>
 	set(
 		identity<GLshort[3]>,
 		vertex_attrib_location va,
 		bool ge,
-		const array_view<const GLshort>& v
+		const span<const GLshort, N>& v
 	) noexcept
 	{
 		assert(v.size() >= 3);
@@ -411,13 +414,14 @@ struct prog_var_get_set_ops<tag::vertex_attrib>
 		return {};
 	}
 
+	template <span_size_type N>
 	static
 	outcome<void>
 	set(
 		identity<GLshort[4]>,
 		vertex_attrib_location va,
 		bool ge,
-		const array_view<const GLshort>& v
+		const span<const GLshort, N>& v
 	) noexcept
 	{
 		assert(v.size() >= 4);
@@ -426,13 +430,14 @@ struct prog_var_get_set_ops<tag::vertex_attrib>
 		return {};
 	}
 
+	template <span_size_type N>
 	static
 	outcome<void>
 	setI(
 		identity<GLint[1]>,
 		vertex_attrib_location va,
 		bool ge,
-		const array_view<const GLint>& v
+		const span<const GLint, N>& v
 	) noexcept
 	{
 		assert(v.size() >= 1);
@@ -441,13 +446,14 @@ struct prog_var_get_set_ops<tag::vertex_attrib>
 		return {};
 	}
 
+	template <span_size_type N>
 	static
 	outcome<void>
 	setI(
 		identity<GLint[2]>,
 		vertex_attrib_location va,
 		bool ge,
-		const array_view<const GLint>& v
+		const span<const GLint, N>& v
 	) noexcept
 	{
 		assert(v.size() >= 2);
@@ -456,13 +462,14 @@ struct prog_var_get_set_ops<tag::vertex_attrib>
 		return {};
 	}
 
+	template <span_size_type N>
 	static
 	outcome<void>
 	setI(
 		identity<GLint[3]>,
 		vertex_attrib_location va,
 		bool ge,
-		const array_view<const GLint>& v
+		const span<const GLint, N>& v
 	) noexcept
 	{
 		assert(v.size() >= 3);
@@ -471,13 +478,14 @@ struct prog_var_get_set_ops<tag::vertex_attrib>
 		return {};
 	}
 
+	template <span_size_type N>
 	static
 	outcome<void>
 	setI(
 		identity<GLint[4]>,
 		vertex_attrib_location va,
 		bool ge,
-		const array_view<const GLint>& v
+		const span<const GLint, N>& v
 	) noexcept
 	{
 		assert(v.size() >= 4);
@@ -486,13 +494,14 @@ struct prog_var_get_set_ops<tag::vertex_attrib>
 		return {};
 	}
 
+	template <span_size_type N>
 	static
 	outcome<void>
 	setI(
 		identity<GLuint[1]>,
 		vertex_attrib_location va,
 		bool ge,
-		const array_view<const GLuint>& v
+		const span<const GLuint, N>& v
 	) noexcept
 	{
 		assert(v.size() >= 1);
@@ -501,13 +510,14 @@ struct prog_var_get_set_ops<tag::vertex_attrib>
 		return {};
 	}
 
+	template <span_size_type N>
 	static
 	outcome<void>
 	setI(
 		identity<GLuint[2]>,
 		vertex_attrib_location va,
 		bool ge,
-		const array_view<const GLuint>& v
+		const span<const GLuint, N>& v
 	) noexcept
 	{
 		assert(v.size() >= 2);
@@ -516,13 +526,14 @@ struct prog_var_get_set_ops<tag::vertex_attrib>
 		return {};
 	}
 
+	template <span_size_type N>
 	static
 	outcome<void>
 	setI(
 		identity<GLuint[3]>,
 		vertex_attrib_location va,
 		bool ge,
-		const array_view<const GLuint>& v
+		const span<const GLuint, N>& v
 	) noexcept
 	{
 		assert(v.size() >= 3);
@@ -531,13 +542,14 @@ struct prog_var_get_set_ops<tag::vertex_attrib>
 		return {};
 	}
 
+	template <span_size_type N>
 	static
 	outcome<void>
 	setI(
 		identity<GLuint[4]>,
 		vertex_attrib_location va,
 		bool ge,
-		const array_view<const GLuint>& v
+		const span<const GLuint, N>& v
 	) noexcept
 	{
 		assert(v.size() >= 4);
@@ -546,13 +558,14 @@ struct prog_var_get_set_ops<tag::vertex_attrib>
 		return {};
 	}
 
+	template <span_size_type N>
 	static
 	outcome<void>
 	set(
 		identity<GLfloat[1]>,
 		vertex_attrib_location va,
 		bool ge,
-		const array_view<const GLfloat>& v
+		const span<const GLfloat, N>& v
 	) noexcept
 	{
 		assert(v.size() >= 1);
@@ -561,13 +574,14 @@ struct prog_var_get_set_ops<tag::vertex_attrib>
 		return {};
 	}
 
+	template <span_size_type N>
 	static
 	outcome<void>
 	set(
 		identity<GLfloat[2]>,
 		vertex_attrib_location va,
 		bool ge,
-		const array_view<const GLfloat>& v
+		const span<const GLfloat, N>& v
 	) noexcept
 	{
 		assert(v.size() >= 2);
@@ -576,13 +590,14 @@ struct prog_var_get_set_ops<tag::vertex_attrib>
 		return {};
 	}
 
+	template <span_size_type N>
 	static
 	outcome<void>
 	set(
 		identity<GLfloat[3]>,
 		vertex_attrib_location va,
 		bool ge,
-		const array_view<const GLfloat>& v
+		const span<const GLfloat, N>& v
 	) noexcept
 	{
 		assert(v.size() >= 3);
@@ -591,13 +606,14 @@ struct prog_var_get_set_ops<tag::vertex_attrib>
 		return {};
 	}
 
+	template <span_size_type N>
 	static
 	outcome<void>
 	set(
 		identity<GLfloat[4]>,
 		vertex_attrib_location va,
 		bool ge,
-		const array_view<const GLfloat>& v
+		const span<const GLfloat, N>& v
 	) noexcept
 	{
 		assert(v.size() >= 4);
@@ -606,13 +622,14 @@ struct prog_var_get_set_ops<tag::vertex_attrib>
 		return {};
 	}
 
+	template <span_size_type N>
 	static
 	outcome<void>
 	set(
 		identity<GLdouble[1]>,
 		vertex_attrib_location va,
 		bool ge,
-		const array_view<const GLdouble>& v
+		const span<const GLdouble, N>& v
 	) noexcept
 	{
 		assert(v.size() >= 1);
@@ -621,13 +638,14 @@ struct prog_var_get_set_ops<tag::vertex_attrib>
 		return {};
 	}
 
+	template <span_size_type N>
 	static
 	outcome<void>
 	set(
 		identity<GLdouble[2]>,
 		vertex_attrib_location va,
 		bool ge,
-		const array_view<const GLdouble>& v
+		const span<const GLdouble, N>& v
 	) noexcept
 	{
 		assert(v.size() >= 2);
@@ -636,13 +654,14 @@ struct prog_var_get_set_ops<tag::vertex_attrib>
 		return {};
 	}
 
+	template <span_size_type N>
 	static
 	outcome<void>
 	set(
 		identity<GLdouble[3]>,
 		vertex_attrib_location va,
 		bool ge,
-		const array_view<const GLdouble>& v
+		const span<const GLdouble, N>& v
 	) noexcept
 	{
 		assert(v.size() >= 3);
@@ -651,13 +670,14 @@ struct prog_var_get_set_ops<tag::vertex_attrib>
 		return {};
 	}
 
+	template <span_size_type N>
 	static
 	outcome<void>
 	set(
 		identity<GLdouble[4]>,
 		vertex_attrib_location va,
 		bool ge,
-		const array_view<const GLdouble>& v
+		const span<const GLdouble, N>& v
 	) noexcept
 	{
 		assert(v.size() >= 4);

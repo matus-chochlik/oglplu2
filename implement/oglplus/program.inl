@@ -10,12 +10,189 @@
 
 namespace oglplus {
 //------------------------------------------------------------------------------
+namespace oper {
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+program_ops::
+attach_shader(program_name prog, shader_name shdr)
+noexcept
+{
+	OGLPLUS_GLFUNC(AttachShader)(
+		get_raw_name(prog),
+		get_raw_name(shdr)
+	);
+	OGLPLUS_VERIFY(
+		AttachShader,
+		gl_subject(prog).
+		gl_object(shdr),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+program_ops::
+detach_shader(program_name prog, shader_name shdr)
+noexcept
+{
+	OGLPLUS_GLFUNC(DetachShader)(
+		get_raw_name(prog),
+		get_raw_name(shdr)
+	);
+	OGLPLUS_VERIFY(
+		DetachShader,
+		gl_subject(prog).
+		gl_object(shdr),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+program_ops::
+link_program(program_name prog)
+noexcept
+{
+	OGLPLUS_GLFUNC(LinkProgram)(get_raw_name(prog));
+	OGLPLUS_VERIFY(LinkProgram, gl_object(prog), always);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+program_ops::
+use_program(program_name prog)
+noexcept
+{
+	OGLPLUS_GLFUNC(UseProgram)(get_raw_name(prog));
+	OGLPLUS_VERIFY(UseProgram, gl_object(prog), always);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<program_name>
+program_ops::
+current_program(void)
+noexcept
+{
+#ifdef GL_CURRENT_PROGRAK
+	GLint result;
+	return numeric_queries::get_integer_v(
+		binding_query(GL_CURRENT_PROGRAM),
+		{&result, 1}
+	), program_name(GLuint(result));
+#else
+	return program_name(0);
+#endif
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+program_ops::
+get_program_iv(
+	program_name prog,
+	program_parameter para,
+	span<GLint> values
+) noexcept
+{
+	assert(values.size() > 0);
+	OGLPLUS_GLFUNC(GetProgramiv)(
+		get_raw_name(prog),
+		GLenum(para),
+		values.data()
+	);
+	OGLPLUS_VERIFY(
+		GetProgramiv,
+		gl_enum_value(para).
+		gl_object(prog),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+template <typename R, typename T>
+inline
+outcome<R>
+program_ops::
+return_program_parameter_i(program_name prog, program_parameter parameter)
+noexcept
+{
+	GLint result;
+	return get_program_iv(
+		prog,
+		parameter,
+		{&result, 1}
+	), R(T(result));
+}
+//------------------------------------------------------------------------------
+inline
+outcome<boolean>
+program_ops::
+program_delete_status(program_name prog)
+noexcept
+{
+	return return_program_parameter_i<boolean, GLboolean>(
+		prog,
+		program_parameter(GL_DELETE_STATUS)
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<boolean>
+program_ops::
+program_link_status(program_name prog)
+noexcept
+{
+	return return_program_parameter_i<boolean, GLboolean>(
+		prog,
+		program_parameter(GL_LINK_STATUS)
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<GLsizei>
+program_ops::
+program_info_log_length(program_name prog)
+noexcept
+{
+	return return_program_parameter_i<GLsizei, GLsizei>(
+		prog,
+		program_parameter(GL_INFO_LOG_LENGTH)
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<GLsizei>
+program_ops::
+program_info_log(program_name prog, span<char> dest)
+noexcept
+{
+	GLsizei reallen = 0;
+	OGLPLUS_GLFUNC(GetProgramInfoLog)(
+		get_raw_name(prog),
+		GLsizei(dest.size()),
+		&reallen,
+		dest.data()
+	);
+	OGLPLUS_VERIFY(
+		GetProgramInfoLog,
+		gl_object(prog),
+		always
+	);
+	return {reallen};
+}
+//------------------------------------------------------------------------------
+} // namespace oper
+//------------------------------------------------------------------------------
 // obj_gen_del_ops::_gen
 //------------------------------------------------------------------------------
 inline
 deferred_error_handler
 obj_gen_del_ops<tag::program>::
-_gen(array_view<GLuint> names)
+_gen(span<GLuint> names)
 noexcept
 {
 	for(auto b=names.begin(), i=b, e=names.end(); i!=e; ++i)
@@ -45,7 +222,7 @@ noexcept
 inline
 deferred_error_handler
 obj_gen_del_ops<tag::program>::
-_delete(array_view<GLuint> names)
+_delete(span<GLuint> names)
 noexcept
 {
 	for(auto& name : names)
@@ -59,14 +236,14 @@ noexcept
 // obj_gen_del_ops::_is_a
 //------------------------------------------------------------------------------
 inline
-outcome<bool>
+outcome<boolean>
 obj_gen_del_ops<tag::program>::
 _is_a(GLuint name)
 noexcept
 {
 	GLboolean res = OGLPLUS_GLFUNC(IsProgram)(name);
 	OGLPLUS_VERIFY_SIMPLE(IsProgram,debug);
-	return {res == GL_TRUE};
+	return boolean(res);
 }
 //------------------------------------------------------------------------------
 } // namespace oglplus

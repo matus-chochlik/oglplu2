@@ -99,17 +99,15 @@ BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_type_names)
 BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_type_range)
 {
 	using namespace oglplus;
-	tess_gen_primitive_type x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<tess_gen_primitive_type>().size();
 
 #ifdef GL_ISOLINES
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<tess_gen_primitive_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_ISOLINES
+		tess_gen_primitive_type(GL_ISOLINES)
 	) != r.end());
 }
 #endif
@@ -117,10 +115,10 @@ BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_type_range)
 #ifdef GL_QUADS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<tess_gen_primitive_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_QUADS
+		tess_gen_primitive_type(GL_QUADS)
 	) != r.end());
 }
 #endif
@@ -128,10 +126,10 @@ BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_type_range)
 #ifdef GL_TRIANGLES
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<tess_gen_primitive_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TRIANGLES
+		tess_gen_primitive_type(GL_TRIANGLES)
 	) != r.end());
 }
 #endif

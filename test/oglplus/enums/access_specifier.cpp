@@ -99,17 +99,15 @@ BOOST_AUTO_TEST_CASE(enum_access_specifier_names)
 BOOST_AUTO_TEST_CASE(enum_access_specifier_range)
 {
 	using namespace oglplus;
-	access_specifier x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<access_specifier>().size();
 
 #ifdef GL_READ_ONLY
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<access_specifier>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_READ_ONLY
+		access_specifier(GL_READ_ONLY)
 	) != r.end());
 }
 #endif
@@ -117,10 +115,10 @@ BOOST_AUTO_TEST_CASE(enum_access_specifier_range)
 #ifdef GL_READ_WRITE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<access_specifier>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_READ_WRITE
+		access_specifier(GL_READ_WRITE)
 	) != r.end());
 }
 #endif
@@ -128,10 +126,10 @@ BOOST_AUTO_TEST_CASE(enum_access_specifier_range)
 #ifdef GL_WRITE_ONLY
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<access_specifier>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_WRITE_ONLY
+		access_specifier(GL_WRITE_ONLY)
 	) != r.end());
 }
 #endif

@@ -11,6 +11,7 @@
 #include <eagine/object/owner.hpp>
 #include <eagine/deferred_handler.hpp>
 #include <eagine/outcome.hpp>
+#include <eagine/nothing.hpp>
 #include <set>
 #include <stdexcept>
 
@@ -45,7 +46,7 @@ struct mock_obj_gen_del_ops
 
 	static
 	deferred_handler<mock_error_info>
-	_gen(array_view<unsigned> names)
+	_gen(span<unsigned> names)
 	noexcept
 	{
 		unsigned next=1;
@@ -64,7 +65,7 @@ struct mock_obj_gen_del_ops
 
 	static
 	deferred_handler<mock_error_info>
-	_delete(array_view<unsigned> names)
+	_delete(span<unsigned> names)
 	noexcept
 	{
 		for(unsigned name : names)
@@ -96,6 +97,12 @@ struct object_traits<tag::mock_object>
 	typedef unsigned name_type;
 
 	typedef mock_obj_gen_del_ops gen_del_ops;
+
+	template <typename ObjTag>
+	using dsa_zero_ops_t = object_name<ObjTag>;
+
+	template <typename ObjTag>
+	using dsa_ops_t = object_name<ObjTag>;
 
 	static constexpr inline
 	unsigned invalid_name(void)

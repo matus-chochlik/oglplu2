@@ -2031,17 +2031,15 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_names)
 BOOST_AUTO_TEST_CASE(enum_pixel_parameter_range)
 {
 	using namespace oglplus;
-	pixel_parameter x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<pixel_parameter>().size();
 
 #ifdef GL_PACK_ALIGNMENT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_parameter>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_PACK_ALIGNMENT
+		pixel_parameter(GL_PACK_ALIGNMENT)
 	) != r.end());
 }
 #endif
@@ -2049,10 +2047,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_range)
 #ifdef GL_PACK_COMPRESSED_BLOCK_DEPTH
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_parameter>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_PACK_COMPRESSED_BLOCK_DEPTH
+		pixel_parameter(GL_PACK_COMPRESSED_BLOCK_DEPTH)
 	) != r.end());
 }
 #endif
@@ -2060,10 +2058,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_range)
 #ifdef GL_PACK_COMPRESSED_BLOCK_HEIGHT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_parameter>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_PACK_COMPRESSED_BLOCK_HEIGHT
+		pixel_parameter(GL_PACK_COMPRESSED_BLOCK_HEIGHT)
 	) != r.end());
 }
 #endif
@@ -2071,10 +2069,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_range)
 #ifdef GL_PACK_COMPRESSED_BLOCK_SIZE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_parameter>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_PACK_COMPRESSED_BLOCK_SIZE
+		pixel_parameter(GL_PACK_COMPRESSED_BLOCK_SIZE)
 	) != r.end());
 }
 #endif
@@ -2082,10 +2080,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_range)
 #ifdef GL_PACK_COMPRESSED_BLOCK_WIDTH
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_parameter>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_PACK_COMPRESSED_BLOCK_WIDTH
+		pixel_parameter(GL_PACK_COMPRESSED_BLOCK_WIDTH)
 	) != r.end());
 }
 #endif
@@ -2093,10 +2091,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_range)
 #ifdef GL_PACK_IMAGE_HEIGHT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_parameter>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_PACK_IMAGE_HEIGHT
+		pixel_parameter(GL_PACK_IMAGE_HEIGHT)
 	) != r.end());
 }
 #endif
@@ -2104,10 +2102,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_range)
 #ifdef GL_PACK_LSB_FIRST
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_parameter>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_PACK_LSB_FIRST
+		pixel_parameter(GL_PACK_LSB_FIRST)
 	) != r.end());
 }
 #endif
@@ -2115,10 +2113,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_range)
 #ifdef GL_PACK_ROW_LENGTH
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_parameter>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_PACK_ROW_LENGTH
+		pixel_parameter(GL_PACK_ROW_LENGTH)
 	) != r.end());
 }
 #endif
@@ -2126,10 +2124,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_range)
 #ifdef GL_PACK_SKIP_IMAGES
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_parameter>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_PACK_SKIP_IMAGES
+		pixel_parameter(GL_PACK_SKIP_IMAGES)
 	) != r.end());
 }
 #endif
@@ -2137,10 +2135,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_range)
 #ifdef GL_PACK_SKIP_PIXELS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_parameter>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_PACK_SKIP_PIXELS
+		pixel_parameter(GL_PACK_SKIP_PIXELS)
 	) != r.end());
 }
 #endif
@@ -2148,10 +2146,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_range)
 #ifdef GL_PACK_SKIP_ROWS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_parameter>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_PACK_SKIP_ROWS
+		pixel_parameter(GL_PACK_SKIP_ROWS)
 	) != r.end());
 }
 #endif
@@ -2159,10 +2157,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_range)
 #ifdef GL_PACK_SWAP_BYTES
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_parameter>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_PACK_SWAP_BYTES
+		pixel_parameter(GL_PACK_SWAP_BYTES)
 	) != r.end());
 }
 #endif
@@ -2170,10 +2168,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_range)
 #ifdef GL_UNPACK_ALIGNMENT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_parameter>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_UNPACK_ALIGNMENT
+		pixel_parameter(GL_UNPACK_ALIGNMENT)
 	) != r.end());
 }
 #endif
@@ -2181,10 +2179,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_range)
 #ifdef GL_UNPACK_COMPRESSED_BLOCK_DEPTH
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_parameter>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_UNPACK_COMPRESSED_BLOCK_DEPTH
+		pixel_parameter(GL_UNPACK_COMPRESSED_BLOCK_DEPTH)
 	) != r.end());
 }
 #endif
@@ -2192,10 +2190,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_range)
 #ifdef GL_UNPACK_COMPRESSED_BLOCK_HEIGHT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_parameter>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_UNPACK_COMPRESSED_BLOCK_HEIGHT
+		pixel_parameter(GL_UNPACK_COMPRESSED_BLOCK_HEIGHT)
 	) != r.end());
 }
 #endif
@@ -2203,10 +2201,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_range)
 #ifdef GL_UNPACK_COMPRESSED_BLOCK_SIZE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_parameter>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_UNPACK_COMPRESSED_BLOCK_SIZE
+		pixel_parameter(GL_UNPACK_COMPRESSED_BLOCK_SIZE)
 	) != r.end());
 }
 #endif
@@ -2214,10 +2212,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_range)
 #ifdef GL_UNPACK_COMPRESSED_BLOCK_WIDTH
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_parameter>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_UNPACK_COMPRESSED_BLOCK_WIDTH
+		pixel_parameter(GL_UNPACK_COMPRESSED_BLOCK_WIDTH)
 	) != r.end());
 }
 #endif
@@ -2225,10 +2223,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_range)
 #ifdef GL_UNPACK_IMAGE_HEIGHT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_parameter>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_UNPACK_IMAGE_HEIGHT
+		pixel_parameter(GL_UNPACK_IMAGE_HEIGHT)
 	) != r.end());
 }
 #endif
@@ -2236,10 +2234,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_range)
 #ifdef GL_UNPACK_LSB_FIRST
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_parameter>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_UNPACK_LSB_FIRST
+		pixel_parameter(GL_UNPACK_LSB_FIRST)
 	) != r.end());
 }
 #endif
@@ -2247,10 +2245,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_range)
 #ifdef GL_UNPACK_ROW_LENGTH
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_parameter>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_UNPACK_ROW_LENGTH
+		pixel_parameter(GL_UNPACK_ROW_LENGTH)
 	) != r.end());
 }
 #endif
@@ -2258,10 +2256,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_range)
 #ifdef GL_UNPACK_SKIP_IMAGES
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_parameter>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_UNPACK_SKIP_IMAGES
+		pixel_parameter(GL_UNPACK_SKIP_IMAGES)
 	) != r.end());
 }
 #endif
@@ -2269,10 +2267,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_range)
 #ifdef GL_UNPACK_SKIP_PIXELS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_parameter>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_UNPACK_SKIP_PIXELS
+		pixel_parameter(GL_UNPACK_SKIP_PIXELS)
 	) != r.end());
 }
 #endif
@@ -2280,10 +2278,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_range)
 #ifdef GL_UNPACK_SKIP_ROWS
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_parameter>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_UNPACK_SKIP_ROWS
+		pixel_parameter(GL_UNPACK_SKIP_ROWS)
 	) != r.end());
 }
 #endif
@@ -2291,10 +2289,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_range)
 #ifdef GL_UNPACK_SWAP_BYTES
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<pixel_parameter>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_UNPACK_SWAP_BYTES
+		pixel_parameter(GL_UNPACK_SWAP_BYTES)
 	) != r.end());
 }
 #endif

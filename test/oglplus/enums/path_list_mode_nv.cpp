@@ -99,17 +99,15 @@ BOOST_AUTO_TEST_CASE(enum_path_list_mode_nv_names)
 BOOST_AUTO_TEST_CASE(enum_path_list_mode_nv_range)
 {
 	using namespace oglplus;
-	path_list_mode_nv x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<path_list_mode_nv>().size();
 
 #ifdef GL_ACCUM_ADJACENT_PAIRS_NV
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<path_list_mode_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_ACCUM_ADJACENT_PAIRS_NV
+		path_list_mode_nv(GL_ACCUM_ADJACENT_PAIRS_NV)
 	) != r.end());
 }
 #endif
@@ -117,10 +115,10 @@ BOOST_AUTO_TEST_CASE(enum_path_list_mode_nv_range)
 #ifdef GL_ADJACENT_PAIRS_NV
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<path_list_mode_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_ADJACENT_PAIRS_NV
+		path_list_mode_nv(GL_ADJACENT_PAIRS_NV)
 	) != r.end());
 }
 #endif
@@ -128,10 +126,10 @@ BOOST_AUTO_TEST_CASE(enum_path_list_mode_nv_range)
 #ifdef GL_FIRST_TO_REST_NV
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<path_list_mode_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_FIRST_TO_REST_NV
+		path_list_mode_nv(GL_FIRST_TO_REST_NV)
 	) != r.end());
 }
 #endif

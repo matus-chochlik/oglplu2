@@ -20,11 +20,11 @@ template <
 	typename T, unsigned C, unsigned R, bool RM, bool V
 >
 struct constructed_matrix<MC<matrix<T,C,R,RM,V>>>
- : std::conditional<
+ : std::conditional_t<
 	is_matrix_constructor<MC<matrix<T,C,R,RM,V>>>::value,
 	matrix<T,C,R,RM,V>,
 	nothing_t
->::type
+>
 { };
 
 template <
@@ -33,21 +33,21 @@ template <
 	unsigned I
 >
 struct constructed_matrix<MC<matrix<T,C,R,RM,V>, I>>
- : std::conditional<
+ : std::conditional_t<
 	is_matrix_constructor<MC<matrix<T,C,R,RM,V>, I>>::value,
 	matrix<T,C,R,RM,V>,
 	nothing_t
->::type
+>
 { };
 
 // construct_matrix (noop)
 template <bool RM, typename MC>
 static constexpr inline
-typename std::enable_if<
+std::enable_if_t<
 	is_matrix_constructor<MC>::value &&
 	is_row_major<constructed_matrix_t<MC>>::value == RM,
 	constructed_matrix_t<MC>
->::type construct_matrix(const MC& c)
+> construct_matrix(const MC& c)
 noexcept
 {
 	return c();
@@ -56,11 +56,11 @@ noexcept
 // construct_matrix (reorder)
 template <bool RM, typename MC>
 static constexpr inline
-typename std::enable_if<
+std::enable_if_t<
 	is_matrix_constructor<MC>::value &&
 	is_row_major<constructed_matrix_t<MC>>::value != RM,
 	reordered_matrix_t<constructed_matrix_t<MC>>
->::type construct_matrix(const MC& c)
+> construct_matrix(const MC& c)
 noexcept
 {
 	return reorder_mat_ctr(c)();
@@ -69,14 +69,14 @@ noexcept
 template <
 	typename MC1,
 	typename MC2,
-	typename = typename std::enable_if<
+	typename = std::enable_if_t<
 		is_matrix_constructor<MC1>::value &&
 		is_matrix_constructor<MC2>::value &&
 		are_multiplicable<
 			constructed_matrix_t<MC1>,
 			constructed_matrix_t<MC2>
 		>::value
->::type
+	>
 >
 static inline
 auto multiply(const MC1& mc1, const MC2& mc2)
@@ -137,7 +137,7 @@ struct compound_view_maker<math::convertible_matrix_constructor<MC>>
 		typedef typename M::element_type T;
 		M _m;
 
-		operator array_view<const T> (void) const
+		operator span<const T> (void) const
 		noexcept
 		{
 			compound_view_maker<M> cvm;

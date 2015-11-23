@@ -73,17 +73,15 @@ BOOST_AUTO_TEST_CASE(enum_clip_depth_mode_names)
 BOOST_AUTO_TEST_CASE(enum_clip_depth_mode_range)
 {
 	using namespace oglplus;
-	clip_depth_mode x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<clip_depth_mode>().size();
 
 #ifdef GL_NEGATIVE_ONE_TO_ONE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<clip_depth_mode>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_NEGATIVE_ONE_TO_ONE
+		clip_depth_mode(GL_NEGATIVE_ONE_TO_ONE)
 	) != r.end());
 }
 #endif
@@ -91,10 +89,10 @@ BOOST_AUTO_TEST_CASE(enum_clip_depth_mode_range)
 #ifdef GL_ZERO_TO_ONE
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<clip_depth_mode>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_ZERO_TO_ONE
+		clip_depth_mode(GL_ZERO_TO_ONE)
 	) != r.end());
 }
 #endif

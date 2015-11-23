@@ -16,4 +16,8 @@ void oglplus_program_pipeline_test_1(void)
 	oglplus_object_test<program_pipeline>();
 }
 
+void oglplus_program_pipeline_test_ops1(void)
+{
+}
+
 // TODO

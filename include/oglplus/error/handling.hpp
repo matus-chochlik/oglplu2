@@ -92,13 +92,23 @@ using deferred_error_handler = deferred_handler<
 	SEVERITY\
 )
 
-#define OGLPLUS_VERIFY(\
-	GLFUNC,\
+#define OGLPLUS_VERIFY_STR(\
+	GLFUNC_NAME,\
 	ERROR_INFO,\
 	SEVERITY\
 ) OGLPLUS_RETURN_HANDLER_IF_GL_ERROR(\
 	OGLPLUS_GL_GET_ERROR(),\
-	ERROR_INFO.gl_function_name(#GLFUNC),\
+	ERROR_INFO.gl_function_name(GLFUNC_NAME),\
+	SEVERITY\
+)
+
+#define OGLPLUS_VERIFY(\
+	GLFUNC,\
+	ERROR_INFO,\
+	SEVERITY\
+) OGLPLUS_VERIFY_STR(\
+	#GLFUNC,\
+	ERROR_INFO,\
 	SEVERITY\
 )
 

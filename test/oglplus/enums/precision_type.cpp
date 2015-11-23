@@ -213,17 +213,15 @@ BOOST_AUTO_TEST_CASE(enum_precision_type_names)
 BOOST_AUTO_TEST_CASE(enum_precision_type_range)
 {
 	using namespace oglplus;
-	precision_type x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<precision_type>().size();
 
 #ifdef GL_HIGH_FLOAT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<precision_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_HIGH_FLOAT
+		precision_type(GL_HIGH_FLOAT)
 	) != r.end());
 }
 #endif
@@ -231,10 +229,10 @@ BOOST_AUTO_TEST_CASE(enum_precision_type_range)
 #ifdef GL_HIGH_INT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<precision_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_HIGH_INT
+		precision_type(GL_HIGH_INT)
 	) != r.end());
 }
 #endif
@@ -242,10 +240,10 @@ BOOST_AUTO_TEST_CASE(enum_precision_type_range)
 #ifdef GL_LOW_FLOAT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<precision_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_LOW_FLOAT
+		precision_type(GL_LOW_FLOAT)
 	) != r.end());
 }
 #endif
@@ -253,10 +251,10 @@ BOOST_AUTO_TEST_CASE(enum_precision_type_range)
 #ifdef GL_LOW_INT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<precision_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_LOW_INT
+		precision_type(GL_LOW_INT)
 	) != r.end());
 }
 #endif
@@ -264,10 +262,10 @@ BOOST_AUTO_TEST_CASE(enum_precision_type_range)
 #ifdef GL_MEDIUM_FLOAT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<precision_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MEDIUM_FLOAT
+		precision_type(GL_MEDIUM_FLOAT)
 	) != r.end());
 }
 #endif
@@ -275,10 +273,10 @@ BOOST_AUTO_TEST_CASE(enum_precision_type_range)
 #ifdef GL_MEDIUM_INT
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<precision_type>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MEDIUM_INT
+		precision_type(GL_MEDIUM_INT)
 	) != r.end());
 }
 #endif

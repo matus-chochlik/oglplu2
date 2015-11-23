@@ -131,17 +131,15 @@ BOOST_AUTO_TEST_CASE(enum_buffer_indexed_target_names)
 BOOST_AUTO_TEST_CASE(enum_buffer_indexed_target_range)
 {
 	using namespace oglplus;
-	buffer_indexed_target x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<buffer_indexed_target>().size();
 
 #ifdef GL_ATOMIC_COUNTER_BUFFER
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<buffer_indexed_target>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_ATOMIC_COUNTER_BUFFER
+		buffer_indexed_target(GL_ATOMIC_COUNTER_BUFFER)
 	) != r.end());
 }
 #endif
@@ -149,10 +147,10 @@ BOOST_AUTO_TEST_CASE(enum_buffer_indexed_target_range)
 #ifdef GL_SHADER_STORAGE_BUFFER
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<buffer_indexed_target>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_SHADER_STORAGE_BUFFER
+		buffer_indexed_target(GL_SHADER_STORAGE_BUFFER)
 	) != r.end());
 }
 #endif
@@ -160,10 +158,10 @@ BOOST_AUTO_TEST_CASE(enum_buffer_indexed_target_range)
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<buffer_indexed_target>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TRANSFORM_FEEDBACK_BUFFER
+		buffer_indexed_target(GL_TRANSFORM_FEEDBACK_BUFFER)
 	) != r.end());
 }
 #endif
@@ -171,10 +169,10 @@ BOOST_AUTO_TEST_CASE(enum_buffer_indexed_target_range)
 #ifdef GL_UNIFORM_BUFFER
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<buffer_indexed_target>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_UNIFORM_BUFFER
+		buffer_indexed_target(GL_UNIFORM_BUFFER)
 	) != r.end());
 }
 #endif

@@ -263,17 +263,15 @@ BOOST_AUTO_TEST_CASE(enum_buffer_storage_bits_names)
 BOOST_AUTO_TEST_CASE(enum_buffer_storage_bits_range)
 {
 	using namespace oglplus;
-	buffer_storage_bits x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<buffer_storage_bits>().size();
 
 #ifdef GL_CLIENT_STORAGE_BIT
 {
 	--count;
-	array_view<const GLbitfield> r = enum_value_range(x);
+	auto r = enum_value_range<buffer_storage_bits>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_CLIENT_STORAGE_BIT
+		buffer_storage_bits(GL_CLIENT_STORAGE_BIT)
 	) != r.end());
 }
 #endif
@@ -281,10 +279,10 @@ BOOST_AUTO_TEST_CASE(enum_buffer_storage_bits_range)
 #ifdef GL_DYNAMIC_STORAGE_BIT
 {
 	--count;
-	array_view<const GLbitfield> r = enum_value_range(x);
+	auto r = enum_value_range<buffer_storage_bits>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_DYNAMIC_STORAGE_BIT
+		buffer_storage_bits(GL_DYNAMIC_STORAGE_BIT)
 	) != r.end());
 }
 #endif
@@ -292,10 +290,10 @@ BOOST_AUTO_TEST_CASE(enum_buffer_storage_bits_range)
 #ifdef GL_MAP_COHERENT_BIT
 {
 	--count;
-	array_view<const GLbitfield> r = enum_value_range(x);
+	auto r = enum_value_range<buffer_storage_bits>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAP_COHERENT_BIT
+		buffer_storage_bits(GL_MAP_COHERENT_BIT)
 	) != r.end());
 }
 #endif
@@ -303,10 +301,10 @@ BOOST_AUTO_TEST_CASE(enum_buffer_storage_bits_range)
 #ifdef GL_MAP_PERSISTENT_BIT
 {
 	--count;
-	array_view<const GLbitfield> r = enum_value_range(x);
+	auto r = enum_value_range<buffer_storage_bits>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAP_PERSISTENT_BIT
+		buffer_storage_bits(GL_MAP_PERSISTENT_BIT)
 	) != r.end());
 }
 #endif
@@ -314,10 +312,10 @@ BOOST_AUTO_TEST_CASE(enum_buffer_storage_bits_range)
 #ifdef GL_MAP_READ_BIT
 {
 	--count;
-	array_view<const GLbitfield> r = enum_value_range(x);
+	auto r = enum_value_range<buffer_storage_bits>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAP_READ_BIT
+		buffer_storage_bits(GL_MAP_READ_BIT)
 	) != r.end());
 }
 #endif
@@ -325,10 +323,10 @@ BOOST_AUTO_TEST_CASE(enum_buffer_storage_bits_range)
 #ifdef GL_MAP_WRITE_BIT
 {
 	--count;
-	array_view<const GLbitfield> r = enum_value_range(x);
+	auto r = enum_value_range<buffer_storage_bits>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_MAP_WRITE_BIT
+		buffer_storage_bits(GL_MAP_WRITE_BIT)
 	) != r.end());
 }
 #endif
@@ -336,10 +334,10 @@ BOOST_AUTO_TEST_CASE(enum_buffer_storage_bits_range)
 #ifdef GL_SPARSE_STORAGE_BIT_ARB
 {
 	--count;
-	array_view<const GLbitfield> r = enum_value_range(x);
+	auto r = enum_value_range<buffer_storage_bits>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_SPARSE_STORAGE_BIT_ARB
+		buffer_storage_bits(GL_SPARSE_STORAGE_BIT_ARB)
 	) != r.end());
 }
 #endif

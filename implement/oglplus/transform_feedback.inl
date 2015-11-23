@@ -7,15 +7,58 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <oglplus/utils/gl_func.hpp>
+#include <oglplus/oper/numeric_queries.hpp>
+
+#if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
+#include "enum/transform_feedback_target_bq.inl"
+#endif
 
 namespace oglplus {
+//------------------------------------------------------------------------------
+namespace oper {
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+transform_feedback_ops::
+bind_transform_feedback(
+	transform_feedback_target target,
+	transform_feedback_name xfb
+) noexcept
+{
+	OGLPLUS_GLFUNC(BindTransformFeedback)(
+		GLenum(target),
+		get_raw_name(xfb)
+	);
+	OGLPLUS_VERIFY(
+		BindTransformFeedback,
+		gl_enum_value(target).
+		gl_object(xfb),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<transform_feedback_name>
+transform_feedback_ops::
+transform_feedback_binding(transform_feedback_target target)
+noexcept
+{
+	GLint result;
+	return numeric_queries::get_integer_v(
+		get_binding_query(target),
+		{&result, 1}
+	), transform_feedback_name(GLuint(result));
+}
+//------------------------------------------------------------------------------
+} // namespace oper
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_gen
 //------------------------------------------------------------------------------
 inline
 deferred_error_handler
 obj_gen_del_ops<tag::transform_feedback>::
-_gen(array_view<GLuint> names)
+_gen(span<GLuint> names)
 noexcept
 {
 	OGLPLUS_GLFUNC(GenTransformFeedbacks)(
@@ -31,7 +74,7 @@ noexcept
 inline
 deferred_error_handler
 obj_gen_del_ops<tag::transform_feedback>::
-_delete(array_view<GLuint> names)
+_delete(span<GLuint> names)
 noexcept
 {
 	OGLPLUS_GLFUNC(DeleteTransformFeedbacks)(
@@ -45,14 +88,14 @@ noexcept
 // obj_gen_del_ops::_is_a
 //------------------------------------------------------------------------------
 inline
-outcome<bool>
+outcome<boolean>
 obj_gen_del_ops<tag::transform_feedback>::
 _is_a(GLuint name)
 noexcept
 {
 	GLboolean res = OGLPLUS_GLFUNC(IsTransformFeedback)(name);
 	OGLPLUS_VERIFY_SIMPLE(IsTransformFeedback,debug);
-	return res == GL_TRUE;
+	return boolean(res);
 }
 //------------------------------------------------------------------------------
 } // namespace oglplus

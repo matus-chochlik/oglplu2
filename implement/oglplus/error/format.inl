@@ -170,9 +170,9 @@ format_error_info(
 		{
 			print(info.gl_subject(), any_object_name());
 		}
-		else if(placeholder == "enum_value")
+		else if(placeholder == "gl_enum_value")
 		{
-			auto ev_name = get_enum_value_name(info.enum_value());
+			auto ev_name = get_enum_value_name(info.gl_enum_value());
 			if(ev_name)
 			{
 				out << ev_name;
@@ -185,6 +185,10 @@ format_error_info(
 			{
 				out << n_a_str;
 			}
+		}
+		else if(placeholder == "gl_index")
+		{
+			print(info.gl_index(), info.invalid_index());
 		}
 		else
 		{

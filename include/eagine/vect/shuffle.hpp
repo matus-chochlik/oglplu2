@@ -30,6 +30,9 @@ struct mask<float, N, V> : _vec_data<std::int32_t, N, V>
 template <unsigned N, bool V>
 struct mask<double, N, V> : _vec_data<std::int64_t, N, V>
 { };
+
+template <typename T, unsigned N, bool V>
+using mask_t = typename mask<T, N, V>::type;
 #endif
 
 template <typename T, unsigned N, bool V>
@@ -61,7 +64,7 @@ private:
 #if EAGINE_USE_SIMD && defined(__clang__)
 		return _dT(__builtin_shufflevector(v, v, I...));
 #elif EAGINE_USE_SIMD && defined(__GNUC__)
-		typedef typename mask<T, N, V>::type _mT;
+		typedef mask_t<T, N, V> _mT;
 		return __builtin_shuffle(v, _mT{I...});
 #else
 		return _do_apply(
@@ -87,7 +90,7 @@ template <typename T, unsigned N, bool V>
 struct shuffle2
 {
 private:
-	typedef typename data<T, N, V>::type _dT;
+	typedef data_t<T, N, V> _dT;
 	typedef data_param_t<T, N, V> _dpT;
 
 	template <unsigned U>
@@ -103,7 +106,7 @@ private:
 		std::false_type
 	) noexcept
 	{
-		return typename data<T, N, V>::type{
+		return data_t<T, N, V>{
 			I<0?T(0):(
 				unsigned(I)<N?
 					v1[unsigned(I)]:
@@ -125,7 +128,7 @@ private:
 #if EAGINE_USE_SIMD && defined(__clang__)
 		return _dT(__builtin_shufflevector(v1,v2, I...));
 #elif EAGINE_USE_SIMD && defined(__GNUC__)
-		typedef typename mask<T, N, V>::type _mT;
+		typedef mask_t<T, N, V> _mT;
 		return __builtin_shuffle(v1, v2, _mT{I...});
 #else
 		return _do_apply(
@@ -150,7 +153,7 @@ private:
 #if EAGINE_USE_SIMD && defined(__clang__)
 		return _dT(__builtin_shufflevector(v1,v2, I>=3?I+1:I...));
 #elif EAGINE_USE_SIMD && defined(__GNUC__)
-		typedef typename mask<T, N, V>::type _mT;
+		typedef mask_t<T, N, V> _mT;
 		return __builtin_shuffle(v1, v2, _mT{(I>=3?I+1:I)...});
 #else
 		return _do_apply(

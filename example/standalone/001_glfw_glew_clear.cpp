@@ -8,8 +8,8 @@
  */
 #include <GL/glew.h>
 
-#include <oglplus/context.hpp>
-#include <oglplus/enum_values.hpp>
+#include <oglplus/operations.hpp>
+#include <oglplus/constants.hpp>
 
 #include <eagine/scope_exit.hpp>
 
@@ -23,8 +23,8 @@ void run_loop(int width, int height)
 {
 	using namespace oglplus;
 
-	enum_values GL;
-	context gl;
+	constants GL;
+	operations gl;
 
 	gl.viewport(0, 0, width, height);
 	gl.clear_color(0.3f, 0.3f, 0.9f, 0.0f);

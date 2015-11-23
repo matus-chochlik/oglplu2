@@ -10,6 +10,7 @@
 #ifndef EAGINE_VECT_DATA_ARY_1509260923_HPP
 #define EAGINE_VECT_DATA_ARY_1509260923_HPP
 
+#include "../type_traits.hpp"
 #include "config.hpp"
 #include "fwd.hpp"
 #include <utility>
@@ -31,9 +32,7 @@ struct _ary_data
 
 	template <
 		typename ... P,
-		typename = typename std::enable_if<
-			(N > 1) && (sizeof...(P) == N)
-		>::type
+		typename = std::enable_if_t<(N > 1) && (sizeof...(P) == N)>
 	>
 	constexpr
 	_ary_data(P&& ... p)
@@ -42,9 +41,9 @@ struct _ary_data
 
 	template <
 		typename P,
-		typename = typename std::enable_if<
+		typename = std::enable_if_t<
 			(N == 1) && (std::is_convertible<P, T>::value)
-		>::type
+		>
 	>
 	constexpr
 	_ary_data(P&& p)

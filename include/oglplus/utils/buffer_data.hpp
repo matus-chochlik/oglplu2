@@ -13,7 +13,7 @@
 
 namespace oglplus {
 
-using buffer_data = eagine::buffer_data<GLsizeiptr>;
+using buffer_data_spec = eagine::buffer_data_spec<GLsizeiptr>;
 
 } // namespace oglplus
 

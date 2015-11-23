@@ -99,17 +99,15 @@ BOOST_AUTO_TEST_CASE(enum_texture_wrap_coord_names)
 BOOST_AUTO_TEST_CASE(enum_texture_wrap_coord_range)
 {
 	using namespace oglplus;
-	texture_wrap_coord x;
-	(void)x;
-	auto count = enum_value_range(x).size();
+	auto count = enum_value_range<texture_wrap_coord>().size();
 
 #ifdef GL_TEXTURE_WRAP_R
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_wrap_coord>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE_WRAP_R
+		texture_wrap_coord(GL_TEXTURE_WRAP_R)
 	) != r.end());
 }
 #endif
@@ -117,10 +115,10 @@ BOOST_AUTO_TEST_CASE(enum_texture_wrap_coord_range)
 #ifdef GL_TEXTURE_WRAP_S
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_wrap_coord>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE_WRAP_S
+		texture_wrap_coord(GL_TEXTURE_WRAP_S)
 	) != r.end());
 }
 #endif
@@ -128,10 +126,10 @@ BOOST_AUTO_TEST_CASE(enum_texture_wrap_coord_range)
 #ifdef GL_TEXTURE_WRAP_T
 {
 	--count;
-	array_view<const GLenum> r = enum_value_range(x);
+	auto r = enum_value_range<texture_wrap_coord>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		GL_TEXTURE_WRAP_T
+		texture_wrap_coord(GL_TEXTURE_WRAP_T)
 	) != r.end());
 }
 #endif

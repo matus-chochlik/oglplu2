@@ -9,45 +9,46 @@
 #ifndef OGLPLUS_QUERY_1509260923_HPP
 #define OGLPLUS_QUERY_1509260923_HPP
 
-#include "object/gl_name.hpp"
+#include "query_name.hpp"
 #include "object/owner.hpp"
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
-
-#ifdef GL_QUERY
+#include "utils/boolean.hpp"
 
 namespace oglplus {
-namespace tag {
+namespace oper {
 
-using query = gl_obj_tag<GL_QUERY>;
+struct query_ops
+{
+	// TODO
+};
 
-} // namespace tag
-
-using query_name = object_name<tag::query>;
-using query = object_owner<tag::query>;
+} // namespace oper
 
 template <>
 struct obj_gen_del_ops<tag::query>
 {
 	static
 	deferred_error_handler
-	_gen(array_view<GLuint> names)
+	_gen(span<GLuint> names)
 	noexcept;
 
 	static
 	deferred_error_handler
-	_delete(array_view<GLuint> names)
+	_delete(span<GLuint> names)
 	noexcept;
 
 	static
-	outcome<bool> _is_a(GLuint name)
+	outcome<boolean> _is_a(GLuint name)
 	noexcept;
 };
+
+using query = object_owner<tag::query>;
+template <std::size_t N>
+using query_array = object_array_owner<tag::query, N>;
 
 } // namespace oglplus
 
 #include <oglplus/query.inl>
-
-#endif // GL_QUERY
 
 #endif // include guard
