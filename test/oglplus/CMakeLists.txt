@@ -27,4 +27,6 @@ add_runtime_test_dependency(oglplus "error_info_r" "error_format_r")
 
 add_runtime_test_dependency(oglplus "glsl_source_ref_r" "glsl_string_ref_r")
 
-add_subdirectory(enums)
+if(NOT ${NO_ENUM_TESTS})
+	add_subdirectory(enums)
+endif()

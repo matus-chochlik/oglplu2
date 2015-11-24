@@ -421,6 +421,14 @@ def get_argument_parser():
 		"""
 	)
 	argparser.add_argument(
+		"--no-enum-tests",
+		default=False,
+		action="store_true",
+		help="""
+			Don't include enumerations tests in the testsuite.
+		"""
+	)
+	argparser.add_argument(
 		"--generator",
 		type=CMakeGeneratorValue,
 		default=None,
@@ -676,6 +684,8 @@ def main(argv):
 	# configure the test suite
 	if(options.no_tests):
 		cmake_options.append("-DNO_TESTS=On")
+	if(options.no_enum_tests):
+		cmake_options.append("-DNO_ENUM_TESTS=On")
 
 	# set the generator if specified
 	if(options.generator):

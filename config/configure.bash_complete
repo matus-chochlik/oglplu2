@@ -91,6 +91,7 @@ function _oglplus_config()
 		--jobs \
 		--build \
 		--no-tests \
+		--no-enum-tests \
 		--generator \
 		--debug-config \
 		--debug-gl-ver-error \
