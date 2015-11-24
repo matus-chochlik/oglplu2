@@ -40,6 +40,7 @@ void oglplus_buffer_test_ops1(void)
 	gl.buffer_mapped(tgt);
 	gl.buffer_usage(tgt);
 #if defined(GL_VERSION_4_4) || defined(GL_ARB_buffer_storage)
+	gl.buffer_storage(tgt, data, buffer_storage_bits());
 	gl.buffer_immutable_storage(tgt);
 	gl.buffer_storage_flags(tgt);
 #endif
@@ -50,6 +51,7 @@ void oglplus_buffer_test_ops1(void)
 	curbuf.mapped();
 	curbuf.usage();
 #if defined(GL_VERSION_4_4) || defined(GL_ARB_buffer_storage)
+	curbuf.storage(data, buffer_storage_bits());
 	curbuf.immutable_storage();
 	curbuf.storage_flags();
 #endif
@@ -71,6 +73,7 @@ void oglplus_buffer_test_ops1(void)
 	gl.buffer_mapped(buf);
 	gl.buffer_usage(buf);
 #if defined(GL_VERSION_4_4) || defined(GL_ARB_buffer_storage)
+	gl.buffer_storage(buf, data, buffer_storage_bits());
 	gl.buffer_immutable_storage(buf);
 	gl.buffer_storage_flags(buf);
 #endif
@@ -81,6 +84,7 @@ void oglplus_buffer_test_ops1(void)
 	buf.mapped();
 	buf.usage();
 #if defined(GL_VERSION_4_4) || defined(GL_ARB_buffer_storage)
+	buf.storage(data, buffer_storage_bits());
 	buf.immutable_storage();
 	buf.storage_flags();
 #endif

@@ -113,6 +113,24 @@ struct buffer_ops
 	noexcept;
 
 #if defined(GL_VERSION_4_4) || defined(GL_ARB_buffer_storage)
+	static
+	outcome<void>
+	buffer_storage(
+		buffer_target target,
+		const buffer_data_spec& data,
+		enum_bitfield<buffer_storage_bits> flags
+	) noexcept;
+
+#if defined(OGLPLUS_DSA_BUFFER)
+	static
+	outcome<void>
+	buffer_storage(
+		buffer_name buf,
+		const buffer_data_spec& data,
+		enum_bitfield<buffer_storage_bits> flags
+	) noexcept;
+#endif
+
 	template <typename BNT>
 	static
 	outcome<boolean>
@@ -275,6 +293,15 @@ public:
 	}
 
 #if defined(GL_VERSION_4_4) || defined(GL_ARB_buffer_storage)
+	outcome<Derived&>
+	storage(
+		const buffer_data_spec& data,
+		enum_bitfield<buffer_storage_bits>flags
+	) noexcept
+	{
+		return {_ops::buffer_storage(*this, data, flags),_self()};
+	}
+
 	outcome<boolean>
 	immutable_storage(void) const
 	noexcept

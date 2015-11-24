@@ -237,6 +237,53 @@ noexcept
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_4) || defined(GL_ARB_buffer_storage)
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+buffer_ops::
+buffer_storage(
+	buffer_target target,
+	const buffer_data_spec& data,
+	enum_bitfield<buffer_storage_bits> flags
+) noexcept
+{
+	OGLPLUS_GLFUNC(BufferStorage)(
+		GLenum(target),
+		GLsizei(data.size()),
+		data.data(),
+		GLbitfield(flags)
+	);
+	OGLPLUS_VERIFY(
+		BufferData,
+		gl_object_binding(tag::buffer(), target),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+buffer_ops::
+buffer_storage(
+	buffer_name buf,
+	const buffer_data_spec& data,
+	enum_bitfield<buffer_storage_bits> flags
+) noexcept
+{
+	OGLPLUS_GLFUNC(BufferStorage)(
+		get_raw_name(buf),
+		GLsizei(data.size()),
+		data.data(),
+		GLbitfield(flags)
+	);
+	OGLPLUS_VERIFY(
+		BufferData,
+		gl_object(buf),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
 template <typename BNT>
 inline
 outcome<boolean>
@@ -284,7 +331,7 @@ buffer_data(
 	);
 	OGLPLUS_VERIFY(
 		BufferData,
-		gl_enum_value(target),
+		gl_object_binding(tag::buffer(), target),
 		debug
 	);
 	return {};
