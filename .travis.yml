@@ -11,7 +11,7 @@ matrix:
     - env: TRAVIS_NO_EMPTY_JOB=true
 
   include:
-    - env: COMPILER=clang++-3.6 TEST_LEVEL=minimal GL_LIBS=default
+    - env: COMPILER=clang++-3.6 JOBS=2 TEST_LEVEL=minimal GL_LIBS=default
       addons: &clang36
         apt:
           packages:
@@ -29,7 +29,7 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
             - llvm-toolchain-precise-3.6
-    - env: COMPILER=clang++-3.6 TEST_LEVEL=basic GL_LIBS=all-apis NO_ENUM_TESTS=--no-enum-tests
+    - env: COMPILER=clang++-3.6 JOBS=4 TEST_LEVEL=basic GL_LIBS=all-apis NO_ENUM_TESTS=--no-enum-tests
       addons: *clang36
 
 before_script:
@@ -38,7 +38,7 @@ before_script:
   - sleep 3
 
 script:
-  - tools/run_tests.py --max-jobs 4 --test-level=${TEST_LEVEL} --gl-libs=${GL_LIBS} --config ${NO_ENUM_TESTS} --cmake -DCMAKE_CXX_COMPILER=${COMPILER}
+  - tools/run_tests.py --max-jobs ${JOBS} --test-level=${TEST_LEVEL} --gl-libs=${GL_LIBS} --config ${NO_ENUM_TESTS} --cmake -DCMAKE_CXX_COMPILER=${COMPILER}
 
 notifications:
   email: false
