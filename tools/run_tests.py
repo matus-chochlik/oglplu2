@@ -158,7 +158,7 @@ def execute_tests(options, parameters):
 		elif name == "build-examples":
 			execute_configure(options, parameters+["--no-tests", "--build"])
 		elif name == "configure-gl":
-			execute_configure(options, parameters+["--debug-gl-ver-error", "--no-tests", "--no-examples"])
+			execute_configure(options, parameters+["--gl-tests-compile-only", "--debug-gl-ver-error", "--no-tests", "--no-examples"])
 
 
 def for_each_gl_init_lib(options, parameters):

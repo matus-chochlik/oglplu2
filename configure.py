@@ -286,6 +286,17 @@ def get_argument_parser():
 			and the GL version and extension list is queried and processed.
 		"""
 	)
+	argparser.add_argument(
+		"--gl-tests-compile-only",
+		dest="gl_tests_compile_only",
+		action="store_true",
+		default=False,
+		help="""
+			Only compilation failures are taken into account when
+			detecting GL version or extensions. Execution failures
+			are ignored.
+		"""
+	)
 
 	gl_api_libs = {
 		"glcorearb.h" : "GL/glcorearb.h header",
@@ -658,6 +669,9 @@ def main(argv):
 	if(options.strict_gl_version_detection is not None):
 		value = int(options.strict_gl_version_detection)
 		cmake_options.append("-DCONFIG_STRICT_GL_VERSION_CHECK=%d"%value)
+
+	if(options.gl_tests_compile_only):
+		cmake_options.append("-DCOMPILE_ONLY_GL_TESTS=On")
 
 	# force the GL header to be used
 	if(options.gl_api_lib):

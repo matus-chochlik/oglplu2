@@ -72,6 +72,7 @@ function _oglplus_config()
 		--screenshots \
 		--max-gl-version \
 		--strict-gl-version-detection \
+		--gl-tests-compile-only \
 		--use-gl-api-lib \
 		--use-glew \
 		--use-gl3w \
