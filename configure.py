@@ -693,13 +693,10 @@ def main(argv):
 
 	# put cmake in debug mode if specified
 	if(options.debug_gl_ver_error):
-		options.debug_config = True
 		cmake_options += ["-DDEBUG_GL_VER_ERROR=1"]
 	if(options.debug_gl_ext_error):
-		options.debug_config = True
 		cmake_options += ["-DDEBUG_GL_EXT_ERROR=%s"%options.debug_gl_ext_error]
 	if(options.debug_lib_error):
-		options.debug_config = True
 		cmake_options += ["-DDEBUG_LIB_ERROR=1"]
 	if(options.debug_config):
 		cmake_options += ["--debug-output", "--debug-trycompile"]

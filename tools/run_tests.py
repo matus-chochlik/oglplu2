@@ -99,7 +99,7 @@ gl_libs_names = ["default", "all-apis", "all-libs"]
 # options for the --test-level parameter
 test_level_names = ["minimal", "basic", "extended", "complete"]
 # options for the --test-type parameter
-test_type_names = ["everything", "ctest", "build-examples"]
+test_type_names = ["everything", "ctest", "build-examples", "configure-gl"]
 
 # checks if arg is valid option for --gl-libs
 def gl_libs_value(arg):
@@ -157,6 +157,8 @@ def execute_tests(options, parameters):
 			execute_ctest(options)
 		elif name == "build-examples":
 			execute_configure(options, parameters+["--no-tests", "--build"])
+		elif name == "configure-gl":
+			execute_configure(options, parameters+["--debug-gl-ver-error", "--no-tests", "--no-examples"])
 
 
 def for_each_gl_init_lib(options, parameters):
