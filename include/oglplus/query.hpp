@@ -20,7 +20,102 @@ namespace oper {
 
 struct query_ops
 {
-	// TODO
+	static
+	outcome<void>
+	begin_query(query_target target, query_name qry)
+	noexcept;
+
+	static
+	outcome<void>
+	end_query(query_target target)
+	noexcept;
+
+#if defined(GL_VERSION_3_0)
+	static
+	outcome<void>
+	begin_conditional_render(query_name, conditional_render_mode mode)
+	noexcept;
+
+	static
+	outcome<void>
+	end_conditional_render(void)
+	noexcept;
+#endif
+
+#if defined(GL_VERSION_3_3) || defined (GL_ARB_timer_query)
+	static
+	outcome<void>
+	query_counter(query_name qry, query_target target)
+	noexcept;
+
+	static
+	outcome<void>
+	query_timestamp(query_name qry)
+	noexcept;
+#endif
+
+	static
+	outcome<void>
+	get_query_object_iv(
+		query_name qry,
+		oglplus::query_parameter param,
+		span<GLint> values
+	) noexcept;
+
+	static
+	outcome<void>
+	get_query_object_uiv(
+		query_name qry,
+		oglplus::query_parameter param,
+		span<GLuint> values
+	) noexcept;
+
+#if defined(GL_VERSION_3_3) || defined (GL_ARB_timer_query)
+	static
+	outcome<void>
+	get_query_object_i64v(
+		query_name qry,
+		oglplus::query_parameter param,
+		span<GLint64> values
+	) noexcept;
+
+	static
+	outcome<void>
+	get_query_object_ui64v(
+		query_name qry,
+		oglplus::query_parameter param,
+		span<GLuint64> values
+	) noexcept;
+#endif
+
+	static
+	outcome<boolean>
+	query_result_available(query_name qry)
+	noexcept;
+
+#if defined(GL_VERSION_3_0)
+	static
+	outcome<void>
+	query_result(query_name qry, GLint& result)
+	noexcept;
+#endif
+
+	static
+	outcome<void>
+	query_result(query_name qry, GLuint& result)
+	noexcept;
+
+#if defined(GL_VERSION_3_3) || defined (GL_ARB_timer_query)
+	static
+	outcome<void>
+	query_result(query_name qry, GLint64& result)
+	noexcept;
+
+	static
+	outcome<void>
+	query_result(query_name qry, GLuint64& result)
+	noexcept;
+#endif
 };
 
 } // namespace oper

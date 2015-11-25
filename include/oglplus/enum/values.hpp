@@ -5346,6 +5346,22 @@ static constexpr const enum_value<
 > query_no_wait_inverted = {};
 #endif
 
+#ifdef GL_QUERY_RESULT
+static constexpr const enum_value<
+	GLenum,
+	GL_QUERY_RESULT,
+	mp_list<oglplus::query_parameter>
+> query_result = {};
+#endif
+
+#ifdef GL_QUERY_RESULT_AVAILABLE
+static constexpr const enum_value<
+	GLenum,
+	GL_QUERY_RESULT_AVAILABLE,
+	mp_list<oglplus::query_parameter>
+> query_result_available = {};
+#endif
+
 #ifdef GL_QUERY_WAIT
 static constexpr const enum_value<
 	GLenum,
