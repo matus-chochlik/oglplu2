@@ -133,10 +133,7 @@ BOOST_AUTO_TEST_CASE(compat_matrix_push_pop)
 	oglplus::enum_values GL;
 
 	{
-		auto test_glPushMatrix = make_aoe_test(
-			mock_glPushMatrix,
-			
-		);
+		auto test_glPushMatrix = make_aoe_test(mock_glPushMatrix);
 		gl.push_matrix();
 		BOOST_CHECK(test_glPushMatrix);
 	}
@@ -153,10 +150,7 @@ BOOST_AUTO_TEST_CASE(compat_matrix_push_pop)
 #endif
 
 	{
-		auto test_glPopMatrix = make_aoe_test(
-			mock_glPopMatrix,
-			
-		);
+		auto test_glPopMatrix = make_aoe_test(mock_glPopMatrix);
 		gl.pop_matrix();
 		BOOST_CHECK(test_glPopMatrix);
 	}
@@ -188,10 +182,7 @@ BOOST_AUTO_TEST_CASE(compat_matrix_load_identity)
 	oglplus::enum_values GL;
 
 	{
-		auto test_glLoadIdentity = make_aoe_test(
-			mock_glLoadIdentity,
-			
-		);
+		auto test_glLoadIdentity = make_aoe_test(mock_glLoadIdentity);
 		gl.load_identity();
 		BOOST_CHECK(test_glLoadIdentity);
 	}
