@@ -179,12 +179,12 @@ public:
 	}
 };
 
-template <typename R, typename ... P>
+template <typename R, typename ... P, typename ... A>
 static inline
 mock_function_aoe_test<R(P...)>
-make_aoe_test(mock_function<R(P...)>& mf, R r, P ... p)
+make_aoe_test(mock_function<R(P...)>& mf, R r, A ... a)
 {
-	return {mf, r, p...};
+	return {mf, r, P(a)...};
 }
 
 template <typename ... P>
@@ -208,12 +208,12 @@ public:
 	}
 };
 
-template <typename ... P>
+template <typename ... P, typename ... A>
 static inline
 mock_function_aoe_test<void(P...)>
-make_aoe_test(mock_function<void(P...)>& mf, P ... p)
+make_aoe_test(mock_function<void(P...)>& mf, A ... a)
 {
-	return {mf, p...};
+	return {mf, P(a)...};
 }
 
 } // namespace eagine
