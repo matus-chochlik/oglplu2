@@ -4364,6 +4364,22 @@ const enum_value<
 > enum_values::multisample;
 #endif
 
+#ifdef GL_NAMED_STRING_LENGTH_ARB
+const enum_value<
+	GLenum,
+	GL_NAMED_STRING_LENGTH_ARB,
+	mp_list<oglplus::named_string_param>
+> enum_values::named_string_length;
+#endif
+
+#ifdef GL_NAMED_STRING_TYPE_ARB
+const enum_value<
+	GLenum,
+	GL_NAMED_STRING_TYPE_ARB,
+	mp_list<oglplus::named_string_param>
+> enum_values::named_string_type;
+#endif
+
 #ifdef GL_NAND
 const enum_value<
 	GLenum,

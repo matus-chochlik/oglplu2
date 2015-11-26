@@ -4370,6 +4370,22 @@ static constexpr const enum_value<
 > multisample = {};
 #endif
 
+#ifdef GL_NAMED_STRING_LENGTH_ARB
+static constexpr const enum_value<
+	GLenum,
+	GL_NAMED_STRING_LENGTH_ARB,
+	mp_list<oglplus::named_string_param>
+> named_string_length = {};
+#endif
+
+#ifdef GL_NAMED_STRING_TYPE_ARB
+static constexpr const enum_value<
+	GLenum,
+	GL_NAMED_STRING_TYPE_ARB,
+	mp_list<oglplus::named_string_param>
+> named_string_type = {};
+#endif
+
 #ifdef GL_NAND
 static constexpr const enum_value<
 	GLenum,

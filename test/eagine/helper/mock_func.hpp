@@ -7,10 +7,37 @@
 #ifndef TEST_EAGINE_HELPER_MOCK_FUNC_HPP
 #define TEST_EAGINE_HELPER_MOCK_FUNC_HPP
 
-#include <cstring>
 #include <oglplus/utils/nothing.hpp>
+#include <cstring>
+#include <cassert>
 
 namespace eagine {
+
+template <typename T>
+struct mock_ptr
+{
+	T* _p;
+
+	constexpr
+	mock_ptr(void)
+	 : _p(nullptr)
+	{ }
+
+	constexpr
+	mock_ptr(std::nullptr_t)
+	 : _p(nullptr)
+	{ }
+
+	mock_ptr(T* p)
+	 : _p(p)
+	{ }
+
+	friend
+	bool operator == (mock_ptr a, mock_ptr b)
+	{
+		return (a._p == b._p) || (a._p == nullptr) || (b._p == nullptr);
+	}
+};
 
 template <typename Sig>
 class mock_function;
@@ -59,6 +86,12 @@ public:
 	{
 		_expected_params = std::tie(p...);
 		_params_ok = false;
+		return self();
+	}
+
+	mock_function<R(P...)>& reset_called(void)
+	{
+		_func_called = 0;
 		return self();
 	}
 
@@ -120,6 +153,68 @@ public:
 		this->_handle_call(a...);
 	}
 };
+
+template <typename F>
+class mock_function_aoe_test;
+
+template <typename R, typename ... P>
+class mock_function_aoe_test<R(P...)>
+{
+private:
+	mock_function<R(P...)>& _mf;
+public:
+	mock_function_aoe_test(mock_function<R(P...)>& mf, R r, P ... p)
+	 : _mf(mf)
+	{
+		_mf.reset_result(r);
+		_mf.reset_params(p...);
+		_mf.reset_called();
+		assert(!_mf.all_ok_exclusive());
+	}
+
+	explicit
+	operator bool (void) const
+	{
+		return _mf.all_ok_exclusive();
+	}
+};
+
+template <typename R, typename ... P>
+static inline
+mock_function_aoe_test<R(P...)>
+make_aoe_test(mock_function<R(P...)>& mf, R r, P ... p)
+{
+	return {mf, r, p...};
+}
+
+template <typename ... P>
+class mock_function_aoe_test<void(P...)>
+{
+private:
+	mock_function<void(P...)>& _mf;
+public:
+	mock_function_aoe_test(mock_function<void(P...)>& mf, P ... p)
+	 : _mf(mf)
+	{
+		_mf.reset_params(p...);
+		_mf.reset_called();
+		assert(!_mf.all_ok_exclusive());
+	}
+
+	explicit
+	operator bool (void) const
+	{
+		return _mf.all_ok_exclusive();
+	}
+};
+
+template <typename ... P>
+static inline
+mock_function_aoe_test<void(P...)>
+make_aoe_test(mock_function<void(P...)>& mf, P ... p)
+{
+	return {mf, p...};
+}
 
 } // namespace eagine
 

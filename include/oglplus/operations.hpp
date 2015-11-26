@@ -42,6 +42,10 @@
 #include "oper/compatibility.hpp"
 #endif
 
+#ifdef GL_ARB_shading_language_include
+#include "oper/named_string.hpp"
+#endif
+
 namespace oglplus {
 
 class operations
@@ -72,6 +76,9 @@ class operations
 
 #ifdef GL_ARB_compatibility
  , public oper::compatibility
+#endif
+#ifdef GL_ARB_shading_language_include
+ , public oper::named_string_state
 #endif
 #ifdef GL_NV_path_rendering
  , public oper::path_nv_ops
