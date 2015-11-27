@@ -9,7 +9,6 @@
 #ifndef OGLPLUS_OPER_BUFFER_MASKING_1509260923_HPP
 #define OGLPLUS_OPER_BUFFER_MASKING_1509260923_HPP
 
-#include "../utils/gl_func.hpp"
 #include "../error/handling.hpp"
 #include "../error/outcome.hpp"
 #include "../enum/types.hpp"
@@ -62,67 +61,34 @@ struct buffer_masking_state
 	static
 	outcome<void>
 	color_mask(boolean r, boolean g, boolean b, boolean a)
-	noexcept
-	{
-		OGLPLUS_GLFUNC(ColorMask)(
-			GLboolean(r),
-			GLboolean(g),
-			GLboolean(b),
-			GLboolean(a)
-		);
-		OGLPLUS_VERIFY_SIMPLE(ColorMask,debug);
-		return {};
-	}
+	noexcept;
 
 	static
 	outcome<void>
 	color_mask(const rgba_mask& m)
-	noexcept
-	{
-		OGLPLUS_GLFUNC(ColorMask)(
-			GLboolean(m._v[0]),
-			GLboolean(m._v[1]),
-			GLboolean(m._v[2]),
-			GLboolean(m._v[3])
-		);
-		OGLPLUS_VERIFY_SIMPLE(ColorMask,debug);
-		return {};
-	}
+	noexcept;
 
 	static
 	outcome<void>
 	depth_mask(boolean mask)
-	noexcept
-	{
-		OGLPLUS_GLFUNC(DepthMask)(GLboolean(mask));
-		OGLPLUS_VERIFY_SIMPLE(DepthMask,debug);
-		return {};
-	}
+	noexcept;
 
 	static
 	outcome<void>
 	stencil_mask(GLuint mask)
-	noexcept
-	{
-		OGLPLUS_GLFUNC(StencilMask)(mask);
-		OGLPLUS_VERIFY_SIMPLE(StencilMask,debug);
-		return {};
-	}
+	noexcept;
 
 	static
 	outcome<void>
 	stencil_mask_separate(single_face face, GLuint mask)
-	noexcept
-	{
-		OGLPLUS_GLFUNC(StencilMaskSeparate)(GLenum(face), mask);
-		OGLPLUS_VERIFY_SIMPLE(StencilMaskSeparate,debug);
-		return {};
-	}
+	noexcept;
 
 	// TODO: getters
 };
 
 } // namespace oper
 } // namespace oglplus
+
+#include <oglplus/oper/buffer_masking.inl>
 
 #endif // include guard
