@@ -27,47 +27,20 @@ struct named_string_state
 	static
 	outcome<void>
 	named_string(
-		named_string_type type,
+		oglplus::named_string_type type,
 		cstring_span<> name,
 		cstring_span<> value
-	) noexcept
-	{
-		OGLPLUS_GLFUNC(NamedStringARB)(
-			GLenum(type),
-			GLint(name.size()),
-			name.data(),
-			GLint(value.size()),
-			value.data()
-		);
-		OGLPLUS_VERIFY_SIMPLE(NamedStringARB,always);
-		return {};
-	}
+	) noexcept;
 
 	static
 	outcome<void>
 	delete_named_string(cstring_span<> name)
-	noexcept
-	{
-		OGLPLUS_GLFUNC(DeleteNamedStringARB)(
-			GLint(name.size()),
-			name.data()
-		);
-		OGLPLUS_VERIFY_SIMPLE(DeleteNamedStringARB,always);
-		return {};
-	}
+	noexcept;
 
 	static
 	outcome<boolean>
 	is_named_string(cstring_span<> name)
-	noexcept
-	{
-		GLboolean result = OGLPLUS_GLFUNC(IsNamedStringARB)(
-			GLint(name.size()),
-			name.data()
-		);
-		OGLPLUS_VERIFY_SIMPLE(IsNamedStringARB,always);
-		return {boolean(result)};
-	}
+	noexcept;
 
 	static
 	outcome<void>
@@ -75,65 +48,28 @@ struct named_string_state
 		cstring_span<> name,
 		named_string_param param,
 		span<GLint> values
-	) noexcept
-	{
-		assert(values.size() > 0);
-		OGLPLUS_GLFUNC(GetNamedStringivARB)(
-			GLint(name.size()),
-			name.data(),
-			GLenum(param),
-			values.data()
-		);
-		OGLPLUS_VERIFY_SIMPLE(GetNamedStringivARB,always);
-		return {};
-	}
+	) noexcept;
 
 	static
 	outcome<GLint>
 	named_string_length(cstring_span<> name)
-	noexcept
-	{
-		GLint result = 0;
-		return get_named_string_iv(
-			name,
-			named_string_param(GL_NAMED_STRING_LENGTH_ARB),
-			{&result, 1}
-		), result;
-	}
+	noexcept;
 
 	static
 	outcome<named_string_type>
 	named_string_type(cstring_span<> name)
-	noexcept
-	{
-		GLint result = 0;
-		return get_named_string_iv(
-			name,
-			named_string_param(GL_NAMED_STRING_TYPE_ARB),
-			{&result, 1}
-		), oglplus::named_string_type(GLenum(result));
-	}
+	noexcept;
 
 	static
 	outcome<GLint>
 	get_named_string(cstring_span<> name, span<GLchar> buf)
-	noexcept
-	{
-		GLint reallen = 0;
-		OGLPLUS_GLFUNC(GetNamedStringARB)(
-			GLint(name.size()),
-			name.data(),
-			GLsizei(buf.size()),
-			&reallen,
-			buf.data()
-		);
-		OGLPLUS_VERIFY_SIMPLE(GetNamedStringARB,always);
-		return {reallen};
-	}
+	noexcept;
 #endif
 };
 
 } // namespace oper
 } // namespace oglplus
+
+#include <oglplus/oper/named_string.inl>
 
 #endif // include guard
