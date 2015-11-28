@@ -152,6 +152,32 @@ noexcept
 inline
 outcome<void>
 compatibility_matrix::
+load_matrix(span<const GLdouble> mat)
+noexcept
+{
+	assert(mat.size() >= 16);
+	OGLPLUS_GLFUNC(LoadMatrixd)(mat.data());
+	OGLPLUS_VERIFY_SIMPLE(LoadMatrixd,debug);
+	return {};
+}
+//------------------------------------------------------------------------------
+#ifdef GL_EXT_direct_state_access
+inline
+outcome<void>
+compatibility_matrix::
+load_matrix(old_matrix_mode mode, span<const GLdouble> mat)
+noexcept
+{
+	assert(mat.size() >= 16);
+	OGLPLUS_GLFUNC(MatrixLoaddEXT)(GLenum(mode), mat.data());
+	OGLPLUS_VERIFY_SIMPLE(MatrixLoaddEXT,debug);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+compatibility_matrix::
 load_transpose_matrix(span<const GLdouble> mat)
 noexcept
 {
