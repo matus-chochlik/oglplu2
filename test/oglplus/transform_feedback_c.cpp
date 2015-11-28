@@ -30,10 +30,14 @@ void oglplus_transform_feedback_test_ops1(void)
 	gl.transform_feedback_binding(tgt);
 
 	gl.begin_transform_feedback(xfbm);
-	gl.end_transform_feedback();
 	gl.pause_transform_feedback();
 	gl.resume_transform_feedback();
+	gl.end_transform_feedback();
 
+	xfb.begin(xfbm);
+	xfb.pause();
+	xfb.resume();
+	xfb.end();
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
 	gl.transform_feedback_buffer_base(xfb, 0, buf);
 	gl.transform_feedback_buffer_range(xfb, 0, buf, 10, 20);
@@ -44,6 +48,16 @@ void oglplus_transform_feedback_test_ops1(void)
 
 	gl.transform_feedback_buffer_start(xfb, 0);
 	gl.transform_feedback_buffer_size(xfb, 0);
+
+	xfb.buffer_base(0, buf);
+	xfb.buffer_range(0, buf, 10, 20);
+
+	xfb.buffer_binding();
+	xfb.active();
+	xfb.paused();
+
+	xfb.buffer_start(0);
+	xfb.buffer_size(0);
 #endif
 }
 

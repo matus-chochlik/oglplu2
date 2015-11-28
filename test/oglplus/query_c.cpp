@@ -30,8 +30,11 @@ void oglplus_query_test_ops1(void)
 #endif
 
 	gl.begin_query(query_target(GL_SAMPLES_PASSED), qry);
-	gl.end_query(query_target());
+	gl.end_query(query_target(GL_SAMPLES_PASSED));
 	gl.begin_query(query_target(GL_SAMPLES_PASSED), qrys[0]);
+
+	qry.begin(query_target(GL_SAMPLES_PASSED));
+	qry.end(query_target(GL_SAMPLES_PASSED));
 
 #if defined(GL_VERSION_3_0)
 	gl.begin_conditional_render(qry, conditional_render_mode(GL_QUERY_WAIT));
@@ -41,14 +44,24 @@ void oglplus_query_test_ops1(void)
 #if defined(GL_VERSION_3_3) || defined (GL_ARB_timer_query)
 	gl.query_counter(qry, query_target(GL_TIMESTAMP));
 	gl.query_timestamp(qry);
+
+	qry.counter(query_target(GL_TIMESTAMP));
+	qry.timestamp();
 #endif
 	gl.query_result_available(qry);
 	gl.query_result(qry, ri);
 	gl.query_result(qry, rui);
 
+	qry.result_available();
+	qry.result(ri);
+	qry.result(rui);
+
 #if defined(GL_VERSION_3_3) || defined (GL_ARB_timer_query)
 	gl.query_result(qry, ri64);
 	gl.query_result(qry, rui64);
+
+	qry.result(ri64);
+	qry.result(rui64);
 #endif
 }
 

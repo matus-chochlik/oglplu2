@@ -139,6 +139,118 @@ struct transform_feedback_ops
 } // namespace oper
 
 template <>
+struct obj_zero_dsa_ops<tag::transform_feedback>
+ : object_zero_name<tag::transform_feedback>
+{
+	typedef oper::transform_feedback_ops _ops;
+
+	obj_zero_dsa_ops(void) = default;
+
+	obj_zero_dsa_ops(transform_feedback_name name)
+	noexcept
+	 : object_zero_name<tag::transform_feedback>(name)
+	{ }
+
+	outcome<void>
+	begin(transform_feedback_primitive_type mode)
+	noexcept
+	{
+		return _ops::begin_transform_feedback(mode);
+	}
+
+	outcome<void>
+	end(void)
+	noexcept
+	{
+		return _ops::end_transform_feedback();
+	}
+
+	outcome<void>
+	pause(void)
+	noexcept
+	{
+		return _ops::pause_transform_feedback();
+	}
+
+	outcome<void>
+	resume(void)
+	noexcept
+	{
+		return _ops::resume_transform_feedback();
+	}
+};
+
+// obj_dsa_ops
+template <>
+struct obj_dsa_ops<tag::transform_feedback>
+ : obj_zero_dsa_ops<tag::transform_feedback>
+{
+	typedef oper::transform_feedback_ops _ops;
+
+	using obj_zero_dsa_ops<tag::transform_feedback>::obj_zero_dsa_ops;
+
+#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
+	outcome<boolean>
+	active(void) const
+	noexcept
+	{
+		return _ops::transform_feedback_active(*this);
+	}
+
+	outcome<boolean>
+	paused(void) const
+	noexcept
+	{
+		return _ops::transform_feedback_paused(*this);
+	}
+
+	outcome<buffer_name>
+	buffer_binding(void) const
+	noexcept
+	{
+		return _ops::transform_feedback_buffer_binding(*this);
+	}
+
+	outcome<GLint64>
+	buffer_start(GLuint index)
+	noexcept
+	{
+		return _ops::transform_feedback_buffer_start(*this, index);
+	}
+
+	outcome<GLint64>
+	buffer_size(GLuint index)
+	noexcept
+	{
+		return _ops::transform_feedback_buffer_size(*this, index);
+	}
+
+	outcome<void>
+	buffer_base(GLuint index, buffer_name buf)
+	noexcept
+	{
+		return _ops::transform_feedback_buffer_base(*this, index, buf);
+	}
+
+	outcome<void>
+	buffer_range(
+		GLuint index,
+		buffer_name buf,
+		GLintptr offset,
+		GLsizeiptr size
+	) noexcept
+	{
+		return _ops::transform_feedback_buffer_range(
+				*this,
+				index,
+				buf, offset, size
+		);
+	}
+#endif
+};
+
+
+template <>
 struct obj_gen_del_ops<tag::transform_feedback>
 {
 	static
