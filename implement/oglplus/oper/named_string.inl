@@ -6,9 +6,9 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#ifdef GL_ARB_shading_language_include
 #include <oglplus/utils/gl_func.hpp>
 
-#ifdef GL_ARB_shading_language_include
 namespace oglplus {
 //------------------------------------------------------------------------------
 namespace oper {
