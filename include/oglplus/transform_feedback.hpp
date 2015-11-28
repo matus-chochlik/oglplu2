@@ -10,6 +10,7 @@
 #define OGLPLUS_TRANSFORM_FEEDBACK_1509260923_HPP
 
 #include "transform_feedback_name.hpp"
+#include "buffer_name.hpp"
 #include "object/owner.hpp"
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
@@ -38,6 +39,100 @@ struct transform_feedback_ops
 	transform_feedback_binding(transform_feedback_target target)
 	noexcept;
 
+	static
+	outcome<void>
+	begin_transform_feedback(transform_feedback_primitive_type)
+	noexcept;
+
+	static
+	outcome<void>
+	end_transform_feedback(void)
+	noexcept;
+
+	static
+	outcome<void>
+	pause_transform_feedback(void)
+	noexcept;
+
+	static
+	outcome<void>
+	resume_transform_feedback(void)
+	noexcept;
+
+#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
+	static
+	outcome<void>
+	get_transform_feedback_iv(
+		transform_feedback_name xfb,
+		transform_feedback_parameter param,
+		span<GLint> values
+	) noexcept;
+
+	static
+	outcome<void>
+	get_transform_feedback_iv(
+		transform_feedback_name xfb,
+		transform_feedback_parameter param,
+		GLuint index,
+		span<GLint> values
+	) noexcept;
+
+	static
+	outcome<void>
+	get_transform_feedback_i64v(
+		transform_feedback_name xfb,
+		transform_feedback_parameter param,
+		GLuint index,
+		span<GLint64> values
+	) noexcept;
+
+	static
+	outcome<boolean>
+	transform_feedback_active(transform_feedback_name xfb)
+	noexcept;
+
+	static
+	outcome<boolean>
+	transform_feedback_paused(transform_feedback_name xfb)
+	noexcept;
+
+	static
+	outcome<buffer_name>
+	transform_feedback_buffer_binding(transform_feedback_name xfb)
+	noexcept;
+
+	static
+	outcome<GLint64>
+	transform_feedback_buffer_start(
+		transform_feedback_name xfb,
+		GLuint index
+	) noexcept;
+
+	static
+	outcome<GLint64>
+	transform_feedback_buffer_size(
+		transform_feedback_name xfb,
+		GLuint index
+	) noexcept;
+
+	static
+	outcome<void>
+	transform_feedback_buffer_base(
+		transform_feedback_name xfb,
+		GLuint index,
+		buffer_name buf
+	) noexcept;
+
+	static
+	outcome<void>
+	transform_feedback_buffer_range(
+		transform_feedback_name xfb,
+		GLuint index,
+		buffer_name buf,
+		GLintptr offset,
+		GLsizeiptr size
+	) noexcept;
+#endif
 	// TODO
 };
 

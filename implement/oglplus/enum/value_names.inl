@@ -3885,6 +3885,10 @@ noexcept
 	static const char s_TRANSFORM_FEEDBACK[19] =
 		"TRANSFORM_FEEDBACK";
 #endif
+#ifdef GL_TRANSFORM_FEEDBACK_ACTIVE
+	static const char s_TRANSFORM_FEEDBACK_ACTIVE[26] =
+		"TRANSFORM_FEEDBACK_ACTIVE";
+#endif
 #ifdef GL_TRANSFORM_FEEDBACK_BARRIER_BIT
 	static const char s_TRANSFORM_FEEDBACK_BARRIER_BIT[31] =
 		"TRANSFORM_FEEDBACK_BARRIER_BIT";
@@ -3920,6 +3924,10 @@ noexcept
 #ifdef GL_TRANSFORM_FEEDBACK_OVERFLOW_ARB
 	static const char s_TRANSFORM_FEEDBACK_OVERFLOW_ARB[32] =
 		"TRANSFORM_FEEDBACK_OVERFLOW_ARB";
+#endif
+#ifdef GL_TRANSFORM_FEEDBACK_PAUSED
+	static const char s_TRANSFORM_FEEDBACK_PAUSED[26] =
+		"TRANSFORM_FEEDBACK_PAUSED";
 #endif
 #ifdef GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN
 	static const char s_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN[38] =
@@ -10040,7 +10048,33 @@ noexcept
 				default:;
 			}
 			break;
-		case 110: /* transform_feedback_primitive_type */
+		case 110: /* transform_feedback_parameter */
+			switch(GLenum(aev._value))
+			{
+#ifdef GL_TRANSFORM_FEEDBACK_ACTIVE
+				case GL_TRANSFORM_FEEDBACK_ACTIVE:
+					return {s_TRANSFORM_FEEDBACK_ACTIVE, 25};
+#endif
+#ifdef GL_TRANSFORM_FEEDBACK_BUFFER_BINDING
+				case GL_TRANSFORM_FEEDBACK_BUFFER_BINDING:
+					return {s_TRANSFORM_FEEDBACK_BUFFER_BINDING, 33};
+#endif
+#ifdef GL_TRANSFORM_FEEDBACK_BUFFER_SIZE
+				case GL_TRANSFORM_FEEDBACK_BUFFER_SIZE:
+					return {s_TRANSFORM_FEEDBACK_BUFFER_SIZE, 30};
+#endif
+#ifdef GL_TRANSFORM_FEEDBACK_BUFFER_START
+				case GL_TRANSFORM_FEEDBACK_BUFFER_START:
+					return {s_TRANSFORM_FEEDBACK_BUFFER_START, 31};
+#endif
+#ifdef GL_TRANSFORM_FEEDBACK_PAUSED
+				case GL_TRANSFORM_FEEDBACK_PAUSED:
+					return {s_TRANSFORM_FEEDBACK_PAUSED, 25};
+#endif
+				default:;
+			}
+			break;
+		case 111: /* transform_feedback_primitive_type */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_LINES
@@ -10058,7 +10092,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 111: /* transform_feedback_target */
+		case 112: /* transform_feedback_target */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_TRANSFORM_FEEDBACK
@@ -10068,7 +10102,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 112: /* true_false */
+		case 113: /* true_false */
 			switch(GLboolean(aev._value))
 			{
 #ifdef GL_FALSE

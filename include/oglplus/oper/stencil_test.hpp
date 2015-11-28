@@ -99,16 +99,7 @@ struct stencil_test_state
 		compare_function func,
 		GLint ref = GLint(0),
 		GLuint mask = ~GLuint(0)
-	) noexcept
-	{
-		OGLPLUS_GLFUNC(StencilFunc)(GLenum(func), ref, mask);
-		OGLPLUS_VERIFY(
-			StencilFunc,
-			gl_enum_value(func),
-			debug
-		);
-		return {};
-	}
+	) noexcept;
 
 	static
 	outcome<void>
@@ -125,19 +116,7 @@ struct stencil_test_state
 		compare_function func,
 		GLint ref = GLint(0),
 		GLuint mask = ~GLuint(0)
-	) noexcept
-	{
-		OGLPLUS_GLFUNC(StencilFuncSeparate)(
-			GLenum(face),
-			GLenum(func), ref, mask
-		);
-		OGLPLUS_VERIFY(
-			StencilFuncSeparate,
-			gl_enum_value(func),
-			debug
-		);
-		return {};
-	}
+	) noexcept;
 
 	static
 	outcome<void>
@@ -158,16 +137,7 @@ struct stencil_test_state
 		stencil_operation sfail,
 		stencil_operation dfail,
 		stencil_operation dpass
-	) noexcept
-	{
-		OGLPLUS_GLFUNC(StencilOp)(
-			GLenum(sfail),
-			GLenum(dfail),
-			GLenum(dpass)
-		);
-		OGLPLUS_VERIFY_SIMPLE(StencilOp, debug);
-		return {};
-	}
+	) noexcept;
 
 	static
 	outcome<void>
@@ -188,17 +158,7 @@ struct stencil_test_state
 		stencil_operation sfail,
 		stencil_operation dfail,
 		stencil_operation dpass
-	) noexcept
-	{
-		OGLPLUS_GLFUNC(StencilOpSeparate)(
-			GLenum(face),
-			GLenum(sfail),
-			GLenum(dfail),
-			GLenum(dpass)
-		);
-		OGLPLUS_VERIFY_SIMPLE(StencilOpSeparate, debug);
-		return {};
-	}
+	) noexcept;
 
 	static
 	outcome<void>
@@ -218,5 +178,7 @@ struct stencil_test_state
 
 } // namespace oper
 } // namespace oglplus
+
+#include <oglplus/oper/stencil_test.inl>
 
 #endif // include guard

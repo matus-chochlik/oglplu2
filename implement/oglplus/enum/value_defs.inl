@@ -7748,6 +7748,14 @@ const enum_value<
 > enum_values::transform_feedback;
 #endif
 
+#ifdef GL_TRANSFORM_FEEDBACK_ACTIVE
+const enum_value<
+	GLenum,
+	GL_TRANSFORM_FEEDBACK_ACTIVE,
+	mp_list<oglplus::transform_feedback_parameter>
+> enum_values::transform_feedback_active;
+#endif
+
 #ifdef GL_TRANSFORM_FEEDBACK_BARRIER_BIT
 const enum_value<
 	GLbitfield,
@@ -7776,7 +7784,7 @@ const enum_value<
 const enum_value<
 	GLenum,
 	GL_TRANSFORM_FEEDBACK_BUFFER_BINDING,
-	mp_list<oglplus::binding_query>
+	mp_list<oglplus::transform_feedback_parameter,oglplus::binding_query>
 > enum_values::transform_feedback_buffer_binding;
 #endif
 
@@ -7792,7 +7800,7 @@ const enum_value<
 const enum_value<
 	GLenum,
 	GL_TRANSFORM_FEEDBACK_BUFFER_SIZE,
-	mp_list<oglplus::numeric_query>
+	mp_list<oglplus::transform_feedback_parameter,oglplus::numeric_query>
 > enum_values::transform_feedback_buffer_size;
 #endif
 
@@ -7800,7 +7808,7 @@ const enum_value<
 const enum_value<
 	GLenum,
 	GL_TRANSFORM_FEEDBACK_BUFFER_START,
-	mp_list<oglplus::numeric_query>
+	mp_list<oglplus::transform_feedback_parameter,oglplus::numeric_query>
 > enum_values::transform_feedback_buffer_start;
 #endif
 
@@ -7818,6 +7826,14 @@ const enum_value<
 	GL_TRANSFORM_FEEDBACK_OVERFLOW_ARB,
 	mp_list<oglplus::query_target>
 > enum_values::transform_feedback_overflow;
+#endif
+
+#ifdef GL_TRANSFORM_FEEDBACK_PAUSED
+const enum_value<
+	GLenum,
+	GL_TRANSFORM_FEEDBACK_PAUSED,
+	mp_list<oglplus::transform_feedback_parameter>
+> enum_values::transform_feedback_paused;
 #endif
 
 #ifdef GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN

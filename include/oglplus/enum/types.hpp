@@ -456,16 +456,20 @@ struct transform_feedback_mode
  : enum_class<transform_feedback_mode, GLenum, 109>
 { using enum_class::enum_class; };
 
+struct transform_feedback_parameter
+ : enum_class<transform_feedback_parameter, GLenum, 110>
+{ using enum_class::enum_class; };
+
 struct transform_feedback_primitive_type
- : enum_class<transform_feedback_primitive_type, GLenum, 110>
+ : enum_class<transform_feedback_primitive_type, GLenum, 111>
 { using enum_class::enum_class; };
 
 struct transform_feedback_target
- : enum_class<transform_feedback_target, GLenum, 111>
+ : enum_class<transform_feedback_target, GLenum, 112>
 { using enum_class::enum_class; };
 
 struct true_false
- : enum_class<true_false, GLboolean, 112>
+ : enum_class<true_false, GLboolean, 113>
 { using enum_class::enum_class; };
 
 } // namespace oglplus

@@ -4560,7 +4560,29 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 110: /* transform_feedback_primitive_type */
+		case 110: /* transform_feedback_parameter */
+		{
+			static const GLenum vr[] = {
+#ifdef GL_TRANSFORM_FEEDBACK_ACTIVE
+				GL_TRANSFORM_FEEDBACK_ACTIVE,
+#endif
+#ifdef GL_TRANSFORM_FEEDBACK_BUFFER_BINDING
+				GL_TRANSFORM_FEEDBACK_BUFFER_BINDING,
+#endif
+#ifdef GL_TRANSFORM_FEEDBACK_BUFFER_SIZE
+				GL_TRANSFORM_FEEDBACK_BUFFER_SIZE,
+#endif
+#ifdef GL_TRANSFORM_FEEDBACK_BUFFER_START
+				GL_TRANSFORM_FEEDBACK_BUFFER_START,
+#endif
+#ifdef GL_TRANSFORM_FEEDBACK_PAUSED
+				GL_TRANSFORM_FEEDBACK_PAUSED,
+#endif
+				0
+			};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
+		}
+		case 111: /* transform_feedback_primitive_type */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_LINES
@@ -4576,7 +4598,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 111: /* transform_feedback_target */
+		case 112: /* transform_feedback_target */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_TRANSFORM_FEEDBACK
@@ -4586,7 +4608,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 112: /* true_false */
+		case 113: /* true_false */
 		{
 			static const GLboolean vr[] = {
 #ifdef GL_FALSE
