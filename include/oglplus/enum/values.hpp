@@ -130,6 +130,14 @@ static constexpr const enum_value<
 > alpha = {};
 #endif
 
+#ifdef GL_ALPHA_REF_COMMAND_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_ALPHA_REF_COMMAND_NV,
+	mp_list<oglplus::command_token_nv>
+> alpha_ref_command_nv = {};
+#endif
+
 #ifdef GL_ALREADY_SIGNALED
 static constexpr const enum_value<
 	GLenum,
@@ -258,6 +266,14 @@ static constexpr const enum_value<
 > attached_shaders = {};
 #endif
 
+#ifdef GL_ATTRIBUTE_ADDRESS_COMMAND_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_ATTRIBUTE_ADDRESS_COMMAND_NV,
+	mp_list<oglplus::command_token_nv>
+> attribute_address_command_nv = {};
+#endif
+
 #ifdef GL_BACK
 static constexpr const enum_value<
 	GLenum,
@@ -344,6 +360,14 @@ static constexpr const enum_value<
 	GL_BLEND_COLOR,
 	mp_list<oglplus::numeric_query>
 > blend_color = {};
+#endif
+
+#ifdef GL_BLEND_COLOR_COMMAND_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_BLEND_COLOR_COMMAND_NV,
+	mp_list<oglplus::command_token_nv>
+> blend_color_command_nv = {};
 #endif
 
 #ifdef GL_BLEND_DST_ALPHA
@@ -1722,6 +1746,30 @@ static constexpr const enum_value<
 > doublebuffer = {};
 #endif
 
+#ifdef GL_DRAW_ARRAYS_COMMAND_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_DRAW_ARRAYS_COMMAND_NV,
+	mp_list<oglplus::command_token_nv>
+> draw_arrays_command_nv = {};
+#endif
+
+#ifdef GL_DRAW_ARRAYS_INSTANCED_COMMAND_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_DRAW_ARRAYS_INSTANCED_COMMAND_NV,
+	mp_list<oglplus::command_token_nv>
+> draw_arrays_instanced_command_nv = {};
+#endif
+
+#ifdef GL_DRAW_ARRAYS_STRIP_COMMAND_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_DRAW_ARRAYS_STRIP_COMMAND_NV,
+	mp_list<oglplus::command_token_nv>
+> draw_arrays_strip_command_nv = {};
+#endif
+
 #ifdef GL_DRAW_BUFFER
 static constexpr const enum_value<
 	GLenum,
@@ -1736,6 +1784,30 @@ static constexpr const enum_value<
 	GL_DRAW_BUFFER0,
 	mp_list<oglplus::indexed_value_base>
 > draw_buffer0 = {};
+#endif
+
+#ifdef GL_DRAW_ELEMENTS_COMMAND_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_DRAW_ELEMENTS_COMMAND_NV,
+	mp_list<oglplus::command_token_nv>
+> draw_elements_command_nv = {};
+#endif
+
+#ifdef GL_DRAW_ELEMENTS_INSTANCED_COMMAND_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_DRAW_ELEMENTS_INSTANCED_COMMAND_NV,
+	mp_list<oglplus::command_token_nv>
+> draw_elements_instanced_command_nv = {};
+#endif
+
+#ifdef GL_DRAW_ELEMENTS_STRIP_COMMAND_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_DRAW_ELEMENTS_STRIP_COMMAND_NV,
+	mp_list<oglplus::command_token_nv>
+> draw_elements_strip_command_nv = {};
 #endif
 
 #ifdef GL_DRAW_FRAMEBUFFER
@@ -1832,6 +1904,14 @@ static constexpr const enum_value<
 	GL_DYNAMIC_STORAGE_BIT,
 	mp_list<oglplus::buffer_storage_bits>
 > dynamic_storage_bit = {};
+#endif
+
+#ifdef GL_ELEMENT_ADDRESS_COMMAND_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_ELEMENT_ADDRESS_COMMAND_NV,
+	mp_list<oglplus::command_token_nv>
+> element_address_command_nv = {};
 #endif
 
 #ifdef GL_ELEMENT_ARRAY_BARRIER_BIT
@@ -2352,6 +2432,14 @@ static constexpr const enum_value<
 	GL_FRONT_AND_BACK,
 	mp_list<oglplus::color_buffer,oglplus::face>
 > front_and_back = {};
+#endif
+
+#ifdef GL_FRONT_FACE_COMMAND_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_FRONT_FACE_COMMAND_NV,
+	mp_list<oglplus::command_token_nv>
+> front_face_command_nv = {};
 #endif
 
 #ifdef GL_FRONT_LEFT
@@ -3184,6 +3272,14 @@ static constexpr const enum_value<
 	GL_LINE_WIDTH,
 	mp_list<oglplus::numeric_query>
 > line_width = {};
+#endif
+
+#ifdef GL_LINE_WIDTH_COMMAND_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_LINE_WIDTH_COMMAND_NV,
+	mp_list<oglplus::command_token_nv>
+> line_width_command_nv = {};
 #endif
 
 #ifdef GL_LINEAR
@@ -4474,6 +4570,14 @@ static constexpr const enum_value<
 > noop = {};
 #endif
 
+#ifdef GL_NOP_COMMAND_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_NOP_COMMAND_NV,
+	mp_list<oglplus::command_token_nv>
+> nop_command_nv = {};
+#endif
+
 #ifdef GL_NOR
 static constexpr const enum_value<
 	GLenum,
@@ -5104,6 +5208,14 @@ static constexpr const enum_value<
 	GL_POLYGON,
 	mp_list<oglplus::old_primitive_type>
 > polygon = {};
+#endif
+
+#ifdef GL_POLYGON_OFFSET_COMMAND_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_POLYGON_OFFSET_COMMAND_NV,
+	mp_list<oglplus::command_token_nv>
+> polygon_offset_command_nv = {};
 #endif
 
 #ifdef GL_POLYGON_OFFSET_FACTOR
@@ -6538,6 +6650,14 @@ static constexpr const enum_value<
 > scissor_box = {};
 #endif
 
+#ifdef GL_SCISSOR_COMMAND_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_SCISSOR_COMMAND_NV,
+	mp_list<oglplus::command_token_nv>
+> scissor_command_nv = {};
+#endif
+
 #ifdef GL_SCISSOR_TEST
 static constexpr const enum_value<
 	GLenum,
@@ -7034,6 +7154,14 @@ static constexpr const enum_value<
 > stencil_ref = {};
 #endif
 
+#ifdef GL_STENCIL_REF_COMMAND_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_STENCIL_REF_COMMAND_NV,
+	mp_list<oglplus::command_token_nv>
+> stencil_ref_command_nv = {};
+#endif
+
 #ifdef GL_STENCIL_TEST
 static constexpr const enum_value<
 	GLenum,
@@ -7136,6 +7264,14 @@ static constexpr const enum_value<
 	GL_TABLE_TOO_LARGE,
 	mp_list<oglplus::error_code>
 > table_too_large = {};
+#endif
+
+#ifdef GL_TERMINATE_SEQUENCE_COMMAND_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_TERMINATE_SEQUENCE_COMMAND_NV,
+	mp_list<oglplus::command_token_nv>
+> terminate_sequence_command_nv = {};
 #endif
 
 #ifdef GL_TESS_CONTROL_SHADER
@@ -7978,6 +8114,14 @@ static constexpr const enum_value<
 > uniform = {};
 #endif
 
+#ifdef GL_UNIFORM_ADDRESS_COMMAND_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_UNIFORM_ADDRESS_COMMAND_NV,
+	mp_list<oglplus::command_token_nv>
+> uniform_address_command_nv = {};
+#endif
+
 #ifdef GL_UNIFORM_BARRIER_BIT
 static constexpr const enum_value<
 	GLbitfield,
@@ -8640,6 +8784,14 @@ static constexpr const enum_value<
 	GL_VIEWPORT_BOUNDS_RANGE,
 	mp_list<oglplus::numeric_query>
 > viewport_bounds_range = {};
+#endif
+
+#ifdef GL_VIEWPORT_COMMAND_NV
+static constexpr const enum_value<
+	GLenum,
+	GL_VIEWPORT_COMMAND_NV,
+	mp_list<oglplus::command_token_nv>
+> viewport_command_nv = {};
 #endif
 
 #ifdef GL_VIEWPORT_INDEX_PROVOKING_VERTEX

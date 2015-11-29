@@ -124,6 +124,14 @@ const enum_value<
 > enum_values::alpha;
 #endif
 
+#ifdef GL_ALPHA_REF_COMMAND_NV
+const enum_value<
+	GLenum,
+	GL_ALPHA_REF_COMMAND_NV,
+	mp_list<oglplus::command_token_nv>
+> enum_values::alpha_ref_command_nv;
+#endif
+
 #ifdef GL_ALREADY_SIGNALED
 const enum_value<
 	GLenum,
@@ -252,6 +260,14 @@ const enum_value<
 > enum_values::attached_shaders;
 #endif
 
+#ifdef GL_ATTRIBUTE_ADDRESS_COMMAND_NV
+const enum_value<
+	GLenum,
+	GL_ATTRIBUTE_ADDRESS_COMMAND_NV,
+	mp_list<oglplus::command_token_nv>
+> enum_values::attribute_address_command_nv;
+#endif
+
 #ifdef GL_BACK
 const enum_value<
 	GLenum,
@@ -338,6 +354,14 @@ const enum_value<
 	GL_BLEND_COLOR,
 	mp_list<oglplus::numeric_query>
 > enum_values::blend_color;
+#endif
+
+#ifdef GL_BLEND_COLOR_COMMAND_NV
+const enum_value<
+	GLenum,
+	GL_BLEND_COLOR_COMMAND_NV,
+	mp_list<oglplus::command_token_nv>
+> enum_values::blend_color_command_nv;
 #endif
 
 #ifdef GL_BLEND_DST_ALPHA
@@ -1716,6 +1740,30 @@ const enum_value<
 > enum_values::doublebuffer;
 #endif
 
+#ifdef GL_DRAW_ARRAYS_COMMAND_NV
+const enum_value<
+	GLenum,
+	GL_DRAW_ARRAYS_COMMAND_NV,
+	mp_list<oglplus::command_token_nv>
+> enum_values::draw_arrays_command_nv;
+#endif
+
+#ifdef GL_DRAW_ARRAYS_INSTANCED_COMMAND_NV
+const enum_value<
+	GLenum,
+	GL_DRAW_ARRAYS_INSTANCED_COMMAND_NV,
+	mp_list<oglplus::command_token_nv>
+> enum_values::draw_arrays_instanced_command_nv;
+#endif
+
+#ifdef GL_DRAW_ARRAYS_STRIP_COMMAND_NV
+const enum_value<
+	GLenum,
+	GL_DRAW_ARRAYS_STRIP_COMMAND_NV,
+	mp_list<oglplus::command_token_nv>
+> enum_values::draw_arrays_strip_command_nv;
+#endif
+
 #ifdef GL_DRAW_BUFFER
 const enum_value<
 	GLenum,
@@ -1730,6 +1778,30 @@ const enum_value<
 	GL_DRAW_BUFFER0,
 	mp_list<oglplus::indexed_value_base>
 > enum_values::draw_buffer0;
+#endif
+
+#ifdef GL_DRAW_ELEMENTS_COMMAND_NV
+const enum_value<
+	GLenum,
+	GL_DRAW_ELEMENTS_COMMAND_NV,
+	mp_list<oglplus::command_token_nv>
+> enum_values::draw_elements_command_nv;
+#endif
+
+#ifdef GL_DRAW_ELEMENTS_INSTANCED_COMMAND_NV
+const enum_value<
+	GLenum,
+	GL_DRAW_ELEMENTS_INSTANCED_COMMAND_NV,
+	mp_list<oglplus::command_token_nv>
+> enum_values::draw_elements_instanced_command_nv;
+#endif
+
+#ifdef GL_DRAW_ELEMENTS_STRIP_COMMAND_NV
+const enum_value<
+	GLenum,
+	GL_DRAW_ELEMENTS_STRIP_COMMAND_NV,
+	mp_list<oglplus::command_token_nv>
+> enum_values::draw_elements_strip_command_nv;
 #endif
 
 #ifdef GL_DRAW_FRAMEBUFFER
@@ -1826,6 +1898,14 @@ const enum_value<
 	GL_DYNAMIC_STORAGE_BIT,
 	mp_list<oglplus::buffer_storage_bits>
 > enum_values::dynamic_storage_bit;
+#endif
+
+#ifdef GL_ELEMENT_ADDRESS_COMMAND_NV
+const enum_value<
+	GLenum,
+	GL_ELEMENT_ADDRESS_COMMAND_NV,
+	mp_list<oglplus::command_token_nv>
+> enum_values::element_address_command_nv;
 #endif
 
 #ifdef GL_ELEMENT_ARRAY_BARRIER_BIT
@@ -2346,6 +2426,14 @@ const enum_value<
 	GL_FRONT_AND_BACK,
 	mp_list<oglplus::color_buffer,oglplus::face>
 > enum_values::front_and_back;
+#endif
+
+#ifdef GL_FRONT_FACE_COMMAND_NV
+const enum_value<
+	GLenum,
+	GL_FRONT_FACE_COMMAND_NV,
+	mp_list<oglplus::command_token_nv>
+> enum_values::front_face_command_nv;
 #endif
 
 #ifdef GL_FRONT_LEFT
@@ -3178,6 +3266,14 @@ const enum_value<
 	GL_LINE_WIDTH,
 	mp_list<oglplus::numeric_query>
 > enum_values::line_width;
+#endif
+
+#ifdef GL_LINE_WIDTH_COMMAND_NV
+const enum_value<
+	GLenum,
+	GL_LINE_WIDTH_COMMAND_NV,
+	mp_list<oglplus::command_token_nv>
+> enum_values::line_width_command_nv;
 #endif
 
 #ifdef GL_LINEAR
@@ -4468,6 +4564,14 @@ const enum_value<
 > enum_values::noop;
 #endif
 
+#ifdef GL_NOP_COMMAND_NV
+const enum_value<
+	GLenum,
+	GL_NOP_COMMAND_NV,
+	mp_list<oglplus::command_token_nv>
+> enum_values::nop_command_nv;
+#endif
+
 #ifdef GL_NOR
 const enum_value<
 	GLenum,
@@ -5098,6 +5202,14 @@ const enum_value<
 	GL_POLYGON,
 	mp_list<oglplus::old_primitive_type>
 > enum_values::polygon;
+#endif
+
+#ifdef GL_POLYGON_OFFSET_COMMAND_NV
+const enum_value<
+	GLenum,
+	GL_POLYGON_OFFSET_COMMAND_NV,
+	mp_list<oglplus::command_token_nv>
+> enum_values::polygon_offset_command_nv;
 #endif
 
 #ifdef GL_POLYGON_OFFSET_FACTOR
@@ -6532,6 +6644,14 @@ const enum_value<
 > enum_values::scissor_box;
 #endif
 
+#ifdef GL_SCISSOR_COMMAND_NV
+const enum_value<
+	GLenum,
+	GL_SCISSOR_COMMAND_NV,
+	mp_list<oglplus::command_token_nv>
+> enum_values::scissor_command_nv;
+#endif
+
 #ifdef GL_SCISSOR_TEST
 const enum_value<
 	GLenum,
@@ -7028,6 +7148,14 @@ const enum_value<
 > enum_values::stencil_ref;
 #endif
 
+#ifdef GL_STENCIL_REF_COMMAND_NV
+const enum_value<
+	GLenum,
+	GL_STENCIL_REF_COMMAND_NV,
+	mp_list<oglplus::command_token_nv>
+> enum_values::stencil_ref_command_nv;
+#endif
+
 #ifdef GL_STENCIL_TEST
 const enum_value<
 	GLenum,
@@ -7130,6 +7258,14 @@ const enum_value<
 	GL_TABLE_TOO_LARGE,
 	mp_list<oglplus::error_code>
 > enum_values::table_too_large;
+#endif
+
+#ifdef GL_TERMINATE_SEQUENCE_COMMAND_NV
+const enum_value<
+	GLenum,
+	GL_TERMINATE_SEQUENCE_COMMAND_NV,
+	mp_list<oglplus::command_token_nv>
+> enum_values::terminate_sequence_command_nv;
 #endif
 
 #ifdef GL_TESS_CONTROL_SHADER
@@ -7972,6 +8108,14 @@ const enum_value<
 > enum_values::uniform;
 #endif
 
+#ifdef GL_UNIFORM_ADDRESS_COMMAND_NV
+const enum_value<
+	GLenum,
+	GL_UNIFORM_ADDRESS_COMMAND_NV,
+	mp_list<oglplus::command_token_nv>
+> enum_values::uniform_address_command_nv;
+#endif
+
 #ifdef GL_UNIFORM_BARRIER_BIT
 const enum_value<
 	GLbitfield,
@@ -8634,6 +8778,14 @@ const enum_value<
 	GL_VIEWPORT_BOUNDS_RANGE,
 	mp_list<oglplus::numeric_query>
 > enum_values::viewport_bounds_range;
+#endif
+
+#ifdef GL_VIEWPORT_COMMAND_NV
+const enum_value<
+	GLenum,
+	GL_VIEWPORT_COMMAND_NV,
+	mp_list<oglplus::command_token_nv>
+> enum_values::viewport_command_nv;
 #endif
 
 #ifdef GL_VIEWPORT_INDEX_PROVOKING_VERTEX
