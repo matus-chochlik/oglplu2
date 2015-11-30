@@ -35,6 +35,11 @@
 #include "path_nv_array.hpp"
 #endif
 
+#ifdef GL_NV_command_list
+#include "state_nv.hpp"
+#include "command_list_nv.hpp"
+#endif
+
 #include "oper/vertex_attrib.hpp"
 #include "oper/uniform.hpp"
 
