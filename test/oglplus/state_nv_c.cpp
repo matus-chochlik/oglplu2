@@ -21,11 +21,18 @@ void oglplus_state_nv_test_1(void)
 
 void oglplus_state_nv_test_ops1(void)
 {
-/*
 	oper::state_nv_ops gl;
-	state_nv sam;
-	state_nv_array<4> sams;
-*/
+	state_nv ste;
+	state_nv_array<4> stes;
+	old_primitive_type cpt(GL_TRIANGLES);
+
+	gl.get_command_header(command_token_nv(GL_NOP_COMMAND_NV), 0);
+	gl.get_stage_index(shader_type(GL_VERTEX_SHADER));
+
+	gl.state_capture(ste, cpt);
+	gl.state_capture(stes[0], cpt);
+
+	ste.capture(cpt);
 }
 
 // TODO
