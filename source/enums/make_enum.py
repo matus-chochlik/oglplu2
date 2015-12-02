@@ -258,14 +258,14 @@ def action_incl_enum_values_hpp(options):
 		))
 		print_line(options, "static constexpr const enum_value<")
 		print_line(options, "	%s," % value_info.info.enum_type)
-		print_line(options, "	%s_%s," % (
-			options.base_lib_prefix,
-			value_info.info.src_name
-		))
 		print_line(options, "	mp_list<%s>" % (
 			",".join(["%s::%s" % (options.library, x) for x in value_info.classes])
 		))
-		print_line(options, "> %s = {};" % value_name);
+		print_line(options, "> %s = {%s_%s};" % (
+			value_name,
+			options.base_lib_prefix,
+			value_info.info.src_name
+		))
 		print_line(options, "#endif")
 		print_newline(options)
 
@@ -308,14 +308,13 @@ def action_impl_enum_value_defs_inl(options):
 		))
 		print_line(options, "const enum_value<")
 		print_line(options, "	%s," % value_info.info.enum_type)
-		print_line(options, "	%s_%s," % (
-			options.base_lib_prefix,
-			value_info.info.src_name
-		))
 		print_line(options, "	mp_list<%s>" % (
 			",".join(["%s::%s" % (options.library, x) for x in value_info.classes])
 		))
-		print_line(options, "> enum_values::%s;" % value_name);
+		print_line(options, "> enum_values%s::%s;" % (
+			options.lib_suffix,
+			value_name
+		))
 		print_line(options, "#endif")
 		print_newline(options)
 
@@ -636,7 +635,7 @@ def action_test_enums_cpp(options):
 	print_line(options, "	using namespace %s;" % options.library)
 	print_line(options, "	auto count = enum_value_range<%s>().size();" % (
 		options.enum_name
-	));
+	))
 
 	for value_name, value_info in sorted(value_infos.items()):
 		print_newline(options)
@@ -644,7 +643,7 @@ def action_test_enums_cpp(options):
 			options.base_lib_prefix,
 			value_info.src_name
 		))
-		print_line(options, "{");
+		print_line(options, "{")
 		print_line(options, "	--count;")
 		print_line(options, "	auto r = enum_value_range<%s>();" % (
 			options.enum_name
@@ -657,7 +656,7 @@ def action_test_enums_cpp(options):
 			value_info.src_name
 		))
 		print_line(options, "	) != r.end());")
-		print_line(options, "}");
+		print_line(options, "}")
 
 		print_line(options, "#endif")
 

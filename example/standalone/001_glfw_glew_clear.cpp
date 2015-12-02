@@ -10,6 +10,7 @@
 
 #include <oglplus/operations.hpp>
 #include <oglplus/constants.hpp>
+#include <oglplus/constant_defs.hpp>
 
 #include <eagine/scope_exit.hpp>
 

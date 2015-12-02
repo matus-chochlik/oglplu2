@@ -10,7 +10,7 @@
 
 #include <oglplus/operations.hpp>
 #include <oglplus/constants.hpp>
-#include <oglplus/enum/value_defs.inl>
+#include <oglplus/constant_defs.hpp>
 #include <oglplus/glsl/string_ref.hpp>
 #include <oglplus/error/format.hpp>
 

@@ -21,89 +21,78 @@ struct enum_values_alc {
 #ifdef ALC_FREQUENCY
 static constexpr const enum_value<
 	ALCenum,
-	ALC_FREQUENCY,
 	mp_list<oalplus::context_attrib>
-> frequency = {};
+> frequency = {ALC_FREQUENCY};
 #endif
 
 #ifdef ALC_INVALID_CONTEXT
 static constexpr const enum_value<
 	ALCenum,
-	ALC_INVALID_CONTEXT,
 	mp_list<oalplus::alc_error_code>
-> invalid_context = {};
+> invalid_context = {ALC_INVALID_CONTEXT};
 #endif
 
 #ifdef ALC_INVALID_DEVICE
 static constexpr const enum_value<
 	ALCenum,
-	ALC_INVALID_DEVICE,
 	mp_list<oalplus::alc_error_code>
-> invalid_device = {};
+> invalid_device = {ALC_INVALID_DEVICE};
 #endif
 
 #ifdef ALC_INVALID_ENUM
 static constexpr const enum_value<
 	ALCenum,
-	ALC_INVALID_ENUM,
 	mp_list<oalplus::alc_error_code>
-> invalid_enum = {};
+> invalid_enum = {ALC_INVALID_ENUM};
 #endif
 
 #ifdef ALC_INVALID_VALUE
 static constexpr const enum_value<
 	ALCenum,
-	ALC_INVALID_VALUE,
 	mp_list<oalplus::alc_error_code>
-> invalid_value = {};
+> invalid_value = {ALC_INVALID_VALUE};
 #endif
 
 #ifdef ALC_MONO_SOURCES
 static constexpr const enum_value<
 	ALCenum,
-	ALC_MONO_SOURCES,
 	mp_list<oalplus::context_attrib>
-> mono_sources = {};
+> mono_sources = {ALC_MONO_SOURCES};
 #endif
 
 #ifdef ALC_NO_ERROR
 static constexpr const enum_value<
 	ALCenum,
-	ALC_NO_ERROR,
 	mp_list<oalplus::alc_error_code>
-> no_error = {};
+> no_error = {ALC_NO_ERROR};
 #endif
 
 #ifdef ALC_OUT_OF_MEMORY
 static constexpr const enum_value<
 	ALCenum,
-	ALC_OUT_OF_MEMORY,
 	mp_list<oalplus::alc_error_code>
-> out_of_memory = {};
+> out_of_memory = {ALC_OUT_OF_MEMORY};
 #endif
 
 #ifdef ALC_REFRESH
 static constexpr const enum_value<
 	ALCenum,
-	ALC_REFRESH,
 	mp_list<oalplus::context_attrib>
-> refresh = {};
+> refresh = {ALC_REFRESH};
 #endif
 
 #ifdef ALC_STEREO_SOURCES
 static constexpr const enum_value<
 	ALCenum,
-	ALC_STEREO_SOURCES,
 	mp_list<oalplus::context_attrib>
-> stereo_sources = {};
+> stereo_sources = {ALC_STEREO_SOURCES};
 #endif
 
 #ifdef ALC_SYNC
 static constexpr const enum_value<
 	ALCenum,
-	ALC_SYNC,
 	mp_list<oalplus::context_attrib>
-> sync = {};
+> sync = {ALC_SYNC};
 #endif
 
 };// struct enum_values

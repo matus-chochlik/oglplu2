@@ -15,7 +15,6 @@ namespace oalplus {
 #ifdef AL_EXPONENT_DISTANCE
 const enum_value<
 	ALenum,
-	AL_EXPONENT_DISTANCE,
 	mp_list<oalplus::distance_model>
 > enum_values::exponent_distance;
 #endif
@@ -23,7 +22,6 @@ const enum_value<
 #ifdef AL_EXPONENT_DISTANCE_CLAMPED
 const enum_value<
 	ALenum,
-	AL_EXPONENT_DISTANCE_CLAMPED,
 	mp_list<oalplus::distance_model>
 > enum_values::exponent_distance_clamped;
 #endif
@@ -31,7 +29,6 @@ const enum_value<
 #ifdef AL_EXTENSIONS
 const enum_value<
 	ALenum,
-	AL_EXTENSIONS,
 	mp_list<oalplus::string_query>
 > enum_values::extensions;
 #endif
@@ -39,7 +36,6 @@ const enum_value<
 #ifdef AL_FORMAT_MONO16
 const enum_value<
 	ALenum,
-	AL_FORMAT_MONO16,
 	mp_list<oalplus::data_format>
 > enum_values::format_mono16;
 #endif
@@ -47,7 +43,6 @@ const enum_value<
 #ifdef AL_FORMAT_MONO8
 const enum_value<
 	ALenum,
-	AL_FORMAT_MONO8,
 	mp_list<oalplus::data_format>
 > enum_values::format_mono8;
 #endif
@@ -55,7 +50,6 @@ const enum_value<
 #ifdef AL_FORMAT_STEREO16
 const enum_value<
 	ALenum,
-	AL_FORMAT_STEREO16,
 	mp_list<oalplus::data_format>
 > enum_values::format_stereo16;
 #endif
@@ -63,7 +57,6 @@ const enum_value<
 #ifdef AL_FORMAT_STEREO8
 const enum_value<
 	ALenum,
-	AL_FORMAT_STEREO8,
 	mp_list<oalplus::data_format>
 > enum_values::format_stereo8;
 #endif
@@ -71,7 +64,6 @@ const enum_value<
 #ifdef AL_INITIAL
 const enum_value<
 	ALenum,
-	AL_INITIAL,
 	mp_list<oalplus::source_state>
 > enum_values::initial;
 #endif
@@ -79,7 +71,6 @@ const enum_value<
 #ifdef AL_INVALID_ENUM
 const enum_value<
 	ALenum,
-	AL_INVALID_ENUM,
 	mp_list<oalplus::al_error_code>
 > enum_values::invalid_enum;
 #endif
@@ -87,7 +78,6 @@ const enum_value<
 #ifdef AL_INVALID_NAME
 const enum_value<
 	ALenum,
-	AL_INVALID_NAME,
 	mp_list<oalplus::al_error_code>
 > enum_values::invalid_name;
 #endif
@@ -95,7 +85,6 @@ const enum_value<
 #ifdef AL_INVALID_OPERATION
 const enum_value<
 	ALenum,
-	AL_INVALID_OPERATION,
 	mp_list<oalplus::al_error_code>
 > enum_values::invalid_operation;
 #endif
@@ -103,7 +92,6 @@ const enum_value<
 #ifdef AL_INVALID_VALUE
 const enum_value<
 	ALenum,
-	AL_INVALID_VALUE,
 	mp_list<oalplus::al_error_code>
 > enum_values::invalid_value;
 #endif
@@ -111,7 +99,6 @@ const enum_value<
 #ifdef AL_INVERSE_DISTANCE
 const enum_value<
 	ALenum,
-	AL_INVERSE_DISTANCE,
 	mp_list<oalplus::distance_model>
 > enum_values::inverse_distance;
 #endif
@@ -119,7 +106,6 @@ const enum_value<
 #ifdef AL_INVERSE_DISTANCE_CLAMPED
 const enum_value<
 	ALenum,
-	AL_INVERSE_DISTANCE_CLAMPED,
 	mp_list<oalplus::distance_model>
 > enum_values::inverse_distance_clamped;
 #endif
@@ -127,7 +113,6 @@ const enum_value<
 #ifdef AL_LINEAR_DISTANCE
 const enum_value<
 	ALenum,
-	AL_LINEAR_DISTANCE,
 	mp_list<oalplus::distance_model>
 > enum_values::linear_distance;
 #endif
@@ -135,7 +120,6 @@ const enum_value<
 #ifdef AL_LINEAR_DISTANCE_CLAMPED
 const enum_value<
 	ALenum,
-	AL_LINEAR_DISTANCE_CLAMPED,
 	mp_list<oalplus::distance_model>
 > enum_values::linear_distance_clamped;
 #endif
@@ -143,7 +127,6 @@ const enum_value<
 #ifdef AL_NO_ERROR
 const enum_value<
 	ALenum,
-	AL_NO_ERROR,
 	mp_list<oalplus::al_error_code>
 > enum_values::no_error;
 #endif
@@ -151,7 +134,6 @@ const enum_value<
 #ifdef AL_NONE
 const enum_value<
 	ALenum,
-	AL_NONE,
 	mp_list<oalplus::distance_model>
 > enum_values::none;
 #endif
@@ -159,7 +141,6 @@ const enum_value<
 #ifdef AL_OUT_OF_MEMORY
 const enum_value<
 	ALenum,
-	AL_OUT_OF_MEMORY,
 	mp_list<oalplus::al_error_code>
 > enum_values::out_of_memory;
 #endif
@@ -167,7 +148,6 @@ const enum_value<
 #ifdef AL_PAUSED
 const enum_value<
 	ALenum,
-	AL_PAUSED,
 	mp_list<oalplus::source_state>
 > enum_values::paused;
 #endif
@@ -175,7 +155,6 @@ const enum_value<
 #ifdef AL_PLAYING
 const enum_value<
 	ALenum,
-	AL_PLAYING,
 	mp_list<oalplus::source_state>
 > enum_values::playing;
 #endif
@@ -183,7 +162,6 @@ const enum_value<
 #ifdef AL_RENDERER
 const enum_value<
 	ALenum,
-	AL_RENDERER,
 	mp_list<oalplus::string_query>
 > enum_values::renderer;
 #endif
@@ -191,7 +169,6 @@ const enum_value<
 #ifdef AL_STATIC
 const enum_value<
 	ALenum,
-	AL_STATIC,
 	mp_list<oalplus::source_type>
 > enum_values::static_;
 #endif
@@ -199,7 +176,6 @@ const enum_value<
 #ifdef AL_STOPPED
 const enum_value<
 	ALenum,
-	AL_STOPPED,
 	mp_list<oalplus::source_state>
 > enum_values::stopped;
 #endif
@@ -207,7 +183,6 @@ const enum_value<
 #ifdef AL_STREAMING
 const enum_value<
 	ALenum,
-	AL_STREAMING,
 	mp_list<oalplus::source_type>
 > enum_values::streaming;
 #endif
@@ -215,7 +190,6 @@ const enum_value<
 #ifdef AL_UNDETERMINED
 const enum_value<
 	ALenum,
-	AL_UNDETERMINED,
 	mp_list<oalplus::source_type>
 > enum_values::undetermined;
 #endif
@@ -223,7 +197,6 @@ const enum_value<
 #ifdef AL_VENDOR
 const enum_value<
 	ALenum,
-	AL_VENDOR,
 	mp_list<oalplus::string_query>
 > enum_values::vendor;
 #endif
@@ -231,7 +204,6 @@ const enum_value<
 #ifdef AL_VERSION
 const enum_value<
 	ALenum,
-	AL_VERSION,
 	mp_list<oalplus::string_query>
 > enum_values::version;
 #endif

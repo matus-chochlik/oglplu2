@@ -38,14 +38,13 @@ public:
 	combined_enum_value(void) = default;
 
 	template <
-		value_type Value,
 		typename Classes,
 		typename = std::enable_if_t<mp_contains<Classes,Enum>::value>
 	>
 	constexpr inline
-	combined_enum_value(enum_value<value_type, Value, Classes>)
+	combined_enum_value(enum_value<value_type, Classes> ev)
 	noexcept
-	 : _value(Value)
+	 : _value(ev.value)
 	{ }
 
 	constexpr inline
