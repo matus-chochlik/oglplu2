@@ -20,6 +20,21 @@ namespace oper {
 
 struct command_list_nv_ops
 {
+	static
+	outcome<void>
+	command_list_segments(command_list_nv_name clst, GLuint segments)
+	noexcept;
+
+	static
+	outcome<void>
+	compile_command_list(command_list_nv_name clst)
+	noexcept;
+
+	static
+	outcome<void>
+	call_command_list(command_list_nv_name clst)
+	noexcept;
+
 	// TODO:
 };
 
@@ -33,6 +48,26 @@ struct obj_dsa_ops<tag::command_list_nv>
 
 	using obj_zero_dsa_ops<tag::command_list_nv>::obj_zero_dsa_ops;
 
+	outcome<obj_dsa_ops&>
+	segments(GLuint nseg)
+	noexcept
+	{
+		return {_ops::command_list_segments(*this, nseg), *this};
+	}
+
+	outcome<obj_dsa_ops&>
+	compile(void)
+	noexcept
+	{
+		return {_ops::compile_command_list(*this), *this};
+	}
+
+	outcome<obj_dsa_ops&>
+	call(void)
+	noexcept
+	{
+		return {_ops::call_command_list(*this), *this};
+	}
 };
 
 template <>

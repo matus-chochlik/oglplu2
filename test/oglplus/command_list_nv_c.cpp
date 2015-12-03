@@ -21,11 +21,18 @@ void oglplus_command_list_nv_test_1(void)
 
 void oglplus_command_list_nv_test_ops1(void)
 {
-/*
 	oper::command_list_nv_ops gl;
-	command_list_nv sam;
-	command_list_nv_array<4> sams;
-*/
+	command_list_nv lst;
+	command_list_nv_array<4> lsts;
+
+	gl.command_list_segments(lst, 4);
+	gl.command_list_segments(lsts[0], 4);
+	gl.compile_command_list(lst);
+	gl.call_command_list(lst);
+
+	lst.segments(4);
+	lst.compile();
+	lst.call();
 }
 
 // TODO

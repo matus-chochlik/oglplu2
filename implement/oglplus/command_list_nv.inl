@@ -12,6 +12,53 @@ namespace oglplus {
 //------------------------------------------------------------------------------
 namespace oper {
 //------------------------------------------------------------------------------
+inline
+outcome<void>
+command_list_nv_ops::
+command_list_segments(command_list_nv_name clst, GLuint segments)
+noexcept
+{
+	OGLPLUS_GLFUNC(CommandListSegmentsNV)(
+		get_raw_name(clst),
+		segments
+	);
+	OGLPLUS_VERIFY(
+		CommandListSegmentsNV,
+		gl_object(clst),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+command_list_nv_ops::
+compile_command_list(command_list_nv_name clst)
+noexcept
+{
+	OGLPLUS_GLFUNC(CompileCommandListNV)(get_raw_name(clst));
+	OGLPLUS_VERIFY(
+		CompileCommandListNV,
+		gl_object(clst),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+command_list_nv_ops::
+call_command_list(command_list_nv_name clst)
+noexcept
+{
+	OGLPLUS_GLFUNC(CallCommandListNV)(get_raw_name(clst));
+	OGLPLUS_VERIFY(
+		CallCommandListNV,
+		gl_object(clst),
+		always
+	);
+	return {};
+}
 //------------------------------------------------------------------------------
 } // namespace oper
 //------------------------------------------------------------------------------
