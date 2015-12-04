@@ -60,6 +60,29 @@ struct canonical_compound_type<T[C][R]>
  : identity<std::remove_cv_t<T[C][R]>>
 { };
 
+template <typename T>
+struct compound_element_type
+ : identity<std::remove_cv_t<T>>
+{ };
+
+template <typename T, std::size_t N>
+struct compound_element_type<T[N]>
+ : identity<std::remove_cv_t<T>>
+{ };
+
+template <typename T, std::size_t C, std::size_t R>
+struct compound_element_type<T[C][R]>
+ : identity<std::remove_cv_t<T>>
+{ };
+
+template <typename T>
+struct canonical_element_type
+ : compound_element_type<canonical_compound_type_t<T>>
+{ };
+
+template <typename T>
+using canonical_element_type_t = typename canonical_element_type<T>::type;
+
 template <typename C>
 struct compound_view_maker;
 

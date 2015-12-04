@@ -13,7 +13,7 @@
 namespace oglplus {
 
 template <>
-struct prog_var_get_set_ops<tag::uniform>
+struct prog_var_get_set_ops<tag::uniform, GLint>
 {
 
 	static
@@ -136,6 +136,198 @@ struct prog_var_get_set_ops<tag::uniform>
 		return {};
 	}
 
+#if defined(GL_VERSION_4_1) || defined(GL_ARB_separate_shader_objects)
+
+	static
+	outcome<void>
+	set(
+		identity<GLint>,
+		program_uniform_location pu,
+		GLint v0
+	) noexcept
+	{
+		OGLPLUS_GLFUNC(ProgramUniform1i)(
+			get_raw_name(pu.program()),
+			pu.location(),
+			v0
+		);
+		OGLPLUS_VERIFY(
+			ProgramUniform1i,
+			gl_object(pu.program()),
+			always
+		);
+		return {};
+	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLint>,
+		program_uniform_location pu,
+		GLint v0, GLint v1
+	) noexcept
+	{
+		OGLPLUS_GLFUNC(ProgramUniform2i)(
+			get_raw_name(pu.program()),
+			pu.location(),
+			v0, v1
+		);
+		OGLPLUS_VERIFY(
+			ProgramUniform2i,
+			gl_object(pu.program()),
+			always
+		);
+		return {};
+	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLint>,
+		program_uniform_location pu,
+		GLint v0, GLint v1, GLint v2
+	) noexcept
+	{
+		OGLPLUS_GLFUNC(ProgramUniform3i)(
+			get_raw_name(pu.program()),
+			pu.location(),
+			v0, v1, v2
+		);
+		OGLPLUS_VERIFY(
+			ProgramUniform3i,
+			gl_object(pu.program()),
+			always
+		);
+		return {};
+	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLint>,
+		program_uniform_location pu,
+		GLint v0, GLint v1, GLint v2, GLint v3
+	) noexcept
+	{
+		OGLPLUS_GLFUNC(ProgramUniform4i)(
+			get_raw_name(pu.program()),
+			pu.location(),
+			v0, v1, v2, v3
+		);
+		OGLPLUS_VERIFY(
+			ProgramUniform4i,
+			gl_object(pu.program()),
+			always
+		);
+		return {};
+	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLint[1]>,
+		program_uniform_location pu,
+		GLsizei count,
+		const span<const GLint>& v
+	) noexcept
+	{
+		assert(count >= 0);
+		assert(v.size() >= span_size_type(1*count));
+		OGLPLUS_GLFUNC(ProgramUniform1iv)(
+			get_raw_name(pu.program()),
+			pu.location(),
+			count,
+			v.data()
+		);
+		OGLPLUS_VERIFY(
+			ProgramUniform1iv,
+			gl_object(pu.program()),
+			always
+		);
+		return {};
+	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLint[2]>,
+		program_uniform_location pu,
+		GLsizei count,
+		const span<const GLint>& v
+	) noexcept
+	{
+		assert(count >= 0);
+		assert(v.size() >= span_size_type(2*count));
+		OGLPLUS_GLFUNC(ProgramUniform2iv)(
+			get_raw_name(pu.program()),
+			pu.location(),
+			count,
+			v.data()
+		);
+		OGLPLUS_VERIFY(
+			ProgramUniform2iv,
+			gl_object(pu.program()),
+			always
+		);
+		return {};
+	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLint[3]>,
+		program_uniform_location pu,
+		GLsizei count,
+		const span<const GLint>& v
+	) noexcept
+	{
+		assert(count >= 0);
+		assert(v.size() >= span_size_type(3*count));
+		OGLPLUS_GLFUNC(ProgramUniform3iv)(
+			get_raw_name(pu.program()),
+			pu.location(),
+			count,
+			v.data()
+		);
+		OGLPLUS_VERIFY(
+			ProgramUniform3iv,
+			gl_object(pu.program()),
+			always
+		);
+		return {};
+	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLint[4]>,
+		program_uniform_location pu,
+		GLsizei count,
+		const span<const GLint>& v
+	) noexcept
+	{
+		assert(count >= 0);
+		assert(v.size() >= span_size_type(4*count));
+		OGLPLUS_GLFUNC(ProgramUniform4iv)(
+			get_raw_name(pu.program()),
+			pu.location(),
+			count,
+			v.data()
+		);
+		OGLPLUS_VERIFY(
+			ProgramUniform4iv,
+			gl_object(pu.program()),
+			always
+		);
+		return {};
+	}
+#endif
+};
+
+template <>
+struct prog_var_get_set_ops<tag::uniform, GLuint>
+{
+
 	static
 	outcome<void>
 	set(
@@ -255,6 +447,198 @@ struct prog_var_get_set_ops<tag::uniform>
 		OGLPLUS_VERIFY_SIMPLE(Uniform4uiv, always);
 		return {};
 	}
+
+#if defined(GL_VERSION_4_1) || defined(GL_ARB_separate_shader_objects)
+
+	static
+	outcome<void>
+	set(
+		identity<GLuint>,
+		program_uniform_location pu,
+		GLuint v0
+	) noexcept
+	{
+		OGLPLUS_GLFUNC(ProgramUniform1ui)(
+			get_raw_name(pu.program()),
+			pu.location(),
+			v0
+		);
+		OGLPLUS_VERIFY(
+			ProgramUniform1ui,
+			gl_object(pu.program()),
+			always
+		);
+		return {};
+	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLuint>,
+		program_uniform_location pu,
+		GLuint v0, GLuint v1
+	) noexcept
+	{
+		OGLPLUS_GLFUNC(ProgramUniform2ui)(
+			get_raw_name(pu.program()),
+			pu.location(),
+			v0, v1
+		);
+		OGLPLUS_VERIFY(
+			ProgramUniform2ui,
+			gl_object(pu.program()),
+			always
+		);
+		return {};
+	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLuint>,
+		program_uniform_location pu,
+		GLuint v0, GLuint v1, GLuint v2
+	) noexcept
+	{
+		OGLPLUS_GLFUNC(ProgramUniform3ui)(
+			get_raw_name(pu.program()),
+			pu.location(),
+			v0, v1, v2
+		);
+		OGLPLUS_VERIFY(
+			ProgramUniform3ui,
+			gl_object(pu.program()),
+			always
+		);
+		return {};
+	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLuint>,
+		program_uniform_location pu,
+		GLuint v0, GLuint v1, GLuint v2, GLuint v3
+	) noexcept
+	{
+		OGLPLUS_GLFUNC(ProgramUniform4ui)(
+			get_raw_name(pu.program()),
+			pu.location(),
+			v0, v1, v2, v3
+		);
+		OGLPLUS_VERIFY(
+			ProgramUniform4ui,
+			gl_object(pu.program()),
+			always
+		);
+		return {};
+	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLuint[1]>,
+		program_uniform_location pu,
+		GLsizei count,
+		const span<const GLuint>& v
+	) noexcept
+	{
+		assert(count >= 0);
+		assert(v.size() >= span_size_type(1*count));
+		OGLPLUS_GLFUNC(ProgramUniform1uiv)(
+			get_raw_name(pu.program()),
+			pu.location(),
+			count,
+			v.data()
+		);
+		OGLPLUS_VERIFY(
+			ProgramUniform1uiv,
+			gl_object(pu.program()),
+			always
+		);
+		return {};
+	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLuint[2]>,
+		program_uniform_location pu,
+		GLsizei count,
+		const span<const GLuint>& v
+	) noexcept
+	{
+		assert(count >= 0);
+		assert(v.size() >= span_size_type(2*count));
+		OGLPLUS_GLFUNC(ProgramUniform2uiv)(
+			get_raw_name(pu.program()),
+			pu.location(),
+			count,
+			v.data()
+		);
+		OGLPLUS_VERIFY(
+			ProgramUniform2uiv,
+			gl_object(pu.program()),
+			always
+		);
+		return {};
+	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLuint[3]>,
+		program_uniform_location pu,
+		GLsizei count,
+		const span<const GLuint>& v
+	) noexcept
+	{
+		assert(count >= 0);
+		assert(v.size() >= span_size_type(3*count));
+		OGLPLUS_GLFUNC(ProgramUniform3uiv)(
+			get_raw_name(pu.program()),
+			pu.location(),
+			count,
+			v.data()
+		);
+		OGLPLUS_VERIFY(
+			ProgramUniform3uiv,
+			gl_object(pu.program()),
+			always
+		);
+		return {};
+	}
+
+	static
+	outcome<void>
+	set(
+		identity<GLuint[4]>,
+		program_uniform_location pu,
+		GLsizei count,
+		const span<const GLuint>& v
+	) noexcept
+	{
+		assert(count >= 0);
+		assert(v.size() >= span_size_type(4*count));
+		OGLPLUS_GLFUNC(ProgramUniform4uiv)(
+			get_raw_name(pu.program()),
+			pu.location(),
+			count,
+			v.data()
+		);
+		OGLPLUS_VERIFY(
+			ProgramUniform4uiv,
+			gl_object(pu.program()),
+			always
+		);
+		return {};
+	}
+#endif
+};
+
+template <>
+struct prog_var_get_set_ops<tag::uniform, GLfloat>
+{
 
 	static
 	outcome<void>
@@ -539,374 +923,6 @@ struct prog_var_get_set_ops<tag::uniform>
 	}
 
 #if defined(GL_VERSION_4_1) || defined(GL_ARB_separate_shader_objects)
-
-	static
-	outcome<void>
-	set(
-		identity<GLint>,
-		program_uniform_location pu,
-		GLint v0
-	) noexcept
-	{
-		OGLPLUS_GLFUNC(ProgramUniform1i)(
-			get_raw_name(pu.program()),
-			pu.location(),
-			v0
-		);
-		OGLPLUS_VERIFY(
-			ProgramUniform1i,
-			gl_object(pu.program()),
-			always
-		);
-		return {};
-	}
-
-	static
-	outcome<void>
-	set(
-		identity<GLint>,
-		program_uniform_location pu,
-		GLint v0, GLint v1
-	) noexcept
-	{
-		OGLPLUS_GLFUNC(ProgramUniform2i)(
-			get_raw_name(pu.program()),
-			pu.location(),
-			v0, v1
-		);
-		OGLPLUS_VERIFY(
-			ProgramUniform2i,
-			gl_object(pu.program()),
-			always
-		);
-		return {};
-	}
-
-	static
-	outcome<void>
-	set(
-		identity<GLint>,
-		program_uniform_location pu,
-		GLint v0, GLint v1, GLint v2
-	) noexcept
-	{
-		OGLPLUS_GLFUNC(ProgramUniform3i)(
-			get_raw_name(pu.program()),
-			pu.location(),
-			v0, v1, v2
-		);
-		OGLPLUS_VERIFY(
-			ProgramUniform3i,
-			gl_object(pu.program()),
-			always
-		);
-		return {};
-	}
-
-	static
-	outcome<void>
-	set(
-		identity<GLint>,
-		program_uniform_location pu,
-		GLint v0, GLint v1, GLint v2, GLint v3
-	) noexcept
-	{
-		OGLPLUS_GLFUNC(ProgramUniform4i)(
-			get_raw_name(pu.program()),
-			pu.location(),
-			v0, v1, v2, v3
-		);
-		OGLPLUS_VERIFY(
-			ProgramUniform4i,
-			gl_object(pu.program()),
-			always
-		);
-		return {};
-	}
-
-	static
-	outcome<void>
-	set(
-		identity<GLint[1]>,
-		program_uniform_location pu,
-		GLsizei count,
-		const span<const GLint>& v
-	) noexcept
-	{
-		assert(count >= 0);
-		assert(v.size() >= span_size_type(1*count));
-		OGLPLUS_GLFUNC(ProgramUniform1iv)(
-			get_raw_name(pu.program()),
-			pu.location(),
-			count,
-			v.data()
-		);
-		OGLPLUS_VERIFY(
-			ProgramUniform1iv,
-			gl_object(pu.program()),
-			always
-		);
-		return {};
-	}
-
-	static
-	outcome<void>
-	set(
-		identity<GLint[2]>,
-		program_uniform_location pu,
-		GLsizei count,
-		const span<const GLint>& v
-	) noexcept
-	{
-		assert(count >= 0);
-		assert(v.size() >= span_size_type(2*count));
-		OGLPLUS_GLFUNC(ProgramUniform2iv)(
-			get_raw_name(pu.program()),
-			pu.location(),
-			count,
-			v.data()
-		);
-		OGLPLUS_VERIFY(
-			ProgramUniform2iv,
-			gl_object(pu.program()),
-			always
-		);
-		return {};
-	}
-
-	static
-	outcome<void>
-	set(
-		identity<GLint[3]>,
-		program_uniform_location pu,
-		GLsizei count,
-		const span<const GLint>& v
-	) noexcept
-	{
-		assert(count >= 0);
-		assert(v.size() >= span_size_type(3*count));
-		OGLPLUS_GLFUNC(ProgramUniform3iv)(
-			get_raw_name(pu.program()),
-			pu.location(),
-			count,
-			v.data()
-		);
-		OGLPLUS_VERIFY(
-			ProgramUniform3iv,
-			gl_object(pu.program()),
-			always
-		);
-		return {};
-	}
-
-	static
-	outcome<void>
-	set(
-		identity<GLint[4]>,
-		program_uniform_location pu,
-		GLsizei count,
-		const span<const GLint>& v
-	) noexcept
-	{
-		assert(count >= 0);
-		assert(v.size() >= span_size_type(4*count));
-		OGLPLUS_GLFUNC(ProgramUniform4iv)(
-			get_raw_name(pu.program()),
-			pu.location(),
-			count,
-			v.data()
-		);
-		OGLPLUS_VERIFY(
-			ProgramUniform4iv,
-			gl_object(pu.program()),
-			always
-		);
-		return {};
-	}
-
-	static
-	outcome<void>
-	set(
-		identity<GLuint>,
-		program_uniform_location pu,
-		GLuint v0
-	) noexcept
-	{
-		OGLPLUS_GLFUNC(ProgramUniform1ui)(
-			get_raw_name(pu.program()),
-			pu.location(),
-			v0
-		);
-		OGLPLUS_VERIFY(
-			ProgramUniform1ui,
-			gl_object(pu.program()),
-			always
-		);
-		return {};
-	}
-
-	static
-	outcome<void>
-	set(
-		identity<GLuint>,
-		program_uniform_location pu,
-		GLuint v0, GLuint v1
-	) noexcept
-	{
-		OGLPLUS_GLFUNC(ProgramUniform2ui)(
-			get_raw_name(pu.program()),
-			pu.location(),
-			v0, v1
-		);
-		OGLPLUS_VERIFY(
-			ProgramUniform2ui,
-			gl_object(pu.program()),
-			always
-		);
-		return {};
-	}
-
-	static
-	outcome<void>
-	set(
-		identity<GLuint>,
-		program_uniform_location pu,
-		GLuint v0, GLuint v1, GLuint v2
-	) noexcept
-	{
-		OGLPLUS_GLFUNC(ProgramUniform3ui)(
-			get_raw_name(pu.program()),
-			pu.location(),
-			v0, v1, v2
-		);
-		OGLPLUS_VERIFY(
-			ProgramUniform3ui,
-			gl_object(pu.program()),
-			always
-		);
-		return {};
-	}
-
-	static
-	outcome<void>
-	set(
-		identity<GLuint>,
-		program_uniform_location pu,
-		GLuint v0, GLuint v1, GLuint v2, GLuint v3
-	) noexcept
-	{
-		OGLPLUS_GLFUNC(ProgramUniform4ui)(
-			get_raw_name(pu.program()),
-			pu.location(),
-			v0, v1, v2, v3
-		);
-		OGLPLUS_VERIFY(
-			ProgramUniform4ui,
-			gl_object(pu.program()),
-			always
-		);
-		return {};
-	}
-
-	static
-	outcome<void>
-	set(
-		identity<GLuint[1]>,
-		program_uniform_location pu,
-		GLsizei count,
-		const span<const GLuint>& v
-	) noexcept
-	{
-		assert(count >= 0);
-		assert(v.size() >= span_size_type(1*count));
-		OGLPLUS_GLFUNC(ProgramUniform1uiv)(
-			get_raw_name(pu.program()),
-			pu.location(),
-			count,
-			v.data()
-		);
-		OGLPLUS_VERIFY(
-			ProgramUniform1uiv,
-			gl_object(pu.program()),
-			always
-		);
-		return {};
-	}
-
-	static
-	outcome<void>
-	set(
-		identity<GLuint[2]>,
-		program_uniform_location pu,
-		GLsizei count,
-		const span<const GLuint>& v
-	) noexcept
-	{
-		assert(count >= 0);
-		assert(v.size() >= span_size_type(2*count));
-		OGLPLUS_GLFUNC(ProgramUniform2uiv)(
-			get_raw_name(pu.program()),
-			pu.location(),
-			count,
-			v.data()
-		);
-		OGLPLUS_VERIFY(
-			ProgramUniform2uiv,
-			gl_object(pu.program()),
-			always
-		);
-		return {};
-	}
-
-	static
-	outcome<void>
-	set(
-		identity<GLuint[3]>,
-		program_uniform_location pu,
-		GLsizei count,
-		const span<const GLuint>& v
-	) noexcept
-	{
-		assert(count >= 0);
-		assert(v.size() >= span_size_type(3*count));
-		OGLPLUS_GLFUNC(ProgramUniform3uiv)(
-			get_raw_name(pu.program()),
-			pu.location(),
-			count,
-			v.data()
-		);
-		OGLPLUS_VERIFY(
-			ProgramUniform3uiv,
-			gl_object(pu.program()),
-			always
-		);
-		return {};
-	}
-
-	static
-	outcome<void>
-	set(
-		identity<GLuint[4]>,
-		program_uniform_location pu,
-		GLsizei count,
-		const span<const GLuint>& v
-	) noexcept
-	{
-		assert(count >= 0);
-		assert(v.size() >= span_size_type(4*count));
-		OGLPLUS_GLFUNC(ProgramUniform4uiv)(
-			get_raw_name(pu.program()),
-			pu.location(),
-			count,
-			v.data()
-		);
-		OGLPLUS_VERIFY(
-			ProgramUniform4uiv,
-			gl_object(pu.program()),
-			always
-		);
-		return {};
-	}
 
 	static
 	outcome<void>
@@ -1309,5 +1325,6 @@ struct prog_var_get_set_ops<tag::uniform>
 	}
 #endif
 };
+
 
 } // namespace oglplus
