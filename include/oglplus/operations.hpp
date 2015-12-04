@@ -30,26 +30,30 @@
 #include "program_pipeline.hpp"
 #include "transform_feedback.hpp"
 
-#ifdef GL_NV_path_rendering
+#if defined(GL_ARB_compatibility)
+#include "oper/compatibility.hpp"
+#endif
+
+#if defined(GL_ARB_shading_language_include)
+#include "oper/named_string.hpp"
+#endif
+
+#if defined(GL_ARB_bindless_texture) || defined(GL_NV_bindless_texture)
+#include "texture_handle.hpp"
+#endif
+
+#if defined(GL_NV_path_rendering)
 #include "path_nv.hpp"
 #include "path_nv_array.hpp"
 #endif
 
-#ifdef GL_NV_command_list
+#if defined(GL_NV_command_list)
 #include "state_nv.hpp"
 #include "command_list_nv.hpp"
 #endif
 
 #include "oper/vertex_attrib.hpp"
 #include "oper/uniform.hpp"
-
-#ifdef GL_ARB_compatibility
-#include "oper/compatibility.hpp"
-#endif
-
-#ifdef GL_ARB_shading_language_include
-#include "oper/named_string.hpp"
-#endif
 
 namespace oglplus {
 
@@ -79,15 +83,22 @@ class operations
  , public oper::vertex_attrib_ops
  , public oper::uniform_ops
 
-#ifdef GL_ARB_compatibility
+#if defined(GL_ARB_compatibility)
  , public oper::compatibility
 #endif
-#ifdef GL_ARB_shading_language_include
+#if defined(GL_ARB_shading_language_include)
  , public oper::named_string_state
 #endif
-#ifdef GL_NV_path_rendering
+#if defined(GL_ARB_bindless_texture) || defined(GL_NV_bindless_texture)
+ , public oper::texture_handle_ops
+#endif
+#if defined(GL_NV_path_rendering)
  , public oper::path_nv_ops
  , public oper::path_nv_array_ops
+#endif
+#if defined(GL_NV_command_list)
+ , public oper::state_nv_ops
+ , public oper::command_list_nv_ops
 #endif
 {
 public:
