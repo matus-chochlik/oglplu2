@@ -4685,6 +4685,46 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
+		case 115: /* unified_buffer_address_nv */
+		{
+			static const GLenum vr[] = {
+#ifdef GL_COLOR_ARRAY_ADDRESS_NV
+				GL_COLOR_ARRAY_ADDRESS_NV,
+#endif
+#ifdef GL_EDGE_FLAG_ARRAY_ADDRESS_NV
+				GL_EDGE_FLAG_ARRAY_ADDRESS_NV,
+#endif
+#ifdef GL_ELEMENT_ARRAY_ADDRESS_NV
+				GL_ELEMENT_ARRAY_ADDRESS_NV,
+#endif
+#ifdef GL_FOG_COORD_ARRAY_ADDRESS_NV
+				GL_FOG_COORD_ARRAY_ADDRESS_NV,
+#endif
+#ifdef GL_INDEX_ARRAY_ADDRESS_NV
+				GL_INDEX_ARRAY_ADDRESS_NV,
+#endif
+#ifdef GL_NORMAL_ARRAY_ADDRESS_NV
+				GL_NORMAL_ARRAY_ADDRESS_NV,
+#endif
+#ifdef GL_SECONDARY_COLOR_ARRAY_ADDRESS_NV
+				GL_SECONDARY_COLOR_ARRAY_ADDRESS_NV,
+#endif
+#ifdef GL_TEXTURE_COORD_ARRAY_ADDRESS_NV
+				GL_TEXTURE_COORD_ARRAY_ADDRESS_NV,
+#endif
+#ifdef GL_UNIFORM_BUFFER_ADDRESS_NV
+				GL_UNIFORM_BUFFER_ADDRESS_NV,
+#endif
+#ifdef GL_VERTEX_ARRAY_ADDRESS_NV
+				GL_VERTEX_ARRAY_ADDRESS_NV,
+#endif
+#ifdef GL_VERTEX_ATTRIB_ARRAY_ADDRESS_NV
+				GL_VERTEX_ATTRIB_ARRAY_ADDRESS_NV,
+#endif
+				0
+			};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
+		}
 	default:;
 	}
 

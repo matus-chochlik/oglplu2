@@ -4,7 +4,11 @@
 #  http://www.boost.org/LICENSE_1_0.txt
 LIB_PREFIX = GL
 LIBRARY = oglplus
-EXTENSIONS = ARB_compatibility NV_path_rendering NV_command_list
+EXTENSIONS = \
+	NV_path_rendering \
+	NV_command_list \
+	NV_buffer_unified_memory \
+	ARB_compatibility
 SOURCES = $(wildcard *.txt) $(foreach EXT,$(EXTENSIONS),$(wildcard $(EXT)/*.txt))
 PARENT = ..
 

@@ -641,6 +641,13 @@ static constexpr const enum_value<
 > color = {GL_COLOR};
 #endif
 
+#ifdef GL_COLOR_ARRAY_ADDRESS_NV
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::unified_buffer_address_nv>
+> color_array_address_nv = {GL_COLOR_ARRAY_ADDRESS_NV};
+#endif
+
 #ifdef GL_COLOR_ATTACHMENT0
 static constexpr const enum_value<
 	GLenum,
@@ -1670,11 +1677,25 @@ static constexpr const enum_value<
 > dynamic_storage_bit = {GL_DYNAMIC_STORAGE_BIT};
 #endif
 
+#ifdef GL_EDGE_FLAG_ARRAY_ADDRESS_NV
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::unified_buffer_address_nv>
+> edge_flag_array_address_nv = {GL_EDGE_FLAG_ARRAY_ADDRESS_NV};
+#endif
+
 #ifdef GL_ELEMENT_ADDRESS_COMMAND_NV
 static constexpr const enum_value<
 	GLenum,
 	mp_list<oglplus::command_token_nv>
 > element_address_command_nv = {GL_ELEMENT_ADDRESS_COMMAND_NV};
+#endif
+
+#ifdef GL_ELEMENT_ARRAY_ADDRESS_NV
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::unified_buffer_address_nv>
+> element_array_address_nv = {GL_ELEMENT_ARRAY_ADDRESS_NV};
 #endif
 
 #ifdef GL_ELEMENT_ARRAY_BARRIER_BIT
@@ -1892,6 +1913,13 @@ static constexpr const enum_value<
 	GLenum,
 	mp_list<oglplus::sl_data_type>
 > float_vec4 = {GL_FLOAT_VEC4};
+#endif
+
+#ifdef GL_FOG_COORD_ARRAY_ADDRESS_NV
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::unified_buffer_address_nv>
+> fog_coord_array_address_nv = {GL_FOG_COORD_ARRAY_ADDRESS_NV};
 #endif
 
 #ifdef GL_FONT_ASCENDER_BIT_NV
@@ -2480,6 +2508,13 @@ static constexpr const enum_value<
 	GLenum,
 	mp_list<oglplus::stencil_operation>
 > incr_wrap = {GL_INCR_WRAP};
+#endif
+
+#ifdef GL_INDEX_ARRAY_ADDRESS_NV
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::unified_buffer_address_nv>
+> index_array_address_nv = {GL_INDEX_ARRAY_ADDRESS_NV};
 #endif
 
 #ifdef GL_INFO_LOG_LENGTH
@@ -4013,6 +4048,13 @@ static constexpr const enum_value<
 	GLenum,
 	mp_list<oglplus::color_logic_operation>
 > nor = {GL_NOR};
+#endif
+
+#ifdef GL_NORMAL_ARRAY_ADDRESS_NV
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::unified_buffer_address_nv>
+> normal_array_address_nv = {GL_NORMAL_ARRAY_ADDRESS_NV};
 #endif
 
 #ifdef GL_NOTEQUAL
@@ -5842,6 +5884,13 @@ static constexpr const enum_value<
 > screen_khr = {GL_SCREEN_KHR};
 #endif
 
+#ifdef GL_SECONDARY_COLOR_ARRAY_ADDRESS_NV
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::unified_buffer_address_nv>
+> secondary_color_array_address_nv = {GL_SECONDARY_COLOR_ARRAY_ADDRESS_NV};
+#endif
+
 #ifdef GL_SECONDARY_COLOR_NV
 static constexpr const enum_value<
 	GLenum,
@@ -6633,6 +6682,13 @@ static constexpr const enum_value<
 > texture_compression_hint = {GL_TEXTURE_COMPRESSION_HINT};
 #endif
 
+#ifdef GL_TEXTURE_COORD_ARRAY_ADDRESS_NV
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::unified_buffer_address_nv>
+> texture_coord_array_address_nv = {GL_TEXTURE_COORD_ARRAY_ADDRESS_NV};
+#endif
+
 #ifdef GL_TEXTURE_CUBE_MAP
 static constexpr const enum_value<
 	GLenum,
@@ -7130,6 +7186,13 @@ static constexpr const enum_value<
 > uniform_buffer = {GL_UNIFORM_BUFFER};
 #endif
 
+#ifdef GL_UNIFORM_BUFFER_ADDRESS_NV
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::unified_buffer_address_nv>
+> uniform_buffer_address_nv = {GL_UNIFORM_BUFFER_ADDRESS_NV};
+#endif
+
 #ifdef GL_UNIFORM_BUFFER_BINDING
 static constexpr const enum_value<
 	GLenum,
@@ -7613,11 +7676,25 @@ static constexpr const enum_value<
 > vertex_array = {GL_VERTEX_ARRAY};
 #endif
 
+#ifdef GL_VERTEX_ARRAY_ADDRESS_NV
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::unified_buffer_address_nv>
+> vertex_array_address_nv = {GL_VERTEX_ARRAY_ADDRESS_NV};
+#endif
+
 #ifdef GL_VERTEX_ARRAY_BINDING
 static constexpr const enum_value<
 	GLenum,
 	mp_list<oglplus::binding_query>
 > vertex_array_binding = {GL_VERTEX_ARRAY_BINDING};
+#endif
+
+#ifdef GL_VERTEX_ATTRIB_ARRAY_ADDRESS_NV
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::unified_buffer_address_nv>
+> vertex_attrib_array_address_nv = {GL_VERTEX_ATTRIB_ARRAY_ADDRESS_NV};
 #endif
 
 #ifdef GL_VERTEX_ATTRIB_ARRAY_BARRIER_BIT

@@ -381,6 +381,10 @@ noexcept
 	static const char s_COLORDODGE_KHR[15] =
 		"COLORDODGE_KHR";
 #endif
+#ifdef GL_COLOR_ARRAY_ADDRESS_NV
+	static const char s_COLOR_ARRAY_ADDRESS_NV[23] =
+		"COLOR_ARRAY_ADDRESS_NV";
+#endif
 #ifdef GL_COLOR_ATTACHMENT0
 	static const char s_COLOR_ATTACHMENT0[18] =
 		"COLOR_ATTACHMENT0";
@@ -961,9 +965,17 @@ noexcept
 	static const char s_DYNAMIC_STORAGE_BIT[20] =
 		"DYNAMIC_STORAGE_BIT";
 #endif
+#ifdef GL_EDGE_FLAG_ARRAY_ADDRESS_NV
+	static const char s_EDGE_FLAG_ARRAY_ADDRESS_NV[27] =
+		"EDGE_FLAG_ARRAY_ADDRESS_NV";
+#endif
 #ifdef GL_ELEMENT_ADDRESS_COMMAND_NV
 	static const char s_ELEMENT_ADDRESS_COMMAND_NV[27] =
 		"ELEMENT_ADDRESS_COMMAND_NV";
+#endif
+#ifdef GL_ELEMENT_ARRAY_ADDRESS_NV
+	static const char s_ELEMENT_ARRAY_ADDRESS_NV[25] =
+		"ELEMENT_ARRAY_ADDRESS_NV";
 #endif
 #ifdef GL_ELEMENT_ARRAY_BARRIER_BIT
 	static const char s_ELEMENT_ARRAY_BARRIER_BIT[26] =
@@ -1088,6 +1100,10 @@ noexcept
 #ifdef GL_FLOAT_VEC4
 	static const char s_FLOAT_VEC4[11] =
 		"FLOAT_VEC4";
+#endif
+#ifdef GL_FOG_COORD_ARRAY_ADDRESS_NV
+	static const char s_FOG_COORD_ARRAY_ADDRESS_NV[27] =
+		"FOG_COORD_ARRAY_ADDRESS_NV";
 #endif
 #ifdef GL_FONT_ASCENDER_BIT_NV
 	static const char s_FONT_ASCENDER_BIT_NV[21] =
@@ -1424,6 +1440,10 @@ noexcept
 #ifdef GL_INCR_WRAP
 	static const char s_INCR_WRAP[10] =
 		"INCR_WRAP";
+#endif
+#ifdef GL_INDEX_ARRAY_ADDRESS_NV
+	static const char s_INDEX_ARRAY_ADDRESS_NV[23] =
+		"INDEX_ARRAY_ADDRESS_NV";
 #endif
 #ifdef GL_INFO_LOG_LENGTH
 	static const char s_INFO_LOG_LENGTH[16] =
@@ -2292,6 +2312,10 @@ noexcept
 #ifdef GL_NOR
 	static const char s_NOR[4] =
 		"NOR";
+#endif
+#ifdef GL_NORMAL_ARRAY_ADDRESS_NV
+	static const char s_NORMAL_ARRAY_ADDRESS_NV[24] =
+		"NORMAL_ARRAY_ADDRESS_NV";
 #endif
 #ifdef GL_NOTEQUAL
 	static const char s_NOTEQUAL[9] =
@@ -3345,6 +3369,10 @@ noexcept
 	static const char s_SCREEN_KHR[11] =
 		"SCREEN_KHR";
 #endif
+#ifdef GL_SECONDARY_COLOR_ARRAY_ADDRESS_NV
+	static const char s_SECONDARY_COLOR_ARRAY_ADDRESS_NV[33] =
+		"SECONDARY_COLOR_ARRAY_ADDRESS_NV";
+#endif
 #ifdef GL_SECONDARY_COLOR_NV
 	static const char s_SECONDARY_COLOR_NV[19] =
 		"SECONDARY_COLOR_NV";
@@ -3797,6 +3825,10 @@ noexcept
 	static const char s_TEXTURE_COMPRESSION_HINT[25] =
 		"TEXTURE_COMPRESSION_HINT";
 #endif
+#ifdef GL_TEXTURE_COORD_ARRAY_ADDRESS_NV
+	static const char s_TEXTURE_COORD_ARRAY_ADDRESS_NV[31] =
+		"TEXTURE_COORD_ARRAY_ADDRESS_NV";
+#endif
 #ifdef GL_TEXTURE_CUBE_MAP
 	static const char s_TEXTURE_CUBE_MAP[17] =
 		"TEXTURE_CUBE_MAP";
@@ -4081,6 +4113,10 @@ noexcept
 	static const char s_UNIFORM_BUFFER[15] =
 		"UNIFORM_BUFFER";
 #endif
+#ifdef GL_UNIFORM_BUFFER_ADDRESS_NV
+	static const char s_UNIFORM_BUFFER_ADDRESS_NV[26] =
+		"UNIFORM_BUFFER_ADDRESS_NV";
+#endif
 #ifdef GL_UNIFORM_BUFFER_BINDING
 	static const char s_UNIFORM_BUFFER_BINDING[23] =
 		"UNIFORM_BUFFER_BINDING";
@@ -4357,9 +4393,17 @@ noexcept
 	static const char s_VERTEX_ARRAY[13] =
 		"VERTEX_ARRAY";
 #endif
+#ifdef GL_VERTEX_ARRAY_ADDRESS_NV
+	static const char s_VERTEX_ARRAY_ADDRESS_NV[24] =
+		"VERTEX_ARRAY_ADDRESS_NV";
+#endif
 #ifdef GL_VERTEX_ARRAY_BINDING
 	static const char s_VERTEX_ARRAY_BINDING[21] =
 		"VERTEX_ARRAY_BINDING";
+#endif
+#ifdef GL_VERTEX_ATTRIB_ARRAY_ADDRESS_NV
+	static const char s_VERTEX_ATTRIB_ARRAY_ADDRESS_NV[31] =
+		"VERTEX_ATTRIB_ARRAY_ADDRESS_NV";
 #endif
 #ifdef GL_VERTEX_ATTRIB_ARRAY_BARRIER_BIT
 	static const char s_VERTEX_ATTRIB_ARRAY_BARRIER_BIT[32] =
@@ -10270,6 +10314,56 @@ noexcept
 #ifdef GL_TRUE
 				case GL_TRUE:
 					return {s_TRUE, 4};
+#endif
+				default:;
+			}
+			break;
+		case 115: /* unified_buffer_address_nv */
+			switch(GLenum(aev._value))
+			{
+#ifdef GL_COLOR_ARRAY_ADDRESS_NV
+				case GL_COLOR_ARRAY_ADDRESS_NV:
+					return {s_COLOR_ARRAY_ADDRESS_NV, 22};
+#endif
+#ifdef GL_EDGE_FLAG_ARRAY_ADDRESS_NV
+				case GL_EDGE_FLAG_ARRAY_ADDRESS_NV:
+					return {s_EDGE_FLAG_ARRAY_ADDRESS_NV, 26};
+#endif
+#ifdef GL_ELEMENT_ARRAY_ADDRESS_NV
+				case GL_ELEMENT_ARRAY_ADDRESS_NV:
+					return {s_ELEMENT_ARRAY_ADDRESS_NV, 24};
+#endif
+#ifdef GL_FOG_COORD_ARRAY_ADDRESS_NV
+				case GL_FOG_COORD_ARRAY_ADDRESS_NV:
+					return {s_FOG_COORD_ARRAY_ADDRESS_NV, 26};
+#endif
+#ifdef GL_INDEX_ARRAY_ADDRESS_NV
+				case GL_INDEX_ARRAY_ADDRESS_NV:
+					return {s_INDEX_ARRAY_ADDRESS_NV, 22};
+#endif
+#ifdef GL_NORMAL_ARRAY_ADDRESS_NV
+				case GL_NORMAL_ARRAY_ADDRESS_NV:
+					return {s_NORMAL_ARRAY_ADDRESS_NV, 23};
+#endif
+#ifdef GL_SECONDARY_COLOR_ARRAY_ADDRESS_NV
+				case GL_SECONDARY_COLOR_ARRAY_ADDRESS_NV:
+					return {s_SECONDARY_COLOR_ARRAY_ADDRESS_NV, 32};
+#endif
+#ifdef GL_TEXTURE_COORD_ARRAY_ADDRESS_NV
+				case GL_TEXTURE_COORD_ARRAY_ADDRESS_NV:
+					return {s_TEXTURE_COORD_ARRAY_ADDRESS_NV, 30};
+#endif
+#ifdef GL_UNIFORM_BUFFER_ADDRESS_NV
+				case GL_UNIFORM_BUFFER_ADDRESS_NV:
+					return {s_UNIFORM_BUFFER_ADDRESS_NV, 25};
+#endif
+#ifdef GL_VERTEX_ARRAY_ADDRESS_NV
+				case GL_VERTEX_ARRAY_ADDRESS_NV:
+					return {s_VERTEX_ARRAY_ADDRESS_NV, 23};
+#endif
+#ifdef GL_VERTEX_ATTRIB_ARRAY_ADDRESS_NV
+				case GL_VERTEX_ATTRIB_ARRAY_ADDRESS_NV:
+					return {s_VERTEX_ATTRIB_ARRAY_ADDRESS_NV, 30};
 #endif
 				default:;
 			}

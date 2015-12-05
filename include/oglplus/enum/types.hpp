@@ -476,6 +476,10 @@ struct true_false
  : enum_class<true_false, GLboolean, 114>
 { using enum_class::enum_class; };
 
+struct unified_buffer_address_nv
+ : enum_class<unified_buffer_address_nv, GLenum, 115>
+{ using enum_class::enum_class; };
+
 } // namespace oglplus
 
 #endif // include guard
