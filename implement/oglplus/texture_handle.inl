@@ -132,6 +132,34 @@ noexcept
 }
 #endif
 //------------------------------------------------------------------------------
+#if defined(GL_ARB_bindless_texture)
+inline
+outcome<boolean>
+is_texture_handle_resident(texture_handle_arb th)
+noexcept
+{
+	GLboolean result = OGLPLUS_GLFUNC(IsTextureHandleResidentARB)(
+		get_raw_handle(th)
+	);
+	OGLPLUS_VERIFY_SIMPLE(IsTextureHandleResidentARB, debug);
+	return {boolean(result)};
+}
+#endif
+//------------------------------------------------------------------------------
+#if defined(GL_NV_bindless_texture)
+inline
+outcome<boolean>
+is_texture_handle_resident(texture_handle_nv th)
+noexcept
+{
+	GLboolean result = OGLPLUS_GLFUNC(IsTextureHandleResidentNV)(
+		get_raw_handle(th)
+	);
+	OGLPLUS_VERIFY_SIMPLE(IsTextureHandleResidentNV, debug);
+	return {boolean(result)};
+}
+#endif
+//------------------------------------------------------------------------------
 } // namespace oper
 //------------------------------------------------------------------------------
 } // namespace oglplus

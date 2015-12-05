@@ -59,5 +59,6 @@ struct prog_var_loc_ops<tag::uniform>
 } // namespace oglplus
 
 #include <oglplus/uniform_get_set.inl>
+#include <oglplus/uniform_get_set_spec.inl>
 
 #endif // include guard

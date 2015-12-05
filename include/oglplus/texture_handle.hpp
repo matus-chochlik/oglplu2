@@ -135,6 +135,20 @@ struct texture_handle_ops
 	make_texture_handle_non_resident(texture_handle_nv th)
 	noexcept;
 #endif
+
+#if defined(GL_ARB_bindless_texture)
+	static
+	outcome<boolean>
+	is_texture_handle_resident(texture_handle_arb th)
+	noexcept;
+#endif
+
+#if defined(GL_NV_bindless_texture)
+	static
+	outcome<boolean>
+	is_texture_handle_resident(texture_handle_nv th)
+	noexcept;
+#endif
 };
 
 } // namespace oper
