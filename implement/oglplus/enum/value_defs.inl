@@ -5920,6 +5920,13 @@ const enum_value<
 > enum_values::shader_compiler;
 #endif
 
+#ifdef GL_SHADER_GLOBAL_ACCESS_BARRIER_BIT_NV
+const enum_value<
+	GLbitfield,
+	mp_list<oglplus::memory_barrier_bits>
+> enum_values::shader_global_access_barrier_bit_nv;
+#endif
+
 #ifdef GL_SHADER_IMAGE_ACCESS_BARRIER_BIT
 const enum_value<
 	GLbitfield,

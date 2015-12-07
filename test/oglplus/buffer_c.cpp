@@ -45,6 +45,17 @@ void oglplus_buffer_test_ops1(void)
 	gl.buffer_storage_flags(tgt);
 #endif
 
+#if defined(GL_NV_shader_buffer_load)
+	gl.make_buffer_resident(tgt, access_specifier(GL_READ_ONLY));
+	gl.make_buffer_resident(buf, access_specifier(GL_READ_ONLY));
+	gl.make_buffer_non_resident(tgt);
+	gl.make_buffer_non_resident(buf);
+	gl.is_buffer_resident(tgt);
+	gl.is_buffer_resident(buf);
+	gl.buffer_gpu_address(tgt);
+	gl.buffer_gpu_address(buf);
+#endif
+
 	curbuf.data(data, buffer_usage(GL_STATIC_DRAW));
 	curbuf.sub_data(size, data);
 	curbuf.size();
@@ -54,6 +65,13 @@ void oglplus_buffer_test_ops1(void)
 	curbuf.storage(data, buffer_storage_bits());
 	curbuf.immutable_storage();
 	curbuf.storage_flags();
+#endif
+
+#if defined(GL_NV_shader_buffer_load)
+	curbuf.make_resident(access_specifier(GL_READ_ONLY));
+	curbuf.make_non_resident();
+	curbuf.is_resident();
+	curbuf.gpu_address();
 #endif
 
 #if defined(GL_VERSION_4_3) || defined(GL_ARB_invalidate_subdata)
@@ -87,6 +105,13 @@ void oglplus_buffer_test_ops1(void)
 	buf.storage(data, buffer_storage_bits());
 	buf.immutable_storage();
 	buf.storage_flags();
+#endif
+
+#if defined(GL_NV_shader_buffer_load)
+	buf.make_resident(access_specifier(GL_READ_ONLY));
+	buf.make_non_resident();
+	buf.is_resident();
+	buf.gpu_address();
 #endif
 #endif
 }

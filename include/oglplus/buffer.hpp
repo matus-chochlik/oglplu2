@@ -10,6 +10,7 @@
 #define OGLPLUS_BUFFER_1509260923_HPP
 
 #include "buffer_name.hpp"
+#include "buffer_address.hpp"
 #include "object/owner.hpp"
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
@@ -68,6 +69,16 @@ struct buffer_ops
 		span<GLint64> values
 	) noexcept;
 
+#if defined(GL_NV_shader_buffer_load)
+	static
+	outcome<void>
+	get_buffer_parameter_ui64v(
+		buffer_target tgt,
+		oglplus::buffer_parameter param,
+		span<GLuint64> values
+	) noexcept;
+#endif
+
 #if defined(OGLPLUS_DSA_BUFFER)
 	static
 	outcome<void>
@@ -85,6 +96,16 @@ struct buffer_ops
 		buffer_name buf,
 		oglplus::buffer_parameter param,
 		span<GLint64> values
+	) noexcept;
+#endif
+
+#if defined(GL_NV_shader_buffer_load)
+	static
+	outcome<void>
+	get_buffer_parameter_ui64v(
+		buffer_name buf,
+		oglplus::buffer_parameter param,
+		span<GLuint64> values
 	) noexcept;
 #endif
 
@@ -218,6 +239,48 @@ struct buffer_ops
 		oglplus::buffer_size size
 	) noexcept;
 #endif
+
+#if defined(GL_NV_shader_buffer_load)
+	static
+	outcome<void>
+	make_buffer_resident(buffer_target tgt, access_specifier access)
+	noexcept;
+
+	static
+	outcome<void>
+	make_buffer_resident(buffer_name buf, access_specifier access)
+	noexcept;
+
+	static
+	outcome<void>
+	make_buffer_non_resident(buffer_target tgt)
+	noexcept;
+
+	static
+	outcome<void>
+	make_buffer_non_resident(buffer_name buf)
+	noexcept;
+
+	static
+	outcome<boolean>
+	is_buffer_resident(buffer_target tgt)
+	noexcept;
+
+	static
+	outcome<boolean>
+	is_buffer_resident(buffer_name buf)
+	noexcept;
+
+	static
+	outcome<buffer_address>
+	buffer_gpu_address(buffer_target tgt)
+	noexcept;
+
+	static
+	outcome<buffer_address>
+	buffer_gpu_address(buffer_name buf)
+	noexcept;
+#endif
 };
 
 } // namespace oper
@@ -314,6 +377,36 @@ public:
 	noexcept
 	{
 		return _ops::buffer_storage_flags(*this);
+	}
+#endif
+
+#if defined(GL_NV_shader_buffer_load)
+	outcome<void>
+	make_resident(access_specifier access)
+	noexcept
+	{
+		return _ops::make_buffer_resident(*this, access);
+	}
+
+	outcome<void>
+	make_non_resident(void)
+	noexcept
+	{
+		return _ops::make_buffer_non_resident(*this);
+	}
+
+	outcome<boolean>
+	is_resident(void) const
+	noexcept
+	{
+		return _ops::is_buffer_resident(*this);
+	}
+
+	outcome<buffer_address>
+	gpu_address(void) const
+	noexcept
+	{
+		return _ops::buffer_gpu_address(*this);
 	}
 #endif
 };

@@ -5926,6 +5926,13 @@ static constexpr const enum_value<
 > shader_compiler = {GL_SHADER_COMPILER};
 #endif
 
+#ifdef GL_SHADER_GLOBAL_ACCESS_BARRIER_BIT_NV
+static constexpr const enum_value<
+	GLbitfield,
+	mp_list<oglplus::memory_barrier_bits>
+> shader_global_access_barrier_bit_nv = {GL_SHADER_GLOBAL_ACCESS_BARRIER_BIT_NV};
+#endif
+
 #ifdef GL_SHADER_IMAGE_ACCESS_BARRIER_BIT
 static constexpr const enum_value<
 	GLbitfield,

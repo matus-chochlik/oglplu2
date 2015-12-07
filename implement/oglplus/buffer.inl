@@ -121,6 +121,32 @@ get_buffer_parameter_i64v(
 	return {};
 }
 //------------------------------------------------------------------------------
+#if defined(GL_NV_shader_buffer_load)
+inline
+outcome<void>
+buffer_ops::
+get_buffer_parameter_ui64v(
+	buffer_target tgt,
+	oglplus::buffer_parameter param,
+	span<GLuint64> values
+) noexcept
+{
+	assert(values.size() > 0);
+	OGLPLUS_GLFUNC(GetBufferParameterui64vNV)(
+		GLenum(tgt),
+		GLenum(param),
+		values.data()
+	);
+	OGLPLUS_VERIFY(
+		GetBufferParameterui64vNV,
+		gl_object_binding(tag::buffer(), tgt).
+		gl_enum_value(param),
+		always
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
 inline
 outcome<void>
@@ -169,6 +195,32 @@ get_buffer_parameter_i64v(
 	);
 	OGLPLUS_VERIFY(
 		GetNamedBufferParameteri64v,
+		gl_object(buf).
+		gl_enum_value(param),
+		always
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
+#if defined(GL_NV_shader_buffer_load)
+inline
+outcome<void>
+buffer_ops::
+get_buffer_parameter_ui64v(
+	buffer_name buf,
+	oglplus::buffer_parameter param,
+	span<GLuint64> values
+) noexcept
+{
+	assert(values.size() > 0);
+	OGLPLUS_GLFUNC(GetNamedBufferParameterui64vNV)(
+		get_raw_name(buf),
+		GLenum(param),
+		values.data()
+	);
+	OGLPLUS_VERIFY(
+		GetNamedBufferParameterui64vNV,
 		gl_object(buf).
 		gl_enum_value(param),
 		always
@@ -517,6 +569,136 @@ invalidate_buffer_sub_data(
 		debug
 	);
 	return {};
+}
+#endif
+//------------------------------------------------------------------------------
+#if defined(GL_NV_shader_buffer_load)
+inline
+outcome<void>
+buffer_ops::
+make_buffer_resident(buffer_target tgt, access_specifier access)
+noexcept
+{
+	OGLPLUS_GLFUNC(MakeBufferResidentNV)(
+		GLenum(tgt),
+		GLenum(access)
+	);
+	OGLPLUS_VERIFY(
+		MakeBufferResidentNV,
+		gl_enum_value(access).
+		gl_object_binding(tag::buffer(), tgt),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+buffer_ops::
+make_buffer_resident(buffer_name buf, access_specifier access)
+noexcept
+{
+	OGLPLUS_GLFUNC(MakeNamedBufferResidentNV)(
+		get_raw_name(buf),
+		GLenum(access)
+	);
+	OGLPLUS_VERIFY(
+		MakeNamedBufferResidentNV,
+		gl_enum_value(access).
+		gl_object(buf),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+buffer_ops::
+make_buffer_non_resident(buffer_target tgt)
+noexcept
+{
+	OGLPLUS_GLFUNC(MakeBufferNonResidentNV)(GLenum(tgt));
+	OGLPLUS_VERIFY(
+		MakeBufferNonResidentNV,
+		gl_object_binding(tag::buffer(), tgt),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+buffer_ops::
+make_buffer_non_resident(buffer_name buf)
+noexcept
+{
+	OGLPLUS_GLFUNC(MakeNamedBufferNonResidentNV)(get_raw_name(buf));
+	OGLPLUS_VERIFY(
+		MakeNamedBufferNonResidentNV,
+		gl_object(buf),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<boolean>
+buffer_ops::
+is_buffer_resident(buffer_target tgt)
+noexcept
+{
+	GLboolean res = OGLPLUS_GLFUNC(IsBufferResidentNV)(GLenum(tgt));
+	OGLPLUS_VERIFY(
+		IsBufferResidentNV,
+		gl_object_binding(tag::buffer(), tgt),
+		debug
+	);
+	return {boolean(res)};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<boolean>
+buffer_ops::
+is_buffer_resident(buffer_name buf)
+noexcept
+{
+	GLboolean res = OGLPLUS_GLFUNC(IsNamedBufferResidentNV)(
+		get_raw_name(buf)
+	);
+	OGLPLUS_VERIFY(
+		IsNamedBufferResidentNV,
+		gl_object(buf),
+		debug
+	);
+	return {boolean(res)};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<buffer_address>
+buffer_ops::
+buffer_gpu_address(buffer_target tgt)
+noexcept
+{
+	GLuint64EXT result;
+	return get_buffer_parameter_ui64v(
+		tgt,
+		buffer_parameter(GL_BUFFER_GPU_ADDRESS_NV),
+		{&result, 1}
+	), buffer_address(result);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<buffer_address>
+buffer_ops::
+buffer_gpu_address(buffer_name buf)
+noexcept
+{
+	GLuint64EXT result;
+	return get_buffer_parameter_ui64v(
+		buf,
+		buffer_parameter(GL_BUFFER_GPU_ADDRESS_NV),
+		{&result, 1}
+	), buffer_address(result);
 }
 #endif
 //------------------------------------------------------------------------------
