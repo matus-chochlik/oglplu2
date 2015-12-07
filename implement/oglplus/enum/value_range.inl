@@ -4688,7 +4688,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 115: /* unified_buffer_address_nv */
+		case 115: /* unified_array_address_nv */
 		{
 			static const GLenum vr[] = {
 #ifdef GL_COLOR_ARRAY_ADDRESS_NV

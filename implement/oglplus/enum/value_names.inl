@@ -10326,7 +10326,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 115: /* unified_buffer_address_nv */
+		case 115: /* unified_array_address_nv */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_COLOR_ARRAY_ADDRESS_NV

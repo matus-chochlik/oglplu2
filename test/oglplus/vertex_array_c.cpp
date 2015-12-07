@@ -41,6 +41,15 @@ void oglplus_vertex_array_test_ops1(void)
 	gl.vertex_array_attrib_l_format(loc, 1, data_type(GL_DOUBLE), 0);
 #endif
 
+#if defined(GL_NV_vertex_buffer_unified_memory)
+	gl.buffer_address_range(
+		unified_array_address_nv(GL_ELEMENT_ARRAY_UNIFIED_NV),
+		0,
+		buffer_address(0),
+		10
+	);
+#endif
+
 	curvao.enable_attrib(loc);
 	curvao.disable_attrib(loc);
 	curvao.attrib_pointer(loc, 1, data_type(GL_FLOAT), true, 0, nullptr);

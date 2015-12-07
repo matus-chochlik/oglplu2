@@ -1,4 +1,4 @@
-//  File test/oglplus/enums/unified_buffer_address_nv.cpp
+//  File test/oglplus/enums/unified_array_address_nv.cpp
 //
 //  Automatically generated file, DO NOT modify manually.
 //  Edit the enumeration source files in 'source/enums/oglplus'
@@ -10,20 +10,20 @@
 //   http://www.boost.org/LICENSE_1_0.txt
 //
 #define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE OGLPLUS_unified_buffer_address_nv
+#define BOOST_TEST_MODULE OGLPLUS_unified_array_address_nv
 
 #include <boost/test/unit_test.hpp>
 #include "common.hpp"
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(enum_unified_buffer_address_nv)
+BOOST_AUTO_TEST_SUITE(enum_unified_array_address_nv)
 
-BOOST_AUTO_TEST_CASE(enum_unified_buffer_address_nv_values)
+BOOST_AUTO_TEST_CASE(enum_unified_array_address_nv_values)
 {
 	using namespace oglplus;
 	enum_values ev;
 	(void)ev;
-	unified_buffer_address_nv x;
+	unified_array_address_nv x;
 	(void)x;
 
 #ifdef GL_COLOR_ARRAY_ADDRESS_NV
@@ -412,12 +412,12 @@ BOOST_AUTO_TEST_CASE(enum_unified_buffer_address_nv_values)
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_unified_buffer_address_nv_names)
+BOOST_AUTO_TEST_CASE(enum_unified_array_address_nv_names)
 {
 	using namespace oglplus;
 	enum_values ev;
 	(void)ev;
-	unified_buffer_address_nv x;
+	unified_array_address_nv x;
 	(void)x;
 
 #ifdef GL_COLOR_ARRAY_ADDRESS_NV
@@ -520,18 +520,18 @@ BOOST_AUTO_TEST_CASE(enum_unified_buffer_address_nv_names)
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_unified_buffer_address_nv_range)
+BOOST_AUTO_TEST_CASE(enum_unified_array_address_nv_range)
 {
 	using namespace oglplus;
-	auto count = enum_value_range<unified_buffer_address_nv>().size();
+	auto count = enum_value_range<unified_array_address_nv>().size();
 
 #ifdef GL_COLOR_ARRAY_ADDRESS_NV
 {
 	--count;
-	auto r = enum_value_range<unified_buffer_address_nv>();
+	auto r = enum_value_range<unified_array_address_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		unified_buffer_address_nv(GL_COLOR_ARRAY_ADDRESS_NV)
+		unified_array_address_nv(GL_COLOR_ARRAY_ADDRESS_NV)
 	) != r.end());
 }
 #endif
@@ -539,10 +539,10 @@ BOOST_AUTO_TEST_CASE(enum_unified_buffer_address_nv_range)
 #ifdef GL_EDGE_FLAG_ARRAY_ADDRESS_NV
 {
 	--count;
-	auto r = enum_value_range<unified_buffer_address_nv>();
+	auto r = enum_value_range<unified_array_address_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		unified_buffer_address_nv(GL_EDGE_FLAG_ARRAY_ADDRESS_NV)
+		unified_array_address_nv(GL_EDGE_FLAG_ARRAY_ADDRESS_NV)
 	) != r.end());
 }
 #endif
@@ -550,10 +550,10 @@ BOOST_AUTO_TEST_CASE(enum_unified_buffer_address_nv_range)
 #ifdef GL_ELEMENT_ARRAY_ADDRESS_NV
 {
 	--count;
-	auto r = enum_value_range<unified_buffer_address_nv>();
+	auto r = enum_value_range<unified_array_address_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		unified_buffer_address_nv(GL_ELEMENT_ARRAY_ADDRESS_NV)
+		unified_array_address_nv(GL_ELEMENT_ARRAY_ADDRESS_NV)
 	) != r.end());
 }
 #endif
@@ -561,10 +561,10 @@ BOOST_AUTO_TEST_CASE(enum_unified_buffer_address_nv_range)
 #ifdef GL_FOG_COORD_ARRAY_ADDRESS_NV
 {
 	--count;
-	auto r = enum_value_range<unified_buffer_address_nv>();
+	auto r = enum_value_range<unified_array_address_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		unified_buffer_address_nv(GL_FOG_COORD_ARRAY_ADDRESS_NV)
+		unified_array_address_nv(GL_FOG_COORD_ARRAY_ADDRESS_NV)
 	) != r.end());
 }
 #endif
@@ -572,10 +572,10 @@ BOOST_AUTO_TEST_CASE(enum_unified_buffer_address_nv_range)
 #ifdef GL_INDEX_ARRAY_ADDRESS_NV
 {
 	--count;
-	auto r = enum_value_range<unified_buffer_address_nv>();
+	auto r = enum_value_range<unified_array_address_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		unified_buffer_address_nv(GL_INDEX_ARRAY_ADDRESS_NV)
+		unified_array_address_nv(GL_INDEX_ARRAY_ADDRESS_NV)
 	) != r.end());
 }
 #endif
@@ -583,10 +583,10 @@ BOOST_AUTO_TEST_CASE(enum_unified_buffer_address_nv_range)
 #ifdef GL_NORMAL_ARRAY_ADDRESS_NV
 {
 	--count;
-	auto r = enum_value_range<unified_buffer_address_nv>();
+	auto r = enum_value_range<unified_array_address_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		unified_buffer_address_nv(GL_NORMAL_ARRAY_ADDRESS_NV)
+		unified_array_address_nv(GL_NORMAL_ARRAY_ADDRESS_NV)
 	) != r.end());
 }
 #endif
@@ -594,10 +594,10 @@ BOOST_AUTO_TEST_CASE(enum_unified_buffer_address_nv_range)
 #ifdef GL_SECONDARY_COLOR_ARRAY_ADDRESS_NV
 {
 	--count;
-	auto r = enum_value_range<unified_buffer_address_nv>();
+	auto r = enum_value_range<unified_array_address_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		unified_buffer_address_nv(GL_SECONDARY_COLOR_ARRAY_ADDRESS_NV)
+		unified_array_address_nv(GL_SECONDARY_COLOR_ARRAY_ADDRESS_NV)
 	) != r.end());
 }
 #endif
@@ -605,10 +605,10 @@ BOOST_AUTO_TEST_CASE(enum_unified_buffer_address_nv_range)
 #ifdef GL_TEXTURE_COORD_ARRAY_ADDRESS_NV
 {
 	--count;
-	auto r = enum_value_range<unified_buffer_address_nv>();
+	auto r = enum_value_range<unified_array_address_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		unified_buffer_address_nv(GL_TEXTURE_COORD_ARRAY_ADDRESS_NV)
+		unified_array_address_nv(GL_TEXTURE_COORD_ARRAY_ADDRESS_NV)
 	) != r.end());
 }
 #endif
@@ -616,10 +616,10 @@ BOOST_AUTO_TEST_CASE(enum_unified_buffer_address_nv_range)
 #ifdef GL_UNIFORM_BUFFER_ADDRESS_NV
 {
 	--count;
-	auto r = enum_value_range<unified_buffer_address_nv>();
+	auto r = enum_value_range<unified_array_address_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		unified_buffer_address_nv(GL_UNIFORM_BUFFER_ADDRESS_NV)
+		unified_array_address_nv(GL_UNIFORM_BUFFER_ADDRESS_NV)
 	) != r.end());
 }
 #endif
@@ -627,10 +627,10 @@ BOOST_AUTO_TEST_CASE(enum_unified_buffer_address_nv_range)
 #ifdef GL_VERTEX_ARRAY_ADDRESS_NV
 {
 	--count;
-	auto r = enum_value_range<unified_buffer_address_nv>();
+	auto r = enum_value_range<unified_array_address_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		unified_buffer_address_nv(GL_VERTEX_ARRAY_ADDRESS_NV)
+		unified_array_address_nv(GL_VERTEX_ARRAY_ADDRESS_NV)
 	) != r.end());
 }
 #endif
@@ -638,22 +638,22 @@ BOOST_AUTO_TEST_CASE(enum_unified_buffer_address_nv_range)
 #ifdef GL_VERTEX_ATTRIB_ARRAY_ADDRESS_NV
 {
 	--count;
-	auto r = enum_value_range<unified_buffer_address_nv>();
+	auto r = enum_value_range<unified_array_address_nv>();
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
-		unified_buffer_address_nv(GL_VERTEX_ATTRIB_ARRAY_ADDRESS_NV)
+		unified_array_address_nv(GL_VERTEX_ATTRIB_ARRAY_ADDRESS_NV)
 	) != r.end());
 }
 #endif
 	BOOST_CHECK_EQUAL(count, 0);
 }
 
-BOOST_AUTO_TEST_CASE(enum_unified_buffer_address_nv_any)
+BOOST_AUTO_TEST_CASE(enum_unified_array_address_nv_any)
 {
 	using namespace oglplus;
 	enum_values ev;
 	(void)ev;
-	unified_buffer_address_nv x, y;
+	unified_array_address_nv x, y;
 	(void)x;
 	(void)y;
 	any_enum_value a;

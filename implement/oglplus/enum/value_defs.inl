@@ -638,7 +638,7 @@ const enum_value<
 #ifdef GL_COLOR_ARRAY_ADDRESS_NV
 const enum_value<
 	GLenum,
-	mp_list<oglplus::unified_buffer_address_nv>
+	mp_list<oglplus::unified_array_address_nv>
 > enum_values::color_array_address_nv;
 #endif
 
@@ -1674,7 +1674,7 @@ const enum_value<
 #ifdef GL_EDGE_FLAG_ARRAY_ADDRESS_NV
 const enum_value<
 	GLenum,
-	mp_list<oglplus::unified_buffer_address_nv>
+	mp_list<oglplus::unified_array_address_nv>
 > enum_values::edge_flag_array_address_nv;
 #endif
 
@@ -1688,7 +1688,7 @@ const enum_value<
 #ifdef GL_ELEMENT_ARRAY_ADDRESS_NV
 const enum_value<
 	GLenum,
-	mp_list<oglplus::unified_buffer_address_nv>
+	mp_list<oglplus::unified_array_address_nv>
 > enum_values::element_array_address_nv;
 #endif
 
@@ -1912,7 +1912,7 @@ const enum_value<
 #ifdef GL_FOG_COORD_ARRAY_ADDRESS_NV
 const enum_value<
 	GLenum,
-	mp_list<oglplus::unified_buffer_address_nv>
+	mp_list<oglplus::unified_array_address_nv>
 > enum_values::fog_coord_array_address_nv;
 #endif
 
@@ -2507,7 +2507,7 @@ const enum_value<
 #ifdef GL_INDEX_ARRAY_ADDRESS_NV
 const enum_value<
 	GLenum,
-	mp_list<oglplus::unified_buffer_address_nv>
+	mp_list<oglplus::unified_array_address_nv>
 > enum_values::index_array_address_nv;
 #endif
 
@@ -4047,7 +4047,7 @@ const enum_value<
 #ifdef GL_NORMAL_ARRAY_ADDRESS_NV
 const enum_value<
 	GLenum,
-	mp_list<oglplus::unified_buffer_address_nv>
+	mp_list<oglplus::unified_array_address_nv>
 > enum_values::normal_array_address_nv;
 #endif
 
@@ -5881,7 +5881,7 @@ const enum_value<
 #ifdef GL_SECONDARY_COLOR_ARRAY_ADDRESS_NV
 const enum_value<
 	GLenum,
-	mp_list<oglplus::unified_buffer_address_nv>
+	mp_list<oglplus::unified_array_address_nv>
 > enum_values::secondary_color_array_address_nv;
 #endif
 
@@ -6686,7 +6686,7 @@ const enum_value<
 #ifdef GL_TEXTURE_COORD_ARRAY_ADDRESS_NV
 const enum_value<
 	GLenum,
-	mp_list<oglplus::unified_buffer_address_nv>
+	mp_list<oglplus::unified_array_address_nv>
 > enum_values::texture_coord_array_address_nv;
 #endif
 
@@ -7190,7 +7190,7 @@ const enum_value<
 #ifdef GL_UNIFORM_BUFFER_ADDRESS_NV
 const enum_value<
 	GLenum,
-	mp_list<oglplus::unified_buffer_address_nv>
+	mp_list<oglplus::unified_array_address_nv>
 > enum_values::uniform_buffer_address_nv;
 #endif
 
@@ -7680,7 +7680,7 @@ const enum_value<
 #ifdef GL_VERTEX_ARRAY_ADDRESS_NV
 const enum_value<
 	GLenum,
-	mp_list<oglplus::unified_buffer_address_nv>
+	mp_list<oglplus::unified_array_address_nv>
 > enum_values::vertex_array_address_nv;
 #endif
 
@@ -7694,7 +7694,7 @@ const enum_value<
 #ifdef GL_VERTEX_ATTRIB_ARRAY_ADDRESS_NV
 const enum_value<
 	GLenum,
-	mp_list<oglplus::unified_buffer_address_nv>
+	mp_list<oglplus::unified_array_address_nv>
 > enum_values::vertex_attrib_array_address_nv;
 #endif
 

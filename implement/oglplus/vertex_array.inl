@@ -438,6 +438,33 @@ vertex_array_attrib_i_offset(
 }
 #endif
 //------------------------------------------------------------------------------
+#if defined(GL_NV_vertex_buffer_unified_memory)
+inline
+outcome<void>
+vertex_array_ops::
+buffer_address_range(
+	unified_array_address_nv uba,
+	GLuint index,
+	buffer_address addr,
+	GLsizei length
+) noexcept
+{
+	OGLPLUS_GLFUNC(BufferAddressRangeNV)(
+		GLenum(uba),
+		index,
+		get_raw_address(addr),
+		length
+	);
+	OGLPLUS_VERIFY(
+		BufferAddressRangeNV,
+		gl_index(index).
+		gl_enum_value(uba),
+		debug
+	);
+	return {};	
+}
+#endif
+//------------------------------------------------------------------------------
 } // namespace oper
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_gen
