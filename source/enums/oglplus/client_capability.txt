@@ -1,0 +1,15 @@
+# Copyright Matus Chochlik.
+# Distributed under the Boost Software License, Version 1.0.
+# See accompanying file LICENSE_1_0.txt or copy at
+#  http://www.boost.org/LICENSE_1_0.txt
+COLOR_ARRAY
+EDGE_FLAG_ARRAY
+FOG_COORD_ARRAY
+INDEX_ARRAY
+NORMAL_ARRAY
+SECONDARY_COLOR_ARRAY
+TEXTURE_COORD_ARRAY
+VERTEX_ARRAY
+VERTEX_ATTRIB_ARRAY_UNIFIED_NV
+ELEMENT_ARRAY_UNIFIED_NV
+UNIFORM_BUFFER_UNIFIED_NV

@@ -80,6 +80,39 @@ noexcept
 }
 //------------------------------------------------------------------------------
 inline
+outcome<void>
+capability_state::
+enable_client_state(client_capability cap)
+noexcept
+{
+	OGLPLUS_GLFUNC(EnableClientState)(GLenum(cap));
+	OGLPLUS_VERIFY(EnableClientState, gl_enum_value(cap), debug);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+capability_state::
+disable_client_state(client_capability cap)
+noexcept
+{
+	OGLPLUS_GLFUNC(DisableClientState)(GLenum(cap));
+	OGLPLUS_VERIFY(DisableClientState, gl_enum_value(cap), debug);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<boolean>
+capability_state::
+is_enabled(client_capability cap)
+noexcept
+{
+	GLboolean result = OGLPLUS_GLFUNC(IsEnabled)(GLenum(cap));
+	OGLPLUS_VERIFY(IsEnabled, gl_enum_value(cap), always);
+	return {boolean(result)};
+}
+//------------------------------------------------------------------------------
+inline
 outcome<GLint>
 capability_state::
 red_bits(void)

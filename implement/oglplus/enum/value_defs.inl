@@ -635,6 +635,13 @@ const enum_value<
 > enum_values::color;
 #endif
 
+#ifdef GL_COLOR_ARRAY
+const enum_value<
+	GLenum,
+	mp_list<oglplus::client_capability>
+> enum_values::color_array;
+#endif
+
 #ifdef GL_COLOR_ARRAY_ADDRESS_NV
 const enum_value<
 	GLenum,
@@ -1671,6 +1678,13 @@ const enum_value<
 > enum_values::dynamic_storage_bit;
 #endif
 
+#ifdef GL_EDGE_FLAG_ARRAY
+const enum_value<
+	GLenum,
+	mp_list<oglplus::client_capability>
+> enum_values::edge_flag_array;
+#endif
+
 #ifdef GL_EDGE_FLAG_ARRAY_ADDRESS_NV
 const enum_value<
 	GLenum,
@@ -1711,6 +1725,13 @@ const enum_value<
 	GLenum,
 	mp_list<oglplus::binding_query>
 > enum_values::element_array_buffer_binding;
+#endif
+
+#ifdef GL_ELEMENT_ARRAY_UNIFIED_NV
+const enum_value<
+	GLenum,
+	mp_list<oglplus::client_capability>
+> enum_values::element_array_unified_nv;
 #endif
 
 #ifdef GL_EQUAL
@@ -1907,6 +1928,13 @@ const enum_value<
 	GLenum,
 	mp_list<oglplus::sl_data_type>
 > enum_values::float_vec4;
+#endif
+
+#ifdef GL_FOG_COORD_ARRAY
+const enum_value<
+	GLenum,
+	mp_list<oglplus::client_capability>
+> enum_values::fog_coord_array;
 #endif
 
 #ifdef GL_FOG_COORD_ARRAY_ADDRESS_NV
@@ -2502,6 +2530,13 @@ const enum_value<
 	GLenum,
 	mp_list<oglplus::stencil_operation>
 > enum_values::incr_wrap;
+#endif
+
+#ifdef GL_INDEX_ARRAY
+const enum_value<
+	GLenum,
+	mp_list<oglplus::client_capability>
+> enum_values::index_array;
 #endif
 
 #ifdef GL_INDEX_ARRAY_ADDRESS_NV
@@ -4042,6 +4077,13 @@ const enum_value<
 	GLenum,
 	mp_list<oglplus::color_logic_operation>
 > enum_values::nor;
+#endif
+
+#ifdef GL_NORMAL_ARRAY
+const enum_value<
+	GLenum,
+	mp_list<oglplus::client_capability>
+> enum_values::normal_array;
 #endif
 
 #ifdef GL_NORMAL_ARRAY_ADDRESS_NV
@@ -5878,6 +5920,13 @@ const enum_value<
 > enum_values::screen_khr;
 #endif
 
+#ifdef GL_SECONDARY_COLOR_ARRAY
+const enum_value<
+	GLenum,
+	mp_list<oglplus::client_capability>
+> enum_values::secondary_color_array;
+#endif
+
 #ifdef GL_SECONDARY_COLOR_ARRAY_ADDRESS_NV
 const enum_value<
 	GLenum,
@@ -6683,6 +6732,13 @@ const enum_value<
 > enum_values::texture_compression_hint;
 #endif
 
+#ifdef GL_TEXTURE_COORD_ARRAY
+const enum_value<
+	GLenum,
+	mp_list<oglplus::client_capability>
+> enum_values::texture_coord_array;
+#endif
+
 #ifdef GL_TEXTURE_COORD_ARRAY_ADDRESS_NV
 const enum_value<
 	GLenum,
@@ -7222,6 +7278,13 @@ const enum_value<
 > enum_values::uniform_buffer_start;
 #endif
 
+#ifdef GL_UNIFORM_BUFFER_UNIFIED_NV
+const enum_value<
+	GLenum,
+	mp_list<oglplus::client_capability>
+> enum_values::uniform_buffer_unified_nv;
+#endif
+
 #ifdef GL_UNKNOWN_CONTEXT_RESET
 const enum_value<
 	GLenum,
@@ -7673,7 +7736,7 @@ const enum_value<
 #ifdef GL_VERTEX_ARRAY
 const enum_value<
 	GLenum,
-	mp_list<oglplus::object_type>
+	mp_list<oglplus::object_type,oglplus::client_capability>
 > enum_values::vertex_array;
 #endif
 
@@ -7703,6 +7766,13 @@ const enum_value<
 	GLbitfield,
 	mp_list<oglplus::memory_barrier_bits>
 > enum_values::vertex_attrib_array_barrier_bit;
+#endif
+
+#ifdef GL_VERTEX_ATTRIB_ARRAY_UNIFIED_NV
+const enum_value<
+	GLenum,
+	mp_list<oglplus::client_capability>
+> enum_values::vertex_attrib_array_unified_nv;
 #endif
 
 #ifdef GL_VERTEX_SHADER

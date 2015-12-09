@@ -51,6 +51,21 @@ struct capability_state
 	noexcept;
 
 	static
+	outcome<void>
+	enable_client_state(client_capability cap)
+	noexcept;
+
+	static
+	outcome<void>
+	disable_client_state(client_capability cap)
+	noexcept;
+
+	static
+	outcome<boolean>
+	is_enabled(client_capability cap)
+	noexcept;
+
+	static
 	outcome<GLint>
 	red_bits(void)
 	noexcept;
