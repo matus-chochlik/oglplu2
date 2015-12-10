@@ -104,7 +104,7 @@ bool query_gl_GLX(void)
 	glx::Pbuffer pbuffer(display, fbc, pbuffer_attribs);
 
 	context.MakeCurrent(pbuffer);
-	oglplus::GLAPIInitializer gl_api;
+	oglplus::api_initializer gl_api;
 
 	return do_query_gl();
 }
@@ -120,7 +120,7 @@ bool query_gl_GLFW3(void)
 		return true;
 	}
 	glfwMakeContextCurrent(win);
-	oglplus::GLAPIInitializer gl_api;
+	oglplus::api_initializer gl_api;
 
 	bool result = do_query_gl();
 
@@ -139,7 +139,7 @@ bool query_gl_GLFW(void)
 		return true;
 	}
 	glfwSetWindowTitle(title);
-	oglplus::GLAPIInitializer gl_api;
+	oglplus::api_initializer gl_api;
 
 	bool result = do_query_gl();
 
@@ -164,7 +164,7 @@ bool query_gl_GLUT(int argc, char **argv)
 	glutInitWindowPosition(0, 0);
 	glutCreateWindow(title);
 
-	oglplus::GLAPIInitializer gl_api;
+	oglplus::api_initializer gl_api;
 
 	return do_query_gl();
 }
@@ -186,7 +186,7 @@ bool query_gl_SDL(void)
 	}
 	SDL_WM_SetCaption(title, nullptr);
 
-	oglplus::GLAPIInitializer gl_api;
+	oglplus::api_initializer gl_api;
 
 	bool result = do_query_gl();
 
