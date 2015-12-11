@@ -32,6 +32,7 @@ namespace eagine {
 
 using gsl::string_span;
 using gsl::cstring_span;
+typedef std::ptrdiff_t span_size_type;
 
 } // namespace eagine
 
