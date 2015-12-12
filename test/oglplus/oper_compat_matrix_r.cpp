@@ -8,7 +8,7 @@
 #define BOOST_TEST_MODULE OGLPLUS_oper_compat_matrix
 #include <boost/test/unit_test.hpp>
 
-#include <oglplus/gl.hpp>
+#include <oglplus/gl_fixed.hpp>
 #include "helper/mock_gl_func.hpp"
 
 OGLPLUS_MOCK_GLFUNC(MatrixMode, void(GLenum));

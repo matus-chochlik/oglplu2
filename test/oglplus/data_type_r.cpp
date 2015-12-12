@@ -8,7 +8,7 @@
 #define BOOST_TEST_MODULE OGLPLUS_data_type
 #include <boost/test/unit_test.hpp>
 
-#include <oglplus/gl.hpp>
+#include <oglplus/gl_fixed.hpp>
 #include <oglplus/data_type.hpp>
 #include <oglplus/enum/values.hpp>
 #include <cstring>
