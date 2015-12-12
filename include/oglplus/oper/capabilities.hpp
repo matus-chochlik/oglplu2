@@ -50,6 +50,7 @@ struct capability_state
 	is_enabled(clip_plane cap)
 	noexcept;
 
+#if defined(GL_ARB_compatibility)
 	static
 	outcome<void>
 	enable_client_state(client_capability cap)
@@ -104,6 +105,7 @@ struct capability_state
 	outcome<boolean>
 	stereo(void)
 	noexcept;
+#endif
 };
 
 } // namespace oper

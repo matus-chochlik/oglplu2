@@ -87,6 +87,18 @@ public:
 	{
 		return program_arg(_argi-1, _argc, _argv);
 	}
+
+	bool operator == (const value_type& v) const
+	noexcept
+	{
+		return get() == v;
+	}
+
+	bool operator != (const value_type& v) const
+	noexcept
+	{
+		return get() != v;
+	}
 };
 
 class program_args
@@ -101,20 +113,32 @@ public:
 	 , _argv(nullptr)
 	{ }
 
-	program_args(int argc, char** argv)
+	program_args(int argn, char** args)
 	noexcept
-	 : _argc(argc)
-	 , _argv(const_cast<const char**>(argv))
+	 : _argc(argn)
+	 , _argv(const_cast<const char**>(args))
 	{ }
 
-	program_args(int argc, const char** argv)
+	program_args(int argn, const char** args)
 	noexcept
-	 : _argc(argc)
-	 , _argv(argv)
+	 : _argc(argn)
+	 , _argv(args)
 	{ }
 
 	typedef int size_type;
 	typedef cstr_ref value_type;
+
+	int argc(void) const
+	noexcept
+	{
+		return _argc;
+	}
+
+	const char** argv(void) const
+	noexcept
+	{
+		return _argv;
+	}
 
 	bool empty(void) const
 	noexcept
@@ -137,7 +161,7 @@ public:
 	bool is_valid(int pos) const
 	noexcept
 	{
-		return	(0 < pos) && (pos < _argc) &&
+		return	(0 <= pos) && (pos < _argc) &&
 			(_argv != nullptr) && (_argv[pos] != nullptr);
 	}
 

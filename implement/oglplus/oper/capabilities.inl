@@ -79,6 +79,7 @@ noexcept
 	return {boolean(result)};
 }
 //------------------------------------------------------------------------------
+#if defined(GL_ARB_compatibility)
 inline
 outcome<void>
 capability_state::
@@ -183,6 +184,7 @@ noexcept
 {
 	return numeric_queries::get_boolean(numeric_query(GL_STEREO));
 }
+#endif
 //------------------------------------------------------------------------------
 } // namespace oper
 //------------------------------------------------------------------------------
