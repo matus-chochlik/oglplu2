@@ -120,6 +120,8 @@ OGLPLUS_MOCK_GLFUNC(TexCoord4dv, void(const GLdouble*));
 
 BOOST_AUTO_TEST_SUITE(compat_drawing)
 
+#if defined(GL_ARB_compatibility)
+
 template <typename T>
 static T get(void)
 {
@@ -1341,5 +1343,9 @@ BOOST_AUTO_TEST_CASE(compat_drawing_tex_coord_dv)
 	BOOST_CHECK(mock_glTexCoord3dv.was_called());
 	BOOST_CHECK(mock_glTexCoord4dv.was_called());
 }
+
+#else
+BOOST_AUTO_TEST_CASE(compat_drawing_dummy) { }
+#endif
 
 BOOST_AUTO_TEST_SUITE_END()

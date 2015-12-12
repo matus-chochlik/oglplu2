@@ -306,13 +306,14 @@ buffer_storage(
 		GLbitfield(flags)
 	);
 	OGLPLUS_VERIFY(
-		BufferData,
+		BufferStorage,
 		gl_object_binding(tag::buffer(), target),
 		debug
 	);
 	return {};
 }
 //------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
 inline
 outcome<void>
 buffer_ops::
@@ -322,19 +323,24 @@ buffer_storage(
 	enum_bitfield<buffer_storage_bits> flags
 ) noexcept
 {
-	OGLPLUS_GLFUNC(BufferStorage)(
+#ifdef GL_VERSION_4_5
+	OGLPLUS_GLFUNC(NamedBufferStorage)(
+#else
+	OGLPLUS_GLFUNC(NamedBufferStorageEXT)(
+#endif
 		get_raw_name(buf),
 		GLsizei(data.size()),
 		data.data(),
 		GLbitfield(flags)
 	);
 	OGLPLUS_VERIFY(
-		BufferData,
+		OGLPLUS_GL_DSA_FUNC_NAME(NamedBufferStorage),
 		gl_object(buf),
 		debug
 	);
 	return {};
 }
+#endif
 //------------------------------------------------------------------------------
 template <typename BNT>
 inline

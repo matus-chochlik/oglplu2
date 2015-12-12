@@ -758,6 +758,8 @@ private:
 	{
 		return {name, target};
 	}
+#else
+	typedef texture_target_only _tnt;
 #endif
 	_tnt _get_tnt(void) const
 	noexcept
