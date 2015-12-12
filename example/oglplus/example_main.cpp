@@ -7,7 +7,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#include <oglplus/gl.hpp>
+#include <oglplus/gl_fixed.hpp>
 #include <oglplus/constants.hpp>
 #include <oglplus/constant_defs.hpp>
 #include "example.hpp"

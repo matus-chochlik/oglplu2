@@ -7,11 +7,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#include <oglplus/gl.hpp>
-
-// TODO fixed gl version/extension
-#undef GL_ARB_compatibility
-
+#include <oglplus/gl_fixed.hpp>
 #include <oglplus/constants.hpp>
 #include <oglplus/operations.hpp>
 

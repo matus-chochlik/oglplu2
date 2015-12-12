@@ -92,7 +92,8 @@ bool query_gl_GLX(void)
 	glx::Context context(
 		display, fbc,
 		OGLPLUS_CONFIG_QUERY_GL_VER_MAJOR,
-		OGLPLUS_CONFIG_QUERY_GL_VER_MINOR
+		OGLPLUS_CONFIG_QUERY_GL_VER_MINOR,
+		true, true
 	);
 
 	const int pbuffer_attribs [] = {
