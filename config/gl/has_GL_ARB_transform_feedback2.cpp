@@ -7,11 +7,8 @@
 #define OGLPLUS_CONFIG_QUERY_GL_VER_MAJOR 3
 #define OGLPLUS_CONFIG_QUERY_GL_VER_MINOR 0
 
-#include "init_GL.ipp"
+#include "decl_GL_test.ipp"
 #include "has_GL_ARB_transform_feedback2.ipp"
-
-#include <cstring>
-#include <cstddef>
 
 bool do_query_gl(void)
 {
@@ -51,4 +48,6 @@ bool do_query_gl(void)
 	}
 	return true;
 }
+
+#include "impl_GL_test.ipp"
 

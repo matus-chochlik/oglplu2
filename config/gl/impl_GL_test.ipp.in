@@ -4,7 +4,6 @@
  * See accompanying file LICENSE_1_0.txt or copy at
  *  http://www.boost.org/LICENSE_1_0.txt
  */
-#include <oglplus/gl.hpp>
 
 #if @GLX_FOUND@
 #include <oglplus/glx/context.hpp>
@@ -29,34 +28,6 @@
 #endif
 
 #include <type_traits>
-#include <iostream>
-
-template <typename Func>
-bool oglplus_config_test_gl_func(Func func)
-{
-	return (func != nullptr);
-}
-
-#define OGLPLUS_CONFIG_ASSERT_GL_FUNC(NAME) \
-	if(!oglplus_config_test_gl_func(NAME)) \
-	{ \
-		std::cerr \
-			<< "Required function: " \
-			<< #NAME \
-			<< " not available." \
-			<< std::endl; \
-		++missing_gl_symbols; \
-	}
-
-#define OGLPLUS_CONFIG_MISSING_GL_CONST(NAME) \
-		std::cerr \
-			<< "Required constant: " \
-			<< #NAME \
-			<< " not available." \
-			<< std::endl; \
-		++missing_gl_symbols; \
-
-bool do_query_gl(void);
 
 static const char* title = "GL feature detection";
 

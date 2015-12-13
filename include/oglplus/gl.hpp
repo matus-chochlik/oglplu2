@@ -83,8 +83,8 @@ struct api_initializer
 #pragma clang diagnostic pop
 #endif
 
-#endif // include guard
-
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include <oglplus/gl.inl>
 #endif
+
+#endif // include guard

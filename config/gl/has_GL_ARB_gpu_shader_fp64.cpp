@@ -7,7 +7,7 @@
 #define OGLPLUS_CONFIG_QUERY_GL_VER_MAJOR 3
 #define OGLPLUS_CONFIG_QUERY_GL_VER_MINOR 2
 
-#include "init_GL.ipp"
+#include "decl_GL_test.ipp"
 #include "has_GL_ARB_gpu_shader_fp64.ipp"
 
 bool do_query_gl(void)
@@ -63,3 +63,5 @@ bool do_query_gl(void)
 
 	return missing_gl_symbols == 0;
 }
+
+#include "impl_GL_test.ipp"

@@ -90,11 +90,11 @@ function(gl_feature_detection GL_LIB QUERY QUERY_KIND)
 			if(COMPILE_ONLY_GL_TESTS)
 				set(HAS_${GL_LIB}_${QUERY} TRUE PARENT_SCOPE)
 			else()
-				set(OGLPLUS_NO_${GL_LIB}_${QUERY} TRUE PARENT_SCOPE)
+				set(NO_${GL_LIB}_${QUERY} TRUE PARENT_SCOPE)
 			endif()
 		endif()
 	else()
-		set(OGLPLUS_NO_${GL_LIB}_${QUERY} TRUE PARENT_SCOPE)
+		set(NO_${GL_LIB}_${QUERY} TRUE PARENT_SCOPE)
 	endif()
 
 	if(
@@ -118,7 +118,12 @@ function(gl_feature_detection GL_LIB QUERY QUERY_KIND)
 endfunction()
 
 configure_file(
-	${PROJECT_SOURCE_DIR}/config/gl/init_GL.ipp.in
-	${PROJECT_BINARY_DIR}/gl/init_GL.ipp
+	${PROJECT_SOURCE_DIR}/config/gl/decl_GL_test.ipp.in
+	${PROJECT_BINARY_DIR}/gl/decl_GL_test.ipp
+)
+
+configure_file(
+	${PROJECT_SOURCE_DIR}/config/gl/impl_GL_test.ipp.in
+	${PROJECT_BINARY_DIR}/gl/impl_GL_test.ipp
 )
 
