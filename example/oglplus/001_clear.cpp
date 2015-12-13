@@ -31,7 +31,7 @@ public:
 	void render(const example_state_view& state)
 	override
 	{
-		int sec = int(state.time());
+		int sec = int(state.exec_time());
 
 		gl.clear_color(
 			(sec%3==0)?1:0,

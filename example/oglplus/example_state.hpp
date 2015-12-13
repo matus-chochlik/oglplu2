@@ -9,6 +9,7 @@
 #ifndef OGLPLUS_EXAMPLE_STATE_1512120710_HPP
 #define OGLPLUS_EXAMPLE_STATE_1512120710_HPP
 
+#include <oglplus/utils/quantities.hpp>
 #include <cassert>
 
 namespace oglplus {
@@ -38,16 +39,16 @@ protected:
 	{ }
 public:
 
-	float time(void) const
+	seconds_t<float> exec_time(void) const
 	noexcept
 	{
-		return _new_time;
+		return seconds(_new_time);
 	}
 
-	float delta_time(void) const
+	seconds_t<float> frame_time(void) const
 	noexcept
 	{
-		return _new_time - _old_time;
+		return seconds(_new_time - _old_time);
 	}
 
 	int frame_number(void) const

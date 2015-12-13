@@ -43,28 +43,98 @@ public:
 	 : _v(tq._v)
 	{ }
 
+
+	template <
+		typename X,
+		typename = std::enable_if_t<std::is_convertible<T, X>::value>
+	>
 	explicit constexpr inline
-	operator T (void) const
+	operator X (void) const
 	noexcept
 	{
-		return _v;
+		return X(_v);
 	}
 
 	friend
-	tagged_quantity
-	operator + (tagged_quantity a, tagged_quantity b)
+	tagged_quantity operator + (tagged_quantity a, tagged_quantity b)
 	noexcept
 	{
 		return {a._v + b._v};
 	}
 
 	friend
-	tagged_quantity
-	operator - (tagged_quantity a, tagged_quantity b)
+	tagged_quantity operator - (tagged_quantity a, tagged_quantity b)
 	noexcept
 	{
 		return {a._v - b._v};
 	}
+
+	template <
+		typename X,
+		typename = std::enable_if_t<std::is_convertible<X, T>::value>
+	>
+	constexpr inline
+	bool operator == (tagged_quantity<X, U> q) const
+	noexcept
+	{
+		return _v == q._v;
+	}
+
+	template <
+		typename X,
+		typename = std::enable_if_t<std::is_convertible<X, T>::value>
+	>
+	constexpr inline
+	bool operator != (tagged_quantity<X, U> q) const
+	noexcept
+	{
+		return _v != q._v;
+	}
+
+	template <
+		typename X,
+		typename = std::enable_if_t<std::is_convertible<X, T>::value>
+	>
+	constexpr inline
+	bool operator <  (tagged_quantity<X, U> q) const
+	noexcept
+	{
+		return _v <  q._v;
+	}
+
+	template <
+		typename X,
+		typename = std::enable_if_t<std::is_convertible<X, T>::value>
+	>
+	constexpr inline
+	bool operator <= (tagged_quantity<X, U> q) const
+	noexcept
+	{
+		return _v <= q._v;
+	}
+
+	template <
+		typename X,
+		typename = std::enable_if_t<std::is_convertible<X, T>::value>
+	>
+	constexpr inline
+	bool operator >  (tagged_quantity<X, U> q) const
+	noexcept
+	{
+		return _v >  q._v;
+	}
+
+	template <
+		typename X,
+		typename = std::enable_if_t<std::is_convertible<X, T>::value>
+	>
+	constexpr inline
+	bool operator >= (tagged_quantity<X, U> q) const
+	noexcept
+	{
+		return _v >= q._v;
+	}
+
 };
 
 } // namespace eagine

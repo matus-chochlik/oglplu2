@@ -15,10 +15,35 @@
 
 namespace eagine {
 
-struct radians_tag;
+// seconds
+struct qty_seconds_tag;
 
 template <typename T>
-using radians_t = tagged_quantity<T, radians_tag>;
+using seconds_t = tagged_quantity<T, qty_seconds_tag>;
+
+template <typename T>
+static inline
+seconds_t<T>
+seconds(T value)
+noexcept
+{
+	return seconds_t<T>{value};
+}
+
+template <typename T>
+static inline
+seconds_t<T>
+minutes(T value)
+noexcept
+{
+	return seconds_t<T>{value*60};
+}
+
+// radians
+struct qty_radians_tag;
+
+template <typename T>
+using radians_t = tagged_quantity<T, qty_radians_tag>;
 
 template <typename T>
 static inline
@@ -53,10 +78,11 @@ auto tan(radians_t<T> v)
 	return tan(T(v));
 }
 
-struct degrees_tag;
+// degrees
+struct qty_degrees_tag;
 
 template <typename T>
-using degrees_t = tagged_quantity<T, degrees_tag>;
+using degrees_t = tagged_quantity<T, qty_degrees_tag>;
 
 template <typename T>
 static inline

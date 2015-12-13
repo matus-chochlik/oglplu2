@@ -14,6 +14,10 @@
 
 namespace oglplus {
 
+using eagine::seconds_t;
+using eagine::seconds;
+using eagine::minutes;
+
 using eagine::degrees_t;
 using eagine::degrees;
 

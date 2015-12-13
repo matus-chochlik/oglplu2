@@ -23,7 +23,7 @@ struct example
 	virtual
 	bool continue_running(const example_state_view& state)
 	{
-		return state.time() < 10; //[sec]
+		return state.exec_time() < seconds(10); //[sec]
 	}
 
 	virtual
