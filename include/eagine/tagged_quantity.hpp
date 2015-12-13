@@ -43,6 +43,11 @@ public:
 	 : _v(tq._v)
 	{ }
 
+	T value(void) const
+	noexcept
+	{
+		return _v;
+	}
 
 	template <
 		typename X,

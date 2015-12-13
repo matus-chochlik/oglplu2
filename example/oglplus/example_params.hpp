@@ -23,6 +23,7 @@ private:
 	int _alpha_bits;
 	int _depth_bits;
 	int _stencil_bits;
+	bool _compat_ctxt;
 public:
 	example_params(void)
 	noexcept
@@ -30,11 +31,13 @@ public:
 	 , _alpha_bits(0)
 	 , _depth_bits(24)
 	 , _stencil_bits(0)
+	 , _compat_ctxt(false)
 	{ }
 
-	void screenshot_path(cstr_ref screenshot_path)
+	example_params& screenshot_path(cstr_ref screenshot_path)
 	{
 		_screenshot_path = screenshot_path;
+		return *this;
 	}
 
 	bool screenshot_only(void) const
@@ -62,11 +65,25 @@ public:
 		return _screenshot_path;
 	}
 
-	void color_bits(int n)
+	example_params& compatibility_context(bool v)
+	noexcept
+	{
+		_compat_ctxt = v;
+		return *this;
+	}
+
+	bool compatibility_context(void) const
+	noexcept
+	{
+		return _compat_ctxt;
+	}
+
+	example_params& color_bits(int n)
 	noexcept
 	{
 		assert(n >= 0);
 		_color_bits = n;
+		return *this;
 	}
 
 	int color_bits(void) const
@@ -75,11 +92,12 @@ public:
 		return _color_bits;
 	}
 
-	void alpha_bits(int n)
+	example_params& alpha_bits(int n)
 	noexcept
 	{
 		assert(n >= 0);
 		_alpha_bits = n;
+		return *this;
 	}
 
 	int alpha_bits(void) const
@@ -88,11 +106,12 @@ public:
 		return _alpha_bits;
 	}
 
-	void depth_bits(int n)
+	example_params& depth_bits(int n)
 	noexcept
 	{
 		assert(n >= 0);
 		_depth_bits = n;
+		return *this;
 	}
 
 	int depth_bits(void) const
@@ -101,11 +120,12 @@ public:
 		return _depth_bits;
 	}
 
-	void stencil_bits(int n)
+	example_params& stencil_bits(int n)
 	noexcept
 	{
 		assert(n >= 0);
 		_stencil_bits = n;
+		return *this;
 	}
 
 	int stencil_bits(void) const
