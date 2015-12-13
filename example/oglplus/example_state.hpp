@@ -16,8 +16,8 @@ namespace oglplus {
 class example_state_view
 {
 protected:
-	double _old_time;
-	double _new_time;
+	float _old_time;
+	float _new_time;
 
 	int _frame_no;
 

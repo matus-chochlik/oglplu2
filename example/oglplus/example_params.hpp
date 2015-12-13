@@ -49,11 +49,11 @@ public:
 		return screenshot_only();
 	}
 
-	double frame_time(void) const
+	float frame_time(void) const
 	noexcept
 	{
 		// TODO
-		return 1.0/25.0;
+		return 1.0f/25.0f;
 	}
 
 	cstr_ref screenshot_path(void) const

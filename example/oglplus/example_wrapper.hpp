@@ -49,9 +49,9 @@ public:
 		}
 		else
 		{
-			static const double period =
-				double(clock_type::period::num)/
-				double(clock_type::period::den);
+			static const float period =
+				float(clock_type::period::num)/
+				float(clock_type::period::den);
 			_now = clock_type::now();
 			_state.set_time((_now-_start).count() * period);
 		}
