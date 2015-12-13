@@ -13,7 +13,7 @@
 #include "../error/handling.hpp"
 #include "../error/outcome.hpp"
 #include "../utils/span.hpp"
-#include "../utils/angles.hpp"
+#include "../utils/quantities.hpp"
 #include "../enum/types.hpp"
 
 namespace oglplus {

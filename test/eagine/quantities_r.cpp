@@ -5,16 +5,16 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE EAGINE_angles
+#define BOOST_TEST_MODULE EAGINE_quantities
 #include <boost/test/unit_test.hpp>
 
-#include <eagine/angles.hpp>
+#include <eagine/quantities.hpp>
 #include <cstdlib>
 
-BOOST_AUTO_TEST_SUITE(angles)
+BOOST_AUTO_TEST_SUITE(test_quantities)
 
 template <typename T>
-void eagine_test_angles_1(void)
+void eagine_test_quantities_1(void)
 {
 	using namespace eagine;
 
@@ -24,11 +24,11 @@ void eagine_test_angles_1(void)
 	BOOST_CHECK(!(T(v) < r));
 }
 
-BOOST_AUTO_TEST_CASE(angles_1)
+BOOST_AUTO_TEST_CASE(quantities_1)
 {
-	eagine_test_angles_1<int>();
-	eagine_test_angles_1<float>();
-	eagine_test_angles_1<double>();
+	eagine_test_quantities_1<int>();
+	eagine_test_quantities_1<float>();
+	eagine_test_quantities_1<double>();
 }
 
 

@@ -9,7 +9,7 @@
 #ifndef EAGINE_MATH_MATRIX_ROTATION_1509260923_HPP
 #define EAGINE_MATH_MATRIX_ROTATION_1509260923_HPP
 
-#include "../angles.hpp"
+#include "../quantities.hpp"
 #include "matrix_ctr.hpp"
 #include <cmath>
 

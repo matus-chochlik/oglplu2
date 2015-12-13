@@ -10,7 +10,7 @@
 #define EAGINE_MATH_MATRIX_ORBITING_1509260923_HPP
 
 #include "matrix_ctr.hpp"
-#include "../angles.hpp"
+#include "../quantities.hpp"
 
 namespace eagine {
 namespace math {
