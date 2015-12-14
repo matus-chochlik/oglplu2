@@ -36,6 +36,8 @@ int main(int argc, const char** argv)
 	example_params params;
 	example_state state;
 
+	oglplus::adjust_params(params);
+
 	state.set_size(800, 600);
 
 	auto errstr = [&args](void) -> std::ostream&
