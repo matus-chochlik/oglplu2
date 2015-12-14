@@ -279,9 +279,8 @@ void run_loop(int width, int height)
 
 	gl.enable(GL.depth_test);
 	gl.enable(GL.cull_face);
-	// TODO
-	//gl.cull_face(GL.back);
-	//gl.front_face(GL.ccw);
+	gl.cull_face(GL.back);
+	gl.front_face(GL.ccw);
 
 	unsigned current_buf = 0;
 	float rad = 0.0f;

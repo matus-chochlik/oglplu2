@@ -15,6 +15,7 @@
 #include "oper/buffer_clearing.hpp"
 #include "oper/prog_var_location.hpp"
 #include "oper/stencil_test.hpp"
+#include "oper/rasterization.hpp"
 #include "oper/drawing.hpp"
 #include "oper/synchronization.hpp"
 
@@ -64,6 +65,7 @@ class operations
  , public oper::buffer_clearing_state
  , public oper::buffer_clearing_ops
  , public oper::stencil_test_state
+ , public oper::rasterization_state
  , public oper::drawing_ops
  , public oper::synchronization
 

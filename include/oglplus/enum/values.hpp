@@ -4606,7 +4606,7 @@ static constexpr const enum_value<
 #ifdef GL_POINT_FADE_THRESHOLD_SIZE
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::numeric_query>
+	mp_list<oglplus::point_parameter,oglplus::numeric_query>
 > point_fade_threshold_size = {GL_POINT_FADE_THRESHOLD_SIZE};
 #endif
 
@@ -4624,11 +4624,32 @@ static constexpr const enum_value<
 > point_size_granularity = {GL_POINT_SIZE_GRANULARITY};
 #endif
 
+#ifdef GL_POINT_SIZE_MAX
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::point_parameter>
+> point_size_max = {GL_POINT_SIZE_MAX};
+#endif
+
+#ifdef GL_POINT_SIZE_MIN
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::point_parameter>
+> point_size_min = {GL_POINT_SIZE_MIN};
+#endif
+
 #ifdef GL_POINT_SIZE_RANGE
 static constexpr const enum_value<
 	GLenum,
 	mp_list<oglplus::numeric_query>
 > point_size_range = {GL_POINT_SIZE_RANGE};
+#endif
+
+#ifdef GL_POINT_SPRITE_COORD_ORIGIN
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::point_parameter>
+> point_sprite_coord_origin = {GL_POINT_SPRITE_COORD_ORIGIN};
 #endif
 
 #ifdef GL_POINTS
