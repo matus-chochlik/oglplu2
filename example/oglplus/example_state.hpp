@@ -27,6 +27,11 @@ protected:
 	int _new_width;
 	int _new_height;
 
+	int _old_mouse_x;
+	int _old_mouse_y;
+	int _new_mouse_x;
+	int _new_mouse_y;
+
 	example_state_view(void)
 	noexcept
 	 : _old_time(0.0)
@@ -36,6 +41,10 @@ protected:
 	 , _old_height(1)
 	 , _new_width(1)
 	 , _new_height(1)
+	 , _old_mouse_x(0)
+	 , _old_mouse_y(0)
+	 , _new_mouse_x(0)
+	 , _new_mouse_y(0)
 	{ }
 public:
 
@@ -86,6 +95,70 @@ public:
 	{
 		return float(width())/float(height());
 	}
+
+	int mouse_x(void) const
+	noexcept
+	{
+		return _new_mouse_x;
+	}
+
+	int mouse_y(void) const
+	noexcept
+	{
+		return _new_mouse_y;
+	}
+
+	int delta_mouse_x(void) const
+	noexcept
+	{
+		return _new_mouse_x - _old_mouse_x;
+	}
+
+	int delta_mouse_y(void) const
+	noexcept
+	{
+		return _new_mouse_y - _old_mouse_y;
+	}
+
+	float norm_mouse_x(void) const
+	noexcept
+	{
+		assert(width() > 0);
+		return float(mouse_x()) / width();
+	}
+
+	float norm_mouse_y(void) const
+	noexcept
+	{
+		assert(height() > 0);
+		return float(mouse_y()) / height();
+	}
+
+	float norm_delta_mouse_x(void) const
+	noexcept
+	{
+		assert(width() > 0);
+		return float(delta_mouse_x()) / width();
+	}
+
+	float norm_delta_mouse_y(void) const
+	noexcept
+	{
+		assert(height() > 0);
+		return float(delta_mouse_y()) / height();
+	}
+
+	float ndc_mouse_x(void) const
+	noexcept
+	{
+		return -1.f + 2*norm_mouse_x();
+	}
+
+	float ndc_mouse_y(void) const
+	noexcept
+	{
+		return -1.f + 2*norm_mouse_y();
+	}
 };
 
 class example_state
@@ -121,7 +194,7 @@ public:
 		if(_new_width != new_width)
 		{
 			_old_width = _new_width;
-			_new_width = new_width;
+			_new_width =  new_width;
 			return true;
 		}
 		return false;
@@ -135,7 +208,7 @@ public:
 		if(_new_height != new_height)
 		{
 			_old_height = _new_height;
-			_new_height = new_height;
+			_new_height =  new_height;
 			return true;
 		}
 		return false;
@@ -155,6 +228,40 @@ public:
 	{
 		_old_width = _new_width;
 		_old_height = _new_height;
+	}
+
+	bool set_mouse_pos(int new_mouse_x, int new_mouse_y)
+	noexcept
+	{
+		bool result = false;
+
+		if(new_mouse_x < 0) new_mouse_x = 0;
+		if(new_mouse_x > _new_width) new_mouse_x = _new_width;
+		if(new_mouse_y < 0) new_mouse_y = 0;
+		if(new_mouse_y > _new_height) new_mouse_y = _new_height;
+
+		if(_new_mouse_x != new_mouse_x)
+		{
+			_old_mouse_x = _new_mouse_x;
+			_new_mouse_x =  new_mouse_x;
+			result = true;
+		}
+
+		if(_new_mouse_y != new_mouse_y)
+		{
+			_old_mouse_y = _new_mouse_y;
+			_new_mouse_y =  new_mouse_y;
+			result = true;
+		}
+
+		return result;
+	}
+
+	void center_mouse(void)
+	noexcept
+	{
+		_old_mouse_x = _new_mouse_x = width()/2;
+		_old_mouse_y = _new_mouse_y = height()/2;
 	}
 };
 

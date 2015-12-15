@@ -27,6 +27,9 @@ struct example
 	}
 
 	virtual
+	void mouse_motion(const example_state_view&) { }
+
+	virtual
 	void resize(const example_state_view&) = 0;
 
 	virtual

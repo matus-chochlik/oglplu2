@@ -38,6 +38,9 @@ public:
 
 		_state.sync_size();
 		_example->resize(_state);
+
+		_state.center_mouse();
+		_example->mouse_motion(_state);
 	}
 
 	bool next_frame(void)
@@ -69,6 +72,14 @@ public:
 		if(_state.set_size(width, height))
 		{
 			_example->resize(_state);
+		}
+	}
+
+	void set_mouse_pos(int x, int y)
+	{
+		if(_state.set_mouse_pos(x, y))
+		{
+			_example->mouse_motion(_state);
 		}
 	}
 };
