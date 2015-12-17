@@ -10,6 +10,7 @@
 #define OGLPLUS_EXAMPLE_STATE_1512120710_HPP
 
 #include <oglplus/utils/quantities.hpp>
+#include <cmath>
 #include <cassert>
 
 namespace oglplus {
@@ -17,6 +18,8 @@ namespace oglplus {
 class example_state_view
 {
 protected:
+	static constexpr const bool _old = true;
+
 	float _old_time;
 	float _new_time;
 
@@ -54,7 +57,7 @@ public:
 		return seconds(_new_time);
 	}
 
-	seconds_t<float> frame_time(void) const
+	seconds_t<float> frame_duration(void) const
 	noexcept
 	{
 		return seconds(_new_time - _old_time);
@@ -66,72 +69,72 @@ public:
 		return _frame_no;
 	}
 
-	int width(void) const
+	int width(bool old = false) const
 	noexcept
 	{
-		return _new_width;
+		return old?_old_width:_new_width;
+	}
+
+	int height(bool old = false) const
+	noexcept
+	{
+		return old?_old_height:_new_height;
 	}
 
 	int delta_width(void) const
 	noexcept
 	{
-		return _new_width - _old_width;
-	}
-
-	int height(void) const
-	noexcept
-	{
-		return _new_height;
+		return width() - width(_old);
 	}
 
 	int delta_height(void) const
 	noexcept
 	{
-		return _new_height- _old_height;
+		return height()- height(_old);
 	}
 
-	float aspect(void) const
+	float aspect(bool old = false) const
 	noexcept
 	{
-		return float(width())/float(height());
+		return float(width(old))/float(height(old));
 	}
 
-	int mouse_x(void) const
+	int mouse_x(bool old = false) const
 	noexcept
 	{
-		return _new_mouse_x;
+		return old?_old_mouse_x:_new_mouse_x;
 	}
 
-	int mouse_y(void) const
+	int mouse_y(bool old = false) const
 	noexcept
 	{
-		return _new_mouse_y;
+		return old?_old_mouse_y:_new_mouse_y;
 	}
 
 	int delta_mouse_x(void) const
 	noexcept
 	{
-		return _new_mouse_x - _old_mouse_x;
+		return mouse_x() - mouse_x(_old);
 	}
 
 	int delta_mouse_y(void) const
 	noexcept
 	{
-		return _new_mouse_y - _old_mouse_y;
+		return mouse_y() - mouse_y(_old);
 	}
 
-	float norm_mouse_x(void) const
+	float norm_mouse_x(bool old = false) const
 	noexcept
 	{
 		assert(width() > 0);
-		return float(mouse_x()) / width();
+		return float(mouse_x(old)) / width();
 	}
 
-	float norm_mouse_y(void) const
+	float norm_mouse_y(bool old = false) const
 	noexcept
 	{
 		assert(height() > 0);
-		return float(mouse_y()) / height();
+		return float(mouse_y(old)) / height();
 	}
 
 	float norm_delta_mouse_x(void) const
@@ -148,16 +151,46 @@ public:
 		return float(delta_mouse_y()) / height();
 	}
 
-	float ndc_mouse_x(void) const
+	float ndc_mouse_x(bool old = false) const
 	noexcept
 	{
-		return -1.f + 2*norm_mouse_x();
+		return -1.f + 2*norm_mouse_x(old);
 	}
 
-	float ndc_mouse_y(void) const
+	float ndc_mouse_y(bool old = false) const
 	noexcept
 	{
-		return -1.f + 2*norm_mouse_y();
+		return -1.f + 2*norm_mouse_y(old);
+	}
+
+	float mouse_radius(bool old = false) const
+	noexcept
+	{
+		using std::sqrt;
+		using std::pow;
+		return float(sqrt(
+			pow(ndc_mouse_x(old), 2)+
+			pow(ndc_mouse_y(old), 2)
+		));
+	}
+
+	float delta_mouse_radius(void) const
+	noexcept
+	{
+		return mouse_radius() - mouse_radius(_old);
+	}
+
+	radians_t<float> mouse_angle(bool old = false) const
+	noexcept
+	{
+		using std::atan2;
+		return radians(atan2(ndc_mouse_y(old), ndc_mouse_x(old)));
+	}
+
+	radians_t<float> delta_mouse_angle(void) const
+	noexcept
+	{
+		return mouse_angle() - mouse_angle(_old);
 	}
 };
 

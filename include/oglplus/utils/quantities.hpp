@@ -18,6 +18,9 @@ using eagine::seconds_t;
 using eagine::seconds;
 using eagine::minutes;
 
+using eagine::radians_t;
+using eagine::radians;
+
 using eagine::degrees_t;
 using eagine::degrees;
 

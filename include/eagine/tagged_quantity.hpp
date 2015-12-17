@@ -64,14 +64,14 @@ public:
 	tagged_quantity operator + (tagged_quantity a, tagged_quantity b)
 	noexcept
 	{
-		return {a._v + b._v};
+		return tagged_quantity{a._v + b._v};
 	}
 
 	friend
 	tagged_quantity operator - (tagged_quantity a, tagged_quantity b)
 	noexcept
 	{
-		return {a._v - b._v};
+		return tagged_quantity{a._v - b._v};
 	}
 
 	template <

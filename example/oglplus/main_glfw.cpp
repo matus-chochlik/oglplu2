@@ -66,8 +66,9 @@ int example_main(
 
 			oglplus::example_wrapper example(params, state);
 
-			int x = state.width();
-			int y = state.height();
+			int w = state.width();
+			int h = state.height();
+			int x, y;
 
 			while(true)
 			{
@@ -77,11 +78,11 @@ int example_main(
 
 				glfwSwapBuffers();
 
-				glfwGetWindowSize(&x, &y);
-				example.set_size(x, y);
+				glfwGetWindowSize(&w, &h);
+				example.set_size(w, h);
 
 				glfwGetMousePos(&x, &y);
-				example.set_mouse_pos(x, y);
+				example.set_mouse_pos(x, h-y);
 
 				if(glfwGetKey(GLFW_KEY_ESC))
 				{
