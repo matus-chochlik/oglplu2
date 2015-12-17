@@ -9,7 +9,7 @@
 #ifndef OGLPLUS_EXAMPLE_1512120710_HPP
 #define OGLPLUS_EXAMPLE_1512120710_HPP
 
-#include "example_state.hpp"
+#include "example_state_view.hpp"
 #include "example_params.hpp"
 #include <memory>
 
@@ -38,7 +38,7 @@ struct example
 
 extern
 std::unique_ptr<example>
-make_example(const example_params&, const example_state&);
+make_example(const example_params&, const example_state_view&);
 
 } // namespace oglplus
 

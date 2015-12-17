@@ -11,6 +11,7 @@
 #include <oglplus/constants.hpp>
 #include <oglplus/constant_defs.hpp>
 #include "example.hpp"
+#include "example_state.hpp"
 
 #include <oglplus/error/error.hpp>
 #include <oglplus/error/format.hpp>

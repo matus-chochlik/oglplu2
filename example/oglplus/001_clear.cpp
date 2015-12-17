@@ -45,7 +45,7 @@ public:
 };
 
 std::unique_ptr<example>
-make_example(const example_params&, const example_state&)
+make_example(const example_params&, const example_state_view&)
 {
 	return std::unique_ptr<example>(new example_clear());
 }
