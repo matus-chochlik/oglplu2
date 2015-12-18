@@ -10,7 +10,6 @@
 #define OGLPLUS_EXAMPLE_STATE_VIEW_1512120710_HPP
 
 #include <oglplus/utils/quantities.hpp>
-#include <cmath>
 #include <cassert>
 
 namespace oglplus {
@@ -35,20 +34,23 @@ protected:
 	int _new_mouse_x;
 	int _new_mouse_y;
 
+	bool _old_mouse_btn_1 : 1;
+	bool _new_mouse_btn_1 : 1;
+	bool _old_mouse_btn_2 : 1;
+	bool _new_mouse_btn_2 : 1;
+	bool _old_mouse_btn_3 : 1;
+	bool _new_mouse_btn_3 : 1;
+	bool _old_mouse_btn_4 : 1;
+	bool _new_mouse_btn_4 : 1;
+
+	bool _mouse_btn(int i, bool old)
+	noexcept;
+
+	bool _set_mouse_btn(int i, bool state, bool old)
+	noexcept;
+
 	example_state_view(void)
-	noexcept
-	 : _old_time(0.0)
-	 , _new_time(0.0)
-	 , _frame_no(0)
-	 , _old_width(1)
-	 , _old_height(1)
-	 , _new_width(1)
-	 , _new_height(1)
-	 , _old_mouse_x(0)
-	 , _old_mouse_y(0)
-	 , _new_mouse_x(0)
-	 , _new_mouse_y(0)
-	{ }
+	noexcept;
 public:
 
 	seconds_t<float> exec_time(void) const
@@ -164,15 +166,7 @@ public:
 	}
 
 	float mouse_radius(bool old = false) const
-	noexcept
-	{
-		using std::sqrt;
-		using std::pow;
-		return float(sqrt(
-			pow(ndc_mouse_x(old), 2)+
-			pow(ndc_mouse_y(old), 2)
-		));
-	}
+	noexcept;
 
 	float delta_mouse_radius(void) const
 	noexcept
@@ -181,11 +175,7 @@ public:
 	}
 
 	radians_t<float> mouse_angle(bool old = false) const
-	noexcept
-	{
-		using std::atan2;
-		return radians(atan2(ndc_mouse_y(old), ndc_mouse_x(old)));
-	}
+	noexcept;
 
 	radians_t<float> delta_mouse_angle(void) const
 	noexcept

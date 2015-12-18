@@ -54,6 +54,7 @@ if(OGLPLUS_EXAMPLE_HARNESS_ADDITIONAL_SOURCES)
 		EXCLUDE_FROM_ALL
 		"${CMAKE_CURRENT_SOURCE_DIR}/example_main.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/example_wrapper.cpp"
+		"${CMAKE_CURRENT_SOURCE_DIR}/example_state_view.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/main_${OGLPLUS_EXAMPLE_HARNESS}.cpp"
 		"${OGLPLUS_EXAMPLE_HARNESS_ADDITIONAL_SOURCES}"
 	)
@@ -63,6 +64,7 @@ else()
 		EXCLUDE_FROM_ALL
 		"${CMAKE_CURRENT_SOURCE_DIR}/example_main.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/example_wrapper.cpp"
+		"${CMAKE_CURRENT_SOURCE_DIR}/example_state_view.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/main_${OGLPLUS_EXAMPLE_HARNESS}.cpp"
 	)
 endif()
