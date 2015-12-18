@@ -35,7 +35,11 @@ public:
 
 	void set_size(int width, int height);
 
+	void set_mouse_btn(int i, bool pressed);
+
 	void set_mouse_pos(int x, int y);
+
+	void set_mouse_wheel(int w);
 };
 
 } // namespace oglplus

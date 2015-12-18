@@ -18,6 +18,52 @@
 #include <iostream>
 #include <stdexcept>
 
+void example_loop(
+	oglplus::example_state& state,
+	oglplus::example_wrapper& example
+)
+{
+	int w = state.width();
+	int h = state.height();
+	int x, y;
+
+	while(true)
+	{
+		if(!glfwGetWindowParam(GLFW_OPENED))
+		{
+			break;
+		}
+
+		if(glfwGetKey(GLFW_KEY_ESC))
+		{
+			glfwCloseWindow();
+			break;
+		}
+
+		if(!example.next_frame())
+		{
+			break;
+		}
+
+		glfwGetWindowSize(&w, &h);
+		example.set_size(w, h);
+
+		glfwGetMousePos(&x, &y);
+		example.set_mouse_pos(x, h-y);
+
+		example.set_mouse_btn(
+			1,
+			glfwGetMouseButton(GLFW_MOUSE_BUTTON_1) == GLFW_PRESS
+		);
+
+		example.set_mouse_wheel(glfwGetMouseWheel());
+
+		example.render();
+
+		glfwSwapBuffers();
+	}
+}
+
 int example_main(
 	const eagine::program_args& args,
 	oglplus::example_params& params,
@@ -65,36 +111,11 @@ int example_main(
 
 			oglplus::api_initializer gl_api_init;
 
+			std::srand(params.rand_seed());
+			state.set_depth(16);
 			oglplus::example_wrapper example(params, state);
 
-			int w = state.width();
-			int h = state.height();
-			int x, y;
-
-			while(true)
-			{
-				if(!example.next_frame()) break;
-
-				example.render();
-
-				glfwSwapBuffers();
-
-				glfwGetWindowSize(&w, &h);
-				example.set_size(w, h);
-
-				glfwGetMousePos(&x, &y);
-				example.set_mouse_pos(x, h-y);
-
-				if(glfwGetKey(GLFW_KEY_ESC))
-				{
-					glfwCloseWindow();
-					break;
-				}
-				if(!glfwGetWindowParam(GLFW_OPENED))
-				{
-					break;
-				}
-			}
+			example_loop(state, example);
 		}
 	}
 	return 0;

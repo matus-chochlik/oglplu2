@@ -26,13 +26,17 @@ protected:
 
 	int _old_width;
 	int _old_height;
+	int _old_depth;
 	int _new_width;
 	int _new_height;
+	int _new_depth;
 
 	int _old_mouse_x;
 	int _old_mouse_y;
+	int _old_mouse_z;
 	int _new_mouse_x;
 	int _new_mouse_y;
+	int _new_mouse_z;
 
 	bool _old_mouse_btn_1 : 1;
 	bool _new_mouse_btn_1 : 1;
@@ -43,10 +47,10 @@ protected:
 	bool _old_mouse_btn_4 : 1;
 	bool _new_mouse_btn_4 : 1;
 
-	bool _mouse_btn(int i, bool old)
+	bool _mouse_btn(int i, bool old = false) const
 	noexcept;
 
-	bool _set_mouse_btn(int i, bool state, bool old)
+	void _set_mouse_btn(int i, bool state)
 	noexcept;
 
 	example_state_view(void)
@@ -83,6 +87,12 @@ public:
 		return old?_old_height:_new_height;
 	}
 
+	int depth(bool old = false) const
+	noexcept
+	{
+		return old?_old_depth:_new_depth;
+	}
+
 	int delta_width(void) const
 	noexcept
 	{
@@ -113,6 +123,12 @@ public:
 		return old?_old_mouse_y:_new_mouse_y;
 	}
 
+	int mouse_z(bool old = false) const
+	noexcept
+	{
+		return old?_old_mouse_z:_new_mouse_z;
+	}
+
 	int delta_mouse_x(void) const
 	noexcept
 	{
@@ -125,63 +141,53 @@ public:
 		return mouse_y() - mouse_y(_old);
 	}
 
-	float norm_mouse_x(bool old = false) const
+	int delta_mouse_z(void) const
 	noexcept
 	{
-		assert(width() > 0);
-		return float(mouse_x(old)) / width();
+		return mouse_z() - mouse_z(_old);
 	}
 
-	float norm_mouse_y(bool old = false) const
-	noexcept
-	{
-		assert(height() > 0);
-		return float(mouse_y(old)) / height();
-	}
-
-	float norm_delta_mouse_x(void) const
-	noexcept
-	{
-		assert(width() > 0);
-		return float(delta_mouse_x()) / width();
-	}
-
-	float norm_delta_mouse_y(void) const
-	noexcept
-	{
-		assert(height() > 0);
-		return float(delta_mouse_y()) / height();
-	}
-
-	float ndc_mouse_x(bool old = false) const
-	noexcept
-	{
-		return -1.f + 2*norm_mouse_x(old);
-	}
-
-	float ndc_mouse_y(bool old = false) const
-	noexcept
-	{
-		return -1.f + 2*norm_mouse_y(old);
-	}
-
-	float mouse_radius(bool old = false) const
+	bool pointer_dragging(int index = 0) const
 	noexcept;
 
-	float delta_mouse_radius(void) const
-	noexcept
-	{
-		return mouse_radius() - mouse_radius(_old);
-	}
-
-	radians_t<float> mouse_angle(bool old = false) const
+	bool pointer_elevating(int index = 0) const
 	noexcept;
 
-	radians_t<float> delta_mouse_angle(void) const
-	noexcept
-	{
-		return mouse_angle() - mouse_angle(_old);
-	}
+	float norm_pointer_x(int index = 0, bool old = false) const
+	noexcept;
+
+	float norm_pointer_y(int index = 0, bool old = false) const
+	noexcept;
+
+	float norm_pointer_z(int index = 0, bool old = false) const
+	noexcept;
+
+	float norm_delta_pointer_x(int index = 0) const
+	noexcept;
+
+	float norm_delta_pointer_y(int index = 0) const
+	noexcept;
+
+	float norm_delta_pointer_z(int index = 0) const
+	noexcept;
+
+	float ndc_pointer_x(int index = 0, bool old = false) const
+	noexcept;
+
+	float ndc_pointer_y(int index = 0, bool old = false) const
+	noexcept;
+
+	float pointer_radius(int index = 0, bool old = false) const
+	noexcept;
+
+	float delta_pointer_radius(int index = 0) const
+	noexcept;
+
+	radians_t<float> pointer_angle(int index = 0, bool old = false) const
+	noexcept;
+
+	radians_t<float> delta_pointer_angle(int index = 0) const
+	noexcept;
 };
 
 class example_state;

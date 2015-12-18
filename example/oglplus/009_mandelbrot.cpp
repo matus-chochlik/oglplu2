@@ -13,6 +13,7 @@
 #include <oglplus/glsl/string_ref.hpp>
 
 #include "example.hpp"
+#include <iostream>
 
 namespace oglplus {
 
@@ -25,24 +26,38 @@ private:
 
 	program prog;
 
+	uniform<GLfloat> offset_loc;
+	uniform<GLfloat> scale_loc;
+
 	vertex_array vao;
 
 	buffer positions;
 	buffer coords;
 
 	texture gradient;
+
+	seconds_t<float> activity;
+
+	GLfloat offset_x, offset_y;
+	GLfloat scale, aspect;
 public:
 	example_mandelbrot(void)
+	 : offset_x(-0.5f)
+	 , offset_y(0.0f)
+	 , scale(1.0f)
+	 , aspect(1.0f)
 	{
 		shader vs(GL.vertex_shader);
 		vs.source(glsl_literal(
 			"#version 130\n"
+			"uniform vec2 Offset;\n"
+			"uniform vec2 Scale;\n"
 			"in vec2 Position;\n"
 			"in vec2 Coord;\n"
 			"out vec2 vertCoord;\n"
 			"void main(void)\n"
 			"{\n"
-			"	vertCoord = Coord;\n"
+			"	vertCoord = Coord*Scale+Offset;\n"
 			"	gl_Position = vec4(Position, 0.0, 1.0);\n"
 			"}\n"
 		));
@@ -51,9 +66,9 @@ public:
 		shader fs(GL.fragment_shader);
 		fs.source(glsl_literal(
 		"#version 130\n"
+		"uniform sampler1D gradient;\n"
 		"in vec2 vertCoord;\n"
 		"out vec4 fragColor;\n"
-		"uniform sampler1D gradient;\n"
 		"void main(void)\n"
 		"{\n"
 		"	vec2 z = vec2(0.0, 0.0);\n"
@@ -80,6 +95,11 @@ public:
 
 		gl.use(prog);
 
+		gl.query_location(offset_loc, prog, "Offset");
+		gl.query_location(scale_loc, prog, "Scale");
+		gl.uniform(offset_loc, offset_x, offset_y);
+
+
 		gl.bind(vao);
 
 		GLfloat position_data[4*2] = {
@@ -103,10 +123,10 @@ public:
 
 
 		GLfloat coord_data[4*2] = {
-			-1.5f, -0.5f,
-			-1.5f,  1.0f,
-			 0.5f, -0.5f,
-			 0.5f,  1.0f
+			-1.0f, -1.0f,
+			-1.0f,  1.0f,
+			 1.0f, -1.0f,
+			 1.0f,  1.0f
 		};
 
 		gl.bind(GL.array_buffer, coords);
@@ -143,16 +163,53 @@ public:
 		gl.disable(GL.depth_test);
 	}
 
+	void pointer_motion(const example_state_view& state)
+	override
+	{
+		if(state.pointer_dragging())
+		{
+			offset_x -= 2*state.norm_delta_pointer_x()*scale;
+			offset_y -= 2*state.norm_delta_pointer_y()*scale;
+
+			gl.uniform(offset_loc, offset_x, offset_y);
+
+		}
+		if(state.pointer_elevating())
+		{
+			const float min_scale = 0.00001f;
+			const float max_scale = 10.0f;
+
+			scale *= std::pow(2,-state.norm_delta_pointer_z());
+			if(scale < min_scale) scale = min_scale;
+			if(scale > max_scale) scale = max_scale;
+
+			gl.uniform(scale_loc, scale*aspect, scale);
+		}
+
+		activity = state.exec_time();
+	}
+
 	void resize(const example_state_view& state)
 	override
 	{
 		gl.viewport(0, 0, state.width(), state.height());
+
+		aspect = state.aspect();
+		gl.uniform(scale_loc, scale*aspect, scale);
+
+		activity = state.exec_time();
 	}
 
 	void render(const example_state_view& /*state*/)
 	override
 	{
 		gl.draw_arrays(GL.triangle_strip, 0, 4);
+	}
+
+	bool continue_running(const example_state_view& state)
+	override
+	{
+		return state.exec_time() < activity+seconds(10.f); //[sec]
 	}
 };
 
@@ -164,6 +221,7 @@ make_example(const example_params&, const example_state_view&)
 
 void adjust_params(example_params& params)
 {
+	params.rand_seed(1234);
 	params.depth_bits(0);
 	params.stencil_bits(0);
 }

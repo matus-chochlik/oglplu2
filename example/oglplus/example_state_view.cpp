@@ -20,12 +20,16 @@ noexcept
  , _frame_no(0)
  , _old_width(1)
  , _old_height(1)
+ , _old_depth(1)
  , _new_width(1)
  , _new_height(1)
+ , _new_depth(1)
  , _old_mouse_x(0)
  , _old_mouse_y(0)
+ , _old_mouse_z(0)
  , _new_mouse_x(0)
  , _new_mouse_y(0)
+ , _new_mouse_z(0)
  , _old_mouse_btn_1(false)
  , _new_mouse_btn_1(false)
  , _old_mouse_btn_2(false)
@@ -36,7 +40,9 @@ noexcept
  , _new_mouse_btn_4(false)
 { }
 
-bool example_state_view::_mouse_btn(int i, bool old)
+bool
+example_state_view::
+_mouse_btn(int i, bool old) const
 noexcept
 {
 	switch(i)
@@ -50,54 +56,198 @@ noexcept
 	return false;
 }
 
-bool example_state_view::_set_mouse_btn(int i, bool state, bool old)
+void
+example_state_view::
+_set_mouse_btn(int i, bool pressed)
 noexcept
 {
-	if(_mouse_btn(i, old) == state)
+	switch(i)
 	{
-		return false;
+		case 1:
+			_old_mouse_btn_1 = _new_mouse_btn_1;
+			_new_mouse_btn_1 = pressed;
+			break;
+		case 2:
+			_old_mouse_btn_2 = _new_mouse_btn_2;
+			_new_mouse_btn_2 = pressed;
+			break;
+		case 3:
+			_old_mouse_btn_3 = _new_mouse_btn_3;
+			_new_mouse_btn_3 = pressed;
+			break;
+		case 4:
+			_old_mouse_btn_4 = _new_mouse_btn_4;
+			_new_mouse_btn_4 = pressed;
+			break;
+		default:;
 	}
-	if(old)
-	{
-		switch(i)
-		{
-			case 1: _old_mouse_btn_1 = state; break;
-			case 2: _old_mouse_btn_2 = state; break;
-			case 3: _old_mouse_btn_3 = state; break;
-			case 4: _old_mouse_btn_4 = state; break;
-			default: return false;
-		}
-	}
-	else
-	{
-		switch(i)
-		{
-			case 1: _new_mouse_btn_1 = state; break;
-			case 2: _new_mouse_btn_2 = state; break;
-			case 3: _new_mouse_btn_3 = state; break;
-			case 4: _new_mouse_btn_4 = state; break;
-			default: return false;
-		}
-	}
-	return true;
 }
 
-float example_state_view::mouse_radius(bool old) const
+bool
+example_state_view::
+pointer_dragging(int index) const
+noexcept
+{
+	if(index == 0)
+	{
+		return _mouse_btn(1);
+	}
+	// TODO
+	return false;
+}
+
+bool
+example_state_view::
+pointer_elevating(int index) const
+noexcept
+{
+	if(index == 0)
+	{
+		return mouse_z() != mouse_z(_old);
+	}
+	// TODO
+	return false;
+}
+
+float
+example_state_view::
+norm_pointer_x(int index, bool old) const
+noexcept
+{
+	assert(width() > 0);
+	if(index == 0)
+	{
+		return float(mouse_x(old)) / width();
+	}
+	// TODO
+	return 0.5f;
+}
+
+float
+example_state_view::
+norm_pointer_y(int index, bool old) const
+noexcept
+{
+	assert(height() > 0);
+	if(index == 0)
+	{
+		return float(mouse_y(old)) / height();
+	}
+	// TODO
+	return 0.5f;
+}
+
+float
+example_state_view::
+norm_pointer_z(int index, bool old) const
+noexcept
+{
+	assert(depth() > 0);
+	if(index == 0)
+	{
+		return float(mouse_z(old)) / depth();
+	}
+	// TODO
+	return 0.5f;
+}
+
+float
+example_state_view::
+norm_delta_pointer_x(int index) const
+noexcept
+{
+	assert(width() > 0);
+	if(index == 0)
+	{
+		return float(delta_mouse_x()) / width();
+	}
+	// TODO
+	return 0;
+}
+
+float
+example_state_view::
+norm_delta_pointer_y(int index) const
+noexcept
+{
+	assert(height() > 0);
+	if(index == 0)
+	{
+		return float(delta_mouse_y()) / height();
+	}
+	// TODO
+	return 0;
+}
+
+float
+example_state_view::
+norm_delta_pointer_z(int index) const
+noexcept
+{
+	assert(depth() > 0);
+	if(index == 0)
+	{
+		return float(delta_mouse_z()) / depth();
+	}
+	// TODO
+	return 0;
+}
+
+float
+example_state_view::
+ndc_pointer_x(int index, bool old) const
+noexcept
+{
+	return -1.f + 2*norm_pointer_x(index, old);
+}
+
+float
+example_state_view::
+ndc_pointer_y(int index, bool old) const
+noexcept
+{
+	return -1.f + 2*norm_pointer_y(index, old);
+}
+
+float
+example_state_view::
+pointer_radius(int index, bool old) const
 noexcept
 {
 	using std::sqrt;
 	using std::pow;
 	return float(sqrt(
-		pow(ndc_mouse_x(old), 2)+
-		pow(ndc_mouse_y(old), 2)
+		pow(ndc_pointer_x(index, old), 2)+
+		pow(ndc_pointer_y(index, old), 2)
 	));
 }
 
-radians_t<float> example_state_view::mouse_angle(bool old) const
+float
+example_state_view::
+delta_pointer_radius(int index) const
+noexcept
+{
+	return pointer_radius(index) - pointer_radius(index, _old);
+}
+
+radians_t<float>
+example_state_view::
+pointer_angle(int index, bool old) const
 noexcept
 {
 	using std::atan2;
-	return radians(atan2(ndc_mouse_y(old), ndc_mouse_x(old)));
+	return radians(atan2(
+		ndc_pointer_y(index, old),
+		ndc_pointer_x(index, old)
+	));
+}
+
+radians_t<float>
+example_state_view::
+delta_pointer_angle(int index) const
+noexcept
+{
+	return pointer_angle(index) - pointer_angle(index, _old);
 }
 
 } // namespace oglplus

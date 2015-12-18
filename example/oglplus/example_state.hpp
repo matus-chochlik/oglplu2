@@ -45,9 +45,9 @@ public:
 	{
 		if(new_width < 1) new_width = 1;
 
+		_old_width = _new_width;
 		if(_new_width != new_width)
 		{
-			_old_width = _new_width;
 			_new_width =  new_width;
 			return true;
 		}
@@ -59,10 +59,24 @@ public:
 	{
 		if(new_height < 1) new_height = 1;
 
+		_old_height = _new_height;
 		if(_new_height != new_height)
 		{
-			_old_height = _new_height;
 			_new_height =  new_height;
+			return true;
+		}
+		return false;
+	}
+
+	bool set_depth(int new_depth)
+	noexcept
+	{
+		if(new_depth < 1) new_depth = 1;
+
+		_old_depth = _new_depth;
+		if(_new_depth != new_depth)
+		{
+			_new_depth =  new_depth;
 			return true;
 		}
 		return false;
@@ -82,6 +96,18 @@ public:
 	{
 		_old_width = _new_width;
 		_old_height = _new_height;
+		_old_depth = _new_depth;
+	}
+
+	bool set_mouse_btn(int button, bool pressed)
+	noexcept
+	{
+		if(_mouse_btn(button) != pressed)
+		{
+			_set_mouse_btn(button, pressed);
+			return true;
+		}
+		return false;
 	}
 
 	bool set_mouse_pos(int new_mouse_x, int new_mouse_y)
@@ -94,16 +120,16 @@ public:
 		if(new_mouse_y < 0) new_mouse_y = 0;
 		if(new_mouse_y > _new_height) new_mouse_y = _new_height;
 
+		_old_mouse_x = _new_mouse_x;
 		if(_new_mouse_x != new_mouse_x)
 		{
-			_old_mouse_x = _new_mouse_x;
 			_new_mouse_x =  new_mouse_x;
 			result = true;
 		}
 
+		_old_mouse_y = _new_mouse_y;
 		if(_new_mouse_y != new_mouse_y)
 		{
-			_old_mouse_y = _new_mouse_y;
 			_new_mouse_y =  new_mouse_y;
 			result = true;
 		}
@@ -111,11 +137,24 @@ public:
 		return result;
 	}
 
+	bool set_mouse_wheel(int new_mouse_z)
+	noexcept
+	{
+		_old_mouse_z = _new_mouse_z;
+		if(_new_mouse_z != new_mouse_z)
+		{
+			_new_mouse_z =  new_mouse_z;
+			return true;
+		}
+		return false;
+	}
+
 	void center_mouse(void)
 	noexcept
 	{
 		_old_mouse_x = _new_mouse_x = width()/2;
 		_old_mouse_y = _new_mouse_y = height()/2;
+		_old_mouse_z = _new_mouse_z = 0;
 	}
 };
 

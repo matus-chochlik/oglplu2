@@ -26,7 +26,7 @@ example_wrapper(example_params& params, example_state& state)
 	_example->resize(_state);
 
 	_state.center_mouse();
-	_example->mouse_motion(_state);
+	_example->pointer_motion(_state);
 }
 
 bool example_wrapper::next_frame(void)
@@ -61,11 +61,28 @@ void example_wrapper::set_size(int width, int height)
 	}
 }
 
+void example_wrapper::set_mouse_btn(int i, bool pressed)
+{
+	if(_state.set_mouse_btn(i, pressed))
+	{
+		// TODO
+		//_example->mouse_button(_state);
+	}
+}
+
 void example_wrapper::set_mouse_pos(int x, int y)
 {
 	if(_state.set_mouse_pos(x, y))
 	{
-		_example->mouse_motion(_state);
+		_example->pointer_motion(_state);
+	}
+}
+
+void example_wrapper::set_mouse_wheel(int w)
+{
+	if(_state.set_mouse_wheel(w))
+	{
+		_example->pointer_motion(_state);
 	}
 }
 

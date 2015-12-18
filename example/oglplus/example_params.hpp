@@ -19,6 +19,8 @@ class example_params
 private:
 	cstr_ref _screenshot_path;
 
+	unsigned _rand_seed;
+
 	int _color_bits;
 	int _alpha_bits;
 	int _depth_bits;
@@ -27,7 +29,8 @@ private:
 public:
 	example_params(void)
 	noexcept
-	 : _color_bits(8)
+	 : _rand_seed(0)
+	 , _color_bits(8)
 	 , _alpha_bits(0)
 	 , _depth_bits(24)
 	 , _stencil_bits(0)
@@ -63,6 +66,19 @@ public:
 	noexcept
 	{
 		return _screenshot_path;
+	}
+
+	example_params& rand_seed(unsigned seed)
+	noexcept
+	{
+		_rand_seed = seed;
+		return *this;
+	}
+
+	unsigned rand_seed(void) const
+	noexcept
+	{
+		return _rand_seed;
 	}
 
 	example_params& compatibility_context(bool v)
