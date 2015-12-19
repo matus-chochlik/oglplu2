@@ -94,7 +94,7 @@ private:
 	typedef data_param_t<T, N, V> _dpT;
 
 	template <unsigned U>
-	using _uint = std::integral_constant<unsigned, U>;
+	using _uint = unsigned_constant<U>;
 
 	template <unsigned M, int ... I>
 	static inline

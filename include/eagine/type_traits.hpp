@@ -13,4 +13,20 @@
 #include <type_traits>
 #include <eagine/type_traits_fixes.hpp>
 
+namespace eagine {
+
+template <bool B>
+using bool_constant = std::integral_constant<bool, B>;
+
+template <int I>
+using int_constant = std::integral_constant<int, I>;
+
+template <unsigned U>
+using unsigned_constant = std::integral_constant<unsigned, U>;
+
+template <std::size_t S>
+using size_constant = std::integral_constant<std::size_t, S>;
+
+} // namespace eagine
+
 #endif // include guard

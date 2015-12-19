@@ -127,7 +127,7 @@ struct _vec_data<T,8> : _gnuc_vec_data<T,8>
 // has_vec_data<int8_t>
 template <unsigned N>
 struct _has_vec_data<int8_t, N>
- : std::integral_constant<bool,
+ : bool_constant<
 #if defined(__SSE2__) && __SSE2__
 	((N==2)||(N==4)||(N==8)||(N==16)) ||
 #endif
@@ -141,7 +141,7 @@ struct _has_vec_data<int8_t, N>
 // has_vec_data<int16_t>
 template <unsigned N>
 struct _has_vec_data<int16_t, N>
- : std::integral_constant<bool,
+ : bool_constant<
 #if defined(__SSE2__) && __SSE2__
 	((N==2)||(N==4)||(N==8)) ||
 #endif
@@ -155,7 +155,7 @@ struct _has_vec_data<int16_t, N>
 // has_vec_data<int32_t>
 template <unsigned N>
 struct _has_vec_data<int32_t, N>
- : std::integral_constant<bool,
+ : bool_constant<
 #if defined(__SSE2__) && __SSE2__
 	((N==2)||(N==4)) ||
 #endif
@@ -169,7 +169,7 @@ struct _has_vec_data<int32_t, N>
 // has_vec_data<int64_t>
 template <unsigned N>
 struct _has_vec_data<int64_t, N>
- : std::integral_constant<bool,
+ : bool_constant<
 #if defined(__SSE2__) && __SSE2__
 	(N==2) ||
 #endif
@@ -180,7 +180,7 @@ struct _has_vec_data<int64_t, N>
 // has_vec_data<float>
 template <unsigned N>
 struct _has_vec_data<float, N>
- : std::integral_constant<bool,
+ : bool_constant<
 #if defined(__AVX__) && __AVX__
 	((N==2)||(N==3)||(N==4)) ||
 #endif
@@ -194,7 +194,7 @@ struct _has_vec_data<float, N>
 // has_vec_data<double>
 template <unsigned N>
 struct _has_vec_data<double, N>
- : std::integral_constant<bool,
+ : bool_constant<
 #if defined(__AVX__) && __AVX__
 	((N==2)||(N==4)) ||
 #endif

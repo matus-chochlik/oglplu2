@@ -34,7 +34,7 @@ struct data
 // has_vect_data
 template <typename T, unsigned N, bool V>
 struct has_vect_data
- : std::integral_constant<bool, V && _has_vec_data<T, N>::value>
+ : bool_constant<V && _has_vec_data<T, N>::value>
 { };
 
 // data_param

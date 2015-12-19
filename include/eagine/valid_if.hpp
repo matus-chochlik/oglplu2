@@ -49,6 +49,7 @@ public:
 		return _is_valid(_value);
 	}
 
+	explicit
 	operator bool (void) const
 	noexcept
 	{

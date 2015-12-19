@@ -125,7 +125,7 @@ struct ortho<matrix<T,4,4,RM,V>>
 	matrix<T,4,4,RM,V> operator()(void) const
 	noexcept
 	{
-		return _make(std::integral_constant<bool, RM>());
+		return _make(bool_constant<RM>());
 	}
 };
 

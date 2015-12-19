@@ -63,7 +63,7 @@ private:
 public:
 	multi_align_byte_allocator(
 		instead_of_t<
-			std::integral_constant<std::size_t, Align>,
+			size_constant<Align>,
 			shared_byte_allocator
 		> ... aligned_alloc,
 		shared_byte_allocator fallback_alloc = default_byte_allocator()

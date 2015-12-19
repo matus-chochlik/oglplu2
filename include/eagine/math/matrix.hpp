@@ -82,7 +82,7 @@ struct matrix
 
 template <typename T, unsigned C, unsigned R, bool RM, bool V>
 struct is_row_major<matrix<T,C,R,RM,V>>
- : std::integral_constant<bool, RM>
+ : bool_constant<RM>
 { };
 
 template <typename T, unsigned C, unsigned R, bool RM, bool V>
@@ -469,7 +469,7 @@ template <typename T, unsigned C, unsigned R, bool RM, bool V>
 static inline
 vector<T, C, V> _row_hlp(
 	const matrix<T,C,R,RM,V>& m,
-	std::integral_constant<unsigned, 0u>,
+	unsigned_constant<0u>,
 	unsigned i
 ) noexcept
 {
@@ -482,12 +482,12 @@ template <typename T, unsigned R, unsigned C, bool RM, bool V, unsigned I>
 static inline
 vector<T, C, V> _row_hlp(
 	const matrix<T,C,R,RM,V>& m,
-	std::integral_constant<unsigned, I>,
+	unsigned_constant<I>,
 	unsigned i
 ) noexcept
 {
 	if(I == i) return row<I>(m);
-	return _row_hlp(m, std::integral_constant<unsigned, I-1>(), i);
+	return _row_hlp(m, unsigned_constant<I-1>(), i);
 }
 
 // row - run-time
@@ -497,7 +497,7 @@ vector<T, C, V>
 row(const matrix<T,C,R,RM,V>& m, unsigned i)
 noexcept
 {
-	return _row_hlp(m, std::integral_constant<unsigned,R-1>(), i);
+	return _row_hlp(m, unsigned_constant<R-1>(), i);
 }
 
 // column (Column-Major)
@@ -525,7 +525,7 @@ template <typename T, unsigned C, unsigned R, bool RM, bool V>
 static inline
 vector<T, R, V> _col_hlp(
 	const matrix<T,C,R,RM,V>& m,
-	std::integral_constant<unsigned, 0u>,
+	unsigned_constant<0u>,
 	unsigned i
 ) noexcept
 {
@@ -538,12 +538,12 @@ template <typename T, unsigned C, unsigned R, bool RM, bool V, unsigned I>
 static inline
 vector<T, R, V> _col_hlp(
 	const matrix<T,C,R,RM,V>& m,
-	std::integral_constant<unsigned, I>,
+	unsigned_constant<I>,
 	unsigned i
 ) noexcept
 {
 	if(I == i) return column<I>(m);
-	return _col_hlp(m, std::integral_constant<unsigned, I-1>(), i);
+	return _col_hlp(m, unsigned_constant<I-1>(), i);
 }
 
 // column - run-time
@@ -553,7 +553,7 @@ vector<T, R, V>
 column(const matrix<T,C,R,RM,V>& m, unsigned i)
 noexcept
 {
-	return _col_hlp(m, std::integral_constant<unsigned, C-1>(), i);
+	return _col_hlp(m, unsigned_constant<C-1>(), i);
 }
 
 // is_matrix_constructor trait
@@ -714,7 +714,7 @@ struct compound_view_maker<math::matrix<T, C, R, RM, V>>
 
 template <typename T, unsigned C, unsigned R, bool RM, bool V>
 struct is_row_major<math::matrix<T,C,R,RM,V>>
- : std::integral_constant<bool, RM>
+ : bool_constant<RM>
 { };
 
 } // namespace eagine
