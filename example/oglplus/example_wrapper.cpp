@@ -82,7 +82,7 @@ void example_wrapper::set_mouse_wheel(int w)
 {
 	if(_state.set_mouse_wheel(w))
 	{
-		_example->pointer_motion(_state);
+		_example->pointer_scrolling(_state);
 	}
 }
 

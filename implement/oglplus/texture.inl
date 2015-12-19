@@ -733,6 +733,30 @@ get_texture_parameter_fv(
 	return {};
 }
 //------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+texture_parameter_fv(
+	texture_target_only tnt,
+	oglplus::texture_parameter param,
+	span<const GLfloat> values
+) noexcept
+{
+	assert(values.size() > 0);
+	OGLPLUS_GLFUNC(TexParameterfv)(
+		GLenum(tnt._target),
+		GLenum(param),
+		values.data()
+	);
+	OGLPLUS_VERIFY(
+		TexParameterfv,
+		gl_object_binding(tag::texture(), tnt._target).
+		gl_enum_value(param),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
 #ifdef GL_VERSION_4_5
 inline
 outcome<void>
@@ -848,6 +872,30 @@ get_texture_parameter_fv(
 	);
 	OGLPLUS_VERIFY(
 		GetTextureParameterfv,
+		gl_object(tnt._name).
+		gl_enum_value(param),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+texture_parameter_fv(
+	texture_name_only tnt,
+	oglplus::texture_parameter param,
+	span<const GLfloat> values
+) noexcept
+{
+	assert(values.size() > 0);
+	OGLPLUS_GLFUNC(TextureParameterfv)(
+		get_raw_name(tnt._name),
+		GLenum(param),
+		values.data()
+	);
+	OGLPLUS_VERIFY(
+		TextureParameterfv,
 		gl_object(tnt._name).
 		gl_enum_value(param),
 		always
@@ -976,6 +1024,31 @@ get_texture_parameter_fv(
 	);
 	OGLPLUS_VERIFY(
 		GetTextureParameterfvEXT,
+		gl_object(tnt._name).
+		gl_enum_value(param),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+texture_parameter_fv(
+	texture_name_and_target tnt,
+	oglplus::texture_parameter param,
+	span<const GLfloat> values
+) noexcept
+{
+	assert(values.size() > 0);
+	OGLPLUS_GLFUNC(TextureParameterfvEXT)(
+		get_raw_name(tnt._name),
+		GLenum(tnt._target),
+		GLenum(param),
+		values.data()
+	);
+	OGLPLUS_VERIFY(
+		TextureParameterfvEXT,
 		gl_object(tnt._name).
 		gl_enum_value(param),
 		always
@@ -1546,6 +1619,32 @@ noexcept
 		_wrap(tnt),
 		oglplus::texture_parameter(GL_TEXTURE_MAX_LOD)
 	);
+}
+//------------------------------------------------------------------------------
+template <typename TNT>
+inline
+outcome<void>
+texture_ops::
+texture_border_color(const TNT& tnt, span<const GLfloat> c)
+noexcept
+{
+	assert(c.size() >= 4);
+	return texture_parameter_fv(
+		_wrap(tnt),
+		oglplus::texture_parameter(GL_TEXTURE_BORDER_COLOR),
+		c
+	);
+}
+//------------------------------------------------------------------------------
+template <typename TNT>
+inline
+outcome<void>
+texture_ops::
+texture_border_color(const TNT& tnt, GLfloat r, GLfloat g, GLfloat b, GLfloat a)
+noexcept
+{
+	const GLfloat c[4] = {r, g, b, a};
+	return texture_border_color(tnt, c);
 }
 //------------------------------------------------------------------------------
 } // namespace oper

@@ -36,8 +36,6 @@ private:
 
 	texture gradient;
 
-	seconds_t<float> activity;
-
 	GLfloat offset_x, offset_y;
 	GLfloat scale, aspect;
 public:
@@ -83,8 +81,8 @@ public:
 		"		z = zn;\n"
 		"		++i;\n"
 		"	}\n"
-		"	float a = sqrt(float(i) / float(max));\n"
-		"	fragColor = texture(gradient, a);\n"
+		"	float a = float(i)/float(max);\n"
+		"	fragColor = texture(gradient, a+sqrt(length(c))*0.1);\n"
 		"} \n"
 		));
 		fs.compile();
@@ -151,6 +149,11 @@ public:
 		gl.bind(GL.texture_1d, gradient);
 		gl.texture_min_filter(GL.texture_1d, GL.linear);
 		gl.texture_mag_filter(GL.texture_1d, GL.linear);
+		gl.texture_wrap(
+			GL.texture_1d,
+			GL.texture_wrap_s,
+			GL.repeat
+		);
 		gl.texture_image_1d(
 			GL.texture_1d,
 			0, GL.rgb,
@@ -174,19 +177,19 @@ public:
 			gl.uniform(offset_loc, offset_x, offset_y);
 
 		}
-		if(state.pointer_elevating())
-		{
-			const float min_scale = 0.00001f;
-			const float max_scale = 10.0f;
+	}
 
-			scale *= std::pow(2,-state.norm_delta_pointer_z());
-			if(scale < min_scale) scale = min_scale;
-			if(scale > max_scale) scale = max_scale;
+	void pointer_scrolling(const example_state_view& state)
+	override
+	{
+		const float min_scale = 0.00001f;
+		const float max_scale = 10.0f;
 
-			gl.uniform(scale_loc, scale*aspect, scale);
-		}
+		scale *= std::pow(2,-state.norm_delta_pointer_z());
+		if(scale < min_scale) scale = min_scale;
+		if(scale > max_scale) scale = max_scale;
 
-		activity = state.exec_time();
+		gl.uniform(scale_loc, scale*aspect, scale);
 	}
 
 	void resize(const example_state_view& state)
@@ -196,20 +199,12 @@ public:
 
 		aspect = state.aspect();
 		gl.uniform(scale_loc, scale*aspect, scale);
-
-		activity = state.exec_time();
 	}
 
 	void render(const example_state_view& /*state*/)
 	override
 	{
 		gl.draw_arrays(GL.triangle_strip, 0, 4);
-	}
-
-	bool continue_running(const example_state_view& state)
-	override
-	{
-		return state.exec_time() < activity+seconds(10.f); //[sec]
 	}
 };
 

@@ -49,6 +49,7 @@ public:
 		if(_new_width != new_width)
 		{
 			_new_width =  new_width;
+			_usr_act_time = _new_time;
 			return true;
 		}
 		return false;
@@ -63,6 +64,7 @@ public:
 		if(_new_height != new_height)
 		{
 			_new_height =  new_height;
+			_usr_act_time = _new_time;
 			return true;
 		}
 		return false;
@@ -77,6 +79,7 @@ public:
 		if(_new_depth != new_depth)
 		{
 			_new_depth =  new_depth;
+			_usr_act_time = _new_time;
 			return true;
 		}
 		return false;
@@ -105,6 +108,7 @@ public:
 		if(_mouse_btn(button) != pressed)
 		{
 			_set_mouse_btn(button, pressed);
+			_usr_act_time = _new_time;
 			return true;
 		}
 		return false;
@@ -124,6 +128,7 @@ public:
 		if(_new_mouse_x != new_mouse_x)
 		{
 			_new_mouse_x =  new_mouse_x;
+			_usr_act_time = _new_time;
 			result = true;
 		}
 
@@ -131,6 +136,7 @@ public:
 		if(_new_mouse_y != new_mouse_y)
 		{
 			_new_mouse_y =  new_mouse_y;
+			_usr_act_time = _new_time;
 			result = true;
 		}
 
@@ -144,6 +150,7 @@ public:
 		if(_new_mouse_z != new_mouse_z)
 		{
 			_new_mouse_z =  new_mouse_z;
+			_usr_act_time = _new_time;
 			return true;
 		}
 		return false;

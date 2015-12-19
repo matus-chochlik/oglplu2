@@ -15,8 +15,9 @@ namespace oglplus {
 example_state_view::
 example_state_view(void)
 noexcept
- : _old_time(0.0)
- , _new_time(0.0)
+ : _old_time(0)
+ , _new_time(0)
+ , _usr_act_time(0)
  , _frame_no(0)
  , _old_width(1)
  , _old_height(1)
@@ -91,19 +92,6 @@ noexcept
 	if(index == 0)
 	{
 		return _mouse_btn(1);
-	}
-	// TODO
-	return false;
-}
-
-bool
-example_state_view::
-pointer_elevating(int index) const
-noexcept
-{
-	if(index == 0)
-	{
-		return mouse_z() != mouse_z(_old);
 	}
 	// TODO
 	return false;

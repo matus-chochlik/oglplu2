@@ -23,11 +23,14 @@ struct example
 	virtual
 	bool continue_running(const example_state_view& state)
 	{
-		return state.exec_time() < seconds(10); //[sec]
+		return state.user_idle_time() < seconds(10);
 	}
 
 	virtual
 	void pointer_motion(const example_state_view&) { }
+
+	virtual
+	void pointer_scrolling(const example_state_view&) { }
 
 	virtual
 	void resize(const example_state_view&) = 0;
