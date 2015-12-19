@@ -1,30 +1,44 @@
 /**
- *  @file eagine/vect/diff.hpp
+ *  @file eagine/vect/compare.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_VECT_DIFF_1509260923_HPP
-#define EAGINE_VECT_DIFF_1509260923_HPP
+#ifndef EAGINE_VECT_COMPARE_1509260923_HPP
+#define EAGINE_VECT_COMPARE_1509260923_HPP
 
-#include "abs.hpp"
+#include "data.hpp"
 
 namespace eagine {
 namespace vect {
 
 template <typename T, unsigned N, bool V>
-struct diff
+struct is_zero
 {
 	typedef data_t<T, N, V> _dT;
 	typedef data_param_t<T, N, V> _dpT;
 
 	static
-	_dT apply(_dpT a, _dpT b)
+	bool apply(_dpT v)
 	noexcept
 	{
-		return vect::abs<T, N, V>::apply(a-b);
+		for(unsigned i=0; i<N; ++i)
+		{
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfloat-equal"
+#endif
+			if(v[i] != 0)
+#ifdef __clang__
+#pragma clang diagnostic pop 
+#endif
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 };
 
