@@ -24,6 +24,7 @@ private:
 protected:
 	valid_if(void) = default;
 
+	constexpr inline
 	valid_if(T val)
 	noexcept
 	 : _value(val)
@@ -37,6 +38,7 @@ protected:
 	{ }
 
 public:
+	constexpr
 	valid_if(T val, Policy policy)
 	noexcept
 	 : _value(val)
@@ -88,8 +90,9 @@ public:
 	}
 };
 
+// greater-than
 template <typename T, T Sentinel>
-struct valid_if_greater_than_policy
+struct valid_if_gt_policy
 {
 	bool operator ()(T value) const
 	noexcept
@@ -100,16 +103,18 @@ struct valid_if_greater_than_policy
 
 template <typename T, T Cmp>
 struct valid_if_greater_than
- : valid_if<T, valid_if_greater_than_policy<T, Cmp>>
+ : valid_if<T, valid_if_gt_policy<T, Cmp>>
 {
+	constexpr
 	valid_if_greater_than(T val)
 	noexcept
-	 : valid_if<T, valid_if_greater_than_policy<T, Cmp>>(val)
+	 : valid_if<T, valid_if_gt_policy<T, Cmp>>(val)
 	{ }
 };
 
+// not-equal
 template <typename T, T Sentinel>
-struct valid_if_not_policy
+struct valid_if_ne_policy
 {
 	bool operator ()(T value) const
 	noexcept
@@ -120,13 +125,47 @@ struct valid_if_not_policy
 
 template <typename T, T Sentinel>
 struct valid_if_not
- : valid_if<T, valid_if_not_policy<T, Sentinel>>
+ : valid_if<T, valid_if_ne_policy<T, Sentinel>>
 {
+	constexpr
 	valid_if_not(T val)
 	noexcept
-	 : valid_if<T, valid_if_not_policy<T, Sentinel>>(val)
+	 : valid_if<T, valid_if_ne_policy<T, Sentinel>>(val)
 	{ }
 };
+
+// not-zero
+template <typename T>
+struct valid_if_nz_policy
+{
+	bool operator ()(T value) const
+	noexcept
+	{
+		return (value > 0 || value < 0);
+	}
+};
+
+template <typename T>
+struct valid_if_not_zero
+ : valid_if<T, valid_if_nz_policy<T>>
+{
+	constexpr
+	valid_if_not_zero(T val)
+	noexcept
+	 : valid_if<T, valid_if_nz_policy<T>>(val)
+	{ }
+};
+
+template <typename T>
+using nonzero_t = valid_if_not_zero<T>;
+
+template <typename T>
+static inline
+nonzero_t<T> nonzero(T v)
+noexcept
+{
+	return {v};
+}
 
 } // namespace eagine
 
