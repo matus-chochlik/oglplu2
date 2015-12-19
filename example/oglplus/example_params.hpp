@@ -10,6 +10,7 @@
 #define OGLPLUS_EXAMPLE_PARAMS_1512120710_HPP
 
 #include <oglplus/utils/cstr_ref.hpp>
+#include <oglplus/utils/valid_if.hpp>
 #include <cassert>
 
 namespace oglplus {
@@ -21,6 +22,8 @@ private:
 
 	unsigned _rand_seed;
 
+	int _samples;
+
 	int _color_bits;
 	int _alpha_bits;
 	int _depth_bits;
@@ -30,6 +33,7 @@ public:
 	example_params(void)
 	noexcept
 	 : _rand_seed(0)
+	 , _samples(4)
 	 , _color_bits(8)
 	 , _alpha_bits(0)
 	 , _depth_bits(24)
@@ -92,6 +96,27 @@ public:
 	noexcept
 	{
 		return _compat_ctxt;
+	}
+
+	example_params& samples(int n)
+	noexcept
+	{
+		assert(n > 0);
+		_samples = n;
+		return *this;
+	}
+
+	example_params& samples_dont_care(void)
+	noexcept
+	{
+		_samples = 0;
+		return *this;
+	}
+
+	valid_if_greater_than<int, 0> samples(void) const
+	noexcept
+	{
+		return _samples;
 	}
 
 	example_params& color_bits(int n)
