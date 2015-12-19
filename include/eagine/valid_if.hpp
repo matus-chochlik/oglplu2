@@ -87,37 +87,43 @@ public:
 	}
 };
 
-template <typename T, T Cmp>
-class valid_if_greater_than
- : public valid_if<T, bool(*)(T) noexcept>
+template <typename T, T Sentinel>
+struct valid_if_greater_than_policy
 {
-private:
-	static bool _check(T v)
+	bool operator ()(T value) const
 	noexcept
 	{
-		return v > Cmp;
+		return value != Sentinel;
 	}
-public:
+};
+
+template <typename T, T Cmp>
+struct valid_if_greater_than
+ : valid_if<T, valid_if_greater_than_policy<T, Cmp>>
+{
 	valid_if_greater_than(T val)
 	noexcept
-	 : valid_if<T, bool(*)(T) noexcept>(val, &_check)
+	 : valid_if<T, valid_if_greater_than_policy<T, Cmp>>(val)
 	{ }
 };
 
 template <typename T, T Sentinel>
-class valid_if_not
- : public valid_if<T, bool(*)(T) noexcept>
+struct valid_if_not_policy
 {
-private:
-	static bool _check(T v)
+	bool operator ()(T value) const
 	noexcept
 	{
-		return v != Sentinel;
+		return value != Sentinel;
 	}
-public:
+};
+
+template <typename T, T Sentinel>
+struct valid_if_not
+ : valid_if<T, valid_if_not_policy<T, Sentinel>>
+{
 	valid_if_not(T val)
 	noexcept
-	 : valid_if<T, bool(*)(T) noexcept>(val, &_check)
+	 : valid_if<T, valid_if_not_policy<T, Sentinel>>(val)
 	{ }
 };
 
