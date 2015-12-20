@@ -116,6 +116,13 @@ public:
 		_bits &= b._bits;
 		return *this;
 	}
+
+	friend constexpr inline
+	bitfield operator ~ (bitfield b)
+	noexcept
+	{
+		return bitfield{~b._bits};
+	}
 };
 
 } // namespace eagine

@@ -167,4 +167,42 @@ BOOST_AUTO_TEST_CASE(bitfield_test_2)
 	BOOST_CHECK(!bf0.has(test_ec::test_ev5));
 }
 
+BOOST_AUTO_TEST_CASE(bitfield_test_3)
+{
+	using namespace eagine;
+
+	bitfield<test_ec> bf0(test_ec::test_ev2, test_ec::test_ev4);
+
+	BOOST_CHECK(!bf0.has(test_ec::test_ev1));
+	BOOST_CHECK( bf0.has(test_ec::test_ev2));
+	BOOST_CHECK(!bf0.has(test_ec::test_ev3));
+	BOOST_CHECK( bf0.has(test_ec::test_ev4));
+	BOOST_CHECK(!bf0.has(test_ec::test_ev5));
+
+	bitfield<test_ec> bf1 = ~bf0;
+
+	BOOST_CHECK( bf1.has(test_ec::test_ev1));
+	BOOST_CHECK(!bf1.has(test_ec::test_ev2));
+	BOOST_CHECK( bf1.has(test_ec::test_ev3));
+	BOOST_CHECK(!bf1.has(test_ec::test_ev4));
+	BOOST_CHECK( bf1.has(test_ec::test_ev5));
+
+	bitfield<test_ec> bfo = bf0 | bf1;
+
+	BOOST_CHECK( bfo.has(test_ec::test_ev1));
+	BOOST_CHECK( bfo.has(test_ec::test_ev2));
+	BOOST_CHECK( bfo.has(test_ec::test_ev3));
+	BOOST_CHECK( bfo.has(test_ec::test_ev4));
+	BOOST_CHECK( bfo.has(test_ec::test_ev5));
+
+	bitfield<test_ec> bfa = bf0 & bf1;
+
+	BOOST_CHECK(!bfa.has(test_ec::test_ev1));
+	BOOST_CHECK(!bfa.has(test_ec::test_ev2));
+	BOOST_CHECK(!bfa.has(test_ec::test_ev3));
+	BOOST_CHECK(!bfa.has(test_ec::test_ev4));
+	BOOST_CHECK(!bfa.has(test_ec::test_ev5));
+
+}
+
 BOOST_AUTO_TEST_SUITE_END()
