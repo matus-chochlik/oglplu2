@@ -31,6 +31,9 @@ BOOST_AUTO_TEST_CASE(bitfield_test_0)
 
 	bitfield<test_ec> bf0;
 
+	BOOST_CHECK(!bool(bf0));
+	BOOST_CHECK(!bf0);
+
 	BOOST_CHECK(!bf0.has(test_ec::test_ev1));
 	BOOST_CHECK(!bf0.has(test_ec::test_ev2));
 	BOOST_CHECK(!bf0.has(test_ec::test_ev3));
@@ -48,6 +51,9 @@ BOOST_AUTO_TEST_CASE(bitfield_test_1)
 	using namespace eagine;
 
 	bitfield<test_ec> bf1(test_ec::test_ev3);
+
+	BOOST_CHECK(bool(bf1));
+	BOOST_CHECK(!!bf1);
 
 	BOOST_CHECK(!bf1.has(test_ec::test_ev1));
 	BOOST_CHECK(!bf1.has(test_ec::test_ev2));
@@ -84,6 +90,9 @@ BOOST_AUTO_TEST_CASE(bitfield_test_1)
 	BOOST_CHECK(!bf4.has(test_ec::test_ev4));
 	BOOST_CHECK( bf4.has(test_ec::test_ev5));
 
+	BOOST_CHECK(!bool(bf1 & bf2));
+	BOOST_CHECK(!(bf1 & bf2));
+
 	bitfield<test_ec> bf5 = bf1 & bf2;
 
 	BOOST_CHECK(!bf5.has(test_ec::test_ev1));
@@ -92,6 +101,9 @@ BOOST_AUTO_TEST_CASE(bitfield_test_1)
 	BOOST_CHECK(!bf5.has(test_ec::test_ev4));
 	BOOST_CHECK(!bf5.has(test_ec::test_ev5));
 
+	BOOST_CHECK(bool(bf1 & bf3));
+	BOOST_CHECK(!!(bf1 & bf3));
+
 	bitfield<test_ec> bf6 = bf1 & bf3;
 
 	BOOST_CHECK(!bf6.has(test_ec::test_ev1));
@@ -99,6 +111,60 @@ BOOST_AUTO_TEST_CASE(bitfield_test_1)
 	BOOST_CHECK( bf6.has(test_ec::test_ev3));
 	BOOST_CHECK(!bf6.has(test_ec::test_ev4));
 	BOOST_CHECK(!bf6.has(test_ec::test_ev5));
+}
+
+BOOST_AUTO_TEST_CASE(bitfield_test_2)
+{
+	using namespace eagine;
+
+	bitfield<test_ec> bf0;
+
+	BOOST_CHECK(!bf0.has(test_ec::test_ev1));
+	BOOST_CHECK(!bf0.has(test_ec::test_ev2));
+	BOOST_CHECK(!bf0.has(test_ec::test_ev3));
+	BOOST_CHECK(!bf0.has(test_ec::test_ev4));
+	BOOST_CHECK(!bf0.has(test_ec::test_ev5));
+
+	bf0 |= test_ec::test_ev3;
+
+	BOOST_CHECK(!bf0.has(test_ec::test_ev1));
+	BOOST_CHECK(!bf0.has(test_ec::test_ev2));
+	BOOST_CHECK( bf0.has(test_ec::test_ev3));
+	BOOST_CHECK(!bf0.has(test_ec::test_ev4));
+	BOOST_CHECK(!bf0.has(test_ec::test_ev5));
+
+	bf0 |= test_ec::test_ev1;
+
+	BOOST_CHECK( bf0.has(test_ec::test_ev1));
+	BOOST_CHECK(!bf0.has(test_ec::test_ev2));
+	BOOST_CHECK( bf0.has(test_ec::test_ev3));
+	BOOST_CHECK(!bf0.has(test_ec::test_ev4));
+	BOOST_CHECK(!bf0.has(test_ec::test_ev5));
+
+	bf0 |= test_ec::test_ev5;
+
+	BOOST_CHECK( bf0.has(test_ec::test_ev1));
+	BOOST_CHECK(!bf0.has(test_ec::test_ev2));
+	BOOST_CHECK( bf0.has(test_ec::test_ev3));
+	BOOST_CHECK(!bf0.has(test_ec::test_ev4));
+	BOOST_CHECK( bf0.has(test_ec::test_ev5));
+
+	bf0 |= test_ec::test_ev2;
+	bf0 |= test_ec::test_ev4;
+
+	BOOST_CHECK( bf0.has(test_ec::test_ev1));
+	BOOST_CHECK( bf0.has(test_ec::test_ev2));
+	BOOST_CHECK( bf0.has(test_ec::test_ev3));
+	BOOST_CHECK( bf0.has(test_ec::test_ev4));
+	BOOST_CHECK( bf0.has(test_ec::test_ev5));
+
+	bf0 &= test_ec::test_ev3;
+
+	BOOST_CHECK(!bf0.has(test_ec::test_ev1));
+	BOOST_CHECK(!bf0.has(test_ec::test_ev2));
+	BOOST_CHECK( bf0.has(test_ec::test_ev3));
+	BOOST_CHECK(!bf0.has(test_ec::test_ev4));
+	BOOST_CHECK(!bf0.has(test_ec::test_ev5));
 }
 
 BOOST_AUTO_TEST_SUITE_END()

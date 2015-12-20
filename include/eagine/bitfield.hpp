@@ -25,23 +25,41 @@ public:
 
 	constexpr
 	bitfield(void)
+	noexcept
 	 : _bits(0)
 	{ }
 
 	constexpr explicit
 	bitfield(BF bits)
+	noexcept
 	 : _bits(bits)
 	{ }
 
 	constexpr
 	bitfield(Bit _bit)
+	noexcept
 	 : _bits(BF(_bit))
 	{ }
 
 	constexpr
 	bitfield(Bit _bit_a, Bit _bit_b)
+	noexcept
 	 : _bits(BF(_bit_a) | BF(_bit_b))
 	{ }
+
+	explicit constexpr inline
+	operator bool (void) const
+	noexcept
+	{
+		return _bits != BF(0);
+	}
+
+	constexpr inline
+	bool operator ! (void) const
+	noexcept
+	{
+		return _bits == BF(0);
+	}
 
 	explicit constexpr inline
 	operator value_type(void) const
@@ -78,11 +96,25 @@ public:
 		return bitfield{a._bits | b._bits};
 	}
 
+	bitfield& operator |= (bitfield b)
+	noexcept
+	{
+		_bits |= b._bits;
+		return *this;
+	}
+
 	friend constexpr inline
 	bitfield operator & (bitfield a, bitfield b)
 	noexcept
 	{
 		return bitfield{a._bits & b._bits};
+	}
+
+	bitfield& operator &= (bitfield b)
+	noexcept
+	{
+		_bits &= b._bits;
+		return *this;
 	}
 };
 
