@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNIT_DIMENSION_1308281038_HPP
-#define EAGINE_UNIT_DIMENSION_1308281038_HPP
+#ifndef EAGINE_UNITS_DIMENSION_1512222148_HPP
+#define EAGINE_UNITS_DIMENSION_1512222148_HPP
 
 #include "detail.hpp"
 #include "base_dim.hpp"
@@ -26,17 +26,17 @@ using dimension = bits::dims<
 
 // multiplication
 template <typename D1, typename D2>
-typename std::enable_if_t<
+std::enable_if_t<
 	is_dimension_v<D1> && is_dimension_v<D2>,
 	bits::dim_add_t<D1, D2>
 > operator * (D1, D2);
 
 // division
 template <typename D1, typename D2>
-typename std::enable_if<
+std::enable_if_t<
 	is_dimension_v<D1> && is_dimension_v<D2>,
 	bits::dim_sub_t<D1, D2>
->::type operator / (D1, D2);
+> operator / (D1, D2);
 
 // base_dimension_power
 template <typename Dim, typename BaseDim>

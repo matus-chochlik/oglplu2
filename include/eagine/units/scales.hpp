@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNIT_SCALES_1308281038_HPP
-#define EAGINE_UNIT_SCALES_1308281038_HPP
+#ifndef EAGINE_UNITS_SCALES_1512222148_HPP
+#define EAGINE_UNITS_SCALES_1512222148_HPP
 
 #include <cmath>
 

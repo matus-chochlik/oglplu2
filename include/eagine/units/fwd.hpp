@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNIT_FWD_1308281038_HPP
-#define EAGINE_UNIT_FWD_1308281038_HPP
+#ifndef EAGINE_UNITS_FWD_1512222148_HPP
+#define EAGINE_UNITS_FWD_1512222148_HPP
 
 namespace eagine {
 namespace units {
@@ -32,6 +32,12 @@ struct dimension;
 
 template <typename Dimension, typename Derived>
 struct unit;
+
+template <typename Unit>
+struct unit_name;
+
+template <typename Unit>
+struct unit_symbol;
 
 template <typename Scale, typename Unit>
 struct scaled_unit;

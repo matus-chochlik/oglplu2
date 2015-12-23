@@ -26,9 +26,12 @@ struct mp_string
 template <char ... C>
 constexpr const char mp_string<C...>::value[sizeof ... (C)];
 
+namespace bits {
+
 template <typename S, typename A>
 struct mp_do_make_string;
 
+// 
 template <typename S, typename IS>
 struct mp_create_string;
 
@@ -42,9 +45,11 @@ struct mp_do_make_string<S, const char[N]>
  : mp_create_string<S, std::make_index_sequence<N>>
 { };
 
+} // namespace bits
+
 template <typename S>
 struct mp_make_string
- : mp_do_make_string<S, decltype(S::mp_str)>
+ : bits::mp_do_make_string<S, decltype(S::mp_str)>
 { };
 
 } // namespace eagine

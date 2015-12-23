@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNIT_DETAIL_1308281038_HPP
-#define EAGINE_UNIT_DETAIL_1308281038_HPP
+#ifndef EAGINE_UNITS_DETAIL_1512222148_HPP
+#define EAGINE_UNITS_DETAIL_1512222148_HPP
 
 #include "fwd.hpp"
 #include "base_dim.hpp"
@@ -18,9 +18,6 @@
 namespace eagine {
 namespace units {
 namespace bits {
-
-// zero
-typedef int_constant<0> zero;
 
 // dim_pow
 template <typename Dim, typename Pow>
@@ -39,10 +36,13 @@ struct dims
 
 typedef dims<nothing_t, nothing_t> dimless;
 
+// apply
 template <template <class...> class MetaFunc, typename X, typename ... P>
 struct apply;
 
-// apply
+template <template <class...> class MetaFunc, typename X, typename ... P>
+using apply_t = typename apply<MetaFunc, X, P...>::type;
+
 template <template <class...> class MF, typename ... P>
 struct apply<MF, nothing_t, P...>
  : MF<P...>

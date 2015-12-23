@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNIT_DIMLESS_1308281038_HPP
-#define EAGINE_UNIT_DIMLESS_1308281038_HPP
+#ifndef EAGINE_UNITS_DIMLESS_1512222148_HPP
+#define EAGINE_UNITS_DIMLESS_1512222148_HPP
 
 #include "fwd.hpp"
 #include "detail.hpp"

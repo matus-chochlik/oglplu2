@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNIT_BASE_UNIT_1308281038_HPP
-#define EAGINE_UNIT_BASE_UNIT_1308281038_HPP
+#ifndef EAGINE_UNITS_BASE_UNIT_1512222148_HPP
+#define EAGINE_UNITS_BASE_UNIT_1512222148_HPP
 
 #include "base_dim.hpp"
 
@@ -23,9 +23,6 @@ struct unit
 	typedef scales::one scale;
 	typedef Derived type;
 };
-
-template <typename Unit>
-struct unit_info;
 
 } // namespace base
 } // namespace units
