@@ -55,6 +55,12 @@ struct system_id;
 template <typename Unit>
 struct dim_name;
 
+template <typename Unit>
+struct unit_name;
+
+template <typename Unit>
+struct unit_symbol;
+
 template <typename Dims, typename System = si>
 struct unit;
 

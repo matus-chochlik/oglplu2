@@ -36,6 +36,42 @@ struct dims
 
 typedef dims<nothing_t, nothing_t> dimless;
 
+// pow_of_dim
+template <typename D, typename Dims>
+struct pow_of_dim;
+
+template <typename D, typename Dims>
+constexpr int pow_of_dim_v = pow_of_dim<D, Dims>::value;
+
+template <typename D>
+struct pow_of_dim<D, nothing_t>
+ : int_constant<0>
+{ };
+
+template <typename D>
+struct pow_of_dim<D, dimless>
+ : int_constant<0>
+{ };
+
+template <typename D, typename P, typename T>
+struct pow_of_dim<D, dims<dim_pow<D, P>, T>>
+ : P
+{ };
+
+template <typename D1, typename D2, typename P, typename T>
+struct pow_of_dim<D1, dims<dim_pow<D2, P>, T>>
+ : pow_of_dim<D1, T>
+{ };
+
+// get_pow_of_dim
+template <typename D, typename H, typename T>
+static constexpr inline
+int get_pow_of_dim(base::dimension<D>, dims<H, T>)
+noexcept
+{
+	return pow_of_dim_v<D, dims<H, T>>;
+}
+
 // apply
 template <template <class...> class MetaFunc, typename X, typename ... P>
 struct apply;
@@ -49,7 +85,7 @@ struct apply<MF, nothing_t, P...>
 { };
 
 template <template <class...> class MF, typename ... P>
-struct apply<MF, dims<nothing_t, nothing_t>, P...>
+struct apply<MF, dimless, P...>
  : MF<P...>
 { };
 
@@ -143,7 +179,7 @@ struct dim_sub<nothing_t, nothing_t>
 { };
 
 template <>
-struct dim_sub<nothing_t, dims<nothing_t, nothing_t>>
+struct dim_sub<nothing_t, dimless>
  : dimless
 { };
 
