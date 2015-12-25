@@ -38,6 +38,24 @@ struct number_of_decays    : dimension<number_of_decays> { };
 struct luminous_intensity  : dimension<luminous_intensity> { };
 struct amount_of_substance : dimension<amount_of_substance> { };
 
+template <typename Func>
+Func for_each_dim(Func func)
+{
+	func(angle());
+	func(solid_angle());
+	func(length());
+	func(mass());
+	func(time());
+	func(temperature());
+	func(electric_current());
+	func(number_of_cycles());
+	func(number_of_decays());
+	func(luminous_intensity());
+	func(amount_of_substance());
+
+	return std::move(func);
+}
+
 // dim_num
 template <typename Dimension>
 struct dim_num;

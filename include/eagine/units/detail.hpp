@@ -143,7 +143,7 @@ template <
 	dim_add_t<Tail1, Tail2>,
 	dims<
 		dim_pow<Dim, mp_plus_t<Pow1, Pow2>>,
-		dim_add<Tail1, Tail2>
+		dim_add_t<Tail1, Tail2>
 	>
 > { };
 	
