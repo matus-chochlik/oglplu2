@@ -13,9 +13,15 @@
 
 #include <eagine/units/dim/area.hpp>
 #include <eagine/units/dim/volume.hpp>
+#include <eagine/units/dim/mass_density.hpp>
 #include <eagine/units/dim/velocity.hpp>
+#include <eagine/units/dim/angular_velocity.hpp>
 #include <eagine/units/dim/acceleration.hpp>
 #include <eagine/units/dim/momentum.hpp>
+#include <eagine/units/dim/force.hpp>
+#include <eagine/units/dim/energy.hpp>
+#include <eagine/units/dim/power.hpp>
+#include <eagine/units/dim/pressure.hpp>
 
 #include <type_traits>
 
@@ -143,6 +149,26 @@ BOOST_AUTO_TEST_CASE(unit_dimensions_volume)
 	base::for_each_dim(volume_base_dim_tester());
 }
 
+struct mass_density_base_dim_tester
+{
+	template <typename BD>
+	void operator()(BD) const
+	{
+		BOOST_CHECK(
+			get_pow_of_dim(BD(), eagine::units::mass_density()) ==
+			get_pow_of_dim(BD(), eagine::units::mass())-
+			get_pow_of_dim(BD(), eagine::units::volume())
+		);
+	}
+};
+
+BOOST_AUTO_TEST_CASE(unit_dimensions_mass_density)
+{
+	using namespace eagine::units;
+
+	base::for_each_dim(mass_density_base_dim_tester());
+}
+
 struct velocity_base_dim_tester
 {
 	template <typename BD>
@@ -161,6 +187,26 @@ BOOST_AUTO_TEST_CASE(unit_dimensions_velocity)
 	using namespace eagine::units;
 
 	base::for_each_dim(velocity_base_dim_tester());
+}
+
+struct angular_velocity_base_dim_tester
+{
+	template <typename BD>
+	void operator()(BD) const
+	{
+		BOOST_CHECK(
+			get_pow_of_dim(BD(),eagine::units::angular_velocity())==
+			get_pow_of_dim(BD(),eagine::units::angle())-
+			get_pow_of_dim(BD(),eagine::units::time())
+		);
+	}
+};
+
+BOOST_AUTO_TEST_CASE(unit_dimensions_angular_velocity)
+{
+	using namespace eagine::units;
+
+	base::for_each_dim(angular_velocity_base_dim_tester());
 }
 
 struct acceleration_base_dim_tester
@@ -201,6 +247,86 @@ BOOST_AUTO_TEST_CASE(unit_dimensions_momentum)
 	using namespace eagine::units;
 
 	base::for_each_dim(momentum_base_dim_tester());
+}
+
+struct force_base_dim_tester
+{
+	template <typename BD>
+	void operator()(BD) const
+	{
+		BOOST_CHECK(
+			get_pow_of_dim(BD(), eagine::units::force()) ==
+			get_pow_of_dim(BD(), eagine::units::acceleration())+
+			get_pow_of_dim(BD(), eagine::units::mass())
+		);
+	}
+};
+
+BOOST_AUTO_TEST_CASE(unit_dimensions_force)
+{
+	using namespace eagine::units;
+
+	base::for_each_dim(force_base_dim_tester());
+}
+
+struct energy_base_dim_tester
+{
+	template <typename BD>
+	void operator()(BD) const
+	{
+		BOOST_CHECK(
+			get_pow_of_dim(BD(), eagine::units::energy()) ==
+			get_pow_of_dim(BD(), eagine::units::force())+
+			get_pow_of_dim(BD(), eagine::units::length())
+		);
+	}
+};
+
+BOOST_AUTO_TEST_CASE(unit_dimensions_energy)
+{
+	using namespace eagine::units;
+
+	base::for_each_dim(energy_base_dim_tester());
+}
+
+struct power_base_dim_tester
+{
+	template <typename BD>
+	void operator()(BD) const
+	{
+		BOOST_CHECK(
+			get_pow_of_dim(BD(), eagine::units::power()) ==
+			get_pow_of_dim(BD(), eagine::units::energy())-
+			get_pow_of_dim(BD(), eagine::units::time())
+		);
+	}
+};
+
+BOOST_AUTO_TEST_CASE(unit_dimensions_power)
+{
+	using namespace eagine::units;
+
+	base::for_each_dim(power_base_dim_tester());
+}
+
+struct pressure_base_dim_tester
+{
+	template <typename BD>
+	void operator()(BD) const
+	{
+		BOOST_CHECK(
+			get_pow_of_dim(BD(), eagine::units::pressure()) ==
+			get_pow_of_dim(BD(), eagine::units::force())-
+			get_pow_of_dim(BD(), eagine::units::area())
+		);
+	}
+};
+
+BOOST_AUTO_TEST_CASE(unit_dimensions_pressure)
+{
+	using namespace eagine::units;
+
+	base::for_each_dim(pressure_base_dim_tester());
 }
 
 //TODO
