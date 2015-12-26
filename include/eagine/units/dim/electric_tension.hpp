@@ -10,7 +10,7 @@
 #ifndef EAGINE_UNITS_DIM_ELECTRIC_TENSION_1512222148_HPP
 #define EAGINE_UNITS_DIM_ELECTRIC_TENSION_1512222148_HPP
 
-#include "../dimension.hpp"
+#include "power.hpp"
 
 namespace eagine {
 namespace units {

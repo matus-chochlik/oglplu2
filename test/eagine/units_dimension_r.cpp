@@ -28,6 +28,9 @@
 #include <eagine/units/dim/electrical_capacitance.hpp>
 #include <eagine/units/dim/electrical_conductance.hpp>
 #include <eagine/units/dim/electrical_resistance.hpp>
+#include <eagine/units/dim/magnetic_flux.hpp>
+#include <eagine/units/dim/magnetic_field_strength.hpp>
+#include <eagine/units/dim/inductance.hpp>
 
 #include <eagine/units/dim/frequency.hpp>
 #include <eagine/units/dim/radioactivity.hpp>
@@ -414,6 +417,13 @@ struct electric_tension_base_dim_tester
 			get_pow_of_dim(BD(), eagine::units::power())-
 			get_pow_of_dim(BD(), eagine::units::electric_current())
 		);
+		BOOST_CHECK(
+			get_pow_of_dim(BD(), eagine::units::electric_tension()) ==
+			get_pow_of_dim(BD(), eagine::units::length())*2+
+			get_pow_of_dim(BD(), eagine::units::mass())-
+			get_pow_of_dim(BD(), eagine::units::time())*3-
+			get_pow_of_dim(BD(), eagine::units::electric_current())
+		);
 	}
 };
 
@@ -501,6 +511,91 @@ BOOST_AUTO_TEST_CASE(unit_dimensions_electrical_resistance)
 	using namespace eagine::units;
 
 	base::for_each_dim(electrical_resistance_base_dim_tester());
+}
+
+struct magnetic_flux_base_dim_tester
+{
+	template <typename BD>
+	void operator()(BD) const
+	{
+		BOOST_CHECK(
+			get_pow_of_dim(BD(), eagine::units::magnetic_flux()) ==
+			get_pow_of_dim(BD(), eagine::units::energy())-
+			get_pow_of_dim(BD(), eagine::units::electric_current())
+		);
+		BOOST_CHECK(
+			get_pow_of_dim(BD(), eagine::units::magnetic_flux()) ==
+			get_pow_of_dim(BD(), eagine::units::electric_tension())+
+			get_pow_of_dim(BD(), eagine::units::time())
+		);
+		BOOST_CHECK(
+			get_pow_of_dim(BD(), eagine::units::magnetic_flux()) ==
+			get_pow_of_dim(BD(), eagine::units::length())*2-
+			get_pow_of_dim(BD(), eagine::units::time())*2+
+			get_pow_of_dim(BD(), eagine::units::mass())-
+			get_pow_of_dim(BD(), eagine::units::electric_current())
+		);
+	}
+};
+
+BOOST_AUTO_TEST_CASE(unit_dimensions_magnetic_flux)
+{
+	using namespace eagine::units;
+
+	base::for_each_dim(magnetic_flux_base_dim_tester());
+}
+
+struct magnetic_field_strength_base_dim_tester
+{
+	template <typename BD>
+	void operator()(BD) const
+	{
+		BOOST_CHECK(
+			get_pow_of_dim(BD(), eagine::units::magnetic_field_strength()) ==
+			get_pow_of_dim(BD(), eagine::units::magnetic_flux())-
+			get_pow_of_dim(BD(), eagine::units::area())
+		);
+		BOOST_CHECK(
+			get_pow_of_dim(BD(), eagine::units::magnetic_field_strength()) ==
+			get_pow_of_dim(BD(), eagine::units::mass())-
+			get_pow_of_dim(BD(), eagine::units::electric_current())-
+			get_pow_of_dim(BD(), eagine::units::time())*2
+		);
+	}
+};
+
+BOOST_AUTO_TEST_CASE(unit_dimensions_magnetic_field_strength)
+{
+	using namespace eagine::units;
+
+	base::for_each_dim(magnetic_field_strength_base_dim_tester());
+}
+
+struct inductance_base_dim_tester
+{
+	template <typename BD>
+	void operator()(BD) const
+	{
+		BOOST_CHECK(
+			get_pow_of_dim(BD(), eagine::units::inductance()) ==
+			get_pow_of_dim(BD(), eagine::units::magnetic_flux())-
+			get_pow_of_dim(BD(), eagine::units::electric_current())
+		);
+		BOOST_CHECK(
+			get_pow_of_dim(BD(), eagine::units::inductance()) ==
+			get_pow_of_dim(BD(), eagine::units::length())*2-
+			get_pow_of_dim(BD(), eagine::units::time())*2+
+			get_pow_of_dim(BD(), eagine::units::mass())-
+			get_pow_of_dim(BD(), eagine::units::electric_current())*2
+		);
+	}
+};
+
+BOOST_AUTO_TEST_CASE(unit_dimensions_inductance)
+{
+	using namespace eagine::units;
+
+	base::for_each_dim(inductance_base_dim_tester());
 }
 
 
