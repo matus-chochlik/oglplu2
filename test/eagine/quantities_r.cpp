@@ -18,10 +18,32 @@ void eagine_test_quantities_1(void)
 {
 	using namespace eagine;
 
-	T r = T(std::rand() % 100000);
-	degrees_t<T> v = degrees(r);
-	BOOST_CHECK(!(T(v) > r));
-	BOOST_CHECK(!(T(v) < r));
+	T r1 = T((std::rand() % 10000) / 100);
+	T r2 = T((std::rand() % 10000) / 100);
+
+	degrees_t<T> v1 = degrees(r1);
+	degrees_t<T> v2 = degrees(r2);
+	degrees_t<T> v3 = v1+v2;
+	degrees_t<T> v4 = v1-v2;
+
+	BOOST_CHECK(!(T(v1) > r1));
+	BOOST_CHECK(!(T(v1) < r1));
+	BOOST_CHECK(!(T(v2) > r2));
+	BOOST_CHECK(!(T(v2) < r2));
+	BOOST_CHECK(!(T(v3) > r1+r2));
+	BOOST_CHECK(!(T(v3) < r1+r2));
+	BOOST_CHECK(!(T(v4) > r1-r2));
+	BOOST_CHECK(!(T(v4) < r1-r2));
+
+	BOOST_CHECK(!(T(+v1) > +r1));
+	BOOST_CHECK(!(T(+v1) < +r1));
+	BOOST_CHECK(!(T(-v2) > -r2));
+	BOOST_CHECK(!(T(-v2) < -r2));
+
+	BOOST_CHECK_EQUAL(v1 >  v2, r1 >  r2);
+	BOOST_CHECK_EQUAL(v1 <  v2, r1 <  r2);
+	BOOST_CHECK_EQUAL(v1 >= v2, r1 >= r2);
+	BOOST_CHECK_EQUAL(v1 <= v2, r1 <= r2);
 }
 
 BOOST_AUTO_TEST_CASE(quantities_1)
@@ -31,5 +53,6 @@ BOOST_AUTO_TEST_CASE(quantities_1)
 	eagine_test_quantities_1<double>();
 }
 
+// TODO
 
 BOOST_AUTO_TEST_SUITE_END()

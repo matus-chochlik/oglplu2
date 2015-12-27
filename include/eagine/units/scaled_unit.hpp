@@ -88,22 +88,20 @@ struct make_scaled_unit<base::scaled_unit<Scale, BaseUnit>, System>
 template <typename D1, typename D2, typename US, typename S>
 struct value_conv<scaled_unit<D1, US, S>, unit<D2, S>>
 {
-	typedef value_conv type;
-
 	template <typename T>
-	static constexpr inline T apply(T v)
+	constexpr inline
+	auto operator()(T v) const
 	{
-		return T(v*scaled_unit<D1, US, S>::scale::value);
+		return v*scaled_unit<D1, US, S>::scale::value;
 	}
 };
 
 template <typename D1, typename D2, typename US, typename S>
 struct value_conv<unit<D1, S>, scaled_unit<D2, US, S>>
 {
-	typedef value_conv type;
-
 	template <typename T>
-	static constexpr inline T apply(T v)
+	constexpr inline
+	auto operator()(T v) const
 	{
 		return v/scaled_unit<D1, US, S>::scale::value;
 	}
@@ -112,10 +110,9 @@ struct value_conv<unit<D1, S>, scaled_unit<D2, US, S>>
 template <typename D1, typename D2, typename US1, typename US2, typename S>
 struct value_conv<scaled_unit<D1, US1, S>, scaled_unit<D2, US2, S>>
 {
-	typedef value_conv type;
-
 	template <typename T>
-	static constexpr inline T apply(T v)
+	constexpr inline
+	auto operator()(T v) const
 	{
 		return v*
 			scaled_unit<D1, US1, S>::scale::value/

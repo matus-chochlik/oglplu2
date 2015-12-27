@@ -11,6 +11,7 @@
 #define EAGINE_TAGGED_QUANTITY_1509260923_HPP
 
 #include "type_traits.hpp"
+#include "units/default.hpp"
 #include <cmath>
 
 namespace eagine {
@@ -25,6 +26,9 @@ private:
 	template <typename, typename>
 	friend class tagged_quantity;
 public:
+	typedef U unit_type;
+	typedef T value_type;
+
 	tagged_quantity(void) = default;
 
 	explicit constexpr inline
@@ -35,14 +39,19 @@ public:
 
 	template <
 		typename X,
-		typename = std::enable_if_t<std::is_convertible<X, T>::value>
+		typename UX,
+		typename = std::enable_if_t<
+			std::is_convertible<X, T>::value &&
+			units::is_convertible<UX, U>::value
+		>
 	>
 	constexpr inline
-	tagged_quantity(tagged_quantity<X, U> tq)
+	tagged_quantity(tagged_quantity<X, UX> tq)
 	noexcept
-	 : _v(tq._v)
+	 : _v(units::value_conv<UX, U>()(tq._v))
 	{ }
 
+	constexpr inline
 	T value(void) const
 	noexcept
 	{
@@ -60,87 +69,130 @@ public:
 		return X(_v);
 	}
 
-	friend
-	tagged_quantity operator + (tagged_quantity a, tagged_quantity b)
+	template <
+		typename X,
+		typename UX,
+		typename = std::enable_if_t<
+			std::is_convertible<X, T>::value &&
+			units::is_convertible<UX, U>::value
+		>
+	>
+	tagged_quantity& operator += (const tagged_quantity<X, UX>& q)
 	noexcept
 	{
-		return tagged_quantity{a._v + b._v};
-	}
-
-	friend
-	tagged_quantity operator - (tagged_quantity a, tagged_quantity b)
-	noexcept
-	{
-		return tagged_quantity{a._v - b._v};
+		_v += units::value_conv<UX, U>()(q._v);
+		return *this;
 	}
 
 	template <
 		typename X,
-		typename = std::enable_if_t<std::is_convertible<X, T>::value>
+		typename UX,
+		typename = std::enable_if_t<
+			std::is_convertible<X, T>::value &&
+			units::is_convertible<UX, U>::value
+		>
 	>
-	constexpr inline
-	bool operator == (tagged_quantity<X, U> q) const
+	tagged_quantity& operator -= (const tagged_quantity<X, UX>& q)
 	noexcept
 	{
-		return _v == q._v;
+		_v -= units::value_conv<UX, U>()(q._v);
+		return *this;
 	}
-
-	template <
-		typename X,
-		typename = std::enable_if_t<std::is_convertible<X, T>::value>
-	>
-	constexpr inline
-	bool operator != (tagged_quantity<X, U> q) const
-	noexcept
-	{
-		return _v != q._v;
-	}
-
-	template <
-		typename X,
-		typename = std::enable_if_t<std::is_convertible<X, T>::value>
-	>
-	constexpr inline
-	bool operator <  (tagged_quantity<X, U> q) const
-	noexcept
-	{
-		return _v <  q._v;
-	}
-
-	template <
-		typename X,
-		typename = std::enable_if_t<std::is_convertible<X, T>::value>
-	>
-	constexpr inline
-	bool operator <= (tagged_quantity<X, U> q) const
-	noexcept
-	{
-		return _v <= q._v;
-	}
-
-	template <
-		typename X,
-		typename = std::enable_if_t<std::is_convertible<X, T>::value>
-	>
-	constexpr inline
-	bool operator >  (tagged_quantity<X, U> q) const
-	noexcept
-	{
-		return _v >  q._v;
-	}
-
-	template <
-		typename X,
-		typename = std::enable_if_t<std::is_convertible<X, T>::value>
-	>
-	constexpr inline
-	bool operator >= (tagged_quantity<X, U> q) const
-	noexcept
-	{
-		return _v >= q._v;
-	}
-
 };
+
+template <typename T, typename U>
+static inline T value(const tagged_quantity<T, U>& q)
+{
+	return q.value();
+}
+
+template <typename T1, typename U1, typename T2, typename U2>
+constexpr inline
+std::enable_if_t<units::is_convertible_v<U2, U1>, bool>
+operator == (tagged_quantity<T1, U1> a, tagged_quantity<T2, U2> b)
+{
+	return value(a) == units::value_conv<U2, U1>()(value(b));
+}
+
+template <typename T1, typename U1, typename T2, typename U2>
+constexpr inline
+std::enable_if_t<units::is_convertible_v<U2, U1>, bool>
+operator != (tagged_quantity<T1, U1> a, tagged_quantity<T2, U2> b)
+{
+	return value(a) != units::value_conv<U2, U1>()(value(b));
+}
+
+template <typename T1, typename U1, typename T2, typename U2>
+constexpr inline
+std::enable_if_t<units::is_convertible_v<U2, U1>, bool>
+operator <  (tagged_quantity<T1, U1> a, tagged_quantity<T2, U2> b)
+{
+	return value(a) <  units::value_conv<U2, U1>()(value(b));
+}
+
+template <typename T1, typename U1, typename T2, typename U2>
+constexpr inline
+std::enable_if_t<units::is_convertible_v<U2, U1>, bool>
+operator <= (tagged_quantity<T1, U1> a, tagged_quantity<T2, U2> b)
+{
+	return value(a) <= units::value_conv<U2, U1>()(value(b));
+}
+
+template <typename T1, typename U1, typename T2, typename U2>
+constexpr inline
+std::enable_if_t<units::is_convertible_v<U2, U1>, bool>
+operator >  (tagged_quantity<T1, U1> a, tagged_quantity<T2, U2> b)
+{
+	return value(a) >  units::value_conv<U2, U1>()(value(b));
+}
+
+template <typename T1, typename U1, typename T2, typename U2>
+constexpr inline
+std::enable_if_t<units::is_convertible_v<U2, U1>, bool>
+operator >= (tagged_quantity<T1, U1> a, tagged_quantity<T2, U2> b)
+{
+	return value(a) >= units::value_conv<U2, U1>()(value(b));
+}
+
+template <typename T, typename U>
+constexpr inline
+tagged_quantity<T, U>
+operator + (const tagged_quantity<T, U>& a)
+{
+	return tagged_quantity<T, U>{value(a)};
+}
+
+template <typename T, typename U>
+constexpr inline
+tagged_quantity<T, U>
+operator - (const tagged_quantity<T, U>& a)
+{
+	return tagged_quantity<T, U>{-value(a)};
+}
+
+template <typename T1, typename U1, typename T2, typename U2>
+constexpr inline
+tagged_quantity<decltype(T1()+T2()), units::add_result_t<U1, U2>>
+operator + (tagged_quantity<T1, U1> a, tagged_quantity<T2, U2> b)
+{
+	typedef units::add_result_t<U1, U2> UR;
+	return tagged_quantity<decltype(T1()+T2()), UR>{
+		units::value_conv<U1, UR>()(value(a))+
+		units::value_conv<U2, UR>()(value(b))
+	};
+}
+
+template <typename T1, typename U1, typename T2, typename U2>
+constexpr inline
+tagged_quantity<decltype(T1()-T2()), units::sub_result_t<U1, U2>>
+operator - (tagged_quantity<T1, U1> a, tagged_quantity<T2, U2> b)
+{
+	typedef units::sub_result_t<U1, U2> UR;
+	return tagged_quantity<decltype(T1()-T2()), UR>{
+		units::value_conv<U1, UR>()(value(a))-
+		units::value_conv<U2, UR>()(value(b))
+	};
+}
 
 } // namespace eagine
 

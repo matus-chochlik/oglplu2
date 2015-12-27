@@ -30,10 +30,8 @@ struct unit
 template <typename D1, typename D2, typename S>
 struct value_conv<unit<D1, S>, unit<D2, S>>
 {
-	typedef value_conv type;
-
 	template <typename T>
-	static constexpr inline T apply(T v)
+	constexpr inline T apply(T v) const
 	{
 		return v;
 	}

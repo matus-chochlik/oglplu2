@@ -61,7 +61,7 @@ struct unit_name;
 template <typename Unit>
 struct unit_symbol;
 
-template <typename Dims, typename System = si>
+template <typename Dims, typename System>
 struct unit;
 
 template <typename Dims, typename Scales, typename System>
@@ -100,8 +100,11 @@ struct div_result;
 template <typename U1, typename U2>
 using div_result_t = typename div_result<U1, U2>::type;
 
-template <typename Unit, typename T = double>
-struct quantity;
+template <typename U1, typename U2>
+struct is_convertible;
+
+template <typename U1, typename U2>
+constexpr bool is_convertible_v = is_convertible<U1, U2>::value;
 
 } // namespace units
 } // namespace eagine

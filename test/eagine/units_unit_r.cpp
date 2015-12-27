@@ -23,8 +23,8 @@ struct units_unit_add_tester
 
 		typedef dimension<BD, 1> D;
 
-		unit<D> a, b;
-		unit<D> c = a + b;
+		unit<D, si> a, b;
+		unit<D, si> c = a + b;
 		(void)c;
 	}
 };
@@ -45,8 +45,8 @@ struct units_unit_sub_tester
 
 		typedef dimension<BD, 1> D;
 
-		unit<D> a, b;
-		unit<D> c = a - b;
+		unit<D, si> a, b;
+		unit<D, si> c = a - b;
 		(void)c;
 	}
 };
@@ -70,9 +70,9 @@ struct units_unit_mul_sub_tester
 		typedef dimension<BD2, 1> D2;
 		typedef decltype(D1()*D2()) D;
 
-		unit<D1> a;
-		unit<D2> b;
-		unit<D> c = a * b;
+		unit<D1, si> a;
+		unit<D2, si> b;
+		unit<D, si> c = a * b;
 		(void)c;
 	}
 };
@@ -107,9 +107,9 @@ struct units_unit_div_sub_tester
 		typedef dimension<BD2, 1> D2;
 		typedef decltype(D1()/D2()) D;
 
-		unit<D1> a;
-		unit<D2> b;
-		unit<D> c = a / b;
+		unit<D1, si> a;
+		unit<D2, si> b;
+		unit<D, si> c = a / b;
 		(void)c;
 	}
 };

@@ -207,7 +207,11 @@ struct pi
 		auto operator*(T v,_impl)
 		noexcept
 		{
+#ifdef M_PI
 			return v*M_PI;
+#else
+			return v*3.14159265358979323846;
+#endif
 		}
 
 		template <typename T>
@@ -215,7 +219,11 @@ struct pi
 		auto operator/(T v,_impl)
 		noexcept
 		{
+#ifdef M_PI
 			return v/M_PI;
+#else
+			return v/3.14159265358979323846;
+#endif
 		}
 	};
 	static constexpr _impl value = {};
