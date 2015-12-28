@@ -233,20 +233,20 @@ operator * (
 	};
 }
 
-template <typename T, typename U>
+template <typename T1, typename U, typename T2>
 constexpr inline
-tagged_quantity<T, U>
-operator * (const tagged_quantity<T, U>& a, const T& c)
+tagged_quantity<decltype(T1()*T2()), U>
+operator * (const tagged_quantity<T1, U>& a, const T2& c)
 {
-	return tagged_quantity<T, U>{value(a) * c};
+	return tagged_quantity<decltype(T1()*T2()), U>{value(a) * c};
 }
 
-template <typename T, typename U>
+template <typename T1, typename T2, typename U>
 constexpr inline
-tagged_quantity<T, U>
-operator * (const T& c, const tagged_quantity<T, U>& a)
+tagged_quantity<decltype(T1()*T2()), U>
+operator * (const T1& c, const tagged_quantity<T2, U>& a)
 {
-	return tagged_quantity<T, U>{c* value(a)};
+	return tagged_quantity<decltype(T1()*T2()), U>{c* value(a)};
 }
 
 template <typename T1, typename U1, typename T2, typename U2>
@@ -264,12 +264,12 @@ operator / (
 	};
 }
 
-template <typename T, typename U>
+template <typename T1, typename U, typename T2>
 constexpr inline
-tagged_quantity<T, U>
-operator / (const tagged_quantity<T, U>& a, const T& c)
+tagged_quantity<decltype(T1()/T2()), U>
+operator / (const tagged_quantity<T1, U>& a, const T2& c)
 {
-	return tagged_quantity<T, U>{value(a) / c};
+	return tagged_quantity<decltype(T1()/T2()), U>{value(a) / c};
 }
 
 } // namespace eagine

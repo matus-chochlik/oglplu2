@@ -10,6 +10,9 @@
 #ifndef EAGINE_UNITS_DETAIL_1512222148_HPP
 #define EAGINE_UNITS_DETAIL_1512222148_HPP
 
+#include "../type_name.hpp" // TODO
+#include <iostream>
+
 #include "fwd.hpp"
 #include "base_dim.hpp"
 #include "../nothing.hpp"
@@ -319,6 +322,9 @@ struct insert<unit_scales<H, T>, U, S>
 template <typename UnitScales, typename Unit, typename Fallback>
 struct get_scale;
 
+template <typename UnitScales, typename Unit, typename Fallback>
+using get_scale_t = typename get_scale<UnitScales, Unit, Fallback>::type;
+
 template <typename U, typename Fallback>
 struct get_scale<nothing_t, U, Fallback>
  : Fallback
@@ -334,12 +340,17 @@ struct get_scale<unit_scales<uni_sca<U, Scale>, T>, U, F>
  : Scale
 { };
 
+template <typename U, typename S1, typename S2, typename T, typename F>
+struct get_scale<unit_scales<uni_sca<U, S1>, T>, base::scaled_unit<S2, U>, F>
+ : scales::divided<S1, S2>
+{ };
+
 template <typename H, typename T, typename U, typename F>
 struct get_scale<unit_scales<H, T>, U, F>
  : get_scale<T, U, F>
 { };
 
-// get_dim
+// get_dim_unit
 template <typename UnitScales, typename BaseDim, typename Fallback>
 struct get_dim_unit;
 
@@ -483,9 +494,20 @@ struct _sc_unit_sc_hlp
 	noexcept
 	{
 		typedef typename System
-			::template base_unit<D>::type BU;
-		typedef typename BU::scale BS;
-		typedef get_scale<Scales, BU, BS> BUS;
+			::template base_unit<D>::type SBU;
+		typedef typename SBU::scale BS;
+
+ 		typedef get_scale_t<Scales, SBU, BS> BUS;
+
+/*
+std::cout << "|A|" << type_name<Scales>() << std::endl;
+std::cout << "|B|" << type_name<SBU>() << std::endl;
+std::cout << "|C|" << type_name<BS>() << std::endl;
+std::cout << "|D|" << type_name<BUS>() << std::endl;
+std::cout << "|E|" << type_name<Dir>() << std::endl;
+std::cout << "|F|" << E << std::endl;
+std::cout << std::endl;
+*/
 
 		return _pow(
 			v, BUS::value,

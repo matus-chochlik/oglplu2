@@ -26,6 +26,11 @@ struct sub_result<U, U>
  : identity<U>
 { };
 
+template <typename T1, typename T2>
+struct is_convertible
+ : std::false_type
+{ };
+
 template <typename U>
 struct is_convertible<U, U>
  : std::true_type
