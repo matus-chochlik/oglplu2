@@ -33,7 +33,7 @@ struct unit_symbol<radian>
 
 // degree
 typedef scaled_unit<
-	scales::divided<scales::pi, scales::rational<180, 1>>,
+	scales::divided<scales::pi, int_constant<180>>,
 	radian
 > degree;
 
@@ -51,7 +51,7 @@ struct unit_symbol<degree>
 
 // gradian
 typedef scaled_unit<
-	scales::divided<scales::pi, scales::rational<200, 1>>,
+	scales::divided<scales::pi, int_constant<200>>,
 	radian
 > gradian;
 
@@ -87,7 +87,7 @@ struct unit_symbol<quarter>
 
 // turn
 typedef scaled_unit<
-	scales::multiplied<scales::rational<2, 1>, scales::pi>,
+	scales::multiplied<int_constant<2>, scales::pi>,
 	radian
 > turn;
 

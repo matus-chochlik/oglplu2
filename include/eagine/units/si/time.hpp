@@ -31,7 +31,7 @@ struct unit_symbol<second>
 };
 
 // minute
-typedef scaled_unit<scales::rational<60, 1>, second> minute;
+typedef scaled_unit<int_constant<60>, second> minute;
 
 template <>
 struct unit_name<minute>
@@ -45,7 +45,7 @@ struct unit_symbol<minute>
 };
 
 // hour
-typedef scaled_unit<scales::rational<3600, 1>, second> hour;
+typedef scaled_unit<int_constant<3600>, second> hour;
 
 template <>
 struct unit_name<hour>
@@ -59,7 +59,7 @@ struct unit_symbol<hour>
 };
 
 // day
-typedef scaled_unit<scales::rational<86400, 1>, second> day;
+typedef scaled_unit<int_constant<86400>, second> day;
 
 template <>
 struct unit_name<day>
