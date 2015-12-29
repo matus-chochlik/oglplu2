@@ -48,7 +48,7 @@ public:
 	constexpr inline
 	tagged_quantity(tagged_quantity<X, UX> tq)
 	noexcept
-	 : _v(units::value_conv<UX, U>()(tq._v))
+	 : _v(T(units::value_conv<UX, U>()(tq._v)))
 	{ }
 
 	constexpr inline

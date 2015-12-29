@@ -46,6 +46,11 @@ typedef make_scaled_unit_t<
 > kilometer;
 
 typedef make_scaled_unit_t<
+	base::scaled_unit<scales::deci, base::meter>,
+	si
+> decimeter;
+
+typedef make_scaled_unit_t<
 	base::scaled_unit<scales::centi, base::meter>,
 	si
 > centimeter;
