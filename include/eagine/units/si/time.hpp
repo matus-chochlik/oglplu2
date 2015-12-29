@@ -85,9 +85,9 @@ typedef make_scaled_unit_t<
 	base::scaled_unit<scales::milli, base::second>,
 	si
 > millisecond;
-typedef make_scaled_unit<base::minute, si>::type minute;
-typedef make_scaled_unit<base::hour, si>::type hour;
-typedef make_scaled_unit<base::day, si>::type day;
+typedef make_scaled_unit_t<base::minute, si> minute;
+typedef make_scaled_unit_t<base::hour, si> hour;
+typedef make_scaled_unit_t<base::day, si> day;
 
 } // namespace units
 } // namespace eagine

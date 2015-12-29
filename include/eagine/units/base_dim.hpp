@@ -32,12 +32,13 @@ struct length : dimension<length> { };
 struct mass   : dimension<mass> { };
 struct time   : dimension<time> { };
 
-struct temperature         : dimension<temperature> { };
-struct electric_current    : dimension<electric_current> { };
-struct number_of_cycles    : dimension<number_of_cycles> { };
-struct number_of_decays    : dimension<number_of_decays> { };
-struct luminous_intensity  : dimension<luminous_intensity> { };
-struct amount_of_substance : dimension<amount_of_substance> { };
+struct temperature           : dimension<temperature> { };
+struct electric_current      : dimension<electric_current> { };
+struct number_of_cycles      : dimension<number_of_cycles> { };
+struct number_of_decays      : dimension<number_of_decays> { };
+struct luminous_intensity    : dimension<luminous_intensity> { };
+struct amount_of_substance   : dimension<amount_of_substance> { };
+struct amount_of_information : dimension<amount_of_information> { };
 
 template <typename Func>
 Func for_each_dim(Func func)
@@ -53,6 +54,7 @@ Func for_each_dim(Func func)
 	func(number_of_decays());
 	func(luminous_intensity());
 	func(amount_of_substance());
+	func(amount_of_information());
 
 	return std::move(func);
 }
@@ -64,18 +66,19 @@ struct dim_num;
 template <typename Dimension>
 const int dim_num_v = dim_num<Dimension>::value;
 
-template <> struct dim_num<angle>  : int_constant<0>{ };
-template <> struct dim_num<mass>   : int_constant<1> { };
-template <> struct dim_num<length> : int_constant<2> { };
-template <> struct dim_num<time>   : int_constant<3> { };
+template <> struct dim_num<angle>       : int_constant<0>{ };
+template <> struct dim_num<solid_angle> : int_constant<1> { };
+template <> struct dim_num<mass>        : int_constant<2> { };
+template <> struct dim_num<length>      : int_constant<3> { };
+template <> struct dim_num<time>        : int_constant<4> { };
 
-template <> struct dim_num<temperature>         : int_constant<4>  { };
-template <> struct dim_num<electric_current>    : int_constant<5>  { };
-template <> struct dim_num<number_of_cycles>    : int_constant<6>  { };
-template <> struct dim_num<number_of_decays>    : int_constant<7>  { };
-template <> struct dim_num<luminous_intensity>  : int_constant<8>  { };
-template <> struct dim_num<amount_of_substance> : int_constant<9>  { };
-template <> struct dim_num<solid_angle>         : int_constant<10> { };
+template <> struct dim_num<temperature>           : int_constant<5>  { };
+template <> struct dim_num<electric_current>      : int_constant<6>  { };
+template <> struct dim_num<number_of_cycles>      : int_constant<7>  { };
+template <> struct dim_num<number_of_decays>      : int_constant<8>  { };
+template <> struct dim_num<luminous_intensity>    : int_constant<9>  { };
+template <> struct dim_num<amount_of_substance>   : int_constant<10> { };
+template <> struct dim_num<amount_of_information> : int_constant<11> { };
 
 // get_number
 template <typename Derived>
@@ -154,6 +157,12 @@ template <>
 struct dim_name<amount_of_substance>
 {
 	static constexpr const char mp_str[] = "amount of substance";
+};
+
+template <>
+struct dim_name<amount_of_information>
+{
+	static constexpr const char mp_str[] = "amount of information";
 };
 
 } // namespace base

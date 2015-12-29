@@ -55,7 +55,8 @@ typedef dimension<base::electric_current,    1> electric_current;
 typedef dimension<base::number_of_cycles,    1> number_of_cycles;
 typedef dimension<base::number_of_decays,    1> number_of_decays;
 typedef dimension<base::luminous_intensity,  1> luminous_intensity;
-typedef dimension<base::amount_of_substance, 1> amount_of_substance;
+typedef dimension<base::amount_of_substance,   1> amount_of_substance;
+typedef dimension<base::amount_of_information, 1> amount_of_information;
 
 } // namespace units
 } // namespace eagine

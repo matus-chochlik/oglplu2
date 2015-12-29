@@ -29,7 +29,8 @@ BOOST_AUTO_TEST_CASE(units_base_dim_number)
 		get_number(base::number_of_cycles()),
 		get_number(base::number_of_decays()),
 		get_number(base::luminous_intensity()),
-		get_number(base::amount_of_substance())
+		get_number(base::amount_of_substance()),
+		get_number(base::amount_of_information())
 	};
 
 	using std::begin;

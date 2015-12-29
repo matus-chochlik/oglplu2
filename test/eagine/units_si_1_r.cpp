@@ -9,14 +9,42 @@
 #include <boost/test/unit_test.hpp>
 
 #include <eagine/tagged_quantity.hpp>
+#include <eagine/units/si/information.hpp>
 #include <eagine/units/si/angle.hpp>
 #include <eagine/units/si/mass.hpp>
 #include <eagine/units/si/length.hpp>
 #include <eagine/units/si/time.hpp>
 #include <eagine/units/si/temperature.hpp>
+
 #include <cstdlib>
 
 BOOST_AUTO_TEST_SUITE(units_si_test)
+
+BOOST_AUTO_TEST_CASE(units_si_information_1)
+{
+	using namespace eagine;
+	using namespace eagine::units;
+
+	typedef tagged_quantity<float, bit> q_b;
+	typedef tagged_quantity<float, byte> q_B;
+	typedef tagged_quantity<float, kilobyte> q_kB;
+	typedef tagged_quantity<float, kibibyte> q_KiB;
+	typedef tagged_quantity<float, megabyte> q_MB;
+	typedef tagged_quantity<float, mebibyte> q_MiB;
+
+	BOOST_CHECK_CLOSE(value(q_b(1)), value(q_b(q_B(1)/8)), 0.01);
+	BOOST_CHECK_CLOSE(value(q_B(1)), value(q_B(q_b(1)*8)), 0.01);
+	BOOST_CHECK_CLOSE(value(q_kB(1)), value(q_kB(q_B(1000))), 0.01);
+	BOOST_CHECK_CLOSE(value(q_kB(1)), value(q_kB(q_b(8000))), 0.01);
+	BOOST_CHECK_CLOSE(value(q_KiB(1)), value(q_KiB(q_B(1024))), 0.01);
+	BOOST_CHECK_CLOSE(value(q_KiB(1)), value(q_KiB(q_b(8192))), 0.01);
+	BOOST_CHECK_CLOSE(value(q_MB(1)), value(q_MB(q_B(1000000))), 0.01);
+	BOOST_CHECK_CLOSE(value(q_MB(1)), value(q_MB(q_b(8000000))), 0.01);
+	BOOST_CHECK_CLOSE(value(q_MB(1)), value(q_MB(q_kB(1000))), 0.01);
+	BOOST_CHECK_CLOSE(value(q_MiB(1)), value(q_MiB(q_B(1024*1024))), 0.01);
+	BOOST_CHECK_CLOSE(value(q_MiB(1)), value(q_MiB(q_b(8192*1024))), 0.01);
+	BOOST_CHECK_CLOSE(value(q_MiB(1)), value(q_MiB(q_KiB(1024))), 0.01);
+}
 
 BOOST_AUTO_TEST_CASE(units_si_angle_1)
 {

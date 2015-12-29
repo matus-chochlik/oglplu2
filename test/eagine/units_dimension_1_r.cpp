@@ -86,6 +86,11 @@ struct units_dimension_pow_tester
 			units::base::amount_of_substance,
 			TestedBD
 		>();
+		test_units_dimension_pow1_d_bd<
+			units::amount_of_information,
+			units::base::amount_of_information,
+			TestedBD
+		>();
 	}
 };
 

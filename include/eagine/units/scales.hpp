@@ -176,6 +176,16 @@ struct divided
 	static constexpr const _impl value = {};
 };
 
+template <typename S1, typename S2>
+struct recombined
+{
+	typedef recombined type;
+
+	typedef typename multiplied<S1, S2>::_impl _impl;
+
+	static constexpr const _impl value = {};
+};
+
 // nano
 typedef power<1000,-3> nano;
 
