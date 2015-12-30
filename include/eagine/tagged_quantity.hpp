@@ -100,11 +100,42 @@ public:
 	}
 };
 
+template <typename T>
+struct is_tagged_quantity
+ : std::false_type
+{ };
+
+template <typename T>
+using is_tagged_quantity_t = typename is_tagged_quantity<T>::type;
+
+template <typename T>
+constexpr bool is_tagged_quantity_v = is_tagged_quantity<T>::value;
+
+template <typename T, typename U>
+struct is_tagged_quantity<tagged_quantity<T, U>>
+ : std::true_type
+{ };
+
 template <typename U, typename T>
 static constexpr inline
 auto make_tagged_quantity(const T& value)
 {
 	return tagged_quantity<T, U>{value};
+}
+
+template <
+	typename T,
+	typename U,
+	typename = std::enable_if_t<
+		!is_tagged_quantity_v<T> &&
+		!units::is_unit_v<T> &&
+		units::is_unit_v<U>
+	>
+>
+static constexpr inline
+auto operator * (const T& v, U)
+{
+	return make_tagged_quantity<U>(v);
 }
 
 template <typename T, typename U>
@@ -236,7 +267,12 @@ auto operator * (
 	);
 }
 
-template <typename T1, typename U, typename T2>
+template <
+	typename T1,
+	typename U,
+	typename T2,
+	typename = std::enable_if_t<!units::is_unit_v<T2>>
+>
 constexpr inline
 auto operator * (const tagged_quantity<T1, U>& a, const T2& c)
 {
@@ -248,6 +284,18 @@ constexpr inline
 auto operator * (const T1& c, const tagged_quantity<T2, U>& a)
 {
 	return make_tagged_quantity<U>(c* value(a));
+}
+
+template <
+	typename T1,
+	typename U1,
+	typename U2,
+	typename = std::enable_if_t<units::is_unit_v<U2>>
+>
+constexpr inline
+auto operator * (const tagged_quantity<T1, U1>& a, U2)
+{
+	return a * make_tagged_quantity<U2>(1);
 }
 
 template <typename T1, typename U1, typename T2, typename U2>
@@ -264,11 +312,28 @@ auto operator / (
 	);
 }
 
-template <typename T1, typename U, typename T2>
+template <
+	typename T1,
+	typename U,
+	typename T2,
+	typename = std::enable_if_t<!units::is_unit_v<T2>>
+>
 constexpr inline
 auto operator / (const tagged_quantity<T1, U>& a, const T2& c)
 {
 	return make_tagged_quantity<U>((1.f * value(a)) / c);
+}
+
+template <
+	typename T1,
+	typename U1,
+	typename U2,
+	typename = std::enable_if_t<units::is_unit_v<U2>>
+>
+constexpr inline
+auto operator / (const tagged_quantity<T1, U1>& a, U2)
+{
+	return a / make_tagged_quantity<U2>(1);
 }
 
 } // namespace eagine
