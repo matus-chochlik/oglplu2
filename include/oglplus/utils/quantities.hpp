@@ -15,14 +15,13 @@
 namespace oglplus {
 
 using eagine::seconds_t;
-using eagine::seconds;
-using eagine::minutes;
+using eagine::seconds_;
 
 using eagine::radians_t;
-using eagine::radians;
+using eagine::radians_;
 
 using eagine::degrees_t;
-using eagine::degrees;
+using eagine::degrees_;
 
 } // namespace oglplus
 

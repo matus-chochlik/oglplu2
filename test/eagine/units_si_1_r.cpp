@@ -9,12 +9,12 @@
 #include <boost/test/unit_test.hpp>
 
 #include <eagine/tagged_quantity.hpp>
-#include <eagine/units/si/information.hpp>
-#include <eagine/units/si/angle.hpp>
-#include <eagine/units/si/mass.hpp>
-#include <eagine/units/si/length.hpp>
-#include <eagine/units/si/time.hpp>
-#include <eagine/units/si/temperature.hpp>
+#include <eagine/units/unit/si/information.hpp>
+#include <eagine/units/unit/si/angle.hpp>
+#include <eagine/units/unit/si/mass.hpp>
+#include <eagine/units/unit/si/length.hpp>
+#include <eagine/units/unit/si/time.hpp>
+#include <eagine/units/unit/si/temperature.hpp>
 
 #include <cstdlib>
 

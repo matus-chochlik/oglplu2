@@ -1,5 +1,5 @@
 /**
- *  @file eagine/unit/si/angle.hpp
+ *  @file eagine/units/unit/si/angle.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,12 +7,16 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_SI_ANGLE_1512222148_HPP
-#define EAGINE_UNITS_SI_ANGLE_1512222148_HPP
+#ifndef EAGINE_UNITS_UNIT_SI_ANGLE_1512222148_HPP
+#define EAGINE_UNITS_UNIT_SI_ANGLE_1512222148_HPP
 
 #include "common.hpp"
 
 namespace eagine {
+
+struct qty_radians_tag;
+struct qty_degrees_tag;
+
 namespace units {
 namespace base {
 
@@ -122,6 +126,55 @@ typedef make_scaled_unit_t<
 	base::scaled_unit<scales::pi, base::radian>,
 	si
 > pi_rad;
+
+// conversions
+template <>
+struct is_convertible<radian, qty_radians_tag>
+ : std::true_type
+{ };
+
+template <>
+struct value_conv<radian, qty_radians_tag>
+{
+	template <typename T>
+	constexpr inline
+	auto operator()(T v) const
+	{
+		return v;
+	}
+};
+
+template <>
+struct is_convertible<degree, qty_degrees_tag>
+ : std::true_type
+{ };
+
+template <>
+struct value_conv<degree, qty_degrees_tag>
+{
+	template <typename T>
+	constexpr inline
+	auto operator()(T v) const
+	{
+		return v;
+	}
+};
+
+template <typename US>
+struct is_convertible<scaled_unit<angle, US, si>, qty_radians_tag>
+ : std::true_type
+{ };
+
+template <typename US>
+struct value_conv<scaled_unit<angle, US, si>, qty_radians_tag>
+{
+	template <typename T>
+	constexpr inline
+	auto operator()(T v) const
+	{
+		return v*scaled_unit<angle, US, si>::scale::value;
+	}
+};
 
 } // namespace units
 } // namespace eagine

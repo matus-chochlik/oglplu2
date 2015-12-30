@@ -26,17 +26,27 @@ using dimension = bits::dims<
 
 // multiplication
 template <typename D1, typename D2>
+static inline
 std::enable_if_t<
 	is_dimension_v<D1> && is_dimension_v<D2>,
 	bits::dim_add_t<D1, D2>
-> operator * (D1, D2);
+> operator * (D1, D2)
+noexcept
+{
+	return {};
+}
 
 // division
 template <typename D1, typename D2>
+static inline
 std::enable_if_t<
 	is_dimension_v<D1> && is_dimension_v<D2>,
 	bits::dim_sub_t<D1, D2>
-> operator / (D1, D2);
+> operator / (D1, D2)
+noexcept
+{
+	return {};
+}
 
 // base_dimension_power
 template <typename Dim, typename BaseDim>
@@ -57,6 +67,11 @@ typedef dimension<base::number_of_decays,    1> number_of_decays;
 typedef dimension<base::luminous_intensity,  1> luminous_intensity;
 typedef dimension<base::amount_of_substance,   1> amount_of_substance;
 typedef dimension<base::amount_of_information, 1> amount_of_information;
+
+template <typename BaseDim>
+struct dim_name<dimension<BaseDim, 1>>
+ : base::dim_name<BaseDim>
+{ };
 
 } // namespace units
 } // namespace eagine

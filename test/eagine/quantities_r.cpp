@@ -21,8 +21,8 @@ void eagine_test_quantities_1(void)
 	T r1 = T((std::rand() % 10000) / 100);
 	T r2 = T((std::rand() % 10000) / 100);
 
-	degrees_t<T> v1 = degrees(r1);
-	degrees_t<T> v2 = degrees(r2);
+	degrees_t<T> v1 = degrees_(r1);
+	degrees_t<T> v2 = degrees_(r2);
 	degrees_t<T> v3 = v1+v2;
 	degrees_t<T> v4 = v1-v2;
 

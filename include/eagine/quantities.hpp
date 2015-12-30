@@ -24,19 +24,10 @@ using seconds_t = tagged_quantity<T, qty_seconds_tag>;
 template <typename T>
 static inline
 seconds_t<T>
-seconds(T value)
+seconds_(T value)
 noexcept
 {
 	return seconds_t<T>{value};
-}
-
-template <typename T>
-static inline
-seconds_t<T>
-minutes(T value)
-noexcept
-{
-	return seconds_t<T>{value*60};
 }
 
 // radians
@@ -48,7 +39,7 @@ using radians_t = tagged_quantity<T, qty_radians_tag>;
 template <typename T>
 static inline
 radians_t<T>
-radians(T value)
+radians_(T value)
 noexcept
 {
 	return radians_t<T>{value};
@@ -87,7 +78,7 @@ using degrees_t = tagged_quantity<T, qty_degrees_tag>;
 template <typename T>
 static inline
 degrees_t<T>
-degrees(T value)
+degrees_(T value)
 noexcept
 {
 	return degrees_t<T>{value};

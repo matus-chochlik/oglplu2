@@ -124,7 +124,7 @@ void run_loop(int width, int height)
 
 		gl.matrix_mode(GL.modelview);
 		gl.load_identity();
-		gl.rotate_f(degrees(deg+=2), 0, 0, 1);
+		gl.rotate_f(degrees_(deg+=2), 0, 0, 1);
 
 		gl.begin(GL.triangle_strip);
 		for(int s=0; s<nseg; ++s)

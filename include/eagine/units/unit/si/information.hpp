@@ -1,5 +1,5 @@
 /**
- *  @file eagine/unit/si/information.hpp
+ *  @file eagine/units/unit/si/information.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_SI_INFORMATION_1512222148_HPP
-#define EAGINE_UNITS_SI_INFORMATION_1512222148_HPP
+#ifndef EAGINE_UNITS_UNIT_SI_INFORMATION_1512222148_HPP
+#define EAGINE_UNITS_UNIT_SI_INFORMATION_1512222148_HPP
 
 #include "common.hpp"
 

@@ -1,5 +1,5 @@
 /**
- *  @file eagine/unit/si/time.hpp
+ *  @file eagine/units/unit/si/time.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,12 +7,15 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_SI_TIME_1512222148_HPP
-#define EAGINE_UNITS_SI_TIME_1512222148_HPP
+#ifndef EAGINE_UNITS_UNIT_SI_TIME_1512222148_HPP
+#define EAGINE_UNITS_UNIT_SI_TIME_1512222148_HPP
 
 #include "common.hpp"
 
 namespace eagine {
+
+struct qty_seconds_tag;
+
 namespace units {
 namespace base {
 
@@ -88,6 +91,39 @@ typedef make_scaled_unit_t<
 typedef make_scaled_unit_t<base::minute, si> minute;
 typedef make_scaled_unit_t<base::hour, si> hour;
 typedef make_scaled_unit_t<base::day, si> day;
+
+// conversions
+template <>
+struct is_convertible<second, qty_seconds_tag>
+ : std::true_type
+{ };
+
+template <>
+struct value_conv<second, qty_seconds_tag>
+{
+	template <typename T>
+	constexpr inline
+	auto operator()(T v) const
+	{
+		return v;
+	}
+};
+
+template <typename US>
+struct is_convertible<scaled_unit<time, US, si>, qty_seconds_tag>
+ : std::true_type
+{ };
+
+template <typename US>
+struct value_conv<scaled_unit<time, US, si>, qty_seconds_tag>
+{
+	template <typename T>
+	constexpr inline
+	auto operator()(T v) const
+	{
+		return v*scaled_unit<time, US, si>::scale::value;
+	}
+};
 
 } // namespace units
 } // namespace eagine

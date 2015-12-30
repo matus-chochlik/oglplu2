@@ -47,7 +47,7 @@ public:
 		gl.load_identity(GL.modelview);
 		gl.rotate_f(
 			GL.modelview,
-			degrees(state.exec_time().value()*90),
+			degrees_(state.exec_time().value()*90),
 			0, 0, 1
 		);
 

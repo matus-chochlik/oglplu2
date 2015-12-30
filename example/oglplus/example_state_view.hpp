@@ -61,13 +61,13 @@ public:
 	seconds_t<float> exec_time(void) const
 	noexcept
 	{
-		return seconds(_new_time);
+		return seconds_(_new_time);
 	}
 
 	seconds_t<float> user_activity_time(void) const
 	noexcept
 	{	
-		return seconds(_usr_act_time);
+		return seconds_(_usr_act_time);
 	}
 
 	seconds_t<float> user_idle_time(void) const
@@ -79,7 +79,7 @@ public:
 	seconds_t<float> frame_duration(void) const
 	noexcept
 	{
-		return seconds(_new_time - _old_time);
+		return seconds_(_new_time - _old_time);
 	}
 
 	int frame_number(void) const

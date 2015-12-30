@@ -419,7 +419,7 @@ BOOST_AUTO_TEST_CASE(compat_matrix_rotate_f)
 			mock_glRotatef,
 			a, x, y, z
 		);
-		gl.rotate_f(degrees(a), x, y, z);
+		gl.rotate_f(degrees_(a), x, y, z);
 		BOOST_CHECK(test_glRotatef);
 	}
 #ifdef GL_EXT_direct_state_access
@@ -429,7 +429,7 @@ BOOST_AUTO_TEST_CASE(compat_matrix_rotate_f)
 			mock_glMatrixRotatefEXT,
 			GLenum(m), a, x, y, z
 		);
-		gl.rotate_f(m, degrees(a), x, y, z);
+		gl.rotate_f(m, degrees_(a), x, y, z);
 		BOOST_CHECK(test_glMatrixRotatefEXT);
 	}
 #endif
@@ -457,7 +457,7 @@ BOOST_AUTO_TEST_CASE(compat_matrix_rotate_d)
 			mock_glRotated,
 			a, x, y, z
 		);
-		gl.rotate_d(degrees(a), x, y, z);
+		gl.rotate_d(degrees_(a), x, y, z);
 		BOOST_CHECK(test_glRotated);
 	}
 #ifdef GL_EXT_direct_state_access
@@ -467,7 +467,7 @@ BOOST_AUTO_TEST_CASE(compat_matrix_rotate_d)
 			mock_glMatrixRotatedEXT,
 			GLenum(m), a, x, y, z
 		);
-		gl.rotate_d(m, degrees(a), x, y, z);
+		gl.rotate_d(m, degrees_(a), x, y, z);
 		BOOST_CHECK(test_glMatrixRotatedEXT);
 	}
 #endif

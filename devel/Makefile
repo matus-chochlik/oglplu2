@@ -16,6 +16,8 @@ test%.o: test%.cpp
 		-Wno-padded \
 		-Wno-weak-vtables \
 		-Wno-c++98-compat \
+		-Wno-c++98-compat-pedantic \
+		-Wno-unused-function \
 		-I../_build/include \
 		-I../third_party/GSL/include \
 		-I../third_party/include \
