@@ -11,11 +11,14 @@
 #include <eagine/tagged_quantity.hpp>
 #include <eagine/units/unit/si/information.hpp>
 #include <eagine/units/unit/si/angle.hpp>
+#include <eagine/units/unit/si/solid_angle.hpp>
 #include <eagine/units/unit/si/mass.hpp>
 #include <eagine/units/unit/si/length.hpp>
 #include <eagine/units/unit/si/time.hpp>
 #include <eagine/units/unit/si/temperature.hpp>
+#include <eagine/units/unit/si/luminous_intensity.hpp>
 #include <eagine/units/unit/si/amount_of_substance.hpp>
+#include <eagine/units/unit/si/frequency.hpp>
 
 #include <cstdlib>
 
@@ -133,6 +136,18 @@ BOOST_AUTO_TEST_CASE(units_si_temperature_1)
 	BOOST_CHECK_CLOSE(value(q_mK(1)), value(q_mK(q_K(1)/1000)), 0.01);
 	BOOST_CHECK_CLOSE(value(q_kK(1)), value(q_kK(q_K(1)*1000)), 0.01);
 	BOOST_CHECK_CLOSE(value(q_mK(1)), value(q_mK(q_kK(0.001f)/1000)), 0.01);
+}
+
+BOOST_AUTO_TEST_CASE(units_si_luminous_intensity_1)
+{
+	using namespace eagine;
+	using namespace eagine::units;
+
+	typedef tagged_quantity<float, candela> q_cd;
+	typedef tagged_quantity<float, kilocandela> q_kcd;
+
+	BOOST_CHECK_CLOSE(value(q_kcd(1)), value(q_kcd(q_cd(1)*1000)), 0.01);
+	BOOST_CHECK_CLOSE(value(q_cd(1)), value(q_cd(q_kcd(1)/1000)), 0.01);
 }
 
 BOOST_AUTO_TEST_CASE(units_si_amount_of_substance_1)
