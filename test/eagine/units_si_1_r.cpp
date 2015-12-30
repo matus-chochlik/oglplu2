@@ -15,6 +15,7 @@
 #include <eagine/units/unit/si/length.hpp>
 #include <eagine/units/unit/si/time.hpp>
 #include <eagine/units/unit/si/temperature.hpp>
+#include <eagine/units/unit/si/amount_of_substance.hpp>
 
 #include <cstdlib>
 
@@ -118,6 +119,32 @@ BOOST_AUTO_TEST_CASE(units_si_length_1)
 
 	BOOST_CHECK_CLOSE(value(q_mm(1)), value(q_mm(q_km(0.001f)/1000)), 0.01);
 	BOOST_CHECK_CLOSE(value(q_km(1)), value(q_km(q_mm(1000)*1000)), 0.01);
+}
+
+BOOST_AUTO_TEST_CASE(units_si_temperature_1)
+{
+	using namespace eagine;
+	using namespace eagine::units;
+
+	typedef tagged_quantity<float, kelvin> q_K;
+	typedef tagged_quantity<float, millikelvin> q_mK;
+	typedef tagged_quantity<float, kilokelvin> q_kK;
+
+	BOOST_CHECK_CLOSE(value(q_mK(1)), value(q_mK(q_K(1)/1000)), 0.01);
+	BOOST_CHECK_CLOSE(value(q_kK(1)), value(q_kK(q_K(1)*1000)), 0.01);
+	BOOST_CHECK_CLOSE(value(q_mK(1)), value(q_mK(q_kK(0.001f)/1000)), 0.01);
+}
+
+BOOST_AUTO_TEST_CASE(units_si_amount_of_substance_1)
+{
+	using namespace eagine;
+	using namespace eagine::units;
+
+	typedef tagged_quantity<float, mole> q_mol;
+	typedef tagged_quantity<float, kilomole> q_kmol;
+
+	BOOST_CHECK_CLOSE(value(q_kmol(1)), value(q_kmol(q_mol(1)*1000)), 0.01);
+	BOOST_CHECK_CLOSE(value(q_mol(1)), value(q_mol(q_kmol(1)/1000)), 0.01);
 }
 
 BOOST_AUTO_TEST_CASE(units_si_time_1)

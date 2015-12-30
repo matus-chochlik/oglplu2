@@ -36,9 +36,6 @@ struct is_unit
  : std::false_type
 { };
 
-template <typename X>
-constexpr bool is_unit_v = is_unit<X>::value;
-
 template <typename D, typename S>
 struct is_unit<unit<D, S>>
  : std::true_type

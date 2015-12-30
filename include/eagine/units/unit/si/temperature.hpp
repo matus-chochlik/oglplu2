@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_UNIT_SI_MASS_1512222148_HPP
-#define EAGINE_UNITS_UNIT_SI_MASS_1512222148_HPP
+#ifndef EAGINE_UNITS_UNIT_SI_TEMPERATURE_1512222148_HPP
+#define EAGINE_UNITS_UNIT_SI_TEMPERATURE_1512222148_HPP
 
 #include "common.hpp"
 
@@ -35,6 +35,20 @@ struct unit_symbol<kelvin>
 // si::base_unit<temperature>
 template <>
 struct si::base_unit<base::temperature> : base::kelvin { };
+
+// kelvin
+typedef unit<temperature, si> kelvin;
+
+// derived
+typedef make_scaled_unit_t<
+	base::scaled_unit<scales::milli, base::kelvin>,
+	si
+> millikelvin;
+
+typedef make_scaled_unit_t<
+	base::scaled_unit<scales::kilo, base::kelvin>,
+	si
+> kilokelvin;
 
 } // namespace units
 } // namespace eagine

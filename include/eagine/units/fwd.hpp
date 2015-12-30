@@ -100,6 +100,12 @@ struct div_result;
 template <typename U1, typename U2>
 using div_result_t = typename div_result<U1, U2>::type;
 
+template <typename X>
+struct is_unit;
+
+template <typename X>
+constexpr bool is_unit_v = is_unit<X>::value;
+
 template <typename U1, typename U2>
 struct is_convertible;
 
