@@ -117,6 +117,16 @@ struct value_conv<unit<D1, S>, scaled_unit<D2, US, S>>
 	}
 };
 
+template <typename D, typename US, typename S>
+struct is_convertible<scaled_unit<D, US, S>, scaled_unit<D, US, S>>
+ : std::true_type
+{ };
+
+template <typename D, typename US, typename S>
+struct value_conv<scaled_unit<D, US, S>, scaled_unit<D, US, S>>
+ : trivial_value_conv
+{ };
+
 template <typename D1, typename D2, typename US1, typename US2, typename S>
 struct is_convertible<scaled_unit<D1, US1, S>, scaled_unit<D2, US2, S>>
  : std::true_type

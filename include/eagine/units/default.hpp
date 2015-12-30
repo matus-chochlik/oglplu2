@@ -36,8 +36,7 @@ struct is_convertible<U, U>
  : std::true_type
 { };
 
-template <typename U>
-struct value_conv<U, U>
+struct trivial_value_conv
 {
 	template <typename T>
 	constexpr inline
@@ -46,6 +45,11 @@ struct value_conv<U, U>
 		return v;
 	}
 };
+
+template <typename U>
+struct value_conv<U, U>
+ : trivial_value_conv
+{ };
 
 } // namespace units
 } // namespace eagine

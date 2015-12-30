@@ -37,7 +37,7 @@ struct unit_symbol<radian>
 
 // degree
 typedef scaled_unit<
-	scales::divided<scales::pi, int_constant<180>>,
+	scales::divided<scales::pi, scales::constant<180>>,
 	radian
 > degree;
 
@@ -55,7 +55,7 @@ struct unit_symbol<degree>
 
 // gradian
 typedef scaled_unit<
-	scales::divided<scales::pi, int_constant<200>>,
+	scales::divided<scales::pi, scales::constant<200>>,
 	radian
 > gradian;
 
@@ -91,7 +91,7 @@ struct unit_symbol<quarter>
 
 // turn
 typedef scaled_unit<
-	scales::multiplied<int_constant<2>, scales::pi>,
+	scales::multiplied<scales::constant<2>, scales::pi>,
 	radian
 > turn;
 
@@ -135,14 +135,8 @@ struct is_convertible<radian, qty_radians_tag>
 
 template <>
 struct value_conv<radian, qty_radians_tag>
-{
-	template <typename T>
-	constexpr inline
-	auto operator()(T v) const
-	{
-		return v;
-	}
-};
+ : trivial_value_conv
+{ };
 
 template <>
 struct is_convertible<degree, qty_degrees_tag>
@@ -151,14 +145,8 @@ struct is_convertible<degree, qty_degrees_tag>
 
 template <>
 struct value_conv<degree, qty_degrees_tag>
-{
-	template <typename T>
-	constexpr inline
-	auto operator()(T v) const
-	{
-		return v;
-	}
-};
+ : trivial_value_conv
+{ };
 
 template <typename US>
 struct is_convertible<scaled_unit<angle, US, si>, qty_radians_tag>

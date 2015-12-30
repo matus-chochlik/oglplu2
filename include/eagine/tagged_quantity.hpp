@@ -100,8 +100,16 @@ public:
 	}
 };
 
+template <typename U, typename T>
+static constexpr inline
+auto make_tagged_quantity(const T& value)
+{
+	return tagged_quantity<T, U>{value};
+}
+
 template <typename T, typename U>
-static inline T value(const tagged_quantity<T, U>& q)
+static inline
+T value(const tagged_quantity<T, U>& q)
 {
 	return q.value();
 }
@@ -174,102 +182,93 @@ operator >= (
 
 template <typename T, typename U>
 constexpr inline
-tagged_quantity<T, U>
-operator + (const tagged_quantity<T, U>& a)
+auto operator + (const tagged_quantity<T, U>& a)
 {
-	return tagged_quantity<T, U>{value(a)};
+	return a;
 }
 
 template <typename T, typename U>
 constexpr inline
-tagged_quantity<T, U>
-operator - (const tagged_quantity<T, U>& a)
+auto operator - (const tagged_quantity<T, U>& a)
 {
-	return tagged_quantity<T, U>{-value(a)};
+	return make_tagged_quantity<U>(-value(a));
 }
 
 template <typename T1, typename U1, typename T2, typename U2>
 constexpr inline
-tagged_quantity<decltype(T1()+T2()), units::add_result_t<U1, U2>>
-operator + (
+auto operator + (
 	const tagged_quantity<T1, U1>& a,
 	const tagged_quantity<T2, U2>& b
 )
 {
 	typedef units::add_result_t<U1, U2> UR;
-	return tagged_quantity<decltype(T1()+T2()), UR>{
+	return make_tagged_quantity<UR>(
 		units::value_conv<U1, UR>()(value(a))+
 		units::value_conv<U2, UR>()(value(b))
-	};
+	);
 }
 
 template <typename T1, typename U1, typename T2, typename U2>
 constexpr inline
-tagged_quantity<decltype(T1()-T2()), units::sub_result_t<U1, U2>>
-operator - (
+auto operator - (
 	const tagged_quantity<T1, U1>& a,
 	const tagged_quantity<T2, U2>& b
 )
 {
 	typedef units::sub_result_t<U1, U2> UR;
-	return tagged_quantity<decltype(T1()-T2()), UR>{
+	return make_tagged_quantity<UR>(
 		units::value_conv<U1, UR>()(value(a))-
 		units::value_conv<U2, UR>()(value(b))
-	};
+	);
 }
 
 template <typename T1, typename U1, typename T2, typename U2>
 constexpr inline
-tagged_quantity<decltype(T1()*T2()), units::mul_result_t<U1, U2>>
-operator * (
+auto operator * (
 	const tagged_quantity<T1, U1>& a,
 	const tagged_quantity<T2, U2>& b
 )
 {
 	typedef units::mul_result_t<U1, U2> UR;
-	return tagged_quantity<decltype(T1()*T2()), UR>{
+	return make_tagged_quantity<UR>(
 		units::value_conv<U1, UR>()(value(a))*
 		units::value_conv<U2, UR>()(value(b))
-	};
+	);
 }
 
 template <typename T1, typename U, typename T2>
 constexpr inline
-tagged_quantity<decltype(T1()*T2()), U>
-operator * (const tagged_quantity<T1, U>& a, const T2& c)
+auto operator * (const tagged_quantity<T1, U>& a, const T2& c)
 {
-	return tagged_quantity<decltype(T1()*T2()), U>{value(a) * c};
+	return make_tagged_quantity<U>(value(a) * c);
 }
 
 template <typename T1, typename T2, typename U>
 constexpr inline
-tagged_quantity<decltype(T1()*T2()), U>
-operator * (const T1& c, const tagged_quantity<T2, U>& a)
+auto operator * (const T1& c, const tagged_quantity<T2, U>& a)
 {
-	return tagged_quantity<decltype(T1()*T2()), U>{c* value(a)};
+	return make_tagged_quantity<U>(c* value(a));
 }
 
 template <typename T1, typename U1, typename T2, typename U2>
 constexpr inline
-tagged_quantity<decltype(T1()/T2()), units::div_result_t<U1, U2>>
-operator / (
+auto operator / (
 	const tagged_quantity<T1, U1>& a,
 	const tagged_quantity<T2, U2>& b
 )
 {
 	typedef units::div_result_t<U1, U2> UR;
-	return tagged_quantity<decltype(T1()/T2()), UR>{
+	return make_tagged_quantity<UR>(
 		units::value_conv<U1, UR>()(value(a))/
 		units::value_conv<U2, UR>()(value(b))
-	};
+	);
 }
 
 template <typename T1, typename U, typename T2>
 constexpr inline
-tagged_quantity<decltype(T1()/T2()), U>
-operator / (const tagged_quantity<T1, U>& a, const T2& c)
+auto operator / (const tagged_quantity<T1, U>& a, const T2& c)
 {
-	return tagged_quantity<decltype(T1()/T2()), U>{value(a) / c};
+	return make_tagged_quantity<U>((1.f * value(a)) / c);
 }
 
 } // namespace eagine

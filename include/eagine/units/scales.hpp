@@ -40,6 +40,32 @@ struct scale_symbol<one>
 	static constexpr const char mp_str[] = "";
 };
 
+template <int I>
+struct constant
+{
+	typedef constant type;
+
+	struct _impl
+	{
+		template <typename T>
+		friend constexpr inline
+		auto operator*(T v, _impl)
+		noexcept
+		{
+			return v*I;
+		}
+
+		template <typename T>
+		friend constexpr inline
+		auto operator/(T v, _impl)
+		noexcept
+		{
+			return v/float(I);
+		}
+	};
+	static constexpr const _impl value = {};
+};
+
 template <int Num, int Den>
 struct rational
 {
@@ -52,7 +78,7 @@ struct rational
 		auto operator*(T v, _impl)
 		noexcept
 		{
-			return (v*Num)/Den;
+			return (v*Num)/float(Den);
 		}
 
 		template <typename T>
@@ -60,7 +86,7 @@ struct rational
 		auto operator/(T v, _impl)
 		noexcept
 		{
-			return (v*Den)/Num;
+			return (v*Den)/float(Num);
 		}
 	};
 	static constexpr const _impl value = {};

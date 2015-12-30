@@ -34,7 +34,7 @@ struct unit_symbol<second>
 };
 
 // minute
-typedef scaled_unit<int_constant<60>, second> minute;
+typedef scaled_unit<scales::constant<60>, second> minute;
 
 template <>
 struct unit_name<minute>
@@ -48,7 +48,7 @@ struct unit_symbol<minute>
 };
 
 // hour
-typedef scaled_unit<int_constant<3600>, second> hour;
+typedef scaled_unit<scales::constant<3600>, second> hour;
 
 template <>
 struct unit_name<hour>
@@ -62,7 +62,7 @@ struct unit_symbol<hour>
 };
 
 // day
-typedef scaled_unit<int_constant<86400>, second> day;
+typedef scaled_unit<scales::constant<86400>, second> day;
 
 template <>
 struct unit_name<day>
@@ -100,14 +100,8 @@ struct is_convertible<second, qty_seconds_tag>
 
 template <>
 struct value_conv<second, qty_seconds_tag>
-{
-	template <typename T>
-	constexpr inline
-	auto operator()(T v) const
-	{
-		return v;
-	}
-};
+ : trivial_value_conv
+{ };
 
 template <typename US>
 struct is_convertible<scaled_unit<time, US, si>, qty_seconds_tag>

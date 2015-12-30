@@ -31,7 +31,7 @@ struct unit_symbol<bit>
 };
 
 // byte
-typedef scaled_unit<int_constant<8>, bit> byte;
+typedef scaled_unit<scales::constant<8>, bit> byte;
 
 template <>
 struct unit_name<byte>
@@ -55,34 +55,34 @@ struct si::base_unit<base::amount_of_information>
 typedef unit<amount_of_information, si> bit;
 
 typedef make_scaled_unit_t<
-	base::scaled_unit<int_constant<8>, base::bit>,
+	base::scaled_unit<scales::constant<8>, base::bit>,
 	si
 > byte;
 
 typedef make_scaled_unit_t<
 	base::scaled_unit<
-		scales::recombined<scales::kilo, int_constant<8>>,
+		scales::recombined<scales::kilo, scales::constant<8>>,
 		base::bit
 	>, si
 > kilobyte;
 
 typedef make_scaled_unit_t<
 	base::scaled_unit<
-		scales::recombined<scales::kibi, int_constant<8>>,
+		scales::recombined<scales::kibi, scales::constant<8>>,
 		base::bit
 	>, si
 > kibibyte;
 
 typedef make_scaled_unit_t<
 	base::scaled_unit<
-		scales::recombined<scales::mega, int_constant<8>>,
+		scales::recombined<scales::mega, scales::constant<8>>,
 		base::bit
 	>, si
 > megabyte;
 
 typedef make_scaled_unit_t<
 	base::scaled_unit<
-		scales::recombined<scales::mebi, int_constant<8>>,
+		scales::recombined<scales::mebi, scales::constant<8>>,
 		base::bit
 	>, si
 > mebibyte;

@@ -10,7 +10,7 @@
 #ifndef EAGINE_UNITS_UNIT_1512222148_HPP
 #define EAGINE_UNITS_UNIT_1512222148_HPP
 
-#include "fwd.hpp"
+#include "default.hpp"
 #include "traits.hpp"
 #include "detail.hpp"
 
@@ -27,21 +27,26 @@ struct unit
 };
 
 // is_convertible
+template <typename D, typename S>
+struct is_convertible<unit<D, S>, unit<D, S>>
+ : std::true_type
+{ };
+
 template <typename D1, typename D2, typename S>
 struct is_convertible<unit<D1, S>, unit<D2, S>>
  : std::true_type
 { };
 
 // value conv
+template <typename D, typename S>
+struct value_conv<unit<D, S>, unit<D, S>>
+ : trivial_value_conv
+{ };
+
 template <typename D1, typename D2, typename S>
 struct value_conv<unit<D1, S>, unit<D2, S>>
-{
-	template <typename T>
-	constexpr inline T apply(T v) const
-	{
-		return v;
-	}
-};
+ : trivial_value_conv
+{ };
 
 // add_result
 template <typename D, typename S>
