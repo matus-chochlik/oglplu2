@@ -17,6 +17,13 @@
 namespace eagine {
 namespace units {
 
+template <typename Unit>
+struct unit_name;
+
+template <typename Unit>
+struct unit_symbol;
+
+// unit
 template <typename Dims, typename System>
 struct unit
 {

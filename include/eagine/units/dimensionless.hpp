@@ -19,7 +19,7 @@ namespace units {
 typedef bits::dimless dimensionless;
 
 template <>
-struct unit_name<dimensionless>
+struct dim_name<dimensionless>
 {
 	static constexpr const char mp_str[] = "dimensionless";
 };

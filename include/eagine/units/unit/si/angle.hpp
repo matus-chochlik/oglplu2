@@ -14,7 +14,6 @@
 
 namespace eagine {
 
-struct qty_radians_tag;
 struct qty_degrees_tag;
 
 namespace units {
@@ -128,15 +127,6 @@ typedef make_scaled_unit_t<
 > pi_rad;
 
 // conversions
-template <>
-struct is_convertible<radian, qty_radians_tag>
- : std::true_type
-{ };
-
-template <>
-struct value_conv<radian, qty_radians_tag>
- : trivial_value_conv
-{ };
 
 template <>
 struct is_convertible<degree, qty_degrees_tag>
@@ -147,22 +137,6 @@ template <>
 struct value_conv<degree, qty_degrees_tag>
  : trivial_value_conv
 { };
-
-template <typename US>
-struct is_convertible<scaled_unit<angle, US, si>, qty_radians_tag>
- : std::true_type
-{ };
-
-template <typename US>
-struct value_conv<scaled_unit<angle, US, si>, qty_radians_tag>
-{
-	template <typename T>
-	constexpr inline
-	auto operator()(T v) const
-	{
-		return v*scaled_unit<angle, US, si>::scale::value;
-	}
-};
 
 } // namespace units
 } // namespace eagine

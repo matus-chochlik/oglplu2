@@ -13,9 +13,6 @@
 #include "common.hpp"
 
 namespace eagine {
-
-struct qty_seconds_tag;
-
 namespace units {
 namespace base {
 
@@ -91,33 +88,6 @@ typedef make_scaled_unit_t<
 typedef make_scaled_unit_t<base::minute, si> minute;
 typedef make_scaled_unit_t<base::hour, si> hour;
 typedef make_scaled_unit_t<base::day, si> day;
-
-// conversions
-template <>
-struct is_convertible<second, qty_seconds_tag>
- : std::true_type
-{ };
-
-template <>
-struct value_conv<second, qty_seconds_tag>
- : trivial_value_conv
-{ };
-
-template <typename US>
-struct is_convertible<scaled_unit<time, US, si>, qty_seconds_tag>
- : std::true_type
-{ };
-
-template <typename US>
-struct value_conv<scaled_unit<time, US, si>, qty_seconds_tag>
-{
-	template <typename T>
-	constexpr inline
-	auto operator()(T v) const
-	{
-		return v*scaled_unit<time, US, si>::scale::value;
-	}
-};
 
 } // namespace units
 } // namespace eagine

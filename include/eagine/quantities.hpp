@@ -11,15 +11,14 @@
 #define EAGINE_QUANTITIES_1509260923_HPP
 
 #include "tagged_quantity.hpp"
+#include "units/trivial.hpp"
 #include <cmath>
 
 namespace eagine {
 
 // seconds
-struct qty_seconds_tag;
-
 template <typename T>
-using seconds_t = tagged_quantity<T, qty_seconds_tag>;
+using seconds_t = tagged_quantity<T, units::second>;
 
 template <typename T>
 static inline
@@ -31,10 +30,8 @@ noexcept
 }
 
 // radians
-struct qty_radians_tag;
-
 template <typename T>
-using radians_t = tagged_quantity<T, qty_radians_tag>;
+using radians_t = tagged_quantity<T, units::radian>;
 
 template <typename T>
 static inline
@@ -70,10 +67,8 @@ auto tan(radians_t<T> v)
 }
 
 // degrees
-struct qty_degrees_tag;
-
 template <typename T>
-using degrees_t = tagged_quantity<T, qty_degrees_tag>;
+using degrees_t = tagged_quantity<T, units::degree>;
 
 template <typename T>
 static inline

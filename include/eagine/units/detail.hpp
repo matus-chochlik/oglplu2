@@ -12,6 +12,7 @@
 
 #include "fwd.hpp"
 #include "base_dim.hpp"
+#include "scales.hpp"
 #include "../nothing.hpp"
 #include "../mp_arithmetic.hpp"
 

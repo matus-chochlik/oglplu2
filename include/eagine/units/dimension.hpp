@@ -17,12 +17,9 @@
 namespace eagine {
 namespace units {
 
-// dimension
-template <typename BaseDim, int Pow>
-using dimension = bits::dims<
-	bits::dim_pow<BaseDim, int_constant<Pow>>,
-	nothing_t
->;
+// dim_name
+template <typename Dim>
+struct dim_name;
 
 // multiplication
 template <typename D1, typename D2>

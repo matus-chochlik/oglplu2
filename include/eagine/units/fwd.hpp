@@ -10,6 +10,9 @@
 #ifndef EAGINE_UNITS_FWD_1512222148_HPP
 #define EAGINE_UNITS_FWD_1512222148_HPP
 
+#include "../type_traits.hpp"
+#include "../nothing.hpp"
+
 namespace eagine {
 namespace units {
 namespace bits {
@@ -17,11 +20,14 @@ namespace bits {
 template <typename Head, typename Tail>
 struct dims;
 
-template <typename Dims1, typename Dims2>
-struct dim_add;
+template <typename Dim, typename Pow>
+struct dim_pow;
 
-template <typename Dims1, typename Dims2>
-struct dim_sub;
+template <typename Head, typename Tail>
+struct unit_scales;
+
+template <typename Unit, typename Scale>
+struct uni_sca;
 
 } // namespace bits
 
@@ -33,17 +39,8 @@ struct dimension;
 template <typename Dimension, typename Derived>
 struct unit;
 
-template <typename Unit>
-struct unit_name;
-
-template <typename Unit>
-struct unit_symbol;
-
 template <typename Scale, typename Unit>
 struct scaled_unit;
-
-template <typename Dimension>
-struct dim_num;
 
 } // base
 
@@ -52,14 +49,11 @@ struct si;
 template <typename System>
 struct system_id;
 
-template <typename Unit>
-struct dim_name;
-
-template <typename Unit>
-struct unit_name;
-
-template <typename Unit>
-struct unit_symbol;
+template <typename BaseDim, int Pow>
+using dimension = bits::dims<
+	bits::dim_pow<BaseDim, int_constant<Pow>>,
+	nothing_t
+>;
 
 template <typename Dims, typename System>
 struct unit;

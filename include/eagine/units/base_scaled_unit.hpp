@@ -7,7 +7,6 @@
 #define EAGINE_UNITS_BASE_SCALED_UNIT_1512222148_HPP
 
 #include "base_unit.hpp"
-#include "scales.hpp"
 
 namespace eagine {
 namespace units {

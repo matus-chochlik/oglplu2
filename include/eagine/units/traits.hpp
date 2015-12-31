@@ -11,7 +11,6 @@
 #define EAGINE_UNITS_TRAITS_1512222148_HPP
 
 #include "fwd.hpp"
-#include "../type_traits.hpp"
 
 namespace eagine {
 namespace units {
