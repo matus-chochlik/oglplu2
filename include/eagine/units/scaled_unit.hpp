@@ -165,6 +165,11 @@ struct add_result<unit<D, S>, scaled_unit<D, US, S>>
  : unit<D, S>
 { };
 
+template <typename D, typename US, typename S>
+struct add_result<scaled_unit<D, US, S>, scaled_unit<D, US, S>>
+ : scaled_unit<D, US, S>
+{ };
+
 template <typename D, typename US1, typename US2, typename S>
 struct add_result<scaled_unit<D, US1, S>, scaled_unit<D, US2, S>>
  : scaled_unit<D, US1, S>
@@ -178,6 +183,11 @@ struct sub_result<scaled_unit<D, US, S>, unit<D, S>>
 template <typename D, typename US, typename S>
 struct sub_result<unit<D, S>, scaled_unit<D, US, S>>
  : unit<D, S>
+{ };
+
+template <typename D, typename US, typename S>
+struct sub_result<scaled_unit<D, US, S>, scaled_unit<D, US, S>>
+ : scaled_unit<D, US, S>
 { };
 
 template <typename D, typename US1, typename US2, typename S>

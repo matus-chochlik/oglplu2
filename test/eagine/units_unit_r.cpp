@@ -12,6 +12,14 @@
 #include <eagine/units/dimension.hpp>
 #include <cstdlib>
 
+namespace eagine {
+namespace units {
+
+struct mock_system { };
+
+} // namespace units
+} // namespace eagine
+
 BOOST_AUTO_TEST_SUITE(units_unit_test)
 
 struct units_unit_add_tester
@@ -23,8 +31,8 @@ struct units_unit_add_tester
 
 		typedef dimension<BD, 1> D;
 
-		unit<D, si> a, b;
-		unit<D, si> c = a + b;
+		unit<D, mock_system> a, b;
+		unit<D, mock_system> c = a + b;
 		(void)c;
 	}
 };
@@ -45,8 +53,8 @@ struct units_unit_sub_tester
 
 		typedef dimension<BD, 1> D;
 
-		unit<D, si> a, b;
-		unit<D, si> c = a - b;
+		unit<D, mock_system> a, b;
+		unit<D, mock_system> c = a - b;
 		(void)c;
 	}
 };
@@ -59,7 +67,7 @@ BOOST_AUTO_TEST_CASE(units_unit_sub)
 }
 
 template <typename BD1>
-struct units_unit_mul_sub_tester
+struct units_unit_mul_tester
 {
 	template <typename BD2>
 	void operator()(BD2) const
@@ -70,21 +78,21 @@ struct units_unit_mul_sub_tester
 		typedef dimension<BD2, 1> D2;
 		typedef decltype(D1()*D2()) D;
 
-		unit<D1, si> a;
-		unit<D2, si> b;
-		unit<D, si> c = a * b;
+		unit<D1, mock_system> a;
+		unit<D2, mock_system> b;
+		unit<D, mock_system> c = a * b;
 		(void)c;
 	}
 };
 
-struct units_unit_mul_tester
+struct units_unit_mul_hlp_tester
 {
 	template <typename BD>
 	void operator()(BD) const
 	{
 		using namespace eagine::units;
 
-		base::for_each_dim(units_unit_mul_sub_tester<BD>());
+		base::for_each_dim(units_unit_mul_tester<BD>());
 	}
 };
 
@@ -92,11 +100,11 @@ BOOST_AUTO_TEST_CASE(units_unit_mul)
 {
 	using namespace eagine::units;
 
-	base::for_each_dim(units_unit_mul_tester());
+	base::for_each_dim(units_unit_mul_hlp_tester());
 }
 
 template <typename BD1>
-struct units_unit_div_sub_tester
+struct units_unit_div_tester
 {
 	template <typename BD2>
 	void operator()(BD2) const
@@ -107,21 +115,21 @@ struct units_unit_div_sub_tester
 		typedef dimension<BD2, 1> D2;
 		typedef decltype(D1()/D2()) D;
 
-		unit<D1, si> a;
-		unit<D2, si> b;
-		unit<D, si> c = a / b;
+		unit<D1, mock_system> a;
+		unit<D2, mock_system> b;
+		unit<D, mock_system> c = a / b;
 		(void)c;
 	}
 };
 
-struct units_unit_div_tester
+struct units_unit_div_hlp_tester
 {
 	template <typename BD>
 	void operator()(BD) const
 	{
 		using namespace eagine::units;
 
-		base::for_each_dim(units_unit_div_sub_tester<BD>());
+		base::for_each_dim(units_unit_div_tester<BD>());
 	}
 };
 
@@ -129,7 +137,7 @@ BOOST_AUTO_TEST_CASE(units_unit_div)
 {
 	using namespace eagine::units;
 
-	base::for_each_dim(units_unit_div_tester());
+	base::for_each_dim(units_unit_div_hlp_tester());
 }
 
 //TODO

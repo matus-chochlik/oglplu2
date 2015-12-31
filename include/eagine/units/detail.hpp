@@ -10,9 +10,6 @@
 #ifndef EAGINE_UNITS_DETAIL_1512222148_HPP
 #define EAGINE_UNITS_DETAIL_1512222148_HPP
 
-#include "../type_name.hpp" // TODO
-#include <iostream>
-
 #include "fwd.hpp"
 #include "base_dim.hpp"
 #include "../nothing.hpp"
@@ -498,16 +495,6 @@ struct _sc_unit_sc_hlp
 		typedef typename SBU::scale BS;
 
  		typedef get_scale_t<Scales, SBU, BS> BUS;
-
-/*
-std::cout << "|A|" << type_name<Scales>() << std::endl;
-std::cout << "|B|" << type_name<SBU>() << std::endl;
-std::cout << "|C|" << type_name<BS>() << std::endl;
-std::cout << "|D|" << type_name<BUS>() << std::endl;
-std::cout << "|E|" << type_name<Dir>() << std::endl;
-std::cout << "|F|" << E << std::endl;
-std::cout << std::endl;
-*/
 
 		return _pow(
 			v, BUS::value,
