@@ -223,11 +223,10 @@ example_state_view::
 pointer_angle(int index, bool old) const
 noexcept
 {
-	using std::atan2;
-	return radians_(atan2(
+	return arctan(
 		ndc_pointer_y(index, old),
 		ndc_pointer_x(index, old)
-	));
+	);
 }
 
 radians_t<float>

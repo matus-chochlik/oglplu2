@@ -19,6 +19,7 @@ using eagine::seconds_;
 
 using eagine::radians_t;
 using eagine::radians_;
+using eagine::arctan;
 
 using eagine::degrees_t;
 using eagine::degrees_;

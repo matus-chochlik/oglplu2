@@ -10,7 +10,7 @@
 #ifndef EAGINE_UNITS_TRAITS_1512222148_HPP
 #define EAGINE_UNITS_TRAITS_1512222148_HPP
 
-#include "fwd.hpp"
+#include "default.hpp"
 
 namespace eagine {
 namespace units {
@@ -46,14 +46,6 @@ struct is_unit<scaled_unit<D, US, S>>
 { };
 
 // same_dimension
-template <typename X, typename Y>
-struct same_dimension
- : std::false_type
-{ };
-
-template <typename X, typename Y>
-constexpr bool same_dimension_v = same_dimension<X, Y>::value;
-
 template <typename D, typename S>
 struct same_dimension<unit<D, S>, unit<D, S>>
  : std::true_type

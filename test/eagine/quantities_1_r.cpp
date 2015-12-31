@@ -5,13 +5,13 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE EAGINE_quantities
+#define BOOST_TEST_MODULE EAGINE_quantities_1
 #include <boost/test/unit_test.hpp>
 
 #include <eagine/quantities.hpp>
 #include <cstdlib>
 
-BOOST_AUTO_TEST_SUITE(test_quantities)
+BOOST_AUTO_TEST_SUITE(test_quantities_1)
 
 template <typename T>
 void eagine_test_quantities_1(void)

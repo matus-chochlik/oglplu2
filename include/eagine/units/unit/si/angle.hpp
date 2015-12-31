@@ -13,9 +13,6 @@
 #include "common.hpp"
 
 namespace eagine {
-
-struct qty_degrees_tag;
-
 namespace units {
 namespace base {
 
@@ -125,18 +122,6 @@ typedef make_scaled_unit_t<
 	base::scaled_unit<scales::pi, base::radian>,
 	si
 > pi_rad;
-
-// conversions
-
-template <>
-struct is_convertible<degree, qty_degrees_tag>
- : std::true_type
-{ };
-
-template <>
-struct value_conv<degree, qty_degrees_tag>
- : trivial_value_conv
-{ };
 
 } // namespace units
 } // namespace eagine

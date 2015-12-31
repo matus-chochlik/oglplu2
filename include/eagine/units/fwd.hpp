@@ -94,6 +94,12 @@ struct div_result;
 template <typename U1, typename U2>
 using div_result_t = typename div_result<U1, U2>::type;
 
+template <typename X, typename Y>
+struct same_dimension;
+
+template <typename X, typename Y>
+constexpr bool same_dimension_v = same_dimension<X, Y>::value;
+
 template <typename X>
 struct is_unit;
 

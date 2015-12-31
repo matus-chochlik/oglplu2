@@ -16,6 +16,11 @@
 namespace eagine {
 namespace units {
 
+template <typename X, typename Y>
+struct same_dimension
+ : std::false_type
+{ };
+
 template <typename U>
 struct add_result<U, U>
  : identity<U>

@@ -42,28 +42,51 @@ noexcept
 	return radians_t<T>{value};
 }
 
-template <typename T>
+template <
+	typename Qty,
+	typename = std::enable_if_t<
+		is_convertible_quantity_v<Qty, units::radian>
+	>
+>
 static constexpr inline
-auto sin(radians_t<T> v)
+auto sin(const Qty& qty)
 {
 	using std::sin;
-	return sin(T(v));
+	return sin(value(convert_to<units::radian>(qty)));
 }
 
-template <typename T>
+template <
+	typename Qty,
+	typename = std::enable_if_t<
+		is_convertible_quantity_v<Qty, units::radian>
+	>
+>
 static constexpr inline
-auto cos(radians_t<T> v)
+auto cos(const Qty& qty)
 {
 	using std::cos;
-	return cos(T(v));
+	return cos(value(convert_to<units::radian>(qty)));
+}
+
+template <
+	typename Qty,
+	typename = std::enable_if_t<
+		is_convertible_quantity_v<Qty, units::radian>
+	>
+>
+static constexpr inline
+auto tan(const Qty& qty)
+{
+	using std::tan;
+	return tan(value(convert_to<units::radian>(qty)));
 }
 
 template <typename T>
 static constexpr inline
-auto tan(radians_t<T> v)
+auto arctan(T y, T x)
 {
-	using std::tan;
-	return tan(T(v));
+	using std::atan2;
+	return make_tagged_quantity<units::radian>(atan2(y, x));
 }
 
 // degrees

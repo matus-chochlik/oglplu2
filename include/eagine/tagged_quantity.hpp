@@ -17,6 +17,14 @@
 namespace eagine {
 
 template <typename T, typename U>
+class tagged_quantity;
+
+template <typename U, typename T>
+static constexpr
+tagged_quantity<T, U>
+make_tagged_quantity(const T& value);
+
+template <typename T, typename U>
 class tagged_quantity
 {
 private:
@@ -50,6 +58,18 @@ public:
 	noexcept
 	 : _v(T(units::value_conv<UX, U>()(tq._v)))
 	{ }
+
+	template <
+		typename UX,
+		typename = std::enable_if_t<units::is_convertible_v<U, UX>>
+	>
+	constexpr inline
+	auto to(void) const
+	noexcept
+	{
+		return make_tagged_quantity<UX>(units::value_conv<U, UX>()(_v));
+	}
+	
 
 	constexpr inline
 	T value(void) const
@@ -100,6 +120,7 @@ public:
 	}
 };
 
+// is_tagged_quantity
 template <typename T>
 struct is_tagged_quantity
  : std::false_type
@@ -116,9 +137,28 @@ struct is_tagged_quantity<tagged_quantity<T, U>>
  : std::true_type
 { };
 
+// is_convertible_quantity
+template <typename Qty, typename Unit>
+struct is_convertible_quantity
+ : std::false_type
+{ };
+
+template <typename Q, typename U>
+using is_convertible_quantity_t = typename is_convertible_quantity<Q, U>::type;
+
+template <typename Q, typename U>
+constexpr bool is_convertible_quantity_v = is_convertible_quantity<Q, U>::value;
+
+template <typename T, typename QU, typename U>
+struct is_convertible_quantity<tagged_quantity<T, QU>, U>
+ : units::is_convertible<QU, U>
+{ };
+
+// make_tagged_quantity
 template <typename U, typename T>
 static constexpr inline
-auto make_tagged_quantity(const T& value)
+tagged_quantity<T, U>
+make_tagged_quantity(const T& value)
 {
 	return tagged_quantity<T, U>{value};
 }
@@ -136,6 +176,13 @@ static constexpr inline
 auto operator * (const T& v, U)
 {
 	return make_tagged_quantity<U>(v);
+}
+
+template <typename UX, typename T, typename U>
+static inline
+auto convert_to(const tagged_quantity<T, U>& q)
+{
+	return q.template to<UX>();
 }
 
 template <typename T, typename U>
