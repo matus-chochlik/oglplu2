@@ -318,7 +318,10 @@ template <
 	typename T1,
 	typename U,
 	typename T2,
-	typename = std::enable_if_t<!units::is_unit_v<T2>>
+	typename = std::enable_if_t<
+		!units::is_unit_v<T2> &&
+		!is_tagged_quantity_v<T2>
+	>
 >
 constexpr inline
 auto operator * (const tagged_quantity<T1, U>& a, const T2& c)
