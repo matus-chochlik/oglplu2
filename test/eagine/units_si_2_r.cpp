@@ -44,69 +44,69 @@ void test_units_si_1(void)
 	T l2 = get<T>();
 	T l3 = get<T>();
 
-	tagged_quantity<T, meter> ql1(l1);
-	tagged_quantity<T, meter> ql2(l2);
-	tagged_quantity<T, meter> ql3(l3);
+	tagged_quantity<T, meter> ql1_m(l1);
+	tagged_quantity<T, meter> ql2_m(l2);
+	tagged_quantity<T, meter> ql3_m(l3);
 
-	tagged_quantity<T, unit<area, si>> qa12 = ql1*ql2;
-	tagged_quantity<T, unit<area, si>> qa13 = ql1*ql3;
-	tagged_quantity<T, unit<area, si>> qa23 = ql2*ql3;
+	tagged_quantity<T, unit<area, si>> qa12_m2 = ql1_m*ql2_m;
+	tagged_quantity<T, unit<area, si>> qa13_m2 = ql1_m*ql3_m;
+	tagged_quantity<T, unit<area, si>> qa23_m2 = ql2_m*ql3_m;
 
-	tagged_quantity<T, unit<volume, si>> qv123 = ql1*ql2*ql3;
+	tagged_quantity<T, unit<volume, si>> qv123_m3 = ql1_m*ql2_m*ql3_m;
 
 	BOOST_CHECK_CLOSE(
-		value(ql1)*value(ql2),
-		value(qa12), 0.001
+		value(ql1_m)*value(ql2_m),
+		value(qa12_m2), 0.001
 	);
 
 	BOOST_CHECK_CLOSE(
-		value(ql1)*value(ql3),
-		value(qa13), 0.001
+		value(ql1_m)*value(ql3_m),
+		value(qa13_m2), 0.001
 	);
 
 	BOOST_CHECK_CLOSE(
-		value(ql2)*value(ql3),
-		value(qa23), 0.001
+		value(ql2_m)*value(ql3_m),
+		value(qa23_m2), 0.001
 	);
 
 	BOOST_CHECK_CLOSE(
-		value(ql1)*value(ql2)*value(ql3),
-		value(qv123), 0.001
+		value(ql1_m)*value(ql2_m)*value(ql3_m),
+		value(qv123_m3), 0.001
 	);
 
 	BOOST_CHECK_CLOSE(
-		value(qa12)*value(ql3),
-		value(qv123), 0.001
+		value(qa12_m2)*value(ql3_m),
+		value(qv123_m3), 0.001
 	);
 
 	BOOST_CHECK_CLOSE(
-		value(qa13)*value(ql2),
-		value(qv123), 0.001
+		value(qa13_m2)*value(ql2_m),
+		value(qv123_m3), 0.001
 	);
 
 	BOOST_CHECK_CLOSE(
-		value(ql1)*value(qa23),
-		value(qv123), 0.001
+		value(ql1_m)*value(qa23_m2),
+		value(qv123_m3), 0.001
 	);
 
 	BOOST_CHECK_CLOSE(
-		value(qa12)/value(ql2),
-		value(ql1), 0.001
+		value(qa12_m2)/value(ql2_m),
+		value(ql1_m), 0.001
 	);
 
 	BOOST_CHECK_CLOSE(
-		value(qa23)/value(ql3),
-		value(ql2), 0.001
+		value(qa23_m2)/value(ql3_m),
+		value(ql2_m), 0.001
 	);
 
 	BOOST_CHECK_CLOSE(
-		value(qv123)/value(ql3),
-		value(qa12), 0.001
+		value(qv123_m3)/value(ql3_m),
+		value(qa12_m2), 0.001
 	);
 
 	BOOST_CHECK_CLOSE(
-		value(qv123)/value(qa13),
-		value(ql2), 0.001
+		value(qv123_m3)/value(qa13_m2),
+		value(ql2_m), 0.001
 	);
 }
 
@@ -115,6 +115,50 @@ BOOST_AUTO_TEST_CASE(units_si_1)
 	for(int i=0; i<100; ++i)
 	{
 		test_units_si_1<float>();
+	}
+}
+
+template <typename T>
+void test_units_si_2(void)
+{
+	using eagine::tagged_quantity;
+	using namespace eagine::units;
+
+	T l1 = get<T>();
+	T l2 = get<T>();
+	T l3 = get<T>();
+
+	tagged_quantity<T, meter> ql1_m(l1);
+	tagged_quantity<T, centimeter> ql2_cm(l2);
+	tagged_quantity<T, millimeter> ql3_mm(l3);
+
+	tagged_quantity<T, unit<area, si>> qa22_m2 = ql2_cm*ql2_cm;
+	tagged_quantity<T, unit<area, si>> qa12_m2 = ql1_m*ql2_cm;
+	tagged_quantity<T, unit<area, si>> qa13_m2 = ql1_m*ql3_mm;
+
+	//tagged_quantity<T, unit<volume, si>> qv123_m3 = ql1_m*ql2_m*ql3_m;
+
+	BOOST_CHECK_CLOSE(
+		value(ql2_cm)*value(ql2_cm)/10000,
+		value(qa22_m2), 0.001
+	);
+
+	BOOST_CHECK_CLOSE(
+		value(ql1_m)*value(ql2_cm)/100,
+		value(qa12_m2), 0.001
+	);
+
+	BOOST_CHECK_CLOSE(
+		value(ql1_m)*value(ql3_mm)/1000,
+		value(qa13_m2), 0.001
+	);
+}
+
+BOOST_AUTO_TEST_CASE(units_si_2)
+{
+	for(int i=0; i<100; ++i)
+	{
+		test_units_si_2<float>();
 	}
 }
 

@@ -83,10 +83,38 @@ template <typename U1, typename U2>
 using sub_result_t = typename sub_result<U1, U2>::type;
 
 template <typename U1, typename U2>
+struct mul_l_operand;
+
+template <typename U1, typename U2>
+using mul_l_operand_t = typename mul_l_operand<U1, U2>::type;
+
+template <typename U1, typename U2>
+struct mul_r_operand;
+
+template <typename U1, typename U2>
+using mul_r_operand_t = typename mul_r_operand<U1, U2>::type;
+
+template <typename U1, typename U2>
 struct mul_result;
 
 template <typename U1, typename U2>
 using mul_result_t = typename mul_result<U1, U2>::type;
+
+template <typename U1, typename U2>
+struct div_l_operand
+ : mul_l_operand<U1, U2>
+{ };
+
+template <typename U1, typename U2>
+using div_l_operand_t = typename div_l_operand<U1, U2>::type;
+
+template <typename U1, typename U2>
+struct div_r_operand
+ : mul_r_operand<U1, U2>
+{ };
+
+template <typename U1, typename U2>
+using div_r_operand_t = typename div_r_operand<U1, U2>::type;
 
 template <typename U1, typename U2>
 struct div_result;

@@ -307,10 +307,12 @@ auto operator * (
 	const tagged_quantity<T2, U2>& b
 )
 {
+	typedef units::mul_l_operand_t<U1, U2> UO1;
+	typedef units::mul_r_operand_t<U1, U2> UO2;
 	typedef units::mul_result_t<U1, U2> UR;
 	return make_tagged_quantity<UR>(
-		units::value_conv<U1, UR>()(value(a))*
-		units::value_conv<U2, UR>()(value(b))
+		units::value_conv<U1, UO1>()(value(a))*
+		units::value_conv<U2, UO2>()(value(b))
 	);
 }
 
@@ -355,10 +357,12 @@ auto operator / (
 	const tagged_quantity<T2, U2>& b
 )
 {
+	typedef units::div_l_operand_t<U1, U2> UO1;
+	typedef units::div_r_operand_t<U1, U2> UO2;
 	typedef units::div_result_t<U1, U2> UR;
 	return make_tagged_quantity<UR>(
-		units::value_conv<U1, UR>()(value(a))/
-		units::value_conv<U2, UR>()(value(b))
+		units::value_conv<U1, UO1>()(value(a))/
+		units::value_conv<U2, UO2>()(value(b))
 	);
 }
 

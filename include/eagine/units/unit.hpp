@@ -67,6 +67,18 @@ struct sub_result<unit<D, S>, unit<D, S>>
  : unit<D, S>
 { };
 
+// mul_l_operand
+template <typename D1, typename D2, typename S>
+struct mul_l_operand<unit<D1, S>, unit<D2, S>>
+ : unit<D1, S>
+{ };
+
+// mul_r_operand
+template <typename D1, typename D2, typename S>
+struct mul_r_operand<unit<D1, S>, unit<D2, S>>
+ : unit<D2, S>
+{ };
+
 // mul_result
 template <typename D1, typename D2, typename S>
 struct mul_result<unit<D1, S>, unit<D2, S>>
