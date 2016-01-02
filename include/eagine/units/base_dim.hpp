@@ -65,19 +65,21 @@ struct dim_num;
 template <typename Dimension>
 const int dim_num_v = dim_num<Dimension>::value;
 
-template <> struct dim_num<angle>       : int_constant<0>{ };
-template <> struct dim_num<solid_angle> : int_constant<1> { };
-template <> struct dim_num<mass>        : int_constant<2> { };
-template <> struct dim_num<length>      : int_constant<3> { };
-template <> struct dim_num<time>        : int_constant<4> { };
+template <> struct dim_num<nothing_t>   : int_constant<0>{ };
 
-template <> struct dim_num<temperature>           : int_constant<5>  { };
-template <> struct dim_num<electric_current>      : int_constant<6>  { };
-template <> struct dim_num<number_of_cycles>      : int_constant<7>  { };
-template <> struct dim_num<number_of_decays>      : int_constant<8>  { };
-template <> struct dim_num<luminous_intensity>    : int_constant<9>  { };
-template <> struct dim_num<amount_of_substance>   : int_constant<10> { };
-template <> struct dim_num<amount_of_information> : int_constant<11> { };
+template <> struct dim_num<angle>       : int_constant<1>{ };
+template <> struct dim_num<solid_angle> : int_constant<2> { };
+template <> struct dim_num<mass>        : int_constant<3> { };
+template <> struct dim_num<length>      : int_constant<4> { };
+template <> struct dim_num<time>        : int_constant<5> { };
+
+template <> struct dim_num<temperature>           : int_constant<6>  { };
+template <> struct dim_num<electric_current>      : int_constant<7>  { };
+template <> struct dim_num<number_of_cycles>      : int_constant<8>  { };
+template <> struct dim_num<number_of_decays>      : int_constant<9>  { };
+template <> struct dim_num<luminous_intensity>    : int_constant<10>  { };
+template <> struct dim_num<amount_of_substance>   : int_constant<11> { };
+template <> struct dim_num<amount_of_information> : int_constant<12> { };
 
 // get_number
 template <typename Derived>

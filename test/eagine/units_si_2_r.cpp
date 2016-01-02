@@ -23,6 +23,7 @@
 #include <eagine/units/unit/si/luminous_intensity.hpp>
 #include <eagine/units/unit/si/amount_of_substance.hpp>
 #include <eagine/units/unit/si/frequency.hpp>
+#include <eagine/units/unit/si/radioactivity.hpp>
 #include <eagine/units/unit/si/force.hpp>
 #include <eagine/units/unit/si/energy.hpp>
 #include <eagine/units/unit/si/power.hpp>
@@ -289,6 +290,88 @@ BOOST_AUTO_TEST_CASE(units_si_3)
 	for(int i=0; i<100; ++i)
 	{
 		test_units_si_3<float>();
+	}
+}
+
+
+template <typename T>
+void test_units_si_4(void)
+{
+	using eagine::tagged_quantity;
+	using namespace eagine::units;
+
+	T t1 = get<T>();
+	T cc1 = get<T>();
+
+	tagged_quantity<T, second> qt1_s(t1);
+	tagged_quantity<T, hertz> qf1_Hz(cc1/t1);
+	tagged_quantity<T, kilohertz> qf2_kHz(qf1_Hz);
+
+	BOOST_CHECK_CLOSE(
+		value(qf1_Hz*qt1_s),
+		cc1, 0.001
+	);
+
+	BOOST_CHECK_CLOSE(
+		value(qf1_Hz)/1000,
+		value(qf2_kHz), 0.001
+	);
+
+	BOOST_CHECK_CLOSE(
+		value(qf2_kHz)*value(qt1_s),
+		cc1/1000, 0.001
+	);
+}
+
+BOOST_AUTO_TEST_CASE(units_si_4)
+{
+	for(int i=0; i<100; ++i)
+	{
+		test_units_si_4<float>();
+	}
+}
+
+
+template <typename T>
+void test_units_si_5(void)
+{
+	using eagine::tagged_quantity;
+	using namespace eagine::units;
+
+	T t1 = get<T>();
+	T dc1 = get<T>();
+
+	tagged_quantity<T, second> qt1_s(t1);
+	tagged_quantity<T, becquerel> qr1_Bq(dc1/t1);
+	tagged_quantity<T, megabecquerel> qr2_MBq(qr1_Bq);
+	tagged_quantity<T, unit<number_of_decays, si>> qnod1(qr2_MBq*qt1_s);
+
+	BOOST_CHECK_CLOSE(
+		value(qr1_Bq*qt1_s),
+		dc1, 0.001
+	);
+
+	BOOST_CHECK_CLOSE(
+		value(qr1_Bq)/1000000,
+		value(qr2_MBq), 0.001
+	);
+
+	BOOST_CHECK_CLOSE(
+		value(qr2_MBq)*value(qt1_s),
+		dc1/1000000, 0.001
+	);
+
+	BOOST_CHECK_CLOSE(
+		value(qnod1),
+		dc1, 0.001
+	);
+}
+
+BOOST_AUTO_TEST_CASE(units_si_5)
+{
+	for(int i=0; i<100; ++i)
+	{
+		test_units_si_5<float>();
 	}
 }
 

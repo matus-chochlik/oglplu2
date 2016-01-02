@@ -32,6 +32,9 @@ struct system_id<si>
  : int_constant<0>
 { };
 
+template <>
+struct si::base_unit<nothing_t> : nothing_t { };
+
 } // namespace units
 } // namespace eagine
 

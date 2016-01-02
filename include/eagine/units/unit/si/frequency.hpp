@@ -15,6 +15,15 @@
 
 namespace eagine {
 namespace units {
+namespace base {
+
+struct count_of_cycles : unit<number_of_cycles, count_of_cycles> { };
+
+} // namespace base
+
+// si::base_unit<angle>
+template <>
+struct si::base_unit<base::number_of_cycles> : base::count_of_cycles { };
 
 // hertz
 typedef unit<frequency, si> hertz;
@@ -32,6 +41,16 @@ struct unit_symbol<hertz>
 };
 
 // derived
+typedef scaled_unit<
+	bits::dims<
+		bits::dim_pow<nothing_t, int_constant<1>>,
+		frequency
+	>,
+	bits::unit_scales<
+		bits::uni_sca<nothing_t, scales::kilo>,
+		nothing_t
+	>, si
+> kilohertz;
 // TODO
 
 } // namespace units

@@ -22,6 +22,15 @@ struct scale_name;
 template <typename X>
 struct scale_symbol;
 
+template <typename X>
+struct scale_of
+{
+	typedef typename X::scale type;
+};
+
+template <typename X>
+using scale_of_t = typename scale_of<X>::type;
+
 struct one
 {
 	typedef one type;
@@ -39,6 +48,11 @@ struct scale_symbol<one>
 {
 	static constexpr const char mp_str[] = "";
 };
+
+template <>
+struct scale_of<nothing_t>
+ : one
+{ };
 
 template <int I>
 struct constant

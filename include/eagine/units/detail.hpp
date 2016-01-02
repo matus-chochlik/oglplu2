@@ -426,8 +426,8 @@ template <
 	unit_scales<uni_sca<U2, S2>, T2>
 >: std::conditional_t<
 	(
-		base::dim_num<typename U1::dimension>::value<
-		base::dim_num<typename U2::dimension>::value
+		base::dim_num_v<typename U1::dimension><
+		base::dim_num_v<typename U2::dimension>
 	),
 	unit_scales<
 		uni_sca<U1, S1>,
@@ -472,18 +472,18 @@ struct _sc_unit_sc_hlp
 
 	template <typename Dir, typename T>
 	static constexpr inline
-	T _hlp(Dir, T v, nothing_t)
+	T _hlp(Dir d, T v, nothing_t)
 	noexcept
 	{
-		return v;
+		return _hlp(d, v);
 	}
 
 	template <typename Dir, typename T>
 	static constexpr inline
-	T _hlp(Dir, T v, dimless)
+	T _hlp(Dir d, T v, dimless)
 	noexcept
 	{
-		return v;
+		return _hlp(d, v);
 	}
 
 	template <typename Dir, typename T, typename D, int E>
@@ -493,7 +493,7 @@ struct _sc_unit_sc_hlp
 	{
 		typedef typename System
 			::template base_unit<D>::type SBU;
-		typedef typename SBU::scale BS;
+		typedef scales::scale_of_t<SBU> BS;
 
  		typedef get_scale_t<Scales, SBU, BS> BUS;
 

@@ -15,6 +15,18 @@
 
 namespace eagine {
 namespace units {
+namespace base {
+
+struct count_of_decays : unit<number_of_decays, count_of_decays> { };
+
+} // namespace base
+
+// si::base_unit<angle>
+template <>
+struct si::base_unit<base::number_of_decays> : base::count_of_decays { };
+
+// count of decays
+typedef unit<number_of_decays, si> count_of_decays;
 
 // becquerel
 typedef unit<radioactivity, si> becquerel;
@@ -32,6 +44,27 @@ struct unit_symbol<becquerel>
 };
 
 // derived
+typedef scaled_unit<
+	bits::dims<
+		bits::dim_pow<nothing_t, int_constant<1>>,
+		radioactivity
+	>,
+	bits::unit_scales<
+		bits::uni_sca<nothing_t, scales::kilo>,
+		nothing_t
+	>, si
+> kilobecquerel;
+
+typedef scaled_unit<
+	bits::dims<
+		bits::dim_pow<nothing_t, int_constant<1>>,
+		radioactivity
+	>,
+	bits::unit_scales<
+		bits::uni_sca<nothing_t, scales::mega>,
+		nothing_t
+	>, si
+> megabecquerel;
 // TODO
 
 } // namespace units
