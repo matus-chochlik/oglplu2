@@ -34,6 +34,7 @@ struct scaled_dim_unit
 		struct _impl : bits::_sc_unit_sc_hlp<Scales, System>
 		{
 			typedef _impl type;
+			typedef bits::dim_pow<nothing_t, int_constant<0>> _ndp;
 
 			template <typename T>
 			friend constexpr inline
@@ -42,7 +43,7 @@ struct scaled_dim_unit
 			{
 				return i._hlp(
 					std::true_type(),
-					v, DimPow()...
+					v, _ndp(), DimPow()...
 				);
 			}
 
@@ -53,7 +54,7 @@ struct scaled_dim_unit
 			{
 				return i._hlp(
 					std::false_type(),
-					v, DimPow()...
+					v, _ndp(), DimPow()...
 				);
 			}
 		};
@@ -84,12 +85,6 @@ struct make_scaled_base_dim_unit<base::scaled_unit<Scale, BaseUnit>, System>
 	System
 > { };
 
-template <typename Dimensions>
-using add_none_dim_pow1_t = bits::dims<
-	bits::dim_pow<nothing_t, int_constant<1>>,
-	Dimensions
->;
-
 template <typename Scale, typename UnitScales>
 using add_none_unit_scale_t = bits::unit_scales<
 	bits::uni_sca<nothing_t, Scale>,
@@ -106,7 +101,7 @@ using make_scaled_unit_t = typename make_scaled_unit<Scale, Unit>::type;
 template <typename Scale, typename Dimension, typename System>
 struct make_scaled_unit<Scale, unit<Dimension, System>>
  : scaled_dim_unit<
-	add_none_dim_pow1_t<Dimension>,
+	Dimension,
 	add_none_unit_scale_t<Scale, nothing_t>,
 	System
 > { };
@@ -118,17 +113,7 @@ struct is_convertible<scaled_dim_unit<D, US, S>, unit<D, S>>
 { };
 
 template <typename D, typename US, typename S>
-struct is_convertible<scaled_dim_unit<add_none_dim_pow1_t<D>, US,S>, unit<D, S>>
- : std::true_type
-{ };
-
-template <typename D, typename US, typename S>
 struct is_convertible<unit<D, S>, scaled_dim_unit<D, US, S>>
- : std::true_type
-{ };
-
-template <typename D, typename US, typename S>
-struct is_convertible<unit<D, S>, scaled_dim_unit<add_none_dim_pow1_t<D>, US,S>>
  : std::true_type
 { };
 
@@ -156,11 +141,7 @@ struct value_conv<scaled_dim_unit<D, US, S>, unit<D, S>>
 
 template <typename D, typename AS, typename US, typename System>
 struct value_conv<
-	scaled_dim_unit<
-		add_none_dim_pow1_t<D>,
-		add_none_unit_scale_t<AS, US>,
-		System
-	>,
+	scaled_dim_unit<D, add_none_unit_scale_t<AS, US>, System>,
 	unit<D, System>
 >
 {
@@ -186,11 +167,7 @@ struct value_conv<unit<D, S>, scaled_dim_unit<D, US, S>>
 template <typename D, typename AS, typename US, typename System>
 struct value_conv<
 	unit<D, System>,
-	scaled_dim_unit<
-		add_none_dim_pow1_t<D>,
-		add_none_unit_scale_t<AS, US>,
-		System
-	>
+	scaled_dim_unit<D, add_none_unit_scale_t<AS, US>, System>
 >
 {
 	template <typename T>
@@ -221,16 +198,8 @@ struct value_conv<scaled_dim_unit<D, US1, S>, scaled_dim_unit<D, US2, S>>
 
 template <typename D, typename AS1, typename AS2, typename US, typename System>
 struct value_conv<
-	scaled_dim_unit<
-		add_none_dim_pow1_t<D>,
-		add_none_unit_scale_t<AS1, US>,
-		System
-	>,
-	scaled_dim_unit<
-		add_none_dim_pow1_t<D>,
-		add_none_unit_scale_t<AS2, US>,
-		System
-	>
+	scaled_dim_unit<D, add_none_unit_scale_t<AS1, US>, System>,
+	scaled_dim_unit<D, add_none_unit_scale_t<AS2, US>, System>
 >
 {
 	template <typename T>

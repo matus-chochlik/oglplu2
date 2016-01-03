@@ -363,7 +363,7 @@ void test_units_si_5(void)
 	tagged_quantity<T, second> qt1_s(t1);
 	tagged_quantity<T, becquerel> qr1_Bq(dc1/t1);
 	tagged_quantity<T, megabecquerel> qr2_MBq(qr1_Bq);
-	//tagged_quantity<T, unit<number_of_decays, si>> qnod1(qr2_MBq*qt1_s);
+	tagged_quantity<T, unit<number_of_decays, si>> qnod1(qr2_MBq*qt1_s);
 
 	BOOST_CHECK_CLOSE(
 		value(qr1_Bq*qt1_s),
@@ -380,12 +380,10 @@ void test_units_si_5(void)
 		dc1/1000000, 0.001
 	);
 
-/* TODO
 	BOOST_CHECK_CLOSE(
 		value(qnod1),
 		dc1, 0.001
 	);
-*/
 }
 
 BOOST_AUTO_TEST_CASE(units_si_5)
