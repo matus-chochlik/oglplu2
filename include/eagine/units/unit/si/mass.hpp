@@ -57,17 +57,17 @@ struct si::base_unit<base::mass>
 typedef unit<mass, si> kilogram;
 
 // derived
-typedef make_scaled_unit_t<
+typedef make_scaled_base_dim_unit_t<
 	base::scaled_unit<scales::one, base::gram>,
 	si
 > gram;
 
-typedef make_scaled_unit_t<
+typedef make_scaled_base_dim_unit_t<
 	base::scaled_unit<scales::milli, base::gram>,
 	si
 > milligram;
 
-typedef make_scaled_unit_t<base::tonne, si> tonne;
+typedef make_scaled_base_dim_unit_t<base::tonne, si> tonne;
 
 } // namespace units
 } // namespace eagine

@@ -61,7 +61,7 @@ struct units_scaled_unit_add_tester
 
 		typedef unit<D, System> U;
 
-		typedef scaled_unit<
+		typedef scaled_dim_unit<
 			D,
 			bits::unit_scales<
 				bits::uni_sca<BU, Sc1>,
@@ -69,7 +69,7 @@ struct units_scaled_unit_add_tester
 			>, System
 		> S1U;
 
-		typedef scaled_unit<
+		typedef scaled_dim_unit<
 			D,
 			bits::unit_scales<
 				bits::uni_sca<BU, Sc2>,
@@ -114,7 +114,7 @@ struct units_scaled_unit_sub_tester
 
 		typedef unit<D, System> U;
 
-		typedef scaled_unit<
+		typedef scaled_dim_unit<
 			D,
 			bits::unit_scales<
 				bits::uni_sca<BU, Sc1>,
@@ -122,7 +122,7 @@ struct units_scaled_unit_sub_tester
 			>, System
 		> S1U;
 
-		typedef scaled_unit<
+		typedef scaled_dim_unit<
 			D,
 			bits::unit_scales<
 				bits::uni_sca<BU, Sc2>,
@@ -175,7 +175,7 @@ struct impl
 		typedef unit<D1, System> U1;
 		typedef unit<D2, System> U2;
 
-		typedef scaled_unit<
+		typedef scaled_dim_unit<
 			D1,
 			bits::unit_scales<
 				bits::uni_sca<BU1, Sc1>,
@@ -183,7 +183,7 @@ struct impl
 			>, System
 		> S1U1;
 
-		typedef scaled_unit<
+		typedef scaled_dim_unit<
 			D2,
 			bits::unit_scales<
 				bits::uni_sca<BU2, Sc2>,
@@ -251,7 +251,7 @@ struct impl
 		typedef unit<D1, System> U1;
 		typedef unit<D2, System> U2;
 
-		typedef scaled_unit<
+		typedef scaled_dim_unit<
 			D1,
 			bits::unit_scales<
 				bits::uni_sca<BU1, Sc1>,
@@ -259,7 +259,7 @@ struct impl
 			>, System
 		> S1U1;
 
-		typedef scaled_unit<
+		typedef scaled_dim_unit<
 			D2,
 			bits::unit_scales<
 				bits::uni_sca<BU2, Sc2>,

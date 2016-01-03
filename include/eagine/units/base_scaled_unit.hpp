@@ -15,7 +15,7 @@ namespace base {
 template <typename Scale, typename Unit>
 struct scaled_unit
 {
-	typedef typename Unit::dimension dimension;
+	typedef dimension_of_t<Unit> dimension;
 	typedef Scale scale;
 	typedef scaled_unit type;
 };

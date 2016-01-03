@@ -13,12 +13,21 @@
 #include "fwd.hpp"
 #include "base_dim.hpp"
 #include "scales.hpp"
-#include "../nothing.hpp"
+#include "../identity.hpp"
 #include "../mp_arithmetic.hpp"
 
 namespace eagine {
 namespace units {
 namespace bits {
+
+// collapse_tail
+template <typename X>
+struct collapse_tail
+ : identity<X>
+{ };
+
+template <typename X>
+using collapse_tail_t = typename collapse_tail<X>::type;
 
 // dim_pow
 template <typename Dim, typename Pow>
@@ -36,6 +45,11 @@ struct dims
 };
 
 typedef dims<nothing_t, nothing_t> dimless;
+
+template <>
+struct collapse_tail<dims<nothing_t, nothing_t>>
+ : nothing_t
+{ };
 
 // pow_of_dim
 template <typename D, typename Dims>
@@ -144,7 +158,7 @@ template <
 	dim_add_t<Tail1, Tail2>,
 	dims<
 		dim_pow<Dim, mp_plus_t<Pow1, Pow2>>,
-		dim_add_t<Tail1, Tail2>
+		collapse_tail_t<dim_add_t<Tail1, Tail2>>
 	>
 > { };
 	
@@ -159,11 +173,15 @@ struct dim_add<
 	(base::dim_num_v<Dim1> < base::dim_num_v<Dim2>),
 	dims<
 		dim_pow<Dim1, Pow1>,
-		dim_add_t<Tail1, dims<dim_pow<Dim2, Pow2>, Tail2>>
+		collapse_tail_t<
+			dim_add_t<Tail1, dims<dim_pow<Dim2, Pow2>, Tail2>>
+		>
 	>,
 	dims<
 		dim_pow<Dim2, Pow2>,
-		dim_add_t<dims<dim_pow<Dim1, Pow1>, Tail1>, Tail2>
+		collapse_tail_t<
+			dim_add_t<dims<dim_pow<Dim1, Pow1>, Tail1>, Tail2>
+		>
 	>
 > { };
 
@@ -193,7 +211,7 @@ template <typename D, typename P, typename T>
 struct dim_sub<nothing_t, dims<dim_pow<D, P>, T>>
  : dims<
 	dim_pow<D, mp_negate_t<P>>,
-	dim_sub_t<nothing_t, T>
+	collapse_tail_t<dim_sub_t<nothing_t, T>>
 >
 { };
 
@@ -211,7 +229,7 @@ template <typename D, typename P, typename T>
 struct dim_sub<dimless, dims<dim_pow<D, P>, T>>
  : dims<
 	dim_pow<D, mp_negate_t<P>>,
-	dim_sub_t<nothing_t, T>
+	collapse_tail_t<dim_sub_t<nothing_t, T>>
 >
 { };
 
@@ -227,7 +245,7 @@ template <
 	dim_sub_t<Tail1, Tail2>,
 	dims<
 		dim_pow<Dim, mp_minus_t<Pow1, Pow2>>,
-		dim_sub_t<Tail1, Tail2>
+		collapse_tail_t<dim_sub_t<Tail1, Tail2>>
 	>
 > { };
 	
@@ -242,11 +260,15 @@ struct dim_sub<
 	(base::dim_num_v<Dim1> < base::dim_num_v<Dim2>),
 	dims<
 		dim_pow<Dim1, Pow1>,
-		dim_sub_t<Tail1, dims<dim_pow<Dim2, Pow2>, Tail2>>
+		collapse_tail_t<
+			dim_sub_t<Tail1, dims<dim_pow<Dim2, Pow2>, Tail2>>
+		>
 	>,
 	dims<
 		dim_pow<Dim2, mp_negate_t<Pow2>>,
-		dim_sub_t<dims<dim_pow<Dim1, Pow1>, Tail1>, Tail2>
+		collapse_tail_t<
+			dim_sub_t<dims<dim_pow<Dim1, Pow1>, Tail1>, Tail2>
+		>
 	>
 > { };
 
@@ -288,6 +310,11 @@ struct unit_scales
 {
 	typedef unit_scales type;
 };
+
+template <>
+struct collapse_tail<unit_scales<nothing_t, nothing_t>>
+ : nothing_t
+{ };
 
 // insert
 template <typename UnitScales, typename Unit, typename Scale>
@@ -365,7 +392,7 @@ struct get_dim_unit<unit_scales<nothing_t, nothing_t>, BD, Fallback>
 template <typename U, typename S, typename T, typename BD, typename F>
 struct get_dim_unit<unit_scales<uni_sca<U, S>, T>, BD, F>
  : std::conditional_t<
-	std::is_same<typename U::dimension, BD>::value,
+	std::is_same<dimension_of_t<U>, BD>::value,
 	base::scaled_unit<S, U>,
 	typename get_dim_unit<T, BD, F>::type
 >
@@ -414,7 +441,7 @@ template <typename U, typename S1, typename S2, typename T1, typename T2>
 struct merge<
 	unit_scales<uni_sca<U, S1>, T1>,
 	unit_scales<uni_sca<U, S2>, T2>
-> : unit_scales<uni_sca<U, S1>, merge_t<T1, T2>>
+> : unit_scales<uni_sca<U, S1>, collapse_tail_t<merge_t<T1, T2>>>
 { };
 
 template <
@@ -426,16 +453,16 @@ template <
 	unit_scales<uni_sca<U2, S2>, T2>
 >: std::conditional_t<
 	(
-		base::dim_num_v<typename U1::dimension><
-		base::dim_num_v<typename U2::dimension>
+		base::dim_num_v<dimension_of_t<U1>> <
+		base::dim_num_v<dimension_of_t<U2>>
 	),
 	unit_scales<
 		uni_sca<U1, S1>,
-		merge_t<T1, unit_scales<uni_sca<U2, S2>, T2>>
+		collapse_tail_t<merge_t<T1, unit_scales<uni_sca<U2, S2>, T2>>>
 	>,
 	unit_scales<
 		uni_sca<U2, S2>,
-		merge_t<unit_scales<uni_sca<U1, S1>, T1>, T2>
+		collapse_tail_t<merge_t<unit_scales<uni_sca<U1, S1>, T1>, T2>>
 	>
 > { };
 

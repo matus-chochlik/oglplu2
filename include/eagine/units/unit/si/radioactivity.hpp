@@ -44,27 +44,9 @@ struct unit_symbol<becquerel>
 };
 
 // derived
-typedef scaled_unit<
-	bits::dims<
-		bits::dim_pow<nothing_t, int_constant<1>>,
-		radioactivity
-	>,
-	bits::unit_scales<
-		bits::uni_sca<nothing_t, scales::kilo>,
-		nothing_t
-	>, si
-> kilobecquerel;
-
-typedef scaled_unit<
-	bits::dims<
-		bits::dim_pow<nothing_t, int_constant<1>>,
-		radioactivity
-	>,
-	bits::unit_scales<
-		bits::uni_sca<nothing_t, scales::mega>,
-		nothing_t
-	>, si
-> megabecquerel;
+typedef make_scaled_unit_t<scales::kilo, becquerel> kilobecquerel;
+typedef make_scaled_unit_t<scales::mega, becquerel> megabecquerel;
+typedef make_scaled_unit_t<scales::giga, becquerel> gigabecquerel;
 // TODO
 
 } // namespace units

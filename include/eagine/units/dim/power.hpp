@@ -10,7 +10,7 @@
 #ifndef EAGINE_UNITS_DIM_POWER_1512222148_HPP
 #define EAGINE_UNITS_DIM_POWER_1512222148_HPP
 
-#include "force.hpp"
+#include "energy.hpp"
 
 namespace eagine {
 namespace units {

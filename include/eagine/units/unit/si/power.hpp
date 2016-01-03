@@ -11,6 +11,9 @@
 #define EAGINE_UNITS_UNIT_SI_POWER_1512222148_HPP
 
 #include "common.hpp"
+#include "mass.hpp"
+#include "time.hpp"
+#include "length.hpp"
 #include "../../dim/power.hpp"
 
 namespace eagine {
@@ -32,6 +35,8 @@ struct unit_symbol<watt>
 };
 
 // derived
+typedef make_scaled_unit_t<scales::kilo, watt> kilowatt;
+typedef make_scaled_unit_t<scales::mega, watt> megawatt;
 // TODO
 
 } // namespace units

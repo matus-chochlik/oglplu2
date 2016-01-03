@@ -35,6 +35,11 @@ struct system_id<si>
 template <>
 struct si::base_unit<nothing_t> : nothing_t { };
 
+template <typename Dim>
+struct si::base_unit<base::dimension<Dim>>
+ : si::base_unit<Dim>
+{ };
+
 } // namespace units
 } // namespace eagine
 

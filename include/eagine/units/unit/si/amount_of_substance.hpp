@@ -40,7 +40,7 @@ struct si::base_unit<base::amount_of_substance>
 
 typedef unit<amount_of_substance, si> mole;
 
-typedef make_scaled_unit_t<
+typedef make_scaled_base_dim_unit_t<
 	base::scaled_unit<scales::kilo, base::mole>,
 	si
 > kilomole;

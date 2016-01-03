@@ -11,6 +11,9 @@
 #define EAGINE_UNITS_UNIT_SI_FORCE_1512222148_HPP
 
 #include "common.hpp"
+#include "mass.hpp"
+#include "time.hpp"
+#include "length.hpp"
 #include "../../dim/force.hpp"
 
 namespace eagine {
@@ -32,6 +35,8 @@ struct unit_symbol<newton>
 };
 
 // derived
+typedef make_scaled_unit_t<scales::kilo, newton> kilonewton;
+typedef make_scaled_unit_t<scales::mega, newton> meganewton;
 // TODO
 
 } // namespace units

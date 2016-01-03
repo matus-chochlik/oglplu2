@@ -62,6 +62,11 @@ Func for_each_dim(Func func)
 template <typename Dimension>
 struct dim_num;
 
+template <typename Dim>
+struct dim_num<dimension<Dim>>
+ : dim_num<Dim>
+{ };
+
 template <typename Dimension>
 const int dim_num_v = dim_num<Dimension>::value;
 

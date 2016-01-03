@@ -39,19 +39,9 @@ struct is_convertible<unit<D, S>, unit<D, S>>
  : std::true_type
 { };
 
-template <typename D1, typename D2, typename S>
-struct is_convertible<unit<D1, S>, unit<D2, S>>
- : std::true_type
-{ };
-
 // value conv
 template <typename D, typename S>
 struct value_conv<unit<D, S>, unit<D, S>>
- : trivial_value_conv
-{ };
-
-template <typename D1, typename D2, typename S>
-struct value_conv<unit<D1, S>, unit<D2, S>>
  : trivial_value_conv
 { };
 

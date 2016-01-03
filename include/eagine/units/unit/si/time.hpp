@@ -81,13 +81,13 @@ struct si::base_unit<base::time> : base::second { };
 typedef unit<time, si> second;
 
 // derived
-typedef make_scaled_unit_t<
+typedef make_scaled_base_dim_unit_t<
 	base::scaled_unit<scales::milli, base::second>,
 	si
 > millisecond;
-typedef make_scaled_unit_t<base::minute, si> minute;
-typedef make_scaled_unit_t<base::hour, si> hour;
-typedef make_scaled_unit_t<base::day, si> day;
+typedef make_scaled_base_dim_unit_t<base::minute, si> minute;
+typedef make_scaled_base_dim_unit_t<base::hour, si> hour;
+typedef make_scaled_base_dim_unit_t<base::day, si> day;
 
 } // namespace units
 } // namespace eagine

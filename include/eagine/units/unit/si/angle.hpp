@@ -113,12 +113,12 @@ struct si::base_unit<base::angle> : base::radian { };
 typedef unit<angle, si> radian;
 
 // derived
-typedef make_scaled_unit_t<base::degree, si> degree;
-typedef make_scaled_unit_t<base::gradian, si> gradian;
-typedef make_scaled_unit_t<base::quarter, si> quarter;
-typedef make_scaled_unit_t<base::turn, si> turn;
+typedef make_scaled_base_dim_unit_t<base::degree, si> degree;
+typedef make_scaled_base_dim_unit_t<base::gradian, si> gradian;
+typedef make_scaled_base_dim_unit_t<base::quarter, si> quarter;
+typedef make_scaled_base_dim_unit_t<base::turn, si> turn;
 
-typedef make_scaled_unit_t<
+typedef make_scaled_base_dim_unit_t<
 	base::scaled_unit<scales::pi, base::radian>,
 	si
 > pi_rad;

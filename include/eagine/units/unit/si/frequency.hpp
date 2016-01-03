@@ -41,16 +41,9 @@ struct unit_symbol<hertz>
 };
 
 // derived
-typedef scaled_unit<
-	bits::dims<
-		bits::dim_pow<nothing_t, int_constant<1>>,
-		frequency
-	>,
-	bits::unit_scales<
-		bits::uni_sca<nothing_t, scales::kilo>,
-		nothing_t
-	>, si
-> kilohertz;
+typedef make_scaled_unit_t<scales::kilo, hertz> kilohertz;
+typedef make_scaled_unit_t<scales::mega, hertz> megahertz;
+typedef make_scaled_unit_t<scales::giga, hertz> gigahertz;
 // TODO
 
 } // namespace units

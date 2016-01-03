@@ -40,12 +40,12 @@ struct si::base_unit<base::temperature> : base::kelvin { };
 typedef unit<temperature, si> kelvin;
 
 // derived
-typedef make_scaled_unit_t<
+typedef make_scaled_base_dim_unit_t<
 	base::scaled_unit<scales::milli, base::kelvin>,
 	si
 > millikelvin;
 
-typedef make_scaled_unit_t<
+typedef make_scaled_base_dim_unit_t<
 	base::scaled_unit<scales::kilo, base::kelvin>,
 	si
 > kilokelvin;

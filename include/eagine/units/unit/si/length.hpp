@@ -40,22 +40,22 @@ struct si::base_unit<base::length> : base::meter { };
 typedef unit<length, si> meter;
 
 // derived
-typedef make_scaled_unit_t<
+typedef make_scaled_base_dim_unit_t<
 	base::scaled_unit<scales::kilo, base::meter>,
 	si
 > kilometer;
 
-typedef make_scaled_unit_t<
+typedef make_scaled_base_dim_unit_t<
 	base::scaled_unit<scales::deci, base::meter>,
 	si
 > decimeter;
 
-typedef make_scaled_unit_t<
+typedef make_scaled_base_dim_unit_t<
 	base::scaled_unit<scales::centi, base::meter>,
 	si
 > centimeter;
 
-typedef make_scaled_unit_t<
+typedef make_scaled_base_dim_unit_t<
 	base::scaled_unit<scales::milli, base::meter>,
 	si
 > millimeter;

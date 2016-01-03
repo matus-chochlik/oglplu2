@@ -235,14 +235,18 @@ void test_units_si_3(void)
 	tagged_quantity<T, kilometer> ql2_km(l2);
 	tagged_quantity<T, second> qt1_s(t1);
 	tagged_quantity<T, hour> qt2_h(t2);
-	tagged_quantity<T, second> qm1_kg(m1);
+	tagged_quantity<T, kilogram> qm1_kg(m1);
 	tagged_quantity<T, unit<velocity, si>> qv1_m_s = ql1_m / qt1_s;
 	tagged_quantity<T, unit<velocity, si>> qv2_m_s = ql2_km / qt1_s;
 	tagged_quantity<T, unit<velocity, si>> qv3_m_s = ql2_km / qt2_h;
 	tagged_quantity<T, unit<acceleration, si>> qa1_m_s2 = qv1_m_s / qt1_s;
-	tagged_quantity<T, newton> qF1_N(qm1_kg * qa1_m_s2);
+	tagged_quantity<T, newton> qF1_N = qm1_kg * qa1_m_s2;
+	tagged_quantity<T, kilonewton> qF2_kN(qF1_N);
 	tagged_quantity<T, joule> qE1_J(qF1_N * ql2_km);
+	tagged_quantity<T, kilojoule> qE2_kJ(qm1_kg * qa1_m_s2 * ql2_km);
 	tagged_quantity<T, watt> qP1_W(qE1_J / qt2_h);
+	tagged_quantity<T, kilowatt> qP2_kW(qE2_kJ / qt2_h);
+	tagged_quantity<T, megawatt> qP3_MW(qP2_kW);
 
 	BOOST_CHECK_CLOSE(
 		value(ql1_m)/value(qt1_s),
@@ -280,7 +284,22 @@ void test_units_si_3(void)
 	);
 
 	BOOST_CHECK_CLOSE(
+		value(qE2_kJ)*1000,
+		value(qE1_J), 0.001
+	);
+
+	BOOST_CHECK_CLOSE(
 		value(qF1_N)*(value(ql2_km)*1000)/(value(qt2_h)*3600),
+		value(qP1_W), 0.001
+	);
+
+	BOOST_CHECK_CLOSE(
+		value(qP2_kW)*1000,
+		value(qP1_W), 0.001
+	);
+
+	BOOST_CHECK_CLOSE(
+		value(qP3_MW)*1000000,
 		value(qP1_W), 0.001
 	);
 }
@@ -344,7 +363,7 @@ void test_units_si_5(void)
 	tagged_quantity<T, second> qt1_s(t1);
 	tagged_quantity<T, becquerel> qr1_Bq(dc1/t1);
 	tagged_quantity<T, megabecquerel> qr2_MBq(qr1_Bq);
-	tagged_quantity<T, unit<number_of_decays, si>> qnod1(qr2_MBq*qt1_s);
+	//tagged_quantity<T, unit<number_of_decays, si>> qnod1(qr2_MBq*qt1_s);
 
 	BOOST_CHECK_CLOSE(
 		value(qr1_Bq*qt1_s),
@@ -361,10 +380,12 @@ void test_units_si_5(void)
 		dc1/1000000, 0.001
 	);
 
+/* TODO
 	BOOST_CHECK_CLOSE(
 		value(qnod1),
 		dc1, 0.001
 	);
+*/
 }
 
 BOOST_AUTO_TEST_CASE(units_si_5)

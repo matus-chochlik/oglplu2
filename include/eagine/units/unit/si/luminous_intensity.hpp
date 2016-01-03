@@ -41,7 +41,7 @@ struct si::base_unit<base::luminous_intensity> : base::candela { };
 typedef unit<luminous_intensity, si> candela;
 
 // derived
-typedef make_scaled_unit_t<
+typedef make_scaled_base_dim_unit_t<
 	base::scaled_unit<scales::kilo, base::candela>,
 	si
 > kilocandela;

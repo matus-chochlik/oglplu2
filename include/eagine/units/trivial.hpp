@@ -45,7 +45,7 @@ typedef dimension<base::angle, 1> angle;
 typedef unit<time, si> second;
 
 typedef unit<angle, si> radian;
-typedef scaled_unit<
+typedef scaled_dim_unit<
 	angle,
 	bits::unit_scales<
 		bits::uni_sca<

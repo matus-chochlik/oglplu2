@@ -11,6 +11,9 @@
 #define EAGINE_UNITS_UNIT_SI_ENERGY_1512222148_HPP
 
 #include "common.hpp"
+#include "mass.hpp"
+#include "time.hpp"
+#include "length.hpp"
 #include "../../dim/energy.hpp"
 
 namespace eagine {
@@ -32,6 +35,8 @@ struct unit_symbol<joule>
 };
 
 // derived
+typedef make_scaled_unit_t<scales::kilo, joule> kilojoule;
+typedef make_scaled_unit_t<scales::mega, joule> megajoule;
 // TODO
 
 } // namespace units

@@ -59,7 +59,7 @@ template <typename Dims, typename System>
 struct unit;
 
 template <typename Dims, typename Scales, typename System>
-struct scaled_unit;
+struct scaled_dim_unit;
 
 template <typename UnitFrom, typename UnitTo>
 struct value_conv;
@@ -121,6 +121,19 @@ struct div_result;
 
 template <typename U1, typename U2>
 using div_result_t = typename div_result<U1, U2>::type;
+
+template <typename X>
+struct dimension_of
+ : X::dimension
+{ };
+
+template <>
+struct dimension_of<nothing_t>
+ : nothing_t
+{ };
+
+template <typename X>
+using dimension_of_t = typename dimension_of<X>::type;
 
 template <typename X, typename Y>
 struct same_dimension;
