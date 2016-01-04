@@ -1,5 +1,5 @@
 /**
- *  .file oglplus/example_main.cpp
+ *  .file oglplus/example/main.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -10,8 +10,8 @@
 #include <oglplus/gl_fixed.hpp>
 #include <oglplus/constants.hpp>
 #include <oglplus/constant_defs.hpp>
-#include "example.hpp"
-#include "example_state.hpp"
+#include "../example.hpp"
+#include "state.hpp"
 
 #include <oglplus/error/error.hpp>
 #include <oglplus/error/format.hpp>

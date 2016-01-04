@@ -1,5 +1,5 @@
 /**
- *  .file oglplus/example_wrapper.cpp
+ *  .file oglplus/example/wrapper.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#include "example_wrapper.hpp"
-#include "example_state.hpp"
+#include "wrapper.hpp"
+#include "state.hpp"
 
 namespace oglplus {
 

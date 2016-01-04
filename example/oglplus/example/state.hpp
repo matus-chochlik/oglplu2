@@ -1,5 +1,5 @@
 /**
- *  .file oglplus/example_state.hpp
+ *  .file oglplus/example/state.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -9,7 +9,7 @@
 #ifndef OGLPLUS_EXAMPLE_STATE_1512120710_HPP
 #define OGLPLUS_EXAMPLE_STATE_1512120710_HPP
 
-#include "example_state_view.hpp"
+#include "state_view.hpp"
 #include <cmath>
 #include <cassert>
 

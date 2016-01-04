@@ -1,5 +1,5 @@
 /**
- *  .file oglplus/example_wrapper.cpp
+ *  .file oglplus/example/wrapper.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -9,7 +9,7 @@
 #ifndef OGLPLUS_EXAMPLE_WRAPPER_1512120710_HPP
 #define OGLPLUS_EXAMPLE_WRAPPER_1512120710_HPP
 
-#include "example.hpp"
+#include "../example.hpp"
 #include <cassert>
 #include <chrono>
 

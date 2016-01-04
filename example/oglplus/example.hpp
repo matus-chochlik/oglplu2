@@ -9,8 +9,8 @@
 #ifndef OGLPLUS_EXAMPLE_1512120710_HPP
 #define OGLPLUS_EXAMPLE_1512120710_HPP
 
-#include "example_state_view.hpp"
-#include "example_params.hpp"
+#include "example/state_view.hpp"
+#include "example/params.hpp"
 #include <memory>
 
 namespace oglplus {

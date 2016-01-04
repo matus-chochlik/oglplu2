@@ -1,5 +1,5 @@
 /**
- *  .file oglplus/example_state_view.cpp
+ *  .file oglplus/example/state_view.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,7 +7,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#include "example_state_view.hpp"
+#include "state_view.hpp"
 #include <cmath>
 
 namespace oglplus {

@@ -1,5 +1,5 @@
 /**
- *  .file oglplus/example_params.cpp
+ *  .file oglplus/example/params.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.

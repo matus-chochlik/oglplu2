@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <oglplus/gl_fixed.hpp>
-#include "example_wrapper.hpp"
-#include "example_state.hpp"
+#include "example/wrapper.hpp"
+#include "example/state.hpp"
 
 #include <eagine/scope_exit.hpp>
 #include <eagine/program_args.hpp>
