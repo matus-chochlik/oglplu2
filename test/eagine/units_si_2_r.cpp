@@ -19,7 +19,7 @@
 #include <eagine/units/unit/si/mass.hpp>
 #include <eagine/units/unit/si/length.hpp>
 #include <eagine/units/unit/si/time.hpp>
-#include <eagine/units/unit/si/temperature.hpp>
+#include <eagine/units/unit/si/time.hpp>
 #include <eagine/units/unit/si/luminous_intensity.hpp>
 #include <eagine/units/unit/si/amount_of_substance.hpp>
 #include <eagine/units/unit/si/frequency.hpp>
@@ -27,6 +27,12 @@
 #include <eagine/units/unit/si/force.hpp>
 #include <eagine/units/unit/si/energy.hpp>
 #include <eagine/units/unit/si/power.hpp>
+#include <eagine/units/unit/si/electric_current.hpp>
+#include <eagine/units/unit/si/electric_charge.hpp>
+#include <eagine/units/unit/si/electric_tension.hpp>
+#include <eagine/units/unit/si/electrical_capacitance.hpp>
+#include <eagine/units/unit/si/electrical_conductance.hpp>
+#include <eagine/units/unit/si/electrical_resistance.hpp>
 
 #include <eagine/tagged_quantity.hpp>
 
@@ -246,7 +252,7 @@ void test_units_si_3(void)
 	tagged_quantity<T, kilojoule> qE2_kJ(qm1_kg * qa1_m_s2 * ql2_km);
 	tagged_quantity<T, watt> qP1_W(qE1_J / qt2_h);
 	tagged_quantity<T, kilowatt> qP2_kW(qE2_kJ / qt2_h);
-	tagged_quantity<T, megawatt> qP3_MW(qP2_kW);
+	tagged_quantity<T, megawatt> qP3_MW(qm1_kg * qa1_m_s2 * ql2_km / qt2_h);
 
 	BOOST_CHECK_CLOSE(
 		value(ql1_m)/value(qt1_s),
@@ -391,6 +397,73 @@ BOOST_AUTO_TEST_CASE(units_si_5)
 	for(int i=0; i<100; ++i)
 	{
 		test_units_si_5<float>();
+	}
+}
+
+template <typename T>
+void test_units_si_6(void)
+{
+	using eagine::tagged_quantity;
+	using namespace eagine::units;
+
+	T t1 = get<T>();
+	T I1 = get<T>();
+	T E1 = get<T>();
+
+	tagged_quantity<T, second> qt1_s(t1);
+	tagged_quantity<T, hour> qt2_h(t1 / 3600);
+	tagged_quantity<T, ampere> qI1_A(I1);
+	tagged_quantity<T, coulomb> qQ1_C = qI1_A * qt1_s;
+	tagged_quantity<T, kiloampere> qI1_kA = qQ1_C / qt2_h;
+	tagged_quantity<T, milliampere> qI1_mA = qI1_A;
+	tagged_quantity<T, joule> qE1_J(E1);
+	tagged_quantity<T, volt> qU1_V(qE1_J / qQ1_C);
+	tagged_quantity<T, watt> qP1_W(qU1_V * qI1_kA);
+	tagged_quantity<T, millifarad> qC1_mF(qQ1_C / qU1_V);
+	tagged_quantity<T, millisiemens> qG1_mS(qI1_mA / qU1_V);
+	tagged_quantity<T, kiloohm> qR1_kO(qU1_V / qI1_mA);
+
+	BOOST_CHECK_CLOSE(
+		value(qI1_A)/1000,
+		value(qI1_kA), 0.001
+	);
+
+	BOOST_CHECK_CLOSE(
+		value(qI1_kA)*1000000,
+		value(qI1_mA), 0.001
+	);
+
+	BOOST_CHECK_CLOSE(
+		value(qE1_J)/value(qQ1_C),
+		value(qU1_V), 0.001
+	);
+
+	BOOST_CHECK_CLOSE(
+		value(qE1_J)/value(qt1_s),
+		value(qP1_W), 0.001
+	);
+
+	BOOST_CHECK_CLOSE(
+		1/value(qG1_mS),
+		value(qR1_kO), 0.001
+	);
+
+	BOOST_CHECK_CLOSE(
+		value(qt1_s)*value(qG1_mS),
+		value(qC1_mF), 0.001
+	);
+
+	BOOST_CHECK_CLOSE(
+		value(qt1_s)/value(qR1_kO),
+		value(qC1_mF), 0.001
+	);
+}
+
+BOOST_AUTO_TEST_CASE(units_si_6)
+{
+	for(int i=0; i<100; ++i)
+	{
+		test_units_si_6<float>();
 	}
 }
 
