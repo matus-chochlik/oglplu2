@@ -75,6 +75,31 @@ int main(int argc, const char** argv)
 				return 1;
 			}
 		}
+		else if(a == "--frame-dump")
+		{
+			if(a.next())
+			{
+				if(a.next().get().empty())
+				{
+					errstr()
+					<< "Empty prefix after '--frame-dump'."
+					<< std::endl;
+					return 1;
+				}
+				else
+				{
+					params.framedump_prefix(a.next());
+					a = a.next();
+				}
+			}
+			else
+			{
+				errstr()
+				<< "Missing prefix after '--frame-dump'."
+				<< std::endl;
+				return 1;
+			}
+		}
 		else if(a == "--width")
 		{
 			if(a.next())

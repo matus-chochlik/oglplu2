@@ -19,6 +19,7 @@ class example_params
 {
 private:
 	cstr_ref _screenshot_path;
+	cstr_ref _framedump_prefix;
 
 	unsigned _rand_seed;
 
@@ -41,22 +42,46 @@ public:
 	 , _compat_ctxt(false)
 	{ }
 
-	example_params& screenshot_path(cstr_ref screenshot_path)
+	example_params& screenshot_path(cstr_ref path)
 	{
-		_screenshot_path = screenshot_path;
+		_screenshot_path = path;
 		return *this;
 	}
 
-	bool screenshot_only(void) const
+	cstr_ref screenshot_path(void) const
+	noexcept
+	{
+		return _screenshot_path;
+	}
+
+	bool doing_screenshot(void) const
 	noexcept
 	{
 		return !_screenshot_path.empty();
 	}
 
+	example_params& framedump_prefix(cstr_ref prefix)
+	{
+		_framedump_prefix = prefix;
+		return *this;
+	}
+
+	cstr_ref framedump_prefix(void) const
+	noexcept
+	{
+		return _framedump_prefix;
+	}
+
+	bool doing_framedump(void) const
+	noexcept
+	{
+		return !_framedump_prefix.empty();
+	}
+
 	bool fixed_framerate(void) const
 	noexcept
 	{
-		return screenshot_only();
+		return  doing_screenshot() || doing_framedump();
 	}
 
 	float frame_time(void) const
@@ -64,12 +89,6 @@ public:
 	{
 		// TODO
 		return 1.0f/25.0f;
-	}
-
-	cstr_ref screenshot_path(void) const
-	noexcept
-	{
-		return _screenshot_path;
 	}
 
 	example_params& rand_seed(unsigned seed)

@@ -12,20 +12,28 @@
 #include "../example.hpp"
 #include <cassert>
 #include <chrono>
+#include <vector>
 
 namespace oglplus {
 
 class example_wrapper
 {
 private:
+	example_params& _params;
+	example_state& _state;
+
+	friend class example_wrapper_data;
+
+	std::unique_ptr<example> _example;
+
 	typedef std::chrono::system_clock clock_type;
 	const std::chrono::time_point<clock_type> _start;
 	std::chrono::time_point<clock_type> _now;
 
-	example_params& _params;
-	example_state& _state;
-
-	std::unique_ptr<example> _example;
+	std::vector<char> _pixel_data;
+	std::vector<char>& pixels(void);
+	std::vector<char> _textbuf;
+	std::vector<char>& textbuf(std::size_t);
 public:
 	example_wrapper(example_params& params, example_state& state);
 
