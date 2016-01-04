@@ -25,6 +25,7 @@
 #include <eagine/units/unit/si/frequency.hpp>
 #include <eagine/units/unit/si/radioactivity.hpp>
 #include <eagine/units/unit/si/force.hpp>
+#include <eagine/units/unit/si/pressure.hpp>
 #include <eagine/units/unit/si/energy.hpp>
 #include <eagine/units/unit/si/power.hpp>
 #include <eagine/units/unit/si/electric_current.hpp>
@@ -33,6 +34,9 @@
 #include <eagine/units/unit/si/electrical_capacitance.hpp>
 #include <eagine/units/unit/si/electrical_conductance.hpp>
 #include <eagine/units/unit/si/electrical_resistance.hpp>
+#include <eagine/units/unit/si/magnetic_flux.hpp>
+#include <eagine/units/unit/si/magnetic_field_strength.hpp>
+#include <eagine/units/unit/si/inductance.hpp>
 
 #include <eagine/tagged_quantity.hpp>
 
@@ -247,6 +251,7 @@ void test_units_si_3(void)
 	tagged_quantity<T, unit<velocity, si>> qv3_m_s = ql2_km / qt2_h;
 	tagged_quantity<T, unit<acceleration, si>> qa1_m_s2 = qv1_m_s / qt1_s;
 	tagged_quantity<T, newton> qF1_N = qm1_kg * qa1_m_s2;
+	tagged_quantity<T, pascal> qp1_Pa = qF1_N / (ql1_m * ql1_m);
 	tagged_quantity<T, kilonewton> qF2_kN(qF1_N);
 	tagged_quantity<T, joule> qE1_J(qF1_N * ql2_km);
 	tagged_quantity<T, kilojoule> qE2_kJ(qm1_kg * qa1_m_s2 * ql2_km);
@@ -282,6 +287,11 @@ void test_units_si_3(void)
 	BOOST_CHECK_CLOSE(
 		value(qm1_kg)*value(qv1_m_s)/value(qt1_s),
 		value(qF1_N), 0.001
+	);
+
+	BOOST_CHECK_CLOSE(
+		value(qm1_kg)/(value(qt1_s)*value(qt1_s)*value(ql1_m)),
+		value(qp1_Pa), 0.001
 	);
 
 	BOOST_CHECK_CLOSE(
@@ -406,10 +416,12 @@ void test_units_si_6(void)
 	using eagine::tagged_quantity;
 	using namespace eagine::units;
 
+	T l1 = get<T>();
 	T t1 = get<T>();
 	T I1 = get<T>();
 	T E1 = get<T>();
 
+	tagged_quantity<T, meter> ql1_m(l1);
 	tagged_quantity<T, second> qt1_s(t1);
 	tagged_quantity<T, hour> qt2_h(t1 / 3600);
 	tagged_quantity<T, ampere> qI1_A(I1);
@@ -422,6 +434,9 @@ void test_units_si_6(void)
 	tagged_quantity<T, millifarad> qC1_mF(qQ1_C / qU1_V);
 	tagged_quantity<T, millisiemens> qG1_mS(qI1_mA / qU1_V);
 	tagged_quantity<T, kiloohm> qR1_kO(qU1_V / qI1_mA);
+	tagged_quantity<T, weber> qPhi1_Wb(qE1_J / qI1_kA);
+	tagged_quantity<T, tesla> qB1_T(qPhi1_Wb / (ql1_m * ql1_m));
+	tagged_quantity<T, millihenry> qL1_mH(qPhi1_Wb / qI1_kA);
 
 	BOOST_CHECK_CLOSE(
 		value(qI1_A)/1000,
@@ -456,6 +471,26 @@ void test_units_si_6(void)
 	BOOST_CHECK_CLOSE(
 		value(qt1_s)/value(qR1_kO),
 		value(qC1_mF), 0.001
+	);
+
+	BOOST_CHECK_CLOSE(
+		value(qU1_V)*value(qt1_s),
+		value(qPhi1_Wb), 0.001
+	);
+
+	BOOST_CHECK_CLOSE(
+		value(qE1_J)/value(qI1_A),
+		value(qPhi1_Wb), 0.001
+	);
+
+	BOOST_CHECK_CLOSE(
+		value(qU1_V)*value(qt1_s)/(value(ql1_m)*value(ql1_m)),
+		value(qB1_T), 0.001
+	);
+
+	BOOST_CHECK_CLOSE(
+		value(qPhi1_Wb)/value(qI1_kA),
+		value(qL1_mH), 0.001
 	);
 }
 
