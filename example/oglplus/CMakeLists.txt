@@ -6,7 +6,11 @@
 cmake_minimum_required(VERSION 2.8)
 
 # TODO
-set(OGLPLUS_EXAMPLE_HARNESS "glfw")
+if("${OGLPLUS_GL_INIT_LIB}" STREQUAL "GLFW")
+	set(OGLPLUS_EXAMPLE_HARNESS "glfw")
+else()
+	set(OGLPLUS_EXAMPLE_HARNESS "glfw3")
+endif()
 #string(TOLOWER ${OGLPLUS_GL_INIT_LIB} OGLPLUS_EXAMPLE_HARNESS)
 
 # check the harness dependencies and requirements

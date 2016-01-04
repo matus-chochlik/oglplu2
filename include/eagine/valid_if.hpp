@@ -77,6 +77,12 @@ public:
 		return is_valid()?value():fallback;
 	}
 
+	const T& operator / (const T& fallback) const
+	noexcept
+	{
+		return value_or(fallback);
+	}
+
 	const T& operator * (void) const
 	noexcept
 	{
