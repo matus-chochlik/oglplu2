@@ -31,7 +31,9 @@ public:
 
 	bool next_frame(void);
 
-	void render(void);
+	void update(void);
+
+	bool render(void);
 
 	void set_size(int width, int height);
 

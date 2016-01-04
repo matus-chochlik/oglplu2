@@ -38,6 +38,9 @@ private:
 
 	GLfloat offset_x, offset_y;
 	GLfloat scale, aspect;
+
+	static constexpr const float min_scale = 0.00001f;
+	static constexpr const float max_scale = 10.0f;
 public:
 	example_mandelbrot(void)
 	 : offset_x(-0.5f)
@@ -175,15 +178,12 @@ public:
 			offset_y -= 2*state.norm_delta_pointer_y()*scale;
 
 			gl.uniform(offset_loc, offset_x, offset_y);
-
 		}
 	}
 
 	void pointer_scrolling(const example_state_view& state)
 	override
 	{
-		const float min_scale = 0.00001f;
-		const float max_scale = 10.0f;
 
 		scale *= std::pow(2,-state.norm_delta_pointer_z());
 		if(scale < min_scale) scale = min_scale;
@@ -199,6 +199,32 @@ public:
 
 		aspect = state.aspect();
 		gl.uniform(scale_loc, scale*aspect, scale);
+	}
+
+	void user_idle(const example_state_view& state)
+	override
+	{
+		if(state.user_idle_time() > seconds_(1))
+		{
+			const float dest_offset_x = -0.525929f;
+			const float dest_offset_y = -0.668547f;
+			const float c = 0.02f;
+
+			offset_x = c*dest_offset_x + (1-c)*offset_x;
+			offset_y = c*dest_offset_y + (1-c)*offset_y; 
+
+			scale *= 0.99f;
+			if(scale < min_scale) scale = min_scale;
+
+			gl.uniform(offset_loc, offset_x, offset_y);
+			gl.uniform(scale_loc, scale*aspect, scale);
+		}
+	}
+
+	bool continue_running(const example_state_view& state)
+	override
+	{
+		return state.user_idle_time() < seconds_(20);
 	}
 
 	void render(const example_state_view& /*state*/)

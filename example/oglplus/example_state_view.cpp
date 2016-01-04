@@ -39,6 +39,8 @@ noexcept
  , _new_mouse_btn_3(false)
  , _old_mouse_btn_4(false)
  , _new_mouse_btn_4(false)
+ , _old_user_idle(false)
+ , _new_user_idle(false)
 { }
 
 bool

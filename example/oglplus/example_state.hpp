@@ -38,6 +38,8 @@ public:
 	noexcept
 	{
 		++_frame_no;
+		_old_user_idle = _new_user_idle;
+		_new_user_idle = true;
 	}
 
 	bool set_width(int new_width)
@@ -50,6 +52,7 @@ public:
 		{
 			_new_width =  new_width;
 			_usr_act_time = _new_time;
+			_new_user_idle = false;
 			return true;
 		}
 		return false;
@@ -65,6 +68,7 @@ public:
 		{
 			_new_height =  new_height;
 			_usr_act_time = _new_time;
+			_new_user_idle = false;
 			return true;
 		}
 		return false;
@@ -80,6 +84,7 @@ public:
 		{
 			_new_depth =  new_depth;
 			_usr_act_time = _new_time;
+			_new_user_idle = false;
 			return true;
 		}
 		return false;
@@ -109,6 +114,7 @@ public:
 		{
 			_set_mouse_btn(button, pressed);
 			_usr_act_time = _new_time;
+			_new_user_idle = false;
 			return true;
 		}
 		return false;
@@ -129,6 +135,7 @@ public:
 		{
 			_new_mouse_x =  new_mouse_x;
 			_usr_act_time = _new_time;
+			_new_user_idle = false;
 			result = true;
 		}
 
@@ -137,6 +144,7 @@ public:
 		{
 			_new_mouse_y =  new_mouse_y;
 			_usr_act_time = _new_time;
+			_new_user_idle = false;
 			result = true;
 		}
 
@@ -151,6 +159,7 @@ public:
 		{
 			_new_mouse_z =  new_mouse_z;
 			_usr_act_time = _new_time;
+			_new_user_idle = false;
 			return true;
 		}
 		return false;

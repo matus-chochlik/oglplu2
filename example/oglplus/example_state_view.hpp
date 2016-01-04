@@ -54,6 +54,9 @@ protected:
 	void _set_mouse_btn(int i, bool state)
 	noexcept;
 
+	bool _old_user_idle : 1;
+	bool _new_user_idle : 1;
+
 	example_state_view(void)
 	noexcept;
 public:
@@ -74,6 +77,24 @@ public:
 	noexcept
 	{	
 		return exec_time() - user_activity_time();
+	}
+
+	bool user_idle(bool old = false) const
+	noexcept
+	{
+		return old?_old_user_idle:_new_user_idle;
+	}
+
+	bool user_became_idle(void) const
+	noexcept
+	{
+		return !user_idle(_old) && user_idle();
+	}
+
+	bool user_became_active(void) const
+	noexcept
+	{
+		return user_idle(_old) && !user_idle();
 	}
 
 	seconds_t<float> frame_duration(void) const

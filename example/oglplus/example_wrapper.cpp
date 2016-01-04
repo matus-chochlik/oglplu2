@@ -48,9 +48,18 @@ bool example_wrapper::next_frame(void)
 	return _example->continue_running(_state);
 }
 
-void example_wrapper::render(void)
+void example_wrapper::update(void)
+{
+	if(_state.user_idle())
+	{
+		_example->user_idle(_state);
+	}
+}
+
+bool example_wrapper::render(void)
 {
 	_example->render(_state);
+	return true; // TODO tiles
 }
 
 void example_wrapper::set_size(int width, int height)

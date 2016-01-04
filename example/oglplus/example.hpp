@@ -27,6 +27,9 @@ struct example
 	}
 
 	virtual
+	void user_idle(const example_state_view&) { }
+
+	virtual
 	void pointer_motion(const example_state_view&) { }
 
 	virtual

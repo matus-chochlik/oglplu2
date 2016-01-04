@@ -58,9 +58,12 @@ void example_loop(
 
 		example.set_mouse_wheel(glfwGetMouseWheel());
 
-		example.render();
+		example.update();
 
-		glfwSwapBuffers();
+		if(example.render())
+		{
+			glfwSwapBuffers();
+		}
 	}
 }
 
