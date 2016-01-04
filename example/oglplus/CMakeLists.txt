@@ -6,10 +6,10 @@
 cmake_minimum_required(VERSION 2.8)
 
 # TODO
-if("${OGLPLUS_GL_INIT_LIB}" STREQUAL "GLFW")
-	set(OGLPLUS_EXAMPLE_HARNESS "glfw")
-else()
+if(GLFW3_FOUND)
 	set(OGLPLUS_EXAMPLE_HARNESS "glfw3")
+else()
+	set(OGLPLUS_EXAMPLE_HARNESS "glfw")
 endif()
 #string(TOLOWER ${OGLPLUS_GL_INIT_LIB} OGLPLUS_EXAMPLE_HARNESS)
 
