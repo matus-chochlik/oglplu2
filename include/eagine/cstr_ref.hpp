@@ -26,6 +26,8 @@ class cstr_ref
  : public cstring_span<>
 {
 private:
+	typedef cstring_span<> _base;
+
 	static
 	std::false_type _is_v_c(...);
 
@@ -50,7 +52,7 @@ public:
 
 	cstr_ref(const char* cstr, std::size_t n)
 	noexcept
-	 : cstring_span<>(cstr, std::ptrdiff_t((n>0 && cstr[n-1]=='\0')?n-1:n))
+	 : _base(cstr, std::ptrdiff_t((n > 0 && cstr[n-1]=='\0')?n-1:n))
 	{ }
 
 	template <std::size_t N>
