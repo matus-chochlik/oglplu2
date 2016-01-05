@@ -8,6 +8,7 @@ cmake_minimum_required(VERSION 2.8)
 find_package(Boost COMPONENTS unit_test_framework REQUIRED)
 
 if(Boost_FOUND)
+	include_directories(${Boost_INCLUDE_DIRS})
 	enable_testing()
 	add_subdirectory("eagine")
 	add_subdirectory("oglplus")

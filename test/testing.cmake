@@ -25,9 +25,10 @@ macro(add_runtime_test LIBRARY TEST_NAME)
 		${LIBRARY}-${TEST_NAME}
 		${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}
 	)
-	set_tests_properties(
+	set_property(
+		TEST
 		${LIBRARY}-build_test-${TEST_NAME}
-		PROPERTIES FOLDER
+		APPEND PROPERTY FOLDER
 		"test/${LIBRARY}"
 	)
 
