@@ -78,17 +78,14 @@ public:
 		return ~GLuint(0);
 	}
 
-	constexpr
 	error_info(GLenum gl_err_code)
 	noexcept;
 
-	constexpr
 	error_info(void)
 	noexcept
 	 : error_info(GLenum(GL_NONE))
 	{ }
 
-	constexpr
 	error_info& no_info(void)
 	noexcept
 	{

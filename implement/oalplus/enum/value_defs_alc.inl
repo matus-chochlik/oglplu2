@@ -13,77 +13,77 @@
 namespace oalplus {
 
 #ifdef ALC_FREQUENCY
-const enum_value<
+constexpr const enum_value<
 	ALCenum,
 	mp_list<oalplus::context_attrib>
 > enum_values_alc::frequency;
 #endif
 
 #ifdef ALC_INVALID_CONTEXT
-const enum_value<
+constexpr const enum_value<
 	ALCenum,
 	mp_list<oalplus::alc_error_code>
 > enum_values_alc::invalid_context;
 #endif
 
 #ifdef ALC_INVALID_DEVICE
-const enum_value<
+constexpr const enum_value<
 	ALCenum,
 	mp_list<oalplus::alc_error_code>
 > enum_values_alc::invalid_device;
 #endif
 
 #ifdef ALC_INVALID_ENUM
-const enum_value<
+constexpr const enum_value<
 	ALCenum,
 	mp_list<oalplus::alc_error_code>
 > enum_values_alc::invalid_enum;
 #endif
 
 #ifdef ALC_INVALID_VALUE
-const enum_value<
+constexpr const enum_value<
 	ALCenum,
 	mp_list<oalplus::alc_error_code>
 > enum_values_alc::invalid_value;
 #endif
 
 #ifdef ALC_MONO_SOURCES
-const enum_value<
+constexpr const enum_value<
 	ALCenum,
 	mp_list<oalplus::context_attrib>
 > enum_values_alc::mono_sources;
 #endif
 
 #ifdef ALC_NO_ERROR
-const enum_value<
+constexpr const enum_value<
 	ALCenum,
 	mp_list<oalplus::alc_error_code>
 > enum_values_alc::no_error;
 #endif
 
 #ifdef ALC_OUT_OF_MEMORY
-const enum_value<
+constexpr const enum_value<
 	ALCenum,
 	mp_list<oalplus::alc_error_code>
 > enum_values_alc::out_of_memory;
 #endif
 
 #ifdef ALC_REFRESH
-const enum_value<
+constexpr const enum_value<
 	ALCenum,
 	mp_list<oalplus::context_attrib>
 > enum_values_alc::refresh;
 #endif
 
 #ifdef ALC_STEREO_SOURCES
-const enum_value<
+constexpr const enum_value<
 	ALCenum,
 	mp_list<oalplus::context_attrib>
 > enum_values_alc::stereo_sources;
 #endif
 
 #ifdef ALC_SYNC
-const enum_value<
+constexpr const enum_value<
 	ALCenum,
 	mp_list<oalplus::context_attrib>
 > enum_values_alc::sync;

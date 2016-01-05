@@ -306,7 +306,7 @@ def action_impl_enum_value_defs_inl(options):
 			options.base_lib_prefix,
 			value_info.info.src_name
 		))
-		print_line(options, "const enum_value<")
+		print_line(options, "constexpr const enum_value<")
 		print_line(options, "	%s," % value_info.info.enum_type)
 		print_line(options, "	mp_list<%s>" % (
 			",".join(["%s::%s" % (options.library, x) for x in value_info.classes])
