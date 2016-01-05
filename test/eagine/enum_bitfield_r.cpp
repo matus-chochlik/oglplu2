@@ -37,7 +37,7 @@ static constexpr const enum_value<unsigned, mp_list<ec_D>> ev_6 = {1 << 5};
 
 } // namespace eagine
 
-BOOST_AUTO_TEST_SUITE(enum_bitfield)
+BOOST_AUTO_TEST_SUITE(enum_bitfield_tests)
 
 BOOST_AUTO_TEST_CASE(enum_bitfield_1)
 {

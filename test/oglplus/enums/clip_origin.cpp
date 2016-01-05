@@ -16,7 +16,7 @@
 #include "common.hpp"
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(enum_clip_origin)
+BOOST_AUTO_TEST_SUITE(enum_clip_origin_tests)
 
 BOOST_AUTO_TEST_CASE(enum_clip_origin_values)
 {

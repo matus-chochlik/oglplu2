@@ -11,7 +11,7 @@
 #include <eagine/mp_strings.hpp>
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(mp_strings_test)
+BOOST_AUTO_TEST_SUITE(mp_strings_tests)
 
 BOOST_AUTO_TEST_CASE(mp_strings_subscript)
 {

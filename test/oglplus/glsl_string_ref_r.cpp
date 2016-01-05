@@ -12,7 +12,7 @@
 #include <oglplus/glsl/string_ref.hpp>
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(glsl_string_ref)
+BOOST_AUTO_TEST_SUITE(glsl_string_ref_tests)
 
 BOOST_AUTO_TEST_CASE(glsl_string_ref_1)
 {
@@ -28,7 +28,7 @@ BOOST_AUTO_TEST_CASE(glsl_string_ref_1)
 
 	std::size_t l = std::strlen(s);
 
-	oglplus::glsl_string_ref lr{s, l};
+	glsl_string_ref lr{s, l};
 	glsl_source_ref sr = lr;
 
 	BOOST_CHECK(sr.count() == 1);
@@ -51,7 +51,7 @@ BOOST_AUTO_TEST_CASE(glsl_literal_1)
 {
 	using namespace oglplus;
 
-	oglplus::glsl_literal l(
+	glsl_literal l(
 		"#version 150\n"\
 		"vec4 in Position;\n"\
 		"void main(void)\n"\

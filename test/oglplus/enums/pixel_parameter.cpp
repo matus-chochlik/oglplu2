@@ -16,7 +16,7 @@
 #include "common.hpp"
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(enum_pixel_parameter)
+BOOST_AUTO_TEST_SUITE(enum_pixel_parameter_tests)
 
 BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 {

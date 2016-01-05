@@ -16,7 +16,7 @@
 #include "common.hpp"
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(enum_polygon_mode)
+BOOST_AUTO_TEST_SUITE(enum_polygon_mode_tests)
 
 BOOST_AUTO_TEST_CASE(enum_polygon_mode_values)
 {

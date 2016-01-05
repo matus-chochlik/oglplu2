@@ -16,7 +16,7 @@
 #include "common.hpp"
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(enum_program_interface)
+BOOST_AUTO_TEST_SUITE(enum_program_interface_tests)
 
 BOOST_AUTO_TEST_CASE(enum_program_interface_values)
 {

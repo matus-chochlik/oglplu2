@@ -11,7 +11,7 @@
 #include <eagine/math/scalar.hpp>
 #include <cstdlib>
 
-BOOST_AUTO_TEST_SUITE(math_scalar)
+BOOST_AUTO_TEST_SUITE(math_scalar_tests)
 
 template <typename T, bool V>
 void test_math_scalar_default_ctr_TV(void)

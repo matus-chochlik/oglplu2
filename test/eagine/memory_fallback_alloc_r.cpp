@@ -13,7 +13,7 @@
 #include <cstdlib>
 #include <deque>
 
-BOOST_AUTO_TEST_SUITE(memory_fallback_alloc)
+BOOST_AUTO_TEST_SUITE(memory_fallback_alloc_tests)
 
 template <typename T>
 void eagine_test_memory_fallback_alloc_T(std::size_t n)

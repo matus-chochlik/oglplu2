@@ -13,7 +13,7 @@
 #include "helper/mock_object.hpp"
 #include <sstream>
 
-BOOST_AUTO_TEST_SUITE(error_format)
+BOOST_AUTO_TEST_SUITE(error_format_tests)
 
 oglplus::error_info
 get_error_info(void)

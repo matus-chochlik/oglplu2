@@ -13,7 +13,7 @@
 #include <oglplus/enum/values.hpp>
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(data_type)
+BOOST_AUTO_TEST_SUITE(data_type_tests)
 
 BOOST_AUTO_TEST_CASE(data_type_1)
 {

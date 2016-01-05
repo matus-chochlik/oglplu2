@@ -16,7 +16,7 @@
 #include "common.hpp"
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(enum_transform_feedback_parameter)
+BOOST_AUTO_TEST_SUITE(enum_transform_feedback_parameter_tests)
 
 BOOST_AUTO_TEST_CASE(enum_transform_feedback_parameter_values)
 {

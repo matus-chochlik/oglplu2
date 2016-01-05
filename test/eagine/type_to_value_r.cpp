@@ -11,7 +11,7 @@
 #include <eagine/type_to_value.hpp>
 #include <type_traits>
 
-BOOST_AUTO_TEST_SUITE(type_to_value)
+BOOST_AUTO_TEST_SUITE(type_to_value_tests)
 
 struct test_sizeof_getter
 {

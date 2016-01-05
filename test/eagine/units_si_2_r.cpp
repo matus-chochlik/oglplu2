@@ -42,7 +42,7 @@
 
 #include <cstdlib>
 
-BOOST_AUTO_TEST_SUITE(units_si_test_2)
+BOOST_AUTO_TEST_SUITE(units_si_tests_2)
 
 template <typename T>
 T get(void)

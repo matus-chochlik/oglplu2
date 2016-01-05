@@ -11,7 +11,7 @@
 #include <eagine/quantities.hpp>
 #include <cstdlib>
 
-BOOST_AUTO_TEST_SUITE(test_quantities_1)
+BOOST_AUTO_TEST_SUITE(quantities_tests_1)
 
 template <typename T>
 void eagine_test_quantities_1(void)

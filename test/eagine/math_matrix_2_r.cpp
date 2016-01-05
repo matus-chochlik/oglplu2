@@ -12,7 +12,7 @@
 #include <eagine/int_sequence.hpp>
 #include <cstdlib>
 
-BOOST_AUTO_TEST_SUITE(math_matrix_2)
+BOOST_AUTO_TEST_SUITE(math_matrix_tests_2)
 
 template <typename T, unsigned N, bool V, unsigned K, unsigned ... I>
 static

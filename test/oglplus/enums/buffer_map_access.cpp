@@ -16,7 +16,7 @@
 #include "common.hpp"
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(enum_buffer_map_access)
+BOOST_AUTO_TEST_SUITE(enum_buffer_map_access_tests)
 
 BOOST_AUTO_TEST_CASE(enum_buffer_map_access_values)
 {

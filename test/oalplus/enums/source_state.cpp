@@ -16,7 +16,7 @@
 #include "common.hpp"
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(enum_source_state)
+BOOST_AUTO_TEST_SUITE(enum_source_state_tests)
 
 BOOST_AUTO_TEST_CASE(enum_source_state_values)
 {

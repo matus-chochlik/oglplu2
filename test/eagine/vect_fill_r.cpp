@@ -11,7 +11,7 @@
 #include <eagine/vect/fill.hpp>
 #include <cstdlib>
 
-BOOST_AUTO_TEST_SUITE(vect_fill)
+BOOST_AUTO_TEST_SUITE(vect_fill_tests)
 
 template <typename T, unsigned N, bool V>
 void test_vect_fill_apply_TNV(void)

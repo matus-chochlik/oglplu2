@@ -11,7 +11,7 @@
 #include <eagine/optional_expr.hpp>
 #include <cstdlib>
 
-BOOST_AUTO_TEST_SUITE(optional_expr_test)
+BOOST_AUTO_TEST_SUITE(optional_expr_tests)
 
 BOOST_AUTO_TEST_CASE(optional_expr_div_test)
 {

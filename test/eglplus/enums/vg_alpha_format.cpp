@@ -16,7 +16,7 @@
 #include "common.hpp"
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(enum_vg_alpha_format)
+BOOST_AUTO_TEST_SUITE(enum_vg_alpha_format_tests)
 
 BOOST_AUTO_TEST_CASE(enum_vg_alpha_format_values)
 {

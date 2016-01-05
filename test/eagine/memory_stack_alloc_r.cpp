@@ -13,7 +13,7 @@
 #include <cstdlib>
 #include <deque>
 
-BOOST_AUTO_TEST_SUITE(memory_stack_alloc)
+BOOST_AUTO_TEST_SUITE(memory_stack_alloc_tests)
 
 template <typename T, typename Alloc>
 void eagine_test_memory_stack_alloc_TA(std::size_t n, Alloc& a)

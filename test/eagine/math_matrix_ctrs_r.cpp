@@ -21,7 +21,7 @@
 #include <eagine/math/matrix_perspective.hpp>
 #include <cstdlib>
 
-BOOST_AUTO_TEST_SUITE(math_matrix_ctrs)
+BOOST_AUTO_TEST_SUITE(math_matrix_ctr_tests)
 
 template <typename MC>
 void test_math_matrix_ctr_MC(MC mc)

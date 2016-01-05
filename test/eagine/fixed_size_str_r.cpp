@@ -10,7 +10,7 @@
 
 #include <eagine/fixed_size_str.hpp>
 
-BOOST_AUTO_TEST_SUITE(fixed_size_string_test)
+BOOST_AUTO_TEST_SUITE(fixed_size_string_tests)
 
 BOOST_AUTO_TEST_CASE(fixed_size_string_default)
 {

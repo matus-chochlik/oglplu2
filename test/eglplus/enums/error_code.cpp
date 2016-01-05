@@ -16,7 +16,7 @@
 #include "common.hpp"
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(enum_error_code)
+BOOST_AUTO_TEST_SUITE(enum_error_code_tests)
 
 BOOST_AUTO_TEST_CASE(enum_error_code_values)
 {

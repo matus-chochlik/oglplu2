@@ -16,7 +16,7 @@
 #include "common.hpp"
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(enum_rendering_api)
+BOOST_AUTO_TEST_SUITE(enum_rendering_api_tests)
 
 BOOST_AUTO_TEST_CASE(enum_rendering_api_values)
 {

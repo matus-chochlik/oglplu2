@@ -12,7 +12,7 @@
 #include <cstdlib>
 #include <vector>
 
-BOOST_AUTO_TEST_SUITE(memory_std_alloc)
+BOOST_AUTO_TEST_SUITE(memory_std_alloc_tests)
 
 template <typename T>
 void eagine_test_memory_std_alloc_1_T(std::size_t n)

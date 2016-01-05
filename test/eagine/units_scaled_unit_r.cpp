@@ -35,7 +35,7 @@ struct mock_system::base_unit : base::mock_unit<BD> { };
 } // namespace units
 } // namespace eagine
 
-BOOST_AUTO_TEST_SUITE(units_scaled_unit_test)
+BOOST_AUTO_TEST_SUITE(units_scaled_unit_tests)
 
 template <template <class, class, class> class Tester>
 void do_units_arith_tests(void)

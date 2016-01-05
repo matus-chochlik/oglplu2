@@ -16,7 +16,7 @@
 #include "common.hpp"
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(enum_unified_array_address_nv)
+BOOST_AUTO_TEST_SUITE(enum_unified_array_address_nv_tests)
 
 BOOST_AUTO_TEST_CASE(enum_unified_array_address_nv_values)
 {

@@ -16,7 +16,7 @@
 #include "common.hpp"
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(enum_tess_gen_primitive_spacing)
+BOOST_AUTO_TEST_SUITE(enum_tess_gen_primitive_spacing_tests)
 
 BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_spacing_values)
 {

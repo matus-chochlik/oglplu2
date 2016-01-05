@@ -12,7 +12,7 @@
 #include <oglplus/error/handling.hpp>
 #include "helper/mock_object.hpp"
 
-BOOST_AUTO_TEST_SUITE(error_handling)
+BOOST_AUTO_TEST_SUITE(error_handling_tests)
 
 BOOST_AUTO_TEST_CASE(error_handling_1)
 {

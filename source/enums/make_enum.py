@@ -565,7 +565,7 @@ def action_test_enums_cpp(options):
 	print_line(options, '#include "common%s.hpp"' % options.lib_suffix)
 	print_line(options, '#include <cstring>')
 	print_newline(options)
-	print_line(options, "BOOST_AUTO_TEST_SUITE(enum_%s)" % options.enum_name)
+	print_line(options, "BOOST_AUTO_TEST_SUITE(enum_%s_tests)" % options.enum_name)
 	print_newline(options)
 	print_line(options, "BOOST_AUTO_TEST_CASE(enum_%s_values)" % options.enum_name)
 	print_line(options, "{")

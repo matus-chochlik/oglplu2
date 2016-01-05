@@ -16,7 +16,7 @@
 #include "common.hpp"
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(enum_memory_barrier_bits)
+BOOST_AUTO_TEST_SUITE(enum_memory_barrier_bits_tests)
 
 BOOST_AUTO_TEST_CASE(enum_memory_barrier_bits_values)
 {

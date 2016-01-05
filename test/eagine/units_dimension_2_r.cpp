@@ -37,7 +37,7 @@
 
 #include <type_traits>
 
-BOOST_AUTO_TEST_SUITE(units_dimension_test_2)
+BOOST_AUTO_TEST_SUITE(units_dimension_tests_2)
 
 struct area_base_dim_tester
 {

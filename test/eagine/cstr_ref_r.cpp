@@ -13,13 +13,13 @@
 #include <string>
 #include <array>
 
-BOOST_AUTO_TEST_SUITE(cstr_ref)
+BOOST_AUTO_TEST_SUITE(cstr_ref_tests)
 
 BOOST_AUTO_TEST_CASE(cstr_ref_default)
 {
 	using namespace eagine;
 
-	eagine::cstr_ref s;
+	cstr_ref s;
 	BOOST_CHECK(s.empty());
 	BOOST_CHECK_EQUAL(s.size(), 0);
 	BOOST_CHECK(s.begin() == s.end());
@@ -37,7 +37,7 @@ BOOST_AUTO_TEST_CASE(cstr_ref_literal)
 
 	const char l[] = "literal";
 
-	eagine::cstr_ref s(l);
+	cstr_ref s(l);
 	BOOST_CHECK(!s.empty());
 	BOOST_CHECK_EQUAL(s.size(), std::strlen(l));
 	BOOST_CHECK(s.begin() != s.end());
@@ -56,7 +56,7 @@ BOOST_AUTO_TEST_CASE(cstr_ref_c_string)
 
 	const char* cs = "c-string";
 
-	eagine::cstr_ref s(cs);
+	cstr_ref s(cs);
 	BOOST_CHECK(!s.empty());
 	BOOST_CHECK_EQUAL(s.size(), std::strlen(cs));
 	BOOST_CHECK(s.begin() != s.end());
@@ -75,7 +75,7 @@ BOOST_AUTO_TEST_CASE(cstr_ref_std_string)
 
 	std::string ss = "std::string";
 
-	eagine::cstr_ref s(ss);
+	cstr_ref s(ss);
 	BOOST_CHECK(!s.empty());
 	BOOST_CHECK_EQUAL(s.size(), ss.length());
 	BOOST_CHECK(s.begin() != s.end());
@@ -94,7 +94,7 @@ BOOST_AUTO_TEST_CASE(cstr_ref_std_array)
 
 	std::array<char, 11> sa = {{'s','t','d',':',':','a','r','r','a','y','\0'}};
 
-	eagine::cstr_ref s(sa);
+	cstr_ref s(sa);
 	BOOST_CHECK(!s.empty());
 	BOOST_CHECK(s.size()+1 == sa.size());
 	BOOST_CHECK_EQUAL(s.size(), std::strlen(sa.data()));

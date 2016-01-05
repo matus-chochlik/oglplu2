@@ -12,7 +12,7 @@
 #include <cstdlib>
 #include <algorithm>
 
-BOOST_AUTO_TEST_SUITE(units_base_dim_test)
+BOOST_AUTO_TEST_SUITE(units_base_dim_tests)
 
 BOOST_AUTO_TEST_CASE(units_base_dim_number)
 {

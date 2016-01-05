@@ -16,7 +16,7 @@
 #include "common.hpp"
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(enum_swap_behavior)
+BOOST_AUTO_TEST_SUITE(enum_swap_behavior_tests)
 
 BOOST_AUTO_TEST_CASE(enum_swap_behavior_values)
 {

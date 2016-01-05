@@ -13,7 +13,7 @@
 
 #include <type_traits>
 
-BOOST_AUTO_TEST_SUITE(units_dimension_test_1)
+BOOST_AUTO_TEST_SUITE(units_dimension_tests_1)
 
 template <typename Dimension, typename BaseDim, typename TestedBD>
 void test_units_dimension_pow1_d_bd(void)

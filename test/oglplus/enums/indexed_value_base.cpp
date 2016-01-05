@@ -16,7 +16,7 @@
 #include "common.hpp"
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(enum_indexed_value_base)
+BOOST_AUTO_TEST_SUITE(enum_indexed_value_base_tests)
 
 BOOST_AUTO_TEST_CASE(enum_indexed_value_base_values)
 {

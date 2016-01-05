@@ -12,7 +12,7 @@
 #include <cstdlib>
 #include <array>
 
-BOOST_AUTO_TEST_SUITE(vect_shuffle)
+BOOST_AUTO_TEST_SUITE(vect_shuffle_tests)
 
 template <typename T, unsigned N, bool V, int ... I>
 void test_vect_shuffle_TNVI(void)

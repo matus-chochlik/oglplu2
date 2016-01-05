@@ -23,7 +23,7 @@ enum class test_ec
 
 } // namespace eagine
 
-BOOST_AUTO_TEST_SUITE(bitfield_test)
+BOOST_AUTO_TEST_SUITE(bitfield_tests)
 
 BOOST_AUTO_TEST_CASE(bitfield_test_0)
 {

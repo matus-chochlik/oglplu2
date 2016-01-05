@@ -16,7 +16,7 @@
 #include "common.hpp"
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(enum_true_false)
+BOOST_AUTO_TEST_SUITE(enum_true_false_tests)
 
 BOOST_AUTO_TEST_CASE(enum_true_false_values)
 {

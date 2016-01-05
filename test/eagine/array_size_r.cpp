@@ -10,7 +10,7 @@
 
 #include <eagine/array_size.hpp>
 
-BOOST_AUTO_TEST_SUITE(array_size_test)
+BOOST_AUTO_TEST_SUITE(array_size_tests)
 
 BOOST_AUTO_TEST_CASE(array_size_1)
 {

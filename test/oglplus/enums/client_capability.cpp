@@ -16,7 +16,7 @@
 #include "common.hpp"
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(enum_client_capability)
+BOOST_AUTO_TEST_SUITE(enum_client_capability_tests)
 
 BOOST_AUTO_TEST_CASE(enum_client_capability_values)
 {

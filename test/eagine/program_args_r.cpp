@@ -11,7 +11,7 @@
 #include <eagine/program_args.hpp>
 #include <eagine/array_size.hpp>
 
-BOOST_AUTO_TEST_SUITE(program_args_test)
+BOOST_AUTO_TEST_SUITE(program_args_tests)
 
 BOOST_AUTO_TEST_CASE(program_args_1)
 {

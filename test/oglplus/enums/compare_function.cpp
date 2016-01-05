@@ -16,7 +16,7 @@
 #include "common.hpp"
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(enum_compare_function)
+BOOST_AUTO_TEST_SUITE(enum_compare_function_tests)
 
 BOOST_AUTO_TEST_CASE(enum_compare_function_values)
 {

@@ -11,7 +11,7 @@
 #include <eagine/vect/axis.hpp>
 #include <cstdlib>
 
-BOOST_AUTO_TEST_SUITE(vect_axis)
+BOOST_AUTO_TEST_SUITE(vect_axis_tests)
 
 template <typename T, unsigned I, unsigned N, bool V>
 void test_vect_axis_apply_TINV(void)

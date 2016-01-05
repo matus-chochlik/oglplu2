@@ -89,7 +89,7 @@ test_outcome<int&> foo_ref(int& ref, int tag)
 
 } // namespace eagine
 
-BOOST_AUTO_TEST_SUITE(outcome)
+BOOST_AUTO_TEST_SUITE(outcome_tests)
 
 BOOST_AUTO_TEST_CASE(outcome_ok_void)
 {

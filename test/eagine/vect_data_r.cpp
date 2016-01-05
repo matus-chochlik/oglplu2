@@ -16,7 +16,7 @@
 
 #include <cstdlib>
 
-BOOST_AUTO_TEST_SUITE(vect_data)
+BOOST_AUTO_TEST_SUITE(vect_data_tests)
 
 static inline
 bool _are_close(int a, int b, eagine::identity<int>)

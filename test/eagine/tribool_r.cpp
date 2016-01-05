@@ -5,27 +5,27 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE EAGINE_base_tribool
+#define BOOST_TEST_MODULE EAGINE_tribool
 #include <boost/test/unit_test.hpp>
 
 #include <eagine/tribool.hpp>
 
-BOOST_AUTO_TEST_SUITE(base_tribool)
+BOOST_AUTO_TEST_SUITE(tribool_tests)
 
-BOOST_AUTO_TEST_CASE(base_tribool_default_construction)
+BOOST_AUTO_TEST_CASE(tribool_default_construction)
 {
 	eagine::tribool b;
 	(void)b;
 }
 
-BOOST_AUTO_TEST_CASE(base_tribool_copy_construction)
+BOOST_AUTO_TEST_CASE(tribool_copy_construction)
 {
 	eagine::tribool b1;
 	eagine::tribool b2(b1);
 	(void)b2;
 }
 
-BOOST_AUTO_TEST_CASE(base_tribool_initialization)
+BOOST_AUTO_TEST_CASE(tribool_initialization)
 {
 	eagine::tribool t(true);
 	eagine::tribool f(false);
@@ -36,7 +36,7 @@ BOOST_AUTO_TEST_CASE(base_tribool_initialization)
 	(void)i;
 }
 
-BOOST_AUTO_TEST_CASE(base_tribool_ops)
+BOOST_AUTO_TEST_CASE(tribool_ops)
 {
 	eagine::tribool a = true;
 	eagine::tribool b = false;

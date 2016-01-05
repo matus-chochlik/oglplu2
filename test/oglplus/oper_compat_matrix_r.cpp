@@ -93,7 +93,7 @@ OGLPLUS_MOCK_GLFUNC(MatrixFrustumEXT, void(GLenum, GLdouble, GLdouble, GLdouble,
 #include <cstring>
 #include <cstdlib>
 
-BOOST_AUTO_TEST_SUITE(compat_matrix)
+BOOST_AUTO_TEST_SUITE(compat_matrix_tests)
 
 #if	defined(GL_MODELVIEW) &&\
 	defined(GL_PROJECTION) &&\

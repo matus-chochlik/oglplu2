@@ -11,7 +11,7 @@
 #include <eagine/vect/from.hpp>
 #include <cstdlib>
 
-BOOST_AUTO_TEST_SUITE(vect_from)
+BOOST_AUTO_TEST_SUITE(vect_from_tests)
 
 template <typename T, unsigned N, bool V>
 void test_vect_from_array_TNV(void)

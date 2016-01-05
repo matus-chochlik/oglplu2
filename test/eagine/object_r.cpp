@@ -12,7 +12,7 @@
 #include "helper/object_c.hpp"
 #include <cstdlib>
 
-BOOST_AUTO_TEST_SUITE(object)
+BOOST_AUTO_TEST_SUITE(object_tests)
 
 BOOST_AUTO_TEST_CASE(object_name)
 {

@@ -16,7 +16,7 @@
 #include "common.hpp"
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(enum_image_unit_format)
+BOOST_AUTO_TEST_SUITE(enum_image_unit_format_tests)
 
 BOOST_AUTO_TEST_CASE(enum_image_unit_format_values)
 {

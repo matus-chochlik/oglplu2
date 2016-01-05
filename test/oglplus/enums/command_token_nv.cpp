@@ -16,7 +16,7 @@
 #include "common.hpp"
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(enum_command_token_nv)
+BOOST_AUTO_TEST_SUITE(enum_command_token_nv_tests)
 
 BOOST_AUTO_TEST_CASE(enum_command_token_nv_values)
 {

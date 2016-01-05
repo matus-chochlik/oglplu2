@@ -16,7 +16,7 @@
 #include "common.hpp"
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(enum_blend_equation_advanced)
+BOOST_AUTO_TEST_SUITE(enum_blend_equation_advanced_tests)
 
 BOOST_AUTO_TEST_CASE(enum_blend_equation_advanced_values)
 {

@@ -11,7 +11,7 @@
 #include <eagine/math/functions.hpp>
 #include <cstdlib>
 
-BOOST_AUTO_TEST_SUITE(math_functions)
+BOOST_AUTO_TEST_SUITE(math_function_tests)
 
 BOOST_AUTO_TEST_CASE(math_functions_factorial)
 {

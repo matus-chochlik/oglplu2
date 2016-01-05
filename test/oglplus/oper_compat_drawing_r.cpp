@@ -118,7 +118,7 @@ OGLPLUS_MOCK_GLFUNC(TexCoord4dv, void(const GLdouble*));
 #include <cstring>
 #include <cstdlib>
 
-BOOST_AUTO_TEST_SUITE(compat_drawing)
+BOOST_AUTO_TEST_SUITE(compat_drawing_tests)
 
 #if defined(GL_ARB_compatibility)
 

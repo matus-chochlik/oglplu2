@@ -41,7 +41,7 @@ OGLPLUS_MOCK_GLFUNC(
 #include <cstring>
 #include <cstdlib>
 
-BOOST_AUTO_TEST_SUITE(named_string)
+BOOST_AUTO_TEST_SUITE(named_string_tests)
 
 #if defined(GL_ARB_shading_language_include)
 

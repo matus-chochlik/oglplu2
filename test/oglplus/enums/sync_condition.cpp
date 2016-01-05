@@ -16,7 +16,7 @@
 #include "common.hpp"
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(enum_sync_condition)
+BOOST_AUTO_TEST_SUITE(enum_sync_condition_tests)
 
 BOOST_AUTO_TEST_CASE(enum_sync_condition_values)
 {

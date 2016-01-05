@@ -12,7 +12,7 @@
 #include <eagine/vect/compare.hpp>
 #include <cstdlib>
 
-BOOST_AUTO_TEST_SUITE(vect_compare)
+BOOST_AUTO_TEST_SUITE(vect_compare_tests)
 
 template <typename T, unsigned N, bool V>
 void test_vect_is_zero_apply_TNV(void)

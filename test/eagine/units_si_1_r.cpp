@@ -22,7 +22,7 @@
 
 #include <cstdlib>
 
-BOOST_AUTO_TEST_SUITE(units_si_test)
+BOOST_AUTO_TEST_SUITE(units_si_tests)
 
 BOOST_AUTO_TEST_CASE(units_si_information_1)
 {

@@ -20,7 +20,7 @@ struct mock_system { };
 } // namespace units
 } // namespace eagine
 
-BOOST_AUTO_TEST_SUITE(units_unit_test)
+BOOST_AUTO_TEST_SUITE(units_unit_tests)
 
 struct units_unit_add_tester
 {

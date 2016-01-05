@@ -5,7 +5,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE EAGINE_vect_compare
+#define BOOST_TEST_MODULE EAGINE_vect_diff
 #include <boost/test/unit_test.hpp>
 #include <boost/test/floating_point_comparison.hpp>
 
@@ -13,7 +13,7 @@
 #include <eagine/vect/esum.hpp>
 #include <cstdlib>
 
-BOOST_AUTO_TEST_SUITE(vect_compare)
+BOOST_AUTO_TEST_SUITE(vect_diff_tests)
 
 template <typename T, unsigned N, bool V>
 void test_vect_diff_TNV_1(void)

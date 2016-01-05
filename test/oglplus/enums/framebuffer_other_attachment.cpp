@@ -16,7 +16,7 @@
 #include "common.hpp"
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(enum_framebuffer_other_attachment)
+BOOST_AUTO_TEST_SUITE(enum_framebuffer_other_attachment_tests)
 
 BOOST_AUTO_TEST_CASE(enum_framebuffer_other_attachment_values)
 {

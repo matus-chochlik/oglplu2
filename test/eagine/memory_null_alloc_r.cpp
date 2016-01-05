@@ -11,7 +11,7 @@
 #include <eagine/memory/null_alloc.hpp>
 #include <cstdlib>
 
-BOOST_AUTO_TEST_SUITE(memory_null_alloc)
+BOOST_AUTO_TEST_SUITE(memory_null_alloc_tests)
 
 template <typename T>
 void eagine_test_memory_null_alloc_1_T(std::size_t n)

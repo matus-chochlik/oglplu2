@@ -59,13 +59,13 @@ struct baz
 	}
 };
 
-BOOST_AUTO_TEST_SUITE(callable_ref)
+BOOST_AUTO_TEST_SUITE(callable_ref_tests)
 
 BOOST_AUTO_TEST_CASE(callable_ref_foo_0)
 {
 	using namespace eagine;
 
-	eagine::callable_ref<float(float, float, float)> cr0;
+	callable_ref<float(float, float, float)> cr0;
 
 	BOOST_CHECK(bool(cr0) == false);
 	BOOST_CHECK(!(cr0) == true);
@@ -75,7 +75,7 @@ BOOST_AUTO_TEST_CASE(callable_ref_foo_1)
 {
 	using namespace eagine;
 
-	eagine::callable_ref<float(float, float, float)> cr1(&::foo);
+	callable_ref<float(float, float, float)> cr1(&::foo);
 
 	BOOST_CHECK(bool(cr1) == true);
 	BOOST_CHECK(!(cr1) == false);
@@ -89,7 +89,7 @@ BOOST_AUTO_TEST_CASE(callable_ref_foo_2)
 
 	bar br{123};
 
-	eagine::callable_ref<float(float, float, float)> cr2(&br, &bar::foo);
+	callable_ref<float(float, float, float)> cr2(&br, &bar::foo);
 
 	BOOST_CHECK(bool(cr2) == true);
 	BOOST_CHECK(!(cr2) == false);
@@ -103,7 +103,7 @@ BOOST_AUTO_TEST_CASE(callable_ref_foo_3)
 
 	bar br{123};
 
-	eagine::callable_ref<float(float, float, float)> cr3(br, &bar::foo);
+	callable_ref<float(float, float, float)> cr3(br, &bar::foo);
 
 	BOOST_CHECK(bool(cr3) == true);
 	BOOST_CHECK(!(cr3) == false);
@@ -117,7 +117,7 @@ BOOST_AUTO_TEST_CASE(callable_ref_foo_4)
 
 	bar br{123};
 
-	eagine::callable_ref<float(float, float, float)> cr4(br);
+	callable_ref<float(float, float, float)> cr4(br);
 
 	BOOST_CHECK(bool(cr4) == true);
 	BOOST_CHECK(!(cr4) == false);
@@ -131,7 +131,7 @@ BOOST_AUTO_TEST_CASE(callable_ref_foo_5)
 
 	bar br{123};
 
-	eagine::callable_ref<float(float, float, float)> cr5(
+	callable_ref<float(float, float, float)> cr5(
 		&br,
 		member_function_constant<
 			float(bar::*)(float,float,float) const,
@@ -150,7 +150,7 @@ BOOST_AUTO_TEST_CASE(callable_ref_baz_1)
 	using namespace eagine;
 
 	baz bz{2};
-	eagine::callable_ref<baz&(void)> cr(
+	callable_ref<baz&(void)> cr(
 		&bz,
 		member_function_constant<baz&(baz::*)(void), &baz::inc>()
 	);
@@ -171,7 +171,7 @@ BOOST_AUTO_TEST_CASE(callable_ref_baz_2)
 
 	baz bz{3};
 
-	eagine::callable_ref<baz&(int)> cr(
+	callable_ref<baz&(int)> cr(
 		&bz,
 		member_function_constant<baz&(baz::*)(int), &baz::add>()
 	);

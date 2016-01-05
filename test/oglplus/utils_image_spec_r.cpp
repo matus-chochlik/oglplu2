@@ -13,7 +13,7 @@
 #include <oglplus/utils/span.hpp>
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(utils_image_spec)
+BOOST_AUTO_TEST_SUITE(utils_image_spec_tests)
 
 BOOST_AUTO_TEST_CASE(utils_image_spec_1)
 {

@@ -11,13 +11,13 @@
 #include <eagine/buffer_data.hpp>
 #include <cstdlib>
 
-BOOST_AUTO_TEST_SUITE(buffer_data)
+BOOST_AUTO_TEST_SUITE(buffer_data_tests)
 
 BOOST_AUTO_TEST_CASE(buffer_data_1)
 {
 	using namespace eagine;
 
-	eagine::buffer_data_spec<int> bd;
+	buffer_data_spec<int> bd;
 	BOOST_CHECK(bd.empty());
 	BOOST_CHECK(int(bd.size()) == 0);
 	BOOST_CHECK(long(bd.size()) == 0l);
@@ -31,7 +31,7 @@ BOOST_AUTO_TEST_CASE(buffer_data_2)
 	{
 		const long clv[8] = {0,1,2,3,4,5,6,7};
 
-		eagine::buffer_data_spec<int> bd(clv);
+		buffer_data_spec<int> bd(clv);
 		BOOST_CHECK(!bd.empty());
 		BOOST_CHECK(bd.data() != nullptr);
 		BOOST_CHECK(bd.data() == static_cast<const void*>(clv));
@@ -42,7 +42,7 @@ BOOST_AUTO_TEST_CASE(buffer_data_2)
 	{
 		float fv[10] = {0,1,2,3,4,5,6,7,8,9};
 
-		eagine::buffer_data_spec<long> bd(fv);
+		buffer_data_spec<long> bd(fv);
 		BOOST_CHECK(!bd.empty());
 		BOOST_CHECK(bd.data() != nullptr);
 		BOOST_CHECK(bd.data() == static_cast<const void*>(fv));
@@ -55,7 +55,7 @@ BOOST_AUTO_TEST_CASE(buffer_data_3)
 	using namespace eagine;
 
 	{
-		eagine::buffer_data_spec<int> bd;
+		buffer_data_spec<int> bd;
 		span<const byte> v = bd.view();
 
 		BOOST_CHECK(v.begin() == v.end());
@@ -64,7 +64,7 @@ BOOST_AUTO_TEST_CASE(buffer_data_3)
 	{
 		const short csv[8] = {0,1,2,3,4,5,6,7};
 
-		eagine::buffer_data_spec<short> bd(csv);
+		buffer_data_spec<short> bd(csv);
 		span<const byte> v = bd.view();
 
 		BOOST_ASSERT(v.begin() != v.end());
@@ -73,7 +73,7 @@ BOOST_AUTO_TEST_CASE(buffer_data_3)
 	{
 		double fv[9] = {1,2,3,4,5,6,7,8,9};
 
-		eagine::buffer_data_spec<unsigned> bd(fv);
+		buffer_data_spec<unsigned> bd(fv);
 		span<const byte> v = bd.view();
 
 		BOOST_ASSERT(v.begin() != v.end());

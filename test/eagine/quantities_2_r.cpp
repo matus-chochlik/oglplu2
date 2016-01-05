@@ -12,7 +12,7 @@
 #include <eagine/units/unit/si/angle.hpp>
 #include <cstdlib>
 
-BOOST_AUTO_TEST_SUITE(test_quantities_2)
+BOOST_AUTO_TEST_SUITE(quantities_tests_2)
 
 template <typename T>
 void eagine_test_angles_1(void)

@@ -11,7 +11,7 @@
 #include <eagine/valid_if.hpp>
 #include <cstdlib>
 
-BOOST_AUTO_TEST_SUITE(valid_if_test)
+BOOST_AUTO_TEST_SUITE(valid_if_tests)
 
 BOOST_AUTO_TEST_CASE(valid_if_not_zero_test)
 {

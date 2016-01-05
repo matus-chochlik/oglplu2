@@ -12,7 +12,7 @@
 #include <eagine/memory/c_realloc.hpp>
 #include <cstdlib>
 
-BOOST_AUTO_TEST_SUITE(memory_shared_alloc)
+BOOST_AUTO_TEST_SUITE(memory_shared_alloc_tests)
 
 template <typename T>
 void eagine_test_memory_shared_alloc_1_T(void)
