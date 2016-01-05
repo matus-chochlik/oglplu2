@@ -206,14 +206,15 @@ public:
 	{
 		if(state.user_idle_time() > seconds_(1))
 		{
+			const float s = value(state.frame_duration())*60;
 			const float dest_offset_x = -0.525929f;
 			const float dest_offset_y = -0.668547f;
-			const float c = 0.02f;
+			const float c = 0.02f * s;
 
 			offset_x = c*dest_offset_x + (1-c)*offset_x;
 			offset_y = c*dest_offset_y + (1-c)*offset_y; 
 
-			scale *= 0.99f;
+			scale *= (1-0.01f*s);
 			if(scale < min_scale) scale = min_scale;
 
 			gl.uniform(offset_loc, offset_x, offset_y);

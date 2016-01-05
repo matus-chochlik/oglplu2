@@ -52,6 +52,14 @@ int main(int argc, const char** argv)
 	{
 		if(a == "--screenshot")
 		{
+			if(params.doing_framedump())
+			{
+				errstr()
+				<< "Cannot specify --screenshot "
+				<< "together with --framedump."
+				<< std::endl;
+				return 1;
+			}
 			if(a.next())
 			{
 				if(a.next().get().empty())
@@ -75,14 +83,22 @@ int main(int argc, const char** argv)
 				return 1;
 			}
 		}
-		else if(a == "--frame-dump")
+		else if(a == "--framedump")
 		{
+			if(params.doing_screenshot())
+			{
+				errstr()
+				<< "Cannot specify --framedump"
+				<< "together with --screenshot ."
+				<< std::endl;
+				return 1;
+			}
 			if(a.next())
 			{
 				if(a.next().get().empty())
 				{
 					errstr()
-					<< "Empty prefix after '--frame-dump'."
+					<< "Empty prefix after '--framedump'."
 					<< std::endl;
 					return 1;
 				}
@@ -95,7 +111,32 @@ int main(int argc, const char** argv)
 			else
 			{
 				errstr()
-				<< "Missing prefix after '--frame-dump'."
+				<< "Missing prefix after '--framedump'."
+				<< std::endl;
+				return 1;
+			}
+		}
+		else if(a == "--fixed-fps")
+		{
+			if(a.next())
+			{
+				int fps = std::atoi(a.next().get().c_str());
+				if(fps < 1)
+				{
+					errstr()
+					<< "Invalid value '"
+					<< a.next().get()
+					<< "' after --fixed-fps."
+					<< std::endl;
+					return 1;
+				}
+				params.fixed_fps(fps);
+				a = a.next();
+			}
+			else 
+			{
+				errstr()
+				<< "Missing number after '--fixed-fps'."
 				<< std::endl;
 				return 1;
 			}
@@ -150,7 +191,76 @@ int main(int argc, const char** argv)
 				return 1;
 			}
 		}
+		else if(a == "--hd")
+		{
+			state.set_size(1280, 720);
+		}
+		else if(a == "--full-hd")
+		{
+			state.set_size(1920, 1080);
+		}
+		else if(a == "--x-tiles")
+		{
+			if(a.next())
+			{
+				int x_tiles = std::atoi(a.next().get().c_str());
+				if(x_tiles < 1)
+				{
+					errstr()
+					<< "Invalid value '"
+					<< a.next().get()
+					<< "' after --x-tiles."
+					<< std::endl;
+					return 1;
+				}
+				params.x_tiles(x_tiles);
+				a = a.next();
+			}
+			else 
+			{
+				errstr()
+				<< "Missing number after '--x-tiles'."
+				<< std::endl;
+				return 1;
+			}
+		}
+		else if(a == "--y-tiles")
+		{
+			if(a.next())
+			{
+				int y_tiles = std::atoi(a.next().get().c_str());
+				if(y_tiles < 1)
+				{
+					errstr()
+					<< "Invalid value '"
+					<< a.next().get()
+					<< "' after --y-tiles."
+					<< std::endl;
+					return 1;
+				}
+				params.y_tiles(y_tiles);
+				a = a.next();
+			}
+			else 
+			{
+				errstr()
+				<< "Missing number after '--y-tiles'."
+				<< std::endl;
+				return 1;
+			}
+		}
+		else
+		{
+			errstr()
+			<< "Unknown command-line option '"
+			<< a.get()
+			<< "'."
+			<< std::endl;
+			return 1;
+		}
 	}
+
+	state.set_tiles(params.x_tiles(), params.y_tiles());
 
 	try { return example_main(args, params, state); }
 	catch(oglplus::error& gle)

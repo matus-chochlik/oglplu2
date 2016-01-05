@@ -50,6 +50,7 @@ example_wrapper(example_params& params, example_state& state)
  : _params(params)
  , _state(state)
  , _example(make_example(_params, _state))
+ , _screenshot_done(false)
  , _start(clock_type::now())
  , _now(_start)
 {
@@ -80,6 +81,11 @@ example_wrapper(example_params& params, example_state& state)
 			);
 		}
 	}
+
+	if(_state.multiple_tiles() && _params.auto_tiles())
+	{
+		glEnable(GL_SCISSOR_TEST);
+	}
 }
 
 bool example_wrapper::next_frame(void)
@@ -98,7 +104,14 @@ bool example_wrapper::next_frame(void)
 		_state.set_time((_now-_start).count() * period);
 	}
 	
-	return _example->continue_running(_state);
+	if(_params.doing_screenshot())
+	{
+		return !_screenshot_done;
+	}
+	else
+	{
+		return _example->continue_running(_state);
+	}
 }
 
 void example_wrapper::update(void)
@@ -109,14 +122,35 @@ void example_wrapper::update(void)
 	}
 }
 
-bool example_wrapper::render(void)
+void example_wrapper::render(void)
 {
-	bool finished_frame = true; // TODO tiles
-	_example->render(_state);
 
 	bool save_frame = _params.doing_framedump();
+	save_frame |= _params.doing_screenshot() &&
+		(_state.exec_time() >= _params.screenshot_time());
 
-	if(finished_frame && save_frame)
+	if(_state.multiple_tiles())
+	{
+		assert(_state.first_tile());
+		do {
+			if(_params.auto_tiles())
+			{
+				glScissor(
+					_state.tile_x(),
+					_state.tile_y(),
+					_state.tile_w(),
+					_state.tile_h()
+				);
+			}
+
+			_example->render(_state);
+			glFlush();
+			
+		} while(!_state.next_tile());
+	}
+	else _example->render(_state);
+
+	if(save_frame)
 	{
 		glReadPixels(
 			0, 0,
@@ -135,6 +169,10 @@ bool example_wrapper::render(void)
 				_params.framedump_prefix() <<
 				std::setfill('0') << std::setw(6) <<
 				_state.frame_number() << ".rgba";
+		}
+		else if(_params.doing_screenshot())
+		{
+			filename << _params.screenshot_path();
 		}
 
 		std::ofstream file(filename.str());
@@ -162,9 +200,11 @@ bool example_wrapper::render(void)
 				);
 			}
 		}
+		else if(_params.doing_screenshot())
+		{
+			_screenshot_done = true;
+		}
 	}
-
-	return finished_frame; 
 }
 
 void example_wrapper::set_size(int width, int height)

@@ -334,6 +334,15 @@ def parse_args(args):
 	)
 
 	argparser.add_argument(
+		"--fps",
+		help="""Number of frames per second""",
+		type=int,
+		default="30",
+		action="store",
+		dest="fps"
+	)
+
+	argparser.add_argument(
 		"--samples",
 		help="""Number of multisampling samples""",
 		type=int,
@@ -397,9 +406,10 @@ def render_video(
 	import subprocess
 	try:
 		cmd_line = [example_path,
-			'--frame-dump', '%s-'%prefix,
+			'--framedump', '%s-'%prefix,
 			'--width', str(options.width),
-			'--height', str(options.height)
+			'--height', str(options.height),
+			'--fixed-fps', str(options.fps),
 		]
 
 		if options.samples > 0:
@@ -468,7 +478,7 @@ def render_video(
 			'-loglevel', 'error',
 			'-y', '-f', 'image2',
 			'-i', prefix+'-%06d.jpeg',
-			'-r', '25',
+			'-r', str(options.fps),
 			'-vcodec', 'mpeg4',
 			'-b', '8000k',
 			prefix+'.avi'

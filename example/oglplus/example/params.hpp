@@ -11,6 +11,7 @@
 
 #include <oglplus/utils/cstr_ref.hpp>
 #include <oglplus/utils/valid_if.hpp>
+#include <oglplus/utils/quantities.hpp>
 #include <cassert>
 
 namespace oglplus {
@@ -18,10 +19,15 @@ namespace oglplus {
 class example_params
 {
 private:
-	cstr_ref _screenshot_path;
-	cstr_ref _framedump_prefix;
-
 	unsigned _rand_seed;
+
+	cstr_ref _framedump_prefix;
+	cstr_ref _screenshot_path;
+	float _screenshot_time;
+	float _fixed_fps;
+
+	int _x_tiles;
+	int _y_tiles;
 
 	int _samples;
 
@@ -29,17 +35,24 @@ private:
 	int _alpha_bits;
 	int _depth_bits;
 	int _stencil_bits;
+
 	bool _compat_ctxt;
+	bool _auto_tiles;
 public:
 	example_params(void)
 	noexcept
 	 : _rand_seed(0)
+	 , _screenshot_time(3)
+	 , _fixed_fps(30)
+	 , _x_tiles(1)
+	 , _y_tiles(1)
 	 , _samples(4)
 	 , _color_bits(8)
 	 , _alpha_bits(0)
 	 , _depth_bits(24)
 	 , _stencil_bits(0)
 	 , _compat_ctxt(false)
+	 , _auto_tiles(true)
 	{ }
 
 	example_params& screenshot_path(cstr_ref path)
@@ -58,6 +71,18 @@ public:
 	noexcept
 	{
 		return !_screenshot_path.empty();
+	}
+
+	example_params& screenshot_time(seconds_t<float> ss_time)
+	{
+		_screenshot_time = value(ss_time);
+		return *this;
+	}
+
+	seconds_t<float> screenshot_time(void) const
+	noexcept
+	{
+		return seconds_(_screenshot_time);
 	}
 
 	example_params& framedump_prefix(cstr_ref prefix)
@@ -84,11 +109,18 @@ public:
 		return  doing_screenshot() || doing_framedump();
 	}
 
+	example_params& fixed_fps(int fps)
+	noexcept
+	{
+		assert(fps > 0);
+		_fixed_fps = fps;
+		return *this;
+	}
+
 	float frame_time(void) const
 	noexcept
 	{
-		// TODO
-		return 1.0f/25.0f;
+		return 1.0f/_fixed_fps;
 	}
 
 	example_params& rand_seed(unsigned seed)
@@ -115,6 +147,47 @@ public:
 	noexcept
 	{
 		return _compat_ctxt;
+	}
+
+	example_params& auto_tiles(bool v)
+	noexcept
+	{
+		_auto_tiles = v;
+		return *this;
+	}
+
+	bool auto_tiles(void) const
+	noexcept
+	{
+		return _auto_tiles;
+	}
+
+	example_params& x_tiles(int n)
+	noexcept
+	{
+		assert(n > 0);
+		_x_tiles = n;
+		return *this;
+	}
+
+	int x_tiles(void) const
+	noexcept
+	{
+		return _x_tiles;
+	}
+
+	example_params& y_tiles(int n)
+	noexcept
+	{
+		assert(n > 0);
+		_y_tiles = n;
+		return *this;
+	}
+
+	int y_tiles(void) const
+	noexcept
+	{
+		return _y_tiles;
 	}
 
 	example_params& samples(int n)

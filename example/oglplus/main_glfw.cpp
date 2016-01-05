@@ -40,11 +40,6 @@ void example_loop(
 			break;
 		}
 
-		if(!example.next_frame())
-		{
-			break;
-		}
-
 		glfwGetWindowSize(&w, &h);
 		example.set_size(w, h);
 
@@ -60,9 +55,12 @@ void example_loop(
 
 		example.update();
 
-		if(example.render())
+		example.render();
+		glfwSwapBuffers();
+
+		if(!example.next_frame())
 		{
-			glfwSwapBuffers();
+			break;
 		}
 	}
 }

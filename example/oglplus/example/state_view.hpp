@@ -25,6 +25,9 @@ protected:
 
 	int _frame_no;
 
+	int _x_tiles, _tile_i;
+	int _y_tiles, _tile_j;
+
 	int _old_width;
 	int _old_height;
 	int _old_depth;
@@ -107,6 +110,62 @@ public:
 	noexcept
 	{
 		return _frame_no;
+	}
+
+	int x_tiles(void) const
+	noexcept
+	{
+		return _x_tiles;
+	}
+
+	int tile_i(void) const
+	noexcept
+	{
+		assert(_tile_i < _x_tiles);
+		return _tile_i;
+	}
+
+	int tile_w(void) const
+	noexcept
+	{
+		return (width()/x_tiles())+((tile_i()+1 == x_tiles())?1:0);
+	}
+
+	int tile_x(void) const
+	noexcept
+	{
+		return tile_i()*(width()/x_tiles());
+	}
+
+	int y_tiles(void) const
+	noexcept
+	{
+		return _y_tiles;
+	}
+
+	int tile_j(void) const
+	noexcept
+	{
+		assert(_tile_j < _y_tiles);
+		return _tile_j;
+	}
+
+	int tile_h(void) const
+	noexcept
+	{
+		return (height()/y_tiles())+((tile_j()+1 == y_tiles())?1:0);
+	}
+
+	int tile_y(void) const
+	noexcept
+	{
+		return tile_j()*(height()/y_tiles());
+	}
+
+	bool multiple_tiles(void) const
+	noexcept
+	{
+		return x_tiles() > 1 || y_tiles() > 1;
 	}
 
 	int width(bool old = false) const

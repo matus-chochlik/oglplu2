@@ -90,6 +90,41 @@ public:
 		return false;
 	}
 
+	void set_tiles(int x, int y)
+	noexcept
+	{
+		if(x < 1) x = 1;
+		if(y < 1) y = 1;
+
+		_x_tiles = x;
+		_y_tiles = y;
+		_tile_i = 0;
+		_tile_j = 0;
+	}
+
+	bool first_tile(void)
+	noexcept
+	{
+		return (_tile_i == 0) && (_tile_j == 0);
+	}
+
+	bool next_tile(void)
+	noexcept
+	{
+		if(multiple_tiles())
+		{
+			if(++_tile_i >= _x_tiles)
+			{
+				_tile_i = 0;
+				if(++_tile_j >= _y_tiles)
+				{
+					_tile_j = 0;
+				}
+			}
+		}
+		return first_tile();
+	}
+
 	bool set_size(int new_width, int new_height)
 	noexcept
 	{

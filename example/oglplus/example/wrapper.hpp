@@ -22,9 +22,9 @@ private:
 	example_params& _params;
 	example_state& _state;
 
-	friend class example_wrapper_data;
-
 	std::unique_ptr<example> _example;
+
+	bool _screenshot_done;
 
 	typedef std::chrono::system_clock clock_type;
 	const std::chrono::time_point<clock_type> _start;
@@ -41,7 +41,7 @@ public:
 
 	void update(void);
 
-	bool render(void);
+	void render(void);
 
 	void set_size(int width, int height);
 
