@@ -109,7 +109,7 @@ public:
 		return  doing_screenshot() || doing_framedump();
 	}
 
-	example_params& fixed_fps(int fps)
+	example_params& fixed_fps(float fps)
 	noexcept
 	{
 		assert(fps > 0);

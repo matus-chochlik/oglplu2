@@ -348,6 +348,11 @@ def action_impl_enum_value_names_inl(options):
 
 	print_cpp_header(options)
 
+	print_line(options, "#ifdef _MSC_VER")
+	print_line(options, "#pragma warning ( push )")
+	print_line(options, "#pragma warning ( disable : 4065 )")
+	print_line(options, "#endif //_MSC_VER")
+
 	print_newline(options)
 	print_line(options, "namespace %s {" % options.library)
 	print_newline(options)
@@ -413,6 +418,10 @@ def action_impl_enum_value_names_inl(options):
 	print_line(options, "}")
 	print_newline(options)
 	print_line(options, "} // namespace %s" % options.library)
+
+	print_line(options, "#ifdef _MSC_VER")
+	print_line(options, "#pragma warning ( pop )")
+	print_line(options, "#endif //_MSC_VER")
 
 
 def action_impl_enum_value_range_inl(options):

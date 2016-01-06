@@ -120,7 +120,7 @@ int main(int argc, const char** argv)
 		{
 			if(a.next())
 			{
-				int fps = std::atoi(a.next().get().c_str());
+				double fps = std::atof(a.next().get().c_str());
 				if(fps < 1)
 				{
 					errstr()
@@ -130,7 +130,7 @@ int main(int argc, const char** argv)
 					<< std::endl;
 					return 1;
 				}
-				params.fixed_fps(fps);
+				params.fixed_fps(float(fps));
 				a = a.next();
 			}
 			else 

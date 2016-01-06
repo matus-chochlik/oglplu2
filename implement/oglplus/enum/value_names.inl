@@ -9,6 +9,10 @@
 //  See accompanying file LICENSE_1_0.txt or copy at
 //   http://www.boost.org/LICENSE_1_0.txt
 //
+#ifdef _MSC_VER
+#pragma warning ( push )
+#pragma warning ( disable : 4065 )
+#endif //_MSC_VER
 
 namespace oglplus {
 
@@ -10508,3 +10512,6 @@ noexcept
 }
 
 } // namespace oglplus
+#ifdef _MSC_VER
+#pragma warning ( pop )
+#endif //_MSC_VER
