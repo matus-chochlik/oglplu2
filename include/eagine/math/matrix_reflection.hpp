@@ -34,7 +34,7 @@ struct reflection_I<matrix<T,4,4,RM,V>, I>
 	constexpr
 	reflection_I(bool r = true)
 	noexcept
-	 : _v(r?-1:1)
+	 : _v(r?T(-1):T(1))
 	{ }
 
 	constexpr inline
