@@ -6,7 +6,9 @@
 cmake_minimum_required(VERSION 2.8)
 
 # TODO
-if(GLFW3_FOUND)
+if(GLX_FOUND)
+	set(OGLPLUS_EXAMPLE_HARNESS "glx")
+elseif(GLFW3_FOUND)
 	set(OGLPLUS_EXAMPLE_HARNESS "glfw3")
 else()
 	set(OGLPLUS_EXAMPLE_HARNESS "glfw")
@@ -27,15 +29,20 @@ if(NOT ${HARNESS_CAN_BE_BUILT})
 	return()
 endif()
 
-include_directories(${PROJECT_SOURCE_DIR}/utils)
-
 # add a target for the examples
 add_custom_target(oglplus-examples ALL)
 set_property(TARGET oglplus-examples PROPERTY FOLDER "Example/OGLplus")
 
 unset(OGLPLUS_EXAMPLE_HARNESS_ADDITIONAL_SOURCES)
 
-if("${OGLPLUS_EXAMPLE_HARNESS}" STREQUAL "qt4gl")
+
+if("${OGLPLUS_EXAMPLE_HARNESS}" STREQUAL "glx")
+	include_directories(${PROJECT_SOURCE_DIR}/source/utils)
+
+elseif("${OGLPLUS_EXAMPLE_HARNESS}" STREQUAL "egl")
+	target_link_libraries(oglplus_example_harness eglplus)
+
+elseif("${OGLPLUS_EXAMPLE_HARNESS}" STREQUAL "qt4gl")
 	qt4_wrap_cpp(
 		OGLPLUS_EXAMPLE_HARNESS_ADDITIONAL_SOURCES
 		"${CMAKE_CURRENT_SOURCE_DIR}/main_${OGLPLUS_EXAMPLE_HARNESS}.hpp"
@@ -81,12 +88,6 @@ add_all_dependencies(main_${OGLPLUS_EXAMPLE_HARNESS} oglplus_example_harness)
 #add_oglplus_lib_dependencies(oglplus_example_harness)
 # set the solution folder
 set_property(TARGET oglplus_example_harness PROPERTY FOLDER "Example/OGLplus")
-
-if("${OGLPLUS_EXAMPLE_HARNESS}" STREQUAL "glx")
-	target_link_libraries(oglplus_example_harness pthread)
-elseif("${OGLPLUS_EXAMPLE_HARNESS}" STREQUAL "egl")
-	target_link_libraries(oglplus_example_harness eglplus)
-endif()
 
 # helper function used in the directories containing examples
 function(add_examples EXAMPLE_PATTERN PARENT_TARGET COMMON_LIBS)

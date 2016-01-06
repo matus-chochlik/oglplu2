@@ -37,6 +37,7 @@ private:
 	int _stencil_bits;
 
 	bool _compat_ctxt;
+	bool _debug_ctxt;
 	bool _auto_tiles;
 public:
 	example_params(void)
@@ -52,6 +53,7 @@ public:
 	 , _depth_bits(24)
 	 , _stencil_bits(0)
 	 , _compat_ctxt(false)
+	 , _debug_ctxt(false)
 	 , _auto_tiles(true)
 	{ }
 
@@ -147,6 +149,19 @@ public:
 	noexcept
 	{
 		return _compat_ctxt;
+	}
+
+	example_params& debugging_context(bool v)
+	noexcept
+	{
+		_debug_ctxt = v;
+		return *this;
+	}
+
+	bool debugging_context(void) const
+	noexcept
+	{
+		return _debug_ctxt;
 	}
 
 	example_params& auto_tiles(bool v)
