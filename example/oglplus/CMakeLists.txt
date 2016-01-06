@@ -6,7 +6,9 @@
 cmake_minimum_required(VERSION 2.8)
 
 # TODO
-if(GLX_FOUND)
+if(SDL_FOUND)
+	set(OGLPLUS_EXAMPLE_HARNESS "sdl")
+elseif(GLX_FOUND)
 	set(OGLPLUS_EXAMPLE_HARNESS "glx")
 elseif(GLFW3_FOUND)
 	set(OGLPLUS_EXAMPLE_HARNESS "glfw3")
