@@ -44,7 +44,7 @@ texture_ops::
 active_texture(void)
 noexcept
 {
-	GLint result;
+	GLint result = 0;
 	return numeric_queries::get_integer_v(
 		numeric_query(GL_ACTIVE_TEXTURE),
 		{&result, 1}
@@ -76,7 +76,7 @@ texture_ops::
 texture_binding(texture_target target)
 noexcept
 {
-	GLint result;
+	GLint result = 0;
 	return numeric_queries::get_integer_v(
 		get_binding_query(target),
 		{&result, 1}
@@ -1066,7 +1066,7 @@ return_texture_parameter_i(
 	oglplus::texture_parameter parameter
 ) noexcept
 {
-	GLint result;
+	GLint result = 0;
 	return get_texture_parameter_iv(
 		tnt,
 		parameter,
@@ -1084,7 +1084,7 @@ return_texture_level_parameter_i(
 	oglplus::texture_parameter parameter
 ) noexcept
 {
-	GLint result;
+	GLint result = 0;
 	return get_texture_level_parameter_iv(
 		tnt,
 		level,
@@ -1102,7 +1102,7 @@ return_texture_parameter_f(
 	oglplus::texture_parameter parameter
 ) noexcept
 {
-	GLfloat result;
+	GLfloat result = 0;
 	return get_texture_parameter_fv(
 		tnt,
 		parameter,

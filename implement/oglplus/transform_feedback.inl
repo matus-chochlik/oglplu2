@@ -44,7 +44,7 @@ transform_feedback_ops::
 transform_feedback_binding(transform_feedback_target target)
 noexcept
 {
-	GLint result;
+	GLint result = 0;
 	return numeric_queries::get_integer_v(
 		get_binding_query(target),
 		{&result, 1}

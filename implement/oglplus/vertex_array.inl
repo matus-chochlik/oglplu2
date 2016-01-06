@@ -31,7 +31,7 @@ vertex_array_binding(void)
 noexcept
 {
 #ifdef GL_VERTEX_ARRAY_BINDING
-	GLint result;
+	GLint result = 0;
 	return numeric_queries::get_integer_v(
 		binding_query(GL_VERTEX_ARRAY_BINDING),
 		{&result, 1}

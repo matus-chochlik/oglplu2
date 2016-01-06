@@ -42,7 +42,7 @@ buffer_ops::
 buffer_binding(buffer_target target)
 noexcept
 {
-	GLint result;
+	GLint result = 0;
 	return numeric_queries::get_integer_v(
 		get_binding_query(target),
 		{&result, 1}
@@ -238,7 +238,7 @@ return_buffer_parameter_i(
 	oglplus::buffer_parameter parameter
 ) noexcept
 {
-	GLint result;
+	GLint result = 0;
 	return get_buffer_parameter_iv(
 		bnt,
 		parameter,
@@ -685,7 +685,7 @@ buffer_ops::
 buffer_gpu_address(buffer_target tgt)
 noexcept
 {
-	GLuint64EXT result;
+	GLuint64EXT result = 0;
 	return get_buffer_parameter_ui64v(
 		tgt,
 		buffer_parameter(GL_BUFFER_GPU_ADDRESS_NV),
@@ -699,7 +699,7 @@ buffer_ops::
 buffer_gpu_address(buffer_name buf)
 noexcept
 {
-	GLuint64EXT result;
+	GLuint64EXT result = 0;
 	return get_buffer_parameter_ui64v(
 		buf,
 		buffer_parameter(GL_BUFFER_GPU_ADDRESS_NV),

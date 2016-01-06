@@ -42,7 +42,7 @@ framebuffer_ops::
 framebuffer_binding(framebuffer_target target)
 noexcept
 {
-	GLint result;
+	GLint result = 0;
 	return numeric_queries::get_integer_v(
 		get_binding_query(target),
 		{&result, 1}

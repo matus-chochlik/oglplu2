@@ -421,7 +421,7 @@ path_nv_ops::
 return_path_parameter_i(path_nv_name path, path_parameter_nv parameter)
 noexcept
 {
-	GLint result;
+	GLint result = 0;
 	return get_path_parameter_iv(
 		path,
 		parameter,
@@ -436,7 +436,7 @@ path_nv_ops::
 return_path_parameter_f(path_nv_name path, path_parameter_nv parameter)
 noexcept
 {
-	GLfloat result;
+	GLfloat result = 0;
 	return get_path_parameter_fv(
 		path,
 		parameter,
