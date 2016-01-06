@@ -185,7 +185,7 @@ public:
 	override
 	{
 
-		scale *= std::pow(2,-state.norm_delta_pointer_z());
+		scale *= float(std::pow(2,-state.norm_delta_pointer_z()));
 		if(scale < min_scale) scale = min_scale;
 		if(scale > max_scale) scale = max_scale;
 

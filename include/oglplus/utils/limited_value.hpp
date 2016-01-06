@@ -49,19 +49,19 @@ struct limited_value<Query, indexed_enum_value<Base>>
 	constexpr
 	limited_value(oglplus::indexed_enum_value<Base> iev)
 	noexcept
-	 : indexed_enum_value<Base>(iev)
+	 : oglplus::indexed_enum_value<Base>(iev)
 	{ }
 
 	constexpr
 	limited_value(oglplus::indexed_enum_base<Base> ieb)
 	noexcept
-	 : indexed_enum_value<Base>(ieb)
+	 : oglplus::indexed_enum_value<Base>(ieb)
 	{ }
 
 	constexpr explicit
 	limited_value(GLenum value)
 	noexcept
-	 : indexed_enum_value<Base>(value)
+	 : oglplus::indexed_enum_value<Base>(value)
 	{ }
 };
 

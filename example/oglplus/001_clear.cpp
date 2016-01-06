@@ -34,9 +34,9 @@ public:
 		int sec = int(state.exec_time());
 
 		gl.clear_color(
-			(sec%3==0)?1:0,
-			(sec%3==1)?1:0,
-			(sec%3==2)?1:0,
+			(sec%3==0)?1.f:0.f,
+			(sec%3==1)?1.f:0.f,
+			(sec%3==2)?1.f:0.f,
 			0.0f
 		);
 
