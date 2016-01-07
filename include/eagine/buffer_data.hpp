@@ -35,6 +35,13 @@ public:
 	{ }
 
 	template <typename T>
+	buffer_data_spec(const T* data, std::size_t n)
+	noexcept
+	 : _size(identity<T>(), n)
+	 , _data(data)
+	{ }
+
+	template <typename T>
 	buffer_data_spec(span<T> av)
 	noexcept
 	 : _size(av)

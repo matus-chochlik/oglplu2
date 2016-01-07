@@ -12,6 +12,7 @@
 
 #include "type_traits.hpp"
 #include "units/default.hpp"
+#include "units/traits.hpp"
 #include <cmath>
 
 namespace eagine {
