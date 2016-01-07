@@ -1,5 +1,5 @@
 /**
- *  file. oglplus/main_glut.cpp
+ *  file. oglplus/example/main_glut.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <oglplus/gl_fixed.hpp>
-#include "example/wrapper.hpp"
-#include "example/state.hpp"
+#include "wrapper.hpp"
+#include "state.hpp"
 
 #include <eagine/scope_exit.hpp>
 #include <eagine/program_args.hpp>

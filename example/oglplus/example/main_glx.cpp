@@ -1,5 +1,5 @@
 /**
- *  file. oglplus/main_glx.cpp
+ *  file. oglplus/example/main_glx.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <oglplus/gl_fixed.hpp>
-#include "example/wrapper.hpp"
-#include "example/state.hpp"
+#include "wrapper.hpp"
+#include "state.hpp"
 
 #include <oglplus/glx/context.hpp>
 #include <oglplus/glx/fb_configs.hpp>
@@ -150,8 +150,8 @@ int example_main(
 		vi,
 		x11::Colormap(display, vi),
 		"OGLplus example",
-		params.window_x_position(),
-		params.window_y_position(),
+		params.window_x_pos(),
+		params.window_y_pos(),
 		unsigned(state.width()),
 		unsigned(state.height())
 	);
