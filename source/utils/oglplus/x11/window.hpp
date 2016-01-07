@@ -27,6 +27,8 @@ private:
 		const Display& display,
 		const VisualInfo& vi,
 		const Colormap& cmap,
+		int pos_x,
+		int pos_y,
 		unsigned width,
 		unsigned height
 	)
@@ -40,7 +42,7 @@ private:
 		return ::XCreateWindow(
 			display,
 			RootWindow(display.Get(), vi->screen),
-			0, 0, width, height,
+			pos_x, pos_y, width, height,
 			0,
 			vi->depth,
 			InputOutput,
@@ -55,11 +57,13 @@ public:
 		const VisualInfo& vi,
 		const Colormap& cmap,
 		const char* title,
+		int pos_x,
+		int pos_y,
 		unsigned width,
 		unsigned height
 	): DisplayObject< ::Window>(
 		display,
-	 	make_window(display, vi, cmap, width, height),
+	 	make_window(display, vi, cmap, pos_x, pos_y, width, height),
 		::XDestroyWindow,
 		"Error creating X Window"
 	)

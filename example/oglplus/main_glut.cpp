@@ -209,7 +209,7 @@ int example_main(
 	);
 #endif
 	glutInitWindowSize(state.width(), state.height());
-	glutInitWindowPosition(100,100); // TODO state
+	glutInitWindowPosition(params.window_x_pos(), params.window_y_pos());
 	glutCreateWindow("OGLplus example");
 
 	oglplus::api_initializer gl_api_init;

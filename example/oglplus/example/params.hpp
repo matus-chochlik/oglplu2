@@ -26,6 +26,9 @@ private:
 	float _screenshot_time;
 	float _fixed_fps;
 
+	int _x_pos;
+	int _y_pos;
+
 	int _x_tiles;
 	int _y_tiles;
 
@@ -45,6 +48,8 @@ public:
 	 : _rand_seed(0)
 	 , _screenshot_time(3)
 	 , _fixed_fps(30)
+	 , _x_pos(64)
+	 , _y_pos(64)
 	 , _x_tiles(1)
 	 , _y_tiles(1)
 	 , _samples(4)
@@ -123,6 +128,32 @@ public:
 	noexcept
 	{
 		return 1.0f/_fixed_fps;
+	}
+
+	example_params& window_x_pos(int pos)
+	noexcept
+	{
+		_x_pos = pos;
+		return *this;
+	}
+
+	int window_x_pos(void) const
+	noexcept
+	{
+		return _x_pos;
+	}
+
+	example_params& window_y_pos(int pos)
+	noexcept
+	{
+		_y_pos = pos;
+		return *this;
+	}
+
+	int window_y_pos(void) const
+	noexcept
+	{
+		return _y_pos;
 	}
 
 	example_params& rand_seed(unsigned seed)

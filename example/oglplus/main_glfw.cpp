@@ -109,6 +109,10 @@ int example_main(
 		else
 		{
 			glfwSetWindowTitle("OGLplus example");
+			glfwSetWindowPos(
+				params.window_x_pos(),
+				params.window_y_pos()
+			);
 
 			oglplus::api_initializer gl_api_init;
 

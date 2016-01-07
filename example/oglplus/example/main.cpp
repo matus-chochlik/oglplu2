@@ -28,6 +28,154 @@ int example_main(
 	oglplus::example_state&
 );
 
+bool parse_next_arg(const eagine::program_arg& a, int& i)
+{
+	i = std::atoi(a.next().get().c_str());
+	return (i != 0) || (a.next() == "0");
+}
+
+bool parse_next_arg(const eagine::program_arg& a, float& f)
+{
+	f = float(std::atof(a.next().get().c_str()));
+	return (f != 0.f) || (a.next() == "0") || (a.next() == "0.0");
+}
+
+bool parse_next_arg(const eagine::program_arg& a, eagine::cstr_ref& s)
+{
+	s = a.next();
+	return s.size() > 0;
+}
+
+template <typename T>
+bool is_positive(T v)
+{
+	return v > T(0);
+}
+
+bool is_positive(const eagine::cstr_ref&)
+{
+	return true;
+}
+
+template <typename T>
+bool parse_next_arg(const eagine::program_arg& a, T& v, bool only_positive)
+{
+	return parse_next_arg(a, v) && (!only_positive || is_positive(v));
+}
+
+template <typename T, typename Action, typename Errstr>
+bool act_on_next_arg(
+	eagine::program_arg& a,
+	const char* value_type,
+	Action action,
+	Errstr& errstr,
+	bool only_positive
+)
+{
+	if(a.next())
+	{
+		T value = T();
+		if(a.next().get().empty())
+		{
+			errstr()
+				<< "Empty argument after '"
+				<< a.get()
+				<< "'."
+				<< std::endl;
+		}
+		else if(!parse_next_arg(a, value, only_positive))
+		{
+			errstr()
+				<< "Invalid "
+				<< value_type
+				<< " '"
+				<< a.next().get()
+				<< "' after '"
+				<< a.get()
+				<< "'."
+				<< std::endl;
+		}
+		else
+		{
+			action(value);
+			a = a.next();
+			return true;
+		}
+	}
+	else
+	{
+		errstr()
+			<< "Missing "
+			<< value_type
+			<< " after '"
+			<< a.get()
+			<< "'."
+			<< std::endl;
+	}
+	return false;
+}
+
+template <typename Action, typename Errstr>
+bool act_on_next_str(
+	eagine::program_arg& arg,
+	const char* value_type,
+	Action action,
+	Errstr& errstr
+)
+{
+	return act_on_next_arg<eagine::cstr_ref>(
+		arg,
+		value_type,
+		action,
+		errstr,
+		false
+	);
+}
+
+template <typename Action, typename Errstr>
+bool act_on_next_int(
+	eagine::program_arg& arg,
+	Action action,
+	Errstr& errstr,
+	bool only_positive = false
+)
+{
+	return act_on_next_arg<int>(
+		arg,
+		"integer value",
+		action,
+		errstr,
+		only_positive
+	);
+}
+
+template <typename Action, typename Errstr>
+bool act_on_next_positive_int(
+	eagine::program_arg& arg,
+	Action action,
+	Errstr& errstr
+)
+{
+	return act_on_next_int(arg, action, errstr, true);
+}
+
+template <typename Action, typename Errstr>
+bool act_on_next_float(
+	eagine::program_arg& arg,
+	Action action,
+	Errstr& errstr,
+	bool only_positive
+)
+{
+	return act_on_next_arg<float>(
+		arg,
+		"floating-point value",
+		action,
+		errstr,
+		only_positive
+	);
+}
+
 int main(int argc, const char** argv)
 {
 	eagine::program_args args(argc, argv);
@@ -60,26 +208,12 @@ int main(int argc, const char** argv)
 				<< std::endl;
 				return 1;
 			}
-			if(a.next())
+			auto action = [&params](const cstr_ref& s)
 			{
-				if(a.next().get().empty())
-				{
-					errstr()
-					<< "Empty path after '--screenshot'."
-					<< std::endl;
-					return 1;
-				}
-				else
-				{
-					params.screenshot_path(a.next());
-					a = a.next();
-				}
-			}
-			else
+				params.screenshot_path(s);
+			};
+			if(!act_on_next_str(a, "path", action, errstr))
 			{
-				errstr()
-				<< "Missing path after '--screenshot'."
-				<< std::endl;
 				return 1;
 			}
 		}
@@ -93,101 +227,67 @@ int main(int argc, const char** argv)
 				<< std::endl;
 				return 1;
 			}
-			if(a.next())
+			auto action = [&params](const cstr_ref& s)
 			{
-				if(a.next().get().empty())
-				{
-					errstr()
-					<< "Empty prefix after '--framedump'."
-					<< std::endl;
-					return 1;
-				}
-				else
-				{
-					params.framedump_prefix(a.next());
-					a = a.next();
-				}
-			}
-			else
+				params.framedump_prefix(s);
+			};
+			if(!act_on_next_str(a, "prefix", action, errstr))
 			{
-				errstr()
-				<< "Missing prefix after '--framedump'."
-				<< std::endl;
 				return 1;
 			}
 		}
 		else if(a == "--fixed-fps")
 		{
-			if(a.next())
+			auto action = [&params](float f)
 			{
-				double fps = std::atof(a.next().get().c_str());
-				if(fps < 1)
-				{
-					errstr()
-					<< "Invalid value '"
-					<< a.next().get()
-					<< "' after --fixed-fps."
-					<< std::endl;
-					return 1;
-				}
-				params.fixed_fps(float(fps));
-				a = a.next();
+				params.fixed_fps(f);
+			};
+			if(!act_on_next_float(a, action, errstr, true))
+			{
+				return 1;
 			}
-			else 
+		}
+		else if(a == "--window-x")
+		{
+			auto action = [&params](int i)
 			{
-				errstr()
-				<< "Missing number after '--fixed-fps'."
-				<< std::endl;
+				params.window_x_pos(i);
+			};
+			if(!act_on_next_int(a, action, errstr))
+			{
+				return 1;
+			}
+		}
+		else if(a == "--window-y")
+		{
+			auto action = [&params](int i)
+			{
+				params.window_y_pos(i);
+			};
+			if(!act_on_next_int(a, action, errstr))
+			{
 				return 1;
 			}
 		}
 		else if(a == "--width")
 		{
-			if(a.next())
+			auto action = [&state](int i)
 			{
-				int width = std::atoi(a.next().get().c_str());
-				if(width < 1)
-				{
-					errstr()
-					<< "Invalid value '"
-					<< a.next().get()
-					<< "' after --width."
-					<< std::endl;
-					return 1;
-				}
-				state.set_width(width);
-				a = a.next();
-			}
-			else 
+				state.set_width(i);
+			};
+			if(!act_on_next_positive_int(a, action, errstr))
 			{
-				errstr()
-				<< "Missing number after '--width'."
-				<< std::endl;
 				return 1;
 			}
 		}
 		else if(a == "--height")
 		{
-			if(a.next())
+			auto action = [&state](int i)
 			{
-				int height = std::atoi(a.next().get().c_str());
-				if(height < 1)
-				{
-					errstr()
-					<< "Invalid value '"
-					<< a.next().get()
-					<< "' after --height."
-					<< std::endl;
-					return 1;
-				}
-				state.set_height(height);
-				a = a.next();
-			}
-			else 
+				state.set_height(i);
+			};
+			if(!act_on_next_positive_int(a, action, errstr))
 			{
-				errstr()
-				<< "Missing number after '--height'."
-				<< std::endl;
 				return 1;
 			}
 		}
@@ -201,51 +301,23 @@ int main(int argc, const char** argv)
 		}
 		else if(a == "--x-tiles")
 		{
-			if(a.next())
+			auto action = [&params](int i)
 			{
-				int x_tiles = std::atoi(a.next().get().c_str());
-				if(x_tiles < 1)
-				{
-					errstr()
-					<< "Invalid value '"
-					<< a.next().get()
-					<< "' after --x-tiles."
-					<< std::endl;
-					return 1;
-				}
-				params.x_tiles(x_tiles);
-				a = a.next();
-			}
-			else 
+				params.x_tiles(i);
+			};
+			if(!act_on_next_positive_int(a, action, errstr))
 			{
-				errstr()
-				<< "Missing number after '--x-tiles'."
-				<< std::endl;
 				return 1;
 			}
 		}
 		else if(a == "--y-tiles")
 		{
-			if(a.next())
+			auto action = [&params](int i)
 			{
-				int y_tiles = std::atoi(a.next().get().c_str());
-				if(y_tiles < 1)
-				{
-					errstr()
-					<< "Invalid value '"
-					<< a.next().get()
-					<< "' after --y-tiles."
-					<< std::endl;
-					return 1;
-				}
-				params.y_tiles(y_tiles);
-				a = a.next();
-			}
-			else 
+				params.x_tiles(i);
+			};
+			if(!act_on_next_positive_int(a, action, errstr))
 			{
-				errstr()
-				<< "Missing number after '--y-tiles'."
-				<< std::endl;
 				return 1;
 			}
 		}

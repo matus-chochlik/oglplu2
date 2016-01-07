@@ -136,6 +136,11 @@ int example_main(
 		{
 			glfwMakeContextCurrent(window);
 			glfwSetWindowTitle(window, "OGLplus example");
+			glfwSetWindowPos(
+				window,
+				params.window_x_pos(),
+				params.window_y_pos()
+			);
 			glfwSetScrollCallback(window, example_scroll_callback);
 
 			oglplus::api_initializer gl_api_init;

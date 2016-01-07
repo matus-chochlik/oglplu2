@@ -150,6 +150,8 @@ int example_main(
 		vi,
 		x11::Colormap(display, vi),
 		"OGLplus example",
+		params.window_x_position(),
+		params.window_y_position(),
 		unsigned(state.width()),
 		unsigned(state.height())
 	);
