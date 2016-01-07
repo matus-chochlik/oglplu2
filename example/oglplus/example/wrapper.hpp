@@ -34,8 +34,11 @@ private:
 	std::vector<char>& pixels(void);
 	std::vector<char> _textbuf;
 	std::vector<char>& textbuf(std::size_t);
+
 public:
 	example_wrapper(example_params& params, example_state& state);
+
+	void destroy(void);
 
 	bool next_frame(void);
 

@@ -268,6 +268,12 @@ public:
 		return _depth_bits;
 	}
 
+	bool depth_buffer(void) const
+	noexcept
+	{
+		return _depth_bits > 0;
+	}
+
 	example_params& stencil_bits(int n)
 	noexcept
 	{
@@ -280,6 +286,12 @@ public:
 	noexcept
 	{
 		return _stencil_bits;
+	}
+
+	bool stencil_buffer(void) const
+	noexcept
+	{
+		return _stencil_bits > 0;
 	}
 };
 

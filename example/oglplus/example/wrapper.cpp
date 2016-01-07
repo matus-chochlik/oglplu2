@@ -16,6 +16,7 @@
 #include <fstream>
 #include <sstream>
 #include <stdexcept>
+#include <cassert>
 
 namespace oglplus {
 
@@ -88,8 +89,16 @@ example_wrapper(example_params& params, example_state& state)
 	}
 }
 
+
+void example_wrapper::destroy(void)
+{
+	_example.reset();
+}
+
 bool example_wrapper::next_frame(void)
 {
+	assert(_example);
+
 	_state.advance_frame();
 	if(_params.fixed_framerate())
 	{
@@ -116,6 +125,8 @@ bool example_wrapper::next_frame(void)
 
 void example_wrapper::update(void)
 {
+	assert(_example);
+
 	if(_state.user_idle())
 	{
 		_example->user_idle(_state);
@@ -124,6 +135,7 @@ void example_wrapper::update(void)
 
 void example_wrapper::render(void)
 {
+	assert(_example);
 
 	bool save_frame = _params.doing_framedump();
 	save_frame |= _params.doing_screenshot() &&
@@ -209,6 +221,8 @@ void example_wrapper::render(void)
 
 void example_wrapper::set_size(int width, int height)
 {
+	assert(_example);
+
 	if(_state.set_size(width, height))
 	{
 		_example->resize(_state);
@@ -217,6 +231,8 @@ void example_wrapper::set_size(int width, int height)
 
 void example_wrapper::set_mouse_btn(int i, bool pressed)
 {
+	assert(_example);
+
 	if(_state.set_mouse_btn(i, pressed))
 	{
 		// TODO
@@ -226,6 +242,8 @@ void example_wrapper::set_mouse_btn(int i, bool pressed)
 
 void example_wrapper::set_mouse_pos(int x, int y)
 {
+	assert(_example);
+
 	if(_state.set_mouse_pos(x, y))
 	{
 		_example->pointer_motion(_state);
@@ -234,6 +252,8 @@ void example_wrapper::set_mouse_pos(int x, int y)
 
 void example_wrapper::set_mouse_wheel(int w)
 {
+	assert(_example);
+
 	if(_state.set_mouse_wheel(w))
 	{
 		_example->pointer_scrolling(_state);

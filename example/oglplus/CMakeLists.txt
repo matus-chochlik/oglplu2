@@ -6,7 +6,9 @@
 cmake_minimum_required(VERSION 2.8)
 
 # TODO
-if(SDL_FOUND)
+if(GLUT_FOUND)
+	set(OGLPLUS_EXAMPLE_HARNESS "glut")
+elseif(SDL_FOUND)
 	set(OGLPLUS_EXAMPLE_HARNESS "sdl")
 elseif(GLX_FOUND)
 	set(OGLPLUS_EXAMPLE_HARNESS "glx")
