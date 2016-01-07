@@ -1,5 +1,5 @@
 /**
- *  example oglplus/009_mandelbrot.cpp
+ *  example oglplus/011_mandelbrot.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
