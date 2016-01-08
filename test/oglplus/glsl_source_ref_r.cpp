@@ -8,11 +8,11 @@
 #define BOOST_TEST_MODULE OGLPLUS_glsl_source_ref
 #include <boost/test/unit_test.hpp>
 
-#include <oglplus/gl.hpp>
+#include <oglplus/gl_fixed.hpp>
 #include <oglplus/glsl/source_ref.hpp>
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(glsl_source_ref)
+BOOST_AUTO_TEST_SUITE(glsl_source_ref_tests)
 
 BOOST_AUTO_TEST_CASE(glsl_source_ref_1)
 {
@@ -21,7 +21,7 @@ BOOST_AUTO_TEST_CASE(glsl_source_ref_1)
 	const char* s = "#version 150\n";
 	GLint l = GLint(std::strlen(s));
 
-	oglplus::glsl_source_ref sr{1, &s, &l};
+	glsl_source_ref sr{1, &s, &l};
 
 	BOOST_CHECK(sr.count() == 1);
 
@@ -51,7 +51,7 @@ BOOST_AUTO_TEST_CASE(glsl_source_ref_2)
 		l[i] = GLint(std::strlen(s[i]));
 	}
 
-	oglplus::glsl_source_ref sr{n, s, l};
+	glsl_source_ref sr{n, s, l};
 
 	BOOST_CHECK(sr.count() == n);
 	BOOST_ASSERT(sr.parts() != nullptr);

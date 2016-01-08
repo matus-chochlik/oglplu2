@@ -18,18 +18,18 @@
 namespace eagine {
 namespace memory {
 
-template <bool is_const>
+template <bool IsConst>
 class basic_address
 {
 public:
 	typedef std::conditional_t<
-		is_const,
+		IsConst,
 		const void*,
 		void*
 	> pointer;
 
 	typedef std::conditional_t<
-		is_const,
+		IsConst,
 		const byte*,
 		byte*
 	> byte_pointer;
@@ -68,7 +68,11 @@ public:
 	basic_address(const basic_address&) = default;
 	basic_address& operator = (const basic_address&) = default;
 
-	basic_address(basic_address<false> a)
+	template <
+		bool IsConst2,
+		typename = std::enable_if_t<IsConst && !IsConst2>
+	>
+	basic_address(basic_address<IsConst2> a)
 	noexcept
 	 : _addr(pointer(a))
 	{ }
@@ -83,7 +87,7 @@ public:
 		typename T,
 		typename = std::enable_if_t<
 			!std::is_void<T>::value && 
-			(std::is_const<T>::value || !is_const)
+			(std::is_const<T>::value || !IsConst)
 		>
 	>
 	explicit
@@ -138,10 +142,10 @@ noexcept
 	return addr.is_aligned_to(alignment);
 }
 
-template <bool is_const>
+template <bool IsConst>
 static inline
-basic_address<is_const>
-align_up(basic_address<is_const> addr, std::uintptr_t align, std::size_t max)
+basic_address<IsConst>
+align_up(basic_address<IsConst> addr, std::uintptr_t align, std::size_t max)
 noexcept
 {
 	std::uintptr_t ma = misalignment(addr, align);
@@ -151,10 +155,10 @@ noexcept
 	return {addr, ma};
 }
 
-template <bool is_const>
+template <bool IsConst>
 static inline
-basic_address<is_const>
-align_down(basic_address<is_const> addr, std::uintptr_t align, std::size_t max)
+basic_address<IsConst>
+align_down(basic_address<IsConst> addr, std::uintptr_t align, std::size_t max)
 noexcept
 {
 	std::uintptr_t ma = misalignment(addr, align);

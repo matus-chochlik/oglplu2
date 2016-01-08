@@ -82,7 +82,7 @@ shader_ops::
 return_shader_i(shader_name shdr, shader_parameter parameter)
 noexcept
 {
-	GLint result;
+	GLint result = 0;
 	return get_shader_iv(
 		shdr,
 		parameter,

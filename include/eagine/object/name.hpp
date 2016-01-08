@@ -145,7 +145,7 @@ public:
 		return nt._name;
 	}
 
-	friend inline constexpr
+	friend inline
 	span<_name_type>
 	get_raw_names(object_names& ntr)
 	noexcept

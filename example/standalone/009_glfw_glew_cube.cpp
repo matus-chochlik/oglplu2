@@ -10,6 +10,7 @@
 
 #include <oglplus/operations.hpp>
 #include <oglplus/constants.hpp>
+#include <oglplus/constant_defs.hpp>
 #include <oglplus/glsl/string_ref.hpp>
 #include <oglplus/error/format.hpp>
 
@@ -235,9 +236,9 @@ void run_loop(int width, int height)
 
 		gl.matrix_mode(GL.modelview);
 		gl.load_identity();
-		gl.rotate_f(degrees(0.1f*(deg+=1)), 1, 0, 0);
-		gl.rotate_f(degrees(0.1f*(deg+=2)), 0, 1, 0);
-		gl.rotate_f(degrees(0.1f*(deg+=3)), 0, 0, 1);
+		gl.rotate_f(degrees_(0.1f*(deg+=1)), 1, 0, 0);
+		gl.rotate_f(degrees_(0.1f*(deg+=2)), 0, 1, 0);
+		gl.rotate_f(degrees_(0.1f*(deg+=3)), 0, 0, 1);
 
 		gl.draw_arrays(GL.triangles, 0, 6 * 2 * 3);
 

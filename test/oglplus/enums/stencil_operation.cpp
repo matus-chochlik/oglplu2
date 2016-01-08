@@ -16,7 +16,7 @@
 #include "common.hpp"
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(enum_stencil_operation)
+BOOST_AUTO_TEST_SUITE(enum_stencil_operation_tests)
 
 BOOST_AUTO_TEST_CASE(enum_stencil_operation_values)
 {

@@ -11,7 +11,7 @@
 #include <eagine/math/vector.hpp>
 #include <cstdlib>
 
-BOOST_AUTO_TEST_SUITE(math_vector_ops)
+BOOST_AUTO_TEST_SUITE(math_vector_op_tests)
 
 template <typename T, unsigned N, bool V>
 void test_math_vector_dimension_TNV(void)

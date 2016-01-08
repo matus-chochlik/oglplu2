@@ -80,22 +80,50 @@ function(gl_feature_detection GL_LIB QUERY QUERY_KIND)
 			"-DLIBRARY_DIRECTORIES:STRING=${CONFIG_REQUIRED_LIBRARY_DIRS} "
 			"-DLINK_DIRECTORIES:STRING=${CONFIG_REQUIRED_LIBRARY_DIRS} "
 			"-DLINK_LIBRARIES:STRING=${CONFIG_REQUIRED_LIBRARIES} "
+		COMPILE_OUTPUT_VARIABLE TRY_COMPILE_OUTPUT
+		RUN_OUTPUT_VARIABLE TRY_RUN_OUTPUT
 	)
 	if(COMPILED_WITH_${GL_LIB}_${QUERY})
 		if(RUNS_WITH_${GL_LIB}_${QUERY} EQUAL 0)
 			set(HAS_${GL_LIB}_${QUERY} TRUE PARENT_SCOPE)
 		else()
-			set(OGLPLUS_NO_${GL_LIB}_${QUERY} TRUE PARENT_SCOPE)
+			if(COMPILE_ONLY_GL_TESTS)
+				set(HAS_${GL_LIB}_${QUERY} TRUE PARENT_SCOPE)
+			else()
+				set(NO_${GL_LIB}_${QUERY} TRUE PARENT_SCOPE)
+			endif()
 		endif()
 	else()
-		set(OGLPLUS_NO_${GL_LIB}_${QUERY} TRUE PARENT_SCOPE)
+		set(NO_${GL_LIB}_${QUERY} TRUE PARENT_SCOPE)
 	endif()
+
+	if(
+		(DEBUG_GL_VER_ERROR AND ("${QUERY_KIND}" STREQUAL "VER")) OR
+		(DEBUG_GL_EXT_ERROR AND ("${QUERY_KIND}" STREQUAL "EXT"))
+	)
+		message(STATUS "testing: ${GL_LIB}_${QUERY}")
+		if(NOT COMPILED_WITH_${GL_LIB}_${QUERY})
+			message(WARNING "try_compile: ${TRY_COMPILE_OUTPUT}")
+		endif()
+		if(NOT RUNS_WITH_${GL_LIB}_${QUERY} EQUAL 0)
+			message(WARNING "try_run: ${TRY_RUN_OUTPUT}")
+		endif()
+	endif()
+
+	unset(TRY_COMPILE_OUTPUT)
+	unset(TRY_RUN_OUTPUT)
+
 	unset(RUNS_WITH_${GL_LIB}_${QUERY})
 	unset(COMPILED_WITH_${GL_LIB}_${QUERY})
 endfunction()
 
 configure_file(
-	${PROJECT_SOURCE_DIR}/config/gl/init_GL.ipp.in
-	${PROJECT_BINARY_DIR}/gl/init_GL.ipp
+	${PROJECT_SOURCE_DIR}/config/gl/decl_GL_test.ipp.in
+	${PROJECT_BINARY_DIR}/gl/decl_GL_test.ipp
+)
+
+configure_file(
+	${PROJECT_SOURCE_DIR}/config/gl/impl_GL_test.ipp.in
+	${PROJECT_BINARY_DIR}/gl/impl_GL_test.ipp
 )
 

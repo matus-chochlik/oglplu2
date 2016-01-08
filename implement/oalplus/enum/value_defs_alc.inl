@@ -13,91 +13,80 @@
 namespace oalplus {
 
 #ifdef ALC_FREQUENCY
-const enum_value<
+constexpr const enum_value<
 	ALCenum,
-	ALC_FREQUENCY,
 	mp_list<oalplus::context_attrib>
-> enum_values::frequency;
+> enum_values_alc::frequency;
 #endif
 
 #ifdef ALC_INVALID_CONTEXT
-const enum_value<
+constexpr const enum_value<
 	ALCenum,
-	ALC_INVALID_CONTEXT,
 	mp_list<oalplus::alc_error_code>
-> enum_values::invalid_context;
+> enum_values_alc::invalid_context;
 #endif
 
 #ifdef ALC_INVALID_DEVICE
-const enum_value<
+constexpr const enum_value<
 	ALCenum,
-	ALC_INVALID_DEVICE,
 	mp_list<oalplus::alc_error_code>
-> enum_values::invalid_device;
+> enum_values_alc::invalid_device;
 #endif
 
 #ifdef ALC_INVALID_ENUM
-const enum_value<
+constexpr const enum_value<
 	ALCenum,
-	ALC_INVALID_ENUM,
 	mp_list<oalplus::alc_error_code>
-> enum_values::invalid_enum;
+> enum_values_alc::invalid_enum;
 #endif
 
 #ifdef ALC_INVALID_VALUE
-const enum_value<
+constexpr const enum_value<
 	ALCenum,
-	ALC_INVALID_VALUE,
 	mp_list<oalplus::alc_error_code>
-> enum_values::invalid_value;
+> enum_values_alc::invalid_value;
 #endif
 
 #ifdef ALC_MONO_SOURCES
-const enum_value<
+constexpr const enum_value<
 	ALCenum,
-	ALC_MONO_SOURCES,
 	mp_list<oalplus::context_attrib>
-> enum_values::mono_sources;
+> enum_values_alc::mono_sources;
 #endif
 
 #ifdef ALC_NO_ERROR
-const enum_value<
+constexpr const enum_value<
 	ALCenum,
-	ALC_NO_ERROR,
 	mp_list<oalplus::alc_error_code>
-> enum_values::no_error;
+> enum_values_alc::no_error;
 #endif
 
 #ifdef ALC_OUT_OF_MEMORY
-const enum_value<
+constexpr const enum_value<
 	ALCenum,
-	ALC_OUT_OF_MEMORY,
 	mp_list<oalplus::alc_error_code>
-> enum_values::out_of_memory;
+> enum_values_alc::out_of_memory;
 #endif
 
 #ifdef ALC_REFRESH
-const enum_value<
+constexpr const enum_value<
 	ALCenum,
-	ALC_REFRESH,
 	mp_list<oalplus::context_attrib>
-> enum_values::refresh;
+> enum_values_alc::refresh;
 #endif
 
 #ifdef ALC_STEREO_SOURCES
-const enum_value<
+constexpr const enum_value<
 	ALCenum,
-	ALC_STEREO_SOURCES,
 	mp_list<oalplus::context_attrib>
-> enum_values::stereo_sources;
+> enum_values_alc::stereo_sources;
 #endif
 
 #ifdef ALC_SYNC
-const enum_value<
+constexpr const enum_value<
 	ALCenum,
-	ALC_SYNC,
 	mp_list<oalplus::context_attrib>
-> enum_values::sync;
+> enum_values_alc::sync;
 #endif
 
 } // namespace oalplus

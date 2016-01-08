@@ -1,21 +1,21 @@
 /**
- *  @file oglplus/utils/angles.hpp
+ *  @file oglplus/utils/valid_if.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#ifndef OGLPLUS_UTILS_VALID_IF_1509260923_HPP
+#define OGLPLUS_UTILS_VALID_IF_1509260923_HPP
 
-#ifndef OGLPLUS_UTILS_ANGLES_1509260923_HPP
-#define OGLPLUS_UTILS_ANGLES_1509260923_HPP
-
-#include <eagine/angles.hpp>
+#include <eagine/valid_if.hpp>
 
 namespace oglplus {
 
-using eagine::degrees_t;
-using eagine::degrees;
+using eagine::valid_if;
+using eagine::valid_if_greater_than;
+using eagine::valid_if_not;
 
 } // namespace oglplus
 

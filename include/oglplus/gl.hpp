@@ -36,21 +36,23 @@
 
 #ifndef OGLPLUS_NO_GL
 
+namespace oglplus {
+
+struct api_initializer
+{
+	api_initializer(const api_initializer&) = delete;
+
+	api_initializer(int /*gl_ver_major*/ = 3, int /*gl_ver_minor*/ = 3);
+	~api_initializer(void);
+};
+
+} // namespace oglplus
+
 # if OGLPLUS_USE_GLCOREARB_H
 #  define GLCOREARB_PROTOTYPES
 #  define GL_GLEXT_PROTOTYPES
 #  include <GL/glcorearb.h>
 #  include <GL/glext.h>
-
-namespace oglplus {
-struct GLAPIInitializer
-{
-	GLAPIInitializer(
-		int /*gl_ver_major*/ = 3,
-		int /*gl_ver_minor*/ = 3
-	){ }
-};
-} // namespace oglplus
 
 # elif OGLPLUS_USE_GL3_H
 #  define GL3_PROTOTYPES
@@ -64,73 +66,12 @@ struct GLAPIInitializer
 #  define __glext_h_
 #  define __glext_h__
 
-namespace oglplus {
-struct GLAPIInitializer
-{
-	GLAPIInitializer(
-		int /*gl_ver_major*/ = 3,
-		int /*gl_ver_minor*/ = 3
-	){ }
-};
-} // namespace oglplus
-
 # elif OGLPLUS_USE_GLEW
 #  include <GL/glew.h>
-#  include <stdexcept>
-
-namespace oglplus {
-class GLAPIInitializer
-{
-public:
-	GLAPIInitializer(
-		int /*gl_ver_major*/ = 3,
-		int /*gl_ver_minor*/ = 3
-	)
-	{
-		glewExperimental = GL_TRUE;
-		GLenum init_result = glewInit();
-		glGetError();
-		if(init_result != GLEW_OK)
-		{
-			throw std::runtime_error(
-				"OpenGL/GLEW initialization error."
-			);
-		}
-	}
-};
-} // namespace oglplus
 
 # elif OGLPLUS_USE_GL3W
 #  define GL3_PROTOTYPES
 #  include <GL/gl3w.h>
-#  include <stdexcept>
-
-namespace oglplus {
-class GLAPIInitializer
-{
-public:
-	GLAPIInitializer(
-		int gl_ver_major = 3,
-		int gl_ver_minor = 3
-	)
-	{
-		auto init_failed = gl3wInit();
-		glGetError();
-		if(init_failed)
-		{
-			throw std::runtime_error(
-				"OpenGL/GL3W initialization error."
-			);
-		}
-		if(!gl3wIsSupported(gl_ver_major, gl_ver_minor))
-		{
-			throw std::runtime_error(
-				"Requested OpenGL version not supported"
-			);
-		}
-	}
-};
-} // namespace oglplus
 
 # else
 #  error "Some library including OpenGL symbols is required!"
@@ -140,6 +81,10 @@ public:
 
 #ifdef __clang__
 #pragma clang diagnostic pop
+#endif
+
+#if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
+#include <oglplus/gl.inl>
 #endif
 
 #endif // include guard

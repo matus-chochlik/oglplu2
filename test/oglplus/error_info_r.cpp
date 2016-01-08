@@ -19,19 +19,19 @@
 # define OGLPLUS_ERROR_NO_ENUM_VALUE 0
 # define OGLPLUS_ERROR_NO_BUILD_LOG 0
 
-#include <oglplus/gl.hpp>
+#include <oglplus/gl_fixed.hpp>
 #include <oglplus/error/info.hpp>
 #include "helper/mock_object.hpp"
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(error_info)
+BOOST_AUTO_TEST_SUITE(error_info_tests)
 
 BOOST_AUTO_TEST_CASE(error_info_1)
 {
 	using namespace oglplus;
 	using std::strcmp;
 
-	oglplus::error_info ei1(GL_NO_ERROR);
+	error_info ei1(GL_NO_ERROR);
 	BOOST_CHECK(ei1.gl_error_code() == GL_NO_ERROR);
 
 	ei1.gl_error_code(GL_OUT_OF_MEMORY);
@@ -83,7 +83,7 @@ BOOST_AUTO_TEST_CASE(error_info_1)
 BOOST_AUTO_TEST_CASE(error_info_2)
 {
 	using namespace oglplus;
-	oglplus::error_info ei1;
+	error_info ei1;
 
 	ei1
 		.gl_library_name("GL")
@@ -95,7 +95,7 @@ BOOST_AUTO_TEST_CASE(error_info_2)
 		.gl_subject(mock_object_name(34567))
 		.gl_error_code(GL_OUT_OF_MEMORY);
 
-	oglplus::error_info ei2(std::move(ei1));
+	error_info ei2(std::move(ei1));
 
 	BOOST_CHECK(ei2.gl_error_code() == GL_OUT_OF_MEMORY);
 

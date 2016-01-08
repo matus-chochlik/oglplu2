@@ -16,7 +16,7 @@
 #include "common.hpp"
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(enum_buffer_usage)
+BOOST_AUTO_TEST_SUITE(enum_buffer_usage_tests)
 
 BOOST_AUTO_TEST_CASE(enum_buffer_usage_values)
 {

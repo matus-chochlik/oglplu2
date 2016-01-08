@@ -10,6 +10,7 @@
 
 #include <oglplus/operations.hpp>
 #include <oglplus/constants.hpp>
+#include <oglplus/constant_defs.hpp>
 #include <oglplus/glsl/string_ref.hpp>
 #include <oglplus/error/format.hpp>
 #include <oglplus/math/vector.hpp>

@@ -4,7 +4,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include <oglplus/gl.hpp>
+#include <oglplus/gl_fixed.hpp>
 #include <oglplus/buffer.hpp>
 #include "helper/object_c.hpp"
 
@@ -40,8 +40,20 @@ void oglplus_buffer_test_ops1(void)
 	gl.buffer_mapped(tgt);
 	gl.buffer_usage(tgt);
 #if defined(GL_VERSION_4_4) || defined(GL_ARB_buffer_storage)
+	gl.buffer_storage(tgt, data, buffer_storage_bits());
 	gl.buffer_immutable_storage(tgt);
 	gl.buffer_storage_flags(tgt);
+#endif
+
+#if defined(GL_NV_shader_buffer_load)
+	gl.make_buffer_resident(tgt, access_specifier(GL_READ_ONLY));
+	gl.make_buffer_resident(buf, access_specifier(GL_READ_ONLY));
+	gl.make_buffer_non_resident(tgt);
+	gl.make_buffer_non_resident(buf);
+	gl.is_buffer_resident(tgt);
+	gl.is_buffer_resident(buf);
+	gl.buffer_gpu_address(tgt);
+	gl.buffer_gpu_address(buf);
 #endif
 
 	curbuf.data(data, buffer_usage(GL_STATIC_DRAW));
@@ -50,8 +62,16 @@ void oglplus_buffer_test_ops1(void)
 	curbuf.mapped();
 	curbuf.usage();
 #if defined(GL_VERSION_4_4) || defined(GL_ARB_buffer_storage)
+	curbuf.storage(data, buffer_storage_bits());
 	curbuf.immutable_storage();
 	curbuf.storage_flags();
+#endif
+
+#if defined(GL_NV_shader_buffer_load)
+	curbuf.make_resident(access_specifier(GL_READ_ONLY));
+	curbuf.make_non_resident();
+	curbuf.is_resident();
+	curbuf.gpu_address();
 #endif
 
 #if defined(GL_VERSION_4_3) || defined(GL_ARB_invalidate_subdata)
@@ -71,6 +91,7 @@ void oglplus_buffer_test_ops1(void)
 	gl.buffer_mapped(buf);
 	gl.buffer_usage(buf);
 #if defined(GL_VERSION_4_4) || defined(GL_ARB_buffer_storage)
+	gl.buffer_storage(buf, data, buffer_storage_bits());
 	gl.buffer_immutable_storage(buf);
 	gl.buffer_storage_flags(buf);
 #endif
@@ -81,8 +102,16 @@ void oglplus_buffer_test_ops1(void)
 	buf.mapped();
 	buf.usage();
 #if defined(GL_VERSION_4_4) || defined(GL_ARB_buffer_storage)
+	buf.storage(data, buffer_storage_bits());
 	buf.immutable_storage();
 	buf.storage_flags();
+#endif
+
+#if defined(GL_NV_shader_buffer_load)
+	buf.make_resident(access_specifier(GL_READ_ONLY));
+	buf.make_non_resident();
+	buf.is_resident();
+	buf.gpu_address();
 #endif
 #endif
 }

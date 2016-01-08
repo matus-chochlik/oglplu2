@@ -11,7 +11,7 @@
 #include <eagine/math/vector.hpp>
 #include <cstdlib>
 
-BOOST_AUTO_TEST_SUITE(math_vector)
+BOOST_AUTO_TEST_SUITE(math_vector_tests)
 
 template <typename T, bool V>
 void test_math_vector_default_ctr_TV(void)

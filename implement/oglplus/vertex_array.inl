@@ -31,7 +31,7 @@ vertex_array_binding(void)
 noexcept
 {
 #ifdef GL_VERTEX_ARRAY_BINDING
-	GLint result;
+	GLint result = 0;
 	return numeric_queries::get_integer_v(
 		binding_query(GL_VERTEX_ARRAY_BINDING),
 		{&result, 1}
@@ -433,6 +433,33 @@ vertex_array_attrib_i_offset(
 		gl_enum_value(type).
 		gl_index(loc.index()),
 		always
+	);
+	return {};	
+}
+#endif
+//------------------------------------------------------------------------------
+#if defined(GL_NV_vertex_buffer_unified_memory)
+inline
+outcome<void>
+vertex_array_ops::
+buffer_address_range(
+	unified_array_address_nv uba,
+	GLuint index,
+	buffer_address addr,
+	GLsizei length
+) noexcept
+{
+	OGLPLUS_GLFUNC(BufferAddressRangeNV)(
+		GLenum(uba),
+		index,
+		get_raw_address(addr),
+		length
+	);
+	OGLPLUS_VERIFY(
+		BufferAddressRangeNV,
+		gl_index(index).
+		gl_enum_value(uba),
+		debug
 	);
 	return {};	
 }

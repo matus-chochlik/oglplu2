@@ -22,4 +22,6 @@ foreach(RUNTIME_TEST ${RUNTIME_TESTS})
 	add_runtime_test(oalplus ${TEST_NAME})
 endforeach()
 
-add_subdirectory(enums)
+if(NOT ${NO_ENUM_TESTS})
+	add_subdirectory(enums)
+endif()

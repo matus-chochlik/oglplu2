@@ -258,14 +258,14 @@ def action_incl_enum_values_hpp(options):
 		))
 		print_line(options, "static constexpr const enum_value<")
 		print_line(options, "	%s," % value_info.info.enum_type)
-		print_line(options, "	%s_%s," % (
-			options.base_lib_prefix,
-			value_info.info.src_name
-		))
 		print_line(options, "	mp_list<%s>" % (
 			",".join(["%s::%s" % (options.library, x) for x in value_info.classes])
 		))
-		print_line(options, "> %s = {};" % value_name);
+		print_line(options, "> %s = {%s_%s};" % (
+			value_name,
+			options.base_lib_prefix,
+			value_info.info.src_name
+		))
 		print_line(options, "#endif")
 		print_newline(options)
 
@@ -306,16 +306,15 @@ def action_impl_enum_value_defs_inl(options):
 			options.base_lib_prefix,
 			value_info.info.src_name
 		))
-		print_line(options, "const enum_value<")
+		print_line(options, "constexpr const enum_value<")
 		print_line(options, "	%s," % value_info.info.enum_type)
-		print_line(options, "	%s_%s," % (
-			options.base_lib_prefix,
-			value_info.info.src_name
-		))
 		print_line(options, "	mp_list<%s>" % (
 			",".join(["%s::%s" % (options.library, x) for x in value_info.classes])
 		))
-		print_line(options, "> enum_values::%s;" % value_name);
+		print_line(options, "> enum_values%s::%s;" % (
+			options.lib_suffix,
+			value_name
+		))
 		print_line(options, "#endif")
 		print_newline(options)
 
@@ -348,6 +347,11 @@ def action_impl_enum_value_names_inl(options):
 			enum_values[value_info.src_name] = value_info
 
 	print_cpp_header(options)
+
+	print_line(options, "#ifdef _MSC_VER")
+	print_line(options, "#pragma warning ( push )")
+	print_line(options, "#pragma warning ( disable : 4065 )")
+	print_line(options, "#endif //_MSC_VER")
 
 	print_newline(options)
 	print_line(options, "namespace %s {" % options.library)
@@ -414,6 +418,10 @@ def action_impl_enum_value_names_inl(options):
 	print_line(options, "}")
 	print_newline(options)
 	print_line(options, "} // namespace %s" % options.library)
+
+	print_line(options, "#ifdef _MSC_VER")
+	print_line(options, "#pragma warning ( pop )")
+	print_line(options, "#endif //_MSC_VER")
 
 
 def action_impl_enum_value_range_inl(options):
@@ -566,7 +574,7 @@ def action_test_enums_cpp(options):
 	print_line(options, '#include "common%s.hpp"' % options.lib_suffix)
 	print_line(options, '#include <cstring>')
 	print_newline(options)
-	print_line(options, "BOOST_AUTO_TEST_SUITE(enum_%s)" % options.enum_name)
+	print_line(options, "BOOST_AUTO_TEST_SUITE(enum_%s_tests)" % options.enum_name)
 	print_newline(options)
 	print_line(options, "BOOST_AUTO_TEST_CASE(enum_%s_values)" % options.enum_name)
 	print_line(options, "{")
@@ -636,7 +644,7 @@ def action_test_enums_cpp(options):
 	print_line(options, "	using namespace %s;" % options.library)
 	print_line(options, "	auto count = enum_value_range<%s>().size();" % (
 		options.enum_name
-	));
+	))
 
 	for value_name, value_info in sorted(value_infos.items()):
 		print_newline(options)
@@ -644,7 +652,7 @@ def action_test_enums_cpp(options):
 			options.base_lib_prefix,
 			value_info.src_name
 		))
-		print_line(options, "{");
+		print_line(options, "{")
 		print_line(options, "	--count;")
 		print_line(options, "	auto r = enum_value_range<%s>();" % (
 			options.enum_name
@@ -657,7 +665,7 @@ def action_test_enums_cpp(options):
 			value_info.src_name
 		))
 		print_line(options, "	) != r.end());")
-		print_line(options, "}");
+		print_line(options, "}")
 
 		print_line(options, "#endif")
 

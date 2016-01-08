@@ -94,7 +94,7 @@ def print_glUniformNT(options, typ, n):
 	print_line(
 		options,
 		"\t\tOGLPLUS_VERIFY_SIMPLE"+
-		"(%s, always);" % glfunc
+		"(%s, debug);" % glfunc
 	)
 	print_line(options, "\t\treturn {};")
 	print_line(options, "\t}")
@@ -102,14 +102,13 @@ def print_glUniformNT(options, typ, n):
 def print_glUniformNTv(options, typ, n):
 	info = type_infos[typ]
 	print_newline(options)
-	print_line(options, "\ttemplate <span_size_type N>")
 	print_line(options, "\tstatic")
 	print_line(options, "\toutcome<void>")
 	print_line(options, "\tset(")
 	print_line(options, "\t\tidentity<GL%s[%d]>," % (typ, n))
 	print_line(options, "\t\tuniform_location u,")
 	print_line(options, "\t\tGLsizei count,")
-	print_line(options, "\t\tconst span<const GL%s, N>& v" % typ)
+	print_line(options, "\t\tconst span<const GL%s>& v" % typ)
 	print_line(options, "\t) noexcept")
 	print_line(options, "\t{")
 	print_line(options, "\t\tassert(count >= 0);")
@@ -123,7 +122,7 @@ def print_glUniformNTv(options, typ, n):
 	print_line(
 		options,
 		"\t\tOGLPLUS_VERIFY_SIMPLE"+
-		"(%s, always);" % glfunc
+		"(%s, debug);" % glfunc
 	)
 	print_line(options, "\t\treturn {};")
 	print_line(options, "\t}")
@@ -131,7 +130,6 @@ def print_glUniformNTv(options, typ, n):
 def print_glUniformMatrixMxNTv(options, typ, m, n):
 	info = type_infos[typ]
 	print_newline(options)
-	print_line(options, "\ttemplate <span_size_type N>")
 	print_line(options, "\tstatic")
 	print_line(options, "\toutcome<void>")
 	print_line(options, "\tset(")
@@ -139,7 +137,7 @@ def print_glUniformMatrixMxNTv(options, typ, m, n):
 	print_line(options, "\t\tuniform_location u,")
 	print_line(options, "\t\tGLsizei count,")
 	print_line(options, "\t\tGLboolean transpose,")
-	print_line(options, "\t\tconst span<const GL%s, N>& v" % typ)
+	print_line(options, "\t\tconst span<const GL%s>& v" % typ)
 	print_line(options, "\t) noexcept")
 	print_line(options, "\t{")
 	print_line(options, "\t\tassert(count >= 0);")
@@ -158,7 +156,7 @@ def print_glUniformMatrixMxNTv(options, typ, m, n):
 	print_line(
 		options,
 		"\t\tOGLPLUS_VERIFY_SIMPLE"+
-		"(%s, always);" % glfunc
+		"(%s, debug);" % glfunc
 	)
 	print_line(options, "\t\treturn {};")
 	print_line(options, "\t}")
@@ -193,7 +191,7 @@ def print_glProgramUniformNT(options, typ, n):
 	print_line(options, "\t\tOGLPLUS_VERIFY(")
 	print_line(options, "\t\t\t%s," % glfunc) 
 	print_line(options, "\t\t\tgl_object(pu.program()),")
-	print_line(options, "\t\t\talways")
+	print_line(options, "\t\t\tdebug")
 	print_line(options, "\t\t);")
 	print_line(options, "\t\treturn {};")
 	print_line(options, "\t}")
@@ -222,7 +220,7 @@ def print_glProgramUniformNTv(options, typ, n):
 	print_line(options, "\t\tOGLPLUS_VERIFY(")
 	print_line(options, "\t\t\t%s," % glfunc)
 	print_line(options, "\t\t\tgl_object(pu.program()),")
-	print_line(options, "\t\t\talways")
+	print_line(options, "\t\t\tdebug")
 	print_line(options, "\t\t);")
 	print_line(options, "\t\treturn {};")
 	print_line(options, "\t}")
@@ -259,10 +257,17 @@ def print_glProgramUniformMatrixMxNTv(options, typ, m, n):
 	print_line(
 		options,
 		"\t\tOGLPLUS_VERIFY_SIMPLE"+
-		"(%s, always);" % glfunc
+		"(%s, debug);" % glfunc
 	)
 	print_line(options, "\t\treturn {};")
 	print_line(options, "\t}")
+
+def print_prog_var_get_set_decl(options, kind, typ):
+	print_line(options, "template <>")
+	print_line(options, "struct prog_var_get_set_ops<tag::%s, GL%s>" % (
+		kind, typ
+	))
+	print_line(options, "{")
 
 def action_gl_uniform_get_set(options):
 	print_cpp_header(options)
@@ -271,46 +276,43 @@ def action_gl_uniform_get_set(options):
 	print_newline(options)
 	print_line(options, "namespace %s {" % options.library)
 	print_newline(options)
-	print_line(options, "template <>")
-	print_line(options, "struct prog_var_get_set_ops<tag::uniform>")
-	print_line(options, "{")
 
 	for typ in ["int", "uint", "float"]:
+		print_prog_var_get_set_decl(options, "uniform", typ)
 		for n in range(1,5):
 			print_glUniformNT(options, typ, n)
 
 		for n in range(1,5):
 			print_glUniformNTv(options, typ, n)
 
-	for typ in ["float"]:
-		for m in range(2,5):
-			for n in range(2,5):
-				print_glUniformMatrixMxNTv(options, typ, m, n)
+		if typ in ["float"]:
+			for m in range(2,5):
+				for n in range(2,5):
+					print_glUniformMatrixMxNTv(options, typ, m, n)
 
-	print_newline(options)
-	print_line(
-		options,
-		"#if "+
-		"defined(GL_VERSION_4_1) || "+
-		"defined(GL_ARB_separate_shader_objects)"
-	)
+		print_newline(options)
+		print_line(
+			options,
+			"#if "+
+			"defined(GL_VERSION_4_1) || "+
+			"defined(GL_ARB_separate_shader_objects)"
+		)
 
-	for typ in ["int", "uint", "float"]:
 		for n in range(1,5):
 			print_glProgramUniformNT(options, typ, n)
 
 		for n in range(1,5):
 			print_glProgramUniformNTv(options, typ, n)
 
-	for typ in ["float"]:
-		info = type_infos[typ]
-		for m in range(2,5):
-			for n in range(2,5):
-				print_glProgramUniformMatrixMxNTv(options, typ, m, n)
+		if typ in ["float"]:
+			for m in range(2,5):
+				for n in range(2,5):
+					print_glProgramUniformMatrixMxNTv(options, typ, m, n)
+		print_line(options, "#endif") 
 
-	print_line(options, "#endif") 
+		print_line(options, "};")
+		print_newline(options)
 
-	print_line(options, "};")
 	print_newline(options)
 	print_line(options, "} // namespace %s" % options.library)
 
@@ -342,7 +344,7 @@ def print_glVertexAttribNT(options, typ, prefix, n, infix):
 	print_line(
 		options,
 		"\t\tif(ge) { OGLPLUS_VERIFY_SIMPLE"+
-		"(%s, always); }" % glfunc
+		"(%s, debug); }" % glfunc
 	)
 	print_line(options, "\t\treturn {};")
 	print_line(options, "\t}")
@@ -370,7 +372,7 @@ def print_glVertexAttribNTv(options, typ, prefix, n, infix):
 	print_line(
 		options,
 		"\t\tif(ge) { OGLPLUS_VERIFY_SIMPLE"+
-		"(%s, always); }" % glfunc
+		"(%s, debug); }" % glfunc
 	)
 	print_line(options, "\t\treturn {};")
 	print_line(options, "\t}")
@@ -382,28 +384,30 @@ def action_gl_vertex_attrib_get_set(options):
 	print_newline(options)
 	print_line(options, "namespace %s {" % options.library)
 	print_newline(options)
-	print_line(options, "template <>")
-	print_line(options, "struct prog_var_get_set_ops<tag::vertex_attrib>")
-	print_line(options, "{")
 
 	for typ in ["short", "int", "uint", "float", "double"]:
+		print_prog_var_get_set_decl(options, "vertex_attrib", typ)
 		prefix = "I" if typ in ["int", "uint"] else ""
 		for n in range(1,5):
 			print_glVertexAttribNT(options, typ, prefix, n, "")
+		print_newline(options)
 
-	print_glVertexAttribNT(options, "ubyte", "", 4, "N")
-
-	for n in range(1,5):
-		print_glVertexAttribNT(options, "double", "L", n, "")
-
-	for typ in ["short", "int", "uint", "float", "double"]:
 		prefix = "I" if typ in ["int", "uint"] else ""
 		for n in range(1,5):
 			print_glVertexAttribNTv(options, typ, prefix, n, "")
 
+		if typ in ["double"]:
+			for n in range(1,5):
+				print_glVertexAttribNT(options, "double", "L", n, "")
 
+		print_line(options, "};")
+		print_newline(options)
+
+	print_prog_var_get_set_decl(options, "vertex_attrib", "ubyte")
+	print_glVertexAttribNT(options, "ubyte", "", 4, "N")
 	print_line(options, "};")
 	print_newline(options)
+
 	print_line(options, "} // namespace %s" % options.library)
 
 actions = {

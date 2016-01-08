@@ -16,7 +16,7 @@
 #include "common.hpp"
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(enum_context_attrib)
+BOOST_AUTO_TEST_SUITE(enum_context_attrib_tests)
 
 BOOST_AUTO_TEST_CASE(enum_context_attrib_values)
 {

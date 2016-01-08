@@ -37,7 +37,7 @@ struct baz
 	}
 };
 
-BOOST_AUTO_TEST_SUITE(mem_func_const)
+BOOST_AUTO_TEST_SUITE(mem_func_const_tests)
 
 BOOST_AUTO_TEST_CASE(mem_func_const_pointer_get)
 {

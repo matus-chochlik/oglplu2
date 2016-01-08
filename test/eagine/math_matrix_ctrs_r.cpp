@@ -21,7 +21,7 @@
 #include <eagine/math/matrix_perspective.hpp>
 #include <cstdlib>
 
-BOOST_AUTO_TEST_SUITE(math_matrix_ctrs)
+BOOST_AUTO_TEST_SUITE(math_matrix_ctr_tests)
 
 template <typename MC>
 void test_math_matrix_ctr_MC(MC mc)
@@ -67,7 +67,7 @@ template <typename T, bool RM, bool V>
 void test_math_matrix_ctrs_TRMV(void)
 {
 	using namespace eagine::math;
-	using eagine::radians;
+	using eagine::radians_;
 
 	auto r = [](void) { return T(1+std::rand() % 10000)/3; };
 
@@ -75,9 +75,9 @@ void test_math_matrix_ctrs_TRMV(void)
 	test_math_matrix_ctr_MC(translation<matrix<T,4,4,RM,V>>(r(),r(),r()));
 	test_math_matrix_ctr_MC(scale<matrix<T,4,4,RM,V>>(r(),r(),r()));
 	test_math_matrix_ctr_MC(uniform_scale<matrix<T,4,4,RM,V>>(r()));
-	test_math_matrix_ctr_MC(rotation_x<matrix<T,4,4,RM,V>>(radians(r())));
-	test_math_matrix_ctr_MC(rotation_y<matrix<T,4,4,RM,V>>(radians(r())));
-	test_math_matrix_ctr_MC(rotation_z<matrix<T,4,4,RM,V>>(radians(r())));
+	test_math_matrix_ctr_MC(rotation_x<matrix<T,4,4,RM,V>>(radians_(r())));
+	test_math_matrix_ctr_MC(rotation_y<matrix<T,4,4,RM,V>>(radians_(r())));
+	test_math_matrix_ctr_MC(rotation_z<matrix<T,4,4,RM,V>>(radians_(r())));
 	test_math_matrix_ctr_MC(reflection_x<matrix<T,4,4,RM,V>>(true));
 	test_math_matrix_ctr_MC(reflection_y<matrix<T,4,4,RM,V>>(true));
 	test_math_matrix_ctr_MC(reflection_z<matrix<T,4,4,RM,V>>(true));
@@ -85,8 +85,8 @@ void test_math_matrix_ctrs_TRMV(void)
 	test_math_matrix_ctr_MC(orbiting_y_up<matrix<T,4,4,RM,V>>(
 		vector<T, 3, V>{{r(), r(), r()}},
 		r(),
-		radians(r()),
-		radians(r())
+		radians_(r()),
+		radians_(r())
 	));
 	test_math_matrix_ctr_MC(looking_at_y_up<matrix<T,4,4,RM,V>>(
 		vector<T, 3, V>{{r(), r(), r()}},

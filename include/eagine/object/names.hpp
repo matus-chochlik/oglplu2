@@ -187,7 +187,7 @@ public:
 		return *ctr._names.data();
 	}
 
-	friend inline constexpr
+	friend inline
 	span<typename _traits::name_type>
 	get_raw_names(object_name_container& ctr)
 	noexcept

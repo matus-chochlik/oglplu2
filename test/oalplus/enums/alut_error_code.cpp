@@ -16,7 +16,7 @@
 #include "common_alut.hpp"
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(enum_alut_error_code)
+BOOST_AUTO_TEST_SUITE(enum_alut_error_code_tests)
 
 BOOST_AUTO_TEST_CASE(enum_alut_error_code_values)
 {

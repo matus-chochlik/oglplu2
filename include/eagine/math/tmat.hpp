@@ -116,7 +116,7 @@ struct compound_view_maker<math::tmat<T, C, R, RM, V>>
 
 template <typename T, unsigned C, unsigned R, bool RM, bool V>
 struct is_row_major<math::tmat<T,C,R,RM,V>>
- : std::integral_constant<bool, RM>
+ : bool_constant<RM>
 { };
 
 

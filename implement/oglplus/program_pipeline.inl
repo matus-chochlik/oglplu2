@@ -31,7 +31,7 @@ program_pipeline_binding(void)
 noexcept
 {
 #ifdef GL_PROGRAM_PIPELINE_BINDING
-	GLint result;
+	GLint result = 0;
 	return numeric_queries::get_integer_v(
 		binding_query(GL_PROGRAM_PIPELINE_BINDING),
 		{&result, 1}
@@ -74,7 +74,7 @@ return_program_pipeline_i(
 	program_pipeline_parameter parameter
 ) noexcept
 {
-	GLint result;
+	GLint result = 0;
 	return get_program_pipeline_iv(
 		ppl,
 		parameter,

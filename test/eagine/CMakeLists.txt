@@ -19,6 +19,7 @@ add_runtime_test_dependency(eagine "mp_list_r" "enum_class_r")
 add_runtime_test_dependency(eagine "enum_class_r" "enum_bitfield_r")
 add_runtime_test_dependency(eagine "make_view_r" "buffer_size_r")
 add_runtime_test_dependency(eagine "buffer_size_r" "buffer_data_r")
+add_runtime_test_dependency(eagine "array_size_r" "program_args_r")
 
 # vect
 add_runtime_test_dependency(eagine "vect_data_r" "vect_fill_r")
@@ -30,6 +31,7 @@ add_runtime_test_dependency(eagine "vect_shuffle_r" "vect_hsum_r")
 add_runtime_test_dependency(eagine "vect_data_r" "vect_abs_r")
 add_runtime_test_dependency(eagine "vect_abs_r" "vect_diff_r")
 add_runtime_test_dependency(eagine "vect_esum_r" "vect_diff_r")
+add_runtime_test_dependency(eagine "vect_fill_r" "vect_compare_r")
 
 # math
 add_runtime_test_dependency(eagine "vect_fill_r" "math_scalar_r")

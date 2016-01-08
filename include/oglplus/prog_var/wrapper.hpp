@@ -25,6 +25,8 @@ private:
 public:
 	typedef T value_type;
 
+	prog_var_wrapper(void) = default;
+
 	prog_var_wrapper(prog_var_loc<VarTag> loc)
 	noexcept
 	 : prog_var_loc<VarTag>(loc)
@@ -44,6 +46,8 @@ private:
 
 public:
 	typedef T value_type;
+
+	prog_var_wrapper(void) = default;
 
 	prog_var_wrapper(dsa_prog_var_loc<VarTag> loc)
 	noexcept

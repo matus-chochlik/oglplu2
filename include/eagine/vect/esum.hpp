@@ -26,10 +26,10 @@ private:
 	typedef data_param_t<T, N, V> _dpT;
 
 	template <unsigned U>
-	using _uint = std::integral_constant<unsigned, U>;
+	using _uint = unsigned_constant<U>;
 
 	template <bool B>
-	using _bool = std::integral_constant<bool, B>;
+	using _bool = bool_constant<B>;
 
 	template <unsigned M, bool B>
 	static inline

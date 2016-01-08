@@ -8,12 +8,12 @@
 #define BOOST_TEST_MODULE OGLPLUS_utils_image_spec
 #include <boost/test/unit_test.hpp>
 
-#include <oglplus/gl.hpp>
+#include <oglplus/gl_fixed.hpp>
 #include <oglplus/utils/image_spec.hpp>
 #include <oglplus/utils/span.hpp>
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(utils_image_spec)
+BOOST_AUTO_TEST_SUITE(utils_image_spec_tests)
 
 BOOST_AUTO_TEST_CASE(utils_image_spec_1)
 {

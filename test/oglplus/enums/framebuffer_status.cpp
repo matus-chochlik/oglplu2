@@ -16,7 +16,7 @@
 #include "common.hpp"
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(enum_framebuffer_status)
+BOOST_AUTO_TEST_SUITE(enum_framebuffer_status_tests)
 
 BOOST_AUTO_TEST_CASE(enum_framebuffer_status_values)
 {

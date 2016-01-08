@@ -44,7 +44,7 @@ noexcept
 		gl_enum_value(unit),
 		always
 	);
-	GLint result;
+	GLint result = 0;
 	return numeric_queries::get_integer_v(
 		binding_query(GL_SAMPLER_BINDING),
 		{&result, 1}
@@ -154,7 +154,7 @@ return_sampler_parameter_i(
 	sampler_parameter parameter
 ) noexcept
 {
-	GLint result;
+	GLint result = 0;
 	return get_sampler_parameter_iv(
 		sam,
 		parameter,
@@ -171,7 +171,7 @@ return_sampler_parameter_f(
 	sampler_parameter parameter
 ) noexcept
 {
-	GLfloat result;
+	GLfloat result = 0;
 	return get_sampler_parameter_fv(
 		sam,
 		parameter,

@@ -11,7 +11,7 @@
 #include <eagine/math/tvec.hpp>
 #include <cstdlib>
 
-BOOST_AUTO_TEST_SUITE(math_tvec)
+BOOST_AUTO_TEST_SUITE(math_tvec_tests)
 
 template <typename T, unsigned N, bool V>
 void test_math_tvec_default_ctr_TNV(void)

@@ -16,7 +16,7 @@
 #include "common.hpp"
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(enum_single_face)
+BOOST_AUTO_TEST_SUITE(enum_single_face_tests)
 
 BOOST_AUTO_TEST_CASE(enum_single_face_values)
 {

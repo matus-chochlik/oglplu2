@@ -16,7 +16,7 @@
 #include "common.hpp"
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(enum_renderbuffer_parameter)
+BOOST_AUTO_TEST_SUITE(enum_renderbuffer_parameter_tests)
 
 BOOST_AUTO_TEST_CASE(enum_renderbuffer_parameter_values)
 {

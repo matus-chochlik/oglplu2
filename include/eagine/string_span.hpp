@@ -19,6 +19,7 @@
 #pragma clang diagnostic ignored "-Wreserved-id-macro"
 #pragma clang diagnostic ignored "-Wunused-parameter"
 #pragma clang diagnostic ignored "-Wsign-conversion"
+#pragma clang diagnostic ignored "-Wdeprecated"
 #pragma clang diagnostic ignored "-Wshadow"
 #endif
 
@@ -32,6 +33,7 @@ namespace eagine {
 
 using gsl::string_span;
 using gsl::cstring_span;
+typedef std::ptrdiff_t span_size_type;
 
 } // namespace eagine
 

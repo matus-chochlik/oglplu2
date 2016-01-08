@@ -10,7 +10,7 @@
 
 #include <oglplus/operations.hpp>
 #include <oglplus/constants.hpp>
-#include <oglplus/enum/value_defs.inl>
+#include <oglplus/constant_defs.hpp>
 #include <oglplus/glsl/string_ref.hpp>
 #include <oglplus/error/format.hpp>
 
@@ -279,9 +279,8 @@ void run_loop(int width, int height)
 
 	gl.enable(GL.depth_test);
 	gl.enable(GL.cull_face);
-	// TODO
-	//gl.cull_face(GL.back);
-	//gl.front_face(GL.ccw);
+	gl.cull_face(GL.back);
+	gl.front_face(GL.ccw);
 
 	unsigned current_buf = 0;
 	float rad = 0.0f;
@@ -297,9 +296,9 @@ void run_loop(int width, int height)
 
 		gl.uniform(
 			modelview,
-			matrix_rotation_x(eagine::radians(rad*1))*
-			matrix_rotation_y(eagine::radians(rad*2))*
-			matrix_rotation_z(eagine::radians(rad*3))
+			matrix_rotation_x(eagine::radians_(rad*1))*
+			matrix_rotation_y(eagine::radians_(rad*2))*
+			matrix_rotation_z(eagine::radians_(rad*3))
 		);
 
 		rad += 0.01f;

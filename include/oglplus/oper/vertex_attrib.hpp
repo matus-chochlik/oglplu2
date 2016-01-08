@@ -37,7 +37,7 @@ struct vertex_attrib_ops
 		bool check_error
 	) noexcept
 	{
-		return oglplus::prog_var_get_set_ops<tag::vertex_attrib>::set(
+		return oglplus::prog_var_get_set_ops<tag::vertex_attrib,T>::set(
 			identity<T>(),
 			loc,
 			check_error,
@@ -65,7 +65,7 @@ struct vertex_attrib_ops
 		bool check_error
 	) noexcept
 	{
-		return oglplus::prog_var_get_set_ops<tag::vertex_attrib>::set(
+		return oglplus::prog_var_get_set_ops<tag::vertex_attrib,T>::set(
 			identity<T>(),
 			loc,
 			check_error,
@@ -95,7 +95,7 @@ struct vertex_attrib_ops
 		bool check_error
 	) noexcept
 	{
-		return oglplus::prog_var_get_set_ops<tag::vertex_attrib>::set(
+		return oglplus::prog_var_get_set_ops<tag::vertex_attrib,T>::set(
 			identity<T>(),
 			loc,
 			check_error,
@@ -127,7 +127,7 @@ struct vertex_attrib_ops
 		bool check_error
 	) noexcept
 	{
-		return oglplus::prog_var_get_set_ops<tag::vertex_attrib>::set(
+		return oglplus::prog_var_get_set_ops<tag::vertex_attrib,T>::set(
 			identity<T>(),
 			loc,
 			check_error,
@@ -144,7 +144,7 @@ struct vertex_attrib_ops
 		bool check_error
 	) noexcept
 	{
-		return oglplus::prog_var_get_set_ops<tag::vertex_attrib>::set(
+		return oglplus::prog_var_get_set_ops<tag::vertex_attrib,T>::set(
 			identity<T[N]>(),
 			loc,
 			check_error,
@@ -165,7 +165,10 @@ struct vertex_attrib_ops
 		bool check_error
 	) noexcept
 	{
-		return oglplus::prog_var_get_set_ops<tag::vertex_attrib>::set(
+		return oglplus::prog_var_get_set_ops<
+			tag::vertex_attrib,
+			canonical_element_type_t<X>
+		>::set(
 			canonical_compound_type<X>(),
 			loc,
 			check_error,

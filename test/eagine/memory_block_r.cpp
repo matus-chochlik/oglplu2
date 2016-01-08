@@ -11,7 +11,7 @@
 #include <eagine/memory_block.hpp>
 #include <cstdlib>
 
-BOOST_AUTO_TEST_SUITE(memory_block)
+BOOST_AUTO_TEST_SUITE(memory_block_tests)
 
 template <bool is_const>
 void eagine_test_memory_block_0(void)

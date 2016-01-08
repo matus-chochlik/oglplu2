@@ -17,7 +17,6 @@
 #include "../enum/types.hpp"
 #include <eagine/types.hpp>
 
-#include <cassert>
 #endif // ARB_compatibility
 
 namespace oglplus {
@@ -75,17 +74,7 @@ struct compatibility_drawing
 	static
 	outcome<void>
 	vertex(const span<const GLshort>& v, span_size_type n)
-	noexcept
-	{
-		assert(n >= 2);
-		assert(n <= 4);
-		assert(n <= v.size());
-
-		if(n == 2) OGLPLUS_GLFUNC(Vertex2sv)(v.data());
-		if(n == 3) OGLPLUS_GLFUNC(Vertex3sv)(v.data());
-		if(n == 4) OGLPLUS_GLFUNC(Vertex4sv)(v.data());
-		return {};
-	}
+	noexcept;
 
 	static
 	outcome<void>
@@ -125,17 +114,7 @@ struct compatibility_drawing
 	static
 	outcome<void>
 	vertex(const span<const GLint>& v, span_size_type n)
-	noexcept
-	{
-		assert(n >= 2);
-		assert(n <= 4);
-		assert(n <= v.size());
-
-		if(n == 2) OGLPLUS_GLFUNC(Vertex2iv)(v.data());
-		if(n == 3) OGLPLUS_GLFUNC(Vertex3iv)(v.data());
-		if(n == 4) OGLPLUS_GLFUNC(Vertex4iv)(v.data());
-		return {};
-	}
+	noexcept;
 
 	static
 	outcome<void>
@@ -175,17 +154,7 @@ struct compatibility_drawing
 	static
 	outcome<void>
 	vertex(const span<const GLfloat>& v, span_size_type n)
-	noexcept
-	{
-		assert(n >= 2);
-		assert(n <= 4);
-		assert(n <= v.size());
-
-		if(n == 2) OGLPLUS_GLFUNC(Vertex2fv)(v.data());
-		if(n == 3) OGLPLUS_GLFUNC(Vertex3fv)(v.data());
-		if(n == 4) OGLPLUS_GLFUNC(Vertex4fv)(v.data());
-		return {};
-	}
+	noexcept;
 
 	static
 	outcome<void>
@@ -225,17 +194,7 @@ struct compatibility_drawing
 	static
 	outcome<void>
 	vertex(const span<const GLdouble>& v, span_size_type n)
-	noexcept
-	{
-		assert(n >= 2);
-		assert(n <= 4);
-		assert(n <= v.size());
-
-		if(n == 2) OGLPLUS_GLFUNC(Vertex2dv)(v.data());
-		if(n == 3) OGLPLUS_GLFUNC(Vertex3dv)(v.data());
-		if(n == 4) OGLPLUS_GLFUNC(Vertex4dv)(v.data());
-		return {};
-	}
+	noexcept;
 
 	static
 	outcome<void>
@@ -266,16 +225,7 @@ struct compatibility_drawing
 	static
 	outcome<void>
 	color(const span<const GLubyte>& v, span_size_type n)
-	noexcept
-	{
-		assert(n >= 3);
-		assert(n <= 4);
-		assert(n <= v.size());
-
-		if(n == 3) OGLPLUS_GLFUNC(Color3ubv)(v.data());
-		if(n == 4) OGLPLUS_GLFUNC(Color4ubv)(v.data());
-		return {};
-	}
+	noexcept;
 
 	static
 	outcome<void>
@@ -306,16 +256,7 @@ struct compatibility_drawing
 	static
 	outcome<void>
 	color(const span<const GLint>& v, span_size_type n)
-	noexcept
-	{
-		assert(n >= 3);
-		assert(n <= 4);
-		assert(n <= v.size());
-
-		if(n == 3) OGLPLUS_GLFUNC(Color3iv)(v.data());
-		if(n == 4) OGLPLUS_GLFUNC(Color4iv)(v.data());
-		return {};
-	}
+	noexcept;
 
 	static
 	outcome<void>
@@ -346,16 +287,7 @@ struct compatibility_drawing
 	static
 	outcome<void>
 	color(const span<const GLfloat>& v, span_size_type n)
-	noexcept
-	{
-		assert(n >= 3);
-		assert(n <= 4);
-		assert(n <= v.size());
-
-		if(n == 3) OGLPLUS_GLFUNC(Color3fv)(v.data());
-		if(n == 4) OGLPLUS_GLFUNC(Color4fv)(v.data());
-		return {};
-	}
+	noexcept;
 
 	static
 	outcome<void>
@@ -386,16 +318,7 @@ struct compatibility_drawing
 	static
 	outcome<void>
 	color(const span<const GLdouble>& v, span_size_type n)
-	noexcept
-	{
-		assert(n >= 3);
-		assert(n <= 4);
-		assert(n <= v.size());
-
-		if(n == 3) OGLPLUS_GLFUNC(Color3dv)(v.data());
-		if(n == 4) OGLPLUS_GLFUNC(Color4dv)(v.data());
-		return {};
-	}
+	noexcept;
 
 	static
 	outcome<void>
@@ -445,18 +368,7 @@ struct compatibility_drawing
 	static
 	outcome<void>
 	tex_coord(const span<const GLshort>& v, span_size_type n)
-	noexcept
-	{
-		assert(n >= 1);
-		assert(n <= 4);
-		assert(n <= v.size());
-
-		if(n == 1) OGLPLUS_GLFUNC(TexCoord1sv)(v.data());
-		if(n == 2) OGLPLUS_GLFUNC(TexCoord2sv)(v.data());
-		if(n == 3) OGLPLUS_GLFUNC(TexCoord3sv)(v.data());
-		if(n == 4) OGLPLUS_GLFUNC(TexCoord4sv)(v.data());
-		return {};
-	}
+	noexcept;
 
 	static
 	outcome<void>
@@ -506,18 +418,7 @@ struct compatibility_drawing
 	static
 	outcome<void>
 	tex_coord(const span<const GLint>& v, span_size_type n)
-	noexcept
-	{
-		assert(n >= 1);
-		assert(n <= 4);
-		assert(n <= v.size());
-
-		if(n == 1) OGLPLUS_GLFUNC(TexCoord1iv)(v.data());
-		if(n == 2) OGLPLUS_GLFUNC(TexCoord2iv)(v.data());
-		if(n == 3) OGLPLUS_GLFUNC(TexCoord3iv)(v.data());
-		if(n == 4) OGLPLUS_GLFUNC(TexCoord4iv)(v.data());
-		return {};
-	}
+	noexcept;
 
 	static
 	outcome<void>
@@ -566,18 +467,7 @@ struct compatibility_drawing
 	static
 	outcome<void>
 	tex_coord(const span<const GLfloat>& v, span_size_type n)
-	noexcept
-	{
-		assert(n >= 1);
-		assert(n <= 4);
-		assert(n <= v.size());
-
-		if(n == 1) OGLPLUS_GLFUNC(TexCoord1fv)(v.data());
-		if(n == 2) OGLPLUS_GLFUNC(TexCoord2fv)(v.data());
-		if(n == 3) OGLPLUS_GLFUNC(TexCoord3fv)(v.data());
-		if(n == 4) OGLPLUS_GLFUNC(TexCoord4fv)(v.data());
-		return {};
-	}
+	noexcept;
 
 	static
 	outcome<void>
@@ -626,18 +516,7 @@ struct compatibility_drawing
 	static
 	outcome<void>
 	tex_coord(const span<const GLdouble>& v, span_size_type n)
-	noexcept
-	{
-		assert(n >= 1);
-		assert(n <= 4);
-		assert(n <= v.size());
-
-		if(n == 1) OGLPLUS_GLFUNC(TexCoord1dv)(v.data());
-		if(n == 2) OGLPLUS_GLFUNC(TexCoord2dv)(v.data());
-		if(n == 3) OGLPLUS_GLFUNC(TexCoord3dv)(v.data());
-		if(n == 4) OGLPLUS_GLFUNC(TexCoord4dv)(v.data());
-		return {};
-	}
+	noexcept;
 
 	static
 	outcome<void>
@@ -651,5 +530,7 @@ struct compatibility_drawing
 
 } // namespace oper
 } // namespace oglplus
+
+#include <oglplus/oper/compat_drawing.inl>
 
 #endif // include guard

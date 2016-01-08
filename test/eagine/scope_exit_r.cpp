@@ -12,7 +12,7 @@
 #include <type_traits>
 #include <exception>
 
-BOOST_AUTO_TEST_SUITE(scope_exit)
+BOOST_AUTO_TEST_SUITE(scope_exit_tests)
 
 BOOST_AUTO_TEST_CASE(scope_exit_f)
 {

@@ -5,5 +5,6 @@
  */
 #include <oglplus/gl.hpp>
 #include <oglplus/enum/values.hpp>
+#include <oglplus/enum/value_defs.inl>
 #include <oglplus/enum/value_names.hpp>
 #include <oglplus/enum/value_range.hpp>

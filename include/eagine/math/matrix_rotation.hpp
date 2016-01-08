@@ -9,7 +9,7 @@
 #ifndef EAGINE_MATH_MATRIX_ROTATION_1509260923_HPP
 #define EAGINE_MATH_MATRIX_ROTATION_1509260923_HPP
 
-#include "../angles.hpp"
+#include "../quantities.hpp"
 #include "matrix_ctr.hpp"
 #include <cmath>
 
@@ -38,9 +38,9 @@ struct rotation_I<matrix<T,4,4,RM,V>, I>
 	 : _v(v)
 	{ }
 
-	typedef std::integral_constant<unsigned, 0> _x;
-	typedef std::integral_constant<unsigned, 1> _y;
-	typedef std::integral_constant<unsigned, 2> _z;
+	typedef unsigned_constant<0> _x;
+	typedef unsigned_constant<1> _y;
+	typedef unsigned_constant<2> _z;
 
 	static constexpr inline
 	matrix<T,4,4,RM,V> _make(T cx, T sx, _x)
@@ -81,7 +81,7 @@ struct rotation_I<matrix<T,4,4,RM,V>, I>
 	constexpr inline
 	matrix<T,4,4,RM,V> operator()(void) const
 	{
-		typedef std::integral_constant<unsigned, I> _axis;
+		typedef unsigned_constant<I> _axis;
 		return _make(cos(_v), sin(_v)*(RM?1:-1), _axis());
 	}
 };

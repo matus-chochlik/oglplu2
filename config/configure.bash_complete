@@ -72,6 +72,7 @@ function _oglplus_config()
 		--screenshots \
 		--max-gl-version \
 		--strict-gl-version-detection \
+		--gl-tests-compile-only \
 		--use-gl-api-lib \
 		--use-glew \
 		--use-gl3w \
@@ -91,6 +92,7 @@ function _oglplus_config()
 		--jobs \
 		--build \
 		--no-tests \
+		--no-enum-tests \
 		--generator \
 		--debug-config \
 		--debug-gl-ver-error \

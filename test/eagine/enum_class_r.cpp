@@ -28,16 +28,16 @@ struct ec_D
  : enum_class<ec_D, unsigned, 0, 3>
 { using enum_class<ec_D, unsigned, 0, 3>::enum_class; };
 
-static constexpr const enum_value<unsigned, 1, mp_list<ec_A>> ev_1 = {};
-static constexpr const enum_value<unsigned, 2, mp_list<ec_A, ec_B>> ev_2 = {};
-static constexpr const enum_value<unsigned, 3, mp_list<ec_A, ec_B, ec_C>> ev_3 = {};
-static constexpr const enum_value<unsigned, 4, mp_list<ec_B, ec_C, ec_D>> ev_4 = {};
-static constexpr const enum_value<unsigned, 5, mp_list<ec_B, ec_D>> ev_5 = {};
-static constexpr const enum_value<unsigned, 6, mp_list<ec_D>> ev_6 = {};
+static constexpr const enum_value<unsigned, mp_list<ec_A>> ev_1 = {1};
+static constexpr const enum_value<unsigned, mp_list<ec_A, ec_B>> ev_2 = {2};
+static constexpr const enum_value<unsigned, mp_list<ec_A, ec_B, ec_C>> ev_3 = {3};
+static constexpr const enum_value<unsigned, mp_list<ec_B, ec_C, ec_D>> ev_4 = {4};
+static constexpr const enum_value<unsigned, mp_list<ec_B, ec_D>> ev_5 = {5};
+static constexpr const enum_value<unsigned, mp_list<ec_D>> ev_6 = {6};
 
 } // namespace eagine
 
-BOOST_AUTO_TEST_SUITE(enum_class)
+BOOST_AUTO_TEST_SUITE(enum_class_tests)
 
 BOOST_AUTO_TEST_CASE(enum_class_1)
 {

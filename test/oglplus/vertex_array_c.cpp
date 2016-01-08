@@ -4,7 +4,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include <oglplus/gl.hpp>
+#include <oglplus/gl_fixed.hpp>
 #include <oglplus/vertex_array.hpp>
 #include "helper/object_c.hpp"
 
@@ -39,6 +39,15 @@ void oglplus_vertex_array_test_ops1(void)
 	gl.vertex_array_attrib_format(loc, 1, data_type(GL_FLOAT), true, 0);
 	gl.vertex_array_attrib_i_format(loc, 1, data_type(GL_INT), 0);
 	gl.vertex_array_attrib_l_format(loc, 1, data_type(GL_DOUBLE), 0);
+#endif
+
+#if defined(GL_NV_vertex_buffer_unified_memory)
+	gl.buffer_address_range(
+		unified_array_address_nv(GL_ELEMENT_ARRAY_UNIFIED_NV),
+		0,
+		buffer_address(0),
+		10
+	);
 #endif
 
 	curvao.enable_attrib(loc);

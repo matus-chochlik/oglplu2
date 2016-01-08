@@ -18,6 +18,7 @@
 #include "../vect/hsum.hpp"
 #include "../vect/esum.hpp"
 #include "../vect/sqrt.hpp"
+#include "../vect/compare.hpp"
 #include "../vec_mat_traits.hpp"
 #include <utility>
 #include <cassert>
@@ -342,6 +343,14 @@ unsigned dimension(const vector<T, N, V>&)
 noexcept
 {
 	return N;
+}
+
+template <typename T, unsigned N, bool V>
+static inline
+bool is_zero(const vector<T, N, V>& v)
+noexcept
+{
+	return vect::is_zero<T, N, V>::apply(v._v);
 }
 
 template <typename T, unsigned N, bool V>

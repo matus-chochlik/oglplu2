@@ -11,7 +11,7 @@
 #include <eagine/vect/hsum.hpp>
 #include <cstdlib>
 
-BOOST_AUTO_TEST_SUITE(vect_hsum)
+BOOST_AUTO_TEST_SUITE(vect_hsum_tests)
 
 template <typename T, unsigned N, bool V>
 void test_vect_hsum_TNV(void)

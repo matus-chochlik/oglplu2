@@ -17,24 +17,24 @@
 namespace eagine {
 namespace memory {
 
-template <bool is_const>
+template <bool IsConst>
 class basic_block
 {
 public:
 	typedef std::conditional_t<
-		is_const,
+		IsConst,
 		const void*,
 		void*
 	> pointer;
 
 	typedef std::conditional_t<
-		is_const,
+		IsConst,
 		const byte*,
 		byte*
 	> iterator;
 
 	typedef std::conditional_t<
-		is_const,
+		IsConst,
 		const byte&,
 		byte&
 	> reference;
@@ -121,8 +121,12 @@ public:
 		return *this;
 	}
 
+	template <
+		bool IsConst2,
+		typename = std::enable_if_t<IsConst && !IsConst2>
+	>
 	constexpr
-	basic_block(basic_block<false> b)
+	basic_block(basic_block<IsConst2> b)
 	noexcept
 	 : _addr(b.addr())
 	 , _size(b.size())

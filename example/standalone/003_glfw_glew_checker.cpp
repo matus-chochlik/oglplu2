@@ -10,6 +10,7 @@
 
 #include <oglplus/operations.hpp>
 #include <oglplus/constants.hpp>
+#include <oglplus/constant_defs.hpp>
 #include <oglplus/glsl/string_ref.hpp>
 #include <oglplus/error/format.hpp>
 #include <oglplus/math/vector.hpp>
@@ -85,7 +86,7 @@ void run_loop(int width, int height)
 
 		gl.matrix_mode(GL.modelview);
 		gl.load_identity();
-		gl.rotate_f(degrees(deg++), 0, 0, 1);
+		gl.rotate_f(degrees_(deg++), 0, 0, 1);
 
 		gl.begin(GL.quads);
 			gl.tex_coord_i( 0, 0);

@@ -1,5 +1,5 @@
 /**
- *  @file eagine/int_sequence.hpp
+ *  @file eagine/instead_of.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.

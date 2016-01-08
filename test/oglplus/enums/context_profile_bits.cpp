@@ -16,7 +16,7 @@
 #include "common.hpp"
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(enum_context_profile_bits)
+BOOST_AUTO_TEST_SUITE(enum_context_profile_bits_tests)
 
 BOOST_AUTO_TEST_CASE(enum_context_profile_bits_values)
 {

@@ -25,7 +25,6 @@ private:
 	GLsizei _height;
 	GLsizei _depth;
 public:
-	constexpr
 	image_dimensions(GLsizei w, GLsizei h, GLsizei d)
 	noexcept
 	 : _width(w)
@@ -35,13 +34,11 @@ public:
 		assert(_width > 0 && _height > 0 && _depth > 0);
 	}
 
-	constexpr
 	image_dimensions(GLsizei w, GLsizei h)
 	noexcept
 	 : image_dimensions(w, h, 1)
 	{ }
 
-	constexpr
 	image_dimensions(GLsizei w)
 	noexcept
 	 : image_dimensions(w, 1)
@@ -72,7 +69,6 @@ private:
 	pixel_data_format _format;
 	pixel_data_internal_format _internal_format;
 public:
-	constexpr
 	image_pixel_format(
 		pixel_data_format fmt,
 		pixel_data_internal_format ifmt
@@ -81,7 +77,6 @@ public:
 	 , _internal_format(ifmt)
 	{ }
 
-	constexpr
 	image_pixel_format(pixel_data_format fmt)
 	noexcept
 	 : _format(fmt)

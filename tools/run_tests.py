@@ -99,7 +99,7 @@ gl_libs_names = ["default", "all-apis", "all-libs"]
 # options for the --test-level parameter
 test_level_names = ["minimal", "basic", "extended", "complete"]
 # options for the --test-type parameter
-test_type_names = ["everything", "ctest", "build-examples"]
+test_type_names = ["everything", "ctest", "build-examples", "configure-gl"]
 
 # checks if arg is valid option for --gl-libs
 def gl_libs_value(arg):
@@ -157,6 +157,8 @@ def execute_tests(options, parameters):
 			execute_ctest(options)
 		elif name == "build-examples":
 			execute_configure(options, parameters+["--no-tests", "--build"])
+		elif name == "configure-gl":
+			execute_configure(options, parameters+["--gl-tests-compile-only", "--debug-gl-ver-error", "--no-tests", "--no-examples"])
 
 
 def for_each_gl_init_lib(options, parameters):
@@ -223,6 +225,15 @@ def get_argument_parser():
 		but don't do anything.
 		"""
 	)
+
+	argparser.add_argument(
+		"--release",
+		default=False,
+		action="store_true",
+		help="""
+		Run all tests usually done for release candidate testing.
+		"""
+	)
 	argparser.add_argument(
 		"--jobs",
 		type=JobCountValue,
@@ -246,7 +257,7 @@ def get_argument_parser():
 	argparser.add_argument(
 		"--gl-libs",
 		type=gl_libs_value,
-		default="default",
+		default=None,
 		help="""
 		Influences the GL library combinations with which
 		the tests are configured and executed.
@@ -256,7 +267,7 @@ def get_argument_parser():
 	argparser.add_argument(
 		"--test-level",
 		type=test_level_value,
-		default="minimal",
+		default=None,
 		help="""
 		Influences the number of configurations in which
 		the tests are executed.
@@ -299,6 +310,12 @@ def main():
 		argparser = get_argument_parser()
 		options = argparser.parse_args()
 
+		# set the test level if none
+		if options.test_level is None:
+			if options.release:
+				options.test_level = "complete"
+			else: options.test_level="minimal"
+
 		# set the test type if empty
 		if len(options.test_type) == 0:
 			options.test_type = ["everything"]
@@ -313,7 +330,13 @@ def main():
 		if options.jobs is not None and options.max_jobs is not None:
 			if options.jobs > options.max_jobs:
 				options.jobs = options.max_jobs
-			
+
+		# set the gl-libs if none
+		if options.test_level is None:
+			if options.release:
+				options.test_level = "all-libs"
+			else: options.test_level="default"
+
 
 		# if necessary ..
 		if gl_libs_at_least(options, "all-apis"):

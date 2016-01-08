@@ -39,7 +39,7 @@ eagine::deferred_handler<int*> get_handler(int* pi)
 	return {test_increment, pi};
 }
 
-BOOST_AUTO_TEST_SUITE(deferred_handler)
+BOOST_AUTO_TEST_SUITE(deferred_handler_tests)
 
 BOOST_AUTO_TEST_CASE(deferred_handler_1)
 {

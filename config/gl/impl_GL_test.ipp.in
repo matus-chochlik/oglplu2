@@ -4,7 +4,6 @@
  * See accompanying file LICENSE_1_0.txt or copy at
  *  http://www.boost.org/LICENSE_1_0.txt
  */
-#include <oglplus/gl.hpp>
 
 #if @GLX_FOUND@
 #include <oglplus/glx/context.hpp>
@@ -29,34 +28,6 @@
 #endif
 
 #include <type_traits>
-#include <iostream>
-
-template <typename Func>
-bool oglplus_config_test_gl_func(Func func)
-{
-	return (func != nullptr);
-}
-
-#define OGLPLUS_CONFIG_ASSERT_GL_FUNC(NAME) \
-	if(!oglplus_config_test_gl_func(NAME)) \
-	{ \
-		std::cerr \
-			<< "Required function: " \
-			<< #NAME \
-			<< " not available." \
-			<< std::endl; \
-		++missing_gl_symbols; \
-	}
-
-#define OGLPLUS_CONFIG_MISSING_GL_CONST(NAME) \
-		std::cerr \
-			<< "Required constant: " \
-			<< #NAME \
-			<< " not available." \
-			<< std::endl; \
-		++missing_gl_symbols; \
-
-bool do_query_gl(void);
 
 static const char* title = "GL feature detection";
 
@@ -92,7 +63,8 @@ bool query_gl_GLX(void)
 	glx::Context context(
 		display, fbc,
 		OGLPLUS_CONFIG_QUERY_GL_VER_MAJOR,
-		OGLPLUS_CONFIG_QUERY_GL_VER_MINOR
+		OGLPLUS_CONFIG_QUERY_GL_VER_MINOR,
+		true, true
 	);
 
 	const int pbuffer_attribs [] = {
@@ -104,7 +76,7 @@ bool query_gl_GLX(void)
 	glx::Pbuffer pbuffer(display, fbc, pbuffer_attribs);
 
 	context.MakeCurrent(pbuffer);
-	oglplus::GLAPIInitializer gl_api;
+	oglplus::api_initializer gl_api;
 
 	return do_query_gl();
 }
@@ -120,7 +92,7 @@ bool query_gl_GLFW3(void)
 		return true;
 	}
 	glfwMakeContextCurrent(win);
-	oglplus::GLAPIInitializer gl_api;
+	oglplus::api_initializer gl_api;
 
 	bool result = do_query_gl();
 
@@ -139,7 +111,7 @@ bool query_gl_GLFW(void)
 		return true;
 	}
 	glfwSetWindowTitle(title);
-	oglplus::GLAPIInitializer gl_api;
+	oglplus::api_initializer gl_api;
 
 	bool result = do_query_gl();
 
@@ -164,7 +136,7 @@ bool query_gl_GLUT(int argc, char **argv)
 	glutInitWindowPosition(0, 0);
 	glutCreateWindow(title);
 
-	oglplus::GLAPIInitializer gl_api;
+	oglplus::api_initializer gl_api;
 
 	return do_query_gl();
 }
@@ -186,7 +158,7 @@ bool query_gl_SDL(void)
 	}
 	SDL_WM_SetCaption(title, nullptr);
 
-	oglplus::GLAPIInitializer gl_api;
+	oglplus::api_initializer gl_api;
 
 	bool result = do_query_gl();
 

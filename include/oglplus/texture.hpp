@@ -338,6 +338,14 @@ public:
 		span<GLfloat> values
 	) noexcept;
 
+	static
+	outcome<void>
+	texture_parameter_fv(
+		texture_target_only tnt,
+		oglplus::texture_parameter param,
+		span<const GLfloat> values
+	) noexcept;
+
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
 	static
 	outcome<void>
@@ -378,6 +386,14 @@ public:
 		texture_name_only tnt,
 		oglplus::texture_parameter param,
 		span<GLfloat> values
+	) noexcept;
+
+	static
+	outcome<void>
+	texture_parameter_fv(
+		texture_name_only tnt,
+		oglplus::texture_parameter param,
+		span<const GLfloat> values
 	) noexcept;
 
 #endif
@@ -422,6 +438,14 @@ public:
 		texture_name_and_target tnt,
 		oglplus::texture_parameter param,
 		span<GLfloat> values
+	) noexcept;
+
+	static
+	outcome<void>
+	texture_parameter_fv(
+		texture_name_and_target tnt,
+		oglplus::texture_parameter param,
+		span<const GLfloat> values
 	) noexcept;
 
 #endif
@@ -703,6 +727,24 @@ public:
 	outcome<GLfloat>
 	texture_max_lod(const TNT& tnt)
 	noexcept;
+
+	// texture_border_color
+	template <typename TNT>
+	static 
+	outcome<void>
+	texture_border_color(const TNT& tnt, span<const GLfloat> c)
+	noexcept;
+
+	template <typename TNT>
+	static 
+	outcome<void>
+	texture_border_color(
+		const TNT& tnt,
+		GLfloat r,
+		GLfloat g,
+		GLfloat b,
+		GLfloat a
+	) noexcept;
 };
 
 } // namespace oper
@@ -758,6 +800,8 @@ private:
 	{
 		return {name, target};
 	}
+#else
+	typedef texture_target_only _tnt;
 #endif
 	_tnt _get_tnt(void) const
 	noexcept

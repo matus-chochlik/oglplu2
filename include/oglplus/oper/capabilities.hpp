@@ -9,13 +9,11 @@
 #ifndef OGLPLUS_OPER_CAPABILITIES_1509260923_HPP
 #define OGLPLUS_OPER_CAPABILITIES_1509260923_HPP
 
-#include "../utils/gl_func.hpp"
 #include "../utils/boolean.hpp"
 #include "../error/handling.hpp"
 #include "../error/outcome.hpp"
 #include "../enum/types.hpp"
 #include "../enum/indexed_types.hpp"
-#include "numeric_queries.hpp"
 
 namespace oglplus {
 namespace oper {
@@ -25,146 +23,94 @@ struct capability_state
 	static
 	outcome<void>
 	enable(capability cap)
-	noexcept
-	{
-		OGLPLUS_GLFUNC(Enable)(GLenum(cap));
-		OGLPLUS_VERIFY(Enable, gl_enum_value(cap), debug);
-		return {};
-	}
+	noexcept;
 
 	static
 	outcome<void>
 	disable(capability cap)
-	noexcept
-	{
-		OGLPLUS_GLFUNC(Disable)(GLenum(cap));
-		OGLPLUS_VERIFY(Disable, gl_enum_value(cap), debug);
-		return {};
-	}
+	noexcept;
 
 	static
 	outcome<boolean>
 	is_enabled(capability cap)
-	noexcept
-	{
-		GLboolean result = OGLPLUS_GLFUNC(IsEnabled)(GLenum(cap));
-		OGLPLUS_VERIFY(IsEnabled, gl_enum_value(cap), always);
-		return {boolean(result)};
-	}
+	noexcept;
 
 	static
 	outcome<void>
 	enable(clip_plane cap)
-	noexcept
-	{
-		OGLPLUS_GLFUNC(Enable)(GLenum(cap));
-		OGLPLUS_VERIFY(Enable, gl_enum_value(cap), debug);
-		return {};
-	}
+	noexcept;
 
 	static
 	outcome<void>
 	disable(clip_plane cap)
-	noexcept
-	{
-		OGLPLUS_GLFUNC(Disable)(GLenum(cap));
-		OGLPLUS_VERIFY(Disable, gl_enum_value(cap), debug);
-		return {};
-	}
+	noexcept;
 
 	static
 	outcome<boolean>
 	is_enabled(clip_plane cap)
-	noexcept
-	{
-		GLboolean result = OGLPLUS_GLFUNC(IsEnabled)(GLenum(cap));
-		OGLPLUS_VERIFY(IsEnabled, gl_enum_value(cap), always);
-		return {boolean(result)};
-	}
+	noexcept;
+
+#if defined(GL_ARB_compatibility)
+	static
+	outcome<void>
+	enable_client_state(client_capability cap)
+	noexcept;
+
+	static
+	outcome<void>
+	disable_client_state(client_capability cap)
+	noexcept;
+
+	static
+	outcome<boolean>
+	is_enabled(client_capability cap)
+	noexcept;
 
 	static
 	outcome<GLint>
 	red_bits(void)
-	noexcept
-	{
-		return numeric_queries::get_integer(
-			numeric_query(GL_RED_BITS)
-		);
-	}
+	noexcept;
 
 	static
 	outcome<GLint>
 	green_bits(void)
-	noexcept
-	{
-		return numeric_queries::get_integer(
-			numeric_query(GL_GREEN_BITS)
-		);
-	}
+	noexcept;
 
 	static
 	outcome<GLint>
 	blue_bits(void)
-	noexcept
-	{
-		return numeric_queries::get_integer(
-			numeric_query(GL_BLUE_BITS)
-		);
-	}
+	noexcept;
 
 	static
 	outcome<GLint>
 	alpha_bits(void)
-	noexcept
-	{
-		return numeric_queries::get_integer(
-			numeric_query(GL_ALPHA_BITS)
-		);
-	}
+	noexcept;
 
 	static
 	outcome<GLint>
 	depth_bits(void)
-	noexcept
-	{
-		return numeric_queries::get_integer(
-			numeric_query(GL_DEPTH_BITS)
-		);
-	}
+	noexcept;
 
 	static
 	outcome<GLint>
 	stencil_bits(void)
-	noexcept
-	{
-		return numeric_queries::get_integer(
-			numeric_query(GL_STENCIL_BITS)
-		);
-	}
+	noexcept;
 
 	static
 	outcome<boolean>
 	doublebuffer(void)
-	noexcept
-	{
-		return numeric_queries::get_boolean(
-			numeric_query(GL_DOUBLEBUFFER)
-		);
-	}
+	noexcept;
 
 	static
 	outcome<boolean>
 	stereo(void)
-	noexcept
-	{
-		return numeric_queries::get_boolean(
-			numeric_query(GL_STEREO)
-		);
-	}
-
+	noexcept;
+#endif
 };
 
 } // namespace oper
 } // namespace oglplus
+
+#include <oglplus/oper/capabilities.inl>
 
 #endif // include guard

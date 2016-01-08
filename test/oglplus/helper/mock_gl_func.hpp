@@ -14,6 +14,8 @@ namespace oglplus {
 template <typename Sig>
 using mock_gl_function = eagine::mock_function<Sig>;
 
+using eagine::mock_ptr;
+
 static inline
 GLenum mock_glGetError(void)
 noexcept

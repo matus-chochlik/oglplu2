@@ -16,7 +16,7 @@
 #include "common.hpp"
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(enum_distance_model)
+BOOST_AUTO_TEST_SUITE(enum_distance_model_tests)
 
 BOOST_AUTO_TEST_CASE(enum_distance_model_values)
 {

@@ -16,7 +16,7 @@
 #include "common.hpp"
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(enum_string_query)
+BOOST_AUTO_TEST_SUITE(enum_string_query_tests)
 
 BOOST_AUTO_TEST_CASE(enum_string_query_values)
 {

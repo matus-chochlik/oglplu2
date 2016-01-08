@@ -7,7 +7,7 @@
 #define OGLPLUS_CONFIG_QUERY_GL_VER_MAJOR @CONFIG_QUERY_GL_VER_MAJOR@
 #define OGLPLUS_CONFIG_QUERY_GL_VER_MINOR @CONFIG_QUERY_GL_VER_MINOR@
 
-#include "init_GL.ipp"
+#include "decl_GL_test.ipp"
 
 bool do_query_gl(void)
 {
@@ -61,3 +61,4 @@ bool do_query_gl(void)
 #endif
 }
 
+#include "impl_GL_test.ipp"

@@ -79,7 +79,7 @@ current_program(void)
 noexcept
 {
 #ifdef GL_CURRENT_PROGRAK
-	GLint result;
+	GLint result = 0;
 	return numeric_queries::get_integer_v(
 		binding_query(GL_CURRENT_PROGRAM),
 		{&result, 1}
@@ -120,7 +120,7 @@ program_ops::
 return_program_parameter_i(program_name prog, program_parameter parameter)
 noexcept
 {
-	GLint result;
+	GLint result = 0;
 	return get_program_iv(
 		prog,
 		parameter,

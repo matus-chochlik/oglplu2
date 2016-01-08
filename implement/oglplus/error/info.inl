@@ -59,7 +59,7 @@ noexcept
 //------------------------------------------------------------------------------
 #endif // LINK_LIBRARY
 //------------------------------------------------------------------------------
-constexpr inline
+inline
 error_info::
 error_info(GLenum gl_err_code)
 noexcept

@@ -286,6 +286,17 @@ def get_argument_parser():
 			and the GL version and extension list is queried and processed.
 		"""
 	)
+	argparser.add_argument(
+		"--gl-tests-compile-only",
+		dest="gl_tests_compile_only",
+		action="store_true",
+		default=False,
+		help="""
+			Only compilation failures are taken into account when
+			detecting GL version or extensions. Execution failures
+			are ignored.
+		"""
+	)
 
 	gl_api_libs = {
 		"glcorearb.h" : "GL/glcorearb.h header",
@@ -331,7 +342,9 @@ def get_argument_parser():
 			}
 		)
 
-	gl_init_libs = ["GLUT", "GLFW3", "GLFW", "wxGL", "SDL", "glX", "EGL"]
+	# TODO
+	#gl_init_libs = ["GLUT", "GLFW3", "GLFW", "wxGL", "SDL", "glX", "EGL"]
+	gl_init_libs = ["GLUT", "GLFW3", "GLFW", "SDL", "glX"]
 	argparser_gl_init_lib_group = argparser.add_mutually_exclusive_group()
 	argparser_gl_init_lib_group.add_argument(
 		"--use-gl-init-lib",
@@ -418,6 +431,14 @@ def get_argument_parser():
 		action="store_true",
 		help="""
 			Disable configuring of the testsuite.
+		"""
+	)
+	argparser.add_argument(
+		"--no-enum-tests",
+		default=False,
+		action="store_true",
+		help="""
+			Don't include enumerations tests in the testsuite.
 		"""
 	)
 	argparser.add_argument(
@@ -651,6 +672,9 @@ def main(argv):
 		value = int(options.strict_gl_version_detection)
 		cmake_options.append("-DCONFIG_STRICT_GL_VERSION_CHECK=%d"%value)
 
+	if(options.gl_tests_compile_only):
+		cmake_options.append("-DCOMPILE_ONLY_GL_TESTS=On")
+
 	# force the GL header to be used
 	if(options.gl_api_lib):
 		cmake_options.append("-DFORCE_GL_API_LIB=%s"%options.gl_api_lib)
@@ -676,6 +700,8 @@ def main(argv):
 	# configure the test suite
 	if(options.no_tests):
 		cmake_options.append("-DNO_TESTS=On")
+	if(options.no_enum_tests):
+		cmake_options.append("-DNO_ENUM_TESTS=On")
 
 	# set the generator if specified
 	if(options.generator):
@@ -683,13 +709,10 @@ def main(argv):
 
 	# put cmake in debug mode if specified
 	if(options.debug_gl_ver_error):
-		options.debug_config = True
 		cmake_options += ["-DDEBUG_GL_VER_ERROR=1"]
 	if(options.debug_gl_ext_error):
-		options.debug_config = True
 		cmake_options += ["-DDEBUG_GL_EXT_ERROR=%s"%options.debug_gl_ext_error]
 	if(options.debug_lib_error):
-		options.debug_config = True
 		cmake_options += ["-DDEBUG_LIB_ERROR=1"]
 	if(options.debug_config):
 		cmake_options += ["--debug-output", "--debug-trycompile"]

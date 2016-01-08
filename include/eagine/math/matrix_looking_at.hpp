@@ -10,7 +10,7 @@
 #define EAGINE_MATH_MATRIX_LOOKING_AT_1509260923_HPP
 
 #include "matrix_ctr.hpp"
-#include "../angles.hpp"
+#include "../quantities.hpp"
 
 namespace eagine {
 namespace math {
@@ -96,7 +96,7 @@ struct looking_at_y_up<matrix<T,4,4,RM,V>>
 	matrix<T,4,4,RM,V> operator()(void) const
 	noexcept
 	{
-		return _make(std::integral_constant<bool, RM>());
+		return _make(bool_constant<RM>());
 	}
 };
 

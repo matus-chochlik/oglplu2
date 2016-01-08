@@ -15,6 +15,13 @@ bool does_have_@CONFIG_QUERY_GL_EXT_VENDOR@_@CONFIG_QUERY_GL_EXT_NAME@(void)
 #elif !GL_@CONFIG_QUERY_GL_EXT_VENDOR@_@CONFIG_QUERY_GL_EXT_NAME@
 	return false;
 #else
+	std::cout
+		<< "Detecting GL extension: "
+		<< "@CONFIG_QUERY_GL_EXT_VENDOR@"
+		<< "_"
+		<< "@CONFIG_QUERY_GL_EXT_NAME@"
+		<< std::endl;
+
 	const char* ext_vendor = "@CONFIG_QUERY_GL_EXT_VENDOR@";
 	const char* ext_name = "@CONFIG_QUERY_GL_EXT_NAME@";
 	GLint num_ext = 0;

@@ -8,7 +8,7 @@
 #define BOOST_TEST_MODULE OGLPLUS_oper_compat_drawing
 #include <boost/test/unit_test.hpp>
 
-#include <oglplus/gl.hpp>
+#include <oglplus/gl_fixed.hpp>
 #include "helper/mock_gl_func.hpp"
 
 OGLPLUS_MOCK_GLFUNC(Begin, void(GLenum));
@@ -118,7 +118,9 @@ OGLPLUS_MOCK_GLFUNC(TexCoord4dv, void(const GLdouble*));
 #include <cstring>
 #include <cstdlib>
 
-BOOST_AUTO_TEST_SUITE(compat_drawing)
+BOOST_AUTO_TEST_SUITE(compat_drawing_tests)
+
+#if defined(GL_ARB_compatibility)
 
 template <typename T>
 static T get(void)
@@ -136,20 +138,24 @@ BOOST_AUTO_TEST_CASE(compat_drawing_vertex_s)
 		GLshort x = get<GLshort>();
 		GLshort y = get<GLshort>();
 
-		mock_glVertex2s.reset_params(x, y);
-		BOOST_CHECK(!mock_glVertex2s.all_ok_exclusive());
+		auto test_glVertex2s = make_aoe_test(
+			mock_glVertex2s,
+			x, y
+		);
 		gl.vertex_s(x, y);
-		BOOST_CHECK( mock_glVertex2s.all_ok_exclusive());
+		BOOST_CHECK(test_glVertex2s);
 	}
 	{
 		GLshort x = get<GLshort>();
 		GLshort y = get<GLshort>();
 		GLshort z = get<GLshort>();
 
-		mock_glVertex3s.reset_params(x, y, z);
-		BOOST_CHECK(!mock_glVertex3s.all_ok_exclusive());
+		auto test_glVertex3s = make_aoe_test(
+			mock_glVertex3s,
+			x, y, z
+		);
 		gl.vertex_s(x, y, z);
-		BOOST_CHECK( mock_glVertex3s.all_ok_exclusive());
+		BOOST_CHECK(test_glVertex3s);
 	}
 	{
 		GLshort x = get<GLshort>();
@@ -157,10 +163,12 @@ BOOST_AUTO_TEST_CASE(compat_drawing_vertex_s)
 		GLshort z = get<GLshort>();
 		GLshort w = get<GLshort>();
 
-		mock_glVertex4s.reset_params(x, y, z, w);
-		BOOST_CHECK(!mock_glVertex4s.all_ok_exclusive());
+		auto test_glVertex4s = make_aoe_test(
+			mock_glVertex4s,
+			x, y, z, w
+		);
 		gl.vertex_s(x, y, z, w);
-		BOOST_CHECK( mock_glVertex4s.all_ok_exclusive());
+		BOOST_CHECK(test_glVertex4s);
 	}
 
 	BOOST_CHECK(mock_glVertex2s.was_called());
@@ -175,28 +183,46 @@ BOOST_AUTO_TEST_CASE(compat_drawing_vertex_sv)
 	oper::compatibility_drawing gl;
 
 	{
-		const GLshort v[2] = {get<GLshort>(), get<GLshort>()};
+		const GLshort v[2] = {
+			get<GLshort>(),
+			get<GLshort>()
+		};
 
-		mock_glVertex2sv.reset_params(v);
-		BOOST_CHECK(!mock_glVertex2sv.all_ok_exclusive());
+		auto test_glVertex2sv = make_aoe_test(
+			mock_glVertex2sv,
+			v
+		);
 		gl.vertex(v);
-		BOOST_CHECK( mock_glVertex2sv.all_ok_exclusive());
+		BOOST_CHECK(test_glVertex2sv);
 	}
 	{
-		const GLshort v[3] = {get<GLshort>(), get<GLshort>(), get<GLshort>()};
+		const GLshort v[3] = {
+			get<GLshort>(),
+			get<GLshort>(),
+			get<GLshort>()
+		};
 
-		mock_glVertex3sv.reset_params(v);
-		BOOST_CHECK(!mock_glVertex3sv.all_ok_exclusive());
+		auto test_glVertex3sv = make_aoe_test(
+			mock_glVertex3sv,
+			v
+		);
 		gl.vertex(v);
-		BOOST_CHECK( mock_glVertex3sv.all_ok_exclusive());
+		BOOST_CHECK(test_glVertex3sv);
 	}
 	{
-		const GLshort v[4] = {get<GLshort>(), get<GLshort>(), get<GLshort>(), get<GLshort>()};
+		const GLshort v[4] = {
+			get<GLshort>(),
+			get<GLshort>(),
+			get<GLshort>(),
+			get<GLshort>()
+		};
 
-		mock_glVertex4sv.reset_params(v);
-		BOOST_CHECK(!mock_glVertex4sv.all_ok_exclusive());
+		auto test_glVertex4sv = make_aoe_test(
+			mock_glVertex4sv,
+			v
+		);
 		gl.vertex(v);
-		BOOST_CHECK( mock_glVertex4sv.all_ok_exclusive());
+		BOOST_CHECK(test_glVertex4sv);
 	}
 
 	BOOST_CHECK(mock_glVertex2sv.was_called());
@@ -214,20 +240,24 @@ BOOST_AUTO_TEST_CASE(compat_drawing_vertex_i)
 		GLint x = get<GLint>();
 		GLint y = get<GLint>();
 
-		mock_glVertex2i.reset_params(x, y);
-		BOOST_CHECK(!mock_glVertex2i.all_ok_exclusive());
+		auto test_glVertex2i = make_aoe_test(
+			mock_glVertex2i,
+			x, y
+		);
 		gl.vertex_i(x, y);
-		BOOST_CHECK( mock_glVertex2i.all_ok_exclusive());
+		BOOST_CHECK(test_glVertex2i);
 	}
 	{
 		GLint x = get<GLint>();
 		GLint y = get<GLint>();
 		GLint z = get<GLint>();
 
-		mock_glVertex3i.reset_params(x, y, z);
-		BOOST_CHECK(!mock_glVertex3i.all_ok_exclusive());
+		auto test_glVertex3i = make_aoe_test(
+			mock_glVertex3i,
+			x, y, z
+		);
 		gl.vertex_i(x, y, z);
-		BOOST_CHECK( mock_glVertex3i.all_ok_exclusive());
+		BOOST_CHECK(test_glVertex3i);
 	}
 	{
 		GLint x = get<GLint>();
@@ -235,10 +265,12 @@ BOOST_AUTO_TEST_CASE(compat_drawing_vertex_i)
 		GLint z = get<GLint>();
 		GLint w = get<GLint>();
 
-		mock_glVertex4i.reset_params(x, y, z, w);
-		BOOST_CHECK(!mock_glVertex4i.all_ok_exclusive());
+		auto test_glVertex4i = make_aoe_test(
+			mock_glVertex4i,
+			x, y, z, w
+		);
 		gl.vertex_i(x, y, z, w);
-		BOOST_CHECK( mock_glVertex4i.all_ok_exclusive());
+		BOOST_CHECK(test_glVertex4i);
 	}
 
 	BOOST_CHECK(mock_glVertex2i.was_called());
@@ -253,28 +285,46 @@ BOOST_AUTO_TEST_CASE(compat_drawing_vertex_iv)
 	oper::compatibility_drawing gl;
 
 	{
-		const GLint v[2] = {get<GLint>(), get<GLint>()};
+		const GLint v[2] = {
+			get<GLint>(),
+			get<GLint>()
+		};
 
-		mock_glVertex2iv.reset_params(v);
-		BOOST_CHECK(!mock_glVertex2iv.all_ok_exclusive());
+		auto test_glVertex2iv = make_aoe_test(
+			mock_glVertex2iv,
+			v
+		);
 		gl.vertex(v);
-		BOOST_CHECK( mock_glVertex2iv.all_ok_exclusive());
+		BOOST_CHECK(test_glVertex2iv);
 	}
 	{
-		const GLint v[3] = {get<GLint>(), get<GLint>(), get<GLint>()};
+		const GLint v[3] = {
+			get<GLint>(),
+			get<GLint>(),
+			get<GLint>()
+		};
 
-		mock_glVertex3iv.reset_params(v);
-		BOOST_CHECK(!mock_glVertex3iv.all_ok_exclusive());
+		auto test_glVertex3iv = make_aoe_test(
+			mock_glVertex3iv,
+			v
+		);
 		gl.vertex(v);
-		BOOST_CHECK( mock_glVertex3iv.all_ok_exclusive());
+		BOOST_CHECK(test_glVertex3iv);
 	}
 	{
-		const GLint v[4] = {get<GLint>(), get<GLint>(), get<GLint>(), get<GLint>()};
+		const GLint v[4] = {
+			get<GLint>(),
+			get<GLint>(),
+			get<GLint>(),
+			get<GLint>()
+		};
 
-		mock_glVertex4iv.reset_params(v);
-		BOOST_CHECK(!mock_glVertex4iv.all_ok_exclusive());
+		auto test_glVertex4iv = make_aoe_test(
+			mock_glVertex4iv,
+			v
+		);
 		gl.vertex(v);
-		BOOST_CHECK( mock_glVertex4iv.all_ok_exclusive());
+		BOOST_CHECK(test_glVertex4iv);
 	}
 
 	BOOST_CHECK(mock_glVertex2iv.was_called());
@@ -292,20 +342,24 @@ BOOST_AUTO_TEST_CASE(compat_drawing_vertex_f)
 		GLint x = get<GLint>();
 		GLint y = get<GLint>();
 
-		mock_glVertex2f.reset_params(x, y);
-		BOOST_CHECK(!mock_glVertex2f.all_ok_exclusive());
+		auto test_glVertex2f = make_aoe_test(
+			mock_glVertex2f,
+			x, y
+		);
 		gl.vertex_f(x, y);
-		BOOST_CHECK( mock_glVertex2f.all_ok_exclusive());
+		BOOST_CHECK(test_glVertex2f);
 	}
 	{
 		GLint x = get<GLint>();
 		GLint y = get<GLint>();
 		GLint z = get<GLint>();
 
-		mock_glVertex3f.reset_params(x, y, z);
-		BOOST_CHECK(!mock_glVertex3f.all_ok_exclusive());
+		auto test_glVertex3f = make_aoe_test(
+			mock_glVertex3f,
+			x, y, z
+		);
 		gl.vertex_f(x, y, z);
-		BOOST_CHECK( mock_glVertex3f.all_ok_exclusive());
+		BOOST_CHECK(test_glVertex3f);
 	}
 	{
 		GLint x = get<GLint>();
@@ -313,10 +367,12 @@ BOOST_AUTO_TEST_CASE(compat_drawing_vertex_f)
 		GLint z = get<GLint>();
 		GLint w = get<GLint>();
 
-		mock_glVertex4f.reset_params(x, y, z, w);
-		BOOST_CHECK(!mock_glVertex4f.all_ok_exclusive());
+		auto test_glVertex4f = make_aoe_test(
+			mock_glVertex4f,
+			x, y, z, w
+		);
 		gl.vertex_f(x, y, z, w);
-		BOOST_CHECK( mock_glVertex4f.all_ok_exclusive());
+		BOOST_CHECK(test_glVertex4f);
 	}
 
 	BOOST_CHECK(mock_glVertex2f.was_called());
@@ -331,28 +387,46 @@ BOOST_AUTO_TEST_CASE(compat_drawing_vertex_fv)
 	oper::compatibility_drawing gl;
 
 	{
-		const GLfloat v[2] = {get<GLfloat>(), get<GLfloat>()};
+		const GLfloat v[2] = {
+			get<GLfloat>(),
+			get<GLfloat>()
+		};
 
-		mock_glVertex2fv.reset_params(v);
-		BOOST_CHECK(!mock_glVertex2fv.all_ok_exclusive());
+		auto test_glVertex2fv = make_aoe_test(
+			mock_glVertex2fv,
+			v
+		);
 		gl.vertex(v);
-		BOOST_CHECK( mock_glVertex2fv.all_ok_exclusive());
+		BOOST_CHECK(test_glVertex2fv);
 	}
 	{
-		const GLfloat v[3] = {get<GLfloat>(), get<GLfloat>(), get<GLfloat>()};
+		const GLfloat v[3] = {
+			get<GLfloat>(),
+			get<GLfloat>(),
+			get<GLfloat>()
+		};
 
-		mock_glVertex3fv.reset_params(v);
-		BOOST_CHECK(!mock_glVertex3fv.all_ok_exclusive());
+		auto test_glVertex3fv = make_aoe_test(
+			mock_glVertex3fv,
+			v
+		);
 		gl.vertex(v);
-		BOOST_CHECK( mock_glVertex3fv.all_ok_exclusive());
+		BOOST_CHECK(test_glVertex3fv);
 	}
 	{
-		const GLfloat v[4] = {get<GLfloat>(), get<GLfloat>(), get<GLfloat>(), get<GLfloat>()};
+		const GLfloat v[4] = {
+			get<GLfloat>(),
+			get<GLfloat>(),
+			get<GLfloat>(),
+			get<GLfloat>()
+		};
 
-		mock_glVertex4fv.reset_params(v);
-		BOOST_CHECK(!mock_glVertex4fv.all_ok_exclusive());
+		auto test_glVertex4fv = make_aoe_test(
+			mock_glVertex4fv,
+			v
+		);
 		gl.vertex(v);
-		BOOST_CHECK( mock_glVertex4fv.all_ok_exclusive());
+		BOOST_CHECK(test_glVertex4fv);
 	}
 
 	BOOST_CHECK(mock_glVertex2fv.was_called());
@@ -370,20 +444,24 @@ BOOST_AUTO_TEST_CASE(compat_drawing_vertex_d)
 		GLint x = get<GLint>();
 		GLint y = get<GLint>();
 
-		mock_glVertex2d.reset_params(x, y);
-		BOOST_CHECK(!mock_glVertex2d.all_ok_exclusive());
+		auto test_glVertex2d = make_aoe_test(
+			mock_glVertex2d,
+			x, y
+		);
 		gl.vertex_d(x, y);
-		BOOST_CHECK( mock_glVertex2d.all_ok_exclusive());
+		BOOST_CHECK(test_glVertex2d);
 	}
 	{
 		GLint x = get<GLint>();
 		GLint y = get<GLint>();
 		GLint z = get<GLint>();
 
-		mock_glVertex3d.reset_params(x, y, z);
-		BOOST_CHECK(!mock_glVertex3d.all_ok_exclusive());
+		auto test_glVertex3d = make_aoe_test(
+			mock_glVertex3d,
+			x, y, z
+		);
 		gl.vertex_d(x, y, z);
-		BOOST_CHECK( mock_glVertex3d.all_ok_exclusive());
+		BOOST_CHECK(test_glVertex3d);
 	}
 	{
 		GLint x = get<GLint>();
@@ -391,10 +469,12 @@ BOOST_AUTO_TEST_CASE(compat_drawing_vertex_d)
 		GLint z = get<GLint>();
 		GLint w = get<GLint>();
 
-		mock_glVertex4d.reset_params(x, y, z, w);
-		BOOST_CHECK(!mock_glVertex4d.all_ok_exclusive());
+		auto test_glVertex4d = make_aoe_test(
+			mock_glVertex4d,
+			x, y, z, w
+		);
 		gl.vertex_d(x, y, z, w);
-		BOOST_CHECK( mock_glVertex4d.all_ok_exclusive());
+		BOOST_CHECK(test_glVertex4d);
 	}
 
 	BOOST_CHECK(mock_glVertex2d.was_called());
@@ -409,28 +489,46 @@ BOOST_AUTO_TEST_CASE(compat_drawing_vertex_dv)
 	oper::compatibility_drawing gl;
 
 	{
-		const GLdouble v[2] = {get<GLdouble>(), get<GLdouble>()};
+		const GLdouble v[2] = {
+			get<GLdouble>(),
+			get<GLdouble>()
+		};
 
-		mock_glVertex2dv.reset_params(v);
-		BOOST_CHECK(!mock_glVertex2dv.all_ok_exclusive());
+		auto test_glVertex2dv = make_aoe_test(
+			mock_glVertex2dv,
+			v
+		);
 		gl.vertex(v);
-		BOOST_CHECK( mock_glVertex2dv.all_ok_exclusive());
+		BOOST_CHECK(test_glVertex2dv);
 	}
 	{
-		const GLdouble v[3] = {get<GLdouble>(), get<GLdouble>(), get<GLdouble>()};
+		const GLdouble v[3] = {
+			get<GLdouble>(),
+			get<GLdouble>(),
+			get<GLdouble>()
+		};
 
-		mock_glVertex3dv.reset_params(v);
-		BOOST_CHECK(!mock_glVertex3dv.all_ok_exclusive());
+		auto test_glVertex3dv = make_aoe_test(
+			mock_glVertex3dv,
+			v
+		);
 		gl.vertex(v);
-		BOOST_CHECK( mock_glVertex3dv.all_ok_exclusive());
+		BOOST_CHECK(test_glVertex3dv);
 	}
 	{
-		const GLdouble v[4] = {get<GLdouble>(), get<GLdouble>(), get<GLdouble>(), get<GLdouble>()};
+		const GLdouble v[4] = {
+			get<GLdouble>(),
+			get<GLdouble>(),
+			get<GLdouble>(),
+			get<GLdouble>()
+		};
 
-		mock_glVertex4dv.reset_params(v);
-		BOOST_CHECK(!mock_glVertex4dv.all_ok_exclusive());
+		auto test_glVertex4dv = make_aoe_test(
+			mock_glVertex4dv,
+			v
+		);
 		gl.vertex(v);
-		BOOST_CHECK( mock_glVertex4dv.all_ok_exclusive());
+		BOOST_CHECK(test_glVertex4dv);
 	}
 
 	BOOST_CHECK(mock_glVertex2dv.was_called());
@@ -449,10 +547,12 @@ BOOST_AUTO_TEST_CASE(compat_drawing_color_ub)
 		GLubyte g = get<GLubyte>();
 		GLubyte b = get<GLubyte>();
 
-		mock_glColor3ub.reset_params(r, g, b);
-		BOOST_CHECK(!mock_glColor3ub.all_ok_exclusive());
+		auto test_glColor3ub = make_aoe_test(
+			mock_glColor3ub,
+			r, g, b
+		);
 		gl.color_ub(r, g, b);
-		BOOST_CHECK( mock_glColor3ub.all_ok_exclusive());
+		BOOST_CHECK(test_glColor3ub);
 	}
 	{
 		GLubyte r = get<GLubyte>();
@@ -460,10 +560,12 @@ BOOST_AUTO_TEST_CASE(compat_drawing_color_ub)
 		GLubyte b = get<GLubyte>();
 		GLubyte a = get<GLubyte>();
 
-		mock_glColor4ub.reset_params(r, g, b, a);
-		BOOST_CHECK(!mock_glColor4ub.all_ok_exclusive());
+		auto test_glColor4ub = make_aoe_test(
+			mock_glColor4ub,
+			r, g, b, a
+		);
 		gl.color_ub(r, g, b, a);
-		BOOST_CHECK( mock_glColor4ub.all_ok_exclusive());
+		BOOST_CHECK(test_glColor4ub);
 	}
 
 	BOOST_CHECK(mock_glColor3ub.was_called());
@@ -477,20 +579,33 @@ BOOST_AUTO_TEST_CASE(compat_drawing_color_ubv)
 	oper::compatibility_drawing gl;
 
 	{
-		const GLubyte v[3] = {get<GLubyte>(), get<GLubyte>(), get<GLubyte>()};
+		const GLubyte v[3] = {
+			get<GLubyte>(),
+			get<GLubyte>(),
+			get<GLubyte>()
+		};
 
-		mock_glColor3ubv.reset_params(v);
-		BOOST_CHECK(!mock_glColor3ubv.all_ok_exclusive());
+		auto test_glColor3ubv = make_aoe_test(
+			mock_glColor3ubv,
+			v
+		);
 		gl.color(v);
-		BOOST_CHECK( mock_glColor3ubv.all_ok_exclusive());
+		BOOST_CHECK(test_glColor3ubv);
 	}
 	{
-		const GLubyte v[4] = {get<GLubyte>(), get<GLubyte>(), get<GLubyte>(), get<GLubyte>()};
+		const GLubyte v[4] = {
+			get<GLubyte>(),
+			get<GLubyte>(),
+			get<GLubyte>(),
+			get<GLubyte>()
+		};
 
-		mock_glColor4ubv.reset_params(v);
-		BOOST_CHECK(!mock_glColor4ubv.all_ok_exclusive());
+		auto test_glColor4ubv = make_aoe_test(
+			mock_glColor4ubv,
+			v
+		);
 		gl.color(v);
-		BOOST_CHECK( mock_glColor4ubv.all_ok_exclusive());
+		BOOST_CHECK(test_glColor4ubv);
 	}
 
 	BOOST_CHECK(mock_glColor3ubv.was_called());
@@ -508,10 +623,12 @@ BOOST_AUTO_TEST_CASE(compat_drawing_color_i)
 		GLint g = get<GLint>();
 		GLint b = get<GLint>();
 
-		mock_glColor3i.reset_params(r, g, b);
-		BOOST_CHECK(!mock_glColor3i.all_ok_exclusive());
+		auto test_glColor3i = make_aoe_test(
+			mock_glColor3i,
+			r, g, b
+		);
 		gl.color_i(r, g, b);
-		BOOST_CHECK( mock_glColor3i.all_ok_exclusive());
+		BOOST_CHECK(test_glColor3i);
 	}
 	{
 		GLint r = get<GLint>();
@@ -519,10 +636,12 @@ BOOST_AUTO_TEST_CASE(compat_drawing_color_i)
 		GLint b = get<GLint>();
 		GLint a = get<GLint>();
 
-		mock_glColor4i.reset_params(r, g, b, a);
-		BOOST_CHECK(!mock_glColor4i.all_ok_exclusive());
+		auto test_glColor4i = make_aoe_test(
+			mock_glColor4i,
+			r, g, b, a
+		);
 		gl.color_i(r, g, b, a);
-		BOOST_CHECK( mock_glColor4i.all_ok_exclusive());
+		BOOST_CHECK(test_glColor4i);
 	}
 
 	BOOST_CHECK(mock_glColor3i.was_called());
@@ -536,20 +655,33 @@ BOOST_AUTO_TEST_CASE(compat_drawing_color_iv)
 	oper::compatibility_drawing gl;
 
 	{
-		const GLint v[3] = {get<GLint>(), get<GLint>(), get<GLint>()};
+		const GLint v[3] = {
+			get<GLint>(),
+			get<GLint>(),
+			get<GLint>()
+		};
 
-		mock_glColor3iv.reset_params(v);
-		BOOST_CHECK(!mock_glColor3iv.all_ok_exclusive());
+		auto test_glColor3iv = make_aoe_test(
+			mock_glColor3iv,
+			v
+		);
 		gl.color(v);
-		BOOST_CHECK( mock_glColor3iv.all_ok_exclusive());
+		BOOST_CHECK(test_glColor3iv);
 	}
 	{
-		const GLint v[4] = {get<GLint>(), get<GLint>(), get<GLint>(), get<GLint>()};
+		const GLint v[4] = {
+			get<GLint>(),
+			get<GLint>(),
+			get<GLint>(),
+			get<GLint>()
+		};
 
-		mock_glColor4iv.reset_params(v);
-		BOOST_CHECK(!mock_glColor4iv.all_ok_exclusive());
+		auto test_glColor4iv = make_aoe_test(
+			mock_glColor4iv,
+			v
+		);
 		gl.color(v);
-		BOOST_CHECK( mock_glColor4iv.all_ok_exclusive());
+		BOOST_CHECK(test_glColor4iv);
 	}
 
 	BOOST_CHECK(mock_glColor3iv.was_called());
@@ -567,10 +699,12 @@ BOOST_AUTO_TEST_CASE(compat_drawing_color_f)
 		GLfloat g = get<GLfloat>();
 		GLfloat b = get<GLfloat>();
 
-		mock_glColor3f.reset_params(r, g, b);
-		BOOST_CHECK(!mock_glColor3f.all_ok_exclusive());
+		auto test_glColor3f = make_aoe_test(
+			mock_glColor3f,
+			r, g, b
+		);
 		gl.color_f(r, g, b);
-		BOOST_CHECK( mock_glColor3f.all_ok_exclusive());
+		BOOST_CHECK(test_glColor3f);
 	}
 	{
 		GLfloat r = get<GLfloat>();
@@ -578,10 +712,12 @@ BOOST_AUTO_TEST_CASE(compat_drawing_color_f)
 		GLfloat b = get<GLfloat>();
 		GLfloat a = get<GLfloat>();
 
-		mock_glColor4f.reset_params(r, g, b, a);
-		BOOST_CHECK(!mock_glColor4f.all_ok_exclusive());
+		auto test_glColor4f = make_aoe_test(
+			mock_glColor4f,
+			r, g, b, a
+		);
 		gl.color_f(r, g, b, a);
-		BOOST_CHECK( mock_glColor4f.all_ok_exclusive());
+		BOOST_CHECK(test_glColor4f);
 	}
 
 	BOOST_CHECK(mock_glColor3f.was_called());
@@ -595,20 +731,33 @@ BOOST_AUTO_TEST_CASE(compat_drawing_color_fv)
 	oper::compatibility_drawing gl;
 
 	{
-		const GLfloat v[3] = {get<GLfloat>(), get<GLfloat>(), get<GLfloat>()};
+		const GLfloat v[3] = {
+			get<GLfloat>(),
+			get<GLfloat>(),
+			get<GLfloat>()
+		};
 
-		mock_glColor3fv.reset_params(v);
-		BOOST_CHECK(!mock_glColor3fv.all_ok_exclusive());
+		auto test_glColor3fv = make_aoe_test(
+			mock_glColor3fv,
+			v
+		);
 		gl.color(v);
-		BOOST_CHECK( mock_glColor3fv.all_ok_exclusive());
+		BOOST_CHECK(test_glColor3fv);
 	}
 	{
-		const GLfloat v[4] = {get<GLfloat>(), get<GLfloat>(), get<GLfloat>(), get<GLfloat>()};
+		const GLfloat v[4] = {
+			get<GLfloat>(),
+			get<GLfloat>(),
+			get<GLfloat>(),
+			get<GLfloat>()
+		};
 
-		mock_glColor4fv.reset_params(v);
-		BOOST_CHECK(!mock_glColor4fv.all_ok_exclusive());
+		auto test_glColor4fv = make_aoe_test(
+			mock_glColor4fv,
+			v
+		);
 		gl.color(v);
-		BOOST_CHECK( mock_glColor4fv.all_ok_exclusive());
+		BOOST_CHECK(test_glColor4fv);
 	}
 
 	BOOST_CHECK(mock_glColor3fv.was_called());
@@ -626,10 +775,12 @@ BOOST_AUTO_TEST_CASE(compat_drawing_color_d)
 		GLdouble g = get<GLdouble>();
 		GLdouble b = get<GLdouble>();
 
-		mock_glColor3d.reset_params(r, g, b);
-		BOOST_CHECK(!mock_glColor3d.all_ok_exclusive());
+		auto test_glColor3d = make_aoe_test(
+			mock_glColor3d,
+			r, g, b
+		);
 		gl.color_d(r, g, b);
-		BOOST_CHECK( mock_glColor3d.all_ok_exclusive());
+		BOOST_CHECK(test_glColor3d);
 	}
 	{
 		GLdouble r = get<GLdouble>();
@@ -637,10 +788,12 @@ BOOST_AUTO_TEST_CASE(compat_drawing_color_d)
 		GLdouble b = get<GLdouble>();
 		GLdouble a = get<GLdouble>();
 
-		mock_glColor4d.reset_params(r, g, b, a);
-		BOOST_CHECK(!mock_glColor4d.all_ok_exclusive());
+		auto test_glColor4d = make_aoe_test(
+			mock_glColor4d,
+			r, g, b, a
+		);
 		gl.color_d(r, g, b, a);
-		BOOST_CHECK( mock_glColor4d.all_ok_exclusive());
+		BOOST_CHECK(test_glColor4d);
 	}
 
 	BOOST_CHECK(mock_glColor3d.was_called());
@@ -654,20 +807,33 @@ BOOST_AUTO_TEST_CASE(compat_drawing_color_dv)
 	oper::compatibility_drawing gl;
 
 	{
-		const GLdouble v[3] = {get<GLdouble>(), get<GLdouble>(), get<GLdouble>()};
+		const GLdouble v[3] = {
+			get<GLdouble>(),
+			get<GLdouble>(),
+			get<GLdouble>()
+		};
 
-		mock_glColor3dv.reset_params(v);
-		BOOST_CHECK(!mock_glColor3dv.all_ok_exclusive());
+		auto test_glColor3dv = make_aoe_test(
+			mock_glColor3dv,
+			v
+		);
 		gl.color(v);
-		BOOST_CHECK( mock_glColor3dv.all_ok_exclusive());
+		BOOST_CHECK(test_glColor3dv);
 	}
 	{
-		const GLdouble v[4] = {get<GLdouble>(), get<GLdouble>(), get<GLdouble>(), get<GLdouble>()};
+		const GLdouble v[4] = {
+			get<GLdouble>(),
+			get<GLdouble>(),
+			get<GLdouble>(),
+			get<GLdouble>()
+		};
 
-		mock_glColor4dv.reset_params(v);
-		BOOST_CHECK(!mock_glColor4dv.all_ok_exclusive());
+		auto test_glColor4dv = make_aoe_test(
+			mock_glColor4dv,
+			v
+		);
 		gl.color(v);
-		BOOST_CHECK( mock_glColor4dv.all_ok_exclusive());
+		BOOST_CHECK(test_glColor4dv);
 	}
 
 	BOOST_CHECK(mock_glColor3dv.was_called());
@@ -683,29 +849,35 @@ BOOST_AUTO_TEST_CASE(compat_drawing_tex_coord_s)
 	{
 		GLshort s = get<GLshort>();
 
-		mock_glTexCoord1s.reset_params(s);
-		BOOST_CHECK(!mock_glTexCoord1s.all_ok_exclusive());
+		auto test_glTexCoord1s = make_aoe_test(
+			mock_glTexCoord1s,
+			s
+		);
 		gl.tex_coord_s(s);
-		BOOST_CHECK( mock_glTexCoord1s.all_ok_exclusive());
+		BOOST_CHECK(test_glTexCoord1s);
 	}
 	{
 		GLshort s = get<GLshort>();
 		GLshort t = get<GLshort>();
 
-		mock_glTexCoord2s.reset_params(s, t);
-		BOOST_CHECK(!mock_glTexCoord2s.all_ok_exclusive());
+		auto test_glTexCoord2s = make_aoe_test(
+			mock_glTexCoord2s,
+			s, t
+		);
 		gl.tex_coord_s(s, t);
-		BOOST_CHECK( mock_glTexCoord2s.all_ok_exclusive());
+		BOOST_CHECK(test_glTexCoord2s);
 	}
 	{
 		GLshort s = get<GLshort>();
 		GLshort t = get<GLshort>();
 		GLshort r = get<GLshort>();
 
-		mock_glTexCoord3s.reset_params(s, t, r);
-		BOOST_CHECK(!mock_glTexCoord3s.all_ok_exclusive());
+		auto test_glTexCoord3s = make_aoe_test(
+			mock_glTexCoord3s,
+			s, t, r
+		);
 		gl.tex_coord_s(s, t, r);
-		BOOST_CHECK( mock_glTexCoord3s.all_ok_exclusive());
+		BOOST_CHECK(test_glTexCoord3s);
 	}
 	{
 		GLshort s = get<GLshort>();
@@ -713,10 +885,12 @@ BOOST_AUTO_TEST_CASE(compat_drawing_tex_coord_s)
 		GLshort r = get<GLshort>();
 		GLshort q = get<GLshort>();
 
-		mock_glTexCoord4s.reset_params(s, t, r, q);
-		BOOST_CHECK(!mock_glTexCoord4s.all_ok_exclusive());
+		auto test_glTexCoord4s = make_aoe_test(
+			mock_glTexCoord4s,
+			s, t, r, q
+		);
 		gl.tex_coord_s(s, t, r, q);
-		BOOST_CHECK( mock_glTexCoord4s.all_ok_exclusive());
+		BOOST_CHECK(test_glTexCoord4s);
 	}
 
 	BOOST_CHECK(mock_glTexCoord1s.was_called());
@@ -732,36 +906,58 @@ BOOST_AUTO_TEST_CASE(compat_drawing_tex_coord_sv)
 	oper::compatibility_drawing gl;
 
 	{
-		const GLshort v[1] = {get<GLshort>()};
+		const GLshort v[1] = {
+			get<GLshort>()
+		};
 
-		mock_glTexCoord1sv.reset_params(v);
-		BOOST_CHECK(!mock_glTexCoord1sv.all_ok_exclusive());
+		auto test_glTexCoord1sv = make_aoe_test(
+			mock_glTexCoord1sv,
+			v
+		);
 		gl.tex_coord(v);
-		BOOST_CHECK( mock_glTexCoord1sv.all_ok_exclusive());
+		BOOST_CHECK(test_glTexCoord1sv);
 	}
 	{
-		const GLshort v[2] = {get<GLshort>(), get<GLshort>()};
+		const GLshort v[2] = {
+			get<GLshort>(),
+			get<GLshort>()
+		};
 
-		mock_glTexCoord2sv.reset_params(v);
-		BOOST_CHECK(!mock_glTexCoord2sv.all_ok_exclusive());
+		auto test_glTexCoord2sv = make_aoe_test(
+			mock_glTexCoord2sv,
+			v
+		);
 		gl.tex_coord(v);
-		BOOST_CHECK( mock_glTexCoord2sv.all_ok_exclusive());
+		BOOST_CHECK(test_glTexCoord2sv);
 	}
 	{
-		const GLshort v[3] = {get<GLshort>(), get<GLshort>(), get<GLshort>()};
+		const GLshort v[3] = {
+			get<GLshort>(),
+			get<GLshort>(),
+			get<GLshort>()
+		};
 
-		mock_glTexCoord3sv.reset_params(v);
-		BOOST_CHECK(!mock_glTexCoord3sv.all_ok_exclusive());
+		auto test_glTexCoord3sv = make_aoe_test(
+			mock_glTexCoord3sv,
+			v
+		);
 		gl.tex_coord(v);
-		BOOST_CHECK( mock_glTexCoord3sv.all_ok_exclusive());
+		BOOST_CHECK(test_glTexCoord3sv);
 	}
 	{
-		const GLshort v[4] = {get<GLshort>(), get<GLshort>(), get<GLshort>(), get<GLshort>()};
+		const GLshort v[4] = {
+			get<GLshort>(),
+			get<GLshort>(),
+			get<GLshort>(),
+			get<GLshort>()
+		};
 
-		mock_glTexCoord4sv.reset_params(v);
-		BOOST_CHECK(!mock_glTexCoord4sv.all_ok_exclusive());
+		auto test_glTexCoord4sv = make_aoe_test(
+			mock_glTexCoord4sv,
+			v
+		);
 		gl.tex_coord(v);
-		BOOST_CHECK( mock_glTexCoord4sv.all_ok_exclusive());
+		BOOST_CHECK(test_glTexCoord4sv);
 	}
 
 	BOOST_CHECK(mock_glTexCoord1sv.was_called());
@@ -779,29 +975,35 @@ BOOST_AUTO_TEST_CASE(compat_drawing_tex_coord_i)
 	{
 		GLint s = get<GLint>();
 
-		mock_glTexCoord1i.reset_params(s);
-		BOOST_CHECK(!mock_glTexCoord1i.all_ok_exclusive());
+		auto test_glTexCoord1i = make_aoe_test(
+			mock_glTexCoord1i,
+			s
+		);
 		gl.tex_coord_i(s);
-		BOOST_CHECK( mock_glTexCoord1i.all_ok_exclusive());
+		BOOST_CHECK(test_glTexCoord1i);
 	}
 	{
 		GLint s = get<GLint>();
 		GLint t = get<GLint>();
 
-		mock_glTexCoord2i.reset_params(s, t);
-		BOOST_CHECK(!mock_glTexCoord2i.all_ok_exclusive());
+		auto test_glTexCoord2i = make_aoe_test(
+			mock_glTexCoord2i,
+			s, t
+		);
 		gl.tex_coord_i(s, t);
-		BOOST_CHECK( mock_glTexCoord2i.all_ok_exclusive());
+		BOOST_CHECK(test_glTexCoord2i);
 	}
 	{
 		GLint s = get<GLint>();
 		GLint t = get<GLint>();
 		GLint r = get<GLint>();
 
-		mock_glTexCoord3i.reset_params(s, t, r);
-		BOOST_CHECK(!mock_glTexCoord3i.all_ok_exclusive());
+		auto test_glTexCoord3i = make_aoe_test(
+			mock_glTexCoord3i,
+			s, t, r
+		);
 		gl.tex_coord_i(s, t, r);
-		BOOST_CHECK( mock_glTexCoord3i.all_ok_exclusive());
+		BOOST_CHECK(test_glTexCoord3i);
 	}
 	{
 		GLint s = get<GLint>();
@@ -809,10 +1011,12 @@ BOOST_AUTO_TEST_CASE(compat_drawing_tex_coord_i)
 		GLint r = get<GLint>();
 		GLint q = get<GLint>();
 
-		mock_glTexCoord4i.reset_params(s, t, r, q);
-		BOOST_CHECK(!mock_glTexCoord4i.all_ok_exclusive());
+		auto test_glTexCoord4i = make_aoe_test(
+			mock_glTexCoord4i,
+			s, t, r, q
+		);
 		gl.tex_coord_i(s, t, r, q);
-		BOOST_CHECK( mock_glTexCoord4i.all_ok_exclusive());
+		BOOST_CHECK(test_glTexCoord4i);
 	}
 
 	BOOST_CHECK(mock_glTexCoord1i.was_called());
@@ -828,36 +1032,58 @@ BOOST_AUTO_TEST_CASE(compat_drawing_tex_coord_iv)
 	oper::compatibility_drawing gl;
 
 	{
-		const GLint v[1] = {get<GLint>()};
+		const GLint v[1] = {
+			get<GLint>()
+		};
 
-		mock_glTexCoord1iv.reset_params(v);
-		BOOST_CHECK(!mock_glTexCoord1iv.all_ok_exclusive());
+		auto test_glTexCoord1iv = make_aoe_test(
+			mock_glTexCoord1iv,
+			v
+		);
 		gl.tex_coord(v);
-		BOOST_CHECK( mock_glTexCoord1iv.all_ok_exclusive());
+		BOOST_CHECK(test_glTexCoord1iv);
 	}
 	{
-		const GLint v[2] = {get<GLint>(), get<GLint>()};
+		const GLint v[2] = {
+			get<GLint>(),
+			get<GLint>()
+		};
 
-		mock_glTexCoord2iv.reset_params(v);
-		BOOST_CHECK(!mock_glTexCoord2iv.all_ok_exclusive());
+		auto test_glTexCoord2iv = make_aoe_test(
+			mock_glTexCoord2iv,
+			v
+		);
 		gl.tex_coord(v);
-		BOOST_CHECK( mock_glTexCoord2iv.all_ok_exclusive());
+		BOOST_CHECK(test_glTexCoord2iv);
 	}
 	{
-		const GLint v[3] = {get<GLint>(), get<GLint>(), get<GLint>()};
+		const GLint v[3] = {
+			get<GLint>(),
+			get<GLint>(),
+			get<GLint>()
+		};
 
-		mock_glTexCoord3iv.reset_params(v);
-		BOOST_CHECK(!mock_glTexCoord3iv.all_ok_exclusive());
+		auto test_glTexCoord3iv = make_aoe_test(
+			mock_glTexCoord3iv,
+			v
+		);
 		gl.tex_coord(v);
-		BOOST_CHECK( mock_glTexCoord3iv.all_ok_exclusive());
+		BOOST_CHECK(test_glTexCoord3iv);
 	}
 	{
-		const GLint v[4] = {get<GLint>(), get<GLint>(), get<GLint>(), get<GLint>()};
+		const GLint v[4] = {
+			get<GLint>(),
+			get<GLint>(),
+			get<GLint>(),
+			get<GLint>()
+		};
 
-		mock_glTexCoord4iv.reset_params(v);
-		BOOST_CHECK(!mock_glTexCoord4iv.all_ok_exclusive());
+		auto test_glTexCoord4iv = make_aoe_test(
+			mock_glTexCoord4iv,
+			v
+		);
 		gl.tex_coord(v);
-		BOOST_CHECK( mock_glTexCoord4iv.all_ok_exclusive());
+		BOOST_CHECK(test_glTexCoord4iv);
 	}
 
 	BOOST_CHECK(mock_glTexCoord1iv.was_called());
@@ -875,29 +1101,35 @@ BOOST_AUTO_TEST_CASE(compat_drawing_tex_coord_f)
 	{
 		GLfloat s = get<GLfloat>();
 
-		mock_glTexCoord1f.reset_params(s);
-		BOOST_CHECK(!mock_glTexCoord1f.all_ok_exclusive());
+		auto test_glTexCoord1f = make_aoe_test(
+			mock_glTexCoord1f,
+			s
+		);
 		gl.tex_coord_f(s);
-		BOOST_CHECK( mock_glTexCoord1f.all_ok_exclusive());
+		BOOST_CHECK(test_glTexCoord1f);
 	}
 	{
 		GLfloat s = get<GLfloat>();
 		GLfloat t = get<GLfloat>();
 
-		mock_glTexCoord2f.reset_params(s, t);
-		BOOST_CHECK(!mock_glTexCoord2f.all_ok_exclusive());
+		auto test_glTexCoord2f = make_aoe_test(
+			mock_glTexCoord2f,
+			s, t
+		);
 		gl.tex_coord_f(s, t);
-		BOOST_CHECK( mock_glTexCoord2f.all_ok_exclusive());
+		BOOST_CHECK(test_glTexCoord2f);
 	}
 	{
 		GLfloat s = get<GLfloat>();
 		GLfloat t = get<GLfloat>();
 		GLfloat r = get<GLfloat>();
 
-		mock_glTexCoord3f.reset_params(s, t, r);
-		BOOST_CHECK(!mock_glTexCoord3f.all_ok_exclusive());
+		auto test_glTexCoord3f = make_aoe_test(
+			mock_glTexCoord3f,
+			s, t, r
+		);
 		gl.tex_coord_f(s, t, r);
-		BOOST_CHECK( mock_glTexCoord3f.all_ok_exclusive());
+		BOOST_CHECK(test_glTexCoord3f);
 	}
 	{
 		GLfloat s = get<GLfloat>();
@@ -905,10 +1137,12 @@ BOOST_AUTO_TEST_CASE(compat_drawing_tex_coord_f)
 		GLfloat r = get<GLfloat>();
 		GLfloat q = get<GLfloat>();
 
-		mock_glTexCoord4f.reset_params(s, t, r, q);
-		BOOST_CHECK(!mock_glTexCoord4f.all_ok_exclusive());
+		auto test_glTexCoord4f = make_aoe_test(
+			mock_glTexCoord4f,
+			s, t, r, q
+		);
 		gl.tex_coord_f(s, t, r, q);
-		BOOST_CHECK( mock_glTexCoord4f.all_ok_exclusive());
+		BOOST_CHECK(test_glTexCoord4f);
 	}
 
 	BOOST_CHECK(mock_glTexCoord1f.was_called());
@@ -924,36 +1158,58 @@ BOOST_AUTO_TEST_CASE(compat_drawing_tex_coord_fv)
 	oper::compatibility_drawing gl;
 
 	{
-		const GLfloat v[1] = {get<GLfloat>()};
+		const GLfloat v[1] = {
+			get<GLfloat>()
+		};
 
-		mock_glTexCoord1fv.reset_params(v);
-		BOOST_CHECK(!mock_glTexCoord1fv.all_ok_exclusive());
+		auto test_glTexCoord1fv = make_aoe_test(
+			mock_glTexCoord1fv,
+			v
+		);
 		gl.tex_coord(v);
-		BOOST_CHECK( mock_glTexCoord1fv.all_ok_exclusive());
+		BOOST_CHECK(test_glTexCoord1fv);
 	}
 	{
-		const GLfloat v[2] = {get<GLfloat>(), get<GLfloat>()};
+		const GLfloat v[2] = {
+			get<GLfloat>(),
+			get<GLfloat>()
+		};
 
-		mock_glTexCoord2fv.reset_params(v);
-		BOOST_CHECK(!mock_glTexCoord2fv.all_ok_exclusive());
+		auto test_glTexCoord2fv = make_aoe_test(
+			mock_glTexCoord2fv,
+			v
+		);
 		gl.tex_coord(v);
-		BOOST_CHECK( mock_glTexCoord2fv.all_ok_exclusive());
+		BOOST_CHECK(test_glTexCoord2fv);
 	}
 	{
-		const GLfloat v[3] = {get<GLfloat>(), get<GLfloat>(), get<GLfloat>()};
+		const GLfloat v[3] = {
+			get<GLfloat>(),
+			get<GLfloat>(),
+			get<GLfloat>()
+		};
 
-		mock_glTexCoord3fv.reset_params(v);
-		BOOST_CHECK(!mock_glTexCoord3fv.all_ok_exclusive());
+		auto test_glTexCoord3fv = make_aoe_test(
+			mock_glTexCoord3fv,
+			v
+		);
 		gl.tex_coord(v);
-		BOOST_CHECK( mock_glTexCoord3fv.all_ok_exclusive());
+		BOOST_CHECK(test_glTexCoord3fv);
 	}
 	{
-		const GLfloat v[4] = {get<GLfloat>(), get<GLfloat>(), get<GLfloat>(), get<GLfloat>()};
+		const GLfloat v[4] = {
+			get<GLfloat>(),
+			get<GLfloat>(),
+			get<GLfloat>(),
+			get<GLfloat>()
+		};
 
-		mock_glTexCoord4fv.reset_params(v);
-		BOOST_CHECK(!mock_glTexCoord4fv.all_ok_exclusive());
+		auto test_glTexCoord4fv = make_aoe_test(
+			mock_glTexCoord4fv,
+			v
+		);
 		gl.tex_coord(v);
-		BOOST_CHECK( mock_glTexCoord4fv.all_ok_exclusive());
+		BOOST_CHECK(test_glTexCoord4fv);
 	}
 
 	BOOST_CHECK(mock_glTexCoord1fv.was_called());
@@ -971,29 +1227,35 @@ BOOST_AUTO_TEST_CASE(compat_drawing_tex_coord_d)
 	{
 		GLdouble s = get<GLdouble>();
 
-		mock_glTexCoord1d.reset_params(s);
-		BOOST_CHECK(!mock_glTexCoord1d.all_ok_exclusive());
+		auto test_glTexCoord1d = make_aoe_test(
+			mock_glTexCoord1d,
+			s
+		);
 		gl.tex_coord_d(s);
-		BOOST_CHECK( mock_glTexCoord1d.all_ok_exclusive());
+		BOOST_CHECK(test_glTexCoord1d);
 	}
 	{
 		GLdouble s = get<GLdouble>();
 		GLdouble t = get<GLdouble>();
 
-		mock_glTexCoord2d.reset_params(s, t);
-		BOOST_CHECK(!mock_glTexCoord2d.all_ok_exclusive());
+		auto test_glTexCoord2d = make_aoe_test(
+			mock_glTexCoord2d,
+			s, t
+		);
 		gl.tex_coord_d(s, t);
-		BOOST_CHECK( mock_glTexCoord2d.all_ok_exclusive());
+		BOOST_CHECK(test_glTexCoord2d);
 	}
 	{
 		GLdouble s = get<GLdouble>();
 		GLdouble t = get<GLdouble>();
 		GLdouble r = get<GLdouble>();
 
-		mock_glTexCoord3d.reset_params(s, t, r);
-		BOOST_CHECK(!mock_glTexCoord3d.all_ok_exclusive());
+		auto test_glTexCoord3d = make_aoe_test(
+			mock_glTexCoord3d,
+			s, t, r
+		);
 		gl.tex_coord_d(s, t, r);
-		BOOST_CHECK( mock_glTexCoord3d.all_ok_exclusive());
+		BOOST_CHECK(test_glTexCoord3d);
 	}
 	{
 		GLdouble s = get<GLdouble>();
@@ -1001,10 +1263,12 @@ BOOST_AUTO_TEST_CASE(compat_drawing_tex_coord_d)
 		GLdouble r = get<GLdouble>();
 		GLdouble q = get<GLdouble>();
 
-		mock_glTexCoord4d.reset_params(s, t, r, q);
-		BOOST_CHECK(!mock_glTexCoord4d.all_ok_exclusive());
+		auto test_glTexCoord4d = make_aoe_test(
+			mock_glTexCoord4d,
+			s, t, r, q
+		);
 		gl.tex_coord_d(s, t, r, q);
-		BOOST_CHECK( mock_glTexCoord4d.all_ok_exclusive());
+		BOOST_CHECK(test_glTexCoord4d);
 	}
 
 	BOOST_CHECK(mock_glTexCoord1d.was_called());
@@ -1020,36 +1284,58 @@ BOOST_AUTO_TEST_CASE(compat_drawing_tex_coord_dv)
 	oper::compatibility_drawing gl;
 
 	{
-		const GLdouble v[1] = {get<GLdouble>()};
+		const GLdouble v[1] = {
+			get<GLdouble>()
+		};
 
-		mock_glTexCoord1dv.reset_params(v);
-		BOOST_CHECK(!mock_glTexCoord1dv.all_ok_exclusive());
+		auto test_glTexCoord1dv = make_aoe_test(
+			mock_glTexCoord1dv,
+			v
+		);
 		gl.tex_coord(v);
-		BOOST_CHECK( mock_glTexCoord1dv.all_ok_exclusive());
+		BOOST_CHECK(test_glTexCoord1dv);
 	}
 	{
-		const GLdouble v[2] = {get<GLdouble>(), get<GLdouble>()};
+		const GLdouble v[2] = {
+			get<GLdouble>(),
+			get<GLdouble>()
+		};
 
-		mock_glTexCoord2dv.reset_params(v);
-		BOOST_CHECK(!mock_glTexCoord2dv.all_ok_exclusive());
+		auto test_glTexCoord2dv = make_aoe_test(
+			mock_glTexCoord2dv,
+			v
+		);
 		gl.tex_coord(v);
-		BOOST_CHECK( mock_glTexCoord2dv.all_ok_exclusive());
+		BOOST_CHECK(test_glTexCoord2dv);
 	}
 	{
-		const GLdouble v[3] = {get<GLdouble>(), get<GLdouble>(), get<GLdouble>()};
+		const GLdouble v[3] = {
+			get<GLdouble>(),
+			get<GLdouble>(),
+			get<GLdouble>()
+		};
 
-		mock_glTexCoord3dv.reset_params(v);
-		BOOST_CHECK(!mock_glTexCoord3dv.all_ok_exclusive());
+		auto test_glTexCoord3dv = make_aoe_test(
+			mock_glTexCoord3dv,
+			v
+		);
 		gl.tex_coord(v);
-		BOOST_CHECK( mock_glTexCoord3dv.all_ok_exclusive());
+		BOOST_CHECK(test_glTexCoord3dv);
 	}
 	{
-		const GLdouble v[4] = {get<GLdouble>(), get<GLdouble>(), get<GLdouble>(), get<GLdouble>()};
+		const GLdouble v[4] = {
+			get<GLdouble>(),
+			get<GLdouble>(),
+			get<GLdouble>(),
+			get<GLdouble>()
+		};
 
-		mock_glTexCoord4dv.reset_params(v);
-		BOOST_CHECK(!mock_glTexCoord4dv.all_ok_exclusive());
+		auto test_glTexCoord4dv = make_aoe_test(
+			mock_glTexCoord4dv,
+			v
+		);
 		gl.tex_coord(v);
-		BOOST_CHECK( mock_glTexCoord4dv.all_ok_exclusive());
+		BOOST_CHECK(test_glTexCoord4dv);
 	}
 
 	BOOST_CHECK(mock_glTexCoord1dv.was_called());
@@ -1057,5 +1343,9 @@ BOOST_AUTO_TEST_CASE(compat_drawing_tex_coord_dv)
 	BOOST_CHECK(mock_glTexCoord3dv.was_called());
 	BOOST_CHECK(mock_glTexCoord4dv.was_called());
 }
+
+#else
+BOOST_AUTO_TEST_CASE(compat_drawing_dummy) { }
+#endif
 
 BOOST_AUTO_TEST_SUITE_END()

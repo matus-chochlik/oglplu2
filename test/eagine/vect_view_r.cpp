@@ -11,7 +11,7 @@
 #include <eagine/vect/view.hpp>
 #include <cstdlib>
 
-BOOST_AUTO_TEST_SUITE(vect_view)
+BOOST_AUTO_TEST_SUITE(vect_view_tests)
 
 template <typename T, unsigned N, bool V>
 void test_vect_view_TNV(void)

@@ -28,16 +28,16 @@ struct ec_D
  : enum_class<ec_D, unsigned, 1, 4>
 { using enum_class<ec_D, unsigned, 1, 4>::enum_class; };
 
-static constexpr const enum_value<unsigned, 1 << 0, mp_list<ec_A>> ev_1 = {};
-static constexpr const enum_value<unsigned, 1 << 1, mp_list<ec_A, ec_B>> ev_2 = {};
-static constexpr const enum_value<unsigned, 1 << 2, mp_list<ec_A, ec_B, ec_C>> ev_3 = {};
-static constexpr const enum_value<unsigned, 1 << 3, mp_list<ec_B, ec_C, ec_D>> ev_4 = {};
-static constexpr const enum_value<unsigned, 1 << 4, mp_list<ec_B, ec_D>> ev_5 = {};
-static constexpr const enum_value<unsigned, 1 << 5, mp_list<ec_D>> ev_6 = {};
+static constexpr const enum_value<unsigned, mp_list<ec_A>> ev_1 = {1 << 0};
+static constexpr const enum_value<unsigned, mp_list<ec_A, ec_B>> ev_2 = {1 << 1};
+static constexpr const enum_value<unsigned, mp_list<ec_A, ec_B, ec_C>> ev_3 = {1 << 2};
+static constexpr const enum_value<unsigned, mp_list<ec_B, ec_C, ec_D>> ev_4 = {1 << 3};
+static constexpr const enum_value<unsigned, mp_list<ec_B, ec_D>> ev_5 = {1 << 4};
+static constexpr const enum_value<unsigned, mp_list<ec_D>> ev_6 = {1 << 5};
 
 } // namespace eagine
 
-BOOST_AUTO_TEST_SUITE(enum_bitfield)
+BOOST_AUTO_TEST_SUITE(enum_bitfield_tests)
 
 BOOST_AUTO_TEST_CASE(enum_bitfield_1)
 {

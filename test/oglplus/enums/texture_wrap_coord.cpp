@@ -16,7 +16,7 @@
 #include "common.hpp"
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(enum_texture_wrap_coord)
+BOOST_AUTO_TEST_SUITE(enum_texture_wrap_coord_tests)
 
 BOOST_AUTO_TEST_CASE(enum_texture_wrap_coord_values)
 {

@@ -14,7 +14,7 @@
 #include <vector>
 #include <deque>
 
-BOOST_AUTO_TEST_SUITE(memory_align_alloc)
+BOOST_AUTO_TEST_SUITE(memory_align_alloc_tests)
 
 template <typename T>
 void eagine_test_memory_align_alloc_T(std::size_t n)

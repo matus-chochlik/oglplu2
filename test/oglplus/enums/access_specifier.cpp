@@ -16,7 +16,7 @@
 #include "common.hpp"
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(enum_access_specifier)
+BOOST_AUTO_TEST_SUITE(enum_access_specifier_tests)
 
 BOOST_AUTO_TEST_CASE(enum_access_specifier_values)
 {

@@ -11,6 +11,7 @@
 
 #include "vertex_array_name.hpp"
 #include "buffer_name.hpp"
+#include "buffer_address.hpp"
 #include "vertex_attrib.hpp"
 #include "object/owner.hpp"
 #include "error/handling.hpp"
@@ -179,6 +180,17 @@ struct vertex_array_ops
 		data_type type,
 		GLsizei stride,
 		GLintptr offset
+	) noexcept;
+#endif
+
+#if defined(GL_NV_vertex_buffer_unified_memory)
+	static
+	outcome<void>
+	buffer_address_range(
+		unified_array_address_nv uba,
+		GLuint index,
+		buffer_address addr,
+		GLsizei length
 	) noexcept;
 #endif
 };

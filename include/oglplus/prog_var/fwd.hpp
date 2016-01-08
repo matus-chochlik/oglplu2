@@ -20,7 +20,7 @@ using dsa_prog_var_loc = prog_var_loc<VarTag, true>;
 template <typename VarTag>
 struct prog_var_loc_ops;
 
-template <typename VarTag>
+template <typename VarTag, typename T>
 struct prog_var_get_set_ops;
 
 template <typename ProgVarLoc, typename T>

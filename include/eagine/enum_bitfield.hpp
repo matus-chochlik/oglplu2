@@ -31,33 +31,30 @@ struct enum_bits<T, mp_list<Classes...>>
 
 template <
 	typename T,
-	T V1,
 	typename TL1,
-	T V2,
 	typename TL2,
 	typename = std::enable_if_t<!mp_empty<mp_union_t<TL1,TL2>>::value>
 >
 static constexpr inline
 enum_bits<T, mp_union_t<TL1, TL2>>
-operator | (enum_value<T, V1, TL1>, enum_value<T, V2, TL2>)
+operator | (enum_value<T, TL1> a, enum_value<T, TL2> b)
 noexcept
 {
-	return enum_bits<T, mp_union_t<TL1, TL2>>{V1|V2};
+	return enum_bits<T, mp_union_t<TL1, TL2>>{a.value|b.value};
 }
 
 template <
 	typename T,
 	typename TL1,
-	T V2,
 	typename TL2,
 	typename = std::enable_if_t<!mp_empty<mp_union_t<TL1,TL2>>::value>
 >
 static constexpr inline
 enum_bits<T, mp_union_t<TL1, TL2>>
-operator | (enum_bits<T, TL1> eb, enum_value<T, V2, TL2>)
+operator | (enum_bits<T, TL1> eb, enum_value<T, TL2> ev)
 noexcept
 {
-	return enum_bits<T, mp_union_t<TL1, TL2>>{eb._bits|V2};
+	return enum_bits<T, mp_union_t<TL1, TL2>>{eb._bits|ev.value};
 }
 
 template <typename EnumClass>
@@ -86,14 +83,13 @@ struct enum_bitfield
 	{ }
 
 	template <
-		value_type Value,
 		typename Classes,
 		typename=std::enable_if_t<mp_contains<Classes,EnumClass>::value>
 	>
 	constexpr inline
-	enum_bitfield(enum_value<value_type, Value, Classes>)
+	enum_bitfield(enum_value<value_type, Classes> ev)
 	noexcept
-	 : _value(Value)
+	 : _value(ev.value)
 	{ }
 
 	template <
@@ -113,12 +109,12 @@ struct enum_bitfield
 		return _value;
 	}
 
-	template <value_type Value, typename Classes>
+	template <typename Classes>
 	constexpr inline
-	bool has(enum_value<value_type, Value, Classes>) const
+	bool has(enum_value<value_type, Classes> ev) const
 	noexcept
 	{
-		return (_value & Value) == Value;
+		return (_value & ev.value) == ev.value;
 	}
 
 	friend constexpr inline

@@ -8,12 +8,12 @@
 #define BOOST_TEST_MODULE OGLPLUS_error_format
 #include <boost/test/unit_test.hpp>
 
-#include <oglplus/gl.hpp>
+#include <oglplus/gl_fixed.hpp>
 #include <oglplus/error/format.hpp>
 #include "helper/mock_object.hpp"
 #include <sstream>
 
-BOOST_AUTO_TEST_SUITE(error_format)
+BOOST_AUTO_TEST_SUITE(error_format_tests)
 
 oglplus::error_info
 get_error_info(void)

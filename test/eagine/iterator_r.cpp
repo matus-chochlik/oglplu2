@@ -21,7 +21,7 @@ using strint_iterator = eagine::transforming_iterator<
 >;
 
 
-BOOST_AUTO_TEST_SUITE(iterator)
+BOOST_AUTO_TEST_SUITE(iterator_tests)
 
 BOOST_AUTO_TEST_CASE(iterator_1)
 {

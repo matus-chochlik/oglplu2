@@ -16,19 +16,29 @@
 
 namespace eagine {
 
-template <typename T, T Value, typename ClassList>
+template <typename T, typename ClassList>
 struct enum_value;
 
-template <typename T, T Value, typename ... Classes>
-struct enum_value<T, Value, mp_list<Classes...>>
+template <typename T, typename ... Classes>
+struct enum_value<T, mp_list<Classes...>>
 {
 	typedef enum_value type;
+
+	typedef T value_type;
+
+	const T value;
+
+	constexpr inline
+	enum_value(T val)
+	noexcept
+	 : value(val)
+	{ }
 
 	explicit constexpr inline
 	operator T (void) const
 	noexcept
 	{
-		return Value;
+		return value;
 	}
 };
 
@@ -50,14 +60,13 @@ struct enum_class
 	enum_class(void) = default;
 
 	template <
-		T Value,
 		typename Classes,
 		typename = std::enable_if_t<mp_contains<Classes,Self>::value>
 	>
 	constexpr inline
-	enum_class(enum_value<T, Value, Classes>)
+	enum_class(enum_value<T, Classes> ev)
 	noexcept
-	 : _value(Value)
+	 : _value(ev.value)
 	{ }
 
 	constexpr

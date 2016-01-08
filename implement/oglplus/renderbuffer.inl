@@ -42,7 +42,7 @@ renderbuffer_ops::
 renderbuffer_binding(renderbuffer_target target)
 noexcept
 {
-	GLint result;
+	GLint result = 0;
 	return numeric_queries::get_integer_v(
 		get_binding_query(target),
 		{&result, 1}
@@ -224,7 +224,7 @@ return_renderbuffer_parameter_i(
 	oglplus::renderbuffer_parameter parameter
 ) noexcept
 {
-	GLint result;
+	GLint result = 0;
 	return get_renderbuffer_parameter_iv(
 		rnt,
 		parameter,

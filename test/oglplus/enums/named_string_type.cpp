@@ -16,7 +16,7 @@
 #include "common.hpp"
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(enum_named_string_type)
+BOOST_AUTO_TEST_SUITE(enum_named_string_type_tests)
 
 BOOST_AUTO_TEST_CASE(enum_named_string_type_values)
 {

@@ -35,7 +35,7 @@ struct uniform_ops
 		V0 v0
 	) noexcept
 	{
-		return oglplus::prog_var_get_set_ops<tag::uniform>::set(
+		return oglplus::prog_var_get_set_ops<tag::uniform,T>::set(
 			identity<T>(),
 			loc,
 			v0
@@ -60,7 +60,7 @@ struct uniform_ops
 		V0 v0, V1 v1
 	) noexcept
 	{
-		return oglplus::prog_var_get_set_ops<tag::uniform>::set(
+		return oglplus::prog_var_get_set_ops<tag::uniform,T>::set(
 			identity<T>(),
 			loc,
 			v0, v1
@@ -87,7 +87,7 @@ struct uniform_ops
 		V0 v0, V1 v1, V2 v2
 	) noexcept
 	{
-		return oglplus::prog_var_get_set_ops<tag::uniform>::set(
+		return oglplus::prog_var_get_set_ops<tag::uniform,T>::set(
 			identity<T>(),
 			loc,
 			v0, v1, v2
@@ -116,7 +116,7 @@ struct uniform_ops
 		V0 v0, V1 v1, V2 v2, V3 v3
 	) noexcept
 	{
-		return oglplus::prog_var_get_set_ops<tag::uniform>::set(
+		return oglplus::prog_var_get_set_ops<tag::uniform,T>::set(
 			identity<T>(),
 			loc,
 			v0, v1, v2, v3
@@ -132,7 +132,7 @@ struct uniform_ops
 		const span<const T>& v
 	) noexcept
 	{
-		return oglplus::prog_var_get_set_ops<tag::uniform>::set(
+		return oglplus::prog_var_get_set_ops<tag::uniform,T>::set(
 			identity<T[N]>(),
 			loc,
 			count, v
@@ -149,7 +149,7 @@ struct uniform_ops
 		const span<const T>& v
 	) noexcept
 	{
-		return oglplus::prog_var_get_set_ops<tag::uniform>::set(
+		return oglplus::prog_var_get_set_ops<tag::uniform,T>::set(
 			identity<T[C][R]>(),
 			loc,
 			count, transpose, v
@@ -172,7 +172,7 @@ struct uniform_ops
 		std::false_type
 	) noexcept
 	{
-		return oglplus::prog_var_get_set_ops<tag::uniform>::set(
+		return oglplus::prog_var_get_set_ops<tag::uniform,X>::set(
 			identity<X>(),
 			loc,
 			x
@@ -195,7 +195,10 @@ struct uniform_ops
 		std::false_type
 	) noexcept
 	{
-		return oglplus::prog_var_get_set_ops<tag::uniform>::set(
+		return oglplus::prog_var_get_set_ops<
+			tag::uniform,
+			canonical_element_type_t<X>
+		>::set(
 			canonical_compound_type<X>(),
 			loc,
 			1, element_view(x)
@@ -218,7 +221,10 @@ struct uniform_ops
 		std::true_type
 	) noexcept
 	{
-		return oglplus::prog_var_get_set_ops<tag::uniform>::set(
+		return oglplus::prog_var_get_set_ops<
+			tag::uniform,
+			canonical_element_type_t<X>
+		>::set(
 			canonical_compound_type<X>(),
 			loc,
 			1, is_row_major<X>::value, element_view(x)

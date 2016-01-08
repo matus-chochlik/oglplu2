@@ -16,7 +16,7 @@
 #include "common.hpp"
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(enum_path_dash_offset_reset_nv)
+BOOST_AUTO_TEST_SUITE(enum_path_dash_offset_reset_nv_tests)
 
 BOOST_AUTO_TEST_CASE(enum_path_dash_offset_reset_nv_values)
 {

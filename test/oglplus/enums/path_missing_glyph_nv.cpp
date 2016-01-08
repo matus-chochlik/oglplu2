@@ -16,7 +16,7 @@
 #include "common.hpp"
 #include <cstring>
 
-BOOST_AUTO_TEST_SUITE(enum_path_missing_glyph_nv)
+BOOST_AUTO_TEST_SUITE(enum_path_missing_glyph_nv_tests)
 
 BOOST_AUTO_TEST_CASE(enum_path_missing_glyph_nv_values)
 {
