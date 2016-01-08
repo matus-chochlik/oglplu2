@@ -30,7 +30,6 @@ struct scaled_dim_unit
 	{
 		typedef scale type;
 
-		template <typename ... DimPow>
 		struct _impl : bits::_sc_unit_sc_hlp<Scales, System>
 		{
 			typedef _impl type;
@@ -43,7 +42,7 @@ struct scaled_dim_unit
 			{
 				return i._hlp(
 					std::true_type(),
-					v, _ndp(), DimPow()...
+					v, bits::dims<_ndp, Dims>()
 				);
 			}
 
@@ -54,15 +53,12 @@ struct scaled_dim_unit
 			{
 				return i._hlp(
 					std::false_type(),
-					v, _ndp(), DimPow()...
+					v, bits::dims<_ndp, Dims>()
 				);
 			}
 		};
 
-		static constexpr bits::apply_t<
-			_impl,
-			Dims
-		> value = {};
+		static constexpr const _impl value = {};
 	};
 };
 

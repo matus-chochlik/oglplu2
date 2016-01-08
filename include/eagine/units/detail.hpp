@@ -87,28 +87,6 @@ noexcept
 	return pow_of_dim_v<D, dims<H, T>>;
 }
 
-// apply
-template <template <class...> class MetaFunc, typename X, typename ... P>
-struct apply;
-
-template <template <class...> class MetaFunc, typename X, typename ... P>
-using apply_t = typename apply<MetaFunc, X, P...>::type;
-
-template <template <class...> class MF, typename ... P>
-struct apply<MF, nothing_t, P...>
- : MF<P...>
-{ };
-
-template <template <class...> class MF, typename ... P>
-struct apply<MF, dimless, P...>
- : MF<P...>
-{ };
-
-template <template <class...> class MF, typename H, typename T, typename ... P>
-struct apply<MF, dims<H, T>, P...>
- : apply<MF, T, P..., H>
-{ };
-
 // dim_add
 template <typename Dims1, typename Dims2>
 struct dim_add;
@@ -535,13 +513,13 @@ struct _sc_unit_sc_hlp
 		typename T,
 		typename D,
 		typename P,
-		typename ... DP
+		typename Dims
 	>
 	static constexpr inline
-	auto _hlp(Dir dir, T v, dim_pow<D,P> dp, DP...dps)
+	auto _hlp(Dir dir, T v, dims<dim_pow<D,P>, Dims>)
 	noexcept
 	{
-		return _hlp(dir, _hlp2(dir, v, dp), dps...);
+		return _hlp(dir, _hlp2(dir, v, dim_pow<D,P>()), Dims());
 	}
 };
 
