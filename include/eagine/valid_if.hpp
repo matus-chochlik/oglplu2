@@ -103,7 +103,7 @@ struct valid_if_gt_policy
 	bool operator ()(T value) const
 	noexcept
 	{
-		return value != Sentinel;
+		return value > Sentinel;
 	}
 };
 

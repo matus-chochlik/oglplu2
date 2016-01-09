@@ -63,7 +63,7 @@ BOOST_AUTO_TEST_CASE(valid_if_greater_than_test)
 
 	for(int i=0; i<1000; ++i)
 	{
-		int v = (std::rand()%10==0)?123:std::rand();
+		int v = (std::rand()%10==0)?123:(std::rand()%1000);
 
 		valid_if_greater_than<int, 123> x(v);
 
