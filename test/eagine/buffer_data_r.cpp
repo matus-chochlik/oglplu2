@@ -67,7 +67,7 @@ BOOST_AUTO_TEST_CASE(buffer_data_3)
 		buffer_data_spec<short> bd(csv);
 		span<const byte> v = bd.view();
 
-		BOOST_ASSERT(v.begin() != v.end());
+		BOOST_CHECK(v.begin() != v.end());
 	}
 
 	{
@@ -76,7 +76,7 @@ BOOST_AUTO_TEST_CASE(buffer_data_3)
 		buffer_data_spec<unsigned> bd(fv);
 		span<const byte> v = bd.view();
 
-		BOOST_ASSERT(v.begin() != v.end());
+		BOOST_CHECK(v.begin() != v.end());
 	}
 }
 
