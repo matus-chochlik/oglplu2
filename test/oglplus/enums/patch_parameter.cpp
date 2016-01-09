@@ -39,9 +39,6 @@ BOOST_AUTO_TEST_CASE(enum_patch_parameter_values)
 
 #ifdef GL_PATCH_DEFAULT_OUTER_LEVEL
 	x = ev.patch_default_outer_level;
-# ifdef GL_PATCH_DEFAULT_INNER_LEVEL
-	BOOST_CHECK(x != ev.patch_default_inner_level);
-# endif
 	BOOST_CHECK(x == ev.patch_default_outer_level);
 # ifdef GL_PATCH_VERTICES
 	BOOST_CHECK(x != ev.patch_vertices);
@@ -50,12 +47,6 @@ BOOST_AUTO_TEST_CASE(enum_patch_parameter_values)
 
 #ifdef GL_PATCH_VERTICES
 	x = ev.patch_vertices;
-# ifdef GL_PATCH_DEFAULT_INNER_LEVEL
-	BOOST_CHECK(x != ev.patch_default_inner_level);
-# endif
-# ifdef GL_PATCH_DEFAULT_OUTER_LEVEL
-	BOOST_CHECK(x != ev.patch_default_outer_level);
-# endif
 	BOOST_CHECK(x == ev.patch_vertices);
 #endif
 }

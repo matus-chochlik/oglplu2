@@ -39,9 +39,6 @@ BOOST_AUTO_TEST_CASE(enum_face_values)
 
 #ifdef GL_FRONT
 	x = ev.front;
-# ifdef GL_BACK
-	BOOST_CHECK(x != ev.back);
-# endif
 	BOOST_CHECK(x == ev.front);
 # ifdef GL_FRONT_AND_BACK
 	BOOST_CHECK(x != ev.front_and_back);
@@ -50,12 +47,6 @@ BOOST_AUTO_TEST_CASE(enum_face_values)
 
 #ifdef GL_FRONT_AND_BACK
 	x = ev.front_and_back;
-# ifdef GL_BACK
-	BOOST_CHECK(x != ev.back);
-# endif
-# ifdef GL_FRONT
-	BOOST_CHECK(x != ev.front);
-# endif
 	BOOST_CHECK(x == ev.front_and_back);
 #endif
 }

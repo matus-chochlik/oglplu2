@@ -48,9 +48,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_min_filter_values)
 
 #ifdef GL_LINEAR_MIPMAP_LINEAR
 	x = ev.linear_mipmap_linear;
-# ifdef GL_LINEAR
-	BOOST_CHECK(x != ev.linear);
-# endif
 	BOOST_CHECK(x == ev.linear_mipmap_linear);
 # ifdef GL_LINEAR_MIPMAP_NEAREST
 	BOOST_CHECK(x != ev.linear_mipmap_nearest);
@@ -68,12 +65,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_min_filter_values)
 
 #ifdef GL_LINEAR_MIPMAP_NEAREST
 	x = ev.linear_mipmap_nearest;
-# ifdef GL_LINEAR
-	BOOST_CHECK(x != ev.linear);
-# endif
-# ifdef GL_LINEAR_MIPMAP_LINEAR
-	BOOST_CHECK(x != ev.linear_mipmap_linear);
-# endif
 	BOOST_CHECK(x == ev.linear_mipmap_nearest);
 # ifdef GL_NEAREST
 	BOOST_CHECK(x != ev.nearest);
@@ -88,15 +79,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_min_filter_values)
 
 #ifdef GL_NEAREST
 	x = ev.nearest;
-# ifdef GL_LINEAR
-	BOOST_CHECK(x != ev.linear);
-# endif
-# ifdef GL_LINEAR_MIPMAP_LINEAR
-	BOOST_CHECK(x != ev.linear_mipmap_linear);
-# endif
-# ifdef GL_LINEAR_MIPMAP_NEAREST
-	BOOST_CHECK(x != ev.linear_mipmap_nearest);
-# endif
 	BOOST_CHECK(x == ev.nearest);
 # ifdef GL_NEAREST_MIPMAP_LINEAR
 	BOOST_CHECK(x != ev.nearest_mipmap_linear);
@@ -108,18 +90,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_min_filter_values)
 
 #ifdef GL_NEAREST_MIPMAP_LINEAR
 	x = ev.nearest_mipmap_linear;
-# ifdef GL_LINEAR
-	BOOST_CHECK(x != ev.linear);
-# endif
-# ifdef GL_LINEAR_MIPMAP_LINEAR
-	BOOST_CHECK(x != ev.linear_mipmap_linear);
-# endif
-# ifdef GL_LINEAR_MIPMAP_NEAREST
-	BOOST_CHECK(x != ev.linear_mipmap_nearest);
-# endif
-# ifdef GL_NEAREST
-	BOOST_CHECK(x != ev.nearest);
-# endif
 	BOOST_CHECK(x == ev.nearest_mipmap_linear);
 # ifdef GL_NEAREST_MIPMAP_NEAREST
 	BOOST_CHECK(x != ev.nearest_mipmap_nearest);
@@ -128,21 +98,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_min_filter_values)
 
 #ifdef GL_NEAREST_MIPMAP_NEAREST
 	x = ev.nearest_mipmap_nearest;
-# ifdef GL_LINEAR
-	BOOST_CHECK(x != ev.linear);
-# endif
-# ifdef GL_LINEAR_MIPMAP_LINEAR
-	BOOST_CHECK(x != ev.linear_mipmap_linear);
-# endif
-# ifdef GL_LINEAR_MIPMAP_NEAREST
-	BOOST_CHECK(x != ev.linear_mipmap_nearest);
-# endif
-# ifdef GL_NEAREST
-	BOOST_CHECK(x != ev.nearest);
-# endif
-# ifdef GL_NEAREST_MIPMAP_LINEAR
-	BOOST_CHECK(x != ev.nearest_mipmap_linear);
-# endif
 	BOOST_CHECK(x == ev.nearest_mipmap_nearest);
 #endif
 }

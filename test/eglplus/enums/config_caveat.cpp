@@ -39,9 +39,6 @@ BOOST_AUTO_TEST_CASE(enum_config_caveat_values)
 
 #ifdef EGL_NONE
 	x = ev.none;
-# ifdef EGL_NON_CONFORMANT_CONFIG
-	BOOST_CHECK(x != ev.non_conformant_config);
-# endif
 	BOOST_CHECK(x == ev.none);
 # ifdef EGL_SLOW_CONFIG
 	BOOST_CHECK(x != ev.slow_config);
@@ -50,12 +47,6 @@ BOOST_AUTO_TEST_CASE(enum_config_caveat_values)
 
 #ifdef EGL_SLOW_CONFIG
 	x = ev.slow_config;
-# ifdef EGL_NON_CONFORMANT_CONFIG
-	BOOST_CHECK(x != ev.non_conformant_config);
-# endif
-# ifdef EGL_NONE
-	BOOST_CHECK(x != ev.none);
-# endif
 	BOOST_CHECK(x == ev.slow_config);
 #endif
 }

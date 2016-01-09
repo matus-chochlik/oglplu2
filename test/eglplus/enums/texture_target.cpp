@@ -36,9 +36,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_target_values)
 
 #ifdef EGL_TEXTURE_2D
 	x = ev.texture_2d;
-# ifdef EGL_NO_TEXTURE
-	BOOST_CHECK(x != ev.no_texture);
-# endif
 	BOOST_CHECK(x == ev.texture_2d);
 #endif
 }

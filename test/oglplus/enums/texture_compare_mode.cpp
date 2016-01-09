@@ -36,9 +36,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_compare_mode_values)
 
 #ifdef GL_NONE
 	x = ev.none;
-# ifdef GL_COMPARE_REF_TO_TEXTURE
-	BOOST_CHECK(x != ev.compare_ref_to_texture);
-# endif
 	BOOST_CHECK(x == ev.none);
 #endif
 }

@@ -57,9 +57,6 @@ BOOST_AUTO_TEST_CASE(enum_path_transform_type_nv_values)
 
 #ifdef GL_AFFINE_3D_NV
 	x = ev.affine_3d_nv;
-# ifdef GL_AFFINE_2D_NV
-	BOOST_CHECK(x != ev.affine_2d_nv);
-# endif
 	BOOST_CHECK(x == ev.affine_3d_nv);
 # ifdef GL_NONE
 	BOOST_CHECK(x != ev.none);
@@ -86,12 +83,6 @@ BOOST_AUTO_TEST_CASE(enum_path_transform_type_nv_values)
 
 #ifdef GL_NONE
 	x = ev.none;
-# ifdef GL_AFFINE_2D_NV
-	BOOST_CHECK(x != ev.affine_2d_nv);
-# endif
-# ifdef GL_AFFINE_3D_NV
-	BOOST_CHECK(x != ev.affine_3d_nv);
-# endif
 	BOOST_CHECK(x == ev.none);
 # ifdef GL_TRANSLATE_2D_NV
 	BOOST_CHECK(x != ev.translate_2d_nv);
@@ -115,15 +106,6 @@ BOOST_AUTO_TEST_CASE(enum_path_transform_type_nv_values)
 
 #ifdef GL_TRANSLATE_2D_NV
 	x = ev.translate_2d_nv;
-# ifdef GL_AFFINE_2D_NV
-	BOOST_CHECK(x != ev.affine_2d_nv);
-# endif
-# ifdef GL_AFFINE_3D_NV
-	BOOST_CHECK(x != ev.affine_3d_nv);
-# endif
-# ifdef GL_NONE
-	BOOST_CHECK(x != ev.none);
-# endif
 	BOOST_CHECK(x == ev.translate_2d_nv);
 # ifdef GL_TRANSLATE_3D_NV
 	BOOST_CHECK(x != ev.translate_3d_nv);
@@ -144,18 +126,6 @@ BOOST_AUTO_TEST_CASE(enum_path_transform_type_nv_values)
 
 #ifdef GL_TRANSLATE_3D_NV
 	x = ev.translate_3d_nv;
-# ifdef GL_AFFINE_2D_NV
-	BOOST_CHECK(x != ev.affine_2d_nv);
-# endif
-# ifdef GL_AFFINE_3D_NV
-	BOOST_CHECK(x != ev.affine_3d_nv);
-# endif
-# ifdef GL_NONE
-	BOOST_CHECK(x != ev.none);
-# endif
-# ifdef GL_TRANSLATE_2D_NV
-	BOOST_CHECK(x != ev.translate_2d_nv);
-# endif
 	BOOST_CHECK(x == ev.translate_3d_nv);
 # ifdef GL_TRANSLATE_X_NV
 	BOOST_CHECK(x != ev.translate_x_nv);
@@ -173,21 +143,6 @@ BOOST_AUTO_TEST_CASE(enum_path_transform_type_nv_values)
 
 #ifdef GL_TRANSLATE_X_NV
 	x = ev.translate_x_nv;
-# ifdef GL_AFFINE_2D_NV
-	BOOST_CHECK(x != ev.affine_2d_nv);
-# endif
-# ifdef GL_AFFINE_3D_NV
-	BOOST_CHECK(x != ev.affine_3d_nv);
-# endif
-# ifdef GL_NONE
-	BOOST_CHECK(x != ev.none);
-# endif
-# ifdef GL_TRANSLATE_2D_NV
-	BOOST_CHECK(x != ev.translate_2d_nv);
-# endif
-# ifdef GL_TRANSLATE_3D_NV
-	BOOST_CHECK(x != ev.translate_3d_nv);
-# endif
 	BOOST_CHECK(x == ev.translate_x_nv);
 # ifdef GL_TRANSLATE_Y_NV
 	BOOST_CHECK(x != ev.translate_y_nv);
@@ -202,24 +157,6 @@ BOOST_AUTO_TEST_CASE(enum_path_transform_type_nv_values)
 
 #ifdef GL_TRANSLATE_Y_NV
 	x = ev.translate_y_nv;
-# ifdef GL_AFFINE_2D_NV
-	BOOST_CHECK(x != ev.affine_2d_nv);
-# endif
-# ifdef GL_AFFINE_3D_NV
-	BOOST_CHECK(x != ev.affine_3d_nv);
-# endif
-# ifdef GL_NONE
-	BOOST_CHECK(x != ev.none);
-# endif
-# ifdef GL_TRANSLATE_2D_NV
-	BOOST_CHECK(x != ev.translate_2d_nv);
-# endif
-# ifdef GL_TRANSLATE_3D_NV
-	BOOST_CHECK(x != ev.translate_3d_nv);
-# endif
-# ifdef GL_TRANSLATE_X_NV
-	BOOST_CHECK(x != ev.translate_x_nv);
-# endif
 	BOOST_CHECK(x == ev.translate_y_nv);
 # ifdef GL_TRANSPOSE_AFFINE_2D_NV
 	BOOST_CHECK(x != ev.transpose_affine_2d_nv);
@@ -231,27 +168,6 @@ BOOST_AUTO_TEST_CASE(enum_path_transform_type_nv_values)
 
 #ifdef GL_TRANSPOSE_AFFINE_2D_NV
 	x = ev.transpose_affine_2d_nv;
-# ifdef GL_AFFINE_2D_NV
-	BOOST_CHECK(x != ev.affine_2d_nv);
-# endif
-# ifdef GL_AFFINE_3D_NV
-	BOOST_CHECK(x != ev.affine_3d_nv);
-# endif
-# ifdef GL_NONE
-	BOOST_CHECK(x != ev.none);
-# endif
-# ifdef GL_TRANSLATE_2D_NV
-	BOOST_CHECK(x != ev.translate_2d_nv);
-# endif
-# ifdef GL_TRANSLATE_3D_NV
-	BOOST_CHECK(x != ev.translate_3d_nv);
-# endif
-# ifdef GL_TRANSLATE_X_NV
-	BOOST_CHECK(x != ev.translate_x_nv);
-# endif
-# ifdef GL_TRANSLATE_Y_NV
-	BOOST_CHECK(x != ev.translate_y_nv);
-# endif
 	BOOST_CHECK(x == ev.transpose_affine_2d_nv);
 # ifdef GL_TRANSPOSE_AFFINE_3D_NV
 	BOOST_CHECK(x != ev.transpose_affine_3d_nv);
@@ -260,30 +176,6 @@ BOOST_AUTO_TEST_CASE(enum_path_transform_type_nv_values)
 
 #ifdef GL_TRANSPOSE_AFFINE_3D_NV
 	x = ev.transpose_affine_3d_nv;
-# ifdef GL_AFFINE_2D_NV
-	BOOST_CHECK(x != ev.affine_2d_nv);
-# endif
-# ifdef GL_AFFINE_3D_NV
-	BOOST_CHECK(x != ev.affine_3d_nv);
-# endif
-# ifdef GL_NONE
-	BOOST_CHECK(x != ev.none);
-# endif
-# ifdef GL_TRANSLATE_2D_NV
-	BOOST_CHECK(x != ev.translate_2d_nv);
-# endif
-# ifdef GL_TRANSLATE_3D_NV
-	BOOST_CHECK(x != ev.translate_3d_nv);
-# endif
-# ifdef GL_TRANSLATE_X_NV
-	BOOST_CHECK(x != ev.translate_x_nv);
-# endif
-# ifdef GL_TRANSLATE_Y_NV
-	BOOST_CHECK(x != ev.translate_y_nv);
-# endif
-# ifdef GL_TRANSPOSE_AFFINE_2D_NV
-	BOOST_CHECK(x != ev.transpose_affine_2d_nv);
-# endif
 	BOOST_CHECK(x == ev.transpose_affine_3d_nv);
 #endif
 }

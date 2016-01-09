@@ -36,9 +36,6 @@ BOOST_AUTO_TEST_CASE(enum_transform_feedback_mode_values)
 
 #ifdef GL_SEPARATE_ATTRIBS
 	x = ev.separate_attribs;
-# ifdef GL_INTERLEAVED_ATTRIBS
-	BOOST_CHECK(x != ev.interleaved_attribs);
-# endif
 	BOOST_CHECK(x == ev.separate_attribs);
 #endif
 }

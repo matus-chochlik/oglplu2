@@ -48,9 +48,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_mode_values)
 
 #ifdef GL_BLUE
 	x = ev.blue;
-# ifdef GL_ALPHA
-	BOOST_CHECK(x != ev.alpha);
-# endif
 	BOOST_CHECK(x == ev.blue);
 # ifdef GL_GREEN
 	BOOST_CHECK(x != ev.green);
@@ -68,12 +65,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_mode_values)
 
 #ifdef GL_GREEN
 	x = ev.green;
-# ifdef GL_ALPHA
-	BOOST_CHECK(x != ev.alpha);
-# endif
-# ifdef GL_BLUE
-	BOOST_CHECK(x != ev.blue);
-# endif
 	BOOST_CHECK(x == ev.green);
 # ifdef GL_ONE
 	BOOST_CHECK(x != ev.one);
@@ -88,15 +79,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_mode_values)
 
 #ifdef GL_ONE
 	x = ev.one;
-# ifdef GL_ALPHA
-	BOOST_CHECK(x != ev.alpha);
-# endif
-# ifdef GL_BLUE
-	BOOST_CHECK(x != ev.blue);
-# endif
-# ifdef GL_GREEN
-	BOOST_CHECK(x != ev.green);
-# endif
 	BOOST_CHECK(x == ev.one);
 # ifdef GL_RED
 	BOOST_CHECK(x != ev.red);
@@ -108,18 +90,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_mode_values)
 
 #ifdef GL_RED
 	x = ev.red;
-# ifdef GL_ALPHA
-	BOOST_CHECK(x != ev.alpha);
-# endif
-# ifdef GL_BLUE
-	BOOST_CHECK(x != ev.blue);
-# endif
-# ifdef GL_GREEN
-	BOOST_CHECK(x != ev.green);
-# endif
-# ifdef GL_ONE
-	BOOST_CHECK(x != ev.one);
-# endif
 	BOOST_CHECK(x == ev.red);
 # ifdef GL_ZERO
 	BOOST_CHECK(x != ev.zero);
@@ -128,21 +98,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_mode_values)
 
 #ifdef GL_ZERO
 	x = ev.zero;
-# ifdef GL_ALPHA
-	BOOST_CHECK(x != ev.alpha);
-# endif
-# ifdef GL_BLUE
-	BOOST_CHECK(x != ev.blue);
-# endif
-# ifdef GL_GREEN
-	BOOST_CHECK(x != ev.green);
-# endif
-# ifdef GL_ONE
-	BOOST_CHECK(x != ev.one);
-# endif
-# ifdef GL_RED
-	BOOST_CHECK(x != ev.red);
-# endif
 	BOOST_CHECK(x == ev.zero);
 #endif
 }

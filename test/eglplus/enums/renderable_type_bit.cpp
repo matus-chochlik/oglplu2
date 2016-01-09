@@ -45,9 +45,6 @@ BOOST_AUTO_TEST_CASE(enum_renderable_type_bit_values)
 
 #ifdef EGL_OPENGL_ES2_BIT
 	x = ev.opengl_es2_bit;
-# ifdef EGL_OPENGL_BIT
-	BOOST_CHECK(x != ev.opengl_bit);
-# endif
 	BOOST_CHECK(x == ev.opengl_es2_bit);
 # ifdef EGL_OPENGL_ES3_BIT
 	BOOST_CHECK(x != ev.opengl_es3_bit);
@@ -62,12 +59,6 @@ BOOST_AUTO_TEST_CASE(enum_renderable_type_bit_values)
 
 #ifdef EGL_OPENGL_ES3_BIT
 	x = ev.opengl_es3_bit;
-# ifdef EGL_OPENGL_BIT
-	BOOST_CHECK(x != ev.opengl_bit);
-# endif
-# ifdef EGL_OPENGL_ES2_BIT
-	BOOST_CHECK(x != ev.opengl_es2_bit);
-# endif
 	BOOST_CHECK(x == ev.opengl_es3_bit);
 # ifdef EGL_OPENGL_ES_BIT
 	BOOST_CHECK(x != ev.opengl_es_bit);
@@ -79,15 +70,6 @@ BOOST_AUTO_TEST_CASE(enum_renderable_type_bit_values)
 
 #ifdef EGL_OPENGL_ES_BIT
 	x = ev.opengl_es_bit;
-# ifdef EGL_OPENGL_BIT
-	BOOST_CHECK(x != ev.opengl_bit);
-# endif
-# ifdef EGL_OPENGL_ES2_BIT
-	BOOST_CHECK(x != ev.opengl_es2_bit);
-# endif
-# ifdef EGL_OPENGL_ES3_BIT
-	BOOST_CHECK(x != ev.opengl_es3_bit);
-# endif
 	BOOST_CHECK(x == ev.opengl_es_bit);
 # ifdef EGL_OPENVG_BIT
 	BOOST_CHECK(x != ev.openvg_bit);
@@ -96,18 +78,6 @@ BOOST_AUTO_TEST_CASE(enum_renderable_type_bit_values)
 
 #ifdef EGL_OPENVG_BIT
 	x = ev.openvg_bit;
-# ifdef EGL_OPENGL_BIT
-	BOOST_CHECK(x != ev.opengl_bit);
-# endif
-# ifdef EGL_OPENGL_ES2_BIT
-	BOOST_CHECK(x != ev.opengl_es2_bit);
-# endif
-# ifdef EGL_OPENGL_ES3_BIT
-	BOOST_CHECK(x != ev.opengl_es3_bit);
-# endif
-# ifdef EGL_OPENGL_ES_BIT
-	BOOST_CHECK(x != ev.opengl_es_bit);
-# endif
 	BOOST_CHECK(x == ev.openvg_bit);
 #endif
 }

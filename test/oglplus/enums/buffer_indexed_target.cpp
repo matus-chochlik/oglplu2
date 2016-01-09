@@ -42,9 +42,6 @@ BOOST_AUTO_TEST_CASE(enum_buffer_indexed_target_values)
 
 #ifdef GL_SHADER_STORAGE_BUFFER
 	x = ev.shader_storage_buffer;
-# ifdef GL_ATOMIC_COUNTER_BUFFER
-	BOOST_CHECK(x != ev.atomic_counter_buffer);
-# endif
 	BOOST_CHECK(x == ev.shader_storage_buffer);
 # ifdef GL_TRANSFORM_FEEDBACK_BUFFER
 	BOOST_CHECK(x != ev.transform_feedback_buffer);
@@ -56,12 +53,6 @@ BOOST_AUTO_TEST_CASE(enum_buffer_indexed_target_values)
 
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER
 	x = ev.transform_feedback_buffer;
-# ifdef GL_ATOMIC_COUNTER_BUFFER
-	BOOST_CHECK(x != ev.atomic_counter_buffer);
-# endif
-# ifdef GL_SHADER_STORAGE_BUFFER
-	BOOST_CHECK(x != ev.shader_storage_buffer);
-# endif
 	BOOST_CHECK(x == ev.transform_feedback_buffer);
 # ifdef GL_UNIFORM_BUFFER
 	BOOST_CHECK(x != ev.uniform_buffer);
@@ -70,15 +61,6 @@ BOOST_AUTO_TEST_CASE(enum_buffer_indexed_target_values)
 
 #ifdef GL_UNIFORM_BUFFER
 	x = ev.uniform_buffer;
-# ifdef GL_ATOMIC_COUNTER_BUFFER
-	BOOST_CHECK(x != ev.atomic_counter_buffer);
-# endif
-# ifdef GL_SHADER_STORAGE_BUFFER
-	BOOST_CHECK(x != ev.shader_storage_buffer);
-# endif
-# ifdef GL_TRANSFORM_FEEDBACK_BUFFER
-	BOOST_CHECK(x != ev.transform_feedback_buffer);
-# endif
 	BOOST_CHECK(x == ev.uniform_buffer);
 #endif
 }

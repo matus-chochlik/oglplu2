@@ -42,9 +42,6 @@ BOOST_AUTO_TEST_CASE(enum_graphics_reset_status_values)
 
 #ifdef GL_INNOCENT_CONTEXT_RESET
 	x = ev.innocent_context_reset;
-# ifdef GL_GUILTY_CONTEXT_RESET
-	BOOST_CHECK(x != ev.guilty_context_reset);
-# endif
 	BOOST_CHECK(x == ev.innocent_context_reset);
 # ifdef GL_NO_ERROR
 	BOOST_CHECK(x != ev.no_error);
@@ -56,12 +53,6 @@ BOOST_AUTO_TEST_CASE(enum_graphics_reset_status_values)
 
 #ifdef GL_NO_ERROR
 	x = ev.no_error;
-# ifdef GL_GUILTY_CONTEXT_RESET
-	BOOST_CHECK(x != ev.guilty_context_reset);
-# endif
-# ifdef GL_INNOCENT_CONTEXT_RESET
-	BOOST_CHECK(x != ev.innocent_context_reset);
-# endif
 	BOOST_CHECK(x == ev.no_error);
 # ifdef GL_UNKNOWN_CONTEXT_RESET
 	BOOST_CHECK(x != ev.unknown_context_reset);
@@ -70,15 +61,6 @@ BOOST_AUTO_TEST_CASE(enum_graphics_reset_status_values)
 
 #ifdef GL_UNKNOWN_CONTEXT_RESET
 	x = ev.unknown_context_reset;
-# ifdef GL_GUILTY_CONTEXT_RESET
-	BOOST_CHECK(x != ev.guilty_context_reset);
-# endif
-# ifdef GL_INNOCENT_CONTEXT_RESET
-	BOOST_CHECK(x != ev.innocent_context_reset);
-# endif
-# ifdef GL_NO_ERROR
-	BOOST_CHECK(x != ev.no_error);
-# endif
 	BOOST_CHECK(x == ev.unknown_context_reset);
 #endif
 }

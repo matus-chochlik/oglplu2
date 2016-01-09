@@ -36,9 +36,6 @@ BOOST_AUTO_TEST_CASE(enum_blit_filter_values)
 
 #ifdef GL_NEAREST
 	x = ev.nearest;
-# ifdef GL_LINEAR
-	BOOST_CHECK(x != ev.linear);
-# endif
 	BOOST_CHECK(x == ev.nearest);
 #endif
 }

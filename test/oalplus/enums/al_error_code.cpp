@@ -48,9 +48,6 @@ BOOST_AUTO_TEST_CASE(enum_al_error_code_values)
 
 #ifdef AL_INVALID_NAME
 	x = ev.invalid_name;
-# ifdef AL_INVALID_ENUM
-	BOOST_CHECK(x != ev.invalid_enum);
-# endif
 	BOOST_CHECK(x == ev.invalid_name);
 # ifdef AL_INVALID_OPERATION
 	BOOST_CHECK(x != ev.invalid_operation);
@@ -68,12 +65,6 @@ BOOST_AUTO_TEST_CASE(enum_al_error_code_values)
 
 #ifdef AL_INVALID_OPERATION
 	x = ev.invalid_operation;
-# ifdef AL_INVALID_ENUM
-	BOOST_CHECK(x != ev.invalid_enum);
-# endif
-# ifdef AL_INVALID_NAME
-	BOOST_CHECK(x != ev.invalid_name);
-# endif
 	BOOST_CHECK(x == ev.invalid_operation);
 # ifdef AL_INVALID_VALUE
 	BOOST_CHECK(x != ev.invalid_value);
@@ -88,15 +79,6 @@ BOOST_AUTO_TEST_CASE(enum_al_error_code_values)
 
 #ifdef AL_INVALID_VALUE
 	x = ev.invalid_value;
-# ifdef AL_INVALID_ENUM
-	BOOST_CHECK(x != ev.invalid_enum);
-# endif
-# ifdef AL_INVALID_NAME
-	BOOST_CHECK(x != ev.invalid_name);
-# endif
-# ifdef AL_INVALID_OPERATION
-	BOOST_CHECK(x != ev.invalid_operation);
-# endif
 	BOOST_CHECK(x == ev.invalid_value);
 # ifdef AL_NO_ERROR
 	BOOST_CHECK(x != ev.no_error);
@@ -108,18 +90,6 @@ BOOST_AUTO_TEST_CASE(enum_al_error_code_values)
 
 #ifdef AL_NO_ERROR
 	x = ev.no_error;
-# ifdef AL_INVALID_ENUM
-	BOOST_CHECK(x != ev.invalid_enum);
-# endif
-# ifdef AL_INVALID_NAME
-	BOOST_CHECK(x != ev.invalid_name);
-# endif
-# ifdef AL_INVALID_OPERATION
-	BOOST_CHECK(x != ev.invalid_operation);
-# endif
-# ifdef AL_INVALID_VALUE
-	BOOST_CHECK(x != ev.invalid_value);
-# endif
 	BOOST_CHECK(x == ev.no_error);
 # ifdef AL_OUT_OF_MEMORY
 	BOOST_CHECK(x != ev.out_of_memory);
@@ -128,21 +98,6 @@ BOOST_AUTO_TEST_CASE(enum_al_error_code_values)
 
 #ifdef AL_OUT_OF_MEMORY
 	x = ev.out_of_memory;
-# ifdef AL_INVALID_ENUM
-	BOOST_CHECK(x != ev.invalid_enum);
-# endif
-# ifdef AL_INVALID_NAME
-	BOOST_CHECK(x != ev.invalid_name);
-# endif
-# ifdef AL_INVALID_OPERATION
-	BOOST_CHECK(x != ev.invalid_operation);
-# endif
-# ifdef AL_INVALID_VALUE
-	BOOST_CHECK(x != ev.invalid_value);
-# endif
-# ifdef AL_NO_ERROR
-	BOOST_CHECK(x != ev.no_error);
-# endif
 	BOOST_CHECK(x == ev.out_of_memory);
 #endif
 }

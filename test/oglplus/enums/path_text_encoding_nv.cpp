@@ -36,9 +36,6 @@ BOOST_AUTO_TEST_CASE(enum_path_text_encoding_nv_values)
 
 #ifdef GL_UTF8_NV
 	x = ev.utf8_nv;
-# ifdef GL_UTF16_NV
-	BOOST_CHECK(x != ev.utf16_nv);
-# endif
 	BOOST_CHECK(x == ev.utf8_nv);
 #endif
 }

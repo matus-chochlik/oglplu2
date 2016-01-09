@@ -36,9 +36,6 @@ BOOST_AUTO_TEST_CASE(enum_opengl_profile_bit_values)
 
 #ifdef EGL_CONTEXT_OPENGL_CORE_PROFILE_BIT
 	x = ev.context_opengl_core_profile_bit;
-# ifdef EGL_CONTEXT_OPENGL_COMPATIBILITY_PROFILE_BIT
-	BOOST_CHECK(x != ev.context_opengl_compatibility_profile_bit);
-# endif
 	BOOST_CHECK(x == ev.context_opengl_core_profile_bit);
 #endif
 }

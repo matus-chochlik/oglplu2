@@ -48,9 +48,6 @@ BOOST_AUTO_TEST_CASE(enum_alc_error_code_values)
 
 #ifdef ALC_INVALID_DEVICE
 	x = ev.invalid_device;
-# ifdef ALC_INVALID_CONTEXT
-	BOOST_CHECK(x != ev.invalid_context);
-# endif
 	BOOST_CHECK(x == ev.invalid_device);
 # ifdef ALC_INVALID_ENUM
 	BOOST_CHECK(x != ev.invalid_enum);
@@ -68,12 +65,6 @@ BOOST_AUTO_TEST_CASE(enum_alc_error_code_values)
 
 #ifdef ALC_INVALID_ENUM
 	x = ev.invalid_enum;
-# ifdef ALC_INVALID_CONTEXT
-	BOOST_CHECK(x != ev.invalid_context);
-# endif
-# ifdef ALC_INVALID_DEVICE
-	BOOST_CHECK(x != ev.invalid_device);
-# endif
 	BOOST_CHECK(x == ev.invalid_enum);
 # ifdef ALC_INVALID_VALUE
 	BOOST_CHECK(x != ev.invalid_value);
@@ -88,15 +79,6 @@ BOOST_AUTO_TEST_CASE(enum_alc_error_code_values)
 
 #ifdef ALC_INVALID_VALUE
 	x = ev.invalid_value;
-# ifdef ALC_INVALID_CONTEXT
-	BOOST_CHECK(x != ev.invalid_context);
-# endif
-# ifdef ALC_INVALID_DEVICE
-	BOOST_CHECK(x != ev.invalid_device);
-# endif
-# ifdef ALC_INVALID_ENUM
-	BOOST_CHECK(x != ev.invalid_enum);
-# endif
 	BOOST_CHECK(x == ev.invalid_value);
 # ifdef ALC_NO_ERROR
 	BOOST_CHECK(x != ev.no_error);
@@ -108,18 +90,6 @@ BOOST_AUTO_TEST_CASE(enum_alc_error_code_values)
 
 #ifdef ALC_NO_ERROR
 	x = ev.no_error;
-# ifdef ALC_INVALID_CONTEXT
-	BOOST_CHECK(x != ev.invalid_context);
-# endif
-# ifdef ALC_INVALID_DEVICE
-	BOOST_CHECK(x != ev.invalid_device);
-# endif
-# ifdef ALC_INVALID_ENUM
-	BOOST_CHECK(x != ev.invalid_enum);
-# endif
-# ifdef ALC_INVALID_VALUE
-	BOOST_CHECK(x != ev.invalid_value);
-# endif
 	BOOST_CHECK(x == ev.no_error);
 # ifdef ALC_OUT_OF_MEMORY
 	BOOST_CHECK(x != ev.out_of_memory);
@@ -128,21 +98,6 @@ BOOST_AUTO_TEST_CASE(enum_alc_error_code_values)
 
 #ifdef ALC_OUT_OF_MEMORY
 	x = ev.out_of_memory;
-# ifdef ALC_INVALID_CONTEXT
-	BOOST_CHECK(x != ev.invalid_context);
-# endif
-# ifdef ALC_INVALID_DEVICE
-	BOOST_CHECK(x != ev.invalid_device);
-# endif
-# ifdef ALC_INVALID_ENUM
-	BOOST_CHECK(x != ev.invalid_enum);
-# endif
-# ifdef ALC_INVALID_VALUE
-	BOOST_CHECK(x != ev.invalid_value);
-# endif
-# ifdef ALC_NO_ERROR
-	BOOST_CHECK(x != ev.no_error);
-# endif
 	BOOST_CHECK(x == ev.out_of_memory);
 #endif
 }

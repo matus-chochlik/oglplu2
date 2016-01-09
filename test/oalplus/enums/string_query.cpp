@@ -42,9 +42,6 @@ BOOST_AUTO_TEST_CASE(enum_string_query_values)
 
 #ifdef AL_RENDERER
 	x = ev.renderer;
-# ifdef AL_EXTENSIONS
-	BOOST_CHECK(x != ev.extensions);
-# endif
 	BOOST_CHECK(x == ev.renderer);
 # ifdef AL_VENDOR
 	BOOST_CHECK(x != ev.vendor);
@@ -56,12 +53,6 @@ BOOST_AUTO_TEST_CASE(enum_string_query_values)
 
 #ifdef AL_VENDOR
 	x = ev.vendor;
-# ifdef AL_EXTENSIONS
-	BOOST_CHECK(x != ev.extensions);
-# endif
-# ifdef AL_RENDERER
-	BOOST_CHECK(x != ev.renderer);
-# endif
 	BOOST_CHECK(x == ev.vendor);
 # ifdef AL_VERSION
 	BOOST_CHECK(x != ev.version);
@@ -70,15 +61,6 @@ BOOST_AUTO_TEST_CASE(enum_string_query_values)
 
 #ifdef AL_VERSION
 	x = ev.version;
-# ifdef AL_EXTENSIONS
-	BOOST_CHECK(x != ev.extensions);
-# endif
-# ifdef AL_RENDERER
-	BOOST_CHECK(x != ev.renderer);
-# endif
-# ifdef AL_VENDOR
-	BOOST_CHECK(x != ev.vendor);
-# endif
 	BOOST_CHECK(x == ev.version);
 #endif
 }

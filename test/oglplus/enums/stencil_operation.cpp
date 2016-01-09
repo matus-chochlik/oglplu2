@@ -54,9 +54,6 @@ BOOST_AUTO_TEST_CASE(enum_stencil_operation_values)
 
 #ifdef GL_DECR_WRAP
 	x = ev.decr_wrap;
-# ifdef GL_DECR
-	BOOST_CHECK(x != ev.decr);
-# endif
 	BOOST_CHECK(x == ev.decr_wrap);
 # ifdef GL_INCR
 	BOOST_CHECK(x != ev.incr);
@@ -80,12 +77,6 @@ BOOST_AUTO_TEST_CASE(enum_stencil_operation_values)
 
 #ifdef GL_INCR
 	x = ev.incr;
-# ifdef GL_DECR
-	BOOST_CHECK(x != ev.decr);
-# endif
-# ifdef GL_DECR_WRAP
-	BOOST_CHECK(x != ev.decr_wrap);
-# endif
 	BOOST_CHECK(x == ev.incr);
 # ifdef GL_INCR_WRAP
 	BOOST_CHECK(x != ev.incr_wrap);
@@ -106,15 +97,6 @@ BOOST_AUTO_TEST_CASE(enum_stencil_operation_values)
 
 #ifdef GL_INCR_WRAP
 	x = ev.incr_wrap;
-# ifdef GL_DECR
-	BOOST_CHECK(x != ev.decr);
-# endif
-# ifdef GL_DECR_WRAP
-	BOOST_CHECK(x != ev.decr_wrap);
-# endif
-# ifdef GL_INCR
-	BOOST_CHECK(x != ev.incr);
-# endif
 	BOOST_CHECK(x == ev.incr_wrap);
 # ifdef GL_INVERT
 	BOOST_CHECK(x != ev.invert);
@@ -132,18 +114,6 @@ BOOST_AUTO_TEST_CASE(enum_stencil_operation_values)
 
 #ifdef GL_INVERT
 	x = ev.invert;
-# ifdef GL_DECR
-	BOOST_CHECK(x != ev.decr);
-# endif
-# ifdef GL_DECR_WRAP
-	BOOST_CHECK(x != ev.decr_wrap);
-# endif
-# ifdef GL_INCR
-	BOOST_CHECK(x != ev.incr);
-# endif
-# ifdef GL_INCR_WRAP
-	BOOST_CHECK(x != ev.incr_wrap);
-# endif
 	BOOST_CHECK(x == ev.invert);
 # ifdef GL_KEEP
 	BOOST_CHECK(x != ev.keep);
@@ -158,21 +128,6 @@ BOOST_AUTO_TEST_CASE(enum_stencil_operation_values)
 
 #ifdef GL_KEEP
 	x = ev.keep;
-# ifdef GL_DECR
-	BOOST_CHECK(x != ev.decr);
-# endif
-# ifdef GL_DECR_WRAP
-	BOOST_CHECK(x != ev.decr_wrap);
-# endif
-# ifdef GL_INCR
-	BOOST_CHECK(x != ev.incr);
-# endif
-# ifdef GL_INCR_WRAP
-	BOOST_CHECK(x != ev.incr_wrap);
-# endif
-# ifdef GL_INVERT
-	BOOST_CHECK(x != ev.invert);
-# endif
 	BOOST_CHECK(x == ev.keep);
 # ifdef GL_REPLACE
 	BOOST_CHECK(x != ev.replace);
@@ -184,24 +139,6 @@ BOOST_AUTO_TEST_CASE(enum_stencil_operation_values)
 
 #ifdef GL_REPLACE
 	x = ev.replace;
-# ifdef GL_DECR
-	BOOST_CHECK(x != ev.decr);
-# endif
-# ifdef GL_DECR_WRAP
-	BOOST_CHECK(x != ev.decr_wrap);
-# endif
-# ifdef GL_INCR
-	BOOST_CHECK(x != ev.incr);
-# endif
-# ifdef GL_INCR_WRAP
-	BOOST_CHECK(x != ev.incr_wrap);
-# endif
-# ifdef GL_INVERT
-	BOOST_CHECK(x != ev.invert);
-# endif
-# ifdef GL_KEEP
-	BOOST_CHECK(x != ev.keep);
-# endif
 	BOOST_CHECK(x == ev.replace);
 # ifdef GL_ZERO
 	BOOST_CHECK(x != ev.zero);
@@ -210,27 +147,6 @@ BOOST_AUTO_TEST_CASE(enum_stencil_operation_values)
 
 #ifdef GL_ZERO
 	x = ev.zero;
-# ifdef GL_DECR
-	BOOST_CHECK(x != ev.decr);
-# endif
-# ifdef GL_DECR_WRAP
-	BOOST_CHECK(x != ev.decr_wrap);
-# endif
-# ifdef GL_INCR
-	BOOST_CHECK(x != ev.incr);
-# endif
-# ifdef GL_INCR_WRAP
-	BOOST_CHECK(x != ev.incr_wrap);
-# endif
-# ifdef GL_INVERT
-	BOOST_CHECK(x != ev.invert);
-# endif
-# ifdef GL_KEEP
-	BOOST_CHECK(x != ev.keep);
-# endif
-# ifdef GL_REPLACE
-	BOOST_CHECK(x != ev.replace);
-# endif
 	BOOST_CHECK(x == ev.zero);
 #endif
 }

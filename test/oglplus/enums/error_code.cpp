@@ -60,9 +60,6 @@ BOOST_AUTO_TEST_CASE(enum_error_code_values)
 
 #ifdef GL_INVALID_ENUM
 	x = ev.invalid_enum;
-# ifdef GL_CONTEXT_LOST
-	BOOST_CHECK(x != ev.context_lost);
-# endif
 	BOOST_CHECK(x == ev.invalid_enum);
 # ifdef GL_INVALID_FRAMEBUFFER_OPERATION
 	BOOST_CHECK(x != ev.invalid_framebuffer_operation);
@@ -92,12 +89,6 @@ BOOST_AUTO_TEST_CASE(enum_error_code_values)
 
 #ifdef GL_INVALID_FRAMEBUFFER_OPERATION
 	x = ev.invalid_framebuffer_operation;
-# ifdef GL_CONTEXT_LOST
-	BOOST_CHECK(x != ev.context_lost);
-# endif
-# ifdef GL_INVALID_ENUM
-	BOOST_CHECK(x != ev.invalid_enum);
-# endif
 	BOOST_CHECK(x == ev.invalid_framebuffer_operation);
 # ifdef GL_INVALID_OPERATION
 	BOOST_CHECK(x != ev.invalid_operation);
@@ -124,15 +115,6 @@ BOOST_AUTO_TEST_CASE(enum_error_code_values)
 
 #ifdef GL_INVALID_OPERATION
 	x = ev.invalid_operation;
-# ifdef GL_CONTEXT_LOST
-	BOOST_CHECK(x != ev.context_lost);
-# endif
-# ifdef GL_INVALID_ENUM
-	BOOST_CHECK(x != ev.invalid_enum);
-# endif
-# ifdef GL_INVALID_FRAMEBUFFER_OPERATION
-	BOOST_CHECK(x != ev.invalid_framebuffer_operation);
-# endif
 	BOOST_CHECK(x == ev.invalid_operation);
 # ifdef GL_INVALID_VALUE
 	BOOST_CHECK(x != ev.invalid_value);
@@ -156,18 +138,6 @@ BOOST_AUTO_TEST_CASE(enum_error_code_values)
 
 #ifdef GL_INVALID_VALUE
 	x = ev.invalid_value;
-# ifdef GL_CONTEXT_LOST
-	BOOST_CHECK(x != ev.context_lost);
-# endif
-# ifdef GL_INVALID_ENUM
-	BOOST_CHECK(x != ev.invalid_enum);
-# endif
-# ifdef GL_INVALID_FRAMEBUFFER_OPERATION
-	BOOST_CHECK(x != ev.invalid_framebuffer_operation);
-# endif
-# ifdef GL_INVALID_OPERATION
-	BOOST_CHECK(x != ev.invalid_operation);
-# endif
 	BOOST_CHECK(x == ev.invalid_value);
 # ifdef GL_NO_ERROR
 	BOOST_CHECK(x != ev.no_error);
@@ -188,21 +158,6 @@ BOOST_AUTO_TEST_CASE(enum_error_code_values)
 
 #ifdef GL_NO_ERROR
 	x = ev.no_error;
-# ifdef GL_CONTEXT_LOST
-	BOOST_CHECK(x != ev.context_lost);
-# endif
-# ifdef GL_INVALID_ENUM
-	BOOST_CHECK(x != ev.invalid_enum);
-# endif
-# ifdef GL_INVALID_FRAMEBUFFER_OPERATION
-	BOOST_CHECK(x != ev.invalid_framebuffer_operation);
-# endif
-# ifdef GL_INVALID_OPERATION
-	BOOST_CHECK(x != ev.invalid_operation);
-# endif
-# ifdef GL_INVALID_VALUE
-	BOOST_CHECK(x != ev.invalid_value);
-# endif
 	BOOST_CHECK(x == ev.no_error);
 # ifdef GL_OUT_OF_MEMORY
 	BOOST_CHECK(x != ev.out_of_memory);
@@ -220,24 +175,6 @@ BOOST_AUTO_TEST_CASE(enum_error_code_values)
 
 #ifdef GL_OUT_OF_MEMORY
 	x = ev.out_of_memory;
-# ifdef GL_CONTEXT_LOST
-	BOOST_CHECK(x != ev.context_lost);
-# endif
-# ifdef GL_INVALID_ENUM
-	BOOST_CHECK(x != ev.invalid_enum);
-# endif
-# ifdef GL_INVALID_FRAMEBUFFER_OPERATION
-	BOOST_CHECK(x != ev.invalid_framebuffer_operation);
-# endif
-# ifdef GL_INVALID_OPERATION
-	BOOST_CHECK(x != ev.invalid_operation);
-# endif
-# ifdef GL_INVALID_VALUE
-	BOOST_CHECK(x != ev.invalid_value);
-# endif
-# ifdef GL_NO_ERROR
-	BOOST_CHECK(x != ev.no_error);
-# endif
 	BOOST_CHECK(x == ev.out_of_memory);
 # ifdef GL_STACK_OVERFLOW
 	BOOST_CHECK(x != ev.stack_overflow);
@@ -252,27 +189,6 @@ BOOST_AUTO_TEST_CASE(enum_error_code_values)
 
 #ifdef GL_STACK_OVERFLOW
 	x = ev.stack_overflow;
-# ifdef GL_CONTEXT_LOST
-	BOOST_CHECK(x != ev.context_lost);
-# endif
-# ifdef GL_INVALID_ENUM
-	BOOST_CHECK(x != ev.invalid_enum);
-# endif
-# ifdef GL_INVALID_FRAMEBUFFER_OPERATION
-	BOOST_CHECK(x != ev.invalid_framebuffer_operation);
-# endif
-# ifdef GL_INVALID_OPERATION
-	BOOST_CHECK(x != ev.invalid_operation);
-# endif
-# ifdef GL_INVALID_VALUE
-	BOOST_CHECK(x != ev.invalid_value);
-# endif
-# ifdef GL_NO_ERROR
-	BOOST_CHECK(x != ev.no_error);
-# endif
-# ifdef GL_OUT_OF_MEMORY
-	BOOST_CHECK(x != ev.out_of_memory);
-# endif
 	BOOST_CHECK(x == ev.stack_overflow);
 # ifdef GL_STACK_UNDERFLOW
 	BOOST_CHECK(x != ev.stack_underflow);
@@ -284,30 +200,6 @@ BOOST_AUTO_TEST_CASE(enum_error_code_values)
 
 #ifdef GL_STACK_UNDERFLOW
 	x = ev.stack_underflow;
-# ifdef GL_CONTEXT_LOST
-	BOOST_CHECK(x != ev.context_lost);
-# endif
-# ifdef GL_INVALID_ENUM
-	BOOST_CHECK(x != ev.invalid_enum);
-# endif
-# ifdef GL_INVALID_FRAMEBUFFER_OPERATION
-	BOOST_CHECK(x != ev.invalid_framebuffer_operation);
-# endif
-# ifdef GL_INVALID_OPERATION
-	BOOST_CHECK(x != ev.invalid_operation);
-# endif
-# ifdef GL_INVALID_VALUE
-	BOOST_CHECK(x != ev.invalid_value);
-# endif
-# ifdef GL_NO_ERROR
-	BOOST_CHECK(x != ev.no_error);
-# endif
-# ifdef GL_OUT_OF_MEMORY
-	BOOST_CHECK(x != ev.out_of_memory);
-# endif
-# ifdef GL_STACK_OVERFLOW
-	BOOST_CHECK(x != ev.stack_overflow);
-# endif
 	BOOST_CHECK(x == ev.stack_underflow);
 # ifdef GL_TABLE_TOO_LARGE
 	BOOST_CHECK(x != ev.table_too_large);
@@ -316,33 +208,6 @@ BOOST_AUTO_TEST_CASE(enum_error_code_values)
 
 #ifdef GL_TABLE_TOO_LARGE
 	x = ev.table_too_large;
-# ifdef GL_CONTEXT_LOST
-	BOOST_CHECK(x != ev.context_lost);
-# endif
-# ifdef GL_INVALID_ENUM
-	BOOST_CHECK(x != ev.invalid_enum);
-# endif
-# ifdef GL_INVALID_FRAMEBUFFER_OPERATION
-	BOOST_CHECK(x != ev.invalid_framebuffer_operation);
-# endif
-# ifdef GL_INVALID_OPERATION
-	BOOST_CHECK(x != ev.invalid_operation);
-# endif
-# ifdef GL_INVALID_VALUE
-	BOOST_CHECK(x != ev.invalid_value);
-# endif
-# ifdef GL_NO_ERROR
-	BOOST_CHECK(x != ev.no_error);
-# endif
-# ifdef GL_OUT_OF_MEMORY
-	BOOST_CHECK(x != ev.out_of_memory);
-# endif
-# ifdef GL_STACK_OVERFLOW
-	BOOST_CHECK(x != ev.stack_overflow);
-# endif
-# ifdef GL_STACK_UNDERFLOW
-	BOOST_CHECK(x != ev.stack_underflow);
-# endif
 	BOOST_CHECK(x == ev.table_too_large);
 #endif
 }

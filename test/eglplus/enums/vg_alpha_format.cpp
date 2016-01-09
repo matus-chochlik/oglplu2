@@ -36,9 +36,6 @@ BOOST_AUTO_TEST_CASE(enum_vg_alpha_format_values)
 
 #ifdef EGL_VG_ALPHA_FORMAT_PRE
 	x = ev.vg_alpha_format_pre;
-# ifdef EGL_VG_ALPHA_FORMAT_NONPRE
-	BOOST_CHECK(x != ev.vg_alpha_format_nonpre);
-# endif
 	BOOST_CHECK(x == ev.vg_alpha_format_pre);
 #endif
 }

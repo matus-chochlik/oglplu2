@@ -36,9 +36,6 @@ BOOST_AUTO_TEST_CASE(enum_context_release_behavior_values)
 
 #ifdef GL_NONE
 	x = ev.none;
-# ifdef GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH
-	BOOST_CHECK(x != ev.context_release_behavior_flush);
-# endif
 	BOOST_CHECK(x == ev.none);
 #endif
 }

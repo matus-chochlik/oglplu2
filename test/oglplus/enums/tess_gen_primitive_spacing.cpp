@@ -39,9 +39,6 @@ BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_spacing_values)
 
 #ifdef GL_FRACTIONAL_EVEN
 	x = ev.fractional_even;
-# ifdef GL_EQUAL
-	BOOST_CHECK(x != ev.equal);
-# endif
 	BOOST_CHECK(x == ev.fractional_even);
 # ifdef GL_FRACTIONAL_ODD
 	BOOST_CHECK(x != ev.fractional_odd);
@@ -50,12 +47,6 @@ BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_spacing_values)
 
 #ifdef GL_FRACTIONAL_ODD
 	x = ev.fractional_odd;
-# ifdef GL_EQUAL
-	BOOST_CHECK(x != ev.equal);
-# endif
-# ifdef GL_FRACTIONAL_EVEN
-	BOOST_CHECK(x != ev.fractional_even);
-# endif
 	BOOST_CHECK(x == ev.fractional_odd);
 #endif
 }

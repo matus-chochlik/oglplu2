@@ -36,9 +36,6 @@ BOOST_AUTO_TEST_CASE(enum_true_false_values)
 
 #ifdef GL_TRUE
 	x = ev.true_;
-# ifdef GL_FALSE
-	BOOST_CHECK(x != ev.false_);
-# endif
 	BOOST_CHECK(x == ev.true_);
 #endif
 }

@@ -87,9 +87,6 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_format_values)
 
 #ifdef GL_BGR_INTEGER
 	x = ev.bgr_integer;
-# ifdef GL_BGR
-	BOOST_CHECK(x != ev.bgr);
-# endif
 	BOOST_CHECK(x == ev.bgr_integer);
 # ifdef GL_BGRA
 	BOOST_CHECK(x != ev.bgra);
@@ -146,12 +143,6 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_format_values)
 
 #ifdef GL_BGRA
 	x = ev.bgra;
-# ifdef GL_BGR
-	BOOST_CHECK(x != ev.bgr);
-# endif
-# ifdef GL_BGR_INTEGER
-	BOOST_CHECK(x != ev.bgr_integer);
-# endif
 	BOOST_CHECK(x == ev.bgra);
 # ifdef GL_BGRA_INTEGER
 	BOOST_CHECK(x != ev.bgra_integer);
@@ -205,15 +196,6 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_format_values)
 
 #ifdef GL_BGRA_INTEGER
 	x = ev.bgra_integer;
-# ifdef GL_BGR
-	BOOST_CHECK(x != ev.bgr);
-# endif
-# ifdef GL_BGR_INTEGER
-	BOOST_CHECK(x != ev.bgr_integer);
-# endif
-# ifdef GL_BGRA
-	BOOST_CHECK(x != ev.bgra);
-# endif
 	BOOST_CHECK(x == ev.bgra_integer);
 # ifdef GL_BLUE
 	BOOST_CHECK(x != ev.blue);
@@ -264,18 +246,6 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_format_values)
 
 #ifdef GL_BLUE
 	x = ev.blue;
-# ifdef GL_BGR
-	BOOST_CHECK(x != ev.bgr);
-# endif
-# ifdef GL_BGR_INTEGER
-	BOOST_CHECK(x != ev.bgr_integer);
-# endif
-# ifdef GL_BGRA
-	BOOST_CHECK(x != ev.bgra);
-# endif
-# ifdef GL_BGRA_INTEGER
-	BOOST_CHECK(x != ev.bgra_integer);
-# endif
 	BOOST_CHECK(x == ev.blue);
 # ifdef GL_BLUE_INTEGER
 	BOOST_CHECK(x != ev.blue_integer);
@@ -323,21 +293,6 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_format_values)
 
 #ifdef GL_BLUE_INTEGER
 	x = ev.blue_integer;
-# ifdef GL_BGR
-	BOOST_CHECK(x != ev.bgr);
-# endif
-# ifdef GL_BGR_INTEGER
-	BOOST_CHECK(x != ev.bgr_integer);
-# endif
-# ifdef GL_BGRA
-	BOOST_CHECK(x != ev.bgra);
-# endif
-# ifdef GL_BGRA_INTEGER
-	BOOST_CHECK(x != ev.bgra_integer);
-# endif
-# ifdef GL_BLUE
-	BOOST_CHECK(x != ev.blue);
-# endif
 	BOOST_CHECK(x == ev.blue_integer);
 # ifdef GL_DEPTH_COMPONENT
 	BOOST_CHECK(x != ev.depth_component);
@@ -382,24 +337,6 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_format_values)
 
 #ifdef GL_DEPTH_COMPONENT
 	x = ev.depth_component;
-# ifdef GL_BGR
-	BOOST_CHECK(x != ev.bgr);
-# endif
-# ifdef GL_BGR_INTEGER
-	BOOST_CHECK(x != ev.bgr_integer);
-# endif
-# ifdef GL_BGRA
-	BOOST_CHECK(x != ev.bgra);
-# endif
-# ifdef GL_BGRA_INTEGER
-	BOOST_CHECK(x != ev.bgra_integer);
-# endif
-# ifdef GL_BLUE
-	BOOST_CHECK(x != ev.blue);
-# endif
-# ifdef GL_BLUE_INTEGER
-	BOOST_CHECK(x != ev.blue_integer);
-# endif
 	BOOST_CHECK(x == ev.depth_component);
 # ifdef GL_DEPTH_STENCIL
 	BOOST_CHECK(x != ev.depth_stencil);
@@ -441,27 +378,6 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_format_values)
 
 #ifdef GL_DEPTH_STENCIL
 	x = ev.depth_stencil;
-# ifdef GL_BGR
-	BOOST_CHECK(x != ev.bgr);
-# endif
-# ifdef GL_BGR_INTEGER
-	BOOST_CHECK(x != ev.bgr_integer);
-# endif
-# ifdef GL_BGRA
-	BOOST_CHECK(x != ev.bgra);
-# endif
-# ifdef GL_BGRA_INTEGER
-	BOOST_CHECK(x != ev.bgra_integer);
-# endif
-# ifdef GL_BLUE
-	BOOST_CHECK(x != ev.blue);
-# endif
-# ifdef GL_BLUE_INTEGER
-	BOOST_CHECK(x != ev.blue_integer);
-# endif
-# ifdef GL_DEPTH_COMPONENT
-	BOOST_CHECK(x != ev.depth_component);
-# endif
 	BOOST_CHECK(x == ev.depth_stencil);
 # ifdef GL_GREEN
 	BOOST_CHECK(x != ev.green);
@@ -500,30 +416,6 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_format_values)
 
 #ifdef GL_GREEN
 	x = ev.green;
-# ifdef GL_BGR
-	BOOST_CHECK(x != ev.bgr);
-# endif
-# ifdef GL_BGR_INTEGER
-	BOOST_CHECK(x != ev.bgr_integer);
-# endif
-# ifdef GL_BGRA
-	BOOST_CHECK(x != ev.bgra);
-# endif
-# ifdef GL_BGRA_INTEGER
-	BOOST_CHECK(x != ev.bgra_integer);
-# endif
-# ifdef GL_BLUE
-	BOOST_CHECK(x != ev.blue);
-# endif
-# ifdef GL_BLUE_INTEGER
-	BOOST_CHECK(x != ev.blue_integer);
-# endif
-# ifdef GL_DEPTH_COMPONENT
-	BOOST_CHECK(x != ev.depth_component);
-# endif
-# ifdef GL_DEPTH_STENCIL
-	BOOST_CHECK(x != ev.depth_stencil);
-# endif
 	BOOST_CHECK(x == ev.green);
 # ifdef GL_GREEN_INTEGER
 	BOOST_CHECK(x != ev.green_integer);
@@ -559,33 +451,6 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_format_values)
 
 #ifdef GL_GREEN_INTEGER
 	x = ev.green_integer;
-# ifdef GL_BGR
-	BOOST_CHECK(x != ev.bgr);
-# endif
-# ifdef GL_BGR_INTEGER
-	BOOST_CHECK(x != ev.bgr_integer);
-# endif
-# ifdef GL_BGRA
-	BOOST_CHECK(x != ev.bgra);
-# endif
-# ifdef GL_BGRA_INTEGER
-	BOOST_CHECK(x != ev.bgra_integer);
-# endif
-# ifdef GL_BLUE
-	BOOST_CHECK(x != ev.blue);
-# endif
-# ifdef GL_BLUE_INTEGER
-	BOOST_CHECK(x != ev.blue_integer);
-# endif
-# ifdef GL_DEPTH_COMPONENT
-	BOOST_CHECK(x != ev.depth_component);
-# endif
-# ifdef GL_DEPTH_STENCIL
-	BOOST_CHECK(x != ev.depth_stencil);
-# endif
-# ifdef GL_GREEN
-	BOOST_CHECK(x != ev.green);
-# endif
 	BOOST_CHECK(x == ev.green_integer);
 # ifdef GL_RED
 	BOOST_CHECK(x != ev.red);
@@ -618,36 +483,6 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_format_values)
 
 #ifdef GL_RED
 	x = ev.red;
-# ifdef GL_BGR
-	BOOST_CHECK(x != ev.bgr);
-# endif
-# ifdef GL_BGR_INTEGER
-	BOOST_CHECK(x != ev.bgr_integer);
-# endif
-# ifdef GL_BGRA
-	BOOST_CHECK(x != ev.bgra);
-# endif
-# ifdef GL_BGRA_INTEGER
-	BOOST_CHECK(x != ev.bgra_integer);
-# endif
-# ifdef GL_BLUE
-	BOOST_CHECK(x != ev.blue);
-# endif
-# ifdef GL_BLUE_INTEGER
-	BOOST_CHECK(x != ev.blue_integer);
-# endif
-# ifdef GL_DEPTH_COMPONENT
-	BOOST_CHECK(x != ev.depth_component);
-# endif
-# ifdef GL_DEPTH_STENCIL
-	BOOST_CHECK(x != ev.depth_stencil);
-# endif
-# ifdef GL_GREEN
-	BOOST_CHECK(x != ev.green);
-# endif
-# ifdef GL_GREEN_INTEGER
-	BOOST_CHECK(x != ev.green_integer);
-# endif
 	BOOST_CHECK(x == ev.red);
 # ifdef GL_RED_INTEGER
 	BOOST_CHECK(x != ev.red_integer);
@@ -677,39 +512,6 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_format_values)
 
 #ifdef GL_RED_INTEGER
 	x = ev.red_integer;
-# ifdef GL_BGR
-	BOOST_CHECK(x != ev.bgr);
-# endif
-# ifdef GL_BGR_INTEGER
-	BOOST_CHECK(x != ev.bgr_integer);
-# endif
-# ifdef GL_BGRA
-	BOOST_CHECK(x != ev.bgra);
-# endif
-# ifdef GL_BGRA_INTEGER
-	BOOST_CHECK(x != ev.bgra_integer);
-# endif
-# ifdef GL_BLUE
-	BOOST_CHECK(x != ev.blue);
-# endif
-# ifdef GL_BLUE_INTEGER
-	BOOST_CHECK(x != ev.blue_integer);
-# endif
-# ifdef GL_DEPTH_COMPONENT
-	BOOST_CHECK(x != ev.depth_component);
-# endif
-# ifdef GL_DEPTH_STENCIL
-	BOOST_CHECK(x != ev.depth_stencil);
-# endif
-# ifdef GL_GREEN
-	BOOST_CHECK(x != ev.green);
-# endif
-# ifdef GL_GREEN_INTEGER
-	BOOST_CHECK(x != ev.green_integer);
-# endif
-# ifdef GL_RED
-	BOOST_CHECK(x != ev.red);
-# endif
 	BOOST_CHECK(x == ev.red_integer);
 # ifdef GL_RG
 	BOOST_CHECK(x != ev.rg);
@@ -736,42 +538,6 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_format_values)
 
 #ifdef GL_RG
 	x = ev.rg;
-# ifdef GL_BGR
-	BOOST_CHECK(x != ev.bgr);
-# endif
-# ifdef GL_BGR_INTEGER
-	BOOST_CHECK(x != ev.bgr_integer);
-# endif
-# ifdef GL_BGRA
-	BOOST_CHECK(x != ev.bgra);
-# endif
-# ifdef GL_BGRA_INTEGER
-	BOOST_CHECK(x != ev.bgra_integer);
-# endif
-# ifdef GL_BLUE
-	BOOST_CHECK(x != ev.blue);
-# endif
-# ifdef GL_BLUE_INTEGER
-	BOOST_CHECK(x != ev.blue_integer);
-# endif
-# ifdef GL_DEPTH_COMPONENT
-	BOOST_CHECK(x != ev.depth_component);
-# endif
-# ifdef GL_DEPTH_STENCIL
-	BOOST_CHECK(x != ev.depth_stencil);
-# endif
-# ifdef GL_GREEN
-	BOOST_CHECK(x != ev.green);
-# endif
-# ifdef GL_GREEN_INTEGER
-	BOOST_CHECK(x != ev.green_integer);
-# endif
-# ifdef GL_RED
-	BOOST_CHECK(x != ev.red);
-# endif
-# ifdef GL_RED_INTEGER
-	BOOST_CHECK(x != ev.red_integer);
-# endif
 	BOOST_CHECK(x == ev.rg);
 # ifdef GL_RG_INTEGER
 	BOOST_CHECK(x != ev.rg_integer);
@@ -795,45 +561,6 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_format_values)
 
 #ifdef GL_RG_INTEGER
 	x = ev.rg_integer;
-# ifdef GL_BGR
-	BOOST_CHECK(x != ev.bgr);
-# endif
-# ifdef GL_BGR_INTEGER
-	BOOST_CHECK(x != ev.bgr_integer);
-# endif
-# ifdef GL_BGRA
-	BOOST_CHECK(x != ev.bgra);
-# endif
-# ifdef GL_BGRA_INTEGER
-	BOOST_CHECK(x != ev.bgra_integer);
-# endif
-# ifdef GL_BLUE
-	BOOST_CHECK(x != ev.blue);
-# endif
-# ifdef GL_BLUE_INTEGER
-	BOOST_CHECK(x != ev.blue_integer);
-# endif
-# ifdef GL_DEPTH_COMPONENT
-	BOOST_CHECK(x != ev.depth_component);
-# endif
-# ifdef GL_DEPTH_STENCIL
-	BOOST_CHECK(x != ev.depth_stencil);
-# endif
-# ifdef GL_GREEN
-	BOOST_CHECK(x != ev.green);
-# endif
-# ifdef GL_GREEN_INTEGER
-	BOOST_CHECK(x != ev.green_integer);
-# endif
-# ifdef GL_RED
-	BOOST_CHECK(x != ev.red);
-# endif
-# ifdef GL_RED_INTEGER
-	BOOST_CHECK(x != ev.red_integer);
-# endif
-# ifdef GL_RG
-	BOOST_CHECK(x != ev.rg);
-# endif
 	BOOST_CHECK(x == ev.rg_integer);
 # ifdef GL_RGB
 	BOOST_CHECK(x != ev.rgb);
@@ -854,48 +581,6 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_format_values)
 
 #ifdef GL_RGB
 	x = ev.rgb;
-# ifdef GL_BGR
-	BOOST_CHECK(x != ev.bgr);
-# endif
-# ifdef GL_BGR_INTEGER
-	BOOST_CHECK(x != ev.bgr_integer);
-# endif
-# ifdef GL_BGRA
-	BOOST_CHECK(x != ev.bgra);
-# endif
-# ifdef GL_BGRA_INTEGER
-	BOOST_CHECK(x != ev.bgra_integer);
-# endif
-# ifdef GL_BLUE
-	BOOST_CHECK(x != ev.blue);
-# endif
-# ifdef GL_BLUE_INTEGER
-	BOOST_CHECK(x != ev.blue_integer);
-# endif
-# ifdef GL_DEPTH_COMPONENT
-	BOOST_CHECK(x != ev.depth_component);
-# endif
-# ifdef GL_DEPTH_STENCIL
-	BOOST_CHECK(x != ev.depth_stencil);
-# endif
-# ifdef GL_GREEN
-	BOOST_CHECK(x != ev.green);
-# endif
-# ifdef GL_GREEN_INTEGER
-	BOOST_CHECK(x != ev.green_integer);
-# endif
-# ifdef GL_RED
-	BOOST_CHECK(x != ev.red);
-# endif
-# ifdef GL_RED_INTEGER
-	BOOST_CHECK(x != ev.red_integer);
-# endif
-# ifdef GL_RG
-	BOOST_CHECK(x != ev.rg);
-# endif
-# ifdef GL_RG_INTEGER
-	BOOST_CHECK(x != ev.rg_integer);
-# endif
 	BOOST_CHECK(x == ev.rgb);
 # ifdef GL_RGB_INTEGER
 	BOOST_CHECK(x != ev.rgb_integer);
@@ -913,51 +598,6 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_format_values)
 
 #ifdef GL_RGB_INTEGER
 	x = ev.rgb_integer;
-# ifdef GL_BGR
-	BOOST_CHECK(x != ev.bgr);
-# endif
-# ifdef GL_BGR_INTEGER
-	BOOST_CHECK(x != ev.bgr_integer);
-# endif
-# ifdef GL_BGRA
-	BOOST_CHECK(x != ev.bgra);
-# endif
-# ifdef GL_BGRA_INTEGER
-	BOOST_CHECK(x != ev.bgra_integer);
-# endif
-# ifdef GL_BLUE
-	BOOST_CHECK(x != ev.blue);
-# endif
-# ifdef GL_BLUE_INTEGER
-	BOOST_CHECK(x != ev.blue_integer);
-# endif
-# ifdef GL_DEPTH_COMPONENT
-	BOOST_CHECK(x != ev.depth_component);
-# endif
-# ifdef GL_DEPTH_STENCIL
-	BOOST_CHECK(x != ev.depth_stencil);
-# endif
-# ifdef GL_GREEN
-	BOOST_CHECK(x != ev.green);
-# endif
-# ifdef GL_GREEN_INTEGER
-	BOOST_CHECK(x != ev.green_integer);
-# endif
-# ifdef GL_RED
-	BOOST_CHECK(x != ev.red);
-# endif
-# ifdef GL_RED_INTEGER
-	BOOST_CHECK(x != ev.red_integer);
-# endif
-# ifdef GL_RG
-	BOOST_CHECK(x != ev.rg);
-# endif
-# ifdef GL_RG_INTEGER
-	BOOST_CHECK(x != ev.rg_integer);
-# endif
-# ifdef GL_RGB
-	BOOST_CHECK(x != ev.rgb);
-# endif
 	BOOST_CHECK(x == ev.rgb_integer);
 # ifdef GL_RGBA
 	BOOST_CHECK(x != ev.rgba);
@@ -972,54 +612,6 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_format_values)
 
 #ifdef GL_RGBA
 	x = ev.rgba;
-# ifdef GL_BGR
-	BOOST_CHECK(x != ev.bgr);
-# endif
-# ifdef GL_BGR_INTEGER
-	BOOST_CHECK(x != ev.bgr_integer);
-# endif
-# ifdef GL_BGRA
-	BOOST_CHECK(x != ev.bgra);
-# endif
-# ifdef GL_BGRA_INTEGER
-	BOOST_CHECK(x != ev.bgra_integer);
-# endif
-# ifdef GL_BLUE
-	BOOST_CHECK(x != ev.blue);
-# endif
-# ifdef GL_BLUE_INTEGER
-	BOOST_CHECK(x != ev.blue_integer);
-# endif
-# ifdef GL_DEPTH_COMPONENT
-	BOOST_CHECK(x != ev.depth_component);
-# endif
-# ifdef GL_DEPTH_STENCIL
-	BOOST_CHECK(x != ev.depth_stencil);
-# endif
-# ifdef GL_GREEN
-	BOOST_CHECK(x != ev.green);
-# endif
-# ifdef GL_GREEN_INTEGER
-	BOOST_CHECK(x != ev.green_integer);
-# endif
-# ifdef GL_RED
-	BOOST_CHECK(x != ev.red);
-# endif
-# ifdef GL_RED_INTEGER
-	BOOST_CHECK(x != ev.red_integer);
-# endif
-# ifdef GL_RG
-	BOOST_CHECK(x != ev.rg);
-# endif
-# ifdef GL_RG_INTEGER
-	BOOST_CHECK(x != ev.rg_integer);
-# endif
-# ifdef GL_RGB
-	BOOST_CHECK(x != ev.rgb);
-# endif
-# ifdef GL_RGB_INTEGER
-	BOOST_CHECK(x != ev.rgb_integer);
-# endif
 	BOOST_CHECK(x == ev.rgba);
 # ifdef GL_RGBA_INTEGER
 	BOOST_CHECK(x != ev.rgba_integer);
@@ -1031,57 +623,6 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_format_values)
 
 #ifdef GL_RGBA_INTEGER
 	x = ev.rgba_integer;
-# ifdef GL_BGR
-	BOOST_CHECK(x != ev.bgr);
-# endif
-# ifdef GL_BGR_INTEGER
-	BOOST_CHECK(x != ev.bgr_integer);
-# endif
-# ifdef GL_BGRA
-	BOOST_CHECK(x != ev.bgra);
-# endif
-# ifdef GL_BGRA_INTEGER
-	BOOST_CHECK(x != ev.bgra_integer);
-# endif
-# ifdef GL_BLUE
-	BOOST_CHECK(x != ev.blue);
-# endif
-# ifdef GL_BLUE_INTEGER
-	BOOST_CHECK(x != ev.blue_integer);
-# endif
-# ifdef GL_DEPTH_COMPONENT
-	BOOST_CHECK(x != ev.depth_component);
-# endif
-# ifdef GL_DEPTH_STENCIL
-	BOOST_CHECK(x != ev.depth_stencil);
-# endif
-# ifdef GL_GREEN
-	BOOST_CHECK(x != ev.green);
-# endif
-# ifdef GL_GREEN_INTEGER
-	BOOST_CHECK(x != ev.green_integer);
-# endif
-# ifdef GL_RED
-	BOOST_CHECK(x != ev.red);
-# endif
-# ifdef GL_RED_INTEGER
-	BOOST_CHECK(x != ev.red_integer);
-# endif
-# ifdef GL_RG
-	BOOST_CHECK(x != ev.rg);
-# endif
-# ifdef GL_RG_INTEGER
-	BOOST_CHECK(x != ev.rg_integer);
-# endif
-# ifdef GL_RGB
-	BOOST_CHECK(x != ev.rgb);
-# endif
-# ifdef GL_RGB_INTEGER
-	BOOST_CHECK(x != ev.rgb_integer);
-# endif
-# ifdef GL_RGBA
-	BOOST_CHECK(x != ev.rgba);
-# endif
 	BOOST_CHECK(x == ev.rgba_integer);
 # ifdef GL_STENCIL_INDEX
 	BOOST_CHECK(x != ev.stencil_index);
@@ -1090,60 +631,6 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_format_values)
 
 #ifdef GL_STENCIL_INDEX
 	x = ev.stencil_index;
-# ifdef GL_BGR
-	BOOST_CHECK(x != ev.bgr);
-# endif
-# ifdef GL_BGR_INTEGER
-	BOOST_CHECK(x != ev.bgr_integer);
-# endif
-# ifdef GL_BGRA
-	BOOST_CHECK(x != ev.bgra);
-# endif
-# ifdef GL_BGRA_INTEGER
-	BOOST_CHECK(x != ev.bgra_integer);
-# endif
-# ifdef GL_BLUE
-	BOOST_CHECK(x != ev.blue);
-# endif
-# ifdef GL_BLUE_INTEGER
-	BOOST_CHECK(x != ev.blue_integer);
-# endif
-# ifdef GL_DEPTH_COMPONENT
-	BOOST_CHECK(x != ev.depth_component);
-# endif
-# ifdef GL_DEPTH_STENCIL
-	BOOST_CHECK(x != ev.depth_stencil);
-# endif
-# ifdef GL_GREEN
-	BOOST_CHECK(x != ev.green);
-# endif
-# ifdef GL_GREEN_INTEGER
-	BOOST_CHECK(x != ev.green_integer);
-# endif
-# ifdef GL_RED
-	BOOST_CHECK(x != ev.red);
-# endif
-# ifdef GL_RED_INTEGER
-	BOOST_CHECK(x != ev.red_integer);
-# endif
-# ifdef GL_RG
-	BOOST_CHECK(x != ev.rg);
-# endif
-# ifdef GL_RG_INTEGER
-	BOOST_CHECK(x != ev.rg_integer);
-# endif
-# ifdef GL_RGB
-	BOOST_CHECK(x != ev.rgb);
-# endif
-# ifdef GL_RGB_INTEGER
-	BOOST_CHECK(x != ev.rgb_integer);
-# endif
-# ifdef GL_RGBA
-	BOOST_CHECK(x != ev.rgba);
-# endif
-# ifdef GL_RGBA_INTEGER
-	BOOST_CHECK(x != ev.rgba_integer);
-# endif
 	BOOST_CHECK(x == ev.stencil_index);
 #endif
 }

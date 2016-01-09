@@ -36,9 +36,6 @@ BOOST_AUTO_TEST_CASE(enum_color_buffer_type_values)
 
 #ifdef EGL_RGB_BUFFER
 	x = ev.rgb_buffer;
-# ifdef EGL_LUMINANCE_BUFFER
-	BOOST_CHECK(x != ev.luminance_buffer);
-# endif
 	BOOST_CHECK(x == ev.rgb_buffer);
 #endif
 }

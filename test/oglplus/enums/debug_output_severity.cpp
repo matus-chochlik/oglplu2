@@ -45,9 +45,6 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_severity_values)
 
 #ifdef GL_DEBUG_SEVERITY_LOW
 	x = ev.debug_severity_low;
-# ifdef GL_DEBUG_SEVERITY_HIGH
-	BOOST_CHECK(x != ev.debug_severity_high);
-# endif
 	BOOST_CHECK(x == ev.debug_severity_low);
 # ifdef GL_DEBUG_SEVERITY_MEDIUM
 	BOOST_CHECK(x != ev.debug_severity_medium);
@@ -62,12 +59,6 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_severity_values)
 
 #ifdef GL_DEBUG_SEVERITY_MEDIUM
 	x = ev.debug_severity_medium;
-# ifdef GL_DEBUG_SEVERITY_HIGH
-	BOOST_CHECK(x != ev.debug_severity_high);
-# endif
-# ifdef GL_DEBUG_SEVERITY_LOW
-	BOOST_CHECK(x != ev.debug_severity_low);
-# endif
 	BOOST_CHECK(x == ev.debug_severity_medium);
 # ifdef GL_DEBUG_SEVERITY_NOTIFICATION
 	BOOST_CHECK(x != ev.debug_severity_notification);
@@ -79,15 +70,6 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_severity_values)
 
 #ifdef GL_DEBUG_SEVERITY_NOTIFICATION
 	x = ev.debug_severity_notification;
-# ifdef GL_DEBUG_SEVERITY_HIGH
-	BOOST_CHECK(x != ev.debug_severity_high);
-# endif
-# ifdef GL_DEBUG_SEVERITY_LOW
-	BOOST_CHECK(x != ev.debug_severity_low);
-# endif
-# ifdef GL_DEBUG_SEVERITY_MEDIUM
-	BOOST_CHECK(x != ev.debug_severity_medium);
-# endif
 	BOOST_CHECK(x == ev.debug_severity_notification);
 # ifdef GL_DONT_CARE
 	BOOST_CHECK(x != ev.dont_care);
@@ -96,18 +78,6 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_severity_values)
 
 #ifdef GL_DONT_CARE
 	x = ev.dont_care;
-# ifdef GL_DEBUG_SEVERITY_HIGH
-	BOOST_CHECK(x != ev.debug_severity_high);
-# endif
-# ifdef GL_DEBUG_SEVERITY_LOW
-	BOOST_CHECK(x != ev.debug_severity_low);
-# endif
-# ifdef GL_DEBUG_SEVERITY_MEDIUM
-	BOOST_CHECK(x != ev.debug_severity_medium);
-# endif
-# ifdef GL_DEBUG_SEVERITY_NOTIFICATION
-	BOOST_CHECK(x != ev.debug_severity_notification);
-# endif
 	BOOST_CHECK(x == ev.dont_care);
 #endif
 }

@@ -45,9 +45,6 @@ BOOST_AUTO_TEST_CASE(enum_transform_feedback_parameter_values)
 
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER_BINDING
 	x = ev.transform_feedback_buffer_binding;
-# ifdef GL_TRANSFORM_FEEDBACK_ACTIVE
-	BOOST_CHECK(x != ev.transform_feedback_active);
-# endif
 	BOOST_CHECK(x == ev.transform_feedback_buffer_binding);
 # ifdef GL_TRANSFORM_FEEDBACK_BUFFER_SIZE
 	BOOST_CHECK(x != ev.transform_feedback_buffer_size);
@@ -62,12 +59,6 @@ BOOST_AUTO_TEST_CASE(enum_transform_feedback_parameter_values)
 
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER_SIZE
 	x = ev.transform_feedback_buffer_size;
-# ifdef GL_TRANSFORM_FEEDBACK_ACTIVE
-	BOOST_CHECK(x != ev.transform_feedback_active);
-# endif
-# ifdef GL_TRANSFORM_FEEDBACK_BUFFER_BINDING
-	BOOST_CHECK(x != ev.transform_feedback_buffer_binding);
-# endif
 	BOOST_CHECK(x == ev.transform_feedback_buffer_size);
 # ifdef GL_TRANSFORM_FEEDBACK_BUFFER_START
 	BOOST_CHECK(x != ev.transform_feedback_buffer_start);
@@ -79,15 +70,6 @@ BOOST_AUTO_TEST_CASE(enum_transform_feedback_parameter_values)
 
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER_START
 	x = ev.transform_feedback_buffer_start;
-# ifdef GL_TRANSFORM_FEEDBACK_ACTIVE
-	BOOST_CHECK(x != ev.transform_feedback_active);
-# endif
-# ifdef GL_TRANSFORM_FEEDBACK_BUFFER_BINDING
-	BOOST_CHECK(x != ev.transform_feedback_buffer_binding);
-# endif
-# ifdef GL_TRANSFORM_FEEDBACK_BUFFER_SIZE
-	BOOST_CHECK(x != ev.transform_feedback_buffer_size);
-# endif
 	BOOST_CHECK(x == ev.transform_feedback_buffer_start);
 # ifdef GL_TRANSFORM_FEEDBACK_PAUSED
 	BOOST_CHECK(x != ev.transform_feedback_paused);
@@ -96,18 +78,6 @@ BOOST_AUTO_TEST_CASE(enum_transform_feedback_parameter_values)
 
 #ifdef GL_TRANSFORM_FEEDBACK_PAUSED
 	x = ev.transform_feedback_paused;
-# ifdef GL_TRANSFORM_FEEDBACK_ACTIVE
-	BOOST_CHECK(x != ev.transform_feedback_active);
-# endif
-# ifdef GL_TRANSFORM_FEEDBACK_BUFFER_BINDING
-	BOOST_CHECK(x != ev.transform_feedback_buffer_binding);
-# endif
-# ifdef GL_TRANSFORM_FEEDBACK_BUFFER_SIZE
-	BOOST_CHECK(x != ev.transform_feedback_buffer_size);
-# endif
-# ifdef GL_TRANSFORM_FEEDBACK_BUFFER_START
-	BOOST_CHECK(x != ev.transform_feedback_buffer_start);
-# endif
 	BOOST_CHECK(x == ev.transform_feedback_paused);
 #endif
 }

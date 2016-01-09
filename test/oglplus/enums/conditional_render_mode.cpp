@@ -54,9 +54,6 @@ BOOST_AUTO_TEST_CASE(enum_conditional_render_mode_values)
 
 #ifdef GL_QUERY_BY_REGION_NO_WAIT_INVERTED
 	x = ev.query_by_region_no_wait_inverted;
-# ifdef GL_QUERY_BY_REGION_NO_WAIT
-	BOOST_CHECK(x != ev.query_by_region_no_wait);
-# endif
 	BOOST_CHECK(x == ev.query_by_region_no_wait_inverted);
 # ifdef GL_QUERY_BY_REGION_WAIT
 	BOOST_CHECK(x != ev.query_by_region_wait);
@@ -80,12 +77,6 @@ BOOST_AUTO_TEST_CASE(enum_conditional_render_mode_values)
 
 #ifdef GL_QUERY_BY_REGION_WAIT
 	x = ev.query_by_region_wait;
-# ifdef GL_QUERY_BY_REGION_NO_WAIT
-	BOOST_CHECK(x != ev.query_by_region_no_wait);
-# endif
-# ifdef GL_QUERY_BY_REGION_NO_WAIT_INVERTED
-	BOOST_CHECK(x != ev.query_by_region_no_wait_inverted);
-# endif
 	BOOST_CHECK(x == ev.query_by_region_wait);
 # ifdef GL_QUERY_BY_REGION_WAIT_INVERTED
 	BOOST_CHECK(x != ev.query_by_region_wait_inverted);
@@ -106,15 +97,6 @@ BOOST_AUTO_TEST_CASE(enum_conditional_render_mode_values)
 
 #ifdef GL_QUERY_BY_REGION_WAIT_INVERTED
 	x = ev.query_by_region_wait_inverted;
-# ifdef GL_QUERY_BY_REGION_NO_WAIT
-	BOOST_CHECK(x != ev.query_by_region_no_wait);
-# endif
-# ifdef GL_QUERY_BY_REGION_NO_WAIT_INVERTED
-	BOOST_CHECK(x != ev.query_by_region_no_wait_inverted);
-# endif
-# ifdef GL_QUERY_BY_REGION_WAIT
-	BOOST_CHECK(x != ev.query_by_region_wait);
-# endif
 	BOOST_CHECK(x == ev.query_by_region_wait_inverted);
 # ifdef GL_QUERY_NO_WAIT
 	BOOST_CHECK(x != ev.query_no_wait);
@@ -132,18 +114,6 @@ BOOST_AUTO_TEST_CASE(enum_conditional_render_mode_values)
 
 #ifdef GL_QUERY_NO_WAIT
 	x = ev.query_no_wait;
-# ifdef GL_QUERY_BY_REGION_NO_WAIT
-	BOOST_CHECK(x != ev.query_by_region_no_wait);
-# endif
-# ifdef GL_QUERY_BY_REGION_NO_WAIT_INVERTED
-	BOOST_CHECK(x != ev.query_by_region_no_wait_inverted);
-# endif
-# ifdef GL_QUERY_BY_REGION_WAIT
-	BOOST_CHECK(x != ev.query_by_region_wait);
-# endif
-# ifdef GL_QUERY_BY_REGION_WAIT_INVERTED
-	BOOST_CHECK(x != ev.query_by_region_wait_inverted);
-# endif
 	BOOST_CHECK(x == ev.query_no_wait);
 # ifdef GL_QUERY_NO_WAIT_INVERTED
 	BOOST_CHECK(x != ev.query_no_wait_inverted);
@@ -158,21 +128,6 @@ BOOST_AUTO_TEST_CASE(enum_conditional_render_mode_values)
 
 #ifdef GL_QUERY_NO_WAIT_INVERTED
 	x = ev.query_no_wait_inverted;
-# ifdef GL_QUERY_BY_REGION_NO_WAIT
-	BOOST_CHECK(x != ev.query_by_region_no_wait);
-# endif
-# ifdef GL_QUERY_BY_REGION_NO_WAIT_INVERTED
-	BOOST_CHECK(x != ev.query_by_region_no_wait_inverted);
-# endif
-# ifdef GL_QUERY_BY_REGION_WAIT
-	BOOST_CHECK(x != ev.query_by_region_wait);
-# endif
-# ifdef GL_QUERY_BY_REGION_WAIT_INVERTED
-	BOOST_CHECK(x != ev.query_by_region_wait_inverted);
-# endif
-# ifdef GL_QUERY_NO_WAIT
-	BOOST_CHECK(x != ev.query_no_wait);
-# endif
 	BOOST_CHECK(x == ev.query_no_wait_inverted);
 # ifdef GL_QUERY_WAIT
 	BOOST_CHECK(x != ev.query_wait);
@@ -184,24 +139,6 @@ BOOST_AUTO_TEST_CASE(enum_conditional_render_mode_values)
 
 #ifdef GL_QUERY_WAIT
 	x = ev.query_wait;
-# ifdef GL_QUERY_BY_REGION_NO_WAIT
-	BOOST_CHECK(x != ev.query_by_region_no_wait);
-# endif
-# ifdef GL_QUERY_BY_REGION_NO_WAIT_INVERTED
-	BOOST_CHECK(x != ev.query_by_region_no_wait_inverted);
-# endif
-# ifdef GL_QUERY_BY_REGION_WAIT
-	BOOST_CHECK(x != ev.query_by_region_wait);
-# endif
-# ifdef GL_QUERY_BY_REGION_WAIT_INVERTED
-	BOOST_CHECK(x != ev.query_by_region_wait_inverted);
-# endif
-# ifdef GL_QUERY_NO_WAIT
-	BOOST_CHECK(x != ev.query_no_wait);
-# endif
-# ifdef GL_QUERY_NO_WAIT_INVERTED
-	BOOST_CHECK(x != ev.query_no_wait_inverted);
-# endif
 	BOOST_CHECK(x == ev.query_wait);
 # ifdef GL_QUERY_WAIT_INVERTED
 	BOOST_CHECK(x != ev.query_wait_inverted);
@@ -210,27 +147,6 @@ BOOST_AUTO_TEST_CASE(enum_conditional_render_mode_values)
 
 #ifdef GL_QUERY_WAIT_INVERTED
 	x = ev.query_wait_inverted;
-# ifdef GL_QUERY_BY_REGION_NO_WAIT
-	BOOST_CHECK(x != ev.query_by_region_no_wait);
-# endif
-# ifdef GL_QUERY_BY_REGION_NO_WAIT_INVERTED
-	BOOST_CHECK(x != ev.query_by_region_no_wait_inverted);
-# endif
-# ifdef GL_QUERY_BY_REGION_WAIT
-	BOOST_CHECK(x != ev.query_by_region_wait);
-# endif
-# ifdef GL_QUERY_BY_REGION_WAIT_INVERTED
-	BOOST_CHECK(x != ev.query_by_region_wait_inverted);
-# endif
-# ifdef GL_QUERY_NO_WAIT
-	BOOST_CHECK(x != ev.query_no_wait);
-# endif
-# ifdef GL_QUERY_NO_WAIT_INVERTED
-	BOOST_CHECK(x != ev.query_no_wait_inverted);
-# endif
-# ifdef GL_QUERY_WAIT
-	BOOST_CHECK(x != ev.query_wait);
-# endif
 	BOOST_CHECK(x == ev.query_wait_inverted);
 #endif
 }

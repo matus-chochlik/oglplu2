@@ -51,9 +51,6 @@ BOOST_AUTO_TEST_CASE(enum_program_pipeline_stage_values)
 
 #ifdef GL_COMPUTE_SHADER_BIT
 	x = ev.compute_shader_bit;
-# ifdef GL_ALL_SHADER_BITS
-	BOOST_CHECK(x != ev.all_shader_bits);
-# endif
 	BOOST_CHECK(x == ev.compute_shader_bit);
 # ifdef GL_FRAGMENT_SHADER_BIT
 	BOOST_CHECK(x != ev.fragment_shader_bit);
@@ -74,12 +71,6 @@ BOOST_AUTO_TEST_CASE(enum_program_pipeline_stage_values)
 
 #ifdef GL_FRAGMENT_SHADER_BIT
 	x = ev.fragment_shader_bit;
-# ifdef GL_ALL_SHADER_BITS
-	BOOST_CHECK(x != ev.all_shader_bits);
-# endif
-# ifdef GL_COMPUTE_SHADER_BIT
-	BOOST_CHECK(x != ev.compute_shader_bit);
-# endif
 	BOOST_CHECK(x == ev.fragment_shader_bit);
 # ifdef GL_GEOMETRY_SHADER_BIT
 	BOOST_CHECK(x != ev.geometry_shader_bit);
@@ -97,15 +88,6 @@ BOOST_AUTO_TEST_CASE(enum_program_pipeline_stage_values)
 
 #ifdef GL_GEOMETRY_SHADER_BIT
 	x = ev.geometry_shader_bit;
-# ifdef GL_ALL_SHADER_BITS
-	BOOST_CHECK(x != ev.all_shader_bits);
-# endif
-# ifdef GL_COMPUTE_SHADER_BIT
-	BOOST_CHECK(x != ev.compute_shader_bit);
-# endif
-# ifdef GL_FRAGMENT_SHADER_BIT
-	BOOST_CHECK(x != ev.fragment_shader_bit);
-# endif
 	BOOST_CHECK(x == ev.geometry_shader_bit);
 # ifdef GL_TESS_CONTROL_SHADER_BIT
 	BOOST_CHECK(x != ev.tess_control_shader_bit);
@@ -120,18 +102,6 @@ BOOST_AUTO_TEST_CASE(enum_program_pipeline_stage_values)
 
 #ifdef GL_TESS_CONTROL_SHADER_BIT
 	x = ev.tess_control_shader_bit;
-# ifdef GL_ALL_SHADER_BITS
-	BOOST_CHECK(x != ev.all_shader_bits);
-# endif
-# ifdef GL_COMPUTE_SHADER_BIT
-	BOOST_CHECK(x != ev.compute_shader_bit);
-# endif
-# ifdef GL_FRAGMENT_SHADER_BIT
-	BOOST_CHECK(x != ev.fragment_shader_bit);
-# endif
-# ifdef GL_GEOMETRY_SHADER_BIT
-	BOOST_CHECK(x != ev.geometry_shader_bit);
-# endif
 	BOOST_CHECK(x == ev.tess_control_shader_bit);
 # ifdef GL_TESS_EVALUATION_SHADER_BIT
 	BOOST_CHECK(x != ev.tess_evaluation_shader_bit);
@@ -143,21 +113,6 @@ BOOST_AUTO_TEST_CASE(enum_program_pipeline_stage_values)
 
 #ifdef GL_TESS_EVALUATION_SHADER_BIT
 	x = ev.tess_evaluation_shader_bit;
-# ifdef GL_ALL_SHADER_BITS
-	BOOST_CHECK(x != ev.all_shader_bits);
-# endif
-# ifdef GL_COMPUTE_SHADER_BIT
-	BOOST_CHECK(x != ev.compute_shader_bit);
-# endif
-# ifdef GL_FRAGMENT_SHADER_BIT
-	BOOST_CHECK(x != ev.fragment_shader_bit);
-# endif
-# ifdef GL_GEOMETRY_SHADER_BIT
-	BOOST_CHECK(x != ev.geometry_shader_bit);
-# endif
-# ifdef GL_TESS_CONTROL_SHADER_BIT
-	BOOST_CHECK(x != ev.tess_control_shader_bit);
-# endif
 	BOOST_CHECK(x == ev.tess_evaluation_shader_bit);
 # ifdef GL_VERTEX_SHADER_BIT
 	BOOST_CHECK(x != ev.vertex_shader_bit);
@@ -166,24 +121,6 @@ BOOST_AUTO_TEST_CASE(enum_program_pipeline_stage_values)
 
 #ifdef GL_VERTEX_SHADER_BIT
 	x = ev.vertex_shader_bit;
-# ifdef GL_ALL_SHADER_BITS
-	BOOST_CHECK(x != ev.all_shader_bits);
-# endif
-# ifdef GL_COMPUTE_SHADER_BIT
-	BOOST_CHECK(x != ev.compute_shader_bit);
-# endif
-# ifdef GL_FRAGMENT_SHADER_BIT
-	BOOST_CHECK(x != ev.fragment_shader_bit);
-# endif
-# ifdef GL_GEOMETRY_SHADER_BIT
-	BOOST_CHECK(x != ev.geometry_shader_bit);
-# endif
-# ifdef GL_TESS_CONTROL_SHADER_BIT
-	BOOST_CHECK(x != ev.tess_control_shader_bit);
-# endif
-# ifdef GL_TESS_EVALUATION_SHADER_BIT
-	BOOST_CHECK(x != ev.tess_evaluation_shader_bit);
-# endif
 	BOOST_CHECK(x == ev.vertex_shader_bit);
 #endif
 }

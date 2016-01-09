@@ -45,9 +45,6 @@ BOOST_AUTO_TEST_CASE(enum_shader_parameter_values)
 
 #ifdef GL_DELETE_STATUS
 	x = ev.delete_status;
-# ifdef GL_COMPILE_STATUS
-	BOOST_CHECK(x != ev.compile_status);
-# endif
 	BOOST_CHECK(x == ev.delete_status);
 # ifdef GL_INFO_LOG_LENGTH
 	BOOST_CHECK(x != ev.info_log_length);
@@ -62,12 +59,6 @@ BOOST_AUTO_TEST_CASE(enum_shader_parameter_values)
 
 #ifdef GL_INFO_LOG_LENGTH
 	x = ev.info_log_length;
-# ifdef GL_COMPILE_STATUS
-	BOOST_CHECK(x != ev.compile_status);
-# endif
-# ifdef GL_DELETE_STATUS
-	BOOST_CHECK(x != ev.delete_status);
-# endif
 	BOOST_CHECK(x == ev.info_log_length);
 # ifdef GL_SHADER_SOURCE_LENGTH
 	BOOST_CHECK(x != ev.shader_source_length);
@@ -79,15 +70,6 @@ BOOST_AUTO_TEST_CASE(enum_shader_parameter_values)
 
 #ifdef GL_SHADER_SOURCE_LENGTH
 	x = ev.shader_source_length;
-# ifdef GL_COMPILE_STATUS
-	BOOST_CHECK(x != ev.compile_status);
-# endif
-# ifdef GL_DELETE_STATUS
-	BOOST_CHECK(x != ev.delete_status);
-# endif
-# ifdef GL_INFO_LOG_LENGTH
-	BOOST_CHECK(x != ev.info_log_length);
-# endif
 	BOOST_CHECK(x == ev.shader_source_length);
 # ifdef GL_SHADER_TYPE
 	BOOST_CHECK(x != ev.shader_type);
@@ -96,18 +78,6 @@ BOOST_AUTO_TEST_CASE(enum_shader_parameter_values)
 
 #ifdef GL_SHADER_TYPE
 	x = ev.shader_type;
-# ifdef GL_COMPILE_STATUS
-	BOOST_CHECK(x != ev.compile_status);
-# endif
-# ifdef GL_DELETE_STATUS
-	BOOST_CHECK(x != ev.delete_status);
-# endif
-# ifdef GL_INFO_LOG_LENGTH
-	BOOST_CHECK(x != ev.info_log_length);
-# endif
-# ifdef GL_SHADER_SOURCE_LENGTH
-	BOOST_CHECK(x != ev.shader_source_length);
-# endif
 	BOOST_CHECK(x == ev.shader_type);
 #endif
 }

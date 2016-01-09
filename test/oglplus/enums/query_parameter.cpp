@@ -36,9 +36,6 @@ BOOST_AUTO_TEST_CASE(enum_query_parameter_values)
 
 #ifdef GL_QUERY_RESULT_AVAILABLE
 	x = ev.query_result_available;
-# ifdef GL_QUERY_RESULT
-	BOOST_CHECK(x != ev.query_result);
-# endif
 	BOOST_CHECK(x == ev.query_result_available);
 #endif
 }

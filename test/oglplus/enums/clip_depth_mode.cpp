@@ -36,9 +36,6 @@ BOOST_AUTO_TEST_CASE(enum_clip_depth_mode_values)
 
 #ifdef GL_ZERO_TO_ONE
 	x = ev.zero_to_one;
-# ifdef GL_NEGATIVE_ONE_TO_ONE
-	BOOST_CHECK(x != ev.negative_one_to_one);
-# endif
 	BOOST_CHECK(x == ev.zero_to_one);
 #endif
 }

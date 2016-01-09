@@ -42,9 +42,6 @@ BOOST_AUTO_TEST_CASE(enum_point_parameter_values)
 
 #ifdef GL_POINT_SIZE_MAX
 	x = ev.point_size_max;
-# ifdef GL_POINT_FADE_THRESHOLD_SIZE
-	BOOST_CHECK(x != ev.point_fade_threshold_size);
-# endif
 	BOOST_CHECK(x == ev.point_size_max);
 # ifdef GL_POINT_SIZE_MIN
 	BOOST_CHECK(x != ev.point_size_min);
@@ -56,12 +53,6 @@ BOOST_AUTO_TEST_CASE(enum_point_parameter_values)
 
 #ifdef GL_POINT_SIZE_MIN
 	x = ev.point_size_min;
-# ifdef GL_POINT_FADE_THRESHOLD_SIZE
-	BOOST_CHECK(x != ev.point_fade_threshold_size);
-# endif
-# ifdef GL_POINT_SIZE_MAX
-	BOOST_CHECK(x != ev.point_size_max);
-# endif
 	BOOST_CHECK(x == ev.point_size_min);
 # ifdef GL_POINT_SPRITE_COORD_ORIGIN
 	BOOST_CHECK(x != ev.point_sprite_coord_origin);
@@ -70,15 +61,6 @@ BOOST_AUTO_TEST_CASE(enum_point_parameter_values)
 
 #ifdef GL_POINT_SPRITE_COORD_ORIGIN
 	x = ev.point_sprite_coord_origin;
-# ifdef GL_POINT_FADE_THRESHOLD_SIZE
-	BOOST_CHECK(x != ev.point_fade_threshold_size);
-# endif
-# ifdef GL_POINT_SIZE_MAX
-	BOOST_CHECK(x != ev.point_size_max);
-# endif
-# ifdef GL_POINT_SIZE_MIN
-	BOOST_CHECK(x != ev.point_size_min);
-# endif
 	BOOST_CHECK(x == ev.point_sprite_coord_origin);
 #endif
 }

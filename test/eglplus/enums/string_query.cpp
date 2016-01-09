@@ -42,9 +42,6 @@ BOOST_AUTO_TEST_CASE(enum_string_query_values)
 
 #ifdef EGL_EXTENSIONS
 	x = ev.extensions;
-# ifdef EGL_CLIENT_APIS
-	BOOST_CHECK(x != ev.client_apis);
-# endif
 	BOOST_CHECK(x == ev.extensions);
 # ifdef EGL_VENDOR
 	BOOST_CHECK(x != ev.vendor);
@@ -56,12 +53,6 @@ BOOST_AUTO_TEST_CASE(enum_string_query_values)
 
 #ifdef EGL_VENDOR
 	x = ev.vendor;
-# ifdef EGL_CLIENT_APIS
-	BOOST_CHECK(x != ev.client_apis);
-# endif
-# ifdef EGL_EXTENSIONS
-	BOOST_CHECK(x != ev.extensions);
-# endif
 	BOOST_CHECK(x == ev.vendor);
 # ifdef EGL_VERSION
 	BOOST_CHECK(x != ev.version);
@@ -70,15 +61,6 @@ BOOST_AUTO_TEST_CASE(enum_string_query_values)
 
 #ifdef EGL_VERSION
 	x = ev.version;
-# ifdef EGL_CLIENT_APIS
-	BOOST_CHECK(x != ev.client_apis);
-# endif
-# ifdef EGL_EXTENSIONS
-	BOOST_CHECK(x != ev.extensions);
-# endif
-# ifdef EGL_VENDOR
-	BOOST_CHECK(x != ev.vendor);
-# endif
 	BOOST_CHECK(x == ev.version);
 #endif
 }

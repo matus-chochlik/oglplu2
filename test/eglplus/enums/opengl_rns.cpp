@@ -36,9 +36,6 @@ BOOST_AUTO_TEST_CASE(enum_opengl_rns_values)
 
 #ifdef EGL_NO_RESET_NOTIFICATION
 	x = ev.no_reset_notification;
-# ifdef EGL_LOSE_CONTEXT_ON_RESET
-	BOOST_CHECK(x != ev.lose_context_on_reset);
-# endif
 	BOOST_CHECK(x == ev.no_reset_notification);
 #endif
 }

@@ -81,9 +81,6 @@ BOOST_AUTO_TEST_CASE(enum_surface_attrib_values)
 
 #ifdef EGL_GL_COLORSPACE
 	x = ev.gl_colorspace;
-# ifdef EGL_CONFIG_ID
-	BOOST_CHECK(x != ev.config_id);
-# endif
 	BOOST_CHECK(x == ev.gl_colorspace);
 # ifdef EGL_HEIGHT
 	BOOST_CHECK(x != ev.height);
@@ -134,12 +131,6 @@ BOOST_AUTO_TEST_CASE(enum_surface_attrib_values)
 
 #ifdef EGL_HEIGHT
 	x = ev.height;
-# ifdef EGL_CONFIG_ID
-	BOOST_CHECK(x != ev.config_id);
-# endif
-# ifdef EGL_GL_COLORSPACE
-	BOOST_CHECK(x != ev.gl_colorspace);
-# endif
 	BOOST_CHECK(x == ev.height);
 # ifdef EGL_HORIZONTAL_RESOLUTION
 	BOOST_CHECK(x != ev.horizontal_resolution);
@@ -187,15 +178,6 @@ BOOST_AUTO_TEST_CASE(enum_surface_attrib_values)
 
 #ifdef EGL_HORIZONTAL_RESOLUTION
 	x = ev.horizontal_resolution;
-# ifdef EGL_CONFIG_ID
-	BOOST_CHECK(x != ev.config_id);
-# endif
-# ifdef EGL_GL_COLORSPACE
-	BOOST_CHECK(x != ev.gl_colorspace);
-# endif
-# ifdef EGL_HEIGHT
-	BOOST_CHECK(x != ev.height);
-# endif
 	BOOST_CHECK(x == ev.horizontal_resolution);
 # ifdef EGL_LARGEST_PBUFFER
 	BOOST_CHECK(x != ev.largest_pbuffer);
@@ -240,18 +222,6 @@ BOOST_AUTO_TEST_CASE(enum_surface_attrib_values)
 
 #ifdef EGL_LARGEST_PBUFFER
 	x = ev.largest_pbuffer;
-# ifdef EGL_CONFIG_ID
-	BOOST_CHECK(x != ev.config_id);
-# endif
-# ifdef EGL_GL_COLORSPACE
-	BOOST_CHECK(x != ev.gl_colorspace);
-# endif
-# ifdef EGL_HEIGHT
-	BOOST_CHECK(x != ev.height);
-# endif
-# ifdef EGL_HORIZONTAL_RESOLUTION
-	BOOST_CHECK(x != ev.horizontal_resolution);
-# endif
 	BOOST_CHECK(x == ev.largest_pbuffer);
 # ifdef EGL_MIPMAP_LEVEL
 	BOOST_CHECK(x != ev.mipmap_level);
@@ -293,21 +263,6 @@ BOOST_AUTO_TEST_CASE(enum_surface_attrib_values)
 
 #ifdef EGL_MIPMAP_LEVEL
 	x = ev.mipmap_level;
-# ifdef EGL_CONFIG_ID
-	BOOST_CHECK(x != ev.config_id);
-# endif
-# ifdef EGL_GL_COLORSPACE
-	BOOST_CHECK(x != ev.gl_colorspace);
-# endif
-# ifdef EGL_HEIGHT
-	BOOST_CHECK(x != ev.height);
-# endif
-# ifdef EGL_HORIZONTAL_RESOLUTION
-	BOOST_CHECK(x != ev.horizontal_resolution);
-# endif
-# ifdef EGL_LARGEST_PBUFFER
-	BOOST_CHECK(x != ev.largest_pbuffer);
-# endif
 	BOOST_CHECK(x == ev.mipmap_level);
 # ifdef EGL_MIPMAP_TEXTURE
 	BOOST_CHECK(x != ev.mipmap_texture);
@@ -346,24 +301,6 @@ BOOST_AUTO_TEST_CASE(enum_surface_attrib_values)
 
 #ifdef EGL_MIPMAP_TEXTURE
 	x = ev.mipmap_texture;
-# ifdef EGL_CONFIG_ID
-	BOOST_CHECK(x != ev.config_id);
-# endif
-# ifdef EGL_GL_COLORSPACE
-	BOOST_CHECK(x != ev.gl_colorspace);
-# endif
-# ifdef EGL_HEIGHT
-	BOOST_CHECK(x != ev.height);
-# endif
-# ifdef EGL_HORIZONTAL_RESOLUTION
-	BOOST_CHECK(x != ev.horizontal_resolution);
-# endif
-# ifdef EGL_LARGEST_PBUFFER
-	BOOST_CHECK(x != ev.largest_pbuffer);
-# endif
-# ifdef EGL_MIPMAP_LEVEL
-	BOOST_CHECK(x != ev.mipmap_level);
-# endif
 	BOOST_CHECK(x == ev.mipmap_texture);
 # ifdef EGL_MULTISAMPLE_RESOLVE
 	BOOST_CHECK(x != ev.multisample_resolve);
@@ -399,27 +336,6 @@ BOOST_AUTO_TEST_CASE(enum_surface_attrib_values)
 
 #ifdef EGL_MULTISAMPLE_RESOLVE
 	x = ev.multisample_resolve;
-# ifdef EGL_CONFIG_ID
-	BOOST_CHECK(x != ev.config_id);
-# endif
-# ifdef EGL_GL_COLORSPACE
-	BOOST_CHECK(x != ev.gl_colorspace);
-# endif
-# ifdef EGL_HEIGHT
-	BOOST_CHECK(x != ev.height);
-# endif
-# ifdef EGL_HORIZONTAL_RESOLUTION
-	BOOST_CHECK(x != ev.horizontal_resolution);
-# endif
-# ifdef EGL_LARGEST_PBUFFER
-	BOOST_CHECK(x != ev.largest_pbuffer);
-# endif
-# ifdef EGL_MIPMAP_LEVEL
-	BOOST_CHECK(x != ev.mipmap_level);
-# endif
-# ifdef EGL_MIPMAP_TEXTURE
-	BOOST_CHECK(x != ev.mipmap_texture);
-# endif
 	BOOST_CHECK(x == ev.multisample_resolve);
 # ifdef EGL_PIXEL_ASPECT_RATIO
 	BOOST_CHECK(x != ev.pixel_aspect_ratio);
@@ -452,30 +368,6 @@ BOOST_AUTO_TEST_CASE(enum_surface_attrib_values)
 
 #ifdef EGL_PIXEL_ASPECT_RATIO
 	x = ev.pixel_aspect_ratio;
-# ifdef EGL_CONFIG_ID
-	BOOST_CHECK(x != ev.config_id);
-# endif
-# ifdef EGL_GL_COLORSPACE
-	BOOST_CHECK(x != ev.gl_colorspace);
-# endif
-# ifdef EGL_HEIGHT
-	BOOST_CHECK(x != ev.height);
-# endif
-# ifdef EGL_HORIZONTAL_RESOLUTION
-	BOOST_CHECK(x != ev.horizontal_resolution);
-# endif
-# ifdef EGL_LARGEST_PBUFFER
-	BOOST_CHECK(x != ev.largest_pbuffer);
-# endif
-# ifdef EGL_MIPMAP_LEVEL
-	BOOST_CHECK(x != ev.mipmap_level);
-# endif
-# ifdef EGL_MIPMAP_TEXTURE
-	BOOST_CHECK(x != ev.mipmap_texture);
-# endif
-# ifdef EGL_MULTISAMPLE_RESOLVE
-	BOOST_CHECK(x != ev.multisample_resolve);
-# endif
 	BOOST_CHECK(x == ev.pixel_aspect_ratio);
 # ifdef EGL_RENDER_BUFFER
 	BOOST_CHECK(x != ev.render_buffer);
@@ -505,33 +397,6 @@ BOOST_AUTO_TEST_CASE(enum_surface_attrib_values)
 
 #ifdef EGL_RENDER_BUFFER
 	x = ev.render_buffer;
-# ifdef EGL_CONFIG_ID
-	BOOST_CHECK(x != ev.config_id);
-# endif
-# ifdef EGL_GL_COLORSPACE
-	BOOST_CHECK(x != ev.gl_colorspace);
-# endif
-# ifdef EGL_HEIGHT
-	BOOST_CHECK(x != ev.height);
-# endif
-# ifdef EGL_HORIZONTAL_RESOLUTION
-	BOOST_CHECK(x != ev.horizontal_resolution);
-# endif
-# ifdef EGL_LARGEST_PBUFFER
-	BOOST_CHECK(x != ev.largest_pbuffer);
-# endif
-# ifdef EGL_MIPMAP_LEVEL
-	BOOST_CHECK(x != ev.mipmap_level);
-# endif
-# ifdef EGL_MIPMAP_TEXTURE
-	BOOST_CHECK(x != ev.mipmap_texture);
-# endif
-# ifdef EGL_MULTISAMPLE_RESOLVE
-	BOOST_CHECK(x != ev.multisample_resolve);
-# endif
-# ifdef EGL_PIXEL_ASPECT_RATIO
-	BOOST_CHECK(x != ev.pixel_aspect_ratio);
-# endif
 	BOOST_CHECK(x == ev.render_buffer);
 # ifdef EGL_SWAP_BEHAVIOR
 	BOOST_CHECK(x != ev.swap_behavior);
@@ -558,36 +423,6 @@ BOOST_AUTO_TEST_CASE(enum_surface_attrib_values)
 
 #ifdef EGL_SWAP_BEHAVIOR
 	x = ev.swap_behavior;
-# ifdef EGL_CONFIG_ID
-	BOOST_CHECK(x != ev.config_id);
-# endif
-# ifdef EGL_GL_COLORSPACE
-	BOOST_CHECK(x != ev.gl_colorspace);
-# endif
-# ifdef EGL_HEIGHT
-	BOOST_CHECK(x != ev.height);
-# endif
-# ifdef EGL_HORIZONTAL_RESOLUTION
-	BOOST_CHECK(x != ev.horizontal_resolution);
-# endif
-# ifdef EGL_LARGEST_PBUFFER
-	BOOST_CHECK(x != ev.largest_pbuffer);
-# endif
-# ifdef EGL_MIPMAP_LEVEL
-	BOOST_CHECK(x != ev.mipmap_level);
-# endif
-# ifdef EGL_MIPMAP_TEXTURE
-	BOOST_CHECK(x != ev.mipmap_texture);
-# endif
-# ifdef EGL_MULTISAMPLE_RESOLVE
-	BOOST_CHECK(x != ev.multisample_resolve);
-# endif
-# ifdef EGL_PIXEL_ASPECT_RATIO
-	BOOST_CHECK(x != ev.pixel_aspect_ratio);
-# endif
-# ifdef EGL_RENDER_BUFFER
-	BOOST_CHECK(x != ev.render_buffer);
-# endif
 	BOOST_CHECK(x == ev.swap_behavior);
 # ifdef EGL_TEXTURE_FORMAT
 	BOOST_CHECK(x != ev.texture_format);
@@ -611,39 +446,6 @@ BOOST_AUTO_TEST_CASE(enum_surface_attrib_values)
 
 #ifdef EGL_TEXTURE_FORMAT
 	x = ev.texture_format;
-# ifdef EGL_CONFIG_ID
-	BOOST_CHECK(x != ev.config_id);
-# endif
-# ifdef EGL_GL_COLORSPACE
-	BOOST_CHECK(x != ev.gl_colorspace);
-# endif
-# ifdef EGL_HEIGHT
-	BOOST_CHECK(x != ev.height);
-# endif
-# ifdef EGL_HORIZONTAL_RESOLUTION
-	BOOST_CHECK(x != ev.horizontal_resolution);
-# endif
-# ifdef EGL_LARGEST_PBUFFER
-	BOOST_CHECK(x != ev.largest_pbuffer);
-# endif
-# ifdef EGL_MIPMAP_LEVEL
-	BOOST_CHECK(x != ev.mipmap_level);
-# endif
-# ifdef EGL_MIPMAP_TEXTURE
-	BOOST_CHECK(x != ev.mipmap_texture);
-# endif
-# ifdef EGL_MULTISAMPLE_RESOLVE
-	BOOST_CHECK(x != ev.multisample_resolve);
-# endif
-# ifdef EGL_PIXEL_ASPECT_RATIO
-	BOOST_CHECK(x != ev.pixel_aspect_ratio);
-# endif
-# ifdef EGL_RENDER_BUFFER
-	BOOST_CHECK(x != ev.render_buffer);
-# endif
-# ifdef EGL_SWAP_BEHAVIOR
-	BOOST_CHECK(x != ev.swap_behavior);
-# endif
 	BOOST_CHECK(x == ev.texture_format);
 # ifdef EGL_TEXTURE_TARGET
 	BOOST_CHECK(x != ev.texture_target);
@@ -664,42 +466,6 @@ BOOST_AUTO_TEST_CASE(enum_surface_attrib_values)
 
 #ifdef EGL_TEXTURE_TARGET
 	x = ev.texture_target;
-# ifdef EGL_CONFIG_ID
-	BOOST_CHECK(x != ev.config_id);
-# endif
-# ifdef EGL_GL_COLORSPACE
-	BOOST_CHECK(x != ev.gl_colorspace);
-# endif
-# ifdef EGL_HEIGHT
-	BOOST_CHECK(x != ev.height);
-# endif
-# ifdef EGL_HORIZONTAL_RESOLUTION
-	BOOST_CHECK(x != ev.horizontal_resolution);
-# endif
-# ifdef EGL_LARGEST_PBUFFER
-	BOOST_CHECK(x != ev.largest_pbuffer);
-# endif
-# ifdef EGL_MIPMAP_LEVEL
-	BOOST_CHECK(x != ev.mipmap_level);
-# endif
-# ifdef EGL_MIPMAP_TEXTURE
-	BOOST_CHECK(x != ev.mipmap_texture);
-# endif
-# ifdef EGL_MULTISAMPLE_RESOLVE
-	BOOST_CHECK(x != ev.multisample_resolve);
-# endif
-# ifdef EGL_PIXEL_ASPECT_RATIO
-	BOOST_CHECK(x != ev.pixel_aspect_ratio);
-# endif
-# ifdef EGL_RENDER_BUFFER
-	BOOST_CHECK(x != ev.render_buffer);
-# endif
-# ifdef EGL_SWAP_BEHAVIOR
-	BOOST_CHECK(x != ev.swap_behavior);
-# endif
-# ifdef EGL_TEXTURE_FORMAT
-	BOOST_CHECK(x != ev.texture_format);
-# endif
 	BOOST_CHECK(x == ev.texture_target);
 # ifdef EGL_VERTICAL_RESOLUTION
 	BOOST_CHECK(x != ev.vertical_resolution);
@@ -717,45 +483,6 @@ BOOST_AUTO_TEST_CASE(enum_surface_attrib_values)
 
 #ifdef EGL_VERTICAL_RESOLUTION
 	x = ev.vertical_resolution;
-# ifdef EGL_CONFIG_ID
-	BOOST_CHECK(x != ev.config_id);
-# endif
-# ifdef EGL_GL_COLORSPACE
-	BOOST_CHECK(x != ev.gl_colorspace);
-# endif
-# ifdef EGL_HEIGHT
-	BOOST_CHECK(x != ev.height);
-# endif
-# ifdef EGL_HORIZONTAL_RESOLUTION
-	BOOST_CHECK(x != ev.horizontal_resolution);
-# endif
-# ifdef EGL_LARGEST_PBUFFER
-	BOOST_CHECK(x != ev.largest_pbuffer);
-# endif
-# ifdef EGL_MIPMAP_LEVEL
-	BOOST_CHECK(x != ev.mipmap_level);
-# endif
-# ifdef EGL_MIPMAP_TEXTURE
-	BOOST_CHECK(x != ev.mipmap_texture);
-# endif
-# ifdef EGL_MULTISAMPLE_RESOLVE
-	BOOST_CHECK(x != ev.multisample_resolve);
-# endif
-# ifdef EGL_PIXEL_ASPECT_RATIO
-	BOOST_CHECK(x != ev.pixel_aspect_ratio);
-# endif
-# ifdef EGL_RENDER_BUFFER
-	BOOST_CHECK(x != ev.render_buffer);
-# endif
-# ifdef EGL_SWAP_BEHAVIOR
-	BOOST_CHECK(x != ev.swap_behavior);
-# endif
-# ifdef EGL_TEXTURE_FORMAT
-	BOOST_CHECK(x != ev.texture_format);
-# endif
-# ifdef EGL_TEXTURE_TARGET
-	BOOST_CHECK(x != ev.texture_target);
-# endif
 	BOOST_CHECK(x == ev.vertical_resolution);
 # ifdef EGL_VG_ALPHA_FORMAT
 	BOOST_CHECK(x != ev.vg_alpha_format);
@@ -770,48 +497,6 @@ BOOST_AUTO_TEST_CASE(enum_surface_attrib_values)
 
 #ifdef EGL_VG_ALPHA_FORMAT
 	x = ev.vg_alpha_format;
-# ifdef EGL_CONFIG_ID
-	BOOST_CHECK(x != ev.config_id);
-# endif
-# ifdef EGL_GL_COLORSPACE
-	BOOST_CHECK(x != ev.gl_colorspace);
-# endif
-# ifdef EGL_HEIGHT
-	BOOST_CHECK(x != ev.height);
-# endif
-# ifdef EGL_HORIZONTAL_RESOLUTION
-	BOOST_CHECK(x != ev.horizontal_resolution);
-# endif
-# ifdef EGL_LARGEST_PBUFFER
-	BOOST_CHECK(x != ev.largest_pbuffer);
-# endif
-# ifdef EGL_MIPMAP_LEVEL
-	BOOST_CHECK(x != ev.mipmap_level);
-# endif
-# ifdef EGL_MIPMAP_TEXTURE
-	BOOST_CHECK(x != ev.mipmap_texture);
-# endif
-# ifdef EGL_MULTISAMPLE_RESOLVE
-	BOOST_CHECK(x != ev.multisample_resolve);
-# endif
-# ifdef EGL_PIXEL_ASPECT_RATIO
-	BOOST_CHECK(x != ev.pixel_aspect_ratio);
-# endif
-# ifdef EGL_RENDER_BUFFER
-	BOOST_CHECK(x != ev.render_buffer);
-# endif
-# ifdef EGL_SWAP_BEHAVIOR
-	BOOST_CHECK(x != ev.swap_behavior);
-# endif
-# ifdef EGL_TEXTURE_FORMAT
-	BOOST_CHECK(x != ev.texture_format);
-# endif
-# ifdef EGL_TEXTURE_TARGET
-	BOOST_CHECK(x != ev.texture_target);
-# endif
-# ifdef EGL_VERTICAL_RESOLUTION
-	BOOST_CHECK(x != ev.vertical_resolution);
-# endif
 	BOOST_CHECK(x == ev.vg_alpha_format);
 # ifdef EGL_VG_COLORSPACE
 	BOOST_CHECK(x != ev.vg_colorspace);
@@ -823,51 +508,6 @@ BOOST_AUTO_TEST_CASE(enum_surface_attrib_values)
 
 #ifdef EGL_VG_COLORSPACE
 	x = ev.vg_colorspace;
-# ifdef EGL_CONFIG_ID
-	BOOST_CHECK(x != ev.config_id);
-# endif
-# ifdef EGL_GL_COLORSPACE
-	BOOST_CHECK(x != ev.gl_colorspace);
-# endif
-# ifdef EGL_HEIGHT
-	BOOST_CHECK(x != ev.height);
-# endif
-# ifdef EGL_HORIZONTAL_RESOLUTION
-	BOOST_CHECK(x != ev.horizontal_resolution);
-# endif
-# ifdef EGL_LARGEST_PBUFFER
-	BOOST_CHECK(x != ev.largest_pbuffer);
-# endif
-# ifdef EGL_MIPMAP_LEVEL
-	BOOST_CHECK(x != ev.mipmap_level);
-# endif
-# ifdef EGL_MIPMAP_TEXTURE
-	BOOST_CHECK(x != ev.mipmap_texture);
-# endif
-# ifdef EGL_MULTISAMPLE_RESOLVE
-	BOOST_CHECK(x != ev.multisample_resolve);
-# endif
-# ifdef EGL_PIXEL_ASPECT_RATIO
-	BOOST_CHECK(x != ev.pixel_aspect_ratio);
-# endif
-# ifdef EGL_RENDER_BUFFER
-	BOOST_CHECK(x != ev.render_buffer);
-# endif
-# ifdef EGL_SWAP_BEHAVIOR
-	BOOST_CHECK(x != ev.swap_behavior);
-# endif
-# ifdef EGL_TEXTURE_FORMAT
-	BOOST_CHECK(x != ev.texture_format);
-# endif
-# ifdef EGL_TEXTURE_TARGET
-	BOOST_CHECK(x != ev.texture_target);
-# endif
-# ifdef EGL_VERTICAL_RESOLUTION
-	BOOST_CHECK(x != ev.vertical_resolution);
-# endif
-# ifdef EGL_VG_ALPHA_FORMAT
-	BOOST_CHECK(x != ev.vg_alpha_format);
-# endif
 	BOOST_CHECK(x == ev.vg_colorspace);
 # ifdef EGL_WIDTH
 	BOOST_CHECK(x != ev.width);
@@ -876,54 +516,6 @@ BOOST_AUTO_TEST_CASE(enum_surface_attrib_values)
 
 #ifdef EGL_WIDTH
 	x = ev.width;
-# ifdef EGL_CONFIG_ID
-	BOOST_CHECK(x != ev.config_id);
-# endif
-# ifdef EGL_GL_COLORSPACE
-	BOOST_CHECK(x != ev.gl_colorspace);
-# endif
-# ifdef EGL_HEIGHT
-	BOOST_CHECK(x != ev.height);
-# endif
-# ifdef EGL_HORIZONTAL_RESOLUTION
-	BOOST_CHECK(x != ev.horizontal_resolution);
-# endif
-# ifdef EGL_LARGEST_PBUFFER
-	BOOST_CHECK(x != ev.largest_pbuffer);
-# endif
-# ifdef EGL_MIPMAP_LEVEL
-	BOOST_CHECK(x != ev.mipmap_level);
-# endif
-# ifdef EGL_MIPMAP_TEXTURE
-	BOOST_CHECK(x != ev.mipmap_texture);
-# endif
-# ifdef EGL_MULTISAMPLE_RESOLVE
-	BOOST_CHECK(x != ev.multisample_resolve);
-# endif
-# ifdef EGL_PIXEL_ASPECT_RATIO
-	BOOST_CHECK(x != ev.pixel_aspect_ratio);
-# endif
-# ifdef EGL_RENDER_BUFFER
-	BOOST_CHECK(x != ev.render_buffer);
-# endif
-# ifdef EGL_SWAP_BEHAVIOR
-	BOOST_CHECK(x != ev.swap_behavior);
-# endif
-# ifdef EGL_TEXTURE_FORMAT
-	BOOST_CHECK(x != ev.texture_format);
-# endif
-# ifdef EGL_TEXTURE_TARGET
-	BOOST_CHECK(x != ev.texture_target);
-# endif
-# ifdef EGL_VERTICAL_RESOLUTION
-	BOOST_CHECK(x != ev.vertical_resolution);
-# endif
-# ifdef EGL_VG_ALPHA_FORMAT
-	BOOST_CHECK(x != ev.vg_alpha_format);
-# endif
-# ifdef EGL_VG_COLORSPACE
-	BOOST_CHECK(x != ev.vg_colorspace);
-# endif
 	BOOST_CHECK(x == ev.width);
 #endif
 }

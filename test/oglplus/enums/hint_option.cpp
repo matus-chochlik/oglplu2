@@ -39,9 +39,6 @@ BOOST_AUTO_TEST_CASE(enum_hint_option_values)
 
 #ifdef GL_FASTEST
 	x = ev.fastest;
-# ifdef GL_DONT_CARE
-	BOOST_CHECK(x != ev.dont_care);
-# endif
 	BOOST_CHECK(x == ev.fastest);
 # ifdef GL_NICEST
 	BOOST_CHECK(x != ev.nicest);
@@ -50,12 +47,6 @@ BOOST_AUTO_TEST_CASE(enum_hint_option_values)
 
 #ifdef GL_NICEST
 	x = ev.nicest;
-# ifdef GL_DONT_CARE
-	BOOST_CHECK(x != ev.dont_care);
-# endif
-# ifdef GL_FASTEST
-	BOOST_CHECK(x != ev.fastest);
-# endif
 	BOOST_CHECK(x == ev.nicest);
 #endif
 }

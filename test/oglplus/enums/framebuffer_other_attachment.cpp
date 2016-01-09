@@ -39,9 +39,6 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_other_attachment_values)
 
 #ifdef GL_DEPTH_STENCIL_ATTACHMENT
 	x = ev.depth_stencil_attachment;
-# ifdef GL_DEPTH_ATTACHMENT
-	BOOST_CHECK(x != ev.depth_attachment);
-# endif
 	BOOST_CHECK(x == ev.depth_stencil_attachment);
 # ifdef GL_STENCIL_ATTACHMENT
 	BOOST_CHECK(x != ev.stencil_attachment);
@@ -50,12 +47,6 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_other_attachment_values)
 
 #ifdef GL_STENCIL_ATTACHMENT
 	x = ev.stencil_attachment;
-# ifdef GL_DEPTH_ATTACHMENT
-	BOOST_CHECK(x != ev.depth_attachment);
-# endif
-# ifdef GL_DEPTH_STENCIL_ATTACHMENT
-	BOOST_CHECK(x != ev.depth_stencil_attachment);
-# endif
 	BOOST_CHECK(x == ev.stencil_attachment);
 #endif
 }

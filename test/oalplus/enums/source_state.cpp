@@ -42,9 +42,6 @@ BOOST_AUTO_TEST_CASE(enum_source_state_values)
 
 #ifdef AL_PAUSED
 	x = ev.paused;
-# ifdef AL_INITIAL
-	BOOST_CHECK(x != ev.initial);
-# endif
 	BOOST_CHECK(x == ev.paused);
 # ifdef AL_PLAYING
 	BOOST_CHECK(x != ev.playing);
@@ -56,12 +53,6 @@ BOOST_AUTO_TEST_CASE(enum_source_state_values)
 
 #ifdef AL_PLAYING
 	x = ev.playing;
-# ifdef AL_INITIAL
-	BOOST_CHECK(x != ev.initial);
-# endif
-# ifdef AL_PAUSED
-	BOOST_CHECK(x != ev.paused);
-# endif
 	BOOST_CHECK(x == ev.playing);
 # ifdef AL_STOPPED
 	BOOST_CHECK(x != ev.stopped);
@@ -70,15 +61,6 @@ BOOST_AUTO_TEST_CASE(enum_source_state_values)
 
 #ifdef AL_STOPPED
 	x = ev.stopped;
-# ifdef AL_INITIAL
-	BOOST_CHECK(x != ev.initial);
-# endif
-# ifdef AL_PAUSED
-	BOOST_CHECK(x != ev.paused);
-# endif
-# ifdef AL_PLAYING
-	BOOST_CHECK(x != ev.playing);
-# endif
 	BOOST_CHECK(x == ev.stopped);
 #endif
 }

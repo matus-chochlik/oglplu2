@@ -36,9 +36,6 @@ BOOST_AUTO_TEST_CASE(enum_transparent_type_values)
 
 #ifdef EGL_TRANSPARENT_RGB
 	x = ev.transparent_rgb;
-# ifdef EGL_NONE
-	BOOST_CHECK(x != ev.none);
-# endif
 	BOOST_CHECK(x == ev.transparent_rgb);
 #endif
 }

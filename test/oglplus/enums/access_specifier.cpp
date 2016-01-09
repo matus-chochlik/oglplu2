@@ -39,9 +39,6 @@ BOOST_AUTO_TEST_CASE(enum_access_specifier_values)
 
 #ifdef GL_READ_WRITE
 	x = ev.read_write;
-# ifdef GL_READ_ONLY
-	BOOST_CHECK(x != ev.read_only);
-# endif
 	BOOST_CHECK(x == ev.read_write);
 # ifdef GL_WRITE_ONLY
 	BOOST_CHECK(x != ev.write_only);
@@ -50,12 +47,6 @@ BOOST_AUTO_TEST_CASE(enum_access_specifier_values)
 
 #ifdef GL_WRITE_ONLY
 	x = ev.write_only;
-# ifdef GL_READ_ONLY
-	BOOST_CHECK(x != ev.read_only);
-# endif
-# ifdef GL_READ_WRITE
-	BOOST_CHECK(x != ev.read_write);
-# endif
 	BOOST_CHECK(x == ev.write_only);
 #endif
 }

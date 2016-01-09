@@ -36,9 +36,6 @@ BOOST_AUTO_TEST_CASE(enum_multisample_resolve_values)
 
 #ifdef EGL_MULTISAMPLE_RESOLVE_DEFAULT
 	x = ev.multisample_resolve_default;
-# ifdef EGL_MULTISAMPLE_RESOLVE_BOX
-	BOOST_CHECK(x != ev.multisample_resolve_box);
-# endif
 	BOOST_CHECK(x == ev.multisample_resolve_default);
 #endif
 }

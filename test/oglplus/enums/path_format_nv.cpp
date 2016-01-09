@@ -36,9 +36,6 @@ BOOST_AUTO_TEST_CASE(enum_path_format_nv_values)
 
 #ifdef GL_PATH_FORMAT_SVG_NV
 	x = ev.path_format_svg_nv;
-# ifdef GL_PATH_FORMAT_PS_NV
-	BOOST_CHECK(x != ev.path_format_ps_nv);
-# endif
 	BOOST_CHECK(x == ev.path_format_svg_nv);
 #endif
 }

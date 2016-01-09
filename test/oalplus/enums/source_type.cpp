@@ -39,9 +39,6 @@ BOOST_AUTO_TEST_CASE(enum_source_type_values)
 
 #ifdef AL_STREAMING
 	x = ev.streaming;
-# ifdef AL_STATIC
-	BOOST_CHECK(x != ev.static_);
-# endif
 	BOOST_CHECK(x == ev.streaming);
 # ifdef AL_UNDETERMINED
 	BOOST_CHECK(x != ev.undetermined);
@@ -50,12 +47,6 @@ BOOST_AUTO_TEST_CASE(enum_source_type_values)
 
 #ifdef AL_UNDETERMINED
 	x = ev.undetermined;
-# ifdef AL_STATIC
-	BOOST_CHECK(x != ev.static_);
-# endif
-# ifdef AL_STREAMING
-	BOOST_CHECK(x != ev.streaming);
-# endif
 	BOOST_CHECK(x == ev.undetermined);
 #endif
 }

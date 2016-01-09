@@ -126,9 +126,6 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_values)
 
 #ifdef EGL_ALPHA_SIZE
 	x = ev.alpha_size;
-# ifdef EGL_ALPHA_MASK_SIZE
-	BOOST_CHECK(x != ev.alpha_mask_size);
-# endif
 	BOOST_CHECK(x == ev.alpha_size);
 # ifdef EGL_BIND_TO_TEXTURE_RGB
 	BOOST_CHECK(x != ev.bind_to_texture_rgb);
@@ -224,12 +221,6 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_values)
 
 #ifdef EGL_BIND_TO_TEXTURE_RGB
 	x = ev.bind_to_texture_rgb;
-# ifdef EGL_ALPHA_MASK_SIZE
-	BOOST_CHECK(x != ev.alpha_mask_size);
-# endif
-# ifdef EGL_ALPHA_SIZE
-	BOOST_CHECK(x != ev.alpha_size);
-# endif
 	BOOST_CHECK(x == ev.bind_to_texture_rgb);
 # ifdef EGL_BIND_TO_TEXTURE_RGBA
 	BOOST_CHECK(x != ev.bind_to_texture_rgba);
@@ -322,15 +313,6 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_values)
 
 #ifdef EGL_BIND_TO_TEXTURE_RGBA
 	x = ev.bind_to_texture_rgba;
-# ifdef EGL_ALPHA_MASK_SIZE
-	BOOST_CHECK(x != ev.alpha_mask_size);
-# endif
-# ifdef EGL_ALPHA_SIZE
-	BOOST_CHECK(x != ev.alpha_size);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGB
-	BOOST_CHECK(x != ev.bind_to_texture_rgb);
-# endif
 	BOOST_CHECK(x == ev.bind_to_texture_rgba);
 # ifdef EGL_BLUE_SIZE
 	BOOST_CHECK(x != ev.blue_size);
@@ -420,18 +402,6 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_values)
 
 #ifdef EGL_BLUE_SIZE
 	x = ev.blue_size;
-# ifdef EGL_ALPHA_MASK_SIZE
-	BOOST_CHECK(x != ev.alpha_mask_size);
-# endif
-# ifdef EGL_ALPHA_SIZE
-	BOOST_CHECK(x != ev.alpha_size);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGB
-	BOOST_CHECK(x != ev.bind_to_texture_rgb);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGBA
-	BOOST_CHECK(x != ev.bind_to_texture_rgba);
-# endif
 	BOOST_CHECK(x == ev.blue_size);
 # ifdef EGL_BUFFER_SIZE
 	BOOST_CHECK(x != ev.buffer_size);
@@ -518,21 +488,6 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_values)
 
 #ifdef EGL_BUFFER_SIZE
 	x = ev.buffer_size;
-# ifdef EGL_ALPHA_MASK_SIZE
-	BOOST_CHECK(x != ev.alpha_mask_size);
-# endif
-# ifdef EGL_ALPHA_SIZE
-	BOOST_CHECK(x != ev.alpha_size);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGB
-	BOOST_CHECK(x != ev.bind_to_texture_rgb);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGBA
-	BOOST_CHECK(x != ev.bind_to_texture_rgba);
-# endif
-# ifdef EGL_BLUE_SIZE
-	BOOST_CHECK(x != ev.blue_size);
-# endif
 	BOOST_CHECK(x == ev.buffer_size);
 # ifdef EGL_COLOR_BUFFER_TYPE
 	BOOST_CHECK(x != ev.color_buffer_type);
@@ -616,24 +571,6 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_values)
 
 #ifdef EGL_COLOR_BUFFER_TYPE
 	x = ev.color_buffer_type;
-# ifdef EGL_ALPHA_MASK_SIZE
-	BOOST_CHECK(x != ev.alpha_mask_size);
-# endif
-# ifdef EGL_ALPHA_SIZE
-	BOOST_CHECK(x != ev.alpha_size);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGB
-	BOOST_CHECK(x != ev.bind_to_texture_rgb);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGBA
-	BOOST_CHECK(x != ev.bind_to_texture_rgba);
-# endif
-# ifdef EGL_BLUE_SIZE
-	BOOST_CHECK(x != ev.blue_size);
-# endif
-# ifdef EGL_BUFFER_SIZE
-	BOOST_CHECK(x != ev.buffer_size);
-# endif
 	BOOST_CHECK(x == ev.color_buffer_type);
 # ifdef EGL_CONFIG_CAVEAT
 	BOOST_CHECK(x != ev.config_caveat);
@@ -714,27 +651,6 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_values)
 
 #ifdef EGL_CONFIG_CAVEAT
 	x = ev.config_caveat;
-# ifdef EGL_ALPHA_MASK_SIZE
-	BOOST_CHECK(x != ev.alpha_mask_size);
-# endif
-# ifdef EGL_ALPHA_SIZE
-	BOOST_CHECK(x != ev.alpha_size);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGB
-	BOOST_CHECK(x != ev.bind_to_texture_rgb);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGBA
-	BOOST_CHECK(x != ev.bind_to_texture_rgba);
-# endif
-# ifdef EGL_BLUE_SIZE
-	BOOST_CHECK(x != ev.blue_size);
-# endif
-# ifdef EGL_BUFFER_SIZE
-	BOOST_CHECK(x != ev.buffer_size);
-# endif
-# ifdef EGL_COLOR_BUFFER_TYPE
-	BOOST_CHECK(x != ev.color_buffer_type);
-# endif
 	BOOST_CHECK(x == ev.config_caveat);
 # ifdef EGL_CONFIG_ID
 	BOOST_CHECK(x != ev.config_id);
@@ -812,30 +728,6 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_values)
 
 #ifdef EGL_CONFIG_ID
 	x = ev.config_id;
-# ifdef EGL_ALPHA_MASK_SIZE
-	BOOST_CHECK(x != ev.alpha_mask_size);
-# endif
-# ifdef EGL_ALPHA_SIZE
-	BOOST_CHECK(x != ev.alpha_size);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGB
-	BOOST_CHECK(x != ev.bind_to_texture_rgb);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGBA
-	BOOST_CHECK(x != ev.bind_to_texture_rgba);
-# endif
-# ifdef EGL_BLUE_SIZE
-	BOOST_CHECK(x != ev.blue_size);
-# endif
-# ifdef EGL_BUFFER_SIZE
-	BOOST_CHECK(x != ev.buffer_size);
-# endif
-# ifdef EGL_COLOR_BUFFER_TYPE
-	BOOST_CHECK(x != ev.color_buffer_type);
-# endif
-# ifdef EGL_CONFIG_CAVEAT
-	BOOST_CHECK(x != ev.config_caveat);
-# endif
 	BOOST_CHECK(x == ev.config_id);
 # ifdef EGL_CONFORMANT
 	BOOST_CHECK(x != ev.conformant);
@@ -910,33 +802,6 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_values)
 
 #ifdef EGL_CONFORMANT
 	x = ev.conformant;
-# ifdef EGL_ALPHA_MASK_SIZE
-	BOOST_CHECK(x != ev.alpha_mask_size);
-# endif
-# ifdef EGL_ALPHA_SIZE
-	BOOST_CHECK(x != ev.alpha_size);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGB
-	BOOST_CHECK(x != ev.bind_to_texture_rgb);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGBA
-	BOOST_CHECK(x != ev.bind_to_texture_rgba);
-# endif
-# ifdef EGL_BLUE_SIZE
-	BOOST_CHECK(x != ev.blue_size);
-# endif
-# ifdef EGL_BUFFER_SIZE
-	BOOST_CHECK(x != ev.buffer_size);
-# endif
-# ifdef EGL_COLOR_BUFFER_TYPE
-	BOOST_CHECK(x != ev.color_buffer_type);
-# endif
-# ifdef EGL_CONFIG_CAVEAT
-	BOOST_CHECK(x != ev.config_caveat);
-# endif
-# ifdef EGL_CONFIG_ID
-	BOOST_CHECK(x != ev.config_id);
-# endif
 	BOOST_CHECK(x == ev.conformant);
 # ifdef EGL_DEPTH_SIZE
 	BOOST_CHECK(x != ev.depth_size);
@@ -1008,36 +873,6 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_values)
 
 #ifdef EGL_DEPTH_SIZE
 	x = ev.depth_size;
-# ifdef EGL_ALPHA_MASK_SIZE
-	BOOST_CHECK(x != ev.alpha_mask_size);
-# endif
-# ifdef EGL_ALPHA_SIZE
-	BOOST_CHECK(x != ev.alpha_size);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGB
-	BOOST_CHECK(x != ev.bind_to_texture_rgb);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGBA
-	BOOST_CHECK(x != ev.bind_to_texture_rgba);
-# endif
-# ifdef EGL_BLUE_SIZE
-	BOOST_CHECK(x != ev.blue_size);
-# endif
-# ifdef EGL_BUFFER_SIZE
-	BOOST_CHECK(x != ev.buffer_size);
-# endif
-# ifdef EGL_COLOR_BUFFER_TYPE
-	BOOST_CHECK(x != ev.color_buffer_type);
-# endif
-# ifdef EGL_CONFIG_CAVEAT
-	BOOST_CHECK(x != ev.config_caveat);
-# endif
-# ifdef EGL_CONFIG_ID
-	BOOST_CHECK(x != ev.config_id);
-# endif
-# ifdef EGL_CONFORMANT
-	BOOST_CHECK(x != ev.conformant);
-# endif
 	BOOST_CHECK(x == ev.depth_size);
 # ifdef EGL_GREEN_SIZE
 	BOOST_CHECK(x != ev.green_size);
@@ -1106,39 +941,6 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_values)
 
 #ifdef EGL_GREEN_SIZE
 	x = ev.green_size;
-# ifdef EGL_ALPHA_MASK_SIZE
-	BOOST_CHECK(x != ev.alpha_mask_size);
-# endif
-# ifdef EGL_ALPHA_SIZE
-	BOOST_CHECK(x != ev.alpha_size);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGB
-	BOOST_CHECK(x != ev.bind_to_texture_rgb);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGBA
-	BOOST_CHECK(x != ev.bind_to_texture_rgba);
-# endif
-# ifdef EGL_BLUE_SIZE
-	BOOST_CHECK(x != ev.blue_size);
-# endif
-# ifdef EGL_BUFFER_SIZE
-	BOOST_CHECK(x != ev.buffer_size);
-# endif
-# ifdef EGL_COLOR_BUFFER_TYPE
-	BOOST_CHECK(x != ev.color_buffer_type);
-# endif
-# ifdef EGL_CONFIG_CAVEAT
-	BOOST_CHECK(x != ev.config_caveat);
-# endif
-# ifdef EGL_CONFIG_ID
-	BOOST_CHECK(x != ev.config_id);
-# endif
-# ifdef EGL_CONFORMANT
-	BOOST_CHECK(x != ev.conformant);
-# endif
-# ifdef EGL_DEPTH_SIZE
-	BOOST_CHECK(x != ev.depth_size);
-# endif
 	BOOST_CHECK(x == ev.green_size);
 # ifdef EGL_LEVEL
 	BOOST_CHECK(x != ev.level);
@@ -1204,42 +1006,6 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_values)
 
 #ifdef EGL_LEVEL
 	x = ev.level;
-# ifdef EGL_ALPHA_MASK_SIZE
-	BOOST_CHECK(x != ev.alpha_mask_size);
-# endif
-# ifdef EGL_ALPHA_SIZE
-	BOOST_CHECK(x != ev.alpha_size);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGB
-	BOOST_CHECK(x != ev.bind_to_texture_rgb);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGBA
-	BOOST_CHECK(x != ev.bind_to_texture_rgba);
-# endif
-# ifdef EGL_BLUE_SIZE
-	BOOST_CHECK(x != ev.blue_size);
-# endif
-# ifdef EGL_BUFFER_SIZE
-	BOOST_CHECK(x != ev.buffer_size);
-# endif
-# ifdef EGL_COLOR_BUFFER_TYPE
-	BOOST_CHECK(x != ev.color_buffer_type);
-# endif
-# ifdef EGL_CONFIG_CAVEAT
-	BOOST_CHECK(x != ev.config_caveat);
-# endif
-# ifdef EGL_CONFIG_ID
-	BOOST_CHECK(x != ev.config_id);
-# endif
-# ifdef EGL_CONFORMANT
-	BOOST_CHECK(x != ev.conformant);
-# endif
-# ifdef EGL_DEPTH_SIZE
-	BOOST_CHECK(x != ev.depth_size);
-# endif
-# ifdef EGL_GREEN_SIZE
-	BOOST_CHECK(x != ev.green_size);
-# endif
 	BOOST_CHECK(x == ev.level);
 # ifdef EGL_LUMINANCE_SIZE
 	BOOST_CHECK(x != ev.luminance_size);
@@ -1302,45 +1068,6 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_values)
 
 #ifdef EGL_LUMINANCE_SIZE
 	x = ev.luminance_size;
-# ifdef EGL_ALPHA_MASK_SIZE
-	BOOST_CHECK(x != ev.alpha_mask_size);
-# endif
-# ifdef EGL_ALPHA_SIZE
-	BOOST_CHECK(x != ev.alpha_size);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGB
-	BOOST_CHECK(x != ev.bind_to_texture_rgb);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGBA
-	BOOST_CHECK(x != ev.bind_to_texture_rgba);
-# endif
-# ifdef EGL_BLUE_SIZE
-	BOOST_CHECK(x != ev.blue_size);
-# endif
-# ifdef EGL_BUFFER_SIZE
-	BOOST_CHECK(x != ev.buffer_size);
-# endif
-# ifdef EGL_COLOR_BUFFER_TYPE
-	BOOST_CHECK(x != ev.color_buffer_type);
-# endif
-# ifdef EGL_CONFIG_CAVEAT
-	BOOST_CHECK(x != ev.config_caveat);
-# endif
-# ifdef EGL_CONFIG_ID
-	BOOST_CHECK(x != ev.config_id);
-# endif
-# ifdef EGL_CONFORMANT
-	BOOST_CHECK(x != ev.conformant);
-# endif
-# ifdef EGL_DEPTH_SIZE
-	BOOST_CHECK(x != ev.depth_size);
-# endif
-# ifdef EGL_GREEN_SIZE
-	BOOST_CHECK(x != ev.green_size);
-# endif
-# ifdef EGL_LEVEL
-	BOOST_CHECK(x != ev.level);
-# endif
 	BOOST_CHECK(x == ev.luminance_size);
 # ifdef EGL_MAX_PBUFFER_HEIGHT
 	BOOST_CHECK(x != ev.max_pbuffer_height);
@@ -1400,48 +1127,6 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_values)
 
 #ifdef EGL_MAX_PBUFFER_HEIGHT
 	x = ev.max_pbuffer_height;
-# ifdef EGL_ALPHA_MASK_SIZE
-	BOOST_CHECK(x != ev.alpha_mask_size);
-# endif
-# ifdef EGL_ALPHA_SIZE
-	BOOST_CHECK(x != ev.alpha_size);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGB
-	BOOST_CHECK(x != ev.bind_to_texture_rgb);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGBA
-	BOOST_CHECK(x != ev.bind_to_texture_rgba);
-# endif
-# ifdef EGL_BLUE_SIZE
-	BOOST_CHECK(x != ev.blue_size);
-# endif
-# ifdef EGL_BUFFER_SIZE
-	BOOST_CHECK(x != ev.buffer_size);
-# endif
-# ifdef EGL_COLOR_BUFFER_TYPE
-	BOOST_CHECK(x != ev.color_buffer_type);
-# endif
-# ifdef EGL_CONFIG_CAVEAT
-	BOOST_CHECK(x != ev.config_caveat);
-# endif
-# ifdef EGL_CONFIG_ID
-	BOOST_CHECK(x != ev.config_id);
-# endif
-# ifdef EGL_CONFORMANT
-	BOOST_CHECK(x != ev.conformant);
-# endif
-# ifdef EGL_DEPTH_SIZE
-	BOOST_CHECK(x != ev.depth_size);
-# endif
-# ifdef EGL_GREEN_SIZE
-	BOOST_CHECK(x != ev.green_size);
-# endif
-# ifdef EGL_LEVEL
-	BOOST_CHECK(x != ev.level);
-# endif
-# ifdef EGL_LUMINANCE_SIZE
-	BOOST_CHECK(x != ev.luminance_size);
-# endif
 	BOOST_CHECK(x == ev.max_pbuffer_height);
 # ifdef EGL_MAX_PBUFFER_PIXELS
 	BOOST_CHECK(x != ev.max_pbuffer_pixels);
@@ -1498,51 +1183,6 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_values)
 
 #ifdef EGL_MAX_PBUFFER_PIXELS
 	x = ev.max_pbuffer_pixels;
-# ifdef EGL_ALPHA_MASK_SIZE
-	BOOST_CHECK(x != ev.alpha_mask_size);
-# endif
-# ifdef EGL_ALPHA_SIZE
-	BOOST_CHECK(x != ev.alpha_size);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGB
-	BOOST_CHECK(x != ev.bind_to_texture_rgb);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGBA
-	BOOST_CHECK(x != ev.bind_to_texture_rgba);
-# endif
-# ifdef EGL_BLUE_SIZE
-	BOOST_CHECK(x != ev.blue_size);
-# endif
-# ifdef EGL_BUFFER_SIZE
-	BOOST_CHECK(x != ev.buffer_size);
-# endif
-# ifdef EGL_COLOR_BUFFER_TYPE
-	BOOST_CHECK(x != ev.color_buffer_type);
-# endif
-# ifdef EGL_CONFIG_CAVEAT
-	BOOST_CHECK(x != ev.config_caveat);
-# endif
-# ifdef EGL_CONFIG_ID
-	BOOST_CHECK(x != ev.config_id);
-# endif
-# ifdef EGL_CONFORMANT
-	BOOST_CHECK(x != ev.conformant);
-# endif
-# ifdef EGL_DEPTH_SIZE
-	BOOST_CHECK(x != ev.depth_size);
-# endif
-# ifdef EGL_GREEN_SIZE
-	BOOST_CHECK(x != ev.green_size);
-# endif
-# ifdef EGL_LEVEL
-	BOOST_CHECK(x != ev.level);
-# endif
-# ifdef EGL_LUMINANCE_SIZE
-	BOOST_CHECK(x != ev.luminance_size);
-# endif
-# ifdef EGL_MAX_PBUFFER_HEIGHT
-	BOOST_CHECK(x != ev.max_pbuffer_height);
-# endif
 	BOOST_CHECK(x == ev.max_pbuffer_pixels);
 # ifdef EGL_MAX_PBUFFER_WIDTH
 	BOOST_CHECK(x != ev.max_pbuffer_width);
@@ -1596,54 +1236,6 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_values)
 
 #ifdef EGL_MAX_PBUFFER_WIDTH
 	x = ev.max_pbuffer_width;
-# ifdef EGL_ALPHA_MASK_SIZE
-	BOOST_CHECK(x != ev.alpha_mask_size);
-# endif
-# ifdef EGL_ALPHA_SIZE
-	BOOST_CHECK(x != ev.alpha_size);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGB
-	BOOST_CHECK(x != ev.bind_to_texture_rgb);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGBA
-	BOOST_CHECK(x != ev.bind_to_texture_rgba);
-# endif
-# ifdef EGL_BLUE_SIZE
-	BOOST_CHECK(x != ev.blue_size);
-# endif
-# ifdef EGL_BUFFER_SIZE
-	BOOST_CHECK(x != ev.buffer_size);
-# endif
-# ifdef EGL_COLOR_BUFFER_TYPE
-	BOOST_CHECK(x != ev.color_buffer_type);
-# endif
-# ifdef EGL_CONFIG_CAVEAT
-	BOOST_CHECK(x != ev.config_caveat);
-# endif
-# ifdef EGL_CONFIG_ID
-	BOOST_CHECK(x != ev.config_id);
-# endif
-# ifdef EGL_CONFORMANT
-	BOOST_CHECK(x != ev.conformant);
-# endif
-# ifdef EGL_DEPTH_SIZE
-	BOOST_CHECK(x != ev.depth_size);
-# endif
-# ifdef EGL_GREEN_SIZE
-	BOOST_CHECK(x != ev.green_size);
-# endif
-# ifdef EGL_LEVEL
-	BOOST_CHECK(x != ev.level);
-# endif
-# ifdef EGL_LUMINANCE_SIZE
-	BOOST_CHECK(x != ev.luminance_size);
-# endif
-# ifdef EGL_MAX_PBUFFER_HEIGHT
-	BOOST_CHECK(x != ev.max_pbuffer_height);
-# endif
-# ifdef EGL_MAX_PBUFFER_PIXELS
-	BOOST_CHECK(x != ev.max_pbuffer_pixels);
-# endif
 	BOOST_CHECK(x == ev.max_pbuffer_width);
 # ifdef EGL_MAX_SWAP_INTERVAL
 	BOOST_CHECK(x != ev.max_swap_interval);
@@ -1694,57 +1286,6 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_values)
 
 #ifdef EGL_MAX_SWAP_INTERVAL
 	x = ev.max_swap_interval;
-# ifdef EGL_ALPHA_MASK_SIZE
-	BOOST_CHECK(x != ev.alpha_mask_size);
-# endif
-# ifdef EGL_ALPHA_SIZE
-	BOOST_CHECK(x != ev.alpha_size);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGB
-	BOOST_CHECK(x != ev.bind_to_texture_rgb);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGBA
-	BOOST_CHECK(x != ev.bind_to_texture_rgba);
-# endif
-# ifdef EGL_BLUE_SIZE
-	BOOST_CHECK(x != ev.blue_size);
-# endif
-# ifdef EGL_BUFFER_SIZE
-	BOOST_CHECK(x != ev.buffer_size);
-# endif
-# ifdef EGL_COLOR_BUFFER_TYPE
-	BOOST_CHECK(x != ev.color_buffer_type);
-# endif
-# ifdef EGL_CONFIG_CAVEAT
-	BOOST_CHECK(x != ev.config_caveat);
-# endif
-# ifdef EGL_CONFIG_ID
-	BOOST_CHECK(x != ev.config_id);
-# endif
-# ifdef EGL_CONFORMANT
-	BOOST_CHECK(x != ev.conformant);
-# endif
-# ifdef EGL_DEPTH_SIZE
-	BOOST_CHECK(x != ev.depth_size);
-# endif
-# ifdef EGL_GREEN_SIZE
-	BOOST_CHECK(x != ev.green_size);
-# endif
-# ifdef EGL_LEVEL
-	BOOST_CHECK(x != ev.level);
-# endif
-# ifdef EGL_LUMINANCE_SIZE
-	BOOST_CHECK(x != ev.luminance_size);
-# endif
-# ifdef EGL_MAX_PBUFFER_HEIGHT
-	BOOST_CHECK(x != ev.max_pbuffer_height);
-# endif
-# ifdef EGL_MAX_PBUFFER_PIXELS
-	BOOST_CHECK(x != ev.max_pbuffer_pixels);
-# endif
-# ifdef EGL_MAX_PBUFFER_WIDTH
-	BOOST_CHECK(x != ev.max_pbuffer_width);
-# endif
 	BOOST_CHECK(x == ev.max_swap_interval);
 # ifdef EGL_MIN_SWAP_INTERVAL
 	BOOST_CHECK(x != ev.min_swap_interval);
@@ -1792,60 +1333,6 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_values)
 
 #ifdef EGL_MIN_SWAP_INTERVAL
 	x = ev.min_swap_interval;
-# ifdef EGL_ALPHA_MASK_SIZE
-	BOOST_CHECK(x != ev.alpha_mask_size);
-# endif
-# ifdef EGL_ALPHA_SIZE
-	BOOST_CHECK(x != ev.alpha_size);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGB
-	BOOST_CHECK(x != ev.bind_to_texture_rgb);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGBA
-	BOOST_CHECK(x != ev.bind_to_texture_rgba);
-# endif
-# ifdef EGL_BLUE_SIZE
-	BOOST_CHECK(x != ev.blue_size);
-# endif
-# ifdef EGL_BUFFER_SIZE
-	BOOST_CHECK(x != ev.buffer_size);
-# endif
-# ifdef EGL_COLOR_BUFFER_TYPE
-	BOOST_CHECK(x != ev.color_buffer_type);
-# endif
-# ifdef EGL_CONFIG_CAVEAT
-	BOOST_CHECK(x != ev.config_caveat);
-# endif
-# ifdef EGL_CONFIG_ID
-	BOOST_CHECK(x != ev.config_id);
-# endif
-# ifdef EGL_CONFORMANT
-	BOOST_CHECK(x != ev.conformant);
-# endif
-# ifdef EGL_DEPTH_SIZE
-	BOOST_CHECK(x != ev.depth_size);
-# endif
-# ifdef EGL_GREEN_SIZE
-	BOOST_CHECK(x != ev.green_size);
-# endif
-# ifdef EGL_LEVEL
-	BOOST_CHECK(x != ev.level);
-# endif
-# ifdef EGL_LUMINANCE_SIZE
-	BOOST_CHECK(x != ev.luminance_size);
-# endif
-# ifdef EGL_MAX_PBUFFER_HEIGHT
-	BOOST_CHECK(x != ev.max_pbuffer_height);
-# endif
-# ifdef EGL_MAX_PBUFFER_PIXELS
-	BOOST_CHECK(x != ev.max_pbuffer_pixels);
-# endif
-# ifdef EGL_MAX_PBUFFER_WIDTH
-	BOOST_CHECK(x != ev.max_pbuffer_width);
-# endif
-# ifdef EGL_MAX_SWAP_INTERVAL
-	BOOST_CHECK(x != ev.max_swap_interval);
-# endif
 	BOOST_CHECK(x == ev.min_swap_interval);
 # ifdef EGL_NATIVE_RENDERABLE
 	BOOST_CHECK(x != ev.native_renderable);
@@ -1890,63 +1377,6 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_values)
 
 #ifdef EGL_NATIVE_RENDERABLE
 	x = ev.native_renderable;
-# ifdef EGL_ALPHA_MASK_SIZE
-	BOOST_CHECK(x != ev.alpha_mask_size);
-# endif
-# ifdef EGL_ALPHA_SIZE
-	BOOST_CHECK(x != ev.alpha_size);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGB
-	BOOST_CHECK(x != ev.bind_to_texture_rgb);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGBA
-	BOOST_CHECK(x != ev.bind_to_texture_rgba);
-# endif
-# ifdef EGL_BLUE_SIZE
-	BOOST_CHECK(x != ev.blue_size);
-# endif
-# ifdef EGL_BUFFER_SIZE
-	BOOST_CHECK(x != ev.buffer_size);
-# endif
-# ifdef EGL_COLOR_BUFFER_TYPE
-	BOOST_CHECK(x != ev.color_buffer_type);
-# endif
-# ifdef EGL_CONFIG_CAVEAT
-	BOOST_CHECK(x != ev.config_caveat);
-# endif
-# ifdef EGL_CONFIG_ID
-	BOOST_CHECK(x != ev.config_id);
-# endif
-# ifdef EGL_CONFORMANT
-	BOOST_CHECK(x != ev.conformant);
-# endif
-# ifdef EGL_DEPTH_SIZE
-	BOOST_CHECK(x != ev.depth_size);
-# endif
-# ifdef EGL_GREEN_SIZE
-	BOOST_CHECK(x != ev.green_size);
-# endif
-# ifdef EGL_LEVEL
-	BOOST_CHECK(x != ev.level);
-# endif
-# ifdef EGL_LUMINANCE_SIZE
-	BOOST_CHECK(x != ev.luminance_size);
-# endif
-# ifdef EGL_MAX_PBUFFER_HEIGHT
-	BOOST_CHECK(x != ev.max_pbuffer_height);
-# endif
-# ifdef EGL_MAX_PBUFFER_PIXELS
-	BOOST_CHECK(x != ev.max_pbuffer_pixels);
-# endif
-# ifdef EGL_MAX_PBUFFER_WIDTH
-	BOOST_CHECK(x != ev.max_pbuffer_width);
-# endif
-# ifdef EGL_MAX_SWAP_INTERVAL
-	BOOST_CHECK(x != ev.max_swap_interval);
-# endif
-# ifdef EGL_MIN_SWAP_INTERVAL
-	BOOST_CHECK(x != ev.min_swap_interval);
-# endif
 	BOOST_CHECK(x == ev.native_renderable);
 # ifdef EGL_NATIVE_VISUAL_ID
 	BOOST_CHECK(x != ev.native_visual_id);
@@ -1988,66 +1418,6 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_values)
 
 #ifdef EGL_NATIVE_VISUAL_ID
 	x = ev.native_visual_id;
-# ifdef EGL_ALPHA_MASK_SIZE
-	BOOST_CHECK(x != ev.alpha_mask_size);
-# endif
-# ifdef EGL_ALPHA_SIZE
-	BOOST_CHECK(x != ev.alpha_size);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGB
-	BOOST_CHECK(x != ev.bind_to_texture_rgb);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGBA
-	BOOST_CHECK(x != ev.bind_to_texture_rgba);
-# endif
-# ifdef EGL_BLUE_SIZE
-	BOOST_CHECK(x != ev.blue_size);
-# endif
-# ifdef EGL_BUFFER_SIZE
-	BOOST_CHECK(x != ev.buffer_size);
-# endif
-# ifdef EGL_COLOR_BUFFER_TYPE
-	BOOST_CHECK(x != ev.color_buffer_type);
-# endif
-# ifdef EGL_CONFIG_CAVEAT
-	BOOST_CHECK(x != ev.config_caveat);
-# endif
-# ifdef EGL_CONFIG_ID
-	BOOST_CHECK(x != ev.config_id);
-# endif
-# ifdef EGL_CONFORMANT
-	BOOST_CHECK(x != ev.conformant);
-# endif
-# ifdef EGL_DEPTH_SIZE
-	BOOST_CHECK(x != ev.depth_size);
-# endif
-# ifdef EGL_GREEN_SIZE
-	BOOST_CHECK(x != ev.green_size);
-# endif
-# ifdef EGL_LEVEL
-	BOOST_CHECK(x != ev.level);
-# endif
-# ifdef EGL_LUMINANCE_SIZE
-	BOOST_CHECK(x != ev.luminance_size);
-# endif
-# ifdef EGL_MAX_PBUFFER_HEIGHT
-	BOOST_CHECK(x != ev.max_pbuffer_height);
-# endif
-# ifdef EGL_MAX_PBUFFER_PIXELS
-	BOOST_CHECK(x != ev.max_pbuffer_pixels);
-# endif
-# ifdef EGL_MAX_PBUFFER_WIDTH
-	BOOST_CHECK(x != ev.max_pbuffer_width);
-# endif
-# ifdef EGL_MAX_SWAP_INTERVAL
-	BOOST_CHECK(x != ev.max_swap_interval);
-# endif
-# ifdef EGL_MIN_SWAP_INTERVAL
-	BOOST_CHECK(x != ev.min_swap_interval);
-# endif
-# ifdef EGL_NATIVE_RENDERABLE
-	BOOST_CHECK(x != ev.native_renderable);
-# endif
 	BOOST_CHECK(x == ev.native_visual_id);
 # ifdef EGL_NATIVE_VISUAL_TYPE
 	BOOST_CHECK(x != ev.native_visual_type);
@@ -2086,69 +1456,6 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_values)
 
 #ifdef EGL_NATIVE_VISUAL_TYPE
 	x = ev.native_visual_type;
-# ifdef EGL_ALPHA_MASK_SIZE
-	BOOST_CHECK(x != ev.alpha_mask_size);
-# endif
-# ifdef EGL_ALPHA_SIZE
-	BOOST_CHECK(x != ev.alpha_size);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGB
-	BOOST_CHECK(x != ev.bind_to_texture_rgb);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGBA
-	BOOST_CHECK(x != ev.bind_to_texture_rgba);
-# endif
-# ifdef EGL_BLUE_SIZE
-	BOOST_CHECK(x != ev.blue_size);
-# endif
-# ifdef EGL_BUFFER_SIZE
-	BOOST_CHECK(x != ev.buffer_size);
-# endif
-# ifdef EGL_COLOR_BUFFER_TYPE
-	BOOST_CHECK(x != ev.color_buffer_type);
-# endif
-# ifdef EGL_CONFIG_CAVEAT
-	BOOST_CHECK(x != ev.config_caveat);
-# endif
-# ifdef EGL_CONFIG_ID
-	BOOST_CHECK(x != ev.config_id);
-# endif
-# ifdef EGL_CONFORMANT
-	BOOST_CHECK(x != ev.conformant);
-# endif
-# ifdef EGL_DEPTH_SIZE
-	BOOST_CHECK(x != ev.depth_size);
-# endif
-# ifdef EGL_GREEN_SIZE
-	BOOST_CHECK(x != ev.green_size);
-# endif
-# ifdef EGL_LEVEL
-	BOOST_CHECK(x != ev.level);
-# endif
-# ifdef EGL_LUMINANCE_SIZE
-	BOOST_CHECK(x != ev.luminance_size);
-# endif
-# ifdef EGL_MAX_PBUFFER_HEIGHT
-	BOOST_CHECK(x != ev.max_pbuffer_height);
-# endif
-# ifdef EGL_MAX_PBUFFER_PIXELS
-	BOOST_CHECK(x != ev.max_pbuffer_pixels);
-# endif
-# ifdef EGL_MAX_PBUFFER_WIDTH
-	BOOST_CHECK(x != ev.max_pbuffer_width);
-# endif
-# ifdef EGL_MAX_SWAP_INTERVAL
-	BOOST_CHECK(x != ev.max_swap_interval);
-# endif
-# ifdef EGL_MIN_SWAP_INTERVAL
-	BOOST_CHECK(x != ev.min_swap_interval);
-# endif
-# ifdef EGL_NATIVE_RENDERABLE
-	BOOST_CHECK(x != ev.native_renderable);
-# endif
-# ifdef EGL_NATIVE_VISUAL_ID
-	BOOST_CHECK(x != ev.native_visual_id);
-# endif
 	BOOST_CHECK(x == ev.native_visual_type);
 # ifdef EGL_RED_SIZE
 	BOOST_CHECK(x != ev.red_size);
@@ -2184,72 +1491,6 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_values)
 
 #ifdef EGL_RED_SIZE
 	x = ev.red_size;
-# ifdef EGL_ALPHA_MASK_SIZE
-	BOOST_CHECK(x != ev.alpha_mask_size);
-# endif
-# ifdef EGL_ALPHA_SIZE
-	BOOST_CHECK(x != ev.alpha_size);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGB
-	BOOST_CHECK(x != ev.bind_to_texture_rgb);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGBA
-	BOOST_CHECK(x != ev.bind_to_texture_rgba);
-# endif
-# ifdef EGL_BLUE_SIZE
-	BOOST_CHECK(x != ev.blue_size);
-# endif
-# ifdef EGL_BUFFER_SIZE
-	BOOST_CHECK(x != ev.buffer_size);
-# endif
-# ifdef EGL_COLOR_BUFFER_TYPE
-	BOOST_CHECK(x != ev.color_buffer_type);
-# endif
-# ifdef EGL_CONFIG_CAVEAT
-	BOOST_CHECK(x != ev.config_caveat);
-# endif
-# ifdef EGL_CONFIG_ID
-	BOOST_CHECK(x != ev.config_id);
-# endif
-# ifdef EGL_CONFORMANT
-	BOOST_CHECK(x != ev.conformant);
-# endif
-# ifdef EGL_DEPTH_SIZE
-	BOOST_CHECK(x != ev.depth_size);
-# endif
-# ifdef EGL_GREEN_SIZE
-	BOOST_CHECK(x != ev.green_size);
-# endif
-# ifdef EGL_LEVEL
-	BOOST_CHECK(x != ev.level);
-# endif
-# ifdef EGL_LUMINANCE_SIZE
-	BOOST_CHECK(x != ev.luminance_size);
-# endif
-# ifdef EGL_MAX_PBUFFER_HEIGHT
-	BOOST_CHECK(x != ev.max_pbuffer_height);
-# endif
-# ifdef EGL_MAX_PBUFFER_PIXELS
-	BOOST_CHECK(x != ev.max_pbuffer_pixels);
-# endif
-# ifdef EGL_MAX_PBUFFER_WIDTH
-	BOOST_CHECK(x != ev.max_pbuffer_width);
-# endif
-# ifdef EGL_MAX_SWAP_INTERVAL
-	BOOST_CHECK(x != ev.max_swap_interval);
-# endif
-# ifdef EGL_MIN_SWAP_INTERVAL
-	BOOST_CHECK(x != ev.min_swap_interval);
-# endif
-# ifdef EGL_NATIVE_RENDERABLE
-	BOOST_CHECK(x != ev.native_renderable);
-# endif
-# ifdef EGL_NATIVE_VISUAL_ID
-	BOOST_CHECK(x != ev.native_visual_id);
-# endif
-# ifdef EGL_NATIVE_VISUAL_TYPE
-	BOOST_CHECK(x != ev.native_visual_type);
-# endif
 	BOOST_CHECK(x == ev.red_size);
 # ifdef EGL_RENDERABLE_TYPE
 	BOOST_CHECK(x != ev.renderable_type);
@@ -2282,75 +1523,6 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_values)
 
 #ifdef EGL_RENDERABLE_TYPE
 	x = ev.renderable_type;
-# ifdef EGL_ALPHA_MASK_SIZE
-	BOOST_CHECK(x != ev.alpha_mask_size);
-# endif
-# ifdef EGL_ALPHA_SIZE
-	BOOST_CHECK(x != ev.alpha_size);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGB
-	BOOST_CHECK(x != ev.bind_to_texture_rgb);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGBA
-	BOOST_CHECK(x != ev.bind_to_texture_rgba);
-# endif
-# ifdef EGL_BLUE_SIZE
-	BOOST_CHECK(x != ev.blue_size);
-# endif
-# ifdef EGL_BUFFER_SIZE
-	BOOST_CHECK(x != ev.buffer_size);
-# endif
-# ifdef EGL_COLOR_BUFFER_TYPE
-	BOOST_CHECK(x != ev.color_buffer_type);
-# endif
-# ifdef EGL_CONFIG_CAVEAT
-	BOOST_CHECK(x != ev.config_caveat);
-# endif
-# ifdef EGL_CONFIG_ID
-	BOOST_CHECK(x != ev.config_id);
-# endif
-# ifdef EGL_CONFORMANT
-	BOOST_CHECK(x != ev.conformant);
-# endif
-# ifdef EGL_DEPTH_SIZE
-	BOOST_CHECK(x != ev.depth_size);
-# endif
-# ifdef EGL_GREEN_SIZE
-	BOOST_CHECK(x != ev.green_size);
-# endif
-# ifdef EGL_LEVEL
-	BOOST_CHECK(x != ev.level);
-# endif
-# ifdef EGL_LUMINANCE_SIZE
-	BOOST_CHECK(x != ev.luminance_size);
-# endif
-# ifdef EGL_MAX_PBUFFER_HEIGHT
-	BOOST_CHECK(x != ev.max_pbuffer_height);
-# endif
-# ifdef EGL_MAX_PBUFFER_PIXELS
-	BOOST_CHECK(x != ev.max_pbuffer_pixels);
-# endif
-# ifdef EGL_MAX_PBUFFER_WIDTH
-	BOOST_CHECK(x != ev.max_pbuffer_width);
-# endif
-# ifdef EGL_MAX_SWAP_INTERVAL
-	BOOST_CHECK(x != ev.max_swap_interval);
-# endif
-# ifdef EGL_MIN_SWAP_INTERVAL
-	BOOST_CHECK(x != ev.min_swap_interval);
-# endif
-# ifdef EGL_NATIVE_RENDERABLE
-	BOOST_CHECK(x != ev.native_renderable);
-# endif
-# ifdef EGL_NATIVE_VISUAL_ID
-	BOOST_CHECK(x != ev.native_visual_id);
-# endif
-# ifdef EGL_NATIVE_VISUAL_TYPE
-	BOOST_CHECK(x != ev.native_visual_type);
-# endif
-# ifdef EGL_RED_SIZE
-	BOOST_CHECK(x != ev.red_size);
-# endif
 	BOOST_CHECK(x == ev.renderable_type);
 # ifdef EGL_SAMPLE_BUFFERS
 	BOOST_CHECK(x != ev.sample_buffers);
@@ -2380,78 +1552,6 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_values)
 
 #ifdef EGL_SAMPLE_BUFFERS
 	x = ev.sample_buffers;
-# ifdef EGL_ALPHA_MASK_SIZE
-	BOOST_CHECK(x != ev.alpha_mask_size);
-# endif
-# ifdef EGL_ALPHA_SIZE
-	BOOST_CHECK(x != ev.alpha_size);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGB
-	BOOST_CHECK(x != ev.bind_to_texture_rgb);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGBA
-	BOOST_CHECK(x != ev.bind_to_texture_rgba);
-# endif
-# ifdef EGL_BLUE_SIZE
-	BOOST_CHECK(x != ev.blue_size);
-# endif
-# ifdef EGL_BUFFER_SIZE
-	BOOST_CHECK(x != ev.buffer_size);
-# endif
-# ifdef EGL_COLOR_BUFFER_TYPE
-	BOOST_CHECK(x != ev.color_buffer_type);
-# endif
-# ifdef EGL_CONFIG_CAVEAT
-	BOOST_CHECK(x != ev.config_caveat);
-# endif
-# ifdef EGL_CONFIG_ID
-	BOOST_CHECK(x != ev.config_id);
-# endif
-# ifdef EGL_CONFORMANT
-	BOOST_CHECK(x != ev.conformant);
-# endif
-# ifdef EGL_DEPTH_SIZE
-	BOOST_CHECK(x != ev.depth_size);
-# endif
-# ifdef EGL_GREEN_SIZE
-	BOOST_CHECK(x != ev.green_size);
-# endif
-# ifdef EGL_LEVEL
-	BOOST_CHECK(x != ev.level);
-# endif
-# ifdef EGL_LUMINANCE_SIZE
-	BOOST_CHECK(x != ev.luminance_size);
-# endif
-# ifdef EGL_MAX_PBUFFER_HEIGHT
-	BOOST_CHECK(x != ev.max_pbuffer_height);
-# endif
-# ifdef EGL_MAX_PBUFFER_PIXELS
-	BOOST_CHECK(x != ev.max_pbuffer_pixels);
-# endif
-# ifdef EGL_MAX_PBUFFER_WIDTH
-	BOOST_CHECK(x != ev.max_pbuffer_width);
-# endif
-# ifdef EGL_MAX_SWAP_INTERVAL
-	BOOST_CHECK(x != ev.max_swap_interval);
-# endif
-# ifdef EGL_MIN_SWAP_INTERVAL
-	BOOST_CHECK(x != ev.min_swap_interval);
-# endif
-# ifdef EGL_NATIVE_RENDERABLE
-	BOOST_CHECK(x != ev.native_renderable);
-# endif
-# ifdef EGL_NATIVE_VISUAL_ID
-	BOOST_CHECK(x != ev.native_visual_id);
-# endif
-# ifdef EGL_NATIVE_VISUAL_TYPE
-	BOOST_CHECK(x != ev.native_visual_type);
-# endif
-# ifdef EGL_RED_SIZE
-	BOOST_CHECK(x != ev.red_size);
-# endif
-# ifdef EGL_RENDERABLE_TYPE
-	BOOST_CHECK(x != ev.renderable_type);
-# endif
 	BOOST_CHECK(x == ev.sample_buffers);
 # ifdef EGL_SAMPLES
 	BOOST_CHECK(x != ev.samples);
@@ -2478,81 +1578,6 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_values)
 
 #ifdef EGL_SAMPLES
 	x = ev.samples;
-# ifdef EGL_ALPHA_MASK_SIZE
-	BOOST_CHECK(x != ev.alpha_mask_size);
-# endif
-# ifdef EGL_ALPHA_SIZE
-	BOOST_CHECK(x != ev.alpha_size);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGB
-	BOOST_CHECK(x != ev.bind_to_texture_rgb);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGBA
-	BOOST_CHECK(x != ev.bind_to_texture_rgba);
-# endif
-# ifdef EGL_BLUE_SIZE
-	BOOST_CHECK(x != ev.blue_size);
-# endif
-# ifdef EGL_BUFFER_SIZE
-	BOOST_CHECK(x != ev.buffer_size);
-# endif
-# ifdef EGL_COLOR_BUFFER_TYPE
-	BOOST_CHECK(x != ev.color_buffer_type);
-# endif
-# ifdef EGL_CONFIG_CAVEAT
-	BOOST_CHECK(x != ev.config_caveat);
-# endif
-# ifdef EGL_CONFIG_ID
-	BOOST_CHECK(x != ev.config_id);
-# endif
-# ifdef EGL_CONFORMANT
-	BOOST_CHECK(x != ev.conformant);
-# endif
-# ifdef EGL_DEPTH_SIZE
-	BOOST_CHECK(x != ev.depth_size);
-# endif
-# ifdef EGL_GREEN_SIZE
-	BOOST_CHECK(x != ev.green_size);
-# endif
-# ifdef EGL_LEVEL
-	BOOST_CHECK(x != ev.level);
-# endif
-# ifdef EGL_LUMINANCE_SIZE
-	BOOST_CHECK(x != ev.luminance_size);
-# endif
-# ifdef EGL_MAX_PBUFFER_HEIGHT
-	BOOST_CHECK(x != ev.max_pbuffer_height);
-# endif
-# ifdef EGL_MAX_PBUFFER_PIXELS
-	BOOST_CHECK(x != ev.max_pbuffer_pixels);
-# endif
-# ifdef EGL_MAX_PBUFFER_WIDTH
-	BOOST_CHECK(x != ev.max_pbuffer_width);
-# endif
-# ifdef EGL_MAX_SWAP_INTERVAL
-	BOOST_CHECK(x != ev.max_swap_interval);
-# endif
-# ifdef EGL_MIN_SWAP_INTERVAL
-	BOOST_CHECK(x != ev.min_swap_interval);
-# endif
-# ifdef EGL_NATIVE_RENDERABLE
-	BOOST_CHECK(x != ev.native_renderable);
-# endif
-# ifdef EGL_NATIVE_VISUAL_ID
-	BOOST_CHECK(x != ev.native_visual_id);
-# endif
-# ifdef EGL_NATIVE_VISUAL_TYPE
-	BOOST_CHECK(x != ev.native_visual_type);
-# endif
-# ifdef EGL_RED_SIZE
-	BOOST_CHECK(x != ev.red_size);
-# endif
-# ifdef EGL_RENDERABLE_TYPE
-	BOOST_CHECK(x != ev.renderable_type);
-# endif
-# ifdef EGL_SAMPLE_BUFFERS
-	BOOST_CHECK(x != ev.sample_buffers);
-# endif
 	BOOST_CHECK(x == ev.samples);
 # ifdef EGL_STENCIL_SIZE
 	BOOST_CHECK(x != ev.stencil_size);
@@ -2576,84 +1601,6 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_values)
 
 #ifdef EGL_STENCIL_SIZE
 	x = ev.stencil_size;
-# ifdef EGL_ALPHA_MASK_SIZE
-	BOOST_CHECK(x != ev.alpha_mask_size);
-# endif
-# ifdef EGL_ALPHA_SIZE
-	BOOST_CHECK(x != ev.alpha_size);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGB
-	BOOST_CHECK(x != ev.bind_to_texture_rgb);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGBA
-	BOOST_CHECK(x != ev.bind_to_texture_rgba);
-# endif
-# ifdef EGL_BLUE_SIZE
-	BOOST_CHECK(x != ev.blue_size);
-# endif
-# ifdef EGL_BUFFER_SIZE
-	BOOST_CHECK(x != ev.buffer_size);
-# endif
-# ifdef EGL_COLOR_BUFFER_TYPE
-	BOOST_CHECK(x != ev.color_buffer_type);
-# endif
-# ifdef EGL_CONFIG_CAVEAT
-	BOOST_CHECK(x != ev.config_caveat);
-# endif
-# ifdef EGL_CONFIG_ID
-	BOOST_CHECK(x != ev.config_id);
-# endif
-# ifdef EGL_CONFORMANT
-	BOOST_CHECK(x != ev.conformant);
-# endif
-# ifdef EGL_DEPTH_SIZE
-	BOOST_CHECK(x != ev.depth_size);
-# endif
-# ifdef EGL_GREEN_SIZE
-	BOOST_CHECK(x != ev.green_size);
-# endif
-# ifdef EGL_LEVEL
-	BOOST_CHECK(x != ev.level);
-# endif
-# ifdef EGL_LUMINANCE_SIZE
-	BOOST_CHECK(x != ev.luminance_size);
-# endif
-# ifdef EGL_MAX_PBUFFER_HEIGHT
-	BOOST_CHECK(x != ev.max_pbuffer_height);
-# endif
-# ifdef EGL_MAX_PBUFFER_PIXELS
-	BOOST_CHECK(x != ev.max_pbuffer_pixels);
-# endif
-# ifdef EGL_MAX_PBUFFER_WIDTH
-	BOOST_CHECK(x != ev.max_pbuffer_width);
-# endif
-# ifdef EGL_MAX_SWAP_INTERVAL
-	BOOST_CHECK(x != ev.max_swap_interval);
-# endif
-# ifdef EGL_MIN_SWAP_INTERVAL
-	BOOST_CHECK(x != ev.min_swap_interval);
-# endif
-# ifdef EGL_NATIVE_RENDERABLE
-	BOOST_CHECK(x != ev.native_renderable);
-# endif
-# ifdef EGL_NATIVE_VISUAL_ID
-	BOOST_CHECK(x != ev.native_visual_id);
-# endif
-# ifdef EGL_NATIVE_VISUAL_TYPE
-	BOOST_CHECK(x != ev.native_visual_type);
-# endif
-# ifdef EGL_RED_SIZE
-	BOOST_CHECK(x != ev.red_size);
-# endif
-# ifdef EGL_RENDERABLE_TYPE
-	BOOST_CHECK(x != ev.renderable_type);
-# endif
-# ifdef EGL_SAMPLE_BUFFERS
-	BOOST_CHECK(x != ev.sample_buffers);
-# endif
-# ifdef EGL_SAMPLES
-	BOOST_CHECK(x != ev.samples);
-# endif
 	BOOST_CHECK(x == ev.stencil_size);
 # ifdef EGL_SURFACE_TYPE
 	BOOST_CHECK(x != ev.surface_type);
@@ -2674,87 +1621,6 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_values)
 
 #ifdef EGL_SURFACE_TYPE
 	x = ev.surface_type;
-# ifdef EGL_ALPHA_MASK_SIZE
-	BOOST_CHECK(x != ev.alpha_mask_size);
-# endif
-# ifdef EGL_ALPHA_SIZE
-	BOOST_CHECK(x != ev.alpha_size);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGB
-	BOOST_CHECK(x != ev.bind_to_texture_rgb);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGBA
-	BOOST_CHECK(x != ev.bind_to_texture_rgba);
-# endif
-# ifdef EGL_BLUE_SIZE
-	BOOST_CHECK(x != ev.blue_size);
-# endif
-# ifdef EGL_BUFFER_SIZE
-	BOOST_CHECK(x != ev.buffer_size);
-# endif
-# ifdef EGL_COLOR_BUFFER_TYPE
-	BOOST_CHECK(x != ev.color_buffer_type);
-# endif
-# ifdef EGL_CONFIG_CAVEAT
-	BOOST_CHECK(x != ev.config_caveat);
-# endif
-# ifdef EGL_CONFIG_ID
-	BOOST_CHECK(x != ev.config_id);
-# endif
-# ifdef EGL_CONFORMANT
-	BOOST_CHECK(x != ev.conformant);
-# endif
-# ifdef EGL_DEPTH_SIZE
-	BOOST_CHECK(x != ev.depth_size);
-# endif
-# ifdef EGL_GREEN_SIZE
-	BOOST_CHECK(x != ev.green_size);
-# endif
-# ifdef EGL_LEVEL
-	BOOST_CHECK(x != ev.level);
-# endif
-# ifdef EGL_LUMINANCE_SIZE
-	BOOST_CHECK(x != ev.luminance_size);
-# endif
-# ifdef EGL_MAX_PBUFFER_HEIGHT
-	BOOST_CHECK(x != ev.max_pbuffer_height);
-# endif
-# ifdef EGL_MAX_PBUFFER_PIXELS
-	BOOST_CHECK(x != ev.max_pbuffer_pixels);
-# endif
-# ifdef EGL_MAX_PBUFFER_WIDTH
-	BOOST_CHECK(x != ev.max_pbuffer_width);
-# endif
-# ifdef EGL_MAX_SWAP_INTERVAL
-	BOOST_CHECK(x != ev.max_swap_interval);
-# endif
-# ifdef EGL_MIN_SWAP_INTERVAL
-	BOOST_CHECK(x != ev.min_swap_interval);
-# endif
-# ifdef EGL_NATIVE_RENDERABLE
-	BOOST_CHECK(x != ev.native_renderable);
-# endif
-# ifdef EGL_NATIVE_VISUAL_ID
-	BOOST_CHECK(x != ev.native_visual_id);
-# endif
-# ifdef EGL_NATIVE_VISUAL_TYPE
-	BOOST_CHECK(x != ev.native_visual_type);
-# endif
-# ifdef EGL_RED_SIZE
-	BOOST_CHECK(x != ev.red_size);
-# endif
-# ifdef EGL_RENDERABLE_TYPE
-	BOOST_CHECK(x != ev.renderable_type);
-# endif
-# ifdef EGL_SAMPLE_BUFFERS
-	BOOST_CHECK(x != ev.sample_buffers);
-# endif
-# ifdef EGL_SAMPLES
-	BOOST_CHECK(x != ev.samples);
-# endif
-# ifdef EGL_STENCIL_SIZE
-	BOOST_CHECK(x != ev.stencil_size);
-# endif
 	BOOST_CHECK(x == ev.surface_type);
 # ifdef EGL_TRANSPARENT_BLUE_VALUE
 	BOOST_CHECK(x != ev.transparent_blue_value);
@@ -2772,90 +1638,6 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_values)
 
 #ifdef EGL_TRANSPARENT_BLUE_VALUE
 	x = ev.transparent_blue_value;
-# ifdef EGL_ALPHA_MASK_SIZE
-	BOOST_CHECK(x != ev.alpha_mask_size);
-# endif
-# ifdef EGL_ALPHA_SIZE
-	BOOST_CHECK(x != ev.alpha_size);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGB
-	BOOST_CHECK(x != ev.bind_to_texture_rgb);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGBA
-	BOOST_CHECK(x != ev.bind_to_texture_rgba);
-# endif
-# ifdef EGL_BLUE_SIZE
-	BOOST_CHECK(x != ev.blue_size);
-# endif
-# ifdef EGL_BUFFER_SIZE
-	BOOST_CHECK(x != ev.buffer_size);
-# endif
-# ifdef EGL_COLOR_BUFFER_TYPE
-	BOOST_CHECK(x != ev.color_buffer_type);
-# endif
-# ifdef EGL_CONFIG_CAVEAT
-	BOOST_CHECK(x != ev.config_caveat);
-# endif
-# ifdef EGL_CONFIG_ID
-	BOOST_CHECK(x != ev.config_id);
-# endif
-# ifdef EGL_CONFORMANT
-	BOOST_CHECK(x != ev.conformant);
-# endif
-# ifdef EGL_DEPTH_SIZE
-	BOOST_CHECK(x != ev.depth_size);
-# endif
-# ifdef EGL_GREEN_SIZE
-	BOOST_CHECK(x != ev.green_size);
-# endif
-# ifdef EGL_LEVEL
-	BOOST_CHECK(x != ev.level);
-# endif
-# ifdef EGL_LUMINANCE_SIZE
-	BOOST_CHECK(x != ev.luminance_size);
-# endif
-# ifdef EGL_MAX_PBUFFER_HEIGHT
-	BOOST_CHECK(x != ev.max_pbuffer_height);
-# endif
-# ifdef EGL_MAX_PBUFFER_PIXELS
-	BOOST_CHECK(x != ev.max_pbuffer_pixels);
-# endif
-# ifdef EGL_MAX_PBUFFER_WIDTH
-	BOOST_CHECK(x != ev.max_pbuffer_width);
-# endif
-# ifdef EGL_MAX_SWAP_INTERVAL
-	BOOST_CHECK(x != ev.max_swap_interval);
-# endif
-# ifdef EGL_MIN_SWAP_INTERVAL
-	BOOST_CHECK(x != ev.min_swap_interval);
-# endif
-# ifdef EGL_NATIVE_RENDERABLE
-	BOOST_CHECK(x != ev.native_renderable);
-# endif
-# ifdef EGL_NATIVE_VISUAL_ID
-	BOOST_CHECK(x != ev.native_visual_id);
-# endif
-# ifdef EGL_NATIVE_VISUAL_TYPE
-	BOOST_CHECK(x != ev.native_visual_type);
-# endif
-# ifdef EGL_RED_SIZE
-	BOOST_CHECK(x != ev.red_size);
-# endif
-# ifdef EGL_RENDERABLE_TYPE
-	BOOST_CHECK(x != ev.renderable_type);
-# endif
-# ifdef EGL_SAMPLE_BUFFERS
-	BOOST_CHECK(x != ev.sample_buffers);
-# endif
-# ifdef EGL_SAMPLES
-	BOOST_CHECK(x != ev.samples);
-# endif
-# ifdef EGL_STENCIL_SIZE
-	BOOST_CHECK(x != ev.stencil_size);
-# endif
-# ifdef EGL_SURFACE_TYPE
-	BOOST_CHECK(x != ev.surface_type);
-# endif
 	BOOST_CHECK(x == ev.transparent_blue_value);
 # ifdef EGL_TRANSPARENT_GREEN_VALUE
 	BOOST_CHECK(x != ev.transparent_green_value);
@@ -2870,93 +1652,6 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_values)
 
 #ifdef EGL_TRANSPARENT_GREEN_VALUE
 	x = ev.transparent_green_value;
-# ifdef EGL_ALPHA_MASK_SIZE
-	BOOST_CHECK(x != ev.alpha_mask_size);
-# endif
-# ifdef EGL_ALPHA_SIZE
-	BOOST_CHECK(x != ev.alpha_size);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGB
-	BOOST_CHECK(x != ev.bind_to_texture_rgb);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGBA
-	BOOST_CHECK(x != ev.bind_to_texture_rgba);
-# endif
-# ifdef EGL_BLUE_SIZE
-	BOOST_CHECK(x != ev.blue_size);
-# endif
-# ifdef EGL_BUFFER_SIZE
-	BOOST_CHECK(x != ev.buffer_size);
-# endif
-# ifdef EGL_COLOR_BUFFER_TYPE
-	BOOST_CHECK(x != ev.color_buffer_type);
-# endif
-# ifdef EGL_CONFIG_CAVEAT
-	BOOST_CHECK(x != ev.config_caveat);
-# endif
-# ifdef EGL_CONFIG_ID
-	BOOST_CHECK(x != ev.config_id);
-# endif
-# ifdef EGL_CONFORMANT
-	BOOST_CHECK(x != ev.conformant);
-# endif
-# ifdef EGL_DEPTH_SIZE
-	BOOST_CHECK(x != ev.depth_size);
-# endif
-# ifdef EGL_GREEN_SIZE
-	BOOST_CHECK(x != ev.green_size);
-# endif
-# ifdef EGL_LEVEL
-	BOOST_CHECK(x != ev.level);
-# endif
-# ifdef EGL_LUMINANCE_SIZE
-	BOOST_CHECK(x != ev.luminance_size);
-# endif
-# ifdef EGL_MAX_PBUFFER_HEIGHT
-	BOOST_CHECK(x != ev.max_pbuffer_height);
-# endif
-# ifdef EGL_MAX_PBUFFER_PIXELS
-	BOOST_CHECK(x != ev.max_pbuffer_pixels);
-# endif
-# ifdef EGL_MAX_PBUFFER_WIDTH
-	BOOST_CHECK(x != ev.max_pbuffer_width);
-# endif
-# ifdef EGL_MAX_SWAP_INTERVAL
-	BOOST_CHECK(x != ev.max_swap_interval);
-# endif
-# ifdef EGL_MIN_SWAP_INTERVAL
-	BOOST_CHECK(x != ev.min_swap_interval);
-# endif
-# ifdef EGL_NATIVE_RENDERABLE
-	BOOST_CHECK(x != ev.native_renderable);
-# endif
-# ifdef EGL_NATIVE_VISUAL_ID
-	BOOST_CHECK(x != ev.native_visual_id);
-# endif
-# ifdef EGL_NATIVE_VISUAL_TYPE
-	BOOST_CHECK(x != ev.native_visual_type);
-# endif
-# ifdef EGL_RED_SIZE
-	BOOST_CHECK(x != ev.red_size);
-# endif
-# ifdef EGL_RENDERABLE_TYPE
-	BOOST_CHECK(x != ev.renderable_type);
-# endif
-# ifdef EGL_SAMPLE_BUFFERS
-	BOOST_CHECK(x != ev.sample_buffers);
-# endif
-# ifdef EGL_SAMPLES
-	BOOST_CHECK(x != ev.samples);
-# endif
-# ifdef EGL_STENCIL_SIZE
-	BOOST_CHECK(x != ev.stencil_size);
-# endif
-# ifdef EGL_SURFACE_TYPE
-	BOOST_CHECK(x != ev.surface_type);
-# endif
-# ifdef EGL_TRANSPARENT_BLUE_VALUE
-	BOOST_CHECK(x != ev.transparent_blue_value);
-# endif
 	BOOST_CHECK(x == ev.transparent_green_value);
 # ifdef EGL_TRANSPARENT_RED_VALUE
 	BOOST_CHECK(x != ev.transparent_red_value);
@@ -2968,96 +1663,6 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_values)
 
 #ifdef EGL_TRANSPARENT_RED_VALUE
 	x = ev.transparent_red_value;
-# ifdef EGL_ALPHA_MASK_SIZE
-	BOOST_CHECK(x != ev.alpha_mask_size);
-# endif
-# ifdef EGL_ALPHA_SIZE
-	BOOST_CHECK(x != ev.alpha_size);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGB
-	BOOST_CHECK(x != ev.bind_to_texture_rgb);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGBA
-	BOOST_CHECK(x != ev.bind_to_texture_rgba);
-# endif
-# ifdef EGL_BLUE_SIZE
-	BOOST_CHECK(x != ev.blue_size);
-# endif
-# ifdef EGL_BUFFER_SIZE
-	BOOST_CHECK(x != ev.buffer_size);
-# endif
-# ifdef EGL_COLOR_BUFFER_TYPE
-	BOOST_CHECK(x != ev.color_buffer_type);
-# endif
-# ifdef EGL_CONFIG_CAVEAT
-	BOOST_CHECK(x != ev.config_caveat);
-# endif
-# ifdef EGL_CONFIG_ID
-	BOOST_CHECK(x != ev.config_id);
-# endif
-# ifdef EGL_CONFORMANT
-	BOOST_CHECK(x != ev.conformant);
-# endif
-# ifdef EGL_DEPTH_SIZE
-	BOOST_CHECK(x != ev.depth_size);
-# endif
-# ifdef EGL_GREEN_SIZE
-	BOOST_CHECK(x != ev.green_size);
-# endif
-# ifdef EGL_LEVEL
-	BOOST_CHECK(x != ev.level);
-# endif
-# ifdef EGL_LUMINANCE_SIZE
-	BOOST_CHECK(x != ev.luminance_size);
-# endif
-# ifdef EGL_MAX_PBUFFER_HEIGHT
-	BOOST_CHECK(x != ev.max_pbuffer_height);
-# endif
-# ifdef EGL_MAX_PBUFFER_PIXELS
-	BOOST_CHECK(x != ev.max_pbuffer_pixels);
-# endif
-# ifdef EGL_MAX_PBUFFER_WIDTH
-	BOOST_CHECK(x != ev.max_pbuffer_width);
-# endif
-# ifdef EGL_MAX_SWAP_INTERVAL
-	BOOST_CHECK(x != ev.max_swap_interval);
-# endif
-# ifdef EGL_MIN_SWAP_INTERVAL
-	BOOST_CHECK(x != ev.min_swap_interval);
-# endif
-# ifdef EGL_NATIVE_RENDERABLE
-	BOOST_CHECK(x != ev.native_renderable);
-# endif
-# ifdef EGL_NATIVE_VISUAL_ID
-	BOOST_CHECK(x != ev.native_visual_id);
-# endif
-# ifdef EGL_NATIVE_VISUAL_TYPE
-	BOOST_CHECK(x != ev.native_visual_type);
-# endif
-# ifdef EGL_RED_SIZE
-	BOOST_CHECK(x != ev.red_size);
-# endif
-# ifdef EGL_RENDERABLE_TYPE
-	BOOST_CHECK(x != ev.renderable_type);
-# endif
-# ifdef EGL_SAMPLE_BUFFERS
-	BOOST_CHECK(x != ev.sample_buffers);
-# endif
-# ifdef EGL_SAMPLES
-	BOOST_CHECK(x != ev.samples);
-# endif
-# ifdef EGL_STENCIL_SIZE
-	BOOST_CHECK(x != ev.stencil_size);
-# endif
-# ifdef EGL_SURFACE_TYPE
-	BOOST_CHECK(x != ev.surface_type);
-# endif
-# ifdef EGL_TRANSPARENT_BLUE_VALUE
-	BOOST_CHECK(x != ev.transparent_blue_value);
-# endif
-# ifdef EGL_TRANSPARENT_GREEN_VALUE
-	BOOST_CHECK(x != ev.transparent_green_value);
-# endif
 	BOOST_CHECK(x == ev.transparent_red_value);
 # ifdef EGL_TRANSPARENT_TYPE
 	BOOST_CHECK(x != ev.transparent_type);
@@ -3066,99 +1671,6 @@ BOOST_AUTO_TEST_CASE(enum_config_attrib_values)
 
 #ifdef EGL_TRANSPARENT_TYPE
 	x = ev.transparent_type;
-# ifdef EGL_ALPHA_MASK_SIZE
-	BOOST_CHECK(x != ev.alpha_mask_size);
-# endif
-# ifdef EGL_ALPHA_SIZE
-	BOOST_CHECK(x != ev.alpha_size);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGB
-	BOOST_CHECK(x != ev.bind_to_texture_rgb);
-# endif
-# ifdef EGL_BIND_TO_TEXTURE_RGBA
-	BOOST_CHECK(x != ev.bind_to_texture_rgba);
-# endif
-# ifdef EGL_BLUE_SIZE
-	BOOST_CHECK(x != ev.blue_size);
-# endif
-# ifdef EGL_BUFFER_SIZE
-	BOOST_CHECK(x != ev.buffer_size);
-# endif
-# ifdef EGL_COLOR_BUFFER_TYPE
-	BOOST_CHECK(x != ev.color_buffer_type);
-# endif
-# ifdef EGL_CONFIG_CAVEAT
-	BOOST_CHECK(x != ev.config_caveat);
-# endif
-# ifdef EGL_CONFIG_ID
-	BOOST_CHECK(x != ev.config_id);
-# endif
-# ifdef EGL_CONFORMANT
-	BOOST_CHECK(x != ev.conformant);
-# endif
-# ifdef EGL_DEPTH_SIZE
-	BOOST_CHECK(x != ev.depth_size);
-# endif
-# ifdef EGL_GREEN_SIZE
-	BOOST_CHECK(x != ev.green_size);
-# endif
-# ifdef EGL_LEVEL
-	BOOST_CHECK(x != ev.level);
-# endif
-# ifdef EGL_LUMINANCE_SIZE
-	BOOST_CHECK(x != ev.luminance_size);
-# endif
-# ifdef EGL_MAX_PBUFFER_HEIGHT
-	BOOST_CHECK(x != ev.max_pbuffer_height);
-# endif
-# ifdef EGL_MAX_PBUFFER_PIXELS
-	BOOST_CHECK(x != ev.max_pbuffer_pixels);
-# endif
-# ifdef EGL_MAX_PBUFFER_WIDTH
-	BOOST_CHECK(x != ev.max_pbuffer_width);
-# endif
-# ifdef EGL_MAX_SWAP_INTERVAL
-	BOOST_CHECK(x != ev.max_swap_interval);
-# endif
-# ifdef EGL_MIN_SWAP_INTERVAL
-	BOOST_CHECK(x != ev.min_swap_interval);
-# endif
-# ifdef EGL_NATIVE_RENDERABLE
-	BOOST_CHECK(x != ev.native_renderable);
-# endif
-# ifdef EGL_NATIVE_VISUAL_ID
-	BOOST_CHECK(x != ev.native_visual_id);
-# endif
-# ifdef EGL_NATIVE_VISUAL_TYPE
-	BOOST_CHECK(x != ev.native_visual_type);
-# endif
-# ifdef EGL_RED_SIZE
-	BOOST_CHECK(x != ev.red_size);
-# endif
-# ifdef EGL_RENDERABLE_TYPE
-	BOOST_CHECK(x != ev.renderable_type);
-# endif
-# ifdef EGL_SAMPLE_BUFFERS
-	BOOST_CHECK(x != ev.sample_buffers);
-# endif
-# ifdef EGL_SAMPLES
-	BOOST_CHECK(x != ev.samples);
-# endif
-# ifdef EGL_STENCIL_SIZE
-	BOOST_CHECK(x != ev.stencil_size);
-# endif
-# ifdef EGL_SURFACE_TYPE
-	BOOST_CHECK(x != ev.surface_type);
-# endif
-# ifdef EGL_TRANSPARENT_BLUE_VALUE
-	BOOST_CHECK(x != ev.transparent_blue_value);
-# endif
-# ifdef EGL_TRANSPARENT_GREEN_VALUE
-	BOOST_CHECK(x != ev.transparent_green_value);
-# endif
-# ifdef EGL_TRANSPARENT_RED_VALUE
-	BOOST_CHECK(x != ev.transparent_red_value);
-# endif
 	BOOST_CHECK(x == ev.transparent_type);
 #endif
 }

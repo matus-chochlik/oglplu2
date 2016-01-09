@@ -39,9 +39,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_format_values)
 
 #ifdef EGL_TEXTURE_RGB
 	x = ev.texture_rgb;
-# ifdef EGL_NO_TEXTURE
-	BOOST_CHECK(x != ev.no_texture);
-# endif
 	BOOST_CHECK(x == ev.texture_rgb);
 # ifdef EGL_TEXTURE_RGBA
 	BOOST_CHECK(x != ev.texture_rgba);
@@ -50,12 +47,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_format_values)
 
 #ifdef EGL_TEXTURE_RGBA
 	x = ev.texture_rgba;
-# ifdef EGL_NO_TEXTURE
-	BOOST_CHECK(x != ev.no_texture);
-# endif
-# ifdef EGL_TEXTURE_RGB
-	BOOST_CHECK(x != ev.texture_rgb);
-# endif
 	BOOST_CHECK(x == ev.texture_rgba);
 #endif
 }

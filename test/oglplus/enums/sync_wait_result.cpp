@@ -42,9 +42,6 @@ BOOST_AUTO_TEST_CASE(enum_sync_wait_result_values)
 
 #ifdef GL_CONDITION_SATISFIED
 	x = ev.condition_satisfied;
-# ifdef GL_ALREADY_SIGNALED
-	BOOST_CHECK(x != ev.already_signaled);
-# endif
 	BOOST_CHECK(x == ev.condition_satisfied);
 # ifdef GL_TIMEOUT_EXPIRED
 	BOOST_CHECK(x != ev.timeout_expired);
@@ -56,12 +53,6 @@ BOOST_AUTO_TEST_CASE(enum_sync_wait_result_values)
 
 #ifdef GL_TIMEOUT_EXPIRED
 	x = ev.timeout_expired;
-# ifdef GL_ALREADY_SIGNALED
-	BOOST_CHECK(x != ev.already_signaled);
-# endif
-# ifdef GL_CONDITION_SATISFIED
-	BOOST_CHECK(x != ev.condition_satisfied);
-# endif
 	BOOST_CHECK(x == ev.timeout_expired);
 # ifdef GL_WAIT_FAILED
 	BOOST_CHECK(x != ev.wait_failed);
@@ -70,15 +61,6 @@ BOOST_AUTO_TEST_CASE(enum_sync_wait_result_values)
 
 #ifdef GL_WAIT_FAILED
 	x = ev.wait_failed;
-# ifdef GL_ALREADY_SIGNALED
-	BOOST_CHECK(x != ev.already_signaled);
-# endif
-# ifdef GL_CONDITION_SATISFIED
-	BOOST_CHECK(x != ev.condition_satisfied);
-# endif
-# ifdef GL_TIMEOUT_EXPIRED
-	BOOST_CHECK(x != ev.timeout_expired);
-# endif
 	BOOST_CHECK(x == ev.wait_failed);
 #endif
 }

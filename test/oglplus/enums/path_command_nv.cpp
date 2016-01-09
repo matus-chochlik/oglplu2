@@ -132,9 +132,6 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_values)
 
 #ifdef GL_CIRCULAR_CCW_ARC_TO_NV
 	x = ev.circular_ccw_arc_to_nv;
-# ifdef GL_ARC_TO_NV
-	BOOST_CHECK(x != ev.arc_to_nv);
-# endif
 	BOOST_CHECK(x == ev.circular_ccw_arc_to_nv);
 # ifdef GL_CIRCULAR_CW_ARC_TO_NV
 	BOOST_CHECK(x != ev.circular_cw_arc_to_nv);
@@ -236,12 +233,6 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_values)
 
 #ifdef GL_CIRCULAR_CW_ARC_TO_NV
 	x = ev.circular_cw_arc_to_nv;
-# ifdef GL_ARC_TO_NV
-	BOOST_CHECK(x != ev.arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_ccw_arc_to_nv);
-# endif
 	BOOST_CHECK(x == ev.circular_cw_arc_to_nv);
 # ifdef GL_CIRCULAR_TANGENT_ARC_TO_NV
 	BOOST_CHECK(x != ev.circular_tangent_arc_to_nv);
@@ -340,15 +331,6 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_values)
 
 #ifdef GL_CIRCULAR_TANGENT_ARC_TO_NV
 	x = ev.circular_tangent_arc_to_nv;
-# ifdef GL_ARC_TO_NV
-	BOOST_CHECK(x != ev.arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_ccw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_cw_arc_to_nv);
-# endif
 	BOOST_CHECK(x == ev.circular_tangent_arc_to_nv);
 # ifdef GL_CLOSE_PATH_NV
 	BOOST_CHECK(x != ev.close_path_nv);
@@ -444,18 +426,6 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_values)
 
 #ifdef GL_CLOSE_PATH_NV
 	x = ev.close_path_nv;
-# ifdef GL_ARC_TO_NV
-	BOOST_CHECK(x != ev.arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_ccw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_cw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_TANGENT_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_tangent_arc_to_nv);
-# endif
 	BOOST_CHECK(x == ev.close_path_nv);
 # ifdef GL_CUBIC_CURVE_TO_NV
 	BOOST_CHECK(x != ev.cubic_curve_to_nv);
@@ -548,21 +518,6 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_values)
 
 #ifdef GL_CUBIC_CURVE_TO_NV
 	x = ev.cubic_curve_to_nv;
-# ifdef GL_ARC_TO_NV
-	BOOST_CHECK(x != ev.arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_ccw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_cw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_TANGENT_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_tangent_arc_to_nv);
-# endif
-# ifdef GL_CLOSE_PATH_NV
-	BOOST_CHECK(x != ev.close_path_nv);
-# endif
 	BOOST_CHECK(x == ev.cubic_curve_to_nv);
 # ifdef GL_DUP_FIRST_CUBIC_CURVE_TO_NV
 	BOOST_CHECK(x != ev.dup_first_cubic_curve_to_nv);
@@ -652,24 +607,6 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_values)
 
 #ifdef GL_DUP_FIRST_CUBIC_CURVE_TO_NV
 	x = ev.dup_first_cubic_curve_to_nv;
-# ifdef GL_ARC_TO_NV
-	BOOST_CHECK(x != ev.arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_ccw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_cw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_TANGENT_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_tangent_arc_to_nv);
-# endif
-# ifdef GL_CLOSE_PATH_NV
-	BOOST_CHECK(x != ev.close_path_nv);
-# endif
-# ifdef GL_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.cubic_curve_to_nv);
-# endif
 	BOOST_CHECK(x == ev.dup_first_cubic_curve_to_nv);
 # ifdef GL_DUP_LAST_CUBIC_CURVE_TO_NV
 	BOOST_CHECK(x != ev.dup_last_cubic_curve_to_nv);
@@ -756,27 +693,6 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_values)
 
 #ifdef GL_DUP_LAST_CUBIC_CURVE_TO_NV
 	x = ev.dup_last_cubic_curve_to_nv;
-# ifdef GL_ARC_TO_NV
-	BOOST_CHECK(x != ev.arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_ccw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_cw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_TANGENT_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_tangent_arc_to_nv);
-# endif
-# ifdef GL_CLOSE_PATH_NV
-	BOOST_CHECK(x != ev.close_path_nv);
-# endif
-# ifdef GL_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_FIRST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_first_cubic_curve_to_nv);
-# endif
 	BOOST_CHECK(x == ev.dup_last_cubic_curve_to_nv);
 # ifdef GL_HORIZONTAL_LINE_TO_NV
 	BOOST_CHECK(x != ev.horizontal_line_to_nv);
@@ -860,30 +776,6 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_values)
 
 #ifdef GL_HORIZONTAL_LINE_TO_NV
 	x = ev.horizontal_line_to_nv;
-# ifdef GL_ARC_TO_NV
-	BOOST_CHECK(x != ev.arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_ccw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_cw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_TANGENT_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_tangent_arc_to_nv);
-# endif
-# ifdef GL_CLOSE_PATH_NV
-	BOOST_CHECK(x != ev.close_path_nv);
-# endif
-# ifdef GL_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_FIRST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_first_cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_LAST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_last_cubic_curve_to_nv);
-# endif
 	BOOST_CHECK(x == ev.horizontal_line_to_nv);
 # ifdef GL_LARGE_CCW_ARC_TO_NV
 	BOOST_CHECK(x != ev.large_ccw_arc_to_nv);
@@ -964,33 +856,6 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_values)
 
 #ifdef GL_LARGE_CCW_ARC_TO_NV
 	x = ev.large_ccw_arc_to_nv;
-# ifdef GL_ARC_TO_NV
-	BOOST_CHECK(x != ev.arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_ccw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_cw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_TANGENT_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_tangent_arc_to_nv);
-# endif
-# ifdef GL_CLOSE_PATH_NV
-	BOOST_CHECK(x != ev.close_path_nv);
-# endif
-# ifdef GL_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_FIRST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_first_cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_LAST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_last_cubic_curve_to_nv);
-# endif
-# ifdef GL_HORIZONTAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.horizontal_line_to_nv);
-# endif
 	BOOST_CHECK(x == ev.large_ccw_arc_to_nv);
 # ifdef GL_LARGE_CW_ARC_TO_NV
 	BOOST_CHECK(x != ev.large_cw_arc_to_nv);
@@ -1068,36 +933,6 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_values)
 
 #ifdef GL_LARGE_CW_ARC_TO_NV
 	x = ev.large_cw_arc_to_nv;
-# ifdef GL_ARC_TO_NV
-	BOOST_CHECK(x != ev.arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_ccw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_cw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_TANGENT_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_tangent_arc_to_nv);
-# endif
-# ifdef GL_CLOSE_PATH_NV
-	BOOST_CHECK(x != ev.close_path_nv);
-# endif
-# ifdef GL_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_FIRST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_first_cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_LAST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_last_cubic_curve_to_nv);
-# endif
-# ifdef GL_HORIZONTAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.horizontal_line_to_nv);
-# endif
-# ifdef GL_LARGE_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_ccw_arc_to_nv);
-# endif
 	BOOST_CHECK(x == ev.large_cw_arc_to_nv);
 # ifdef GL_LINE_TO_NV
 	BOOST_CHECK(x != ev.line_to_nv);
@@ -1172,39 +1007,6 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_values)
 
 #ifdef GL_LINE_TO_NV
 	x = ev.line_to_nv;
-# ifdef GL_ARC_TO_NV
-	BOOST_CHECK(x != ev.arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_ccw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_cw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_TANGENT_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_tangent_arc_to_nv);
-# endif
-# ifdef GL_CLOSE_PATH_NV
-	BOOST_CHECK(x != ev.close_path_nv);
-# endif
-# ifdef GL_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_FIRST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_first_cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_LAST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_last_cubic_curve_to_nv);
-# endif
-# ifdef GL_HORIZONTAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.horizontal_line_to_nv);
-# endif
-# ifdef GL_LARGE_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_ccw_arc_to_nv);
-# endif
-# ifdef GL_LARGE_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_cw_arc_to_nv);
-# endif
 	BOOST_CHECK(x == ev.line_to_nv);
 # ifdef GL_MOVE_TO_NV
 	BOOST_CHECK(x != ev.move_to_nv);
@@ -1276,42 +1078,6 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_values)
 
 #ifdef GL_MOVE_TO_NV
 	x = ev.move_to_nv;
-# ifdef GL_ARC_TO_NV
-	BOOST_CHECK(x != ev.arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_ccw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_cw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_TANGENT_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_tangent_arc_to_nv);
-# endif
-# ifdef GL_CLOSE_PATH_NV
-	BOOST_CHECK(x != ev.close_path_nv);
-# endif
-# ifdef GL_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_FIRST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_first_cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_LAST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_last_cubic_curve_to_nv);
-# endif
-# ifdef GL_HORIZONTAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.horizontal_line_to_nv);
-# endif
-# ifdef GL_LARGE_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_ccw_arc_to_nv);
-# endif
-# ifdef GL_LARGE_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_cw_arc_to_nv);
-# endif
-# ifdef GL_LINE_TO_NV
-	BOOST_CHECK(x != ev.line_to_nv);
-# endif
 	BOOST_CHECK(x == ev.move_to_nv);
 # ifdef GL_QUADRATIC_CURVE_TO_NV
 	BOOST_CHECK(x != ev.quadratic_curve_to_nv);
@@ -1380,45 +1146,6 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_values)
 
 #ifdef GL_QUADRATIC_CURVE_TO_NV
 	x = ev.quadratic_curve_to_nv;
-# ifdef GL_ARC_TO_NV
-	BOOST_CHECK(x != ev.arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_ccw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_cw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_TANGENT_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_tangent_arc_to_nv);
-# endif
-# ifdef GL_CLOSE_PATH_NV
-	BOOST_CHECK(x != ev.close_path_nv);
-# endif
-# ifdef GL_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_FIRST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_first_cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_LAST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_last_cubic_curve_to_nv);
-# endif
-# ifdef GL_HORIZONTAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.horizontal_line_to_nv);
-# endif
-# ifdef GL_LARGE_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_ccw_arc_to_nv);
-# endif
-# ifdef GL_LARGE_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_cw_arc_to_nv);
-# endif
-# ifdef GL_LINE_TO_NV
-	BOOST_CHECK(x != ev.line_to_nv);
-# endif
-# ifdef GL_MOVE_TO_NV
-	BOOST_CHECK(x != ev.move_to_nv);
-# endif
 	BOOST_CHECK(x == ev.quadratic_curve_to_nv);
 # ifdef GL_RECT_NV
 	BOOST_CHECK(x != ev.rect_nv);
@@ -1484,48 +1211,6 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_values)
 
 #ifdef GL_RECT_NV
 	x = ev.rect_nv;
-# ifdef GL_ARC_TO_NV
-	BOOST_CHECK(x != ev.arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_ccw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_cw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_TANGENT_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_tangent_arc_to_nv);
-# endif
-# ifdef GL_CLOSE_PATH_NV
-	BOOST_CHECK(x != ev.close_path_nv);
-# endif
-# ifdef GL_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_FIRST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_first_cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_LAST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_last_cubic_curve_to_nv);
-# endif
-# ifdef GL_HORIZONTAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.horizontal_line_to_nv);
-# endif
-# ifdef GL_LARGE_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_ccw_arc_to_nv);
-# endif
-# ifdef GL_LARGE_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_cw_arc_to_nv);
-# endif
-# ifdef GL_LINE_TO_NV
-	BOOST_CHECK(x != ev.line_to_nv);
-# endif
-# ifdef GL_MOVE_TO_NV
-	BOOST_CHECK(x != ev.move_to_nv);
-# endif
-# ifdef GL_QUADRATIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.quadratic_curve_to_nv);
-# endif
 	BOOST_CHECK(x == ev.rect_nv);
 # ifdef GL_RELATIVE_ARC_TO_NV
 	BOOST_CHECK(x != ev.relative_arc_to_nv);
@@ -1588,51 +1273,6 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_values)
 
 #ifdef GL_RELATIVE_ARC_TO_NV
 	x = ev.relative_arc_to_nv;
-# ifdef GL_ARC_TO_NV
-	BOOST_CHECK(x != ev.arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_ccw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_cw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_TANGENT_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_tangent_arc_to_nv);
-# endif
-# ifdef GL_CLOSE_PATH_NV
-	BOOST_CHECK(x != ev.close_path_nv);
-# endif
-# ifdef GL_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_FIRST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_first_cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_LAST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_last_cubic_curve_to_nv);
-# endif
-# ifdef GL_HORIZONTAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.horizontal_line_to_nv);
-# endif
-# ifdef GL_LARGE_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_ccw_arc_to_nv);
-# endif
-# ifdef GL_LARGE_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_cw_arc_to_nv);
-# endif
-# ifdef GL_LINE_TO_NV
-	BOOST_CHECK(x != ev.line_to_nv);
-# endif
-# ifdef GL_MOVE_TO_NV
-	BOOST_CHECK(x != ev.move_to_nv);
-# endif
-# ifdef GL_QUADRATIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.quadratic_curve_to_nv);
-# endif
-# ifdef GL_RECT_NV
-	BOOST_CHECK(x != ev.rect_nv);
-# endif
 	BOOST_CHECK(x == ev.relative_arc_to_nv);
 # ifdef GL_RELATIVE_CUBIC_CURVE_TO_NV
 	BOOST_CHECK(x != ev.relative_cubic_curve_to_nv);
@@ -1692,54 +1332,6 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_values)
 
 #ifdef GL_RELATIVE_CUBIC_CURVE_TO_NV
 	x = ev.relative_cubic_curve_to_nv;
-# ifdef GL_ARC_TO_NV
-	BOOST_CHECK(x != ev.arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_ccw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_cw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_TANGENT_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_tangent_arc_to_nv);
-# endif
-# ifdef GL_CLOSE_PATH_NV
-	BOOST_CHECK(x != ev.close_path_nv);
-# endif
-# ifdef GL_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_FIRST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_first_cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_LAST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_last_cubic_curve_to_nv);
-# endif
-# ifdef GL_HORIZONTAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.horizontal_line_to_nv);
-# endif
-# ifdef GL_LARGE_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_ccw_arc_to_nv);
-# endif
-# ifdef GL_LARGE_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_cw_arc_to_nv);
-# endif
-# ifdef GL_LINE_TO_NV
-	BOOST_CHECK(x != ev.line_to_nv);
-# endif
-# ifdef GL_MOVE_TO_NV
-	BOOST_CHECK(x != ev.move_to_nv);
-# endif
-# ifdef GL_QUADRATIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.quadratic_curve_to_nv);
-# endif
-# ifdef GL_RECT_NV
-	BOOST_CHECK(x != ev.rect_nv);
-# endif
-# ifdef GL_RELATIVE_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_arc_to_nv);
-# endif
 	BOOST_CHECK(x == ev.relative_cubic_curve_to_nv);
 # ifdef GL_RELATIVE_HORIZONTAL_LINE_TO_NV
 	BOOST_CHECK(x != ev.relative_horizontal_line_to_nv);
@@ -1796,57 +1388,6 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_values)
 
 #ifdef GL_RELATIVE_HORIZONTAL_LINE_TO_NV
 	x = ev.relative_horizontal_line_to_nv;
-# ifdef GL_ARC_TO_NV
-	BOOST_CHECK(x != ev.arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_ccw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_cw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_TANGENT_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_tangent_arc_to_nv);
-# endif
-# ifdef GL_CLOSE_PATH_NV
-	BOOST_CHECK(x != ev.close_path_nv);
-# endif
-# ifdef GL_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_FIRST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_first_cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_LAST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_last_cubic_curve_to_nv);
-# endif
-# ifdef GL_HORIZONTAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.horizontal_line_to_nv);
-# endif
-# ifdef GL_LARGE_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_ccw_arc_to_nv);
-# endif
-# ifdef GL_LARGE_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_cw_arc_to_nv);
-# endif
-# ifdef GL_LINE_TO_NV
-	BOOST_CHECK(x != ev.line_to_nv);
-# endif
-# ifdef GL_MOVE_TO_NV
-	BOOST_CHECK(x != ev.move_to_nv);
-# endif
-# ifdef GL_QUADRATIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.quadratic_curve_to_nv);
-# endif
-# ifdef GL_RECT_NV
-	BOOST_CHECK(x != ev.rect_nv);
-# endif
-# ifdef GL_RELATIVE_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.relative_cubic_curve_to_nv);
-# endif
 	BOOST_CHECK(x == ev.relative_horizontal_line_to_nv);
 # ifdef GL_RELATIVE_LARGE_CCW_ARC_TO_NV
 	BOOST_CHECK(x != ev.relative_large_ccw_arc_to_nv);
@@ -1900,60 +1441,6 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_values)
 
 #ifdef GL_RELATIVE_LARGE_CCW_ARC_TO_NV
 	x = ev.relative_large_ccw_arc_to_nv;
-# ifdef GL_ARC_TO_NV
-	BOOST_CHECK(x != ev.arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_ccw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_cw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_TANGENT_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_tangent_arc_to_nv);
-# endif
-# ifdef GL_CLOSE_PATH_NV
-	BOOST_CHECK(x != ev.close_path_nv);
-# endif
-# ifdef GL_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_FIRST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_first_cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_LAST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_last_cubic_curve_to_nv);
-# endif
-# ifdef GL_HORIZONTAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.horizontal_line_to_nv);
-# endif
-# ifdef GL_LARGE_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_ccw_arc_to_nv);
-# endif
-# ifdef GL_LARGE_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_cw_arc_to_nv);
-# endif
-# ifdef GL_LINE_TO_NV
-	BOOST_CHECK(x != ev.line_to_nv);
-# endif
-# ifdef GL_MOVE_TO_NV
-	BOOST_CHECK(x != ev.move_to_nv);
-# endif
-# ifdef GL_QUADRATIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.quadratic_curve_to_nv);
-# endif
-# ifdef GL_RECT_NV
-	BOOST_CHECK(x != ev.rect_nv);
-# endif
-# ifdef GL_RELATIVE_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.relative_cubic_curve_to_nv);
-# endif
-# ifdef GL_RELATIVE_HORIZONTAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.relative_horizontal_line_to_nv);
-# endif
 	BOOST_CHECK(x == ev.relative_large_ccw_arc_to_nv);
 # ifdef GL_RELATIVE_LARGE_CW_ARC_TO_NV
 	BOOST_CHECK(x != ev.relative_large_cw_arc_to_nv);
@@ -2004,63 +1491,6 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_values)
 
 #ifdef GL_RELATIVE_LARGE_CW_ARC_TO_NV
 	x = ev.relative_large_cw_arc_to_nv;
-# ifdef GL_ARC_TO_NV
-	BOOST_CHECK(x != ev.arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_ccw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_cw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_TANGENT_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_tangent_arc_to_nv);
-# endif
-# ifdef GL_CLOSE_PATH_NV
-	BOOST_CHECK(x != ev.close_path_nv);
-# endif
-# ifdef GL_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_FIRST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_first_cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_LAST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_last_cubic_curve_to_nv);
-# endif
-# ifdef GL_HORIZONTAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.horizontal_line_to_nv);
-# endif
-# ifdef GL_LARGE_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_ccw_arc_to_nv);
-# endif
-# ifdef GL_LARGE_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_cw_arc_to_nv);
-# endif
-# ifdef GL_LINE_TO_NV
-	BOOST_CHECK(x != ev.line_to_nv);
-# endif
-# ifdef GL_MOVE_TO_NV
-	BOOST_CHECK(x != ev.move_to_nv);
-# endif
-# ifdef GL_QUADRATIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.quadratic_curve_to_nv);
-# endif
-# ifdef GL_RECT_NV
-	BOOST_CHECK(x != ev.rect_nv);
-# endif
-# ifdef GL_RELATIVE_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.relative_cubic_curve_to_nv);
-# endif
-# ifdef GL_RELATIVE_HORIZONTAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.relative_horizontal_line_to_nv);
-# endif
-# ifdef GL_RELATIVE_LARGE_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_large_ccw_arc_to_nv);
-# endif
 	BOOST_CHECK(x == ev.relative_large_cw_arc_to_nv);
 # ifdef GL_RELATIVE_LINE_TO_NV
 	BOOST_CHECK(x != ev.relative_line_to_nv);
@@ -2108,66 +1538,6 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_values)
 
 #ifdef GL_RELATIVE_LINE_TO_NV
 	x = ev.relative_line_to_nv;
-# ifdef GL_ARC_TO_NV
-	BOOST_CHECK(x != ev.arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_ccw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_cw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_TANGENT_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_tangent_arc_to_nv);
-# endif
-# ifdef GL_CLOSE_PATH_NV
-	BOOST_CHECK(x != ev.close_path_nv);
-# endif
-# ifdef GL_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_FIRST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_first_cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_LAST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_last_cubic_curve_to_nv);
-# endif
-# ifdef GL_HORIZONTAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.horizontal_line_to_nv);
-# endif
-# ifdef GL_LARGE_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_ccw_arc_to_nv);
-# endif
-# ifdef GL_LARGE_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_cw_arc_to_nv);
-# endif
-# ifdef GL_LINE_TO_NV
-	BOOST_CHECK(x != ev.line_to_nv);
-# endif
-# ifdef GL_MOVE_TO_NV
-	BOOST_CHECK(x != ev.move_to_nv);
-# endif
-# ifdef GL_QUADRATIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.quadratic_curve_to_nv);
-# endif
-# ifdef GL_RECT_NV
-	BOOST_CHECK(x != ev.rect_nv);
-# endif
-# ifdef GL_RELATIVE_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.relative_cubic_curve_to_nv);
-# endif
-# ifdef GL_RELATIVE_HORIZONTAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.relative_horizontal_line_to_nv);
-# endif
-# ifdef GL_RELATIVE_LARGE_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_large_ccw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_LARGE_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_large_cw_arc_to_nv);
-# endif
 	BOOST_CHECK(x == ev.relative_line_to_nv);
 # ifdef GL_RELATIVE_MOVE_TO_NV
 	BOOST_CHECK(x != ev.relative_move_to_nv);
@@ -2212,69 +1582,6 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_values)
 
 #ifdef GL_RELATIVE_MOVE_TO_NV
 	x = ev.relative_move_to_nv;
-# ifdef GL_ARC_TO_NV
-	BOOST_CHECK(x != ev.arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_ccw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_cw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_TANGENT_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_tangent_arc_to_nv);
-# endif
-# ifdef GL_CLOSE_PATH_NV
-	BOOST_CHECK(x != ev.close_path_nv);
-# endif
-# ifdef GL_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_FIRST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_first_cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_LAST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_last_cubic_curve_to_nv);
-# endif
-# ifdef GL_HORIZONTAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.horizontal_line_to_nv);
-# endif
-# ifdef GL_LARGE_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_ccw_arc_to_nv);
-# endif
-# ifdef GL_LARGE_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_cw_arc_to_nv);
-# endif
-# ifdef GL_LINE_TO_NV
-	BOOST_CHECK(x != ev.line_to_nv);
-# endif
-# ifdef GL_MOVE_TO_NV
-	BOOST_CHECK(x != ev.move_to_nv);
-# endif
-# ifdef GL_QUADRATIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.quadratic_curve_to_nv);
-# endif
-# ifdef GL_RECT_NV
-	BOOST_CHECK(x != ev.rect_nv);
-# endif
-# ifdef GL_RELATIVE_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.relative_cubic_curve_to_nv);
-# endif
-# ifdef GL_RELATIVE_HORIZONTAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.relative_horizontal_line_to_nv);
-# endif
-# ifdef GL_RELATIVE_LARGE_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_large_ccw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_LARGE_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_large_cw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_LINE_TO_NV
-	BOOST_CHECK(x != ev.relative_line_to_nv);
-# endif
 	BOOST_CHECK(x == ev.relative_move_to_nv);
 # ifdef GL_RELATIVE_QUADRATIC_CURVE_TO_NV
 	BOOST_CHECK(x != ev.relative_quadratic_curve_to_nv);
@@ -2316,72 +1623,6 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_values)
 
 #ifdef GL_RELATIVE_QUADRATIC_CURVE_TO_NV
 	x = ev.relative_quadratic_curve_to_nv;
-# ifdef GL_ARC_TO_NV
-	BOOST_CHECK(x != ev.arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_ccw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_cw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_TANGENT_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_tangent_arc_to_nv);
-# endif
-# ifdef GL_CLOSE_PATH_NV
-	BOOST_CHECK(x != ev.close_path_nv);
-# endif
-# ifdef GL_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_FIRST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_first_cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_LAST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_last_cubic_curve_to_nv);
-# endif
-# ifdef GL_HORIZONTAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.horizontal_line_to_nv);
-# endif
-# ifdef GL_LARGE_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_ccw_arc_to_nv);
-# endif
-# ifdef GL_LARGE_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_cw_arc_to_nv);
-# endif
-# ifdef GL_LINE_TO_NV
-	BOOST_CHECK(x != ev.line_to_nv);
-# endif
-# ifdef GL_MOVE_TO_NV
-	BOOST_CHECK(x != ev.move_to_nv);
-# endif
-# ifdef GL_QUADRATIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.quadratic_curve_to_nv);
-# endif
-# ifdef GL_RECT_NV
-	BOOST_CHECK(x != ev.rect_nv);
-# endif
-# ifdef GL_RELATIVE_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.relative_cubic_curve_to_nv);
-# endif
-# ifdef GL_RELATIVE_HORIZONTAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.relative_horizontal_line_to_nv);
-# endif
-# ifdef GL_RELATIVE_LARGE_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_large_ccw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_LARGE_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_large_cw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_LINE_TO_NV
-	BOOST_CHECK(x != ev.relative_line_to_nv);
-# endif
-# ifdef GL_RELATIVE_MOVE_TO_NV
-	BOOST_CHECK(x != ev.relative_move_to_nv);
-# endif
 	BOOST_CHECK(x == ev.relative_quadratic_curve_to_nv);
 # ifdef GL_RELATIVE_SMALL_CCW_ARC_TO_NV
 	BOOST_CHECK(x != ev.relative_small_ccw_arc_to_nv);
@@ -2420,75 +1661,6 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_values)
 
 #ifdef GL_RELATIVE_SMALL_CCW_ARC_TO_NV
 	x = ev.relative_small_ccw_arc_to_nv;
-# ifdef GL_ARC_TO_NV
-	BOOST_CHECK(x != ev.arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_ccw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_cw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_TANGENT_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_tangent_arc_to_nv);
-# endif
-# ifdef GL_CLOSE_PATH_NV
-	BOOST_CHECK(x != ev.close_path_nv);
-# endif
-# ifdef GL_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_FIRST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_first_cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_LAST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_last_cubic_curve_to_nv);
-# endif
-# ifdef GL_HORIZONTAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.horizontal_line_to_nv);
-# endif
-# ifdef GL_LARGE_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_ccw_arc_to_nv);
-# endif
-# ifdef GL_LARGE_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_cw_arc_to_nv);
-# endif
-# ifdef GL_LINE_TO_NV
-	BOOST_CHECK(x != ev.line_to_nv);
-# endif
-# ifdef GL_MOVE_TO_NV
-	BOOST_CHECK(x != ev.move_to_nv);
-# endif
-# ifdef GL_QUADRATIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.quadratic_curve_to_nv);
-# endif
-# ifdef GL_RECT_NV
-	BOOST_CHECK(x != ev.rect_nv);
-# endif
-# ifdef GL_RELATIVE_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.relative_cubic_curve_to_nv);
-# endif
-# ifdef GL_RELATIVE_HORIZONTAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.relative_horizontal_line_to_nv);
-# endif
-# ifdef GL_RELATIVE_LARGE_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_large_ccw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_LARGE_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_large_cw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_LINE_TO_NV
-	BOOST_CHECK(x != ev.relative_line_to_nv);
-# endif
-# ifdef GL_RELATIVE_MOVE_TO_NV
-	BOOST_CHECK(x != ev.relative_move_to_nv);
-# endif
-# ifdef GL_RELATIVE_QUADRATIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.relative_quadratic_curve_to_nv);
-# endif
 	BOOST_CHECK(x == ev.relative_small_ccw_arc_to_nv);
 # ifdef GL_RELATIVE_SMALL_CW_ARC_TO_NV
 	BOOST_CHECK(x != ev.relative_small_cw_arc_to_nv);
@@ -2524,78 +1696,6 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_values)
 
 #ifdef GL_RELATIVE_SMALL_CW_ARC_TO_NV
 	x = ev.relative_small_cw_arc_to_nv;
-# ifdef GL_ARC_TO_NV
-	BOOST_CHECK(x != ev.arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_ccw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_cw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_TANGENT_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_tangent_arc_to_nv);
-# endif
-# ifdef GL_CLOSE_PATH_NV
-	BOOST_CHECK(x != ev.close_path_nv);
-# endif
-# ifdef GL_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_FIRST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_first_cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_LAST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_last_cubic_curve_to_nv);
-# endif
-# ifdef GL_HORIZONTAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.horizontal_line_to_nv);
-# endif
-# ifdef GL_LARGE_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_ccw_arc_to_nv);
-# endif
-# ifdef GL_LARGE_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_cw_arc_to_nv);
-# endif
-# ifdef GL_LINE_TO_NV
-	BOOST_CHECK(x != ev.line_to_nv);
-# endif
-# ifdef GL_MOVE_TO_NV
-	BOOST_CHECK(x != ev.move_to_nv);
-# endif
-# ifdef GL_QUADRATIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.quadratic_curve_to_nv);
-# endif
-# ifdef GL_RECT_NV
-	BOOST_CHECK(x != ev.rect_nv);
-# endif
-# ifdef GL_RELATIVE_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.relative_cubic_curve_to_nv);
-# endif
-# ifdef GL_RELATIVE_HORIZONTAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.relative_horizontal_line_to_nv);
-# endif
-# ifdef GL_RELATIVE_LARGE_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_large_ccw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_LARGE_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_large_cw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_LINE_TO_NV
-	BOOST_CHECK(x != ev.relative_line_to_nv);
-# endif
-# ifdef GL_RELATIVE_MOVE_TO_NV
-	BOOST_CHECK(x != ev.relative_move_to_nv);
-# endif
-# ifdef GL_RELATIVE_QUADRATIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.relative_quadratic_curve_to_nv);
-# endif
-# ifdef GL_RELATIVE_SMALL_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_small_ccw_arc_to_nv);
-# endif
 	BOOST_CHECK(x == ev.relative_small_cw_arc_to_nv);
 # ifdef GL_RELATIVE_SMOOTH_CUBIC_CURVE_TO_NV
 	BOOST_CHECK(x != ev.relative_smooth_cubic_curve_to_nv);
@@ -2628,81 +1728,6 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_values)
 
 #ifdef GL_RELATIVE_SMOOTH_CUBIC_CURVE_TO_NV
 	x = ev.relative_smooth_cubic_curve_to_nv;
-# ifdef GL_ARC_TO_NV
-	BOOST_CHECK(x != ev.arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_ccw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_cw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_TANGENT_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_tangent_arc_to_nv);
-# endif
-# ifdef GL_CLOSE_PATH_NV
-	BOOST_CHECK(x != ev.close_path_nv);
-# endif
-# ifdef GL_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_FIRST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_first_cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_LAST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_last_cubic_curve_to_nv);
-# endif
-# ifdef GL_HORIZONTAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.horizontal_line_to_nv);
-# endif
-# ifdef GL_LARGE_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_ccw_arc_to_nv);
-# endif
-# ifdef GL_LARGE_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_cw_arc_to_nv);
-# endif
-# ifdef GL_LINE_TO_NV
-	BOOST_CHECK(x != ev.line_to_nv);
-# endif
-# ifdef GL_MOVE_TO_NV
-	BOOST_CHECK(x != ev.move_to_nv);
-# endif
-# ifdef GL_QUADRATIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.quadratic_curve_to_nv);
-# endif
-# ifdef GL_RECT_NV
-	BOOST_CHECK(x != ev.rect_nv);
-# endif
-# ifdef GL_RELATIVE_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.relative_cubic_curve_to_nv);
-# endif
-# ifdef GL_RELATIVE_HORIZONTAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.relative_horizontal_line_to_nv);
-# endif
-# ifdef GL_RELATIVE_LARGE_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_large_ccw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_LARGE_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_large_cw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_LINE_TO_NV
-	BOOST_CHECK(x != ev.relative_line_to_nv);
-# endif
-# ifdef GL_RELATIVE_MOVE_TO_NV
-	BOOST_CHECK(x != ev.relative_move_to_nv);
-# endif
-# ifdef GL_RELATIVE_QUADRATIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.relative_quadratic_curve_to_nv);
-# endif
-# ifdef GL_RELATIVE_SMALL_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_small_ccw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_SMALL_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_small_cw_arc_to_nv);
-# endif
 	BOOST_CHECK(x == ev.relative_smooth_cubic_curve_to_nv);
 # ifdef GL_RELATIVE_SMOOTH_QUADRATIC_CURVE_TO_NV
 	BOOST_CHECK(x != ev.relative_smooth_quadratic_curve_to_nv);
@@ -2732,84 +1757,6 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_values)
 
 #ifdef GL_RELATIVE_SMOOTH_QUADRATIC_CURVE_TO_NV
 	x = ev.relative_smooth_quadratic_curve_to_nv;
-# ifdef GL_ARC_TO_NV
-	BOOST_CHECK(x != ev.arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_ccw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_cw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_TANGENT_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_tangent_arc_to_nv);
-# endif
-# ifdef GL_CLOSE_PATH_NV
-	BOOST_CHECK(x != ev.close_path_nv);
-# endif
-# ifdef GL_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_FIRST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_first_cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_LAST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_last_cubic_curve_to_nv);
-# endif
-# ifdef GL_HORIZONTAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.horizontal_line_to_nv);
-# endif
-# ifdef GL_LARGE_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_ccw_arc_to_nv);
-# endif
-# ifdef GL_LARGE_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_cw_arc_to_nv);
-# endif
-# ifdef GL_LINE_TO_NV
-	BOOST_CHECK(x != ev.line_to_nv);
-# endif
-# ifdef GL_MOVE_TO_NV
-	BOOST_CHECK(x != ev.move_to_nv);
-# endif
-# ifdef GL_QUADRATIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.quadratic_curve_to_nv);
-# endif
-# ifdef GL_RECT_NV
-	BOOST_CHECK(x != ev.rect_nv);
-# endif
-# ifdef GL_RELATIVE_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.relative_cubic_curve_to_nv);
-# endif
-# ifdef GL_RELATIVE_HORIZONTAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.relative_horizontal_line_to_nv);
-# endif
-# ifdef GL_RELATIVE_LARGE_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_large_ccw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_LARGE_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_large_cw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_LINE_TO_NV
-	BOOST_CHECK(x != ev.relative_line_to_nv);
-# endif
-# ifdef GL_RELATIVE_MOVE_TO_NV
-	BOOST_CHECK(x != ev.relative_move_to_nv);
-# endif
-# ifdef GL_RELATIVE_QUADRATIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.relative_quadratic_curve_to_nv);
-# endif
-# ifdef GL_RELATIVE_SMALL_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_small_ccw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_SMALL_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_small_cw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_SMOOTH_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.relative_smooth_cubic_curve_to_nv);
-# endif
 	BOOST_CHECK(x == ev.relative_smooth_quadratic_curve_to_nv);
 # ifdef GL_RELATIVE_VERTICAL_LINE_TO_NV
 	BOOST_CHECK(x != ev.relative_vertical_line_to_nv);
@@ -2836,87 +1783,6 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_values)
 
 #ifdef GL_RELATIVE_VERTICAL_LINE_TO_NV
 	x = ev.relative_vertical_line_to_nv;
-# ifdef GL_ARC_TO_NV
-	BOOST_CHECK(x != ev.arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_ccw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_cw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_TANGENT_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_tangent_arc_to_nv);
-# endif
-# ifdef GL_CLOSE_PATH_NV
-	BOOST_CHECK(x != ev.close_path_nv);
-# endif
-# ifdef GL_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_FIRST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_first_cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_LAST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_last_cubic_curve_to_nv);
-# endif
-# ifdef GL_HORIZONTAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.horizontal_line_to_nv);
-# endif
-# ifdef GL_LARGE_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_ccw_arc_to_nv);
-# endif
-# ifdef GL_LARGE_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_cw_arc_to_nv);
-# endif
-# ifdef GL_LINE_TO_NV
-	BOOST_CHECK(x != ev.line_to_nv);
-# endif
-# ifdef GL_MOVE_TO_NV
-	BOOST_CHECK(x != ev.move_to_nv);
-# endif
-# ifdef GL_QUADRATIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.quadratic_curve_to_nv);
-# endif
-# ifdef GL_RECT_NV
-	BOOST_CHECK(x != ev.rect_nv);
-# endif
-# ifdef GL_RELATIVE_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.relative_cubic_curve_to_nv);
-# endif
-# ifdef GL_RELATIVE_HORIZONTAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.relative_horizontal_line_to_nv);
-# endif
-# ifdef GL_RELATIVE_LARGE_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_large_ccw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_LARGE_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_large_cw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_LINE_TO_NV
-	BOOST_CHECK(x != ev.relative_line_to_nv);
-# endif
-# ifdef GL_RELATIVE_MOVE_TO_NV
-	BOOST_CHECK(x != ev.relative_move_to_nv);
-# endif
-# ifdef GL_RELATIVE_QUADRATIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.relative_quadratic_curve_to_nv);
-# endif
-# ifdef GL_RELATIVE_SMALL_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_small_ccw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_SMALL_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_small_cw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_SMOOTH_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.relative_smooth_cubic_curve_to_nv);
-# endif
-# ifdef GL_RELATIVE_SMOOTH_QUADRATIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.relative_smooth_quadratic_curve_to_nv);
-# endif
 	BOOST_CHECK(x == ev.relative_vertical_line_to_nv);
 # ifdef GL_RESTART_PATH_NV
 	BOOST_CHECK(x != ev.restart_path_nv);
@@ -2940,90 +1806,6 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_values)
 
 #ifdef GL_RESTART_PATH_NV
 	x = ev.restart_path_nv;
-# ifdef GL_ARC_TO_NV
-	BOOST_CHECK(x != ev.arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_ccw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_cw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_TANGENT_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_tangent_arc_to_nv);
-# endif
-# ifdef GL_CLOSE_PATH_NV
-	BOOST_CHECK(x != ev.close_path_nv);
-# endif
-# ifdef GL_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_FIRST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_first_cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_LAST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_last_cubic_curve_to_nv);
-# endif
-# ifdef GL_HORIZONTAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.horizontal_line_to_nv);
-# endif
-# ifdef GL_LARGE_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_ccw_arc_to_nv);
-# endif
-# ifdef GL_LARGE_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_cw_arc_to_nv);
-# endif
-# ifdef GL_LINE_TO_NV
-	BOOST_CHECK(x != ev.line_to_nv);
-# endif
-# ifdef GL_MOVE_TO_NV
-	BOOST_CHECK(x != ev.move_to_nv);
-# endif
-# ifdef GL_QUADRATIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.quadratic_curve_to_nv);
-# endif
-# ifdef GL_RECT_NV
-	BOOST_CHECK(x != ev.rect_nv);
-# endif
-# ifdef GL_RELATIVE_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.relative_cubic_curve_to_nv);
-# endif
-# ifdef GL_RELATIVE_HORIZONTAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.relative_horizontal_line_to_nv);
-# endif
-# ifdef GL_RELATIVE_LARGE_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_large_ccw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_LARGE_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_large_cw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_LINE_TO_NV
-	BOOST_CHECK(x != ev.relative_line_to_nv);
-# endif
-# ifdef GL_RELATIVE_MOVE_TO_NV
-	BOOST_CHECK(x != ev.relative_move_to_nv);
-# endif
-# ifdef GL_RELATIVE_QUADRATIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.relative_quadratic_curve_to_nv);
-# endif
-# ifdef GL_RELATIVE_SMALL_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_small_ccw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_SMALL_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_small_cw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_SMOOTH_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.relative_smooth_cubic_curve_to_nv);
-# endif
-# ifdef GL_RELATIVE_SMOOTH_QUADRATIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.relative_smooth_quadratic_curve_to_nv);
-# endif
-# ifdef GL_RELATIVE_VERTICAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.relative_vertical_line_to_nv);
-# endif
 	BOOST_CHECK(x == ev.restart_path_nv);
 # ifdef GL_SMALL_CCW_ARC_TO_NV
 	BOOST_CHECK(x != ev.small_ccw_arc_to_nv);
@@ -3044,93 +1826,6 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_values)
 
 #ifdef GL_SMALL_CCW_ARC_TO_NV
 	x = ev.small_ccw_arc_to_nv;
-# ifdef GL_ARC_TO_NV
-	BOOST_CHECK(x != ev.arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_ccw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_cw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_TANGENT_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_tangent_arc_to_nv);
-# endif
-# ifdef GL_CLOSE_PATH_NV
-	BOOST_CHECK(x != ev.close_path_nv);
-# endif
-# ifdef GL_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_FIRST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_first_cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_LAST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_last_cubic_curve_to_nv);
-# endif
-# ifdef GL_HORIZONTAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.horizontal_line_to_nv);
-# endif
-# ifdef GL_LARGE_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_ccw_arc_to_nv);
-# endif
-# ifdef GL_LARGE_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_cw_arc_to_nv);
-# endif
-# ifdef GL_LINE_TO_NV
-	BOOST_CHECK(x != ev.line_to_nv);
-# endif
-# ifdef GL_MOVE_TO_NV
-	BOOST_CHECK(x != ev.move_to_nv);
-# endif
-# ifdef GL_QUADRATIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.quadratic_curve_to_nv);
-# endif
-# ifdef GL_RECT_NV
-	BOOST_CHECK(x != ev.rect_nv);
-# endif
-# ifdef GL_RELATIVE_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.relative_cubic_curve_to_nv);
-# endif
-# ifdef GL_RELATIVE_HORIZONTAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.relative_horizontal_line_to_nv);
-# endif
-# ifdef GL_RELATIVE_LARGE_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_large_ccw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_LARGE_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_large_cw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_LINE_TO_NV
-	BOOST_CHECK(x != ev.relative_line_to_nv);
-# endif
-# ifdef GL_RELATIVE_MOVE_TO_NV
-	BOOST_CHECK(x != ev.relative_move_to_nv);
-# endif
-# ifdef GL_RELATIVE_QUADRATIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.relative_quadratic_curve_to_nv);
-# endif
-# ifdef GL_RELATIVE_SMALL_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_small_ccw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_SMALL_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_small_cw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_SMOOTH_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.relative_smooth_cubic_curve_to_nv);
-# endif
-# ifdef GL_RELATIVE_SMOOTH_QUADRATIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.relative_smooth_quadratic_curve_to_nv);
-# endif
-# ifdef GL_RELATIVE_VERTICAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.relative_vertical_line_to_nv);
-# endif
-# ifdef GL_RESTART_PATH_NV
-	BOOST_CHECK(x != ev.restart_path_nv);
-# endif
 	BOOST_CHECK(x == ev.small_ccw_arc_to_nv);
 # ifdef GL_SMALL_CW_ARC_TO_NV
 	BOOST_CHECK(x != ev.small_cw_arc_to_nv);
@@ -3148,96 +1843,6 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_values)
 
 #ifdef GL_SMALL_CW_ARC_TO_NV
 	x = ev.small_cw_arc_to_nv;
-# ifdef GL_ARC_TO_NV
-	BOOST_CHECK(x != ev.arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_ccw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_cw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_TANGENT_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_tangent_arc_to_nv);
-# endif
-# ifdef GL_CLOSE_PATH_NV
-	BOOST_CHECK(x != ev.close_path_nv);
-# endif
-# ifdef GL_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_FIRST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_first_cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_LAST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_last_cubic_curve_to_nv);
-# endif
-# ifdef GL_HORIZONTAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.horizontal_line_to_nv);
-# endif
-# ifdef GL_LARGE_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_ccw_arc_to_nv);
-# endif
-# ifdef GL_LARGE_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_cw_arc_to_nv);
-# endif
-# ifdef GL_LINE_TO_NV
-	BOOST_CHECK(x != ev.line_to_nv);
-# endif
-# ifdef GL_MOVE_TO_NV
-	BOOST_CHECK(x != ev.move_to_nv);
-# endif
-# ifdef GL_QUADRATIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.quadratic_curve_to_nv);
-# endif
-# ifdef GL_RECT_NV
-	BOOST_CHECK(x != ev.rect_nv);
-# endif
-# ifdef GL_RELATIVE_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.relative_cubic_curve_to_nv);
-# endif
-# ifdef GL_RELATIVE_HORIZONTAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.relative_horizontal_line_to_nv);
-# endif
-# ifdef GL_RELATIVE_LARGE_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_large_ccw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_LARGE_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_large_cw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_LINE_TO_NV
-	BOOST_CHECK(x != ev.relative_line_to_nv);
-# endif
-# ifdef GL_RELATIVE_MOVE_TO_NV
-	BOOST_CHECK(x != ev.relative_move_to_nv);
-# endif
-# ifdef GL_RELATIVE_QUADRATIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.relative_quadratic_curve_to_nv);
-# endif
-# ifdef GL_RELATIVE_SMALL_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_small_ccw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_SMALL_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_small_cw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_SMOOTH_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.relative_smooth_cubic_curve_to_nv);
-# endif
-# ifdef GL_RELATIVE_SMOOTH_QUADRATIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.relative_smooth_quadratic_curve_to_nv);
-# endif
-# ifdef GL_RELATIVE_VERTICAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.relative_vertical_line_to_nv);
-# endif
-# ifdef GL_RESTART_PATH_NV
-	BOOST_CHECK(x != ev.restart_path_nv);
-# endif
-# ifdef GL_SMALL_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.small_ccw_arc_to_nv);
-# endif
 	BOOST_CHECK(x == ev.small_cw_arc_to_nv);
 # ifdef GL_SMOOTH_CUBIC_CURVE_TO_NV
 	BOOST_CHECK(x != ev.smooth_cubic_curve_to_nv);
@@ -3252,99 +1857,6 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_values)
 
 #ifdef GL_SMOOTH_CUBIC_CURVE_TO_NV
 	x = ev.smooth_cubic_curve_to_nv;
-# ifdef GL_ARC_TO_NV
-	BOOST_CHECK(x != ev.arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_ccw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_cw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_TANGENT_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_tangent_arc_to_nv);
-# endif
-# ifdef GL_CLOSE_PATH_NV
-	BOOST_CHECK(x != ev.close_path_nv);
-# endif
-# ifdef GL_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_FIRST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_first_cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_LAST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_last_cubic_curve_to_nv);
-# endif
-# ifdef GL_HORIZONTAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.horizontal_line_to_nv);
-# endif
-# ifdef GL_LARGE_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_ccw_arc_to_nv);
-# endif
-# ifdef GL_LARGE_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_cw_arc_to_nv);
-# endif
-# ifdef GL_LINE_TO_NV
-	BOOST_CHECK(x != ev.line_to_nv);
-# endif
-# ifdef GL_MOVE_TO_NV
-	BOOST_CHECK(x != ev.move_to_nv);
-# endif
-# ifdef GL_QUADRATIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.quadratic_curve_to_nv);
-# endif
-# ifdef GL_RECT_NV
-	BOOST_CHECK(x != ev.rect_nv);
-# endif
-# ifdef GL_RELATIVE_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.relative_cubic_curve_to_nv);
-# endif
-# ifdef GL_RELATIVE_HORIZONTAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.relative_horizontal_line_to_nv);
-# endif
-# ifdef GL_RELATIVE_LARGE_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_large_ccw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_LARGE_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_large_cw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_LINE_TO_NV
-	BOOST_CHECK(x != ev.relative_line_to_nv);
-# endif
-# ifdef GL_RELATIVE_MOVE_TO_NV
-	BOOST_CHECK(x != ev.relative_move_to_nv);
-# endif
-# ifdef GL_RELATIVE_QUADRATIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.relative_quadratic_curve_to_nv);
-# endif
-# ifdef GL_RELATIVE_SMALL_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_small_ccw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_SMALL_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_small_cw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_SMOOTH_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.relative_smooth_cubic_curve_to_nv);
-# endif
-# ifdef GL_RELATIVE_SMOOTH_QUADRATIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.relative_smooth_quadratic_curve_to_nv);
-# endif
-# ifdef GL_RELATIVE_VERTICAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.relative_vertical_line_to_nv);
-# endif
-# ifdef GL_RESTART_PATH_NV
-	BOOST_CHECK(x != ev.restart_path_nv);
-# endif
-# ifdef GL_SMALL_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.small_ccw_arc_to_nv);
-# endif
-# ifdef GL_SMALL_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.small_cw_arc_to_nv);
-# endif
 	BOOST_CHECK(x == ev.smooth_cubic_curve_to_nv);
 # ifdef GL_SMOOTH_QUADRATIC_CURVE_TO_NV
 	BOOST_CHECK(x != ev.smooth_quadratic_curve_to_nv);
@@ -3356,102 +1868,6 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_values)
 
 #ifdef GL_SMOOTH_QUADRATIC_CURVE_TO_NV
 	x = ev.smooth_quadratic_curve_to_nv;
-# ifdef GL_ARC_TO_NV
-	BOOST_CHECK(x != ev.arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_ccw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_cw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_TANGENT_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_tangent_arc_to_nv);
-# endif
-# ifdef GL_CLOSE_PATH_NV
-	BOOST_CHECK(x != ev.close_path_nv);
-# endif
-# ifdef GL_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_FIRST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_first_cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_LAST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_last_cubic_curve_to_nv);
-# endif
-# ifdef GL_HORIZONTAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.horizontal_line_to_nv);
-# endif
-# ifdef GL_LARGE_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_ccw_arc_to_nv);
-# endif
-# ifdef GL_LARGE_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_cw_arc_to_nv);
-# endif
-# ifdef GL_LINE_TO_NV
-	BOOST_CHECK(x != ev.line_to_nv);
-# endif
-# ifdef GL_MOVE_TO_NV
-	BOOST_CHECK(x != ev.move_to_nv);
-# endif
-# ifdef GL_QUADRATIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.quadratic_curve_to_nv);
-# endif
-# ifdef GL_RECT_NV
-	BOOST_CHECK(x != ev.rect_nv);
-# endif
-# ifdef GL_RELATIVE_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.relative_cubic_curve_to_nv);
-# endif
-# ifdef GL_RELATIVE_HORIZONTAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.relative_horizontal_line_to_nv);
-# endif
-# ifdef GL_RELATIVE_LARGE_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_large_ccw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_LARGE_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_large_cw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_LINE_TO_NV
-	BOOST_CHECK(x != ev.relative_line_to_nv);
-# endif
-# ifdef GL_RELATIVE_MOVE_TO_NV
-	BOOST_CHECK(x != ev.relative_move_to_nv);
-# endif
-# ifdef GL_RELATIVE_QUADRATIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.relative_quadratic_curve_to_nv);
-# endif
-# ifdef GL_RELATIVE_SMALL_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_small_ccw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_SMALL_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_small_cw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_SMOOTH_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.relative_smooth_cubic_curve_to_nv);
-# endif
-# ifdef GL_RELATIVE_SMOOTH_QUADRATIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.relative_smooth_quadratic_curve_to_nv);
-# endif
-# ifdef GL_RELATIVE_VERTICAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.relative_vertical_line_to_nv);
-# endif
-# ifdef GL_RESTART_PATH_NV
-	BOOST_CHECK(x != ev.restart_path_nv);
-# endif
-# ifdef GL_SMALL_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.small_ccw_arc_to_nv);
-# endif
-# ifdef GL_SMALL_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.small_cw_arc_to_nv);
-# endif
-# ifdef GL_SMOOTH_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.smooth_cubic_curve_to_nv);
-# endif
 	BOOST_CHECK(x == ev.smooth_quadratic_curve_to_nv);
 # ifdef GL_VERTICAL_LINE_TO_NV
 	BOOST_CHECK(x != ev.vertical_line_to_nv);
@@ -3460,105 +1876,6 @@ BOOST_AUTO_TEST_CASE(enum_path_command_nv_values)
 
 #ifdef GL_VERTICAL_LINE_TO_NV
 	x = ev.vertical_line_to_nv;
-# ifdef GL_ARC_TO_NV
-	BOOST_CHECK(x != ev.arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_ccw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_cw_arc_to_nv);
-# endif
-# ifdef GL_CIRCULAR_TANGENT_ARC_TO_NV
-	BOOST_CHECK(x != ev.circular_tangent_arc_to_nv);
-# endif
-# ifdef GL_CLOSE_PATH_NV
-	BOOST_CHECK(x != ev.close_path_nv);
-# endif
-# ifdef GL_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_FIRST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_first_cubic_curve_to_nv);
-# endif
-# ifdef GL_DUP_LAST_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.dup_last_cubic_curve_to_nv);
-# endif
-# ifdef GL_HORIZONTAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.horizontal_line_to_nv);
-# endif
-# ifdef GL_LARGE_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_ccw_arc_to_nv);
-# endif
-# ifdef GL_LARGE_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.large_cw_arc_to_nv);
-# endif
-# ifdef GL_LINE_TO_NV
-	BOOST_CHECK(x != ev.line_to_nv);
-# endif
-# ifdef GL_MOVE_TO_NV
-	BOOST_CHECK(x != ev.move_to_nv);
-# endif
-# ifdef GL_QUADRATIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.quadratic_curve_to_nv);
-# endif
-# ifdef GL_RECT_NV
-	BOOST_CHECK(x != ev.rect_nv);
-# endif
-# ifdef GL_RELATIVE_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.relative_cubic_curve_to_nv);
-# endif
-# ifdef GL_RELATIVE_HORIZONTAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.relative_horizontal_line_to_nv);
-# endif
-# ifdef GL_RELATIVE_LARGE_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_large_ccw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_LARGE_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_large_cw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_LINE_TO_NV
-	BOOST_CHECK(x != ev.relative_line_to_nv);
-# endif
-# ifdef GL_RELATIVE_MOVE_TO_NV
-	BOOST_CHECK(x != ev.relative_move_to_nv);
-# endif
-# ifdef GL_RELATIVE_QUADRATIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.relative_quadratic_curve_to_nv);
-# endif
-# ifdef GL_RELATIVE_SMALL_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_small_ccw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_SMALL_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.relative_small_cw_arc_to_nv);
-# endif
-# ifdef GL_RELATIVE_SMOOTH_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.relative_smooth_cubic_curve_to_nv);
-# endif
-# ifdef GL_RELATIVE_SMOOTH_QUADRATIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.relative_smooth_quadratic_curve_to_nv);
-# endif
-# ifdef GL_RELATIVE_VERTICAL_LINE_TO_NV
-	BOOST_CHECK(x != ev.relative_vertical_line_to_nv);
-# endif
-# ifdef GL_RESTART_PATH_NV
-	BOOST_CHECK(x != ev.restart_path_nv);
-# endif
-# ifdef GL_SMALL_CCW_ARC_TO_NV
-	BOOST_CHECK(x != ev.small_ccw_arc_to_nv);
-# endif
-# ifdef GL_SMALL_CW_ARC_TO_NV
-	BOOST_CHECK(x != ev.small_cw_arc_to_nv);
-# endif
-# ifdef GL_SMOOTH_CUBIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.smooth_cubic_curve_to_nv);
-# endif
-# ifdef GL_SMOOTH_QUADRATIC_CURVE_TO_NV
-	BOOST_CHECK(x != ev.smooth_quadratic_curve_to_nv);
-# endif
 	BOOST_CHECK(x == ev.vertical_line_to_nv);
 #endif
 }

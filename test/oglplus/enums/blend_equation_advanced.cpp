@@ -75,9 +75,6 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_advanced_values)
 
 #ifdef GL_COLORDODGE_KHR
 	x = ev.colordodge_khr;
-# ifdef GL_COLORBURN_KHR
-	BOOST_CHECK(x != ev.colorburn_khr);
-# endif
 	BOOST_CHECK(x == ev.colordodge_khr);
 # ifdef GL_DARKEN_KHR
 	BOOST_CHECK(x != ev.darken_khr);
@@ -122,12 +119,6 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_advanced_values)
 
 #ifdef GL_DARKEN_KHR
 	x = ev.darken_khr;
-# ifdef GL_COLORBURN_KHR
-	BOOST_CHECK(x != ev.colorburn_khr);
-# endif
-# ifdef GL_COLORDODGE_KHR
-	BOOST_CHECK(x != ev.colordodge_khr);
-# endif
 	BOOST_CHECK(x == ev.darken_khr);
 # ifdef GL_DIFFERENCE_KHR
 	BOOST_CHECK(x != ev.difference_khr);
@@ -169,15 +160,6 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_advanced_values)
 
 #ifdef GL_DIFFERENCE_KHR
 	x = ev.difference_khr;
-# ifdef GL_COLORBURN_KHR
-	BOOST_CHECK(x != ev.colorburn_khr);
-# endif
-# ifdef GL_COLORDODGE_KHR
-	BOOST_CHECK(x != ev.colordodge_khr);
-# endif
-# ifdef GL_DARKEN_KHR
-	BOOST_CHECK(x != ev.darken_khr);
-# endif
 	BOOST_CHECK(x == ev.difference_khr);
 # ifdef GL_EXCLUSION_KHR
 	BOOST_CHECK(x != ev.exclusion_khr);
@@ -216,18 +198,6 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_advanced_values)
 
 #ifdef GL_EXCLUSION_KHR
 	x = ev.exclusion_khr;
-# ifdef GL_COLORBURN_KHR
-	BOOST_CHECK(x != ev.colorburn_khr);
-# endif
-# ifdef GL_COLORDODGE_KHR
-	BOOST_CHECK(x != ev.colordodge_khr);
-# endif
-# ifdef GL_DARKEN_KHR
-	BOOST_CHECK(x != ev.darken_khr);
-# endif
-# ifdef GL_DIFFERENCE_KHR
-	BOOST_CHECK(x != ev.difference_khr);
-# endif
 	BOOST_CHECK(x == ev.exclusion_khr);
 # ifdef GL_HARDLIGHT_KHR
 	BOOST_CHECK(x != ev.hardlight_khr);
@@ -263,21 +233,6 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_advanced_values)
 
 #ifdef GL_HARDLIGHT_KHR
 	x = ev.hardlight_khr;
-# ifdef GL_COLORBURN_KHR
-	BOOST_CHECK(x != ev.colorburn_khr);
-# endif
-# ifdef GL_COLORDODGE_KHR
-	BOOST_CHECK(x != ev.colordodge_khr);
-# endif
-# ifdef GL_DARKEN_KHR
-	BOOST_CHECK(x != ev.darken_khr);
-# endif
-# ifdef GL_DIFFERENCE_KHR
-	BOOST_CHECK(x != ev.difference_khr);
-# endif
-# ifdef GL_EXCLUSION_KHR
-	BOOST_CHECK(x != ev.exclusion_khr);
-# endif
 	BOOST_CHECK(x == ev.hardlight_khr);
 # ifdef GL_HSL_COLOR_KHR
 	BOOST_CHECK(x != ev.hsl_color_khr);
@@ -310,24 +265,6 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_advanced_values)
 
 #ifdef GL_HSL_COLOR_KHR
 	x = ev.hsl_color_khr;
-# ifdef GL_COLORBURN_KHR
-	BOOST_CHECK(x != ev.colorburn_khr);
-# endif
-# ifdef GL_COLORDODGE_KHR
-	BOOST_CHECK(x != ev.colordodge_khr);
-# endif
-# ifdef GL_DARKEN_KHR
-	BOOST_CHECK(x != ev.darken_khr);
-# endif
-# ifdef GL_DIFFERENCE_KHR
-	BOOST_CHECK(x != ev.difference_khr);
-# endif
-# ifdef GL_EXCLUSION_KHR
-	BOOST_CHECK(x != ev.exclusion_khr);
-# endif
-# ifdef GL_HARDLIGHT_KHR
-	BOOST_CHECK(x != ev.hardlight_khr);
-# endif
 	BOOST_CHECK(x == ev.hsl_color_khr);
 # ifdef GL_HSL_HUE_KHR
 	BOOST_CHECK(x != ev.hsl_hue_khr);
@@ -357,27 +294,6 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_advanced_values)
 
 #ifdef GL_HSL_HUE_KHR
 	x = ev.hsl_hue_khr;
-# ifdef GL_COLORBURN_KHR
-	BOOST_CHECK(x != ev.colorburn_khr);
-# endif
-# ifdef GL_COLORDODGE_KHR
-	BOOST_CHECK(x != ev.colordodge_khr);
-# endif
-# ifdef GL_DARKEN_KHR
-	BOOST_CHECK(x != ev.darken_khr);
-# endif
-# ifdef GL_DIFFERENCE_KHR
-	BOOST_CHECK(x != ev.difference_khr);
-# endif
-# ifdef GL_EXCLUSION_KHR
-	BOOST_CHECK(x != ev.exclusion_khr);
-# endif
-# ifdef GL_HARDLIGHT_KHR
-	BOOST_CHECK(x != ev.hardlight_khr);
-# endif
-# ifdef GL_HSL_COLOR_KHR
-	BOOST_CHECK(x != ev.hsl_color_khr);
-# endif
 	BOOST_CHECK(x == ev.hsl_hue_khr);
 # ifdef GL_HSL_LUMINOSITY_KHR
 	BOOST_CHECK(x != ev.hsl_luminosity_khr);
@@ -404,30 +320,6 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_advanced_values)
 
 #ifdef GL_HSL_LUMINOSITY_KHR
 	x = ev.hsl_luminosity_khr;
-# ifdef GL_COLORBURN_KHR
-	BOOST_CHECK(x != ev.colorburn_khr);
-# endif
-# ifdef GL_COLORDODGE_KHR
-	BOOST_CHECK(x != ev.colordodge_khr);
-# endif
-# ifdef GL_DARKEN_KHR
-	BOOST_CHECK(x != ev.darken_khr);
-# endif
-# ifdef GL_DIFFERENCE_KHR
-	BOOST_CHECK(x != ev.difference_khr);
-# endif
-# ifdef GL_EXCLUSION_KHR
-	BOOST_CHECK(x != ev.exclusion_khr);
-# endif
-# ifdef GL_HARDLIGHT_KHR
-	BOOST_CHECK(x != ev.hardlight_khr);
-# endif
-# ifdef GL_HSL_COLOR_KHR
-	BOOST_CHECK(x != ev.hsl_color_khr);
-# endif
-# ifdef GL_HSL_HUE_KHR
-	BOOST_CHECK(x != ev.hsl_hue_khr);
-# endif
 	BOOST_CHECK(x == ev.hsl_luminosity_khr);
 # ifdef GL_HSL_SATURATION_KHR
 	BOOST_CHECK(x != ev.hsl_saturation_khr);
@@ -451,33 +343,6 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_advanced_values)
 
 #ifdef GL_HSL_SATURATION_KHR
 	x = ev.hsl_saturation_khr;
-# ifdef GL_COLORBURN_KHR
-	BOOST_CHECK(x != ev.colorburn_khr);
-# endif
-# ifdef GL_COLORDODGE_KHR
-	BOOST_CHECK(x != ev.colordodge_khr);
-# endif
-# ifdef GL_DARKEN_KHR
-	BOOST_CHECK(x != ev.darken_khr);
-# endif
-# ifdef GL_DIFFERENCE_KHR
-	BOOST_CHECK(x != ev.difference_khr);
-# endif
-# ifdef GL_EXCLUSION_KHR
-	BOOST_CHECK(x != ev.exclusion_khr);
-# endif
-# ifdef GL_HARDLIGHT_KHR
-	BOOST_CHECK(x != ev.hardlight_khr);
-# endif
-# ifdef GL_HSL_COLOR_KHR
-	BOOST_CHECK(x != ev.hsl_color_khr);
-# endif
-# ifdef GL_HSL_HUE_KHR
-	BOOST_CHECK(x != ev.hsl_hue_khr);
-# endif
-# ifdef GL_HSL_LUMINOSITY_KHR
-	BOOST_CHECK(x != ev.hsl_luminosity_khr);
-# endif
 	BOOST_CHECK(x == ev.hsl_saturation_khr);
 # ifdef GL_LIGHTEN_KHR
 	BOOST_CHECK(x != ev.lighten_khr);
@@ -498,36 +363,6 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_advanced_values)
 
 #ifdef GL_LIGHTEN_KHR
 	x = ev.lighten_khr;
-# ifdef GL_COLORBURN_KHR
-	BOOST_CHECK(x != ev.colorburn_khr);
-# endif
-# ifdef GL_COLORDODGE_KHR
-	BOOST_CHECK(x != ev.colordodge_khr);
-# endif
-# ifdef GL_DARKEN_KHR
-	BOOST_CHECK(x != ev.darken_khr);
-# endif
-# ifdef GL_DIFFERENCE_KHR
-	BOOST_CHECK(x != ev.difference_khr);
-# endif
-# ifdef GL_EXCLUSION_KHR
-	BOOST_CHECK(x != ev.exclusion_khr);
-# endif
-# ifdef GL_HARDLIGHT_KHR
-	BOOST_CHECK(x != ev.hardlight_khr);
-# endif
-# ifdef GL_HSL_COLOR_KHR
-	BOOST_CHECK(x != ev.hsl_color_khr);
-# endif
-# ifdef GL_HSL_HUE_KHR
-	BOOST_CHECK(x != ev.hsl_hue_khr);
-# endif
-# ifdef GL_HSL_LUMINOSITY_KHR
-	BOOST_CHECK(x != ev.hsl_luminosity_khr);
-# endif
-# ifdef GL_HSL_SATURATION_KHR
-	BOOST_CHECK(x != ev.hsl_saturation_khr);
-# endif
 	BOOST_CHECK(x == ev.lighten_khr);
 # ifdef GL_MULTIPLY_KHR
 	BOOST_CHECK(x != ev.multiply_khr);
@@ -545,39 +380,6 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_advanced_values)
 
 #ifdef GL_MULTIPLY_KHR
 	x = ev.multiply_khr;
-# ifdef GL_COLORBURN_KHR
-	BOOST_CHECK(x != ev.colorburn_khr);
-# endif
-# ifdef GL_COLORDODGE_KHR
-	BOOST_CHECK(x != ev.colordodge_khr);
-# endif
-# ifdef GL_DARKEN_KHR
-	BOOST_CHECK(x != ev.darken_khr);
-# endif
-# ifdef GL_DIFFERENCE_KHR
-	BOOST_CHECK(x != ev.difference_khr);
-# endif
-# ifdef GL_EXCLUSION_KHR
-	BOOST_CHECK(x != ev.exclusion_khr);
-# endif
-# ifdef GL_HARDLIGHT_KHR
-	BOOST_CHECK(x != ev.hardlight_khr);
-# endif
-# ifdef GL_HSL_COLOR_KHR
-	BOOST_CHECK(x != ev.hsl_color_khr);
-# endif
-# ifdef GL_HSL_HUE_KHR
-	BOOST_CHECK(x != ev.hsl_hue_khr);
-# endif
-# ifdef GL_HSL_LUMINOSITY_KHR
-	BOOST_CHECK(x != ev.hsl_luminosity_khr);
-# endif
-# ifdef GL_HSL_SATURATION_KHR
-	BOOST_CHECK(x != ev.hsl_saturation_khr);
-# endif
-# ifdef GL_LIGHTEN_KHR
-	BOOST_CHECK(x != ev.lighten_khr);
-# endif
 	BOOST_CHECK(x == ev.multiply_khr);
 # ifdef GL_OVERLAY_KHR
 	BOOST_CHECK(x != ev.overlay_khr);
@@ -592,42 +394,6 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_advanced_values)
 
 #ifdef GL_OVERLAY_KHR
 	x = ev.overlay_khr;
-# ifdef GL_COLORBURN_KHR
-	BOOST_CHECK(x != ev.colorburn_khr);
-# endif
-# ifdef GL_COLORDODGE_KHR
-	BOOST_CHECK(x != ev.colordodge_khr);
-# endif
-# ifdef GL_DARKEN_KHR
-	BOOST_CHECK(x != ev.darken_khr);
-# endif
-# ifdef GL_DIFFERENCE_KHR
-	BOOST_CHECK(x != ev.difference_khr);
-# endif
-# ifdef GL_EXCLUSION_KHR
-	BOOST_CHECK(x != ev.exclusion_khr);
-# endif
-# ifdef GL_HARDLIGHT_KHR
-	BOOST_CHECK(x != ev.hardlight_khr);
-# endif
-# ifdef GL_HSL_COLOR_KHR
-	BOOST_CHECK(x != ev.hsl_color_khr);
-# endif
-# ifdef GL_HSL_HUE_KHR
-	BOOST_CHECK(x != ev.hsl_hue_khr);
-# endif
-# ifdef GL_HSL_LUMINOSITY_KHR
-	BOOST_CHECK(x != ev.hsl_luminosity_khr);
-# endif
-# ifdef GL_HSL_SATURATION_KHR
-	BOOST_CHECK(x != ev.hsl_saturation_khr);
-# endif
-# ifdef GL_LIGHTEN_KHR
-	BOOST_CHECK(x != ev.lighten_khr);
-# endif
-# ifdef GL_MULTIPLY_KHR
-	BOOST_CHECK(x != ev.multiply_khr);
-# endif
 	BOOST_CHECK(x == ev.overlay_khr);
 # ifdef GL_SCREEN_KHR
 	BOOST_CHECK(x != ev.screen_khr);
@@ -639,45 +405,6 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_advanced_values)
 
 #ifdef GL_SCREEN_KHR
 	x = ev.screen_khr;
-# ifdef GL_COLORBURN_KHR
-	BOOST_CHECK(x != ev.colorburn_khr);
-# endif
-# ifdef GL_COLORDODGE_KHR
-	BOOST_CHECK(x != ev.colordodge_khr);
-# endif
-# ifdef GL_DARKEN_KHR
-	BOOST_CHECK(x != ev.darken_khr);
-# endif
-# ifdef GL_DIFFERENCE_KHR
-	BOOST_CHECK(x != ev.difference_khr);
-# endif
-# ifdef GL_EXCLUSION_KHR
-	BOOST_CHECK(x != ev.exclusion_khr);
-# endif
-# ifdef GL_HARDLIGHT_KHR
-	BOOST_CHECK(x != ev.hardlight_khr);
-# endif
-# ifdef GL_HSL_COLOR_KHR
-	BOOST_CHECK(x != ev.hsl_color_khr);
-# endif
-# ifdef GL_HSL_HUE_KHR
-	BOOST_CHECK(x != ev.hsl_hue_khr);
-# endif
-# ifdef GL_HSL_LUMINOSITY_KHR
-	BOOST_CHECK(x != ev.hsl_luminosity_khr);
-# endif
-# ifdef GL_HSL_SATURATION_KHR
-	BOOST_CHECK(x != ev.hsl_saturation_khr);
-# endif
-# ifdef GL_LIGHTEN_KHR
-	BOOST_CHECK(x != ev.lighten_khr);
-# endif
-# ifdef GL_MULTIPLY_KHR
-	BOOST_CHECK(x != ev.multiply_khr);
-# endif
-# ifdef GL_OVERLAY_KHR
-	BOOST_CHECK(x != ev.overlay_khr);
-# endif
 	BOOST_CHECK(x == ev.screen_khr);
 # ifdef GL_SOFTLIGHT_KHR
 	BOOST_CHECK(x != ev.softlight_khr);
@@ -686,48 +413,6 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_advanced_values)
 
 #ifdef GL_SOFTLIGHT_KHR
 	x = ev.softlight_khr;
-# ifdef GL_COLORBURN_KHR
-	BOOST_CHECK(x != ev.colorburn_khr);
-# endif
-# ifdef GL_COLORDODGE_KHR
-	BOOST_CHECK(x != ev.colordodge_khr);
-# endif
-# ifdef GL_DARKEN_KHR
-	BOOST_CHECK(x != ev.darken_khr);
-# endif
-# ifdef GL_DIFFERENCE_KHR
-	BOOST_CHECK(x != ev.difference_khr);
-# endif
-# ifdef GL_EXCLUSION_KHR
-	BOOST_CHECK(x != ev.exclusion_khr);
-# endif
-# ifdef GL_HARDLIGHT_KHR
-	BOOST_CHECK(x != ev.hardlight_khr);
-# endif
-# ifdef GL_HSL_COLOR_KHR
-	BOOST_CHECK(x != ev.hsl_color_khr);
-# endif
-# ifdef GL_HSL_HUE_KHR
-	BOOST_CHECK(x != ev.hsl_hue_khr);
-# endif
-# ifdef GL_HSL_LUMINOSITY_KHR
-	BOOST_CHECK(x != ev.hsl_luminosity_khr);
-# endif
-# ifdef GL_HSL_SATURATION_KHR
-	BOOST_CHECK(x != ev.hsl_saturation_khr);
-# endif
-# ifdef GL_LIGHTEN_KHR
-	BOOST_CHECK(x != ev.lighten_khr);
-# endif
-# ifdef GL_MULTIPLY_KHR
-	BOOST_CHECK(x != ev.multiply_khr);
-# endif
-# ifdef GL_OVERLAY_KHR
-	BOOST_CHECK(x != ev.overlay_khr);
-# endif
-# ifdef GL_SCREEN_KHR
-	BOOST_CHECK(x != ev.screen_khr);
-# endif
 	BOOST_CHECK(x == ev.softlight_khr);
 #endif
 }

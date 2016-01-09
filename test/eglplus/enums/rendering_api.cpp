@@ -42,9 +42,6 @@ BOOST_AUTO_TEST_CASE(enum_rendering_api_values)
 
 #ifdef EGL_OPENGL_API
 	x = ev.opengl_api;
-# ifdef EGL_NONE
-	BOOST_CHECK(x != ev.none);
-# endif
 	BOOST_CHECK(x == ev.opengl_api);
 # ifdef EGL_OPENGL_ES_API
 	BOOST_CHECK(x != ev.opengl_es_api);
@@ -56,12 +53,6 @@ BOOST_AUTO_TEST_CASE(enum_rendering_api_values)
 
 #ifdef EGL_OPENGL_ES_API
 	x = ev.opengl_es_api;
-# ifdef EGL_NONE
-	BOOST_CHECK(x != ev.none);
-# endif
-# ifdef EGL_OPENGL_API
-	BOOST_CHECK(x != ev.opengl_api);
-# endif
 	BOOST_CHECK(x == ev.opengl_es_api);
 # ifdef EGL_OPENVG_API
 	BOOST_CHECK(x != ev.openvg_api);
@@ -70,15 +61,6 @@ BOOST_AUTO_TEST_CASE(enum_rendering_api_values)
 
 #ifdef EGL_OPENVG_API
 	x = ev.openvg_api;
-# ifdef EGL_NONE
-	BOOST_CHECK(x != ev.none);
-# endif
-# ifdef EGL_OPENGL_API
-	BOOST_CHECK(x != ev.opengl_api);
-# endif
-# ifdef EGL_OPENGL_ES_API
-	BOOST_CHECK(x != ev.opengl_es_api);
-# endif
 	BOOST_CHECK(x == ev.openvg_api);
 #endif
 }

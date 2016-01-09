@@ -45,9 +45,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_coord_values)
 
 #ifdef GL_TEXTURE_SWIZZLE_B
 	x = ev.texture_swizzle_b;
-# ifdef GL_TEXTURE_SWIZZLE_A
-	BOOST_CHECK(x != ev.texture_swizzle_a);
-# endif
 	BOOST_CHECK(x == ev.texture_swizzle_b);
 # ifdef GL_TEXTURE_SWIZZLE_G
 	BOOST_CHECK(x != ev.texture_swizzle_g);
@@ -62,12 +59,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_coord_values)
 
 #ifdef GL_TEXTURE_SWIZZLE_G
 	x = ev.texture_swizzle_g;
-# ifdef GL_TEXTURE_SWIZZLE_A
-	BOOST_CHECK(x != ev.texture_swizzle_a);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_B
-	BOOST_CHECK(x != ev.texture_swizzle_b);
-# endif
 	BOOST_CHECK(x == ev.texture_swizzle_g);
 # ifdef GL_TEXTURE_SWIZZLE_R
 	BOOST_CHECK(x != ev.texture_swizzle_r);
@@ -79,15 +70,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_coord_values)
 
 #ifdef GL_TEXTURE_SWIZZLE_R
 	x = ev.texture_swizzle_r;
-# ifdef GL_TEXTURE_SWIZZLE_A
-	BOOST_CHECK(x != ev.texture_swizzle_a);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_B
-	BOOST_CHECK(x != ev.texture_swizzle_b);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_G
-	BOOST_CHECK(x != ev.texture_swizzle_g);
-# endif
 	BOOST_CHECK(x == ev.texture_swizzle_r);
 # ifdef GL_TEXTURE_SWIZZLE_RGBA
 	BOOST_CHECK(x != ev.texture_swizzle_rgba);
@@ -96,18 +78,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_coord_values)
 
 #ifdef GL_TEXTURE_SWIZZLE_RGBA
 	x = ev.texture_swizzle_rgba;
-# ifdef GL_TEXTURE_SWIZZLE_A
-	BOOST_CHECK(x != ev.texture_swizzle_a);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_B
-	BOOST_CHECK(x != ev.texture_swizzle_b);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_G
-	BOOST_CHECK(x != ev.texture_swizzle_g);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_R
-	BOOST_CHECK(x != ev.texture_swizzle_r);
-# endif
 	BOOST_CHECK(x == ev.texture_swizzle_rgba);
 #endif
 }

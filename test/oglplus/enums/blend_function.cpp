@@ -87,9 +87,6 @@ BOOST_AUTO_TEST_CASE(enum_blend_function_values)
 
 #ifdef GL_CONSTANT_COLOR
 	x = ev.constant_color;
-# ifdef GL_CONSTANT_ALPHA
-	BOOST_CHECK(x != ev.constant_alpha);
-# endif
 	BOOST_CHECK(x == ev.constant_color);
 # ifdef GL_DST_ALPHA
 	BOOST_CHECK(x != ev.dst_alpha);
@@ -146,12 +143,6 @@ BOOST_AUTO_TEST_CASE(enum_blend_function_values)
 
 #ifdef GL_DST_ALPHA
 	x = ev.dst_alpha;
-# ifdef GL_CONSTANT_ALPHA
-	BOOST_CHECK(x != ev.constant_alpha);
-# endif
-# ifdef GL_CONSTANT_COLOR
-	BOOST_CHECK(x != ev.constant_color);
-# endif
 	BOOST_CHECK(x == ev.dst_alpha);
 # ifdef GL_DST_COLOR
 	BOOST_CHECK(x != ev.dst_color);
@@ -205,15 +196,6 @@ BOOST_AUTO_TEST_CASE(enum_blend_function_values)
 
 #ifdef GL_DST_COLOR
 	x = ev.dst_color;
-# ifdef GL_CONSTANT_ALPHA
-	BOOST_CHECK(x != ev.constant_alpha);
-# endif
-# ifdef GL_CONSTANT_COLOR
-	BOOST_CHECK(x != ev.constant_color);
-# endif
-# ifdef GL_DST_ALPHA
-	BOOST_CHECK(x != ev.dst_alpha);
-# endif
 	BOOST_CHECK(x == ev.dst_color);
 # ifdef GL_ONE
 	BOOST_CHECK(x != ev.one);
@@ -264,18 +246,6 @@ BOOST_AUTO_TEST_CASE(enum_blend_function_values)
 
 #ifdef GL_ONE
 	x = ev.one;
-# ifdef GL_CONSTANT_ALPHA
-	BOOST_CHECK(x != ev.constant_alpha);
-# endif
-# ifdef GL_CONSTANT_COLOR
-	BOOST_CHECK(x != ev.constant_color);
-# endif
-# ifdef GL_DST_ALPHA
-	BOOST_CHECK(x != ev.dst_alpha);
-# endif
-# ifdef GL_DST_COLOR
-	BOOST_CHECK(x != ev.dst_color);
-# endif
 	BOOST_CHECK(x == ev.one);
 # ifdef GL_ONE_MINUS_CONSTANT_ALPHA
 	BOOST_CHECK(x != ev.one_minus_constant_alpha);
@@ -323,21 +293,6 @@ BOOST_AUTO_TEST_CASE(enum_blend_function_values)
 
 #ifdef GL_ONE_MINUS_CONSTANT_ALPHA
 	x = ev.one_minus_constant_alpha;
-# ifdef GL_CONSTANT_ALPHA
-	BOOST_CHECK(x != ev.constant_alpha);
-# endif
-# ifdef GL_CONSTANT_COLOR
-	BOOST_CHECK(x != ev.constant_color);
-# endif
-# ifdef GL_DST_ALPHA
-	BOOST_CHECK(x != ev.dst_alpha);
-# endif
-# ifdef GL_DST_COLOR
-	BOOST_CHECK(x != ev.dst_color);
-# endif
-# ifdef GL_ONE
-	BOOST_CHECK(x != ev.one);
-# endif
 	BOOST_CHECK(x == ev.one_minus_constant_alpha);
 # ifdef GL_ONE_MINUS_CONSTANT_COLOR
 	BOOST_CHECK(x != ev.one_minus_constant_color);
@@ -382,24 +337,6 @@ BOOST_AUTO_TEST_CASE(enum_blend_function_values)
 
 #ifdef GL_ONE_MINUS_CONSTANT_COLOR
 	x = ev.one_minus_constant_color;
-# ifdef GL_CONSTANT_ALPHA
-	BOOST_CHECK(x != ev.constant_alpha);
-# endif
-# ifdef GL_CONSTANT_COLOR
-	BOOST_CHECK(x != ev.constant_color);
-# endif
-# ifdef GL_DST_ALPHA
-	BOOST_CHECK(x != ev.dst_alpha);
-# endif
-# ifdef GL_DST_COLOR
-	BOOST_CHECK(x != ev.dst_color);
-# endif
-# ifdef GL_ONE
-	BOOST_CHECK(x != ev.one);
-# endif
-# ifdef GL_ONE_MINUS_CONSTANT_ALPHA
-	BOOST_CHECK(x != ev.one_minus_constant_alpha);
-# endif
 	BOOST_CHECK(x == ev.one_minus_constant_color);
 # ifdef GL_ONE_MINUS_DST_ALPHA
 	BOOST_CHECK(x != ev.one_minus_dst_alpha);
@@ -441,27 +378,6 @@ BOOST_AUTO_TEST_CASE(enum_blend_function_values)
 
 #ifdef GL_ONE_MINUS_DST_ALPHA
 	x = ev.one_minus_dst_alpha;
-# ifdef GL_CONSTANT_ALPHA
-	BOOST_CHECK(x != ev.constant_alpha);
-# endif
-# ifdef GL_CONSTANT_COLOR
-	BOOST_CHECK(x != ev.constant_color);
-# endif
-# ifdef GL_DST_ALPHA
-	BOOST_CHECK(x != ev.dst_alpha);
-# endif
-# ifdef GL_DST_COLOR
-	BOOST_CHECK(x != ev.dst_color);
-# endif
-# ifdef GL_ONE
-	BOOST_CHECK(x != ev.one);
-# endif
-# ifdef GL_ONE_MINUS_CONSTANT_ALPHA
-	BOOST_CHECK(x != ev.one_minus_constant_alpha);
-# endif
-# ifdef GL_ONE_MINUS_CONSTANT_COLOR
-	BOOST_CHECK(x != ev.one_minus_constant_color);
-# endif
 	BOOST_CHECK(x == ev.one_minus_dst_alpha);
 # ifdef GL_ONE_MINUS_DST_COLOR
 	BOOST_CHECK(x != ev.one_minus_dst_color);
@@ -500,30 +416,6 @@ BOOST_AUTO_TEST_CASE(enum_blend_function_values)
 
 #ifdef GL_ONE_MINUS_DST_COLOR
 	x = ev.one_minus_dst_color;
-# ifdef GL_CONSTANT_ALPHA
-	BOOST_CHECK(x != ev.constant_alpha);
-# endif
-# ifdef GL_CONSTANT_COLOR
-	BOOST_CHECK(x != ev.constant_color);
-# endif
-# ifdef GL_DST_ALPHA
-	BOOST_CHECK(x != ev.dst_alpha);
-# endif
-# ifdef GL_DST_COLOR
-	BOOST_CHECK(x != ev.dst_color);
-# endif
-# ifdef GL_ONE
-	BOOST_CHECK(x != ev.one);
-# endif
-# ifdef GL_ONE_MINUS_CONSTANT_ALPHA
-	BOOST_CHECK(x != ev.one_minus_constant_alpha);
-# endif
-# ifdef GL_ONE_MINUS_CONSTANT_COLOR
-	BOOST_CHECK(x != ev.one_minus_constant_color);
-# endif
-# ifdef GL_ONE_MINUS_DST_ALPHA
-	BOOST_CHECK(x != ev.one_minus_dst_alpha);
-# endif
 	BOOST_CHECK(x == ev.one_minus_dst_color);
 # ifdef GL_ONE_MINUS_SRC1_ALPHA
 	BOOST_CHECK(x != ev.one_minus_src1_alpha);
@@ -559,33 +451,6 @@ BOOST_AUTO_TEST_CASE(enum_blend_function_values)
 
 #ifdef GL_ONE_MINUS_SRC1_ALPHA
 	x = ev.one_minus_src1_alpha;
-# ifdef GL_CONSTANT_ALPHA
-	BOOST_CHECK(x != ev.constant_alpha);
-# endif
-# ifdef GL_CONSTANT_COLOR
-	BOOST_CHECK(x != ev.constant_color);
-# endif
-# ifdef GL_DST_ALPHA
-	BOOST_CHECK(x != ev.dst_alpha);
-# endif
-# ifdef GL_DST_COLOR
-	BOOST_CHECK(x != ev.dst_color);
-# endif
-# ifdef GL_ONE
-	BOOST_CHECK(x != ev.one);
-# endif
-# ifdef GL_ONE_MINUS_CONSTANT_ALPHA
-	BOOST_CHECK(x != ev.one_minus_constant_alpha);
-# endif
-# ifdef GL_ONE_MINUS_CONSTANT_COLOR
-	BOOST_CHECK(x != ev.one_minus_constant_color);
-# endif
-# ifdef GL_ONE_MINUS_DST_ALPHA
-	BOOST_CHECK(x != ev.one_minus_dst_alpha);
-# endif
-# ifdef GL_ONE_MINUS_DST_COLOR
-	BOOST_CHECK(x != ev.one_minus_dst_color);
-# endif
 	BOOST_CHECK(x == ev.one_minus_src1_alpha);
 # ifdef GL_ONE_MINUS_SRC1_COLOR
 	BOOST_CHECK(x != ev.one_minus_src1_color);
@@ -618,36 +483,6 @@ BOOST_AUTO_TEST_CASE(enum_blend_function_values)
 
 #ifdef GL_ONE_MINUS_SRC1_COLOR
 	x = ev.one_minus_src1_color;
-# ifdef GL_CONSTANT_ALPHA
-	BOOST_CHECK(x != ev.constant_alpha);
-# endif
-# ifdef GL_CONSTANT_COLOR
-	BOOST_CHECK(x != ev.constant_color);
-# endif
-# ifdef GL_DST_ALPHA
-	BOOST_CHECK(x != ev.dst_alpha);
-# endif
-# ifdef GL_DST_COLOR
-	BOOST_CHECK(x != ev.dst_color);
-# endif
-# ifdef GL_ONE
-	BOOST_CHECK(x != ev.one);
-# endif
-# ifdef GL_ONE_MINUS_CONSTANT_ALPHA
-	BOOST_CHECK(x != ev.one_minus_constant_alpha);
-# endif
-# ifdef GL_ONE_MINUS_CONSTANT_COLOR
-	BOOST_CHECK(x != ev.one_minus_constant_color);
-# endif
-# ifdef GL_ONE_MINUS_DST_ALPHA
-	BOOST_CHECK(x != ev.one_minus_dst_alpha);
-# endif
-# ifdef GL_ONE_MINUS_DST_COLOR
-	BOOST_CHECK(x != ev.one_minus_dst_color);
-# endif
-# ifdef GL_ONE_MINUS_SRC1_ALPHA
-	BOOST_CHECK(x != ev.one_minus_src1_alpha);
-# endif
 	BOOST_CHECK(x == ev.one_minus_src1_color);
 # ifdef GL_ONE_MINUS_SRC_ALPHA
 	BOOST_CHECK(x != ev.one_minus_src_alpha);
@@ -677,39 +512,6 @@ BOOST_AUTO_TEST_CASE(enum_blend_function_values)
 
 #ifdef GL_ONE_MINUS_SRC_ALPHA
 	x = ev.one_minus_src_alpha;
-# ifdef GL_CONSTANT_ALPHA
-	BOOST_CHECK(x != ev.constant_alpha);
-# endif
-# ifdef GL_CONSTANT_COLOR
-	BOOST_CHECK(x != ev.constant_color);
-# endif
-# ifdef GL_DST_ALPHA
-	BOOST_CHECK(x != ev.dst_alpha);
-# endif
-# ifdef GL_DST_COLOR
-	BOOST_CHECK(x != ev.dst_color);
-# endif
-# ifdef GL_ONE
-	BOOST_CHECK(x != ev.one);
-# endif
-# ifdef GL_ONE_MINUS_CONSTANT_ALPHA
-	BOOST_CHECK(x != ev.one_minus_constant_alpha);
-# endif
-# ifdef GL_ONE_MINUS_CONSTANT_COLOR
-	BOOST_CHECK(x != ev.one_minus_constant_color);
-# endif
-# ifdef GL_ONE_MINUS_DST_ALPHA
-	BOOST_CHECK(x != ev.one_minus_dst_alpha);
-# endif
-# ifdef GL_ONE_MINUS_DST_COLOR
-	BOOST_CHECK(x != ev.one_minus_dst_color);
-# endif
-# ifdef GL_ONE_MINUS_SRC1_ALPHA
-	BOOST_CHECK(x != ev.one_minus_src1_alpha);
-# endif
-# ifdef GL_ONE_MINUS_SRC1_COLOR
-	BOOST_CHECK(x != ev.one_minus_src1_color);
-# endif
 	BOOST_CHECK(x == ev.one_minus_src_alpha);
 # ifdef GL_ONE_MINUS_SRC_COLOR
 	BOOST_CHECK(x != ev.one_minus_src_color);
@@ -736,42 +538,6 @@ BOOST_AUTO_TEST_CASE(enum_blend_function_values)
 
 #ifdef GL_ONE_MINUS_SRC_COLOR
 	x = ev.one_minus_src_color;
-# ifdef GL_CONSTANT_ALPHA
-	BOOST_CHECK(x != ev.constant_alpha);
-# endif
-# ifdef GL_CONSTANT_COLOR
-	BOOST_CHECK(x != ev.constant_color);
-# endif
-# ifdef GL_DST_ALPHA
-	BOOST_CHECK(x != ev.dst_alpha);
-# endif
-# ifdef GL_DST_COLOR
-	BOOST_CHECK(x != ev.dst_color);
-# endif
-# ifdef GL_ONE
-	BOOST_CHECK(x != ev.one);
-# endif
-# ifdef GL_ONE_MINUS_CONSTANT_ALPHA
-	BOOST_CHECK(x != ev.one_minus_constant_alpha);
-# endif
-# ifdef GL_ONE_MINUS_CONSTANT_COLOR
-	BOOST_CHECK(x != ev.one_minus_constant_color);
-# endif
-# ifdef GL_ONE_MINUS_DST_ALPHA
-	BOOST_CHECK(x != ev.one_minus_dst_alpha);
-# endif
-# ifdef GL_ONE_MINUS_DST_COLOR
-	BOOST_CHECK(x != ev.one_minus_dst_color);
-# endif
-# ifdef GL_ONE_MINUS_SRC1_ALPHA
-	BOOST_CHECK(x != ev.one_minus_src1_alpha);
-# endif
-# ifdef GL_ONE_MINUS_SRC1_COLOR
-	BOOST_CHECK(x != ev.one_minus_src1_color);
-# endif
-# ifdef GL_ONE_MINUS_SRC_ALPHA
-	BOOST_CHECK(x != ev.one_minus_src_alpha);
-# endif
 	BOOST_CHECK(x == ev.one_minus_src_color);
 # ifdef GL_SRC1_ALPHA
 	BOOST_CHECK(x != ev.src1_alpha);
@@ -795,45 +561,6 @@ BOOST_AUTO_TEST_CASE(enum_blend_function_values)
 
 #ifdef GL_SRC1_ALPHA
 	x = ev.src1_alpha;
-# ifdef GL_CONSTANT_ALPHA
-	BOOST_CHECK(x != ev.constant_alpha);
-# endif
-# ifdef GL_CONSTANT_COLOR
-	BOOST_CHECK(x != ev.constant_color);
-# endif
-# ifdef GL_DST_ALPHA
-	BOOST_CHECK(x != ev.dst_alpha);
-# endif
-# ifdef GL_DST_COLOR
-	BOOST_CHECK(x != ev.dst_color);
-# endif
-# ifdef GL_ONE
-	BOOST_CHECK(x != ev.one);
-# endif
-# ifdef GL_ONE_MINUS_CONSTANT_ALPHA
-	BOOST_CHECK(x != ev.one_minus_constant_alpha);
-# endif
-# ifdef GL_ONE_MINUS_CONSTANT_COLOR
-	BOOST_CHECK(x != ev.one_minus_constant_color);
-# endif
-# ifdef GL_ONE_MINUS_DST_ALPHA
-	BOOST_CHECK(x != ev.one_minus_dst_alpha);
-# endif
-# ifdef GL_ONE_MINUS_DST_COLOR
-	BOOST_CHECK(x != ev.one_minus_dst_color);
-# endif
-# ifdef GL_ONE_MINUS_SRC1_ALPHA
-	BOOST_CHECK(x != ev.one_minus_src1_alpha);
-# endif
-# ifdef GL_ONE_MINUS_SRC1_COLOR
-	BOOST_CHECK(x != ev.one_minus_src1_color);
-# endif
-# ifdef GL_ONE_MINUS_SRC_ALPHA
-	BOOST_CHECK(x != ev.one_minus_src_alpha);
-# endif
-# ifdef GL_ONE_MINUS_SRC_COLOR
-	BOOST_CHECK(x != ev.one_minus_src_color);
-# endif
 	BOOST_CHECK(x == ev.src1_alpha);
 # ifdef GL_SRC1_COLOR
 	BOOST_CHECK(x != ev.src1_color);
@@ -854,48 +581,6 @@ BOOST_AUTO_TEST_CASE(enum_blend_function_values)
 
 #ifdef GL_SRC1_COLOR
 	x = ev.src1_color;
-# ifdef GL_CONSTANT_ALPHA
-	BOOST_CHECK(x != ev.constant_alpha);
-# endif
-# ifdef GL_CONSTANT_COLOR
-	BOOST_CHECK(x != ev.constant_color);
-# endif
-# ifdef GL_DST_ALPHA
-	BOOST_CHECK(x != ev.dst_alpha);
-# endif
-# ifdef GL_DST_COLOR
-	BOOST_CHECK(x != ev.dst_color);
-# endif
-# ifdef GL_ONE
-	BOOST_CHECK(x != ev.one);
-# endif
-# ifdef GL_ONE_MINUS_CONSTANT_ALPHA
-	BOOST_CHECK(x != ev.one_minus_constant_alpha);
-# endif
-# ifdef GL_ONE_MINUS_CONSTANT_COLOR
-	BOOST_CHECK(x != ev.one_minus_constant_color);
-# endif
-# ifdef GL_ONE_MINUS_DST_ALPHA
-	BOOST_CHECK(x != ev.one_minus_dst_alpha);
-# endif
-# ifdef GL_ONE_MINUS_DST_COLOR
-	BOOST_CHECK(x != ev.one_minus_dst_color);
-# endif
-# ifdef GL_ONE_MINUS_SRC1_ALPHA
-	BOOST_CHECK(x != ev.one_minus_src1_alpha);
-# endif
-# ifdef GL_ONE_MINUS_SRC1_COLOR
-	BOOST_CHECK(x != ev.one_minus_src1_color);
-# endif
-# ifdef GL_ONE_MINUS_SRC_ALPHA
-	BOOST_CHECK(x != ev.one_minus_src_alpha);
-# endif
-# ifdef GL_ONE_MINUS_SRC_COLOR
-	BOOST_CHECK(x != ev.one_minus_src_color);
-# endif
-# ifdef GL_SRC1_ALPHA
-	BOOST_CHECK(x != ev.src1_alpha);
-# endif
 	BOOST_CHECK(x == ev.src1_color);
 # ifdef GL_SRC_ALPHA
 	BOOST_CHECK(x != ev.src_alpha);
@@ -913,51 +598,6 @@ BOOST_AUTO_TEST_CASE(enum_blend_function_values)
 
 #ifdef GL_SRC_ALPHA
 	x = ev.src_alpha;
-# ifdef GL_CONSTANT_ALPHA
-	BOOST_CHECK(x != ev.constant_alpha);
-# endif
-# ifdef GL_CONSTANT_COLOR
-	BOOST_CHECK(x != ev.constant_color);
-# endif
-# ifdef GL_DST_ALPHA
-	BOOST_CHECK(x != ev.dst_alpha);
-# endif
-# ifdef GL_DST_COLOR
-	BOOST_CHECK(x != ev.dst_color);
-# endif
-# ifdef GL_ONE
-	BOOST_CHECK(x != ev.one);
-# endif
-# ifdef GL_ONE_MINUS_CONSTANT_ALPHA
-	BOOST_CHECK(x != ev.one_minus_constant_alpha);
-# endif
-# ifdef GL_ONE_MINUS_CONSTANT_COLOR
-	BOOST_CHECK(x != ev.one_minus_constant_color);
-# endif
-# ifdef GL_ONE_MINUS_DST_ALPHA
-	BOOST_CHECK(x != ev.one_minus_dst_alpha);
-# endif
-# ifdef GL_ONE_MINUS_DST_COLOR
-	BOOST_CHECK(x != ev.one_minus_dst_color);
-# endif
-# ifdef GL_ONE_MINUS_SRC1_ALPHA
-	BOOST_CHECK(x != ev.one_minus_src1_alpha);
-# endif
-# ifdef GL_ONE_MINUS_SRC1_COLOR
-	BOOST_CHECK(x != ev.one_minus_src1_color);
-# endif
-# ifdef GL_ONE_MINUS_SRC_ALPHA
-	BOOST_CHECK(x != ev.one_minus_src_alpha);
-# endif
-# ifdef GL_ONE_MINUS_SRC_COLOR
-	BOOST_CHECK(x != ev.one_minus_src_color);
-# endif
-# ifdef GL_SRC1_ALPHA
-	BOOST_CHECK(x != ev.src1_alpha);
-# endif
-# ifdef GL_SRC1_COLOR
-	BOOST_CHECK(x != ev.src1_color);
-# endif
 	BOOST_CHECK(x == ev.src_alpha);
 # ifdef GL_SRC_ALPHA_SATURATE
 	BOOST_CHECK(x != ev.src_alpha_saturate);
@@ -972,54 +612,6 @@ BOOST_AUTO_TEST_CASE(enum_blend_function_values)
 
 #ifdef GL_SRC_ALPHA_SATURATE
 	x = ev.src_alpha_saturate;
-# ifdef GL_CONSTANT_ALPHA
-	BOOST_CHECK(x != ev.constant_alpha);
-# endif
-# ifdef GL_CONSTANT_COLOR
-	BOOST_CHECK(x != ev.constant_color);
-# endif
-# ifdef GL_DST_ALPHA
-	BOOST_CHECK(x != ev.dst_alpha);
-# endif
-# ifdef GL_DST_COLOR
-	BOOST_CHECK(x != ev.dst_color);
-# endif
-# ifdef GL_ONE
-	BOOST_CHECK(x != ev.one);
-# endif
-# ifdef GL_ONE_MINUS_CONSTANT_ALPHA
-	BOOST_CHECK(x != ev.one_minus_constant_alpha);
-# endif
-# ifdef GL_ONE_MINUS_CONSTANT_COLOR
-	BOOST_CHECK(x != ev.one_minus_constant_color);
-# endif
-# ifdef GL_ONE_MINUS_DST_ALPHA
-	BOOST_CHECK(x != ev.one_minus_dst_alpha);
-# endif
-# ifdef GL_ONE_MINUS_DST_COLOR
-	BOOST_CHECK(x != ev.one_minus_dst_color);
-# endif
-# ifdef GL_ONE_MINUS_SRC1_ALPHA
-	BOOST_CHECK(x != ev.one_minus_src1_alpha);
-# endif
-# ifdef GL_ONE_MINUS_SRC1_COLOR
-	BOOST_CHECK(x != ev.one_minus_src1_color);
-# endif
-# ifdef GL_ONE_MINUS_SRC_ALPHA
-	BOOST_CHECK(x != ev.one_minus_src_alpha);
-# endif
-# ifdef GL_ONE_MINUS_SRC_COLOR
-	BOOST_CHECK(x != ev.one_minus_src_color);
-# endif
-# ifdef GL_SRC1_ALPHA
-	BOOST_CHECK(x != ev.src1_alpha);
-# endif
-# ifdef GL_SRC1_COLOR
-	BOOST_CHECK(x != ev.src1_color);
-# endif
-# ifdef GL_SRC_ALPHA
-	BOOST_CHECK(x != ev.src_alpha);
-# endif
 	BOOST_CHECK(x == ev.src_alpha_saturate);
 # ifdef GL_SRC_COLOR
 	BOOST_CHECK(x != ev.src_color);
@@ -1031,57 +623,6 @@ BOOST_AUTO_TEST_CASE(enum_blend_function_values)
 
 #ifdef GL_SRC_COLOR
 	x = ev.src_color;
-# ifdef GL_CONSTANT_ALPHA
-	BOOST_CHECK(x != ev.constant_alpha);
-# endif
-# ifdef GL_CONSTANT_COLOR
-	BOOST_CHECK(x != ev.constant_color);
-# endif
-# ifdef GL_DST_ALPHA
-	BOOST_CHECK(x != ev.dst_alpha);
-# endif
-# ifdef GL_DST_COLOR
-	BOOST_CHECK(x != ev.dst_color);
-# endif
-# ifdef GL_ONE
-	BOOST_CHECK(x != ev.one);
-# endif
-# ifdef GL_ONE_MINUS_CONSTANT_ALPHA
-	BOOST_CHECK(x != ev.one_minus_constant_alpha);
-# endif
-# ifdef GL_ONE_MINUS_CONSTANT_COLOR
-	BOOST_CHECK(x != ev.one_minus_constant_color);
-# endif
-# ifdef GL_ONE_MINUS_DST_ALPHA
-	BOOST_CHECK(x != ev.one_minus_dst_alpha);
-# endif
-# ifdef GL_ONE_MINUS_DST_COLOR
-	BOOST_CHECK(x != ev.one_minus_dst_color);
-# endif
-# ifdef GL_ONE_MINUS_SRC1_ALPHA
-	BOOST_CHECK(x != ev.one_minus_src1_alpha);
-# endif
-# ifdef GL_ONE_MINUS_SRC1_COLOR
-	BOOST_CHECK(x != ev.one_minus_src1_color);
-# endif
-# ifdef GL_ONE_MINUS_SRC_ALPHA
-	BOOST_CHECK(x != ev.one_minus_src_alpha);
-# endif
-# ifdef GL_ONE_MINUS_SRC_COLOR
-	BOOST_CHECK(x != ev.one_minus_src_color);
-# endif
-# ifdef GL_SRC1_ALPHA
-	BOOST_CHECK(x != ev.src1_alpha);
-# endif
-# ifdef GL_SRC1_COLOR
-	BOOST_CHECK(x != ev.src1_color);
-# endif
-# ifdef GL_SRC_ALPHA
-	BOOST_CHECK(x != ev.src_alpha);
-# endif
-# ifdef GL_SRC_ALPHA_SATURATE
-	BOOST_CHECK(x != ev.src_alpha_saturate);
-# endif
 	BOOST_CHECK(x == ev.src_color);
 # ifdef GL_ZERO
 	BOOST_CHECK(x != ev.zero);
@@ -1090,60 +631,6 @@ BOOST_AUTO_TEST_CASE(enum_blend_function_values)
 
 #ifdef GL_ZERO
 	x = ev.zero;
-# ifdef GL_CONSTANT_ALPHA
-	BOOST_CHECK(x != ev.constant_alpha);
-# endif
-# ifdef GL_CONSTANT_COLOR
-	BOOST_CHECK(x != ev.constant_color);
-# endif
-# ifdef GL_DST_ALPHA
-	BOOST_CHECK(x != ev.dst_alpha);
-# endif
-# ifdef GL_DST_COLOR
-	BOOST_CHECK(x != ev.dst_color);
-# endif
-# ifdef GL_ONE
-	BOOST_CHECK(x != ev.one);
-# endif
-# ifdef GL_ONE_MINUS_CONSTANT_ALPHA
-	BOOST_CHECK(x != ev.one_minus_constant_alpha);
-# endif
-# ifdef GL_ONE_MINUS_CONSTANT_COLOR
-	BOOST_CHECK(x != ev.one_minus_constant_color);
-# endif
-# ifdef GL_ONE_MINUS_DST_ALPHA
-	BOOST_CHECK(x != ev.one_minus_dst_alpha);
-# endif
-# ifdef GL_ONE_MINUS_DST_COLOR
-	BOOST_CHECK(x != ev.one_minus_dst_color);
-# endif
-# ifdef GL_ONE_MINUS_SRC1_ALPHA
-	BOOST_CHECK(x != ev.one_minus_src1_alpha);
-# endif
-# ifdef GL_ONE_MINUS_SRC1_COLOR
-	BOOST_CHECK(x != ev.one_minus_src1_color);
-# endif
-# ifdef GL_ONE_MINUS_SRC_ALPHA
-	BOOST_CHECK(x != ev.one_minus_src_alpha);
-# endif
-# ifdef GL_ONE_MINUS_SRC_COLOR
-	BOOST_CHECK(x != ev.one_minus_src_color);
-# endif
-# ifdef GL_SRC1_ALPHA
-	BOOST_CHECK(x != ev.src1_alpha);
-# endif
-# ifdef GL_SRC1_COLOR
-	BOOST_CHECK(x != ev.src1_color);
-# endif
-# ifdef GL_SRC_ALPHA
-	BOOST_CHECK(x != ev.src_alpha);
-# endif
-# ifdef GL_SRC_ALPHA_SATURATE
-	BOOST_CHECK(x != ev.src_alpha_saturate);
-# endif
-# ifdef GL_SRC_COLOR
-	BOOST_CHECK(x != ev.src_color);
-# endif
 	BOOST_CHECK(x == ev.zero);
 #endif
 }

@@ -36,9 +36,6 @@ BOOST_AUTO_TEST_CASE(enum_swap_behavior_values)
 
 #ifdef EGL_BUFFER_PRESERVED
 	x = ev.buffer_preserved;
-# ifdef EGL_BUFFER_DESTROYED
-	BOOST_CHECK(x != ev.buffer_destroyed);
-# endif
 	BOOST_CHECK(x == ev.buffer_preserved);
 #endif
 }

@@ -42,9 +42,6 @@ BOOST_AUTO_TEST_CASE(enum_path_fill_mode_nv_values)
 
 #ifdef GL_COUNT_UP_NV
 	x = ev.count_up_nv;
-# ifdef GL_COUNT_DOWN_NV
-	BOOST_CHECK(x != ev.count_down_nv);
-# endif
 	BOOST_CHECK(x == ev.count_up_nv);
 # ifdef GL_INVERT
 	BOOST_CHECK(x != ev.invert);
@@ -56,12 +53,6 @@ BOOST_AUTO_TEST_CASE(enum_path_fill_mode_nv_values)
 
 #ifdef GL_INVERT
 	x = ev.invert;
-# ifdef GL_COUNT_DOWN_NV
-	BOOST_CHECK(x != ev.count_down_nv);
-# endif
-# ifdef GL_COUNT_UP_NV
-	BOOST_CHECK(x != ev.count_up_nv);
-# endif
 	BOOST_CHECK(x == ev.invert);
 # ifdef GL_PATH_FILL_MODE_NV
 	BOOST_CHECK(x != ev.path_fill_mode_nv);
@@ -70,15 +61,6 @@ BOOST_AUTO_TEST_CASE(enum_path_fill_mode_nv_values)
 
 #ifdef GL_PATH_FILL_MODE_NV
 	x = ev.path_fill_mode_nv;
-# ifdef GL_COUNT_DOWN_NV
-	BOOST_CHECK(x != ev.count_down_nv);
-# endif
-# ifdef GL_COUNT_UP_NV
-	BOOST_CHECK(x != ev.count_up_nv);
-# endif
-# ifdef GL_INVERT
-	BOOST_CHECK(x != ev.invert);
-# endif
 	BOOST_CHECK(x == ev.path_fill_mode_nv);
 #endif
 }

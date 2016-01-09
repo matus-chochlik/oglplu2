@@ -36,9 +36,6 @@ BOOST_AUTO_TEST_CASE(enum_reset_notification_strategy_values)
 
 #ifdef GL_NO_RESET_NOTIFICATION
 	x = ev.no_reset_notification;
-# ifdef GL_LOSE_CONTEXT_ON_RESET
-	BOOST_CHECK(x != ev.lose_context_on_reset);
-# endif
 	BOOST_CHECK(x == ev.no_reset_notification);
 #endif
 }

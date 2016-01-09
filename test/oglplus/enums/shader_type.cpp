@@ -48,9 +48,6 @@ BOOST_AUTO_TEST_CASE(enum_shader_type_values)
 
 #ifdef GL_FRAGMENT_SHADER
 	x = ev.fragment_shader;
-# ifdef GL_COMPUTE_SHADER
-	BOOST_CHECK(x != ev.compute_shader);
-# endif
 	BOOST_CHECK(x == ev.fragment_shader);
 # ifdef GL_GEOMETRY_SHADER
 	BOOST_CHECK(x != ev.geometry_shader);
@@ -68,12 +65,6 @@ BOOST_AUTO_TEST_CASE(enum_shader_type_values)
 
 #ifdef GL_GEOMETRY_SHADER
 	x = ev.geometry_shader;
-# ifdef GL_COMPUTE_SHADER
-	BOOST_CHECK(x != ev.compute_shader);
-# endif
-# ifdef GL_FRAGMENT_SHADER
-	BOOST_CHECK(x != ev.fragment_shader);
-# endif
 	BOOST_CHECK(x == ev.geometry_shader);
 # ifdef GL_TESS_CONTROL_SHADER
 	BOOST_CHECK(x != ev.tess_control_shader);
@@ -88,15 +79,6 @@ BOOST_AUTO_TEST_CASE(enum_shader_type_values)
 
 #ifdef GL_TESS_CONTROL_SHADER
 	x = ev.tess_control_shader;
-# ifdef GL_COMPUTE_SHADER
-	BOOST_CHECK(x != ev.compute_shader);
-# endif
-# ifdef GL_FRAGMENT_SHADER
-	BOOST_CHECK(x != ev.fragment_shader);
-# endif
-# ifdef GL_GEOMETRY_SHADER
-	BOOST_CHECK(x != ev.geometry_shader);
-# endif
 	BOOST_CHECK(x == ev.tess_control_shader);
 # ifdef GL_TESS_EVALUATION_SHADER
 	BOOST_CHECK(x != ev.tess_evaluation_shader);
@@ -108,18 +90,6 @@ BOOST_AUTO_TEST_CASE(enum_shader_type_values)
 
 #ifdef GL_TESS_EVALUATION_SHADER
 	x = ev.tess_evaluation_shader;
-# ifdef GL_COMPUTE_SHADER
-	BOOST_CHECK(x != ev.compute_shader);
-# endif
-# ifdef GL_FRAGMENT_SHADER
-	BOOST_CHECK(x != ev.fragment_shader);
-# endif
-# ifdef GL_GEOMETRY_SHADER
-	BOOST_CHECK(x != ev.geometry_shader);
-# endif
-# ifdef GL_TESS_CONTROL_SHADER
-	BOOST_CHECK(x != ev.tess_control_shader);
-# endif
 	BOOST_CHECK(x == ev.tess_evaluation_shader);
 # ifdef GL_VERTEX_SHADER
 	BOOST_CHECK(x != ev.vertex_shader);
@@ -128,21 +98,6 @@ BOOST_AUTO_TEST_CASE(enum_shader_type_values)
 
 #ifdef GL_VERTEX_SHADER
 	x = ev.vertex_shader;
-# ifdef GL_COMPUTE_SHADER
-	BOOST_CHECK(x != ev.compute_shader);
-# endif
-# ifdef GL_FRAGMENT_SHADER
-	BOOST_CHECK(x != ev.fragment_shader);
-# endif
-# ifdef GL_GEOMETRY_SHADER
-	BOOST_CHECK(x != ev.geometry_shader);
-# endif
-# ifdef GL_TESS_CONTROL_SHADER
-	BOOST_CHECK(x != ev.tess_control_shader);
-# endif
-# ifdef GL_TESS_EVALUATION_SHADER
-	BOOST_CHECK(x != ev.tess_evaluation_shader);
-# endif
 	BOOST_CHECK(x == ev.vertex_shader);
 #endif
 }

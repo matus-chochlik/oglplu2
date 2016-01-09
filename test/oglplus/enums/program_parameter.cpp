@@ -57,9 +57,6 @@ BOOST_AUTO_TEST_CASE(enum_program_parameter_values)
 
 #ifdef GL_ACTIVE_ATTRIBUTES
 	x = ev.active_attributes;
-# ifdef GL_ACTIVE_ATTRIBUTE_MAX_LENGTH
-	BOOST_CHECK(x != ev.active_attribute_max_length);
-# endif
 	BOOST_CHECK(x == ev.active_attributes);
 # ifdef GL_ACTIVE_UNIFORM_MAX_LENGTH
 	BOOST_CHECK(x != ev.active_uniform_max_length);
@@ -86,12 +83,6 @@ BOOST_AUTO_TEST_CASE(enum_program_parameter_values)
 
 #ifdef GL_ACTIVE_UNIFORM_MAX_LENGTH
 	x = ev.active_uniform_max_length;
-# ifdef GL_ACTIVE_ATTRIBUTE_MAX_LENGTH
-	BOOST_CHECK(x != ev.active_attribute_max_length);
-# endif
-# ifdef GL_ACTIVE_ATTRIBUTES
-	BOOST_CHECK(x != ev.active_attributes);
-# endif
 	BOOST_CHECK(x == ev.active_uniform_max_length);
 # ifdef GL_ACTIVE_UNIFORMS
 	BOOST_CHECK(x != ev.active_uniforms);
@@ -115,15 +106,6 @@ BOOST_AUTO_TEST_CASE(enum_program_parameter_values)
 
 #ifdef GL_ACTIVE_UNIFORMS
 	x = ev.active_uniforms;
-# ifdef GL_ACTIVE_ATTRIBUTE_MAX_LENGTH
-	BOOST_CHECK(x != ev.active_attribute_max_length);
-# endif
-# ifdef GL_ACTIVE_ATTRIBUTES
-	BOOST_CHECK(x != ev.active_attributes);
-# endif
-# ifdef GL_ACTIVE_UNIFORM_MAX_LENGTH
-	BOOST_CHECK(x != ev.active_uniform_max_length);
-# endif
 	BOOST_CHECK(x == ev.active_uniforms);
 # ifdef GL_ATTACHED_SHADERS
 	BOOST_CHECK(x != ev.attached_shaders);
@@ -144,18 +126,6 @@ BOOST_AUTO_TEST_CASE(enum_program_parameter_values)
 
 #ifdef GL_ATTACHED_SHADERS
 	x = ev.attached_shaders;
-# ifdef GL_ACTIVE_ATTRIBUTE_MAX_LENGTH
-	BOOST_CHECK(x != ev.active_attribute_max_length);
-# endif
-# ifdef GL_ACTIVE_ATTRIBUTES
-	BOOST_CHECK(x != ev.active_attributes);
-# endif
-# ifdef GL_ACTIVE_UNIFORM_MAX_LENGTH
-	BOOST_CHECK(x != ev.active_uniform_max_length);
-# endif
-# ifdef GL_ACTIVE_UNIFORMS
-	BOOST_CHECK(x != ev.active_uniforms);
-# endif
 	BOOST_CHECK(x == ev.attached_shaders);
 # ifdef GL_DELETE_STATUS
 	BOOST_CHECK(x != ev.delete_status);
@@ -173,21 +143,6 @@ BOOST_AUTO_TEST_CASE(enum_program_parameter_values)
 
 #ifdef GL_DELETE_STATUS
 	x = ev.delete_status;
-# ifdef GL_ACTIVE_ATTRIBUTE_MAX_LENGTH
-	BOOST_CHECK(x != ev.active_attribute_max_length);
-# endif
-# ifdef GL_ACTIVE_ATTRIBUTES
-	BOOST_CHECK(x != ev.active_attributes);
-# endif
-# ifdef GL_ACTIVE_UNIFORM_MAX_LENGTH
-	BOOST_CHECK(x != ev.active_uniform_max_length);
-# endif
-# ifdef GL_ACTIVE_UNIFORMS
-	BOOST_CHECK(x != ev.active_uniforms);
-# endif
-# ifdef GL_ATTACHED_SHADERS
-	BOOST_CHECK(x != ev.attached_shaders);
-# endif
 	BOOST_CHECK(x == ev.delete_status);
 # ifdef GL_INFO_LOG_LENGTH
 	BOOST_CHECK(x != ev.info_log_length);
@@ -202,24 +157,6 @@ BOOST_AUTO_TEST_CASE(enum_program_parameter_values)
 
 #ifdef GL_INFO_LOG_LENGTH
 	x = ev.info_log_length;
-# ifdef GL_ACTIVE_ATTRIBUTE_MAX_LENGTH
-	BOOST_CHECK(x != ev.active_attribute_max_length);
-# endif
-# ifdef GL_ACTIVE_ATTRIBUTES
-	BOOST_CHECK(x != ev.active_attributes);
-# endif
-# ifdef GL_ACTIVE_UNIFORM_MAX_LENGTH
-	BOOST_CHECK(x != ev.active_uniform_max_length);
-# endif
-# ifdef GL_ACTIVE_UNIFORMS
-	BOOST_CHECK(x != ev.active_uniforms);
-# endif
-# ifdef GL_ATTACHED_SHADERS
-	BOOST_CHECK(x != ev.attached_shaders);
-# endif
-# ifdef GL_DELETE_STATUS
-	BOOST_CHECK(x != ev.delete_status);
-# endif
 	BOOST_CHECK(x == ev.info_log_length);
 # ifdef GL_LINK_STATUS
 	BOOST_CHECK(x != ev.link_status);
@@ -231,27 +168,6 @@ BOOST_AUTO_TEST_CASE(enum_program_parameter_values)
 
 #ifdef GL_LINK_STATUS
 	x = ev.link_status;
-# ifdef GL_ACTIVE_ATTRIBUTE_MAX_LENGTH
-	BOOST_CHECK(x != ev.active_attribute_max_length);
-# endif
-# ifdef GL_ACTIVE_ATTRIBUTES
-	BOOST_CHECK(x != ev.active_attributes);
-# endif
-# ifdef GL_ACTIVE_UNIFORM_MAX_LENGTH
-	BOOST_CHECK(x != ev.active_uniform_max_length);
-# endif
-# ifdef GL_ACTIVE_UNIFORMS
-	BOOST_CHECK(x != ev.active_uniforms);
-# endif
-# ifdef GL_ATTACHED_SHADERS
-	BOOST_CHECK(x != ev.attached_shaders);
-# endif
-# ifdef GL_DELETE_STATUS
-	BOOST_CHECK(x != ev.delete_status);
-# endif
-# ifdef GL_INFO_LOG_LENGTH
-	BOOST_CHECK(x != ev.info_log_length);
-# endif
 	BOOST_CHECK(x == ev.link_status);
 # ifdef GL_VALIDATE_STATUS
 	BOOST_CHECK(x != ev.validate_status);
@@ -260,30 +176,6 @@ BOOST_AUTO_TEST_CASE(enum_program_parameter_values)
 
 #ifdef GL_VALIDATE_STATUS
 	x = ev.validate_status;
-# ifdef GL_ACTIVE_ATTRIBUTE_MAX_LENGTH
-	BOOST_CHECK(x != ev.active_attribute_max_length);
-# endif
-# ifdef GL_ACTIVE_ATTRIBUTES
-	BOOST_CHECK(x != ev.active_attributes);
-# endif
-# ifdef GL_ACTIVE_UNIFORM_MAX_LENGTH
-	BOOST_CHECK(x != ev.active_uniform_max_length);
-# endif
-# ifdef GL_ACTIVE_UNIFORMS
-	BOOST_CHECK(x != ev.active_uniforms);
-# endif
-# ifdef GL_ATTACHED_SHADERS
-	BOOST_CHECK(x != ev.attached_shaders);
-# endif
-# ifdef GL_DELETE_STATUS
-	BOOST_CHECK(x != ev.delete_status);
-# endif
-# ifdef GL_INFO_LOG_LENGTH
-	BOOST_CHECK(x != ev.info_log_length);
-# endif
-# ifdef GL_LINK_STATUS
-	BOOST_CHECK(x != ev.link_status);
-# endif
 	BOOST_CHECK(x == ev.validate_status);
 #endif
 }

@@ -42,9 +42,6 @@ BOOST_AUTO_TEST_CASE(enum_old_matrix_mode_values)
 
 #ifdef GL_MODELVIEW
 	x = ev.modelview;
-# ifdef GL_COLOR
-	BOOST_CHECK(x != ev.color);
-# endif
 	BOOST_CHECK(x == ev.modelview);
 # ifdef GL_PROJECTION
 	BOOST_CHECK(x != ev.projection);
@@ -56,12 +53,6 @@ BOOST_AUTO_TEST_CASE(enum_old_matrix_mode_values)
 
 #ifdef GL_PROJECTION
 	x = ev.projection;
-# ifdef GL_COLOR
-	BOOST_CHECK(x != ev.color);
-# endif
-# ifdef GL_MODELVIEW
-	BOOST_CHECK(x != ev.modelview);
-# endif
 	BOOST_CHECK(x == ev.projection);
 # ifdef GL_TEXTURE
 	BOOST_CHECK(x != ev.texture);
@@ -70,15 +61,6 @@ BOOST_AUTO_TEST_CASE(enum_old_matrix_mode_values)
 
 #ifdef GL_TEXTURE
 	x = ev.texture;
-# ifdef GL_COLOR
-	BOOST_CHECK(x != ev.color);
-# endif
-# ifdef GL_MODELVIEW
-	BOOST_CHECK(x != ev.modelview);
-# endif
-# ifdef GL_PROJECTION
-	BOOST_CHECK(x != ev.projection);
-# endif
 	BOOST_CHECK(x == ev.texture);
 #endif
 }

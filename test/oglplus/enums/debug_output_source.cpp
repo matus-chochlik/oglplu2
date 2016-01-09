@@ -51,9 +51,6 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_source_values)
 
 #ifdef GL_DEBUG_SOURCE_APPLICATION
 	x = ev.debug_source_application;
-# ifdef GL_DEBUG_SOURCE_API
-	BOOST_CHECK(x != ev.debug_source_api);
-# endif
 	BOOST_CHECK(x == ev.debug_source_application);
 # ifdef GL_DEBUG_SOURCE_OTHER
 	BOOST_CHECK(x != ev.debug_source_other);
@@ -74,12 +71,6 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_source_values)
 
 #ifdef GL_DEBUG_SOURCE_OTHER
 	x = ev.debug_source_other;
-# ifdef GL_DEBUG_SOURCE_API
-	BOOST_CHECK(x != ev.debug_source_api);
-# endif
-# ifdef GL_DEBUG_SOURCE_APPLICATION
-	BOOST_CHECK(x != ev.debug_source_application);
-# endif
 	BOOST_CHECK(x == ev.debug_source_other);
 # ifdef GL_DEBUG_SOURCE_SHADER_COMPILER
 	BOOST_CHECK(x != ev.debug_source_shader_compiler);
@@ -97,15 +88,6 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_source_values)
 
 #ifdef GL_DEBUG_SOURCE_SHADER_COMPILER
 	x = ev.debug_source_shader_compiler;
-# ifdef GL_DEBUG_SOURCE_API
-	BOOST_CHECK(x != ev.debug_source_api);
-# endif
-# ifdef GL_DEBUG_SOURCE_APPLICATION
-	BOOST_CHECK(x != ev.debug_source_application);
-# endif
-# ifdef GL_DEBUG_SOURCE_OTHER
-	BOOST_CHECK(x != ev.debug_source_other);
-# endif
 	BOOST_CHECK(x == ev.debug_source_shader_compiler);
 # ifdef GL_DEBUG_SOURCE_THIRD_PARTY
 	BOOST_CHECK(x != ev.debug_source_third_party);
@@ -120,18 +102,6 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_source_values)
 
 #ifdef GL_DEBUG_SOURCE_THIRD_PARTY
 	x = ev.debug_source_third_party;
-# ifdef GL_DEBUG_SOURCE_API
-	BOOST_CHECK(x != ev.debug_source_api);
-# endif
-# ifdef GL_DEBUG_SOURCE_APPLICATION
-	BOOST_CHECK(x != ev.debug_source_application);
-# endif
-# ifdef GL_DEBUG_SOURCE_OTHER
-	BOOST_CHECK(x != ev.debug_source_other);
-# endif
-# ifdef GL_DEBUG_SOURCE_SHADER_COMPILER
-	BOOST_CHECK(x != ev.debug_source_shader_compiler);
-# endif
 	BOOST_CHECK(x == ev.debug_source_third_party);
 # ifdef GL_DEBUG_SOURCE_WINDOW_SYSTEM
 	BOOST_CHECK(x != ev.debug_source_window_system);
@@ -143,21 +113,6 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_source_values)
 
 #ifdef GL_DEBUG_SOURCE_WINDOW_SYSTEM
 	x = ev.debug_source_window_system;
-# ifdef GL_DEBUG_SOURCE_API
-	BOOST_CHECK(x != ev.debug_source_api);
-# endif
-# ifdef GL_DEBUG_SOURCE_APPLICATION
-	BOOST_CHECK(x != ev.debug_source_application);
-# endif
-# ifdef GL_DEBUG_SOURCE_OTHER
-	BOOST_CHECK(x != ev.debug_source_other);
-# endif
-# ifdef GL_DEBUG_SOURCE_SHADER_COMPILER
-	BOOST_CHECK(x != ev.debug_source_shader_compiler);
-# endif
-# ifdef GL_DEBUG_SOURCE_THIRD_PARTY
-	BOOST_CHECK(x != ev.debug_source_third_party);
-# endif
 	BOOST_CHECK(x == ev.debug_source_window_system);
 # ifdef GL_DONT_CARE
 	BOOST_CHECK(x != ev.dont_care);
@@ -166,24 +121,6 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_source_values)
 
 #ifdef GL_DONT_CARE
 	x = ev.dont_care;
-# ifdef GL_DEBUG_SOURCE_API
-	BOOST_CHECK(x != ev.debug_source_api);
-# endif
-# ifdef GL_DEBUG_SOURCE_APPLICATION
-	BOOST_CHECK(x != ev.debug_source_application);
-# endif
-# ifdef GL_DEBUG_SOURCE_OTHER
-	BOOST_CHECK(x != ev.debug_source_other);
-# endif
-# ifdef GL_DEBUG_SOURCE_SHADER_COMPILER
-	BOOST_CHECK(x != ev.debug_source_shader_compiler);
-# endif
-# ifdef GL_DEBUG_SOURCE_THIRD_PARTY
-	BOOST_CHECK(x != ev.debug_source_third_party);
-# endif
-# ifdef GL_DEBUG_SOURCE_WINDOW_SYSTEM
-	BOOST_CHECK(x != ev.debug_source_window_system);
-# endif
 	BOOST_CHECK(x == ev.dont_care);
 #endif
 }

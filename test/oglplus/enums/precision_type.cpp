@@ -48,9 +48,6 @@ BOOST_AUTO_TEST_CASE(enum_precision_type_values)
 
 #ifdef GL_HIGH_INT
 	x = ev.high_int;
-# ifdef GL_HIGH_FLOAT
-	BOOST_CHECK(x != ev.high_float);
-# endif
 	BOOST_CHECK(x == ev.high_int);
 # ifdef GL_LOW_FLOAT
 	BOOST_CHECK(x != ev.low_float);
@@ -68,12 +65,6 @@ BOOST_AUTO_TEST_CASE(enum_precision_type_values)
 
 #ifdef GL_LOW_FLOAT
 	x = ev.low_float;
-# ifdef GL_HIGH_FLOAT
-	BOOST_CHECK(x != ev.high_float);
-# endif
-# ifdef GL_HIGH_INT
-	BOOST_CHECK(x != ev.high_int);
-# endif
 	BOOST_CHECK(x == ev.low_float);
 # ifdef GL_LOW_INT
 	BOOST_CHECK(x != ev.low_int);
@@ -88,15 +79,6 @@ BOOST_AUTO_TEST_CASE(enum_precision_type_values)
 
 #ifdef GL_LOW_INT
 	x = ev.low_int;
-# ifdef GL_HIGH_FLOAT
-	BOOST_CHECK(x != ev.high_float);
-# endif
-# ifdef GL_HIGH_INT
-	BOOST_CHECK(x != ev.high_int);
-# endif
-# ifdef GL_LOW_FLOAT
-	BOOST_CHECK(x != ev.low_float);
-# endif
 	BOOST_CHECK(x == ev.low_int);
 # ifdef GL_MEDIUM_FLOAT
 	BOOST_CHECK(x != ev.medium_float);
@@ -108,18 +90,6 @@ BOOST_AUTO_TEST_CASE(enum_precision_type_values)
 
 #ifdef GL_MEDIUM_FLOAT
 	x = ev.medium_float;
-# ifdef GL_HIGH_FLOAT
-	BOOST_CHECK(x != ev.high_float);
-# endif
-# ifdef GL_HIGH_INT
-	BOOST_CHECK(x != ev.high_int);
-# endif
-# ifdef GL_LOW_FLOAT
-	BOOST_CHECK(x != ev.low_float);
-# endif
-# ifdef GL_LOW_INT
-	BOOST_CHECK(x != ev.low_int);
-# endif
 	BOOST_CHECK(x == ev.medium_float);
 # ifdef GL_MEDIUM_INT
 	BOOST_CHECK(x != ev.medium_int);
@@ -128,21 +98,6 @@ BOOST_AUTO_TEST_CASE(enum_precision_type_values)
 
 #ifdef GL_MEDIUM_INT
 	x = ev.medium_int;
-# ifdef GL_HIGH_FLOAT
-	BOOST_CHECK(x != ev.high_float);
-# endif
-# ifdef GL_HIGH_INT
-	BOOST_CHECK(x != ev.high_int);
-# endif
-# ifdef GL_LOW_FLOAT
-	BOOST_CHECK(x != ev.low_float);
-# endif
-# ifdef GL_LOW_INT
-	BOOST_CHECK(x != ev.low_int);
-# endif
-# ifdef GL_MEDIUM_FLOAT
-	BOOST_CHECK(x != ev.medium_float);
-# endif
 	BOOST_CHECK(x == ev.medium_int);
 #endif
 }

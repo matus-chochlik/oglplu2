@@ -72,9 +72,6 @@ BOOST_AUTO_TEST_CASE(enum_error_code_values)
 
 #ifdef EGL_BAD_ALLOC
 	x = ev.bad_alloc;
-# ifdef EGL_BAD_ACCESS
-	BOOST_CHECK(x != ev.bad_access);
-# endif
 	BOOST_CHECK(x == ev.bad_alloc);
 # ifdef EGL_BAD_ATTRIBUTE
 	BOOST_CHECK(x != ev.bad_attribute);
@@ -116,12 +113,6 @@ BOOST_AUTO_TEST_CASE(enum_error_code_values)
 
 #ifdef EGL_BAD_ATTRIBUTE
 	x = ev.bad_attribute;
-# ifdef EGL_BAD_ACCESS
-	BOOST_CHECK(x != ev.bad_access);
-# endif
-# ifdef EGL_BAD_ALLOC
-	BOOST_CHECK(x != ev.bad_alloc);
-# endif
 	BOOST_CHECK(x == ev.bad_attribute);
 # ifdef EGL_BAD_CONFIG
 	BOOST_CHECK(x != ev.bad_config);
@@ -160,15 +151,6 @@ BOOST_AUTO_TEST_CASE(enum_error_code_values)
 
 #ifdef EGL_BAD_CONFIG
 	x = ev.bad_config;
-# ifdef EGL_BAD_ACCESS
-	BOOST_CHECK(x != ev.bad_access);
-# endif
-# ifdef EGL_BAD_ALLOC
-	BOOST_CHECK(x != ev.bad_alloc);
-# endif
-# ifdef EGL_BAD_ATTRIBUTE
-	BOOST_CHECK(x != ev.bad_attribute);
-# endif
 	BOOST_CHECK(x == ev.bad_config);
 # ifdef EGL_BAD_CONTEXT
 	BOOST_CHECK(x != ev.bad_context);
@@ -204,18 +186,6 @@ BOOST_AUTO_TEST_CASE(enum_error_code_values)
 
 #ifdef EGL_BAD_CONTEXT
 	x = ev.bad_context;
-# ifdef EGL_BAD_ACCESS
-	BOOST_CHECK(x != ev.bad_access);
-# endif
-# ifdef EGL_BAD_ALLOC
-	BOOST_CHECK(x != ev.bad_alloc);
-# endif
-# ifdef EGL_BAD_ATTRIBUTE
-	BOOST_CHECK(x != ev.bad_attribute);
-# endif
-# ifdef EGL_BAD_CONFIG
-	BOOST_CHECK(x != ev.bad_config);
-# endif
 	BOOST_CHECK(x == ev.bad_context);
 # ifdef EGL_BAD_CURRENT_SURFACE
 	BOOST_CHECK(x != ev.bad_current_surface);
@@ -248,21 +218,6 @@ BOOST_AUTO_TEST_CASE(enum_error_code_values)
 
 #ifdef EGL_BAD_CURRENT_SURFACE
 	x = ev.bad_current_surface;
-# ifdef EGL_BAD_ACCESS
-	BOOST_CHECK(x != ev.bad_access);
-# endif
-# ifdef EGL_BAD_ALLOC
-	BOOST_CHECK(x != ev.bad_alloc);
-# endif
-# ifdef EGL_BAD_ATTRIBUTE
-	BOOST_CHECK(x != ev.bad_attribute);
-# endif
-# ifdef EGL_BAD_CONFIG
-	BOOST_CHECK(x != ev.bad_config);
-# endif
-# ifdef EGL_BAD_CONTEXT
-	BOOST_CHECK(x != ev.bad_context);
-# endif
 	BOOST_CHECK(x == ev.bad_current_surface);
 # ifdef EGL_BAD_DISPLAY
 	BOOST_CHECK(x != ev.bad_display);
@@ -292,24 +247,6 @@ BOOST_AUTO_TEST_CASE(enum_error_code_values)
 
 #ifdef EGL_BAD_DISPLAY
 	x = ev.bad_display;
-# ifdef EGL_BAD_ACCESS
-	BOOST_CHECK(x != ev.bad_access);
-# endif
-# ifdef EGL_BAD_ALLOC
-	BOOST_CHECK(x != ev.bad_alloc);
-# endif
-# ifdef EGL_BAD_ATTRIBUTE
-	BOOST_CHECK(x != ev.bad_attribute);
-# endif
-# ifdef EGL_BAD_CONFIG
-	BOOST_CHECK(x != ev.bad_config);
-# endif
-# ifdef EGL_BAD_CONTEXT
-	BOOST_CHECK(x != ev.bad_context);
-# endif
-# ifdef EGL_BAD_CURRENT_SURFACE
-	BOOST_CHECK(x != ev.bad_current_surface);
-# endif
 	BOOST_CHECK(x == ev.bad_display);
 # ifdef EGL_BAD_MATCH
 	BOOST_CHECK(x != ev.bad_match);
@@ -336,27 +273,6 @@ BOOST_AUTO_TEST_CASE(enum_error_code_values)
 
 #ifdef EGL_BAD_MATCH
 	x = ev.bad_match;
-# ifdef EGL_BAD_ACCESS
-	BOOST_CHECK(x != ev.bad_access);
-# endif
-# ifdef EGL_BAD_ALLOC
-	BOOST_CHECK(x != ev.bad_alloc);
-# endif
-# ifdef EGL_BAD_ATTRIBUTE
-	BOOST_CHECK(x != ev.bad_attribute);
-# endif
-# ifdef EGL_BAD_CONFIG
-	BOOST_CHECK(x != ev.bad_config);
-# endif
-# ifdef EGL_BAD_CONTEXT
-	BOOST_CHECK(x != ev.bad_context);
-# endif
-# ifdef EGL_BAD_CURRENT_SURFACE
-	BOOST_CHECK(x != ev.bad_current_surface);
-# endif
-# ifdef EGL_BAD_DISPLAY
-	BOOST_CHECK(x != ev.bad_display);
-# endif
 	BOOST_CHECK(x == ev.bad_match);
 # ifdef EGL_BAD_NATIVE_PIXMAP
 	BOOST_CHECK(x != ev.bad_native_pixmap);
@@ -380,30 +296,6 @@ BOOST_AUTO_TEST_CASE(enum_error_code_values)
 
 #ifdef EGL_BAD_NATIVE_PIXMAP
 	x = ev.bad_native_pixmap;
-# ifdef EGL_BAD_ACCESS
-	BOOST_CHECK(x != ev.bad_access);
-# endif
-# ifdef EGL_BAD_ALLOC
-	BOOST_CHECK(x != ev.bad_alloc);
-# endif
-# ifdef EGL_BAD_ATTRIBUTE
-	BOOST_CHECK(x != ev.bad_attribute);
-# endif
-# ifdef EGL_BAD_CONFIG
-	BOOST_CHECK(x != ev.bad_config);
-# endif
-# ifdef EGL_BAD_CONTEXT
-	BOOST_CHECK(x != ev.bad_context);
-# endif
-# ifdef EGL_BAD_CURRENT_SURFACE
-	BOOST_CHECK(x != ev.bad_current_surface);
-# endif
-# ifdef EGL_BAD_DISPLAY
-	BOOST_CHECK(x != ev.bad_display);
-# endif
-# ifdef EGL_BAD_MATCH
-	BOOST_CHECK(x != ev.bad_match);
-# endif
 	BOOST_CHECK(x == ev.bad_native_pixmap);
 # ifdef EGL_BAD_NATIVE_WINDOW
 	BOOST_CHECK(x != ev.bad_native_window);
@@ -424,33 +316,6 @@ BOOST_AUTO_TEST_CASE(enum_error_code_values)
 
 #ifdef EGL_BAD_NATIVE_WINDOW
 	x = ev.bad_native_window;
-# ifdef EGL_BAD_ACCESS
-	BOOST_CHECK(x != ev.bad_access);
-# endif
-# ifdef EGL_BAD_ALLOC
-	BOOST_CHECK(x != ev.bad_alloc);
-# endif
-# ifdef EGL_BAD_ATTRIBUTE
-	BOOST_CHECK(x != ev.bad_attribute);
-# endif
-# ifdef EGL_BAD_CONFIG
-	BOOST_CHECK(x != ev.bad_config);
-# endif
-# ifdef EGL_BAD_CONTEXT
-	BOOST_CHECK(x != ev.bad_context);
-# endif
-# ifdef EGL_BAD_CURRENT_SURFACE
-	BOOST_CHECK(x != ev.bad_current_surface);
-# endif
-# ifdef EGL_BAD_DISPLAY
-	BOOST_CHECK(x != ev.bad_display);
-# endif
-# ifdef EGL_BAD_MATCH
-	BOOST_CHECK(x != ev.bad_match);
-# endif
-# ifdef EGL_BAD_NATIVE_PIXMAP
-	BOOST_CHECK(x != ev.bad_native_pixmap);
-# endif
 	BOOST_CHECK(x == ev.bad_native_window);
 # ifdef EGL_BAD_PARAMETER
 	BOOST_CHECK(x != ev.bad_parameter);
@@ -468,36 +333,6 @@ BOOST_AUTO_TEST_CASE(enum_error_code_values)
 
 #ifdef EGL_BAD_PARAMETER
 	x = ev.bad_parameter;
-# ifdef EGL_BAD_ACCESS
-	BOOST_CHECK(x != ev.bad_access);
-# endif
-# ifdef EGL_BAD_ALLOC
-	BOOST_CHECK(x != ev.bad_alloc);
-# endif
-# ifdef EGL_BAD_ATTRIBUTE
-	BOOST_CHECK(x != ev.bad_attribute);
-# endif
-# ifdef EGL_BAD_CONFIG
-	BOOST_CHECK(x != ev.bad_config);
-# endif
-# ifdef EGL_BAD_CONTEXT
-	BOOST_CHECK(x != ev.bad_context);
-# endif
-# ifdef EGL_BAD_CURRENT_SURFACE
-	BOOST_CHECK(x != ev.bad_current_surface);
-# endif
-# ifdef EGL_BAD_DISPLAY
-	BOOST_CHECK(x != ev.bad_display);
-# endif
-# ifdef EGL_BAD_MATCH
-	BOOST_CHECK(x != ev.bad_match);
-# endif
-# ifdef EGL_BAD_NATIVE_PIXMAP
-	BOOST_CHECK(x != ev.bad_native_pixmap);
-# endif
-# ifdef EGL_BAD_NATIVE_WINDOW
-	BOOST_CHECK(x != ev.bad_native_window);
-# endif
 	BOOST_CHECK(x == ev.bad_parameter);
 # ifdef EGL_BAD_SURFACE
 	BOOST_CHECK(x != ev.bad_surface);
@@ -512,39 +347,6 @@ BOOST_AUTO_TEST_CASE(enum_error_code_values)
 
 #ifdef EGL_BAD_SURFACE
 	x = ev.bad_surface;
-# ifdef EGL_BAD_ACCESS
-	BOOST_CHECK(x != ev.bad_access);
-# endif
-# ifdef EGL_BAD_ALLOC
-	BOOST_CHECK(x != ev.bad_alloc);
-# endif
-# ifdef EGL_BAD_ATTRIBUTE
-	BOOST_CHECK(x != ev.bad_attribute);
-# endif
-# ifdef EGL_BAD_CONFIG
-	BOOST_CHECK(x != ev.bad_config);
-# endif
-# ifdef EGL_BAD_CONTEXT
-	BOOST_CHECK(x != ev.bad_context);
-# endif
-# ifdef EGL_BAD_CURRENT_SURFACE
-	BOOST_CHECK(x != ev.bad_current_surface);
-# endif
-# ifdef EGL_BAD_DISPLAY
-	BOOST_CHECK(x != ev.bad_display);
-# endif
-# ifdef EGL_BAD_MATCH
-	BOOST_CHECK(x != ev.bad_match);
-# endif
-# ifdef EGL_BAD_NATIVE_PIXMAP
-	BOOST_CHECK(x != ev.bad_native_pixmap);
-# endif
-# ifdef EGL_BAD_NATIVE_WINDOW
-	BOOST_CHECK(x != ev.bad_native_window);
-# endif
-# ifdef EGL_BAD_PARAMETER
-	BOOST_CHECK(x != ev.bad_parameter);
-# endif
 	BOOST_CHECK(x == ev.bad_surface);
 # ifdef EGL_CONTEXT_LOST
 	BOOST_CHECK(x != ev.context_lost);
@@ -556,42 +358,6 @@ BOOST_AUTO_TEST_CASE(enum_error_code_values)
 
 #ifdef EGL_CONTEXT_LOST
 	x = ev.context_lost;
-# ifdef EGL_BAD_ACCESS
-	BOOST_CHECK(x != ev.bad_access);
-# endif
-# ifdef EGL_BAD_ALLOC
-	BOOST_CHECK(x != ev.bad_alloc);
-# endif
-# ifdef EGL_BAD_ATTRIBUTE
-	BOOST_CHECK(x != ev.bad_attribute);
-# endif
-# ifdef EGL_BAD_CONFIG
-	BOOST_CHECK(x != ev.bad_config);
-# endif
-# ifdef EGL_BAD_CONTEXT
-	BOOST_CHECK(x != ev.bad_context);
-# endif
-# ifdef EGL_BAD_CURRENT_SURFACE
-	BOOST_CHECK(x != ev.bad_current_surface);
-# endif
-# ifdef EGL_BAD_DISPLAY
-	BOOST_CHECK(x != ev.bad_display);
-# endif
-# ifdef EGL_BAD_MATCH
-	BOOST_CHECK(x != ev.bad_match);
-# endif
-# ifdef EGL_BAD_NATIVE_PIXMAP
-	BOOST_CHECK(x != ev.bad_native_pixmap);
-# endif
-# ifdef EGL_BAD_NATIVE_WINDOW
-	BOOST_CHECK(x != ev.bad_native_window);
-# endif
-# ifdef EGL_BAD_PARAMETER
-	BOOST_CHECK(x != ev.bad_parameter);
-# endif
-# ifdef EGL_BAD_SURFACE
-	BOOST_CHECK(x != ev.bad_surface);
-# endif
 	BOOST_CHECK(x == ev.context_lost);
 # ifdef EGL_NOT_INITIALIZED
 	BOOST_CHECK(x != ev.not_initialized);
@@ -600,45 +366,6 @@ BOOST_AUTO_TEST_CASE(enum_error_code_values)
 
 #ifdef EGL_NOT_INITIALIZED
 	x = ev.not_initialized;
-# ifdef EGL_BAD_ACCESS
-	BOOST_CHECK(x != ev.bad_access);
-# endif
-# ifdef EGL_BAD_ALLOC
-	BOOST_CHECK(x != ev.bad_alloc);
-# endif
-# ifdef EGL_BAD_ATTRIBUTE
-	BOOST_CHECK(x != ev.bad_attribute);
-# endif
-# ifdef EGL_BAD_CONFIG
-	BOOST_CHECK(x != ev.bad_config);
-# endif
-# ifdef EGL_BAD_CONTEXT
-	BOOST_CHECK(x != ev.bad_context);
-# endif
-# ifdef EGL_BAD_CURRENT_SURFACE
-	BOOST_CHECK(x != ev.bad_current_surface);
-# endif
-# ifdef EGL_BAD_DISPLAY
-	BOOST_CHECK(x != ev.bad_display);
-# endif
-# ifdef EGL_BAD_MATCH
-	BOOST_CHECK(x != ev.bad_match);
-# endif
-# ifdef EGL_BAD_NATIVE_PIXMAP
-	BOOST_CHECK(x != ev.bad_native_pixmap);
-# endif
-# ifdef EGL_BAD_NATIVE_WINDOW
-	BOOST_CHECK(x != ev.bad_native_window);
-# endif
-# ifdef EGL_BAD_PARAMETER
-	BOOST_CHECK(x != ev.bad_parameter);
-# endif
-# ifdef EGL_BAD_SURFACE
-	BOOST_CHECK(x != ev.bad_surface);
-# endif
-# ifdef EGL_CONTEXT_LOST
-	BOOST_CHECK(x != ev.context_lost);
-# endif
 	BOOST_CHECK(x == ev.not_initialized);
 #endif
 }

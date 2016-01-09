@@ -36,9 +36,6 @@ BOOST_AUTO_TEST_CASE(enum_render_buffer_values)
 
 #ifdef EGL_SINGLE_BUFFER
 	x = ev.single_buffer;
-# ifdef EGL_BACK_BUFFER
-	BOOST_CHECK(x != ev.back_buffer);
-# endif
 	BOOST_CHECK(x == ev.single_buffer);
 #endif
 }

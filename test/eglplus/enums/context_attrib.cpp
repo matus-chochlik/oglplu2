@@ -45,9 +45,6 @@ BOOST_AUTO_TEST_CASE(enum_context_attrib_values)
 
 #ifdef EGL_CONTEXT_MAJOR_VERSION
 	x = ev.context_major_version;
-# ifdef EGL_CONTEXT_FLAGS
-	BOOST_CHECK(x != ev.context_flags);
-# endif
 	BOOST_CHECK(x == ev.context_major_version);
 # ifdef EGL_CONTEXT_MINOR_VERSION
 	BOOST_CHECK(x != ev.context_minor_version);
@@ -62,12 +59,6 @@ BOOST_AUTO_TEST_CASE(enum_context_attrib_values)
 
 #ifdef EGL_CONTEXT_MINOR_VERSION
 	x = ev.context_minor_version;
-# ifdef EGL_CONTEXT_FLAGS
-	BOOST_CHECK(x != ev.context_flags);
-# endif
-# ifdef EGL_CONTEXT_MAJOR_VERSION
-	BOOST_CHECK(x != ev.context_major_version);
-# endif
 	BOOST_CHECK(x == ev.context_minor_version);
 # ifdef EGL_CONTEXT_OPENGL_PROFILE_MASK
 	BOOST_CHECK(x != ev.context_opengl_profile_mask);
@@ -79,15 +70,6 @@ BOOST_AUTO_TEST_CASE(enum_context_attrib_values)
 
 #ifdef EGL_CONTEXT_OPENGL_PROFILE_MASK
 	x = ev.context_opengl_profile_mask;
-# ifdef EGL_CONTEXT_FLAGS
-	BOOST_CHECK(x != ev.context_flags);
-# endif
-# ifdef EGL_CONTEXT_MAJOR_VERSION
-	BOOST_CHECK(x != ev.context_major_version);
-# endif
-# ifdef EGL_CONTEXT_MINOR_VERSION
-	BOOST_CHECK(x != ev.context_minor_version);
-# endif
 	BOOST_CHECK(x == ev.context_opengl_profile_mask);
 # ifdef EGL_CONTEXT_OPENGL_RESET_NOTIFICATION_STRATEGY
 	BOOST_CHECK(x != ev.context_opengl_reset_notification_strategy);
@@ -96,18 +78,6 @@ BOOST_AUTO_TEST_CASE(enum_context_attrib_values)
 
 #ifdef EGL_CONTEXT_OPENGL_RESET_NOTIFICATION_STRATEGY
 	x = ev.context_opengl_reset_notification_strategy;
-# ifdef EGL_CONTEXT_FLAGS
-	BOOST_CHECK(x != ev.context_flags);
-# endif
-# ifdef EGL_CONTEXT_MAJOR_VERSION
-	BOOST_CHECK(x != ev.context_major_version);
-# endif
-# ifdef EGL_CONTEXT_MINOR_VERSION
-	BOOST_CHECK(x != ev.context_minor_version);
-# endif
-# ifdef EGL_CONTEXT_OPENGL_PROFILE_MASK
-	BOOST_CHECK(x != ev.context_opengl_profile_mask);
-# endif
 	BOOST_CHECK(x == ev.context_opengl_reset_notification_strategy);
 #endif
 }

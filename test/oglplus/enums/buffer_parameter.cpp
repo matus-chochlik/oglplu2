@@ -57,9 +57,6 @@ BOOST_AUTO_TEST_CASE(enum_buffer_parameter_values)
 
 #ifdef GL_BUFFER_ACCESS_FLAGS
 	x = ev.buffer_access_flags;
-# ifdef GL_BUFFER_ACCESS
-	BOOST_CHECK(x != ev.buffer_access);
-# endif
 	BOOST_CHECK(x == ev.buffer_access_flags);
 # ifdef GL_BUFFER_IMMUTABLE_STORAGE
 	BOOST_CHECK(x != ev.buffer_immutable_storage);
@@ -86,12 +83,6 @@ BOOST_AUTO_TEST_CASE(enum_buffer_parameter_values)
 
 #ifdef GL_BUFFER_IMMUTABLE_STORAGE
 	x = ev.buffer_immutable_storage;
-# ifdef GL_BUFFER_ACCESS
-	BOOST_CHECK(x != ev.buffer_access);
-# endif
-# ifdef GL_BUFFER_ACCESS_FLAGS
-	BOOST_CHECK(x != ev.buffer_access_flags);
-# endif
 	BOOST_CHECK(x == ev.buffer_immutable_storage);
 # ifdef GL_BUFFER_MAP_LENGTH
 	BOOST_CHECK(x != ev.buffer_map_length);
@@ -115,15 +106,6 @@ BOOST_AUTO_TEST_CASE(enum_buffer_parameter_values)
 
 #ifdef GL_BUFFER_MAP_LENGTH
 	x = ev.buffer_map_length;
-# ifdef GL_BUFFER_ACCESS
-	BOOST_CHECK(x != ev.buffer_access);
-# endif
-# ifdef GL_BUFFER_ACCESS_FLAGS
-	BOOST_CHECK(x != ev.buffer_access_flags);
-# endif
-# ifdef GL_BUFFER_IMMUTABLE_STORAGE
-	BOOST_CHECK(x != ev.buffer_immutable_storage);
-# endif
 	BOOST_CHECK(x == ev.buffer_map_length);
 # ifdef GL_BUFFER_MAP_OFFSET
 	BOOST_CHECK(x != ev.buffer_map_offset);
@@ -144,18 +126,6 @@ BOOST_AUTO_TEST_CASE(enum_buffer_parameter_values)
 
 #ifdef GL_BUFFER_MAP_OFFSET
 	x = ev.buffer_map_offset;
-# ifdef GL_BUFFER_ACCESS
-	BOOST_CHECK(x != ev.buffer_access);
-# endif
-# ifdef GL_BUFFER_ACCESS_FLAGS
-	BOOST_CHECK(x != ev.buffer_access_flags);
-# endif
-# ifdef GL_BUFFER_IMMUTABLE_STORAGE
-	BOOST_CHECK(x != ev.buffer_immutable_storage);
-# endif
-# ifdef GL_BUFFER_MAP_LENGTH
-	BOOST_CHECK(x != ev.buffer_map_length);
-# endif
 	BOOST_CHECK(x == ev.buffer_map_offset);
 # ifdef GL_BUFFER_MAPPED
 	BOOST_CHECK(x != ev.buffer_mapped);
@@ -173,21 +143,6 @@ BOOST_AUTO_TEST_CASE(enum_buffer_parameter_values)
 
 #ifdef GL_BUFFER_MAPPED
 	x = ev.buffer_mapped;
-# ifdef GL_BUFFER_ACCESS
-	BOOST_CHECK(x != ev.buffer_access);
-# endif
-# ifdef GL_BUFFER_ACCESS_FLAGS
-	BOOST_CHECK(x != ev.buffer_access_flags);
-# endif
-# ifdef GL_BUFFER_IMMUTABLE_STORAGE
-	BOOST_CHECK(x != ev.buffer_immutable_storage);
-# endif
-# ifdef GL_BUFFER_MAP_LENGTH
-	BOOST_CHECK(x != ev.buffer_map_length);
-# endif
-# ifdef GL_BUFFER_MAP_OFFSET
-	BOOST_CHECK(x != ev.buffer_map_offset);
-# endif
 	BOOST_CHECK(x == ev.buffer_mapped);
 # ifdef GL_BUFFER_SIZE
 	BOOST_CHECK(x != ev.buffer_size);
@@ -202,24 +157,6 @@ BOOST_AUTO_TEST_CASE(enum_buffer_parameter_values)
 
 #ifdef GL_BUFFER_SIZE
 	x = ev.buffer_size;
-# ifdef GL_BUFFER_ACCESS
-	BOOST_CHECK(x != ev.buffer_access);
-# endif
-# ifdef GL_BUFFER_ACCESS_FLAGS
-	BOOST_CHECK(x != ev.buffer_access_flags);
-# endif
-# ifdef GL_BUFFER_IMMUTABLE_STORAGE
-	BOOST_CHECK(x != ev.buffer_immutable_storage);
-# endif
-# ifdef GL_BUFFER_MAP_LENGTH
-	BOOST_CHECK(x != ev.buffer_map_length);
-# endif
-# ifdef GL_BUFFER_MAP_OFFSET
-	BOOST_CHECK(x != ev.buffer_map_offset);
-# endif
-# ifdef GL_BUFFER_MAPPED
-	BOOST_CHECK(x != ev.buffer_mapped);
-# endif
 	BOOST_CHECK(x == ev.buffer_size);
 # ifdef GL_BUFFER_STORAGE_FLAGS
 	BOOST_CHECK(x != ev.buffer_storage_flags);
@@ -231,27 +168,6 @@ BOOST_AUTO_TEST_CASE(enum_buffer_parameter_values)
 
 #ifdef GL_BUFFER_STORAGE_FLAGS
 	x = ev.buffer_storage_flags;
-# ifdef GL_BUFFER_ACCESS
-	BOOST_CHECK(x != ev.buffer_access);
-# endif
-# ifdef GL_BUFFER_ACCESS_FLAGS
-	BOOST_CHECK(x != ev.buffer_access_flags);
-# endif
-# ifdef GL_BUFFER_IMMUTABLE_STORAGE
-	BOOST_CHECK(x != ev.buffer_immutable_storage);
-# endif
-# ifdef GL_BUFFER_MAP_LENGTH
-	BOOST_CHECK(x != ev.buffer_map_length);
-# endif
-# ifdef GL_BUFFER_MAP_OFFSET
-	BOOST_CHECK(x != ev.buffer_map_offset);
-# endif
-# ifdef GL_BUFFER_MAPPED
-	BOOST_CHECK(x != ev.buffer_mapped);
-# endif
-# ifdef GL_BUFFER_SIZE
-	BOOST_CHECK(x != ev.buffer_size);
-# endif
 	BOOST_CHECK(x == ev.buffer_storage_flags);
 # ifdef GL_BUFFER_USAGE
 	BOOST_CHECK(x != ev.buffer_usage);
@@ -260,30 +176,6 @@ BOOST_AUTO_TEST_CASE(enum_buffer_parameter_values)
 
 #ifdef GL_BUFFER_USAGE
 	x = ev.buffer_usage;
-# ifdef GL_BUFFER_ACCESS
-	BOOST_CHECK(x != ev.buffer_access);
-# endif
-# ifdef GL_BUFFER_ACCESS_FLAGS
-	BOOST_CHECK(x != ev.buffer_access_flags);
-# endif
-# ifdef GL_BUFFER_IMMUTABLE_STORAGE
-	BOOST_CHECK(x != ev.buffer_immutable_storage);
-# endif
-# ifdef GL_BUFFER_MAP_LENGTH
-	BOOST_CHECK(x != ev.buffer_map_length);
-# endif
-# ifdef GL_BUFFER_MAP_OFFSET
-	BOOST_CHECK(x != ev.buffer_map_offset);
-# endif
-# ifdef GL_BUFFER_MAPPED
-	BOOST_CHECK(x != ev.buffer_mapped);
-# endif
-# ifdef GL_BUFFER_SIZE
-	BOOST_CHECK(x != ev.buffer_size);
-# endif
-# ifdef GL_BUFFER_STORAGE_FLAGS
-	BOOST_CHECK(x != ev.buffer_storage_flags);
-# endif
 	BOOST_CHECK(x == ev.buffer_usage);
 #endif
 }

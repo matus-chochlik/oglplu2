@@ -42,9 +42,6 @@ BOOST_AUTO_TEST_CASE(enum_hint_target_values)
 
 #ifdef GL_LINE_SMOOTH_HINT
 	x = ev.line_smooth_hint;
-# ifdef GL_FRAGMENT_SHADER_DERIVATIVE_HINT
-	BOOST_CHECK(x != ev.fragment_shader_derivative_hint);
-# endif
 	BOOST_CHECK(x == ev.line_smooth_hint);
 # ifdef GL_POLYGON_SMOOTH_HINT
 	BOOST_CHECK(x != ev.polygon_smooth_hint);
@@ -56,12 +53,6 @@ BOOST_AUTO_TEST_CASE(enum_hint_target_values)
 
 #ifdef GL_POLYGON_SMOOTH_HINT
 	x = ev.polygon_smooth_hint;
-# ifdef GL_FRAGMENT_SHADER_DERIVATIVE_HINT
-	BOOST_CHECK(x != ev.fragment_shader_derivative_hint);
-# endif
-# ifdef GL_LINE_SMOOTH_HINT
-	BOOST_CHECK(x != ev.line_smooth_hint);
-# endif
 	BOOST_CHECK(x == ev.polygon_smooth_hint);
 # ifdef GL_TEXTURE_COMPRESSION_HINT
 	BOOST_CHECK(x != ev.texture_compression_hint);
@@ -70,15 +61,6 @@ BOOST_AUTO_TEST_CASE(enum_hint_target_values)
 
 #ifdef GL_TEXTURE_COMPRESSION_HINT
 	x = ev.texture_compression_hint;
-# ifdef GL_FRAGMENT_SHADER_DERIVATIVE_HINT
-	BOOST_CHECK(x != ev.fragment_shader_derivative_hint);
-# endif
-# ifdef GL_LINE_SMOOTH_HINT
-	BOOST_CHECK(x != ev.line_smooth_hint);
-# endif
-# ifdef GL_POLYGON_SMOOTH_HINT
-	BOOST_CHECK(x != ev.polygon_smooth_hint);
-# endif
 	BOOST_CHECK(x == ev.texture_compression_hint);
 #endif
 }

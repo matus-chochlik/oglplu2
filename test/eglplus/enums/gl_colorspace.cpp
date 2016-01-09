@@ -36,9 +36,6 @@ BOOST_AUTO_TEST_CASE(enum_gl_colorspace_values)
 
 #ifdef EGL_GL_COLORSPACE_sRGB
 	x = ev.gl_colorspace_srgb;
-# ifdef EGL_GL_COLORSPACE_LINEAR
-	BOOST_CHECK(x != ev.gl_colorspace_linear);
-# endif
 	BOOST_CHECK(x == ev.gl_colorspace_srgb);
 #endif
 }
