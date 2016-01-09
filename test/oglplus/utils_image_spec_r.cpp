@@ -19,7 +19,7 @@ BOOST_AUTO_TEST_CASE(utils_image_spec_1)
 {
 	using namespace oglplus;
 
-	GLfloat x[64];
+	static GLfloat x[64];
 
 	image_spec is({64},{pixel_data_format(GL_RED)},as_span(x));
 
@@ -39,7 +39,7 @@ BOOST_AUTO_TEST_CASE(utils_image_spec_2)
 {
 	using namespace oglplus;
 
-	GLint x[32*64*2];
+	static GLint x[32*64*2];
 
 	image_spec is({32,64},{pixel_data_format(GL_RG)},as_span(x));
 
@@ -59,7 +59,7 @@ BOOST_AUTO_TEST_CASE(utils_image_spec_3)
 {
 	using namespace oglplus;
 
-	GLubyte x[16*32*64*3];
+	static GLubyte x[16*32*64*3];
 
 	image_spec is({16,32,64},{pixel_data_format(GL_RGB)},as_span(x));
 
@@ -79,7 +79,7 @@ BOOST_AUTO_TEST_CASE(utils_image_spec_4)
 {
 	using namespace oglplus;
 
-	GLuint x[64*64*64*4];
+	static GLuint x[64*64*64*4];
 
 	image_spec is({64,64,64},{pixel_data_format(GL_RGBA)},as_span(x));
 
