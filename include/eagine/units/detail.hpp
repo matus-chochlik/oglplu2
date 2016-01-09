@@ -456,13 +456,13 @@ struct _sc_unit_sc_hlp
 		return v;
 	}
 
-	template <typename T, typename SV, int E>
+	template <typename T, typename S, int E>
 	static constexpr inline
-	auto _pow(T v, SV sv, int_constant<E>)
+	auto _pow(T v, S s, int_constant<E>)
 	{
 		return _pow(
-			(E>0)?v*sv:v/sv,
-			sv,
+			(E>0)?S::mul(v):S::div(v),
+			s,
 			int_constant<E+((E>0)?-1:1)>()
 		);
 	}
@@ -500,10 +500,8 @@ struct _sc_unit_sc_hlp
 			::template base_unit<D>::type SBU;
 		typedef scales::scale_of_t<SBU> BS;
 
- 		typedef get_scale_t<Scales, SBU, BS> BUS;
-
 		return _pow(
-			v, BUS::value,
+			v, get_scale_t<Scales, SBU, BS>(),
 			int_constant<(Dir::value?E:-E)>()
 		);
 	}

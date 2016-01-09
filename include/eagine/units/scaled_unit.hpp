@@ -30,35 +30,28 @@ struct scaled_dim_unit
 	{
 		typedef scale type;
 
-		struct _impl : bits::_sc_unit_sc_hlp<Scales, System>
+		typedef bits::_sc_unit_sc_hlp<Scales, System> _impl;
+		typedef bits::dim_pow<nothing_t, int_constant<0>> _ndp;
+
+		template <typename T>
+		static constexpr inline
+		auto mul(T v)
 		{
-			typedef _impl type;
-			typedef bits::dim_pow<nothing_t, int_constant<0>> _ndp;
+			return _impl::_hlp(
+				std::true_type(),
+				v, bits::dims<_ndp, Dims>()
+			);
+		}
 
-			template <typename T>
-			friend constexpr inline
-			auto operator * (T v, _impl i)
-			noexcept
-			{
-				return i._hlp(
-					std::true_type(),
-					v, bits::dims<_ndp, Dims>()
-				);
-			}
-
-			template <typename T>
-			friend constexpr inline
-			auto operator / (T v, _impl i)
-			noexcept
-			{
-				return i._hlp(
-					std::false_type(),
-					v, bits::dims<_ndp, Dims>()
-				);
-			}
-		};
-
-		static constexpr const _impl value = {};
+		template <typename T>
+		static constexpr inline
+		auto div(T v)
+		{
+			return _impl::_hlp(
+				std::false_type(),
+				v, bits::dims<_ndp, Dims>()
+			);
+		}
 	};
 };
 
@@ -131,7 +124,7 @@ struct value_conv<scaled_dim_unit<D, US, S>, unit<D, S>>
 	constexpr inline
 	auto operator()(T v) const
 	{
-		return v*scaled_dim_unit<D, US, S>::scale::value;
+		return scaled_dim_unit<D, US, S>::scale::mul(v);
 	}
 };
 
@@ -145,7 +138,7 @@ struct value_conv<
 	constexpr inline
 	auto operator()(T v) const
 	{
-		return v*AS::value;
+		return AS::mul(v);
 	}
 };
 
@@ -156,7 +149,7 @@ struct value_conv<unit<D, S>, scaled_dim_unit<D, US, S>>
 	constexpr inline
 	auto operator()(T v) const
 	{
-		return v/scaled_dim_unit<D, US, S>::scale::value;
+		return scaled_dim_unit<D, US, S>::scale::div(v);
 	}
 };
 
@@ -170,7 +163,7 @@ struct value_conv<
 	constexpr inline
 	auto operator()(T v) const
 	{
-		return v/AS::value;
+		return AS::div(v);
 	}
 };
 
@@ -186,9 +179,9 @@ struct value_conv<scaled_dim_unit<D, US1, S>, scaled_dim_unit<D, US2, S>>
 	constexpr inline
 	auto operator()(T v) const
 	{
-		return v*
-			scaled_dim_unit<D, US1, S>::scale::value/
-			scaled_dim_unit<D, US2, S>::scale::value;
+		return scaled_dim_unit<D, US2, S>::scale::div(
+			scaled_dim_unit<D, US1, S>::scale::mul(v)
+		);
 	}
 };
 
@@ -202,7 +195,7 @@ struct value_conv<
 	constexpr inline
 	auto operator()(T v) const
 	{
-		return v*AS1::value/AS2::value;
+		return AS2::div(AS1::mul(v));
 	}
 };
 
