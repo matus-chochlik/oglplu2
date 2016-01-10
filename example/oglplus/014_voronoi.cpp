@@ -11,6 +11,7 @@
 #include <oglplus/constants.hpp>
 #include <oglplus/operations.hpp>
 #include <oglplus/glsl/string_ref.hpp>
+#include <eagine/random_bytes.hpp>
 
 #include "example.hpp"
 #include <iostream>
@@ -131,16 +132,8 @@ class random_texture
 public:
 	random_texture(GLsizei width, GLsizei height)
 	{
-		std::independent_bits_engine<
-			std::default_random_engine,
-			8, GLubyte
-		> re;
 		std::vector<GLubyte> random_bytes(std::size_t(width*height*3));
-		std::generate(
-			random_bytes.begin(),
-			random_bytes.end(),
-			std::ref(re)
-		);
+		eagine::fill_with_random_bytes(random_bytes);
 
 		gl.bind(GL.texture_2d, *this);
 		gl.texture_min_filter(GL.texture_2d, GL.nearest);
