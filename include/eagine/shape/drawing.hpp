@@ -34,7 +34,9 @@ struct draw_operation
 	bool primitive_restart;
 	bool indexed;
 
+	constexpr
 	draw_operation(void)
+	noexcept
 	 : mode(primitive_type::points)
 	 , first(0)
 	 , count(0)
