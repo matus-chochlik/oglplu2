@@ -65,7 +65,7 @@ void eagine_test_memory_block_2(void)
 
 	int x;
 
-	basic_memory_block<is_const> bmb(x);
+	basic_memory_block<is_const> bmb = memory::block_of(x);
 
 	BOOST_CHECK(bool(bmb));
 	BOOST_CHECK(!!bmb);
@@ -95,7 +95,7 @@ void eagine_test_memory_block_3(void)
 
 	double x[42];
 
-	basic_memory_block<is_const> bmb(x);
+	basic_memory_block<is_const> bmb = memory::block_of(x);
 
 	BOOST_CHECK(bool(bmb));
 	BOOST_CHECK(!!bmb);
@@ -160,7 +160,7 @@ void eagine_test_memory_block_5(void)
 		b = byte(std::rand() % 0xFF);
 	}
 
-	basic_memory_block<is_const> bmb(x);
+	basic_memory_block<is_const> bmb = memory::block_of(x);
 
 	BOOST_CHECK(bool(bmb));
 	BOOST_CHECK(!!bmb);
@@ -188,7 +188,7 @@ void eagine_test_memory_block_6(void)
 
 	unsigned x[10];
 
-	basic_memory_block<is_const> bmb1(x);
+	basic_memory_block<is_const> bmb1 = memory::block_of(x);
 
 	BOOST_CHECK(bool(bmb1));
 	BOOST_CHECK(!!bmb1);
@@ -210,7 +210,7 @@ void eagine_test_memory_block_6(void)
 	BOOST_CHECK( bmb2.empty());
 	BOOST_CHECK(!bmb3.empty());
 
-	basic_memory_block<is_const> bmb4(x);
+	basic_memory_block<is_const> bmb4 = memory_block_of(x);
 
 	BOOST_CHECK(bmb1 == bmb2);
 	BOOST_CHECK(bmb2 != bmb3);

@@ -14,13 +14,21 @@
 
 namespace eagine {
 
-template <bool is_const>
-using basic_memory_block = memory::basic_block<is_const>;
+template <bool IsConst>
+using basic_memory_block = memory::basic_block<IsConst>;
 
 typedef memory::block memory_block;;
 typedef memory::const_block const_memory_block;
 
 typedef memory::owned_block owned_memory_block;
+
+template <typename T>
+static inline
+auto memory_block_of(T& x)
+noexcept
+{
+	return memory::block_of(x);
+}
 
 } // namespace eagine
 

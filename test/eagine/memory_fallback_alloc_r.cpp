@@ -22,7 +22,7 @@ void eagine_test_memory_fallback_alloc_T(std::size_t n)
 
 	static char buf[1024];
 
-	memory::block b(buf);
+	memory::block b = memory::block_of(buf);
 
 	memory::byte_allocator_with_fallback<> a((
 		memory::stack_byte_allocator<>(b)

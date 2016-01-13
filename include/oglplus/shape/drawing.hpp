@@ -11,44 +11,60 @@
 #define OGLPLUS_SHAPE_DRAWING_1509260923_HPP
 
 #include <eagine/shapes/drawing.hpp>
-#include <oglplus/config/basic.hpp>
+#include "../config/basic.hpp"
+#include "../utils/outcome.hpp"
+#include "../enum/types.hpp"
 
 namespace oglplus {
 namespace shape {
 
-GLenum translate_primitive_type(eagine::shape::primitive_type)
-noexcept;
-
-struct draw_operation
+class draw_operation
 {
-	GLenum mode;
-	GLuint first;
-	GLuint count;
-	GLuint phase;
-	GLuint primitive_restart_index;
-	bool primitive_restart;
-	bool indexed;
+private
+	static
+	primitive_type
+	_translate(eagine::shape::primitive_type)
+	noexcept;
 
+	static
+	data_type
+	_translate(eagine::shape::index_type)
+	noexcept;
+
+	static
+	GLuint
+	_byte_mult(eagine::shape::index_type)
+	noexcept;
+
+	primitive_type _mode;
+	data_type _idx_type;
+	GLuint _first;
+	GLuint _count;
+	GLuint _phase;
+	GLuint _primitive_restart_index;
+	bool _primitive_restart;
+
+public:
+	constexpr
 	draw_operation(void)
-	 : mode(GL_NONE)
-	 , first(0)
-	 , count(0)
-	 , phase(0)
-	 , primitive_restart_index(0)
-	 , primitive_restart(false)
-	 , indexed(false)
+	noexcept
+	 : _mode(primitive_type(GL_NONE))
+	 , _idx_type(data_type(GL_NONE))
+	 , _first(0)
+	 , _count(0)
+	 , _phase(0)
+	 , _primitive_restart_index(0)
+	 , _primitive_restart(false)
 	{ }
+
+	bool indexed(void) const
+	noexcept;
 
 	draw_operation(const eagine::shape::draw_operation& draw_op)
-	 : mode(translate_primitive_type(draw_op.mode))
-	 , first(draw_op.first)
-	 , count(draw_op.count)
-	 , phase(draw_op.phase)
-	 , primitive_restart_index(draw_op.primitive_restart_index)
-	 , primitive_restart(draw_op.primitive_restart)
-	 , indexed(draw_op.indexed)
-	{ }
+	noexcept;
 
+	outcome<void> draw(void) const
+	noexcept;
 };
 
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)

@@ -210,7 +210,7 @@ public:
 	noexcept
 	{
 		Final tmp = std::move(that);
-		tmp.deallocate(acquire_block(block(that)), alignof(Final));
+		tmp.deallocate(acquire_block(block_of(that)), alignof(Final));
 	}
 
 	Derived* accomodate_self(void)

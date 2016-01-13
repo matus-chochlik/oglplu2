@@ -24,9 +24,18 @@ enum class primitive_type
 	triangle_fan
 };
 
+enum class index_type
+{
+	none,
+	unsigned_byte,
+	unsigned_short,
+	unsigned_int
+};
+
 struct draw_operation
 {
 	primitive_type mode;
+	index_type idx_type;
 	unsigned first;
 	unsigned count;
 	unsigned phase;
@@ -38,12 +47,12 @@ struct draw_operation
 	draw_operation(void)
 	noexcept
 	 : mode(primitive_type::points)
+	 , idx_type(index_type::none)
 	 , first(0)
 	 , count(0)
 	 , phase(0)
 	 , primitive_restart_index(0)
 	 , primitive_restart(false)
-	 , indexed(false)
 	{ }
 };
 

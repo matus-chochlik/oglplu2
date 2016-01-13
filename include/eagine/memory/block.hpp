@@ -13,6 +13,7 @@
 #include "address.hpp"
 #include "../type_traits.hpp"
 #include <cstddef>
+#include <utility>
 
 namespace eagine {
 namespace memory {
@@ -53,27 +54,6 @@ private:
 		return std::size_t(b-a);
 	}
 public:
-	template <
-		typename T,
-		typename = std::enable_if_t<
-			!std::is_same<T, basic_block>::value
-		>
-	>
-	explicit
-	basic_block(T& v)
-	noexcept
-	 : _addr(static_cast<pointer>(&v))
-	 , _size(sizeof(T))
-	{ }
-
-	template <typename T, std::size_t N>
-	explicit
-	basic_block(T (&a)[N])
-	noexcept
-	 : _addr(static_cast<pointer>(a))
-	 , _size(sizeof(T)*N)
-	{ }
-
 	template <typename T>
 	basic_block(T *a, std::size_t count)
 	noexcept
@@ -237,6 +217,25 @@ public:
 
 typedef basic_block<false> block;
 typedef basic_block<true> const_block;
+
+
+template <typename T>
+static inline
+basic_block<std::is_const<T>::value>
+block_of(T& v)
+noexcept
+{
+	return {&v, 1};
+}
+
+template <typename T, std::size_t N>
+static inline
+basic_block<std::is_const<T>::value>
+block_of(T (&a)[N])
+noexcept
+{
+	return {a, N};
+}
 
 class block_owner;
 
