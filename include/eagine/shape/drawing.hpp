@@ -41,7 +41,6 @@ struct draw_operation
 	unsigned phase;
 	unsigned primitive_restart_index;
 	bool primitive_restart;
-	bool indexed;
 
 	constexpr
 	draw_operation(void)

@@ -11,6 +11,7 @@
 #define EAGINE_SHAPE_CUBE_1509260923_HPP
 
 #include "gen_base.hpp"
+#include <eagine/config/basic.hpp>
 #include <cassert>
 
 namespace eagine {
@@ -80,6 +81,8 @@ public:
 } // namespace shape
 } // namespace eagine
 
+#if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)
 #include <eagine/shape/cube.inl>
+#endif
 
 #endif // include guard

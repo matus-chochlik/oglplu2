@@ -10,7 +10,7 @@
 namespace eagine {
 namespace shape {
 //------------------------------------------------------------------------------
-inline
+EAGINE_LIB_FUNC
 vertex_attrib_bits
 unit_cube_gen::
 _attr_mask(void)
@@ -21,7 +21,7 @@ noexcept
 		vertex_attrib_kind::box_coord;
 }
 //------------------------------------------------------------------------------
-inline
+EAGINE_LIB_FUNC
 vertex_attrib_bits
 unit_cube_gen::
 _shared_attrs(void)
@@ -31,7 +31,7 @@ noexcept
 		vertex_attrib_kind::box_coord;
 }
 //------------------------------------------------------------------------------
-inline
+EAGINE_LIB_FUNC
 bool
 unit_cube_gen::
 _only_shared_attribs(void) const
@@ -40,7 +40,7 @@ noexcept
 	return !(attrib_bits() & ~_shared_attrs());
 }
 //------------------------------------------------------------------------------
-inline
+EAGINE_LIB_FUNC
 unsigned
 unit_cube_gen::
 _face_vert(unsigned f, unsigned t, unsigned v)
@@ -97,14 +97,14 @@ noexcept
 	return fv[f][t][v];
 }
 //------------------------------------------------------------------------------
-inline
+EAGINE_LIB_FUNC
 unit_cube_gen::
 unit_cube_gen(vertex_attrib_bits attr_bits)
 noexcept
  : generator_base(attr_bits & _attr_mask())
 { }
 //------------------------------------------------------------------------------
-inline
+EAGINE_LIB_FUNC
 bool
 unit_cube_gen::
 cw_face_winding(void)
@@ -112,7 +112,7 @@ cw_face_winding(void)
 	return false;
 }
 //------------------------------------------------------------------------------
-inline
+EAGINE_LIB_FUNC
 unsigned
 unit_cube_gen::
 vertex_count(void)
@@ -127,7 +127,7 @@ vertex_count(void)
 	}
 }
 //------------------------------------------------------------------------------
-inline
+EAGINE_LIB_FUNC
 int
 unit_cube_gen::
 _coord_c(unsigned v, unsigned c)
@@ -142,7 +142,7 @@ noexcept
 	return ((_coord_bits[c] & b) == b)?1:0;
 }
 //------------------------------------------------------------------------------
-inline
+EAGINE_LIB_FUNC
 void
 unit_cube_gen::
 box_coords(span<float> dest)
@@ -183,7 +183,7 @@ noexcept
 	assert(k == vertex_count()*3);
 }
 //------------------------------------------------------------------------------
-inline
+EAGINE_LIB_FUNC
 void
 unit_cube_gen::
 positions(span<float> dest)
@@ -196,7 +196,7 @@ noexcept
 	}
 }
 //------------------------------------------------------------------------------
-inline
+EAGINE_LIB_FUNC
 int
 unit_cube_gen::
 _normal_c(unsigned f, unsigned c)
@@ -212,7 +212,7 @@ noexcept
 	return (((_nml_bits[c] & b) == b)?1:0)*(((_nml_sign[c] & b) == b)?1:-1);
 }
 //------------------------------------------------------------------------------
-inline
+EAGINE_LIB_FUNC
 void
 unit_cube_gen::
 normals(span<float> dest)
@@ -236,7 +236,7 @@ noexcept
 	assert(k == vertex_count()*3);
 }
 //------------------------------------------------------------------------------
-inline
+EAGINE_LIB_FUNC
 void
 unit_cube_gen::
 attrib_values(vertex_attrib_kind attr, span<float> dest)
@@ -259,7 +259,7 @@ attrib_values(vertex_attrib_kind attr, span<float> dest)
 	}
 }
 //------------------------------------------------------------------------------
-inline
+EAGINE_LIB_FUNC
 unsigned
 unit_cube_gen::
 index_count(void)
@@ -271,7 +271,7 @@ index_count(void)
 	return 0;
 }
 //------------------------------------------------------------------------------
-inline
+EAGINE_LIB_FUNC
 void
 unit_cube_gen::
 indices(span<unsigned> dest)
@@ -293,7 +293,7 @@ indices(span<unsigned> dest)
 	assert(k == index_count());
 }
 //------------------------------------------------------------------------------
-inline
+EAGINE_LIB_FUNC
 unsigned
 unit_cube_gen::
 operation_count(void)
@@ -301,7 +301,7 @@ operation_count(void)
 	return 1;
 }
 //------------------------------------------------------------------------------
-inline
+EAGINE_LIB_FUNC
 void
 unit_cube_gen::
 instructions(span<draw_operation> ops)
@@ -312,18 +312,18 @@ instructions(span<draw_operation> ops)
 	{
 		draw_operation& op = ops[0];
 		op.mode = primitive_type::triangles;
+		op.idx_type = index_type::unsigned_byte;
 		op.first = 0;
 		op.count = index_count();
-		op.indexed = true;
 		op.primitive_restart = false;
 	}
 	else
 	{
 		draw_operation& op = ops[0];
 		op.mode = primitive_type::triangles;
+		op.idx_type = index_type::none;
 		op.first = 0;
 		op.count = vertex_count();
-		op.indexed = false;
 		op.primitive_restart = false;
 	}
 }
