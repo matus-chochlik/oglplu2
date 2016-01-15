@@ -345,7 +345,8 @@ int main(int argc, const char** argv)
 			"with enum parameter: %(gl_enum_value)\n"
 			"with index: %(gl_index)\n"
 			"from source file: %(source_file)\n"
-			"%(message)\n",
+			"%(message)\n"
+			"%(info_log)\n",
 			std::cerr
 		) << std::endl;
 	}

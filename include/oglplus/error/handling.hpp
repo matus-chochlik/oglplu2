@@ -62,6 +62,18 @@ using deferred_error_handler = deferred_handler<
 #define OGLPLUS_GL_GET_ERROR() ::glGetError()
 #endif
 
+#define OGLPLUS_RETURN_HANDLER(\
+	ERROR_CODE,\
+	ERROR_INFO,\
+	SEVERITY\
+)\
+	return oglplus::deferred_error_handler(std::move(\
+		oglplus::error_info(ERROR_CODE)\
+			.ERROR_INFO\
+			.source_file(__FILE__)\
+			.source_line(__LINE__)\
+	))
+
 #define OGLPLUS_RETURN_HANDLER_IF(\
 	CONDITION,\
 	ERROR_CODE,\
@@ -72,12 +84,11 @@ using deferred_error_handler = deferred_handler<
 	GLenum oglplus_error_code##__LINE__ = ERROR_CODE;\
 	if(CONDITION(oglplus_error_code##__LINE__))\
 	{\
-		return oglplus::deferred_error_handler(std::move(\
-			oglplus::error_info(oglplus_error_code##__LINE__)\
-				.ERROR_INFO\
-				.source_file(__FILE__)\
-				.source_line(__LINE__)\
-		));\
+		OGLPLUS_RETURN_HANDLER(\
+			oglplus_error_code##__LINE__,\
+			ERROR_INFO,\
+			SEVERITY\
+		);\
 	}\
 }
 
@@ -114,5 +125,28 @@ using deferred_error_handler = deferred_handler<
 
 #define OGLPLUS_VERIFY_SIMPLE(GLFUNC, SEVERITY)\
 	OGLPLUS_VERIFY(GLFUNC, no_info(), SEVERITY)
+
+#define OGLPLUS_REPORT_ERROR_STR(\
+	GLFUNC_NAME,\
+	ERROR_CODE,\
+	ERROR_INFO,\
+	SEVERITY\
+) OGLPLUS_RETURN_HANDLER(\
+	ERROR_CODE,\
+	ERROR_INFO.gl_function_name(GLFUNC_NAME),\
+	SEVERITY\
+)
+
+#define OGLPLUS_REPORT_ERROR(\
+	GLFUNC,\
+	ERROR_CODE,\
+	ERROR_INFO,\
+	SEVERITY\
+) OGLPLUS_REPORT_ERROR_STR(\
+	#GLFUNC,\
+	ERROR_CODE,\
+	ERROR_INFO,\
+	SEVERITY\
+)
 
 #endif // include guard

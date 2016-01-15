@@ -41,6 +41,11 @@ struct program_ops
 
 	static
 	outcome<void>
+	report_program_link_error(program_name prog)
+	noexcept;
+
+	static
+	outcome<void>
 	use_program(program_name prog)
 	noexcept;
 
@@ -114,6 +119,13 @@ struct obj_dsa_ops<tag::program>
 	noexcept
 	{
 		return {_ops::link_program(*this), *this};
+	}
+
+	outcome<obj_dsa_ops&>
+	report_link_error(void)
+	noexcept
+	{
+		return {_ops::report_program_link_error(*this), *this};
 	}
 
 	outcome<boolean>

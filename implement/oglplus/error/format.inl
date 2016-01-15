@@ -142,6 +142,11 @@ format_error_info(
 		{
 			out << msg_str;
 		}
+		else if(placeholder == "info_log")
+		{
+			auto il = info.info_log();
+			out.write(il.data(), il.size());
+		}
 		else if(placeholder == "gl_library_name")
 		{
 			print(info.gl_library_name(), nullptr);

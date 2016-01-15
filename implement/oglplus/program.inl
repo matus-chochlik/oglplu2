@@ -7,6 +7,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <oglplus/utils/gl_func.hpp>
+#include <oglplus/oper/numeric_queries.hpp>
 
 namespace oglplus {
 //------------------------------------------------------------------------------
@@ -57,7 +58,30 @@ link_program(program_name prog)
 noexcept
 {
 	OGLPLUS_GLFUNC(LinkProgram)(get_raw_name(prog));
-	OGLPLUS_VERIFY(LinkProgram, gl_object(prog), always);
+	OGLPLUS_VERIFY(
+		LinkProgram,
+		gl_object(prog).
+		info_log_of(prog),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+program_ops::
+report_program_link_error(program_name prog)
+noexcept
+{
+	if(!program_link_status(prog).get())
+	{
+		OGLPLUS_REPORT_ERROR(
+			LinkProgram,
+			GL_INVALID_OPERATION,
+			info_log_of(prog),
+			always
+		);
+	}
 	return {};
 }
 //------------------------------------------------------------------------------
@@ -68,7 +92,12 @@ use_program(program_name prog)
 noexcept
 {
 	OGLPLUS_GLFUNC(UseProgram)(get_raw_name(prog));
-	OGLPLUS_VERIFY(UseProgram, gl_object(prog), always);
+	OGLPLUS_VERIFY(
+		UseProgram,
+		gl_object(prog).
+		info_log_of(prog),
+		debug
+	);
 	return {};
 }
 //------------------------------------------------------------------------------
@@ -78,7 +107,7 @@ program_ops::
 current_program(void)
 noexcept
 {
-#ifdef GL_CURRENT_PROGRAK
+#ifdef GL_CURRENT_PROGRAM
 	GLint result = 0;
 	return numeric_queries::get_integer_v(
 		binding_query(GL_CURRENT_PROGRAM),

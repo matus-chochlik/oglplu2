@@ -93,6 +93,7 @@ public:
 		prog.attach(vs);
 		prog.attach(fs);
 		prog.link();
+		prog.report_link_error();
 
 		gl.use(prog);
 

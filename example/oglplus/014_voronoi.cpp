@@ -51,6 +51,7 @@ public:
 		"}\n"
 		));
 		vs.compile();
+		vs.report_compile_error();
 
 		shader fs(GL.fragment_shader);
 		fs.source(glsl_literal(
@@ -114,10 +115,12 @@ public:
 		"}\n"
 		));
 		fs.compile();
+		fs.report_compile_error();
 
 		attach(vs);
 		attach(fs);
 		link();
+		report_link_error();
 
 		gl.use(*this);
 
