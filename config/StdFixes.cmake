@@ -75,43 +75,43 @@ endfunction()
 
 make_std_type_traits_fixes()
 
-function(make_std_integer_sequence_fix)
-	message(STATUS "Generating fix for std integer_sequence")
+function(make_missing_std_feature_fix FEATURE FILENAME)
+	message(STATUS "Generating fix for std::${FEATURE}")
 	configure_file(
-		${PROJECT_SOURCE_DIR}/config/cpp/has_int_sequence.cpp.in
-		${PROJECT_BINARY_DIR}/cpp/has_int_sequence.cpp
+		${PROJECT_SOURCE_DIR}/config/cpp/has_${FILENAME}.cpp.in
+		${PROJECT_BINARY_DIR}/cpp/has_${FILENAME}.cpp
 	)
 	try_compile(
-		HAS_INT_SEQUENCE
+		HAS_${FEATURE}
 		${PROJECT_BINARY_DIR}/cpp
-		${PROJECT_BINARY_DIR}/cpp/has_int_sequence.cpp
+		${PROJECT_BINARY_DIR}/cpp/has_${FILENAME}.cpp
 		COMPILE_DEFINITIONS ${CPP_STD_COMPILER_SWITCH}
 	)
 
-	if(${HAS_INT_SEQUENCE})
+	if(${HAS_${FEATURE}})
 		configure_file(
-			${PROJECT_SOURCE_DIR}/config/cpp/int_sequence_std.hpp.in
-			${PROJECT_BINARY_DIR}/include/eagine/int_sequence_fix.hpp
+			${PROJECT_SOURCE_DIR}/config/cpp/${FILENAME}_std.hpp.in
+			${PROJECT_BINARY_DIR}/include/eagine/${FILENAME}_fix.hpp
 		)
 	else()
 		configure_file(
-			${PROJECT_SOURCE_DIR}/config/cpp/int_sequence.hpp.in
-			${PROJECT_BINARY_DIR}/include/eagine/int_sequence_fix.hpp
+			${PROJECT_SOURCE_DIR}/config/cpp/${FILENAME}.hpp.in
+			${PROJECT_BINARY_DIR}/include/eagine/${FILENAME}_fix.hpp
 		)
 	endif()
 
 	try_compile(
-		HAS_INT_SEQUENCE
+		HAS_${FEATURE}
 		${PROJECT_BINARY_DIR}/cpp
-		${PROJECT_BINARY_DIR}/cpp/has_int_sequence.cpp
+		${PROJECT_BINARY_DIR}/cpp/has_${FILENAME}.cpp
 		COMPILE_DEFINITIONS "${CPP_STD_COMPILER_SWITCH}"
 		"-DEAGINE_TEST_INT_SEQ_FIX=1"
 		CMAKE_FLAGS
 		"-DINCLUDE_DIRECTORIES:STRING=${PROJECT_BINARY_DIR}/include "
 	)
-	if(NOT ${HAS_INT_SEQUENCE})
-		message(FATAL_ERROR "Failed to fix std::integer_sequence")
+	if(NOT ${HAS_${FEATURE}})
+		message(FATAL_ERROR "Failed to fix std::${FEATURE}")
 	endif()
 endfunction()
 
-make_std_integer_sequence_fix()
+make_missing_std_feature_fix(integer_sequence int_sequence)
