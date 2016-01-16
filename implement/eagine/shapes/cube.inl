@@ -8,7 +8,7 @@
 #include <cassert>
 
 namespace eagine {
-namespace shape {
+namespace shapes {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 vertex_attrib_bits
@@ -260,6 +260,18 @@ attrib_values(vertex_attrib_kind attr, span<float> dest)
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+index_data_type
+unit_cube_gen::
+index_type(void)
+{
+	if(_only_shared_attribs())
+	{
+		return index_data_type::unsigned_byte;
+	}
+	return index_data_type::none;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 unsigned
 unit_cube_gen::
 index_count(void)
@@ -271,10 +283,12 @@ index_count(void)
 	return 0;
 }
 //------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
+template <typename T>
+inline
 void
 unit_cube_gen::
-indices(span<unsigned> dest)
+_indices(span<T>& dest)
+noexcept
 {
 	assert(dest.size() >= index_count());
 
@@ -286,11 +300,19 @@ indices(span<unsigned> dest)
 		for(unsigned t=0; t<2; ++t)
 		for(unsigned v=0; v<3; ++v)
 		{
-			dest[k++] = _face_vert(f, t, v);
+			dest[k++] = T(_face_vert(f, t, v));
 		}
 	}
 
 	assert(k == index_count());
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void
+unit_cube_gen::
+indices(span<unsigned> dest)
+{
+	_indices(dest);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -312,7 +334,7 @@ instructions(span<draw_operation> ops)
 	{
 		draw_operation& op = ops[0];
 		op.mode = primitive_type::triangles;
-		op.idx_type = index_type::unsigned_byte;
+		op.idx_type = index_data_type::unsigned_byte;
 		op.first = 0;
 		op.count = index_count();
 		op.primitive_restart = false;
@@ -321,12 +343,12 @@ instructions(span<draw_operation> ops)
 	{
 		draw_operation& op = ops[0];
 		op.mode = primitive_type::triangles;
-		op.idx_type = index_type::none;
+		op.idx_type = index_data_type::none;
 		op.first = 0;
 		op.count = vertex_count();
 		op.primitive_restart = false;
 	}
 }
 //------------------------------------------------------------------------------
-} // namespace shape
+} // namespace shapes
 } // namespace eagine

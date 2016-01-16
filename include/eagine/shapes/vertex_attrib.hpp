@@ -1,5 +1,5 @@
 /**
- *  @file eagine/shape/vertex_attrib.hpp
+ *  @file eagine/shapes/vertex_attrib.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,13 +7,13 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_SHAPE_VERTEX_ATTRIB_1509260923_HPP
-#define EAGINE_SHAPE_VERTEX_ATTRIB_1509260923_HPP
+#ifndef EAGINE_SHAPES_VERTEX_ATTRIB_1509260923_HPP
+#define EAGINE_SHAPES_VERTEX_ATTRIB_1509260923_HPP
 
 #include "../bitfield.hpp"
 
 namespace eagine {
-namespace shape {
+namespace shapes {
 
 enum class vertex_attrib_kind : unsigned
 {
@@ -54,7 +54,7 @@ noexcept
 	return 0u;
 }
 
-} // namespace shape
+} // namespace shapes
 } // namespace eagine
 
 #endif // include guard

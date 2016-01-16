@@ -1,5 +1,5 @@
 /**
- *  @file eagine/shape/drawing.hpp
+ *  @file eagine/shapes/drawing.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,11 +7,11 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_SHAPE_DRAWING_1509260923_HPP
-#define EAGINE_SHAPE_DRAWING_1509260923_HPP
+#ifndef EAGINE_SHAPES_DRAWING_1509260923_HPP
+#define EAGINE_SHAPES_DRAWING_1509260923_HPP
 
 namespace eagine {
-namespace shape {
+namespace shapes {
 
 enum class primitive_type
 {
@@ -24,7 +24,7 @@ enum class primitive_type
 	triangle_fan
 };
 
-enum class index_type
+enum class index_data_type
 {
 	none,
 	unsigned_byte,
@@ -35,7 +35,7 @@ enum class index_type
 struct draw_operation
 {
 	primitive_type mode;
-	index_type idx_type;
+	index_data_type idx_type;
 	unsigned first;
 	unsigned count;
 	unsigned phase;
@@ -46,7 +46,7 @@ struct draw_operation
 	draw_operation(void)
 	noexcept
 	 : mode(primitive_type::points)
-	 , idx_type(index_type::none)
+	 , idx_type(index_data_type::none)
 	 , first(0)
 	 , count(0)
 	 , phase(0)
@@ -55,7 +55,7 @@ struct draw_operation
 	{ }
 };
 
-} // namespace shape
+} // namespace shapes
 } // namespace eagine
 
 #endif // include guard

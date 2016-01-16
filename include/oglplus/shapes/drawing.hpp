@@ -1,5 +1,5 @@
 /**
- *  @file oglplus/shape/drawing.hpp
+ *  @file oglplus/shapes/drawing.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,33 +7,33 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef OGLPLUS_SHAPE_DRAWING_1509260923_HPP
-#define OGLPLUS_SHAPE_DRAWING_1509260923_HPP
+#ifndef OGLPLUS_SHAPES_DRAWING_1509260923_HPP
+#define OGLPLUS_SHAPES_DRAWING_1509260923_HPP
 
 #include <eagine/shapes/drawing.hpp>
 #include "../config/basic.hpp"
-#include "../utils/outcome.hpp"
+#include "../error/outcome.hpp"
 #include "../enum/types.hpp"
 
 namespace oglplus {
-namespace shape {
+namespace shapes {
 
 class draw_operation
 {
-private
+private:
 	static
 	primitive_type
-	_translate(eagine::shape::primitive_type)
+	_translate(eagine::shapes::primitive_type)
 	noexcept;
 
 	static
 	data_type
-	_translate(eagine::shape::index_type)
+	_translate(eagine::shapes::index_data_type)
 	noexcept;
 
 	static
 	GLuint
-	_byte_mult(eagine::shape::index_type)
+	_byte_mult(eagine::shapes::index_data_type)
 	noexcept;
 
 	primitive_type _mode;
@@ -60,18 +60,18 @@ public:
 	bool indexed(void) const
 	noexcept;
 
-	draw_operation(const eagine::shape::draw_operation& draw_op)
+	draw_operation(const eagine::shapes::draw_operation& draw_op)
 	noexcept;
 
 	outcome<void> draw(void) const
 	noexcept;
 };
 
-#if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
-#include <oglplus/shape/drawing.inl>
-#endif
-
-} // namespace shape
+} // namespace shapes
 } // namespace oglplus
+
+#if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
+#include <oglplus/shapes/drawing.inl>
+#endif
 
 #endif // include guard

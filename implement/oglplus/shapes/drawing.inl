@@ -1,36 +1,37 @@
 /**
- *  @file oglplus/shape/drawing.inl
+ *  @file oglplus/shapes/drawing.inl
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <oglplus/utils/gl_func.hpp>
 
 namespace oglplus {
-namespace shape {
+namespace shapes {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 primitive_type
 draw_operation::
-_translate(eagine::shape::primitive_type mode)
+_translate(eagine::shapes::primitive_type mode)
 noexcept
 {
 	switch(mode)
 	{
-		case eagine::shape::primitive_type::points:
+		case eagine::shapes::primitive_type::points:
 			return primitive_type(GL_POINTS);
-		case eagine::shape::primitive_type::lines:
+		case eagine::shapes::primitive_type::lines:
 			return primitive_type(GL_LINES);
-		case eagine::shape::primitive_type::line_strip:
+		case eagine::shapes::primitive_type::line_strip:
 			return primitive_type(GL_LINE_STRIP);
-		case eagine::shape::primitive_type::line_loop:
+		case eagine::shapes::primitive_type::line_loop:
 			return primitive_type(GL_LINE_LOOP);
-		case eagine::shape::primitive_type::triangles:
+		case eagine::shapes::primitive_type::triangles:
 			return primitive_type(GL_TRIANGLES);
-		case eagine::shape::primitive_type::triangle_strip:
+		case eagine::shapes::primitive_type::triangle_strip:
 			return primitive_type(GL_TRIANGLE_STRIP);
-		case eagine::shape::primitive_type::triangle_fan:
+		case eagine::shapes::primitive_type::triangle_fan:
 			return primitive_type(GL_TRIANGLE_FAN);
 	}
 	return primitive_type(GL_NONE);
@@ -39,18 +40,18 @@ noexcept
 OGLPLUS_LIB_FUNC
 data_type
 draw_operation::
-_translate(eagine::shape::index_type type)
+_translate(eagine::shapes::index_data_type type)
 noexcept
 {
 	switch(type)
 	{
-		case eagine::shape::index_type::unsigned_int:
+		case eagine::shapes::index_data_type::unsigned_int:
 			return data_type(GL_UNSIGNED_INT);
-		case eagine::shape::index_type::unsigned_short
+		case eagine::shapes::index_data_type::unsigned_short:
 			return data_type(GL_UNSIGNED_SHORT);
-		case eagine::shape::index_type::unsigned_byte:
+		case eagine::shapes::index_data_type::unsigned_byte:
 			return data_type(GL_UNSIGNED_BYTE);
-		case eagine::shape::index_type::none:
+		case eagine::shapes::index_data_type::none:
 			break;
 	}
 	return data_type(GL_NONE);
@@ -59,18 +60,18 @@ noexcept
 OGLPLUS_LIB_FUNC
 GLuint
 draw_operation::
-_byte_mult(eagine::shape::index_type)
+_byte_mult(eagine::shapes::index_data_type type)
 noexcept
 {
 	switch(type)
 	{
-		case eagine::shape::index_type::unsigned_int:
+		case eagine::shapes::index_data_type::unsigned_int:
 			return sizeof(GLuint);
-		case eagine::shape::index_type::unsigned_short
+		case eagine::shapes::index_data_type::unsigned_short:
 			return sizeof(GLushort);
-		case eagine::shape::index_type::unsigned_byte:
+		case eagine::shapes::index_data_type::unsigned_byte:
 			return sizeof(GLubyte);
-		case eagine::shape::index_type::none:
+		case eagine::shapes::index_data_type::none:
 			break;
 	}
 	return 1u;
@@ -78,7 +79,7 @@ noexcept
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 draw_operation::
-draw_operation(const eagine::shape::draw_operation& draw_op)
+draw_operation(const eagine::shapes::draw_operation& draw_op)
 noexcept
  : _mode(_translate(draw_op.mode))
  , _idx_type(_translate(draw_op.idx_type))
@@ -87,7 +88,6 @@ noexcept
  , _phase(draw_op.phase)
  , _primitive_restart_index(draw_op.primitive_restart_index)
  , _primitive_restart(draw_op.primitive_restart)
- , _indexed(draw_op.indexed)
 { }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -109,25 +109,25 @@ noexcept
 	{
 		OGLPLUS_GLFUNC(DrawElements)(
 			GLenum(_mode),
-			_count,
+			GLsizei(_count),
 			GLenum(_idx_type),
 			static_cast<GLubyte*>(0)+_first
 		);
-		OGLPLUS_VERIFY(DrawElements, gl_enum_value(mode), debug);
+		OGLPLUS_VERIFY(DrawElements, gl_enum_value(_mode), debug);
 	}
 	else
 	{
 		OGLPLUS_GLFUNC(DrawArrays)(
 			GLenum(_mode),
-			_first,
-			_count
+			GLint(_first),
+			GLsizei(_count)
 		);
 		OGLPLUS_VERIFY(DrawArrays, gl_enum_value(_mode), debug);
 	}
 	return {};
 }
 //------------------------------------------------------------------------------
-} // namespace shape
+} // namespace shapes
 } // namespace oglplus
 //------------------------------------------------------------------------------
 

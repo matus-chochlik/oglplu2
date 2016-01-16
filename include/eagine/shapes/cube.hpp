@@ -1,5 +1,5 @@
 /**
- *  @file eagine/shape/cube.hpp
+ *  @file eagine/shapes/cube.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,15 +7,15 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_SHAPE_CUBE_1509260923_HPP
-#define EAGINE_SHAPE_CUBE_1509260923_HPP
+#ifndef EAGINE_SHAPES_CUBE_1509260923_HPP
+#define EAGINE_SHAPES_CUBE_1509260923_HPP
 
 #include "gen_base.hpp"
 #include <eagine/config/basic.hpp>
 #include <cassert>
 
 namespace eagine {
-namespace shape {
+namespace shapes {
 
 class unit_cube_gen
  : public generator_base
@@ -38,6 +38,10 @@ private:
 
 	static
 	int _normal_c(unsigned f, unsigned c)
+	noexcept;
+
+	template <typename T>
+	void _indices(span<T>& dest)
 	noexcept;
 
 	static
@@ -65,6 +69,9 @@ public:
 	void attrib_values(vertex_attrib_kind attr, span<float> dest)
 	override;
 
+	index_data_type index_type(void)
+	override;
+
 	unsigned index_count(void)
 	override;
 
@@ -78,11 +85,11 @@ public:
 	override;
 };
 
-} // namespace shape
+} // namespace shapes
 } // namespace eagine
 
 #if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)
-#include <eagine/shape/cube.inl>
+#include <eagine/shapes/cube.inl>
 #endif
 
 #endif // include guard

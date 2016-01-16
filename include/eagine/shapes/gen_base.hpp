@@ -1,5 +1,5 @@
 /**
- *  @file eagine/shape/gen_base.hpp
+ *  @file eagine/shapes/gen_base.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,15 +7,15 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_SHAPE_GEN_BASE_1509260923_HPP
-#define EAGINE_SHAPE_GEN_BASE_1509260923_HPP
+#ifndef EAGINE_SHAPES_GEN_BASE_1509260923_HPP
+#define EAGINE_SHAPES_GEN_BASE_1509260923_HPP
 
 #include "drawing.hpp"
 #include "vertex_attrib.hpp"
 #include "../span.hpp"
 
 namespace eagine {
-namespace shape {
+namespace shapes {
 
 struct generator_params
 {
@@ -43,6 +43,8 @@ protected:
 	 : _attr_bits(attr_bits)
 	{ }
 public:
+	generator_base(const generator_base&) = default;
+
 	virtual ~generator_base(void) = default;
 
 	vertex_attrib_bits attrib_bits(void) const
@@ -102,6 +104,9 @@ public:
 	void attrib_values(vertex_attrib_kind attr, span<float> dest) = 0;
 
 	virtual
+	index_data_type index_type(void) = 0;
+
+	virtual
 	unsigned index_count(void) = 0;
 
 	virtual
@@ -114,7 +119,7 @@ public:
 	void instructions(span<draw_operation> dest) = 0;
 };
 
-} // namespace shape
+} // namespace shapes
 } // namespace eagine
 
 #endif // include guard
