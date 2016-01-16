@@ -11,6 +11,18 @@
 #include <string>
 #endif
 
+#ifndef GL_SHADER
+#define GL_SHADER 0x82E1
+#endif
+
+#ifndef GL_PROGRAM
+#define GL_PROGRAM 0x82E2
+#endif
+
+#ifndef GL_PROGRAM_PIPELINE
+#define GL_PROGRAM_PIPELINE 0x82E4
+#endif
+
 namespace oglplus {
 //------------------------------------------------------------------------------
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
