@@ -76,7 +76,7 @@ endfunction()
 make_std_type_traits_fixes()
 
 function(make_missing_std_feature_fix FEATURE FILENAME)
-	message(STATUS "Generating fix for std::${FEATURE}")
+	message(STATUS "Generating fix for std ${FEATURE}")
 	configure_file(
 		${PROJECT_SOURCE_DIR}/config/cpp/has_${FILENAME}.cpp.in
 		${PROJECT_BINARY_DIR}/cpp/has_${FILENAME}.cpp
@@ -105,13 +105,14 @@ function(make_missing_std_feature_fix FEATURE FILENAME)
 		${PROJECT_BINARY_DIR}/cpp
 		${PROJECT_BINARY_DIR}/cpp/has_${FILENAME}.cpp
 		COMPILE_DEFINITIONS "${CPP_STD_COMPILER_SWITCH}"
-		"-DEAGINE_TEST_INT_SEQ_FIX=1"
+		"-DEAGINE_TEST_STD_FEATURE_FIX=1"
 		CMAKE_FLAGS
 		"-DINCLUDE_DIRECTORIES:STRING=${PROJECT_BINARY_DIR}/include "
 	)
 	if(NOT ${HAS_${FEATURE}})
-		message(FATAL_ERROR "Failed to fix std::${FEATURE}")
+		message(FATAL_ERROR "Failed to fix std ${FEATURE}")
 	endif()
 endfunction()
 
-make_missing_std_feature_fix(integer_sequence int_sequence)
+make_missing_std_feature_fix("integer_sequence" int_sequence)
+make_missing_std_feature_fix("boolean constant ops" bool_const_ops)

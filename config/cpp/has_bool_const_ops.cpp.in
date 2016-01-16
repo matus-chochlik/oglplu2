@@ -1,0 +1,111 @@
+#include <type_traits>
+#ifdef EAGINE_TEST_STD_FEATURE_FIX
+#include <eagine/bool_const_ops_fix.hpp>
+#endif
+
+int main(void)
+{
+	bool b = true;
+
+	b = b && std::conjunction<
+		std::true_type
+	>::value;
+
+	b = b && !std::conjunction<
+		std::false_type
+	>::value;
+
+	b = b && std::disjunction<
+		std::true_type
+	>::value;
+
+	b = b && !std::disjunction<
+		std::false_type
+	>::value;
+
+	b = b && std::conjunction<
+		std::true_type,
+		std::true_type
+	>::value;
+
+	b = b && !std::conjunction<
+		std::false_type,
+		std::true_type
+	>::value;
+
+	b = b && !std::conjunction<
+		std::true_type,
+		std::false_type
+	>::value;
+
+	b = b && std::disjunction<
+		std::false_type,
+		std::true_type
+	>::value;
+
+	b = b && std::disjunction<
+		std::true_type,
+		std::false_type
+	>::value;
+
+	b = b && !std::disjunction<
+		std::false_type,
+		std::false_type
+	>::value;
+
+	b = b && std::conjunction<
+		std::true_type,
+		std::true_type,
+		std::true_type
+	>::value;
+
+	b = b && !std::conjunction<
+		std::false_type,
+		std::true_type,
+		std::true_type
+	>::value;
+
+	b = b && !std::conjunction<
+		std::true_type,
+		std::false_type,
+		std::true_type
+	>::value;
+
+	b = b && !std::conjunction<
+		std::true_type,
+		std::true_type,
+		std::false_type
+	>::value;
+
+	b = b && std::disjunction<
+		std::true_type,
+		std::true_type,
+		std::true_type
+	>::value;
+
+	b = b && std::disjunction<
+		std::false_type,
+		std::true_type,
+		std::true_type
+	>::value;
+
+	b = b && std::disjunction<
+		std::true_type,
+		std::false_type,
+		std::true_type
+	>::value;
+
+	b = b && std::disjunction<
+		std::true_type,
+		std::true_type,
+		std::false_type
+	>::value;
+
+	b = b && !std::disjunction<
+		std::false_type,
+		std::false_type,
+		std::false_type
+	>::value;
+
+	return b?0:1;
+}

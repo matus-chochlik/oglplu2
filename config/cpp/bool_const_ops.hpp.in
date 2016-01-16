@@ -1,0 +1,50 @@
+/**
+ *  @file eagine/bool_const_ops.hpp
+ *
+ *  Copyright Matus Chochlik.
+ *  Distributed under the Boost Software License, Version 1.0.
+ *  See accompanying file LICENSE_1_0.txt or copy at
+ *   http://www.boost.org/LICENSE_1_0.txt
+ */
+#ifndef EAGINE_BOOL_CONST_OPS_FIX_1509260923_HPP
+#define EAGINE_BOOL_CONST_OPS_FIX_1509260923_HPP
+
+#include <type_traits>
+
+namespace std {
+
+template <typename ...>
+struct conjunction;
+
+template <typename ... B>
+using conjunction_t = typename conjunction<B...>::type;
+
+template <typename B>
+struct conjunction<B>
+ : std::integral_constant<bool, B::value>
+{ };
+
+template <typename B1, typename B2, typename ... Bn>
+struct conjunction<B1, B2, Bn...>
+ : conditional<B1::value, conjunction<B2, Bn...>, std::false_type>::type
+{ };
+
+template <typename ...>
+struct disjunction;
+
+template <typename ... B>
+using disjunction_t = typename disjunction<B...>::type;
+
+template <typename B>
+struct disjunction<B>
+ : std::integral_constant<bool, B::value>
+{ };
+
+template <typename B1, typename B2, typename ... Bn>
+struct disjunction<B1, B2, Bn...>
+ : conditional<B1::value, std::true_type, disjunction<B2, Bn...>>::type
+{ };
+
+} // namespace std
+
+#endif // include guard
