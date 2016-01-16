@@ -214,6 +214,118 @@ noexcept
 	return {reallen};
 }
 //------------------------------------------------------------------------------
+inline
+outcome<GLuint>
+program_ops::
+program_active_attributes(program_name prog)
+noexcept
+{
+	return return_program_parameter_i<GLuint, GLuint>(
+		prog,
+		program_parameter(GL_ACTIVE_ATTRIBUTES)
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<GLsizei>
+program_ops::
+program_active_attribute_max_length(program_name prog)
+noexcept
+{
+	return return_program_parameter_i<GLsizei, GLsizei>(
+		prog,
+		program_parameter(GL_ACTIVE_ATTRIBUTE_MAX_LENGTH)
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<GLsizei>
+program_ops::
+get_active_attrib(
+	program_name prog,
+	GLuint index,
+	span<char> name,
+	GLint& size,
+	sl_data_type& type
+) noexcept
+{
+	GLenum sl_type = GL_NONE;
+	GLsizei reallen = 0;
+	OGLPLUS_GLFUNC(GetActiveAttrib)(
+		get_raw_name(prog),
+		index,
+		GLsizei(name.size()),
+		&reallen,
+		&size,
+		&sl_type,
+		name.data()
+	);
+	OGLPLUS_VERIFY(
+		GetActiveAttrib,
+		gl_object(prog).
+		gl_index(index),
+		always
+	);
+	type = sl_data_type(sl_type);
+	return {reallen};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<GLuint>
+program_ops::
+program_active_uniforms(program_name prog)
+noexcept
+{
+	return return_program_parameter_i<GLuint, GLuint>(
+		prog,
+		program_parameter(GL_ACTIVE_UNIFORMS)
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<GLsizei>
+program_ops::
+program_active_uniform_max_length(program_name prog)
+noexcept
+{
+	return return_program_parameter_i<GLsizei, GLsizei>(
+		prog,
+		program_parameter(GL_ACTIVE_UNIFORM_MAX_LENGTH)
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<GLsizei>
+program_ops::
+get_active_uniform(
+	program_name prog,
+	GLuint index,
+	span<char> name,
+	GLint& size,
+	sl_data_type& type
+) noexcept
+{
+	GLenum sl_type = GL_NONE;
+	GLsizei reallen = 0;
+	OGLPLUS_GLFUNC(GetActiveUniform)(
+		get_raw_name(prog),
+		index,
+		GLsizei(name.size()),
+		&reallen,
+		&size,
+		&sl_type,
+		name.data()
+	);
+	OGLPLUS_VERIFY(
+		GetActiveUniform,
+		gl_object(prog).
+		gl_index(index),
+		always
+	);
+	type = sl_data_type(sl_type);
+	return {reallen};
+}
+//------------------------------------------------------------------------------
 } // namespace oper
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_gen
