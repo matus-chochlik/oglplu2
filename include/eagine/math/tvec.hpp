@@ -10,6 +10,7 @@
 #define EAGINE_MATH_TVEC_1509260923_HPP
 
 #include "vector.hpp"
+#include "../all_are_same.hpp"
 
 namespace eagine {
 namespace math {
@@ -46,12 +47,15 @@ struct tvec : vector<T, N, V>
 
 	template <
 		typename ... P,
-		typename = std::enable_if_t<(1+sizeof...(P) == N)>
+		typename = std::enable_if_t<
+			(sizeof...(P) == N) &&
+			all_are_convertible_to<T, P...>::value
+		>
 	>
 	constexpr inline
-	tvec(T v, P&& ... p)
+	tvec(P&& ... p)
 	noexcept
-	 : _base(_base::make(v, std::forward<P>(p)...))
+	 : _base(_base::make(std::forward<P>(p)...))
 	{ }
 
 	template <
@@ -82,7 +86,9 @@ struct tvec : vector<T, N, V>
 		bool W,
 		typename ... R,
 		typename = std::enable_if_t<
-			(sizeof...(R) > 1) && (M+sizeof...(R) == N)
+			(sizeof...(R) > 1) &&
+			(M+sizeof...(R) == N) &&
+			all_are_convertible_to<T, R...>::value
 		>
 	>
 	constexpr inline
