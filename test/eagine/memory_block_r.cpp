@@ -10,6 +10,7 @@
 
 #include <eagine/memory_block.hpp>
 #include <cstdlib>
+#include <vector>
 
 BOOST_AUTO_TEST_SUITE(memory_block_tests)
 
@@ -223,6 +224,33 @@ BOOST_AUTO_TEST_CASE(memory_block_6)
 
 	eagine_test_memory_block_6<true>();
 	eagine_test_memory_block_6<false>();
+}
+
+template <typename T>
+void eagine_test_memory_block_7(void)
+{
+	using namespace eagine;
+
+	std::vector<unsigned char> x(100 + std::rand() % 1000);
+
+	memory_block b(x.data(), x.size());
+
+	span<T> s = as_span_of<T>(b);
+
+	BOOST_CHECK_EQUAL(s.size(), x.size()/sizeof(T));
+}
+
+BOOST_AUTO_TEST_CASE(memory_block_7)
+{
+	for(int i=0; i<100; ++i)
+	{
+		eagine_test_memory_block_7<char>();
+		eagine_test_memory_block_7<short>();
+		eagine_test_memory_block_7<float>();
+		eagine_test_memory_block_7<int>();
+		eagine_test_memory_block_7<long>();
+		eagine_test_memory_block_7<double>();
+	}
 }
 
 // TODO

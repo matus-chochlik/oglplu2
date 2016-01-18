@@ -11,6 +11,7 @@
 #define EAGINE_MEMORY_BLOCK_1509260923_HPP
 
 #include "memory/block.hpp"
+#include "memory/typed_block.hpp"
 
 namespace eagine {
 
@@ -29,6 +30,8 @@ noexcept
 {
 	return memory::block_of(x);
 }
+
+using memory::as_span_of;
 
 } // namespace eagine
 
