@@ -58,3 +58,5 @@ add_runtime_test_dependency(eagine "memory_c_realloc_r" "memory_fallback_alloc_r
 add_runtime_test_dependency(eagine "memory_c_realloc_r" "memory_std_alloc_r")
 add_runtime_test_dependency(eagine "memory_stack_alloc_r" "memory_fallback_alloc_r")
 add_runtime_test_dependency(eagine "memory_stack_alloc_r" "memory_align_alloc_r")
+add_runtime_test_dependency(eagine "memory_block_r" "memory_buffer_r")
+add_runtime_test_dependency(eagine "memory_c_realloc_r" "memory_buffer_r")

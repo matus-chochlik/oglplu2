@@ -14,7 +14,8 @@
 #include "../nothing.hpp"
 #include "../type_traits.hpp"
 #include <utility>
-#include <stdexcept>
+#include <typeinfo>
+#include <new>
 
 namespace eagine {
 namespace memory {
@@ -167,10 +168,7 @@ public:
 		{
 			_pballoc->deallocate(std::move(b), a);
 		}
-		else
-		{
-			assert(b.empty());
-		}
+		assert(b.empty());
 	}
 
 	bool can_reallocate(const owned_block& b, size_type n, size_type a)
@@ -184,9 +182,22 @@ public:
 	owned_block reallocate(owned_block&& b, size_type n, size_type a)
 	noexcept
 	{
-		return _pballoc?
-			_pballoc->reallocate(std::move(b), n, a):
-			std::move(b);
+		if(_pballoc)
+		{
+			return _pballoc->reallocate(std::move(b), n, a);
+		}
+		assert(n == b.size());
+		return std::move(b);
+	}
+
+	void do_reallocate(owned_block& b, size_type n, size_type a)
+	noexcept
+	{
+		if(_pballoc)
+		{
+			return _pballoc->do_reallocate(b, n, a);
+		}
+		assert(n == b.size());
 	}
 
 	friend bool operator == (
