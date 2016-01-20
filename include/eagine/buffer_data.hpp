@@ -9,6 +9,7 @@
 #ifndef EAGINE_UTILS_BUFFER_DATA_1509260923_HPP
 #define EAGINE_UTILS_BUFFER_DATA_1509260923_HPP
 
+#include "memory_block.hpp"
 #include "buffer_size.hpp"
 #include "types.hpp"
 
@@ -25,6 +26,12 @@ public:
 	noexcept
 	 : _size()
 	 , _data(nullptr)
+	{ }
+
+	buffer_data_spec(const memory_block& blk)
+	noexcept
+	 : _size(S(blk.size()))
+	 , _data(blk.data())
 	{ }
 
 	template <typename T, std::size_t N>

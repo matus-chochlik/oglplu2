@@ -12,6 +12,7 @@
 
 #include "drawing.hpp"
 #include "../utils/span.hpp"
+#include <eagine/memory/typed_block.hpp>
 #include <eagine/shapes/vertex_attrib.hpp>
 #include <eagine/shapes/gen_base.hpp>
 #include <memory>
@@ -44,7 +45,40 @@ public:
 	 : _gen(_copy_gen(gen))
 	{ }
 
-	std::size_t index_count(void) const
+	unsigned vertex_count(void) const
+	{
+		return _gen->vertex_count();
+	}
+
+	unsigned values_per_vertex(vertex_attrib_kind attr) const
+	{
+		return _gen->values_per_vertex(attr);
+	}
+
+	unsigned value_count(vertex_attrib_kind attr) const
+	{
+		return vertex_count()*values_per_vertex(attr);
+	}
+
+	std::size_t attrib_data_block_size(vertex_attrib_kind attr) const
+	{
+		// TODO other attrib data types
+		return value_count(attr)*sizeof(GLfloat);
+	}
+
+	void attrib_data(
+		vertex_attrib_kind attrib,
+		const eagine::memory::block& data
+	) const
+	{
+		// TODO other attrib data types
+		_gen->attrib_values(
+			attrib,
+			eagine::memory::as_span_of<GLfloat>(data)
+		);
+	}
+
+	unsigned index_count(void) const
 	{
 		return _gen->index_count();
 	}

@@ -43,7 +43,6 @@ private:
 		return T(binomial(m, i)*pow(t, i)*pow(1-t, m-i));
 	}
 
-	template <typename ... P>
 	static constexpr
 	T _calc(int, int, T)
 	noexcept

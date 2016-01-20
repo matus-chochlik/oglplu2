@@ -35,6 +35,20 @@ noexcept
 	return {a, b};
 }
 
+struct vertex_attrib_and_location
+{
+	vertex_attrib_kind attrib;
+	int location;
+};
+
+static constexpr inline
+vertex_attrib_and_location
+operator | (vertex_attrib_kind attrib, int location)
+noexcept
+{
+	return {attrib, location};
+}
+
 static inline
 unsigned
 attrib_values_per_vertex(vertex_attrib_kind attr)
