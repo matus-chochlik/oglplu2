@@ -16,6 +16,7 @@
 
 namespace eagine {
 
+// any_forward_iterator
 template <typename VT, typename RT, typename PT, typename DT>
 class any_forward_iterator
 {
@@ -122,12 +123,50 @@ public:
 };
 
 template <typename T>
+using any_std_forward_iterator =
+	any_forward_iterator<T, const T&, const T*, std::ptrdiff_t>;
+
+template <typename T>
 using any_copying_forward_iterator =
 	any_forward_iterator<T, T, const T*, std::ptrdiff_t>;
 
+// any_forward_iterator_range
+template <typename VT, typename RT, typename PT, typename DT>
+class any_forward_iterator_range
+{
+private:
+	any_forward_iterator<VT, RT, PT, DT> _bgn, _end;
+public:
+	typedef any_forward_iterator<VT, RT, PT, DT> iterator;
+
+	any_forward_iterator_range(iterator b, iterator e)
+	 : _bgn(std::move(b))
+	 , _end(std::move(e))
+	{ }
+
+	template <typename Range>
+	any_forward_iterator_range(const Range& range)
+	 : any_forward_iterator_range(range.begin(), range.end())
+	{ }
+
+	const iterator& begin(void) const
+	{
+		return _bgn;
+	}
+
+	const iterator& end(void) const
+	{
+		return _end;
+	}
+};
+
 template <typename T>
-using any_std_forward_iterator =
-	any_forward_iterator<T, const T&, const T*, std::ptrdiff_t>;
+using any_std_forward_range =
+	any_forward_iterator_range<T, const T&, const T*, std::ptrdiff_t>;
+
+template <typename T>
+using any_copying_forward_range =
+	any_forward_iterator_range<T, T, const T*, std::ptrdiff_t>;
 
 } // namespace eagine
 

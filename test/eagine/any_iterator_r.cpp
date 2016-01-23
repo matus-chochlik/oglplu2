@@ -84,4 +84,41 @@ BOOST_AUTO_TEST_CASE(any_iterator_2)
 	test_any_iterator_2_T<unsigned>();
 }
 
+template <typename T>
+void test_any_iterator_3_T(void)
+{
+	using namespace eagine;
+
+	std::vector<T> vec(10+std::rand()%90);
+
+	any_std_forward_range<T> rng = vec;
+
+	T tmp = T(0);
+	for(T& val : vec)
+	{
+		val = tmp++;
+	}
+
+	tmp = T(0);
+	for(const T& val : rng)
+	{
+		BOOST_CHECK_EQUAL(val, tmp);
+		++tmp;
+	}
+
+	tmp = T(0);
+	for(const T& val : rng)
+	{
+		BOOST_CHECK_EQUAL(val, tmp);
+		++tmp;
+	}
+}
+
+BOOST_AUTO_TEST_CASE(any_iterator_3)
+{
+	test_any_iterator_3_T<short>();
+	test_any_iterator_3_T<int>();
+	test_any_iterator_3_T<unsigned>();
+}
+
 BOOST_AUTO_TEST_SUITE_END()
