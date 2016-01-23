@@ -1,0 +1,22 @@
+/**
+ * Copyright Matus Chochlik.
+ * Distributed under the Boost Software License, Version 1.0.
+ * See accompanying file LICENSE_1_0.txt or copy at
+ *  http://www.boost.org/LICENSE_1_0.txt
+ */
+#include <type_traits>
+#ifdef EAGINE_TEST_TRAIT_FIX
+namespace std {
+#include "make_@TYPE_TRAIT@_t.inl"
+}
+#endif
+
+int foo(std::false_type)
+{
+	return 0;
+}
+
+int main(void)
+{
+	return foo(std::is_polymorphic_t<int>());
+}
