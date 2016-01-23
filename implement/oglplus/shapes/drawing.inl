@@ -45,12 +45,13 @@ noexcept
 {
 	switch(type)
 	{
+		// TODO currently all indices are GLuint
+		case eagine::shapes::index_data_type::unsigned_byte:
+			// TODO return data_type(GL_UNSIGNED_BYTE);
+		case eagine::shapes::index_data_type::unsigned_short:
+			// TODO return data_type(GL_UNSIGNED_SHORT);
 		case eagine::shapes::index_data_type::unsigned_int:
 			return data_type(GL_UNSIGNED_INT);
-		case eagine::shapes::index_data_type::unsigned_short:
-			return data_type(GL_UNSIGNED_SHORT);
-		case eagine::shapes::index_data_type::unsigned_byte:
-			return data_type(GL_UNSIGNED_BYTE);
 		case eagine::shapes::index_data_type::none:
 			break;
 	}
@@ -65,12 +66,13 @@ noexcept
 {
 	switch(type)
 	{
+		// TODO currently all indices are GLuint
+		case eagine::shapes::index_data_type::unsigned_byte:
+			// TODO return sizeof(GLubyte);
+		case eagine::shapes::index_data_type::unsigned_short:
+			// TODO return sizeof(GLushort);
 		case eagine::shapes::index_data_type::unsigned_int:
 			return sizeof(GLuint);
-		case eagine::shapes::index_data_type::unsigned_short:
-			return sizeof(GLushort);
-		case eagine::shapes::index_data_type::unsigned_byte:
-			return sizeof(GLubyte);
 		case eagine::shapes::index_data_type::none:
 			break;
 	}
@@ -100,6 +102,15 @@ noexcept
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
+const void*
+draw_operation::
+_idx_ptr(void) const
+noexcept
+{
+	return static_cast<const GLubyte*>(0)+_first;
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
 outcome<void>
 draw_operation::
 draw(void) const
@@ -111,7 +122,7 @@ noexcept
 			GLenum(_mode),
 			GLsizei(_count),
 			GLenum(_idx_type),
-			static_cast<GLubyte*>(0)+_first
+			_idx_ptr()
 		);
 		OGLPLUS_VERIFY(DrawElements, gl_enum_value(_mode), debug);
 	}
@@ -123,6 +134,21 @@ noexcept
 			GLsizei(_count)
 		);
 		OGLPLUS_VERIFY(DrawArrays, gl_enum_value(_mode), debug);
+	}
+	return {};
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+outcome<void>
+draw_using_instructions(const span<const draw_operation>& ops)
+noexcept
+{
+	for(const draw_operation& op : ops)
+	{
+		if(auto res = failure(op.draw()))
+		{
+			return std::move(res);
+		}
 	}
 	return {};
 }

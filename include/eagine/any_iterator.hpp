@@ -149,12 +149,12 @@ public:
 	 : any_forward_iterator_range(range.begin(), range.end())
 	{ }
 
-	const iterator& begin(void) const
+	iterator begin(void) const
 	{
 		return _bgn;
 	}
 
-	const iterator& end(void) const
+	iterator end(void) const
 	{
 		return _end;
 	}

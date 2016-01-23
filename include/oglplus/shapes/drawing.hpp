@@ -11,6 +11,7 @@
 #define OGLPLUS_SHAPES_DRAWING_1509260923_HPP
 
 #include <eagine/shapes/drawing.hpp>
+#include "../utils/span.hpp"
 #include "../config/basic.hpp"
 #include "../error/outcome.hpp"
 #include "../enum/types.hpp"
@@ -44,6 +45,8 @@ private:
 	GLuint _primitive_restart_index;
 	bool _primitive_restart;
 
+	const void* _idx_ptr(void) const
+	noexcept;
 public:
 	constexpr
 	draw_operation(void)
@@ -57,15 +60,19 @@ public:
 	 , _primitive_restart(false)
 	{ }
 
-	bool indexed(void) const
+	draw_operation(const eagine::shapes::draw_operation& draw_op)
 	noexcept;
 
-	draw_operation(const eagine::shapes::draw_operation& draw_op)
+	bool indexed(void) const
 	noexcept;
 
 	outcome<void> draw(void) const
 	noexcept;
 };
+
+outcome<void>
+draw_using_instructions(const span<const draw_operation>& ops)
+noexcept;
 
 } // namespace shapes
 } // namespace oglplus

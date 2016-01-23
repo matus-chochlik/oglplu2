@@ -78,6 +78,11 @@ public:
 		);
 	}
 
+	bool indexed(void) const
+	{
+		return _gen->index_count() > 0;
+	}
+
 	unsigned index_count(void) const
 	{
 		return _gen->index_count();
@@ -88,9 +93,15 @@ public:
 		return _index_type_size(_gen->index_type());
 	}
 
-	std::size_t index_block_size(void) const
+	std::size_t index_data_block_size(void) const
 	{
 		return index_count()*index_type_size();
+	}
+
+	void index_data(const eagine::memory::block& data) const
+	{
+		// TODO other index data types, see also drawing
+		_gen->indices(eagine::memory::as_span_of<GLuint>(data));
 	}
 
 	unsigned operation_count(void) const
