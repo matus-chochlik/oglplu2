@@ -12,7 +12,7 @@
 
 #include "tagged_quantity.hpp"
 #include "units/trivial.hpp"
-#include <cmath>
+#include "math/constants.hpp"
 
 namespace eagine {
 
@@ -21,7 +21,7 @@ template <typename T>
 using seconds_t = tagged_quantity<T, units::second>;
 
 template <typename T>
-static inline
+static constexpr inline
 seconds_t<T>
 seconds_(T value)
 noexcept
@@ -34,12 +34,35 @@ template <typename T>
 using radians_t = tagged_quantity<T, units::radian>;
 
 template <typename T>
-static inline
+static constexpr inline
 radians_t<T>
 radians_(T value)
 noexcept
 {
 	return radians_t<T>{value};
+}
+
+template <typename T>
+static constexpr inline
+auto right_angles_(T value)
+noexcept
+{
+	return radians_(value*math::pi/2);
+}
+
+static constexpr inline
+auto right_angle_(void)
+noexcept
+{
+	return right_angles_(1);
+}
+
+template <typename T>
+static constexpr inline
+auto turns_(T value)
+noexcept
+{
+	return radians_(value*math::pi*2);
 }
 
 template <
@@ -94,7 +117,7 @@ template <typename T>
 using degrees_t = tagged_quantity<T, units::degree>;
 
 template <typename T>
-static inline
+static constexpr inline
 degrees_t<T>
 degrees_(T value)
 noexcept

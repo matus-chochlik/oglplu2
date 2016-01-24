@@ -10,7 +10,7 @@
 #ifndef EAGINE_UNITS_SCALES_1512222148_HPP
 #define EAGINE_UNITS_SCALES_1512222148_HPP
 
-#include <cmath>
+#include "../math/constants.hpp"
 
 namespace eagine {
 namespace units {
@@ -414,22 +414,14 @@ struct pi
 	static constexpr inline
 	auto mul(T v)
 	{
-#ifdef M_PI
-		return v*M_PI;
-#else
-		return v*3.14159265358979323846;
-#endif
+		return v*math::pi;
 	}
 
 	template <typename T>
 	static constexpr inline
 	auto div(T v)
 	{
-#ifdef M_PI
-		return v/M_PI;
-#else
-		return v/3.14159265358979323846;
-#endif
+		return v/math::pi;
 	}
 };
 
