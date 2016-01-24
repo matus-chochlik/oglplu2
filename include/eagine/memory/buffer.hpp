@@ -50,10 +50,12 @@ public:
 	 : buffer(alignof(long double))
 	{ }
 
+	buffer(const buffer&) = delete;
+
 	~buffer(void)
 	noexcept
 	{
-		_alloc.deallocate(std::move(_storage), _align);
+		free();
 	}
 
 	pointer addr(void) const
@@ -88,6 +90,12 @@ public:
 		reserve(new_size);
 		_size = new_size;
 		assert(_is_ok());
+	}
+
+	void free(void)
+	{
+		_alloc.deallocate(std::move(_storage), _align);
+		_size = 0;
 	}
 
 	operator block (void) const

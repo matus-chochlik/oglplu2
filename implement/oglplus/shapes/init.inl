@@ -30,6 +30,7 @@ initialize_vao_and_buffers(
 	auto vaale = vaals.end();
 	auto bufsi = bufs.begin();
 	auto bufse = bufs.end();
+	(void)bufse;
 
 	if(auto res = failure(gl.bind(vao)))
 	{
@@ -75,6 +76,8 @@ initialize_vao_and_buffers(
 
 	if(gen.indexed())
 	{
+		assert(bufsi != bufse);
+
 		data.resize(gen.index_data_block_size());
 		gen.index_data(data);
 
@@ -89,11 +92,6 @@ initialize_vao_and_buffers(
 			GL.static_draw
 		))) { return std::move(res); }
 	}
-
-	++bufsi;
-
-	assert(bufsi == bufse);
-	(void)bufse;
 
 	gen.instructions(ops);
 

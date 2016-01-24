@@ -22,6 +22,7 @@ namespace shapes {
 
 using eagine::shapes::vertex_attrib_kind;
 using eagine::shapes::vertex_attrib_bits;
+using eagine::shapes::vertex_attrib_and_location;
 
 class adapted_generator
 {

@@ -19,8 +19,6 @@
 namespace oglplus {
 namespace shapes {
 
-using eagine::shapes::vertex_attrib_and_location;
-
 outcome<void>
 initialize_vao_and_buffers(
 	vertex_array_name vao,

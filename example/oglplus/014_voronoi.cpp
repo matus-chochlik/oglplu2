@@ -14,8 +14,6 @@
 #include <eagine/random_bytes.hpp>
 
 #include "example.hpp"
-#include <iostream>
-#include <random>
 #include <vector>
 
 namespace oglplus {
