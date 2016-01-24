@@ -19,8 +19,10 @@
 #include <oglplus/math/vector.hpp>
 #include <oglplus/math/matrix.hpp>
 #include <oglplus/math/matrix_ctrs.hpp>
+#include <oglplus/math/interpolate.hpp>
 
 #include "example.hpp"
+#include <iostream>
 
 namespace oglplus {
 
@@ -87,55 +89,43 @@ private:
 
 	shapes::generator_wrapper<shapes::unit_cube_gen, 3> cube;
 
-	float cam_radius;
-	radians_t<float> cam_azimuth;
-	radians_t<float> cam_elevation;
+	float cam_orbit;
+	float cam_turns;
+	float cam_pitch;
 
-	short cam_radius_dir;
-	short cam_azimuth_dir;
-	short cam_elevation_dir;
+	short cam_dist_dir;
+	short cam_turn_dir;
+	short cam_elev_dir;
 
-	void mod_cam_radius(float inc)
+	void mod_bouncing(short& dir, float& val, float inc)
 	{
-		const float max_cam_radius = 8.0f;
-		const float min_cam_radius = 1.5f;
-
-		cam_radius += inc;
-		if(cam_radius > max_cam_radius)
+		val += inc;
+		if(val > 1.f)
 		{
-			cam_radius = max_cam_radius;
-			cam_radius_dir = -1;
+			val = 1.f;
+			dir = -1;
 		}
-		if(cam_radius < min_cam_radius)
+		if(val < 0.f)
 		{
-			cam_radius = min_cam_radius;
-			cam_radius_dir = 1;
+			val = 0.f;
+			dir = +1;
 		}
 	}
 
-	void mod_cam_azimuth(radians_t<float> inc)
+	void mod_cam_orbit(float inc)
 	{
-		cam_azimuth += inc;
-		cam_azimuth_dir = (inc > radians_(0))?1:-1;
+		mod_bouncing(cam_dist_dir, cam_orbit, inc);
 	}
 
-	void mod_cam_elevation(radians_t<float> inc)
+	void mod_cam_turns(float inc)
 	{
+		cam_turns += inc;
+		cam_turn_dir = (inc > 0)?1:-1;
+	}
 
-		const radians_t<float> max_cam_elevation = radians_(+1.57f);
-		const radians_t<float> min_cam_elevation = radians_(-1.57f);
-
-		cam_elevation += inc;
-		if(cam_elevation > max_cam_elevation)
-		{
-			cam_elevation = max_cam_elevation;
-			cam_elevation_dir = -1;
-		}
-		if(cam_elevation < min_cam_elevation)
-		{
-			cam_elevation = min_cam_elevation;
-			cam_elevation_dir = 1;
-		}
+	void mod_cam_pitch(float inc)
+	{
+		mod_bouncing(cam_elev_dir, cam_pitch, inc);
 	}
 
 	void set_projection(const example_state_view& state)
@@ -148,9 +138,9 @@ private:
 				0.5f, 10.f
 			)*matrix_orbiting_y_up(
 				vec3(),
-				cam_radius,
-				cam_azimuth,
-				cam_elevation
+				smooth_lerp(1.5f, 5.0f, cam_orbit),
+				turns_(cam_turns),
+				smooth_oscillate(radians_(1.5f), cam_pitch)
 			)
 		);
 	}
@@ -164,12 +154,12 @@ public:
 		(shapes::vertex_attrib_kind::position|0),
 		(shapes::vertex_attrib_kind::normal|1),
 		(shapes::vertex_attrib_kind::box_coord|2)
-	), cam_radius(2)
-	 , cam_azimuth(1)
-	 , cam_elevation(1)
-	 , cam_radius_dir(-1)
-	 , cam_azimuth_dir(1)
-	 , cam_elevation_dir(1)
+	), cam_orbit(0.5)
+	 , cam_turns(0.12f)
+	 , cam_pitch(0.72f)
+	 , cam_dist_dir(-1)
+	 , cam_turn_dir(1)
+	 , cam_elev_dir(1)
 	{
 		gl.clear_color(0.6f, 0.6f, 0.5f, 0);
 		gl.clear_depth(1);
@@ -183,14 +173,8 @@ public:
 	{
 		if(state.pointer_dragging())
 		{
-			mod_cam_azimuth(
-				-state.norm_delta_pointer_x()*
-				turns_(0.5f)
-			);
-			mod_cam_elevation(
-				-state.norm_delta_pointer_y()*
-				turns_(0.5f)
-			);
+			mod_cam_turns(-state.norm_delta_pointer_x()*0.5f);
+			mod_cam_pitch(-state.norm_delta_pointer_y()*1.0f);
 			set_projection(state);
 		}
 	}
@@ -198,7 +182,7 @@ public:
 	void pointer_scrolling(const example_state_view& state)
 	override
 	{
-		mod_cam_radius(-state.norm_delta_pointer_z()*1.5f);
+		mod_cam_orbit(-state.norm_delta_pointer_z());
 		set_projection(state);
 	}
 
@@ -214,9 +198,11 @@ public:
 	{
 		if(state.user_idle_time() > seconds_(1))
 		{
-			mod_cam_radius(0.05f*cam_radius_dir);
-			mod_cam_azimuth(radians_(0.05f*cam_azimuth_dir));
-			mod_cam_elevation(radians_(0.05f*cam_elevation_dir));
+			const float s = state.frame_duration().value()/2;
+
+			mod_cam_orbit(s*cam_dist_dir);
+			mod_cam_turns(s*cam_turn_dir);
+			mod_cam_pitch(s*cam_elev_dir);
 
 			set_projection(state);
 		}
