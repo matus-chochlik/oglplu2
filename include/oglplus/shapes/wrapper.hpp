@@ -10,9 +10,9 @@
 #ifndef OGLPLUS_SHAPES_WRAPPER_1509260923_HPP
 #define OGLPLUS_SHAPES_WRAPPER_1509260923_HPP
 
-#include <eagine/all_are_same.hpp>
 #include "init.hpp"
 #include "drawing.hpp"
+#include <eagine/make_array.hpp>
 #include <vector>
 
 namespace oglplus {
@@ -57,34 +57,6 @@ class wrapper
  : public base_wrapper<N>
 {
 private:
-	static constexpr inline
-	vertex_attrib_bits _get_bits(const vertex_attrib_and_location& vaal)
-	noexcept
-	{
-		return vaal.attrib;
-	}
-
-	template <typename ... P>
-	static constexpr inline
-	vertex_attrib_bits _get_bits(
-		const vertex_attrib_and_location& vaal1,
-		const vertex_attrib_and_location& vaal2,
-		const P& ... vaaln
-	)
-	{
-		return _get_bits(vaal2, vaaln...) | vaal1.attrib;
-	}
-
-	template <typename ... P>
-	static inline
-	std::array<vertex_attrib_and_location, sizeof ... (P)>
-	_pack(const P& ... p)
-	noexcept
-	{
-		return {{p...}};
-	}
-	
-
 	template <std::size_t M>
 	static inline
 	span<const vertex_attrib_and_location>
@@ -111,8 +83,8 @@ public:
 		const P& ... p
 	): base_wrapper<N>(
 		tmp_buf,
-		Generator(_get_bits(p...)),
-		_as_span(_pack(p...))
+		Generator(eagine::shapes::get_attrib_bits(p...)),
+		_as_span(eagine::make_array(p...))
 	)
 	{ }
 };

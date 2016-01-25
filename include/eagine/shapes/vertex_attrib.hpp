@@ -11,6 +11,8 @@
 #define EAGINE_SHAPES_VERTEX_ATTRIB_1509260923_HPP
 
 #include "../bitfield.hpp"
+#include "../all_are_same.hpp"
+#include "../type_traits.hpp"
 
 namespace eagine {
 namespace shapes {
@@ -49,6 +51,34 @@ noexcept
 	return {attrib, location};
 }
 
+// get_attrib_bits
+static constexpr inline
+vertex_attrib_bits
+get_attrib_bits(const vertex_attrib_and_location& vaal)
+noexcept
+{
+	return vaal.attrib;
+}
+
+// get_attrib_bits
+template <
+	typename ... P,
+	typename = std::enable_if_t<
+		all_are_same<vertex_attrib_and_location, P...>::value
+	>
+>
+static constexpr inline
+vertex_attrib_bits
+get_attrib_bits(
+	const vertex_attrib_and_location& vaal1,
+	const vertex_attrib_and_location& vaal2,
+	const P& ... vaals
+) noexcept
+{
+	return get_attrib_bits(vaal2, vaals...) | vaal1.attrib;
+}
+
+// attrib_values_per_vertex
 static inline
 unsigned
 attrib_values_per_vertex(vertex_attrib_kind attr)
