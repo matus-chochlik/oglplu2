@@ -18,6 +18,8 @@ noexcept
 {
 	return	vertex_attrib_kind::position|
 		vertex_attrib_kind::normal|
+		vertex_attrib_kind::tangential|
+		vertex_attrib_kind::bitangential|
 		vertex_attrib_kind::box_coord;
 }
 //------------------------------------------------------------------------------
@@ -205,11 +207,20 @@ noexcept
 	assert(f < 6);
 	assert(c < 3);
 
-	static const unsigned char _nml_bits[3] = {0x03, 0x0C, 0x30};
-	static const unsigned char _nml_sign[3] = {0x02, 0x08, 0x20};
+	//    f =  5, 4, 3, 2, 1, 0
+	//  face: +Z,-Z,+Y,-Y,+X,-X
+	//   vec: +Z,-Z,+Y,-Y,+X,-X
+	// X c=0:  0  0  0  0  1  1 = 0x03
+	// Y c=1:  0  0  1  1  0  0 = 0x0C
+	// Z c=2:  1  1  0  0  0  0 = 0x30
+	static const unsigned char _vec_bits[3] = {0x03, 0x0C, 0x30};
+	// X c=0:  0  0  0  0  1  0 = 0x02
+	// Y c=1:  0  0  1  0  0  0 = 0x08
+	// Z c=2:  1  0  0  0  0  0 = 0x20
+	static const unsigned char _vec_sign[3] = {0x02, 0x08, 0x20};
 	
-	unsigned char b = static_cast<unsigned char>(1 << f);
-	return (((_nml_bits[c] & b) == b)?1:0)*(((_nml_sign[c] & b) == b)?1:-1);
+	const unsigned char b = static_cast<unsigned char>(1 << f);
+	return (((_vec_bits[c] & b) == b)?1:0)*(((_vec_sign[c] & b) == b)?1:-1);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -237,6 +248,104 @@ noexcept
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+int
+unit_cube_gen::
+_tangential_c(unsigned f, unsigned c)
+noexcept
+{
+	assert(f < 6);
+	assert(c < 3);
+
+	//    f =  5, 4, 3, 2, 1, 0
+	//  face: +Z,-Z,+Y,-Y,+X,-X
+	//   vec: +X,-X,+X,+X,-Z,+Z
+	// X c=0:  1  1  1  1  0  0 = 0x3C
+	// Y c=1:  0  0  0  0  0  0 = 0x00
+	// Z c=2:  0  0  0  0  1  1 = 0x03
+	static const unsigned char _vec_bits[3] = {0x3C, 0x00, 0x03};
+	// X c=0:  1  0  1  1  0  0 = 0x2C
+	// Y c=1:  0  0  0  0  0  0 = 0x00
+	// Z c=2:  0  0  0  0  0  1 = 0x01
+	static const unsigned char _vec_sign[3] = {0x2C, 0x00, 0x01};
+	
+	const unsigned char b = static_cast<unsigned char>(1 << f);
+	return (((_vec_bits[c] & b) == b)?1:0)*(((_vec_sign[c] & b) == b)?1:-1);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void
+unit_cube_gen::
+tangentials(span<float> dest)
+noexcept
+{
+	assert(has(vertex_attrib_kind::tangential));
+	assert(dest.size() >= vertex_count()*3);
+
+	unsigned k = 0;
+	unsigned n = 2*3;
+
+	for(unsigned f=0; f<6; ++f)
+	for(unsigned i=0; i<n; ++i)
+	{
+		for(unsigned c=0; c<3; ++c)
+		{
+			dest[k++] = _tangential_c(f, c);
+		}
+	}
+
+	assert(k == vertex_count()*3);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+int
+unit_cube_gen::
+_bitangential_c(unsigned f, unsigned c)
+noexcept
+{
+	assert(f < 6);
+	assert(c < 3);
+
+	//    f =  5, 4, 3, 2, 1, 0
+	//  face: +Z,-Z,+Y,-Y,+X,-X
+	//   vec: +Y,+Y,-Z,+Z,+Y,+Y
+	// X c=0:  0  0  0  0  0  0 = 0x00
+	// Y c=1:  1  1  0  0  1  1 = 0x33
+	// Z c=2:  0  0  1  1  0  0 = 0x0C
+	static const unsigned char _vec_bits[3] = {0x00, 0x33, 0x0C};
+	// X c=0:  0  0  0  0  0  0 = 0x00
+	// Y c=1:  1  1  0  0  1  1 = 0x33
+	// Z c=2:  0  0  0  1  0  0 = 0x04
+	static const unsigned char _vec_sign[3] = {0x00, 0x33, 0x04};
+	
+	const unsigned char b = static_cast<unsigned char>(1 << f);
+	return (((_vec_bits[c] & b) == b)?1:0)*(((_vec_sign[c] & b) == b)?1:-1);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void
+unit_cube_gen::
+bitangentials(span<float> dest)
+noexcept
+{
+	assert(has(vertex_attrib_kind::bitangential));
+	assert(dest.size() >= vertex_count()*3);
+
+	unsigned k = 0;
+	unsigned n = 2*3;
+
+	for(unsigned f=0; f<6; ++f)
+	for(unsigned i=0; i<n; ++i)
+	{
+		for(unsigned c=0; c<3; ++c)
+		{
+			dest[k++] = _bitangential_c(f, c);
+		}
+	}
+
+	assert(k == vertex_count()*3);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 void
 unit_cube_gen::
 attrib_values(vertex_attrib_kind attr, span<float> dest)
@@ -249,12 +358,17 @@ attrib_values(vertex_attrib_kind attr, span<float> dest)
 		case vertex_attrib_kind::normal:
 			normals(dest);
 			break;
+		case vertex_attrib_kind::tangential:
+			tangentials(dest);
+			break;
+		case vertex_attrib_kind::bitangential:
+			bitangentials(dest);
+			break;
 		case vertex_attrib_kind::box_coord:
 			box_coords(dest);
 			break;
-		case vertex_attrib_kind::tangential:
-		case vertex_attrib_kind::bitangential:
-		case vertex_attrib_kind::tex_coord:
+		case vertex_attrib_kind::wrap_coord:
+		case vertex_attrib_kind::face_coord:
 			assert(has(attr));
 	}
 }

@@ -22,7 +22,6 @@
 #include <oglplus/math/interpolate.hpp>
 
 #include "example.hpp"
-#include <iostream>
 
 namespace oglplus {
 

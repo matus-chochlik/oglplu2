@@ -24,7 +24,8 @@ enum class vertex_attrib_kind : unsigned
 	tangential     = 1 <<  2,
 	bitangential   = 1 <<  3,
 	box_coord      = 1 <<  4,
-	tex_coord      = 1 <<  5
+	wrap_coord     = 1 <<  5,
+	face_coord     = 1 <<  6
 };
 
 typedef bitfield<vertex_attrib_kind> vertex_attrib_bits;
@@ -90,9 +91,10 @@ noexcept
 		case vertex_attrib_kind::normal:
 		case vertex_attrib_kind::tangential:
 		case vertex_attrib_kind::bitangential:
+		case vertex_attrib_kind::face_coord:
 		case vertex_attrib_kind::box_coord:
 			return 3u;
-		case vertex_attrib_kind::tex_coord:
+		case vertex_attrib_kind::wrap_coord:
 			return 2u;
 	}
 	return 0u;

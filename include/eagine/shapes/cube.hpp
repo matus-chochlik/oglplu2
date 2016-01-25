@@ -40,6 +40,14 @@ private:
 	int _normal_c(unsigned f, unsigned c)
 	noexcept;
 
+	static
+	int _tangential_c(unsigned f, unsigned c)
+	noexcept;
+
+	static
+	int _bitangential_c(unsigned f, unsigned c)
+	noexcept;
+
 	template <typename T>
 	void _indices(span<T>& dest)
 	noexcept;
@@ -64,6 +72,12 @@ public:
 	noexcept;
 
 	void normals(span<float> dest)
+	noexcept;
+
+	void tangentials(span<float> dest)
+	noexcept;
+
+	void bitangentials(span<float> dest)
 	noexcept;
 
 	void attrib_values(vertex_attrib_kind attr, span<float> dest)
