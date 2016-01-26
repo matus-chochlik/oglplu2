@@ -80,6 +80,9 @@ public:
 	void bitangentials(span<float> dest)
 	noexcept;
 
+	void face_coords(span<float> dest)
+	noexcept;
+
 	void attrib_values(vertex_attrib_kind attr, span<float> dest)
 	override;
 

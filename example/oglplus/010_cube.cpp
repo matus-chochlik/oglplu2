@@ -45,12 +45,17 @@ public:
 		"in vec4 Position;\n"
 		"in vec3 Normal;\n"
 		"in vec3 BoxCoord;\n"
-		"out vec3 vertColor;\n"
+		"in vec3 TexCoord;\n"
+		"out vec2 vertCoord;\n"
+		"out vec3 vertColor1;\n"
+		"out vec3 vertColor2;\n"
 
 		"void main(void)\n"
 		"{\n"
 		"	gl_Position = Projection*Position;\n"
-		"	vertColor = mix(BoxCoord,abs(Normal),0.5);\n"
+		"	vertColor1 = mix(BoxCoord,abs(Normal),0.5);\n"
+		"	vertColor2 = vertColor1 * 0.3;\n"
+		"	vertCoord = TexCoord.xy*(2+TexCoord.z);\n"
 		"}\n"
 		));
 		vs.compile();
@@ -59,12 +64,20 @@ public:
 		fs.source(glsl_literal(
 		"#version 140\n"
 
-		"in  vec3 vertColor;\n"
+		"in  vec2 vertCoord;\n"
+		"in  vec3 vertColor1;\n"
+		"in  vec3 vertColor2;\n"
 		"out vec3 fragColor;\n"
+
+		"float pattern(vec2 tc)\n"
+		"{\n"
+		"	return float((int(tc.x)%2+int(tc.y)%2)%2);\n"
+		"}\n"
 
 		"void main(void)\n"
 		"{\n"
-		"	fragColor = vertColor;\n"
+		"	float c = pattern(vertCoord);\n"
+		"	fragColor = mix(vertColor1, vertColor2, c);\n"
 		"}\n"
 		));
 		fs.compile();
@@ -86,7 +99,7 @@ class example_cube
 private:
 	example_program prog;
 
-	shapes::generator_wrapper<shapes::unit_cube_gen, 3> cube;
+	shapes::generator_wrapper<shapes::unit_cube_gen, 4> cube;
 
 	float cam_orbit;
 	float cam_turns;
@@ -152,7 +165,8 @@ public:
 		temp_buffer,
 		(shapes::vertex_attrib_kind::position|0),
 		(shapes::vertex_attrib_kind::normal|1),
-		(shapes::vertex_attrib_kind::box_coord|2)
+		(shapes::vertex_attrib_kind::box_coord|2),
+		(shapes::vertex_attrib_kind::face_coord|3)
 	), cam_orbit(0.5)
 	 , cam_turns(0.12f)
 	 , cam_pitch(0.72f)

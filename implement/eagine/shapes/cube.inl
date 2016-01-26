@@ -62,41 +62,52 @@ noexcept
 	 *  |/      |/      /
 	 * (4)-----(5)     L (Z)
 	 *
+	 *    (2)----(3)   (2)  (0)---(2)
+	 *     ^ \ II |     | \   \ II |
+	 *     |  \   | <=> |  \   \   |
+	 *     |   \  |     |   \   \  |
+	 *     | I  \ |     | I  \   \ |
+	 *    (0)--->(1)   (0)-->(1)  (1)
+	 *
 	 *        (-)        (+)
 	 *    (2)----(6) (7)----(3)
-	 *     | \ II |   | \ II |
+	 *     ^ \ II |   ^ \ II |
 	 *     |  \   |   |  \   |
 	 * (X) |   \  |   |   \  |
 	 *     | I  \ |   | I  \ |
-	 *    (0)----(4) (5)----(1)
+	 *    (0)--->(4) (5)--->(1)
 	 *
 	 *        (-)        (+)
 	 *    (4)----(5) (2)----(3)
-	 *     | \ II |   | \ II |
+	 *     ^ \ II |   ^ \ II |
 	 *     |  \   |   |  \   |
 	 * (Y) |   \  |   |   \  |
 	 *     | I  \ |   | I  \ |
-	 *    (0)----(1) (6)----(7)
+	 *    (0)--->(1) (6)--->(7)
 	 *
 	 *        (-)        (+)
 	 *    (3)----(2) (6)----(7)
-	 *     | \ II |   | \ II |
+	 *     ^ \ II |   ^ \ II |
 	 *     |  \   |   |  \   |
 	 * (Z) |   \  |   |   \  |
 	 *     | I  \ |   | I  \ |
-	 *    (1)----(0) (4)----(5)
+	 *    (1)--->(0) (4)--->(5)
 	 */
 
-	static const unsigned fv[6][2][3] = {
-		//  (I)       (II)
-		{{0, 4, 2}, {2, 4, 6}}, // (-X)
-		{{5, 1, 7}, {7, 1, 3}}, // (+X)
-		{{0, 1, 4}, {4, 1, 5}}, // (-Y)
-		{{6, 7, 2}, {2, 7, 3}}, // (+Y)
-		{{1, 0, 3}, {3, 0, 2}}, // (-Z)
-		{{4, 5, 6}, {6, 5, 7}}  // (+Z)
+	static const unsigned ftvi[2][3] = {
+		{0, 1, 2}, // ( I)
+		{2, 1, 3}  // (II)
 	};
-	return fv[f][t][v];
+
+	static const unsigned fv[6][4] = {
+		{0, 4, 2, 6}, // (-X)
+		{5, 1, 7, 3}, // (+X)
+		{0, 1, 4, 5}, // (-Y)
+		{6, 7, 2, 3}, // (+Y)
+		{1, 0, 3, 2}, // (-Z)
+		{4, 5, 6, 7}  // (+Z)
+	};
+	return fv[f][ftvi[t][v]];
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -348,6 +359,53 @@ noexcept
 EAGINE_LIB_FUNC
 void
 unit_cube_gen::
+face_coords(span<float> dest)
+noexcept
+{
+	assert(has(vertex_attrib_kind::face_coord));
+	assert(dest.size() >= vertex_count()*3);
+
+	// TODO
+	/*
+	 *     (0,1,f) (1,1,f)
+	 *       (2)----(3)
+	 *        ^ \ II |
+	 *        |  \   |
+	 *        |   \  |
+	 *        | I  \ |
+	 *       (0)--->(1)
+	 *     (0,0,f) (1,0,f)
+	 */
+
+	static const unsigned ftvi[2][3] = {
+		{0, 1, 2}, // ( I)
+		{2, 1, 3}  // (II)
+	};
+
+	const float uv[4][2] = {
+		{0.f, 0.f},
+		{1.f, 0.f},
+		{0.f, 1.f},
+		{1.f, 1.f}
+	};
+
+	unsigned k = 0;
+
+	for(unsigned f=0; f<6; ++f)
+	for(unsigned t=0; t<2; ++t)
+	for(unsigned v=0; v<3; ++v)
+	{
+		dest[k++] = uv[ftvi[t][v]][0];
+		dest[k++] = uv[ftvi[t][v]][1];
+		dest[k++] = float(f);
+	}
+
+	assert(k == vertex_count()*3);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+void
+unit_cube_gen::
 attrib_values(vertex_attrib_kind attr, span<float> dest)
 {
 	switch(attr)
@@ -367,8 +425,10 @@ attrib_values(vertex_attrib_kind attr, span<float> dest)
 		case vertex_attrib_kind::box_coord:
 			box_coords(dest);
 			break;
-		case vertex_attrib_kind::wrap_coord:
 		case vertex_attrib_kind::face_coord:
+			face_coords(dest);
+			break;
+		case vertex_attrib_kind::wrap_coord:
 			assert(has(attr));
 	}
 }
