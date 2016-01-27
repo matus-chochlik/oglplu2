@@ -163,10 +163,10 @@ public:
 	): prog()
 	 , cube(
 		temp_buffer,
-		(shapes::vertex_attrib_kind::position|0),
-		(shapes::vertex_attrib_kind::normal|1),
-		(shapes::vertex_attrib_kind::box_coord|2),
-		(shapes::vertex_attrib_kind::face_coord|3)
+		shapes::vertex_attrib_kind::position+
+		shapes::vertex_attrib_kind::normal+
+		shapes::vertex_attrib_kind::box_coord+
+		shapes::vertex_attrib_kind::face_coord
 	), cam_orbit(0.5)
 	 , cam_turns(0.12f)
 	 , cam_pitch(0.72f)

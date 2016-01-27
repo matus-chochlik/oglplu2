@@ -14,17 +14,18 @@
 #include "drawing.hpp"
 #include <eagine/make_array.hpp>
 #include <vector>
+#include <cassert>
 
 namespace oglplus {
 namespace shapes {
 
 // base_wrapper
-template <std::size_t N>
+template <std::size_t N, bool InclElemBuf = true>
 class base_wrapper
 {
 private:
 	vertex_array _vao;
-	buffer_array<N+1> _bufs;
+	buffer_array<N+(InclElemBuf?1:0)> _bufs;
 	std::vector<draw_operation> _ops;
 public:
 	base_wrapper(
@@ -34,6 +35,7 @@ public:
 	): _bufs()
 	 , _ops(gen.operation_count())
 	{
+		assert(vaals.size() >= span_size_type(N));
 		initialize_vao_and_buffers(_vao, _bufs, vaals, _ops, gen, data);
 	}
 
@@ -57,34 +59,23 @@ class wrapper
  : public base_wrapper<N>
 {
 private:
-	template <std::size_t M>
 	static inline
 	span<const vertex_attrib_and_location>
-	_as_span(const std::array<vertex_attrib_and_location, M>& a)
+	_as_span(const std::array<const vertex_attrib_and_location, N>& a)
 	noexcept
 	{
-		return a;
+		return {a.data(), span_size_type(a.size())};
 	}
 public:
-	template <
-		typename Generator,
-		typename ... P,
-		typename = std::enable_if<
-			(sizeof ... (P) == N) &&
-			eagine::all_are_same<
-				vertex_attrib_and_location,
-				P...
-			>::value
-		>
-	>
+	template <typename Generator>
 	wrapper(
 		eagine::identity<Generator>,
 		eagine::memory::buffer& tmp_buf,
-		const P& ... p
+		const std::array<const vertex_attrib_and_location, N>& vaals
 	): base_wrapper<N>(
 		tmp_buf,
-		Generator(eagine::shapes::get_attrib_bits(p...)),
-		_as_span(eagine::make_array(p...))
+		Generator(eagine::shapes::get_attrib_bits(vaals)),
+		_as_span(vaals)
 	)
 	{ }
 };
@@ -95,18 +86,10 @@ class generator_wrapper
  : public wrapper<N>
 {
 public:
-	template <
-		typename ... P,
-		typename = std::enable_if<
-			(sizeof ... (P) == N) &&
-			eagine::all_are_same<
-				vertex_attrib_and_location,
-				P...
-			>::value
-		>
-	>
-	generator_wrapper(eagine::memory::buffer& tmp_buf, const P& ... p)
-	 : wrapper<N>(eagine::identity<Generator>(), tmp_buf, p...)
+	generator_wrapper(
+		eagine::memory::buffer& tmp_buf,
+		const std::array<const vertex_attrib_and_location, N>& vaals
+	): wrapper<N>(eagine::identity<Generator>(), tmp_buf, vaals)
 	{ }
 };
 

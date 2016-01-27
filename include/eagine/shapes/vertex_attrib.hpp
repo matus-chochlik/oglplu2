@@ -13,6 +13,8 @@
 #include "../bitfield.hpp"
 #include "../all_are_same.hpp"
 #include "../type_traits.hpp"
+#include "../int_sequence.hpp"
+#include <array>
 
 namespace eagine {
 namespace shapes {
@@ -30,7 +32,8 @@ enum class vertex_attrib_kind : unsigned
 
 typedef bitfield<vertex_attrib_kind> vertex_attrib_bits;
 
-static inline
+// vertex_attrib_kind | vertex_attrib_kind 
+static constexpr inline
 vertex_attrib_bits
 operator | (vertex_attrib_kind a, vertex_attrib_kind b)
 noexcept
@@ -38,12 +41,14 @@ noexcept
 	return {a, b};
 }
 
+// vertex_attrib_and_location
 struct vertex_attrib_and_location
 {
 	vertex_attrib_kind attrib;
 	int location;
 };
 
+// vertex_attrib_kind | location
 static constexpr inline
 vertex_attrib_and_location
 operator | (vertex_attrib_kind attrib, int location)
@@ -52,31 +57,78 @@ noexcept
 	return {attrib, location};
 }
 
-// get_attrib_bits
+// vertex_attrib_and_location + vertex_attrib_and_location 
 static constexpr inline
-vertex_attrib_bits
-get_attrib_bits(const vertex_attrib_and_location& vaal)
+std::array<const vertex_attrib_and_location, 2>
+operator + (
+	const vertex_attrib_and_location& a,
+	const vertex_attrib_and_location& b
+) noexcept
+{
+	return {{a, b}};
+}
+
+// vertex_attrib_kind + vertex_attrib_kind
+static constexpr inline
+std::array<const vertex_attrib_and_location, 2>
+operator + (vertex_attrib_kind a, vertex_attrib_kind b)
 noexcept
 {
-	return vaal.attrib;
+	return (a|0)+(b|1);
+}
+
+// append_attrib
+template <std::size_t N, std::size_t ... I>
+static constexpr inline
+std::array<const vertex_attrib_and_location, N+1>
+do_append_attrib(
+	const std::array<const vertex_attrib_and_location, N>& a,
+	const vertex_attrib_and_location& b,
+	std::index_sequence<I...>
+) noexcept
+{
+	return {{a[I]..., b}};
+}
+
+// array<vertex_attrib_and_location, N> + vertex_attrib_and_location 
+template <std::size_t N>
+static constexpr inline
+std::array<const vertex_attrib_and_location, N+1>
+operator + (
+	const std::array<const vertex_attrib_and_location, N>& a,
+	const vertex_attrib_and_location& b
+) noexcept
+{
+	return do_append_attrib(a, b, std::make_index_sequence<N>());
+}
+
+// array<vertex_attrib_kind> + vertex_attrib_kind
+template <std::size_t N>
+static constexpr inline
+std::array<const vertex_attrib_and_location, N+1>
+operator + (
+	std::array<const vertex_attrib_and_location, N> a,
+	vertex_attrib_kind b
+) noexcept
+{
+	return a+(b|N);
 }
 
 // get_attrib_bits
-template <
-	typename ... P,
-	typename = std::enable_if_t<
-		all_are_same<vertex_attrib_and_location, P...>::value
-	>
->
-static constexpr inline
+template <std::size_t N>
+static inline
 vertex_attrib_bits
-get_attrib_bits(
-	const vertex_attrib_and_location& vaal1,
-	const vertex_attrib_and_location& vaal2,
-	const P& ... vaals
-) noexcept
+get_attrib_bits(const std::array<const vertex_attrib_and_location, N>& vaals)
+noexcept
 {
-	return get_attrib_bits(vaal2, vaals...) | vaal1.attrib;
+	vertex_attrib_bits res;
+
+	for(const vertex_attrib_and_location& vaal: vaals)
+	{
+		res = res | vaal.attrib;
+	}
+
+	return res;
 }
 
 // attrib_values_per_vertex
