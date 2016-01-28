@@ -179,21 +179,21 @@ public:
 	constexpr
 	basic_outcome(
 		deferred_handler<ErrorData, HandlerPolicy>&& handler,
-		T value
+		T val
 	) noexcept
 	 : basic_outcome<void, ErrorData, HandlerPolicy>(std::move(handler))
-	 , _value(value)
+	 , _value(val)
 	{ }
 
 	basic_outcome(
 		basic_outcome<void, ErrorData, HandlerPolicy>&& that,
-		T value
+		T val
 	) noexcept
 	 : basic_outcome<void, ErrorData, HandlerPolicy>(std::move(that))
-	 , _value(value)
+	 , _value(val)
 	{ }
 
-	T get(void)
+	T value(void)
 	{
 		this->_handler.trigger();
 		return _value.get();
@@ -201,7 +201,7 @@ public:
 
 	operator T (void)
 	{
-		return get();
+		return value();
 	}
 
 	template <typename Func>
@@ -225,7 +225,7 @@ noexcept
 	{
 		return {that.release_handler()};
 	}
-	return {T(that.get())};
+	return {T(that.value())};
 }
 
 template <typename T, typename U, typename ErrorData, typename HandlerPolicy>
@@ -240,7 +240,7 @@ outcome_conversion(
 	{
 		return {that.release_handler()};
 	}
-	return {convert(that.get())};
+	return {convert(that.value())};
 }
 
 template <typename T, typename ErrorData, typename HandlerPolicy>

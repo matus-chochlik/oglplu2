@@ -73,7 +73,7 @@ program_ops::
 report_program_link_error(program_name prog)
 noexcept
 {
-	if(!program_link_status(prog).get())
+	if(!program_link_status(prog).value())
 	{
 		OGLPLUS_REPORT_ERROR(
 			LinkProgram,

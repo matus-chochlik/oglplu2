@@ -50,7 +50,7 @@ shader_ops::
 report_shader_compile_error(shader_name shdr)
 noexcept
 {
-	if(!shader_compile_status(shdr).get())
+	if(!shader_compile_status(shdr).value())
 	{
 		OGLPLUS_REPORT_ERROR(
 			CompileShader,
