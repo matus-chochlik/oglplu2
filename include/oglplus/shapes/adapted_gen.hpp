@@ -118,8 +118,9 @@ class concrete_adapted_generator
  : public adapted_generator
 {
 public:
-	concrete_adapted_generator(vertex_attrib_bits bits)
-	 : adapted_generator(Generator(bits))
+	template <typename ... P>
+	concrete_adapted_generator(vertex_attrib_bits bits, P&& ... p)
+	 : adapted_generator(Generator(bits, std::forward<P>(p)...))
 	{ }
 };
 

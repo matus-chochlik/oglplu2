@@ -67,14 +67,18 @@ private:
 		return {a.data(), span_size_type(a.size())};
 	}
 public:
-	template <typename Generator>
+	template <typename Generator, typename ... P>
 	wrapper(
 		eagine::identity<Generator>,
 		eagine::memory::buffer& tmp_buf,
-		const std::array<const vertex_attrib_and_location, N>& vaals
+		const std::array<const vertex_attrib_and_location, N>& vaals,
+		P&& ... p
 	): base_wrapper<N>(
 		tmp_buf,
-		Generator(eagine::shapes::get_attrib_bits(vaals)),
+		Generator(
+			eagine::shapes::get_attrib_bits(vaals),
+			std::forward<P>(p)...
+		),
 		_as_span(vaals)
 	)
 	{ }
@@ -86,10 +90,17 @@ class generator_wrapper
  : public wrapper<N>
 {
 public:
+	template <typename ... P>
 	generator_wrapper(
 		eagine::memory::buffer& tmp_buf,
-		const std::array<const vertex_attrib_and_location, N>& vaals
-	): wrapper<N>(eagine::identity<Generator>(), tmp_buf, vaals)
+		const std::array<const vertex_attrib_and_location, N>& vaals,
+		P&& ... p
+	): wrapper<N>(
+		eagine::identity<Generator>(),
+		tmp_buf,
+		vaals,
+		std::forward<P>(p)...
+	)
 	{ }
 };
 
