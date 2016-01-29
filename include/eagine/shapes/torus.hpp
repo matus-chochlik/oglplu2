@@ -1,5 +1,5 @@
 /**
- *  @file eagine/shapes/sphere.hpp
+ *  @file eagine/shapes/torus.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_SHAPES_SPHERE_1509260923_HPP
-#define EAGINE_SHAPES_SPHERE_1509260923_HPP
+#ifndef EAGINE_SHAPES_TORUS_1509260923_HPP
+#define EAGINE_SHAPES_TORUS_1509260923_HPP
 
 #include "gen_base.hpp"
 #include <eagine/config/basic.hpp>
@@ -17,7 +17,7 @@
 namespace eagine {
 namespace shapes {
 
-class unit_sphere_gen
+class unit_torus_gen
  : public generator_base
 {
 private:
@@ -28,15 +28,15 @@ private:
 	vertex_attrib_bits _attr_mask(void)
 	noexcept;
 public:
-	unit_sphere_gen(
+	unit_torus_gen(
 		vertex_attrib_bits attr_bits,
 		unsigned rings,
 		unsigned sections
 	) noexcept;
 
-	unit_sphere_gen(vertex_attrib_bits attr_bits)
+	unit_torus_gen(vertex_attrib_bits attr_bits)
 	noexcept
-	 : unit_sphere_gen(attr_bits, 12, 18)
+	 : unit_torus_gen(attr_bits, 24, 36)
 	{ }
 
 	bool cw_face_winding(void)
@@ -86,7 +86,7 @@ public:
 } // namespace eagine
 
 #if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)
-#include <eagine/shapes/sphere.inl>
+#include <eagine/shapes/torus.inl>
 #endif
 
 #endif // include guard

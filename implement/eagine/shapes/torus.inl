@@ -14,7 +14,7 @@ namespace shapes {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 vertex_attrib_bits
-unit_sphere_gen::
+unit_torus_gen::
 _attr_mask(void)
 noexcept
 {
@@ -27,20 +27,20 @@ noexcept
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-unit_sphere_gen::
-unit_sphere_gen(vertex_attrib_bits attr_bits, unsigned rings, unsigned sections)
+unit_torus_gen::
+unit_torus_gen(vertex_attrib_bits attr_bits, unsigned rings, unsigned sections)
 noexcept
  : generator_base(attr_bits & _attr_mask())
  , _rings(rings)
  , _sections(sections)
 {
-	assert(rings >= 2);
+	assert(rings >= 4);
 	assert(sections >= 3);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool
-unit_sphere_gen::
+unit_torus_gen::
 cw_face_winding(void)
 {
 	return true;
@@ -48,7 +48,7 @@ cw_face_winding(void)
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 unsigned
-unit_sphere_gen::
+unit_torus_gen::
 vertex_count(void)
 {
 	return (_rings + 1) * (_sections + 1);
@@ -56,7 +56,7 @@ vertex_count(void)
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void
-unit_sphere_gen::
+unit_torus_gen::
 positions(span<float> dest)
 noexcept
 {
@@ -65,26 +65,34 @@ noexcept
 
 	unsigned k = 0;
 
+	const auto ro = 0.50;
+	const auto ri = 0.25;
+	const auto r1 = ri;
+	const auto r2 = ro-ri;
+
 	const auto s_step = 2 * math::pi / _sections;
-	const auto r_step = 1 * math::pi / _rings;
+	const auto r_step = 2 * math::pi / _rings;
 
 	for(unsigned s=0; s<(_sections+1); ++s)
 	{
+		const auto vx =  std::cos(s*s_step);
+		const auto vz = -std::sin(s*s_step);
+
 		for(unsigned r=0; r<(_rings+1); ++r)
 		{
-			const auto r_lat = std::cos(r*r_step);
-			const auto r_rad = std::sin(r*r_step);
+			const auto vr = std::cos(r*r_step);
+			const auto vy = std::sin(r*r_step);
 
-			dest[k++] = float(0.5f * r_rad * std::cos(s*s_step));
-			dest[k++] = float(0.5f * r_lat);
-			dest[k++] = float(0.5f * r_rad *-std::sin(s*s_step));
+			dest[k++] = float(vx*(r1 + r2*(1+vr)));
+			dest[k++] = float(vy*r2);
+			dest[k++] = float(vz*(r1 + r2*(1+vr)));
 		}
 	}
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void
-unit_sphere_gen::
+unit_torus_gen::
 normals(span<float> dest)
 noexcept
 {
@@ -94,25 +102,28 @@ noexcept
 	unsigned k = 0;
 
 	const auto s_step = 2 * math::pi / _sections;
-	const auto r_step = 1 * math::pi / _rings;
+	const auto r_step = 2 * math::pi / _rings;
 
 	for(unsigned s=0; s<(_sections+1); ++s)
 	{
+		const auto nx =  std::cos(s*s_step);
+		const auto nz = -std::sin(s*s_step);
+
 		for(unsigned r=0; r<(_rings+1); ++r)
 		{
-			const auto r_lat = std::cos(r*r_step);
-			const auto r_rad = std::sin(r*r_step);
+			const auto nr = std::cos(r*r_step);
+			const auto ny = std::sin(r*r_step);
 
-			dest[k++] = float(r_rad * std::cos(s*s_step));
-			dest[k++] = float(r_lat);
-			dest[k++] = float(r_rad *-std::sin(s*s_step));
+			dest[k++] = float(nx*nr);
+			dest[k++] = float(ny);
+			dest[k++] = float(nz*nr);
 		}
 	}
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void
-unit_sphere_gen::
+unit_torus_gen::
 tangentials(span<float> dest)
 noexcept
 {
@@ -125,21 +136,21 @@ noexcept
 
 	for(unsigned s=0; s<(_sections+1); ++s)
 	{
-		auto x = -std::sin(s*s_step);
-		auto z = -std::cos(s*s_step);
+		const auto tx = -std::sin(s*s_step);
+		const auto tz = -std::cos(s*s_step);
 
 		for(unsigned r=0; r<(_rings+1); ++r)
 		{
-			dest[k++] = float(x);
+			dest[k++] = float(tx);
 			dest[k++] = float(0);
-			dest[k++] = float(z);
+			dest[k++] = float(tz);
 		}
 	}
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void
-unit_sphere_gen::
+unit_torus_gen::
 bitangentials(span<float> dest)
 noexcept
 {
@@ -149,19 +160,20 @@ noexcept
 	unsigned k = 0;
 
 	const auto s_step = 2 * math::pi / _sections;
-	const auto r_step = 1 * math::pi / _rings;
+	const auto r_step = 2 * math::pi / _rings;
 	const auto ty = 0;
 
 	for(unsigned s=0; s<(_sections+1); ++s)
 	{
+		const auto tx = -std::sin(s*s_step);
+		const auto tz = -std::cos(s*s_step);
+
 		for(unsigned r=0; r<(_rings+1); ++r)
 		{
-			const auto r_rad = std::sin(r*r_step);
-			const auto tx = -std::sin(s*s_step);
-			const auto tz = -std::cos(s*s_step);
-			const auto nx = -r_rad * tz;
-			const auto ny = std::cos(r*r_step);
-			const auto nz =  r_rad * tx;
+			const auto nr = std::cos(r*r_step);
+			const auto ny = std::sin(r*r_step);
+			const auto nx = -tz*nr;
+			const auto nz =  tx*nr;
 
 			dest[k++] = float(ny*tz-nz*ty);
 			dest[k++] = float(nz*tx-nx*tz);
@@ -172,7 +184,7 @@ noexcept
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void
-unit_sphere_gen::
+unit_torus_gen::
 box_coords(span<float> dest)
 noexcept
 {
@@ -181,28 +193,34 @@ noexcept
 
 	unsigned k = 0;
 
-	const auto s_step = 2 * math::pi / _sections;
-	const auto r_step = 1 * math::pi / _rings;
+	const auto ro = 0.50;
+	const auto ri = 0.25;
+	const auto r1 = ri;
+	const auto r2 = ro-ri;
 
-	const float h = 0.5;
+	const auto s_step = 2 * math::pi / _sections;
+	const auto r_step = 2 * math::pi / _rings;
 
 	for(unsigned s=0; s<(_sections+1); ++s)
 	{
+		const auto vx =  std::cos(s*s_step);
+		const auto vz = -std::sin(s*s_step);
+
 		for(unsigned r=0; r<(_rings+1); ++r)
 		{
-			const auto r_lat = std::cos(r*r_step);
-			const auto r_rad = std::sin(r*r_step);
+			const auto vr = std::cos(r*r_step);
+			const auto vy = std::sin(r*r_step);
 
-			dest[k++] = float(h + h * r_rad * std::cos(s*s_step));
-			dest[k++] = float(h + h * r_lat);
-			dest[k++] = float(h + h * r_rad *-std::sin(s*s_step));
+			dest[k++] = float(ro + vx*(r1 + r2*(1+vr)));
+			dest[k++] = float(ro + vy*r2);
+			dest[k++] = float(ro + vz*(r1 + r2*(1+vr)));
 		}
 	}
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void
-unit_sphere_gen::
+unit_torus_gen::
 wrap_coords(span<float> dest)
 noexcept
 {
@@ -226,7 +244,7 @@ noexcept
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void
-unit_sphere_gen::
+unit_torus_gen::
 attrib_values(vertex_attrib_kind attr, span<float> dest)
 {
 	switch(attr)
@@ -256,7 +274,7 @@ attrib_values(vertex_attrib_kind attr, span<float> dest)
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 index_data_type
-unit_sphere_gen::
+unit_torus_gen::
 index_type(void)
 {
 	return index_data_type::unsigned_byte;
@@ -264,7 +282,7 @@ index_type(void)
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 unsigned
-unit_sphere_gen::
+unit_torus_gen::
 index_count(void)
 {
 	return _sections * ((_rings + 1) * 2 + (primitive_restart()?1:0));
@@ -272,7 +290,7 @@ index_count(void)
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void
-unit_sphere_gen::
+unit_torus_gen::
 indices(span<unsigned> dest)
 {
 	assert(dest.size() >= index_count());
@@ -298,7 +316,7 @@ indices(span<unsigned> dest)
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 unsigned
-unit_sphere_gen::
+unit_torus_gen::
 operation_count(void)
 {
 	if(primitive_restart())
@@ -313,7 +331,7 @@ operation_count(void)
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void
-unit_sphere_gen::
+unit_torus_gen::
 instructions(span<draw_operation> ops)
 {
 	assert(ops.size() >= operation_count());
