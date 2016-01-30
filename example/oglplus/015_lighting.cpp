@@ -1,5 +1,5 @@
 /**
- *  example oglplus/010_cube.cpp
+ *  example oglplus/015_lighting.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -14,7 +14,7 @@
 #include <oglplus/glsl/string_ref.hpp>
 
 #include <oglplus/shapes/wrapper.hpp>
-#include <oglplus/shapes/cube.hpp>
+#include <oglplus/shapes/torus.hpp>
 
 #include <oglplus/math/vector.hpp>
 #include <oglplus/math/matrix.hpp>
@@ -28,59 +28,99 @@ namespace oglplus {
 static constants  GL;
 static operations gl;
 
-class example_program
+class lighting_program
  : public program
 {
 public:
-	uniform_location projection;
+	uniform_location projection, modelview;
 
-	example_program(void)
+	lighting_program(void)
 	{
 		shader vs(GL.vertex_shader);
 		vs.source(glsl_literal(
-		"#version 140\n"
+		"#version 330\n"
 
-		"uniform mat4 Projection;\n"
+		"const vec3 LightPos[5] = vec3[5](\n"
+		"	vec3( 0, -100, 0),\n"
+		"	vec3( 10, 10, 20),\n"
+		"	vec3( 10, 20,-10),\n"
+		"	vec3(-20, 10,-20),\n"
+		"	vec3(-10, 20, 10) \n"
+		");\n"
 
-		"in vec4 Position;\n"
-		"in vec3 Normal;\n"
-		"in vec3 BoxCoord;\n"
-		"in vec3 TexCoord;\n"
-		"out vec2 vertCoord;\n"
-		"out vec3 vertColor1;\n"
-		"out vec3 vertColor2;\n"
+		"uniform mat4 Projection, Modelview;\n"
+
+		"layout (location = 0) in vec4 Position;\n"
+		"layout (location = 1) in vec3 Normal;\n"
+		"layout (location = 2) in vec2 TCoord;\n"
+
+		"out vec3 vertNormal;\n"
+		"out vec2 vertTCoord;\n"
+		"out float vertOccl;\n"
+		"out vec3 vertLightDir[5];\n"
 
 		"void main(void)\n"
 		"{\n"
-		"	gl_Position = Projection*Position;\n"
-		"	vertColor1 = mix(BoxCoord,abs(Normal),0.5);\n"
-		"	vertColor2 = vertColor1 * 0.3;\n"
-		"	vertCoord = TexCoord.xy*(2+TexCoord.z);\n"
+		"	gl_Position = Modelview*Position;\n"
+		"	vertNormal = mat3(Modelview)*Normal;\n"
+		"	vertTCoord = TCoord*vec2(32,8);\n"
+		"	vertOccl = 0.5*(1+sqrt(2*abs(0.5-TCoord.y)));\n"
+		"	for(int i=0; i<5; ++i)\n"
+		"	{\n"
+		"		vertLightDir[i]=LightPos[i]-gl_Position.xyz;\n"
+		"	}\n"
+		"	gl_Position = Projection*gl_Position;\n"
 		"}\n"
 		));
 		vs.compile();
+		vs.report_compile_error();
 
 		shader fs(GL.fragment_shader);
 		fs.source(glsl_literal(
 		"#version 140\n"
 
-		"in  vec2 vertCoord;\n"
-		"in  vec3 vertColor1;\n"
-		"in  vec3 vertColor2;\n"
+		"const vec3 Color1 = vec3(0.1, 0.1, 0.1);\n"
+		"const vec3 Color2 = vec3(0.8, 0.6, 0.1);\n"
+
+		"in vec3 vertNormal;\n"
+		"in vec2 vertTCoord;\n"
+		"in float vertOccl;\n"
+		"in vec3 vertLightDir[5];\n"
 		"out vec3 fragColor;\n"
 
-		"float pattern(vec2 tc)\n"
+		"float Pattern(vec2 tc)\n"
 		"{\n"
-		"	return float((int(tc.x)%2+int(tc.y)%2)%2);\n"
+		"	return float(int(tc.x+tc.y)%2);\n"
 		"}\n"
 
 		"void main(void)\n"
 		"{\n"
-		"	float c = pattern(vertCoord);\n"
-		"	fragColor = mix(vertColor1, vertColor2, c);\n"
+		"	float O = min(pow(vertOccl+0.2,6),1);\n"
+		"	float A1 = pow(O,2)*0.1;\n"
+		"	float A2 = sqrt(O)*0.1;\n"
+		"	float D1 = 0;\n"
+		"	float D2 = 0;\n"
+		"	float S1 = 0;\n"
+		"	float S2 = 0;\n"
+		"	for(int i=0; i<5; ++i)\n"
+		"	{\n"
+		"		vec3 LD = vertLightDir[i];\n"
+		"		float L = length(LD);\n"
+		"		float DL = dot(vertNormal, LD/L);\n"
+		"		D1 += max(DL/L, 0)*2;\n"
+		"		D2 += sqrt(max(DL/L, 0))*1.2;\n"
+		"		S1 += pow(clamp(DL+1.0/L, 0, 1),256)*0.7;\n"
+		"		S2 += pow(clamp(DL+1.5/L, 0, 1), 16)*0.2;\n"
+		"	}\n"
+		"	fragColor = mix(\n"
+		"		O*((A1+D1+S1*0.5)*Color1+vec3(S1)),\n"
+		"		O*((A2+D2+S2*0.5)*Color2+vec3(S2)),\n"
+		"		Pattern(vertTCoord)\n"
+		"	);\n"
 		"}\n"
 		));
 		fs.compile();
+		fs.report_compile_error();
 
 		attach(vs);
 		attach(fs);
@@ -90,16 +130,19 @@ public:
 		gl.use(*this);
 
 		gl.query_location(projection, *this, "Projection");
+		gl.query_location(modelview, *this, "Modelview");
 	}
 };
 
-class cube_example
+class lighting_example
  : public example
 {
 private:
-	example_program prog;
+	lighting_program prog;
 
-	shapes::generator_wrapper<shapes::unit_cube_gen, 4> cube;
+	shapes::generator_wrapper<shapes::unit_torus_gen, 3> shape;
+
+	float shp_turns;
 
 	float cam_orbit;
 	float cam_turns;
@@ -157,24 +200,25 @@ private:
 		);
 	}
 public:
-	cube_example(
+	lighting_example(
 		const example_state_view& state,
 		eagine::memory::buffer& temp_buffer
 	): prog()
-	 , cube(
+	 , shape(
 		temp_buffer,
-		shapes::vertex_attrib_kind::position+
-		shapes::vertex_attrib_kind::normal+
-		shapes::vertex_attrib_kind::box_coord+
-		shapes::vertex_attrib_kind::face_coord
-	), cam_orbit(0.5)
-	 , cam_turns(0.12f)
-	 , cam_pitch(0.72f)
+		(shapes::vertex_attrib_kind::position  |0)+
+		(shapes::vertex_attrib_kind::normal    |1)+
+		(shapes::vertex_attrib_kind::wrap_coord|2),
+		96, 144
+	), shp_turns(0.0f)
+	 , cam_orbit(0.0f)
+	 , cam_turns(0.0f)
+	 , cam_pitch(0.5f)
 	 , cam_dist_dir(-1)
 	 , cam_turn_dir(1)
 	 , cam_elev_dir(1)
 	{
-		gl.clear_color(0.6f, 0.6f, 0.5f, 0);
+		gl.clear_color(0.25f, 0.25f, 0.2f, 0);
 		gl.clear_depth(1);
 		gl.enable(GL.depth_test);
 
@@ -211,7 +255,7 @@ public:
 	{
 		if(state.user_idle_time() > seconds_(1))
 		{
-			const float s = state.frame_duration().value()/2;
+			const float s = state.frame_duration().value()/5;
 
 			mod_cam_orbit(s*cam_dist_dir);
 			mod_cam_turns(s*cam_turn_dir);
@@ -221,11 +265,26 @@ public:
 		}
 	}
 
-	void render(const example_state_view& /*state*/)
+	void render(const example_state_view& state)
 	override
 	{
+		shp_turns += 0.1f*state.frame_duration().value();
+
+		gl.uniform(
+			prog.modelview,
+			matrix_rotation_x(turns_(shp_turns)/1)*
+			matrix_rotation_y(turns_(shp_turns)/2)*
+			matrix_rotation_z(turns_(shp_turns)/3)
+		);
+
 		gl.clear(GL.color_buffer_bit|GL.depth_buffer_bit);
-		cube.draw();
+		shape.draw();
+	}
+
+	bool continue_running(const example_state_view& state)
+	override
+	{
+		return state.user_idle_time() < seconds_(20);
 	}
 };
 
@@ -233,7 +292,10 @@ std::unique_ptr<example>
 make_example(const example_params&, const example_state_view& state)
 {
 	eagine::memory::buffer temp_buffer;
-	return std::unique_ptr<example>(new cube_example(state, temp_buffer));
+	return std::unique_ptr<example>(new lighting_example(
+		state,
+		temp_buffer
+	));
 }
 
 void adjust_params(example_params& params)

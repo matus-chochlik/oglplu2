@@ -28,15 +28,15 @@ noexcept
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 unit_torus_gen::
-unit_torus_gen(vertex_attrib_bits attr_bits, unsigned rings, unsigned sections)
-noexcept
+unit_torus_gen(
+	vertex_attrib_bits attr_bits,
+	valid_if_greater_than<int, 4> rings,
+	valid_if_greater_than<int, 3> sections
+) noexcept
  : generator_base(attr_bits & _attr_mask())
- , _rings(rings)
- , _sections(sections)
-{
-	assert(rings >= 4);
-	assert(sections >= 3);
-}
+ , _rings(unsigned(rings.value()))
+ , _sections(unsigned(sections.value()))
+{ }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool

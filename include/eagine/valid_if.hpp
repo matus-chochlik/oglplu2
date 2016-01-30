@@ -97,13 +97,13 @@ public:
 };
 
 // greater-than
-template <typename T, T Sentinel>
+template <typename T, T Cmp>
 struct valid_if_gt_policy
 {
 	bool operator ()(T value) const
 	noexcept
 	{
-		return value > Sentinel;
+		return value > Cmp;
 	}
 };
 
@@ -119,24 +119,24 @@ struct valid_if_greater_than
 };
 
 // not-equal
-template <typename T, T Sentinel>
+template <typename T, T Cmp>
 struct valid_if_ne_policy
 {
 	bool operator ()(T value) const
 	noexcept
 	{
-		return value != Sentinel;
+		return value != Cmp;
 	}
 };
 
-template <typename T, T Sentinel>
+template <typename T, T Cmp>
 struct valid_if_not
- : valid_if<T, valid_if_ne_policy<T, Sentinel>>
+ : valid_if<T, valid_if_ne_policy<T, Cmp>>
 {
 	constexpr
 	valid_if_not(T val)
 	noexcept
-	 : valid_if<T, valid_if_ne_policy<T, Sentinel>>(val)
+	 : valid_if<T, valid_if_ne_policy<T, Cmp>>(val)
 	{ }
 };
 

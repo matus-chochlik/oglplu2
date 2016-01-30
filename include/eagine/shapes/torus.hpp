@@ -11,7 +11,8 @@
 #define EAGINE_SHAPES_TORUS_1509260923_HPP
 
 #include "gen_base.hpp"
-#include <eagine/config/basic.hpp>
+#include "../config/basic.hpp"
+#include "../valid_if.hpp"
 #include <cassert>
 
 namespace eagine {
@@ -30,8 +31,8 @@ private:
 public:
 	unit_torus_gen(
 		vertex_attrib_bits attr_bits,
-		unsigned rings,
-		unsigned sections
+		valid_if_greater_than<int, 4> rings,
+		valid_if_greater_than<int, 3> sections
 	) noexcept;
 
 	unit_torus_gen(vertex_attrib_bits attr_bits)
