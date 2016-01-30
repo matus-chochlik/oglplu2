@@ -120,6 +120,15 @@ public:
 	{
 		return is_valid()?_self().evaluate():v;
 	}
+
+	template <typename Func>
+	void then(Func func) const
+	{
+		if(is_valid())
+		{
+			func(value());
+		}
+	}
 };
 
 template <typename L, typename R>

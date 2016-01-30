@@ -205,7 +205,7 @@ public:
 	}
 
 	template <typename Func>
-	void apply(Func func)
+	void then(Func func)
 	noexcept
 	{
 		if(this->succeeded())
@@ -258,7 +258,7 @@ basic_outcome<T, ErrorData, HandlerPolicy>&&
 operator | (basic_outcome<T, ErrorData, HandlerPolicy>&& bo, Func func)
 noexcept
 {
-	bo.apply(func);
+	bo.then(func);
 	return std::move(bo);
 }
 

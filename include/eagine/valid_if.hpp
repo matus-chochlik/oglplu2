@@ -77,6 +77,15 @@ public:
 		return is_valid()?value():fallback;
 	}
 
+	template <typename Func>
+	void then(Func func) const
+	{
+		if(is_valid())
+		{
+			func(value());
+		}
+	}
+
 	const T& operator / (const T& fallback) const
 	noexcept
 	{
