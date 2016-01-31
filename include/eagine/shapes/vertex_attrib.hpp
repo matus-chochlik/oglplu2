@@ -46,6 +46,12 @@ struct vertex_attrib_and_location
 {
 	vertex_attrib_kind attrib;
 	int location;
+
+	operator std::array<const vertex_attrib_and_location, 1> (void) const
+	noexcept
+	{
+		return {{*this}};
+	}
 };
 
 // vertex_attrib_kind | location

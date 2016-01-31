@@ -1,5 +1,5 @@
 /**
- *  example oglplus/015_lighting.cpp
+ *  example oglplus/028_lighting.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -14,6 +14,7 @@
 #include <oglplus/glsl/string_ref.hpp>
 
 #include <oglplus/shapes/wrapper.hpp>
+#include <oglplus/shapes/sphere.hpp>
 #include <oglplus/shapes/torus.hpp>
 
 #include <oglplus/math/vector.hpp>
@@ -27,6 +28,74 @@ namespace oglplus {
 
 static constants  GL;
 static operations gl;
+
+class erase_program
+ : public program
+{
+public:
+	uniform_location projection;
+
+	erase_program(void)
+	{
+		shader vs(GL.vertex_shader);
+		vs.source(glsl_literal(
+		"#version 330\n"
+
+		"uniform mat4 Projection;\n"
+
+		"layout (location = 0) in vec3 Position;\n"
+
+		"out vec3 vertCoord;\n"
+
+		"void main(void)\n"
+		"{\n"
+		"	gl_Position = Projection*vec4(Position*50, 1);\n"
+		"	vertCoord = Position*10;\n"
+		"}\n"
+		));
+		vs.compile();
+		vs.report_compile_error();
+
+		shader fs(GL.fragment_shader);
+		fs.source(glsl_literal(
+		"#version 140\n"
+
+		"in vec3 vertCoord;\n"
+		"out vec3 fragColor;\n"
+
+		"float lines(float c)\n"
+		"{\n"
+		"	return pow(2*abs(c-floor(c+0.5)), 64);\n"
+		"}\n"
+
+		"float grid(vec3 c)\n"
+		"{\n"
+		"	return lines(c.x)+lines(c.y)+lines(c.z);\n"
+		"}\n"
+
+		"void main(void)\n"
+		"{\n"
+		"	fragColor = mix(\n"
+		"		vec3(0.25, 0.25, 0.2),\n"
+		"		vec3(0),\n"
+		"		grid(vertCoord)\n"
+		"	);\n"
+		"}\n"
+		));
+		fs.compile();
+		fs.report_compile_error();
+
+		attach(vs);
+		attach(fs);
+		link();
+		report_link_error();
+
+		gl.use(*this);
+
+		gl.query_location(projection, *this, "Projection");
+	}
+
+};
 
 class lighting_program
  : public program
@@ -138,8 +207,10 @@ class lighting_example
  : public example
 {
 private:
-	lighting_program prog;
+	erase_program erase_prog;
+	lighting_program light_prog;
 
+	shapes::generator_wrapper<shapes::unit_sphere_gen, 1> background;
 	shapes::generator_wrapper<shapes::unit_torus_gen, 3> shape;
 
 	float shp_turns;
@@ -185,26 +256,34 @@ private:
 
 	void set_projection(const example_state_view& state)
 	{
-		gl.uniform(
-			prog.projection,
+		auto projection = 
 			matrix_perspective::y(
 				right_angle_(),
 				state.aspect(),
-				0.5f, 10.f
+				0.5f, 50.f
 			)*matrix_orbiting_y_up(
 				vec3(),
 				smooth_lerp(1.5f, 5.0f, cam_orbit),
 				turns_(cam_turns),
 				smooth_oscillate(radians_(1.5f), cam_pitch)
-			)
-		);
+			);
+
+		gl.use(light_prog);
+		gl.uniform(light_prog.projection, projection);
+		gl.use(erase_prog);
+		gl.uniform(erase_prog.projection, projection);
 	}
 public:
 	lighting_example(
 		const example_state_view& state,
 		eagine::memory::buffer& temp_buffer
-	): prog()
-	 , shape(
+	): erase_prog()
+	 , light_prog()
+	 , background(
+		temp_buffer,
+		(shapes::vertex_attrib_kind::position  |0),
+		36, 72
+	), shape(
 		temp_buffer,
 		(shapes::vertex_attrib_kind::position  |0)+
 		(shapes::vertex_attrib_kind::normal    |1)+
@@ -218,9 +297,8 @@ public:
 	 , cam_turn_dir(1)
 	 , cam_elev_dir(1)
 	{
-		gl.clear_color(0.25f, 0.25f, 0.2f, 0);
 		gl.clear_depth(1);
-		gl.enable(GL.depth_test);
+		gl.disable(GL.cull_face);
 
 		set_projection(state);
 	}
@@ -268,16 +346,24 @@ public:
 	void render(const example_state_view& state)
 	override
 	{
+		gl.use(erase_prog);
+		gl.disable(GL.depth_test);
+		background.use();
+		background.draw();
+
 		shp_turns += 0.1f*state.frame_duration().value();
 
+		gl.use(light_prog);
 		gl.uniform(
-			prog.modelview,
+			light_prog.modelview,
 			matrix_rotation_x(turns_(shp_turns)/1)*
 			matrix_rotation_y(turns_(shp_turns)/2)*
 			matrix_rotation_z(turns_(shp_turns)/3)
 		);
 
-		gl.clear(GL.color_buffer_bit|GL.depth_buffer_bit);
+		gl.clear(GL.depth_buffer_bit);
+		gl.enable(GL.depth_test);
+		shape.use();
 		shape.draw();
 	}
 
