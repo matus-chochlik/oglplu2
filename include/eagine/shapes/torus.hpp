@@ -47,7 +47,7 @@ public:
 
 	unit_torus_gen(vertex_attrib_bits attr_bits)
 	noexcept
-	 : unit_torus_gen(attr_bits, 24, 36, 0.5f)
+	 : unit_torus_gen(attr_bits, 24, 36)
 	{ }
 
 	bool cw_face_winding(void)
@@ -56,25 +56,25 @@ public:
 	unsigned vertex_count(void)
 	override;
 
-	void positions(span<float> dest)
+	void positions(const span<float>& dest)
 	noexcept;
 
-	void normals(span<float> dest)
+	void normals(const span<float>& dest)
 	noexcept;
 
-	void tangentials(span<float> dest)
+	void tangentials(const span<float>& dest)
 	noexcept;
 
-	void bitangentials(span<float> dest)
+	void bitangentials(const span<float>& dest)
 	noexcept;
 
-	void box_coords(span<float> dest)
+	void box_coords(const span<float>& dest)
 	noexcept;
 
-	void wrap_coords(span<float> dest)
+	void wrap_coords(const span<float>& dest)
 	noexcept;
 
-	void attrib_values(vertex_attrib_kind attr, span<float> dest)
+	void attrib_values(vertex_attrib_kind attr, const span<float>& dest)
 	override;
 
 	index_data_type index_type(void)
@@ -83,13 +83,13 @@ public:
 	unsigned index_count(void)
 	override;
 
-	void indices(span<unsigned> dest)
+	void indices(const span<unsigned>& dest)
 	override;
 
 	unsigned operation_count(void)
 	override;
 
-	void instructions(span<draw_operation> ops)
+	void instructions(const span<draw_operation>& ops)
 	override;
 };
 

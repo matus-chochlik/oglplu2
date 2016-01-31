@@ -46,7 +46,7 @@ public:
 		return _gen->values_per_vertex(attr);
 	}
 
-	void attrib_values(vertex_attrib_kind attr, span<float> dest)
+	void attrib_values(vertex_attrib_kind attr, const span<float>& dest)
 	override
 	{
 		_gen->attrib_values(attr, dest);
@@ -64,7 +64,7 @@ public:
 		return _gen->index_count();
 	}
 
-	void indices(span<unsigned> dest)
+	void indices(const span<unsigned>& dest)
 	override
 	{
 		_gen->indices(dest);
@@ -76,7 +76,7 @@ public:
 		return _gen->operation_count();
 	}
 
-	void instructions(span<draw_operation> ops)
+	void instructions(const span<draw_operation>& ops)
 	override
 	{
 		_gen->instructions(ops);

@@ -188,6 +188,20 @@ struct valid_if_ge0_lt1_policy
 template <typename T>
 using valid_if_ge0_lt1 = valid_if<T, valid_if_ge0_lt1_policy<T>>;
 
+// in (0, 1)
+template <typename T>
+struct valid_if_gt0_lt1_policy
+{
+	bool operator ()(T value) const
+	noexcept
+	{
+		return (T(0) < value) && (value < T(1));
+	}
+};
+
+template <typename T>
+using valid_if_gt0_lt1 = valid_if<T, valid_if_gt0_lt1_policy<T>>;
+
 } // namespace eagine
 
 #endif // include guard

@@ -158,7 +158,7 @@ noexcept
 EAGINE_LIB_FUNC
 void
 unit_cube_gen::
-box_coords(span<float> dest)
+box_coords(const span<float>& dest)
 noexcept
 {
 	unsigned k = 0;
@@ -199,7 +199,7 @@ noexcept
 EAGINE_LIB_FUNC
 void
 unit_cube_gen::
-positions(span<float> dest)
+positions(const span<float>& dest)
 noexcept
 {
 	box_coords(dest);
@@ -237,7 +237,7 @@ noexcept
 EAGINE_LIB_FUNC
 void
 unit_cube_gen::
-normals(span<float> dest)
+normals(const span<float>& dest)
 noexcept
 {
 	assert(has(vertex_attrib_kind::normal));
@@ -286,7 +286,7 @@ noexcept
 EAGINE_LIB_FUNC
 void
 unit_cube_gen::
-tangentials(span<float> dest)
+tangentials(const span<float>& dest)
 noexcept
 {
 	assert(has(vertex_attrib_kind::tangential));
@@ -335,7 +335,7 @@ noexcept
 EAGINE_LIB_FUNC
 void
 unit_cube_gen::
-bitangentials(span<float> dest)
+bitangentials(const span<float>& dest)
 noexcept
 {
 	assert(has(vertex_attrib_kind::bitangential));
@@ -359,7 +359,7 @@ noexcept
 EAGINE_LIB_FUNC
 void
 unit_cube_gen::
-face_coords(span<float> dest)
+face_coords(const span<float>& dest)
 noexcept
 {
 	assert(has(vertex_attrib_kind::face_coord));
@@ -406,7 +406,7 @@ noexcept
 EAGINE_LIB_FUNC
 void
 unit_cube_gen::
-attrib_values(vertex_attrib_kind attr, span<float> dest)
+attrib_values(vertex_attrib_kind attr, const span<float>& dest)
 {
 	switch(attr)
 	{
@@ -429,7 +429,8 @@ attrib_values(vertex_attrib_kind attr, span<float> dest)
 			face_coords(dest);
 			break;
 		case vertex_attrib_kind::wrap_coord:
-			assert(has(attr));
+			generator_base::attrib_values(attr, dest);
+			break;
 	}
 }
 //------------------------------------------------------------------------------
@@ -461,7 +462,7 @@ template <typename T>
 inline
 void
 unit_cube_gen::
-_indices(span<T>& dest)
+_indices(const span<T>& dest)
 noexcept
 {
 	assert(dest.size() >= index_count());
@@ -484,7 +485,7 @@ noexcept
 EAGINE_LIB_FUNC
 void
 unit_cube_gen::
-indices(span<unsigned> dest)
+indices(const span<unsigned>& dest)
 {
 	_indices(dest);
 }
@@ -500,7 +501,7 @@ operation_count(void)
 EAGINE_LIB_FUNC
 void
 unit_cube_gen::
-instructions(span<draw_operation> ops)
+instructions(const span<draw_operation>& ops)
 {
 	assert(ops.size() >= operation_count());
 

@@ -57,7 +57,7 @@ vertex_count(void)
 EAGINE_LIB_FUNC
 void
 unit_sphere_gen::
-positions(span<float> dest)
+positions(const span<float>& dest)
 noexcept
 {
 	assert(has(vertex_attrib_kind::position));
@@ -85,7 +85,7 @@ noexcept
 EAGINE_LIB_FUNC
 void
 unit_sphere_gen::
-normals(span<float> dest)
+normals(const span<float>& dest)
 noexcept
 {
 	assert(has(vertex_attrib_kind::normal));
@@ -113,7 +113,7 @@ noexcept
 EAGINE_LIB_FUNC
 void
 unit_sphere_gen::
-tangentials(span<float> dest)
+tangentials(const span<float>& dest)
 noexcept
 {
 	assert(has(vertex_attrib_kind::tangential));
@@ -140,7 +140,7 @@ noexcept
 EAGINE_LIB_FUNC
 void
 unit_sphere_gen::
-bitangentials(span<float> dest)
+bitangentials(const span<float>& dest)
 noexcept
 {
 	assert(has(vertex_attrib_kind::bitangential));
@@ -173,7 +173,7 @@ noexcept
 EAGINE_LIB_FUNC
 void
 unit_sphere_gen::
-box_coords(span<float> dest)
+box_coords(const span<float>& dest)
 noexcept
 {
 	assert(has(vertex_attrib_kind::box_coord));
@@ -203,7 +203,7 @@ noexcept
 EAGINE_LIB_FUNC
 void
 unit_sphere_gen::
-wrap_coords(span<float> dest)
+wrap_coords(const span<float>& dest)
 noexcept
 {
 	assert(has(vertex_attrib_kind::wrap_coord));
@@ -227,7 +227,7 @@ noexcept
 EAGINE_LIB_FUNC
 void
 unit_sphere_gen::
-attrib_values(vertex_attrib_kind attr, span<float> dest)
+attrib_values(vertex_attrib_kind attr, const span<float>& dest)
 {
 	switch(attr)
 	{
@@ -250,7 +250,8 @@ attrib_values(vertex_attrib_kind attr, span<float> dest)
 			wrap_coords(dest);
 			break;
 		case vertex_attrib_kind::face_coord:
-			assert(has(attr));
+			generator_base::attrib_values(attr, dest);
+			break;
 	}
 }
 //------------------------------------------------------------------------------
@@ -273,7 +274,7 @@ index_count(void)
 EAGINE_LIB_FUNC
 void
 unit_sphere_gen::
-indices(span<unsigned> dest)
+indices(const span<unsigned>& dest)
 {
 	assert(dest.size() >= index_count());
 
@@ -314,7 +315,7 @@ operation_count(void)
 EAGINE_LIB_FUNC
 void
 unit_sphere_gen::
-instructions(span<draw_operation> ops)
+instructions(const span<draw_operation>& ops)
 {
 	assert(ops.size() >= operation_count());
 

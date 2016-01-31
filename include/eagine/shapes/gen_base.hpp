@@ -13,6 +13,7 @@
 #include "drawing.hpp"
 #include "vertex_attrib.hpp"
 #include "../span.hpp"
+#include "../assert.hpp"
 
 namespace eagine {
 namespace shapes {
@@ -47,7 +48,7 @@ struct generator_intf
 	unsigned values_per_vertex(vertex_attrib_kind attr) = 0;
 
 	virtual
-	void attrib_values(vertex_attrib_kind attr, span<float> dest) = 0;
+	void attrib_values(vertex_attrib_kind attr, const span<float>& dest)= 0;
 
 	virtual
 	index_data_type index_type(void) = 0;
@@ -56,13 +57,13 @@ struct generator_intf
 	unsigned index_count(void) = 0;
 
 	virtual
-	void indices(span<unsigned> dest) = 0;
+	void indices(const span<unsigned>& dest) = 0;
 
 	virtual
 	unsigned operation_count(void) = 0;
 
 	virtual
-	void instructions(span<draw_operation> dest) = 0;
+	void instructions(const span<draw_operation>& dest) = 0;
 };
 
 class generator_base
@@ -124,6 +125,14 @@ public:
 	unsigned value_count(vertex_attrib_kind attr)
 	{
 		return vertex_count()*values_per_vertex(attr);
+	}
+
+	void attrib_values(vertex_attrib_kind, const span<float>&)
+	override
+	{
+		EAGINE_UNREACHABLE(
+		"Generator failed to handle the specified attribute kind."
+		);
 	}
 };
 

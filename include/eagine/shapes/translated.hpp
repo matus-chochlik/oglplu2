@@ -33,7 +33,7 @@ public:
 	 , _d{{dx, dy, dz}}
 	{ }
 
-	void attrib_values(vertex_attrib_kind attr, span<float> dest)
+	void attrib_values(vertex_attrib_kind attr, const span<float>& dest)
 	override
 	{
 		delegated_gen::attrib_values(attr, dest);
