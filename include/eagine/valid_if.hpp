@@ -24,12 +24,6 @@ private:
 protected:
 	valid_if(void) = default;
 
-	constexpr inline
-	valid_if(T val)
-	noexcept
-	 : _value(val)
-	{ }
-
 	explicit
 	valid_if(Policy policy)
 	noexcept
@@ -38,6 +32,13 @@ protected:
 	{ }
 
 public:
+	constexpr inline
+	valid_if(T val)
+	noexcept
+	 : _value(val)
+	 , _is_valid()
+	{ }
+
 	constexpr
 	valid_if(T val, Policy policy)
 	noexcept
@@ -117,15 +118,7 @@ struct valid_if_gt_policy
 };
 
 template <typename T, T Cmp>
-struct valid_if_greater_than
- : valid_if<T, valid_if_gt_policy<T, Cmp>>
-{
-	constexpr
-	valid_if_greater_than(T val)
-	noexcept
-	 : valid_if<T, valid_if_gt_policy<T, Cmp>>(val)
-	{ }
-};
+using valid_if_greater_than = valid_if<T, valid_if_gt_policy<T, Cmp>>;
 
 // not-equal
 template <typename T, T Cmp>
@@ -139,15 +132,7 @@ struct valid_if_ne_policy
 };
 
 template <typename T, T Cmp>
-struct valid_if_not
- : valid_if<T, valid_if_ne_policy<T, Cmp>>
-{
-	constexpr
-	valid_if_not(T val)
-	noexcept
-	 : valid_if<T, valid_if_ne_policy<T, Cmp>>(val)
-	{ }
-};
+using valid_if_not = valid_if<T, valid_if_ne_policy<T, Cmp>>;
 
 // not-zero
 template <typename T>
@@ -156,21 +141,14 @@ struct valid_if_nz_policy
 	bool operator ()(T value) const
 	noexcept
 	{
-		return (value > 0 || value < 0);
+		return (value > 0) || (value < 0);
 	}
 };
 
 template <typename T>
-struct valid_if_not_zero
- : valid_if<T, valid_if_nz_policy<T>>
-{
-	constexpr
-	valid_if_not_zero(T val)
-	noexcept
-	 : valid_if<T, valid_if_nz_policy<T>>(val)
-	{ }
-};
+using valid_if_not_zero = valid_if<T, valid_if_nz_policy<T>>;
 
+// nonzero
 template <typename T>
 using nonzero_t = valid_if_not_zero<T>;
 
@@ -181,6 +159,34 @@ noexcept
 {
 	return {v};
 }
+
+// in [0, 1]
+template <typename T>
+struct valid_if_ge0_le1_policy
+{
+	bool operator ()(T value) const
+	noexcept
+	{
+		return (T(0) <= value) && (value <= T(1));
+	}
+};
+
+template <typename T>
+using valid_if_between_0_1 = valid_if<T, valid_if_ge0_le1_policy<T>>;
+
+// in [0, 1)
+template <typename T>
+struct valid_if_ge0_lt1_policy
+{
+	bool operator ()(T value) const
+	noexcept
+	{
+		return (T(0) <= value) && (value < T(1));
+	}
+};
+
+template <typename T>
+using valid_if_ge0_lt1 = valid_if<T, valid_if_ge0_lt1_policy<T>>;
 
 } // namespace eagine
 

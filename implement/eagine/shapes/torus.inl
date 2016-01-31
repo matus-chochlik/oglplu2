@@ -31,11 +31,13 @@ unit_torus_gen::
 unit_torus_gen(
 	vertex_attrib_bits attr_bits,
 	valid_if_greater_than<int, 4> rings,
-	valid_if_greater_than<int, 3> sections
+	valid_if_greater_than<int, 3> sections,
+	valid_if_ge0_lt1<float> radius_ratio
 ) noexcept
  : generator_base(attr_bits & _attr_mask())
  , _rings(unsigned(rings.value()))
  , _sections(unsigned(sections.value()))
+ , _radius_ratio(radius_ratio.value())
 { }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -66,7 +68,7 @@ noexcept
 	unsigned k = 0;
 
 	const auto ro = 0.50;
-	const auto ri = 0.25;
+	const auto ri = ro*_radius_ratio;
 	const auto r1 = ri;
 	const auto r2 = ro-ri;
 

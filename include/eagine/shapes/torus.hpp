@@ -24,6 +24,7 @@ class unit_torus_gen
 private:
 	unsigned _rings;
 	unsigned _sections;
+	float _radius_ratio;
 
 	static
 	vertex_attrib_bits _attr_mask(void)
@@ -32,12 +33,21 @@ public:
 	unit_torus_gen(
 		vertex_attrib_bits attr_bits,
 		valid_if_greater_than<int, 4> rings,
-		valid_if_greater_than<int, 3> sections
+		valid_if_greater_than<int, 3> sections,
+		valid_if_ge0_lt1<float> radius_ratio
 	) noexcept;
+
+	unit_torus_gen(
+		vertex_attrib_bits attr_bits,
+		valid_if_greater_than<int, 4> rings,
+		valid_if_greater_than<int, 3> sections
+	) noexcept
+	 : unit_torus_gen(attr_bits, rings, sections, 0.5f)
+	{ }
 
 	unit_torus_gen(vertex_attrib_bits attr_bits)
 	noexcept
-	 : unit_torus_gen(attr_bits, 24, 36)
+	 : unit_torus_gen(attr_bits, 24, 36, 0.5f)
 	{ }
 
 	bool cw_face_winding(void)
