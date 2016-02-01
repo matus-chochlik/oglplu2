@@ -114,7 +114,7 @@ EAGINE_LIB_FUNC
 unit_cube_gen::
 unit_cube_gen(vertex_attrib_bits attr_bits)
 noexcept
- : generator_base(attr_bits & _attr_mask())
+ : _base(attr_bits & _attr_mask())
 { }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -158,7 +158,7 @@ noexcept
 EAGINE_LIB_FUNC
 void
 unit_cube_gen::
-box_coords(const span<float>& dest)
+positions(const span<float>& dest)
 noexcept
 {
 	unsigned k = 0;
@@ -173,7 +173,7 @@ noexcept
 		{
 			for(unsigned c=0; c<3; ++c)
 			{
-				dest[k++] = _coord_c(v, c);
+				dest[k++] = _coord_c(v, c)-0.5f;
 			}
 		}
 	}
@@ -188,25 +188,12 @@ noexcept
 			unsigned v = _face_vert(f, t, i);
 			for(unsigned c=0; c<3; ++c)
 			{
-				dest[k++] = _coord_c(v, c);
+				dest[k++] = _coord_c(v, c)-0.5f;
 			}
 		}
 	}
 
 	assert(k == vertex_count()*3);
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
-void
-unit_cube_gen::
-positions(const span<float>& dest)
-noexcept
-{
-	box_coords(dest);
-	for(unsigned i=0, n = vertex_count()*3; i<n; ++i)
-	{
-		dest[i] -= 0.5f;
-	}
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -422,14 +409,12 @@ attrib_values(vertex_attrib_kind attr, const span<float>& dest)
 		case vertex_attrib_kind::bitangential:
 			bitangentials(dest);
 			break;
-		case vertex_attrib_kind::box_coord:
-			box_coords(dest);
-			break;
 		case vertex_attrib_kind::face_coord:
 			face_coords(dest);
 			break;
+		case vertex_attrib_kind::box_coord:
 		case vertex_attrib_kind::wrap_coord:
-			generator_base::attrib_values(attr, dest);
+			_base::attrib_values(attr, dest);
 			break;
 	}
 }

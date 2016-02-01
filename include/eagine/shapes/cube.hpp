@@ -18,9 +18,11 @@ namespace eagine {
 namespace shapes {
 
 class unit_cube_gen
- : public generator_base
+ : public centered_unit_shape_generator_base
 {
 private:
+	typedef centered_unit_shape_generator_base _base;
+
 	static
 	vertex_attrib_bits _attr_mask(void)
 	noexcept;
@@ -64,9 +66,6 @@ public:
 
 	unsigned vertex_count(void)
 	override;
-
-	void box_coords(const span<float>& dest)
-	noexcept;
 
 	void positions(const span<float>& dest)
 	noexcept;

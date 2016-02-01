@@ -136,6 +136,33 @@ public:
 	}
 };
 
+class centered_unit_shape_generator_base
+ : public generator_base
+{
+protected:
+	centered_unit_shape_generator_base(vertex_attrib_bits attr_bits)
+	noexcept
+	 : generator_base(attr_bits)
+	{ }
+public:
+	void attrib_values(vertex_attrib_kind attr, const span<float>& dest)
+	override
+	{
+		if(attr == vertex_attrib_kind::box_coord)
+		{
+			this->attrib_values(vertex_attrib_kind::position, dest);
+			for(float& x : dest)
+			{
+				x += 0.5f;
+			}
+		}
+		else
+		{
+			generator_base::attrib_values(attr, dest);
+		}
+	}
+};
+
 } // namespace shapes
 } // namespace eagine
 

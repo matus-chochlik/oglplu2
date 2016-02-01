@@ -34,7 +34,7 @@ unit_torus_gen(
 	valid_if_greater_than<int, 3> sections,
 	valid_if_ge0_lt1<float> radius_ratio
 ) noexcept
- : generator_base(attr_bits & _attr_mask())
+ : _base(attr_bits & _attr_mask())
  , _rings(unsigned(rings.value()))
  , _sections(unsigned(sections.value()))
  , _radius_ratio(radius_ratio.value())
@@ -187,42 +187,6 @@ noexcept
 EAGINE_LIB_FUNC
 void
 unit_torus_gen::
-box_coords(const span<float>& dest)
-noexcept
-{
-	assert(has(vertex_attrib_kind::box_coord));
-	assert(dest.size() >= vertex_count()*3);
-
-	unsigned k = 0;
-
-	const auto ro = 0.50;
-	const auto ri = 0.25;
-	const auto r1 = ri;
-	const auto r2 = ro-ri;
-
-	const auto s_step = 2 * math::pi / _sections;
-	const auto r_step = 2 * math::pi / _rings;
-
-	for(unsigned s=0; s<(_sections+1); ++s)
-	{
-		const auto vx =  std::cos(s*s_step);
-		const auto vz = -std::sin(s*s_step);
-
-		for(unsigned r=0; r<(_rings+1); ++r)
-		{
-			const auto vr = std::cos(r*r_step);
-			const auto vy = std::sin(r*r_step);
-
-			dest[k++] = float(ro + vx*(r1 + r2*(1+vr)));
-			dest[k++] = float(ro + vy*r2);
-			dest[k++] = float(ro + vz*(r1 + r2*(1+vr)));
-		}
-	}
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
-void
-unit_torus_gen::
 wrap_coords(const span<float>& dest)
 noexcept
 {
@@ -263,12 +227,10 @@ attrib_values(vertex_attrib_kind attr, const span<float>& dest)
 		case vertex_attrib_kind::bitangential:
 			bitangentials(dest);
 			break;
-		case vertex_attrib_kind::box_coord:
-			box_coords(dest);
-			break;
 		case vertex_attrib_kind::wrap_coord:
 			wrap_coords(dest);
 			break;
+		case vertex_attrib_kind::box_coord:
 		case vertex_attrib_kind::face_coord:
 			generator_base::attrib_values(attr, dest);
 			break;

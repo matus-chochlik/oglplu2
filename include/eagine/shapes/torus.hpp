@@ -19,9 +19,11 @@ namespace eagine {
 namespace shapes {
 
 class unit_torus_gen
- : public generator_base
+ : public centered_unit_shape_generator_base
 {
 private:
+	typedef centered_unit_shape_generator_base _base;
+
 	unsigned _rings;
 	unsigned _sections;
 	float _radius_ratio;
@@ -66,9 +68,6 @@ public:
 	noexcept;
 
 	void bitangentials(const span<float>& dest)
-	noexcept;
-
-	void box_coords(const span<float>& dest)
 	noexcept;
 
 	void wrap_coords(const span<float>& dest)

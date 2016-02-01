@@ -33,7 +33,7 @@ unit_sphere_gen(
 	valid_if_greater_than<int, 2> rings,
 	valid_if_greater_than<int, 3> sections
 ) noexcept
- : generator_base(attr_bits & _attr_mask())
+ : _base(attr_bits & _attr_mask())
  , _rings(unsigned(rings.value()))
  , _sections(unsigned(sections.value()))
 { }
@@ -173,36 +173,6 @@ noexcept
 EAGINE_LIB_FUNC
 void
 unit_sphere_gen::
-box_coords(const span<float>& dest)
-noexcept
-{
-	assert(has(vertex_attrib_kind::box_coord));
-	assert(dest.size() >= vertex_count()*3);
-
-	unsigned k = 0;
-
-	const auto s_step = 2 * math::pi / _sections;
-	const auto r_step = 1 * math::pi / _rings;
-
-	const float h = 0.5;
-
-	for(unsigned s=0; s<(_sections+1); ++s)
-	{
-		for(unsigned r=0; r<(_rings+1); ++r)
-		{
-			const auto r_lat = std::cos(r*r_step);
-			const auto r_rad = std::sin(r*r_step);
-
-			dest[k++] = float(h + h * r_rad * std::cos(s*s_step));
-			dest[k++] = float(h + h * r_lat);
-			dest[k++] = float(h + h * r_rad *-std::sin(s*s_step));
-		}
-	}
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
-void
-unit_sphere_gen::
 wrap_coords(const span<float>& dest)
 noexcept
 {
@@ -243,14 +213,12 @@ attrib_values(vertex_attrib_kind attr, const span<float>& dest)
 		case vertex_attrib_kind::bitangential:
 			bitangentials(dest);
 			break;
-		case vertex_attrib_kind::box_coord:
-			box_coords(dest);
-			break;
 		case vertex_attrib_kind::wrap_coord:
 			wrap_coords(dest);
 			break;
+		case vertex_attrib_kind::box_coord:
 		case vertex_attrib_kind::face_coord:
-			generator_base::attrib_values(attr, dest);
+			_base::attrib_values(attr, dest);
 			break;
 	}
 }
