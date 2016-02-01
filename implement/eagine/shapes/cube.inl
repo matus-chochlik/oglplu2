@@ -352,7 +352,6 @@ noexcept
 	assert(has(vertex_attrib_kind::face_coord));
 	assert(dest.size() >= vertex_count()*3);
 
-	// TODO
 	/*
 	 *     (0,1,f) (1,1,f)
 	 *       (2)----(3)

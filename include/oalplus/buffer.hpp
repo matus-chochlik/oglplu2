@@ -9,20 +9,30 @@
 #ifndef OALPLUS_BUFFER_1509260923_HPP
 #define OALPLUS_BUFFER_1509260923_HPP
 
-#include "object/al_name.hpp"
+#include "buffer_name.hpp"
+#include "enum/types.hpp"
 #include "object/owner.hpp"
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
+#include "utils/buffer_data.hpp"
 
 namespace oalplus {
-namespace tag {
 
-using buffer = al_obj_tag<AL_BUFFER>;
+namespace oper {
 
-} // namespace tag
+struct buffer_ops
+{
+	static
+	outcome<void>
+	buffer_data(
+		buffer_name buf,
+		data_format format,
+		const buffer_data_spec& data,
+		ALsizei frequency
+	) noexcept;
+};
 
-using buffer_name = object_name<tag::buffer>;
-using buffer = object_owner<tag::buffer>;
+} // namespace oper
 
 template <>
 struct obj_gen_del_ops<tag::buffer>
@@ -41,6 +51,8 @@ struct obj_gen_del_ops<tag::buffer>
 	outcome<bool> _is_a(ALuint name)
 	noexcept;
 };
+
+using buffer = object_owner<tag::buffer>;
 
 } // namespace oalplus
 

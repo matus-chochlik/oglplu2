@@ -16,4 +16,15 @@ void oalplus_buffer_test_1(void)
 	oalplus_object_test<buffer>();
 }
 
+void oalplus_buffer_test_ops_1(void)
+{
+	using namespace oalplus;
+
+	oper::buffer_ops al;
+	buffer buf;
+	buffer_data_spec data;
+
+	al.buffer_data(buf, data_format(), data, 12345.f);
+}
+
 // TODO

@@ -9,6 +9,35 @@
 #include <oalplus/utils/al_func.hpp>
 
 namespace oalplus {
+namespace oper {
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+buffer_ops::
+buffer_data(
+	buffer_name buf,
+	data_format format,
+	const buffer_data_spec& data,
+	ALsizei frequency
+) noexcept
+{
+	OALPLUS_ALFUNC(BufferData)(
+		get_raw_name(buf),
+		ALenum(format),
+		data.data(),
+		ALsizei(data.size()),
+		frequency
+	);
+	OALPLUS_VERIFY(
+		BufferData,
+		al_enum_value(format).
+		al_object(buf),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+} // namespace oper
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_gen
 //------------------------------------------------------------------------------
