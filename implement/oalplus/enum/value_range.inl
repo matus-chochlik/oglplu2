@@ -44,7 +44,26 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 1: /* data_format */
+		case 1: /* buffer_parameter */
+		{
+			static const ALenum vr[] = {
+#ifdef AL_BITS
+				AL_BITS,
+#endif
+#ifdef AL_CHANNELS
+				AL_CHANNELS,
+#endif
+#ifdef AL_FREQUENCY
+				AL_FREQUENCY,
+#endif
+#ifdef AL_SIZE
+				AL_SIZE,
+#endif
+				0
+			};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
+		}
+		case 2: /* data_format */
 		{
 			static const ALenum vr[] = {
 #ifdef AL_FORMAT_MONO16
@@ -63,7 +82,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 2: /* distance_model */
+		case 3: /* distance_model */
 		{
 			static const ALenum vr[] = {
 #ifdef AL_EXPONENT_DISTANCE
@@ -91,7 +110,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 3: /* source_state */
+		case 4: /* source_state */
 		{
 			static const ALenum vr[] = {
 #ifdef AL_INITIAL
@@ -110,7 +129,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 4: /* source_type */
+		case 5: /* source_type */
 		{
 			static const ALenum vr[] = {
 #ifdef AL_STATIC
@@ -126,7 +145,7 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
-		case 5: /* string_query */
+		case 6: /* string_query */
 		{
 			static const ALenum vr[] = {
 #ifdef AL_EXTENSIONS

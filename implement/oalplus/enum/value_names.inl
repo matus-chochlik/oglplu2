@@ -21,6 +21,14 @@ cstr_ref
 get_enum_value_name(const any_enum_value& aev)
 noexcept
 {
+#ifdef AL_BITS
+	static const char s_BITS[5] =
+		"BITS";
+#endif
+#ifdef AL_CHANNELS
+	static const char s_CHANNELS[9] =
+		"CHANNELS";
+#endif
 #ifdef AL_EXPONENT_DISTANCE
 	static const char s_EXPONENT_DISTANCE[18] =
 		"EXPONENT_DISTANCE";
@@ -48,6 +56,10 @@ noexcept
 #ifdef AL_FORMAT_STEREO8
 	static const char s_FORMAT_STEREO8[15] =
 		"FORMAT_STEREO8";
+#endif
+#ifdef AL_FREQUENCY
+	static const char s_FREQUENCY[10] =
+		"FREQUENCY";
 #endif
 #ifdef AL_INITIAL
 	static const char s_INITIAL[8] =
@@ -109,6 +121,10 @@ noexcept
 	static const char s_RENDERER[9] =
 		"RENDERER";
 #endif
+#ifdef AL_SIZE
+	static const char s_SIZE[5] =
+		"SIZE";
+#endif
 #ifdef AL_STATIC
 	static const char s_STATIC[7] =
 		"STATIC";
@@ -166,7 +182,29 @@ noexcept
 				default:;
 			}
 			break;
-		case 1: /* data_format */
+		case 1: /* buffer_parameter */
+			switch(ALenum(aev._value))
+			{
+#ifdef AL_BITS
+				case AL_BITS:
+					return {s_BITS, 4};
+#endif
+#ifdef AL_CHANNELS
+				case AL_CHANNELS:
+					return {s_CHANNELS, 8};
+#endif
+#ifdef AL_FREQUENCY
+				case AL_FREQUENCY:
+					return {s_FREQUENCY, 9};
+#endif
+#ifdef AL_SIZE
+				case AL_SIZE:
+					return {s_SIZE, 4};
+#endif
+				default:;
+			}
+			break;
+		case 2: /* data_format */
 			switch(ALenum(aev._value))
 			{
 #ifdef AL_FORMAT_MONO16
@@ -188,7 +226,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 2: /* distance_model */
+		case 3: /* distance_model */
 			switch(ALenum(aev._value))
 			{
 #ifdef AL_EXPONENT_DISTANCE
@@ -222,7 +260,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 3: /* source_state */
+		case 4: /* source_state */
 			switch(ALenum(aev._value))
 			{
 #ifdef AL_INITIAL
@@ -244,7 +282,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 4: /* source_type */
+		case 5: /* source_type */
 			switch(ALenum(aev._value))
 			{
 #ifdef AL_STATIC
@@ -262,7 +300,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 5: /* string_query */
+		case 6: /* string_query */
 			switch(ALenum(aev._value))
 			{
 #ifdef AL_EXTENSIONS

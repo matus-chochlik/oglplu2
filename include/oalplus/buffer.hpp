@@ -15,6 +15,7 @@
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
 #include "utils/buffer_data.hpp"
+#include "utils/span.hpp"
 
 namespace oalplus {
 
@@ -30,6 +31,43 @@ struct buffer_ops
 		const buffer_data_spec& data,
 		ALsizei frequency
 	) noexcept;
+
+	static
+	outcome<void>
+	get_buffer_iv(
+		buffer_name buf,
+		buffer_parameter param,
+		span<ALint> values
+	) noexcept;
+
+	static
+	outcome<void>
+	get_buffer_fv(
+		buffer_name buf,
+		buffer_parameter param,
+		span<ALfloat> values
+	) noexcept;
+
+	static
+	outcome<ALint>
+	buffer_size(buffer_name buf)
+	noexcept;
+
+	static
+	outcome<ALint>
+	buffer_bits(buffer_name buf)
+	noexcept;
+
+	static
+	outcome<ALint>
+	buffer_channels(buffer_name buf)
+	noexcept;
+
+	static
+	outcome<ALfloat>
+	buffer_frequency(buffer_name buf)
+	noexcept;
+
 };
 
 } // namespace oper

@@ -12,6 +12,20 @@
 
 namespace oalplus {
 
+#ifdef AL_BITS
+constexpr const enum_value<
+	ALenum,
+	mp_list<oalplus::buffer_parameter>
+> enum_values::bits;
+#endif
+
+#ifdef AL_CHANNELS
+constexpr const enum_value<
+	ALenum,
+	mp_list<oalplus::buffer_parameter>
+> enum_values::channels;
+#endif
+
 #ifdef AL_EXPONENT_DISTANCE
 constexpr const enum_value<
 	ALenum,
@@ -59,6 +73,13 @@ constexpr const enum_value<
 	ALenum,
 	mp_list<oalplus::data_format>
 > enum_values::format_stereo8;
+#endif
+
+#ifdef AL_FREQUENCY
+constexpr const enum_value<
+	ALenum,
+	mp_list<oalplus::buffer_parameter>
+> enum_values::frequency;
 #endif
 
 #ifdef AL_INITIAL
@@ -164,6 +185,13 @@ constexpr const enum_value<
 	ALenum,
 	mp_list<oalplus::string_query>
 > enum_values::renderer;
+#endif
+
+#ifdef AL_SIZE
+constexpr const enum_value<
+	ALenum,
+	mp_list<oalplus::buffer_parameter>
+> enum_values::size;
 #endif
 
 #ifdef AL_STATIC

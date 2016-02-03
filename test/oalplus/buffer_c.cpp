@@ -25,6 +25,10 @@ void oalplus_buffer_test_ops_1(void)
 	buffer_data_spec data;
 
 	al.buffer_data(buf, data_format(), data, 12345.f);
+	al.buffer_size(buf);
+	al.buffer_bits(buf);
+	al.buffer_channels(buf);
+	al.buffer_frequency(buf);
 }
 
 // TODO
