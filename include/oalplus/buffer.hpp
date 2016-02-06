@@ -72,6 +72,78 @@ struct buffer_ops
 
 } // namespace oper
 
+template <typename Derived, typename Base>
+struct obj_member_ops<tag::buffer, Derived, Base>
+ : Base
+{
+private:
+	Derived& _self()
+	noexcept
+	{
+		return *static_cast<Derived*>(this);
+	}
+
+	typedef oper::buffer_ops _ops;
+protected:
+	using Base::Base;
+public:
+	outcome<Derived&>
+	data(
+		data_format format,
+		const buffer_data_spec& data,
+		ALsizei frequency
+	) noexcept
+	{
+		return {
+			_ops::buffer_data(*this, format, data, frequency),
+			_self()
+		};
+	}
+
+	outcome<ALint>
+	size(void)
+	noexcept
+	{
+		return _ops::buffer_size(*this);
+	}
+
+	outcome<ALint>
+	bits(void)
+	noexcept
+	{
+		return _ops::buffer_bits(*this);
+	}
+
+	outcome<ALint>
+	channels(void)
+	noexcept
+	{
+		return _ops::buffer_channels(*this);
+	}
+
+	outcome<ALfloat>
+	frequency(void)
+	noexcept
+	{
+		return _ops::buffer_frequency(*this);
+	}
+};
+
+template <>
+struct obj_dsa_ops<tag::buffer>
+ : obj_member_ops<
+	tag::buffer,
+	obj_dsa_ops<tag::buffer>,
+	object_name<tag::buffer>
+>
+{
+	using obj_member_ops<
+		tag::buffer,
+		obj_dsa_ops<tag::buffer>,
+		object_name<tag::buffer>
+	>::obj_member_ops;
+};
+
 template <>
 struct obj_gen_del_ops<tag::buffer>
 {

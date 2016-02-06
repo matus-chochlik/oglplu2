@@ -29,6 +29,9 @@ using any_object_name =
 template <typename ObjTag>
 struct obj_gen_del_ops;
 
+template <typename ObjTag, typename Derived, typename Base>
+struct obj_member_ops;
+
 } // namespace oalplus
 
 #endif // include guard
