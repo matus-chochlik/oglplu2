@@ -14,4 +14,8 @@
 #define OALPLUS_ALFUNC(FUNCNAME) ::al##FUNCNAME
 #endif
 
+#ifndef OALPLUS_ALCFUNC
+#define OALPLUS_ALCFUNC(FUNCNAME) ::alc##FUNCNAME
+#endif
+
 #endif // include guard
