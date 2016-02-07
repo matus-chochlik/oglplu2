@@ -1,5 +1,5 @@
 /**
- *  @file eagine/attrib_list.hpp
+ *  @file eagine/key_val_list.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -18,17 +18,17 @@
 namespace eagine {
 
 template <typename Traits, std::size_t N = 0>
-class attribute_list;
+class key_value_list;
 
 template <typename Traits>
-struct attribute_list_key_value
+struct key_value_list_element
 {
 	typedef typename Traits::value_type value_type;
 
 	value_type _key, _value;
 
 	constexpr inline
-	attribute_list_key_value(value_type key, value_type value)
+	key_value_list_element(value_type key, value_type value)
 	noexcept
 	 : _key(key)
 	 , _value(value)
@@ -36,12 +36,14 @@ struct attribute_list_key_value
 };
 
 template <typename Traits, std::size_t N>
-struct attribute_list_base;
+struct key_value_list_base;
 
 template <typename Traits>
-struct attribute_list_base<Traits, 0>
+struct key_value_list_base<Traits, 0>
 {
 	typedef typename Traits::value_type value_type;
+
+	key_value_list_base(void) = default;
 
 	static
 	const value_type* data(void)
@@ -53,15 +55,21 @@ struct attribute_list_base<Traits, 0>
 };
 
 template <typename Traits>
-struct attribute_list_base<Traits, 2>
+struct key_value_list_base<Traits, 2>
 {
 	std::array<typename Traits::value_type, 3> _elements;
 
 	typedef typename Traits::value_type value_type;
 
 	constexpr
-	attribute_list_base(
-		const attribute_list_base<Traits, 0>&,
+	key_value_list_base(value_type key, value_type value)
+	noexcept
+	 : _elements{{key, value, Traits::terminator()}}
+	{ }
+
+	constexpr
+	key_value_list_base(
+		const key_value_list_base<Traits, 0>&,
 		value_type key,
 		value_type value,
 		std::index_sequence<>
@@ -77,7 +85,7 @@ struct attribute_list_base<Traits, 2>
 };
 
 template <typename Traits, std::size_t N>
-struct attribute_list_base
+struct key_value_list_base
 {
 	std::array<typename Traits::value_type, N+1> _elements;
 
@@ -89,8 +97,8 @@ struct attribute_list_base
 		typename = std::enable_if_t<(M+2 == N) && (sizeof...(I) == M)>
 	>
 	constexpr
-	attribute_list_base(
-		const attribute_list_base<Traits, M>& head,
+	key_value_list_base(
+		const key_value_list_base<Traits, M>& head,
 		value_type key,
 		value_type value,
 		std::index_sequence<I...>
@@ -106,26 +114,31 @@ struct attribute_list_base
 };
 
 template <typename Traits, std::size_t N>
-class attribute_list
+class key_value_list
 {
 public:
 	typedef typename Traits::value_type value_type;
 private:
-	attribute_list_base<Traits, N> _base;
+	key_value_list_base<Traits, N> _base;
 public:
-	attribute_list(void) = default;
+	key_value_list(void) = default;
 
 	template <
 		std::size_t M,
 		typename = std::enable_if_t<M+2 == N>
 	>
 	constexpr
-	attribute_list(
-		const attribute_list_base<Traits, M>& head,
+	key_value_list(
+		const key_value_list_base<Traits, M>& head,
 		value_type key,
 		value_type value
 	) noexcept
 	 : _base(head, key, value, std::make_index_sequence<M>())
+	{ }
+
+	key_value_list(const key_value_list_element<Traits>& head)
+	noexcept
+	 : _base(head._key, head._value)
 	{ }
 
 	static constexpr inline
@@ -148,14 +161,34 @@ public:
 	}
 
 	constexpr
-	attribute_list<Traits, N+2> append(
-		const attribute_list_key_value<Traits>& key_val
-	) noexcept
+	key_value_list<Traits, N+2> append(
+		const key_value_list_element<Traits>& key_val
+	) const
+	noexcept
 	{
 		return {_base, key_val._key, key_val._value};
 	}
 };
 
+template <typename Traits>
+static constexpr inline
+key_value_list<Traits, 4> operator + (
+	const key_value_list_element<Traits>& l,
+	const key_value_list_element<Traits>& r
+) noexcept
+{
+	return key_value_list<Traits, 2>(l).append(r);
+}
+
+template <typename Traits, std::size_t N>
+static constexpr inline
+key_value_list<Traits, N+2> operator + (
+	const key_value_list<Traits, N>& l,
+	const key_value_list_element<Traits>& r
+) noexcept
+{
+	return l.append(r);
+}
 
 } // namespace eagine
 
