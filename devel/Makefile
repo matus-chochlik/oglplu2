@@ -18,6 +18,7 @@ test%.o: test%.cpp
 		-Wno-c++98-compat \
 		-Wno-c++98-compat-pedantic \
 		-Wno-unused-function \
+		-Wno-documentation-unknown-command \
 		-I../_build/include \
 		-I../third_party/GSL/include \
 		-I../third_party/include \
