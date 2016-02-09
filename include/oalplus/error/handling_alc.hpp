@@ -59,11 +59,12 @@ using deferred_error_handler_alc = deferred_handler<
 } // namespace oalplus
 
 #ifndef OALPLUS_ALC_GET_ERROR
-#define OALPLUS_ALC_GET_ERROR() ::alcGetError()
+#define OALPLUS_ALC_GET_ERROR(DEVICE) ::alcGetError(DEVICE)
 #endif
 
 #define OALPLUS_RETURN_ALC_HANDLER_IF(\
 	CONDITION,\
+	DEVICE,\
 	ERROR_CODE,\
 	ERROR_INFO,\
 	SEVERITY\
@@ -73,7 +74,10 @@ using deferred_error_handler_alc = deferred_handler<
 	if(CONDITION(oalplus_error_code##__LINE__))\
 	{\
 		return oalplus::deferred_error_handler_alc(std::move(\
-			oalplus::error_info_alc(oalplus_error_code##__LINE__)\
+			oalplus::error_info_alc(\
+				DEVICE,\
+				oalplus_error_code##__LINE__\
+			)\
 				.ERROR_INFO\
 				.source_file(__FILE__)\
 				.source_line(__LINE__)\
@@ -82,11 +86,13 @@ using deferred_error_handler_alc = deferred_handler<
 }
 
 #define OALPLUS_RETURN_HANDLER_IF_ALC_ERROR(\
+	DEVICE,\
 	ERROR_CODE,\
 	ERROR_INFO,\
 	SEVERITY\
 ) OALPLUS_RETURN_ALC_HANDLER_IF(\
 	oalplus::is_alc_error,\
+	DEVICE,\
 	ERROR_CODE,\
 	ERROR_INFO,\
 	SEVERITY\
@@ -94,16 +100,18 @@ using deferred_error_handler_alc = deferred_handler<
 
 #define OALPLUS_VERIFY_ALC(\
 	ALFUNC,\
+	DEVICE,\
 	ERROR_INFO,\
 	SEVERITY\
 ) OALPLUS_RETURN_HANDLER_IF_ALC_ERROR(\
-	OALPLUS_ALC_GET_ERROR(),\
-	ERROR_INFO.al_library_name("ALC"),\
+	DEVICE,\
+	OALPLUS_ALC_GET_ERROR(DEVICE),\
+	ERROR_INFO.al_library_name("ALC").\
 	ERROR_INFO.al_function_name(#ALFUNC),\
 	SEVERITY\
 )
 
-#define OALPLUS_VERIFY_SIMPLE_ALC(ALCFUNC, SEVERITY)\
-	OALPLUS_VERIFY_ALC(ALCFUNC, no_info(), SEVERITY)
+#define OALPLUS_VERIFY_SIMPLE_ALC(ALCFUNC, DEVICE, SEVERITY)\
+	OALPLUS_VERIFY_ALC(ALCFUNC, DEVICE, no_info(), SEVERITY)
 
 #endif // include guard
