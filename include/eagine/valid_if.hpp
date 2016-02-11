@@ -10,46 +10,80 @@
 #ifndef EAGINE_VALID_IF_1509260923_HPP
 #define EAGINE_VALID_IF_1509260923_HPP
 
+#include "type_traits.hpp"
 #include <utility>
+#include <cassert>
 
 namespace eagine {
+
+struct valid_flag_policy
+{
+	bool _is_valid;
+
+	constexpr
+	valid_flag_policy(void)
+	noexcept
+	 : _is_valid(false)
+	{ }
+
+	constexpr
+	valid_flag_policy(bool is_valid)
+	noexcept
+	 : _is_valid(is_valid)
+	{ }
+
+	template <typename T>
+	bool operator ()(const T&) const
+	noexcept
+	{
+		return _is_valid;
+	}
+};
 
 template <typename T, typename Policy>
 class valid_if
 {
 private:
 	T _value;
-	Policy _is_valid;
+	Policy _policy;
 
 protected:
-	valid_if(void) = default;
-
 	explicit
 	valid_if(Policy policy)
 	noexcept
 	 : _value()
-	 , _is_valid(policy)
+	 , _policy(policy)
 	{ }
 
 public:
+	valid_if(void) = default;
+
+	valid_if(valid_if&&) = default;
+	valid_if(const valid_if&) = default;
+
+	valid_if& operator = (valid_if&&) = default;
+	valid_if& operator = (const valid_if&) = default;
+
+	~valid_if(void) = default;
+
 	constexpr inline
 	valid_if(T val)
 	noexcept
 	 : _value(val)
-	 , _is_valid()
+	 , _policy()
 	{ }
 
 	constexpr
 	valid_if(T val, Policy policy)
 	noexcept
 	 : _value(val)
-	 , _is_valid(policy)
+	 , _policy(policy)
 	{ }
 
 	bool is_valid(void) const
 	noexcept
 	{
-		return _is_valid(_value);
+		return _policy(_value);
 	}
 
 	explicit
@@ -78,13 +112,55 @@ public:
 		return is_valid()?value():fallback;
 	}
 
-	template <typename Func>
-	void then(Func func) const
+	template <
+		typename Func,
+		typename = std::enable_if_t<
+			std::is_same<
+				typename std::result_of<Func(T)>::type,
+				void
+			>::value
+		>
+	>
+	void then(const Func& func) const
 	{
 		if(is_valid())
 		{
 			func(value());
 		}
+	}
+
+	template <
+		typename Func,
+		typename = std::enable_if_t<
+			!std::is_same<
+				typename std::result_of<Func(T)>::type,
+				void
+			>::value
+		>
+	>
+	valid_if<
+		typename std::result_of<Func(T)>::type,
+		valid_flag_policy
+	>
+	then(const Func& func) const
+	{
+		if(is_valid())
+		{
+			return {func(value()), true};
+		}
+		return {};
+	}
+
+	template <typename Func>
+	valid_if transformed(Func func) const
+	{
+		return {func(_value)};
+	}
+
+	template <typename Func>
+	auto operator | (const Func& func) const
+	{
+		return then(func);
 	}
 
 	const T& operator / (const T& fallback) const
@@ -110,6 +186,7 @@ public:
 template <typename T, T Cmp>
 struct valid_if_gt_policy
 {
+	constexpr
 	bool operator ()(T value) const
 	noexcept
 	{
@@ -124,6 +201,7 @@ using valid_if_greater_than = valid_if<T, valid_if_gt_policy<T, Cmp>>;
 template <typename T, T Cmp>
 struct valid_if_ne_policy
 {
+	constexpr
 	bool operator ()(T value) const
 	noexcept
 	{
@@ -138,10 +216,11 @@ using valid_if_not = valid_if<T, valid_if_ne_policy<T, Cmp>>;
 template <typename T>
 struct valid_if_nz_policy
 {
+	constexpr
 	bool operator ()(T value) const
 	noexcept
 	{
-		return (value > 0) || (value < 0);
+		return (value > T(0)) || (value < T(0));
 	}
 };
 
@@ -164,6 +243,7 @@ noexcept
 template <typename T>
 struct valid_if_ge0_le1_policy
 {
+	constexpr
 	bool operator ()(T value) const
 	noexcept
 	{
@@ -178,6 +258,7 @@ using valid_if_between_0_1 = valid_if<T, valid_if_ge0_le1_policy<T>>;
 template <typename T>
 struct valid_if_ge0_lt1_policy
 {
+	constexpr
 	bool operator ()(T value) const
 	noexcept
 	{
@@ -192,6 +273,7 @@ using valid_if_ge0_lt1 = valid_if<T, valid_if_ge0_lt1_policy<T>>;
 template <typename T>
 struct valid_if_gt0_lt1_policy
 {
+	constexpr
 	bool operator ()(T value) const
 	noexcept
 	{

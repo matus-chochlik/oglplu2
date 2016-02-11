@@ -10,12 +10,27 @@
 #ifndef EAGINE_IDENTITY_1509260923_HPP
 #define EAGINE_IDENTITY_1509260923_HPP
 
+#include "type_traits.hpp"
+
 namespace eagine {
 
 template <typename T>
 struct identity
 {
 	typedef T type;
+
+	template <
+		typename X,
+		typename = std::enable_if_t<
+			std::is_same<T, X>::value &&
+			!std::is_array<X>::value
+		>
+	>
+	constexpr inline
+	X operator()(X v) const
+	{
+		return v;
+	}
 };
 
 template <typename T>

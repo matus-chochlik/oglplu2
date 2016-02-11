@@ -9,6 +9,7 @@
 #include <boost/test/unit_test.hpp>
 
 #include <eagine/valid_if.hpp>
+#include <eagine/identity.hpp>
 #include <cstdlib>
 
 BOOST_AUTO_TEST_SUITE(valid_if_tests)
@@ -16,6 +17,9 @@ BOOST_AUTO_TEST_SUITE(valid_if_tests)
 BOOST_AUTO_TEST_CASE(valid_if_not_zero_test)
 {
 	using namespace eagine;
+
+	identity<float> id;
+	auto tw = [](float x) { return x*2; };
 
 	for(int i=0; i<1000; ++i)
 	{
@@ -32,6 +36,9 @@ BOOST_AUTO_TEST_CASE(valid_if_not_zero_test)
 		{
 			BOOST_CHECK_EQUAL(x.value(), v);
 		}
+		BOOST_CHECK_EQUAL(x.then(id).value_or(v), v);
+		BOOST_CHECK_EQUAL(x.then(tw).value_or(v*2), v*2);
+		BOOST_CHECK_EQUAL(x.is_valid(), x.then(id).is_valid());
 	}
 }
 
