@@ -112,16 +112,9 @@ public:
 		return is_valid()?value():fallback;
 	}
 
-	template <
-		typename Func,
-		typename = std::enable_if_t<
-			std::is_same<
-				typename std::result_of<Func(T)>::type,
-				void
-			>::value
-		>
-	>
-	void then(const Func& func) const
+	template <typename Func>
+	std::enable_if_t<std::is_same<std::result_of_t<Func(T)>, void>::value>
+	then(const Func& func) const
 	{
 		if(is_valid())
 		{
@@ -129,20 +122,14 @@ public:
 		}
 	}
 
-	template <
-		typename Func,
-		typename = std::enable_if_t<
-			!std::is_same<
-				typename std::result_of<Func(T)>::type,
-				void
-			>::value
+	template <typename Func>
+	std::enable_if_t<
+		!std::is_same<std::result_of_t<Func(T)>, void>::value,
+		valid_if<
+			std::result_of_t<Func(T)>,
+			valid_flag_policy
 		>
-	>
-	valid_if<
-		typename std::result_of<Func(T)>::type,
-		valid_flag_policy
-	>
-	then(const Func& func) const
+	> then(const Func& func) const
 	{
 		if(is_valid())
 		{
