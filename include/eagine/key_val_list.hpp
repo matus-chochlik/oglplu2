@@ -23,12 +23,14 @@ class key_value_list;
 template <typename Traits>
 struct key_value_list_element
 {
+	typedef typename Traits::key_type key_type;
 	typedef typename Traits::value_type value_type;
 
-	value_type _key, _value;
+	key_type _key;
+	value_type _value;
 
 	constexpr inline
-	key_value_list_element(value_type key, value_type value)
+	key_value_list_element(key_type key, value_type value)
 	noexcept
 	 : _key(key)
 	 , _value(value)
@@ -59,22 +61,24 @@ struct key_value_list_base<Traits, 2>
 {
 	std::array<typename Traits::value_type, 3> _elements;
 
+	typedef typename Traits::key_type key_type;
+	typedef typename Traits::conv_type conv_type;
 	typedef typename Traits::value_type value_type;
 
 	constexpr
-	key_value_list_base(value_type key, value_type value)
+	key_value_list_base(key_type key, value_type value)
 	noexcept
-	 : _elements{{key, value, Traits::terminator()}}
+	 : _elements{{value_type(conv_type(key)), value, Traits::terminator()}}
 	{ }
 
 	constexpr
 	key_value_list_base(
 		const key_value_list_base<Traits, 0>&,
-		value_type key,
+		key_type key,
 		value_type value,
 		std::index_sequence<>
 	) noexcept
-	 : _elements{{key, value, Traits::terminator()}}
+	 : _elements{{value_type(conv_type(key)), value, Traits::terminator()}}
 	{ }
 
 	const value_type* data(void) const
@@ -89,6 +93,8 @@ struct key_value_list_base
 {
 	std::array<typename Traits::value_type, N+1> _elements;
 
+	typedef typename Traits::key_type key_type;
+	typedef typename Traits::conv_type conv_type;
 	typedef typename Traits::value_type value_type;
 
 	template <
@@ -99,11 +105,15 @@ struct key_value_list_base
 	constexpr
 	key_value_list_base(
 		const key_value_list_base<Traits, M>& head,
-		value_type key,
+		key_type key,
 		value_type value,
 		std::index_sequence<I...>
 	) noexcept
-	 : _elements{{head._elements[I]..., key, value, Traits::terminator()}}
+	 : _elements{{
+		head._elements[I]...,
+		value_type(conv_type(key)), value,
+		Traits::terminator()
+	}}
 	{ }
 
 	const value_type* data(void) const
@@ -117,6 +127,7 @@ template <typename Traits, std::size_t N>
 class key_value_list
 {
 public:
+	typedef typename Traits::key_type key_type;
 	typedef typename Traits::value_type value_type;
 private:
 	key_value_list_base<Traits, N> _base;
@@ -130,7 +141,7 @@ public:
 	constexpr
 	key_value_list(
 		const key_value_list_base<Traits, M>& head,
-		value_type key,
+		key_type key,
 		value_type value
 	) noexcept
 	 : _base(head, key, value, std::make_index_sequence<M>())

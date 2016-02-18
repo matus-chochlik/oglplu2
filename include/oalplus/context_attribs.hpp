@@ -16,10 +16,12 @@ namespace oalplus {
 
 struct context_attrib_traits
 {
-	typedef ALint value_type;
+	typedef context_attrib key_type;
+	typedef ALCenum conv_type;
+	typedef ALCint value_type;
 
 	static constexpr inline
-	ALint terminator(void)
+	ALCint terminator(void)
 	noexcept
 	{
 		return 0;
@@ -35,18 +37,18 @@ using context_attrib_value =
 
 static constexpr inline
 context_attrib_value
-operator | (enum_value<ALCenum, mp_list<context_attrib>> key, ALint value)
+operator | (context_attrib key, ALint value)
 noexcept
 {
-	return {ALint(ALenum(key)), value};
+	return {key, value};
 }
 
 static constexpr inline
 context_attrib_value
-operator | (enum_value<ALCenum, mp_list<context_attrib>> key, bool value)
+operator | (context_attrib key, bool value)
 noexcept
 {
-	return {ALint(ALCenum(key)), value?ALC_TRUE:ALC_FALSE};
+	return {key, value?ALC_TRUE:ALC_FALSE};
 }
 
 
