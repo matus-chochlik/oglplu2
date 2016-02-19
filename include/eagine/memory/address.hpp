@@ -60,9 +60,9 @@ public:
 			std::is_convertible<Int, std::ptrdiff_t>::value
 		>
 	>
-	basic_address(pointer addr, Int offs)
+	basic_address(const void* addr, Int offs)
 	noexcept
-	 : _addr(static_cast<byte_pointer>(addr)+offs)
+	 : _addr(static_cast<byte_pointer>(const_cast<pointer>(addr))+offs)
 	{ }
 
 	basic_address(const basic_address&) = default;
@@ -98,6 +98,14 @@ public:
 		return static_cast<T*>(_addr);
 	}
 
+	friend inline
+	std::ptrdiff_t operator - (basic_address a, basic_address b)
+	noexcept
+	{
+		return	static_cast<byte_pointer>(a._addr)-
+			static_cast<byte_pointer>(b._addr);
+	}
+
 	std::uintptr_t misalignment(std::uintptr_t alignment) const
 	noexcept
 	{
@@ -113,6 +121,15 @@ public:
 
 typedef basic_address<true> const_address;
 typedef basic_address<false> address;
+
+template <typename T>
+static inline
+basic_address<std::is_const<T>::value>
+as_address(T* addr)
+noexcept
+{
+	return basic_address<std::is_const<T>::value>(addr);
+}
 
 static constexpr inline
 std::uintptr_t misalignment(std::nullptr_t, std::uintptr_t)
