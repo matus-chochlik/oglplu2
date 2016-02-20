@@ -137,6 +137,7 @@ template <typename T, typename OffsT>
 class basic_offset_array
 {
 public:
+	typedef T value_type;
 	typedef std::size_t size_type;
 private:
 	size_type _size;
