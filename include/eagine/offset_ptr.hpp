@@ -16,8 +16,9 @@
 
 namespace eagine {
 
+// basic_offset_ptr
 template <typename T, typename OffsT>
-struct basic_offset_ptr
+class basic_offset_ptr
 {
 private:
 	static_assert(std::is_signed<OffsT>::value, "");
@@ -39,7 +40,7 @@ public:
 	 : _offs(0)
 	{ }
 
-	constexpr inline
+	explicit constexpr inline
 	basic_offset_ptr(OffsT offs)
 	noexcept
 	 : _offs(offs)
@@ -130,6 +131,105 @@ using offset_ptr = basic_offset_ptr<T, std::ptrdiff_t>;
 
 template <typename T>
 using short_offset_ptr = basic_offset_ptr<T, short>;
+
+// basic_offset_array
+template <typename T, typename OffsT>
+class basic_offset_array
+{
+public:
+	typedef std::size_t size_type;
+private:
+	size_type _size;
+	basic_offset_ptr<T, OffsT> _addr;
+public:
+	constexpr inline
+	basic_offset_array(void)
+	noexcept
+	 : _size(0)
+	 , _addr()
+	{ }
+
+	constexpr inline
+	basic_offset_array(OffsT offs, size_type len)
+	noexcept
+	 : _size(len)
+	 , _addr(offs)
+	{ }
+
+	basic_offset_array(T* ptr, size_type len)
+	noexcept
+	 : _size(len)
+	 , _addr(ptr)
+	{ }
+
+	constexpr inline
+	size_type size(void) const
+	noexcept
+	{
+		return _size;
+	}
+
+	typedef T* iterator;
+	typedef const T* const_iterator;
+	typedef T& reference;
+	typedef const T& const_reference;
+
+	iterator addr(void)
+	noexcept
+	{
+		return _addr.addr();
+	}
+
+	iterator begin(void)
+	noexcept
+	{
+		return addr();
+	}
+
+	iterator end(void)
+	noexcept
+	{
+		return begin()+size();
+	}
+
+	const_iterator addr(void) const
+	noexcept
+	{
+		return _addr.addr();
+	}
+
+	const_iterator begin(void) const
+	noexcept
+	{
+		return addr();
+	}
+
+	const_iterator end(void) const
+	noexcept
+	{
+		return begin()+size();
+	}
+
+	reference operator [] (size_type index)
+	noexcept
+	{
+		assert(index >= size_type(0) && index < size());
+		return begin()[index];
+	}
+
+	const_reference operator [] (size_type index) const
+	noexcept
+	{
+		assert(index >= size_type(0) && index < size());
+		return begin()[index];
+	}
+};
+
+template <typename T>
+using offset_array = basic_offset_array<T, std::ptrdiff_t>;
+
+template <typename T>
+using short_offset_array = basic_offset_array<T, short>;
 
 } // namespace eagine
 

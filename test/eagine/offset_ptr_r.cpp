@@ -10,6 +10,7 @@
 
 #include <eagine/offset_ptr.hpp>
 #include <string>
+#include <cstring>
 
 
 BOOST_AUTO_TEST_SUITE(offset_ptr_tests)
@@ -69,6 +70,91 @@ BOOST_AUTO_TEST_CASE(offset_ptr_3)
 
 	BOOST_CHECK_EQUAL(*ps, str);
 	BOOST_CHECK_EQUAL(ps->size(), str.size());
+}
+
+BOOST_AUTO_TEST_CASE(offset_array_default_ctr)
+{
+	using namespace eagine;
+
+	offset_array<long> a0;
+
+	BOOST_CHECK(a0.addr() == nullptr);
+	BOOST_CHECK(a0.size() == 0);
+	BOOST_CHECK(a0.begin() == a0.end());
+}
+
+BOOST_AUTO_TEST_CASE(offset_array_2)
+{
+	using namespace eagine;
+
+	double da[10] = {0.0,1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0};
+
+	offset_array<double> ad(da, 10);
+
+	BOOST_CHECK(ad.addr() == da);
+	BOOST_CHECK(ad.size() == 10);
+	BOOST_CHECK(ad.begin() != ad.end());
+
+	offset_array<double>::size_type i = 0;
+	for(double d : ad)
+	{
+		BOOST_CHECK_EQUAL(d, i);
+		++i;
+	}
+
+	for(i=0; i<10; ++i)
+	{
+		BOOST_CHECK_EQUAL(ad[i], i);
+	}
+}
+
+BOOST_AUTO_TEST_CASE(offset_array_3)
+{
+	using namespace eagine;
+
+	const char* cstr = "FooBarBazBlah";
+
+	offset_array<const char> acc(cstr, std::strlen(cstr));
+
+	BOOST_CHECK(acc.addr() == cstr);
+	BOOST_CHECK(acc.size() == std::strlen(cstr));
+	BOOST_CHECK(acc.begin() != acc.end());
+
+	offset_array<double>::size_type i = 0;
+	for(char c : acc)
+	{
+		BOOST_CHECK_EQUAL(c, cstr[i]);
+		++i;
+	}
+
+	for(i=0; i<acc.size(); ++i)
+	{
+		BOOST_CHECK_EQUAL(acc[i], cstr[i]);
+	}
+}
+
+BOOST_AUTO_TEST_CASE(offset_array_4)
+{
+	using namespace eagine;
+
+	int ia[20] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
+
+	const offset_array<int> cai(ia, 20);
+
+	BOOST_CHECK(cai.addr() == ia);
+	BOOST_CHECK(cai.size() == 20);
+	BOOST_CHECK(cai.begin() != cai.end());
+
+	offset_array<double>::size_type i = 0;
+	for(int x: cai)
+	{
+		BOOST_CHECK_EQUAL(x, ++i);
+	}
+
+	for(i=0; i<cai.size(); ++i)
+	{
+		BOOST_CHECK_EQUAL(cai[i], ia[i]);
+	}
 }
 
 // TODO
