@@ -77,6 +77,25 @@ public:
 	 : _addr(pointer(a))
 	{ }
 
+	explicit
+	operator bool (void) const
+	noexcept
+	{
+		return _addr != nullptr;
+	}
+
+	bool operator !(void) const
+	noexcept
+	{
+		return _addr == nullptr;
+	}
+
+	byte_pointer get(void) const
+	noexcept
+	{
+		return static_cast<byte_pointer>(_addr);
+	}
+
 	operator pointer (void) const
 	noexcept
 	{
@@ -98,12 +117,31 @@ public:
 		return static_cast<T*>(_addr);
 	}
 
+	std::uintptr_t value(void) const
+	noexcept
+	{
+		return reinterpret_cast<std::uintptr_t>(_addr);
+	}
+
+	friend inline
+	bool operator == (basic_address a, basic_address b)
+	noexcept
+	{
+		return a.get() == b.get();
+	}
+
+	friend inline
+	bool operator != (basic_address a, basic_address b)
+	noexcept
+	{
+		return a.get() != b.get();
+	}
+
 	friend inline
 	std::ptrdiff_t operator - (basic_address a, basic_address b)
 	noexcept
 	{
-		return	static_cast<byte_pointer>(a._addr)-
-			static_cast<byte_pointer>(b._addr);
+		return a.get() - b.get();
 	}
 
 	std::uintptr_t misalignment(std::uintptr_t alignment) const
