@@ -98,7 +98,14 @@ public:
 		_size = 0;
 	}
 
-	operator block (void) const
+	operator block (void)
+	noexcept
+	{
+		assert(_is_ok());
+		return {_storage.begin(), _size};
+	}
+
+	operator const_block (void) const
 	noexcept
 	{
 		assert(_is_ok());
