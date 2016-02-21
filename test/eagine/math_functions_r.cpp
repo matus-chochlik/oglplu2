@@ -13,6 +13,59 @@
 
 BOOST_AUTO_TEST_SUITE(math_function_tests)
 
+template <typename T>
+T rndval(void)
+{
+	return T(std::rand() % 1000 - std::rand() % 1000) / T(3);
+}
+
+template <typename T, typename ... P>
+void test_math_function_min_max_Tv(P ... v)
+{
+	T a[sizeof...(P)] = {v...};
+
+	using namespace eagine;
+
+	T minv = math::minimum(v...);
+	T maxv = math::maximum(v...);
+
+	for(T x : a)
+	{
+		BOOST_CHECK(x >= minv);
+		BOOST_CHECK(x <= maxv);
+	}
+}
+
+template <typename T>
+void test_math_function_minimum_T(void)
+{
+	test_math_function_min_max_Tv<T>(
+		rndval<T>(), rndval<T>()
+	);
+	test_math_function_min_max_Tv<T>(
+		rndval<T>(), rndval<T>(), rndval<T>()
+	);
+	test_math_function_min_max_Tv<T>(
+		rndval<T>(), rndval<T>(),  rndval<T>(), rndval<T>()
+	);
+	test_math_function_min_max_Tv<T>(
+		rndval<T>(), rndval<T>(), rndval<T>(),  rndval<T>(), rndval<T>()
+	);
+	test_math_function_min_max_Tv<T>(
+		rndval<T>(), rndval<T>(), rndval<T>(),  rndval<T>(),
+		rndval<T>(), rndval<T>(), rndval<T>(),  rndval<T>(),
+		rndval<T>(), rndval<T>(), rndval<T>(),  rndval<T>()
+	);
+}
+
+BOOST_AUTO_TEST_CASE(math_functions_min_max)
+{
+	test_math_function_minimum_T<short>();
+	test_math_function_minimum_T<int>();
+	test_math_function_minimum_T<float>();
+	test_math_function_minimum_T<double>();
+}
+
 BOOST_AUTO_TEST_CASE(math_functions_factorial)
 {
 	using namespace eagine::math;
