@@ -11,6 +11,7 @@
 #define EAGINE_OUTCOME_1509260923_HPP
 
 #include "deferred_handler.hpp"
+#include "selector.hpp"
 #include <utility>
 #include <cassert>
 
@@ -30,11 +31,17 @@ public:
 	constexpr
 	basic_outcome_storage(T val)
 	noexcept
-	 : _val(val)
+	 : _val(std::move(val))
 	{ }
 
 	constexpr
 	T get(void) const
+	noexcept
+	{
+		return _val;
+	}
+
+	T& ref(void)
 	noexcept
 	{
 		return _val;
@@ -176,18 +183,25 @@ public:
 	 : _value(value)
 	{ }
 
-	constexpr
 	basic_outcome(
 		deferred_handler<ErrorData, HandlerPolicy>&& handler,
-		T val
+		T&& val
 	) noexcept
 	 : basic_outcome<void, ErrorData, HandlerPolicy>(std::move(handler))
-	 , _value(val)
+	 , _value(std::move(val))
 	{ }
 
 	basic_outcome(
 		basic_outcome<void, ErrorData, HandlerPolicy>&& that,
-		T val
+		T&& val, selector<0>
+	) noexcept
+	 : basic_outcome<void, ErrorData, HandlerPolicy>(std::move(that))
+	 , _value(std::move(val))
+	{ }
+
+	basic_outcome(
+		basic_outcome<void, ErrorData, HandlerPolicy>&& that,
+		const T& val
 	) noexcept
 	 : basic_outcome<void, ErrorData, HandlerPolicy>(std::move(that))
 	 , _value(val)
@@ -199,9 +213,15 @@ public:
 		return _value.get();
 	}
 
-	operator T (void)
+	T&& rvalue(void)
 	{
-		return value();
+		this->_handler.trigger();
+		return std::move(_value.ref());
+	}
+
+	operator T&& (void)
+	{
+		return rvalue();
 	}
 
 	template <typename Func>
@@ -249,7 +269,7 @@ basic_outcome<T, ErrorData, HandlerPolicy>
 operator , (basic_outcome<void, ErrorData, HandlerPolicy>&& bo, T value)
 noexcept
 {
-	return {std::move(bo), value};
+	return {std::move(bo), std::move(value), selector<0>()};
 }
 
 template <typename T, typename ErrorData, typename HandlerPolicy, typename Func>
