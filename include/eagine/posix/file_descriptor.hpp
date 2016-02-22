@@ -125,10 +125,12 @@ noexcept
 }
 
 static inline
-outcome<void> close(owned_file_descriptor& fd)
+outcome<void> close(owned_file_descriptor& fdw)
 noexcept
 {
-	return error_if_not_zero(::close(get_raw_fd(fd)), get_raw_fd(fd));
+	owned_file_descriptor tfdw = std::move(fdw);
+	int fd = get_raw_fd(tfdw);
+	return error_if_not_zero(::close(fd), fd);
 }
 
 static inline
