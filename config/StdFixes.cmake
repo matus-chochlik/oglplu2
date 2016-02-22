@@ -54,6 +54,7 @@ function(make_std_type_traits_fixes)
 		${PROJECT_SOURCE_DIR}/config/eagine/${HEADER}_fixes.hpp.in
 		${FIXES_HPP}
 	)
+	fix_other_std_type_trait(aligned_storage "${FIXES_HPP}")
 
 	fix_other_std_type_trait(conditional "${FIXES_HPP}")
 	fix_other_std_type_trait(enable_if "${FIXES_HPP}")

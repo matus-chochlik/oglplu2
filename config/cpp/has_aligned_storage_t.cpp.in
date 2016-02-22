@@ -1,0 +1,12 @@
+#include <type_traits>
+#ifdef EAGINE_TEST_TRAIT_FIX
+namespace std {
+#include "make_@TYPE_TRAIT@_t.inl"
+}
+#endif
+
+int main(void)
+{
+	typedef std::aligned_storage_t<64, 64> as;
+	return ((alignof(as) == 64) && (sizeof(as) == 64))?0:1;
+}
