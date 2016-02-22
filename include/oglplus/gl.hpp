@@ -14,9 +14,7 @@
 #pragma clang diagnostic ignored "-Wreserved-id-macro"
 #endif
 
-#ifndef OGLPLUS_NO_SITE_CONFIG
-#include <oglplus/config/site.hpp>
-#endif
+#include <oglplus/config/basic.hpp>
 
 #ifndef OGLPLUS_USE_GLCOREARB_H
 #define OGLPLUS_USE_GLCOREARB_H 1
