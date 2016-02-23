@@ -79,9 +79,17 @@ static inline
 outcome<T> error_if_negative(T result, int fd)
 noexcept
 {
-	return (result < 0)?
+	return (result < T(0))?
 		outcome<T>(error_info(errno, fd)):
 		outcome<T>(result);
+}
+
+template <typename T>
+static inline
+outcome<T> error_if_negative(T result)
+noexcept
+{
+	return error_if_negative(result, -1);
 }
 
 } // namespace posix
