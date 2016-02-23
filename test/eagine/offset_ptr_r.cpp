@@ -25,8 +25,9 @@ BOOST_AUTO_TEST_CASE(offset_ptr_default_ctr)
 	BOOST_CHECK_EQUAL(!p0, true);
 	BOOST_CHECK_EQUAL(!!p0, false);
 
-	BOOST_CHECK(p0.addr() == nullptr);
-	BOOST_CHECK(p0.addr() == p0.get());
+	BOOST_CHECK(p0.get() == nullptr);
+	BOOST_CHECK(p0.addr() == memory::const_address());
+	BOOST_CHECK(p0.addr().value() == 0);
 	BOOST_CHECK(static_cast<double*>(p0) == p0.get());
 }
 
@@ -42,8 +43,8 @@ BOOST_AUTO_TEST_CASE(offset_ptr_2)
 	BOOST_CHECK_EQUAL(!ps, false);
 	BOOST_CHECK_EQUAL(!!ps, true);
 
-	BOOST_ASSERT(ps.addr() == &str);
-	BOOST_CHECK(ps.addr() == ps.get());
+	BOOST_ASSERT(ps.get() == &str);
+	BOOST_CHECK(ps.addr() == memory::const_address(&str));
 	BOOST_CHECK(static_cast<const std::string*>(ps) == ps.get());
 
 	BOOST_CHECK_EQUAL(*ps, str);
@@ -64,8 +65,8 @@ BOOST_AUTO_TEST_CASE(offset_ptr_3)
 	BOOST_CHECK_EQUAL(!!ps, true);
 
 	BOOST_CHECK(ps.addr() == ops.addr());
-	BOOST_ASSERT(ps.addr() == &str);
-	BOOST_CHECK(ps.addr() == ps.get());
+	BOOST_ASSERT(ps.get() == &str);
+	BOOST_CHECK(ps.addr() == memory::const_address(&str));
 	BOOST_CHECK(static_cast<const std::string*>(ps) == ps.get());
 
 	BOOST_CHECK_EQUAL(*ps, str);
@@ -78,7 +79,8 @@ BOOST_AUTO_TEST_CASE(offset_array_default_ctr)
 
 	offset_array<long> a0;
 
-	BOOST_CHECK(a0.addr() == nullptr);
+	BOOST_CHECK(a0.data() == nullptr);
+	BOOST_CHECK(a0.addr() == memory::const_address());
 	BOOST_CHECK(a0.size() == 0);
 	BOOST_CHECK(a0.begin() == a0.end());
 }
@@ -91,7 +93,8 @@ BOOST_AUTO_TEST_CASE(offset_array_2)
 
 	offset_array<double> ad(da, 10);
 
-	BOOST_CHECK(ad.addr() == da);
+	BOOST_CHECK(ad.data() == da);
+	BOOST_CHECK(ad.addr() == memory::const_address(da));
 	BOOST_CHECK(ad.size() == 10);
 	BOOST_CHECK(ad.begin() != ad.end());
 
@@ -116,7 +119,8 @@ BOOST_AUTO_TEST_CASE(offset_array_3)
 
 	offset_array<const char> acc(cstr, std::strlen(cstr));
 
-	BOOST_CHECK(acc.addr() == cstr);
+	BOOST_CHECK(acc.data() == cstr);
+	BOOST_CHECK(acc.addr() == memory::const_address(cstr));
 	BOOST_CHECK(acc.size() == std::strlen(cstr));
 	BOOST_CHECK(acc.begin() != acc.end());
 
@@ -141,7 +145,8 @@ BOOST_AUTO_TEST_CASE(offset_array_4)
 
 	const offset_array<int> cai(ia, 20);
 
-	BOOST_CHECK(cai.addr() == ia);
+	BOOST_CHECK(cai.data() == ia);
+	BOOST_CHECK(cai.addr() == memory::const_address(ia));
 	BOOST_CHECK(cai.size() == 20);
 	BOOST_CHECK(cai.begin() != cai.end());
 

@@ -58,10 +58,16 @@ public:
 		free();
 	}
 
-	pointer addr(void) const
+	auto addr(void) const
 	noexcept
 	{
 		return _storage.addr();
+	}
+
+	pointer data(void) const
+	noexcept
+	{
+		return _storage.data();
 	}
 
 	std::size_t size(void) const

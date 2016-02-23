@@ -58,6 +58,50 @@ public:
 	}
 };
 
+template <typename T>
+class structured_file_content
+{
+private:
+	file_contents _fc;
+
+	static
+	bool _valid_block(const_memory_block blk)
+	noexcept
+	{
+		return (blk.size() >= sizeof(T)) && (blk.data() != nullptr);
+	}
+
+	const T* _ptr(void) const
+	noexcept
+	{
+		const_memory_block blk = _fc.block();
+		assert(_valid_block(blk));
+		return static_cast<const T*>(blk.addr());
+	}
+public:
+	structured_file_content(const cstr_ref& path)
+	 : _fc(path)
+	{ }
+
+	bool is_valid(void) const
+	noexcept
+	{
+		return _fc.is_loaded() && _valid_block(_fc.block());
+	}
+
+	const T& get(void) const
+	noexcept
+	{
+		return *_ptr();
+	}
+
+	const T* operator -> (void) const
+	noexcept
+	{
+		return _ptr();
+	}
+};
+
 } // namespace eagine
 
 #if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)

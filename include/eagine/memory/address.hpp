@@ -42,12 +42,13 @@ public:
 	 : _addr(nullptr)
 	{ }
 
-	constexpr
+	explicit constexpr
 	basic_address(std::nullptr_t)
 	noexcept
 	 : _addr(nullptr)
 	{ }
 
+	explicit constexpr
 	basic_address(pointer addr)
 	noexcept
 	 : _addr(addr)
@@ -60,9 +61,9 @@ public:
 			std::is_convertible<Int, std::ptrdiff_t>::value
 		>
 	>
-	basic_address(const void* addr, Int offs)
+	basic_address(basic_address that, Int offs)
 	noexcept
-	 : _addr(static_cast<byte_pointer>(const_cast<pointer>(addr))+offs)
+	 : _addr(that.ptr()+offs)
 	{ }
 
 	basic_address(const basic_address&) = default;
@@ -77,25 +78,38 @@ public:
 	 : _addr(pointer(a))
 	{ }
 
-	explicit
-	operator bool (void) const
-	noexcept
-	{
-		return _addr != nullptr;
-	}
-
-	bool operator !(void) const
+	bool is_null(void) const
 	noexcept
 	{
 		return _addr == nullptr;
 	}
 
-	byte_pointer get(void) const
+	explicit
+	operator bool (void) const
+	noexcept
+	{
+		return !is_null();
+	}
+
+	bool operator !(void) const
+	noexcept
+	{
+		return is_null();
+	}
+
+	byte_pointer ptr(void) const
 	noexcept
 	{
 		return static_cast<byte_pointer>(_addr);
 	}
 
+	pointer get(void) const
+	noexcept
+	{
+		return _addr;
+	}
+
+	explicit
 	operator pointer (void) const
 	noexcept
 	{
@@ -117,31 +131,73 @@ public:
 		return static_cast<T*>(_addr);
 	}
 
-	std::uintptr_t value(void) const
+	std::intptr_t value(void) const
 	noexcept
 	{
-		return reinterpret_cast<std::uintptr_t>(_addr);
+		return reinterpret_cast<std::intptr_t>(_addr);
 	}
 
 	friend inline
 	bool operator == (basic_address a, basic_address b)
 	noexcept
 	{
-		return a.get() == b.get();
+		return a.ptr() == b.ptr();
 	}
 
 	friend inline
 	bool operator != (basic_address a, basic_address b)
 	noexcept
 	{
-		return a.get() != b.get();
+		return a.ptr() != b.ptr();
+	}
+
+	friend inline
+	bool operator <  (basic_address a, basic_address b)
+	noexcept
+	{
+		return a.ptr() <  b.ptr();
+	}
+
+	friend inline
+	bool operator <= (basic_address a, basic_address b)
+	noexcept
+	{
+		return a.ptr() <= b.ptr();
+	}
+
+	friend inline
+	bool operator >  (basic_address a, basic_address b)
+	noexcept
+	{
+		return a.ptr() >  b.ptr();
+	}
+
+	friend inline
+	bool operator >= (basic_address a, basic_address b)
+	noexcept
+	{
+		return a.ptr() >= b.ptr();
 	}
 
 	friend inline
 	std::ptrdiff_t operator - (basic_address a, basic_address b)
 	noexcept
 	{
-		return a.get() - b.get();
+		return a.ptr() - b.ptr();
+	}
+
+	friend inline
+	basic_address operator + (basic_address a, std::ptrdiff_t o)
+	noexcept
+	{
+		return {a, o};
+	}
+
+	friend inline
+	basic_address operator - (basic_address a, std::ptrdiff_t o)
+	noexcept
+	{
+		return {a,-o};
 	}
 
 	std::uintptr_t misalignment(std::uintptr_t alignment) const
@@ -183,6 +239,13 @@ noexcept
 	return addr.misalignment(alignment);
 }
 
+static inline
+std::uintptr_t misalignment(const void* ptr, std::uintptr_t alignment)
+noexcept
+{
+	return misalignment(as_address(ptr), alignment);
+}
+
 static constexpr inline
 bool is_aligned_to(std::nullptr_t, std::uintptr_t)
 noexcept
@@ -195,6 +258,13 @@ bool is_aligned_to(const_address addr , std::uintptr_t alignment)
 noexcept
 {
 	return addr.is_aligned_to(alignment);
+}
+
+static inline
+bool is_aligned_to(const void* ptr, std::uintptr_t alignment)
+noexcept
+{
+	return is_aligned_to(as_address(ptr), alignment);
 }
 
 template <bool IsConst>

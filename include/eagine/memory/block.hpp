@@ -89,7 +89,7 @@ public:
 	 : _addr(temp._addr)
 	 , _size(temp._size)
 	{
-		temp.clear();
+		temp.reset();
 	}
 
 	basic_block& operator = (basic_block&& temp)
@@ -108,20 +108,16 @@ public:
 	constexpr
 	basic_block(basic_block<IsConst2> b)
 	noexcept
-	 : _addr(b.addr())
+	 : _addr(b.data())
 	 , _size(b.size())
 	{ }
-
-	pointer addr(void) const
+	
+	basic_block& reset(void)
 	noexcept
 	{
-		return _addr;
-	}
-
-	iterator data(void) const
-	noexcept
-	{
-		return static_cast<iterator>(addr());
+		_addr = nullptr;
+		_size = 0;
+		return *this;
 	}
 
 	size_type size(void) const
@@ -149,23 +145,34 @@ public:
 		return _addr == nullptr || _size == 0u;
 	}
 
-	void clear(void)
+	iterator data(void) const
 	noexcept
 	{
-		_addr = nullptr;
-		_size = 0;
+		return static_cast<iterator>(_addr);
+	}
+
+	basic_address<IsConst> addr(void) const
+	noexcept
+	{
+		return basic_address<IsConst>(_addr);
+	}
+
+	basic_address<IsConst> end_addr(void) const
+	noexcept
+	{
+		return basic_address<IsConst>(addr(), _size);
 	}
 
 	iterator begin(void) const
 	noexcept
 	{
-		return data();
+		return static_cast<iterator>(_addr);
 	}
 
 	iterator end(void) const
 	noexcept
 	{
-		return data()+size();
+		return begin()+size();
 	}
 
 	reference operator [] (std::size_t i)
@@ -192,26 +199,26 @@ public:
 	bool is_aligned_to(std::uintptr_t align) const
 	noexcept
 	{
-		return memory::is_aligned_to(_addr, align);
+		return memory::is_aligned_to(addr(), align);
 	}
 
 	bool encloses(const_address a) const
 	noexcept
 	{
-		return (begin() <= a) && (a <= end());
+		return (addr() <= a) && (a <= end_addr());
 	}
 
 	bool contains(const basic_block& b) const
 	noexcept
 	{
-		return (begin() <= b.begin()) && (b.end() <= end());
+		return (addr() <= b.addr()) && (b.end_addr() <= end_addr());
 	}
 
 	bool overlaps(const basic_block& b) const
 	noexcept
 	{
-		return	encloses(b.begin()) || encloses(b.end()) ||
-			b.encloses(begin()) || b.encloses(end());
+		return	encloses(b.addr()) || encloses(b.end_addr()) ||
+			b.encloses(addr()) || b.encloses(end_addr());
 	}
 };
 
@@ -251,7 +258,7 @@ private:
 	{ }
 
 protected:
-	using block::clear;
+	using block::reset;
 
 public:
 	owned_block(void) = default;
@@ -283,7 +290,7 @@ protected:
 	release_block(owned_block&& b)
 	noexcept
 	{
-		b.clear();
+		b.reset();
 	}
 };
 

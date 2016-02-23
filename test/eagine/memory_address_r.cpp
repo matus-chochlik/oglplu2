@@ -71,8 +71,6 @@ void eagine_test_memory_address_0(void)
 
 BOOST_AUTO_TEST_CASE(memory_address_0)
 {
-	using namespace eagine;
-
 	eagine_test_memory_address_0<true>();
 	eagine_test_memory_address_0<false>();
 }
@@ -108,9 +106,9 @@ void eagine_test_memory_address_1(void)
 	BOOST_CHECK_EQUAL(bma1.value(), reinterpret_cast<std::uintptr_t>(&c));
 	BOOST_CHECK_EQUAL(bma2.value(), reinterpret_cast<std::uintptr_t>(&i));
 	BOOST_CHECK_EQUAL(bma3.value(), reinterpret_cast<std::uintptr_t>(&d));
-	BOOST_CHECK_EQUAL(bma1 - bma2, bma1.get() - bma2.get());
-	BOOST_CHECK_EQUAL(bma1 - bma3, bma1.get() - bma3.get());
-	BOOST_CHECK_EQUAL(bma2 - bma3, bma2.get() - bma3.get());
+	BOOST_CHECK_EQUAL(bma1 - bma2, bma1.ptr() - bma2.ptr());
+	BOOST_CHECK_EQUAL(bma1 - bma3, bma1.ptr() - bma3.ptr());
+	BOOST_CHECK_EQUAL(bma2 - bma3, bma2.ptr() - bma3.ptr());
 	BOOST_CHECK(bma1 == bma1);
 	BOOST_CHECK(bma2 == bma2);
 	BOOST_CHECK(bma3 == bma3);
@@ -130,10 +128,32 @@ void eagine_test_memory_address_1(void)
 
 BOOST_AUTO_TEST_CASE(memory_address_1)
 {
-	using namespace eagine;
-
 	eagine_test_memory_address_1<true>();
 	eagine_test_memory_address_1<false>();
+}
+
+template <bool is_const>
+void eagine_test_memory_address_2(void)
+{
+	using namespace eagine;
+
+	for(int i=0; i<100; ++i)
+	{
+		int offs = std::rand()%1000 - std::rand()%1000;
+
+		memory::basic_address<is_const> bma1(&i);
+		memory::basic_address<is_const> bma2 = bma1+offs;
+		memory::basic_address<is_const> bma3 = bma1-offs;
+
+		BOOST_CHECK(bma1 == bma2-offs);
+		BOOST_CHECK(bma1 == bma3+offs);
+	}
+}
+
+BOOST_AUTO_TEST_CASE(memory_address_2)
+{
+	eagine_test_memory_address_2<true>();
+	eagine_test_memory_address_2<false>();
 }
 
 // TODO

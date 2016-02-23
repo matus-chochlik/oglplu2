@@ -219,7 +219,7 @@ public:
 	noexcept
 	{
 		block b = that.allocate(sizeof(Final), alignof(Final));
-		return new(b.addr()) Final(std::move(that));
+		return new(b.begin()) Final(std::move(that));
 	}
 
 	template <typename Final>

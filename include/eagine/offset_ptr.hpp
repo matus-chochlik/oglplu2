@@ -33,6 +33,21 @@ private:
 	{
 		return memory::as_address(p1) - memory::as_address(p2);
 	}
+
+	inline
+	_memaddr _this_addr(void) const
+	noexcept
+	{
+		return _memaddr(
+			const_cast<
+				std::conditional_t<
+					std::is_const<T>::value,
+					const void*,
+					void*
+				>
+			>(static_cast<const void*>(this))
+		);
+	}
 public:
 	constexpr inline
 	basic_offset_ptr(void)
@@ -84,24 +99,26 @@ public:
 	}
 
 	memory::basic_address<std::is_const<T>::value>
-	address(void) const
+	addr(void) const
 	noexcept
 	{
-		return is_null()?_memaddr():_memaddr(this, _offs);
+		return is_null()?
+			_memaddr():
+			_memaddr(_this_addr(), _offs);
 	}
 
 	inline
-	T* addr(void) const
+	T* data(void) const
 	noexcept
 	{
-		return static_cast<T*>(address());
+		return static_cast<T*>(addr());
 	}
 
 	inline
 	T* get(void) const
 	noexcept
 	{
-		return addr();
+		return data();
 	}
 
 	inline
@@ -115,14 +132,14 @@ public:
 	noexcept
 	{
 		assert(!is_null());
-		return *addr();
+		return *get();
 	}
 
 	const T* operator -> (void) const
 	noexcept
 	{
 		assert(!is_null());
-		return addr();
+		return get();
 	}
 };
 
@@ -141,26 +158,26 @@ public:
 	typedef std::size_t size_type;
 private:
 	size_type _size;
-	basic_offset_ptr<T, OffsT> _addr;
+	basic_offset_ptr<T, OffsT> _optr;
 public:
 	constexpr inline
 	basic_offset_array(void)
 	noexcept
 	 : _size(0)
-	 , _addr()
+	 , _optr()
 	{ }
 
 	constexpr inline
 	basic_offset_array(OffsT offs, size_type len)
 	noexcept
 	 : _size(len)
-	 , _addr(offs)
+	 , _optr(offs)
 	{ }
 
 	basic_offset_array(T* ptr, size_type len)
 	noexcept
 	 : _size(len)
-	 , _addr(ptr)
+	 , _optr(ptr)
 	{ }
 
 	constexpr inline
@@ -175,16 +192,23 @@ public:
 	typedef T& reference;
 	typedef const T& const_reference;
 
-	iterator addr(void)
+	memory::basic_address<std::is_const<T>::value>
+	addr(void)
 	noexcept
 	{
-		return _addr.addr();
+		return _optr.addr();
+	}
+
+	iterator data(void)
+	noexcept
+	{
+		return _optr.data();
 	}
 
 	iterator begin(void)
 	noexcept
 	{
-		return addr();
+		return _optr.data();
 	}
 
 	iterator end(void)
@@ -193,16 +217,23 @@ public:
 		return begin()+size();
 	}
 
-	const_iterator addr(void) const
+	memory::const_address
+	addr(void) const
 	noexcept
 	{
-		return _addr.addr();
+		return _optr.addr();
+	}
+
+	const_iterator data(void) const
+	noexcept
+	{
+		return _optr.data();
 	}
 
 	const_iterator begin(void) const
 	noexcept
 	{
-		return addr();
+		return _optr.data();
 	}
 
 	const_iterator end(void) const
