@@ -12,7 +12,8 @@
 
 #include "config/basic.hpp"
 #include "cstr_ref.hpp"
-#include "memory_block.hpp"
+#include "struct_memory_block.hpp"
+#include "protected_member.hpp"
 #include <memory>
 
 namespace eagine {
@@ -60,46 +61,14 @@ public:
 
 template <typename T>
 class structured_file_content
+ : protected_member<file_contents>
+ , public structured_memory_block<const T>
 {
-private:
-	file_contents _fc;
-
-	static
-	bool _valid_block(const_memory_block blk)
-	noexcept
-	{
-		return (blk.size() >= sizeof(T)) && (blk.data() != nullptr);
-	}
-
-	const T* _ptr(void) const
-	noexcept
-	{
-		const_memory_block blk = _fc.block();
-		assert(_valid_block(blk));
-		return static_cast<const T*>(blk.addr());
-	}
 public:
 	structured_file_content(const cstr_ref& path)
-	 : _fc(path)
+	 : protected_member<file_contents>(path)
+	 , structured_memory_block<const T>(get_the_member())
 	{ }
-
-	bool is_valid(void) const
-	noexcept
-	{
-		return _fc.is_loaded() && _valid_block(_fc.block());
-	}
-
-	const T& get(void) const
-	noexcept
-	{
-		return *_ptr();
-	}
-
-	const T* operator -> (void) const
-	noexcept
-	{
-		return _ptr();
-	}
 };
 
 } // namespace eagine
