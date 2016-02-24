@@ -244,6 +244,15 @@ noexcept
 	return {a, N};
 }
 
+template <typename T>
+static inline
+basic_block<std::is_const<T>::value>
+data_block_of(T& c)
+noexcept
+{
+	return {c.data(), c.size()};
+}
+
 class block_owner;
 
 class owned_block

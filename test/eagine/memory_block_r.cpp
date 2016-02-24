@@ -253,6 +253,31 @@ BOOST_AUTO_TEST_CASE(memory_block_7)
 	}
 }
 
+template <typename T>
+void eagine_test_memory_block_8(void)
+{
+	using namespace eagine;
+
+	std::vector<T> x(100 + std::rand() % 1000);
+
+	memory_block b = eagine::memory::data_block_of(x);
+
+	BOOST_CHECK_EQUAL(b.size(), x.size()*sizeof(T));
+}
+
+BOOST_AUTO_TEST_CASE(memory_block_8)
+{
+	for(int i=0; i<100; ++i)
+	{
+		eagine_test_memory_block_8<char>();
+		eagine_test_memory_block_8<short>();
+		eagine_test_memory_block_8<float>();
+		eagine_test_memory_block_8<int>();
+		eagine_test_memory_block_8<long>();
+		eagine_test_memory_block_8<double>();
+	}
+}
+
 // TODO
 
 BOOST_AUTO_TEST_SUITE_END()
