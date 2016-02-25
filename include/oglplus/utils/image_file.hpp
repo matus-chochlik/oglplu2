@@ -10,33 +10,12 @@
 #ifndef OGLPLUS_UTILS_IMAGE_FILE_1509260923_HPP
 #define OGLPLUS_UTILS_IMAGE_FILE_1509260923_HPP
 
+#include "image_file_hdr.hpp"
 #include "image_spec.hpp"
 #include "cstr_ref.hpp"
-#include <eagine/offset_ptr.hpp>
 #include <eagine/file_contents.hpp>
 
 namespace oglplus {
-
-struct image_data_header
-{
-	GLsizei width, height, depth;
-	GLenum internal_format, format;
-	GLenum data_type;
-
-	eagine::offset_array<const GLubyte> pixels;
-
-	constexpr
-	image_data_header(void)
-	noexcept
-	 : width(0)
-	 , height(0)
-	 , depth(0)
-	 , internal_format(GL_NONE)
-	 , format(GL_NONE)
-	 , data_type(GL_NONE)
-	 , pixels()
-	{ }
-};
 
 class texture_image_file
 {
@@ -66,6 +45,15 @@ public:
 		);
 	}
 
+	image_pixel_format pixel_format(pixel_data_internal_format ifmt) const
+	noexcept
+	{
+		return image_pixel_format(
+			pixel_data_format(_header->format),
+			ifmt
+		);
+	}
+
 	image_pixel_data pixel_data(void) const
 	noexcept
 	{
@@ -80,7 +68,22 @@ public:
 	image_spec spec(void) const
 	noexcept
 	{
-		return image_spec(dimensions(), pixel_format(), pixel_data());
+		return image_spec(
+			dimensions(),
+			pixel_format(),
+			pixel_data()
+		);
+	}
+
+	inline
+	image_spec spec(pixel_data_internal_format ifmt) const
+	noexcept
+	{
+		return image_spec(
+			dimensions(),
+			pixel_format(ifmt),
+			pixel_data()
+		);
 	}
 
 	inline
