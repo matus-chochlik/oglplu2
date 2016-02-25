@@ -11,6 +11,7 @@
 #define OGLPLUS_UTILS_IMAGE_FILE_HDR_1509260923_HPP
 
 #include <eagine/offset_ptr.hpp>
+#include "valid_if.hpp"
 
 namespace oglplus {
 
@@ -28,6 +29,20 @@ struct image_data_header
 	 : width(0)
 	 , height(0)
 	 , depth(0)
+	 , format(GL_NONE)
+	 , internal_format(GL_NONE)
+	 , data_type(GL_NONE)
+	 , pixels()
+	{ }
+
+	image_data_header(
+		valid_if_positive<GLsizei> w,
+		valid_if_positive<GLsizei> h,
+		valid_if_positive<GLsizei> d
+	) noexcept
+	 : width(w.value())
+	 , height(h.value())
+	 , depth(d.value())
 	 , format(GL_NONE)
 	 , internal_format(GL_NONE)
 	 , data_type(GL_NONE)

@@ -184,6 +184,9 @@ struct valid_if_gt_policy
 template <typename T, T Cmp>
 using valid_if_greater_than = valid_if<T, valid_if_gt_policy<T, Cmp>>;
 
+template <typename T>
+using valid_if_positive = valid_if_greater_than<T, T(0)>;
+
 // not-equal
 template <typename T, T Cmp>
 struct valid_if_ne_policy

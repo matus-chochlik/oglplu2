@@ -15,6 +15,7 @@ namespace oglplus {
 
 using eagine::valid_if;
 using eagine::valid_if_greater_than;
+using eagine::valid_if_positive;
 using eagine::valid_if_not;
 
 } // namespace oglplus
