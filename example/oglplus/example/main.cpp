@@ -28,53 +28,16 @@ int example_main(
 	oglplus::example_state&
 );
 
-bool parse_next_arg(const eagine::program_arg& a, int& i)
-{
-	i = std::atoi(a.next().get().c_str());
-	return (i != 0) || (a.next() == "0");
-}
-
-bool parse_next_arg(const eagine::program_arg& a, float& f)
-{
-	f = float(std::atof(a.next().get().c_str()));
-	return (f != 0.f) || (a.next() == "0") || (a.next() == "0.0");
-}
-
-bool parse_next_arg(const eagine::program_arg& a, eagine::cstr_ref& s)
-{
-	s = a.next();
-	return s.size() > 0;
-}
-
-template <typename T>
-bool is_positive(T v)
-{
-	return v > T(0);
-}
-
-bool is_positive(const eagine::cstr_ref&)
-{
-	return true;
-}
-
-template <typename T>
-bool parse_next_arg(const eagine::program_arg& a, T& v, bool only_positive)
-{
-	return parse_next_arg(a, v) && (!only_positive || is_positive(v));
-}
-
-template <typename T, typename Action, typename Errstr>
-bool act_on_next_arg(
+template <typename T, typename Errstr>
+bool consume_next_arg(
 	eagine::program_arg& a,
+	T& dest,
 	const char* value_type,
-	Action action,
-	Errstr& errstr,
-	bool only_positive
+	Errstr& errstr
 )
 {
 	if(a.next())
 	{
-		T value = T();
 		if(a.next().get().empty())
 		{
 			errstr()
@@ -83,7 +46,7 @@ bool act_on_next_arg(
 				<< "'."
 				<< std::endl;
 		}
-		else if(!parse_next_arg(a, value, only_positive))
+		else if(!a.next().parse(dest))
 		{
 			errstr()
 				<< "Invalid "
@@ -97,7 +60,6 @@ bool act_on_next_arg(
 		}
 		else
 		{
-			action(value);
 			a = a.next();
 			return true;
 		}
@@ -113,67 +75,6 @@ bool act_on_next_arg(
 			<< std::endl;
 	}
 	return false;
-}
-
-template <typename Action, typename Errstr>
-bool act_on_next_str(
-	eagine::program_arg& arg,
-	const char* value_type,
-	Action action,
-	Errstr& errstr
-)
-{
-	return act_on_next_arg<eagine::cstr_ref>(
-		arg,
-		value_type,
-		action,
-		errstr,
-		false
-	);
-}
-
-template <typename Action, typename Errstr>
-bool act_on_next_int(
-	eagine::program_arg& arg,
-	Action action,
-	Errstr& errstr,
-	bool only_positive = false
-)
-{
-	return act_on_next_arg<int>(
-		arg,
-		"integer value",
-		action,
-		errstr,
-		only_positive
-	);
-}
-
-template <typename Action, typename Errstr>
-bool act_on_next_positive_int(
-	eagine::program_arg& arg,
-	Action action,
-	Errstr& errstr
-)
-{
-	return act_on_next_int(arg, action, errstr, true);
-}
-
-template <typename Action, typename Errstr>
-bool act_on_next_float(
-	eagine::program_arg& arg,
-	Action action,
-	Errstr& errstr,
-	bool only_positive
-)
-{
-	return act_on_next_arg<float>(
-		arg,
-		"floating-point value",
-		action,
-		errstr,
-		only_positive
-	);
 }
 
 int main(int argc, const char** argv)
@@ -208,14 +109,12 @@ int main(int argc, const char** argv)
 				<< std::endl;
 				return 1;
 			}
-			auto action = [&params](const cstr_ref& s)
+			cstr_ref path;
+			if(consume_next_arg(a, path, "path", errstr))
 			{
-				params.screenshot_path(s);
-			};
-			if(!act_on_next_str(a, "path", action, errstr))
-			{
-				return 1;
+				params.screenshot_path(path);
 			}
+			else return 1;
 		}
 		else if(a == "--framedump")
 		{
@@ -227,69 +126,57 @@ int main(int argc, const char** argv)
 				<< std::endl;
 				return 1;
 			}
-			auto action = [&params](const cstr_ref& s)
+			cstr_ref prefix;
+			if(consume_next_arg(a, prefix, "prefix", errstr))
 			{
-				params.framedump_prefix(s);
-			};
-			if(!act_on_next_str(a, "prefix", action, errstr))
-			{
-				return 1;
+				params.framedump_prefix(prefix);
 			}
+			else return 1;
 		}
 		else if(a == "--fixed-fps")
 		{
-			auto action = [&params](float f)
+			valid_if_positive<float> fps;
+			if(consume_next_arg(a, fps, "float", errstr))
 			{
-				params.fixed_fps(f);
-			};
-			if(!act_on_next_float(a, action, errstr, true))
-			{
-				return 1;
+				params.fixed_fps(fps.value());
 			}
+			else return 1;
 		}
 		else if(a == "--window-x")
 		{
-			auto action = [&params](int i)
+			int x;
+			if(consume_next_arg(a, x, "integer", errstr))
 			{
-				params.window_x_pos(i);
-			};
-			if(!act_on_next_int(a, action, errstr))
-			{
-				return 1;
+				params.window_x_pos(x);
 			}
+			else return 1;
 		}
 		else if(a == "--window-y")
 		{
-			auto action = [&params](int i)
+			int y;
+			if(consume_next_arg(a, y, "integer", errstr))
 			{
-				params.window_y_pos(i);
-			};
-			if(!act_on_next_int(a, action, errstr))
-			{
-				return 1;
+				params.window_y_pos(y);
 			}
+			else return 1;
 		}
 		else if(a == "--width")
 		{
-			auto action = [&state](int i)
+			valid_if_positive<int> w;
+			if(consume_next_arg(a, w, "integer", errstr))
 			{
-				state.set_width(i);
-			};
-			if(!act_on_next_positive_int(a, action, errstr))
-			{
-				return 1;
+				state.set_width(w.value());
 			}
+			else return 1;
 		}
 		else if(a == "--height")
 		{
-			auto action = [&state](int i)
+			valid_if_positive<int> h;
+			if(consume_next_arg(a, h, "integer", errstr))
 			{
-				state.set_height(i);
-			};
-			if(!act_on_next_positive_int(a, action, errstr))
-			{
-				return 1;
+				state.set_height(h.value());
 			}
+			else return 1;
 		}
 		else if(a == "--hd")
 		{
@@ -301,25 +188,21 @@ int main(int argc, const char** argv)
 		}
 		else if(a == "--x-tiles")
 		{
-			auto action = [&params](int i)
+			valid_if_positive<int> x;
+			if(consume_next_arg(a, x, "integer", errstr))
 			{
-				params.x_tiles(i);
-			};
-			if(!act_on_next_positive_int(a, action, errstr))
-			{
-				return 1;
+				params.x_tiles(x.value());
 			}
+			else return 1;
 		}
 		else if(a == "--y-tiles")
 		{
-			auto action = [&params](int i)
+			valid_if_positive<int> y;
+			if(consume_next_arg(a, y, "integer", errstr))
 			{
-				params.x_tiles(i);
-			};
-			if(!act_on_next_positive_int(a, action, errstr))
-			{
-				return 1;
+				params.y_tiles(y.value());
 			}
+			else return 1;
 		}
 		else
 		{

@@ -10,7 +10,9 @@
 #define EAGINE_PROGRAM_ARGS_1509260923_HPP
 
 #include "cstr_ref.hpp"
+#include "valid_if.hpp"
 #include <cassert>
+#include <sstream>
 
 namespace eagine {
 
@@ -31,6 +33,37 @@ private:
 	{ }
 
 	friend class program_args;
+
+	template <typename T>
+	bool _do_parse(T& dest)
+	{
+		std::stringstream ss(get_string());
+		return !((ss >> dest).fail() || !ss.eof());
+	}
+
+	bool _do_parse(cstr_ref& dest)
+	{
+		dest = get();
+		return true;
+	}
+
+	bool _do_parse(std::string& dest)
+	{
+		dest = get_string();
+		return true;
+	}
+
+	template <typename T, typename P>
+	bool _do_parse(valid_if<T, P>& dest)
+	{
+		T value;
+		if(parse(value))
+		{
+			dest = value;
+			return dest.is_valid();
+		}
+		return false;
+	}
 public:
 	program_arg(void)
 	noexcept
@@ -70,6 +103,12 @@ public:
 		return value_type();
 	}
 
+	std::string get_string(void) const
+	{
+		value_type tmp = get();
+		return std::string(tmp.data(), std::size_t(tmp.size()));
+	}
+
 	operator value_type (void) const
 	noexcept
 	{
@@ -86,6 +125,27 @@ public:
 	noexcept
 	{
 		return program_arg(_argi-1, _argc, _argv);
+	}
+
+	template <typename T>
+	bool parse(T& dest)
+	{
+		if(is_valid())
+		{
+			T temp;
+			if(_do_parse(temp))
+			{
+				dest = std::move(temp);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	template <typename T>
+	bool parse_next(T& dest)
+	{
+		return next().parse(dest);
 	}
 
 	bool operator == (const value_type& v) const

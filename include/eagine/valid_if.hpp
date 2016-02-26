@@ -169,6 +169,21 @@ public:
 	}
 };
 
+// always
+struct always_valid_policy
+{
+	template <typename T>
+	constexpr inline
+	bool operator ()(T) const
+	noexcept
+	{
+		return true;
+	}
+};
+
+template <typename T, T Cmp>
+using always_valid = valid_if<T, always_valid_policy>;
+
 // greater-than
 template <typename T, T Cmp>
 struct valid_if_gt_policy
@@ -184,8 +199,20 @@ struct valid_if_gt_policy
 template <typename T, T Cmp>
 using valid_if_greater_than = valid_if<T, valid_if_gt_policy<T, Cmp>>;
 
+// positive
 template <typename T>
-using valid_if_positive = valid_if_greater_than<T, T(0)>;
+struct valid_if_positive_policy
+{
+	constexpr
+	bool operator ()(T value) const
+	noexcept
+	{
+		return value > T(0);
+	}
+};
+
+template <typename T>
+using valid_if_positive = valid_if<T, valid_if_positive_policy<T>>;
 
 // not-equal
 template <typename T, T Cmp>
@@ -228,6 +255,21 @@ noexcept
 {
 	return {v};
 }
+
+// between [min, max]
+template <typename T, T Min, T Max>
+struct valid_if_btwn_policy
+{
+	constexpr
+	bool operator ()(T value) const
+	noexcept
+	{
+		return (Min <= value) && (value <= Max);
+	}
+};
+
+template <typename T, T Min, T Max>
+using valid_if_between = valid_if<T, valid_if_btwn_policy<T, Min, Max>>;
 
 // in [0, 1]
 template <typename T>
@@ -273,6 +315,21 @@ struct valid_if_gt0_lt1_policy
 
 template <typename T>
 using valid_if_gt0_lt1 = valid_if<T, valid_if_gt0_lt1_policy<T>>;
+
+// not empty
+template <typename T>
+struct valid_if_not_empty_policy
+{
+	constexpr
+	bool operator ()(const T& range) const
+	noexcept
+	{
+		return !range.empty();
+	}
+};
+
+template <typename T>
+using valid_if_not_empty = valid_if<T, valid_if_not_empty_policy<T>>;
 
 } // namespace eagine
 
