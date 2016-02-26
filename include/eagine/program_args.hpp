@@ -148,6 +148,59 @@ public:
 		return next().parse(dest);
 	}
 
+	template <typename T, typename MissingFunc, typename InvalidFunc>
+	bool consume_next(
+		T& dest,
+		MissingFunc handle_missing,
+		InvalidFunc handle_invalid
+	)
+	{
+		if(next())
+		{
+			if(parse_next(dest))
+			{
+				*this = next();
+				return true;
+			}
+			else
+			{
+				handle_invalid(get(), next().get());
+			}
+		}
+		else
+		{
+			handle_missing(get());
+		}
+		return false;
+	}
+
+	template <typename T>
+	bool consume_next(T& dest, std::ostream& errorlog)
+	{
+		auto if_missing =
+		[&errorlog](const cstr_ref& arg_tag)
+		{
+			errorlog
+				<< "Missing value after '"
+				<< arg_tag
+				<< "'."
+				<< std::endl;
+		};
+
+		auto if_invalid =
+		[&errorlog](const cstr_ref& arg_tag, const cstr_ref& arg_val)
+		{
+			errorlog
+				<< "Invalid value '"
+				<< arg_val
+				<< "' after '"
+				<< arg_tag
+				<< "'."
+				<< std::endl;
+		};
+		return consume_next(dest, if_missing, if_invalid);
+	}
+
 	bool operator == (const value_type& v) const
 	noexcept
 	{

@@ -36,45 +36,31 @@ bool consume_next_arg(
 	Errstr& errstr
 )
 {
-	if(a.next())
-	{
-		if(a.next().get().empty())
-		{
-			errstr()
-				<< "Empty argument after '"
-				<< a.get()
-				<< "'."
-				<< std::endl;
-		}
-		else if(!a.next().parse(dest))
-		{
-			errstr()
-				<< "Invalid "
-				<< value_type
-				<< " '"
-				<< a.next().get()
-				<< "' after '"
-				<< a.get()
-				<< "'."
-				<< std::endl;
-		}
-		else
-		{
-			a = a.next();
-			return true;
-		}
-	}
-	else
+	auto handle_missing =
+	[&value_type,&errstr](eagine::cstr_ref arg_tag)
 	{
 		errstr()
 			<< "Missing "
 			<< value_type
 			<< " after '"
-			<< a.get()
+			<< arg_tag
 			<< "'."
 			<< std::endl;
-	}
-	return false;
+	};
+	auto handle_invalid =
+	[&value_type,&errstr](eagine::cstr_ref arg_tag,eagine::cstr_ref arg_val)
+	{
+		errstr()
+			<< "Invalid "
+			<< value_type
+			<< " '"
+			<< arg_val
+			<< "' after '"
+			<< arg_tag
+			<< "'."
+			<< std::endl;
+	};
+	return a.consume_next(dest, handle_missing, handle_invalid);
 }
 
 int main(int argc, const char** argv)

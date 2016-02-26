@@ -7,6 +7,7 @@
 
 #include <oglplus/gl.hpp>
 #include <oglplus/utils/image_file_io.hpp>
+#include <eagine/program_args.hpp>
 #include <eagine/valid_if.hpp>
 #include <fstream>
 #include <random>
@@ -101,12 +102,45 @@ int main(int argc, const char** argv)
 	return 0;
 }
 
+template <typename T>
+bool consume_next(eagine::program_arg& a, T& dest)
+{
+	return a.consume_next(dest, std::cerr);
+}
+
+bool parse_option(eagine::program_arg& a, options& opts)
+{
+
+	if((a == "-o") || (a == "--output"))
+	{
+		if(!consume_next(a, opts.output_path)) return false;
+	}
+	else if((a == "-w") || (a == "--width"))
+	{
+		if(!consume_next(a, opts.width)) return false;
+	}
+	else if((a == "-h") || (a == "--height"))
+	{
+		if(!consume_next(a, opts.height)) return false;
+	}
+	else if((a == "-d") || (a == "--depth"))
+	{
+		if(!consume_next(a, opts.depth)) return false;
+	}
+	return true;
+}
+
 int parse_options(int argc, const char** argv, options& opts)
 {
-	// TODO
-	(void) argc;
-	(void) argv;
-	(void) opts;
+	eagine::program_args args(argc, argv);
+
+	for(eagine::program_arg a = args.first(); a; a = a.next())
+	{
+		if(!parse_option(a, opts))
+		{
+			return 1;
+		}
+	}
 	return 0;
 }
 
