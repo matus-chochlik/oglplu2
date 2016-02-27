@@ -15,22 +15,22 @@
 
 struct options
 {
-	typedef eagine::program_parameter<eagine::cstr_ref>
-		_str_param_t;
-	typedef eagine::program_parameter<eagine::valid_if_positive<GLsizei>>
-		_int_param_t;
+	typedef eagine::program_parameter<eagine::cstr_ref> _str_param_t;
+	typedef eagine::valid_if_positive<GLsizei> _pos_int_t;
+	typedef eagine::program_parameter<_pos_int_t> _int_param_t;
+	typedef eagine::program_parameter_alias<_pos_int_t> _int_alias_t;
 
 	_str_param_t output_path;
-	_str_param_t format_name;
 	_int_param_t components;
+	_int_alias_t format;
 	_int_param_t width;
 	_int_param_t height;
 	_int_param_t depth;
 
 	options(void)
 	 : output_path("-o", "--output", "a.oglptex")
-	 , format_name("-f", "--format", "R8")
 	 , components("-c", "--components", 1)
+	 , format("-f", "--format", components)
 	 , width("-w", "--width", 256)
 	 , height("-h", "--height", 256)
 	 , depth("-d", "--depth", 1)
@@ -121,7 +121,7 @@ bool parse_argument(eagine::program_arg& a, options& opts)
 		!a.parse_param(opts.height, std::cerr) &&
 		!a.parse_param(opts.depth, std::cerr) &&
 		!a.parse_param(opts.components, components, std::cerr) &&
-		!a.parse_param(opts.components, formats,components, std::cerr)
+		!a.parse_param(opts.format, formats, components, std::cerr)
 	)
 	{
 		std::cerr

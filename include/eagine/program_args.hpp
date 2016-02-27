@@ -87,28 +87,67 @@ public:
 		return _value;
 	}
 
-	auto& value(void)
-	noexcept
-	{
-		return _get_value(_value);
-	}
-
 	const auto& value(void) const
 	noexcept
 	{
 		return _get_value(_value);
 	}
 
-	operator T& (void)
+	operator const T& (void) const
 	noexcept
 	{
 		return _value;
+	}
+};
+
+template <typename T>
+class program_parameter_alias
+{
+private:
+	cstr_ref _short_tag;
+	cstr_ref _long_tag;
+	program_parameter<T>& _aliased;
+public:
+	program_parameter_alias(const program_parameter_alias&) = delete;
+
+	program_parameter_alias(
+		const cstr_ref& short_tag,
+		const cstr_ref& long_tag,
+		program_parameter<T>& that
+	) noexcept
+	 : _short_tag(short_tag)
+	 , _long_tag(long_tag)
+	 , _aliased(that)
+	{ }
+
+	const cstr_ref& short_tag(void) const
+	noexcept
+	{
+		return _short_tag;
+	}
+
+	const cstr_ref& long_tag(void) const
+	noexcept
+	{
+		return _long_tag;
+	}
+
+	T& ref(void)
+	noexcept
+	{
+		return _aliased.ref();
+	}
+
+	const auto& value(void) const
+	noexcept
+	{
+		return _aliased.value();
 	}
 
 	operator const T& (void) const
 	noexcept
 	{
-		return _value;
+		return static_cast<const T&>(_aliased);
 	}
 };
 
@@ -398,7 +437,7 @@ public:
 		if((get() == param.short_tag()) || (get() == param.long_tag()))
 		{
 			return do_consume_next(
-				param.value(),
+				param.ref(),
 				choices,
 				handle_missing, handle_invalid
 			);
@@ -493,7 +532,7 @@ public:
 
 	template <typename T, typename R, class MissingFunc, class InvalidFunc>
 	bool do_parse_param(
-		program_parameter<T>& param,
+		program_parameter_alias<T>& param,
 		const span<const cstr_ref>& symbols,
 		const span<const R>& translations,
 		MissingFunc handle_missing,
@@ -503,7 +542,7 @@ public:
 		if((get() == param.short_tag()) || (get() == param.long_tag()))
 		{
 			return do_consume_next(
-				param.value(),
+				param.ref(),
 				symbols, translations,
 				handle_missing, handle_invalid
 			);
@@ -513,7 +552,7 @@ public:
 
 	template <typename T, typename R>
 	bool parse_param(
-		program_parameter<T>& param,
+		program_parameter_alias<T>& param,
 		const span<const cstr_ref>& symbols,
 		const span<const R>& translations,
 		std::ostream& errorlog
