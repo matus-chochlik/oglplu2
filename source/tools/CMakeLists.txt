@@ -4,3 +4,4 @@
 #  http://www.boost.org/LICENSE_1_0.txt
 
 add_executable(noise_image noise_image.cpp)
+add_executable(checker_image checker_image.cpp)
