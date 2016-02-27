@@ -11,6 +11,7 @@
 
 #include "cstr_ref.hpp"
 #include "valid_if.hpp"
+#include "span.hpp"
 #include <cassert>
 #include <sstream>
 
@@ -57,10 +58,10 @@ private:
 	bool _do_parse(valid_if<T, P>& dest)
 	{
 		T value;
-		if(parse(value))
+		if(parse(value) && dest.is_valid(value))
 		{
-			dest = value;
-			return dest.is_valid();
+			dest = std::move(value);
+			return true;
 		}
 		return false;
 	}
@@ -132,7 +133,7 @@ public:
 	{
 		if(is_valid())
 		{
-			T temp;
+			T temp = dest;
 			if(_do_parse(temp))
 			{
 				dest = std::move(temp);
@@ -148,8 +149,36 @@ public:
 		return next().parse(dest);
 	}
 
+	auto missing_handler(std::ostream& errorlog)
+	{
+		return
+		[&errorlog](const cstr_ref& arg_tag)
+		{
+			errorlog
+				<< "Missing value after '"
+				<< arg_tag
+				<< "'."
+				<< std::endl;
+		};
+	}
+
+	auto invalid_handler(std::ostream& errorlog)
+	{
+		return 
+		[&errorlog](const cstr_ref& arg_tag, const cstr_ref& arg_val)
+		{
+			errorlog
+				<< "Invalid value '"
+				<< arg_val
+				<< "' after '"
+				<< arg_tag
+				<< "'."
+				<< std::endl;
+		};
+	}
+
 	template <typename T, typename MissingFunc, typename InvalidFunc>
-	bool consume_next(
+	bool do_consume_next(
 		T& dest,
 		MissingFunc handle_missing,
 		InvalidFunc handle_invalid
@@ -177,28 +206,136 @@ public:
 	template <typename T>
 	bool consume_next(T& dest, std::ostream& errorlog)
 	{
-		auto if_missing =
-		[&errorlog](const cstr_ref& arg_tag)
-		{
-			errorlog
-				<< "Missing value after '"
-				<< arg_tag
-				<< "'."
-				<< std::endl;
-		};
+		auto if_missing = missing_handler(errorlog);
+		auto if_invalid = invalid_handler(errorlog);
+		return do_consume_next(dest, if_missing, if_invalid);
+	}
 
-		auto if_invalid =
-		[&errorlog](const cstr_ref& arg_tag, const cstr_ref& arg_val)
+	template <typename T, typename MissingFunc, typename InvalidFunc>
+	bool do_consume_next(
+		T& dest,
+		const span<const T>& choices,
+		MissingFunc handle_missing,
+		InvalidFunc handle_invalid
+	)
+	{
+		valid_if_in_range<T, span<const T>> temp(T(), choices);
+		if(do_consume_next(temp, handle_missing, handle_invalid))
 		{
-			errorlog
-				<< "Invalid value '"
-				<< arg_val
-				<< "' after '"
-				<< arg_tag
-				<< "'."
-				<< std::endl;
-		};
-		return consume_next(dest, if_missing, if_invalid);
+			dest = temp.value();
+			return true;
+		}
+		return false;
+	}
+
+	template <typename T, typename P, class MissingFunc, class InvalidFunc>
+	bool do_consume_next(
+		valid_if<T, P>& dest,
+		const span<const T>& choices,
+		MissingFunc handle_missing,
+		InvalidFunc handle_invalid
+	)
+	{
+		T temp;
+		if(do_consume_next(
+			temp,
+			choices,
+			handle_missing,
+			handle_invalid
+		))
+		{
+			if(dest.is_valid(temp))
+			{
+				dest = std::move(temp);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	template <typename T, typename C>
+	bool consume_next(
+		T& dest,
+		const span<const C>& choices,
+		std::ostream& errorlog
+	)
+	{
+		auto if_missing = missing_handler(errorlog);
+		auto if_invalid = invalid_handler(errorlog);
+		return do_consume_next(dest, choices, if_missing, if_invalid);
+	}
+
+	template <typename T, typename MissingFunc, typename InvalidFunc>
+	bool do_consume_next(
+		T& dest,
+		const span<const cstr_ref>& symbols,
+		const span<const T>& translations,
+		MissingFunc handle_missing,
+		InvalidFunc handle_invalid
+	)
+	{
+		assert(symbols.size() <= translations.size());
+
+		cstr_ref parsed;
+		if(do_consume_next(
+			parsed,
+			symbols,
+			handle_missing, handle_invalid
+		))
+		{
+			for(span_size_type i=0,n=symbols.size(); i<n; ++i)
+			{
+				if(parsed == symbols[i])
+				{
+					dest = translations[i];
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	template <typename T, typename P, class MissingFunc, class InvalidFunc>
+	bool do_consume_next(
+		valid_if<T, P>& dest,
+		const span<const cstr_ref>& symbols,
+		const span<const T>& translations,
+		MissingFunc handle_missing,
+		InvalidFunc handle_invalid
+	)
+	{
+		T temp;
+		if(do_consume_next(
+			temp,
+			symbols, translations, 
+			handle_missing,
+			handle_invalid
+		))
+		{
+			if(dest.is_valid(temp))
+			{
+				dest = std::move(temp);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	template <typename T, typename R>
+	bool consume_next(
+		T& dest,
+		const span<const cstr_ref>& symbols,
+		const span<const R>& translations,
+		std::ostream& errorlog
+	)
+	{
+		auto if_missing = missing_handler(errorlog);
+		auto if_invalid = invalid_handler(errorlog);
+		return do_consume_next(
+			dest,
+			symbols, translations,
+			if_missing, if_invalid
+		);
 	}
 
 	bool operator == (const value_type& v) const

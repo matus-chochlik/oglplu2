@@ -60,7 +60,7 @@ bool consume_next_arg(
 			<< "'."
 			<< std::endl;
 	};
-	return a.consume_next(dest, handle_missing, handle_invalid);
+	return a.do_consume_next(dest, handle_missing, handle_invalid);
 }
 
 int main(int argc, const char** argv)

@@ -25,9 +25,14 @@ void write_and_pad_texture_image_data_header(
 )
 {
 	std::size_t algn(alignof(image_data_header));
+	std::size_t spos = 0;
 
-	assert(output.tellp() >= 0);
-	while(std::size_t(output.tellp()) % algn != 0)
+	if(output.tellp() >= 0)
+	{
+		spos = std::size_t(output.tellp());
+	}
+
+	while(spos % algn != 0)
 	{
 		output.put('\0');
 	}
@@ -46,10 +51,12 @@ void write_and_pad_texture_image_data_header(
 		static_cast<const char*>(hdraddr),
 		sizeof(header)
 	);
+	spos += sizeof(header);
 
-	while(std::size_t(output.tellp()) % algn != 0)
+	while(spos % algn != 0)
 	{
 		output.put('\0');
+		++spos;
 	}
 }
 

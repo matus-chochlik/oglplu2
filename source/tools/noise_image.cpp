@@ -13,72 +13,69 @@
 #include <random>
 #include <climits>
 
-namespace oglplus {
-
-inline
-void write_3d_noise_data(
-	std::ostream& output,
-	valid_if_positive<GLsizei> width,
-	valid_if_positive<GLsizei> height,
-	valid_if_positive<GLsizei> depth,
-	valid_if_positive<GLsizei> components
-)
-{
-	const unsigned mask = ((1 << CHAR_BIT)-1);
-
-	std::random_device rd;
-	std::independent_bits_engine<std::mt19937, CHAR_BIT,unsigned> ibe(rd());
-
-	const std::size_t n = std::size_t(
-		width.value()*
-		height.value()*
-		depth.value()*
-		components.value()
-	);
-	for(std::size_t i=0; i<n; ++i)
-	{
-		output.put(char(ibe() & mask));
-	}
-}
-
-inline
-void write_3d_red_ub_noise(
-	std::ostream& output,
-	valid_if_positive<GLsizei> width,
-	valid_if_positive<GLsizei> height,
-	valid_if_positive<GLsizei> depth
-)
-{
-	image_data_header hdr(width, height, depth);
-	hdr.format = GL_RED;
-	hdr.internal_format = GL_R8;
-	hdr.data_type = GL_UNSIGNED_BYTE;
-
-	write_and_pad_texture_image_data_header(
-		output,
-		hdr,
-		std::size_t(hdr.width*hdr.height*hdr.depth)
-	);
-
-	write_3d_noise_data(output, width, height, depth, 1);
-}
-
-} // namespace oglplus
-
 struct options
 {
-	std::string output_path;
-	GLsizei width;
-	GLsizei height;
-	GLsizei depth;
+	eagine::cstr_ref output_path;
+	eagine::cstr_ref format_name;
+	eagine::valid_if_positive<GLsizei> components;
+	eagine::valid_if_positive<GLsizei> width;
+	eagine::valid_if_positive<GLsizei> height;
+	eagine::valid_if_positive<GLsizei> depth;
 
 	options(void)
 	 : output_path("a.oglptex")
+	 , format_name("R8")
+	 , components(1)
 	 , width(256)
 	 , height(256)
 	 , depth(1)
 	{ }
 };
+
+void write_output(std::ostream& output, const options& opts)
+{
+	oglplus::image_data_header hdr(opts.width, opts.height, opts.depth);
+	switch(opts.components.value())
+	{
+		case 1:
+			hdr.format = GL_RED;
+			hdr.internal_format = GL_R8;
+			break;
+		case 2:
+			hdr.format = GL_RG;
+			hdr.internal_format = GL_RG8;
+			break;
+		case 3:
+			hdr.format = GL_RGB;
+			hdr.internal_format = GL_RGB8;
+			break;
+		case 4:
+			hdr.format = GL_RGBA;
+			hdr.internal_format = GL_RGBA8;
+			break;
+	};
+
+	hdr.data_type = GL_UNSIGNED_BYTE;
+
+	const std::size_t size = std::size_t(
+		opts.width.value()*
+		opts.height.value()*
+		opts.depth.value()*
+		opts.components.value()
+	);
+
+	oglplus::write_and_pad_texture_image_data_header(output, hdr, size);
+
+	const unsigned mask = ((1 << CHAR_BIT)-1);
+
+	std::random_device rd;
+	std::independent_bits_engine<std::mt19937, CHAR_BIT,unsigned> ibe(rd());
+
+	for(std::size_t i=0; i<size; ++i)
+	{
+		output.put(char(ibe() & mask));
+	}
+}
 
 int parse_options(int argc, const char** argv, options& opts);
 
@@ -91,14 +88,15 @@ int main(int argc, const char** argv)
 		return err;
 	}
 
-	std::ofstream output_file(opts.output_path);
-	oglplus::write_3d_red_ub_noise(
-		output_file,
-		opts.width,
-		opts.height,
-		opts.depth
-	);
-
+	if(opts.output_path == eagine::cstr_ref("-"))
+	{
+		write_output(std::cout, opts);
+	}
+	else
+	{
+		std::ofstream output_file(opts.output_path.c_str());
+		write_output(output_file, opts);
+	}
 	return 0;
 }
 
@@ -108,12 +106,50 @@ bool consume_next(eagine::program_arg& a, T& dest)
 	return a.consume_next(dest, std::cerr);
 }
 
-bool parse_option(eagine::program_arg& a, options& opts)
+template <typename T, typename C>
+bool consume_next(
+	eagine::program_arg& a,
+	T& dest,
+	eagine::span<const C> choices
+)
 {
+	return a.consume_next(dest, choices, std::cerr);
+}
+
+template <typename T, typename C>
+bool consume_next(
+	eagine::program_arg& a,
+	T& dest,
+	eagine::span<const eagine::cstr_ref> symbols,
+	eagine::span<const C> translations
+)
+{
+	return a.consume_next(dest, symbols, translations, std::cerr);
+}
+
+bool parse_argument(eagine::program_arg& a, options& opts)
+{
+	const eagine::cstr_ref fmtnames[] = {"R8", "RG8", "RGB8", "RGBA8"};
+	const eagine::span<const eagine::cstr_ref> formats =
+		eagine::as_span(fmtnames);
+
+	const GLsizei cmpbytes[] = {1, 2, 3, 4};
+	const eagine::span<const GLsizei> components =
+		eagine::as_span(cmpbytes);
 
 	if((a == "-o") || (a == "--output"))
 	{
 		if(!consume_next(a, opts.output_path)) return false;
+	}
+	else if((a == "-f") || (a == "--format"))
+	{
+		if(!consume_next(a, opts.components, formats, components))
+			return false;
+	}
+	else if((a == "-c") || (a == "--components"))
+	{
+		if(!consume_next(a, opts.components, components))
+			return false;
 	}
 	else if((a == "-w") || (a == "--width"))
 	{
@@ -127,6 +163,15 @@ bool parse_option(eagine::program_arg& a, options& opts)
 	{
 		if(!consume_next(a, opts.depth)) return false;
 	}
+	else
+	{
+		std::cerr
+			<< "Unknown argument '"
+			<< a.get()
+			<< "'"
+			<< std::endl;
+		return false;
+	}
 	return true;
 }
 
@@ -136,7 +181,7 @@ int parse_options(int argc, const char** argv, options& opts)
 
 	for(eagine::program_arg a = args.first(); a; a = a.next())
 	{
-		if(!parse_option(a, opts))
+		if(!parse_argument(a, opts))
 		{
 			return 1;
 		}

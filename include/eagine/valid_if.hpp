@@ -80,6 +80,24 @@ public:
 	 , _policy(policy)
 	{ }
 
+	valid_if& operator = (const T& v)
+	{
+		_value = v;
+		return *this;
+	}
+
+	valid_if& operator = (T&& v)
+	{
+		_value = std::move(v);
+		return *this;
+	}
+
+	bool is_valid(const T& val) const
+	noexcept
+	{
+		return _policy(val);
+	}
+
 	bool is_valid(void) const
 	noexcept
 	{
@@ -330,6 +348,59 @@ struct valid_if_not_empty_policy
 
 template <typename T>
 using valid_if_not_empty = valid_if<T, valid_if_not_empty_policy<T>>;
+
+// one of
+template <typename T, T ... C>
+struct valid_if_one_of_policy
+{
+	constexpr
+	bool operator ()(const T& value) const
+	noexcept
+	{
+		const T choices[] = {C...};
+		for(const T& choice : choices)
+		{
+			if(value == choice)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+};
+
+template <typename T, T ... C>
+using valid_if_one_of = valid_if<T, valid_if_one_of_policy<T, C...>>;
+
+// in range
+template <typename T, typename Range>
+struct valid_if_in_range_policy
+{
+	Range _choices;
+
+	valid_if_in_range_policy(const Range& choices)
+	 : _choices(choices)
+	{ }
+
+	constexpr
+	bool operator ()(const T& value) const
+	noexcept
+	{
+		for(const T& choice : _choices)
+		{
+			if(value == choice)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+};
+
+template <typename T, typename Range>
+using valid_if_in_range = valid_if<T, valid_if_in_range_policy<T, Range>>;
+
+// in container
 
 } // namespace eagine
 
