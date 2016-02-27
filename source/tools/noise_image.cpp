@@ -15,20 +15,25 @@
 
 struct options
 {
-	eagine::cstr_ref output_path;
-	eagine::cstr_ref format_name;
-	eagine::valid_if_positive<GLsizei> components;
-	eagine::valid_if_positive<GLsizei> width;
-	eagine::valid_if_positive<GLsizei> height;
-	eagine::valid_if_positive<GLsizei> depth;
+	typedef eagine::program_parameter<eagine::cstr_ref>
+		_str_param_t;
+	typedef eagine::program_parameter<eagine::valid_if_positive<GLsizei>>
+		_int_param_t;
+
+	_str_param_t output_path;
+	_str_param_t format_name;
+	_int_param_t components;
+	_int_param_t width;
+	_int_param_t height;
+	_int_param_t depth;
 
 	options(void)
-	 : output_path("a.oglptex")
-	 , format_name("R8")
-	 , components(1)
-	 , width(256)
-	 , height(256)
-	 , depth(1)
+	 : output_path("-o", "--output", "a.oglptex")
+	 , format_name("-f", "--format", "R8")
+	 , components("-c", "--components", 1)
+	 , width("-w", "--width", 256)
+	 , height("-h", "--height", 256)
+	 , depth("-d", "--depth", 1)
 	{ }
 };
 
@@ -88,43 +93,16 @@ int main(int argc, const char** argv)
 		return err;
 	}
 
-	if(opts.output_path == eagine::cstr_ref("-"))
+	if(opts.output_path.value() == eagine::cstr_ref("-"))
 	{
 		write_output(std::cout, opts);
 	}
 	else
 	{
-		std::ofstream output_file(opts.output_path.c_str());
+		std::ofstream output_file(opts.output_path.value().c_str());
 		write_output(output_file, opts);
 	}
 	return 0;
-}
-
-template <typename T>
-bool consume_next(eagine::program_arg& a, T& dest)
-{
-	return a.consume_next(dest, std::cerr);
-}
-
-template <typename T, typename C>
-bool consume_next(
-	eagine::program_arg& a,
-	T& dest,
-	eagine::span<const C> choices
-)
-{
-	return a.consume_next(dest, choices, std::cerr);
-}
-
-template <typename T, typename C>
-bool consume_next(
-	eagine::program_arg& a,
-	T& dest,
-	eagine::span<const eagine::cstr_ref> symbols,
-	eagine::span<const C> translations
-)
-{
-	return a.consume_next(dest, symbols, translations, std::cerr);
 }
 
 bool parse_argument(eagine::program_arg& a, options& opts)
@@ -137,33 +115,14 @@ bool parse_argument(eagine::program_arg& a, options& opts)
 	const eagine::span<const GLsizei> components =
 		eagine::as_span(cmpbytes);
 
-	if((a == "-o") || (a == "--output"))
-	{
-		if(!consume_next(a, opts.output_path)) return false;
-	}
-	else if((a == "-f") || (a == "--format"))
-	{
-		if(!consume_next(a, opts.components, formats, components))
-			return false;
-	}
-	else if((a == "-c") || (a == "--components"))
-	{
-		if(!consume_next(a, opts.components, components))
-			return false;
-	}
-	else if((a == "-w") || (a == "--width"))
-	{
-		if(!consume_next(a, opts.width)) return false;
-	}
-	else if((a == "-h") || (a == "--height"))
-	{
-		if(!consume_next(a, opts.height)) return false;
-	}
-	else if((a == "-d") || (a == "--depth"))
-	{
-		if(!consume_next(a, opts.depth)) return false;
-	}
-	else
+	if(
+		!a.parse_param(opts.output_path, std::cerr) &&
+		!a.parse_param(opts.width, std::cerr) &&
+		!a.parse_param(opts.height, std::cerr) &&
+		!a.parse_param(opts.depth, std::cerr) &&
+		!a.parse_param(opts.components, components, std::cerr) &&
+		!a.parse_param(opts.components, formats,components, std::cerr)
+	)
 	{
 		std::cerr
 			<< "Unknown argument '"

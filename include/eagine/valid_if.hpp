@@ -117,11 +117,24 @@ public:
 		return !is_valid();
 	}
 
+	T& value(void)
+	noexcept
+	{
+		assert(is_valid());
+		return _value;
+	}
+
 	const T& value(void) const
 	noexcept
 	{
 		assert(is_valid());
 		return _value;
+	}
+
+	T& value_or(T& fallback)
+	noexcept
+	{
+		return is_valid()?value():fallback;
 	}
 
 	const T& value_or(const T& fallback) const

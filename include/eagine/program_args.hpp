@@ -19,6 +19,99 @@ namespace eagine {
 
 class program_args;
 
+template <typename T>
+class program_parameter
+{
+private:
+	cstr_ref _short_tag;
+	cstr_ref _long_tag;
+	T _value;
+
+	template <typename X>
+	static
+	T& _get_value(X& val)
+	noexcept
+	{
+		return val;
+	}
+
+	template <typename X>
+	static
+	const T& _get_value(const X& val)
+	noexcept
+	{
+		return val;
+	}
+
+	template <typename X, typename P>
+	static
+	X& _get_value(valid_if<X, P>& vi)
+	noexcept
+	{
+		return vi.value();
+	}
+
+	template <typename X, typename P>
+	static
+	const X& _get_value(const valid_if<X, P>& vi)
+	noexcept
+	{
+		return vi.value();
+	}
+public:
+	program_parameter(
+		const cstr_ref& short_tag,
+		const cstr_ref& long_tag,
+		const T& initial
+	) noexcept
+	 : _short_tag(short_tag)
+	 , _long_tag(long_tag)
+	 , _value(initial)
+	{ }
+
+	const cstr_ref& short_tag(void) const
+	noexcept
+	{
+		return _short_tag;
+	}
+
+	const cstr_ref& long_tag(void) const
+	noexcept
+	{
+		return _long_tag;
+	}
+
+	T& ref(void)
+	noexcept
+	{
+		return _value;
+	}
+
+	auto& value(void)
+	noexcept
+	{
+		return _get_value(_value);
+	}
+
+	const auto& value(void) const
+	noexcept
+	{
+		return _get_value(_value);
+	}
+
+	operator T& (void)
+	noexcept
+	{
+		return _value;
+	}
+
+	operator const T& (void) const
+	noexcept
+	{
+		return _value;
+	}
+};
+
 class program_arg
 {
 private:
@@ -204,11 +297,40 @@ public:
 	}
 
 	template <typename T>
-	bool consume_next(T& dest, std::ostream& errorlog)
+	bool consume_next(
+		T& dest,
+		std::ostream& errorlog
+	)
 	{
 		auto if_missing = missing_handler(errorlog);
 		auto if_invalid = invalid_handler(errorlog);
 		return do_consume_next(dest, if_missing, if_invalid);
+	}
+
+	template <typename T, typename MissingFunc, typename InvalidFunc>
+	bool do_parse_param(
+		program_parameter<T>& param,
+		MissingFunc handle_missing,
+		InvalidFunc handle_invalid
+	)
+	{
+		if((get() == param.short_tag()) || (get() == param.long_tag()))
+		{
+			return do_consume_next(
+				param.ref(),
+				handle_missing,
+				handle_invalid
+			);
+		}
+		return false;
+	}
+
+	template <typename T>
+	bool parse_param(program_parameter<T>& param, std::ostream& errorlog)
+	{
+		auto if_missing = missing_handler(errorlog);
+		auto if_invalid = invalid_handler(errorlog);
+		return do_parse_param(param, if_missing, if_invalid);
 	}
 
 	template <typename T, typename MissingFunc, typename InvalidFunc>
@@ -263,6 +385,37 @@ public:
 		auto if_missing = missing_handler(errorlog);
 		auto if_invalid = invalid_handler(errorlog);
 		return do_consume_next(dest, choices, if_missing, if_invalid);
+	}
+
+	template <typename T, typename C, class MissingFunc, class InvalidFunc>
+	bool do_parse_param(
+		program_parameter<T>& param,
+		const span<const C>& choices,
+		MissingFunc handle_missing,
+		InvalidFunc handle_invalid
+	)
+	{
+		if((get() == param.short_tag()) || (get() == param.long_tag()))
+		{
+			return do_consume_next(
+				param.value(),
+				choices,
+				handle_missing, handle_invalid
+			);
+		}
+		return false;
+	}
+
+	template <typename T, typename C>
+	bool parse_param(
+		program_parameter<T>& param,
+		const span<const C>& choices,
+		std::ostream& errorlog
+	)
+	{
+		auto if_missing = missing_handler(errorlog);
+		auto if_invalid = invalid_handler(errorlog);
+		return do_parse_param(param, choices, if_missing, if_invalid);
 	}
 
 	template <typename T, typename MissingFunc, typename InvalidFunc>
@@ -333,6 +486,43 @@ public:
 		auto if_invalid = invalid_handler(errorlog);
 		return do_consume_next(
 			dest,
+			symbols, translations,
+			if_missing, if_invalid
+		);
+	}
+
+	template <typename T, typename R, class MissingFunc, class InvalidFunc>
+	bool do_parse_param(
+		program_parameter<T>& param,
+		const span<const cstr_ref>& symbols,
+		const span<const R>& translations,
+		MissingFunc handle_missing,
+		InvalidFunc handle_invalid
+	)
+	{
+		if((get() == param.short_tag()) || (get() == param.long_tag()))
+		{
+			return do_consume_next(
+				param.value(),
+				symbols, translations,
+				handle_missing, handle_invalid
+			);
+		}
+		return false;
+	}
+
+	template <typename T, typename R>
+	bool parse_param(
+		program_parameter<T>& param,
+		const span<const cstr_ref>& symbols,
+		const span<const R>& translations,
+		std::ostream& errorlog
+	)
+	{
+		auto if_missing = missing_handler(errorlog);
+		auto if_invalid = invalid_handler(errorlog);
+		return do_parse_param(
+			param,
 			symbols, translations,
 			if_missing, if_invalid
 		);

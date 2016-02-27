@@ -13,22 +13,27 @@
 
 struct options
 {
-	eagine::cstr_ref output_path;
-	eagine::valid_if_positive<GLsizei> width;
-	eagine::valid_if_positive<GLsizei> height;
-	eagine::valid_if_positive<GLsizei> depth;
-	eagine::valid_if_positive<GLsizei> rep_x;
-	eagine::valid_if_positive<GLsizei> rep_y;
-	eagine::valid_if_positive<GLsizei> rep_z;
+	typedef eagine::program_parameter<eagine::cstr_ref>
+		_str_param_t;
+	typedef eagine::program_parameter<eagine::valid_if_positive<GLsizei>>
+		_int_param_t;
+
+	_str_param_t output_path;
+	_int_param_t width;
+	_int_param_t height;
+	_int_param_t depth;
+	_int_param_t rep_x;
+	_int_param_t rep_y;
+	_int_param_t rep_z;
 
 	options(void)
-	 : output_path("a.oglptex")
-	 , width(256)
-	 , height(256)
-	 , depth(1)
-	 , rep_x(8)
-	 , rep_y(8)
-	 , rep_z(8)
+	 : output_path("-o", "--output", "a.oglptex")
+	 , width("-w", "--width", 256)
+	 , height("-h", "--height", 256)
+	 , depth("-d", "--depth", 1)
+	 , rep_x("-x", "--x-repeat", 8)
+	 , rep_y("-y", "--y-repeat", 8)
+	 , rep_z("-z", "--z-repeat", 8)
 	{ }
 };
 
@@ -79,55 +84,29 @@ int main(int argc, const char** argv)
 		return err;
 	}
 
-	if(opts.output_path == eagine::cstr_ref("-"))
+	if(opts.output_path.value() == eagine::cstr_ref("-"))
 	{
 		write_output(std::cout, opts);
 	}
 	else
 	{
-		std::ofstream output_file(opts.output_path.c_str());
+		std::ofstream output_file(opts.output_path.value().c_str());
 		write_output(output_file, opts);
 	}
 	return 0;
 }
 
-template <typename T>
-bool consume_next(eagine::program_arg& a, T& dest)
-{
-	return a.consume_next(dest, std::cerr);
-}
-
 bool parse_argument(eagine::program_arg& a, options& opts)
 {
-	if((a == "-o") || (a == "--output"))
-	{
-		if(!consume_next(a, opts.output_path)) return false;
-	}
-	else if((a == "-w") || (a == "--width"))
-	{
-		if(!consume_next(a, opts.width)) return false;
-	}
-	else if((a == "-h") || (a == "--height"))
-	{
-		if(!consume_next(a, opts.height)) return false;
-	}
-	else if((a == "-d") || (a == "--depth"))
-	{
-		if(!consume_next(a, opts.depth)) return false;
-	}
-	else if((a == "-x") || (a == "--x-repeat"))
-	{
-		if(!consume_next(a, opts.rep_x)) return false;
-	}
-	else if((a == "-y") || (a == "--y-repeat"))
-	{
-		if(!consume_next(a, opts.rep_y)) return false;
-	}
-	else if((a == "-z") || (a == "--z-repeat"))
-	{
-		if(!consume_next(a, opts.rep_z)) return false;
-	}
-	else
+	if(
+		!a.parse_param(opts.width, std::cerr) &&
+		!a.parse_param(opts.height, std::cerr) &&
+		!a.parse_param(opts.depth, std::cerr) &&
+		!a.parse_param(opts.rep_x, std::cerr) &&
+		!a.parse_param(opts.rep_y, std::cerr) &&
+		!a.parse_param(opts.rep_z, std::cerr) &&
+		!a.parse_param(opts.output_path, std::cerr)
+	)
 	{
 		std::cerr
 			<< "Unknown argument '"
