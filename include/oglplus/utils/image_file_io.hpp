@@ -35,6 +35,7 @@ void write_and_pad_texture_image_data_header(
 	while(spos % algn != 0)
 	{
 		output.put('\0');
+		++spos;
 	}
 
 	algn = 64;
@@ -47,10 +48,7 @@ void write_and_pad_texture_image_data_header(
 		pixel_data_size
 	);
 
-	output.write(
-		static_cast<const char*>(hdraddr),
-		sizeof(header)
-	);
+	output.write(static_cast<const char*>(hdraddr), sizeof(header));
 	spos += sizeof(header);
 
 	while(spos % algn != 0)

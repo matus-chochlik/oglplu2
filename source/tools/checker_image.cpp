@@ -109,7 +109,7 @@ bool parse_argument(eagine::program_arg& a, options& opts)
 	)
 	{
 		std::cerr
-			<< "Unknown argument '"
+			<< "Failed to parse argument '"
 			<< a.get()
 			<< "'"
 			<< std::endl;
