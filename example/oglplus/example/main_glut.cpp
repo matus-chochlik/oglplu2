@@ -24,6 +24,11 @@
 #include <iostream>
 #include <cassert>
 
+#if defined(__APPLE__) && __APPLE__ && defined(__clang__)
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
 class single_glut_context
 {
 private:
@@ -81,6 +86,11 @@ public:
 		instance_ptr() = nullptr;
 	}
 
+#if defined(__clang__)
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wmissing-noreturn"
+#endif
+
 	void quit(void)
 	{
 #ifdef FREEGLUT
@@ -89,6 +99,10 @@ public:
 		exit(0);
 #endif
 	}
+
+#if defined(__clang__)
+# pragma clang diagnostic pop
+#endif
 
 private:
 	void close(void)
@@ -223,3 +237,6 @@ int example_main(
 	return 0;
 }
 
+#if defined(__APPLE__) && __APPLE__ && defined(__clang__)
+# pragma clang diagnostic pop
+#endif
