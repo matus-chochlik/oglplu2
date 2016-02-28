@@ -17,4 +17,12 @@
 # endif
 #endif
 
+#ifndef EAGINE_APPLE
+# if defined(__APPLE__) && __APPLE__
+#  define EAGINE_APPLE 1
+# else
+#  define EAGINE_APPLE 0
+# endif
+#endif
+
 #endif // include guard
