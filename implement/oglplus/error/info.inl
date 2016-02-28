@@ -9,6 +9,7 @@
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include <oglplus/enum/types.hpp>
 #include <string>
+#include <vector>
 #endif
 
 #ifndef GL_SHADER

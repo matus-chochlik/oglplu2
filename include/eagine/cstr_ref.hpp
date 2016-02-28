@@ -10,10 +10,14 @@
 #ifndef EAGINE_UTILS_CSTR_REF_1509260923_HPP
 #define EAGINE_UTILS_CSTR_REF_1509260923_HPP
 
+#include "config/platform.hpp"
 #include "string_span.hpp"
 #include <cstring>
 #include <cassert>
 #include <iosfwd>
+#if EAGINE_APPLE
+#include <ostream>
+#endif
 
 namespace eagine {
 
