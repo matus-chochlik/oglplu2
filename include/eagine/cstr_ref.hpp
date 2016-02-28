@@ -14,6 +14,7 @@
 #include <cstring>
 #include <cassert>
 #include <iosfwd>
+#include <ostream>
 
 namespace eagine {
 
