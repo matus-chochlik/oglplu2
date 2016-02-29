@@ -10,32 +10,36 @@
 
 #include <oglplus/config/site.hpp>
 
-#if OGLPLUS_GLX_FOUND
+#if OGLPLUS_USE_GLX
 #include "os_context_glx.hpp"
-#elif OGLPLUS_GLFW3_FOUND
+#elif OGLPLUS_USE_GLFW3
 #include "os_context_glfw3.hpp"
-#elif OGLPLUS_GLFW_FOUND
+#elif OGLPLUS_USE_GLFW
 #include "os_context_glfw.hpp"
-#elif OGLPLUS_GLUT_FOUND
-# if defined(__APPLE__) && __APPLE__
-# include <GLUT/glut.h>
-# else
-# include <GL/glut.h>
-# endif
-#elif OGLPLUS_SDL_FOUND
-#include <SDL/SDL.h>
+#elif OGLPLUS_USE_SDL
+#include "os_context_sdl.hpp"
+#elif OGLPLUS_USE_GLUT
+#include "os_context_glut.hpp"
 #endif
 
 namespace oglplus {
 
-#if OGLPLUS_GLX_FOUND
+#if OGLPLUS_USE_GLX
 typedef offscreen_context_glx offscreen_context;
-#elif OGLPLUS_GLFW3_FOUND
+# define OGLPLUS_HAS_OS_CONTEXT 1
+#elif OGLPLUS_USE_GLFW3
 typedef offscreen_context_glfw3 offscreen_context;
-#elif OGLPLUS_GLFW_FOUND
+# define OGLPLUS_HAS_OS_CONTEXT 1
+#elif OGLPLUS_USE_GLFW
 typedef offscreen_context_glfw offscreen_context;
-#elif OGLPLUS_GLUT_FOUND
-#elif OGLPLUS_SDL_FOUND
+# define OGLPLUS_HAS_OS_CONTEXT 1
+#elif OGLPLUS_USE_SDL
+typedef offscreen_context_sdl offscreen_context;
+#elif OGLPLUS_USE_GLUT
+# define OGLPLUS_HAS_OS_CONTEXT 1
+typedef offscreen_context_glut offscreen_context;
+#else
+# define OGLPLUS_HAS_OS_CONTEXT 0
 #endif
 
 } // namespace oglplus

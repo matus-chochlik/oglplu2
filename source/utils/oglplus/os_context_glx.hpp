@@ -15,6 +15,7 @@
 #include <oglplus/x11/color_map.hpp>
 #include <oglplus/x11/visual_info.hpp>
 #include <oglplus/x11/display.hpp>
+#include "os_context_common.hpp"
 
 namespace oglplus {
 
@@ -25,7 +26,7 @@ private:
 	const int* visual_attribs(void)
 	noexcept
 	{
-		static const int vas[] =
+		static int vas[] =
 		{
 			GLX_X_RENDERABLE    , True,
 			GLX_DRAWABLE_TYPE   , GLX_PBUFFER_BIT,
@@ -43,14 +44,16 @@ private:
 	}
 
 	static
-	const int* pbuffer_attribs(void)
+	const int* pbuffer_attribs(const offscreen_context_params& p)
 	noexcept
 	{
-		static const int pbas [] = {
+		static int pbas [] = {
 			GLX_PBUFFER_WIDTH  , 64,
 			GLX_PBUFFER_HEIGHT , 64,
 			None
 		};
+		pbas[1] = p.width;
+		pbas[3] = p.height;
 		return pbas;
 	}
 
@@ -61,13 +64,13 @@ private:
 	glx::Context context;
 	glx::Pbuffer pbuffer;
 public:
-	offscreen_context_glx(int ver_major, int ver_minor)
+	offscreen_context_glx(const offscreen_context_params& p)
 	 : display()
 	 , version(display)
 	 , fbconfig(glx::FBConfigs(display, visual_attribs()).FindBest(display))
 	 , visualinfo(display, fbconfig)
-	 , context(display, fbconfig, ver_major, ver_minor, true, true)
-	 , pbuffer(display, fbconfig, pbuffer_attribs())
+	 , context(display, fbconfig, p.version_major,p.version_minor,true,true)
+	 , pbuffer(display, fbconfig, pbuffer_attribs(p))
 	{
 		context.MakeCurrent(pbuffer);
 	}

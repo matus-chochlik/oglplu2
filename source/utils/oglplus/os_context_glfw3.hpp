@@ -10,6 +10,7 @@
 
 #include <GLFW/glfw3.h>
 #include <stdexcept>
+#include "os_context_common.hpp"
 
 namespace oglplus {
 
@@ -18,7 +19,7 @@ class offscreen_context_glfw3
 private:
 	::GLFWwindow* window;
 public:
-	offscreen_context_glfw3(int /*ver_major*/, int /*ver_minor*/)
+	offscreen_context_glfw3(const offscreen_context_params& p)
 	{
 		if(!glfwInit())
 		{
@@ -26,7 +27,11 @@ public:
 			std::runtime_error("Failed to initialize GLFW3.");
 		}
 
-		window = glfwCreateWindow(64, 64, "", NULL, NULL);
+		window = glfwCreateWindow(
+			p.width, p.height,
+			p.title,
+			NULL, NULL
+		);
 
 		if(!window)
 		{
