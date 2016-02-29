@@ -4,7 +4,7 @@
 #   http://www.boost.org/LICENSE_1_0.txt
 #
 # checks if an EXE can be built and adds required include directories
-macro(do_use_single_dependency DEPENDENCY)
+macro(do_use_single_dependency EXE_NAME DEPENDENCY)
 	if(${${DEPENDENCY}_FOUND})
 		if(${DEPENDENCY}_USE_FILE)
 			include(${${DEPENDENCY}_USE_FILE})
@@ -48,7 +48,7 @@ macro(do_require_all_dependencies EXE_DIR EXE_NAME RESULT)
 		)
 		foreach(DEPENDENCY ${EXE_DEPENDENCIES})
 			if(${${DEPENDENCY}_FOUND})
-				do_use_single_dependency(${DEPENDENCY})
+				do_use_single_dependency(${EXE_NAME} ${DEPENDENCY})
 			else()
 				message(
 					STATUS

@@ -41,6 +41,9 @@ include(config/FindWXGL.cmake)
 
 include(config/FindGLM.cmake)
 
+# PNG
+include(config/FindPNG.cmake)
+
 # EGL
 include(config/FindEGL.cmake)
 

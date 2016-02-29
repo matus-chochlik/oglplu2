@@ -5,3 +5,9 @@
 
 add_executable(noise_image noise_image.cpp)
 add_executable(checker_image checker_image.cpp)
+
+if(PNG_FOUND)
+	do_use_single_dependency(png_image PNG)
+	add_executable(png_image png_image.cpp)
+	target_link_libraries(png_image ${PNG_LIBRARIES})
+endif()
