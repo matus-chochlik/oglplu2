@@ -91,14 +91,18 @@ public:
 # pragma clang diagnostic ignored "-Wmissing-noreturn"
 #endif
 
+#ifdef FREEGLUT
 	void quit(void)
 	{
-#ifdef FREEGLUT
 		glutLeaveMainLoop();
-#else
-		exit(0);
-#endif
 	}
+#else
+	[[noreturn]]
+	void quit(void)
+	{
+		exit(0);
+	}
+#endif
 
 #if defined(__clang__)
 # pragma clang diagnostic pop
