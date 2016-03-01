@@ -50,7 +50,7 @@ public:
 	{
 		shader vs(GL.vertex_shader);
 		vs.source(glsl_literal(
-			"#version 130\n"
+			"#version 140\n"
 			"uniform vec2 Offset;\n"
 			"uniform vec2 Scale;\n"
 			"in vec2 Position;\n"
@@ -66,7 +66,7 @@ public:
 
 		shader fs(GL.fragment_shader);
 		fs.source(glsl_literal(
-		"#version 130\n"
+		"#version 140\n"
 		"uniform sampler1D gradient;\n"
 		"in vec2 vertCoord;\n"
 		"out vec4 fragColor;\n"
