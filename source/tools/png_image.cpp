@@ -28,24 +28,13 @@ struct options
 	 : input_path("-i", "--input", "a.png")
 	 , output_path("-o", "--output", "a.oglptex")
 	{ }
-};
 
-bool parse_argument(eagine::program_arg& a, options& opts)
-{
-	if(
-		!a.parse_param(opts.input_path, std::cerr) &&
-		!a.parse_param(opts.output_path, std::cerr)
-	)
+	bool parse(eagine::program_arg& a, std::ostream& log)
 	{
-		std::cerr
-			<< "Failed to parse argument '"
-			<< a.get()
-			<< "'"
-			<< std::endl;
-		return false;
+		return	a.parse_param(input_path, log) ||
+			a.parse_param(output_path,log);
 	}
-	return true;
-}
+};
 
 // png_header_validator
 class png_header_validator
@@ -230,6 +219,20 @@ int main(int argc, const char** argv)
 		convert_image(input_file, output_file, opts);
 	}
 	return 0;
+}
+
+bool parse_argument(eagine::program_arg& a, options& opts)
+{
+	if(!opts.parse(a, std::cerr))
+	{
+		std::cerr
+			<< "Failed to parse argument '"
+			<< a.get()
+			<< "'"
+			<< std::endl;
+		return false;
+	}
+	return true;
 }
 
 int parse_options(int argc, const char** argv, options& opts)

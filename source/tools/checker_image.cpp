@@ -35,6 +35,17 @@ struct options
 	 , rep_y("-y", "--y-repeat", 8)
 	 , rep_z("-z", "--z-repeat", 8)
 	{ }
+
+	bool parse(eagine::program_arg& a, std::ostream& log)
+	{
+		return	a.parse_param(width, log) ||
+			a.parse_param(height,log) ||
+			a.parse_param(depth, log) ||
+			a.parse_param(rep_x, log) ||
+			a.parse_param(rep_y, log) ||
+			a.parse_param(rep_z, log) ||
+			a.parse_param(output_path, log);
+	}
 };
 
 void write_output(std::ostream& output, const options& opts)
@@ -98,15 +109,7 @@ int main(int argc, const char** argv)
 
 bool parse_argument(eagine::program_arg& a, options& opts)
 {
-	if(
-		!a.parse_param(opts.width, std::cerr) &&
-		!a.parse_param(opts.height, std::cerr) &&
-		!a.parse_param(opts.depth, std::cerr) &&
-		!a.parse_param(opts.rep_x, std::cerr) &&
-		!a.parse_param(opts.rep_y, std::cerr) &&
-		!a.parse_param(opts.rep_z, std::cerr) &&
-		!a.parse_param(opts.output_path, std::cerr)
-	)
+	if(!opts.parse(a, std::cerr))
 	{
 		std::cerr
 			<< "Failed to parse argument '"

@@ -35,6 +35,25 @@ struct options
 	 , height("-h", "--height", 256)
 	 , depth("-d", "--depth", 1)
 	{ }
+
+	bool parse(eagine::program_arg& a, std::ostream& log)
+	{
+		const eagine::cstr_ref fmtnamevals[] =
+			{"R8", "RG8", "RGB8", "RGBA8"};
+		const eagine::span<const eagine::cstr_ref> fmtnames =
+			eagine::as_span(fmtnamevals);
+
+		const GLsizei cmpbytevals[] = {1, 2, 3, 4};
+		const eagine::span<const GLsizei> cmpbytes =
+			eagine::as_span(cmpbytevals);
+
+		return	a.parse_param(output_path, log) ||
+			a.parse_param(components, cmpbytes, log) ||
+			a.parse_param(format, fmtnames, cmpbytes, log) ||
+			a.parse_param(width, log) ||
+			a.parse_param(height, log) ||
+			a.parse_param(depth, log);
+	}
 };
 
 void write_output(std::ostream& output, const options& opts)
@@ -107,22 +126,8 @@ int main(int argc, const char** argv)
 
 bool parse_argument(eagine::program_arg& a, options& opts)
 {
-	const eagine::cstr_ref fmtnames[] = {"R8", "RG8", "RGB8", "RGBA8"};
-	const eagine::span<const eagine::cstr_ref> formats =
-		eagine::as_span(fmtnames);
 
-	const GLsizei cmpbytes[] = {1, 2, 3, 4};
-	const eagine::span<const GLsizei> components =
-		eagine::as_span(cmpbytes);
-
-	if(
-		!a.parse_param(opts.output_path, std::cerr) &&
-		!a.parse_param(opts.width, std::cerr) &&
-		!a.parse_param(opts.height, std::cerr) &&
-		!a.parse_param(opts.depth, std::cerr) &&
-		!a.parse_param(opts.components, components, std::cerr) &&
-		!a.parse_param(opts.format, formats, components, std::cerr)
-	)
+	if(!opts.parse(a, std::cerr))
 	{
 		std::cerr
 			<< "Failed to parse argument '"
