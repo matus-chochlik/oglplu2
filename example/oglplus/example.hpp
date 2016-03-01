@@ -11,6 +11,7 @@
 
 #include "example/state_view.hpp"
 #include "example/params.hpp"
+#include <eagine/program_args.hpp>
 #include <memory>
 
 namespace oglplus {
@@ -44,7 +45,11 @@ struct example
 
 extern
 std::unique_ptr<example>
-make_example(const example_params&, const example_state_view&);
+make_example(
+	const eagine::program_args&,
+	const example_params&,
+	const example_state_view&
+);
 
 } // namespace oglplus
 

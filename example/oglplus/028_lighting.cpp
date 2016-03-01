@@ -375,7 +375,11 @@ public:
 };
 
 std::unique_ptr<example>
-make_example(const example_params&, const example_state_view& state)
+make_example(
+	const eagine::program_args&,
+	const example_params&,
+	const example_state_view& state
+)
 {
 	eagine::memory::buffer temp_buffer;
 	return std::unique_ptr<example>(new lighting_example(

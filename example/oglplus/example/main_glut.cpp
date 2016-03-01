@@ -52,9 +52,10 @@ private:
 	int _wheel;
 public:
 	single_glut_context(
+		const eagine::program_args& args,
 		oglplus::example_params& params,
 		oglplus::example_state& state
-	): example(params, state)
+	): example(args, params, state)
 	 , _height(state.height())
 	 , _wheel(0)
 	{
@@ -235,7 +236,7 @@ int example_main(
 	std::srand(params.rand_seed());
 	state.set_depth(16);
 
-	single_glut_context ctx(params, state);
+	single_glut_context ctx(args, params, state);
 	glutMainLoop();
 
 	return 0;

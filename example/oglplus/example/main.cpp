@@ -95,7 +95,7 @@ int main(int argc, const char** argv)
 				<< std::endl;
 				return 1;
 			}
-			cstr_ref path;
+			valid_if_not_empty<cstr_ref> path;
 			if(consume_next_arg(a, path, "path", errstr))
 			{
 				params.screenshot_path(path);
@@ -112,7 +112,7 @@ int main(int argc, const char** argv)
 				<< std::endl;
 				return 1;
 			}
-			cstr_ref prefix;
+			valid_if_not_empty<cstr_ref> prefix;
 			if(consume_next_arg(a, prefix, "prefix", errstr))
 			{
 				params.framedump_prefix(prefix);
@@ -124,7 +124,7 @@ int main(int argc, const char** argv)
 			valid_if_positive<float> fps;
 			if(consume_next_arg(a, fps, "float", errstr))
 			{
-				params.fixed_fps(fps.value());
+				params.fixed_fps(fps);
 			}
 			else return 1;
 		}
@@ -151,7 +151,7 @@ int main(int argc, const char** argv)
 			valid_if_positive<int> w;
 			if(consume_next_arg(a, w, "integer", errstr))
 			{
-				state.set_width(w.value());
+				state.set_width(w);
 			}
 			else return 1;
 		}
@@ -160,7 +160,7 @@ int main(int argc, const char** argv)
 			valid_if_positive<int> h;
 			if(consume_next_arg(a, h, "integer", errstr))
 			{
-				state.set_height(h.value());
+				state.set_height(h);
 			}
 			else return 1;
 		}
@@ -177,7 +177,7 @@ int main(int argc, const char** argv)
 			valid_if_positive<int> x;
 			if(consume_next_arg(a, x, "integer", errstr))
 			{
-				params.x_tiles(x.value());
+				params.x_tiles(x);
 			}
 			else return 1;
 		}
@@ -186,7 +186,7 @@ int main(int argc, const char** argv)
 			valid_if_positive<int> y;
 			if(consume_next_arg(a, y, "integer", errstr))
 			{
-				params.y_tiles(y.value());
+				params.y_tiles(y);
 			}
 			else return 1;
 		}
