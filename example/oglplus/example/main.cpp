@@ -190,7 +190,11 @@ int main(int argc, const char** argv)
 			}
 			else return 1;
 		}
-		else
+		else if(a == "--demo")
+		{
+			params.demo_mode(true);
+		}
+		else if(!oglplus::is_example_param(a))
 		{
 			errstr()
 			<< "Unknown command-line option '"

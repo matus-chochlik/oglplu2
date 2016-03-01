@@ -29,6 +29,7 @@ noexcept
  , _compat_ctxt(false)
  , _debug_ctxt(true)
  , _auto_tiles(true)
+ , _demo_mode(false)
 { }
 
 } // namespace oglplus

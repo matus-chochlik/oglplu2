@@ -51,6 +51,9 @@ make_example(
 	const example_state_view&
 );
 
+extern
+bool is_example_param(const eagine::program_arg&);
+
 } // namespace oglplus
 
 #endif

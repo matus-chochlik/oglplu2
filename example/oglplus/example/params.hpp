@@ -42,6 +42,7 @@ private:
 	bool _compat_ctxt;
 	bool _debug_ctxt;
 	bool _auto_tiles;
+	bool _demo_mode;
 public:
 	example_params(void)
 	noexcept;
@@ -215,6 +216,19 @@ public:
 	noexcept
 	{
 		return _y_tiles;
+	}
+
+	example_params& demo_mode(bool v)
+	noexcept
+	{
+		_demo_mode = v;
+		return *this;
+	}
+
+	bool demo_mode(void) const
+	noexcept
+	{
+		return _demo_mode;
 	}
 
 	example_params& samples(valid_if_positive<int> n)

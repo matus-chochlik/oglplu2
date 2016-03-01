@@ -150,4 +150,6 @@ void adjust_params(example_params& params)
 	params.stencil_buffer(true);
 }
 
+bool is_example_param(const eagine::program_arg&) { return false; }
+
 } // namespace oglplus

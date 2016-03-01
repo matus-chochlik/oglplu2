@@ -122,7 +122,7 @@ bool example_wrapper::next_frame(void)
 	}
 	else
 	{
-		return _example->continue_running(_state);
+		return _params.demo_mode()||_example->continue_running(_state);
 	}
 }
 
