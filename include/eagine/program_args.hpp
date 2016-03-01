@@ -668,6 +668,19 @@ public:
 	{
 		return program_arg(1, _argc, _argv);
 	}
+
+	template <typename T>
+	bool parse_param(
+		program_parameter<T>& param,
+		std::ostream& errlog
+	) const
+	{
+		for(program_arg a = first(); a; a = a.next())
+		{
+			if(a.parse_param(param, errlog)) return true;
+		}
+		return false;
+	}
 };
 
 } // namespace eagine

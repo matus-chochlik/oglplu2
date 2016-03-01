@@ -390,7 +390,7 @@ public:
 
 std::unique_ptr<example>
 make_example(
-	const eagine::program_args&,
+	const example_args&,
 	const example_params&,
 	const example_state_view&
 )
@@ -404,6 +404,6 @@ void adjust_params(example_params& params)
 	params.stencil_buffer(false);
 }
 
-bool is_example_param(const eagine::program_arg&) { return false; }
+bool is_example_param(const example_arg&) { return false; }
 
 } // namespace oglplus

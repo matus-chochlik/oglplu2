@@ -85,7 +85,7 @@ void example_loop(
 }
 
 int example_main(
-	const eagine::program_args& args,
+	oglplus::example_args& args,
 	oglplus::example_params& params,
 	oglplus::example_state& state
 )

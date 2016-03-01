@@ -23,7 +23,7 @@
 #include <cstdlib>
 
 int example_main(
-	const eagine::program_args&,
+	oglplus::example_args&,
 	oglplus::example_params&,
 	oglplus::example_state&
 );
@@ -61,6 +61,13 @@ bool consume_next_arg(
 			<< std::endl;
 	};
 	return a.do_consume_next(dest, handle_missing, handle_invalid);
+}
+
+bool example_knows_arg(const eagine::program_arg& arg)
+{
+	using namespace oglplus;
+	return is_example_param(example_arg(arg)) ||
+		is_example_param(example_arg(arg.prev()));
 }
 
 int main(int argc, const char** argv)
@@ -194,7 +201,7 @@ int main(int argc, const char** argv)
 		{
 			params.demo_mode(true);
 		}
-		else if(!oglplus::is_example_param(a))
+		else if(!example_knows_arg(a))
 		{
 			errstr()
 			<< "Unknown command-line option '"
@@ -207,7 +214,11 @@ int main(int argc, const char** argv)
 
 	state.set_tiles(params.x_tiles(), params.y_tiles());
 
-	try { return example_main(args, params, state); }
+	try
+	{
+		example_args eargs(args, std::cerr);
+		return example_main(eargs, params, state);
+	}
 	catch(oglplus::error& gle)
 	{
 		oglplus::format_error(

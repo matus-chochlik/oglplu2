@@ -48,7 +48,7 @@ textbuf(std::size_t size)
 
 example_wrapper::
 example_wrapper(
-	const eagine::program_args& args,
+	example_args& args,
 	example_params& params,
 	example_state& state
 ): _params(params)
