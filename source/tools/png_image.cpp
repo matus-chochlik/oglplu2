@@ -92,6 +92,11 @@ public:
 	png_byte bit_depth(void);
 	png_byte channels(void);
 	png_byte color_type(void);
+
+	void set_palette_to_rgb(void);
+	void set_expand_gray_1_2_4_to_8(void);
+	void set_tRNS_to_alpha(void);
+	png_uint_32 get_valid(png_uint_32);
 };
 
 // png_read_info_end_struct 
@@ -113,7 +118,7 @@ class png_reader;
 class png_read_driver
 {
 private:
-	png_read_info_end_struct& _info;
+	png_read_info_end_struct& _png;
 
 	static
 	void _read_data(::png_structp, ::png_bytep, ::png_size_t);
@@ -134,7 +139,7 @@ class png_reader
 private:
 	std::istream& _input;
 	png_header_validator _validator;
-	png_read_info_end_struct _info;
+	png_read_info_end_struct _png;
 	png_read_driver _driver;
 
 	friend class png_read_driver;
@@ -144,13 +149,14 @@ public:
 	void do_read_data(::png_bytep, ::png_size_t);
 	void read_row(::png_bytep data) { _driver._read_row(data); }
 
-	png_uint_32 image_width(void) { return _driver._info.image_width(); }
-	png_uint_32 image_height(void) { return _driver._info.image_height(); }
-	png_byte bit_depth(void) { return _driver._info.bit_depth(); }
-	png_byte channels(void) { return _driver._info.channels(); }
-	png_byte color_type(void) { return _driver._info.color_type(); }
-	png_uint_32 row_bytes(void) { return _driver._info.row_bytes(); }
+	png_uint_32 image_width(void) { return _driver._png.image_width(); }
+	png_uint_32 image_height(void) { return _driver._png.image_height(); }
+	png_uint_32 row_bytes(void) { return _driver._png.row_bytes(); }
 	png_uint_32 data_size(void) { return row_bytes() * image_height(); }
+
+	GLenum gl_data_type(void);
+	GLenum gl_format(void);
+	GLenum gl_iformat(void);
 };
 
 void convert_image(
@@ -166,10 +172,9 @@ void convert_image(
 
 	oglplus::image_data_header hdr(width, height, 1);
 
-	// TODO
-	hdr.data_type = GL_UNSIGNED_BYTE;
-	hdr.format = GL_RGBA;
-	hdr.internal_format = GL_RGBA;
+	hdr.data_type = reader.gl_data_type();
+	hdr.format = reader.gl_format();
+	hdr.internal_format = reader.gl_iformat();
 
 
 	std::size_t row_size = std::size_t(reader.row_bytes());
@@ -367,6 +372,34 @@ color_type(void)
 	return ::png_get_color_type(_read, _info);
 }
 
+void
+png_read_info_struct::
+set_palette_to_rgb(void)
+{
+	::png_set_palette_to_rgb(_read);
+}
+
+void
+png_read_info_struct::
+set_expand_gray_1_2_4_to_8(void)
+{
+	::png_set_expand_gray_1_2_4_to_8(_read);
+}
+
+void
+png_read_info_struct::
+set_tRNS_to_alpha(void)
+{
+	::png_set_tRNS_to_alpha(_read);
+}
+
+png_uint_32
+png_read_info_struct::
+get_valid(png_uint_32 flag)
+{
+	return ::png_get_valid(_read, _info, flag);
+}
+
 png_read_info_end_struct::
 png_read_info_end_struct(void)
  : png_read_info_struct()
@@ -407,20 +440,20 @@ void
 png_read_driver::
 _read_row(::png_bytep data)
 {
-	::png_read_row(_info._read, data, nullptr);
+	::png_read_row(_png._read, data, nullptr);
 }
 
 png_read_driver::
 png_read_driver(png_reader& reader)
- : _info(reader._info)
+ : _png(reader._png)
 {
-	::png_set_read_fn(_info._read, &reader, &_read_data);
-	::png_set_read_user_chunk_fn(_info._read, &reader, &_read_user_chunk);
-	::png_set_keep_unknown_chunks(_info._read, PNG_HANDLE_CHUNK_NEVER, 0,0);
+	::png_set_read_fn(_png._read, &reader, &_read_data);
+	::png_set_read_user_chunk_fn(_png._read, &reader, &_read_user_chunk);
+	::png_set_keep_unknown_chunks(_png._read, PNG_HANDLE_CHUNK_NEVER, 0,0);
 
 	const size_t sig_size = 8;
-	::png_set_sig_bytes(_info._read, sig_size);
-	::png_read_info(_info._read, _info._info);
+	::png_set_sig_bytes(_png._read, sig_size);
+	::png_read_info(_png._read, _png._info);
 }
 
 png_reader::
@@ -428,7 +461,100 @@ png_reader(std::istream& input)
  : _input(input)
  , _validator(_input)
  , _driver(*this)
-{ }
+{
+	switch(_driver._png.color_type())
+	{
+		case PNG_COLOR_TYPE_PALETTE:
+		{
+			_driver._png.set_palette_to_rgb();
+			break;
+		}
+		case PNG_COLOR_TYPE_GRAY:
+		{
+			if(_png.bit_depth() < 8)
+			{
+				_driver._png.set_expand_gray_1_2_4_to_8();
+			}
+			break;
+		}
+		default:;
+	}
+
+	if(_driver._png.get_valid(PNG_INFO_tRNS))
+	{
+		_driver._png.set_tRNS_to_alpha();
+	}
+}
+
+GLenum
+png_reader::
+gl_data_type(void)
+{
+	switch(_driver._png.bit_depth())
+	{
+		case 1:
+		case 2:
+		case 4:
+		case 8: return GL_UNSIGNED_BYTE;
+		case 16: return GL_UNSIGNED_SHORT;
+		default:
+			throw
+			std::runtime_error("Unsupported PNG image color depth");
+	}
+	
+	return GL_NONE;
+}
+
+GLenum
+png_reader::
+gl_format(void)
+{
+	switch(_driver._png.color_type())
+	{
+		case PNG_COLOR_TYPE_GRAY:
+			return GL_RED;
+		case PNG_COLOR_TYPE_GRAY_ALPHA:
+			return GL_RG;
+		case PNG_COLOR_TYPE_PALETTE:
+		case PNG_COLOR_TYPE_RGB:
+			return GL_RGB;
+		case PNG_COLOR_TYPE_RGB_ALPHA:
+			return GL_RGBA;
+		default:
+			throw
+			std::runtime_error("Unsupported PNG color type");
+	}
+}
+
+GLenum
+png_reader::
+gl_iformat(void)
+{
+	if(_driver._png.bit_depth() == 16)
+	{
+		switch(gl_format())
+		{
+			case GL_RED: return GL_R16;
+			case GL_RG: return GL_RG16;
+			case GL_RGB: return GL_RGB16;
+			case GL_RGBA: return GL_RGBA16;
+			default:;
+		}
+	}
+	else
+	{
+		switch(gl_format())
+		{
+			case GL_RED: return GL_R8;
+			case GL_RG: return GL_RG8;
+			case GL_RGB: return GL_RGB8;
+			case GL_RGBA: return GL_RGBA8;
+			default:;
+		}
+	}
+
+	return GL_NONE;
+}
 
 void
 png_reader::
