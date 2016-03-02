@@ -8,16 +8,18 @@
 #ifndef UTILS_OGLPLUS_OS_CONTEXT_GLUT_1107121519_HPP
 #define UTILS_OGLPLUS_OS_CONTEXT_GLUT_1107121519_HPP
 
-# if defined(__APPLE__) && __APPLE__
+#include "os_context_common.hpp"
+#include <eagine/config/platform.hpp>
+
+#if OGLPLUS_APPLE
 # include <GLUT/glut.h>
 # else
 # include <GL/glut.h>
 # endif
-#include "os_context_common.hpp"
 
 namespace oglplus {
 
-#if defined(__APPLE__) && __APPLE__ && defined(__clang__)
+#if EAGINE_APPLE && defined(__clang__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wdeprecated-declarations"
 #endif
@@ -44,7 +46,7 @@ public:
 	}
 };
 
-#if defined(__APPLE__) && __APPLE__ && defined(__clang__)
+#if EAGINE_APPLE
 # pragma clang diagnostic pop
 #endif
 
