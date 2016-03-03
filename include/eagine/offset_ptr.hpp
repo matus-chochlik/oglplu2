@@ -98,6 +98,12 @@ public:
 		return is_null();
 	}
 
+	OffsT offset(void) const
+	noexcept
+	{
+		return _offs;
+	}
+
 	memory::basic_address<std::is_const<T>::value>
 	addr(void) const
 	noexcept
@@ -191,6 +197,12 @@ public:
 	typedef const T* const_iterator;
 	typedef T& reference;
 	typedef const T& const_reference;
+
+	OffsT offset(void) const
+	noexcept
+	{
+		return _optr.offset();
+	}
 
 	memory::basic_address<std::is_const<T>::value>
 	addr(void)

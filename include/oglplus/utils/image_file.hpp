@@ -26,6 +26,10 @@ public:
 	 : _header(path)
 	{ }
 
+	texture_image_file(eagine::file_contents&& fc)
+	 : _header(std::move(fc))
+	{ }
+
 	image_dimensions dimensions(void) const
 	noexcept
 	{

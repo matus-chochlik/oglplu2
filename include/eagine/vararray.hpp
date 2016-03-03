@@ -44,9 +44,12 @@ public:
 private:
 	const size_type _size;
 	value_type _data[1];
-
-	basic_vararray(void) = default;
 public:
+	constexpr
+	basic_vararray(void)
+	 : _size(0)
+	{ }
+
 	static
 	std::size_t instance_size(size_type n)
 	noexcept

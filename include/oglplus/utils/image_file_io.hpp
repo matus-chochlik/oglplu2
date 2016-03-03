@@ -12,7 +12,6 @@
 
 #include "image_file_hdr.hpp"
 #include "memory_block.hpp"
-#include <eagine/offset_ptr.hpp>
 #include <iostream>
 
 namespace oglplus {
@@ -21,16 +20,11 @@ inline
 void write_and_pad_texture_image_data_header(
 	std::ostream& output,
 	image_data_header& header,
-	std::size_t pixel_data_size
+	std::size_t pixel_data_size,
+	std::size_t& spos
 )
 {
 	std::size_t algn(alignof(image_data_header));
-	std::size_t spos = 0;
-
-	if(output.tellp() >= 0)
-	{
-		spos = std::size_t(output.tellp());
-	}
 
 	while(spos % algn != 0)
 	{
@@ -56,6 +50,28 @@ void write_and_pad_texture_image_data_header(
 		output.put('\0');
 		++spos;
 	}
+}
+
+inline
+void write_and_pad_texture_image_data_header(
+	std::ostream& output,
+	image_data_header& header,
+	std::size_t pixel_data_size
+)
+{
+	std::size_t spos = 0;
+
+	if(output.tellp() >= 0)
+	{
+		spos = std::size_t(output.tellp());
+	}
+
+	write_and_pad_texture_image_data_header(
+		output,
+		header,
+		pixel_data_size,
+		spos
+	);
 }
 
 inline
