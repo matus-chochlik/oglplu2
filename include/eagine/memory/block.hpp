@@ -246,8 +246,10 @@ noexcept
 
 template <typename T>
 static inline
-basic_block<std::is_const<T>::value>
-data_block_of(T& c)
+basic_block<
+	std::is_const<T>::value ||
+	std::is_const<typename T::value_type>::value
+> data_block_of(T& c)
 noexcept
 {
 	return {c.data(), c.size()};

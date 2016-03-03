@@ -37,10 +37,7 @@ void write_and_pad_texture_image_data_header(
 
 	eagine::memory::const_address hdraddr(&header);
 
-	header.pixels = eagine::offset_array<const GLubyte>(
-		static_cast<const GLubyte*>(hdraddr+std::ptrdiff_t(algn)),
-		pixel_data_size
-	);
+	header.pixels.reset(hdraddr+std::ptrdiff_t(algn), pixel_data_size);
 
 	output.write(static_cast<const char*>(hdraddr), sizeof(header));
 	spos += sizeof(header);

@@ -30,6 +30,12 @@ public:
 	 : _header(std::move(fc))
 	{ }
 
+	bool is_valid(void) const
+	noexcept
+	{
+		return _header->magic.is_valid();
+	}
+
 	image_dimensions dimensions(void) const
 	noexcept
 	{
