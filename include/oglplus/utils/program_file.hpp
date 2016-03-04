@@ -104,6 +104,15 @@ public:
 		return _sources.size();
 	}
 
+	shader_source_block
+	shader_source(std::size_t index) const
+	noexcept
+	{
+		assert(is_valid());
+		assert(index < shader_source_count());
+		return eagine::memory::block_of(_sources[index]);
+	}
+
 	oglplus::shader_type
 	shader_type(std::size_t index) const
 	noexcept

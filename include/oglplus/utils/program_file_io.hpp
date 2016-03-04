@@ -99,34 +99,35 @@ void write_and_pad_program_source_header(
 	std::size_t& spos
 )
 {
-	std::size_t algn(alignof(program_source_header));
-
-	while(spos % algn != 0)
+	while(spos % alignof(program_source_header) != 0)
 	{
 		output.put('\0');
 		++spos;
 	}
 
-	algn = 32;
-	assert(sizeof(program_source_header) <= std::size_t(algn));
+	const std::size_t size = 48;
+	std::size_t done = 0;
+	assert(size >= sizeof(shader_source_header));
 
 	eagine::memory::const_address hdraddr(&header);
 
 	header.shader_sources.reset(
-		hdraddr+std::ptrdiff_t(algn),
+		hdraddr+std::ptrdiff_t(size),
 		std::size_t(shader_source_lengths.size()) // shader count
 	);
 
 	output.write(static_cast<const char*>(hdraddr), sizeof(header));
 	spos += sizeof(header);
+	done += sizeof(header);
 
-	while(spos % algn != 0)
+	while(done < size)
 	{
 		output.put('\0');
 		++spos;
+		++done;
 	}
 
-	algn = alignof(shader_source_header);
+	std::size_t algn = alignof(shader_source_header);
 	std::ptrdiff_t offs =
 		std::ptrdiff_t(shader_source_lengths.size())*
 		std::ptrdiff_t(sizeof(std::ptrdiff_t));
@@ -137,6 +138,9 @@ void write_and_pad_program_source_header(
 			reinterpret_cast<const char*>(&offs),
 			std::streamsize(sizeof(offs))
 		);
+		spos += sizeof(offs);
+		done += sizeof(offs);
+
 		// if changing this also change size
 		// in write_and_pad_shader_source_header
 		std::size_t shader_block_size = 48;

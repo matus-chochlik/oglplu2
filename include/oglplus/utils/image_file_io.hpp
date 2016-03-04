@@ -24,28 +24,29 @@ void write_and_pad_texture_image_data_header(
 	std::size_t& spos
 )
 {
-	std::size_t algn(alignof(image_data_header));
-
-	while(spos % algn != 0)
+	while(spos % alignof(image_data_header) != 0)
 	{
 		output.put('\0');
 		++spos;
 	}
 
-	algn = 64;
-	assert(sizeof(image_data_header) <= std::size_t(algn));
+	const std::size_t size = 64;
+	std::size_t done = 0;
+	assert(size >= sizeof(image_data_header));
 
 	eagine::memory::const_address hdraddr(&header);
 
-	header.pixels.reset(hdraddr+std::ptrdiff_t(algn), pixel_data_size);
+	header.pixels.reset(hdraddr+std::ptrdiff_t(size), pixel_data_size);
 
 	output.write(static_cast<const char*>(hdraddr), sizeof(header));
 	spos += sizeof(header);
+	done += sizeof(header);
 
-	while(spos % algn != 0)
+	while(done < size)
 	{
 		output.put('\0');
 		++spos;
+		++done;
 	}
 }
 
