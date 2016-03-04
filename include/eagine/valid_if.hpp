@@ -40,8 +40,8 @@ struct valid_flag_policy
 	}
 };
 
-template <typename T, typename Policy>
-class valid_if
+template <typename T, typename Policy, typename ... P>
+class basic_valid_if
 {
 private:
 	T _value;
@@ -49,59 +49,123 @@ private:
 
 protected:
 	explicit
-	valid_if(Policy policy)
+	basic_valid_if(Policy policy)
 	noexcept
 	 : _value()
 	 , _policy(policy)
 	{ }
-
 public:
-	valid_if(void) = default;
+	basic_valid_if(void) = default;
 
-	valid_if(valid_if&&) = default;
-	valid_if(const valid_if&) = default;
+	basic_valid_if(basic_valid_if&&) = default;
+	basic_valid_if(const basic_valid_if&) = default;
 
-	valid_if& operator = (valid_if&&) = default;
-	valid_if& operator = (const valid_if&) = default;
+	basic_valid_if& operator = (basic_valid_if&&) = default;
+	basic_valid_if& operator = (const basic_valid_if&) = default;
 
-	~valid_if(void) = default;
+	~basic_valid_if(void) = default;
 
 	constexpr inline
-	valid_if(T val)
+	basic_valid_if(T val)
 	noexcept
 	 : _value(val)
 	 , _policy()
 	{ }
 
 	constexpr
-	valid_if(T val, Policy policy)
+	basic_valid_if(T val, Policy policy)
 	noexcept
 	 : _value(val)
 	 , _policy(policy)
 	{ }
 
-	valid_if& operator = (const T& v)
+	basic_valid_if& operator = (const T& v)
 	{
 		_value = v;
 		return *this;
 	}
 
-	valid_if& operator = (T&& v)
+	basic_valid_if& operator = (T&& v)
 	{
 		_value = std::move(v);
 		return *this;
 	}
 
-	bool is_valid(const T& val) const
+	bool is_valid(const T& val, P ... p) const
 	noexcept
 	{
-		return _policy(val);
+		return _policy(val, p...);
 	}
 
-	bool is_valid(void) const
+	bool is_valid(P ... p) const
 	noexcept
 	{
-		return _policy(_value);
+		return is_valid(_value, p...);
+	}
+
+	T& value(P ... p)
+	noexcept
+	{
+		assert(is_valid(p...));
+		return _value;
+	}
+
+	const T& value(P ... p) const
+	noexcept
+	{
+		assert(is_valid(p...));
+		return _value;
+	}
+
+	T& value_or(T& fallback, P ... p)
+	noexcept
+	{
+		return is_valid(p...)?value(p...):fallback;
+	}
+
+	const T& value_or(const T& fallback, P ... p) const
+	noexcept
+	{
+		return is_valid(p...)?value(p...):fallback;
+	}
+
+	template <typename Func>
+	std::enable_if_t<std::is_same<std::result_of_t<Func(T)>, void>::value>
+	then(const Func& func, P ... p) const
+	{
+		if(is_valid(p...))
+		{
+			func(value(p...));
+		}
+	}
+};
+
+template <typename T, typename Policy>
+class valid_if
+ : public basic_valid_if<T, Policy>
+{
+private:
+	basic_valid_if<T, Policy>& _base(void)
+	noexcept
+	{
+		return *this;
+	}
+public:
+	using basic_valid_if<T, Policy>::basic_valid_if;
+	using basic_valid_if<T, Policy>::is_valid;
+	using basic_valid_if<T, Policy>::value;
+	using basic_valid_if<T, Policy>::value_or;
+
+	valid_if& operator = (const T& v)
+	{
+		_base() = v;
+		return *this;
+	}
+
+	valid_if& operator = (T&& v)
+	{
+		_base() = std::move(v);
+		return *this;
 	}
 
 	explicit
@@ -115,42 +179,6 @@ public:
 	noexcept
 	{
 		return !is_valid();
-	}
-
-	T& value(void)
-	noexcept
-	{
-		assert(is_valid());
-		return _value;
-	}
-
-	const T& value(void) const
-	noexcept
-	{
-		assert(is_valid());
-		return _value;
-	}
-
-	T& value_or(T& fallback)
-	noexcept
-	{
-		return is_valid()?value():fallback;
-	}
-
-	const T& value_or(const T& fallback) const
-	noexcept
-	{
-		return is_valid()?value():fallback;
-	}
-
-	template <typename Func>
-	std::enable_if_t<std::is_same<std::result_of_t<Func(T)>, void>::value>
-	then(const Func& func) const
-	{
-		if(is_valid())
-		{
-			func(value());
-		}
 	}
 
 	template <typename Func>
@@ -172,7 +200,7 @@ public:
 	template <typename Func>
 	valid_if transformed(Func func) const
 	{
-		return {func(_value)};
+		return {func(value())};
 	}
 
 	template <typename Func>
