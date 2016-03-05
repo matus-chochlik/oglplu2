@@ -37,7 +37,7 @@ bool consume_next_arg(
 )
 {
 	auto handle_missing =
-	[&value_type,&errstr](eagine::cstr_ref arg_tag)
+	[&value_type,&errstr](const eagine::cstr_ref& arg_tag)
 	{
 		errstr()
 			<< "Missing "
@@ -48,7 +48,11 @@ bool consume_next_arg(
 			<< std::endl;
 	};
 	auto handle_invalid =
-	[&value_type,&errstr](eagine::cstr_ref arg_tag,eagine::cstr_ref arg_val)
+	[&value_type,&errstr](
+		const eagine::cstr_ref& arg_tag,
+		const eagine::cstr_ref& arg_val,
+		const eagine::cstr_ref& log_str
+	)
 	{
 		errstr()
 			<< "Invalid "
@@ -57,7 +61,8 @@ bool consume_next_arg(
 			<< arg_val
 			<< "' after '"
 			<< arg_tag
-			<< "'."
+			<< "'. "
+			<< log_str
 			<< std::endl;
 	};
 	return a.do_consume_next(dest, handle_missing, handle_invalid);

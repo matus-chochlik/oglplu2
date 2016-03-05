@@ -168,32 +168,39 @@ private:
 	friend class program_args;
 
 	template <typename T>
-	bool _do_parse(T& dest)
+	bool _do_parse(T& dest, const std::ostream&)
 	{
 		std::stringstream ss(get_string());
 		return !((ss >> dest).fail() || !ss.eof());
 	}
 
-	bool _do_parse(cstr_ref& dest)
+	bool _do_parse(cstr_ref& dest, const std::ostream&)
 	{
 		dest = get();
 		return true;
 	}
 
-	bool _do_parse(std::string& dest)
+	bool _do_parse(std::string& dest, const std::ostream&)
 	{
 		dest = get_string();
 		return true;
 	}
 
 	template <typename T, typename P>
-	bool _do_parse(valid_if<T, P>& dest)
+	bool _do_parse(valid_if<T, P>& dest, std::ostream& parse_log)
 	{
 		T value;
-		if(parse(value) && dest.is_valid(value))
+		if(parse(value, parse_log))
 		{
-			dest = std::move(value);
-			return true;
+			if(dest.is_valid(value))
+			{
+				dest = std::move(value);
+				return true;
+			}
+			else
+			{
+				dest.log_invalid(parse_log, value);
+			}
 		}
 		return false;
 	}
@@ -261,12 +268,12 @@ public:
 	}
 
 	template <typename T>
-	bool parse(T& dest)
+	bool parse(T& dest, std::ostream& parse_log)
 	{
 		if(is_valid())
 		{
 			T temp = dest;
-			if(_do_parse(temp))
+			if(_do_parse(temp, parse_log))
 			{
 				dest = std::move(temp);
 				return true;
@@ -276,9 +283,9 @@ public:
 	}
 
 	template <typename T>
-	bool parse_next(T& dest)
+	bool parse_next(T& dest, std::ostream& parse_log)
 	{
-		return next().parse(dest);
+		return next().parse(dest, parse_log);
 	}
 
 	auto missing_handler(std::ostream& errorlog)
@@ -286,8 +293,7 @@ public:
 		return
 		[&errorlog](const cstr_ref& arg_tag)
 		{
-			errorlog
-				<< "Missing value after '"
+			errorlog<< "Missing value after '"
 				<< arg_tag
 				<< "'."
 				<< std::endl;
@@ -297,14 +303,18 @@ public:
 	auto invalid_handler(std::ostream& errorlog)
 	{
 		return 
-		[&errorlog](const cstr_ref& arg_tag, const cstr_ref& arg_val)
+		[&errorlog](
+			const cstr_ref& arg_tag,
+			const cstr_ref& arg_val,
+			const cstr_ref& log_str
+		)
 		{
-			errorlog
-				<< "Invalid value '"
+			errorlog<< "Invalid value '"
 				<< arg_val
 				<< "' after '"
 				<< arg_tag
-				<< "'."
+				<< "'. "
+				<< log_str
 				<< std::endl;
 		};
 	}
@@ -318,14 +328,19 @@ public:
 	{
 		if(next())
 		{
-			if(parse_next(dest))
+			std::stringstream parse_log;
+			if(parse_next(dest, parse_log))
 			{
 				*this = next();
 				return true;
 			}
 			else
 			{
-				handle_invalid(get(), next().get());
+				handle_invalid(
+					get(),
+					next().get(),
+					cstr_ref(parse_log.str())
+				);
 			}
 		}
 		else
@@ -380,7 +395,7 @@ public:
 		InvalidFunc handle_invalid
 	)
 	{
-		valid_if_in_range<T, span<const T>> temp(T(), choices);
+		valid_if_in_list<T, span<const T>> temp(T(), choices);
 		if(do_consume_next(temp, handle_missing, handle_invalid))
 		{
 			dest = temp.value();

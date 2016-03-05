@@ -41,6 +41,11 @@ struct valid_flag_policy
 
 	struct do_log
 	{
+		inline
+		do_log(const valid_flag_policy&)
+		noexcept
+		{ }
+
 		template <typename Log, typename T>
 		void operator ()(Log& log, const T&) const
 		{
@@ -80,9 +85,15 @@ protected:
 	noexcept
 	 : _value()
 	 , _policy(policy)
+	 , _do_log(_policy)
 	{ }
 public:
-	basic_valid_if(void) = default;
+	basic_valid_if(void)
+	noexcept
+	 : _value()
+	 , _policy()
+	 , _do_log(_policy)
+	{ }
 
 	basic_valid_if(basic_valid_if&&) = default;
 	basic_valid_if(const basic_valid_if&) = default;
@@ -97,6 +108,7 @@ public:
 	noexcept
 	 : _value(val)
 	 , _policy()
+	 , _do_log(_policy)
 	{ }
 
 	constexpr
@@ -104,6 +116,7 @@ public:
 	noexcept
 	 : _value(val)
 	 , _policy(policy)
+	 , _do_log(_policy)
 	{ }
 
 	basic_valid_if& operator = (const T& v)
@@ -128,6 +141,19 @@ public:
 	noexcept
 	{
 		return is_valid(_value, p...);
+	}
+
+	template <typename Log>
+	void log_invalid(Log& log, const T& v, P ... p) const
+	{
+		assert(!is_valid());
+		_do_log(log, v, p...);
+	}
+
+	template <typename Log>
+	void log_invalid(Log& log, P ... p) const
+	{
+		log_invalid(log, _value, p...);
 	}
 
 	template <typename Func>
@@ -288,6 +314,11 @@ struct always_valid_policy
 
 	struct do_log
 	{
+		inline
+		do_log(const always_valid_policy&)
+		noexcept
+		{ }
+
 		template <typename Log, typename T>
 		void operator ()(Log&, const T&) const { }
 	};
@@ -319,6 +350,11 @@ struct valid_if_gt_policy
 
 	struct do_log
 	{
+		inline
+		do_log(const valid_if_gt_policy<T, Cmp>&)
+		noexcept
+		{ }
+
 		template <typename Log>
 		void operator ()(Log& log, const T& v) const
 		{
@@ -357,6 +393,11 @@ struct valid_if_positive_policy
 
 	struct do_log
 	{
+		inline
+		do_log(const valid_if_positive_policy<T>&)
+		noexcept
+		{ }
+
 		template <typename Log>
 		void operator ()(Log& log, const T& v) const
 		{
@@ -395,6 +436,11 @@ struct valid_if_ne_policy
 
 	struct do_log
 	{
+		inline
+		do_log(const valid_if_ne_policy<T, Cmp>&)
+		noexcept
+		{ }
+
 		template <typename Log>
 		void operator ()(Log& log, const T&) const
 		{
@@ -431,6 +477,11 @@ struct valid_if_nz_policy
 
 	struct do_log
 	{
+		inline
+		do_log(const valid_if_nz_policy<T>&)
+		noexcept
+		{ }
+
 		template <typename Log>
 		void operator ()(Log& log, const T&) const
 		{
@@ -477,6 +528,11 @@ struct valid_if_btwn_policy
 
 	struct do_log
 	{
+		inline
+		do_log(const valid_if_btwn_policy<T, Min, Max>&)
+		noexcept
+		{ }
+
 		template <typename Log>
 		void operator ()(Log& log, const T& v) const
 		{
@@ -514,6 +570,11 @@ struct valid_if_ge0_le1_policy
 
 	struct do_log
 	{
+		inline
+		do_log(const valid_if_ge0_le1_policy<T>&)
+		noexcept
+		{ }
+
 		template <typename Log>
 		void operator ()(Log& log, const T& v) const
 		{
@@ -551,6 +612,11 @@ struct valid_if_ge0_lt1_policy
 
 	struct do_log
 	{
+		inline
+		do_log(const valid_if_ge0_lt1_policy<T>&)
+		noexcept
+		{ }
+
 		template <typename Log>
 		void operator ()(Log& log, const T& v) const
 		{
@@ -588,6 +654,11 @@ struct valid_if_gt0_lt1_policy
 
 	struct do_log
 	{
+		inline
+		do_log(const valid_if_gt0_lt1_policy<T>&)
+		noexcept
+		{ }
+
 		template <typename Log>
 		void operator ()(Log& log, const T& v) const
 		{
@@ -625,6 +696,11 @@ struct valid_if_not_empty_policy
 
 	struct do_log
 	{
+		inline
+		do_log(const valid_if_not_empty_policy<T>&)
+		noexcept
+		{ }
+
 		template <typename Log>
 		void operator ()(Log& log, const T&) const
 		{
@@ -667,11 +743,16 @@ struct valid_if_one_of_policy
 
 	struct do_log
 	{
+		inline
+		do_log(const valid_if_one_of_policy<T>&)
+		noexcept
+		{ }
+
 		template <typename Log>
 		void operator ()(Log& log, const T& v) const
 		{
 			log	<< "Value " << v << ", "
-				<< "other than one of the enumerated values (";
+				<< "other than one of the following values (";
 
 			const T choices[] = {C...};
 			bool first = true;
@@ -702,11 +783,11 @@ using valid_if_one_of = valid_if<T, valid_if_one_of_policy<T, C...>>;
 
 // in range
 template <typename T, typename Range>
-struct valid_if_in_range_policy
+struct valid_if_in_list_policy
 {
 	Range _choices;
 
-	valid_if_in_range_policy(const Range& choices)
+	valid_if_in_list_policy(const Range& choices)
 	 : _choices(choices)
 	{ }
 
@@ -726,12 +807,27 @@ struct valid_if_in_range_policy
 
 	struct do_log
 	{
+		const Range* _choices;
+
+		inline
+		do_log(const valid_if_in_list_policy<T, Range>& p)
+		noexcept
+		 : _choices(&p._choices)
+		{ }
+
 		template <typename Log>
 		void operator ()(Log& log, const T& v) const
 		{
-			log	<< "Value " << v << ", "
-				<< "other than one of then specifed choices "
-				<< "is invalid";
+			log	<< "Value '" << v << "', "
+				<< "other than one of the following choices (";
+
+			bool first = true;
+			for(const T& choice : *_choices)
+			{
+				log << (first?"":", ") << "'" << choice << "'";
+				first = false;
+			}
+			log	<< ") is invalid";
 		}
 	};
 
@@ -749,7 +845,7 @@ struct valid_if_in_range_policy
 };
 
 template <typename T, typename Range>
-using valid_if_in_range = valid_if<T, valid_if_in_range_policy<T, Range>>;
+using valid_if_in_list = valid_if<T, valid_if_in_list_policy<T, Range>>;
 
 
 // in_class_valid_if
@@ -773,6 +869,11 @@ struct valid_if_lt_size_policy
 
 	struct do_log
 	{
+		inline
+		do_log(const valid_if_lt_size_policy<T, C>&)
+		noexcept
+		{ }
+
 		template <typename Log>
 		void operator ()(Log& log, const T& v, const C& c) const
 		{
@@ -810,6 +911,11 @@ struct valid_if_ge_0_lt_size_policy
 
 	struct do_log
 	{
+		inline
+		do_log(const valid_if_ge_0_lt_size_policy<T, C>&)
+		noexcept
+		{ }
+
 		template <typename Log>
 		void operator ()(Log& log, const T& v, const C& c) const
 		{
