@@ -604,8 +604,9 @@ public:
 	 , _argv(args)
 	{ }
 
-	typedef int size_type;
 	typedef cstr_ref value_type;
+	typedef int size_type;
+	typedef valid_if_ge_0_lt_size<program_args, size_type> valid_index;
 
 	int argc(void) const
 	noexcept
@@ -637,21 +638,22 @@ public:
 		return _argc;
 	}
 
-	bool is_valid(int pos) const
+	bool is_valid(valid_index pos) const
 	noexcept
 	{
-		return	(0 <= pos) && (pos < _argc) &&
-			(_argv != nullptr) && (_argv[pos] != nullptr);
+		return	pos.is_valid(*this) &&
+			(_argv != nullptr) &&
+			(_argv[pos.value(*this)] != nullptr);
 	}
 
-	value_type get(int pos) const
+	value_type get(valid_index pos) const
 	noexcept
 	{
 		assert(is_valid(pos));
-		return value_type(_argv[pos]);
+		return value_type(_argv[pos.value(*this)]);
 	}
 
-	value_type operator [] (int pos) const
+	value_type operator [] (valid_index pos) const
 	noexcept
 	{
 		return get(pos);

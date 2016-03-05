@@ -12,7 +12,7 @@
 
 #include "type_traits.hpp"
 #include <utility>
-#include <cassert>
+#include "assert.hpp"
 
 namespace eagine {
 
@@ -38,14 +38,25 @@ struct valid_flag_policy
 	{
 		return _is_valid;
 	}
+
+	struct abort
+	{
+		[[noreturn]]
+		void operator ()(void) const
+		noexcept
+		{
+			EAGINE_ABORT("Getting the value of an empty optional");
+		}
+	};
 };
 
-template <typename T, typename Policy, typename ... P>
+template <typename T, typename Policy, typename Abort, typename ... P>
 class basic_valid_if
 {
 private:
 	T _value;
 	Policy _policy;
+	Abort _do_abort;
 
 protected:
 	explicit
@@ -103,17 +114,23 @@ public:
 		return is_valid(_value, p...);
 	}
 
+	void abort_if_invalid(P ... p) const
+	noexcept
+	{
+		if(!is_valid(p...)) _do_abort();
+	}
+
 	T& value(P ... p)
 	noexcept
 	{
-		assert(is_valid(p...));
+		abort_if_invalid(p...);
 		return _value;
 	}
 
 	const T& value(P ... p) const
 	noexcept
 	{
-		assert(is_valid(p...));
+		abort_if_invalid(p...);
 		return _value;
 	}
 
@@ -140,21 +157,23 @@ public:
 	}
 };
 
-template <typename T, typename Policy>
+template <typename T, typename Policy, typename Abort = typename Policy::abort>
 class valid_if
- : public basic_valid_if<T, Policy>
+ : public basic_valid_if<T, Policy, Abort>
 {
 private:
-	basic_valid_if<T, Policy>& _base(void)
+	typedef basic_valid_if<T, Policy, Abort> _base_t;
+
+	_base_t& _base(void)
 	noexcept
 	{
 		return *this;
 	}
 public:
-	using basic_valid_if<T, Policy>::basic_valid_if;
-	using basic_valid_if<T, Policy>::is_valid;
-	using basic_valid_if<T, Policy>::value;
-	using basic_valid_if<T, Policy>::value_or;
+	using _base_t::_base_t;
+	using _base_t::is_valid;
+	using _base_t::value;
+	using _base_t::value_or;
 
 	valid_if& operator = (const T& v)
 	{
@@ -238,6 +257,16 @@ struct always_valid_policy
 	{
 		return true;
 	}
+
+	struct abort
+	{
+		[[noreturn]]
+		void operator ()(void) const
+		noexcept
+		{
+			EAGINE_ABORT("Never should get here!");
+		}
+	};
 };
 
 template <typename T, T Cmp>
@@ -253,6 +282,18 @@ struct valid_if_gt_policy
 	{
 		return value > Cmp;
 	}
+
+	struct abort
+	{
+		[[noreturn]]
+		void operator ()(void) const
+		noexcept
+		{
+			EAGINE_ABORT(
+			"Value less than or equal to the specified limit"
+			);
+		}
+	};
 };
 
 template <typename T, T Cmp>
@@ -268,6 +309,18 @@ struct valid_if_positive_policy
 	{
 		return value > T(0);
 	}
+
+	struct abort
+	{
+		[[noreturn]]
+		void operator ()(void) const
+		noexcept
+		{
+			EAGINE_ABORT(
+			"Value less than or equal to the limit is invalid"
+			);
+		}
+	};
 };
 
 template <typename T>
@@ -283,6 +336,18 @@ struct valid_if_ne_policy
 	{
 		return value != Cmp;
 	}
+
+	struct abort
+	{
+		[[noreturn]]
+		void operator ()(void) const
+		noexcept
+		{
+			EAGINE_ABORT(
+			"Value less than or equal to zero is invalid"
+			);
+		}
+	};
 };
 
 template <typename T, T Cmp>
@@ -298,6 +363,16 @@ struct valid_if_nz_policy
 	{
 		return (value > T(0)) || (value < T(0));
 	}
+
+	struct abort
+	{
+		[[noreturn]]
+		void operator ()(void) const
+		noexcept
+		{
+			EAGINE_ABORT("Value zero is invalid");
+		}
+	};
 };
 
 template <typename T>
@@ -325,6 +400,18 @@ struct valid_if_btwn_policy
 	{
 		return (Min <= value) && (value <= Max);
 	}
+
+	struct abort
+	{
+		[[noreturn]]
+		void operator ()(void) const
+		noexcept
+		{
+			EAGINE_ABORT(
+			"Value outside of the specified limits is invalid"
+			);
+		}
+	};
 };
 
 template <typename T, T Min, T Max>
@@ -340,6 +427,18 @@ struct valid_if_ge0_le1_policy
 	{
 		return (T(0) <= value) && (value <= T(1));
 	}
+
+	struct abort
+	{
+		[[noreturn]]
+		void operator ()(void) const
+		noexcept
+		{
+			EAGINE_ABORT(
+			"Value outside of interval [0,1] is invalid"
+			);
+		}
+	};
 };
 
 template <typename T>
@@ -355,6 +454,18 @@ struct valid_if_ge0_lt1_policy
 	{
 		return (T(0) <= value) && (value < T(1));
 	}
+
+	struct abort
+	{
+		[[noreturn]]
+		void operator ()(void) const
+		noexcept
+		{
+			EAGINE_ABORT(
+			"Value outside of interval [0,1) is invalid"
+			);
+		}
+	};
 };
 
 template <typename T>
@@ -370,6 +481,18 @@ struct valid_if_gt0_lt1_policy
 	{
 		return (T(0) < value) && (value < T(1));
 	}
+
+	struct abort
+	{
+		[[noreturn]]
+		void operator ()(void) const
+		noexcept
+		{
+			EAGINE_ABORT(
+			"Value outside of interval (0,1) is invalid"
+			);
+		}
+	};
 };
 
 template <typename T>
@@ -385,6 +508,16 @@ struct valid_if_not_empty_policy
 	{
 		return !range.empty();
 	}
+
+	struct abort
+	{
+		[[noreturn]]
+		void operator ()(void) const
+		noexcept
+		{
+			EAGINE_ABORT("Empty range or container is invalid");
+		}
+	};
 };
 
 template <typename T>
@@ -408,6 +541,18 @@ struct valid_if_one_of_policy
 		}
 		return false;
 	}
+
+	struct abort
+	{
+		[[noreturn]]
+		void operator ()(void) const
+		noexcept
+		{
+			EAGINE_ABORT(
+			"Value other than enumerated is invalid"
+			);
+		}
+	};
 };
 
 template <typename T, T ... C>
@@ -436,12 +581,84 @@ struct valid_if_in_range_policy
 		}
 		return false;
 	}
+
+	struct abort
+	{
+		[[noreturn]]
+		void operator ()(void) const
+		noexcept
+		{
+			EAGINE_ABORT(
+			"Value other than one of specified choices is invalid"
+			);
+		}
+	};
 };
 
 template <typename T, typename Range>
 using valid_if_in_range = valid_if<T, valid_if_in_range_policy<T, Range>>;
 
-// in container
+
+// in_class_valid_if
+template <
+	typename T,
+	typename C,
+	typename Policy,
+	typename Abort = typename Policy::abort
+> using in_class_valid_if = basic_valid_if<T, Policy, Abort, const C&>;
+
+
+// valid if less than container.size()
+template <typename T, typename C>
+struct valid_if_lt_size_policy
+{
+	bool operator()(T x, const C& c) const
+	{
+		return x < c.size();
+	}
+
+	struct abort
+	{
+		[[noreturn]]
+		void operator ()(void) const
+		noexcept
+		{
+			EAGINE_ABORT(
+			"Value not less than c.size() is invalid"
+			);
+		}
+	};
+};
+
+template <typename C, typename T>
+using valid_if_lt_size =
+	in_class_valid_if<T, C, valid_if_lt_size_policy<T, C>>;
+
+// valid if greater than or equal to 0 and less than container.size()
+template <typename T, typename C>
+struct valid_if_ge_0_lt_size_policy
+{
+	bool operator()(T x, const C& c) const
+	{
+		return (T(0) <= x) && (x < c.size());
+	}
+
+	struct abort
+	{
+		[[noreturn]]
+		void operator ()(void) const
+		noexcept
+		{
+			EAGINE_ABORT(
+			"Value less than 0 or not less than c.size() is invalid"
+			);
+		}
+	};
+};
+
+template <typename C, typename T>
+using valid_if_ge_0_lt_size =
+	in_class_valid_if<T, C, valid_if_ge_0_lt_size_policy<T, C>>;
 
 } // namespace eagine
 
