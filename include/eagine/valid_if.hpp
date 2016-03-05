@@ -39,6 +39,15 @@ struct valid_flag_policy
 		return _is_valid;
 	}
 
+	struct do_log
+	{
+		template <typename Log, typename T>
+		void operator ()(Log& log, const T&) const
+		{
+			log << "Getting the value of an empty optional";
+		}
+	};
+
 	struct abort
 	{
 		[[noreturn]]
@@ -50,13 +59,20 @@ struct valid_flag_policy
 	};
 };
 
-template <typename T, typename Policy, typename Abort, typename ... P>
+template <
+	typename T,
+	typename Policy,
+	typename Abort,
+	typename DoLog,
+	typename ... P
+>
 class basic_valid_if
 {
 private:
 	T _value;
 	Policy _policy;
 	Abort _do_abort;
+	DoLog _do_log;
 
 protected:
 	explicit
@@ -114,6 +130,13 @@ public:
 		return is_valid(_value, p...);
 	}
 
+	template <typename Func>
+	basic_valid_if& call_if_invalid(Func func, P ... p)
+	{
+		if(!is_valid(p...)) func(_do_log, _value, p...);
+		return *this;
+	}
+
 	void abort_if_invalid(P ... p) const
 	noexcept
 	{
@@ -157,12 +180,17 @@ public:
 	}
 };
 
-template <typename T, typename Policy, typename Abort = typename Policy::abort>
+template <
+	typename T,
+	typename Policy,
+	typename Abort = typename Policy::abort,
+	typename DoLog = typename Policy::do_log
+>
 class valid_if
- : public basic_valid_if<T, Policy, Abort>
+ : public basic_valid_if<T, Policy, Abort, DoLog>
 {
 private:
-	typedef basic_valid_if<T, Policy, Abort> _base_t;
+	typedef basic_valid_if<T, Policy, Abort, DoLog> _base_t;
 
 	_base_t& _base(void)
 	noexcept
@@ -258,6 +286,12 @@ struct always_valid_policy
 		return true;
 	}
 
+	struct do_log
+	{
+		template <typename Log, typename T>
+		void operator ()(Log&, const T&) const { }
+	};
+
 	struct abort
 	{
 		[[noreturn]]
@@ -283,6 +317,17 @@ struct valid_if_gt_policy
 		return value > Cmp;
 	}
 
+	struct do_log
+	{
+		template <typename Log>
+		void operator ()(Log& log, const T& v) const
+		{
+			log	<< "Value " << v << ", "
+				<< "less then or equal to " << Cmp << " "
+				<< "is invalid";
+		}
+	};
+
 	struct abort
 	{
 		[[noreturn]]
@@ -290,7 +335,7 @@ struct valid_if_gt_policy
 		noexcept
 		{
 			EAGINE_ABORT(
-			"Value less than or equal to the specified limit"
+			"Value less than or equal to the limit is invalid"
 			);
 		}
 	};
@@ -310,6 +355,17 @@ struct valid_if_positive_policy
 		return value > T(0);
 	}
 
+	struct do_log
+	{
+		template <typename Log>
+		void operator ()(Log& log, const T& v) const
+		{
+			log	<< "Value " << v << ", "
+				<< "less then or equal to zero "
+				<< "is invalid";
+		}
+	};
+
 	struct abort
 	{
 		[[noreturn]]
@@ -317,7 +373,7 @@ struct valid_if_positive_policy
 		noexcept
 		{
 			EAGINE_ABORT(
-			"Value less than or equal to the limit is invalid"
+			"Value less than or equal to zero is invalid"
 			);
 		}
 	};
@@ -337,6 +393,15 @@ struct valid_if_ne_policy
 		return value != Cmp;
 	}
 
+	struct do_log
+	{
+		template <typename Log>
+		void operator ()(Log& log, const T&) const
+		{
+			log << "Value equal to " << Cmp << " is invalid";
+		}
+	};
+
 	struct abort
 	{
 		[[noreturn]]
@@ -344,7 +409,7 @@ struct valid_if_ne_policy
 		noexcept
 		{
 			EAGINE_ABORT(
-			"Value less than or equal to zero is invalid"
+			"Value equal to the specified constant is invalid"
 			);
 		}
 	};
@@ -363,6 +428,15 @@ struct valid_if_nz_policy
 	{
 		return (value > T(0)) || (value < T(0));
 	}
+
+	struct do_log
+	{
+		template <typename Log>
+		void operator ()(Log& log, const T&) const
+		{
+			log << "Value zero is invalid";
+		}
+	};
 
 	struct abort
 	{
@@ -401,6 +475,16 @@ struct valid_if_btwn_policy
 		return (Min <= value) && (value <= Max);
 	}
 
+	struct do_log
+	{
+		template <typename Log>
+		void operator ()(Log& log, const T& v) const
+		{
+			log	<< "Value " << v << ", not between "
+				<< Min << " and " << Max << " is invalid";
+		}
+	};
+
 	struct abort
 	{
 		[[noreturn]]
@@ -427,6 +511,16 @@ struct valid_if_ge0_le1_policy
 	{
 		return (T(0) <= value) && (value <= T(1));
 	}
+
+	struct do_log
+	{
+		template <typename Log>
+		void operator ()(Log& log, const T& v) const
+		{
+			log	<< "Value " << v << ", "
+				<< "outside of interval [0,1] is invalid";
+		}
+	};
 
 	struct abort
 	{
@@ -455,6 +549,16 @@ struct valid_if_ge0_lt1_policy
 		return (T(0) <= value) && (value < T(1));
 	}
 
+	struct do_log
+	{
+		template <typename Log>
+		void operator ()(Log& log, const T& v) const
+		{
+			log	<< "Value " << v << ", "
+				<< "outside of interval [0,1) is invalid";
+		}
+	};
+
 	struct abort
 	{
 		[[noreturn]]
@@ -482,6 +586,16 @@ struct valid_if_gt0_lt1_policy
 		return (T(0) < value) && (value < T(1));
 	}
 
+	struct do_log
+	{
+		template <typename Log>
+		void operator ()(Log& log, const T& v) const
+		{
+			log	<< "Value " << v << ", "
+				<< "outside of interval (0,1) is invalid";
+		}
+	};
+
 	struct abort
 	{
 		[[noreturn]]
@@ -508,6 +622,15 @@ struct valid_if_not_empty_policy
 	{
 		return !range.empty();
 	}
+
+	struct do_log
+	{
+		template <typename Log>
+		void operator ()(Log& log, const T&) const
+		{
+			log << "Empty range or container is invalid";
+		}
+	};
 
 	struct abort
 	{
@@ -541,6 +664,25 @@ struct valid_if_one_of_policy
 		}
 		return false;
 	}
+
+	struct do_log
+	{
+		template <typename Log>
+		void operator ()(Log& log, const T& v) const
+		{
+			log	<< "Value " << v << ", "
+				<< "other than one of the enumerated values (";
+
+			const T choices[] = {C...};
+			bool first = true;
+			for(const T& choice : choices)
+			{
+				log << (first?"":", ") << choice;
+				first = false;
+			}
+			log	<< ") is invalid";
+		}
+	};
 
 	struct abort
 	{
@@ -582,6 +724,17 @@ struct valid_if_in_range_policy
 		return false;
 	}
 
+	struct do_log
+	{
+		template <typename Log>
+		void operator ()(Log& log, const T& v) const
+		{
+			log	<< "Value " << v << ", "
+				<< "other than one of then specifed choices "
+				<< "is invalid";
+		}
+	};
+
 	struct abort
 	{
 		[[noreturn]]
@@ -604,8 +757,9 @@ template <
 	typename T,
 	typename C,
 	typename Policy,
-	typename Abort = typename Policy::abort
-> using in_class_valid_if = basic_valid_if<T, Policy, Abort, const C&>;
+	typename Abort = typename Policy::abort,
+	typename DoLog = typename Policy::do_log
+> using in_class_valid_if = basic_valid_if<T, Policy, Abort, DoLog, const C&>;
 
 
 // valid if less than container.size()
@@ -616,6 +770,17 @@ struct valid_if_lt_size_policy
 	{
 		return x < c.size();
 	}
+
+	struct do_log
+	{
+		template <typename Log>
+		void operator ()(Log& log, const T& v, const C& c) const
+		{
+			log	<< "Value " << v << ", "
+				<< "not less than c.size() = "
+				<< c.size() << " is invalid";
+		}
+	};
 
 	struct abort
 	{
@@ -642,6 +807,17 @@ struct valid_if_ge_0_lt_size_policy
 	{
 		return (T(0) <= x) && (x < c.size());
 	}
+
+	struct do_log
+	{
+		template <typename Log>
+		void operator ()(Log& log, const T& v, const C& c) const
+		{
+			log	<< "Value " << v << ", less than zero or "
+				<< "not less than c.size() = "
+				<< c.size() << " is invalid";
+		}
+	};
 
 	struct abort
 	{
