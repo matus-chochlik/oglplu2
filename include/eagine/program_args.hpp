@@ -11,6 +11,7 @@
 
 #include "cstr_ref.hpp"
 #include "valid_if.hpp"
+#include "type_name.hpp"
 #include "span.hpp"
 #include <cassert>
 #include <sstream>
@@ -201,6 +202,13 @@ private:
 			{
 				dest.log_invalid(parse_log, value);
 			}
+		}
+		else
+		{
+			parse_log	<< "'" << get() << "' "
+					<< "is not a valid `"
+					<< type_name<T>()
+					<< "` value";
 		}
 		return false;
 	}

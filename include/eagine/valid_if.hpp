@@ -752,7 +752,7 @@ struct valid_if_one_of_policy
 		void operator ()(Log& log, const T& v) const
 		{
 			log	<< "Value " << v << ", "
-				<< "other than one of the following values (";
+				<< "other than one of the values [";
 
 			const T choices[] = {C...};
 			bool first = true;
@@ -761,7 +761,7 @@ struct valid_if_one_of_policy
 				log << (first?"":", ") << choice;
 				first = false;
 			}
-			log	<< ") is invalid";
+			log	<< "] is invalid";
 		}
 	};
 
@@ -819,7 +819,7 @@ struct valid_if_in_list_policy
 		void operator ()(Log& log, const T& v) const
 		{
 			log	<< "Value '" << v << "', "
-				<< "other than one of the following choices (";
+				<< "other than one of the values [";
 
 			bool first = true;
 			for(const T& choice : *_choices)
@@ -827,7 +827,7 @@ struct valid_if_in_list_policy
 				log << (first?"":", ") << "'" << choice << "'";
 				first = false;
 			}
-			log	<< ") is invalid";
+			log	<< "] is invalid";
 		}
 	};
 
