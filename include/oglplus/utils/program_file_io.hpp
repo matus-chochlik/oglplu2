@@ -12,7 +12,6 @@
 
 #include "program_file_hdr.hpp"
 #include "memory_block.hpp"
-#include "string_span.hpp"
 #include "span.hpp"
 #include <iostream>
 
@@ -58,7 +57,7 @@ inline
 void write_shader_source(
 	std::ostream& output,
 	shader_source_header& header,
-	const cstring_span<>& source_text,
+	const_memory_block source_text,
 	std::size_t& spos
 )
 {
@@ -69,7 +68,10 @@ void write_shader_source(
 		spos
 	);
 
-	output.write(source_text.data(), std::streamsize(source_text.size()));
+	output.write(
+		reinterpret_cast<const char*>(source_text.data()),
+		std::streamsize(source_text.size())
+	);
 	output.put('\0');
 	spos += std::size_t(source_text.size()+1);
 }
@@ -78,7 +80,7 @@ inline
 void write_shader_source(
 	std::ostream& output,
 	shader_source_header& header,
-	const cstring_span<>& source_text
+	const_memory_block source_text
 )
 {
 	std::size_t spos = 0;

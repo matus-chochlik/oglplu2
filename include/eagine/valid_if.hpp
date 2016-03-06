@@ -146,7 +146,7 @@ public:
 	template <typename Log>
 	void log_invalid(Log& log, const T& v, P ... p) const
 	{
-		assert(!is_valid());
+		assert(!is_valid(v));
 		_do_log(log, v, p...);
 	}
 
@@ -704,7 +704,7 @@ struct valid_if_not_empty_policy
 		template <typename Log>
 		void operator ()(Log& log, const T&) const
 		{
-			log << "Empty range or container is invalid";
+			log << "Empty range, string or container is invalid";
 		}
 	};
 
@@ -744,7 +744,7 @@ struct valid_if_one_of_policy
 	struct do_log
 	{
 		inline
-		do_log(const valid_if_one_of_policy<T>&)
+		do_log(const valid_if_one_of_policy<T, C...>&)
 		noexcept
 		{ }
 

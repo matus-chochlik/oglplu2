@@ -15,6 +15,7 @@
 #include "span.hpp"
 #include <cassert>
 #include <sstream>
+#include <vector>
 
 namespace eagine {
 
@@ -27,6 +28,36 @@ private:
 	cstr_ref _short_tag;
 	cstr_ref _long_tag;
 	T _value;
+
+	template <typename X>
+	static inline
+	bool _is_valid(const X&)
+	noexcept
+	{
+		return true;
+	}
+
+	template <typename X, typename P>
+	static inline
+	bool _is_valid(const valid_if<X, P>& vi)
+	noexcept
+	{
+		return vi.is_valid();
+	}
+
+	template <typename X>
+	static inline
+	void _log_invalid(const X&, const std::ostream&)
+	noexcept
+	{ }
+
+	template <typename X, typename P>
+	static inline
+	void _log_invalid(const valid_if<X, P>& vi, std::ostream& log)
+	noexcept
+	{
+		vi.log_invalid(log);
+	}
 
 	template <typename X>
 	static
@@ -86,6 +117,18 @@ public:
 	noexcept
 	{
 		return _value;
+	}
+
+	bool has_valid_value(void) const
+	noexcept
+	{
+		return _is_valid(_value);
+	}
+
+	void log_invalid_value(std::ostream& log) const
+	noexcept
+	{
+		_log_invalid(_value, log);
 	}
 
 	const auto& value(void) const
@@ -209,6 +252,18 @@ private:
 					<< "is not a valid `"
 					<< type_name<T>()
 					<< "` value";
+		}
+		return false;
+	}
+
+	template <typename T, typename A>
+	bool _do_parse(std::vector<T, A>& dest, std::ostream& parse_log)
+	{
+		T value;
+		if(parse(value, parse_log))
+		{
+			dest.push_back(std::move(value));
+			return true;
 		}
 		return false;
 	}
@@ -548,6 +603,43 @@ public:
 		auto if_invalid = invalid_handler(errorlog);
 		return do_consume_next(
 			dest,
+			symbols, translations,
+			if_missing, if_invalid
+		);
+	}
+
+	template <typename T, typename R, class MissingFunc, class InvalidFunc>
+	bool do_parse_param(
+		program_parameter<T>& param,
+		const span<const cstr_ref>& symbols,
+		const span<const R>& translations,
+		MissingFunc handle_missing,
+		InvalidFunc handle_invalid
+	)
+	{
+		if((get() == param.short_tag()) || (get() == param.long_tag()))
+		{
+			return do_consume_next(
+				param.ref(),
+				symbols, translations,
+				handle_missing, handle_invalid
+			);
+		}
+		return false;
+	}
+
+	template <typename T, typename R>
+	bool parse_param(
+		program_parameter<T>& param,
+		const span<const cstr_ref>& symbols,
+		const span<const R>& translations,
+		std::ostream& errorlog
+	)
+	{
+		auto if_missing = missing_handler(errorlog);
+		auto if_invalid = invalid_handler(errorlog);
+		return do_parse_param(
+			param,
 			symbols, translations,
 			if_missing, if_invalid
 		);
