@@ -74,27 +74,11 @@ struct options
 #endif
 	}
 
-	template <typename T>
-	bool check(
-		const eagine::program_parameter<T>& param,
-		std::ostream& log
-	)
-	{
-		if(!param.has_valid_value())
-		{
-			log << "Invalid value for " << param.long_tag() << ": ";
-			param.log_invalid_value(log);
-			log << "." << std::endl;
-			return false;
-		}
-		return true;
-	}
-
 	bool check(std::ostream& log)
 	{
-		return	check(input_path, log) &&
-			check(output_path, log) &&
-			check(shader_type, log);
+		return	input_path.validate(log) &&
+			output_path.validate(log) &&
+			shader_type.validate(log);
 	}
 
 	bool parse(eagine::program_arg& a, std::ostream& log)
@@ -221,22 +205,22 @@ int parse_options(int argc, const char** argv, options& opts)
 
 	for(eagine::program_arg a = args.first(); a; a = a.next())
 	{
-		if(a == "-h" || a == "--help")
+		if(a.is_help_arg())
 		{
 			opts.print_usage(std::cout);
-			return 0;
+			return 1;
 		}
 		else if(!parse_argument(a, opts))
 		{
 			opts.print_usage(std::cerr);
-			return 1;
+			return 2;
 		}
 	}
 
 	if(!opts.check(std::cerr))
 	{
 		opts.print_usage(std::cerr);
-		return 2;
+		return 3;
 	}
 
 	return 0;

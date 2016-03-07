@@ -19,20 +19,39 @@
 // program options
 struct options
 {
-	typedef eagine::program_parameter<eagine::cstr_ref> _str_param_t;
+	typedef eagine::program_parameter<
+		eagine::valid_if_not_empty<eagine::cstr_ref>
+	> _str_param_t;
 
 	_str_param_t input_path;
 	_str_param_t output_path;
 
+	eagine::program_parameters all;
+
 	options(void)
-	 : input_path("-i", "--input", "a.png")
-	 , output_path("-o", "--output", "a.oglptex")
+	 : input_path("-i", "--input", eagine::cstr_ref())
+	 , output_path("-o", "--output", eagine::cstr_ref("a.oglptex"))
+	 , all(input_path, output_path)
 	{ }
 
-	bool parse(eagine::program_arg& a, std::ostream& log)
+	void print_usage(std::ostream& log)
 	{
-		return	a.parse_param(input_path, log) ||
-			a.parse_param(output_path,log);
+		log <<	"bake_png_image options" << std::endl;
+		log <<	"  options:" << std::endl;
+		log <<	"   -i|--input PATH: Input PNG file path " <<
+			"or '-' for stdin." << std::endl;
+		log <<	"   -o|--output PATH: Output file path "
+			"or '-' for stdout." << std::endl;
+	}
+
+	bool check(std::ostream& log)
+	{
+		return all.validate(log);
+	}
+
+	bool parse(eagine::program_arg& arg, std::ostream& log)
+	{
+		return all.parse(arg, log);
 	}
 };
 
@@ -241,11 +260,24 @@ int parse_options(int argc, const char** argv, options& opts)
 
 	for(eagine::program_arg a = args.first(); a; a = a.next())
 	{
-		if(!parse_argument(a, opts))
+		if(a.is_help_arg())
 		{
+			opts.print_usage(std::cout);
 			return 1;
 		}
+		else if(!parse_argument(a, opts))
+		{
+			opts.print_usage(std::cerr);
+			return 2;
+		}
 	}
+
+	if(!opts.check(std::cerr))
+	{
+		opts.print_usage(std::cerr);
+		return 3;
+	}
+
 	return 0;
 }
 

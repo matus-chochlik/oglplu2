@@ -27,6 +27,8 @@ struct options
 	_int_param_t height;
 	_int_param_t depth;
 
+	eagine::program_parameters all;
+
 	options(void)
 	 : output_path("-o", "--output", "a.oglptex")
 	 , components("-c", "--components", 1)
@@ -34,7 +36,32 @@ struct options
 	 , width("-w", "--width", 256)
 	 , height("-h", "--height", 256)
 	 , depth("-d", "--depth", 1)
+	 , all(output_path, components, width, height, depth)
 	{ }
+
+	void print_usage(std::ostream& log)
+	{
+		log <<	"bake_noise_image options" << std::endl;
+		log <<	"  options:" << std::endl;
+		log <<	"   -o|--output PATH: Output file path "
+			"or '-' for stdout." << std::endl;
+		log <<	"   -c|--components N: Number of components.";
+		log <<	std::endl;
+		log <<	"   -f|--format FORMAT: Output format." << std::endl;
+		log <<	"     FORMAT is one of the following:" << std::endl;
+		log <<	"       R8" << std::endl;
+		log <<	"       RG8" << std::endl;
+		log <<	"       RGB8" << std::endl;
+		log <<	"       RGBB8" << std::endl;
+		log <<	"   -w|--width N: Output image width." << std::endl;
+		log <<	"   -h|--height N: Output image height." << std::endl;
+		log <<	"   -d|--depth N: Output image depth." << std::endl;
+	}
+
+	bool check(std::ostream& log) const
+	{
+		return	all.validate(log);
+	}
 
 	bool parse(eagine::program_arg& a, std::ostream& log)
 	{
@@ -145,11 +172,24 @@ int parse_options(int argc, const char** argv, options& opts)
 
 	for(eagine::program_arg a = args.first(); a; a = a.next())
 	{
-		if(!parse_argument(a, opts))
+		if(a.is_help_arg())
 		{
+			opts.print_usage(std::cout);
 			return 1;
 		}
+		else if(!parse_argument(a, opts))
+		{
+			opts.print_usage(std::cerr);
+			return 2;
+		}
 	}
+
+	if(!opts.check(std::cerr))
+	{
+		opts.print_usage(std::cerr);
+		return 2;
+	}
+
 	return 0;
 }
 

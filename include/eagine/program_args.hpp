@@ -16,6 +16,7 @@
 #include <cassert>
 #include <sstream>
 #include <vector>
+#include <memory>
 
 namespace eagine {
 
@@ -125,10 +126,21 @@ public:
 		return _is_valid(_value);
 	}
 
-	void log_invalid_value(std::ostream& log) const
-	noexcept
+	std::ostream& log_invalid_value(std::ostream& log) const
 	{
+		log << "Invalid value of parameter " << long_tag() << ": ";
 		_log_invalid(_value, log);
+		return log << ". ";
+	}
+
+	bool validate(std::ostream& log) const
+	{
+		if(!has_valid_value())
+		{
+			log_invalid_value(log) << std::endl;
+			return false;
+		}
+		return true;
 	}
 
 	const auto& value(void) const
@@ -316,6 +328,12 @@ public:
 	noexcept
 	{
 		return get();
+	}
+
+	bool is_help_arg(void) const
+	noexcept
+	{
+		return (get() == cstr_ref("-h"))||(get() == cstr_ref("--help"));
 	}
 
 	program_arg next(void) const
@@ -692,6 +710,108 @@ public:
 	noexcept
 	{
 		return get() != v;
+	}
+};
+
+class program_parameters
+{
+private:
+	struct _intf
+	{
+		virtual ~_intf(void) = default;
+
+		virtual bool parse(program_arg&, std::ostream&) = 0;
+
+		virtual bool validate(std::ostream&) const = 0;
+	};
+
+	template <typename T>
+	struct _impl : _intf
+	{
+		program_parameter<T>* _param;
+
+		_impl(program_parameter<T>& param)
+		noexcept
+		 : _param(&param)
+		{ }
+
+		bool parse(program_arg& arg, std::ostream& log)
+		override
+		{
+			return arg.parse_param(*_param, log);
+		}
+
+		bool validate(std::ostream& log) const
+		override
+		{
+			return _param->validate(log);
+		}
+	};
+
+	std::vector<std::unique_ptr<_intf>> _params;
+
+	static inline
+	std::vector<std::unique_ptr<_intf>>&
+	_insert(std::vector<std::unique_ptr<_intf>>& dest)
+	noexcept
+	{
+		return dest;
+	}
+
+	template <typename ... Intf>
+	static inline
+	std::vector<std::unique_ptr<_intf>>&
+	_insert(
+		std::vector<std::unique_ptr<_intf>>& dest,
+		std::unique_ptr<_intf>&& param,
+		std::unique_ptr<Intf>&& ... params
+	) noexcept
+	{
+		dest.push_back(std::move(param));
+		return _insert(dest, std::move(params)...);
+	}
+
+	template <typename ... Intf>
+	static
+	std::vector<std::unique_ptr<_intf>>
+	_make(std::unique_ptr<Intf>&& ... params)
+	{
+		std::vector<std::unique_ptr<_intf>> result;
+		result.resize(sizeof ... (params));
+		return std::move(_insert(result, std::move(params)...));
+	}
+public:
+	template <typename ... T>
+	program_parameters(program_parameter<T>& ... params)
+	 : _params(_make(std::unique_ptr<_intf>(new _impl<T>(params))...))
+	{ }
+
+	std::size_t size(void) const
+	noexcept
+	{
+		return _params.size();
+	}
+
+	bool parse(program_arg& arg, std::ostream& log)
+	{
+		for(std::unique_ptr<_intf>& param : _params)
+		{
+			if(param->parse(arg, log))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	bool validate(std::ostream& log) const
+	{
+		bool all_ok = true;
+		for(const std::unique_ptr<_intf>& param : _params)
+		{
+			all_ok &= param->validate(log);
+		}
+		return all_ok;
 	}
 };
 

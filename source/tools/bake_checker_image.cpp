@@ -26,6 +26,8 @@ struct options
 	_int_param_t rep_y;
 	_int_param_t rep_z;
 
+	eagine::program_parameters all;
+
 	options(void)
 	 : output_path("-o", "--output", "a.oglptex")
 	 , width("-w", "--width", 256)
@@ -34,17 +36,31 @@ struct options
 	 , rep_x("-x", "--x-repeat", 8)
 	 , rep_y("-y", "--y-repeat", 8)
 	 , rep_z("-z", "--z-repeat", 8)
+	 , all(output_path, width, height, depth, rep_x, rep_y, rep_x)
 	{ }
 
-	bool parse(eagine::program_arg& a, std::ostream& log)
+	void print_usage(std::ostream& log)
 	{
-		return	a.parse_param(width, log) ||
-			a.parse_param(height,log) ||
-			a.parse_param(depth, log) ||
-			a.parse_param(rep_x, log) ||
-			a.parse_param(rep_y, log) ||
-			a.parse_param(rep_z, log) ||
-			a.parse_param(output_path, log);
+		log <<	"bake_checker_image options" << std::endl;
+		log <<	"  options:" << std::endl;
+		log <<	"   -o|--output PATH: Output file path "
+			"or '-' for stdout." << std::endl;
+		log <<	"   -w|--width N: Output image width." << std::endl;
+		log <<	"   -h|--height N: Output image height." << std::endl;
+		log <<	"   -d|--depth N: Output image depth." << std::endl;
+		log <<	"   -x|--x-repeat N: Repeat on the X axis." <<std::endl;
+		log <<	"   -y|--y-repeat N: Repeat on the Y axis." <<std::endl;
+		log <<	"   -z|--z-repeat N: Repeat on the Z axis." <<std::endl;
+	}
+
+	bool check(std::ostream& log)
+	{
+		return all.validate(log);
+	}
+
+	bool parse(eagine::program_arg& arg, std::ostream& log)
+	{
+		return all.parse(arg, log);
 	}
 };
 
@@ -127,11 +143,24 @@ int parse_options(int argc, const char** argv, options& opts)
 
 	for(eagine::program_arg a = args.first(); a; a = a.next())
 	{
-		if(!parse_argument(a, opts))
+		if(a.is_help_arg())
 		{
+			opts.print_usage(std::cout);
 			return 1;
 		}
+		else if(!parse_argument(a, opts))
+		{
+			opts.print_usage(std::cerr);
+			return 2;
+		}
 	}
+
+	if(!opts.check(std::cerr))
+	{
+		opts.print_usage(std::cerr);
+		return 3;
+	}
+
 	return 0;
 }
 
