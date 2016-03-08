@@ -767,6 +767,7 @@ private:
 		std::unique_ptr<Intf>&& ... params
 	) noexcept
 	{
+		assert(param != nullptr);
 		dest.push_back(std::move(param));
 		return _insert(dest, std::move(params)...);
 	}
@@ -777,7 +778,7 @@ private:
 	_make(std::unique_ptr<Intf>&& ... params)
 	{
 		std::vector<std::unique_ptr<_intf>> result;
-		result.resize(sizeof ... (params));
+		result.reserve(sizeof ... (params));
 		return std::move(_insert(result, std::move(params)...));
 	}
 public:
@@ -796,6 +797,7 @@ public:
 	{
 		for(std::unique_ptr<_intf>& param : _params)
 		{
+			assert(param != nullptr);
 			if(param->parse(arg, log))
 			{
 				return true;
@@ -809,6 +811,7 @@ public:
 		bool all_ok = true;
 		for(const std::unique_ptr<_intf>& param : _params)
 		{
+			assert(param != nullptr);
 			all_ok &= param->validate(log);
 		}
 		return all_ok;

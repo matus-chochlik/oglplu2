@@ -134,6 +134,11 @@ void write_and_pad_program_source_header(
 		std::ptrdiff_t(shader_source_lengths.size())*
 		std::ptrdiff_t(sizeof(std::ptrdiff_t));
 
+	if(offs % 16 != 0)
+	{
+		offs += 16 - (offs % 16);
+	}
+
 	for(std::size_t len : shader_source_lengths)
 	{
 		output.write(
@@ -155,6 +160,12 @@ void write_and_pad_program_source_header(
 
 		offs += std::ptrdiff_t(shader_block_size);
 		offs -= std::ptrdiff_t(sizeof(std::ptrdiff_t));
+	}
+
+	while(spos % 16 != 0)
+	{
+		output.put('\0');
+		++spos;
 	}
 }
 
