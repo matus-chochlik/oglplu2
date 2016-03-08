@@ -13,3 +13,4 @@ if(PNG_FOUND)
 endif()
 
 add_executable(bake_shader_source bake_shader_source.cpp)
+add_executable(bake_program_source bake_program_source.cpp)
