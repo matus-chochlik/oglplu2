@@ -36,21 +36,22 @@ struct options
 	 , rep_x("-x", "--x-repeat", 8)
 	 , rep_y("-y", "--y-repeat", 8)
 	 , rep_z("-z", "--z-repeat", 8)
-	 , all(output_path, width, height, depth, rep_x, rep_y, rep_x)
-	{ }
+	 , all(output_path, width, height, depth, rep_x, rep_y, rep_z)
+	{
+		output_path.description(
+		"Output file path, or '-' for standard output."
+		);
+		width.description("Output image width in pixels.");
+		height.description("Output image height in pixels.");
+		depth.description("Output image depth in pixels.");
+		rep_x.description("Pattern repeat along the X axis.");
+		rep_y.description("Pattern repeat along the Y axis.");
+		rep_z.description("Pattern repeat along the Z axis.");
+	}
 
 	void print_usage(std::ostream& log)
 	{
-		log <<	"bake_checker_image options" << std::endl;
-		log <<	"  options:" << std::endl;
-		log <<	"   -o|--output PATH: Output file path "
-			"or '-' for stdout." << std::endl;
-		log <<	"   -w|--width N: Output image width." << std::endl;
-		log <<	"   -h|--height N: Output image height." << std::endl;
-		log <<	"   -d|--depth N: Output image depth." << std::endl;
-		log <<	"   -x|--x-repeat N: Repeat on the X axis." <<std::endl;
-		log <<	"   -y|--y-repeat N: Repeat on the Y axis." <<std::endl;
-		log <<	"   -z|--z-repeat N: Repeat on the Z axis." <<std::endl;
+		all.print_usage(log, "bake_checker_image");
 	}
 
 	bool check(std::ostream& log)

@@ -28,6 +28,7 @@ class program_parameter
 private:
 	cstr_ref _short_tag;
 	cstr_ref _long_tag;
+	cstr_ref _description;
 	T _value;
 
 	template <typename X>
@@ -112,6 +113,19 @@ public:
 	noexcept
 	{
 		return _long_tag;
+	}
+
+	const cstr_ref& description(void) const
+	noexcept
+	{
+		return _description;
+	}
+
+	program_parameter& description(cstr_ref help_str)
+	noexcept
+	{
+		_description = help_str;
+		return *this;
 	}
 
 	T& ref(void)
@@ -722,29 +736,81 @@ private:
 
 		virtual bool parse(program_arg&, std::ostream&) = 0;
 
+		virtual bool has_valid_value(void) const = 0;
 		virtual bool validate(std::ostream&) const = 0;
+
+		virtual const cstr_ref& short_tag(void) const = 0;
+		virtual const cstr_ref& long_tag(void) const = 0;
+		virtual const cstr_ref& description(void) const = 0;
+		virtual const cstr_ref& placeholder(void) const = 0;
 	};
 
 	template <typename T>
 	struct _impl : _intf
 	{
-		program_parameter<T>* _param;
+		program_parameter<T>* _pparam;
+		cstr_ref _plchldr;
+
+		program_parameter<T>& _param(void)
+		noexcept
+		{
+			assert(_pparam != nullptr);
+			return *_pparam;
+		}
+
+		const program_parameter<T>& _param(void) const
+		noexcept
+		{
+			assert(_pparam != nullptr);
+			return *_pparam;
+		}
 
 		_impl(program_parameter<T>& param)
 		noexcept
-		 : _param(&param)
+		 : _pparam(&param)
+		 , _plchldr("VALUE") // TODO: be more precise depending on T
 		{ }
 
 		bool parse(program_arg& arg, std::ostream& log)
 		override
 		{
-			return arg.parse_param(*_param, log);
+			return arg.parse_param(_param(), log);
+		}
+
+		bool has_valid_value(void) const
+		override
+		{
+			return _param().has_valid_value();
 		}
 
 		bool validate(std::ostream& log) const
 		override
 		{
-			return _param->validate(log);
+			return _param().validate(log);
+		}
+
+		const cstr_ref& short_tag(void) const
+		override
+		{
+			return _param().short_tag();
+		}
+
+		const cstr_ref& long_tag(void) const
+		override
+		{
+			return _param().long_tag();
+		}
+
+		const cstr_ref& description(void) const
+		override
+		{
+			return _param().description();
+		}
+
+		const cstr_ref& placeholder(void) const
+		override
+		{
+			return _plchldr;
 		}
 	};
 
@@ -815,6 +881,58 @@ public:
 			all_ok &= param->validate(log);
 		}
 		return all_ok;
+	}
+
+	std::ostream& print_usage(std::ostream& out, const cstr_ref& command)
+	{
+		out << "Usage: " << command;
+
+		span_size_type stag_maxl = 0;
+		span_size_type ltag_maxl = 0;
+
+		for(const std::unique_ptr<_intf>& param : _params)
+		{
+			assert(param != nullptr);
+
+			out << " ";
+
+			bool mandatory = !param->has_valid_value();
+
+			out << (mandatory?'<':'[');
+
+			out << param->short_tag() << "|" << param->long_tag();
+			out << " " << param->placeholder();
+
+			out << (mandatory?'>':']');
+
+			if(stag_maxl < param->short_tag().size())
+			{
+				stag_maxl = param->short_tag().size();
+			}
+
+			if(ltag_maxl < param->long_tag().size())
+			{
+				ltag_maxl = param->long_tag().size();
+			}
+		}
+		out << std::endl;
+		out << "  Options:" << std::endl;
+
+		span_size_type padl;
+
+		for(const std::unique_ptr<_intf>& param : _params)
+		{
+			padl = 4+stag_maxl-param->short_tag().size();
+			while(padl-- > 0) out << " ";
+			out << param->short_tag() << "|";
+
+			out << param->long_tag();
+			padl = ltag_maxl-param->long_tag().size();
+			while(padl-- > 0) out << " ";
+			out << ": " << param->description() << std::endl;
+		}
+
+		return out;
 	}
 };
 

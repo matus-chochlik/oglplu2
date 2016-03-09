@@ -76,40 +76,42 @@ struct options
 #endif
 		output_path
 	)
-	{ }
+	{
+		vertex_shader_paths.description(
+		"Path to existing vertex shader source file."
+		);
+#ifdef GL_GEOMETRY_SHADER
+		geometry_shader_paths.description(
+		"Path to existing geometry shader source file."
+		);
+#endif
+#ifdef GL_TESS_CONTROL_SHADER
+		tess_control_shader_paths.description(
+		"Path to existing tessellation control shader source file."
+		);
+#endif
+#ifdef GL_TESS_EVALUATION_SHADER
+		tess_evaluation_shader_paths.description(
+		"Path to existing tessellation evaluation shader source file."
+		);
+#endif
+		fragment_shader_paths.description(
+		"Path to existing fragment shader source file."
+		);
+#ifdef GL_COMPUTE_SHADER
+		compute_shader_paths.description(
+		"Path to existing compute shader source file."
+		);
+#endif
+		output_path.description(
+		"Output file path, or '-' for standard output."
+		);
+		
+	}
 
 	void print_usage(std::ostream& log)
 	{
-		log <<	"bake_program_source options" << std::endl;
-		log <<	"  options:" << std::endl;
-		log <<	"   -o |--output PATH: Output file path "
-			"or '-' for stdout." << std::endl;
-		log <<	"   -vx|--vertex PATH: "
-			"Vertex shader GLSL file path.";
-		log <<	std::endl;
-#ifdef GL_GEOMETRY_SHADER
-		log <<	"   -gy|--geometry PATH: "
-			"Geometry shader GLSL file path.";
-		log <<	std::endl;
-#endif
-#ifdef GL_TESS_CONTROL_SHADER
-		log <<	"   -tc|--tess-control PATH: "
-			"Tessellation control shader GLSL file path.";
-		log <<	std::endl;
-#endif
-#ifdef GL_TESS_EVALUATION_SHADER
-		log <<	"   -te|--tess-evaluation PATH: "
-			"Tessellation evaluation shader GLSL file path.";
-		log <<	std::endl;
-#endif
-		log <<	"   -ft|--fragment PATH: "
-			"Fragment shader GLSL file path.";
-		log <<	std::endl;
-#ifdef GL_COMPUTE_SHADER
-		log <<	"   -ce|--compute PATH: "
-			"Compute shader GLSL file path.";
-		log <<	std::endl;
-#endif
+		all.print_usage(log, "bake_program_source");
 	}
 
 	bool check(std::ostream& log)

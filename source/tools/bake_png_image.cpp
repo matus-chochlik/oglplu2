@@ -32,16 +32,18 @@ struct options
 	 : input_path("-i", "--input", eagine::cstr_ref())
 	 , output_path("-o", "--output", eagine::cstr_ref("a.oglptex"))
 	 , all(input_path, output_path)
-	{ }
+	{
+		input_path.description(
+		"Path to existing PNG input file, or '-' for standard input."
+		);
+		output_path.description(
+		"Path to output file, or '-' for standard output."
+		);
+	}
 
 	void print_usage(std::ostream& log)
 	{
-		log <<	"bake_png_image options" << std::endl;
-		log <<	"  options:" << std::endl;
-		log <<	"   -i|--input PATH: Input PNG file path " <<
-			"or '-' for stdin." << std::endl;
-		log <<	"   -o|--output PATH: Output file path "
-			"or '-' for stdout." << std::endl;
+		all.print_usage(log, "bake_png_image");
 	}
 
 	bool check(std::ostream& log)
