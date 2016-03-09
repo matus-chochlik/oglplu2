@@ -95,6 +95,8 @@ int main(int argc, const char** argv)
 			<< ": ";
 	};
 
+	params.executable_path(args.command());
+
 	for(auto a = args.first(); a; a = a.next())
 	{
 		if(a == "--screenshot")
