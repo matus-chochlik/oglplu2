@@ -221,6 +221,82 @@ public:
 	}
 };
 
+template <>
+class program_parameter<void>
+{
+private:
+	cstr_ref _short_tag;
+	cstr_ref _long_tag;
+	cstr_ref _description;
+	std::size_t _count;
+public:
+	program_parameter(
+		const cstr_ref& short_tag,
+		const cstr_ref& long_tag
+	) noexcept
+	 : _short_tag(short_tag)
+	 , _long_tag(long_tag)
+	 , _count(0)
+	{ }
+
+	const cstr_ref& short_tag(void) const
+	noexcept
+	{
+		return _short_tag;
+	}
+
+	const cstr_ref& long_tag(void) const
+	noexcept
+	{
+		return _long_tag;
+	}
+
+	const cstr_ref& description(void) const
+	noexcept
+	{
+		return _description;
+	}
+
+	program_parameter& description(cstr_ref help_str)
+	noexcept
+	{
+		_description = help_str;
+		return *this;
+	}
+
+	void increment(void)
+	noexcept
+	{
+		++_count;
+	}
+
+	bool has_valid_value(void) const
+	noexcept
+	{
+		return true;
+	}
+
+	std::ostream& log_invalid_value(std::ostream& log) const
+	noexcept
+	{
+		return log;
+	}
+
+	bool validate(std::ostream&) const
+	noexcept
+	{
+		return true;
+	}
+
+	std::size_t value(void) const
+	noexcept
+	{
+		return _count;
+	}
+};
+
+typedef program_parameter<void> program_option;
+
 class program_arg
 {
 private:
@@ -470,6 +546,21 @@ public:
 				handle_missing,
 				handle_invalid
 			);
+		}
+		return false;
+	}
+
+	template <typename MissingFunc, typename InvalidFunc>
+	bool do_parse_param(
+		program_parameter<void>& param,
+		const MissingFunc&,
+		const InvalidFunc&
+	)
+	{
+		if((get() == param.short_tag()) || (get() == param.long_tag()))
+		{
+			param.increment();
+			return true;
 		}
 		return false;
 	}

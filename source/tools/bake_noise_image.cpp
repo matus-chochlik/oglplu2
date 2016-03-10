@@ -19,6 +19,7 @@ struct options
 	typedef eagine::valid_if_positive<GLsizei> _pos_int_t;
 	typedef eagine::program_parameter<_pos_int_t> _int_param_t;
 	typedef eagine::program_parameter_alias<_pos_int_t> _int_alias_t;
+	typedef eagine::program_option _opt_param_t;
 
 	_str_param_t output_path;
 	_int_param_t components;
@@ -26,6 +27,7 @@ struct options
 	_int_param_t width;
 	_int_param_t height;
 	_int_param_t depth;
+	_opt_param_t verbosity;
 
 	eagine::program_parameters all;
 
@@ -36,7 +38,8 @@ struct options
 	 , width("-w", "--width", 256)
 	 , height("-h", "--height", 256)
 	 , depth("-d", "--depth", 1)
-	 , all(output_path, components, width, height, depth)
+	 , verbosity("-v", "--verbose")
+	 , all(output_path, components, width, height, depth, verbosity)
 	{ }
 
 	void print_usage(std::ostream& log)
@@ -79,7 +82,8 @@ struct options
 			a.parse_param(format, fmtnames, cmpbytes, log) ||
 			a.parse_param(width, log) ||
 			a.parse_param(height, log) ||
-			a.parse_param(depth, log);
+			a.parse_param(depth, log) ||
+			a.parse_param(verbosity, log);
 	}
 };
 
