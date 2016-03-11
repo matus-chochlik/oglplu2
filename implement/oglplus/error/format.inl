@@ -242,7 +242,7 @@ format_error(
 {
 	return format_error_info(
 		err.info(),
-		{err.what(), std::strlen(err.what())},
+		cstr_ref(err.what()),
 		fmt_str,
 		n_a_str,
 		out
