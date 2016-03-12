@@ -147,7 +147,7 @@ valid_if<
 			{
 				typename Range1::size_type p = ls-lt;
 
-				while(p > 0)
+				while(p >= 0)
 				{
 					if(equal(slice(where, p, lt), what))
 					{
@@ -164,8 +164,7 @@ valid_if<
 
 template <typename Range1, typename Range2>
 static inline
-typename Range1::size_type
-contains(const Range1& where, const Range2& what)
+bool contains(const Range1& where, const Range2& what)
 {
 	return find_pos(where, what).is_valid();
 }
@@ -174,9 +173,12 @@ template <typename Range1, typename Range2>
 static inline
 Range1 find(const Range1& where, const Range2& what)
 {
-	return slice(where, find_pos(where, what));
+	if(auto pos = find_pos(where, what))
+	{
+		return slice(where, pos.value());
+	}
+	return {};
 }
-
 
 template <typename Range1, typename Range2>
 static inline

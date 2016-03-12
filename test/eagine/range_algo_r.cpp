@@ -432,4 +432,249 @@ BOOST_AUTO_TEST_CASE(range_algo_ends_with_1)
 	test_range_ends_with_1<int>(-100000, 100000);
 }
 
+template <typename T>
+void test_range_find_pos_1(eagine::span<T> rng1, eagine::span<T> rng2)
+{
+	using namespace eagine;
+
+	if(auto f = ranges::find_pos(rng1, rng2))
+	{
+		span_size_type p = f.value();
+		span_size_type n = rng2.size();
+
+		bool equal = true;
+
+		for(span_size_type i=0; i<n; ++i)
+		{
+			equal &= (rng1[p+i] == rng2[i]);
+		}
+
+		BOOST_CHECK(equal);
+		BOOST_CHECK(ranges::contains(rng1, rng2));
+	}
+	else if(rng2.size() > 0)
+	{
+		BOOST_CHECK(!ranges::contains(rng1, rng2));
+	}
+}
+
+template <typename T>
+void test_range_find_pos_1(T min, T max, bool has)
+{
+	typedef typename std::vector<T>::size_type sz_t;
+
+	sz_t l1 = sz_t(20+std::rand()%80);
+	sz_t l2 = sz_t(std::rand())%l1;
+	sz_t p2 = sz_t(std::rand())%(l1-l2);
+	sz_t i = 0;
+
+	assert(p2+l2 <= l1);
+
+	std::vector<T> v1(l1);
+	std::vector<T> v2(l2);
+
+	while(i < p2)
+	{
+		v1[i] = T(min + (std::rand()%(max-min)));
+		++i;
+	}
+
+	while(i < p2+l2)
+	{
+		v1[i] = T(min + (std::rand()%(max-min)));
+		if(has) v2[i-p2] = v1[i];
+		else v2[i-p2] = T(min + (std::rand()%(max-min)));
+		++i;
+	}
+
+	while(i < l1)
+	{
+		v1[i] = T(min + (std::rand()%(max-min)));
+		++i;
+	}
+
+	test_range_find_pos_1(eagine::as_span(v1), eagine::as_span(v2));
+}
+
+template <typename T>
+void test_range_find_pos_1(T min, T max)
+{
+	test_range_find_pos_1(min, max, true);
+	test_range_find_pos_1(min, max,false);
+
+	for(int i=0; i<10; ++i)
+	{
+		test_range_find_pos_1(min, max, std::rand()%2==0);
+	}
+}
+
+BOOST_AUTO_TEST_CASE(range_algo_find_pos_1)
+{
+	test_range_find_pos_1<char>('A','Z');
+	test_range_find_pos_1<int>(-100000, 100000);
+}
+
+template <typename T>
+void test_range_rfind_pos_1(eagine::span<T> rng1, eagine::span<T> rng2)
+{
+	using namespace eagine;
+
+	if(auto f = ranges::rfind_pos(rng1, rng2))
+	{
+		span_size_type p = f.value();
+		span_size_type n = rng2.size();
+
+		bool equal = true;
+
+		for(span_size_type i=0; i<n; ++i)
+		{
+			equal &= (rng1[p+i] == rng2[i]);
+		}
+
+		BOOST_CHECK(equal);
+		BOOST_CHECK(ranges::contains(rng1, rng2));
+	}
+	else if(rng2.size() > 0)
+	{
+		BOOST_CHECK(!ranges::contains(rng1, rng2));
+	}
+}
+
+template <typename T>
+void test_range_rfind_pos_1(T min, T max, bool has)
+{
+	typedef typename std::vector<T>::size_type sz_t;
+
+	sz_t l1 = sz_t(20+std::rand()%80);
+	sz_t l2 = sz_t(std::rand())%l1;
+	sz_t p2 = sz_t(std::rand())%(l1-l2);
+	sz_t i = 0;
+
+	assert(p2+l2 <= l1);
+
+	std::vector<T> v1(l1);
+	std::vector<T> v2(l2);
+
+	while(i < p2)
+	{
+		v1[i] = T(min + (std::rand()%(max-min)));
+		++i;
+	}
+
+	while(i < p2+l2)
+	{
+		v1[i] = T(min + (std::rand()%(max-min)));
+		if(has) v2[i-p2] = v1[i];
+		else v2[i-p2] = T(min + (std::rand()%(max-min)));
+		++i;
+	}
+
+	while(i < l1)
+	{
+		v1[i] = T(min + (std::rand()%(max-min)));
+		++i;
+	}
+
+	test_range_rfind_pos_1(eagine::as_span(v1), eagine::as_span(v2));
+}
+
+template <typename T>
+void test_range_rfind_pos_1(T min, T max)
+{
+	test_range_rfind_pos_1(min, max, true);
+	test_range_rfind_pos_1(min, max,false);
+
+	for(int i=0; i<10; ++i)
+	{
+		test_range_rfind_pos_1(min, max, std::rand()%2==0);
+	}
+}
+
+BOOST_AUTO_TEST_CASE(range_algo_rfind_pos_1)
+{
+	test_range_rfind_pos_1<char>('A','Z');
+	test_range_rfind_pos_1<int>(-100000, 100000);
+}
+
+template <typename T>
+void test_range_find_1(eagine::span<T> rng1, eagine::span<T> rng2)
+{
+	using namespace eagine;
+
+	eagine::span<T> rng3 = ranges::find(rng1, rng2);
+	if(rng3.size() > 0)
+	{
+		BOOST_ASSERT(rng2.size() <= rng3.size());
+
+		span_size_type n = rng2.size();
+
+		bool equal = true;
+
+		for(span_size_type i=0; i<n; ++i)
+		{
+			equal &= (rng2[i] == rng3[i]);
+		}
+
+		BOOST_CHECK(equal);
+	}
+}
+
+template <typename T>
+void test_range_find_1(T min, T max, bool has)
+{
+	typedef typename std::vector<T>::size_type sz_t;
+
+	sz_t l1 = sz_t(20+std::rand()%80);
+	sz_t l2 = sz_t(std::rand())%l1;
+	sz_t p2 = sz_t(std::rand())%(l1-l2);
+	sz_t i = 0;
+
+	assert(p2+l2 <= l1);
+
+	std::vector<T> v1(l1);
+	std::vector<T> v2(l2);
+
+	while(i < p2)
+	{
+		v1[i] = T(min + (std::rand()%(max-min)));
+		++i;
+	}
+
+	while(i < p2+l2)
+	{
+		v1[i] = T(min + (std::rand()%(max-min)));
+		if(has) v2[i-p2] = v1[i];
+		else v2[i-p2] = T(min + (std::rand()%(max-min)));
+		++i;
+	}
+
+	while(i < l1)
+	{
+		v1[i] = T(min + (std::rand()%(max-min)));
+		++i;
+	}
+
+	test_range_find_1(eagine::as_span(v1), eagine::as_span(v2));
+}
+
+template <typename T>
+void test_range_find_1(T min, T max)
+{
+	test_range_find_1(min, max, true);
+	test_range_find_1(min, max,false);
+
+	for(int i=0; i<10; ++i)
+	{
+		test_range_find_1(min, max, std::rand()%2==0);
+	}
+}
+
+BOOST_AUTO_TEST_CASE(range_algo_find_1)
+{
+	test_range_find_1<char>('A','Z');
+	test_range_find_1<int>(-100000, 100000);
+}
+
+// TODO
+
 BOOST_AUTO_TEST_SUITE_END()
