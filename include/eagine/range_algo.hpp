@@ -20,48 +20,57 @@ template <typename Range>
 static inline
 Range slice(
 	const Range& rng,
-	typename Range::size_type pos,
-	typename Range::size_type len
+	valid_if_nonnegative<typename Range::size_type> pos,
+	valid_if_nonnegative<typename Range::size_type> len
 )
 {
-	if(pos > rng.size())
+	if(pos.value() > rng.size())
 	{
 		pos = rng.size();
 	}
-	if(len > rng.size()-pos)
+	if(len.value() > rng.size()-pos.value())
 	{
-		len = rng.size()-pos;
+		len = rng.size()-pos.value();
 	}
-	return {rng.data()+pos, len};
+	return {rng.data()+pos.value(), len.value()};
 }
 
 template <typename Range>
 static inline
-Range slice(const Range& rng, typename Range::size_type pos)
+Range slice(
+	const Range& rng,
+	valid_if_nonnegative<typename Range::size_type> pos
+)
 {
-	if(pos > rng.size())
+	if(pos.value() > rng.size())
 	{
 		pos = rng.size();
 	}
-	return {rng.data()+pos, rng.size()-pos};
+	return {rng.data()+pos.value(), rng.size()-pos.value()};
 }
 
 template <typename Range>
 static inline
-Range head(const Range& rng, typename Range::size_type len)
+Range head(
+	const Range& rng,
+	valid_if_nonnegative<typename Range::size_type> len
+)
 {
 	return slice(rng, 0, len);
 }
 
 template <typename Range>
 static inline
-Range tail(const Range& rng, typename Range::size_type len)
+Range tail(
+	const Range& rng,
+	valid_if_nonnegative<typename Range::size_type> len
+)
 {
-	if(len > rng.size())
+	if(len.value() > rng.size())
 	{
 		len = rng.size();
 	}
-	return slice(rng, rng.size()-len, len);
+	return slice(rng, rng.size()-len.value(), len);
 }
 
 template <typename Range1, typename Range2>

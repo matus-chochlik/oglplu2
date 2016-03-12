@@ -423,6 +423,47 @@ struct valid_if_positive_policy
 template <typename T>
 using valid_if_positive = valid_if<T, valid_if_positive_policy<T>>;
 
+// nonnegative
+template <typename T>
+struct valid_if_nonnegative_policy
+{
+	constexpr
+	bool operator ()(T value) const
+	noexcept
+	{
+		return value >= T(0);
+	}
+
+	struct do_log
+	{
+		inline
+		do_log(const valid_if_nonnegative_policy<T>&)
+		noexcept
+		{ }
+
+		template <typename Log>
+		void operator ()(Log& log, const T& v) const
+		{
+			log	<< "Value " << v << ", "
+				<< "less then zero "
+				<< "is invalid";
+		}
+	};
+
+	struct abort
+	{
+		[[noreturn]]
+		void operator ()(void) const
+		noexcept
+		{
+			EAGINE_ABORT("Value less than zero is invalid");
+		}
+	};
+};
+
+template <typename T>
+using valid_if_nonnegative = valid_if<T, valid_if_nonnegative_policy<T>>;
+
 // not-equal
 template <typename T, T Cmp>
 struct valid_if_ne_policy
