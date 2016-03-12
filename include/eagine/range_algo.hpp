@@ -16,6 +16,14 @@
 namespace eagine {
 namespace ranges {
 
+template <typename Range1, typename Range2>
+static inline
+bool equal(const Range1& rng1, const Range2& rng2)
+noexcept
+{
+	return rng1 == rng2;
+}
+
 template <typename Range>
 static inline
 Range slice(
@@ -77,14 +85,14 @@ template <typename Range1, typename Range2>
 static inline
 bool starts_with(const Range1& rng, const Range2& with)
 {
-	return head(rng, with.size()) == with;
+	return equal(head(rng, with.size()), with);
 }
 
 template <typename Range1, typename Range2>
 static inline
 bool ends_with(const Range1& rng, const Range2& with)
 {
-	return tail(rng, with.size()) == with;
+	return equal(tail(rng, with.size()), with);
 }
 
 template <typename Range1, typename Range2>
@@ -108,7 +116,7 @@ valid_if<
 
 				while(p != n)
 				{
-					if(slice(where, p, lt) == what)
+					if(equal(slice(where, p, lt), what))
 					{
 						return {p, true};
 					}
@@ -141,7 +149,7 @@ valid_if<
 
 				while(p > 0)
 				{
-					if(slice(where, p, lt) == what)
+					if(equal(slice(where, p, lt), what))
 					{
 						return {p, true};
 					}
