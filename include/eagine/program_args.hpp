@@ -1053,7 +1053,7 @@ public:
 
 	typedef cstr_ref value_type;
 	typedef int size_type;
-	typedef valid_if_ge_0_lt_size<program_args, size_type> valid_index;
+	typedef valid_range_index<program_args> valid_index;
 
 	int argc(void) const
 	noexcept

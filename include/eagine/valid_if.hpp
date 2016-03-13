@@ -337,6 +337,49 @@ struct always_valid_policy
 template <typename T, T Cmp>
 using always_valid = valid_if<T, always_valid_policy>;
 
+// less-than
+template <typename T, T Cmp>
+struct valid_if_lt_policy
+{
+	constexpr
+	bool operator ()(T value) const
+	noexcept
+	{
+		return value < Cmp;
+	}
+
+	struct do_log
+	{
+		inline
+		do_log(const valid_if_lt_policy<T, Cmp>&)
+		noexcept
+		{ }
+
+		template <typename Log>
+		void operator ()(Log& log, const T& v) const
+		{
+			log	<< "Value " << v << ", "
+				<< "greater then or equal to " << Cmp << " "
+				<< "is invalid";
+		}
+	};
+
+	struct abort
+	{
+		[[noreturn]]
+		void operator ()(void) const
+		noexcept
+		{
+			EAGINE_ABORT(
+			"Value greater than or equal to the limit is invalid"
+			);
+		}
+	};
+};
+
+template <typename T, T Cmp>
+using valid_if_less_than = valid_if<T, valid_if_lt_policy<T, Cmp>>;
+
 // greater-than
 template <typename T, T Cmp>
 struct valid_if_gt_policy
@@ -982,6 +1025,54 @@ struct valid_if_ge_0_lt_size_policy
 template <typename C, typename T>
 using valid_if_ge_0_lt_size =
 	in_class_valid_if<T, C, valid_if_ge_0_lt_size_policy<T, C>>;
+
+template <typename C>
+using valid_range_index = valid_if_ge_0_lt_size<C, typename C::size_type>;
+
+// valid if greater than or equal to 0 and not greater than container.size()
+template <typename T, typename C>
+struct valid_if_ge_0_le_size_policy
+{
+	bool operator()(T x, const C& c) const
+	{
+		return (T(0) <= x) && (x <= c.size());
+	}
+
+	struct do_log
+	{
+		inline
+		do_log(const valid_if_ge_0_le_size_policy<T, C>&)
+		noexcept
+		{ }
+
+		template <typename Log>
+		void operator ()(Log& log, const T& v, const C& c) const
+		{
+			log	<< "Value " << v << ", less than zero or "
+				<< "greater than c.size() = "
+				<< c.size() << " is invalid";
+		}
+	};
+
+	struct abort
+	{
+		[[noreturn]]
+		void operator ()(void) const
+		noexcept
+		{
+			EAGINE_ABORT(
+			"Value less than 0 or greater than c.size() is invalid"
+			);
+		}
+	};
+};
+
+template <typename C, typename T>
+using valid_if_ge_0_le_size =
+	in_class_valid_if<T, C, valid_if_ge_0_le_size_policy<T, C>>;
+
+template <typename C>
+using valid_range_position = valid_if_ge_0_le_size<C, typename C::size_type>;
 
 } // namespace eagine
 

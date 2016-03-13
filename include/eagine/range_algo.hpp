@@ -26,6 +26,17 @@ noexcept
 
 template <typename Range>
 static inline
+Range subrange(
+	const Range& rng,
+	valid_range_position<Range> bgn,
+	valid_range_position<Range> end
+)
+{
+	return {rng.data()+bgn.value(rng), end.value(rng)-bgn.value(rng)};
+}
+
+template <typename Range>
+static inline
 Range slice(
 	const Range& rng,
 	valid_if_nonnegative<typename Range::size_type> pos,
@@ -40,7 +51,7 @@ Range slice(
 	{
 		len = rng.size()-pos.value();
 	}
-	return {rng.data()+pos.value(), len.value()};
+	return subrange<Range>(rng, pos.value(), pos.value()+len.value());
 }
 
 template <typename Range>
@@ -54,7 +65,7 @@ Range slice(
 	{
 		pos = rng.size();
 	}
-	return {rng.data()+pos.value(), rng.size()-pos.value()};
+	return subrange<Range>(rng, pos.value(), rng.size());
 }
 
 template <typename Range>
