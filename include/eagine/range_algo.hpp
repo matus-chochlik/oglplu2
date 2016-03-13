@@ -301,6 +301,80 @@ std::size_t count_delimited(const Range1& where, const Range2& delim)
 	return for_each_delimited(where, delim, count_t<std::size_t>());
 }
 
+template <
+	typename BackInsertionSequence,
+	typename Range1,
+	typename Range2,
+	typename Transform
+>
+static inline
+BackInsertionSequence& split_into(
+	BackInsertionSequence& dest,
+	const Range1& rng,
+	const Range2& delim,
+	Transform transform
+)
+{
+	for_each_delimited(
+		rng, delim,
+		[&dest, &transform](const auto& x)
+		{
+			dest.push_back(transform(x));
+		}
+	);
+	return dest;
+}
+
+template <
+	typename BackInsertionSequence,
+	typename Range1,
+	typename Range2
+>
+static inline
+BackInsertionSequence& split_into(
+	BackInsertionSequence& dest,
+	const Range1& rng,
+	const Range2& delim
+)
+{
+	return split_into(
+		dest, rng, delim,
+		[](const auto& x)
+		{
+			return typename BackInsertionSequence::value_type(x);
+		}
+	);
+}
+
+template <
+	typename BackInsertionSequence,
+	typename Range1,
+	typename Range2,
+	typename Transform
+>
+static inline
+BackInsertionSequence split(
+	const Range1& rng,
+	const Range2& delim,
+	Transform transform
+)
+{
+	BackInsertionSequence result;
+	return std::move(split_into(result, rng, delim, transform));
+}
+
+template <
+	typename BackInsertionSequence,
+	typename Range1,
+	typename Range2
+>
+static inline
+BackInsertionSequence split(const Range1& rng, const Range2& delim)
+{
+	BackInsertionSequence result;
+	return std::move(split_into(result, rng, delim));
+}
+
 } // namespace ranges
 } // namespace eagine
 
