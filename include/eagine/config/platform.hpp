@@ -25,4 +25,12 @@
 # endif
 #endif
 
+#ifndef EAGINE_WINDOWS
+# if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64)
+#  define EAGINE_WINDOWS 1
+# else
+#  define EAGINE_WINDOWS 0
+# endif
+#endif
+
 #endif // include guard
