@@ -108,10 +108,8 @@ bool ends_with(const Range1& rng, const Range2& with)
 
 template <typename Range1, typename Range2>
 static inline
-valid_if<
-	typename Range1::size_type,
-	valid_flag_policy
-> find_pos(const Range1& where, const Range2& what)
+optionally_valid<typename Range1::size_type>
+find_pos(const Range1& where, const Range2& what)
 {
 	const auto lt = what.size();
 	if(lt > 0)
@@ -142,10 +140,8 @@ valid_if<
 
 template <typename Range1, typename Range2>
 static inline
-valid_if<
-	typename Range1::size_type,
-	valid_flag_policy
-> rfind_pos(const Range1& where, const Range2& what)
+optionally_valid<typename Range1::size_type>
+rfind_pos(const Range1& where, const Range2& what)
 {
 	const auto lt = what.size();
 	if(lt > 0)

@@ -131,6 +131,13 @@ public:
 		return *this;
 	}
 
+	friend
+	bool operator == (const basic_valid_if& a, const basic_valid_if& b)
+	noexcept
+	{
+		return (a._value == b._value) && a.is_valid() && b.is_valid();
+	}
+
 	bool is_valid(const T& val, P ... p) const
 	noexcept
 	{
@@ -300,6 +307,9 @@ public:
 		return &value();
 	}
 };
+
+template <typename T>
+using optionally_valid = valid_if<T, valid_flag_policy>;
 
 // always
 struct always_valid_policy
