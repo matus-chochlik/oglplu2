@@ -99,6 +99,34 @@ noexcept
 	return 0x80;
 }
 
+static constexpr inline
+bool is_valid_head_byte(byte b, std::size_t l)
+noexcept
+{
+	return (b & head_code_mask(l)) == head_code(l);
+}
+
+static inline
+bool is_valid_head_byte(byte b)
+noexcept
+{
+	for(std::size_t l=1; l<6; ++l)
+	{
+		if(is_valid_head_byte(b, l))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+static constexpr inline
+bool is_valid_tail_byte(byte b, std::size_t, std::size_t)
+noexcept
+{
+	return (b & tail_code_mask()) == tail_code();
+}
+
 static inline
 valid_sequence_length
 required_sequence_length(code_point_t cp)
@@ -121,7 +149,7 @@ noexcept
 {
 	for(std::size_t l=1; l<=6; ++l)
 	{
-		if((b & head_code_mask(l)) == head_code(l))
+		if(is_valid_head_byte(b, l))
 		{
 			return l;
 		}
@@ -137,20 +165,6 @@ noexcept
 {
 	assert(seq.size() > 0);
 	return do_decode_sequence_length(byte(seq[0]));
-}
-
-static constexpr inline
-code_point_t is_valid_head_byte(byte b, std::size_t l)
-noexcept
-{
-	return (b & head_code_mask(l)) == head_code(l);
-}
-
-static constexpr inline
-code_point_t is_valid_tail_byte(byte b, std::size_t, std::size_t)
-noexcept
-{
-	return (b & tail_code_mask()) == tail_code();
 }
 
 template <typename B>
