@@ -10,8 +10,7 @@
 #ifndef EAGINE_STRING_PATH_1509260923_HPP
 #define EAGINE_STRING_PATH_1509260923_HPP
 
-#include "config/basic.hpp"
-#include "multi_byte_seq.hpp"
+#include "string_list.hpp"
 #include "memory_block.hpp"
 #include "span.hpp"
 #include <string>
@@ -108,6 +107,8 @@ public:
 	typedef span<const char> value_type;
 	typedef span<const char> str_span;
 	typedef std::size_t size_type;
+	typedef string_list::iterator<const char*> iterator;
+	typedef string_list::rev_iterator<const char*> reverse_iterator;
 
 	basic_string_path(void)
 	noexcept
@@ -118,6 +119,11 @@ public:
 	basic_string_path(basic_string_path&&) = default;
 	basic_string_path& operator = (const basic_string_path&) = default;
 	basic_string_path& operator = (basic_string_path&&) = default;
+
+	basic_string_path(const basic_string_path& a,const basic_string_path& b)
+	 : _size(a._size + b._size)
+	 , _str(a._str + b._str)
+	{ }
 
 	basic_string_path(const span<const str_span>& names)
 	 : _size(0)
@@ -154,6 +160,14 @@ public:
 		return a._str <  b._str;
 	}
 
+	friend
+	basic_string_path
+	operator + (const basic_string_path& a, const basic_string_path& b)
+	noexcept
+	{
+		return basic_string_path(a, b);
+	}
+
 	bool empty(void) const
 	noexcept
 	{
@@ -165,6 +179,26 @@ public:
 	noexcept
 	{
 		return _size;
+	}
+
+	static
+	size_type required_bytes(size_type l)
+	noexcept
+	{
+		using namespace mbs;
+		return l+2*required_sequence_length(code_point_t(l)).value();
+	}
+
+	static
+	size_type required_bytes(str_span str)
+	noexcept
+	{
+		return required_bytes(size_type(str.size()));
+	}
+
+	void reserve_bytes(size_type s)
+	{
+		_str.reserve(s);
 	}
 
 	str_span front(void) const
@@ -211,90 +245,65 @@ public:
 		--_size;
 	}
 
+	iterator begin(void) const
+	noexcept
+	{
+		return empty()?
+			iterator():
+			iterator(_str.data());
+	}
+
+	iterator end(void) const
+	noexcept
+	{
+		return empty()?
+			iterator():
+			iterator(_str.data()+_str.size());
+	}
+
+	reverse_iterator rbegin(void) const
+	noexcept
+	{
+		return empty()?
+			reverse_iterator():
+			reverse_iterator(_str.data()+_str.size()-1);
+	}
+
+	reverse_iterator rend(void) const
+	noexcept
+	{
+		return empty()?
+			reverse_iterator():
+			reverse_iterator(_str.data()-1);
+	}
+
 	template <typename Func>
 	void for_each_elem(Func func) const
 	{
-		std::size_t i = 0;
-		bool first = true;
-		while(i < _str.size())
-		{
-			span<const char> elen = _sub(i);
-			std::size_t k = _decode_len_len(elen);
-			std::size_t l = _decode_str_len(elen, k);
-			i += k;
-			func(_sub(i-k, l+k), l, k, first);
-			i += l+k;
-			first = false;
-		}
+		string_list::for_each_elem(as_span(_str), func);
 	}
 
 	template <typename Func>
 	void for_each(Func func) const
 	{
-		auto adapted_func =
-		[&func](str_span elem, std::size_t l, std::size_t k, bool)
-		{
-			func(str_span(elem.data()+k, span_size_type(l)));
-		};
-		for_each_elem(adapted_func);
+		string_list::for_each(as_span(_str), func);
 	}
 
 	template <typename Func>
 	void rev_for_each_elem(Func func) const
 	{
-		std::size_t i = _str.size();
-		bool first = true;
-		while(i > 0)
-		{
-			i = _rseek_seq_head(i);
-
-			span<const char> elen = _sub(i);
-			std::size_t k = _decode_len_len(elen);
-			std::size_t l = _decode_str_len(elen, k);
-			i -= l;
-			func(_sub(i-k, l+k), l, k, first);
-			i -= k;
-			first = false;
-		}
+		string_list::rev_for_each_elem(as_span(_str), func);
 	}
 
 	template <typename Func>
 	void rev_for_each(Func func) const
 	{
-		auto adapted_func =
-		[&func](str_span elem, std::size_t l, std::size_t k, bool)
-		{
-			func(str_span(elem.data()+k, span_size_type(l)));
-		};
-		rev_for_each_elem(adapted_func);
+		string_list::rev_for_each(as_span(_str), func);
 	}
 
 	std::string as_string(const str_span& sep) const
 	{
-		typedef std::size_t S;
-		std::size_t slen = S(sep.size());
-		std::size_t len = 0;
-		auto get_len =
-		[&len,slen](str_span, std::size_t l, std::size_t, bool f)
-		{
-			if(!f) len += slen;
-			len += l;
-		};
-		for_each_elem(get_len);
-
-		std::string res;
-		res.reserve(len);
-
-		auto fill =
-		[&res,sep](str_span elem, std::size_t l, std::size_t k, bool f)
-		{
-			if(!f) res.append(sep.data(), S(sep.size()));
-			res.append(elem.data()+k, l);
-		};
-		for_each_elem(fill);
-		assert(res.size() == len);
-
-		return std::move(res);
+		return string_list::join(as_span(_str), sep);
 	}
 
 	memory::const_block block(void)
@@ -303,8 +312,6 @@ public:
 		return memory::const_block(_str.data(), _str.size());
 	}
 };
-
-
 
 } // namespace eagine
 
