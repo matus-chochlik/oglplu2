@@ -283,6 +283,19 @@ Range1 slice_inside(const Range1& rng, const Range2& bgn, const Range3& end)
 	return {};
 }
 
+template <typename Range1, typename Range2>
+static inline
+std::size_t count(Range1 where, const Range2& what)
+{
+	std::size_t result = 0;
+	while(auto p = find_pos(where, what))
+	{
+		++result;
+		where = slice(where, p.value()+what.size());
+	}
+	return result;
+}
+
 template <typename Range1, typename Range2, typename UnaryOperation>
 static inline
 UnaryOperation for_each_delimited(
@@ -299,6 +312,33 @@ UnaryOperation for_each_delimited(
 	}
 	unary_op(tmp);
 	return unary_op;
+}
+
+template <typename Range1, typename Range2, typename BinaryOperation>
+static inline
+BinaryOperation for_each_delimiter(
+	const Range1& str,
+	const Range2& delim,
+	BinaryOperation binary_op
+)
+{
+	Range1 tmp = str;
+	if(auto p1 = find_pos(tmp, delim))
+	{
+		Range1 prev = head(tmp, p1.value());
+		tmp = slice(tmp, p1.value()+delim.size());
+
+		while(auto p = find_pos(tmp, delim))
+		{
+			Range1 curr = head(tmp, p.value());
+			binary_op(prev, curr);
+			prev = curr;
+			tmp = slice(tmp, p.value()+delim.size());
+		}
+
+		binary_op(prev, tmp);
+	}
+	return binary_op;
 }
 
 template <typename Range1, typename Range2>
