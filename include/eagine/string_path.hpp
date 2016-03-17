@@ -106,7 +106,7 @@ private:
 	}
 public:
 	typedef span<const char> value_type;
-	typedef span<const char> reference;
+	typedef span<const char> str_span;
 	typedef std::size_t size_type;
 
 	basic_string_path(void)
@@ -119,19 +119,40 @@ public:
 	basic_string_path& operator = (const basic_string_path&) = default;
 	basic_string_path& operator = (basic_string_path&&) = default;
 
-	basic_string_path(const span<const reference>& names)
+	basic_string_path(const span<const str_span>& names)
 	 : _size(0)
 	{ _init(names); }
 
 	template <std::size_t N>
-	basic_string_path(const std::array<reference, N>& names)
+	basic_string_path(const std::array<str_span, N>& names)
 	 : basic_string_path(as_span(names))
 	{ }
 
 	template <typename ... Str>
-	basic_string_path(const reference& name, const Str& ... names)
+	basic_string_path(const str_span& name, const Str& ... names)
 	 : basic_string_path(_pack_names(name, as_span(names)...))
 	{ }
+
+	friend
+	bool operator == (const basic_string_path& a,const basic_string_path& b)
+	noexcept
+	{
+		return a._str == b._str;
+	}
+
+	friend
+	bool operator != (const basic_string_path& a,const basic_string_path& b)
+	noexcept
+	{
+		return a._str != b._str;
+	}
+
+	friend
+	bool operator <  (const basic_string_path& a,const basic_string_path& b)
+	noexcept
+	{
+		return a._str <  b._str;
+	}
 
 	bool empty(void) const
 	noexcept
@@ -146,7 +167,7 @@ public:
 		return _size;
 	}
 
-	reference front(void) const
+	str_span front(void) const
 	noexcept
 	{
 		assert(!empty());
@@ -157,7 +178,7 @@ public:
 		return _sub(k, l);
 	}
 
-	reference back(void) const
+	str_span back(void) const
 	noexcept
 	{
 		assert(!empty());
@@ -168,7 +189,7 @@ public:
 		return _sub(i-l, l);
 	}
 
-	void push_back(reference name)
+	void push_back(str_span name)
 	{
 		name = _fix(name);
 		std::string elen = _encode_str_len(name.size());
@@ -191,7 +212,7 @@ public:
 	}
 
 	template <typename Func>
-	void for_each_elem(Func func)
+	void for_each_elem(Func func) const
 	{
 		std::size_t i = 0;
 		bool first = true;
@@ -208,18 +229,18 @@ public:
 	}
 
 	template <typename Func>
-	void for_each(Func func)
+	void for_each(Func func) const
 	{
 		auto adapted_func =
-		[&func](reference elem, std::size_t l, std::size_t k, bool)
+		[&func](str_span elem, std::size_t l, std::size_t k, bool)
 		{
-			func(reference(elem.data()+k, span_size_type(l)));
+			func(str_span(elem.data()+k, span_size_type(l)));
 		};
 		for_each_elem(adapted_func);
 	}
 
 	template <typename Func>
-	void rev_for_each_elem(Func func)
+	void rev_for_each_elem(Func func) const
 	{
 		std::size_t i = _str.size();
 		bool first = true;
@@ -238,23 +259,23 @@ public:
 	}
 
 	template <typename Func>
-	void rev_for_each(Func func)
+	void rev_for_each(Func func) const
 	{
 		auto adapted_func =
-		[&func](reference elem, std::size_t l, std::size_t k, bool)
+		[&func](str_span elem, std::size_t l, std::size_t k, bool)
 		{
-			func(reference(elem.data()+k, span_size_type(l)));
+			func(str_span(elem.data()+k, span_size_type(l)));
 		};
 		rev_for_each_elem(adapted_func);
 	}
 
-	std::string as_string(const reference& sep)
+	std::string as_string(const str_span& sep) const
 	{
 		typedef std::size_t S;
 		std::size_t slen = S(sep.size());
 		std::size_t len = 0;
 		auto get_len =
-		[&len,slen](reference, std::size_t l, std::size_t, bool f)
+		[&len,slen](str_span, std::size_t l, std::size_t, bool f)
 		{
 			if(!f) len += slen;
 			len += l;
@@ -265,7 +286,7 @@ public:
 		res.reserve(len);
 
 		auto fill =
-		[&res,sep](reference elem, std::size_t l, std::size_t k, bool f)
+		[&res,sep](str_span elem, std::size_t l, std::size_t k, bool f)
 		{
 			if(!f) res.append(sep.data(), S(sep.size()));
 			res.append(elem.data()+k, l);
@@ -286,9 +307,5 @@ public:
 
 
 } // namespace eagine
-
-#if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)
-//#include <eagine/string_path.inl>
-#endif
 
 #endif // include guard
