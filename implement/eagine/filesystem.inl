@@ -24,6 +24,20 @@ noexcept
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+cstr_ref path_curdir(void)
+noexcept
+{
+	return cstr_ref(".");
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+cstr_ref path_pardir(void)
+noexcept
+{
+	return cstr_ref("..");
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 cstr_ref basename(const cstr_ref& path)
 noexcept
 {

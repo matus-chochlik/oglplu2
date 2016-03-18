@@ -74,18 +74,21 @@ void rev_for_each_elem(const span<const char>& str, Func func)
 noexcept
 {
 	typedef span<const char> S;
-	span_size_type i = str.size();
+	span_size_type i = str.size()-1;
 	bool first = true;
 	while(i > 0)
 	{
-		do { assert(i > 0); --i; }
-		while(!mbs::is_valid_head_byte(byte(str[i])));
+		while(!mbs::is_valid_head_byte(byte(str[i])))
+		{
+			assert(i > 0);
+			--i;
+		}
 
 		S sub(str.data()+i, str.size()-i);
 		span_size_type ls = value_length_size(sub);
 		span_size_type vs = value_size(sub, ls);
-		func(S(str.data()+i-vs-1, ls+vs+ls), vs, ls, first);
-		i -= vs+ls;
+		func(S(str.data()+i-vs-ls, ls+vs+ls), vs, ls, first);
+		i -= vs+ls+1;
 		first = false;
 	}
 }
@@ -147,6 +150,7 @@ class iterator
 {
 private:
 	Iter _pos;
+	mutable span<const char> _tmp;
 
 	byte _b(void) const
 	noexcept
@@ -169,10 +173,21 @@ private:
 		span<const char> el(_pos, span_size_type(ll));
 		return mbs::do_decode_code_point(el,ll); 
 	}
+
+	void _update(void) const
+	{
+		if(_pos != nullptr && (_tmp.size() == 0))
+		{
+			std::size_t ll = _len_len();
+			std::size_t vl = _val_len(ll);
+			_tmp = span<const char>{_pos+ll, span_size_type(vl)};
+		}
+	}
 public:
 	typedef std::ptrdiff_t difference_type;
 	typedef span<const char> value_type;
-	typedef span<const char> reference;
+	typedef const value_type& reference;
+	typedef const value_type* pointer;
 	typedef std::forward_iterator_tag iterator_category;
 
 	iterator(void)
@@ -206,21 +221,31 @@ public:
 		return a._pos <  b._pos;
 	}
 
-	value_type operator * (void) const
+	reference operator * (void) const
 	noexcept
 	{
-		std::size_t ll = _len_len();
-		std::size_t vl = _val_len(ll);
-		return {_pos+ll, span_size_type(vl)};
+		assert(_pos != nullptr);
+		_update();
+		return _tmp;
+	}
+
+	pointer operator -> (void) const
+	noexcept
+	{
+		assert(_pos != nullptr);
+		_update();
+		return &_tmp;
 	}
 
 	iterator&
 	operator ++ (void)
 	noexcept
 	{
+		assert(_pos != nullptr);
 		std::size_t ll = _len_len();
 		std::size_t vl = _val_len(ll);
 		_pos += ll+vl+ll;
+		_tmp = span<const char>();
 		return *this;
 	}
 
@@ -238,13 +263,22 @@ template <typename Iter>
 class rev_iterator
 {
 private:
-	Iter _pos;
+	mutable Iter _pos;
+	mutable span<const char> _tmp;
 
 	byte _b(void) const
 	noexcept
 	{
 		assert(_pos != nullptr);
 		return byte(*_pos);
+	}
+
+	void _rseek_head(void) const
+	noexcept
+	{
+		assert(_pos != nullptr);
+		while(!mbs::is_valid_head_byte(_b()))
+		{ --_pos; };
 	}
 
 	std::size_t _len_len(void) const
@@ -261,10 +295,22 @@ private:
 		span<const char> el(_pos, span_size_type(ll));
 		return mbs::do_decode_code_point(el,ll); 
 	}
+
+	void _update(void) const
+	{
+		if(_pos != nullptr && (_tmp.size() == 0))
+		{
+			_rseek_head();
+			std::size_t ll = _len_len();
+			std::size_t vl = _val_len(ll);
+			_tmp = span<const char>{_pos-vl, span_size_type(vl)};
+		}
+	}
 public:
 	typedef std::ptrdiff_t difference_type;
 	typedef span<const char> value_type;
-	typedef span<const char> reference;
+	typedef const value_type& reference;
+	typedef const value_type* pointer;
 	typedef std::forward_iterator_tag iterator_category;
 
 	rev_iterator(void)
@@ -298,21 +344,32 @@ public:
 		return a._pos >  b._pos;
 	}
 
-	value_type operator * (void) const
+	reference operator * (void) const
 	noexcept
 	{
-		std::size_t ll = _len_len();
-		std::size_t vl = _val_len(ll);
-		return {_pos-vl, span_size_type(vl)};
+		assert(_pos != nullptr);
+		_update();
+		return _tmp;
+	}
+
+	pointer operator -> (void) const
+	noexcept
+	{
+		assert(_pos != nullptr);
+		_update();
+		return &_tmp;
 	}
 
 	rev_iterator&
 	operator ++ (void)
 	noexcept
 	{
+		assert(_pos != nullptr);
+		_rseek_head();
 		std::size_t ll = _len_len();
 		std::size_t vl = _val_len(ll);
-		_pos -= ll+vl+ll;
+		_pos -= ll+vl+1;
+		_tmp = span<const char>();
 		return *this;
 	}
 

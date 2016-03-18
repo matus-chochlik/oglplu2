@@ -19,6 +19,12 @@ namespace filesystem {
 cstr_ref path_separator(void)
 noexcept;
 
+cstr_ref path_curdir(void)
+noexcept;
+
+cstr_ref path_pardir(void)
+noexcept;
+
 cstr_ref basename(const cstr_ref& path)
 noexcept;
 
