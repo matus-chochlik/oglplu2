@@ -66,12 +66,24 @@ template <typename T>
 using outcome = basic_outcome<T, error_info, error_handling_policy>;
 
 static inline
+outcome<void> error_outcome(int fd)
+noexcept
+{
+	return outcome<void>(error_info(errno, fd));
+}
+
+static inline
+outcome<void> error_if(bool is_error, int fd)
+noexcept
+{
+	return is_error?error_outcome(fd):outcome<void>();
+}
+
+static inline
 outcome<void> error_if_not_zero(int result, int fd)
 noexcept
 {
-	return (result != 0)?
-		outcome<void>(error_info(errno, fd)):
-		outcome<void>();
+	return error_if(result != 0, fd);
 }
 
 template <typename T>
