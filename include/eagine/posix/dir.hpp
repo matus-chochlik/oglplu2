@@ -12,6 +12,7 @@
 #include "dir_descriptor.hpp"
 #include "file_descriptor.hpp"
 #include "../cstr_ref.hpp"
+#include <fcntl.h>
 
 namespace eagine {
 namespace posix {
@@ -38,6 +39,17 @@ noexcept
 {
 	int dfd = ::dirfd(get_raw_dp(dd));
 	return error_if_negative(dfd, dfd), file_descriptor(dfd);
+}
+
+static inline
+outcome<owned_file_descriptor> openat(
+	file_descriptor dfd,
+	const cstr_ref& path,
+	int flags
+) noexcept
+{
+	int fd = ::openat(get_raw_fd(dfd), path.c_str(), flags);
+	return error_if_negative(fd, fd), owned_file_descriptor(fd);
 }
 
 } // namespace posix

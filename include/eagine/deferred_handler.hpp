@@ -82,6 +82,69 @@ struct default_deferred_handler_policy
 	}
 };
 
+template <typename Data, typename HandlerPolicy>
+class cancelled_handler
+{
+private:
+	Data _data;
+	bool _error;
+public:
+	constexpr inline
+	cancelled_handler(void)
+	noexcept
+	 : _data()
+	 , _error(true)
+	{ }
+
+	cancelled_handler(cancelled_handler&&) = default;
+	cancelled_handler& operator = (cancelled_handler&&) = default;
+
+	constexpr inline
+	cancelled_handler(Data&& data, bool had_error)
+	noexcept
+	 : _data(std::move(data))
+	 , _error(had_error)
+	{ }
+
+	constexpr inline
+	cancelled_handler(const Data& data, bool had_error)
+	noexcept
+	 : _data(data)
+	 , _error(had_error)
+	{ }
+
+	explicit
+	operator bool (void) const
+	noexcept
+	{
+		return _error;
+	}
+
+	bool operator ! (void) const
+	noexcept
+	{
+		return !_error;
+	}
+
+	bool cancel(void)
+	noexcept
+	{
+		return _error;
+	}
+
+	Data& data(void)
+	noexcept
+	{
+		return _data;
+	}
+
+	const Data& data(void) const
+	noexcept
+	{
+		return _data;
+	}
+};
+
 template <
 	typename Data,
 	typename HandlerPolicy = default_deferred_handler_policy<Data>
