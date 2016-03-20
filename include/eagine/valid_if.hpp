@@ -820,7 +820,6 @@ using valid_if_not_empty = valid_if<T, valid_if_not_empty_policy<T>>;
 template <typename T, T ... C>
 struct valid_if_one_of_policy
 {
-	constexpr
 	bool operator ()(const T& value) const
 	noexcept
 	{
@@ -885,7 +884,6 @@ struct valid_if_in_list_policy
 	 : _choices(choices)
 	{ }
 
-	constexpr
 	bool operator ()(const T& value) const
 	noexcept
 	{
