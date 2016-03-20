@@ -85,7 +85,7 @@ public:
 			}
 			if(pent != nullptr)
 			{
-				func(entry);
+				if(!func(entry)) break;
 			}
 		}
 		while(pent != nullptr);

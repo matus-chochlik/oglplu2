@@ -60,13 +60,15 @@ outcome<std::string> fd_abs_path(file_descriptor_owner curr_fd)
 			}
 
 			dir_descriptor_owner(res.rvalue()).get().for_each_entry(
-				[&path,&curr_id](const ::dirent& entry)
+				[&path,&curr_id](const ::dirent& entry) -> bool
 				{
 					if(entry.d_ino == curr_id.second)
 					{
 						path.insert(0, entry.d_name);
 						path.insert(0, "/");
+						return false;
 					}
+					return true;
 				}
 			);
 		}
