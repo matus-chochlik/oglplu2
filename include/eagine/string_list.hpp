@@ -20,7 +20,7 @@ namespace string_list {
 
 static inline
 span_size_type
-value_length_size(const span<const char>& elem)
+element_header_size(const span<const char>& elem)
 noexcept
 {
 	return span_size_type(mbs::decode_sequence_length(elem).value());
@@ -28,27 +28,130 @@ noexcept
 
 static inline
 span_size_type
-value_size(const span<const char>& elem, span_size_type l)
+element_value_size(const span<const char>& elem, span_size_type l)
 noexcept
 {
 	return span_size_type(mbs::do_decode_code_point(elem, std::size_t(l)));
 }
+
+static inline
+span_size_type
+element_value_size(const span<const char>& elem)
+noexcept
+{
+	return element_value_size(elem, elem.size());
+}
+
+class element
+ : public span<const char>
+{
+private:
+	span<const char>& _base(void) { return *this; }
+	const span<const char>& _base(void) const { return *this; }
+
+	static inline
+	span<const char>
+	_fit(const span<const char>& s)
+	noexcept
+	{
+		span_size_type hs = element_header_size(s);
+		span_size_type vs = element_value_size(s, hs);
+		assert(s.size() >= hs+vs+hs);
+		return {s.data(), hs+vs+hs};
+	}
+
+	static inline
+	span<const char>
+	_fit(const char* ptr, span_size_type max_size)
+	noexcept
+	{
+		return _fit(span<const char>(ptr, max_size));
+	}
+
+	static inline
+	span<const char>
+	_rev_fit(const span<const char>& s, span_size_type rev_sz)
+	noexcept
+	{
+		span_size_type hs = element_header_size(s);
+		span_size_type vs = element_value_size(s, hs);
+		assert(rev_sz >= hs+vs);
+		return {s.data()-hs-vs, hs+vs+hs};
+	}
+
+	static inline
+	span<const char>
+	_rev_fit(const char* ptr, span_size_type rev_sz, span_size_type foot_sz)
+	noexcept
+	{
+		return _rev_fit(span<const char>(ptr, foot_sz), rev_sz);
+	}
+public:
+	element(const char* ptr, span_size_type max_size)
+	noexcept
+	 : span<const char>(_fit(ptr, max_size))
+	{ }
+
+	element(const char* ptr, span_size_type rev_sz, span_size_type foot_sz)
+	noexcept
+	 : span<const char>(_rev_fit(ptr, rev_sz, foot_sz))
+	{ }
+
+	span_size_type header_size(void) const
+	noexcept
+	{
+		return element_header_size(_base());
+	}
+
+	span<const char> header(void) const
+	noexcept
+	{
+		return {data(), header_size()};
+	}
+
+	span_size_type value_size(void) const
+	noexcept
+	{
+		return element_value_size(header());
+	}
+
+	const char* value_data(void) const
+	noexcept
+	{
+		return data()+header_size();
+	}
+
+	span<const char> value(void) const
+	noexcept
+	{
+		return {value_data(), value_size()};
+	}
+
+	span_size_type footer_size(void) const
+	noexcept
+	{
+		return element_header_size(_base());
+	}
+
+	span<const char> footer(void) const
+	noexcept
+	{
+		return {data()+header_size()+value_size(), header_size()};
+	}
+};
 
 template <typename Func>
 static inline
 void for_each_elem(const span<const char>& str, Func func)
 noexcept
 {
-	typedef span<const char> S;
 	span_size_type i = 0;
 	bool first = true;
 	while(i < str.size())
 	{
-		S sub(str.data()+i, str.size()-i);
-		span_size_type ls = value_length_size(sub);
-		span_size_type vs = value_size(sub, ls);
-		func(S(str.data()+i, ls+vs+ls), vs, ls, first);
-		i += ls+vs+ls;
+		element elem(str.data()+i, str.size()-i);
+		func(elem, first);
+		i += elem.size();
 		first = false;
 	}
 }
@@ -58,13 +161,9 @@ static inline
 void for_each(const span<const char>& str, Func func)
 noexcept
 {
-	typedef span<const char> S;
-	auto adapted_func = [&func](
-		const S& elem,
-		span_size_type vs,
-		span_size_type ls,
-		bool
-	) { func(S(elem.data()+ls, vs)); };
+	auto adapted_func =
+	[&func](const element& elem, bool)
+	{ func(elem.value()); };
 	for_each_elem(str, adapted_func);
 }
 
@@ -73,7 +172,6 @@ static inline
 void rev_for_each_elem(const span<const char>& str, Func func)
 noexcept
 {
-	typedef span<const char> S;
 	span_size_type i = str.size()-1;
 	bool first = true;
 	while(i > 0)
@@ -83,12 +181,9 @@ noexcept
 			assert(i > 0);
 			--i;
 		}
-
-		S sub(str.data()+i, str.size()-i);
-		span_size_type ls = value_length_size(sub);
-		span_size_type vs = value_size(sub, ls);
-		func(S(str.data()+i-vs-ls, ls+vs+ls), vs, ls, first);
-		i -= vs+ls+1;
+		element elem(str.data()+i, i, str.size()-i);
+		func(elem, first);
+		i -= elem.header_size()+elem.value_size()+1;
 		first = false;
 	}
 }
@@ -98,13 +193,9 @@ static inline
 void rev_for_each(const span<const char>& str, Func func)
 noexcept
 {
-	typedef span<const char> S;
-	auto adapted_func = [&func](
-		const S& elem,
-		span_size_type vs,
-		span_size_type ls,
-		bool
-	) { func(S(elem.data()+ls, vs)); };
+	auto adapted_func =
+	[&func](const element& elem, bool)
+	{ func(elem.value()); };
 	rev_for_each_elem(str, adapted_func);
 }
 
@@ -114,30 +205,20 @@ join(const span<const char>& str, const span<const char>& sep)
 {
 	span_size_type slen = sep.size();
 	span_size_type len = 0;
-	auto get_len = [&len,slen](
-		const span<const char>&,
-		span_size_type vs,
-		span_size_type,
-		bool first
-	)
+	auto get_len = [&len,slen](const element& elem, bool first)
 	{
 		if(!first) len += slen;
-		len += vs;
+		len += elem.value_size();
 	};
 	for_each_elem(str, get_len);
 
 	std::string res;
 	res.reserve(std::size_t(len));
 
-	auto fill = [&res,sep](
-		const span<const char>& elem,
-		span_size_type vs,
-		span_size_type ls,
-		bool first
-	)
+	auto fill = [&res,sep](const element& elem, bool first)
 	{
 		if(!first) res.append(sep.data(), std::size_t(sep.size()));
-		res.append(elem.data()+ls, std::size_t(vs));
+		res.append(elem.value_data(), std::size_t(elem.value_size()));
 	};
 	for_each_elem(str, fill);
 	assert(res.size() == std::size_t(len));

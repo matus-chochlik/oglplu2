@@ -233,6 +233,12 @@ public:
 		++_size;
 	}
 
+	void push_back(const string_list::element& elem)
+	{
+		_str.append(elem.data(), std::string::size_type(elem.size()));
+		++_size;
+	}
+
 	void pop_back(void)
 	{
 		assert(!empty());
