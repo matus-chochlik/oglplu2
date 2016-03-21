@@ -233,7 +233,7 @@ public:
 		++_size;
 	}
 
-	void push_back(const string_list::element& elem)
+	void push_back_elem(const string_list::element& elem)
 	{
 		_str.append(elem.data(), std::string::size_type(elem.size()));
 		++_size;

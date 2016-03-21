@@ -155,6 +155,8 @@ public:
 	{
 		return _p.as_string(path_separator());
 	}
+
+	string_path normalized(void) const;
 };
 
 } // namespace filesystem

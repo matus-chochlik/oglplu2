@@ -84,5 +84,39 @@ string_path::string_path(const str_span& path_str)
 	);
 }
 //------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+string_path
+string_path::normalized(void) const
+{
+	string_path result;
+
+	auto do_norm =
+	[&result](const string_list::element& elem, bool first)
+	{
+		auto val = elem.value();
+		if(val == path_curdir() && !first) return;
+		if((val.size() == 0) && !first) return;
+
+		if(result.empty() || (result.back() == path_pardir()))
+		{
+			result._p.push_back_elem(elem);
+		}
+		else if(val == path_pardir())
+		{
+			if((result.size() != 1) || (result.back().size() != 0))
+			{
+				result._p.pop_back();
+			}
+		}
+		else
+		{
+			result._p.push_back_elem(elem);
+		}
+	};
+	_p.for_each_elem(do_norm);
+
+	return result;
+}
+//------------------------------------------------------------------------------
 } // namespace filesystem
 } // namespace eagine
