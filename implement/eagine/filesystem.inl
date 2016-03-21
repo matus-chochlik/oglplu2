@@ -9,6 +9,8 @@
 #include <eagine/config/platform.hpp>
 #include <eagine/range_algo.hpp>
 
+#include <eagine/posix/fd_path.hpp> // TODO Windows
+
 namespace eagine {
 namespace filesystem {
 //------------------------------------------------------------------------------
@@ -54,6 +56,31 @@ noexcept
 	return ranges::slice_before_last(
 		ranges::strip_suffix(path, path_separator()),
 		path_separator()
+	);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+std::string current_working_directory(void)
+{
+	return posix::safe_getcwd().value();
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+string_path::string_path(const str_span& path_str)
+{
+	std::size_t s = 0;
+
+	ranges::for_each_delimited(
+		path_str, path_separator(),
+		[&s](str_span name)
+		{ s += basic_string_path::required_bytes(name); }
+	);
+	_p.reserve_bytes(s);
+
+	ranges::for_each_delimited(
+		path_str, path_separator(),
+		[this](str_span name)
+		{ _p.push_back(name); }
 	);
 }
 //------------------------------------------------------------------------------
