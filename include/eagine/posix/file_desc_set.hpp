@@ -10,8 +10,11 @@
 #define EAGINE_POSIX_FILE_DESC_SET_1509260923_HPP
 
 #include "file_descriptor.hpp"
+#include "../optional_ref.hpp"
 #include "../valid_if.hpp"
 #include <sys/types.h>
+#include <sys/time.h>
+#include <unistd.h>
 
 namespace eagine {
 namespace posix {
@@ -133,6 +136,70 @@ public:
 	}
 };
 
+static inline
+outcome<int> select(
+	int nfds,
+	optional_reference_wrapper<file_descriptor_set> read_fds,
+	optional_reference_wrapper<file_descriptor_set> write_fds,
+	optional_reference_wrapper<file_descriptor_set> except_fds,
+	long timeout_sec,
+	long timeout_nanosec
+) noexcept
+{
+	struct timespec timeout;
+	timeout.tv_sec = timeout_sec;
+	timeout.tv_nsec = timeout_nanosec;
+
+	int res = ::pselect(
+		nfds,
+		read_fds?get_raw_fd_set(read_fds):nullptr,
+		write_fds?get_raw_fd_set(write_fds):nullptr,
+		except_fds?get_raw_fd_set(except_fds):nullptr,
+		&timeout,
+		nullptr
+	);
+
+	return error_if_negative(res, -1);
+}
+
+static inline
+outcome<int> select(
+	optional_reference_wrapper<file_descriptor_set> read_fds,
+	optional_reference_wrapper<file_descriptor_set> write_fds,
+	optional_reference_wrapper<file_descriptor_set> except_fds,
+	long timeout_sec,
+	long timeout_nsec
+) noexcept
+{
+	int nfds = 0;
+
+	auto upd_nfds =
+	[&nfds](optional_reference_wrapper<file_descriptor_set> fds)
+	{
+		if(fds.is_valid())
+		{
+			if(auto fdsn = fds.get().nfds())
+			{
+				if(nfds < fdsn.value())
+				{
+					nfds = fdsn.value();
+				}
+			}
+		}
+	};
+	upd_nfds(read_fds);
+	upd_nfds(write_fds);
+	upd_nfds(except_fds);
+
+	return posix::select(
+		nfds,
+		read_fds,
+		write_fds,
+		except_fds,
+		timeout_sec,
+		timeout_nsec
+	);
+}
 
 } // namespace posix
 } // namespace eagine
