@@ -26,6 +26,24 @@ noexcept
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
+cstr_ref alt_path_separator(void)
+noexcept
+{
+	return cstr_ref("/");
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+bool has_alt_path_separator(void)
+noexcept
+{
+#if EAGINE_WINDOWS
+	return true;
+#else
+	return false;
+#endif
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
 cstr_ref path_curdir(void)
 noexcept
 {
@@ -66,23 +84,75 @@ std::string current_working_directory(void)
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-string_path::string_path(const str_span& path_str)
+string_path::string_path(
+	const str_span& path_str,
+	const str_span& sep,
+	const str_span& alt_sep
+)
 {
 	std::size_t s = 0;
 
-	ranges::for_each_delimited(
-		path_str, path_separator(),
-		[&s](str_span name)
-		{ s += basic_string_path::required_bytes(name); }
-	);
+	auto count =
+	[&s](const str_span& name)
+	{
+		s += basic_string_path::required_bytes(name);
+	};
+
+	auto count_alt =
+	[&count,&alt_sep](const str_span& name)
+	{
+		ranges::for_each_delimited(name, alt_sep, count);
+	};
+
+	ranges::for_each_delimited(path_str, sep, count_alt);
 	_p.reserve_bytes(s);
 
-	ranges::for_each_delimited(
-		path_str, path_separator(),
-		[this](str_span name)
-		{ _p.push_back(name); }
-	);
+	auto push_back =
+	[this](const str_span& name)
+	{
+		_p.push_back(name);
+	};
+
+	auto push_back_alt =
+	[&push_back,&alt_sep](const str_span& name)
+	{
+		ranges::for_each_delimited(name, alt_sep, push_back);
+	};
+
+	ranges::for_each_delimited(path_str, sep, push_back_alt);
 }
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+string_path::string_path(const str_span& path_str, const str_span& sep)
+{
+	std::size_t s = 0;
+
+	auto count =
+	[&s](const str_span& name)
+	{
+		s += basic_string_path::required_bytes(name);
+	};
+
+	ranges::for_each_delimited(path_str, sep, count);
+	_p.reserve_bytes(s);
+
+	auto push_back =
+	[this](const str_span& name)
+	{
+		_p.push_back(name);
+	};
+
+	ranges::for_each_delimited(path_str, sep, push_back);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+string_path::string_path(str_span path_str)
+#if EAGINE_WINDOWS
+ : string_path(path_str, path_separator(), alt_path_separator())
+#else
+ : string_path(path_str, path_separator())
+#endif
+{ }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 string_path

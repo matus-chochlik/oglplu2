@@ -47,7 +47,7 @@ int main(int argc, const char** argv)
 
 	state.set_size(800, 600);
 
-	params.executable_path(args.command());
+	params.exec_command(args.command());
 
 	for(auto a = args.first(); a; a = a.next())
 	{

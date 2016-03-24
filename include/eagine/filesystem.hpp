@@ -20,6 +20,12 @@ namespace filesystem {
 cstr_ref path_separator(void)
 noexcept;
 
+cstr_ref alt_path_separator(void)
+noexcept;
+
+bool has_alt_path_separator(void)
+noexcept;
+
 cstr_ref path_curdir(void)
 noexcept;
 
@@ -46,8 +52,16 @@ public:
 
 	string_path(void) = default;
 
+	string_path(
+		const str_span& path_str,
+		const str_span& sep,
+		const str_span& alt_sep
+	);
+
+	string_path(const str_span& path_str, const str_span& sep);
+
 	explicit
-	string_path(const str_span& path_str);
+	string_path(str_span path_str);
 
 	explicit
 	string_path(const std::string& path_str)

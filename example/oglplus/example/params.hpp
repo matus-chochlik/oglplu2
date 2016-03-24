@@ -21,7 +21,7 @@ class example_params
 private:
 	unsigned _rand_seed;
 
-	cstr_ref _exe_path;
+	cstr_ref _exec_cmd;
 	cstr_ref _framedump_prefix;
 	cstr_ref _screenshot_path;
 	float _screenshot_time;
@@ -48,16 +48,16 @@ public:
 	example_params(void)
 	noexcept;
 
-	example_params& executable_path(valid_if_not_empty<cstr_ref> path)
+	example_params& exec_command(valid_if_not_empty<cstr_ref> cmd)
 	{
-		_exe_path = path.value();
+		_exec_cmd = cmd.value();
 		return *this;
 	}
 
-	cstr_ref executable_path(void) const
+	cstr_ref exec_command(void) const
 	noexcept
 	{
-		return _exe_path;
+		return _exec_cmd;
 	}
 
 	example_params& screenshot_path(valid_if_not_empty<cstr_ref> path)
