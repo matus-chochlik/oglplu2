@@ -38,8 +38,6 @@ noexcept;
 cstr_ref dirname(const cstr_ref& path)
 noexcept;
 
-std::string current_working_directory(void);
-
 class string_path
 {
 private:
@@ -94,6 +92,27 @@ public:
 	}
 
 	friend inline
+	bool operator <=  (const string_path& a, const string_path& b)
+	noexcept
+	{
+		return a._p <=  b._p;
+	}
+
+	friend inline
+	bool operator >  (const string_path& a, const string_path& b)
+	noexcept
+	{
+		return a._p >  b._p;
+	}
+
+	friend inline
+	bool operator >=  (const string_path& a, const string_path& b)
+	noexcept
+	{
+		return a._p >=  b._p;
+	}
+
+	friend inline
 	string_path operator + (const string_path& a, const string_path& b)
 	noexcept
 	{
@@ -129,9 +148,10 @@ public:
 	}
 
 	inline
-	void push_back(const str_span& name)
+	string_path& push_back(const str_span& name)
 	{
 		_p.push_back(name);
+		return *this;
 	}
 
 	inline
@@ -167,11 +187,36 @@ public:
 	inline
 	std::string str(void) const
 	{
-		return _p.as_string(path_separator());
+		return _p.as_string(path_separator(), false);
+	}
+
+	inline
+	std::string dir_str(void) const
+	{
+		return empty()?
+			std::string():
+			_p.as_string(path_separator(), true);
 	}
 
 	string_path normalized(void) const;
+
+	string_path parent_path(void) const;
+
+	static
+	bool is_root_name(const str_span& name)
+	noexcept;
+
+	bool is_root_path(void) const
+	noexcept;
+
+	bool is_absolute(void) const
+	noexcept;
+
+	bool is_relative(void) const
+	noexcept;
 };
+
+string_path current_working_directory(void);
 
 } // namespace filesystem
 } // namespace eagine

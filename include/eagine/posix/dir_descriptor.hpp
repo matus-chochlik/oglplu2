@@ -138,6 +138,19 @@ public:
 };
 
 static inline
+outcome<owned_dir_descriptor> dup(dir_descriptor from)
+noexcept
+{
+	int fd = ::dup(::dirfd(get_raw_dp(from)));
+	if(fd < 0)
+	{
+		return error_outcome(fd), owned_dir_descriptor(nullptr);
+	}
+	DIR* dp = ::fdopendir(fd);
+	return error_if(dp == nullptr, -1), owned_dir_descriptor(dp);
+}
+
+static inline
 outcome<void> closedir(owned_dir_descriptor& dpw)
 noexcept
 {
@@ -159,7 +172,10 @@ public:
 	{ }
 
 	dir_descriptor_owner(dir_descriptor_owner&&) = default;
-	dir_descriptor_owner(const dir_descriptor_owner&) = delete;
+
+	dir_descriptor_owner(const dir_descriptor_owner& that)
+	 : _odd(dup(that._odd))
+	{ }
 
 	dir_descriptor_owner& operator = (dir_descriptor_owner&& temp)
 	noexcept
@@ -170,7 +186,14 @@ public:
 		return *this;
 	}
 
-	dir_descriptor_owner& operator = (const dir_descriptor_owner&) = delete;
+	dir_descriptor_owner& operator = (const dir_descriptor_owner& that)
+	{
+		owned_dir_descriptor odd(dup(that._odd));
+		swap(_odd, odd);
+		try { ::closedir(get_raw_dp(odd)); }
+		catch(...) { }
+		return *this;
+	}
 
 	~dir_descriptor_owner(void)
 	noexcept

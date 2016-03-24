@@ -60,6 +60,20 @@ public:
 		return _exec_cmd;
 	}
 
+	bool is_readable_file(cstr_ref path) const
+	noexcept;
+
+	valid_if_not_empty<std::string>
+	find_resource_file_path(cstr_ref res_group, cstr_ref res_name) const
+	noexcept;
+
+	valid_if_not_empty<std::string>
+	find_resource_file_path(cstr_ref res_name) const
+	noexcept
+	{
+		return find_resource_file_path(cstr_ref(), res_name);
+	}
+
 	example_params& screenshot_path(valid_if_not_empty<cstr_ref> path)
 	{
 		_screenshot_path = path.value();

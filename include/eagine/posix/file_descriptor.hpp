@@ -170,7 +170,7 @@ public:
 	file_descriptor_owner(file_descriptor_owner&&) = default;
 
 	file_descriptor_owner(const file_descriptor_owner& that)
-	 : _ofd(dup(that))
+	 : _ofd(dup(that._ofd))
 	{ }
 
 	file_descriptor_owner& operator = (file_descriptor_owner&& temp)
@@ -184,7 +184,7 @@ public:
 
 	file_descriptor_owner& operator = (const file_descriptor_owner& that)
 	{
-		owned_file_descriptor ofd(dup(that));
+		owned_file_descriptor ofd(dup(that._ofd));
 		swap(_ofd, ofd);
 		try { ::close(get_raw_fd(ofd)); }
 		catch(...) { }

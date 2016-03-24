@@ -78,12 +78,6 @@ noexcept
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-std::string current_working_directory(void)
-{
-	return posix::safe_getcwd().value();
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
 string_path::string_path(
 	const str_span& path_str,
 	const str_span& sep,
@@ -173,7 +167,13 @@ string_path::normalized(void) const
 		}
 		else if(val == path_pardir())
 		{
-			if((result.size() != 1) || (result.back().size() != 0))
+			if(result.back() == path_curdir())
+			{
+				result._p.pop_back();
+				result._p.push_back_elem(elem);
+
+			}
+			else if((result.size()!=1) || (result.back().size()!=0))
 			{
 				result._p.pop_back();
 			}
@@ -185,7 +185,78 @@ string_path::normalized(void) const
 	};
 	_p.for_each_elem(do_norm);
 
-	return result;
+	return std::move(result);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+string_path
+string_path::parent_path(void) const
+{
+	string_path result(normalized());
+	if(result.empty() || result.back() == path_pardir())
+	{
+		result.push_back(path_pardir());
+	}
+	else if(result.size() == 1)
+	{
+		if((result.back() == path_curdir()))
+		{
+			result.pop_back();
+			result.push_back(path_pardir());
+		}
+		else
+		{
+			result.pop_back();
+			result.push_back(path_curdir());
+		}
+	}
+	else if((result.size() > 1) || (!is_root_name(front())))
+	{
+		result.pop_back();
+	}
+	return std::move(result);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+bool
+string_path::is_root_name(const str_span& name)
+noexcept
+{
+#if EAGINE_WINDOWS
+	return ranges::ends_with(name, cstr_ref(":"));
+#else
+	return name.size() == 0;
+#endif
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+bool
+string_path::is_root_path(void) const
+noexcept
+{
+	return (size() == 1) && is_root_name(front());
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+bool
+string_path::is_absolute(void) const
+noexcept
+{
+	return !empty() && is_root_name(front());
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+bool
+string_path::is_relative(void) const
+noexcept
+{
+	return !is_absolute();
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+string_path current_working_directory(void)
+{
+	return string_path(posix::safe_getcwd().value());
 }
 //------------------------------------------------------------------------------
 } // namespace filesystem

@@ -8,6 +8,8 @@
  */
 
 #include "params.hpp"
+#include <eagine/filesystem.hpp>
+#include <fstream>
 
 namespace oglplus {
 
@@ -31,5 +33,55 @@ noexcept
  , _auto_tiles(true)
  , _demo_mode(false)
 { }
+
+bool
+example_params::
+is_readable_file(cstr_ref path) const
+noexcept
+{
+	// TODO something more efficient?
+	return std::ifstream(path.c_str()).good();
+}
+
+valid_if_not_empty<std::string>
+example_params::
+find_resource_file_path(cstr_ref res_group, cstr_ref res_name) const
+noexcept
+{
+	using eagine::filesystem::string_path;
+
+	string_path relpath;
+	if(!res_group.empty())
+	{
+		relpath.push_back(res_group);
+	}
+	relpath = relpath + string_path(res_name);
+
+	std::string result;
+
+	std::string pathstr = relpath.str();
+	if(is_readable_file(cstr_ref(pathstr)))
+	{
+		result = std::move(pathstr);
+	}
+	else
+	{
+		int trials = 10;
+		string_path curdir(exec_command());
+		do
+		{
+			curdir = curdir.parent_path();
+			string_path respath = curdir+relpath;
+
+			pathstr = respath.str();
+			if(is_readable_file(cstr_ref(pathstr)))
+			{
+				result = std::move(pathstr);
+				break;
+			}
+		} while((--trials > 0) && (!curdir.is_root_path()));
+	}
+	return {result};
+}
 
 } // namespace oglplus

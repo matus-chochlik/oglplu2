@@ -24,14 +24,14 @@ private:
 	std::string _str;
 
 	inline
-	span<const char> _sub(std::size_t i) const
+	cstring_span<> _sub(std::size_t i) const
 	noexcept
 	{
 		return {_str.data()+i, span_size_type(_str.size()-i)};
 	}
 
 	inline
-	span<const char> _sub(std::size_t i, std::size_t l) const
+	cstring_span<> _sub(std::size_t i, std::size_t l) const
 	noexcept
 	{
 		return {_str.data()+i, span_size_type(l)};
@@ -45,13 +45,13 @@ private:
 	}
 
 	static inline
-	std::size_t _decode_len_len(const span<const char>& elen)
+	std::size_t _decode_len_len(const cstring_span<>& elen)
 	{
 		return std::size_t(mbs::decode_sequence_length(elen).value());
 	}
 
 	static inline
-	std::size_t _decode_str_len(const span<const char>& elen, std::size_t l)
+	std::size_t _decode_str_len(const cstring_span<>& elen, std::size_t l)
 	{
 		return std::size_t(mbs::do_decode_code_point(elen, l));
 	}
@@ -67,13 +67,13 @@ private:
 	void _init(const span<Str>& names)
 	{
 		std::size_t len = std::size_t(2*names.size());
-		for(const span<const char>& name : names)
+		for(const cstring_span<>& name : names)
 		{
 			len += size_type(name.size());
 		}
 		_str.reserve(len);
 
-		for(const span<const char>& name : names)
+		for(const cstring_span<>& name : names)
 		{
 			push_back(name);
 		}
@@ -81,14 +81,14 @@ private:
 	}
 
 	static inline
-	span<const char> _fix(span<const char> str)
+	cstring_span<> _fix(cstring_span<> str)
 	noexcept
 	{
 		while(str.size() > 0)
 		{
 			if(str[str.size()-1] == '\0')
 			{
-				str = span<const char>(str.data(),str.size()-1);
+				str = cstring_span<>(str.data(),str.size()-1);
 			}
 			else break;
 		}
@@ -97,15 +97,15 @@ private:
 
 	template <typename ... Str>
 	static inline
-	std::array<span<const char>,sizeof...(Str)>
+	std::array<cstring_span<>,sizeof...(Str)>
 	_pack_names(const Str&... n)
 	noexcept
 	{
 		return {{_fix(n)...}};
 	}
 public:
-	typedef span<const char> value_type;
-	typedef span<const char> str_span;
+	typedef cstring_span<> value_type;
+	typedef cstring_span<> str_span;
 	typedef std::size_t size_type;
 	typedef string_list::iterator<const char*> iterator;
 	typedef string_list::rev_iterator<const char*> reverse_iterator;
@@ -161,6 +161,27 @@ public:
 	}
 
 	friend
+	bool operator <= (const basic_string_path& a,const basic_string_path& b)
+	noexcept
+	{
+		return a._str <= b._str;
+	}
+
+	friend
+	bool operator >  (const basic_string_path& a,const basic_string_path& b)
+	noexcept
+	{
+		return a._str >  b._str;
+	}
+
+	friend
+	bool operator >= (const basic_string_path& a,const basic_string_path& b)
+	noexcept
+	{
+		return a._str >= b._str;
+	}
+
+	friend
 	basic_string_path
 	operator + (const basic_string_path& a, const basic_string_path& b)
 	noexcept
@@ -206,7 +227,7 @@ public:
 	{
 		assert(!empty());
 		std::size_t i = 0;
-		span<const char> elen = _sub(i);
+		cstring_span<> elen = _sub(i);
 		std::size_t k = _decode_len_len(elen);
 		std::size_t l = _decode_str_len(elen, k);
 		return _sub(k, l);
@@ -217,7 +238,7 @@ public:
 	{
 		assert(!empty());
 		std::size_t i = _rseek_seq_head(_str.size());
-		span<const char> elen = _sub(i);
+		cstring_span<> elen = _sub(i);
 		std::size_t k = _decode_len_len(elen);
 		std::size_t l = _decode_str_len(elen, k);
 		return _sub(i-l, l);
@@ -243,7 +264,7 @@ public:
 	{
 		assert(!empty());
 		std::size_t i = _rseek_seq_head(_str.size());
-		span<const char> elen = _sub(i);
+		cstring_span<> elen = _sub(i);
 		std::size_t k = _decode_len_len(elen);
 		std::size_t l = _decode_str_len(elen, k);
 		assert(i >= k+l);
@@ -307,9 +328,9 @@ public:
 		string_list::rev_for_each(as_span(_str), func);
 	}
 
-	std::string as_string(const str_span& sep) const
+	std::string as_string(const str_span& sep, bool trail_sep) const
 	{
-		return string_list::join(as_span(_str), sep);
+		return string_list::join(as_span(_str), sep, trail_sep);
 	}
 
 	memory::const_block block(void)
