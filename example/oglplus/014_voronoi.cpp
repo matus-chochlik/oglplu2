@@ -11,7 +11,7 @@
 #include <oglplus/constants.hpp>
 #include <oglplus/operations.hpp>
 #include <oglplus/glsl/string_ref.hpp>
-#include <eagine/random_bytes.hpp>
+#include <oglplus/utils/image_file.hpp>
 
 #include "example.hpp"
 #include <vector>
@@ -130,12 +130,9 @@ public:
 class random_texture
  : public texture
 {
-public:
-	random_texture(GLsizei width, GLsizei height)
+private:
+	void init(const texture_image_file& image_data)
 	{
-		std::vector<GLubyte> random_bytes(std::size_t(width*height*3));
-		eagine::fill_with_random_bytes(random_bytes);
-
 		gl.bind(GL.texture_2d, *this);
 		gl.texture_min_filter(GL.texture_2d, GL.nearest);
 		gl.texture_mag_filter(GL.texture_2d, GL.nearest);
@@ -144,17 +141,25 @@ public:
 			GL.texture_wrap_s,
 			GL.repeat
 		);
-		gl.texture_image_2d(
-			GL.texture_2d,
-			0, GL.rgb,
-			width, height,
-			0, GL.rgb,
-			GL.unsigned_byte,
-			const_memory_block{
-				random_bytes.data(),
-				random_bytes.size()
-			}
-		);
+		gl.texture_image_2d(GL.texture_2d, image_data.spec());
+	}
+public:
+	random_texture(const example_params& params)
+	{
+		if(auto path = params.find_resource_file_path(
+			example_resource_type::texture,
+			cstr_ref("noise.256x256x3.oglptex")
+		))
+		{
+			init(texture_image_file(cstr_ref(path.value())));
+		}
+		else
+		{
+			throw std::runtime_error(
+				"Could not find the resource file "
+				"noise.256x256x3.oglpltex"
+			);
+		}
 	}
 };
 
@@ -210,7 +215,7 @@ public:
 	}
 };
 
-class example_mandelbrot
+class example_voronoi
  : public example
 {
 private:
@@ -225,8 +230,8 @@ private:
 	static constexpr const float min_scale = 1.0f;
 	static constexpr const float max_scale = 100.0f;
 public:
-	example_mandelbrot(void)
-	 : tex(256, 256)
+	example_voronoi(const example_params& params)
+	 : tex(params)
 	 , screen(prog)
 	 , ofs_x_dir(1.f)
 	 , ofs_y_dir(1.f)
@@ -319,11 +324,11 @@ public:
 std::unique_ptr<example>
 make_example(
 	const example_args&,
-	const example_params&,
+	const example_params& params,
 	const example_state_view&
 )
 {
-	return std::unique_ptr<example>(new example_mandelbrot());
+	return std::unique_ptr<example>(new example_voronoi(params));
 }
 
 void adjust_params(example_params& params)

@@ -81,7 +81,7 @@ include(config/GLExt.cmake)
 # re-create the site-configuration header
 include(config/SiteConfig.cmake)
 
-# tools
+# tools, textures, etc.
 if(NOT ${NO_EXAMPLES})
 	add_subdirectory("source")
 endif()

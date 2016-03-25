@@ -84,4 +84,28 @@ noexcept
 	return {result};
 }
 
+static inline
+cstr_ref resource_type_to_string(example_resource_type type)
+noexcept
+{
+	switch(type)
+	{
+		case example_resource_type::texture:
+			return cstr_ref("textures");
+		case example_resource_type::shader_source:
+			return cstr_ref("shaders");
+		case example_resource_type::program_source:
+			return cstr_ref("programs");
+	}
+	return cstr_ref();
+}
+
+valid_if_not_empty<std::string>
+example_params::
+find_resource_file_path(example_resource_type type, cstr_ref res_name) const
+noexcept
+{
+	return find_resource_file_path(resource_type_to_string(type), res_name);
+}
+
 } // namespace oglplus

@@ -16,6 +16,13 @@
 
 namespace oglplus {
 
+enum class example_resource_type
+{
+	texture,
+	shader_source,
+	program_source
+};
+
 class example_params
 {
 private:
@@ -73,6 +80,10 @@ public:
 	{
 		return find_resource_file_path(cstr_ref(), res_name);
 	}
+
+	valid_if_not_empty<std::string>
+	find_resource_file_path(example_resource_type, cstr_ref res_name) const
+	noexcept;
 
 	example_params& screenshot_path(valid_if_not_empty<cstr_ref> path)
 	{
