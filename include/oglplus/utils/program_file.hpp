@@ -75,19 +75,14 @@ public:
 	{ }
 };
 
-class program_source_file
+class program_source_block
 {
 private:
-	eagine::structured_file_content<const program_source_header> _header;
+	eagine::structured_memory_block<const program_source_header> _header;
 	eagine::offset_ptr_array_facade<const shader_source_header> _sources;
 public:
-	program_source_file(eagine::file_contents&& fc)
-	 : _header(std::move(fc))
-	 , _sources(_header->shader_sources)
-	{ }
-
-	program_source_file(const cstr_ref& path)
-	 : _header(path)
+	program_source_block(eagine::const_memory_block blk)
+	 : _header(blk)
 	 , _sources(_header->shader_sources)
 	{ }
 
@@ -133,6 +128,21 @@ public:
 			cstr_ref::size_type(_sources[index].source_text.size())
 		};
 	}
+};
+
+class program_source_file
+ : eagine::protected_member<eagine::file_contents>
+ , public program_source_block
+{
+public:
+	program_source_file(eagine::file_contents&& fc)
+	 : eagine::protected_member<eagine::file_contents>(std::move(fc))
+	 , program_source_block(get_the_member())
+	{ }
+
+	program_source_file(const cstr_ref& path)
+	 : program_source_file(eagine::file_contents(path))
+	{ }
 };
 
 } // namespace oglplus

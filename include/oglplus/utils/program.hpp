@@ -17,18 +17,32 @@
 namespace oglplus {
 
 static inline
-void build_program(program& prog, const program_source_file& prog_src)
+shader build_shader(const shader_source_block& shdr_src)
+{
+	shader shdr(shdr_src.shader_type());
+	shdr.source(shdr_src);
+	shdr.compile();
+	shdr.report_compile_error();
+	return std::move(shdr);
+}
+
+static inline
+void build_program(program& prog, const program_source_block& prog_src)
 {
 	for(std::size_t i=0, n=prog_src.shader_source_count(); i<n; ++i)
 	{
-		shader shdr(prog_src.shader_type(i));
-		shdr.source(prog_src.shader_source(i));
-		shdr.compile();
-		shdr.report_compile_error();
-		prog.attach(shdr);
+		prog.attach(build_shader(prog_src.shader_source(i)));
 	}
 	prog.link();
 	prog.report_link_error();
+}
+
+static inline
+program build_program(const program_source_block& prog_src)
+{
+	program prog;
+	build_program(prog, prog_src);
+	return std::move(prog);
 }
 
 } // namespace oglplus

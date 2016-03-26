@@ -32,19 +32,23 @@ static operations gl;
 class erase_program
  : public program
 {
-public:
-	uniform_location projection;
-
-	erase_program(const example_params& params)
+private:
+	program_source_file
+	_get_source(const example_params& params)
 	{
 		std::string path = params.get_resource_file_path(
 			example_resource_type::program_source,
 			cstr_ref("028_lighting-bg.oglpprog")
 		);
-		build_program(*this, program_source_file(cstr_ref(path)));
+		return program_source_file(cstr_ref(path));
+	}
+public:
+	uniform_location projection;
 
+	erase_program(const example_params& params)
+	 : program(build_program(_get_source(params)))
+	{
 		gl.use(*this);
-
 		gl.query_location(projection, *this, "Projection");
 	}
 
