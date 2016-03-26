@@ -126,4 +126,40 @@ set(EXAMPLE_LIBS oglplus_example_harness ${OGLPLUS_GL_LIBRARIES})
 # add oglplus examples
 add_examples("[0-9][0-9][0-9]*" oglplus-examples "${EXAMPLE_LIBS}")
 
+add_custom_target(glsl_program_sources ALL)
 
+file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/programs/")
+
+function(add_program_source DIR PROG_NAME)
+	set(INPUT ${DIR}/${PROG_NAME}.prog)
+	file(STRINGS ${INPUT} PARAM_STR)
+	string(REPLACE " " ";" PARAMETERS ${PARAM_STR}) 
+	get_filename_component(GENERATOR ${PROG_NAME} NAME_WE)
+	set(OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/programs/${PROG_NAME}.oglpprog")
+	add_custom_command(
+		OUTPUT ${OUTPUT}
+		COMMAND bake_program_source
+		ARGS ${PARAMETERS} --output ${OUTPUT}
+		WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+		DEPENDS ${INPUT}
+		COMMENT "Baking program source ${PROG_NAME}"
+	)
+	add_custom_target(bake-${PROG_NAME}-program_source DEPENDS ${OUTPUT})
+	add_dependencies(glsl_program_sources bake-${PROG_NAME}-program_source)
+	set_property(
+		TARGET bake-${PROG_NAME}-program_source
+		PROPERTY FOLDER "Example/OGLplus/GPUPrograms"
+	)
+endfunction()
+
+function(add_glsl_program_sources DIR)
+	file(GLOB SOURCES "${DIR}/*.prog")
+
+	foreach(SOURCE ${SOURCES})
+		get_filename_component(FILE_NAME ${SOURCE} NAME)
+		string(REGEX REPLACE "\\.[^.]*$" "" PROG_NAME ${FILE_NAME})
+		add_program_source(${DIR} ${PROG_NAME})
+	endforeach()
+endfunction()
+
+add_glsl_program_sources(${CMAKE_CURRENT_SOURCE_DIR})

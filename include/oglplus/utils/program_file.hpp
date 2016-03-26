@@ -49,7 +49,7 @@ public:
 	{
 		return {
 			_header->source_text.data(),
-			_header->source_text.size()
+			cstr_ref::size_type(_header->source_text.size())
 		};
 	}
 
@@ -130,7 +130,7 @@ public:
 		assert(index < shader_source_count());
 		return {
 			_sources[index].source_text.data(),
-			_sources[index].source_text.size()
+			cstr_ref::size_type(_sources[index].source_text.size())
 		};
 	}
 };
