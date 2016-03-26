@@ -11,7 +11,7 @@
 
 #include <oglplus/constants.hpp>
 #include <oglplus/operations.hpp>
-#include <oglplus/glsl/string_ref.hpp>
+#include <oglplus/utils/program.hpp>
 
 #include <oglplus/shapes/wrapper.hpp>
 #include <oglplus/shapes/sphere.hpp>
@@ -35,60 +35,13 @@ class erase_program
 public:
 	uniform_location projection;
 
-	erase_program(void)
+	erase_program(const example_params& params)
 	{
-		shader vs(GL.vertex_shader);
-		vs.source(glsl_literal(
-		"#version 330\n"
-
-		"uniform mat4 Projection;\n"
-
-		"layout (location = 0) in vec3 Position;\n"
-
-		"out vec3 vertCoord;\n"
-
-		"void main(void)\n"
-		"{\n"
-		"	gl_Position = Projection*vec4(Position*50, 1);\n"
-		"	vertCoord = Position*10;\n"
-		"}\n"
-		));
-		vs.compile();
-		vs.report_compile_error();
-
-		shader fs(GL.fragment_shader);
-		fs.source(glsl_literal(
-		"#version 140\n"
-
-		"in vec3 vertCoord;\n"
-		"out vec3 fragColor;\n"
-
-		"float lines(float c)\n"
-		"{\n"
-		"	return pow(2*abs(c-floor(c+0.5)), 64);\n"
-		"}\n"
-
-		"float grid(vec3 c)\n"
-		"{\n"
-		"	return lines(c.x)+lines(c.y)+lines(c.z);\n"
-		"}\n"
-
-		"void main(void)\n"
-		"{\n"
-		"	fragColor = mix(\n"
-		"		vec3(0.25, 0.25, 0.2),\n"
-		"		vec3(0),\n"
-		"		grid(vertCoord)\n"
-		"	);\n"
-		"}\n"
-		));
-		fs.compile();
-		fs.report_compile_error();
-
-		attach(vs);
-		attach(fs);
-		link();
-		report_link_error();
+		std::string path = params.get_resource_file_path(
+			example_resource_type::program_source,
+			cstr_ref("028_lighting-bg.oglpprog")
+		);
+		build_program(*this, program_source_file(cstr_ref(path)));
 
 		gl.use(*this);
 
@@ -103,98 +56,13 @@ class lighting_program
 public:
 	uniform_location projection, modelview;
 
-	lighting_program(void)
+	lighting_program(const example_params& params)
 	{
-		shader vs(GL.vertex_shader);
-		vs.source(glsl_literal(
-		"#version 330\n"
-
-		"const vec3 LightPos[5] = vec3[5](\n"
-		"	vec3( 0, -100, 0),\n"
-		"	vec3( 10, 10, 20),\n"
-		"	vec3( 10, 20,-10),\n"
-		"	vec3(-20, 10,-20),\n"
-		"	vec3(-10, 20, 10) \n"
-		");\n"
-
-		"uniform mat4 Projection, Modelview;\n"
-
-		"layout (location = 0) in vec4 Position;\n"
-		"layout (location = 1) in vec3 Normal;\n"
-		"layout (location = 2) in vec2 TCoord;\n"
-
-		"out vec3 vertNormal;\n"
-		"out vec2 vertTCoord;\n"
-		"out float vertOccl;\n"
-		"out vec3 vertLightDir[5];\n"
-
-		"void main(void)\n"
-		"{\n"
-		"	gl_Position = Modelview*Position;\n"
-		"	vertNormal = mat3(Modelview)*Normal;\n"
-		"	vertTCoord = TCoord*vec2(32,8);\n"
-		"	vertOccl = 0.5*(1+sqrt(2*abs(0.5-TCoord.y)));\n"
-		"	for(int i=0; i<5; ++i)\n"
-		"	{\n"
-		"		vertLightDir[i]=LightPos[i]-gl_Position.xyz;\n"
-		"	}\n"
-		"	gl_Position = Projection*gl_Position;\n"
-		"}\n"
-		));
-		vs.compile();
-		vs.report_compile_error();
-
-		shader fs(GL.fragment_shader);
-		fs.source(glsl_literal(
-		"#version 140\n"
-
-		"const vec3 Color1 = vec3(0.1, 0.1, 0.1);\n"
-		"const vec3 Color2 = vec3(0.8, 0.6, 0.1);\n"
-
-		"in vec3 vertNormal;\n"
-		"in vec2 vertTCoord;\n"
-		"in float vertOccl;\n"
-		"in vec3 vertLightDir[5];\n"
-		"out vec3 fragColor;\n"
-
-		"float Pattern(vec2 tc)\n"
-		"{\n"
-		"	return float(int(tc.x+tc.y)%2);\n"
-		"}\n"
-
-		"void main(void)\n"
-		"{\n"
-		"	float O = min(pow(vertOccl+0.2,6),1);\n"
-		"	float A1 = pow(O,2)*0.1;\n"
-		"	float A2 = sqrt(O)*0.1;\n"
-		"	float D1 = 0;\n"
-		"	float D2 = 0;\n"
-		"	float S1 = 0;\n"
-		"	float S2 = 0;\n"
-		"	for(int i=0; i<5; ++i)\n"
-		"	{\n"
-		"		vec3 LD = vertLightDir[i];\n"
-		"		float L = length(LD);\n"
-		"		float DL = dot(vertNormal, LD/L);\n"
-		"		D1 += max(DL/L, 0)*2;\n"
-		"		D2 += sqrt(max(DL/L, 0))*1.2;\n"
-		"		S1 += pow(clamp(DL+1.0/L, 0, 1),256)*0.7;\n"
-		"		S2 += pow(clamp(DL+1.5/L, 0, 1), 16)*0.2;\n"
-		"	}\n"
-		"	fragColor = mix(\n"
-		"		O*((A1+D1+S1*0.5)*Color1+vec3(S1)),\n"
-		"		O*((A2+D2+S2*0.5)*Color2+vec3(S2)),\n"
-		"		Pattern(vertTCoord)\n"
-		"	);\n"
-		"}\n"
-		));
-		fs.compile();
-		fs.report_compile_error();
-
-		attach(vs);
-		attach(fs);
-		link();
-		report_link_error();
+		std::string path = params.get_resource_file_path(
+			example_resource_type::program_source,
+			cstr_ref("028_lighting-lt.oglpprog")
+		);
+		build_program(*this, program_source_file(cstr_ref(path)));
 
 		gl.use(*this);
 
@@ -275,10 +143,11 @@ private:
 	}
 public:
 	lighting_example(
+		const example_params& params,
 		const example_state_view& state,
 		eagine::memory::buffer& temp_buffer
-	): erase_prog()
-	 , light_prog()
+	): erase_prog(params)
+	 , light_prog(params)
 	 , background(
 		temp_buffer,
 		(shapes::vertex_attrib_kind::position  |0),
@@ -377,12 +246,13 @@ public:
 std::unique_ptr<example>
 make_example(
 	const example_args&,
-	const example_params&,
+	const example_params& params,
 	const example_state_view& state
 )
 {
 	eagine::memory::buffer temp_buffer;
 	return std::unique_ptr<example>(new lighting_example(
+		params,
 		state,
 		temp_buffer
 	));
