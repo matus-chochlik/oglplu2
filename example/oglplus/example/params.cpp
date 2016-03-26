@@ -10,6 +10,7 @@
 #include "params.hpp"
 #include <eagine/filesystem.hpp>
 #include <fstream>
+#include <sstream>
 
 namespace oglplus {
 
@@ -85,7 +86,22 @@ noexcept
 }
 
 static inline
-cstr_ref resource_type_to_string(example_resource_type type)
+cstr_ref resource_type_to_desc(example_resource_type type)
+noexcept
+{
+	switch(type)
+	{
+		case example_resource_type::texture:
+			return cstr_ref("texture");
+		case example_resource_type::shader_source:
+			return cstr_ref("shader source");
+		case example_resource_type::program_source:
+			return cstr_ref("program source");
+	}
+	return cstr_ref();
+}
+static inline
+cstr_ref resource_type_to_group_name(example_resource_type type)
 noexcept
 {
 	switch(type)
@@ -105,7 +121,29 @@ example_params::
 find_resource_file_path(example_resource_type type, cstr_ref res_name) const
 noexcept
 {
-	return find_resource_file_path(resource_type_to_string(type), res_name);
+	return find_resource_file_path(
+		resource_type_to_group_name(type),
+		res_name
+	);
+}
+
+std::string
+example_params::
+get_resource_file_path(example_resource_type type, cstr_ref res_name) const
+noexcept
+{
+	auto path = find_resource_file_path(type, res_name);
+
+	if(!path.is_valid())
+	{
+		std::stringstream msg;
+		msg	<< "Failed to find the path of "
+			<< resource_type_to_desc(type)
+			<< " file '" << res_name << "'";
+		throw std::runtime_error(msg.str());
+	}
+
+	return path.value();
 }
 
 } // namespace oglplus

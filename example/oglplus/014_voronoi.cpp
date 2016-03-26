@@ -146,20 +146,11 @@ private:
 public:
 	random_texture(const example_params& params)
 	{
-		if(auto path = params.find_resource_file_path(
+		std::string path = params.get_resource_file_path(
 			example_resource_type::texture,
 			cstr_ref("noise.256x256x3.oglptex")
-		))
-		{
-			init(texture_image_file(cstr_ref(path.value())));
-		}
-		else
-		{
-			throw std::runtime_error(
-				"Could not find the resource file "
-				"noise.256x256x3.oglpltex"
-			);
-		}
+		);
+		init(texture_image_file(cstr_ref(path)));
 	}
 };
 

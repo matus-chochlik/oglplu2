@@ -85,6 +85,10 @@ public:
 	find_resource_file_path(example_resource_type, cstr_ref res_name) const
 	noexcept;
 
+	std::string
+	get_resource_file_path(example_resource_type, cstr_ref res_name) const
+	noexcept;
+
 	example_params& screenshot_path(valid_if_not_empty<cstr_ref> path)
 	{
 		_screenshot_path = path.value();

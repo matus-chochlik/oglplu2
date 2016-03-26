@@ -5,6 +5,8 @@
 
 add_custom_target(textures ALL)
 
+file(MAKE_DIRECTORY "${PROJECT_BINARY_DIR}/textures/")
+
 function(add_procedural_texture DIR TEX_NAME)
 	set(INPUT ${DIR}/${TEX_NAME}.proc)
 	file(STRINGS ${INPUT} PARAM_STR)
