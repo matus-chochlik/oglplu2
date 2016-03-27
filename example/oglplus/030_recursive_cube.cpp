@@ -17,7 +17,6 @@
 #include <oglplus/math/matrix_ctrs.hpp>
 
 #include "example.hpp"
-#include <iostream>
 
 namespace oglplus {
 

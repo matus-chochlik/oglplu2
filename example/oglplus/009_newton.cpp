@@ -1,5 +1,5 @@
 /**
- *  example oglplus/011_mandelbrot.cpp
+ *  example oglplus/009_newton.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -12,11 +12,16 @@
 #include <oglplus/operations.hpp>
 #include <oglplus/glsl/string_ref.hpp>
 
+#include <oglplus/shapes/wrapper.hpp>
+#include <oglplus/shapes/screen.hpp>
+
+#include <oglplus/utils/program.hpp>
+
 #include "example.hpp"
 
 namespace oglplus {
 
-class example_mandelbrot
+class example_newton
  : public example
 {
 private:
@@ -28,10 +33,7 @@ private:
 	uniform<GLfloat> offset_loc;
 	uniform<GLfloat> scale_loc;
 
-	vertex_array vao;
-
-	buffer positions;
-	buffer coords;
+	shapes::generator_wrapper<shapes::unit_screen_gen, 1> screen;
 
 	texture gradient;
 
@@ -41,106 +43,27 @@ private:
 	static constexpr const float min_scale = 0.00001f;
 	static constexpr const float max_scale = 10.0f;
 public:
-	example_mandelbrot(void)
-	 : offset_x(-0.5f)
+	example_newton(
+		const example_params& params,
+		eagine::memory::buffer& temp_buffer
+	): prog()
+	 , screen(temp_buffer, shapes::vertex_attrib_kind::position|0)
+	 , offset_x(0.0f)
 	 , offset_y(0.0f)
 	 , scale(1.0f)
 	 , aspect(1.0f)
 	{
-		shader vs(GL.vertex_shader);
-		vs.source(glsl_literal(
-			"#version 140\n"
-			"uniform vec2 Offset;\n"
-			"uniform vec2 Scale;\n"
-			"in vec2 Position;\n"
-			"in vec2 Coord;\n"
-			"out vec2 vertCoord;\n"
-			"void main(void)\n"
-			"{\n"
-			"	vertCoord = Coord*Scale+Offset;\n"
-			"	gl_Position = vec4(Position, 0.0, 1.0);\n"
-			"}\n"
-		));
-		vs.compile();
-
-		shader fs(GL.fragment_shader);
-		fs.source(glsl_literal(
-		"#version 140\n"
-		"uniform sampler1D gradient;\n"
-		"in vec2 vertCoord;\n"
-		"out vec4 fragColor;\n"
-		"void main(void)\n"
-		"{\n"
-		"	vec2 z = vec2(0.0, 0.0);\n"
-		"	vec2 c = vertCoord;\n"
-		"	int i = 0, max = 256;\n"
-		"	while((i != max) && (distance(z, c) < 2.0))\n"
-		"	{\n"
-		"		vec2 zn = vec2(\n"
-		"			z.x * z.x - z.y * z.y + c.x,\n"
-		"			2.0 * z.x * z.y + c.y\n"
-		"		);\n"
-		"		z = zn;\n"
-		"		++i;\n"
-		"	}\n"
-		"	float a = float(i)/float(max);\n"
-		"	fragColor = texture(gradient, a+sqrt(length(c))*0.1);\n"
-		"} \n"
-		));
-		fs.compile();
-
-		prog.attach(vs);
-		prog.attach(fs);
-		prog.link();
-		prog.report_link_error();
+		std::string prog_path = params.get_resource_file_path(
+			example_resource_type::program_source,
+			"009_newton.oglpprog"
+		);
+		build_program(prog, program_source_file(cstr_ref(prog_path)));
 
 		gl.use(prog);
 
 		gl.query_location(offset_loc, prog, "Offset");
 		gl.query_location(scale_loc, prog, "Scale");
 		gl.uniform(offset_loc, offset_x, offset_y);
-
-
-		gl.bind(vao);
-
-		GLfloat position_data[4*2] = {
-			-1.0f, -1.0f,
-			-1.0f,  1.0f,
-			 1.0f, -1.0f,
-			 1.0f,  1.0f
-		};
-
-		gl.bind(GL.array_buffer, positions);
-		gl.buffer_data(GL.array_buffer, position_data, GL.static_draw);
-
-		vertex_attrib_location va_p;
-		gl.query_location(va_p, prog, "Position");
-		gl.vertex_array_attrib_pointer(
-			va_p,
-			2, GL.float_,
-			false, 0, nullptr
-		);
-		gl.enable_vertex_array_attrib(va_p);
-
-
-		GLfloat coord_data[4*2] = {
-			-1.0f, -1.0f,
-			-1.0f,  1.0f,
-			 1.0f, -1.0f,
-			 1.0f,  1.0f
-		};
-
-		gl.bind(GL.array_buffer, coords);
-		gl.buffer_data(GL.array_buffer, coord_data, GL.static_draw);
-
-		vertex_attrib_location va_c;
-		gl.query_location(va_c, prog, "Coord");
-		gl.vertex_array_attrib_pointer(
-			va_c,
-			2, GL.float_,
-			false, 0, nullptr
-		);
-		gl.enable_vertex_array_attrib(va_c);
 
 		GLfloat gradient_data[8*3];
 
@@ -207,8 +130,8 @@ public:
 		if(state.user_idle_time() > seconds_(1))
 		{
 			const float s = value(state.frame_duration())*60;
-			const float dest_offset_x = -0.525929f;
-			const float dest_offset_y = -0.668547f;
+			const float dest_offset_x = -0.568407f;
+			const float dest_offset_y =  0.125629f;
 			const float c = 0.02f * s;
 
 			offset_x = c*dest_offset_x + (1-c)*offset_x;
@@ -231,18 +154,19 @@ public:
 	void render(const example_state_view& /*state*/)
 	override
 	{
-		gl.draw_arrays(GL.triangle_strip, 0, 4);
+		screen.draw();
 	}
 };
 
 std::unique_ptr<example>
 make_example(
 	const example_args&,
-	const example_params&,
+	const example_params& params,
 	const example_state_view&
 )
 {
-	return std::unique_ptr<example>(new example_mandelbrot());
+	eagine::memory::buffer temp_buffer;
+	return std::unique_ptr<example>(new example_newton(params,temp_buffer));
 }
 
 void adjust_params(example_params& params)

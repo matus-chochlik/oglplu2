@@ -102,6 +102,19 @@ public:
 		std::forward<P>(p)...
 	)
 	{ }
+
+	template <typename ... P>
+	generator_wrapper(
+		eagine::memory::buffer& tmp_buf,
+		const vertex_attrib_and_location& vaal,
+		P&& ... p
+	): wrapper<N>(
+		eagine::identity<Generator>(),
+		tmp_buf,
+		std::array<const vertex_attrib_and_location, 1>{{vaal}},
+		std::forward<P>(p)...
+	)
+	{ }
 };
 
 } // namespace shapes
