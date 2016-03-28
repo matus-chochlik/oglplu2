@@ -46,6 +46,11 @@ public:
 	 : _gen(_copy_gen(gen))
 	{ }
 
+	face_orientation face_winding(void) const
+	{
+		return face_orientation(_gen->cw_face_winding()?GL_CW:GL_CCW);
+	}
+
 	unsigned vertex_count(void) const
 	{
 		return _gen->vertex_count();

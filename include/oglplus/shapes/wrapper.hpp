@@ -27,6 +27,7 @@ private:
 	vertex_array _vao;
 	buffer_array<N+(InclElemBuf?1:0)> _bufs;
 	std::vector<draw_operation> _ops;
+	face_orientation _winding;
 public:
 	base_wrapper(
 		eagine::memory::buffer& data,
@@ -34,9 +35,16 @@ public:
 		const span<const vertex_attrib_and_location>& vaals
 	): _bufs()
 	 , _ops(gen.operation_count())
+	 , _winding(gen.face_winding())
 	{
 		assert(vaals.size() >= span_size_type(N));
 		initialize_vao_and_buffers(_vao, _bufs, vaals, _ops, gen, data);
+	}
+
+	face_orientation face_winding(void) const
+	noexcept
+	{
+		return _winding;
 	}
 
 	outcome<void> use(void)
