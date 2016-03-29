@@ -111,7 +111,7 @@ private:
 				0.5f, 10.f
 			)*matrix_orbiting_y_up(
 				vec3(),
-				smooth_lerp(1.5f, 5.0f, cam_orbit),
+				smooth_lerp(1.5f, 9.0f, cam_orbit),
 				turns_(cam_turns),
 				smooth_oscillate(radians_(1.5f), cam_pitch)
 			)

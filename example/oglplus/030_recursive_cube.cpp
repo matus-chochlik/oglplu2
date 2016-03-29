@@ -1,5 +1,5 @@
 /**
- *  example oglplus/018_recursive_cube.cpp
+ *  example oglplus/030_recursive_cube.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
