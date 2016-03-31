@@ -27,17 +27,16 @@ public:
 	 : _parent(parent)
 	{ }
 
-	node_intf& parent(void) const
+	node_intf& parent(void)
 	noexcept
 	{
 		return _parent;
 	}
 
 	virtual
-	cstr_ref type_name(void) const
-	noexcept = 0;
+	cstr_ref type_name(void) = 0;
 
-	cstr_ref name(void) const
+	cstr_ref name(void)
 	noexcept
 	override;
 
@@ -45,7 +44,6 @@ public:
 	override;
 
 	bool is_connected(input_intf&)
-	noexcept
 	override;
 
 	bool connect(input_intf&)
@@ -60,8 +58,8 @@ public:
 	std::intptr_t get_id(void) const
 	noexcept;
 
-	void append_id(std::ostream&, const cstr_ref&) const;
-	void append_id(std::ostream&) const;
+	void append_id(std::ostream&, const cstr_ref&);
+	void append_id(std::ostream&);
 	
 };
 

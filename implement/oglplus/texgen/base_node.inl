@@ -1,93 +1,81 @@
 /**
- *  @file oglplus/texgen/base_output.inl
+ *  @file oglplus/texgen/base_node.inl
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include <set>
-#include <string>
-#include <cassert>
+#include <eagine/assert.hpp>
 
 namespace oglplus {
 namespace texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
+std::size_t
+base_node::input_count(void)
+{
+	return 0u;
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+input_intf&
+base_node::input(std::size_t)
+{
+	EAGINE_ABORT("Node does not have any inputs");
+	input_intf* dummy = nullptr;
+	assert(dummy != nullptr);
+	return *dummy;
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+std::size_t
+base_node::output_count(void)
+{
+	return 0u;
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+output_intf&
+base_node::output(std::size_t)
+{
+	EAGINE_ABORT("Node does not have any outputs");
+	output_intf* dummy = nullptr;
+	assert(dummy != nullptr);
+	return *dummy;
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+void
+base_node::update_needed(void)
+{
+	for(std::size_t i=0, n=output_count(); i<n; ++i)
+	{
+		output(i).notify_connected();
+	}
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
 cstr_ref
-base_output::name(void)
-noexcept
+base_single_output_node::type_name(void)
 {
-	return cstr_ref("Output");
+	return single_output().type_name();
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-base_output::definitions(std::ostream& out, compile_context&)
+std::size_t
+base_single_output_node::output_count(void)
 {
-	return out;
+	return 1u;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-bool
-base_output::is_connected(input_intf& input)
+output_intf&
+base_single_output_node::output(std::size_t index)
 {
-	return _inputs.find(&input) != _inputs.end();
-}
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-bool
-base_output::connect(input_intf& input)
-{
-	if(input.accepts_value_type(value_type()))
-	{
-		assert(!is_connected(input));
-		_inputs.insert(&input);
-		return true;
-	}
-	return false;
-}
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-bool
-base_output::disconnect(input_intf& input)
-{
-	assert(is_connected(input));
-	_inputs.erase(&input);
-	return true;
-}
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-void
-base_output::notify_connected(void)
-{
-	for(auto* input : _inputs)
-	{
-		assert(input != nullptr);
-		input->update_needed();
-	}
-}
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-std::intptr_t
-base_output::get_id(void) const
-noexcept
-{
-	return reinterpret_cast<std::intptr_t>(this);
-}
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-void
-base_output::append_id(std::ostream& out, const cstr_ref& name)
-{
-	out << "oglptg" << name;
-}
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-void
-base_output::append_id(std::ostream& out)
-{
-	append_id(out, type_name());
+	(void)index;
+	assert(index == 0);
+	return single_output();
 }
 //------------------------------------------------------------------------------
 } // namespace texgen

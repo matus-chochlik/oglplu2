@@ -9,21 +9,13 @@
 #ifndef OGLPLUS_TEXGEN_INTERFACE_1509260923_HPP
 #define OGLPLUS_TEXGEN_INTERFACE_1509260923_HPP
 
-#include "../config/basic.hpp"
-#include "../utils/cstr_ref.hpp"
+#include "data_type.hpp"
 #include <memory>
 #include <cstddef>
 #include <iosfwd>
 
 namespace oglplus {
 namespace texgen {
-
-enum class slot_data_type
-{
-	float_, float_2, float_3, float_4,
-	int_, int_2, int_3, int_4,
-	bool_, bool_2, bool_3, bool_4 
-};
 
 struct input_intf;
 struct output_intf;
@@ -58,16 +50,14 @@ struct input_intf
 	noexcept { }
 
 	virtual
-	cstr_ref name(void) const
+	cstr_ref name(void)
 	noexcept = 0;
 
 	virtual
-	bool accepts_value_type(slot_data_type) const
-	noexcept = 0;
+	bool accepts_value_type(slot_data_type) = 0;
 
 	virtual
-	bool is_connected(output_intf&)
-	noexcept = 0;
+	bool is_connected(output_intf&) = 0;
 
 	virtual
 	bool connect(output_intf&) = 0;
@@ -86,12 +76,11 @@ struct output_intf
 	noexcept { }
 
 	virtual
-	cstr_ref name(void) const
+	cstr_ref name(void)
 	noexcept = 0;
 
 	virtual
-	slot_data_type value_type(void) const
-	noexcept = 0;
+	slot_data_type value_type(void) = 0;
 
 	virtual
 	std::ostream& definitions(std::ostream&, compile_context&) = 0;
@@ -100,8 +89,7 @@ struct output_intf
 	std::ostream& expression(std::ostream&, compile_context&) = 0;
 
 	virtual
-	bool is_connected(input_intf&)
-	noexcept = 0;
+	bool is_connected(input_intf&) = 0;
 
 	virtual
 	bool connect(input_intf&) = 0;
@@ -120,24 +108,19 @@ struct node_intf
 	noexcept { }
 
 	virtual
-	std::size_t input_count(void) const
-	noexcept = 0;
+	std::size_t input_count(void) = 0;
 
 	virtual
-	input_intf& input(std::size_t)
-	noexcept = 0;
+	input_intf& input(std::size_t) = 0;
 
 	virtual
-	std::size_t output_count(void) const
-	noexcept = 0;
+	std::size_t output_count(void) = 0;
 
 	virtual
-	output_intf& output(std::size_t)
-	noexcept = 0;
+	output_intf& output(std::size_t) = 0;
 
 	virtual
-	cstr_ref type_name(void) const
-	noexcept = 0;
+	cstr_ref type_name(void) = 0;
 
 	virtual
 	void update_needed(void) = 0;
@@ -212,20 +195,18 @@ public:
 		return a.is_valid() && b.is_valid() && (a._pimpl <  b._pimpl);
 	}
 
-	cstr_ref name(void) const
+	cstr_ref name(void)
 	noexcept
 	{
 		return _impl().name();
 	}
 
-	bool accepts_value_type(slot_data_type type) const
-	noexcept
+	bool accepts_value_type(slot_data_type type)
 	{
 		return _impl().accepts_value_type(type);
 	}
 
-	bool is_connected(output_slot& output)
-	noexcept;
+	bool is_connected(output_slot& output);
 
 	bool connect(output_slot& output);
 	bool disconnect(output_slot& output);
@@ -238,13 +219,6 @@ private:
 	output_intf* _pimpl;
 
 	output_intf& _impl(void)
-	noexcept
-	{
-		assert(is_valid());
-		return *_pimpl;
-	}
-
-	const output_intf& _impl(void) const
 	noexcept
 	{
 		assert(is_valid());
@@ -297,14 +271,13 @@ public:
 		return a.is_valid() && b.is_valid() && (a._pimpl <  b._pimpl);
 	}
 
-	cstr_ref name(void) const
+	cstr_ref name(void)
 	noexcept
 	{
 		return _impl().name();
 	}
 
-	slot_data_type value_type(void) const
-	noexcept
+	slot_data_type value_type(void)
 	{
 		return _impl().value_type();
 	}
@@ -319,8 +292,7 @@ public:
 		return _impl().expression(out, ctxt);
 	}
 
-	bool is_connected(input_slot&)
-	noexcept;
+	bool is_connected(input_slot&);
 
 	bool connect(input_slot&);
 	bool disconnect(input_slot&);

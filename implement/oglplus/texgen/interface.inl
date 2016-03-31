@@ -96,7 +96,6 @@ noexcept
 OGLPLUS_LIB_FUNC
 bool
 input_slot::is_connected(output_slot& output)
-noexcept
 {
 	return _impl().is_connected(output._impl());
 }
@@ -118,7 +117,6 @@ input_slot::disconnect(output_slot& output)
 OGLPLUS_LIB_FUNC
 bool
 output_slot::is_connected(input_slot& input)
-noexcept
 {
 	return _impl().is_connected(input._impl());
 }

@@ -33,13 +33,13 @@ public:
 	noexcept
 	override;
 
-	node_intf& parent(void) const
+	node_intf& parent(void)
 	noexcept
 	{
 		return _parent;
 	}
 
-	cstr_ref name(void) const
+	cstr_ref name(void)
 	noexcept
 	override;
 
@@ -47,7 +47,6 @@ public:
 	noexcept;
 
 	bool is_connected(output_intf&)
-	noexcept
 	override;
 
 	bool do_connect(output_intf&);

@@ -14,7 +14,7 @@ namespace texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 cstr_ref
-base_input::name(void) const
+base_input::name(void)
 noexcept
 {
 	return _name;
@@ -41,7 +41,6 @@ noexcept
 OGLPLUS_LIB_FUNC
 bool
 base_input::is_connected(output_intf& output)
-noexcept
 {
 	return _output == &output;
 }

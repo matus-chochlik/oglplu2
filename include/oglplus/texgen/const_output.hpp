@@ -1,0 +1,87 @@
+/**
+ *  @file oglplus/texgen/const_output.hpp
+ *
+ *  Copyright Matus Chochlik.
+ *  Distributed under the Boost Software License, Version 1.0.
+ *  See accompanying file LICENSE_1_0.txt or copy at
+ *   http://www.boost.org/LICENSE_1_0.txt
+ */
+#ifndef OGLPLUS_TEXGEN_CONST_OUTPUT_1509260923_HPP
+#define OGLPLUS_TEXGEN_CONST_OUTPUT_1509260923_HPP
+
+#include "base_output.hpp"
+#include <eagine/type_traits.hpp>
+#include <array>
+
+namespace oglplus {
+namespace texgen {
+
+template <typename T>
+class constant_output;
+
+template <typename T, unsigned N>
+class constant_output<T[N]>
+ : public base_output
+{
+private:
+	std::array<T, N> _coords;
+public:
+	constant_output(node_intf& parent)
+	noexcept
+	 : base_output(parent)
+	 , _coords{}
+	{ }
+
+	template <
+		typename ... P,
+		typename = std::enable_if_t<sizeof...(P) == N>
+	>
+	constant_output(node_intf& parent, P ... coords)
+	noexcept
+	 : base_output(parent)
+	 , _coords{{T(coords)...}}
+	{ }
+
+	template <
+		typename ... P,
+		typename = std::enable_if_t<sizeof...(P) == N>
+	>
+	void set(P ... coords)
+	noexcept
+	{
+		_coords = std::array<T, N>{{T(coords)...}};
+	}
+
+	cstr_ref type_name(void)
+	noexcept
+	override
+	{
+		return cstr_ref("Const");
+	}
+
+	slot_data_type value_type(void)
+	noexcept
+	override
+	{
+		return get_data_type_v<T[N]>;
+	}
+
+	std::ostream& expression(std::ostream& out, compile_context&)
+	override
+	{
+		out << data_type_name(value_type());
+		out << "(";
+		out << _coords[0];
+		for(unsigned i=1; i<N; ++i)
+		{
+			out << ", " << _coords[i];
+		}
+		out << ")";
+		return out;
+	}
+};
+
+} // namespace texgen
+} // namespace oglplus
+
+#endif // include guard
