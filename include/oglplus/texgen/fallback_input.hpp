@@ -71,25 +71,6 @@ public:
 	{
 		return output().expression(out, ctxt);
 	}
-
-	std::ostream& expression(
-		std::ostream& out,
-		compile_context& ctxt,
-		slot_data_type result_type
-	)
-	{
-		slot_data_type source_type = value_type();
-		if(result_type != source_type)
-		{
-			conversion_prefix(out, source_type, result_type);
-		}
-		expression(out, ctxt);
-		if(result_type != source_type)
-		{
-			conversion_suffix(out, source_type, result_type);
-		}
-		return out;
-	}
 };
 
 template <typename T>

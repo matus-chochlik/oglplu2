@@ -109,7 +109,7 @@ base_output::append_id(std::ostream& out)
 OGLPLUS_LIB_FUNC
 std::ostream& operator << (std::ostream& out, const output_id_expr& expr)
 {
-	expr.output.append_id(out);
+	expr.output.expression(out, expr.context);
 	return out;
 }
 //------------------------------------------------------------------------------

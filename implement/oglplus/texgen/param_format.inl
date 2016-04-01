@@ -15,7 +15,7 @@ namespace texgen {
 OGLPLUS_LIB_FUNC
 std::ostream& operator << (std::ostream& out, render_param_decl_expr)
 {
-	return out << "(oglptgData oglptgPara)";
+	return out << "(vec3 oglptg_nc)";
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -23,9 +23,15 @@ std::ostream& operator << (std::ostream& out, render_param_pass_expr e)
 {
 	if(e.output.needs_params())
 	{
-		out << "(oglptgPara)";
+		out << "(oglptg_nc)";
 	}
 	return out;
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+std::ostream& operator << (std::ostream& out, render_param_normalized_coords)
+{
+	return out << "oglptg_nc";
 }
 //------------------------------------------------------------------------------
 } // namespace texgen

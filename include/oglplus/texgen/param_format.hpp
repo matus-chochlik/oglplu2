@@ -21,6 +21,9 @@ std::ostream& operator << (std::ostream& out, render_param_decl_expr);
 struct render_param_pass_expr { output_intf& output; };
 std::ostream& operator << (std::ostream& out, render_param_pass_expr);
 
+struct render_param_normalized_coords { output_intf& output; };
+std::ostream& operator << (std::ostream& out, render_param_normalized_coords);
+
 } // namespace texgen
 } // namespace oglplus
 

@@ -12,6 +12,7 @@
 #include "../config/basic.hpp"
 #include "../utils/cstr_ref.hpp"
 #include <eagine/valid_if.hpp>
+#include <iosfwd>
 
 namespace oglplus {
 namespace texgen {
@@ -105,6 +106,34 @@ slot_data_type make_data_type(
 
 slot_data_type common_data_type(slot_data_type a, slot_data_type b)
 noexcept;
+
+std::ostream&
+conversion_prefix(
+	std::ostream& out,
+	slot_data_type from,
+	slot_data_type to
+);
+
+struct conversion_prefix_expr
+{
+	slot_data_type from;
+	slot_data_type to;
+};
+std::ostream& operator << (std::ostream&, conversion_prefix_expr);
+
+std::ostream&
+conversion_suffix(
+	std::ostream& out,
+	slot_data_type from,
+	slot_data_type to
+);
+
+struct conversion_suffix_expr
+{
+	slot_data_type from;
+	slot_data_type to;
+};
+std::ostream& operator << (std::ostream&, conversion_suffix_expr);
 
 } // namespace texgen
 } // namespace oglplus

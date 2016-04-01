@@ -6,6 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <iostream>
 
 namespace oglplus {
 namespace texgen {
@@ -147,7 +148,7 @@ conversion_prefix(
 	std::ostream& out,
 	slot_data_type from,
 	slot_data_type to
-) noexcept
+)
 {
 	if(from != to)
 	{
@@ -157,12 +158,18 @@ conversion_prefix(
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
+std::ostream& operator << (std::ostream& out, conversion_prefix_expr e)
+{
+	return conversion_prefix(out, e.from, e.to);
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
 std::ostream&
 conversion_suffix(
 	std::ostream& out,
 	slot_data_type from,
 	slot_data_type to
-) noexcept
+)
 {
 	if(from != to)
 	{
@@ -172,13 +179,19 @@ conversion_suffix(
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
+std::ostream& operator << (std::ostream& out, conversion_suffix_expr e)
+{
+	return conversion_suffix(out, e.from, e.to);
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
 std::ostream&
 conversion_suffix(
 	std::ostream& out,
 	slot_data_type from,
 	slot_data_type to,
 	cstr_ref x, cstr_ref y, cstr_ref z, cstr_ref w
-) noexcept
+)
 {
 	if(from != to)
 	{

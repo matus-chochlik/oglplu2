@@ -72,7 +72,8 @@ public:
 
 struct output_id_expr
 {
-	base_output& output;
+	output_intf& output;
+	compile_context& context;
 };
 std::ostream& operator << (std::ostream& out, const output_id_expr& expr);
 
