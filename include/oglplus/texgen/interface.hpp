@@ -10,6 +10,7 @@
 #define OGLPLUS_TEXGEN_INTERFACE_1509260923_HPP
 
 #include "data_type.hpp"
+#include "render_params.hpp"
 #include <memory>
 #include <cstddef>
 #include <iosfwd>
@@ -66,6 +67,9 @@ struct input_intf
 	bool disconnect(output_intf&) = 0;
 
 	virtual
+	output_intf& connected_output(void) = 0;
+
+	virtual
 	void update_needed(void) = 0;
 };
 
@@ -81,6 +85,15 @@ struct output_intf
 
 	virtual
 	slot_data_type value_type(void) = 0;
+
+	virtual
+	render_params required_params(void) = 0;
+
+	virtual
+	bool needs_params(void)
+	{
+		return bool(required_params());
+	}
 
 	virtual
 	std::ostream& definitions(std::ostream&, compile_context&) = 0;
@@ -100,6 +113,8 @@ struct output_intf
 	virtual
 	void notify_connected(void) = 0;
 };
+
+void connect_output_to_input(output_intf& output, input_intf& input);
 
 struct node_intf
 {

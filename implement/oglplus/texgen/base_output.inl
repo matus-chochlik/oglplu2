@@ -8,6 +8,7 @@
  */
 #include <set>
 #include <string>
+#include <iostream>
 #include <cassert>
 
 namespace oglplus {
@@ -22,9 +23,24 @@ noexcept
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
+render_params
+base_output::required_params(void)
+{
+	return all_render_params();
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
 std::ostream&
 base_output::definitions(std::ostream& out, compile_context&)
 {
+	return out;
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+std::ostream&
+base_output::expression(std::ostream& out, compile_context&)
+{
+	append_id(out);
 	return out;
 }
 //------------------------------------------------------------------------------
@@ -80,7 +96,7 @@ OGLPLUS_LIB_FUNC
 void
 base_output::append_id(std::ostream& out, const cstr_ref& name)
 {
-	out << "oglptg" << name;
+	out << "oglptg" << name << get_id();
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -88,6 +104,13 @@ void
 base_output::append_id(std::ostream& out)
 {
 	append_id(out, type_name());
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+std::ostream& operator << (std::ostream& out, const output_id_expr& expr)
+{
+	expr.output.append_id(out);
+	return out;
 }
 //------------------------------------------------------------------------------
 } // namespace texgen

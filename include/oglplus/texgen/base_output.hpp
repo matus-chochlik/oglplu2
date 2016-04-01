@@ -21,6 +21,7 @@ class base_output
 private:
 	node_intf& _parent;
 	std::set<input_intf*> _inputs;
+
 public:
 	base_output(node_intf& parent)
 	noexcept
@@ -40,7 +41,13 @@ public:
 	noexcept
 	override;
 
+	render_params required_params(void)
+	override;
+
 	std::ostream& definitions(std::ostream&, compile_context&)
+	override;
+
+	std::ostream& expression(std::ostream&, compile_context&)
 	override;
 
 	bool is_connected(input_intf&)
@@ -62,6 +69,12 @@ public:
 	void append_id(std::ostream&);
 	
 };
+
+struct output_id_expr
+{
+	base_output& output;
+};
+std::ostream& operator << (std::ostream& out, const output_id_expr& expr);
 
 } // namespace texgen
 } // namespace oglplus

@@ -10,6 +10,7 @@
 #define OGLPLUS_TEXGEN_CONST_OUTPUT_1509260923_HPP
 
 #include "base_output.hpp"
+#include "param_format.hpp"
 #include <eagine/type_traits.hpp>
 #include <array>
 
@@ -19,16 +20,39 @@ namespace texgen {
 template <typename T>
 class constant_output;
 
+class constant_output_base
+ : public base_output
+{
+public:
+	constant_output_base(node_intf& parent)
+	noexcept
+	 : base_output(parent)
+	{ }
+
+	cstr_ref type_name(void)
+	noexcept
+	override
+	{
+		return cstr_ref("Const");
+	}
+
+	render_params required_params(void)
+	override
+	{
+		return render_params();
+	}
+};
+
 template <typename T, unsigned N>
 class constant_output<T[N]>
- : public base_output
+ : public constant_output_base
 {
 private:
 	std::array<T, N> _coords;
 public:
 	constant_output(node_intf& parent)
 	noexcept
-	 : base_output(parent)
+	 : constant_output_base(parent)
 	 , _coords{}
 	{ }
 
@@ -38,7 +62,7 @@ public:
 	>
 	constant_output(node_intf& parent, P ... coords)
 	noexcept
-	 : base_output(parent)
+	 : constant_output_base(parent)
 	 , _coords{{T(coords)...}}
 	{ }
 
@@ -50,13 +74,6 @@ public:
 	noexcept
 	{
 		_coords = std::array<T, N>{{T(coords)...}};
-	}
-
-	cstr_ref type_name(void)
-	noexcept
-	override
-	{
-		return cstr_ref("Const");
 	}
 
 	slot_data_type value_type(void)
@@ -76,8 +93,7 @@ public:
 		{
 			out << ", " << _coords[i];
 		}
-		out << ")";
-		return out;
+		return out << ")";
 	}
 };
 

@@ -135,6 +135,13 @@ output_slot::disconnect(input_slot& input)
 	return _impl().disconnect(input._impl());
 }
 //------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+void connect_output_to_input(output_intf& output, input_intf& input)
+{
+	output.connect(input);
+	input.connect(output);
+}
+//------------------------------------------------------------------------------
 } // namespace texgen
 } // namespace oglplus
 //------------------------------------------------------------------------------

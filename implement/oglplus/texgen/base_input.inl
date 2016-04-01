@@ -102,6 +102,14 @@ base_input::disconnect(output_intf& output)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
+output_intf&
+base_input::connected_output(void)
+{
+	assert(is_connected());
+	return *_output;
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
 void
 base_input::update_needed(void)
 {

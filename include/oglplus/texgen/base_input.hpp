@@ -59,6 +59,9 @@ public:
 	bool disconnect(output_intf&)
 	override;
 
+	output_intf& connected_output(void)
+	override;
+
 	void update_needed(void)
 	override;
 };
