@@ -94,6 +94,17 @@ noexcept
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
+std::ostream&
+node_intf::input_definitions(std::ostream& out, compile_context& ctxt)
+{
+	for(std::size_t i=0, n=input_count(); i<n; ++i)
+	{
+		input(i).definitions(out, ctxt);
+	}
+	return out;
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
 bool
 input_slot::is_connected(output_slot& output)
 {

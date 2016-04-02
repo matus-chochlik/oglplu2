@@ -63,11 +63,13 @@ public:
 	}
 
 	std::ostream& definitions(std::ostream& out, compile_context& ctxt)
+	override
 	{
 		return output().definitions(out, ctxt);
 	}
 
 	std::ostream& expression(std::ostream& out, compile_context& ctxt)
+	override
 	{
 		return output().expression(out, ctxt);
 	}

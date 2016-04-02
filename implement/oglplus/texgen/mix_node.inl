@@ -40,17 +40,13 @@ OGLPLUS_LIB_FUNC
 std::ostream&
 mix_output::definitions(std::ostream& out, compile_context& ctxt)
 {
-	zero.definitions(out, ctxt);
-	one.definitions(out, ctxt);
-	value.definitions(out, ctxt);
-
 	slot_data_type res_type = value_type();
 	slot_data_type val_type = slot_data_type::float_;
 
-	out << data_type_name(res_type) << " ";
-	out << output_id_expr{*this, ctxt};
-	out << render_param_decl_expr{*this} << "{\n\t";
-	out << "return mix(\n\t\t";
+	input_defs(out, ctxt);
+	opening_expr(out, ctxt);
+
+	out << "\treturn mix(\n\t\t";
 
 	out << conversion_prefix_expr{zero.value_type(), res_type};
 	out << output_id_expr{zero.output(), ctxt};
@@ -70,8 +66,8 @@ mix_output::definitions(std::ostream& out, compile_context& ctxt)
 	out << conversion_suffix_expr{value.value_type(), val_type};
 	out << "\n\t";
 
-	out << ");\n}\n";
-	return out;
+	out << ");\n";
+	return closing_expr(out, ctxt);
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC

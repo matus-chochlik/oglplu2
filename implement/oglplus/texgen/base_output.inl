@@ -15,6 +15,30 @@ namespace oglplus {
 namespace texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
+std::ostream&
+base_output::input_defs(std::ostream& out, compile_context& ctxt)
+{
+	return parent().input_definitions(out, ctxt);
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+std::ostream&
+base_output::opening_expr(std::ostream& out, compile_context& ctxt)
+{
+	out << data_type_name(value_type()) << " ";
+	out << output_id_expr{*this, ctxt};
+	out << render_param_decl_expr{*this} << "{\n";
+	return out;
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+std::ostream&
+base_output::closing_expr(std::ostream& out, compile_context&)
+{
+	return out << "}\n";
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
 cstr_ref
 base_output::name(void)
 noexcept

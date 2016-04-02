@@ -58,6 +58,12 @@ struct input_intf
 	bool accepts_value_type(slot_data_type) = 0;
 
 	virtual
+	std::ostream& definitions(std::ostream&, compile_context&) = 0;
+
+	virtual
+	std::ostream& expression(std::ostream&, compile_context&) = 0;
+
+	virtual
 	bool is_connected(output_intf&) = 0;
 
 	virtual
@@ -127,6 +133,8 @@ struct node_intf
 
 	virtual
 	input_intf& input(std::size_t) = 0;
+
+	std::ostream& input_definitions(std::ostream&, compile_context&);
 
 	virtual
 	std::size_t output_count(void) = 0;

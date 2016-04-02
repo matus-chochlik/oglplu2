@@ -31,33 +31,29 @@ OGLPLUS_LIB_FUNC
 slot_data_type
 checker_output::value_type(void)
 {
-	return slot_data_type::int_;
+	return slot_data_type::float_;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 std::ostream&
 checker_output::definitions(std::ostream& out, compile_context& ctxt)
 {
-	repeat.definitions(out, ctxt);
+	input_defs(out, ctxt);
+	opening_expr(out, ctxt);
 
-	slot_data_type res_type = value_type();
+	out << "\tvec3 c = " << render_param_normalized_coords{*this} << ";\n";
+
 	slot_data_type vec3_type = slot_data_type::float_3;
-
-	out << data_type_name(res_type) << " ";
-	out << output_id_expr{*this, ctxt};
-	out << render_param_decl_expr{*this} << "{\n\t";
-	out << "vec3 c = " << render_param_normalized_coords{*this} << ";\n\t";
-
-	out << "c *= ";
+	out << "\tc *= ";
 	out << conversion_prefix_expr{repeat.value_type(), vec3_type};
 	out << output_id_expr{repeat.output(), ctxt};
 	out << render_param_pass_expr{repeat.output()};
 	out << conversion_suffix_expr{repeat.value_type(), vec3_type};
-	out << ";\n\t";
+	out << ";\n";
 
-	out << "return (int(c.x)%2+int(c.y)%2+int(c.z)%2)%2;\n";
-	out << "}\n";
-	return out;
+	out << "\treturn mod(dot(mod(floor(c), 2), vec3(1)),2);\n";
+
+	return closing_expr(out, ctxt);
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC

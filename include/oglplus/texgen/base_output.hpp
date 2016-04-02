@@ -10,6 +10,7 @@
 #define OGLPLUS_TEXGEN_BASE_OUTPUT_1509260923_HPP
 
 #include "interface.hpp"
+#include "param_format.hpp"
 #include <set>
 
 namespace oglplus {
@@ -21,7 +22,10 @@ class base_output
 private:
 	node_intf& _parent;
 	std::set<input_intf*> _inputs;
-
+protected:
+	std::ostream& input_defs(std::ostream&, compile_context&);
+	std::ostream& opening_expr(std::ostream&, compile_context&);
+	std::ostream& closing_expr(std::ostream&, compile_context&);
 public:
 	base_output(node_intf& parent)
 	noexcept
