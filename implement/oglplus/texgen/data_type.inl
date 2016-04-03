@@ -173,6 +173,14 @@ conversion_suffix(
 {
 	if(from != to)
 	{
+		unsigned df = data_type_dims(from);
+		unsigned dt = data_type_dims(to);
+
+		for(unsigned i=df; i<dt; ++i)
+		{
+			out << ",0";
+		}
+
 		out << ")";
 	}
 	return out;
