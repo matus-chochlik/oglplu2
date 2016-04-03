@@ -19,6 +19,7 @@ private:
 	unsigned _glsl_version;
 
 	std::set<std::string> _tags;
+	std::set<std::intptr_t> _outputs;
 public:
 	compile_context_impl(void)
 	 : _glsl_version(150)
@@ -39,6 +40,17 @@ public:
 	noexcept
 	{
 		return _tags.find(tag) != _tags.end();
+	}
+
+	void remember_output(std::intptr_t oid)
+	{
+		_outputs.insert(oid);
+	}
+
+	bool remembers_output(std::intptr_t oid) const
+	noexcept
+	{
+		return _outputs.find(oid) != _outputs.end();
 	}
 };
 //------------------------------------------------------------------------------
@@ -91,6 +103,25 @@ noexcept
 		tag.data(),
 		std::string::size_type(tag.size())
 	));
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+void
+compile_context::remember_output(const output_intf& output)
+{
+	return _impl().remember_output(
+		reinterpret_cast<std::intptr_t>(std::addressof(output))
+	);
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+bool
+compile_context::remembers_output(const output_intf& output) const
+noexcept
+{
+	return _impl().remembers_output(
+		reinterpret_cast<std::intptr_t>(std::addressof(output))
+	);
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC

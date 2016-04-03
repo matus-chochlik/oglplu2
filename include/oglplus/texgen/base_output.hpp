@@ -26,6 +26,8 @@ protected:
 	std::ostream& input_defs(std::ostream&, compile_context&);
 	std::ostream& opening_expr(std::ostream&, compile_context&);
 	std::ostream& closing_expr(std::ostream&, compile_context&);
+
+	bool already_defined(compile_context&);
 public:
 	base_output(node_intf& parent)
 	noexcept

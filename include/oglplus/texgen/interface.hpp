@@ -42,6 +42,10 @@ public:
 	void add_tag(const cstr_ref& tag);
 	bool has_tag(const cstr_ref& tag) const
 	noexcept;
+
+	void remember_output(const output_intf&);
+	bool remembers_output(const output_intf&) const
+	noexcept;
 };
 
 struct input_intf

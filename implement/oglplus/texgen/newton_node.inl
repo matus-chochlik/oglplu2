@@ -53,6 +53,8 @@ OGLPLUS_LIB_FUNC
 std::ostream&
 newton_output::definitions(std::ostream& result, compile_context& context)
 {
+	if(already_defined(context)) return result;
+
 	input_defs(result, context);
 
 	cstr_ref tag("complex_div");

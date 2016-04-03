@@ -39,6 +39,18 @@ base_output::closing_expr(std::ostream& out, compile_context&)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
+bool
+base_output::already_defined(compile_context& context)
+{
+	if(!context.remembers_output(*this))
+	{
+		context.remember_output(*this);
+		return false;
+	}
+	return true;
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
 cstr_ref
 base_output::name(void)
 noexcept

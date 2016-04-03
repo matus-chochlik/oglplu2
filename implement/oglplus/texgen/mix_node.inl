@@ -40,6 +40,8 @@ OGLPLUS_LIB_FUNC
 std::ostream&
 mix_output::definitions(std::ostream& out, compile_context& ctxt)
 {
+	if(already_defined(ctxt)) return out;
+
 	slot_data_type res_type = value_type();
 	slot_data_type val_type = slot_data_type::float_;
 
