@@ -52,16 +52,65 @@ class object_owner
  : public owned<object_name_and_ops<ObjTag>>
 {
 public:
+	template <typename Storage>
+	static inline
+	auto gen_(owned<object_names<ObjTag, Storage>>& names)
+	noexcept
+	{
+		return obj_lifetime_ops<ObjTag>::gen_objects(names);
+	}
+
+	static inline
+	auto gen_(owned<object_name_and_ops<ObjTag>>& names)
+	noexcept
+	{
+		return obj_lifetime_ops<ObjTag>::gen_objects(names);
+	}
+
+	template <typename Storage>
+	static inline
+	auto gen_(
+		owned<object_names<ObjTag, Storage>>& names,
+		object_subtype_t<ObjTag> subtype
+	) noexcept
+	{
+		return obj_lifetime_ops<ObjTag>::gen_objects(names, subtype);
+	}
+
+	static inline
+	auto gen_(
+		owned<object_name_and_ops<ObjTag>>& names,
+		object_subtype_t<ObjTag> subtype
+	) noexcept
+	{
+		return obj_lifetime_ops<ObjTag>::gen_objects(names, subtype);
+	}
+
+	template <typename Storage>
+	static inline
+	auto delete_(owned<object_names<ObjTag, Storage>>& names)
+	noexcept
+	{
+		return obj_lifetime_ops<ObjTag>::delete_objects(names);
+	}
+
+	static inline
+	auto delete_(owned<object_name_and_ops<ObjTag>>& names)
+	noexcept
+	{
+		return obj_lifetime_ops<ObjTag>::delete_objects(names);
+	}
+
 	object_owner(void)
 	 : owned<object_name_and_ops<ObjTag>>()
 	{
-		obj_lifetime_ops<ObjTag>::gen_objects(*this);
+		gen_(*this);
 	}
 
 	object_owner(object_subtype_t<ObjTag> subtype)
 	 : owned<object_name_and_ops<ObjTag>>()
 	{
-		obj_lifetime_ops<ObjTag>::gen_objects(*this, subtype);
+		gen_(*this, subtype);
 	}
 
 	object_owner(object_owner&&) = default;
@@ -69,7 +118,7 @@ public:
 
 	~object_owner(void)
 	{
-		try { obj_lifetime_ops<ObjTag>::delete_objects(*this); }
+		try { delete_(*this); }
 		catch(...) { } // TODO rethrow exceptions or cancel ?
 	}
 

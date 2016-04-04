@@ -64,6 +64,9 @@ public:
 
 	void update_needed(void)
 	override;
+
+	bool render(const render_params&)
+	override;
 };
 
 } // namespace texgen

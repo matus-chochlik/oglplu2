@@ -27,7 +27,7 @@ base_output::opening_expr(std::ostream& out, compile_context& ctxt)
 {
 	out << data_type_name(value_type()) << " ";
 	out << output_id_expr{*this, ctxt};
-	out << render_param_decl_expr{*this} << "{\n";
+	out << render_param_decl_expr{*this} << "{" << std::endl;
 	return out;
 }
 //------------------------------------------------------------------------------
@@ -35,7 +35,7 @@ OGLPLUS_LIB_FUNC
 std::ostream&
 base_output::closing_expr(std::ostream& out, compile_context&)
 {
-	return out << "}\n";
+	return out << "}" << std::endl << std::endl;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -59,7 +59,7 @@ noexcept
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-render_params
+render_param_bits
 base_output::required_params(void)
 {
 	return all_render_params();
@@ -118,6 +118,13 @@ base_output::notify_connected(void)
 		assert(input != nullptr);
 		input->update_needed();
 	}
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+bool
+base_output::render(const render_params& params)
+{
+	return parent().render(params);
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC

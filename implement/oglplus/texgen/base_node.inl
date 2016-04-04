@@ -56,6 +56,25 @@ base_node::update_needed(void)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
+bool
+base_node::render(const render_params& params)
+{
+	if(auto n = input_count())
+	{
+		while(_render_input < n)
+		{
+			if(input(_render_input).render(params))
+			{
+				++_render_input;
+			}
+			else return false;
+		}
+		_render_input = 0;
+	}
+	return true;
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
 cstr_ref
 base_single_output_node::type_name(void)
 {

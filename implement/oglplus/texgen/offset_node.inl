@@ -51,12 +51,12 @@ offset_output::definitions(std::ostream& out, compile_context& ctxt)
 	out << output_id_expr{offset.output(), ctxt};
 	out << render_param_pass_expr{offset.output()};
 	out << conversion_suffix_expr{offset.value_type(), vec3_type};
-	out << ";\n";
+	out << ";" << std::endl;
 
 	out << "\treturn ";
 	out << output_id_expr{input.output(), ctxt};
 	out << render_param_pass_expr{input.output()};
-	out << ";\n";
+	out << ";" << std::endl;
 
 	return closing_expr(out, ctxt);
 }

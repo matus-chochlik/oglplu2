@@ -63,7 +63,7 @@ split_output::definitions(std::ostream& out, compile_context& ctxt)
 	out << render_param_pass_expr{_input.output()};
 	out << conversion_suffix_expr{_input.value_type(), tmp_dt};
 	out << "[" << _index << "]";
-	out << ";\n";
+	out << ";" << std::endl;
 
 	return closing_expr(out, ctxt);
 }

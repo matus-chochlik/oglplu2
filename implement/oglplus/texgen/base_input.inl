@@ -116,6 +116,17 @@ base_input::update_needed(void)
 	parent().update_needed();
 }
 //------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+bool
+base_input::render(const render_params& params)
+{
+	if(is_connected())
+	{
+		return connected_output().render(params);
+	}
+	return true;
+}
+//------------------------------------------------------------------------------
 } // namespace texgen
 } // namespace oglplus
 //------------------------------------------------------------------------------

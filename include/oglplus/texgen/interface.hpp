@@ -81,6 +81,9 @@ struct input_intf
 
 	virtual
 	void update_needed(void) = 0;
+
+	virtual
+	bool render(const render_params&) = 0;
 };
 
 struct output_intf
@@ -97,7 +100,7 @@ struct output_intf
 	slot_data_type value_type(void) = 0;
 
 	virtual
-	render_params required_params(void) = 0;
+	render_param_bits required_params(void) = 0;
 
 	virtual
 	bool needs_params(void)
@@ -122,6 +125,9 @@ struct output_intf
 
 	virtual
 	void notify_connected(void) = 0;
+
+	virtual
+	bool render(const render_params&) = 0;
 };
 
 void connect_output_to_input(output_intf& output, input_intf& input);
@@ -151,6 +157,9 @@ struct node_intf
 
 	virtual
 	void update_needed(void) = 0;
+
+	virtual
+	bool render(const render_params&) = 0;
 };
 
 class input_slot;

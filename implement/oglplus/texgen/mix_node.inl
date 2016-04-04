@@ -48,27 +48,27 @@ mix_output::definitions(std::ostream& out, compile_context& ctxt)
 	input_defs(out, ctxt);
 	opening_expr(out, ctxt);
 
-	out << "\treturn mix(\n\t\t";
+	out << "\treturn mix(" << std::endl << "\t\t";
 
 	out << conversion_prefix_expr{zero.value_type(), res_type};
 	out << output_id_expr{zero.output(), ctxt};
 	out << render_param_pass_expr{zero.output()};
 	out << conversion_suffix_expr{zero.value_type(), res_type};
-	out << ",\n\t\t";
+	out << "," << std::endl << "\t\t";
 
 	out << conversion_prefix_expr{one.value_type(), res_type};
 	out << output_id_expr{one.output(), ctxt};
 	out << render_param_pass_expr{one.output()};
 	out << conversion_suffix_expr{one.value_type(), res_type};
-	out << ",\n\t\t";
+	out << "," << std::endl << "\t\t";
 
 	out << conversion_prefix_expr{value.value_type(), val_type};
 	out << output_id_expr{value.output(), ctxt};
 	out << render_param_pass_expr{value.output()};
 	out << conversion_suffix_expr{value.value_type(), val_type};
-	out << "\n\t";
+	out << std::endl << "\t";
 
-	out << ");\n";
+	out << ");" << std::endl;
 	return closing_expr(out, ctxt);
 }
 //------------------------------------------------------------------------------

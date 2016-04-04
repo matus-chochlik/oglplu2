@@ -43,7 +43,8 @@ checker_output::definitions(std::ostream& out, compile_context& ctxt)
 	input_defs(out, ctxt);
 	opening_expr(out, ctxt);
 
-	out << "\tvec3 c = " << render_param_normalized_coords{*this} << ";\n";
+	out << "\tvec3 c = " << render_param_normalized_coords{*this} << ";";
+	out << std::endl;
 
 	slot_data_type vec3_type = slot_data_type::float_3;
 	out << "\tc *= ";
@@ -51,9 +52,9 @@ checker_output::definitions(std::ostream& out, compile_context& ctxt)
 	out << output_id_expr{repeat.output(), ctxt};
 	out << render_param_pass_expr{repeat.output()};
 	out << conversion_suffix_expr{repeat.value_type(), vec3_type};
-	out << ";\n";
+	out << ";" << std::endl;
 
-	out << "\treturn mod(dot(mod(floor(c), 2), vec3(1)),2);\n";
+	out << "\treturn mod(dot(mod(floor(c), 2), vec3(1)),2);" << std::endl;
 
 	return closing_expr(out, ctxt);
 }

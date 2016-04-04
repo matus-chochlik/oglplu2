@@ -17,7 +17,14 @@ namespace texgen {
 class base_node
  : public node_intf
 {
+private:
+	std::size_t _render_input;
 public:
+	base_node(void)
+	noexcept
+	 : _render_input(0u)
+	{ }
+
 	std::size_t input_count(void)
 	override;
 
@@ -31,6 +38,9 @@ public:
 	override;
 
 	void update_needed(void)
+	override;
+
+	bool render(const render_params&)
 	override;
 };
 

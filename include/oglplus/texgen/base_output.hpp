@@ -47,7 +47,7 @@ public:
 	noexcept
 	override;
 
-	render_params required_params(void)
+	render_param_bits required_params(void)
 	override;
 
 	std::ostream& definitions(std::ostream&, compile_context&)
@@ -66,6 +66,9 @@ public:
 	override;
 
 	void notify_connected(void)
+	override;
+
+	bool render(const render_params&)
 	override;
 
 	std::intptr_t get_id(void) const

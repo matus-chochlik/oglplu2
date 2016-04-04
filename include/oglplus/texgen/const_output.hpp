@@ -36,10 +36,10 @@ public:
 		return cstr_ref("Const");
 	}
 
-	render_params required_params(void)
+	render_param_bits required_params(void)
 	override
 	{
-		return render_params();
+		return render_param_bits();
 	}
 };
 

@@ -99,7 +99,7 @@ combine_output::definitions(std::ostream& out, compile_context& ctxt)
 	for(const auto& ei : expr_to_inputs)
 	{
 		out << "\t" << data_type_name(dt);
-		out << " value" << v << " = " << ei.first << ";\n";
+		out << " value" << v << " = " << ei.first << ";" << std::endl;
 
 		for(unsigned cmpn : ei.second)
 		{
@@ -114,7 +114,7 @@ combine_output::definitions(std::ostream& out, compile_context& ctxt)
 		if(i > 0) out << ", ";
 		out << "value" << component_to_expr[i];
 	}
-	out << ");\n";
+	out << ");" << std::endl;
 
 	return closing_expr(out, ctxt);
 }
