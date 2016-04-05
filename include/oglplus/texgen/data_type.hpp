@@ -135,6 +135,14 @@ struct conversion_suffix_expr
 };
 std::ostream& operator << (std::ostream&, conversion_suffix_expr);
 
+std::ostream&
+conversion_suffix(
+	std::ostream& out,
+	slot_data_type from,
+	slot_data_type to,
+	cstr_ref x, cstr_ref y, cstr_ref z, cstr_ref w
+);
+
 } // namespace texgen
 } // namespace oglplus
 
