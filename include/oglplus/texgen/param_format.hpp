@@ -21,8 +21,20 @@ std::ostream& operator << (std::ostream& out, render_param_decl_expr);
 struct render_param_pass_expr { output_intf& output; };
 std::ostream& operator << (std::ostream& out, render_param_pass_expr);
 
-struct render_param_normalized_coords { output_intf& output; };
-std::ostream& operator << (std::ostream& out, render_param_normalized_coords);
+struct render_param_normalized_coord { output_intf& output; };
+std::ostream& operator << (std::ostream& out, render_param_normalized_coord);
+
+struct render_param_voxel_offset { output_intf& output; };
+std::ostream& operator << (std::ostream& out, render_param_voxel_offset);
+
+struct render_param_norm_voxel_size { output_intf& output; };
+std::ostream& operator << (std::ostream& out, render_param_norm_voxel_size);
+
+struct render_param_norm_voxel_offs { output_intf& output; };
+std::ostream& operator << (std::ostream& out, render_param_norm_voxel_offs);
+
+struct render_param_norm_sample_coord { output_intf& output; };
+std::ostream& operator << (std::ostream& out, render_param_norm_sample_coord);
 
 } // namespace texgen
 } // namespace oglplus

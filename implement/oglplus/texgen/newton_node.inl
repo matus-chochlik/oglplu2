@@ -60,14 +60,22 @@ newton_output::definitions(std::ostream& result, compile_context& context)
 	cstr_ref tag("complex_div");
 	if(!context.has_tag(tag))
 	{
-		result << "vec2 oglptgComplexDiv(vec2 a, vec2 b)\n";
-		result << "{\n";
-		result << "	float d = dot(b, b);\n";
-		result << "	return (d == 0.0)?a:vec2(\n";
-		result << "		(a.x*b.x + a.y*b.y) / d,\n";
-		result << "		(a.y*b.x - a.x*b.y) / d\n";
-		result << "	);\n";
-		result << "}\n";
+		result << "vec2 oglptgComplexDiv(vec2 a, vec2 b)";
+		result << std::endl;
+		result << "{";
+		result << std::endl;
+		result << "	float d = dot(b, b);";
+		result << std::endl;
+		result << "	return (d == 0.0)?a:vec2(";
+		result << std::endl;
+		result << "		(a.x*b.x + a.y*b.y) / d,";
+		result << std::endl;
+		result << "		(a.y*b.x - a.x*b.y) / d";
+		result << std::endl;
+		result << "	);";
+		result << std::endl;
+		result << "}";
+		result << std::endl;
 
 		context.add_tag(tag);
 	}
@@ -78,22 +86,36 @@ newton_output::definitions(std::ostream& result, compile_context& context)
 		if(!context.has_tag(tag))
 		{
 			result << "vec2 oglptgNewton_";
-			result << _func_name() << "(vec2 n)\n";
-			result << "{\n";
-			result << "\treturn vec2(\n";
-			result << "\t	n.x*n.x*n.x-3.0*n.x*n.y*n.y-1.0,\n";
-			result << "\t	-n.y*n.y*n.y+3.0*n.x*n.x*n.y\n";
-			result << "\t);\n";
-			result << "}\n";
+			result << _func_name() << "(vec2 n)";
+			result << std::endl;
+			result << "{";
+			result << std::endl;
+			result << "\treturn vec2(";
+			result << std::endl;
+			result << "\t	n.x*n.x*n.x-3.0*n.x*n.y*n.y-1.0,";
+			result << std::endl;
+			result << "\t	-n.y*n.y*n.y+3.0*n.x*n.x*n.y";
+			result << std::endl;
+			result << "\t);";
+			result << std::endl;
+			result << "}";
+			result << std::endl;
 
 			result << "vec2 oglptgNewton_d";
-			result << _func_name() << "(vec2 n)\n";
-			result << "{\n";
-			result << "\treturn 3.0 * vec2(\n";
-			result << "\t	n.x*n.x - n.y*n.y,\n";
-			result << "\t	2.0 * n.x * n.y\n";
-			result << "\t);\n";
-			result << "}\n";
+			result << _func_name() << "(vec2 n)";
+			result << std::endl;
+			result << "{";
+			result << std::endl;
+			result << "\treturn 3.0 * vec2(";
+			result << std::endl;
+			result << "\t	n.x*n.x - n.y*n.y,";
+			result << std::endl;
+			result << "\t	2.0 * n.x * n.y";
+			result << std::endl;
+			result << "\t);";
+			result << std::endl;
+			result << "}";
+			result << std::endl;
 
 			context.add_tag(tag);
 		}
@@ -104,25 +126,42 @@ newton_output::definitions(std::ostream& result, compile_context& context)
 		if(!context.has_tag(tag))
 		{
 			result << "vec2 oglptgNewton_";
-			result << _func_name() << "(vec2 n)\n";
-			result << "{\n";
-			result << "\treturn vec2(\n";
-			result << "\t	n.x*n.x*n.x*n.x +\n";
-			result << "\t	n.y*n.y*n.y*n.y -\n";
-			result << "\t	6.0*n.x*n.x*n.y*n.y - 1.0,\n";
-			result << "\t	4.0*n.x*n.x*n.x*n.y -\n";
-			result << "\t	4.0*n.x*n.y*n.y*n.y\n";
-			result << "\t);\n";
-			result << "}\n";
+			result << _func_name() << "(vec2 n)";
+			result << std::endl;
+			result << "{";
+			result << std::endl;
+			result << "\treturn vec2(";
+			result << std::endl;
+			result << "\t	n.x*n.x*n.x*n.x +";
+			result << std::endl;
+			result << "\t	n.y*n.y*n.y*n.y -";
+			result << std::endl;
+			result << "\t	6.0*n.x*n.x*n.y*n.y - 1.0,";
+			result << std::endl;
+			result << "\t	4.0*n.x*n.x*n.x*n.y -";
+			result << std::endl;
+			result << "\t	4.0*n.x*n.y*n.y*n.y";
+			result << std::endl;
+			result << "\t);";
+			result << std::endl;
+			result << "}";
+			result << std::endl;
 
 			result << "vec2 oglptgNewton_d";
-			result << _func_name() << "(vec2 n)\n";
-			result << "{\n";
-			result << "\treturn 4.0 * vec2(\n";
-			result << "\t	 n.x*n.x*n.x - 3.0*n.x*n.y*n.y,\n";
-			result << "\t	-n.y*n.y*n.y + 3.0*n.x*n.x*n.y\n";
-			result << "\t);\n";
-			result << "}\n";
+			result << _func_name() << "(vec2 n)";
+			result << std::endl;
+			result << "{";
+			result << std::endl;
+			result << "\treturn 4.0 * vec2(";
+			result << std::endl;
+			result << "\t	 n.x*n.x*n.x - 3.0*n.x*n.y*n.y,";
+			result << std::endl;
+			result << "\t	-n.y*n.y*n.y + 3.0*n.x*n.x*n.y";
+			result << std::endl;
+			result << "\t);";
+			result << std::endl;
+			result << "}";
+			result << std::endl;
 
 			context.add_tag(tag);
 		}
@@ -130,21 +169,34 @@ newton_output::definitions(std::ostream& result, compile_context& context)
 
 	opening_expr(result, context);
 
-	result << "\tvec3 k = " << render_param_normalized_coords{*this}<<";\n";
-	result << "\tvec2 z = k.xy;\n";
-	result << "\tint i, max = 64;\n";
-	result << "\tfor(i = 0; i < max; ++i)\n";
-	result << "\t{\n";
-	result << "\t	vec2 zn = z - oglptgComplexDiv(\n";
+	result << "\tvec3 k = " << render_param_norm_sample_coord{*this}<<";";
+	result << std::endl;
+	result << "\tvec2 z = k.xy;";
+	result << std::endl;
+	result << "\tint i, max = 64;";
+	result << std::endl;
+	result << "\tfor(i = 0; i < max; ++i)";
+	result << std::endl;
+	result << "\t{";
+	result << std::endl;
+	result << "\t	vec2 zn = z - oglptgComplexDiv(";
+	result << std::endl;
 
-	result << "\t		oglptgNewton_" << _func_name() << "(z),\n";
-	result << "\t		oglptgNewton_d" << _func_name() << "(z)\n";
+	result << "\t		oglptgNewton_" << _func_name() << "(z),";
+	result << std::endl;
+	result << "\t		oglptgNewton_d" << _func_name() << "(z)";
+	result << std::endl;
 
-	result << "\t	);\n";
-	result << "\t	if(distance(zn, z) < 0.00001) break;\n";
-	result << "\t	z = zn;\n";
-	result << "\t}\n";
-	result << "\treturn float(i)/float(max);\n";
+	result << "\t	);";
+	result << std::endl;
+	result << "\t	if(distance(zn, z) < 0.00001) break;";
+	result << std::endl;
+	result << "\t	z = zn;";
+	result << std::endl;
+	result << "\t}";
+	result << std::endl;
+	result << "\treturn float(i)/float(max);";
+	result << std::endl;
 
 	return closing_expr(result, context);
 }

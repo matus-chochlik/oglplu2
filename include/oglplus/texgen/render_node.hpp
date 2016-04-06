@@ -14,6 +14,8 @@
 #include "../program.hpp"
 #include "../buffer.hpp"
 #include "../vertex_array.hpp"
+#include "../uniform.hpp"
+#include <oglplus/utils/valid_if.hpp>
 
 namespace oglplus {
 namespace texgen {
@@ -28,8 +30,15 @@ private:
 	owned<buffer_name> _data;
 	owned<vertex_array_name> _vao;
 
+	uniform_location _voxel_size;
+
 	void _init_screen(void);
 	void _update_program(void);
+
+	int _xdiv, _ydiv, _tile;
+
+	unsigned _render_version;
+	render_params _render_params;
 public:
 	render_node(void);
 	render_node(const render_node&) = delete;
@@ -51,6 +60,16 @@ public:
 
 	void update_needed(void)
 	override;
+
+	bool render(const render_params&)
+	override;
+
+	bool render(void);
+
+	void set_size(
+		valid_if_positive<int> width,
+		valid_if_positive<int> height
+	);
 };
 
 } // namespace texgen

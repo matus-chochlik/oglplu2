@@ -14,6 +14,7 @@
 #include <oglplus/buffer.hpp>
 #include <oglplus/vertex_array.hpp>
 #include <oglplus/glsl/string_ref.hpp>
+#include <oglplus/math/vector.hpp>
 
 #include <oglplus/operations.hpp>
 #include <oglplus/constants.hpp>
@@ -105,12 +106,20 @@ render_node::_update_program(void)
 
 	gl.link_program(_prog);
 	gl.use_program(_prog);
+	gl.query_location(_voxel_size, _prog, "oglptg_vs");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 render_node::render_node(void)
  : _input(*this, cstr_ref("Input"), 0.5f, 0.5f, 0.5f, 1.0f)
+ , _xdiv(1)
+ , _ydiv(1)
+ , _tile(0)
+ , _render_version(0)
 {
+	_render_params.version = 0;
+	_render_params.width = 1;
+	_render_params.height = 1;
 	_init_screen();
 }
 //------------------------------------------------------------------------------
@@ -139,18 +148,21 @@ make_fragment_shader_source(std::ostream& out, compile_context& ctxt)
 {
 	out << "#version " << ctxt.glsl_version() << std::endl;
 
+	out << "uniform vec3 oglptg_vs;" << std::endl << std::endl;
+
 	_input.definitions(out, ctxt);
 
+	out << "out vec4 oglptg_out;" << std::endl << std::endl;
 	out << "in vec3 oglptg_nc;" << std::endl << std::endl;
 
 	out << "void main(void)" << std::endl;
 	out << "{" << std::endl;
-	out << "	gl_FragColor = ";
+	out << "	oglptg_out = ";
 
 	const slot_data_type v4 = slot_data_type::float_4;
 	out << conversion_prefix_expr{_input.output().value_type(), v4};
 	out << output_id_expr{_input.output(), ctxt};
-	out << render_param_pass_expr{_input.output()};
+	out << "(oglptg_nc, vec3(0))";
 	out << conversion_suffix_expr{_input.output().value_type(), v4};
 	out << ";" << std::endl;
 
@@ -186,6 +198,82 @@ void
 render_node::update_needed(void)
 {
 	_update_program();
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+bool
+render_node::render(const render_params& params)
+{
+
+	if(_render_version < params.version)
+	{
+		operations gl;
+		constants GL;
+
+		if(_tile == 0)
+		{
+			if(!_input.render(params))
+			{
+				return false;
+			}
+			if(_voxel_size)
+			{
+				gl.uniform(
+					_voxel_size,
+					vec3(
+						1.f/params.width,
+						1.f/params.height,
+						1.f
+					)
+				);
+			}
+		}
+		int x_tile = _tile%_xdiv;
+		int y_tile = _tile/_ydiv;
+
+		int w = params.width/_xdiv;
+		int h = params.width/_ydiv;
+
+		gl.enable(GL.scissor_test);
+		gl.scissor(
+			GLint(x_tile*w),
+			GLint(y_tile*h),
+			GLint(w+1),
+			GLint(h+1)
+		);
+		draw_screen();
+		gl.disable(GL.scissor_test);
+
+		if(++_tile < _xdiv*_ydiv)
+		{
+			return false;
+		}
+
+		_tile = 0;
+		_render_version = params.version;
+	}
+	return true;
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+bool
+render_node::render(void)
+{
+	if(render(_render_params))
+	{
+		++_render_params.version;
+		return true;
+	}
+	return false;
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+void
+render_node::
+set_size(valid_if_positive<int> width, valid_if_positive<int> height)
+{
+	_render_params.width = width.value_or(1);
+	_render_params.height = height.value_or(1);
 }
 //------------------------------------------------------------------------------
 } // namespace texgen

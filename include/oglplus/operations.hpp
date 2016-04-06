@@ -11,6 +11,7 @@
 
 #include "oper/capabilities.hpp"
 #include "oper/viewport.hpp"
+#include "oper/scissor.hpp"
 #include "oper/buffer_masking.hpp"
 #include "oper/buffer_clearing.hpp"
 #include "oper/prog_var_location.hpp"
@@ -61,6 +62,7 @@ namespace oglplus {
 class operations
  : public oper::capability_state
  , public oper::viewport_state
+ , public oper::scissor_state
  , public oper::buffer_masking_state
  , public oper::buffer_clearing_state
  , public oper::buffer_clearing_ops

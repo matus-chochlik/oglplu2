@@ -18,10 +18,10 @@ struct output_intf;
 
 enum class render_param_bit : int
 {
-	normalized_coords = 1 <<  0,
-	pixel_size        = 1 <<  1,
-	pixel_offset      = 1 <<  2,
-	sample_offset     = 1 <<  3
+	normalized_coord = 1 <<  0,
+	voxel_size       = 1 <<  1,
+	voxel_offset     = 1 <<  2,
+	element_offset   = 1 <<  3
 };
 
 typedef eagine::bitfield<render_param_bit> render_param_bits;
@@ -39,17 +39,17 @@ render_param_bits
 all_render_params(void)
 noexcept
 {
-	return	render_param_bit::normalized_coords|
-		render_param_bit::pixel_size|
-		render_param_bit::pixel_offset|
-		render_param_bit::sample_offset;
+	return	render_param_bit::normalized_coord|
+		render_param_bit::voxel_size|
+		render_param_bit::voxel_offset|
+		render_param_bit::element_offset;
 }
 
 struct render_params
 {
-	std::size_t version;
-	unsigned width;
-	unsigned height;
+	unsigned version;
+	int width;
+	int height;
 };
 
 } // namespace texgen

@@ -24,6 +24,7 @@ OGLPLUS_LIB_FUNC
 base_input::~base_input(void)
 noexcept
 {
+	// TODO assert(!is_connected());
 	if(is_connected())
 	{
 		_output->disconnect(*this);

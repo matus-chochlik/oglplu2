@@ -46,7 +46,7 @@ scale_output::definitions(std::ostream& out, compile_context& ctxt)
 
 	slot_data_type vec3_type = slot_data_type::float_3;
 
-	out << "\t" << render_param_normalized_coords{*this} << " /= ";
+	out << "\t" << render_param_normalized_coord{*this} << " /= ";
 	out << conversion_prefix_expr{scale.value_type(), vec3_type};
 	out << output_id_expr{scale.output(), ctxt};
 	out << render_param_pass_expr{scale.output()};
