@@ -133,7 +133,7 @@ file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/programs/")
 file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/shaders/")
 
 function(add_program_source DIR PROG_NAME)
-	set(INPUT ${DIR}/${PROG_NAME}.prog)
+	set(INPUT ${DIR}/programs/${PROG_NAME}.prog)
 	file(STRINGS ${INPUT} PARAM_STR)
 	string(REPLACE " " ";" PARAMETERS ${PARAM_STR}) 
 	get_filename_component(GENERATOR ${PROG_NAME} NAME_WE)
@@ -142,7 +142,7 @@ function(add_program_source DIR PROG_NAME)
 		OUTPUT ${OUTPUT}
 		COMMAND bake_program_source
 		ARGS ${PARAMETERS} --output ${OUTPUT}
-		WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+		WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/shaders
 		DEPENDS ${INPUT}
 		COMMENT "Baking program source ${PROG_NAME}"
 	)
@@ -155,7 +155,7 @@ function(add_program_source DIR PROG_NAME)
 endfunction()
 
 function(add_shader_source DIR SHDR_NAME)
-	set(INPUT ${DIR}/${SHDR_NAME}.glsl)
+	set(INPUT ${DIR}/shaders/${SHDR_NAME}.glsl)
 	string(REGEX REPLACE "^.*(\\.[^.]*)$" "\\1" SHDR_LEXT ${SHDR_NAME})
 	if("${SHDR_LEXT}" STREQUAL ".vert")
 		set(PARAMETERS "--shader-type;vertex")
@@ -176,7 +176,7 @@ function(add_shader_source DIR SHDR_NAME)
 			OUTPUT ${OUTPUT}
 			COMMAND bake_shader_source
 			ARGS ${PARAMETERS} --input ${INPUT} --output ${OUTPUT}
-			WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+			WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/shaders
 			DEPENDS ${INPUT}
 			COMMENT "Baking shader source ${SHDR_NAME}"
 		)
@@ -190,7 +190,7 @@ function(add_shader_source DIR SHDR_NAME)
 endfunction()
 
 function(add_glsl_program_sources DIR)
-	file(GLOB SOURCES "${DIR}/*.prog")
+	file(GLOB SOURCES "${DIR}/programs/*.prog")
 
 	foreach(SOURCE ${SOURCES})
 		get_filename_component(FILE_NAME ${SOURCE} NAME)
@@ -200,7 +200,7 @@ function(add_glsl_program_sources DIR)
 endfunction()
 
 function(add_glsl_shader_sources DIR)
-	file(GLOB SOURCES "${DIR}/*.glsl")
+	file(GLOB SOURCES "${DIR}/shaders/*.glsl")
 
 	foreach(SOURCE ${SOURCES})
 		get_filename_component(FILE_NAME ${SOURCE} NAME)
