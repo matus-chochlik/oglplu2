@@ -197,16 +197,28 @@ OGLPLUS_LIB_FUNC
 void
 render_node::update_needed(void)
 {
-	_update_program();
+	_needs_update = true;
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+void
+render_node::update_if_needed(void)
+{
+	if(_needs_update)
+	{
+		_update_program();
+		_needs_update = false;
+	}
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 bool
 render_node::render(const render_params& params)
 {
-
 	if(_render_version < params.version)
 	{
+		update_if_needed();
+
 		operations gl;
 		constants GL;
 

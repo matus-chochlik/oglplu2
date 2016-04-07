@@ -35,6 +35,8 @@ private:
 	void _init_screen(void);
 	void _update_program(void);
 
+	bool _needs_update;
+
 	int _xdiv, _ydiv, _tile;
 
 	unsigned _render_version;
@@ -60,6 +62,8 @@ public:
 
 	void update_needed(void)
 	override;
+
+	void update_if_needed(void);
 
 	bool render(const render_params&)
 	override;

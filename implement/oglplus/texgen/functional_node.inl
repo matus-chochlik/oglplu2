@@ -280,6 +280,19 @@ binary_function_output::definitions(std::ostream& out, compile_context& ctxt)
 	);
 	slot_data_type dtb = dta;
 
+	out << "\t" << data_type_name(dta) << " a = ";
+	out << conversion_prefix_expr{input_a.value_type(), dta};
+	out << output_id_expr{input_a.output(), ctxt};
+	out << render_param_pass_expr{input_a.output()};
+	out << conversion_suffix_expr{input_a.value_type(), dta};
+	out << ";" << std::endl;
+
+	out << "\t" << data_type_name(dtb) << " b = ";
+	out << conversion_prefix_expr{input_b.value_type(), dtb};
+	out << output_id_expr{input_b.output(), ctxt};
+	out << render_param_pass_expr{input_b.output()};
+	out << conversion_suffix_expr{input_b.value_type(), dtb};
+	out << ";" << std::endl;
 
 	out << "\treturn ";
 	switch(func)
@@ -327,10 +340,8 @@ binary_function_output::definitions(std::ostream& out, compile_context& ctxt)
 			out << "(";
 			break;
 	}
-	out << conversion_prefix_expr{input_a.value_type(), dta};
-	out << output_id_expr{input_a.output(), ctxt};
-	out << render_param_pass_expr{input_a.output()};
-	out << conversion_suffix_expr{input_a.value_type(), dta};
+
+	out << "a";
 
 	switch(func)
 	{
@@ -357,10 +368,7 @@ binary_function_output::definitions(std::ostream& out, compile_context& ctxt)
 			break;
 	}
 
-	out << conversion_prefix_expr{input_b.value_type(), dtb};
-	out << output_id_expr{input_b.output(), ctxt};
-	out << render_param_pass_expr{input_b.output()};
-	out << conversion_suffix_expr{input_b.value_type(), dtb};
+	out << "b";
 
 	switch(func)
 	{
@@ -385,7 +393,7 @@ binary_function_output::definitions(std::ostream& out, compile_context& ctxt)
 			break;
 	}
 
-	out << ");" << std::endl;
+	out << ";" << std::endl;
 
 	return closing_expr(out, ctxt);
 }
