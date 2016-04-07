@@ -125,21 +125,33 @@ make_data_type(
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
+scalar_data_type
+common_elem_type(slot_data_type a, slot_data_type b)
+noexcept
+{
+	scalar_data_type ta = elem_data_type(a);
+	scalar_data_type tb = elem_data_type(b);
+	return int(ta)>int(tb)?ta:tb;
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+unsigned
+common_dims(slot_data_type a, slot_data_type b)
+noexcept
+{
+	unsigned da = data_type_dims(a);
+	unsigned db = data_type_dims(b);
+	return da>db?da:db;
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
 slot_data_type
 common_data_type(slot_data_type a, slot_data_type b)
 noexcept
 {
 	if(a == b) return a;
 
-	unsigned da = data_type_dims(a);
-	unsigned db = data_type_dims(b);
-	unsigned dc = da>db?da:db;
-
-	scalar_data_type ta = elem_data_type(a);
-	scalar_data_type tb = elem_data_type(b);
-	scalar_data_type tc = int(ta)>int(tb)?ta:tb;
-
-	return make_data_type(tc, dc);
+	return make_data_type(common_elem_type(a, b), common_dims(a, b));
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC

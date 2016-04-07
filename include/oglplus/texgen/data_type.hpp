@@ -104,6 +104,13 @@ slot_data_type make_data_type(
 	eagine::valid_if_between<unsigned, 1, 4> dims
 ) noexcept;
 
+scalar_data_type
+common_elem_type(slot_data_type a, slot_data_type b)
+noexcept;
+
+unsigned common_dims(slot_data_type a, slot_data_type b)
+noexcept;
+
 slot_data_type common_data_type(slot_data_type a, slot_data_type b)
 noexcept;
 
