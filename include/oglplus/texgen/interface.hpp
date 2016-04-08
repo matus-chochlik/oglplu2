@@ -11,6 +11,8 @@
 
 #include "data_type.hpp"
 #include "render_params.hpp"
+#include "oglplus/utils/valid_if.hpp"
+#include <eagine/optional_ref.hpp>
 #include <memory>
 #include <cstddef>
 #include <iosfwd>
@@ -68,16 +70,54 @@ struct input_intf
 	std::ostream& expression(std::ostream&, compile_context&) = 0;
 
 	virtual
+	bool is_connected(void) = 0;
+
+	virtual
 	bool is_connected(output_intf&) = 0;
 
 	virtual
+	bool can_connect(output_intf&) = 0;
+
+	virtual
 	bool connect(output_intf&) = 0;
+
+	virtual
+	void disconnect(void) = 0;
 
 	virtual
 	bool disconnect(output_intf&) = 0;
 
 	virtual
 	output_intf& connected_output(void) = 0;
+
+	virtual
+	bool set_default_value(valid_if_between<unsigned, 0, 3> c, float v) = 0;
+
+	bool set_default(float x)
+	{
+		return	set_default_value(0, x);
+	}
+
+	bool set_default(float x, float y)
+	{
+		return	set_default_value(0, x)&&
+			set_default_value(1, y);
+	}
+
+	bool set_default(float x, float y, float z)
+	{
+		return	set_default_value(0, x)&&
+			set_default_value(1, y)&&
+			set_default_value(2, z);
+	}
+
+	bool set_default(float x, float y, float z, float w)
+	{
+		return	set_default_value(0, x)&&
+			set_default_value(1, y)&&
+			set_default_value(3, z)&&
+			set_default_value(4, w);
+	}
 
 	virtual
 	void update_needed(void) = 0;
@@ -124,13 +164,17 @@ struct output_intf
 	bool disconnect(input_intf&) = 0;
 
 	virtual
+	void disconnect_all(void) = 0;
+
+	virtual
 	void notify_connected(void) = 0;
 
 	virtual
 	bool render(const render_params&) = 0;
 };
 
-void connect_output_to_input(output_intf& output, input_intf& input);
+bool connect_output_to_input(output_intf& output, input_intf& input);
+bool disconnect_output_from_input(output_intf& output, input_intf& input);
 
 struct node_intf
 {
@@ -144,6 +188,9 @@ struct node_intf
 	virtual
 	input_intf& input(std::size_t) = 0;
 
+	eagine::optional_reference_wrapper<input_intf>
+	input_by_name(const cstr_ref&);
+
 	std::ostream& input_definitions(std::ostream&, compile_context&);
 
 	virtual
@@ -151,6 +198,11 @@ struct node_intf
 
 	virtual
 	output_intf& output(std::size_t) = 0;
+
+	eagine::optional_reference_wrapper<output_intf>
+	output_by_name(const cstr_ref&);
+
+	void disconnect_all(void);
 
 	virtual
 	cstr_ref type_name(void) = 0;

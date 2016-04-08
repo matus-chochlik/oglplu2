@@ -76,6 +76,17 @@ public:
 		_coords = std::array<T, N>{{T(coords)...}};
 	}
 
+	bool set_default_value(unsigned c, float v)
+	override
+	{
+		if(c < N)
+		{
+			_coords[c] = T(v);
+			return true;
+		}
+		return false;
+	}
+
 	slot_data_type value_type(void)
 	noexcept
 	override

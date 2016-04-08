@@ -84,7 +84,7 @@ OGLPLUS_LIB_FUNC
 bool
 base_output::is_connected(input_intf& input)
 {
-	return _inputs.find(&input) != _inputs.end();
+	return _inputs.find(std::addressof(input)) != _inputs.end();
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -94,7 +94,7 @@ base_output::connect(input_intf& input)
 	if(input.accepts_value_type(value_type()))
 	{
 		assert(!is_connected(input));
-		_inputs.insert(&input);
+		_inputs.insert(std::addressof(input));
 		return true;
 	}
 	return false;
@@ -105,8 +105,15 @@ bool
 base_output::disconnect(input_intf& input)
 {
 	assert(is_connected(input));
-	_inputs.erase(&input);
+	_inputs.erase(std::addressof(input));
 	return true;
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+void
+base_output::disconnect_all(void)
+{
+	_inputs.clear();
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC

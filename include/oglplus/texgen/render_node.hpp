@@ -70,7 +70,7 @@ public:
 
 	bool render(void);
 
-	void set_size(
+	void set_dimensions(
 		valid_if_positive<int> width,
 		valid_if_positive<int> height
 	);

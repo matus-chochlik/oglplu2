@@ -136,6 +136,50 @@ node_intf::input_definitions(std::ostream& out, compile_context& ctxt)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
+eagine::optional_reference_wrapper<input_intf>
+node_intf::input_by_name(const cstr_ref& name)
+{
+	for(std::size_t i=0, n=input_count(); i<n; ++i)
+	{
+		input_intf& inp = input(i);
+		if(inp.name() == name)
+		{
+			return inp;
+		}
+	}
+	return eagine::nothing;
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+eagine::optional_reference_wrapper<output_intf>
+node_intf::output_by_name(const cstr_ref& name)
+{
+	for(std::size_t i=0, n=output_count(); i<n; ++i)
+	{
+		output_intf& outp = output(i);
+		if(outp.name() == name)
+		{
+			return outp;
+		}
+	}
+	return eagine::nothing;
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+void
+node_intf::disconnect_all(void)
+{
+	for(std::size_t i=0; i<input_count(); ++i)
+	{
+		input(i).disconnect();
+	}
+	for(std::size_t o=0; o<output_count(); ++o)
+	{
+		output(o).disconnect_all();
+	}
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
 bool
 input_slot::is_connected(output_slot& output)
 {
@@ -178,10 +222,32 @@ output_slot::disconnect(input_slot& input)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-void connect_output_to_input(output_intf& output, input_intf& input)
+bool connect_output_to_input(output_intf& output, input_intf& input)
 {
-	output.connect(input);
-	input.connect(output);
+	if(input.can_connect(output))
+	{
+		if(output.connect(input))
+		{
+			if(input.connect(output))
+			{
+				return true;
+			}
+			output.disconnect(input);
+		}
+	}
+	return false;
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+bool disconnect_output_from_input(output_intf& output, input_intf& input)
+{
+	if(input.is_connected(output))
+	{
+		assert(output.is_connected(input));
+		input.disconnect(output);
+		output.disconnect(input);
+	}
+	return false;
 }
 //------------------------------------------------------------------------------
 } // namespace texgen

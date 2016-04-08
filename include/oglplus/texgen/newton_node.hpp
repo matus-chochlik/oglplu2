@@ -28,7 +28,7 @@ private:
 
 	cstr_ref _func_name(void) const;
 public:
-	newton_output(node_intf& parent);
+	newton_output(node_intf& parent, newton_function);
 
 	cstr_ref type_name(void)
 	override;
@@ -47,6 +47,8 @@ private:
 	newton_output _output;
 public:
 	newton_node(void);
+
+	newton_node(newton_function);
 
 	base_output& single_output(void)
 	override;

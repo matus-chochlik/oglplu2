@@ -282,7 +282,7 @@ render_node::render(void)
 OGLPLUS_LIB_FUNC
 void
 render_node::
-set_size(valid_if_positive<int> width, valid_if_positive<int> height)
+set_dimensions(valid_if_positive<int> width, valid_if_positive<int> height)
 {
 	_render_params.width = width.value_or(1);
 	_render_params.height = height.value_or(1);

@@ -53,8 +53,14 @@ public:
 		}
 		else
 		{
-			return _fallback;
+			return fallback();
 		}
+	}
+
+	bool set_default_value(valid_if_between<unsigned, 0, 3> c, float v)
+	override
+	{
+		return fallback().set_default_value(c.value(), v);
 	}
 
 	slot_data_type value_type(void)

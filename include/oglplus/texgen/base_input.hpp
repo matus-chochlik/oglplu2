@@ -44,9 +44,13 @@ public:
 	override;
 
 	bool is_connected(void)
-	noexcept;
+	noexcept
+	override;
 
 	bool is_connected(output_intf&)
+	override;
+
+	bool can_connect(output_intf&)
 	override;
 
 	bool do_connect(output_intf&);
@@ -54,12 +58,16 @@ public:
 	bool connect(output_intf&)
 	override;
 
-	void disconnect(void);
+	void disconnect(void)
+	override;
 
 	bool disconnect(output_intf&)
 	override;
 
 	output_intf& connected_output(void)
+	override;
+
+	bool set_default_value(valid_if_between<unsigned, 0, 3> cmp, float val)
 	override;
 
 	void update_needed(void)

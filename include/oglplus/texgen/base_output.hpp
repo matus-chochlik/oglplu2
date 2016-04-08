@@ -65,6 +65,15 @@ public:
 	bool disconnect(input_intf&)
 	override;
 
+	void disconnect_all(void)
+	override;
+
+	virtual
+	bool set_default_value(unsigned, float)
+	{
+		return false;
+	}
+
 	void notify_connected(void)
 	override;
 

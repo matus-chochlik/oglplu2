@@ -24,11 +24,7 @@ OGLPLUS_LIB_FUNC
 base_input::~base_input(void)
 noexcept
 {
-	// TODO assert(!is_connected());
-	if(is_connected())
-	{
-		_output->disconnect(*this);
-	}
+	assert(!is_connected());
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -43,20 +39,24 @@ OGLPLUS_LIB_FUNC
 bool
 base_input::is_connected(output_intf& output)
 {
-	return _output == &output;
+	return _output == std::addressof(output);
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+bool
+base_input::can_connect(output_intf& output)
+{
+	return accepts_value_type(output.value_type());
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 bool
 base_input::do_connect(output_intf& output)
 {
-	if(accepts_value_type(output.value_type()))
+	if(can_connect(output))
 	{
-		if(is_connected())
-		{
-			_output->disconnect(*this);
-		}
-		_output = &output;
+		assert(!is_connected());
+		_output = std::addressof(output);
 		return true;
 	}
 	return false;
@@ -108,6 +108,13 @@ base_input::connected_output(void)
 {
 	assert(is_connected());
 	return *_output;
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+bool
+base_input::set_default_value(valid_if_between<unsigned, 0, 3>, float)
+{
+	return false;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC

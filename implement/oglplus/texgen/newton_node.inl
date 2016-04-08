@@ -15,9 +15,9 @@ namespace oglplus {
 namespace texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-newton_output::newton_output(node_intf& parent)
+newton_output::newton_output(node_intf& parent, newton_function func)
  : base_output(parent)
- , _function(newton_function::xe3minus1)
+ , _function(func)
 { }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -203,7 +203,12 @@ newton_output::definitions(std::ostream& result, compile_context& context)
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 newton_node::newton_node(void)
- : _output(*this)
+ : _output(*this, newton_function::xe3minus1)
+{ }
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+newton_node::newton_node(newton_function func)
+ : _output(*this, func)
 { }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
