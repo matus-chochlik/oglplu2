@@ -123,7 +123,10 @@ struct input_intf
 	void update_needed(void) = 0;
 
 	virtual
-	bool render(const render_params&) = 0;
+	void prepare_connected(void) = 0;
+
+	virtual
+	bool render_connected(const render_params&) = 0;
 };
 
 struct output_intf
@@ -170,7 +173,10 @@ struct output_intf
 	void notify_connected(void) = 0;
 
 	virtual
-	bool render(const render_params&) = 0;
+	void prepare_parent(void) = 0;
+
+	virtual
+	bool render_parent(const render_params&) = 0;
 };
 
 bool connect_output_to_input(output_intf& output, input_intf& input);
@@ -209,6 +215,9 @@ struct node_intf
 
 	virtual
 	void update_needed(void) = 0;
+
+	virtual
+	void prepare(void) = 0;
 
 	virtual
 	bool render(const render_params&) = 0;

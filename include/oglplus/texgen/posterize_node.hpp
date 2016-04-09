@@ -42,14 +42,11 @@ private:
 public:
 	posterize_node(void);
 
-	bool set_levels(float r, float g, float b, float a)
+	posterize_node&
+	set_levels(float r, float g, float b, float a)
 	{
-		if(!_output.levels.is_connected())
-		{
-			_output.levels.fallback().set(r, g, b, a);
-			return true;
-		}
-		return false;
+		_output.levels.fallback().set(r, g, b, a);
+		return *this;
 	}
 
 	base_output& single_output(void)

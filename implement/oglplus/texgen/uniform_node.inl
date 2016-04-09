@@ -1,92 +1,94 @@
 /**
- *  @file oglplus/texgen/scale_node.inl
+ *  @file oglplus/texgen/uniform_node.inl
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include <set>
-#include <string>
 #include <iostream>
+#include <sstream>
 #include <cassert>
+#include <oglplus/program.hpp>
 
 namespace oglplus {
 namespace texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-scale_output::scale_output(node_intf& parent)
+uniform_output::uniform_output(node_intf& parent, slot_data_type type)
  : base_output(parent)
- , input(parent, cstr_ref("Input"), 0.5f, 0.5f, 0.5f, 0.5f)
- , scale(parent, cstr_ref("Scale"), 1.f, 1.f, 1.f)
+ , _value_type(type)
 { }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref
-scale_output::type_name(void)
+void
+uniform_output::bind_location(void)
 {
-	return cstr_ref("Scale");
+	std::stringstream id;
+	append_id(id);
+	id << "u";
+
+	_location = prog_var_loc_ops<tag::uniform>::get_location(
+		oper::program_ops::current_program(),
+		cstr_ref(id.str())
+	);
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+cstr_ref
+uniform_output::type_name(void)
+{
+	return cstr_ref("Uniform");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 slot_data_type
-scale_output::value_type(void)
+uniform_output::value_type(void)
 {
-	return input.value_type();
+	return _value_type;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 std::ostream&
-scale_output::definitions(std::ostream& out, compile_context& ctxt)
+uniform_output::definitions(std::ostream& out, compile_context& ctxt)
 {
 	if(already_defined(ctxt)) return out;
 
 	input_defs(out, ctxt);
+
+	out << "uniform " << data_type_name(value_type()) << " ";
+	out << output_id_expr{*this, ctxt} << "u;" << std::endl;
+
 	opening_expr(out, ctxt);
 
-	slot_data_type vec3_type = slot_data_type::float_3;
-
-	out << "\t" << render_param_normalized_coord{*this} << " /= ";
-	out << conversion_prefix_expr{scale.value_type(), vec3_type};
-	out << output_id_expr{scale.output(), ctxt};
-	out << render_param_pass_expr{scale.output()};
-	conversion_suffix(out, scale.value_type(), vec3_type, "1","1","1","1");
-	out << ";" << std::endl;
-
 	out << "\treturn ";
-	out << output_id_expr{input.output(), ctxt};
-	out << render_param_pass_expr{input.output()};
-	out << ";" << std::endl;
+	out << output_id_expr{*this, ctxt} << "u;" << std::endl;
 
 	return closing_expr(out, ctxt);
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-scale_node::scale_node(void)
- : _output(*this)
+uniform_node::uniform_node(slot_data_type type)
+ : _output(*this, type)
 { }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
+uniform_node::uniform_node(void)
+ : uniform_node(slot_data_type::float_4)
+{ }
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+void
+uniform_node::prepare(void)
+{
+	_output.bind_location();
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
 base_output&
-scale_node::single_output(void)
+uniform_node::single_output(void)
 {
 	return _output;
-}
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-std::size_t
-scale_node::input_count(void)
-{
-	return 2u;
-}
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-input_intf&
-scale_node::input(std::size_t index)
-{
-	if(index == 0) return _output.input;
-	assert(index < input_count());
-	return _output.scale;
 }
 //------------------------------------------------------------------------------
 } // namespace texgen

@@ -42,14 +42,11 @@ private:
 public:
 	offset_node(void);
 
-	bool set_offset(float x, float y, float z)
+	offset_node&
+	set_offset(float x, float y, float z)
 	{
-		if(!_output.offset.is_connected())
-		{
-			_output.offset.fallback().set(x, y, z);
-			return true;
-		}
-		return false;
+		_output.offset.fallback().set(x, y, z);
+		return *this;
 	}
 
 	base_output& single_output(void)

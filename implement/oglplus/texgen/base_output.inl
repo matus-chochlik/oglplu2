@@ -128,8 +128,15 @@ base_output::notify_connected(void)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
+void
+base_output::prepare_parent(void)
+{
+	parent().prepare();
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
 bool
-base_output::render(const render_params& params)
+base_output::render_parent(const render_params& params)
 {
 	return parent().render(params);
 }

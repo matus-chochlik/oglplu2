@@ -77,7 +77,10 @@ public:
 	void notify_connected(void)
 	override;
 
-	bool render(const render_params&)
+	void prepare_parent(void)
+	override;
+
+	bool render_parent(const render_params&)
 	override;
 
 	std::intptr_t get_id(void) const

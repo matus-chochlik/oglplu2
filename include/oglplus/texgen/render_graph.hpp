@@ -32,12 +32,12 @@ public:
 	void add_node(std::string name, std::unique_ptr<node_intf>&&);
 
 	template <typename NodeType, typename ... P>
-	void add_new_node(std::string name, P&& ... p)
+	NodeType& add_new_node(std::string name, P&& ... p)
 	{
-		add_node(
-			std::move(name),
-			_node_ptr_t(new NodeType(std::forward<P>(p)...))
-		);
+		NodeType* ptr = new NodeType(std::forward<P>(p)...);
+		assert(ptr);
+		add_node(std::move(name), _node_ptr_t(ptr));
+		return *ptr;
 	}
 
 	render_node& renderer(void);
@@ -96,6 +96,8 @@ public:
 		const std::string& input_node_name,
 		const cstr_ref& iname
 	);
+
+	bool finalize(void);
 };
 
 } // namespace texgen

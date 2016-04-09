@@ -24,6 +24,8 @@ class newton_output
  : public base_output
 {
 private:
+	friend class newton_node;
+
 	newton_function _function;
 
 	cstr_ref _func_name(void) const;
@@ -47,6 +49,13 @@ private:
 	newton_output _output;
 public:
 	newton_node(void);
+
+	newton_node&
+	set_function(newton_function function)
+	{
+		_output._function = function;
+		return *this;
+	}
 
 	newton_node(newton_function);
 

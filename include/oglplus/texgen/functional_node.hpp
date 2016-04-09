@@ -71,9 +71,11 @@ public:
 	 : unary_function_node(unary_function::none)
 	{ }
 
-	void set_function(unary_function func)
+	unary_function_node&
+	set_function(unary_function func)
 	{
 		_output.func = func;
+		return *this;
 	}
 
 	base_output& single_output(void)
@@ -138,9 +140,11 @@ public:
 	 : binary_function_node(binary_function::dot)
 	{ }
 
-	void set_function(binary_function func)
+	binary_function_node&
+	set_function(binary_function func)
 	{
 		_output.func = func;
+		return *this;
 	}
 
 	base_output& single_output(void)

@@ -107,6 +107,8 @@ render_node::_update_program(void)
 	gl.link_program(_prog);
 	gl.use_program(_prog);
 	gl.query_location(_voxel_size, _prog, "oglptg_vs");
+
+	_input.prepare_connected();
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -224,7 +226,7 @@ render_node::render(const render_params& params)
 
 		if(_tile == 0)
 		{
-			if(!_input.render(params))
+			if(!_input.render_connected(params))
 			{
 				return false;
 			}

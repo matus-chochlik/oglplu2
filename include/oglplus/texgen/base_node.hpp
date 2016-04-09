@@ -40,6 +40,9 @@ public:
 	void update_needed(void)
 	override;
 
+	void prepare(void)
+	override;
+
 	bool render(const render_params&)
 	override;
 };

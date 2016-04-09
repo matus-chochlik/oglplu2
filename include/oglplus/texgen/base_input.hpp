@@ -73,7 +73,10 @@ public:
 	void update_needed(void)
 	override;
 
-	bool render(const render_params&)
+	void prepare_connected(void)
+	override;
+
+	bool render_connected(const render_params&)
 	override;
 };
 

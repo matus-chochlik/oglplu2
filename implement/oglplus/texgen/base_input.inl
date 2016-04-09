@@ -125,12 +125,22 @@ base_input::update_needed(void)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-bool
-base_input::render(const render_params& params)
+void
+base_input::prepare_connected(void)
 {
 	if(is_connected())
 	{
-		return connected_output().render(params);
+		return connected_output().prepare_parent();
+	}
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+bool
+base_input::render_connected(const render_params& params)
+{
+	if(is_connected())
+	{
+		return connected_output().render_parent(params);
 	}
 	return true;
 }

@@ -63,14 +63,11 @@ private:
 public:
 	complement_node(void);
 
-	bool set_complement(float r, float g, float b, float a)
+	complement_node&
+	set_complement(float r, float g, float b, float a)
 	{
-		if(!_output.complement.is_connected())
-		{
-			_output.complement.fallback().set(r, g, b, a);
-			return true;
-		}
-		return false;
+		_output.complement.fallback().set(r, g, b, a);
+		return *this;
 	}
 
 	base_output& single_output(void)

@@ -42,14 +42,11 @@ private:
 public:
 	scale_node(void);
 
-	bool set_scale(float x, float y, float z)
+	scale_node&
+	set_scale(float x, float y, float z)
 	{
-		if(!_output.scale.is_connected())
-		{
-			_output.scale.fallback().set(x, y, z);
-			return true;
-		}
-		return false;
+		_output.scale.fallback().set(x, y, z);
+		return *this;
 	}
 
 	base_output& single_output(void)

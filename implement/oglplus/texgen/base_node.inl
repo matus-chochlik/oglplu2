@@ -56,6 +56,16 @@ base_node::update_needed(void)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
+void
+base_node::prepare(void)
+{
+	for(std::size_t i=0, n=input_count(); i<n; ++i)
+	{
+		input(i).prepare_connected();
+	}
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
 bool
 base_node::render(const render_params& params)
 {
@@ -63,7 +73,7 @@ base_node::render(const render_params& params)
 	{
 		while(_render_input < n)
 		{
-			if(input(_render_input).render(params))
+			if(input(_render_input).render_connected(params))
 			{
 				++_render_input;
 			}

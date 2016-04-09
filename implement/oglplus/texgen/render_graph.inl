@@ -227,6 +227,14 @@ render_graph::connect(
 	return false;
 }
 //------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+bool
+render_graph::finalize(void)
+{
+	renderer().update_if_needed();
+	return true;
+}
+//------------------------------------------------------------------------------
 } // namespace texgen
 } // namespace oglplus
 //------------------------------------------------------------------------------
