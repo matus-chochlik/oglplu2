@@ -44,18 +44,22 @@ scale_output::definitions(std::ostream& out, compile_context& ctxt)
 	input_defs(out, ctxt);
 	opening_expr(out, ctxt);
 
-	slot_data_type vec3_type = slot_data_type::float_3;
+	slot_data_type v3 = slot_data_type::float_3;
+	cstr_ref o("1");
 
-	out << "\t" << render_param_normalized_coord{*this} << " /= ";
-	out << conversion_prefix_expr{scale.value_type(), vec3_type};
-	out << output_id_expr{scale.output(), ctxt};
-	out << render_param_pass_expr{scale.output()};
-	conversion_suffix(out, scale.value_type(), vec3_type, "1","1","1","1");
+	out << "\t vec3 s = ";
+	out << expr::conversion_prefix{scale.value_type(), v3};
+	out << expr::output_id{scale.output(), ctxt};
+	out << expr::render_param_pass{scale.output()};
+	out << expr::conversion_suffix_v{scale.value_type(), v3, {o,o,o,o}};
 	out << ";" << std::endl;
 
+	out << "\t" << expr::normalized_coord{*this} << " /= s;" << std::endl;
+	out << "\t" << expr::norm_voxel_size{*this} << " /= s;" << std::endl;
+
 	out << "\treturn ";
-	out << output_id_expr{input.output(), ctxt};
-	out << render_param_pass_expr{input.output()};
+	out << expr::output_id{input.output(), ctxt};
+	out << expr::render_param_pass{input.output()};
 	out << ";" << std::endl;
 
 	return closing_expr(out, ctxt);

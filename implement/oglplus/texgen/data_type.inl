@@ -170,12 +170,6 @@ conversion_prefix(
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream& operator << (std::ostream& out, conversion_prefix_expr e)
-{
-	return conversion_prefix(out, e.from, e.to);
-}
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
 std::ostream&
 conversion_suffix(
 	std::ostream& out,
@@ -196,12 +190,6 @@ conversion_suffix(
 		out << ")";
 	}
 	return out;
-}
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-std::ostream& operator << (std::ostream& out, conversion_suffix_expr e)
-{
-	return conversion_suffix(out, e.from, e.to);
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -228,6 +216,31 @@ conversion_suffix(
 	return out;
 }
 //------------------------------------------------------------------------------
+namespace expr {
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+std::ostream& operator << (std::ostream& out, conversion_prefix e)
+{
+	return oglplus::texgen::conversion_prefix(out, e.from, e.to);
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+std::ostream& operator << (std::ostream& out, conversion_suffix e)
+{
+	return oglplus::texgen::conversion_suffix(out, e.from, e.to);
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+std::ostream& operator << (std::ostream& out, conversion_suffix_v e)
+{
+	return oglplus::texgen::conversion_suffix(
+		out,
+		e.from, e.to,
+		e.val[0], e.val[1], e.val[2], e.val[3]
+	);
+}
+//------------------------------------------------------------------------------
+} // namespace expr
 } // namespace texgen
 } // namespace oglplus
 //------------------------------------------------------------------------------

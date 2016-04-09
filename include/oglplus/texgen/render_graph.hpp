@@ -97,6 +97,11 @@ public:
 		const cstr_ref& iname
 	);
 
+	bool connect(
+		const std::string& output_node_name,
+		const std::string& input_node_name
+	);
+
 	bool finalize(void);
 };
 

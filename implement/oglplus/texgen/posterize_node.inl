@@ -48,18 +48,18 @@ posterize_output::definitions(std::ostream& out, compile_context& ctxt)
 	const cstr_ref f("4.0");
 
 	out << "\t" << data_type_name(vt) << " lvls = ";
-	out << conversion_prefix_expr{levels.value_type(), vt};
-	out << output_id_expr{levels.output(), ctxt};
-	out << render_param_pass_expr{levels.output()};
-	conversion_suffix(out, levels.value_type(), vt, f, f, f, f);
+	out << expr::conversion_prefix{levels.value_type(), vt};
+	out << expr::output_id{levels.output(), ctxt};
+	out << expr::render_param_pass{levels.output()};
+	out << expr::conversion_suffix_v{levels.value_type(), vt, {f,f,f,f}};
 	out << ";" << std::endl;
 
 	out << "\tlvls = max(lvls, " << data_type_name(vt);
 	out << "(1));" << std::endl;
 
 	out << "\treturn floor(";
-	out << output_id_expr{input.output(), ctxt};
-	out << render_param_pass_expr{input.output()};
+	out << expr::output_id{input.output(), ctxt};
+	out << expr::render_param_pass{input.output()};
 	out << "*lvls)/lvls;" << std::endl;
 
 	return closing_expr(out, ctxt);

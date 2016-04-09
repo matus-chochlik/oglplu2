@@ -58,10 +58,10 @@ split_output::definitions(std::ostream& out, compile_context& ctxt)
 	);
 
 	out << "\treturn ";
-	out << conversion_prefix_expr{_input.value_type(), tmp_dt};
-	out << output_id_expr{_input.output(), ctxt};
-	out << render_param_pass_expr{_input.output()};
-	out << conversion_suffix_expr{_input.value_type(), tmp_dt};
+	out << expr::conversion_prefix{_input.value_type(), tmp_dt};
+	out << expr::output_id{_input.output(), ctxt};
+	out << expr::render_param_pass{_input.output()};
+	out << expr::conversion_suffix{_input.value_type(), tmp_dt};
 	out << "[" << _index << "]";
 	out << ";" << std::endl;
 

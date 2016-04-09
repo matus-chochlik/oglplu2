@@ -150,22 +150,23 @@ make_fragment_shader_source(std::ostream& out, compile_context& ctxt)
 {
 	out << "#version " << ctxt.glsl_version() << std::endl;
 
-	out << "uniform vec3 oglptg_vs;" << std::endl << std::endl;
-
 	_input.definitions(out, ctxt);
 
-	out << "out vec4 oglptg_out;" << std::endl << std::endl;
-	out << "in vec3 oglptg_nc;" << std::endl << std::endl;
+	out << "out vec4 oglptg_out;" << std::endl;
+	out << "in vec3 oglptg_nc;" << std::endl;
+	out << "uniform vec3 oglptg_vs;" << std::endl;
+	out << "const vec3 oglptg_vo = vec3(0);" << std::endl;
+	out << std::endl;
 
 	out << "void main(void)" << std::endl;
 	out << "{" << std::endl;
 	out << "	oglptg_out = ";
 
 	const slot_data_type v4 = slot_data_type::float_4;
-	out << conversion_prefix_expr{_input.output().value_type(), v4};
-	out << output_id_expr{_input.output(), ctxt};
-	out << "(oglptg_nc, vec3(0))";
-	out << conversion_suffix_expr{_input.output().value_type(), v4};
+	out << expr::conversion_prefix{_input.output().value_type(), v4};
+	out << expr::output_id{_input.output(), ctxt};
+	out << expr::render_param_pass{_input.output()};
+	out << expr::conversion_suffix{_input.output().value_type(), v4};
 	out << ";" << std::endl;
 
 	out << "}" << std::endl;
@@ -279,6 +280,16 @@ render_node::render(void)
 		return true;
 	}
 	return false;
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+void
+render_node::
+set_divisions(valid_if_positive<int> xdiv, valid_if_positive<int> ydiv)
+{
+	_xdiv = xdiv.value_or(1);
+	_ydiv = ydiv.value_or(1);
+	_tile = 0;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC

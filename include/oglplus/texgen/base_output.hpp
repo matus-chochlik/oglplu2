@@ -91,13 +91,14 @@ public:
 	
 };
 
-struct output_id_expr
+namespace expr {
+struct output_id
 {
 	output_intf& output;
 	compile_context& context;
 };
-std::ostream& operator << (std::ostream& out, const output_id_expr& expr);
-
+std::ostream& operator << (std::ostream& out, const output_id&);
+} // namespace expr
 } // namespace texgen
 } // namespace oglplus
 

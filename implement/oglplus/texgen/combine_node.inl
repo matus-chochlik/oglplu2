@@ -67,10 +67,10 @@ combine_output::_input_expr(
 {
 	std::stringstream res;
 
-	res << conversion_prefix_expr{input.value_type(), type};
-	res << output_id_expr{input.output(), ctxt};
-	res << render_param_pass_expr{input.output()};
-	res << conversion_suffix_expr{input.value_type(), type};
+	res << expr::conversion_prefix{input.value_type(), type};
+	res << expr::output_id{input.output(), ctxt};
+	res << expr::render_param_pass{input.output()};
+	res << expr::conversion_suffix{input.value_type(), type};
 	return res.str();
 }
 //------------------------------------------------------------------------------

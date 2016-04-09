@@ -48,13 +48,13 @@ random_output::definitions(std::ostream& out, compile_context& ctxt)
 
 	slot_data_type vec3_type = slot_data_type::float_3;
 
-	out << "\tvec3 s = " << render_param_normalized_coord{*this};
+	out << "\tvec3 s = " << expr::normalized_coord{*this};
 	out << ";" << std::endl;
 	out << "\ts += ";
-	out << conversion_prefix_expr{seed.value_type(), vec3_type};
-	out << output_id_expr{seed.output(), ctxt};
-	out << render_param_pass_expr{seed.output()};
-	out << conversion_suffix_expr{seed.value_type(), vec3_type};
+	out << expr::conversion_prefix{seed.value_type(), vec3_type};
+	out << expr::output_id{seed.output(), ctxt};
+	out << expr::render_param_pass{seed.output()};
+	out << expr::conversion_suffix{seed.value_type(), vec3_type};
 	out << ";" << std::endl;
 
 	const decltype(eagine::math::phi) sdm[4] = {

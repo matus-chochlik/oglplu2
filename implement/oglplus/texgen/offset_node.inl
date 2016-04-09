@@ -46,16 +46,16 @@ offset_output::definitions(std::ostream& out, compile_context& ctxt)
 
 	slot_data_type vec3_type = slot_data_type::float_3;
 
-	out << "\t" << render_param_normalized_coord{*this} << " += ";
-	out << conversion_prefix_expr{offset.value_type(), vec3_type};
-	out << output_id_expr{offset.output(), ctxt};
-	out << render_param_pass_expr{offset.output()};
-	out << conversion_suffix_expr{offset.value_type(), vec3_type};
+	out << "\t" << expr::normalized_coord{*this} << " += ";
+	out << expr::conversion_prefix{offset.value_type(), vec3_type};
+	out << expr::output_id{offset.output(), ctxt};
+	out << expr::render_param_pass{offset.output()};
+	out << expr::conversion_suffix{offset.value_type(), vec3_type};
 	out << ";" << std::endl;
 
 	out << "\treturn ";
-	out << output_id_expr{input.output(), ctxt};
-	out << render_param_pass_expr{input.output()};
+	out << expr::output_id{input.output(), ctxt};
+	out << expr::render_param_pass{input.output()};
 	out << ";" << std::endl;
 
 	return closing_expr(out, ctxt);

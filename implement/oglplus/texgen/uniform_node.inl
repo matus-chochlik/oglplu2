@@ -57,12 +57,12 @@ uniform_output::definitions(std::ostream& out, compile_context& ctxt)
 	input_defs(out, ctxt);
 
 	out << "uniform " << data_type_name(value_type()) << " ";
-	out << output_id_expr{*this, ctxt} << "u;" << std::endl;
+	out << expr::output_id{*this, ctxt} << "u;" << std::endl;
 
 	opening_expr(out, ctxt);
 
 	out << "\treturn ";
-	out << output_id_expr{*this, ctxt} << "u;" << std::endl;
+	out << expr::output_id{*this, ctxt} << "u;" << std::endl;
 
 	return closing_expr(out, ctxt);
 }

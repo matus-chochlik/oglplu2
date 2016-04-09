@@ -50,22 +50,22 @@ mix_output::definitions(std::ostream& out, compile_context& ctxt)
 
 	out << "\treturn mix(" << std::endl << "\t\t";
 
-	out << conversion_prefix_expr{zero.value_type(), res_type};
-	out << output_id_expr{zero.output(), ctxt};
-	out << render_param_pass_expr{zero.output()};
-	out << conversion_suffix_expr{zero.value_type(), res_type};
+	out << expr::conversion_prefix{zero.value_type(), res_type};
+	out << expr::output_id{zero.output(), ctxt};
+	out << expr::render_param_pass{zero.output()};
+	out << expr::conversion_suffix{zero.value_type(), res_type};
 	out << "," << std::endl << "\t\t";
 
-	out << conversion_prefix_expr{one.value_type(), res_type};
-	out << output_id_expr{one.output(), ctxt};
-	out << render_param_pass_expr{one.output()};
-	out << conversion_suffix_expr{one.value_type(), res_type};
+	out << expr::conversion_prefix{one.value_type(), res_type};
+	out << expr::output_id{one.output(), ctxt};
+	out << expr::render_param_pass{one.output()};
+	out << expr::conversion_suffix{one.value_type(), res_type};
 	out << "," << std::endl << "\t\t";
 
-	out << conversion_prefix_expr{value.value_type(), val_type};
-	out << output_id_expr{value.output(), ctxt};
-	out << render_param_pass_expr{value.output()};
-	out << conversion_suffix_expr{value.value_type(), val_type};
+	out << expr::conversion_prefix{value.value_type(), val_type};
+	out << expr::output_id{value.output(), ctxt};
+	out << expr::render_param_pass{value.output()};
+	out << expr::conversion_suffix{value.value_type(), val_type};
 	out << std::endl << "\t";
 
 	out << ");" << std::endl;

@@ -26,8 +26,8 @@ std::ostream&
 base_output::opening_expr(std::ostream& out, compile_context& ctxt)
 {
 	out << data_type_name(value_type()) << " ";
-	out << output_id_expr{*this, ctxt};
-	out << render_param_decl_expr{*this} << "{" << std::endl;
+	out << expr::output_id{*this, ctxt};
+	out << expr::render_param_decl{*this} << "{" << std::endl;
 	return out;
 }
 //------------------------------------------------------------------------------
@@ -163,13 +163,16 @@ base_output::append_id(std::ostream& out)
 	append_id(out, type_name());
 }
 //------------------------------------------------------------------------------
+namespace expr {
+//------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream& operator << (std::ostream& out, const output_id_expr& expr)
+std::ostream& operator << (std::ostream& out, const output_id& e)
 {
-	expr.output.expression(out, expr.context);
+	e.output.expression(out, e.context);
 	return out;
 }
 //------------------------------------------------------------------------------
+} // namespace expr
 } // namespace texgen
 } // namespace oglplus
 //------------------------------------------------------------------------------

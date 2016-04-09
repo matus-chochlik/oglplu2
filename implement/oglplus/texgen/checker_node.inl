@@ -43,18 +43,18 @@ checker_output::definitions(std::ostream& out, compile_context& ctxt)
 	input_defs(out, ctxt);
 	opening_expr(out, ctxt);
 
-	out << "\tvec3 c = " << render_param_normalized_coord{*this} << ";";
+	out << "\tvec3 c = " << expr::normalized_coord{*this} << ";";
 	out << std::endl;
 
 	slot_data_type vec3_type = slot_data_type::float_3;
 	out << "\tc *= ";
-	out << conversion_prefix_expr{repeat.value_type(), vec3_type};
-	out << output_id_expr{repeat.output(), ctxt};
-	out << render_param_pass_expr{repeat.output()};
-	out << conversion_suffix_expr{repeat.value_type(), vec3_type};
+	out << expr::conversion_prefix{repeat.value_type(), vec3_type};
+	out << expr::output_id{repeat.output(), ctxt};
+	out << expr::render_param_pass{repeat.output()};
+	out << expr::conversion_suffix{repeat.value_type(), vec3_type};
 	out << ";" << std::endl;
 
-	out << "\tc += " << render_param_norm_voxel_offs{*this} << ";";
+	out << "\tc += " << expr::norm_voxel_offs{*this} << ";";
 	out << std::endl;
 
 	out << "\treturn mod(dot(mod(floor(c), 2), vec3(1)),2);" << std::endl;

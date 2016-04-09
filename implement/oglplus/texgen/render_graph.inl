@@ -229,6 +229,16 @@ render_graph::connect(
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 bool
+render_graph::connect(
+	const std::string& output_node_name,
+	const std::string& input_node_name
+)
+{
+	return connect(output_node_name, 0, input_node_name, 0);
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+bool
 render_graph::finalize(void)
 {
 	renderer().update_if_needed();

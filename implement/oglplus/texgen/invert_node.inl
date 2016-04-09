@@ -44,8 +44,8 @@ invert_output::definitions(std::ostream& out, compile_context& ctxt)
 	opening_expr(out, ctxt);
 
 	out << "\treturn " << data_type_name(value_type()) << "(1)-";
-	out << output_id_expr{input.output(), ctxt};
-	out << render_param_pass_expr{input.output()};
+	out << expr::output_id{input.output(), ctxt};
+	out << expr::render_param_pass{input.output()};
 	out << ";" << std::endl;
 
 	return closing_expr(out, ctxt);

@@ -121,26 +121,12 @@ conversion_prefix(
 	slot_data_type to
 );
 
-struct conversion_prefix_expr
-{
-	slot_data_type from;
-	slot_data_type to;
-};
-std::ostream& operator << (std::ostream&, conversion_prefix_expr);
-
 std::ostream&
 conversion_suffix(
 	std::ostream& out,
 	slot_data_type from,
 	slot_data_type to
 );
-
-struct conversion_suffix_expr
-{
-	slot_data_type from;
-	slot_data_type to;
-};
-std::ostream& operator << (std::ostream&, conversion_suffix_expr);
 
 std::ostream&
 conversion_suffix(
@@ -150,6 +136,32 @@ conversion_suffix(
 	cstr_ref x, cstr_ref y, cstr_ref z, cstr_ref w
 );
 
+namespace expr {
+
+struct conversion_prefix
+{
+	slot_data_type from;
+	slot_data_type to;
+};
+std::ostream& operator << (std::ostream&, conversion_prefix);
+
+struct conversion_suffix
+{
+	slot_data_type from;
+	slot_data_type to;
+};
+std::ostream& operator << (std::ostream&, conversion_suffix);
+
+struct conversion_suffix_v
+{
+	slot_data_type from;
+	slot_data_type to;
+	cstr_ref val[4];
+};
+std::ostream& operator << (std::ostream&, conversion_suffix_v);
+
+
+} // namespace expr
 } // namespace texgen
 } // namespace oglplus
 

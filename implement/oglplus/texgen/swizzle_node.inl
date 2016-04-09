@@ -84,10 +84,10 @@ swizzle_output::definitions(std::ostream& out, compile_context& ctxt)
 	);
 
 	out << "\treturn ";
-	out << conversion_prefix_expr{input.value_type(), tmp_dt};
-	out << output_id_expr{input.output(), ctxt};
-	out << render_param_pass_expr{input.output()};
-	out << conversion_suffix_expr{input.value_type(), tmp_dt};
+	out << expr::conversion_prefix{input.value_type(), tmp_dt};
+	out << expr::output_id{input.output(), ctxt};
+	out << expr::render_param_pass{input.output()};
+	out << expr::conversion_suffix{input.value_type(), tmp_dt};
 	out << "." << swizzle << ";" << std::endl;
 
 	return closing_expr(out, ctxt);

@@ -47,17 +47,24 @@ complement_output::definitions(std::ostream& out, compile_context& ctxt)
 	slot_data_type dt = value_type();
 
 	out << "\t" << data_type_name(dt) << " c = ";
-	out << conversion_prefix_expr{complement.value_type(), dt};
-	out << output_id_expr{complement.output(), ctxt};
-	out << render_param_pass_expr{complement.output()};
-	out << conversion_suffix_expr{complement.value_type(), dt};
+	out << expr::conversion_prefix{complement.value_type(), dt};
+	out << expr::output_id{complement.output(), ctxt};
+	out << expr::render_param_pass{complement.output()};
+	out << expr::conversion_suffix{complement.value_type(), dt};
 	out << ";" << std::endl;
 
 	out << "\treturn ";
-	out << conversion_prefix_expr{input.value_type(), dt};
-	out << output_id_expr{input.output(), ctxt};
-	out << render_param_pass_expr{input.output()};
-	conversion_suffix(out, input.value_type(), dt, "c.r","c.g","c.b","c.a");
+	out << expr::conversion_prefix{input.value_type(), dt};
+	out << expr::output_id{input.output(), ctxt};
+	out << expr::render_param_pass{input.output()};
+	out << expr::conversion_suffix_v{
+		input.value_type(), dt, {
+			cstr_ref("c.r"),
+			cstr_ref("c.g"),
+			cstr_ref("c.b"),
+			cstr_ref("c.a")
+		}
+	};
 	out << ";" << std::endl;
 
 	return closing_expr(out, ctxt);

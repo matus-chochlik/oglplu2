@@ -70,6 +70,11 @@ public:
 
 	bool render(void);
 
+	void set_divisions(
+		valid_if_positive<int> xdiv,
+		valid_if_positive<int> ydiv
+	);
+
 	void set_dimensions(
 		valid_if_positive<int> width,
 		valid_if_positive<int> height

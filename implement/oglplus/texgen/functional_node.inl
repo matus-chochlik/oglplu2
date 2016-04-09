@@ -164,8 +164,8 @@ unary_function_output::definitions(std::ostream& out, compile_context& ctxt)
 			out << "(";
 			break;
 	}
-	out << output_id_expr{input.output(), ctxt};
-	out << render_param_pass_expr{input.output()};
+	out << expr::output_id{input.output(), ctxt};
+	out << render_param_pass{input.output()};
 	out << ");" << std::endl;
 
 	return closing_expr(out, ctxt);
@@ -281,17 +281,17 @@ binary_function_output::definitions(std::ostream& out, compile_context& ctxt)
 	slot_data_type dtb = dta;
 
 	out << "\t" << data_type_name(dta) << " a = ";
-	out << conversion_prefix_expr{input_a.value_type(), dta};
-	out << output_id_expr{input_a.output(), ctxt};
-	out << render_param_pass_expr{input_a.output()};
-	out << conversion_suffix_expr{input_a.value_type(), dta};
+	out << expr::conversion_prefix{input_a.value_type(), dta};
+	out << expr::output_id{input_a.output(), ctxt};
+	out << expr::render_param_pass{input_a.output()};
+	out << expr::conversion_suffix{input_a.value_type(), dta};
 	out << ";" << std::endl;
 
 	out << "\t" << data_type_name(dtb) << " b = ";
-	out << conversion_prefix_expr{input_b.value_type(), dtb};
-	out << output_id_expr{input_b.output(), ctxt};
-	out << render_param_pass_expr{input_b.output()};
-	out << conversion_suffix_expr{input_b.value_type(), dtb};
+	out << expr::conversion_prefix{input_b.value_type(), dtb};
+	out << expr::output_id{input_b.output(), ctxt};
+	out << expr::render_param_pass{input_b.output()};
+	out << expr::conversion_suffix{input_b.value_type(), dtb};
 	out << ";" << std::endl;
 
 	out << "\treturn ";

@@ -169,7 +169,7 @@ newton_output::definitions(std::ostream& result, compile_context& context)
 
 	opening_expr(result, context);
 
-	result << "\tvec3 k = " << render_param_norm_sample_coord{*this}<<";";
+	result << "\tvec3 k = " << expr::norm_sample_coord{*this}<<";";
 	result << std::endl;
 	result << "\tvec2 z = k.xy;";
 	result << std::endl;

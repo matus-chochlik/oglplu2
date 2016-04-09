@@ -14,28 +14,33 @@
 
 namespace oglplus {
 namespace texgen {
+namespace expr {
 
-struct render_param_decl_expr { output_intf& output; };
-std::ostream& operator << (std::ostream& out, render_param_decl_expr);
+struct render_param_decl { output_intf& output; };
+std::ostream& operator << (std::ostream& out, render_param_decl);
 
-struct render_param_pass_expr { output_intf& output; };
-std::ostream& operator << (std::ostream& out, render_param_pass_expr);
+struct render_param_pass { output_intf& output; };
+std::ostream& operator << (std::ostream& out, render_param_pass);
 
-struct render_param_normalized_coord { output_intf& output; };
-std::ostream& operator << (std::ostream& out, render_param_normalized_coord);
+struct render_param_pass_voxel_offs { output_intf& output; float offs[3]; };
+std::ostream& operator << (std::ostream& out, render_param_pass_voxel_offs);
 
-struct render_param_voxel_offset { output_intf& output; };
-std::ostream& operator << (std::ostream& out, render_param_voxel_offset);
+struct normalized_coord { output_intf& output; };
+std::ostream& operator << (std::ostream& out, normalized_coord);
 
-struct render_param_norm_voxel_size { output_intf& output; };
-std::ostream& operator << (std::ostream& out, render_param_norm_voxel_size);
+struct voxel_offset { output_intf& output; };
+std::ostream& operator << (std::ostream& out, voxel_offset);
 
-struct render_param_norm_voxel_offs { output_intf& output; };
-std::ostream& operator << (std::ostream& out, render_param_norm_voxel_offs);
+struct norm_voxel_size { output_intf& output; };
+std::ostream& operator << (std::ostream& out, norm_voxel_size);
 
-struct render_param_norm_sample_coord { output_intf& output; };
-std::ostream& operator << (std::ostream& out, render_param_norm_sample_coord);
+struct norm_voxel_offs { output_intf& output; };
+std::ostream& operator << (std::ostream& out, norm_voxel_offs);
 
+struct norm_sample_coord { output_intf& output; };
+std::ostream& operator << (std::ostream& out, norm_sample_coord);
+
+} // namespace expr
 } // namespace texgen
 } // namespace oglplus
 
