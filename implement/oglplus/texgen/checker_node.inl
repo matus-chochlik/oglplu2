@@ -62,6 +62,41 @@ checker_output::definitions(std::ostream& out, compile_context& ctxt)
 	return closing_expr(out, ctxt);
 }
 //------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+pixel_checker_output::pixel_checker_output(node_intf& parent)
+ : base_output(parent)
+{ }
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+cstr_ref
+pixel_checker_output::type_name(void)
+{
+	return cstr_ref("PixelChecker");
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+slot_data_type
+pixel_checker_output::value_type(void)
+{
+	return slot_data_type::float_;
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+std::ostream&
+pixel_checker_output::definitions(std::ostream& out, compile_context& ctxt)
+{
+	if(already_defined(ctxt)) return out;
+
+	input_defs(out, ctxt);
+	opening_expr(out, ctxt);
+
+	out << "\tvec3 c = gl_FragCoord.xyz + ";
+	out << expr::voxel_offset{*this} << ";" << std::endl;
+	out << "\treturn mod(dot(mod(floor(c), 2), vec3(1)),2);" << std::endl;
+
+	return closing_expr(out, ctxt);
+}
+//------------------------------------------------------------------------------
 } // namespace texgen
 } // namespace oglplus
 //------------------------------------------------------------------------------

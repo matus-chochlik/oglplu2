@@ -38,6 +38,24 @@ using checker_node = unary_single_output_node<
 	decltype(checker_output::repeat), &checker_output::repeat
 >;
 
+class pixel_checker_output
+ : public base_output
+{
+public:
+	pixel_checker_output(node_intf& parent);
+
+	cstr_ref type_name(void)
+	override;
+
+	slot_data_type value_type(void)
+	override;
+
+	std::ostream& definitions(std::ostream& out, compile_context& ctxt)
+	override;
+};
+
+using pixel_checker_node = single_output_node<pixel_checker_output>;
+
 } // namespace texgen
 } // namespace oglplus
 
