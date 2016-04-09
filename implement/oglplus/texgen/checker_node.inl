@@ -62,21 +62,6 @@ checker_output::definitions(std::ostream& out, compile_context& ctxt)
 	return closing_expr(out, ctxt);
 }
 //------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-std::size_t
-checker_node::input_count(void)
-{
-	return 1u;
-}
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-input_intf&
-checker_node::input(std::size_t index)
-{
-	assert(index < input_count());
-	return _output.repeat;
-}
-//------------------------------------------------------------------------------
 } // namespace texgen
 } // namespace oglplus
 //------------------------------------------------------------------------------

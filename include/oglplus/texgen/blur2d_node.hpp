@@ -33,16 +33,10 @@ public:
 	override;
 };
 
-class blur2d_node
- : public single_output_node<blur2d_output>
-{
-public:
-	std::size_t input_count(void)
-	override;
-
-	input_intf& input(std::size_t index)
-	override;
-};
+using blur2d_node = unary_single_output_node<
+	blur2d_output,
+	decltype(blur2d_output::input), &blur2d_output::input
+>;
 
 } // namespace texgen
 } // namespace oglplus

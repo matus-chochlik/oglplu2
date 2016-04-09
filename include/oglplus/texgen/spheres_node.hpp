@@ -33,16 +33,10 @@ public:
 	override;
 };
 
-class spheres_node
- : public single_output_node<spheres_output>
-{
-public:
-	std::size_t input_count(void)
-	override;
-
-	input_intf& input(std::size_t index)
-	override;
-};
+using spheres_node = unary_single_output_node<
+	spheres_output,
+	decltype(spheres_output::repeat), &spheres_output::repeat
+>;
 
 } // namespace texgen
 } // namespace oglplus

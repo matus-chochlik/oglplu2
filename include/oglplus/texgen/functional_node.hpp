@@ -49,6 +49,10 @@ public:
 
 	unary_function_output(node_intf& parent, unary_function);
 
+	unary_function_output(node_intf& parent)
+	 : unary_function_output(parent, unary_function::none)
+	{ }
+
 	cstr_ref type_name(void)
 	override;
 
@@ -60,27 +64,18 @@ public:
 };
 
 class unary_function_node
- : public single_output_node<unary_function_output >
+ : public unary_single_output_node<
+	unary_function_output,
+	decltype(unary_function_output::input), &unary_function_output::input
+>
 {
 public:
-	unary_function_node(unary_function);
-
-	unary_function_node(void)
-	 : unary_function_node(unary_function::none)
-	{ }
-
 	unary_function_node&
 	set_function(unary_function func)
 	{
 		_output.func = func;
 		return *this;
 	}
-
-	std::size_t input_count(void)
-	override;
-
-	input_intf& input(std::size_t index)
-	override;
 };
 
 enum class binary_function
@@ -124,27 +119,21 @@ public:
 };
 
 class binary_function_node
- : public single_output_node<binary_function_output >
+ : public binary_single_output_node<
+	binary_function_output,
+	decltype(binary_function_output::input_a),
+	&binary_function_output::input_a,
+	decltype(binary_function_output::input_b),
+	&binary_function_output::input_b
+>
 {
 public:
-	binary_function_node(binary_function);
-
-	binary_function_node(void)
-	 : binary_function_node(binary_function::dot)
-	{ }
-
 	binary_function_node&
 	set_function(binary_function func)
 	{
 		_output.func = func;
 		return *this;
 	}
-
-	std::size_t input_count(void)
-	override;
-
-	input_intf& input(std::size_t index)
-	override;
 };
 
 } // namespace texgen

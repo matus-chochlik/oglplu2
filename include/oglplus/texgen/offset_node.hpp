@@ -35,7 +35,11 @@ public:
 };
 
 class offset_node
- : public single_output_node<offset_output>
+ : public binary_single_output_node<
+	offset_output,
+	decltype(offset_output::input), &offset_output::input,
+	decltype(offset_output::offset), &offset_output::offset
+>
 {
 public:
 	offset_node&
@@ -44,12 +48,6 @@ public:
 		_output.offset.fallback().set(x, y, z);
 		return *this;
 	}
-
-	std::size_t input_count(void)
-	override;
-
-	input_intf& input(std::size_t index)
-	override;
 };
 
 } // namespace texgen

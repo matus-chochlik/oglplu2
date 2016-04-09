@@ -93,26 +93,6 @@ swizzle_output::definitions(std::ostream& out, compile_context& ctxt)
 	return closing_expr(out, ctxt);
 }
 //------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-swizzle_node::swizzle_node(const std::string& swizzle)
- : single_output_node<swizzle_output>(swizzle)
-{ }
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-std::size_t
-swizzle_node::input_count(void)
-{
-	return 1u;
-}
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-input_intf&
-swizzle_node::input(std::size_t index)
-{
-	assert(index < input_count());
-	return _output.input;
-}
-//------------------------------------------------------------------------------
 } // namespace texgen
 } // namespace oglplus
 //------------------------------------------------------------------------------

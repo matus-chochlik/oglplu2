@@ -172,26 +172,6 @@ unary_function_output::definitions(std::ostream& out, compile_context& ctxt)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-unary_function_node::unary_function_node(unary_function func)
- : single_output_node<unary_function_output>(func)
-{ }
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-std::size_t
-unary_function_node::input_count(void)
-{
-	return 1u;
-}
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-input_intf&
-unary_function_node::input(std::size_t index)
-{
-	assert(index < input_count());
-	return _output.input;
-}
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
 binary_function_output::
 binary_function_output(node_intf& parent, binary_function fn)
  : base_output(parent)
@@ -389,27 +369,6 @@ binary_function_output::definitions(std::ostream& out, compile_context& ctxt)
 	out << ";" << std::endl;
 
 	return closing_expr(out, ctxt);
-}
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-binary_function_node::binary_function_node(binary_function func)
- : single_output_node<binary_function_output>(func)
-{ }
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-std::size_t
-binary_function_node::input_count(void)
-{
-	return 2u;
-}
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-input_intf&
-binary_function_node::input(std::size_t index)
-{
-	if(index == 0) return _output.input_a;
-	assert(index < input_count());
-	return _output.input_b;
 }
 //------------------------------------------------------------------------------
 } // namespace texgen

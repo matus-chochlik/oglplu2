@@ -50,23 +50,6 @@ invert_output::definitions(std::ostream& out, compile_context& ctxt)
 
 	return closing_expr(out, ctxt);
 }
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-std::size_t
-invert_node::input_count(void)
-{
-	return 2u;
-}
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-input_intf&
-invert_node::input(std::size_t index)
-{
-	(void) index;
-	assert(index < input_count());
-	return _output.input;
-}
-//------------------------------------------------------------------------------
 } // namespace texgen
 } // namespace oglplus
 //------------------------------------------------------------------------------

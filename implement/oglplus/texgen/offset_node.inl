@@ -61,22 +61,6 @@ offset_output::definitions(std::ostream& out, compile_context& ctxt)
 	return closing_expr(out, ctxt);
 }
 //------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-std::size_t
-offset_node::input_count(void)
-{
-	return 2u;
-}
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-input_intf&
-offset_node::input(std::size_t index)
-{
-	if(index == 0) return _output.input;
-	assert(index < input_count());
-	return _output.offset;
-}
-//------------------------------------------------------------------------------
 } // namespace texgen
 } // namespace oglplus
 //------------------------------------------------------------------------------

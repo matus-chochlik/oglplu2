@@ -35,7 +35,11 @@ public:
 };
 
 class scale_node
- : public single_output_node<scale_output>
+ : public binary_single_output_node<
+	scale_output,
+	decltype(scale_output::input), &scale_output::input,
+	decltype(scale_output::scale), &scale_output::scale
+>
 {
 public:
 	scale_node&
@@ -44,12 +48,6 @@ public:
 		_output.scale.fallback().set(x, y, z);
 		return *this;
 	}
-
-	std::size_t input_count(void)
-	override;
-
-	input_intf& input(std::size_t index)
-	override;
 };
 
 } // namespace texgen

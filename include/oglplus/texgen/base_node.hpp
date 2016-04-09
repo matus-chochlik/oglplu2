@@ -11,6 +11,7 @@
 
 #include "interface.hpp"
 #include "base_output.hpp"
+#include <cassert>
 
 namespace oglplus {
 namespace texgen {
@@ -81,6 +82,58 @@ public:
 	override
 	{
 		return _output;
+	}
+};
+
+template <
+	typename Output,
+	typename T1, T1 Output::*Input1
+>
+class unary_single_output_node
+ : public single_output_node<Output>
+{
+public:
+	using single_output_node<Output>::single_output_node;
+
+	std::size_t input_count(void)
+	override
+	{
+		return 1u;
+	}
+
+	input_intf& input(std::size_t index)
+	override
+	{
+		(void) index;
+		assert(index < input_count());
+		return this->_output.*Input1;
+	}
+};
+
+template <
+	typename Output,
+	typename T1, T1 Output::*Input1,
+	typename T2, T2 Output::*Input2
+>
+class binary_single_output_node
+ : public single_output_node<Output>
+{
+public:
+	using single_output_node<Output>::single_output_node;
+
+	std::size_t input_count(void)
+	override
+	{
+		return 2u;
+	}
+
+	input_intf& input(std::size_t index)
+	override
+	{
+		assert(index < input_count());
+		return (index == 0)?
+			static_cast<input_intf&>(this->_output.*Input1):
+			static_cast<input_intf&>(this->_output.*Input2);
 	}
 };
 

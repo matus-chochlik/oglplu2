@@ -33,16 +33,10 @@ public:
 	override;
 };
 
-class checker_node
- : public single_output_node<checker_output>
-{
-public:
-	std::size_t input_count(void)
-	override;
-
-	input_intf& input(std::size_t index)
-	override;
-};
+using checker_node = unary_single_output_node<
+	checker_output,
+	decltype(checker_output::repeat), &checker_output::repeat
+>;
 
 } // namespace texgen
 } // namespace oglplus

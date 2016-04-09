@@ -40,27 +40,23 @@ public:
 };
 
 class swizzle_node
- : public single_output_node<swizzle_output>
+ : public unary_single_output_node<
+	swizzle_output,
+	decltype(swizzle_output::input), &swizzle_output::input
+>
 {
 public:
 	swizzle_node(void) = default;
-	swizzle_node(const std::string& swizzle);
 
-	bool set_swizzle(const std::string& swizzle)
+	swizzle_node&
+	set_swizzle(const std::string& swizzle)
 	{
 		if(!is_valid_swizzle(cstr_ref(swizzle)))
 		{
 			_output.swizzle = swizzle;
-			return true;
 		}
-		return false;
+		return *this;
 	}
-
-	std::size_t input_count(void)
-	override;
-
-	input_intf& input(std::size_t index)
-	override;
 };
 
 } // namespace texgen

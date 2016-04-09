@@ -33,16 +33,10 @@ public:
 	override;
 };
 
-class invert_node
- : public single_output_node<invert_output>
-{
-public:
-	std::size_t input_count(void)
-	override;
-
-	input_intf& input(std::size_t index)
-	override;
-};
+using invert_node = unary_single_output_node<
+	invert_output,
+	decltype(invert_output::input), &invert_output::input
+>;
 
 } // namespace texgen
 } // namespace oglplus

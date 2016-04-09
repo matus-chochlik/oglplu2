@@ -35,7 +35,11 @@ public:
 };
 
 class posterize_node
- : public single_output_node<posterize_output>
+ : public binary_single_output_node<
+	posterize_output,
+	decltype(posterize_output::input), &posterize_output::input,
+	decltype(posterize_output::levels), &posterize_output::levels
+>
 {
 public:
 	posterize_node&
@@ -44,12 +48,6 @@ public:
 		_output.levels.fallback().set(r, g, b, a);
 		return *this;
 	}
-
-	std::size_t input_count(void)
-	override;
-
-	input_intf& input(std::size_t index)
-	override;
 };
 
 } // namespace texgen
