@@ -35,22 +35,15 @@ public:
 };
 
 class posterize_node
- : public base_single_output_node
+ : public single_output_node<posterize_output>
 {
-private:
-	posterize_output _output;
 public:
-	posterize_node(void);
-
 	posterize_node&
 	set_levels(float r, float g, float b, float a)
 	{
 		_output.levels.fallback().set(r, g, b, a);
 		return *this;
 	}
-
-	base_output& single_output(void)
-	override;
 
 	std::size_t input_count(void)
 	override;

@@ -69,7 +69,7 @@ uniform_output::definitions(std::ostream& out, compile_context& ctxt)
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 uniform_node::uniform_node(slot_data_type type)
- : _output(*this, type)
+ : single_output_node<uniform_output>(type)
 { }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -82,13 +82,6 @@ void
 uniform_node::prepare(void)
 {
 	_output.bind_location();
-}
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-base_output&
-uniform_node::single_output(void)
-{
-	return _output;
 }
 //------------------------------------------------------------------------------
 } // namespace texgen

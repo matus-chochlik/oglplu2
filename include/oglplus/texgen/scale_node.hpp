@@ -35,22 +35,15 @@ public:
 };
 
 class scale_node
- : public base_single_output_node
+ : public single_output_node<scale_output>
 {
-private:
-	scale_output _output;
 public:
-	scale_node(void);
-
 	scale_node&
 	set_scale(float x, float y, float z)
 	{
 		_output.scale.fallback().set(x, y, z);
 		return *this;
 	}
-
-	base_output& single_output(void)
-	override;
 
 	std::size_t input_count(void)
 	override;

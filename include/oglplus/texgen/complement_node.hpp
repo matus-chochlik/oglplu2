@@ -56,22 +56,15 @@ public:
 };
 
 class complement_node
- : public base_single_output_node
+ : public single_output_node<complement_output>
 {
-private:
-	complement_output _output;
 public:
-	complement_node(void);
-
 	complement_node&
 	set_complement(float r, float g, float b, float a)
 	{
 		_output.complement.fallback().set(r, g, b, a);
 		return *this;
 	}
-
-	base_output& single_output(void)
-	override;
 
 	std::size_t input_count(void)
 	override;

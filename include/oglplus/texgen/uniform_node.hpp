@@ -45,10 +45,8 @@ public:
 };
 
 class uniform_node
- : public base_single_output_node
+ : public single_output_node<uniform_output>
 {
-private:
-	uniform_output _output;
 public:
 	uniform_node(slot_data_type);
 	uniform_node(void);
@@ -72,9 +70,6 @@ public:
 	{
 		return _output.get_location();
 	}
-
-	base_output& single_output(void)
-	override;
 
 	void prepare(void)
 	override;

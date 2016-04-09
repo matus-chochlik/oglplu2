@@ -42,16 +42,9 @@ public:
 };
 
 class combine_node
- : public base_single_output_node
+ : public single_output_node<combine_output>
 {
-private:
-	combine_output _output;
 public:
-	combine_node(void);
-
-	base_output& single_output(void)
-	override;
-
 	std::size_t input_count(void)
 	override;
 

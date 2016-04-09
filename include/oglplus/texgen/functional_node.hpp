@@ -60,10 +60,8 @@ public:
 };
 
 class unary_function_node
- : public base_single_output_node
+ : public single_output_node<unary_function_output >
 {
-private:
-	unary_function_output _output;
 public:
 	unary_function_node(unary_function);
 
@@ -77,9 +75,6 @@ public:
 		_output.func = func;
 		return *this;
 	}
-
-	base_output& single_output(void)
-	override;
 
 	std::size_t input_count(void)
 	override;
@@ -129,10 +124,8 @@ public:
 };
 
 class binary_function_node
- : public base_single_output_node
+ : public single_output_node<binary_function_output >
 {
-private:
-	binary_function_output _output;
 public:
 	binary_function_node(binary_function);
 
@@ -146,9 +139,6 @@ public:
 		_output.func = func;
 		return *this;
 	}
-
-	base_output& single_output(void)
-	override;
 
 	std::size_t input_count(void)
 	override;

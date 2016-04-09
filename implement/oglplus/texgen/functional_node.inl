@@ -165,7 +165,7 @@ unary_function_output::definitions(std::ostream& out, compile_context& ctxt)
 			break;
 	}
 	out << expr::output_id{input.output(), ctxt};
-	out << render_param_pass{input.output()};
+	out << expr::render_param_pass{input.output()};
 	out << ");" << std::endl;
 
 	return closing_expr(out, ctxt);
@@ -173,15 +173,8 @@ unary_function_output::definitions(std::ostream& out, compile_context& ctxt)
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 unary_function_node::unary_function_node(unary_function func)
- : _output(*this, func)
+ : single_output_node<unary_function_output>(func)
 { }
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-base_output&
-unary_function_node::single_output(void)
-{
-	return _output;
-}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 std::size_t
@@ -400,15 +393,8 @@ binary_function_output::definitions(std::ostream& out, compile_context& ctxt)
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 binary_function_node::binary_function_node(binary_function func)
- : _output(*this, func)
+ : single_output_node<binary_function_output>(func)
 { }
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-base_output&
-binary_function_node::single_output(void)
-{
-	return _output;
-}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 std::size_t

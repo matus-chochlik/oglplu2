@@ -30,17 +30,7 @@ public:
 	override;
 };
 
-class mandelbrot_node
- : public base_single_output_node
-{
-private:
-	mandelbrot_output _output;
-public:
-	mandelbrot_node(void);
-
-	base_output& single_output(void)
-	override;
-};
+using mandelbrot_node = single_output_node<mandelbrot_output>;
 
 } // namespace texgen
 } // namespace oglplus

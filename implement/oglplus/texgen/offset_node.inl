@@ -62,18 +62,6 @@ offset_output::definitions(std::ostream& out, compile_context& ctxt)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-offset_node::offset_node(void)
- : _output(*this)
-{ }
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-base_output&
-offset_node::single_output(void)
-{
-	return _output;
-}
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
 std::size_t
 offset_node::input_count(void)
 {

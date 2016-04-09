@@ -201,23 +201,6 @@ newton_output::definitions(std::ostream& result, compile_context& context)
 	return closing_expr(result, context);
 }
 //------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-newton_node::newton_node(void)
- : _output(*this, newton_function::xe3minus1)
-{ }
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-newton_node::newton_node(newton_function func)
- : _output(*this, func)
-{ }
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-base_output&
-newton_node::single_output(void)
-{
-	return _output;
-}
-//------------------------------------------------------------------------------
 } // namespace texgen
 } // namespace oglplus
 //------------------------------------------------------------------------------

@@ -63,18 +63,6 @@ checker_output::definitions(std::ostream& out, compile_context& ctxt)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-checker_node::checker_node(void)
- : _output(*this)
-{ }
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-base_output&
-checker_node::single_output(void)
-{
-	return _output;
-}
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
 std::size_t
 checker_node::input_count(void)
 {

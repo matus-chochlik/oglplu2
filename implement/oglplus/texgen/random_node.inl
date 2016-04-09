@@ -93,18 +93,6 @@ random_output::definitions(std::ostream& out, compile_context& ctxt)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-random_node::random_node(void)
- : _output(*this)
-{ }
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-base_output&
-random_node::single_output(void)
-{
-	return _output;
-}
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
 std::size_t
 random_node::input_count(void)
 {

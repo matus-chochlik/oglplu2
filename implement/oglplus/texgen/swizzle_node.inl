@@ -94,21 +94,9 @@ swizzle_output::definitions(std::ostream& out, compile_context& ctxt)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-swizzle_node::swizzle_node(void)
- : _output(*this)
-{ }
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
 swizzle_node::swizzle_node(const std::string& swizzle)
- : _output(*this, swizzle)
+ : single_output_node<swizzle_output>(swizzle)
 { }
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-base_output&
-swizzle_node::single_output(void)
-{
-	return _output;
-}
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 std::size_t

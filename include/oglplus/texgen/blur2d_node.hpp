@@ -34,16 +34,9 @@ public:
 };
 
 class blur2d_node
- : public base_single_output_node
+ : public single_output_node<blur2d_output>
 {
-private:
-	blur2d_output _output;
 public:
-	blur2d_node(void);
-
-	base_output& single_output(void)
-	override;
-
 	std::size_t input_count(void)
 	override;
 

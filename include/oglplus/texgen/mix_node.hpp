@@ -36,16 +36,9 @@ public:
 };
 
 class mix_node
- : public base_single_output_node
+ : public single_output_node<mix_output>
 {
-private:
-	mix_output _output;
 public:
-	mix_node(void);
-
-	base_output& single_output(void)
-	override;
-
 	std::size_t input_count(void)
 	override;
 

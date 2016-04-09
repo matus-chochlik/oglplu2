@@ -77,18 +77,6 @@ mandelbrot_output::definitions(std::ostream& result, compile_context& context)
 	return closing_expr(result, context);
 }
 //------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-mandelbrot_node::mandelbrot_node(void)
- : _output(*this)
-{ }
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-base_output&
-mandelbrot_node::single_output(void)
-{
-	return _output;
-}
-//------------------------------------------------------------------------------
 } // namespace texgen
 } // namespace oglplus
 //------------------------------------------------------------------------------

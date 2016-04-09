@@ -34,16 +34,9 @@ public:
 };
 
 class spheres_node
- : public base_single_output_node
+ : public single_output_node<spheres_output>
 {
-private:
-	spheres_output _output;
 public:
-	spheres_node(void);
-
-	base_output& single_output(void)
-	override;
-
 	std::size_t input_count(void)
 	override;
 

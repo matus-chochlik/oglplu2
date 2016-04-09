@@ -120,18 +120,6 @@ combine_output::definitions(std::ostream& out, compile_context& ctxt)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-combine_node::combine_node(void)
- : _output(*this)
-{ }
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-base_output&
-combine_node::single_output(void)
-{
-	return _output;
-}
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
 std::size_t
 combine_node::input_count(void)
 {

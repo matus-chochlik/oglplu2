@@ -40,12 +40,10 @@ public:
 };
 
 class swizzle_node
- : public base_single_output_node
+ : public single_output_node<swizzle_output>
 {
-private:
-	swizzle_output _output;
 public:
-	swizzle_node(void);
+	swizzle_node(void) = default;
 	swizzle_node(const std::string& swizzle);
 
 	bool set_swizzle(const std::string& swizzle)
@@ -57,9 +55,6 @@ public:
 		}
 		return false;
 	}
-
-	base_output& single_output(void)
-	override;
 
 	std::size_t input_count(void)
 	override;

@@ -32,6 +32,10 @@ private:
 public:
 	newton_output(node_intf& parent, newton_function);
 
+	newton_output(node_intf& parent)
+	 : newton_output(parent, newton_function::xe3minus1)
+	{ }
+
 	cstr_ref type_name(void)
 	override;
 
@@ -43,24 +47,15 @@ public:
 };
 
 class newton_node
- : public base_single_output_node
+ : public single_output_node<newton_output>
 {
-private:
-	newton_output _output;
 public:
-	newton_node(void);
-
 	newton_node&
 	set_function(newton_function function)
 	{
 		_output._function = function;
 		return *this;
 	}
-
-	newton_node(newton_function);
-
-	base_output& single_output(void)
-	override;
 };
 
 } // namespace texgen

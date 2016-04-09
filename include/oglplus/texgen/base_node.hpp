@@ -10,6 +10,7 @@
 #define OGLPLUS_TEXGEN_BASE_NODE_1509260923_HPP
 
 #include "interface.hpp"
+#include "base_output.hpp"
 
 namespace oglplus {
 namespace texgen {
@@ -62,6 +63,25 @@ public:
 
 	output_intf& output(std::size_t index)
 	override;
+};
+
+template <typename Output>
+class single_output_node
+ : public base_single_output_node
+{
+protected:
+	Output _output;
+public:
+	template <typename ... P>
+	single_output_node(P&& ... p)
+	 : _output(*this, std::forward<P>(p)...)
+	{ }
+
+	base_output& single_output(void)
+	override
+	{
+		return _output;
+	}
 };
 
 } // namespace texgen

@@ -52,18 +52,6 @@ invert_output::definitions(std::ostream& out, compile_context& ctxt)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-invert_node::invert_node(void)
- : _output(*this)
-{ }
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-base_output&
-invert_node::single_output(void)
-{
-	return _output;
-}
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
 std::size_t
 invert_node::input_count(void)
 {

@@ -35,22 +35,15 @@ public:
 };
 
 class offset_node
- : public base_single_output_node
+ : public single_output_node<offset_output>
 {
-private:
-	offset_output _output;
 public:
-	offset_node(void);
-
 	offset_node&
 	set_offset(float x, float y, float z)
 	{
 		_output.offset.fallback().set(x, y, z);
 		return *this;
 	}
-
-	base_output& single_output(void)
-	override;
 
 	std::size_t input_count(void)
 	override;
