@@ -28,15 +28,39 @@ voronoi2d_output::voronoi2d_output(
 { }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
+short
+voronoi2d_output::order(void) const
+{
+	switch(_type)
+	{
+		case voronoi_output_type::distance3:
+			return 3;
+		case voronoi_output_type::distance2:
+			return 2;
+		case voronoi_output_type::distance1:
+		case voronoi_output_type::cell_coord:
+		case voronoi_output_type::cell_center:
+			break;
+	}
+	return 1;
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
 cstr_ref
 voronoi2d_output::type_abbr(void) const
 {
 	switch(_type)
 	{
-		case voronoi_output_type::distance:
+		case voronoi_output_type::distance1:
 			return cstr_ref("Dist");
+		case voronoi_output_type::distance2:
+			return cstr_ref("Dist2");
+		case voronoi_output_type::distance3:
+			return cstr_ref("Dist3");
 		case voronoi_output_type::cell_coord:
-			return cstr_ref("CelC");
+			return cstr_ref("CCrd");
+		case voronoi_output_type::cell_center:
+			return cstr_ref("CCtr");
 	}
 	return cstr_ref();
 }
@@ -54,9 +78,12 @@ voronoi2d_output::value_type(void)
 {
 	switch(_type)
 	{
-		case voronoi_output_type::distance:
+		case voronoi_output_type::distance1:
+		case voronoi_output_type::distance2:
+		case voronoi_output_type::distance3:
 			return slot_data_type::float_;
 		case voronoi_output_type::cell_coord:
+		case voronoi_output_type::cell_center:
 			return slot_data_type::float_2;
 	}
 	return slot_data_type::float_;
@@ -91,13 +118,21 @@ voronoi2d_output::definitions(std::ostream& out, compile_context& ctxt)
 	opening_expr(out, ctxt);
 
 	slot_data_type v2 = slot_data_type::float_2;
+	const short ord = order();
 
-	out << "\tfloat min_dist = 2.0;" << std::endl;
-	out << "\tint min_index = 5;" << std::endl;
+	out << "\tfloat min_dist[" << ord << "];" << std::endl;
+	for(short o=0; o<ord; ++o)
+	{
+		out << "\tmin_dist[" << o << "] = 2.0;" << std::endl;
+	}
 
 	if(_type == voronoi_output_type::cell_coord)
 	{
-		out << "\tvec2 min_cell_coord;" << std::endl;
+		out << "\tvec2 min_cell_coord[" << ord << "];" << std::endl;
+	}
+	else if(_type == voronoi_output_type::cell_center)
+	{
+		out << "\tvec2 min_cell_center[" << ord << "];" << std::endl;
 	}
 
 	out << "\tvec2 norm_coord = vec2(";
@@ -130,32 +165,62 @@ voronoi2d_output::definitions(std::ostream& out, compile_context& ctxt)
 
 	out << expr::conversion_suffix{_input.value_type(), v2};
 	out << ";" << std::endl;
-	out << "\t\tfloat dist = distance(" << std::endl;
-	out << "\t\t\tnorm_coord," << std::endl;
-	out << "\t\t\tcell_coord+rel_cell_center*cell_size" << std::endl;
-	out << "\t\t);";
+	out << "\t\tvec2 abs_cell_center = cell_coord+";
+	out << "rel_cell_center*cell_size;" << std::endl;
+	out << "\t\tfloat dist = distance(";
+	out << "norm_coord, abs_cell_center);" << std::endl;
 	out << std::endl;
-	out << "\t\tif(min_dist > dist)" << std::endl;
+	out << "\t\tfor(int o=0; o<" << ord << "; ++o)" << std::endl;
 	out << "\t\t{" << std::endl;
-	out << "\t\t\tmin_dist = dist;" << std::endl;
-	out << "\t\t\tmin_index = i;" << std::endl;
+	out << "\t\t\tif(min_dist[o] > dist)" << std::endl;
+	out << "\t\t\t{" << std::endl;
+	out << "\t\t\t\tfor(int k=" << ord-1 << "; k>o; --k)" << std::endl;
+	out << "\t\t\t\t{" << std::endl;
+	out << "\t\t\t\t\tmin_dist[k] = min_dist[k-1];" << std::endl;
 
 	if(_type == voronoi_output_type::cell_coord)
 	{
-		out << "\t\t\tmin_cell_coord = cell_coord;" << std::endl;
+		out << "\t\t\t\t\tmin_cell_coord[k] = min_cell_coord[k-1];";
+		out << std::endl;
+	}
+	else if(_type == voronoi_output_type::cell_center)
+	{
+		out << "\t\t\t\t\tmin_cell_center[k] = min_cell_center[k-1];";
+		out << std::endl;
 	}
 
+	out << "\t\t\t\t}" << std::endl;
+	out << "\t\t\t\tmin_dist[o] = dist;" << std::endl;
+
+	if(_type == voronoi_output_type::cell_coord)
+	{
+		out << "\t\t\t\tmin_cell_coord[o] = cell_coord;";
+		out << std::endl;
+	}
+	else if(_type == voronoi_output_type::cell_center)
+	{
+		out << "\t\t\t\tmin_cell_center[o] = abs_cell_center;";
+		out << std::endl;
+	}
+
+	out << "\t\t\t\tbreak;" << std::endl;
+	out << "\t\t\t}" << std::endl;
 	out << "\t\t}" << std::endl;
 	out << "\t}" << std::endl;
 
 	switch(_type)
 	{
-		case voronoi_output_type::distance:
-			out << "\treturn min_dist*";
-			out << "max(cell_count.x, cell_count.y);";
+		case voronoi_output_type::distance1:
+		case voronoi_output_type::distance2:
+		case voronoi_output_type::distance3:
+			out << "\treturn min_dist[" << (ord-1) << "]*";
+			out << "min(cell_count.x, cell_count.y)/sqrt(2);";
 			break;
 		case voronoi_output_type::cell_coord:
-			out << "\treturn min_cell_coord;";
+			out << "\treturn min_cell_coord[" << (ord-1) << "];";
+			break;
+		case voronoi_output_type::cell_center:
+			out << "\treturn min_cell_center[" << (ord-1) << "];";
 			break;
 	}
 	out << std::endl;
@@ -176,8 +241,11 @@ voronoi2d_node::voronoi2d_node(void)
  : base_node()
  , _input(*this, cstr_ref("Input"), 0.5f, 0.5f)
  , _cells(*this, cstr_ref("Cells"), 32.f, 32.f)
- , _distance(*this, _input, _cells, voronoi_output_type::distance)
+ , _distance1(*this, _input, _cells, voronoi_output_type::distance1)
+ , _distance2(*this, _input, _cells, voronoi_output_type::distance2)
+ , _distance3(*this, _input, _cells, voronoi_output_type::distance3)
  , _cell_coord(*this, _input, _cells, voronoi_output_type::cell_coord)
+ , _cell_center(*this, _input, _cells, voronoi_output_type::cell_center)
 { }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -207,16 +275,19 @@ OGLPLUS_LIB_FUNC
 std::size_t
 voronoi2d_node::output_count(void)
 {
-	return 2u;
+	return 5u;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 output_intf&
 voronoi2d_node::output(std::size_t index)
 {
-	if(index == 0) return _distance;
+	if(index == 0) return _distance1;
+	if(index == 1) return _distance2;
+	if(index == 2) return _distance3;
+	if(index == 3) return _cell_coord;
 	assert(index < output_count());
-	return _cell_coord;
+	return _cell_center;
 }
 //------------------------------------------------------------------------------
 } // namespace texgen

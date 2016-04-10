@@ -17,8 +17,11 @@ namespace texgen {
 
 enum class voronoi_output_type
 {
-	distance,
-	cell_coord
+	distance1,
+	distance2,
+	distance3,
+	cell_coord,
+	cell_center
 };
 
 class voronoi2d_output
@@ -28,6 +31,8 @@ private:
 	input_with_const_default<float[2]>& _input;
 	input_with_const_default<float[2]>& _cells;
 	voronoi_output_type _type;
+
+	short order(void) const;
 
 	cstr_ref type_abbr(void) const;
 public:
@@ -59,8 +64,11 @@ private:
 	input_with_const_default<float[2]> _input;
 	input_with_const_default<float[2]> _cells;
 
-	voronoi2d_output _distance;
+	voronoi2d_output _distance1;
+	voronoi2d_output _distance2;
+	voronoi2d_output _distance3;
 	voronoi2d_output _cell_coord;
+	voronoi2d_output _cell_center;
 public:
 	voronoi2d_node(void);
 
