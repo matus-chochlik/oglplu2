@@ -40,6 +40,18 @@ std::ostream& operator << (std::ostream& out, norm_voxel_offs);
 struct norm_sample_coord { output_intf& output; };
 std::ostream& operator << (std::ostream& out, norm_sample_coord);
 
+struct nhood2d_offs { };
+std::ostream& operator << (std::ostream& out, nhood2d_offs);
+
+struct nhood2d_offs_decl { compile_context& context; };
+std::ostream& operator << (std::ostream& out, nhood2d_offs_decl);
+
+struct nbors2d_offs { };
+std::ostream& operator << (std::ostream& out, nbors2d_offs);
+
+struct nbors2d_offs_decl { compile_context& context; };
+std::ostream& operator << (std::ostream& out, nbors2d_offs_decl);
+
 } // namespace expr
 } // namespace texgen
 } // namespace oglplus

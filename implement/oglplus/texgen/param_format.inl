@@ -78,6 +78,63 @@ std::ostream& operator << (std::ostream& out, norm_sample_coord x)
 		<< norm_voxel_offs{x.output};
 }
 //------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+std::ostream& operator << (std::ostream& out, nbors2d_offs)
+{
+	return out << "oglptgNbors2dCellOffs";
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+std::ostream& operator << (std::ostream& out, nbors2d_offs_decl e)
+{
+	cstr_ref tag("nbors2d_cells");
+	if(!e.context.has_tag(tag))
+	{
+		out << "vec2 " <<nbors2d_offs{}<< "[8] = vec2[8](" << std::endl;
+		out << "\tvec2(-1,-1)," << std::endl;
+		out << "\tvec2(-1, 0)," << std::endl;
+		out << "\tvec2(-1, 1)," << std::endl;
+		out << "\tvec2( 0,-1)," << std::endl;
+		out << "\tvec2( 0, 1)," << std::endl;
+		out << "\tvec2( 1,-1)," << std::endl;
+		out << "\tvec2( 1, 0)," << std::endl;
+		out << "\tvec2( 1, 1)"  << std::endl;
+		out << ");" << std::endl;
+		out << std::endl;
+		e.context.add_tag(tag);
+	}
+	return out;
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+std::ostream& operator << (std::ostream& out, nhood2d_offs)
+{
+	return out << "oglptgNhood2dCellOffs";
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+std::ostream& operator << (std::ostream& out, nhood2d_offs_decl e)
+{
+	cstr_ref tag("nhood2d_cells");
+	if(!e.context.has_tag(tag))
+	{
+		out << "vec2 " <<nhood2d_offs{}<< "[9] = vec2[9](" << std::endl;
+		out << "\tvec2(-1,-1)," << std::endl;
+		out << "\tvec2(-1, 0)," << std::endl;
+		out << "\tvec2(-1, 1)," << std::endl;
+		out << "\tvec2( 0,-1)," << std::endl;
+		out << "\tvec2( 0, 0)," << std::endl;
+		out << "\tvec2( 0, 1)," << std::endl;
+		out << "\tvec2( 1,-1)," << std::endl;
+		out << "\tvec2( 1, 0)," << std::endl;
+		out << "\tvec2( 1, 1)"  << std::endl;
+		out << ");" << std::endl;
+		out << std::endl;
+		e.context.add_tag(tag);
+	}
+	return out;
+}
+//------------------------------------------------------------------------------
 } // namespace expr
 } // namespace texgen
 } // namespace oglplus

@@ -97,10 +97,13 @@ voronoi2d_output::definitions(std::ostream& out, compile_context& ctxt)
 
 	input_defs(out, ctxt);
 
+	out << expr::nhood2d_offs_decl{ctxt} << std::endl;
+
 	cstr_ref tag("nhood2d_cells");
 	if(!ctxt.has_tag(tag))
 	{
-		out << "vec2 oglptgNHood2dCellOffs[9] = vec2[9](" << std::endl;
+		out << "vec2 "<< expr::nhood2d_offs{} << "[9] = vec2[9](";
+		out << std::endl;
 		out << "\tvec2(-1,-1)," << std::endl;
 		out << "\tvec2(-1, 0)," << std::endl;
 		out << "\tvec2(-1, 1)," << std::endl;
@@ -136,7 +139,7 @@ voronoi2d_output::definitions(std::ostream& out, compile_context& ctxt)
 	}
 
 	out << "\tvec2 norm_coord = vec2(";
-	out << expr::normalized_coord{*this} << ");" << std::endl;
+	out << expr::norm_sample_coord{*this} << ");" << std::endl;
 	out << "\tvec2 cell_count = ";
 	out << expr::conversion_prefix{_cells.value_type(), v2};
 	out << expr::output_id{_cells.output(), ctxt};
@@ -147,7 +150,8 @@ voronoi2d_output::definitions(std::ostream& out, compile_context& ctxt)
 	out << std::endl;
 	out << "\tfor(int i=0; i<9; ++i)" << std::endl;
 	out << "\t{" << std::endl;
-	out << "\t\tvec2 cell_offs = oglptgNHood2dCellOffs[i];" << std::endl;
+	out << "\t\tvec2 cell_offs = " << expr::nhood2d_offs{} << "[i];";
+	out << std::endl;
 	out << "\t\tvec2 cell_coord = floor(norm_coord*cell_count+cell_offs)*";
 	out << "cell_size;" << std::endl;
 	out << "\t\tvec2 rel_cell_center = ";
