@@ -203,7 +203,7 @@ binary_function_output::type_name(void)
 		case binary_function::subtract:
 			return cstr_ref("Subtract");
 		case binary_function::multiply:
-			return cstr_ref("Multipy");
+			return cstr_ref("Multiply");
 		case binary_function::divide:
 			return cstr_ref("Divide");
 		case binary_function::modulo:
@@ -218,6 +218,8 @@ binary_function_output::type_name(void)
 			return cstr_ref("Power");
 		case binary_function::dot:
 			return cstr_ref("Dot");
+		case binary_function::average:
+			return cstr_ref("average");
 	}
 	return cstr_ref("BinaryFunction");
 }
@@ -309,6 +311,9 @@ binary_function_output::definitions(std::ostream& out, compile_context& ctxt)
 		case binary_function::dot:
 			out << "dot(";
 			break;
+		case binary_function::average:
+			out << "mix(";
+			break;
 		default:
 			out << "(";
 			break;
@@ -360,6 +365,9 @@ binary_function_output::definitions(std::ostream& out, compile_context& ctxt)
 		case binary_function::greater_equal:
 			out << "), " << data_type_name(dtb);
 			out << "(0)))";
+			break;
+		case binary_function::average:
+			out << ", 0.5)";
 			break;
 		default:
 			out << ")";

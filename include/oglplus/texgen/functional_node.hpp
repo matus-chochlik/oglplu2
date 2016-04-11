@@ -76,6 +76,13 @@ public:
 		_output.func = func;
 		return *this;
 	}
+
+	unary_function_node&
+	set_value(float x, float y, float z, float w)
+	{
+		_output.input.fallback().set(x, y, z, w);
+		return *this;
+	}
 };
 
 enum class binary_function
@@ -95,7 +102,8 @@ enum class binary_function
 	min,
 	distance,
 	power,
-	dot
+	dot,
+	average
 };
 
 class binary_function_output
@@ -107,6 +115,10 @@ public:
 	binary_function func;
 
 	binary_function_output(node_intf& parent, binary_function);
+
+	binary_function_output(node_intf& parent)
+	 : binary_function_output(parent, binary_function::average)
+	{ }
 
 	cstr_ref type_name(void)
 	override;
@@ -132,6 +144,20 @@ public:
 	set_function(binary_function func)
 	{
 		_output.func = func;
+		return *this;
+	}
+
+	binary_function_node&
+	set_value_a(float x, float y, float z, float w)
+	{
+		_output.input_a.fallback().set(x, y, z, w);
+		return *this;
+	}
+
+	binary_function_node&
+	set_value_b(float x, float y, float z, float w)
+	{
+		_output.input_b.fallback().set(x, y, z, w);
 		return *this;
 	}
 };
