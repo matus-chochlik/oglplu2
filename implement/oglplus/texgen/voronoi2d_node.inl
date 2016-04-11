@@ -6,8 +6,6 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include <set>
-#include <string>
 #include <iostream>
 #include <cassert>
 
@@ -40,9 +38,11 @@ voronoi2d_output::order(void) const
 		case voronoi_output_type::distance1:
 		case voronoi_output_type::cell_coord:
 		case voronoi_output_type::cell_center:
+			return 1;
+		case voronoi_output_type::input_cell_center:
 			break;
 	}
-	return 1;
+	return 0;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -61,6 +61,8 @@ voronoi2d_output::type_abbr(void) const
 			return cstr_ref("CCrd");
 		case voronoi_output_type::cell_center:
 			return cstr_ref("CCtr");
+		case voronoi_output_type::input_cell_center:
+			return cstr_ref("InCell");
 	}
 	return cstr_ref();
 }
@@ -85,8 +87,10 @@ voronoi2d_output::value_type(void)
 		case voronoi_output_type::cell_coord:
 		case voronoi_output_type::cell_center:
 			return slot_data_type::float_2;
+		case voronoi_output_type::input_cell_center:
+			break;
 	}
-	return slot_data_type::float_;
+	return _input.value_type();
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -99,34 +103,18 @@ voronoi2d_output::definitions(std::ostream& out, compile_context& ctxt)
 
 	out << expr::nhood2d_offs_decl{ctxt} << std::endl;
 
-	cstr_ref tag("nhood2d_cells");
-	if(!ctxt.has_tag(tag))
-	{
-		out << "vec2 "<< expr::nhood2d_offs{} << "[9] = vec2[9](";
-		out << std::endl;
-		out << "\tvec2(-1,-1)," << std::endl;
-		out << "\tvec2(-1, 0)," << std::endl;
-		out << "\tvec2(-1, 1)," << std::endl;
-		out << "\tvec2( 0,-1)," << std::endl;
-		out << "\tvec2( 0, 0)," << std::endl;
-		out << "\tvec2( 0, 1)," << std::endl;
-		out << "\tvec2( 1,-1)," << std::endl;
-		out << "\tvec2( 1, 0)," << std::endl;
-		out << "\tvec2( 1, 1)"  << std::endl;
-		out << ");" << std::endl;
-		out << std::endl;
-		ctxt.add_tag(tag);
-	}
-
 	opening_expr(out, ctxt);
 
 	slot_data_type v2 = slot_data_type::float_2;
 	const short ord = order();
 
-	out << "\tfloat min_dist[" << ord << "];" << std::endl;
-	for(short o=0; o<ord; ++o)
+	if(_type != voronoi_output_type::input_cell_center)
 	{
-		out << "\tmin_dist[" << o << "] = 2.0;" << std::endl;
+		out << "\tfloat min_dist[" << ord << "];" << std::endl;
+		for(short o=0; o<ord; ++o)
+		{
+			out << "\tmin_dist[" << o << "] = 2.0;" << std::endl;
+		}
 	}
 
 	if(_type == voronoi_output_type::cell_coord)
@@ -148,6 +136,30 @@ voronoi2d_output::definitions(std::ostream& out, compile_context& ctxt)
 	out << ";" << std::endl;
 	out << "\tvec2 cell_size = vec2(1)/max(cell_count,vec2(1));";
 	out << std::endl;
+
+	if(_type == voronoi_output_type::input_cell_center)
+	{
+		slot_data_type vt = value_type();
+
+		out << "\tvec2 cell_coord = floor(norm_coord*cell_count)*";
+		out << "cell_size;" << std::endl;
+		out << "\treturn ";
+		out << expr::conversion_prefix{_input.value_type(), vt};
+		out << expr::output_id{_input.output(), ctxt};
+
+		if(_input.output().needs_params())
+		{
+			out << "(" << std::endl;
+			out << "\t\tvec3(cell_coord,0)," << std::endl;
+			out << "\t\tvec3(cell_size, 1)," << std::endl;
+			out << "\t\tvec3(0)" << std::endl;
+			out << "\t)";
+		}
+		out << expr::conversion_suffix{_input.value_type(), vt};
+		out << ";" << std::endl;
+		return closing_expr(out, ctxt);
+	}
+
 	out << "\tfor(int i=0; i<9; ++i)" << std::endl;
 	out << "\t{" << std::endl;
 	out << "\t\tvec2 cell_offs = " << expr::nhood2d_offs{} << "[i];";
@@ -218,13 +230,15 @@ voronoi2d_output::definitions(std::ostream& out, compile_context& ctxt)
 		case voronoi_output_type::distance2:
 		case voronoi_output_type::distance3:
 			out << "\treturn min_dist[" << (ord-1) << "]*";
-			out << "min(cell_count.x, cell_count.y)/sqrt(2);";
+			out << "min(cell_count.x, cell_count.y)/sqrt(2.0);";
 			break;
 		case voronoi_output_type::cell_coord:
 			out << "\treturn min_cell_coord[" << (ord-1) << "];";
 			break;
 		case voronoi_output_type::cell_center:
 			out << "\treturn min_cell_center[" << (ord-1) << "];";
+			break;
+		case voronoi_output_type::input_cell_center:
 			break;
 	}
 	out << std::endl;
@@ -250,6 +264,7 @@ voronoi2d_node::voronoi2d_node(void)
  , _distance3(*this, _input, _cells, voronoi_output_type::distance3)
  , _cell_coord(*this, _input, _cells, voronoi_output_type::cell_coord)
  , _cell_center(*this, _input, _cells, voronoi_output_type::cell_center)
+ , _input_cell_center(*this, _input, _cells, voronoi_output_type::input_cell_center)
 { }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -279,7 +294,7 @@ OGLPLUS_LIB_FUNC
 std::size_t
 voronoi2d_node::output_count(void)
 {
-	return 5u;
+	return 6u;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -290,8 +305,9 @@ voronoi2d_node::output(std::size_t index)
 	if(index == 1) return _distance2;
 	if(index == 2) return _distance3;
 	if(index == 3) return _cell_coord;
+	if(index == 4) return _cell_center;
 	assert(index < output_count());
-	return _cell_center;
+	return _input_cell_center;
 }
 //------------------------------------------------------------------------------
 } // namespace texgen

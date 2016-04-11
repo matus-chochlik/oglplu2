@@ -1,40 +1,27 @@
 /**
- *  @file oglplus/texgen/coord_node.hpp
+ *  @file oglplus/texgen/stripes_node.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_TEXGEN_COORD_NODE_1509260923_HPP
-#define OGLPLUS_TEXGEN_COORD_NODE_1509260923_HPP
+#ifndef OGLPLUS_TEXGEN_STRIPES_NODE_1509260923_HPP
+#define OGLPLUS_TEXGEN_STRIPES_NODE_1509260923_HPP
 
+#include "fallback_input.hpp"
 #include "base_node.hpp"
 
 namespace oglplus {
 namespace texgen {
 
-enum class coord_type
-{
-	normalized,
-	frag_coord
-};
-
-class coord_output
+class stripes_output
  : public base_output
 {
-private:
-	friend class coord_node;
-
-	coord_type _type;
-
-	cstr_ref _func_name(void) const;
 public:
-	coord_output(node_intf& parent, coord_type);
+	input_with_const_default<float[3]> repeat;
 
-	coord_output(node_intf& parent)
-	 : coord_output(parent, coord_type::normalized)
-	{ }
+	stripes_output(node_intf& parent);
 
 	cstr_ref type_name(void)
 	override;
@@ -46,14 +33,17 @@ public:
 	override;
 };
 
-class coord_node
- : public single_output_node<coord_output>
+class stripes_node
+ : public unary_single_output_node<
+	stripes_output,
+	decltype(stripes_output::repeat), &stripes_output::repeat
+>
 {
 public:
-	coord_node&
-	set_type(coord_type type)
+	stripes_node&
+	set_repeat(float x, float y, float z)
 	{
-		_output._type = type;
+		_output.repeat.fallback().set(x, y, z);
 		return *this;
 	}
 };
@@ -62,7 +52,7 @@ public:
 } // namespace oglplus
 
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
-#include <oglplus/texgen/coord_node.inl>
+#include <oglplus/texgen/stripes_node.inl>
 #endif
 
 #endif // include guard

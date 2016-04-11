@@ -1,39 +1,39 @@
 /**
- *  @file oglplus/texgen/coord_node.hpp
+ *  @file oglplus/texgen/interlace_node.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_TEXGEN_COORD_NODE_1509260923_HPP
-#define OGLPLUS_TEXGEN_COORD_NODE_1509260923_HPP
+#ifndef OGLPLUS_TEXGEN_INTERLACE_NODE_1509260923_HPP
+#define OGLPLUS_TEXGEN_INTERLACE_NODE_1509260923_HPP
 
+#include "fallback_input.hpp"
 #include "base_node.hpp"
 
 namespace oglplus {
 namespace texgen {
 
-enum class coord_type
+enum class interlace_mode
 {
-	normalized,
-	frag_coord
+	columns,
+	rows,
+	layers
 };
 
-class coord_output
+class interlace_output
  : public base_output
 {
 private:
-	friend class coord_node;
+	interlace_mode _mode;
 
-	coord_type _type;
-
-	cstr_ref _func_name(void) const;
+	friend class interlace_node;
 public:
-	coord_output(node_intf& parent, coord_type);
+	interlace_output(node_intf& parent, interlace_mode);
 
-	coord_output(node_intf& parent)
-	 : coord_output(parent, coord_type::normalized)
+	interlace_output(node_intf& parent)
+	 : interlace_output(parent, interlace_mode::rows)
 	{ }
 
 	cstr_ref type_name(void)
@@ -46,14 +46,14 @@ public:
 	override;
 };
 
-class coord_node
- : public single_output_node<coord_output>
+class interlace_node
+ : public single_output_node<interlace_output>
 {
 public:
-	coord_node&
-	set_type(coord_type type)
+	interlace_node&
+	set_mode(interlace_mode mode)
 	{
-		_output._type = type;
+		_output._mode = mode;
 		return *this;
 	}
 };
@@ -62,7 +62,7 @@ public:
 } // namespace oglplus
 
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
-#include <oglplus/texgen/coord_node.inl>
+#include <oglplus/texgen/interlace_node.inl>
 #endif
 
 #endif // include guard

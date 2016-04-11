@@ -33,10 +33,20 @@ public:
 	override;
 };
 
-using checker_node = unary_single_output_node<
+class checker_node
+ : public unary_single_output_node<
 	checker_output,
 	decltype(checker_output::repeat), &checker_output::repeat
->;
+>
+{
+public:
+	checker_node&
+	set_repeat(float x, float y, float z)
+	{
+		_output.repeat.fallback().set(x, y, z);
+		return *this;
+	}
+};
 
 class pixel_checker_output
  : public base_output

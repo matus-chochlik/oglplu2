@@ -1,13 +1,13 @@
 /**
- *  @file oglplus/texgen/voronoi2d_node.hpp
+ *  @file oglplus/texgen/honeycomb_node.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_TEXGEN_VORONOI2D_NODE_1509260923_HPP
-#define OGLPLUS_TEXGEN_VORONOI2D_NODE_1509260923_HPP
+#ifndef OGLPLUS_TEXGEN_HONEYCOMB_NODE_1509260923_HPP
+#define OGLPLUS_TEXGEN_HONEYCOMB_NODE_1509260923_HPP
 
 #include "fallback_input.hpp"
 #include "base_node.hpp"
@@ -15,34 +15,34 @@
 namespace oglplus {
 namespace texgen {
 
-enum class voronoi_output_type
+enum class honeycomb_direction
 {
-	distance1,
-	distance2,
-	distance3,
-	cell_coord,
-	cell_center,
-	input_cell_center
+	vertical,
+	horizontal
 };
 
-class voronoi2d_output
+enum class honeycomb_output_type
+{
+	cell_coord,
+	cell_center,
+	distance
+};
+
+class honeycomb_output
  : public base_output
 {
 private:
-	input_with_const_default<float[2]>& _input;
 	input_with_const_default<float[2]>& _cells;
-	voronoi_output_type _type;
-
-	short order(void) const;
+	honeycomb_direction& _direction;
+	honeycomb_output_type _type;
 
 	cstr_ref type_abbr(void) const;
 public:
-
-	voronoi2d_output(
+	honeycomb_output(
 		node_intf& parent,
 		input_with_const_default<float[2]>&,
-		input_with_const_default<float[2]>&,
-		voronoi_output_type type
+		honeycomb_direction& direction,
+		honeycomb_output_type type
 	);
 
 	cstr_ref type_name(void)
@@ -58,23 +58,20 @@ public:
 	override;
 };
 
-class voronoi2d_node
+class honeycomb_node
  : public base_node
 {
 private:
-	input_with_const_default<float[2]> _input;
 	input_with_const_default<float[2]> _cells;
+	honeycomb_direction _direction;
 
-	voronoi2d_output _distance1;
-	voronoi2d_output _distance2;
-	voronoi2d_output _distance3;
-	voronoi2d_output _cell_coord;
-	voronoi2d_output _cell_center;
-	voronoi2d_output _input_cell_center;
+	honeycomb_output _cell_coord;
+	honeycomb_output _cell_center;
+	honeycomb_output _distance;
 public:
-	voronoi2d_node(void);
+	honeycomb_node(void);
 
-	voronoi2d_node&
+	honeycomb_node&
 	set_cell_count(float x, float y)
 	{
 		_cells.fallback().set(x, y);
@@ -101,7 +98,7 @@ public:
 } // namespace oglplus
 
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
-#include <oglplus/texgen/voronoi2d_node.inl>
+#include <oglplus/texgen/honeycomb_node.inl>
 #endif
 
 #endif // include guard

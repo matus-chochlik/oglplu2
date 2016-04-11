@@ -39,6 +39,27 @@ class mix_node
  : public single_output_node<mix_output>
 {
 public:
+	mix_node&
+	set_zero(float x, float y, float z, float w)
+	{
+		_output.zero.fallback().set(x, y, z, w);
+		return *this;
+	}
+
+	mix_node&
+	set_one(float x, float y, float z, float w)
+	{
+		_output.one.fallback().set(x, y, z, w);
+		return *this;
+	}
+
+	mix_node&
+	set_value(float v)
+	{
+		_output.value.fallback().set(v);
+		return *this;
+	}
+
 	std::size_t input_count(void)
 	override;
 
