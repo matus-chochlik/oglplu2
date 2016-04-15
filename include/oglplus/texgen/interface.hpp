@@ -197,6 +197,12 @@ struct node_intf
 	eagine::optional_reference_wrapper<input_intf>
 	input_by_name(const cstr_ref&);
 
+	virtual
+	bool can_add_input(void) = 0;
+
+	virtual
+	void add_input(const cstr_ref&) = 0;
+
 	std::ostream& input_definitions(std::ostream&, compile_context&);
 
 	virtual

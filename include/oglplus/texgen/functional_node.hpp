@@ -43,9 +43,12 @@ enum class unary_function
 class unary_function_output
  : public base_output
 {
+private:
+	friend class unary_function_node;
+
+	input_with_const_default<float[4]> _input;
+	unary_function _func;
 public:
-	input_with_const_default<float[4]> input;
-	unary_function func;
 
 	unary_function_output(node_intf& parent, unary_function);
 
@@ -66,21 +69,22 @@ public:
 class unary_function_node
  : public unary_single_output_node<
 	unary_function_output,
-	decltype(unary_function_output::input), &unary_function_output::input
+	decltype(unary_function_output::_input),
+	&unary_function_output::_input
 >
 {
 public:
 	unary_function_node&
 	set_function(unary_function func)
 	{
-		_output.func = func;
+		_output._func = func;
 		return *this;
 	}
 
 	unary_function_node&
 	set_value(float x, float y, float z, float w)
 	{
-		_output.input.fallback().set(x, y, z, w);
+		_output._input.fallback().set(x, y, z, w);
 		return *this;
 	}
 };
@@ -109,11 +113,13 @@ enum class binary_function
 class binary_function_output
  : public base_output
 {
-public:
-	input_with_const_default<float[4]> input_a;
-	input_with_const_default<float[4]> input_b;
-	binary_function func;
+private:
+	friend class binary_function_node;
 
+	input_with_const_default<float[4]> _input_a;
+	input_with_const_default<float[4]> _input_b;
+	binary_function _func;
+public:
 	binary_function_output(node_intf& parent, binary_function);
 
 	binary_function_output(node_intf& parent)
@@ -133,31 +139,31 @@ public:
 class binary_function_node
  : public binary_single_output_node<
 	binary_function_output,
-	decltype(binary_function_output::input_a),
-	&binary_function_output::input_a,
-	decltype(binary_function_output::input_b),
-	&binary_function_output::input_b
+	decltype(binary_function_output::_input_a),
+	&binary_function_output::_input_a,
+	decltype(binary_function_output::_input_b),
+	&binary_function_output::_input_b
 >
 {
 public:
 	binary_function_node&
 	set_function(binary_function func)
 	{
-		_output.func = func;
+		_output._func = func;
 		return *this;
 	}
 
 	binary_function_node&
 	set_value_a(float x, float y, float z, float w)
 	{
-		_output.input_a.fallback().set(x, y, z, w);
+		_output._input_a.fallback().set(x, y, z, w);
 		return *this;
 	}
 
 	binary_function_node&
 	set_value_b(float x, float y, float z, float w)
 	{
-		_output.input_b.fallback().set(x, y, z, w);
+		_output._input_b.fallback().set(x, y, z, w);
 		return *this;
 	}
 };

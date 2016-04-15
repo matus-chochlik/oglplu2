@@ -33,6 +33,12 @@ public:
 	input_intf& input(std::size_t)
 	override;
 
+	bool can_add_input(void)
+	override;
+
+	void add_input(const cstr_ref&)
+	override;
+
 	std::size_t output_count(void)
 	override;
 

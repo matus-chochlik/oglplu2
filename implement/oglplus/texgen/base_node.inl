@@ -29,6 +29,20 @@ base_node::input(std::size_t)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
+bool
+base_node::can_add_input(void)
+{
+	return false;
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+void
+base_node::add_input(const cstr_ref&)
+{
+	EAGINE_ABORT("Node cannot add any inputs");
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
 std::size_t
 base_node::output_count(void)
 {

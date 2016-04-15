@@ -1,13 +1,11 @@
 /**
- *  @file oglplus/texgen/unary_function_node.inl
+ *  @file oglplus/texgen/functional_node.inl
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include <set>
-#include <string>
 #include <iostream>
 #include <cassert>
 
@@ -18,15 +16,15 @@ OGLPLUS_LIB_FUNC
 unary_function_output::
 unary_function_output(node_intf& parent, unary_function fn)
  : base_output(parent)
- , input(parent, cstr_ref("Input"), 0.5f, 0.5f, 0.5f, 0.5f)
- , func(fn)
+ , _input(parent, cstr_ref("Input"), 0.5f, 0.5f, 0.5f, 0.5f)
+ , _func(fn)
 { }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 cstr_ref
 unary_function_output::type_name(void)
 {
-	switch(func)
+	switch(_func)
 	{
 		case unary_function::radians:
 			return cstr_ref("Radians");
@@ -77,14 +75,14 @@ OGLPLUS_LIB_FUNC
 slot_data_type
 unary_function_output::value_type(void)
 {
-	switch(func)
+	switch(_func)
 	{
 		case unary_function::length: return slot_data_type::float_;
 		default: break;
 	}
 	return make_data_type(
 		scalar_data_type::float_,
-		data_type_dims(input.value_type())
+		data_type_dims(_input.value_type())
 	);
 }
 //------------------------------------------------------------------------------
@@ -98,7 +96,7 @@ unary_function_output::definitions(std::ostream& out, compile_context& ctxt)
 	opening_expr(out, ctxt);
 
 	out << "\treturn ";
-	switch(func)
+	switch(_func)
 	{
 		case unary_function::radians:
 			out << "radians(";
@@ -164,8 +162,8 @@ unary_function_output::definitions(std::ostream& out, compile_context& ctxt)
 			out << "(";
 			break;
 	}
-	out << expr::output_id{input.output(), ctxt};
-	out << expr::render_param_pass{input.output()};
+	out << expr::output_id{_input.output(), ctxt};
+	out << expr::render_param_pass{_input.output()};
 	out << ");" << std::endl;
 
 	return closing_expr(out, ctxt);
@@ -175,16 +173,16 @@ OGLPLUS_LIB_FUNC
 binary_function_output::
 binary_function_output(node_intf& parent, binary_function fn)
  : base_output(parent)
- , input_a(parent, cstr_ref("A"), 0.f, 0.f, 0.f, 0.f)
- , input_b(parent, cstr_ref("B"), 1.f, 1.f, 1.f, 1.f)
- , func(fn)
+ , _input_a(parent, cstr_ref("A"), 0.f, 0.f, 0.f, 0.f)
+ , _input_b(parent, cstr_ref("B"), 1.f, 1.f, 1.f, 1.f)
+ , _func(fn)
 { }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 cstr_ref
 binary_function_output::type_name(void)
 {
-	switch(func)
+	switch(_func)
 	{
 		case binary_function::equal:
 			return cstr_ref("Equal");
@@ -228,7 +226,7 @@ OGLPLUS_LIB_FUNC
 slot_data_type
 binary_function_output::value_type(void)
 {
-	switch(func)
+	switch(_func)
 	{
 		case binary_function::distance: return slot_data_type::float_;
 		case binary_function::dot: return slot_data_type::float_;
@@ -236,7 +234,7 @@ binary_function_output::value_type(void)
 	}
 	return make_data_type(
 		scalar_data_type::float_,
-		common_dims(input_a.value_type(), input_b.value_type())
+		common_dims(_input_a.value_type(), _input_b.value_type())
 	);
 }
 //------------------------------------------------------------------------------
@@ -251,26 +249,26 @@ binary_function_output::definitions(std::ostream& out, compile_context& ctxt)
 
 	slot_data_type dta = make_data_type(
 		scalar_data_type::float_,
-		common_dims(input_a.value_type(), input_b.value_type())
+		common_dims(_input_a.value_type(), _input_b.value_type())
 	);
 	slot_data_type dtb = dta;
 
 	out << "\t" << data_type_name(dta) << " a = ";
-	out << expr::conversion_prefix{input_a.value_type(), dta};
-	out << expr::output_id{input_a.output(), ctxt};
-	out << expr::render_param_pass{input_a.output()};
-	out << expr::conversion_suffix{input_a.value_type(), dta};
+	out << expr::conversion_prefix{_input_a.value_type(), dta};
+	out << expr::output_id{_input_a.output(), ctxt};
+	out << expr::render_param_pass{_input_a.output()};
+	out << expr::conversion_suffix{_input_a.value_type(), dta};
 	out << ";" << std::endl;
 
 	out << "\t" << data_type_name(dtb) << " b = ";
-	out << expr::conversion_prefix{input_b.value_type(), dtb};
-	out << expr::output_id{input_b.output(), ctxt};
-	out << expr::render_param_pass{input_b.output()};
-	out << expr::conversion_suffix{input_b.value_type(), dtb};
+	out << expr::conversion_prefix{_input_b.value_type(), dtb};
+	out << expr::output_id{_input_b.output(), ctxt};
+	out << expr::render_param_pass{_input_b.output()};
+	out << expr::conversion_suffix{_input_b.value_type(), dtb};
 	out << ";" << std::endl;
 
 	out << "\treturn ";
-	switch(func)
+	switch(_func)
 	{
 		case binary_function::equal:
 			out << "(" << data_type_name(dta);
@@ -321,7 +319,7 @@ binary_function_output::definitions(std::ostream& out, compile_context& ctxt)
 
 	out << "a";
 
-	switch(func)
+	switch(_func)
 	{
 		case binary_function::equal:
 		case binary_function::not_equal:
@@ -348,7 +346,7 @@ binary_function_output::definitions(std::ostream& out, compile_context& ctxt)
 
 	out << "b";
 
-	switch(func)
+	switch(_func)
 	{
 		case binary_function::equal:
 			out << ")))";
