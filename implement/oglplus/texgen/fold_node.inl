@@ -15,8 +15,7 @@ namespace texgen {
 OGLPLUS_LIB_FUNC
 fold_output::
 fold_output(node_intf& parent, fold_function fn)
- : base_output(parent)
- , _input(parent, cstr_ref("Input"), 0.f, 0.f, 0.f, 0.f)
+ : multi_input_output(parent)
  , _func(fn)
 { }
 //------------------------------------------------------------------------------
@@ -40,23 +39,9 @@ fold_output::type_name(void)
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 slot_data_type
-fold_output::param_type(void)
-{
-	slot_data_type result = _input.value_type();
-
-	for(auto i = _inputs.begin(); i != _inputs.end(); ++i)
-	{
-		result = common_data_type(result, i->second.value_type());
-	}
-
-	return result;
-}
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-slot_data_type
 fold_output::value_type(void)
 {
-	return param_type();
+	return common_param_type();
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -68,7 +53,7 @@ fold_output::definitions(std::ostream& out, compile_context& ctxt)
 	input_defs(out, ctxt);
 	opening_expr(out, ctxt);
 
-	slot_data_type pt = param_type();
+	slot_data_type pt = common_param_type();
 
 	out << "\t" << data_type_name(pt) << " r = ";
 	out << expr::conversion_prefix{_input.value_type(), pt};
@@ -131,68 +116,9 @@ fold_output::definitions(std::ostream& out, compile_context& ctxt)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::size_t
-fold_node::input_count(void)
-{
-	return 1+_output._inputs.size();
-}
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-input_intf&
-fold_node::input(std::size_t index)
-{
-	if(index == 0) return _output._input;
-	assert(index < input_count());
-
-	auto p = _output._inputs.begin();
-	while(--index > 0)
-	{
-		assert(p != _output._inputs.end());
-		p++;
-	}
-	assert(p != _output._inputs.end());
-	return p->second;
-}
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-eagine::optional_reference_wrapper<input_intf>
-fold_node::input_by_name(const cstr_ref& name)
-{
-	auto p = _output._inputs.find(
-		std::string(name.data(), std::size_t(name.size()))
-	);
-	if(p != _output._inputs.end())
-	{
-		return p->second;
-	}
-	return nullptr;
-}
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-bool
-fold_node::can_add_input(void)
-{
-	return true;
-}
-//------------------------------------------------------------------------------
-OGLPLUS_LIB_FUNC
-input_with_const_default<float[4]>&
-fold_node::add_input(const cstr_ref& name)
-{
-	auto p = _output._inputs.emplace(
-		std::string(name.data(), std::size_t(name.size())),
-		input_with_const_default<float[4]>(
-			*this,
-			name,
-			0.f, 0.f, 0.f, 0.f
-		)
-	);
-	p.first->second.set_name(cstr_ref(
-		p.first->first.data(),
-		eagine::span_size_type(p.first->first.size())
-	));
-	return p.first->second;
-}
+fold_node::fold_node(void)
+ : _output(*this)
+{ }
 //------------------------------------------------------------------------------
 } // namespace texgen
 } // namespace oglplus
