@@ -36,10 +36,11 @@ base_node::can_add_input(void)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-void
+input_intf&
 base_node::add_input(const cstr_ref&)
 {
 	EAGINE_ABORT("Node cannot add any inputs");
+	return input(0);
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC

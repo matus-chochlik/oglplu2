@@ -52,6 +52,10 @@ public:
 
 struct input_intf
 {
+	input_intf(void) = default;
+	input_intf(input_intf&&) = default;
+	input_intf(const input_intf&) = default;
+
 	virtual
 	~input_intf(void)
 	noexcept { }
@@ -131,6 +135,10 @@ struct input_intf
 
 struct output_intf
 {
+	output_intf(void) = default;
+	output_intf(output_intf&&) = default;
+	output_intf(const output_intf&) = default;
+
 	virtual
 	~output_intf(void)
 	noexcept { }
@@ -194,6 +202,7 @@ struct node_intf
 	virtual
 	input_intf& input(std::size_t) = 0;
 
+	virtual
 	eagine::optional_reference_wrapper<input_intf>
 	input_by_name(const cstr_ref&);
 
@@ -201,7 +210,7 @@ struct node_intf
 	bool can_add_input(void) = 0;
 
 	virtual
-	void add_input(const cstr_ref&) = 0;
+	input_intf& add_input(const cstr_ref&) = 0;
 
 	std::ostream& input_definitions(std::ostream&, compile_context&);
 
@@ -211,6 +220,7 @@ struct node_intf
 	virtual
 	output_intf& output(std::size_t) = 0;
 
+	virtual
 	eagine::optional_reference_wrapper<output_intf>
 	output_by_name(const cstr_ref&);
 

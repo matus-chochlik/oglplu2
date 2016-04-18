@@ -22,6 +22,8 @@ class fallback_input
 private:
 	FallbackOutput _fallback;
 public:
+	fallback_input(fallback_input&&) = default;
+
 	fallback_input(node_intf& parent, const cstr_ref& name)
 	 : base_input(parent, name)
 	 , _fallback(parent)

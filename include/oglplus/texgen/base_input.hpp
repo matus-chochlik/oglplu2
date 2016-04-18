@@ -22,6 +22,8 @@ private:
 	cstr_ref _name;
 	output_intf* _output;
 public:
+	base_input(base_input&&) = default;
+
 	base_input(node_intf& par_node, const cstr_ref& name_str)
 	noexcept
 	 : _parent(par_node)
@@ -37,6 +39,12 @@ public:
 	noexcept
 	{
 		return _parent;
+	}
+
+	void set_name(const cstr_ref& name)
+	noexcept
+	{
+		_name = name;
 	}
 
 	cstr_ref name(void)

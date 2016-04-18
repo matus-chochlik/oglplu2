@@ -36,7 +36,7 @@ public:
 	bool can_add_input(void)
 	override;
 
-	void add_input(const cstr_ref&)
+	input_intf& add_input(const cstr_ref&)
 	override;
 
 	std::size_t output_count(void)

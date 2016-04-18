@@ -24,6 +24,8 @@ class constant_output_base
  : public base_output
 {
 public:
+	constant_output_base(constant_output_base&&) = default;
+
 	constant_output_base(node_intf& parent)
 	noexcept
 	 : base_output(parent)
@@ -50,6 +52,8 @@ class constant_output<T[N]>
 private:
 	std::array<T, N> _coords;
 public:
+	constant_output(constant_output&&) = default;
+
 	constant_output(node_intf& parent)
 	noexcept
 	 : constant_output_base(parent)
