@@ -83,6 +83,11 @@ BOOST_AUTO_TEST_CASE(str_var_subst_2)
 		substitute_variables(std::string("${A}_${B}-${C}+${D}"), dict),
 		std::string("1_2-3+4")
 	);
+
+	BOOST_CHECK_EQUAL(
+		substitute_variables(std::string("{${E}+${F}}"), dict),
+		std::string("{+}")
+	);
 }
 
 BOOST_AUTO_TEST_CASE(str_var_subst_3)
@@ -128,6 +133,26 @@ BOOST_AUTO_TEST_CASE(str_var_subst_3)
 		substitute_variables(
 			std::string("${${${${${B}+${B}}}-${${${A}+${B}}}}}"),
 			dict
+		), std::string("1")
+	);
+}
+
+BOOST_AUTO_TEST_CASE(str_var_subst_4)
+{
+	using namespace eagine;
+
+	string_variable_map vars;
+	vars	.set("A", "1")
+		.set("B", "2")
+		.set("C", "3")
+		.set("D", "4")
+		.set("1+2", "C")
+		.set("2+2", "D")
+		.set("4-3", "A");
+
+	BOOST_CHECK_EQUAL(
+		vars.subst_variables(
+			std::string("${${${${${B}+${B}}}-${${${A}+${B}}}}}")
 		), std::string("1")
 	);
 }

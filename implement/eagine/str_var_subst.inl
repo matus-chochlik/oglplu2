@@ -6,6 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <cstdlib>
 
 namespace eagine {
 //------------------------------------------------------------------------------
@@ -13,7 +14,7 @@ EAGINE_LIB_FUNC
 std::string
 substitute_variables(
 	const std::string& str,
-	const std::map<std::string, std::string>& dictionary
+	const std::function<std::string(const std::string&)>& translate
 )
 {
 	std::string::size_type p = str.find_first_of('$');
@@ -56,12 +57,12 @@ substitute_variables(
 			{
 				std::string sub = substitute_variables(
 					std::string(str.data()+p+2, r-p-2),
-					dictionary
+					translate
 				);
-				auto i = dictionary.find(sub);
-				if(i != dictionary.end())
+				std::string tmp = translate(sub);
+				if(!tmp.empty())
 				{
-					res.append(i->second);
+					res.append(tmp);
 				}
 				p = r+1;
 			}
@@ -82,6 +83,33 @@ substitute_variables(
 		return res;
 	}
 	return str;
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+std::string
+substitute_variables(
+	const std::string& str,
+	const std::map<std::string, std::string>& dictionary
+)
+{
+	std::function<std::string(const std::string&)> translate =
+	[&dictionary](const std::string& key) -> std::string
+	{
+		auto i = dictionary.find(key);
+		if(i != dictionary.end())
+		{
+			return i->second;
+		}
+		return {};
+	};
+	return substitute_variables(str, translate);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+std::string
+environment_variable_map::_translate(const std::string& name)
+{
+	return ::getenv(name.c_str());
 }
 //------------------------------------------------------------------------------
 } // namespace eagine
