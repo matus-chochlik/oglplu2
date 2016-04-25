@@ -109,7 +109,8 @@ EAGINE_LIB_FUNC
 std::string
 environment_variable_map::_translate(const std::string& name)
 {
-	return ::getenv(name.c_str());
+	const char* ptr = ::getenv(name.c_str());
+	return ptr?std::string(ptr):std::string();
 }
 //------------------------------------------------------------------------------
 } // namespace eagine
