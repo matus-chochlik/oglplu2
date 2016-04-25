@@ -39,9 +39,6 @@ BOOST_AUTO_TEST_CASE(enum_context_flag_bits_values)
 
 #ifdef GL_CONTEXT_FLAG_FORWARD_COMPATIBLE_BIT
 	x = ev.context_flag_forward_compatible_bit;
-# ifdef GL_CONTEXT_FLAG_DEBUG_BIT
-	BOOST_CHECK(x != ev.context_flag_debug_bit);
-# endif
 	BOOST_CHECK(x == ev.context_flag_forward_compatible_bit);
 # ifdef GL_CONTEXT_FLAG_ROBUST_ACCESS_BIT_ARB
 	BOOST_CHECK(x != ev.context_flag_robust_access_bit);
@@ -50,12 +47,6 @@ BOOST_AUTO_TEST_CASE(enum_context_flag_bits_values)
 
 #ifdef GL_CONTEXT_FLAG_ROBUST_ACCESS_BIT_ARB
 	x = ev.context_flag_robust_access_bit;
-# ifdef GL_CONTEXT_FLAG_DEBUG_BIT
-	BOOST_CHECK(x != ev.context_flag_debug_bit);
-# endif
-# ifdef GL_CONTEXT_FLAG_FORWARD_COMPATIBLE_BIT
-	BOOST_CHECK(x != ev.context_flag_forward_compatible_bit);
-# endif
 	BOOST_CHECK(x == ev.context_flag_robust_access_bit);
 #endif
 }

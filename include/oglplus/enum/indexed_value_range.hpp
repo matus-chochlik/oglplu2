@@ -46,7 +46,7 @@ public:
 	}
 
 	limited_value_range(void)
-	 : limited_value_range(get_limit(identity<_lv_t>()).get())
+	 : limited_value_range(get_limit(identity<_lv_t>()).value())
 	{ }
 
 	typedef eagine::transforming_iterator<

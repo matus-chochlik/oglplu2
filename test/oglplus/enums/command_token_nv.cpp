@@ -87,9 +87,6 @@ BOOST_AUTO_TEST_CASE(enum_command_token_nv_values)
 
 #ifdef GL_ATTRIBUTE_ADDRESS_COMMAND_NV
 	x = ev.attribute_address_command_nv;
-# ifdef GL_ALPHA_REF_COMMAND_NV
-	BOOST_CHECK(x != ev.alpha_ref_command_nv);
-# endif
 	BOOST_CHECK(x == ev.attribute_address_command_nv);
 # ifdef GL_BLEND_COLOR_COMMAND_NV
 	BOOST_CHECK(x != ev.blend_color_command_nv);
@@ -146,12 +143,6 @@ BOOST_AUTO_TEST_CASE(enum_command_token_nv_values)
 
 #ifdef GL_BLEND_COLOR_COMMAND_NV
 	x = ev.blend_color_command_nv;
-# ifdef GL_ALPHA_REF_COMMAND_NV
-	BOOST_CHECK(x != ev.alpha_ref_command_nv);
-# endif
-# ifdef GL_ATTRIBUTE_ADDRESS_COMMAND_NV
-	BOOST_CHECK(x != ev.attribute_address_command_nv);
-# endif
 	BOOST_CHECK(x == ev.blend_color_command_nv);
 # ifdef GL_DRAW_ARRAYS_COMMAND_NV
 	BOOST_CHECK(x != ev.draw_arrays_command_nv);
@@ -205,15 +196,6 @@ BOOST_AUTO_TEST_CASE(enum_command_token_nv_values)
 
 #ifdef GL_DRAW_ARRAYS_COMMAND_NV
 	x = ev.draw_arrays_command_nv;
-# ifdef GL_ALPHA_REF_COMMAND_NV
-	BOOST_CHECK(x != ev.alpha_ref_command_nv);
-# endif
-# ifdef GL_ATTRIBUTE_ADDRESS_COMMAND_NV
-	BOOST_CHECK(x != ev.attribute_address_command_nv);
-# endif
-# ifdef GL_BLEND_COLOR_COMMAND_NV
-	BOOST_CHECK(x != ev.blend_color_command_nv);
-# endif
 	BOOST_CHECK(x == ev.draw_arrays_command_nv);
 # ifdef GL_DRAW_ARRAYS_INSTANCED_COMMAND_NV
 	BOOST_CHECK(x != ev.draw_arrays_instanced_command_nv);
@@ -264,18 +246,6 @@ BOOST_AUTO_TEST_CASE(enum_command_token_nv_values)
 
 #ifdef GL_DRAW_ARRAYS_INSTANCED_COMMAND_NV
 	x = ev.draw_arrays_instanced_command_nv;
-# ifdef GL_ALPHA_REF_COMMAND_NV
-	BOOST_CHECK(x != ev.alpha_ref_command_nv);
-# endif
-# ifdef GL_ATTRIBUTE_ADDRESS_COMMAND_NV
-	BOOST_CHECK(x != ev.attribute_address_command_nv);
-# endif
-# ifdef GL_BLEND_COLOR_COMMAND_NV
-	BOOST_CHECK(x != ev.blend_color_command_nv);
-# endif
-# ifdef GL_DRAW_ARRAYS_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_arrays_command_nv);
-# endif
 	BOOST_CHECK(x == ev.draw_arrays_instanced_command_nv);
 # ifdef GL_DRAW_ARRAYS_STRIP_COMMAND_NV
 	BOOST_CHECK(x != ev.draw_arrays_strip_command_nv);
@@ -323,21 +293,6 @@ BOOST_AUTO_TEST_CASE(enum_command_token_nv_values)
 
 #ifdef GL_DRAW_ARRAYS_STRIP_COMMAND_NV
 	x = ev.draw_arrays_strip_command_nv;
-# ifdef GL_ALPHA_REF_COMMAND_NV
-	BOOST_CHECK(x != ev.alpha_ref_command_nv);
-# endif
-# ifdef GL_ATTRIBUTE_ADDRESS_COMMAND_NV
-	BOOST_CHECK(x != ev.attribute_address_command_nv);
-# endif
-# ifdef GL_BLEND_COLOR_COMMAND_NV
-	BOOST_CHECK(x != ev.blend_color_command_nv);
-# endif
-# ifdef GL_DRAW_ARRAYS_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_arrays_command_nv);
-# endif
-# ifdef GL_DRAW_ARRAYS_INSTANCED_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_arrays_instanced_command_nv);
-# endif
 	BOOST_CHECK(x == ev.draw_arrays_strip_command_nv);
 # ifdef GL_DRAW_ELEMENTS_COMMAND_NV
 	BOOST_CHECK(x != ev.draw_elements_command_nv);
@@ -382,24 +337,6 @@ BOOST_AUTO_TEST_CASE(enum_command_token_nv_values)
 
 #ifdef GL_DRAW_ELEMENTS_COMMAND_NV
 	x = ev.draw_elements_command_nv;
-# ifdef GL_ALPHA_REF_COMMAND_NV
-	BOOST_CHECK(x != ev.alpha_ref_command_nv);
-# endif
-# ifdef GL_ATTRIBUTE_ADDRESS_COMMAND_NV
-	BOOST_CHECK(x != ev.attribute_address_command_nv);
-# endif
-# ifdef GL_BLEND_COLOR_COMMAND_NV
-	BOOST_CHECK(x != ev.blend_color_command_nv);
-# endif
-# ifdef GL_DRAW_ARRAYS_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_arrays_command_nv);
-# endif
-# ifdef GL_DRAW_ARRAYS_INSTANCED_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_arrays_instanced_command_nv);
-# endif
-# ifdef GL_DRAW_ARRAYS_STRIP_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_arrays_strip_command_nv);
-# endif
 	BOOST_CHECK(x == ev.draw_elements_command_nv);
 # ifdef GL_DRAW_ELEMENTS_INSTANCED_COMMAND_NV
 	BOOST_CHECK(x != ev.draw_elements_instanced_command_nv);
@@ -441,27 +378,6 @@ BOOST_AUTO_TEST_CASE(enum_command_token_nv_values)
 
 #ifdef GL_DRAW_ELEMENTS_INSTANCED_COMMAND_NV
 	x = ev.draw_elements_instanced_command_nv;
-# ifdef GL_ALPHA_REF_COMMAND_NV
-	BOOST_CHECK(x != ev.alpha_ref_command_nv);
-# endif
-# ifdef GL_ATTRIBUTE_ADDRESS_COMMAND_NV
-	BOOST_CHECK(x != ev.attribute_address_command_nv);
-# endif
-# ifdef GL_BLEND_COLOR_COMMAND_NV
-	BOOST_CHECK(x != ev.blend_color_command_nv);
-# endif
-# ifdef GL_DRAW_ARRAYS_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_arrays_command_nv);
-# endif
-# ifdef GL_DRAW_ARRAYS_INSTANCED_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_arrays_instanced_command_nv);
-# endif
-# ifdef GL_DRAW_ARRAYS_STRIP_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_arrays_strip_command_nv);
-# endif
-# ifdef GL_DRAW_ELEMENTS_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_elements_command_nv);
-# endif
 	BOOST_CHECK(x == ev.draw_elements_instanced_command_nv);
 # ifdef GL_DRAW_ELEMENTS_STRIP_COMMAND_NV
 	BOOST_CHECK(x != ev.draw_elements_strip_command_nv);
@@ -500,30 +416,6 @@ BOOST_AUTO_TEST_CASE(enum_command_token_nv_values)
 
 #ifdef GL_DRAW_ELEMENTS_STRIP_COMMAND_NV
 	x = ev.draw_elements_strip_command_nv;
-# ifdef GL_ALPHA_REF_COMMAND_NV
-	BOOST_CHECK(x != ev.alpha_ref_command_nv);
-# endif
-# ifdef GL_ATTRIBUTE_ADDRESS_COMMAND_NV
-	BOOST_CHECK(x != ev.attribute_address_command_nv);
-# endif
-# ifdef GL_BLEND_COLOR_COMMAND_NV
-	BOOST_CHECK(x != ev.blend_color_command_nv);
-# endif
-# ifdef GL_DRAW_ARRAYS_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_arrays_command_nv);
-# endif
-# ifdef GL_DRAW_ARRAYS_INSTANCED_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_arrays_instanced_command_nv);
-# endif
-# ifdef GL_DRAW_ARRAYS_STRIP_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_arrays_strip_command_nv);
-# endif
-# ifdef GL_DRAW_ELEMENTS_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_elements_command_nv);
-# endif
-# ifdef GL_DRAW_ELEMENTS_INSTANCED_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_elements_instanced_command_nv);
-# endif
 	BOOST_CHECK(x == ev.draw_elements_strip_command_nv);
 # ifdef GL_ELEMENT_ADDRESS_COMMAND_NV
 	BOOST_CHECK(x != ev.element_address_command_nv);
@@ -559,33 +451,6 @@ BOOST_AUTO_TEST_CASE(enum_command_token_nv_values)
 
 #ifdef GL_ELEMENT_ADDRESS_COMMAND_NV
 	x = ev.element_address_command_nv;
-# ifdef GL_ALPHA_REF_COMMAND_NV
-	BOOST_CHECK(x != ev.alpha_ref_command_nv);
-# endif
-# ifdef GL_ATTRIBUTE_ADDRESS_COMMAND_NV
-	BOOST_CHECK(x != ev.attribute_address_command_nv);
-# endif
-# ifdef GL_BLEND_COLOR_COMMAND_NV
-	BOOST_CHECK(x != ev.blend_color_command_nv);
-# endif
-# ifdef GL_DRAW_ARRAYS_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_arrays_command_nv);
-# endif
-# ifdef GL_DRAW_ARRAYS_INSTANCED_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_arrays_instanced_command_nv);
-# endif
-# ifdef GL_DRAW_ARRAYS_STRIP_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_arrays_strip_command_nv);
-# endif
-# ifdef GL_DRAW_ELEMENTS_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_elements_command_nv);
-# endif
-# ifdef GL_DRAW_ELEMENTS_INSTANCED_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_elements_instanced_command_nv);
-# endif
-# ifdef GL_DRAW_ELEMENTS_STRIP_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_elements_strip_command_nv);
-# endif
 	BOOST_CHECK(x == ev.element_address_command_nv);
 # ifdef GL_FRONT_FACE_COMMAND_NV
 	BOOST_CHECK(x != ev.front_face_command_nv);
@@ -618,36 +483,6 @@ BOOST_AUTO_TEST_CASE(enum_command_token_nv_values)
 
 #ifdef GL_FRONT_FACE_COMMAND_NV
 	x = ev.front_face_command_nv;
-# ifdef GL_ALPHA_REF_COMMAND_NV
-	BOOST_CHECK(x != ev.alpha_ref_command_nv);
-# endif
-# ifdef GL_ATTRIBUTE_ADDRESS_COMMAND_NV
-	BOOST_CHECK(x != ev.attribute_address_command_nv);
-# endif
-# ifdef GL_BLEND_COLOR_COMMAND_NV
-	BOOST_CHECK(x != ev.blend_color_command_nv);
-# endif
-# ifdef GL_DRAW_ARRAYS_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_arrays_command_nv);
-# endif
-# ifdef GL_DRAW_ARRAYS_INSTANCED_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_arrays_instanced_command_nv);
-# endif
-# ifdef GL_DRAW_ARRAYS_STRIP_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_arrays_strip_command_nv);
-# endif
-# ifdef GL_DRAW_ELEMENTS_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_elements_command_nv);
-# endif
-# ifdef GL_DRAW_ELEMENTS_INSTANCED_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_elements_instanced_command_nv);
-# endif
-# ifdef GL_DRAW_ELEMENTS_STRIP_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_elements_strip_command_nv);
-# endif
-# ifdef GL_ELEMENT_ADDRESS_COMMAND_NV
-	BOOST_CHECK(x != ev.element_address_command_nv);
-# endif
 	BOOST_CHECK(x == ev.front_face_command_nv);
 # ifdef GL_LINE_WIDTH_COMMAND_NV
 	BOOST_CHECK(x != ev.line_width_command_nv);
@@ -677,39 +512,6 @@ BOOST_AUTO_TEST_CASE(enum_command_token_nv_values)
 
 #ifdef GL_LINE_WIDTH_COMMAND_NV
 	x = ev.line_width_command_nv;
-# ifdef GL_ALPHA_REF_COMMAND_NV
-	BOOST_CHECK(x != ev.alpha_ref_command_nv);
-# endif
-# ifdef GL_ATTRIBUTE_ADDRESS_COMMAND_NV
-	BOOST_CHECK(x != ev.attribute_address_command_nv);
-# endif
-# ifdef GL_BLEND_COLOR_COMMAND_NV
-	BOOST_CHECK(x != ev.blend_color_command_nv);
-# endif
-# ifdef GL_DRAW_ARRAYS_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_arrays_command_nv);
-# endif
-# ifdef GL_DRAW_ARRAYS_INSTANCED_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_arrays_instanced_command_nv);
-# endif
-# ifdef GL_DRAW_ARRAYS_STRIP_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_arrays_strip_command_nv);
-# endif
-# ifdef GL_DRAW_ELEMENTS_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_elements_command_nv);
-# endif
-# ifdef GL_DRAW_ELEMENTS_INSTANCED_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_elements_instanced_command_nv);
-# endif
-# ifdef GL_DRAW_ELEMENTS_STRIP_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_elements_strip_command_nv);
-# endif
-# ifdef GL_ELEMENT_ADDRESS_COMMAND_NV
-	BOOST_CHECK(x != ev.element_address_command_nv);
-# endif
-# ifdef GL_FRONT_FACE_COMMAND_NV
-	BOOST_CHECK(x != ev.front_face_command_nv);
-# endif
 	BOOST_CHECK(x == ev.line_width_command_nv);
 # ifdef GL_NOP_COMMAND_NV
 	BOOST_CHECK(x != ev.nop_command_nv);
@@ -736,42 +538,6 @@ BOOST_AUTO_TEST_CASE(enum_command_token_nv_values)
 
 #ifdef GL_NOP_COMMAND_NV
 	x = ev.nop_command_nv;
-# ifdef GL_ALPHA_REF_COMMAND_NV
-	BOOST_CHECK(x != ev.alpha_ref_command_nv);
-# endif
-# ifdef GL_ATTRIBUTE_ADDRESS_COMMAND_NV
-	BOOST_CHECK(x != ev.attribute_address_command_nv);
-# endif
-# ifdef GL_BLEND_COLOR_COMMAND_NV
-	BOOST_CHECK(x != ev.blend_color_command_nv);
-# endif
-# ifdef GL_DRAW_ARRAYS_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_arrays_command_nv);
-# endif
-# ifdef GL_DRAW_ARRAYS_INSTANCED_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_arrays_instanced_command_nv);
-# endif
-# ifdef GL_DRAW_ARRAYS_STRIP_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_arrays_strip_command_nv);
-# endif
-# ifdef GL_DRAW_ELEMENTS_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_elements_command_nv);
-# endif
-# ifdef GL_DRAW_ELEMENTS_INSTANCED_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_elements_instanced_command_nv);
-# endif
-# ifdef GL_DRAW_ELEMENTS_STRIP_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_elements_strip_command_nv);
-# endif
-# ifdef GL_ELEMENT_ADDRESS_COMMAND_NV
-	BOOST_CHECK(x != ev.element_address_command_nv);
-# endif
-# ifdef GL_FRONT_FACE_COMMAND_NV
-	BOOST_CHECK(x != ev.front_face_command_nv);
-# endif
-# ifdef GL_LINE_WIDTH_COMMAND_NV
-	BOOST_CHECK(x != ev.line_width_command_nv);
-# endif
 	BOOST_CHECK(x == ev.nop_command_nv);
 # ifdef GL_POLYGON_OFFSET_COMMAND_NV
 	BOOST_CHECK(x != ev.polygon_offset_command_nv);
@@ -795,45 +561,6 @@ BOOST_AUTO_TEST_CASE(enum_command_token_nv_values)
 
 #ifdef GL_POLYGON_OFFSET_COMMAND_NV
 	x = ev.polygon_offset_command_nv;
-# ifdef GL_ALPHA_REF_COMMAND_NV
-	BOOST_CHECK(x != ev.alpha_ref_command_nv);
-# endif
-# ifdef GL_ATTRIBUTE_ADDRESS_COMMAND_NV
-	BOOST_CHECK(x != ev.attribute_address_command_nv);
-# endif
-# ifdef GL_BLEND_COLOR_COMMAND_NV
-	BOOST_CHECK(x != ev.blend_color_command_nv);
-# endif
-# ifdef GL_DRAW_ARRAYS_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_arrays_command_nv);
-# endif
-# ifdef GL_DRAW_ARRAYS_INSTANCED_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_arrays_instanced_command_nv);
-# endif
-# ifdef GL_DRAW_ARRAYS_STRIP_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_arrays_strip_command_nv);
-# endif
-# ifdef GL_DRAW_ELEMENTS_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_elements_command_nv);
-# endif
-# ifdef GL_DRAW_ELEMENTS_INSTANCED_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_elements_instanced_command_nv);
-# endif
-# ifdef GL_DRAW_ELEMENTS_STRIP_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_elements_strip_command_nv);
-# endif
-# ifdef GL_ELEMENT_ADDRESS_COMMAND_NV
-	BOOST_CHECK(x != ev.element_address_command_nv);
-# endif
-# ifdef GL_FRONT_FACE_COMMAND_NV
-	BOOST_CHECK(x != ev.front_face_command_nv);
-# endif
-# ifdef GL_LINE_WIDTH_COMMAND_NV
-	BOOST_CHECK(x != ev.line_width_command_nv);
-# endif
-# ifdef GL_NOP_COMMAND_NV
-	BOOST_CHECK(x != ev.nop_command_nv);
-# endif
 	BOOST_CHECK(x == ev.polygon_offset_command_nv);
 # ifdef GL_SCISSOR_COMMAND_NV
 	BOOST_CHECK(x != ev.scissor_command_nv);
@@ -854,48 +581,6 @@ BOOST_AUTO_TEST_CASE(enum_command_token_nv_values)
 
 #ifdef GL_SCISSOR_COMMAND_NV
 	x = ev.scissor_command_nv;
-# ifdef GL_ALPHA_REF_COMMAND_NV
-	BOOST_CHECK(x != ev.alpha_ref_command_nv);
-# endif
-# ifdef GL_ATTRIBUTE_ADDRESS_COMMAND_NV
-	BOOST_CHECK(x != ev.attribute_address_command_nv);
-# endif
-# ifdef GL_BLEND_COLOR_COMMAND_NV
-	BOOST_CHECK(x != ev.blend_color_command_nv);
-# endif
-# ifdef GL_DRAW_ARRAYS_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_arrays_command_nv);
-# endif
-# ifdef GL_DRAW_ARRAYS_INSTANCED_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_arrays_instanced_command_nv);
-# endif
-# ifdef GL_DRAW_ARRAYS_STRIP_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_arrays_strip_command_nv);
-# endif
-# ifdef GL_DRAW_ELEMENTS_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_elements_command_nv);
-# endif
-# ifdef GL_DRAW_ELEMENTS_INSTANCED_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_elements_instanced_command_nv);
-# endif
-# ifdef GL_DRAW_ELEMENTS_STRIP_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_elements_strip_command_nv);
-# endif
-# ifdef GL_ELEMENT_ADDRESS_COMMAND_NV
-	BOOST_CHECK(x != ev.element_address_command_nv);
-# endif
-# ifdef GL_FRONT_FACE_COMMAND_NV
-	BOOST_CHECK(x != ev.front_face_command_nv);
-# endif
-# ifdef GL_LINE_WIDTH_COMMAND_NV
-	BOOST_CHECK(x != ev.line_width_command_nv);
-# endif
-# ifdef GL_NOP_COMMAND_NV
-	BOOST_CHECK(x != ev.nop_command_nv);
-# endif
-# ifdef GL_POLYGON_OFFSET_COMMAND_NV
-	BOOST_CHECK(x != ev.polygon_offset_command_nv);
-# endif
 	BOOST_CHECK(x == ev.scissor_command_nv);
 # ifdef GL_STENCIL_REF_COMMAND_NV
 	BOOST_CHECK(x != ev.stencil_ref_command_nv);
@@ -913,51 +598,6 @@ BOOST_AUTO_TEST_CASE(enum_command_token_nv_values)
 
 #ifdef GL_STENCIL_REF_COMMAND_NV
 	x = ev.stencil_ref_command_nv;
-# ifdef GL_ALPHA_REF_COMMAND_NV
-	BOOST_CHECK(x != ev.alpha_ref_command_nv);
-# endif
-# ifdef GL_ATTRIBUTE_ADDRESS_COMMAND_NV
-	BOOST_CHECK(x != ev.attribute_address_command_nv);
-# endif
-# ifdef GL_BLEND_COLOR_COMMAND_NV
-	BOOST_CHECK(x != ev.blend_color_command_nv);
-# endif
-# ifdef GL_DRAW_ARRAYS_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_arrays_command_nv);
-# endif
-# ifdef GL_DRAW_ARRAYS_INSTANCED_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_arrays_instanced_command_nv);
-# endif
-# ifdef GL_DRAW_ARRAYS_STRIP_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_arrays_strip_command_nv);
-# endif
-# ifdef GL_DRAW_ELEMENTS_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_elements_command_nv);
-# endif
-# ifdef GL_DRAW_ELEMENTS_INSTANCED_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_elements_instanced_command_nv);
-# endif
-# ifdef GL_DRAW_ELEMENTS_STRIP_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_elements_strip_command_nv);
-# endif
-# ifdef GL_ELEMENT_ADDRESS_COMMAND_NV
-	BOOST_CHECK(x != ev.element_address_command_nv);
-# endif
-# ifdef GL_FRONT_FACE_COMMAND_NV
-	BOOST_CHECK(x != ev.front_face_command_nv);
-# endif
-# ifdef GL_LINE_WIDTH_COMMAND_NV
-	BOOST_CHECK(x != ev.line_width_command_nv);
-# endif
-# ifdef GL_NOP_COMMAND_NV
-	BOOST_CHECK(x != ev.nop_command_nv);
-# endif
-# ifdef GL_POLYGON_OFFSET_COMMAND_NV
-	BOOST_CHECK(x != ev.polygon_offset_command_nv);
-# endif
-# ifdef GL_SCISSOR_COMMAND_NV
-	BOOST_CHECK(x != ev.scissor_command_nv);
-# endif
 	BOOST_CHECK(x == ev.stencil_ref_command_nv);
 # ifdef GL_TERMINATE_SEQUENCE_COMMAND_NV
 	BOOST_CHECK(x != ev.terminate_sequence_command_nv);
@@ -972,54 +612,6 @@ BOOST_AUTO_TEST_CASE(enum_command_token_nv_values)
 
 #ifdef GL_TERMINATE_SEQUENCE_COMMAND_NV
 	x = ev.terminate_sequence_command_nv;
-# ifdef GL_ALPHA_REF_COMMAND_NV
-	BOOST_CHECK(x != ev.alpha_ref_command_nv);
-# endif
-# ifdef GL_ATTRIBUTE_ADDRESS_COMMAND_NV
-	BOOST_CHECK(x != ev.attribute_address_command_nv);
-# endif
-# ifdef GL_BLEND_COLOR_COMMAND_NV
-	BOOST_CHECK(x != ev.blend_color_command_nv);
-# endif
-# ifdef GL_DRAW_ARRAYS_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_arrays_command_nv);
-# endif
-# ifdef GL_DRAW_ARRAYS_INSTANCED_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_arrays_instanced_command_nv);
-# endif
-# ifdef GL_DRAW_ARRAYS_STRIP_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_arrays_strip_command_nv);
-# endif
-# ifdef GL_DRAW_ELEMENTS_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_elements_command_nv);
-# endif
-# ifdef GL_DRAW_ELEMENTS_INSTANCED_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_elements_instanced_command_nv);
-# endif
-# ifdef GL_DRAW_ELEMENTS_STRIP_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_elements_strip_command_nv);
-# endif
-# ifdef GL_ELEMENT_ADDRESS_COMMAND_NV
-	BOOST_CHECK(x != ev.element_address_command_nv);
-# endif
-# ifdef GL_FRONT_FACE_COMMAND_NV
-	BOOST_CHECK(x != ev.front_face_command_nv);
-# endif
-# ifdef GL_LINE_WIDTH_COMMAND_NV
-	BOOST_CHECK(x != ev.line_width_command_nv);
-# endif
-# ifdef GL_NOP_COMMAND_NV
-	BOOST_CHECK(x != ev.nop_command_nv);
-# endif
-# ifdef GL_POLYGON_OFFSET_COMMAND_NV
-	BOOST_CHECK(x != ev.polygon_offset_command_nv);
-# endif
-# ifdef GL_SCISSOR_COMMAND_NV
-	BOOST_CHECK(x != ev.scissor_command_nv);
-# endif
-# ifdef GL_STENCIL_REF_COMMAND_NV
-	BOOST_CHECK(x != ev.stencil_ref_command_nv);
-# endif
 	BOOST_CHECK(x == ev.terminate_sequence_command_nv);
 # ifdef GL_UNIFORM_ADDRESS_COMMAND_NV
 	BOOST_CHECK(x != ev.uniform_address_command_nv);
@@ -1031,57 +623,6 @@ BOOST_AUTO_TEST_CASE(enum_command_token_nv_values)
 
 #ifdef GL_UNIFORM_ADDRESS_COMMAND_NV
 	x = ev.uniform_address_command_nv;
-# ifdef GL_ALPHA_REF_COMMAND_NV
-	BOOST_CHECK(x != ev.alpha_ref_command_nv);
-# endif
-# ifdef GL_ATTRIBUTE_ADDRESS_COMMAND_NV
-	BOOST_CHECK(x != ev.attribute_address_command_nv);
-# endif
-# ifdef GL_BLEND_COLOR_COMMAND_NV
-	BOOST_CHECK(x != ev.blend_color_command_nv);
-# endif
-# ifdef GL_DRAW_ARRAYS_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_arrays_command_nv);
-# endif
-# ifdef GL_DRAW_ARRAYS_INSTANCED_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_arrays_instanced_command_nv);
-# endif
-# ifdef GL_DRAW_ARRAYS_STRIP_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_arrays_strip_command_nv);
-# endif
-# ifdef GL_DRAW_ELEMENTS_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_elements_command_nv);
-# endif
-# ifdef GL_DRAW_ELEMENTS_INSTANCED_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_elements_instanced_command_nv);
-# endif
-# ifdef GL_DRAW_ELEMENTS_STRIP_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_elements_strip_command_nv);
-# endif
-# ifdef GL_ELEMENT_ADDRESS_COMMAND_NV
-	BOOST_CHECK(x != ev.element_address_command_nv);
-# endif
-# ifdef GL_FRONT_FACE_COMMAND_NV
-	BOOST_CHECK(x != ev.front_face_command_nv);
-# endif
-# ifdef GL_LINE_WIDTH_COMMAND_NV
-	BOOST_CHECK(x != ev.line_width_command_nv);
-# endif
-# ifdef GL_NOP_COMMAND_NV
-	BOOST_CHECK(x != ev.nop_command_nv);
-# endif
-# ifdef GL_POLYGON_OFFSET_COMMAND_NV
-	BOOST_CHECK(x != ev.polygon_offset_command_nv);
-# endif
-# ifdef GL_SCISSOR_COMMAND_NV
-	BOOST_CHECK(x != ev.scissor_command_nv);
-# endif
-# ifdef GL_STENCIL_REF_COMMAND_NV
-	BOOST_CHECK(x != ev.stencil_ref_command_nv);
-# endif
-# ifdef GL_TERMINATE_SEQUENCE_COMMAND_NV
-	BOOST_CHECK(x != ev.terminate_sequence_command_nv);
-# endif
 	BOOST_CHECK(x == ev.uniform_address_command_nv);
 # ifdef GL_VIEWPORT_COMMAND_NV
 	BOOST_CHECK(x != ev.viewport_command_nv);
@@ -1090,60 +631,6 @@ BOOST_AUTO_TEST_CASE(enum_command_token_nv_values)
 
 #ifdef GL_VIEWPORT_COMMAND_NV
 	x = ev.viewport_command_nv;
-# ifdef GL_ALPHA_REF_COMMAND_NV
-	BOOST_CHECK(x != ev.alpha_ref_command_nv);
-# endif
-# ifdef GL_ATTRIBUTE_ADDRESS_COMMAND_NV
-	BOOST_CHECK(x != ev.attribute_address_command_nv);
-# endif
-# ifdef GL_BLEND_COLOR_COMMAND_NV
-	BOOST_CHECK(x != ev.blend_color_command_nv);
-# endif
-# ifdef GL_DRAW_ARRAYS_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_arrays_command_nv);
-# endif
-# ifdef GL_DRAW_ARRAYS_INSTANCED_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_arrays_instanced_command_nv);
-# endif
-# ifdef GL_DRAW_ARRAYS_STRIP_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_arrays_strip_command_nv);
-# endif
-# ifdef GL_DRAW_ELEMENTS_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_elements_command_nv);
-# endif
-# ifdef GL_DRAW_ELEMENTS_INSTANCED_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_elements_instanced_command_nv);
-# endif
-# ifdef GL_DRAW_ELEMENTS_STRIP_COMMAND_NV
-	BOOST_CHECK(x != ev.draw_elements_strip_command_nv);
-# endif
-# ifdef GL_ELEMENT_ADDRESS_COMMAND_NV
-	BOOST_CHECK(x != ev.element_address_command_nv);
-# endif
-# ifdef GL_FRONT_FACE_COMMAND_NV
-	BOOST_CHECK(x != ev.front_face_command_nv);
-# endif
-# ifdef GL_LINE_WIDTH_COMMAND_NV
-	BOOST_CHECK(x != ev.line_width_command_nv);
-# endif
-# ifdef GL_NOP_COMMAND_NV
-	BOOST_CHECK(x != ev.nop_command_nv);
-# endif
-# ifdef GL_POLYGON_OFFSET_COMMAND_NV
-	BOOST_CHECK(x != ev.polygon_offset_command_nv);
-# endif
-# ifdef GL_SCISSOR_COMMAND_NV
-	BOOST_CHECK(x != ev.scissor_command_nv);
-# endif
-# ifdef GL_STENCIL_REF_COMMAND_NV
-	BOOST_CHECK(x != ev.stencil_ref_command_nv);
-# endif
-# ifdef GL_TERMINATE_SEQUENCE_COMMAND_NV
-	BOOST_CHECK(x != ev.terminate_sequence_command_nv);
-# endif
-# ifdef GL_UNIFORM_ADDRESS_COMMAND_NV
-	BOOST_CHECK(x != ev.uniform_address_command_nv);
-# endif
 	BOOST_CHECK(x == ev.viewport_command_nv);
 #endif
 }

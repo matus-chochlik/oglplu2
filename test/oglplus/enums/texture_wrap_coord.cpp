@@ -39,9 +39,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_wrap_coord_values)
 
 #ifdef GL_TEXTURE_WRAP_S
 	x = ev.texture_wrap_s;
-# ifdef GL_TEXTURE_WRAP_R
-	BOOST_CHECK(x != ev.texture_wrap_r);
-# endif
 	BOOST_CHECK(x == ev.texture_wrap_s);
 # ifdef GL_TEXTURE_WRAP_T
 	BOOST_CHECK(x != ev.texture_wrap_t);
@@ -50,12 +47,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_wrap_coord_values)
 
 #ifdef GL_TEXTURE_WRAP_T
 	x = ev.texture_wrap_t;
-# ifdef GL_TEXTURE_WRAP_R
-	BOOST_CHECK(x != ev.texture_wrap_r);
-# endif
-# ifdef GL_TEXTURE_WRAP_S
-	BOOST_CHECK(x != ev.texture_wrap_s);
-# endif
 	BOOST_CHECK(x == ev.texture_wrap_t);
 #endif
 }

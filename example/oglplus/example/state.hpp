@@ -42,15 +42,13 @@ public:
 		_new_user_idle = true;
 	}
 
-	bool set_width(int new_width)
+	bool set_width(valid_if_positive<int> new_width)
 	noexcept
 	{
-		if(new_width < 1) new_width = 1;
-
 		_old_width = _new_width;
-		if(_new_width != new_width)
+		if(_new_width != new_width.value())
 		{
-			_new_width =  new_width;
+			_new_width =  new_width.value();
 			_usr_act_time = _new_time;
 			_new_user_idle = false;
 			return true;
@@ -58,15 +56,13 @@ public:
 		return false;
 	}
 
-	bool set_height(int new_height)
+	bool set_height(valid_if_positive<int> new_height)
 	noexcept
 	{
-		if(new_height < 1) new_height = 1;
-
 		_old_height = _new_height;
-		if(_new_height != new_height)
+		if(_new_height != new_height.value())
 		{
-			_new_height =  new_height;
+			_new_height =  new_height.value();
 			_usr_act_time = _new_time;
 			_new_user_idle = false;
 			return true;
@@ -74,15 +70,13 @@ public:
 		return false;
 	}
 
-	bool set_depth(int new_depth)
+	bool set_depth(valid_if_positive<int> new_depth)
 	noexcept
 	{
-		if(new_depth < 1) new_depth = 1;
-
 		_old_depth = _new_depth;
-		if(_new_depth != new_depth)
+		if(_new_depth != new_depth.value())
 		{
-			_new_depth =  new_depth;
+			_new_depth =  new_depth.value();
 			_usr_act_time = _new_time;
 			_new_user_idle = false;
 			return true;
@@ -125,8 +119,10 @@ public:
 		return first_tile();
 	}
 
-	bool set_size(int new_width, int new_height)
-	noexcept
+	bool set_size(
+		valid_if_positive<int> new_width,
+		valid_if_positive<int> new_height
+	) noexcept
 	{
 		bool ws = set_width(new_width);
 		bool hs = set_height(new_height);

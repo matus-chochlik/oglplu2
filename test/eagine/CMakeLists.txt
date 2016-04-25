@@ -20,6 +20,7 @@ add_runtime_test_dependency(eagine "enum_class_r" "enum_bitfield_r")
 add_runtime_test_dependency(eagine "make_view_r" "buffer_size_r")
 add_runtime_test_dependency(eagine "buffer_size_r" "buffer_data_r")
 add_runtime_test_dependency(eagine "array_size_r" "program_args_r")
+add_runtime_test_dependency(eagine "deep_copy_ptr_r" "any_iterator_r")
 
 # vect
 add_runtime_test_dependency(eagine "vect_data_r" "vect_fill_r")
@@ -58,3 +59,5 @@ add_runtime_test_dependency(eagine "memory_c_realloc_r" "memory_fallback_alloc_r
 add_runtime_test_dependency(eagine "memory_c_realloc_r" "memory_std_alloc_r")
 add_runtime_test_dependency(eagine "memory_stack_alloc_r" "memory_fallback_alloc_r")
 add_runtime_test_dependency(eagine "memory_stack_alloc_r" "memory_align_alloc_r")
+add_runtime_test_dependency(eagine "memory_block_r" "memory_buffer_r")
+add_runtime_test_dependency(eagine "memory_c_realloc_r" "memory_buffer_r")

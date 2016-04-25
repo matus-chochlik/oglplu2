@@ -266,7 +266,7 @@ texture_image_1d(
 	GLint border,
 	pixel_data_format format,
 	pixel_data_type type,
-	const_memory_block data
+	const_memory_block pixels
 ) noexcept
 {
 	OGLPLUS_GLFUNC(TexImage1D)(
@@ -277,7 +277,7 @@ texture_image_1d(
 		border,
 		GLenum(format),
 		GLenum(type),
-		data.addr()
+		pixels.data()
 	);
 	OGLPLUS_VERIFY(
 		TexImage1D,
@@ -322,7 +322,7 @@ texture_image_2d(
 	GLint border,
 	pixel_data_format format,
 	pixel_data_type type,
-	const_memory_block data
+	const_memory_block pixels
 ) noexcept
 {
 	OGLPLUS_GLFUNC(TexImage2D)(
@@ -334,7 +334,7 @@ texture_image_2d(
 		border,
 		GLenum(format),
 		GLenum(type),
-		data.addr()
+		pixels.data()
 	);
 	OGLPLUS_VERIFY(
 		TexImage2D,
@@ -381,7 +381,7 @@ texture_image_3d(
 	GLint border,
 	pixel_data_format format,
 	pixel_data_type type,
-	const_memory_block data
+	const_memory_block pixels
 ) noexcept
 {
 	OGLPLUS_GLFUNC(TexImage3D)(
@@ -394,7 +394,7 @@ texture_image_3d(
 		border,
 		GLenum(format),
 		GLenum(type),
-		data.addr()
+		pixels.data()
 	);
 	OGLPLUS_VERIFY(
 		TexImage3D,
@@ -441,7 +441,7 @@ texture_image_1d(
 	GLint border,
 	pixel_data_format format,
 	pixel_data_type type,
-	const_memory_block data
+	const_memory_block pixels
 ) noexcept
 {
 	OGLPLUS_GLFUNC(TextureImage1DEXT)(
@@ -453,7 +453,7 @@ texture_image_1d(
 		border,
 		GLenum(format),
 		GLenum(type),
-		data.addr()
+		pixels.data()
 	);
 	OGLPLUS_VERIFY(
 		TextureImage1DEXT,
@@ -498,7 +498,7 @@ texture_image_2d(
 	GLint border,
 	pixel_data_format format,
 	pixel_data_type type,
-	const_memory_block data
+	const_memory_block pixels
 ) noexcept
 {
 	OGLPLUS_GLFUNC(TextureImage2DEXT)(
@@ -511,7 +511,7 @@ texture_image_2d(
 		border,
 		GLenum(format),
 		GLenum(type),
-		data.addr()
+		pixels.data()
 	);
 	OGLPLUS_VERIFY(
 		TextureImage2DEXT,
@@ -558,7 +558,7 @@ texture_image_3d(
 	GLint border,
 	pixel_data_format format,
 	pixel_data_type type,
-	const_memory_block data
+	const_memory_block pixels
 ) noexcept
 {
 	OGLPLUS_GLFUNC(TextureImage3DEXT)(
@@ -572,7 +572,7 @@ texture_image_3d(
 		border,
 		GLenum(format),
 		GLenum(type),
-		data.addr()
+		pixels.data()
 	);
 	OGLPLUS_VERIFY(
 		TextureImage3DEXT,

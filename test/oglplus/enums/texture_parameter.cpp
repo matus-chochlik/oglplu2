@@ -111,9 +111,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_parameter_values)
 
 #ifdef GL_IMAGE_FORMAT_COMPATIBILITY_TYPE
 	x = ev.image_format_compatibility_type;
-# ifdef GL_DEPTH_STENCIL_TEXTURE_MODE
-	BOOST_CHECK(x != ev.depth_stencil_texture_mode);
-# endif
 	BOOST_CHECK(x == ev.image_format_compatibility_type);
 # ifdef GL_TEXTURE_BASE_LEVEL
 	BOOST_CHECK(x != ev.texture_base_level);
@@ -194,12 +191,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_parameter_values)
 
 #ifdef GL_TEXTURE_BASE_LEVEL
 	x = ev.texture_base_level;
-# ifdef GL_DEPTH_STENCIL_TEXTURE_MODE
-	BOOST_CHECK(x != ev.depth_stencil_texture_mode);
-# endif
-# ifdef GL_IMAGE_FORMAT_COMPATIBILITY_TYPE
-	BOOST_CHECK(x != ev.image_format_compatibility_type);
-# endif
 	BOOST_CHECK(x == ev.texture_base_level);
 # ifdef GL_TEXTURE_BORDER_COLOR
 	BOOST_CHECK(x != ev.texture_border_color);
@@ -277,15 +268,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_parameter_values)
 
 #ifdef GL_TEXTURE_BORDER_COLOR
 	x = ev.texture_border_color;
-# ifdef GL_DEPTH_STENCIL_TEXTURE_MODE
-	BOOST_CHECK(x != ev.depth_stencil_texture_mode);
-# endif
-# ifdef GL_IMAGE_FORMAT_COMPATIBILITY_TYPE
-	BOOST_CHECK(x != ev.image_format_compatibility_type);
-# endif
-# ifdef GL_TEXTURE_BASE_LEVEL
-	BOOST_CHECK(x != ev.texture_base_level);
-# endif
 	BOOST_CHECK(x == ev.texture_border_color);
 # ifdef GL_TEXTURE_COMPARE_FUNC
 	BOOST_CHECK(x != ev.texture_compare_func);
@@ -360,18 +342,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_parameter_values)
 
 #ifdef GL_TEXTURE_COMPARE_FUNC
 	x = ev.texture_compare_func;
-# ifdef GL_DEPTH_STENCIL_TEXTURE_MODE
-	BOOST_CHECK(x != ev.depth_stencil_texture_mode);
-# endif
-# ifdef GL_IMAGE_FORMAT_COMPATIBILITY_TYPE
-	BOOST_CHECK(x != ev.image_format_compatibility_type);
-# endif
-# ifdef GL_TEXTURE_BASE_LEVEL
-	BOOST_CHECK(x != ev.texture_base_level);
-# endif
-# ifdef GL_TEXTURE_BORDER_COLOR
-	BOOST_CHECK(x != ev.texture_border_color);
-# endif
 	BOOST_CHECK(x == ev.texture_compare_func);
 # ifdef GL_TEXTURE_COMPARE_MODE
 	BOOST_CHECK(x != ev.texture_compare_mode);
@@ -443,21 +413,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_parameter_values)
 
 #ifdef GL_TEXTURE_COMPARE_MODE
 	x = ev.texture_compare_mode;
-# ifdef GL_DEPTH_STENCIL_TEXTURE_MODE
-	BOOST_CHECK(x != ev.depth_stencil_texture_mode);
-# endif
-# ifdef GL_IMAGE_FORMAT_COMPATIBILITY_TYPE
-	BOOST_CHECK(x != ev.image_format_compatibility_type);
-# endif
-# ifdef GL_TEXTURE_BASE_LEVEL
-	BOOST_CHECK(x != ev.texture_base_level);
-# endif
-# ifdef GL_TEXTURE_BORDER_COLOR
-	BOOST_CHECK(x != ev.texture_border_color);
-# endif
-# ifdef GL_TEXTURE_COMPARE_FUNC
-	BOOST_CHECK(x != ev.texture_compare_func);
-# endif
 	BOOST_CHECK(x == ev.texture_compare_mode);
 # ifdef GL_TEXTURE_IMMUTABLE_FORMAT
 	BOOST_CHECK(x != ev.texture_immutable_format);
@@ -526,24 +481,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_parameter_values)
 
 #ifdef GL_TEXTURE_IMMUTABLE_FORMAT
 	x = ev.texture_immutable_format;
-# ifdef GL_DEPTH_STENCIL_TEXTURE_MODE
-	BOOST_CHECK(x != ev.depth_stencil_texture_mode);
-# endif
-# ifdef GL_IMAGE_FORMAT_COMPATIBILITY_TYPE
-	BOOST_CHECK(x != ev.image_format_compatibility_type);
-# endif
-# ifdef GL_TEXTURE_BASE_LEVEL
-	BOOST_CHECK(x != ev.texture_base_level);
-# endif
-# ifdef GL_TEXTURE_BORDER_COLOR
-	BOOST_CHECK(x != ev.texture_border_color);
-# endif
-# ifdef GL_TEXTURE_COMPARE_FUNC
-	BOOST_CHECK(x != ev.texture_compare_func);
-# endif
-# ifdef GL_TEXTURE_COMPARE_MODE
-	BOOST_CHECK(x != ev.texture_compare_mode);
-# endif
 	BOOST_CHECK(x == ev.texture_immutable_format);
 # ifdef GL_TEXTURE_IMMUTABLE_LEVELS
 	BOOST_CHECK(x != ev.texture_immutable_levels);
@@ -609,27 +546,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_parameter_values)
 
 #ifdef GL_TEXTURE_IMMUTABLE_LEVELS
 	x = ev.texture_immutable_levels;
-# ifdef GL_DEPTH_STENCIL_TEXTURE_MODE
-	BOOST_CHECK(x != ev.depth_stencil_texture_mode);
-# endif
-# ifdef GL_IMAGE_FORMAT_COMPATIBILITY_TYPE
-	BOOST_CHECK(x != ev.image_format_compatibility_type);
-# endif
-# ifdef GL_TEXTURE_BASE_LEVEL
-	BOOST_CHECK(x != ev.texture_base_level);
-# endif
-# ifdef GL_TEXTURE_BORDER_COLOR
-	BOOST_CHECK(x != ev.texture_border_color);
-# endif
-# ifdef GL_TEXTURE_COMPARE_FUNC
-	BOOST_CHECK(x != ev.texture_compare_func);
-# endif
-# ifdef GL_TEXTURE_COMPARE_MODE
-	BOOST_CHECK(x != ev.texture_compare_mode);
-# endif
-# ifdef GL_TEXTURE_IMMUTABLE_FORMAT
-	BOOST_CHECK(x != ev.texture_immutable_format);
-# endif
 	BOOST_CHECK(x == ev.texture_immutable_levels);
 # ifdef GL_TEXTURE_LOD_BIAS
 	BOOST_CHECK(x != ev.texture_lod_bias);
@@ -692,30 +608,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_parameter_values)
 
 #ifdef GL_TEXTURE_LOD_BIAS
 	x = ev.texture_lod_bias;
-# ifdef GL_DEPTH_STENCIL_TEXTURE_MODE
-	BOOST_CHECK(x != ev.depth_stencil_texture_mode);
-# endif
-# ifdef GL_IMAGE_FORMAT_COMPATIBILITY_TYPE
-	BOOST_CHECK(x != ev.image_format_compatibility_type);
-# endif
-# ifdef GL_TEXTURE_BASE_LEVEL
-	BOOST_CHECK(x != ev.texture_base_level);
-# endif
-# ifdef GL_TEXTURE_BORDER_COLOR
-	BOOST_CHECK(x != ev.texture_border_color);
-# endif
-# ifdef GL_TEXTURE_COMPARE_FUNC
-	BOOST_CHECK(x != ev.texture_compare_func);
-# endif
-# ifdef GL_TEXTURE_COMPARE_MODE
-	BOOST_CHECK(x != ev.texture_compare_mode);
-# endif
-# ifdef GL_TEXTURE_IMMUTABLE_FORMAT
-	BOOST_CHECK(x != ev.texture_immutable_format);
-# endif
-# ifdef GL_TEXTURE_IMMUTABLE_LEVELS
-	BOOST_CHECK(x != ev.texture_immutable_levels);
-# endif
 	BOOST_CHECK(x == ev.texture_lod_bias);
 # ifdef GL_TEXTURE_MAG_FILTER
 	BOOST_CHECK(x != ev.texture_mag_filter);
@@ -775,33 +667,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_parameter_values)
 
 #ifdef GL_TEXTURE_MAG_FILTER
 	x = ev.texture_mag_filter;
-# ifdef GL_DEPTH_STENCIL_TEXTURE_MODE
-	BOOST_CHECK(x != ev.depth_stencil_texture_mode);
-# endif
-# ifdef GL_IMAGE_FORMAT_COMPATIBILITY_TYPE
-	BOOST_CHECK(x != ev.image_format_compatibility_type);
-# endif
-# ifdef GL_TEXTURE_BASE_LEVEL
-	BOOST_CHECK(x != ev.texture_base_level);
-# endif
-# ifdef GL_TEXTURE_BORDER_COLOR
-	BOOST_CHECK(x != ev.texture_border_color);
-# endif
-# ifdef GL_TEXTURE_COMPARE_FUNC
-	BOOST_CHECK(x != ev.texture_compare_func);
-# endif
-# ifdef GL_TEXTURE_COMPARE_MODE
-	BOOST_CHECK(x != ev.texture_compare_mode);
-# endif
-# ifdef GL_TEXTURE_IMMUTABLE_FORMAT
-	BOOST_CHECK(x != ev.texture_immutable_format);
-# endif
-# ifdef GL_TEXTURE_IMMUTABLE_LEVELS
-	BOOST_CHECK(x != ev.texture_immutable_levels);
-# endif
-# ifdef GL_TEXTURE_LOD_BIAS
-	BOOST_CHECK(x != ev.texture_lod_bias);
-# endif
 	BOOST_CHECK(x == ev.texture_mag_filter);
 # ifdef GL_TEXTURE_MAX_LEVEL
 	BOOST_CHECK(x != ev.texture_max_level);
@@ -858,36 +723,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_parameter_values)
 
 #ifdef GL_TEXTURE_MAX_LEVEL
 	x = ev.texture_max_level;
-# ifdef GL_DEPTH_STENCIL_TEXTURE_MODE
-	BOOST_CHECK(x != ev.depth_stencil_texture_mode);
-# endif
-# ifdef GL_IMAGE_FORMAT_COMPATIBILITY_TYPE
-	BOOST_CHECK(x != ev.image_format_compatibility_type);
-# endif
-# ifdef GL_TEXTURE_BASE_LEVEL
-	BOOST_CHECK(x != ev.texture_base_level);
-# endif
-# ifdef GL_TEXTURE_BORDER_COLOR
-	BOOST_CHECK(x != ev.texture_border_color);
-# endif
-# ifdef GL_TEXTURE_COMPARE_FUNC
-	BOOST_CHECK(x != ev.texture_compare_func);
-# endif
-# ifdef GL_TEXTURE_COMPARE_MODE
-	BOOST_CHECK(x != ev.texture_compare_mode);
-# endif
-# ifdef GL_TEXTURE_IMMUTABLE_FORMAT
-	BOOST_CHECK(x != ev.texture_immutable_format);
-# endif
-# ifdef GL_TEXTURE_IMMUTABLE_LEVELS
-	BOOST_CHECK(x != ev.texture_immutable_levels);
-# endif
-# ifdef GL_TEXTURE_LOD_BIAS
-	BOOST_CHECK(x != ev.texture_lod_bias);
-# endif
-# ifdef GL_TEXTURE_MAG_FILTER
-	BOOST_CHECK(x != ev.texture_mag_filter);
-# endif
 	BOOST_CHECK(x == ev.texture_max_level);
 # ifdef GL_TEXTURE_MAX_LOD
 	BOOST_CHECK(x != ev.texture_max_lod);
@@ -941,39 +776,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_parameter_values)
 
 #ifdef GL_TEXTURE_MAX_LOD
 	x = ev.texture_max_lod;
-# ifdef GL_DEPTH_STENCIL_TEXTURE_MODE
-	BOOST_CHECK(x != ev.depth_stencil_texture_mode);
-# endif
-# ifdef GL_IMAGE_FORMAT_COMPATIBILITY_TYPE
-	BOOST_CHECK(x != ev.image_format_compatibility_type);
-# endif
-# ifdef GL_TEXTURE_BASE_LEVEL
-	BOOST_CHECK(x != ev.texture_base_level);
-# endif
-# ifdef GL_TEXTURE_BORDER_COLOR
-	BOOST_CHECK(x != ev.texture_border_color);
-# endif
-# ifdef GL_TEXTURE_COMPARE_FUNC
-	BOOST_CHECK(x != ev.texture_compare_func);
-# endif
-# ifdef GL_TEXTURE_COMPARE_MODE
-	BOOST_CHECK(x != ev.texture_compare_mode);
-# endif
-# ifdef GL_TEXTURE_IMMUTABLE_FORMAT
-	BOOST_CHECK(x != ev.texture_immutable_format);
-# endif
-# ifdef GL_TEXTURE_IMMUTABLE_LEVELS
-	BOOST_CHECK(x != ev.texture_immutable_levels);
-# endif
-# ifdef GL_TEXTURE_LOD_BIAS
-	BOOST_CHECK(x != ev.texture_lod_bias);
-# endif
-# ifdef GL_TEXTURE_MAG_FILTER
-	BOOST_CHECK(x != ev.texture_mag_filter);
-# endif
-# ifdef GL_TEXTURE_MAX_LEVEL
-	BOOST_CHECK(x != ev.texture_max_level);
-# endif
 	BOOST_CHECK(x == ev.texture_max_lod);
 # ifdef GL_TEXTURE_MIN_FILTER
 	BOOST_CHECK(x != ev.texture_min_filter);
@@ -1024,42 +826,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_parameter_values)
 
 #ifdef GL_TEXTURE_MIN_FILTER
 	x = ev.texture_min_filter;
-# ifdef GL_DEPTH_STENCIL_TEXTURE_MODE
-	BOOST_CHECK(x != ev.depth_stencil_texture_mode);
-# endif
-# ifdef GL_IMAGE_FORMAT_COMPATIBILITY_TYPE
-	BOOST_CHECK(x != ev.image_format_compatibility_type);
-# endif
-# ifdef GL_TEXTURE_BASE_LEVEL
-	BOOST_CHECK(x != ev.texture_base_level);
-# endif
-# ifdef GL_TEXTURE_BORDER_COLOR
-	BOOST_CHECK(x != ev.texture_border_color);
-# endif
-# ifdef GL_TEXTURE_COMPARE_FUNC
-	BOOST_CHECK(x != ev.texture_compare_func);
-# endif
-# ifdef GL_TEXTURE_COMPARE_MODE
-	BOOST_CHECK(x != ev.texture_compare_mode);
-# endif
-# ifdef GL_TEXTURE_IMMUTABLE_FORMAT
-	BOOST_CHECK(x != ev.texture_immutable_format);
-# endif
-# ifdef GL_TEXTURE_IMMUTABLE_LEVELS
-	BOOST_CHECK(x != ev.texture_immutable_levels);
-# endif
-# ifdef GL_TEXTURE_LOD_BIAS
-	BOOST_CHECK(x != ev.texture_lod_bias);
-# endif
-# ifdef GL_TEXTURE_MAG_FILTER
-	BOOST_CHECK(x != ev.texture_mag_filter);
-# endif
-# ifdef GL_TEXTURE_MAX_LEVEL
-	BOOST_CHECK(x != ev.texture_max_level);
-# endif
-# ifdef GL_TEXTURE_MAX_LOD
-	BOOST_CHECK(x != ev.texture_max_lod);
-# endif
 	BOOST_CHECK(x == ev.texture_min_filter);
 # ifdef GL_TEXTURE_MIN_LOD
 	BOOST_CHECK(x != ev.texture_min_lod);
@@ -1107,45 +873,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_parameter_values)
 
 #ifdef GL_TEXTURE_MIN_LOD
 	x = ev.texture_min_lod;
-# ifdef GL_DEPTH_STENCIL_TEXTURE_MODE
-	BOOST_CHECK(x != ev.depth_stencil_texture_mode);
-# endif
-# ifdef GL_IMAGE_FORMAT_COMPATIBILITY_TYPE
-	BOOST_CHECK(x != ev.image_format_compatibility_type);
-# endif
-# ifdef GL_TEXTURE_BASE_LEVEL
-	BOOST_CHECK(x != ev.texture_base_level);
-# endif
-# ifdef GL_TEXTURE_BORDER_COLOR
-	BOOST_CHECK(x != ev.texture_border_color);
-# endif
-# ifdef GL_TEXTURE_COMPARE_FUNC
-	BOOST_CHECK(x != ev.texture_compare_func);
-# endif
-# ifdef GL_TEXTURE_COMPARE_MODE
-	BOOST_CHECK(x != ev.texture_compare_mode);
-# endif
-# ifdef GL_TEXTURE_IMMUTABLE_FORMAT
-	BOOST_CHECK(x != ev.texture_immutable_format);
-# endif
-# ifdef GL_TEXTURE_IMMUTABLE_LEVELS
-	BOOST_CHECK(x != ev.texture_immutable_levels);
-# endif
-# ifdef GL_TEXTURE_LOD_BIAS
-	BOOST_CHECK(x != ev.texture_lod_bias);
-# endif
-# ifdef GL_TEXTURE_MAG_FILTER
-	BOOST_CHECK(x != ev.texture_mag_filter);
-# endif
-# ifdef GL_TEXTURE_MAX_LEVEL
-	BOOST_CHECK(x != ev.texture_max_level);
-# endif
-# ifdef GL_TEXTURE_MAX_LOD
-	BOOST_CHECK(x != ev.texture_max_lod);
-# endif
-# ifdef GL_TEXTURE_MIN_FILTER
-	BOOST_CHECK(x != ev.texture_min_filter);
-# endif
 	BOOST_CHECK(x == ev.texture_min_lod);
 # ifdef GL_TEXTURE_SWIZZLE_A
 	BOOST_CHECK(x != ev.texture_swizzle_a);
@@ -1190,48 +917,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_parameter_values)
 
 #ifdef GL_TEXTURE_SWIZZLE_A
 	x = ev.texture_swizzle_a;
-# ifdef GL_DEPTH_STENCIL_TEXTURE_MODE
-	BOOST_CHECK(x != ev.depth_stencil_texture_mode);
-# endif
-# ifdef GL_IMAGE_FORMAT_COMPATIBILITY_TYPE
-	BOOST_CHECK(x != ev.image_format_compatibility_type);
-# endif
-# ifdef GL_TEXTURE_BASE_LEVEL
-	BOOST_CHECK(x != ev.texture_base_level);
-# endif
-# ifdef GL_TEXTURE_BORDER_COLOR
-	BOOST_CHECK(x != ev.texture_border_color);
-# endif
-# ifdef GL_TEXTURE_COMPARE_FUNC
-	BOOST_CHECK(x != ev.texture_compare_func);
-# endif
-# ifdef GL_TEXTURE_COMPARE_MODE
-	BOOST_CHECK(x != ev.texture_compare_mode);
-# endif
-# ifdef GL_TEXTURE_IMMUTABLE_FORMAT
-	BOOST_CHECK(x != ev.texture_immutable_format);
-# endif
-# ifdef GL_TEXTURE_IMMUTABLE_LEVELS
-	BOOST_CHECK(x != ev.texture_immutable_levels);
-# endif
-# ifdef GL_TEXTURE_LOD_BIAS
-	BOOST_CHECK(x != ev.texture_lod_bias);
-# endif
-# ifdef GL_TEXTURE_MAG_FILTER
-	BOOST_CHECK(x != ev.texture_mag_filter);
-# endif
-# ifdef GL_TEXTURE_MAX_LEVEL
-	BOOST_CHECK(x != ev.texture_max_level);
-# endif
-# ifdef GL_TEXTURE_MAX_LOD
-	BOOST_CHECK(x != ev.texture_max_lod);
-# endif
-# ifdef GL_TEXTURE_MIN_FILTER
-	BOOST_CHECK(x != ev.texture_min_filter);
-# endif
-# ifdef GL_TEXTURE_MIN_LOD
-	BOOST_CHECK(x != ev.texture_min_lod);
-# endif
 	BOOST_CHECK(x == ev.texture_swizzle_a);
 # ifdef GL_TEXTURE_SWIZZLE_B
 	BOOST_CHECK(x != ev.texture_swizzle_b);
@@ -1273,51 +958,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_parameter_values)
 
 #ifdef GL_TEXTURE_SWIZZLE_B
 	x = ev.texture_swizzle_b;
-# ifdef GL_DEPTH_STENCIL_TEXTURE_MODE
-	BOOST_CHECK(x != ev.depth_stencil_texture_mode);
-# endif
-# ifdef GL_IMAGE_FORMAT_COMPATIBILITY_TYPE
-	BOOST_CHECK(x != ev.image_format_compatibility_type);
-# endif
-# ifdef GL_TEXTURE_BASE_LEVEL
-	BOOST_CHECK(x != ev.texture_base_level);
-# endif
-# ifdef GL_TEXTURE_BORDER_COLOR
-	BOOST_CHECK(x != ev.texture_border_color);
-# endif
-# ifdef GL_TEXTURE_COMPARE_FUNC
-	BOOST_CHECK(x != ev.texture_compare_func);
-# endif
-# ifdef GL_TEXTURE_COMPARE_MODE
-	BOOST_CHECK(x != ev.texture_compare_mode);
-# endif
-# ifdef GL_TEXTURE_IMMUTABLE_FORMAT
-	BOOST_CHECK(x != ev.texture_immutable_format);
-# endif
-# ifdef GL_TEXTURE_IMMUTABLE_LEVELS
-	BOOST_CHECK(x != ev.texture_immutable_levels);
-# endif
-# ifdef GL_TEXTURE_LOD_BIAS
-	BOOST_CHECK(x != ev.texture_lod_bias);
-# endif
-# ifdef GL_TEXTURE_MAG_FILTER
-	BOOST_CHECK(x != ev.texture_mag_filter);
-# endif
-# ifdef GL_TEXTURE_MAX_LEVEL
-	BOOST_CHECK(x != ev.texture_max_level);
-# endif
-# ifdef GL_TEXTURE_MAX_LOD
-	BOOST_CHECK(x != ev.texture_max_lod);
-# endif
-# ifdef GL_TEXTURE_MIN_FILTER
-	BOOST_CHECK(x != ev.texture_min_filter);
-# endif
-# ifdef GL_TEXTURE_MIN_LOD
-	BOOST_CHECK(x != ev.texture_min_lod);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_A
-	BOOST_CHECK(x != ev.texture_swizzle_a);
-# endif
 	BOOST_CHECK(x == ev.texture_swizzle_b);
 # ifdef GL_TEXTURE_SWIZZLE_G
 	BOOST_CHECK(x != ev.texture_swizzle_g);
@@ -1356,54 +996,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_parameter_values)
 
 #ifdef GL_TEXTURE_SWIZZLE_G
 	x = ev.texture_swizzle_g;
-# ifdef GL_DEPTH_STENCIL_TEXTURE_MODE
-	BOOST_CHECK(x != ev.depth_stencil_texture_mode);
-# endif
-# ifdef GL_IMAGE_FORMAT_COMPATIBILITY_TYPE
-	BOOST_CHECK(x != ev.image_format_compatibility_type);
-# endif
-# ifdef GL_TEXTURE_BASE_LEVEL
-	BOOST_CHECK(x != ev.texture_base_level);
-# endif
-# ifdef GL_TEXTURE_BORDER_COLOR
-	BOOST_CHECK(x != ev.texture_border_color);
-# endif
-# ifdef GL_TEXTURE_COMPARE_FUNC
-	BOOST_CHECK(x != ev.texture_compare_func);
-# endif
-# ifdef GL_TEXTURE_COMPARE_MODE
-	BOOST_CHECK(x != ev.texture_compare_mode);
-# endif
-# ifdef GL_TEXTURE_IMMUTABLE_FORMAT
-	BOOST_CHECK(x != ev.texture_immutable_format);
-# endif
-# ifdef GL_TEXTURE_IMMUTABLE_LEVELS
-	BOOST_CHECK(x != ev.texture_immutable_levels);
-# endif
-# ifdef GL_TEXTURE_LOD_BIAS
-	BOOST_CHECK(x != ev.texture_lod_bias);
-# endif
-# ifdef GL_TEXTURE_MAG_FILTER
-	BOOST_CHECK(x != ev.texture_mag_filter);
-# endif
-# ifdef GL_TEXTURE_MAX_LEVEL
-	BOOST_CHECK(x != ev.texture_max_level);
-# endif
-# ifdef GL_TEXTURE_MAX_LOD
-	BOOST_CHECK(x != ev.texture_max_lod);
-# endif
-# ifdef GL_TEXTURE_MIN_FILTER
-	BOOST_CHECK(x != ev.texture_min_filter);
-# endif
-# ifdef GL_TEXTURE_MIN_LOD
-	BOOST_CHECK(x != ev.texture_min_lod);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_A
-	BOOST_CHECK(x != ev.texture_swizzle_a);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_B
-	BOOST_CHECK(x != ev.texture_swizzle_b);
-# endif
 	BOOST_CHECK(x == ev.texture_swizzle_g);
 # ifdef GL_TEXTURE_SWIZZLE_R
 	BOOST_CHECK(x != ev.texture_swizzle_r);
@@ -1439,57 +1031,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_parameter_values)
 
 #ifdef GL_TEXTURE_SWIZZLE_R
 	x = ev.texture_swizzle_r;
-# ifdef GL_DEPTH_STENCIL_TEXTURE_MODE
-	BOOST_CHECK(x != ev.depth_stencil_texture_mode);
-# endif
-# ifdef GL_IMAGE_FORMAT_COMPATIBILITY_TYPE
-	BOOST_CHECK(x != ev.image_format_compatibility_type);
-# endif
-# ifdef GL_TEXTURE_BASE_LEVEL
-	BOOST_CHECK(x != ev.texture_base_level);
-# endif
-# ifdef GL_TEXTURE_BORDER_COLOR
-	BOOST_CHECK(x != ev.texture_border_color);
-# endif
-# ifdef GL_TEXTURE_COMPARE_FUNC
-	BOOST_CHECK(x != ev.texture_compare_func);
-# endif
-# ifdef GL_TEXTURE_COMPARE_MODE
-	BOOST_CHECK(x != ev.texture_compare_mode);
-# endif
-# ifdef GL_TEXTURE_IMMUTABLE_FORMAT
-	BOOST_CHECK(x != ev.texture_immutable_format);
-# endif
-# ifdef GL_TEXTURE_IMMUTABLE_LEVELS
-	BOOST_CHECK(x != ev.texture_immutable_levels);
-# endif
-# ifdef GL_TEXTURE_LOD_BIAS
-	BOOST_CHECK(x != ev.texture_lod_bias);
-# endif
-# ifdef GL_TEXTURE_MAG_FILTER
-	BOOST_CHECK(x != ev.texture_mag_filter);
-# endif
-# ifdef GL_TEXTURE_MAX_LEVEL
-	BOOST_CHECK(x != ev.texture_max_level);
-# endif
-# ifdef GL_TEXTURE_MAX_LOD
-	BOOST_CHECK(x != ev.texture_max_lod);
-# endif
-# ifdef GL_TEXTURE_MIN_FILTER
-	BOOST_CHECK(x != ev.texture_min_filter);
-# endif
-# ifdef GL_TEXTURE_MIN_LOD
-	BOOST_CHECK(x != ev.texture_min_lod);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_A
-	BOOST_CHECK(x != ev.texture_swizzle_a);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_B
-	BOOST_CHECK(x != ev.texture_swizzle_b);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_G
-	BOOST_CHECK(x != ev.texture_swizzle_g);
-# endif
 	BOOST_CHECK(x == ev.texture_swizzle_r);
 # ifdef GL_TEXTURE_SWIZZLE_RGBA
 	BOOST_CHECK(x != ev.texture_swizzle_rgba);
@@ -1522,60 +1063,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_parameter_values)
 
 #ifdef GL_TEXTURE_SWIZZLE_RGBA
 	x = ev.texture_swizzle_rgba;
-# ifdef GL_DEPTH_STENCIL_TEXTURE_MODE
-	BOOST_CHECK(x != ev.depth_stencil_texture_mode);
-# endif
-# ifdef GL_IMAGE_FORMAT_COMPATIBILITY_TYPE
-	BOOST_CHECK(x != ev.image_format_compatibility_type);
-# endif
-# ifdef GL_TEXTURE_BASE_LEVEL
-	BOOST_CHECK(x != ev.texture_base_level);
-# endif
-# ifdef GL_TEXTURE_BORDER_COLOR
-	BOOST_CHECK(x != ev.texture_border_color);
-# endif
-# ifdef GL_TEXTURE_COMPARE_FUNC
-	BOOST_CHECK(x != ev.texture_compare_func);
-# endif
-# ifdef GL_TEXTURE_COMPARE_MODE
-	BOOST_CHECK(x != ev.texture_compare_mode);
-# endif
-# ifdef GL_TEXTURE_IMMUTABLE_FORMAT
-	BOOST_CHECK(x != ev.texture_immutable_format);
-# endif
-# ifdef GL_TEXTURE_IMMUTABLE_LEVELS
-	BOOST_CHECK(x != ev.texture_immutable_levels);
-# endif
-# ifdef GL_TEXTURE_LOD_BIAS
-	BOOST_CHECK(x != ev.texture_lod_bias);
-# endif
-# ifdef GL_TEXTURE_MAG_FILTER
-	BOOST_CHECK(x != ev.texture_mag_filter);
-# endif
-# ifdef GL_TEXTURE_MAX_LEVEL
-	BOOST_CHECK(x != ev.texture_max_level);
-# endif
-# ifdef GL_TEXTURE_MAX_LOD
-	BOOST_CHECK(x != ev.texture_max_lod);
-# endif
-# ifdef GL_TEXTURE_MIN_FILTER
-	BOOST_CHECK(x != ev.texture_min_filter);
-# endif
-# ifdef GL_TEXTURE_MIN_LOD
-	BOOST_CHECK(x != ev.texture_min_lod);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_A
-	BOOST_CHECK(x != ev.texture_swizzle_a);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_B
-	BOOST_CHECK(x != ev.texture_swizzle_b);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_G
-	BOOST_CHECK(x != ev.texture_swizzle_g);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_R
-	BOOST_CHECK(x != ev.texture_swizzle_r);
-# endif
 	BOOST_CHECK(x == ev.texture_swizzle_rgba);
 # ifdef GL_TEXTURE_TARGET
 	BOOST_CHECK(x != ev.texture_target);
@@ -1605,63 +1092,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_parameter_values)
 
 #ifdef GL_TEXTURE_TARGET
 	x = ev.texture_target;
-# ifdef GL_DEPTH_STENCIL_TEXTURE_MODE
-	BOOST_CHECK(x != ev.depth_stencil_texture_mode);
-# endif
-# ifdef GL_IMAGE_FORMAT_COMPATIBILITY_TYPE
-	BOOST_CHECK(x != ev.image_format_compatibility_type);
-# endif
-# ifdef GL_TEXTURE_BASE_LEVEL
-	BOOST_CHECK(x != ev.texture_base_level);
-# endif
-# ifdef GL_TEXTURE_BORDER_COLOR
-	BOOST_CHECK(x != ev.texture_border_color);
-# endif
-# ifdef GL_TEXTURE_COMPARE_FUNC
-	BOOST_CHECK(x != ev.texture_compare_func);
-# endif
-# ifdef GL_TEXTURE_COMPARE_MODE
-	BOOST_CHECK(x != ev.texture_compare_mode);
-# endif
-# ifdef GL_TEXTURE_IMMUTABLE_FORMAT
-	BOOST_CHECK(x != ev.texture_immutable_format);
-# endif
-# ifdef GL_TEXTURE_IMMUTABLE_LEVELS
-	BOOST_CHECK(x != ev.texture_immutable_levels);
-# endif
-# ifdef GL_TEXTURE_LOD_BIAS
-	BOOST_CHECK(x != ev.texture_lod_bias);
-# endif
-# ifdef GL_TEXTURE_MAG_FILTER
-	BOOST_CHECK(x != ev.texture_mag_filter);
-# endif
-# ifdef GL_TEXTURE_MAX_LEVEL
-	BOOST_CHECK(x != ev.texture_max_level);
-# endif
-# ifdef GL_TEXTURE_MAX_LOD
-	BOOST_CHECK(x != ev.texture_max_lod);
-# endif
-# ifdef GL_TEXTURE_MIN_FILTER
-	BOOST_CHECK(x != ev.texture_min_filter);
-# endif
-# ifdef GL_TEXTURE_MIN_LOD
-	BOOST_CHECK(x != ev.texture_min_lod);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_A
-	BOOST_CHECK(x != ev.texture_swizzle_a);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_B
-	BOOST_CHECK(x != ev.texture_swizzle_b);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_G
-	BOOST_CHECK(x != ev.texture_swizzle_g);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_R
-	BOOST_CHECK(x != ev.texture_swizzle_r);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_RGBA
-	BOOST_CHECK(x != ev.texture_swizzle_rgba);
-# endif
 	BOOST_CHECK(x == ev.texture_target);
 # ifdef GL_TEXTURE_VIEW_MIN_LAYER
 	BOOST_CHECK(x != ev.texture_view_min_layer);
@@ -1688,66 +1118,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_parameter_values)
 
 #ifdef GL_TEXTURE_VIEW_MIN_LAYER
 	x = ev.texture_view_min_layer;
-# ifdef GL_DEPTH_STENCIL_TEXTURE_MODE
-	BOOST_CHECK(x != ev.depth_stencil_texture_mode);
-# endif
-# ifdef GL_IMAGE_FORMAT_COMPATIBILITY_TYPE
-	BOOST_CHECK(x != ev.image_format_compatibility_type);
-# endif
-# ifdef GL_TEXTURE_BASE_LEVEL
-	BOOST_CHECK(x != ev.texture_base_level);
-# endif
-# ifdef GL_TEXTURE_BORDER_COLOR
-	BOOST_CHECK(x != ev.texture_border_color);
-# endif
-# ifdef GL_TEXTURE_COMPARE_FUNC
-	BOOST_CHECK(x != ev.texture_compare_func);
-# endif
-# ifdef GL_TEXTURE_COMPARE_MODE
-	BOOST_CHECK(x != ev.texture_compare_mode);
-# endif
-# ifdef GL_TEXTURE_IMMUTABLE_FORMAT
-	BOOST_CHECK(x != ev.texture_immutable_format);
-# endif
-# ifdef GL_TEXTURE_IMMUTABLE_LEVELS
-	BOOST_CHECK(x != ev.texture_immutable_levels);
-# endif
-# ifdef GL_TEXTURE_LOD_BIAS
-	BOOST_CHECK(x != ev.texture_lod_bias);
-# endif
-# ifdef GL_TEXTURE_MAG_FILTER
-	BOOST_CHECK(x != ev.texture_mag_filter);
-# endif
-# ifdef GL_TEXTURE_MAX_LEVEL
-	BOOST_CHECK(x != ev.texture_max_level);
-# endif
-# ifdef GL_TEXTURE_MAX_LOD
-	BOOST_CHECK(x != ev.texture_max_lod);
-# endif
-# ifdef GL_TEXTURE_MIN_FILTER
-	BOOST_CHECK(x != ev.texture_min_filter);
-# endif
-# ifdef GL_TEXTURE_MIN_LOD
-	BOOST_CHECK(x != ev.texture_min_lod);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_A
-	BOOST_CHECK(x != ev.texture_swizzle_a);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_B
-	BOOST_CHECK(x != ev.texture_swizzle_b);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_G
-	BOOST_CHECK(x != ev.texture_swizzle_g);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_R
-	BOOST_CHECK(x != ev.texture_swizzle_r);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_RGBA
-	BOOST_CHECK(x != ev.texture_swizzle_rgba);
-# endif
-# ifdef GL_TEXTURE_TARGET
-	BOOST_CHECK(x != ev.texture_target);
-# endif
 	BOOST_CHECK(x == ev.texture_view_min_layer);
 # ifdef GL_TEXTURE_VIEW_MIN_LEVEL
 	BOOST_CHECK(x != ev.texture_view_min_level);
@@ -1771,69 +1141,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_parameter_values)
 
 #ifdef GL_TEXTURE_VIEW_MIN_LEVEL
 	x = ev.texture_view_min_level;
-# ifdef GL_DEPTH_STENCIL_TEXTURE_MODE
-	BOOST_CHECK(x != ev.depth_stencil_texture_mode);
-# endif
-# ifdef GL_IMAGE_FORMAT_COMPATIBILITY_TYPE
-	BOOST_CHECK(x != ev.image_format_compatibility_type);
-# endif
-# ifdef GL_TEXTURE_BASE_LEVEL
-	BOOST_CHECK(x != ev.texture_base_level);
-# endif
-# ifdef GL_TEXTURE_BORDER_COLOR
-	BOOST_CHECK(x != ev.texture_border_color);
-# endif
-# ifdef GL_TEXTURE_COMPARE_FUNC
-	BOOST_CHECK(x != ev.texture_compare_func);
-# endif
-# ifdef GL_TEXTURE_COMPARE_MODE
-	BOOST_CHECK(x != ev.texture_compare_mode);
-# endif
-# ifdef GL_TEXTURE_IMMUTABLE_FORMAT
-	BOOST_CHECK(x != ev.texture_immutable_format);
-# endif
-# ifdef GL_TEXTURE_IMMUTABLE_LEVELS
-	BOOST_CHECK(x != ev.texture_immutable_levels);
-# endif
-# ifdef GL_TEXTURE_LOD_BIAS
-	BOOST_CHECK(x != ev.texture_lod_bias);
-# endif
-# ifdef GL_TEXTURE_MAG_FILTER
-	BOOST_CHECK(x != ev.texture_mag_filter);
-# endif
-# ifdef GL_TEXTURE_MAX_LEVEL
-	BOOST_CHECK(x != ev.texture_max_level);
-# endif
-# ifdef GL_TEXTURE_MAX_LOD
-	BOOST_CHECK(x != ev.texture_max_lod);
-# endif
-# ifdef GL_TEXTURE_MIN_FILTER
-	BOOST_CHECK(x != ev.texture_min_filter);
-# endif
-# ifdef GL_TEXTURE_MIN_LOD
-	BOOST_CHECK(x != ev.texture_min_lod);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_A
-	BOOST_CHECK(x != ev.texture_swizzle_a);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_B
-	BOOST_CHECK(x != ev.texture_swizzle_b);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_G
-	BOOST_CHECK(x != ev.texture_swizzle_g);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_R
-	BOOST_CHECK(x != ev.texture_swizzle_r);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_RGBA
-	BOOST_CHECK(x != ev.texture_swizzle_rgba);
-# endif
-# ifdef GL_TEXTURE_TARGET
-	BOOST_CHECK(x != ev.texture_target);
-# endif
-# ifdef GL_TEXTURE_VIEW_MIN_LAYER
-	BOOST_CHECK(x != ev.texture_view_min_layer);
-# endif
 	BOOST_CHECK(x == ev.texture_view_min_level);
 # ifdef GL_TEXTURE_VIEW_NUM_LAYERS
 	BOOST_CHECK(x != ev.texture_view_num_layers);
@@ -1854,72 +1161,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_parameter_values)
 
 #ifdef GL_TEXTURE_VIEW_NUM_LAYERS
 	x = ev.texture_view_num_layers;
-# ifdef GL_DEPTH_STENCIL_TEXTURE_MODE
-	BOOST_CHECK(x != ev.depth_stencil_texture_mode);
-# endif
-# ifdef GL_IMAGE_FORMAT_COMPATIBILITY_TYPE
-	BOOST_CHECK(x != ev.image_format_compatibility_type);
-# endif
-# ifdef GL_TEXTURE_BASE_LEVEL
-	BOOST_CHECK(x != ev.texture_base_level);
-# endif
-# ifdef GL_TEXTURE_BORDER_COLOR
-	BOOST_CHECK(x != ev.texture_border_color);
-# endif
-# ifdef GL_TEXTURE_COMPARE_FUNC
-	BOOST_CHECK(x != ev.texture_compare_func);
-# endif
-# ifdef GL_TEXTURE_COMPARE_MODE
-	BOOST_CHECK(x != ev.texture_compare_mode);
-# endif
-# ifdef GL_TEXTURE_IMMUTABLE_FORMAT
-	BOOST_CHECK(x != ev.texture_immutable_format);
-# endif
-# ifdef GL_TEXTURE_IMMUTABLE_LEVELS
-	BOOST_CHECK(x != ev.texture_immutable_levels);
-# endif
-# ifdef GL_TEXTURE_LOD_BIAS
-	BOOST_CHECK(x != ev.texture_lod_bias);
-# endif
-# ifdef GL_TEXTURE_MAG_FILTER
-	BOOST_CHECK(x != ev.texture_mag_filter);
-# endif
-# ifdef GL_TEXTURE_MAX_LEVEL
-	BOOST_CHECK(x != ev.texture_max_level);
-# endif
-# ifdef GL_TEXTURE_MAX_LOD
-	BOOST_CHECK(x != ev.texture_max_lod);
-# endif
-# ifdef GL_TEXTURE_MIN_FILTER
-	BOOST_CHECK(x != ev.texture_min_filter);
-# endif
-# ifdef GL_TEXTURE_MIN_LOD
-	BOOST_CHECK(x != ev.texture_min_lod);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_A
-	BOOST_CHECK(x != ev.texture_swizzle_a);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_B
-	BOOST_CHECK(x != ev.texture_swizzle_b);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_G
-	BOOST_CHECK(x != ev.texture_swizzle_g);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_R
-	BOOST_CHECK(x != ev.texture_swizzle_r);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_RGBA
-	BOOST_CHECK(x != ev.texture_swizzle_rgba);
-# endif
-# ifdef GL_TEXTURE_TARGET
-	BOOST_CHECK(x != ev.texture_target);
-# endif
-# ifdef GL_TEXTURE_VIEW_MIN_LAYER
-	BOOST_CHECK(x != ev.texture_view_min_layer);
-# endif
-# ifdef GL_TEXTURE_VIEW_MIN_LEVEL
-	BOOST_CHECK(x != ev.texture_view_min_level);
-# endif
 	BOOST_CHECK(x == ev.texture_view_num_layers);
 # ifdef GL_TEXTURE_VIEW_NUM_LEVELS
 	BOOST_CHECK(x != ev.texture_view_num_levels);
@@ -1937,75 +1178,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_parameter_values)
 
 #ifdef GL_TEXTURE_VIEW_NUM_LEVELS
 	x = ev.texture_view_num_levels;
-# ifdef GL_DEPTH_STENCIL_TEXTURE_MODE
-	BOOST_CHECK(x != ev.depth_stencil_texture_mode);
-# endif
-# ifdef GL_IMAGE_FORMAT_COMPATIBILITY_TYPE
-	BOOST_CHECK(x != ev.image_format_compatibility_type);
-# endif
-# ifdef GL_TEXTURE_BASE_LEVEL
-	BOOST_CHECK(x != ev.texture_base_level);
-# endif
-# ifdef GL_TEXTURE_BORDER_COLOR
-	BOOST_CHECK(x != ev.texture_border_color);
-# endif
-# ifdef GL_TEXTURE_COMPARE_FUNC
-	BOOST_CHECK(x != ev.texture_compare_func);
-# endif
-# ifdef GL_TEXTURE_COMPARE_MODE
-	BOOST_CHECK(x != ev.texture_compare_mode);
-# endif
-# ifdef GL_TEXTURE_IMMUTABLE_FORMAT
-	BOOST_CHECK(x != ev.texture_immutable_format);
-# endif
-# ifdef GL_TEXTURE_IMMUTABLE_LEVELS
-	BOOST_CHECK(x != ev.texture_immutable_levels);
-# endif
-# ifdef GL_TEXTURE_LOD_BIAS
-	BOOST_CHECK(x != ev.texture_lod_bias);
-# endif
-# ifdef GL_TEXTURE_MAG_FILTER
-	BOOST_CHECK(x != ev.texture_mag_filter);
-# endif
-# ifdef GL_TEXTURE_MAX_LEVEL
-	BOOST_CHECK(x != ev.texture_max_level);
-# endif
-# ifdef GL_TEXTURE_MAX_LOD
-	BOOST_CHECK(x != ev.texture_max_lod);
-# endif
-# ifdef GL_TEXTURE_MIN_FILTER
-	BOOST_CHECK(x != ev.texture_min_filter);
-# endif
-# ifdef GL_TEXTURE_MIN_LOD
-	BOOST_CHECK(x != ev.texture_min_lod);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_A
-	BOOST_CHECK(x != ev.texture_swizzle_a);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_B
-	BOOST_CHECK(x != ev.texture_swizzle_b);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_G
-	BOOST_CHECK(x != ev.texture_swizzle_g);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_R
-	BOOST_CHECK(x != ev.texture_swizzle_r);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_RGBA
-	BOOST_CHECK(x != ev.texture_swizzle_rgba);
-# endif
-# ifdef GL_TEXTURE_TARGET
-	BOOST_CHECK(x != ev.texture_target);
-# endif
-# ifdef GL_TEXTURE_VIEW_MIN_LAYER
-	BOOST_CHECK(x != ev.texture_view_min_layer);
-# endif
-# ifdef GL_TEXTURE_VIEW_MIN_LEVEL
-	BOOST_CHECK(x != ev.texture_view_min_level);
-# endif
-# ifdef GL_TEXTURE_VIEW_NUM_LAYERS
-	BOOST_CHECK(x != ev.texture_view_num_layers);
-# endif
 	BOOST_CHECK(x == ev.texture_view_num_levels);
 # ifdef GL_TEXTURE_WRAP_R
 	BOOST_CHECK(x != ev.texture_wrap_r);
@@ -2020,78 +1192,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_parameter_values)
 
 #ifdef GL_TEXTURE_WRAP_R
 	x = ev.texture_wrap_r;
-# ifdef GL_DEPTH_STENCIL_TEXTURE_MODE
-	BOOST_CHECK(x != ev.depth_stencil_texture_mode);
-# endif
-# ifdef GL_IMAGE_FORMAT_COMPATIBILITY_TYPE
-	BOOST_CHECK(x != ev.image_format_compatibility_type);
-# endif
-# ifdef GL_TEXTURE_BASE_LEVEL
-	BOOST_CHECK(x != ev.texture_base_level);
-# endif
-# ifdef GL_TEXTURE_BORDER_COLOR
-	BOOST_CHECK(x != ev.texture_border_color);
-# endif
-# ifdef GL_TEXTURE_COMPARE_FUNC
-	BOOST_CHECK(x != ev.texture_compare_func);
-# endif
-# ifdef GL_TEXTURE_COMPARE_MODE
-	BOOST_CHECK(x != ev.texture_compare_mode);
-# endif
-# ifdef GL_TEXTURE_IMMUTABLE_FORMAT
-	BOOST_CHECK(x != ev.texture_immutable_format);
-# endif
-# ifdef GL_TEXTURE_IMMUTABLE_LEVELS
-	BOOST_CHECK(x != ev.texture_immutable_levels);
-# endif
-# ifdef GL_TEXTURE_LOD_BIAS
-	BOOST_CHECK(x != ev.texture_lod_bias);
-# endif
-# ifdef GL_TEXTURE_MAG_FILTER
-	BOOST_CHECK(x != ev.texture_mag_filter);
-# endif
-# ifdef GL_TEXTURE_MAX_LEVEL
-	BOOST_CHECK(x != ev.texture_max_level);
-# endif
-# ifdef GL_TEXTURE_MAX_LOD
-	BOOST_CHECK(x != ev.texture_max_lod);
-# endif
-# ifdef GL_TEXTURE_MIN_FILTER
-	BOOST_CHECK(x != ev.texture_min_filter);
-# endif
-# ifdef GL_TEXTURE_MIN_LOD
-	BOOST_CHECK(x != ev.texture_min_lod);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_A
-	BOOST_CHECK(x != ev.texture_swizzle_a);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_B
-	BOOST_CHECK(x != ev.texture_swizzle_b);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_G
-	BOOST_CHECK(x != ev.texture_swizzle_g);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_R
-	BOOST_CHECK(x != ev.texture_swizzle_r);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_RGBA
-	BOOST_CHECK(x != ev.texture_swizzle_rgba);
-# endif
-# ifdef GL_TEXTURE_TARGET
-	BOOST_CHECK(x != ev.texture_target);
-# endif
-# ifdef GL_TEXTURE_VIEW_MIN_LAYER
-	BOOST_CHECK(x != ev.texture_view_min_layer);
-# endif
-# ifdef GL_TEXTURE_VIEW_MIN_LEVEL
-	BOOST_CHECK(x != ev.texture_view_min_level);
-# endif
-# ifdef GL_TEXTURE_VIEW_NUM_LAYERS
-	BOOST_CHECK(x != ev.texture_view_num_layers);
-# endif
-# ifdef GL_TEXTURE_VIEW_NUM_LEVELS
-	BOOST_CHECK(x != ev.texture_view_num_levels);
-# endif
 	BOOST_CHECK(x == ev.texture_wrap_r);
 # ifdef GL_TEXTURE_WRAP_S
 	BOOST_CHECK(x != ev.texture_wrap_s);
@@ -2103,81 +1203,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_parameter_values)
 
 #ifdef GL_TEXTURE_WRAP_S
 	x = ev.texture_wrap_s;
-# ifdef GL_DEPTH_STENCIL_TEXTURE_MODE
-	BOOST_CHECK(x != ev.depth_stencil_texture_mode);
-# endif
-# ifdef GL_IMAGE_FORMAT_COMPATIBILITY_TYPE
-	BOOST_CHECK(x != ev.image_format_compatibility_type);
-# endif
-# ifdef GL_TEXTURE_BASE_LEVEL
-	BOOST_CHECK(x != ev.texture_base_level);
-# endif
-# ifdef GL_TEXTURE_BORDER_COLOR
-	BOOST_CHECK(x != ev.texture_border_color);
-# endif
-# ifdef GL_TEXTURE_COMPARE_FUNC
-	BOOST_CHECK(x != ev.texture_compare_func);
-# endif
-# ifdef GL_TEXTURE_COMPARE_MODE
-	BOOST_CHECK(x != ev.texture_compare_mode);
-# endif
-# ifdef GL_TEXTURE_IMMUTABLE_FORMAT
-	BOOST_CHECK(x != ev.texture_immutable_format);
-# endif
-# ifdef GL_TEXTURE_IMMUTABLE_LEVELS
-	BOOST_CHECK(x != ev.texture_immutable_levels);
-# endif
-# ifdef GL_TEXTURE_LOD_BIAS
-	BOOST_CHECK(x != ev.texture_lod_bias);
-# endif
-# ifdef GL_TEXTURE_MAG_FILTER
-	BOOST_CHECK(x != ev.texture_mag_filter);
-# endif
-# ifdef GL_TEXTURE_MAX_LEVEL
-	BOOST_CHECK(x != ev.texture_max_level);
-# endif
-# ifdef GL_TEXTURE_MAX_LOD
-	BOOST_CHECK(x != ev.texture_max_lod);
-# endif
-# ifdef GL_TEXTURE_MIN_FILTER
-	BOOST_CHECK(x != ev.texture_min_filter);
-# endif
-# ifdef GL_TEXTURE_MIN_LOD
-	BOOST_CHECK(x != ev.texture_min_lod);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_A
-	BOOST_CHECK(x != ev.texture_swizzle_a);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_B
-	BOOST_CHECK(x != ev.texture_swizzle_b);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_G
-	BOOST_CHECK(x != ev.texture_swizzle_g);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_R
-	BOOST_CHECK(x != ev.texture_swizzle_r);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_RGBA
-	BOOST_CHECK(x != ev.texture_swizzle_rgba);
-# endif
-# ifdef GL_TEXTURE_TARGET
-	BOOST_CHECK(x != ev.texture_target);
-# endif
-# ifdef GL_TEXTURE_VIEW_MIN_LAYER
-	BOOST_CHECK(x != ev.texture_view_min_layer);
-# endif
-# ifdef GL_TEXTURE_VIEW_MIN_LEVEL
-	BOOST_CHECK(x != ev.texture_view_min_level);
-# endif
-# ifdef GL_TEXTURE_VIEW_NUM_LAYERS
-	BOOST_CHECK(x != ev.texture_view_num_layers);
-# endif
-# ifdef GL_TEXTURE_VIEW_NUM_LEVELS
-	BOOST_CHECK(x != ev.texture_view_num_levels);
-# endif
-# ifdef GL_TEXTURE_WRAP_R
-	BOOST_CHECK(x != ev.texture_wrap_r);
-# endif
 	BOOST_CHECK(x == ev.texture_wrap_s);
 # ifdef GL_TEXTURE_WRAP_T
 	BOOST_CHECK(x != ev.texture_wrap_t);
@@ -2186,84 +1211,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_parameter_values)
 
 #ifdef GL_TEXTURE_WRAP_T
 	x = ev.texture_wrap_t;
-# ifdef GL_DEPTH_STENCIL_TEXTURE_MODE
-	BOOST_CHECK(x != ev.depth_stencil_texture_mode);
-# endif
-# ifdef GL_IMAGE_FORMAT_COMPATIBILITY_TYPE
-	BOOST_CHECK(x != ev.image_format_compatibility_type);
-# endif
-# ifdef GL_TEXTURE_BASE_LEVEL
-	BOOST_CHECK(x != ev.texture_base_level);
-# endif
-# ifdef GL_TEXTURE_BORDER_COLOR
-	BOOST_CHECK(x != ev.texture_border_color);
-# endif
-# ifdef GL_TEXTURE_COMPARE_FUNC
-	BOOST_CHECK(x != ev.texture_compare_func);
-# endif
-# ifdef GL_TEXTURE_COMPARE_MODE
-	BOOST_CHECK(x != ev.texture_compare_mode);
-# endif
-# ifdef GL_TEXTURE_IMMUTABLE_FORMAT
-	BOOST_CHECK(x != ev.texture_immutable_format);
-# endif
-# ifdef GL_TEXTURE_IMMUTABLE_LEVELS
-	BOOST_CHECK(x != ev.texture_immutable_levels);
-# endif
-# ifdef GL_TEXTURE_LOD_BIAS
-	BOOST_CHECK(x != ev.texture_lod_bias);
-# endif
-# ifdef GL_TEXTURE_MAG_FILTER
-	BOOST_CHECK(x != ev.texture_mag_filter);
-# endif
-# ifdef GL_TEXTURE_MAX_LEVEL
-	BOOST_CHECK(x != ev.texture_max_level);
-# endif
-# ifdef GL_TEXTURE_MAX_LOD
-	BOOST_CHECK(x != ev.texture_max_lod);
-# endif
-# ifdef GL_TEXTURE_MIN_FILTER
-	BOOST_CHECK(x != ev.texture_min_filter);
-# endif
-# ifdef GL_TEXTURE_MIN_LOD
-	BOOST_CHECK(x != ev.texture_min_lod);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_A
-	BOOST_CHECK(x != ev.texture_swizzle_a);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_B
-	BOOST_CHECK(x != ev.texture_swizzle_b);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_G
-	BOOST_CHECK(x != ev.texture_swizzle_g);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_R
-	BOOST_CHECK(x != ev.texture_swizzle_r);
-# endif
-# ifdef GL_TEXTURE_SWIZZLE_RGBA
-	BOOST_CHECK(x != ev.texture_swizzle_rgba);
-# endif
-# ifdef GL_TEXTURE_TARGET
-	BOOST_CHECK(x != ev.texture_target);
-# endif
-# ifdef GL_TEXTURE_VIEW_MIN_LAYER
-	BOOST_CHECK(x != ev.texture_view_min_layer);
-# endif
-# ifdef GL_TEXTURE_VIEW_MIN_LEVEL
-	BOOST_CHECK(x != ev.texture_view_min_level);
-# endif
-# ifdef GL_TEXTURE_VIEW_NUM_LAYERS
-	BOOST_CHECK(x != ev.texture_view_num_layers);
-# endif
-# ifdef GL_TEXTURE_VIEW_NUM_LEVELS
-	BOOST_CHECK(x != ev.texture_view_num_levels);
-# endif
-# ifdef GL_TEXTURE_WRAP_R
-	BOOST_CHECK(x != ev.texture_wrap_r);
-# endif
-# ifdef GL_TEXTURE_WRAP_S
-	BOOST_CHECK(x != ev.texture_wrap_s);
-# endif
 	BOOST_CHECK(x == ev.texture_wrap_t);
 #endif
 }

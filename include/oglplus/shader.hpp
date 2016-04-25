@@ -48,6 +48,11 @@ struct shader_ops
 
 	static
 	outcome<void>
+	report_shader_compile_error(shader_name shdr)
+	noexcept;
+
+	static
+	outcome<void>
 	get_shader_iv(
 		shader_name shdr,
 		shader_parameter param,
@@ -116,6 +121,13 @@ struct obj_dsa_ops<tag::shader>
 	noexcept
 	{
 		return {_ops::compile_shader(*this), *this};
+	}
+
+	outcome<obj_dsa_ops&>
+	report_compile_error(void)
+	noexcept
+	{
+		return {_ops::report_shader_compile_error(*this), *this};
 	}
 
 	outcome<boolean>

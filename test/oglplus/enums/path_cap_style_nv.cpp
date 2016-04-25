@@ -42,9 +42,6 @@ BOOST_AUTO_TEST_CASE(enum_path_cap_style_nv_values)
 
 #ifdef GL_ROUND_NV
 	x = ev.round_nv;
-# ifdef GL_FLAT
-	BOOST_CHECK(x != ev.flat);
-# endif
 	BOOST_CHECK(x == ev.round_nv);
 # ifdef GL_SQUARE_NV
 	BOOST_CHECK(x != ev.square_nv);
@@ -56,12 +53,6 @@ BOOST_AUTO_TEST_CASE(enum_path_cap_style_nv_values)
 
 #ifdef GL_SQUARE_NV
 	x = ev.square_nv;
-# ifdef GL_FLAT
-	BOOST_CHECK(x != ev.flat);
-# endif
-# ifdef GL_ROUND_NV
-	BOOST_CHECK(x != ev.round_nv);
-# endif
 	BOOST_CHECK(x == ev.square_nv);
 # ifdef GL_TRIANGULAR_NV
 	BOOST_CHECK(x != ev.triangular_nv);
@@ -70,15 +61,6 @@ BOOST_AUTO_TEST_CASE(enum_path_cap_style_nv_values)
 
 #ifdef GL_TRIANGULAR_NV
 	x = ev.triangular_nv;
-# ifdef GL_FLAT
-	BOOST_CHECK(x != ev.flat);
-# endif
-# ifdef GL_ROUND_NV
-	BOOST_CHECK(x != ev.round_nv);
-# endif
-# ifdef GL_SQUARE_NV
-	BOOST_CHECK(x != ev.square_nv);
-# endif
 	BOOST_CHECK(x == ev.triangular_nv);
 #endif
 }

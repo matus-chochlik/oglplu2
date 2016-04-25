@@ -10,6 +10,7 @@
 
 #include <eagine/memory_block.hpp>
 #include <cstdlib>
+#include <vector>
 
 BOOST_AUTO_TEST_SUITE(memory_block_tests)
 
@@ -65,7 +66,7 @@ void eagine_test_memory_block_2(void)
 
 	int x;
 
-	basic_memory_block<is_const> bmb(x);
+	basic_memory_block<is_const> bmb = memory::block_of(x);
 
 	BOOST_CHECK(bool(bmb));
 	BOOST_CHECK(!!bmb);
@@ -95,7 +96,7 @@ void eagine_test_memory_block_3(void)
 
 	double x[42];
 
-	basic_memory_block<is_const> bmb(x);
+	basic_memory_block<is_const> bmb = memory::block_of(x);
 
 	BOOST_CHECK(bool(bmb));
 	BOOST_CHECK(!!bmb);
@@ -160,7 +161,7 @@ void eagine_test_memory_block_5(void)
 		b = byte(std::rand() % 0xFF);
 	}
 
-	basic_memory_block<is_const> bmb(x);
+	basic_memory_block<is_const> bmb = memory::block_of(x);
 
 	BOOST_CHECK(bool(bmb));
 	BOOST_CHECK(!!bmb);
@@ -188,7 +189,7 @@ void eagine_test_memory_block_6(void)
 
 	unsigned x[10];
 
-	basic_memory_block<is_const> bmb1(x);
+	basic_memory_block<is_const> bmb1 = memory::block_of(x);
 
 	BOOST_CHECK(bool(bmb1));
 	BOOST_CHECK(!!bmb1);
@@ -210,7 +211,7 @@ void eagine_test_memory_block_6(void)
 	BOOST_CHECK( bmb2.empty());
 	BOOST_CHECK(!bmb3.empty());
 
-	basic_memory_block<is_const> bmb4(x);
+	basic_memory_block<is_const> bmb4 = memory_block_of(x);
 
 	BOOST_CHECK(bmb1 == bmb2);
 	BOOST_CHECK(bmb2 != bmb3);
@@ -223,6 +224,58 @@ BOOST_AUTO_TEST_CASE(memory_block_6)
 
 	eagine_test_memory_block_6<true>();
 	eagine_test_memory_block_6<false>();
+}
+
+template <typename T>
+void eagine_test_memory_block_7(void)
+{
+	using namespace eagine;
+
+	std::vector<unsigned char> x(100 + std::rand() % 1000);
+
+	memory_block b(x.data(), x.size());
+
+	span<T> s = as_span_of<T>(b);
+
+	BOOST_CHECK_EQUAL(s.size(), x.size()/sizeof(T));
+}
+
+BOOST_AUTO_TEST_CASE(memory_block_7)
+{
+	for(int i=0; i<100; ++i)
+	{
+		eagine_test_memory_block_7<char>();
+		eagine_test_memory_block_7<short>();
+		eagine_test_memory_block_7<float>();
+		eagine_test_memory_block_7<int>();
+		eagine_test_memory_block_7<long>();
+		eagine_test_memory_block_7<double>();
+	}
+}
+
+template <typename T>
+void eagine_test_memory_block_8(void)
+{
+	using namespace eagine;
+
+	std::vector<T> x(100 + std::rand() % 1000);
+
+	memory_block b = eagine::memory::data_block_of(x);
+
+	BOOST_CHECK_EQUAL(b.size(), x.size()*sizeof(T));
+}
+
+BOOST_AUTO_TEST_CASE(memory_block_8)
+{
+	for(int i=0; i<100; ++i)
+	{
+		eagine_test_memory_block_8<char>();
+		eagine_test_memory_block_8<short>();
+		eagine_test_memory_block_8<float>();
+		eagine_test_memory_block_8<int>();
+		eagine_test_memory_block_8<long>();
+		eagine_test_memory_block_8<double>();
+	}
 }
 
 // TODO

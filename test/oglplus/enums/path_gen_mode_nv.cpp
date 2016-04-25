@@ -42,9 +42,6 @@ BOOST_AUTO_TEST_CASE(enum_path_gen_mode_nv_values)
 
 #ifdef GL_NONE
 	x = ev.none;
-# ifdef GL_EYE_LINEAR
-	BOOST_CHECK(x != ev.eye_linear);
-# endif
 	BOOST_CHECK(x == ev.none);
 # ifdef GL_OBJECT_LINEAR
 	BOOST_CHECK(x != ev.object_linear);
@@ -56,12 +53,6 @@ BOOST_AUTO_TEST_CASE(enum_path_gen_mode_nv_values)
 
 #ifdef GL_OBJECT_LINEAR
 	x = ev.object_linear;
-# ifdef GL_EYE_LINEAR
-	BOOST_CHECK(x != ev.eye_linear);
-# endif
-# ifdef GL_NONE
-	BOOST_CHECK(x != ev.none);
-# endif
 	BOOST_CHECK(x == ev.object_linear);
 # ifdef GL_PATH_OBJECT_BOUNDING_BOX_NV
 	BOOST_CHECK(x != ev.path_object_bounding_box_nv);
@@ -70,15 +61,6 @@ BOOST_AUTO_TEST_CASE(enum_path_gen_mode_nv_values)
 
 #ifdef GL_PATH_OBJECT_BOUNDING_BOX_NV
 	x = ev.path_object_bounding_box_nv;
-# ifdef GL_EYE_LINEAR
-	BOOST_CHECK(x != ev.eye_linear);
-# endif
-# ifdef GL_NONE
-	BOOST_CHECK(x != ev.none);
-# endif
-# ifdef GL_OBJECT_LINEAR
-	BOOST_CHECK(x != ev.object_linear);
-# endif
 	BOOST_CHECK(x == ev.path_object_bounding_box_nv);
 #endif
 }

@@ -1,0 +1,3 @@
+template <std::size_t S, std::size_t A>
+using aligned_storage_t = typename aligned_storage<S, A>::type;
+

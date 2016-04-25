@@ -60,9 +60,6 @@ BOOST_AUTO_TEST_CASE(enum_renderbuffer_parameter_values)
 
 #ifdef GL_RENDERBUFFER_BLUE_SIZE
 	x = ev.renderbuffer_blue_size;
-# ifdef GL_RENDERBUFFER_ALPHA_SIZE
-	BOOST_CHECK(x != ev.renderbuffer_alpha_size);
-# endif
 	BOOST_CHECK(x == ev.renderbuffer_blue_size);
 # ifdef GL_RENDERBUFFER_DEPTH_SIZE
 	BOOST_CHECK(x != ev.renderbuffer_depth_size);
@@ -92,12 +89,6 @@ BOOST_AUTO_TEST_CASE(enum_renderbuffer_parameter_values)
 
 #ifdef GL_RENDERBUFFER_DEPTH_SIZE
 	x = ev.renderbuffer_depth_size;
-# ifdef GL_RENDERBUFFER_ALPHA_SIZE
-	BOOST_CHECK(x != ev.renderbuffer_alpha_size);
-# endif
-# ifdef GL_RENDERBUFFER_BLUE_SIZE
-	BOOST_CHECK(x != ev.renderbuffer_blue_size);
-# endif
 	BOOST_CHECK(x == ev.renderbuffer_depth_size);
 # ifdef GL_RENDERBUFFER_GREEN_SIZE
 	BOOST_CHECK(x != ev.renderbuffer_green_size);
@@ -124,15 +115,6 @@ BOOST_AUTO_TEST_CASE(enum_renderbuffer_parameter_values)
 
 #ifdef GL_RENDERBUFFER_GREEN_SIZE
 	x = ev.renderbuffer_green_size;
-# ifdef GL_RENDERBUFFER_ALPHA_SIZE
-	BOOST_CHECK(x != ev.renderbuffer_alpha_size);
-# endif
-# ifdef GL_RENDERBUFFER_BLUE_SIZE
-	BOOST_CHECK(x != ev.renderbuffer_blue_size);
-# endif
-# ifdef GL_RENDERBUFFER_DEPTH_SIZE
-	BOOST_CHECK(x != ev.renderbuffer_depth_size);
-# endif
 	BOOST_CHECK(x == ev.renderbuffer_green_size);
 # ifdef GL_RENDERBUFFER_HEIGHT
 	BOOST_CHECK(x != ev.renderbuffer_height);
@@ -156,18 +138,6 @@ BOOST_AUTO_TEST_CASE(enum_renderbuffer_parameter_values)
 
 #ifdef GL_RENDERBUFFER_HEIGHT
 	x = ev.renderbuffer_height;
-# ifdef GL_RENDERBUFFER_ALPHA_SIZE
-	BOOST_CHECK(x != ev.renderbuffer_alpha_size);
-# endif
-# ifdef GL_RENDERBUFFER_BLUE_SIZE
-	BOOST_CHECK(x != ev.renderbuffer_blue_size);
-# endif
-# ifdef GL_RENDERBUFFER_DEPTH_SIZE
-	BOOST_CHECK(x != ev.renderbuffer_depth_size);
-# endif
-# ifdef GL_RENDERBUFFER_GREEN_SIZE
-	BOOST_CHECK(x != ev.renderbuffer_green_size);
-# endif
 	BOOST_CHECK(x == ev.renderbuffer_height);
 # ifdef GL_RENDERBUFFER_INTERNAL_FORMAT
 	BOOST_CHECK(x != ev.renderbuffer_internal_format);
@@ -188,21 +158,6 @@ BOOST_AUTO_TEST_CASE(enum_renderbuffer_parameter_values)
 
 #ifdef GL_RENDERBUFFER_INTERNAL_FORMAT
 	x = ev.renderbuffer_internal_format;
-# ifdef GL_RENDERBUFFER_ALPHA_SIZE
-	BOOST_CHECK(x != ev.renderbuffer_alpha_size);
-# endif
-# ifdef GL_RENDERBUFFER_BLUE_SIZE
-	BOOST_CHECK(x != ev.renderbuffer_blue_size);
-# endif
-# ifdef GL_RENDERBUFFER_DEPTH_SIZE
-	BOOST_CHECK(x != ev.renderbuffer_depth_size);
-# endif
-# ifdef GL_RENDERBUFFER_GREEN_SIZE
-	BOOST_CHECK(x != ev.renderbuffer_green_size);
-# endif
-# ifdef GL_RENDERBUFFER_HEIGHT
-	BOOST_CHECK(x != ev.renderbuffer_height);
-# endif
 	BOOST_CHECK(x == ev.renderbuffer_internal_format);
 # ifdef GL_RENDERBUFFER_RED_SIZE
 	BOOST_CHECK(x != ev.renderbuffer_red_size);
@@ -220,24 +175,6 @@ BOOST_AUTO_TEST_CASE(enum_renderbuffer_parameter_values)
 
 #ifdef GL_RENDERBUFFER_RED_SIZE
 	x = ev.renderbuffer_red_size;
-# ifdef GL_RENDERBUFFER_ALPHA_SIZE
-	BOOST_CHECK(x != ev.renderbuffer_alpha_size);
-# endif
-# ifdef GL_RENDERBUFFER_BLUE_SIZE
-	BOOST_CHECK(x != ev.renderbuffer_blue_size);
-# endif
-# ifdef GL_RENDERBUFFER_DEPTH_SIZE
-	BOOST_CHECK(x != ev.renderbuffer_depth_size);
-# endif
-# ifdef GL_RENDERBUFFER_GREEN_SIZE
-	BOOST_CHECK(x != ev.renderbuffer_green_size);
-# endif
-# ifdef GL_RENDERBUFFER_HEIGHT
-	BOOST_CHECK(x != ev.renderbuffer_height);
-# endif
-# ifdef GL_RENDERBUFFER_INTERNAL_FORMAT
-	BOOST_CHECK(x != ev.renderbuffer_internal_format);
-# endif
 	BOOST_CHECK(x == ev.renderbuffer_red_size);
 # ifdef GL_RENDERBUFFER_SAMPLES
 	BOOST_CHECK(x != ev.renderbuffer_samples);
@@ -252,27 +189,6 @@ BOOST_AUTO_TEST_CASE(enum_renderbuffer_parameter_values)
 
 #ifdef GL_RENDERBUFFER_SAMPLES
 	x = ev.renderbuffer_samples;
-# ifdef GL_RENDERBUFFER_ALPHA_SIZE
-	BOOST_CHECK(x != ev.renderbuffer_alpha_size);
-# endif
-# ifdef GL_RENDERBUFFER_BLUE_SIZE
-	BOOST_CHECK(x != ev.renderbuffer_blue_size);
-# endif
-# ifdef GL_RENDERBUFFER_DEPTH_SIZE
-	BOOST_CHECK(x != ev.renderbuffer_depth_size);
-# endif
-# ifdef GL_RENDERBUFFER_GREEN_SIZE
-	BOOST_CHECK(x != ev.renderbuffer_green_size);
-# endif
-# ifdef GL_RENDERBUFFER_HEIGHT
-	BOOST_CHECK(x != ev.renderbuffer_height);
-# endif
-# ifdef GL_RENDERBUFFER_INTERNAL_FORMAT
-	BOOST_CHECK(x != ev.renderbuffer_internal_format);
-# endif
-# ifdef GL_RENDERBUFFER_RED_SIZE
-	BOOST_CHECK(x != ev.renderbuffer_red_size);
-# endif
 	BOOST_CHECK(x == ev.renderbuffer_samples);
 # ifdef GL_RENDERBUFFER_STENCIL_SIZE
 	BOOST_CHECK(x != ev.renderbuffer_stencil_size);
@@ -284,30 +200,6 @@ BOOST_AUTO_TEST_CASE(enum_renderbuffer_parameter_values)
 
 #ifdef GL_RENDERBUFFER_STENCIL_SIZE
 	x = ev.renderbuffer_stencil_size;
-# ifdef GL_RENDERBUFFER_ALPHA_SIZE
-	BOOST_CHECK(x != ev.renderbuffer_alpha_size);
-# endif
-# ifdef GL_RENDERBUFFER_BLUE_SIZE
-	BOOST_CHECK(x != ev.renderbuffer_blue_size);
-# endif
-# ifdef GL_RENDERBUFFER_DEPTH_SIZE
-	BOOST_CHECK(x != ev.renderbuffer_depth_size);
-# endif
-# ifdef GL_RENDERBUFFER_GREEN_SIZE
-	BOOST_CHECK(x != ev.renderbuffer_green_size);
-# endif
-# ifdef GL_RENDERBUFFER_HEIGHT
-	BOOST_CHECK(x != ev.renderbuffer_height);
-# endif
-# ifdef GL_RENDERBUFFER_INTERNAL_FORMAT
-	BOOST_CHECK(x != ev.renderbuffer_internal_format);
-# endif
-# ifdef GL_RENDERBUFFER_RED_SIZE
-	BOOST_CHECK(x != ev.renderbuffer_red_size);
-# endif
-# ifdef GL_RENDERBUFFER_SAMPLES
-	BOOST_CHECK(x != ev.renderbuffer_samples);
-# endif
 	BOOST_CHECK(x == ev.renderbuffer_stencil_size);
 # ifdef GL_RENDERBUFFER_WIDTH
 	BOOST_CHECK(x != ev.renderbuffer_width);
@@ -316,33 +208,6 @@ BOOST_AUTO_TEST_CASE(enum_renderbuffer_parameter_values)
 
 #ifdef GL_RENDERBUFFER_WIDTH
 	x = ev.renderbuffer_width;
-# ifdef GL_RENDERBUFFER_ALPHA_SIZE
-	BOOST_CHECK(x != ev.renderbuffer_alpha_size);
-# endif
-# ifdef GL_RENDERBUFFER_BLUE_SIZE
-	BOOST_CHECK(x != ev.renderbuffer_blue_size);
-# endif
-# ifdef GL_RENDERBUFFER_DEPTH_SIZE
-	BOOST_CHECK(x != ev.renderbuffer_depth_size);
-# endif
-# ifdef GL_RENDERBUFFER_GREEN_SIZE
-	BOOST_CHECK(x != ev.renderbuffer_green_size);
-# endif
-# ifdef GL_RENDERBUFFER_HEIGHT
-	BOOST_CHECK(x != ev.renderbuffer_height);
-# endif
-# ifdef GL_RENDERBUFFER_INTERNAL_FORMAT
-	BOOST_CHECK(x != ev.renderbuffer_internal_format);
-# endif
-# ifdef GL_RENDERBUFFER_RED_SIZE
-	BOOST_CHECK(x != ev.renderbuffer_red_size);
-# endif
-# ifdef GL_RENDERBUFFER_SAMPLES
-	BOOST_CHECK(x != ev.renderbuffer_samples);
-# endif
-# ifdef GL_RENDERBUFFER_STENCIL_SIZE
-	BOOST_CHECK(x != ev.renderbuffer_stencil_size);
-# endif
 	BOOST_CHECK(x == ev.renderbuffer_width);
 #endif
 }

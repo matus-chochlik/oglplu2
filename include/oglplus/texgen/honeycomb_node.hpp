@@ -1,0 +1,104 @@
+/**
+ *  @file oglplus/texgen/honeycomb_node.hpp
+ *
+ *  Copyright Matus Chochlik.
+ *  Distributed under the Boost Software License, Version 1.0.
+ *  See accompanying file LICENSE_1_0.txt or copy at
+ *   http://www.boost.org/LICENSE_1_0.txt
+ */
+#ifndef OGLPLUS_TEXGEN_HONEYCOMB_NODE_1509260923_HPP
+#define OGLPLUS_TEXGEN_HONEYCOMB_NODE_1509260923_HPP
+
+#include "fallback_input.hpp"
+#include "base_node.hpp"
+
+namespace oglplus {
+namespace texgen {
+
+enum class honeycomb_direction
+{
+	vertical,
+	horizontal
+};
+
+enum class honeycomb_output_type
+{
+	cell_coord,
+	cell_center,
+	distance
+};
+
+class honeycomb_output
+ : public base_output
+{
+private:
+	input_with_const_default<float[2]>& _cells;
+	honeycomb_direction& _direction;
+	honeycomb_output_type _type;
+
+	cstr_ref type_abbr(void) const;
+public:
+	honeycomb_output(
+		node_intf& parent,
+		input_with_const_default<float[2]>&,
+		honeycomb_direction& direction,
+		honeycomb_output_type type
+	);
+
+	cstr_ref type_name(void)
+	override;
+
+	slot_data_type value_type(void)
+	override;
+
+	std::ostream& definitions(std::ostream& out, compile_context& ctxt)
+	override;
+
+	std::ostream& expression(std::ostream& out, compile_context& ctxt)
+	override;
+};
+
+class honeycomb_node
+ : public base_node
+{
+private:
+	input_with_const_default<float[2]> _cells;
+	honeycomb_direction _direction;
+
+	honeycomb_output _cell_coord;
+	honeycomb_output _cell_center;
+	honeycomb_output _distance;
+public:
+	honeycomb_node(void);
+
+	honeycomb_node&
+	set_cell_count(float x, float y)
+	{
+		_cells.fallback().set(x, y);
+		return *this;
+	}
+
+	cstr_ref type_name(void)
+	override;
+
+	std::size_t input_count(void)
+	override;
+
+	input_intf& input(std::size_t index)
+	override;
+
+	std::size_t output_count(void)
+	override;
+
+	output_intf& output(std::size_t index)
+	override;
+};
+
+} // namespace texgen
+} // namespace oglplus
+
+#if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
+#include <oglplus/texgen/honeycomb_node.inl>
+#endif
+
+#endif // include guard

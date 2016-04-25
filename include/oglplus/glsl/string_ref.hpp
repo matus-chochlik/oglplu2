@@ -25,6 +25,13 @@ public:
 	 , _length(GLint(n==0?0:(src_str[n-1]=='\0'?n-1:n)))
 	{ }
 
+	template <typename String>
+	explicit
+	glsl_string_ref(const String& str)
+	noexcept
+	 : glsl_string_ref(str.data(), std::size_t(str.size()))
+	{ }
+
 	operator glsl_source_ref (void) const
 	noexcept
 	{

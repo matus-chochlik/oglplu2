@@ -51,9 +51,6 @@ BOOST_AUTO_TEST_CASE(enum_program_pipeline_parameter_values)
 
 #ifdef GL_FRAGMENT_SHADER
 	x = ev.fragment_shader;
-# ifdef GL_ACTIVE_PROGRAM
-	BOOST_CHECK(x != ev.active_program);
-# endif
 	BOOST_CHECK(x == ev.fragment_shader);
 # ifdef GL_GEOMETRY_SHADER
 	BOOST_CHECK(x != ev.geometry_shader);
@@ -74,12 +71,6 @@ BOOST_AUTO_TEST_CASE(enum_program_pipeline_parameter_values)
 
 #ifdef GL_GEOMETRY_SHADER
 	x = ev.geometry_shader;
-# ifdef GL_ACTIVE_PROGRAM
-	BOOST_CHECK(x != ev.active_program);
-# endif
-# ifdef GL_FRAGMENT_SHADER
-	BOOST_CHECK(x != ev.fragment_shader);
-# endif
 	BOOST_CHECK(x == ev.geometry_shader);
 # ifdef GL_INFO_LOG_LENGTH
 	BOOST_CHECK(x != ev.info_log_length);
@@ -97,15 +88,6 @@ BOOST_AUTO_TEST_CASE(enum_program_pipeline_parameter_values)
 
 #ifdef GL_INFO_LOG_LENGTH
 	x = ev.info_log_length;
-# ifdef GL_ACTIVE_PROGRAM
-	BOOST_CHECK(x != ev.active_program);
-# endif
-# ifdef GL_FRAGMENT_SHADER
-	BOOST_CHECK(x != ev.fragment_shader);
-# endif
-# ifdef GL_GEOMETRY_SHADER
-	BOOST_CHECK(x != ev.geometry_shader);
-# endif
 	BOOST_CHECK(x == ev.info_log_length);
 # ifdef GL_TESS_CONTROL_SHADER
 	BOOST_CHECK(x != ev.tess_control_shader);
@@ -120,18 +102,6 @@ BOOST_AUTO_TEST_CASE(enum_program_pipeline_parameter_values)
 
 #ifdef GL_TESS_CONTROL_SHADER
 	x = ev.tess_control_shader;
-# ifdef GL_ACTIVE_PROGRAM
-	BOOST_CHECK(x != ev.active_program);
-# endif
-# ifdef GL_FRAGMENT_SHADER
-	BOOST_CHECK(x != ev.fragment_shader);
-# endif
-# ifdef GL_GEOMETRY_SHADER
-	BOOST_CHECK(x != ev.geometry_shader);
-# endif
-# ifdef GL_INFO_LOG_LENGTH
-	BOOST_CHECK(x != ev.info_log_length);
-# endif
 	BOOST_CHECK(x == ev.tess_control_shader);
 # ifdef GL_TESS_EVALUATION_SHADER
 	BOOST_CHECK(x != ev.tess_evaluation_shader);
@@ -143,21 +113,6 @@ BOOST_AUTO_TEST_CASE(enum_program_pipeline_parameter_values)
 
 #ifdef GL_TESS_EVALUATION_SHADER
 	x = ev.tess_evaluation_shader;
-# ifdef GL_ACTIVE_PROGRAM
-	BOOST_CHECK(x != ev.active_program);
-# endif
-# ifdef GL_FRAGMENT_SHADER
-	BOOST_CHECK(x != ev.fragment_shader);
-# endif
-# ifdef GL_GEOMETRY_SHADER
-	BOOST_CHECK(x != ev.geometry_shader);
-# endif
-# ifdef GL_INFO_LOG_LENGTH
-	BOOST_CHECK(x != ev.info_log_length);
-# endif
-# ifdef GL_TESS_CONTROL_SHADER
-	BOOST_CHECK(x != ev.tess_control_shader);
-# endif
 	BOOST_CHECK(x == ev.tess_evaluation_shader);
 # ifdef GL_VERTEX_SHADER
 	BOOST_CHECK(x != ev.vertex_shader);
@@ -166,24 +121,6 @@ BOOST_AUTO_TEST_CASE(enum_program_pipeline_parameter_values)
 
 #ifdef GL_VERTEX_SHADER
 	x = ev.vertex_shader;
-# ifdef GL_ACTIVE_PROGRAM
-	BOOST_CHECK(x != ev.active_program);
-# endif
-# ifdef GL_FRAGMENT_SHADER
-	BOOST_CHECK(x != ev.fragment_shader);
-# endif
-# ifdef GL_GEOMETRY_SHADER
-	BOOST_CHECK(x != ev.geometry_shader);
-# endif
-# ifdef GL_INFO_LOG_LENGTH
-	BOOST_CHECK(x != ev.info_log_length);
-# endif
-# ifdef GL_TESS_CONTROL_SHADER
-	BOOST_CHECK(x != ev.tess_control_shader);
-# endif
-# ifdef GL_TESS_EVALUATION_SHADER
-	BOOST_CHECK(x != ev.tess_evaluation_shader);
-# endif
 	BOOST_CHECK(x == ev.vertex_shader);
 #endif
 }

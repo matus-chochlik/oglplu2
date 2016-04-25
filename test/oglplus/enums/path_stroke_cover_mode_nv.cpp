@@ -42,9 +42,6 @@ BOOST_AUTO_TEST_CASE(enum_path_stroke_cover_mode_nv_values)
 
 #ifdef GL_BOUNDING_BOX_OF_BOUNDING_BOXES_NV
 	x = ev.bounding_box_of_bounding_boxes_nv;
-# ifdef GL_BOUNDING_BOX_NV
-	BOOST_CHECK(x != ev.bounding_box_nv);
-# endif
 	BOOST_CHECK(x == ev.bounding_box_of_bounding_boxes_nv);
 # ifdef GL_CONVEX_HULL_NV
 	BOOST_CHECK(x != ev.convex_hull_nv);
@@ -56,12 +53,6 @@ BOOST_AUTO_TEST_CASE(enum_path_stroke_cover_mode_nv_values)
 
 #ifdef GL_CONVEX_HULL_NV
 	x = ev.convex_hull_nv;
-# ifdef GL_BOUNDING_BOX_NV
-	BOOST_CHECK(x != ev.bounding_box_nv);
-# endif
-# ifdef GL_BOUNDING_BOX_OF_BOUNDING_BOXES_NV
-	BOOST_CHECK(x != ev.bounding_box_of_bounding_boxes_nv);
-# endif
 	BOOST_CHECK(x == ev.convex_hull_nv);
 # ifdef GL_PATH_STROKE_COVER_MODE_NV
 	BOOST_CHECK(x != ev.path_stroke_cover_mode_nv);
@@ -70,15 +61,6 @@ BOOST_AUTO_TEST_CASE(enum_path_stroke_cover_mode_nv_values)
 
 #ifdef GL_PATH_STROKE_COVER_MODE_NV
 	x = ev.path_stroke_cover_mode_nv;
-# ifdef GL_BOUNDING_BOX_NV
-	BOOST_CHECK(x != ev.bounding_box_nv);
-# endif
-# ifdef GL_BOUNDING_BOX_OF_BOUNDING_BOXES_NV
-	BOOST_CHECK(x != ev.bounding_box_of_bounding_boxes_nv);
-# endif
-# ifdef GL_CONVEX_HULL_NV
-	BOOST_CHECK(x != ev.convex_hull_nv);
-# endif
 	BOOST_CHECK(x == ev.path_stroke_cover_mode_nv);
 #endif
 }

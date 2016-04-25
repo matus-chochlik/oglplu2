@@ -36,9 +36,6 @@ BOOST_AUTO_TEST_CASE(enum_context_profile_bits_values)
 
 #ifdef GL_CONTEXT_CORE_PROFILE_BIT
 	x = ev.context_core_profile_bit;
-# ifdef GL_CONTEXT_COMPATIBILITY_PROFILE_BIT
-	BOOST_CHECK(x != ev.context_compatibility_profile_bit);
-# endif
 	BOOST_CHECK(x == ev.context_core_profile_bit);
 #endif
 }

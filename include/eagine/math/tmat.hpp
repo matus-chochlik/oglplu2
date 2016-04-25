@@ -11,6 +11,7 @@
 
 #include "matrix.hpp"
 #include "matrix_identity.hpp"
+#include "../all_are_same.hpp"
 
 namespace eagine {
 namespace math {
@@ -47,7 +48,10 @@ public:
 private:
 	template <
 		typename ... P,
-		typename = std::enable_if_t<((sizeof...(P)) == (C*R))>
+		typename = std::enable_if_t<
+			((sizeof...(P)) == (C*R)) &&
+			all_are_convertible_to<T, P...>::value
+		>
 	>
 	static inline
 	_base _make(P&& ... p)
@@ -58,7 +62,10 @@ private:
 public:
 	template <
 		typename ... P,
-		typename = std::enable_if_t<((sizeof...(P)) == (R*C))>
+		typename = std::enable_if_t<
+			((sizeof...(P)) == (R*C)) &&
+			all_are_convertible_to<T, P...>::value
+		>
 	>
 	inline
 	tmat(P&& ... p)

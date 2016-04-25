@@ -45,9 +45,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_wrap_mode_values)
 
 #ifdef GL_CLAMP_TO_EDGE
 	x = ev.clamp_to_edge;
-# ifdef GL_CLAMP_TO_BORDER
-	BOOST_CHECK(x != ev.clamp_to_border);
-# endif
 	BOOST_CHECK(x == ev.clamp_to_edge);
 # ifdef GL_MIRROR_CLAMP_TO_EDGE
 	BOOST_CHECK(x != ev.mirror_clamp_to_edge);
@@ -62,12 +59,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_wrap_mode_values)
 
 #ifdef GL_MIRROR_CLAMP_TO_EDGE
 	x = ev.mirror_clamp_to_edge;
-# ifdef GL_CLAMP_TO_BORDER
-	BOOST_CHECK(x != ev.clamp_to_border);
-# endif
-# ifdef GL_CLAMP_TO_EDGE
-	BOOST_CHECK(x != ev.clamp_to_edge);
-# endif
 	BOOST_CHECK(x == ev.mirror_clamp_to_edge);
 # ifdef GL_MIRRORED_REPEAT
 	BOOST_CHECK(x != ev.mirrored_repeat);
@@ -79,15 +70,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_wrap_mode_values)
 
 #ifdef GL_MIRRORED_REPEAT
 	x = ev.mirrored_repeat;
-# ifdef GL_CLAMP_TO_BORDER
-	BOOST_CHECK(x != ev.clamp_to_border);
-# endif
-# ifdef GL_CLAMP_TO_EDGE
-	BOOST_CHECK(x != ev.clamp_to_edge);
-# endif
-# ifdef GL_MIRROR_CLAMP_TO_EDGE
-	BOOST_CHECK(x != ev.mirror_clamp_to_edge);
-# endif
 	BOOST_CHECK(x == ev.mirrored_repeat);
 # ifdef GL_REPEAT
 	BOOST_CHECK(x != ev.repeat);
@@ -96,18 +78,6 @@ BOOST_AUTO_TEST_CASE(enum_texture_wrap_mode_values)
 
 #ifdef GL_REPEAT
 	x = ev.repeat;
-# ifdef GL_CLAMP_TO_BORDER
-	BOOST_CHECK(x != ev.clamp_to_border);
-# endif
-# ifdef GL_CLAMP_TO_EDGE
-	BOOST_CHECK(x != ev.clamp_to_edge);
-# endif
-# ifdef GL_MIRROR_CLAMP_TO_EDGE
-	BOOST_CHECK(x != ev.mirror_clamp_to_edge);
-# endif
-# ifdef GL_MIRRORED_REPEAT
-	BOOST_CHECK(x != ev.mirrored_repeat);
-# endif
 	BOOST_CHECK(x == ev.repeat);
 #endif
 }

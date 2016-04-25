@@ -36,9 +36,6 @@ BOOST_AUTO_TEST_CASE(enum_path_color_nv_values)
 
 #ifdef GL_SECONDARY_COLOR_NV
 	x = ev.secondary_color_nv;
-# ifdef GL_PRIMARY_COLOR_NV
-	BOOST_CHECK(x != ev.primary_color_nv);
-# endif
 	BOOST_CHECK(x == ev.secondary_color_nv);
 #endif
 }

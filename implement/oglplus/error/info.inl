@@ -9,6 +9,19 @@
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include <oglplus/enum/types.hpp>
 #include <string>
+#include <vector>
+#endif
+
+#ifndef GL_SHADER
+#define GL_SHADER 0x82E1
+#endif
+
+#ifndef GL_PROGRAM
+#define GL_PROGRAM 0x82E2
+#endif
+
+#ifndef GL_PROGRAM_PIPELINE
+#define GL_PROGRAM_PIPELINE 0x82E4
 #endif
 
 namespace oglplus {
@@ -23,8 +36,8 @@ struct extended_error_info
 	any_object_name _sub_name;
 #endif
 
-#if !OGLPLUS_ERROR_NO_BUILD_LOG
-	std::string _build_log;
+#if !OGLPLUS_ERROR_NO_INFO_LOG
+	std::string _info_log;
 #endif
 
 #if !OGLPLUS_ERROR_NO_IDENTIFIER
@@ -431,12 +444,63 @@ noexcept
 OGLPLUS_LIB_FUNC
 error_info&
 error_info::
-build_log(const cstring_span<>& log)
+info_log(const cstring_span<>& log)
 noexcept
 {
-#if !OGLPLUS_ERROR_NO_BUILD_LOG
-	try { _ext_info()._build_log.assign(log.begin(), log.end()); }
+#if !OGLPLUS_ERROR_NO_INFO_LOG
+	try { _ext_info()._info_log.assign(log.begin(), log.end()); }
 	catch(...) { }
+#else
+	(void)log;
+#endif
+	return *this;
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+error_info&
+error_info::
+info_log_of(const any_object_name& obj)
+noexcept
+{
+#if !OGLPLUS_ERROR_NO_INFO_LOG
+	PFNGLGETPROGRAMIVPROC _GetObjectiv = nullptr;
+	PFNGLGETPROGRAMINFOLOGPROC _GetObjectInfoLog = nullptr;
+
+	if(obj._type == GL_SHADER)
+	{
+		_GetObjectiv = glGetShaderiv;
+		_GetObjectInfoLog = glGetShaderInfoLog;
+	}
+	else if(obj._type == GL_PROGRAM)
+	{
+		_GetObjectiv = glGetProgramiv;
+		_GetObjectInfoLog = glGetProgramInfoLog;
+	}
+	else if(obj._type == GL_PROGRAM_PIPELINE)
+	{
+		_GetObjectiv = glGetProgramPipelineiv;
+		_GetObjectInfoLog = glGetProgramPipelineInfoLog;
+	}
+
+	if(_GetObjectiv && _GetObjectInfoLog)
+	{
+		GLint len = 0;
+		_GetObjectiv(get_raw_name(obj), GL_INFO_LOG_LENGTH, &len);
+		if(len > 0)
+		{
+			std::vector<GLchar> tmp(std::size_t(len+1), '\0');
+			_GetObjectInfoLog(
+				get_raw_name(obj),
+				len,
+				nullptr,
+				tmp.data()
+			);
+			if(glGetError() == GL_NO_ERROR && tmp.front() != '\0')
+			{
+				info_log(tmp);
+			}
+		}
+	}
 #else
 	(void)log;
 #endif
@@ -446,11 +510,11 @@ noexcept
 OGLPLUS_LIB_FUNC
 cstring_span<>
 error_info::
-build_log(void) const
+info_log(void) const
 noexcept
 {
-#if !OGLPLUS_ERROR_NO_BUILD_LOG
-	return {_ext_info()._build_log};
+#if !OGLPLUS_ERROR_NO_INFO_LOG
+	return {_ext_info()._info_log};
 #else
 	return {};
 #endif

@@ -85,7 +85,7 @@ void example_loop(
 }
 
 int example_main(
-	const eagine::program_args& args,
+	oglplus::example_args& args,
 	oglplus::example_params& params,
 	oglplus::example_state& state
 )
@@ -147,7 +147,7 @@ int example_main(
 
 			std::srand(params.rand_seed());
 			state.set_depth(16);
-			oglplus::example_wrapper example(params, state);
+			oglplus::example_wrapper example(args, params, state);
 
 			example_loop(window, state, example);
 		}

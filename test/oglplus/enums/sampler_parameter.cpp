@@ -63,9 +63,6 @@ BOOST_AUTO_TEST_CASE(enum_sampler_parameter_values)
 
 #ifdef GL_TEXTURE_COMPARE_FUNC
 	x = ev.texture_compare_func;
-# ifdef GL_TEXTURE_BORDER_COLOR
-	BOOST_CHECK(x != ev.texture_border_color);
-# endif
 	BOOST_CHECK(x == ev.texture_compare_func);
 # ifdef GL_TEXTURE_COMPARE_MODE
 	BOOST_CHECK(x != ev.texture_compare_mode);
@@ -98,12 +95,6 @@ BOOST_AUTO_TEST_CASE(enum_sampler_parameter_values)
 
 #ifdef GL_TEXTURE_COMPARE_MODE
 	x = ev.texture_compare_mode;
-# ifdef GL_TEXTURE_BORDER_COLOR
-	BOOST_CHECK(x != ev.texture_border_color);
-# endif
-# ifdef GL_TEXTURE_COMPARE_FUNC
-	BOOST_CHECK(x != ev.texture_compare_func);
-# endif
 	BOOST_CHECK(x == ev.texture_compare_mode);
 # ifdef GL_TEXTURE_LOD_BIAS
 	BOOST_CHECK(x != ev.texture_lod_bias);
@@ -133,15 +124,6 @@ BOOST_AUTO_TEST_CASE(enum_sampler_parameter_values)
 
 #ifdef GL_TEXTURE_LOD_BIAS
 	x = ev.texture_lod_bias;
-# ifdef GL_TEXTURE_BORDER_COLOR
-	BOOST_CHECK(x != ev.texture_border_color);
-# endif
-# ifdef GL_TEXTURE_COMPARE_FUNC
-	BOOST_CHECK(x != ev.texture_compare_func);
-# endif
-# ifdef GL_TEXTURE_COMPARE_MODE
-	BOOST_CHECK(x != ev.texture_compare_mode);
-# endif
 	BOOST_CHECK(x == ev.texture_lod_bias);
 # ifdef GL_TEXTURE_MAG_FILTER
 	BOOST_CHECK(x != ev.texture_mag_filter);
@@ -168,18 +150,6 @@ BOOST_AUTO_TEST_CASE(enum_sampler_parameter_values)
 
 #ifdef GL_TEXTURE_MAG_FILTER
 	x = ev.texture_mag_filter;
-# ifdef GL_TEXTURE_BORDER_COLOR
-	BOOST_CHECK(x != ev.texture_border_color);
-# endif
-# ifdef GL_TEXTURE_COMPARE_FUNC
-	BOOST_CHECK(x != ev.texture_compare_func);
-# endif
-# ifdef GL_TEXTURE_COMPARE_MODE
-	BOOST_CHECK(x != ev.texture_compare_mode);
-# endif
-# ifdef GL_TEXTURE_LOD_BIAS
-	BOOST_CHECK(x != ev.texture_lod_bias);
-# endif
 	BOOST_CHECK(x == ev.texture_mag_filter);
 # ifdef GL_TEXTURE_MAX_LOD
 	BOOST_CHECK(x != ev.texture_max_lod);
@@ -203,21 +173,6 @@ BOOST_AUTO_TEST_CASE(enum_sampler_parameter_values)
 
 #ifdef GL_TEXTURE_MAX_LOD
 	x = ev.texture_max_lod;
-# ifdef GL_TEXTURE_BORDER_COLOR
-	BOOST_CHECK(x != ev.texture_border_color);
-# endif
-# ifdef GL_TEXTURE_COMPARE_FUNC
-	BOOST_CHECK(x != ev.texture_compare_func);
-# endif
-# ifdef GL_TEXTURE_COMPARE_MODE
-	BOOST_CHECK(x != ev.texture_compare_mode);
-# endif
-# ifdef GL_TEXTURE_LOD_BIAS
-	BOOST_CHECK(x != ev.texture_lod_bias);
-# endif
-# ifdef GL_TEXTURE_MAG_FILTER
-	BOOST_CHECK(x != ev.texture_mag_filter);
-# endif
 	BOOST_CHECK(x == ev.texture_max_lod);
 # ifdef GL_TEXTURE_MIN_FILTER
 	BOOST_CHECK(x != ev.texture_min_filter);
@@ -238,24 +193,6 @@ BOOST_AUTO_TEST_CASE(enum_sampler_parameter_values)
 
 #ifdef GL_TEXTURE_MIN_FILTER
 	x = ev.texture_min_filter;
-# ifdef GL_TEXTURE_BORDER_COLOR
-	BOOST_CHECK(x != ev.texture_border_color);
-# endif
-# ifdef GL_TEXTURE_COMPARE_FUNC
-	BOOST_CHECK(x != ev.texture_compare_func);
-# endif
-# ifdef GL_TEXTURE_COMPARE_MODE
-	BOOST_CHECK(x != ev.texture_compare_mode);
-# endif
-# ifdef GL_TEXTURE_LOD_BIAS
-	BOOST_CHECK(x != ev.texture_lod_bias);
-# endif
-# ifdef GL_TEXTURE_MAG_FILTER
-	BOOST_CHECK(x != ev.texture_mag_filter);
-# endif
-# ifdef GL_TEXTURE_MAX_LOD
-	BOOST_CHECK(x != ev.texture_max_lod);
-# endif
 	BOOST_CHECK(x == ev.texture_min_filter);
 # ifdef GL_TEXTURE_MIN_LOD
 	BOOST_CHECK(x != ev.texture_min_lod);
@@ -273,27 +210,6 @@ BOOST_AUTO_TEST_CASE(enum_sampler_parameter_values)
 
 #ifdef GL_TEXTURE_MIN_LOD
 	x = ev.texture_min_lod;
-# ifdef GL_TEXTURE_BORDER_COLOR
-	BOOST_CHECK(x != ev.texture_border_color);
-# endif
-# ifdef GL_TEXTURE_COMPARE_FUNC
-	BOOST_CHECK(x != ev.texture_compare_func);
-# endif
-# ifdef GL_TEXTURE_COMPARE_MODE
-	BOOST_CHECK(x != ev.texture_compare_mode);
-# endif
-# ifdef GL_TEXTURE_LOD_BIAS
-	BOOST_CHECK(x != ev.texture_lod_bias);
-# endif
-# ifdef GL_TEXTURE_MAG_FILTER
-	BOOST_CHECK(x != ev.texture_mag_filter);
-# endif
-# ifdef GL_TEXTURE_MAX_LOD
-	BOOST_CHECK(x != ev.texture_max_lod);
-# endif
-# ifdef GL_TEXTURE_MIN_FILTER
-	BOOST_CHECK(x != ev.texture_min_filter);
-# endif
 	BOOST_CHECK(x == ev.texture_min_lod);
 # ifdef GL_TEXTURE_WRAP_R
 	BOOST_CHECK(x != ev.texture_wrap_r);
@@ -308,30 +224,6 @@ BOOST_AUTO_TEST_CASE(enum_sampler_parameter_values)
 
 #ifdef GL_TEXTURE_WRAP_R
 	x = ev.texture_wrap_r;
-# ifdef GL_TEXTURE_BORDER_COLOR
-	BOOST_CHECK(x != ev.texture_border_color);
-# endif
-# ifdef GL_TEXTURE_COMPARE_FUNC
-	BOOST_CHECK(x != ev.texture_compare_func);
-# endif
-# ifdef GL_TEXTURE_COMPARE_MODE
-	BOOST_CHECK(x != ev.texture_compare_mode);
-# endif
-# ifdef GL_TEXTURE_LOD_BIAS
-	BOOST_CHECK(x != ev.texture_lod_bias);
-# endif
-# ifdef GL_TEXTURE_MAG_FILTER
-	BOOST_CHECK(x != ev.texture_mag_filter);
-# endif
-# ifdef GL_TEXTURE_MAX_LOD
-	BOOST_CHECK(x != ev.texture_max_lod);
-# endif
-# ifdef GL_TEXTURE_MIN_FILTER
-	BOOST_CHECK(x != ev.texture_min_filter);
-# endif
-# ifdef GL_TEXTURE_MIN_LOD
-	BOOST_CHECK(x != ev.texture_min_lod);
-# endif
 	BOOST_CHECK(x == ev.texture_wrap_r);
 # ifdef GL_TEXTURE_WRAP_S
 	BOOST_CHECK(x != ev.texture_wrap_s);
@@ -343,33 +235,6 @@ BOOST_AUTO_TEST_CASE(enum_sampler_parameter_values)
 
 #ifdef GL_TEXTURE_WRAP_S
 	x = ev.texture_wrap_s;
-# ifdef GL_TEXTURE_BORDER_COLOR
-	BOOST_CHECK(x != ev.texture_border_color);
-# endif
-# ifdef GL_TEXTURE_COMPARE_FUNC
-	BOOST_CHECK(x != ev.texture_compare_func);
-# endif
-# ifdef GL_TEXTURE_COMPARE_MODE
-	BOOST_CHECK(x != ev.texture_compare_mode);
-# endif
-# ifdef GL_TEXTURE_LOD_BIAS
-	BOOST_CHECK(x != ev.texture_lod_bias);
-# endif
-# ifdef GL_TEXTURE_MAG_FILTER
-	BOOST_CHECK(x != ev.texture_mag_filter);
-# endif
-# ifdef GL_TEXTURE_MAX_LOD
-	BOOST_CHECK(x != ev.texture_max_lod);
-# endif
-# ifdef GL_TEXTURE_MIN_FILTER
-	BOOST_CHECK(x != ev.texture_min_filter);
-# endif
-# ifdef GL_TEXTURE_MIN_LOD
-	BOOST_CHECK(x != ev.texture_min_lod);
-# endif
-# ifdef GL_TEXTURE_WRAP_R
-	BOOST_CHECK(x != ev.texture_wrap_r);
-# endif
 	BOOST_CHECK(x == ev.texture_wrap_s);
 # ifdef GL_TEXTURE_WRAP_T
 	BOOST_CHECK(x != ev.texture_wrap_t);
@@ -378,36 +243,6 @@ BOOST_AUTO_TEST_CASE(enum_sampler_parameter_values)
 
 #ifdef GL_TEXTURE_WRAP_T
 	x = ev.texture_wrap_t;
-# ifdef GL_TEXTURE_BORDER_COLOR
-	BOOST_CHECK(x != ev.texture_border_color);
-# endif
-# ifdef GL_TEXTURE_COMPARE_FUNC
-	BOOST_CHECK(x != ev.texture_compare_func);
-# endif
-# ifdef GL_TEXTURE_COMPARE_MODE
-	BOOST_CHECK(x != ev.texture_compare_mode);
-# endif
-# ifdef GL_TEXTURE_LOD_BIAS
-	BOOST_CHECK(x != ev.texture_lod_bias);
-# endif
-# ifdef GL_TEXTURE_MAG_FILTER
-	BOOST_CHECK(x != ev.texture_mag_filter);
-# endif
-# ifdef GL_TEXTURE_MAX_LOD
-	BOOST_CHECK(x != ev.texture_max_lod);
-# endif
-# ifdef GL_TEXTURE_MIN_FILTER
-	BOOST_CHECK(x != ev.texture_min_filter);
-# endif
-# ifdef GL_TEXTURE_MIN_LOD
-	BOOST_CHECK(x != ev.texture_min_lod);
-# endif
-# ifdef GL_TEXTURE_WRAP_R
-	BOOST_CHECK(x != ev.texture_wrap_r);
-# endif
-# ifdef GL_TEXTURE_WRAP_S
-	BOOST_CHECK(x != ev.texture_wrap_s);
-# endif
 	BOOST_CHECK(x == ev.texture_wrap_t);
 #endif
 }

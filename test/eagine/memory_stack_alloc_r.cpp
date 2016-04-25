@@ -82,9 +82,9 @@ void eagine_test_memory_stack_alloc_A(void)
 {
 	eagine::identity<Alloc> ai;
 
-	char buf[1024*1024];
+	static char buf[1024*1024];
 
-	eagine::memory::block b(buf);
+	eagine::memory::block b = eagine::memory::block_of(buf);
 
 	std::size_t f[2] = {0,1};
 
@@ -129,9 +129,9 @@ BOOST_AUTO_TEST_CASE(memory_stack_alloc_3)
 {
 	using namespace eagine;
 
-	char buf[1024*1024];
+	static char buf[1024*1024];
 
-	memory::stack_byte_allocator<> a((memory::block(buf)));
+	memory::stack_byte_allocator<> a(memory::block_of(buf));
 
 	std::deque<memory::owned_block> blks;
 

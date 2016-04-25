@@ -42,9 +42,6 @@ BOOST_AUTO_TEST_CASE(enum_data_format_values)
 
 #ifdef AL_FORMAT_MONO8
 	x = ev.format_mono8;
-# ifdef AL_FORMAT_MONO16
-	BOOST_CHECK(x != ev.format_mono16);
-# endif
 	BOOST_CHECK(x == ev.format_mono8);
 # ifdef AL_FORMAT_STEREO16
 	BOOST_CHECK(x != ev.format_stereo16);
@@ -56,12 +53,6 @@ BOOST_AUTO_TEST_CASE(enum_data_format_values)
 
 #ifdef AL_FORMAT_STEREO16
 	x = ev.format_stereo16;
-# ifdef AL_FORMAT_MONO16
-	BOOST_CHECK(x != ev.format_mono16);
-# endif
-# ifdef AL_FORMAT_MONO8
-	BOOST_CHECK(x != ev.format_mono8);
-# endif
 	BOOST_CHECK(x == ev.format_stereo16);
 # ifdef AL_FORMAT_STEREO8
 	BOOST_CHECK(x != ev.format_stereo8);
@@ -70,15 +61,6 @@ BOOST_AUTO_TEST_CASE(enum_data_format_values)
 
 #ifdef AL_FORMAT_STEREO8
 	x = ev.format_stereo8;
-# ifdef AL_FORMAT_MONO16
-	BOOST_CHECK(x != ev.format_mono16);
-# endif
-# ifdef AL_FORMAT_MONO8
-	BOOST_CHECK(x != ev.format_mono8);
-# endif
-# ifdef AL_FORMAT_STEREO16
-	BOOST_CHECK(x != ev.format_stereo16);
-# endif
 	BOOST_CHECK(x == ev.format_stereo8);
 #endif
 }

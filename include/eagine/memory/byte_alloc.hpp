@@ -68,6 +68,23 @@ struct byte_allocator : block_owner
 	owned_block reallocate(owned_block&& b, size_type n, size_type a)
 	noexcept = 0;
 
+	void do_reallocate(owned_block& b, size_type n, size_type a)
+	noexcept
+	{
+		if(b.size() != n)
+		{
+			if(can_reallocate(b, n, a))
+			{
+				b = reallocate(std::move(b), n, a);
+			}
+			else
+			{
+				deallocate(std::move(b), a);
+				b = allocate(n, a);
+			}
+		}
+	}
+
 	virtual
 	void eject_self(void)
 	noexcept = 0;
@@ -202,7 +219,7 @@ public:
 	noexcept
 	{
 		block b = that.allocate(sizeof(Final), alignof(Final));
-		return new(b.addr()) Final(std::move(that));
+		return new(b.begin()) Final(std::move(that));
 	}
 
 	template <typename Final>
@@ -210,7 +227,7 @@ public:
 	noexcept
 	{
 		Final tmp = std::move(that);
-		tmp.deallocate(acquire_block(block(that)), alignof(Final));
+		tmp.deallocate(acquire_block(block_of(that)), alignof(Final));
 	}
 
 	Derived* accomodate_self(void)

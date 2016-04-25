@@ -36,9 +36,6 @@ BOOST_AUTO_TEST_CASE(enum_clip_origin_values)
 
 #ifdef GL_UPPER_LEFT
 	x = ev.upper_left;
-# ifdef GL_LOWER_LEFT
-	BOOST_CHECK(x != ev.lower_left);
-# endif
 	BOOST_CHECK(x == ev.upper_left);
 #endif
 }

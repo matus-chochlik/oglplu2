@@ -63,9 +63,6 @@ BOOST_AUTO_TEST_CASE(enum_client_capability_values)
 
 #ifdef GL_EDGE_FLAG_ARRAY
 	x = ev.edge_flag_array;
-# ifdef GL_COLOR_ARRAY
-	BOOST_CHECK(x != ev.color_array);
-# endif
 	BOOST_CHECK(x == ev.edge_flag_array);
 # ifdef GL_ELEMENT_ARRAY_UNIFIED_NV
 	BOOST_CHECK(x != ev.element_array_unified_nv);
@@ -98,12 +95,6 @@ BOOST_AUTO_TEST_CASE(enum_client_capability_values)
 
 #ifdef GL_ELEMENT_ARRAY_UNIFIED_NV
 	x = ev.element_array_unified_nv;
-# ifdef GL_COLOR_ARRAY
-	BOOST_CHECK(x != ev.color_array);
-# endif
-# ifdef GL_EDGE_FLAG_ARRAY
-	BOOST_CHECK(x != ev.edge_flag_array);
-# endif
 	BOOST_CHECK(x == ev.element_array_unified_nv);
 # ifdef GL_FOG_COORD_ARRAY
 	BOOST_CHECK(x != ev.fog_coord_array);
@@ -133,15 +124,6 @@ BOOST_AUTO_TEST_CASE(enum_client_capability_values)
 
 #ifdef GL_FOG_COORD_ARRAY
 	x = ev.fog_coord_array;
-# ifdef GL_COLOR_ARRAY
-	BOOST_CHECK(x != ev.color_array);
-# endif
-# ifdef GL_EDGE_FLAG_ARRAY
-	BOOST_CHECK(x != ev.edge_flag_array);
-# endif
-# ifdef GL_ELEMENT_ARRAY_UNIFIED_NV
-	BOOST_CHECK(x != ev.element_array_unified_nv);
-# endif
 	BOOST_CHECK(x == ev.fog_coord_array);
 # ifdef GL_INDEX_ARRAY
 	BOOST_CHECK(x != ev.index_array);
@@ -168,18 +150,6 @@ BOOST_AUTO_TEST_CASE(enum_client_capability_values)
 
 #ifdef GL_INDEX_ARRAY
 	x = ev.index_array;
-# ifdef GL_COLOR_ARRAY
-	BOOST_CHECK(x != ev.color_array);
-# endif
-# ifdef GL_EDGE_FLAG_ARRAY
-	BOOST_CHECK(x != ev.edge_flag_array);
-# endif
-# ifdef GL_ELEMENT_ARRAY_UNIFIED_NV
-	BOOST_CHECK(x != ev.element_array_unified_nv);
-# endif
-# ifdef GL_FOG_COORD_ARRAY
-	BOOST_CHECK(x != ev.fog_coord_array);
-# endif
 	BOOST_CHECK(x == ev.index_array);
 # ifdef GL_NORMAL_ARRAY
 	BOOST_CHECK(x != ev.normal_array);
@@ -203,21 +173,6 @@ BOOST_AUTO_TEST_CASE(enum_client_capability_values)
 
 #ifdef GL_NORMAL_ARRAY
 	x = ev.normal_array;
-# ifdef GL_COLOR_ARRAY
-	BOOST_CHECK(x != ev.color_array);
-# endif
-# ifdef GL_EDGE_FLAG_ARRAY
-	BOOST_CHECK(x != ev.edge_flag_array);
-# endif
-# ifdef GL_ELEMENT_ARRAY_UNIFIED_NV
-	BOOST_CHECK(x != ev.element_array_unified_nv);
-# endif
-# ifdef GL_FOG_COORD_ARRAY
-	BOOST_CHECK(x != ev.fog_coord_array);
-# endif
-# ifdef GL_INDEX_ARRAY
-	BOOST_CHECK(x != ev.index_array);
-# endif
 	BOOST_CHECK(x == ev.normal_array);
 # ifdef GL_SECONDARY_COLOR_ARRAY
 	BOOST_CHECK(x != ev.secondary_color_array);
@@ -238,24 +193,6 @@ BOOST_AUTO_TEST_CASE(enum_client_capability_values)
 
 #ifdef GL_SECONDARY_COLOR_ARRAY
 	x = ev.secondary_color_array;
-# ifdef GL_COLOR_ARRAY
-	BOOST_CHECK(x != ev.color_array);
-# endif
-# ifdef GL_EDGE_FLAG_ARRAY
-	BOOST_CHECK(x != ev.edge_flag_array);
-# endif
-# ifdef GL_ELEMENT_ARRAY_UNIFIED_NV
-	BOOST_CHECK(x != ev.element_array_unified_nv);
-# endif
-# ifdef GL_FOG_COORD_ARRAY
-	BOOST_CHECK(x != ev.fog_coord_array);
-# endif
-# ifdef GL_INDEX_ARRAY
-	BOOST_CHECK(x != ev.index_array);
-# endif
-# ifdef GL_NORMAL_ARRAY
-	BOOST_CHECK(x != ev.normal_array);
-# endif
 	BOOST_CHECK(x == ev.secondary_color_array);
 # ifdef GL_TEXTURE_COORD_ARRAY
 	BOOST_CHECK(x != ev.texture_coord_array);
@@ -273,27 +210,6 @@ BOOST_AUTO_TEST_CASE(enum_client_capability_values)
 
 #ifdef GL_TEXTURE_COORD_ARRAY
 	x = ev.texture_coord_array;
-# ifdef GL_COLOR_ARRAY
-	BOOST_CHECK(x != ev.color_array);
-# endif
-# ifdef GL_EDGE_FLAG_ARRAY
-	BOOST_CHECK(x != ev.edge_flag_array);
-# endif
-# ifdef GL_ELEMENT_ARRAY_UNIFIED_NV
-	BOOST_CHECK(x != ev.element_array_unified_nv);
-# endif
-# ifdef GL_FOG_COORD_ARRAY
-	BOOST_CHECK(x != ev.fog_coord_array);
-# endif
-# ifdef GL_INDEX_ARRAY
-	BOOST_CHECK(x != ev.index_array);
-# endif
-# ifdef GL_NORMAL_ARRAY
-	BOOST_CHECK(x != ev.normal_array);
-# endif
-# ifdef GL_SECONDARY_COLOR_ARRAY
-	BOOST_CHECK(x != ev.secondary_color_array);
-# endif
 	BOOST_CHECK(x == ev.texture_coord_array);
 # ifdef GL_UNIFORM_BUFFER_UNIFIED_NV
 	BOOST_CHECK(x != ev.uniform_buffer_unified_nv);
@@ -308,30 +224,6 @@ BOOST_AUTO_TEST_CASE(enum_client_capability_values)
 
 #ifdef GL_UNIFORM_BUFFER_UNIFIED_NV
 	x = ev.uniform_buffer_unified_nv;
-# ifdef GL_COLOR_ARRAY
-	BOOST_CHECK(x != ev.color_array);
-# endif
-# ifdef GL_EDGE_FLAG_ARRAY
-	BOOST_CHECK(x != ev.edge_flag_array);
-# endif
-# ifdef GL_ELEMENT_ARRAY_UNIFIED_NV
-	BOOST_CHECK(x != ev.element_array_unified_nv);
-# endif
-# ifdef GL_FOG_COORD_ARRAY
-	BOOST_CHECK(x != ev.fog_coord_array);
-# endif
-# ifdef GL_INDEX_ARRAY
-	BOOST_CHECK(x != ev.index_array);
-# endif
-# ifdef GL_NORMAL_ARRAY
-	BOOST_CHECK(x != ev.normal_array);
-# endif
-# ifdef GL_SECONDARY_COLOR_ARRAY
-	BOOST_CHECK(x != ev.secondary_color_array);
-# endif
-# ifdef GL_TEXTURE_COORD_ARRAY
-	BOOST_CHECK(x != ev.texture_coord_array);
-# endif
 	BOOST_CHECK(x == ev.uniform_buffer_unified_nv);
 # ifdef GL_VERTEX_ARRAY
 	BOOST_CHECK(x != ev.vertex_array);
@@ -343,33 +235,6 @@ BOOST_AUTO_TEST_CASE(enum_client_capability_values)
 
 #ifdef GL_VERTEX_ARRAY
 	x = ev.vertex_array;
-# ifdef GL_COLOR_ARRAY
-	BOOST_CHECK(x != ev.color_array);
-# endif
-# ifdef GL_EDGE_FLAG_ARRAY
-	BOOST_CHECK(x != ev.edge_flag_array);
-# endif
-# ifdef GL_ELEMENT_ARRAY_UNIFIED_NV
-	BOOST_CHECK(x != ev.element_array_unified_nv);
-# endif
-# ifdef GL_FOG_COORD_ARRAY
-	BOOST_CHECK(x != ev.fog_coord_array);
-# endif
-# ifdef GL_INDEX_ARRAY
-	BOOST_CHECK(x != ev.index_array);
-# endif
-# ifdef GL_NORMAL_ARRAY
-	BOOST_CHECK(x != ev.normal_array);
-# endif
-# ifdef GL_SECONDARY_COLOR_ARRAY
-	BOOST_CHECK(x != ev.secondary_color_array);
-# endif
-# ifdef GL_TEXTURE_COORD_ARRAY
-	BOOST_CHECK(x != ev.texture_coord_array);
-# endif
-# ifdef GL_UNIFORM_BUFFER_UNIFIED_NV
-	BOOST_CHECK(x != ev.uniform_buffer_unified_nv);
-# endif
 	BOOST_CHECK(x == ev.vertex_array);
 # ifdef GL_VERTEX_ATTRIB_ARRAY_UNIFIED_NV
 	BOOST_CHECK(x != ev.vertex_attrib_array_unified_nv);
@@ -378,36 +243,6 @@ BOOST_AUTO_TEST_CASE(enum_client_capability_values)
 
 #ifdef GL_VERTEX_ATTRIB_ARRAY_UNIFIED_NV
 	x = ev.vertex_attrib_array_unified_nv;
-# ifdef GL_COLOR_ARRAY
-	BOOST_CHECK(x != ev.color_array);
-# endif
-# ifdef GL_EDGE_FLAG_ARRAY
-	BOOST_CHECK(x != ev.edge_flag_array);
-# endif
-# ifdef GL_ELEMENT_ARRAY_UNIFIED_NV
-	BOOST_CHECK(x != ev.element_array_unified_nv);
-# endif
-# ifdef GL_FOG_COORD_ARRAY
-	BOOST_CHECK(x != ev.fog_coord_array);
-# endif
-# ifdef GL_INDEX_ARRAY
-	BOOST_CHECK(x != ev.index_array);
-# endif
-# ifdef GL_NORMAL_ARRAY
-	BOOST_CHECK(x != ev.normal_array);
-# endif
-# ifdef GL_SECONDARY_COLOR_ARRAY
-	BOOST_CHECK(x != ev.secondary_color_array);
-# endif
-# ifdef GL_TEXTURE_COORD_ARRAY
-	BOOST_CHECK(x != ev.texture_coord_array);
-# endif
-# ifdef GL_UNIFORM_BUFFER_UNIFIED_NV
-	BOOST_CHECK(x != ev.uniform_buffer_unified_nv);
-# endif
-# ifdef GL_VERTEX_ARRAY
-	BOOST_CHECK(x != ev.vertex_array);
-# endif
 	BOOST_CHECK(x == ev.vertex_attrib_array_unified_nv);
 #endif
 }

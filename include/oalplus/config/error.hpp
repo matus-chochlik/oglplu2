@@ -47,4 +47,12 @@
 # define OALPLUS_ERROR_NO_ENUM_VALUE OALPLUS_LOW_PROFILE
 #endif
 
+#ifndef OALPLUS_ERROR_NO_CONTEXT
+# define OALPLUS_ERROR_NO_CONTEXT 1
+#endif
+
+#ifndef OALPLUS_ERROR_NO_DEVICE
+# define OALPLUS_ERROR_NO_DEVICE 0
+#endif
+
 #endif // include guard

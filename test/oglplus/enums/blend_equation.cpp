@@ -45,9 +45,6 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_values)
 
 #ifdef GL_FUNC_REVERSE_SUBTRACT
 	x = ev.func_reverse_subtract;
-# ifdef GL_FUNC_ADD
-	BOOST_CHECK(x != ev.func_add);
-# endif
 	BOOST_CHECK(x == ev.func_reverse_subtract);
 # ifdef GL_FUNC_SUBTRACT
 	BOOST_CHECK(x != ev.func_subtract);
@@ -62,12 +59,6 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_values)
 
 #ifdef GL_FUNC_SUBTRACT
 	x = ev.func_subtract;
-# ifdef GL_FUNC_ADD
-	BOOST_CHECK(x != ev.func_add);
-# endif
-# ifdef GL_FUNC_REVERSE_SUBTRACT
-	BOOST_CHECK(x != ev.func_reverse_subtract);
-# endif
 	BOOST_CHECK(x == ev.func_subtract);
 # ifdef GL_MAX
 	BOOST_CHECK(x != ev.max);
@@ -79,15 +70,6 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_values)
 
 #ifdef GL_MAX
 	x = ev.max;
-# ifdef GL_FUNC_ADD
-	BOOST_CHECK(x != ev.func_add);
-# endif
-# ifdef GL_FUNC_REVERSE_SUBTRACT
-	BOOST_CHECK(x != ev.func_reverse_subtract);
-# endif
-# ifdef GL_FUNC_SUBTRACT
-	BOOST_CHECK(x != ev.func_subtract);
-# endif
 	BOOST_CHECK(x == ev.max);
 # ifdef GL_MIN
 	BOOST_CHECK(x != ev.min);
@@ -96,18 +78,6 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_values)
 
 #ifdef GL_MIN
 	x = ev.min;
-# ifdef GL_FUNC_ADD
-	BOOST_CHECK(x != ev.func_add);
-# endif
-# ifdef GL_FUNC_REVERSE_SUBTRACT
-	BOOST_CHECK(x != ev.func_reverse_subtract);
-# endif
-# ifdef GL_FUNC_SUBTRACT
-	BOOST_CHECK(x != ev.func_subtract);
-# endif
-# ifdef GL_MAX
-	BOOST_CHECK(x != ev.max);
-# endif
 	BOOST_CHECK(x == ev.min);
 #endif
 }

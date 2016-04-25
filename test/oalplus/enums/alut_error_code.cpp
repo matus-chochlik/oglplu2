@@ -87,9 +87,6 @@ BOOST_AUTO_TEST_CASE(enum_alut_error_code_values)
 
 #ifdef ALUT_ERROR_ALC_ERROR_ON_ENTRY
 	x = ev.error_alc_error_on_entry;
-# ifdef ALUT_ERROR_AL_ERROR_ON_ENTRY
-	BOOST_CHECK(x != ev.error_al_error_on_entry);
-# endif
 	BOOST_CHECK(x == ev.error_alc_error_on_entry);
 # ifdef ALUT_ERROR_BUFFER_DATA
 	BOOST_CHECK(x != ev.error_buffer_data);
@@ -146,12 +143,6 @@ BOOST_AUTO_TEST_CASE(enum_alut_error_code_values)
 
 #ifdef ALUT_ERROR_BUFFER_DATA
 	x = ev.error_buffer_data;
-# ifdef ALUT_ERROR_AL_ERROR_ON_ENTRY
-	BOOST_CHECK(x != ev.error_al_error_on_entry);
-# endif
-# ifdef ALUT_ERROR_ALC_ERROR_ON_ENTRY
-	BOOST_CHECK(x != ev.error_alc_error_on_entry);
-# endif
 	BOOST_CHECK(x == ev.error_buffer_data);
 # ifdef ALUT_ERROR_CLOSE_DEVICE
 	BOOST_CHECK(x != ev.error_close_device);
@@ -205,15 +196,6 @@ BOOST_AUTO_TEST_CASE(enum_alut_error_code_values)
 
 #ifdef ALUT_ERROR_CLOSE_DEVICE
 	x = ev.error_close_device;
-# ifdef ALUT_ERROR_AL_ERROR_ON_ENTRY
-	BOOST_CHECK(x != ev.error_al_error_on_entry);
-# endif
-# ifdef ALUT_ERROR_ALC_ERROR_ON_ENTRY
-	BOOST_CHECK(x != ev.error_alc_error_on_entry);
-# endif
-# ifdef ALUT_ERROR_BUFFER_DATA
-	BOOST_CHECK(x != ev.error_buffer_data);
-# endif
 	BOOST_CHECK(x == ev.error_close_device);
 # ifdef ALUT_ERROR_CORRUPT_OR_TRUNCATED_DATA
 	BOOST_CHECK(x != ev.error_corrupt_or_truncated_data);
@@ -264,18 +246,6 @@ BOOST_AUTO_TEST_CASE(enum_alut_error_code_values)
 
 #ifdef ALUT_ERROR_CORRUPT_OR_TRUNCATED_DATA
 	x = ev.error_corrupt_or_truncated_data;
-# ifdef ALUT_ERROR_AL_ERROR_ON_ENTRY
-	BOOST_CHECK(x != ev.error_al_error_on_entry);
-# endif
-# ifdef ALUT_ERROR_ALC_ERROR_ON_ENTRY
-	BOOST_CHECK(x != ev.error_alc_error_on_entry);
-# endif
-# ifdef ALUT_ERROR_BUFFER_DATA
-	BOOST_CHECK(x != ev.error_buffer_data);
-# endif
-# ifdef ALUT_ERROR_CLOSE_DEVICE
-	BOOST_CHECK(x != ev.error_close_device);
-# endif
 	BOOST_CHECK(x == ev.error_corrupt_or_truncated_data);
 # ifdef ALUT_ERROR_CREATE_CONTEXT
 	BOOST_CHECK(x != ev.error_create_context);
@@ -323,21 +293,6 @@ BOOST_AUTO_TEST_CASE(enum_alut_error_code_values)
 
 #ifdef ALUT_ERROR_CREATE_CONTEXT
 	x = ev.error_create_context;
-# ifdef ALUT_ERROR_AL_ERROR_ON_ENTRY
-	BOOST_CHECK(x != ev.error_al_error_on_entry);
-# endif
-# ifdef ALUT_ERROR_ALC_ERROR_ON_ENTRY
-	BOOST_CHECK(x != ev.error_alc_error_on_entry);
-# endif
-# ifdef ALUT_ERROR_BUFFER_DATA
-	BOOST_CHECK(x != ev.error_buffer_data);
-# endif
-# ifdef ALUT_ERROR_CLOSE_DEVICE
-	BOOST_CHECK(x != ev.error_close_device);
-# endif
-# ifdef ALUT_ERROR_CORRUPT_OR_TRUNCATED_DATA
-	BOOST_CHECK(x != ev.error_corrupt_or_truncated_data);
-# endif
 	BOOST_CHECK(x == ev.error_create_context);
 # ifdef ALUT_ERROR_DESTROY_CONTEXT
 	BOOST_CHECK(x != ev.error_destroy_context);
@@ -382,24 +337,6 @@ BOOST_AUTO_TEST_CASE(enum_alut_error_code_values)
 
 #ifdef ALUT_ERROR_DESTROY_CONTEXT
 	x = ev.error_destroy_context;
-# ifdef ALUT_ERROR_AL_ERROR_ON_ENTRY
-	BOOST_CHECK(x != ev.error_al_error_on_entry);
-# endif
-# ifdef ALUT_ERROR_ALC_ERROR_ON_ENTRY
-	BOOST_CHECK(x != ev.error_alc_error_on_entry);
-# endif
-# ifdef ALUT_ERROR_BUFFER_DATA
-	BOOST_CHECK(x != ev.error_buffer_data);
-# endif
-# ifdef ALUT_ERROR_CLOSE_DEVICE
-	BOOST_CHECK(x != ev.error_close_device);
-# endif
-# ifdef ALUT_ERROR_CORRUPT_OR_TRUNCATED_DATA
-	BOOST_CHECK(x != ev.error_corrupt_or_truncated_data);
-# endif
-# ifdef ALUT_ERROR_CREATE_CONTEXT
-	BOOST_CHECK(x != ev.error_create_context);
-# endif
 	BOOST_CHECK(x == ev.error_destroy_context);
 # ifdef ALUT_ERROR_GEN_BUFFERS
 	BOOST_CHECK(x != ev.error_gen_buffers);
@@ -441,27 +378,6 @@ BOOST_AUTO_TEST_CASE(enum_alut_error_code_values)
 
 #ifdef ALUT_ERROR_GEN_BUFFERS
 	x = ev.error_gen_buffers;
-# ifdef ALUT_ERROR_AL_ERROR_ON_ENTRY
-	BOOST_CHECK(x != ev.error_al_error_on_entry);
-# endif
-# ifdef ALUT_ERROR_ALC_ERROR_ON_ENTRY
-	BOOST_CHECK(x != ev.error_alc_error_on_entry);
-# endif
-# ifdef ALUT_ERROR_BUFFER_DATA
-	BOOST_CHECK(x != ev.error_buffer_data);
-# endif
-# ifdef ALUT_ERROR_CLOSE_DEVICE
-	BOOST_CHECK(x != ev.error_close_device);
-# endif
-# ifdef ALUT_ERROR_CORRUPT_OR_TRUNCATED_DATA
-	BOOST_CHECK(x != ev.error_corrupt_or_truncated_data);
-# endif
-# ifdef ALUT_ERROR_CREATE_CONTEXT
-	BOOST_CHECK(x != ev.error_create_context);
-# endif
-# ifdef ALUT_ERROR_DESTROY_CONTEXT
-	BOOST_CHECK(x != ev.error_destroy_context);
-# endif
 	BOOST_CHECK(x == ev.error_gen_buffers);
 # ifdef ALUT_ERROR_INVALID_ENUM
 	BOOST_CHECK(x != ev.error_invalid_enum);
@@ -500,30 +416,6 @@ BOOST_AUTO_TEST_CASE(enum_alut_error_code_values)
 
 #ifdef ALUT_ERROR_INVALID_ENUM
 	x = ev.error_invalid_enum;
-# ifdef ALUT_ERROR_AL_ERROR_ON_ENTRY
-	BOOST_CHECK(x != ev.error_al_error_on_entry);
-# endif
-# ifdef ALUT_ERROR_ALC_ERROR_ON_ENTRY
-	BOOST_CHECK(x != ev.error_alc_error_on_entry);
-# endif
-# ifdef ALUT_ERROR_BUFFER_DATA
-	BOOST_CHECK(x != ev.error_buffer_data);
-# endif
-# ifdef ALUT_ERROR_CLOSE_DEVICE
-	BOOST_CHECK(x != ev.error_close_device);
-# endif
-# ifdef ALUT_ERROR_CORRUPT_OR_TRUNCATED_DATA
-	BOOST_CHECK(x != ev.error_corrupt_or_truncated_data);
-# endif
-# ifdef ALUT_ERROR_CREATE_CONTEXT
-	BOOST_CHECK(x != ev.error_create_context);
-# endif
-# ifdef ALUT_ERROR_DESTROY_CONTEXT
-	BOOST_CHECK(x != ev.error_destroy_context);
-# endif
-# ifdef ALUT_ERROR_GEN_BUFFERS
-	BOOST_CHECK(x != ev.error_gen_buffers);
-# endif
 	BOOST_CHECK(x == ev.error_invalid_enum);
 # ifdef ALUT_ERROR_INVALID_OPERATION
 	BOOST_CHECK(x != ev.error_invalid_operation);
@@ -559,33 +451,6 @@ BOOST_AUTO_TEST_CASE(enum_alut_error_code_values)
 
 #ifdef ALUT_ERROR_INVALID_OPERATION
 	x = ev.error_invalid_operation;
-# ifdef ALUT_ERROR_AL_ERROR_ON_ENTRY
-	BOOST_CHECK(x != ev.error_al_error_on_entry);
-# endif
-# ifdef ALUT_ERROR_ALC_ERROR_ON_ENTRY
-	BOOST_CHECK(x != ev.error_alc_error_on_entry);
-# endif
-# ifdef ALUT_ERROR_BUFFER_DATA
-	BOOST_CHECK(x != ev.error_buffer_data);
-# endif
-# ifdef ALUT_ERROR_CLOSE_DEVICE
-	BOOST_CHECK(x != ev.error_close_device);
-# endif
-# ifdef ALUT_ERROR_CORRUPT_OR_TRUNCATED_DATA
-	BOOST_CHECK(x != ev.error_corrupt_or_truncated_data);
-# endif
-# ifdef ALUT_ERROR_CREATE_CONTEXT
-	BOOST_CHECK(x != ev.error_create_context);
-# endif
-# ifdef ALUT_ERROR_DESTROY_CONTEXT
-	BOOST_CHECK(x != ev.error_destroy_context);
-# endif
-# ifdef ALUT_ERROR_GEN_BUFFERS
-	BOOST_CHECK(x != ev.error_gen_buffers);
-# endif
-# ifdef ALUT_ERROR_INVALID_ENUM
-	BOOST_CHECK(x != ev.error_invalid_enum);
-# endif
 	BOOST_CHECK(x == ev.error_invalid_operation);
 # ifdef ALUT_ERROR_INVALID_VALUE
 	BOOST_CHECK(x != ev.error_invalid_value);
@@ -618,36 +483,6 @@ BOOST_AUTO_TEST_CASE(enum_alut_error_code_values)
 
 #ifdef ALUT_ERROR_INVALID_VALUE
 	x = ev.error_invalid_value;
-# ifdef ALUT_ERROR_AL_ERROR_ON_ENTRY
-	BOOST_CHECK(x != ev.error_al_error_on_entry);
-# endif
-# ifdef ALUT_ERROR_ALC_ERROR_ON_ENTRY
-	BOOST_CHECK(x != ev.error_alc_error_on_entry);
-# endif
-# ifdef ALUT_ERROR_BUFFER_DATA
-	BOOST_CHECK(x != ev.error_buffer_data);
-# endif
-# ifdef ALUT_ERROR_CLOSE_DEVICE
-	BOOST_CHECK(x != ev.error_close_device);
-# endif
-# ifdef ALUT_ERROR_CORRUPT_OR_TRUNCATED_DATA
-	BOOST_CHECK(x != ev.error_corrupt_or_truncated_data);
-# endif
-# ifdef ALUT_ERROR_CREATE_CONTEXT
-	BOOST_CHECK(x != ev.error_create_context);
-# endif
-# ifdef ALUT_ERROR_DESTROY_CONTEXT
-	BOOST_CHECK(x != ev.error_destroy_context);
-# endif
-# ifdef ALUT_ERROR_GEN_BUFFERS
-	BOOST_CHECK(x != ev.error_gen_buffers);
-# endif
-# ifdef ALUT_ERROR_INVALID_ENUM
-	BOOST_CHECK(x != ev.error_invalid_enum);
-# endif
-# ifdef ALUT_ERROR_INVALID_OPERATION
-	BOOST_CHECK(x != ev.error_invalid_operation);
-# endif
 	BOOST_CHECK(x == ev.error_invalid_value);
 # ifdef ALUT_ERROR_IO_ERROR
 	BOOST_CHECK(x != ev.error_io_error);
@@ -677,39 +512,6 @@ BOOST_AUTO_TEST_CASE(enum_alut_error_code_values)
 
 #ifdef ALUT_ERROR_IO_ERROR
 	x = ev.error_io_error;
-# ifdef ALUT_ERROR_AL_ERROR_ON_ENTRY
-	BOOST_CHECK(x != ev.error_al_error_on_entry);
-# endif
-# ifdef ALUT_ERROR_ALC_ERROR_ON_ENTRY
-	BOOST_CHECK(x != ev.error_alc_error_on_entry);
-# endif
-# ifdef ALUT_ERROR_BUFFER_DATA
-	BOOST_CHECK(x != ev.error_buffer_data);
-# endif
-# ifdef ALUT_ERROR_CLOSE_DEVICE
-	BOOST_CHECK(x != ev.error_close_device);
-# endif
-# ifdef ALUT_ERROR_CORRUPT_OR_TRUNCATED_DATA
-	BOOST_CHECK(x != ev.error_corrupt_or_truncated_data);
-# endif
-# ifdef ALUT_ERROR_CREATE_CONTEXT
-	BOOST_CHECK(x != ev.error_create_context);
-# endif
-# ifdef ALUT_ERROR_DESTROY_CONTEXT
-	BOOST_CHECK(x != ev.error_destroy_context);
-# endif
-# ifdef ALUT_ERROR_GEN_BUFFERS
-	BOOST_CHECK(x != ev.error_gen_buffers);
-# endif
-# ifdef ALUT_ERROR_INVALID_ENUM
-	BOOST_CHECK(x != ev.error_invalid_enum);
-# endif
-# ifdef ALUT_ERROR_INVALID_OPERATION
-	BOOST_CHECK(x != ev.error_invalid_operation);
-# endif
-# ifdef ALUT_ERROR_INVALID_VALUE
-	BOOST_CHECK(x != ev.error_invalid_value);
-# endif
 	BOOST_CHECK(x == ev.error_io_error);
 # ifdef ALUT_ERROR_MAKE_CONTEXT_CURRENT
 	BOOST_CHECK(x != ev.error_make_context_current);
@@ -736,42 +538,6 @@ BOOST_AUTO_TEST_CASE(enum_alut_error_code_values)
 
 #ifdef ALUT_ERROR_MAKE_CONTEXT_CURRENT
 	x = ev.error_make_context_current;
-# ifdef ALUT_ERROR_AL_ERROR_ON_ENTRY
-	BOOST_CHECK(x != ev.error_al_error_on_entry);
-# endif
-# ifdef ALUT_ERROR_ALC_ERROR_ON_ENTRY
-	BOOST_CHECK(x != ev.error_alc_error_on_entry);
-# endif
-# ifdef ALUT_ERROR_BUFFER_DATA
-	BOOST_CHECK(x != ev.error_buffer_data);
-# endif
-# ifdef ALUT_ERROR_CLOSE_DEVICE
-	BOOST_CHECK(x != ev.error_close_device);
-# endif
-# ifdef ALUT_ERROR_CORRUPT_OR_TRUNCATED_DATA
-	BOOST_CHECK(x != ev.error_corrupt_or_truncated_data);
-# endif
-# ifdef ALUT_ERROR_CREATE_CONTEXT
-	BOOST_CHECK(x != ev.error_create_context);
-# endif
-# ifdef ALUT_ERROR_DESTROY_CONTEXT
-	BOOST_CHECK(x != ev.error_destroy_context);
-# endif
-# ifdef ALUT_ERROR_GEN_BUFFERS
-	BOOST_CHECK(x != ev.error_gen_buffers);
-# endif
-# ifdef ALUT_ERROR_INVALID_ENUM
-	BOOST_CHECK(x != ev.error_invalid_enum);
-# endif
-# ifdef ALUT_ERROR_INVALID_OPERATION
-	BOOST_CHECK(x != ev.error_invalid_operation);
-# endif
-# ifdef ALUT_ERROR_INVALID_VALUE
-	BOOST_CHECK(x != ev.error_invalid_value);
-# endif
-# ifdef ALUT_ERROR_IO_ERROR
-	BOOST_CHECK(x != ev.error_io_error);
-# endif
 	BOOST_CHECK(x == ev.error_make_context_current);
 # ifdef ALUT_ERROR_NO_CURRENT_CONTEXT
 	BOOST_CHECK(x != ev.error_no_current_context);
@@ -795,45 +561,6 @@ BOOST_AUTO_TEST_CASE(enum_alut_error_code_values)
 
 #ifdef ALUT_ERROR_NO_CURRENT_CONTEXT
 	x = ev.error_no_current_context;
-# ifdef ALUT_ERROR_AL_ERROR_ON_ENTRY
-	BOOST_CHECK(x != ev.error_al_error_on_entry);
-# endif
-# ifdef ALUT_ERROR_ALC_ERROR_ON_ENTRY
-	BOOST_CHECK(x != ev.error_alc_error_on_entry);
-# endif
-# ifdef ALUT_ERROR_BUFFER_DATA
-	BOOST_CHECK(x != ev.error_buffer_data);
-# endif
-# ifdef ALUT_ERROR_CLOSE_DEVICE
-	BOOST_CHECK(x != ev.error_close_device);
-# endif
-# ifdef ALUT_ERROR_CORRUPT_OR_TRUNCATED_DATA
-	BOOST_CHECK(x != ev.error_corrupt_or_truncated_data);
-# endif
-# ifdef ALUT_ERROR_CREATE_CONTEXT
-	BOOST_CHECK(x != ev.error_create_context);
-# endif
-# ifdef ALUT_ERROR_DESTROY_CONTEXT
-	BOOST_CHECK(x != ev.error_destroy_context);
-# endif
-# ifdef ALUT_ERROR_GEN_BUFFERS
-	BOOST_CHECK(x != ev.error_gen_buffers);
-# endif
-# ifdef ALUT_ERROR_INVALID_ENUM
-	BOOST_CHECK(x != ev.error_invalid_enum);
-# endif
-# ifdef ALUT_ERROR_INVALID_OPERATION
-	BOOST_CHECK(x != ev.error_invalid_operation);
-# endif
-# ifdef ALUT_ERROR_INVALID_VALUE
-	BOOST_CHECK(x != ev.error_invalid_value);
-# endif
-# ifdef ALUT_ERROR_IO_ERROR
-	BOOST_CHECK(x != ev.error_io_error);
-# endif
-# ifdef ALUT_ERROR_MAKE_CONTEXT_CURRENT
-	BOOST_CHECK(x != ev.error_make_context_current);
-# endif
 	BOOST_CHECK(x == ev.error_no_current_context);
 # ifdef ALUT_ERROR_NO_ERROR
 	BOOST_CHECK(x != ev.error_no_error);
@@ -854,48 +581,6 @@ BOOST_AUTO_TEST_CASE(enum_alut_error_code_values)
 
 #ifdef ALUT_ERROR_NO_ERROR
 	x = ev.error_no_error;
-# ifdef ALUT_ERROR_AL_ERROR_ON_ENTRY
-	BOOST_CHECK(x != ev.error_al_error_on_entry);
-# endif
-# ifdef ALUT_ERROR_ALC_ERROR_ON_ENTRY
-	BOOST_CHECK(x != ev.error_alc_error_on_entry);
-# endif
-# ifdef ALUT_ERROR_BUFFER_DATA
-	BOOST_CHECK(x != ev.error_buffer_data);
-# endif
-# ifdef ALUT_ERROR_CLOSE_DEVICE
-	BOOST_CHECK(x != ev.error_close_device);
-# endif
-# ifdef ALUT_ERROR_CORRUPT_OR_TRUNCATED_DATA
-	BOOST_CHECK(x != ev.error_corrupt_or_truncated_data);
-# endif
-# ifdef ALUT_ERROR_CREATE_CONTEXT
-	BOOST_CHECK(x != ev.error_create_context);
-# endif
-# ifdef ALUT_ERROR_DESTROY_CONTEXT
-	BOOST_CHECK(x != ev.error_destroy_context);
-# endif
-# ifdef ALUT_ERROR_GEN_BUFFERS
-	BOOST_CHECK(x != ev.error_gen_buffers);
-# endif
-# ifdef ALUT_ERROR_INVALID_ENUM
-	BOOST_CHECK(x != ev.error_invalid_enum);
-# endif
-# ifdef ALUT_ERROR_INVALID_OPERATION
-	BOOST_CHECK(x != ev.error_invalid_operation);
-# endif
-# ifdef ALUT_ERROR_INVALID_VALUE
-	BOOST_CHECK(x != ev.error_invalid_value);
-# endif
-# ifdef ALUT_ERROR_IO_ERROR
-	BOOST_CHECK(x != ev.error_io_error);
-# endif
-# ifdef ALUT_ERROR_MAKE_CONTEXT_CURRENT
-	BOOST_CHECK(x != ev.error_make_context_current);
-# endif
-# ifdef ALUT_ERROR_NO_CURRENT_CONTEXT
-	BOOST_CHECK(x != ev.error_no_current_context);
-# endif
 	BOOST_CHECK(x == ev.error_no_error);
 # ifdef ALUT_ERROR_OPEN_DEVICE
 	BOOST_CHECK(x != ev.error_open_device);
@@ -913,51 +598,6 @@ BOOST_AUTO_TEST_CASE(enum_alut_error_code_values)
 
 #ifdef ALUT_ERROR_OPEN_DEVICE
 	x = ev.error_open_device;
-# ifdef ALUT_ERROR_AL_ERROR_ON_ENTRY
-	BOOST_CHECK(x != ev.error_al_error_on_entry);
-# endif
-# ifdef ALUT_ERROR_ALC_ERROR_ON_ENTRY
-	BOOST_CHECK(x != ev.error_alc_error_on_entry);
-# endif
-# ifdef ALUT_ERROR_BUFFER_DATA
-	BOOST_CHECK(x != ev.error_buffer_data);
-# endif
-# ifdef ALUT_ERROR_CLOSE_DEVICE
-	BOOST_CHECK(x != ev.error_close_device);
-# endif
-# ifdef ALUT_ERROR_CORRUPT_OR_TRUNCATED_DATA
-	BOOST_CHECK(x != ev.error_corrupt_or_truncated_data);
-# endif
-# ifdef ALUT_ERROR_CREATE_CONTEXT
-	BOOST_CHECK(x != ev.error_create_context);
-# endif
-# ifdef ALUT_ERROR_DESTROY_CONTEXT
-	BOOST_CHECK(x != ev.error_destroy_context);
-# endif
-# ifdef ALUT_ERROR_GEN_BUFFERS
-	BOOST_CHECK(x != ev.error_gen_buffers);
-# endif
-# ifdef ALUT_ERROR_INVALID_ENUM
-	BOOST_CHECK(x != ev.error_invalid_enum);
-# endif
-# ifdef ALUT_ERROR_INVALID_OPERATION
-	BOOST_CHECK(x != ev.error_invalid_operation);
-# endif
-# ifdef ALUT_ERROR_INVALID_VALUE
-	BOOST_CHECK(x != ev.error_invalid_value);
-# endif
-# ifdef ALUT_ERROR_IO_ERROR
-	BOOST_CHECK(x != ev.error_io_error);
-# endif
-# ifdef ALUT_ERROR_MAKE_CONTEXT_CURRENT
-	BOOST_CHECK(x != ev.error_make_context_current);
-# endif
-# ifdef ALUT_ERROR_NO_CURRENT_CONTEXT
-	BOOST_CHECK(x != ev.error_no_current_context);
-# endif
-# ifdef ALUT_ERROR_NO_ERROR
-	BOOST_CHECK(x != ev.error_no_error);
-# endif
 	BOOST_CHECK(x == ev.error_open_device);
 # ifdef ALUT_ERROR_OUT_OF_MEMORY
 	BOOST_CHECK(x != ev.error_out_of_memory);
@@ -972,54 +612,6 @@ BOOST_AUTO_TEST_CASE(enum_alut_error_code_values)
 
 #ifdef ALUT_ERROR_OUT_OF_MEMORY
 	x = ev.error_out_of_memory;
-# ifdef ALUT_ERROR_AL_ERROR_ON_ENTRY
-	BOOST_CHECK(x != ev.error_al_error_on_entry);
-# endif
-# ifdef ALUT_ERROR_ALC_ERROR_ON_ENTRY
-	BOOST_CHECK(x != ev.error_alc_error_on_entry);
-# endif
-# ifdef ALUT_ERROR_BUFFER_DATA
-	BOOST_CHECK(x != ev.error_buffer_data);
-# endif
-# ifdef ALUT_ERROR_CLOSE_DEVICE
-	BOOST_CHECK(x != ev.error_close_device);
-# endif
-# ifdef ALUT_ERROR_CORRUPT_OR_TRUNCATED_DATA
-	BOOST_CHECK(x != ev.error_corrupt_or_truncated_data);
-# endif
-# ifdef ALUT_ERROR_CREATE_CONTEXT
-	BOOST_CHECK(x != ev.error_create_context);
-# endif
-# ifdef ALUT_ERROR_DESTROY_CONTEXT
-	BOOST_CHECK(x != ev.error_destroy_context);
-# endif
-# ifdef ALUT_ERROR_GEN_BUFFERS
-	BOOST_CHECK(x != ev.error_gen_buffers);
-# endif
-# ifdef ALUT_ERROR_INVALID_ENUM
-	BOOST_CHECK(x != ev.error_invalid_enum);
-# endif
-# ifdef ALUT_ERROR_INVALID_OPERATION
-	BOOST_CHECK(x != ev.error_invalid_operation);
-# endif
-# ifdef ALUT_ERROR_INVALID_VALUE
-	BOOST_CHECK(x != ev.error_invalid_value);
-# endif
-# ifdef ALUT_ERROR_IO_ERROR
-	BOOST_CHECK(x != ev.error_io_error);
-# endif
-# ifdef ALUT_ERROR_MAKE_CONTEXT_CURRENT
-	BOOST_CHECK(x != ev.error_make_context_current);
-# endif
-# ifdef ALUT_ERROR_NO_CURRENT_CONTEXT
-	BOOST_CHECK(x != ev.error_no_current_context);
-# endif
-# ifdef ALUT_ERROR_NO_ERROR
-	BOOST_CHECK(x != ev.error_no_error);
-# endif
-# ifdef ALUT_ERROR_OPEN_DEVICE
-	BOOST_CHECK(x != ev.error_open_device);
-# endif
 	BOOST_CHECK(x == ev.error_out_of_memory);
 # ifdef ALUT_ERROR_UNSUPPORTED_FILE_SUBTYPE
 	BOOST_CHECK(x != ev.error_unsupported_file_subtype);
@@ -1031,57 +623,6 @@ BOOST_AUTO_TEST_CASE(enum_alut_error_code_values)
 
 #ifdef ALUT_ERROR_UNSUPPORTED_FILE_SUBTYPE
 	x = ev.error_unsupported_file_subtype;
-# ifdef ALUT_ERROR_AL_ERROR_ON_ENTRY
-	BOOST_CHECK(x != ev.error_al_error_on_entry);
-# endif
-# ifdef ALUT_ERROR_ALC_ERROR_ON_ENTRY
-	BOOST_CHECK(x != ev.error_alc_error_on_entry);
-# endif
-# ifdef ALUT_ERROR_BUFFER_DATA
-	BOOST_CHECK(x != ev.error_buffer_data);
-# endif
-# ifdef ALUT_ERROR_CLOSE_DEVICE
-	BOOST_CHECK(x != ev.error_close_device);
-# endif
-# ifdef ALUT_ERROR_CORRUPT_OR_TRUNCATED_DATA
-	BOOST_CHECK(x != ev.error_corrupt_or_truncated_data);
-# endif
-# ifdef ALUT_ERROR_CREATE_CONTEXT
-	BOOST_CHECK(x != ev.error_create_context);
-# endif
-# ifdef ALUT_ERROR_DESTROY_CONTEXT
-	BOOST_CHECK(x != ev.error_destroy_context);
-# endif
-# ifdef ALUT_ERROR_GEN_BUFFERS
-	BOOST_CHECK(x != ev.error_gen_buffers);
-# endif
-# ifdef ALUT_ERROR_INVALID_ENUM
-	BOOST_CHECK(x != ev.error_invalid_enum);
-# endif
-# ifdef ALUT_ERROR_INVALID_OPERATION
-	BOOST_CHECK(x != ev.error_invalid_operation);
-# endif
-# ifdef ALUT_ERROR_INVALID_VALUE
-	BOOST_CHECK(x != ev.error_invalid_value);
-# endif
-# ifdef ALUT_ERROR_IO_ERROR
-	BOOST_CHECK(x != ev.error_io_error);
-# endif
-# ifdef ALUT_ERROR_MAKE_CONTEXT_CURRENT
-	BOOST_CHECK(x != ev.error_make_context_current);
-# endif
-# ifdef ALUT_ERROR_NO_CURRENT_CONTEXT
-	BOOST_CHECK(x != ev.error_no_current_context);
-# endif
-# ifdef ALUT_ERROR_NO_ERROR
-	BOOST_CHECK(x != ev.error_no_error);
-# endif
-# ifdef ALUT_ERROR_OPEN_DEVICE
-	BOOST_CHECK(x != ev.error_open_device);
-# endif
-# ifdef ALUT_ERROR_OUT_OF_MEMORY
-	BOOST_CHECK(x != ev.error_out_of_memory);
-# endif
 	BOOST_CHECK(x == ev.error_unsupported_file_subtype);
 # ifdef ALUT_ERROR_UNSUPPORTED_FILE_TYPE
 	BOOST_CHECK(x != ev.error_unsupported_file_type);
@@ -1090,60 +631,6 @@ BOOST_AUTO_TEST_CASE(enum_alut_error_code_values)
 
 #ifdef ALUT_ERROR_UNSUPPORTED_FILE_TYPE
 	x = ev.error_unsupported_file_type;
-# ifdef ALUT_ERROR_AL_ERROR_ON_ENTRY
-	BOOST_CHECK(x != ev.error_al_error_on_entry);
-# endif
-# ifdef ALUT_ERROR_ALC_ERROR_ON_ENTRY
-	BOOST_CHECK(x != ev.error_alc_error_on_entry);
-# endif
-# ifdef ALUT_ERROR_BUFFER_DATA
-	BOOST_CHECK(x != ev.error_buffer_data);
-# endif
-# ifdef ALUT_ERROR_CLOSE_DEVICE
-	BOOST_CHECK(x != ev.error_close_device);
-# endif
-# ifdef ALUT_ERROR_CORRUPT_OR_TRUNCATED_DATA
-	BOOST_CHECK(x != ev.error_corrupt_or_truncated_data);
-# endif
-# ifdef ALUT_ERROR_CREATE_CONTEXT
-	BOOST_CHECK(x != ev.error_create_context);
-# endif
-# ifdef ALUT_ERROR_DESTROY_CONTEXT
-	BOOST_CHECK(x != ev.error_destroy_context);
-# endif
-# ifdef ALUT_ERROR_GEN_BUFFERS
-	BOOST_CHECK(x != ev.error_gen_buffers);
-# endif
-# ifdef ALUT_ERROR_INVALID_ENUM
-	BOOST_CHECK(x != ev.error_invalid_enum);
-# endif
-# ifdef ALUT_ERROR_INVALID_OPERATION
-	BOOST_CHECK(x != ev.error_invalid_operation);
-# endif
-# ifdef ALUT_ERROR_INVALID_VALUE
-	BOOST_CHECK(x != ev.error_invalid_value);
-# endif
-# ifdef ALUT_ERROR_IO_ERROR
-	BOOST_CHECK(x != ev.error_io_error);
-# endif
-# ifdef ALUT_ERROR_MAKE_CONTEXT_CURRENT
-	BOOST_CHECK(x != ev.error_make_context_current);
-# endif
-# ifdef ALUT_ERROR_NO_CURRENT_CONTEXT
-	BOOST_CHECK(x != ev.error_no_current_context);
-# endif
-# ifdef ALUT_ERROR_NO_ERROR
-	BOOST_CHECK(x != ev.error_no_error);
-# endif
-# ifdef ALUT_ERROR_OPEN_DEVICE
-	BOOST_CHECK(x != ev.error_open_device);
-# endif
-# ifdef ALUT_ERROR_OUT_OF_MEMORY
-	BOOST_CHECK(x != ev.error_out_of_memory);
-# endif
-# ifdef ALUT_ERROR_UNSUPPORTED_FILE_SUBTYPE
-	BOOST_CHECK(x != ev.error_unsupported_file_subtype);
-# endif
 	BOOST_CHECK(x == ev.error_unsupported_file_type);
 #endif
 }

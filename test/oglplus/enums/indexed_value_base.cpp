@@ -42,9 +42,6 @@ BOOST_AUTO_TEST_CASE(enum_indexed_value_base_values)
 
 #ifdef GL_COLOR_ATTACHMENT0
 	x = ev.color_attachment0;
-# ifdef GL_CLIP_DISTANCE0
-	BOOST_CHECK(x != ev.clip_distance0);
-# endif
 	BOOST_CHECK(x == ev.color_attachment0);
 # ifdef GL_DRAW_BUFFER0
 	BOOST_CHECK(x != ev.draw_buffer0);
@@ -56,12 +53,6 @@ BOOST_AUTO_TEST_CASE(enum_indexed_value_base_values)
 
 #ifdef GL_DRAW_BUFFER0
 	x = ev.draw_buffer0;
-# ifdef GL_CLIP_DISTANCE0
-	BOOST_CHECK(x != ev.clip_distance0);
-# endif
-# ifdef GL_COLOR_ATTACHMENT0
-	BOOST_CHECK(x != ev.color_attachment0);
-# endif
 	BOOST_CHECK(x == ev.draw_buffer0);
 # ifdef GL_TEXTURE0
 	BOOST_CHECK(x != ev.texture0);
@@ -70,15 +61,6 @@ BOOST_AUTO_TEST_CASE(enum_indexed_value_base_values)
 
 #ifdef GL_TEXTURE0
 	x = ev.texture0;
-# ifdef GL_CLIP_DISTANCE0
-	BOOST_CHECK(x != ev.clip_distance0);
-# endif
-# ifdef GL_COLOR_ATTACHMENT0
-	BOOST_CHECK(x != ev.color_attachment0);
-# endif
-# ifdef GL_DRAW_BUFFER0
-	BOOST_CHECK(x != ev.draw_buffer0);
-# endif
 	BOOST_CHECK(x == ev.texture0);
 #endif
 }

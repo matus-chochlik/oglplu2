@@ -36,9 +36,6 @@ BOOST_AUTO_TEST_CASE(enum_named_string_param_values)
 
 #ifdef GL_NAMED_STRING_TYPE_ARB
 	x = ev.named_string_type;
-# ifdef GL_NAMED_STRING_LENGTH_ARB
-	BOOST_CHECK(x != ev.named_string_length);
-# endif
 	BOOST_CHECK(x == ev.named_string_type);
 #endif
 }

@@ -36,9 +36,6 @@ BOOST_AUTO_TEST_CASE(enum_path_font_style_nv_values)
 
 #ifdef GL_ITALIC_BIT_NV
 	x = ev.italic_bit_nv;
-# ifdef GL_BOLD_BIT_NV
-	BOOST_CHECK(x != ev.bold_bit_nv);
-# endif
 	BOOST_CHECK(x == ev.italic_bit_nv);
 #endif
 }

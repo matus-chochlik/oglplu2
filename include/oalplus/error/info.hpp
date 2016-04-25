@@ -9,7 +9,7 @@
 #ifndef OALPLUS_ERROR_INFO_1509260923_HPP
 #define OALPLUS_ERROR_INFO_1509260923_HPP
 
-#include "../config/error.hpp"
+#include "info_base.hpp"
 #include "../object/al_name.hpp"
 #include "../utils/enum_class.hpp"
 
@@ -18,30 +18,9 @@ namespace oalplus {
 struct extended_error_info;
 
 class error_info
+ : public error_info_base<error_info>
 {
 private:
-	ALenum _al_err_code;
-
-#if! OALPLUS_ERROR_NO_AL_LIB
-	const char* _al_lb_name;
-#endif
-
-#if! OALPLUS_ERROR_NO_AL_FUNC
-	const char* _al_fn_name;
-#endif
-
-#if! OALPLUS_ERROR_NO_SRC_FUNC
-	const char* _src_func;
-#endif
-
-#if! OALPLUS_ERROR_NO_SRC_FILE
-	const char* _src_file;
-#endif
-
-#if! OALPLUS_ERROR_NO_SRC_LINE
-	unsigned _src_line;
-#endif
-
 #if !OALPLUS_ERROR_NO_OBJECT
 	any_object_name _obj_name;
 #endif
@@ -70,42 +49,6 @@ public:
 	{
 		return *this;
 	}
-
-	error_info& al_error_code(ALenum al_err_code)
-	noexcept;
-
-	ALenum al_error_code(void) const
-	noexcept;
-
-	error_info& al_library_name(const char* al_lb_name)
-	noexcept;
-
-	const char* al_library_name(void) const
-	noexcept;
-
-	error_info& al_function_name(const char* al_fn_name)
-	noexcept;
-
-	const char* al_function_name(void) const
-	noexcept;
-
-	error_info& source_function(const char* src_func)
-	noexcept;
-
-	const char* source_function(void) const
-	noexcept;
-
-	error_info& source_file(const char* src_file)
-	noexcept;
-
-	const char* source_file(void) const
-	noexcept;
-
-	error_info& source_line(unsigned src_line)
-	noexcept;
-
-	unsigned source_line(void) const
-	noexcept;
 
 	error_info& al_object(const any_object_name& obj)
 	noexcept;

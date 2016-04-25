@@ -11,7 +11,7 @@ set_property(TARGET standalone-examples PROPERTY FOLDER "Example/Standalone")
 
 function(standalone_example_common EXAMPLE_NAME)
 	foreach(DEP OPENGL ${ARGN})
-		do_use_single_dependency(${DEP})
+		do_use_single_dependency(${EXAMPLE_NAME} ${DEP})
 	endforeach()
 	add_executable(
 		${EXAMPLE_NAME}

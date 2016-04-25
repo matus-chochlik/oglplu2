@@ -10,10 +10,14 @@
 #ifndef EAGINE_UTILS_CSTR_REF_1509260923_HPP
 #define EAGINE_UTILS_CSTR_REF_1509260923_HPP
 
+#include "config/platform.hpp"
 #include "string_span.hpp"
 #include <cstring>
 #include <cassert>
 #include <iosfwd>
+#if EAGINE_APPLE
+#include <ostream>
+#endif
 
 namespace eagine {
 
@@ -50,21 +54,21 @@ private:
 public:
 	cstr_ref(void) = default;
 
-	cstr_ref(const char* cstr, std::size_t n)
+	cstr_ref(const char* cstr, span_size_type n)
 	noexcept
-	 : _base(cstr, std::ptrdiff_t((n > 0 && cstr[n-1]=='\0')?n-1:n))
+	 : _base(cstr, (n > 0 && cstr[n-1]=='\0')?n-1:n)
 	{ }
 
 	template <std::size_t N>
 	cstr_ref(const char (&cstr)[N])
 	noexcept
-	 : cstr_ref(cstr, N)
+	 : cstr_ref(cstr, span_size_type(N))
 	{ }
 
 	explicit
 	cstr_ref(const char* cstr)
 	noexcept
-	 : cstr_ref(cstr, std::strlen(cstr))
+	 : cstr_ref(cstr, span_size_type(std::strlen(cstr)))
 	{ }
 
 	template <
@@ -76,7 +80,7 @@ public:
 	explicit
 	cstr_ref(const Container& cont)
 	noexcept
-	 : cstr_ref(cont.data(), cont.size())
+	 : cstr_ref(cont.data(), span_size_type(cont.size()))
 	{ }
 
 	bool empty(void) const

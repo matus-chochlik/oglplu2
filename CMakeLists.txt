@@ -41,6 +41,9 @@ include(config/FindWXGL.cmake)
 
 include(config/FindGLM.cmake)
 
+# PNG
+include(config/FindPNG.cmake)
+
 # EGL
 include(config/FindEGL.cmake)
 
@@ -78,11 +81,17 @@ include(config/GLExt.cmake)
 # re-create the site-configuration header
 include(config/SiteConfig.cmake)
 
+# tools, textures, etc.
+if(NOT ${NO_EXAMPLES})
+	add_subdirectory("source")
+endif()
+
 # examples
 if(NOT ${NO_EXAMPLES})
 	add_subdirectory("example")
 endif()
 
+# tests
 if(NOT ${NO_TESTS})
 	add_subdirectory("test")
 endif()

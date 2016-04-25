@@ -24,6 +24,11 @@
 #include <iostream>
 #include <cassert>
 
+#if defined(__APPLE__) && __APPLE__ && defined(__clang__)
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
 class single_glut_context
 {
 private:
@@ -47,9 +52,10 @@ private:
 	int _wheel;
 public:
 	single_glut_context(
+		oglplus::example_args& args,
 		oglplus::example_params& params,
 		oglplus::example_state& state
-	): example(params, state)
+	): example(args, params, state)
 	 , _height(state.height())
 	 , _wheel(0)
 	{
@@ -81,14 +87,27 @@ public:
 		instance_ptr() = nullptr;
 	}
 
+#if defined(__clang__)
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wmissing-noreturn"
+#endif
+
+#ifdef FREEGLUT
 	void quit(void)
 	{
-#ifdef FREEGLUT
 		glutLeaveMainLoop();
-#else
-		exit(0);
-#endif
 	}
+#else
+	[[noreturn]]
+	void quit(void)
+	{
+		exit(0);
+	}
+#endif
+
+#if defined(__clang__)
+# pragma clang diagnostic pop
+#endif
 
 private:
 	void close(void)
@@ -184,7 +203,7 @@ private:
 };
 
 int example_main(
-	const eagine::program_args& args,
+	oglplus::example_args& args,
 	oglplus::example_params& params,
 	oglplus::example_state& state
 )
@@ -217,9 +236,12 @@ int example_main(
 	std::srand(params.rand_seed());
 	state.set_depth(16);
 
-	single_glut_context ctx(params, state);
+	single_glut_context ctx(args, params, state);
 	glutMainLoop();
 
 	return 0;
 }
 
+#if defined(__APPLE__) && __APPLE__ && defined(__clang__)
+# pragma clang diagnostic pop
+#endif

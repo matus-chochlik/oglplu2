@@ -6,6 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <cstdlib>
 
 namespace eagine {
 namespace memory {
@@ -40,7 +41,7 @@ noexcept
 {
 	if(!b.empty())
 	{
-		std::free(b.addr());
+		std::free(b.data());
 		this->release_block(std::move(b));
 	}
 }
@@ -59,7 +60,7 @@ noexcept
 		return {};
 	}
 
-	void* p = std::realloc(b.addr(), n);
+	void* p = std::realloc(b.data(), n);
 
 	this->release_block(std::move(b));
 

@@ -51,9 +51,6 @@ BOOST_AUTO_TEST_CASE(enum_surface_type_bit_values)
 
 #ifdef EGL_PBUFFER_BIT
 	x = ev.pbuffer_bit;
-# ifdef EGL_MULTISAMPLE_RESOLVE_BOX_BIT
-	BOOST_CHECK(x != ev.multisample_resolve_box_bit);
-# endif
 	BOOST_CHECK(x == ev.pbuffer_bit);
 # ifdef EGL_PIXMAP_BIT
 	BOOST_CHECK(x != ev.pixmap_bit);
@@ -74,12 +71,6 @@ BOOST_AUTO_TEST_CASE(enum_surface_type_bit_values)
 
 #ifdef EGL_PIXMAP_BIT
 	x = ev.pixmap_bit;
-# ifdef EGL_MULTISAMPLE_RESOLVE_BOX_BIT
-	BOOST_CHECK(x != ev.multisample_resolve_box_bit);
-# endif
-# ifdef EGL_PBUFFER_BIT
-	BOOST_CHECK(x != ev.pbuffer_bit);
-# endif
 	BOOST_CHECK(x == ev.pixmap_bit);
 # ifdef EGL_SWAP_BEHAVIOR_PRESERVED_BIT
 	BOOST_CHECK(x != ev.swap_behavior_preserved_bit);
@@ -97,15 +88,6 @@ BOOST_AUTO_TEST_CASE(enum_surface_type_bit_values)
 
 #ifdef EGL_SWAP_BEHAVIOR_PRESERVED_BIT
 	x = ev.swap_behavior_preserved_bit;
-# ifdef EGL_MULTISAMPLE_RESOLVE_BOX_BIT
-	BOOST_CHECK(x != ev.multisample_resolve_box_bit);
-# endif
-# ifdef EGL_PBUFFER_BIT
-	BOOST_CHECK(x != ev.pbuffer_bit);
-# endif
-# ifdef EGL_PIXMAP_BIT
-	BOOST_CHECK(x != ev.pixmap_bit);
-# endif
 	BOOST_CHECK(x == ev.swap_behavior_preserved_bit);
 # ifdef EGL_VG_ALPHA_FORMAT_PRE_BIT
 	BOOST_CHECK(x != ev.vg_alpha_format_pre_bit);
@@ -120,18 +102,6 @@ BOOST_AUTO_TEST_CASE(enum_surface_type_bit_values)
 
 #ifdef EGL_VG_ALPHA_FORMAT_PRE_BIT
 	x = ev.vg_alpha_format_pre_bit;
-# ifdef EGL_MULTISAMPLE_RESOLVE_BOX_BIT
-	BOOST_CHECK(x != ev.multisample_resolve_box_bit);
-# endif
-# ifdef EGL_PBUFFER_BIT
-	BOOST_CHECK(x != ev.pbuffer_bit);
-# endif
-# ifdef EGL_PIXMAP_BIT
-	BOOST_CHECK(x != ev.pixmap_bit);
-# endif
-# ifdef EGL_SWAP_BEHAVIOR_PRESERVED_BIT
-	BOOST_CHECK(x != ev.swap_behavior_preserved_bit);
-# endif
 	BOOST_CHECK(x == ev.vg_alpha_format_pre_bit);
 # ifdef EGL_VG_COLORSPACE_LINEAR_BIT
 	BOOST_CHECK(x != ev.vg_colorspace_linear_bit);
@@ -143,21 +113,6 @@ BOOST_AUTO_TEST_CASE(enum_surface_type_bit_values)
 
 #ifdef EGL_VG_COLORSPACE_LINEAR_BIT
 	x = ev.vg_colorspace_linear_bit;
-# ifdef EGL_MULTISAMPLE_RESOLVE_BOX_BIT
-	BOOST_CHECK(x != ev.multisample_resolve_box_bit);
-# endif
-# ifdef EGL_PBUFFER_BIT
-	BOOST_CHECK(x != ev.pbuffer_bit);
-# endif
-# ifdef EGL_PIXMAP_BIT
-	BOOST_CHECK(x != ev.pixmap_bit);
-# endif
-# ifdef EGL_SWAP_BEHAVIOR_PRESERVED_BIT
-	BOOST_CHECK(x != ev.swap_behavior_preserved_bit);
-# endif
-# ifdef EGL_VG_ALPHA_FORMAT_PRE_BIT
-	BOOST_CHECK(x != ev.vg_alpha_format_pre_bit);
-# endif
 	BOOST_CHECK(x == ev.vg_colorspace_linear_bit);
 # ifdef EGL_WINDOW_BIT
 	BOOST_CHECK(x != ev.window_bit);
@@ -166,24 +121,6 @@ BOOST_AUTO_TEST_CASE(enum_surface_type_bit_values)
 
 #ifdef EGL_WINDOW_BIT
 	x = ev.window_bit;
-# ifdef EGL_MULTISAMPLE_RESOLVE_BOX_BIT
-	BOOST_CHECK(x != ev.multisample_resolve_box_bit);
-# endif
-# ifdef EGL_PBUFFER_BIT
-	BOOST_CHECK(x != ev.pbuffer_bit);
-# endif
-# ifdef EGL_PIXMAP_BIT
-	BOOST_CHECK(x != ev.pixmap_bit);
-# endif
-# ifdef EGL_SWAP_BEHAVIOR_PRESERVED_BIT
-	BOOST_CHECK(x != ev.swap_behavior_preserved_bit);
-# endif
-# ifdef EGL_VG_ALPHA_FORMAT_PRE_BIT
-	BOOST_CHECK(x != ev.vg_alpha_format_pre_bit);
-# endif
-# ifdef EGL_VG_COLORSPACE_LINEAR_BIT
-	BOOST_CHECK(x != ev.vg_colorspace_linear_bit);
-# endif
 	BOOST_CHECK(x == ev.window_bit);
 #endif
 }

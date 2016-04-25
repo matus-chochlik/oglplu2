@@ -11,10 +11,10 @@
 #include <oglplus/constants.hpp>
 #include <oglplus/operations.hpp>
 #include <oglplus/glsl/string_ref.hpp>
+#include <oglplus/utils/image_file.hpp>
+#include <oglplus/utils/program_file.hpp>
 
 #include "example.hpp"
-#include <iostream>
-#include <random>
 #include <vector>
 
 namespace oglplus {
@@ -25,98 +25,31 @@ static operations gl;
 class voronoi_program
  : public program
 {
+private:
+	void _init(const program_source_file& prog_src)
+	{
+		for(std::size_t i=0, n=prog_src.shader_source_count(); i<n; ++i)
+		{
+			shader shdr(prog_src.shader_type(i));
+			shdr.source(prog_src.shader_source(i));
+			shdr.compile();
+			shdr.report_compile_error();
+			attach(shdr);
+		}
+		link();
+		report_link_error();
+	}
 public:
 	uniform<GLfloat> offset_loc;
 	uniform<GLfloat> scale_loc;
 
-	voronoi_program(void)
+	voronoi_program(const example_params& params)
 	{
-		shader vs(GL.vertex_shader);
-		vs.source(glsl_literal(
-		"#version 140\n"
-
-		"uniform vec2 Offset;\n"
-		"uniform vec2 Scale;\n"
-
-		"in vec4 Position;\n"
-		"in vec2 TexCoord;\n"
-
-		"out vec2 vertTexCoord;\n"
-
-		"void main(void)\n"
-		"{\n"
-		"	gl_Position = Position;\n"
-		"	vertTexCoord = Scale*TexCoord + Offset;\n"
-		"}\n"
-		));
-		vs.compile();
-
-		shader fs(GL.fragment_shader);
-		fs.source(glsl_literal(
-		"#version 140\n"
-
-		"uniform vec2 Scale;\n"
-		"uniform sampler2D Tex;\n"
-
-		"in vec2 vertTexCoord;\n"
-
-		"out vec3 fragColor;\n"
-
-		"const vec2 offs[9] = vec2[9]("
-		"	vec2(-1,-1),"
-		"	vec2(-1, 0),"
-		"	vec2(-1, 1),"
-		"	vec2( 0,-1),"
-		"	vec2( 0, 0),"
-		"	vec2( 0, 1),"
-		"	vec2( 1,-1),"
-		"	vec2( 1, 0),"
-		"	vec2( 1, 1) "
-		");\n"
-
-		"float dist(vec2 tc, vec2 ofs)\n"
-		"{\n"
-		"	vec2 cc = floor(tc+ofs);\n"
-		"	vec2 cp = texture(Tex, cc/textureSize(Tex, 0)).xy;\n"
-		"	return distance(tc, cc+cp);\n"
-		"}\n"
-
-		"vec3 point_color(vec2 tc, vec2 ofs)\n"
-		"{\n"
-		"	vec2 cc = floor(tc+ofs);\n"
-		"	return texture(Tex, cc/textureSize(Tex, 0)).rgb;\n"
-		"}\n"
-
-		"vec3 voronoi(vec2 tc)\n"
-		"{\n"
-		"	float md = 2.0;\n"
-		"	int mc = 9;\n"
-		"	for(int c=0; c<9; ++c)\n"
-		"	{\n"
-		"		float d = dist(tc, offs[c]);\n"
-		"		if(md > d)\n"
-		"		{\n"
-		"			md = d;\n"
-		"			mc = c;\n"
-		"		}\n"
-		"	}\n"
-		"	return mix(\n"
-		"		point_color(tc, offs[mc])*mix(1.4, 0.5, md),\n"
-		"		vec3(0, 0, 0),\n"
-		"		pow(exp(1-md*128/sqrt(length(Scale))), 2.0)\n"
-		"	);\n"
-		"}\n"
-
-		"void main(void)\n"
-		"{\n"
-		"	fragColor = voronoi(vertTexCoord);\n"
-		"}\n"
-		));
-		fs.compile();
-
-		attach(vs);
-		attach(fs);
-		link();
+		std::string path = params.get_resource_file_path(
+			example_resource_type::program_source,
+			cstr_ref("014_voronoi.oglpprog")
+		);
+		_init(program_source_file(cstr_ref(path)));
 
 		gl.use(*this);
 
@@ -128,20 +61,9 @@ public:
 class random_texture
  : public texture
 {
-public:
-	random_texture(GLsizei width, GLsizei height)
+private:
+	void init(const texture_image_file& image_data)
 	{
-		std::independent_bits_engine<
-			std::default_random_engine,
-			8, GLubyte
-		> re;
-		std::vector<GLubyte> random_bytes(std::size_t(width*height*3));
-		std::generate(
-			random_bytes.begin(),
-			random_bytes.end(),
-			std::ref(re)
-		);
-
 		gl.bind(GL.texture_2d, *this);
 		gl.texture_min_filter(GL.texture_2d, GL.nearest);
 		gl.texture_mag_filter(GL.texture_2d, GL.nearest);
@@ -150,17 +72,16 @@ public:
 			GL.texture_wrap_s,
 			GL.repeat
 		);
-		gl.texture_image_2d(
-			GL.texture_2d,
-			0, GL.rgb,
-			width, height,
-			0, GL.rgb,
-			GL.unsigned_byte,
-			const_memory_block{
-				random_bytes.data(),
-				random_bytes.size()
-			}
+		gl.texture_image_2d(GL.texture_2d, image_data.spec());
+	}
+public:
+	random_texture(const example_params& params)
+	{
+		std::string path = params.get_resource_file_path(
+			example_resource_type::texture,
+			cstr_ref("noise.256x256x3.oglptex")
 		);
+		init(texture_image_file(cstr_ref(path)));
 	}
 };
 
@@ -216,7 +137,7 @@ public:
 	}
 };
 
-class example_mandelbrot
+class example_voronoi
  : public example
 {
 private:
@@ -231,8 +152,9 @@ private:
 	static constexpr const float min_scale = 1.0f;
 	static constexpr const float max_scale = 100.0f;
 public:
-	example_mandelbrot(void)
-	 : tex(256, 256)
+	example_voronoi(const example_params& params)
+	 : tex(params)
+	 , prog(params)
 	 , screen(prog)
 	 , ofs_x_dir(1.f)
 	 , ofs_y_dir(1.f)
@@ -323,9 +245,13 @@ public:
 };
 
 std::unique_ptr<example>
-make_example(const example_params&, const example_state_view&)
+make_example(
+	const example_args&,
+	const example_params& params,
+	const example_state_view&
+)
 {
-	return std::unique_ptr<example>(new example_mandelbrot());
+	return std::unique_ptr<example>(new example_voronoi(params));
 }
 
 void adjust_params(example_params& params)
@@ -334,5 +260,7 @@ void adjust_params(example_params& params)
 	params.depth_buffer(false);
 	params.stencil_buffer(false);
 }
+
+bool is_example_param(const example_arg&) { return false; }
 
 } // namespace oglplus

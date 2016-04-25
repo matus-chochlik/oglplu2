@@ -36,7 +36,7 @@ private:
 	std::vector<char>& textbuf(std::size_t);
 
 public:
-	example_wrapper(example_params& params, example_state& state);
+	example_wrapper(example_args&, example_params&, example_state&);
 
 	void destroy(void);
 

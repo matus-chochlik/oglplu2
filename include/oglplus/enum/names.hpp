@@ -21,7 +21,7 @@ auto
 enum_value_name(outcome<EnumValue> ocev)
 noexcept
 {
-	return enum_value_name(ocev.get());
+	return enum_value_name(ocev.value());
 }
 
 } // namespace oglplus

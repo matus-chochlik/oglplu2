@@ -36,9 +36,6 @@ BOOST_AUTO_TEST_CASE(enum_face_orientation_values)
 
 #ifdef GL_CW
 	x = ev.cw;
-# ifdef GL_CCW
-	BOOST_CHECK(x != ev.ccw);
-# endif
 	BOOST_CHECK(x == ev.cw);
 #endif
 }

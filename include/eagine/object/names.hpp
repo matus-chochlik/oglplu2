@@ -279,7 +279,7 @@ public:
 	noexcept
 	{
 		assert(index < size());
-		return object_name<ObjTag>(_name_type(_base+_size));
+		return object_name<ObjTag>(_name_type(_base+index));
 	}
 
 	object_name<ObjTag> at(std::size_t index) const
@@ -291,7 +291,7 @@ public:
 			"Index exceeds object_name_fake_array bounds."
 			);
 		}
-		return object_name<ObjTag>(_name_type(_base+_size));
+		return object_name<ObjTag>(_name_type(_base+index));
 	}
 
 	typedef noexcept_casting_iterator<

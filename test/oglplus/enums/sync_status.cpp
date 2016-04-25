@@ -36,9 +36,6 @@ BOOST_AUTO_TEST_CASE(enum_sync_status_values)
 
 #ifdef GL_UNSIGNALED
 	x = ev.unsignaled;
-# ifdef GL_SIGNALED
-	BOOST_CHECK(x != ev.signaled);
-# endif
 	BOOST_CHECK(x == ev.unsignaled);
 #endif
 }

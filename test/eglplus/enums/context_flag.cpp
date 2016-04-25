@@ -39,9 +39,6 @@ BOOST_AUTO_TEST_CASE(enum_context_flag_values)
 
 #ifdef EGL_CONTEXT_OPENGL_FORWARD_COMPATIBLE_BIT
 	x = ev.context_opengl_forward_compatible_bit;
-# ifdef EGL_CONTEXT_OPENGL_DEBUG_BIT
-	BOOST_CHECK(x != ev.context_opengl_debug_bit);
-# endif
 	BOOST_CHECK(x == ev.context_opengl_forward_compatible_bit);
 # ifdef EGL_CONTEXT_OPENGL_ROBUST_ACCESS_BIT
 	BOOST_CHECK(x != ev.context_opengl_robust_access_bit);
@@ -50,12 +47,6 @@ BOOST_AUTO_TEST_CASE(enum_context_flag_values)
 
 #ifdef EGL_CONTEXT_OPENGL_ROBUST_ACCESS_BIT
 	x = ev.context_opengl_robust_access_bit;
-# ifdef EGL_CONTEXT_OPENGL_DEBUG_BIT
-	BOOST_CHECK(x != ev.context_opengl_debug_bit);
-# endif
-# ifdef EGL_CONTEXT_OPENGL_FORWARD_COMPATIBLE_BIT
-	BOOST_CHECK(x != ev.context_opengl_forward_compatible_bit);
-# endif
 	BOOST_CHECK(x == ev.context_opengl_robust_access_bit);
 #endif
 }

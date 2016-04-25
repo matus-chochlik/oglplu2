@@ -56,6 +56,7 @@ if(OGLPLUS_EXAMPLE_HARNESS_ADDITIONAL_SOURCES)
 		oglplus_example_harness STATIC
 		EXCLUDE_FROM_ALL
 		"${CMAKE_CURRENT_SOURCE_DIR}/example/main.cpp"
+		"${CMAKE_CURRENT_SOURCE_DIR}/example/args.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/example/wrapper.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/example/params.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/example/state_view.cpp"
@@ -67,6 +68,7 @@ else()
 		oglplus_example_harness STATIC
 		EXCLUDE_FROM_ALL
 		"${CMAKE_CURRENT_SOURCE_DIR}/example/main.cpp"
+		"${CMAKE_CURRENT_SOURCE_DIR}/example/args.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/example/wrapper.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/example/params.cpp"
 		"${CMAKE_CURRENT_SOURCE_DIR}/example/state_view.cpp"
@@ -124,4 +126,88 @@ set(EXAMPLE_LIBS oglplus_example_harness ${OGLPLUS_GL_LIBRARIES})
 # add oglplus examples
 add_examples("[0-9][0-9][0-9]*" oglplus-examples "${EXAMPLE_LIBS}")
 
+add_custom_target(glsl_program_sources ALL)
+add_custom_target(glsl_shader_sources ALL)
 
+file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/programs/")
+file(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/shaders/")
+
+function(add_program_source DIR PROG_NAME)
+	set(INPUT ${DIR}/programs/${PROG_NAME}.prog)
+	file(STRINGS ${INPUT} PARAM_STR)
+	string(REPLACE " " ";" PARAMETERS ${PARAM_STR}) 
+	get_filename_component(GENERATOR ${PROG_NAME} NAME_WE)
+	set(OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/programs/${PROG_NAME}.oglpprog")
+	add_custom_command(
+		OUTPUT ${OUTPUT}
+		COMMAND bake_program_source
+		ARGS ${PARAMETERS} --output ${OUTPUT}
+		WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/shaders
+		DEPENDS ${INPUT}
+		COMMENT "Baking program source ${PROG_NAME}"
+	)
+	add_custom_target(bake-${PROG_NAME}-program_source DEPENDS ${OUTPUT})
+	add_dependencies(glsl_program_sources bake-${PROG_NAME}-program_source)
+	set_property(
+		TARGET bake-${PROG_NAME}-program_source
+		PROPERTY FOLDER "Example/OGLplus/GPUPrograms"
+	)
+endfunction()
+
+function(add_shader_source DIR SHDR_NAME)
+	set(INPUT ${DIR}/shaders/${SHDR_NAME}.glsl)
+	string(REGEX REPLACE "^.*(\\.[^.]*)$" "\\1" SHDR_LEXT ${SHDR_NAME})
+	if("${SHDR_LEXT}" STREQUAL ".vert")
+		set(PARAMETERS "--shader-type;vertex")
+	elseif("${SHDR_LEXT}" STREQUAL ".teco")
+		set(PARAMETERS "--shader-type;tess_control")
+	elseif("${SHDR_LEXT}" STREQUAL ".teev")
+		set(PARAMETERS "--shader-type;tess_evaluation")
+	elseif("${SHDR_LEXT}" STREQUAL ".geom")
+		set(PARAMETERS "--shader-type;geometry")
+	elseif("${SHDR_LEXT}" STREQUAL ".frag")
+		set(PARAMETERS "--shader-type;fragment")
+	elseif("${SHDR_LEXT}" STREQUAL ".comp")
+		set(PARAMETERS "--shader-type;compute")
+	endif()
+	if(NOT("${PARAMETERS}" STREQUAL ""))
+		set(OUTPUT "${CMAKE_CURRENT_BINARY_DIR}/shaders/${SHDR_NAME}.oglpshdr")
+		add_custom_command(
+			OUTPUT ${OUTPUT}
+			COMMAND bake_shader_source
+			ARGS ${PARAMETERS} --input ${INPUT} --output ${OUTPUT}
+			WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/shaders
+			DEPENDS ${INPUT}
+			COMMENT "Baking shader source ${SHDR_NAME}"
+		)
+		add_custom_target(bake-${SHDR_NAME}-shader_source DEPENDS ${OUTPUT})
+		add_dependencies(glsl_shader_sources bake-${SHDR_NAME}-shader_source)
+		set_property(
+			TARGET bake-${SHDR_NAME}-shader_source
+			PROPERTY FOLDER "Example/OGLplus/GPUPrograms"
+		)
+	endif()
+endfunction()
+
+function(add_glsl_program_sources DIR)
+	file(GLOB SOURCES "${DIR}/programs/*.prog")
+
+	foreach(SOURCE ${SOURCES})
+		get_filename_component(FILE_NAME ${SOURCE} NAME)
+		string(REGEX REPLACE "\\.[^.]*$" "" PROG_NAME ${FILE_NAME})
+		add_program_source(${DIR} ${PROG_NAME})
+	endforeach()
+endfunction()
+
+function(add_glsl_shader_sources DIR)
+	file(GLOB SOURCES "${DIR}/shaders/*.glsl")
+
+	foreach(SOURCE ${SOURCES})
+		get_filename_component(FILE_NAME ${SOURCE} NAME)
+		string(REGEX REPLACE "\\.[^.]*$" "" SHDR_NAME ${FILE_NAME})
+		add_shader_source(${DIR} ${SHDR_NAME})
+	endforeach()
+endfunction()
+
+add_glsl_program_sources(${CMAKE_CURRENT_SOURCE_DIR})
+add_glsl_shader_sources(${CMAKE_CURRENT_SOURCE_DIR})

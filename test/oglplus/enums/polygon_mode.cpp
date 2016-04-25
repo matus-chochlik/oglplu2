@@ -42,9 +42,6 @@ BOOST_AUTO_TEST_CASE(enum_polygon_mode_values)
 
 #ifdef GL_FILL_RECTANGLE_NV
 	x = ev.fill_rectangle;
-# ifdef GL_FILL
-	BOOST_CHECK(x != ev.fill);
-# endif
 	BOOST_CHECK(x == ev.fill_rectangle);
 # ifdef GL_LINE
 	BOOST_CHECK(x != ev.line);
@@ -56,12 +53,6 @@ BOOST_AUTO_TEST_CASE(enum_polygon_mode_values)
 
 #ifdef GL_LINE
 	x = ev.line;
-# ifdef GL_FILL
-	BOOST_CHECK(x != ev.fill);
-# endif
-# ifdef GL_FILL_RECTANGLE_NV
-	BOOST_CHECK(x != ev.fill_rectangle);
-# endif
 	BOOST_CHECK(x == ev.line);
 # ifdef GL_POINT
 	BOOST_CHECK(x != ev.point);
@@ -70,15 +61,6 @@ BOOST_AUTO_TEST_CASE(enum_polygon_mode_values)
 
 #ifdef GL_POINT
 	x = ev.point;
-# ifdef GL_FILL
-	BOOST_CHECK(x != ev.fill);
-# endif
-# ifdef GL_FILL_RECTANGLE_NV
-	BOOST_CHECK(x != ev.fill_rectangle);
-# endif
-# ifdef GL_LINE
-	BOOST_CHECK(x != ev.line);
-# endif
 	BOOST_CHECK(x == ev.point);
 #endif
 }

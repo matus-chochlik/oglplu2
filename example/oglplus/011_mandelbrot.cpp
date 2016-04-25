@@ -13,7 +13,6 @@
 #include <oglplus/glsl/string_ref.hpp>
 
 #include "example.hpp"
-#include <iostream>
 
 namespace oglplus {
 
@@ -50,7 +49,7 @@ public:
 	{
 		shader vs(GL.vertex_shader);
 		vs.source(glsl_literal(
-			"#version 130\n"
+			"#version 140\n"
 			"uniform vec2 Offset;\n"
 			"uniform vec2 Scale;\n"
 			"in vec2 Position;\n"
@@ -66,7 +65,7 @@ public:
 
 		shader fs(GL.fragment_shader);
 		fs.source(glsl_literal(
-		"#version 130\n"
+		"#version 140\n"
 		"uniform sampler1D gradient;\n"
 		"in vec2 vertCoord;\n"
 		"out vec4 fragColor;\n"
@@ -93,6 +92,7 @@ public:
 		prog.attach(vs);
 		prog.attach(fs);
 		prog.link();
+		prog.report_link_error();
 
 		gl.use(prog);
 
@@ -163,7 +163,7 @@ public:
 			8,
 			0, GL.rgb,
 			GL.float_,
-			const_memory_block{gradient_data}
+			memory_block_of(gradient_data)
 		);
 
 		gl.disable(GL.depth_test);
@@ -236,7 +236,11 @@ public:
 };
 
 std::unique_ptr<example>
-make_example(const example_params&, const example_state_view&)
+make_example(
+	const example_args&,
+	const example_params&,
+	const example_state_view&
+)
 {
 	return std::unique_ptr<example>(new example_mandelbrot());
 }
@@ -247,5 +251,7 @@ void adjust_params(example_params& params)
 	params.depth_buffer(false);
 	params.stencil_buffer(false);
 }
+
+bool is_example_param(const example_arg&) { return false; }
 
 } // namespace oglplus

@@ -17,7 +17,7 @@
 # define OGLPLUS_ERROR_NO_SUBJECT 0
 # define OGLPLUS_ERROR_NO_INDEX 0
 # define OGLPLUS_ERROR_NO_ENUM_VALUE 0
-# define OGLPLUS_ERROR_NO_BUILD_LOG 0
+# define OGLPLUS_ERROR_NO_INFO_LOG 0
 
 #include <oglplus/gl_fixed.hpp>
 #include <oglplus/error/info.hpp>

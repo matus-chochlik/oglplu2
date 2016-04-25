@@ -48,9 +48,6 @@ BOOST_AUTO_TEST_CASE(enum_path_color_format_nv_values)
 
 #ifdef GL_INTENSITY
 	x = ev.intensity;
-# ifdef GL_ALPHA
-	BOOST_CHECK(x != ev.alpha);
-# endif
 	BOOST_CHECK(x == ev.intensity);
 # ifdef GL_LUMINANCE
 	BOOST_CHECK(x != ev.luminance);
@@ -68,12 +65,6 @@ BOOST_AUTO_TEST_CASE(enum_path_color_format_nv_values)
 
 #ifdef GL_LUMINANCE
 	x = ev.luminance;
-# ifdef GL_ALPHA
-	BOOST_CHECK(x != ev.alpha);
-# endif
-# ifdef GL_INTENSITY
-	BOOST_CHECK(x != ev.intensity);
-# endif
 	BOOST_CHECK(x == ev.luminance);
 # ifdef GL_LUMINANCE_ALPHA
 	BOOST_CHECK(x != ev.luminance_alpha);
@@ -88,15 +79,6 @@ BOOST_AUTO_TEST_CASE(enum_path_color_format_nv_values)
 
 #ifdef GL_LUMINANCE_ALPHA
 	x = ev.luminance_alpha;
-# ifdef GL_ALPHA
-	BOOST_CHECK(x != ev.alpha);
-# endif
-# ifdef GL_INTENSITY
-	BOOST_CHECK(x != ev.intensity);
-# endif
-# ifdef GL_LUMINANCE
-	BOOST_CHECK(x != ev.luminance);
-# endif
 	BOOST_CHECK(x == ev.luminance_alpha);
 # ifdef GL_RGB
 	BOOST_CHECK(x != ev.rgb);
@@ -108,18 +90,6 @@ BOOST_AUTO_TEST_CASE(enum_path_color_format_nv_values)
 
 #ifdef GL_RGB
 	x = ev.rgb;
-# ifdef GL_ALPHA
-	BOOST_CHECK(x != ev.alpha);
-# endif
-# ifdef GL_INTENSITY
-	BOOST_CHECK(x != ev.intensity);
-# endif
-# ifdef GL_LUMINANCE
-	BOOST_CHECK(x != ev.luminance);
-# endif
-# ifdef GL_LUMINANCE_ALPHA
-	BOOST_CHECK(x != ev.luminance_alpha);
-# endif
 	BOOST_CHECK(x == ev.rgb);
 # ifdef GL_RGBA
 	BOOST_CHECK(x != ev.rgba);
@@ -128,21 +98,6 @@ BOOST_AUTO_TEST_CASE(enum_path_color_format_nv_values)
 
 #ifdef GL_RGBA
 	x = ev.rgba;
-# ifdef GL_ALPHA
-	BOOST_CHECK(x != ev.alpha);
-# endif
-# ifdef GL_INTENSITY
-	BOOST_CHECK(x != ev.intensity);
-# endif
-# ifdef GL_LUMINANCE
-	BOOST_CHECK(x != ev.luminance);
-# endif
-# ifdef GL_LUMINANCE_ALPHA
-	BOOST_CHECK(x != ev.luminance_alpha);
-# endif
-# ifdef GL_RGB
-	BOOST_CHECK(x != ev.rgb);
-# endif
 	BOOST_CHECK(x == ev.rgba);
 #endif
 }

@@ -39,9 +39,6 @@ BOOST_AUTO_TEST_CASE(enum_path_font_target_nv_values)
 
 #ifdef GL_STANDARD_FONT_NAME_NV
 	x = ev.standard_font_name_nv;
-# ifdef GL_FILE_NAME_NV
-	BOOST_CHECK(x != ev.file_name_nv);
-# endif
 	BOOST_CHECK(x == ev.standard_font_name_nv);
 # ifdef GL_SYSTEM_FONT_NAME_NV
 	BOOST_CHECK(x != ev.system_font_name_nv);
@@ -50,12 +47,6 @@ BOOST_AUTO_TEST_CASE(enum_path_font_target_nv_values)
 
 #ifdef GL_SYSTEM_FONT_NAME_NV
 	x = ev.system_font_name_nv;
-# ifdef GL_FILE_NAME_NV
-	BOOST_CHECK(x != ev.file_name_nv);
-# endif
-# ifdef GL_STANDARD_FONT_NAME_NV
-	BOOST_CHECK(x != ev.standard_font_name_nv);
-# endif
 	BOOST_CHECK(x == ev.system_font_name_nv);
 #endif
 }

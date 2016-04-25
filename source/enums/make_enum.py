@@ -593,6 +593,8 @@ def action_test_enums_cpp(options):
 		print_line(options, "	x = ev.%s;" % value_name)
 
 		for value_name2, value_info2 in sorted(value_infos.items()):
+			if value_name > value_name2:
+				continue
 
 			if value_name != value_name2:
 				print_line(options, "# ifdef %s_%s" % (

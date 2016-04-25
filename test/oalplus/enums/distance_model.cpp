@@ -51,9 +51,6 @@ BOOST_AUTO_TEST_CASE(enum_distance_model_values)
 
 #ifdef AL_EXPONENT_DISTANCE_CLAMPED
 	x = ev.exponent_distance_clamped;
-# ifdef AL_EXPONENT_DISTANCE
-	BOOST_CHECK(x != ev.exponent_distance);
-# endif
 	BOOST_CHECK(x == ev.exponent_distance_clamped);
 # ifdef AL_INVERSE_DISTANCE
 	BOOST_CHECK(x != ev.inverse_distance);
@@ -74,12 +71,6 @@ BOOST_AUTO_TEST_CASE(enum_distance_model_values)
 
 #ifdef AL_INVERSE_DISTANCE
 	x = ev.inverse_distance;
-# ifdef AL_EXPONENT_DISTANCE
-	BOOST_CHECK(x != ev.exponent_distance);
-# endif
-# ifdef AL_EXPONENT_DISTANCE_CLAMPED
-	BOOST_CHECK(x != ev.exponent_distance_clamped);
-# endif
 	BOOST_CHECK(x == ev.inverse_distance);
 # ifdef AL_INVERSE_DISTANCE_CLAMPED
 	BOOST_CHECK(x != ev.inverse_distance_clamped);
@@ -97,15 +88,6 @@ BOOST_AUTO_TEST_CASE(enum_distance_model_values)
 
 #ifdef AL_INVERSE_DISTANCE_CLAMPED
 	x = ev.inverse_distance_clamped;
-# ifdef AL_EXPONENT_DISTANCE
-	BOOST_CHECK(x != ev.exponent_distance);
-# endif
-# ifdef AL_EXPONENT_DISTANCE_CLAMPED
-	BOOST_CHECK(x != ev.exponent_distance_clamped);
-# endif
-# ifdef AL_INVERSE_DISTANCE
-	BOOST_CHECK(x != ev.inverse_distance);
-# endif
 	BOOST_CHECK(x == ev.inverse_distance_clamped);
 # ifdef AL_LINEAR_DISTANCE
 	BOOST_CHECK(x != ev.linear_distance);
@@ -120,18 +102,6 @@ BOOST_AUTO_TEST_CASE(enum_distance_model_values)
 
 #ifdef AL_LINEAR_DISTANCE
 	x = ev.linear_distance;
-# ifdef AL_EXPONENT_DISTANCE
-	BOOST_CHECK(x != ev.exponent_distance);
-# endif
-# ifdef AL_EXPONENT_DISTANCE_CLAMPED
-	BOOST_CHECK(x != ev.exponent_distance_clamped);
-# endif
-# ifdef AL_INVERSE_DISTANCE
-	BOOST_CHECK(x != ev.inverse_distance);
-# endif
-# ifdef AL_INVERSE_DISTANCE_CLAMPED
-	BOOST_CHECK(x != ev.inverse_distance_clamped);
-# endif
 	BOOST_CHECK(x == ev.linear_distance);
 # ifdef AL_LINEAR_DISTANCE_CLAMPED
 	BOOST_CHECK(x != ev.linear_distance_clamped);
@@ -143,21 +113,6 @@ BOOST_AUTO_TEST_CASE(enum_distance_model_values)
 
 #ifdef AL_LINEAR_DISTANCE_CLAMPED
 	x = ev.linear_distance_clamped;
-# ifdef AL_EXPONENT_DISTANCE
-	BOOST_CHECK(x != ev.exponent_distance);
-# endif
-# ifdef AL_EXPONENT_DISTANCE_CLAMPED
-	BOOST_CHECK(x != ev.exponent_distance_clamped);
-# endif
-# ifdef AL_INVERSE_DISTANCE
-	BOOST_CHECK(x != ev.inverse_distance);
-# endif
-# ifdef AL_INVERSE_DISTANCE_CLAMPED
-	BOOST_CHECK(x != ev.inverse_distance_clamped);
-# endif
-# ifdef AL_LINEAR_DISTANCE
-	BOOST_CHECK(x != ev.linear_distance);
-# endif
 	BOOST_CHECK(x == ev.linear_distance_clamped);
 # ifdef AL_NONE
 	BOOST_CHECK(x != ev.none);
@@ -166,24 +121,6 @@ BOOST_AUTO_TEST_CASE(enum_distance_model_values)
 
 #ifdef AL_NONE
 	x = ev.none;
-# ifdef AL_EXPONENT_DISTANCE
-	BOOST_CHECK(x != ev.exponent_distance);
-# endif
-# ifdef AL_EXPONENT_DISTANCE_CLAMPED
-	BOOST_CHECK(x != ev.exponent_distance_clamped);
-# endif
-# ifdef AL_INVERSE_DISTANCE
-	BOOST_CHECK(x != ev.inverse_distance);
-# endif
-# ifdef AL_INVERSE_DISTANCE_CLAMPED
-	BOOST_CHECK(x != ev.inverse_distance_clamped);
-# endif
-# ifdef AL_LINEAR_DISTANCE
-	BOOST_CHECK(x != ev.linear_distance);
-# endif
-# ifdef AL_LINEAR_DISTANCE_CLAMPED
-	BOOST_CHECK(x != ev.linear_distance_clamped);
-# endif
 	BOOST_CHECK(x == ev.none);
 #endif
 }

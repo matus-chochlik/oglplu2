@@ -66,9 +66,6 @@ BOOST_AUTO_TEST_CASE(enum_object_type_values)
 
 #ifdef GL_FRAMEBUFFER
 	x = ev.framebuffer;
-# ifdef GL_BUFFER
-	BOOST_CHECK(x != ev.buffer);
-# endif
 	BOOST_CHECK(x == ev.framebuffer);
 # ifdef GL_NONE
 	BOOST_CHECK(x != ev.none);
@@ -104,12 +101,6 @@ BOOST_AUTO_TEST_CASE(enum_object_type_values)
 
 #ifdef GL_NONE
 	x = ev.none;
-# ifdef GL_BUFFER
-	BOOST_CHECK(x != ev.buffer);
-# endif
-# ifdef GL_FRAMEBUFFER
-	BOOST_CHECK(x != ev.framebuffer);
-# endif
 	BOOST_CHECK(x == ev.none);
 # ifdef GL_PROGRAM
 	BOOST_CHECK(x != ev.program);
@@ -142,15 +133,6 @@ BOOST_AUTO_TEST_CASE(enum_object_type_values)
 
 #ifdef GL_PROGRAM
 	x = ev.program;
-# ifdef GL_BUFFER
-	BOOST_CHECK(x != ev.buffer);
-# endif
-# ifdef GL_FRAMEBUFFER
-	BOOST_CHECK(x != ev.framebuffer);
-# endif
-# ifdef GL_NONE
-	BOOST_CHECK(x != ev.none);
-# endif
 	BOOST_CHECK(x == ev.program);
 # ifdef GL_PROGRAM_PIPELINE
 	BOOST_CHECK(x != ev.program_pipeline);
@@ -180,18 +162,6 @@ BOOST_AUTO_TEST_CASE(enum_object_type_values)
 
 #ifdef GL_PROGRAM_PIPELINE
 	x = ev.program_pipeline;
-# ifdef GL_BUFFER
-	BOOST_CHECK(x != ev.buffer);
-# endif
-# ifdef GL_FRAMEBUFFER
-	BOOST_CHECK(x != ev.framebuffer);
-# endif
-# ifdef GL_NONE
-	BOOST_CHECK(x != ev.none);
-# endif
-# ifdef GL_PROGRAM
-	BOOST_CHECK(x != ev.program);
-# endif
 	BOOST_CHECK(x == ev.program_pipeline);
 # ifdef GL_QUERY
 	BOOST_CHECK(x != ev.query);
@@ -218,21 +188,6 @@ BOOST_AUTO_TEST_CASE(enum_object_type_values)
 
 #ifdef GL_QUERY
 	x = ev.query;
-# ifdef GL_BUFFER
-	BOOST_CHECK(x != ev.buffer);
-# endif
-# ifdef GL_FRAMEBUFFER
-	BOOST_CHECK(x != ev.framebuffer);
-# endif
-# ifdef GL_NONE
-	BOOST_CHECK(x != ev.none);
-# endif
-# ifdef GL_PROGRAM
-	BOOST_CHECK(x != ev.program);
-# endif
-# ifdef GL_PROGRAM_PIPELINE
-	BOOST_CHECK(x != ev.program_pipeline);
-# endif
 	BOOST_CHECK(x == ev.query);
 # ifdef GL_RENDERBUFFER
 	BOOST_CHECK(x != ev.renderbuffer);
@@ -256,24 +211,6 @@ BOOST_AUTO_TEST_CASE(enum_object_type_values)
 
 #ifdef GL_RENDERBUFFER
 	x = ev.renderbuffer;
-# ifdef GL_BUFFER
-	BOOST_CHECK(x != ev.buffer);
-# endif
-# ifdef GL_FRAMEBUFFER
-	BOOST_CHECK(x != ev.framebuffer);
-# endif
-# ifdef GL_NONE
-	BOOST_CHECK(x != ev.none);
-# endif
-# ifdef GL_PROGRAM
-	BOOST_CHECK(x != ev.program);
-# endif
-# ifdef GL_PROGRAM_PIPELINE
-	BOOST_CHECK(x != ev.program_pipeline);
-# endif
-# ifdef GL_QUERY
-	BOOST_CHECK(x != ev.query);
-# endif
 	BOOST_CHECK(x == ev.renderbuffer);
 # ifdef GL_SAMPLER
 	BOOST_CHECK(x != ev.sampler);
@@ -294,27 +231,6 @@ BOOST_AUTO_TEST_CASE(enum_object_type_values)
 
 #ifdef GL_SAMPLER
 	x = ev.sampler;
-# ifdef GL_BUFFER
-	BOOST_CHECK(x != ev.buffer);
-# endif
-# ifdef GL_FRAMEBUFFER
-	BOOST_CHECK(x != ev.framebuffer);
-# endif
-# ifdef GL_NONE
-	BOOST_CHECK(x != ev.none);
-# endif
-# ifdef GL_PROGRAM
-	BOOST_CHECK(x != ev.program);
-# endif
-# ifdef GL_PROGRAM_PIPELINE
-	BOOST_CHECK(x != ev.program_pipeline);
-# endif
-# ifdef GL_QUERY
-	BOOST_CHECK(x != ev.query);
-# endif
-# ifdef GL_RENDERBUFFER
-	BOOST_CHECK(x != ev.renderbuffer);
-# endif
 	BOOST_CHECK(x == ev.sampler);
 # ifdef GL_SHADER
 	BOOST_CHECK(x != ev.shader);
@@ -332,30 +248,6 @@ BOOST_AUTO_TEST_CASE(enum_object_type_values)
 
 #ifdef GL_SHADER
 	x = ev.shader;
-# ifdef GL_BUFFER
-	BOOST_CHECK(x != ev.buffer);
-# endif
-# ifdef GL_FRAMEBUFFER
-	BOOST_CHECK(x != ev.framebuffer);
-# endif
-# ifdef GL_NONE
-	BOOST_CHECK(x != ev.none);
-# endif
-# ifdef GL_PROGRAM
-	BOOST_CHECK(x != ev.program);
-# endif
-# ifdef GL_PROGRAM_PIPELINE
-	BOOST_CHECK(x != ev.program_pipeline);
-# endif
-# ifdef GL_QUERY
-	BOOST_CHECK(x != ev.query);
-# endif
-# ifdef GL_RENDERBUFFER
-	BOOST_CHECK(x != ev.renderbuffer);
-# endif
-# ifdef GL_SAMPLER
-	BOOST_CHECK(x != ev.sampler);
-# endif
 	BOOST_CHECK(x == ev.shader);
 # ifdef GL_TEXTURE
 	BOOST_CHECK(x != ev.texture);
@@ -370,33 +262,6 @@ BOOST_AUTO_TEST_CASE(enum_object_type_values)
 
 #ifdef GL_TEXTURE
 	x = ev.texture;
-# ifdef GL_BUFFER
-	BOOST_CHECK(x != ev.buffer);
-# endif
-# ifdef GL_FRAMEBUFFER
-	BOOST_CHECK(x != ev.framebuffer);
-# endif
-# ifdef GL_NONE
-	BOOST_CHECK(x != ev.none);
-# endif
-# ifdef GL_PROGRAM
-	BOOST_CHECK(x != ev.program);
-# endif
-# ifdef GL_PROGRAM_PIPELINE
-	BOOST_CHECK(x != ev.program_pipeline);
-# endif
-# ifdef GL_QUERY
-	BOOST_CHECK(x != ev.query);
-# endif
-# ifdef GL_RENDERBUFFER
-	BOOST_CHECK(x != ev.renderbuffer);
-# endif
-# ifdef GL_SAMPLER
-	BOOST_CHECK(x != ev.sampler);
-# endif
-# ifdef GL_SHADER
-	BOOST_CHECK(x != ev.shader);
-# endif
 	BOOST_CHECK(x == ev.texture);
 # ifdef GL_TRANSFORM_FEEDBACK
 	BOOST_CHECK(x != ev.transform_feedback);
@@ -408,36 +273,6 @@ BOOST_AUTO_TEST_CASE(enum_object_type_values)
 
 #ifdef GL_TRANSFORM_FEEDBACK
 	x = ev.transform_feedback;
-# ifdef GL_BUFFER
-	BOOST_CHECK(x != ev.buffer);
-# endif
-# ifdef GL_FRAMEBUFFER
-	BOOST_CHECK(x != ev.framebuffer);
-# endif
-# ifdef GL_NONE
-	BOOST_CHECK(x != ev.none);
-# endif
-# ifdef GL_PROGRAM
-	BOOST_CHECK(x != ev.program);
-# endif
-# ifdef GL_PROGRAM_PIPELINE
-	BOOST_CHECK(x != ev.program_pipeline);
-# endif
-# ifdef GL_QUERY
-	BOOST_CHECK(x != ev.query);
-# endif
-# ifdef GL_RENDERBUFFER
-	BOOST_CHECK(x != ev.renderbuffer);
-# endif
-# ifdef GL_SAMPLER
-	BOOST_CHECK(x != ev.sampler);
-# endif
-# ifdef GL_SHADER
-	BOOST_CHECK(x != ev.shader);
-# endif
-# ifdef GL_TEXTURE
-	BOOST_CHECK(x != ev.texture);
-# endif
 	BOOST_CHECK(x == ev.transform_feedback);
 # ifdef GL_VERTEX_ARRAY
 	BOOST_CHECK(x != ev.vertex_array);
@@ -446,39 +281,6 @@ BOOST_AUTO_TEST_CASE(enum_object_type_values)
 
 #ifdef GL_VERTEX_ARRAY
 	x = ev.vertex_array;
-# ifdef GL_BUFFER
-	BOOST_CHECK(x != ev.buffer);
-# endif
-# ifdef GL_FRAMEBUFFER
-	BOOST_CHECK(x != ev.framebuffer);
-# endif
-# ifdef GL_NONE
-	BOOST_CHECK(x != ev.none);
-# endif
-# ifdef GL_PROGRAM
-	BOOST_CHECK(x != ev.program);
-# endif
-# ifdef GL_PROGRAM_PIPELINE
-	BOOST_CHECK(x != ev.program_pipeline);
-# endif
-# ifdef GL_QUERY
-	BOOST_CHECK(x != ev.query);
-# endif
-# ifdef GL_RENDERBUFFER
-	BOOST_CHECK(x != ev.renderbuffer);
-# endif
-# ifdef GL_SAMPLER
-	BOOST_CHECK(x != ev.sampler);
-# endif
-# ifdef GL_SHADER
-	BOOST_CHECK(x != ev.shader);
-# endif
-# ifdef GL_TEXTURE
-	BOOST_CHECK(x != ev.texture);
-# endif
-# ifdef GL_TRANSFORM_FEEDBACK
-	BOOST_CHECK(x != ev.transform_feedback);
-# endif
 	BOOST_CHECK(x == ev.vertex_array);
 #endif
 }

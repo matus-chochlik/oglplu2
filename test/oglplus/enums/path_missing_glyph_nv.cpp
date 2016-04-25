@@ -36,9 +36,6 @@ BOOST_AUTO_TEST_CASE(enum_path_missing_glyph_nv_values)
 
 #ifdef GL_USE_MISSING_GLYPH_NV
 	x = ev.use_missing_glyph_nv;
-# ifdef GL_SKIP_MISSING_GLYPH_NV
-	BOOST_CHECK(x != ev.skip_missing_glyph_nv);
-# endif
 	BOOST_CHECK(x == ev.use_missing_glyph_nv);
 #endif
 }

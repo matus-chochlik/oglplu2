@@ -19,34 +19,28 @@
 BOOST_AUTO_TEST_SUITE(vect_data_tests)
 
 static inline
-bool _are_close(int a, int b, eagine::identity<int>)
+void _check_close(int a, int b, eagine::identity<int>)
 {
-	return a == b;
+	BOOST_CHECK_EQUAL(a, b);
 }
 
 static inline
-bool _are_close(float a, float b, eagine::identity<float>)
+void _check_close(float a, float b, eagine::identity<float>)
 {
-	return boost::test_tools::check_is_close(
-		a, b,
-		boost::test_tools::fraction_tolerance(0.1f)
-	);
+	BOOST_CHECK_CLOSE(a, b, 0.1f);
 }
 
 static inline
-bool _are_close(double a, double b, eagine::identity<double>)
+void _check_close(double a, double b, eagine::identity<double>)
 {
-	return boost::test_tools::check_is_close(
-		a, b,
-		boost::test_tools::fraction_tolerance(0.001)
-	);
+	BOOST_CHECK_CLOSE(a, b, 0.001);
 }
 
 template <typename T>
 static inline
-bool _are_close(T a, T b)
+void _check_close(T a, T b)
 {
-	return _are_close(a, b, eagine::identity<T>());
+	_check_close(a, b, eagine::identity<T>());
 }
 
 template <typename T, bool V>
@@ -260,9 +254,9 @@ void test_vect_data_plus_TNV(void)
 
 		for(unsigned i=0; i<N; ++i)
 		{
-			BOOST_CHECK(_are_close<T>(vNc[i], vNd[i]));
-			BOOST_CHECK(_are_close<T>(vNc[i], a[i] + b[i]));
-			BOOST_CHECK(_are_close<T>(vNd[i], b[i] + a[i]));
+			_check_close<T>(vNc[i], vNd[i]);
+			_check_close<T>(vNc[i], a[i] + b[i]);
+			_check_close<T>(vNd[i], b[i] + a[i]);
 		}
 	}
 }
@@ -320,8 +314,8 @@ void test_vect_data_minus_TNV(void)
 
 		for(unsigned i=0; i<N; ++i)
 		{
-			BOOST_CHECK(_are_close<T>(vNc[i], a[i] - b[i]));
-			BOOST_CHECK(_are_close<T>(vNd[i], b[i] - a[i]));
+			_check_close<T>(vNc[i], a[i] - b[i]);
+			_check_close<T>(vNd[i], b[i] - a[i]);
 		}
 	}
 }
@@ -379,9 +373,9 @@ void test_vect_data_multiply_TNV(void)
 
 		for(unsigned i=0; i<N; ++i)
 		{
-			BOOST_CHECK(_are_close<T>(vNc[i], vNd[i]));
-			BOOST_CHECK(_are_close<T>(vNc[i], a[i] * b[i]));
-			BOOST_CHECK(_are_close<T>(vNd[i], b[i] * a[i]));
+			_check_close<T>(vNc[i], vNd[i]);
+			_check_close<T>(vNc[i], a[i] * b[i]);
+			_check_close<T>(vNd[i], b[i] * a[i]);
 		}
 	}
 }
@@ -441,8 +435,8 @@ void test_vect_data_divide_TNV(void)
 
 		for(unsigned i=0; i<N; ++i)
 		{
-			BOOST_CHECK(_are_close<T>(vNc[i], a[i] / b[i]));
-			BOOST_CHECK(_are_close<T>(vNd[i], b[i] / a[i]));
+			_check_close<T>(vNc[i], a[i] / b[i]);
+			_check_close<T>(vNd[i], b[i] / a[i]);
 		}
 	}
 }

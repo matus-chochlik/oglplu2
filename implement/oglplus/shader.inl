@@ -36,7 +36,29 @@ compile_shader(shader_name shdr)
 noexcept
 {
 	OGLPLUS_GLFUNC(CompileShader)(get_raw_name(shdr));
-	OGLPLUS_VERIFY(CompileShader, gl_object(shdr), always);
+	OGLPLUS_VERIFY(
+		CompileShader,
+		gl_object(shdr).
+		info_log_of(shdr),
+		always);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+shader_ops::
+report_shader_compile_error(shader_name shdr)
+noexcept
+{
+	if(!shader_compile_status(shdr).value())
+	{
+		OGLPLUS_REPORT_ERROR(
+			CompileShader,
+			GL_INVALID_OPERATION,
+			info_log_of(shdr),
+			always
+		);
+	}
 	return {};
 }
 //------------------------------------------------------------------------------

@@ -10,7 +10,7 @@
 #ifndef EAGINE_UNITS_SCALES_1512222148_HPP
 #define EAGINE_UNITS_SCALES_1512222148_HPP
 
-#include <cmath>
+#include "../math/constants.hpp"
 
 namespace eagine {
 namespace units {
@@ -35,7 +35,19 @@ struct one
 {
 	typedef one type;
 
-	static constexpr int value = 1;
+	template <typename T>
+	static constexpr inline
+	T mul(T v)
+	{
+		return v;
+	}
+
+	template <typename T>
+	static constexpr inline
+	T div(T v)
+	{
+		return v;
+	}
 };
 
 template <>
@@ -59,25 +71,19 @@ struct constant
 {
 	typedef constant type;
 
-	struct _impl
+	template <typename T>
+	static constexpr inline
+	auto mul(T v)
 	{
-		template <typename T>
-		friend constexpr inline
-		auto operator*(T v, _impl)
-		noexcept
-		{
-			return v*I;
-		}
+		return v*I;
+	}
 
-		template <typename T>
-		friend constexpr inline
-		auto operator/(T v, _impl)
-		noexcept
-		{
-			return v/float(I);
-		}
-	};
-	static constexpr const _impl value = {};
+	template <typename T>
+	static constexpr inline
+	auto div(T v)
+	{
+		return v/float(I);
+	}
 };
 
 template <int Num, int Den>
@@ -85,25 +91,19 @@ struct rational
 {
 	typedef rational type;
 
-	struct _impl
+	template <typename T>
+	static constexpr inline
+	auto mul(T v)
 	{
-		template <typename T>
-		friend constexpr inline
-		auto operator*(T v, _impl)
-		noexcept
-		{
-			return (v*Num)/float(Den);
-		}
+		return (v*Num)/float(Den);
+	}
 
-		template <typename T>
-		friend constexpr inline
-		auto operator/(T v, _impl)
-		noexcept
-		{
-			return (v*Den)/float(Num);
-		}
-	};
-	static constexpr const _impl value = {};
+	template <typename T>
+	static constexpr inline
+	auto div(T v)
+	{
+		return (v*Den)/float(Num);
+	}
 };
 
 template <int X, int Y>
@@ -111,28 +111,21 @@ struct power
 {
 	typedef power type;
 
-	struct _impl
+	template <typename T>
+	static constexpr inline
+	auto mul(T v)
 	{
-		template <typename T>
-		friend constexpr inline
-		auto operator*(T v, _impl)
-		noexcept
-		{
-			using std::pow;
-			return v*pow(X, Y);
-		}
+		using std::pow;
+		return v*pow(X, Y);
+	}
 
-		template <typename T>
-		friend constexpr inline
-		auto operator/(T v, _impl)
-		noexcept
-		{
-			using std::pow;
-			return v/pow(X, Y);
-		}
-	};
-
-	static constexpr const _impl value = {};
+	template <typename T>
+	static constexpr inline
+	auto div(T v)
+	{
+		using std::pow;
+		return v/pow(X, Y);
+	}
 };
 
 template <typename S>
@@ -140,26 +133,19 @@ struct inverted
 {
 	typedef inverted type;
 
-	struct _impl
+	template <typename T>
+	static constexpr inline
+	auto mul(T v)
 	{
-		template <typename T>
-		friend constexpr inline
-		auto operator*(T v,_impl)
-		noexcept
-		{
-			return v/S::value;
-		}
+		return S::div(v);
+	}
 
-		template <typename T>
-		friend constexpr inline
-		auto operator/(T v,_impl)
-		noexcept
-		{
-			return v*S::value;
-		}
-	};
-
-	static constexpr const _impl value = {};
+	template <typename T>
+	static constexpr inline
+	auto div(T v)
+	{
+		return S::mul(v);
+	}
 };
 
 template <typename S1, typename S2>
@@ -167,26 +153,19 @@ struct multiplied
 {
 	typedef multiplied type;
 
-	struct _impl
+	template <typename T>
+	static constexpr inline
+	auto mul(T v)
 	{
-		template <typename T>
-		friend constexpr inline
-		auto operator*(T v,_impl)
-		noexcept
-		{
-			return (v*S1::value)*S2::value;
-		}
+		return S2::mul(S1::mul(v));
+	}
 
-		template <typename T>
-		friend constexpr inline
-		auto operator/(T v,_impl)
-		noexcept
-		{
-			return (v/S1::value)/S2::value;
-		}
-	};
-
-	static constexpr const _impl value = {};
+	template <typename T>
+	static constexpr inline
+	auto div(T v)
+	{
+		return S2::div(S1::div(v));
+	}
 };
 
 template <typename S1, typename S2>
@@ -194,36 +173,26 @@ struct divided
 {
 	typedef divided type;
 
-	struct _impl
+	template <typename T>
+	static constexpr inline
+	auto mul(T v)
 	{
-		template <typename T>
-		friend constexpr inline
-		auto operator*(T v,_impl)
-		noexcept
-		{
-			return (v*S1::value)/S2::value;
-		}
+		return S2::div(S1::mul(v));
+	}
 
-		template <typename T>
-		friend constexpr inline
-		auto operator/(T v,_impl)
-		noexcept
-		{
-			return (v/S1::value)*S2::value;
-		}
-	};
-
-	static constexpr const _impl value = {};
+	template <typename T>
+	static constexpr inline
+	auto div(T v)
+	{
+		return S2::mul(S1::div(v));
+	}
 };
 
 template <typename S1, typename S2>
 struct recombined
+ : multiplied<S1, S2>
 {
 	typedef recombined type;
-
-	typedef typename multiplied<S1, S2>::_impl _impl;
-
-	static constexpr const _impl value = {};
 };
 
 // nano
@@ -441,33 +410,19 @@ struct pi
 {
 	typedef pi type;
 
-	struct _impl
+	template <typename T>
+	static constexpr inline
+	auto mul(T v)
 	{
-		template <typename T>
-		friend constexpr inline
-		auto operator*(T v,_impl)
-		noexcept
-		{
-#ifdef M_PI
-			return v*M_PI;
-#else
-			return v*3.14159265358979323846;
-#endif
-		}
+		return v*math::pi;
+	}
 
-		template <typename T>
-		friend constexpr inline
-		auto operator/(T v,_impl)
-		noexcept
-		{
-#ifdef M_PI
-			return v/M_PI;
-#else
-			return v/3.14159265358979323846;
-#endif
-		}
-	};
-	static constexpr _impl value = {};
+	template <typename T>
+	static constexpr inline
+	auto div(T v)
+	{
+		return v/math::pi;
+	}
 };
 
 template <>

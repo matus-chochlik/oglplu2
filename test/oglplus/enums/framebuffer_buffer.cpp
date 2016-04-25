@@ -42,9 +42,6 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_buffer_values)
 
 #ifdef GL_DEPTH
 	x = ev.depth;
-# ifdef GL_COLOR
-	BOOST_CHECK(x != ev.color);
-# endif
 	BOOST_CHECK(x == ev.depth);
 # ifdef GL_DEPTH_STENCIL
 	BOOST_CHECK(x != ev.depth_stencil);
@@ -56,12 +53,6 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_buffer_values)
 
 #ifdef GL_DEPTH_STENCIL
 	x = ev.depth_stencil;
-# ifdef GL_COLOR
-	BOOST_CHECK(x != ev.color);
-# endif
-# ifdef GL_DEPTH
-	BOOST_CHECK(x != ev.depth);
-# endif
 	BOOST_CHECK(x == ev.depth_stencil);
 # ifdef GL_STENCIL
 	BOOST_CHECK(x != ev.stencil);
@@ -70,15 +61,6 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_buffer_values)
 
 #ifdef GL_STENCIL
 	x = ev.stencil;
-# ifdef GL_COLOR
-	BOOST_CHECK(x != ev.color);
-# endif
-# ifdef GL_DEPTH
-	BOOST_CHECK(x != ev.depth);
-# endif
-# ifdef GL_DEPTH_STENCIL
-	BOOST_CHECK(x != ev.depth_stencil);
-# endif
 	BOOST_CHECK(x == ev.stencil);
 #endif
 }

@@ -78,8 +78,8 @@ inline
 base_stack_allocator<T>::
 base_stack_allocator(const block& blk, std::size_t align)
 noexcept
- : _btm(align_up_to<T>(blk.begin(), align))
- , _top(align_down_to<T>(blk.end(), align))
+ : _btm(align_up_to<T>(blk.addr(), align))
+ , _top(align_down_to<T>(blk.end_addr(), align))
  , _pos(_btm)
  , _min(_btm)
  , _dif(0)

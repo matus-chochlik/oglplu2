@@ -45,9 +45,6 @@ BOOST_AUTO_TEST_CASE(enum_path_join_style_nv_values)
 
 #ifdef GL_MITER_REVERT_NV
 	x = ev.miter_revert_nv;
-# ifdef GL_BEVEL_NV
-	BOOST_CHECK(x != ev.bevel_nv);
-# endif
 	BOOST_CHECK(x == ev.miter_revert_nv);
 # ifdef GL_MITER_TRUNCATE_NV
 	BOOST_CHECK(x != ev.miter_truncate_nv);
@@ -62,12 +59,6 @@ BOOST_AUTO_TEST_CASE(enum_path_join_style_nv_values)
 
 #ifdef GL_MITER_TRUNCATE_NV
 	x = ev.miter_truncate_nv;
-# ifdef GL_BEVEL_NV
-	BOOST_CHECK(x != ev.bevel_nv);
-# endif
-# ifdef GL_MITER_REVERT_NV
-	BOOST_CHECK(x != ev.miter_revert_nv);
-# endif
 	BOOST_CHECK(x == ev.miter_truncate_nv);
 # ifdef GL_NONE
 	BOOST_CHECK(x != ev.none);
@@ -79,15 +70,6 @@ BOOST_AUTO_TEST_CASE(enum_path_join_style_nv_values)
 
 #ifdef GL_NONE
 	x = ev.none;
-# ifdef GL_BEVEL_NV
-	BOOST_CHECK(x != ev.bevel_nv);
-# endif
-# ifdef GL_MITER_REVERT_NV
-	BOOST_CHECK(x != ev.miter_revert_nv);
-# endif
-# ifdef GL_MITER_TRUNCATE_NV
-	BOOST_CHECK(x != ev.miter_truncate_nv);
-# endif
 	BOOST_CHECK(x == ev.none);
 # ifdef GL_ROUND_NV
 	BOOST_CHECK(x != ev.round_nv);
@@ -96,18 +78,6 @@ BOOST_AUTO_TEST_CASE(enum_path_join_style_nv_values)
 
 #ifdef GL_ROUND_NV
 	x = ev.round_nv;
-# ifdef GL_BEVEL_NV
-	BOOST_CHECK(x != ev.bevel_nv);
-# endif
-# ifdef GL_MITER_REVERT_NV
-	BOOST_CHECK(x != ev.miter_revert_nv);
-# endif
-# ifdef GL_MITER_TRUNCATE_NV
-	BOOST_CHECK(x != ev.miter_truncate_nv);
-# endif
-# ifdef GL_NONE
-	BOOST_CHECK(x != ev.none);
-# endif
 	BOOST_CHECK(x == ev.round_nv);
 #endif
 }

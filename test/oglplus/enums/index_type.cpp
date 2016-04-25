@@ -39,9 +39,6 @@ BOOST_AUTO_TEST_CASE(enum_index_type_values)
 
 #ifdef GL_UNSIGNED_INT
 	x = ev.unsigned_int;
-# ifdef GL_UNSIGNED_BYTE
-	BOOST_CHECK(x != ev.unsigned_byte);
-# endif
 	BOOST_CHECK(x == ev.unsigned_int);
 # ifdef GL_UNSIGNED_SHORT
 	BOOST_CHECK(x != ev.unsigned_short);
@@ -50,12 +47,6 @@ BOOST_AUTO_TEST_CASE(enum_index_type_values)
 
 #ifdef GL_UNSIGNED_SHORT
 	x = ev.unsigned_short;
-# ifdef GL_UNSIGNED_BYTE
-	BOOST_CHECK(x != ev.unsigned_byte);
-# endif
-# ifdef GL_UNSIGNED_INT
-	BOOST_CHECK(x != ev.unsigned_int);
-# endif
 	BOOST_CHECK(x == ev.unsigned_short);
 #endif
 }

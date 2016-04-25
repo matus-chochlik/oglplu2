@@ -45,9 +45,6 @@ BOOST_AUTO_TEST_CASE(enum_context_attrib_values)
 
 #ifdef ALC_MONO_SOURCES
 	x = ev.mono_sources;
-# ifdef ALC_FREQUENCY
-	BOOST_CHECK(x != ev.frequency);
-# endif
 	BOOST_CHECK(x == ev.mono_sources);
 # ifdef ALC_REFRESH
 	BOOST_CHECK(x != ev.refresh);
@@ -62,12 +59,6 @@ BOOST_AUTO_TEST_CASE(enum_context_attrib_values)
 
 #ifdef ALC_REFRESH
 	x = ev.refresh;
-# ifdef ALC_FREQUENCY
-	BOOST_CHECK(x != ev.frequency);
-# endif
-# ifdef ALC_MONO_SOURCES
-	BOOST_CHECK(x != ev.mono_sources);
-# endif
 	BOOST_CHECK(x == ev.refresh);
 # ifdef ALC_STEREO_SOURCES
 	BOOST_CHECK(x != ev.stereo_sources);
@@ -79,15 +70,6 @@ BOOST_AUTO_TEST_CASE(enum_context_attrib_values)
 
 #ifdef ALC_STEREO_SOURCES
 	x = ev.stereo_sources;
-# ifdef ALC_FREQUENCY
-	BOOST_CHECK(x != ev.frequency);
-# endif
-# ifdef ALC_MONO_SOURCES
-	BOOST_CHECK(x != ev.mono_sources);
-# endif
-# ifdef ALC_REFRESH
-	BOOST_CHECK(x != ev.refresh);
-# endif
 	BOOST_CHECK(x == ev.stereo_sources);
 # ifdef ALC_SYNC
 	BOOST_CHECK(x != ev.sync);
@@ -96,18 +78,6 @@ BOOST_AUTO_TEST_CASE(enum_context_attrib_values)
 
 #ifdef ALC_SYNC
 	x = ev.sync;
-# ifdef ALC_FREQUENCY
-	BOOST_CHECK(x != ev.frequency);
-# endif
-# ifdef ALC_MONO_SOURCES
-	BOOST_CHECK(x != ev.mono_sources);
-# endif
-# ifdef ALC_REFRESH
-	BOOST_CHECK(x != ev.refresh);
-# endif
-# ifdef ALC_STEREO_SOURCES
-	BOOST_CHECK(x != ev.stereo_sources);
-# endif
 	BOOST_CHECK(x == ev.sync);
 #endif
 }

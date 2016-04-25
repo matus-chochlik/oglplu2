@@ -57,9 +57,6 @@ BOOST_AUTO_TEST_CASE(enum_buffer_usage_values)
 
 #ifdef GL_DYNAMIC_DRAW
 	x = ev.dynamic_draw;
-# ifdef GL_DYNAMIC_COPY
-	BOOST_CHECK(x != ev.dynamic_copy);
-# endif
 	BOOST_CHECK(x == ev.dynamic_draw);
 # ifdef GL_DYNAMIC_READ
 	BOOST_CHECK(x != ev.dynamic_read);
@@ -86,12 +83,6 @@ BOOST_AUTO_TEST_CASE(enum_buffer_usage_values)
 
 #ifdef GL_DYNAMIC_READ
 	x = ev.dynamic_read;
-# ifdef GL_DYNAMIC_COPY
-	BOOST_CHECK(x != ev.dynamic_copy);
-# endif
-# ifdef GL_DYNAMIC_DRAW
-	BOOST_CHECK(x != ev.dynamic_draw);
-# endif
 	BOOST_CHECK(x == ev.dynamic_read);
 # ifdef GL_STATIC_COPY
 	BOOST_CHECK(x != ev.static_copy);
@@ -115,15 +106,6 @@ BOOST_AUTO_TEST_CASE(enum_buffer_usage_values)
 
 #ifdef GL_STATIC_COPY
 	x = ev.static_copy;
-# ifdef GL_DYNAMIC_COPY
-	BOOST_CHECK(x != ev.dynamic_copy);
-# endif
-# ifdef GL_DYNAMIC_DRAW
-	BOOST_CHECK(x != ev.dynamic_draw);
-# endif
-# ifdef GL_DYNAMIC_READ
-	BOOST_CHECK(x != ev.dynamic_read);
-# endif
 	BOOST_CHECK(x == ev.static_copy);
 # ifdef GL_STATIC_DRAW
 	BOOST_CHECK(x != ev.static_draw);
@@ -144,18 +126,6 @@ BOOST_AUTO_TEST_CASE(enum_buffer_usage_values)
 
 #ifdef GL_STATIC_DRAW
 	x = ev.static_draw;
-# ifdef GL_DYNAMIC_COPY
-	BOOST_CHECK(x != ev.dynamic_copy);
-# endif
-# ifdef GL_DYNAMIC_DRAW
-	BOOST_CHECK(x != ev.dynamic_draw);
-# endif
-# ifdef GL_DYNAMIC_READ
-	BOOST_CHECK(x != ev.dynamic_read);
-# endif
-# ifdef GL_STATIC_COPY
-	BOOST_CHECK(x != ev.static_copy);
-# endif
 	BOOST_CHECK(x == ev.static_draw);
 # ifdef GL_STATIC_READ
 	BOOST_CHECK(x != ev.static_read);
@@ -173,21 +143,6 @@ BOOST_AUTO_TEST_CASE(enum_buffer_usage_values)
 
 #ifdef GL_STATIC_READ
 	x = ev.static_read;
-# ifdef GL_DYNAMIC_COPY
-	BOOST_CHECK(x != ev.dynamic_copy);
-# endif
-# ifdef GL_DYNAMIC_DRAW
-	BOOST_CHECK(x != ev.dynamic_draw);
-# endif
-# ifdef GL_DYNAMIC_READ
-	BOOST_CHECK(x != ev.dynamic_read);
-# endif
-# ifdef GL_STATIC_COPY
-	BOOST_CHECK(x != ev.static_copy);
-# endif
-# ifdef GL_STATIC_DRAW
-	BOOST_CHECK(x != ev.static_draw);
-# endif
 	BOOST_CHECK(x == ev.static_read);
 # ifdef GL_STREAM_COPY
 	BOOST_CHECK(x != ev.stream_copy);
@@ -202,24 +157,6 @@ BOOST_AUTO_TEST_CASE(enum_buffer_usage_values)
 
 #ifdef GL_STREAM_COPY
 	x = ev.stream_copy;
-# ifdef GL_DYNAMIC_COPY
-	BOOST_CHECK(x != ev.dynamic_copy);
-# endif
-# ifdef GL_DYNAMIC_DRAW
-	BOOST_CHECK(x != ev.dynamic_draw);
-# endif
-# ifdef GL_DYNAMIC_READ
-	BOOST_CHECK(x != ev.dynamic_read);
-# endif
-# ifdef GL_STATIC_COPY
-	BOOST_CHECK(x != ev.static_copy);
-# endif
-# ifdef GL_STATIC_DRAW
-	BOOST_CHECK(x != ev.static_draw);
-# endif
-# ifdef GL_STATIC_READ
-	BOOST_CHECK(x != ev.static_read);
-# endif
 	BOOST_CHECK(x == ev.stream_copy);
 # ifdef GL_STREAM_DRAW
 	BOOST_CHECK(x != ev.stream_draw);
@@ -231,27 +168,6 @@ BOOST_AUTO_TEST_CASE(enum_buffer_usage_values)
 
 #ifdef GL_STREAM_DRAW
 	x = ev.stream_draw;
-# ifdef GL_DYNAMIC_COPY
-	BOOST_CHECK(x != ev.dynamic_copy);
-# endif
-# ifdef GL_DYNAMIC_DRAW
-	BOOST_CHECK(x != ev.dynamic_draw);
-# endif
-# ifdef GL_DYNAMIC_READ
-	BOOST_CHECK(x != ev.dynamic_read);
-# endif
-# ifdef GL_STATIC_COPY
-	BOOST_CHECK(x != ev.static_copy);
-# endif
-# ifdef GL_STATIC_DRAW
-	BOOST_CHECK(x != ev.static_draw);
-# endif
-# ifdef GL_STATIC_READ
-	BOOST_CHECK(x != ev.static_read);
-# endif
-# ifdef GL_STREAM_COPY
-	BOOST_CHECK(x != ev.stream_copy);
-# endif
 	BOOST_CHECK(x == ev.stream_draw);
 # ifdef GL_STREAM_READ
 	BOOST_CHECK(x != ev.stream_read);
@@ -260,30 +176,6 @@ BOOST_AUTO_TEST_CASE(enum_buffer_usage_values)
 
 #ifdef GL_STREAM_READ
 	x = ev.stream_read;
-# ifdef GL_DYNAMIC_COPY
-	BOOST_CHECK(x != ev.dynamic_copy);
-# endif
-# ifdef GL_DYNAMIC_DRAW
-	BOOST_CHECK(x != ev.dynamic_draw);
-# endif
-# ifdef GL_DYNAMIC_READ
-	BOOST_CHECK(x != ev.dynamic_read);
-# endif
-# ifdef GL_STATIC_COPY
-	BOOST_CHECK(x != ev.static_copy);
-# endif
-# ifdef GL_STATIC_DRAW
-	BOOST_CHECK(x != ev.static_draw);
-# endif
-# ifdef GL_STATIC_READ
-	BOOST_CHECK(x != ev.static_read);
-# endif
-# ifdef GL_STREAM_COPY
-	BOOST_CHECK(x != ev.stream_copy);
-# endif
-# ifdef GL_STREAM_DRAW
-	BOOST_CHECK(x != ev.stream_draw);
-# endif
 	BOOST_CHECK(x == ev.stream_read);
 #endif
 }

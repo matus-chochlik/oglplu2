@@ -11,6 +11,7 @@
 #include <oglplus/gl_fixed.hpp>
 #include <oglplus/data_type.hpp>
 #include <oglplus/enum/values.hpp>
+#include <oglplus/enum/value_defs.inl>
 #include <cstring>
 
 BOOST_AUTO_TEST_SUITE(data_type_tests)
@@ -21,43 +22,43 @@ BOOST_AUTO_TEST_CASE(data_type_1)
 
 	static const enum_values GL = {};
 
-	BOOST_ASSERT(
+	BOOST_CHECK(
 		get_data_type(identity<GLbyte>()) ==
 		GL.byte_
 	);
 
-	BOOST_ASSERT(
+	BOOST_CHECK(
 		get_data_type(identity<GLubyte>()) ==
 		GL.unsigned_byte
 	);
 
-	BOOST_ASSERT(
+	BOOST_CHECK(
 		get_data_type(identity<GLshort>()) ==
 		GL.short_
 	);
 
-	BOOST_ASSERT(
+	BOOST_CHECK(
 		get_data_type(identity<GLushort>()) ==
 		GL.unsigned_short
 	);
 
-	BOOST_ASSERT(
+	BOOST_CHECK(
 		get_data_type(identity<GLint>()) ==
 		GL.int_
 	);
 
-	BOOST_ASSERT(
+	BOOST_CHECK(
 		get_data_type(identity<GLuint>()) ==
 		GL.unsigned_int
 	);
 
-	BOOST_ASSERT(
+	BOOST_CHECK(
 		get_data_type(identity<GLfloat>()) ==
 		GL.float_
 	);
 
 #ifdef GL_DOUBLE
-	BOOST_ASSERT(
+	BOOST_CHECK(
 		get_data_type(identity<GLdouble>()) ==
 		GL.double_
 	);
@@ -70,43 +71,43 @@ BOOST_AUTO_TEST_CASE(data_type_2)
 
 	static const enum_values GL = {};
 
-	BOOST_ASSERT(
+	BOOST_CHECK(
 		get_data_type<GLbyte>() ==
 		GL.byte_
 	);
 
-	BOOST_ASSERT(
+	BOOST_CHECK(
 		get_data_type<GLubyte>() ==
 		GL.unsigned_byte
 	);
 
-	BOOST_ASSERT(
+	BOOST_CHECK(
 		get_data_type<GLshort>() ==
 		GL.short_
 	);
 
-	BOOST_ASSERT(
+	BOOST_CHECK(
 		get_data_type<GLushort>() ==
 		GL.unsigned_short
 	);
 
-	BOOST_ASSERT(
+	BOOST_CHECK(
 		get_data_type<GLint>() ==
 		GL.int_
 	);
 
-	BOOST_ASSERT(
+	BOOST_CHECK(
 		get_data_type<GLuint>() ==
 		GL.unsigned_int
 	);
 
-	BOOST_ASSERT(
+	BOOST_CHECK(
 		get_data_type<GLfloat>() ==
 		GL.float_
 	);
 
 #ifdef GL_DOUBLE
-	BOOST_ASSERT(
+	BOOST_CHECK(
 		get_data_type<GLdouble>() ==
 		GL.double_
 	);

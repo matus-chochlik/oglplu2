@@ -14,7 +14,7 @@
 #include "../utils/enum_class.hpp"
 #include "../utils/indexed_enum.hpp"
 
-#if !OGLPLUS_ERROR_NO_BUILD_LOG
+#if !OGLPLUS_ERROR_NO_INFO_LOG
 #include "../utils/string_span.hpp"
 #include <string>
 #endif
@@ -171,10 +171,13 @@ public:
 	cstring_span<> identifier(void) const
 	noexcept;
 
-	error_info& build_log(const cstring_span<>& log)
+	error_info& info_log(const cstring_span<>& log)
 	noexcept;
 
-	cstring_span<> build_log(void) const
+	error_info& info_log_of(const any_object_name& obj)
+	noexcept;
+
+	cstring_span<> info_log(void) const
 	noexcept;
 };
 

@@ -36,9 +36,6 @@ BOOST_AUTO_TEST_CASE(enum_provoke_mode_values)
 
 #ifdef GL_LAST_VERTEX_CONVENTION
 	x = ev.last_vertex_convention;
-# ifdef GL_FIRST_VERTEX_CONVENTION
-	BOOST_CHECK(x != ev.first_vertex_convention);
-# endif
 	BOOST_CHECK(x == ev.last_vertex_convention);
 #endif
 }

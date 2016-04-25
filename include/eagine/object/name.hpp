@@ -289,6 +289,22 @@ struct any_object_name
 	{
 		return {_type};
 	}
+
+	template <typename ObjTag>
+	constexpr inline
+	bool is_a(ObjTag = ObjTag())
+	noexcept
+	{
+		return _type == object_traits<ObjTag>::get_type();
+	}
+
+	friend inline constexpr
+	NameT
+	get_raw_name(const any_object_name& aon)
+	noexcept
+	{
+		return aon._name;
+	}
 };
 
 template <typename NameT, typename TypeT, NameT In, TypeT It>

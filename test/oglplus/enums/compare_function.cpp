@@ -54,9 +54,6 @@ BOOST_AUTO_TEST_CASE(enum_compare_function_values)
 
 #ifdef GL_EQUAL
 	x = ev.equal;
-# ifdef GL_ALWAYS
-	BOOST_CHECK(x != ev.always);
-# endif
 	BOOST_CHECK(x == ev.equal);
 # ifdef GL_GEQUAL
 	BOOST_CHECK(x != ev.gequal);
@@ -80,12 +77,6 @@ BOOST_AUTO_TEST_CASE(enum_compare_function_values)
 
 #ifdef GL_GEQUAL
 	x = ev.gequal;
-# ifdef GL_ALWAYS
-	BOOST_CHECK(x != ev.always);
-# endif
-# ifdef GL_EQUAL
-	BOOST_CHECK(x != ev.equal);
-# endif
 	BOOST_CHECK(x == ev.gequal);
 # ifdef GL_GREATER
 	BOOST_CHECK(x != ev.greater);
@@ -106,15 +97,6 @@ BOOST_AUTO_TEST_CASE(enum_compare_function_values)
 
 #ifdef GL_GREATER
 	x = ev.greater;
-# ifdef GL_ALWAYS
-	BOOST_CHECK(x != ev.always);
-# endif
-# ifdef GL_EQUAL
-	BOOST_CHECK(x != ev.equal);
-# endif
-# ifdef GL_GEQUAL
-	BOOST_CHECK(x != ev.gequal);
-# endif
 	BOOST_CHECK(x == ev.greater);
 # ifdef GL_LEQUAL
 	BOOST_CHECK(x != ev.lequal);
@@ -132,18 +114,6 @@ BOOST_AUTO_TEST_CASE(enum_compare_function_values)
 
 #ifdef GL_LEQUAL
 	x = ev.lequal;
-# ifdef GL_ALWAYS
-	BOOST_CHECK(x != ev.always);
-# endif
-# ifdef GL_EQUAL
-	BOOST_CHECK(x != ev.equal);
-# endif
-# ifdef GL_GEQUAL
-	BOOST_CHECK(x != ev.gequal);
-# endif
-# ifdef GL_GREATER
-	BOOST_CHECK(x != ev.greater);
-# endif
 	BOOST_CHECK(x == ev.lequal);
 # ifdef GL_LESS
 	BOOST_CHECK(x != ev.less);
@@ -158,21 +128,6 @@ BOOST_AUTO_TEST_CASE(enum_compare_function_values)
 
 #ifdef GL_LESS
 	x = ev.less;
-# ifdef GL_ALWAYS
-	BOOST_CHECK(x != ev.always);
-# endif
-# ifdef GL_EQUAL
-	BOOST_CHECK(x != ev.equal);
-# endif
-# ifdef GL_GEQUAL
-	BOOST_CHECK(x != ev.gequal);
-# endif
-# ifdef GL_GREATER
-	BOOST_CHECK(x != ev.greater);
-# endif
-# ifdef GL_LEQUAL
-	BOOST_CHECK(x != ev.lequal);
-# endif
 	BOOST_CHECK(x == ev.less);
 # ifdef GL_NEVER
 	BOOST_CHECK(x != ev.never);
@@ -184,24 +139,6 @@ BOOST_AUTO_TEST_CASE(enum_compare_function_values)
 
 #ifdef GL_NEVER
 	x = ev.never;
-# ifdef GL_ALWAYS
-	BOOST_CHECK(x != ev.always);
-# endif
-# ifdef GL_EQUAL
-	BOOST_CHECK(x != ev.equal);
-# endif
-# ifdef GL_GEQUAL
-	BOOST_CHECK(x != ev.gequal);
-# endif
-# ifdef GL_GREATER
-	BOOST_CHECK(x != ev.greater);
-# endif
-# ifdef GL_LEQUAL
-	BOOST_CHECK(x != ev.lequal);
-# endif
-# ifdef GL_LESS
-	BOOST_CHECK(x != ev.less);
-# endif
 	BOOST_CHECK(x == ev.never);
 # ifdef GL_NOTEQUAL
 	BOOST_CHECK(x != ev.notequal);
@@ -210,27 +147,6 @@ BOOST_AUTO_TEST_CASE(enum_compare_function_values)
 
 #ifdef GL_NOTEQUAL
 	x = ev.notequal;
-# ifdef GL_ALWAYS
-	BOOST_CHECK(x != ev.always);
-# endif
-# ifdef GL_EQUAL
-	BOOST_CHECK(x != ev.equal);
-# endif
-# ifdef GL_GEQUAL
-	BOOST_CHECK(x != ev.gequal);
-# endif
-# ifdef GL_GREATER
-	BOOST_CHECK(x != ev.greater);
-# endif
-# ifdef GL_LEQUAL
-	BOOST_CHECK(x != ev.lequal);
-# endif
-# ifdef GL_LESS
-	BOOST_CHECK(x != ev.less);
-# endif
-# ifdef GL_NEVER
-	BOOST_CHECK(x != ev.never);
-# endif
 	BOOST_CHECK(x == ev.notequal);
 #endif
 }

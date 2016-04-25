@@ -39,9 +39,6 @@ BOOST_AUTO_TEST_CASE(enum_transform_feedback_primitive_type_values)
 
 #ifdef GL_POINTS
 	x = ev.points;
-# ifdef GL_LINES
-	BOOST_CHECK(x != ev.lines);
-# endif
 	BOOST_CHECK(x == ev.points);
 # ifdef GL_TRIANGLES
 	BOOST_CHECK(x != ev.triangles);
@@ -50,12 +47,6 @@ BOOST_AUTO_TEST_CASE(enum_transform_feedback_primitive_type_values)
 
 #ifdef GL_TRIANGLES
 	x = ev.triangles;
-# ifdef GL_LINES
-	BOOST_CHECK(x != ev.lines);
-# endif
-# ifdef GL_POINTS
-	BOOST_CHECK(x != ev.points);
-# endif
 	BOOST_CHECK(x == ev.triangles);
 #endif
 }

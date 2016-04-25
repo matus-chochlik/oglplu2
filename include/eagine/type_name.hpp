@@ -9,7 +9,7 @@
 #ifndef EAGINE_TYPE_NAME_1509260923_HPP
 #define EAGINE_TYPE_NAME_1509260923_HPP
 
-#include <eagine/config/basic.hpp>
+#include "config/basic.hpp"
 
 #include <string>
 #include <typeinfo>

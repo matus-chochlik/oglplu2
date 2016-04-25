@@ -12,6 +12,7 @@
 
 #include "byte_alloc.hpp"
 #include <cassert>
+#include <limits>
 
 namespace eagine {
 namespace memory {

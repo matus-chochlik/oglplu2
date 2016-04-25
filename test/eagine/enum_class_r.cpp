@@ -44,52 +44,52 @@ BOOST_AUTO_TEST_CASE(enum_class_1)
 	using namespace eagine;
 
 	ec_A a = ev_1;
-	BOOST_ASSERT((a == ev_1));
-	BOOST_ASSERT((a != ev_2));
-	BOOST_ASSERT((a != ev_3));
+	BOOST_CHECK((a == ev_1));
+	BOOST_CHECK((a != ev_2));
+	BOOST_CHECK((a != ev_3));
 	a = ev_2;
-	BOOST_ASSERT((a != ev_1));
-	BOOST_ASSERT((a == ev_2));
-	BOOST_ASSERT((a != ev_3));
+	BOOST_CHECK((a != ev_1));
+	BOOST_CHECK((a == ev_2));
+	BOOST_CHECK((a != ev_3));
 	a = ev_3;
-	BOOST_ASSERT((a != ev_1));
-	BOOST_ASSERT((a != ev_2));
-	BOOST_ASSERT((a == ev_3));
+	BOOST_CHECK((a != ev_1));
+	BOOST_CHECK((a != ev_2));
+	BOOST_CHECK((a == ev_3));
 
 	ec_B b = ev_2;
-	BOOST_ASSERT((b == ev_2));
-	BOOST_ASSERT((b != ev_3));
-	BOOST_ASSERT((b != ev_4));
-	BOOST_ASSERT((b != ev_5));
+	BOOST_CHECK((b == ev_2));
+	BOOST_CHECK((b != ev_3));
+	BOOST_CHECK((b != ev_4));
+	BOOST_CHECK((b != ev_5));
 	b = ev_3;
-	BOOST_ASSERT((b != ev_2));
-	BOOST_ASSERT((b == ev_3));
-	BOOST_ASSERT((b != ev_4));
-	BOOST_ASSERT((b != ev_5));
+	BOOST_CHECK((b != ev_2));
+	BOOST_CHECK((b == ev_3));
+	BOOST_CHECK((b != ev_4));
+	BOOST_CHECK((b != ev_5));
 	b = ev_4;
-	BOOST_ASSERT((b != ev_2));
-	BOOST_ASSERT((b != ev_3));
-	BOOST_ASSERT((b == ev_4));
-	BOOST_ASSERT((b != ev_5));
+	BOOST_CHECK((b != ev_2));
+	BOOST_CHECK((b != ev_3));
+	BOOST_CHECK((b == ev_4));
+	BOOST_CHECK((b != ev_5));
 	b = ev_5;
-	BOOST_ASSERT((b != ev_2));
-	BOOST_ASSERT((b != ev_3));
-	BOOST_ASSERT((b != ev_4));
-	BOOST_ASSERT((b == ev_5));
+	BOOST_CHECK((b != ev_2));
+	BOOST_CHECK((b != ev_3));
+	BOOST_CHECK((b != ev_4));
+	BOOST_CHECK((b == ev_5));
 
 	ec_C c = ev_3;
-	BOOST_ASSERT((c == ev_3));
-	BOOST_ASSERT((c != ev_4));
+	BOOST_CHECK((c == ev_3));
+	BOOST_CHECK((c != ev_4));
 	c = ev_4;
-	BOOST_ASSERT((c != ev_3));
-	BOOST_ASSERT((c == ev_4));
+	BOOST_CHECK((c != ev_3));
+	BOOST_CHECK((c == ev_4));
 
 	ec_D d = ev_5;
-	BOOST_ASSERT((d == ev_5));
-	BOOST_ASSERT((d != ev_6));
+	BOOST_CHECK((d == ev_5));
+	BOOST_CHECK((d != ev_6));
 	d = ev_6;
-	BOOST_ASSERT((d != ev_5));
-	BOOST_ASSERT((d == ev_6));
+	BOOST_CHECK((d != ev_5));
+	BOOST_CHECK((d == ev_6));
 }
 
 BOOST_AUTO_TEST_CASE(enum_class_2)
@@ -97,19 +97,19 @@ BOOST_AUTO_TEST_CASE(enum_class_2)
 	using namespace eagine;
 
 	ec_A a = ev_1;
-	BOOST_ASSERT(unsigned(a) == unsigned(ev_1));
-	BOOST_ASSERT(unsigned(a) != unsigned(ev_2));
-	BOOST_ASSERT(unsigned(a) != unsigned(ev_3));
+	BOOST_CHECK(unsigned(a) == unsigned(ev_1));
+	BOOST_CHECK(unsigned(a) != unsigned(ev_2));
+	BOOST_CHECK(unsigned(a) != unsigned(ev_3));
 
 	a = ev_2;
-	BOOST_ASSERT(unsigned(a) != unsigned(ev_1));
-	BOOST_ASSERT(unsigned(a) == unsigned(ev_2));
-	BOOST_ASSERT(unsigned(a) != unsigned(ev_3));
+	BOOST_CHECK(unsigned(a) != unsigned(ev_1));
+	BOOST_CHECK(unsigned(a) == unsigned(ev_2));
+	BOOST_CHECK(unsigned(a) != unsigned(ev_3));
 
 	a = ev_3;
-	BOOST_ASSERT(unsigned(a) != unsigned(ev_1));
-	BOOST_ASSERT(unsigned(a) != unsigned(ev_2));
-	BOOST_ASSERT(unsigned(a) == unsigned(ev_3));
+	BOOST_CHECK(unsigned(a) != unsigned(ev_1));
+	BOOST_CHECK(unsigned(a) != unsigned(ev_2));
+	BOOST_CHECK(unsigned(a) == unsigned(ev_3));
 }
 
 BOOST_AUTO_TEST_CASE(enum_class_3)

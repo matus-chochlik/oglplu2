@@ -36,9 +36,6 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_target_values)
 
 #ifdef GL_READ_FRAMEBUFFER
 	x = ev.read_framebuffer;
-# ifdef GL_DRAW_FRAMEBUFFER
-	BOOST_CHECK(x != ev.draw_framebuffer);
-# endif
 	BOOST_CHECK(x == ev.read_framebuffer);
 #endif
 }

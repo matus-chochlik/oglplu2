@@ -9,8 +9,7 @@ if(GLUT_INCLUDE_DIR)
 	set(GLUT_INCLUDE_DIRS ${GLUT_INCLUDE_DIR})
 endif()
 
-if((NOT GLUT_INCLUDE_DIRS) OR (NOT GLUT_LIBRARIES))
-
+if(NOT GLUT_INCLUDE_DIRS)
 	find_path(
 		GLUT_INCLUDE_DIRS NAMES GL/freeglut.h GL/glut.h
 		PATHS ${HEADER_SEARCH_PATHS}
@@ -20,7 +19,9 @@ if((NOT GLUT_INCLUDE_DIRS) OR (NOT GLUT_LIBRARIES))
 	if(NOT EXISTS ${GLUT_INCLUDE_DIRS})
 		find_path(GLUT_INCLUDE_DIRS NAMES GL/freeglut.h GL/glut.h)
 	endif()
+endif()
 
+if(NOT GLUT_LIBRARIES)
 	# try to find the GLUT library
 	find_library(
 		GLUT_LIBRARIES NAMES glut freeglut freeglut_static
@@ -31,16 +32,16 @@ if((NOT GLUT_INCLUDE_DIRS) OR (NOT GLUT_LIBRARIES))
 	if(NOT GLUT_LIBRARIES)
 		find_library(GLUT_LIBRARIES NAMES glut freeglut freeglut_static)
 	endif()
+endif()
 
-	if((NOT GLUT_INCLUDE_DIRS) OR (NOT EXISTS ${GLUT_INCLUDE_DIRS}))
-		set(GLUT_FOUND 0)
-		message(STATUS "GLUT header file not found")
-	elseif((NOT GLUT_LIBRARIES) OR (NOT EXISTS ${GLUT_LIBRARIES}))
-		set(GLUT_FOUND 0)
-		message(STATUS "GLUT library not found")
-	else()
-		set(GLUT_FOUND 1)
-	endif()
+if((NOT GLUT_INCLUDE_DIRS))
+	set(GLUT_FOUND 0)
+	message(STATUS "GLUT header file not found")
+elseif((NOT GLUT_LIBRARIES))
+	set(GLUT_FOUND 0)
+	message(STATUS "GLUT library not found")
+else()
+	set(GLUT_FOUND 1)
 endif()
 
 if(GLUT_LIBRARIES)

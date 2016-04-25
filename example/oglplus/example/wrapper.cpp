@@ -47,10 +47,13 @@ textbuf(std::size_t size)
 }
 
 example_wrapper::
-example_wrapper(example_params& params, example_state& state)
- : _params(params)
+example_wrapper(
+	example_args& args,
+	example_params& params,
+	example_state& state
+): _params(params)
  , _state(state)
- , _example(make_example(_params, _state))
+ , _example(make_example(args, _params, _state))
  , _screenshot_done(false)
  , _start(clock_type::now())
  , _now(_start)
@@ -119,7 +122,7 @@ bool example_wrapper::next_frame(void)
 	}
 	else
 	{
-		return _example->continue_running(_state);
+		return _params.demo_mode()||_example->continue_running(_state);
 	}
 }
 
@@ -222,6 +225,9 @@ void example_wrapper::render(void)
 void example_wrapper::set_size(int width, int height)
 {
 	assert(_example);
+
+	if(width < 1) width = 1;
+	if(height< 1) height= 1;
 
 	if(_state.set_size(width, height))
 	{

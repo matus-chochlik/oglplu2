@@ -39,9 +39,6 @@ BOOST_AUTO_TEST_CASE(enum_path_list_mode_nv_values)
 
 #ifdef GL_ADJACENT_PAIRS_NV
 	x = ev.adjacent_pairs_nv;
-# ifdef GL_ACCUM_ADJACENT_PAIRS_NV
-	BOOST_CHECK(x != ev.accum_adjacent_pairs_nv);
-# endif
 	BOOST_CHECK(x == ev.adjacent_pairs_nv);
 # ifdef GL_FIRST_TO_REST_NV
 	BOOST_CHECK(x != ev.first_to_rest_nv);
@@ -50,12 +47,6 @@ BOOST_AUTO_TEST_CASE(enum_path_list_mode_nv_values)
 
 #ifdef GL_FIRST_TO_REST_NV
 	x = ev.first_to_rest_nv;
-# ifdef GL_ACCUM_ADJACENT_PAIRS_NV
-	BOOST_CHECK(x != ev.accum_adjacent_pairs_nv);
-# endif
-# ifdef GL_ADJACENT_PAIRS_NV
-	BOOST_CHECK(x != ev.adjacent_pairs_nv);
-# endif
 	BOOST_CHECK(x == ev.first_to_rest_nv);
 #endif
 }

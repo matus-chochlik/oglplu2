@@ -168,7 +168,7 @@ noexcept
 	{
 		return lim.release_handler();
 	}
-	if(exceeds_limit(lv, lim.get()))
+	if(exceeds_limit(lv, lim.value()))
 	{
 		handle_above_limit(limit_query(Query));
 	}

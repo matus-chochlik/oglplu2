@@ -63,9 +63,6 @@ BOOST_AUTO_TEST_CASE(enum_unified_array_address_nv_values)
 
 #ifdef GL_EDGE_FLAG_ARRAY_ADDRESS_NV
 	x = ev.edge_flag_array_address_nv;
-# ifdef GL_COLOR_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.color_array_address_nv);
-# endif
 	BOOST_CHECK(x == ev.edge_flag_array_address_nv);
 # ifdef GL_ELEMENT_ARRAY_ADDRESS_NV
 	BOOST_CHECK(x != ev.element_array_address_nv);
@@ -98,12 +95,6 @@ BOOST_AUTO_TEST_CASE(enum_unified_array_address_nv_values)
 
 #ifdef GL_ELEMENT_ARRAY_ADDRESS_NV
 	x = ev.element_array_address_nv;
-# ifdef GL_COLOR_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.color_array_address_nv);
-# endif
-# ifdef GL_EDGE_FLAG_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.edge_flag_array_address_nv);
-# endif
 	BOOST_CHECK(x == ev.element_array_address_nv);
 # ifdef GL_FOG_COORD_ARRAY_ADDRESS_NV
 	BOOST_CHECK(x != ev.fog_coord_array_address_nv);
@@ -133,15 +124,6 @@ BOOST_AUTO_TEST_CASE(enum_unified_array_address_nv_values)
 
 #ifdef GL_FOG_COORD_ARRAY_ADDRESS_NV
 	x = ev.fog_coord_array_address_nv;
-# ifdef GL_COLOR_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.color_array_address_nv);
-# endif
-# ifdef GL_EDGE_FLAG_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.edge_flag_array_address_nv);
-# endif
-# ifdef GL_ELEMENT_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.element_array_address_nv);
-# endif
 	BOOST_CHECK(x == ev.fog_coord_array_address_nv);
 # ifdef GL_INDEX_ARRAY_ADDRESS_NV
 	BOOST_CHECK(x != ev.index_array_address_nv);
@@ -168,18 +150,6 @@ BOOST_AUTO_TEST_CASE(enum_unified_array_address_nv_values)
 
 #ifdef GL_INDEX_ARRAY_ADDRESS_NV
 	x = ev.index_array_address_nv;
-# ifdef GL_COLOR_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.color_array_address_nv);
-# endif
-# ifdef GL_EDGE_FLAG_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.edge_flag_array_address_nv);
-# endif
-# ifdef GL_ELEMENT_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.element_array_address_nv);
-# endif
-# ifdef GL_FOG_COORD_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.fog_coord_array_address_nv);
-# endif
 	BOOST_CHECK(x == ev.index_array_address_nv);
 # ifdef GL_NORMAL_ARRAY_ADDRESS_NV
 	BOOST_CHECK(x != ev.normal_array_address_nv);
@@ -203,21 +173,6 @@ BOOST_AUTO_TEST_CASE(enum_unified_array_address_nv_values)
 
 #ifdef GL_NORMAL_ARRAY_ADDRESS_NV
 	x = ev.normal_array_address_nv;
-# ifdef GL_COLOR_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.color_array_address_nv);
-# endif
-# ifdef GL_EDGE_FLAG_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.edge_flag_array_address_nv);
-# endif
-# ifdef GL_ELEMENT_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.element_array_address_nv);
-# endif
-# ifdef GL_FOG_COORD_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.fog_coord_array_address_nv);
-# endif
-# ifdef GL_INDEX_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.index_array_address_nv);
-# endif
 	BOOST_CHECK(x == ev.normal_array_address_nv);
 # ifdef GL_SECONDARY_COLOR_ARRAY_ADDRESS_NV
 	BOOST_CHECK(x != ev.secondary_color_array_address_nv);
@@ -238,24 +193,6 @@ BOOST_AUTO_TEST_CASE(enum_unified_array_address_nv_values)
 
 #ifdef GL_SECONDARY_COLOR_ARRAY_ADDRESS_NV
 	x = ev.secondary_color_array_address_nv;
-# ifdef GL_COLOR_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.color_array_address_nv);
-# endif
-# ifdef GL_EDGE_FLAG_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.edge_flag_array_address_nv);
-# endif
-# ifdef GL_ELEMENT_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.element_array_address_nv);
-# endif
-# ifdef GL_FOG_COORD_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.fog_coord_array_address_nv);
-# endif
-# ifdef GL_INDEX_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.index_array_address_nv);
-# endif
-# ifdef GL_NORMAL_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.normal_array_address_nv);
-# endif
 	BOOST_CHECK(x == ev.secondary_color_array_address_nv);
 # ifdef GL_TEXTURE_COORD_ARRAY_ADDRESS_NV
 	BOOST_CHECK(x != ev.texture_coord_array_address_nv);
@@ -273,27 +210,6 @@ BOOST_AUTO_TEST_CASE(enum_unified_array_address_nv_values)
 
 #ifdef GL_TEXTURE_COORD_ARRAY_ADDRESS_NV
 	x = ev.texture_coord_array_address_nv;
-# ifdef GL_COLOR_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.color_array_address_nv);
-# endif
-# ifdef GL_EDGE_FLAG_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.edge_flag_array_address_nv);
-# endif
-# ifdef GL_ELEMENT_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.element_array_address_nv);
-# endif
-# ifdef GL_FOG_COORD_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.fog_coord_array_address_nv);
-# endif
-# ifdef GL_INDEX_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.index_array_address_nv);
-# endif
-# ifdef GL_NORMAL_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.normal_array_address_nv);
-# endif
-# ifdef GL_SECONDARY_COLOR_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.secondary_color_array_address_nv);
-# endif
 	BOOST_CHECK(x == ev.texture_coord_array_address_nv);
 # ifdef GL_UNIFORM_BUFFER_ADDRESS_NV
 	BOOST_CHECK(x != ev.uniform_buffer_address_nv);
@@ -308,30 +224,6 @@ BOOST_AUTO_TEST_CASE(enum_unified_array_address_nv_values)
 
 #ifdef GL_UNIFORM_BUFFER_ADDRESS_NV
 	x = ev.uniform_buffer_address_nv;
-# ifdef GL_COLOR_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.color_array_address_nv);
-# endif
-# ifdef GL_EDGE_FLAG_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.edge_flag_array_address_nv);
-# endif
-# ifdef GL_ELEMENT_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.element_array_address_nv);
-# endif
-# ifdef GL_FOG_COORD_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.fog_coord_array_address_nv);
-# endif
-# ifdef GL_INDEX_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.index_array_address_nv);
-# endif
-# ifdef GL_NORMAL_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.normal_array_address_nv);
-# endif
-# ifdef GL_SECONDARY_COLOR_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.secondary_color_array_address_nv);
-# endif
-# ifdef GL_TEXTURE_COORD_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.texture_coord_array_address_nv);
-# endif
 	BOOST_CHECK(x == ev.uniform_buffer_address_nv);
 # ifdef GL_VERTEX_ARRAY_ADDRESS_NV
 	BOOST_CHECK(x != ev.vertex_array_address_nv);
@@ -343,33 +235,6 @@ BOOST_AUTO_TEST_CASE(enum_unified_array_address_nv_values)
 
 #ifdef GL_VERTEX_ARRAY_ADDRESS_NV
 	x = ev.vertex_array_address_nv;
-# ifdef GL_COLOR_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.color_array_address_nv);
-# endif
-# ifdef GL_EDGE_FLAG_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.edge_flag_array_address_nv);
-# endif
-# ifdef GL_ELEMENT_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.element_array_address_nv);
-# endif
-# ifdef GL_FOG_COORD_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.fog_coord_array_address_nv);
-# endif
-# ifdef GL_INDEX_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.index_array_address_nv);
-# endif
-# ifdef GL_NORMAL_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.normal_array_address_nv);
-# endif
-# ifdef GL_SECONDARY_COLOR_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.secondary_color_array_address_nv);
-# endif
-# ifdef GL_TEXTURE_COORD_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.texture_coord_array_address_nv);
-# endif
-# ifdef GL_UNIFORM_BUFFER_ADDRESS_NV
-	BOOST_CHECK(x != ev.uniform_buffer_address_nv);
-# endif
 	BOOST_CHECK(x == ev.vertex_array_address_nv);
 # ifdef GL_VERTEX_ATTRIB_ARRAY_ADDRESS_NV
 	BOOST_CHECK(x != ev.vertex_attrib_array_address_nv);
@@ -378,36 +243,6 @@ BOOST_AUTO_TEST_CASE(enum_unified_array_address_nv_values)
 
 #ifdef GL_VERTEX_ATTRIB_ARRAY_ADDRESS_NV
 	x = ev.vertex_attrib_array_address_nv;
-# ifdef GL_COLOR_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.color_array_address_nv);
-# endif
-# ifdef GL_EDGE_FLAG_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.edge_flag_array_address_nv);
-# endif
-# ifdef GL_ELEMENT_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.element_array_address_nv);
-# endif
-# ifdef GL_FOG_COORD_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.fog_coord_array_address_nv);
-# endif
-# ifdef GL_INDEX_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.index_array_address_nv);
-# endif
-# ifdef GL_NORMAL_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.normal_array_address_nv);
-# endif
-# ifdef GL_SECONDARY_COLOR_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.secondary_color_array_address_nv);
-# endif
-# ifdef GL_TEXTURE_COORD_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.texture_coord_array_address_nv);
-# endif
-# ifdef GL_UNIFORM_BUFFER_ADDRESS_NV
-	BOOST_CHECK(x != ev.uniform_buffer_address_nv);
-# endif
-# ifdef GL_VERTEX_ARRAY_ADDRESS_NV
-	BOOST_CHECK(x != ev.vertex_array_address_nv);
-# endif
 	BOOST_CHECK(x == ev.vertex_attrib_array_address_nv);
 #endif
 }

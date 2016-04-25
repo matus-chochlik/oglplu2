@@ -10,6 +10,7 @@
 #define OALPLUS_AL_1509260923_HPP
 
 #include <AL/al.h>
+#include <AL/alc.h>
 // TODO
 
 #endif // include guard

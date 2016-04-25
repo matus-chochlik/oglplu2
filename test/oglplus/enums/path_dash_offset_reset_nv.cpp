@@ -36,9 +36,6 @@ BOOST_AUTO_TEST_CASE(enum_path_dash_offset_reset_nv_values)
 
 #ifdef GL_MOVE_TO_RESET_NV
 	x = ev.move_to_reset_nv;
-# ifdef GL_MOVE_TO_CONTINUES_NV
-	BOOST_CHECK(x != ev.move_to_continues_nv);
-# endif
 	BOOST_CHECK(x == ev.move_to_reset_nv);
 #endif
 }

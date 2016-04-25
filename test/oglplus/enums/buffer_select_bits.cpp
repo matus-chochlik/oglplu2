@@ -39,9 +39,6 @@ BOOST_AUTO_TEST_CASE(enum_buffer_select_bits_values)
 
 #ifdef GL_DEPTH_BUFFER_BIT
 	x = ev.depth_buffer_bit;
-# ifdef GL_COLOR_BUFFER_BIT
-	BOOST_CHECK(x != ev.color_buffer_bit);
-# endif
 	BOOST_CHECK(x == ev.depth_buffer_bit);
 # ifdef GL_STENCIL_BUFFER_BIT
 	BOOST_CHECK(x != ev.stencil_buffer_bit);
@@ -50,12 +47,6 @@ BOOST_AUTO_TEST_CASE(enum_buffer_select_bits_values)
 
 #ifdef GL_STENCIL_BUFFER_BIT
 	x = ev.stencil_buffer_bit;
-# ifdef GL_COLOR_BUFFER_BIT
-	BOOST_CHECK(x != ev.color_buffer_bit);
-# endif
-# ifdef GL_DEPTH_BUFFER_BIT
-	BOOST_CHECK(x != ev.depth_buffer_bit);
-# endif
 	BOOST_CHECK(x == ev.stencil_buffer_bit);
 #endif
 }

@@ -142,6 +142,11 @@ format_error_info(
 		{
 			out << msg_str;
 		}
+		else if(placeholder == "info_log")
+		{
+			auto il = info.info_log();
+			out.write(il.data(), il.size());
+		}
 		else if(placeholder == "gl_library_name")
 		{
 			print(info.gl_library_name(), nullptr);
@@ -237,7 +242,7 @@ format_error(
 {
 	return format_error_info(
 		err.info(),
-		{err.what(), std::strlen(err.what())},
+		cstr_ref(err.what()),
 		fmt_str,
 		n_a_str,
 		out

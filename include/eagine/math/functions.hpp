@@ -16,6 +16,38 @@
 namespace eagine {
 namespace math {
 
+template <typename T>
+static constexpr inline
+T minimum(T a, T b)
+noexcept
+{
+	return a < b ? a : b;
+}
+
+template <typename T, typename ... P>
+static constexpr inline
+T minimum(T a, T b, T c, P ... d)
+noexcept
+{
+	return minimum(minimum(a, b), c, d...);
+}
+
+template <typename T>
+static constexpr inline
+T maximum(T a, T b)
+noexcept
+{
+	return a > b ? a : b;
+}
+
+template <typename T, typename ... P>
+static constexpr inline
+T maximum(T a, T b, T c, P ... d)
+noexcept
+{
+	return maximum(maximum(a, b), c, d...);
+}
+
 static constexpr inline
 int factorial(int n)
 noexcept
@@ -43,7 +75,6 @@ private:
 		return T(binomial(m, i)*pow(t, i)*pow(1-t, m-i));
 	}
 
-	template <typename ... P>
 	static constexpr
 	T _calc(int, int, T)
 	noexcept

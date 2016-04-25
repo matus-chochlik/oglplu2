@@ -41,6 +41,11 @@ struct program_ops
 
 	static
 	outcome<void>
+	report_program_link_error(program_name prog)
+	noexcept;
+
+	static
+	outcome<void>
 	use_program(program_name prog)
 	noexcept;
 
@@ -82,6 +87,48 @@ struct program_ops
 	outcome<GLsizei>
 	program_info_log(program_name prog, span<char> dest)
 	noexcept;
+
+	static
+	outcome<GLuint>
+	program_active_attributes(program_name prog)
+	noexcept;
+
+	static
+	outcome<GLsizei>
+	program_active_attribute_max_length(program_name prog)
+	noexcept;
+
+	static
+	outcome<GLsizei>
+	get_active_attrib(
+		program_name prog,
+		GLuint index,
+		span<char> name,
+		GLint& size,
+		sl_data_type& type
+	) noexcept;
+
+	static
+	outcome<GLuint>
+	program_active_uniforms(program_name prog)
+	noexcept;
+
+	static
+	outcome<GLsizei>
+	program_active_uniform_max_length(program_name prog)
+	noexcept;
+
+	static
+	outcome<GLsizei>
+	get_active_uniform(
+		program_name prog,
+		GLuint index,
+		span<char> name,
+		GLint& size,
+		sl_data_type& type
+	) noexcept;
+
+	// TODO other parameters
 };
 
 } // namespace oper
@@ -116,6 +163,13 @@ struct obj_dsa_ops<tag::program>
 		return {_ops::link_program(*this), *this};
 	}
 
+	outcome<obj_dsa_ops&>
+	report_link_error(void)
+	noexcept
+	{
+		return {_ops::report_program_link_error(*this), *this};
+	}
+
 	outcome<boolean>
 	link_status(void) const
 	noexcept
@@ -142,6 +196,58 @@ struct obj_dsa_ops<tag::program>
 	noexcept
 	{
 		return _ops::program_info_log(*this, dest);
+	}
+
+	outcome<GLuint>
+	active_attributes(void) const
+	noexcept
+	{
+		return _ops::program_active_attributes(*this);
+	}
+
+	outcome<GLsizei>
+	active_attribute_max_length(void) const
+	noexcept
+	{
+		return _ops::program_active_attribute_max_length(*this);
+	}
+
+	outcome<GLsizei>
+	get_active_attrib(
+		GLuint index,
+		span<char> name,
+		GLint& size,
+		sl_data_type& type
+	) const
+	noexcept
+	{
+		return _ops::get_active_attrib(*this, index, name, size, type);
+	}
+
+	outcome<GLuint>
+	active_uniforms(void) const
+	noexcept
+	{
+		return _ops::program_active_uniforms(*this);
+	}
+
+	outcome<GLsizei>
+	active_uniform_max_length(void) const
+	noexcept
+	{
+		return _ops::program_active_uniform_max_length(*this);
+	}
+
+	outcome<GLsizei>
+	get_active_uniform(
+		GLuint index,
+		span<char> name,
+		GLint& size,
+		sl_data_type& type
+	) const
+	noexcept
+	{
+		return _ops::get_active_uniform(*this, index, name, size, type);
 	}
 };
 

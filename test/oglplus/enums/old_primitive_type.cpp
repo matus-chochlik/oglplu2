@@ -60,9 +60,6 @@ BOOST_AUTO_TEST_CASE(enum_old_primitive_type_values)
 
 #ifdef GL_LINE_STRIP
 	x = ev.line_strip;
-# ifdef GL_LINE_LOOP
-	BOOST_CHECK(x != ev.line_loop);
-# endif
 	BOOST_CHECK(x == ev.line_strip);
 # ifdef GL_LINES
 	BOOST_CHECK(x != ev.lines);
@@ -92,12 +89,6 @@ BOOST_AUTO_TEST_CASE(enum_old_primitive_type_values)
 
 #ifdef GL_LINES
 	x = ev.lines;
-# ifdef GL_LINE_LOOP
-	BOOST_CHECK(x != ev.line_loop);
-# endif
-# ifdef GL_LINE_STRIP
-	BOOST_CHECK(x != ev.line_strip);
-# endif
 	BOOST_CHECK(x == ev.lines);
 # ifdef GL_POINTS
 	BOOST_CHECK(x != ev.points);
@@ -124,15 +115,6 @@ BOOST_AUTO_TEST_CASE(enum_old_primitive_type_values)
 
 #ifdef GL_POINTS
 	x = ev.points;
-# ifdef GL_LINE_LOOP
-	BOOST_CHECK(x != ev.line_loop);
-# endif
-# ifdef GL_LINE_STRIP
-	BOOST_CHECK(x != ev.line_strip);
-# endif
-# ifdef GL_LINES
-	BOOST_CHECK(x != ev.lines);
-# endif
 	BOOST_CHECK(x == ev.points);
 # ifdef GL_POLYGON
 	BOOST_CHECK(x != ev.polygon);
@@ -156,18 +138,6 @@ BOOST_AUTO_TEST_CASE(enum_old_primitive_type_values)
 
 #ifdef GL_POLYGON
 	x = ev.polygon;
-# ifdef GL_LINE_LOOP
-	BOOST_CHECK(x != ev.line_loop);
-# endif
-# ifdef GL_LINE_STRIP
-	BOOST_CHECK(x != ev.line_strip);
-# endif
-# ifdef GL_LINES
-	BOOST_CHECK(x != ev.lines);
-# endif
-# ifdef GL_POINTS
-	BOOST_CHECK(x != ev.points);
-# endif
 	BOOST_CHECK(x == ev.polygon);
 # ifdef GL_QUAD_STRIP
 	BOOST_CHECK(x != ev.quad_strip);
@@ -188,21 +158,6 @@ BOOST_AUTO_TEST_CASE(enum_old_primitive_type_values)
 
 #ifdef GL_QUAD_STRIP
 	x = ev.quad_strip;
-# ifdef GL_LINE_LOOP
-	BOOST_CHECK(x != ev.line_loop);
-# endif
-# ifdef GL_LINE_STRIP
-	BOOST_CHECK(x != ev.line_strip);
-# endif
-# ifdef GL_LINES
-	BOOST_CHECK(x != ev.lines);
-# endif
-# ifdef GL_POINTS
-	BOOST_CHECK(x != ev.points);
-# endif
-# ifdef GL_POLYGON
-	BOOST_CHECK(x != ev.polygon);
-# endif
 	BOOST_CHECK(x == ev.quad_strip);
 # ifdef GL_QUADS
 	BOOST_CHECK(x != ev.quads);
@@ -220,24 +175,6 @@ BOOST_AUTO_TEST_CASE(enum_old_primitive_type_values)
 
 #ifdef GL_QUADS
 	x = ev.quads;
-# ifdef GL_LINE_LOOP
-	BOOST_CHECK(x != ev.line_loop);
-# endif
-# ifdef GL_LINE_STRIP
-	BOOST_CHECK(x != ev.line_strip);
-# endif
-# ifdef GL_LINES
-	BOOST_CHECK(x != ev.lines);
-# endif
-# ifdef GL_POINTS
-	BOOST_CHECK(x != ev.points);
-# endif
-# ifdef GL_POLYGON
-	BOOST_CHECK(x != ev.polygon);
-# endif
-# ifdef GL_QUAD_STRIP
-	BOOST_CHECK(x != ev.quad_strip);
-# endif
 	BOOST_CHECK(x == ev.quads);
 # ifdef GL_TRIANGLE_FAN
 	BOOST_CHECK(x != ev.triangle_fan);
@@ -252,27 +189,6 @@ BOOST_AUTO_TEST_CASE(enum_old_primitive_type_values)
 
 #ifdef GL_TRIANGLE_FAN
 	x = ev.triangle_fan;
-# ifdef GL_LINE_LOOP
-	BOOST_CHECK(x != ev.line_loop);
-# endif
-# ifdef GL_LINE_STRIP
-	BOOST_CHECK(x != ev.line_strip);
-# endif
-# ifdef GL_LINES
-	BOOST_CHECK(x != ev.lines);
-# endif
-# ifdef GL_POINTS
-	BOOST_CHECK(x != ev.points);
-# endif
-# ifdef GL_POLYGON
-	BOOST_CHECK(x != ev.polygon);
-# endif
-# ifdef GL_QUAD_STRIP
-	BOOST_CHECK(x != ev.quad_strip);
-# endif
-# ifdef GL_QUADS
-	BOOST_CHECK(x != ev.quads);
-# endif
 	BOOST_CHECK(x == ev.triangle_fan);
 # ifdef GL_TRIANGLE_STRIP
 	BOOST_CHECK(x != ev.triangle_strip);
@@ -284,30 +200,6 @@ BOOST_AUTO_TEST_CASE(enum_old_primitive_type_values)
 
 #ifdef GL_TRIANGLE_STRIP
 	x = ev.triangle_strip;
-# ifdef GL_LINE_LOOP
-	BOOST_CHECK(x != ev.line_loop);
-# endif
-# ifdef GL_LINE_STRIP
-	BOOST_CHECK(x != ev.line_strip);
-# endif
-# ifdef GL_LINES
-	BOOST_CHECK(x != ev.lines);
-# endif
-# ifdef GL_POINTS
-	BOOST_CHECK(x != ev.points);
-# endif
-# ifdef GL_POLYGON
-	BOOST_CHECK(x != ev.polygon);
-# endif
-# ifdef GL_QUAD_STRIP
-	BOOST_CHECK(x != ev.quad_strip);
-# endif
-# ifdef GL_QUADS
-	BOOST_CHECK(x != ev.quads);
-# endif
-# ifdef GL_TRIANGLE_FAN
-	BOOST_CHECK(x != ev.triangle_fan);
-# endif
 	BOOST_CHECK(x == ev.triangle_strip);
 # ifdef GL_TRIANGLES
 	BOOST_CHECK(x != ev.triangles);
@@ -316,33 +208,6 @@ BOOST_AUTO_TEST_CASE(enum_old_primitive_type_values)
 
 #ifdef GL_TRIANGLES
 	x = ev.triangles;
-# ifdef GL_LINE_LOOP
-	BOOST_CHECK(x != ev.line_loop);
-# endif
-# ifdef GL_LINE_STRIP
-	BOOST_CHECK(x != ev.line_strip);
-# endif
-# ifdef GL_LINES
-	BOOST_CHECK(x != ev.lines);
-# endif
-# ifdef GL_POINTS
-	BOOST_CHECK(x != ev.points);
-# endif
-# ifdef GL_POLYGON
-	BOOST_CHECK(x != ev.polygon);
-# endif
-# ifdef GL_QUAD_STRIP
-	BOOST_CHECK(x != ev.quad_strip);
-# endif
-# ifdef GL_QUADS
-	BOOST_CHECK(x != ev.quads);
-# endif
-# ifdef GL_TRIANGLE_FAN
-	BOOST_CHECK(x != ev.triangle_fan);
-# endif
-# ifdef GL_TRIANGLE_STRIP
-	BOOST_CHECK(x != ev.triangle_strip);
-# endif
 	BOOST_CHECK(x == ev.triangles);
 #endif
 }

@@ -42,9 +42,6 @@ BOOST_AUTO_TEST_CASE(enum_string_query_values)
 
 #ifdef GL_SHADING_LANGUAGE_VERSION
 	x = ev.shading_language_version;
-# ifdef GL_RENDERER
-	BOOST_CHECK(x != ev.renderer);
-# endif
 	BOOST_CHECK(x == ev.shading_language_version);
 # ifdef GL_VENDOR
 	BOOST_CHECK(x != ev.vendor);
@@ -56,12 +53,6 @@ BOOST_AUTO_TEST_CASE(enum_string_query_values)
 
 #ifdef GL_VENDOR
 	x = ev.vendor;
-# ifdef GL_RENDERER
-	BOOST_CHECK(x != ev.renderer);
-# endif
-# ifdef GL_SHADING_LANGUAGE_VERSION
-	BOOST_CHECK(x != ev.shading_language_version);
-# endif
 	BOOST_CHECK(x == ev.vendor);
 # ifdef GL_VERSION
 	BOOST_CHECK(x != ev.version);
@@ -70,15 +61,6 @@ BOOST_AUTO_TEST_CASE(enum_string_query_values)
 
 #ifdef GL_VERSION
 	x = ev.version;
-# ifdef GL_RENDERER
-	BOOST_CHECK(x != ev.renderer);
-# endif
-# ifdef GL_SHADING_LANGUAGE_VERSION
-	BOOST_CHECK(x != ev.shading_language_version);
-# endif
-# ifdef GL_VENDOR
-	BOOST_CHECK(x != ev.vendor);
-# endif
 	BOOST_CHECK(x == ev.version);
 #endif
 }

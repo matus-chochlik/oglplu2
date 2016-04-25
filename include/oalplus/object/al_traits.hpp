@@ -20,9 +20,6 @@ struct al_obj_tag;
 } // namespace tag
 
 template <typename ObjTag>
-struct obj_zero_dsa_ops;
-
-template <typename ObjTag>
 struct obj_dsa_ops
  : object_name<ObjTag>
 {
@@ -45,9 +42,6 @@ struct object_traits<oalplus::tag::al_obj_tag<Tag>>
 	typedef oalplus::tag::al_obj_tag<Tag> tag;
 
 	typedef oalplus::obj_gen_del_ops<tag> gen_del_ops;
-
-	template <typename ObjTag>
-	using zero_dsa_ops_t = oalplus::obj_zero_dsa_ops<ObjTag>;
 
 	template <typename ObjTag>
 	using dsa_ops_t = oalplus::obj_dsa_ops<ObjTag>;

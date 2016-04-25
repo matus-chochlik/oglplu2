@@ -39,9 +39,6 @@ BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_type_values)
 
 #ifdef GL_QUADS
 	x = ev.quads;
-# ifdef GL_ISOLINES
-	BOOST_CHECK(x != ev.isolines);
-# endif
 	BOOST_CHECK(x == ev.quads);
 # ifdef GL_TRIANGLES
 	BOOST_CHECK(x != ev.triangles);
@@ -50,12 +47,6 @@ BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_type_values)
 
 #ifdef GL_TRIANGLES
 	x = ev.triangles;
-# ifdef GL_ISOLINES
-	BOOST_CHECK(x != ev.isolines);
-# endif
-# ifdef GL_QUADS
-	BOOST_CHECK(x != ev.quads);
-# endif
 	BOOST_CHECK(x == ev.triangles);
 #endif
 }
