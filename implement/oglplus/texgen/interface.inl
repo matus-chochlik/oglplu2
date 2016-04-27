@@ -107,6 +107,23 @@ noexcept
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 void
+compile_context::remember_constant(const constant_intf& constant)
+{
+	cstr_ref n = constant.name();
+	_impl().add_tag(std::string(n.data(), std::size_t(n.size())));
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+bool
+compile_context::remembers_constant(const constant_intf& constant) const
+noexcept
+{
+	cstr_ref n = constant.name();
+	return _impl().has_tag(std::string(n.data(), std::size_t(n.size())));
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+void
 compile_context::remember_output(const output_intf& output)
 {
 	return _impl().remember_output(

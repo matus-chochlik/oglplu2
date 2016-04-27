@@ -20,6 +20,7 @@
 namespace oglplus {
 namespace texgen {
 
+struct constant_intf;
 struct input_intf;
 struct output_intf;
 struct node_intf;
@@ -45,9 +46,32 @@ public:
 	bool has_tag(const cstr_ref& tag) const
 	noexcept;
 
+	void remember_constant(const constant_intf&);
+	bool remembers_constant(const constant_intf&) const
+	noexcept;
+
 	void remember_output(const output_intf&);
 	bool remembers_output(const output_intf&) const
 	noexcept;
+};
+
+struct constant_intf
+{
+	virtual
+	~constant_intf(void) = default;
+
+	virtual
+	cstr_ref name(void) const
+	noexcept = 0;
+
+	virtual
+	slot_data_type value_type(void) = 0;
+
+	virtual
+	std::ostream& definitions(std::ostream&, compile_context&) = 0;
+
+	virtual
+	std::ostream& expression(std::ostream&, compile_context&) = 0;
 };
 
 struct input_intf
