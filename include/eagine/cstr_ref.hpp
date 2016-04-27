@@ -27,10 +27,10 @@ namespace eagine {
 #endif
 
 class cstr_ref
- : public cstring_span<>
+ : public cstring_span
 {
 private:
-	typedef cstring_span<> _base;
+	typedef cstring_span _base;
 
 	static
 	std::false_type _is_v_c(...);

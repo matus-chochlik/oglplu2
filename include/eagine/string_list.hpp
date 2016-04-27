@@ -21,7 +21,7 @@ namespace string_list {
 
 static inline
 span_size_type
-element_header_size(const cstring_span<>& elem)
+element_header_size(const cstring_span& elem)
 noexcept
 {
 	return span_size_type(mbs::decode_sequence_length(elem).value());
@@ -29,7 +29,7 @@ noexcept
 
 static inline
 span_size_type
-element_value_size(const cstring_span<>& elem, span_size_type l)
+element_value_size(const cstring_span& elem, span_size_type l)
 noexcept
 {
 	return span_size_type(mbs::do_decode_code_point(elem, std::size_t(l)));
@@ -37,22 +37,22 @@ noexcept
 
 static inline
 span_size_type
-element_value_size(const cstring_span<>& elem)
+element_value_size(const cstring_span& elem)
 noexcept
 {
 	return element_value_size(elem, elem.size());
 }
 
 class element
- : public cstring_span<>
+ : public cstring_span
 {
 private:
-	cstring_span<>& _base(void) { return *this; }
-	const cstring_span<>& _base(void) const { return *this; }
+	cstring_span& _base(void) { return *this; }
+	const cstring_span& _base(void) const { return *this; }
 
 	static inline
-	cstring_span<>
-	_fit(const cstring_span<>& s)
+	cstring_span
+	_fit(const cstring_span& s)
 	noexcept
 	{
 		span_size_type hs = element_header_size(s);
@@ -62,16 +62,16 @@ private:
 	}
 
 	static inline
-	cstring_span<>
+	cstring_span
 	_fit(const char* ptr, span_size_type max_size)
 	noexcept
 	{
-		return _fit(cstring_span<>(ptr, max_size));
+		return _fit(cstring_span(ptr, max_size));
 	}
 
 	static inline
-	cstring_span<>
-	_rev_fit(const cstring_span<>& s, span_size_type rev_sz)
+	cstring_span
+	_rev_fit(const cstring_span& s, span_size_type rev_sz)
 	noexcept
 	{
 		span_size_type hs = element_header_size(s);
@@ -81,21 +81,21 @@ private:
 	}
 
 	static inline
-	cstring_span<>
+	cstring_span
 	_rev_fit(const char* ptr, span_size_type rev_sz, span_size_type foot_sz)
 	noexcept
 	{
-		return _rev_fit(cstring_span<>(ptr, foot_sz), rev_sz);
+		return _rev_fit(cstring_span(ptr, foot_sz), rev_sz);
 	}
 public:
 	element(const char* ptr, span_size_type max_size)
 	noexcept
-	 : cstring_span<>(_fit(ptr, max_size))
+	 : cstring_span(_fit(ptr, max_size))
 	{ }
 
 	element(const char* ptr, span_size_type rev_sz, span_size_type foot_sz)
 	noexcept
-	 : cstring_span<>(_rev_fit(ptr, rev_sz, foot_sz))
+	 : cstring_span(_rev_fit(ptr, rev_sz, foot_sz))
 	{ }
 
 	span_size_type header_size(void) const
@@ -104,7 +104,7 @@ public:
 		return element_header_size(_base());
 	}
 
-	cstring_span<> header(void) const
+	cstring_span header(void) const
 	noexcept
 	{
 		return {data(), header_size()};
@@ -122,7 +122,7 @@ public:
 		return data()+header_size();
 	}
 
-	cstring_span<> value(void) const
+	cstring_span value(void) const
 	noexcept
 	{
 		return {value_data(), value_size()};
@@ -134,7 +134,7 @@ public:
 		return element_header_size(_base());
 	}
 
-	cstring_span<> footer(void) const
+	cstring_span footer(void) const
 	noexcept
 	{
 		return {data()+header_size()+value_size(), header_size()};
@@ -143,7 +143,7 @@ public:
 
 template <typename Func>
 static inline
-void for_each_elem(const cstring_span<>& str, Func func)
+void for_each_elem(const cstring_span& str, Func func)
 noexcept
 {
 	span_size_type i = 0;
@@ -159,7 +159,7 @@ noexcept
 
 template <typename Func>
 static inline
-void for_each(const cstring_span<>& str, Func func)
+void for_each(const cstring_span& str, Func func)
 noexcept
 {
 	auto adapted_func =
@@ -170,7 +170,7 @@ noexcept
 
 template <typename Func>
 static inline
-void rev_for_each_elem(const cstring_span<>& str, Func func)
+void rev_for_each_elem(const cstring_span& str, Func func)
 noexcept
 {
 	span_size_type i = str.size()-1;
@@ -191,7 +191,7 @@ noexcept
 
 template <typename Func>
 static inline
-void rev_for_each(const cstring_span<>& str, Func func)
+void rev_for_each(const cstring_span& str, Func func)
 noexcept
 {
 	auto adapted_func =
@@ -202,7 +202,7 @@ noexcept
 
 static inline
 std::string
-join(const cstring_span<>& str, const cstring_span<>& sep, bool trail_sep)
+join(const cstring_span& str, const cstring_span& sep, bool trail_sep)
 {
 	span_size_type slen = sep.size();
 	span_size_type len = trail_sep?slen:0;
@@ -234,7 +234,7 @@ join(const cstring_span<>& str, const cstring_span<>& sep, bool trail_sep)
 
 static inline
 std::string
-join(const cstring_span<>& str, const cstring_span<>& sep)
+join(const cstring_span& str, const cstring_span& sep)
 {
 	return join(str, sep, false);
 }
@@ -244,7 +244,7 @@ class iterator
 {
 private:
 	Iter _pos;
-	mutable cstring_span<> _tmp;
+	mutable cstring_span _tmp;
 
 	byte _b(void) const
 	noexcept
@@ -264,7 +264,7 @@ private:
 	std::size_t _val_len(std::size_t ll) const
 	noexcept
 	{
-		cstring_span<> el(_pos, span_size_type(ll));
+		cstring_span el(_pos, span_size_type(ll));
 		return mbs::do_decode_code_point(el,ll); 
 	}
 
@@ -274,12 +274,12 @@ private:
 		{
 			std::size_t ll = _len_len();
 			std::size_t vl = _val_len(ll);
-			_tmp = cstring_span<>{_pos+ll, span_size_type(vl)};
+			_tmp = cstring_span{_pos+ll, span_size_type(vl)};
 		}
 	}
 public:
 	typedef std::ptrdiff_t difference_type;
-	typedef cstring_span<> value_type;
+	typedef cstring_span value_type;
 	typedef const value_type& reference;
 	typedef const value_type* pointer;
 	typedef std::forward_iterator_tag iterator_category;
@@ -339,7 +339,7 @@ public:
 		std::size_t ll = _len_len();
 		std::size_t vl = _val_len(ll);
 		_pos += ll+vl+ll;
-		_tmp = cstring_span<>();
+		_tmp = cstring_span();
 		return *this;
 	}
 
@@ -358,7 +358,7 @@ class rev_iterator
 {
 private:
 	mutable Iter _pos;
-	mutable cstring_span<> _tmp;
+	mutable cstring_span _tmp;
 
 	byte _b(void) const
 	noexcept
@@ -386,7 +386,7 @@ private:
 	std::size_t _val_len(std::size_t ll) const
 	noexcept
 	{
-		cstring_span<> el(_pos, span_size_type(ll));
+		cstring_span el(_pos, span_size_type(ll));
 		return mbs::do_decode_code_point(el,ll); 
 	}
 
@@ -397,12 +397,12 @@ private:
 			_rseek_head();
 			std::size_t ll = _len_len();
 			std::size_t vl = _val_len(ll);
-			_tmp = cstring_span<>{_pos-vl, span_size_type(vl)};
+			_tmp = cstring_span{_pos-vl, span_size_type(vl)};
 		}
 	}
 public:
 	typedef std::ptrdiff_t difference_type;
-	typedef cstring_span<> value_type;
+	typedef cstring_span value_type;
 	typedef const value_type& reference;
 	typedef const value_type* pointer;
 	typedef std::forward_iterator_tag iterator_category;
@@ -463,7 +463,7 @@ public:
 		std::size_t ll = _len_len();
 		std::size_t vl = _val_len(ll);
 		_pos -= ll+vl+1;
-		_tmp = cstring_span<>();
+		_tmp = cstring_span();
 		return *this;
 	}
 

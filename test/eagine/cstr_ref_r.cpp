@@ -26,7 +26,7 @@ BOOST_AUTO_TEST_CASE(cstr_ref_default)
 	BOOST_ASSERT(s.c_str() != nullptr);
 	BOOST_CHECK(s.c_str()[0] == '\0');
 
-	eagine::cstring_span<> v = s;
+	eagine::cstring_span v = s;
 	BOOST_CHECK_EQUAL(v.size(), 0);
 	BOOST_CHECK(v.begin() == v.end());
 }
@@ -45,7 +45,7 @@ BOOST_AUTO_TEST_CASE(cstr_ref_literal)
 	BOOST_ASSERT(std::strcmp(s.c_str(),  l) == 0);
 	BOOST_CHECK(s.c_str()[s.size()] == '\0');
 
-	eagine::cstring_span<> v = s;
+	eagine::cstring_span v = s;
 	BOOST_CHECK_EQUAL(v.size(), std::strlen(l));
 	BOOST_CHECK(v.begin() != v.end());
 }
@@ -64,7 +64,7 @@ BOOST_AUTO_TEST_CASE(cstr_ref_c_string)
 	BOOST_ASSERT(std::strcmp(s.c_str(),  cs) == 0);
 	BOOST_CHECK(s.c_str()[s.size()] == '\0');
 
-	eagine::cstring_span<> v = s;
+	eagine::cstring_span v = s;
 	BOOST_CHECK_EQUAL(v.size(), std::strlen(cs));
 	BOOST_CHECK(v.begin() != v.end());
 }
@@ -83,7 +83,7 @@ BOOST_AUTO_TEST_CASE(cstr_ref_std_string)
 	BOOST_ASSERT(std::strcmp(s.c_str(),  ss.c_str()) == 0);
 	BOOST_CHECK(s.c_str()[s.size()] == '\0');
 
-	eagine::cstring_span<> v = s;
+	eagine::cstring_span v = s;
 	BOOST_CHECK_EQUAL(v.size(), ss.size());
 	BOOST_CHECK(v.begin() != v.end());
 }
@@ -103,7 +103,7 @@ BOOST_AUTO_TEST_CASE(cstr_ref_std_array)
 	BOOST_ASSERT(std::strcmp(s.c_str(),  sa.data()) == 0);
 	BOOST_CHECK(s.c_str()[s.size()] == '\0');
 
-	eagine::cstring_span<> v = s;
+	eagine::cstring_span v = s;
 	BOOST_CHECK(v.size()+1 == sa.size());
 	BOOST_CHECK(v.begin() != v.end());
 }

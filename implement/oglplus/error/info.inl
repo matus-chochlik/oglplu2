@@ -416,7 +416,7 @@ noexcept
 OGLPLUS_LIB_FUNC
 error_info&
 error_info::
-identifier(const cstring_span<>& ident)
+identifier(const cstring_span& ident)
 noexcept
 {
 #if !OGLPLUS_ERROR_NO_IDENTIFIER
@@ -429,7 +429,7 @@ noexcept
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstring_span<>
+cstring_span
 error_info::
 identifier(void) const
 noexcept
@@ -444,7 +444,7 @@ noexcept
 OGLPLUS_LIB_FUNC
 error_info&
 error_info::
-info_log(const cstring_span<>& log)
+info_log(const cstring_span& log)
 noexcept
 {
 #if !OGLPLUS_ERROR_NO_INFO_LOG
@@ -508,7 +508,7 @@ noexcept
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstring_span<>
+cstring_span
 error_info::
 info_log(void) const
 noexcept
