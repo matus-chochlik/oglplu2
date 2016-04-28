@@ -50,7 +50,7 @@ base_constant::definitions(std::ostream& out, compile_context& ctxt)
 		out << "const " << data_type_name(value_type());
 		out << " " << identifier() << " = ";
 		value(out, ctxt);
-		out << ";" << std::endl;
+		out << ";" << std::endl << std::endl;
 		ctxt.remember_constant(*this);
 	}	
 	return out;

@@ -16,7 +16,7 @@ OGLPLUS_LIB_FUNC
 wrap_output::wrap_output(node_intf& parent)
  : base_output(parent)
  , mode(wrap_mode::repeat)
- , input(parent, cstr_ref("Input"), 0.5f, 0.5f, 0.5f, 0.5f)
+ , input(parent, cstr_ref("Input"))
 { }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
