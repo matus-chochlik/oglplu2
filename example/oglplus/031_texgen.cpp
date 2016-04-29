@@ -37,66 +37,64 @@ class example_render_graph
 {
 public:
 	uniform<GLfloat> offset_loc;
-	uniform<GLfloat> scale_loc;
 
 	example_render_graph(void)
 	{
 		using namespace texgen;
 
-		add_new_node<sphere_coord_node>("sphere_coords");
-		add_new_node<glsl_node>("circle_coords")
+		add_new<sphere_coord_node>("sphere_coords");
+		add_new<glsl_node>("circle_coords")
 			.set_type(slot_data_type::float_2)
 			.set_glsl("vec2(${Input}.x, sqrt(${Input}.w))");
 		connect("sphere_coords", "circle_coords");
 
-		add_new_node<random_node>("noise");
-		add_new_node<wrap_node>("coord_wrap")
+		add_new<random_node>("noise");
+		add_new<wrap_node>("coord_wrap")
 			.set_mode(wrap_mode::repeat);
 
-		add_new_node<map_node>("noise_map");
-		connect("noise", "noise_map", 0);
-		connect("coord_wrap", "noise_map", 1);
+		add_new<map_node>("noise_map");
+		connect("noise", "noise_map", "Input");
+		connect("coord_wrap", "noise_map", "Coord");
 
-		add_new_node<voronoi2d_node>("cells");
+		add_new<voronoi2d_node>("cells");
 		connect("noise_map", "cells");
 
+		add_new<map_node>("pattern_coords");
 
-		add_new_node<map_node>("pattern_coords");
+		connect("cells", "CCtr", "pattern_coords", "Input");
+		connect("circle_coords", "pattern_coords", "Coord");
 
-		connect("cells", 4, "pattern_coords", 0);
-		connect("circle_coords", "pattern_coords", 1);
-
-		add_new_node<offset_node>("offset");
+		add_new<offset_node>("offset");
 
 		uniform_node& uoffset =
-		add_new_node<uniform_node>("uoffset").
+		add_new<uniform_node>("uoffset").
 			set_value_type<float[2]>();
 
-		connect("uoffset", "offset", 1);
+		connect("uoffset", "offset", "Offset");
 
-		add_new_node<stripes_node>("stripes");
-		add_new_node<map_node>("stripes_map");
+		add_new<stripes_node>("stripes");
+		add_new<map_node>("stripes_map");
 
-		connect("stripes", "stripes_map", 0);
-		connect("pattern_coords", "stripes_map", 1);
+		connect("stripes", "stripes_map", "Input");
+		connect("pattern_coords", "stripes_map", "Coord");
 
-		add_new_node<border2d_node>("stripe_borders");
+		add_new<border2d_node>("stripe_borders");
 		connect("stripes_map", "stripe_borders");
 
-		add_new_node<border2d_node>("cell_borders");
-		connect("pattern_coords", "cell_borders", 0);
+		add_new<border2d_node>("cell_borders");
+		connect("pattern_coords", "cell_borders");
 
-		add_new_node<glsl_node>("cell_edges")
+		add_new<glsl_node>("cell_edges")
 			.set_type(slot_data_type::float_)
 			.set_glsl("sign(${Input}.g)");
 		connect("cell_borders", "cell_edges");
 
-		add_new_node<combine_node>("combine");
-		connect("stripe_borders", "combine", 0);
-		connect("cell_edges", "combine", 1);
-		connect("stripes_map", "combine", 2);
+		add_new<combine_node>("combine");
+		connect("stripe_borders", "combine", "Red");
+		connect("cell_edges", "combine", "Green");
+		connect("stripes_map", "combine", "Blue");
 
-		add_new_node<glsl_node>("final")
+		add_new<glsl_node>("final")
 			.set_type(slot_data_type::float_3)
 			.set_glsl("vec3(${^}.x+${^}.y*0.2+${^}.z*0.3)");
 
@@ -120,8 +118,6 @@ private:
 	example_render_graph erg;
 
 	GLfloat offset_x, offset_y;
-
-	static constexpr const float min_scale = 0.00001f;
 public:
 	example_texgen(void)
 	 : offset_x(-0.25f)

@@ -32,7 +32,7 @@ public:
 	void add_node(std::string name, std::unique_ptr<node_intf>&&);
 
 	template <typename NodeType, typename ... P>
-	NodeType& add_new_node(std::string name, P&& ... p)
+	NodeType& add_new(std::string name, P&& ... p)
 	{
 		NodeType* ptr = new NodeType(std::forward<P>(p)...);
 		assert(ptr);

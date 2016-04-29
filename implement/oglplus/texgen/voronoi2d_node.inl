@@ -94,6 +94,14 @@ voronoi2d_output::value_type(void)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
+cstr_ref
+voronoi2d_output::name(void)
+noexcept
+{
+	return type_abbr();
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
 std::ostream&
 voronoi2d_output::definitions(std::ostream& out, compile_context& ctxt)
 {

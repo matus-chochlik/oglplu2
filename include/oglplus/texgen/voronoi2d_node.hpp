@@ -48,6 +48,10 @@ public:
 	cstr_ref type_name(void)
 	override;
 
+	cstr_ref name(void)
+	noexcept
+	override;
+
 	slot_data_type value_type(void)
 	override;
 
