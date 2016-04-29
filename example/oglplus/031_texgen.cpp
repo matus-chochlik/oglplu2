@@ -1,5 +1,5 @@
 /**
- *  example oglplus/011_texgen.cpp
+ *  example oglplus/031_texgen.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -23,7 +23,6 @@
 #include <oglplus/texgen/combine_node.hpp>
 #include <oglplus/texgen/uniform_node.hpp>
 #include <oglplus/texgen/offset_node.hpp>
-#include <oglplus/texgen/render_node.hpp>
 
 #include "example.hpp"
 
@@ -64,14 +63,6 @@ public:
 		connect("cells", "CCtr", "pattern_coords", "Input");
 		connect("circle_coords", "pattern_coords", "Coord");
 
-		add_new<offset_node>("offset");
-
-		uniform_node& uoffset =
-		add_new<uniform_node>("uoffset").
-			set_value_type<float[2]>();
-
-		connect("uoffset", "offset", "Offset");
-
 		add_new<stripes_node>("stripes");
 		add_new<map_node>("stripes_map");
 
@@ -99,7 +90,16 @@ public:
 			.set_glsl("vec3(${^}.x+${^}.y*0.2+${^}.z*0.3)");
 
 		connect("combine", "final");
+
+		add_new<offset_node>("offset");
+
+		uniform_node& uoffset =
+		add_new<uniform_node>("uoffset").
+			set_value_type<float[2]>();
+
 		connect("final", "offset");
+		connect("uoffset", "offset", "Offset");
+
 		connect_to_renderer("offset");
 
 		finalize();
