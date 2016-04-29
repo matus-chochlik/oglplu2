@@ -27,6 +27,11 @@ OGLPLUS_LIB_FUNC
 void
 render_graph::disconnect_all(void)
 {
+	for(std::unique_ptr<node_intf>& node : _anon_nodes)
+	{
+		assert(node);
+		node->disconnect_all();
+	}
 	for(auto& p : _nodes)
 	{
 		std::unique_ptr<node_intf>& node = p.second;
@@ -34,6 +39,14 @@ render_graph::disconnect_all(void)
 		node->disconnect_all();
 	}
 	renderer().disconnect_all();
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+void
+render_graph::
+add_anonymous_node(std::unique_ptr<node_intf>&& node)
+{
+	_anon_nodes.push_back(std::move(node));
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -85,14 +98,51 @@ find_node(const std::string& node_name)
 OGLPLUS_LIB_FUNC
 eagine::optional_reference_wrapper<input_intf>
 render_graph::
+find_node_input(node_intf& node, std::size_t index)
+{
+	if(index < node.input_count())
+	{
+		return node.input(index);
+	}
+	return nothing;
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+eagine::optional_reference_wrapper<output_intf>
+render_graph::
+find_node_output(node_intf& node, std::size_t index)
+{
+	if(index < node.output_count())
+	{
+		return node.output(index);
+	}
+	return nothing;
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+eagine::optional_reference_wrapper<input_intf>
+render_graph::
+find_node_input(node_intf& node, const cstr_ref& iname)
+{
+	return node.input_by_name(iname);
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+eagine::optional_reference_wrapper<output_intf>
+render_graph::
+find_node_output(node_intf& node, const cstr_ref& oname)
+{
+	return node.output_by_name(oname);
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+eagine::optional_reference_wrapper<input_intf>
+render_graph::
 find_node_input(const std::string& node_name, std::size_t index)
 {
 	if(auto node = find_node(node_name))
 	{
-		if(index < node.get().input_count())
-		{
-			return node.get().input(index);
-		}
+		return find_node_input(node.get(), index);
 	}
 	return nothing;
 }
@@ -104,10 +154,7 @@ find_node_output(const std::string& node_name, std::size_t index)
 {
 	if(auto node = find_node(node_name))
 	{
-		if(index < node.get().output_count())
-		{
-			return node.get().output(index);
-		}
+		return find_node_output(node.get(), index);
 	}
 	return nothing;
 }
@@ -119,7 +166,7 @@ find_node_input(const std::string& node_name, const cstr_ref& iname)
 {
 	if(auto node = find_node(node_name))
 	{
-		return node.get().input_by_name(iname);
+		return find_node_input(node.get(), iname);
 	}
 	return nothing;
 }
@@ -131,9 +178,29 @@ find_node_output(const std::string& node_name, const cstr_ref& oname)
 {
 	if(auto node = find_node(node_name))
 	{
-		return node.get().output_by_name(oname);
+		return find_node_output(node.get(), oname);
 	}
 	return nothing;
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+bool
+render_graph::
+connect_to_renderer(output_intf& output)
+{
+	return connect(output, renderer().input(0));
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+bool
+render_graph::
+connect_to_renderer(node_intf& node, std::size_t index)
+{
+	if(auto out = find_node_output(node, index))
+	{
+		return connect_to_renderer(out.get());
+	}
+	return false;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -143,10 +210,70 @@ connect_to_renderer(const std::string& node_name, std::size_t index)
 {
 	if(auto out = find_node_output(node_name, index))
 	{
-		return connect_output_to_input(
-			out.get(),
-			renderer().input(0)
-		);
+		return connect_to_renderer(out.get());
+	}
+	return false;
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+bool
+render_graph::connect(output_intf& out, input_intf& inp)
+{
+	return connect_output_to_input(out, inp);
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+bool
+render_graph::connect(
+	node_intf& output_node,
+	std::size_t oindex,
+	node_intf& input_node,
+	std::size_t iindex
+)
+{
+	if(auto out = find_node_output(output_node, oindex))
+	{
+		if(auto inp = find_node_input(input_node, iindex))
+		{
+			return connect(out.get(), inp.get());
+		}
+	}
+	return false;
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+bool
+render_graph::connect(
+	node_intf& output_node,
+	const cstr_ref& oname,
+	node_intf& input_node,
+	const cstr_ref& iname
+)
+{
+	if(auto out = find_node_output(output_node, oname))
+	{
+		if(auto inp = find_node_input(input_node, iname))
+		{
+			return connect(out.get(), inp.get());
+		}
+	}
+	return false;
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+bool
+render_graph::connect(
+	node_intf& output_node,
+	node_intf& input_node,
+	const cstr_ref& iname
+)
+{
+	if(auto out = find_node_output(output_node, 0))
+	{
+		if(auto inp = find_node_input(input_node, iname))
+		{
+			return connect(out.get(), inp.get());
+		}
 	}
 	return false;
 }
@@ -160,14 +287,11 @@ render_graph::connect(
 	std::size_t iindex
 )
 {
-	if(auto out = find_node_output(output_node_name, oindex))
+	if(auto out = find_node(output_node_name))
 	{
-		if(auto inp = find_node_input(input_node_name, iindex))
+		if(auto inp = find_node(input_node_name))
 		{
-			return connect_output_to_input(
-				out.get(),
-				inp.get()
-			);
+			return connect(out.get(), oindex, inp.get(), iindex);
 		}
 	}
 	return false;
@@ -197,10 +321,7 @@ render_graph::connect(
 	{
 		if(auto inp = find_node_input(input_node_name, iname))
 		{
-			return connect_output_to_input(
-				out.get(),
-				inp.get()
-			);
+			return connect(out.get(), inp.get());
 		}
 	}
 	return false;
@@ -218,10 +339,7 @@ render_graph::connect(
 	{
 		if(auto inp = find_node_input(input_node_name, iname))
 		{
-			return connect_output_to_input(
-				out.get(),
-				inp.get()
-			);
+			return connect(out.get(), inp.get());
 		}
 	}
 	return false;

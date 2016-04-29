@@ -27,9 +27,6 @@
 #include "example.hpp"
 
 namespace oglplus {
-namespace texgen {
-
-} // namespace texgen
 
 class example_render_graph
  : public texgen::render_graph
