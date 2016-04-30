@@ -25,19 +25,7 @@ class render_graph_node
 public:
 	using Node::Node;
 
-	render_graph_node<Node>&
-	connect(std::size_t index, output_intf& out)
-	{
-		connect_output_to_input(out, this->input(index));
-		return *this;
-	}
-
-	render_graph_node<Node>&
-	connect(std::size_t index, node_intf& output_node)
-	{
-		return connect(index, output_node.output(0));
-	}
-
+	// TODO throw connect error
 	render_graph_node<Node>&
 	connect(const cstr_ref& inp_name, output_intf& out)
 	{
@@ -49,9 +37,57 @@ public:
 	}
 
 	render_graph_node<Node>&
+	connect(const cstr_ref& inp_name, node_intf& out_node, std::size_t oidx)
+	{
+		if(oidx < out_node.output_count())
+		{
+			return connect(inp_name, out_node.output(oidx));
+		}
+		return *this;
+	}
+
+	render_graph_node<Node>&
 	connect(const cstr_ref& inp_name, node_intf& out_node)
 	{
-		return connect(inp_name, out_node.output(0));
+		return connect(inp_name, out_node, 0u);
+	}
+
+	render_graph_node<Node>&
+	connect(std::size_t iidx, output_intf& out)
+	{
+		if(iidx < this->input_count())
+		{
+			connect_output_to_input(out, this->input(iidx));
+		}
+		return *this;
+	}
+
+	render_graph_node<Node>&
+	connect(std::size_t iidx, node_intf& out_node, std::size_t oidx)
+	{
+		if(oidx < out_node.output_count())
+		{
+			return connect(iidx, out_node.output(oidx));
+		}
+		return *this;
+	}
+
+	render_graph_node<Node>&
+	connect(std::size_t iidx, node_intf& out_node)
+	{
+		return connect(iidx, out_node, 0u);
+	}
+
+	render_graph_node<Node>&
+	connect(output_intf& out)
+	{
+		return connect(0u, out);
+	}
+
+	render_graph_node<Node>&
+	connect(node_intf& out_node)
+	{
+		return connect(0u, out_node);
 	}
 };
 
