@@ -7,7 +7,6 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <iostream>
-#include <eagine/math/constants.hpp>
 
 namespace oglplus {
 namespace texgen {
@@ -75,7 +74,22 @@ OGLPLUS_LIB_FUNC
 std::ostream&
 constant_pi::value(std::ostream& out, compile_context&)
 {
-	return out << eagine::math::pi;
+	return out << "(atan(1.0)*4.0)";
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+cstr_ref
+constant_phi::name(void) const
+noexcept
+{
+	return cstr_ref("phi");
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
+std::ostream&
+constant_phi::value(std::ostream& out, compile_context&)
+{
+	return out << "((1.0+sqrt(5.0))*0.5)";
 }
 //------------------------------------------------------------------------------
 } // namespace texgen

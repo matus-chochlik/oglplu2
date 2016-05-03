@@ -54,6 +54,18 @@ public:
 	override;
 };
 
+class constant_phi
+ : public base_constant
+{
+public:
+	cstr_ref name(void) const
+	noexcept
+	override;
+
+	std::ostream& value(std::ostream&, compile_context&)
+	override;
+};
+
 } // namespace texgen
 } // namespace oglplus
 
