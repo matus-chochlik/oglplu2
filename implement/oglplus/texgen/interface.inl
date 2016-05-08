@@ -78,6 +78,12 @@ compile_context::compile_context(void)
 { }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
+compile_context::~compile_context(void)
+{
+	delete _pimpl;
+}
+//------------------------------------------------------------------------------
+OGLPLUS_LIB_FUNC
 unsigned
 compile_context::glsl_version(void) const
 {

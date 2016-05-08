@@ -13,7 +13,6 @@
 #include "render_params.hpp"
 #include "oglplus/utils/valid_if.hpp"
 #include <eagine/optional_ref.hpp>
-#include <memory>
 #include <cstddef>
 #include <iosfwd>
 
@@ -30,7 +29,7 @@ class compile_context_impl;
 class compile_context
 {
 private:
-	std::unique_ptr<compile_context_impl> _pimpl;
+	compile_context_impl* _pimpl;
 
 	const compile_context_impl& _impl(void) const
 	noexcept;
@@ -39,6 +38,8 @@ private:
 	noexcept;
 public:
 	compile_context(void);
+	compile_context(const compile_context&) = delete;
+	~compile_context(void);
 
 	unsigned glsl_version(void) const;
 
