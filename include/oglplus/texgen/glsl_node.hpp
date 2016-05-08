@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_TEXGEN_FOLD_NODE_1509260923_HPP
-#define OGLPLUS_TEXGEN_FOLD_NODE_1509260923_HPP
+#ifndef OGLPLUS_TEXGEN_GLSL_NODE_1509260923_HPP
+#define OGLPLUS_TEXGEN_GLSL_NODE_1509260923_HPP
 
 #include "fallback_input.hpp"
 #include "multi_input_node.hpp"

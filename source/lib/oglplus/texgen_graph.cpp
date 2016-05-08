@@ -8,8 +8,11 @@
  */
 
 #include "prologue.inl"
+#include "predeclare.inl"
+#include "objects.inl"
+#include "shapes.inl"
+#include <oglplus/texgen/render_node.hpp>
 #include "texgen_common.inl"
-
 #include "implement.inl"
 #include <oglplus/texgen/render_graph.hpp>
 #include "epilogue.inl"

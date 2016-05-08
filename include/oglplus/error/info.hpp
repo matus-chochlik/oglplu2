@@ -25,7 +25,26 @@
 
 namespace oglplus {
 
-struct extended_error_info;
+#if !OGLPLUS_ERROR_NO_EXTENDED_INFO
+struct extended_error_info
+{
+#if !OGLPLUS_ERROR_NO_SUBJECT
+	any_object_name _sub_name;
+#endif
+
+#if !OGLPLUS_ERROR_NO_INFO_LOG
+	std::string _info_log;
+#endif
+
+#if !OGLPLUS_ERROR_NO_IDENTIFIER
+	std::string _identifier;
+#endif
+
+	extended_error_info(void)
+	noexcept
+	{ }
+};
+#endif
 
 class error_info
 {
@@ -183,6 +202,8 @@ public:
 
 } // namespace oglplus
 
+#if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include <oglplus/error/info.inl>
+#endif
 
 #endif // include guard

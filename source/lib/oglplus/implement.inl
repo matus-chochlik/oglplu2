@@ -1,5 +1,5 @@
 /**
- *  .file lib/oglplus/implement.ipp
+ *  .file lib/oglplus/implement.inl
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.

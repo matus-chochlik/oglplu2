@@ -6,11 +6,9 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 #include <oglplus/enum/types.hpp>
 #include <string>
 #include <vector>
-#endif
 
 #ifndef GL_SHADER
 #define GL_SHADER 0x82E1
@@ -26,28 +24,7 @@
 
 namespace oglplus {
 //------------------------------------------------------------------------------
-#if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
-//------------------------------------------------------------------------------
 #if !OGLPLUS_ERROR_NO_EXTENDED_INFO
-//------------------------------------------------------------------------------
-struct extended_error_info
-{
-#if !OGLPLUS_ERROR_NO_SUBJECT
-	any_object_name _sub_name;
-#endif
-
-#if !OGLPLUS_ERROR_NO_INFO_LOG
-	std::string _info_log;
-#endif
-
-#if !OGLPLUS_ERROR_NO_IDENTIFIER
-	std::string _identifier;
-#endif
-
-	extended_error_info(void)
-	noexcept
-	{ }
-};
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 extended_error_info&
@@ -70,9 +47,7 @@ noexcept
 //------------------------------------------------------------------------------
 #endif // NO_EXTENDED_INFO
 //------------------------------------------------------------------------------
-#endif // LINK_LIBRARY
-//------------------------------------------------------------------------------
-inline
+OGLPLUS_LIB_FUNC
 error_info::
 error_info(GLenum gl_err_code)
 noexcept
@@ -104,7 +79,7 @@ noexcept
 #endif
 { }
 //------------------------------------------------------------------------------
-inline
+OGLPLUS_LIB_FUNC
 error_info&
 error_info::
 gl_error_code(GLenum gl_err_code)
@@ -114,7 +89,7 @@ noexcept
 	return *this;
 }
 //------------------------------------------------------------------------------
-inline
+OGLPLUS_LIB_FUNC
 GLenum
 error_info::
 gl_error_code(void) const
@@ -123,7 +98,7 @@ noexcept
 	return _gl_err_code;
 }
 //------------------------------------------------------------------------------
-inline
+OGLPLUS_LIB_FUNC
 error_info&
 error_info::
 gl_library_name(const char* gl_lb_name)
@@ -137,7 +112,7 @@ noexcept
 	return *this;
 }
 //------------------------------------------------------------------------------
-inline
+OGLPLUS_LIB_FUNC
 const char*
 error_info::
 gl_library_name(void) const
@@ -150,7 +125,7 @@ noexcept
 #endif
 }
 //------------------------------------------------------------------------------
-inline
+OGLPLUS_LIB_FUNC
 error_info&
 error_info::
 gl_function_name(const char* gl_fn_name)
@@ -164,7 +139,7 @@ noexcept
 	return *this;
 }
 //------------------------------------------------------------------------------
-inline
+OGLPLUS_LIB_FUNC
 const char*
 error_info::
 gl_function_name(void) const
@@ -177,7 +152,7 @@ noexcept
 #endif
 }
 //------------------------------------------------------------------------------
-inline
+OGLPLUS_LIB_FUNC
 error_info&
 error_info::
 source_function(const char* src_func)
@@ -191,7 +166,7 @@ noexcept
 	return *this;
 }
 //------------------------------------------------------------------------------
-inline
+OGLPLUS_LIB_FUNC
 const char*
 error_info::
 source_function(void) const
@@ -204,7 +179,7 @@ noexcept
 #endif
 }
 //------------------------------------------------------------------------------
-inline
+OGLPLUS_LIB_FUNC
 error_info&
 error_info::
 source_file(const char* src_file)
@@ -218,7 +193,7 @@ noexcept
 	return *this;
 }
 //------------------------------------------------------------------------------
-inline
+OGLPLUS_LIB_FUNC
 const char*
 error_info::
 source_file(void) const
@@ -231,7 +206,7 @@ noexcept
 #endif
 }
 //------------------------------------------------------------------------------
-inline
+OGLPLUS_LIB_FUNC
 error_info&
 error_info::
 source_line(unsigned src_line)
@@ -245,7 +220,7 @@ noexcept
 	return *this;
 }
 //------------------------------------------------------------------------------
-inline
+OGLPLUS_LIB_FUNC
 unsigned
 error_info::
 source_line(void) const
@@ -258,7 +233,7 @@ noexcept
 #endif
 }
 //------------------------------------------------------------------------------
-inline
+OGLPLUS_LIB_FUNC
 error_info&
 error_info::
 gl_object(const any_object_name& obj_name)
@@ -272,7 +247,7 @@ noexcept
 	return *this;
 }
 //------------------------------------------------------------------------------
-inline
+OGLPLUS_LIB_FUNC
 error_info&
 error_info::
 gl_object_binding(const any_object_type&, const any_enum_value&)
@@ -282,7 +257,7 @@ noexcept
 	return *this;
 }
 //------------------------------------------------------------------------------
-inline
+OGLPLUS_LIB_FUNC
 any_object_name
 error_info::
 gl_object(void) const
@@ -294,8 +269,6 @@ noexcept
 	return any_object_name();
 #endif
 }
-//------------------------------------------------------------------------------
-#if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 error_info&
@@ -334,9 +307,7 @@ noexcept
 #endif
 }
 //------------------------------------------------------------------------------
-#endif // LINK_LIBRARY
-//------------------------------------------------------------------------------
-inline
+OGLPLUS_LIB_FUNC
 error_info&
 error_info::
 gl_index(GLuint idx)
@@ -350,7 +321,7 @@ noexcept
 	return *this;
 }
 //------------------------------------------------------------------------------
-inline
+OGLPLUS_LIB_FUNC
 GLuint
 error_info::
 gl_index(void) const
@@ -363,7 +334,7 @@ noexcept
 #endif
 }
 //------------------------------------------------------------------------------
-inline
+OGLPLUS_LIB_FUNC
 error_info&
 error_info::
 gl_enum_value(const any_enum_value& enum_val)
@@ -377,9 +348,7 @@ noexcept
 	return *this;
 }
 //------------------------------------------------------------------------------
-#if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
-//------------------------------------------------------------------------------
-inline
+OGLPLUS_LIB_FUNC
 error_info&
 error_info::
 gl_enum_value(const any_indexed_enum_value& enum_val)
@@ -395,9 +364,7 @@ noexcept
 	return *this;
 }
 //------------------------------------------------------------------------------
-#endif
-//------------------------------------------------------------------------------
-inline
+OGLPLUS_LIB_FUNC
 const any_enum_value&
 error_info::
 gl_enum_value(void) const
@@ -410,8 +377,6 @@ noexcept
 	return enum_val;
 #endif
 }
-//------------------------------------------------------------------------------
-#if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 error_info&
@@ -519,7 +484,5 @@ noexcept
 	return {};
 #endif
 }
-//------------------------------------------------------------------------------
-#endif // LINK_LIBRARY
 //------------------------------------------------------------------------------
 } // namespace oglplus

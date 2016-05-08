@@ -8,7 +8,7 @@
  */
 
 #include "prologue.inl"
-
+#include "predeclare.inl"
 #include "implement.inl"
 #include "texgen_common.inl"
 #include "epilogue.inl"

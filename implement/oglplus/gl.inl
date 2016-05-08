@@ -7,8 +7,6 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#include <oglplus/config/basic.hpp>
-
 #if OGLPLUS_USE_GLEW || OGLPLUS_USE_GL3W
 #include <stdexcept>
 #endif

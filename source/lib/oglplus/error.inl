@@ -1,5 +1,5 @@
 /**
- *  .file lib/oglplus/prologue.inl
+ *  .file lib/oglplus/error.inl
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,5 +7,6 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#define EAGINE_LINK_LIBRARY 1
-#define OGLPLUS_LINK_LIBRARY 1
+#include <oglplus/error/error.hpp>
+#include <oglplus/error/format.hpp>
+#include <oglplus/error/info.hpp>

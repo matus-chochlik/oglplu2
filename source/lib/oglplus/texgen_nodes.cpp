@@ -8,8 +8,8 @@
  */
 
 #include "prologue.inl"
+#include "predeclare.inl"
 #include "texgen_common.inl"
-
 #include "implement.inl"
 #include <oglplus/texgen/blur2d_node.hpp>
 #include <oglplus/texgen/border2d_node.hpp>

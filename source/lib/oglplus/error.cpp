@@ -8,8 +8,7 @@
  */
 
 #include "prologue.inl"
-
+#include <oglplus/gl_fixed.hpp>
 #include "implement.inl"
-#include <oglplus/error/format.hpp>
+#include "error.inl"
 #include "epilogue.inl"
-

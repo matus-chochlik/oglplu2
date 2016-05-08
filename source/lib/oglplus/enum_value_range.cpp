@@ -8,7 +8,7 @@
  */
 
 #include "prologue.inl"
-
+#include "predeclare.inl"
 #include "implement.inl"
 #include <oglplus/enum/value_range.hpp>
 #include "epilogue.inl"

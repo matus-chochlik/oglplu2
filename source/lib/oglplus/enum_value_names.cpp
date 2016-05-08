@@ -8,7 +8,7 @@
  */
 
 #include "prologue.inl"
-
+#include "predeclare.inl"
 #include "implement.inl"
 #include <oglplus/enum/value_names.hpp>
 #include <oglplus/enum/indexed_value_names.hpp>

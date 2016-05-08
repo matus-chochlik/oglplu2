@@ -8,10 +8,9 @@
  */
 
 #include "prologue.inl"
-
+#include "predeclare.inl"
+#include "objects.inl"
 #include "implement.inl"
-#include <oglplus/shapes/init.hpp>
-#include <oglplus/shapes/drawing.hpp>
-#include <oglplus/shapes/adapted_gen.hpp>
+#include "shapes.inl"
 #include "epilogue.inl"
 
