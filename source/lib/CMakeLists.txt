@@ -5,4 +5,5 @@
 
 add_subdirectory("eagine")
 add_subdirectory("oglplus")
+add_subdirectory("oalplus")
 
