@@ -132,7 +132,10 @@ public:
 
 	render_node& renderer(void);
 
-	void set_dimensions(valid_if_positive<int> w, valid_if_positive<int> h);
+	void set_dimensions(
+		eagine::valid_if_positive<int> w,
+		eagine::valid_if_positive<int> h
+	);
 
 	void render(void);
 

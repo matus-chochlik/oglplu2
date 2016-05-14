@@ -42,7 +42,7 @@ public:
 		_new_user_idle = true;
 	}
 
-	bool set_width(valid_if_positive<int> new_width)
+	bool set_width(eagine::valid_if_positive<int> new_width)
 	noexcept
 	{
 		_old_width = _new_width;
@@ -56,7 +56,7 @@ public:
 		return false;
 	}
 
-	bool set_height(valid_if_positive<int> new_height)
+	bool set_height(eagine::valid_if_positive<int> new_height)
 	noexcept
 	{
 		_old_height = _new_height;
@@ -70,7 +70,7 @@ public:
 		return false;
 	}
 
-	bool set_depth(valid_if_positive<int> new_depth)
+	bool set_depth(eagine::valid_if_positive<int> new_depth)
 	noexcept
 	{
 		_old_depth = _new_depth;
@@ -120,8 +120,8 @@ public:
 	}
 
 	bool set_size(
-		valid_if_positive<int> new_width,
-		valid_if_positive<int> new_height
+		eagine::valid_if_positive<int> new_width,
+		eagine::valid_if_positive<int> new_height
 	) noexcept
 	{
 		bool ws = set_width(new_width);

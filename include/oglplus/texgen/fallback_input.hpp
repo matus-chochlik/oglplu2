@@ -59,8 +59,10 @@ public:
 		}
 	}
 
-	bool set_default_value(valid_if_between<unsigned, 0, 3> c, float v)
-	override
+	bool set_default_value(
+		eagine::valid_if_between<unsigned, 0, 3> c,
+		float v
+	) override
 	{
 		return fallback().set_default_value(c.value(), v);
 	}

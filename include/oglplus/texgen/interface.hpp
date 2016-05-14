@@ -11,7 +11,7 @@
 
 #include "data_type.hpp"
 #include "render_params.hpp"
-#include "oglplus/utils/valid_if.hpp"
+#include <eagine/valid_if/between.hpp>
 #include <eagine/optional_ref.hpp>
 #include <cstddef>
 #include <iosfwd>
@@ -120,7 +120,10 @@ struct input_intf
 	output_intf& connected_output(void) = 0;
 
 	virtual
-	bool set_default_value(valid_if_between<unsigned, 0, 3> c, float v) = 0;
+	bool set_default_value(
+		eagine::valid_if_between<unsigned, 0, 3> c,
+		float v
+	) = 0;
 
 	bool set_default(float x)
 	{

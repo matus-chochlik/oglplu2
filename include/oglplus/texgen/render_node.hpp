@@ -15,7 +15,7 @@
 #include "../buffer.hpp"
 #include "../vertex_array.hpp"
 #include "../uniform.hpp"
-#include <oglplus/utils/valid_if.hpp>
+#include <eagine/valid_if/positive.hpp>
 
 namespace oglplus {
 namespace texgen {
@@ -71,13 +71,13 @@ public:
 	bool render(void);
 
 	void set_divisions(
-		valid_if_positive<int> xdiv,
-		valid_if_positive<int> ydiv
+		eagine::valid_if_positive<int> xdiv,
+		eagine::valid_if_positive<int> ydiv
 	);
 
 	void set_dimensions(
-		valid_if_positive<int> width,
-		valid_if_positive<int> height
+		eagine::valid_if_positive<int> width,
+		eagine::valid_if_positive<int> height
 	);
 };
 

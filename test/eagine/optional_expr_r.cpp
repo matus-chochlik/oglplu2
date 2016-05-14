@@ -9,6 +9,7 @@
 #include <boost/test/unit_test.hpp>
 
 #include <eagine/optional_expr.hpp>
+#include <eagine/valid_if/not_zero.hpp>
 #include <cstdlib>
 
 BOOST_AUTO_TEST_SUITE(optional_expr_tests)

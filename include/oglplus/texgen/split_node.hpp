@@ -11,7 +11,6 @@
 
 #include "fallback_input.hpp"
 #include "base_node.hpp"
-#include <eagine/valid_if.hpp>
 
 namespace oglplus {
 namespace texgen {
@@ -26,7 +25,7 @@ public:
 	split_output(
 		node_intf& parent,
 		input_with_const_default<float[4]>& input,
-		valid_if_between<unsigned, 0, 3> index
+		eagine::valid_if_between<unsigned, 0, 3> index
 	);
 
 	cstr_ref type_name(void)

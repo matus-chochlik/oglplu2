@@ -285,7 +285,10 @@ render_node::render(void)
 OGLPLUS_LIB_FUNC
 void
 render_node::
-set_divisions(valid_if_positive<int> xdiv, valid_if_positive<int> ydiv)
+set_divisions(
+	eagine::valid_if_positive<int> xdiv,
+	eagine::valid_if_positive<int> ydiv
+)
 {
 	_xdiv = xdiv.value_or(1);
 	_ydiv = ydiv.value_or(1);
@@ -295,7 +298,10 @@ set_divisions(valid_if_positive<int> xdiv, valid_if_positive<int> ydiv)
 OGLPLUS_LIB_FUNC
 void
 render_node::
-set_dimensions(valid_if_positive<int> width, valid_if_positive<int> height)
+set_dimensions(
+	eagine::valid_if_positive<int> width,
+	eagine::valid_if_positive<int> height
+)
 {
 	_render_params.width = width.value_or(1);
 	_render_params.height = height.value_or(1);

@@ -68,7 +68,10 @@ render_graph::renderer(void)
 OGLPLUS_LIB_FUNC
 void
 render_graph::
-set_dimensions(valid_if_positive<int> w, valid_if_positive<int> h)
+set_dimensions(
+	eagine::valid_if_positive<int> w,
+	eagine::valid_if_positive<int> h
+)
 {
 	renderer().set_dimensions(w, h);
 }

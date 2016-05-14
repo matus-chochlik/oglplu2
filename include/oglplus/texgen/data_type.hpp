@@ -11,7 +11,7 @@
 
 #include "../config/basic.hpp"
 #include "../utils/cstr_ref.hpp"
-#include <eagine/valid_if.hpp>
+#include <eagine/valid_if/between.hpp>
 #include <iosfwd>
 
 namespace oglplus {

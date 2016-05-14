@@ -8,7 +8,7 @@
 #include <oglplus/gl.hpp>
 #include <oglplus/utils/image_file_io.hpp>
 #include <eagine/program_args.hpp>
-#include <eagine/valid_if.hpp>
+#include <eagine/valid_if/not_empty.hpp>
 #include <fstream>
 #include <iostream>
 #include <stdexcept>

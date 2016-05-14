@@ -10,7 +10,8 @@
 #ifndef EAGINE_VALID_OR_THROW_1509260923_HPP
 #define EAGINE_VALID_OR_THROW_1509260923_HPP
 
-#include "valid_if.hpp"
+#include "valid_if/decl.hpp"
+#include "valid_if/in_class.hpp"
 #include <stdexcept>
 #include <sstream>
 

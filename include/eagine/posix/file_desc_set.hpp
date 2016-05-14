@@ -11,7 +11,7 @@
 
 #include "file_descriptor.hpp"
 #include "../optional_ref.hpp"
-#include "../valid_if.hpp"
+#include "../valid_if/decl.hpp"
 #include <sys/types.h>
 #include <sys/time.h>
 #include <unistd.h>

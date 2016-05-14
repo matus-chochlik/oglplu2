@@ -10,7 +10,10 @@
 #ifndef EAGINE_MULTI_BYTE_SEQ_1509260923_HPP
 #define EAGINE_MULTI_BYTE_SEQ_1509260923_HPP
 
-#include "valid_if.hpp"
+#include "valid_if/less_than.hpp"
+#include "valid_if/between.hpp"
+#include "valid_if/not_empty.hpp"
+#include "valid_if/le_size_ge0.hpp"
 #include "types.hpp"
 #include "span.hpp"
 #include <cstdint>

@@ -9,7 +9,7 @@
 #ifndef OGLPLUS_EXAMPLE_ARGS_1512120710_HPP
 #define OGLPLUS_EXAMPLE_ARGS_1512120710_HPP
 
-#include <oglplus/utils/valid_if.hpp>
+#include <eagine/valid_if/not_empty.hpp>
 #include <oglplus/utils/cstr_ref.hpp>
 #include <iosfwd>
 
@@ -45,11 +45,11 @@ template <typename T>
 class example_param;
 
 template <typename T, typename P>
-class example_param<valid_if<T, P>>
+class example_param<eagine::valid_if<T, P>>
  : public example_param_tags
 {
 private:
-	valid_if<T, P> _value;
+	eagine::valid_if<T, P> _value;
 
 	friend class example_args;
 public:
@@ -65,7 +65,8 @@ public:
 	}
 };
 
-typedef example_param<valid_if_not_empty<cstr_ref>> example_string_param;
+typedef example_param<eagine::valid_if_not_empty<cstr_ref>>
+	example_string_param;
 
 class example_arg
 {
