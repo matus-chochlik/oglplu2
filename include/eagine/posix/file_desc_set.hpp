@@ -19,6 +19,55 @@
 namespace eagine {
 namespace posix {
 
+struct fd_set_valid_fd_policy
+{
+	bool operator ()(file_descriptor fd) const
+	noexcept
+	{
+		return	(get_raw_fd(fd) >= 0) &&
+			(get_raw_fd(fd) < FD_SETSIZE);
+	}
+
+	struct do_log
+	{
+		do_log(const fd_set_valid_fd_policy&)
+		noexcept
+		{ }
+
+		template <typename Log>
+		void operator ()(Log& log, file_descriptor fd) const
+		{
+			if(get_raw_fd(fd) < 0)
+			{
+				log	<< "File descriptor value "
+					<< get_raw_fd(fd)
+					<< " (less than zero)"
+					<< " is invalid.";
+			}
+			else
+			{
+				log	<< "File descriptor value "
+					<< get_raw_fd(fd)
+					<< " (not less than FD_SETSIZE)"
+					<< " is invalid.";
+			}
+		}
+	};
+
+	struct abort
+	{
+		[[noreturn]]
+		void operator ()(void) const
+		noexcept
+		{
+			EAGINE_ABORT(
+				"File descriptor value not between "
+				"0 and FD_SETSIZE"
+			);
+		}
+	};
+};
+
 class file_descriptor_set
 {
 private:
@@ -37,56 +86,8 @@ private:
 		}
 	}
 
-	struct _valid_fd_policy
-	{
-		bool operator ()(file_descriptor fd) const
-		noexcept
-		{
-			return	(get_raw_fd(fd) >= 0) &&
-				(get_raw_fd(fd) < FD_SETSIZE);
-		}
-
-		struct do_log
-		{
-			do_log(const _valid_fd_policy&)
-			noexcept
-			{ }
-
-			template <typename Log>
-			void operator ()(Log& log, file_descriptor fd) const
-			{
-				if(get_raw_fd(fd) < 0)
-				{
-					log	<< "File descriptor value "
-						<< get_raw_fd(fd)
-						<< " (less than zero)"
-						<< " is invalid.";
-				}
-				else
-				{
-					log	<< "File descriptor value "
-						<< get_raw_fd(fd)
-						<< " (not less than FD_SETSIZE)"
-						<< " is invalid.";
-				}
-			}
-		};
-
-		struct abort
-		{
-			[[noreturn]]
-			void operator ()(void) const
-			noexcept
-			{
-				EAGINE_ABORT(
-				"File descriptor value not between "
-				"0 and FD_SETSIZE"
-				);
-			}
-		};
-	};
 public:
-	typedef valid_if<file_descriptor, _valid_fd_policy>
+	typedef valid_if<file_descriptor, fd_set_valid_fd_policy>
 		valid_file_descriptor;
 
 	file_descriptor_set(void)
