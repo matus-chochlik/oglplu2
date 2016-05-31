@@ -93,7 +93,7 @@ public:
 	bitfield operator | (bitfield a, bitfield b)
 	noexcept
 	{
-		return bitfield{a._bits | b._bits};
+		return bitfield(BF(a._bits)|BF(b._bits));
 	}
 
 	bitfield& operator |= (bitfield b)
