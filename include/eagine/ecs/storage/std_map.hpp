@@ -12,9 +12,75 @@
 #include "../storage.hpp"
 #include <set>
 #include <map>
+#include <cassert>
 
 namespace eagine {
 namespace ecs {
+
+template <typename Entity, typename Component>
+class std_map_storage;
+
+template <typename Entity, typename Component>
+class std_map_storage_iterator
+ : public storage_iterator_intf<Entity>
+{
+private:
+	typedef typename std::map<Entity, Component> _map_t;
+	typedef typename _map_t::iterator _iter_t;
+	_map_t* _map;
+	_iter_t _i;
+
+	friend class std_map_storage<Entity, Component>;
+public:
+	std_map_storage_iterator(_map_t& m)
+	noexcept
+	 : _map(&m)
+	 , _i(m.begin())
+	{
+		assert(_map);
+	}
+
+	void reset(void)
+	override
+	{
+		assert(_map);
+		_i = _map->begin();
+	}
+
+	bool done(void)
+	override
+	{
+		assert(_map);
+		return _i == _map->end();
+	}
+
+	void next(void)
+	override
+	{
+		assert(!done());
+		++_i;
+	}
+
+	bool find(Entity e)
+	override
+	{
+		if(done()) return false;
+		if(e == _i->first) return true;
+		if(e <  _i->first) return false;
+
+		while(++_i != _map->end())
+		{
+			if(_i->first == e) return true;
+		}
+		return false;
+	}
+
+	Entity current(void)
+	override
+	{
+		return _i->first;
+	}
+};
 
 template <typename Entity, typename Component>
 class std_map_storage
@@ -24,8 +90,16 @@ private:
 	std::pair<Entity, Component> _p_t;
 	std::map<Entity, Component> _components;
 	std::set<Entity> _hidden;
+
+	typedef std_map_storage_iterator<Entity, Component> _map_iter_t;
+	_map_iter_t& _iter_cast(storage_iterator<Entity>& i)
+	{
+		assert(dynamic_cast<_map_iter_t*>(i.ptr()) != nullptr);
+		return *static_cast<_map_iter_t*>(i.ptr());
+	}
 public:
 	typedef entity_param_t<Entity> entity_param;
+	typedef storage_iterator<Entity> iterator_t;
 
 	storage_caps capabilities(void)
 	override
@@ -38,6 +112,18 @@ public:
 		};
 	}
 
+	iterator_t new_iterator(void)
+	override
+	{
+		return iterator_t(new _map_iter_t(_components));
+	}
+
+	void delete_iterator(iterator_t&& i)
+	override
+	{
+		delete i.release();
+	}
+
 	bool has(entity_param e)
 	override
 	{
@@ -48,6 +134,12 @@ public:
 	override
 	{
 		return _hidden.find(e) != _hidden.end();
+	}
+
+	bool is_hidden(iterator_t& i)
+	override
+	{
+		return is_hidden(_iter_cast(i)._i->first);
 	}
 
 	bool hide(entity_param e)
@@ -97,6 +189,21 @@ public:
 		return false;
 	}
 
+	bool read_with(
+		iterator_t& i,
+		callable_ref<bool(entity_param, const Component&)> f
+	) override
+	{
+		assert(!i.done());
+		auto p = _iter_cast(i)._i;
+		assert(p != _components.end());
+		if(!is_hidden(p->first))
+		{
+			return f(p->first, p->second);
+		}
+		return false;
+	}
+
 	bool modify_with(
 		entity_param e,
 		callable_ref<bool(entity_param, Component&)> f
@@ -111,6 +218,30 @@ public:
 			}
 		}
 		return false;
+	}
+
+	void read_each_with(callable_ref<bool(entity_param,const Component&)> f)
+	override
+	{
+		for(auto& p : _components)
+		{
+			if(!is_hidden(p.first))
+			{
+				f(p.first, p.second);
+			}
+		}
+	}
+
+	void modify_each_with(callable_ref<bool(entity_param, Component&)>f)
+	override
+	{
+		for(auto& p : _components)
+		{
+			if(!is_hidden(p.first))
+			{
+				f(p.first, p.second);
+			}
+		}
 	}
 };
 
