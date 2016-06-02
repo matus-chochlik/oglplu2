@@ -168,38 +168,34 @@ struct component_storage
 	bool store(entity_param, Component&&) = 0;
 
 	virtual
-	bool read_with(
-		entity_param,
-		callable_ref<bool(entity_param, const Component&)>
+	bool apply_to(
+		callable_ref<bool(entity_param, const Component&)>,
+		entity_param
 	) = 0;
 
 	virtual
-	bool read_with(
-		iterator_t&,
-		callable_ref<bool(entity_param, const Component&)>
+	bool apply_to(
+		callable_ref<bool(entity_param, const Component&)>,
+		iterator_t&
 	) = 0;
 
 	virtual
-	bool modify_with(
-		entity_param,
-		callable_ref<bool(entity_param, Component&)>
+	bool apply_to(
+		callable_ref<bool(entity_param, Component&)>,
+		entity_param
 	) = 0;
 
 	virtual
-	bool modify_with(
-		iterator_t&,
-		callable_ref<bool(entity_param, Component&)>
+	bool apply_to(
+		callable_ref<bool(entity_param, Component&)>,
+		iterator_t&
 	) = 0;
 
 	virtual
-	void read_each_with(
-		callable_ref<bool(entity_param, const Component&)>
-	) = 0;
+	void for_each(callable_ref<bool(entity_param, const Component&)>) = 0;
 
 	virtual
-	void modify_each_with(
-		callable_ref<bool(entity_param, Component&)>
-	) = 0;
+	void for_each(callable_ref<bool(entity_param, Component&)>) = 0;
 };
 
 } // namespace ecs

@@ -195,9 +195,9 @@ public:
 		return true;
 	}
 
-	bool read_with(
-		entity_param e,
-		callable_ref<bool(entity_param, const Component&)> f
+	bool apply_to(
+		callable_ref<bool(entity_param, const Component&)> f,
+		entity_param e
 	) override
 	{
 		auto p = _components.find(e);
@@ -211,9 +211,9 @@ public:
 		return false;
 	}
 
-	bool read_with(
-		iterator_t& i,
-		callable_ref<bool(entity_param, const Component&)> f
+	bool apply_to(
+		callable_ref<bool(entity_param, const Component&)> f,
+		iterator_t& i
 	) override
 	{
 		assert(!i.done());
@@ -226,9 +226,9 @@ public:
 		return false;
 	}
 
-	bool modify_with(
-		entity_param e,
-		callable_ref<bool(entity_param, Component&)> f
+	bool apply_to(
+		callable_ref<bool(entity_param, Component&)> f,
+		entity_param e
 	) override
 	{
 		auto p = _components.find(e);
@@ -243,9 +243,9 @@ public:
 		return false;
 	}
 
-	bool modify_with(
-		iterator_t& i,
-		callable_ref<bool(entity_param, Component&)> f
+	bool apply_to(
+		callable_ref<bool(entity_param, Component&)> f,
+		iterator_t& i
 	) override
 	{
 		assert(!i.done());
@@ -259,7 +259,7 @@ public:
 		return false;
 	}
 
-	void read_each_with(callable_ref<bool(entity_param,const Component&)> f)
+	void for_each(callable_ref<bool(entity_param,const Component&)> f)
 	override
 	{
 		for(auto& p : _components)
@@ -271,7 +271,7 @@ public:
 		}
 	}
 
-	void modify_each_with(callable_ref<bool(entity_param, Component&)>f)
+	void for_each(callable_ref<bool(entity_param, Component&)>f)
 	override
 	{
 		for(auto& p : _components)
