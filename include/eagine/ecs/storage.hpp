@@ -145,7 +145,13 @@ struct base_storage
 	bool hide(entity_param) = 0;
 
 	virtual
+	void hide(iterator_t&) = 0;
+
+	virtual
 	bool show(entity_param) = 0;
+
+	virtual
+	bool show(iterator_t&) = 0;
 
 	virtual
 	bool erase(entity_param) = 0;
@@ -176,6 +182,12 @@ struct component_storage
 	virtual
 	bool modify_with(
 		entity_param,
+		callable_ref<bool(entity_param, Component&)>
+	) = 0;
+
+	virtual
+	bool modify_with(
+		iterator_t&,
 		callable_ref<bool(entity_param, Component&)>
 	) = 0;
 

@@ -92,10 +92,18 @@ private:
 	std::set<Entity> _hidden;
 
 	typedef std_map_storage_iterator<Entity, Component> _map_iter_t;
+
 	_map_iter_t& _iter_cast(storage_iterator<Entity>& i)
+	noexcept
 	{
 		assert(dynamic_cast<_map_iter_t*>(i.ptr()) != nullptr);
 		return *static_cast<_map_iter_t*>(i.ptr());
+	}
+
+	Entity _iter_entity(storage_iterator<Entity>& i)
+	noexcept
+	{
+		return _iter_cast(i)._i->first;
 	}
 public:
 	typedef entity_param_t<Entity> entity_param;
@@ -139,7 +147,8 @@ public:
 	bool is_hidden(iterator_t& i)
 	override
 	{
-		return is_hidden(_iter_cast(i)._i->first);
+		assert(!i.done());
+		return is_hidden(_iter_entity(i));
 	}
 
 	bool hide(entity_param e)
@@ -153,10 +162,23 @@ public:
 		return false;
 	}
 
+	void hide(iterator_t& i)
+	override
+	{
+		assert(!i.done());
+		_hidden.insert(_iter_entity(i));
+	}
+
 	bool show(entity_param e)
 	override
 	{
 		return _hidden.erase(e) > 0;
+	}
+
+	bool show(iterator_t& i)
+	override
+	{
+		return _hidden.erase(_iter_entity(i)) > 0;
 	}
 
 	bool erase(entity_param e)
@@ -214,8 +236,25 @@ public:
 		{
 			if(!is_hidden(e))
 			{
+				// TODO: modify notification
 				return f(p->first, p->second);
 			}
+		}
+		return false;
+	}
+
+	bool modify_with(
+		iterator_t& i,
+		callable_ref<bool(entity_param, Component&)> f
+	) override
+	{
+		assert(!i.done());
+		auto p = _iter_cast(i)._i;
+		assert(p != _components.end());
+		if(!is_hidden(p->first))
+		{
+			// TODO: modify notification
+			return f(p->first, p->second);
 		}
 		return false;
 	}
