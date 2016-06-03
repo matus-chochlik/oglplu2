@@ -1,0 +1,107 @@
+/**
+ *  @file eagine/ecs/manager.hpp
+ *
+ *  Copyright Matus Chochlik.
+ *  Distributed under the Boost Software License, Version 1.0.
+ *  See accompanying file LICENSE_1_0.txt or copy at
+ *   http://www.boost.org/LICENSE_1_0.txt
+ */
+#ifndef EAGINE_ECS_MANAGER_1509260923_HPP
+#define EAGINE_ECS_MANAGER_1509260923_HPP
+
+#include "component.hpp"
+#include "storage.hpp"
+#include "entity_traits.hpp"
+#include "../type_traits.hpp"
+#include "../type_name.hpp"
+#include <memory>
+
+namespace eagine {
+namespace ecs {
+
+template <typename Entity>
+class manager
+{
+private:
+	typedef base_storage<Entity> _base_storage_t;
+	typedef std::unique_ptr<_base_storage_t> _base_storage_ptr_t;
+
+	component_uid_map<_base_storage_ptr_t> _storages;
+
+	template <typename C>
+	using _bare_t = std::remove_const_t<std::remove_reference_t<C>>;
+
+	template <typename C>
+	static std::string (*_cmp_name_getter(void))(void)
+	{
+		return &type_name<C>;
+	}
+
+	template <typename C>
+	component_storage<Entity, C>& _find_storage(void);
+
+	void _do_reg_cmp_type(
+		std::unique_ptr<base_storage<Entity>>&&,
+		component_uid_t,
+		std::string(*)(void)
+	);
+
+	void _do_unr_cmp_type(component_uid_t, std::string(*)(void));
+
+	bool _does_know_cmp_type(component_uid_t) const;
+public:
+	manager(void) = default;
+
+	template <typename Component>
+	void register_component_type(
+		std::unique_ptr<
+			component_storage<Entity, Component>
+		>&& storage
+	)
+	{
+		_do_reg_cmp_type(
+			_base_storage_ptr_t(std::move(storage)),
+			get_component_uid<Component>(),
+			_cmp_name_getter<Component>()
+		);
+	}
+
+	template <
+		template <class, class> class Storage,
+		typename Component,
+		typename ... P
+	>
+	void register_component_storage(P&& ... p)
+	{
+		register_component_type<Component>(
+			std::unique_ptr<Storage<Entity, Component>>(
+				new Storage<Entity, Component>(
+					std::forward<P>(p)...
+				)
+			)
+		);
+	}
+
+	template <typename Component>
+	void unregister_component_type(void)
+	{
+		_do_unr_cmp_type(
+			get_component_uid<Component>(),
+			_cmp_name_getter<Component>()
+		);
+	}
+
+	template <typename Component>
+	bool knows_component_type(void) const
+	{
+		return _does_know_cmp_type(get_component_uid<Component>());
+	}
+};
+
+} // namespace ecs
+} // namespace eagine
+
+#include <eagine/ecs/manager.inl>
+
+#endif //include guard
+
