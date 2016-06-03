@@ -11,23 +11,41 @@
 #define EAGINE_STR_VAR_SUBST_1509260923_HPP
 
 #include "config/basic.hpp"
+#include "callable_ref.hpp"
+#include "span.hpp"
 #include <cassert>
 #include <string>
+#include <vector>
 #include <map>
-#include <functional>
 
 namespace eagine {
 
 std::string
 substitute_variables(
 	const std::string& str,
-	const std::function<std::string(const std::string&)>& translate
+	const callable_ref<std::string(const std::string&)>& translate,
+	bool keep_untranslated = false
 );
 
 std::string
 substitute_variables(
 	const std::string& str,
-	const std::map<std::string, std::string>& dictionary
+	span<const std::string> strings,
+	bool keep_untranslated = false
+);
+
+inline
+std::string
+substitute_variables(
+	const std::string& str,
+	const std::vector<std::string>& strings
+) { return substitute_variables(str, span<const std::string>{strings}); }
+
+std::string
+substitute_variables(
+	const std::string& str,
+	const std::map<std::string, std::string>& dictionary,
+	bool keep_untranslated = false
 );
 
 class string_variable_map
