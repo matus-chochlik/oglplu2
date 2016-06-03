@@ -49,6 +49,28 @@ private:
 	void _do_unr_cmp_type(component_uid_t, std::string(*)(void));
 
 	bool _does_know_cmp_type(component_uid_t) const;
+
+	template <typename Result, typename Func>
+	Result _apply_on_base_stg(
+		Result,
+		const Func&,
+		component_uid_t,
+		std::string(*)(void)
+	) const;
+
+	template <typename C, typename Result, typename Func>
+	Result _apply_on_cmp_stg(Result, const Func&) const;
+
+	storage_caps _get_cmp_type_caps(
+		component_uid_t,
+		std::string(*)(void)
+	) const;
+
+	bool _does_have(
+		const Entity&,
+		component_uid_t,
+		std::string(*)(void)
+	);
 public:
 	manager(void) = default;
 
@@ -95,6 +117,34 @@ public:
 	bool knows_component_type(void) const
 	{
 		return _does_know_cmp_type(get_component_uid<Component>());
+	}
+
+	template <typename Component>
+	storage_caps component_storage_caps(void) const
+	{
+		return _get_cmp_type_caps(
+			get_component_uid<Component>(),
+			_cmp_name_getter<Component>()
+		);
+	}
+
+	template <typename Component>
+	bool component_storage_can(storage_cap_bit cap) const
+	{
+		return _get_cmp_type_caps(
+			get_component_uid<Component>(),
+			_cmp_name_getter<Component>()
+		).has(cap);
+	}
+
+	template <typename Component>
+	bool has(const Entity& ent)
+	{
+		return _does_have(
+			ent,
+			get_component_uid<Component>(),
+			_cmp_name_getter<Component>()
+		);
 	}
 };
 

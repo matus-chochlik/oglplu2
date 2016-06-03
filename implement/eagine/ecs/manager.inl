@@ -140,5 +140,86 @@ _does_know_cmp_type(component_uid_t cid) const
 	}
 }
 //------------------------------------------------------------------------------
+template <typename Entity>
+template <typename Result, typename Func>
+inline Result
+manager<Entity>::
+_apply_on_base_stg(
+	Result fallback,
+	const Func& func,
+	component_uid_t cid,
+	std::string(*get_name)(void)
+) const
+{
+	auto p_storage = _storages.find(cid);
+
+	if(p_storage != _storages.end())
+	{
+		auto& bs_storage = *p_storage;
+		if(bs_storage)
+		{
+			return func(bs_storage);
+		}
+	}
+	detail::mgr_handle_cmp_not_reg(get_name());
+	return fallback;
+}
+//------------------------------------------------------------------------------
+template <typename Entity>
+template <typename Component, typename Result, typename Func>
+inline Result
+manager<Entity>::
+_apply_on_cmp_stg(Result fallback, const Func& func) const
+{
+	return _apply_on_base_stg(
+		fallback,
+		[&func](auto& b_storage) -> Result
+		{
+			typedef component_storage<Entity, Component> cs_t;
+
+			cs_t* ct_storage = dynamic_cast<cs_t*>(b_storage.get());
+			assert(ct_storage);
+
+			return func(ct_storage);
+		},
+		get_component_uid<Component>(),
+		_cmp_name_getter<Component>()
+	);
+}
+//------------------------------------------------------------------------------
+template <typename Entity>
+inline storage_caps
+manager<Entity>::
+_get_cmp_type_caps(component_uid_t cid, std::string(*get_name)(void)) const
+{
+	return _apply_on_base_stg(
+		storage_caps(),
+		[](auto& b_storage) -> storage_caps
+		{
+			return b_storage->capabilities();
+		},
+		cid, get_name
+	);
+}
+//------------------------------------------------------------------------------
+template <typename Entity>
+inline bool
+manager<Entity>::
+_does_have(
+	const Entity& ent,
+	component_uid_t cid,
+	std::string(*get_name)(void)
+)
+{
+	return _apply_on_base_stg(
+		false,
+		[&ent](auto& b_storage) -> bool
+		{
+			return b_storage->has(ent);
+		},
+		cid, get_name
+	);
+}
+//------------------------------------------------------------------------------
 } // namespace ecs
 } // namespace eagine
