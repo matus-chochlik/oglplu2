@@ -18,9 +18,11 @@ enum class storage_cap_bit
  : unsigned short
 {
 	hide   = 1 << 0,
-	erase  = 1 << 1,
-	store  = 1 << 2,
-	modify = 1 << 3
+	copy   = 1 << 1,
+	swap   = 1 << 2,
+	store  = 1 << 3,
+	remove = 1 << 4,
+	modify = 1 << 5
 };
 
 static inline
@@ -49,10 +51,22 @@ public:
 		return has(storage_cap_bit::hide);
 	}
 
-	bool can_erase(void) const
+	bool can_copy(void) const
 	noexcept
 	{
-		return has(storage_cap_bit::erase);
+		return has(storage_cap_bit::hide);
+	}
+
+	bool can_swap(void) const
+	noexcept
+	{
+		return has(storage_cap_bit::hide);
+	}
+
+	bool can_remove(void) const
+	noexcept
+	{
+		return has(storage_cap_bit::remove);
 	}
 
 	bool can_store(void) const

@@ -205,7 +205,7 @@ template <typename Entity>
 inline bool
 manager<Entity>::
 _does_have(
-	const Entity& ent,
+	entity_param_t<Entity> ent,
 	component_uid_t cid,
 	std::string(*get_name)(void)
 )
@@ -224,7 +224,7 @@ template <typename Entity>
 inline bool
 manager<Entity>::
 _is_hidn(
-	const Entity& ent,
+	entity_param_t<Entity> ent,
 	component_uid_t cid,
 	std::string(*get_name)(void)
 )
@@ -243,7 +243,7 @@ template <typename Entity>
 inline bool
 manager<Entity>::
 _do_show(
-	const Entity& ent,
+	entity_param_t<Entity> ent,
 	component_uid_t cid,
 	std::string(*get_name)(void)
 )
@@ -262,7 +262,7 @@ template <typename Entity>
 inline bool
 manager<Entity>::
 _do_hide(
-	const Entity& ent,
+	entity_param_t<Entity> ent,
 	component_uid_t cid,
 	std::string(*get_name)(void)
 )
@@ -281,7 +281,7 @@ template <typename Entity>
 template <typename Component>
 inline bool
 manager<Entity>::
-_do_add(const Entity& ent, Component&& component)
+_do_add(entity_param_t<Entity> ent, Component&& component)
 {
 	return _apply_on_cmp_stg<Component>(
 		false,
@@ -290,6 +290,66 @@ _do_add(const Entity& ent, Component&& component)
 			c_storage->store(ent, std::move(component));
 			return true;
 		}
+	);
+}
+//------------------------------------------------------------------------------
+template <typename Entity>
+inline bool
+manager<Entity>::
+_do_cpy(
+	entity_param_t<Entity> from,
+	entity_param_t<Entity> to,
+	component_uid_t cid,
+	std::string(*get_name)(void)
+)
+{
+	return _apply_on_base_stg(
+		false,
+		[&from, &to](auto& b_storage) -> bool
+		{
+			return b_storage->copy(to, from);
+		},
+		cid, get_name
+	);
+}
+//------------------------------------------------------------------------------
+template <typename Entity>
+inline bool
+manager<Entity>::
+_do_swp(
+	entity_param_t<Entity> e1,
+	entity_param_t<Entity> e2,
+	component_uid_t cid,
+	std::string(*get_name)(void)
+)
+{
+	return _apply_on_base_stg(
+		false,
+		[&e1, &e2](auto& b_storage) -> bool
+		{
+			b_storage->swap(e1, e2);
+			return true;
+		},
+		cid, get_name
+	);
+}
+//------------------------------------------------------------------------------
+template <typename Entity>
+inline bool
+manager<Entity>::
+_do_rem(
+	entity_param_t<Entity> ent,
+	component_uid_t cid,
+	std::string(*get_name)(void)
+)
+{
+	return _apply_on_base_stg(
+		false,
+		[&ent](auto& b_storage) -> bool
+		{
+			return b_storage->remove(ent);
+		},
+		cid, get_name
 	);
 }
 //------------------------------------------------------------------------------

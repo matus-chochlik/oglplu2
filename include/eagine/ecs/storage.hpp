@@ -154,7 +154,13 @@ struct base_storage
 	bool show(iterator_t&) = 0;
 
 	virtual
-	bool erase(entity_param) = 0;
+	bool copy(entity_param from, entity_param to) = 0;
+
+	virtual
+	bool swap(entity_param a, entity_param b) = 0;
+
+	virtual
+	bool remove(entity_param) = 0;
 };
 
 template <typename Entity, typename Component>

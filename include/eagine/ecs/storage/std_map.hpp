@@ -114,7 +114,7 @@ public:
 	{
 		return storage_caps{
 			storage_cap_bit::hide|
-			storage_cap_bit::erase|
+			storage_cap_bit::remove|
 			storage_cap_bit::store|
 			storage_cap_bit::modify
 		};
@@ -181,7 +181,46 @@ public:
 		return _hidden.erase(_iter_entity(i)) > 0;
 	}
 
-	bool erase(entity_param e)
+	bool copy(entity_param ef, entity_param et)
+	override
+	{
+		if(is_hidden(ef)) return false;
+		auto pf = _components.find(ef);
+		if(pf == _components.end()) return false;
+		return store(et, Component(pf->second));
+	}
+
+	bool swap(entity_param ea, entity_param eb)
+	override
+	{
+		auto pa = _components.find(ea);
+		auto pb = _components.find(eb);
+		bool ha = is_hidden(ea);
+		bool hb = is_hidden(eb);
+
+		if(pa != _components.end() && pb != _components.end())
+		{
+			using std::swap;
+			swap(pa->second, pb->second);
+			if(ha && !hb) show(ea);
+			if(hb && !ha) show(eb);
+		}
+		else if(pa != _components.end())
+		{
+			store(eb, std::move(pa->second));
+			remove(ea);
+			if(ha) hide(eb);
+		}
+		else if(pb != _components.end())
+		{
+			store(ea, std::move(pb->second));
+			remove(eb);
+			if(hb) hide(ea);
+		}
+		return true;
+	}
+
+	bool remove(entity_param e)
 	override
 	{
 		_hidden.erase(e);
@@ -191,6 +230,7 @@ public:
 	bool store(entity_param e, Component&& c)
 	override
 	{
+		_hidden.erase(e);
 		_components.emplace(e, std::move(c));
 		return true;
 	}

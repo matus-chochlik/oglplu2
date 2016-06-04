@@ -22,6 +22,8 @@ namespace ecs {
 template <typename Entity>
 class manager
 {
+public:
+	typedef entity_param_t<Entity> entity_param;
 private:
 	typedef base_storage<Entity> _base_storage_t;
 	typedef std::unique_ptr<_base_storage_t> _base_storage_ptr_t;
@@ -83,32 +85,53 @@ private:
 	) const;
 
 	bool _does_have(
-		const Entity&,
+		entity_param,
 		component_uid_t,
 		std::string(*)(void)
 	);
 
 	bool _is_hidn(
-		const Entity&,
+		entity_param,
 		component_uid_t,
 		std::string(*)(void)
 	);
 
 	bool _do_show(
-		const Entity&,
+		entity_param,
 		component_uid_t,
 		std::string(*)(void)
 	);
 
 	bool _do_hide(
-		const Entity&,
+		entity_param,
 		component_uid_t,
 		std::string(*)(void)
 	);
 
 	template <typename Component>
-	bool _do_add(const Entity&, Component&& component);
+	bool _do_add(entity_param, Component&& component);
+
+	bool _do_cpy(
+		entity_param f,
+		entity_param t,
+		component_uid_t,
+		std::string(*)(void)
+	);
+
+	bool _do_swp(
+		entity_param f,
+		entity_param t,
+		component_uid_t,
+		std::string(*)(void)
+	);
+
+	bool _do_rem(
+		entity_param,
+		component_uid_t,
+		std::string(*)(void)
+	);
 public:
+
 	manager(void) = default;
 
 	template <typename Component>
@@ -175,7 +198,7 @@ public:
 	}
 
 	template <typename Component>
-	bool has(const Entity& ent)
+	bool has(entity_param ent)
 	{
 		return _does_have(
 			ent,
@@ -185,7 +208,7 @@ public:
 	}
 
 	template <typename Component>
-	bool hidden(const Entity& ent)
+	bool hidden(entity_param ent)
 	{
 		return _is_hidn(
 			ent,
@@ -195,7 +218,7 @@ public:
 	}
 
 	template <typename ... Component>
-	manager& show(const Entity& ent)
+	manager& show(entity_param ent)
 	{
 		_eat(_do_show(
 			ent,
@@ -206,7 +229,7 @@ public:
 	}
 
 	template <typename ... Component>
-	manager& hide(const Entity& ent)
+	manager& hide(entity_param ent)
 	{
 		_eat(_do_hide(
 			ent,
@@ -217,9 +240,44 @@ public:
 	}
 
 	template <typename ... C>
-	manager& add(const Entity& ent, C&& ... components)
+	manager& add(entity_param ent, C&& ... components)
 	{
 		_eat(_do_add(ent, std::move(components))...);
+		return *this;
+	}
+
+	template <typename ... C>
+	manager& copy(entity_param from, entity_param to)
+	{
+		_eat(_do_cpy(
+			from,
+			to,
+			get_component_uid<C>(),
+			_cmp_name_getter<C>()
+		)...);
+		return *this;
+	}
+
+	template <typename ... C>
+	manager& swap(entity_param e1, entity_param e2)
+	{
+		_eat(_do_swp(
+			e1,
+			e2,
+			get_component_uid<C>(),
+			_cmp_name_getter<C>()
+		)...);
+		return *this;
+	}
+
+	template <typename ... C>
+	manager& remove(entity_param ent)
+	{
+		_eat(_do_rem(
+			ent,
+			get_component_uid<C>(),
+			_cmp_name_getter<C>()
+		)...);
 		return *this;
 	}
 };
