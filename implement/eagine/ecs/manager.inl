@@ -8,6 +8,11 @@
  */
 #include <eagine/assert.hpp>
 
+#if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)
+#include <eagine/str_format.hpp>
+#include <stdexcept>
+#endif
+
 namespace eagine {
 namespace ecs {
 //------------------------------------------------------------------------------
@@ -16,37 +21,31 @@ namespace detail {
 //------------------------------------------------------------------------------
 [[noreturn]]
 EAGINE_LIB_FUNC
-void mgr_handle_cmp_is_reg(const std::string& /*c_name*/)
+void mgr_handle_cmp_is_reg(std::string&& c_name)
 {
-	throw std::runtime_error("Component type is already registered");
-	/* TODO
-	throw std::runtime_error((
-		format(translate("Component type '{1}' is already registered"))
-		% c_name.c_str()
-	).str());
-	*/
+	throw std::runtime_error(
+		format("Component type '${1}' is already registered")
+		% std::move(c_name)
+	);
 }
 //------------------------------------------------------------------------------
 [[noreturn]]
 EAGINE_LIB_FUNC
-void mgr_handle_cmp_not_reg(const std::string& /*c_name*/)
+void mgr_handle_cmp_not_reg(std::string&& c_name)
 {
-	throw std::runtime_error("Component type is not registered");
-	/* TODO
-	throw std::runtime_error((
-		format(translate("Component type '{1}' is not registered"))
-		% c_name.c_str()
-	).str());
-	*/
+	throw std::runtime_error(
+		format("Component type '${1}' is not registered")
+		% std::move(c_name)
+	);
 }
 //------------------------------------------------------------------------------
 #else
 //------------------------------------------------------------------------------
 [[noreturn]]
-void mgr_handle_cmp_is_reg(const std::string&);
+void mgr_handle_cmp_is_reg(std::string&&);
 //------------------------------------------------------------------------------
 [[noreturn]]
-void mgr_handle_cmp_not_reg(const std::string&);
+void mgr_handle_cmp_not_reg(std::string&&);
 //------------------------------------------------------------------------------
 #endif
 } // namespace detail
@@ -218,6 +217,79 @@ _does_have(
 			return b_storage->has(ent);
 		},
 		cid, get_name
+	);
+}
+//------------------------------------------------------------------------------
+template <typename Entity>
+inline bool
+manager<Entity>::
+_is_hidn(
+	const Entity& ent,
+	component_uid_t cid,
+	std::string(*get_name)(void)
+)
+{
+	return _apply_on_base_stg(
+		false,
+		[&ent](auto& b_storage) -> bool
+		{
+			return b_storage->hidden(ent);
+		},
+		cid, get_name
+	);
+}
+//------------------------------------------------------------------------------
+template <typename Entity>
+inline bool
+manager<Entity>::
+_do_show(
+	const Entity& ent,
+	component_uid_t cid,
+	std::string(*get_name)(void)
+)
+{
+	return _apply_on_base_stg(
+		false,
+		[&ent](auto& b_storage) -> bool
+		{
+			return b_storage->show(ent);
+		},
+		cid, get_name
+	);
+}
+//------------------------------------------------------------------------------
+template <typename Entity>
+inline bool
+manager<Entity>::
+_do_hide(
+	const Entity& ent,
+	component_uid_t cid,
+	std::string(*get_name)(void)
+)
+{
+	return _apply_on_base_stg(
+		false,
+		[&ent](auto& b_storage) -> bool
+		{
+			return b_storage->hide(ent);
+		},
+		cid, get_name
+	);
+}
+//------------------------------------------------------------------------------
+template <typename Entity>
+template <typename Component>
+inline bool
+manager<Entity>::
+_do_add(const Entity& ent, Component&& component)
+{
+	return _apply_on_cmp_stg<Component>(
+		false,
+		[&ent, &component](auto& c_storage) -> bool
+		{
+			c_storage->store(ent, std::move(component));
+			return true;
+		}
 	);
 }
 //------------------------------------------------------------------------------

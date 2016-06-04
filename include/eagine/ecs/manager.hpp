@@ -31,6 +31,22 @@ private:
 	template <typename C>
 	using _bare_t = std::remove_const_t<std::remove_reference_t<C>>;
 
+	template <typename ... P>
+	static inline void _eat(P ...) { }
+
+	static constexpr inline
+	unsigned _count_true(void)
+	{
+		return 0;
+	}
+
+	template <typename T, typename ... P>
+	static constexpr unsigned
+	_count_true(T v, P ... p)
+	{
+		return (bool(v)?1:0)+_count_true(p...);
+	}
+
 	template <typename C>
 	static std::string (*_cmp_name_getter(void))(void)
 	{
@@ -71,6 +87,27 @@ private:
 		component_uid_t,
 		std::string(*)(void)
 	);
+
+	bool _is_hidn(
+		const Entity&,
+		component_uid_t,
+		std::string(*)(void)
+	);
+
+	bool _do_show(
+		const Entity&,
+		component_uid_t,
+		std::string(*)(void)
+	);
+
+	bool _do_hide(
+		const Entity&,
+		component_uid_t,
+		std::string(*)(void)
+	);
+
+	template <typename Component>
+	bool _do_add(const Entity&, Component&& component);
 public:
 	manager(void) = default;
 
@@ -145,6 +182,45 @@ public:
 			get_component_uid<Component>(),
 			_cmp_name_getter<Component>()
 		);
+	}
+
+	template <typename Component>
+	bool hidden(const Entity& ent)
+	{
+		return _is_hidn(
+			ent,
+			get_component_uid<Component>(),
+			_cmp_name_getter<Component>()
+		);
+	}
+
+	template <typename ... Component>
+	manager& show(const Entity& ent)
+	{
+		_eat(_do_show(
+			ent,
+			get_component_uid<Component>(),
+			_cmp_name_getter<Component>()
+		)...);
+		return *this;
+	}
+
+	template <typename ... Component>
+	manager& hide(const Entity& ent)
+	{
+		_eat(_do_hide(
+			ent,
+			get_component_uid<Component>(),
+			_cmp_name_getter<Component>()
+		)...);
+		return *this;
+	}
+
+	template <typename ... C>
+	manager& add(const Entity& ent, C&& ... components)
+	{
+		_eat(_do_add(ent, std::move(components))...);
+		return *this;
 	}
 };
 
