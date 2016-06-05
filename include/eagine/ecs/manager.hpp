@@ -140,6 +140,9 @@ private:
 	template <typename ... C, typename Func>
 	void _call_for_each_m_p(const Func&);
 
+	template <typename ... C, typename Func>
+	void _call_for_each_m_r(const Func&);
+
 	template <typename T, typename C>
 	T _do_get(T C::*, entity_param, T);
 public:
@@ -364,6 +367,23 @@ public:
 	manager& for_each_ptr(const Func& func)
 	{
 		callable_ref<void(entity_param, C*...)> wrap(func);
+		return for_each<C...>(wrap);
+	}
+
+	template <typename ... C>
+	std::enable_if_t<(sizeof ... (C) > 1), manager&>
+	for_each(
+		const callable_ref<void(entity_param, C&...)>& func
+	)
+	{
+		_call_for_each_m_r<C...>(func);
+		return *this;
+	}
+
+	template <typename ... C, typename Func>
+	manager& for_each_ref(const Func& func)
+	{
+		callable_ref<void(entity_param, C&...)> wrap(func);
 		return for_each<C...>(wrap);
 	}
 };
