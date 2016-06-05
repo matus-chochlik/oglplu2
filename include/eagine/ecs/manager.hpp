@@ -130,6 +130,15 @@ private:
 		component_uid_t,
 		std::string(*)(void)
 	);
+
+	template <typename C, typename Func>
+	bool _call_for_single(entity_param, const Func&);
+
+	template <typename C, typename Func>
+	void _call_for_each(const Func&);
+
+	template <typename T, typename C>
+	T _do_get(T C::*, entity_param, T);
 public:
 
 	manager(void) = default;
@@ -197,6 +206,8 @@ public:
 		).has(cap);
 	}
 
+	void forget(entity_param ent);
+
 	template <typename Component>
 	bool has(entity_param ent)
 	{
@@ -205,6 +216,18 @@ public:
 			get_component_uid<Component>(),
 			_cmp_name_getter<Component>()
 		);
+	}
+
+	template <typename ... C>
+	bool has_all(entity_param ent)
+	{
+		return _count_true(
+			_does_have(
+				ent,
+				get_component_uid<C>(),
+				_cmp_name_getter<C>()
+			)...
+		) == (sizeof...(C));
 	}
 
 	template <typename Component>
@@ -278,6 +301,50 @@ public:
 			get_component_uid<C>(),
 			_cmp_name_getter<C>()
 		)...);
+		return *this;
+	}
+
+	template <typename T, typename C>
+	T get(T C::*mvp, entity_param ent, T res = T())
+	{
+		return _do_get(mvp, ent, res);
+	}
+
+	template <typename C>
+	manager& for_single(
+		const callable_ref<void(entity_param, const C&)>& func,
+		entity_param ent
+	)
+	{
+		_call_for_single<C>(func, ent);
+		return *this;
+	}
+
+	template <typename C>
+	manager& for_single(
+		const callable_ref<void(entity_param, C&)>& func,
+		entity_param ent
+	)
+	{
+		_call_for_single<C>(func, ent);
+		return *this;
+	}
+
+	template <typename C>
+	manager& for_each(
+		const callable_ref<void(entity_param, const C&)>& func
+	)
+	{
+		_call_for_each<C>(func);
+		return *this;
+	}
+
+	template <typename C>
+	manager& for_each(
+		const callable_ref<void(entity_param, C&)>& func
+	)
+	{
+		_call_for_each<C>(func);
 		return *this;
 	}
 };

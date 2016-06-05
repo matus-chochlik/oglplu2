@@ -235,8 +235,8 @@ public:
 		return true;
 	}
 
-	bool apply_to(
-		callable_ref<bool(entity_param, const Component&)> f,
+	void for_single(
+		callable_ref<void(entity_param, const Component&)> f,
 		entity_param e
 	) override
 	{
@@ -245,14 +245,13 @@ public:
 		{
 			if(!is_hidden(e))
 			{
-				return f(p->first, p->second);
+				f(p->first, p->second);
 			}
 		}
-		return false;
 	}
 
-	bool apply_to(
-		callable_ref<bool(entity_param, const Component&)> f,
+	void for_single(
+		callable_ref<void(entity_param, const Component&)> f,
 		iterator_t& i
 	) override
 	{
@@ -261,12 +260,11 @@ public:
 		assert(p != _components.end());
 		if(!is_hidden(p->first))
 		{
-			return f(p->first, p->second);
+			f(p->first, p->second);
 		}
-		return false;
 	}
 
-	bool apply_to(
+	void for_single(
 		callable_ref<bool(entity_param, Component&)> f,
 		entity_param e
 	) override
@@ -277,13 +275,12 @@ public:
 			if(!is_hidden(e))
 			{
 				// TODO: modify notification
-				return f(p->first, p->second);
+				f(p->first, p->second);
 			}
 		}
-		return false;
 	}
 
-	bool apply_to(
+	void for_single(
 		callable_ref<bool(entity_param, Component&)> f,
 		iterator_t& i
 	) override
@@ -294,12 +291,11 @@ public:
 		if(!is_hidden(p->first))
 		{
 			// TODO: modify notification
-			return f(p->first, p->second);
+			f(p->first, p->second);
 		}
-		return false;
 	}
 
-	void for_each(callable_ref<bool(entity_param,const Component&)> f)
+	void for_each(callable_ref<void(entity_param,const Component&)> f)
 	override
 	{
 		for(auto& p : _components)

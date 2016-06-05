@@ -174,31 +174,31 @@ struct component_storage
 	bool store(entity_param, Component&&) = 0;
 
 	virtual
-	bool apply_to(
-		callable_ref<bool(entity_param, const Component&)>,
+	void for_single(
+		callable_ref<void(entity_param, const Component&)>,
 		entity_param
 	) = 0;
 
 	virtual
-	bool apply_to(
-		callable_ref<bool(entity_param, const Component&)>,
+	void for_single(
+		callable_ref<void(entity_param, const Component&)>,
 		iterator_t&
 	) = 0;
 
 	virtual
-	bool apply_to(
+	void for_single(
 		callable_ref<bool(entity_param, Component&)>,
 		entity_param
 	) = 0;
 
 	virtual
-	bool apply_to(
+	void for_single(
 		callable_ref<bool(entity_param, Component&)>,
 		iterator_t&
 	) = 0;
 
 	virtual
-	void for_each(callable_ref<bool(entity_param, const Component&)>) = 0;
+	void for_each(callable_ref<void(entity_param, const Component&)>) = 0;
 
 	virtual
 	void for_each(callable_ref<bool(entity_param, Component&)>) = 0;

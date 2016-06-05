@@ -353,5 +353,72 @@ _do_rem(
 	);
 }
 //------------------------------------------------------------------------------
+template <typename Entity>
+template <typename T, typename C>
+inline T
+manager<Entity>::
+_do_get(T C::* mvp, entity_param_t<Entity> ent, T res)
+{
+	assert(mvp);
+
+	auto getter = [mvp, &res](entity_param_t<Entity>, const C& cmp) -> void
+	{
+		res = cmp.*mvp;
+	};
+	callable_ref<void(entity_param_t<Entity>, const C&)> func(getter);
+
+	_call_for_single<C>(ent, func);
+	return res;
+}
+//------------------------------------------------------------------------------
+template <typename Entity>
+template <typename Component, typename Func>
+inline bool
+manager<Entity>::
+_call_for_single(entity_param_t<Entity> ent, const Func& func)
+{
+	return _apply_on_cmp_stg<Component>(
+		false,
+		[&func, &ent](auto& c_storage) -> bool
+		{
+			c_storage->for_single(func, ent);
+			return true;
+		}
+	);
+}
+//------------------------------------------------------------------------------
+template <typename Entity>
+template <typename Component, typename Func>
+inline void
+manager<Entity>::
+_call_for_each(const Func& func)
+{
+	_apply_on_cmp_stg<Component>(
+		false,
+		[&func](auto& c_storage) -> bool
+		{
+			c_storage->for_each(func);
+			return true;
+		}
+	);
+}
+//------------------------------------------------------------------------------
+template <typename Entity>
+void
+manager<Entity>::
+forget(entity_param_t<Entity> ent)
+{
+	for(auto& storage : _storages)
+	{
+		if(storage != nullptr)
+		{
+			if(storage->caps().can_remove())
+			{
+				storage->remove(ent);
+			}
+		}
+	}
+}
+//------------------------------------------------------------------------------
 } // namespace ecs
 } // namespace eagine
