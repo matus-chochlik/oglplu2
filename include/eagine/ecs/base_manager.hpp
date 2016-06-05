@@ -1,5 +1,5 @@
 /**
- *  @file eagine/ecs/manager.hpp
+ *  @file eagine/ecs/base_manager.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -20,7 +20,7 @@ namespace eagine {
 namespace ecs {
 
 template <typename Entity>
-class manager
+class base_manager
 {
 public:
 	typedef entity_param_t<Entity> entity_param;
@@ -50,7 +50,8 @@ private:
 	}
 
 	template <typename C>
-	static std::string (*_cmp_name_getter(void))(void)
+	static inline
+	std::string (*_cmp_name_getter(void))(void)
 	{
 		return &type_name<C>;
 	}
@@ -146,14 +147,11 @@ private:
 	template <typename T, typename C>
 	T _do_get(T C::*, entity_param, T);
 public:
-
-	manager(void) = default;
+	base_manager(void) = default;
 
 	template <typename Component>
 	void register_component_type(
-		std::unique_ptr<
-			component_storage<Entity, Component>
-		>&& storage
+		std::unique_ptr<component_storage<Entity, Component>>&& storage
 	)
 	{
 		_do_reg_cmp_type(
@@ -247,7 +245,8 @@ public:
 	}
 
 	template <typename ... Component>
-	manager& show(entity_param ent)
+	base_manager&
+	show(entity_param ent)
 	{
 		_eat(_do_show(
 			ent,
@@ -258,7 +257,8 @@ public:
 	}
 
 	template <typename ... Component>
-	manager& hide(entity_param ent)
+	base_manager&
+	hide(entity_param ent)
 	{
 		_eat(_do_hide(
 			ent,
@@ -269,14 +269,16 @@ public:
 	}
 
 	template <typename ... C>
-	manager& add(entity_param ent, C&& ... components)
+	base_manager&
+	add(entity_param ent, C&& ... components)
 	{
 		_eat(_do_add(ent, std::move(components))...);
 		return *this;
 	}
 
 	template <typename ... C>
-	manager& copy(entity_param from, entity_param to)
+	base_manager&
+	copy(entity_param from, entity_param to)
 	{
 		_eat(_do_cpy(
 			from,
@@ -288,7 +290,8 @@ public:
 	}
 
 	template <typename ... C>
-	manager& swap(entity_param e1, entity_param e2)
+	base_manager&
+	swap(entity_param e1, entity_param e2)
 	{
 		_eat(_do_swp(
 			e1,
@@ -300,7 +303,8 @@ public:
 	}
 
 	template <typename ... C>
-	manager& remove(entity_param ent)
+	base_manager&
+	remove(entity_param ent)
 	{
 		_eat(_do_rem(
 			ent,
@@ -317,7 +321,7 @@ public:
 	}
 
 	template <typename C>
-	manager& for_single(
+	base_manager& for_single(
 		const callable_ref<bool(entity_param, const C&)>& func,
 		entity_param ent
 	)
@@ -327,7 +331,7 @@ public:
 	}
 
 	template <typename C>
-	manager& for_single(
+	base_manager& for_single(
 		const callable_ref<bool(entity_param, C&)>& func,
 		entity_param ent
 	)
@@ -337,51 +341,48 @@ public:
 	}
 
 	template <typename C>
-	manager& for_each(
-		const callable_ref<bool(entity_param, const C&)>& func
-	)
+	base_manager&
+	for_each(const callable_ref<bool(entity_param,const C&)>& func)
 	{
 		_call_for_each<C>(func);
 		return *this;
 	}
 
 	template <typename C>
-	manager& for_each(
-		const callable_ref<bool(entity_param, C&)>& func
-	)
+	base_manager&
+	for_each(const callable_ref<bool(entity_param, C&)>& func)
 	{
 		_call_for_each<C>(func);
 		return *this;
 	}
 
 	template <typename ... C>
-	manager& for_each(
-		const callable_ref<void(entity_param, C*...)>& func
-	)
+	base_manager&
+	for_each(const callable_ref<void(entity_param, C*...)>& func)
 	{
 		_call_for_each_m_p<C...>(func);
 		return *this;
 	}
 
 	template <typename ... C, typename Func>
-	manager& for_each_ptr(const Func& func)
+	base_manager&
+	for_each_ptr(const Func& func)
 	{
 		callable_ref<void(entity_param, C*...)> wrap(func);
 		return for_each<C...>(wrap);
 	}
 
 	template <typename ... C>
-	std::enable_if_t<(sizeof ... (C) > 1), manager&>
-	for_each(
-		const callable_ref<void(entity_param, C&...)>& func
-	)
+	std::enable_if_t<(sizeof ... (C) > 1), base_manager&>
+	for_each(const callable_ref<void(entity_param, C&...)>& func)
 	{
 		_call_for_each_m_r<C...>(func);
 		return *this;
 	}
 
 	template <typename ... C, typename Func>
-	manager& for_each_ref(const Func& func)
+	base_manager&
+	for_each_ref(const Func& func)
 	{
 		callable_ref<void(entity_param, C&...)> wrap(func);
 		return for_each<C...>(wrap);
@@ -391,7 +392,7 @@ public:
 } // namespace ecs
 } // namespace eagine
 
-#include <eagine/ecs/manager.inl>
+#include <eagine/ecs/base_manager.inl>
 
 #endif //include guard
 

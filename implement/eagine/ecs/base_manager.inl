@@ -1,5 +1,5 @@
 /**
- *  @file eagine/ecs/manager.inl
+ *  @file eagine/ecs/base_manager.inl
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -54,7 +54,7 @@ void mgr_handle_cmp_not_reg(std::string&&);
 template <typename Entity>
 template <typename Component>
 component_storage<Entity, Component>&
-manager<Entity>::
+base_manager<Entity>::
 _find_storage(void)
 {
 	auto p_storage = _storages.find(get_component_uid<Component>());
@@ -82,7 +82,7 @@ _find_storage(void)
 //------------------------------------------------------------------------------
 template <typename Entity>
 inline void
-manager<Entity>::
+base_manager<Entity>::
 _do_reg_cmp_type(
 	std::unique_ptr<base_storage<Entity>>&& storage,
 	component_uid_t cid,
@@ -105,7 +105,7 @@ _do_reg_cmp_type(
 //------------------------------------------------------------------------------
 template <typename Entity>
 inline void
-manager<Entity>::
+base_manager<Entity>::
 _do_unr_cmp_type(
 	component_uid_t cid,
 	std::string(*get_name)(void)
@@ -125,7 +125,7 @@ _do_unr_cmp_type(
 //------------------------------------------------------------------------------
 template <typename Entity>
 inline bool
-manager<Entity>::
+base_manager<Entity>::
 _does_know_cmp_type(component_uid_t cid) const
 {
 	auto p_storage = _storages.find(cid);
@@ -143,7 +143,7 @@ _does_know_cmp_type(component_uid_t cid) const
 template <typename Entity>
 template <typename Result, typename Func>
 inline Result
-manager<Entity>::
+base_manager<Entity>::
 _apply_on_base_stg(
 	Result fallback,
 	const Func& func,
@@ -168,7 +168,7 @@ _apply_on_base_stg(
 template <typename Entity>
 template <typename Component, typename Result, typename Func>
 inline Result
-manager<Entity>::
+base_manager<Entity>::
 _apply_on_cmp_stg(Result fallback, const Func& func) const
 {
 	return _apply_on_base_stg(
@@ -189,7 +189,7 @@ _apply_on_cmp_stg(Result fallback, const Func& func) const
 //------------------------------------------------------------------------------
 template <typename Entity>
 inline storage_caps
-manager<Entity>::
+base_manager<Entity>::
 _get_cmp_type_caps(component_uid_t cid, std::string(*get_name)(void)) const
 {
 	return _apply_on_base_stg(
@@ -204,7 +204,7 @@ _get_cmp_type_caps(component_uid_t cid, std::string(*get_name)(void)) const
 //------------------------------------------------------------------------------
 template <typename Entity>
 inline bool
-manager<Entity>::
+base_manager<Entity>::
 _does_have(
 	entity_param_t<Entity> ent,
 	component_uid_t cid,
@@ -223,7 +223,7 @@ _does_have(
 //------------------------------------------------------------------------------
 template <typename Entity>
 inline bool
-manager<Entity>::
+base_manager<Entity>::
 _is_hidn(
 	entity_param_t<Entity> ent,
 	component_uid_t cid,
@@ -242,7 +242,7 @@ _is_hidn(
 //------------------------------------------------------------------------------
 template <typename Entity>
 inline bool
-manager<Entity>::
+base_manager<Entity>::
 _do_show(
 	entity_param_t<Entity> ent,
 	component_uid_t cid,
@@ -261,7 +261,7 @@ _do_show(
 //------------------------------------------------------------------------------
 template <typename Entity>
 inline bool
-manager<Entity>::
+base_manager<Entity>::
 _do_hide(
 	entity_param_t<Entity> ent,
 	component_uid_t cid,
@@ -281,7 +281,7 @@ _do_hide(
 template <typename Entity>
 template <typename Component>
 inline bool
-manager<Entity>::
+base_manager<Entity>::
 _do_add(entity_param_t<Entity> ent, Component&& component)
 {
 	return _apply_on_cmp_stg<Component>(
@@ -296,7 +296,7 @@ _do_add(entity_param_t<Entity> ent, Component&& component)
 //------------------------------------------------------------------------------
 template <typename Entity>
 inline bool
-manager<Entity>::
+base_manager<Entity>::
 _do_cpy(
 	entity_param_t<Entity> from,
 	entity_param_t<Entity> to,
@@ -316,7 +316,7 @@ _do_cpy(
 //------------------------------------------------------------------------------
 template <typename Entity>
 inline bool
-manager<Entity>::
+base_manager<Entity>::
 _do_swp(
 	entity_param_t<Entity> e1,
 	entity_param_t<Entity> e2,
@@ -337,7 +337,7 @@ _do_swp(
 //------------------------------------------------------------------------------
 template <typename Entity>
 inline bool
-manager<Entity>::
+base_manager<Entity>::
 _do_rem(
 	entity_param_t<Entity> ent,
 	component_uid_t cid,
@@ -357,7 +357,7 @@ _do_rem(
 template <typename Entity>
 template <typename T, typename C>
 inline T
-manager<Entity>::
+base_manager<Entity>::
 _do_get(T C::* mvp, entity_param_t<Entity> ent, T res)
 {
 	assert(mvp);
@@ -376,7 +376,7 @@ _do_get(T C::* mvp, entity_param_t<Entity> ent, T res)
 template <typename Entity>
 template <typename Component, typename Func>
 inline bool
-manager<Entity>::
+base_manager<Entity>::
 
 _call_for_single(entity_param_t<Entity> ent, const Func& func)
 {
@@ -393,7 +393,7 @@ _call_for_single(entity_param_t<Entity> ent, const Func& func)
 template <typename Entity>
 template <typename Component, typename Func>
 inline void
-manager<Entity>::
+base_manager<Entity>::
 _call_for_each(const Func& func)
 {
 	_apply_on_cmp_stg<Component>(
@@ -420,7 +420,12 @@ protected:
 	): _storage(storage)
 	 , _iter(_storage.new_iterator())
 	 , _curr(_iter.done()?Entity():_iter.current())
-	{ }
+	{
+		assert(
+			std::is_const<C>::value ||
+			_storage.capabilities().can_modify()
+		);
+	}
 
 	~_manager_for_each_m_base(void)
 	{
@@ -619,7 +624,7 @@ using _manager_for_each_m_p_helper =
 template <typename Entity>
 template <typename ... Component, typename Func>
 inline void
-manager<Entity>::
+base_manager<Entity>::
 _call_for_each_m_p(const Func& func)
 {
 	_manager_for_each_m_p_helper<Entity, Component...> hlp(
@@ -801,7 +806,7 @@ using _manager_for_each_m_r_helper =
 template <typename Entity>
 template <typename ... Component, typename Func>
 inline void
-manager<Entity>::
+base_manager<Entity>::
 _call_for_each_m_r(const Func& func)
 {
 	_manager_for_each_m_r_helper<Entity, Component...> hlp(
@@ -821,7 +826,7 @@ _call_for_each_m_r(const Func& func)
 //------------------------------------------------------------------------------
 template <typename Entity>
 void
-manager<Entity>::
+base_manager<Entity>::
 forget(entity_param_t<Entity> ent)
 {
 	for(auto& storage : _storages)
