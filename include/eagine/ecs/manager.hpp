@@ -137,6 +137,9 @@ private:
 	template <typename C, typename Func>
 	void _call_for_each(const Func&);
 
+	template <typename ... C, typename Func>
+	void _call_for_each_m_p(const Func&);
+
 	template <typename T, typename C>
 	T _do_get(T C::*, entity_param, T);
 public:
@@ -312,7 +315,7 @@ public:
 
 	template <typename C>
 	manager& for_single(
-		const callable_ref<void(entity_param, const C&)>& func,
+		const callable_ref<bool(entity_param, const C&)>& func,
 		entity_param ent
 	)
 	{
@@ -322,7 +325,7 @@ public:
 
 	template <typename C>
 	manager& for_single(
-		const callable_ref<void(entity_param, C&)>& func,
+		const callable_ref<bool(entity_param, C&)>& func,
 		entity_param ent
 	)
 	{
@@ -332,7 +335,7 @@ public:
 
 	template <typename C>
 	manager& for_each(
-		const callable_ref<void(entity_param, const C&)>& func
+		const callable_ref<bool(entity_param, const C&)>& func
 	)
 	{
 		_call_for_each<C>(func);
@@ -341,11 +344,27 @@ public:
 
 	template <typename C>
 	manager& for_each(
-		const callable_ref<void(entity_param, C&)>& func
+		const callable_ref<bool(entity_param, C&)>& func
 	)
 	{
 		_call_for_each<C>(func);
 		return *this;
+	}
+
+	template <typename ... C>
+	manager& for_each(
+		const callable_ref<void(entity_param, C*...)>& func
+	)
+	{
+		_call_for_each_m_p<C...>(func);
+		return *this;
+	}
+
+	template <typename ... C, typename Func>
+	manager& for_each_ptr(const Func& func)
+	{
+		callable_ref<void(entity_param, C*...)> wrap(func);
+		return for_each<C...>(wrap);
 	}
 };
 

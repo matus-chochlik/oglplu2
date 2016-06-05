@@ -175,13 +175,13 @@ struct component_storage
 
 	virtual
 	void for_single(
-		callable_ref<void(entity_param, const Component&)>,
+		callable_ref<bool(entity_param, const Component&)>,
 		entity_param
 	) = 0;
 
 	virtual
 	void for_single(
-		callable_ref<void(entity_param, const Component&)>,
+		callable_ref<bool(entity_param, const Component&)>,
 		iterator_t&
 	) = 0;
 
@@ -198,7 +198,7 @@ struct component_storage
 	) = 0;
 
 	virtual
-	void for_each(callable_ref<void(entity_param, const Component&)>) = 0;
+	void for_each(callable_ref<bool(entity_param, const Component&)>) = 0;
 
 	virtual
 	void for_each(callable_ref<bool(entity_param, Component&)>) = 0;

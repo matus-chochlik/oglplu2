@@ -7,6 +7,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/assert.hpp>
+#include <eagine/mp_list.hpp>
 
 #if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)
 #include <eagine/str_format.hpp>
@@ -361,11 +362,12 @@ _do_get(T C::* mvp, entity_param_t<Entity> ent, T res)
 {
 	assert(mvp);
 
-	auto getter = [mvp, &res](entity_param_t<Entity>, const C& cmp) -> void
+	auto getter = [mvp, &res](entity_param_t<Entity>, const C& cmp) -> bool
 	{
 		res = cmp.*mvp;
+		return true;
 	};
-	callable_ref<void(entity_param_t<Entity>, const C&)> func(getter);
+	callable_ref<bool(entity_param_t<Entity>, const C&)> func(getter);
 
 	_call_for_single<C>(ent, func);
 	return res;
@@ -375,6 +377,7 @@ template <typename Entity>
 template <typename Component, typename Func>
 inline bool
 manager<Entity>::
+
 _call_for_single(entity_param_t<Entity> ent, const Func& func)
 {
 	return _apply_on_cmp_stg<Component>(
@@ -401,6 +404,213 @@ _call_for_each(const Func& func)
 			return true;
 		}
 	);
+}
+//------------------------------------------------------------------------------
+template <typename Entity, typename LL, typename LR>
+class _manager_for_each_m_p_unit;
+//------------------------------------------------------------------------------
+template <typename Entity, typename C>
+class _manager_for_each_m_p_base
+{
+private:
+	component_storage<Entity, C>& _storage;
+	storage_iterator<Entity> _iter;
+	Entity _curr;
+protected:
+	_manager_for_each_m_p_base(component_storage<Entity, C>& storage)
+	 : _storage(storage)
+	 , _iter(_storage.new_iterator())
+	 , _curr(_iter.done()?Entity():_iter.current())
+	{ }
+
+	~_manager_for_each_m_p_base(void)
+	{
+		_storage.delete_iterator(std::move(_iter));
+	}
+
+	bool _done(void)
+	{
+		return _iter.done();
+	}
+
+	void _next_if(entity_param_t<Entity> m)
+	{
+		if(!_done())
+		{
+			if(_current() == m)
+			{
+				_iter.next();
+				if(!_done())
+				{
+					_curr = _iter.current();
+				}
+			}
+		}
+	}
+
+	entity_param_t<Entity> _current(void)
+	{
+		return _curr;
+	}
+
+	void _apply(const callable_ref<bool(entity_param_t<Entity>, C&)>& func)
+	{
+		_storage.for_single(func, _iter);
+	}
+};
+//------------------------------------------------------------------------------
+template <typename Entity, typename ... CL, typename C>
+class _manager_for_each_m_p_unit<Entity, mp_list<CL...>, mp_list<C>>
+ : public _manager_for_each_m_p_base<Entity, C>
+{
+private:
+	callable_ref<void(entity_param_t<Entity>, CL*..., C*)> _func;
+public:
+	_manager_for_each_m_p_unit(
+		const callable_ref<
+			void(entity_param_t<Entity>, CL*..., C*)
+		>& func,
+		component_storage<Entity, C>& s
+	): _manager_for_each_m_p_base<Entity, C>(s)
+	 , _func(func)
+	{ }
+
+	bool done(void)
+	{
+		return this->_done();
+	}
+
+	void next_if_min(entity_param_t<Entity> m)
+	{
+		this->_next_if(m);
+	}
+
+	Entity min_entity(void)
+	{
+		return this->_current();
+	}
+
+	void apply(entity_param_t<Entity> m, CL*... cl)
+	{
+		Entity t = this->_current();
+
+		if(m < t)
+		{
+			_func(m, cl..., nullptr);
+		}
+		else
+		{
+			assert(m == t);
+			callable_ref<bool(entity_param_t<Entity>, C&)> hlpr(
+				[&cl...,this](entity_param_t<Entity> e, C& c)
+				{
+					_func(e, cl..., &c);
+					return true;
+				}
+			);
+			this->_apply(hlpr);
+		}
+	}
+};
+//------------------------------------------------------------------------------
+template <typename Entity, typename ... CL, typename C, typename ... CR>
+class _manager_for_each_m_p_unit<Entity, mp_list<CL...>, mp_list<C, CR...>>
+ : public _manager_for_each_m_p_base<Entity, C>
+{
+private:
+	_manager_for_each_m_p_unit<
+		Entity,
+		mp_list<CL..., C>,
+		mp_list<CR...>
+	> _rest;
+public:
+	_manager_for_each_m_p_unit(
+		const callable_ref<
+			void(entity_param_t<Entity>,CL*..., C*, CR*...)
+		>& func,
+		component_storage<Entity, C>& s,
+		component_storage<Entity, CR>&... r
+	): _manager_for_each_m_p_base<Entity, C>(s)
+	 , _rest(func, r...)
+	{ }
+
+	bool done(void)
+	{
+		return this->_done() && _rest.done();
+	}
+
+	void next_if_min(entity_param_t<Entity> m)
+	{
+		_rest.next_if_min(m);
+		this->_next_if(m);
+	}
+
+	Entity min_entity(void)
+	{
+		if(_rest.done())
+		{
+			assert(!this->_done());
+			return this->_current();
+		}
+
+		Entity m = _rest.min_entity();
+		if(this->_done())
+		{
+			return m;
+		}
+		Entity c = this->_current();
+		return (m<c)?m:c;
+	}
+
+	void next(void)
+	{
+		next_if_min(min_entity());
+	}
+
+	void apply(void)
+	{
+		assert(!done());
+
+		Entity m = min_entity();
+
+		if(this->_done() || (m < this->_current()))
+		{
+			_rest.apply(m, nullptr);
+		}
+		else
+		{
+			assert(m == this->_current());
+			callable_ref<bool(entity_param_t<Entity>, C&)> hlpr(
+				[this](entity_param_t<Entity> e, C& c)
+				{
+					_rest.apply(e, &c);
+					return true;
+				}
+			);
+			this->_apply(hlpr);
+		}
+	}
+};
+//------------------------------------------------------------------------------
+template <typename Entity, typename ... C>
+using _manager_for_each_m_p_helper =
+	_manager_for_each_m_p_unit<Entity, mp_list<>, mp_list<C...>>;
+//------------------------------------------------------------------------------
+template <typename Entity>
+template <typename ... Component, typename Func>
+inline void
+manager<Entity>::
+_call_for_each_m_p(const Func& func)
+{
+	_manager_for_each_m_p_helper<Entity, Component...> hlp(
+		func,
+		_find_storage<_bare_t<Component>>()...
+	);
+	while(!hlp.done())
+	{
+		hlp.apply();
+		hlp.next();
+	}
 }
 //------------------------------------------------------------------------------
 template <typename Entity>
