@@ -1,5 +1,5 @@
 /**
- *  @file eagine/ecs/base_manager.hpp
+ *  @file eagine/ecs/basic_manager.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -20,7 +20,7 @@ namespace eagine {
 namespace ecs {
 
 template <typename Entity>
-class base_manager
+class basic_manager
 {
 public:
 	typedef entity_param_t<Entity> entity_param;
@@ -147,7 +147,7 @@ private:
 	template <typename T, typename C>
 	T _do_get(T C::*, entity_param, T);
 public:
-	base_manager(void) = default;
+	basic_manager(void) = default;
 
 	template <typename Component>
 	void register_component_type(
@@ -222,16 +222,16 @@ public:
 		);
 	}
 
-	template <typename ... C>
+	template <typename ... Components>
 	bool has_all(entity_param ent)
 	{
 		return _count_true(
 			_does_have(
 				ent,
-				get_component_uid<C>(),
-				_cmp_name_getter<C>()
+				get_component_uid<Components>(),
+				_cmp_name_getter<Components>()
 			)...
-		) == (sizeof...(C));
+		) == (sizeof...(Components));
 	}
 
 	template <typename Component>
@@ -244,155 +244,167 @@ public:
 		);
 	}
 
-	template <typename ... Component>
-	base_manager&
+	template <typename ... Components>
+	bool all_hidden(entity_param ent)
+	{
+		return _count_true(
+			_is_hidn(
+				ent,
+				get_component_uid<Components>(),
+				_cmp_name_getter<Components>()
+			)...
+		) == (sizeof...(Components));
+	}
+
+	template <typename ... Components>
+	basic_manager&
 	show(entity_param ent)
 	{
 		_eat(_do_show(
 			ent,
-			get_component_uid<Component>(),
-			_cmp_name_getter<Component>()
+			get_component_uid<Components>(),
+			_cmp_name_getter<Components>()
 		)...);
 		return *this;
 	}
 
-	template <typename ... Component>
-	base_manager&
+	template <typename ... Components>
+	basic_manager&
 	hide(entity_param ent)
 	{
 		_eat(_do_hide(
 			ent,
-			get_component_uid<Component>(),
-			_cmp_name_getter<Component>()
+			get_component_uid<Components>(),
+			_cmp_name_getter<Components>()
 		)...);
 		return *this;
 	}
 
-	template <typename ... C>
-	base_manager&
-	add(entity_param ent, C&& ... components)
+	template <typename ... Components>
+	basic_manager&
+	add(entity_param ent, Components&& ... components)
 	{
 		_eat(_do_add(ent, std::move(components))...);
 		return *this;
 	}
 
-	template <typename ... C>
-	base_manager&
+	template <typename ... Components>
+	basic_manager&
 	copy(entity_param from, entity_param to)
 	{
 		_eat(_do_cpy(
 			from,
 			to,
-			get_component_uid<C>(),
-			_cmp_name_getter<C>()
+			get_component_uid<Components>(),
+			_cmp_name_getter<Components>()
 		)...);
 		return *this;
 	}
 
-	template <typename ... C>
-	base_manager&
+	template <typename ... Components>
+	basic_manager&
 	swap(entity_param e1, entity_param e2)
 	{
 		_eat(_do_swp(
 			e1,
 			e2,
-			get_component_uid<C>(),
-			_cmp_name_getter<C>()
+			get_component_uid<Components>(),
+			_cmp_name_getter<Components>()
 		)...);
 		return *this;
 	}
 
-	template <typename ... C>
-	base_manager&
+	template <typename ... Components>
+	basic_manager&
 	remove(entity_param ent)
 	{
 		_eat(_do_rem(
 			ent,
-			get_component_uid<C>(),
-			_cmp_name_getter<C>()
+			get_component_uid<Components>(),
+			_cmp_name_getter<Components>()
 		)...);
 		return *this;
 	}
 
-	template <typename T, typename C>
-	T get(T C::*mvp, entity_param ent, T res = T())
+	template <typename T, typename Component>
+	T get(T Component::*mvp, entity_param ent, T res = T())
 	{
 		return _do_get(mvp, ent, res);
 	}
 
-	template <typename C>
-	base_manager& for_single(
-		const callable_ref<bool(entity_param, const C&)>& func,
+	template <typename Component>
+	basic_manager& for_single(
+		const callable_ref<bool(entity_param, const Component&)>& func,
 		entity_param ent
 	)
 	{
-		_call_for_single<C>(func, ent);
+		_call_for_single<Component>(func, ent);
 		return *this;
 	}
 
-	template <typename C>
-	base_manager& for_single(
-		const callable_ref<bool(entity_param, C&)>& func,
+	template <typename Component>
+	basic_manager& for_single(
+		const callable_ref<bool(entity_param, Component&)>& func,
 		entity_param ent
 	)
 	{
-		_call_for_single<C>(func, ent);
+		_call_for_single<Component>(func, ent);
 		return *this;
 	}
 
-	template <typename C>
-	base_manager&
-	for_each(const callable_ref<bool(entity_param,const C&)>& func)
+	template <typename Component>
+	basic_manager&
+	for_each(const callable_ref<bool(entity_param,const Component&)>& func)
 	{
-		_call_for_each<C>(func);
+		_call_for_each<Component>(func);
 		return *this;
 	}
 
-	template <typename C>
-	base_manager&
-	for_each(const callable_ref<bool(entity_param, C&)>& func)
+	template <typename Component>
+	basic_manager&
+	for_each(const callable_ref<bool(entity_param, Component&)>& func)
 	{
-		_call_for_each<C>(func);
+		_call_for_each<Component>(func);
 		return *this;
 	}
 
-	template <typename ... C>
-	base_manager&
-	for_each(const callable_ref<void(entity_param, C*...)>& func)
+	template <typename ... Components>
+	basic_manager&
+	for_each(const callable_ref<void(entity_param, Components*...)>& func)
 	{
-		_call_for_each_m_p<C...>(func);
+		_call_for_each_m_p<Components...>(func);
 		return *this;
 	}
 
-	template <typename ... C, typename Func>
-	base_manager&
+	template <typename ... Components, typename Func>
+	basic_manager&
 	for_each_ptr(const Func& func)
 	{
-		callable_ref<void(entity_param, C*...)> wrap(func);
-		return for_each<C...>(wrap);
+		callable_ref<void(entity_param, Components*...)> wrap(func);
+		return for_each<Components...>(wrap);
 	}
 
-	template <typename ... C>
-	std::enable_if_t<(sizeof ... (C) > 1), base_manager&>
-	for_each(const callable_ref<void(entity_param, C&...)>& func)
+	template <typename ... Components>
+	std::enable_if_t<(sizeof ... (Components) > 1), basic_manager&>
+	for_each(const callable_ref<void(entity_param, Components&...)>& func)
 	{
-		_call_for_each_m_r<C...>(func);
+		_call_for_each_m_r<Components...>(func);
 		return *this;
 	}
 
-	template <typename ... C, typename Func>
-	base_manager&
+	template <typename ... Components, typename Func>
+	basic_manager&
 	for_each_ref(const Func& func)
 	{
-		callable_ref<void(entity_param, C&...)> wrap(func);
-		return for_each<C...>(wrap);
+		callable_ref<void(entity_param, Components&...)> wrap(func);
+		return for_each<Components...>(wrap);
 	}
 };
 
 } // namespace ecs
 } // namespace eagine
 
-#include <eagine/ecs/base_manager.inl>
+#include <eagine/ecs/basic_manager.inl>
 
 #endif //include guard
 
