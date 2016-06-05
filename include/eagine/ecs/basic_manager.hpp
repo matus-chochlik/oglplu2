@@ -14,10 +14,90 @@
 #include "entity_traits.hpp"
 #include "../type_traits.hpp"
 #include "../type_name.hpp"
+#include "../mp_list.hpp"
 #include <memory>
 
 namespace eagine {
 namespace ecs {
+
+template <typename Entity>
+class basic_manager;
+
+template <typename Entity, typename PL>
+class component_relation;
+
+template <typename Entity, typename ... PL>
+class component_relation<Entity, mp_list<PL...>>
+{
+private:
+	basic_manager<Entity>& _m;
+
+	template <
+		typename F,
+		typename ... C,
+		typename ... X
+	> static inline
+	auto _apply(
+		basic_manager<Entity>& m,
+		const F& f,
+		mp_list<mp_list<C...>>,
+		X&& ... x
+	)
+	{
+		callable_ref<void(entity_param_t<Entity>, C&...)> w(
+			[&f, &x...](entity_param_t<Entity> e, C&...c)
+			{
+				f(std::forward<X>(x)..., e, c...);
+			}
+		);
+		m.for_each(w);
+	}
+
+	template <
+		typename F,
+		typename ... C,
+		typename L,
+		typename ... Ls,
+		typename ... X
+	> static inline
+	auto _apply(
+		basic_manager<Entity>& m,
+		const F& f,
+		mp_list<mp_list<C...>, L, Ls...>,
+		X&& ... x
+	)
+	{
+		callable_ref<void(entity_param_t<Entity>, C&...)> w(
+			[&m,&f,&x...](entity_param_t<Entity> e, C&...c)
+			{
+				_apply(
+					m, f,
+					mp_list<L, Ls...>(),
+					std::forward<X>(x)...,
+					e, c...
+				);
+			}
+		);
+		m.for_each(w);
+	}
+public:
+	component_relation(basic_manager<Entity>& m)
+	 : _m(m)
+	{ }
+
+	template <typename ... C>
+	component_relation<Entity, mp_list<PL..., mp_list<C&...>>>
+	join(void)
+	{
+		return {_m};
+	}
+
+	template <typename F>
+	void for_each(const F& f)
+	{
+		_apply(_m, f, mp_list<PL...>());
+	}
+};
 
 template <typename Entity>
 class basic_manager
@@ -334,7 +414,7 @@ public:
 
 	template <typename Component>
 	basic_manager& for_single(
-		const callable_ref<bool(entity_param, const Component&)>& func,
+		const callable_ref<void(entity_param, const Component&)>& func,
 		entity_param ent
 	)
 	{
@@ -344,7 +424,7 @@ public:
 
 	template <typename Component>
 	basic_manager& for_single(
-		const callable_ref<bool(entity_param, Component&)>& func,
+		const callable_ref<void(entity_param, Component&)>& func,
 		entity_param ent
 	)
 	{
@@ -354,7 +434,7 @@ public:
 
 	template <typename Component>
 	basic_manager&
-	for_each(const callable_ref<bool(entity_param,const Component&)>& func)
+	for_each(const callable_ref<void(entity_param,const Component&)>& func)
 	{
 		_call_for_each<Component>(func);
 		return *this;
@@ -362,7 +442,7 @@ public:
 
 	template <typename Component>
 	basic_manager&
-	for_each(const callable_ref<bool(entity_param, Component&)>& func)
+	for_each(const callable_ref<void(entity_param, Component&)>& func)
 	{
 		_call_for_each<Component>(func);
 		return *this;
@@ -399,6 +479,14 @@ public:
 		callable_ref<void(entity_param, Components&...)> wrap(func);
 		return for_each<Components...>(wrap);
 	}
+
+	template <typename ... Components>
+	component_relation<Entity, mp_list<mp_list<Components...>>>
+	select(void)
+	{
+		return {*this};
+	}
+
 };
 
 } // namespace ecs

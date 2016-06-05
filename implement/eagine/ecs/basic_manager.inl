@@ -7,7 +7,6 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/assert.hpp>
-#include <eagine/mp_list.hpp>
 
 #if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)
 #include <eagine/str_format.hpp>
@@ -362,12 +361,11 @@ _do_get(T C::* mvp, entity_param_t<Entity> ent, T res)
 {
 	assert(mvp);
 
-	auto getter = [mvp, &res](entity_param_t<Entity>, const C& cmp) -> bool
+	auto getter = [mvp, &res](entity_param_t<Entity>, const C& cmp)
 	{
 		res = cmp.*mvp;
-		return true;
 	};
-	callable_ref<bool(entity_param_t<Entity>, const C&)> func(getter);
+	callable_ref<void(entity_param_t<Entity>, const C&)> func(getter);
 
 	_call_for_single<C>(ent, func);
 	return res;
@@ -377,10 +375,9 @@ template <typename Entity>
 template <typename Component, typename Func>
 inline bool
 basic_manager<Entity>::
-
 _call_for_single(entity_param_t<Entity> ent, const Func& func)
 {
-	return _apply_on_cmp_stg<Component>(
+	return _apply_on_cmp_stg<std::remove_const_t<Component>>(
 		false,
 		[&func, &ent](auto& c_storage) -> bool
 		{
@@ -396,7 +393,7 @@ inline void
 basic_manager<Entity>::
 _call_for_each(const Func& func)
 {
-	_apply_on_cmp_stg<Component>(
+	_apply_on_cmp_stg<std::remove_const_t<Component>>(
 		false,
 		[&func](auto& c_storage) -> bool
 		{
@@ -442,7 +439,7 @@ protected:
 		return _curr;
 	}
 
-	void _apply(const callable_ref<bool(entity_param_t<Entity>, C&)>& func)
+	void _apply(const callable_ref<void(entity_param_t<Entity>, C&)>& func)
 	{
 		_storage.for_single(func, _iter);
 	}
@@ -522,11 +519,10 @@ public:
 		else
 		{
 			assert(m == this->_current());
-			callable_ref<bool(entity_param_t<Entity>, C&)> hlpr(
+			callable_ref<void(entity_param_t<Entity>, C&)> hlpr(
 				[cl...,this](entity_param_t<Entity> e, C& c)
 				{
 					_func(e, cl..., &c);
-					return true;
 				}
 			);
 			this->_apply(hlpr);
@@ -597,11 +593,10 @@ public:
 		else
 		{
 			assert(m == this->_current());
-			callable_ref<bool(entity_param_t<Entity>, C&)> hlpr(
+			callable_ref<void(entity_param_t<Entity>, C&)> hlpr(
 				[cl...,this](entity_param_t<Entity> e, C& c)
 				{
 					_rest.apply(e, cl..., &c);
-					return true;
 				}
 			);
 			this->_apply(hlpr);
@@ -717,11 +712,10 @@ public:
 	void apply(entity_param_t<Entity> m, CL&... cl)
 	{
 		assert(m == this->_current());
-		callable_ref<bool(entity_param_t<Entity>, C&)> hlpr(
+		callable_ref<void(entity_param_t<Entity>, C&)> hlpr(
 			[&cl...,this](entity_param_t<Entity> e, C& c)
 			{
 				_func(e, cl..., c);
-				return true;
 			}
 		);
 		this->_apply(hlpr);
@@ -780,11 +774,10 @@ public:
 	void apply(entity_param_t<Entity> m, CL&... cl)
 	{
 		assert(m == this->_current());
-		callable_ref<bool(entity_param_t<Entity>, C&)> hlpr(
+		callable_ref<void(entity_param_t<Entity>, C&)> hlpr(
 			[&cl...,this](entity_param_t<Entity> e, C& c)
 			{
 				_rest.apply(e, cl..., c);
-				return true;
 			}
 		);
 		this->_apply(hlpr);

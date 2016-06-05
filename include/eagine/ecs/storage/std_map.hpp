@@ -236,7 +236,7 @@ public:
 	}
 
 	void for_single(
-		callable_ref<bool(entity_param, const Component&)> f,
+		callable_ref<void(entity_param, const Component&)> f,
 		entity_param e
 	) override
 	{
@@ -251,7 +251,7 @@ public:
 	}
 
 	void for_single(
-		callable_ref<bool(entity_param, const Component&)> f,
+		callable_ref<void(entity_param, const Component&)> f,
 		iterator_t& i
 	) override
 	{
@@ -265,7 +265,7 @@ public:
 	}
 
 	void for_single(
-		callable_ref<bool(entity_param, Component&)> f,
+		callable_ref<void(entity_param, Component&)> f,
 		entity_param e
 	) override
 	{
@@ -281,7 +281,7 @@ public:
 	}
 
 	void for_single(
-		callable_ref<bool(entity_param, Component&)> f,
+		callable_ref<void(entity_param, Component&)> f,
 		iterator_t& i
 	) override
 	{
@@ -295,7 +295,7 @@ public:
 		}
 	}
 
-	void for_each(callable_ref<bool(entity_param,const Component&)> f)
+	void for_each(callable_ref<void(entity_param,const Component&)> f)
 	override
 	{
 		for(auto& p : _components)
@@ -307,7 +307,7 @@ public:
 		}
 	}
 
-	void for_each(callable_ref<bool(entity_param, Component&)>f)
+	void for_each(callable_ref<void(entity_param, Component&)>f)
 	override
 	{
 		for(auto& p : _components)
