@@ -11,6 +11,7 @@
 
 #include "entity_traits.hpp"
 #include "storage_caps.hpp"
+#include "manipulator.hpp"
 #include "../callable_ref.hpp"
 #include <cassert>
 
@@ -175,33 +176,37 @@ struct component_storage
 
 	virtual
 	void for_single(
-		callable_ref<void(entity_param, const Component&)>,
+		callable_ref<void(entity_param, manipulator<const Component>&)>,
 		entity_param
 	) = 0;
 
 	virtual
 	void for_single(
-		callable_ref<void(entity_param, const Component&)>,
+		callable_ref<void(entity_param, manipulator<const Component>&)>,
 		iterator_t&
 	) = 0;
 
 	virtual
 	void for_single(
-		callable_ref<void(entity_param, Component&)>,
+		callable_ref<void(entity_param, manipulator<Component>&)>,
 		entity_param
 	) = 0;
 
 	virtual
 	void for_single(
-		callable_ref<void(entity_param, Component&)>,
+		callable_ref<void(entity_param, manipulator<Component>&)>,
 		iterator_t&
 	) = 0;
 
 	virtual
-	void for_each(callable_ref<void(entity_param, const Component&)>) = 0;
+	void for_each(
+		callable_ref<void(entity_param, manipulator<const Component>&)>
+	) = 0;
 
 	virtual
-	void for_each(callable_ref<void(entity_param, Component&)>) = 0;
+	void for_each(
+		callable_ref<void(entity_param, manipulator<Component>&)>
+	) = 0;
 };
 
 } // namespace ecs

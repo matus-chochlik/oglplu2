@@ -39,15 +39,21 @@ private:
 	> static inline
 	auto _apply(
 		basic_manager<Entity>& m,
-		const F& f,
+		const F& func,
 		mp_list<mp_list<C...>>,
 		X&& ... x
 	)
 	{
-		callable_ref<void(entity_param_t<Entity>, C&...)> w(
-			[&f, &x...](entity_param_t<Entity> e, C&...c)
+		callable_ref<void(
+			entity_param_t<Entity>,
+			manipulator<C>&...
+		)> w(
+			[&func, &x...](
+				entity_param_t<Entity> e,
+				manipulator<C>&...c
+			)
 			{
-				f(std::forward<X>(x)..., e, c...);
+				func(std::forward<X>(x)..., e, c...);
 			}
 		);
 		m.for_each(w);
@@ -62,16 +68,22 @@ private:
 	> static inline
 	auto _apply(
 		basic_manager<Entity>& m,
-		const F& f,
+		const F& func,
 		mp_list<mp_list<C...>, L, Ls...>,
 		X&& ... x
 	)
 	{
-		callable_ref<void(entity_param_t<Entity>, C&...)> w(
-			[&m,&f,&x...](entity_param_t<Entity> e, C&...c)
+		callable_ref<void(
+			entity_param_t<Entity>,
+			manipulator<C>&...
+		)> w(
+			[&m,&func,&x...](
+				entity_param_t<Entity> e,
+				manipulator<C>&...c
+			)
 			{
 				_apply(
-					m, f,
+					m, func,
 					mp_list<L, Ls...>(),
 					std::forward<X>(x)...,
 					e, c...
@@ -86,16 +98,16 @@ public:
 	{ }
 
 	template <typename ... C>
-	component_relation<Entity, mp_list<PL..., mp_list<C&...>>>
-	join(void)
+	component_relation<Entity, mp_list<PL..., mp_list<C...>>>
+	cross(void)
 	{
 		return {_m};
 	}
 
-	template <typename F>
-	void for_each(const F& f)
+	template <typename Func>
+	void for_each(const Func& func)
 	{
-		_apply(_m, f, mp_list<PL...>());
+		_apply(_m, func, mp_list<PL...>());
 	}
 };
 
@@ -414,7 +426,10 @@ public:
 
 	template <typename Component>
 	basic_manager& for_single(
-		const callable_ref<void(entity_param, const Component&)>& func,
+		const callable_ref<void(
+			entity_param,
+			manipulator<const Component>&
+		)>& func,
 		entity_param ent
 	)
 	{
@@ -424,7 +439,10 @@ public:
 
 	template <typename Component>
 	basic_manager& for_single(
-		const callable_ref<void(entity_param, Component&)>& func,
+		const callable_ref<void(
+			entity_param,
+			manipulator<Component>&
+		)>& func,
 		entity_param ent
 	)
 	{
@@ -434,7 +452,10 @@ public:
 
 	template <typename Component>
 	basic_manager&
-	for_each(const callable_ref<void(entity_param,const Component&)>& func)
+	for_each(const callable_ref<void(
+		entity_param,
+		manipulator<const Component>&
+	)>& func)
 	{
 		_call_for_each<Component>(func);
 		return *this;
@@ -442,7 +463,10 @@ public:
 
 	template <typename Component>
 	basic_manager&
-	for_each(const callable_ref<void(entity_param, Component&)>& func)
+	for_each(const callable_ref<void(
+		entity_param,
+		manipulator<Component>&
+	)>& func)
 	{
 		_call_for_each<Component>(func);
 		return *this;
@@ -450,7 +474,10 @@ public:
 
 	template <typename ... Components>
 	basic_manager&
-	for_each(const callable_ref<void(entity_param, Components*...)>& func)
+	for_each_opt(const callable_ref<void(
+		entity_param,
+		manipulator<Components>&...)
+	>& func)
 	{
 		_call_for_each_m_p<Components...>(func);
 		return *this;
@@ -458,15 +485,21 @@ public:
 
 	template <typename ... Components, typename Func>
 	basic_manager&
-	for_each_ptr(const Func& func)
+	for_each_with_opt(const Func& func)
 	{
-		callable_ref<void(entity_param, Components*...)> wrap(func);
-		return for_each<Components...>(wrap);
+		callable_ref<void(
+			entity_param,
+			manipulator<Components>&...
+		)> wrap(func);
+		return for_each_opt<Components...>(wrap);
 	}
 
 	template <typename ... Components>
 	std::enable_if_t<(sizeof ... (Components) > 1), basic_manager&>
-	for_each(const callable_ref<void(entity_param, Components&...)>& func)
+	for_each(const callable_ref<void(
+		entity_param,
+		manipulator<Components>&...
+	)>& func)
 	{
 		_call_for_each_m_r<Components...>(func);
 		return *this;
@@ -474,9 +507,12 @@ public:
 
 	template <typename ... Components, typename Func>
 	basic_manager&
-	for_each_ref(const Func& func)
+	for_each_with(const Func& func)
 	{
-		callable_ref<void(entity_param, Components&...)> wrap(func);
+		callable_ref<void(
+			entity_param,
+			manipulator<Components>&...
+		)> wrap(func);
 		return for_each<Components...>(wrap);
 	}
 

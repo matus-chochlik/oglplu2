@@ -361,11 +361,13 @@ _do_get(T C::* mvp, entity_param_t<Entity> ent, T res)
 {
 	assert(mvp);
 
-	auto getter = [mvp, &res](entity_param_t<Entity>, const C& cmp)
+	typedef manipulator<const C> MC;
+
+	auto getter = [mvp, &res](entity_param_t<Entity>, MC& cmp)
 	{
-		res = cmp.*mvp;
+		res = cmp.read().*mvp;
 	};
-	callable_ref<void(entity_param_t<Entity>, const C&)> func(getter);
+	callable_ref<void(entity_param_t<Entity>, MC&)> func(getter);
 
 	_call_for_single<C>(ent, func);
 	return res;
@@ -439,7 +441,10 @@ protected:
 		return _curr;
 	}
 
-	void _apply(const callable_ref<void(entity_param_t<Entity>, C&)>& func)
+	void _apply(const callable_ref<void(
+		entity_param_t<Entity>,
+		manipulator<C>&
+	)>& func)
 	{
 		_storage.for_single(func, _iter);
 	}
@@ -484,12 +489,18 @@ class _manager_for_each_m_p_unit<Entity, mp_list<CL...>, mp_list<C>>
  : public _manager_for_each_m_p_base<Entity, C>
 {
 private:
-	callable_ref<void(entity_param_t<Entity>, CL*..., C*)> _func;
+	callable_ref<void(
+		entity_param_t<Entity>,
+		manipulator<CL>&...,
+		manipulator<C>&
+	)> _func;
 public:
 	_manager_for_each_m_p_unit(
-		const callable_ref<
-			void(entity_param_t<Entity>, CL*..., C*)
-		>& func,
+		const callable_ref<void(
+			entity_param_t<Entity>,
+			manipulator<CL>&...,
+			manipulator<C>&
+		)>& func,
 		component_storage<Entity, std::remove_const_t<C>>& s
 	): _manager_for_each_m_p_base<Entity, C>(s)
 	 , _func(func)
@@ -510,19 +521,26 @@ public:
 		return this->_current();
 	}
 
-	void apply(entity_param_t<Entity> m, CL*... cl)
+	void apply(entity_param_t<Entity> m, manipulator<CL>&... clm)
 	{
 		if(this->_done() || (m < this->_current()))
 		{
-			_func(m, cl..., nullptr);
+			manipulator<C> cman;
+			_func(m, clm..., cman);
 		}
 		else
 		{
 			assert(m == this->_current());
-			callable_ref<void(entity_param_t<Entity>, C&)> hlpr(
-				[cl...,this](entity_param_t<Entity> e, C& c)
+			callable_ref<void(
+				entity_param_t<Entity>,
+				manipulator<C>&
+			)> hlpr(
+				[&clm...,this](
+					entity_param_t<Entity> e,
+					manipulator<C>& cm
+				)
 				{
-					_func(e, cl..., &c);
+					_func(e, clm..., cm);
 				}
 			);
 			this->_apply(hlpr);
@@ -542,8 +560,11 @@ private:
 	> _rest;
 public:
 	_manager_for_each_m_p_unit(
-		const callable_ref<
-			void(entity_param_t<Entity>,CL*..., C*, CR*...)
+		const callable_ref<void(
+			entity_param_t<Entity>,
+			manipulator<CL>&...,
+			manipulator<C>&,
+			manipulator<CR>&...)
 		>& func,
 		component_storage<Entity, std::remove_const_t<C>>& s,
 		component_storage<Entity, std::remove_const_t<CR>>&... r
@@ -584,19 +605,29 @@ public:
 		next_if_min(min_entity());
 	}
 
-	void apply(entity_param_t<Entity> m, CL*... cl)
+	void apply(
+		entity_param_t<Entity> m,
+		manipulator<CL>& ... clm
+	)
 	{
 		if(this->_done() || (m < this->_current()))
 		{
-			_rest.apply(m, cl..., nullptr);
+			manipulator<C> cman;
+			_rest.apply(m, clm..., cman);
 		}
 		else
 		{
 			assert(m == this->_current());
-			callable_ref<void(entity_param_t<Entity>, C&)> hlpr(
-				[cl...,this](entity_param_t<Entity> e, C& c)
+			callable_ref<void(
+				entity_param_t<Entity>,
+				manipulator<C>&
+			)> hlpr(
+				[&clm...,this](
+					entity_param_t<Entity> e,
+					manipulator<C>& cm
+				)
 				{
-					_rest.apply(e, cl..., &c);
+					_rest.apply(e, clm..., cm);
 				}
 			);
 			this->_apply(hlpr);
@@ -678,12 +709,18 @@ class _manager_for_each_m_r_unit<Entity, mp_list<CL...>, mp_list<C>>
  : public _manager_for_each_m_r_base<Entity, C>
 {
 private:
-	callable_ref<void(entity_param_t<Entity>, CL&..., C&)> _func;
+	callable_ref<void(
+		entity_param_t<Entity>,
+		manipulator<CL>&...,
+		manipulator<C>&
+	)> _func;
 public:
 	_manager_for_each_m_r_unit(
-		const callable_ref<
-			void(entity_param_t<Entity>, CL&..., C&)
-		>& func,
+		const callable_ref<void(
+			entity_param_t<Entity>,
+			manipulator<CL>&...,
+			manipulator<C>&
+		)>& func,
 		component_storage<Entity, std::remove_const_t<C>>& s
 	): _manager_for_each_m_r_base<Entity, C>(s)
 	 , _func(func)
@@ -709,13 +746,22 @@ public:
 		return this->_next();
 	}
 
-	void apply(entity_param_t<Entity> m, CL&... cl)
+	void apply(
+		entity_param_t<Entity> m,
+		manipulator<CL>&... clm
+	)
 	{
 		assert(m == this->_current());
-		callable_ref<void(entity_param_t<Entity>, C&)> hlpr(
-			[&cl...,this](entity_param_t<Entity> e, C& c)
+		callable_ref<void(
+			entity_param_t<Entity>,
+			manipulator<C>&
+		)> hlpr(
+			[&clm...,this](
+				entity_param_t<Entity> e,
+				manipulator<C>& cm
+			)
 			{
-				_func(e, cl..., c);
+				_func(e, clm..., cm);
 			}
 		);
 		this->_apply(hlpr);
@@ -734,9 +780,12 @@ private:
 	> _rest;
 public:
 	_manager_for_each_m_r_unit(
-		const callable_ref<
-			void(entity_param_t<Entity>,CL&..., C&, CR&...)
-		>& func,
+		const callable_ref<void(
+			entity_param_t<Entity>,
+			manipulator<CL>&...,
+			manipulator<C>&,
+			manipulator<CR>&...
+		)>& func,
 		component_storage<Entity, std::remove_const_t<C>>& s,
 		component_storage<Entity, std::remove_const_t<CR>>&... r
 	): _manager_for_each_m_r_base<Entity, C>(s)
@@ -771,13 +820,22 @@ public:
 		return _rest.next() && this->_next();
 	}
 
-	void apply(entity_param_t<Entity> m, CL&... cl)
+	void apply(
+		entity_param_t<Entity> m,
+		manipulator<CL>&... clm
+	)
 	{
 		assert(m == this->_current());
-		callable_ref<void(entity_param_t<Entity>, C&)> hlpr(
-			[&cl...,this](entity_param_t<Entity> e, C& c)
+		callable_ref<void(
+			entity_param_t<Entity>,
+			manipulator<C>&
+		)> hlpr(
+			[&clm...,this](
+				entity_param_t<Entity> e,
+				manipulator<C>& cm
+			)
 			{
-				_rest.apply(e, cl..., c);
+				_rest.apply(e, clm..., cm);
 			}
 		);
 		this->_apply(hlpr);

@@ -236,7 +236,9 @@ public:
 	}
 
 	void for_single(
-		callable_ref<void(entity_param, const Component&)> f,
+		callable_ref<
+			void(entity_param, manipulator<const Component>&)
+		> func,
 		entity_param e
 	) override
 	{
@@ -245,13 +247,16 @@ public:
 		{
 			if(!is_hidden(e))
 			{
-				f(p->first, p->second);
+				manipulator<const Component> m(p->second);
+				func(p->first, m);
 			}
 		}
 	}
 
 	void for_single(
-		callable_ref<void(entity_param, const Component&)> f,
+		callable_ref<
+			void(entity_param, manipulator<const Component>&)
+		> func,
 		iterator_t& i
 	) override
 	{
@@ -260,12 +265,13 @@ public:
 		assert(p != _components.end());
 		if(!is_hidden(p->first))
 		{
-			f(p->first, p->second);
+			manipulator<const Component> m(p->second);
+			func(p->first, m);
 		}
 	}
 
 	void for_single(
-		callable_ref<void(entity_param, Component&)> f,
+		callable_ref<void(entity_param, manipulator<Component>&)> f,
 		entity_param e
 	) override
 	{
@@ -275,13 +281,14 @@ public:
 			if(!is_hidden(e))
 			{
 				// TODO: modify notification
-				f(p->first, p->second);
+				manipulator<Component> m(p->second);
+				f(p->first, m);
 			}
 		}
 	}
 
 	void for_single(
-		callable_ref<void(entity_param, Component&)> f,
+		callable_ref<void(entity_param, manipulator<Component>&)> f,
 		iterator_t& i
 	) override
 	{
@@ -291,31 +298,40 @@ public:
 		if(!is_hidden(p->first))
 		{
 			// TODO: modify notification
-			f(p->first, p->second);
+			manipulator<Component> m(p->second);
+			f(p->first, m);
 		}
 	}
 
-	void for_each(callable_ref<void(entity_param,const Component&)> f)
-	override
+	void for_each(
+		callable_ref<
+			void(entity_param, manipulator<const Component>&)
+		> func
+	) override
 	{
+		manipulator<const Component> m;
 		for(auto& p : _components)
 		{
 			if(!is_hidden(p.first))
 			{
-				f(p.first, p.second);
+				m.reset(p.second);
+				func(p.first, m);
 			}
 		}
 	}
 
-	void for_each(callable_ref<void(entity_param, Component&)>f)
-	override
+	void for_each(
+		callable_ref<void(entity_param, manipulator<Component>&)> func
+	) override
 	{
+		manipulator<Component> m;
 		for(auto& p : _components)
 		{
 			if(!is_hidden(p.first))
 			{
 				// TODO: modify notification
-				f(p.first, p.second);
+				m.reset(p.second);
+				func(p.first, m);
 			}
 		}
 	}
