@@ -9,26 +9,27 @@
 #ifndef EAGINE_ECS_MANIPULATOR_1509260923_HPP
 #define EAGINE_ECS_MANIPULATOR_1509260923_HPP
 
+#include <cassert>
+#include "../type_traits.hpp"
+
 namespace eagine {
 namespace ecs {
 
-#include <cassert>
+template <typename Component, bool Const>
+class basic_manipulator;
 
 template <typename Component>
-class base_manipulator;
-
-template <typename Component>
-class base_manipulator
+class basic_manipulator<Component, false>
 {
 private:
 	Component* _ptr;
 public:
-	base_manipulator(void)
+	basic_manipulator(void)
 	noexcept
 	 : _ptr(nullptr)
 	{ }
 
-	base_manipulator(Component& cmp)
+	basic_manipulator(Component& cmp)
 	noexcept
 	 : _ptr(&cmp)
 	{ }
@@ -59,17 +60,17 @@ public:
 };
 
 template <typename Component>
-class base_manipulator<const Component>
+class basic_manipulator<Component, true>
 {
 private:
 	const Component* _ptr;
 public:
-	base_manipulator(void)
+	basic_manipulator(void)
 	noexcept
 	 : _ptr(nullptr)
 	{ }
 
-	base_manipulator(const Component& cmp)
+	basic_manipulator(const Component& cmp)
 	noexcept
 	 : _ptr(&cmp)
 	{ }
@@ -93,12 +94,23 @@ public:
 	}
 };
 
-template <typename Component>
-class manipulator
- : public base_manipulator<Component>
+template <typename Component, bool Const>
+struct get_manipulator
 {
-public:
-	using base_manipulator<Component>::base_manipulator;
+	typedef basic_manipulator<Component, Const> type;
+};
+
+template <typename Component>
+struct manipulator : get_manipulator<
+	std::remove_const_t<Component>,
+	std::is_const<Component>::value
+>::type
+{
+	using _base = typename get_manipulator<
+		std::remove_const_t<Component>,
+		std::is_const<Component>::value
+	>::type;
+	using _base::_base;
 };
 
 } // namespace ecs
