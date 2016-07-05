@@ -10,7 +10,8 @@
 #ifndef EAGINE_RANGE_ALGO_1509260923_HPP
 #define EAGINE_RANGE_ALGO_1509260923_HPP
 
-#include "valid_if.hpp"
+#include "valid_if/nonnegative.hpp"
+#include "valid_if/le_size_ge0.hpp"
 #include "count.hpp"
 
 namespace eagine {

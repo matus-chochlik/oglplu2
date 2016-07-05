@@ -9,8 +9,9 @@
 #ifndef OGLPLUS_EXAMPLE_PARAMS_1512120710_HPP
 #define OGLPLUS_EXAMPLE_PARAMS_1512120710_HPP
 
+#include <eagine/valid_if/positive.hpp>
+#include <eagine/valid_if/not_empty.hpp>
 #include <oglplus/utils/cstr_ref.hpp>
-#include <oglplus/utils/valid_if.hpp>
 #include <oglplus/utils/quantities.hpp>
 #include <cassert>
 
@@ -55,7 +56,7 @@ public:
 	example_params(void)
 	noexcept;
 
-	example_params& exec_command(valid_if_not_empty<cstr_ref> cmd)
+	example_params& exec_command(eagine::valid_if_not_empty<cstr_ref> cmd)
 	{
 		_exec_cmd = cmd.value();
 		return *this;
@@ -70,18 +71,18 @@ public:
 	bool is_readable_file(cstr_ref path) const
 	noexcept;
 
-	valid_if_not_empty<std::string>
+	eagine::valid_if_not_empty<std::string>
 	find_resource_file_path(cstr_ref res_group, cstr_ref res_name) const
 	noexcept;
 
-	valid_if_not_empty<std::string>
+	eagine::valid_if_not_empty<std::string>
 	find_resource_file_path(cstr_ref res_name) const
 	noexcept
 	{
 		return find_resource_file_path(cstr_ref(), res_name);
 	}
 
-	valid_if_not_empty<std::string>
+	eagine::valid_if_not_empty<std::string>
 	find_resource_file_path(example_resource_type, cstr_ref res_name) const
 	noexcept;
 
@@ -89,7 +90,8 @@ public:
 	get_resource_file_path(example_resource_type, cstr_ref res_name) const
 	noexcept;
 
-	example_params& screenshot_path(valid_if_not_empty<cstr_ref> path)
+	example_params&
+	screenshot_path(eagine::valid_if_not_empty<cstr_ref> path)
 	{
 		_screenshot_path = path.value();
 		return *this;
@@ -119,7 +121,8 @@ public:
 		return seconds_(_screenshot_time);
 	}
 
-	example_params& framedump_prefix(valid_if_not_empty<cstr_ref> prefix)
+	example_params&
+	framedump_prefix(eagine::valid_if_not_empty<cstr_ref> prefix)
 	{
 		_framedump_prefix = prefix.value();
 		return *this;
@@ -143,7 +146,7 @@ public:
 		return  doing_screenshot() || doing_framedump();
 	}
 
-	example_params& fixed_fps(valid_if_positive<float> fps)
+	example_params& fixed_fps(eagine::valid_if_positive<float> fps)
 	noexcept
 	{
 		_fixed_fps = fps.value();
@@ -234,7 +237,7 @@ public:
 		return _auto_tiles;
 	}
 
-	example_params& x_tiles(valid_if_positive<int> n)
+	example_params& x_tiles(eagine::valid_if_positive<int> n)
 	noexcept
 	{
 		_x_tiles = n.value();
@@ -247,7 +250,7 @@ public:
 		return _x_tiles;
 	}
 
-	example_params& y_tiles(valid_if_positive<int> n)
+	example_params& y_tiles(eagine::valid_if_positive<int> n)
 	noexcept
 	{
 		_y_tiles = n.value();
@@ -273,7 +276,7 @@ public:
 		return _demo_mode;
 	}
 
-	example_params& samples(valid_if_positive<int> n)
+	example_params& samples(eagine::valid_if_positive<int> n)
 	noexcept
 	{
 		_samples = n.value();
@@ -287,7 +290,7 @@ public:
 		return *this;
 	}
 
-	valid_if_greater_than<int, 0> samples(void) const
+	eagine::valid_if_positive<int> samples(void) const
 	noexcept
 	{
 		return _samples;

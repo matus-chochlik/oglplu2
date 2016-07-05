@@ -21,7 +21,7 @@ combine_output::combine_output(node_intf& parent)
  : base_output(parent)
  , input_r(parent, cstr_ref("Red"))
  , input_g(parent, cstr_ref("Green"))
- , input_b(parent, cstr_ref("Blee"))
+ , input_b(parent, cstr_ref("Blue"))
  , input_a(parent, cstr_ref("Alpha"))
 { }
 //------------------------------------------------------------------------------

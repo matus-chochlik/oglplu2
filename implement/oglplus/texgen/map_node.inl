@@ -46,7 +46,7 @@ map_output::definitions(std::ostream& out, compile_context& ctxt)
 
 	slot_data_type vec3_type = slot_data_type::float_3;
 
-	out << "\t vec3 coord = ";
+	out << "\tvec3 coord = ";
 	out << expr::conversion_prefix{coord.value_type(), vec3_type};
 	out << expr::output_id{coord.output(), ctxt};
 	out << expr::render_param_pass{coord.output()};

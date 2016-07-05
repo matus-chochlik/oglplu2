@@ -12,7 +12,6 @@
 
 #include <eagine/file_magic_number.hpp>
 #include <eagine/offset_ptr.hpp>
-#include "valid_if.hpp"
 #include <array>
 
 namespace oglplus {

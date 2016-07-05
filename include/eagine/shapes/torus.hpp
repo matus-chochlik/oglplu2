@@ -12,7 +12,8 @@
 
 #include "gen_base.hpp"
 #include "../config/basic.hpp"
-#include "../valid_if.hpp"
+#include "../valid_if/greater_than.hpp"
+#include "../valid_if/ge0_lt1.hpp"
 #include <cassert>
 
 namespace eagine {

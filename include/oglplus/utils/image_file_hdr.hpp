@@ -12,7 +12,7 @@
 
 #include <eagine/file_magic_number.hpp>
 #include <eagine/offset_ptr.hpp>
-#include "valid_if.hpp"
+#include <eagine/valid_if/positive.hpp>
 #include <array>
 
 namespace oglplus {
@@ -39,9 +39,9 @@ struct image_data_header
 	{ }
 
 	image_data_header(
-		valid_if_positive<GLsizei> w,
-		valid_if_positive<GLsizei> h,
-		valid_if_positive<GLsizei> d
+		eagine::valid_if_positive<GLsizei> w,
+		eagine::valid_if_positive<GLsizei> h,
+		eagine::valid_if_positive<GLsizei> d
 	) noexcept
 	 : width(w.value())
 	 , height(h.value())

@@ -10,7 +10,7 @@
 #ifndef EAGINE_OPTIONAL_EXPR_1509260923_HPP
 #define EAGINE_OPTIONAL_EXPR_1509260923_HPP
 
-#include "valid_if.hpp"
+#include "valid_if/decl.hpp"
 
 namespace eagine {
 

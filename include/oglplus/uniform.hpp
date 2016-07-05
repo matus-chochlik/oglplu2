@@ -10,6 +10,7 @@
 #define OGLPLUS_UNIFORM_1509260923_HPP
 
 #include "prog_var/location.hpp"
+#include "prog_var/dsa_location.hpp"
 #include "prog_var/wrapper.hpp"
 #include "utils/identity.hpp"
 #include "utils/span.hpp"

@@ -10,9 +10,11 @@
 #define EAGINE_PROGRAM_ARGS_1509260923_HPP
 
 #include "cstr_ref.hpp"
-#include "valid_if.hpp"
+#include "valid_if/in_list.hpp"
+#include "valid_if/lt_size_ge0.hpp"
 #include "type_name.hpp"
 #include "span.hpp"
+#include "identity.hpp"
 #include <cassert>
 #include <sstream>
 #include <vector>
@@ -856,10 +858,49 @@ private:
 			return *_pparam;
 		}
 
+		template <typename X>
+		static
+		cstr_ref _plchldr_name(identity<X>)
+		noexcept
+		{
+			if(std::is_same<X, bool>::value)
+			{
+				return cstr_ref("BOOLEAN");
+			}
+			if(std::is_same<X, cstr_ref>::value)
+			{
+				return cstr_ref("STRING");
+			}
+			if(std::is_integral<X>::value)
+			{
+				return cstr_ref("INTEGER");
+			}
+			if(std::is_floating_point<X>::value)
+			{
+				return cstr_ref("FLOAT");
+			}
+			// TODO: be more precise depending on X
+			return cstr_ref("VALUE");
+		}
+
+		template <typename X, typename P, typename A, typename L>
+		static cstr_ref _plchldr_name(identity<valid_if<X, P, A, L>>)
+		noexcept
+		{
+			return _plchldr_name(identity<X>());
+		}
+
+		template <typename X, typename A>
+		static cstr_ref _plchldr_name(identity<std::vector<X, A>>)
+		noexcept
+		{
+			return _plchldr_name(identity<X>());
+		}
+
 		_impl(program_parameter<T>& param)
 		noexcept
 		 : _pparam(&param)
-		 , _plchldr("VALUE") // TODO: be more precise depending on T
+		 , _plchldr(_plchldr_name(identity<T>())) 
 		{ }
 
 		bool parse(program_arg& arg, std::ostream& log)

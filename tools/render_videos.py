@@ -570,10 +570,10 @@ def render_example(root_dir, example, options):
 		with ui.simple_action('Rendering logo') as progress:
 			run_convert(options.work_dir, [
 				'-size', '144x144', 'xc:none',
-				'-background', 'none',
+				'-background', 'white',
 				'-gravity', 'center',
-				'-stroke', 'black',
-				'-fill', 'black',
+				'-stroke', 'white',
+				'-fill', 'white',
 				'-draw', 'circle 72,72, 72,144',
 				'-blur', '2x2',
 				'-shadow', '%dx7'%options.width,

@@ -27,6 +27,8 @@ set_property(TARGET oglplus-examples PROPERTY FOLDER "Example/OGLplus")
 
 unset(OGLPLUS_EXAMPLE_HARNESS_ADDITIONAL_SOURCES)
 
+add_definitions("-DEAGINE_LINK_LIBRARY=1")
+add_definitions("-DOGLPLUS_LINK_LIBRARY=1")
 
 if("${OGLPLUS_EXAMPLE_HARNESS}" STREQUAL "glx")
 	include_directories(${PROJECT_SOURCE_DIR}/source/utils)
@@ -75,8 +77,9 @@ else()
 		"${CMAKE_CURRENT_SOURCE_DIR}/example/main_${OGLPLUS_EXAMPLE_HARNESS}.cpp"
 	)
 endif()
-# TODO
-#target_link_libraries(oglplus_example_harness oglplus)
+
+target_link_libraries(oglplus_example_harness eagine)
+target_link_libraries(oglplus_example_harness oglplus)
 # add the dependencies for the harness
 add_all_dependencies(main_${OGLPLUS_EXAMPLE_HARNESS} oglplus_example_harness)
 # optional dependencies for the harness with library

@@ -112,7 +112,7 @@ base_input::connected_output(void)
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 bool
-base_input::set_default_value(valid_if_between<unsigned, 0, 3>, float)
+base_input::set_default_value(eagine::valid_if_between<unsigned, 0, 3>, float)
 {
 	return false;
 }

@@ -14,7 +14,8 @@ EAGINE_LIB_FUNC
 std::string
 substitute_variables(
 	const std::string& str,
-	const std::function<std::string(const std::string&)>& translate
+	const callable_ref<std::string(const std::string&)>& translate,
+	bool keep_untranslated
 )
 {
 	std::string::size_type p = str.find_first_of('$');
@@ -57,12 +58,17 @@ substitute_variables(
 			{
 				std::string sub = substitute_variables(
 					std::string(str.data()+p+2, r-p-2),
-					translate
+					translate,
+					keep_untranslated
 				);
 				std::string tmp = translate(sub);
 				if(!tmp.empty())
 				{
 					res.append(tmp);
+				}
+				else if(keep_untranslated)
+				{
+					res.append(str.data()+p, r-p+1);
 				}
 				p = r+1;
 			}
@@ -89,10 +95,32 @@ EAGINE_LIB_FUNC
 std::string
 substitute_variables(
 	const std::string& str,
-	const std::map<std::string, std::string>& dictionary
+	span<const std::string> strings,
+	bool keep_untranslated
 )
 {
-	std::function<std::string(const std::string&)> translate =
+	callable_ref<std::string(const std::string&)> translate{
+	[&strings](const std::string& key) -> std::string
+	{
+		span_size_type idx = span_size_type(std::stol(key));
+		if((0 < idx) && (idx <= strings.size()))
+		{
+			return strings[idx-1];
+		}
+		return {};
+	}};
+	return substitute_variables(str, translate, keep_untranslated);
+}
+//------------------------------------------------------------------------------
+EAGINE_LIB_FUNC
+std::string
+substitute_variables(
+	const std::string& str,
+	const std::map<std::string, std::string>& dictionary,
+	bool keep_untranslated
+)
+{
+	callable_ref<std::string(const std::string&)> translate{
 	[&dictionary](const std::string& key) -> std::string
 	{
 		auto i = dictionary.find(key);
@@ -101,8 +129,8 @@ substitute_variables(
 			return i->second;
 		}
 		return {};
-	};
-	return substitute_variables(str, translate);
+	}};
+	return substitute_variables(str, translate, keep_untranslated);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC

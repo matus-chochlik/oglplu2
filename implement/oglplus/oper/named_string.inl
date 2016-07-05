@@ -18,8 +18,8 @@ outcome<void>
 named_string_state::
 named_string(
 	oglplus::named_string_type type,
-	cstring_span<> name,
-	cstring_span<> value
+	cstring_span name,
+	cstring_span value
 ) noexcept
 {
 	OGLPLUS_GLFUNC(NamedStringARB)(
@@ -36,7 +36,7 @@ named_string(
 inline
 outcome<void>
 named_string_state::
-delete_named_string(cstring_span<> name)
+delete_named_string(cstring_span name)
 noexcept
 {
 	OGLPLUS_GLFUNC(DeleteNamedStringARB)(
@@ -50,7 +50,7 @@ noexcept
 inline
 outcome<boolean>
 named_string_state::
-is_named_string(cstring_span<> name)
+is_named_string(cstring_span name)
 noexcept
 {
 	GLboolean result = OGLPLUS_GLFUNC(IsNamedStringARB)(
@@ -65,7 +65,7 @@ inline
 outcome<void>
 named_string_state::
 get_named_string_iv(
-	cstring_span<> name,
+	cstring_span name,
 	named_string_param param,
 	span<GLint> values
 ) noexcept
@@ -84,7 +84,7 @@ get_named_string_iv(
 inline
 outcome<GLint>
 named_string_state::
-named_string_length(cstring_span<> name)
+named_string_length(cstring_span name)
 noexcept
 {
 	GLint result = 0;
@@ -98,7 +98,7 @@ noexcept
 inline
 outcome<named_string_type>
 named_string_state::
-named_string_type(cstring_span<> name)
+named_string_type(cstring_span name)
 noexcept
 {
 	GLint result = 0;
@@ -112,7 +112,7 @@ noexcept
 inline
 outcome<GLint>
 named_string_state::
-get_named_string(cstring_span<> name, span<GLchar> buf)
+get_named_string(cstring_span name, span<GLchar> buf)
 noexcept
 {
 	GLint reallen = 0;

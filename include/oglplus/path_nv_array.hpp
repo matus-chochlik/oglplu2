@@ -25,7 +25,7 @@ struct path_nv_array_ops
 		path_font_target_nv font_target,
 		cstr_ref font_name,
 		enum_bitfield<path_font_style_nv> font_style,
-		cstring_span<> char_codes,
+		cstring_span char_codes,
 		path_missing_glyph_nv handle_missing_glyphs,
 		GLuint parameter_template,
 		GLfloat em_scale
@@ -78,7 +78,7 @@ struct path_nv_array_ops
 	outcome<void>
 	get_path_spacing(
 		path_list_mode_nv list_mode,
-		cstring_span<> indices,
+		cstring_span indices,
 		const object_names<tag::path_nv, S>& paths,
 		GLfloat advance_scale,
 		GLfloat kerning_scale,
@@ -102,7 +102,7 @@ struct path_nv_array_ops
 	outcome<void>
 	get_path_metrics(
 		enum_bitfield<path_metric_query_nv> query_mask,
-		cstring_span<> indices,
+		cstring_span indices,
 		const object_names<tag::path_nv, S>& paths,
 		GLsizei stride,
 		span<GLfloat> returned_values
@@ -135,7 +135,7 @@ struct path_nv_array_ops
 	static
 	outcome<void>
 	stencil_fill_path_instanced(
-		cstring_span<> indices,
+		cstring_span indices,
 		const object_names<tag::path_nv, S>& paths,
 		path_fill_mode_nv mode,
 		GLuint mask,
@@ -158,7 +158,7 @@ struct path_nv_array_ops
 	static
 	outcome<void>
 	cover_fill_path_instanced(
-		cstring_span<> indices,
+		cstring_span indices,
 		const object_names<tag::path_nv, S>& paths,
 		path_fill_cover_mode_nv mode,
 		path_transform_type_nv transform_type,
@@ -181,7 +181,7 @@ struct path_nv_array_ops
 	static
 	outcome<void>
 	stencil_stroke_path_instanced(
-		cstring_span<> indices,
+		cstring_span indices,
 		const object_names<tag::path_nv, S>& paths,
 		GLint reference,
 		GLuint mask,
@@ -204,7 +204,7 @@ struct path_nv_array_ops
 	static
 	outcome<void>
 	cover_stroke_path_instanced(
-		cstring_span<> indices,
+		cstring_span indices,
 		const object_names<tag::path_nv, S>& paths,
 		path_stroke_cover_mode_nv mode,
 		path_transform_type_nv transform_type,
@@ -234,7 +234,7 @@ public:
 		path_font_target_nv font_target,
 		cstr_ref font_name,
 		enum_bitfield<path_font_style_nv> font_style,
-		cstring_span<> char_codes,
+		cstring_span char_codes,
 		path_missing_glyph_nv handle_missing_glyphs,
 		GLuint parameter_template,
 		GLfloat em_scale
@@ -301,7 +301,7 @@ public:
 	outcome<Derived&>
 	get_spacing(
 		path_list_mode_nv list_mode,
-		cstring_span<> indices,
+		cstring_span indices,
 		GLfloat advance_scale,
 		GLfloat kerning_scale,
 		path_transform_type_nv transform_type,
@@ -344,7 +344,7 @@ public:
 	outcome<Derived&>
 	get_metrics(
 		enum_bitfield<path_metric_query_nv> query_mask,
-		cstring_span<> indices,
+		cstring_span indices,
 		GLsizei stride,
 		span<GLfloat> returned_values
 	) noexcept
@@ -395,7 +395,7 @@ public:
 
 	outcome<Derived&>
 	stencil_fill_instanced(
-		cstring_span<> indices,
+		cstring_span indices,
 		path_fill_mode_nv mode,
 		GLuint mask,
 		path_transform_type_nv transform_type,
@@ -434,7 +434,7 @@ public:
 
 	outcome<Derived&>
 	cover_fill_instanced(
-		cstring_span<> indices,
+		cstring_span indices,
 		path_fill_cover_mode_nv mode,
 		path_transform_type_nv transform_type,
 		span<const GLfloat> transform_values
@@ -469,7 +469,7 @@ public:
 
 	outcome<Derived&>
 	stencil_stroke_instanced(
-		cstring_span<> indices,
+		cstring_span indices,
 		GLint reference,
 		GLuint mask,
 		path_transform_type_nv transform_type,
@@ -508,7 +508,7 @@ public:
 
 	outcome<Derived&>
 	cover_stroke_instanced(
-		cstring_span<> indices,
+		cstring_span indices,
 		path_stroke_cover_mode_nv mode,
 		path_transform_type_nv transform_type,
 		span<const GLfloat> transform_values

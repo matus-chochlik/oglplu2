@@ -11,15 +11,15 @@
 
 #include "data_type.hpp"
 #include "render_params.hpp"
-#include "oglplus/utils/valid_if.hpp"
+#include <eagine/valid_if/between.hpp>
 #include <eagine/optional_ref.hpp>
-#include <memory>
 #include <cstddef>
 #include <iosfwd>
 
 namespace oglplus {
 namespace texgen {
 
+struct constant_intf;
 struct input_intf;
 struct output_intf;
 struct node_intf;
@@ -29,7 +29,7 @@ class compile_context_impl;
 class compile_context
 {
 private:
-	std::unique_ptr<compile_context_impl> _pimpl;
+	compile_context_impl* _pimpl;
 
 	const compile_context_impl& _impl(void) const
 	noexcept;
@@ -38,6 +38,8 @@ private:
 	noexcept;
 public:
 	compile_context(void);
+	compile_context(const compile_context&) = delete;
+	~compile_context(void);
 
 	unsigned glsl_version(void) const;
 
@@ -45,9 +47,32 @@ public:
 	bool has_tag(const cstr_ref& tag) const
 	noexcept;
 
+	void remember_constant(const constant_intf&);
+	bool remembers_constant(const constant_intf&) const
+	noexcept;
+
 	void remember_output(const output_intf&);
 	bool remembers_output(const output_intf&) const
 	noexcept;
+};
+
+struct constant_intf
+{
+	virtual
+	~constant_intf(void) = default;
+
+	virtual
+	cstr_ref name(void) const
+	noexcept = 0;
+
+	virtual
+	slot_data_type value_type(void) = 0;
+
+	virtual
+	std::ostream& definitions(std::ostream&, compile_context&) = 0;
+
+	virtual
+	std::ostream& expression(std::ostream&, compile_context&) = 0;
 };
 
 struct input_intf
@@ -95,7 +120,10 @@ struct input_intf
 	output_intf& connected_output(void) = 0;
 
 	virtual
-	bool set_default_value(valid_if_between<unsigned, 0, 3> c, float v) = 0;
+	bool set_default_value(
+		eagine::valid_if_between<unsigned, 0, 3> c,
+		float v
+	) = 0;
 
 	bool set_default(float x)
 	{

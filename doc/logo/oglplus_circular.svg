@@ -18,11 +18,11 @@
        id="linearGradient3856">
       <stop
          id="stop3858"
-         style="stop-color:#7978d6;stop-opacity:1"
+         style="stop-color:#5fa6ff;stop-opacity:1"
          offset="0" />
       <stop
          id="stop3860"
-         style="stop-color:#101132;stop-opacity:1"
+         style="stop-color:#0f1276;stop-opacity:1"
          offset="1" />
     </linearGradient>
     <linearGradient
@@ -37,8 +37,8 @@
        color-interpolation-filters="sRGB"
        id="filter3876">
       <feGaussianBlur
-         id="feGaussianBlur3878"
-         stdDeviation="2.0166826" />
+         stdDeviation="2.0166826"
+         id="feGaussianBlur3878" />
     </filter>
   </defs>
   <metadata

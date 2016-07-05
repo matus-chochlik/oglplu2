@@ -52,6 +52,15 @@ glsl_output::definitions(std::ostream& out, compile_context& ctxt)
 	dict["VOXEL_OFFSET"] = "oglptg_vo";
 	dict["VO"] = "oglptg_vo";
 
+	out << "\t" << data_type_name(_input.value_type());
+	out << " oglptgi = ";
+	out << expr::output_id{_input.output(), ctxt};
+	out << expr::render_param_pass{_input.output()};
+	out << ";" << std::endl;
+
+	dict["Input"] = "oglptgi";
+	dict["^"] = "oglptgi";
+
 	for(auto i = _inputs.begin(); i != _inputs.end(); ++i)
 	{
 		input_with_const_default<float[4]>& input = i->second;

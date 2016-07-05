@@ -44,7 +44,7 @@ noexcept
 	return std::ifstream(path.c_str()).good();
 }
 
-valid_if_not_empty<std::string>
+eagine::valid_if_not_empty<std::string>
 example_params::
 find_resource_file_path(cstr_ref res_group, cstr_ref res_name) const
 noexcept
@@ -116,7 +116,7 @@ noexcept
 	return cstr_ref();
 }
 
-valid_if_not_empty<std::string>
+eagine::valid_if_not_empty<std::string>
 example_params::
 find_resource_file_path(example_resource_type type, cstr_ref res_name) const
 noexcept

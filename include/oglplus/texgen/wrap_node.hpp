@@ -10,6 +10,7 @@
 #define OGLPLUS_TEXGEN_WRAP_NODE_1509260923_HPP
 
 #include "fallback_input.hpp"
+#include "coord_node.hpp"
 #include "base_node.hpp"
 #include <string>
 
@@ -28,7 +29,7 @@ class wrap_output
 {
 public:
 	wrap_mode mode;
-	input_with_const_default<float[4]> input;
+	fallback_input<coord_output> input;
 
 	wrap_output(node_intf& parent);
 

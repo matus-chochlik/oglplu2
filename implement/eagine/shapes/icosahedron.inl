@@ -7,7 +7,6 @@
 
 #include <cassert>
 #include <eagine/math/constants.hpp>
-#include <iostream> // TODO 
 
 namespace eagine {
 namespace shapes {

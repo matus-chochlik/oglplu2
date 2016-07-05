@@ -1,5 +1,5 @@
 /**
- *  @file eagine/valid_or_throw.hpp
+ *  @file eagine/valid_if/throw.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -10,7 +10,8 @@
 #ifndef EAGINE_VALID_OR_THROW_1509260923_HPP
 #define EAGINE_VALID_OR_THROW_1509260923_HPP
 
-#include "valid_if.hpp"
+#include "decl.hpp"
+#include "in_class.hpp"
 #include <stdexcept>
 #include <sstream>
 
