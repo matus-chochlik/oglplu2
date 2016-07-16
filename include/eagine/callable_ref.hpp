@@ -55,6 +55,7 @@ public:
 	 : _data(nullptr)
 	 , _func(nullptr)
 	{ }
+
 	callable_ref(RV(*func)(P...))
 	noexcept
 	 : _data(nullptr)
