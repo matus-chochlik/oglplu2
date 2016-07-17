@@ -34,9 +34,9 @@ BOOST_AUTO_TEST_CASE(memoized_fib)
 	typedef unsigned long N;
 
 	memoized<N(N)> fib_memo(
-		[](N _n, eagine::memoized<N(N)>& _m) -> N {
+		[](N _n, eagine::memoized<N(N)>& m) -> N {
 			if(_n < 2) return 1;
-			return _m(_n, [](N n, auto& m){return m(n-2)+m(n-1);});
+			return m(_n, [](N n, auto& f){return f(n-2)+f(n-1);});
 		}
 	);
 
@@ -61,6 +61,36 @@ BOOST_AUTO_TEST_CASE(memoized_fib)
 	}
 }
 
+unsigned long fact_calc(unsigned n)
+{
+	unsigned long r = n;
+	while(n-- > 1) r *= n;
+	return r;
+}
+
+BOOST_AUTO_TEST_CASE(memoized_fact)
+{
+	typedef unsigned M;
+	typedef unsigned long N;
+
+	using namespace eagine;
+
+	memoized<N(M)> fact_memo(
+		[](M _n, eagine::memoized<N(M)>& m) -> N {
+			if(_n < 2) return _n;
+			return m(_n, [](M n, auto& f){return n*f(n-1);});
+		}
+	);
+	for(int j=0; j<20; ++j)
+	{
+		for(unsigned i=0; i<22; ++i)
+		{
+			BOOST_CHECK_EQUAL(fact_calc(i), fact_memo(i));
+		}
+		if(j%7 == 1) fact_memo.clear();
+	}
+}
+
 unsigned long exp_calc(unsigned x, unsigned e)
 {
 	unsigned long r = 1;
@@ -76,10 +106,10 @@ BOOST_AUTO_TEST_CASE(memoized_exp)
 	typedef unsigned long N;
 
 	memoized<N(M,M)> exp_memo(
-		[](M _x, M _e, eagine::memoized<N(M,M)>& _m) -> N {
+		[](M _x, M _e, eagine::memoized<N(M,M)>& m) -> N {
 			if(_e == 0) return 1;
-			auto f = [](M x, M e, auto& m){return x*m(x,e-1);};
-			return _m(_x, _e, f);
+			auto l = [](M x, M e, auto& f){return x*f(x,e-1);};
+			return m(_x, _e, l);
 		}
 	);
 
