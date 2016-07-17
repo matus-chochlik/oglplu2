@@ -49,6 +49,11 @@ public:
 	{
 		return _func(p..., *this);
 	}
+
+	void clear(void)
+	{
+		_memo.clear();
+	}
 };
 
 } // namespace eagine
