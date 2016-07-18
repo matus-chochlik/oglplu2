@@ -59,6 +59,16 @@ BOOST_AUTO_TEST_CASE(memoized_fib)
 	{
 		BOOST_CHECK_EQUAL(f[i], fib_memo(i));
 	}
+
+	for(unsigned long i=0; i<90; ++i)
+	{
+		fib_memo.reset(i);
+	}
+
+	for(unsigned long i=0; i<90; ++i)
+	{
+		BOOST_CHECK_EQUAL(f[i], fib_memo(i));
+	}
 }
 
 unsigned long fact_calc(unsigned n)

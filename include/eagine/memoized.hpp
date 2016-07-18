@@ -50,6 +50,11 @@ public:
 		return _func(p..., *this);
 	}
 
+	void reset(P...p)
+	{
+		_memo.erase(T(p...));
+	}
+
 	void clear(void)
 	{
 		_memo.clear();
