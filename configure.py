@@ -717,12 +717,18 @@ def main(argv):
 	if(options.debug_config):
 		cmake_options += ["--debug-output", "--debug-trycompile"]
 
+	# get the work directory path
+	workdir = os.path.abspath(os.path.dirname(sys.argv[0]))
+
 	# create the build directory if necessary
 	if(not os.path.isdir(options.build_dir)):
 		os.makedirs(options.build_dir)
 
+	# write the build directory path to the 'BUILD_DIR' file
+	with open(os.path.join(workdir, "BUILD_DIR"), "wt") as bdf:
+		bdf.write(options.build_dir)
+
 	# compose the command line for calling cmake
-	workdir = os.path.abspath(os.path.dirname(sys.argv[0]))
 	cmake_cmd_line = ["cmake"] + cmake_options + options.cmake_options + [workdir]
 
 	# call cmake
