@@ -21,21 +21,26 @@ namespace ecs {
 typedef std::size_t component_uid_t;
 
 // component_uid_getter
+template <bool IsRelation>
 class component_uid_getter
 {
 private:
 	static component_uid_t& _curr_uid(void);
 public:
-	static component_uid_t new_uid(void);
+	static inline component_uid_t new_uid(void)
+	{
+		return _curr_uid()++;
+	}
 };
 
 // component_uid
-template <typename Derived>
+template <typename Derived, bool IsRelation>
 struct component_uid
 {
 	static component_uid_t value(void)
 	{
-		static component_uid_t cid = component_uid_getter::new_uid();
+		static component_uid_t cid =
+			component_uid_getter<IsRelation>::new_uid();
 		return cid;
 	}
 
@@ -49,11 +54,21 @@ struct component_uid
 template <typename Derived>
 struct component
 {
-	static component_uid<Derived> _uid;
+	static component_uid<Derived, false> _uid;
 };
 
 template <typename Derived>
-component_uid<Derived> component<Derived>::_uid = {};
+component_uid<Derived, false> component<Derived>::_uid = {};
+
+// relation - base class
+template <typename Derived>
+struct relation
+{
+	static component_uid<Derived, true> _uid;
+};
+
+template <typename Derived>
+component_uid<Derived, true> relation<Derived>::_uid = {};
 
 // get_component_uid
 template <typename X>

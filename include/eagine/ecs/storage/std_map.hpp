@@ -10,6 +10,7 @@
 #define EAGINE_ECS_STORAGE_STD_MAP_1509260923_HPP
 
 #include "../storage.hpp"
+#include "../rel_storage.hpp"
 #include <set>
 #include <map>
 #include <cassert>
