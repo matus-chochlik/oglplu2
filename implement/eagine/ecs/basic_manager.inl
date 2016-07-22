@@ -83,7 +83,7 @@ template <typename Entity>
 inline void
 basic_manager<Entity>::
 _do_reg_cmp_type(
-	std::unique_ptr<base_storage<Entity>>&& storage,
+	std::unique_ptr<base_component_storage<Entity>>&& storage,
 	component_uid_t cid,
 	std::string(*get_name)(void)
 )
@@ -411,7 +411,7 @@ class _manager_for_each_m_base
 private:
 	component_storage<Entity, std::remove_const_t<C>>& _storage;
 protected:
-	storage_iterator<Entity> _iter;
+	component_storage_iterator<Entity> _iter;
 	Entity _curr;
 
 	_manager_for_each_m_base(

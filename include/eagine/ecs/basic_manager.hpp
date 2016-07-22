@@ -10,7 +10,7 @@
 #define EAGINE_ECS_MANAGER_1509260923_HPP
 
 #include "component.hpp"
-#include "storage.hpp"
+#include "cmp_storage.hpp"
 #include "entity_traits.hpp"
 #include "../type_traits.hpp"
 #include "../type_name.hpp"
@@ -117,7 +117,7 @@ class basic_manager
 public:
 	typedef entity_param_t<Entity> entity_param;
 private:
-	typedef base_storage<Entity> _base_storage_t;
+	typedef base_component_storage<Entity> _base_storage_t;
 	typedef std::unique_ptr<_base_storage_t> _base_storage_ptr_t;
 
 	component_uid_map<_base_storage_ptr_t> _storages;
@@ -152,7 +152,7 @@ private:
 	component_storage<Entity, C>& _find_storage(void);
 
 	void _do_reg_cmp_type(
-		std::unique_ptr<base_storage<Entity>>&&,
+		std::unique_ptr<base_component_storage<Entity>>&&,
 		component_uid_t,
 		std::string(*)(void)
 	);

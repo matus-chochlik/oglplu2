@@ -1,13 +1,13 @@
 /**
- *  @file eagine/ecs/storage.hpp
+ *  @file eagine/ecs/cmp_storage.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_ECS_STORAGE_1509260923_HPP
-#define EAGINE_ECS_STORAGE_1509260923_HPP
+#ifndef EAGINE_ECS_CMP_STORAGE_1509260923_HPP
+#define EAGINE_ECS_CMP_STORAGE_1509260923_HPP
 
 #include "entity_traits.hpp"
 #include "storage_caps.hpp"
@@ -19,10 +19,10 @@ namespace eagine {
 namespace ecs {
 
 template <typename Entity>
-struct storage_iterator_intf
+struct component_storage_iterator_intf
 {
 	virtual
-	~storage_iterator_intf(void) = default;
+	~component_storage_iterator_intf(void) = default;
 
 	virtual
 	void reset(void) = 0;
@@ -41,48 +41,48 @@ struct storage_iterator_intf
 };
 
 template <typename Entity>
-class storage_iterator
+class component_storage_iterator
 {
 private:
-	storage_iterator_intf<Entity>* _i;
+	component_storage_iterator_intf<Entity>* _i;
 public:
-	storage_iterator(storage_iterator_intf<Entity>* i)
+	component_storage_iterator(component_storage_iterator_intf<Entity>* i)
 	noexcept
 	 : _i(i)
 	{
 		assert(_i);
 	}
 
-	storage_iterator(const storage_iterator&) = delete;
+	component_storage_iterator(const component_storage_iterator&) = delete;
 
-	storage_iterator(storage_iterator&& tmp)
+	component_storage_iterator(component_storage_iterator&& tmp)
 	noexcept
 	 : _i(tmp._i)
 	{
 		tmp._i = nullptr;
 	}
 
-	~storage_iterator(void)
+	~component_storage_iterator(void)
 	noexcept
 	{
 		assert(_i == nullptr);
 	}
 
-	storage_iterator_intf<Entity>* release(void)
+	component_storage_iterator_intf<Entity>* release(void)
 	{
-		storage_iterator_intf<Entity>* p = _i;
+		component_storage_iterator_intf<Entity>* p = _i;
 		_i = nullptr;
 		return p;
 	}
 
-	storage_iterator_intf<Entity>* ptr(void)
+	component_storage_iterator_intf<Entity>* ptr(void)
 	noexcept
 	{
 		assert(_i);
 		return _i;
 	}
 
-	storage_iterator_intf<Entity>& get(void)
+	component_storage_iterator_intf<Entity>& get(void)
 	noexcept
 	{
 		assert(_i);
@@ -116,13 +116,13 @@ public:
 };
 
 template <typename Entity>
-struct base_storage
+struct base_component_storage
 {
 	typedef entity_param_t<Entity> entity_param;
-	typedef storage_iterator<Entity> iterator_t;
+	typedef component_storage_iterator<Entity> iterator_t;
 
 	virtual
-	~base_storage(void) = default;
+	~base_component_storage(void) = default;
 
 	virtual
 	storage_caps capabilities(void) = 0;
@@ -166,10 +166,10 @@ struct base_storage
 
 template <typename Entity, typename Component>
 struct component_storage
- : base_storage<Entity>
+ : base_component_storage<Entity>
 {
 	typedef entity_param_t<Entity> entity_param;
-	typedef storage_iterator<Entity> iterator_t;
+	typedef component_storage_iterator<Entity> iterator_t;
 
 	virtual
 	bool store(entity_param, Component&&) = 0;
