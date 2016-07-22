@@ -11,6 +11,7 @@
 
 #include "component.hpp"
 #include "cmp_storage.hpp"
+#include "cmp_storage.hpp"
 #include "entity_traits.hpp"
 #include "../type_traits.hpp"
 #include "../type_name.hpp"
@@ -117,10 +118,15 @@ class basic_manager
 public:
 	typedef entity_param_t<Entity> entity_param;
 private:
-	typedef base_component_storage<Entity> _base_storage_t;
-	typedef std::unique_ptr<_base_storage_t> _base_storage_ptr_t;
+	typedef base_component_storage<Entity> _base_cmp_storage_t;
+	typedef std::unique_ptr<_base_cmp_storage_t> _base_cmp_storage_ptr_t;
 
-	component_uid_map<_base_storage_ptr_t> _storages;
+	component_uid_map<_base_cmp_storage_ptr_t> _cmp_storages;
+
+	typedef base_relation_storage<Entity> _base_rel_storage_t;
+	typedef std::unique_ptr<_base_rel_storage_t> _base_rel_storage_ptr_t;
+
+	component_uid_map<_base_rel_storage_ptr_t> _rel_storages;
 
 	template <typename C>
 	using _bare_t = std::remove_const_t<std::remove_reference_t<C>>;
@@ -149,7 +155,10 @@ private:
 	}
 
 	template <typename C>
-	component_storage<Entity, C>& _find_storage(void);
+	component_storage<Entity, C>& _find_cmp_storage(void);
+
+	template <typename R>
+	relation_storage<Entity, R>& _find_rel_storage(void);
 
 	void _do_reg_cmp_type(
 		std::unique_ptr<base_component_storage<Entity>>&&,
@@ -225,19 +234,19 @@ private:
 	);
 
 	template <typename C, typename Func>
-	bool _call_for_single(entity_param, const Func&);
+	bool _call_for_single_c(entity_param, const Func&);
 
 	template <typename C, typename Func>
-	void _call_for_each(const Func&);
+	void _call_for_each_c(const Func&);
 
 	template <typename ... C, typename Func>
-	void _call_for_each_m_p(const Func&);
+	void _call_for_each_c_m_p(const Func&);
 
 	template <typename ... C, typename Func>
-	void _call_for_each_m_r(const Func&);
+	void _call_for_each_c_m_r(const Func&);
 
 	template <typename T, typename C>
-	T _do_get(T C::*, entity_param, T);
+	T _do_get_c(T C::*, entity_param, T);
 public:
 	basic_manager(void) = default;
 
@@ -247,7 +256,7 @@ public:
 	)
 	{
 		_do_reg_cmp_type(
-			_base_storage_ptr_t(std::move(storage)),
+			_base_cmp_storage_ptr_t(std::move(storage)),
 			get_component_uid<Component>(),
 			_cmp_name_getter<Component>()
 		);
@@ -421,7 +430,7 @@ public:
 	template <typename T, typename Component>
 	T get(T Component::*mvp, entity_param ent, T res = T())
 	{
-		return _do_get(mvp, ent, res);
+		return _do_get_c(mvp, ent, res);
 	}
 
 	template <typename Component>
@@ -433,7 +442,7 @@ public:
 		entity_param ent
 	)
 	{
-		_call_for_single<Component>(func, ent);
+		_call_for_single_c<Component>(func, ent);
 		return *this;
 	}
 
@@ -446,7 +455,7 @@ public:
 		entity_param ent
 	)
 	{
-		_call_for_single<Component>(func, ent);
+		_call_for_single_c<Component>(func, ent);
 		return *this;
 	}
 
@@ -457,7 +466,7 @@ public:
 		manipulator<const Component>&
 	)>& func)
 	{
-		_call_for_each<Component>(func);
+		_call_for_each_c<Component>(func);
 		return *this;
 	}
 
@@ -468,7 +477,7 @@ public:
 		manipulator<Component>&
 	)>& func)
 	{
-		_call_for_each<Component>(func);
+		_call_for_each_c<Component>(func);
 		return *this;
 	}
 
@@ -479,7 +488,7 @@ public:
 		manipulator<Components>&...)
 	>& func)
 	{
-		_call_for_each_m_p<Components...>(func);
+		_call_for_each_c_m_p<Components...>(func);
 		return *this;
 	}
 
@@ -501,7 +510,7 @@ public:
 		manipulator<Components>&...
 	)>& func)
 	{
-		_call_for_each_m_r<Components...>(func);
+		_call_for_each_c_m_r<Components...>(func);
 		return *this;
 	}
 

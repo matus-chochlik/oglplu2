@@ -142,7 +142,7 @@ struct base_relation_storage
 	bool remove(entity_param p, entity_param c) = 0;
 };
 
-template <typename Entity, typename Component>
+template <typename Entity, typename Relation>
 struct relation_storage
  : base_relation_storage<Entity>
 {
@@ -150,40 +150,40 @@ struct relation_storage
 	typedef relation_storage_iterator<Entity> iterator_t;
 
 	virtual
-	bool store(entity_param p, entity_param c, Component&&) = 0;
+	bool store(entity_param p, entity_param c, Relation&&) = 0;
 
 	virtual
 	void for_single(
-		callable_ref<void(entity_param,entity_param, const Component&)>,
-		entity_param
+		callable_ref<void(entity_param,entity_param, const Relation&)>,
+		entity_param, entity_param
 	) = 0;
 
 	virtual
 	void for_single(
-		callable_ref<void(entity_param,entity_param, const Component&)>,
+		callable_ref<void(entity_param,entity_param, const Relation&)>,
 		iterator_t&
 	) = 0;
 
 	virtual
 	void for_single(
-		callable_ref<void(entity_param,entity_param, Component&)>,
-		entity_param
+		callable_ref<void(entity_param,entity_param, Relation&)>,
+		entity_param, entity_param
 	) = 0;
 
 	virtual
 	void for_single(
-		callable_ref<void(entity_param,entity_param, Component&)>,
+		callable_ref<void(entity_param,entity_param, Relation&)>,
 		iterator_t&
 	) = 0;
 
 	virtual
 	void for_each(
-		callable_ref<void(entity_param,entity_param, const Component&)>
+		callable_ref<void(entity_param,entity_param, const Relation&)>
 	) = 0;
 
 	virtual
 	void for_each(
-		callable_ref<void(entity_param,entity_param, Component&)>
+		callable_ref<void(entity_param,entity_param, Relation&)>
 	) = 0;
 };
 

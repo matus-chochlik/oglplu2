@@ -54,14 +54,14 @@ template <typename Entity>
 template <typename Component>
 component_storage<Entity, Component>&
 basic_manager<Entity>::
-_find_storage(void)
+_find_cmp_storage(void)
 {
-	auto p_storage = _storages.find(get_component_uid<Component>());
+	auto p_storage = _cmp_storages.find(get_component_uid<Component>());
 
 	typedef component_storage<Entity, Component> cs_t;
 	cs_t* ct_storage = nullptr;
 
-	if(p_storage != _storages.end())
+	if(p_storage != _cmp_storages.end())
 	{
 		auto& b_storage = *p_storage;
 		if(b_storage)
@@ -80,6 +80,35 @@ _find_storage(void)
 }
 //------------------------------------------------------------------------------
 template <typename Entity>
+template <typename Relation>
+relation_storage<Entity, Relation>&
+basic_manager<Entity>::
+_find_rel_storage(void)
+{
+	auto p_storage = _rel_storages.find(get_component_uid<Relation>());
+
+	typedef relation_storage<Entity, Relation> rs_t;
+	rs_t* rl_storage = nullptr;
+
+	if(p_storage != _rel_storages.end())
+	{
+		auto& b_storage = *p_storage;
+		if(b_storage)
+		{
+			rl_storage = dynamic_cast<rs_t*>(b_storage.get());
+			assert(rl_storage);
+		}
+	}
+	if(!rl_storage)
+	{
+		std::string(*get_name)(void) = _cmp_name_getter<Relation>();
+		detail::mgr_handle_cmp_not_reg(get_name());
+		EAGINE_ABORT("Logic error!");
+	}
+	return *rl_storage;
+}
+//------------------------------------------------------------------------------
+template <typename Entity>
 inline void
 basic_manager<Entity>::
 _do_reg_cmp_type(
@@ -90,11 +119,11 @@ _do_reg_cmp_type(
 {
 	assert(bool(storage));
 
-	auto p_storage = _storages.find(cid);
+	auto p_storage = _cmp_storages.find(cid);
 
-	if(p_storage == _storages.end())
+	if(p_storage == _cmp_storages.end())
 	{
-		_storages[cid] = std::move(storage);
+		_cmp_storages[cid] = std::move(storage);
 	}
 	else
 	{
@@ -110,11 +139,11 @@ _do_unr_cmp_type(
 	std::string(*get_name)(void)
 )
 {
-	auto p_storage = _storages.find(cid);
+	auto p_storage = _cmp_storages.find(cid);
 
-	if(p_storage != _storages.end())
+	if(p_storage != _cmp_storages.end())
 	{
-		_storages.erase(p_storage);
+		_cmp_storages.erase(p_storage);
 	}
 	else
 	{
@@ -127,9 +156,9 @@ inline bool
 basic_manager<Entity>::
 _does_know_cmp_type(component_uid_t cid) const
 {
-	auto p_storage = _storages.find(cid);
+	auto p_storage = _cmp_storages.find(cid);
 
-	if(p_storage != _storages.end())
+	if(p_storage != _cmp_storages.end())
 	{
 		return true;
 	}
@@ -150,9 +179,9 @@ _apply_on_base_stg(
 	std::string(*get_name)(void)
 ) const
 {
-	auto p_storage = _storages.find(cid);
+	auto p_storage = _cmp_storages.find(cid);
 
-	if(p_storage != _storages.end())
+	if(p_storage != _cmp_storages.end())
 	{
 		auto& bs_storage = *p_storage;
 		if(bs_storage)
@@ -357,7 +386,7 @@ template <typename Entity>
 template <typename T, typename C>
 inline T
 basic_manager<Entity>::
-_do_get(T C::* mvp, entity_param_t<Entity> ent, T res)
+_do_get_c(T C::* mvp, entity_param_t<Entity> ent, T res)
 {
 	assert(mvp);
 
@@ -369,7 +398,7 @@ _do_get(T C::* mvp, entity_param_t<Entity> ent, T res)
 	};
 	callable_ref<void(entity_param_t<Entity>, MC&)> func(getter);
 
-	_call_for_single<C>(ent, func);
+	_call_for_single_c<C>(ent, func);
 	return res;
 }
 //------------------------------------------------------------------------------
@@ -377,7 +406,7 @@ template <typename Entity>
 template <typename Component, typename Func>
 inline bool
 basic_manager<Entity>::
-_call_for_single(entity_param_t<Entity> ent, const Func& func)
+_call_for_single_c(entity_param_t<Entity> ent, const Func& func)
 {
 	return _apply_on_cmp_stg<std::remove_const_t<Component>>(
 		false,
@@ -393,7 +422,7 @@ template <typename Entity>
 template <typename Component, typename Func>
 inline void
 basic_manager<Entity>::
-_call_for_each(const Func& func)
+_call_for_each_c(const Func& func)
 {
 	_apply_on_cmp_stg<std::remove_const_t<Component>>(
 		false,
@@ -406,7 +435,7 @@ _call_for_each(const Func& func)
 }
 //------------------------------------------------------------------------------
 template <typename Entity, typename C>
-class _manager_for_each_m_base
+class _manager_for_each_c_m_base
 {
 private:
 	component_storage<Entity, std::remove_const_t<C>>& _storage;
@@ -414,7 +443,7 @@ protected:
 	component_storage_iterator<Entity> _iter;
 	Entity _curr;
 
-	_manager_for_each_m_base(
+	_manager_for_each_c_m_base(
 		component_storage<Entity, std::remove_const_t<C>>& storage
 	): _storage(storage)
 	 , _iter(_storage.new_iterator())
@@ -426,7 +455,7 @@ protected:
 		);
 	}
 
-	~_manager_for_each_m_base(void)
+	~_manager_for_each_c_m_base(void)
 	{
 		_storage.delete_iterator(std::move(_iter));
 	}
@@ -451,19 +480,19 @@ protected:
 };
 //------------------------------------------------------------------------------
 template <typename Entity, typename C>
-class _manager_for_each_m_p_base
- : public _manager_for_each_m_base<Entity, C>
+class _manager_for_each_c_m_p_base
+ : public _manager_for_each_c_m_base<Entity, C>
 {
 protected:
-	_manager_for_each_m_p_base(
+	_manager_for_each_c_m_p_base(
 		component_storage<Entity, std::remove_const_t<C>>& storage
-	): _manager_for_each_m_base<Entity, C>(storage)
+	): _manager_for_each_c_m_base<Entity, C>(storage)
 	{ }
 
-	using _manager_for_each_m_base<Entity, C>::_iter;
-	using _manager_for_each_m_base<Entity, C>::_curr;
-	using _manager_for_each_m_base<Entity, C>::_done;
-	using _manager_for_each_m_base<Entity, C>::_current;
+	using _manager_for_each_c_m_base<Entity, C>::_iter;
+	using _manager_for_each_c_m_base<Entity, C>::_curr;
+	using _manager_for_each_c_m_base<Entity, C>::_done;
+	using _manager_for_each_c_m_base<Entity, C>::_current;
 
 	void _next_if(entity_param_t<Entity> m)
 	{
@@ -482,11 +511,11 @@ protected:
 };
 //------------------------------------------------------------------------------
 template <typename Entity, typename LL, typename LR>
-class _manager_for_each_m_p_unit;
+class _manager_for_each_c_m_p_unit;
 //------------------------------------------------------------------------------
 template <typename Entity, typename ... CL, typename C>
-class _manager_for_each_m_p_unit<Entity, mp_list<CL...>, mp_list<C>>
- : public _manager_for_each_m_p_base<Entity, C>
+class _manager_for_each_c_m_p_unit<Entity, mp_list<CL...>, mp_list<C>>
+ : public _manager_for_each_c_m_p_base<Entity, C>
 {
 private:
 	callable_ref<void(
@@ -495,14 +524,14 @@ private:
 		manipulator<C>&
 	)> _func;
 public:
-	_manager_for_each_m_p_unit(
+	_manager_for_each_c_m_p_unit(
 		const callable_ref<void(
 			entity_param_t<Entity>,
 			manipulator<CL>&...,
 			manipulator<C>&
 		)>& func,
 		component_storage<Entity, std::remove_const_t<C>>& s
-	): _manager_for_each_m_p_base<Entity, C>(s)
+	): _manager_for_each_c_m_p_base<Entity, C>(s)
 	 , _func(func)
 	{ }
 
@@ -549,17 +578,17 @@ public:
 };
 //------------------------------------------------------------------------------
 template <typename Entity, typename ... CL, typename C, typename ... CR>
-class _manager_for_each_m_p_unit<Entity, mp_list<CL...>, mp_list<C, CR...>>
- : public _manager_for_each_m_p_base<Entity, C>
+class _manager_for_each_c_m_p_unit<Entity, mp_list<CL...>, mp_list<C, CR...>>
+ : public _manager_for_each_c_m_p_base<Entity, C>
 {
 private:
-	_manager_for_each_m_p_unit<
+	_manager_for_each_c_m_p_unit<
 		Entity,
 		mp_list<CL..., C>,
 		mp_list<CR...>
 	> _rest;
 public:
-	_manager_for_each_m_p_unit(
+	_manager_for_each_c_m_p_unit(
 		const callable_ref<void(
 			entity_param_t<Entity>,
 			manipulator<CL>&...,
@@ -568,7 +597,7 @@ public:
 		>& func,
 		component_storage<Entity, std::remove_const_t<C>>& s,
 		component_storage<Entity, std::remove_const_t<CR>>&... r
-	): _manager_for_each_m_p_base<Entity, C>(s)
+	): _manager_for_each_c_m_p_base<Entity, C>(s)
 	 , _rest(func, r...)
 	{ }
 
@@ -644,18 +673,18 @@ public:
 };
 //------------------------------------------------------------------------------
 template <typename Entity, typename ... C>
-using _manager_for_each_m_p_helper =
-	_manager_for_each_m_p_unit<Entity, mp_list<>, mp_list<C...>>;
+using _manager_for_each_c_m_p_helper =
+	_manager_for_each_c_m_p_unit<Entity, mp_list<>, mp_list<C...>>;
 //------------------------------------------------------------------------------
 template <typename Entity>
 template <typename ... Component, typename Func>
 inline void
 basic_manager<Entity>::
-_call_for_each_m_p(const Func& func)
+_call_for_each_c_m_p(const Func& func)
 {
-	_manager_for_each_m_p_helper<Entity, Component...> hlp(
+	_manager_for_each_c_m_p_helper<Entity, Component...> hlp(
 		func,
-		_find_storage<_bare_t<Component>>()...
+		_find_cmp_storage<_bare_t<Component>>()...
 	);
 	while(!hlp.done())
 	{
@@ -665,19 +694,19 @@ _call_for_each_m_p(const Func& func)
 }
 //------------------------------------------------------------------------------
 template <typename Entity, typename C>
-class _manager_for_each_m_r_base
- : public _manager_for_each_m_base<Entity, C>
+class _manager_for_each_c_m_r_base
+ : public _manager_for_each_c_m_base<Entity, C>
 {
 protected:
-	_manager_for_each_m_r_base(
+	_manager_for_each_c_m_r_base(
 		component_storage<Entity, std::remove_const_t<C>>& storage
-	): _manager_for_each_m_base<Entity, C>(storage)
+	): _manager_for_each_c_m_base<Entity, C>(storage)
 	{ }
 
-	using _manager_for_each_m_base<Entity, C>::_iter;
-	using _manager_for_each_m_base<Entity, C>::_curr;
-	using _manager_for_each_m_base<Entity, C>::_done;
-	using _manager_for_each_m_base<Entity, C>::_current;
+	using _manager_for_each_c_m_base<Entity, C>::_iter;
+	using _manager_for_each_c_m_base<Entity, C>::_curr;
+	using _manager_for_each_c_m_base<Entity, C>::_done;
+	using _manager_for_each_c_m_base<Entity, C>::_current;
 
 	bool _next(void)
 	{
@@ -702,11 +731,11 @@ protected:
 };
 //------------------------------------------------------------------------------
 template <typename Entity, typename LL, typename LR>
-class _manager_for_each_m_r_unit;
+class _manager_for_each_c_m_r_unit;
 //------------------------------------------------------------------------------
 template <typename Entity, typename ... CL, typename C>
-class _manager_for_each_m_r_unit<Entity, mp_list<CL...>, mp_list<C>>
- : public _manager_for_each_m_r_base<Entity, C>
+class _manager_for_each_c_m_r_unit<Entity, mp_list<CL...>, mp_list<C>>
+ : public _manager_for_each_c_m_r_base<Entity, C>
 {
 private:
 	callable_ref<void(
@@ -715,14 +744,14 @@ private:
 		manipulator<C>&
 	)> _func;
 public:
-	_manager_for_each_m_r_unit(
+	_manager_for_each_c_m_r_unit(
 		const callable_ref<void(
 			entity_param_t<Entity>,
 			manipulator<CL>&...,
 			manipulator<C>&
 		)>& func,
 		component_storage<Entity, std::remove_const_t<C>>& s
-	): _manager_for_each_m_r_base<Entity, C>(s)
+	): _manager_for_each_c_m_r_base<Entity, C>(s)
 	 , _func(func)
 	{ }
 
@@ -769,17 +798,17 @@ public:
 };
 //------------------------------------------------------------------------------
 template <typename Entity, typename ... CL, typename C, typename ... CR>
-class _manager_for_each_m_r_unit<Entity, mp_list<CL...>, mp_list<C, CR...>>
- : public _manager_for_each_m_r_base<Entity, C>
+class _manager_for_each_c_m_r_unit<Entity, mp_list<CL...>, mp_list<C, CR...>>
+ : public _manager_for_each_c_m_r_base<Entity, C>
 {
 private:
-	_manager_for_each_m_r_unit<
+	_manager_for_each_c_m_r_unit<
 		Entity,
 		mp_list<CL..., C>,
 		mp_list<CR...>
 	> _rest;
 public:
-	_manager_for_each_m_r_unit(
+	_manager_for_each_c_m_r_unit(
 		const callable_ref<void(
 			entity_param_t<Entity>,
 			manipulator<CL>&...,
@@ -788,7 +817,7 @@ public:
 		)>& func,
 		component_storage<Entity, std::remove_const_t<C>>& s,
 		component_storage<Entity, std::remove_const_t<CR>>&... r
-	): _manager_for_each_m_r_base<Entity, C>(s)
+	): _manager_for_each_c_m_r_base<Entity, C>(s)
 	 , _rest(func, r...)
 	{ }
 
@@ -851,18 +880,18 @@ public:
 };
 //------------------------------------------------------------------------------
 template <typename Entity, typename ... C>
-using _manager_for_each_m_r_helper =
-	_manager_for_each_m_r_unit<Entity, mp_list<>, mp_list<C...>>;
+using _manager_for_each_c_m_r_helper =
+	_manager_for_each_c_m_r_unit<Entity, mp_list<>, mp_list<C...>>;
 //------------------------------------------------------------------------------
 template <typename Entity>
 template <typename ... Component, typename Func>
 inline void
 basic_manager<Entity>::
-_call_for_each_m_r(const Func& func)
+_call_for_each_c_m_r(const Func& func)
 {
-	_manager_for_each_m_r_helper<Entity, Component...> hlp(
+	_manager_for_each_c_m_r_helper<Entity, Component...> hlp(
 		func,
-		_find_storage<_bare_t<Component>>()...
+		_find_cmp_storage<_bare_t<Component>>()...
 	);
 	if(hlp.sync())
 	{
@@ -880,7 +909,7 @@ void
 basic_manager<Entity>::
 forget(entity_param_t<Entity> ent)
 {
-	for(auto& storage : _storages)
+	for(auto& storage : _cmp_storages)
 	{
 		if(storage != nullptr)
 		{
