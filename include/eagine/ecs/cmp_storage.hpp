@@ -11,6 +11,7 @@
 
 #include "entity_traits.hpp"
 #include "storage_caps.hpp"
+#include "storage_fwd.hpp"
 #include "manipulator.hpp"
 #include "../callable_ref.hpp"
 #include <cassert>
@@ -19,10 +20,10 @@ namespace eagine {
 namespace ecs {
 
 template <typename Entity>
-struct component_storage_iterator_intf
+struct storage_iterator_intf<Entity, false>
 {
 	virtual
-	~component_storage_iterator_intf(void) = default;
+	~storage_iterator_intf(void) = default;
 
 	virtual
 	void reset(void) = 0;
@@ -41,48 +42,48 @@ struct component_storage_iterator_intf
 };
 
 template <typename Entity>
-class component_storage_iterator
+class storage_iterator<Entity, false>
 {
 private:
-	component_storage_iterator_intf<Entity>* _i;
+	storage_iterator_intf<Entity, false>* _i;
 public:
-	component_storage_iterator(component_storage_iterator_intf<Entity>* i)
+	storage_iterator(storage_iterator_intf<Entity, false>* i)
 	noexcept
 	 : _i(i)
 	{
 		assert(_i);
 	}
 
-	component_storage_iterator(const component_storage_iterator&) = delete;
+	storage_iterator(const storage_iterator&) = delete;
 
-	component_storage_iterator(component_storage_iterator&& tmp)
+	storage_iterator(storage_iterator&& tmp)
 	noexcept
 	 : _i(tmp._i)
 	{
 		tmp._i = nullptr;
 	}
 
-	~component_storage_iterator(void)
+	~storage_iterator(void)
 	noexcept
 	{
 		assert(_i == nullptr);
 	}
 
-	component_storage_iterator_intf<Entity>* release(void)
+	storage_iterator_intf<Entity, false>* release(void)
 	{
-		component_storage_iterator_intf<Entity>* p = _i;
+		storage_iterator_intf<Entity, false>* p = _i;
 		_i = nullptr;
 		return p;
 	}
 
-	component_storage_iterator_intf<Entity>* ptr(void)
+	storage_iterator_intf<Entity, false>* ptr(void)
 	noexcept
 	{
 		assert(_i);
 		return _i;
 	}
 
-	component_storage_iterator_intf<Entity>& get(void)
+	storage_iterator_intf<Entity, false>& get(void)
 	noexcept
 	{
 		assert(_i);
@@ -116,13 +117,13 @@ public:
 };
 
 template <typename Entity>
-struct base_component_storage
+struct base_storage<Entity, false>
 {
 	typedef entity_param_t<Entity> entity_param;
-	typedef component_storage_iterator<Entity> iterator_t;
+	typedef storage_iterator<Entity, false> iterator_t;
 
 	virtual
-	~base_component_storage(void) = default;
+	~base_storage(void) = default;
 
 	virtual
 	storage_caps capabilities(void) = 0;
@@ -165,11 +166,11 @@ struct base_component_storage
 };
 
 template <typename Entity, typename Component>
-struct component_storage
- : base_component_storage<Entity>
+struct storage<Entity, Component, false>
+ : base_storage<Entity, false>
 {
 	typedef entity_param_t<Entity> entity_param;
-	typedef component_storage_iterator<Entity> iterator_t;
+	typedef storage_iterator<Entity, false> iterator_t;
 
 	virtual
 	bool store(entity_param, Component&&) = 0;

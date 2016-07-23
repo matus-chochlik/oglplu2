@@ -50,25 +50,23 @@ struct component_uid
 	}
 };
 
-// component - base class
-template <typename Derived>
-struct component
+// entity_data
+template <typename Derived, bool IsRelation>
+struct entity_data
 {
-	static component_uid<Derived, false> _uid;
+	static component_uid<Derived, IsRelation> _uid;
 };
 
+template <typename Derived, bool IsRelation>
+component_uid<Derived, IsRelation> entity_data<Derived, IsRelation>::_uid = {};
+
+// component - base class
 template <typename Derived>
-component_uid<Derived, false> component<Derived>::_uid = {};
+using component = entity_data<Derived, false>;
 
 // relation - base class
 template <typename Derived>
-struct relation
-{
-	static component_uid<Derived, true> _uid;
-};
-
-template <typename Derived>
-component_uid<Derived, true> relation<Derived>::_uid = {};
+using relation = entity_data<Derived, true>;
 
 // get_component_uid
 template <typename X>

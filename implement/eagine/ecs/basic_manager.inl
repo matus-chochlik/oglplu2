@@ -51,61 +51,32 @@ void mgr_handle_cmp_not_reg(std::string&&);
 } // namespace detail
 //------------------------------------------------------------------------------
 template <typename Entity>
-template <typename Component>
-component_storage<Entity, Component>&
+template <typename Data, bool IsR>
+storage<Entity, Data, IsR>&
 basic_manager<Entity>::
-_find_cmp_storage(void)
+_find_storage(void)
 {
-	auto p_storage = _cmp_storages.find(get_component_uid<Component>());
+	auto pb_storage = _get_storages<IsR>().find(get_component_uid<Data>());
 
-	typedef component_storage<Entity, Component> cs_t;
-	cs_t* ct_storage = nullptr;
+	typedef storage<Entity, Data, IsR> S;
+	S* pd_storage = nullptr;
 
-	if(p_storage != _cmp_storages.end())
+	if(pb_storage != _get_storages<IsR>().end())
 	{
-		auto& b_storage = *p_storage;
+		auto& b_storage = *pb_storage;
 		if(b_storage)
 		{
-			ct_storage = dynamic_cast<cs_t*>(b_storage.get());
-			assert(ct_storage);
+			pd_storage = dynamic_cast<S*>(b_storage.get());
+			assert(pd_storage);
 		}
 	}
-	if(!ct_storage)
+	if(!pd_storage)
 	{
-		std::string(*get_name)(void) = _cmp_name_getter<Component>();
+		std::string(*get_name)(void) = _cmp_name_getter<Data>();
 		detail::mgr_handle_cmp_not_reg(get_name());
 		EAGINE_ABORT("Logic error!");
 	}
-	return *ct_storage;
-}
-//------------------------------------------------------------------------------
-template <typename Entity>
-template <typename Relation>
-relation_storage<Entity, Relation>&
-basic_manager<Entity>::
-_find_rel_storage(void)
-{
-	auto p_storage = _rel_storages.find(get_component_uid<Relation>());
-
-	typedef relation_storage<Entity, Relation> rs_t;
-	rs_t* rl_storage = nullptr;
-
-	if(p_storage != _rel_storages.end())
-	{
-		auto& b_storage = *p_storage;
-		if(b_storage)
-		{
-			rl_storage = dynamic_cast<rs_t*>(b_storage.get());
-			assert(rl_storage);
-		}
-	}
-	if(!rl_storage)
-	{
-		std::string(*get_name)(void) = _cmp_name_getter<Relation>();
-		detail::mgr_handle_cmp_not_reg(get_name());
-		EAGINE_ABORT("Logic error!");
-	}
-	return *rl_storage;
+	return *pd_storage;
 }
 //------------------------------------------------------------------------------
 template <typename Entity>

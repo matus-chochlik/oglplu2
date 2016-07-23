@@ -123,10 +123,32 @@ private:
 
 	component_uid_map<_base_cmp_storage_ptr_t> _cmp_storages;
 
+	component_uid_map<_base_cmp_storage_ptr_t>&
+	_get_storages(std::false_type)
+	noexcept
+	{
+		return _cmp_storages;
+	}
+
 	typedef base_relation_storage<Entity> _base_rel_storage_t;
 	typedef std::unique_ptr<_base_rel_storage_t> _base_rel_storage_ptr_t;
 
 	component_uid_map<_base_rel_storage_ptr_t> _rel_storages;
+
+	component_uid_map<_base_rel_storage_ptr_t>&
+	_get_storages(std::true_type)
+	noexcept
+	{
+		return _rel_storages;
+	}
+
+	template <bool IsR>
+	component_uid_map<std::unique_ptr<base_component_storage<Entity>>>&
+	_get_storages(void)
+	noexcept
+	{
+		return _get_storages(std::integral_constant<bool, IsR>());
+	}
 
 	template <typename C>
 	using _bare_t = std::remove_const_t<std::remove_reference_t<C>>;
@@ -154,11 +176,20 @@ private:
 		return &type_name<C>;
 	}
 
+	template <typename Data, bool IsR>
+	storage<Entity, Data, IsR>& _find_storage(void);
+
 	template <typename C>
-	component_storage<Entity, C>& _find_cmp_storage(void);
+	component_storage<Entity, C>& _find_cmp_storage(void)
+	{
+		return _find_storage<C, false>();
+	}
 
 	template <typename R>
-	relation_storage<Entity, R>& _find_rel_storage(void);
+	relation_storage<Entity, R>& _find_rel_storage(void)
+	{
+		return _find_storage<R, true>();
+	}
 
 	void _do_reg_cmp_type(
 		std::unique_ptr<base_component_storage<Entity>>&&,
