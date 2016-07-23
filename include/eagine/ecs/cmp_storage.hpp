@@ -177,36 +177,54 @@ struct storage<Entity, Component, false>
 
 	virtual
 	void for_single(
-		callable_ref<void(entity_param, manipulator<const Component>&)>,
+		callable_ref<void(
+			entity_param,
+			manipulator<const Component>&
+		)>,
 		entity_param
 	) = 0;
 
 	virtual
 	void for_single(
-		callable_ref<void(entity_param, manipulator<const Component>&)>,
+		callable_ref<void(
+			entity_param,
+			manipulator<const Component>&
+		)>,
 		iterator_t&
 	) = 0;
 
 	virtual
 	void for_single(
-		callable_ref<void(entity_param, manipulator<Component>&)>,
+		callable_ref<void(
+			entity_param,
+			manipulator<Component>&
+		)>,
 		entity_param
 	) = 0;
 
 	virtual
 	void for_single(
-		callable_ref<void(entity_param, manipulator<Component>&)>,
+		callable_ref<void(
+			entity_param,
+			manipulator<Component>&
+		)>,
 		iterator_t&
 	) = 0;
 
 	virtual
 	void for_each(
-		callable_ref<void(entity_param, manipulator<const Component>&)>
+		callable_ref<void(
+			entity_param,
+			manipulator<const Component>&
+		)>
 	) = 0;
 
 	virtual
 	void for_each(
-		callable_ref<void(entity_param, manipulator<Component>&)>
+		callable_ref<void(
+			entity_param,
+			manipulator<Component>&
+		)>
 	) = 0;
 };
 

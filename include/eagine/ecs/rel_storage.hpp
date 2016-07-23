@@ -12,6 +12,7 @@
 #include "entity_traits.hpp"
 #include "storage_caps.hpp"
 #include "storage_fwd.hpp"
+#include "manipulator.hpp"
 #include "../callable_ref.hpp"
 #include <cassert>
 
@@ -150,41 +151,67 @@ struct storage<Entity, Relation, true>
 	typedef entity_param_t<Entity> entity_param;
 	typedef storage_iterator<Entity, true> iterator_t;
 
+	using base_storage<Entity, true>::store;
+
 	virtual
 	bool store(entity_param p, entity_param c, Relation&&) = 0;
 
 	virtual
 	void for_single(
-		callable_ref<void(entity_param,entity_param, const Relation&)>,
+		callable_ref<void(
+			entity_param,
+			entity_param,
+			manipulator<const Relation>
+		&)>,
 		entity_param, entity_param
 	) = 0;
 
 	virtual
 	void for_single(
-		callable_ref<void(entity_param,entity_param, const Relation&)>,
+		callable_ref<void(
+			entity_param,
+			entity_param,
+			manipulator<const Relation>
+		&)>,
 		iterator_t&
 	) = 0;
 
 	virtual
 	void for_single(
-		callable_ref<void(entity_param,entity_param, Relation&)>,
+		callable_ref<void(
+			entity_param,
+			entity_param,
+			manipulator<Relation>
+		&)>,
 		entity_param, entity_param
 	) = 0;
 
 	virtual
 	void for_single(
-		callable_ref<void(entity_param,entity_param, Relation&)>,
+		callable_ref<void(
+			entity_param,
+			entity_param,
+			manipulator<Relation>&
+		)>,
 		iterator_t&
 	) = 0;
 
 	virtual
 	void for_each(
-		callable_ref<void(entity_param,entity_param, const Relation&)>
+		callable_ref<void(
+			entity_param,
+			entity_param,
+			manipulator<const Relation>&
+		)>
 	) = 0;
 
 	virtual
 	void for_each(
-		callable_ref<void(entity_param,entity_param, Relation&)>
+		callable_ref<void(
+			entity_param,
+			entity_param,
+			manipulator<Relation>&
+		)>
 	) = 0;
 };
 

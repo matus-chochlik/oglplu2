@@ -80,21 +80,23 @@ _find_storage(void)
 }
 //------------------------------------------------------------------------------
 template <typename Entity>
+template <bool IsRelation>
 inline void
 basic_manager<Entity>::
-_do_reg_cmp_type(
-	std::unique_ptr<base_component_storage<Entity>>&& storage,
+_do_reg_stg_type(
+	std::unique_ptr<base_storage<Entity, IsRelation>>&& storage,
 	component_uid_t cid,
 	std::string(*get_name)(void)
 )
 {
 	assert(bool(storage));
 
-	auto p_storage = _cmp_storages.find(cid);
+	auto &storages = _get_storages<IsRelation>();
+	auto p_storage = storages.find(cid);
 
-	if(p_storage == _cmp_storages.end())
+	if(p_storage == storages.end())
 	{
-		_cmp_storages[cid] = std::move(storage);
+		storages[cid] = std::move(storage);
 	}
 	else
 	{
@@ -103,18 +105,20 @@ _do_reg_cmp_type(
 }
 //------------------------------------------------------------------------------
 template <typename Entity>
+template <bool IsRelation>
 inline void
 basic_manager<Entity>::
-_do_unr_cmp_type(
+_do_unr_stg_type(
 	component_uid_t cid,
 	std::string(*get_name)(void)
 )
 {
-	auto p_storage = _cmp_storages.find(cid);
+	auto &storages = _get_storages<IsRelation>();
+	auto p_storage = storages.find(cid);
 
-	if(p_storage != _cmp_storages.end())
+	if(p_storage != storages.end())
 	{
-		_cmp_storages.erase(p_storage);
+		storages.erase(p_storage);
 	}
 	else
 	{
@@ -123,13 +127,15 @@ _do_unr_cmp_type(
 }
 //------------------------------------------------------------------------------
 template <typename Entity>
+template <bool IsRelation>
 inline bool
 basic_manager<Entity>::
-_does_know_cmp_type(component_uid_t cid) const
+_does_know_stg_type(component_uid_t cid) const
 {
-	auto p_storage = _cmp_storages.find(cid);
+	auto &storages = _get_storages<IsRelation>();
+	auto p_storage = storages.find(cid);
 
-	if(p_storage != _cmp_storages.end())
+	if(p_storage != storages.end())
 	{
 		return true;
 	}
@@ -140,7 +146,7 @@ _does_know_cmp_type(component_uid_t cid) const
 }
 //------------------------------------------------------------------------------
 template <typename Entity>
-template <typename Result, typename Func>
+template <bool IsRelation, typename Result, typename Func>
 inline Result
 basic_manager<Entity>::
 _apply_on_base_stg(
@@ -150,9 +156,10 @@ _apply_on_base_stg(
 	std::string(*get_name)(void)
 ) const
 {
-	auto p_storage = _cmp_storages.find(cid);
+	auto &storages = _get_storages<IsRelation>();
+	auto p_storage = storages.find(cid);
 
-	if(p_storage != _cmp_storages.end())
+	if(p_storage != storages.end())
 	{
 		auto& bs_storage = *p_storage;
 		if(bs_storage)
@@ -165,18 +172,18 @@ _apply_on_base_stg(
 }
 //------------------------------------------------------------------------------
 template <typename Entity>
-template <typename Component, typename Result, typename Func>
+template <typename Component, bool IsRelation, typename Result, typename Func>
 inline Result
 basic_manager<Entity>::
-_apply_on_cmp_stg(Result fallback, const Func& func) const
+_apply_on_stg(Result fallback, const Func& func) const
 {
-	return _apply_on_base_stg(
+	return _apply_on_base_stg<IsRelation>(
 		fallback,
 		[&func](auto& b_storage) -> Result
 		{
-			typedef component_storage<Entity, Component> cs_t;
+			typedef storage<Entity, Component, IsRelation> S;
 
-			cs_t* ct_storage = dynamic_cast<cs_t*>(b_storage.get());
+			S* ct_storage = dynamic_cast<S*>(b_storage.get());
 			assert(ct_storage);
 
 			return func(ct_storage);
@@ -187,11 +194,12 @@ _apply_on_cmp_stg(Result fallback, const Func& func) const
 }
 //------------------------------------------------------------------------------
 template <typename Entity>
+template <bool IsRelation>
 inline storage_caps
 basic_manager<Entity>::
-_get_cmp_type_caps(component_uid_t cid, std::string(*get_name)(void)) const
+_get_stg_type_caps(component_uid_t cid, std::string(*get_name)(void)) const
 {
-	return _apply_on_base_stg(
+	return _apply_on_base_stg<IsRelation>(
 		storage_caps(),
 		[](auto& b_storage) -> storage_caps
 		{
@@ -202,6 +210,7 @@ _get_cmp_type_caps(component_uid_t cid, std::string(*get_name)(void)) const
 }
 //------------------------------------------------------------------------------
 template <typename Entity>
+template <bool IsRelation>
 inline bool
 basic_manager<Entity>::
 _does_have(
@@ -210,7 +219,7 @@ _does_have(
 	std::string(*get_name)(void)
 )
 {
-	return _apply_on_base_stg(
+	return _apply_on_base_stg<IsRelation>(
 		false,
 		[&ent](auto& b_storage) -> bool
 		{
@@ -229,7 +238,7 @@ _is_hidn(
 	std::string(*get_name)(void)
 )
 {
-	return _apply_on_base_stg(
+	return _apply_on_base_stg<false>(
 		false,
 		[&ent](auto& b_storage) -> bool
 		{
@@ -248,7 +257,7 @@ _do_show(
 	std::string(*get_name)(void)
 )
 {
-	return _apply_on_base_stg(
+	return _apply_on_base_stg<false>(
 		false,
 		[&ent](auto& b_storage) -> bool
 		{
@@ -267,7 +276,7 @@ _do_hide(
 	std::string(*get_name)(void)
 )
 {
-	return _apply_on_base_stg(
+	return _apply_on_base_stg<false>(
 		false,
 		[&ent](auto& b_storage) -> bool
 		{
@@ -283,7 +292,7 @@ inline bool
 basic_manager<Entity>::
 _do_add(entity_param_t<Entity> ent, Component&& component)
 {
-	return _apply_on_cmp_stg<Component>(
+	return _apply_on_stg<Component, false>(
 		false,
 		[&ent, &component](auto& c_storage) -> bool
 		{
@@ -303,7 +312,7 @@ _do_cpy(
 	std::string(*get_name)(void)
 )
 {
-	return _apply_on_base_stg(
+	return _apply_on_base_stg<false>(
 		false,
 		[&from, &to](auto& b_storage) -> bool
 		{
@@ -323,7 +332,7 @@ _do_swp(
 	std::string(*get_name)(void)
 )
 {
-	return _apply_on_base_stg(
+	return _apply_on_base_stg<false>(
 		false,
 		[&e1, &e2](auto& b_storage) -> bool
 		{
@@ -343,7 +352,7 @@ _do_rem(
 	std::string(*get_name)(void)
 )
 {
-	return _apply_on_base_stg(
+	return _apply_on_base_stg<false>(
 		false,
 		[&ent](auto& b_storage) -> bool
 		{
@@ -379,7 +388,7 @@ inline bool
 basic_manager<Entity>::
 _call_for_single_c(entity_param_t<Entity> ent, const Func& func)
 {
-	return _apply_on_cmp_stg<std::remove_const_t<Component>>(
+	return _apply_on_stg<std::remove_const_t<Component>, false>(
 		false,
 		[&func, &ent](auto& c_storage) -> bool
 		{
@@ -395,7 +404,7 @@ inline void
 basic_manager<Entity>::
 _call_for_each_c(const Func& func)
 {
-	_apply_on_cmp_stg<std::remove_const_t<Component>>(
+	_apply_on_stg<std::remove_const_t<Component>, false>(
 		false,
 		[&func](auto& c_storage) -> bool
 		{

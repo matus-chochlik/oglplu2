@@ -236,9 +236,10 @@ public:
 	}
 
 	void for_single(
-		callable_ref<
-			void(entity_param, manipulator<const Component>&)
-		> func,
+		callable_ref<void(
+			entity_param,
+			manipulator<const Component>&
+		)> func,
 		entity_param e
 	) override
 	{
@@ -254,9 +255,10 @@ public:
 	}
 
 	void for_single(
-		callable_ref<
-			void(entity_param, manipulator<const Component>&)
-		> func,
+		callable_ref<void(
+			entity_param,
+			manipulator<const Component>&
+		)> func,
 		iterator_t& i
 	) override
 	{
@@ -271,7 +273,10 @@ public:
 	}
 
 	void for_single(
-		callable_ref<void(entity_param, manipulator<Component>&)> f,
+		callable_ref<void(
+			entity_param,
+			manipulator<Component>&
+		)> func,
 		entity_param e
 	) override
 	{
@@ -282,13 +287,16 @@ public:
 			{
 				// TODO: modify notification
 				manipulator<Component> m(p->second);
-				f(p->first, m);
+				func(p->first, m);
 			}
 		}
 	}
 
 	void for_single(
-		callable_ref<void(entity_param, manipulator<Component>&)> f,
+		callable_ref<void(
+			entity_param,
+			manipulator<Component>&
+		)> func,
 		iterator_t& i
 	) override
 	{
@@ -299,14 +307,15 @@ public:
 		{
 			// TODO: modify notification
 			manipulator<Component> m(p->second);
-			f(p->first, m);
+			func(p->first, m);
 		}
 	}
 
 	void for_each(
-		callable_ref<
-			void(entity_param, manipulator<const Component>&)
-		> func
+		callable_ref<void(
+			entity_param,
+			manipulator<const Component>&
+		)> func
 	) override
 	{
 		manipulator<const Component> m;
@@ -321,7 +330,10 @@ public:
 	}
 
 	void for_each(
-		callable_ref<void(entity_param, manipulator<Component>&)> func
+		callable_ref<void(
+			entity_param,
+			manipulator<Component>&
+		)> func
 	) override
 	{
 		manipulator<Component> m;
@@ -403,7 +415,7 @@ private:
 	typedef std::pair<Entity, Entity> _pair_t;
 	std::map<_pair_t, Relation> _relations;
 
-	typedef std_map_rel_storage_iterator<_pair_t, Relation> _map_iter_t;
+	typedef std_map_rel_storage_iterator<Entity, Relation> _map_iter_t;
 
 	_map_iter_t& _iter_cast(relation_storage_iterator<Entity>& i)
 	noexcept
@@ -413,7 +425,7 @@ private:
 	}
 public:
 	typedef entity_param_t<Entity> entity_param;
-	typedef component_storage_iterator<Entity> iterator_t;
+	typedef relation_storage_iterator<Entity> iterator_t;
 
 	storage_caps capabilities(void)
 	override
@@ -464,7 +476,11 @@ public:
 	}
 
 	void for_single(
-		callable_ref<void(entity_param,entity_param, const Relation&)>,
+		callable_ref<void(
+			entity_param,
+			entity_param,
+			manipulator<const Relation>&
+		)> func,
 		entity_param pa, entity_param ch
 	) override
 	{
@@ -477,7 +493,11 @@ public:
 	}
 
 	void for_single(
-		callable_ref<void(entity_param,entity_param, const Relation&)>,
+		callable_ref<void(
+			entity_param,
+			entity_param,
+			manipulator<const Relation>&
+		)> func,
 		iterator_t& i
 	) override
 	{
@@ -486,11 +506,15 @@ public:
 		assert(po != _relations.end());
 
 		manipulator<const Relation> m(po->second);
-		f(po->first.first, po->first.second, m);
+		func(po->first.first, po->first.second, m);
 	}
 
 	void for_single(
-		callable_ref<void(entity_param,entity_param, Relation&)>,
+		callable_ref<void(
+			entity_param,
+			entity_param,
+			manipulator<Relation>&
+		)> func,
 		entity_param pa, entity_param ch
 	) override
 	{
@@ -504,7 +528,11 @@ public:
 	}
 
 	void for_single(
-		callable_ref<void(entity_param,entity_param, Relation&)>,
+		callable_ref<void(
+			entity_param,
+			entity_param,
+			manipulator<Relation>&
+		)> func,
 		iterator_t& i
 	) override
 	{
@@ -514,11 +542,15 @@ public:
 
 		// TODO: modify notification
 		manipulator<Relation> m(po->second);
-		f(po->first.first, po->first.second, m);
+		func(po->first.first, po->first.second, m);
 	}
 
 	void for_each(
-		callable_ref<void(entity_param,entity_param, const Relation&)>
+		callable_ref<void(
+			entity_param,
+			entity_param,
+			manipulator<const Relation>&
+		)> func
 	) override
 	{
 		manipulator<const Relation> m;
@@ -530,7 +562,11 @@ public:
 	}
 
 	void for_each(
-		callable_ref<void(entity_param,entity_param, Relation&)>
+		callable_ref<void(
+			entity_param,
+			entity_param,
+			manipulator<Relation>&
+		)> func
 	) override
 	{
 		manipulator<Relation> m;
