@@ -397,12 +397,30 @@ public:
 		);
 	}
 
+	template <typename Relation>
+	storage_caps relation_storage_caps(void) const
+	{
+		return _get_stg_type_caps<true>(
+			get_component_uid<Relation>(),
+			_cmp_name_getter<Relation>()
+		);
+	}
+
 	template <typename Component>
 	bool component_storage_can(storage_cap_bit cap) const
 	{
-		return _get_stg_type_caps(
+		return _get_stg_type_caps<false>(
 			get_component_uid<Component>(),
 			_cmp_name_getter<Component>()
+		).has(cap);
+	}
+
+	template <typename Relation>
+	bool relation_storage_can(storage_cap_bit cap) const
+	{
+		return _get_stg_type_caps<true>(
+			get_component_uid<Relation>(),
+			_cmp_name_getter<Relation>()
 		).has(cap);
 	}
 
