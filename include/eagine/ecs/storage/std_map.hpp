@@ -394,13 +394,13 @@ public:
 		++_i;
 	}
 
-	Entity parent(void)
+	Entity subject(void)
 	override
 	{
 		return _i->first.first;
 	}
 
-	Entity child(void)
+	Entity object(void)
 	override
 	{
 		return _i->first.second;
@@ -449,30 +449,30 @@ public:
 		delete i.release();
 	}
 
-	bool has(entity_param p, entity_param c)
+	bool has(entity_param s, entity_param o)
 	override
 	{
-		return _relations.find(_pair_t(p, c)) != _relations.end();
+		return _relations.find(_pair_t(s, o)) != _relations.end();
 	}
 
-	bool store(entity_param p, entity_param c)
+	bool store(entity_param s, entity_param o)
 	override
 	{
-		_relations.emplace(_pair_t(p, c), Relation());
+		_relations.emplace(_pair_t(s, o), Relation());
 		return true;
 	}
 
-	bool store(entity_param p, entity_param c, Relation&& r)
+	bool store(entity_param s, entity_param o, Relation&& r)
 	override
 	{
-		_relations.emplace(_pair_t(p, c), std::move(r));
+		_relations.emplace(_pair_t(s, o), std::move(r));
 		return true;
 	}
 
-	bool remove(entity_param p, entity_param c)
+	bool remove(entity_param s, entity_param o)
 	override
 	{
-		return _relations.erase(_pair_t(p, c)) > 0;
+		return _relations.erase(_pair_t(s, o)) > 0;
 	}
 
 	void for_single(
@@ -481,10 +481,10 @@ public:
 			entity_param,
 			manipulator<const Relation>&
 		)> func,
-		entity_param pa, entity_param ch
+		entity_param subject, entity_param object
 	) override
 	{
-		auto po = _relations.find(_pair_t(pa, ch));
+		auto po = _relations.find(_pair_t(subject, object));
 		if(po != _relations.end())
 		{
 			manipulator<const Relation> m(po->second);
@@ -515,10 +515,10 @@ public:
 			entity_param,
 			manipulator<Relation>&
 		)> func,
-		entity_param pa, entity_param ch
+		entity_param subject, entity_param object
 	) override
 	{
-		auto po = _relations.find(_pair_t(pa, ch));
+		auto po = _relations.find(_pair_t(subject, object));
 		if(po != _relations.end())
 		{
 			// TODO: modify notification

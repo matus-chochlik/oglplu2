@@ -35,10 +35,10 @@ struct storage_iterator_intf<Entity, true>
 	void next(void) = 0;
 
 	virtual
-	Entity parent(void) = 0;
+	Entity subject(void) = 0;
 
 	virtual
-	Entity child(void) = 0;
+	Entity object(void) = 0;
 };
 
 template <typename Entity>
@@ -105,14 +105,14 @@ public:
 		get().next();
 	}
 
-	Entity parent(void)
+	Entity subject(void)
 	{
-		return get().parent();
+		return get().subject();
 	}
 
-	Entity child(void)
+	Entity object(void)
 	{
-		return get().parent();
+		return get().object();
 	}
 };
 
@@ -135,13 +135,13 @@ struct base_storage<Entity, true>
 	void delete_iterator(iterator_t&&) = 0;
 
 	virtual
-	bool has(entity_param p, entity_param c) = 0;
+	bool has(entity_param subject, entity_param object) = 0;
 
 	virtual
-	bool store(entity_param p, entity_param c) = 0;
+	bool store(entity_param subject, entity_param object) = 0;
 
 	virtual
-	bool remove(entity_param p, entity_param c) = 0;
+	bool remove(entity_param subject, entity_param object) = 0;
 };
 
 template <typename Entity, typename Relation>
@@ -154,7 +154,7 @@ struct storage<Entity, Relation, true>
 	using base_storage<Entity, true>::store;
 
 	virtual
-	bool store(entity_param p, entity_param c, Relation&&) = 0;
+	bool store(entity_param subject, entity_param object, Relation&&) = 0;
 
 	virtual
 	void for_single(
@@ -163,7 +163,7 @@ struct storage<Entity, Relation, true>
 			entity_param,
 			manipulator<const Relation>
 		&)>,
-		entity_param, entity_param
+		entity_param subject, entity_param object
 	) = 0;
 
 	virtual
@@ -183,7 +183,7 @@ struct storage<Entity, Relation, true>
 			entity_param,
 			manipulator<Relation>
 		&)>,
-		entity_param, entity_param
+		entity_param subject, entity_param object
 	) = 0;
 
 	virtual

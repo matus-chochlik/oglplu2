@@ -233,8 +233,14 @@ private:
 		std::string(*)(void)
 	) const;
 
-	template <bool IsR>
-	bool _does_have(
+	bool _does_have_c(
+		entity_param,
+		component_uid_t,
+		std::string(*)(void)
+	);
+
+	bool _does_have_r(
+		entity_param,
 		entity_param,
 		component_uid_t,
 		std::string(*)(void)
@@ -259,7 +265,18 @@ private:
 	);
 
 	template <typename Component>
-	bool _do_add(entity_param, Component&& component);
+	bool _do_add_c(entity_param, Component&& component);
+
+	template <typename Relation>
+	bool _do_add_r(entity_param, entity_param, Relation&& relation);
+
+	bool _do_add_r(
+		entity_param,
+		entity_param,
+		component_uid_t,
+		std::string(*)(void)
+	);
+
 
 	bool _do_cpy(
 		entity_param f,
@@ -429,10 +446,20 @@ public:
 	template <typename Component>
 	bool has(entity_param ent)
 	{
-		return _does_have(
+		return _does_have_c(
 			ent,
 			get_component_uid<Component>(),
 			_cmp_name_getter<Component>()
+		);
+	}
+
+	template <typename Relation>
+	bool has(entity_param subject, entity_param object)
+	{
+		return _does_have_r(
+			subject, object,
+			get_component_uid<Relation>(),
+			_cmp_name_getter<Relation>()
 		);
 	}
 
@@ -440,7 +467,7 @@ public:
 	bool has_all(entity_param ent)
 	{
 		return _count_true(
-			_does_have(
+			_does_have_c(
 				ent,
 				get_component_uid<Components>(),
 				_cmp_name_getter<Components>()
@@ -498,7 +525,27 @@ public:
 	basic_manager&
 	add(entity_param ent, Components&& ... components)
 	{
-		_eat(_do_add(ent, std::move(components))...);
+		_eat(_do_add_c(ent, std::move(components))...);
+		return *this;
+	}
+
+	template <typename Relation>
+	basic_manager&
+	add_relation(entity_param subject, entity_param object, Relation&& rel)
+	{
+		_do_add_r(subject, object, std::move(rel));
+		return *this;
+	}
+
+	template <typename Relation>
+	basic_manager&
+	add_relation(entity_param subject, entity_param object)
+	{
+		_do_add_r(
+			subject, object,
+			get_component_uid<Relation>(),
+			_cmp_name_getter<Relation>()
+		);
 		return *this;
 	}
 
@@ -507,8 +554,7 @@ public:
 	copy(entity_param from, entity_param to)
 	{
 		_eat(_do_cpy(
-			from,
-			to,
+			from, to,
 			get_component_uid<Components>(),
 			_cmp_name_getter<Components>()
 		)...);
@@ -520,8 +566,7 @@ public:
 	swap(entity_param e1, entity_param e2)
 	{
 		_eat(_do_swp(
-			e1,
-			e2,
+			e1, e2,
 			get_component_uid<Components>(),
 			_cmp_name_getter<Components>()
 		)...);

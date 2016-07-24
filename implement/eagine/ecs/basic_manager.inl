@@ -210,20 +210,39 @@ _get_stg_type_caps(component_uid_t cid, std::string(*get_name)(void)) const
 }
 //------------------------------------------------------------------------------
 template <typename Entity>
-template <bool IsRelation>
 inline bool
 basic_manager<Entity>::
-_does_have(
+_does_have_c(
 	entity_param_t<Entity> ent,
 	component_uid_t cid,
 	std::string(*get_name)(void)
 )
 {
-	return _apply_on_base_stg<IsRelation>(
+	return _apply_on_base_stg<false>(
 		false,
 		[&ent](auto& b_storage) -> bool
 		{
 			return b_storage->has(ent);
+		},
+		cid, get_name
+	);
+}
+//------------------------------------------------------------------------------
+template <typename Entity>
+inline bool
+basic_manager<Entity>::
+_does_have_r(
+	entity_param_t<Entity> subject,
+	entity_param_t<Entity> object,
+	component_uid_t cid,
+	std::string(*get_name)(void)
+)
+{
+	return _apply_on_base_stg<true>(
+		false,
+		[&subject,&object](auto& b_storage) -> bool
+		{
+			return b_storage->has(subject, object);
 		},
 		cid, get_name
 	);
@@ -290,7 +309,7 @@ template <typename Entity>
 template <typename Component>
 inline bool
 basic_manager<Entity>::
-_do_add(entity_param_t<Entity> ent, Component&& component)
+_do_add_c(entity_param_t<Entity> ent, Component&& component)
 {
 	return _apply_on_stg<Component, false>(
 		false,
@@ -299,6 +318,42 @@ _do_add(entity_param_t<Entity> ent, Component&& component)
 			c_storage->store(ent, std::move(component));
 			return true;
 		}
+	);
+}
+//------------------------------------------------------------------------------
+template <typename Entity>
+template <typename Relation>
+inline bool
+basic_manager<Entity>::
+_do_add_r(entity_param subj, entity_param obj, Relation&& relation)
+{
+	return _apply_on_stg<Relation, true>(
+		false,
+		[&subj, &obj, &relation](auto& c_storage) -> bool
+		{
+			c_storage->store(subj, obj, std::move(relation));
+			return true;
+		}
+	);
+}
+//------------------------------------------------------------------------------
+template <typename Entity>
+inline bool
+basic_manager<Entity>::
+_do_add_r(
+	entity_param subject,
+	entity_param object,
+	component_uid_t cid,
+	std::string(*get_name)(void)
+)
+{
+	return _apply_on_base_stg<true>(
+		false,
+		[&subject, &object](auto& b_storage) -> bool
+		{
+			return b_storage->store(subject, object);
+		},
+		cid, get_name
 	);
 }
 //------------------------------------------------------------------------------
