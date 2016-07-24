@@ -292,7 +292,14 @@ private:
 		std::string(*)(void)
 	);
 
-	bool _do_rem(
+	bool _do_rem_c(
+		entity_param,
+		component_uid_t,
+		std::string(*)(void)
+	);
+
+	bool _do_rem_r(
+		entity_param,
 		entity_param,
 		component_uid_t,
 		std::string(*)(void)
@@ -303,6 +310,9 @@ private:
 
 	template <typename C, typename Func>
 	void _call_for_each_c(const Func&);
+
+	template <typename R, typename Func>
+	void _call_for_each_r(const Func&);
 
 	template <typename ... C, typename Func>
 	void _call_for_each_c_m_p(const Func&);
@@ -577,11 +587,23 @@ public:
 	basic_manager&
 	remove(entity_param ent)
 	{
-		_eat(_do_rem(
+		_eat(_do_rem_c(
 			ent,
 			get_component_uid<Components>(),
 			_cmp_name_getter<Components>()
 		)...);
+		return *this;
+	}
+
+	template <typename Relation>
+	basic_manager&
+	remove_relation(entity_param subject, entity_param object)
+	{
+		_do_rem_r(
+			subject, object,
+			get_component_uid<Relation>(),
+			_cmp_name_getter<Relation>()
+		);
 		return *this;
 	}
 
@@ -636,6 +658,17 @@ public:
 	)>& func)
 	{
 		_call_for_each_c<Component>(func);
+		return *this;
+	}
+
+	template <typename Relation>
+	basic_manager&
+	for_each_rel(const callable_ref<void(
+		entity_param,
+		entity_param
+	)>& func)
+	{
+		_call_for_each_r<Relation>(func);
 		return *this;
 	}
 

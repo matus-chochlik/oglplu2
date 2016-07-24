@@ -401,7 +401,7 @@ _do_swp(
 template <typename Entity>
 inline bool
 basic_manager<Entity>::
-_do_rem(
+_do_rem_c(
 	entity_param_t<Entity> ent,
 	component_uid_t cid,
 	std::string(*get_name)(void)
@@ -412,6 +412,26 @@ _do_rem(
 		[&ent](auto& b_storage) -> bool
 		{
 			return b_storage->remove(ent);
+		},
+		cid, get_name
+	);
+}
+//------------------------------------------------------------------------------
+template <typename Entity>
+inline bool
+basic_manager<Entity>::
+_do_rem_r(
+	entity_param_t<Entity> subj,
+	entity_param_t<Entity> obj,
+	component_uid_t cid,
+	std::string(*get_name)(void)
+)
+{
+	return _apply_on_base_stg<true>(
+		false,
+		[&subj, &obj](auto& b_storage) -> bool
+		{
+			return b_storage->remove(subj, obj);
 		},
 		cid, get_name
 	);
@@ -460,6 +480,22 @@ basic_manager<Entity>::
 _call_for_each_c(const Func& func)
 {
 	_apply_on_stg<std::remove_const_t<Component>, false>(
+		false,
+		[&func](auto& c_storage) -> bool
+		{
+			c_storage->for_each(func);
+			return true;
+		}
+	);
+}
+//------------------------------------------------------------------------------
+template <typename Entity>
+template <typename Relation, typename Func>
+inline void
+basic_manager<Entity>::
+_call_for_each_r(const Func& func)
+{
+	_apply_on_stg<std::remove_const_t<Relation>, true>(
 		false,
 		[&func](auto& c_storage) -> bool
 		{

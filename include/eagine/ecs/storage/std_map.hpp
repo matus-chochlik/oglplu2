@@ -545,6 +545,15 @@ public:
 		func(po->first.first, po->first.second, m);
 	}
 
+	void for_each(callable_ref<void(entity_param, entity_param)> func)
+	override
+	{
+		for(auto& p : _relations)
+		{
+			func(p.first.first, p.first.second);
+		}
+	}
+
 	void for_each(
 		callable_ref<void(
 			entity_param,

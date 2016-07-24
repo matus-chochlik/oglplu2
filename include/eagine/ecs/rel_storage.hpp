@@ -142,6 +142,9 @@ struct base_storage<Entity, true>
 
 	virtual
 	bool remove(entity_param subject, entity_param object) = 0;
+
+	virtual
+	void for_each(callable_ref<void(entity_param, entity_param)>) = 0;
 };
 
 template <typename Entity, typename Relation>
@@ -195,6 +198,8 @@ struct storage<Entity, Relation, true>
 		)>,
 		iterator_t&
 	) = 0;
+
+	using base_storage<Entity, true>::for_each;
 
 	virtual
 	void for_each(
