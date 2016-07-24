@@ -367,14 +367,14 @@ public:
 
 	template <
 		template <class, class> class Storage,
-		typename Component,
+		typename Relation,
 		typename ... P
 	>
 	void register_relation_storage(P&& ... p)
 	{
-		register_relation_type<Component>(
-			std::unique_ptr<Storage<Entity, Component>>(
-				new Storage<Entity, Component>(
+		register_relation_type<Relation>(
+			std::unique_ptr<Storage<Entity, Relation>>(
+				new Storage<Entity, Relation>(
 					std::forward<P>(p)...
 				)
 			)
@@ -666,6 +666,18 @@ public:
 	for_each_rel(const callable_ref<void(
 		entity_param,
 		entity_param
+	)>& func)
+	{
+		_call_for_each_r<Relation>(func);
+		return *this;
+	}
+
+	template <typename Relation>
+	basic_manager&
+	for_each_rel(const callable_ref<void(
+		entity_param,
+		entity_param,
+		manipulator<Relation>&
 	)>& func)
 	{
 		_call_for_each_r<Relation>(func);

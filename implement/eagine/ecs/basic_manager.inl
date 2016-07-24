@@ -137,7 +137,7 @@ _does_know_stg_type(component_uid_t cid) const
 
 	if(p_storage != storages.end())
 	{
-		return true;
+		return bool(*p_storage);
 	}
 	else
 	{

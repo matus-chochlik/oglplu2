@@ -35,6 +35,7 @@ def MakeOptionPathsAbsolute(old_opts, work_dir = ThisDir()):
 					break
 
 		new_opts += [new_opt]
+	return new_opts
 
 def BuildDir():
 	try:
@@ -70,7 +71,6 @@ default_opts = [
 	'-I', 'third_party/GSL/include',
 	'-I', 'source/utils'
 ]
-	return new_opts
 
 def FlagsForFile(filename, ** kwargs):
 
