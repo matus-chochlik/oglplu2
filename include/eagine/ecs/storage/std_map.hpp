@@ -545,12 +545,66 @@ public:
 		func(po->first.first, po->first.second, m);
 	}
 
+	void for_each(
+		callable_ref<void(entity_param, entity_param)> func,
+		entity_param subject
+	)
+	override
+	{
+		entity_param object = entity_traits<Entity>::minimum();
+		auto po = _relations.lower_bound(_pair_t(subject, object));
+		while((po != _relations.end()) && (po->first.first == subject))
+		{
+			func(subject, po->first.second);
+			++po;
+		}
+	}
+
 	void for_each(callable_ref<void(entity_param, entity_param)> func)
 	override
 	{
 		for(auto& p : _relations)
 		{
 			func(p.first.first, p.first.second);
+		}
+	}
+
+	void for_each(
+		callable_ref<void(
+			entity_param,
+			entity_param,
+			manipulator<const Relation>&
+		)> func,
+		entity_param subject
+	) override
+	{
+		manipulator<const Relation> m;
+		entity_param object = entity_traits<Entity>::minimum();
+		auto po = _relations.lower_bound(_pair_t(subject, object));
+		while((po != _relations.end()) && (po->first.first == subject))
+		{
+			m.reset(po->second);
+			func(subject, po->first.second, m);
+		}
+	}
+
+	void for_each(
+		callable_ref<void(
+			entity_param,
+			entity_param,
+			manipulator<Relation>&
+		)> func,
+		entity_param subject
+	) override
+	{
+		manipulator<Relation> m;
+		entity_param object = entity_traits<Entity>::minimum();
+		auto po = _relations.lower_bound(_pair_t(subject, object));
+		while((po != _relations.end()) && (po->first.first == subject))
+		{
+			// TODO: modify notification
+			m.reset(po->second);
+			func(subject, po->first.second, m);
 		}
 	}
 

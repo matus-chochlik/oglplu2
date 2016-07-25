@@ -641,10 +641,12 @@ public:
 
 	template <typename Component>
 	basic_manager&
-	for_each(const callable_ref<void(
-		entity_param,
-		manipulator<const Component>&
-	)>& func)
+	for_each(
+		const callable_ref<void(
+			entity_param,
+			manipulator<const Component>&
+		)>& func
+	)
 	{
 		_call_for_each_c<Component>(func);
 		return *this;
@@ -652,10 +654,12 @@ public:
 
 	template <typename Component>
 	basic_manager&
-	for_each(const callable_ref<void(
-		entity_param,
-		manipulator<Component>&
-	)>& func)
+	for_each(
+		const callable_ref<void(
+			entity_param,
+			manipulator<Component>&
+		)>& func
+	)
 	{
 		_call_for_each_c<Component>(func);
 		return *this;
@@ -663,10 +667,12 @@ public:
 
 	template <typename Relation>
 	basic_manager&
-	for_each_rel(const callable_ref<void(
-		entity_param,
-		entity_param
-	)>& func)
+	for_each(
+		const callable_ref<void(
+			entity_param,
+			entity_param
+		)>& func
+	)
 	{
 		_call_for_each_r<Relation>(func);
 		return *this;
@@ -674,11 +680,27 @@ public:
 
 	template <typename Relation>
 	basic_manager&
-	for_each_rel(const callable_ref<void(
-		entity_param,
-		entity_param,
-		manipulator<Relation>&
-	)>& func)
+	for_each(
+		const callable_ref<void(
+			entity_param,
+			entity_param,
+			manipulator<const Relation>&
+		)>& func
+	)
+	{
+		_call_for_each_r<Relation>(func);
+		return *this;
+	}
+
+	template <typename Relation>
+	basic_manager&
+	for_each(
+		const callable_ref<void(
+			entity_param,
+			entity_param,
+			manipulator<Relation>&
+		)>& func
+	)
 	{
 		_call_for_each_r<Relation>(func);
 		return *this;
@@ -686,10 +708,12 @@ public:
 
 	template <typename ... Components>
 	basic_manager&
-	for_each_opt(const callable_ref<void(
-		entity_param,
-		manipulator<Components>&...)
-	>& func)
+	for_each_opt(
+		const callable_ref<void(
+			entity_param,
+			manipulator<Components>&...)
+		>& func
+	)
 	{
 		_call_for_each_c_m_p<Components...>(func);
 		return *this;
@@ -708,10 +732,12 @@ public:
 
 	template <typename ... Components>
 	std::enable_if_t<(sizeof ... (Components) > 1), basic_manager&>
-	for_each(const callable_ref<void(
-		entity_param,
-		manipulator<Components>&...
-	)>& func)
+	for_each(
+		const callable_ref<void(
+			entity_param,
+			manipulator<Components>&...
+		)>& func
+	)
 	{
 		_call_for_each_c_m_r<Components...>(func);
 		return *this;

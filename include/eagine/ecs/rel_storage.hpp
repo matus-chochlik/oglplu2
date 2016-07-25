@@ -144,6 +144,12 @@ struct base_storage<Entity, true>
 	bool remove(entity_param subject, entity_param object) = 0;
 
 	virtual
+	void for_each(
+		callable_ref<void(entity_param, entity_param)>,
+		entity_param subject
+	) = 0;
+
+	virtual
 	void for_each(callable_ref<void(entity_param, entity_param)>) = 0;
 };
 
@@ -200,6 +206,26 @@ struct storage<Entity, Relation, true>
 	) = 0;
 
 	using base_storage<Entity, true>::for_each;
+
+	virtual
+	void for_each(
+		callable_ref<void(
+			entity_param,
+			entity_param,
+			manipulator<const Relation>&
+		)>,
+		entity_param subject
+	) = 0;
+
+	virtual
+	void for_each(
+		callable_ref<void(
+			entity_param,
+			entity_param,
+			manipulator<Relation>&
+		)>,
+		entity_param subject
+	) = 0;
 
 	virtual
 	void for_each(
