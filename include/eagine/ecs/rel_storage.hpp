@@ -144,6 +144,9 @@ struct base_storage<Entity, true>
 	bool remove(entity_param subject, entity_param object) = 0;
 
 	virtual
+	void remove(iterator_t&) = 0;
+
+	virtual
 	void for_each(
 		callable_ref<void(entity_param, entity_param)>,
 		entity_param subject

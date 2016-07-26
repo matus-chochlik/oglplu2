@@ -200,8 +200,9 @@ BOOST_AUTO_TEST_CASE(ecs_test_component_manip_1)
 	mgr.add("marty", name_surname("Marty", "McFly"));
 	mgr.add("marty", measurements(1.6f, 70.f));
 	mgr.add("doc", name_surname("Emmett", "Brown"));
-	mgr.add("biff", name_surname("Biff", "Tannen"), measurements(1.9f,100.f));
 	mgr.add("buford", measurements(2.0f, 110.f));
+	mgr.add("biff", name_surname("Biff", "Tannen"), measurements(1.9f,100.f));
+	mgr.add("griff", name_surname("Griff", "Tannen"));
 
 	std::set<std::string> names;
 
@@ -213,10 +214,11 @@ BOOST_AUTO_TEST_CASE(ecs_test_component_manip_1)
 		}
 	);
 
-	BOOST_CHECK_EQUAL(names.size(), 4);
+	BOOST_CHECK_EQUAL(names.size(), 5);
 	BOOST_CHECK(names.find("Johnny") != names.end());
 	BOOST_CHECK(names.find("Marty") != names.end());
 	BOOST_CHECK(names.find("Biff") != names.end());
+	BOOST_CHECK(names.find("Griff") != names.end());
 	BOOST_CHECK(names.find("Emmett") != names.end());
 
 	mgr.for_each_with<const name_surname, measurements>(
@@ -278,6 +280,46 @@ BOOST_AUTO_TEST_CASE(ecs_test_component_manip_1)
 		mgr.get(&name_surname::first_name, "buford"),
 		"Mad-dog"
 	);
+
+	BOOST_CHECK(mgr.has<measurements>("buford"));
+	BOOST_CHECK(mgr.has<measurements>("biff"));
+
+	mgr.for_each_with<const name_surname, measurements>(
+		[](
+			const std::string&,
+			manipulator<const name_surname>& ns,
+			manipulator<measurements>& m
+		)
+		{
+			if(ns.get_family_name() == "Tannen")
+			{
+				BOOST_ASSERT(m.can_remove());
+				m.remove();
+			}
+		}
+	);
+
+	BOOST_CHECK(!mgr.has<measurements>("buford"));
+	BOOST_CHECK(!mgr.has<measurements>("biff"));
+
+	BOOST_CHECK(mgr.has<name_surname>("buford"));
+	BOOST_CHECK(mgr.has<name_surname>("biff"));
+	BOOST_CHECK(mgr.has<name_surname>("griff"));
+
+	mgr.for_each_with<name_surname>(
+		[](const std::string&, manipulator<name_surname>& ns)
+		{
+			if(ns.get_family_name() == "Tannen")
+			{
+				BOOST_ASSERT(ns.can_remove());
+				ns.remove();
+			}
+		}
+	);
+
+	BOOST_CHECK(!mgr.has<name_surname>("buford"));
+	BOOST_CHECK(!mgr.has<name_surname>("biff"));
+	BOOST_CHECK(!mgr.has<name_surname>("griff"));
 }
 
 BOOST_AUTO_TEST_CASE(ecs_test_relation_manip_1)

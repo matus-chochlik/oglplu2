@@ -163,6 +163,9 @@ struct base_storage<Entity, false>
 
 	virtual
 	bool remove(entity_param) = 0;
+
+	virtual
+	void remove(iterator_t&) = 0;
 };
 
 template <typename Entity, typename Component>

@@ -105,6 +105,14 @@ private:
 	{
 		return _iter_cast(i)._i->first;
 	}
+
+	typename std::map<Entity, Component>::iterator
+	_remove(typename std::map<Entity, Component>::iterator p)
+	{
+		assert(p != _components.end());
+		_hidden.erase(p->first);
+		return _components.erase(p);
+	}
 public:
 	typedef entity_param_t<Entity> entity_param;
 	typedef component_storage_iterator<Entity> iterator_t;
@@ -227,6 +235,14 @@ public:
 		return _components.erase(e) > 0;
 	}
 
+	void remove(iterator_t& i)
+	override
+	{
+		assert(!i.done());
+		_hidden.erase(_iter_entity(i));
+		_iter_cast(i)._i = _components.erase(_iter_cast(i)._i);
+	}
+
 	bool store(entity_param e, Component&& c)
 	override
 	{
@@ -248,8 +264,15 @@ public:
 		{
 			if(!is_hidden(e))
 			{
-				manipulator<const Component> m(p->second);
+				concrete_manipulator<const Component> m(
+					p->second,
+					true/*can_remove*/
+				);
 				func(p->first, m);
+				if(m.remove_requested())
+				{
+					_remove(p);
+				}
 			}
 		}
 	}
@@ -263,12 +286,19 @@ public:
 	) override
 	{
 		assert(!i.done());
-		auto p = _iter_cast(i)._i;
+		auto &p = _iter_cast(i)._i;
 		assert(p != _components.end());
 		if(!is_hidden(p->first))
 		{
-			manipulator<const Component> m(p->second);
+			concrete_manipulator<const Component> m(
+				p->second,
+				true/*can_remove*/
+			);
 			func(p->first, m);
+			if(m.remove_requested())
+			{
+				p = _remove(p);
+			}
 		}
 	}
 
@@ -286,8 +316,15 @@ public:
 			if(!is_hidden(e))
 			{
 				// TODO: modify notification
-				manipulator<Component> m(p->second);
+				concrete_manipulator<Component> m(
+					p->second,
+					true/*can_remove*/
+				);
 				func(p->first, m);
+				if(m.remove_requested())
+				{
+					_remove(p);
+				}
 			}
 		}
 	}
@@ -301,13 +338,20 @@ public:
 	) override
 	{
 		assert(!i.done());
-		auto p = _iter_cast(i)._i;
+		auto &p = _iter_cast(i)._i;
 		assert(p != _components.end());
 		if(!is_hidden(p->first))
 		{
 			// TODO: modify notification
-			manipulator<Component> m(p->second);
+			concrete_manipulator<Component> m(
+				p->second,
+				true/*can_remove*/
+			);
 			func(p->first, m);
+			if(m.remove_requested())
+			{
+				p = _remove(p);
+			}
 		}
 	}
 
@@ -318,14 +362,21 @@ public:
 		)> func
 	) override
 	{
-		manipulator<const Component> m;
-		for(auto& p : _components)
+		concrete_manipulator<const Component> m(true/*can_remove*/);
+		auto p = _components.begin();
+		while(p != _components.end())
 		{
-			if(!is_hidden(p.first))
+			if(!is_hidden(p->first))
 			{
-				m.reset(p.second);
-				func(p.first, m);
+				m.reset(p->second);
+				func(p->first, m);
+				if(m.remove_requested())
+				{
+					p = _remove(p);
+				}
+				else ++p;
 			}
+			else ++p;
 		}
 	}
 
@@ -336,15 +387,22 @@ public:
 		)> func
 	) override
 	{
-		manipulator<Component> m;
-		for(auto& p : _components)
+		concrete_manipulator<Component> m(true/*can_remove*/);
+		auto p = _components.begin();
+		while(p != _components.end())
 		{
-			if(!is_hidden(p.first))
+			if(!is_hidden(p->first))
 			{
 				// TODO: modify notification
-				m.reset(p.second);
-				func(p.first, m);
+				m.reset(p->second);
+				func(p->first, m);
+				if(m.remove_requested())
+				{
+					p = _remove(p);
+				}
+				else ++p;
 			}
+			else ++p;
 		}
 	}
 };
@@ -423,6 +481,13 @@ private:
 		assert(dynamic_cast<_map_iter_t*>(i.ptr()) != nullptr);
 		return *static_cast<_map_iter_t*>(i.ptr());
 	}
+
+	typename std::map<_pair_t, Relation>::iterator
+	_remove(typename std::map<_pair_t, Relation>::iterator p)
+	{
+		assert(p != _relations.end());
+		return _relations.erase(p);
+	}
 public:
 	typedef entity_param_t<Entity> entity_param;
 	typedef relation_storage_iterator<Entity> iterator_t;
@@ -475,6 +540,13 @@ public:
 		return _relations.erase(_pair_t(s, o)) > 0;
 	}
 
+	void remove(iterator_t& i)
+	override
+	{
+		assert(!i.done());
+		_iter_cast(i)._i = _relations.erase(_iter_cast(i)._i);
+	}
+
 	void for_single(
 		callable_ref<void(
 			entity_param,
@@ -487,8 +559,15 @@ public:
 		auto po = _relations.find(_pair_t(subject, object));
 		if(po != _relations.end())
 		{
-			manipulator<const Relation> m(po->second);
+			concrete_manipulator<const Relation> m(
+				po->second,
+				true/*can_erase*/
+			);
 			func(po->first.first, po->first.second, m);
+			if(m.remove_requested())
+			{
+				_remove(po);
+			}
 		}
 	}
 
@@ -502,11 +581,18 @@ public:
 	) override
 	{
 		assert(!i.done());
-		auto po = _iter_cast(i)._i;
+		auto &po = _iter_cast(i)._i;
 		assert(po != _relations.end());
 
-		manipulator<const Relation> m(po->second);
+		concrete_manipulator<const Relation> m(
+			po->second,
+			true/*can_erase*/
+		);
 		func(po->first.first, po->first.second, m);
+		if(m.remove_requested())
+		{
+			po = _remove(po);
+		}
 	}
 
 	void for_single(
@@ -522,8 +608,15 @@ public:
 		if(po != _relations.end())
 		{
 			// TODO: modify notification
-			manipulator<Relation> m(po->second);
+			concrete_manipulator<Relation> m(
+				po->second,
+				true/*can_erase*/
+			);
 			func(po->first.first, po->first.second, m);
+			if(m.remove_requested())
+			{
+				_remove(po);
+			}
 		}
 	}
 
@@ -537,12 +630,19 @@ public:
 	) override
 	{
 		assert(!i.done());
-		auto po = _iter_cast(i)._i;
+		auto &po = _iter_cast(i)._i;
 		assert(po != _relations.end());
 
 		// TODO: modify notification
-		manipulator<Relation> m(po->second);
+		concrete_manipulator<Relation> m(
+			po->second,
+			true/*can_erase*/
+		);
 		func(po->first.first, po->first.second, m);
+		if(m.remove_requested())
+		{
+			po = _remove(po);
+		}
 	}
 
 	void for_each(
@@ -578,13 +678,18 @@ public:
 		entity_param subject
 	) override
 	{
-		manipulator<const Relation> m;
+		concrete_manipulator<const Relation> m(true/*can_remove*/);
 		entity_param object = entity_traits<Entity>::minimum();
 		auto po = _relations.lower_bound(_pair_t(subject, object));
 		while((po != _relations.end()) && (po->first.first == subject))
 		{
 			m.reset(po->second);
 			func(subject, po->first.second, m);
+			if(m.remove_requested())
+			{
+				po = _remove(po);
+			}
+			else ++po;
 		}
 	}
 
@@ -597,7 +702,7 @@ public:
 		entity_param subject
 	) override
 	{
-		manipulator<Relation> m;
+		concrete_manipulator<Relation> m(true/*can_remove*/);
 		entity_param object = entity_traits<Entity>::minimum();
 		auto po = _relations.lower_bound(_pair_t(subject, object));
 		while((po != _relations.end()) && (po->first.first == subject))
@@ -605,6 +710,11 @@ public:
 			// TODO: modify notification
 			m.reset(po->second);
 			func(subject, po->first.second, m);
+			if(m.remove_requested())
+			{
+				po = _remove(po);
+			}
+			else ++po;
 		}
 	}
 
@@ -616,11 +726,17 @@ public:
 		)> func
 	) override
 	{
-		manipulator<const Relation> m;
-		for(auto& p : _relations)
+		concrete_manipulator<const Relation> m(true/*can_remove*/);
+		auto po = _relations.begin();
+		while(po != _relations.end())
 		{
-			m.reset(p.second);
-			func(p.first.first, p.first.second, m);
+			m.reset(po->second);
+			func(po->first.first, po->first.second, m);
+			if(m.remove_requested())
+			{
+				po = _remove(po);
+			}
+			else ++po;
 		}
 	}
 
@@ -632,12 +748,18 @@ public:
 		)> func
 	) override
 	{
-		manipulator<Relation> m;
-		for(auto& p : _relations)
+		concrete_manipulator<Relation> m(true/*can_remove*/);
+		auto po = _relations.begin();
+		while(po != _relations.end())
 		{
 			// TODO: modify notification
-			m.reset(p.second);
-			func(p.first.first, p.first.second, m);
+			m.reset(po->second);
+			func(po->first.first, po->first.second, m);
+			if(m.remove_requested())
+			{
+				po = _remove(po);
+			}
+			else ++po;
 		}
 	}
 };

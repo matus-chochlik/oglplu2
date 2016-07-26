@@ -625,8 +625,13 @@ public:
 	{
 		if(this->_done() || (m < this->_current()))
 		{
-			manipulator<C> cman;
+			std::remove_const_t<C> cadd;
+			concrete_manipulator<C> cman(nullptr, cadd, false);
 			_func(m, clm..., cman);
+			if(cman.add_requested())
+			{
+				// TODO
+			}
 		}
 		else
 		{
@@ -712,8 +717,13 @@ public:
 	{
 		if(this->_done() || (m < this->_current()))
 		{
-			manipulator<C> cman;
+			std::remove_const_t<C> cadd;
+			concrete_manipulator<C> cman(nullptr, cadd, false);
 			_rest.apply(m, clm..., cman);
+			if(cman.add_requested())
+			{
+				// TODO
+			}
 		}
 		else
 		{
@@ -781,7 +791,10 @@ protected:
 
 	bool _next(void)
 	{
-		_iter.next();
+		if(_current() >= _iter.current())
+		{
+			_iter.next();
+		}
 		if(!_iter.done())
 		{
 			_curr = _iter.current();
