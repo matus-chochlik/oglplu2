@@ -548,6 +548,11 @@ protected:
 	{
 		_storage.for_single(func, _iter);
 	}
+
+	void _store(entity_param_t<Entity> e, std::remove_const_t<C>&& c)
+	{
+		_storage.store(_iter, e, std::move(c));
+	}
 };
 //------------------------------------------------------------------------------
 template <typename Entity, typename C>
@@ -630,7 +635,7 @@ public:
 			_func(m, clm..., cman);
 			if(cman.add_requested())
 			{
-				// TODO
+				this->_store(m, std::move(cadd));
 			}
 		}
 		else
@@ -722,7 +727,7 @@ public:
 			_rest.apply(m, clm..., cman);
 			if(cman.add_requested())
 			{
-				// TODO
+				this->_store(m, std::move(cadd));
 			}
 		}
 		else

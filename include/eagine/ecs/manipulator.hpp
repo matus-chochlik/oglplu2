@@ -114,7 +114,8 @@ private:
 		std::is_const<Component>::value
 	>::type;
 
-	std::remove_const_t<Component> const * _add_place;
+	typedef std::remove_const_t<Component> _nonconstC;
+	std::remove_const_t<Component> * _add_place;
 protected:
 	const bool _can_rem;
 	bool _removed;
@@ -136,7 +137,7 @@ public:
 	 , _added(false)
 	{ }
 
-	manipulator(Component& cmp, Component& add, bool can_rem)
+	manipulator(Component& cmp, _nonconstC& add, bool can_rem)
 	 : _base(cmp)
 	 , _add_place(&add)
 	 , _can_rem(can_rem)
@@ -144,7 +145,7 @@ public:
 	 , _added(false)
 	{ }
 
-	manipulator(std::nullptr_t, Component& add, bool can_rem)
+	manipulator(std::nullptr_t, _nonconstC& add, bool can_rem)
 	 : _base()
 	 , _add_place(&add)
 	 , _can_rem(can_rem)

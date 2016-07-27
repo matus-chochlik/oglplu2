@@ -179,6 +179,9 @@ struct storage<Entity, Component, false>
 	bool store(entity_param, Component&&) = 0;
 
 	virtual
+	bool store(iterator_t&, entity_param, Component&&) = 0;
+
+	virtual
 	void for_single(
 		callable_ref<void(
 			entity_param,

@@ -12,12 +12,15 @@
 #include <eagine/ecs/storage/std_map.hpp>
 
 #include <set>
+#include <cmath>
 
 struct name_surname
  : eagine::ecs::component<name_surname>
 {
 	std::string first_name;
 	std::string family_name;
+
+	name_surname(void) = default;
 
 	name_surname(std::string fn, std::string sn)
 	 : first_name(std::move(fn))
@@ -42,6 +45,11 @@ struct name_surname_manip
 		this->write().first_name = std::move(s);
 	}
 
+	bool has_family_name(const char* str) const
+	{
+		return this->is_valid() && this->read().family_name == str;
+	}
+
 	const std::string& get_family_name(void) const
 	{
 		return this->read().family_name;
@@ -59,6 +67,8 @@ struct measurements
 	float height_m;
 	float weight_kg;
 
+	measurements(void) = default;
+
 	measurements(float h, float w)
 	 : height_m(h)
 	 , weight_kg(w)
@@ -71,6 +81,12 @@ struct measurements_manip
 {
 	using eagine::ecs::basic_manipulator<measurements, Const>::
 		basic_manipulator;
+
+	bool has_height_m(float v) const
+	{
+		return this->is_valid() &&
+			std::abs(this->read().height_m - v) < 0.01f;
+	}
 
 	float get_height_m(void) const
 	{
@@ -208,7 +224,7 @@ BOOST_AUTO_TEST_CASE(ecs_test_component_manip_1)
 
 	mgr.for_each_with<const name_surname>(
 		[&names]
-		(const std::string&, manipulator<const name_surname>& ns)
+		(const entity&, manipulator<const name_surname>& ns)
 		{
 			names.insert(ns.get_first_name());
 		}
@@ -223,7 +239,7 @@ BOOST_AUTO_TEST_CASE(ecs_test_component_manip_1)
 
 	mgr.for_each_with<const name_surname, measurements>(
 		[](
-			const std::string&,
+			const entity&,
 			manipulator<const name_surname>& ns,
 			manipulator<measurements>& m
 		)
@@ -243,7 +259,7 @@ BOOST_AUTO_TEST_CASE(ecs_test_component_manip_1)
 
 	mgr.for_each_with<const measurements>(
 		[&min_h,&max_h,&max_w]
-		(const std::string&, manipulator<const measurements>& m)
+		(const entity&, manipulator<const measurements>& m)
 		{
 			if(min_h > m.get_height_m())
 			{
@@ -267,7 +283,7 @@ BOOST_AUTO_TEST_CASE(ecs_test_component_manip_1)
 	mgr.add("buford", name_surname("Buford", "Tannen"));
 
 	mgr.for_each_with<name_surname>(
-		[](const std::string&, manipulator<name_surname>& ns)
+		[](const entity&, manipulator<name_surname>& ns)
 		{
 			if(ns.get_first_name() == "Buford")
 			{
@@ -286,7 +302,7 @@ BOOST_AUTO_TEST_CASE(ecs_test_component_manip_1)
 
 	mgr.for_each_with<const name_surname, measurements>(
 		[](
-			const std::string&,
+			const entity&,
 			manipulator<const name_surname>& ns,
 			manipulator<measurements>& m
 		)
@@ -302,12 +318,45 @@ BOOST_AUTO_TEST_CASE(ecs_test_component_manip_1)
 	BOOST_CHECK(!mgr.has<measurements>("buford"));
 	BOOST_CHECK(!mgr.has<measurements>("biff"));
 
+	mgr.for_each_with_opt<const name_surname, measurements>(
+		[](
+			const entity&,
+			manipulator<const name_surname>& ns,
+			manipulator<measurements>& m
+		)
+		{
+			if(ns.has_family_name("Tannen"))
+			{
+				BOOST_ASSERT(m.can_add());
+				m.add(measurements(2.0f, 100.f));
+			}
+		}
+	);
+
+	BOOST_CHECK(mgr.has<measurements>("buford"));
+	BOOST_CHECK(mgr.has<measurements>("biff"));
+	BOOST_CHECK(mgr.has<measurements>("griff"));
+
+	mgr.for_each_with_opt<const name_surname, const measurements>(
+		[](
+			const entity&,
+			manipulator<const name_surname>& ns,
+			manipulator<const measurements>& m
+		)
+		{
+			if(ns.has_family_name("Tannen"))
+			{
+				BOOST_CHECK(m.has_height_m(2.f));
+			}
+		}
+	);
+
 	BOOST_CHECK(mgr.has<name_surname>("buford"));
 	BOOST_CHECK(mgr.has<name_surname>("biff"));
 	BOOST_CHECK(mgr.has<name_surname>("griff"));
 
 	mgr.for_each_with<name_surname>(
-		[](const std::string&, manipulator<name_surname>& ns)
+		[](const entity&, manipulator<name_surname>& ns)
 		{
 			if(ns.get_family_name() == "Tannen")
 			{

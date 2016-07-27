@@ -251,6 +251,15 @@ public:
 		return true;
 	}
 
+	bool store(iterator_t& i, entity_param e, Component&& c)
+	override
+	{
+		_hidden.erase(e);
+		auto &p = _iter_cast(i)._i;
+		p = _components.emplace_hint(p, e, std::move(c));
+		return true;
+	}
+
 	void for_single(
 		callable_ref<void(
 			entity_param,
