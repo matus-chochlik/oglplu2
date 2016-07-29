@@ -267,9 +267,20 @@ public:
 		assign(il);
 	}
 
+	flat_map(const std::vector<value_type>& v)
+	{
+		assign(v);
+	}
+
 	void assign(std::initializer_list<std::pair<Key, Val>> il)
 	{
 		_vec = _vec_t(il);
+		std::sort(_vec.begin(), _vec.end(), value_comp());
+	}
+
+	void assign(const std::vector<value_type>& v)
+	{
+		_vec = _vec_t(v.begin(), v.end());
 		std::sort(_vec.begin(), _vec.end(), value_comp());
 	}
 
@@ -325,7 +336,7 @@ public:
 			_vec.begin(), _vec.end(),
 			value.first
 		);
-		if(p->first == value.first) {
+		if((p != _vec.end()) && (p->first == value.first)) {
 			p->second = value.second;
 			return {_cast(p), false};
 		}
