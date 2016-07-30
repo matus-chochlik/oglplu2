@@ -5,7 +5,7 @@
 # See accompanying file LICENSE_1_0.txt or copy at
 #  http://www.boost.org/LICENSE_1_0.txt
 #
-import os, sys, getopt, shutil, subprocess
+import os, sys, stat, getopt, shutil, subprocess
 from tools import args
 from tools import paths
 
@@ -727,6 +727,14 @@ def main(argv):
 	# write the build directory path to the 'BUILD_DIR' file
 	with open(os.path.join(workdir, "BUILD_DIR"), "wt") as bdf:
 		bdf.write(options.build_dir)
+
+	# try to write the reconfigure script
+	try:
+		rcsp = os.path.join(options.build_dir, "reconfig-oglplus.sh") 
+		with open(rcsp, "wt") as rcs:
+			rcs.write("cmake %s\n" % workdir)
+			os.fchmod(rcs.fileno(), stat.S_IRUSR | stat.S_IWUSR | stat.S_IXUSR)
+	except: pass
 
 	# compose the command line for calling cmake
 	cmake_cmd_line = ["cmake"] + cmake_options + options.cmake_options + [workdir]
