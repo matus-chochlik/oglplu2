@@ -193,8 +193,8 @@ BOOST_AUTO_TEST_CASE(flat_map_5)
 	BOOST_CHECK_EQUAL(sm.empty(), fm.empty());
 	BOOST_CHECK_EQUAL(sm.size(), fm.size());
 
-	auto smi = sm.begin();
-	auto fmi = fm.begin();
+	std::map<int, std::size_t>::iterator smi = sm.begin();
+	flat_map<int, std::size_t>::iterator fmi = fm.begin();
 
 	while((smi != sm.end()) && (fmi != fm.end()))
 	{
@@ -206,6 +206,44 @@ BOOST_AUTO_TEST_CASE(flat_map_5)
 
 	BOOST_CHECK(smi == sm.end());
 	BOOST_CHECK(fmi == fm.end());
+}
+
+BOOST_AUTO_TEST_CASE(flat_map_6)
+{
+	using namespace eagine;
+
+	std::map<int, std::size_t> sm;
+	flat_map<int, std::size_t> fm;
+
+	typedef std::pair<const int, std::size_t> p_t;
+	std::vector<int> ks;
+
+	std::hash<int> h;
+
+	for(int i=0; i<1000; ++i)
+	{
+		int k = std::rand();
+		std::size_t v = h(k+k);
+		ks.push_back(k);
+
+		sm.insert(p_t(k, v));
+		fm.insert(p_t(k, v));
+	}
+
+	BOOST_CHECK_EQUAL(sm.empty(), fm.empty());
+	BOOST_CHECK_EQUAL(sm.size(), fm.size());
+
+	for(int k : ks)
+	{
+		auto smi = sm.find(k);
+		auto fmi = fm.find(k);
+
+		BOOST_ASSERT(smi != sm.end());
+		BOOST_ASSERT(fmi != fm.end());
+
+		BOOST_CHECK_EQUAL(smi->first, fmi->first);
+		BOOST_CHECK_EQUAL(smi->second, fmi->second);
+	}
 }
 
 BOOST_AUTO_TEST_SUITE_END()
