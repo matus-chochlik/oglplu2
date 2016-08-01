@@ -241,6 +241,54 @@ private:
 	_cast(typename _cvec_t::iterator i) {
 		return *reinterpret_cast<typename _vec_t::iterator*>(&i);
 	}
+
+	std::pair<typename _vec_t::iterator, bool>
+	_find_insert_pos(const Key& k)
+	{
+		typename _vec_t::iterator b = _vec.begin();
+		typename _vec_t::iterator e = _vec.end();
+		auto p = this->_ops.lower_bound(b, e, k);
+
+		return {p, (p == e) || (k != p->first)};
+	}
+
+	std::pair<typename _vec_t::iterator, bool>
+	_find_insert_pos(typename _vec_t::iterator p, const Key& k)
+	{
+		typename _vec_t::iterator b = _vec.begin();
+		typename _vec_t::iterator e = _vec.end();
+		if(p == e) {
+			if(_vec.empty() || value_comp()(_vec.back(), k)) {
+				return {p, true};
+			}
+			p = this->_ops.lower_bound(b, e, k);
+		}
+		if(k == p->first) {
+			return {p, false};
+		}
+		if(key_comp()(k, p->first)) {
+			if(p != b) {
+				p = this->_ops.lower_bound(b, p, k);
+			}
+		} else {
+			p = this->_ops.lower_bound(p, e, k);
+		}
+		return {p, true};
+	}
+
+	std::pair<typename _vec_t::iterator, bool>
+	_do_insert(
+		std::pair<typename _vec_t::iterator, bool> ip,
+		const typename _base::value_type& value
+	)
+	{
+		if(ip.second) {
+			ip.first = _vec.insert(ip.first, value);
+		} else {
+			ip.first->second = value.second;
+		}
+		return ip;
+	}
 public:
 	using typename _base::key_type;
 	using typename _base::mapped_type;
@@ -332,47 +380,16 @@ public:
 	std::pair<iterator, bool>
 	insert(const value_type& value)
 	{
-		auto p = this->_ops.lower_bound(
-			_vec.begin(), _vec.end(),
-			value.first
-		);
-		if((p != _vec.end()) && (p->first == value.first)) {
-			p->second = value.second;
-			return {_cast(p), false};
-		}
-		return {_cast(_vec.insert(p, value)), true};
+		auto ip = _find_insert_pos(value.first);
+		ip = _do_insert(ip, value);
+		return {_cast(ip.first), ip.second};
 	}
 
 	iterator
 	insert(iterator p, const value_type& value)
 	{
-		if(p == end()) {
-			if(_vec.empty() || value_comp()(_vec.back(), value)) {
-				return _cast(_vec.insert(_cast(p), value));
-			}
-			p = _cast(this->_ops.lower_bound(
-				_vec.begin(), _vec.end(),
-				value.first
-			));
-		}
-		if(value.first == p->first) {
-			p->second = value.second;
-			return p;
-		}
-		if(key_comp()(value.first, p->first)) {
-			if(p != begin()) {
-				p = _cast(this->_ops.lower_bound(
-					_vec.begin(), _cast(p),
-					value.first
-				));
-			}
-		} else {
-			p = _cast(this->_ops.lower_bound(
-				_cast(p), _vec.end(),
-				value.first
-			));
-		}
-		return _cast(_vec.insert(_cast(p), value));
+		auto ip = _find_insert_pos(_cast(p), value.first);
+		return _cast(_do_insert(ip, value).first);
 	}
 
 	iterator erase(iterator p)
