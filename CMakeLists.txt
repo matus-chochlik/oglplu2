@@ -24,6 +24,8 @@ if(NOT ${CONFIG_INFO_ONLY})
 	include(config/LowProfile.cmake)
 endif()
 
+include(config/Tools.cmake)
+
 include(FindPkgConfig)
 include(config/CommonFindMod.cmake)
 
