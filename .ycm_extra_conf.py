@@ -39,7 +39,7 @@ def MakeOptionPathsAbsolute(old_opts, work_dir = ThisDir()):
 
 def BuildDir():
 	try:
-		with open(os.path.join(ThisDir(), "BUILD_DIR"), "rt") as bdf:
+		with open(os.path.join(ThisDir(), "BINARY_DIR"), "rt") as bdf:
 			return MakePathAbsolute(bdf.read(), ThisDir())
 	except: pass
 	return os.path.join(ThisDir(), "_build")
