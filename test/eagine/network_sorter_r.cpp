@@ -58,7 +58,9 @@ BOOST_AUTO_TEST_CASE(network_sorter_1_1)
 	test_network_sorter_1_N<4>(1000);
 	test_network_sorter_1_N<5>(1000);
 	test_network_sorter_1_N<6>(1000);
-	test_network_sorter_1_N<8>(700);
+	test_network_sorter_1_N<7>(900);
+	test_network_sorter_1_N<8>(800);
+	test_network_sorter_1_N<9>(700);
 	// TODO
 }
 

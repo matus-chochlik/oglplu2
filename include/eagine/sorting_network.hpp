@@ -264,12 +264,103 @@ struct manual_sorting_network_base<6>
 		{0, 1, 3, 2, 4, 5}
 	};
 
-	static inline
+	static constexpr inline
 	std::size_t index(std::size_t round, std::size_t elem)
 	noexcept { return idx[round][elem]; }
 };
 
 const std::size_t manual_sorting_network_base<6>::idx[5][6];
+
+template <>
+struct manual_sorting_network_base<7>
+{
+	static constexpr bool is_specialized = true;
+
+	static constexpr inline
+	std::size_t size(void)
+	noexcept { return 7; }
+
+	static constexpr inline
+	std::size_t rounds(void)
+	noexcept { return 6; }
+
+	static constexpr
+	std::size_t idx[6][7] = {
+		{1, 0, 3, 2, 5, 4, 6},
+		{2, 3, 0, 1, 6, 5, 4},
+		{4, 5, 6, 3, 0, 1, 2},
+		{0, 4, 2, 6, 1, 5, 3},
+		{0, 1, 4, 5, 2, 3, 6},
+		{0, 2, 1, 4, 3, 6, 5}
+	};
+
+	static constexpr inline
+	std::size_t index(std::size_t round, std::size_t elem)
+	noexcept { return idx[round][elem]; }
+};
+
+const std::size_t manual_sorting_network_base<7>::idx[6][7];
+
+template <>
+struct manual_sorting_network_base<8>
+{
+	static constexpr bool is_specialized = true;
+
+	static constexpr inline
+	std::size_t size(void)
+	noexcept { return 8; }
+
+	static constexpr inline
+	std::size_t rounds(void)
+	noexcept { return 6; }
+
+	static constexpr
+	std::size_t idx[6][8] = {
+		{1, 0, 3, 2, 5, 4, 7, 6},
+		{2, 3, 0, 1, 6, 7, 4, 5},
+		{4, 2, 1, 7, 0, 6, 5, 3},
+		{0, 5, 6, 3, 4, 1, 2, 7},
+		{0, 1, 4, 5, 2, 3, 6, 7},
+		{0, 2, 1, 4, 3, 6, 5, 7}
+	};
+
+	static constexpr inline
+	std::size_t index(std::size_t round, std::size_t elem)
+	noexcept { return idx[round][elem]; }
+};
+
+const std::size_t manual_sorting_network_base<8>::idx[6][8];
+
+template <>
+struct manual_sorting_network_base<9>
+{
+	static constexpr bool is_specialized = true;
+
+	static constexpr inline
+	std::size_t size(void)
+	noexcept { return 9; }
+
+	static constexpr inline
+	std::size_t rounds(void)
+	noexcept { return 7; }
+
+	static constexpr
+	std::size_t idx[7][9] = {
+		{7, 6, 5, 4, 3, 2, 1, 0, 8},
+		{3, 2, 1, 0, 7, 5, 8, 4, 6},
+		{1, 0, 6, 4, 3, 8, 2, 7, 5},
+		{0, 2, 1, 5, 6, 3, 4, 8, 7},
+		{0, 3, 4, 1, 2, 7, 6, 5, 8},
+		{1, 0, 3, 2, 5, 4, 7, 6, 8},
+		{0, 1, 2, 4, 3, 6, 5, 7, 8}
+	};
+
+	static constexpr inline
+	std::size_t index(std::size_t round, std::size_t elem)
+	noexcept { return idx[round][elem]; }
+};
+
+const std::size_t manual_sorting_network_base<9>::idx[7][9];
 
 template <std::size_t N>
 struct sorting_network
