@@ -12,12 +12,17 @@
 
 namespace eagine {
 
-template <typename T, std::size_t N, typename Compare = std::less<T>>
+template <
+	typename T,
+	std::size_t N,
+	typename Compare = std::less<T>,
+	typename Network = sorting_network<N>
+>
 class basic_network_sorter
 {
 private:
 	Compare _before;
-	sorting_network<N> _sn;
+	Network _sn;
 
 	inline
 	const T& _min(const T& a, const T& b) const
@@ -32,7 +37,7 @@ private:
 	}
 
 	inline
-	const T& _min_max_fbk(const T& a, const T& b, bool min, bool max) const
+	const T& _min_max_cpy(const T& a, const T& b, bool min, bool max) const
 	{
 		return min?_min(a, b):max?_max(a, b):a;
 	}
@@ -45,7 +50,11 @@ public:
 	) const
 	{
 		std::size_t j = _sn.index(r, i);
-		dst[i] = _min_max_fbk(src[i], src[j], (i < j), (i > j));
+		dst[i] = _min_max_cpy(
+			src[i], src[j],
+			_sn.min(r, i, j),
+			_sn.max(r, i, j)
+		);
 	}
 
 	std::size_t size(void) const
@@ -56,9 +65,14 @@ public:
 };
 
 
-template <typename T, std::size_t N, typename Compare = std::less<T>>
+template <
+	typename T,
+	std::size_t N,
+	typename Compare = std::less<T>,
+	typename Network = sorting_network<N>
+>
 class network_sorter
- : basic_network_sorter<T, N, Compare>
+ : basic_network_sorter<T, N, Compare, Network>
 {
 private:
 	std::size_t _round;
@@ -70,13 +84,15 @@ public:
 	 , _a{{a, a}}
 	{ }
 
+	using basic_network_sorter<T, N, Compare, Network>::rounds;
+
 	bool done(void) const
-	noexcept { return _round >= this->rounds(); }
+	noexcept { return _round >= rounds(); }
 
 	bool next_round(void)
 	noexcept
 	{
-		return !done() && (++_round < this->rounds());
+		return !done() && (++_round < rounds());
 	}
 
 	network_sorter& sort_single(std::size_t r, std::size_t i)
@@ -108,7 +124,7 @@ public:
 	}
 
 	const std::array<T, N>& result(void) const
-	noexcept { return _a[this->rounds()%2]; }
+	noexcept { return _a[rounds()%2]; }
 
 	const std::array<T, N>& operator()(void)
 	{
