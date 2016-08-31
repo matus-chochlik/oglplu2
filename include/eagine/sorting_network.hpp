@@ -5,7 +5,7 @@
 #ifndef EAGINE_SORTING_NETWORK_1512222148_HPP
 #define EAGINE_SORTING_NETWORK_1512222148_HPP
 
-#include <type_traits>
+#include "type_traits.hpp"
 #include <cstdint>
 #include <array>
 
