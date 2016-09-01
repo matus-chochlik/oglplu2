@@ -66,6 +66,8 @@ BOOST_AUTO_TEST_CASE(network_sorter_1_1)
 
 BOOST_AUTO_TEST_CASE(network_sorter_1_2)
 {
+	test_network_sorter_1_N<10>(700);
+	test_network_sorter_1_N<11>(700);
 	test_network_sorter_1_N<16>(600);
 	test_network_sorter_1_N<32>(400);
 	test_network_sorter_1_N<64>(200);

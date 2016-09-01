@@ -362,6 +362,69 @@ struct manual_sorting_network_base<9>
 
 const std::size_t manual_sorting_network_base<9>::idx[7][9];
 
+template <>
+struct manual_sorting_network_base<10>
+{
+	static constexpr bool is_specialized = true;
+
+	static constexpr inline
+	std::size_t size(void)
+	noexcept { return 10; }
+
+	static constexpr inline
+	std::size_t rounds(void)
+	noexcept { return 7; }
+
+	static constexpr
+	std::size_t idx[7][10] = {
+		{1, 0, 3, 2, 5, 4, 7, 6, 9, 8},
+		{5, 8, 6, 7, 9, 0, 2, 3, 1, 4},
+		{2, 4, 0, 6, 1, 8, 3, 9, 5, 7},
+		{1, 0, 7, 5, 6, 3, 4, 2, 9, 8},
+		{0, 3, 4, 1, 2, 7, 8, 5, 6, 9},
+		{0, 2, 1, 4, 3, 6, 5, 8, 7, 9},
+		{0, 1, 3, 2, 5, 4, 7, 6, 8, 9},
+	};
+
+	static constexpr inline
+	std::size_t index(std::size_t round, std::size_t elem)
+	noexcept { return idx[round][elem]; }
+};
+
+const std::size_t manual_sorting_network_base<10>::idx[7][10];
+
+template <>
+struct manual_sorting_network_base<11>
+{
+	static constexpr bool is_specialized = true;
+
+	static constexpr inline
+	std::size_t size(void)
+	noexcept { return 11; }
+
+	static constexpr inline
+	std::size_t rounds(void)
+	noexcept { return 8; }
+
+	static constexpr
+	std::size_t idx[8][11] = {
+		{0,10, 9, 8, 7, 6, 5, 4, 3, 2, 1},
+		{6, 4, 3, 2, 1, 5, 0,10, 9, 8, 7},
+		{1, 0, 5, 4, 3, 2, 6, 8, 7,10, 9},
+		{2, 5, 0, 3, 6, 1, 4, 7, 9, 8,10},
+		{0, 8, 3, 2, 7, 9,10, 4, 1, 5, 6},
+		{0, 4, 2, 5, 1, 3, 9, 8, 7, 6,10},
+		{0, 2, 1, 4, 3, 7, 8, 5, 6, 9,10},
+		{0, 1, 3, 2, 5, 4, 7, 6, 8, 9,10},
+	};
+
+	static constexpr inline
+	std::size_t index(std::size_t round, std::size_t elem)
+	noexcept { return idx[round][elem]; }
+};
+
+const std::size_t manual_sorting_network_base<11>::idx[8][11];
+
 template <std::size_t N>
 struct sorting_network
  : std::conditional_t<
