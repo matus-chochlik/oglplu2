@@ -12,7 +12,7 @@ namespace eagine {
 
 template <typename SortingNetwork>
 static inline
-void print_sorting_network(const SortingNetwork& sn)
+std::ostream& print_sorting_network(std::ostream& out, const SortingNetwork& sn)
 {
 	for(std::size_t r=0; r<sn.rounds(); ++r)
 	{
@@ -27,40 +27,41 @@ void print_sorting_network(const SortingNetwork& sn)
 					std::size_t k=sn.size()-m-1;
 					if(i == k) {
 						if(sn.min(r, i, j)) {
-							std::cout << 'o';
+							out << 'o';
 						} else {
-							std::cout << '>';
+							out << '>';
 						}
 					} else if(j == k) {
 						if(sn.max(r, i, j)) {
-							std::cout << 'o';
+							out << 'o';
 						} else {
-							std::cout << '<';
+							out << '<';
 						}
 					} else {
 						if((i <  k) && (k <= j)) {
-							std::cout << '+';
+							out << '+';
 						} else {
-							std::cout << '|';
+							out << '|';
 						}
 					}
 
 					if((i <  k) && (k <= j)) {
-						std::cout << '-';
+						out << '-';
 					} else {
-						std::cout << ' ';
+						out << ' ';
 					}
 				}
-				std::cout << std::endl;
+				out << std::endl;
 			}
 		}
-		std::cout << "=";
+		out << "=";
 		for(std::size_t k=1; k<sn.size(); ++k)
 		{
-			std::cout << "==";
+			out << "==";
 		}
-		std::cout << std::endl;
+		out << std::endl;
 	}
+	return out;
 }
 
 } // namespace eagine
