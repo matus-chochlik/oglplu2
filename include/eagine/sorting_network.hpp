@@ -457,6 +457,72 @@ struct manual_sorting_network_base<12>
 
 constexpr std::size_t manual_sorting_network_base<12>::idx[8][12];
 
+template <>
+struct manual_sorting_network_base<14>
+{
+	static constexpr bool is_specialized = true;
+
+	static constexpr inline
+	std::size_t size(void)
+	noexcept { return 14; }
+
+	static constexpr inline
+	std::size_t rounds(void)
+	noexcept { return 9; }
+
+	static constexpr
+	std::size_t idx[9][14] = {
+		{13,12,11,10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0},
+		{ 5, 4, 3, 2, 1, 0, 6, 7,13,12,11,10, 9, 8},
+		{ 1, 0, 2, 6, 5, 4, 3,10, 9, 8, 7,11,13,12},
+		{ 0, 7, 8, 4, 3,11,12, 1, 2,10, 9, 5, 6,13},
+		{ 3, 2, 1, 0, 9, 8, 7, 6, 5, 4,13,12,11,10},
+		{ 1, 0, 3, 2, 8, 7, 9, 5, 4, 6,11,10,13,12},
+		{ 0, 2, 1, 5, 6, 3, 4, 9,10, 7, 8,12,11,13},
+		{ 0, 1, 2, 4, 3, 6, 5, 8, 7,10, 9,11,12,13},
+		{ 0, 1, 3, 2, 5, 4, 7, 6, 9, 8,11,10,12,13}
+	};
+
+	static constexpr inline
+	std::size_t index(std::size_t round, std::size_t elem)
+	noexcept { return idx[round][elem]; }
+};
+
+const std::size_t manual_sorting_network_base<14>::idx[9][14];
+
+template <>
+struct manual_sorting_network_base<16>
+{
+	static constexpr bool is_specialized = true;
+
+	static constexpr inline
+	std::size_t size(void)
+	noexcept { return 16; }
+
+	static constexpr inline
+	std::size_t rounds(void)
+	noexcept { return 9; }
+
+	static constexpr
+	std::size_t idx[9][16] = {
+		{15,14,13,12,11,10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0},
+		{ 7, 6, 5, 4, 3, 2, 1, 0,15,14,13,12,11,10, 9, 8},
+		{ 3, 2, 1, 0, 7, 6, 5, 4,11,10, 9, 8,15,14,13,12},
+		{ 1, 0, 8, 9, 5, 4,12,13, 2, 3,11,10, 6, 7,15,14},
+		{ 0, 4, 3, 2, 1,10, 9, 8, 7, 6, 5,14,13,12,11,15},
+		{ 0, 2, 1, 4, 3, 9, 8,10, 6, 5, 7,12,11,14,13,15},
+		{ 0, 1, 3, 2, 6, 7, 4, 5,10,11, 8, 9,13,12,14,15},
+		{ 0, 1, 2, 3, 5, 4, 7, 6, 9, 8,11,10,12,13,14,15},
+		{ 0, 1, 2, 4, 3, 6, 5, 8, 7,11, 9,12,11,13,14,15}
+	};
+
+	static constexpr inline
+	std::size_t index(std::size_t round, std::size_t elem)
+	noexcept { return idx[round][elem]; }
+};
+
+const std::size_t manual_sorting_network_base<16>::idx[9][16];
+
 template <std::size_t N>
 struct sorting_network
  : std::conditional_t<
