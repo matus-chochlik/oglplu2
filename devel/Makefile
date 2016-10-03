@@ -5,7 +5,7 @@
 
 TESTS = $(patsubst test%.cpp,test%, $(wildcard *.cpp))
 ROOT_DIR = ..
-BUILD_DIR = $(shell cat $(ROOT_DIR)/BUILD_DIR)
+BINARY_DIR = $(shell cat $(ROOT_DIR)/BINARY_DIR)
 
 all: $(TESTS)
 
@@ -22,7 +22,7 @@ test%.o: test%.cpp
 		-Wno-unused-function \
 		-Wno-documentation \
 		-Wno-documentation-unknown-command \
-		-I$(BUILD_DIR)/include \
+		-I$(BINARY_DIR)/include \
 		-I../third_party/GSL/include \
 		-I../third_party/include \
 		-I../include \
