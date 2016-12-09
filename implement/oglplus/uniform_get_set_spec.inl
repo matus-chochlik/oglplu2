@@ -38,13 +38,13 @@ struct prog_var_get_set_ops<tag::uniform, GLuint64>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(count));
+		assert(v.size() >= span_size_t(count));
 		OGLPLUS_GLFUNC(Uniformui64vNV)(u.location(), count, v.data());
 		OGLPLUS_VERIFY_SIMPLE(Uniformui64vNV, debug);
 		return {};
 	}
 
-	template <span_size_type N>
+	template <span_size_t N>
 	static
 	outcome<void>
 	set(
@@ -90,7 +90,7 @@ struct prog_var_get_set_ops<tag::uniform, GLuint64>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(count));
+		assert(v.size() >= span_size_t(count));
 		OGLPLUS_GLFUNC(ProgramUniformui64vNV)(
 			get_raw_name(pu.program()),
 			pu.location(),
@@ -105,7 +105,7 @@ struct prog_var_get_set_ops<tag::uniform, GLuint64>
 		return {};
 	}
 
-	template <span_size_type N>
+	template <span_size_t N>
 	static
 	outcome<void>
 	set(
@@ -145,7 +145,7 @@ struct prog_var_get_set_ops<tag::uniform, GLuint64>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(count));
+		assert(v.size() >= span_size_t(count));
 		OGLPLUS_GLFUNC(UniformHandleui64vNV)(
 			u.location(),
 			count,
@@ -183,7 +183,7 @@ struct prog_var_get_set_ops<tag::uniform, GLuint64>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(count));
+		assert(v.size() >= span_size_t(count));
 		OGLPLUS_GLFUNC(ProgramUniformHandleui64vNV)(
 			get_raw_name(pu.program()),
 			pu.location(),

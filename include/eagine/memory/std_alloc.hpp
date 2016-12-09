@@ -32,7 +32,7 @@ public:
 	typedef const T* const_pointer;
 	typedef T& reference;
 	typedef const T& const_reference;
-	typedef std::size_t size_type;
+	typedef span_size_t size_type;
 	typedef std::ptrdiff_t difference_type;
 
 	typedef std::true_type propagate_on_container_move_assignment;

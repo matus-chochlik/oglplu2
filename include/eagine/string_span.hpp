@@ -11,6 +11,7 @@
 #define EAGINE_STRING_SPAN_1509260923_HPP
 
 #include "type_traits.hpp"
+#include "types.hpp"
 
 #ifdef __clang__
 #pragma clang diagnostic push
@@ -23,7 +24,7 @@
 #pragma clang diagnostic ignored "-Wshadow"
 #endif
 
-#include <string_span.h>
+#include <gsl/string_span>
 
 #ifdef __clang__
 #pragma clang diagnostic pop
@@ -33,7 +34,6 @@ namespace eagine {
 
 using string_span = gsl::string_span<>;
 using cstring_span = gsl::cstring_span<>;
-typedef std::ptrdiff_t span_size_type;
 
 } // namespace eagine
 

@@ -12,12 +12,11 @@ namespace oglplus {
 namespace shapes {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::size_t
+span_size_t
 adapted_generator::
 _index_type_size(eagine::shapes::index_data_type type)
 {
-	switch(type)
-	{
+	switch(type) {
 		// TODO currently all indices are GLuint
 		case eagine::shapes::index_data_type::unsigned_byte:
 			// TODO return sizeof(GLubyte);
@@ -40,8 +39,7 @@ instructions(const span<draw_operation>& ops) const
 	std::vector<eagine::shapes::draw_operation> tmp(operation_count());
 	_gen->instructions(tmp);
 
-	for(std::size_t i=0; i<tmp.size(); ++i)
-	{
+	for(decltype(tmp.size()) i=0; i<tmp.size(); ++i) {
 		ops[i] = draw_operation(tmp[i]);
 	}
 }

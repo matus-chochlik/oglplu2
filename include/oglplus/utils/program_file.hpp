@@ -92,7 +92,7 @@ public:
 		return _header->magic.is_valid();
 	}
 
-	std::size_t shader_source_count(void) const
+	span_size_t shader_source_count(void) const
 	noexcept
 	{
 		assert(is_valid());
@@ -100,7 +100,7 @@ public:
 	}
 
 	shader_source_block
-	shader_source(std::size_t index) const
+	shader_source(span_size_t index) const
 	noexcept
 	{
 		assert(is_valid());
@@ -109,7 +109,7 @@ public:
 	}
 
 	oglplus::shader_type
-	shader_type(std::size_t index) const
+	shader_type(span_size_t index) const
 	noexcept
 	{
 		assert(is_valid());
@@ -118,7 +118,7 @@ public:
 	}
 
 	cstr_ref
-	shader_source_text(std::size_t index) const
+	shader_source_text(span_size_t index) const
 	noexcept
 	{
 		assert(is_valid());

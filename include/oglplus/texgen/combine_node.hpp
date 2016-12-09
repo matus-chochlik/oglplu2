@@ -45,10 +45,10 @@ class combine_node
  : public single_output_node<combine_output>
 {
 public:
-	std::size_t input_count(void)
+	span_size_t input_count(void)
 	override;
 
-	input_intf& input(std::size_t index)
+	input_intf& input(span_size_t index)
 	override;
 };
 

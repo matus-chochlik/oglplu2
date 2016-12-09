@@ -1,5 +1,5 @@
 /**
- *  @file eagine/valid_if/lt_size.hpp
+ *  @file eagine/valid_if/size_gt.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,19 +7,19 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_VALID_IF_LT_SIZE_1509260923_HPP
-#define EAGINE_VALID_IF_LT_SIZE_1509260923_HPP
+#ifndef EAGINE_VALID_IF_SIZE_GT_1509260923_HPP
+#define EAGINE_VALID_IF_SIZE_GT_1509260923_HPP
 
 #include "in_class.hpp"
 
 namespace eagine {
 
 // valid if less than container.size()
-template <typename T, typename C>
-struct valid_if_lt_size_policy
+template <typename C, typename T>
+struct valid_if_size_gt_policy
 {
-	bool operator()(T x, const C& c) const {
-		return x < c.size();
+	bool operator()(const C& c, T s) const {
+		return c.size() > s;
 	}
 
 	struct do_log
@@ -31,10 +31,10 @@ struct valid_if_lt_size_policy
 		{ }
 
 		template <typename Log>
-		void operator ()(Log& log, const T& v, const C& c) const {
-			log	<< "Value " << v << ", "
-				<< "not less than c.size() = "
-				<< c.size() << " is invalid";
+		void operator ()(Log& log, const C& c, const T& s) const {
+			log	<< "Size " << c.size() << ", "
+				<< "not greater than value "
+				<< s << " is invalid";
 		}
 	};
 
@@ -44,15 +44,15 @@ struct valid_if_lt_size_policy
 		void operator ()(void) const
 		noexcept {
 			EAGINE_ABORT(
-			"Value not less than c.size() is invalid"
+			"c.size() not greater than specified value is invalid"
 			);
 		}
 	};
 };
 
 template <typename C, typename T>
-using valid_if_lt_size =
-	in_class_valid_if<T, C, valid_if_lt_size_policy<T, C>>;
+using valid_if_size_gt =
+	in_class_valid_if<C, T, valid_if_size_gt_policy<C, T>>;
 
 } // namespace eagine
 

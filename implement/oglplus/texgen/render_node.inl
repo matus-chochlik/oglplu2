@@ -181,15 +181,15 @@ render_node::type_name(void)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::size_t
+span_size_t
 render_node::input_count(void)
 {
-	return 1u;
+	return 1;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 input_intf&
-render_node::input(std::size_t index)
+render_node::input(span_size_t index)
 {
 	(void)index;
 	assert(index < input_count());

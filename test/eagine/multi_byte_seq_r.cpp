@@ -22,15 +22,22 @@ BOOST_AUTO_TEST_CASE(multi_byte_seq_1)
 
 	mbs::code_point_t cp = 0, cp2;
 
-	for(std::size_t l=1; l<=6; ++l)
-	{
-		bytes.resize(l);
-		while(cp < mbs::max_code_point(l))
-		{
-			BOOST_CHECK(mbs::encode_code_point(cp, as_span(bytes)));
-			BOOST_CHECK(mbs::is_valid_encoding(as_span(bytes)));
+	for(span_size_t l=1; l<=6; ++l) {
 
-			cp2 = mbs::decode_code_point(as_span(bytes)).value();
+		bytes.resize(std_size(l));
+		while(cp < mbs::max_code_point(l).value()) {
+
+			BOOST_CHECK(mbs::encode_code_point(
+				cp,
+				make_span(bytes)
+			));
+			BOOST_CHECK(mbs::is_valid_encoding(
+				mbs::make_cbyte_span(make_span(bytes))
+			));
+
+			cp2 = mbs::decode_code_point(
+				mbs::make_cbyte_span(make_span(bytes))
+			).value();
 
 			BOOST_CHECK_EQUAL(cp, cp2);
 
@@ -46,8 +53,8 @@ BOOST_AUTO_TEST_CASE(multi_byte_seq_2)
 	std::vector<mbs::code_point> cps, cps2;
 	std::vector<byte> bytes;
 
-	for(int i=0; i<10000; ++i)
-	{
+	for(int i=0; i<10000; ++i) {
+
 		std::size_t len = std::size_t(1+std::rand()%100);
 		cps.resize(len);
 
@@ -57,19 +64,31 @@ BOOST_AUTO_TEST_CASE(multi_byte_seq_2)
 			while(!cp.is_valid());
 		}
 
-		bytes.resize(mbs::encoding_bytes_required(as_span(cps)).value());
+		bytes.resize(std_size(mbs::encoding_bytes_required(
+			make_span(cps)
+		).value()));
 
-		BOOST_CHECK(mbs::encode_code_points(as_span(cps), as_span(bytes)));
+		BOOST_CHECK(mbs::encode_code_points(
+			make_span(cps),
+			make_span(bytes)
+		));
 
-		BOOST_ASSERT(mbs::is_valid_encoding(as_span(bytes)));
+		BOOST_ASSERT(mbs::is_valid_encoding(
+			mbs::make_cbyte_span(make_span(bytes))
+		));
 
-		cps2.resize(mbs::decoding_code_points_required(as_span(bytes)).value());
+		cps2.resize(std_size(mbs::decoding_code_points_required(
+			mbs::make_cbyte_span(make_span(bytes))
+		).value()));
 
 		BOOST_ASSERT(cps.size() == cps2.size());
 
-		BOOST_CHECK(mbs::decode_code_points(as_span(bytes), as_span(cps2)));
+		BOOST_CHECK(mbs::decode_code_points(
+			mbs::make_cbyte_span(make_span(bytes)),
+			make_span(cps2)
+		));
 
-		BOOST_CHECK(as_span(cps) == as_span(cps2));
+		BOOST_CHECK(make_span(cps) == make_span(cps2));
 	}
 
 }

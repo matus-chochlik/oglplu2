@@ -17,7 +17,7 @@ namespace oper {
 inline
 outcome<void>
 compatibility_drawing::
-vertex(const span<const GLshort>& v, span_size_type n)
+vertex(const span<const GLshort>& v, span_size_t n)
 noexcept
 {
 	assert(n >= 2);
@@ -33,7 +33,7 @@ noexcept
 inline
 outcome<void>
 compatibility_drawing::
-vertex(const span<const GLint>& v, span_size_type n)
+vertex(const span<const GLint>& v, span_size_t n)
 noexcept
 {
 	assert(n >= 2);
@@ -49,7 +49,7 @@ noexcept
 inline
 outcome<void>
 compatibility_drawing::
-vertex(const span<const GLfloat>& v, span_size_type n)
+vertex(const span<const GLfloat>& v, span_size_t n)
 noexcept
 {
 	assert(n >= 2);
@@ -65,7 +65,7 @@ noexcept
 inline
 outcome<void>
 compatibility_drawing::
-vertex(const span<const GLdouble>& v, span_size_type n)
+vertex(const span<const GLdouble>& v, span_size_t n)
 noexcept
 {
 	assert(n >= 2);
@@ -81,7 +81,7 @@ noexcept
 inline
 outcome<void>
 compatibility_drawing::
-color(const span<const GLubyte>& v, span_size_type n)
+color(const span<const GLubyte>& v, span_size_t n)
 noexcept
 {
 	assert(n >= 3);
@@ -96,7 +96,7 @@ noexcept
 inline
 outcome<void>
 compatibility_drawing::
-color(const span<const GLint>& v, span_size_type n)
+color(const span<const GLint>& v, span_size_t n)
 noexcept
 {
 	assert(n >= 3);
@@ -111,7 +111,7 @@ noexcept
 inline
 outcome<void>
 compatibility_drawing::
-color(const span<const GLfloat>& v, span_size_type n)
+color(const span<const GLfloat>& v, span_size_t n)
 noexcept
 {
 	assert(n >= 3);
@@ -126,7 +126,7 @@ noexcept
 inline
 outcome<void>
 compatibility_drawing::
-color(const span<const GLdouble>& v, span_size_type n)
+color(const span<const GLdouble>& v, span_size_t n)
 noexcept
 {
 	assert(n >= 3);
@@ -141,7 +141,7 @@ noexcept
 inline
 outcome<void>
 compatibility_drawing::
-tex_coord(const span<const GLshort>& v, span_size_type n)
+tex_coord(const span<const GLshort>& v, span_size_t n)
 noexcept
 {
 	assert(n >= 1);
@@ -158,7 +158,7 @@ noexcept
 inline
 outcome<void>
 compatibility_drawing::
-tex_coord(const span<const GLint>& v, span_size_type n)
+tex_coord(const span<const GLint>& v, span_size_t n)
 noexcept
 {
 	assert(n >= 1);
@@ -175,7 +175,7 @@ noexcept
 inline
 outcome<void>
 compatibility_drawing::
-tex_coord(const span<const GLfloat>& v, span_size_type n)
+tex_coord(const span<const GLfloat>& v, span_size_t n)
 noexcept
 {
 	assert(n >= 1);
@@ -192,7 +192,7 @@ noexcept
 inline
 outcome<void>
 compatibility_drawing::
-tex_coord(const span<const GLdouble>& v, span_size_type n)
+tex_coord(const span<const GLdouble>& v, span_size_t n)
 noexcept
 {
 	assert(n >= 1);

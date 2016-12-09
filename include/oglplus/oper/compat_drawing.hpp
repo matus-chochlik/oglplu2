@@ -73,7 +73,7 @@ struct compatibility_drawing
 
 	static
 	outcome<void>
-	vertex(const span<const GLshort>& v, span_size_type n)
+	vertex(const span<const GLshort>& v, span_size_t n)
 	noexcept;
 
 	static
@@ -113,7 +113,7 @@ struct compatibility_drawing
 
 	static
 	outcome<void>
-	vertex(const span<const GLint>& v, span_size_type n)
+	vertex(const span<const GLint>& v, span_size_t n)
 	noexcept;
 
 	static
@@ -153,7 +153,7 @@ struct compatibility_drawing
 
 	static
 	outcome<void>
-	vertex(const span<const GLfloat>& v, span_size_type n)
+	vertex(const span<const GLfloat>& v, span_size_t n)
 	noexcept;
 
 	static
@@ -193,7 +193,7 @@ struct compatibility_drawing
 
 	static
 	outcome<void>
-	vertex(const span<const GLdouble>& v, span_size_type n)
+	vertex(const span<const GLdouble>& v, span_size_t n)
 	noexcept;
 
 	static
@@ -224,7 +224,7 @@ struct compatibility_drawing
 
 	static
 	outcome<void>
-	color(const span<const GLubyte>& v, span_size_type n)
+	color(const span<const GLubyte>& v, span_size_t n)
 	noexcept;
 
 	static
@@ -255,7 +255,7 @@ struct compatibility_drawing
 
 	static
 	outcome<void>
-	color(const span<const GLint>& v, span_size_type n)
+	color(const span<const GLint>& v, span_size_t n)
 	noexcept;
 
 	static
@@ -286,7 +286,7 @@ struct compatibility_drawing
 
 	static
 	outcome<void>
-	color(const span<const GLfloat>& v, span_size_type n)
+	color(const span<const GLfloat>& v, span_size_t n)
 	noexcept;
 
 	static
@@ -317,7 +317,7 @@ struct compatibility_drawing
 
 	static
 	outcome<void>
-	color(const span<const GLdouble>& v, span_size_type n)
+	color(const span<const GLdouble>& v, span_size_t n)
 	noexcept;
 
 	static
@@ -367,7 +367,7 @@ struct compatibility_drawing
 
 	static
 	outcome<void>
-	tex_coord(const span<const GLshort>& v, span_size_type n)
+	tex_coord(const span<const GLshort>& v, span_size_t n)
 	noexcept;
 
 	static
@@ -417,7 +417,7 @@ struct compatibility_drawing
 
 	static
 	outcome<void>
-	tex_coord(const span<const GLint>& v, span_size_type n)
+	tex_coord(const span<const GLint>& v, span_size_t n)
 	noexcept;
 
 	static
@@ -466,7 +466,7 @@ struct compatibility_drawing
 
 	static
 	outcome<void>
-	tex_coord(const span<const GLfloat>& v, span_size_type n)
+	tex_coord(const span<const GLfloat>& v, span_size_t n)
 	noexcept;
 
 	static
@@ -515,7 +515,7 @@ struct compatibility_drawing
 
 	static
 	outcome<void>
-	tex_coord(const span<const GLdouble>& v, span_size_type n)
+	tex_coord(const span<const GLdouble>& v, span_size_t n)
 	noexcept;
 
 	static

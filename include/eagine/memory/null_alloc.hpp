@@ -21,7 +21,7 @@ class null_byte_allocator
  : public byte_allocator_impl<Policy, null_byte_allocator>
 {
 public:
-	typedef std::size_t size_type;
+	typedef span_size_t size_type;
 
 	bool equal(byte_allocator* a) const
 	noexcept

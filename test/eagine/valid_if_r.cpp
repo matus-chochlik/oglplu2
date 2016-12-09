@@ -86,6 +86,71 @@ BOOST_AUTO_TEST_CASE(valid_if_greater_than_test)
 	}
 }
 
+BOOST_AUTO_TEST_CASE(valid_if_cmp_test_1)
+{
+	using namespace eagine;
+
+	for(int i=0; i<1000; ++i)
+	{
+		int v = (std::rand()%10==0)?0:std::rand()%1000;
+
+		valid_if_not_zero<int> x(v);
+
+		if(v == 0) {
+			BOOST_CHECK((x == 0).is(indeterminate));
+			BOOST_CHECK((x != 0).is(indeterminate));
+			BOOST_CHECK((x <  0).is(indeterminate));
+			BOOST_CHECK((x >  0).is(indeterminate));
+			BOOST_CHECK((x <= 0).is(indeterminate));
+			BOOST_CHECK((x >= 0).is(indeterminate));
+		} else {
+			BOOST_CHECK( (x == v));
+			BOOST_CHECK(!(x == 0));
+			BOOST_CHECK(!(x != v));
+			BOOST_CHECK( (x != 0));
+			BOOST_CHECK(!(x <  v));
+			BOOST_CHECK( (x <  v+1));
+			BOOST_CHECK(!(x >  v));
+			BOOST_CHECK( (x >  v-1));
+			BOOST_CHECK( (x <= v));
+			BOOST_CHECK( (x <= v+1));
+			BOOST_CHECK( (x >= v));
+			BOOST_CHECK( (x >= v-1));
+		}
+
+	}
+}
+
+BOOST_AUTO_TEST_CASE(valid_if_cmp_test_2)
+{
+	using namespace eagine;
+
+	for(int i=0; i<1000; ++i)
+	{
+		int v = std::rand()%20-5;
+		int w = std::rand()%20-5;
+
+		valid_if_greater_than<int, 0> x(v);
+		valid_if_less_than<int, 9> y(w);
+
+		if(!((v > 0) && (w < 9))) {
+			BOOST_CHECK((x == y).is(indeterminate));
+			BOOST_CHECK((x != y).is(indeterminate));
+			BOOST_CHECK((x <  y).is(indeterminate));
+			BOOST_CHECK((x >  y).is(indeterminate));
+			BOOST_CHECK((x <= y).is(indeterminate));
+			BOOST_CHECK((x >= y).is(indeterminate));
+		} else {
+			BOOST_CHECK_EQUAL(bool(x == y), v == w);
+			BOOST_CHECK_EQUAL(bool(x != y), v != w);
+			BOOST_CHECK_EQUAL(bool(x <  y), v <  w);
+			BOOST_CHECK_EQUAL(bool(x >  y), v >  w);
+			BOOST_CHECK_EQUAL(bool(x <= y), v <= w);
+			BOOST_CHECK_EQUAL(bool(x >= y), v >= w);
+		}
+	}
+}
+
 // TODO
 
 BOOST_AUTO_TEST_SUITE_END()

@@ -36,12 +36,12 @@ public:
 
 	template <typename T>
 	constexpr inline
-	buffer_size(identity<T>, std::size_t count)
+	buffer_size(identity<T>, span_size_t count)
 	noexcept
 	 : _v(S(sizeof(T)*count))
 	{ }
 
-	template <typename T, span_size_type N>
+	template <typename T, span_size_t N>
 	constexpr inline
 	buffer_size(const span<T, N>& s)
 	noexcept

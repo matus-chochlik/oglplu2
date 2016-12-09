@@ -74,7 +74,7 @@ private:
 	{ }
 public:
 	typedef byte value_type;
-	typedef std::size_t size_type;
+	typedef span_size_t size_type;
 
 	basic_shared_byte_alloc(void)
 	noexcept

@@ -37,7 +37,7 @@ public:
 	}
 
 	render_graph_node<Node>&
-	connect(const cstr_ref& inp_name, node_intf& out_node, std::size_t oidx)
+	connect(const cstr_ref& inp_name, node_intf& out_node, span_size_t oidx)
 	{
 		if(oidx < out_node.output_count())
 		{
@@ -53,7 +53,7 @@ public:
 	}
 
 	render_graph_node<Node>&
-	connect(std::size_t iidx, output_intf& out)
+	connect(span_size_t iidx, output_intf& out)
 	{
 		if(iidx < this->input_count())
 		{
@@ -63,7 +63,7 @@ public:
 	}
 
 	render_graph_node<Node>&
-	connect(std::size_t iidx, node_intf& out_node, std::size_t oidx)
+	connect(span_size_t iidx, node_intf& out_node, span_size_t oidx)
 	{
 		if(oidx < out_node.output_count())
 		{
@@ -73,7 +73,7 @@ public:
 	}
 
 	render_graph_node<Node>&
-	connect(std::size_t iidx, node_intf& out_node)
+	connect(span_size_t iidx, node_intf& out_node)
 	{
 		return connect(iidx, out_node, 0u);
 	}
@@ -145,10 +145,10 @@ public:
 
 	// find input / output
 	eagine::optional_reference_wrapper<input_intf>
-	find_node_input(node_intf& node, std::size_t index);
+	find_node_input(node_intf& node, span_size_t index);
 
 	eagine::optional_reference_wrapper<output_intf>
-	find_node_output(node_intf& node, std::size_t index);
+	find_node_output(node_intf& node, span_size_t index);
 
 	eagine::optional_reference_wrapper<input_intf>
 	find_node_input(node_intf& node, const cstr_ref& iname);
@@ -157,10 +157,10 @@ public:
 	find_node_output(node_intf& node, const cstr_ref& oname);
 
 	eagine::optional_reference_wrapper<input_intf>
-	find_node_input(const std::string& node_name, std::size_t index);
+	find_node_input(const std::string& node_name, span_size_t index);
 
 	eagine::optional_reference_wrapper<output_intf>
-	find_node_output(const std::string& node_name, std::size_t index);
+	find_node_output(const std::string& node_name, span_size_t index);
 
 	eagine::optional_reference_wrapper<input_intf>
 	find_node_input(const std::string& node_name, const cstr_ref& iname);
@@ -171,11 +171,11 @@ public:
 	// connect to renderer
 	bool connect_to_renderer(output_intf& output);
 
-	bool connect_to_renderer(node_intf&, std::size_t index = 0u);
+	bool connect_to_renderer(node_intf&, span_size_t index = 0u);
 
 	bool connect_to_renderer(
 		const std::string& node_name,
-		std::size_t index
+		span_size_t index
 	);
 
 	bool connect_to_renderer(const std::string& node_name)
@@ -188,9 +188,9 @@ public:
 
 	bool connect(
 		node_intf& output_node,
-		std::size_t oindex,
+		span_size_t oindex,
 		node_intf& input_node,
-		std::size_t iindex
+		span_size_t iindex
 	);
 
 	bool connect(
@@ -208,15 +208,15 @@ public:
 
 	bool connect(
 		const std::string& output_node_name,
-		std::size_t oindex,
+		span_size_t oindex,
 		const std::string& input_node_name,
-		std::size_t iindex
+		span_size_t iindex
 	);
 
 	bool connect(
 		const std::string& output_node_name,
 		const std::string& input_node_name,
-		std::size_t iindex
+		span_size_t iindex
 	);
 
 	bool connect(

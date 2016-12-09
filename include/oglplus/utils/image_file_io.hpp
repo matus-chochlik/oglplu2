@@ -12,6 +12,8 @@
 
 #include "image_file_hdr.hpp"
 #include "memory_block.hpp"
+#include "types.hpp"
+#include <eagine/memory/align.hpp>
 #include <iostream>
 
 namespace oglplus {
@@ -20,30 +22,29 @@ inline
 void write_and_pad_texture_image_data_header(
 	std::ostream& output,
 	image_data_header& header,
-	std::size_t pixel_data_size,
-	std::size_t& spos
+	span_size_t pixel_data_size,
+	span_size_t& spos
 )
 {
-	while(spos % alignof(image_data_header) != 0)
-	{
+	using eagine::memory::is_aligned_as;
+	while(!is_aligned_as<image_data_header>(std_align(spos))) {
 		output.put('\0');
 		++spos;
 	}
 
-	const std::size_t size = 64;
-	std::size_t done = 0;
-	assert(size >= sizeof(image_data_header));
+	const span_size_t size = 64;
+	span_size_t done = 0;
+	assert(size >= span_size(sizeof(image_data_header)));
 
 	eagine::memory::const_address hdraddr(&header);
 
-	header.pixels.reset(hdraddr+std::ptrdiff_t(size), pixel_data_size);
+	header.pixels.reset(hdraddr+size, pixel_data_size);
 
 	output.write(static_cast<const char*>(hdraddr), sizeof(header));
 	spos += sizeof(header);
 	done += sizeof(header);
 
-	while(done < size)
-	{
+	while(done < size) {
 		output.put('\0');
 		++spos;
 		++done;
@@ -54,14 +55,14 @@ inline
 void write_and_pad_texture_image_data_header(
 	std::ostream& output,
 	image_data_header& header,
-	std::size_t pixel_data_size
+	span_size_t pixel_data_size
 )
 {
-	std::size_t spos = 0;
+	span_size_t spos = 0;
 
 	if(output.tellp() >= 0)
 	{
-		spos = std::size_t(output.tellp());
+		spos = span_size_t(output.tellp());
 	}
 
 	write_and_pad_texture_image_data_header(
@@ -82,7 +83,7 @@ void write_texture_image_data(
 	write_and_pad_texture_image_data_header(
 		output,
 		header,
-		std::size_t(pixels.size())
+		span_size_t(pixels.size())
 	);
 
 	output.write(

@@ -11,6 +11,7 @@
 #define EAGINE_SPAN_1509260923_HPP
 
 #include "type_traits.hpp"
+#include "types.hpp"
 
 #ifdef __clang__
 #pragma clang diagnostic push
@@ -22,7 +23,7 @@
 #pragma clang diagnostic ignored "-Wshadow"
 #endif
 
-#include <span.h>
+#include <gsl/span>
 
 #ifdef __clang__
 #pragma clang diagnostic pop
@@ -33,16 +34,15 @@
 namespace eagine {
 
 using gsl::span;
-using gsl::as_span;
-typedef std::ptrdiff_t span_size_type;
+using gsl::make_span;
 
 template <typename T>
 static inline
 span<const T>
-as_span(std::initializer_list<T> il)
+make_span(std::initializer_list<T> il)
 noexcept
 {
-	return {il.begin(), span_size_type(il.size())};
+	return {il.begin(), span_size_t(il.size())};
 }
 
 } // namespace eagine

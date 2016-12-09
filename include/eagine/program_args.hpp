@@ -36,64 +36,42 @@ private:
 	template <typename X>
 	static inline
 	bool _is_valid(const X&)
-	noexcept
-	{
-		return true;
-	}
+	noexcept { return true; }
 
 	template <typename X, typename P>
 	static inline
 	bool _is_valid(const valid_if<X, P>& vi)
-	noexcept
-	{
-		return vi.is_valid();
-	}
+	noexcept { return vi.is_valid(); }
 
 	template <typename X>
 	static inline
 	void _log_invalid(const X&, const std::ostream&)
-	noexcept
-	{ }
+	noexcept { }
 
 	template <typename X, typename P>
 	static inline
 	void _log_invalid(const valid_if<X, P>& vi, std::ostream& log)
-	noexcept
-	{
-		vi.log_invalid(log);
-	}
+	noexcept { vi.log_invalid(log); }
 
 	template <typename X>
 	static
 	T& _get_value(X& val)
-	noexcept
-	{
-		return val;
-	}
+	noexcept { return val; }
 
 	template <typename X>
 	static
 	const T& _get_value(const X& val)
-	noexcept
-	{
-		return val;
-	}
+	noexcept { return val; }
 
 	template <typename X, typename P>
 	static
 	X& _get_value(valid_if<X, P>& vi)
-	noexcept
-	{
-		return vi.value();
-	}
+	noexcept { return vi.value(); }
 
 	template <typename X, typename P>
 	static
 	const X& _get_value(const valid_if<X, P>& vi)
-	noexcept
-	{
-		return vi.value();
-	}
+	noexcept { return vi.value(); }
 public:
 	program_parameter(
 		const cstr_ref& short_tag,
@@ -106,53 +84,34 @@ public:
 	{ }
 
 	const cstr_ref& short_tag(void) const
-	noexcept
-	{
-		return _short_tag;
-	}
+	noexcept { return _short_tag; }
 
 	const cstr_ref& long_tag(void) const
-	noexcept
-	{
-		return _long_tag;
-	}
+	noexcept { return _long_tag; }
 
 	const cstr_ref& description(void) const
-	noexcept
-	{
-		return _description;
-	}
+	noexcept { return _description; }
 
 	program_parameter& description(cstr_ref help_str)
-	noexcept
-	{
+	noexcept {
 		_description = help_str;
 		return *this;
 	}
 
 	T& ref(void)
-	noexcept
-	{
-		return _value;
-	}
+	noexcept { return _value; }
 
 	bool has_valid_value(void) const
-	noexcept
-	{
-		return _is_valid(_value);
-	}
+	noexcept { return _is_valid(_value); }
 
-	std::ostream& log_invalid_value(std::ostream& log) const
-	{
+	std::ostream& log_invalid_value(std::ostream& log) const {
 		log << "Invalid value of parameter " << long_tag() << ": ";
 		_log_invalid(_value, log);
 		return log << ". ";
 	}
 
-	bool validate(std::ostream& log) const
-	{
-		if(!has_valid_value())
-		{
+	bool validate(std::ostream& log) const {
+		if(!has_valid_value()) {
 			log_invalid_value(log) << std::endl;
 			return false;
 		}
@@ -160,16 +119,10 @@ public:
 	}
 
 	const auto& value(void) const
-	noexcept
-	{
-		return _get_value(_value);
-	}
+	noexcept { return _get_value(_value); }
 
 	operator const T& (void) const
-	noexcept
-	{
-		return _value;
-	}
+	noexcept { return _value; }
 };
 
 template <typename T>
@@ -193,34 +146,19 @@ public:
 	{ }
 
 	const cstr_ref& short_tag(void) const
-	noexcept
-	{
-		return _short_tag;
-	}
+	noexcept { return _short_tag; }
 
 	const cstr_ref& long_tag(void) const
-	noexcept
-	{
-		return _long_tag;
-	}
+	noexcept { return _long_tag; }
 
 	T& ref(void)
-	noexcept
-	{
-		return _aliased.ref();
-	}
+	noexcept { return _aliased.ref(); }
 
 	const auto& value(void) const
-	noexcept
-	{
-		return _aliased.value();
-	}
+	noexcept { return _aliased.value(); }
 
 	operator const T& (void) const
-	noexcept
-	{
-		return static_cast<const T&>(_aliased);
-	}
+	noexcept { return static_cast<const T&>(_aliased); }
 };
 
 template <>
@@ -230,7 +168,7 @@ private:
 	cstr_ref _short_tag;
 	cstr_ref _long_tag;
 	cstr_ref _description;
-	std::size_t _count;
+	span_size_t _count;
 public:
 	program_parameter(
 		const cstr_ref& short_tag,
@@ -242,59 +180,34 @@ public:
 	{ }
 
 	const cstr_ref& short_tag(void) const
-	noexcept
-	{
-		return _short_tag;
-	}
+	noexcept { return _short_tag; }
 
 	const cstr_ref& long_tag(void) const
-	noexcept
-	{
-		return _long_tag;
-	}
+	noexcept { return _long_tag; }
 
 	const cstr_ref& description(void) const
-	noexcept
-	{
-		return _description;
-	}
+	noexcept { return _description; }
 
 	program_parameter& description(cstr_ref help_str)
-	noexcept
-	{
+	noexcept {
 		_description = help_str;
 		return *this;
 	}
 
 	void increment(void)
-	noexcept
-	{
-		++_count;
-	}
+	noexcept { ++_count; }
 
 	bool has_valid_value(void) const
-	noexcept
-	{
-		return true;
-	}
+	noexcept { return true; }
 
 	std::ostream& log_invalid_value(std::ostream& log) const
-	noexcept
-	{
-		return log;
-	}
+	noexcept { return log; }
 
 	bool validate(std::ostream&) const
-	noexcept
-	{
-		return true;
-	}
+	noexcept { return true; }
 
-	std::size_t value(void) const
-	noexcept
-	{
-		return _count;
-	}
+	span_size_t value(void) const
+	noexcept { return _count; }
 };
 
 typedef program_parameter<void> program_option;
@@ -316,42 +229,32 @@ private:
 	friend class program_args;
 
 	template <typename T>
-	bool _do_parse(T& dest, const std::ostream&)
-	{
+	bool _do_parse(T& dest, const std::ostream&) {
 		std::stringstream ss(get_string());
 		return !((ss >> dest).fail() || !ss.eof());
 	}
 
-	bool _do_parse(cstr_ref& dest, const std::ostream&)
-	{
+	bool _do_parse(cstr_ref& dest, const std::ostream&) {
 		dest = get();
 		return true;
 	}
 
-	bool _do_parse(std::string& dest, const std::ostream&)
-	{
+	bool _do_parse(std::string& dest, const std::ostream&) {
 		dest = get_string();
 		return true;
 	}
 
 	template <typename T, typename P>
-	bool _do_parse(valid_if<T, P>& dest, std::ostream& parse_log)
-	{
+	bool _do_parse(valid_if<T, P>& dest, std::ostream& parse_log) {
 		T value;
-		if(parse(value, parse_log))
-		{
-			if(dest.is_valid(value))
-			{
+		if(parse(value, parse_log)) {
+			if(dest.is_valid(value)) {
 				dest = std::move(value);
 				return true;
-			}
-			else
-			{
+			} else {
 				dest.log_invalid(parse_log, value);
 			}
-		}
-		else
-		{
+		} else {
 			parse_log	<< "'" << get() << "' "
 					<< "is not a valid `"
 					<< type_name<T>()
@@ -361,11 +264,9 @@ private:
 	}
 
 	template <typename T, typename A>
-	bool _do_parse(std::vector<T, A>& dest, std::ostream& parse_log)
-	{
+	bool _do_parse(std::vector<T, A>& dest, std::ostream& parse_log) {
 		T value;
-		if(parse(value, parse_log))
-		{
+		if(parse(value, parse_log)) {
 			dest.push_back(std::move(value));
 			return true;
 		}
@@ -382,72 +283,53 @@ public:
 	typedef cstr_ref value_type;
 
 	bool is_valid(void) const
-	noexcept
-	{
+	noexcept {
 		return	(0 < _argi) && (_argi < _argc) &&
 			(_argv != nullptr) && (_argv[_argi] != nullptr);
 	}
 
 	operator bool (void) const
-	noexcept
-	{
-		return is_valid();
-	}
+	noexcept { return is_valid(); }
 
 	bool operator ! (void) const
-	noexcept
-	{
-		return !is_valid();
-	}
+	noexcept { return !is_valid(); }
 
 	value_type get(void) const
-	noexcept
-	{
-		if(is_valid())
-		{
+	noexcept {
+		if(is_valid()) {
 			return value_type(_argv[_argi]);
 		}
 		return value_type();
 	}
 
-	std::string get_string(void) const
-	{
-		value_type tmp = get();
-		return std::string(tmp.data(), std::size_t(tmp.size()));
+	std::string get_string(void) const {
+		return get().str();
 	}
 
 	operator value_type (void) const
-	noexcept
-	{
-		return get();
-	}
+	noexcept { return get(); }
 
 	bool is_help_arg(void) const
-	noexcept
-	{
-		return (get() == cstr_ref("-h"))||(get() == cstr_ref("--help"));
+	noexcept {
+		return	(get() == cstr_ref("-h")) ||
+			(get() == cstr_ref("--help"));
 	}
 
 	program_arg next(void) const
-	noexcept
-	{
+	noexcept {
 		return program_arg(_argi+1, _argc, _argv);
 	}
 
 	program_arg prev(void) const
-	noexcept
-	{
+	noexcept {
 		return program_arg(_argi-1, _argc, _argv);
 	}
 
 	template <typename T>
-	bool parse(T& dest, std::ostream& parse_log)
-	{
-		if(is_valid())
-		{
+	bool parse(T& dest, std::ostream& parse_log) {
+		if(is_valid()) {
 			T temp = dest;
-			if(_do_parse(temp, parse_log))
-			{
+			if(_do_parse(temp, parse_log)) {
 				dest = std::move(temp);
 				return true;
 			}
@@ -456,16 +338,13 @@ public:
 	}
 
 	template <typename T>
-	bool parse_next(T& dest, std::ostream& parse_log)
-	{
+	bool parse_next(T& dest, std::ostream& parse_log) {
 		return next().parse(dest, parse_log);
 	}
 
-	auto missing_handler(std::ostream& errorlog)
-	{
+	auto missing_handler(std::ostream& errorlog) {
 		return
-		[&errorlog](const cstr_ref& arg_tag)
-		{
+		[&errorlog](const cstr_ref& arg_tag) {
 			errorlog<< "Missing value after '"
 				<< arg_tag
 				<< "'."
@@ -473,15 +352,13 @@ public:
 		};
 	}
 
-	auto invalid_handler(std::ostream& errorlog)
-	{
+	auto invalid_handler(std::ostream& errorlog) {
 		return 
 		[&errorlog](
 			const cstr_ref& arg_tag,
 			const cstr_ref& arg_val,
 			const cstr_ref& log_str
-		)
-		{
+		) {
 			errorlog<< "Invalid value '"
 				<< arg_val
 				<< "' after '"
@@ -497,29 +374,20 @@ public:
 		T& dest,
 		MissingFunc handle_missing,
 		InvalidFunc handle_invalid
-	)
-	{
-		if(next())
-		{
+	) {
+		if(next()) {
 			std::stringstream parse_log;
-			if(parse_next(dest, parse_log))
-			{
+			if(parse_next(dest, parse_log)) {
 				*this = next();
 				return true;
-			}
-			else
-			{
+			} else {
 				handle_invalid(
 					get(),
 					next().get(),
 					cstr_ref(parse_log.str())
 				);
 			}
-		}
-		else
-		{
-			handle_missing(get());
-		}
+		} else { handle_missing(get()); }
 		return false;
 	}
 
@@ -527,8 +395,7 @@ public:
 	bool consume_next(
 		T& dest,
 		std::ostream& errorlog
-	)
-	{
+	) {
 		auto if_missing = missing_handler(errorlog);
 		auto if_invalid = invalid_handler(errorlog);
 		return do_consume_next(dest, if_missing, if_invalid);
@@ -539,10 +406,8 @@ public:
 		program_parameter<T>& param,
 		MissingFunc handle_missing,
 		InvalidFunc handle_invalid
-	)
-	{
-		if((get() == param.short_tag()) || (get() == param.long_tag()))
-		{
+	) {
+		if((get() == param.short_tag()) || (get() == param.long_tag())){
 			return do_consume_next(
 				param.ref(),
 				handle_missing,
@@ -557,10 +422,8 @@ public:
 		program_parameter<void>& param,
 		const MissingFunc&,
 		const InvalidFunc&
-	)
-	{
-		if((get() == param.short_tag()) || (get() == param.long_tag()))
-		{
+	) {
+		if((get() == param.short_tag()) || (get() == param.long_tag())){
 			param.increment();
 			return true;
 		}
@@ -568,8 +431,7 @@ public:
 	}
 
 	template <typename T>
-	bool parse_param(program_parameter<T>& param, std::ostream& errorlog)
-	{
+	bool parse_param(program_parameter<T>& param, std::ostream& errorlog) {
 		auto if_missing = missing_handler(errorlog);
 		auto if_invalid = invalid_handler(errorlog);
 		return do_parse_param(param, if_missing, if_invalid);
@@ -581,11 +443,9 @@ public:
 		const span<const T>& choices,
 		MissingFunc handle_missing,
 		InvalidFunc handle_invalid
-	)
-	{
+	) {
 		valid_if_in_list<T, span<const T>> temp(T(), choices);
-		if(do_consume_next(temp, handle_missing, handle_invalid))
-		{
+		if(do_consume_next(temp, handle_missing, handle_invalid)) {
 			dest = temp.value();
 			return true;
 		}
@@ -598,18 +458,15 @@ public:
 		const span<const T>& choices,
 		MissingFunc handle_missing,
 		InvalidFunc handle_invalid
-	)
-	{
+	) {
 		T temp;
 		if(do_consume_next(
 			temp,
 			choices,
 			handle_missing,
 			handle_invalid
-		))
-		{
-			if(dest.is_valid(temp))
-			{
+		)) {
+			if(dest.is_valid(temp)) {
 				dest = std::move(temp);
 				return true;
 			}
@@ -622,8 +479,7 @@ public:
 		T& dest,
 		const span<const C>& choices,
 		std::ostream& errorlog
-	)
-	{
+	) {
 		auto if_missing = missing_handler(errorlog);
 		auto if_invalid = invalid_handler(errorlog);
 		return do_consume_next(dest, choices, if_missing, if_invalid);
@@ -635,10 +491,8 @@ public:
 		const span<const C>& choices,
 		MissingFunc handle_missing,
 		InvalidFunc handle_invalid
-	)
-	{
-		if((get() == param.short_tag()) || (get() == param.long_tag()))
-		{
+	) {
+		if((get() == param.short_tag()) || (get() == param.long_tag())){
 			return do_consume_next(
 				param.ref(),
 				choices,
@@ -653,8 +507,7 @@ public:
 		program_parameter<T>& param,
 		const span<const C>& choices,
 		std::ostream& errorlog
-	)
-	{
+	) {
 		auto if_missing = missing_handler(errorlog);
 		auto if_invalid = invalid_handler(errorlog);
 		return do_parse_param(param, choices, if_missing, if_invalid);
@@ -667,8 +520,7 @@ public:
 		const span<const T>& translations,
 		MissingFunc handle_missing,
 		InvalidFunc handle_invalid
-	)
-	{
+	) {
 		assert(symbols.size() <= translations.size());
 
 		cstr_ref parsed;
@@ -676,12 +528,9 @@ public:
 			parsed,
 			symbols,
 			handle_missing, handle_invalid
-		))
-		{
-			for(span_size_type i=0,n=symbols.size(); i<n; ++i)
-			{
-				if(parsed == symbols[i])
-				{
+		)) {
+			for(span_size_t i=0, n=symbols.size(); i<n; ++i) {
+				if(parsed == symbols[i]) {
 					dest = translations[i];
 					return true;
 				}
@@ -697,18 +546,15 @@ public:
 		const span<const T>& translations,
 		MissingFunc handle_missing,
 		InvalidFunc handle_invalid
-	)
-	{
+	) {
 		T temp;
 		if(do_consume_next(
 			temp,
 			symbols, translations, 
 			handle_missing,
 			handle_invalid
-		))
-		{
-			if(dest.is_valid(temp))
-			{
+		)) {
+			if(dest.is_valid(temp)) {
 				dest = std::move(temp);
 				return true;
 			}
@@ -722,8 +568,7 @@ public:
 		const span<const cstr_ref>& symbols,
 		const span<const R>& translations,
 		std::ostream& errorlog
-	)
-	{
+	) {
 		auto if_missing = missing_handler(errorlog);
 		auto if_invalid = invalid_handler(errorlog);
 		return do_consume_next(
@@ -740,10 +585,8 @@ public:
 		const span<const R>& translations,
 		MissingFunc handle_missing,
 		InvalidFunc handle_invalid
-	)
-	{
-		if((get() == param.short_tag()) || (get() == param.long_tag()))
-		{
+	) {
+		if((get() == param.short_tag()) || (get() == param.long_tag())){
 			return do_consume_next(
 				param.ref(),
 				symbols, translations,
@@ -759,8 +602,7 @@ public:
 		const span<const cstr_ref>& symbols,
 		const span<const R>& translations,
 		std::ostream& errorlog
-	)
-	{
+	) {
 		auto if_missing = missing_handler(errorlog);
 		auto if_invalid = invalid_handler(errorlog);
 		return do_parse_param(
@@ -777,10 +619,8 @@ public:
 		const span<const R>& translations,
 		MissingFunc handle_missing,
 		InvalidFunc handle_invalid
-	)
-	{
-		if((get() == param.short_tag()) || (get() == param.long_tag()))
-		{
+	) {
+		if((get() == param.short_tag()) || (get() == param.long_tag())){
 			return do_consume_next(
 				param.ref(),
 				symbols, translations,
@@ -796,8 +636,7 @@ public:
 		const span<const cstr_ref>& symbols,
 		const span<const R>& translations,
 		std::ostream& errorlog
-	)
-	{
+	) {
 		auto if_missing = missing_handler(errorlog);
 		auto if_invalid = invalid_handler(errorlog);
 		return do_parse_param(
@@ -808,16 +647,10 @@ public:
 	}
 
 	bool operator == (const value_type& v) const
-	noexcept
-	{
-		return get() == v;
-	}
+	noexcept { return get() == v; }
 
 	bool operator != (const value_type& v) const
-	noexcept
-	{
-		return get() != v;
-	}
+	noexcept { return get() != v; }
 };
 
 class program_parameters
@@ -845,15 +678,13 @@ private:
 		cstr_ref _plchldr;
 
 		program_parameter<T>& _param(void)
-		noexcept
-		{
+		noexcept {
 			assert(_pparam != nullptr);
 			return *_pparam;
 		}
 
 		const program_parameter<T>& _param(void) const
-		noexcept
-		{
+		noexcept {
 			assert(_pparam != nullptr);
 			return *_pparam;
 		}
@@ -861,22 +692,17 @@ private:
 		template <typename X>
 		static
 		cstr_ref _plchldr_name(identity<X>)
-		noexcept
-		{
-			if(std::is_same<X, bool>::value)
-			{
+		noexcept {
+			if(std::is_same<X, bool>::value) {
 				return cstr_ref("BOOLEAN");
 			}
-			if(std::is_same<X, cstr_ref>::value)
-			{
+			if(std::is_same<X, cstr_ref>::value) {
 				return cstr_ref("STRING");
 			}
-			if(std::is_integral<X>::value)
-			{
+			if(std::is_integral<X>::value) {
 				return cstr_ref("INTEGER");
 			}
-			if(std::is_floating_point<X>::value)
-			{
+			if(std::is_floating_point<X>::value) {
 				return cstr_ref("FLOAT");
 			}
 			// TODO: be more precise depending on X
@@ -885,15 +711,13 @@ private:
 
 		template <typename X, typename P, typename A, typename L>
 		static cstr_ref _plchldr_name(identity<valid_if<X, P, A, L>>)
-		noexcept
-		{
+		noexcept {
 			return _plchldr_name(identity<X>());
 		}
 
 		template <typename X, typename A>
 		static cstr_ref _plchldr_name(identity<std::vector<X, A>>)
-		noexcept
-		{
+		noexcept {
 			return _plchldr_name(identity<X>());
 		}
 
@@ -904,44 +728,37 @@ private:
 		{ }
 
 		bool parse(program_arg& arg, std::ostream& log)
-		override
-		{
+		override {
 			return arg.parse_param(_param(), log);
 		}
 
 		bool has_valid_value(void) const
-		override
-		{
+		override {
 			return _param().has_valid_value();
 		}
 
 		bool validate(std::ostream& log) const
-		override
-		{
+		override {
 			return _param().validate(log);
 		}
 
 		const cstr_ref& short_tag(void) const
-		override
-		{
+		override {
 			return _param().short_tag();
 		}
 
 		const cstr_ref& long_tag(void) const
-		override
-		{
+		override {
 			return _param().long_tag();
 		}
 
 		const cstr_ref& description(void) const
-		override
-		{
+		override {
 			return _param().description();
 		}
 
 		const cstr_ref& placeholder(void) const
-		override
-		{
+		override {
 			return _plchldr;
 		}
 	};
@@ -951,10 +768,7 @@ private:
 	static inline
 	std::vector<std::unique_ptr<_intf>>&
 	_insert(std::vector<std::unique_ptr<_intf>>& dest)
-	noexcept
-	{
-		return dest;
-	}
+	noexcept { return dest; }
 
 	template <typename ... Intf>
 	static inline
@@ -963,8 +777,7 @@ private:
 		std::vector<std::unique_ptr<_intf>>& dest,
 		std::unique_ptr<_intf>&& param,
 		std::unique_ptr<Intf>&& ... params
-	) noexcept
-	{
+	) noexcept {
 		assert(param != nullptr);
 		dest.push_back(std::move(param));
 		return _insert(dest, std::move(params)...);
@@ -973,8 +786,7 @@ private:
 	template <typename ... Intf>
 	static
 	std::vector<std::unique_ptr<_intf>>
-	_make(std::unique_ptr<Intf>&& ... params)
-	{
+	_make(std::unique_ptr<Intf>&& ... params) {
 		std::vector<std::unique_ptr<_intf>> result;
 		result.reserve(sizeof ... (params));
 		return std::move(_insert(result, std::move(params)...));
@@ -985,45 +797,37 @@ public:
 	 : _params(_make(std::unique_ptr<_intf>(new _impl<T>(params))...))
 	{ }
 
-	std::size_t size(void) const
-	noexcept
-	{
-		return _params.size();
+	span_size_t size(void) const
+	noexcept {
+		return span_size(_params.size());
 	}
 
-	bool parse(program_arg& arg, std::ostream& log)
-	{
-		for(std::unique_ptr<_intf>& param : _params)
-		{
+	bool parse(program_arg& arg, std::ostream& log) {
+		for(auto& param : _params) {
 			assert(param != nullptr);
-			if(param->parse(arg, log))
-			{
+			if(param->parse(arg, log)) {
 				return true;
 			}
 		}
 		return false;
 	}
 
-	bool validate(std::ostream& log) const
-	{
+	bool validate(std::ostream& log) const {
 		bool all_ok = true;
-		for(const std::unique_ptr<_intf>& param : _params)
-		{
+		for(const auto& param : _params) {
 			assert(param != nullptr);
 			all_ok &= param->validate(log);
 		}
 		return all_ok;
 	}
 
-	std::ostream& print_usage(std::ostream& out, const cstr_ref& command)
-	{
+	std::ostream& print_usage(std::ostream& out, const cstr_ref& command) {
 		out << "Usage: " << command;
 
-		span_size_type stag_maxl = 0;
-		span_size_type ltag_maxl = 0;
+		span_size_t stag_maxl = 0;
+		span_size_t ltag_maxl = 0;
 
-		for(const std::unique_ptr<_intf>& param : _params)
-		{
+		for(const auto& param : _params) {
 			assert(param != nullptr);
 
 			out << " ";
@@ -1037,23 +841,20 @@ public:
 
 			out << (mandatory?'>':']');
 
-			if(stag_maxl < param->short_tag().size())
-			{
+			if(stag_maxl < param->short_tag().size()) {
 				stag_maxl = param->short_tag().size();
 			}
 
-			if(ltag_maxl < param->long_tag().size())
-			{
+			if(ltag_maxl < param->long_tag().size()) {
 				ltag_maxl = param->long_tag().size();
 			}
 		}
 		out << std::endl;
 		out << "  Options:" << std::endl;
 
-		span_size_type padl;
+		span_size_t padl;
 
-		for(const std::unique_ptr<_intf>& param : _params)
-		{
+		for(const auto& param : _params) {
 			padl = 4+stag_maxl-param->short_tag().size();
 			while(padl-- > 0) out << " ";
 			out << param->short_tag() << "|";
@@ -1097,77 +898,51 @@ public:
 	typedef valid_range_index<program_args> valid_index;
 
 	int argc(void) const
-	noexcept
-	{
-		return _argc;
-	}
+	noexcept { return _argc; }
 
 	const char** argv(void) const
-	noexcept
-	{
-		return _argv;
-	}
+	noexcept { return _argv; }
 
 	bool empty(void) const
-	noexcept
-	{
-		return _argc <= 0;
-	}
+	noexcept { return _argc <= 0; }
 
 	bool none(void) const
-	noexcept
-	{
-		return _argc <= 1;
-	}
+	noexcept { return _argc <= 1; }
 
 	int size(void) const
-	noexcept
-	{
-		return _argc;
-	}
+	noexcept { return _argc; }
 
 	bool is_valid(valid_index pos) const
-	noexcept
-	{
+	noexcept {
 		return	pos.is_valid(*this) &&
 			(_argv != nullptr) &&
 			(_argv[pos.value(*this)] != nullptr);
 	}
 
 	value_type get(valid_index pos) const
-	noexcept
-	{
+	noexcept {
 		assert(is_valid(pos));
 		return value_type(_argv[pos.value(*this)]);
 	}
 
 	value_type operator [] (valid_index pos) const
-	noexcept
-	{
-		return get(pos);
-	}
+	noexcept { return get(pos); }
 
 	value_type command(void) const
-	noexcept
-	{
-		return get(0);
-	}
+	noexcept { return get(0); }
 
 	program_arg first(void) const
-	noexcept
-	{
-		return program_arg(1, _argc, _argv);
-	}
+	noexcept { return program_arg(1, _argc, _argv); }
 
 	template <typename T>
 	bool parse_param(
 		program_parameter<T>& param,
 		std::ostream& errlog
-	) const
-	{
-		for(program_arg a = first(); a; a = a.next())
-		{
-			if(a.parse_param(param, errlog)) return true;
+	) const {
+		for(program_arg a = first(); a; a = a.next()) {
+			if(a.parse_param(param, errlog)) {
+				return true;
+			}
 		}
 		return false;
 	}

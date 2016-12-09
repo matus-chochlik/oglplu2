@@ -20,17 +20,17 @@ class base_node
  : public node_intf
 {
 private:
-	std::size_t _render_input;
+	span_size_t _render_input;
 public:
 	base_node(void)
 	noexcept
 	 : _render_input(0u)
 	{ }
 
-	std::size_t input_count(void)
+	span_size_t input_count(void)
 	override;
 
-	input_intf& input(std::size_t)
+	input_intf& input(span_size_t)
 	override;
 
 	bool can_add_input(void)
@@ -39,10 +39,10 @@ public:
 	input_intf& add_input(const cstr_ref&)
 	override;
 
-	std::size_t output_count(void)
+	span_size_t output_count(void)
 	override;
 
-	output_intf& output(std::size_t)
+	output_intf& output(span_size_t)
 	override;
 
 	void update_needed(void)
@@ -65,10 +65,10 @@ public:
 	cstr_ref type_name(void)
 	override;
 
-	std::size_t output_count(void)
+	span_size_t output_count(void)
 	override;
 
-	output_intf& output(std::size_t index)
+	output_intf& output(span_size_t index)
 	override;
 };
 
@@ -101,13 +101,13 @@ class unary_single_output_node
 public:
 	using single_output_node<Output>::single_output_node;
 
-	std::size_t input_count(void)
+	span_size_t input_count(void)
 	override
 	{
 		return 1u;
 	}
 
-	input_intf& input(std::size_t index)
+	input_intf& input(span_size_t index)
 	override
 	{
 		(void) index;
@@ -127,13 +127,13 @@ class binary_single_output_node
 public:
 	using single_output_node<Output>::single_output_node;
 
-	std::size_t input_count(void)
+	span_size_t input_count(void)
 	override
 	{
 		return 2u;
 	}
 
-	input_intf& input(std::size_t index)
+	input_intf& input(span_size_t index)
 	override
 	{
 		assert(index < input_count());

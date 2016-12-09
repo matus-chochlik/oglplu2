@@ -26,34 +26,30 @@ private:
 		typename = std::enable_if_t<!std::is_const<X>::value>
 	>
 	X* _ptr(void)
-	noexcept
-	{
-		assert(valid_block(_blk));
+	noexcept {
+		assert(is_valid_block(_blk));
 		return static_cast<X*>(_blk.addr());
 	}
 
 	const T* _cptr(void) const
-	noexcept
-	{
-		assert(valid_block(_blk));
+	noexcept {
+		assert(is_valid_block(_blk));
 		return static_cast<const T*>(_blk.addr());
 	}
 public:
 	static
-	bool valid_block(const_memory_block blk)
-	noexcept
-	{
-		return (blk.data() != nullptr) &&
-			(blk.addr().is_aligned_to(alignof(T))) &&
-			(blk.size() >= sizeof(T));
+	bool is_valid_block(const_memory_block blk)
+	noexcept {
+		return	(blk.data() != nullptr) &&
+			(blk.is_aligned_as<T>()) &&
+			(blk.is_enough_for<T>());
 	}
 
 	structured_memory_block(
 		memory::basic_block<std::is_const<T>::value> blk
 	) noexcept
-	 : _blk(blk)
-	{
-		assert(valid_block(_blk));
+	 : _blk(blk) {
+		assert(is_valid_block(_blk));
 	}
 
 	template <
@@ -64,10 +60,7 @@ public:
 		>
 	>
 	X& get(void)
-	noexcept
-	{
-		return *_ptr();
-	}
+	noexcept { return *_ptr(); }
 
 	template <
 		typename X = T,
@@ -77,22 +70,13 @@ public:
 		>
 	>
   	X* operator -> (void)
-	noexcept
-	{
-		return _ptr();
-	}
+	noexcept { return _ptr(); }
 
 	const T& get(void) const
-	noexcept
-	{
-		return *_cptr();
-	}
+	noexcept { return *_cptr(); }
 
 	const T* operator -> (void) const
-	noexcept
-	{
-		return _cptr();
-	}
+	noexcept { return _cptr(); }
 };
 
 } // namespace eagine

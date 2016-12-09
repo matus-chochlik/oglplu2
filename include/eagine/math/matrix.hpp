@@ -31,7 +31,7 @@ struct matrix
 
 	template <typename P, unsigned ... I>
 	static inline
-	matrix _from_hlp(const P* dt, std::size_t sz, _useq<I...>)
+	matrix _from_hlp(const P* dt, span_size_t sz, _useq<I...>)
 	noexcept
 	{
 		return matrix{{
@@ -44,7 +44,7 @@ struct matrix
 
 	template <typename P>
 	static inline
-	matrix from(const P* dt, std::size_t sz)
+	matrix from(const P* dt, span_size_t sz)
 	noexcept
 	{
 		return _from_hlp(dt, sz, _make_useq<RM?R:C>());

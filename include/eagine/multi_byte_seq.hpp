@@ -11,26 +11,61 @@
 #define EAGINE_MULTI_BYTE_SEQ_1509260923_HPP
 
 #include "valid_if/less_than.hpp"
+#include "valid_if/not_zero.hpp"
 #include "valid_if/between.hpp"
+#include "valid_if/always.hpp"
 #include "valid_if/not_empty.hpp"
 #include "valid_if/le_size_ge0.hpp"
+#include "valid_if/size_gt.hpp"
 #include "types.hpp"
 #include "span.hpp"
+#include "string_span.hpp"
 #include <cstdint>
 #include <string>
 
 namespace eagine {
 namespace mbs {
 
-typedef std::uint32_t code_point_t;
-typedef valid_if_less_than<code_point_t, 0x7FFFFFFF> code_point;
+using code_point_t = std::uint32_t;
+using code_point = valid_if_less_than<code_point_t, 0x7FFFFFFF>;
 
-typedef valid_if_between<std::size_t, 1u, 6u> valid_sequence_length;
+using valid_sequence_length = valid_if_between<span_size_t, 1, 6>;
+
+using valid_byte_span = valid_if_size_gt<span<byte>, span_size_t>;
+
+static inline
+valid_byte_span make_byte_span(span<byte> s)
+noexcept { return {s}; }
+
+static inline
+valid_byte_span make_byte_span(span<char> s)
+noexcept {
+	return {span<byte>{
+		reinterpret_cast<byte*>(s.data()),
+		s.size()
+	}};
+}
+
+using valid_cbyte_span = valid_if_size_gt<span<const byte>, span_size_t>;
+
+static inline
+valid_cbyte_span make_cbyte_span(span<const byte> s)
+noexcept { return {s}; }
+
+static inline
+valid_cbyte_span make_cbyte_span(span<const char> s)
+noexcept {
+	return {span<const byte>{
+		reinterpret_cast<const byte*>(s.data()),
+		s.size()
+	}};
+}
+
 
 static constexpr inline
-code_point_t max_code_point(std::size_t len)
-noexcept
-{
+valid_if_not_zero<code_point_t>
+max_code_point(const valid_sequence_length len)
+noexcept {
 	return	len==1?	0x0000007F: //  7b
 		len==2? 0x000007FF: // 11b
 		len==3? 0x0000FFFF: // 16b
@@ -41,23 +76,31 @@ noexcept
 }
 
 static constexpr inline
-auto head_data_bitshift(std::size_t len)
-noexcept
-{
-	return (len-1)*6;
+valid_span_size_t
+head_data_bitshift(const valid_sequence_length len)
+noexcept {
+	return {
+		len.is_valid()?
+		(len.value_anyway()-1)*6:-1
+	};
 }
 
 static constexpr inline
-auto tail_data_bitshift(std::size_t idx, std::size_t len)
-noexcept
-{
-	return (len-idx-1)*6;
+valid_span_size_t
+tail_data_bitshift(
+	const valid_sequence_length idx,
+	const valid_sequence_length len
+) noexcept {
+	return {
+		(idx.is_valid() && len.is_valid())?
+		(len.value_anyway()-idx.value_anyway()-1)*6:-1
+	};
 }
 
 static constexpr inline
-byte head_code_mask(std::size_t len)
-noexcept
-{
+valid_if_not_zero<byte>
+head_code_mask(const valid_sequence_length len)
+noexcept {
 	return	len==1?	0x80:
 		len==2?	0xE0:
 		len==3?	0xF0:
@@ -67,56 +110,80 @@ noexcept
 			0x00;
 }
 
+template <typename P>
 static constexpr inline
-byte head_data_mask(std::size_t len)
-noexcept 
-{
-	return ~head_code_mask(len);
+optionally_valid<byte> inverted_byte(const valid_if<byte, P> b)
+noexcept {
+	return {byte(~b.value_anyway()), b.is_valid()};
 }
 
 static constexpr inline
-byte tail_code_mask(void)
-noexcept 
-{
+optionally_valid<byte>
+head_data_mask(const valid_sequence_length len)
+noexcept {
+	return inverted_byte(head_code_mask(len));
+}
+
+static constexpr inline
+always_valid<byte> tail_code_mask(void)
+noexcept {
 	return 0xC0;
 }
 
 static constexpr inline
-byte tail_data_mask(void)
-noexcept 
-{
+always_valid<byte> tail_data_mask(void)
+noexcept {
 	return 0x3F;
 }
 
+template <typename P>
 static constexpr inline
-byte head_code(std::size_t len)
-noexcept
-{
-	return (head_code_mask(len) << 1) & 0xFF;
+optionally_valid<byte> head_code_from_mask(const valid_if<byte, P> mask)
+noexcept {
+	return {
+		byte((mask.value_anyway() << 1) & 0xFF),
+		mask.is_valid()
+	};
 }
 
 static constexpr inline
-byte tail_code(void)
-noexcept
-{
+optionally_valid<byte> head_code(const valid_sequence_length len)
+noexcept {
+	return head_code_from_mask(head_code_mask(len));
+}
+
+static constexpr inline
+always_valid<byte> tail_code(void)
+noexcept {
 	return 0x80;
 }
 
+template <typename P1, typename P2>
 static constexpr inline
-bool is_valid_head_byte(byte b, std::size_t l)
-noexcept
-{
-	return (b & head_code_mask(l)) == head_code(l);
+bool is_valid_masked_code(
+	const byte b,
+	const valid_if<byte, P1> mask,
+	const valid_if<byte, P2> code
+) noexcept {
+	return (mask.is_valid() && code.is_valid())?
+		(b & mask.value_anyway()) == code.value_anyway():
+		false;
+}
+
+static constexpr inline
+bool is_valid_head_byte(const byte b, const valid_sequence_length l)
+noexcept {
+	return is_valid_masked_code(
+		b, head_code_mask(l),
+		head_code(l)
+	);
 }
 
 static inline
-bool is_valid_head_byte(byte b)
-noexcept
-{
-	for(std::size_t l=1; l<6; ++l)
-	{
-		if(is_valid_head_byte(b, l))
-		{
+bool is_valid_head_byte(const byte b)
+noexcept {
+	for(span_size_t l=1; l<6; ++l) {
+		if(is_valid_head_byte(b, l)) {
 			return true;
 		}
 	}
@@ -124,21 +191,35 @@ noexcept
 }
 
 static constexpr inline
-bool is_valid_tail_byte(byte b, std::size_t, std::size_t)
-noexcept
-{
-	return (b & tail_code_mask()) == tail_code();
+bool is_valid_tail_byte(
+	const byte b,
+	const valid_sequence_length,
+	const valid_sequence_length
+) noexcept {
+	return is_valid_masked_code(
+		b, tail_code_mask(),
+		tail_code()
+	);
+}
+
+static constexpr inline
+valid_sequence_length
+required_sequence_length(const code_point_t cp)
+noexcept {
+	return	(max_code_point(1) > cp)?1:
+		(max_code_point(2) > cp)?2:
+		(max_code_point(3) > cp)?3:
+		(max_code_point(4) > cp)?4:
+		(max_code_point(5) > cp)?5:
+		(max_code_point(6) > cp)?6:0;
 }
 
 static inline
 valid_sequence_length
-required_sequence_length(code_point_t cp)
-noexcept
-{
-	for(std::size_t l=1; l<=6; ++l)
-	{
-		if(cp < max_code_point(l))
-		{
+do_decode_sequence_length(const byte b)
+noexcept {
+	for(span_size_t l=1; l<=6; ++l) {
+		if(is_valid_head_byte(b, l)) {
 			return l;
 		}
 	}
@@ -147,49 +228,24 @@ noexcept
 
 static inline
 valid_sequence_length
-do_decode_sequence_length(byte b)
-noexcept
-{
-	for(std::size_t l=1; l<=6; ++l)
-	{
-		if(is_valid_head_byte(b, l))
-		{
-			return l;
-		}
-	}
-	return 0;
+decode_sequence_length(const valid_cbyte_span& seq)
+noexcept {
+	return do_decode_sequence_length(byte(seq.value(0)[0]));
 }
 
-template <typename B>
 static inline
-valid_sequence_length
-decode_sequence_length(const span<B>& seq)
-noexcept
-{
-	assert(seq.size() > 0);
-	return do_decode_sequence_length(byte(seq[0]));
-}
+bool is_valid_encoding(const valid_cbyte_span& vseq)
+noexcept {
+	if(auto len = decode_sequence_length(vseq)) {
+		const span_size_t l = len.value();
+		const span<const byte>& seq = vseq.value(l-1);
 
-template <typename B>
-static inline
-bool is_valid_encoding(const span<B>& seq)
-noexcept
-{
-	assert(seq.size() > 0);
-	if(auto len = decode_sequence_length(seq))
-	{
-		const std::size_t l = len.value();
-		assert(span_size_type(l) <= seq.size());
-
-		if(!is_valid_head_byte(byte(seq[0]), l))
-		{
+		if(!is_valid_head_byte(seq[0], l)) {
 			return false;
 		}
 
-		for(std::size_t i=1; i<l; ++i)
-		{
-			if(!is_valid_tail_byte(byte(seq[i]), i, l))
-			{
+		for(span_size_t i=1; i<l; ++i) {
+			if(!is_valid_tail_byte(seq[i], i, l)) {
 				return false;
 			}
 		}
@@ -198,123 +254,182 @@ noexcept
 	return false;
 }
 
+template <typename P1, typename P2>
 static constexpr inline
-code_point_t decode_code_point_head(byte b, std::size_t l)
-noexcept
-{
-	return code_point_t((b & head_data_mask(l)) << head_data_bitshift(l));
+optionally_valid<code_point_t>
+do_decode_code_point_head(
+	const byte b,
+	const valid_if<byte, P1> mask,
+	const valid_if<span_size_t, P2> bitshift
+) noexcept {
+	return {
+		code_point_t(
+			(b & mask.value_anyway()) << bitshift.value_anyway()
+		), (mask.is_valid() && bitshift.is_valid())
+	};
 }
 
 static constexpr inline
-code_point_t decode_code_point_tail(byte b, std::size_t i, std::size_t l)
-noexcept
-{
-	return code_point_t((b & tail_data_mask()) << tail_data_bitshift(i, l));
+optionally_valid<code_point_t>
+decode_code_point_head(
+	const byte b,
+	const valid_sequence_length l
+) noexcept {
+	return do_decode_code_point_head(
+		b, head_data_mask(l),
+		head_data_bitshift(l)
+	);
 }
 
-template <typename B>
+template <typename P1, typename P2>
+static constexpr inline
+optionally_valid<code_point_t>
+do_decode_code_point_tail(
+	const byte b,
+	const valid_if<byte, P1> mask,
+	const valid_if<span_size_t, P2> bitshift
+) noexcept {
+	return {
+		code_point_t(
+			(b & mask.value_anyway()) << bitshift.value_anyway()
+		), (mask.is_valid() && bitshift.is_valid())
+	};
+}
+
+static constexpr inline
+optionally_valid<code_point_t>
+decode_code_point_tail(
+	const byte b,
+	const valid_sequence_length i,
+	const valid_sequence_length l
+) noexcept {
+	return do_decode_code_point_tail(
+		b, tail_data_mask(),
+		tail_data_bitshift(i, l)
+	);
+}
+
 static inline
-code_point_t do_decode_code_point(const span<B>& src, std::size_t l)
-noexcept
-{
-	assert(span_size_type(l) <= src.size());
+code_point_t do_decode_code_point(
+	const valid_cbyte_span& vsrc,
+	const valid_sequence_length vl
+) noexcept {
+	const span_size_t l = vl.value();
+	const span<const byte>& src = vsrc.value(l-1);
 
-	code_point_t cp = decode_code_point_head(byte(src[0]), l);
+	code_point_t cp = decode_code_point_head(src[0], vl).value();
 
-	for(std::size_t i=1; i<l; ++i)
-	{
-		cp |= decode_code_point_tail(byte(src[i]), i, l);
+	for(span_size_t i=1; i<l; ++i) {
+		cp |= decode_code_point_tail(src[i], i, vl).value();
 	}
 
 	return cp;
 }
 
-template <typename B>
 static inline
-code_point decode_code_point(const span<B>& src)
-noexcept
-{
-	if(auto len = decode_sequence_length(src))
-	{
-		return do_decode_code_point(src, len.value());
-	}
-	return code_point(~code_point_t(0));
+code_point decode_code_point(const valid_cbyte_span& src)
+noexcept {
+	return do_decode_code_point(src, decode_sequence_length(src));
+}
+
+template <typename P1, typename P2, typename P3>
+static constexpr inline
+optionally_valid<byte>
+do_encode_code_point_byte(
+	const code_point_t cp,
+	const valid_if<byte, P1> code,
+	const valid_if<byte, P2> mask,
+	const valid_if<span_size_t, P3> bitshift
+) noexcept {
+	return {
+		byte(
+			(code.value_anyway())|
+			(mask.value_anyway()&(cp >> bitshift.value_anyway()))
+		), (code.is_valid() && mask.is_valid() && bitshift.is_valid())
+	};
+}
+
+
+static constexpr inline
+optionally_valid<byte>
+encode_code_point_head(
+	const code_point_t cp,
+	const valid_sequence_length l
+) noexcept {
+	return do_encode_code_point_byte(
+		cp, head_code(l),
+		head_data_mask(l),
+		head_data_bitshift(l)
+	);
 }
 
 static constexpr inline
-byte encode_code_point_head(code_point_t cp, std::size_t l)
-noexcept
-{
-	return head_code(l)|(head_data_mask(l)&(cp >> head_data_bitshift(l)));
+optionally_valid<byte>
+encode_code_point_tail(
+	const code_point_t cp,
+	const valid_sequence_length i,
+	const valid_sequence_length l
+) noexcept {
+	return do_encode_code_point_byte(
+		cp, tail_code(),
+		tail_data_mask(),
+		tail_data_bitshift(i, l)
+	);
 }
 
-static constexpr inline
-byte encode_code_point_tail(code_point_t cp, std::size_t i, std::size_t l)
-noexcept
-{
-	return tail_code()|(tail_data_mask()&(cp >> tail_data_bitshift(i, l)));
-}
-
-template <typename B>
 static inline
-void do_encode_code_point(code_point cp, const span<B>& dest, std::size_t l)
-noexcept
-{
-	assert(span_size_type(l) <= dest.size());
+void do_encode_code_point(
+	const code_point cp,
+	const valid_byte_span& vdest,
+	const valid_sequence_length vl
+) noexcept {
+	const span_size_t l = vl.value();
+	const span<byte>& dest = vdest.value(l-1);
 
 	code_point_t val = cp.value();
 
-	dest[0] = B(encode_code_point_head(val, l));
+	dest[0] = encode_code_point_head(val, vl).value();
 
-	for(std::size_t i=1; i<l; ++i)
-	{
-		dest[i] = B(encode_code_point_tail(val, i, l));
+	for(span_size_t i=1; i<l; ++i) {
+		dest[i] = encode_code_point_tail(val, i, vl).value();
 	}
 }
 
-template <typename B>
 static inline
 valid_sequence_length
-encode_code_point(code_point cp, const span<B>& dest)
-noexcept
-{
-	valid_sequence_length len = required_sequence_length(cp.value());
-	if(len.is_valid())
-	{
-		do_encode_code_point(cp, dest, len.value());
-	}
+encode_code_point(const code_point cp, const valid_byte_span& dest)
+noexcept {
+	auto len = required_sequence_length(cp.value());
+	do_encode_code_point(cp, dest, len);
 	return len;
 }
 
 static inline
 valid_if_not_empty<std::string> encode_code_point(code_point cp)
 {
-	if(auto len = required_sequence_length(cp.value()))
-	{
-		std::string tmp(len.value(), '\0');
+	if(auto len = required_sequence_length(cp.value())) {
+		std::array<byte, 7> tmp;
 		do_encode_code_point(
 			cp,
-			span<char>(
-				const_cast<char*>(tmp.data()),
-				static_cast<span_size_type>(tmp.size())
-			),
+			make_byte_span(make_span(tmp)),
 			len.value()
 		);
-		return {std::move(tmp)};
+		return {std::string(
+			reinterpret_cast<const char*>(tmp.data()),
+			std_size(tmp.size())
+		)};
 	}
 	return {};
 }
 
 static inline
-optionally_valid<std::size_t>
+optionally_valid<span_size_t>
 encoding_bytes_required(const span<const code_point_t>& cps)
 noexcept
 {
-	std::size_t result = 0;
-	for(code_point_t cp : cps)
-	{
-		if(auto len = required_sequence_length(cp))
-		{
+	span_size_t result = 0;
+	for(code_point_t cp : cps) {
+		if(auto len = required_sequence_length(cp)) {
 			result += len.value();
 		}
 		else return {0, false};
@@ -323,17 +438,14 @@ noexcept
 }
 
 static inline
-optionally_valid<std::size_t>
+optionally_valid<span_size_t>
 encoding_bytes_required(const span<const code_point>& cps)
 noexcept
 {
-	std::size_t result = 0;
-	for(code_point cp : cps)
-	{
-		if(cp.is_valid())
-		{
-			if(auto len = required_sequence_length(cp.value()))
-			{
+	span_size_t result = 0;
+	for(code_point cp : cps) {
+		if(cp.is_valid()) {
+			if(auto len = required_sequence_length(cp.value())) {
 				result += len.value();
 			}
 			else return {0, false};
@@ -343,73 +455,73 @@ noexcept
 	return {result, true};
 }
 
-template <typename B>
 static inline
-optionally_valid<std::size_t>
-decoding_code_points_required(const span<B>& bytes)
+optionally_valid<span_size_t>
+decoding_code_points_required(const valid_cbyte_span& bytes)
 noexcept
 {
-	std::size_t result = 0;
+	span_size_t result = 0;
 
-	auto i = bytes.begin();
-	auto e = bytes.end();
+	auto i = bytes.value(0).begin();
+	auto e = bytes.value(0).end();
 
-	while(i != e)
-	{
-		if(auto len = do_decode_sequence_length(byte(*i)))
-		{
+	while(i != e) {
+		if(auto len = do_decode_sequence_length(*i)) {
 			++result;
-			i += span_size_type(len.value());
+			i += span_size(len.value());
+			assert(!(i > e));
 		}
 		else return {0, false};
-		assert(!(i > e));
 	}
 
 	return {result, true};
 }
 
-template <typename B>
 static inline
 bool encode_code_points(
 	const span<const code_point>& cps,
-	const span<B>& bytes
+	const valid_byte_span& bytes
 ) noexcept
 {
-	span_size_type i = 0;
+	span_size_t i = 0;
 
-	for(code_point cp : cps)
-	{
-		if(!cp.is_valid()) return false;
+	for(code_point cp : cps) {
+		if(!cp.is_valid()) {
+			return false;
+		}
 
-		assert(i < bytes.size());
-		span<B> sub(bytes.data()+i, bytes.size()-i);
+		span<byte> sub{
+			bytes.value(i).data()+i,
+			bytes.value(i).size()-i
+		};
 		auto len = encode_code_point(cp.value(), sub);
 
-		if(!len.is_valid()) return false;
+		if(!len.is_valid()) {
+			return false;
+		}
 
-		i += span_size_type(len.value());
+		i += span_size_t(len.value());
 	}
 	return true;
 }
 
-template <typename B>
 static inline
 bool decode_code_points(
-	const span<B>& bytes,
+	const valid_cbyte_span& bytes,
 	const span<code_point>& cps
 )
 {
-	span_size_type i = 0;
+	span_size_t i = 0;
 
-	for(code_point& cp : cps)
-	{
-		assert(i < bytes.size());
-		span<B> sub(bytes.data()+i, bytes.size()-i);
-		if(auto len = decode_sequence_length(sub))
-		{
+	for(code_point& cp : cps) {
+		span<const byte> sub{
+			bytes.value(i).data()+i,
+			bytes.value(i).size()-i
+		};
+		if(auto len = decode_sequence_length(sub)) {
 			cp = do_decode_code_point(sub, len.value());
 
-			i += span_size_type(len.value());
+			i += span_size_t(len.value());
 		}
 		else return false;
 	}

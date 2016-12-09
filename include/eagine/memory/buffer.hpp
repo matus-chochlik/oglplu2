@@ -23,8 +23,8 @@ public:
 	typedef typename block::size_type size_type;
 	typedef typename block::pointer pointer;
 private:
-	std::size_t _size;
-	std::size_t _align;
+	span_size_t _size;
+	span_size_t _align;
 	owned_block _storage;
 	shared_byte_allocator _alloc;
 	
@@ -34,13 +34,13 @@ private:
 		return bool(_alloc) && size() <= capacity();
 	}
 
-	void _reallocate(std::size_t new_size)
+	void _reallocate(span_size_t new_size)
 	{
 		_alloc.do_reallocate(_storage, new_size, _align);
 	}
 public:
 	explicit
-	buffer(std::size_t align)
+	buffer(span_size_t align)
 	 : _size(0)
 	 , _align(align)
 	 , _alloc(default_byte_allocator())
@@ -70,19 +70,19 @@ public:
 		return _storage.data();
 	}
 
-	std::size_t size(void) const
+	span_size_t size(void) const
 	noexcept
 	{
 		return _size;
 	}
 
-	std::size_t capacity(void) const
+	span_size_t capacity(void) const
 	noexcept
 	{
 		return _storage.size();
 	}
 
-	void reserve(std::size_t new_size)
+	void reserve(span_size_t new_size)
 	{
 		if(capacity() < new_size)
 		{
@@ -91,7 +91,7 @@ public:
 		assert(_is_ok());
 	}
 
-	void resize(std::size_t new_size)
+	void resize(span_size_t new_size)
 	{
 		reserve(new_size);
 		_size = new_size;

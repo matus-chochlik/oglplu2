@@ -189,7 +189,7 @@ class basic_offset_array
 {
 public:
 	typedef T value_type;
-	typedef std::size_t size_type;
+	typedef span_size_t size_type;
 private:
 	size_type _size;
 	basic_offset_ptr<T, OffsT> _optr;
@@ -333,7 +333,7 @@ class basic_offset_ptr_array_facade
 {
 public:
 	typedef T value_type;
-	typedef std::size_t size_type;
+	typedef span_size_t size_type;
 private:
 	const basic_offset_array<
 		const basic_offset_ptr<T, PtrOffsT>,
@@ -355,7 +355,7 @@ public:
 		return _ptrarray.size();
 	}
 
-	T& operator [](std::size_t index) const
+	T& operator [](span_size_t index) const
 	noexcept
 	{
 		assert(index < size());

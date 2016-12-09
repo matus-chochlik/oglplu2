@@ -34,9 +34,9 @@ base_constant::identifier(void)
 {
 	cstr_ref n = name();
 	std::string result;
-	result.reserve(std::size_t(7+n.size()));
+	result.reserve(std_size(7+n.size()));
 	result.append("oglptg_");
-	result.append(n.data(), std::size_t(n.size()));
+	result.append(n.data(), std_size(n.size()));
 	return result;
 }
 //------------------------------------------------------------------------------

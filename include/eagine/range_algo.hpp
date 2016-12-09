@@ -286,9 +286,9 @@ Range1 slice_inside(const Range1& rng, const Range2& bgn, const Range3& end)
 
 template <typename Range1, typename Range2>
 static inline
-std::size_t count(Range1 where, const Range2& what)
+span_size_t count(Range1 where, const Range2& what)
 {
-	std::size_t result = 0;
+	span_size_t result = 0;
 	while(auto p = find_pos(where, what))
 	{
 		++result;
@@ -344,9 +344,9 @@ BinaryOperation for_each_delimiter(
 
 template <typename Range1, typename Range2>
 static inline
-std::size_t count_delimited(const Range1& where, const Range2& delim)
+span_size_t count_delimited(const Range1& where, const Range2& delim)
 {
-	return for_each_delimited(where, delim, count_t<std::size_t>());
+	return for_each_delimited(where, delim, count_t<span_size_t>());
 }
 
 template <

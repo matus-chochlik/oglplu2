@@ -11,12 +11,12 @@
 #define OGLPLUS_UTILS_SPAN_1509260923_HPP
 
 #include <eagine/span.hpp>
+#include "types.hpp"
 
 namespace oglplus {
 
 using eagine::span;
-using eagine::as_span;
-using eagine::span_size_type;
+using eagine::make_span;
 
 } // namespace oglplus
 

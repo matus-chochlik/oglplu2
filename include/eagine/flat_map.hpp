@@ -52,7 +52,7 @@ struct flat_map_ops
 	noexcept
 	{
 		using ::std::distance;
-		return static_cast<std::size_t>(distance(b, e));
+		return static_cast<span_size_t>(distance(b, e));
 	}
 
 	template <typename I>

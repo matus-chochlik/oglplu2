@@ -35,7 +35,7 @@ protected:
 	std::string _fmt(const _span_t& values) const;
 };
 
-template <std::size_t N>
+template <span_size_t N>
 class format_string_and_list;
 
 template <>
@@ -52,7 +52,7 @@ public:
 	{ return _fmt({}); }
 };
 
-template <std::size_t N>
+template <span_size_t N>
 class format_string_and_list
  : public format_string_and_list_base
 {
@@ -65,7 +65,7 @@ public:
 	) noexcept
 	 : format_string_and_list_base(prev)
 	{
-		for(std::size_t i=0; i<N-1; ++i)
+		for(span_size_t i=0; i<N-1; ++i)
 		{
 			_list[i] = std::move(prev._list[i]);
 		}
@@ -96,7 +96,7 @@ public:
 	{ return _fmt({_list}); }
 };
 
-template <std::size_t N>
+template <span_size_t N>
 static inline
 format_string_and_list<N+1>
 operator % (format_string_and_list<N>&& fsal, std::string&& val)

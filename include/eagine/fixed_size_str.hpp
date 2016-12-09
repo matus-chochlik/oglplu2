@@ -11,11 +11,12 @@
 #define EAGINE_FIXED_SIZE_STR_1509260923_HPP
 
 #include "cstr_ref.hpp"
+#include "types.hpp"
 #include <cstring>
 
 namespace eagine {
 
-template <std::size_t N>
+template <span_size_t N>
 class fixed_size_string
 {
 private:
@@ -23,7 +24,7 @@ private:
 
 	char _str[N];
 
-	template <std::size_t>
+	template <span_size_t>
 	friend class fixed_size_string;
 public:
 	fixed_size_string(void)
@@ -49,8 +50,8 @@ public:
 	}
 
 	template <
-		std::size_t N1,
-		std::size_t N2,
+		span_size_t N1,
+		span_size_t N2,
 		typename = std::enable_if_t<N1+N2 == N+1>
 	>
 	fixed_size_string(
@@ -62,7 +63,7 @@ public:
 		std::strncpy(_str+N1-1, s2._str, N2);
 	}
 
-	typedef std::size_t size_type;
+	typedef span_size_t size_type;
 	typedef char* iterator;
 	typedef const char* const_iterator;
 
@@ -72,7 +73,7 @@ public:
 		return _str[0] == '\0';
 	}
 
-	std::size_t size(void) const
+	span_size_t size(void) const
 	noexcept
 	{
 		return N-1;
@@ -128,7 +129,7 @@ public:
 	}
 };
 
-template <std::size_t N>
+template <span_size_t N>
 static inline
 fixed_size_string<N>
 make_fixed_size_string(const char (&str)[N])
@@ -137,7 +138,7 @@ noexcept
 	return fixed_size_string<N>(str);
 }
 
-template <std::size_t N1, std::size_t N2>
+template <span_size_t N1, span_size_t N2>
 static inline
 fixed_size_string<N1+N2-1>
 operator + (const fixed_size_string<N1>& s1, const fixed_size_string<N2>& s2)

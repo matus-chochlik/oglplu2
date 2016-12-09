@@ -25,12 +25,9 @@ struct valid_if_in_list_policy
 	{ }
 
 	bool operator ()(const T& value) const
-	noexcept
-	{
-		for(const T& choice : _choices)
-		{
-			if(value == choice)
-			{
+	noexcept {
+		for(const T& choice : _choices) {
+			if(value == choice) {
 				return true;
 			}
 		}
@@ -48,14 +45,12 @@ struct valid_if_in_list_policy
 		{ }
 
 		template <typename Log>
-		void operator ()(Log& log, const T& v) const
-		{
+		void operator ()(Log& log, const T& v) const {
 			log	<< "Value '" << v << "', "
 				<< "other than one of the values [";
 
 			bool first = true;
-			for(const T& choice : *_choices)
-			{
+			for(const T& choice : *_choices) {
 				log << (first?"":", ") << "'" << choice << "'";
 				first = false;
 			}
@@ -67,8 +62,7 @@ struct valid_if_in_list_policy
 	{
 		[[noreturn]]
 		void operator ()(void) const
-		noexcept
-		{
+		noexcept {
 			EAGINE_ABORT(
 			"Value other than one of specified choices is invalid"
 			);

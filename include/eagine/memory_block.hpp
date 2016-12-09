@@ -31,7 +31,7 @@ noexcept
 	return memory::block_of(x);
 }
 
-using memory::as_span_of;
+using memory::make_span_of;
 
 } // namespace eagine
 

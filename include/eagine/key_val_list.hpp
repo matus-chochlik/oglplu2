@@ -153,10 +153,10 @@ public:
 	{ }
 
 	static constexpr inline
-	std::size_t size(void)
+	span_size_t size(void)
 	noexcept
 	{
-		return N+1;
+		return span_size(N+1);
 	}
 
 	const value_type* data(void) const
@@ -168,7 +168,7 @@ public:
 	span<const value_type> get(void) const
 	noexcept
 	{
-		return {data(), span_size_type(size())};
+		return {data(), span_size_t(size())};
 	}
 
 	constexpr

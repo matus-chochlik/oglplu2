@@ -131,14 +131,14 @@ struct vector
 	}
 
 	static inline
-	vector from(const T* dt, std::size_t sz)
+	vector from(const T* dt, span_size_t sz)
 	noexcept
 	{
 		return vector{vect::from_array<T, N, V>::apply(dt, sz)};
 	}
 
 	static inline
-	vector from(const T* dt, std::size_t sz, T fv)
+	vector from(const T* dt, span_size_t sz, T fv)
 	noexcept
 	{
 		return vector{vect::from_saafv<T, N, V>::apply(dt, sz, fv)};

@@ -20,23 +20,23 @@ namespace eagine {
 namespace string_list {
 
 static inline
-span_size_type
+span_size_t
 element_header_size(const cstring_span& elem)
 noexcept
 {
-	return span_size_type(mbs::decode_sequence_length(elem).value());
+	return mbs::decode_sequence_length(elem).value();
 }
 
 static inline
-span_size_type
-element_value_size(const cstring_span& elem, span_size_type l)
+span_size_t
+element_value_size(const cstring_span& elem, span_size_t l)
 noexcept
 {
-	return span_size_type(mbs::do_decode_code_point(elem, std::size_t(l)));
+	return mbs::do_decode_code_point(elem, l);
 }
 
 static inline
-span_size_type
+span_size_t
 element_value_size(const cstring_span& elem)
 noexcept
 {
@@ -55,15 +55,15 @@ private:
 	_fit(const cstring_span& s)
 	noexcept
 	{
-		span_size_type hs = element_header_size(s);
-		span_size_type vs = element_value_size(s, hs);
+		span_size_t hs = element_header_size(s);
+		span_size_t vs = element_value_size(s, hs);
 		assert(s.size() >= hs+vs+hs);
 		return {s.data(), hs+vs+hs};
 	}
 
 	static inline
 	cstring_span
-	_fit(const char* ptr, span_size_type max_size)
+	_fit(const char* ptr, span_size_t max_size)
 	noexcept
 	{
 		return _fit(cstring_span(ptr, max_size));
@@ -71,34 +71,34 @@ private:
 
 	static inline
 	cstring_span
-	_rev_fit(const cstring_span& s, span_size_type rev_sz)
+	_rev_fit(const cstring_span& s, span_size_t rev_sz)
 	noexcept
 	{
-		span_size_type hs = element_header_size(s);
-		span_size_type vs = element_value_size(s, hs);
+		span_size_t hs = element_header_size(s);
+		span_size_t vs = element_value_size(s, hs);
 		assert(rev_sz >= hs+vs);
 		return {s.data()-hs-vs, hs+vs+hs};
 	}
 
 	static inline
 	cstring_span
-	_rev_fit(const char* ptr, span_size_type rev_sz, span_size_type foot_sz)
+	_rev_fit(const char* ptr, span_size_t rev_sz, span_size_t foot_sz)
 	noexcept
 	{
 		return _rev_fit(cstring_span(ptr, foot_sz), rev_sz);
 	}
 public:
-	element(const char* ptr, span_size_type max_size)
+	element(const char* ptr, span_size_t max_size)
 	noexcept
 	 : cstring_span(_fit(ptr, max_size))
 	{ }
 
-	element(const char* ptr, span_size_type rev_sz, span_size_type foot_sz)
+	element(const char* ptr, span_size_t rev_sz, span_size_t foot_sz)
 	noexcept
 	 : cstring_span(_rev_fit(ptr, rev_sz, foot_sz))
 	{ }
 
-	span_size_type header_size(void) const
+	span_size_t header_size(void) const
 	noexcept
 	{
 		return element_header_size(_base());
@@ -110,7 +110,7 @@ public:
 		return {data(), header_size()};
 	}
 
-	span_size_type value_size(void) const
+	span_size_t value_size(void) const
 	noexcept
 	{
 		return element_value_size(header());
@@ -128,7 +128,7 @@ public:
 		return {value_data(), value_size()};
 	}
 
-	span_size_type footer_size(void) const
+	span_size_t footer_size(void) const
 	noexcept
 	{
 		return element_header_size(_base());
@@ -146,7 +146,7 @@ static inline
 void for_each_elem(const cstring_span& str, Func func)
 noexcept
 {
-	span_size_type i = 0;
+	span_size_t i = 0;
 	bool first = true;
 	while(i < str.size())
 	{
@@ -173,7 +173,7 @@ static inline
 void rev_for_each_elem(const cstring_span& str, Func func)
 noexcept
 {
-	span_size_type i = str.size()-1;
+	span_size_t i = str.size()-1;
 	bool first = true;
 	while(i > 0)
 	{
@@ -204,8 +204,8 @@ static inline
 std::string
 join(const cstring_span& str, const cstring_span& sep, bool trail_sep)
 {
-	span_size_type slen = sep.size();
-	span_size_type len = trail_sep?slen:0;
+	span_size_t slen = sep.size();
+	span_size_t len = trail_sep?slen:0;
 	auto get_len = [&len,slen](const element& elem, bool first)
 	{
 		if(!first) len += slen;
@@ -214,20 +214,20 @@ join(const cstring_span& str, const cstring_span& sep, bool trail_sep)
 	for_each_elem(str, get_len);
 
 	std::string res;
-	res.reserve(std::size_t(len));
+	res.reserve(std_size(len));
 
 	auto fill = [&res,sep](const element& elem, bool first)
 	{
-		if(!first) res.append(sep.data(), std::size_t(sep.size()));
-		res.append(elem.value_data(), std::size_t(elem.value_size()));
+		if(!first) res.append(sep.data(), std_size(sep.size()));
+		res.append(elem.value_data(), std_size(elem.value_size()));
 	};
 	for_each_elem(str, fill);
 
 	if(trail_sep)
 	{
-		res.append(sep.data(), std::size_t(sep.size()));
+		res.append(sep.data(), std_size(sep.size()));
 	}
-	assert(res.size() == std::size_t(len));
+	assert(res.size() == std_size(len));
 
 	return std::move(res);
 }
@@ -253,7 +253,7 @@ private:
 		return byte(*_pos);
 	}
 
-	std::size_t _len_len(void) const
+	span_size_t _len_len(void) const
 	noexcept
 	{
 		byte b = _b();
@@ -261,20 +261,20 @@ private:
 		return mbs::do_decode_sequence_length(b).value();
 	}
 
-	std::size_t _val_len(std::size_t ll) const
+	span_size_t _val_len(span_size_t ll) const
 	noexcept
 	{
-		cstring_span el(_pos, span_size_type(ll));
-		return mbs::do_decode_code_point(el,ll); 
+		cstring_span el(_pos, span_size_t(ll));
+		return mbs::do_decode_code_point(el, ll); 
 	}
 
 	void _update(void) const
 	{
 		if(_pos != nullptr && (_tmp.size() == 0))
 		{
-			std::size_t ll = _len_len();
-			std::size_t vl = _val_len(ll);
-			_tmp = cstring_span{_pos+ll, span_size_type(vl)};
+			span_size_t ll = _len_len();
+			span_size_t vl = _val_len(ll);
+			_tmp = cstring_span{_pos+ll, span_size_t(vl)};
 		}
 	}
 public:
@@ -336,8 +336,8 @@ public:
 	noexcept
 	{
 		assert(_pos != nullptr);
-		std::size_t ll = _len_len();
-		std::size_t vl = _val_len(ll);
+		span_size_t ll = _len_len();
+		span_size_t vl = _val_len(ll);
 		_pos += ll+vl+ll;
 		_tmp = cstring_span();
 		return *this;
@@ -375,7 +375,7 @@ private:
 		{ --_pos; };
 	}
 
-	std::size_t _len_len(void) const
+	span_size_t _len_len(void) const
 	noexcept
 	{
 		byte b = _b();
@@ -383,10 +383,10 @@ private:
 		return mbs::do_decode_sequence_length(b).value();
 	}
 
-	std::size_t _val_len(std::size_t ll) const
+	span_size_t _val_len(span_size_t ll) const
 	noexcept
 	{
-		cstring_span el(_pos, span_size_type(ll));
+		cstring_span el(_pos, span_size_t(ll));
 		return mbs::do_decode_code_point(el,ll); 
 	}
 
@@ -395,9 +395,9 @@ private:
 		if(_pos != nullptr && (_tmp.size() == 0))
 		{
 			_rseek_head();
-			std::size_t ll = _len_len();
-			std::size_t vl = _val_len(ll);
-			_tmp = cstring_span{_pos-vl, span_size_type(vl)};
+			span_size_t ll = _len_len();
+			span_size_t vl = _val_len(ll);
+			_tmp = cstring_span{_pos-vl, span_size_t(vl)};
 		}
 	}
 public:
@@ -460,8 +460,8 @@ public:
 	{
 		assert(_pos != nullptr);
 		_rseek_head();
-		std::size_t ll = _len_len();
-		std::size_t vl = _val_len(ll);
+		span_size_t ll = _len_len();
+		span_size_t vl = _val_len(ll);
 		_pos -= ll+vl+1;
 		_tmp = cstring_span();
 		return *this;

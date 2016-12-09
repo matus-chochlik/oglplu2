@@ -22,8 +22,8 @@ class byte_allocator_with_fallback
  : public byte_allocator_impl<Policy, byte_allocator_with_fallback>
 {
 private:
-	std::size_t _fbk_size;
-	std::size_t _fbk_max;
+	span_size_t _fbk_size;
+	span_size_t _fbk_max;
 	shared_byte_allocator _dft;
 	shared_byte_allocator _fbk;
 public:
@@ -36,7 +36,7 @@ public:
 	 , _fbk(std::move(fbk))
 	{ }
 
-	typedef std::size_t size_type;
+	typedef span_size_t size_type;
 
 	bool equal(byte_allocator* a) const
 	noexcept
@@ -52,7 +52,7 @@ public:
 		return false;
 	}
 
-	size_type max_size(std::size_t a)
+	size_type max_size(span_size_t a)
 	noexcept
 	override
 	{
@@ -62,7 +62,7 @@ public:
 		return (mfbk>mdft)?mfbk:mdft;
 	}
 
-	tribool has_allocated(const owned_block& b, std::size_t a)
+	tribool has_allocated(const owned_block& b, span_size_t a)
 	noexcept
 	override
 	{

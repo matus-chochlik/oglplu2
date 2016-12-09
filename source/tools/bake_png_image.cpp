@@ -31,8 +31,7 @@ struct options
 	options(void)
 	 : input_path("-i", "--input", eagine::cstr_ref())
 	 , output_path("-o", "--output", eagine::cstr_ref("a.oglptex"))
-	 , all(input_path, output_path)
-	{
+	 , all(input_path, output_path) {
 		input_path.description(
 		"Path to existing PNG input file, or '-' for standard input."
 		);
@@ -41,18 +40,15 @@ struct options
 		);
 	}
 
-	void print_usage(std::ostream& log)
-	{
+	void print_usage(std::ostream& log) {
 		all.print_usage(log, "bake_png_image");
 	}
 
-	bool check(std::ostream& log)
-	{
+	bool check(std::ostream& log) {
 		return all.validate(log);
 	}
 
-	bool parse(eagine::program_arg& arg, std::ostream& log)
-	{
+	bool parse(eagine::program_arg& arg, std::ostream& log) {
 		return all.parse(arg, log);
 	}
 };
@@ -187,15 +183,17 @@ void convert_image(
 	hdr.internal_format = reader.gl_iformat();
 
 
-	std::size_t row_size = std::size_t(reader.row_bytes());
-	std::size_t size = std::size_t(reader.data_size());
+	auto row_size = reader.row_bytes();
+	auto size = reader.data_size();
 
-	oglplus::write_and_pad_texture_image_data_header(output, hdr, size);
+	oglplus::write_and_pad_texture_image_data_header(
+		output,
+		hdr, eagine::span_size(size)
+	);
 
-	std::vector< ::png_byte> buffer(size);
+	std::vector< ::png_byte> buffer(eagine::std_size(size));
 
-	for(png_uint_32 r=0, h=reader.image_height(); r<h; ++r)
-	{
+	for(png_uint_32 r=0, h=reader.image_height(); r<h; ++r) {
 		reader.read_row(buffer.data()+(h-1-r)*row_size);
 	}
 
@@ -211,30 +209,22 @@ int main(int argc, const char** argv)
 {
 	options opts;
 
-	if(int err = parse_options(argc, argv, opts))
-	{
+	if(int err = parse_options(argc, argv, opts)) {
 		return err;
 	}
 
 	bool from_stdin = opts.input_path.value() == eagine::cstr_ref("-");
 	bool to_stdout = opts.output_path.value() == eagine::cstr_ref("-");
 
-	if(from_stdin && to_stdout)
-	{
+	if(from_stdin && to_stdout) {
 		convert_image(std::cin, std::cout, opts);
-	}
-	else if(from_stdin)
-	{
+	} else if(from_stdin) {
 		std::ofstream output_file(opts.output_path.value().c_str());
 		convert_image(std::cin, output_file, opts);
-	}
-	else if(to_stdout)
-	{
+	} else if(to_stdout) {
 		std::ifstream input_file(opts.input_path.value().c_str());
 		convert_image(input_file, std::cout, opts);
-	}
-	else
-	{
+	} else {
 		std::ifstream input_file(opts.input_path.value().c_str());
 		std::ofstream output_file(opts.output_path.value().c_str());
 		convert_image(input_file, output_file, opts);
@@ -244,8 +234,7 @@ int main(int argc, const char** argv)
 
 bool parse_argument(eagine::program_arg& a, options& opts)
 {
-	if(!opts.parse(a, std::cerr))
-	{
+	if(!opts.parse(a, std::cerr)) {
 		std::cerr
 			<< "Failed to parse argument '"
 			<< a.get()
@@ -256,26 +245,20 @@ bool parse_argument(eagine::program_arg& a, options& opts)
 	return true;
 }
 
-int parse_options(int argc, const char** argv, options& opts)
-{
+int parse_options(int argc, const char** argv, options& opts) {
 	eagine::program_args args(argc, argv);
 
-	for(eagine::program_arg a = args.first(); a; a = a.next())
-	{
-		if(a.is_help_arg())
-		{
+	for(eagine::program_arg a = args.first(); a; a = a.next()) {
+		if(a.is_help_arg()) {
 			opts.print_usage(std::cout);
 			return 1;
-		}
-		else if(!parse_argument(a, opts))
-		{
+		} else if(!parse_argument(a, opts)) {
 			opts.print_usage(std::cerr);
 			return 2;
 		}
 	}
 
-	if(!opts.check(std::cerr))
-	{
+	if(!opts.check(std::cerr)) {
 		opts.print_usage(std::cerr);
 		return 3;
 	}
@@ -286,8 +269,7 @@ int parse_options(int argc, const char** argv, options& opts)
 png_header_validator::
 png_header_validator(std::istream& input)
 {
-	if(!input.good())
-	{
+	if(!input.good()) {
 		throw
 		std::runtime_error("Unable to read PNG input stream");
 	}
@@ -296,14 +278,12 @@ png_header_validator(std::istream& input)
 	::png_byte sig[sig_size];
 	input.read(reinterpret_cast<char*>(sig), sig_size);
 
-	if(!input.good())
-	{
+	if(!input.good()) {
 		throw
 		std::runtime_error("Unable to read PNG signature");
 	}
 
-	if(::png_sig_cmp(sig, 0, sig_size) != 0)
-	{
+	if(::png_sig_cmp(sig, 0, sig_size) != 0) {
 		throw
 		std::runtime_error("Invalid PNG signature");
 	}
@@ -311,15 +291,13 @@ png_header_validator(std::istream& input)
 
 [[noreturn]] void
 png_read_struct::
-_handle_error(::png_structp, const char* message)
-{
+_handle_error(::png_structp, const char* message) {
 	throw ::std::runtime_error(message);
 }
 
 void
 png_read_struct::
-_handle_warning(::png_structp, const char* message)
-{
+_handle_warning(::png_structp, const char* message) {
 	::std::cerr << "libpng warning: " << message << ::std::endl;
 }
 
@@ -330,10 +308,8 @@ png_read_struct(void)
 	reinterpret_cast<::png_voidp>(this),
 	&_handle_error,
 	&_handle_warning
-))
-{
-	if(!_read)
-	{
+)) {
+	if(!_read) {
 		throw
 		std::runtime_error("Unable to create PNG read struct");
 	}
@@ -341,8 +317,7 @@ png_read_struct(void)
 
 png_read_struct::
 ~png_read_struct(void)
-noexcept
-{
+noexcept {
 	try { ::png_destroy_read_struct(&_read, nullptr, nullptr); }
 	catch (...) { }
 }
@@ -352,8 +327,7 @@ png_read_info_struct(void)
  : png_read_struct()
  , _info(::png_create_info_struct(_read))
 {
-	if(!_info)
-	{
+	if(!_info) {
 		throw
 		std::runtime_error("Unable to create PNG info struct");
 	}
@@ -361,79 +335,68 @@ png_read_info_struct(void)
 
 png_read_info_struct::
 ~png_read_info_struct(void)
-noexcept
-{
+noexcept {
 	try { ::png_destroy_read_struct(&_read, &_info, nullptr); }
 	catch (...) { }
 }
 
 png_uint_32
 png_read_info_struct::
-row_bytes(void)
-{
+row_bytes(void) {
 	return ::png_get_rowbytes(_read, _info);
 }
 
 png_uint_32
 png_read_info_struct::
-image_width(void)
-{
+image_width(void) {
 	return ::png_get_image_width(_read, _info);
 }
 
 png_uint_32
 png_read_info_struct::
-image_height(void)
-{
+image_height(void) {
 	return ::png_get_image_height(_read, _info);
 }
 
 png_byte
 png_read_info_struct::
-bit_depth(void)
-{
+bit_depth(void) {
 	return ::png_get_bit_depth(_read, _info);
 }
 
 png_byte
 png_read_info_struct::
-channels(void)
-{
+channels(void) {
 	return ::png_get_channels(_read, _info);
 }
 
 png_byte
 png_read_info_struct::
-color_type(void)
-{
+color_type(void) {
 	return ::png_get_color_type(_read, _info);
 }
 
 void
 png_read_info_struct::
-set_palette_to_rgb(void)
-{
+set_palette_to_rgb(void) {
 	::png_set_palette_to_rgb(_read);
 }
 
 void
 png_read_info_struct::
-set_expand_gray_1_2_4_to_8(void)
-{
+set_expand_gray_1_2_4_to_8(void) {
 	::png_set_expand_gray_1_2_4_to_8(_read);
 }
 
 void
 png_read_info_struct::
-set_tRNS_to_alpha(void)
-{
+set_tRNS_to_alpha(void) {
 	::png_set_tRNS_to_alpha(_read);
 }
 
 png_uint_32
 png_read_info_struct::
-get_valid(png_uint_32 flag)
-{
+get_valid(png_uint_32 flag) {
 	return ::png_get_valid(_read, _info, flag);
 }
 
@@ -442,8 +405,7 @@ png_read_info_end_struct(void)
  : png_read_info_struct()
  , _endi(::png_create_info_struct(_read))
 {
-	if(!_endi)
-	{
+	if(!_endi) {
 		throw
 		std::runtime_error("Unable to create PNG end info struct");
 	}
@@ -451,16 +413,14 @@ png_read_info_end_struct(void)
 
 png_read_info_end_struct::
 ~png_read_info_end_struct(void)
-noexcept
-{
+noexcept {
 	try { ::png_destroy_read_struct(&_read, &_info, &_endi); }
 	catch (...) { }
 }
 
 void
 png_read_driver::
-_read_data(::png_structp png, ::png_bytep data, ::png_size_t size)
-{
+_read_data(::png_structp png, ::png_bytep data, ::png_size_t size) {
 	::png_voidp p = ::png_get_io_ptr(png);
 	assert(p != 0);
 	(reinterpret_cast<png_reader*>(p))->do_read_data(data, size);
@@ -468,15 +428,13 @@ _read_data(::png_structp png, ::png_bytep data, ::png_size_t size)
 
 int
 png_read_driver::
-_read_user_chunk(::png_structp, ::png_unknown_chunkp)
-{
+_read_user_chunk(::png_structp, ::png_unknown_chunkp) {
 	return 0;
 }
 
 void
 png_read_driver::
-_read_row(::png_bytep data)
-{
+_read_row(::png_bytep data) {
 	::png_read_row(_png._read, data, nullptr);
 }
 
@@ -499,17 +457,13 @@ png_reader(std::istream& input)
  , _validator(_input)
  , _driver(*this)
 {
-	switch(_driver._png.color_type())
-	{
-		case PNG_COLOR_TYPE_PALETTE:
-		{
+	switch(_driver._png.color_type()) {
+		case PNG_COLOR_TYPE_PALETTE: {
 			_driver._png.set_palette_to_rgb();
 			break;
 		}
-		case PNG_COLOR_TYPE_GRAY:
-		{
-			if(_png.bit_depth() < 8)
-			{
+		case PNG_COLOR_TYPE_GRAY: {
+			if(_png.bit_depth() < 8) {
 				_driver._png.set_expand_gray_1_2_4_to_8();
 			}
 			break;
@@ -517,8 +471,7 @@ png_reader(std::istream& input)
 		default:;
 	}
 
-	if(_driver._png.get_valid(PNG_INFO_tRNS))
-	{
+	if(_driver._png.get_valid(PNG_INFO_tRNS)) {
 		_driver._png.set_tRNS_to_alpha();
 	}
 }
@@ -527,16 +480,16 @@ GLenum
 png_reader::
 gl_data_type(void)
 {
-	switch(_driver._png.bit_depth())
-	{
+	switch(_driver._png.bit_depth()) {
 		case 1:
 		case 2:
 		case 4:
 		case 8: return GL_UNSIGNED_BYTE;
 		case 16: return GL_UNSIGNED_SHORT;
-		default:
+		default: {
 			throw
 			std::runtime_error("Unsupported PNG image color depth");
+		}
 	}
 	
 	return GL_NONE;
@@ -544,10 +497,8 @@ gl_data_type(void)
 
 GLenum
 png_reader::
-gl_format(void)
-{
-	switch(_driver._png.color_type())
-	{
+gl_format(void) {
+	switch(_driver._png.color_type()) {
 		case PNG_COLOR_TYPE_GRAY:
 			return GL_RED;
 		case PNG_COLOR_TYPE_GRAY_ALPHA:
@@ -557,31 +508,26 @@ gl_format(void)
 			return GL_RGB;
 		case PNG_COLOR_TYPE_RGB_ALPHA:
 			return GL_RGBA;
-		default:
+		default: {
 			throw
 			std::runtime_error("Unsupported PNG color type");
+		}
 	}
 }
 
 GLenum
 png_reader::
-gl_iformat(void)
-{
-	if(_driver._png.bit_depth() == 16)
-	{
-		switch(gl_format())
-		{
+gl_iformat(void) {
+	if(_driver._png.bit_depth() == 16) {
+		switch(gl_format()) {
 			case GL_RED: return GL_R16;
 			case GL_RG: return GL_RG16;
 			case GL_RGB: return GL_RGB16;
 			case GL_RGBA: return GL_RGBA16;
 			default:;
 		}
-	}
-	else
-	{
-		switch(gl_format())
-		{
+	} else {
+		switch(gl_format()) {
 			case GL_RED: return GL_R8;
 			case GL_RG: return GL_RG8;
 			case GL_RGB: return GL_RGB8;
@@ -595,11 +541,9 @@ gl_iformat(void)
 
 void
 png_reader::
-do_read_data(::png_bytep data, ::png_size_t size)
-{
+do_read_data(::png_bytep data, ::png_size_t size) {
 	_input.read(reinterpret_cast<char*>(data), std::streamsize(size));
-	if(!_input.good())
-	{
+	if(!_input.good()) {
 		throw
 		std::runtime_error("Unable to read PNG data");
 	}

@@ -63,7 +63,7 @@ public:
 
 	explicit
 	string_path(const std::string& path_str)
-	 : string_path(as_span(path_str))
+	 : string_path(make_span(path_str))
 	{ }
 
 	string_path(const string_path& a, const string_path& b)

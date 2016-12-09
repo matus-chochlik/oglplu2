@@ -29,7 +29,7 @@ shader build_shader(const shader_source_block& shdr_src)
 static inline
 void build_program(program& prog, const program_source_block& prog_src)
 {
-	for(std::size_t i=0, n=prog_src.shader_source_count(); i<n; ++i)
+	for(span_size_t i=0, n=prog_src.shader_source_count(); i<n; ++i)
 	{
 		prog.attach(build_shader(prog_src.shader_source(i)));
 	}

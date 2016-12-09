@@ -37,7 +37,7 @@ operator << (std::ostream& out, const hexdump& hd)
 
 	const byte* bgn = hd._mb.begin();
 	const byte* end = hd._mb.end();
-	const byte* row = bgn - std::size_t(bgn) % 16;
+	const byte* row = bgn - reinterpret_cast<std::uintptr_t>(bgn) % 16;
 
 	while(row < end)
 	{

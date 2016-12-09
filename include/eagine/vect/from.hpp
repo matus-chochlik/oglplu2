@@ -20,7 +20,7 @@ struct from_array
 {
 	static
 	data_t<T, N, V>
-	apply(const T* d, std::size_t n)
+	apply(const T* d, span_size_t n)
 	noexcept
 	{
 		assert(N <= unsigned(n));
@@ -52,7 +52,7 @@ struct from_array<T, 1, V>
 {
 	static
 	data_t<T, 1, V>
-	apply(const T* d, std::size_t n)
+	apply(const T* d, span_size_t n)
 	noexcept
 	{
 		assert(1 <= n);
@@ -66,7 +66,7 @@ struct from_array<T, 2, V>
 {
 	static
 	data_t<T, 2, V>
-	apply(const T* d, std::size_t n)
+	apply(const T* d, span_size_t n)
 	noexcept
 	{
 		assert(2 <= n);
@@ -80,7 +80,7 @@ struct from_array<T, 3, V>
 {
 	static
 	data_t<T, 3, V>
-	apply(const T* d, std::size_t n)
+	apply(const T* d, span_size_t n)
 	noexcept
 	{
 		assert(3 <= n);
@@ -94,7 +94,7 @@ struct from_array<T, 4, V>
 {
 	static
 	data_t<T, 4, V>
-	apply(const T* d, std::size_t n)
+	apply(const T* d, span_size_t n)
 	noexcept
 	{
 		assert(4 <= n);
@@ -108,7 +108,7 @@ struct from_array<T, 8, V>
 {
 	static
 	data_t<T, 8, V>
-	apply(const T* d, std::size_t n)
+	apply(const T* d, span_size_t n)
 	noexcept
 	{
 		assert(8 <= n);
@@ -125,7 +125,7 @@ struct from_saafv
 {
 	static
 	data_t<T, N, V>
-	apply(const T* d, std::size_t n, T v)
+	apply(const T* d, span_size_t n, T v)
 	noexcept
 	{
 		data_t<T, N, V> r = {};

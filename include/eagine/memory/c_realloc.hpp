@@ -23,7 +23,7 @@ class c_byte_reallocator
  : public byte_allocator_impl<Policy, c_byte_reallocator>
 {
 public:
-	typedef std::size_t size_type;
+	typedef span_size_t size_type;
 
 	bool equal(byte_allocator* a) const
 	noexcept

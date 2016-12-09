@@ -112,7 +112,7 @@ def print_glUniformNTv(options, typ, n):
 	print_line(options, "\t) noexcept")
 	print_line(options, "\t{")
 	print_line(options, "\t\tassert(count >= 0);")
-	print_line(options, "\t\tassert(v.size() >= span_size_type(%d*count));" % (n))
+	print_line(options, "\t\tassert(v.size() >= span_size_t(%d*count));" % (n))
 	glfunc = "Uniform%d%sv" % (n, info.suffix)
 	print_line(
 		options,
@@ -141,7 +141,7 @@ def print_glUniformMatrixMxNTv(options, typ, m, n):
 	print_line(options, "\t) noexcept")
 	print_line(options, "\t{")
 	print_line(options, "\t\tassert(count >= 0);")
-	print_line(options, "\t\tassert(v.size() >= span_size_type(%d*%d*count));" % (m,n))
+	print_line(options, "\t\tassert(v.size() >= span_size_t(%d*%d*count));" % (m,n))
 
 	glfunc = "UniformMatrix%s%sv" % (
 		"%dx%d" % (m, n) if m != n else "%d" % m,
@@ -209,7 +209,7 @@ def print_glProgramUniformNTv(options, typ, n):
 	print_line(options, "\t) noexcept")
 	print_line(options, "\t{")
 	print_line(options, "\t\tassert(count >= 0);")
-	print_line(options, "\t\tassert(v.size() >= span_size_type(%d*count));" % (n))
+	print_line(options, "\t\tassert(v.size() >= span_size_t(%d*count));" % (n))
 	glfunc = "ProgramUniform%d%sv"  % (n, info.suffix)
 	print_line(options, "\t\tOGLPLUS_GLFUNC(%s)(" % glfunc)
 	print_line(options, "\t\t\tget_raw_name(pu.program()),")
@@ -228,7 +228,7 @@ def print_glProgramUniformNTv(options, typ, n):
 def print_glProgramUniformMatrixMxNTv(options, typ, m, n):
 	info = type_infos[typ]
 	print_newline(options)
-	print_line(options, "\ttemplate <span_size_type N>")
+	print_line(options, "\ttemplate <span_size_t N>")
 	print_line(options, "\tstatic")
 	print_line(options, "\toutcome<void>")
 	print_line(options, "\tset(")
@@ -240,7 +240,7 @@ def print_glProgramUniformMatrixMxNTv(options, typ, m, n):
 	print_line(options, "\t) noexcept")
 	print_line(options, "\t{")
 	print_line(options, "\t\tassert(count >= 0);")
-	print_line(options, "\t\tassert(v.size() >= span_size_type(%d*%d*count));" % (m,n))
+	print_line(options, "\t\tassert(v.size() >= span_size_t(%d*%d*count));" % (m,n))
 
 	glfunc = "ProgramUniformMatrix%s%sv" % (
 		"%dx%d" % (m, n) if m != n else "%d" % m,
@@ -352,7 +352,7 @@ def print_glVertexAttribNT(options, typ, prefix, n, infix):
 def print_glVertexAttribNTv(options, typ, prefix, n, infix):
 	info = type_infos[typ]
 	print_newline(options)
-	print_line(options, "\ttemplate <span_size_type N>")
+	print_line(options, "\ttemplate <span_size_t N>")
 	print_line(options, "\tstatic")
 	print_line(options, "\toutcome<void>")
 	print_line(options, "\tset%s%s(" % (prefix, infix))

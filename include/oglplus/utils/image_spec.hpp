@@ -101,20 +101,20 @@ class image_pixel_data
 private:
 	pixel_data_type _type;
 	const_memory_block _pixels;
-	std::size_t _elem_size;
+	span_size_t _elem_size;
 public:
-	template <typename T, span_size_type N>
+	template <typename T, span_size_t N>
 	image_pixel_data(span<T, N> pix_view)
 	noexcept
 	 : _type(pixel_data_type(GLenum(get_data_type<T>())))
-	 , _pixels(pix_view.data(), std::size_t(pix_view.size()))
+	 , _pixels(pix_view.data(), span_size_t(pix_view.size()))
 	 , _elem_size(sizeof(T))
 	{ }
 
 	image_pixel_data(
 		pixel_data_type pix_type,
 		const_memory_block pix_data,
-		std::size_t type_size
+		span_size_t type_size
 	) noexcept
 	 : _type(pix_type)
 	 , _pixels(pix_data)
@@ -135,7 +135,7 @@ public:
 		return _pixels;
 	}
 
-	std::size_t elem_size(void) const
+	span_size_t elem_size(void) const
 	noexcept
 	{
 		return _elem_size;

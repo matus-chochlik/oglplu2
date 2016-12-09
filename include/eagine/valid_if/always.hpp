@@ -20,15 +20,13 @@ struct always_valid_policy
 	template <typename T>
 	constexpr inline
 	bool operator ()(T) const
-	noexcept
-	{
-		return true;
-	}
+	noexcept { return true; }
 
 	struct do_log
 	{
-		inline
-		do_log(const always_valid_policy&)
+		template <typename X>
+		constexpr inline
+		do_log(X)
 		noexcept
 		{ }
 
@@ -40,14 +38,13 @@ struct always_valid_policy
 	{
 		[[noreturn]]
 		void operator ()(void) const
-		noexcept
-		{
+		noexcept {
 			EAGINE_ABORT("Never should get here!");
 		}
 	};
 };
 
-template <typename T, T Cmp>
+template <typename T>
 using always_valid = valid_if<T, always_valid_policy>;
 
 } // namespace eagine

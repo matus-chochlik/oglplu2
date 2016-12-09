@@ -14,17 +14,17 @@ template <typename SortingNetwork>
 static inline
 std::ostream& print_sorting_network(std::ostream& out, const SortingNetwork& sn)
 {
-	for(std::size_t r=0; r<sn.rounds(); ++r)
+	for(span_size_t r=0; r<sn.rounds(); ++r)
 	{
-		for(std::size_t i=0; i<sn.size(); ++i)
+		for(span_size_t i=0; i<sn.size(); ++i)
 		{
-			std::size_t j = sn.index(r, i);
+			span_size_t j = sn.index(r, i);
 
 			if(i < j)
 			{
-				for(std::size_t m=0; m<sn.size(); ++m)
+				for(span_size_t m=0; m<sn.size(); ++m)
 				{
-					std::size_t k=sn.size()-m-1;
+					span_size_t k=sn.size()-m-1;
 					if(i == k) {
 						if(sn.min(r, i, j)) {
 							out << 'o';
@@ -55,7 +55,7 @@ std::ostream& print_sorting_network(std::ostream& out, const SortingNetwork& sn)
 			}
 		}
 		out << "=";
-		for(std::size_t k=1; k<sn.size(); ++k)
+		for(span_size_t k=1; k<sn.size(); ++k)
 		{
 			out << "==";
 		}

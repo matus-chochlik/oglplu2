@@ -45,11 +45,11 @@ public:
 	void single_sort_step(
 		std::array<T, N>& src,
 		std::array<T, N>& dst,
-		std::size_t r,
-		std::size_t i
+		span_size_t r,
+		span_size_t i
 	) const
 	{
-		std::size_t j = _sn.index(r, i);
+		span_size_t j = _sn.index(r, i);
 		dst[i] = _min_max_cpy(
 			src[i], src[j],
 			_sn.min(r, i, j),
@@ -57,10 +57,10 @@ public:
 		);
 	}
 
-	std::size_t size(void) const
+	span_size_t size(void) const
 	noexcept { return _sn.size(); }
 
-	std::size_t rounds(void) const
+	span_size_t rounds(void) const
 	noexcept { return _sn.rounds(); }
 };
 
@@ -75,7 +75,7 @@ class network_sorter
  : basic_network_sorter<T, N, Compare, Network>
 {
 private:
-	std::size_t _round;
+	span_size_t _round;
 	std::array<std::array<T, N>, 2> _a;
 public:
 	constexpr inline
@@ -95,15 +95,15 @@ public:
 		return !done() && (++_round < rounds());
 	}
 
-	network_sorter& sort_single(std::size_t r, std::size_t i)
+	network_sorter& sort_single(span_size_t r, span_size_t i)
 	{
-		std::size_t src = (r+0)%2;
-		std::size_t dst = (r+1)%2;
+		span_size_t src = (r+0)%2;
+		span_size_t dst = (r+1)%2;
 		this->single_sort_step(_a[src], _a[dst], r, i);
 		return *this;
 	}
 
-	network_sorter& sort_single(std::size_t i)
+	network_sorter& sort_single(span_size_t i)
 	{
 		return sort_single(_round, i);
 	}
@@ -111,7 +111,7 @@ public:
 	network_sorter& sort_round(void)
 	{
 		assert(!done());
-		for(std::size_t i=0; i<N; ++i) {
+		for(span_size_t i=0; i<span_size(N); ++i) {
 			sort_single(i);
 		}
 		return *this;

@@ -116,7 +116,7 @@ void
 compile_context::remember_constant(const constant_intf& constant)
 {
 	cstr_ref n = constant.name();
-	_impl().add_tag(std::string(n.data(), std::size_t(n.size())));
+	_impl().add_tag(n.str());
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -125,7 +125,7 @@ compile_context::remembers_constant(const constant_intf& constant) const
 noexcept
 {
 	cstr_ref n = constant.name();
-	return _impl().has_tag(std::string(n.data(), std::size_t(n.size())));
+	return _impl().has_tag(n.str());
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -151,7 +151,7 @@ OGLPLUS_LIB_FUNC
 std::ostream&
 node_intf::input_definitions(std::ostream& out, compile_context& ctxt)
 {
-	for(std::size_t i=0, n=input_count(); i<n; ++i)
+	for(span_size_t i=0, n=input_count(); i<n; ++i)
 	{
 		input(i).definitions(out, ctxt);
 	}
@@ -162,7 +162,7 @@ OGLPLUS_LIB_FUNC
 eagine::optional_reference_wrapper<input_intf>
 node_intf::input_by_name(const cstr_ref& name)
 {
-	for(std::size_t i=0, n=input_count(); i<n; ++i)
+	for(span_size_t i=0, n=input_count(); i<n; ++i)
 	{
 		input_intf& inp = input(i);
 		if(inp.name() == name)
@@ -177,7 +177,7 @@ OGLPLUS_LIB_FUNC
 eagine::optional_reference_wrapper<output_intf>
 node_intf::output_by_name(const cstr_ref& name)
 {
-	for(std::size_t i=0, n=output_count(); i<n; ++i)
+	for(span_size_t i=0, n=output_count(); i<n; ++i)
 	{
 		output_intf& outp = output(i);
 		if(outp.name() == name)
@@ -192,11 +192,11 @@ OGLPLUS_LIB_FUNC
 void
 node_intf::disconnect_all(void)
 {
-	for(std::size_t i=0; i<input_count(); ++i)
+	for(span_size_t i=0; i<input_count(); ++i)
 	{
 		input(i).disconnect();
 	}
-	for(std::size_t o=0; o<output_count(); ++o)
+	for(span_size_t o=0; o<output_count(); ++o)
 	{
 		output(o).disconnect_all();
 	}

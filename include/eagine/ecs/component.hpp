@@ -18,7 +18,7 @@ namespace eagine {
 namespace ecs {
 
 // component unique identifier
-typedef std::size_t component_uid_t;
+typedef unsigned component_uid_t;
 
 // component_uid_getter
 template <bool IsRelation>

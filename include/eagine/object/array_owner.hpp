@@ -48,7 +48,7 @@ public:
 	}
 
 	object_name_and_ops<ObjTag>
-	operator [] (std::size_t i) const
+	operator [] (span_size_t i) const
 	noexcept
 	{
 		return _ona()[i];
@@ -66,14 +66,14 @@ private:
 		return *this;
 	}
 public:
-	object_vector_owner(std::size_t n)
+	object_vector_owner(span_size_t n)
 	 : owned<object_name_vector<ObjTag>>(n)
 	{
 		obj_lifetime_ops<ObjTag>::gen_objects(*this);
 	}
 
 	object_vector_owner(
-		std::size_t n,
+		span_size_t n,
 		object_subtype_t<ObjTag> subtype
 	): owned<object_name_vector<ObjTag>>(n)
 	{
@@ -90,7 +90,7 @@ public:
 	}
 
 	object_name_and_ops<ObjTag>
-	operator [] (std::size_t i) const
+	operator [] (span_size_t i) const
 	noexcept
 	{
 		return _ona()[i];

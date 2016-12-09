@@ -102,7 +102,7 @@ substitute_variables(
 	callable_ref<std::string(const std::string&)> translate{
 	[&strings](const std::string& key) -> std::string
 	{
-		span_size_type idx = span_size_type(std::stol(key));
+		span_size_t idx = span_size_t(std::stol(key));
 		if((0 < idx) && (idx <= strings.size()))
 		{
 			return strings[idx-1];
