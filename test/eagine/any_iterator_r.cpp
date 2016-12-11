@@ -7,6 +7,7 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE EAGINE_any_iterator
 #include <boost/test/unit_test.hpp>
+#include "../random.hpp"
 
 #include <eagine/any_iterator.hpp>
 #include <cstdlib>
@@ -15,6 +16,8 @@
 #include <set>
 
 BOOST_AUTO_TEST_SUITE(any_iterator_tests)
+
+static eagine::test_random_generator rg;
 
 template <typename T>
 void test_any_iterator_1_I(
@@ -31,11 +34,11 @@ template <typename T>
 void test_any_iterator_1_T(void)
 {
 	std::set<T> s;
-	const int n = 10+std::rand()%90;
+	const int n = rg.get_int(10, 100);
 
 	for(int i=0; i<n; ++i)
 	{
-		s.insert((std::rand()%10000)/3);
+		s.insert(rg.get_any<T>());
 	}
 
 	test_any_iterator_1_I<T>(s.begin(), s.end());

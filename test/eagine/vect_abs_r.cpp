@@ -8,12 +8,15 @@
 #define BOOST_TEST_MODULE EAGINE_vect_abs
 #include <boost/test/unit_test.hpp>
 #include <boost/test/floating_point_comparison.hpp>
+#include "../random.hpp"
 
 #include <eagine/vect/abs.hpp>
 #include <cstdlib>
 #include <cmath>
 
 BOOST_AUTO_TEST_SUITE(vect_abs_tests)
+
+static eagine::test_random_generator rg;
 
 template <typename T, int N, bool V>
 void test_vect_abs_TNV_1(void)
@@ -26,7 +29,7 @@ void test_vect_abs_TNV_1(void)
 
 		for(int i=0; i<N; ++i)
 		{
-			a[i] = T(std::rand() % 2000) - T(1000);
+			a[i] = rg.get<T>(-1000, 1000);
 			u[i] = a[i];
 		}
 

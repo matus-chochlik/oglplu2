@@ -7,11 +7,13 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE eagine_vect_hsum
 #include <boost/test/unit_test.hpp>
+#include "../random.hpp"
 
 #include <eagine/vect/hsum.hpp>
-#include <cstdlib>
 
 BOOST_AUTO_TEST_SUITE(vect_hsum_tests)
+
+static eagine::test_random_generator rg;
 
 template <typename T, int N, bool V>
 void test_vect_hsum_TNV(void)
@@ -24,7 +26,7 @@ void test_vect_hsum_TNV(void)
 
 		for(int i=0; i<N; ++i)
 		{
-			T n = std::rand()%10000 / T(2);
+			T n = rg.get<T>(0, 5000);
 			v[i] = n;
 			s += n;
 		}

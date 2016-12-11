@@ -9,8 +9,11 @@
 #include <boost/test/unit_test.hpp>
 
 #include <eagine/memoized.hpp>
+#include "../random.hpp"
 
 BOOST_AUTO_TEST_SUITE(memoized_tests)
+
+static eagine::test_random_generator rg;
 
 unsigned long fib_calc(unsigned long n)
 {
@@ -133,8 +136,8 @@ BOOST_AUTO_TEST_CASE(memoized_exp)
 
 	for(int j=0; j<1000; ++j)
 	{
-		unsigned x = unsigned(rand()%20);
-		unsigned e = unsigned(rand()%int(20-x));
+		unsigned x = rg.get_uint(0, 20);
+		unsigned e = rg.get_uint(0, 20-x);
 		BOOST_CHECK_EQUAL(exp_calc(x,e), exp_memo(x,e));
 	}
 }
