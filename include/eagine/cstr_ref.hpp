@@ -123,6 +123,20 @@ public:
 #endif
 
 static inline
+bool operator == (const cstr_ref& a, const cstr_ref& b)
+noexcept {
+	return	static_cast<const cstring_span&>(a) ==
+		static_cast<const cstring_span&>(b);
+}
+
+static inline
+bool operator != (const cstr_ref& a, const cstr_ref& b)
+noexcept {
+	return	static_cast<const cstring_span&>(a) !=
+		static_cast<const cstring_span&>(b);
+}
+
+static inline
 std::ostream& operator << (std::ostream& out, const cstr_ref& str)
 {
 	str.write_to_stream(out);

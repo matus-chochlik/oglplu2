@@ -18,7 +18,7 @@
 namespace eagine {
 namespace math {
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 struct scalar
 {
 	typedef scalar type;
@@ -39,59 +39,35 @@ struct scalar
 
 	static constexpr inline
 	scalar _from(data_type v)
-	noexcept
-	{
-		return scalar{v};
-	}
+	noexcept { return scalar{v}; }
 
 	static constexpr inline
 	scalar _make(T v, std::true_type)
-	noexcept
-	{
-		return scalar{vect::fill<T, N, V>::apply(v)};
-	}
+	noexcept { return scalar{vect::fill<T, N, V>::apply(v)}; }
 
 	static constexpr inline
 	scalar _make(T v, std::false_type)
-	noexcept
-	{
-		return scalar{v};
-	}
+	noexcept { return scalar{v}; }
 
 	static constexpr inline
 	scalar make(T v)
-	noexcept
-	{
-		return _make(v, is_vectorized());
-	}
+	noexcept { return _make(v, is_vectorized()); }
 
 	constexpr inline
 	T _get(std::true_type) const
-	noexcept
-	{
-		return _v[0];
-	}
+	noexcept { return _v[0]; }
 
 	constexpr inline
 	T _get(std::false_type) const
-	noexcept
-	{
-		return _v;
-	}
+	noexcept { return _v; }
 
 	constexpr inline
 	operator T (void) const
-	noexcept
-	{
-		return _get(is_vectorized());
-	}
+	noexcept { return _get(is_vectorized()); }
 
 	inline
 	scalar& operator = (T v)
-	noexcept
-	{
-		return *this = make(v);
-	}
+	noexcept { return *this = make(v); }
 };
 
 

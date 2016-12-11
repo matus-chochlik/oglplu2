@@ -41,8 +41,7 @@ public:
 	typedef std::false_type is_always_equal;
 
 	template <typename U>
-	struct rebind
-	{
+	struct rebind {
 		typedef std_allocator<U> other;
 	};
 
@@ -62,40 +61,37 @@ public:
 	{ }
 
 	template <typename ByteAlloc>
-	ByteAlloc& as(void)
-	{
+	ByteAlloc& as(void) {
 		return _sba.as<ByteAlloc>();
 	}
 
 	T* address(T& r)
-	noexcept
-	{
+	noexcept {
 		return std::allocator<T>().address(r);
 	}
 
 	const T* address(const T& r)
-	noexcept
-	{
+	noexcept {
 		return std::allocator<T>().address(r);
 	}
 
 	size_type max_size(void) const
-	noexcept
-	{
+	noexcept {
 		return _sba.max_size(alignof(T));
 	}
 
-	T* allocate(size_type n, const void* = nullptr)
-	{
-		owned_block b = _sba.allocate(n*sizeof(T), alignof(T));
+	T* allocate(size_type n, const void* = nullptr) {
+		owned_block b = _sba.allocate(
+			span_size_of<T>(n),
+			span_align_of<T>()
+		);
 
-		if(!b)
-		{
+		if(!b) {
 			throw std::bad_alloc();
 		}
 
-		assert(b.is_aligned_to(alignof(T)));
-		assert(b.size() >= n*sizeof(T));
+		assert(b.is_aligned_to(span_align_of<T>()));
+		assert(b.size() >= span_size_of<T>(n));
 
 		T* p = static_cast<T*>(b.addr());
 
@@ -104,40 +100,35 @@ public:
 		return p;
 	}
 
-	void deallocate(T* p, size_type n)
-	{
+	void deallocate(T* p, size_type n) {
 		_sba.deallocate(
-			acquire_block({p, n*sizeof(T)}),
-			alignof(T)
+			acquire_block({p, span_size_of<T>(n)}),
+			span_align_of<T>()
 		);
 	}
 
 	friend
 	bool operator == (const std_allocator& a, const std_allocator& b)
-	noexcept
-	{
+	noexcept {
 		return(a._sba == b._sba);
 	}
 
 	friend
 	bool operator != (const std_allocator& a, const std_allocator& b)
-	noexcept
-	{
+	noexcept {
 		return(a._sba != b._sba);
 	}
 
 	template <class U, class ... A>
 	static inline
-	void construct(U* p, A&& ... a)
-	{
+	void construct(U* p, A&& ... a) {
 		::new(static_cast<void*>(p)) U(std::forward<A>(a)...);
 	}
 
 	template <typename U>
 	static inline
 	void destroy(U* p)
-	noexcept(noexcept(p->~U()))
-	{
+	noexcept(noexcept(p->~U())) {
 		return p->~U();
 	}
 };

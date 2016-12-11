@@ -16,7 +16,7 @@ namespace eagine {
 
 // valid if greater than or equal to 0 and not greater than container.size()
 template <typename T, typename C>
-struct valid_if_le_size_ge_0_policy
+struct valid_if_le_size_ge0_policy
 {
 	bool operator()(T x, const C& c) const {
 		return (T(0) <= x) && (x <= c.size());
@@ -51,11 +51,11 @@ struct valid_if_le_size_ge_0_policy
 };
 
 template <typename C, typename T>
-using valid_if_le_size_ge_0 =
-	in_class_valid_if<T, C, valid_if_le_size_ge_0_policy<T, C>>;
+using valid_if_le_size_ge0 =
+	in_class_valid_if<T, C, valid_if_le_size_ge0_policy<T, C>>;
 
 template <typename C>
-using valid_range_position = valid_if_le_size_ge_0<C, typename C::size_type>;
+using valid_range_position = valid_if_le_size_ge0<C, typename C::size_type>;
 
 } // namespace eagine
 

@@ -41,7 +41,7 @@ BOOST_AUTO_TEST_CASE(memory_block_1)
 
 	for(int i=0; i<1000; ++i)
 	{
-		std::size_t s = std::size_t(r*r);
+		span_size_t s = span_size_t(r*r);
 
 		buf.resize(s);
 

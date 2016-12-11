@@ -18,27 +18,26 @@ namespace eagine {
 namespace vect {
 
 // data
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 struct data
  : std::conditional_t<
 	_has_vec_data<T, N>::value && V,
 	_vec_data<T, N>,
 	_ary_data<T, N>
->
-{
+> {
 	typedef T value_type;
-	static constexpr unsigned size = N;
+	static constexpr int size = N;
 };
 
 
 // has_vect_data
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 struct has_vect_data
  : bool_constant<V && _has_vec_data<T, N>::value>
 { };
 
 // data_param
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 struct data_param
  : std::conditional_t<
 	_has_vec_data<T, N>::value && V,
@@ -51,7 +50,7 @@ struct data_param
 template <typename Data>
 struct param;
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 struct param<data<T, N, V>>
  : data_param<T, N, V>
 { };

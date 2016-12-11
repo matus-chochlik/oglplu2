@@ -34,7 +34,7 @@ static constexpr inline
 std_align_t std_align(std_align_t v)
 noexcept { return v; }
 
-static inline
+static constexpr inline
 std_align_t std_align(span_size_t v)
 noexcept {
 	assert(v >= 0);
@@ -47,7 +47,7 @@ static constexpr inline
 std_size_t std_size(std_size_t v)
 noexcept { return v; }
 
-static inline
+static constexpr inline
 std_size_t std_size(span_size_t v)
 noexcept {
 	assert(v >= 0);
@@ -60,11 +60,39 @@ static constexpr inline
 span_size_t span_size(span_size_t v)
 noexcept { return v; }
 
-static inline
+static constexpr inline
 span_size_t span_size(std::size_t v)
 noexcept {
 	assert(v <= std::size_t(std::numeric_limits<span_size_t>::max()));
 	return static_cast<span_size_t>(v);
+}
+
+template <typename T>
+static constexpr inline
+span_size_t span_align_of(void)
+noexcept {
+	return span_size(alignof(T));
+}
+
+template <typename T>
+static constexpr inline
+span_size_t span_size_of(void)
+noexcept {
+	return span_size(sizeof(T));
+}
+
+template <typename T>
+static constexpr inline
+span_size_t span_size_of(span_size_t n)
+noexcept {
+	return span_size(sizeof(T))*n;
+}
+
+template <typename T>
+static constexpr inline
+span_size_t span_size_of(std::size_t n)
+noexcept {
+	return span_size(sizeof(T)*n);
 }
 
 } // namespace eagine

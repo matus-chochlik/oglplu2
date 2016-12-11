@@ -66,16 +66,10 @@ public:
 	noexcept;
 
 	size_type max_size(void) const
-	noexcept
-	{
-		return _available().size();
-	}
+	noexcept { return _available().size(); }
 
 	size_type allocated_size(void) const
-	noexcept
-	{
-		return _allocated().size();
-	}
+	noexcept { return _allocated().size(); }
 
 	tribool has_allocated(const owned_block& b) const
 	noexcept;
@@ -92,10 +86,8 @@ public:
 	friend bool operator == (
 		const base_stack_allocator& a,
 		const base_stack_allocator& b
-	) noexcept
-	{
-		if((a._btm == b._btm) && (a._top == b._top))
-		{
+	) noexcept {
+		if((a._btm == b._btm) && (a._top == b._top)) {
 			assert(a._pos == b._pos);
 			assert(a._min == b._min);
 			assert(a._dif == b._dif);
@@ -128,16 +120,14 @@ public:
 
 	size_type max_size(size_type a)
 	noexcept
-	override
-	{
+	override {
 		return	_alloc.max_size()>a?
 			_alloc.max_size()-a:0;
 	}
 
 	tribool has_allocated(const owned_block& b, span_size_t)
 	noexcept
-	override
-	{
+	override {
 		return _alloc.has_allocated(b);
 	}
 
@@ -177,10 +167,7 @@ public:
 
 	size_type max_size(size_type)
 	noexcept
-	override
-	{
-		return _alloc.max_size();
-	}
+	override { return _alloc.max_size(); }
 
 	tribool has_allocated(const owned_block& b, span_size_t)
 	noexcept

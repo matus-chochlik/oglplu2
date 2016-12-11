@@ -218,7 +218,10 @@ public:
 	Final* accomodate_derived(Final& that)
 	noexcept
 	{
-		block b = that.allocate(sizeof(Final), alignof(Final));
+		block b = that.allocate(
+			span_size_of<Final>(),
+			span_align_of<Final>()
+		);
 		return new(b.begin()) Final(std::move(that));
 	}
 
@@ -227,7 +230,10 @@ public:
 	noexcept
 	{
 		Final tmp = std::move(that);
-		tmp.deallocate(acquire_block(block_of(that)), alignof(Final));
+		tmp.deallocate(
+			acquire_block(block_of(that)),
+			span_align_of<Final>()
+		);
 	}
 
 	Derived* accomodate_self(void)

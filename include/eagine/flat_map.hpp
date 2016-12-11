@@ -14,6 +14,7 @@
 #include <algorithm>
 #include <stdexcept>
 #include <vector>
+#include "types.hpp"
 
 namespace eagine {
 

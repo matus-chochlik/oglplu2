@@ -16,37 +16,32 @@
 namespace eagine {
 namespace math {
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 static inline
 std::ostream&
-operator << (std::ostream& o, const vector<T,N,V>& v)
-{
+operator << (std::ostream& o, const vector<T,N,V>& v) {
+
 	o << "[" << v._v[0];
-	for(unsigned i=1; i<N; ++i)
-	{
+	for(int i=1; i<N; ++i) {
 		o << ", " << v._v[i];
 	}
 	return o << "]";
 }
 
-template <typename T, unsigned C, unsigned R, bool V>
+template <typename T, int C, int R, bool V>
 static inline
 std::ostream&
-operator << (std::ostream& o, const matrix<T,C,R,true,V>& m)
-{
+operator << (std::ostream& o, const matrix<T,C,R,true,V>& m) {
 	o << "|R0[" << m._v[0][0];
 
-	for(unsigned c=1; c<C; ++c)
-	{
+	for(int c=1; c<C; ++c) {
 		o << ", " << m._v[0][c];
 	}
 	o << "]";
 
-	for(unsigned r=1; r<R; ++r)
-	{
+	for(int r=1; r<R; ++r) {
 		o << ",R" << r << "[" << m._v[r][0];
-		for(unsigned c=1; c<C; ++c)
-		{
+		for(int c=1; c<C; ++c) {
 			o << ", " << m._v[r][c];
 		}
 		o << "]";
@@ -54,24 +49,20 @@ operator << (std::ostream& o, const matrix<T,C,R,true,V>& m)
 	return o << "|";
 }
 
-template <typename T, unsigned C, unsigned R, bool V>
+template <typename T, int C, int R, bool V>
 static inline
 std::ostream&
-operator << (std::ostream& o, const matrix<T,C,R,false,V>& m)
-{
+operator << (std::ostream& o, const matrix<T,C,R,false,V>& m) {
 	o << "|C0[" << m._v[0][0];
 
-	for(unsigned r=1; r<R; ++r)
-	{
+	for(int r=1; r<R; ++r) {
 		o << ", " << m._v[0][r];
 	}
 	o << "]";
 
-	for(unsigned c=1; c<C; ++c)
-	{
+	for(int c=1; c<C; ++c) {
 		o << ",C" << c << "[" << m._v[c][0];
-		for(unsigned r=1; r<R; ++r)
-		{
+		for(int r=1; r<R; ++r) {
 			o << ", " << m._v[c][r];
 		}
 		o << "]";

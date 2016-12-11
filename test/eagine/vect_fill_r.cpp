@@ -13,17 +13,17 @@
 
 BOOST_AUTO_TEST_SUITE(vect_fill_tests)
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 void test_vect_fill_apply_TNV(void)
 {
-	for(unsigned k=0; k<1000; ++k)
+	for(int k=0; k<1000; ++k)
 	{
 		T a = std::rand() / T(3);
 
 		typename eagine::vect::data<T, N, V>::type v =
 			eagine::vect::fill<T, N, V>::apply(a);
 
-		for(unsigned i=0; i<N; ++i)
+		for(int i=0; i<N; ++i)
 		{
 			BOOST_CHECK_EQUAL(v[i], a);
 		}

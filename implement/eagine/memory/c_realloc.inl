@@ -26,7 +26,7 @@ noexcept {
 	void* p = std::malloc(std_size(n));
 
 	// TODO fix if misaligned ?
-	assert(is_aligned_to(p, std_align(a)));
+	assert(is_aligned_to(p, a));
 
 	return this->acquire_block({p, n});
 }
@@ -59,7 +59,7 @@ noexcept {
 	this->release_block(std::move(b));
 
 	// TODO fix if misaligned ?
-	assert(is_aligned_to(p, std_align(a)));
+	assert(is_aligned_to(p, a));
 
 	return this->acquire_block({p, n});
 }

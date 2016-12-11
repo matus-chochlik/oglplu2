@@ -15,23 +15,19 @@
 namespace eagine {
 namespace vect {
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 struct view
 {
 private:
 	static inline
 	const T*
 	_addr(const data_t<T, N, V>& d, std::false_type)
-	noexcept
-	{
-		return d._v;
-	}
+	noexcept { return d._v; }
 
 	static inline
 	const T*
 	_addr(const data_t<T, N, V>& d, std::true_type)
-	noexcept
-	{
+	noexcept {
 		// TODO: strict aliasing?
 		return reinterpret_cast<const T*>(&d);
 	}
@@ -40,18 +36,16 @@ public:
 	static inline
 	span<const T>
 	apply(const data_t<T, N, V>& d)
-	noexcept
-	{
+	noexcept {
 		static_assert(sizeof(T[N]) == sizeof(data_t<T, N, V>), "");
 		return {_addr(d, has_vect_data<T, N, V>()), N};
 	}
 
-	template <unsigned M>
+	template <int M>
 	static inline
 	span<const T>
 	apply(const data_t<T, N, V> (&d)[M])
-	noexcept
-	{
+	noexcept {
 		static_assert(sizeof(T[N][M])== sizeof(data_t<T, N, V>[M]), "");
 		return {_addr(d[0], has_vect_data<T, N, V>()), N*M};
 	}

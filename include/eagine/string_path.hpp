@@ -44,13 +44,17 @@ private:
 	static inline
 	span_size_t _decode_len_len(const cstring_span& elen)
 	{
-		return span_size(mbs::decode_sequence_length(elen).value());
+		return span_size(mbs::decode_sequence_length(
+			mbs::make_cbyte_span(elen)
+		).value());
 	}
 
 	static inline
 	span_size_t _decode_str_len(const cstring_span& elen, span_size_t l)
 	{
-		return span_size_t(mbs::do_decode_code_point(elen, l));
+		return span_size_t(mbs::do_decode_code_point(
+			mbs::make_cbyte_span(elen), l)
+		);
 	}
 
 	span_size_t _rseek_seq_head(span_size_t i) const

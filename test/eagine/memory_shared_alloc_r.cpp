@@ -21,7 +21,7 @@ void eagine_test_memory_shared_alloc_1_T(void)
 
 	memory::shared_byte_allocator a;
 
-	std::size_t ao = alignof(T);
+	const span_size_t ao = span_align_of<T>();
 
 	BOOST_CHECK(!bool(a));
 	BOOST_CHECK(!a);
@@ -36,7 +36,7 @@ void eagine_test_memory_shared_alloc_1_T(void)
 	BOOST_CHECK(!!a.has_allocated(b, ao));
 
 	BOOST_CHECK(a.can_reallocate(b, 0, ao));
-	BOOST_CHECK(!a.can_reallocate(b, std::size_t(1+std::rand()%1000), ao));
+	BOOST_CHECK(!a.can_reallocate(b, span_size_t(1+std::rand()%1000), ao));
 
 	b = a.reallocate(std::move(b), 0, ao);
 
@@ -62,8 +62,8 @@ void eagine_test_memory_shared_alloc_2_T(std::size_t n)
 
 	memory::shared_byte_allocator a((memory::c_byte_reallocator<>()));
 
-	std::size_t ao = alignof(T);
-	std::size_t sz = sizeof(T)*n;
+	const span_size_t ao = span_align_of<T>();
+	const span_size_t sz = span_size_of<T>(n);
 
 	BOOST_CHECK(bool(a));
 	BOOST_CHECK(!!a);

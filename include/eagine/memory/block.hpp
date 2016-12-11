@@ -58,14 +58,14 @@ public:
 	basic_block(T *a, span_size_t count)
 	noexcept
 	 : _addr(static_cast<pointer>(a))
-	 , _size(span_size(sizeof(T))*count)
+	 , _size(span_size_of<T>(count))
 	{ }
 
 	template <typename T>
 	basic_block(T *a, T* b)
 	noexcept
 	 : _addr(static_cast<pointer>(a))
-	 , _size(sizeof(T)*_positive_distance(a, b))
+	 , _size(span_size_of<T>(_positive_distance(a, b)))
 	{ }
 
 	basic_block(pointer addr_, size_type size_)
@@ -160,7 +160,7 @@ public:
 	bool operator != (const basic_block& a, const basic_block& b)
 	noexcept { return (a._addr != b._addr) || (a._size != b._size); }
 
-	bool is_aligned_to(std_align_t align) const
+	bool is_aligned_to(span_size_t align) const
 	noexcept { return addr().is_aligned_to(align); }
 
 	template <typename T>

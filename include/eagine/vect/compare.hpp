@@ -14,7 +14,7 @@
 namespace eagine {
 namespace vect {
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 struct is_zero
 {
 	typedef data_t<T, N, V> _dT;
@@ -22,10 +22,8 @@ struct is_zero
 
 	static
 	bool apply(_dpT v)
-	noexcept
-	{
-		for(unsigned i=0; i<N; ++i)
-		{
+	noexcept {
+		for(int i=0; i<N; ++i) {
 #ifdef __clang__
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wfloat-equal"

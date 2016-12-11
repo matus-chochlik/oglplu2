@@ -19,7 +19,7 @@ template <typename X>
 struct perspective;
 
 // is_matrix_constructor<perspective>
-template <typename T, unsigned N, bool RM, bool V>
+template <typename T, int N, bool RM, bool V>
 struct is_matrix_constructor<perspective<matrix<T,N,N,RM,V>>>
  : std::true_type
 { };
@@ -216,7 +216,7 @@ struct perspective<matrix<T,4,4,RM,V>>
 };
 
 // reorder_mat_ctr(perspective)
-template <typename T, unsigned N, bool RM, bool V>
+template <typename T, int N, bool RM, bool V>
 static constexpr inline
 perspective<matrix<T,N,N,!RM,V>>
 reorder_mat_ctr(const perspective<matrix<T,N,N,RM,V>>& c)

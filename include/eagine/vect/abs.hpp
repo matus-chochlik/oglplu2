@@ -15,7 +15,7 @@
 namespace eagine {
 namespace vect {
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 struct abs
 {
 	// TODO: SIMD version?
@@ -23,10 +23,8 @@ struct abs
 	static
 	data_t<T, N, V>
 	apply(data_t<T, N, V> v)
-	noexcept
-	{
-		for(unsigned i=0; i<N; ++i)
-		{
+	noexcept {
+		for(int i=0; i<N; ++i) {
 			using std::abs;
 			v[i] = abs(v[i]);
 		}

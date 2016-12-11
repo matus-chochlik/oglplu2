@@ -17,17 +17,17 @@ namespace eagine {
 namespace math {
 
 // rotation_I
-template <typename X, unsigned I>
+template <typename X, int I>
 struct rotation_I;
 
 // is_matrix_constructor<rotation_I>
-template <typename T, unsigned N, bool RM, bool V, unsigned I>
+template <typename T, int N, bool RM, bool V, int I>
 struct is_matrix_constructor<rotation_I<matrix<T,N,N,RM,V>, I>>
  : std::true_type
 { };
 
 // scale matrix 4x4 row-major
-template <typename T, bool RM, bool V, unsigned I>
+template <typename T, bool RM, bool V, int I>
 struct rotation_I<matrix<T,4,4,RM,V>, I>
 {
 	radians_t<T> _v;
@@ -38,9 +38,9 @@ struct rotation_I<matrix<T,4,4,RM,V>, I>
 	 : _v(v)
 	{ }
 
-	typedef unsigned_constant<0> _x;
-	typedef unsigned_constant<1> _y;
-	typedef unsigned_constant<2> _z;
+	typedef int_constant<0> _x;
+	typedef int_constant<1> _y;
+	typedef int_constant<2> _z;
 
 	static constexpr inline
 	matrix<T,4,4,RM,V> _make(T cx, T sx, _x)
@@ -81,13 +81,13 @@ struct rotation_I<matrix<T,4,4,RM,V>, I>
 	constexpr inline
 	matrix<T,4,4,RM,V> operator()(void) const
 	{
-		typedef unsigned_constant<I> _axis;
+		typedef int_constant<I> _axis;
 		return _make(cos(_v), sin(_v)*(RM?1:-1), _axis());
 	}
 };
 
 // multiply
-template <typename T, unsigned N, bool RM1, bool RM2, bool V, unsigned I>
+template <typename T, int N, bool RM1, bool RM2, bool V, int I>
 static constexpr inline
 rotation_I<matrix<T,N,N,RM1,V>, I>
 multiply(
@@ -99,7 +99,7 @@ multiply(
 }
 
 // reorder_mat_ctr(rotation_I)
-template <typename T, unsigned N, bool RM, bool V, unsigned I>
+template <typename T, int N, bool RM, bool V, int I>
 static constexpr inline
 rotation_I<matrix<T,N,N,!RM,V>, I>
 reorder_mat_ctr(const rotation_I<matrix<T,N,N,RM,V>, I>& c)

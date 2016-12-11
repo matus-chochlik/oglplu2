@@ -15,16 +15,16 @@
 
 BOOST_AUTO_TEST_SUITE(vect_diff_tests)
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 void test_vect_diff_TNV_1(void)
 {
-	for(unsigned k=0; k<1000; ++k)
+	for(int k=0; k<1000; ++k)
 	{
 		T a[N];
 
 		typename eagine::vect::data<T, N, V>::type u = {}, v = {};
 
-		for(unsigned i=0; i<N; ++i)
+		for(int i=0; i<N; ++i)
 		{
 			a[i] = std::rand() / T(2);
 			u[i] = a[i];

@@ -15,7 +15,7 @@
 BOOST_AUTO_TEST_SUITE(memory_std_alloc_tests)
 
 template <typename T>
-void eagine_test_memory_std_alloc_1_T(std::size_t n)
+void eagine_test_memory_std_alloc_1_T(eagine::span_size_t n)
 {
 	using namespace eagine;
 
@@ -27,33 +27,33 @@ void eagine_test_memory_std_alloc_1_T(std::size_t n)
 
 	std::vector<T, memory::std_allocator<T>> v;
 
-	for(std::size_t i=1; i<=n; ++i)
+	for(span_size_t i=1; i<=n; ++i)
 	{
-		v.reserve(i);
+		v.reserve(std_size(i));
 	}
 
-	for(std::size_t i=1; i<=n; ++i)
+	for(span_size_t i=1; i<=n; ++i)
 	{
 		v.push_back(T());
 	}
 
 	v.clear();
 
-	for(std::size_t i=1; i<=n; ++i)
+	for(span_size_t i=1; i<=n; ++i)
 	{
 		v.push_back(T());
 	}
-	BOOST_CHECK(v.size() == n);
+	BOOST_CHECK_EQUAL(v.size(), n);
 
 }
 
 BOOST_AUTO_TEST_CASE(memory_std_alloc_1)
 {
-	std::size_t f[2] = {0,1};
+	eagine::span_size_t f[2] = {0,1};
 
 	for(int i=0; i<20; ++i)
 	{
-		std::size_t n = f[(i+0)%2]+f[(i+1)%2];
+		eagine::span_size_t n = f[(i+0)%2]+f[(i+1)%2];
 		f[i%2] = n;
 
 		eagine_test_memory_std_alloc_1_T<char>(n);

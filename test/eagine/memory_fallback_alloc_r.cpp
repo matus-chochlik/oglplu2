@@ -28,8 +28,8 @@ void eagine_test_memory_fallback_alloc_T(std::size_t n)
 		memory::stack_byte_allocator<>(b)
 	));
 
-	const std::size_t ao = alignof(T);
-	const std::size_t sz = sizeof(T)*n;
+	const span_size_t ao = span_align_of<T>();
+	const span_size_t sz = span_size_of<T>(n);
 
 	BOOST_CHECK(a.max_size(ao) > 0);
 
@@ -51,12 +51,12 @@ void eagine_test_memory_fallback_alloc_T(std::size_t n)
 
 	for(std::size_t i=0; i<n; ++i)
 	{
-		blks.emplace_back(a.allocate(sizeof(T), ao));
+		blks.emplace_back(a.allocate(span_size_of<T>(), ao));
 	}
 
 	for(memory::owned_block& blk : blks)
 	{
-		BOOST_CHECK(blks.back().size() >= sizeof(T));
+		BOOST_CHECK(blks.back().size() >= span_size_of<T>());
 		BOOST_CHECK(blks.back().is_aligned_to(ao));
 		BOOST_CHECK(!!a.has_allocated(blk, ao));
 	}

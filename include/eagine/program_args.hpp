@@ -309,10 +309,15 @@ public:
 	operator value_type (void) const
 	noexcept { return get(); }
 
+	bool is_tag(cstr_ref short_tag, cstr_ref long_tag) const
+	noexcept {
+		return	(get() == short_tag) ||
+			(get() == long_tag);
+	}
+
 	bool is_help_arg(void) const
 	noexcept {
-		return	(get() == cstr_ref("-h")) ||
-			(get() == cstr_ref("--help"));
+		return is_tag(cstr_ref("-h"), cstr_ref("--help"));
 	}
 
 	program_arg next(void) const
@@ -881,15 +886,15 @@ public:
 	 , _argv(nullptr)
 	{ }
 
-	program_args(int argn, char** args)
+	program_args(span_size_t argn, char** args)
 	noexcept
-	 : _argc(argn)
+	 : _argc(int(argn))
 	 , _argv(const_cast<const char**>(args))
 	{ }
 
-	program_args(int argn, const char** args)
+	program_args(span_size_t argn, const char** args)
 	noexcept
-	 : _argc(argn)
+	 : _argc(int(argn))
 	 , _argv(args)
 	{ }
 

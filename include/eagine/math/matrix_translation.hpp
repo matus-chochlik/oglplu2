@@ -19,7 +19,7 @@ template <typename X>
 struct translation;
 
 // is_matrix_constructor<translation>
-template <typename T, unsigned N, bool RM, bool V>
+template <typename T, int N, bool RM, bool V>
 struct is_matrix_constructor<translation<matrix<T,N,N,RM,V>>>
  : std::true_type
 { };
@@ -75,7 +75,7 @@ struct translation<matrix<T,4,4,RM,V>>
 };
 
 // multiply
-template <typename T, unsigned N, bool RM1, bool RM2, bool V>
+template <typename T, int N, bool RM1, bool RM2, bool V>
 static constexpr inline
 translation<matrix<T,N,N,RM1,V>>
 multiply(
@@ -87,7 +87,7 @@ multiply(
 }
 
 // reorder_mat_ctr(translation)
-template <typename T, unsigned N, bool RM, bool V>
+template <typename T, int N, bool RM, bool V>
 static constexpr inline
 translation<matrix<T,N,N,!RM,V>>
 reorder_mat_ctr(const translation<matrix<T,N,N,RM,V>>& c)

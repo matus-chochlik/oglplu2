@@ -117,11 +117,11 @@ BOOST_AUTO_TEST_CASE(offset_array_3)
 
 	const char* cstr = "FooBarBazBlah";
 
-	offset_array<const char> acc(cstr, std::strlen(cstr));
+	offset_array<const char> acc(cstr, span_size(std::strlen(cstr)));
 
 	BOOST_CHECK(acc.data() == cstr);
 	BOOST_CHECK(acc.addr() == memory::const_address(cstr));
-	BOOST_CHECK(acc.size() == std::strlen(cstr));
+	BOOST_CHECK(acc.size() == span_size(std::strlen(cstr)));
 	BOOST_CHECK(acc.begin() != acc.end());
 
 	offset_array<double>::size_type i = 0;

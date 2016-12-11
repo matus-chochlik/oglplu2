@@ -23,7 +23,7 @@ void test_range_equal_1(eagine::span<T> rng1, eagine::span<T> rng2)
 
 	bool are_equal = (rng1.size() == rng2.size());
 
-	for(span_size_type i=0; i<rng1.size(); ++i)
+	for(span_size_t i=0; i<rng1.size(); ++i)
 	{
 		are_equal &= (rng1[i] == rng2[i]);
 	}
@@ -44,7 +44,7 @@ void test_range_equal_1(T min, T max, bool are)
 		else v2[i] = T(min + (std::rand()%(max-min)));
 	}
 
-	test_range_equal_1<T>(eagine::as_span(v1), eagine::as_span(v2));
+	test_range_equal_1<T>(eagine::make_span(v1), eagine::make_span(v2));
 }
 
 template <typename T>
@@ -69,20 +69,20 @@ BOOST_AUTO_TEST_CASE(range_algo_equal_1)
 template <typename T>
 void test_range_slice_r_p_s_1(
 	eagine::span<T> rng,
-	eagine::span_size_type p,
-	eagine::span_size_type s
+	eagine::span_size_t p,
+	eagine::span_size_t s
 )
 {
 	using namespace eagine;
 
 	span<T> slc = ranges::slice(rng, p, s);
 
-	span_size_type n = slc.size();
+	span_size_t n = slc.size();
 
 	BOOST_CHECK(slc.size() <= rng.size());
 	BOOST_CHECK(slc.size() <= s);
 
-	for(span_size_type i=0; i<n; ++i)
+	for(span_size_t i=0; i<n; ++i)
 	{
 		BOOST_CHECK_EQUAL(rng[p+i], slc[i]);
 	}
@@ -112,8 +112,8 @@ void test_range_slice_r_p_s_1(eagine::span<T> rng)
 	{
 		test_range_slice_r_p_s_1(
 			rng,
-			span_size_type(std::rand()%(rng.size()*2)),
-			span_size_type(std::rand()%(rng.size()*2))
+			span_size_t(std::rand()%(rng.size()*2)),
+			span_size_t(std::rand()%(rng.size()*2))
 		);
 	}
 }
@@ -128,7 +128,7 @@ void test_range_slice_r_p_s_1(T min, T max)
 		{
 			x = T(min + (std::rand()%(max-min)));
 		}
-		test_range_slice_r_p_s_1(eagine::as_span(v));
+		test_range_slice_r_p_s_1(eagine::make_span(v));
 	}
 }
 
@@ -139,17 +139,17 @@ BOOST_AUTO_TEST_CASE(range_algo_slice_r_p_s_1)
 }
 
 template <typename T>
-void test_range_slice_r_p_1(eagine::span<T> rng, eagine::span_size_type p)
+void test_range_slice_r_p_1(eagine::span<T> rng, eagine::span_size_t p)
 {
 	using namespace eagine;
 
 	span<T> slc = ranges::slice(rng, p);
 
-	span_size_type n = slc.size();
+	span_size_t n = slc.size();
 
 	BOOST_CHECK(slc.size() <= rng.size());
 
-	for(span_size_type i=0; i<n; ++i)
+	for(span_size_t i=0; i<n; ++i)
 	{
 		BOOST_CHECK_EQUAL(rng[p+i], slc[i]);
 	}
@@ -169,7 +169,7 @@ void test_range_slice_r_p_1(eagine::span<T> rng)
 	{
 		test_range_slice_r_p_1(
 			rng,
-			span_size_type(std::rand()%(rng.size()*2))
+			span_size_t(std::rand()%(rng.size()*2))
 		);
 	}
 }
@@ -184,7 +184,7 @@ void test_range_slice_r_p_1(T min, T max)
 		{
 			x = T(min + (std::rand()%(max-min)));
 		}
-		test_range_slice_r_p_1(eagine::as_span(v));
+		test_range_slice_r_p_1(eagine::make_span(v));
 	}
 }
 
@@ -195,17 +195,17 @@ BOOST_AUTO_TEST_CASE(range_algo_slice_r_p_1)
 }
 
 template <typename T>
-void test_range_head_1(eagine::span<T> rng, eagine::span_size_type l)
+void test_range_head_1(eagine::span<T> rng, eagine::span_size_t l)
 {
 	using namespace eagine;
 
 	span<T> rng2 = ranges::head(rng, l);
 
-	span_size_type n = rng2.size();
+	span_size_t n = rng2.size();
 
 	BOOST_CHECK(rng2.size() <= rng.size());
 
-	for(span_size_type i=0; i<n; ++i)
+	for(span_size_t i=0; i<n; ++i)
 	{
 		BOOST_CHECK_EQUAL(rng[i], rng2[i]);
 	}
@@ -225,7 +225,7 @@ void test_range_head_1(eagine::span<T> rng)
 	{
 		test_range_head_1(
 			rng,
-			span_size_type(std::rand()%(rng.size()*2))
+			span_size_t(std::rand()%(rng.size()*2))
 		);
 	}
 }
@@ -240,7 +240,7 @@ void test_range_head_1(T min, T max)
 		{
 			x = T(min + (std::rand()%(max-min)));
 		}
-		test_range_head_1(eagine::as_span(v));
+		test_range_head_1(eagine::make_span(v));
 	}
 }
 
@@ -251,20 +251,20 @@ BOOST_AUTO_TEST_CASE(range_algo_head_1)
 }
 
 template <typename T>
-void test_range_tail_1(eagine::span<T> rng, eagine::span_size_type l)
+void test_range_tail_1(eagine::span<T> rng, eagine::span_size_t l)
 {
 	using namespace eagine;
 
 	span<T> rng2 = ranges::tail(rng, l);
 
-	span_size_type n = rng2.size();
+	span_size_t n = rng2.size();
 
 	BOOST_CHECK(rng2.size() <= rng.size());
 
-	span_size_type p = rng.size() - l;
+	span_size_t p = rng.size() - l;
 	if(p < 0) p = 0;
 
-	for(span_size_type i=0; i<n; ++i)
+	for(span_size_t i=0; i<n; ++i)
 	{
 		BOOST_CHECK_EQUAL(rng[p+i], rng2[i]);
 	}
@@ -284,7 +284,7 @@ void test_range_tail_1(eagine::span<T> rng)
 	{
 		test_range_tail_1(
 			rng,
-			span_size_type(std::rand()%(rng.size()*2))
+			span_size_t(std::rand()%(rng.size()*2))
 		);
 	}
 }
@@ -299,7 +299,7 @@ void test_range_tail_1(T min, T max)
 		{
 			x = T(min + (std::rand()%(max-min)));
 		}
-		test_range_tail_1(eagine::as_span(v));
+		test_range_tail_1(eagine::make_span(v));
 	}
 }
 
@@ -314,11 +314,11 @@ void test_range_starts_with_1(eagine::span<T> rng1, eagine::span<T> rng2)
 {
 	using namespace eagine;
 
-	span_size_type n = rng2.size();
+	span_size_t n = rng2.size();
 
 	bool equal = true;
 
-	for(span_size_type i=0; i<n; ++i)
+	for(span_size_t i=0; i<n; ++i)
 	{
 		equal &= (rng1[i] == rng2[i]);
 	}
@@ -348,7 +348,7 @@ void test_range_starts_with_1(T min, T max, bool does)
 		++i;
 	}
 
-	test_range_starts_with_1(eagine::as_span(v1), eagine::as_span(v2));
+	test_range_starts_with_1(eagine::make_span(v1), eagine::make_span(v2));
 }
 
 template <typename T>
@@ -374,13 +374,13 @@ void test_range_ends_with_1(eagine::span<T> rng1, eagine::span<T> rng2)
 {
 	using namespace eagine;
 
-	span_size_type n = rng2.size();
+	span_size_t n = rng2.size();
 
-	span_size_type p = rng1.size() - n;
+	span_size_t p = rng1.size() - n;
 
 	bool equal = true;
 
-	for(span_size_type i=0; i<n; ++i)
+	for(span_size_t i=0; i<n; ++i)
 	{
 		equal &= (rng1[p+i] == rng2[i]);
 	}
@@ -411,7 +411,7 @@ void test_range_ends_with_1(T min, T max, bool does)
 		++i;
 	}
 
-	test_range_ends_with_1(eagine::as_span(v1), eagine::as_span(v2));
+	test_range_ends_with_1(eagine::make_span(v1), eagine::make_span(v2));
 }
 
 template <typename T>
@@ -439,12 +439,12 @@ void test_range_find_pos_1(eagine::span<T> rng1, eagine::span<T> rng2)
 
 	if(auto f = ranges::find_pos(rng1, rng2))
 	{
-		span_size_type p = f.value();
-		span_size_type n = rng2.size();
+		span_size_t p = f.value();
+		span_size_t n = rng2.size();
 
 		bool equal = true;
 
-		for(span_size_type i=0; i<n; ++i)
+		for(span_size_t i=0; i<n; ++i)
 		{
 			equal &= (rng1[p+i] == rng2[i]);
 		}
@@ -493,7 +493,7 @@ void test_range_find_pos_1(T min, T max, bool has)
 		++i;
 	}
 
-	test_range_find_pos_1(eagine::as_span(v1), eagine::as_span(v2));
+	test_range_find_pos_1(eagine::make_span(v1), eagine::make_span(v2));
 }
 
 template <typename T>
@@ -521,12 +521,12 @@ void test_range_rfind_pos_1(eagine::span<T> rng1, eagine::span<T> rng2)
 
 	if(auto f = ranges::rfind_pos(rng1, rng2))
 	{
-		span_size_type p = f.value();
-		span_size_type n = rng2.size();
+		span_size_t p = f.value();
+		span_size_t n = rng2.size();
 
 		bool equal = true;
 
-		for(span_size_type i=0; i<n; ++i)
+		for(span_size_t i=0; i<n; ++i)
 		{
 			equal &= (rng1[p+i] == rng2[i]);
 		}
@@ -575,7 +575,7 @@ void test_range_rfind_pos_1(T min, T max, bool has)
 		++i;
 	}
 
-	test_range_rfind_pos_1(eagine::as_span(v1), eagine::as_span(v2));
+	test_range_rfind_pos_1(eagine::make_span(v1), eagine::make_span(v2));
 }
 
 template <typename T>
@@ -606,11 +606,11 @@ void test_range_find_1(eagine::span<T> rng1, eagine::span<T> rng2)
 	{
 		BOOST_ASSERT(rng2.size() <= rng3.size());
 
-		span_size_type n = rng2.size();
+		span_size_t n = rng2.size();
 
 		bool equal = true;
 
-		for(span_size_type i=0; i<n; ++i)
+		for(span_size_t i=0; i<n; ++i)
 		{
 			equal &= (rng2[i] == rng3[i]);
 		}
@@ -654,7 +654,7 @@ void test_range_find_1(T min, T max, bool has)
 		++i;
 	}
 
-	test_range_find_1(eagine::as_span(v1), eagine::as_span(v2));
+	test_range_find_1(eagine::make_span(v1), eagine::make_span(v2));
 }
 
 template <typename T>
@@ -720,7 +720,7 @@ void test_range_strip_prefix_1(T min, T max, bool has)
 		++i;
 	}
 
-	test_range_strip_prefix_1(eagine::as_span(v1), eagine::as_span(v2));
+	test_range_strip_prefix_1(eagine::make_span(v1), eagine::make_span(v2));
 }
 
 template <typename T>
@@ -787,7 +787,7 @@ void test_range_strip_suffix_1(T min, T max, bool has)
 		++i;
 	}
 
-	test_range_strip_suffix_1(eagine::as_span(v1), eagine::as_span(v2));
+	test_range_strip_suffix_1(eagine::make_span(v1), eagine::make_span(v2));
 }
 
 template <typename T>

@@ -13,11 +13,11 @@
 
 BOOST_AUTO_TEST_SUITE(math_tvec_tests)
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 void test_math_tvec_default_ctr_TNV(void)
 {
 	eagine::math::tvec<T, N, V> v;
-	for(unsigned i=0; i<N; ++i)
+	for(int i=0; i<N; ++i)
 	{
 		BOOST_CHECK_EQUAL(v[i], T(0));
 	}
@@ -54,12 +54,12 @@ BOOST_AUTO_TEST_CASE(math_tvec_default_ctr)
 	test_math_tvec_default_ctr_T<double>();
 }
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 void test_math_tvec_fill_ctr_TNV(void)
 {
 	T r = T(std::rand() % 10000);
 	eagine::math::tvec<T, N, V> v(r);
-	for(unsigned i=0; i<N; ++i)
+	for(int i=0; i<N; ++i)
 	{
 		BOOST_CHECK_EQUAL(v[i], r);
 	}
@@ -96,12 +96,12 @@ BOOST_AUTO_TEST_CASE(math_tvec_fill_ctr)
 	test_math_tvec_fill_ctr_T<double>();
 }
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 void test_math_tvec_vector_ctr_TNV(void)
 {
 	T r = T(std::rand() % 10000);
 	eagine::math::tvec<T, N, V> v(eagine::math::vector<T, N, V>::fill(r));
-	for(unsigned i=0; i<N; ++i)
+	for(int i=0; i<N; ++i)
 	{
 		BOOST_CHECK_EQUAL(v[i], r);
 	}
@@ -138,19 +138,19 @@ BOOST_AUTO_TEST_CASE(math_tvec_vector_ctr)
 	test_math_tvec_vector_ctr_T<double>();
 }
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 void test_math_tvec_cary_ctr_TNV(void)
 {
 	T a[N];
 
-	for(unsigned i=0; i<N; ++i)
+	for(int i=0; i<N; ++i)
 	{
 		a[i] = T(std::rand()%10000);
 	}
 
 	eagine::math::tvec<T, N, V> v(a);
 
-	for(unsigned i=0; i<N; ++i)
+	for(int i=0; i<N; ++i)
 	{
 		BOOST_CHECK_EQUAL(v[i], a[i]);
 	}

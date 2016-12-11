@@ -13,19 +13,19 @@
 
 BOOST_AUTO_TEST_SUITE(math_matrix_tests_3)
 
-template <typename T, unsigned M, unsigned N, unsigned K, bool RM1, bool RM2, bool V>
+template <typename T, int M, int N, int K, bool RM1, bool RM2, bool V>
 void test_math_matrix_mult_TCRRMV(void)
 {
 	T d1[M*N];
 
-	for(unsigned i=0; i<(M*N); ++i)
+	for(int i=0; i<(M*N); ++i)
 	{
 		d1[i] = T(std::rand()%10000)/2;
 	}
 
 	T d2[N*K];
 
-	for(unsigned i=0; i<(N*K); ++i)
+	for(int i=0; i<(N*K); ++i)
 	{
 		d2[i] = T(std::rand()%10000)/2;
 	}
@@ -36,12 +36,12 @@ void test_math_matrix_mult_TCRRMV(void)
 	eagine::math::matrix<T, K, M, RM1, V> m = multiply(m1, m2);
 	(void)m;
 
-	for(unsigned i=0; i<M; ++i)
-	for(unsigned j=0; j<K; ++j)
+	for(int i=0; i<M; ++i)
+	for(int j=0; j<K; ++j)
 	{
 		T e = T(0);
 
-		for(unsigned k=0; k<N; ++k)
+		for(int k=0; k<N; ++k)
 		{
 			e += row(m1, i)[k]*column(m2, j)[k];
 		}

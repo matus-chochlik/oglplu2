@@ -19,23 +19,23 @@ struct shuffle_mask
 { };
 
 #if EAGINE_USE_SIMD && defined(__GNUC__) && !defined(__clang__)
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 struct mask : _vec_data<T, N, V>
 { };
 
-template <unsigned N, bool V>
+template <int N, bool V>
 struct mask<float, N, V> : _vec_data<std::int32_t, N, V>
 { };
 
-template <unsigned N, bool V>
+template <int N, bool V>
 struct mask<double, N, V> : _vec_data<std::int64_t, N, V>
 { };
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 using mask_t = typename mask<T, N, V>::type;
 #endif
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 struct shuffle
 {
 private:
@@ -48,8 +48,7 @@ private:
 		_dpT v,
 		shuffle_mask<I...>,
 		std::false_type
-	) noexcept
-	{
+	) noexcept {
 		return data_t<T, N, V>{v[I]...};
 	}
 
@@ -59,8 +58,7 @@ private:
 		_dpT v,
 		shuffle_mask<I...>,
 		std::true_type
-	) noexcept
-	{
+	) noexcept {
 #if EAGINE_USE_SIMD && defined(__clang__)
 		return _dT(__builtin_shufflevector(v, v, I...));
 #elif EAGINE_USE_SIMD && defined(__GNUC__)
@@ -80,51 +78,48 @@ public:
 	_dT apply(
 		_dpT v,
 		shuffle_mask<I...> m = {}
-	) noexcept
-	{
+	) noexcept {
 		return _do_apply(v, m, has_vect_data<T, N, V>());
 	}
 };
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 struct shuffle2
 {
 private:
 	typedef data_t<T, N, V> _dT;
 	typedef data_param_t<T, N, V> _dpT;
 
-	template <unsigned U>
-	using _uint = unsigned_constant<U>;
+	template <int U>
+	using _int = int_constant<U>;
 
-	template <unsigned M, int ... I>
+	template <int M, int ... I>
 	static inline
 	_dT _do_apply(
 		_dpT v1,
 		_dpT v2,
 		shuffle_mask<I...>,
-		_uint<M>,
+		_int<M>,
 		std::false_type
-	) noexcept
-	{
+	) noexcept {
 		return data_t<T, N, V>{
 			I<0?T(0):(
-				unsigned(I)<N?
-					v1[unsigned(I)]:
-					v2[unsigned(I)%N]
+				int(I)<N?
+					v1[int(I)]:
+					v2[int(I)%N]
 			)...
 		};
 	}
 
-	template <unsigned M, int ... I>
+	template <int M, int ... I>
 	static inline
 	_dT _do_apply(
 		_dpT v1,
 		_dpT v2,
 		shuffle_mask<I...>,
-		_uint<M>,
+		_int<M>,
 		std::true_type
-	) noexcept
-	{
+	) noexcept {
 #if EAGINE_USE_SIMD && defined(__clang__)
 		return _dT(__builtin_shufflevector(v1,v2, I...));
 #elif EAGINE_USE_SIMD && defined(__GNUC__)
@@ -134,7 +129,7 @@ private:
 		return _do_apply(
 			v1, v2,
 			shuffle_mask<I...>(),
-			_uint<M>(),
+			_int<M>(),
 			std::false_type()
 		);
 #endif
@@ -146,10 +141,9 @@ private:
 		_dpT v1,
 		_dpT v2,
 		shuffle_mask<I...>,
-		_uint<3u>,
+		_int<3u>,
 		std::true_type
-	) noexcept
-	{
+	) noexcept {
 #if EAGINE_USE_SIMD && defined(__clang__)
 		return _dT(__builtin_shufflevector(v1,v2, I>=3?I+1:I...));
 #elif EAGINE_USE_SIMD && defined(__GNUC__)
@@ -159,7 +153,7 @@ private:
 		return _do_apply(
 			v1, v2,
 			shuffle_mask<I...>(),
-			_uint<3>(),
+			_int<3>(),
 			std::false_type()
 		);
 #endif
@@ -172,11 +166,10 @@ public:
 		_dpT v1,
 		_dpT v2,
 		shuffle_mask<I...> m = {}
-	) noexcept
-	{
+	) noexcept {
 		return _do_apply(
 			v1, v2, m,
-			_uint<N>(),
+			_int<N>(),
 			has_vect_data<T, N, V>()
 		);
 	}

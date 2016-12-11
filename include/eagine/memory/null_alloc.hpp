@@ -25,38 +25,25 @@ public:
 
 	bool equal(byte_allocator* a) const
 	noexcept
-	override
-	{
+	override {
 		return dynamic_cast<null_byte_allocator*>(a) != nullptr;
 	}
 
 	size_type max_size(size_type)
 	noexcept
-	override
-	{
-		return 0;
-	}
+	override { return 0; }
 
 	tribool has_allocated(const owned_block&, size_type)
 	noexcept
-	override
-	{
-		return indeterminate;
-	}
+	override { return indeterminate; }
 
 	owned_block allocate(size_type, size_type)
 	noexcept
-	override
-	{
-		return {};
-	}
+	override { return {}; }
 
 	void deallocate(owned_block&& b, size_type)
 	noexcept
-	override
-	{
-		assert(b.empty());
-	}
+	override { assert(b.empty()); }
 };
 
 } // namespace memory

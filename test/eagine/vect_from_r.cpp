@@ -13,11 +13,11 @@
 
 BOOST_AUTO_TEST_SUITE(vect_from_tests)
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 void test_vect_from_array_TNV(void)
 {
 	T a[N];
-	for(unsigned i=0; i<N; ++i)
+	for(int i=0; i<N; ++i)
 	{
 		a[i] = std::rand() / T(3);
 	}
@@ -25,7 +25,7 @@ void test_vect_from_array_TNV(void)
 	typename eagine::vect::data<T, N, V>::type v =
 		eagine::vect::from_array<T, N, V>::apply(a, N);
 
-	for(unsigned i=0; i<N; ++i)
+	for(int i=0; i<N; ++i)
 	{
 		BOOST_CHECK_EQUAL(v[i], a[i]);
 	}
@@ -52,7 +52,7 @@ void test_vect_from_array_T(void)
 
 BOOST_AUTO_TEST_CASE(vect_from_array)
 {
-	for(unsigned k=0; k<1000; ++k)
+	for(int k=0; k<1000; ++k)
 	{
 		test_vect_from_array_T<int>();
 		test_vect_from_array_T<float>();
@@ -61,13 +61,13 @@ BOOST_AUTO_TEST_CASE(vect_from_array)
 }
 
 
-template <typename T, unsigned N, unsigned M, bool V>
+template <typename T, int N, int M, bool V>
 void test_vect_from_saafv_TNMV(void)
 {
 	static_assert(M <= N, "");
 
 	T a[M];
-	for(unsigned i=0; i<M; ++i)
+	for(int i=0; i<M; ++i)
 	{
 		a[i] = std::rand() / T(3);
 	}
@@ -76,11 +76,11 @@ void test_vect_from_saafv_TNMV(void)
 	typename eagine::vect::data<T, N, V>::type v =
 		eagine::vect::from_saafv<T, N, V>::apply(a, M, f);
 
-	for(unsigned i=0; i<M; ++i)
+	for(int i=0; i<M; ++i)
 	{
 		BOOST_CHECK_EQUAL(v[i], a[i]);
 	}
-	for(unsigned i=M; i<N; ++i)
+	for(int i=M; i<N; ++i)
 	{
 		BOOST_CHECK_EQUAL(v[i], f);
 	}
@@ -141,7 +141,7 @@ void test_vect_from_saafv_T(void)
 
 BOOST_AUTO_TEST_CASE(vect_from_saafv)
 {
-	for(unsigned k=0; k<1000; ++k)
+	for(int k=0; k<1000; ++k)
 	{
 		test_vect_from_saafv_T<int>();
 		test_vect_from_saafv_T<float>();

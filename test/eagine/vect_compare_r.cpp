@@ -14,10 +14,10 @@
 
 BOOST_AUTO_TEST_SUITE(vect_compare_tests)
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 void test_vect_is_zero_apply_TNV(void)
 {
-	for(unsigned k=0; k<1000; ++k)
+	for(int k=0; k<1000; ++k)
 	{
 		bool gen_zero = std::rand()%10==0;
 		T a = gen_zero?0:std::rand() / T(3);

@@ -14,15 +14,15 @@
 namespace eagine {
 namespace vect {
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 struct hsum
 {
 private:
 	typedef data_t<T, N, V> _dT;
 	typedef data_param_t<T, 1, V> _dpT;
 
-	template <unsigned U>
-	using _uint = unsigned_constant<U>;
+	template <int U>
+	using _int = int_constant<U>;
 
 	template <bool B>
 	using _bool = bool_constant<B>;
@@ -30,24 +30,20 @@ private:
 	template <int ... I>
 	static inline
 	_dT _sh_apply(_dpT v)
-	noexcept
-	{
+	noexcept {
 		return shuffle<T, N, V>:: template apply<I...>(v);
 	}
 
-	template <unsigned M, bool B>
+	template <int M, bool B>
 	static
-	_dT _hlp(_dT v, _uint<M>, _bool<B>)
-	noexcept
-	{
+	_dT _hlp(_dT v, _int<M>, _bool<B>)
+	noexcept {
 		static_assert(M == N, "");
 
-		for(unsigned i=1; i<N; ++i)
-		{
+		for(int i=1; i<N; ++i) {
 			v[i] += v[i-1];
 		}
-		for(unsigned i=N-1; i>0; --i)
-		{
+		for(int i=N-1; i>0; --i) {
 			v[i-1] = v[i];
 		}
 		return v;
@@ -58,84 +54,51 @@ private:
 	static constexpr inline
 	_dT _hlp(
 		_dT v,
-		_uint<1>,
+		_int<1>,
 		_bool<B>
-	) noexcept
-	{
-		return v;
-	}
+	) noexcept { return v; }
 
 	static constexpr inline
-	_dT _hlp(_dpT v, _uint<2>, std::true_type)
-	noexcept
-	{
-		return v + _sh_apply<1,0>(v);
-	}
+	_dT _hlp(_dpT v, _int<2>, std::true_type)
+	noexcept { return v + _sh_apply<1,0>(v); }
 
 	static constexpr inline
 	_dT _hlp3_1(_dpT t, _dpT v)
-	noexcept
-	{
-		return t + _sh_apply<2,2,1>(v);
-	}
+	noexcept { return t + _sh_apply<2,2,1>(v); }
 
 
 	static constexpr inline
-	_dT _hlp(_dpT v, _uint<3>, std::true_type)
-	noexcept
-	{
-		return _hlp3_1(v + _sh_apply<1,0,0>(v), v);
-	}
+	_dT _hlp(_dpT v, _int<3>, std::true_type)
+	noexcept { return _hlp3_1(v + _sh_apply<1,0,0>(v), v); }
 
 	static constexpr inline
 	_dT _hlp4_1(_dpT v)
-	noexcept
-	{
-		return v + _sh_apply<2,3,0,1>(v);
-	}
+	noexcept { return v + _sh_apply<2,3,0,1>(v); }
 
 	static constexpr inline
-	_dT _hlp(_dpT v, _uint<4>, std::true_type)
-	noexcept
-	{
-		return _hlp4_1(v + _sh_apply<1,0,3,2>(v));
-	}
+	_dT _hlp(_dpT v, _int<4>, std::true_type)
+	noexcept { return _hlp4_1(v + _sh_apply<1,0,3,2>(v)); }
 
 	static constexpr inline
 	_dT _hlp8_1(_dpT v)
-	noexcept
-	{
-		return v + _sh_apply<1,0,3,2,5,4,7,6>(v);
-	}
+	noexcept { return v + _sh_apply<1,0,3,2,5,4,7,6>(v); }
 
 	static constexpr inline
 	_dT _hlp8_2(_dpT v)
-	noexcept
-	{
-		return v + _sh_apply<2,3,0,1,6,7,4,5>(v);
-	}
+	noexcept { return v + _sh_apply<2,3,0,1,6,7,4,5>(v); }
 
 	static constexpr inline
 	_dT _hlp8_3(_dpT v)
-	noexcept
-	{
-		return v + _sh_apply<4,5,6,7,0,1,2,3>(v);
-	}
+	noexcept { return v + _sh_apply<4,5,6,7,0,1,2,3>(v); }
 
 	static constexpr inline
-	_dT _hlp(_dpT v, _uint<8>, std::true_type)
-	noexcept
-	{
-		return _hlp8_3(_hlp8_2(_hlp8_1(v)));
-	}
+	_dT _hlp(_dpT v, _int<8>, std::true_type)
+	noexcept { return _hlp8_3(_hlp8_2(_hlp8_1(v))); }
 #endif
 public:
 	static inline
 	_dT apply(_dT v)
-	noexcept
-	{
-		return _hlp(v, _uint<N>(), has_vect_data<T,N,V>());
-	}
+	noexcept { return _hlp(v, _int<N>(), has_vect_data<T,N,V>()); }
 };
 
 } // namespace vect

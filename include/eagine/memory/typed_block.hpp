@@ -23,7 +23,7 @@ span<T> make_span_of(const basic_block<std::is_const<T>::value>& blk)
 	assert(blk.is_aligned_to(alignof(T)));
 	return {
 		static_cast<T*>(blk.addr()),
-		span_size_t(blk.size()/sizeof(T))
+		blk.size()/span_size_of<T>()
 	};
 }
 

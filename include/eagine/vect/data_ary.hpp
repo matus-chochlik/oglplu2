@@ -19,7 +19,7 @@
 namespace eagine {
 namespace vect {
 
-template <typename T, unsigned N>
+template <typename T, int N>
 struct _ary_data
 {
 	T _v[N];
@@ -57,32 +57,21 @@ struct _ary_data
 	{ }
 
 	constexpr inline
-	T operator [] (unsigned i) const
-	noexcept
-	{
-		return _v[i];
-	}
+	T operator [] (int i) const
+	noexcept { return _v[i]; }
 
 	inline
-	T& operator [] (unsigned i)
-	noexcept
-	{
-		return _v[i];
-	}
+	T& operator [] (int i)
+	noexcept { return _v[i]; }
 
 	friend constexpr inline
 	_ary_data operator + (_ary_data a)
-	noexcept
-	{
-		return a;
-	}
+	noexcept { return a; }
 
 	friend
 	_ary_data operator - (_ary_data a)
-	noexcept
-	{
-		for(unsigned i=0; i<N; ++i)
-		{
+	noexcept {
+		for(int i=0; i<N; ++i) {
 			a._v[i] = -a._v[i];
 		}
 		return a;
@@ -90,11 +79,9 @@ struct _ary_data
 
 	friend
 	_ary_data operator + (const _ary_data& a, const _ary_data& b)
-	noexcept
-	{
+	noexcept {
 		_ary_data c;
-		for(unsigned i=0; i<N; ++i)
-		{
+		for(int i=0; i<N; ++i) {
 			c._v[i] = a._v[i] + b._v[i];
 		}
 		return c;
@@ -102,11 +89,9 @@ struct _ary_data
 
 	friend
 	_ary_data operator - (const _ary_data& a, const _ary_data& b)
-	noexcept
-	{
+	noexcept {
 		_ary_data c;
-		for(unsigned i=0; i<N; ++i)
-		{
+		for(int i=0; i<N; ++i) {
 			c._v[i] = a._v[i] - b._v[i];
 		}
 		return c;
@@ -114,11 +99,9 @@ struct _ary_data
 
 	friend
 	_ary_data operator * (const _ary_data& a, const _ary_data& b)
-	noexcept
-	{
+	noexcept {
 		_ary_data c;
-		for(unsigned i=0; i<N; ++i)
-		{
+		for(int i=0; i<N; ++i) {
 			c._v[i] = a._v[i] * b._v[i];
 		}
 		return c;
@@ -126,18 +109,16 @@ struct _ary_data
 
 	friend
 	_ary_data operator / (const _ary_data& a, const _ary_data& b)
-	noexcept
-	{
+	noexcept {
 		_ary_data c;
-		for(unsigned i=0; i<N; ++i)
-		{
+		for(int i=0; i<N; ++i) {
 			c._v[i] = a._v[i] / b._v[i];
 		}
 		return c;
 	}
 };
 
-template <typename T, unsigned N>
+template <typename T, int N>
 struct _ary_cref
 {
 	typedef const _ary_data<T, N>& type;
@@ -148,7 +129,7 @@ struct _ary_data<T, 0u>
 {
 	typedef _ary_data type;
 
-	T operator [] (unsigned i) const;
+	T operator [] (int i) const;
 };
 
 } // namespace vect

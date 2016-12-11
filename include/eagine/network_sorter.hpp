@@ -50,8 +50,8 @@ public:
 	) const
 	{
 		span_size_t j = _sn.index(r, i);
-		dst[i] = _min_max_cpy(
-			src[i], src[j],
+		dst[std_size(i)] = _min_max_cpy(
+			src[std_size(i)], src[std_size(j)],
 			_sn.min(r, i, j),
 			_sn.max(r, i, j)
 		);
@@ -99,7 +99,11 @@ public:
 	{
 		span_size_t src = (r+0)%2;
 		span_size_t dst = (r+1)%2;
-		this->single_sort_step(_a[src], _a[dst], r, i);
+		this->single_sort_step(
+			_a[std_size(src)],
+			_a[std_size(dst)],
+			r, i
+		);
 		return *this;
 	}
 

@@ -31,11 +31,11 @@ BOOST_AUTO_TEST_CASE(string_path_1)
 				std::string::size_type(std::rand()%8196),
 				char('A'+std::rand()%('Z'-'A'))
 			);
-			bsp.push_back(as_span(n));
+			bsp.push_back(cstring_span(n));
 			++s;
 
 			BOOST_CHECK_EQUAL(bsp.size(), s);
-			BOOST_CHECK(bsp.back() == as_span(n));
+			BOOST_CHECK(bsp.back() == cstring_span(n));
 
 			if((std::rand()%10 == 0) && !bsp.empty())
 			{
@@ -68,9 +68,9 @@ BOOST_AUTO_TEST_CASE(string_path_2)
 			std::string::size_type n(std::rand()%512);
 			char c('A'+std::rand()%('Z'-'A'));
 			std::string s(n, c);
-			bsp.push_back(as_span(s));
+			bsp.push_back(cstring_span(s));
 
-			BOOST_CHECK(bsp.back() == as_span(s));
+			BOOST_CHECK(bsp.back() == cstring_span(s));
 			BOOST_CHECK(!bsp.empty());
 		}
 
@@ -78,7 +78,7 @@ BOOST_AUTO_TEST_CASE(string_path_2)
 		bsp.for_each([&stk](basic_string_path::value_type s)
 		{
 			stk.push(std::string(s.begin(), s.end()));
-			BOOST_CHECK(s == as_span(stk.top()));
+			BOOST_CHECK(s == cstring_span(stk.top()));
 		});
 
 		BOOST_CHECK_EQUAL(bsp.size(), stk.size());
@@ -86,7 +86,7 @@ BOOST_AUTO_TEST_CASE(string_path_2)
 		bsp.rev_for_each([&stk](basic_string_path::value_type s)
 		{
 			BOOST_ASSERT(!stk.empty());
-			BOOST_CHECK(s == as_span(stk.top()));
+			BOOST_CHECK(s == cstring_span(stk.top()));
 			stk.pop();
 		});
 
@@ -107,9 +107,9 @@ BOOST_AUTO_TEST_CASE(string_path_3)
 			std::string::size_type n(std::rand()%512);
 			char c('A'+std::rand()%('Z'-'A'));
 			std::string s(n, c);
-			bsp.push_back(as_span(s));
+			bsp.push_back(cstring_span(s));
 
-			BOOST_CHECK(bsp.back() == as_span(s));
+			BOOST_CHECK(bsp.back() == cstring_span(s));
 			BOOST_CHECK(!bsp.empty());
 		}
 
@@ -117,7 +117,7 @@ BOOST_AUTO_TEST_CASE(string_path_3)
 		for(auto p = bsp.begin(); p!=bsp.end(); ++p)
 		{
 			stk.push(std::string((*p).begin(), p->end()));
-			BOOST_CHECK(*p == as_span(stk.top()));
+			BOOST_CHECK(*p == cstring_span(stk.top()));
 		}
 
 		BOOST_CHECK_EQUAL(bsp.size(), stk.size());
@@ -125,7 +125,7 @@ BOOST_AUTO_TEST_CASE(string_path_3)
 		for(auto p = bsp.rbegin(); p!=bsp.rend(); ++p)
 		{
 			BOOST_ASSERT(!stk.empty());
-			BOOST_CHECK(*p == as_span(stk.top()));
+			BOOST_CHECK(*p == cstring_span(stk.top()));
 			stk.pop();
 		}
 		BOOST_CHECK(stk.empty());

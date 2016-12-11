@@ -40,13 +40,11 @@ public:
 
 	bool equal(byte_allocator* a) const
 	noexcept
-	override
-	{
+	override {
 		byte_allocator_with_fallback* pa =
 			dynamic_cast<byte_allocator_with_fallback*>(a);
 
-		if(a != nullptr)
-		{
+		if(a != nullptr) {
 			return (_dft == pa->_dft) && (_fbk == pa->_fbk);
 		}
 		return false;
@@ -54,8 +52,7 @@ public:
 
 	size_type max_size(span_size_t a)
 	noexcept
-	override
-	{
+	override {
 		size_type mdft = _dft.max_size(a);
 		size_type mfbk = _fbk.max_size(a);
 
@@ -64,16 +61,14 @@ public:
 
 	tribool has_allocated(const owned_block& b, span_size_t a)
 	noexcept
-	override
-	{
+	override {
 		return	_dft.has_allocated(b, a) ||
 			_fbk.has_allocated(b, a);
 	}
 
 	owned_block allocate(size_type n, size_type a)
 	noexcept
-	override
-	{
+	override {
 		if(n <= _dft.max_size(a))
 		{
 			if(owned_block b = _dft.allocate(n, a))
@@ -92,14 +87,11 @@ public:
 
 	void deallocate(owned_block&& b, size_type a)
 	noexcept
-	override
-	{
-		if(_dft.has_allocated(b, a))
-		{
+	override {
+		if(_dft.has_allocated(b, a)) {
 			_dft.deallocate(std::move(b), a);
 		}
-		else if(!!_fbk.has_allocated(b, a))
-		{
+		else if(!!_fbk.has_allocated(b, a)) {
 			_fbk_size -= b.size();
 			_fbk.deallocate(std::move(b), a);
 		}

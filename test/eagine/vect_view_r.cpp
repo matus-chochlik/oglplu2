@@ -13,12 +13,12 @@
 
 BOOST_AUTO_TEST_SUITE(vect_view_tests)
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 void test_vect_view_TNV(void)
 {
 	typename eagine::vect::data<T, N, V>::type v = {};
 
-	for(unsigned i=0; i<N; ++i)
+	for(int i=0; i<N; ++i)
 	{
 		T n = std::rand()%10000 / T(2);
 		v[i] = n;
@@ -27,7 +27,7 @@ void test_vect_view_TNV(void)
 	auto vv = eagine::vect::view<T, N, V>::apply(v);
 	eagine::span<const T> av = vv;
 
-	for(unsigned i=0; i<N; ++i)
+	for(int i=0; i<N; ++i)
 	{
 		BOOST_CHECK_EQUAL(av[i], v[i]);
 	}

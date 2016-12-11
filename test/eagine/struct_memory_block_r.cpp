@@ -21,22 +21,22 @@ void eagine_test_struct_memory_block_1(void)
 {
 	using namespace eagine;
 
-	std::vector<unsigned char> buf(2*sizeof(T));
+	std::vector<unsigned char> buf(2*span_size_of<T>());
 
 	for(int i=0; i<100; ++i)
 	{
 		memory_block blk(
 			buf.data(),
-			std::size_t(std::rand()) % buf.size()
+			span_size_t(std::rand()) % span_size(buf.size())
 		);
 
 		BOOST_CHECK_EQUAL(
-			structured_memory_block<T>::valid_block(blk),
-			blk.size() >= sizeof(T)
+			structured_memory_block<T>::is_valid_block(blk),
+			blk.size() >= span_size(span_size_of<T>())
 		);
 	}
 	BOOST_CHECK_EQUAL(
-		structured_memory_block<T>::valid_block(memory_block()),
+		structured_memory_block<T>::is_valid_block(memory_block()),
 		false
 	);
 }

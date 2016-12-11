@@ -6,6 +6,7 @@
 #define EAGINE_SORTING_NETWORK_1512222148_HPP
 
 #include "type_traits.hpp"
+#include "types.hpp"
 #include <cstdint>
 #include <array>
 
@@ -15,29 +16,29 @@ class bitonic_sorting_network_base
 {
 protected:
 	static constexpr inline
-	span_size_t _next_log(span_size_t n, span_size_t pot = 1)
+	std::size_t _next_log(std::size_t n, std::size_t pot = 1)
 	noexcept { return (n > pot)?1+_next_log(n, pot << 1):0; }
 
 	static constexpr inline
-	span_size_t _hlp(span_size_t n)
+	std::size_t _hlp(std::size_t n)
 	noexcept { return (n==0)?0:n+_hlp(n-1); }
 
-	template <span_size_t N>
+	template <std::size_t N>
 	static inline
-	void _fill_idx(std::array<span_size_t, N>* idx)
-	{
-		span_size_t r = 0;
-		for(span_size_t k=0, l=_next_log(N); k<l; ++k)
+	void _fill_idx(std::array<std::size_t, N>* idx)
+	noexcept {
+		std::size_t r = 0;
+		for(std::size_t k=0, l=_next_log(N); k<l; ++k)
 		{
-			for(span_size_t m=0; m<=k; ++m, ++r)
+			for(std::size_t m=0; m<=k; ++m, ++r)
 			{
-				span_size_t d = 1 << (k - m);
-				std::array<span_size_t, N>& row = idx[r];
+				std::size_t d = 1 << (k - m);
+				std::array<std::size_t, N>& row = idx[r];
 
-				for(span_size_t i=0; i<N; ++i)
+				for(std::size_t i=0; i<N; ++i)
 				{
-					span_size_t inv = ((i >> k) & 2) >> 1;
-					span_size_t j = i+((i&d)==0?d:-d);
+					std::size_t inv = ((i >> k) & 2) >> 1;
+					std::size_t j = i+((i&d)==0?d:-d);
 
 					if(j >= N) { j = i; }
 					row[i] = (j << 1) | inv;
@@ -48,7 +49,9 @@ protected:
 public:
 	static constexpr inline
 	span_size_t num_rounds_for(span_size_t n)
-	noexcept { return _hlp(_next_log(n)); }
+	noexcept {
+		return span_size(_hlp(_next_log(std_size(n))));
+	}
 };
 
 template <span_size_t N>
@@ -58,7 +61,7 @@ class bitonic_sorting_network
 private:
 	using _base = bitonic_sorting_network_base;
 	using _idx_t = std::array<
-		std::array<span_size_t, N>,
+		std::array<std::size_t, N>,
 		_base::num_rounds_for(N)
 	>;
 
@@ -74,6 +77,11 @@ private:
 		static _idx_t idx = _make_idx();
 		return idx;
 	}
+
+	static inline
+	std::size_t& _c(span_size_t r, span_size_t i) {
+		return _get_idx()[std_size(r)][std_size(i)];
+	}
 public:
 	static constexpr inline
 	span_size_t size(void)
@@ -86,13 +94,13 @@ public:
 	static inline
 	span_size_t index(span_size_t r, span_size_t i)
 	{
-		return _get_idx()[r][i] >> 1;
+		return span_size(_c(r, i) >> 1);
 	}
 
 	static inline
 	bool inv(span_size_t r, span_size_t i)
 	{
-		return (_get_idx()[r][i] & 1) == 1;
+		return (_c(r, i) & 1) == 1;
 	}
 
 	static inline

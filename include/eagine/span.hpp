@@ -12,6 +12,7 @@
 
 #include "type_traits.hpp"
 #include "types.hpp"
+#include "span_fwd.hpp"
 
 #ifdef __clang__
 #pragma clang diagnostic push

@@ -16,7 +16,7 @@ namespace eagine {
 namespace math {
 
 // tvec
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 struct tvec : vector<T, N, V>
 {
 	typedef vector<T, N, V> _base;
@@ -60,7 +60,7 @@ struct tvec : vector<T, N, V>
 
 	template <
 		typename P,
-		unsigned M,
+		int M,
 		bool W,
 		typename = std::enable_if_t<
 			!std::is_same<P, T>::value ||
@@ -73,7 +73,7 @@ struct tvec : vector<T, N, V>
 	 : _base(_base::from(v))
 	{ }
 
-	template <typename P, unsigned M, bool W>
+	template <typename P, int M, bool W>
 	constexpr inline
 	tvec(const vector<P, M, W>& v, T d)
 	noexcept
@@ -82,7 +82,7 @@ struct tvec : vector<T, N, V>
 
 	template <
 		typename P,
-		unsigned M,
+		int M,
 		bool W,
 		typename ... R,
 		typename = std::enable_if_t<
@@ -100,7 +100,7 @@ struct tvec : vector<T, N, V>
 	))
 	{ }
 
-	template <typename P, unsigned M, bool W>
+	template <typename P, int M, bool W>
 	constexpr inline
 	tvec(const vector<P, M, W>& v, const vector<T, N-M, W>& w)
 	noexcept
@@ -110,17 +110,17 @@ struct tvec : vector<T, N, V>
 
 } // namespace math
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 struct is_known_vector_type<math::tvec<T, N, V>>
  : std::is_scalar<T>
 { };
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 struct canonical_compound_type<math::tvec<T, N, V>>
  : identity<std::remove_cv_t<T[N]>>
 { };
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 struct compound_view_maker<math::tvec<T, N, V>>
 {
 	inline

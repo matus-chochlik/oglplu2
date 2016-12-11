@@ -39,8 +39,8 @@ void test_math_matrix_ctr_MC(MC mc)
 	BOOST_CHECK_EQUAL(row_major(m1),!row_major(m2));
 	BOOST_CHECK_EQUAL(row_major(m2),!row_major(m1));
 
-	for(unsigned i=0; i<rows(m1); ++i)
-	for(unsigned j=0; j<columns(m1); ++j)
+	for(int i=0; i<rows(m1); ++i)
+	for(int j=0; j<columns(m1); ++j)
 	{
 		BOOST_CHECK_EQUAL(get_rm(m1, i, j), get_cm(m2, j, i));
 		BOOST_CHECK_EQUAL(get_rm(m2, i, j), get_cm(m1, j, i));
@@ -55,8 +55,8 @@ void test_math_matrix_ctr_MC(MC mc)
 	BOOST_CHECK(row_major(m3));
 	BOOST_CHECK(row_major(m4));
 
-	for(unsigned i=0; i<rows(m3); ++i)
-	for(unsigned j=0; j<columns(m3); ++j)
+	for(int i=0; i<rows(m3); ++i)
+	for(int j=0; j<columns(m3); ++j)
 	{
 		BOOST_CHECK_CLOSE(get_rm(m3, i, j), get_cm(m4, j, i), 0.01);
 		BOOST_CHECK_CLOSE(get_rm(m4, i, j), get_cm(m3, j, i), 0.01);

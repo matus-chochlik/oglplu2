@@ -74,7 +74,7 @@ void eagine_test_memory_block_2(void)
 	BOOST_CHECK(bmb.size() == sizeof(x));
 	BOOST_CHECK(bmb.begin() != bmb.end());
 
-	std::size_t s = 0;
+	span_size_t s = 0;
 
 	for(byte b : bmb) { ++s; (void)b; }
 
@@ -104,7 +104,7 @@ void eagine_test_memory_block_3(void)
 	BOOST_CHECK(bmb.size() == sizeof(x));
 	BOOST_CHECK(bmb.begin() != bmb.end());
 
-	std::size_t s = 0;
+	span_size_t s = 0;
 
 	for(byte b : bmb) { ++s; (void)b; }
 
@@ -134,7 +134,7 @@ void eagine_test_memory_block_4(void)
 	BOOST_CHECK(bmb.size() == sizeof(x));
 	BOOST_CHECK(bmb.begin() != bmb.end());
 
-	std::size_t s = 0;
+	span_size_t s = 0;
 
 	for(byte b : bmb) { ++s; (void)b; }
 
@@ -168,7 +168,7 @@ void eagine_test_memory_block_5(void)
 	BOOST_CHECK(!bmb.empty());
 	BOOST_ASSERT(bmb.size() == sizeof(x));
 
-	for(std::size_t i=0; i<bmb.size(); ++i)
+	for(span_size_t i=0; i<bmb.size(); ++i)
 	{
 		BOOST_CHECK_EQUAL(bmb.data()[i], x[i]);
 	}
@@ -233,9 +233,9 @@ void eagine_test_memory_block_7(void)
 
 	std::vector<unsigned char> x(100 + std::rand() % 1000);
 
-	memory_block b(x.data(), x.size());
+	memory_block b(x.data(), span_size(x.size()));
 
-	span<T> s = as_span_of<T>(b);
+	span<T> s = make_span_of<T>(b);
 
 	BOOST_CHECK_EQUAL(s.size(), x.size()/sizeof(T));
 }
