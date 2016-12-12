@@ -7,20 +7,22 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE EAGINE_vect_compare
 #include <boost/test/unit_test.hpp>
+#include "../random.hpp"
 
 #include <eagine/vect/fill.hpp>
 #include <eagine/vect/compare.hpp>
-#include <cstdlib>
 
 BOOST_AUTO_TEST_SUITE(vect_compare_tests)
+
+static eagine::test_random_generator rg;
 
 template <typename T, int N, bool V>
 void test_vect_is_zero_apply_TNV(void)
 {
 	for(int k=0; k<1000; ++k)
 	{
-		bool gen_zero = std::rand()%10==0;
-		T a = gen_zero?0:std::rand() / T(3);
+		bool gen_zero = rg.get_int(0, 9) == 0;
+		T a = gen_zero?0:rg.get<T>(1,1000);
 
 		typename eagine::vect::data<T, N, V>::type v =
 			eagine::vect::fill<T, N, V>::apply(a);

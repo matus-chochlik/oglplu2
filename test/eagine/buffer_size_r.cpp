@@ -7,16 +7,18 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE EAGINE_buffer_size
 #include <boost/test/unit_test.hpp>
+#include "../random.hpp"
 
 #include <eagine/buffer_size.hpp>
 #include <eagine/span.hpp>
-#include <cstdlib>
 
 BOOST_AUTO_TEST_SUITE(buffer_size_tests)
 
+static eagine::test_random_generator rg;
+
 static inline
 auto get_n(void) {
-	return eagine::span_size_t(std::rand() % 1000000);
+	return rg.get<eagine::span_size_t>(0, 1000000);
 }
 
 template <typename T>

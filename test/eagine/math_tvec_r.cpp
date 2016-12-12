@@ -10,7 +10,6 @@
 #include "../random.hpp"
 
 #include <eagine/math/tvec.hpp>
-#include <cstdlib>
 
 BOOST_AUTO_TEST_SUITE(math_tvec_tests)
 

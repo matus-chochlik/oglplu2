@@ -7,6 +7,7 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE EAGINE_units_si
 #include <boost/test/unit_test.hpp>
+#include "../random.hpp"
 
 #include <eagine/tagged_quantity.hpp>
 #include <eagine/units/unit/si/information.hpp>
@@ -20,13 +21,13 @@
 #include <eagine/units/unit/si/amount_of_substance.hpp>
 #include <eagine/units/unit/si/frequency.hpp>
 
-#include <cstdlib>
-
 BOOST_AUTO_TEST_SUITE(units_si_tests)
+
+static eagine::test_random_generator rg;
 
 BOOST_AUTO_TEST_CASE(units_si_information_1)
 {
-	using namespace eagine;
+	using eagine::tagged_quantity;
 	using namespace eagine::units;
 
 	typedef tagged_quantity<float, bit> q_b;
@@ -188,7 +189,7 @@ void test_units_unit_si_2(double r)
 
 	for(int i=0; i<100; ++i)
 	{
-		double x = (10 - std::rand() % 20) / 3.0;
+		double x = rg.get<double>(-10, 10);
 
 		typedef tagged_quantity<double, U1> q_U1;
 		typedef tagged_quantity<double, U2> q_U2;

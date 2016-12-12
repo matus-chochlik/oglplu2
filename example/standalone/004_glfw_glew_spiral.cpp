@@ -131,24 +131,24 @@ void run_loop(int width, int height)
 		{
 			a = (s+0)*spart;
 
-			gl.vertex_attrib(coord, as_span({z, a}), false);
+			gl.vertex_attrib(coord, make_span({z, a}), false);
 			gl.vertex_attrib(color1, 0.2f, 0.1f, 0.1f, false);
 			gl.vertex_attrib(color2, 0.3f, 0.1f, 0.2f, false);
 			gl.vertex_f(0, 0);
 
-			gl.vertex_attrib(coord, as_span({o, a}), false);
+			gl.vertex_attrib(coord, make_span({o, a}), false);
 			gl.vertex_attrib(color1, 0.0f, 0.0f, 0.0f, false);
 			gl.vertex_attrib(color2, 0.9f, 0.3f, 0.4f, false);
 			gl.vertex_f(cos((s+0)*sstep), sin((s+0)*sstep));
 
 			a = (s+1)*spart;
 
-			gl.vertex_attrib(coord, as_span({z, a}), false);
+			gl.vertex_attrib(coord, make_span({z, a}), false);
 			gl.vertex_attrib(color1, 0.2f, 0.1f, 0.1f, false);
 			gl.vertex_attrib(color2, 0.3f, 0.1f, 0.2f, false);
 			gl.vertex_f(0, 0);
 
-			gl.vertex_attrib(coord, as_span({o, a}), false);
+			gl.vertex_attrib(coord, make_span({o, a}), false);
 			gl.vertex_attrib(color1, 0.0f, 0.0f, 0.0f, false);
 			gl.vertex_attrib(color2, 0.9f, 0.3f, 0.4f, false);
 			gl.vertex_f(cos((s+1)*sstep), sin((s+1)*sstep));
@@ -163,7 +163,7 @@ void run_loop(int width, int height)
 		gl.begin(GL.line_loop);
 		for(int s=0; s<nseg; ++s)
 		{
-			gl.vertex_attrib(coord, as_span({o, s*spart}), false);
+			gl.vertex_attrib(coord, make_span({o, s*spart}), false);
 			gl.vertex_f(cos(s*sstep), sin(s*sstep));
 		}
 		gl.end();

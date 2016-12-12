@@ -9,7 +9,6 @@
 #include <boost/test/unit_test.hpp>
 
 #include <eagine/math/scalar.hpp>
-#include <cstdlib>
 
 BOOST_AUTO_TEST_SUITE(math_scalar_tests)
 

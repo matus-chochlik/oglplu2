@@ -7,13 +7,15 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE EAGINE_make_span
 #include <boost/test/unit_test.hpp>
+#include "../random.hpp"
 
 #include <eagine/span.hpp>
-#include <cstdlib>
 #include <vector>
 #include <array>
 
 BOOST_AUTO_TEST_SUITE(make_span_tests)
+
+static eagine::test_random_generator rg;
 
 BOOST_AUTO_TEST_CASE(make_span_ptr_size)
 {
@@ -67,9 +69,9 @@ BOOST_AUTO_TEST_CASE(make_span_std_vector)
 
 	std::vector<int> v;
 
-	for(int i=0, n=10+std::rand()%100; i<n; ++i)
+	for(int i=0, n=rg.get_int(10, 100); i<n; ++i)
 	{	
-		v.push_back(std::rand());
+		v.push_back(rg.get_any<int>());
 	}
 
 	span<int> vi = make_span(v);
@@ -99,7 +101,7 @@ BOOST_AUTO_TEST_CASE(make_span_std_array)
 
 	for(std::size_t l=0; l<a.size(); ++l)
 	{	
-		a[l] = std::rand();
+		a[l] = rg.get_any<int>();
 	}
 
 	span<int> vi = make_span(a);

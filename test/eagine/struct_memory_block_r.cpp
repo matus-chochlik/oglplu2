@@ -7,14 +7,16 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE EAGINE_struct_memory_block
 #include <boost/test/unit_test.hpp>
+#include "../random.hpp"
 
 #include <eagine/struct_memory_block.hpp>
-#include <cstdlib>
 #include <vector>
 #include <tuple>
 #include <utility>
 
 BOOST_AUTO_TEST_SUITE(struct_memory_block_tests)
+
+static eagine::test_random_generator rg;
 
 template <typename T>
 void eagine_test_struct_memory_block_1(void)
@@ -27,7 +29,7 @@ void eagine_test_struct_memory_block_1(void)
 	{
 		memory_block blk(
 			buf.data(),
-			span_size_t(std::rand()) % span_size(buf.size())
+			rg.get<span_size_t>(0, span_size(buf.size())-1)
 		);
 
 		BOOST_CHECK_EQUAL(

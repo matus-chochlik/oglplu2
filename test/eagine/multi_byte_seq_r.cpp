@@ -7,12 +7,14 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE EAGINE_multi_byte_seq
 #include <boost/test/unit_test.hpp>
+#include "../random.hpp"
 
 #include <eagine/multi_byte_seq.hpp>
 #include <vector>
-#include <cstdlib>
 
 BOOST_AUTO_TEST_SUITE(multi_byte_seq_tests)
+
+static eagine::test_random_generator rg;
 
 BOOST_AUTO_TEST_CASE(multi_byte_seq_1)
 {
@@ -41,7 +43,9 @@ BOOST_AUTO_TEST_CASE(multi_byte_seq_1)
 
 			BOOST_CHECK_EQUAL(cp, cp2);
 
-			cp += 1+mbs::code_point_t(std::rand())%(l*l*l*l);
+			cp += rg.get<mbs::code_point_t>(
+				1, mbs::code_point_t(l*l*l*l)
+			);
 		}
 	}
 }
@@ -55,12 +59,12 @@ BOOST_AUTO_TEST_CASE(multi_byte_seq_2)
 
 	for(int i=0; i<10000; ++i) {
 
-		std::size_t len = std::size_t(1+std::rand()%100);
+		std::size_t len = rg.get<std::size_t>(1, 100);
 		cps.resize(len);
 
 		for(mbs::code_point& cp : cps)
 		{
-			do { cp = mbs::code_point_t(std::rand()); }
+			do { cp = rg.get_any<mbs::code_point_t>(); }
 			while(!cp.is_valid());
 		}
 

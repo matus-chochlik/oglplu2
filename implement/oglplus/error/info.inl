@@ -7,6 +7,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <oglplus/enum/types.hpp>
+#include <oglplus/utils/span.hpp>
 #include <string>
 #include <vector>
 
@@ -453,7 +454,7 @@ noexcept
 		_GetObjectiv(get_raw_name(obj), GL_INFO_LOG_LENGTH, &len);
 		if(len > 0)
 		{
-			std::vector<GLchar> tmp(std::size_t(len+1), '\0');
+			std::vector<GLchar> tmp(std_size(len+1), '\0');
 			_GetObjectInfoLog(
 				get_raw_name(obj),
 				len,

@@ -7,11 +7,13 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE EAGINE_identity
 #include <boost/test/unit_test.hpp>
+#include "../random.hpp"
 
 #include <eagine/identity.hpp>
-#include <cstdlib>
 
 BOOST_AUTO_TEST_SUITE(identity_tests)
+
+static eagine::test_random_generator rg;
 
 BOOST_AUTO_TEST_CASE(identity_1)
 {
@@ -20,7 +22,7 @@ BOOST_AUTO_TEST_CASE(identity_1)
 	for(int k=0; k<1000; ++k)
 	{
 		identity<int> i;
-		int r = std::rand();
+		int r = rg.get_any<int>();
 
 		BOOST_CHECK_EQUAL(i(r), r);
 	}

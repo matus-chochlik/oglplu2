@@ -11,7 +11,6 @@
 #include "../random.hpp"
 
 #include <eagine/vect/abs.hpp>
-#include <cstdlib>
 #include <cmath>
 
 BOOST_AUTO_TEST_SUITE(vect_abs_tests)

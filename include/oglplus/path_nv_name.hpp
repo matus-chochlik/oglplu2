@@ -33,7 +33,7 @@ class object_names<oglplus::tag::path_nv, std::array<GLuint, N>>
 public:
 	object_names(void)
 	noexcept
-	 : object_name_fake_array<oglplus::tag::path_nv>(N)
+	 : object_name_fake_array<oglplus::tag::path_nv>(span_size(N))
 	{ }
 };
 
@@ -42,7 +42,7 @@ class object_names<oglplus::tag::path_nv, std::vector<GLuint>>
  : public object_name_fake_array<oglplus::tag::path_nv>
 {
 public:
-	object_names(std::size_t n)
+	object_names(span_size_t n)
 	noexcept
 	 : object_name_fake_array<oglplus::tag::path_nv>(n)
 	{ }

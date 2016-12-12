@@ -35,8 +35,16 @@ public:
 	}
 
 	template <typename T>
-	typename std::enable_if<std::is_integral<T>::value, T>::type
-	get(T min, T max) {
+	typename std::enable_if<std::is_same<T, bool>::value, T>::type
+	get(T, T) {
+		return get_integer<int>(0, 1) == 1;
+	}
+
+	template <typename T>
+	typename std::enable_if<
+		std::is_integral<T>::value && !std::is_same<T, bool>::value,
+		T
+	>::type get(T min, T max) {
 		return get_integer<T>(min, max);
 	}
 

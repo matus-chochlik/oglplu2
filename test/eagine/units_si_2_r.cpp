@@ -7,6 +7,7 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE EAGINE_units_si_2
 #include <boost/test/unit_test.hpp>
+#include "../random.hpp"
 
 #include <eagine/units/dim/area.hpp>
 #include <eagine/units/dim/volume.hpp>
@@ -40,14 +41,14 @@
 
 #include <eagine/tagged_quantity.hpp>
 
-#include <cstdlib>
-
 BOOST_AUTO_TEST_SUITE(units_si_tests_2)
+
+static eagine::test_random_generator rg;
 
 template <typename T>
 T get(void)
 {
-	return (1 + std::rand() % 10000) / T(100);
+	return rg.get<T>(1, 100);
 }
 
 template <typename T>

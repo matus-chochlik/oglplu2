@@ -7,6 +7,7 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE EAGINE_math_matrix_ctrs
 #include <boost/test/unit_test.hpp>
+#include "../random.hpp"
 
 #include <eagine/math/matrix_identity.hpp>
 #include <eagine/math/matrix_translation.hpp>
@@ -19,9 +20,10 @@
 
 #include <eagine/math/matrix_ortho.hpp>
 #include <eagine/math/matrix_perspective.hpp>
-#include <cstdlib>
 
 BOOST_AUTO_TEST_SUITE(math_matrix_ctr_tests)
+
+static eagine::test_random_generator rg;
 
 template <typename MC>
 void test_math_matrix_ctr_MC(MC mc)
@@ -69,7 +71,7 @@ void test_math_matrix_ctrs_TRMV(void)
 	using namespace eagine::math;
 	using eagine::radians_;
 
-	auto r = [](void) { return T(1+std::rand() % 10000)/3; };
+	auto r = [](void) { return rg.get<T>(1, 10000); };
 
 	test_math_matrix_ctr_MC(identity<matrix<T,4,4,RM,V>>());
 	test_math_matrix_ctr_MC(translation<matrix<T,4,4,RM,V>>(r(),r(),r()));

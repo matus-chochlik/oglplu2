@@ -7,12 +7,14 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE EAGINE_memory_block
 #include <boost/test/unit_test.hpp>
+#include "../random.hpp"
 
 #include <eagine/memory_block.hpp>
-#include <cstdlib>
 #include <vector>
 
 BOOST_AUTO_TEST_SUITE(memory_block_tests)
+
+static eagine::test_random_generator rg;
 
 template <bool is_const>
 void eagine_test_memory_block_0(void)
@@ -158,7 +160,7 @@ void eagine_test_memory_block_5(void)
 
 	for(byte& b : x)
 	{
-		b = byte(std::rand() % 0xFF);
+		b = rg.get<byte>(0x00, 0xFF);
 	}
 
 	basic_memory_block<is_const> bmb = memory::block_of(x);
@@ -231,7 +233,7 @@ void eagine_test_memory_block_7(void)
 {
 	using namespace eagine;
 
-	std::vector<unsigned char> x(100 + std::rand() % 1000);
+	std::vector<unsigned char> x(rg.get<std::size_t>(100, 1000));
 
 	memory_block b(x.data(), span_size(x.size()));
 
@@ -258,7 +260,7 @@ void eagine_test_memory_block_8(void)
 {
 	using namespace eagine;
 
-	std::vector<T> x(100 + std::rand() % 1000);
+	std::vector<T> x(rg.get<std::size_t>(100, 1000));
 
 	memory_block b = eagine::memory::data_block_of(x);
 

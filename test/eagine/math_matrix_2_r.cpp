@@ -10,7 +10,6 @@
 
 #include <eagine/math/matrix.hpp>
 #include <eagine/int_sequence.hpp>
-#include <cstdlib>
 
 BOOST_AUTO_TEST_SUITE(math_matrix_tests_2)
 

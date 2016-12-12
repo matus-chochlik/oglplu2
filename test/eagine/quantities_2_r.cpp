@@ -7,12 +7,14 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE EAGINE_quantities_2
 #include <boost/test/unit_test.hpp>
+#include "../random.hpp"
 
 #include <eagine/quantities.hpp>
 #include <eagine/units/unit/si/angle.hpp>
-#include <cstdlib>
 
 BOOST_AUTO_TEST_SUITE(quantities_tests_2)
+
+static eagine::test_random_generator rg;
 
 template <typename T>
 void eagine_test_angles_1(void)
@@ -47,7 +49,7 @@ void eagine_test_angles_2(void)
 
 	for(int i=0; i<100; ++i)
 	{
-		T x = (std::rand() % 10000) / T(100);
+		T x = rg.get<T>(-1000, 1000);
 
 		BOOST_CHECK_CLOSE(sin(radians_(x)), std::sin(x), 0.0001);
 		BOOST_CHECK_CLOSE(cos(radians_(x)), std::cos(x), 0.0001);

@@ -10,7 +10,6 @@
 
 #include <eagine/units/unit.hpp>
 #include <eagine/units/dimension.hpp>
-#include <cstdlib>
 
 namespace eagine {
 namespace units {

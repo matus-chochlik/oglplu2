@@ -9,7 +9,6 @@
 #include <boost/test/unit_test.hpp>
 
 #include <eagine/memory/null_alloc.hpp>
-#include <cstdlib>
 
 BOOST_AUTO_TEST_SUITE(memory_null_alloc_tests)
 

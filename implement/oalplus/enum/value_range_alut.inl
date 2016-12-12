@@ -13,7 +13,7 @@
 namespace oalplus {
 
 OALPLUS_LIB_FUNC
-std::pair<const void*, std::size_t>
+std::pair<const void*, span_size_t>
 get_enum_value_range(const any_enum_class_alut& aec)
 noexcept
 {

@@ -9,7 +9,6 @@
 #include <boost/test/unit_test.hpp>
 
 #include <eagine/buffer_data.hpp>
-#include <cstdlib>
 
 BOOST_AUTO_TEST_SUITE(buffer_data_tests)
 

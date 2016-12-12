@@ -9,7 +9,6 @@
 #include <boost/test/unit_test.hpp>
 
 #include <eagine/memory/std_alloc.hpp>
-#include <cstdlib>
 #include <vector>
 
 BOOST_AUTO_TEST_SUITE(memory_std_alloc_tests)

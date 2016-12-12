@@ -9,7 +9,6 @@
 #include <boost/test/unit_test.hpp>
 
 #include <eagine/units/base_dim.hpp>
-#include <cstdlib>
 #include <algorithm>
 
 BOOST_AUTO_TEST_SUITE(units_base_dim_tests)

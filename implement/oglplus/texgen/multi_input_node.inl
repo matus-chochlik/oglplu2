@@ -37,7 +37,7 @@ OGLPLUS_LIB_FUNC
 span_size_t
 multi_input_node::input_count(void)
 {
-	return 1+single_output()._inputs.size();
+	return 1+span_size(single_output()._inputs.size());
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC

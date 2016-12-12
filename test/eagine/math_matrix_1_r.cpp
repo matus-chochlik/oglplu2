@@ -7,11 +7,13 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE EAGINE_math_matrix_1
 #include <boost/test/unit_test.hpp>
+#include "../random.hpp"
 
 #include <eagine/math/matrix.hpp>
-#include <cstdlib>
 
 BOOST_AUTO_TEST_SUITE(math_matrix_tests_1)
+
+static eagine::test_random_generator rg;
 
 template <typename T, int C, int R, bool RM, bool V, class Tester>
 void test_math_matrix_TCRRMV(const Tester& t)
@@ -105,7 +107,7 @@ struct matrix_from1_tester
 
 			for(int i=0; i<(C*R); ++i)
 			{
-				d[i] = T(std::rand()%10000)/2;
+				d[i] = rg.get<T>(-5000,5000);
 			}
 
 			auto m = eagine::math::matrix<T, C, R, RM, V>::from(d, C*R);
@@ -186,7 +188,7 @@ struct matrix_from2_tester
 
 			for(int i=0; i<(C*R); ++i)
 			{
-				d[i] = T(std::rand()%10000)/2;
+				d[i] = rg.get<T>(-5000,5000);
 			}
 
 			auto m = eagine::math::matrix<T, C, R, RM, V>::from(d, C*R);
@@ -215,7 +217,7 @@ struct matrix_get_set_tester
 
 			for(int i=0; i<(C*R); ++i)
 			{
-				d[i] = T(std::rand()%10000)/2;
+				d[i] = rg.get<T>(-5000,5000);
 			}
 
 			auto m = eagine::math::matrix<T, C, R, RM, V>::from(d, C*R);
@@ -267,7 +269,7 @@ struct matrix_transpose_tester
 
 			for(int i=0; i<(M*N); ++i)
 			{
-				d[i] = T(std::rand()%10000)/2;
+				d[i] = rg.get<T>(-5000,5000);
 			}
 
 			auto m = eagine::math::matrix<T, M, N, RM, V>::from(d, M*N);
@@ -303,7 +305,7 @@ struct matrix_reorder_tester
 
 			for(int i=0; i<(M*N); ++i)
 			{
-				d[i] = T(std::rand()%10000)/2;
+				d[i] = rg.get<T>(-5000,5000);
 			}
 
 			auto m = eagine::math::matrix<T, M, N, RM, V>::from(d, M*N);

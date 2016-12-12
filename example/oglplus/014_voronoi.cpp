@@ -28,7 +28,7 @@ class voronoi_program
 private:
 	void _init(const program_source_file& prog_src)
 	{
-		for(std::size_t i=0, n=prog_src.shader_source_count(); i<n; ++i)
+		for(span_size_t i=0, n=prog_src.shader_source_count(); i<n; ++i)
 		{
 			shader shdr(prog_src.shader_type(i));
 			shdr.source(prog_src.shader_source(i));

@@ -15,6 +15,7 @@
 namespace oalplus {
 
 using eagine::span;
+using eagine::span_size_t;
 
 } // namespace oalplus
 

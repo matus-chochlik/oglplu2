@@ -152,13 +152,15 @@ public:
 	operator [](span_size_t index) const
 	noexcept
 	{
-		return object_name<ObjTag>(_names[index]);
+		const auto i = range_index<Container>(index); 
+		return object_name<ObjTag>(_names[i]);
 	}
 
 	object_name<ObjTag> at(span_size_t index) const
 	noexcept
 	{
-		return object_name<ObjTag>(_names.at(index));
+		const auto i = range_index<Container>(index); 
+		return object_name<ObjTag>(_names.at(i));
 	}
 
 	typedef object_name_const_iterator<

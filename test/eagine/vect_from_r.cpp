@@ -7,11 +7,13 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE EAGINE_vect_from
 #include <boost/test/unit_test.hpp>
+#include "../random.hpp"
 
 #include <eagine/vect/from.hpp>
-#include <cstdlib>
 
 BOOST_AUTO_TEST_SUITE(vect_from_tests)
+
+static eagine::test_random_generator rg;
 
 template <typename T, int N, bool V>
 void test_vect_from_array_TNV(void)
@@ -19,7 +21,7 @@ void test_vect_from_array_TNV(void)
 	T a[N];
 	for(int i=0; i<N; ++i)
 	{
-		a[i] = std::rand() / T(3);
+		a[i] = rg.get_any<T>();
 	}
 
 	typename eagine::vect::data<T, N, V>::type v =
@@ -69,9 +71,9 @@ void test_vect_from_saafv_TNMV(void)
 	T a[M];
 	for(int i=0; i<M; ++i)
 	{
-		a[i] = std::rand() / T(3);
+		a[i] = rg.get_any<T>();
 	}
-	T f = std::rand() / T(3);
+	T f = rg.get_any<T>();
 
 	typename eagine::vect::data<T, N, V>::type v =
 		eagine::vect::from_saafv<T, N, V>::apply(a, M, f);

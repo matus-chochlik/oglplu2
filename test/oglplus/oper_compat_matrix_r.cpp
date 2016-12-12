@@ -7,6 +7,7 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE OGLPLUS_oper_compat_matrix
 #include <boost/test/unit_test.hpp>
+#include "../random.hpp"
 
 #include <oglplus/gl_fixed.hpp>
 #include "helper/mock_gl_func.hpp"
@@ -91,7 +92,6 @@ OGLPLUS_MOCK_GLFUNC(MatrixFrustumEXT, void(GLenum, GLdouble, GLdouble, GLdouble,
 #include <oglplus/oper/compat_matrix.hpp>
 #include <oglplus/enum/values.hpp>
 #include <cstring>
-#include <cstdlib>
 
 BOOST_AUTO_TEST_SUITE(compat_matrix_tests)
 
@@ -99,10 +99,12 @@ BOOST_AUTO_TEST_SUITE(compat_matrix_tests)
 	defined(GL_PROJECTION) &&\
 	defined(GL_ARB_compatibility)
 
+static eagine::test_random_generator rg;
+
 template <typename T>
 static T get(void)
 {
-	return T(std::rand());
+	return rg.get_any<T>();
 }
 
 BOOST_AUTO_TEST_CASE(compat_matrix_mode)

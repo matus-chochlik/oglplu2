@@ -10,7 +10,6 @@
 #include "../random.hpp"
 
 #include <eagine/any_iterator.hpp>
-#include <cstdlib>
 #include <algorithm>
 #include <vector>
 #include <set>
@@ -56,7 +55,7 @@ void test_any_iterator_2_T(void)
 {
 	using namespace eagine;
 
-	std::vector<T> vec(10+std::rand()%90);
+	std::vector<T> vec(rg.get<std::size_t>(10, 100));
 
 	any_std_forward_iterator<T> b = vec.begin();
 	any_std_forward_iterator<T> e = vec.end();
@@ -92,7 +91,7 @@ void test_any_iterator_3_T(void)
 {
 	using namespace eagine;
 
-	std::vector<T> vec(10+std::rand()%90);
+	std::vector<T> vec(rg.get<std::size_t>(10, 100));
 
 	any_std_forward_range<T> rng = vec;
 

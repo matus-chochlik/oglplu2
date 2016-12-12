@@ -27,7 +27,7 @@ void write_and_pad_texture_image_data_header(
 )
 {
 	using eagine::memory::is_aligned_as;
-	while(!is_aligned_as<image_data_header>(std_align(spos))) {
+	while(!is_aligned_as<image_data_header>(spos)) {
 		output.put('\0');
 		++spos;
 	}

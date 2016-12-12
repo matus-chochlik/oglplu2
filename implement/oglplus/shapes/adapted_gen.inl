@@ -40,7 +40,7 @@ instructions(const span<draw_operation>& ops) const
 	_gen->instructions(tmp);
 
 	for(decltype(tmp.size()) i=0; i<tmp.size(); ++i) {
-		ops[i] = draw_operation(tmp[i]);
+		ops[span_size(i)] = draw_operation(tmp[i]);
 	}
 }
 //------------------------------------------------------------------------------

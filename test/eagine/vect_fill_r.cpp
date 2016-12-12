@@ -7,18 +7,20 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE EAGINE_vect_fill
 #include <boost/test/unit_test.hpp>
+#include "../random.hpp"
 
 #include <eagine/vect/fill.hpp>
-#include <cstdlib>
 
 BOOST_AUTO_TEST_SUITE(vect_fill_tests)
+
+static eagine::test_random_generator rg;
 
 template <typename T, int N, bool V>
 void test_vect_fill_apply_TNV(void)
 {
 	for(int k=0; k<1000; ++k)
 	{
-		T a = std::rand() / T(3);
+		T a = rg.get_any<T>();
 
 		typename eagine::vect::data<T, N, V>::type v =
 			eagine::vect::fill<T, N, V>::apply(a);

@@ -7,9 +7,9 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE EAGINE_iterator
 #include <boost/test/unit_test.hpp>
+#include "../random.hpp"
 
 #include <eagine/iterator.hpp>
-#include <cstdlib>
 #include <string>
 
 using int_iterator = eagine::selfref_iterator<int>;
@@ -23,10 +23,12 @@ using strint_iterator = eagine::transforming_iterator<
 
 BOOST_AUTO_TEST_SUITE(iterator_tests)
 
+static eagine::test_random_generator rg;
+
 BOOST_AUTO_TEST_CASE(iterator_1)
 {
-	const int bi = std::rand()%10;
-	const int ei = bi + 1 + std::rand()%10;
+	const int bi = rg.get_int(0, 9);
+	const int ei = bi + 1 + rg.get_int(0, 9);
 	int ii = bi;
 
 	const int_iterator b{bi};
@@ -88,8 +90,8 @@ BOOST_AUTO_TEST_CASE(iterator_1)
 
 BOOST_AUTO_TEST_CASE(iterator_2)
 {
-	const int bi = std::rand()%1000;
-	const int ei = bi + 1 + std::rand()%1000;
+	const int bi = rg.get_int(0, 1000);
+	const int ei = bi + 1 + rg.get_int(0, 1000);
 	int ii = bi;
 
 	const strint_iterator b(bi, &std::to_string);

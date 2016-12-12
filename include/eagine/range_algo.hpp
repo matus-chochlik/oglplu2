@@ -20,25 +20,13 @@ namespace eagine {
 namespace ranges {
 
 template <typename R>
-struct range_index_type
-{
-	using type = typename R::size_type;
-};
-
-template <typename T, span_size_t I>
-struct range_index_type<gsl::span<T, I>>
-{
-	using type = span_size_t;
-};
+using range_index_t = typename range_index_type<R>::type;
 
 template <typename R>
-using index_type = typename range_index_type<R>::type;
+using any_range_position = valid_if_nonnegative<range_index_t<R>>;
 
 template <typename R>
-using any_range_position = valid_if_nonnegative<index_type<R>>;
-
-template <typename R>
-using valid_range_position = valid_if_le_size_ge0<R, index_type<R>>;
+using valid_range_position = valid_if_le_size_ge0<R, range_index_t<R>>;
 
 // equal
 template <typename Range1, typename Range2>
@@ -122,7 +110,7 @@ bool ends_with(const Range1& rng, const Range2& with) {
 
 template <typename Range1, typename Range2>
 static inline
-optionally_valid<index_type<Range1>>
+optionally_valid<range_index_t<Range1>>
 find_pos(const Range1& where, const Range2& what) {
 	const auto lt = what.size();
 	if(lt > 0) {
@@ -130,8 +118,8 @@ find_pos(const Range1& where, const Range2& what) {
 		if(ls > 0) {
 
 			if(ls >= lt) {
-				index_type<Range1> p = 0;
-				const index_type<Range1> n = ls-lt+1;
+				range_index_t<Range1> p = 0;
+				const range_index_t<Range1> n = ls-lt+1;
 
 				while(p != n) {
 					if(equal(slice(where, p, lt), what)) {
@@ -148,7 +136,7 @@ find_pos(const Range1& where, const Range2& what) {
 
 template <typename Range1, typename Range2>
 static inline
-optionally_valid<index_type<Range1>>
+optionally_valid<range_index_t<Range1>>
 rfind_pos(const Range1& where, const Range2& what) {
 	const auto lt = what.size();
 	if(lt > 0) {
@@ -156,7 +144,7 @@ rfind_pos(const Range1& where, const Range2& what) {
 		if(ls > 0) {
 
 			if(ls >= lt) {
-				index_type<Range1> p = ls-lt;
+				range_index_t<Range1> p = ls-lt;
 
 				while(p >= 0) {
 					if(equal(slice(where, p, lt), what)) {
@@ -189,7 +177,7 @@ Range1 find(const Range1& where, const Range2& what) {
 template <typename Range1, typename Range2>
 static inline
 Range1 strip_prefix(const Range1& rng, const Range2& prefix) {
-	index_type<Range1> ofs = 0;
+	range_index_t<Range1> ofs = 0;
 	if(starts_with(rng, prefix)) {
 		ofs = prefix.size();
 	}
@@ -199,7 +187,7 @@ Range1 strip_prefix(const Range1& rng, const Range2& prefix) {
 template <typename Range1, typename Range2>
 static inline
 Range1 strip_suffix(const Range1& rng, const Range2& suffix) {
-	index_type<Range1> ofs = rng.size();
+	range_index_t<Range1> ofs = rng.size();
 	if(ends_with(rng, suffix)) {
 		ofs = ofs-suffix.size();
 	}

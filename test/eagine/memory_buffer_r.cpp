@@ -7,11 +7,13 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE EAGINE_memory_buffer
 #include <boost/test/unit_test.hpp>
+#include "../random.hpp"
 
 #include <eagine/memory/buffer.hpp>
-#include <cstdlib>
 
 BOOST_AUTO_TEST_SUITE(memory_buffer_tests)
+
+static eagine::test_random_generator rg;
 
 BOOST_AUTO_TEST_CASE(memory_block_0)
 {
@@ -67,7 +69,7 @@ BOOST_AUTO_TEST_CASE(memory_block_1)
 			BOOST_CHECK(blk.begin() == blk.end());
 		}
 
-		r = std::rand() % 1000;
+		r = rg.get_int(0, 1000);
 	}
 }
 

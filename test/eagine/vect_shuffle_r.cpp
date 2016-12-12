@@ -7,12 +7,14 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE EAGINE_vect_shuffle
 #include <boost/test/unit_test.hpp>
+#include "../random.hpp"
 
 #include <eagine/vect/shuffle.hpp>
-#include <cstdlib>
 #include <array>
 
 BOOST_AUTO_TEST_SUITE(vect_shuffle_tests)
+
+static eagine::test_random_generator rg;
 
 template <typename T, int N, bool V, int ... I>
 void test_vect_shuffle_TNVI(void)
@@ -28,7 +30,7 @@ void test_vect_shuffle_TNVI(void)
 
 		for(int i=0; i<N; ++i)
 		{
-			a[i] = std::rand() / T(11);
+			a[i] = rg.get_any<T>();
 			v[i] = a[i];
 		}
 
@@ -240,7 +242,7 @@ void test_vect_shuffle2_TNVI(void)
 
 		for(int i=0; i<N*2; ++i)
 		{
-			a[i] = std::rand() / T(2);
+			a[i] = rg.get_any<T>();
 		}
 		for(int i=0; i<N; ++i)
 		{

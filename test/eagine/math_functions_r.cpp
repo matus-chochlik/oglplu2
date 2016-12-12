@@ -7,16 +7,18 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE EAGINE_math_functions
 #include <boost/test/unit_test.hpp>
+#include "../random.hpp"
 
 #include <eagine/math/functions.hpp>
-#include <cstdlib>
 
 BOOST_AUTO_TEST_SUITE(math_function_tests)
+
+static eagine::test_random_generator rg;
 
 template <typename T>
 T rndval(void)
 {
-	return T(std::rand() % 1000 - std::rand() % 1000) / T(3);
+	return rg.get<T>(-1000, 1000);
 }
 
 template <typename T, typename ... P>
@@ -119,8 +121,8 @@ void test_math_functions_bezier_1(int l)
 
 	for(int i=0; i<l; ++i)
 	{
-		T t = T(std::rand()%1000)/1000;
-		T x = T(std::rand()%1000000)/1000;
+		T t = rg.get<T>(0, 1);
+		T x = rg.get<T>(-1000, 1000);
 
 		BOOST_CHECK_EQUAL(bezier(t, x), x);
 	}
@@ -133,9 +135,9 @@ void test_math_functions_bezier_2(int l)
 
 	for(int i=0; i<l; ++i)
 	{
-		T t = T(std::rand()%1000)/1000;
-		T x = T(std::rand()%1000000)/1000;
-		T y = T(std::rand()%1000000)/1000;
+		T t = rg.get<T>(0, 1);
+		T x = rg.get<T>(-1000, 1000);
+		T y = rg.get<T>(-1000, 1000);
 
 		BOOST_CHECK_EQUAL(
 			bezier(t, x, y),
@@ -151,15 +153,15 @@ void test_math_functions_bezier_3(int l)
 
 	for(int i=0; i<l; ++i)
 	{
-		T t = T(std::rand()%1000)/1000;
-		T x = T(std::rand()%1000000)/1000;
-		T y = T(std::rand()%1000000)/1000;
-		T z = T(std::rand()%1000000)/1000;
+		T t = rg.get<T>(0, 1);
+		T x = rg.get<T>(-1000, 1000);
+		T y = rg.get<T>(-1000, 1000);
+		T z = rg.get<T>(-1000, 1000);
 
 		BOOST_CHECK_CLOSE(
 			bezier(t, x, y, z),
 			(1-t)*(1-t)*x + 2*(1-t)*t*y + t*t*z,
-			0.0001
+			0.002
 		);
 	}
 }
@@ -171,11 +173,11 @@ void test_math_functions_bezier_4(int l)
 
 	for(int i=0; i<l; ++i)
 	{
-		T t = T(std::rand()%1000)/1000;
-		T v0 = T(std::rand()%1000000)/1000;
-		T v1 = T(std::rand()%1000000)/1000;
-		T v2 = T(std::rand()%1000000)/1000;
-		T v3 = T(std::rand()%1000000)/1000;
+		T t = rg.get<T>(0, 1);
+		T v0 = rg.get<T>(-1000, 1000);
+		T v1 = rg.get<T>(-1000, 1000);
+		T v2 = rg.get<T>(-1000, 1000);
+		T v3 = rg.get<T>(-1000, 1000);
 
 		BOOST_CHECK_CLOSE(
 			bezier(t, v0, v1, v2, v3),
@@ -183,7 +185,7 @@ void test_math_functions_bezier_4(int l)
 			3*(1-t)*(1-t)*t*v1 +
 			3*(1-t)*t*t*v2 +
 			t*t*t*v3,
-			0.0002
+			0.005
 		);
 	}
 }
@@ -195,12 +197,12 @@ void test_math_functions_bezier_5(int l)
 
 	for(int i=0; i<l; ++i)
 	{
-		T t = T(std::rand()%1000)/1000;
-		T v0 = T(std::rand()%1000000)/1000;
-		T v1 = T(std::rand()%1000000)/1000;
-		T v2 = T(std::rand()%1000000)/1000;
-		T v3 = T(std::rand()%1000000)/1000;
-		T v4 = T(std::rand()%1000000)/1000;
+		T t = rg.get<T>(0, 1);
+		T v0 = rg.get<T>(-1000, 1000);
+		T v1 = rg.get<T>(-1000, 1000);
+		T v2 = rg.get<T>(-1000, 1000);
+		T v3 = rg.get<T>(-1000, 1000);
+		T v4 = rg.get<T>(-1000, 1000);
 
 		BOOST_CHECK_CLOSE(
 			bezier(t, v0, v1, v2, v3, v4),
@@ -209,7 +211,7 @@ void test_math_functions_bezier_5(int l)
 			6*(1-t)*(1-t)*t*t*v2 +
 			4*(1-t)*t*t*t*v3 +
 			t*t*t*t*v4,
-			0.0003
+			0.01
 		);
 	}
 }

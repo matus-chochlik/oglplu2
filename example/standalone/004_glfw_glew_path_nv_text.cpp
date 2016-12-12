@@ -42,13 +42,13 @@ void run_loop(int width, int height)
 
 	std::string text = "OpenGL®";
 
-	paths_nv text_path(text.length());
+	paths_nv text_path(span_size(text.length()));
 
 	text_path.glyphs(
 		GL.standard_font_name_nv,
 		"Sans",
 		GL.bold_bit_nv,
-		as_span(text),
+		make_span(text.data(), span_size(text.size())),
 		GL.use_missing_glyph_nv,
 		~0u, 64
 	);
@@ -64,8 +64,8 @@ void run_loop(int width, int height)
 		span<GLfloat>(spacings+1, spacings+9)
 	);
 
-	span<GLuint> glyph_indices = as_span(indices, indices+7);
-	span<GLfloat> glyph_spacings = as_span(spacings, spacings+8);
+	span<GLuint> glyph_indices = make_span(indices, indices+7);
+	span<GLfloat> glyph_spacings = make_span(spacings, spacings+8);
 
 	GLfloat text_left = *glyph_spacings.begin();
 	GLfloat text_right = *glyph_spacings.rbegin();

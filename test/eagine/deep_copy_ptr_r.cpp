@@ -11,7 +11,6 @@
 
 #include <eagine/deep_copy_ptr.hpp>
 #include <vector>
-#include <cstdlib>
 
 template <typename T>
 struct test_copyable

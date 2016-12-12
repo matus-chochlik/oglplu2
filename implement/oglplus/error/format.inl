@@ -178,7 +178,7 @@ format_error_info(
 		else if(placeholder == "gl_enum_value")
 		{
 			auto ev_name = get_enum_value_name(info.gl_enum_value());
-			if(ev_name)
+			if(!ev_name.empty())
 			{
 				out << ev_name;
 			}

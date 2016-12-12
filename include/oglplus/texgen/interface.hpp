@@ -9,6 +9,7 @@
 #ifndef OGLPLUS_TEXGEN_INTERFACE_1509260923_HPP
 #define OGLPLUS_TEXGEN_INTERFACE_1509260923_HPP
 
+#include "../utils/types.hpp"
 #include "data_type.hpp"
 #include "render_params.hpp"
 #include <eagine/valid_if/between.hpp>

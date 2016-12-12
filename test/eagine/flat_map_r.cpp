@@ -7,13 +7,15 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE EAGINE_flat_map
 #include <boost/test/unit_test.hpp>
+#include "../random.hpp"
 
 #include <eagine/flat_map.hpp>
 #include <map>
-#include <cstdlib>
 #include <functional>
 
 BOOST_AUTO_TEST_SUITE(flat_map_tests)
+
+static eagine::test_random_generator rg;
 
 BOOST_AUTO_TEST_CASE(flat_map_1)
 {
@@ -29,7 +31,7 @@ BOOST_AUTO_TEST_CASE(flat_map_1)
 
 	for(int i=0; i<1000; ++i)
 	{
-		int k = std::rand();
+		int k = rg.get_any<int>();
 		std::size_t v = h(k+k);
 
 		sm.insert(p_t(k, v));
@@ -69,7 +71,7 @@ BOOST_AUTO_TEST_CASE(flat_map_2)
 
 	for(int i=0; i<1000; ++i)
 	{
-		int k = std::rand();
+		int k = rg.get_any<int>();
 		std::size_t v = h(k+k);
 
 		sm.insert(p_t(k, v));
@@ -107,7 +109,7 @@ BOOST_AUTO_TEST_CASE(flat_map_3)
 
 	for(int i=0; i<1000; ++i)
 	{
-		int k = std::rand();
+		int k = rg.get_any<int>();
 		std::size_t v = h(k+k);
 
 		sm.insert(sm.begin(), p_t(k, v));
@@ -145,7 +147,7 @@ BOOST_AUTO_TEST_CASE(flat_map_4)
 
 	for(int i=0; i<1000; ++i)
 	{
-		int k = std::rand();
+		int k = rg.get_any<int>();
 		std::size_t v = h(k+k);
 
 		sm.insert(sm.end(), p_t(k, v));
@@ -183,7 +185,7 @@ BOOST_AUTO_TEST_CASE(flat_map_5)
 
 	for(int i=0; i<1000; ++i)
 	{
-		int k = std::rand();
+		int k = rg.get_any<int>();
 		std::size_t v = h(k+k);
 
 		sm.insert(sm.lower_bound(k), p_t(k, v));
@@ -222,7 +224,7 @@ BOOST_AUTO_TEST_CASE(flat_map_6)
 
 	for(int i=0; i<1000; ++i)
 	{
-		int k = std::rand();
+		int k = rg.get_any<int>();
 		std::size_t v = h(k+k);
 		ks.push_back(k);
 

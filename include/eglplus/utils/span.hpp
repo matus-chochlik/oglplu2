@@ -15,6 +15,7 @@
 namespace eglplus {
 
 using eagine::span;
+using eagine::span_size_t;
 
 } // namespace eglplus
 

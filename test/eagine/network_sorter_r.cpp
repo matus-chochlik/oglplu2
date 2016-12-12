@@ -7,12 +7,14 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE EAGINE_network_sorter
 #include <boost/test/unit_test.hpp>
+#include "../random.hpp"
 
 #include <eagine/network_sorter.hpp>
-#include <cstdlib>
 #include <algorithm>
 
 BOOST_AUTO_TEST_SUITE(network_sorter_tests)
+
+static eagine::test_random_generator rg;
 
 template <typename T, std::size_t N, typename Cmp>
 void test_network_sorter_1_TNC(int n)
@@ -24,7 +26,7 @@ void test_network_sorter_1_TNC(int n)
 		std::array<T, N> a;
 		for(T& e : a)
 		{
-			e = T(std::rand() % 1000000)/T(100);
+			e = rg.get_any<T>();
 		}
 
 		network_sorter<T, N, Cmp> s{a};

@@ -7,13 +7,15 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE EAGINE_memory_stack_alloc
 #include <boost/test/unit_test.hpp>
+#include "../random.hpp"
 
 #include <eagine/memory/stack_alloc.hpp>
 #include <eagine/identity.hpp>
-#include <cstdlib>
 #include <deque>
 
 BOOST_AUTO_TEST_SUITE(memory_stack_alloc_tests)
+
+static eagine::test_random_generator rg;
 
 template <typename T, typename Alloc>
 void eagine_test_memory_stack_alloc_TA(std::size_t n, Alloc& a)
@@ -55,7 +57,7 @@ void eagine_test_memory_stack_alloc_TA(std::size_t n, Alloc& a)
 
 	while(!blks.empty())
 	{
-		auto i = blks.begin() + std::rand()%int(blks.size());
+		auto i = blks.begin() + rg.get_int(0, int(blks.size()-1));
 		a.deallocate(std::move(*i), ao);
 		blks.erase(i);
 	}
@@ -140,9 +142,9 @@ BOOST_AUTO_TEST_CASE(memory_stack_alloc_3)
 
 	for(int i=0; i<100; ++i)
 	{
-		std::size_t n = std::size_t(std::rand() % 10);
+		std::size_t n = rg.get<std::size_t>(0, 10);
 
-		switch(std::rand() % 10)
+		switch(rg.get<std::size_t>(0, 10))
 		{
 			case 0:
 				test_mem_stack_alloc_3_hlp<int>(blks, a, n);
@@ -176,7 +178,7 @@ BOOST_AUTO_TEST_CASE(memory_stack_alloc_3)
 
 	while(!blks.empty())
 	{
-		auto i = blks.begin() + std::rand()%int(blks.size());
+		auto i = blks.begin() + rg.get_int(0, int(blks.size()-1));
 		a.deallocate(std::move(*i), 0);
 		blks.erase(i);
 	}

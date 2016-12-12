@@ -7,14 +7,16 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE EAGINE_memory_align_alloc
 #include <boost/test/unit_test.hpp>
+#include "../random.hpp"
 
 #include <eagine/memory/align_alloc.hpp>
 #include <eagine/memory/stack_alloc.hpp>
-#include <cstdlib>
 #include <vector>
 #include <deque>
 
 BOOST_AUTO_TEST_SUITE(memory_align_alloc_tests)
+
+static eagine::test_random_generator rg;
 
 template <typename T>
 void eagine_test_memory_align_alloc_T(std::size_t n)
@@ -73,7 +75,7 @@ void eagine_test_memory_align_alloc_T(std::size_t n)
 
 	while(!blks.empty())
 	{
-		auto i = blks.begin() + std::rand()%int(blks.size());
+		auto i = blks.begin() + rg.get_int(0, int(blks.size())-1);
 		a.deallocate(std::move(*i), ao);
 		blks.erase(i);
 	}

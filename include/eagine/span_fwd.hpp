@@ -15,6 +15,9 @@ namespace gsl {
 template <typename T, std::ptrdiff_t>
 class span;
 
+template <typename T, std::ptrdiff_t>
+class basic_string_span;
+
 } // namespace gsl
 
 namespace eagine {

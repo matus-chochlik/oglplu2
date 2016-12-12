@@ -39,7 +39,6 @@ OGLPLUS_MOCK_GLFUNC(
 #include <oglplus/oper/named_string.hpp>
 #include <oglplus/enum/values.hpp>
 #include <cstring>
-#include <cstdlib>
 
 BOOST_AUTO_TEST_SUITE(named_string_tests)
 

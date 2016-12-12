@@ -11,7 +11,7 @@
 
 #include <cassert>
 #include <cstddef>
-#include "types.hpp"
+#include "../utils/types.hpp"
 
 namespace oglplus {
 

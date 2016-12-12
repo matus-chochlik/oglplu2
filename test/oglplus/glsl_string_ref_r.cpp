@@ -26,7 +26,7 @@ BOOST_AUTO_TEST_CASE(glsl_string_ref_1)
 		"	gl_Position = Position;\n"\
 		"}\n";
 
-	std::size_t l = std::strlen(s);
+	span_size_t l = span_size(std::strlen(s));
 
 	glsl_string_ref lr{s, l};
 	glsl_source_ref sr = lr;

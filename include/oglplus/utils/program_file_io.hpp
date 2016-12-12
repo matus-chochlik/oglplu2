@@ -27,7 +27,7 @@ void write_and_pad_shader_source_header(
 )
 {
 	using eagine::memory::is_aligned_as;
-	while(!is_aligned_as<shader_source_header>(std_align(spos))) {
+	while(!is_aligned_as<shader_source_header>(spos)) {
 		output.put('\0');
 		++spos;
 	}
@@ -103,7 +103,7 @@ void write_and_pad_program_source_header(
 )
 {
 	using eagine::memory::is_aligned_as;
-	while(!is_aligned_as<program_source_header>(std_align(spos))) {
+	while(!is_aligned_as<program_source_header>(spos)) {
 		output.put('\0');
 		++spos;
 	}
