@@ -331,8 +331,9 @@ private:
 	void _rseek_head(void) const
 	noexcept {
 		assert(_pos != nullptr);
-		while(!mbs::is_valid_head_byte(_b()))
-		{ --_pos; };
+		while(!mbs::is_valid_head_byte(_b())) {
+			--_pos;
+		}
 	}
 
 	span_size_t _len_len(void) const

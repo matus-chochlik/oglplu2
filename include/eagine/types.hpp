@@ -29,7 +29,7 @@ using std_size_t = std::size_t ;
 // signed size type
 using span_size_t = std::ptrdiff_t;
 // valid size type
-using valid_span_size_t = valid_if_nonnegative<span_size_t>;
+using valid_span_size = valid_if_nonnegative<span_size_t>;
 
 template <typename T>
 static constexpr inline

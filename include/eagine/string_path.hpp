@@ -81,13 +81,13 @@ private:
 
 	static inline
 	cstring_span _fix(cstring_span str)
-	noexcept
-	{
-		while(str.size() > 0)
-		{
-			if(str[str.size()-1] == '\0')
-			{
-				str = cstring_span(str.data(),str.size()-1);
+	noexcept {
+		while(str.size() > 0) {
+			if(str[str.size()-1] == '\0') {
+				str = cstring_span(
+					str.data(),
+					str.size()-1
+				);
 			}
 			else break;
 		}
@@ -98,8 +98,7 @@ private:
 	static inline
 	std::array<cstring_span,sizeof...(Str)>
 	_pack_names(const Str&... n)
-	noexcept
-	{
+	noexcept {
 		return {{_fix(n)...}};
 	}
 public:
@@ -140,90 +139,61 @@ public:
 
 	friend
 	bool operator == (const basic_string_path& a,const basic_string_path& b)
-	noexcept
-	{
-		return a._str == b._str;
-	}
+	noexcept { return a._str == b._str; }
 
 	friend
 	bool operator != (const basic_string_path& a,const basic_string_path& b)
-	noexcept
-	{
-		return a._str != b._str;
-	}
+	noexcept { return a._str != b._str; }
 
 	friend
 	bool operator <  (const basic_string_path& a,const basic_string_path& b)
-	noexcept
-	{
-		return a._str <  b._str;
-	}
+	noexcept { return a._str <  b._str; }
 
 	friend
 	bool operator <= (const basic_string_path& a,const basic_string_path& b)
-	noexcept
-	{
-		return a._str <= b._str;
-	}
+	noexcept { return a._str <= b._str; }
 
 	friend
 	bool operator >  (const basic_string_path& a,const basic_string_path& b)
-	noexcept
-	{
-		return a._str >  b._str;
-	}
+	noexcept { return a._str >  b._str; }
 
 	friend
 	bool operator >= (const basic_string_path& a,const basic_string_path& b)
-	noexcept
-	{
-		return a._str >= b._str;
-	}
+	noexcept { return a._str >= b._str; }
 
 	friend
 	basic_string_path
 	operator + (const basic_string_path& a, const basic_string_path& b)
-	noexcept
-	{
-		return basic_string_path(a, b);
-	}
+	noexcept { return basic_string_path(a, b); }
 
 	bool empty(void) const
-	noexcept
-	{
+	noexcept {
 		assert((size() == 0) == _str.empty());
 		return _str.empty();
 	}
 
 	size_type size(void) const
-	noexcept
-	{
-		return _size;
-	}
+	noexcept { return _size; }
 
 	static
 	size_type required_bytes(size_type l)
-	noexcept
-	{
+	noexcept {
 		using namespace mbs;
 		return l+2*required_sequence_length(code_point_t(l)).value();
 	}
 
 	static
 	size_type required_bytes(str_span str)
-	noexcept
-	{
+	noexcept {
 		return required_bytes(size_type(str.size()));
 	}
 
-	void reserve_bytes(size_type s)
-	{
+	void reserve_bytes(size_type s) {
 		_str.reserve(std_size(s));
 	}
 
 	str_span front(void) const
-	noexcept
-	{
+	noexcept {
 		assert(!empty());
 		span_size_t i = 0;
 		cstring_span elen = _sub(i);
@@ -233,8 +203,7 @@ public:
 	}
 
 	str_span back(void) const
-	noexcept
-	{
+	noexcept {
 		assert(!empty());
 		span_size_t i = _rseek_seq_head(span_size(_str.size()));
 		cstring_span elen = _sub(i);
@@ -243,8 +212,7 @@ public:
 		return _sub(i-l, l);
 	}
 
-	void push_back(str_span name)
-	{
+	void push_back(str_span name) {
 		name = _fix(name);
 		std::string elen = _encode_str_len(name.size());
 		_str.append(elen);
@@ -253,14 +221,12 @@ public:
 		++_size;
 	}
 
-	void push_back_elem(const string_list::element& elem)
-	{
+	void push_back_elem(const string_list::element& elem) {
 		_str.append(elem.data(), std::string::size_type(elem.size()));
 		++_size;
 	}
 
-	void pop_back(void)
-	{
+	void pop_back(void) {
 		assert(!empty());
 		span_size_t i = _rseek_seq_head(span_size(_str.size()));
 		cstring_span elen = _sub(i);
@@ -272,70 +238,63 @@ public:
 	}
 
 	iterator begin(void) const
-	noexcept
-	{
+	noexcept {
 		return empty()?
 			iterator():
 			iterator(_str.data());
 	}
 
 	iterator end(void) const
-	noexcept
-	{
+	noexcept {
 		return empty()?
 			iterator():
 			iterator(_str.data()+_str.size());
 	}
 
 	reverse_iterator rbegin(void) const
-	noexcept
-	{
+	noexcept {
 		return empty()?
 			reverse_iterator():
 			reverse_iterator(_str.data()+_str.size()-1);
 	}
 
 	reverse_iterator rend(void) const
-	noexcept
-	{
+	noexcept {
 		return empty()?
 			reverse_iterator():
 			reverse_iterator(_str.data()-1);
 	}
 
 	template <typename Func>
-	void for_each_elem(Func func) const
-	{
+	void for_each_elem(Func func) const {
 		string_list::for_each_elem(make_span(_str), func);
 	}
 
 	template <typename Func>
-	void for_each(Func func) const
-	{
+	void for_each(Func func) const {
 		string_list::for_each(make_span(_str), func);
 	}
 
 	template <typename Func>
-	void rev_for_each_elem(Func func) const
-	{
+	void rev_for_each_elem(Func func) const {
 		string_list::rev_for_each_elem(make_span(_str), func);
 	}
 
 	template <typename Func>
-	void rev_for_each(Func func) const
-	{
+	void rev_for_each(Func func) const {
 		string_list::rev_for_each(make_span(_str), func);
 	}
 
-	std::string as_string(const str_span& sep, bool trail_sep) const
-	{
+	std::string as_string(const str_span& sep, bool trail_sep) const {
 		return string_list::join(make_span(_str), sep, trail_sep);
 	}
 
 	memory::const_block block(void)
-	noexcept
-	{
-		return memory::const_block(_str.data(), span_size(_str.size()));
+	noexcept {
+		return memory::const_block(
+			_str.data(),
+			span_size(_str.size())
+		);
 	}
 };
 

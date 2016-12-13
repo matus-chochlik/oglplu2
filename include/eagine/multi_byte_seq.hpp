@@ -76,7 +76,7 @@ noexcept {
 }
 
 static constexpr inline
-valid_span_size_t
+valid_span_size
 head_data_bitshift(const valid_sequence_length len)
 noexcept {
 	return {
@@ -86,7 +86,7 @@ noexcept {
 }
 
 static constexpr inline
-valid_span_size_t
+valid_span_size
 tail_data_bitshift(
 	const valid_sequence_length idx,
 	const valid_sequence_length len
