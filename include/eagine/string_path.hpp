@@ -172,6 +172,11 @@ public:
 		return _str.empty();
 	}
 
+	void clear(void) {
+		_size = 0;
+		_str.clear();
+	}
+
 	size_type size(void) const
 	noexcept { return _size; }
 

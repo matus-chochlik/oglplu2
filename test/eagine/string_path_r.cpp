@@ -38,6 +38,7 @@ BOOST_AUTO_TEST_CASE(string_path_1)
 			++s;
 
 			BOOST_CHECK_EQUAL(bsp.size(), s);
+			BOOST_CHECK_EQUAL(bsp.back().size(), n.size());
 			BOOST_CHECK(bsp.back() == cstring_span(n));
 
 			if((rg.get_int(0, 9) == 0) && !bsp.empty())
@@ -52,7 +53,17 @@ BOOST_AUTO_TEST_CASE(string_path_1)
 
 		BOOST_CHECK_EQUAL(bsp.size(), 2*s);
 
-		while(!bsp.empty()) bsp.pop_back();
+		if(rg.get_bool())
+		{
+			while(!bsp.empty())
+			{
+				bsp.pop_back();
+			}
+		}
+		else
+		{
+			bsp.clear();
+		}
 
 		BOOST_CHECK_EQUAL(bsp.size(), 0);
 	}
@@ -133,6 +144,47 @@ BOOST_AUTO_TEST_CASE(string_path_3)
 		}
 		BOOST_CHECK(stk.empty());
 	}
+}
+
+BOOST_AUTO_TEST_CASE(string_path_4)
+{
+	using namespace eagine;
+
+
+	basic_string_path bsp;
+	bsp.push_back("");
+	bsp.push_back("A");
+	bsp.push_back("BC");
+	bsp.push_back("DEF");
+	bsp.push_back("GHIJ");
+	bsp.push_back("KLMNO");
+
+	BOOST_CHECK_EQUAL(
+		bsp.as_string("", true),
+		"ABCDEFGHIJKLMNO"
+	);
+	BOOST_CHECK_EQUAL(
+		bsp.as_string("", false),
+		"ABCDEFGHIJKLMNO"
+	);
+
+	BOOST_CHECK_EQUAL(
+		bsp.as_string(":", true),
+		":A:BC:DEF:GHIJ:KLMNO:"
+	);
+	BOOST_CHECK_EQUAL(
+		bsp.as_string("|", false),
+		"|A|BC|DEF|GHIJ|KLMNO"
+	);
+
+	BOOST_CHECK_EQUAL(
+		bsp.as_string("..", true),
+		"..A..BC..DEF..GHIJ..KLMNO.."
+	);
+	BOOST_CHECK_EQUAL(
+		bsp.as_string("::", false),
+		"::A::BC::DEF::GHIJ::KLMNO"
+	);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

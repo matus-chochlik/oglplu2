@@ -416,7 +416,7 @@ valid_if_not_empty<std::string> encode_code_point(code_point cp)
 		);
 		return {std::string(
 			reinterpret_cast<const char*>(tmp.data()),
-			std_size(tmp.size())
+			std_size(len.value())
 		)};
 	}
 	return {};
