@@ -32,13 +32,13 @@ private:
 public:
 	example_clear(void)
 	 : text("OpenGL®")
-	 , text_paths(text.length())
+	 , text_paths(span_size(text.length()))
 	{
 		text_paths.glyphs(
 			GL.standard_font_name_nv,
 			"Sans",
 			GL.bold_bit_nv,
-			make_span(text.data(), span_size(text.size())),
+			cstring_span(text),
 			GL.use_missing_glyph_nv,
 			~0u, 64
 		);
