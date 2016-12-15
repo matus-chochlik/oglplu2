@@ -211,7 +211,7 @@ void test_math_functions_bezier_5(int l)
 			6*(1-t)*(1-t)*t*t*v2 +
 			4*(1-t)*t*t*t*v3 +
 			t*t*t*t*v4,
-			0.01
+			0.02
 		);
 	}
 }
