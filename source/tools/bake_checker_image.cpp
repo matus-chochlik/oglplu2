@@ -72,7 +72,7 @@ void write_output(std::ostream& output, const options& opts)
 	hdr.internal_format = GL_R3_G3_B2;
 	hdr.data_type = GL_UNSIGNED_BYTE_3_3_2;
 
-	const std::size_t size = std::size_t(
+	const auto size = eagine::span_size_t(
 		opts.width.value()*
 		opts.height.value()*
 		opts.depth.value()

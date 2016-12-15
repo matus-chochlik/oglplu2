@@ -7,17 +7,19 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE EAGINE_math_tvec
 #include <boost/test/unit_test.hpp>
+#include "../random.hpp"
 
 #include <eagine/math/tvec.hpp>
-#include <cstdlib>
 
 BOOST_AUTO_TEST_SUITE(math_tvec_tests)
 
-template <typename T, unsigned N, bool V>
+static eagine::test_random_generator rg;
+
+template <typename T, int N, bool V>
 void test_math_tvec_default_ctr_TNV(void)
 {
 	eagine::math::tvec<T, N, V> v;
-	for(unsigned i=0; i<N; ++i)
+	for(int i=0; i<N; ++i)
 	{
 		BOOST_CHECK_EQUAL(v[i], T(0));
 	}
@@ -54,12 +56,12 @@ BOOST_AUTO_TEST_CASE(math_tvec_default_ctr)
 	test_math_tvec_default_ctr_T<double>();
 }
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 void test_math_tvec_fill_ctr_TNV(void)
 {
-	T r = T(std::rand() % 10000);
+	T r = rg.get_any<T>();
 	eagine::math::tvec<T, N, V> v(r);
-	for(unsigned i=0; i<N; ++i)
+	for(int i=0; i<N; ++i)
 	{
 		BOOST_CHECK_EQUAL(v[i], r);
 	}
@@ -96,12 +98,12 @@ BOOST_AUTO_TEST_CASE(math_tvec_fill_ctr)
 	test_math_tvec_fill_ctr_T<double>();
 }
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 void test_math_tvec_vector_ctr_TNV(void)
 {
-	T r = T(std::rand() % 10000);
+	T r = rg.get_any<T>();
 	eagine::math::tvec<T, N, V> v(eagine::math::vector<T, N, V>::fill(r));
-	for(unsigned i=0; i<N; ++i)
+	for(int i=0; i<N; ++i)
 	{
 		BOOST_CHECK_EQUAL(v[i], r);
 	}
@@ -138,19 +140,19 @@ BOOST_AUTO_TEST_CASE(math_tvec_vector_ctr)
 	test_math_tvec_vector_ctr_T<double>();
 }
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 void test_math_tvec_cary_ctr_TNV(void)
 {
 	T a[N];
 
-	for(unsigned i=0; i<N; ++i)
+	for(int i=0; i<N; ++i)
 	{
-		a[i] = T(std::rand()%10000);
+		a[i] = rg.get_any<T>();
 	}
 
 	eagine::math::tvec<T, N, V> v(a);
 
-	for(unsigned i=0; i<N; ++i)
+	for(int i=0; i<N; ++i)
 	{
 		BOOST_CHECK_EQUAL(v[i], a[i]);
 	}
@@ -190,29 +192,29 @@ BOOST_AUTO_TEST_CASE(math_tvec_cary_ctr)
 template <typename T, bool V>
 void test_math_tvec_pack_ctr_TV(void)
 {
-	T r1 = T(std::rand()%10000);
+	T r1 = rg.get_any<T>();
 	eagine::math::tvec<T, 1, V> v1(r1);
 	BOOST_CHECK_EQUAL(v1[0], r1);
 
-	T r2 = T(std::rand()%10000);
+	T r2 = rg.get_any<T>();
 	eagine::math::tvec<T, 2, V> v2(r1, r2);
 	BOOST_CHECK_EQUAL(v2[0], r1);
 	BOOST_CHECK_EQUAL(v2[1], r2);
 
-	T r3 = T(std::rand()%10000);
+	T r3 = rg.get_any<T>();
 	eagine::math::tvec<T, 3, V> v3(r1, r2, r3);
 	BOOST_CHECK_EQUAL(v3[0], r1);
 	BOOST_CHECK_EQUAL(v3[1], r2);
 	BOOST_CHECK_EQUAL(v3[2], r3);
 
-	T r4 = T(std::rand()%10000);
+	T r4 = rg.get_any<T>();
 	eagine::math::tvec<T, 4, V> v4(r1, r2, r3, r4);
 	BOOST_CHECK_EQUAL(v4[0], r1);
 	BOOST_CHECK_EQUAL(v4[1], r2);
 	BOOST_CHECK_EQUAL(v4[2], r3);
 	BOOST_CHECK_EQUAL(v4[3], r4);
 
-	T r5 = T(std::rand()%10000);
+	T r5 = rg.get_any<T>();
 	eagine::math::tvec<T, 5, V> v5(r1, r2, r3, r4, r5);
 	BOOST_CHECK_EQUAL(v5[0], r1);
 	BOOST_CHECK_EQUAL(v5[1], r2);
@@ -220,7 +222,7 @@ void test_math_tvec_pack_ctr_TV(void)
 	BOOST_CHECK_EQUAL(v5[3], r4);
 	BOOST_CHECK_EQUAL(v5[4], r5);
 
-	T r6 = T(std::rand()%10000);
+	T r6 = rg.get_any<T>();
 	eagine::math::tvec<T, 6, V> v6(r1, r2, r3, r4, r5, r6);
 	BOOST_CHECK_EQUAL(v6[0], r1);
 	BOOST_CHECK_EQUAL(v6[1], r2);
@@ -247,16 +249,16 @@ BOOST_AUTO_TEST_CASE(math_tvec_pack_ctr)
 template <typename T, bool V>
 void test_math_tvec_vec_val_ctr_TV(void)
 {
-	T r1 = T(std::rand()%10000);
+	T r1 = rg.get_any<T>();
 	eagine::math::tvec<T, 1, V> v10(r1);
 	BOOST_CHECK_EQUAL(v10[0], r1);
 
-	T r2 = T(std::rand()%10000);
+	T r2 = rg.get_any<T>();
 	eagine::math::tvec<T, 2, V> v21(v10, r2);
 	BOOST_CHECK_EQUAL(v21[0], r1);
 	BOOST_CHECK_EQUAL(v21[1], r2);
 
-	T r3 = T(std::rand()%10000);
+	T r3 = rg.get_any<T>();
 	eagine::math::tvec<T, 3, V> v31(v10, r3);
 	BOOST_CHECK_EQUAL(v31[0], r1);
 	BOOST_CHECK_EQUAL(v31[1], r3);
@@ -267,7 +269,7 @@ void test_math_tvec_vec_val_ctr_TV(void)
 	BOOST_CHECK_EQUAL(v32[1], r2);
 	BOOST_CHECK_EQUAL(v32[2], r3);
 
-	T r4 = T(std::rand()%10000);
+	T r4 = rg.get_any<T>();
 	eagine::math::tvec<T, 4, V> v41(v10, r4);
 	BOOST_CHECK_EQUAL(v41[0], r1);
 	BOOST_CHECK_EQUAL(v41[1], r4);
@@ -286,7 +288,7 @@ void test_math_tvec_vec_val_ctr_TV(void)
 	BOOST_CHECK_EQUAL(v43[2], r3);
 	BOOST_CHECK_EQUAL(v43[3], r4);
 
-	T r5 = T(std::rand()%10000);
+	T r5 = rg.get_any<T>();
 	eagine::math::tvec<T, 5, V> v51(v10, r5);
 	BOOST_CHECK_EQUAL(v51[0], r1);
 	BOOST_CHECK_EQUAL(v51[1], r5);
@@ -333,11 +335,11 @@ BOOST_AUTO_TEST_CASE(math_tvec_vec_val_ctr)
 template <typename T, bool V>
 void test_math_tvec_vec_vec_ctr_TV(void)
 {
-	T ra = T(std::rand()%10000);
+	T ra = rg.get_any<T>();
 	eagine::math::tvec<T, 1, V> va(ra);
 	BOOST_CHECK_EQUAL(va[0], ra);
 
-	T rb = T(std::rand()%10000);
+	T rb = rg.get_any<T>();
 	eagine::math::tvec<T, 1, V> vb(rb);
 	BOOST_CHECK_EQUAL(vb[0], rb);
 

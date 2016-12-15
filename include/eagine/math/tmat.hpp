@@ -16,7 +16,7 @@
 namespace eagine {
 namespace math {
 
-template <typename T, unsigned C, unsigned R, bool RM, bool V>
+template <typename T, int C, int R, bool RM, bool V>
 struct tmat : matrix<T, C, R, RM, V>
 {
 private:
@@ -35,7 +35,7 @@ public:
 	{ }
 
 	inline
-	tmat(const T* d, unsigned n)
+	tmat(const T* d, int n)
 	noexcept
 	 : _base(_base::from(d, n))
 	{ }
@@ -84,8 +84,8 @@ public:
 
 	template <
 		typename P,
-		unsigned M,
-		unsigned N,
+		int M,
+		int N,
 		typename = std::enable_if_t<
 			std::is_convertible<P,T>::value &&
 			(C<=M) && (R<=N)
@@ -100,28 +100,27 @@ public:
 
 } // namespace math
 
-template <typename T, unsigned C, unsigned R, bool RM, bool V>
+template <typename T, int C, int R, bool RM, bool V>
 struct is_known_matrix_type<math::tmat<T, C, R, RM, V>>
  : std::is_scalar<T>
 { };
 
-template <typename T, unsigned C, unsigned R, bool RM, bool V>
+template <typename T, int C, int R, bool RM, bool V>
 struct canonical_compound_type<math::tmat<T, C, R, RM, V>>
  : identity<std::remove_cv_t<T[C][R]>>
 { };
 
-template <typename T, unsigned C, unsigned R, bool RM, bool V>
+template <typename T, int C, int R, bool RM, bool V>
 struct compound_view_maker<math::tmat<T, C, R, RM, V>>
 {
 	inline
 	auto operator()(const math::tmat<T, C, R, RM, V>& m) const
-	noexcept
-	{
+	noexcept {
 		return vect::view<T, RM?C:R, V>::apply(m._v);
 	}
 };
 
-template <typename T, unsigned C, unsigned R, bool RM, bool V>
+template <typename T, int C, int R, bool RM, bool V>
 struct is_row_major<math::tmat<T,C,R,RM,V>>
  : bool_constant<RM>
 { };

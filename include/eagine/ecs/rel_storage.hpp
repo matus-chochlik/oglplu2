@@ -11,6 +11,8 @@
 
 #include "entity_traits.hpp"
 #include "storage_caps.hpp"
+#include "storage_fwd.hpp"
+#include "manipulator.hpp"
 #include "../callable_ref.hpp"
 #include <cassert>
 
@@ -18,10 +20,10 @@ namespace eagine {
 namespace ecs {
 
 template <typename Entity>
-struct relation_storage_iterator_intf
+struct storage_iterator_intf<Entity, true>
 {
 	virtual
-	~relation_storage_iterator_intf(void) = default;
+	~storage_iterator_intf(void) = default;
 
 	virtual
 	void reset(void) = 0;
@@ -33,55 +35,55 @@ struct relation_storage_iterator_intf
 	void next(void) = 0;
 
 	virtual
-	Entity parent(void) = 0;
+	Entity subject(void) = 0;
 
 	virtual
-	Entity child(void) = 0;
+	Entity object(void) = 0;
 };
 
 template <typename Entity>
-class relation_storage_iterator
+class storage_iterator<Entity, true>
 {
 private:
-	relation_storage_iterator_intf<Entity>* _i;
+	storage_iterator_intf<Entity, true>* _i;
 public:
-	relation_storage_iterator(relation_storage_iterator_intf<Entity>* i)
+	storage_iterator(storage_iterator_intf<Entity, true>* i)
 	noexcept
 	 : _i(i)
 	{
 		assert(_i);
 	}
 
-	relation_storage_iterator(const relation_storage_iterator&) = delete;
+	storage_iterator(const storage_iterator&) = delete;
 
-	relation_storage_iterator(relation_storage_iterator&& tmp)
+	storage_iterator(storage_iterator&& tmp)
 	noexcept
 	 : _i(tmp._i)
 	{
 		tmp._i = nullptr;
 	}
 
-	~relation_storage_iterator(void)
+	~storage_iterator(void)
 	noexcept
 	{
 		assert(_i == nullptr);
 	}
 
-	relation_storage_iterator_intf<Entity>* release(void)
+	storage_iterator_intf<Entity, true>* release(void)
 	{
-		relation_storage_iterator_intf<Entity>* p = _i;
+		storage_iterator_intf<Entity, true>* p = _i;
 		_i = nullptr;
 		return p;
 	}
 
-	relation_storage_iterator_intf<Entity>* ptr(void)
+	storage_iterator_intf<Entity, true>* ptr(void)
 	noexcept
 	{
 		assert(_i);
 		return _i;
 	}
 
-	relation_storage_iterator_intf<Entity>& get(void)
+	storage_iterator_intf<Entity, true>& get(void)
 	noexcept
 	{
 		assert(_i);
@@ -103,25 +105,25 @@ public:
 		get().next();
 	}
 
-	Entity parent(void)
+	Entity subject(void)
 	{
-		return get().parent();
+		return get().subject();
 	}
 
-	Entity child(void)
+	Entity object(void)
 	{
-		return get().parent();
+		return get().object();
 	}
 };
 
 template <typename Entity>
-struct base_relation_storage
+struct base_storage<Entity, true>
 {
 	typedef entity_param_t<Entity> entity_param;
-	typedef relation_storage_iterator<Entity> iterator_t;
+	typedef storage_iterator<Entity, true> iterator_t;
 
 	virtual
-	~base_relation_storage(void) = default;
+	~base_storage(void) = default;
 
 	virtual
 	storage_caps capabilities(void) = 0;
@@ -133,57 +135,117 @@ struct base_relation_storage
 	void delete_iterator(iterator_t&&) = 0;
 
 	virtual
-	bool has(entity_param p, entity_param c) = 0;
+	bool has(entity_param subject, entity_param object) = 0;
 
 	virtual
-	bool store(entity_param p, entity_param c) = 0;
+	bool store(entity_param subject, entity_param object) = 0;
 
 	virtual
-	bool remove(entity_param p, entity_param c) = 0;
+	bool remove(entity_param subject, entity_param object) = 0;
+
+	virtual
+	void remove(iterator_t&) = 0;
+
+	virtual
+	void for_each(
+		callable_ref<void(entity_param, entity_param)>,
+		entity_param subject
+	) = 0;
+
+	virtual
+	void for_each(callable_ref<void(entity_param, entity_param)>) = 0;
 };
 
-template <typename Entity, typename Component>
-struct relation_storage
- : base_relation_storage<Entity>
+template <typename Entity, typename Relation>
+struct storage<Entity, Relation, true>
+ : base_storage<Entity, true>
 {
 	typedef entity_param_t<Entity> entity_param;
-	typedef relation_storage_iterator<Entity> iterator_t;
+	typedef storage_iterator<Entity, true> iterator_t;
+
+	using base_storage<Entity, true>::store;
 
 	virtual
-	bool store(entity_param p, entity_param c, Component&&) = 0;
+	bool store(entity_param subject, entity_param object, Relation&&) = 0;
 
 	virtual
 	void for_single(
-		callable_ref<void(entity_param,entity_param, const Component&)>,
-		entity_param
+		callable_ref<void(
+			entity_param,
+			entity_param,
+			manipulator<const Relation>
+		&)>,
+		entity_param subject, entity_param object
 	) = 0;
 
 	virtual
 	void for_single(
-		callable_ref<void(entity_param,entity_param, const Component&)>,
+		callable_ref<void(
+			entity_param,
+			entity_param,
+			manipulator<const Relation>
+		&)>,
 		iterator_t&
 	) = 0;
 
 	virtual
 	void for_single(
-		callable_ref<void(entity_param,entity_param, Component&)>,
-		entity_param
+		callable_ref<void(
+			entity_param,
+			entity_param,
+			manipulator<Relation>
+		&)>,
+		entity_param subject, entity_param object
 	) = 0;
 
 	virtual
 	void for_single(
-		callable_ref<void(entity_param,entity_param, Component&)>,
+		callable_ref<void(
+			entity_param,
+			entity_param,
+			manipulator<Relation>&
+		)>,
 		iterator_t&
 	) = 0;
 
+	using base_storage<Entity, true>::for_each;
+
 	virtual
 	void for_each(
-		callable_ref<void(entity_param,entity_param, const Component&)>
+		callable_ref<void(
+			entity_param,
+			entity_param,
+			manipulator<const Relation>&
+		)>,
+		entity_param subject
 	) = 0;
 
 	virtual
 	void for_each(
-		callable_ref<void(entity_param,entity_param, Component&)>
+		callable_ref<void(
+			entity_param,
+			entity_param,
+			manipulator<Relation>&
+		)>,
+		entity_param subject
+	) = 0;
+
+	virtual
+	void for_each(
+		callable_ref<void(
+			entity_param,
+			entity_param,
+			manipulator<const Relation>&
+		)>
+	) = 0;
+
+	virtual
+	void for_each(
+		callable_ref<void(
+			entity_param,
+			entity_param,
+			manipulator<Relation>&
+		)>
 	) = 0;
 };
 

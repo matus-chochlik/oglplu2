@@ -7,36 +7,38 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE EAGINE_struct_memory_block
 #include <boost/test/unit_test.hpp>
+#include "../random.hpp"
 
 #include <eagine/struct_memory_block.hpp>
-#include <cstdlib>
 #include <vector>
 #include <tuple>
 #include <utility>
 
 BOOST_AUTO_TEST_SUITE(struct_memory_block_tests)
 
+static eagine::test_random_generator rg;
+
 template <typename T>
 void eagine_test_struct_memory_block_1(void)
 {
 	using namespace eagine;
 
-	std::vector<unsigned char> buf(2*sizeof(T));
+	std::vector<unsigned char> buf(2*span_size_of<T>());
 
 	for(int i=0; i<100; ++i)
 	{
 		memory_block blk(
 			buf.data(),
-			std::size_t(std::rand()) % buf.size()
+			rg.get<span_size_t>(0, span_size(buf.size())-1)
 		);
 
 		BOOST_CHECK_EQUAL(
-			structured_memory_block<T>::valid_block(blk),
-			blk.size() >= sizeof(T)
+			structured_memory_block<T>::is_valid_block(blk),
+			blk.size() >= span_size(span_size_of<T>())
 		);
 	}
 	BOOST_CHECK_EQUAL(
-		structured_memory_block<T>::valid_block(memory_block()),
+		structured_memory_block<T>::is_valid_block(memory_block()),
 		false
 	);
 }

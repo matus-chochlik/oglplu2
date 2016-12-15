@@ -37,7 +37,7 @@ public:
 	 , _ops(gen.operation_count())
 	 , _winding(gen.face_winding())
 	{
-		assert(vaals.size() >= span_size_type(N));
+		assert(vaals.size() >= span_size_t(N));
 		initialize_vao_and_buffers(_vao, _bufs, vaals, _ops, gen, data);
 	}
 
@@ -57,7 +57,7 @@ public:
 	outcome<void> draw(void) const
 	noexcept
 	{
-		return draw_using_instructions(as_span(_ops));
+		return draw_using_instructions(make_span(_ops));
 	}
 };
 
@@ -69,10 +69,10 @@ class wrapper
 private:
 	static inline
 	span<const vertex_attrib_and_location>
-	_as_span(const std::array<const vertex_attrib_and_location, N>& a)
+	_make_span(const std::array<const vertex_attrib_and_location, N>& a)
 	noexcept
 	{
-		return {a.data(), span_size_type(a.size())};
+		return {a.data(), span_size_t(a.size())};
 	}
 public:
 	template <typename Generator, typename ... P>
@@ -87,7 +87,7 @@ public:
 			eagine::shapes::get_attrib_bits(vaals),
 			std::forward<P>(p)...
 		),
-		_as_span(vaals)
+		_make_span(vaals)
 	)
 	{ }
 };

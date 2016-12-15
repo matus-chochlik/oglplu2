@@ -34,7 +34,7 @@ public:
 	 , _data(blk.data())
 	{ }
 
-	template <typename T, std::size_t N>
+	template <typename T, span_size_t N>
 	buffer_data_spec(const T (&data) [N])
 	noexcept
 	 : _size(identity<T>(), N)
@@ -42,7 +42,7 @@ public:
 	{ }
 
 	template <typename T>
-	buffer_data_spec(const T* data, std::size_t n)
+	buffer_data_spec(const T* data, span_size_t n)
 	noexcept
 	 : _size(identity<T>(), n)
 	 , _data(data)

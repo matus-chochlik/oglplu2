@@ -14,7 +14,7 @@
 namespace eagine {
 namespace vect {
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 struct diff
 {
 	typedef data_t<T, N, V> _dT;
@@ -22,8 +22,7 @@ struct diff
 
 	static
 	_dT apply(_dpT a, _dpT b)
-	noexcept
-	{
+	noexcept {
 		return vect::abs<T, N, V>::apply(a-b);
 	}
 };

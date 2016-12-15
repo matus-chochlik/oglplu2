@@ -123,7 +123,7 @@ struct uniform_ops
 		);
 	}
 
-	template <typename T, std::size_t N, bool D>
+	template <typename T, span_size_t N, bool D>
 	static inline
 	outcome<void>
 	uniform(
@@ -139,7 +139,7 @@ struct uniform_ops
 		);
 	}
 
-	template <typename T, std::size_t C, std::size_t R, bool D>
+	template <typename T, span_size_t C, span_size_t R, bool D>
 	static inline
 	outcome<void>
 	uniform(

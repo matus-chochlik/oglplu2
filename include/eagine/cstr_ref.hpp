@@ -12,6 +12,7 @@
 
 #include "config/platform.hpp"
 #include "string_span.hpp"
+#include <string>
 #include <cstring>
 #include <cassert>
 #include <iosfwd>
@@ -52,23 +53,26 @@ private:
 	 : decltype(_is_v_c(static_cast<X*>(nullptr)))
 	{ };
 public:
+	using size_type = span_size_t;
+
+
 	cstr_ref(void) = default;
 
-	cstr_ref(const char* cstr, span_size_type n)
+	cstr_ref(const char* cstr, span_size_t n)
 	noexcept
 	 : _base(cstr, (n > 0 && cstr[n-1]=='\0')?n-1:n)
 	{ }
 
-	template <std::size_t N>
+	template <span_size_t N>
 	cstr_ref(const char (&cstr)[N])
 	noexcept
-	 : cstr_ref(cstr, span_size_type(N))
+	 : cstr_ref(cstr, span_size_t(N))
 	{ }
 
 	explicit
 	cstr_ref(const char* cstr)
 	noexcept
-	 : cstr_ref(cstr, span_size_type(std::strlen(cstr)))
+	 : cstr_ref(cstr, span_size_t(std::strlen(cstr)))
 	{ }
 
 	template <
@@ -80,7 +84,7 @@ public:
 	explicit
 	cstr_ref(const Container& cont)
 	noexcept
-	 : cstr_ref(cont.data(), span_size_type(cont.size()))
+	 : cstr_ref(cont.data(), span_size_t(cont.size()))
 	{ }
 
 	bool empty(void) const
@@ -100,6 +104,10 @@ public:
 		return data();
 	}
 
+	std::string str(void) const {
+		return {data(), std_size(size())};
+	}
+
 	template <typename Out>
 	void write_to_stream(Out& out) const
 	{
@@ -113,6 +121,20 @@ public:
 #ifdef __clang__
 #pragma clang diagnostic pop
 #endif
+
+static inline
+bool operator == (const cstr_ref& a, const cstr_ref& b)
+noexcept {
+	return	static_cast<const cstring_span&>(a) ==
+		static_cast<const cstring_span&>(b);
+}
+
+static inline
+bool operator != (const cstr_ref& a, const cstr_ref& b)
+noexcept {
+	return	static_cast<const cstring_span&>(a) !=
+		static_cast<const cstring_span&>(b);
+}
 
 static inline
 std::ostream& operator << (std::ostream& out, const cstr_ref& str)

@@ -7,12 +7,14 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE EAGINE_memory_block
 #include <boost/test/unit_test.hpp>
+#include "../random.hpp"
 
 #include <eagine/memory_block.hpp>
-#include <cstdlib>
 #include <vector>
 
 BOOST_AUTO_TEST_SUITE(memory_block_tests)
+
+static eagine::test_random_generator rg;
 
 template <bool is_const>
 void eagine_test_memory_block_0(void)
@@ -74,7 +76,7 @@ void eagine_test_memory_block_2(void)
 	BOOST_CHECK(bmb.size() == sizeof(x));
 	BOOST_CHECK(bmb.begin() != bmb.end());
 
-	std::size_t s = 0;
+	span_size_t s = 0;
 
 	for(byte b : bmb) { ++s; (void)b; }
 
@@ -104,7 +106,7 @@ void eagine_test_memory_block_3(void)
 	BOOST_CHECK(bmb.size() == sizeof(x));
 	BOOST_CHECK(bmb.begin() != bmb.end());
 
-	std::size_t s = 0;
+	span_size_t s = 0;
 
 	for(byte b : bmb) { ++s; (void)b; }
 
@@ -134,7 +136,7 @@ void eagine_test_memory_block_4(void)
 	BOOST_CHECK(bmb.size() == sizeof(x));
 	BOOST_CHECK(bmb.begin() != bmb.end());
 
-	std::size_t s = 0;
+	span_size_t s = 0;
 
 	for(byte b : bmb) { ++s; (void)b; }
 
@@ -158,7 +160,7 @@ void eagine_test_memory_block_5(void)
 
 	for(byte& b : x)
 	{
-		b = byte(std::rand() % 0xFF);
+		b = rg.get<byte>(0x00, 0xFF);
 	}
 
 	basic_memory_block<is_const> bmb = memory::block_of(x);
@@ -168,7 +170,7 @@ void eagine_test_memory_block_5(void)
 	BOOST_CHECK(!bmb.empty());
 	BOOST_ASSERT(bmb.size() == sizeof(x));
 
-	for(std::size_t i=0; i<bmb.size(); ++i)
+	for(span_size_t i=0; i<bmb.size(); ++i)
 	{
 		BOOST_CHECK_EQUAL(bmb.data()[i], x[i]);
 	}
@@ -231,11 +233,11 @@ void eagine_test_memory_block_7(void)
 {
 	using namespace eagine;
 
-	std::vector<unsigned char> x(100 + std::rand() % 1000);
+	std::vector<unsigned char> x(rg.get<std::size_t>(100, 1000));
 
-	memory_block b(x.data(), x.size());
+	memory_block b(x.data(), span_size(x.size()));
 
-	span<T> s = as_span_of<T>(b);
+	span<T> s = make_span_of<T>(b);
 
 	BOOST_CHECK_EQUAL(s.size(), x.size()/sizeof(T));
 }
@@ -258,7 +260,7 @@ void eagine_test_memory_block_8(void)
 {
 	using namespace eagine;
 
-	std::vector<T> x(100 + std::rand() % 1000);
+	std::vector<T> x(rg.get<std::size_t>(100, 1000));
 
 	memory_block b = eagine::memory::data_block_of(x);
 

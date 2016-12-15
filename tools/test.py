@@ -16,8 +16,16 @@ def root_dir():
 def test_src_dir():
 	return os.path.join(root_dir(), "test")
 
+def build_dir():
+	try:
+		p = open(os.path.join(root_dir(), "BINARY_DIR"), "rt").read()
+		if os.path.isdir(p):
+			return p
+	except: pass
+	return os.path.join(root_dir(), "_build")
+
 def test_build_dir():
-	return os.path.join(root_dir(), "_build", "test")
+	return os.path.join(build_dir(), "test")
 
 def lib_src_dir(library):
 	return os.path.join(test_src_dir(), library)

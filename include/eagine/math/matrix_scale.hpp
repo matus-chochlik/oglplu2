@@ -19,7 +19,7 @@ template <typename X>
 struct scale;
 
 // is_matrix_constructor<scale>
-template <typename T, unsigned N, bool RM, bool V>
+template <typename T, int N, bool RM, bool V>
 struct is_matrix_constructor<scale<matrix<T,N,N,RM,V>>>
  : std::true_type
 { };
@@ -56,7 +56,7 @@ struct scale<matrix<T,4,4,RM,V>>
 };
 
 // multiply
-template <typename T, unsigned N, bool RM1, bool RM2, bool V>
+template <typename T, int N, bool RM1, bool RM2, bool V>
 static constexpr inline
 scale<matrix<T,N,N,RM1,V>>
 multiply(
@@ -68,7 +68,7 @@ multiply(
 }
 
 // reorder_mat_ctr(scale)
-template <typename T, unsigned N, bool RM, bool V>
+template <typename T, int N, bool RM, bool V>
 static constexpr inline
 scale<matrix<T,N,N,!RM,V>>
 reorder_mat_ctr(const scale<matrix<T,N,N,RM,V>>& c)
@@ -82,7 +82,7 @@ template <typename X>
 struct uniform_scale;
 
 // is_matrix_constructor<uniform_scale>
-template <typename T, unsigned N, bool RM, bool V>
+template <typename T, int N, bool RM, bool V>
 struct is_matrix_constructor<uniform_scale<matrix<T,N,N,RM,V>>>
  : std::true_type
 { };
@@ -113,7 +113,7 @@ struct uniform_scale<matrix<T,4,4,RM,V>>
 };
 
 // multiply
-template <typename T, unsigned N, bool RM1, bool RM2, bool V>
+template <typename T, int N, bool RM1, bool RM2, bool V>
 static constexpr inline
 uniform_scale<matrix<T,N,N,RM1,V>>
 multiply(
@@ -125,7 +125,7 @@ multiply(
 }
 
 // reorder_mat_ctr(uniform_scale)
-template <typename T, unsigned N, bool RM, bool V>
+template <typename T, int N, bool RM, bool V>
 static constexpr inline
 uniform_scale<matrix<T,N,N,!RM,V>>
 reorder_mat_ctr(const uniform_scale<matrix<T,N,N,RM,V>>& c)

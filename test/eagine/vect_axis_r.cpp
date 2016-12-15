@@ -7,23 +7,25 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE EAGINE_vect_axis
 #include <boost/test/unit_test.hpp>
+#include "../random.hpp"
 
 #include <eagine/vect/axis.hpp>
-#include <cstdlib>
 
 BOOST_AUTO_TEST_SUITE(vect_axis_tests)
 
-template <typename T, unsigned I, unsigned N, bool V>
+static eagine::test_random_generator rg;
+
+template <typename T, int I, int N, bool V>
 void test_vect_axis_apply_TINV(void)
 {
-	for(unsigned k=0; k<1000; ++k)
+	for(int k=0; k<1000; ++k)
 	{
-		T a = std::rand();
+		T a = rg.get_any<T>();
 
 		typename eagine::vect::data<T, N, V>::type v =
 			eagine::vect::axis<T, N, I, V>::apply(a);
 
-		for(unsigned i=0; i<N; ++i)
+		for(int i=0; i<N; ++i)
 		{
 			BOOST_CHECK_EQUAL(v[i], T(i==I?a:0));
 		}

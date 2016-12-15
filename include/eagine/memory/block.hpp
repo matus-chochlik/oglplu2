@@ -10,8 +10,9 @@
 #ifndef EAGINE_MEMORY_BLOCK_1510290655_HPP
 #define EAGINE_MEMORY_BLOCK_1510290655_HPP
 
-#include "address.hpp"
+#include "../types.hpp"
 #include "../type_traits.hpp"
+#include "address.hpp"
 #include <cstddef>
 #include <utility>
 
@@ -40,32 +41,31 @@ public:
 		byte&
 	> reference;
 
-	typedef std::size_t size_type;
+	typedef span_size_t size_type;
 private:
 	pointer _addr;
 	size_type _size;
 
 	template <typename T>
 	static 
-	std::size_t _positive_distance(T* a, T* b)
-	noexcept
-	{
+	span_size_t _positive_distance(T* a, T* b)
+	noexcept {
 		assert(a <= b);
-		return std::size_t(b-a);
+		return span_size(b-a);
 	}
 public:
 	template <typename T>
-	basic_block(T *a, std::size_t count)
+	basic_block(T *a, span_size_t count)
 	noexcept
 	 : _addr(static_cast<pointer>(a))
-	 , _size(sizeof(T)*count)
+	 , _size(span_size_of<T>(count))
 	{ }
 
 	template <typename T>
 	basic_block(T *a, T* b)
 	noexcept
 	 : _addr(static_cast<pointer>(a))
-	 , _size(sizeof(T)*_positive_distance(a, b))
+	 , _size(span_size_of<T>(_positive_distance(a, b)))
 	{ }
 
 	basic_block(pointer addr_, size_type size_)
@@ -93,8 +93,7 @@ public:
 	}
 
 	basic_block& operator = (basic_block&& temp)
-	noexcept
-	{
+	noexcept {
 		using std::swap;
 		swap(_addr, temp._addr);
 		swap(_size, temp._size);
@@ -113,110 +112,75 @@ public:
 	{ }
 	
 	basic_block& reset(void)
-	noexcept
-	{
+	noexcept {
 		_addr = nullptr;
 		_size = 0;
 		return *this;
 	}
 
 	size_type size(void) const
-	noexcept
-	{
-		return _size;
-	}
+	noexcept { return _size; }
 
 	bool empty(void) const
-	noexcept
-	{
-		return !(size() > 0);
-	}
+	noexcept { return !(size() > 0); }
 
 	explicit
 	operator bool (void) const
-	noexcept
-	{
-		return _addr != nullptr && _size != 0u;
-	}
+	noexcept { return _addr != nullptr && !empty(); }
 
 	bool operator ! (void) const
-	noexcept
-	{
-		return _addr == nullptr || _size == 0u;
-	}
+	noexcept { return _addr == nullptr || empty(); }
 
 	iterator data(void) const
-	noexcept
-	{
-		return static_cast<iterator>(_addr);
-	}
+	noexcept { return static_cast<iterator>(_addr); }
 
 	basic_address<IsConst> addr(void) const
-	noexcept
-	{
-		return basic_address<IsConst>(_addr);
-	}
+	noexcept { return basic_address<IsConst>(_addr); }
 
 	basic_address<IsConst> end_addr(void) const
-	noexcept
-	{
-		return basic_address<IsConst>(addr(), _size);
-	}
+	noexcept { return basic_address<IsConst>(addr(), _size); }
 
 	iterator begin(void) const
-	noexcept
-	{
-		return static_cast<iterator>(_addr);
-	}
+	noexcept { return static_cast<iterator>(_addr); }
 
 	iterator end(void) const
-	noexcept
-	{
-		return begin()+size();
-	}
+	noexcept { return begin()+size(); }
 
-	reference operator [] (std::size_t i)
-	noexcept
-	{
+	reference operator [] (span_size_t i)
+	noexcept {
 		assert(i < size());
 		return *(begin()+i);
 	}
 
 	friend
 	bool operator == (const basic_block& a, const basic_block& b)
-	noexcept
-	{
-		return (a._addr == b._addr) && (a._size == b._size);
-	}
+	noexcept { return (a._addr == b._addr) && (a._size == b._size); }
 
 	friend
 	bool operator != (const basic_block& a, const basic_block& b)
-	noexcept
-	{
-		return (a._addr != b._addr) || (a._size != b._size);
-	}
+	noexcept { return (a._addr != b._addr) || (a._size != b._size); }
 
-	bool is_aligned_to(std::uintptr_t align) const
-	noexcept
-	{
-		return memory::is_aligned_to(addr(), align);
-	}
+	bool is_aligned_to(span_size_t align) const
+	noexcept { return addr().is_aligned_to(align); }
+
+	template <typename T>
+	bool is_aligned_as(void) const
+	noexcept { return addr().template is_aligned_as<T>(); }
+
+	template <typename T>
+	bool is_enough_for(void) const
+	noexcept { return size() >= span_size(sizeof(T)); }
 
 	bool encloses(const_address a) const
-	noexcept
-	{
-		return (addr() <= a) && (a <= end_addr());
-	}
+	noexcept { return (addr() <= a) && (a <= end_addr()); }
 
 	bool contains(const basic_block& b) const
-	noexcept
-	{
+	noexcept {
 		return (addr() <= b.addr()) && (b.end_addr() <= end_addr());
 	}
 
 	bool overlaps(const basic_block& b) const
-	noexcept
-	{
+	noexcept {
 		return	encloses(b.addr()) || encloses(b.end_addr()) ||
 			b.encloses(addr()) || b.encloses(end_addr());
 	}
@@ -230,19 +194,13 @@ template <typename T>
 static inline
 basic_block<std::is_const<T>::value>
 block_of(T& v)
-noexcept
-{
-	return {&v, 1};
-}
+noexcept { return {&v, 1}; }
 
-template <typename T, std::size_t N>
+template <typename T, span_size_t N>
 static inline
 basic_block<std::is_const<T>::value>
 block_of(T (&a)[N])
-noexcept
-{
-	return {a, N};
-}
+noexcept { return {a, N}; }
 
 template <typename T>
 static inline
@@ -250,10 +208,7 @@ basic_block<
 	std::is_const<T>::value ||
 	std::is_const<typename T::value_type>::value
 > data_block_of(T& c)
-noexcept
-{
-	return {c.data(), c.size()};
-}
+noexcept { return {c.data(), span_size(c.size())}; }
 
 class block_owner;
 
@@ -279,10 +234,7 @@ public:
 	owned_block& operator = (const owned_block&) = delete;
 
 	~owned_block(void)
-	noexcept
-	{
-		assert(empty());
-	}
+	noexcept { assert(empty()); }
 };
 
 class block_owner
@@ -291,18 +243,12 @@ protected:
 	static inline
 	owned_block
 	acquire_block(block b)
-	noexcept
-	{
-		return {b};
-	}
+	noexcept { return {b}; }
 
 	static inline
 	void
 	release_block(owned_block&& b)
-	noexcept
-	{
-		b.reset();
-	}
+	noexcept { b.reset(); }
 };
 
 } // namespace memory

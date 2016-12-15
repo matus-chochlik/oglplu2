@@ -7,9 +7,9 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE EAGINE_outcome
 #include <boost/test/unit_test.hpp>
+#include "../random.hpp"
 
 #include <eagine/outcome.hpp>
-#include <cstdlib>
 #include <string>
 
 namespace eagine {
@@ -91,6 +91,8 @@ test_outcome<int&> foo_ref(int& ref, int tag)
 
 BOOST_AUTO_TEST_SUITE(outcome_tests)
 
+static eagine::test_random_generator rg;
+
 BOOST_AUTO_TEST_CASE(outcome_ok_void)
 {
 	using namespace eagine;
@@ -117,7 +119,7 @@ BOOST_AUTO_TEST_CASE(outcome_fail_void)
 
 	int passed = 0;
 
-	int tag = std::rand();
+	int tag = rg.get_any<int>();
 
 	try
 	{
@@ -141,7 +143,7 @@ BOOST_AUTO_TEST_CASE(outcome_fail_void_ignore)
 
 	int passed = 0;
 
-	int tag = std::rand();
+	int tag = rg.get_any<int>();
 
 	try
 	{
@@ -166,7 +168,7 @@ BOOST_AUTO_TEST_CASE(outcome_fail_void_handle)
 
 	int passed = 0;
 
-	int tag = std::rand();
+	int tag = rg.get_any<int>();
 
 	try
 	{
@@ -197,7 +199,7 @@ BOOST_AUTO_TEST_CASE(outcome_foo_void)
 	int passed = 0;
 
 	int tag;
-	do { tag = std::rand(); }
+	do { tag = rg.get_any<int>(); }
 	while(tag == 0);
 
 	try
@@ -251,7 +253,7 @@ BOOST_AUTO_TEST_CASE(outcome_fail_string)
 
 	int passed = 0;
 
-	int tag = std::rand();
+	int tag = rg.get_any<int>();
 
 	try
 	{
@@ -275,7 +277,7 @@ BOOST_AUTO_TEST_CASE(outcome_fail_string_ignore)
 
 	int passed = 0;
 
-	int tag = std::rand();
+	int tag = rg.get_any<int>();
 
 	try
 	{
@@ -300,7 +302,7 @@ BOOST_AUTO_TEST_CASE(outcome_fail_string_handle)
 
 	int passed = 0;
 
-	int tag = std::rand();
+	int tag = rg.get_any<int>();
 
 	try
 	{
@@ -331,7 +333,7 @@ BOOST_AUTO_TEST_CASE(outcome_foo_string)
 	int passed = 0;
 
 	int tag;
-	do { tag = std::rand(); }
+	do { tag = rg.get_any<int>(); }
 	while(tag == 0);
 
 	try
@@ -389,7 +391,7 @@ BOOST_AUTO_TEST_CASE(outcome_fail_ref)
 
 	int passed = 0;
 
-	int i = 0, tag = std::rand();
+	int i = 0, tag = rg.get_any<int>();
 
 	try
 	{
@@ -413,7 +415,7 @@ BOOST_AUTO_TEST_CASE(outcome_fail_ref_ignore)
 
 	int passed = 0;
 
-	int i = 0, tag = std::rand();
+	int i = 0, tag = rg.get_any<int>();
 
 	try
 	{
@@ -438,7 +440,7 @@ BOOST_AUTO_TEST_CASE(outcome_fail_ref_handle)
 
 	int passed = 0;
 
-	int i = 0, tag = std::rand();
+	int i = 0, tag = rg.get_any<int>();
 
 	try
 	{
@@ -469,7 +471,7 @@ BOOST_AUTO_TEST_CASE(outcome_foo_ref)
 	int passed = 0;
 
 	int i = 0, tag;
-	do { tag = std::rand(); }
+	do { tag = rg.get_any<int>(); }
 	while(tag == 0);
 
 	try

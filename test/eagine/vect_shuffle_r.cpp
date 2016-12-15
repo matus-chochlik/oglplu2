@@ -7,37 +7,39 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE EAGINE_vect_shuffle
 #include <boost/test/unit_test.hpp>
+#include "../random.hpp"
 
 #include <eagine/vect/shuffle.hpp>
-#include <cstdlib>
 #include <array>
 
 BOOST_AUTO_TEST_SUITE(vect_shuffle_tests)
 
-template <typename T, unsigned N, bool V, int ... I>
+static eagine::test_random_generator rg;
+
+template <typename T, int N, bool V, int ... I>
 void test_vect_shuffle_TNVI(void)
 {
 	std::array<int, N> n = {{I...}};
 
-	for(unsigned k=0; k<10; ++k)
+	for(int k=0; k<10; ++k)
 	{
 		T a[N];
 
 		typename eagine::vect::data<T, N, V>::type v = {};
 		typename eagine::vect::shuffle_mask<I...> m = {};
 
-		for(unsigned i=0; i<N; ++i)
+		for(int i=0; i<N; ++i)
 		{
-			a[i] = std::rand() / T(11);
+			a[i] = rg.get_any<T>();
 			v[i] = a[i];
 		}
 
 		typename eagine::vect::data<T, N, V>::type u =
 			eagine::vect::shuffle<T, N, V>::apply(v, m);
 
-		for(unsigned i=0; i<N; ++i)
+		for(int i=0; i<N; ++i)
 		{
-			BOOST_CHECK_EQUAL(u[i], a[n[i]]);
+			BOOST_CHECK_EQUAL(u[i], a[n[size_t(i)]]);
 		}
 	}
 }
@@ -226,23 +228,23 @@ BOOST_AUTO_TEST_CASE(vect_shuffle_double)
 	test_vect_shuffle_T<double>();
 }
 
-template <typename T, unsigned N, bool V, int ... I>
+template <typename T, int N, bool V, int ... I>
 void test_vect_shuffle2_TNVI(void)
 {
 	std::array<int, N> n = {{I...}};
 
-	for(unsigned k=0; k<10; ++k)
+	for(int k=0; k<10; ++k)
 	{
 		T a[N*2];
 
 		typename eagine::vect::data<T, N, V>::type v = {}, u = {};
 		typename eagine::vect::shuffle_mask<I...> m = {};
 
-		for(unsigned i=0; i<N*2; ++i)
+		for(int i=0; i<N*2; ++i)
 		{
-			a[i] = std::rand() / T(2);
+			a[i] = rg.get_any<T>();
 		}
-		for(unsigned i=0; i<N; ++i)
+		for(int i=0; i<N; ++i)
 		{
 			v[i] = a[0+i];
 			u[i] = a[N+i];
@@ -251,9 +253,9 @@ void test_vect_shuffle2_TNVI(void)
 		typename eagine::vect::data<T, N, V>::type w =
 			eagine::vect::shuffle2<T, N, V>::apply(v, u, m);
 
-		for(unsigned i=0; i<N; ++i)
+		for(int i=0; i<N; ++i)
 		{
-			BOOST_CHECK_EQUAL(w[i], a[n[i]]);
+			BOOST_CHECK_EQUAL(w[i], a[n[size_t(i)]]);
 		}
 	}
 }

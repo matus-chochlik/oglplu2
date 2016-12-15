@@ -23,26 +23,23 @@ class c_byte_reallocator
  : public byte_allocator_impl<Policy, c_byte_reallocator>
 {
 public:
-	typedef std::size_t size_type;
+	typedef span_size_t size_type;
 
 	bool equal(byte_allocator* a) const
 	noexcept
-	override
-	{
+	override {
 		return dynamic_cast<c_byte_reallocator*>(a) != nullptr;
 	}
 
 	size_type max_size(size_type)
 	noexcept
-	override
-	{
+	override {
 		return std::numeric_limits<size_type>::max();
 	}
 
 	tribool has_allocated(const owned_block&, size_type)
 	noexcept
-	override
-	{
+	override {
 		return indeterminate;
 	}
 
@@ -56,8 +53,7 @@ public:
 
 	bool can_reallocate(const owned_block&, size_type, size_type)
 	noexcept
-	override
-	{
+	override {
 		return true;
 	}
 

@@ -7,13 +7,15 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE EAGINE_math_vector_ops
 #include <boost/test/unit_test.hpp>
+#include "../random.hpp"
 
 #include <eagine/math/vector.hpp>
-#include <cstdlib>
 
 BOOST_AUTO_TEST_SUITE(math_vector_op_tests)
 
-template <typename T, unsigned N, bool V>
+static eagine::test_random_generator rg;
+
+template <typename T, int N, bool V>
 void test_math_vector_dimension_TNV(void)
 {
 	eagine::math::vector<T, N, V> v;
@@ -49,16 +51,16 @@ BOOST_AUTO_TEST_CASE(math_vector_dimension)
 	test_math_vector_dimension_T<double>();
 }
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 void test_math_vector_dot_TNV(void)
 {
 	T a[N], b[N];
 	T d = T(0);
 
-	for(unsigned i=0; i<N; ++i)
+	for(int i=0; i<N; ++i)
 	{
-		a[i] = T(std::rand()%10000)/2;
-		b[i] = T(std::rand()%10000)/2;
+		a[i] = rg.get<T>(0, 5000);
+		b[i] = rg.get<T>(0, 5000);
 		d += a[i]*b[i];
 	}
 
@@ -98,15 +100,15 @@ BOOST_AUTO_TEST_CASE(math_vector_dot)
 	test_math_vector_dot_T<double>();
 }
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 void test_math_vector_magnitude_TNV(void)
 {
 	T a[N];
 	T m = T(0);
 
-	for(unsigned i=0; i<N; ++i)
+	for(int i=0; i<N; ++i)
 	{
-		a[i] = T(std::rand()%10000)/2;
+		a[i] = rg.get<T>(0, 5000);
 		m += a[i]*a[i];
 	}
 

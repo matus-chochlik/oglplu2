@@ -20,21 +20,20 @@ struct valid_if_ne_policy
 {
 	constexpr
 	bool operator ()(T value) const
-	noexcept
-	{
+	noexcept {
 		return value != Cmp;
 	}
 
 	struct do_log
 	{
-		inline
-		do_log(const valid_if_ne_policy<T, Cmp>&)
+		template <typename X>
+		constexpr inline
+		do_log(X)
 		noexcept
 		{ }
 
 		template <typename Log>
-		void operator ()(Log& log, const T&) const
-		{
+		void operator ()(Log& log, const T&) const {
 			log << "Value equal to " << Cmp << " is invalid";
 		}
 	};
@@ -43,8 +42,7 @@ struct valid_if_ne_policy
 	{
 		[[noreturn]]
 		void operator ()(void) const
-		noexcept
-		{
+		noexcept {
 			EAGINE_ABORT(
 			"Value equal to the specified constant is invalid"
 			);

@@ -75,15 +75,13 @@ struct options
 #endif
 	}
 
-	bool check(std::ostream& log)
-	{
+	bool check(std::ostream& log) {
 		return	input_path.validate(log) &&
 			output_path.validate(log) &&
 			shader_type.validate(log);
 	}
 
-	bool parse(eagine::program_arg& a, std::ostream& log)
-	{
+	bool parse(eagine::program_arg& a, std::ostream& log) {
 		const eagine::cstr_ref shader_type_names[] = {
 			"vertex",
 #ifdef GL_GEOMETRY_SHADER
@@ -101,7 +99,7 @@ struct options
 			"fragment"
 		};
 		const eagine::span<const eagine::cstr_ref> shtnames =
-			eagine::as_span(shader_type_names);
+			eagine::make_span(shader_type_names);
 
 		const GLenum shader_type_values[] = {
 			GL_VERTEX_SHADER,
@@ -120,7 +118,7 @@ struct options
 			GL_FRAGMENT_SHADER
 		};
 		const eagine::span<const GLenum> shtvalues =
-			eagine::as_span(shader_type_values);
+			eagine::make_span(shader_type_values);
 
 		return	a.parse_param(output_path, log) ||
 			a.parse_param(input_path, log) ||
@@ -128,8 +126,11 @@ struct options
 	}
 };
 
-void write_output(std::istream& input,std::ostream& output, const options& opts)
-{
+void write_output(
+	std::istream& input,
+	std::ostream& output,
+	const options& opts
+) {
 	oglplus::shader_source_header hdr;
 	hdr.shader_type = opts.shader_type.value();
 
@@ -141,34 +142,25 @@ void write_output(std::istream& input,std::ostream& output, const options& opts)
 
 int parse_options(int argc, const char** argv, options& opts);
 
-int run(int argc, const char** argv)
-{
+int run(int argc, const char** argv) {
 	options opts;
 
-	if(int err = parse_options(argc, argv, opts))
-	{
+	if(int err = parse_options(argc, argv, opts)) {
 		return err;
 	}
 
 	bool from_stdin = opts.input_path.value() == eagine::cstr_ref("-");
 	bool to_stdout = opts.output_path.value() == eagine::cstr_ref("-");
 
-	if(from_stdin && to_stdout)
-	{
+	if(from_stdin && to_stdout) {
 		write_output(std::cin, std::cout, opts);
-	}
-	else if(from_stdin)
-	{
+	} else if(from_stdin) {
 		std::ofstream output_file(opts.output_path.value().c_str());
 		write_output(std::cin, output_file, opts);
-	}
-	else if(to_stdout)
-	{
+	} else if(to_stdout) {
 		std::ifstream input_file(opts.input_path.value().c_str());
 		write_output(input_file, std::cout, opts);
-	}
-	else
-	{
+	} else {
 		std::ifstream input_file(opts.input_path.value().c_str());
 		std::ofstream output_file(opts.output_path.value().c_str());
 		write_output(input_file, output_file, opts);
@@ -176,20 +168,18 @@ int run(int argc, const char** argv)
 	return 0;
 }
 
-int main(int argc, const char** argv)
-{
+int main(int argc, const char** argv) {
+
 	try { return run(argc, argv); }
-	catch(std::exception& err)
-	{
+	catch(std::exception& err) {
 		std::cerr << "Error: " << err.what() << std::endl;
 	}
 	return 1;
 }
 
-bool parse_argument(eagine::program_arg& a, options& opts)
-{
-	if(!opts.parse(a, std::cerr))
-	{
+bool parse_argument(eagine::program_arg& a, options& opts) {
+
+	if(!opts.parse(a, std::cerr)) {
 		std::cerr
 			<< "Failed to parse argument '"
 			<< a.get()
@@ -200,26 +190,21 @@ bool parse_argument(eagine::program_arg& a, options& opts)
 	return true;
 }
 
-int parse_options(int argc, const char** argv, options& opts)
-{
+int parse_options(int argc, const char** argv, options& opts) {
+
 	eagine::program_args args(argc, argv);
 
-	for(eagine::program_arg a = args.first(); a; a = a.next())
-	{
-		if(a.is_help_arg())
-		{
+	for(auto a = args.first(); a; a = a.next()) {
+		if(a.is_help_arg()) {
 			opts.print_usage(std::cout);
 			return 1;
-		}
-		else if(!parse_argument(a, opts))
-		{
+		} else if(!parse_argument(a, opts)) {
 			opts.print_usage(std::cerr);
 			return 2;
 		}
 	}
 
-	if(!opts.check(std::cerr))
-	{
+	if(!opts.check(std::cerr)) {
 		opts.print_usage(std::cerr);
 		return 3;
 	}

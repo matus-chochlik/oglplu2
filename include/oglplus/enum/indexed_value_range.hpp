@@ -36,7 +36,7 @@ private:
 	
 public:
 	typedef _lv_t value_type;
-	typedef std::size_t size_type;
+	typedef span_size_t size_type;
 
 	limited_value_range(_lv_t limit)
 	noexcept
@@ -57,7 +57,7 @@ public:
 	size_type size(void) const
 	noexcept
 	{
-		return size_type(_limit - Base);
+		return _limit - Base;
 	}
 
 	iterator begin(void) const

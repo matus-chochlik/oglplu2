@@ -142,23 +142,25 @@ public:
 		return _names.empty();
 	}
 
-	std::size_t size(void) const
+	span_size_t size(void) const
 	noexcept
 	{
-		return _names.size();
+		return span_size(_names.size());
 	}
 
 	object_name<ObjTag>
-	operator [](std::size_t index) const
+	operator [](span_size_t index) const
 	noexcept
 	{
-		return object_name<ObjTag>(_names[index]);
+		const auto i = range_index<Container>(index); 
+		return object_name<ObjTag>(_names[i]);
 	}
 
-	object_name<ObjTag> at(std::size_t index) const
+	object_name<ObjTag> at(span_size_t index) const
 	noexcept
 	{
-		return object_name<ObjTag>(_names.at(index));
+		const auto i = range_index<Container>(index); 
+		return object_name<ObjTag>(_names.at(i));
 	}
 
 	typedef object_name_const_iterator<
@@ -201,10 +203,10 @@ class object_name_base_and_count_view
 {
 private:
 	NameT* _pbase;
-	std::size_t _size;
+	span_size_t _size;
 public:
 	constexpr
-	object_name_base_and_count_view(NameT& base, std::size_t count)
+	object_name_base_and_count_view(NameT& base, span_size_t count)
 	noexcept
 	 : _pbase(&base)
 	 , _size(count)
@@ -224,7 +226,7 @@ public:
 		*_pbase = name;
 	}
 
-	std::size_t size(void) const
+	span_size_t size(void) const
 	noexcept
 	{
 		return _size;
@@ -239,7 +241,7 @@ private:
 	typedef object_name_t<ObjTag> _name_type;
 
 	_name_type _base;
-	std::size_t _size;
+	span_size_t _size;
 public:
 	constexpr
 	object_name_fake_array(void)
@@ -249,7 +251,7 @@ public:
 	{ }
 
 	constexpr
-	object_name_fake_array(std::size_t count)
+	object_name_fake_array(span_size_t count)
 	noexcept
 	 : _base(_traits::invalid_name())
 	 , _size(count)
@@ -268,21 +270,21 @@ public:
 		return !(_size > 0);
 	}
 
-	std::size_t size(void) const
+	span_size_t size(void) const
 	noexcept
 	{
 		return _size;
 	}
 
 	object_name<ObjTag>
-	operator [](std::size_t index) const
+	operator [](span_size_t index) const
 	noexcept
 	{
 		assert(index < size());
 		return object_name<ObjTag>(_name_type(_base+index));
 	}
 
-	object_name<ObjTag> at(std::size_t index) const
+	object_name<ObjTag> at(span_size_t index) const
 	noexcept
 	{
 		if(!(index < size()))

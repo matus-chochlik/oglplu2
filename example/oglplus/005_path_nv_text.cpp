@@ -32,13 +32,13 @@ private:
 public:
 	example_clear(void)
 	 : text("OpenGL®")
-	 , text_paths(text.length())
+	 , text_paths(span_size(text.length()))
 	{
 		text_paths.glyphs(
 			GL.standard_font_name_nv,
 			"Sans",
 			GL.bold_bit_nv,
-			as_span(text),
+			cstring_span(text),
 			GL.use_missing_glyph_nv,
 			~0u, 64
 		);
@@ -54,8 +54,8 @@ public:
 			span<GLfloat>(spacings+1, spacings+9)
 		);
 
-		glyph_indices = as_span(indices, indices+7);
-		glyph_spacings = as_span(spacings, spacings+8);
+		glyph_indices = make_span(indices, indices+7);
+		glyph_spacings = make_span(spacings, spacings+8);
 
 		GLfloat text_left = *glyph_spacings.begin();
 		GLfloat text_right = *glyph_spacings.rbegin();

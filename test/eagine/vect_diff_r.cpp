@@ -8,25 +8,27 @@
 #define BOOST_TEST_MODULE EAGINE_vect_diff
 #include <boost/test/unit_test.hpp>
 #include <boost/test/floating_point_comparison.hpp>
+#include "../random.hpp"
 
 #include <eagine/vect/diff.hpp>
 #include <eagine/vect/esum.hpp>
-#include <cstdlib>
 
 BOOST_AUTO_TEST_SUITE(vect_diff_tests)
 
-template <typename T, unsigned N, bool V>
+static eagine::test_random_generator rg;
+
+template <typename T, int N, bool V>
 void test_vect_diff_TNV_1(void)
 {
-	for(unsigned k=0; k<1000; ++k)
+	for(int k=0; k<1000; ++k)
 	{
 		T a[N];
 
 		typename eagine::vect::data<T, N, V>::type u = {}, v = {};
 
-		for(unsigned i=0; i<N; ++i)
+		for(int i=0; i<N; ++i)
 		{
-			a[i] = std::rand() / T(2);
+			a[i] = rg.get(-10000,+10000);
 			u[i] = a[i];
 			v[i] = a[i];
 		}

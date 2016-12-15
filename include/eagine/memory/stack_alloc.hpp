@@ -29,7 +29,7 @@ private:
 	T* _top;
 	T* _pos;
 	T* _min;
-	std::size_t _dif;
+	span_size_t _dif;
 
 	const_block _store(void) const
 	noexcept;
@@ -45,7 +45,7 @@ public:
 	typedef const T* const_pointer;
 	typedef T& reference;
 	typedef const T& const_reference;
-	typedef std::size_t size_type;
+	typedef span_size_t size_type;
 	typedef std::ptrdiff_t difference_type;
 
 	base_stack_allocator(const base_stack_allocator&) = delete;
@@ -56,7 +56,7 @@ public:
 	base_stack_allocator(void)
 	noexcept;
 
-	base_stack_allocator(const block& blk, std::size_t align)
+	base_stack_allocator(const block& blk, span_size_t align)
 	noexcept;
 
 	base_stack_allocator(const block& blk)
@@ -66,16 +66,10 @@ public:
 	noexcept;
 
 	size_type max_size(void) const
-	noexcept
-	{
-		return _available().size();
-	}
+	noexcept { return _available().size(); }
 
 	size_type allocated_size(void) const
-	noexcept
-	{
-		return _allocated().size();
-	}
+	noexcept { return _allocated().size(); }
 
 	tribool has_allocated(const owned_block& b) const
 	noexcept;
@@ -92,10 +86,8 @@ public:
 	friend bool operator == (
 		const base_stack_allocator& a,
 		const base_stack_allocator& b
-	) noexcept
-	{
-		if((a._btm == b._btm) && (a._top == b._top))
-		{
+	) noexcept {
+		if((a._btm == b._btm) && (a._top == b._top)) {
 			assert(a._pos == b._pos);
 			assert(a._min == b._min);
 			assert(a._dif == b._dif);
@@ -115,7 +107,7 @@ private:
 	base_stack_allocator<byte> _alloc;
 public:
 	typedef byte value_type;
-	typedef std::size_t size_type;
+	typedef span_size_t size_type;
 
 	stack_byte_allocator(stack_byte_allocator&&) = default;
 	stack_byte_allocator(const block& blk)
@@ -128,16 +120,14 @@ public:
 
 	size_type max_size(size_type a)
 	noexcept
-	override
-	{
+	override {
 		return	_alloc.max_size()>a?
 			_alloc.max_size()-a:0;
 	}
 
-	tribool has_allocated(const owned_block& b, std::size_t)
+	tribool has_allocated(const owned_block& b, span_size_t)
 	noexcept
-	override
-	{
+	override {
 		return _alloc.has_allocated(b);
 	}
 
@@ -156,17 +146,17 @@ class stack_aligned_byte_allocator
  : public byte_allocator_impl<Policy, stack_aligned_byte_allocator>
 {
 private:
-	std::size_t _align;
+	span_size_t _align;
 
 	base_stack_allocator<byte> _alloc;
 	typedef stack_aligned_byte_allocator _this_class;
 public:
 	typedef byte value_type;
-	typedef std::size_t size_type;
+	typedef span_size_t size_type;
 
 	stack_aligned_byte_allocator(stack_aligned_byte_allocator&&) = default;
 
-	stack_aligned_byte_allocator(const block& blk, std::size_t align)
+	stack_aligned_byte_allocator(const block& blk, span_size_t align)
 	 : _align(align)
 	 , _alloc(blk, _align)
 	{ }
@@ -177,12 +167,9 @@ public:
 
 	size_type max_size(size_type)
 	noexcept
-	override
-	{
-		return _alloc.max_size();
-	}
+	override { return _alloc.max_size(); }
 
-	tribool has_allocated(const owned_block& b, std::size_t)
+	tribool has_allocated(const owned_block& b, span_size_t)
 	noexcept
 	override;
 
@@ -194,7 +181,7 @@ public:
 	noexcept
 	override;
 
-	std::size_t _own_end_misalign(_this_class* p) const
+	span_size_t _own_end_misalign(_this_class* p) const
 	noexcept;
 
 	byte_allocator* accomodate_self(void)

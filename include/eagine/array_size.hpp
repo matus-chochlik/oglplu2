@@ -10,16 +10,16 @@
 #ifndef EAGINE_ARRAY_SIZE_1509260923_HPP
 #define EAGINE_ARRAY_SIZE_1509260923_HPP
 
-#include <cstdint>
+#include "types.hpp"
 
 namespace eagine {
 
 template <typename T, std::size_t N>
 static constexpr inline
-std::size_t array_size(const T(&)[N])
+span_size_t array_size(const T(&)[N])
 noexcept
 {
-	return N;
+	return span_size(N);
 }
 
 } // namespace eagine

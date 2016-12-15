@@ -78,7 +78,7 @@ struct prog_var_get_set_ops<tag::uniform, GLint>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(1*count));
+		assert(v.size() >= span_size_t(1*count));
 		OGLPLUS_GLFUNC(Uniform1iv)(u.location(), count, v.data());
 		OGLPLUS_VERIFY_SIMPLE(Uniform1iv, debug);
 		return {};
@@ -94,7 +94,7 @@ struct prog_var_get_set_ops<tag::uniform, GLint>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(2*count));
+		assert(v.size() >= span_size_t(2*count));
 		OGLPLUS_GLFUNC(Uniform2iv)(u.location(), count, v.data());
 		OGLPLUS_VERIFY_SIMPLE(Uniform2iv, debug);
 		return {};
@@ -110,7 +110,7 @@ struct prog_var_get_set_ops<tag::uniform, GLint>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(3*count));
+		assert(v.size() >= span_size_t(3*count));
 		OGLPLUS_GLFUNC(Uniform3iv)(u.location(), count, v.data());
 		OGLPLUS_VERIFY_SIMPLE(Uniform3iv, debug);
 		return {};
@@ -126,7 +126,7 @@ struct prog_var_get_set_ops<tag::uniform, GLint>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(4*count));
+		assert(v.size() >= span_size_t(4*count));
 		OGLPLUS_GLFUNC(Uniform4iv)(u.location(), count, v.data());
 		OGLPLUS_VERIFY_SIMPLE(Uniform4iv, debug);
 		return {};
@@ -228,7 +228,7 @@ struct prog_var_get_set_ops<tag::uniform, GLint>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(1*count));
+		assert(v.size() >= span_size_t(1*count));
 		OGLPLUS_GLFUNC(ProgramUniform1iv)(
 			get_raw_name(pu.program()),
 			pu.location(),
@@ -253,7 +253,7 @@ struct prog_var_get_set_ops<tag::uniform, GLint>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(2*count));
+		assert(v.size() >= span_size_t(2*count));
 		OGLPLUS_GLFUNC(ProgramUniform2iv)(
 			get_raw_name(pu.program()),
 			pu.location(),
@@ -278,7 +278,7 @@ struct prog_var_get_set_ops<tag::uniform, GLint>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(3*count));
+		assert(v.size() >= span_size_t(3*count));
 		OGLPLUS_GLFUNC(ProgramUniform3iv)(
 			get_raw_name(pu.program()),
 			pu.location(),
@@ -303,7 +303,7 @@ struct prog_var_get_set_ops<tag::uniform, GLint>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(4*count));
+		assert(v.size() >= span_size_t(4*count));
 		OGLPLUS_GLFUNC(ProgramUniform4iv)(
 			get_raw_name(pu.program()),
 			pu.location(),
@@ -386,7 +386,7 @@ struct prog_var_get_set_ops<tag::uniform, GLuint>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(1*count));
+		assert(v.size() >= span_size_t(1*count));
 		OGLPLUS_GLFUNC(Uniform1uiv)(u.location(), count, v.data());
 		OGLPLUS_VERIFY_SIMPLE(Uniform1uiv, debug);
 		return {};
@@ -402,7 +402,7 @@ struct prog_var_get_set_ops<tag::uniform, GLuint>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(2*count));
+		assert(v.size() >= span_size_t(2*count));
 		OGLPLUS_GLFUNC(Uniform2uiv)(u.location(), count, v.data());
 		OGLPLUS_VERIFY_SIMPLE(Uniform2uiv, debug);
 		return {};
@@ -418,7 +418,7 @@ struct prog_var_get_set_ops<tag::uniform, GLuint>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(3*count));
+		assert(v.size() >= span_size_t(3*count));
 		OGLPLUS_GLFUNC(Uniform3uiv)(u.location(), count, v.data());
 		OGLPLUS_VERIFY_SIMPLE(Uniform3uiv, debug);
 		return {};
@@ -434,7 +434,7 @@ struct prog_var_get_set_ops<tag::uniform, GLuint>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(4*count));
+		assert(v.size() >= span_size_t(4*count));
 		OGLPLUS_GLFUNC(Uniform4uiv)(u.location(), count, v.data());
 		OGLPLUS_VERIFY_SIMPLE(Uniform4uiv, debug);
 		return {};
@@ -536,7 +536,7 @@ struct prog_var_get_set_ops<tag::uniform, GLuint>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(1*count));
+		assert(v.size() >= span_size_t(1*count));
 		OGLPLUS_GLFUNC(ProgramUniform1uiv)(
 			get_raw_name(pu.program()),
 			pu.location(),
@@ -561,7 +561,7 @@ struct prog_var_get_set_ops<tag::uniform, GLuint>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(2*count));
+		assert(v.size() >= span_size_t(2*count));
 		OGLPLUS_GLFUNC(ProgramUniform2uiv)(
 			get_raw_name(pu.program()),
 			pu.location(),
@@ -586,7 +586,7 @@ struct prog_var_get_set_ops<tag::uniform, GLuint>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(3*count));
+		assert(v.size() >= span_size_t(3*count));
 		OGLPLUS_GLFUNC(ProgramUniform3uiv)(
 			get_raw_name(pu.program()),
 			pu.location(),
@@ -611,7 +611,7 @@ struct prog_var_get_set_ops<tag::uniform, GLuint>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(4*count));
+		assert(v.size() >= span_size_t(4*count));
 		OGLPLUS_GLFUNC(ProgramUniform4uiv)(
 			get_raw_name(pu.program()),
 			pu.location(),
@@ -694,7 +694,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(1*count));
+		assert(v.size() >= span_size_t(1*count));
 		OGLPLUS_GLFUNC(Uniform1fv)(u.location(), count, v.data());
 		OGLPLUS_VERIFY_SIMPLE(Uniform1fv, debug);
 		return {};
@@ -710,7 +710,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(2*count));
+		assert(v.size() >= span_size_t(2*count));
 		OGLPLUS_GLFUNC(Uniform2fv)(u.location(), count, v.data());
 		OGLPLUS_VERIFY_SIMPLE(Uniform2fv, debug);
 		return {};
@@ -726,7 +726,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(3*count));
+		assert(v.size() >= span_size_t(3*count));
 		OGLPLUS_GLFUNC(Uniform3fv)(u.location(), count, v.data());
 		OGLPLUS_VERIFY_SIMPLE(Uniform3fv, debug);
 		return {};
@@ -742,7 +742,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(4*count));
+		assert(v.size() >= span_size_t(4*count));
 		OGLPLUS_GLFUNC(Uniform4fv)(u.location(), count, v.data());
 		OGLPLUS_VERIFY_SIMPLE(Uniform4fv, debug);
 		return {};
@@ -759,7 +759,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(2*2*count));
+		assert(v.size() >= span_size_t(2*2*count));
 		OGLPLUS_GLFUNC(UniformMatrix2fv)(u.location(), count, transpose, v.data());
 		OGLPLUS_VERIFY_SIMPLE(UniformMatrix2fv, debug);
 		return {};
@@ -776,7 +776,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(2*3*count));
+		assert(v.size() >= span_size_t(2*3*count));
 		OGLPLUS_GLFUNC(UniformMatrix2x3fv)(u.location(), count, transpose, v.data());
 		OGLPLUS_VERIFY_SIMPLE(UniformMatrix2x3fv, debug);
 		return {};
@@ -793,7 +793,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(2*4*count));
+		assert(v.size() >= span_size_t(2*4*count));
 		OGLPLUS_GLFUNC(UniformMatrix2x4fv)(u.location(), count, transpose, v.data());
 		OGLPLUS_VERIFY_SIMPLE(UniformMatrix2x4fv, debug);
 		return {};
@@ -810,7 +810,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(3*2*count));
+		assert(v.size() >= span_size_t(3*2*count));
 		OGLPLUS_GLFUNC(UniformMatrix3x2fv)(u.location(), count, transpose, v.data());
 		OGLPLUS_VERIFY_SIMPLE(UniformMatrix3x2fv, debug);
 		return {};
@@ -827,7 +827,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(3*3*count));
+		assert(v.size() >= span_size_t(3*3*count));
 		OGLPLUS_GLFUNC(UniformMatrix3fv)(u.location(), count, transpose, v.data());
 		OGLPLUS_VERIFY_SIMPLE(UniformMatrix3fv, debug);
 		return {};
@@ -844,7 +844,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(3*4*count));
+		assert(v.size() >= span_size_t(3*4*count));
 		OGLPLUS_GLFUNC(UniformMatrix3x4fv)(u.location(), count, transpose, v.data());
 		OGLPLUS_VERIFY_SIMPLE(UniformMatrix3x4fv, debug);
 		return {};
@@ -861,7 +861,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(4*2*count));
+		assert(v.size() >= span_size_t(4*2*count));
 		OGLPLUS_GLFUNC(UniformMatrix4x2fv)(u.location(), count, transpose, v.data());
 		OGLPLUS_VERIFY_SIMPLE(UniformMatrix4x2fv, debug);
 		return {};
@@ -878,7 +878,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(4*3*count));
+		assert(v.size() >= span_size_t(4*3*count));
 		OGLPLUS_GLFUNC(UniformMatrix4x3fv)(u.location(), count, transpose, v.data());
 		OGLPLUS_VERIFY_SIMPLE(UniformMatrix4x3fv, debug);
 		return {};
@@ -895,7 +895,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(4*4*count));
+		assert(v.size() >= span_size_t(4*4*count));
 		OGLPLUS_GLFUNC(UniformMatrix4fv)(u.location(), count, transpose, v.data());
 		OGLPLUS_VERIFY_SIMPLE(UniformMatrix4fv, debug);
 		return {};
@@ -997,7 +997,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(1*count));
+		assert(v.size() >= span_size_t(1*count));
 		OGLPLUS_GLFUNC(ProgramUniform1fv)(
 			get_raw_name(pu.program()),
 			pu.location(),
@@ -1022,7 +1022,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(2*count));
+		assert(v.size() >= span_size_t(2*count));
 		OGLPLUS_GLFUNC(ProgramUniform2fv)(
 			get_raw_name(pu.program()),
 			pu.location(),
@@ -1047,7 +1047,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(3*count));
+		assert(v.size() >= span_size_t(3*count));
 		OGLPLUS_GLFUNC(ProgramUniform3fv)(
 			get_raw_name(pu.program()),
 			pu.location(),
@@ -1072,7 +1072,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(4*count));
+		assert(v.size() >= span_size_t(4*count));
 		OGLPLUS_GLFUNC(ProgramUniform4fv)(
 			get_raw_name(pu.program()),
 			pu.location(),
@@ -1087,7 +1087,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat>
 		return {};
 	}
 
-	template <span_size_type N>
+	template <span_size_t N>
 	static
 	outcome<void>
 	set(
@@ -1099,7 +1099,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(2*2*count));
+		assert(v.size() >= span_size_t(2*2*count));
 		OGLPLUS_GLFUNC(ProgramUniformMatrix2fv)(
 			get_raw_name(pu.program()),
 			pu.location(),
@@ -1111,7 +1111,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat>
 		return {};
 	}
 
-	template <span_size_type N>
+	template <span_size_t N>
 	static
 	outcome<void>
 	set(
@@ -1123,7 +1123,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(2*3*count));
+		assert(v.size() >= span_size_t(2*3*count));
 		OGLPLUS_GLFUNC(ProgramUniformMatrix2x3fv)(
 			get_raw_name(pu.program()),
 			pu.location(),
@@ -1135,7 +1135,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat>
 		return {};
 	}
 
-	template <span_size_type N>
+	template <span_size_t N>
 	static
 	outcome<void>
 	set(
@@ -1147,7 +1147,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(2*4*count));
+		assert(v.size() >= span_size_t(2*4*count));
 		OGLPLUS_GLFUNC(ProgramUniformMatrix2x4fv)(
 			get_raw_name(pu.program()),
 			pu.location(),
@@ -1159,7 +1159,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat>
 		return {};
 	}
 
-	template <span_size_type N>
+	template <span_size_t N>
 	static
 	outcome<void>
 	set(
@@ -1171,7 +1171,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(3*2*count));
+		assert(v.size() >= span_size_t(3*2*count));
 		OGLPLUS_GLFUNC(ProgramUniformMatrix3x2fv)(
 			get_raw_name(pu.program()),
 			pu.location(),
@@ -1183,7 +1183,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat>
 		return {};
 	}
 
-	template <span_size_type N>
+	template <span_size_t N>
 	static
 	outcome<void>
 	set(
@@ -1195,7 +1195,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(3*3*count));
+		assert(v.size() >= span_size_t(3*3*count));
 		OGLPLUS_GLFUNC(ProgramUniformMatrix3fv)(
 			get_raw_name(pu.program()),
 			pu.location(),
@@ -1207,7 +1207,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat>
 		return {};
 	}
 
-	template <span_size_type N>
+	template <span_size_t N>
 	static
 	outcome<void>
 	set(
@@ -1219,7 +1219,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(3*4*count));
+		assert(v.size() >= span_size_t(3*4*count));
 		OGLPLUS_GLFUNC(ProgramUniformMatrix3x4fv)(
 			get_raw_name(pu.program()),
 			pu.location(),
@@ -1231,7 +1231,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat>
 		return {};
 	}
 
-	template <span_size_type N>
+	template <span_size_t N>
 	static
 	outcome<void>
 	set(
@@ -1243,7 +1243,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(4*2*count));
+		assert(v.size() >= span_size_t(4*2*count));
 		OGLPLUS_GLFUNC(ProgramUniformMatrix4x2fv)(
 			get_raw_name(pu.program()),
 			pu.location(),
@@ -1255,7 +1255,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat>
 		return {};
 	}
 
-	template <span_size_type N>
+	template <span_size_t N>
 	static
 	outcome<void>
 	set(
@@ -1267,7 +1267,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(4*3*count));
+		assert(v.size() >= span_size_t(4*3*count));
 		OGLPLUS_GLFUNC(ProgramUniformMatrix4x3fv)(
 			get_raw_name(pu.program()),
 			pu.location(),
@@ -1279,7 +1279,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat>
 		return {};
 	}
 
-	template <span_size_type N>
+	template <span_size_t N>
 	static
 	outcome<void>
 	set(
@@ -1291,7 +1291,7 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat>
 	) noexcept
 	{
 		assert(count >= 0);
-		assert(v.size() >= span_size_type(4*4*count));
+		assert(v.size() >= span_size_t(4*4*count));
 		OGLPLUS_GLFUNC(ProgramUniformMatrix4fv)(
 			get_raw_name(pu.program()),
 			pu.location(),

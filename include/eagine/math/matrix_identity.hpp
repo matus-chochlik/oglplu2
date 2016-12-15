@@ -19,22 +19,22 @@ template <typename X>
 struct identity;
 
 // is_matrix_constructor<identity>
-template <typename T, unsigned R, unsigned C, bool RM, bool V>
+template <typename T, int R, int C, bool RM, bool V>
 struct is_matrix_constructor<identity<matrix<T,R,C,RM,V>>>
  : std::true_type
 { };
 
 // identity Matrix
-template <typename T, unsigned R, unsigned C, bool RM, bool V>
+template <typename T, int R, int C, bool RM, bool V>
 struct identity<matrix<T,R,C,RM,V>>
 {
-	template <unsigned ... U>
-	using _useq = std::integer_sequence<unsigned, U...>;
+	template <int ... U>
+	using _useq = std::integer_sequence<int, U...>;
 
-	template <unsigned N>
-	using _make_useq = std::make_integer_sequence<unsigned, N>;
+	template <int N>
+	using _make_useq = std::make_integer_sequence<int, N>;
 
-	template <unsigned ... I>
+	template <int ... I>
 	static constexpr inline
 	matrix<T,R,C,RM,V>
 	_identity(_useq<I...>)
@@ -53,7 +53,7 @@ struct identity<matrix<T,R,C,RM,V>>
 };
 
 // multiply
-template <typename T, unsigned C, unsigned R, bool RM1, bool RM2, bool V>
+template <typename T, int C, int R, bool RM1, bool RM2, bool V>
 static constexpr inline
 identity<matrix<T,C,R,RM1,V>> multiply(
 	const identity<matrix<T,C,R,RM1,V>>&,
@@ -66,7 +66,7 @@ identity<matrix<T,C,R,RM1,V>> multiply(
 // multiply
 template <
 	typename MC,
-	typename T, unsigned C, unsigned R, bool RM, bool V,
+	typename T, int C, int R, bool RM, bool V,
 	typename = std::enable_if_t<
 		is_matrix_constructor<MC>::value &&
 		are_multiplicable<
@@ -85,7 +85,7 @@ MC multiply(
 }
 
 template <
-	typename T, unsigned C, unsigned R, bool RM, bool V,
+	typename T, int C, int R, bool RM, bool V,
 	typename MC,
 	typename = std::enable_if_t<
 		is_matrix_constructor<MC>::value &&
@@ -105,7 +105,7 @@ MC multiply(
 }
 
 // reorder_mat_ctr(identity)
-template <typename T, unsigned R, unsigned C, bool RM, bool V>
+template <typename T, int R, int C, bool RM, bool V>
 static constexpr inline
 identity<matrix<T,R,C,!RM,V>>
 reorder_mat_ctr(const identity<matrix<T,R,C,RM,V>>&)

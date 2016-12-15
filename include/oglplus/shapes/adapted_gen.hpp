@@ -38,7 +38,7 @@ private:
 	}
 
 	static
-	std::size_t
+	span_size_t
 	_index_type_size(eagine::shapes::index_data_type type);
 public:
 	template <typename Gen>
@@ -66,7 +66,7 @@ public:
 		return vertex_count()*values_per_vertex(attr);
 	}
 
-	std::size_t attrib_data_block_size(vertex_attrib_kind attr) const
+	span_size_t attrib_data_block_size(vertex_attrib_kind attr) const
 	{
 		// TODO other attrib data types
 		return value_count(attr)*sizeof(GLfloat);
@@ -80,7 +80,7 @@ public:
 		// TODO other attrib data types
 		_gen->attrib_values(
 			attrib,
-			eagine::memory::as_span_of<GLfloat>(data)
+			eagine::memory::make_span_of<GLfloat>(data)
 		);
 	}
 
@@ -94,12 +94,12 @@ public:
 		return _gen->index_count();
 	}
 
-	std::size_t index_type_size(void) const
+	span_size_t index_type_size(void) const
 	{
 		return _index_type_size(_gen->index_type());
 	}
 
-	std::size_t index_data_block_size(void) const
+	span_size_t index_data_block_size(void) const
 	{
 		return index_count()*index_type_size();
 	}
@@ -107,7 +107,7 @@ public:
 	void index_data(const eagine::memory::block& data) const
 	{
 		// TODO other index data types, see also drawing
-		_gen->indices(eagine::memory::as_span_of<GLuint>(data));
+		_gen->indices(eagine::memory::make_span_of<GLuint>(data));
 	}
 
 	unsigned operation_count(void) const

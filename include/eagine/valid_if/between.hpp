@@ -20,21 +20,20 @@ struct valid_if_btwn_policy
 {
 	constexpr
 	bool operator ()(T value) const
-	noexcept
-	{
+	noexcept {
 		return (Min <= value) && (value <= Max);
 	}
 
 	struct do_log
 	{
-		inline
-		do_log(const valid_if_btwn_policy<T, Min, Max>&)
+		template <typename X>
+		constexpr inline
+		do_log(X)
 		noexcept
 		{ }
 
 		template <typename Log>
-		void operator ()(Log& log, const T& v) const
-		{
+		void operator ()(Log& log, const T& v) const {
 			log	<< "Value " << v << ", not between "
 				<< Min << " and " << Max << " is invalid";
 		}
@@ -44,8 +43,7 @@ struct valid_if_btwn_policy
 	{
 		[[noreturn]]
 		void operator ()(void) const
-		noexcept
-		{
+		noexcept {
 			EAGINE_ABORT(
 			"Value outside of the specified limits is invalid"
 			);

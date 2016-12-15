@@ -42,8 +42,7 @@ struct options
 	 , all(output_path, components, width, height, depth, verbosity)
 	{ }
 
-	void print_usage(std::ostream& log)
-	{
+	void print_usage(std::ostream& log) {
 		log <<	"bake_noise_image options" << std::endl;
 		log <<	"  options:" << std::endl;
 		log <<	"   -o|--output PATH: Output file path "
@@ -61,21 +60,19 @@ struct options
 		log <<	"   -d|--depth N: Output image depth." << std::endl;
 	}
 
-	bool check(std::ostream& log) const
-	{
+	bool check(std::ostream& log) const {
 		return	all.validate(log);
 	}
 
-	bool parse(eagine::program_arg& a, std::ostream& log)
-	{
+	bool parse(eagine::program_arg& a, std::ostream& log) {
 		const eagine::cstr_ref fmtnamevals[] =
 			{"R8", "RG8", "RGB8", "RGBA8"};
 		const eagine::span<const eagine::cstr_ref> fmtnames =
-			eagine::as_span(fmtnamevals);
+			eagine::make_span(fmtnamevals);
 
 		const GLsizei cmpbytevals[] = {1, 2, 3, 4};
 		const eagine::span<const GLsizei> cmpbytes =
-			eagine::as_span(cmpbytevals);
+			eagine::make_span(cmpbytevals);
 
 		return	a.parse_param(output_path, log) ||
 			a.parse_param(components, cmpbytes, log) ||
@@ -87,11 +84,9 @@ struct options
 	}
 };
 
-void write_output(std::ostream& output, const options& opts)
-{
+void write_output(std::ostream& output, const options& opts) {
 	oglplus::image_data_header hdr(opts.width, opts.height, opts.depth);
-	switch(opts.components.value())
-	{
+	switch(opts.components.value()) {
 		case 1:
 			hdr.format = GL_RED;
 			hdr.internal_format = GL_R8;
@@ -112,7 +107,7 @@ void write_output(std::ostream& output, const options& opts)
 
 	hdr.data_type = GL_UNSIGNED_BYTE;
 
-	const std::size_t size = std::size_t(
+	const auto size = eagine::span_size_t(
 		opts.width.value()*
 		opts.height.value()*
 		opts.depth.value()*
@@ -126,40 +121,32 @@ void write_output(std::ostream& output, const options& opts)
 	std::random_device rd;
 	std::independent_bits_engine<std::mt19937, CHAR_BIT,unsigned> ibe(rd());
 
-	for(std::size_t i=0; i<size; ++i)
-	{
+	for(eagine::span_size_t i=0; i<size; ++i) {
 		output.put(char(ibe() & mask));
 	}
 }
 
 int parse_options(int argc, const char** argv, options& opts);
 
-int main(int argc, const char** argv)
-{
+int main(int argc, const char** argv) {
 	options opts;
 
-	if(int err = parse_options(argc, argv, opts))
-	{
+	if(int err = parse_options(argc, argv, opts)) {
 		return err;
 	}
 
-	if(opts.output_path.value() == eagine::cstr_ref("-"))
-	{
+	if(opts.output_path.value() == eagine::cstr_ref("-")) {
 		write_output(std::cout, opts);
-	}
-	else
-	{
+	} else {
 		std::ofstream output_file(opts.output_path.value().c_str());
 		write_output(output_file, opts);
 	}
 	return 0;
 }
 
-bool parse_argument(eagine::program_arg& a, options& opts)
-{
+bool parse_argument(eagine::program_arg& a, options& opts) {
 
-	if(!opts.parse(a, std::cerr))
-	{
+	if(!opts.parse(a, std::cerr)) {
 		std::cerr
 			<< "Failed to parse argument '"
 			<< a.get()
@@ -170,26 +157,21 @@ bool parse_argument(eagine::program_arg& a, options& opts)
 	return true;
 }
 
-int parse_options(int argc, const char** argv, options& opts)
-{
+int parse_options(int argc, const char** argv, options& opts) {
 	eagine::program_args args(argc, argv);
 
-	for(eagine::program_arg a = args.first(); a; a = a.next())
-	{
-		if(a.is_help_arg())
-		{
+	for(eagine::program_arg a = args.first(); a; a = a.next()) {
+
+		if(a.is_help_arg()) {
 			opts.print_usage(std::cout);
 			return 1;
-		}
-		else if(!parse_argument(a, opts))
-		{
+		} else if(!parse_argument(a, opts)) {
 			opts.print_usage(std::cerr);
 			return 2;
 		}
 	}
 
-	if(!opts.check(std::cerr))
-	{
+	if(!opts.check(std::cerr)) {
 		opts.print_usage(std::cerr);
 		return 2;
 	}

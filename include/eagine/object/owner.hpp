@@ -20,7 +20,7 @@ class owned<object_names<ObjTag, Storage>>
  : public object_names<ObjTag, Storage>
 {
 protected:
-	owned(std::size_t n)
+	owned(span_size_t n)
 	 : object_names<ObjTag, Storage>(n)
 	{ }
 public:

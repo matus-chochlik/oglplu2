@@ -73,7 +73,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLshort>
 	}
 
 
-	template <span_size_type N>
+	template <span_size_t N>
 	static
 	outcome<void>
 	set(
@@ -89,7 +89,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLshort>
 		return {};
 	}
 
-	template <span_size_type N>
+	template <span_size_t N>
 	static
 	outcome<void>
 	set(
@@ -105,7 +105,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLshort>
 		return {};
 	}
 
-	template <span_size_type N>
+	template <span_size_t N>
 	static
 	outcome<void>
 	set(
@@ -121,7 +121,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLshort>
 		return {};
 	}
 
-	template <span_size_type N>
+	template <span_size_t N>
 	static
 	outcome<void>
 	set(
@@ -199,7 +199,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLint>
 	}
 
 
-	template <span_size_type N>
+	template <span_size_t N>
 	static
 	outcome<void>
 	setI(
@@ -215,7 +215,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLint>
 		return {};
 	}
 
-	template <span_size_type N>
+	template <span_size_t N>
 	static
 	outcome<void>
 	setI(
@@ -231,7 +231,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLint>
 		return {};
 	}
 
-	template <span_size_type N>
+	template <span_size_t N>
 	static
 	outcome<void>
 	setI(
@@ -247,7 +247,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLint>
 		return {};
 	}
 
-	template <span_size_type N>
+	template <span_size_t N>
 	static
 	outcome<void>
 	setI(
@@ -325,7 +325,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLuint>
 	}
 
 
-	template <span_size_type N>
+	template <span_size_t N>
 	static
 	outcome<void>
 	setI(
@@ -341,7 +341,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLuint>
 		return {};
 	}
 
-	template <span_size_type N>
+	template <span_size_t N>
 	static
 	outcome<void>
 	setI(
@@ -357,7 +357,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLuint>
 		return {};
 	}
 
-	template <span_size_type N>
+	template <span_size_t N>
 	static
 	outcome<void>
 	setI(
@@ -373,7 +373,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLuint>
 		return {};
 	}
 
-	template <span_size_type N>
+	template <span_size_t N>
 	static
 	outcome<void>
 	setI(
@@ -451,7 +451,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLfloat>
 	}
 
 
-	template <span_size_type N>
+	template <span_size_t N>
 	static
 	outcome<void>
 	set(
@@ -467,7 +467,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLfloat>
 		return {};
 	}
 
-	template <span_size_type N>
+	template <span_size_t N>
 	static
 	outcome<void>
 	set(
@@ -483,7 +483,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLfloat>
 		return {};
 	}
 
-	template <span_size_type N>
+	template <span_size_t N>
 	static
 	outcome<void>
 	set(
@@ -499,7 +499,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLfloat>
 		return {};
 	}
 
-	template <span_size_type N>
+	template <span_size_t N>
 	static
 	outcome<void>
 	set(
@@ -577,7 +577,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLdouble>
 	}
 
 
-	template <span_size_type N>
+	template <span_size_t N>
 	static
 	outcome<void>
 	set(
@@ -593,7 +593,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLdouble>
 		return {};
 	}
 
-	template <span_size_type N>
+	template <span_size_t N>
 	static
 	outcome<void>
 	set(
@@ -609,7 +609,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLdouble>
 		return {};
 	}
 
-	template <span_size_type N>
+	template <span_size_t N>
 	static
 	outcome<void>
 	set(
@@ -625,7 +625,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLdouble>
 		return {};
 	}
 
-	template <span_size_type N>
+	template <span_size_t N>
 	static
 	outcome<void>
 	set(

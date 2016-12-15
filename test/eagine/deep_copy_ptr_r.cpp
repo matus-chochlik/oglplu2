@@ -7,10 +7,10 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE EAGINE_deep_copy_ptr
 #include <boost/test/unit_test.hpp>
+#include "../random.hpp"
 
 #include <eagine/deep_copy_ptr.hpp>
 #include <vector>
-#include <cstdlib>
 
 template <typename T>
 struct test_copyable
@@ -80,6 +80,8 @@ struct test_copyable_impl : test_copyable_intf<T>
 
 BOOST_AUTO_TEST_SUITE(deep_copy_ptr_tests)
 
+static eagine::test_random_generator rg;
+
 template <typename I, typename T>
 void test_deep_copy_ptr_1(void)
 {
@@ -87,7 +89,9 @@ void test_deep_copy_ptr_1(void)
 
 	for(unsigned r=0; r<10; ++r)
 	{
-		deep_copy_ptr<I> val = make_deep_copy_ptr<T>(std::rand()%10000);
+		deep_copy_ptr<I> val = make_deep_copy_ptr<T>(
+			rg.get_int(0, 10000)
+		);
 
 		std::vector<deep_copy_ptr<I>> vec;
 

@@ -7,11 +7,13 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE EAGINE_math_vector
 #include <boost/test/unit_test.hpp>
+#include "../random.hpp"
 
 #include <eagine/math/vector.hpp>
-#include <cstdlib>
 
 BOOST_AUTO_TEST_SUITE(math_vector_tests)
+
+static eagine::test_random_generator rg;
 
 template <typename T, bool V>
 void test_math_vector_default_ctr_TV(void)
@@ -44,11 +46,11 @@ BOOST_AUTO_TEST_CASE(math_vector_default_ctr)
 	test_math_vector_default_ctr_T<double>();
 }
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 void test_math_vector_zero_TNV(void)
 {
 	auto v = eagine::math::vector<T, N, V>::zero();
-	for(unsigned i=0; i<N; ++i)
+	for(int i=0; i<N; ++i)
 	{
 		BOOST_CHECK_EQUAL(v[i], T(0));
 	}
@@ -84,12 +86,12 @@ BOOST_AUTO_TEST_CASE(math_vector_zero)
 	test_math_vector_zero_T<double>();
 }
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 void test_math_vector_fill_TNV(void)
 {
-	T r = T(std::rand() % 10000);
+	T r = rg.get_any<T>();
 	auto v = eagine::math::vector<T, N, V>::fill(r);
-	for(unsigned i=0; i<N; ++i)
+	for(int i=0; i<N; ++i)
 	{
 		BOOST_CHECK_EQUAL(v[i], r);
 	}
@@ -125,14 +127,14 @@ BOOST_AUTO_TEST_CASE(math_vector_fill)
 	test_math_vector_fill_T<double>();
 }
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 void test_math_vector_axis_TNV(void)
 {
-	for(unsigned j=0; j<N; ++j)
+	for(int j=0; j<N; ++j)
 	{
-		T r = T(std::rand() % 10000);
+		T r = rg.get_any<T>();
 		auto v = eagine::math::vector<T, N, V>::axis(j, r);
-		for(unsigned i=0; i<N; ++i)
+		for(int i=0; i<N; ++i)
 		{
 			BOOST_CHECK_EQUAL(v[i], j==i?r:T(0));
 		}
@@ -169,13 +171,13 @@ BOOST_AUTO_TEST_CASE(math_vector_axis_i)
 	test_math_vector_axis_T<double>();
 }
 
-template <typename T, unsigned I, unsigned N, bool V>
+template <typename T, int I, int N, bool V>
 void test_math_vector_axis_TINV(void)
 {
-	T r = T(std::rand() % 10000);
+	T r = rg.template get_any<T>();
 
 	auto v = eagine::math::vector<T, N, V>::template axis<I>(r);
-	for(unsigned i=0; i<N; ++i)
+	for(int i=0; i<N; ++i)
 	{
 		BOOST_CHECK_EQUAL(v[i], i==I?r:T(0));
 	}
@@ -246,29 +248,29 @@ BOOST_AUTO_TEST_CASE(math_vector_axis_I)
 template <typename T, bool V>
 void test_math_vector_make_and_elem_TV(void)
 {
-	T r1 = T(std::rand()%10000);
+	T r1 = rg.template get_any<T>();
 	auto v1 = eagine::math::vector<T, 1, V>::make(r1);
 	BOOST_CHECK_EQUAL(v1[0], r1);
 
-	T r2 = T(std::rand()%10000);
+	T r2 =rg.template get_any<T>(); 
 	auto v2 = eagine::math::vector<T, 2, V>::make(r2, r1);
 	BOOST_CHECK_EQUAL(v2[0], r2);
 	BOOST_CHECK_EQUAL(v2[1], r1);
 
-	T r3 = T(std::rand()%10000);
+	T r3 = rg.template get_any<T>();
 	auto v3 = eagine::math::vector<T, 3, V>::make(r3, r2, r1);
 	BOOST_CHECK_EQUAL(v3[0], r3);
 	BOOST_CHECK_EQUAL(v3[1], r2);
 	BOOST_CHECK_EQUAL(v3[2], r1);
 
-	T r4 = T(std::rand()%10000);
+	T r4 = rg.template get_any<T>();
 	auto v4 = eagine::math::vector<T, 4, V>::make(r4, r3, r2, r1);
 	BOOST_CHECK_EQUAL(v4[0], r4);
 	BOOST_CHECK_EQUAL(v4[1], r3);
 	BOOST_CHECK_EQUAL(v4[2], r2);
 	BOOST_CHECK_EQUAL(v4[3], r1);
 
-	T r5 = T(std::rand()%10000);
+	T r5 = rg.template get_any<T>();
 	auto v5 = eagine::math::vector<T, 5, V>::make(r5, r4, r3, r2, r1);
 	BOOST_CHECK_EQUAL(v5[0], r5);
 	BOOST_CHECK_EQUAL(v5[1], r4);
@@ -276,7 +278,7 @@ void test_math_vector_make_and_elem_TV(void)
 	BOOST_CHECK_EQUAL(v5[3], r2);
 	BOOST_CHECK_EQUAL(v5[4], r1);
 
-	T r6 = T(std::rand()%10000);
+	T r6 = rg.template get_any<T>();
 	auto v6 = eagine::math::vector<T, 6, V>::make(r6, r5, r4, r3, r2, r1);
 	BOOST_CHECK_EQUAL(v6[0], r6);
 	BOOST_CHECK_EQUAL(v6[1], r5);
@@ -285,7 +287,7 @@ void test_math_vector_make_and_elem_TV(void)
 	BOOST_CHECK_EQUAL(v6[4], r2);
 	BOOST_CHECK_EQUAL(v6[5], r1);
 
-	T r7 = T(std::rand()%10000);
+	T r7 = rg.template get_any<T>();
 	auto v7 = eagine::math::vector<T, 7, V>::make(r7, r6, r5, r4, r3, r2, r1);
 	BOOST_CHECK_EQUAL(v7[0], r7);
 	BOOST_CHECK_EQUAL(v7[1], r6);
@@ -295,7 +297,7 @@ void test_math_vector_make_and_elem_TV(void)
 	BOOST_CHECK_EQUAL(v7[5], r2);
 	BOOST_CHECK_EQUAL(v7[6], r1);
 
-	T r8 = T(std::rand()%10000);
+	T r8 = rg.template get_any<T>();
 	auto v8 = eagine::math::vector<T, 8, V>::make(r8, r7, r6, r5, r4, r3, r2, r1);
 	BOOST_CHECK_EQUAL(v8[0], r8);
 	BOOST_CHECK_EQUAL(v8[1], r7);
@@ -324,16 +326,16 @@ BOOST_AUTO_TEST_CASE(math_vector_make_and_elem)
 template <typename T, bool V>
 void test_math_vector_from_and_elem_TV(void)
 {
-	T r1 = T(std::rand()%10000);
+	T r1 = rg.get_any<T>();
 	auto v10 = eagine::math::vector<T, 1, V>::make(r1);
 	BOOST_CHECK_EQUAL(v10[0], r1);
 
-	T r2 = T(std::rand()%10000);
+	T r2 = rg.get_any<T>();
 	auto v21 = eagine::math::vector<T, 2, V>::from(v10, r2);
 	BOOST_CHECK_EQUAL(v21[0], r1);
 	BOOST_CHECK_EQUAL(v21[1], r2);
 
-	T r3 = T(std::rand()%10000);
+	T r3 = rg.get_any<T>();
 	auto v32 = eagine::math::vector<T, 3, V>::from(v21, r3);
 	BOOST_CHECK_EQUAL(v32[0], r1);
 	BOOST_CHECK_EQUAL(v32[1], r2);
@@ -344,7 +346,7 @@ void test_math_vector_from_and_elem_TV(void)
 	BOOST_CHECK_EQUAL(v31[1], r3);
 	BOOST_CHECK_EQUAL(v31[2], r3);
 
-	T r4 = T(std::rand()%10000);
+	T r4 = rg.get_any<T>();
 	auto v43 = eagine::math::vector<T, 4, V>::from(v32, r4);
 	BOOST_CHECK_EQUAL(v43[0], r1);
 	BOOST_CHECK_EQUAL(v43[1], r2);
@@ -363,7 +365,7 @@ void test_math_vector_from_and_elem_TV(void)
 	BOOST_CHECK_EQUAL(v41[2], r4);
 	BOOST_CHECK_EQUAL(v41[3], r4);
 
-	T r5 = T(std::rand()%10000);
+	T r5 = rg.get_any<T>();
 	auto v54 = eagine::math::vector<T, 5, V>::from(v43, r5);
 	BOOST_CHECK_EQUAL(v54[0], r1);
 	BOOST_CHECK_EQUAL(v54[1], r2);
@@ -410,11 +412,11 @@ BOOST_AUTO_TEST_CASE(math_vector_from_and_elem)
 template <typename T, bool V>
 void test_math_vector_from2_and_elem_TV(void)
 {
-	T ra = T(std::rand()%10000);
+	T ra = rg.get_any<T>();
 	auto v1a = eagine::math::vector<T, 1, V>::make(ra);
 	BOOST_CHECK_EQUAL(v1a[0], ra);
 
-	T rb = T(std::rand()%10000);
+	T rb = rg.get_any<T>();
 	auto v1b = eagine::math::vector<T, 1, V>::make(rb);
 	BOOST_CHECK_EQUAL(v1b[0], rb);
 
@@ -501,18 +503,18 @@ BOOST_AUTO_TEST_CASE(math_vector_from2_and_elem)
 	test_math_vector_from2_and_elem_T<double>();
 }
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 void test_math_vector_from3_and_elem_TNV(void)
 {
 	T a[N];
-	for(unsigned i=0; i<N; ++i)
+	for(int i=0; i<N; ++i)
 	{
-		a[i] = T(std::rand()%10000);
+		a[i] = rg.get_any<T>();
 	}
 
 	auto v = eagine::math::vector<T, N, V>::from(a, N);
 
-	for(unsigned i=0; i<N; ++i)
+	for(int i=0; i<N; ++i)
 	{
 		BOOST_CHECK_EQUAL(v[i], a[i]);
 	}
@@ -548,27 +550,27 @@ BOOST_AUTO_TEST_CASE(math_vector_from3_and_elem)
 	test_math_vector_from3_and_elem_T<double>();
 }
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 void test_math_vector_from4_and_elem_TNV(void)
 {
-	for(unsigned j=0; j<N; ++j)
+	for(int j=0; j<N; ++j)
 	{
 		T a[N];
-		for(unsigned i=0; i<N-j; ++i)
+		for(int i=0; i<N-j; ++i)
 		{
-			a[i] = T(std::rand()%10000);
+			a[i] = rg.get_any<T>();
 		}
 
-		T r = T(std::rand()%10000);
+		T r = rg.get_any<T>();
 
 		auto v = eagine::math::vector<T, N, V>::from(a, N-j, r);
 
-		for(unsigned i=0; i<N-j; ++i)
+		for(int i=0; i<N-j; ++i)
 		{
 			BOOST_CHECK_EQUAL(v[i], a[i]);
 		}
 
-		for(unsigned i=N-j; i<N; ++i)
+		for(int i=N-j; i<N; ++i)
 		{
 			BOOST_CHECK_EQUAL(v[i], r);
 		}

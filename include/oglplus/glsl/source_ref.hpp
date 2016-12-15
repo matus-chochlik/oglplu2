@@ -11,6 +11,7 @@
 
 #include <cassert>
 #include <cstddef>
+#include "../utils/types.hpp"
 
 namespace oglplus {
 
@@ -21,7 +22,7 @@ private:
 	const GLchar** _parts;
 	const GLint* _lengths;
 public:
-	glsl_source_ref(std::size_t n, const GLchar** ps, const GLint* ls)
+	glsl_source_ref(span_size_t n, const GLchar** ps, const GLint* ls)
 	noexcept
 	 : _count(GLsizei(n))
 	 , _parts(ps)
@@ -33,24 +34,15 @@ public:
 
 	inline
 	GLsizei count(void) const
-	noexcept
-	{
-		return _count;
-	}
+	noexcept { return _count; }
 
 	inline
 	const GLchar** parts(void) const
-	noexcept
-	{
-		return _parts;
-	}
+	noexcept { return _parts; }
 
 	inline
 	const GLint* lengths(void) const
-	noexcept
-	{
-		return _lengths;
-	}
+	noexcept { return _lengths; }
 };
 
 } // namespace oglplus

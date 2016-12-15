@@ -452,7 +452,7 @@ def action_impl_enum_value_range_inl(options):
 	print_line(options, "namespace %s {" % options.library)
 	print_newline(options)
 	print_line(options, "%s_LIB_FUNC" % options.library_uc)
-	print_line(options, "std::pair<const void*, std::size_t>")
+	print_line(options, "std::pair<const void*, span_size_t>")
 	print_line(options, "get_enum_value_range(const any_enum_class%s& aec)" %
 		options.lib_suffix
 	)

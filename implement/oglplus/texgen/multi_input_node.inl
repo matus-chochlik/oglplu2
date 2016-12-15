@@ -34,15 +34,15 @@ multi_input_output::common_param_type(void)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::size_t
+span_size_t
 multi_input_node::input_count(void)
 {
-	return 1+single_output()._inputs.size();
+	return 1+span_size(single_output()._inputs.size());
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 input_intf&
-multi_input_node::input(std::size_t index)
+multi_input_node::input(span_size_t index)
 {
 	if(index == 0) return single_output()._input;
 	assert(index < input_count());
@@ -61,9 +61,7 @@ OGLPLUS_LIB_FUNC
 eagine::optional_reference_wrapper<input_intf>
 multi_input_node::input_by_name(const cstr_ref& name)
 {
-	auto p = single_output()._inputs.find(
-		std::string(name.data(), std::size_t(name.size()))
-	);
+	auto p = single_output()._inputs.find(name.str());
 	if(p != single_output()._inputs.end())
 	{
 		return p->second;
@@ -83,7 +81,7 @@ input_with_const_default<float[4]>&
 multi_input_node::add_input(const cstr_ref& name)
 {
 	auto p = single_output()._inputs.emplace(
-		std::string(name.data(), std::size_t(name.size())),
+		name.str(),
 		input_with_const_default<float[4]>(
 			*this,
 			name,
@@ -92,7 +90,7 @@ multi_input_node::add_input(const cstr_ref& name)
 	);
 	p.first->second.set_name(cstr_ref(
 		p.first->first.data(),
-		eagine::span_size_type(p.first->first.size())
+		eagine::span_size_t(p.first->first.size())
 	));
 	return p.first->second;
 }

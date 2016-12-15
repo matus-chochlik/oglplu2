@@ -14,22 +14,22 @@
 namespace eagine {
 namespace math {
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 struct scalar;
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 struct vector;
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 struct tvec;
 
-template <typename T, unsigned R, unsigned C, bool RM, bool V>
+template <typename T, int R, int C, bool RM, bool V>
 struct matrix;
 
 template <typename X>
 struct is_row_major;
 
-template <typename T, unsigned R, unsigned C, bool RM, bool V>
+template <typename T, int R, int C, bool RM, bool V>
 struct tmat;
 
 template <typename T1, typename T2>

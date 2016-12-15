@@ -12,15 +12,15 @@ namespace oglplus {
 namespace texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::size_t
+span_size_t
 base_node::input_count(void)
 {
-	return 0u;
+	return 0;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 input_intf&
-base_node::input(std::size_t)
+base_node::input(span_size_t)
 {
 	EAGINE_ABORT("Node does not have any inputs");
 	input_intf* dummy = nullptr;
@@ -44,15 +44,15 @@ base_node::add_input(const cstr_ref&)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::size_t
+span_size_t
 base_node::output_count(void)
 {
-	return 0u;
+	return 0;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 output_intf&
-base_node::output(std::size_t)
+base_node::output(span_size_t)
 {
 	EAGINE_ABORT("Node does not have any outputs");
 	output_intf* dummy = nullptr;
@@ -64,7 +64,7 @@ OGLPLUS_LIB_FUNC
 void
 base_node::update_needed(void)
 {
-	for(std::size_t i=0, n=output_count(); i<n; ++i)
+	for(span_size_t i=0, n=output_count(); i<n; ++i)
 	{
 		output(i).notify_connected();
 	}
@@ -74,7 +74,7 @@ OGLPLUS_LIB_FUNC
 void
 base_node::prepare(void)
 {
-	for(std::size_t i=0, n=input_count(); i<n; ++i)
+	for(span_size_t i=0, n=input_count(); i<n; ++i)
 	{
 		input(i).prepare_connected();
 	}
@@ -107,15 +107,15 @@ base_single_output_node::type_name(void)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::size_t
+span_size_t
 base_single_output_node::output_count(void)
 {
-	return 1u;
+	return 1;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 output_intf&
-base_single_output_node::output(std::size_t index)
+base_single_output_node::output(span_size_t index)
 {
 	(void)index;
 	assert(index == 0);

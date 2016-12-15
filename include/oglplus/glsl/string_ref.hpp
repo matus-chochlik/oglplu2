@@ -19,7 +19,7 @@ private:
 	mutable const GLchar* _src_str;
 	GLint _length;
 public:
-	glsl_string_ref(const char* src_str, std::size_t n)
+	glsl_string_ref(const char* src_str, span_size_t n)
 	noexcept
 	 : _src_str(static_cast<const GLchar*>(src_str))
 	 , _length(GLint(n==0?0:(src_str[n-1]=='\0'?n-1:n)))
@@ -29,7 +29,7 @@ public:
 	explicit
 	glsl_string_ref(const String& str)
 	noexcept
-	 : glsl_string_ref(str.data(), std::size_t(str.size()))
+	 : glsl_string_ref(str.data(), span_size(str.size()))
 	{ }
 
 	operator glsl_source_ref (void) const
@@ -43,7 +43,7 @@ class glsl_literal
  : public glsl_string_ref
 {
 public:
-	template <std::size_t N>
+	template <span_size_t N>
 	glsl_literal(const char (&src_str)[N])
 	noexcept
 	 : glsl_string_ref(src_str, N)
@@ -54,7 +54,7 @@ static inline
 glsl_string_ref operator "" _glsl(const char* src_str, std::size_t n)
 noexcept
 {
-	return {src_str, n};
+	return {src_str, span_size(n)};
 }
 
 } // namespace oglplus

@@ -22,7 +22,7 @@ struct is_known_vector_type
  : std::false_type
 { };
 
-template <typename T, std::size_t N>
+template <typename T, span_size_t N>
 struct is_known_vector_type<T[N]>
  : std::is_scalar<T>
 { };
@@ -32,7 +32,7 @@ struct is_known_matrix_type
  : std::false_type
 { };
 
-template <typename T, std::size_t C, std::size_t R>
+template <typename T, span_size_t C, span_size_t R>
 struct is_known_matrix_type<T[C][R]>
  : std::is_scalar<T>
 { };
@@ -50,12 +50,12 @@ struct has_canonical_type
  : std::is_same<canonical_compound_type_t<C>, CT>
 { };
 
-template <typename T, std::size_t N>
+template <typename T, span_size_t N>
 struct canonical_compound_type<T[N]>
  : identity<std::remove_cv_t<T[N]>>
 { };
 
-template <typename T, std::size_t C, std::size_t R>
+template <typename T, span_size_t C, span_size_t R>
 struct canonical_compound_type<T[C][R]>
  : identity<std::remove_cv_t<T[C][R]>>
 { };
@@ -65,12 +65,12 @@ struct compound_element_type
  : identity<std::remove_cv_t<T>>
 { };
 
-template <typename T, std::size_t N>
+template <typename T, span_size_t N>
 struct compound_element_type<T[N]>
  : identity<std::remove_cv_t<T>>
 { };
 
-template <typename T, std::size_t C, std::size_t R>
+template <typename T, span_size_t C, span_size_t R>
 struct compound_element_type<T[C][R]>
  : identity<std::remove_cv_t<T>>
 { };
@@ -94,7 +94,7 @@ noexcept
 	return compound_view_maker<C>()(c);
 }
 
-template <typename T, std::size_t N>
+template <typename T, span_size_t N>
 struct compound_view_maker<T[N]>
 {
 	inline
@@ -105,7 +105,7 @@ struct compound_view_maker<T[N]>
 	}
 };
 
-template <typename T, std::size_t N>
+template <typename T, span_size_t N>
 static inline
 auto element_view(T (&v) [N])
 noexcept
@@ -113,7 +113,7 @@ noexcept
 	return compound_view_maker<T[N]>()(v);
 }
 
-template <typename T, std::size_t C, std::size_t R>
+template <typename T, span_size_t C, span_size_t R>
 struct compound_view_maker<T[C][R]>
 {
 	inline
@@ -124,7 +124,7 @@ struct compound_view_maker<T[C][R]>
 	}
 };
 
-template <typename T, std::size_t C, std::size_t R>
+template <typename T, span_size_t C, span_size_t R>
 static inline
 auto element_view(T (&m) [C][R])
 noexcept

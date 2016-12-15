@@ -19,27 +19,26 @@
 namespace eagine {
 namespace vect {
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 struct esum
 {
 private:
 	typedef data_param_t<T, N, V> _dpT;
 
-	template <unsigned U>
-	using _uint = unsigned_constant<U>;
+	template <int U>
+	using _int = int_constant<U>;
 
 	template <bool B>
 	using _bool = bool_constant<B>;
 
-	template <unsigned M, bool B>
+	template <int M, bool B>
 	static inline
-	T _hlp(_dpT v, _uint<M>, _bool<B>)
-	noexcept
-	{
+	T _hlp(_dpT v, _int<M>, _bool<B>)
+	noexcept {
 		static_assert(M == N, "");
 		T r = T(0);
-		for(unsigned i=0; i<N; ++i)
-		{
+
+		for(int i=0; i<N; ++i) {
 			r += v[i];
 		}
 		return r;
@@ -48,17 +47,13 @@ private:
 #if EAGINE_VECT_OPTS
 	template <bool B>
 	static constexpr inline
-	T _hlp(_dpT v, _uint<1>, _bool<B>)
-	noexcept
-	{
-		return v[0];
-	}
+	T _hlp(_dpT v, _int<1>, _bool<B>)
+	noexcept { return v[0]; }
 
-	template <unsigned M>
+	template <int M>
 	static inline
-	T _hlp(_dpT v, _uint<M>, std::true_type)
-	noexcept
-	{
+	T _hlp(_dpT v, _int<M>, std::true_type)
+	noexcept {
 		static_assert(M == N, "");
 		return hsum<T, N, V>::apply(v)[N-1];
 	}
@@ -66,9 +61,8 @@ private:
 public:
 	static inline
 	T apply(_dpT v)
-	noexcept
-	{
-		return _hlp(v, _uint<N>(), has_vect_data<T, N, V>());
+	noexcept {
+		return _hlp(v, _int<N>(), has_vect_data<T, N, V>());
 	}
 };
 

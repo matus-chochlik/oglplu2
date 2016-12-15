@@ -120,15 +120,15 @@ combine_output::definitions(std::ostream& out, compile_context& ctxt)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::size_t
+span_size_t
 combine_node::input_count(void)
 {
-	return 4u;
+	return 4;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 input_intf&
-combine_node::input(std::size_t index)
+combine_node::input(span_size_t index)
 {
 	if(index == 0) return _output.input_r;
 	if(index == 1) return _output.input_g;

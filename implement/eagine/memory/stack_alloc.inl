@@ -15,8 +15,7 @@ inline
 const_block
 base_stack_allocator<T>::
 _store(void) const
-noexcept
-{
+noexcept {
 	assert(_btm <= _top);
 	return const_block(_btm, _top);
 }
@@ -26,8 +25,7 @@ inline
 const_block
 base_stack_allocator<T>::
 _allocated(void) const
-noexcept
-{
+noexcept {
 	assert(_btm <= _pos);
 	return const_block(_btm, _pos);
 }
@@ -37,8 +35,7 @@ inline
 const_block
 base_stack_allocator<T>::
 _available(void) const
-noexcept
-{	
+noexcept {	
 	assert(_pos <= _top);
 	return const_block(_pos, _top);
 }
@@ -76,7 +73,7 @@ noexcept
 template <typename T>
 inline
 base_stack_allocator<T>::
-base_stack_allocator(const block& blk, std::size_t align)
+base_stack_allocator(const block& blk, span_size_t align)
 noexcept
  : _btm(align_up_to<T>(blk.addr(), align))
  , _top(align_down_to<T>(blk.end_addr(), align))
@@ -97,10 +94,8 @@ template <typename T>
 inline
 base_stack_allocator<T>::
 ~base_stack_allocator(void)
-noexcept
-{
-	if(!std::is_trivially_destructible<T>())
-	{
+noexcept {
+	if(!std::is_trivially_destructible<T>()) {
 		assert(_allocated().empty());
 	}
 }
@@ -110,10 +105,8 @@ inline
 tribool
 base_stack_allocator<T>::
 has_allocated(const owned_block& b) const
-noexcept
-{
-	if(_store().contains(b))
-	{
+noexcept {
+	if(_store().contains(b)) {
 		assert(_allocated().contains(b));
 		return true;
 	}
@@ -125,22 +118,17 @@ inline
 owned_block
 base_stack_allocator<T>::
 allocate(size_type n)
-noexcept
-{
-	if(n > max_size())
-	{
+noexcept {
+	if(n > max_size()) {
 		return {};
 	}
 
 	pointer result = static_cast<pointer>(_pos);
 
 	assert(_min <= _pos);
-	if(_min == _pos)
-	{
+	if(_min == _pos) {
 		_min += n;
-	}
-	else
-	{
+	} else {
 		_dif += n;
 	}
 
@@ -153,24 +141,19 @@ inline
 owned_block
 base_stack_allocator<T>::
 truncate(owned_block&& b, size_type nn)
-noexcept
-{
+noexcept {
 	pointer p = static_cast<pointer>(b.addr());
 	size_type pn = b.size();
 	release_block(std::move(b));
 
 	assert(pn >= nn);
 
-	if(p+pn == _pos)
-	{
+	if(p+pn == _pos) {
 		difference_type d = difference_type(pn - nn);
 		assert(_min <= _pos);
-		if(_min == _pos)
-		{
+		if(_min == _pos) {
 			_min -= d;
-		}
-		else
-		{
+		} else {
 			_dif -= d;
 		}
 
@@ -184,45 +167,32 @@ inline
 void
 base_stack_allocator<T>::
 deallocate(owned_block&& b)
-noexcept
-{
+noexcept {
 	pointer p = static_cast<pointer>(b.addr());
 	size_type n = b.size();
 	release_block(std::move(b));
 
 	assert(p+n <= _pos);
-	if(p+n == _pos)
-	{
+	if(p+n == _pos) {
 		assert(_min <= _pos);
-		if(_min == _pos)
-		{
+		if(_min == _pos) {
 			_min -= n;
-		}
-		else
-		{
+		} else {
 			_dif -= n;
 		}
 
 		_pos -= n;
-	}
-	else
-	{
-		if(p+n == _min)
-		{
+	} else {
+		if(p+n == _min) {
 			_min -= n;
-		}
-		else if(p+n > _min)
-		{
+		} else if(p+n > _min) {
 			_dif -= n;
-		}
-		else
-		{
+		} else {
 			_dif += size_type(_min-p)-n;
 			_min = p;
 		}
 	}
-	if(_dif == 0)
-	{
+	if(_dif == 0) {
 		_pos = _min;
 	}
 }
@@ -245,16 +215,14 @@ inline
 owned_block
 stack_byte_allocator<Policy>::
 allocate(size_type n, size_type a)
-noexcept
-{
+noexcept {
 	size_type m = a - _alloc.allocated_size() % a;
 
 	assert((m < 255) && "must fit into a byte"); 
 
 	owned_block b = _alloc.allocate(m+n);
 
-	if(b)
-	{
+	if(b) {
 		assert(is_aligned_to(b.begin()+m, a));
 		b[m-1] = byte(m);
 	}
@@ -273,17 +241,16 @@ inline
 void
 stack_byte_allocator<Policy>::
 deallocate(owned_block&& b, size_type)
-noexcept
-{
+noexcept {
 	assert(_alloc.has_allocated(b));
 
 	byte* p = b.data();
 
-	assert(reinterpret_cast<std::uintptr_t>(p) >= 1);
+	assert(reinterpret_cast<std::intptr_t>(p) >= 1);
 
 	size_type m = size_type(p[-1]);
 
-	assert(reinterpret_cast<std::uintptr_t>(p) >= m);
+	assert(reinterpret_cast<std::intptr_t>(p) >= m);
 
 	_alloc.deallocate(this->acquire_block({p-m, b.size()+m}));
 
@@ -295,8 +262,7 @@ inline
 bool
 stack_aligned_byte_allocator<Policy>::
 equal(byte_allocator* a) const
-noexcept
-{
+noexcept {
 	auto* sba = dynamic_cast<_this_class*>(a);
 
 	return (sba != nullptr) && (this->_alloc == sba->_alloc);
@@ -306,9 +272,8 @@ template <typename Policy>
 inline
 tribool
 stack_aligned_byte_allocator<Policy>::
-has_allocated(const owned_block& b, std::size_t)
-noexcept
-{
+has_allocated(const owned_block& b, span_size_t)
+noexcept {
 	return _alloc.has_allocated(b);
 }
 //------------------------------------------------------------------------------
@@ -317,8 +282,7 @@ inline
 owned_block
 stack_aligned_byte_allocator<Policy>::
 allocate(size_type n, size_type a)
-noexcept
-{
+noexcept {
 	auto b = _alloc.allocate(n);
 
 	assert(b.is_aligned_to(a));
@@ -331,22 +295,20 @@ inline
 void
 stack_aligned_byte_allocator<Policy>::
 deallocate(owned_block&& b, size_type a)
-noexcept
-{
+noexcept {
 	assert(b.is_aligned_to(a));
 	_alloc.deallocate(std::move(b));
 }
 //------------------------------------------------------------------------------
 template <typename Policy>
 inline
-std::size_t
+span_size_t
 stack_aligned_byte_allocator<Policy>::
 _own_end_misalign(_this_class* p) const
-noexcept
-{
-	std::uintptr_t e =
-		reinterpret_cast<std::uintptr_t>(p)+
-		sizeof(_this_class);
+noexcept {
+	std::intptr_t e =
+		reinterpret_cast<std::intptr_t>(p)+
+		span_size(sizeof(_this_class));
 
 	return (_align - (e % _align)) % _align;
 }
@@ -356,12 +318,10 @@ inline
 byte_allocator*
 stack_aligned_byte_allocator<Policy>::
 accomodate_self(void)
-noexcept
-{
+noexcept {
 	auto* ba = this->accomodate_derived(*this);
 
-	if(std::size_t m = _own_end_misalign(ba))
-	{
+	if(span_size_t m = _own_end_misalign(ba)) {
 		this->release_block(ba->_alloc.allocate(m));
 	}
 
@@ -373,10 +333,8 @@ inline
 void
 stack_aligned_byte_allocator<Policy>::
 eject_self(void)
-noexcept
-{
-	if(std::size_t m = _own_end_misalign(this))
-	{
+noexcept {
+	if(span_size_t m = _own_end_misalign(this)) {
 		byte* p = reinterpret_cast<byte*>(this);
 		p += sizeof(_this_class);
 

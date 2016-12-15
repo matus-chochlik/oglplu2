@@ -85,22 +85,22 @@ split_node::split_node(void)
 { }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::size_t
+span_size_t
 split_node::input_count(void)
 {
-	return 1u;
+	return 1;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 input_intf&
-split_node::input(std::size_t index)
+split_node::input(span_size_t index)
 {
 	assert(index < input_count());
 	return _input;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::size_t
+span_size_t
 split_node::output_count(void)
 {
 	return 4u;
@@ -108,7 +108,7 @@ split_node::output_count(void)
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 output_intf&
-split_node::output(std::size_t index)
+split_node::output(span_size_t index)
 {
 	if(index == 0) return _output_r;
 	if(index == 1) return _output_g;

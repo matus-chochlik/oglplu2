@@ -11,7 +11,7 @@
 
 #include "enum/types.hpp"
 #include "utils/identity.hpp"
-#include <type_traits>
+#include <eagine/type_traits.hpp>
 
 namespace oglplus {
 
@@ -20,6 +20,18 @@ struct is_gl_data_type
  : std::false_type
 { };
 
+template <
+	typename T,
+	typename = std::enable_if_t<
+		std::is_same<T, char>::value &&
+		!std::is_same<T, GLbyte>::value
+	>
+> static constexpr inline
+data_type get_data_type(identity<T>)
+noexcept {
+	return data_type(GL_BYTE);
+}
+
 template <>
 struct is_gl_data_type<GLbyte>
  : std::true_type
@@ -27,8 +39,7 @@ struct is_gl_data_type<GLbyte>
 
 static constexpr inline
 data_type get_data_type(identity<GLbyte>)
-noexcept
-{
+noexcept {
 	return data_type(GL_BYTE);
 }
 
@@ -39,8 +50,7 @@ struct is_gl_data_type<GLubyte>
 
 static constexpr inline
 data_type get_data_type(identity<GLubyte>)
-noexcept
-{
+noexcept {
 	return data_type(GL_UNSIGNED_BYTE);
 }
 
@@ -51,8 +61,7 @@ struct is_gl_data_type<GLshort>
 
 static constexpr inline
 data_type get_data_type(identity<GLshort>)
-noexcept
-{
+noexcept {
 	return data_type(GL_SHORT);
 }
 
@@ -63,8 +72,7 @@ struct is_gl_data_type<GLushort>
 
 static constexpr inline
 data_type get_data_type(identity<GLushort>)
-noexcept
-{
+noexcept {
 	return data_type(GL_UNSIGNED_SHORT);
 }
 
@@ -75,8 +83,7 @@ struct is_gl_data_type<GLint>
 
 static constexpr inline
 data_type get_data_type(identity<GLint>)
-noexcept
-{
+noexcept {
 	return data_type(GL_INT);
 }
 
@@ -87,8 +94,7 @@ struct is_gl_data_type<GLuint>
 
 static constexpr inline
 data_type get_data_type(identity<GLuint>)
-noexcept
-{
+noexcept {
 	return data_type(GL_UNSIGNED_INT);
 }
 
@@ -99,8 +105,7 @@ struct is_gl_data_type<GLfloat>
 
 static constexpr inline
 data_type get_data_type(identity<GLfloat>)
-noexcept
-{
+noexcept {
 	return data_type(GL_FLOAT);
 }
 
@@ -112,8 +117,7 @@ struct is_gl_data_type<GLdouble>
 
 static constexpr inline
 data_type get_data_type(identity<GLdouble>)
-noexcept
-{
+noexcept {
 	return data_type(GL_DOUBLE);
 }
 #endif
@@ -121,8 +125,7 @@ noexcept
 template <typename T>
 static constexpr inline
 data_type get_data_type(void)
-noexcept
-{
+noexcept {
 	return get_data_type(identity<std::remove_cv_t<T>>());
 }
 

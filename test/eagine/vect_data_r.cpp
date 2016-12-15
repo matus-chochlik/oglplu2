@@ -8,15 +8,16 @@
 #define BOOST_TEST_MODULE EAGINE_vect_data
 #include <boost/test/unit_test.hpp>
 #include <boost/test/floating_point_comparison.hpp>
+#include "../random.hpp"
 
 #include <eagine/vect/data.hpp>
 #include <eagine/vect/sdiv.hpp>
 
 #include <eagine/identity.hpp>
 
-#include <cstdlib>
-
 BOOST_AUTO_TEST_SUITE(vect_data_tests)
+
+static eagine::test_random_generator rg;
 
 static inline
 void _check_close(int a, int b, eagine::identity<int>)
@@ -228,22 +229,22 @@ BOOST_AUTO_TEST_CASE(vect_data_elements)
 	test_vect_data_elements_T<double>();
 }
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 void test_vect_data_plus_TNV(void)
 {
-	for(unsigned k=0; k<1000; ++k)
+	for(int k=0; k<1000; ++k)
 	{
 		T a[N], b[N];
-		for(unsigned i=0; i<N; ++i)
+		for(int i=0; i<N; ++i)
 		{
-			a[i] = std::rand() / T(2);
-			b[i] = std::rand() / T(2);
+			a[i] = rg.get<T>(-1000, 1000);
+			b[i] = rg.get<T>(-1000, 1000);
 		}
 
 		typename eagine::vect::data<T, N, V>::type vNa = {};
 		typename eagine::vect::data<T, N, V>::type vNb = {};
 
-		for(unsigned i=0; i<N; ++i)
+		for(int i=0; i<N; ++i)
 		{
 			vNa[i] = a[i];
 			vNb[i] = b[i];
@@ -252,7 +253,7 @@ void test_vect_data_plus_TNV(void)
 		typename eagine::vect::data<T, N, V>::type vNc = vNa + vNb;
 		typename eagine::vect::data<T, N, V>::type vNd = vNb + vNa;
 
-		for(unsigned i=0; i<N; ++i)
+		for(int i=0; i<N; ++i)
 		{
 			_check_close<T>(vNc[i], vNd[i]);
 			_check_close<T>(vNc[i], a[i] + b[i]);
@@ -288,22 +289,22 @@ BOOST_AUTO_TEST_CASE(vect_data_plus)
 	test_vect_data_plus_T<double>();
 }
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 void test_vect_data_minus_TNV(void)
 {
-	for(unsigned k=0; k<1000; ++k)
+	for(int k=0; k<1000; ++k)
 	{
 		T a[N], b[N];
-		for(unsigned i=0; i<N; ++i)
+		for(int i=0; i<N; ++i)
 		{
-			a[i] = std::rand() / T(2);
-			b[i] = std::rand() / T(2);
+			a[i] = rg.get<T>(-1000, 1000);
+			b[i] = rg.get<T>(-1000, 1000);
 		}
 
 		typename eagine::vect::data<T, N, V>::type vNa = {};
 		typename eagine::vect::data<T, N, V>::type vNb = {};
 
-		for(unsigned i=0; i<N; ++i)
+		for(int i=0; i<N; ++i)
 		{
 			vNa[i] = a[i];
 			vNb[i] = b[i];
@@ -312,7 +313,7 @@ void test_vect_data_minus_TNV(void)
 		typename eagine::vect::data<T, N, V>::type vNc = vNa - vNb;
 		typename eagine::vect::data<T, N, V>::type vNd = vNb - vNa;
 
-		for(unsigned i=0; i<N; ++i)
+		for(int i=0; i<N; ++i)
 		{
 			_check_close<T>(vNc[i], a[i] - b[i]);
 			_check_close<T>(vNd[i], b[i] - a[i]);
@@ -347,22 +348,22 @@ BOOST_AUTO_TEST_CASE(vect_data_minus)
 	test_vect_data_minus_T<double>();
 }
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 void test_vect_data_multiply_TNV(void)
 {
-	for(unsigned k=0; k<1000; ++k)
+	for(int k=0; k<1000; ++k)
 	{
 		T a[N], b[N];
-		for(unsigned i=0; i<N; ++i)
+		for(int i=0; i<N; ++i)
 		{
-			a[i] = std::rand() % 10000;
-			b[i] = std::rand() % 10000;
+			a[i] = rg.get<T>(-1000, 1000);
+			b[i] = rg.get<T>(-1000, 1000);
 		}
 
 		typename eagine::vect::data<T, N, V>::type vNa = {};
 		typename eagine::vect::data<T, N, V>::type vNb = {};
 
-		for(unsigned i=0; i<N; ++i)
+		for(int i=0; i<N; ++i)
 		{
 			vNa[i] = a[i];
 			vNb[i] = b[i];
@@ -371,7 +372,7 @@ void test_vect_data_multiply_TNV(void)
 		typename eagine::vect::data<T, N, V>::type vNc = vNa * vNb;
 		typename eagine::vect::data<T, N, V>::type vNd = vNb * vNa;
 
-		for(unsigned i=0; i<N; ++i)
+		for(int i=0; i<N; ++i)
 		{
 			_check_close<T>(vNc[i], vNd[i]);
 			_check_close<T>(vNc[i], a[i] * b[i]);
@@ -407,22 +408,22 @@ BOOST_AUTO_TEST_CASE(vect_data_multiply)
 	test_vect_data_multiply_T<double>();
 }
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 void test_vect_data_divide_TNV(void)
 {
-	for(unsigned k=0; k<1000; ++k)
+	for(int k=0; k<1000; ++k)
 	{
 		T a[N], b[N];
-		for(unsigned i=0; i<N; ++i)
+		for(int i=0; i<N; ++i)
 		{
-			a[i] = 1 + std::rand() % 10000;
-			b[i] = 1 + std::rand() % 10000;
+			a[i] = rg.get<T>(1, 1000);
+			b[i] = rg.get<T>(1, 1000);
 		}
 
 		typename eagine::vect::data<T, N, V>::type vNa = {};
 		typename eagine::vect::data<T, N, V>::type vNb = {};
 
-		for(unsigned i=0; i<N; ++i)
+		for(int i=0; i<N; ++i)
 		{
 			vNa[i] = a[i];
 			vNb[i] = b[i];
@@ -433,7 +434,7 @@ void test_vect_data_divide_TNV(void)
 		typename eagine::vect::data<T, N, V>::type vNd =
 			eagine::vect::sdiv<T, N, V>::apply(vNb, vNa);
 
-		for(unsigned i=0; i<N; ++i)
+		for(int i=0; i<N; ++i)
 		{
 			_check_close<T>(vNc[i], a[i] / b[i]);
 			_check_close<T>(vNd[i], b[i] / a[i]);

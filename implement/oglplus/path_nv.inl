@@ -732,7 +732,7 @@ _gen(span<GLuint> names)
 noexcept
 {
 	GLuint base = OGLPLUS_GLFUNC(GenPathsNV)(GLsizei(names.size()));
-	for(span_size_type i=0; i<names.size(); ++i)
+	for(span_size_t i=0; i<names.size(); ++i)
 	{
 		names[i] = base+GLuint(i);
 	}

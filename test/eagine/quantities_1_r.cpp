@@ -7,19 +7,21 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE EAGINE_quantities_1
 #include <boost/test/unit_test.hpp>
+#include "../random.hpp"
 
 #include <eagine/quantities.hpp>
-#include <cstdlib>
 
 BOOST_AUTO_TEST_SUITE(quantities_tests_1)
+
+static eagine::test_random_generator rg;
 
 template <typename T>
 void eagine_test_quantities_1(void)
 {
 	using namespace eagine;
 
-	T r1 = T((std::rand() % 10000) / 100);
-	T r2 = T((std::rand() % 10000) / 100);
+	T r1 = rg.get<T>(-1000, 1000);
+	T r2 = rg.get<T>(-1000, 1000);
 
 	degrees_t<T> v1 = degrees_(r1);
 	degrees_t<T> v2 = degrees_(r2);

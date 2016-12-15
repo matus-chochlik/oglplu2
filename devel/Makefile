@@ -4,6 +4,8 @@
 #  http://www.boost.org/LICENSE_1_0.txt
 
 TESTS = $(patsubst test%.cpp,test%, $(wildcard *.cpp))
+ROOT_DIR = ..
+BINARY_DIR = $(shell cat $(ROOT_DIR)/BINARY_DIR)
 
 all: $(TESTS)
 
@@ -20,7 +22,7 @@ test%.o: test%.cpp
 		-Wno-unused-function \
 		-Wno-documentation \
 		-Wno-documentation-unknown-command \
-		-I../_build/include \
+		-I$(BINARY_DIR)/include \
 		-I../third_party/GSL/include \
 		-I../third_party/include \
 		-I../include \

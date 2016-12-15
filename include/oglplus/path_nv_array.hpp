@@ -546,7 +546,7 @@ class paths_nv
  : public path_nv_array_member_ops<paths_nv, path_nv_vector>
 {
 public:
-	paths_nv(std::size_t count)
+	paths_nv(span_size_t count)
 	 : path_nv_array_member_ops<paths_nv, path_nv_vector>(count)
 	{ }
 };

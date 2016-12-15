@@ -20,21 +20,20 @@ struct valid_if_nz_policy
 {
 	constexpr
 	bool operator ()(T value) const
-	noexcept
-	{
+	noexcept {
 		return (value > T(0)) || (value < T(0));
 	}
 
 	struct do_log
 	{
-		inline
-		do_log(const valid_if_nz_policy<T>&)
+		template <typename X>
+		constexpr inline
+		do_log(X)
 		noexcept
 		{ }
 
 		template <typename Log>
-		void operator ()(Log& log, const T&) const
-		{
+		void operator ()(Log& log, const T&) const {
 			log << "Value zero is invalid";
 		}
 	};
@@ -43,8 +42,7 @@ struct valid_if_nz_policy
 	{
 		[[noreturn]]
 		void operator ()(void) const
-		noexcept
-		{
+		noexcept {
 			EAGINE_ABORT("Value zero is invalid");
 		}
 	};
@@ -60,8 +58,7 @@ using nonzero_t = valid_if_not_zero<T>;
 template <typename T>
 static inline
 nonzero_t<T> nonzero(T v)
-noexcept
-{
+noexcept {
 	return {v};
 }
 

@@ -10,53 +10,52 @@
 
 #include <eagine/math/matrix.hpp>
 #include <eagine/int_sequence.hpp>
-#include <cstdlib>
 
 BOOST_AUTO_TEST_SUITE(math_matrix_tests_2)
 
-template <typename T, unsigned N, bool V, unsigned K, unsigned ... I>
+template <typename T, int N, bool V, int K, int ... I>
 static
 eagine::vect::data_t<T, N, V>
 get_test_math_matrix_vec(
-	std::integral_constant<unsigned, K>,
-	std::integer_sequence<unsigned, I...>
+	std::integral_constant<int, K>,
+	std::integer_sequence<int, I...>
 )
 {
 	return eagine::vect::data_t<T, N, V>{T(K+I)...};
 }
 
 template <
-	typename T, unsigned C, unsigned R, bool RM, bool V,
-	unsigned ... J,
-	unsigned ... I
+	typename T, int C, int R, bool RM, bool V,
+	int ... J,
+	int ... I
 >
 void test_math_matrix_init_TCRRMVJI(
-	std::integer_sequence<unsigned, J...>,
-	std::integer_sequence<unsigned, I...>
+	std::integer_sequence<int, J...>,
+	std::integer_sequence<int, I...>
 )
 {
 	typedef eagine::math::matrix<T, C, R, RM, V> M;
 
 	M m = {{
 		get_test_math_matrix_vec<T, RM?C:R, V>(
-			std::integral_constant<unsigned, J>(),
-			std::integer_sequence<unsigned, I...>()
+			std::integral_constant<int, J>(),
+			std::integer_sequence<int, I...>()
 		)...
 	}};
 
-	for(unsigned i=0; i<(RM?R:C); ++i)
-	for(unsigned j=0; j<(RM?C:R); ++j)
+	for(int i=0; i<(RM?R:C); ++i)
+	for(int j=0; j<(RM?C:R); ++j)
 	{
 		BOOST_CHECK_EQUAL(m[i][j], i+j);
 	}
 }
 
-template <typename T, unsigned C, unsigned R, bool RM, bool V>
+template <typename T, int C, int R, bool RM, bool V>
 void test_math_matrix_init_TCRRMV(void)
 {
 	test_math_matrix_init_TCRRMVJI<T, C, R, RM, V>(
-		std::make_integer_sequence<unsigned, RM?R:C>(),
-		std::make_integer_sequence<unsigned, RM?C:R>()
+		std::make_integer_sequence<int, RM?R:C>(),
+		std::make_integer_sequence<int, RM?C:R>()
 	);
 }
 

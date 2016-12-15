@@ -27,7 +27,7 @@ outcome<memory_block> mmap(
 	void* result = ::mmap(addr, len, prot, flags, get_raw_fd(fdw), offs);
 	return (result == MAP_FAILED)?
 		outcome<memory_block>(error_info(errno, get_raw_fd(fdw))):
-		outcome<memory_block>(memory_block(result, len));
+		outcome<memory_block>(memory_block(result, span_size(len)));
 }
 
 static inline
@@ -41,7 +41,10 @@ static inline
 outcome<void> munmap(memory_block blk)
 noexcept
 {
-	return error_if_not_zero(::munmap(blk.data(), blk.size()), -1);
+	return error_if_not_zero(::munmap(
+		blk.data(),
+		std_size(blk.size())
+	), -1);
 }
 
 class memory_mapped_file
@@ -58,7 +61,7 @@ public:
 	{
 		if(_blk)
 		{
-			try { ::munmap(_blk.data(), _blk.size()); }
+			try { ::munmap(_blk.data(), std_size(_blk.size())); }
 			catch(...) { }
 		}
 	}

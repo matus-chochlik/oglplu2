@@ -13,6 +13,7 @@
 #include "program_file_hdr.hpp"
 #include "memory_block.hpp"
 #include "span.hpp"
+#include <eagine/memory/align.hpp>
 #include <iostream>
 
 namespace oglplus {
@@ -21,21 +22,21 @@ inline
 void write_and_pad_shader_source_header(
 	std::ostream& output,
 	shader_source_header& header,
-	std::size_t source_text_size,
-	std::size_t& spos
+	span_size_t source_text_size,
+	span_size_t& spos
 )
 {
-	while(spos % alignof(shader_source_header) != 0)
-	{
+	using eagine::memory::is_aligned_as;
+	while(!is_aligned_as<shader_source_header>(spos)) {
 		output.put('\0');
 		++spos;
 	}
 
 	// if changing this also change shader_block
 	// in write_and_pad_program_source_header
-	const std::size_t size = 48;
-	std::size_t done = 0;
-	assert(size >= sizeof(shader_source_header));
+	const span_size_t size = 48;
+	span_size_t done = 0;
+	assert(size >= span_size(sizeof(shader_source_header)));
 
 	eagine::memory::const_address hdraddr(&header);
 
@@ -58,13 +59,13 @@ void write_shader_source(
 	std::ostream& output,
 	shader_source_header& header,
 	const_memory_block source_text,
-	std::size_t& spos
+	span_size_t& spos
 )
 {
 	write_and_pad_shader_source_header(
 		output,
 		header,
-		std::size_t(source_text.size()),
+		span_size_t(source_text.size()),
 		spos
 	);
 
@@ -73,7 +74,7 @@ void write_shader_source(
 		std::streamsize(source_text.size())
 	);
 	output.put('\0');
-	spos += std::size_t(source_text.size()+1);
+	spos += span_size_t(source_text.size()+1);
 }
 
 inline
@@ -83,11 +84,11 @@ void write_shader_source(
 	const_memory_block source_text
 )
 {
-	std::size_t spos = 0;
+	span_size_t spos = 0;
 
 	if(output.tellp() >= 0)
 	{
-		spos = std::size_t(output.tellp());
+		spos = span_size_t(output.tellp());
 	}
 
 	write_shader_source(output, header, source_text, spos);
@@ -97,25 +98,25 @@ inline
 void write_and_pad_program_source_header(
 	std::ostream& output,
 	program_source_header& header,
-	const span<const std::size_t>& shader_source_lengths,
-	std::size_t& spos
+	const span<const span_size_t>& shader_source_lengths,
+	span_size_t& spos
 )
 {
-	while(spos % alignof(program_source_header) != 0)
-	{
+	using eagine::memory::is_aligned_as;
+	while(!is_aligned_as<program_source_header>(spos)) {
 		output.put('\0');
 		++spos;
 	}
 
-	const std::size_t size = 48;
-	std::size_t done = 0;
-	assert(size >= sizeof(shader_source_header));
+	const span_size_t size = 48;
+	span_size_t done = 0;
+	assert(size >= span_size(sizeof(shader_source_header)));
 
 	eagine::memory::const_address hdraddr(&header);
 
 	header.shader_sources.reset(
 		hdraddr+std::ptrdiff_t(size),
-		std::size_t(shader_source_lengths.size()) // shader count
+		span_size_t(shader_source_lengths.size()) // shader count
 	);
 
 	output.write(static_cast<const char*>(hdraddr), sizeof(header));
@@ -129,7 +130,7 @@ void write_and_pad_program_source_header(
 		++done;
 	}
 
-	std::size_t algn = alignof(shader_source_header);
+	span_size_t algn = alignof(shader_source_header);
 	std::ptrdiff_t offs =
 		std::ptrdiff_t(shader_source_lengths.size())*
 		std::ptrdiff_t(sizeof(std::ptrdiff_t));
@@ -139,7 +140,7 @@ void write_and_pad_program_source_header(
 		offs += 16 - (offs % 16);
 	}
 
-	for(std::size_t len : shader_source_lengths)
+	for(span_size_t len : shader_source_lengths)
 	{
 		output.write(
 			reinterpret_cast<const char*>(&offs),
@@ -150,10 +151,10 @@ void write_and_pad_program_source_header(
 
 		// if changing this also change size
 		// in write_and_pad_shader_source_header
-		std::size_t shader_block_size = 48;
+		span_size_t shader_block_size = 48;
 		shader_block_size += len;
 
-		if(std::size_t misalign = shader_block_size % algn)
+		if(span_size_t misalign = shader_block_size % algn)
 		{
 			shader_block_size += (algn - misalign);
 		}

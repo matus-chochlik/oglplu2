@@ -100,7 +100,7 @@ struct _vec_data<double, 4>
 
 #elif defined(__GNUC__)
 
-template <typename T, unsigned N>
+template <typename T, int N>
 struct _gnuc_vec_data
 {
 	typedef T type __attribute__ ((vector_size (sizeof(T)*N)));
@@ -125,7 +125,7 @@ struct _vec_data<T,8> : _gnuc_vec_data<T,8>
 #endif // platform
 
 // has_vec_data<int8_t>
-template <unsigned N>
+template <int N>
 struct _has_vec_data<int8_t, N>
  : bool_constant<
 #if defined(__SSE2__) && __SSE2__
@@ -139,7 +139,7 @@ struct _has_vec_data<int8_t, N>
 { };
 
 // has_vec_data<int16_t>
-template <unsigned N>
+template <int N>
 struct _has_vec_data<int16_t, N>
  : bool_constant<
 #if defined(__SSE2__) && __SSE2__
@@ -153,7 +153,7 @@ struct _has_vec_data<int16_t, N>
 { };
 
 // has_vec_data<int32_t>
-template <unsigned N>
+template <int N>
 struct _has_vec_data<int32_t, N>
  : bool_constant<
 #if defined(__SSE2__) && __SSE2__
@@ -167,7 +167,7 @@ struct _has_vec_data<int32_t, N>
 { };
 
 // has_vec_data<int64_t>
-template <unsigned N>
+template <int N>
 struct _has_vec_data<int64_t, N>
  : bool_constant<
 #if defined(__SSE2__) && __SSE2__
@@ -178,7 +178,7 @@ struct _has_vec_data<int64_t, N>
 { };
 
 // has_vec_data<float>
-template <unsigned N>
+template <int N>
 struct _has_vec_data<float, N>
  : bool_constant<
 #if defined(__AVX__) && __AVX__
@@ -192,7 +192,7 @@ struct _has_vec_data<float, N>
 { };
 
 // has_vec_data<double>
-template <unsigned N>
+template <int N>
 struct _has_vec_data<double, N>
  : bool_constant<
 #if defined(__AVX__) && __AVX__

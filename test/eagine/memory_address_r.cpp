@@ -7,12 +7,14 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE EAGINE_memory_address
 #include <boost/test/unit_test.hpp>
+#include "../random.hpp"
 
 #include <eagine/memory/address.hpp>
-#include <cstdlib>
 #include <type_traits>
 
 BOOST_AUTO_TEST_SUITE(memory_address_tests)
+
+static eagine::test_random_generator rg;
 
 template <bool is_const>
 void eagine_test_memory_address_0(void)
@@ -139,7 +141,7 @@ void eagine_test_memory_address_2(void)
 
 	for(int i=0; i<100; ++i)
 	{
-		int offs = std::rand()%1000 - std::rand()%1000;
+		int offs = rg.get_int(0, 1000) - rg.get_int(0, 1000);
 
 		memory::basic_address<is_const> bma1(&i);
 		memory::basic_address<is_const> bma2 = bma1+offs;

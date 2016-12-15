@@ -15,18 +15,16 @@
 namespace eagine {
 namespace vect {
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 struct sqrt
 {
 	typedef data_t<T, N, V> _dT;
 
 	static
 	_dT apply(_dT v)
-	noexcept
-	{
-		using std::sqrt;
-		for(unsigned i=0; i<N; ++i)
-		{
+	noexcept {
+		for(int i=0; i<N; ++i) {
+			using std::sqrt;
 			v[i] = T(sqrt(v[i]));
 		}
 		return v;

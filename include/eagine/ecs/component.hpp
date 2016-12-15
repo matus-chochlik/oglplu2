@@ -18,24 +18,29 @@ namespace eagine {
 namespace ecs {
 
 // component unique identifier
-typedef std::size_t component_uid_t;
+typedef unsigned component_uid_t;
 
 // component_uid_getter
+template <bool IsRelation>
 class component_uid_getter
 {
 private:
 	static component_uid_t& _curr_uid(void);
 public:
-	static component_uid_t new_uid(void);
+	static inline component_uid_t new_uid(void)
+	{
+		return _curr_uid()++;
+	}
 };
 
 // component_uid
-template <typename Derived>
+template <typename Derived, bool IsRelation>
 struct component_uid
 {
 	static component_uid_t value(void)
 	{
-		static component_uid_t cid = component_uid_getter::new_uid();
+		static component_uid_t cid =
+			component_uid_getter<IsRelation>::new_uid();
 		return cid;
 	}
 
@@ -45,15 +50,23 @@ struct component_uid
 	}
 };
 
-// component - base class
-template <typename Derived>
-struct component
+// entity_data
+template <typename Derived, bool IsRelation>
+struct entity_data
 {
-	static component_uid<Derived> _uid;
+	static component_uid<Derived, IsRelation> _uid;
 };
 
+template <typename Derived, bool IsRelation>
+component_uid<Derived, IsRelation> entity_data<Derived, IsRelation>::_uid = {};
+
+// component - base class
 template <typename Derived>
-component_uid<Derived> component<Derived>::_uid = {};
+using component = entity_data<Derived, false>;
+
+// relation - base class
+template <typename Derived>
+using relation = entity_data<Derived, true>;
 
 // get_component_uid
 template <typename X>

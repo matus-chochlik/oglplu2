@@ -5,7 +5,7 @@
 # See accompanying file LICENSE_1_0.txt or copy at
 #  http://www.boost.org/LICENSE_1_0.txt
 #
-import os, sys, getopt, shutil, subprocess
+import os, sys, stat, getopt, shutil, subprocess
 from tools import args
 from tools import paths
 
@@ -717,12 +717,14 @@ def main(argv):
 	if(options.debug_config):
 		cmake_options += ["--debug-output", "--debug-trycompile"]
 
+	# get the work directory path
+	workdir = os.path.abspath(os.path.dirname(sys.argv[0]))
+
 	# create the build directory if necessary
 	if(not os.path.isdir(options.build_dir)):
 		os.makedirs(options.build_dir)
 
 	# compose the command line for calling cmake
-	workdir = os.path.abspath(os.path.dirname(sys.argv[0]))
 	cmake_cmd_line = ["cmake"] + cmake_options + options.cmake_options + [workdir]
 
 	# call cmake

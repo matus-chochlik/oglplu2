@@ -7,12 +7,14 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE EAGINE_memory_c_realloc
 #include <boost/test/unit_test.hpp>
+#include "../random.hpp"
 
 #include <eagine/memory/c_realloc.hpp>
-#include <cstdlib>
 #include <deque>
 
 BOOST_AUTO_TEST_SUITE(memory_c_realloc_tests)
+
+static eagine::test_random_generator rg;
 
 template <typename T>
 void eagine_test_memory_c_realloc_1_T(std::size_t n)
@@ -21,8 +23,8 @@ void eagine_test_memory_c_realloc_1_T(std::size_t n)
 
 	memory::c_byte_reallocator<> a;
 
-	const std::size_t ao = alignof(T);
-	const std::size_t sz = sizeof(T)*n;
+	const span_size_t ao = span_align_of<T>();
+	const span_size_t sz = span_size_of<T>(n);
 
 	BOOST_CHECK(a.max_size(ao) >= sz);
 
@@ -50,14 +52,14 @@ void eagine_test_memory_c_realloc_1_T(std::size_t n)
 
 	for(memory::owned_block& blk : blks)
 	{
-		BOOST_CHECK(blks.back().size() >= sizeof(T));
+		BOOST_CHECK(blks.back().size() >= span_size_of<T>());
 		BOOST_CHECK(blks.back().is_aligned_to(ao));
 		BOOST_CHECK(a.has_allocated(blk, ao));
 	}
 
 	while(!blks.empty())
 	{
-		auto i = blks.begin() + std::rand()%int(blks.size());
+		auto i = blks.begin() + rg.get_int(0, int(blks.size())-1);
 		a.deallocate(std::move(*i), ao);
 		blks.erase(i);
 	}

@@ -23,24 +23,22 @@ public:
 	typedef typename block::size_type size_type;
 	typedef typename block::pointer pointer;
 private:
-	std::size_t _size;
-	std::size_t _align;
+	span_size_t _size;
+	span_size_t _align;
 	owned_block _storage;
 	shared_byte_allocator _alloc;
 	
 	bool _is_ok(void) const
-	noexcept
-	{
+	noexcept {
 		return bool(_alloc) && size() <= capacity();
 	}
 
-	void _reallocate(std::size_t new_size)
-	{
+	void _reallocate(span_size_t new_size) {
 		_alloc.do_reallocate(_storage, new_size, _align);
 	}
 public:
 	explicit
-	buffer(std::size_t align)
+	buffer(span_size_t align)
 	 : _size(0)
 	 , _align(align)
 	 , _alloc(default_byte_allocator())
@@ -53,67 +51,46 @@ public:
 	buffer(const buffer&) = delete;
 
 	~buffer(void)
-	noexcept
-	{
-		free();
-	}
+	noexcept { free(); }
 
 	auto addr(void) const
-	noexcept
-	{
-		return _storage.addr();
-	}
+	noexcept { return _storage.addr(); }
 
 	pointer data(void) const
-	noexcept
-	{
-		return _storage.data();
-	}
+	noexcept { return _storage.data(); }
 
-	std::size_t size(void) const
-	noexcept
-	{
-		return _size;
-	}
+	span_size_t size(void) const
+	noexcept { return _size; }
 
-	std::size_t capacity(void) const
-	noexcept
-	{
-		return _storage.size();
-	}
+	span_size_t capacity(void) const
+	noexcept { return _storage.size(); }
 
-	void reserve(std::size_t new_size)
-	{
-		if(capacity() < new_size)
-		{
+	void reserve(span_size_t new_size) {
+		if(capacity() < new_size) {
 			_reallocate(new_size);
 		}
 		assert(_is_ok());
 	}
 
-	void resize(std::size_t new_size)
-	{
+	void resize(span_size_t new_size) {
 		reserve(new_size);
 		_size = new_size;
 		assert(_is_ok());
 	}
 
-	void free(void)
-	{
+	void free(void) {
 		_alloc.deallocate(std::move(_storage), _align);
 		_size = 0;
 	}
 
 	operator block (void)
-	noexcept
-	{
+	noexcept {
 		assert(_is_ok());
 		return {_storage.begin(), _size};
 	}
 
 	operator const_block (void) const
-	noexcept
-	{
+	noexcept {
 		assert(_is_ok());
 		return {_storage.begin(), _size};
 	}

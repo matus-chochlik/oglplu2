@@ -17,7 +17,7 @@ namespace math {
 
 template <
 	template <class> class MC,
-	typename T, unsigned C, unsigned R, bool RM, bool V
+	typename T, int C, int R, bool RM, bool V
 >
 struct constructed_matrix<MC<matrix<T,C,R,RM,V>>>
  : std::conditional_t<
@@ -28,9 +28,9 @@ struct constructed_matrix<MC<matrix<T,C,R,RM,V>>>
 { };
 
 template <
-	template <class, unsigned> class MC,
-	typename T, unsigned C, unsigned R, bool RM, bool V,
-	unsigned I
+	template <class, int> class MC,
+	typename T, int C, int R, bool RM, bool V,
+	int I
 >
 struct constructed_matrix<MC<matrix<T,C,R,RM,V>, I>>
  : std::conditional_t<

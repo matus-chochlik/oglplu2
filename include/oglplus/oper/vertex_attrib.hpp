@@ -135,7 +135,7 @@ struct vertex_attrib_ops
 		);
 	}
 
-	template <typename T, std::size_t N, bool D>
+	template <typename T, span_size_t N, bool D>
 	static inline
 	outcome<void>
 	vertex_attrib(

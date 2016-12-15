@@ -6,34 +6,6 @@
 import os
 import ycm_core
 
-default_opts = [
-	'-pedantic',
-	'-Wall',
-	'-Weverything',
-	'-Werror',
-	'-Wno-c++98-compat',
-	'-Wno-c++98-compat-pedantic',
-	'-Wno-undef',
-	'-Wno-global-constructors',
-	'-Wno-exit-time-destructors',
-	'-Wno-date-time',
-	'-Wno-weak-vtables',
-	'-Wno-padded',
-	'-Wno-missing-prototypes',
-	'-Wno-documentation-unknown-command',
-	'-Wno-switch-enum',
-	'-std=c++14',
-	'-x', 'c++',
-	'-isystem', '/usr/include',
-	'-isystem', '/usr/local/include',
-	'-I', '_build/include',
-	'-I', 'include',
-	'-I', 'implement',
-	'-I', 'third_party/include',
-	'-I', 'third_party/GSL/include',
-	'-I', 'source/utils'
-]
-
 def ThisDir():
 	return os.path.dirname(os.path.abspath(__file__))
 
@@ -63,8 +35,42 @@ def MakeOptionPathsAbsolute(old_opts, work_dir = ThisDir()):
 					break
 
 		new_opts += [new_opt]
-
 	return new_opts
+
+def BuildDir():
+	try:
+		with open(os.path.join(ThisDir(), "BINARY_DIR"), "rt") as bdf:
+			return MakePathAbsolute(bdf.read(), ThisDir())
+	except: pass
+	return os.path.join(ThisDir(), "_build")
+
+default_opts = [
+	'-pedantic',
+	'-Wall',
+	'-Weverything',
+	'-Werror',
+	'-Wno-c++98-compat',
+	'-Wno-c++98-compat-pedantic',
+	'-Wno-undef',
+	'-Wno-global-constructors',
+	'-Wno-exit-time-destructors',
+	'-Wno-date-time',
+	'-Wno-weak-vtables',
+	'-Wno-padded',
+	'-Wno-missing-prototypes',
+	'-Wno-documentation-unknown-command',
+	'-Wno-switch-enum',
+	'-std=c++14',
+	'-x', 'c++',
+	'-isystem', '/usr/include',
+	'-isystem', '/usr/local/include',
+	'-I', os.path.join(BuildDir(), "include"),
+	'-I', 'include',
+	'-I', 'implement',
+	'-I', 'third_party/include',
+	'-I', 'third_party/GSL/include',
+	'-I', 'source/utils'
+]
 
 def FlagsForFile(filename, ** kwargs):
 

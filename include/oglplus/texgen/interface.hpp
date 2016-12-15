@@ -9,6 +9,7 @@
 #ifndef OGLPLUS_TEXGEN_INTERFACE_1509260923_HPP
 #define OGLPLUS_TEXGEN_INTERFACE_1509260923_HPP
 
+#include "../utils/types.hpp"
 #include "data_type.hpp"
 #include "render_params.hpp"
 #include <eagine/valid_if/between.hpp>
@@ -225,10 +226,10 @@ struct node_intf
 	noexcept { }
 
 	virtual
-	std::size_t input_count(void) = 0;
+	span_size_t input_count(void) = 0;
 
 	virtual
-	input_intf& input(std::size_t) = 0;
+	input_intf& input(span_size_t) = 0;
 
 	virtual
 	eagine::optional_reference_wrapper<input_intf>
@@ -243,10 +244,10 @@ struct node_intf
 	std::ostream& input_definitions(std::ostream&, compile_context&);
 
 	virtual
-	std::size_t output_count(void) = 0;
+	span_size_t output_count(void) = 0;
 
 	virtual
-	output_intf& output(std::size_t) = 0;
+	output_intf& output(span_size_t) = 0;
 
 	virtual
 	eagine::optional_reference_wrapper<output_intf>

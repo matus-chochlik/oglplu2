@@ -283,15 +283,15 @@ voronoi2d_node::type_name(void)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::size_t
+span_size_t
 voronoi2d_node::input_count(void)
 {
-	return 2u;
+	return 2;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 input_intf&
-voronoi2d_node::input(std::size_t index)
+voronoi2d_node::input(span_size_t index)
 {
 	if(index == 0) return _input;
 	assert(index < input_count());
@@ -299,15 +299,15 @@ voronoi2d_node::input(std::size_t index)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::size_t
+span_size_t
 voronoi2d_node::output_count(void)
 {
-	return 6u;
+	return 6;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 output_intf&
-voronoi2d_node::output(std::size_t index)
+voronoi2d_node::output(span_size_t index)
 {
 	if(index == 0) return _distance1;
 	if(index == 1) return _distance2;

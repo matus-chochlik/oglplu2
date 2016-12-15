@@ -16,31 +16,28 @@
 namespace eagine {
 namespace vect {
 
-template <typename TF, unsigned NF, bool VF, typename TT, unsigned NT, bool VT>
+template <typename TF, int NF, bool VF, typename TT, int NT, bool VT>
 struct cast;
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 struct cast<T, N, V, T, N, V>
 {
 	static constexpr inline
 	data_t<T, N, V>
 	apply(data_param_t<T, N, V> v, T)
-	noexcept
-	{
-		return v;
-	}
+	noexcept { return v; }
 };
 
-template <typename TF, unsigned NF, bool VF, typename TT, unsigned NT, bool VT>
+template <typename TF, int NF, bool VF, typename TT, int NT, bool VT>
 struct cast
 {
 private:
-	template <std::size_t ... I>
-	using _idx_seq = std::integer_sequence<unsigned, I...>;
-	template <std::size_t N>
-	using _make_idx_seq = std::make_integer_sequence<unsigned, N>;
+	template <int ... I>
+	using _idx_seq = std::integer_sequence<int, I...>;
+	template <int N>
+	using _make_idx_seq = std::make_integer_sequence<int, N>;
 
-	template <unsigned ... I, unsigned ... D>
+	template <int ... I, int ... D>
 	static constexpr inline
 	data_t<TT, NT, VT>
 	_cast(
@@ -48,12 +45,11 @@ private:
 		data_param_t<TT, sizeof...(D), VT> d,
 		_idx_seq<I...>,
 		_idx_seq<D...>
-	) noexcept
-	{
+	) noexcept {
 		return data_t<TT, NT, VT>{TT(v[I])..., TT(d[D])...};
 	}
 
-	template <unsigned ... I>
+	template <int ... I>
 	static constexpr inline
 	data_t<TT, NT, VT>
 	_cast(
@@ -61,8 +57,7 @@ private:
 		data_param_t<TT, 0u, VT>,
 		_idx_seq<I...>,
 		_idx_seq<>
-	) noexcept
-	{
+	) noexcept {
 		return data_t<TT, NT, VT>{TT(v[I])...};
 	}
 public:
@@ -72,9 +67,7 @@ public:
 	apply(
 		data_param_t<TF, NF, VF> v,
 		data_param_t<TT, (NT>NF)?NT-NF:0, VT> d
-	)
-	noexcept
-	{
+	) noexcept {
 		typedef _make_idx_seq<(NT>NF)?NF:NT> is;
 		typedef _make_idx_seq<(NT>NF)?NT-NF:0> ds;
 		return _cast(v, d, is(), ds());
@@ -83,8 +76,7 @@ public:
 	static constexpr inline
 	data_t<TT, NT, VT>
 	apply(data_param_t<TF, NF, VF> v, TT d)
-	noexcept
-	{
+	noexcept {
 		return apply(v, fill<TT, (NT>NF)?NT-NF:0, VT>::apply(d));
 	}
 };

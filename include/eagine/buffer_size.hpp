@@ -36,43 +36,35 @@ public:
 
 	template <typename T>
 	constexpr inline
-	buffer_size(identity<T>, std::size_t count)
+	buffer_size(identity<T>, span_size_t count)
 	noexcept
-	 : _v(S(sizeof(T)*count))
+	 : _v(S(span_size_of<T>()*count))
 	{ }
 
-	template <typename T, span_size_type N>
+	template <typename T, span_size_t N>
 	constexpr inline
 	buffer_size(const span<T, N>& s)
 	noexcept
-	 : _v(S(sizeof(T))*S(s.size()))
+	 : _v(S(span_size_of<T>()*span_size(s.size())))
 	{ }
 
 	constexpr inline
 	S get(void) const
-	noexcept
-	{
-		return _v;
-	}
+	noexcept { return _v; }
 
 	constexpr inline
 	operator S (void) const
-	noexcept
-	{
-		return _v;
-	}
+	noexcept { return _v; }
 
 	template <typename T>
 	explicit constexpr inline
-	operator T (void) const
-	{
+	operator T (void) const {
 		return T(_v);
 	}
 
 	friend constexpr inline
 	buffer_size operator + (buffer_size a, buffer_size b)
-	noexcept
-	{
+	noexcept {
 		return buffer_size{a._v+b._v};
 	}
 };

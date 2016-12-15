@@ -7,6 +7,7 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE OGLPLUS_oper_compat_drawing
 #include <boost/test/unit_test.hpp>
+#include "../random.hpp"
 
 #include <oglplus/gl_fixed.hpp>
 #include "helper/mock_gl_func.hpp"
@@ -116,16 +117,17 @@ OGLPLUS_MOCK_GLFUNC(TexCoord4dv, void(const GLdouble*));
 
 #include <oglplus/oper/compat_drawing.hpp>
 #include <cstring>
-#include <cstdlib>
 
 BOOST_AUTO_TEST_SUITE(compat_drawing_tests)
 
 #if defined(GL_ARB_compatibility)
 
+static eagine::test_random_generator rg;
+
 template <typename T>
 static T get(void)
 {
-	return T(std::rand());
+	return rg.get_any<T>();
 }
 
 BOOST_AUTO_TEST_CASE(compat_drawing_vertex_s)

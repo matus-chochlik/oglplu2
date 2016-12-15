@@ -214,30 +214,30 @@ honeycomb_node::type_name(void)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::size_t
+span_size_t
 honeycomb_node::input_count(void)
 {
-	return 1u;
+	return 1;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 input_intf&
-honeycomb_node::input(std::size_t index)
+honeycomb_node::input(span_size_t index)
 {
 	assert(index < input_count());
 	return _cells;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::size_t
+span_size_t
 honeycomb_node::output_count(void)
 {
-	return 3u;
+	return 3;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 output_intf&
-honeycomb_node::output(std::size_t index)
+honeycomb_node::output(span_size_t index)
 {
 	if(index == 0) return _cell_coord;
 	if(index == 1) return _cell_center;

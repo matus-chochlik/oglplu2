@@ -18,21 +18,20 @@ namespace eagine {
 template <typename T, typename C>
 struct valid_if_lt_size_policy
 {
-	bool operator()(T x, const C& c) const
-	{
+	bool operator()(T x, const C& c) const {
 		return x < c.size();
 	}
 
 	struct do_log
 	{
-		inline
-		do_log(const valid_if_lt_size_policy<T, C>&)
+		template <typename X>
+		constexpr inline
+		do_log(X)
 		noexcept
 		{ }
 
 		template <typename Log>
-		void operator ()(Log& log, const T& v, const C& c) const
-		{
+		void operator ()(Log& log, const T& v, const C& c) const {
 			log	<< "Value " << v << ", "
 				<< "not less than c.size() = "
 				<< c.size() << " is invalid";
@@ -43,8 +42,7 @@ struct valid_if_lt_size_policy
 	{
 		[[noreturn]]
 		void operator ()(void) const
-		noexcept
-		{
+		noexcept {
 			EAGINE_ABORT(
 			"Value not less than c.size() is invalid"
 			);

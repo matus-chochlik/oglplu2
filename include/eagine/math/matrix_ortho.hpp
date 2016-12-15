@@ -19,7 +19,7 @@ template <typename X>
 struct ortho;
 
 // is_matrix_constructor<ortho>
-template <typename T, unsigned N, bool RM, bool V>
+template <typename T, int N, bool RM, bool V>
 struct is_matrix_constructor<ortho<matrix<T,N,N,RM,V>>>
  : std::true_type
 { };
@@ -130,7 +130,7 @@ struct ortho<matrix<T,4,4,RM,V>>
 };
 
 // reorder_mat_ctr(ortho)
-template <typename T, unsigned N, bool RM, bool V>
+template <typename T, int N, bool RM, bool V>
 static constexpr inline
 ortho<matrix<T,N,N,!RM,V>>
 reorder_mat_ctr(const ortho<matrix<T,N,N,RM,V>>& c)

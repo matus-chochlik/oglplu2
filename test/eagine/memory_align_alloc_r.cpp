@@ -7,14 +7,16 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE EAGINE_memory_align_alloc
 #include <boost/test/unit_test.hpp>
+#include "../random.hpp"
 
 #include <eagine/memory/align_alloc.hpp>
 #include <eagine/memory/stack_alloc.hpp>
-#include <cstdlib>
 #include <vector>
 #include <deque>
 
 BOOST_AUTO_TEST_SUITE(memory_align_alloc_tests)
+
+static eagine::test_random_generator rg;
 
 template <typename T>
 void eagine_test_memory_align_alloc_T(std::size_t n)
@@ -26,10 +28,10 @@ void eagine_test_memory_align_alloc_T(std::size_t n)
 	std::vector<char> buf4(128*1024);
 	std::vector<char> buf8(256*1024);
 
-	memory::block blk1(buf1.data(), buf1.size());
-	memory::block blk2(buf2.data(), buf2.size());
-	memory::block blk4(buf4.data(), buf4.size());
-	memory::block blk8(buf8.data(), buf8.size());
+	memory::block blk1(buf1.data(), span_size(buf1.size()));
+	memory::block blk2(buf2.data(), span_size(buf2.size()));
+	memory::block blk4(buf4.data(), span_size(buf4.size()));
+	memory::block blk8(buf8.data(), span_size(buf8.size()));
 
 	memory::multi_align_byte_allocator<std::index_sequence<1,2,4,8>> a(
 		memory::stack_aligned_byte_allocator<>(blk1, 1),
@@ -38,8 +40,8 @@ void eagine_test_memory_align_alloc_T(std::size_t n)
 		memory::stack_aligned_byte_allocator<>(blk8, 8)
 	);
 
-	const std::size_t ao = alignof(T);
-	const std::size_t sz = sizeof(T)*n;
+	const span_size_t ao = span_align_of<T>();
+	const span_size_t sz = span_size_of<T>(n);
 
 	BOOST_CHECK(a.max_size(ao) > 0);
 
@@ -61,19 +63,19 @@ void eagine_test_memory_align_alloc_T(std::size_t n)
 
 	for(std::size_t i=0; i<n; ++i)
 	{
-		blks.emplace_back(a.allocate(sizeof(T), ao));
+		blks.emplace_back(a.allocate(span_size_of<T>(), ao));
 	}
 
 	for(memory::owned_block& blk : blks)
 	{
-		BOOST_CHECK(blks.back().size() >= sizeof(T));
+		BOOST_CHECK(blks.back().size() >= span_size_of<T>());
 		BOOST_CHECK(blks.back().is_aligned_to(ao));
 		BOOST_CHECK(!!a.has_allocated(blk, ao));
 	}
 
 	while(!blks.empty())
 	{
-		auto i = blks.begin() + std::rand()%int(blks.size());
+		auto i = blks.begin() + rg.get_int(0, int(blks.size())-1);
 		a.deallocate(std::move(*i), ao);
 		blks.erase(i);
 	}

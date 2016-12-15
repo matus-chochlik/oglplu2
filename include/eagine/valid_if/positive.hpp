@@ -20,21 +20,20 @@ struct valid_if_positive_policy
 {
 	constexpr
 	bool operator ()(T value) const
-	noexcept
-	{
+	noexcept {
 		return value > T(0);
 	}
 
 	struct do_log
 	{
-		inline
-		do_log(const valid_if_positive_policy<T>&)
+		template <typename X>
+		constexpr inline
+		do_log(X)
 		noexcept
 		{ }
 
 		template <typename Log>
-		void operator ()(Log& log, const T& v) const
-		{
+		void operator ()(Log& log, const T& v) const {
 			log	<< "Value " << v << ", "
 				<< "less then or equal to zero "
 				<< "is invalid";
@@ -45,8 +44,7 @@ struct valid_if_positive_policy
 	{
 		[[noreturn]]
 		void operator ()(void) const
-		noexcept
-		{
+		noexcept {
 			EAGINE_ABORT(
 			"Value less than or equal to zero is invalid"
 			);

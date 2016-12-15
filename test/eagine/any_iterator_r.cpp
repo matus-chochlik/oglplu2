@@ -7,14 +7,16 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE EAGINE_any_iterator
 #include <boost/test/unit_test.hpp>
+#include "../random.hpp"
 
 #include <eagine/any_iterator.hpp>
-#include <cstdlib>
 #include <algorithm>
 #include <vector>
 #include <set>
 
 BOOST_AUTO_TEST_SUITE(any_iterator_tests)
+
+static eagine::test_random_generator rg;
 
 template <typename T>
 void test_any_iterator_1_I(
@@ -31,11 +33,11 @@ template <typename T>
 void test_any_iterator_1_T(void)
 {
 	std::set<T> s;
-	const int n = 10+std::rand()%90;
+	const int n = rg.get_int(10, 100);
 
 	for(int i=0; i<n; ++i)
 	{
-		s.insert((std::rand()%10000)/3);
+		s.insert(rg.get_any<T>());
 	}
 
 	test_any_iterator_1_I<T>(s.begin(), s.end());
@@ -53,7 +55,7 @@ void test_any_iterator_2_T(void)
 {
 	using namespace eagine;
 
-	std::vector<T> vec(10+std::rand()%90);
+	std::vector<T> vec(rg.get<std::size_t>(10, 100));
 
 	any_std_forward_iterator<T> b = vec.begin();
 	any_std_forward_iterator<T> e = vec.end();
@@ -89,7 +91,7 @@ void test_any_iterator_3_T(void)
 {
 	using namespace eagine;
 
-	std::vector<T> vec(10+std::rand()%90);
+	std::vector<T> vec(rg.get<std::size_t>(10, 100));
 
 	any_std_forward_range<T> rng = vec;
 

@@ -7,12 +7,14 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE EAGINE_optional_expr
 #include <boost/test/unit_test.hpp>
+#include "../random.hpp"
 
 #include <eagine/optional_expr.hpp>
 #include <eagine/valid_if/not_zero.hpp>
-#include <cstdlib>
 
 BOOST_AUTO_TEST_SUITE(optional_expr_tests)
+
+static eagine::test_random_generator rg;
 
 BOOST_AUTO_TEST_CASE(optional_expr_div_test)
 {
@@ -20,8 +22,8 @@ BOOST_AUTO_TEST_CASE(optional_expr_div_test)
 
 	for(int i=0; i<1000; ++i)
 	{
-		int n = std::rand()%100;
-		int d = std::rand()%10;
+		int n = rg.get_int(0, 100);
+		int d = rg.get_int(0, 10);
 
 		auto r = n/nonzero(d);
 

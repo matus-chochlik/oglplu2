@@ -14,7 +14,7 @@
 namespace eagine {
 namespace vect {
 
-template <typename T, unsigned N, bool V>
+template <typename T, int N, bool V>
 struct sdiv
 {
 	typedef data_t<T, N, V> _dT;
@@ -22,10 +22,7 @@ struct sdiv
 
 	static constexpr inline
 	_dT apply(_dpT a, _dpT b)
-	noexcept
-	{
-		return a/b;
-	}
+	noexcept { return a/b; }
 };
 
 #if EAGINE_USE_SIMD
@@ -39,22 +36,15 @@ struct sdiv<T, 3, V>
 
 	static constexpr inline
 	_dT _hlp(_dpT a, _dpT b, std::true_type)
-	{
-		return a/_dT{b[0], b[1], b[2], T(1)};
-	}
+	noexcept { return a/_dT{b[0], b[1], b[2], T(1)}; }
 
 	static constexpr inline
 	_dT _hlp(_dpT a, _dpT b, std::false_type)
-	{
-		return a/b;
-	}
+	noexcept { return a/b; }
 
 	static constexpr inline
 	_dT apply(_dpT a, _dpT b)
-	noexcept
-	{
-		return _hlp(a, b, has_vect_data<T, 3, V>());
-	}
+	noexcept { return _hlp(a, b, has_vect_data<T, 3, V>()); }
 };
 
 #endif

@@ -73,18 +73,18 @@ mix_output::definitions(std::ostream& out, compile_context& ctxt)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::size_t
+span_size_t
 mix_node::input_count(void)
 {
-	return 3u;
+	return 3;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 input_intf&
-mix_node::input(std::size_t index)
+mix_node::input(span_size_t index)
 {
-	if(index == 0u) return _output.zero;
-	if(index == 1u) return _output.one;
+	if(index == 0) return _output.zero;
+	if(index == 1) return _output.one;
 	assert(index < input_count());
 	return _output.value;
 }

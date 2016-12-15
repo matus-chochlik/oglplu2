@@ -16,16 +16,14 @@ inline
 owned_block
 c_byte_reallocator<Policy>::
 allocate(size_type n, size_type a)
-noexcept
-{
+noexcept {
 	assert(a > 0);
 
-	if(n == 0)
-	{
+	if(n == 0) {
 		return {};
 	}
 
-	void* p = std::malloc(n);
+	void* p = std::malloc(std_size(n));
 
 	// TODO fix if misaligned ?
 	assert(is_aligned_to(p, a));
@@ -37,10 +35,8 @@ template <typename Policy>
 void
 c_byte_reallocator<Policy>::
 deallocate(owned_block&& b, size_type)
-noexcept
-{
-	if(!b.empty())
-	{
+noexcept {
+	if(!b.empty()) {
 		std::free(b.data());
 		this->release_block(std::move(b));
 	}
@@ -50,17 +46,15 @@ template <typename Policy>
 owned_block
 c_byte_reallocator<Policy>::
 reallocate(owned_block&& b, size_type n, size_type a)
-noexcept
-{
+noexcept {
 	assert(a > 0);
 
-	if(n == 0)
-	{
+	if(n == 0) {
 		deallocate(std::move(b), a);
 		return {};
 	}
 
-	void* p = std::realloc(b.data(), n);
+	void* p = std::realloc(b.data(), std_size(n));
 
 	this->release_block(std::move(b));
 

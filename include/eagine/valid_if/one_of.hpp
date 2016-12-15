@@ -19,13 +19,10 @@ template <typename T, T ... C>
 struct valid_if_one_of_policy
 {
 	bool operator ()(const T& value) const
-	noexcept
-	{
+	noexcept {
 		const T choices[] = {C...};
-		for(const T& choice : choices)
-		{
-			if(value == choice)
-			{
+		for(const T& choice : choices) {
+			if(value == choice) {
 				return true;
 			}
 		}
@@ -34,21 +31,20 @@ struct valid_if_one_of_policy
 
 	struct do_log
 	{
-		inline
-		do_log(const valid_if_one_of_policy<T, C...>&)
+		template <typename X>
+		constexpr inline
+		do_log(X)
 		noexcept
 		{ }
 
 		template <typename Log>
-		void operator ()(Log& log, const T& v) const
-		{
+		void operator ()(Log& log, const T& v) const {
 			log	<< "Value " << v << ", "
 				<< "other than one of the values [";
 
 			const T choices[] = {C...};
 			bool first = true;
-			for(const T& choice : choices)
-			{
+			for(const T& choice : choices) {
 				log << (first?"":", ") << choice;
 				first = false;
 			}
@@ -60,8 +56,7 @@ struct valid_if_one_of_policy
 	{
 		[[noreturn]]
 		void operator ()(void) const
-		noexcept
-		{
+		noexcept {
 			EAGINE_ABORT(
 			"Value other than enumerated is invalid"
 			);

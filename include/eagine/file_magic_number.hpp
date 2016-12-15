@@ -11,6 +11,7 @@
 
 #include <array>
 #include <cstring>
+#include "types.hpp"
 
 namespace eagine {
 
@@ -31,7 +32,7 @@ private:
 	}
 public:
 	typedef const char value_type;
-	typedef std::size_t size_type;
+	typedef span_size_t size_type;
 
 	constexpr
 	file_magic_number(void)
@@ -56,10 +57,10 @@ public:
 	}
 
 	static constexpr inline
-	std::size_t size(void)
+	span_size_t size(void)
 	noexcept
 	{
-		return 16u;
+		return 16;
 	}
 };
 

@@ -7,13 +7,15 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE EAGINE_protected_member
 #include <boost/test/unit_test.hpp>
+#include "../random.hpp"
 
 #include <eagine/protected_member.hpp>
 #include <eagine/selector.hpp>
 #include <utility>
-#include <cstdlib>
 
 BOOST_AUTO_TEST_SUITE(protected_member_tests)
+
+static eagine::test_random_generator rg;
 
 template <typename T1, typename T2>
 class eagine_protected_member_cls_1
@@ -43,8 +45,8 @@ void eagine_test_protected_member_1(void)
 {
 	for(int i=0; i<100; ++i)
 	{
-		T1 v1 = T1((std::rand() % 1000) / 3);
-		T2 v2 = T2((std::rand() % 1000) / 3);
+		T1 v1 = rg.get_any<T1>();
+		T2 v2 = rg.get_any<T2>();
 
 		eagine_protected_member_cls_1<T1, T2> x(v1, v2);
 
@@ -101,9 +103,9 @@ void eagine_test_protected_member_2(void)
 {
 	for(int i=0; i<100; ++i)
 	{
-		T1 v1 = T1((std::rand() % 1000) / 3);
-		T2 v2 = T2((std::rand() % 1000) / 3);
-		T3 v3 = T3((std::rand() % 1000) / 3);
+		T1 v1 = rg.get_any<T1>();
+		T2 v2 = rg.get_any<T2>();
+		T3 v3 = rg.get_any<T3>();
 
 		eagine_protected_member_cls_2<T1, T2, T3> x(v1, v2, v3);
 

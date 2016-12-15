@@ -37,7 +37,7 @@ class multi_align_byte_allocator<
 {
 private:
 	std::array<
-		std::size_t,
+		span_size_t,
 		sizeof ... (Align)
 	> _alignment;
 
@@ -48,13 +48,10 @@ private:
 
 	shared_byte_allocator _fallback_alloc;
 
-	shared_byte_allocator& _get_alloc(std::size_t align)
-	{
+	shared_byte_allocator& _get_alloc(span_size_t align) {
 		assert(_alignment.size() == _aligned_alloc.size());
-		for(std::size_t i=0; i<_alignment.size(); ++i)
-		{
-			if(_alignment[i] == align)
-			{
+		for(std::size_t i=0; i<_alignment.size(); ++i) {
+			if(_alignment[i] == align) {
 				return _aligned_alloc[i];
 			}
 		}
@@ -73,16 +70,13 @@ public:
 	{ }
 
 	typedef byte value_type;
-	typedef std::size_t size_type;
+	typedef span_size_t size_type;
 
 	bool equal(byte_allocator* a) const
 	noexcept
-	override
-	{
-		if(auto* that = dynamic_cast<multi_align_byte_allocator*>(a))
-		{
-			for(std::size_t i=0; i<_aligned_alloc.size(); ++i)
-			{
+	override {
+		if(auto* that = dynamic_cast<multi_align_byte_allocator*>(a)) {
+			for(std::size_t i=0; i<_aligned_alloc.size(); ++i) {
 				if(_aligned_alloc[i] != that->_aligned_alloc[i])
 				{
 					return false;
@@ -94,21 +88,17 @@ public:
 		return false;
 	}
 	
-	size_type max_size(std::size_t a)
+	size_type max_size(span_size_t a)
 	noexcept
-	override
-	{
+	override {
 		return _get_alloc(a).max_size(a);
 	}
 
-	tribool has_allocated(const owned_block& b, std::size_t a)
+	tribool has_allocated(const owned_block& b, span_size_t a)
 	noexcept
-	override
-	{
-		for(std::size_t i=0; i<_aligned_alloc.size(); ++i)
-		{
-			if(_aligned_alloc[i].has_allocated(b, a))
-			{
+	override {
+		for(std::size_t i=0; i<_aligned_alloc.size(); ++i) {
+			if(_aligned_alloc[i].has_allocated(b, a)) {
 				return true;
 			}
 		}
@@ -117,15 +107,13 @@ public:
 
 	owned_block allocate(size_type n, size_type a)
 	noexcept
-	override
-	{
+	override {
 		return _get_alloc(a).allocate(n, a);
 	}
 
 	void deallocate(owned_block&& b, size_type a)
 	noexcept
-	override
-	{
+	override {
 		assert(!!_get_alloc(a).has_allocated(b, a));
 		_get_alloc(a).deallocate(std::move(b), a);
 	}

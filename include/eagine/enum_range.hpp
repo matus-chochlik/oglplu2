@@ -38,7 +38,7 @@ private:
 	}
 public:
 	typedef _ec_t value_type;
-	typedef span_size_type size_type;
+	typedef span_size_t size_type;
 
 	explicit
 	enumerated_value_range(span<const T> v)

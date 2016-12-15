@@ -22,7 +22,7 @@ namespace memory {
 struct byte_allocator : block_owner
 {
 	typedef byte value_type;
-	typedef std::size_t size_type;
+	typedef span_size_t size_type;
 
 	byte_allocator(void) = default;
 	byte_allocator(const byte_allocator&) = default;
@@ -112,7 +112,7 @@ struct byte_alloc_managed_policy
 class byte_alloc_ref_count_policy
 {
 private:
-	std::size_t _ref_count;
+	span_size_t _ref_count;
 public:
 	byte_alloc_ref_count_policy(const byte_alloc_ref_count_policy&) =delete;
 
@@ -176,7 +176,7 @@ private:
 		return *static_cast<Derived*>(this);
 	}
 public:
-	typedef std::size_t size_type;
+	typedef span_size_t size_type;
 
 	byte_allocator_impl(void) = default;
 	byte_allocator_impl(byte_allocator_impl&&) = default;
@@ -218,7 +218,10 @@ public:
 	Final* accomodate_derived(Final& that)
 	noexcept
 	{
-		block b = that.allocate(sizeof(Final), alignof(Final));
+		block b = that.allocate(
+			span_size_of<Final>(),
+			span_align_of<Final>()
+		);
 		return new(b.begin()) Final(std::move(that));
 	}
 
@@ -227,7 +230,10 @@ public:
 	noexcept
 	{
 		Final tmp = std::move(that);
-		tmp.deallocate(acquire_block(block_of(that)), alignof(Final));
+		tmp.deallocate(
+			acquire_block(block_of(that)),
+			span_align_of<Final>()
+		);
 	}
 
 	Derived* accomodate_self(void)

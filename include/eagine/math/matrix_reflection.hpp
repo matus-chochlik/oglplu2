@@ -16,17 +16,17 @@ namespace eagine {
 namespace math {
 
 // reflection_I
-template <typename X, unsigned I>
+template <typename X, int I>
 struct reflection_I;
 
 // is_matrix_constructor<reflection_I>
-template <typename T, unsigned N, bool RM, bool V, unsigned I>
+template <typename T, int N, bool RM, bool V, int I>
 struct is_matrix_constructor<reflection_I<matrix<T,N,N,RM,V>, I>>
  : std::true_type
 { };
 
 // scale matrix 4x4 row-major
-template <typename T, bool RM, bool V, unsigned I>
+template <typename T, bool RM, bool V, int I>
 struct reflection_I<matrix<T,4,4,RM,V>, I>
 {
 	T _v;
@@ -38,7 +38,7 @@ struct reflection_I<matrix<T,4,4,RM,V>, I>
 	{ }
 
 	constexpr inline
-	T v(unsigned i) const
+	T v(int i) const
 	noexcept
 	{
 		return (I == i)?_v:T(1);
@@ -58,7 +58,7 @@ struct reflection_I<matrix<T,4,4,RM,V>, I>
 };
 
 // multiply
-template <typename T, unsigned N, bool RM1, bool RM2, bool V, unsigned I>
+template <typename T, int N, bool RM1, bool RM2, bool V, int I>
 static constexpr inline
 reflection_I<matrix<T,N,N,RM1,V>, I>
 multiply(
@@ -70,7 +70,7 @@ multiply(
 }
 
 // reorder_mat_ctr(reflection_I)
-template <typename T, unsigned N, bool RM, bool V, unsigned I>
+template <typename T, int N, bool RM, bool V, int I>
 static constexpr inline
 reflection_I<matrix<T,N,N,!RM,V>, I>
 reorder_mat_ctr(const reflection_I<matrix<T,N,N,RM,V>, I>& c)

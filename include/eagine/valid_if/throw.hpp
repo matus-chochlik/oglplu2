@@ -20,11 +20,9 @@ namespace eagine {
 template <typename T, typename P, typename A, typename L>
 inline
 valid_if<T, P, A, L>&
-valid_or_throw(valid_if<T, P, A, L>& vi)
-{
+valid_or_throw(valid_if<T, P, A, L>& vi) {
 	vi.call_if_invalid(
-		[](const L& do_log, const T& v)
-		{
+		[](const L& do_log, const T& v) {
 			std::stringstream ss;
 			do_log(ss, v);
 			throw std::runtime_error(ss.str());
@@ -36,11 +34,9 @@ valid_or_throw(valid_if<T, P, A, L>& vi)
 template <typename T, typename C, typename P, typename A, typename L>
 inline
 in_class_valid_if<T, C, P, A, L>&
-valid_or_throw(in_class_valid_if<T, C, P, A, L>& vi, const C& cls)
-{
+valid_or_throw(in_class_valid_if<T, C, P, A, L>& vi, const C& cls) {
 	vi.call_if_invalid(
-		[](const L& do_log, const T& v, const C& c)
-		{
+		[](const L& do_log, const T& v, const C& c) {
 			std::stringstream ss;
 			do_log(ss, v, c);
 			throw std::runtime_error(ss.str());

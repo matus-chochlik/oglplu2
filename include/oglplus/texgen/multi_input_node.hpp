@@ -38,10 +38,10 @@ public:
 	multi_input_output& single_output(void)
 	override = 0;
 
-	std::size_t input_count(void)
+	span_size_t input_count(void)
 	override;
 
-	input_intf& input(std::size_t)
+	input_intf& input(span_size_t)
 	override;
 
 	eagine::optional_reference_wrapper<input_intf>

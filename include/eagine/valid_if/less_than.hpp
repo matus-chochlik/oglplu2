@@ -20,21 +20,20 @@ struct valid_if_lt_policy
 {
 	constexpr
 	bool operator ()(T value) const
-	noexcept
-	{
+	noexcept {
 		return value < Cmp;
 	}
 
 	struct do_log
 	{
-		inline
-		do_log(const valid_if_lt_policy<T, Cmp>&)
+		template <typename X>
+		constexpr inline
+		do_log(X)
 		noexcept
 		{ }
 
 		template <typename Log>
-		void operator ()(Log& log, const T& v) const
-		{
+		void operator ()(Log& log, const T& v) const {
 			log	<< "Value " << v << ", "
 				<< "greater then or equal to " << Cmp << " "
 				<< "is invalid";
@@ -45,8 +44,7 @@ struct valid_if_lt_policy
 	{
 		[[noreturn]]
 		void operator ()(void) const
-		noexcept
-		{
+		noexcept {
 			EAGINE_ABORT(
 			"Value greater than or equal to the limit is invalid"
 			);

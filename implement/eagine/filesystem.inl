@@ -84,7 +84,7 @@ string_path::string_path(
 	const str_span& alt_sep
 )
 {
-	std::size_t s = 0;
+	span_size_t s = 0;
 
 	auto count =
 	[&s](const str_span& name)
@@ -119,7 +119,7 @@ string_path::string_path(
 EAGINE_LIB_FUNC
 string_path::string_path(const str_span& path_str, const str_span& sep)
 {
-	std::size_t s = 0;
+	span_size_t s = 0;
 
 	auto count =
 	[&s](const str_span& name)

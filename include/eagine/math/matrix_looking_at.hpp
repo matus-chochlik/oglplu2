@@ -20,7 +20,7 @@ template <typename X>
 struct looking_at_y_up;
 
 // is_matrix_constructor<looking_at_y_up>
-template <typename T, unsigned N, bool RM, bool V>
+template <typename T, int N, bool RM, bool V>
 struct is_matrix_constructor<looking_at_y_up<matrix<T,N,N,RM,V>>>
  : std::true_type
 { };
@@ -101,7 +101,7 @@ struct looking_at_y_up<matrix<T,4,4,RM,V>>
 };
 
 // reorder_mat_ctr(looking_at_y_up)
-template <typename T, unsigned N, bool RM, bool V>
+template <typename T, int N, bool RM, bool V>
 static constexpr inline
 looking_at_y_up<matrix<T,N,N,!RM,V>>
 reorder_mat_ctr(const looking_at_y_up<matrix<T,N,N,RM,V>>& c)

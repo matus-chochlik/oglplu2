@@ -89,14 +89,14 @@ add_all_dependencies(main_${OGLPLUS_EXAMPLE_HARNESS} oglplus_example_harness)
 set_property(TARGET oglplus_example_harness PROPERTY FOLDER "Example/OGLplus")
 
 # helper function used in the directories containing examples
-function(add_examples EXAMPLE_PATTERN PARENT_TARGET COMMON_LIBS)
+function(add_examples LIBRARY EXAMPLE_PATTERN COMMON_LIBS)
 
 	file(GLOB EXAMPLES "${CMAKE_CURRENT_SOURCE_DIR}/${EXAMPLE_PATTERN}.cpp")
 	file(WRITE "${CMAKE_CURRENT_BINARY_DIR}/examples.txt" "")
 
 	foreach(EXAMPLE_PATH ${EXAMPLES})
 		get_filename_component(EXAMPLE_NAME "${EXAMPLE_PATH}" NAME_WE)
-		set(TARGET_NAME "${EXAMPLE_NAME}")
+		set(TARGET_NAME "${LIBRARY}-${EXAMPLE_NAME}")
 
 		set(EXAMPLE_CAN_BE_BUILT true)
 		require_all_dependencies(${EXAMPLE_NAME} EXAMPLE_CAN_BE_BUILT)
@@ -105,7 +105,7 @@ function(add_examples EXAMPLE_PATTERN PARENT_TARGET COMMON_LIBS)
 			add_executable(${TARGET_NAME} EXCLUDE_FROM_ALL ${EXAMPLE_PATH})
 			target_link_libraries(${TARGET_NAME} ${COMMON_LIBS})
 			add_all_dependencies(${TARGET_NAME})
-			add_dependencies("${PARENT_TARGET}" ${TARGET_NAME})
+			add_dependencies("${LIBRARY}-examples" ${TARGET_NAME})
 			set_property(
 				TARGET ${TARGET_NAME}
 				PROPERTY FOLDER "Example/OGLplus"
@@ -127,7 +127,7 @@ endfunction(add_examples)
 set(EXAMPLE_LIBS oglplus_example_harness ${OGLPLUS_GL_LIBRARIES})
 
 # add oglplus examples
-add_examples("[0-9][0-9][0-9]*" oglplus-examples "${EXAMPLE_LIBS}")
+add_examples(oglplus "[0-9][0-9][0-9]*" "${EXAMPLE_LIBS}")
 
 add_custom_target(glsl_program_sources ALL)
 add_custom_target(glsl_shader_sources ALL)

@@ -42,21 +42,19 @@ public:
 	constexpr
 	explicit 
 	operator bool (void) const
-	noexcept
-	{
+	noexcept {
 		return _value != _value_t::_false;
 	}
 
 	constexpr
 	bool operator ! (void) const
-	noexcept
-	{
+	noexcept {
 		return _value != _value_t::_true;
 	}
 
 	constexpr
 	bool is(indeterminate_t) const
-	{
+	noexcept {
 		return _value == _value_t::_unknown;
 	}
 };
@@ -86,59 +84,56 @@ public:
 	{ }
 
 	constexpr
+	tribool(bool value, bool is_unknown)
+	noexcept
+	 : _value(
+		is_unknown?_value_t::_unknown:
+		value?_value_t::_true:_value_t::_false
+	) { }
+
+	constexpr
 	explicit 
 	operator bool (void) const
-	noexcept
-	{
+	noexcept {
 		return _value == _value_t::_true;
 	}
 
 	constexpr
 	bool operator ! (void) const
-	noexcept
-	{
+	noexcept {
 		return _value == _value_t::_false;
 	}
 
 	constexpr
 	bool operator * (void) const
-	noexcept
-	{
+	noexcept {
 		return _value == _value_t::_unknown;
 	}
 
 	constexpr
 	weakbool operator ~ (void) const
-	noexcept
-	{
-		return weakbool(_value);
+	noexcept {
+		return weakbool{_value};
 	}
 
 	constexpr
 	bool is(indeterminate_t) const
-	noexcept
-	{
+	noexcept {
 		return *(*this);
 	}
 
 	friend
 	constexpr
 	tribool operator == (tribool a, tribool b)
-	noexcept
-	{
-		return (*a || *b)?
-			tribool{indeterminate}:
-			tribool{a._value == b._value};
+	noexcept {
+		return {a._value == b._value, (*a || *b)};
 	}
 
 	friend
 	constexpr
 	tribool operator != (tribool a, tribool b)
-	noexcept
-	{
-		return (a.is(indeterminate) || b.is(indeterminate))?
-			tribool{indeterminate}:
-			tribool{a._value != b._value};
+	noexcept {
+		return {a._value != b._value, (*a || *b)};
 	}
 };
 
