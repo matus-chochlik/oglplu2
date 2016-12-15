@@ -20,8 +20,12 @@ def get_root_dir():
 
 
 # returns the path to the build directory
-def get_build_dir():
-	return os.path.join(get_root_dir(), "_build");
+def get_build_dir(options):
+	try:
+		print(os.path.join(get_root_dir(), "BINARY_DIR"))
+		with open(os.path.join(get_root_dir(), "BINARY_DIR"), "rt") as bdf:
+			return bdf.read()
+	except: return os.path.join(get_root_dir(), "_build");
 
 
 # returns the path to the config script
@@ -65,7 +69,7 @@ def execute_ctest(options):
 		job_params = list()
 	else: job_params = ["-j", str(options.jobs)]
 
-	test_dir = os.path.join(get_build_dir(), "test")
+	test_dir = os.path.join(get_build_dir(options), "test")
 
 	import subprocess
 
@@ -348,7 +352,7 @@ def main():
 				quiet=True
 			)
 			# load configuration info
-			info_py_path=os.path.join(get_build_dir(), 'config', 'info.py')
+			info_py_path=os.path.join(get_build_dir(options), 'config', 'info.py')
 			info_py=open(info_py_path).read()
 			exec(info_py) in locals()
 			options.config_info = system_config_info;

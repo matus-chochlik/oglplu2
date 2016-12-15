@@ -55,7 +55,7 @@ BOOST_AUTO_TEST_CASE(named_string_ops)
 	{
 		auto test_glNamedStringARB = make_aoe_test(
 			mock_glNamedStringARB,
-			GLenum(type), 4, "key", 6, "value"
+			GLenum(type), 3, "key", 5, "value"
 		);
 		gl.named_string(type, "key", "value");
 		BOOST_CHECK(test_glNamedStringARB);
@@ -63,7 +63,7 @@ BOOST_AUTO_TEST_CASE(named_string_ops)
 	{
 		auto test_glDeleteNamedStringARB = make_aoe_test(
 			mock_glDeleteNamedStringARB,
-			9, "some_key"
+			8, "some_key"
 		);
 		gl.delete_named_string("some_key");
 		BOOST_CHECK(test_glDeleteNamedStringARB);
@@ -71,7 +71,7 @@ BOOST_AUTO_TEST_CASE(named_string_ops)
 	{
 		auto test_glIsNamedStringARB = make_aoe_test(
 			mock_glIsNamedStringARB,
-			GLboolean(GL_TRUE), 6, "a_key"
+			GLboolean(GL_TRUE), 5, "a_key"
 		);
 		gl.is_named_string("a_key");
 		BOOST_CHECK(test_glIsNamedStringARB);
@@ -79,7 +79,7 @@ BOOST_AUTO_TEST_CASE(named_string_ops)
 	{
 		auto test_glGetNamedStringivARB = make_aoe_test(
 			mock_glGetNamedStringivARB,
-			6, "a_key", GLenum(GL_NAMED_STRING_LENGTH_ARB), mock_ptr<GLint>()
+			5, "a_key", GLenum(GL_NAMED_STRING_LENGTH_ARB), mock_ptr<GLint>()
 		);
 		gl.named_string_length("a_key");
 		BOOST_CHECK(test_glGetNamedStringivARB);
@@ -87,7 +87,7 @@ BOOST_AUTO_TEST_CASE(named_string_ops)
 	{
 		auto test_glGetNamedStringivARB = make_aoe_test(
 			mock_glGetNamedStringivARB,
-			6, "a_key", GLenum(GL_NAMED_STRING_TYPE_ARB), mock_ptr<GLint>()
+			5, "a_key", GLenum(GL_NAMED_STRING_TYPE_ARB), mock_ptr<GLint>()
 		);
 		gl.named_string_type("a_key");
 		BOOST_CHECK(test_glGetNamedStringivARB);
