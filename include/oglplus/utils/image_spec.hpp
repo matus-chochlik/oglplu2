@@ -45,22 +45,13 @@ public:
 	{ }
 
 	GLsizei width(void) const
-	noexcept
-	{
-		return _width;
-	}
+	noexcept { return _width; }
 
 	GLsizei height(void) const
-	noexcept
-	{
-		return _height;
-	}
+	noexcept { return _height; }
 
 	GLsizei depth(void) const
-	noexcept
-	{
-		return _depth;
-	}
+	noexcept { return _depth; }
 };
 
 class image_pixel_format
@@ -84,16 +75,10 @@ public:
 	{ }
 
 	pixel_data_format format(void) const
-	noexcept
-	{
-		return _format;
-	}
+	noexcept { return _format; }
 
 	pixel_data_internal_format internal_format(void) const
-	noexcept
-	{
-		return _internal_format;
-	}
+	noexcept { return _internal_format; }
 };
 
 class image_pixel_data
@@ -107,7 +92,7 @@ public:
 	image_pixel_data(span<T, N> pix_view)
 	noexcept
 	 : _type(pixel_data_type(GLenum(get_data_type<T>())))
-	 , _pixels(pix_view.data(), span_size_t(pix_view.size()))
+	 , _pixels(pix_view.data(), span_size(pix_view.size()))
 	 , _elem_size(sizeof(T))
 	{ }
 
@@ -124,22 +109,13 @@ public:
 	}
 
 	pixel_data_type type(void) const
-	noexcept
-	{
-		return _type;
-	}
+	noexcept { return _type; }
 
 	const_memory_block data(void) const
-	noexcept
-	{
-		return _pixels;
-	}
+	noexcept { return _pixels; }
 
 	span_size_t elem_size(void) const
-	noexcept
-	{
-		return _elem_size;
-	}
+	noexcept { return _elem_size; }
 };
 
 class image_spec

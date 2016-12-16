@@ -241,7 +241,7 @@ private:
 
 	span_size_t _val_len(span_size_t ll) const
 	noexcept {
-		cstring_span el{_pos, span_size_t(ll)};
+		cstring_span el{_pos, ll};
 		return mbs::do_decode_code_point(mbs::make_cbyte_span(el), ll); 
 	}
 
@@ -249,7 +249,7 @@ private:
 		if(_pos != nullptr && (_tmp.size() == 0)) {
 			span_size_t ll = _len_len();
 			span_size_t vl = _val_len(ll);
-			_tmp = cstring_span{_pos+ll, span_size_t(vl)};
+			_tmp = cstring_span{_pos+ll, vl};
 		}
 	}
 public:
@@ -345,7 +345,7 @@ private:
 
 	span_size_t _val_len(span_size_t ll) const
 	noexcept {
-		cstring_span el{_pos, span_size_t(ll)};
+		cstring_span el{_pos, ll};
 		return mbs::do_decode_code_point(mbs::make_cbyte_span(el),ll); 
 	}
 
@@ -354,7 +354,7 @@ private:
 			_rseek_head();
 			span_size_t ll = _len_len();
 			span_size_t vl = _val_len(ll);
-			_tmp = cstring_span{_pos-vl, span_size_t(vl)};
+			_tmp = cstring_span{_pos-vl, vl};
 		}
 	}
 public:

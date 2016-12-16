@@ -24,8 +24,7 @@ void write_and_pad_shader_source_header(
 	shader_source_header& header,
 	span_size_t source_text_size,
 	span_size_t& spos
-)
-{
+) {
 	using eagine::memory::is_aligned_as;
 	while(!is_aligned_as<shader_source_header>(spos)) {
 		output.put('\0');
@@ -46,8 +45,7 @@ void write_and_pad_shader_source_header(
 	spos += sizeof(header);
 	done += sizeof(header);
 
-	while(done < size)
-	{
+	while(done < size) {
 		output.put('\0');
 		++spos;
 		++done;
@@ -60,12 +58,11 @@ void write_shader_source(
 	shader_source_header& header,
 	const_memory_block source_text,
 	span_size_t& spos
-)
-{
+) {
 	write_and_pad_shader_source_header(
 		output,
 		header,
-		span_size_t(source_text.size()),
+		span_size(source_text.size()),
 		spos
 	);
 
@@ -74,7 +71,7 @@ void write_shader_source(
 		std::streamsize(source_text.size())
 	);
 	output.put('\0');
-	spos += span_size_t(source_text.size()+1);
+	spos += span_size(source_text.size()+1);
 }
 
 inline
@@ -82,13 +79,11 @@ void write_shader_source(
 	std::ostream& output,
 	shader_source_header& header,
 	const_memory_block source_text
-)
-{
+) {
 	span_size_t spos = 0;
 
-	if(output.tellp() >= 0)
-	{
-		spos = span_size_t(output.tellp());
+	if(output.tellp() >= 0) {
+		spos = span_size(output.tellp());
 	}
 
 	write_shader_source(output, header, source_text, spos);
@@ -116,15 +111,14 @@ void write_and_pad_program_source_header(
 
 	header.shader_sources.reset(
 		hdraddr+std::ptrdiff_t(size),
-		span_size_t(shader_source_lengths.size()) // shader count
+		span_size(shader_source_lengths.size()) // shader count
 	);
 
 	output.write(static_cast<const char*>(hdraddr), sizeof(header));
 	spos += sizeof(header);
 	done += sizeof(header);
 
-	while(done < size)
-	{
+	while(done < size) {
 		output.put('\0');
 		++spos;
 		++done;
@@ -135,13 +129,11 @@ void write_and_pad_program_source_header(
 		std::ptrdiff_t(shader_source_lengths.size())*
 		std::ptrdiff_t(sizeof(std::ptrdiff_t));
 
-	if(offs % 16 != 0)
-	{
+	if(offs % 16 != 0) {
 		offs += 16 - (offs % 16);
 	}
 
-	for(span_size_t len : shader_source_lengths)
-	{
+	for(span_size_t len : shader_source_lengths) {
 		output.write(
 			reinterpret_cast<const char*>(&offs),
 			std::streamsize(sizeof(offs))
@@ -154,8 +146,7 @@ void write_and_pad_program_source_header(
 		span_size_t shader_block_size = 48;
 		shader_block_size += len;
 
-		if(span_size_t misalign = shader_block_size % algn)
-		{
+		if(span_size_t misalign = shader_block_size % algn) {
 			shader_block_size += (algn - misalign);
 		}
 
@@ -163,8 +154,7 @@ void write_and_pad_program_source_header(
 		offs -= std::ptrdiff_t(sizeof(std::ptrdiff_t));
 	}
 
-	while(spos % 16 != 0)
-	{
+	while(spos % 16 != 0) {
 		output.put('\0');
 		++spos;
 	}

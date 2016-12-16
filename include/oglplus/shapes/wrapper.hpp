@@ -37,7 +37,7 @@ public:
 	 , _ops(gen.operation_count())
 	 , _winding(gen.face_winding())
 	{
-		assert(vaals.size() >= span_size_t(N));
+		assert(vaals.size() >= span_size(N));
 		initialize_vao_and_buffers(_vao, _bufs, vaals, _ops, gen, data);
 	}
 
@@ -72,7 +72,7 @@ private:
 	_make_span(const std::array<const vertex_attrib_and_location, N>& a)
 	noexcept
 	{
-		return {a.data(), span_size_t(a.size())};
+		return {a.data(), span_size(a.size())};
 	}
 public:
 	template <typename Generator, typename ... P>

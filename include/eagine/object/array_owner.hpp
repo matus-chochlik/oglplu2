@@ -44,7 +44,7 @@ public:
 	~object_array_owner(void)
 	{
 		try { obj_lifetime_ops<ObjTag>::delete_objects(*this); }
-		catch(...) { } // TODO rethrow exceptions or cancel ?
+		catch(...) { }
 	}
 
 	object_name_and_ops<ObjTag>

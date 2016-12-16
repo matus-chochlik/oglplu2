@@ -91,33 +91,6 @@ noexcept {
 	return span_size(sizeof(T))*span_size(n);
 }
 
-// range_index_type
-template <typename R>
-struct range_index_type
-{
-	using type = typename R::size_type;
-};
-
-template <typename T, span_size_t I>
-struct range_index_type<gsl::span<T, I>>
-{
-	using type = span_size_t;
-};
-
-template <typename T, span_size_t I>
-struct range_index_type<gsl::basic_string_span<T, I>>
-{
-	using type = span_size_t;
-};
-
-template <typename R>
-using range_index_t = typename range_index_type<R>::type;
-
-template <typename R, typename T>
-static constexpr inline
-range_index_t<R> range_index(T i)
-noexcept { return safe_size_t_cast<range_index_t<R>>(i); }
-
 } // namespace eagine
 
 #endif // include guard

@@ -12,21 +12,11 @@
 
 #include "valid_if/nonnegative.hpp"
 #include "valid_if/le_size_ge0.hpp"
-#include "span_fwd.hpp"
-#include "types.hpp"
+#include "range_types.hpp"
 #include "count.hpp"
 
 namespace eagine {
 namespace ranges {
-
-template <typename R>
-using range_index_t = typename range_index_type<R>::type;
-
-template <typename R>
-using any_range_position = valid_if_nonnegative<range_index_t<R>>;
-
-template <typename R>
-using valid_range_position = valid_if_le_size_ge0<R, range_index_t<R>>;
 
 // equal
 template <typename Range1, typename Range2>
