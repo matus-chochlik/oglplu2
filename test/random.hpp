@@ -10,6 +10,8 @@
 
 #include <random>
 #include <limits>
+#include <string>
+#include <cctype>
 #include <type_traits>
 #include <eagine/types.hpp>
 
@@ -88,6 +90,28 @@ public:
 	
 	double get_double(double min, double max) {
 		return get_real<double>(min, max);
+	}
+
+	template <typename Pred>
+	std::string get_string(
+		std::size_t min,
+		std::size_t max,
+		Pred pred
+	) {
+		std::string result(get_std_size(min, max), '\0');
+		for(char& c : result) {
+			do { c = get_any<char>(); }
+			while(!pred(c));
+		}
+		return std::move(result);
+	}
+
+	std::string get_string(std::size_t min, std::size_t max) {
+		return get_string(
+			min,
+			max,
+			[](char c) { return std::isprint(c) != 0; }
+		);
 	}
 
 };
