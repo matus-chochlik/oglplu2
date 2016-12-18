@@ -34,14 +34,12 @@ public:
 	{ }
 
 	void attrib_values(vertex_attrib_kind attr, const span<float>& dest)
-	override
-	{
+	override {
 		delegated_gen::attrib_values(attr, dest);
 
-		if(attr == vertex_attrib_kind::position)
-		{
-			for(unsigned v=0, n=vertex_count(); v<n; ++v)
-			for(unsigned c=0, m=values_per_vertex(attr); c<m; ++c)
+		if(attr == vertex_attrib_kind::position) {
+			for(span_size_t v=0, n=vertex_count(); v<n; ++v)
+			for(span_size_t c=0, m=values_per_vertex(attr);c<m; ++c)
 			{
 				dest[v*m+c] += _d[c];
 			}

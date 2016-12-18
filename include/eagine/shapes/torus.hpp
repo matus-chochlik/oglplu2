@@ -25,8 +25,8 @@ class unit_torus_gen
 private:
 	typedef centered_unit_shape_generator_base _base;
 
-	unsigned _rings;
-	unsigned _sections;
+	span_size_t _rings;
+	span_size_t _sections;
 	float _radius_ratio;
 
 	static
@@ -56,7 +56,7 @@ public:
 	bool cw_face_winding(void)
 	override;
 
-	unsigned vertex_count(void)
+	span_size_t vertex_count(void)
 	override;
 
 	void positions(const span<float>& dest)
@@ -80,13 +80,13 @@ public:
 	index_data_type index_type(void)
 	override;
 
-	unsigned index_count(void)
+	span_size_t index_count(void)
 	override;
 
 	void indices(const span<unsigned>& dest)
 	override;
 
-	unsigned operation_count(void)
+	span_size_t operation_count(void)
 	override;
 
 	void instructions(const span<draw_operation>& ops)

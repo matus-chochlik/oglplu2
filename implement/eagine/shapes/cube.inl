@@ -43,9 +43,9 @@ noexcept
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-unsigned
+span_size_t
 unit_cube_gen::
-_face_vert(unsigned f, unsigned t, unsigned v)
+_face_vert(span_size_t f, span_size_t t, span_size_t v)
 noexcept
 {
 	assert(f < 6);
@@ -94,12 +94,12 @@ noexcept
 	 *    (1)--->(0) (4)--->(5)
 	 */
 
-	static const unsigned ftvi[2][3] = {
+	static const span_size_t ftvi[2][3] = {
 		{0, 1, 2}, // ( I)
 		{2, 1, 3}  // (II)
 	};
 
-	static const unsigned fv[6][4] = {
+	static const span_size_t fv[6][4] = {
 		{0, 4, 2, 6}, // (-X)
 		{5, 1, 7, 3}, // (+X)
 		{0, 1, 4, 5}, // (-Y)
@@ -126,7 +126,7 @@ cw_face_winding(void)
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-unsigned
+span_size_t
 unit_cube_gen::
 vertex_count(void)
 {
@@ -143,7 +143,7 @@ vertex_count(void)
 EAGINE_LIB_FUNC
 int
 unit_cube_gen::
-_coord_c(unsigned v, unsigned c)
+_coord_c(span_size_t v, span_size_t c)
 noexcept
 {
 	assert(v < 8);
@@ -161,7 +161,7 @@ unit_cube_gen::
 positions(const span<float>& dest)
 noexcept
 {
-	unsigned k = 0;
+	span_size_t k = 0;
 
 	assert(dest.size() >= vertex_count()*3);
 
@@ -169,9 +169,9 @@ noexcept
 	{
 		assert(dest.size() >= 8*3);
 
-		for(unsigned v=0; v<8; ++v)
+		for(span_size_t v=0; v<8; ++v)
 		{
-			for(unsigned c=0; c<3; ++c)
+			for(span_size_t c=0; c<3; ++c)
 			{
 				dest[k++] = _coord_c(v, c)-0.5f;
 			}
@@ -181,12 +181,12 @@ noexcept
 	{
 		assert(dest.size() >= 6*2*3*3);
 
-		for(unsigned f=0; f<6; ++f)
-		for(unsigned t=0; t<2; ++t)
-		for(unsigned i=0; i<3; ++i)
+		for(span_size_t f=0; f<6; ++f)
+		for(span_size_t t=0; t<2; ++t)
+		for(span_size_t i=0; i<3; ++i)
 		{
-			unsigned v = _face_vert(f, t, i);
-			for(unsigned c=0; c<3; ++c)
+			span_size_t v = _face_vert(f, t, i);
+			for(span_size_t c=0; c<3; ++c)
 			{
 				dest[k++] = _coord_c(v, c)-0.5f;
 			}
@@ -199,7 +199,7 @@ noexcept
 EAGINE_LIB_FUNC
 int
 unit_cube_gen::
-_normal_c(unsigned f, unsigned c)
+_normal_c(span_size_t f, span_size_t c)
 noexcept
 {
 	assert(f < 6);
@@ -230,13 +230,13 @@ noexcept
 	assert(has(vertex_attrib_kind::normal));
 	assert(dest.size() >= vertex_count()*3);
 
-	unsigned k = 0;
-	unsigned n = 2*3;
+	span_size_t k = 0;
+	span_size_t n = 2*3;
 
-	for(unsigned f=0; f<6; ++f)
-	for(unsigned i=0; i<n; ++i)
+	for(span_size_t f=0; f<6; ++f)
+	for(span_size_t i=0; i<n; ++i)
 	{
-		for(unsigned c=0; c<3; ++c)
+		for(span_size_t c=0; c<3; ++c)
 		{
 			dest[k++] = _normal_c(f, c);
 		}
@@ -248,7 +248,7 @@ noexcept
 EAGINE_LIB_FUNC
 int
 unit_cube_gen::
-_tangential_c(unsigned f, unsigned c)
+_tangential_c(span_size_t f, span_size_t c)
 noexcept
 {
 	assert(f < 6);
@@ -279,13 +279,13 @@ noexcept
 	assert(has(vertex_attrib_kind::tangential));
 	assert(dest.size() >= vertex_count()*3);
 
-	unsigned k = 0;
-	unsigned n = 2*3;
+	span_size_t k = 0;
+	span_size_t n = 2*3;
 
-	for(unsigned f=0; f<6; ++f)
-	for(unsigned i=0; i<n; ++i)
+	for(span_size_t f=0; f<6; ++f)
+	for(span_size_t i=0; i<n; ++i)
 	{
-		for(unsigned c=0; c<3; ++c)
+		for(span_size_t c=0; c<3; ++c)
 		{
 			dest[k++] = _tangential_c(f, c);
 		}
@@ -297,7 +297,7 @@ noexcept
 EAGINE_LIB_FUNC
 int
 unit_cube_gen::
-_bitangential_c(unsigned f, unsigned c)
+_bitangential_c(span_size_t f, span_size_t c)
 noexcept
 {
 	assert(f < 6);
@@ -328,13 +328,13 @@ noexcept
 	assert(has(vertex_attrib_kind::bitangential));
 	assert(dest.size() >= vertex_count()*3);
 
-	unsigned k = 0;
-	unsigned n = 2*3;
+	span_size_t k = 0;
+	span_size_t n = 2*3;
 
-	for(unsigned f=0; f<6; ++f)
-	for(unsigned i=0; i<n; ++i)
+	for(span_size_t f=0; f<6; ++f)
+	for(span_size_t i=0; i<n; ++i)
 	{
-		for(unsigned c=0; c<3; ++c)
+		for(span_size_t c=0; c<3; ++c)
 		{
 			dest[k++] = _bitangential_c(f, c);
 		}
@@ -363,7 +363,7 @@ noexcept
 	 *     (0,0,f) (1,0,f)
 	 */
 
-	static const unsigned ftvi[2][3] = {
+	static const span_size_t ftvi[2][3] = {
 		{0, 1, 2}, // ( I)
 		{2, 1, 3}  // (II)
 	};
@@ -375,11 +375,11 @@ noexcept
 		{1.f, 1.f}
 	};
 
-	unsigned k = 0;
+	span_size_t k = 0;
 
-	for(unsigned f=0; f<6; ++f)
-	for(unsigned t=0; t<2; ++t)
-	for(unsigned v=0; v<3; ++v)
+	for(span_size_t f=0; f<6; ++f)
+	for(span_size_t t=0; t<2; ++t)
+	for(span_size_t v=0; v<3; ++v)
 	{
 		dest[k++] = uv[ftvi[t][v]][0];
 		dest[k++] = uv[ftvi[t][v]][1];
@@ -431,7 +431,7 @@ index_type(void)
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-unsigned
+span_size_t
 unit_cube_gen::
 index_count(void)
 {
@@ -451,13 +451,13 @@ noexcept
 {
 	assert(dest.size() >= index_count());
 
-	unsigned k = 0;
+	span_size_t k = 0;
 
 	if(_only_shared_attribs())
 	{
-		for(unsigned f=0; f<6; ++f)
-		for(unsigned t=0; t<2; ++t)
-		for(unsigned v=0; v<3; ++v)
+		for(span_size_t f=0; f<6; ++f)
+		for(span_size_t t=0; t<2; ++t)
+		for(span_size_t v=0; v<3; ++v)
 		{
 			dest[k++] = T(_face_vert(f, t, v));
 		}
@@ -475,7 +475,7 @@ indices(const span<unsigned>& dest)
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-unsigned
+span_size_t
 unit_cube_gen::
 operation_count(void)
 {

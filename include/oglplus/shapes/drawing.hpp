@@ -33,14 +33,14 @@ private:
 	noexcept;
 
 	static
-	GLuint
+	span_size_t
 	_byte_mult(eagine::shapes::index_data_type)
 	noexcept;
 
 	primitive_type _mode;
 	data_type _idx_type;
-	GLuint _first;
-	GLuint _count;
+	GLint _first;
+	GLsizei _count;
 	GLuint _phase;
 	GLuint _primitive_restart_index;
 	bool _primitive_restart;

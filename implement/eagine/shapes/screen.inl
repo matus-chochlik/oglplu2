@@ -41,7 +41,7 @@ cw_face_winding(void)
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-unsigned
+span_size_t
 unit_screen_gen::
 vertex_count(void)
 {
@@ -66,7 +66,7 @@ noexcept
 	 * [-1,-1] [ 1,-1]
 	 */
 
-	unsigned k = 0;
+	span_size_t k = 0;
 	// (0)
 	dest[k++] = -1.f;
 	dest[k++] = -1.f;
@@ -96,8 +96,8 @@ noexcept
 	assert(has(vertex_attrib_kind::normal));
 	assert(dest.size() >= vertex_count()*3);
 
-	unsigned k = 0;
-	for(unsigned i=0; i<4; ++i)
+	span_size_t k = 0;
+	for(span_size_t i=0; i<4; ++i)
 	{
 		dest[k++] = 0.f;
 		dest[k++] = 0.f;
@@ -116,8 +116,8 @@ noexcept
 	assert(has(vertex_attrib_kind::tangential));
 	assert(dest.size() >= vertex_count()*3);
 
-	unsigned k = 0;
-	for(unsigned i=0; i<4; ++i)
+	span_size_t k = 0;
+	for(span_size_t i=0; i<4; ++i)
 	{
 		dest[k++] = 1.f;
 		dest[k++] = 0.f;
@@ -136,8 +136,8 @@ noexcept
 	assert(has(vertex_attrib_kind::bitangential));
 	assert(dest.size() >= vertex_count()*3);
 
-	unsigned k = 0;
-	for(unsigned i=0; i<4; ++i)
+	span_size_t k = 0;
+	for(span_size_t i=0; i<4; ++i)
 	{
 		dest[k++] = 0.f;
 		dest[k++] = 1.f;
@@ -166,7 +166,7 @@ noexcept
 	 *  [0, 0]  [1, 0]
 	 */
 
-	unsigned k = 0;
+	span_size_t k = 0;
 	// (0)
 	dest[k++] = 0.f;
 	dest[k++] = 0.f;
@@ -223,7 +223,7 @@ index_type(void)
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-unsigned
+span_size_t
 unit_screen_gen::
 index_count(void)
 {
@@ -237,7 +237,7 @@ indices(const span<unsigned>&)
 { }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-unsigned
+span_size_t
 unit_screen_gen::
 operation_count(void)
 {

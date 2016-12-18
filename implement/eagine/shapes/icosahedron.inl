@@ -56,7 +56,7 @@ cw_face_winding(void)
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-unsigned
+span_size_t
 unit_icosahedron_gen::
 vertex_count(void)
 {
@@ -71,7 +71,7 @@ noexcept
 {
 	assert(dest.size() >= vertex_count()*3);
 
-	unsigned k = 0;
+	span_size_t k = 0;
 
 	const auto il = 1.0/std::sqrt(1.0+std::pow(math::phi, 2.0));
 	const decltype(il) q[3] = {0.0, il, math::phi*il};
@@ -90,7 +90,7 @@ noexcept
 	 *                       v(z)             v(x)
 	 */
 
-	const unsigned qi[3][3] = {{0,2,1}, {1,0,2}, {2,1,0}};
+	const span_size_t qi[3][3] = {{0,2,1}, {1,0,2}, {2,1,0}};
 	const float ps = 1.f;
 	const float ns =-1.f;
 
@@ -101,7 +101,7 @@ noexcept
 			const float sv[3] = {0.f, v%2==0?ns:ps, v/2==0?ns:ps};
 			for(int c=0; c<3; ++c)
 			{
-				unsigned qci = qi[p][c];
+				span_size_t qci = qi[p][c];
 				dest[k++] = float(sv[qci]*q[qci]);
 			}
 		}
@@ -139,7 +139,7 @@ index_type(void)
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-unsigned
+span_size_t
 unit_icosahedron_gen::
 index_count(void)
 {
@@ -153,11 +153,11 @@ indices(const span<unsigned>& dest)
 {
 	assert(dest.size() >= index_count());
 
-	unsigned k = 0;
+	span_size_t k = 0;
 
-	const unsigned A = 0, B = 1, C = 2, D = 3;
-	const unsigned E = 4, F = 5, G = 6, H = 7;
-	const unsigned I = 8, J = 9, K =10, L =11;
+	const span_size_t A = 0, B = 1, C = 2, D = 3;
+	const span_size_t E = 4, F = 5, G = 6, H = 7;
+	const span_size_t I = 8, J = 9, K =10, L =11;
 
 	dest[k++] = E; dest[k++] = F; dest[k++] = A;
 	dest[k++] = F; dest[k++] = E; dest[k++] = C;
@@ -187,7 +187,7 @@ indices(const span<unsigned>& dest)
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-unsigned
+span_size_t
 unit_icosahedron_gen::
 operation_count(void)
 {

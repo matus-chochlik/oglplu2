@@ -40,7 +40,7 @@ public:
 	bool cw_face_winding(void)
 	override;
 
-	unsigned vertex_count(void)
+	span_size_t vertex_count(void)
 	override;
 
 	void positions(const span<float>& dest)
@@ -52,13 +52,13 @@ public:
 	index_data_type index_type(void)
 	override;
 
-	unsigned index_count(void)
+	span_size_t index_count(void)
 	override;
 
 	void indices(const span<unsigned>& dest)
 	override;
 
-	unsigned operation_count(void)
+	span_size_t operation_count(void)
 	override;
 
 	void instructions(const span<draw_operation>& ops)
