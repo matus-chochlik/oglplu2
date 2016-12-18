@@ -24,7 +24,7 @@ private:
 public:
 	base_node(void)
 	noexcept
-	 : _render_input(0u)
+	 : _render_input(0)
 	{ }
 
 	span_size_t input_count(void)
@@ -85,10 +85,7 @@ public:
 	{ }
 
 	base_output& single_output(void)
-	override
-	{
-		return _output;
-	}
+	override { return _output; }
 };
 
 template <
@@ -102,14 +99,10 @@ public:
 	using single_output_node<Output>::single_output_node;
 
 	span_size_t input_count(void)
-	override
-	{
-		return 1u;
-	}
+	override { return 1; }
 
 	input_intf& input(span_size_t index)
-	override
-	{
+	override {
 		(void) index;
 		assert(index < input_count());
 		return this->_output.*Input1;
@@ -128,14 +121,10 @@ public:
 	using single_output_node<Output>::single_output_node;
 
 	span_size_t input_count(void)
-	override
-	{
-		return 2u;
-	}
+	override { return 2; }
 
 	input_intf& input(span_size_t index)
-	override
-	{
+	override {
 		assert(index < input_count());
 		return (index == 0)?
 			static_cast<input_intf&>(this->_output.*Input1):

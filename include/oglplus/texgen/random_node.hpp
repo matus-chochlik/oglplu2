@@ -20,7 +20,7 @@ class random_output
 {
 public:
 	input_with_const_default<float[3]> seed;
-	unsigned short dims;
+	span_size_t dims;
 
 	random_output(node_intf& parent);
 

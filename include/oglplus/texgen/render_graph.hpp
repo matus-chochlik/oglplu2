@@ -27,10 +27,8 @@ public:
 
 	// TODO throw connect error
 	render_graph_node<Node>&
-	connect(const cstr_ref& inp_name, output_intf& out)
-	{
-		if(auto inp = this->input_by_name(inp_name))
-		{
+	connect(const cstr_ref& inp_name, output_intf& out) {
+		if(auto inp = this->input_by_name(inp_name)) {
 			connect_output_to_input(out, inp);
 		}
 		return *this;
@@ -39,55 +37,46 @@ public:
 	render_graph_node<Node>&
 	connect(const cstr_ref& inp_name, node_intf& out_node, span_size_t oidx)
 	{
-		if(oidx < out_node.output_count())
-		{
+		if(oidx < out_node.output_count()) {
 			return connect(inp_name, out_node.output(oidx));
 		}
 		return *this;
 	}
 
 	render_graph_node<Node>&
-	connect(const cstr_ref& inp_name, node_intf& out_node)
-	{
-		return connect(inp_name, out_node, 0u);
+	connect(const cstr_ref& inp_name, node_intf& out_node) {
+		return connect(inp_name, out_node, 0);
 	}
 
 	render_graph_node<Node>&
-	connect(span_size_t iidx, output_intf& out)
-	{
-		if(iidx < this->input_count())
-		{
+	connect(span_size_t iidx, output_intf& out) {
+		if(iidx < this->input_count()) {
 			connect_output_to_input(out, this->input(iidx));
 		}
 		return *this;
 	}
 
 	render_graph_node<Node>&
-	connect(span_size_t iidx, node_intf& out_node, span_size_t oidx)
-	{
-		if(oidx < out_node.output_count())
-		{
+	connect(span_size_t iidx, node_intf& out_node, span_size_t oidx) {
+		if(oidx < out_node.output_count()) {
 			return connect(iidx, out_node.output(oidx));
 		}
 		return *this;
 	}
 
 	render_graph_node<Node>&
-	connect(span_size_t iidx, node_intf& out_node)
-	{
-		return connect(iidx, out_node, 0u);
+	connect(span_size_t iidx, node_intf& out_node) {
+		return connect(iidx, out_node, 0);
 	}
 
 	render_graph_node<Node>&
-	connect(output_intf& out)
-	{
-		return connect(0u, out);
+	connect(output_intf& out) {
+		return connect(0, out);
 	}
 
 	render_graph_node<Node>&
-	connect(node_intf& out_node)
-	{
-		return connect(0u, out_node);
+	connect(node_intf& out_node) {
+		return connect(0, out_node);
 	}
 };
 
@@ -110,8 +99,7 @@ public:
 
 	template <typename NodeType, typename ... P>
 	render_graph_node<NodeType>&
-	add_new_anon(P&& ... p)
-	{
+	add_new_anon(P&& ... p) {
 		render_graph_node<NodeType>* ptr =
 			new render_graph_node<NodeType>(std::forward<P>(p)...);
 		assert(ptr);
@@ -121,8 +109,7 @@ public:
 
 	template <typename NodeType, typename ... P>
 	render_graph_node<NodeType>&
-	add_new(std::string name, P&& ... p)
-	{
+	add_new(std::string name, P&& ... p) {
 		render_graph_node<NodeType>* ptr =
 			new render_graph_node<NodeType>(std::forward<P>(p)...);
 		assert(ptr);
@@ -171,15 +158,14 @@ public:
 	// connect to renderer
 	bool connect_to_renderer(output_intf& output);
 
-	bool connect_to_renderer(node_intf&, span_size_t index = 0u);
+	bool connect_to_renderer(node_intf&, span_size_t index = 0);
 
 	bool connect_to_renderer(
 		const std::string& node_name,
 		span_size_t index
 	);
 
-	bool connect_to_renderer(const std::string& node_name)
-	{
+	bool connect_to_renderer(const std::string& node_name) {
 		return connect_to_renderer(node_name, 0);
 	}
 

@@ -49,10 +49,8 @@ public:
 	swizzle_node(void) = default;
 
 	swizzle_node&
-	set_swizzle(const std::string& swizzle)
-	{
-		if(is_valid_swizzle(cstr_ref(swizzle)))
-		{
+	set_swizzle(const std::string& swizzle) {
+		if(is_valid_swizzle(cstr_ref(swizzle))) {
 			_output.swizzle = swizzle;
 		}
 		return *this;

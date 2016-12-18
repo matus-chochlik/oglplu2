@@ -64,7 +64,7 @@ random_output::definitions(std::ostream& out, compile_context& ctxt)
 		eagine::math::phi/eagine::math::phi
 	};
 
-	for(unsigned short d=0; d<dims; ++d)
+	for(span_size_t d=0; d<dims; ++d)
 	{
 		auto s = std::fmod(get_id()/sdm[d], 100.0);
 		auto cx = std::fmod(s*get_id()/11, 100.0);
@@ -80,7 +80,7 @@ random_output::definitions(std::ostream& out, compile_context& ctxt)
 
 	out << "\tvec3 m = vec3(12.9898, 4.1414, 78.233);" << std::endl;
 	out << "\treturn " << data_type_name(value_type()) << "(" << std::endl;
-	for(unsigned short d=0; d<dims; ++d)
+	for(span_size_t d=0; d<dims; ++d)
 	{
 		out << "\t\tfract(sin(dot(s*c" << d;
 		out << ", m)) * 43758.5453)";

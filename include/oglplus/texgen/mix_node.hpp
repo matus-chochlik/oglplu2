@@ -40,22 +40,19 @@ class mix_node
 {
 public:
 	mix_node&
-	set_zero(float x, float y, float z, float w)
-	{
+	set_zero(float x, float y, float z, float w) {
 		_output.zero.fallback().set(x, y, z, w);
 		return *this;
 	}
 
 	mix_node&
-	set_one(float x, float y, float z, float w)
-	{
+	set_one(float x, float y, float z, float w) {
 		_output.one.fallback().set(x, y, z, w);
 		return *this;
 	}
 
 	mix_node&
-	set_value(float v)
-	{
+	set_value(float v) {
 		_output.value.fallback().set(v);
 		return *this;
 	}

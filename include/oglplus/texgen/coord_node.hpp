@@ -51,8 +51,7 @@ class coord_node
 {
 public:
 	coord_node&
-	set_type(coord_type type)
-	{
+	set_type(coord_type type) {
 		_output._type = type;
 		return *this;
 	}

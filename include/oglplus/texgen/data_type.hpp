@@ -11,6 +11,7 @@
 
 #include "../config/basic.hpp"
 #include "../utils/cstr_ref.hpp"
+#include "../utils/types.hpp"
 #include <eagine/valid_if/between.hpp>
 #include <iosfwd>
 
@@ -96,19 +97,19 @@ noexcept;
 scalar_data_type elem_data_type(slot_data_type)
 noexcept;
 
-unsigned data_type_dims(slot_data_type)
+span_size_t data_type_dims(slot_data_type)
 noexcept;
 
 slot_data_type make_data_type(
 	scalar_data_type type,
-	eagine::valid_if_between<unsigned, 1, 4> dims
+	eagine::valid_if_between<span_size_t, 1, 4> dims
 ) noexcept;
 
 scalar_data_type
 common_elem_type(slot_data_type a, slot_data_type b)
 noexcept;
 
-unsigned common_dims(slot_data_type a, slot_data_type b)
+span_size_t common_dims(slot_data_type a, slot_data_type b)
 noexcept;
 
 slot_data_type common_data_type(slot_data_type a, slot_data_type b)

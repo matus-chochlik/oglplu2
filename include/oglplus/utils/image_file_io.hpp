@@ -59,7 +59,7 @@ void write_and_pad_texture_image_data_header(
 	span_size_t spos = 0;
 
 	if(output.tellp() >= 0) {
-		spos = span_size(output.tellp());
+		spos = span_size_t(output.tellp());
 	}
 
 	write_and_pad_texture_image_data_header(

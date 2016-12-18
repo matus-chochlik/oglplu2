@@ -75,15 +75,13 @@ class unary_function_node
 {
 public:
 	unary_function_node&
-	set_function(unary_function func)
-	{
+	set_function(unary_function func) {
 		_output._func = func;
 		return *this;
 	}
 
 	unary_function_node&
-	set_value(float x, float y, float z, float w)
-	{
+	set_value(float x, float y, float z, float w) {
 		_output._input.fallback().set(x, y, z, w);
 		return *this;
 	}
@@ -147,22 +145,19 @@ class binary_function_node
 {
 public:
 	binary_function_node&
-	set_function(binary_function func)
-	{
+	set_function(binary_function func) {
 		_output._func = func;
 		return *this;
 	}
 
 	binary_function_node&
-	set_value_a(float x, float y, float z, float w)
-	{
+	set_value_a(float x, float y, float z, float w) {
 		_output._input_a.fallback().set(x, y, z, w);
 		return *this;
 	}
 
 	binary_function_node&
-	set_value_b(float x, float y, float z, float w)
-	{
+	set_value_b(float x, float y, float z, float w) {
 		_output._input_b.fallback().set(x, y, z, w);
 		return *this;
 	}

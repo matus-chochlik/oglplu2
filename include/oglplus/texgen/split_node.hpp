@@ -11,6 +11,7 @@
 
 #include "fallback_input.hpp"
 #include "base_node.hpp"
+#include "../utils/types.hpp"
 
 namespace oglplus {
 namespace texgen {
@@ -20,12 +21,12 @@ class split_output
 {
 private:
 	input_with_const_default<float[4]>& _input;
-	unsigned _index;
+	span_size_t _index;
 public:
 	split_output(
 		node_intf& parent,
 		input_with_const_default<float[4]>& input,
-		eagine::valid_if_between<unsigned, 0, 3> index
+		eagine::valid_if_between<span_size_t, 0, 3> index
 	);
 
 	cstr_ref type_name(void)

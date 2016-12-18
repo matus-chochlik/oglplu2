@@ -56,15 +56,13 @@ public:
 	override;
 
 	multi_input_node&
-	add_input(const cstr_ref& name, float x, float y, float z, float w)
-	{
+	add_input(const cstr_ref& name, float x, float y, float z, float w) {
 		add_input(name).fallback().set(x, y, z, w);
 		return *this;
 	}
 
 	multi_input_node&
-	set_value(float x, float y, float z, float w)
-	{
+	set_value(float x, float y, float z, float w) {
 		single_output()._input.fallback().set(x, y, z, w);
 		return *this;
 	}

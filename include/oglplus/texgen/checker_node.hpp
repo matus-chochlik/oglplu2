@@ -41,8 +41,7 @@ class checker_node
 {
 public:
 	checker_node&
-	set_repeat(float x, float y, float z)
-	{
+	set_repeat(float x, float y, float z) {
 		_output.repeat.fallback().set(x, y, z);
 		return *this;
 	}

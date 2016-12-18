@@ -83,7 +83,7 @@ void write_shader_source(
 	span_size_t spos = 0;
 
 	if(output.tellp() >= 0) {
-		spos = span_size(output.tellp());
+		spos = span_size_t(output.tellp());
 	}
 
 	write_shader_source(output, header, source_text, spos);

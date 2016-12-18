@@ -141,10 +141,9 @@ public:
 
 template <typename T>
 class program_parameter_alias
+ : public basic_program_parameter
 {
 private:
-	cstr_ref _short_tag;
-	cstr_ref _long_tag;
 	program_parameter<T>& _aliased;
 public:
 	program_parameter_alias(const program_parameter_alias&) = delete;
@@ -154,16 +153,9 @@ public:
 		const cstr_ref& long_tag,
 		program_parameter<T>& that
 	) noexcept
-	 : _short_tag(short_tag)
-	 , _long_tag(long_tag)
+	 : basic_program_parameter(short_tag, long_tag)
 	 , _aliased(that)
 	{ }
-
-	const cstr_ref& short_tag(void) const
-	noexcept { return _short_tag; }
-
-	const cstr_ref& long_tag(void) const
-	noexcept { return _long_tag; }
 
 	T& ref(void)
 	noexcept { return _aliased.ref(); }

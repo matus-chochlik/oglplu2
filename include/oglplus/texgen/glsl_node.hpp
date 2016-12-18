@@ -50,21 +50,16 @@ public:
 	glsl_node(void);
 
 	glsl_output& single_output(void)
-	override
-	{
-		return _output;
-	}
+	override { return _output; }
 
 	glsl_node&
-	set_glsl(const std::string& glsl)
-	{
+	set_glsl(const std::string& glsl) {
 		_output._glsl = glsl;
 		return *this;
 	}
 
 	glsl_node&
-	set_type(slot_data_type type)
-	{
+	set_type(slot_data_type type) {
 		_output._type = type;
 		return *this;
 	}

@@ -85,32 +85,29 @@ combine_output::definitions(std::ostream& out, compile_context& ctxt)
 
 	slot_data_type dt = make_data_type(component_type(), 1);
 
-	std::map<std::string, std::set<unsigned>> expr_to_inputs;
+	std::map<std::string, std::set<span_size_t>> expr_to_inputs;
 
 	expr_to_inputs[_input_expr(input_r, dt, ctxt)].insert(0);
 	expr_to_inputs[_input_expr(input_g, dt, ctxt)].insert(1);
 	expr_to_inputs[_input_expr(input_b, dt, ctxt)].insert(2);
 	expr_to_inputs[_input_expr(input_a, dt, ctxt)].insert(3);
 
-	std::map<unsigned, unsigned> component_to_expr;
+	std::map<span_size_t, span_size_t> component_to_expr;
 
-	unsigned v=0;
+	span_size_t v=0;
 
-	for(const auto& ei : expr_to_inputs)
-	{
+	for(const auto& ei : expr_to_inputs) {
 		out << "\t" << data_type_name(dt);
 		out << " value" << v << " = " << ei.first << ";" << std::endl;
 
-		for(unsigned cmpn : ei.second)
-		{
+		for(span_size_t cmpn : ei.second) {
 			component_to_expr[cmpn] = v;
 		}
 		++v;
 	}
 
 	out << "\treturn " << data_type_name(value_type()) << "(";
-	for(unsigned i=0; i<4; ++i)
-	{
+	for(span_size_t i=0; i<4; ++i) {
 		if(i > 0) out << ", ";
 		out << "value" << component_to_expr[i];
 	}
@@ -121,8 +118,7 @@ combine_output::definitions(std::ostream& out, compile_context& ctxt)
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 span_size_t
-combine_node::input_count(void)
-{
+combine_node::input_count(void) {
 	return 4;
 }
 //------------------------------------------------------------------------------

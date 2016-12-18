@@ -122,30 +122,26 @@ struct input_intf
 
 	virtual
 	bool set_default_value(
-		eagine::valid_if_between<unsigned, 0, 3> c,
+		eagine::valid_if_between<span_size_t, 0, 3> c,
 		float v
 	) = 0;
 
-	bool set_default(float x)
-	{
+	bool set_default(float x) {
 		return	set_default_value(0, x);
 	}
 
-	bool set_default(float x, float y)
-	{
+	bool set_default(float x, float y) {
 		return	set_default_value(0, x)&&
 			set_default_value(1, y);
 	}
 
-	bool set_default(float x, float y, float z)
-	{
+	bool set_default(float x, float y, float z) {
 		return	set_default_value(0, x)&&
 			set_default_value(1, y)&&
 			set_default_value(2, z);
 	}
 
-	bool set_default(float x, float y, float z, float w)
-	{
+	bool set_default(float x, float y, float z, float w) {
 		return	set_default_value(0, x)&&
 			set_default_value(1, y)&&
 			set_default_value(3, z)&&
@@ -183,10 +179,7 @@ struct output_intf
 	render_param_bits required_params(void) = 0;
 
 	virtual
-	bool needs_params(void)
-	{
-		return bool(required_params());
-	}
+	bool needs_params(void) { return bool(required_params()); }
 
 	virtual
 	std::ostream& definitions(std::ostream&, compile_context&) = 0;
@@ -278,15 +271,13 @@ private:
 	input_intf* _pimpl;
 
 	input_intf& _impl(void)
-	noexcept
-	{
+	noexcept {
 		assert(is_valid());
 		return *_pimpl;
 	}
 
 	const input_intf& _impl(void) const
-	noexcept
-	{
+	noexcept {
 		assert(is_valid());
 		return *_pimpl;
 	}
@@ -298,53 +289,37 @@ public:
 	{ }
 
 	bool is_valid(void) const
-	noexcept
-	{
-		return _pimpl != nullptr;
-	}
+	noexcept { return _pimpl != nullptr; }
 
 	explicit inline
 	operator bool(void) const
-	noexcept
-	{
-		return is_valid();
-	}
+	noexcept { return is_valid(); }
 
 	bool operator !(void) const
-	noexcept
-	{
-		return !is_valid();
-	}
+	noexcept { return !is_valid(); }
 
 	friend
 	bool operator == (const input_slot& a, const input_slot& b)
-	noexcept
-	{
+	noexcept {
 		return a.is_valid() && b.is_valid() && (a._pimpl == b._pimpl);
 	}
 
 	friend
 	bool operator != (const input_slot& a, const input_slot& b)
-	noexcept
-	{
+	noexcept {
 		return a.is_valid() && b.is_valid() && (a._pimpl != b._pimpl);
 	}
 
 	friend
 	bool operator < (const input_slot& a, const input_slot& b)
-	noexcept
-	{
+	noexcept {
 		return a.is_valid() && b.is_valid() && (a._pimpl <  b._pimpl);
 	}
 
 	cstr_ref name(void)
-	noexcept
-	{
-		return _impl().name();
-	}
+	noexcept { return _impl().name(); }
 
-	bool accepts_value_type(slot_data_type type)
-	{
+	bool accepts_value_type(slot_data_type type) {
 		return _impl().accepts_value_type(type);
 	}
 
@@ -361,8 +336,7 @@ private:
 	output_intf* _pimpl;
 
 	output_intf& _impl(void)
-	noexcept
-	{
+	noexcept {
 		assert(is_valid());
 		return *_pimpl;
 	}
@@ -374,63 +348,47 @@ public:
 	{ }
 
 	bool is_valid(void) const
-	noexcept
-	{
-		return _pimpl != nullptr;
-	}
+	noexcept { return _pimpl != nullptr; }
 
 	explicit inline
 	operator bool(void) const
-	noexcept
-	{
-		return is_valid();
-	}
+	noexcept { return is_valid(); }
 
 	bool operator !(void) const
-	noexcept
-	{
-		return !is_valid();
-	}
+	noexcept { return !is_valid(); }
 
 	friend
 	bool operator == (const output_slot& a, const output_slot& b)
-	noexcept
-	{
+	noexcept {
 		return a.is_valid() && b.is_valid() && (a._pimpl == b._pimpl);
 	}
 
 	friend
 	bool operator != (const output_slot& a, const output_slot& b)
-	noexcept
-	{
+	noexcept {
 		return a.is_valid() && b.is_valid() && (a._pimpl != b._pimpl);
 	}
 
 	friend
 	bool operator < (const output_slot& a, const output_slot& b)
-	noexcept
-	{
+	noexcept {
 		return a.is_valid() && b.is_valid() && (a._pimpl <  b._pimpl);
 	}
 
 	cstr_ref name(void)
-	noexcept
-	{
+	noexcept {
 		return _impl().name();
 	}
 
-	slot_data_type value_type(void)
-	{
+	slot_data_type value_type(void) {
 		return _impl().value_type();
 	}
 
-	std::ostream& definitions(std::ostream& out, compile_context& ctxt)
-	{
+	std::ostream& definitions(std::ostream& out, compile_context& ctxt) {
 		return _impl().definitions(out, ctxt);
 	}
 
-	std::ostream& expression(std::ostream& out, compile_context& ctxt)
-	{
+	std::ostream& expression(std::ostream& out, compile_context& ctxt) {
 		return _impl().expression(out, ctxt);
 	}
 
@@ -439,8 +397,7 @@ public:
 	bool connect(input_slot&);
 	bool disconnect(input_slot&);
 
-	void notify_connected(void)
-	{
+	void notify_connected(void) {
 		_impl().notify_connected();
 	}
 };
