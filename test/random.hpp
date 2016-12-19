@@ -11,6 +11,8 @@
 #include <random>
 #include <limits>
 #include <string>
+#include <vector>
+#include <array>
 #include <cctype>
 #include <type_traits>
 #include <eagine/types.hpp>
@@ -111,6 +113,36 @@ public:
 			min,
 			max,
 			[](char c) { return std::isprint(c) != 0; }
+		);
+	}
+
+	template <typename T>
+	void fill(std::vector<T>& v, T min, T max) {
+		for(auto& e : v) {
+			e = get<T>(min, max);
+		}
+	}
+
+	template <typename T>
+	void fill(std::vector<T>& v) {
+		return fill(v,
+			std::numeric_limits<T>::min(),
+			std::numeric_limits<T>::max()
+		);
+	}
+
+	template <typename T, std::size_t N>
+	void fill(std::array<T, N>& a, T min, T max) {
+		for(auto& e : a) {
+			e = get<T>(min, max);
+		}
+	}
+
+	template <typename T, std::size_t N>
+	void fill(std::array<T, N>& a) {
+		return fill(a,
+			std::numeric_limits<T>::min(),
+			std::numeric_limits<T>::max()
 		);
 	}
 
