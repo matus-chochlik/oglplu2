@@ -131,6 +131,12 @@ private:
 		using std::end;
 		return zip_iters(std::end(std::get<I>(r))...);
 	}
+
+	template <typename TUP, typename Func, std::size_t ... I>
+	static inline
+	void _deref_call(TUP& tup, Func& func, std::index_sequence<I...>) {
+		func(std::get<I>(tup)...);
+	}
 public:
 	zipped_range_refs(Range& ... ranges)
 	noexcept
@@ -142,6 +148,13 @@ public:
 
 	auto end (void) { return _zip_end(_rrefs, _idx_seq{}); }
 	auto end (void) const { return _zip_end(_rrefs, _idx_seq{}); }
+
+	template <typename Func>
+	void for_each(Func func) {
+		for(auto tup : *this) {
+			_deref_call(tup, func, _idx_seq{});
+		}
+	}
 };
 
 template <typename ... Range>
