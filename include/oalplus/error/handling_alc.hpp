@@ -15,10 +15,12 @@
 namespace oalplus {
 
 template <typename ErrorInfo>
-[[noreturn]] static inline
+static inline
 void handle_alc_error(ErrorInfo& info)
 {
-	throw error_alc(std::move(info));
+	if(!std::uncaught_exception()) {
+		throw error_alc(std::move(info));
+	}
 }
 
 static inline constexpr
@@ -37,7 +39,7 @@ struct alc_error_handling_policy
 		return is_alc_error(info.al_error_code());
 	}
 
-	[[noreturn]] static
+	static
 	void invoke(error_info_alc& info)
 	{
 		handle_alc_error(info);
