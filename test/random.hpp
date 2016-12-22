@@ -70,6 +70,10 @@ public:
 		return get_integer<int>(0, 1) == 1;
 	}
 
+	char get_char(char min, char max) {
+		return get_integer<char>(min, max);
+	}
+
 	int get_int(int min, int max) {
 		return get_integer<int>(min, max);
 	}
