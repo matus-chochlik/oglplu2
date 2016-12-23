@@ -13,6 +13,7 @@
 #include <cstdint>
 #include "string_span.hpp"
 #include "type_traits.hpp"
+#include "selector.hpp"
 
 namespace eagine {
 
@@ -83,7 +84,7 @@ identifier_t _do_enc_ident(
 		):ident;
 }
 
-static constexpr inline
+static inline
 span_size_t _do_dec_ident(
 	identifier_t ident,
 	char* str,
@@ -103,7 +104,7 @@ identifier_t _enc_ident(const char* str, span_size_t n) {
 	return _do_enc_ident(0xFu, str, 0u, n);
 }
 
-static constexpr inline
+static inline
 span_size_t _dec_ident(identifier_t ident, char* str, span_size_t n) {
 	return _do_dec_ident(ident, str, 0u, n);
 }
@@ -122,7 +123,7 @@ encode_identifier(const char(&str)[N]) {
 }
 
 template <span_size_t N>
-static constexpr inline
+static inline
 std::enable_if_t<(N <= max_identifier_length+1), span_size_t>
 decode_identifier(identifier_t ident, char(&str)[N]) {
 	return _aux::_dec_ident(
@@ -131,6 +132,22 @@ decode_identifier(identifier_t ident, char(&str)[N]) {
 		N<max_identifier_length?
 		N:max_identifier_length
 	);
+}
+
+static inline
+std::string identifier_name(identifier_t id) {
+	char s[max_identifier_length];
+	const span_size_t b = decode_identifier(id, s);
+	return {s+b, std_size(max_identifier_length-b)};
+}
+
+#define EAGINE_TAG_TYPE(ID) ::eagine::selector<::eagine::encode_identifier(#ID)>
+#define EAGINE_TAG(ID) EAGINE_TAG_TYPE(ID){}
+
+template <identifier_t Id>
+static inline
+std::string tag_name(selector<Id>) {
+	return identifier_name(Id);
 }
 
 class identifier
@@ -142,6 +159,13 @@ public:
 	identifier(void)
 	noexcept
 	 : _id{0}
+	{ }
+
+	template <identifier_t Id>
+	constexpr inline
+	identifier(selector<Id>)
+	noexcept
+	 : _id{Id}
 	{ }
 
 	template <
@@ -168,11 +192,7 @@ public:
 	noexcept { return _id; }
 
 	std::string str(void) const
-	noexcept {
-		char s[max_identifier_length];
-		const span_size_t b = decode_identifier(get(), s);
-		return {s+b, std_size(max_identifier_length-b)};
-	}
+	noexcept { return identifier_name(get()); }
 
 	constexpr friend inline
 	bool operator == (identifier a, identifier b)

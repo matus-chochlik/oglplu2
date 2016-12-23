@@ -10,9 +10,11 @@
 #ifndef EAGINE_SELECTOR_1509260923_HPP
 #define EAGINE_SELECTOR_1509260923_HPP
 
+#include <cstdint>
+
 namespace eagine {
 
-template <int I>
+template <std::uint64_t I>
 struct selector
 {
 	typedef selector type;
