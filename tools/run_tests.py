@@ -22,7 +22,6 @@ def get_root_dir():
 # returns the path to the build directory
 def get_build_dir(options):
 	try:
-		print(os.path.join(get_root_dir(), "BINARY_DIR"))
 		with open(os.path.join(get_root_dir(), "BINARY_DIR"), "rt") as bdf:
 			return bdf.read()
 	except: return os.path.join(get_root_dir(), "_build");
