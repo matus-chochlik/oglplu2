@@ -35,10 +35,7 @@ public:
 	{ }
 
 	node_intf& parent(void)
-	noexcept
-	{
-		return _parent;
-	}
+	noexcept { return _parent; }
 
 	virtual
 	cstr_ref type_name(void) = 0;
@@ -69,10 +66,7 @@ public:
 	override;
 
 	virtual
-	bool set_default_value(unsigned, float)
-	{
-		return false;
-	}
+	bool set_default_value(span_size_t, float) { return false; }
 
 	void notify_connected(void)
 	override;

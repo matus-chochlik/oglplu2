@@ -79,8 +79,7 @@ public:
 	voronoi2d_node(void);
 
 	voronoi2d_node&
-	set_cell_count(float x, float y)
-	{
+	set_cell_count(float x, float y) {
 		_cells.fallback().set(x, y);
 		return *this;
 	}

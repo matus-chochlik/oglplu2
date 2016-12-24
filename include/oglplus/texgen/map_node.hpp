@@ -43,8 +43,7 @@ class map_node
 {
 public:
 	map_node&
-	set_coord(float x, float y, float z)
-	{
+	set_coord(float x, float y, float z) {
 		_output.coord.fallback().set(x, y, z);
 		return *this;
 	}

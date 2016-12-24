@@ -36,16 +36,10 @@ public:
 	override;
 
 	node_intf& parent(void)
-	noexcept
-	{
-		return _parent;
-	}
+	noexcept { return _parent; }
 
 	void set_name(const cstr_ref& name)
-	noexcept
-	{
-		_name = name;
-	}
+	noexcept { _name = name; }
 
 	cstr_ref name(void)
 	noexcept
@@ -76,7 +70,7 @@ public:
 	override;
 
 	bool set_default_value(
-		eagine::valid_if_between<unsigned, 0, 3> cmp,
+		eagine::valid_if_between<span_size_t, 0, 3> cmp,
 		float val
 	) override;
 

@@ -54,9 +54,6 @@ template <typename C, typename T>
 using valid_if_lt_size_ge0 =
 	in_class_valid_if<T, C, valid_if_lt_size_ge0_policy<T, C>>;
 
-template <typename C>
-using valid_range_index = valid_if_lt_size_ge0<C, typename C::size_type>;
-
 } // namespace eagine
 
 #endif // include guard

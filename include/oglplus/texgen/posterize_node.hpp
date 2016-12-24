@@ -43,8 +43,7 @@ class posterize_node
 {
 public:
 	posterize_node&
-	set_levels(float r, float g, float b, float a)
-	{
+	set_levels(float r, float g, float b, float a) {
 		_output.levels.fallback().set(r, g, b, a);
 		return *this;
 	}

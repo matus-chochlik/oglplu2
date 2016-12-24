@@ -51,8 +51,7 @@ public:
 	border2d_node(void) = default;
 
 	border2d_node&
-	set_type(border2d_mode mode)
-	{
+	set_type(border2d_mode mode) {
 		_output.mode = mode;
 		return *this;
 	}

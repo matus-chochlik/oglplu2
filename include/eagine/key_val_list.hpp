@@ -168,7 +168,7 @@ public:
 	span<const value_type> get(void) const
 	noexcept
 	{
-		return {data(), span_size_t(size())};
+		return {data(), size()};
 	}
 
 	constexpr

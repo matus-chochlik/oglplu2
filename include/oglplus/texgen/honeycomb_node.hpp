@@ -72,8 +72,7 @@ public:
 	honeycomb_node(void);
 
 	honeycomb_node&
-	set_cell_count(float x, float y)
-	{
+	set_cell_count(float x, float y) {
 		_cells.fallback().set(x, y);
 		return *this;
 	}

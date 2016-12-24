@@ -53,8 +53,7 @@ public:
 	wrap_node(void) = default;
 
 	wrap_node&
-	set_mode(wrap_mode mode)
-	{
+	set_mode(wrap_mode mode) {
 		_output.mode = mode;
 		return *this;
 	}

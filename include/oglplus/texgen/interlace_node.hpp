@@ -51,8 +51,7 @@ class interlace_node
 {
 public:
 	interlace_node&
-	set_mode(interlace_mode mode)
-	{
+	set_mode(interlace_mode mode) {
 		_output._mode = mode;
 		return *this;
 	}

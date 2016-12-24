@@ -15,10 +15,8 @@ OGLPLUS_LIB_FUNC
 primitive_type
 draw_operation::
 _translate(eagine::shapes::primitive_type mode)
-noexcept
-{
-	switch(mode)
-	{
+noexcept {
+	switch(mode) {
 		case eagine::shapes::primitive_type::points:
 			return primitive_type(GL_POINTS);
 		case eagine::shapes::primitive_type::lines:
@@ -41,10 +39,8 @@ OGLPLUS_LIB_FUNC
 data_type
 draw_operation::
 _translate(eagine::shapes::index_data_type type)
-noexcept
-{
-	switch(type)
-	{
+noexcept {
+	switch(type) {
 		// TODO currently all indices are GLuint
 		case eagine::shapes::index_data_type::unsigned_byte:
 			// TODO return data_type(GL_UNSIGNED_BYTE);
@@ -59,24 +55,22 @@ noexcept
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-GLuint
+span_size_t
 draw_operation::
 _byte_mult(eagine::shapes::index_data_type type)
-noexcept
-{
-	switch(type)
-	{
+noexcept {
+	switch(type) {
 		// TODO currently all indices are GLuint
 		case eagine::shapes::index_data_type::unsigned_byte:
 			// TODO return sizeof(GLubyte);
 		case eagine::shapes::index_data_type::unsigned_short:
 			// TODO return sizeof(GLushort);
 		case eagine::shapes::index_data_type::unsigned_int:
-			return sizeof(GLuint);
+			return span_size(sizeof(GLuint));
 		case eagine::shapes::index_data_type::none:
 			break;
 	}
-	return 1u;
+	return 1;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -85,9 +79,9 @@ draw_operation(const eagine::shapes::draw_operation& draw_op)
 noexcept
  : _mode(_translate(draw_op.mode))
  , _idx_type(_translate(draw_op.idx_type))
- , _first(draw_op.first*_byte_mult(draw_op.idx_type))
- , _count(draw_op.count)
- , _phase(draw_op.phase)
+ , _first(GLint(draw_op.first*_byte_mult(draw_op.idx_type)))
+ , _count(GLsizei(draw_op.count))
+ , _phase(GLuint(draw_op.phase))
  , _primitive_restart_index(draw_op.primitive_restart_index)
  , _primitive_restart(draw_op.primitive_restart)
 { }
@@ -96,8 +90,7 @@ OGLPLUS_LIB_FUNC
 bool
 draw_operation::
 indexed(void) const
-noexcept
-{
+noexcept {
 	return GLenum(_idx_type) != GL_NONE;
 }
 //------------------------------------------------------------------------------
@@ -105,8 +98,7 @@ OGLPLUS_LIB_FUNC
 const void*
 draw_operation::
 _idx_ptr(void) const
-noexcept
-{
+noexcept {
 	return static_cast<const GLubyte*>(0)+_first;
 }
 //------------------------------------------------------------------------------
@@ -114,10 +106,8 @@ OGLPLUS_LIB_FUNC
 outcome<void>
 draw_operation::
 draw(void) const
-noexcept
-{
-	if(indexed())
-	{
+noexcept {
+	if(indexed()) {
 		OGLPLUS_GLFUNC(DrawElements)(
 			GLenum(_mode),
 			GLsizei(_count),
@@ -125,9 +115,7 @@ noexcept
 			_idx_ptr()
 		);
 		OGLPLUS_VERIFY(DrawElements, gl_enum_value(_mode), debug);
-	}
-	else
-	{
+	} else {
 		OGLPLUS_GLFUNC(DrawArrays)(
 			GLenum(_mode),
 			GLint(_first),
@@ -141,12 +129,9 @@ noexcept
 OGLPLUS_LIB_FUNC
 outcome<void>
 draw_using_instructions(const span<const draw_operation>& ops)
-noexcept
-{
-	for(const draw_operation& op : ops)
-	{
-		if(auto res = failure(op.draw()))
-		{
+noexcept {
+	for(const draw_operation& op : ops) {
+		if(auto res = failure(op.draw())) {
 			return std::move(res);
 		}
 	}

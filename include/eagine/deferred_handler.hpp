@@ -20,8 +20,7 @@ struct default_deferred_handler_policy
 {
 	void (*_handler)(Data&);
 
-	void (*_release_handler(void) noexcept)(Data&)
-	{
+	void (*_release_handler(void) noexcept)(Data&) {
 		void (*handler)(Data&) = _handler;
 		_handler = nullptr;
 		return handler;
@@ -54,32 +53,24 @@ struct default_deferred_handler_policy
 
 	default_deferred_handler_policy& operator = (
 		default_deferred_handler_policy&& temp
-	) noexcept
-	{
+	) noexcept {
 		this->_handler = temp._release_handler();
 		return *this;
 	}
 
 	inline
 	bool is_valid(const Data&) const
-	noexcept
-	{
-		return _handler != nullptr;
-	}
+	noexcept { return _handler != nullptr; }
 
 	inline
-	void invoke(Data& data) const
-	{
-		assert(_handler != nullptr);
+	void invoke(Data& data) const {
+		assert(is_valid(data));
 		_handler(data);
 	}
 
 	inline
 	void cancel(Data&)
-	noexcept
-	{
-		_handler = nullptr;
-	}
+	noexcept { _handler = nullptr; }
 };
 
 template <typename Data, typename HandlerPolicy>
@@ -115,34 +106,19 @@ public:
 
 	explicit
 	operator bool (void) const
-	noexcept
-	{
-		return _error;
-	}
+	noexcept { return _error; }
 
 	bool operator ! (void) const
-	noexcept
-	{
-		return !_error;
-	}
+	noexcept { return !_error; }
 
 	bool cancel(void)
-	noexcept
-	{
-		return _error;
-	}
+	noexcept { return _error; }
 
 	Data& data(void)
-	noexcept
-	{
-		return _data;
-	}
+	noexcept { return _data; }
 
 	const Data& data(void) const
-	noexcept
-	{
-		return _data;
-	}
+	noexcept { return _data; }
 };
 
 template <
@@ -211,46 +187,33 @@ public:
 	}
 
 	~deferred_handler(void)
-	noexcept(false)
-	{
-		if(_handler.is_valid(_data))
-		{
+	noexcept(false) {
+		if(_handler.is_valid(_data)) {
 			_handler.invoke(_data);
 		}
 	}
 
 	explicit
 	operator bool (void) const
-	noexcept
-	{
-		return _handler.is_valid(_data);
-	}
+	noexcept { return _handler.is_valid(_data); }
 
 	bool operator ! (void) const
-	noexcept
-	{
-		return !_handler.is_valid(_data);
-	}
+	noexcept { return !_handler.is_valid(_data); }
 
 	bool cancel(void)
-	noexcept
-	{
-		if(_handler.is_valid(_data))
-		{
+	noexcept {
+		if(_handler.is_valid(_data)) {
 			_handler.cancel(_data);
 			return true;
 		}
 		return false;
 	}
 
-	void trigger(void)
-	{
-		if(_handler.is_valid(_data))
-		{
+	void trigger(void) {
+		if(_handler.is_valid(_data)) {
 			HandlerPolicy handler = std::move(_handler);
 			try { handler.invoke(_data); }
-			catch(...)
-			{
+			catch(...) {
 				handler.cancel(_data);
 				throw;
 			}
@@ -259,16 +222,10 @@ public:
 	}
 
 	Data& data(void)
-	noexcept
-	{
-		return _data;
-	}
+	noexcept { return _data; }
 
 	const Data& data(void) const
-	noexcept
-	{
-		return _data;
-	}
+	noexcept { return _data; }
 };
 
 template <typename Data>
@@ -276,8 +233,7 @@ static inline constexpr
 deferred_handler<Data> make_deferred_handler(
 	void (*handler)(Data&),
 	Data data
-) noexcept
-{
+) noexcept {
 	return {handler, std::move(data)};
 }
 

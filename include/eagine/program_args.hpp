@@ -9,9 +9,9 @@
 #ifndef EAGINE_PROGRAM_ARGS_1509260923_HPP
 #define EAGINE_PROGRAM_ARGS_1509260923_HPP
 
-#include "cstr_ref.hpp"
 #include "valid_if/in_list.hpp"
-#include "valid_if/lt_size_ge0.hpp"
+#include "cstr_ref.hpp"
+#include "range_types.hpp"
 #include "type_name.hpp"
 #include "span.hpp"
 #include "identity.hpp"
@@ -24,13 +24,43 @@ namespace eagine {
 
 class program_args;
 
-template <typename T>
-class program_parameter
+class basic_program_parameter
 {
-private:
+protected:
 	cstr_ref _short_tag;
 	cstr_ref _long_tag;
 	cstr_ref _description;
+
+	basic_program_parameter(
+		const cstr_ref& short_tag,
+		const cstr_ref& long_tag
+	) noexcept
+	 : _short_tag(short_tag)
+	 , _long_tag(long_tag)
+	{ }
+
+public:
+	const cstr_ref& short_tag(void) const
+	noexcept { return _short_tag; }
+
+	const cstr_ref& long_tag(void) const
+	noexcept { return _long_tag; }
+
+	const cstr_ref& description(void) const
+	noexcept { return _description; }
+
+	basic_program_parameter& description(cstr_ref help_str)
+	noexcept {
+		_description = help_str;
+		return *this;
+	}
+};
+
+template <typename T>
+class program_parameter
+ : public basic_program_parameter
+{
+private:
 	T _value;
 
 	template <typename X>
@@ -78,25 +108,9 @@ public:
 		const cstr_ref& long_tag,
 		const T& initial
 	) noexcept
-	 : _short_tag(short_tag)
-	 , _long_tag(long_tag)
+	 : basic_program_parameter(short_tag, long_tag)
 	 , _value(initial)
 	{ }
-
-	const cstr_ref& short_tag(void) const
-	noexcept { return _short_tag; }
-
-	const cstr_ref& long_tag(void) const
-	noexcept { return _long_tag; }
-
-	const cstr_ref& description(void) const
-	noexcept { return _description; }
-
-	program_parameter& description(cstr_ref help_str)
-	noexcept {
-		_description = help_str;
-		return *this;
-	}
 
 	T& ref(void)
 	noexcept { return _value; }
@@ -127,10 +141,9 @@ public:
 
 template <typename T>
 class program_parameter_alias
+ : public basic_program_parameter
 {
 private:
-	cstr_ref _short_tag;
-	cstr_ref _long_tag;
 	program_parameter<T>& _aliased;
 public:
 	program_parameter_alias(const program_parameter_alias&) = delete;
@@ -140,16 +153,9 @@ public:
 		const cstr_ref& long_tag,
 		program_parameter<T>& that
 	) noexcept
-	 : _short_tag(short_tag)
-	 , _long_tag(long_tag)
+	 : basic_program_parameter(short_tag, long_tag)
 	 , _aliased(that)
 	{ }
-
-	const cstr_ref& short_tag(void) const
-	noexcept { return _short_tag; }
-
-	const cstr_ref& long_tag(void) const
-	noexcept { return _long_tag; }
 
 	T& ref(void)
 	noexcept { return _aliased.ref(); }
@@ -163,36 +169,18 @@ public:
 
 template <>
 class program_parameter<void>
+ : public basic_program_parameter
 {
 private:
-	cstr_ref _short_tag;
-	cstr_ref _long_tag;
-	cstr_ref _description;
 	span_size_t _count;
 public:
 	program_parameter(
 		const cstr_ref& short_tag,
 		const cstr_ref& long_tag
 	) noexcept
-	 : _short_tag(short_tag)
-	 , _long_tag(long_tag)
+	 : basic_program_parameter(short_tag, long_tag)
 	 , _count(0)
 	{ }
-
-	const cstr_ref& short_tag(void) const
-	noexcept { return _short_tag; }
-
-	const cstr_ref& long_tag(void) const
-	noexcept { return _long_tag; }
-
-	const cstr_ref& description(void) const
-	noexcept { return _description; }
-
-	program_parameter& description(cstr_ref help_str)
-	noexcept {
-		_description = help_str;
-		return *this;
-	}
 
 	void increment(void)
 	noexcept { ++_count; }
@@ -315,6 +303,10 @@ public:
 			(get() == long_tag);
 	}
 
+	bool is_tag_param(const basic_program_parameter& param) const {
+		return is_tag(param.short_tag(), param.long_tag());
+	}
+
 	bool is_help_arg(void) const
 	noexcept {
 		return is_tag(cstr_ref("-h"), cstr_ref("--help"));
@@ -412,7 +404,7 @@ public:
 		MissingFunc handle_missing,
 		InvalidFunc handle_invalid
 	) {
-		if((get() == param.short_tag()) || (get() == param.long_tag())){
+		if(is_tag_param(param)) {
 			return do_consume_next(
 				param.ref(),
 				handle_missing,
@@ -428,7 +420,7 @@ public:
 		const MissingFunc&,
 		const InvalidFunc&
 	) {
-		if((get() == param.short_tag()) || (get() == param.long_tag())){
+		if(is_tag_param(param)) {
 			param.increment();
 			return true;
 		}
@@ -497,7 +489,7 @@ public:
 		MissingFunc handle_missing,
 		InvalidFunc handle_invalid
 	) {
-		if((get() == param.short_tag()) || (get() == param.long_tag())){
+		if(is_tag_param(param)) {
 			return do_consume_next(
 				param.ref(),
 				choices,
@@ -591,7 +583,7 @@ public:
 		MissingFunc handle_missing,
 		InvalidFunc handle_invalid
 	) {
-		if((get() == param.short_tag()) || (get() == param.long_tag())){
+		if(is_tag_param(param)) {
 			return do_consume_next(
 				param.ref(),
 				symbols, translations,
@@ -625,7 +617,7 @@ public:
 		MissingFunc handle_missing,
 		InvalidFunc handle_invalid
 	) {
-		if((get() == param.short_tag()) || (get() == param.long_tag())){
+		if(is_tag_param(param)) {
 			return do_consume_next(
 				param.ref(),
 				symbols, translations,

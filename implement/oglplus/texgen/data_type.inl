@@ -61,7 +61,7 @@ noexcept
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-unsigned
+span_size_t
 data_type_dims(slot_data_type type)
 noexcept
 {
@@ -70,28 +70,28 @@ noexcept
 		case slot_data_type::bool_ :
 		case slot_data_type::int_ : 
 		case slot_data_type::float_ : 
-			return 1u;
+			return 1;
 		case slot_data_type::bool_2: 
 		case slot_data_type::int_2: 
 		case slot_data_type::float_2:
-			return 2u;
+			return 2;
 		case slot_data_type::bool_3: 
 		case slot_data_type::int_3: 
 		case slot_data_type::float_3:
-			return 3u;
+			return 3;
 		case slot_data_type::bool_4: 
 		case slot_data_type::int_4: 
 		case slot_data_type::float_4:
-			return 4u;
+			return 4;
 	}
-	return 0u;
+	return 0;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 slot_data_type
 make_data_type(
 	scalar_data_type type,
-	eagine::valid_if_between<unsigned, 1, 4> dims
+	eagine::valid_if_between<span_size_t, 1, 4> dims
 ) noexcept
 {
 	switch(type)
@@ -135,12 +135,12 @@ noexcept
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-unsigned
+span_size_t
 common_dims(slot_data_type a, slot_data_type b)
 noexcept
 {
-	unsigned da = data_type_dims(a);
-	unsigned db = data_type_dims(b);
+	span_size_t da = data_type_dims(a);
+	span_size_t db = data_type_dims(b);
 	return da>db?da:db;
 }
 //------------------------------------------------------------------------------
@@ -179,10 +179,10 @@ conversion_suffix(
 {
 	if(from != to)
 	{
-		unsigned df = data_type_dims(from);
-		unsigned dt = data_type_dims(to);
+		span_size_t df = data_type_dims(from);
+		span_size_t dt = data_type_dims(to);
 
-		for(unsigned i=df; i<dt; ++i)
+		for(span_size_t i=df; i<dt; ++i)
 		{
 			out << ",0";
 		}
@@ -203,8 +203,8 @@ conversion_suffix(
 {
 	if(from != to)
 	{
-		unsigned df = data_type_dims(from);
-		unsigned dt = data_type_dims(to);
+		span_size_t df = data_type_dims(from);
+		span_size_t dt = data_type_dims(to);
 
 		if((df < 1) && (dt >= 1)) out << "," << x;
 		if((df < 2) && (dt >= 2)) out << "," << y;

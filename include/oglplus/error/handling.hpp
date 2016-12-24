@@ -15,10 +15,12 @@
 namespace oglplus {
 
 template <typename ErrorInfo>
-[[noreturn]] static inline
+static inline
 void handle_gl_error(ErrorInfo& info)
 {
-	throw error(std::move(info));
+	if(!std::uncaught_exception()) {
+		throw error(std::move(info));
+	}
 }
 
 static inline constexpr
@@ -37,7 +39,7 @@ struct gl_error_handling_policy
 		return is_gl_error(info.gl_error_code());
 	}
 
-	[[noreturn]] static
+	static
 	void invoke(error_info& info)
 	{
 		handle_gl_error(info);

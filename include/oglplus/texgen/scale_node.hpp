@@ -43,8 +43,7 @@ class scale_node
 {
 public:
 	scale_node&
-	set_scale(float x, float y, float z)
-	{
+	set_scale(float x, float y, float z) {
 		_output.scale.fallback().set(x, y, z);
 		return *this;
 	}

@@ -65,7 +65,7 @@ swizzle_output::value_type(void)
 {
 	return make_data_type(
 		elem_data_type(input.value_type()),
-		unsigned(swizzle.size())
+		span_size(swizzle.size())
 	);
 }
 //------------------------------------------------------------------------------

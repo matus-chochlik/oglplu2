@@ -43,8 +43,7 @@ class offset_node
 {
 public:
 	offset_node&
-	set_offset(float x, float y, float z)
-	{
+	set_offset(float x, float y, float z) {
 		_output.offset.fallback().set(x, y, z);
 		return *this;
 	}

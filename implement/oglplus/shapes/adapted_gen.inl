@@ -14,8 +14,7 @@ namespace shapes {
 OGLPLUS_LIB_FUNC
 span_size_t
 adapted_generator::
-_index_type_size(eagine::shapes::index_data_type type)
-{
+_index_type_size(eagine::shapes::index_data_type type) {
 	switch(type) {
 		// TODO currently all indices are GLuint
 		case eagine::shapes::index_data_type::unsigned_byte:
@@ -33,10 +32,11 @@ _index_type_size(eagine::shapes::index_data_type type)
 OGLPLUS_LIB_FUNC
 void
 adapted_generator::
-instructions(const span<draw_operation>& ops) const
-{
+instructions(const span<draw_operation>& ops) const {
 	assert(ops.size() >= operation_count());
-	std::vector<eagine::shapes::draw_operation> tmp(operation_count());
+	std::vector<eagine::shapes::draw_operation> tmp(
+		std_size(operation_count())
+	);
 	_gen->instructions(tmp);
 
 	for(decltype(tmp.size()) i=0; i<tmp.size(); ++i) {

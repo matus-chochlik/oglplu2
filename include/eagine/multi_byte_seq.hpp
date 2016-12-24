@@ -500,7 +500,7 @@ bool encode_code_points(
 			return false;
 		}
 
-		i += span_size_t(len.value());
+		i += span_size(len.value());
 	}
 	return true;
 }
@@ -521,7 +521,7 @@ bool decode_code_points(
 		if(auto len = decode_sequence_length(sub)) {
 			cp = do_decode_code_point(sub, len.value());
 
-			i += span_size_t(len.value());
+			i += span_size(len.value());
 		}
 		else return false;
 	}

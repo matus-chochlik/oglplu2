@@ -10,6 +10,8 @@
 #ifndef EAGINE_SHAPES_DRAWING_1509260923_HPP
 #define EAGINE_SHAPES_DRAWING_1509260923_HPP
 
+#include "../types.hpp"
+
 namespace eagine {
 namespace shapes {
 
@@ -36,8 +38,8 @@ struct draw_operation
 {
 	primitive_type mode;
 	index_data_type idx_type;
-	unsigned first;
-	unsigned count;
+	span_size_t first;
+	span_size_t count;
 	unsigned phase;
 	unsigned primitive_restart_index;
 	bool primitive_restart;

@@ -36,21 +36,14 @@ public:
 
 	constexpr
 	const T& get(void) const
-	noexcept
-	{
-		return _val;
-	}
+	noexcept { return _val; }
 
 	T& ref(void)
-	noexcept
-	{
-		return _val;
-	}
+	noexcept { return _val; }
 
 	template <typename Func>
 	void apply(Func func)
-	noexcept
-	{
+	noexcept {
 		try { func(_val); }
 		catch(...) { }
 	}
@@ -74,16 +67,14 @@ public:
 	{ }
 
 	T& get(void) const
-	noexcept
-	{
+	noexcept {
 		assert(_ref != nullptr);
 		return *_ref;
 	}
 
 	template <typename Func>
 	void apply(Func func)
-	noexcept
-	{
+	noexcept {
 		try { func(get()); }
 		catch(...) { }
 	}
@@ -113,34 +104,19 @@ public:
 	{ }
 
 	ErrorData& handler_data(void)
-	noexcept
-	{
-		return _handler.data();
-	}
+	noexcept { return _handler.data(); }
 
 	const ErrorData& handler_data(void) const
-	noexcept
-	{
-		return _handler.data();
-	}
+	noexcept { return _handler.data(); }
 
 	bool failed(void) const
-	noexcept
-	{
-		return bool(_handler);
-	}
+	noexcept { return bool(_handler); }
 
 	bool succeeded(void) const
-	noexcept
-	{
-		return !_handler;
-	}
+	noexcept { return !_handler; }
 
 	bool done_without_error(void)
-	noexcept
-	{
-		return !_handler.cancel();
-	}
+	noexcept { return !_handler.cancel(); }
 };
 
 template <typename T, typename ErrorData, typename HandlerPolicy>
@@ -166,34 +142,28 @@ public:
 	 , _value(std::move(val_stor))
 	{ }
 
-	T value(void)
-	{
+	T value(void) {
 		assert(this->succeeded());
 		return _value.get();
 	}
 
-	T value_or(const T& fallback)
-	{
+	T value_or(const T& fallback) {
 		return this->succeeded()?_value.get():fallback;
 	}
 
-	T&& rvalue(void)
-	{
+	T&& rvalue(void) {
 		assert(this->succeeded());
 		return std::move(_value.ref());
 	}
 
-	operator T&& (void)
-	{
+	operator T&& (void) {
 		return rvalue();
 	}
 
 	template <typename Func>
 	void then(Func func)
-	noexcept
-	{
-		if(this->succeeded())
-		{
+	noexcept {
+		if(this->succeeded()) {
 			_value.apply(func);
 		}
 	}
@@ -216,57 +186,41 @@ public:
 
 	deferred_handler<ErrorData, HandlerPolicy>
 	release_handler(void)
-	noexcept
-	{
-		return std::move(_handler);
-	}
+	noexcept { return std::move(_handler); }
 
 	ErrorData& handler_data(void)
-	noexcept
-	{
-		return _handler.data();
-	}
+	noexcept { return _handler.data(); }
 
 	const ErrorData& handler_data(void) const
-	noexcept
-	{
-		return _handler.data();
-	}
+	noexcept { return _handler.data(); }
 
 	basic_outcome<void, ErrorData, HandlerPolicy, cancelled_handler>
 	ignore_error(void)
-	noexcept
-	{
+	noexcept {
 		return cancelled_handler<ErrorData, HandlerPolicy>(
 			std::move(_handler.data()),
 			_handler.cancel()
 		);
 	}
 
+	void trigger_error(void) {
+		_handler.trigger();
+	}
+
 	template <typename HandlerFunc>
-	auto handle_error(HandlerFunc handler_func)
-	{
+	auto handle_error(HandlerFunc handler_func) {
 		_handler.cancel();
 		return handler_func(_handler.data());
 	}
 
 	bool failed(void) const
-	noexcept
-	{
-		return bool(_handler);
-	}
+	noexcept { return bool(_handler); }
 
 	bool succeeded(void) const
-	noexcept
-	{
-		return !_handler;
-	}
+	noexcept { return !_handler; }
 
 	bool done_without_error(void)
-	noexcept
-	{
-		return !_handler.cancel();
-	}
+	noexcept { return !_handler.cancel(); }
 };
 
 template <typename T, typename ErrorData, typename HandlerPolicy>
@@ -321,8 +275,7 @@ public:
 
 	basic_outcome<T, ErrorData, HandlerPolicy, cancelled_handler>
 	ignore_error(void)
-	noexcept
-	{
+	noexcept {
 		return {
 			cancelled_handler<ErrorData, HandlerPolicy>(
 				std::move(this->_handler.data()),
@@ -331,29 +284,34 @@ public:
 		};
 	}
 
-	T value(void)
-	{
+	void trigger_error(void) {
 		this->_handler.trigger();
+	}
+
+	template <typename HandlerFunc>
+	auto handle_error(HandlerFunc handler_func) {
+		this->_handler.cancel();
+		return handler_func(this->_handler.data());
+	}
+
+	T value(void) {
+		trigger_error();
 		return _value.get();
 	}
 
-	T&& rvalue(void)
-	{
-		this->_handler.trigger();
+	T&& rvalue(void) {
+		trigger_error();
 		return std::move(_value.ref());
 	}
 
-	operator T&& (void)
-	{
+	operator T&& (void) {
 		return rvalue();
 	}
 
 	template <typename Func>
 	void then(Func func)
-	noexcept
-	{
-		if(this->succeeded())
-		{
+	noexcept {
+		if(this->succeeded()) {
 			_value.apply(func);
 		}
 	}
@@ -363,10 +321,8 @@ template <typename T, typename U, typename ErrorData, typename HandlerPolicy>
 static inline
 basic_outcome<T, ErrorData, HandlerPolicy>
 outcome_cast(basic_outcome<U, ErrorData, HandlerPolicy>&& that)
-noexcept
-{
-	if(that.failed())
-	{
+noexcept {
+	if(that.failed()) {
 		return {that.release_handler()};
 	}
 	return {T(that.value())};
@@ -378,10 +334,8 @@ basic_outcome<T, ErrorData, HandlerPolicy>
 outcome_conversion(
 	basic_outcome<U, ErrorData, HandlerPolicy>&& that,
 	T (*convert)(U)
-) noexcept
-{
-	if(that.failed())
-	{
+) noexcept {
+	if(that.failed()) {
 		return {that.release_handler()};
 	}
 	return {convert(that.value())};
@@ -391,8 +345,7 @@ template <typename T, typename ErrorData, typename HandlerPolicy>
 static inline
 basic_outcome<T, ErrorData, HandlerPolicy>
 operator , (basic_outcome<void, ErrorData, HandlerPolicy>&& bo, T value)
-noexcept
-{
+noexcept {
 	return {std::move(bo), std::move(value), selector<0>()};
 }
 
@@ -400,8 +353,7 @@ template <typename T, typename ErrorData, typename HandlerPolicy, typename Func>
 static inline
 basic_outcome<T, ErrorData, HandlerPolicy>&&
 operator | (basic_outcome<T, ErrorData, HandlerPolicy>&& bo, Func func)
-noexcept
-{
+noexcept {
 	bo.then(func);
 	return std::move(bo);
 }
@@ -418,26 +370,17 @@ public:
 
 	explicit
 	operator bool (void) const
-	noexcept
-	{
-		return this->succeeded();
-	}
+	noexcept { return this->succeeded(); }
 
 	bool operator ! (void) const
-	noexcept
-	{
-		return this->failed();
-	}
+	noexcept { return this->failed(); }
 };
 
 template <typename T, typename ErrorData, typename HandlerPolicy>
 static inline
 basic_positive_outcome<T, ErrorData, HandlerPolicy>
 success(basic_outcome<T, ErrorData, HandlerPolicy>&& o)
-noexcept
-{
-	return std::move(o);
-}
+noexcept { return std::move(o); }
 
 template <typename T, typename ErrorData, typename HandlerPolicy>
 class basic_negative_outcome
@@ -451,26 +394,17 @@ public:
 
 	explicit
 	operator bool (void) const
-	noexcept
-	{
-		return this->failed();
-	}
+	noexcept { return this->failed(); }
 
 	bool operator ! (void) const
-	noexcept
-	{
-		return this->succeeded();
-	}
+	noexcept { return this->succeeded(); }
 };
 
 template <typename T, typename ErrorData, typename HandlerPolicy>
 static inline
 basic_negative_outcome<T, ErrorData, HandlerPolicy>
 failure(basic_outcome<T, ErrorData, HandlerPolicy>&& o)
-noexcept
-{
-	return std::move(o);
-}
+noexcept { return std::move(o); }
 
 } // namespace eagine
 

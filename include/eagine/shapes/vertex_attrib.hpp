@@ -139,7 +139,7 @@ noexcept
 
 // attrib_values_per_vertex
 static inline
-unsigned
+span_size_t
 attrib_values_per_vertex(vertex_attrib_kind attr)
 noexcept
 {
@@ -151,11 +151,11 @@ noexcept
 		case vertex_attrib_kind::bitangential:
 		case vertex_attrib_kind::face_coord:
 		case vertex_attrib_kind::box_coord:
-			return 3u;
+			return 3;
 		case vertex_attrib_kind::wrap_coord:
-			return 2u;
+			return 2;
 	}
-	return 0u;
+	return 0;
 }
 
 } // namespace shapes

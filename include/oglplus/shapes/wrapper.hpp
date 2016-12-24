@@ -34,29 +34,24 @@ public:
 		const adapted_generator& gen,
 		const span<const vertex_attrib_and_location>& vaals
 	): _bufs()
-	 , _ops(gen.operation_count())
+	 , _ops(std_size(gen.operation_count()))
 	 , _winding(gen.face_winding())
 	{
-		assert(vaals.size() >= span_size_t(N));
+		assert(vaals.size() >= span_size(N));
 		initialize_vao_and_buffers(_vao, _bufs, vaals, _ops, gen, data);
 	}
 
 	face_orientation face_winding(void) const
-	noexcept
-	{
-		return _winding;
-	}
+	noexcept { return _winding; }
 
 	outcome<void> use(void)
-	noexcept
-	{
+	noexcept {
 		oper::vertex_array_ops gl;
 		return gl.bind_vertex_array(_vao);
 	}
 
 	outcome<void> draw(void) const
-	noexcept
-	{
+	noexcept {
 		return draw_using_instructions(make_span(_ops));
 	}
 };
@@ -70,9 +65,8 @@ private:
 	static inline
 	span<const vertex_attrib_and_location>
 	_make_span(const std::array<const vertex_attrib_and_location, N>& a)
-	noexcept
-	{
-		return {a.data(), span_size_t(a.size())};
+	noexcept {
+		return {a.data(), span_size(a.size())};
 	}
 public:
 	template <typename Generator, typename ... P>

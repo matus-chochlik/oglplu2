@@ -13,6 +13,7 @@
 #include "drawing.hpp"
 #include "vertex_attrib.hpp"
 #include "../span.hpp"
+#include "../types.hpp"
 #include "../assert.hpp"
 
 namespace eagine {
@@ -42,10 +43,10 @@ struct generator_intf
 	bool cw_face_winding(void) = 0;
 
 	virtual
-	unsigned vertex_count(void) = 0;
+	span_size_t vertex_count(void) = 0;
 
 	virtual
-	unsigned values_per_vertex(vertex_attrib_kind attr) = 0;
+	span_size_t values_per_vertex(vertex_attrib_kind attr) = 0;
 
 	virtual
 	void attrib_values(vertex_attrib_kind attr, const span<float>& dest)= 0;
@@ -54,13 +55,13 @@ struct generator_intf
 	index_data_type index_type(void) = 0;
 
 	virtual
-	unsigned index_count(void) = 0;
+	span_size_t index_count(void) = 0;
 
 	virtual
 	void indices(const span<unsigned>& dest) = 0;
 
 	virtual
-	unsigned operation_count(void) = 0;
+	span_size_t operation_count(void) = 0;
 
 	virtual
 	void instructions(const span<draw_operation>& dest) = 0;
@@ -116,13 +117,13 @@ public:
 		return bool(attrib_bits() | attr);
 	}
 
-	unsigned values_per_vertex(vertex_attrib_kind attr)
+	span_size_t values_per_vertex(vertex_attrib_kind attr)
 	override
 	{
 		return has(attr)?attrib_values_per_vertex(attr):0u;
 	}
 
-	unsigned value_count(vertex_attrib_kind attr)
+	span_size_t value_count(vertex_attrib_kind attr)
 	{
 		return vertex_count()*values_per_vertex(attr);
 	}

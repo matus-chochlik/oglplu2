@@ -34,13 +34,13 @@ public:
 		return _gen->cw_face_winding();
 	}
 
-	unsigned vertex_count(void)
+	span_size_t vertex_count(void)
 	override
 	{
 		return _gen->vertex_count();
 	}
 
-	unsigned values_per_vertex(vertex_attrib_kind attr)
+	span_size_t values_per_vertex(vertex_attrib_kind attr)
 	override
 	{
 		return _gen->values_per_vertex(attr);
@@ -58,7 +58,7 @@ public:
 		return _gen->index_type();
 	}
 
-	unsigned index_count(void)
+	span_size_t index_count(void)
 	override
 	{
 		return _gen->index_count();
@@ -70,7 +70,7 @@ public:
 		_gen->indices(dest);
 	}
 
-	unsigned operation_count(void)
+	span_size_t operation_count(void)
 	override
 	{
 		return _gen->operation_count();

@@ -10,6 +10,10 @@
 
 #include <random>
 #include <limits>
+#include <string>
+#include <vector>
+#include <array>
+#include <cctype>
 #include <type_traits>
 #include <eagine/types.hpp>
 
@@ -66,6 +70,10 @@ public:
 		return get_integer<int>(0, 1) == 1;
 	}
 
+	char get_char(char min, char max) {
+		return get_integer<char>(min, max);
+	}
+
 	int get_int(int min, int max) {
 		return get_integer<int>(min, max);
 	}
@@ -88,6 +96,58 @@ public:
 	
 	double get_double(double min, double max) {
 		return get_real<double>(min, max);
+	}
+
+	template <typename Pred>
+	std::string get_string(
+		std::size_t min,
+		std::size_t max,
+		Pred pred
+	) {
+		std::string result(get_std_size(min, max), '\0');
+		for(char& c : result) {
+			do { c = get_any<char>(); }
+			while(!pred(c));
+		}
+		return std::move(result);
+	}
+
+	std::string get_string(std::size_t min, std::size_t max) {
+		return get_string(
+			min,
+			max,
+			[](char c) { return std::isprint(c) != 0; }
+		);
+	}
+
+	template <typename T>
+	void fill(std::vector<T>& v, T min, T max) {
+		for(auto& e : v) {
+			e = get<T>(min, max);
+		}
+	}
+
+	template <typename T>
+	void fill(std::vector<T>& v) {
+		return fill(v,
+			std::numeric_limits<T>::min(),
+			std::numeric_limits<T>::max()
+		);
+	}
+
+	template <typename T, std::size_t N>
+	void fill(std::array<T, N>& a, T min, T max) {
+		for(auto& e : a) {
+			e = get<T>(min, max);
+		}
+	}
+
+	template <typename T, std::size_t N>
+	void fill(std::array<T, N>& a) {
+		return fill(a,
+			std::numeric_limits<T>::min(),
+			std::numeric_limits<T>::max()
+		);
 	}
 
 };

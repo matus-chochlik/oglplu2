@@ -29,8 +29,7 @@ public:
 	{ }
 
 	bool accepts_value_type(slot_data_type type)
-	override
-	{
+	override {
 		return data_type_dims(type) ==
 			data_type_dims(output().value_type());
 	}
@@ -64,8 +63,7 @@ class complement_node
 {
 public:
 	complement_node&
-	set_complement(float r, float g, float b, float a)
-	{
+	set_complement(float r, float g, float b, float a) {
 		_output.complement.fallback().set(r, g, b, a);
 		return *this;
 	}

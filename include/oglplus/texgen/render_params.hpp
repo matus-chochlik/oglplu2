@@ -29,16 +29,14 @@ typedef eagine::bitfield<render_param_bit> render_param_bits;
 static constexpr inline
 render_param_bits
 operator | (render_param_bit a, render_param_bit b)
-noexcept
-{
+noexcept {
 	return {a, b};
 }
 
 static constexpr inline
 render_param_bits
 all_render_params(void)
-noexcept
-{
+noexcept {
 	return	render_param_bit::normalized_coord|
 		render_param_bit::voxel_size|
 		render_param_bit::voxel_offset|

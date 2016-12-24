@@ -58,14 +58,10 @@ public:
 	fold_node(void);
 
 	fold_output& single_output(void)
-	override
-	{
-		return _output;
-	}
+	override { return _output; }
 
 	fold_node&
-	set_function(fold_function func)
-	{
+	set_function(fold_function func) {
 		_output._func = func;
 		return *this;
 	}

@@ -33,19 +33,13 @@ public:
 
 	cstr_ref type_name(void)
 	noexcept
-	override
-	{
-		return cstr_ref("Const");
-	}
+	override { return cstr_ref("Const"); }
 
 	render_param_bits required_params(void)
-	override
-	{
-		return render_param_bits();
-	}
+	override { return render_param_bits(); }
 };
 
-template <typename T, unsigned N>
+template <typename T, span_size_t N>
 class constant_output<T[N]>
  : public constant_output_base
 {
@@ -75,17 +69,12 @@ public:
 		typename = std::enable_if_t<sizeof...(P) == N>
 	>
 	void set(P ... coords)
-	noexcept
-	{
-		_coords = std::array<T, N>{{T(coords)...}};
-	}
+	noexcept { _coords = std::array<T, N>{{T(coords)...}}; }
 
-	bool set_default_value(unsigned c, float v)
-	override
-	{
-		if(c < N)
-		{
-			_coords[c] = T(v);
+	bool set_default_value(span_size_t c, float v)
+	override {
+		if(c < N) {
+			_coords[std_size(c)] = T(v);
 			return true;
 		}
 		return false;
@@ -93,20 +82,15 @@ public:
 
 	slot_data_type value_type(void)
 	noexcept
-	override
-	{
-		return get_data_type_v<T[N]>;
-	}
+	override { return get_data_type_v<T[N]>; }
 
 	std::ostream& expression(std::ostream& out, compile_context&)
-	override
-	{
+	override {
 		out << data_type_name(value_type());
 		out << "(";
 		out << _coords[0];
-		for(unsigned i=1; i<N; ++i)
-		{
-			out << ", " << _coords[i];
+		for(span_size_t i=1; i<N; ++i) {
+			out << ", " << _coords[std_size(i)];
 		}
 		return out << ")";
 	}

@@ -24,8 +24,7 @@ void write_and_pad_texture_image_data_header(
 	image_data_header& header,
 	span_size_t pixel_data_size,
 	span_size_t& spos
-)
-{
+) {
 	using eagine::memory::is_aligned_as;
 	while(!is_aligned_as<image_data_header>(spos)) {
 		output.put('\0');
@@ -56,12 +55,10 @@ void write_and_pad_texture_image_data_header(
 	std::ostream& output,
 	image_data_header& header,
 	span_size_t pixel_data_size
-)
-{
+) {
 	span_size_t spos = 0;
 
-	if(output.tellp() >= 0)
-	{
+	if(output.tellp() >= 0) {
 		spos = span_size_t(output.tellp());
 	}
 
@@ -78,12 +75,11 @@ void write_texture_image_data(
 	std::ostream& output,
 	image_data_header& header,
 	const const_memory_block& pixels
-)
-{
+) {
 	write_and_pad_texture_image_data_header(
 		output,
 		header,
-		span_size_t(pixels.size())
+		span_size(pixels.size())
 	);
 
 	output.write(

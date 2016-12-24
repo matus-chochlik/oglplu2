@@ -51,8 +51,7 @@ class newton_node
 {
 public:
 	newton_node&
-	set_function(newton_function function)
-	{
+	set_function(newton_function function) {
 		_output._function = function;
 		return *this;
 	}

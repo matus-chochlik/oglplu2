@@ -35,19 +35,19 @@ private:
 	noexcept;
 
 	static
-	int _coord_c(unsigned v, unsigned c)
+	int _coord_c(span_size_t v, span_size_t c)
 	noexcept;
 
 	static
-	int _normal_c(unsigned f, unsigned c)
+	int _normal_c(span_size_t f, span_size_t c)
 	noexcept;
 
 	static
-	int _tangential_c(unsigned f, unsigned c)
+	int _tangential_c(span_size_t f, span_size_t c)
 	noexcept;
 
 	static
-	int _bitangential_c(unsigned f, unsigned c)
+	int _bitangential_c(span_size_t f, span_size_t c)
 	noexcept;
 
 	template <typename T>
@@ -55,7 +55,7 @@ private:
 	noexcept;
 
 	static
-	unsigned _face_vert(unsigned f, unsigned t, unsigned v)
+	span_size_t _face_vert(span_size_t f, span_size_t t, span_size_t v)
 	noexcept;
 public:
 	unit_cube_gen(vertex_attrib_bits attr_bits)
@@ -64,7 +64,7 @@ public:
 	bool cw_face_winding(void)
 	override;
 
-	unsigned vertex_count(void)
+	span_size_t vertex_count(void)
 	override;
 
 	void positions(const span<float>& dest)
@@ -88,13 +88,13 @@ public:
 	index_data_type index_type(void)
 	override;
 
-	unsigned index_count(void)
+	span_size_t index_count(void)
 	override;
 
 	void indices(const span<unsigned>& dest)
 	override;
 
-	unsigned operation_count(void)
+	span_size_t operation_count(void)
 	override;
 
 	void instructions(const span<draw_operation>& ops)
