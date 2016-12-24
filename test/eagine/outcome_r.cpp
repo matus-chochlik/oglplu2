@@ -24,10 +24,11 @@ struct mock_error_data
 template <typename T>
 using test_outcome = basic_outcome<T, mock_error_data>;
 
-[[noreturn]]
 void handle_error(mock_error_data& data)
 {
-	throw data;
+	if(!std::uncaught_exception()) {
+		throw data;
+	}
 }
 
 test_outcome<void> ok_void(void)
@@ -135,6 +136,57 @@ BOOST_AUTO_TEST_CASE(outcome_fail_void)
 		++passed;
 	}
 	BOOST_CHECK_EQUAL(passed,2);
+}
+
+BOOST_AUTO_TEST_CASE(outcome_fail_void_2)
+{
+	using namespace eagine;
+
+	int passed = 0;
+
+	int tag = rg.get_any<int>();
+
+	try
+	{
+		BOOST_CHECK(!fail_void(tag).done_without_error());
+		++passed;
+
+		test_outcome<void> o = fail_void(tag);
+		++passed;
+	}
+	catch(mock_error_data& med)
+	{
+		BOOST_CHECK_EQUAL(tag, med.tag);
+		++passed;
+	}
+	BOOST_CHECK_EQUAL(passed,3);
+}
+
+BOOST_AUTO_TEST_CASE(outcome_fail_void_trigger)
+{
+	using namespace eagine;
+
+	int passed = 0;
+
+	int tag = rg.get_any<int>();
+
+	try
+	{
+		BOOST_CHECK(!fail_void(tag).done_without_error());
+		++passed;
+
+		test_outcome<void> o = fail_void(tag);
+		++passed;
+
+		o.trigger_error();
+		BOOST_CHECK_MESSAGE(false, "Should not get here");
+	}
+	catch(mock_error_data& med)
+	{
+		BOOST_CHECK_EQUAL(tag, med.tag);
+		++passed;
+	}
+	BOOST_CHECK_EQUAL(passed,3);
 }
 
 BOOST_AUTO_TEST_CASE(outcome_fail_void_ignore)
@@ -261,6 +313,54 @@ BOOST_AUTO_TEST_CASE(outcome_fail_string)
 		++passed;
 
 		fail_string(tag);
+		BOOST_CHECK_MESSAGE(false, "Should not get here");
+	}
+	catch(mock_error_data& med)
+	{
+		BOOST_CHECK_EQUAL(tag, med.tag);
+		++passed;
+	}
+	BOOST_CHECK_EQUAL(passed,2);
+}
+
+BOOST_AUTO_TEST_CASE(outcome_fail_string_2)
+{
+	using namespace eagine;
+
+	int passed = 0;
+
+	int tag = rg.get_any<int>();
+
+	try
+	{
+		BOOST_CHECK(!fail_string(tag).done_without_error());
+		++passed;
+
+		test_outcome<std::string> o = fail_string(tag);
+		++passed;
+	}
+	catch(mock_error_data& med)
+	{
+		BOOST_CHECK_EQUAL(tag, med.tag);
+		++passed;
+	}
+	BOOST_CHECK_EQUAL(passed,3);
+}
+
+BOOST_AUTO_TEST_CASE(outcome_fail_string_trigger)
+{
+	using namespace eagine;
+
+	int passed = 0;
+
+	int tag = rg.get_any<int>();
+
+	try
+	{
+		BOOST_CHECK(!fail_string(tag).done_without_error());
+		++passed;
+
+		fail_string(tag).trigger_error();
 		BOOST_CHECK_MESSAGE(false, "Should not get here");
 	}
 	catch(mock_error_data& med)
@@ -409,6 +509,54 @@ BOOST_AUTO_TEST_CASE(outcome_fail_ref)
 	BOOST_CHECK_EQUAL(passed,2);
 }
 
+BOOST_AUTO_TEST_CASE(outcome_fail_ref_2)
+{
+	using namespace eagine;
+
+	int passed = 0;
+
+	int i = 0, tag = rg.get_any<int>();
+
+	try
+	{
+		BOOST_CHECK(!fail_ref(i, tag).done_without_error());
+		++passed;
+
+		test_outcome<int&> o = fail_ref(i, tag);
+		++passed;
+	}
+	catch(mock_error_data& med)
+	{
+		BOOST_CHECK_EQUAL(tag, med.tag);
+		++passed;
+	}
+	BOOST_CHECK_EQUAL(passed,3);
+}
+
+BOOST_AUTO_TEST_CASE(outcome_fail_ref_trigger)
+{
+	using namespace eagine;
+
+	int passed = 0;
+
+	int i = 0, tag = rg.get_any<int>();
+
+	try
+	{
+		BOOST_CHECK(!fail_ref(i, tag).done_without_error());
+		++passed;
+
+		fail_ref(i, tag).trigger_error();
+		BOOST_CHECK_MESSAGE(false, "Should not get here");
+	}
+	catch(mock_error_data& med)
+	{
+		BOOST_CHECK_EQUAL(tag, med.tag);
+		++passed;
+	}
+	BOOST_CHECK_EQUAL(passed,2);
+}
+
 BOOST_AUTO_TEST_CASE(outcome_fail_ref_ignore)
 {
 	using namespace eagine;
@@ -498,6 +646,32 @@ BOOST_AUTO_TEST_CASE(outcome_foo_ref)
 		++passed;
 	}
 	BOOST_CHECK_EQUAL(passed,5);
+}
+
+BOOST_AUTO_TEST_CASE(outcome_foo_void_no_abort)
+{
+	using namespace eagine;
+
+	int passed = 0;
+
+	int tag = rg.get_any<int>();
+
+	try
+	{
+		test_outcome<void> o = fail_void(tag);
+		++passed;
+		throw std::runtime_error("EAGine Test Error");
+	}
+	catch(mock_error_data&)
+	{
+		BOOST_CHECK_MESSAGE(false, "Should not get here");
+	}
+	catch(std::exception& se)
+	{
+		BOOST_CHECK_EQUAL(se.what(), "EAGine Test Error");
+		++passed;
+	}
+	BOOST_CHECK_EQUAL(passed,2);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
