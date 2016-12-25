@@ -16,6 +16,7 @@
 #include <cctype>
 #include <type_traits>
 #include <eagine/types.hpp>
+#include <eagine/string_span.hpp>
 
 namespace eagine {
 
@@ -74,6 +75,10 @@ public:
 		return get_integer<char>(min, max);
 	}
 
+	char get_char_from(cstring_span chars) {
+		return chars[get_span_size(0, chars.size()-1)];
+	}
+
 	int get_int(int min, int max) {
 		return get_integer<int>(min, max);
 	}
@@ -118,6 +123,18 @@ public:
 			max,
 			[](char c) { return std::isprint(c) != 0; }
 		);
+	}
+
+	std::string get_string_from(
+		std::size_t min,
+		std::size_t max,
+		cstring_span chars
+	) {
+		std::string result(get_std_size(min, max), '\0');
+		for(char& c : result) {
+			c = get_char_from(chars);
+		}
+		return std::move(result);
 	}
 
 	template <typename T>
