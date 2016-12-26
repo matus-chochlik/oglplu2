@@ -444,8 +444,10 @@ noexcept
 	}
 	else if(obj._type == GL_PROGRAM_PIPELINE)
 	{
+#if defined(GL_VERSION_4_1) || defined(GL_ARB_separate_shader_objects)
 		_GetObjectiv = glGetProgramPipelineiv;
 		_GetObjectInfoLog = glGetProgramPipelineInfoLog;
+#endif
 	}
 
 	if(_GetObjectiv && _GetObjectInfoLog)

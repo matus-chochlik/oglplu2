@@ -69,11 +69,9 @@ public:
 	owned_block allocate(size_type n, size_type a)
 	noexcept
 	override {
-		if(n <= _dft.max_size(a))
-		{
-			if(owned_block b = _dft.allocate(n, a))
-			{
-				return std::move(b);
+		if(n <= _dft.max_size(a)) {
+			if(owned_block b = _dft.allocate(n, a)) {
+				return b;
 			}
 		}
 

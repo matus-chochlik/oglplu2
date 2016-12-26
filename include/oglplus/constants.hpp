@@ -20,8 +20,10 @@ struct constants
 {
 	using indexed_enum_values::texture0;
 	using indexed_enum_values::draw_buffer0;
-	using indexed_enum_values::clip_distance0;
 	using indexed_enum_values::color_attachment0;
+#if defined(GL_CLIP_DISTANCE0)
+	using indexed_enum_values::clip_distance0;
+#endif
 };
 
 } // namespace oglplus

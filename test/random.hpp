@@ -114,7 +114,7 @@ public:
 			do { c = get_any<char>(); }
 			while(!pred(c));
 		}
-		return std::move(result);
+		return result;
 	}
 
 	std::string get_string(std::size_t min, std::size_t max) {
@@ -134,7 +134,7 @@ public:
 		for(char& c : result) {
 			c = get_char_from(chars);
 		}
-		return std::move(result);
+		return result;
 	}
 
 	template <typename T>

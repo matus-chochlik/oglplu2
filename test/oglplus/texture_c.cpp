@@ -38,14 +38,18 @@ void oglplus_texture_test_ops1(void)
 	gl.texture_binding(tgt);
 	gl.bind_texture(tgt, texs[0]);
 
+#if defined(GL_VERSION_4_2) || defined(GL_ARB_texture_storage)
 	gl.texture_image_1d(tgt, 0, ifmt, 64, 0, fmt, typ, blk);
-	gl.texture_image_2d(tgt, 0, ifmt, 64, 64, 0, fmt, typ, blk);
 	gl.texture_image_3d(tgt, 0, ifmt, 64, 64, 64, 0, fmt, typ, blk);
+#endif
+	gl.texture_image_2d(tgt, 0, ifmt, 64, 64, 0, fmt, typ, blk);
 
 #if defined(GL_EXT_direct_state_access)
+#if defined(GL_VERSION_4_2) || defined(GL_ARB_texture_storage)
 	gl.texture_image_1d(tnt, 0, ifmt, 64, 0, fmt, typ, blk);
-	gl.texture_image_2d(tnt, 0, ifmt, 64, 64, 0, fmt, typ, blk);
 	gl.texture_image_3d(tnt, 0, ifmt, 64, 64, 64, 0, fmt, typ, blk);
+#endif
+	gl.texture_image_2d(tnt, 0, ifmt, 64, 64, 0, fmt, typ, blk);
 #endif
 
 #if defined(GL_VERSION_4_2) || defined(GL_ARB_texture_storage)
@@ -60,6 +64,7 @@ void oglplus_texture_test_ops1(void)
 	gl.texture_storage_3d(tex, 1, ifmt, 64, 64, 64);
 #endif
 
+#if defined(GL_VERSION_3_0) || defined(GL_ES_VERSION_3_1)
 	gl.texture_width(tgt);
 	gl.texture_height(tgt);
 	gl.texture_depth(tgt);
@@ -141,6 +146,7 @@ void oglplus_texture_test_ops1(void)
 	gl.texture_max_lod(tnt, 1000.0f);
 	gl.texture_max_lod(tnt);
 #endif
+#endif // GL_VERSION_3_0
 
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
 	gl.texture_width(tex);
@@ -184,6 +190,7 @@ void oglplus_texture_test_ops1(void)
 	gl.texture_max_lod(tex);
 #endif
 
+#if defined(GL_VERSION_3_0) || defined(GL_ES_VERSION_3_1)
 	curtex.width();
 	curtex.height();
 	curtex.depth();
@@ -217,6 +224,7 @@ void oglplus_texture_test_ops1(void)
 
 	curtex.lod_bias(1.0f);
 	curtex.lod_bias();
+#endif
 	curtex.min_lod(-1000.0f);
 	curtex.min_lod();
 	curtex.max_lod(1000.0f);

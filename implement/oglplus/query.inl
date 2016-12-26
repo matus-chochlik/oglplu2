@@ -108,6 +108,7 @@ noexcept
 }
 #endif
 //------------------------------------------------------------------------------
+#if defined(GL_VERSION_3_0)
 inline
 outcome<void>
 query_ops::
@@ -155,6 +156,7 @@ get_query_object_uiv(
 	);
 	return {};
 }
+#endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_3) || defined (GL_ARB_timer_query)
 inline
@@ -206,6 +208,7 @@ get_query_object_ui64v(
 }
 #endif
 //------------------------------------------------------------------------------
+#if defined(GL_VERSION_3_0)
 inline
 outcome<boolean>
 query_ops::
@@ -219,6 +222,7 @@ noexcept
 		{&result, 1}
 	), boolean(GLboolean(result));
 }
+#endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_0)
 inline
@@ -235,6 +239,7 @@ noexcept
 }
 #endif
 //------------------------------------------------------------------------------
+#if defined(GL_VERSION_3_0)
 inline
 outcome<void>
 query_ops::
@@ -247,6 +252,7 @@ noexcept
 		{&result, 1}
 	);
 }
+#endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_3) || defined (GL_ARB_timer_query)
 inline

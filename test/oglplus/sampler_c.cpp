@@ -36,8 +36,10 @@ void oglplus_sampler_test_ops1(void)
 	gl.sampler_wrap(sam, wrap_s, texture_wrap_mode(GL_REPEAT));
 	gl.sampler_wrap(sam, wrap_s);
 
+#if defined(GL_TEXTURE_LOD_BIAS)
 	gl.sampler_lod_bias(sam, 1.0f);
 	gl.sampler_lod_bias(sam);
+#endif
 	gl.sampler_min_lod(sam,-1000.0f);
 	gl.sampler_min_lod(sam);
 	gl.sampler_max_lod(sam, 1000.0f);
@@ -55,8 +57,10 @@ void oglplus_sampler_test_ops1(void)
 	sam.wrap(wrap_s, texture_wrap_mode(GL_REPEAT));
 	sam.wrap(wrap_s);
 
+#if defined(GL_TEXTURE_LOD_BIAS)
 	sam.lod_bias(1.0f);
 	sam.lod_bias();
+#endif
 	sam.min_lod(-1000.0f);
 	sam.min_lod();
 	sam.max_lod(1000.0f);

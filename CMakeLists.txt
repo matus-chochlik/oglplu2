@@ -31,6 +31,7 @@ include(config/CommonFindMod.cmake)
 
 # GL-libraries
 include(config/FindGL.cmake)
+include(config/FindGLES3.cmake)
 include(config/FindGLEW.cmake)
 include(config/FindGL3W.cmake)
 

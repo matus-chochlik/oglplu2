@@ -210,7 +210,7 @@ join(const cstring_span& str, const cstring_span& sep, bool trail_sep) {
 	}
 	assert(res.size() == std_size(len));
 
-	return std::move(res);
+	return res;
 }
 
 static inline

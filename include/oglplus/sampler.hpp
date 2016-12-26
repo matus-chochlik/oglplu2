@@ -163,6 +163,7 @@ struct sampler_ops
 	sampler_wrap_r(sampler_name sam)
 	noexcept;
 
+#if defined(GL_TEXTURE_LOD_BIAS)
 	static
 	outcome<void>
 	sampler_lod_bias(sampler_name sam, GLfloat value)
@@ -172,6 +173,7 @@ struct sampler_ops
 	outcome<GLfloat>
 	sampler_lod_bias(sampler_name sam)
 	noexcept;
+#endif
 
 	static
 	outcome<void>
@@ -206,157 +208,93 @@ struct obj_dsa_ops<tag::sampler>
 
 	outcome<obj_dsa_ops&>
 	min_filter(texture_min_filter value)
-	noexcept
-	{
-		return {_ops::sampler_min_filter(*this, value), *this};
-	}
+	noexcept { return {_ops::sampler_min_filter(*this, value), *this}; }
 
 	outcome<texture_min_filter>
 	min_filter(void) const
-	noexcept
-	{
-		return _ops::sampler_min_filter(*this);
-	}
+	noexcept { return _ops::sampler_min_filter(*this); }
 
 	outcome<obj_dsa_ops&>
 	mag_filter(texture_mag_filter value)
-	noexcept
-	{
-		return {_ops::sampler_mag_filter(*this, value), *this};
-	}
+	noexcept { return {_ops::sampler_mag_filter(*this, value), *this}; }
 
 	outcome<texture_mag_filter>
 	mag_filter(void) const
-	noexcept
-	{
-		return _ops::sampler_mag_filter(*this);
-	}
+	noexcept { return _ops::sampler_mag_filter(*this); }
 
 	outcome<obj_dsa_ops&>
 	compare_mode(texture_compare_mode value)
-	noexcept
-	{
-		return {_ops::sampler_compare_mode(*this, value), *this};
-	}
+	noexcept { return {_ops::sampler_compare_mode(*this, value), *this}; }
 
 	outcome<texture_compare_mode>
 	compare_mode(void) const
-	noexcept
-	{
-		return _ops::sampler_compare_mode(*this);
-	}
+	noexcept { return _ops::sampler_compare_mode(*this); }
 
 	outcome<obj_dsa_ops&>
 	compare_func(compare_function value)
-	noexcept
-	{
-		return {_ops::sampler_compare_func(*this, value), *this};
-	}
+	noexcept { return {_ops::sampler_compare_func(*this, value), *this}; }
 
 	outcome<compare_function>
 	compare_func(void) const
-	noexcept
-	{
-		return _ops::sampler_compare_func(*this);
-	}
+	noexcept { return _ops::sampler_compare_func(*this); }
 
 	outcome<obj_dsa_ops&>
 	wrap(texture_wrap_coord coord, texture_wrap_mode value)
-	noexcept
-	{
-		return {_ops::sampler_wrap(*this, coord, value), *this};
-	}
+	noexcept { return {_ops::sampler_wrap(*this, coord, value), *this}; }
 
 	outcome<texture_wrap_mode>
 	wrap(texture_wrap_coord coord) const
-	noexcept
-	{
-		return _ops::sampler_wrap(*this, coord);
-	}
+	noexcept { return _ops::sampler_wrap(*this, coord); }
 
 	outcome<obj_dsa_ops&>
 	wrap_s(texture_wrap_mode value)
-	noexcept
-	{
-		return {_ops::sampler_wrap_s(*this, value), *this};
-	}
+	noexcept { return {_ops::sampler_wrap_s(*this, value), *this}; }
 
 	outcome<texture_wrap_mode>
 	wrap_s(void) const
-	noexcept
-	{
-		return _ops::sampler_wrap_s(*this);
-	}
+	noexcept { return _ops::sampler_wrap_s(*this); }
 
 	outcome<obj_dsa_ops&>
 	wrap_t(texture_wrap_mode value)
-	noexcept
-	{
-		return {_ops::sampler_wrap_t(*this, value), *this};
-	}
+	noexcept { return {_ops::sampler_wrap_t(*this, value), *this}; }
 
 	outcome<texture_wrap_mode>
 	wrap_t(void) const
-	noexcept
-	{
-		return _ops::sampler_wrap_t(*this);
-	}
+	noexcept { return _ops::sampler_wrap_t(*this); }
 
 	outcome<obj_dsa_ops&>
 	wrap_r(texture_wrap_mode value)
-	noexcept
-	{
-		return {_ops::sampler_wrap_r(*this, value), *this};
-	}
+	noexcept { return {_ops::sampler_wrap_r(*this, value), *this}; }
 
 	outcome<texture_wrap_mode>
 	wrap_r(void) const
-	noexcept
-	{
-		return _ops::sampler_wrap_r(*this);
-	}
+	noexcept { return _ops::sampler_wrap_r(*this); }
 
+#if defined(GL_TEXTURE_LOD_BIAS)
 	outcome<obj_dsa_ops&>
 	lod_bias(GLfloat value)
-	noexcept
-	{
-		return {_ops::sampler_lod_bias(*this, value), *this};
-	}
+	noexcept { return {_ops::sampler_lod_bias(*this, value), *this}; }
 
 	outcome<GLfloat>
 	lod_bias(void) const
-	noexcept
-	{
-		return _ops::sampler_lod_bias(*this);
-	}
+	noexcept { return _ops::sampler_lod_bias(*this); }
+#endif
 
 	outcome<obj_dsa_ops&>
 	min_lod(GLfloat value)
-	noexcept
-	{
-		return {_ops::sampler_min_lod(*this, value), *this};
-	}
+	noexcept { return {_ops::sampler_min_lod(*this, value), *this}; }
 
 	outcome<GLfloat>
 	min_lod(void) const
-	noexcept
-	{
-		return _ops::sampler_min_lod(*this);
-	}
+	noexcept { return _ops::sampler_min_lod(*this); }
 
 	outcome<obj_dsa_ops&>
 	max_lod(GLfloat value)
-	noexcept
-	{
-		return {_ops::sampler_max_lod(*this, value), *this};
-	}
+	noexcept { return {_ops::sampler_max_lod(*this, value), *this}; }
 
 	outcome<GLfloat>
 	max_lod(void) const
-	noexcept
-	{
-		return _ops::sampler_max_lod(*this);
-	}
+	noexcept { return _ops::sampler_max_lod(*this); }
 };
 
 template <>

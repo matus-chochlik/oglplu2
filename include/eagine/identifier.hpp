@@ -89,13 +89,14 @@ span_size_t _do_dec_ident(
 	identifier_t ident,
 	char* str,
 	span_size_t l,
-	span_size_t n
+	span_size_t n,
+	bool = true
 ) {
 	return ((ident != 0xFu) && (l < n))?
-		str[n-l-1] = _ident_top(ident),
 		_do_dec_ident(
 			_ident_pop(ident),
-			str, l+1, n
+			str, l+1, n,
+			((str[n-l-1] = _ident_top(ident)) != 0x00)
 		):n-l;
 }
 

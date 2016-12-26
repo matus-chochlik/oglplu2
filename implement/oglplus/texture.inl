@@ -255,6 +255,7 @@ texture_storage_3d(
 #pragma clang diagnostic ignored "-Wsign-conversion"
 #endif
 //------------------------------------------------------------------------------
+#if defined(GL_VERSION_3_0)
 inline
 outcome<void>
 texture_ops::
@@ -309,6 +310,7 @@ texture_image_1d(
 		img.data()
 	);
 }
+#endif
 //------------------------------------------------------------------------------
 inline
 outcome<void>
@@ -430,6 +432,7 @@ texture_image_3d(
 }
 //------------------------------------------------------------------------------
 #if defined(GL_EXT_direct_state_access)
+#if defined(GL_VERSION_3_0)
 inline
 outcome<void>
 texture_ops::
@@ -485,6 +488,7 @@ texture_image_1d(
 		img.data()
 	);
 }
+#endif // GL_VERSION_3_0
 //------------------------------------------------------------------------------
 inline
 outcome<void>
@@ -659,6 +663,7 @@ get_texture_parameter_iv(
 	return {};
 }
 //------------------------------------------------------------------------------
+#if defined(GL_VERSION_3_0) || defined(GL_ES_VERSION_3_1)
 inline
 outcome<void>
 texture_ops::
@@ -685,6 +690,7 @@ get_texture_level_parameter_iv(
 	);
 	return {};
 }
+#endif
 //------------------------------------------------------------------------------
 inline
 outcome<void>
@@ -805,6 +811,7 @@ get_texture_parameter_iv(
 	return {};
 }
 //------------------------------------------------------------------------------
+#if defined(GL_VERSION_3_0) || defined(GL_ES_VERSION_3_1)
 inline
 outcome<void>
 texture_ops::
@@ -831,6 +838,7 @@ get_texture_level_parameter_iv(
 	);
 	return {};
 }
+#endif
 //------------------------------------------------------------------------------
 inline
 outcome<void>
@@ -954,6 +962,7 @@ get_texture_parameter_iv(
 	return {};
 }
 //------------------------------------------------------------------------------
+#if defined(GL_VERSION_3_0) || defined(GL_ES_VERSION_3_1)
 inline
 outcome<void>
 texture_ops::
@@ -981,6 +990,7 @@ get_texture_level_parameter_iv(
 	);
 	return {};
 }
+#endif
 //------------------------------------------------------------------------------
 inline
 outcome<void>
@@ -1074,6 +1084,7 @@ return_texture_parameter_i(
 	), R(P(result));
 }
 //------------------------------------------------------------------------------
+#if defined(GL_VERSION_3_0) || defined(GL_ES_VERSION_3_1)
 template <typename R, typename P, typename N, typename T>
 inline
 outcome<R>
@@ -1092,6 +1103,7 @@ return_texture_level_parameter_i(
 		{&result, 1}
 	), R(P(result));
 }
+#endif
 //------------------------------------------------------------------------------
 template <typename R, typename N, typename T>
 inline
@@ -1110,6 +1122,7 @@ return_texture_parameter_f(
 	), R(result);
 }
 //------------------------------------------------------------------------------
+#if defined(GL_VERSION_3_0) || defined(GL_ES_VERSION_3_1)
 template <typename TNT>
 inline
 outcome<GLsizei>
@@ -1364,6 +1377,7 @@ noexcept
 		oglplus::texture_parameter(GL_TEXTURE_INTERNAL_FORMAT)
 	);
 }
+#endif
 //------------------------------------------------------------------------------
 template <typename TNT>
 inline
@@ -1540,6 +1554,7 @@ noexcept
 	);
 }
 //------------------------------------------------------------------------------
+#if defined(GL_TEXTURE_LOD_BIAS)
 template <typename TNT>
 inline
 outcome<void>
@@ -1566,6 +1581,7 @@ noexcept
 		oglplus::texture_parameter(GL_TEXTURE_LOD_BIAS)
 	);
 }
+#endif
 //------------------------------------------------------------------------------
 template <typename TNT>
 inline
@@ -1621,6 +1637,7 @@ noexcept
 	);
 }
 //------------------------------------------------------------------------------
+#if defined(GL_TEXTURE_BORDER_COLOR)
 template <typename TNT>
 inline
 outcome<void>
@@ -1635,6 +1652,7 @@ noexcept
 		c
 	);
 }
+#endif
 //------------------------------------------------------------------------------
 template <typename TNT>
 inline

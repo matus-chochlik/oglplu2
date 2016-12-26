@@ -186,6 +186,7 @@ framebuffer_renderbuffer(
 }
 #endif
 //------------------------------------------------------------------------------
+#if defined(GL_VERSION_3_0)
 inline
 outcome<void>
 framebuffer_ops::
@@ -242,6 +243,7 @@ framebuffer_texture_1d(
 	return {};
 }
 #endif
+#endif // GL_VERSION_3_0
 //------------------------------------------------------------------------------
 inline
 outcome<void>
@@ -300,6 +302,7 @@ framebuffer_texture_2d(
 }
 #endif
 //------------------------------------------------------------------------------
+#if defined(GL_VERSION_3_0)
 inline
 outcome<void>
 framebuffer_ops::
@@ -360,7 +363,9 @@ framebuffer_texture_3d(
 	return {};
 }
 #endif
+#endif // GL_VERSION_3_0
 //------------------------------------------------------------------------------
+#if defined(GL_VERSION_3_2)
 inline
 outcome<void>
 framebuffer_ops::
@@ -417,7 +422,9 @@ framebuffer_texture(
 	return {};
 }
 #endif
+#endif // GL_VERSION_3_2
 //------------------------------------------------------------------------------
+#if defined(GL_VERSION_3_0)
 inline
 outcome<void>
 framebuffer_ops::
@@ -459,6 +466,7 @@ framebuffer_draw_buffer(
 	return {};
 }
 #endif
+#endif // GL_VERSION_3_0
 //------------------------------------------------------------------------------
 inline
 outcome<void>

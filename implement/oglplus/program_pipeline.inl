@@ -13,6 +13,7 @@ namespace oglplus {
 //------------------------------------------------------------------------------
 namespace oper {
 //------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_1) || defined(GL_ARB_separate_shared_objects)
 inline
 outcome<void>
 program_pipeline_ops::
@@ -105,11 +106,13 @@ noexcept
 		program_pipeline_parameter(GL_INFO_LOG_LENGTH)
 	);
 }
+#endif
 //------------------------------------------------------------------------------
 } // namespace oper
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_gen
 //------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_1) || defined(GL_ARB_separate_shared_objects)
 inline
 deferred_error_handler
 obj_gen_del_ops<tag::program_pipeline>::
@@ -152,5 +155,6 @@ noexcept
 	OGLPLUS_VERIFY_SIMPLE(IsProgramPipeline,debug);
 	return boolean(res);
 }
+#endif
 //------------------------------------------------------------------------------
 } // namespace oglplus

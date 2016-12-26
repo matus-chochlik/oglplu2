@@ -20,8 +20,12 @@
 #define OGLPLUS_USE_GLCOREARB_H 1
 #endif
 
-#ifndef OGLPLUS_USE_GL3_H
-#define OGLPLUS_USE_GL3_H 0
+#ifndef OGLPLUS_USE_GL3_GL3_H
+#define OGLPLUS_USE_GL3_GL3_H 0
+#endif
+
+#ifndef OGLPLUS_USE_GLES3_GL3_H
+#define OGLPLUS_USE_GLES3_GL3_H 0
 #endif
 
 #ifndef OGLPLUS_USE_GLEW
@@ -52,7 +56,7 @@ struct api_initializer
 #  include <GL/glcorearb.h>
 #  include <GL/glext.h>
 
-# elif OGLPLUS_USE_GL3_H
+# elif OGLPLUS_USE_GL3_GL3_H
 #  define GL3_PROTOTYPES
 #  ifdef __APPLE__
 #   include <OpenGL/gl3.h>
@@ -63,6 +67,10 @@ struct api_initializer
 #  define __gl_h__
 #  define __glext_h_
 #  define __glext_h__
+
+# elif OGLPLUS_USE_GLES3_GL3_H
+#  define GL3_PROTOTYPES
+#   include <GLES3/gl3.h>
 
 # elif OGLPLUS_USE_GLEW
 #  include <GL/glew.h>

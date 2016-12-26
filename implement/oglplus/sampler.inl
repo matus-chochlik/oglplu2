@@ -391,6 +391,7 @@ noexcept
 	);
 }
 //------------------------------------------------------------------------------
+#if defined(GL_TEXTURE_LOD_BIAS)
 inline
 outcome<void>
 sampler_ops::
@@ -416,7 +417,7 @@ noexcept
 		sampler_parameter(GL_TEXTURE_LOD_BIAS)
 	);
 }
-
+#endif
 //------------------------------------------------------------------------------
 inline
 outcome<void>

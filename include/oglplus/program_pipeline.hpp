@@ -22,6 +22,7 @@ namespace oper {
 
 struct program_pipeline_ops
 {
+#if defined(GL_VERSION_4_1) || defined(GL_ARB_separate_shared_objects)
 	static
 	outcome<void>
 	bind_program_pipeline(program_pipeline_name ppo)
@@ -57,6 +58,7 @@ struct program_pipeline_ops
 	outcome<GLsizei>
 	program_pipeline_info_log_length(program_pipeline_name ppl)
 	noexcept;
+#endif
 };
 
 } // namespace oper
@@ -68,21 +70,18 @@ struct obj_dsa_ops<tag::program_pipeline>
 {
 	typedef oper::program_pipeline_ops _ops;
 
+#if defined(GL_VERSION_4_1) || defined(GL_ARB_separate_shared_objects)
 	outcome<program_name>
 	active_program(void) const
-	noexcept
-	{
-		return _ops::program_pipeline_active_program(*this);
-	}
+	noexcept { return _ops::program_pipeline_active_program(*this); }
 
 	outcome<GLsizei>
 	info_log_length(void) const
-	noexcept
-	{
-		return _ops::program_pipeline_info_log_length(*this);
-	}
+	noexcept { return _ops::program_pipeline_info_log_length(*this); }
+#endif
 };
 
+#if defined(GL_VERSION_4_1) || defined(GL_ARB_separate_shared_objects)
 template <>
 struct obj_gen_del_ops<tag::program_pipeline>
 {
@@ -107,6 +106,7 @@ using program_pipeline_array = object_array_owner<tag::program_pipeline, N>;
 
 static const object_zero_and_ops<tag::program_pipeline>
 	no_program_pipeline = {};
+#endif
 
 } // namespace oglplus
 

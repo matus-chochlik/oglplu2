@@ -12,8 +12,10 @@ using namespace oglplus;
 
 void oglplus_program_pipeline_test_1(void)
 {
+#if defined(GL_VERSION_4_1) || defined(GL_ARB_separate_shared_objects)
 	oglplus_object_name_test<program_pipeline_name>();
 	oglplus_object_test<program_pipeline>();
+#endif
 }
 
 void oglplus_program_pipeline_test_ops1(void)

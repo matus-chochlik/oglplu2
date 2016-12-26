@@ -233,7 +233,7 @@ noexcept {
 
 	this->release_block(std::move(b));
 
-	return std::move(r);
+	return r;
 }
 //------------------------------------------------------------------------------
 template <typename Policy>

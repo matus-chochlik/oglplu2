@@ -39,6 +39,7 @@ OGLPLUS_MOCK_GLFUNC(LoadTransposeMatrixf, void(const GLfloat*));
 OGLPLUS_MOCK_GLFUNC(MatrixLoadTransposefEXT, void(GLenum, const GLfloat*));
 #endif
 
+#if defined(GL_DOUBLE)
 OGLPLUS_MOCK_GLFUNC(LoadMatrixd, void(const GLdouble*));
 #ifdef GL_EXT_direct_state_access
 OGLPLUS_MOCK_GLFUNC(MatrixLoaddEXT, void(GLenum, const GLdouble*));
@@ -48,32 +49,38 @@ OGLPLUS_MOCK_GLFUNC(LoadTransposeMatrixd, void(const GLdouble*));
 #ifdef GL_EXT_direct_state_access
 OGLPLUS_MOCK_GLFUNC(MatrixLoadTransposedEXT, void(GLenum, const GLdouble*));
 #endif
+#endif // GL_DOUBLE
 
 OGLPLUS_MOCK_GLFUNC(Translatef, void(GLfloat, GLfloat, GLfloat));
 #ifdef GL_EXT_direct_state_access
 OGLPLUS_MOCK_GLFUNC(MatrixTranslatefEXT, void(GLenum, GLfloat, GLfloat, GLfloat));
 #endif
 
+#if defined(GL_DOUBLE)
 OGLPLUS_MOCK_GLFUNC(Translated, void(GLdouble, GLdouble, GLdouble));
 #ifdef GL_EXT_direct_state_access
 OGLPLUS_MOCK_GLFUNC(MatrixTranslatedEXT, void(GLenum, GLdouble, GLdouble, GLdouble));
 #endif
+#endif // GL_DOUBLE
 
 OGLPLUS_MOCK_GLFUNC(Rotatef, void(GLfloat, GLfloat, GLfloat, GLfloat));
 #ifdef GL_EXT_direct_state_access
 OGLPLUS_MOCK_GLFUNC(MatrixRotatefEXT, void(GLenum, GLfloat, GLfloat, GLfloat, GLfloat));
 #endif
 
+#if defined(GL_DOUBLE)
 OGLPLUS_MOCK_GLFUNC(Rotated, void(GLdouble, GLdouble, GLdouble, GLdouble));
 #ifdef GL_EXT_direct_state_access
 OGLPLUS_MOCK_GLFUNC(MatrixRotatedEXT, void(GLenum, GLdouble, GLdouble, GLdouble, GLdouble));
 #endif
+#endif // GL_DOUBLE
 
 OGLPLUS_MOCK_GLFUNC(Scalef, void(GLfloat, GLfloat, GLfloat));
 #ifdef GL_EXT_direct_state_access
 OGLPLUS_MOCK_GLFUNC(MatrixScalefEXT, void(GLenum, GLfloat, GLfloat, GLfloat));
 #endif
 
+#if defined(GL_DOUBLE)
 OGLPLUS_MOCK_GLFUNC(Scaled, void(GLdouble, GLdouble, GLdouble));
 #ifdef GL_EXT_direct_state_access
 OGLPLUS_MOCK_GLFUNC(MatrixScaledEXT, void(GLenum, GLdouble, GLdouble, GLdouble));
@@ -88,6 +95,7 @@ OGLPLUS_MOCK_GLFUNC(Frustum, void(GLdouble, GLdouble, GLdouble, GLdouble, GLdoub
 #ifdef GL_EXT_direct_state_access
 OGLPLUS_MOCK_GLFUNC(MatrixFrustumEXT, void(GLenum, GLdouble, GLdouble, GLdouble, GLdouble, GLdouble, GLdouble));
 #endif
+#endif // GL_DOUBLE
 
 #include <oglplus/oper/compat_matrix.hpp>
 #include <oglplus/enum/values.hpp>
@@ -268,6 +276,7 @@ BOOST_AUTO_TEST_CASE(compat_matrix_load_f)
 #endif
 }
 
+#if defined(GL_DOUBLE)
 BOOST_AUTO_TEST_CASE(compat_matrix_load_d)
 {
 	using namespace oglplus;
@@ -329,6 +338,7 @@ BOOST_AUTO_TEST_CASE(compat_matrix_load_d)
 	BOOST_CHECK(mock_glMatrixLoadTransposedEXT.was_called());
 #endif
 }
+#endif // GL_DOUBLE
 
 BOOST_AUTO_TEST_CASE(compat_matrix_translate_f)
 {
@@ -367,6 +377,7 @@ BOOST_AUTO_TEST_CASE(compat_matrix_translate_f)
 #endif
 }
 
+#if defined(GL_DOUBLE)
 BOOST_AUTO_TEST_CASE(compat_matrix_translate_d)
 {
 	using namespace oglplus;
@@ -403,6 +414,7 @@ BOOST_AUTO_TEST_CASE(compat_matrix_translate_d)
 	BOOST_CHECK(mock_glMatrixTranslatedEXT.was_called());
 #endif
 }
+#endif // GL_DOUBLE
 
 BOOST_AUTO_TEST_CASE(compat_matrix_rotate_f)
 {
@@ -442,6 +454,7 @@ BOOST_AUTO_TEST_CASE(compat_matrix_rotate_f)
 #endif
 }
 
+#if defined(GL_DOUBLE)
 BOOST_AUTO_TEST_CASE(compat_matrix_rotate_d)
 {
 	using namespace oglplus;
@@ -479,6 +492,7 @@ BOOST_AUTO_TEST_CASE(compat_matrix_rotate_d)
 	BOOST_CHECK(mock_glMatrixRotatedEXT.was_called());
 #endif
 }
+#endif // GL_DOUBLE
 
 BOOST_AUTO_TEST_CASE(compat_matrix_scale_f)
 {
@@ -517,6 +531,7 @@ BOOST_AUTO_TEST_CASE(compat_matrix_scale_f)
 #endif
 }
 
+#if defined(GL_DOUBLE)
 BOOST_AUTO_TEST_CASE(compat_matrix_scale_d)
 {
 	using namespace oglplus;
@@ -633,6 +648,7 @@ BOOST_AUTO_TEST_CASE(compat_matrix_frustum)
 	BOOST_CHECK(mock_glMatrixFrustumEXT.was_called());
 #endif
 }
+#endif // GL_DOUBLE
 
 #else
 BOOST_AUTO_TEST_CASE(compat_matrix_dummy) { }

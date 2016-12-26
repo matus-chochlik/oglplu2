@@ -108,101 +108,61 @@ class operations
 public:
 	static
 	auto bind(vertex_array_name vao)
-	noexcept
-	{
-		return bind_vertex_array(vao);
-	}
+	noexcept { return bind_vertex_array(vao); }
 
 	static
 	auto bind(buffer_target tgt, buffer_name buf)
-	noexcept
-	{
-		return bind_buffer(tgt, buf);
-	}
+	noexcept { return bind_buffer(tgt, buf); }
 
 	static
 	auto binding(buffer_target tgt)
-	noexcept
-	{
-		return buffer_binding(tgt);
-	}
+	noexcept { return buffer_binding(tgt); }
 
 	static
 	auto bind(texture_unit unit, sampler_name sam)
-	noexcept
-	{
-		return bind_sampler(unit, sam);
-	}
+	noexcept { return bind_sampler(unit, sam); }
 
 	static
 	auto bind(texture_target tgt, texture_name tex)
-	noexcept
-	{
-		return bind_texture(tgt, tex);
-	}
+	noexcept { return bind_texture(tgt, tex); }
 
 	static
 	auto binding(texture_target tgt)
-	noexcept
-	{
-		return texture_binding(tgt);
-	}
+	noexcept { return texture_binding(tgt); }
 
 	static
 	auto bind(framebuffer_target tgt, framebuffer_name fbo)
-	noexcept
-	{
-		return bind_framebuffer(tgt, fbo);
-	}
+	noexcept { return bind_framebuffer(tgt, fbo); }
 
 	static
 	auto binding(framebuffer_target tgt)
-	noexcept
-	{
-		return framebuffer_binding(tgt);
-	}
+	noexcept { return framebuffer_binding(tgt); }
 
 	static
 	auto bind(renderbuffer_target tgt, renderbuffer_name rbo)
-	noexcept
-	{
-		return bind_renderbuffer(tgt, rbo);
-	}
+	noexcept { return bind_renderbuffer(tgt, rbo); }
 
 	static
 	auto binding(renderbuffer_target tgt)
-	noexcept
-	{
-		return renderbuffer_binding(tgt);
-	}
+	noexcept { return renderbuffer_binding(tgt); }
 
+#if defined(GL_VERSION_4_1) || defined(GL_ARB_separate_shared_objects)
 	static
 	auto bind(program_pipeline_name ppo)
-	noexcept
-	{
-		return bind_program_pipeline(ppo);
-	}
+	noexcept { return bind_program_pipeline(ppo); }
+#endif
 
 	static
 	auto bind(transform_feedback_target tgt, transform_feedback_name xfb)
-	noexcept
-	{
-		return bind_transform_feedback(tgt, xfb);
-	}
+	noexcept { return bind_transform_feedback(tgt, xfb); }
 
 	static
 	auto binding(transform_feedback_target tgt)
-	noexcept
-	{
-		return transform_feedback_binding(tgt);
-	}
+	noexcept { return transform_feedback_binding(tgt); }
 
 	static
 	auto use(program_name prg)
-	noexcept
-	{
-		return use_program(prg);
-	}
+	noexcept { return use_program(prg); }
 };
 
 } // namespace oglplus
