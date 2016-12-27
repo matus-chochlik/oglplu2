@@ -29,23 +29,16 @@ private:
 	template <typename T2>
 	static
 	OffsT _get_offs(_memaddr a1, T2* p2)
-	noexcept
-	{
-		return a1 - memory::as_address(p2);
-	}
+	noexcept { return a1 - memory::as_address(p2); }
 
 	template <typename T1, typename T2>
 	static
 	OffsT _get_offs(T1* p1, T2* p2)
-	noexcept
-	{
-		return memory::as_address(p1) - memory::as_address(p2);
-	}
+	noexcept { return memory::as_address(p1) - memory::as_address(p2); }
 
 	inline
 	_memaddr _this_addr(void) const
-	noexcept
-	{
+	noexcept {
 		return _memaddr(
 			const_cast<
 				std::conditional_t<
@@ -86,56 +79,36 @@ public:
 	{ }
 
 	basic_offset_ptr& operator = (const basic_offset_ptr& that)
-	noexcept
-	{
+	noexcept {
 		_offs = that._offs + _get_offs(&that,this);
 		return *this;
 	}
 
 	basic_offset_ptr& reset(T* ptr)
-	noexcept
-	{
-		return *this = basic_offset_ptr(ptr);
-	}
+	noexcept { return *this = basic_offset_ptr(ptr); }
 
 	basic_offset_ptr&
 	reset(memory::basic_address<std::is_const<T>::value> adr)
-	noexcept
-	{
-		return *this = basic_offset_ptr(adr);
-	}
+	noexcept { return *this = basic_offset_ptr(adr); }
 
 	constexpr inline
 	bool is_null(void) const
-	noexcept
-	{
-		return _offs == OffsT(0);
-	}
+	noexcept { return _offs == OffsT(0); }
 
 	explicit constexpr inline
 	operator bool (void) const
-	noexcept
-	{
-		return !is_null();
-	}
+	noexcept { return !is_null(); }
 
 	constexpr inline
 	bool operator !(void) const
-	noexcept
-	{
-		return is_null();
-	}
+	noexcept { return is_null(); }
 
 	OffsT offset(void) const
-	noexcept
-	{
-		return _offs;
-	}
+	noexcept { return _offs; }
 
 	memory::basic_address<std::is_const<T>::value>
 	addr(void) const
-	noexcept
-	{
+	noexcept {
 		return is_null()?
 			_memaddr():
 			_memaddr(_this_addr(), _offs);
@@ -143,35 +116,24 @@ public:
 
 	inline
 	T* data(void) const
-	noexcept
-	{
-		return static_cast<T*>(addr());
-	}
+	noexcept { return static_cast<T*>(addr()); }
 
 	inline
 	T* get(void) const
-	noexcept
-	{
-		return data();
-	}
+	noexcept { return data(); }
 
 	inline
 	operator T* (void) const
-	noexcept
-	{
-		return get();
-	}
+	noexcept { return get(); }
 
 	const T& operator * (void) const
-	noexcept
-	{
+	noexcept {
 		assert(!is_null());
 		return *get();
 	}
 
 	const T* operator -> (void) const
-	noexcept
-	{
+	noexcept {
 		assert(!is_null());
 		return get();
 	}
@@ -227,24 +189,15 @@ public:
 
 	basic_offset_array&
 	reset(T* ptr, size_type len)
-	noexcept
-	{
-		return *this = basic_offset_array(ptr, len);
-	}
+	noexcept { return *this = basic_offset_array(ptr, len); }
 
 	basic_offset_array&
 	reset(memory::basic_address<std::is_const<T>::value> adr, size_type len)
-	noexcept
-	{
-		return *this = basic_offset_array(adr, len);
-	}
+	noexcept { return *this = basic_offset_array(adr, len); }
 
 	constexpr inline
 	size_type size(void) const
-	noexcept
-	{
-		return _size;
-	}
+	noexcept { return _size; }
 
 	typedef T* iterator;
 	typedef const T* const_iterator;
@@ -252,71 +205,42 @@ public:
 	typedef const T& const_reference;
 
 	OffsT offset(void) const
-	noexcept
-	{
-		return _optr.offset();
-	}
+	noexcept { return _optr.offset(); }
 
 	memory::basic_address<std::is_const<T>::value>
 	addr(void)
-	noexcept
-	{
-		return _optr.addr();
-	}
+	noexcept { return _optr.addr(); }
 
 	iterator data(void)
-	noexcept
-	{
-		return _optr.data();
-	}
+	noexcept { return _optr.data(); }
 
 	iterator begin(void)
-	noexcept
-	{
-		return _optr.data();
-	}
+	noexcept { return _optr.data(); }
 
 	iterator end(void)
-	noexcept
-	{
-		return begin()+size();
-	}
+	noexcept { return begin()+size(); }
 
 	memory::const_address
 	addr(void) const
-	noexcept
-	{
-		return _optr.addr();
-	}
+	noexcept { return _optr.addr(); }
 
 	const_iterator data(void) const
-	noexcept
-	{
-		return _optr.data();
-	}
+	noexcept { return _optr.data(); }
 
 	const_iterator begin(void) const
-	noexcept
-	{
-		return _optr.data();
-	}
+	noexcept { return _optr.data(); }
 
 	const_iterator end(void) const
-	noexcept
-	{
-		return begin()+size();
-	}
+	noexcept { return begin()+size(); }
 
 	reference operator [] (size_type index)
-	noexcept
-	{
+	noexcept {
 		assert(index >= size_type(0) && index < size());
 		return begin()[index];
 	}
 
 	const_reference operator [] (size_type index) const
-	noexcept
-	{
+	noexcept {
 		assert(index >= size_type(0) && index < size());
 		return begin()[index];
 	}
@@ -350,14 +274,10 @@ public:
 	{ }
 
 	size_type size(void) const
-	noexcept
-	{
-		return _ptrarray.size();
-	}
+	noexcept { return _ptrarray.size(); }
 
 	T& operator [](span_size_t index) const
-	noexcept
-	{
+	noexcept {
 		assert(index < size());
 		assert(_ptrarray[index] != nullptr);
 		return *_ptrarray[index];

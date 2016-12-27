@@ -34,14 +34,105 @@ BOOST_AUTO_TEST_CASE(memory_owning_alloc_1)
 	for(int j=0; j<10; ++j) {
 
 		for(int i=0; i<100; ++i) {
-			switch(rg.get_int(0, 5)) {
-				case 0: alc.make<char>(); break;
-				case 1: alc.make<short>(); break;
-				case 2: alc.make<int>(); break;
-				case 3: alc.make<long>(); break;
-				case 4: alc.make<test_struct_1>(); break;
-				case 5: alc.make<test_struct_2>(); break;
+			switch(rg.get_int(0, 6)) {
+				case 0: alc.allocate(
+					rg.get_span_size(1,128),
+					1 << rg.get_span_size(0, 4)
+				); break;
+				case 1: alc.make<char>(); break;
+				case 2: alc.make<short>(); break;
+				case 3: alc.make<int>(); break;
+				case 4: alc.make<long>(); break;
+				case 5: alc.make<test_struct_1>(); break;
+				case 6: alc.make<test_struct_2>(); break;
 			}
+		}
+
+		alc.clear();
+
+		BOOST_CHECK(alc.empty());
+	}
+}
+
+BOOST_AUTO_TEST_CASE(memory_owning_alloc_2)
+{
+	using namespace eagine;
+
+	memory::basic_allocation_arena<
+		memory::c_byte_reallocator<
+			memory::byte_alloc_managed_policy
+		>
+	> alc;
+
+	BOOST_CHECK(alc.empty());
+
+	for(int j=0; j<10; ++j) {
+
+		for(int i=0; i<100; ++i) {
+			const span_size_t align = (1 << rg.get_span_size(0, 4));
+			span_size_t align2 = 1;
+			memory::const_address addr;
+
+			switch(rg.get_int(0, 6)) {
+				case 0: {
+					memory::block b = alc.allocate(
+						rg.get_span_size(1,128),
+						align
+					);
+					addr = b.addr();
+					break;
+				}
+				case 1: {
+					align2 = span_align_of<char>();
+					auto& x = alc.aligned_make<
+						char
+					>(align);
+					addr = memory::as_address(&x);
+					break;
+				}
+				case 2: {
+					align2 = span_align_of<short>();
+					auto& x = alc.aligned_make<
+						short
+					>(align);
+					addr = memory::as_address(&x);
+					break;
+				}
+				case 3: {
+					align2 = span_align_of<int>();
+					auto& x = alc.aligned_make<
+						int
+					>(align);
+					addr = memory::as_address(&x);
+					break;
+				}
+				case 4: {
+					align2 = span_align_of<long>();
+					auto& x = alc.aligned_make<
+						long
+					>(align);
+					addr = memory::as_address(&x);
+					break;
+				}
+				case 5: {
+					align2 = span_align_of<test_struct_1>();
+					auto& x = alc.aligned_make<
+						test_struct_1
+					>(align);
+					addr = memory::as_address(&x);
+					break;
+				}
+				case 6: {
+					align2 = span_align_of<test_struct_2>();
+					auto& x = alc.aligned_make<
+						test_struct_2
+					>(align);
+					addr = memory::as_address(&x);
+					break;
+				}
+			}
+			BOOST_CHECK(addr.is_aligned_to(align));
+			BOOST_CHECK(addr.is_aligned_to(align2));
 		}
 
 		alc.clear();

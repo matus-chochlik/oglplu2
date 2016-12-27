@@ -12,6 +12,7 @@
 
 #include "block.hpp"
 #include <cassert>
+#include <utility>
 #include <vector>
 
 namespace eagine {
@@ -59,8 +60,14 @@ public:
 		_alns.clear();
 	}
 
-	template <typename T>
-	T& make(const span_size_t align = 1) {
+	block allocate(span_size_t size, span_size_t align) {
+		_blks.push_back(_alloc.allocate(size, align));
+		_alns.push_back(align);
+		return _blks.back();
+	}
+
+	template <typename T, typename ... Arg>
+	T& aligned_make(const span_size_t align, Arg&& ... arg) {
 		const span_size_t st = span_size_of<T>();
 		const span_size_t al = span_align_of<T>();
 		const span_size_t at = al>align?al:align;
@@ -72,12 +79,17 @@ public:
 		assert(b.is_aligned_to(at));
 		assert(b.size() >= st);
 
-		T* p = static_cast<T*>(b.addr());
+		T* p = new(b.data()) T(std::forward<Arg>(arg)...);
 
 		_blks.push_back(std::move(b));
 		_alns.push_back(at);
 
 		return *p;
+	}
+
+	template <typename T, typename ... P>
+	T& make(P&& ... p) {
+		return aligned_make<T>(1, std::forward<P>(p)...);
 	}
 
 	template <typename T>
