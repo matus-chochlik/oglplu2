@@ -7,7 +7,9 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
+#include <eagine/memory/address.hpp>
 #include <iostream>
+#include <iomanip>
 #include <cctype>
 
 namespace eagine {
@@ -16,8 +18,7 @@ namespace eagine {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void
-hexdump::_to_hex_b(std::ostream& out, byte b)
-{
+hexdump::_to_hex_b(std::ostream& out, byte b) {
 	static const char hd[16] = {
 		'0','1','2','3',
 		'4','5','6','7',
@@ -37,27 +38,25 @@ operator << (std::ostream& out, const hexdump& hd)
 
 	const byte* bgn = hd._mb.begin();
 	const byte* end = hd._mb.end();
-	const byte* row = bgn - reinterpret_cast<std::uintptr_t>(bgn) % 16;
+	const byte* row = memory::align_down(bgn, 16);
 
-	while(row < end)
-	{
-		out << (static_cast<const void*>(row));
+	while(row < end) {
+		const auto adr = hd._offs?
+			memory::const_address(row):
+			memory::const_address(row-bgn);
+		out << std::setw(20) << std::setfill('0');
+		out << (static_cast<const void*>(adr.ptr()));
 		out << "|";
 
 		const byte* pos = row;
-		for(unsigned b=0; b<16; ++b)
-		{
-			if(b == 8)
-			{
+		for(unsigned b=0; b<16; ++b) {
+			if(b == 8) {
 				out << " ";
 			}
 
-			if(pos < bgn || pos >= end)
-			{
+			if(pos < bgn || pos >= end) {
 				out << " ..";
-			}
-			else
-			{
+			} else {
 				out << " ";
 				hexdump::_to_hex_b(out, *pos);
 			}
@@ -67,19 +66,14 @@ operator << (std::ostream& out, const hexdump& hd)
 		out << " |";
 
 		pos = row;
-		for(unsigned b=0; b<16; ++b)
-		{
-			if(b == 8)
-			{
+		for(unsigned b=0; b<16; ++b) {
+			if(b == 8) {
 				out << " ";
 			}
 
-			if(pos < bgn || pos >= end || !std::isprint(*pos))
-			{
+			if(pos < bgn || pos >= end || !std::isprint(*pos)) {
 				out << ".";
-			}
-			else
-			{
+			} else {
 				out << char(*pos);
 			}
 			++pos;

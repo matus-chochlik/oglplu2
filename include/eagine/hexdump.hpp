@@ -21,12 +21,14 @@ class hexdump
 {
 private:
 	const_memory_block _mb;
+	bool _offs;
 
 	static void _to_hex_b(std::ostream& out, byte b);
 public:
-	hexdump(const const_memory_block& mb)
+	hexdump(const const_memory_block& mb, bool offs = true)
 	noexcept
 	 : _mb(mb)
+	 , _offs(offs)
 	{ }
 
 	friend
