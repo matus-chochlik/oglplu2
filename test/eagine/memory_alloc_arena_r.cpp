@@ -84,7 +84,7 @@ BOOST_AUTO_TEST_CASE(memory_owning_alloc_2)
 				}
 				case 1: {
 					align2 = span_align_of<char>();
-					auto& x = alc.aligned_make<
+					auto& x = alc.make_aligned<
 						char
 					>(align);
 					addr = memory::as_address(&x);
@@ -92,7 +92,7 @@ BOOST_AUTO_TEST_CASE(memory_owning_alloc_2)
 				}
 				case 2: {
 					align2 = span_align_of<short>();
-					auto& x = alc.aligned_make<
+					auto& x = alc.make_aligned<
 						short
 					>(align);
 					addr = memory::as_address(&x);
@@ -100,7 +100,7 @@ BOOST_AUTO_TEST_CASE(memory_owning_alloc_2)
 				}
 				case 3: {
 					align2 = span_align_of<int>();
-					auto& x = alc.aligned_make<
+					auto& x = alc.make_aligned<
 						int
 					>(align);
 					addr = memory::as_address(&x);
@@ -108,7 +108,7 @@ BOOST_AUTO_TEST_CASE(memory_owning_alloc_2)
 				}
 				case 4: {
 					align2 = span_align_of<long>();
-					auto& x = alc.aligned_make<
+					auto& x = alc.make_aligned<
 						long
 					>(align);
 					addr = memory::as_address(&x);
@@ -116,7 +116,7 @@ BOOST_AUTO_TEST_CASE(memory_owning_alloc_2)
 				}
 				case 5: {
 					align2 = span_align_of<test_struct_1>();
-					auto& x = alc.aligned_make<
+					auto& x = alc.make_aligned<
 						test_struct_1
 					>(align);
 					addr = memory::as_address(&x);
@@ -124,7 +124,7 @@ BOOST_AUTO_TEST_CASE(memory_owning_alloc_2)
 				}
 				case 6: {
 					align2 = span_align_of<test_struct_2>();
-					auto& x = alc.aligned_make<
+					auto& x = alc.make_aligned<
 						test_struct_2
 					>(align);
 					addr = memory::as_address(&x);

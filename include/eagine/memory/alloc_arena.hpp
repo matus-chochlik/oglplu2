@@ -11,6 +11,7 @@
 #define EAGINE_MEMORY_ALLOC_ARENA_1510290655_HPP
 
 #include "block.hpp"
+#include "../span.hpp"
 #include <cassert>
 #include <utility>
 #include <vector>
@@ -26,6 +27,47 @@ private:
 	Alloc _alloc; 
 	std::vector<owned_block> _blks;
 	std::vector<span_size_t> _alns;
+
+	block _do_allocate(
+		const span_size_t size,
+		const span_size_t align
+	) {
+		owned_block b = _alloc.allocate(size, align);
+
+		if(!b) { return {}; }
+
+		assert(b.is_aligned_to(align));
+		assert(b.size() >= size);
+
+		_blks.push_back(std::move(b));
+		_alns.push_back(align);
+
+		return _blks.back();
+	}
+
+	template <typename T>
+	block _allocate(
+		const span_size_t count,
+		const span_size_t align
+	) {
+		return _do_allocate(
+			span_size_of<T>(count),
+			std::max(align, span_align_of<T>())
+		);
+	}
+
+	template <typename T>
+	T* _make_n(const span_size_t count, const span_size_t align) {
+		block b = _allocate<T>(count, align);
+		return new(b.data()) T[count];
+	}
+
+	template <typename T, typename ... Args>
+	T* _make_1(const span_size_t align, Args&& ... args) {
+		block b = _allocate<T>(1, align);
+		return new(b.data()) T(std::forward<Args>(args)...);
+	}
+
 public:
 	basic_allocation_arena(void) = default;
 
@@ -67,29 +109,27 @@ public:
 	}
 
 	template <typename T, typename ... Arg>
-	T& aligned_make(const span_size_t align, Arg&& ... arg) {
-		const span_size_t st = span_size_of<T>();
-		const span_size_t al = span_align_of<T>();
-		const span_size_t at = al>align?al:align;
+	span<T> make_aligned_array(
+		const span_size_t count,
+		const span_size_t align
+	) {
+		T* p = _make_n<T>(count, align);
+		if(!p) { throw std::bad_alloc(); }
+		return {p, count};
+	}
 
-		owned_block b = _alloc.allocate(st, at);
+	template <typename T, typename ... Args>
+	T& make_aligned(const span_size_t align, Args&& ... args) {
 
-		if(!b) { throw std::bad_alloc(); }
-
-		assert(b.is_aligned_to(at));
-		assert(b.size() >= st);
-
-		T* p = new(b.data()) T(std::forward<Arg>(arg)...);
-
-		_blks.push_back(std::move(b));
-		_alns.push_back(at);
+		T* p = _make_1<T>(align, std::forward<Args>(args)...);
+		if(!p) { throw std::bad_alloc(); }
 
 		return *p;
 	}
 
-	template <typename T, typename ... P>
-	T& make(P&& ... p) {
-		return aligned_make<T>(1, std::forward<P>(p)...);
+	template <typename T, typename ... Args>
+	T& make(Args&& ... args) {
+		return make_aligned<T>(1, std::forward<Args>(args)...);
 	}
 
 	template <typename T>

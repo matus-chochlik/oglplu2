@@ -44,7 +44,7 @@ operator << (std::ostream& out, const hexdump& hd)
 		const auto adr = hd._offs?
 			memory::const_address(row):
 			memory::const_address(row-bgn);
-		out << std::setw(20) << std::setfill('0');
+		out << std::setw(20) << std::setfill('.');
 		out << (static_cast<const void*>(adr.ptr()));
 		out << "|";
 
