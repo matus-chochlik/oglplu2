@@ -82,7 +82,9 @@ void oglplus_texture_test_ops1(void)
 	gl.texture_stencil_size(tgt);
 	gl.texture_shared_size(tgt);
 	gl.texture_compressed(tgt);
+#if defined(GL_TEXTURE_COMPRESSED_IMAGE_SIZE)
 	gl.texture_compressed_image_size(tgt);
+#endif
 	gl.texture_internal_format(tgt);
 
 	gl.texture_min_filter(tgt, texture_min_filter(GL_LINEAR));
@@ -98,8 +100,10 @@ void oglplus_texture_test_ops1(void)
 	gl.texture_swizzle(tgt, swizzle_r, texture_swizzle_mode(GL_ONE));
 	gl.texture_swizzle(tgt, swizzle_r);
 
+#if defined(GL_TEXTURE_LOD_BIAS)
 	gl.texture_lod_bias(tgt, 1.0f);
 	gl.texture_lod_bias(tgt);
+#endif
 	gl.texture_min_lod(tgt,-1000.0f);
 	gl.texture_min_lod(tgt);
 	gl.texture_max_lod(tgt, 1000.0f);
@@ -123,7 +127,9 @@ void oglplus_texture_test_ops1(void)
 	gl.texture_stencil_size(tnt);
 	gl.texture_shared_size(tnt);
 	gl.texture_compressed(tnt);
+#if defined(GL_TEXTURE_COMPRESSED_IMAGE_SIZE)
 	gl.texture_compressed_image_size(tnt);
+#endif
 	gl.texture_internal_format(tnt);
 
 	gl.texture_min_filter(tnt, texture_min_filter(GL_LINEAR));
@@ -139,8 +145,10 @@ void oglplus_texture_test_ops1(void)
 	gl.texture_swizzle(tnt, swizzle_r, texture_swizzle_mode(GL_ONE));
 	gl.texture_swizzle(tnt, swizzle_r);
 
+#if defined(GL_TEXTURE_LOD_BIAS)
 	gl.texture_lod_bias(tnt, 1.0f);
 	gl.texture_lod_bias(tnt);
+#endif
 	gl.texture_min_lod(tnt,-1000.0f);
 	gl.texture_min_lod(tnt);
 	gl.texture_max_lod(tnt, 1000.0f);
@@ -166,7 +174,9 @@ void oglplus_texture_test_ops1(void)
 	gl.texture_stencil_size(tex);
 	gl.texture_shared_size(tex);
 	gl.texture_compressed(tex);
+#if defined(GL_TEXTURE_COMPRESSED_IMAGE_SIZE)
 	gl.texture_compressed_image_size(tex);
+#endif
 	gl.texture_internal_format(tex);
 
 	gl.texture_min_filter(tex, texture_min_filter(GL_LINEAR));
@@ -182,8 +192,10 @@ void oglplus_texture_test_ops1(void)
 	gl.texture_swizzle(tex, swizzle_r, texture_swizzle_mode(GL_ONE));
 	gl.texture_swizzle(tex, swizzle_r);
 
+#if defined(GL_TEXTURE_LOD_BIAS)
 	gl.texture_lod_bias(tex, 1.0f);
 	gl.texture_lod_bias(tex);
+#endif
 	gl.texture_min_lod(tex,-1000.0f);
 	gl.texture_min_lod(tex);
 	gl.texture_max_lod(tex, 1000.0f);
@@ -222,8 +234,10 @@ void oglplus_texture_test_ops1(void)
 	curtex.swizzle(swizzle_r, texture_swizzle_mode(GL_ONE));
 	curtex.swizzle(swizzle_r);
 
+#if defined(GL_TEXTURE_LOD_BIAS)
 	curtex.lod_bias(1.0f);
 	curtex.lod_bias();
+#endif
 #endif
 	curtex.min_lod(-1000.0f);
 	curtex.min_lod();

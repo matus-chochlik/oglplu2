@@ -15,7 +15,11 @@ namespace oglplus {
 //------------------------------------------------------------------------------
 #ifndef OGLPLUS_NO_GL
 //------------------------------------------------------------------------------
-#if OGLPLUS_USE_GLCOREARB_H || OGLPLUS_USE_GL3_GL3_H || OGLPLUS_USE_GLES3_GL3_H
+#if	OGLPLUS_USE_GLCOREARB_H  ||\
+	OGLPLUS_USE_GL3_GL3_H    ||\
+	OGLPLUS_USE_GLES3_GL32_H ||\
+	OGLPLUS_USE_GLES3_GL31_H ||\
+	OGLPLUS_USE_GLES3_GL3_H
 OGLPLUS_LIB_FUNC
 api_initializer::
 api_initializer(int, int)

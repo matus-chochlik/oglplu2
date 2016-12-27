@@ -591,12 +591,14 @@ public:
 	texture_compressed(const TNT& tnt, GLint level = 0)
 	noexcept;
 
+#if defined(GL_TEXTURE_COMPRESSED_IMAGE_SIZE)
 	// texture_compressed_image_size
 	template <typename TNT>
 	static 
 	outcome<GLsizei>
 	texture_compressed_image_size(const TNT& tnt, GLint level = 0)
 	noexcept;
+#endif
 
 	// texture_internal_format
 	template <typename TNT>
@@ -877,11 +879,13 @@ public:
 	compressed(GLint level = 0) const
 	noexcept { return _ops::texture_compressed(_get_tnt(), level); }
 
+#if defined(GL_TEXTURE_COMPRESSED_IMAGE_SIZE)
 	outcome<GLsizei>
 	compressed_image_size(GLint level = 0) const
 	noexcept {
 		return _ops::texture_compressed_image_size(_get_tnt(), level);
 	}
+#endif
 
 	outcome<oglplus::pixel_data_internal_format>
 	internal_format(GLint level = 0) const

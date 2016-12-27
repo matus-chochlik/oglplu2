@@ -24,6 +24,14 @@
 #define OGLPLUS_USE_GL3_GL3_H 0
 #endif
 
+#ifndef OGLPLUS_USE_GLES3_GL32_H
+#define OGLPLUS_USE_GLES3_GL32_H 0
+#endif
+
+#ifndef OGLPLUS_USE_GLES3_GL31_H
+#define OGLPLUS_USE_GLES3_GL31_H 0
+#endif
+
 #ifndef OGLPLUS_USE_GLES3_GL3_H
 #define OGLPLUS_USE_GLES3_GL3_H 0
 #endif
@@ -67,6 +75,14 @@ struct api_initializer
 #  define __gl_h__
 #  define __glext_h_
 #  define __glext_h__
+
+# elif OGLPLUS_USE_GLES3_GL32_H
+#  define GL3_PROTOTYPES
+#   include <GLES3/gl32.h>
+
+# elif OGLPLUS_USE_GLES3_GL31_H
+#  define GL3_PROTOTYPES
+#   include <GLES3/gl31.h>
 
 # elif OGLPLUS_USE_GLES3_GL3_H
 #  define GL3_PROTOTYPES

@@ -1345,6 +1345,7 @@ noexcept
 	);
 }
 //------------------------------------------------------------------------------
+#if defined(GL_TEXTURE_COMPRESSED_IMAGE_SIZE)
 template <typename TNT>
 inline
 outcome<GLsizei>
@@ -1360,6 +1361,7 @@ noexcept
 		)
 	);
 }
+#endif
 //------------------------------------------------------------------------------
 template <typename TNT>
 inline

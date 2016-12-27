@@ -3,42 +3,69 @@
 #  See accompanying file LICENSE_1_0.txt or copy at
 #   http://www.boost.org/LICENSE_1_0.txt
 #
-unset(OPENGLES3_INCLUDE_DIRS)
-set(OPENGLES3_FOUND 0)
-#
-# try to find GLES3/gl3.h
-find_path(
-	OPENGLES3_GL3_H_DIR GLES3/gl3.h
-	PATHS ${HEADER_SEARCH_PATHS}
-	NO_DEFAULT_PATH
-)
-# if that didn't work try the system directories
-if((NOT OPENGLES3_GL3_H_DIR) OR (NOT EXISTS ${OPENGLES3_GL3_H_DIR}))
+macro(gles3_detection VER_MINOR)
+	unset(OPENGLES3_INCLUDE_DIRS)
+	set(OPENGLES3_FOUND 0)
+	#
+	# try to find GLES3/gl3${VER_MINOR}.h
 	find_path(
-		OPENGLES3_GL3_H_DIR
-		NAMES GLES3/gl3.h
+		OPENGLES3_GL3${VER_MINOR}_H_DIR GLES3/gl3${VER_MINOR}.h
+		PATHS ${HEADER_SEARCH_PATHS}
+		NO_DEFAULT_PATH
 	)
-endif()
-# if found append it to the include directories
-if((OPENGLES3_GL3_H_DIR) AND (EXISTS ${OPENGLES3_GL3_H_DIR}))
-	set(OPENGLES3_INCLUDE_DIRS ${OPENGLES3_INCLUDE_DIRS} ${OPENGLES3_GL3_H_DIR})
-	set(OPENGLES3_FOUND 1)
-	set(GLES3_GL3_H_FOUND 1)
-endif()
-#
-# try to find the GLES3 library
-find_library(
-	OPENGLES3_LIBRARIES NAMES GLES3 GL
-	PATHS ${LIBRARY_SEARCH_PATHS}
-	NO_DEFAULT_PATH
-)
-if(NOT OPENGLES3_LIBRARIES)
-	find_library(OPENGLES3_LIBRARIES NAMES GLES3)
-else()
-	get_filename_component(OPENGLES3_LIBRARY_DIRS ${OPENGLES3_LIBRARIES} PATH)
-endif()
+	# if that didn't work try the system directories
+	if(
+		(NOT OPENGLES3_GL3${VER_MINOR}_H_DIR) OR
+		(NOT EXISTS ${OPENGLES3_GL3${VER_MINOR}_H_DIR})
+	)
+		find_path(
+			OPENGLES3_GL3${VER_MINOR}_H_DIR
+			NAMES GLES3/gl3${VER_MINOR}.h
+		)
+	endif()
+	# if found append it to the include directories
+	if(
+		(OPENGLES3_GL3${VER_MINOR}_H_DIR) AND
+		(EXISTS ${OPENGLES3_GL3${VER_MINOR}_H_DIR})
+	)
+		set(
+			OPENGLES3${VER_MINOR}_INCLUDE_DIRS
+			${OPENGLES3${VER_MINOR}_INCLUDE_DIRS}
+			${OPENGLES3_GL3${VER_MINOR}_H_DIR}
+		)
+		set(OPENGLES3${VER_MINOR}_FOUND 1)
+		set(GLES3_GL3${VER_MINOR}_H_FOUND 1)
+	endif()
+	#
+	# try to find the GLES3 library
+	find_library(
+		OPENGLES3${VER_MINOR}_LIBRARIES
+		NAMES GLES3${VER_MINOR} GLES3 GL
+		PATHS ${LIBRARY_SEARCH_PATHS}
+		NO_DEFAULT_PATH
+	)
+	if(NOT OPENGLES3${VER_MINOR}_LIBRARIES)
+		find_library(
+			OPENGLES3${VER_MINOR}_LIBRARIES
+			NAMES GLES3${VER_MINOR} GLES3 GL
+		)
+	else()
+		get_filename_component(
+			OPENGLES3${VER_MINOR}_LIBRARY_DIRS
+			{OPENGLES3${VER_MINOR}_LIBRARIES} PATH
+		)
+	endif()
 
-#if we have not found the library
-if(NOT OPENGLES3_LIBRARIES)
-	set(OPENGLES3_LIBRARIES "")
-endif()
+	#if we have not found the library
+	if(NOT OPENGLES3${VER_MINOR}_LIBRARIES)
+		set(OPENGLES3${VER_MINOR}_LIBRARIES "")
+	endif()
+
+	if(OPENGLES3${VER_MINOR}_FOUND)
+		message(STATUS "Found GLES3${VER_MINOR}: ${OPENGLES3${VER_MINOR}_INCLUDE_DIRS};${OPENGLES3${VER_MINOR}_LIBRARIES}")
+	endif()
+endmacro()
+
+gles3_detection("")
+gles3_detection("1")
+gles3_detection("2")

@@ -314,11 +314,13 @@ def get_argument_parser():
 	path2idus = string.maketrans("/.","__")
 	path2idmi = string.maketrans("/.","--")
 	gl_api_libs = {
-		"glcorearb.h" : "GL/glcorearb.h header",
-		"GL3/gl3.h" : "GL3/gl3.h header",
-		"GLES3/gl3.h" : "GLES3/gl3.h header",
-		"GLEW" : "GLEW library",
-		"GL3W" : "GL3W library"
+		"glcorearb.h"  : "GL/glcorearb.h header",
+		"GL3/gl3.h"    : "GL3/gl3.h header",
+		"GLES3/gl32.h" : "GLES3/gl32.h header",
+		"GLES3/gl31.h" : "GLES3/gl31.h header",
+		"GLES3/gl3.h"  : "GLES3/gl3.h header",
+		"GLEW"         : "GLEW library",
+		"GL3W"         : "GL3W library"
 	}
 
 	argparser_gl_api_lib_group = argparser.add_mutually_exclusive_group()
