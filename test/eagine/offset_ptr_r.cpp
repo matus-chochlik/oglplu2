@@ -73,6 +73,24 @@ BOOST_AUTO_TEST_CASE(offset_ptr_3)
 	BOOST_CHECK_EQUAL(ps->size(), str.size());
 }
 
+BOOST_AUTO_TEST_CASE(offset_ptr_4)
+{
+	using namespace eagine;
+
+	offset_ptr<std::string> ops;
+
+	offset_ptr<std::string> ps(ops);
+
+	BOOST_CHECK_EQUAL(bool(ps), false);
+	BOOST_CHECK_EQUAL(!ps, true);
+	BOOST_CHECK_EQUAL(!!ps, false);
+
+	BOOST_CHECK(ps.addr() == ops.addr());
+	BOOST_CHECK(ps.get() == nullptr);
+	BOOST_CHECK(ps.addr() == memory::const_address());
+	BOOST_CHECK(ps.addr().value() == 0);
+}
+
 BOOST_AUTO_TEST_CASE(offset_array_default_ctr)
 {
 	using namespace eagine;

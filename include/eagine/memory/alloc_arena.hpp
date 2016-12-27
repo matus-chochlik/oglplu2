@@ -10,7 +10,7 @@
 #ifndef EAGINE_MEMORY_ALLOC_ARENA_1510290655_HPP
 #define EAGINE_MEMORY_ALLOC_ARENA_1510290655_HPP
 
-#include "block.hpp"
+#include "c_realloc.hpp"
 #include "../span.hpp"
 #include <cassert>
 #include <utility>
@@ -34,7 +34,7 @@ private:
 	) {
 		owned_block b = _alloc.allocate(size, align);
 
-		if(!b) { return {}; }
+		if(b.empty()) { return {}; }
 
 		assert(b.is_aligned_to(align));
 		assert(b.size() >= size);
@@ -59,7 +59,7 @@ private:
 	template <typename T>
 	T* _make_n(const span_size_t count, const span_size_t align) {
 		block b = _allocate<T>(count, align);
-		return new(b.data()) T[count];
+		return new(b.data()) T[std_size(count)];
 	}
 
 	template <typename T, typename ... Args>
@@ -113,6 +113,8 @@ public:
 		const span_size_t count,
 		const span_size_t align
 	) {
+		if(count < 1) { return {nullptr, span_size_t{0}}; }
+
 		T* p = _make_n<T>(count, align);
 		if(!p) { throw std::bad_alloc(); }
 		return {p, count};
@@ -136,6 +138,9 @@ public:
 	void destroy(T& v) { v.~T(); }
 };
 
+using system_allocation_arena = basic_allocation_arena<
+	c_byte_reallocator<byte_alloc_managed_policy>
+>;
 
 } // namespace memory
 } // namespace eagine

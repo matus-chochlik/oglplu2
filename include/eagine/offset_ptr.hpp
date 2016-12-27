@@ -10,6 +10,7 @@
 #ifndef EAGINE_OFFSET_PTR_1509260923_HPP
 #define EAGINE_OFFSET_PTR_1509260923_HPP
 
+#include "span.hpp"
 #include "types.hpp"
 #include "memory/address.hpp"
 #include <cassert>
@@ -20,67 +21,64 @@ namespace eagine {
 template <typename T, typename OffsT>
 class basic_offset_ptr
 {
+public:
+	using address = memory::basic_address<std::is_const<T>::value>;
 private:
 	static_assert(std::is_signed<OffsT>::value, "");
 
 	OffsT _offs;
-	typedef memory::basic_address<std::is_const<T>::value> _memaddr;
+	using _rawptr = typename address::pointer;
 
-	template <typename T2>
 	static
-	OffsT _get_offs(_memaddr a1, T2* p2)
-	noexcept { return a1 - memory::as_address(p2); }
+	address _that_addr(const basic_offset_ptr& that) {
+		return address(_rawptr(&that));
+	}
 
-	template <typename T1, typename T2>
-	static
-	OffsT _get_offs(T1* p1, T2* p2)
-	noexcept { return memory::as_address(p1) - memory::as_address(p2); }
+	address _this_addr(void) const
+	noexcept { return _that_addr(*this); }
 
-	inline
-	_memaddr _this_addr(void) const
+	OffsT _get_offs(address addr)
+	noexcept { return addr?addr-_this_addr():0; }
+
+	OffsT _get_offs(T* ptr)
+	noexcept { return _get_offs(address(ptr)); }
+
+	OffsT _get_offs(const basic_offset_ptr& that)
 	noexcept {
-		return _memaddr(
-			const_cast<
-				std::conditional_t<
-					std::is_const<T>::value,
-					const void*,
-					void*
-				>
-			>(static_cast<const void*>(this))
-		);
+		return that._offs?that._offs+_get_offs(_that_addr(that)):0;
 	}
 public:
 	constexpr inline
 	basic_offset_ptr(void)
 	noexcept
-	 : _offs(0)
+	 : _offs{0}
 	{ }
 
 	explicit constexpr inline
 	basic_offset_ptr(OffsT offs)
 	noexcept
-	 : _offs(offs)
+	 : _offs{offs}
 	{ }
 
 	explicit constexpr inline
-	basic_offset_ptr(memory::basic_address<std::is_const<T>::value> adr)
+	basic_offset_ptr(address addr)
 	noexcept
-	 : _offs(_get_offs(adr, this))
+	 : _offs{_get_offs(addr)}
 	{ }
 
 	basic_offset_ptr(T* ptr)
 	noexcept
-	 : _offs(_get_offs(ptr, this))
+	 : _offs{_get_offs(ptr)}
 	{ }
 
 	basic_offset_ptr(const basic_offset_ptr& that)
 	noexcept
-	 : _offs(that._offs + _get_offs(&that,this))
+	 : _offs{_get_offs(that)}
 	{ }
 
 	basic_offset_ptr& operator = (const basic_offset_ptr& that)
 	noexcept {
-		_offs = that._offs + _get_offs(&that,this);
+		_offs = _get_offs(that);
 		return *this;
 	}
 
@@ -88,7 +86,7 @@ public:
 	noexcept { return *this = basic_offset_ptr(ptr); }
 
 	basic_offset_ptr&
-	reset(memory::basic_address<std::is_const<T>::value> adr)
+	reset(address adr)
 	noexcept { return *this = basic_offset_ptr(adr); }
 
 	constexpr inline
@@ -106,23 +104,19 @@ public:
 	OffsT offset(void) const
 	noexcept { return _offs; }
 
-	memory::basic_address<std::is_const<T>::value>
-	addr(void) const
+	address addr(void) const
 	noexcept {
 		return is_null()?
-			_memaddr():
-			_memaddr(_this_addr(), _offs);
+			address():
+			address(_this_addr(), _offs);
 	}
 
-	inline
 	T* data(void) const
 	noexcept { return static_cast<T*>(addr()); }
 
-	inline
 	T* get(void) const
 	noexcept { return data(); }
 
-	inline
 	operator T* (void) const
 	noexcept { return get(); }
 
@@ -159,8 +153,14 @@ public:
 	constexpr inline
 	basic_offset_array(void)
 	noexcept
-	 : _size(0)
-	 , _optr()
+	 : _size{0}
+	{ }
+
+	constexpr inline
+	basic_offset_array(span<T> dest)
+	noexcept
+	 : _size(dest.size())
+	 , _optr(dest.data())
 	{ }
 
 	constexpr inline
