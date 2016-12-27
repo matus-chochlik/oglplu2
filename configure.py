@@ -11,6 +11,18 @@ from tools import paths
 
 # initial values for the configuration options
 
+# returns a normalized path to the project root directory
+def get_root_dir():
+	import sys
+	return os.path.normpath(os.path.dirname(sys.argv[0]))
+
+# returns the path to the default build directory
+def get_default_build_dir():
+	try:
+		with open(os.path.join(get_root_dir(), "BINARY_DIR"), "rt") as bdf:
+			return bdf.read()
+	except: return os.path.join(get_root_dir(), "_build");
+
 def get_argument_parser():
 	import argparse
 
@@ -90,10 +102,11 @@ def get_argument_parser():
 			invoked.
 		"""
 	)
+
 	argparser.add_argument(
 		"--build-dir",
 		type=os.path.abspath,
-		default="_build",
+		default=get_default_build_dir(),
 		action="store",
 		help="""
 			Specifies the work directory for cmake, where the cached files,
