@@ -9,6 +9,7 @@
 #include <boost/test/unit_test.hpp>
 
 #include <eagine/offset_ptr.hpp>
+#include <eagine/string_span.hpp>
 #include <string>
 #include <cstring>
 
@@ -177,6 +178,58 @@ BOOST_AUTO_TEST_CASE(offset_array_4)
 	for(i=0; i<cai.size(); ++i)
 	{
 		BOOST_CHECK_EQUAL(cai[i], ia[i]);
+	}
+}
+
+BOOST_AUTO_TEST_CASE(offset_array_5)
+{
+	using namespace eagine;
+
+	cstring_span str = "FooBarBazBlah";
+
+	offset_array<const char> acc(str);
+
+	BOOST_CHECK(acc.data() == str.data());
+	BOOST_CHECK(acc.addr() == memory::const_address(str.data()));
+	BOOST_CHECK(acc.size() == str.size());
+	BOOST_CHECK(acc.begin() != acc.end());
+
+	offset_array<const char>::size_type i = 0;
+	for(char c : acc)
+	{
+		BOOST_CHECK_EQUAL(c, str[i]);
+		++i;
+	}
+
+	for(i=0; i<acc.size(); ++i)
+	{
+		BOOST_CHECK_EQUAL(acc[i], str[i]);
+	}
+}
+
+BOOST_AUTO_TEST_CASE(offset_array_6)
+{
+	using namespace eagine;
+
+	int ia [20] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
+	span<int> is{ia};
+
+	const offset_array<int> cai(is);
+
+	BOOST_CHECK(cai.data() == is.data());
+	BOOST_CHECK(cai.addr() == memory::const_address(is.data()));
+	BOOST_CHECK(cai.size() == 20);
+	BOOST_CHECK(cai.begin() != cai.end());
+
+	offset_array<double>::size_type i = 0;
+	for(int x: cai)
+	{
+		BOOST_CHECK_EQUAL(x, ++i);
+	}
+
+	for(i=0; i<cai.size(); ++i)
+	{
+		BOOST_CHECK_EQUAL(cai[i], is[i]);
 	}
 }
 

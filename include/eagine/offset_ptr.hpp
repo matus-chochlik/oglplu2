@@ -194,7 +194,7 @@ public:
 	basic_offset_array(span<T> dest)
 	noexcept
 	 : _size(dest.size())
-	 , _optr(dest.data())
+	 , _optr(_size>0?dest.data():nullptr)
 	{ }
 
 	constexpr inline

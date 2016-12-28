@@ -113,7 +113,7 @@ public:
 		const span_size_t count,
 		const span_size_t align
 	) {
-		if(count < 1) { return {nullptr, span_size_t{0}}; }
+		if(count < 1) { return {}; }
 
 		T* p = _make_n<T>(count, align);
 		if(!p) { throw std::bad_alloc(); }
