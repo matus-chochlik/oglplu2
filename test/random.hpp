@@ -16,6 +16,7 @@
 #include <cctype>
 #include <type_traits>
 #include <eagine/types.hpp>
+#include <eagine/span.hpp>
 #include <eagine/string_span.hpp>
 
 namespace eagine {

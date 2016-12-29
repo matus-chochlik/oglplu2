@@ -7,6 +7,7 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE EAGINE_memory_alloc_arena
 #include <boost/test/unit_test.hpp>
+#include <algorithm>
 #include "../random.hpp"
 
 #include <eagine/memory/alloc_arena.hpp>
@@ -133,6 +134,77 @@ BOOST_AUTO_TEST_CASE(memory_owning_alloc_2)
 			}
 			BOOST_CHECK(addr.is_aligned_to(align));
 			BOOST_CHECK(addr.is_aligned_to(align2));
+		}
+
+		alc.clear();
+
+		BOOST_CHECK(alc.empty());
+	}
+}
+
+BOOST_AUTO_TEST_CASE(memory_owning_alloc_3)
+{
+	using namespace eagine;
+
+	memory::basic_allocation_arena<
+		memory::c_byte_reallocator<
+			memory::byte_alloc_managed_policy
+		>
+	> alc;
+
+	BOOST_CHECK(alc.empty());
+
+	for(int j=0; j<10; ++j) {
+
+		for(int i=0; i<100; ++i) {
+			std::vector<int> src(rg.get_std_size(1, 32));
+			rg.fill(src);
+
+			span<int> dst = alc.copy_aligned_array<int>(
+				make_span(src), alignof(int)
+			);
+
+			BOOST_CHECK_EQUAL(src.size(), dst.size());
+			BOOST_CHECK(std::equal(
+				src.begin(),
+				src.end(),
+				dst.begin()
+			));
+		}
+
+		alc.clear();
+
+		BOOST_CHECK(alc.empty());
+	}
+}
+
+BOOST_AUTO_TEST_CASE(memory_owning_alloc_4)
+{
+	using namespace eagine;
+
+	memory::basic_allocation_arena<
+		memory::c_byte_reallocator<
+			memory::byte_alloc_managed_policy
+		>
+	> alc;
+
+	BOOST_CHECK(alc.empty());
+
+	for(int j=0; j<10; ++j) {
+
+		for(int i=0; i<100; ++i) {
+			std::string src(rg.get_string(1, 32));
+
+			span<char> dst = alc.copy_aligned_array<char>(
+				cstring_span(src), alignof(char)
+			);
+
+			BOOST_CHECK_EQUAL(src.size(), dst.size());
+			BOOST_CHECK(std::equal(
+				src.begin(),
+				src.end(),
+				dst.begin()
+			));
 		}
 
 		alc.clear();
