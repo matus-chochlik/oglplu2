@@ -18,9 +18,8 @@ namespace memory {
 
 template <typename T>
 static inline
-span<T> make_span_of(const basic_block<std::is_const<T>::value>& blk)
-{
-	assert(blk.is_aligned_to(alignof(T)));
+span<T> make_span_of(const basic_block<std::is_const<T>::value>& blk) {
+	assert(blk.template is_aligned_as<T>());
 	return {
 		static_cast<T*>(blk.addr()),
 		blk.size()/span_size_of<T>()

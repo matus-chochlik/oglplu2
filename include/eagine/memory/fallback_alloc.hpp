@@ -76,8 +76,7 @@ public:
 		}
 
 		_fbk_size += n;
-		if(_fbk_max < _fbk_size)
-		{
+		if(_fbk_max < _fbk_size) {
 			_fbk_max = _fbk_size;
 		}
 		return _fbk.allocate(n, a);
