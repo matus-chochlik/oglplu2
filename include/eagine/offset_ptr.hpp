@@ -13,6 +13,7 @@
 #include "span.hpp"
 #include "types.hpp"
 #include "memory/address.hpp"
+#include "memory_block.hpp"
 #include <cassert>
 
 namespace eagine {
@@ -260,6 +261,12 @@ public:
 
 	const_iterator end(void) const
 	noexcept { return begin()+size(); }
+
+	const_memory_block block(void) const
+	noexcept { return {data(), size()}; }
+
+	memory_block block(void)
+	noexcept { return {data(), size()}; }
 
 	reference operator [] (size_type index)
 	noexcept {

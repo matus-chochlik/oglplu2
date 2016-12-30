@@ -32,6 +32,7 @@
 
 namespace eagine {
 
+using gsl::basic_string_span;
 using string_span = gsl::string_span<>;
 using cstring_span = gsl::cstring_span<>;
 
