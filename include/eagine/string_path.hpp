@@ -23,53 +23,12 @@ private:
 	span_size_t _size;
 	std::string _str;
 
-	inline
-	cstring_span _sub(span_size_t i) const
-	noexcept {
-		return {_str.data()+i, span_size(_str.size())-i};
-	}
-
-	inline
-	cstring_span _sub(span_size_t i, span_size_t l) const
-	noexcept {
-		return {_str.data()+i, l};
-	}
-
-	template <typename Int>
-	static inline
-	std::string _encode_str_len(Int len) {
-		return mbs::encode_code_point(mbs::code_point_t(len)).value();
-	}
-
-	static inline
-	span_size_t _decode_len_len(const cstring_span& elen)
-	{
-		return span_size(mbs::decode_sequence_length(
-			mbs::make_cbyte_span(elen)
-		).value());
-	}
-
-	static inline
-	span_size_t _decode_str_len(const cstring_span& elen, span_size_t l)
-	{
-		return span_size_t(mbs::do_decode_code_point(
-			mbs::make_cbyte_span(elen), l)
-		);
-	}
-
-	span_size_t _rseek_seq_head(span_size_t i) const
-	{
-		do { assert(i > 0); --i; }
-		while(!mbs::is_valid_head_byte(byte(_str[std_size(i)])));
-		return i;
-	}
-
 	template <typename Str>
 	void _init(const span<Str>& names)
 	{
 		span_size_t len = 2*names.size();
 		for(const auto& name : names) {
-			len += size_type(name.size());
+			len += span_size(name.size());
 		}
 		_str.reserve(std_size(len));
 
@@ -98,9 +57,7 @@ private:
 	static inline
 	std::array<cstring_span,sizeof...(Str)>
 	_pack_names(const Str&... n)
-	noexcept {
-		return {{_fix(n)...}};
-	}
+	noexcept { return {{_fix(n)...}}; }
 public:
 	typedef cstring_span value_type;
 	typedef cstring_span str_span;
@@ -110,7 +67,7 @@ public:
 
 	basic_string_path(void)
 	noexcept
-	 : _size(0)
+	 : _size{0}
 	{ }
 
 	basic_string_path(const basic_string_path&) = default;
@@ -189,56 +146,35 @@ public:
 
 	static
 	size_type required_bytes(str_span str)
-	noexcept {
-		return required_bytes(size_type(str.size()));
-	}
+	noexcept { return required_bytes(size_type(str.size())); }
 
-	void reserve_bytes(size_type s) {
-		_str.reserve(std_size(s));
-	}
+	void reserve_bytes(size_type s) { _str.reserve(std_size(s)); }
 
 	str_span front(void) const
 	noexcept {
 		assert(!empty());
-		span_size_t i = 0;
-		cstring_span elen = _sub(i);
-		span_size_t k = _decode_len_len(elen);
-		span_size_t l = _decode_str_len(elen, k);
-		return _sub(k, l);
+		return string_list::front_value(_str);
 	}
 
 	str_span back(void) const
 	noexcept {
 		assert(!empty());
-		span_size_t i = _rseek_seq_head(span_size(_str.size()));
-		cstring_span elen = _sub(i);
-		span_size_t k = _decode_len_len(elen);
-		span_size_t l = _decode_str_len(elen, k);
-		return _sub(i-l, l);
+		return string_list::back_value(_str);
 	}
 
 	void push_back(str_span name) {
-		name = _fix(name);
-		std::string elen = _encode_str_len(name.size());
-		_str.append(elen);
-		_str.append(name.data(), std::string::size_type(name.size()));
-		_str.append(elen);
+		string_list::push_back(_str, _fix(name));
 		++_size;
 	}
 
 	void push_back_elem(const string_list::element& elem) {
-		_str.append(elem.data(), std::string::size_type(elem.size()));
+		_str.append(elem.data(), std_size(elem.size()));
 		++_size;
 	}
 
 	void pop_back(void) {
 		assert(!empty());
-		span_size_t i = _rseek_seq_head(span_size(_str.size()));
-		cstring_span elen = _sub(i);
-		span_size_t k = _decode_len_len(elen);
-		span_size_t l = _decode_str_len(elen, k);
-		assert(i >= k+l);
-		_str.resize(std_size(i-k-l));
+		_str.resize(string_list::pop_back(_str).size());
 		--_size;
 	}
 
