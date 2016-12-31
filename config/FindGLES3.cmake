@@ -4,8 +4,8 @@
 #   http://www.boost.org/LICENSE_1_0.txt
 #
 macro(gles3_detection VER_MINOR)
-	unset(OPENGLES3_INCLUDE_DIRS)
-	set(OPENGLES3_FOUND 0)
+	unset(OPENGLES3${VER_MINOR}_INCLUDE_DIRS)
+	set(OPENGLES3${VER_MINOR}_FOUND 0)
 	#
 	# try to find GLES3/gl3${VER_MINOR}.h
 	find_path(
@@ -40,14 +40,14 @@ macro(gles3_detection VER_MINOR)
 	# try to find the GLES3 library
 	find_library(
 		OPENGLES3${VER_MINOR}_LIBRARIES
-		NAMES GLES3${VER_MINOR} GLES3 GL
+		NAMES GLESv3${VER_MINOR} GLESv3 GLES3${VER_MINOR} GLES3 GL
 		PATHS ${LIBRARY_SEARCH_PATHS}
 		NO_DEFAULT_PATH
 	)
 	if(NOT OPENGLES3${VER_MINOR}_LIBRARIES)
 		find_library(
 			OPENGLES3${VER_MINOR}_LIBRARIES
-			NAMES GLES3${VER_MINOR} GLES3 GL
+			NAMES GLESv3${VER_MINOR} GLESv3 GLES3${VER_MINOR} GLES3 GL
 		)
 	else()
 		get_filename_component(
