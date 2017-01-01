@@ -34,7 +34,6 @@ macro(gles3_detection VER_MINOR)
 			${OPENGLES3_GL3${VER_MINOR}_H_DIR}
 		)
 		set(OPENGLES3${VER_MINOR}_FOUND 1)
-		set(GLES3_GL3${VER_MINOR}_H_FOUND 1)
 	endif()
 	#
 	# try to find the GLES3 library
@@ -61,8 +60,11 @@ macro(gles3_detection VER_MINOR)
 		set(OPENGLES3${VER_MINOR}_LIBRARIES "")
 	endif()
 
-	if(OPENGLES3${VER_MINOR}_FOUND)
+	if(OPENGLES3${VER_MINOR}_FOUND AND ${OPENGLES3${VER_MINOR}_FOUND})
 		message(STATUS "Found GLES3${VER_MINOR}: ${OPENGLES3${VER_MINOR}_INCLUDE_DIRS};${OPENGLES3${VER_MINOR}_LIBRARIES}")
+		set(GLES3_GL3${VER_MINOR}_H_FOUND 1)
+	else()
+		set(GLES3_GL3${VER_MINOR}_H_FOUND 0)
 	endif()
 endmacro()
 
