@@ -42,9 +42,6 @@ public:
 	 : unit_sphere_gen(attr_bits, 12, 18)
 	{ }
 
-	bool cw_face_winding(void)
-	override;
-
 	span_size_t vertex_count(void)
 	override;
 

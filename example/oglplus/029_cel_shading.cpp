@@ -163,7 +163,6 @@ public:
 		gl.enable(GL.depth_test);
 		gl.enable(GL.cull_face);
 		gl.cull_face(GL.back);
-		gl.front_face(icosahedron.face_winding());
 
 		set_projection(state);
 	}

@@ -84,6 +84,7 @@ noexcept
  , _phase(GLuint(draw_op.phase))
  , _primitive_restart_index(draw_op.primitive_restart_index)
  , _primitive_restart(draw_op.primitive_restart)
+ , _cw_face_winding(draw_op.cw_face_winding)
 { }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -107,6 +108,8 @@ outcome<void>
 draw_operation::
 draw(void) const
 noexcept {
+	OGLPLUS_GLFUNC(FrontFace)(_cw_face_winding?GL_CW:GL_CCW);
+
 	if(indexed()) {
 		OGLPLUS_GLFUNC(DrawElements)(
 			GLenum(_mode),

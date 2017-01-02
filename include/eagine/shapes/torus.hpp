@@ -53,9 +53,6 @@ public:
 	 : unit_torus_gen(attr_bits, 24, 36)
 	{ }
 
-	bool cw_face_winding(void)
-	override;
-
 	span_size_t vertex_count(void)
 	override;
 
