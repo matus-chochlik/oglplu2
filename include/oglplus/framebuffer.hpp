@@ -87,6 +87,7 @@ struct framebuffer_ops
 	) noexcept;
 #endif
 
+#if defined(GL_VERSION_3_0)
 	static
 	outcome<void>
 	framebuffer_texture_1d(
@@ -108,6 +109,7 @@ struct framebuffer_ops
 		GLint level
 	) noexcept;
 #endif
+#endif // GL_VERSION_3_0
 
 	static
 	outcome<void>
@@ -131,6 +133,7 @@ struct framebuffer_ops
 	) noexcept;
 #endif
 
+#if defined(GL_VERSION_3_0)
 	static
 	outcome<void>
 	framebuffer_texture_3d(
@@ -154,7 +157,9 @@ struct framebuffer_ops
 		GLint layer
 	) noexcept;
 #endif
+#endif // GL_VERSION_3_0
 
+#if defined(GL_VERSION_3_2)
 	static
 	outcome<void>
 	framebuffer_texture(
@@ -174,7 +179,9 @@ struct framebuffer_ops
 		GLint level
 	) noexcept;
 #endif
+#endif // GL_VERSION_3_2
 
+#if defined(GL_VERSION_3_0)
 	static
 	outcome<void>
 	draw_buffer(color_buffer buf)
@@ -189,6 +196,7 @@ struct framebuffer_ops
 	) noexcept;
 	// TODO GL_NONE
 #endif
+#endif // GL_VERSION_3_0
 
 	static
 	outcome<void>
@@ -236,6 +244,7 @@ public:
 		), _self()};
 	}
 
+#if defined(GL_VERSION_3_2)
 	outcome<Derived&>
 	texture(
 		framebuffer_attachment fb_attch,
@@ -248,6 +257,7 @@ public:
 			tex, level
 		), _self()};
 	}
+#endif
 };
 
 template <>
@@ -280,6 +290,7 @@ struct object_binding<tag::framebuffer>
 		return _ops::is_framebuffer_complete(*this);
 	}
 
+#if defined(GL_VERSION_3_0)
 	outcome<object_binding&>
 	texture_1d(
 		framebuffer_attachment fb_attch,
@@ -294,6 +305,7 @@ struct object_binding<tag::framebuffer>
 			level
 		), *this};
 	}
+#endif
 
 	outcome<object_binding&>
 	texture_2d(
@@ -310,6 +322,7 @@ struct object_binding<tag::framebuffer>
 		), *this};
 	}
 
+#if defined(GL_VERSION_3_0)
 	outcome<object_binding&>
 	texture_3d(
 		framebuffer_attachment fb_attch,
@@ -325,6 +338,7 @@ struct object_binding<tag::framebuffer>
 			level, layer
 		), *this};
 	}
+#endif
 };
 
 #ifdef OGLPLUS_DSA_FRAMEBUFFER

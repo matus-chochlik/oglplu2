@@ -50,6 +50,12 @@ public:
 	{ }
 
 	explicit constexpr
+	basic_address(std::intptr_t addr)
+	noexcept
+	 : _addr(reinterpret_cast<pointer>(addr))
+	{ }
+
+	explicit constexpr
 	basic_address(pointer addr)
 	noexcept
 	 : _addr(addr)
@@ -214,6 +220,19 @@ noexcept {
 
 	assert(span_size(ma) <= max);
 	return {addr,-ma};
+}
+
+template <bool IsConst>
+static inline
+basic_address<IsConst>
+align_down(basic_address<IsConst> addr, span_size_t align)
+noexcept {
+	return align_down(addr, align, addr.value());
+}
+
+static inline
+const byte* align_down(const byte* ptr, span_size_t align) {
+	return align_down(const_address(ptr), align).ptr();
 }
 
 template <typename T>

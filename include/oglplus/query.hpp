@@ -54,6 +54,7 @@ struct query_ops
 	noexcept;
 #endif
 
+#if defined(GL_VERSION_3_0)
 	static
 	outcome<void>
 	get_query_object_iv(
@@ -69,6 +70,7 @@ struct query_ops
 		oglplus::query_parameter param,
 		span<GLuint> values
 	) noexcept;
+#endif
 
 #if defined(GL_VERSION_3_3) || defined (GL_ARB_timer_query)
 	static
@@ -98,12 +100,12 @@ struct query_ops
 	outcome<void>
 	query_result(query_name qry, GLint& result)
 	noexcept;
-#endif
 
 	static
 	outcome<void>
 	query_result(query_name qry, GLuint& result)
 	noexcept;
+#endif
 
 #if defined(GL_VERSION_3_3) || defined (GL_ARB_timer_query)
 	static
@@ -131,71 +133,44 @@ struct obj_dsa_ops<tag::query>
 
 	outcome<void>
 	begin(query_target target)
-	noexcept
-	{
-		return _ops::begin_query(target, *this);
-	}
+	noexcept { return _ops::begin_query(target, *this); }
 
 	outcome<void>
 	end(query_target target)
-	noexcept
-	{
-		return _ops::end_query(target);
-	}
+	noexcept { return _ops::end_query(target); }
 
 #if defined(GL_VERSION_3_3) || defined (GL_ARB_timer_query)
 	outcome<void>
 	counter(query_target target)
-	noexcept
-	{
-		return _ops::query_counter(*this, target);
-	}
+	noexcept { return _ops::query_counter(*this, target); }
 
 	outcome<void>
 	timestamp(void)
-	noexcept
-	{
-		return _ops::query_timestamp(*this);
-	}
+	noexcept { return _ops::query_timestamp(*this); }
 #endif
 
 	outcome<boolean>
 	result_available(void) const
-	noexcept
-	{
-		return _ops::query_result_available(*this);
-	}
+	noexcept { return _ops::query_result_available(*this); }
 
 #if defined(GL_VERSION_3_0)
 	outcome<void>
 	result(GLint& result) const
-	noexcept
-	{
-		return _ops::query_result(*this, result);
-	}
-#endif
+	noexcept { return _ops::query_result(*this, result); }
 
 	outcome<void>
 	result(GLuint& result) const
-	noexcept
-	{
-		return _ops::query_result(*this, result);
-	}
+	noexcept { return _ops::query_result(*this, result); }
+#endif
 
 #if defined(GL_VERSION_3_3) || defined (GL_ARB_timer_query)
 	outcome<void>
 	result(GLint64& result) const
-	noexcept
-	{
-		return _ops::query_result(*this, result);
-	}
+	noexcept { return _ops::query_result(*this, result); }
 
 	outcome<void>
 	result(GLuint64& result) const
-	noexcept
-	{
-		return _ops::query_result(*this, result);
-	}
+	noexcept { return _ops::query_result(*this, result); }
 #endif
 };
 

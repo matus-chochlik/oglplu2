@@ -23,7 +23,7 @@ shader build_shader(const shader_source_block& shdr_src)
 	shdr.source(shdr_src);
 	shdr.compile();
 	shdr.report_compile_error();
-	return std::move(shdr);
+	return shdr;
 }
 
 static inline
@@ -42,7 +42,7 @@ program build_program(const program_source_block& prog_src)
 {
 	program prog;
 	build_program(prog, prog_src);
-	return std::move(prog);
+	return prog;
 }
 
 } // namespace oglplus

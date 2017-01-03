@@ -98,6 +98,43 @@ public:
 	}
 };
 
+// stack_byte_allocator_only
+template <typename Policy = default_byte_allocator_policy>
+class stack_byte_allocator_only
+ : public byte_allocator_impl<Policy, stack_byte_allocator_only>
+{
+private:
+	base_stack_allocator<byte> _alloc;
+public:
+	typedef byte value_type;
+	typedef span_size_t size_type;
+
+	stack_byte_allocator_only(stack_byte_allocator_only&&) = default;
+	stack_byte_allocator_only(const block& blk)
+	 : _alloc(blk)
+	{ }
+
+	bool equal(byte_allocator* a) const
+	noexcept
+	override;
+
+	size_type max_size(size_type)
+	noexcept
+	override { return _alloc.max_size(); }
+
+	tribool has_allocated(const owned_block& b, span_size_t)
+	noexcept
+	override { return _alloc.has_allocated(b); }
+
+	owned_block allocate(size_type n, size_type a)
+	noexcept
+	override;
+
+	void deallocate(owned_block&& b, size_type)
+	noexcept
+	override;
+};
+
 // stack_byte_allocator
 template <typename Policy = default_byte_allocator_policy>
 class stack_byte_allocator
@@ -127,9 +164,7 @@ public:
 
 	tribool has_allocated(const owned_block& b, span_size_t)
 	noexcept
-	override {
-		return _alloc.has_allocated(b);
-	}
+	override { return _alloc.has_allocated(b); }
 
 	owned_block allocate(size_type n, size_type a)
 	noexcept

@@ -11,6 +11,12 @@
 #include <eagine/valid_if/positive.hpp>
 #include <fstream>
 
+#if defined(GL_R3_G3_B2) && defined(GL_UNSIGNED_BYTE_3_3_2)
+constexpr const bool has_r3g3b2 = true;
+#else
+constexpr const bool has_r3g3b2 = false;
+#endif
+
 struct options
 {
 	typedef eagine::program_parameter<eagine::cstr_ref>
@@ -69,13 +75,23 @@ void write_output(std::ostream& output, const options& opts)
 {
 	oglplus::image_data_header hdr(opts.width, opts.height, opts.depth);
 	hdr.format = GL_RGB;
-	hdr.internal_format = GL_R3_G3_B2;
-	hdr.data_type = GL_UNSIGNED_BYTE_3_3_2;
+
+	if(has_r3g3b2) {
+#if defined(GL_R3_G3_B2) && defined(GL_UNSIGNED_BYTE_3_3_2)
+		hdr.internal_format = GL_R3_G3_B2;
+		hdr.data_type = GL_UNSIGNED_BYTE_3_3_2;
+#endif
+	} else {
+		hdr.internal_format = GL_RGB;
+		hdr.data_type = GL_UNSIGNED_BYTE;
+	}
+	const GLsizei channels = has_r3g3b2?1:3;
 
 	const auto size = eagine::span_size_t(
 		opts.width.value()*
 		opts.height.value()*
-		opts.depth.value()
+		opts.depth.value()*
+		channels
 	);
 
 	oglplus::write_and_pad_texture_image_data_header(output, hdr, size);
@@ -93,8 +109,12 @@ void write_output(std::ostream& output, const options& opts)
 			for(GLsizei x=0; x<hdr.width; ++x)
 			{
 				const GLsizei fx = (fw == 0 ? 0 : x / fw);
-				bool black = ((fx%2)+(fy%2)+(fz%2))%2 == 0;
-				output.put(char(black?0x00:0xFF));
+				const bool black = ((fx%2)+(fy%2)+(fz%2))%2 ==0;
+				const char outb = char(black?0x00:0xFF);
+
+				for(GLsizei c=0; c<channels; ++c) {
+					output.put(outb);
+				}
 			}
 		}
 	}

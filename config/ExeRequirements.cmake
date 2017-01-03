@@ -4,7 +4,7 @@
 #   http://www.boost.org/LICENSE_1_0.txt
 #
 # checks if an EXE can be built and adds required include directories
-macro(do_use_single_dependency EXE_NAME DEPENDENCY)
+macro(do_use_single_dependency TGT_NAME DEPENDENCY)
 	if(${${DEPENDENCY}_FOUND})
 		if(${DEPENDENCY}_USE_FILE)
 			include(${${DEPENDENCY}_USE_FILE})
@@ -18,7 +18,7 @@ macro(do_use_single_dependency EXE_NAME DEPENDENCY)
 		endif()
 		if(${DEPENDENCY}_DEFINITIONS)
 			set_property(
-				SOURCE "${EXE_NAME}.cpp" APPEND PROPERTY
+				SOURCE "${TGT_NAME}.cpp" APPEND PROPERTY
 				COMPILE_DEFINITIONS ${${DEPENDENCY}_DEFINITIONS}
 			)
 		endif()
@@ -39,20 +39,20 @@ macro(do_use_single_dependency EXE_NAME DEPENDENCY)
 	endif()
 endmacro()
 
-macro(do_require_all_dependencies EXE_DIR EXE_NAME RESULT)
+macro(do_require_all_dependencies TGT_DIR TGT_NAME RESULT)
 
-	if(EXISTS "${EXE_DIR}/dependencies/${EXE_NAME}.txt")
+	if(EXISTS "${TGT_DIR}/dependencies/${TGT_NAME}.txt")
 		file(STRINGS
-			"${EXE_DIR}/dependencies/${EXE_NAME}.txt"
-			EXE_DEPENDENCIES
+			"${TGT_DIR}/dependencies/${TGT_NAME}.txt"
+			TGT_DEPENDENCIES
 		)
-		foreach(DEPENDENCY ${EXE_DEPENDENCIES})
+		foreach(DEPENDENCY ${TGT_DEPENDENCIES})
 			if(${${DEPENDENCY}_FOUND})
-				do_use_single_dependency(${EXE_NAME} ${DEPENDENCY})
+				do_use_single_dependency(${TGT_NAME} ${DEPENDENCY})
 			else()
 				message(
 					STATUS
-					"Skipping '${EXE_NAME}' "
+					"Skipping '${TGT_NAME}' "
 					"because '${DEPENDENCY}' not found."
 				)
 				set(${RESULT} false)
@@ -60,11 +60,11 @@ macro(do_require_all_dependencies EXE_DIR EXE_NAME RESULT)
 		endforeach()
 	endif()
 
-	file(GLOB REQ_FILES "${EXE_DIR}/requirements/${EXE_NAME}.*.txt")
+	file(GLOB REQ_FILES "${TGT_DIR}/requirements/${TGT_NAME}.*.txt")
 
 	foreach(REQ_FILE ${REQ_FILES})
-		file(STRINGS "${REQ_FILE}" EXE_REQUIREMENTS)
-		foreach(REQUIREMENT_LIST ${EXE_REQUIREMENTS})
+		file(STRINGS "${REQ_FILE}" TGT_REQUIREMENTS)
+		foreach(REQUIREMENT_LIST ${TGT_REQUIREMENTS})
 			set(ONE_OF_REQUIREMENTS_FOUND false)
 			foreach(REQUIREMENT ${REQUIREMENT_LIST})
 				if(NOT (NO_${REQUIREMENT}) OR (NOT ${NO_${REQUIREMENT}}))
@@ -75,7 +75,7 @@ macro(do_require_all_dependencies EXE_DIR EXE_NAME RESULT)
 			if(NOT ${ONE_OF_REQUIREMENTS_FOUND})
 				message(
 					STATUS
-					"Skipping '${EXE_NAME}' "
+					"Skipping '${TGT_NAME}' "
 					"because '${REQUIREMENT_LIST}' not implemented properly."
 				)
 				set(${RESULT} false)
@@ -86,10 +86,10 @@ macro(do_require_all_dependencies EXE_DIR EXE_NAME RESULT)
 
 endmacro(do_require_all_dependencies)
 
-macro(require_all_dependencies EXE_NAME RESULT)
+macro(require_all_dependencies TGT_NAME RESULT)
 	do_require_all_dependencies(
 		"${CMAKE_CURRENT_SOURCE_DIR}"
-		"${EXE_NAME}"
+		"${TGT_NAME}"
 		"${RESULT}"
 	)
 endmacro(require_all_dependencies)
@@ -97,40 +97,40 @@ endmacro(require_all_dependencies)
 # adds all required libraries to an exe
 # also creates a dependency between the exe
 # and any textures it is using
-macro(add_all_dependencies EXE_NAME)
+macro(add_all_dependencies TGT_NAME)
 	if("${ARGN}" STREQUAL "")
-		set(TARGET_NAME "${EXE_NAME}")
+		set(TARGET_NAME "${TGT_NAME}")
 	else()
 		set(TARGET_NAME "${ARGN}")
 	endif()
-	if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/dependencies/${EXE_NAME}.txt")
+	if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/dependencies/${TGT_NAME}.txt")
 		file(STRINGS
-			"${CMAKE_CURRENT_SOURCE_DIR}/dependencies/${EXE_NAME}.txt"
-			EXE_DEPENDENCIES
+			"${CMAKE_CURRENT_SOURCE_DIR}/dependencies/${TGT_NAME}.txt"
+			TGT_DEPENDENCIES
 		)
-		foreach(DEPENDENCY ${EXE_DEPENDENCIES})
+		foreach(DEPENDENCY ${TGT_DEPENDENCIES})
 			if(${DEPENDENCY}_LIBRARIES)
 				target_link_libraries(${TARGET_NAME} ${${DEPENDENCY}_LIBRARIES})
 			endif()
 		endforeach()
 	endif()
 
-	if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/resources/${EXE_NAME}.tex.txt")
+	if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/resources/${TGT_NAME}.tex.txt")
 		file(STRINGS
-			"${CMAKE_CURRENT_SOURCE_DIR}/resources/${EXE_NAME}.tex.txt"
-			EXE_TEXTURES
+			"${CMAKE_CURRENT_SOURCE_DIR}/resources/${TGT_NAME}.tex.txt"
+			TGT_TEXTURES
 		)
-		foreach(TEXTURE ${EXE_TEXTURES})
+		foreach(TEXTURE ${TGT_TEXTURES})
 			add_dependencies("${TARGET_NAME}" "texture-${TEXTURE}")
 		endforeach()
 	endif()
 
-	if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/resources/${EXE_NAME}.model.txt")
+	if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/resources/${TGT_NAME}.model.txt")
 		file(STRINGS
-			"${CMAKE_CURRENT_SOURCE_DIR}/resources/${EXE_NAME}.model.txt"
-			EXE_MODELS
+			"${CMAKE_CURRENT_SOURCE_DIR}/resources/${TGT_NAME}.model.txt"
+			TGT_MODELS
 		)
-		foreach(MODEL ${EXE_MODELS})
+		foreach(MODEL ${TGT_MODELS})
 			add_dependencies("${TARGET_NAME}" "model-${MODEL}")
 		endforeach()
 	endif()

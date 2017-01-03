@@ -42,7 +42,8 @@ struct draw_operation
 	span_size_t count;
 	unsigned phase;
 	unsigned primitive_restart_index;
-	bool primitive_restart;
+	bool primitive_restart : 1;
+	bool cw_face_winding : 1;
 
 	constexpr
 	draw_operation(void)
@@ -54,6 +55,7 @@ struct draw_operation
 	 , phase(0)
 	 , primitive_restart_index(0)
 	 , primitive_restart(false)
+	 , cw_face_winding(false)
 	{ }
 };
 

@@ -192,7 +192,7 @@ struct manual_sorting_network_base<3>
 	noexcept { return idx[round][elem]; }
 };
 
-constexpr span_size_t manual_sorting_network_base<3>::idx[3][3];
+const span_size_t manual_sorting_network_base<3>::idx[3][3];
 
 template <>
 struct manual_sorting_network_base<4>
@@ -219,7 +219,7 @@ struct manual_sorting_network_base<4>
 	noexcept { return idx[round][elem]; }
 };
 
-constexpr span_size_t manual_sorting_network_base<4>::idx[3][4];
+const span_size_t manual_sorting_network_base<4>::idx[3][4];
 
 template <>
 struct manual_sorting_network_base<5>
@@ -248,7 +248,7 @@ struct manual_sorting_network_base<5>
 	noexcept { return idx[round][elem]; }
 };
 
-constexpr span_size_t manual_sorting_network_base<5>::idx[5][5];
+const span_size_t manual_sorting_network_base<5>::idx[5][5];
 
 template <>
 struct manual_sorting_network_base<6>
@@ -277,7 +277,7 @@ struct manual_sorting_network_base<6>
 	noexcept { return idx[round][elem]; }
 };
 
-constexpr span_size_t manual_sorting_network_base<6>::idx[5][6];
+const span_size_t manual_sorting_network_base<6>::idx[5][6];
 
 template <>
 struct manual_sorting_network_base<7>
@@ -307,7 +307,7 @@ struct manual_sorting_network_base<7>
 	noexcept { return idx[round][elem]; }
 };
 
-constexpr span_size_t manual_sorting_network_base<7>::idx[6][7];
+const span_size_t manual_sorting_network_base<7>::idx[6][7];
 
 template <>
 struct manual_sorting_network_base<8>
@@ -337,7 +337,7 @@ struct manual_sorting_network_base<8>
 	noexcept { return idx[round][elem]; }
 };
 
-constexpr span_size_t manual_sorting_network_base<8>::idx[6][8];
+const span_size_t manual_sorting_network_base<8>::idx[6][8];
 
 template <>
 struct manual_sorting_network_base<9>
@@ -368,7 +368,7 @@ struct manual_sorting_network_base<9>
 	noexcept { return idx[round][elem]; }
 };
 
-constexpr span_size_t manual_sorting_network_base<9>::idx[7][9];
+const span_size_t manual_sorting_network_base<9>::idx[7][9];
 
 template <>
 struct manual_sorting_network_base<10>
@@ -399,7 +399,7 @@ struct manual_sorting_network_base<10>
 	noexcept { return idx[round][elem]; }
 };
 
-constexpr span_size_t manual_sorting_network_base<10>::idx[7][10];
+const span_size_t manual_sorting_network_base<10>::idx[7][10];
 
 template <>
 struct manual_sorting_network_base<11>
@@ -431,7 +431,7 @@ struct manual_sorting_network_base<11>
 	noexcept { return idx[round][elem]; }
 };
 
-constexpr span_size_t manual_sorting_network_base<11>::idx[8][11];
+const span_size_t manual_sorting_network_base<11>::idx[8][11];
 
 template <>
 struct manual_sorting_network_base<12>
@@ -463,7 +463,7 @@ struct manual_sorting_network_base<12>
 	noexcept { return idx[round][elem]; }
 };
 
-constexpr span_size_t manual_sorting_network_base<12>::idx[8][12];
+const span_size_t manual_sorting_network_base<12>::idx[8][12];
 
 template <>
 struct manual_sorting_network_base<14>

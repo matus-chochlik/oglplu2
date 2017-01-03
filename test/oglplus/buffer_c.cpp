@@ -34,7 +34,9 @@ void oglplus_buffer_test_ops1(void)
 
 	gl.buffer_data(tgt, data, buffer_usage(GL_STATIC_DRAW));
 	gl.buffer_sub_data(tgt, size, data);
+#if defined(GL_VERSION_3_1) || defined(GL_ARB_copy_buffer)
 	gl.copy_buffer_sub_data(tgt, tgt, size, size, size);
+#endif
 
 	gl.buffer_size(tgt);
 	gl.buffer_mapped(tgt);

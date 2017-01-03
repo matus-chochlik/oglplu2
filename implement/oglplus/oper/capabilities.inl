@@ -46,6 +46,7 @@ noexcept
 	return {boolean(result)};
 }
 //------------------------------------------------------------------------------
+#if defined(GL_CLIP_DISTANCE0)
 inline
 outcome<void>
 capability_state::
@@ -78,6 +79,7 @@ noexcept
 	OGLPLUS_VERIFY(IsEnabled, gl_enum_value(cap), always);
 	return {boolean(result)};
 }
+#endif
 //------------------------------------------------------------------------------
 #if defined(GL_ARB_compatibility)
 inline

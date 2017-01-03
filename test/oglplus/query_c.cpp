@@ -21,20 +21,24 @@ void oglplus_query_test_ops1(void)
 	oper::query_ops gl;
 	query qry;
 	query_array<4> qrys;
+#if defined(GL_VERSION_3_0)
 	GLint ri;
 	GLuint rui;
+#endif
 
 #if defined(GL_VERSION_3_3) || defined (GL_ARB_timer_query)
 	GLint64 ri64;
 	GLuint64 rui64;
 #endif
 
+#if defined(GL_SAMPLES_PASSED)
 	gl.begin_query(query_target(GL_SAMPLES_PASSED), qry);
 	gl.end_query(query_target(GL_SAMPLES_PASSED));
 	gl.begin_query(query_target(GL_SAMPLES_PASSED), qrys[0]);
 
 	qry.begin(query_target(GL_SAMPLES_PASSED));
 	qry.end(query_target(GL_SAMPLES_PASSED));
+#endif
 
 #if defined(GL_VERSION_3_0)
 	gl.begin_conditional_render(qry, conditional_render_mode(GL_QUERY_WAIT));
@@ -49,12 +53,16 @@ void oglplus_query_test_ops1(void)
 	qry.timestamp();
 #endif
 	gl.query_result_available(qry);
+#if defined(GL_VERSION_3_0)
 	gl.query_result(qry, ri);
 	gl.query_result(qry, rui);
+#endif
 
 	qry.result_available();
+#if defined(GL_VERSION_3_0)
 	qry.result(ri);
 	qry.result(rui);
+#endif
 
 #if defined(GL_VERSION_3_3) || defined (GL_ARB_timer_query)
 	gl.query_result(qry, ri64);

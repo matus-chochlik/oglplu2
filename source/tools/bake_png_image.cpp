@@ -16,6 +16,12 @@
 #include <cassert>
 #include <png.h>
 
+#ifdef GL_RGBA16
+constexpr const bool has_rgba16 = true;
+#else
+constexpr const bool has_rgba16 = false;
+#endif
+
 // program options
 struct options
 {
@@ -485,7 +491,13 @@ gl_data_type(void)
 		case 2:
 		case 4:
 		case 8: return GL_UNSIGNED_BYTE;
-		case 16: return GL_UNSIGNED_SHORT;
+		case 16: {
+			if(has_rgba16) {
+				return GL_UNSIGNED_SHORT;
+			}
+			throw
+			std::runtime_error("Unsupported 16-bit color depth");
+		}
 		default: {
 			throw
 			std::runtime_error("Unsupported PNG image color depth");
@@ -519,12 +531,16 @@ GLenum
 png_reader::
 gl_iformat(void) {
 	if(_driver._png.bit_depth() == 16) {
-		switch(gl_format()) {
-			case GL_RED: return GL_R16;
-			case GL_RG: return GL_RG16;
-			case GL_RGB: return GL_RGB16;
-			case GL_RGBA: return GL_RGBA16;
-			default:;
+		if (has_rgba16) {
+#if defined(GL_RGBA16)
+			switch(gl_format()) {
+				case GL_RED: return GL_R16;
+				case GL_RG: return GL_RG16;
+				case GL_RGB: return GL_RGB16;
+				case GL_RGBA: return GL_RGBA16;
+				default:;
+			}
+#endif
 		}
 	} else {
 		switch(gl_format()) {

@@ -11,8 +11,8 @@ if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
 		-Weverything
 		-Werror
 		#-Wno-float-equal
-		#-Wno-sign-conversion
-		#-Wno-old-style-cast
+		-Wno-sign-conversion
+		-Wno-old-style-cast
 		-Wno-c++98-compat
 		-Wno-c++98-compat-pedantic
 		-Wno-undef

@@ -43,6 +43,7 @@ configure_file(
 
 gl_lib_ext_detection(GL ARB shader_subroutine)
 gl_lib_ext_detection(GL ARB shader_atomic_counters)
+gl_lib_ext_detection(GL ARB geometry_shader4)
 gl_lib_ext_detection(GL ARB tessellation_shader)
 gl_lib_ext_detection(GL ARB separate_shader_objects)
 gl_lib_ext_detection(GL ARB shading_language_include)

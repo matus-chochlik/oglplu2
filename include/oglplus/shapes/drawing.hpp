@@ -43,7 +43,8 @@ private:
 	GLsizei _count;
 	GLuint _phase;
 	GLuint _primitive_restart_index;
-	bool _primitive_restart;
+	bool _primitive_restart : 1;
+	bool _cw_face_winding : 1;
 
 	const void* _idx_ptr(void) const
 	noexcept;
@@ -58,6 +59,7 @@ public:
 	 , _phase(0)
 	 , _primitive_restart_index(0)
 	 , _primitive_restart(false)
+	 , _cw_face_winding(false)
 	{ }
 
 	draw_operation(const eagine::shapes::draw_operation& draw_op)

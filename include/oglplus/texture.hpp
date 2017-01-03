@@ -42,10 +42,7 @@ typedef object_name_and_target<tag::texture> texture_name_and_target;
 static inline
 texture_target_only
 wrap_object_name_or_target(texture_target target)
-noexcept
-{
-	return {target};
-}
+noexcept { return {target}; }
 
 namespace oper {
 
@@ -54,18 +51,12 @@ struct texture_ops
 private:
 	static
 	texture_target_only _wrap(texture_target tgt)
-	noexcept
-	{
-		return {tgt};
-	}
+	noexcept { return {tgt}; }
 
 	template <typename X>
 	static
 	auto _wrap(const X& x)
-	noexcept
-	{
-		return wrap_object_name_or_target(x);
-	}
+	noexcept { return wrap_object_name_or_target(x); }
 
 	template <typename X>
 	using _disable_if_target = std::enable_if_t<
@@ -157,6 +148,7 @@ public:
 	) noexcept;
 #endif
 
+#if defined(GL_VERSION_3_0)
 	static
 	outcome<void>
 	texture_image_1d(
@@ -178,6 +170,7 @@ public:
 		GLint level = 0,
 		GLint border = 0
 	) noexcept;
+#endif // GL_VERSION_3_0
 
 	static
 	outcome<void>
@@ -227,6 +220,7 @@ public:
 	) noexcept;
 
 #if defined(GL_EXT_direct_state_access)
+#if defined(GL_VERSION_3_0)
 	static
 	outcome<void>
 	texture_image_1d(
@@ -248,6 +242,7 @@ public:
 		GLint level = 0,
 		GLint border = 0
 	) noexcept;
+#endif
 
 	static
 	outcome<void>
@@ -295,7 +290,7 @@ public:
 		GLint level = 0,
 		GLint border = 0
 	) noexcept;
-#endif
+#endif // GL_EXT_direct_state_access
 
 	static
 	outcome<void>
@@ -313,6 +308,7 @@ public:
 		span<GLint> values
 	) noexcept;
 
+#if defined(GL_VERSION_3_0) || defined(GL_ES_VERSION_3_1)
 	static
 	outcome<void>
 	get_texture_level_parameter_iv(
@@ -321,6 +317,7 @@ public:
 		oglplus::texture_parameter param,
 		span<GLint> values
 	) noexcept;
+#endif
 
 	static
 	outcome<void>
@@ -363,6 +360,7 @@ public:
 		span<GLint> values
 	) noexcept;
 
+#if defined(GL_VERSION_3_0) || defined(GL_ES_VERSION_3_1)
 	static
 	outcome<void>
 	get_texture_level_parameter_iv(
@@ -371,6 +369,7 @@ public:
 		oglplus::texture_parameter param,
 		span<GLint> values
 	) noexcept;
+#endif
 
 	static
 	outcome<void>
@@ -415,6 +414,7 @@ public:
 		span<GLint> values
 	) noexcept;
 
+#if defined(GL_VERSION_3_0) || defined(GL_ES_VERSION_3_1)
 	static
 	outcome<void>
 	get_texture_level_parameter_iv(
@@ -423,6 +423,7 @@ public:
 		oglplus::texture_parameter param,
 		span<GLint> values
 	) noexcept;
+#endif
 
 	static
 	outcome<void>
@@ -458,6 +459,7 @@ public:
 		oglplus::texture_parameter parameter
 	) noexcept;
 
+#if defined(GL_VERSION_3_0) || defined(GL_ES_VERSION_3_1)
 	template <typename R, typename P, typename N, typename T>
 	static
 	outcome<R>
@@ -466,6 +468,7 @@ public:
 		GLint level,
 		oglplus::texture_parameter parameter
 	) noexcept;
+#endif
 
 	template <typename R, typename N, typename T>
 	static
@@ -475,6 +478,7 @@ public:
 		oglplus::texture_parameter parameter
 	) noexcept;
 
+#if defined(GL_VERSION_3_0) || defined(GL_ES_VERSION_3_1)
 	// texture_width
 	template <typename TNT>
 	static 
@@ -587,12 +591,14 @@ public:
 	texture_compressed(const TNT& tnt, GLint level = 0)
 	noexcept;
 
+#if defined(GL_TEXTURE_COMPRESSED_IMAGE_SIZE)
 	// texture_compressed_image_size
 	template <typename TNT>
 	static 
 	outcome<GLsizei>
 	texture_compressed_image_size(const TNT& tnt, GLint level = 0)
 	noexcept;
+#endif
 
 	// texture_internal_format
 	template <typename TNT>
@@ -600,6 +606,7 @@ public:
 	outcome<oglplus::pixel_data_internal_format>
 	texture_internal_format(const TNT& tnt, GLint level = 0)
 	noexcept;
+#endif
 
 	// texture_min_filter
 	template <typename TNT>
@@ -689,6 +696,7 @@ public:
 		texture_swizzle_coord coord
 	) noexcept;
 
+#if defined(GL_TEXTURE_LOD_BIAS)
 	// texture_lod_bias
 	template <typename TNT>
 	static 
@@ -701,6 +709,7 @@ public:
 	outcome<GLfloat>
 	texture_lod_bias(const TNT& tnt)
 	noexcept;
+#endif
 
 	// texture_min_lod
 	template <typename TNT>
@@ -728,12 +737,14 @@ public:
 	texture_max_lod(const TNT& tnt)
 	noexcept;
 
+#if defined(GL_TEXTURE_BORDER_COLOR)
 	// texture_border_color
 	template <typename TNT>
 	static 
 	outcome<void>
 	texture_border_color(const TNT& tnt, span<const GLfloat> c)
 	noexcept;
+#endif
 
 	template <typename TNT>
 	static 
@@ -757,20 +768,13 @@ private:
 	typedef oper::texture_ops _ops;
 
 	Derived& _self(void)
-	noexcept
-	{
-		return *static_cast<Derived*>(this);
-	}
+	noexcept { return *static_cast<Derived*>(this); }
 
 	const Base& _base(void) const
-	noexcept
-	{
-		return *static_cast<const Base*>(this);
-	}
+	noexcept { return *static_cast<const Base*>(this); }
 
 	static
-	texture_target_only _do_get_tnt(texture_target tgt)
-	{
+	texture_target_only _do_get_tnt(texture_target tgt) {
 		return {tgt};
 	}
 
@@ -782,8 +786,7 @@ private:
 	> _tnt;
 
 	static
-	texture_name_only _do_get_tnt(texture_name name)
-	{
+	texture_name_only _do_get_tnt(texture_name name) {
 		return {name};
 	}
 #elif defined(GL_EXT_direct_state_access)
@@ -796,187 +799,122 @@ private:
 	> _tnt;
 
 	texture_name_and_target _do_get_tnt(texture_name name) const
-	noexcept
-	{
-		return {name, target};
-	}
+	noexcept { return {name, target}; }
 #else
 	typedef texture_target_only _tnt;
 #endif
 	_tnt _get_tnt(void) const
-	noexcept
-	{
-		return _do_get_tnt(_base());
-	}
+	noexcept { return _do_get_tnt(_base()); }
 
 	friend inline
 	_tnt
 	wrap_object_name_or_target(const obj_member_ops& tex)
-	noexcept
-	{
-		return tex._get_tnt();
-	}
+	noexcept { return tex._get_tnt(); }
+
 protected:
 	using Base::Base;
 public:
+#if defined(GL_VERSION_3_0) || defined(GL_ES_VERSION_3_1)
 	outcome<GLsizei>
 	width(GLint level = 0) const
-	noexcept
-	{
-		return _ops::texture_width(_get_tnt(), level);
-	}
+	noexcept { return _ops::texture_width(_get_tnt(), level); }
 
 	outcome<GLsizei>
 	height(GLint level = 0) const
-	noexcept
-	{
-		return _ops::texture_height(_get_tnt(), level);
-	}
+	noexcept { return _ops::texture_height(_get_tnt(), level); }
 
 	outcome<GLsizei>
 	depth(GLint level = 0) const
-	noexcept
-	{
-		return _ops::texture_depth(_get_tnt(), level);
-	}
+	noexcept { return _ops::texture_depth(_get_tnt(), level); }
 
 	outcome<pixel_data_type>
 	red_type(void) const
-	noexcept
-	{
-		return _ops::texture_red_type(_get_tnt());
-	}
+	noexcept { return _ops::texture_red_type(_get_tnt()); }
 
 	outcome<GLsizei>
 	red_size(GLint level = 0) const
-	noexcept
-	{
-		return _ops::texture_red_size(_get_tnt(), level);
-	}
+	noexcept { return _ops::texture_red_size(_get_tnt(), level); }
 
 	outcome<pixel_data_type>
 	green_type(void) const
-	noexcept
-	{
-		return _ops::texture_green_type(_get_tnt());
-	}
+	noexcept { return _ops::texture_green_type(_get_tnt()); }
 
 	outcome<GLsizei>
 	green_size(GLint level = 0) const
-	noexcept
-	{
-		return _ops::texture_green_size(_get_tnt(), level);
-	}
+	noexcept { return _ops::texture_green_size(_get_tnt(), level); }
 
 	outcome<pixel_data_type>
 	blue_type(void) const
-	noexcept
-	{
-		return _ops::texture_blue_type(_get_tnt());
-	}
+	noexcept { return _ops::texture_blue_type(_get_tnt()); }
 
 	outcome<GLsizei>
 	blue_size(GLint level = 0) const
-	noexcept
-	{
-		return _ops::texture_blue_size(_get_tnt(), level);
-	}
+	noexcept { return _ops::texture_blue_size(_get_tnt(), level); }
 
 	outcome<pixel_data_type>
 	alpha_type(void) const
-	noexcept
-	{
-		return _ops::texture_alpha_type(_get_tnt());
-	}
+	noexcept { return _ops::texture_alpha_type(_get_tnt()); }
 
 	outcome<GLsizei>
 	alpha_size(GLint level = 0) const
-	noexcept
-	{
-		return _ops::texture_alpha_size(_get_tnt(), level);
-	}
+	noexcept { return _ops::texture_alpha_size(_get_tnt(), level); }
 
 	outcome<pixel_data_type>
 	depth_type(void) const
-	noexcept
-	{
-		return _ops::texture_depth_type(_get_tnt());
-	}
+	noexcept { return _ops::texture_depth_type(_get_tnt()); }
 
 	outcome<GLsizei>
 	depth_size(GLint level = 0) const
-	noexcept
-	{
-		return _ops::texture_depth_size(_get_tnt(), level);
-	}
+	noexcept { return _ops::texture_depth_size(_get_tnt(), level); }
 
 	outcome<GLsizei>
 	stencil_size(GLint level = 0) const
-	noexcept
-	{
-		return _ops::texture_stencil_size(_get_tnt(), level);
-	}
+	noexcept { return _ops::texture_stencil_size(_get_tnt(), level); }
 
 	outcome<GLsizei>
 	shared_size(GLint level = 0) const
-	noexcept
-	{
-		return _ops::texture_shared_size(_get_tnt(), level);
-	}
+	noexcept { return _ops::texture_shared_size(_get_tnt(), level); }
 
 	outcome<boolean>
 	compressed(GLint level = 0) const
-	noexcept
-	{
-		return _ops::texture_compressed(_get_tnt(), level);
-	}
+	noexcept { return _ops::texture_compressed(_get_tnt(), level); }
 
+#if defined(GL_TEXTURE_COMPRESSED_IMAGE_SIZE)
 	outcome<GLsizei>
 	compressed_image_size(GLint level = 0) const
-	noexcept
-	{
+	noexcept {
 		return _ops::texture_compressed_image_size(_get_tnt(), level);
 	}
+#endif
 
 	outcome<oglplus::pixel_data_internal_format>
 	internal_format(GLint level = 0) const
-	noexcept
-	{
-		return _ops::texture_internal_format(_get_tnt(), level);
-	}
+	noexcept { return _ops::texture_internal_format(_get_tnt(), level); }
+#endif
 
 	outcome<Derived&>
 	min_filter(oglplus::texture_min_filter value)
-	noexcept
-	{
+	noexcept {
 		return {_ops::texture_min_filter(_get_tnt(), value), _self()};
 	}
 
 	outcome<oglplus::texture_min_filter>
 	min_filter(void) const
-	noexcept
-	{
-		return _ops::texture_min_filter(_get_tnt());
-	}
+	noexcept { return _ops::texture_min_filter(_get_tnt()); }
 
 	outcome<Derived&>
 	mag_filter(oglplus::texture_mag_filter value)
-	noexcept
-	{
+	noexcept {
 		return {_ops::texture_mag_filter(_get_tnt(), value), _self()};
 	}
 
 	outcome<oglplus::texture_mag_filter>
 	mag_filter(void) const
-	noexcept
-	{
-		return _ops::texture_mag_filter(_get_tnt());
-	}
+	noexcept { return _ops::texture_mag_filter(_get_tnt()); }
 
 	outcome<Derived&>
 	compare_func(oglplus::compare_function value)
-	noexcept
-	{
+	noexcept {
 		return {
 			_ops::texture_compare_func(_get_tnt(), value),
 			_self()
@@ -985,15 +923,11 @@ public:
 
 	outcome<oglplus::compare_function>
 	compare_func(void) const
-	noexcept
-	{
-		return _ops::texture_compare_func(_get_tnt());
-	}
+	noexcept { return _ops::texture_compare_func(_get_tnt()); }
 
 	outcome<Derived&>
 	compare_mode(oglplus::texture_compare_mode value)
-	noexcept
-	{
+	noexcept {
 		return {
 			_ops::texture_compare_mode(_get_tnt(), value),
 			_self()
@@ -1002,29 +936,21 @@ public:
 
 	outcome<oglplus::texture_compare_mode>
 	compare_mode(void) const
-	noexcept
-	{
-		return _ops::texture_compare_mode(_get_tnt());
-	}
+	noexcept { return _ops::texture_compare_mode(_get_tnt()); }
 
 	outcome<Derived&>
 	wrap(texture_wrap_coord coord, texture_wrap_mode value)
-	noexcept
-	{
+	noexcept {
 		return {_ops::texture_wrap(_get_tnt(), coord, value), _self()};
 	}
 
 	outcome<texture_wrap_mode>
 	wrap(texture_wrap_coord coord) const
-	noexcept
-	{
-		return _ops::texture_wrap(_get_tnt(), coord);
-	}
+	noexcept { return _ops::texture_wrap(_get_tnt(), coord); }
 
 	outcome<Derived&>
 	swizzle(texture_swizzle_coord coord, texture_swizzle_mode value)
-	noexcept
-	{
+	noexcept {
 		return {
 			_ops::texture_swizzle(_get_tnt(), coord, value),
 			_self()
@@ -1033,52 +959,39 @@ public:
 
 	outcome<texture_swizzle_mode>
 	swizzle(texture_swizzle_coord coord) const
-	noexcept
-	{
-		return _ops::texture_swizzle(_get_tnt(), coord);
-	}
+	noexcept { return _ops::texture_swizzle(_get_tnt(), coord); }
 
+#if defined(GL_TEXTURE_LOD_BIAS)
 	outcome<Derived&>
 	lod_bias(GLfloat value)
-	noexcept
-	{
+	noexcept {
 		return {_ops::texture_lod_bias(_get_tnt(), value), _self()};
 	}
 
 	outcome<GLfloat>
 	lod_bias(void) const
-	noexcept
-	{
-		return _ops::texture_lod_bias(_get_tnt());
-	}
+	noexcept { return _ops::texture_lod_bias(_get_tnt()); }
+#endif
 
 	outcome<Derived&>
 	min_lod(GLfloat value)
-	noexcept
-	{
+	noexcept {
 		return {_ops::texture_min_lod(_get_tnt(), value), _self()};
 	}
 
 	outcome<GLfloat>
 	min_lod(void) const
-	noexcept
-	{
-		return _ops::texture_min_lod(_get_tnt());
-	}
+	noexcept { return _ops::texture_min_lod(_get_tnt()); }
 
 	outcome<Derived&>
 	max_lod(GLfloat value)
-	noexcept
-	{
+	noexcept {
 		return {_ops::texture_max_lod(_get_tnt(), value), _self()};
 	}
 
 	outcome<GLfloat>
 	max_lod(void) const
-	noexcept
-	{
-		return _ops::texture_max_lod(_get_tnt());
-	}
+	noexcept { return _ops::texture_max_lod(_get_tnt()); }
 };
 
 

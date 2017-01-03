@@ -12,10 +12,10 @@
 
 namespace oglplus {
 
+#if defined(GL_VERSION_3_0)
 template <>
 struct prog_var_get_set_ops<tag::vertex_attrib, GLshort>
 {
-
 	static
 	outcome<void>
 	set(
@@ -137,7 +137,9 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLshort>
 		return {};
 	}
 };
+#endif
 
+#if defined(GL_VERSION_3_0)
 template <>
 struct prog_var_get_set_ops<tag::vertex_attrib, GLint>
 {
@@ -263,7 +265,9 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLint>
 		return {};
 	}
 };
+#endif
 
+#if defined(GL_VERSION_3_0)
 template <>
 struct prog_var_get_set_ops<tag::vertex_attrib, GLuint>
 {
@@ -389,6 +393,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLuint>
 		return {};
 	}
 };
+#endif
 
 template <>
 struct prog_var_get_set_ops<tag::vertex_attrib, GLfloat>
@@ -516,6 +521,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLfloat>
 	}
 };
 
+#if defined(GL_VERSION_4_1)
 template <>
 struct prog_var_get_set_ops<tag::vertex_attrib, GLdouble>
 {
@@ -697,7 +703,9 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLdouble>
 		return {};
 	}
 };
+#endif
 
+#if defined(GL_VERSION_3_0)
 template <>
 struct prog_var_get_set_ops<tag::vertex_attrib, GLubyte>
 {
@@ -716,5 +724,6 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLubyte>
 		return {};
 	}
 };
+#endif
 
 } // namespace oglplus

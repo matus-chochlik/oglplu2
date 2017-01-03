@@ -4,7 +4,7 @@
 # Distributed under the Boost Software License, Version 1.0.
 # See accompanying file LICENSE_1_0.txt or copy at
 #  http://www.boost.org/LICENSE_1_0.txt
-import os
+import os, sys
 import argparse
 
 # returns a normalized path to the project root directory
@@ -45,6 +45,7 @@ def execute_command(options, cmd_line, work_dir, simulate=None, quiet=False):
 		if work_dir == os.path.curdir:
 			print(cmd_str)
 		else: print("(cd %s && %s)" % (work_dir, cmd_str))
+		sys.stderr.write("%s\n" % cmd_str)
 	if not simulate:
 		subprocess.check_call(cmd_line, cwd=work_dir)
 

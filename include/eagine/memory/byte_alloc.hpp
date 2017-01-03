@@ -69,16 +69,11 @@ struct byte_allocator : block_owner
 	noexcept = 0;
 
 	void do_reallocate(owned_block& b, size_type n, size_type a)
-	noexcept
-	{
-		if(b.size() != n)
-		{
-			if(can_reallocate(b, n, a))
-			{
+	noexcept {
+		if(b.size() != n) {
+			if(can_reallocate(b, n, a)) {
 				b = reallocate(std::move(b), n, a);
-			}
-			else
-			{
+			} else {
 				deallocate(std::move(b), a);
 				b = allocate(n, a);
 			}
@@ -95,17 +90,11 @@ struct byte_alloc_managed_policy
 {
 	inline
 	byte_allocator* duplicate(byte_allocator* that)
-	noexcept
-	{
-		return that;
-	}
+	noexcept { return that; }
 
 	inline
 	bool release(byte_allocator*)
-	noexcept
-	{
-		return false;
-	}
+	noexcept { return false; }
 };
 
 // byte_alloc_ref_count_policy
@@ -135,21 +124,18 @@ public:
 	}
 
 	~byte_alloc_ref_count_policy(void)
-	noexcept
-	{
+	noexcept {
 		assert(_ref_count == 0);
 	}
 
 	byte_allocator* duplicate(byte_allocator* that)
-	noexcept
-	{
+	noexcept {
 		++_ref_count;
 		return that;
 	}
 
 	bool release(byte_allocator*)
-	noexcept
-	{
+	noexcept {
 		return (--_ref_count == 0);
 	}
 };
@@ -171,10 +157,7 @@ private:
 
 	typedef DerivedTpl<Args..., Policy> Derived;
 
-	Derived& derived(void)
-	{
-		return *static_cast<Derived*>(this);
-	}
+	Derived& derived(void) { return *static_cast<Derived*>(this); }
 public:
 	typedef span_size_t size_type;
 
@@ -187,37 +170,24 @@ public:
 
 	byte_allocator* duplicate(void)
 	noexcept
-	override
-	{
-		return _policy.duplicate(this);
-	}
+	override { return _policy.duplicate(this); }
 
 	bool release(void)
 	noexcept
-	override
-	{
-		return _policy.release(this);
-	}
+	override { return _policy.release(this); }
 
 	bool can_reallocate(const owned_block&, size_type, size_type)
 	noexcept
-	override
-	{
-		return false;
-	}
+	override { return false; }
 
 	owned_block reallocate(owned_block&& b, size_type, size_type)
 	noexcept
-	override
-	{
-		return std::move(b);
-	}
+	override { return std::move(b); }
 
 	template <typename Final>
 	static
 	Final* accomodate_derived(Final& that)
-	noexcept
-	{
+	noexcept {
 		block b = that.allocate(
 			span_size_of<Final>(),
 			span_align_of<Final>()
@@ -227,8 +197,7 @@ public:
 
 	template <typename Final>
 	static void eject_derived(Final& that)
-	noexcept
-	{
+	noexcept {
 		Final tmp = std::move(that);
 		tmp.deallocate(
 			acquire_block(block_of(that)),
@@ -237,17 +206,11 @@ public:
 	}
 
 	Derived* accomodate_self(void)
-	noexcept
-	{
-		return accomodate_derived(derived());
-	}
+	noexcept { return accomodate_derived(derived()); }
 
 	void eject_self(void)
 	noexcept
-	override
-	{
-		eject_derived(derived());
-	}
+	override { eject_derived(derived()); }
 };
 
 } // namespace memory

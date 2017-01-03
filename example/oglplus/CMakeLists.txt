@@ -198,7 +198,13 @@ function(add_glsl_program_sources DIR)
 	foreach(SOURCE ${SOURCES})
 		get_filename_component(FILE_NAME ${SOURCE} NAME)
 		string(REGEX REPLACE "\\.[^.]*$" "" PROG_NAME ${FILE_NAME})
-		add_program_source(${DIR} ${PROG_NAME})
+
+		set(PROGRAM_CAN_BE_BUILT true)
+		require_all_dependencies(${PROG_NAME} PROGRAM_CAN_BE_BUILT)
+
+		if(PROGRAM_CAN_BE_BUILT)
+			add_program_source(${DIR} ${PROG_NAME})
+		endif()
 	endforeach()
 endfunction()
 
@@ -208,7 +214,13 @@ function(add_glsl_shader_sources DIR)
 	foreach(SOURCE ${SOURCES})
 		get_filename_component(FILE_NAME ${SOURCE} NAME)
 		string(REGEX REPLACE "\\.[^.]*$" "" SHDR_NAME ${FILE_NAME})
-		add_shader_source(${DIR} ${SHDR_NAME})
+
+		set(SHADER_CAN_BE_BUILT true)
+		require_all_dependencies(${SHDR_NAME} SHADER_CAN_BE_BUILT)
+
+		if(SHADER_CAN_BE_BUILT)
+			add_shader_source(${DIR} ${SHDR_NAME})
+		endif()
 	endforeach()
 endfunction()
 

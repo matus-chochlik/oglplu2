@@ -30,9 +30,6 @@ public:
 	unit_screen_gen(vertex_attrib_bits attr_bits)
 	noexcept;
 
-	bool cw_face_winding(void)
-	override;
-
 	span_size_t vertex_count(void)
 	override;
 

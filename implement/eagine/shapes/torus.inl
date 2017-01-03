@@ -41,14 +41,6 @@ unit_torus_gen(
 { }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool
-unit_torus_gen::
-cw_face_winding(void)
-{
-	return true;
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
 span_size_t
 unit_torus_gen::
 vertex_count(void)
@@ -307,6 +299,7 @@ instructions(const span<draw_operation>& ops)
 		op.count = index_count();
 		op.primitive_restart_index = unsigned(index_count());
 		op.primitive_restart = true;
+		op.cw_face_winding = true;
 	}
 	else
 	{
@@ -319,6 +312,7 @@ instructions(const span<draw_operation>& ops)
 			op.first = s*step;
 			op.count = step;
 			op.primitive_restart = false;
+			op.cw_face_winding = true;
 		}
 	}
 }

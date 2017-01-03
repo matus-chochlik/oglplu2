@@ -33,14 +33,6 @@ noexcept
 { }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool
-unit_screen_gen::
-cw_face_winding(void)
-{
-	return false;
-}
-//------------------------------------------------------------------------------
-EAGINE_LIB_FUNC
 span_size_t
 unit_screen_gen::
 vertex_count(void)
@@ -257,6 +249,7 @@ instructions(const span<draw_operation>& ops)
 	op.first = 0;
 	op.count = vertex_count();
 	op.primitive_restart = false;
+	op.cw_face_winding = false;
 }
 //------------------------------------------------------------------------------
 } // namespace shapes

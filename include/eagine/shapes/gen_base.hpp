@@ -40,9 +40,6 @@ struct generator_intf
 	virtual ~generator_intf(void) = default;
 
 	virtual
-	bool cw_face_winding(void) = 0;
-
-	virtual
 	span_size_t vertex_count(void) = 0;
 
 	virtual
@@ -82,55 +79,32 @@ protected:
 public:
 
 	vertex_attrib_bits attrib_bits(void) const
-	noexcept
-	{
-		return _attr_bits;
-	}
+	noexcept { return _attr_bits; }
 
 	generator_params& parameters(void)
-	noexcept
-	{
-		return _params;
-	}
+	noexcept { return _params; }
 
 	bool strips_allowed(void) const
-	noexcept
-	{
-		return _params.allow_strips;
-	}
+	noexcept { return _params.allow_strips; }
 
 	bool fans_allowed(void) const
-	noexcept
-	{
-		return _params.allow_fans;
-	}
+	noexcept { return _params.allow_fans; }
 
 	bool primitive_restart(void) const
-	noexcept
-	{
-		return _params.allow_primitive_restart;
-	}
+	noexcept { return _params.allow_primitive_restart; }
 
 	bool has(vertex_attrib_kind attr) const
-	noexcept
-	{
-		return bool(attrib_bits() | attr);
-	}
+	noexcept { return bool(attrib_bits() | attr); }
 
 	span_size_t values_per_vertex(vertex_attrib_kind attr)
-	override
-	{
-		return has(attr)?attrib_values_per_vertex(attr):0u;
-	}
+	override { return has(attr)?attrib_values_per_vertex(attr):0u; }
 
-	span_size_t value_count(vertex_attrib_kind attr)
-	{
+	span_size_t value_count(vertex_attrib_kind attr) {
 		return vertex_count()*values_per_vertex(attr);
 	}
 
 	void attrib_values(vertex_attrib_kind, const span<float>&)
-	override
-	{
+	override {
 		EAGINE_UNREACHABLE(
 		"Generator failed to handle the specified attribute kind."
 		);
@@ -147,18 +121,16 @@ protected:
 	{ }
 public:
 	void attrib_values(vertex_attrib_kind attr, const span<float>& dest)
-	override
-	{
-		if(attr == vertex_attrib_kind::box_coord)
-		{
-			this->attrib_values(vertex_attrib_kind::position, dest);
-			for(float& x : dest)
-			{
+	override {
+		if(attr == vertex_attrib_kind::box_coord) {
+			this->attrib_values(
+				vertex_attrib_kind::position,
+				dest
+			);
+			for(float& x : dest) {
 				x += 0.5f;
 			}
-		}
-		else
-		{
+		} else {
 			generator_base::attrib_values(attr, dest);
 		}
 	}

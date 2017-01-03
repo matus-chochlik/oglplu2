@@ -161,7 +161,7 @@ void test_math_functions_bezier_3(int l)
 		BOOST_CHECK_CLOSE(
 			bezier(t, x, y, z),
 			(1-t)*(1-t)*x + 2*(1-t)*t*y + t*t*z,
-			0.004
+			0.005
 		);
 	}
 }
@@ -185,7 +185,7 @@ void test_math_functions_bezier_4(int l)
 			3*(1-t)*(1-t)*t*v1 +
 			3*(1-t)*t*t*v2 +
 			t*t*t*v3,
-			0.02
+			0.05
 		);
 	}
 }
@@ -211,7 +211,7 @@ void test_math_functions_bezier_5(int l)
 			6*(1-t)*(1-t)*t*t*v2 +
 			4*(1-t)*t*t*t*v3 +
 			t*t*t*t*v4,
-			0.04
+			0.05
 		);
 	}
 }

@@ -18,21 +18,7 @@ static eagine::test_random_generator rg;
 static void test_gen_ident(char* str, eagine::span_size_t n) {
 
 	for(eagine::span_size_t i=0; i<n; ++i) {
-
-		char& c = str[i];
-
-		switch(rg.get_int(0, 9)) {
-			case 0:
-			case 1: c = rg.get_char('0', '9'); break;
-			case 2:
-			case 3:
-			case 4:
-			case 5: c = rg.get_char('A', 'Z'); break;
-			case 6:
-			case 7:
-			case 8: c = rg.get_char('a', 'z'); break;
-			case 9: c = rg.get_bool()?'-':'_'; break;
-		}
+		str[i] = rg.get_char_from(eagine::_aux::_6bit_dec_tab);
 	}
 	str[n] = '\0';
 }

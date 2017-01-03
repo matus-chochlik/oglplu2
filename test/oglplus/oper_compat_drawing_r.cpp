@@ -40,6 +40,7 @@ OGLPLUS_MOCK_GLFUNC(Vertex2fv, void(const GLfloat*));
 OGLPLUS_MOCK_GLFUNC(Vertex3fv, void(const GLfloat*));
 OGLPLUS_MOCK_GLFUNC(Vertex4fv, void(const GLfloat*));
 
+#if defined(GL_DOUBLE)
 OGLPLUS_MOCK_GLFUNC(Vertex2d, void(GLdouble, GLdouble));
 OGLPLUS_MOCK_GLFUNC(Vertex3d, void(GLdouble, GLdouble, GLdouble));
 OGLPLUS_MOCK_GLFUNC(Vertex4d, void(GLdouble, GLdouble, GLdouble, GLdouble));
@@ -47,6 +48,7 @@ OGLPLUS_MOCK_GLFUNC(Vertex4d, void(GLdouble, GLdouble, GLdouble, GLdouble));
 OGLPLUS_MOCK_GLFUNC(Vertex2dv, void(const GLdouble*));
 OGLPLUS_MOCK_GLFUNC(Vertex3dv, void(const GLdouble*));
 OGLPLUS_MOCK_GLFUNC(Vertex4dv, void(const GLdouble*));
+#endif
 
 
 OGLPLUS_MOCK_GLFUNC(Color3ub, void(GLubyte, GLubyte, GLubyte));
@@ -67,11 +69,13 @@ OGLPLUS_MOCK_GLFUNC(Color4f, void(GLfloat, GLfloat, GLfloat, GLfloat));
 OGLPLUS_MOCK_GLFUNC(Color3fv, void(const GLfloat*));
 OGLPLUS_MOCK_GLFUNC(Color4fv, void(const GLfloat*));
 
+#if defined(GL_DOUBLE)
 OGLPLUS_MOCK_GLFUNC(Color3d, void(GLdouble, GLdouble, GLdouble));
 OGLPLUS_MOCK_GLFUNC(Color4d, void(GLdouble, GLdouble, GLdouble, GLdouble));
 
 OGLPLUS_MOCK_GLFUNC(Color3dv, void(const GLdouble*));
 OGLPLUS_MOCK_GLFUNC(Color4dv, void(const GLdouble*));
+#endif
 
 
 OGLPLUS_MOCK_GLFUNC(TexCoord1s, void(GLshort));
@@ -104,6 +108,7 @@ OGLPLUS_MOCK_GLFUNC(TexCoord2fv, void(const GLfloat*));
 OGLPLUS_MOCK_GLFUNC(TexCoord3fv, void(const GLfloat*));
 OGLPLUS_MOCK_GLFUNC(TexCoord4fv, void(const GLfloat*));
 
+#if defined(GL_DOUBLE)
 OGLPLUS_MOCK_GLFUNC(TexCoord1d, void(GLdouble));
 OGLPLUS_MOCK_GLFUNC(TexCoord2d, void(GLdouble, GLdouble));
 OGLPLUS_MOCK_GLFUNC(TexCoord3d, void(GLdouble, GLdouble, GLdouble));
@@ -113,6 +118,7 @@ OGLPLUS_MOCK_GLFUNC(TexCoord1dv, void(const GLdouble*));
 OGLPLUS_MOCK_GLFUNC(TexCoord2dv, void(const GLdouble*));
 OGLPLUS_MOCK_GLFUNC(TexCoord3dv, void(const GLdouble*));
 OGLPLUS_MOCK_GLFUNC(TexCoord4dv, void(const GLdouble*));
+#endif
 
 
 #include <oglplus/oper/compat_drawing.hpp>

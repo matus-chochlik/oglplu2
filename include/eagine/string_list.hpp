@@ -20,6 +20,11 @@ namespace eagine {
 namespace string_list {
 
 static inline
+std::string encode_length(span_size_t len) {
+	return mbs::encode_code_point(mbs::code_point_t(len)).value();
+}
+
+static inline
 span_size_t
 element_header_size(const cstring_span& elem)
 noexcept {
@@ -40,8 +45,61 @@ noexcept {
 static inline
 span_size_t
 element_value_size(const cstring_span& elem)
+noexcept { return element_value_size(elem, elem.size()); }
+
+
+static inline
+span_size_t rev_seek_header_start(const cstring_span& elem) {
+	for(auto i=elem.rbegin(); i!=elem.rend(); ++i) {
+		if(mbs::is_valid_head_byte(byte(*i))) {
+			return elem.rend()-i-1;
+		}
+	}
+	return 0;
+}
+
+
+static inline
+cstring_span front_value(const cstring_span& list)
 noexcept {
-	return element_value_size(elem, elem.size());
+	const span_size_t k = element_header_size(list);
+	const span_size_t l = element_value_size(list, k);
+	return list.subspan(k, l);
+}
+
+static inline
+cstring_span back_value(const cstring_span& list)
+noexcept {
+	const span_size_t i = rev_seek_header_start(list);
+	const cstring_span head = list.subspan(i);
+	const span_size_t k = element_header_size(head);
+	const span_size_t l = element_value_size(head, k);
+	return list.subspan(i-l, l);
+}
+
+static inline
+cstring_span pop_back(const cstring_span& list)
+noexcept {
+	const span_size_t i = rev_seek_header_start(list);
+	const cstring_span head = list.subspan(i);
+	const span_size_t k = element_header_size(head);
+	const span_size_t l = element_value_size(head, k);
+	assert(i >= k+l);
+	return list.subspan(0, i-k-l);
+}
+
+static inline
+void push_back(std::string& list, const cstring_span& value)
+noexcept {
+	const span_size_t vl = value.size();
+	const std::string elen = encode_length(vl);
+	const std::size_t nl = list.size()+elen.size()*2+vl;
+	if(list.capacity() < nl) {
+		list.reserve(nl);
+	}
+	list.append(elen);
+	list.append(value.data(), std_size(vl));
+	list.append(elen);
 }
 
 class element
@@ -210,7 +268,7 @@ join(const cstring_span& str, const cstring_span& sep, bool trail_sep) {
 	}
 	assert(res.size() == std_size(len));
 
-	return std::move(res);
+	return res;
 }
 
 static inline

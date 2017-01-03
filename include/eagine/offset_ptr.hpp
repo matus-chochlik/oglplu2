@@ -10,8 +10,10 @@
 #ifndef EAGINE_OFFSET_PTR_1509260923_HPP
 #define EAGINE_OFFSET_PTR_1509260923_HPP
 
+#include "span.hpp"
 #include "types.hpp"
 #include "memory/address.hpp"
+#include "memory_block.hpp"
 #include <cassert>
 
 namespace eagine {
@@ -20,158 +22,139 @@ namespace eagine {
 template <typename T, typename OffsT>
 class basic_offset_ptr
 {
+public:
+	using address = memory::basic_address<std::is_const<T>::value>;
+	using const_address = memory::const_address;
+	using offset_type = OffsT;
+	using pointer = T*;
+	using const_pointer = std::add_const_t<T>*;
+	using reference = T&;
+	using const_reference = std::add_const_t<T>&;
 private:
-	static_assert(std::is_signed<OffsT>::value, "");
+	static_assert(std::is_signed<offset_type>::value, "");
 
-	OffsT _offs;
-	typedef memory::basic_address<std::is_const<T>::value> _memaddr;
+	offset_type _offs;
+	using _rawptr = typename address::pointer;
 
-	template <typename T2>
 	static
-	OffsT _get_offs(_memaddr a1, T2* p2)
-	noexcept
-	{
-		return a1 - memory::as_address(p2);
+	address _that_addr(const basic_offset_ptr& that) {
+		return address(_rawptr(&that));
 	}
 
-	template <typename T1, typename T2>
-	static
-	OffsT _get_offs(T1* p1, T2* p2)
-	noexcept
-	{
-		return memory::as_address(p1) - memory::as_address(p2);
-	}
+	address _this_addr(void) const
+	noexcept { return _that_addr(*this); }
 
-	inline
-	_memaddr _this_addr(void) const
-	noexcept
-	{
-		return _memaddr(
-			const_cast<
-				std::conditional_t<
-					std::is_const<T>::value,
-					const void*,
-					void*
-				>
-			>(static_cast<const void*>(this))
-		);
+	offset_type _get_offs(address addr)
+	noexcept { return addr?addr-_this_addr():0; }
+
+	offset_type _get_offs(T* ptr)
+	noexcept { return _get_offs(address(ptr)); }
+
+	offset_type _get_offs(const basic_offset_ptr& that)
+	noexcept {
+		return that._offs?that._offs+_get_offs(_that_addr(that)):0;
 	}
 public:
 	constexpr inline
 	basic_offset_ptr(void)
 	noexcept
-	 : _offs(0)
+	 : _offs{0}
 	{ }
 
 	explicit constexpr inline
-	basic_offset_ptr(OffsT offs)
+	basic_offset_ptr(offset_type offs)
 	noexcept
-	 : _offs(offs)
+	 : _offs{offs}
 	{ }
 
 	explicit constexpr inline
-	basic_offset_ptr(memory::basic_address<std::is_const<T>::value> adr)
+	basic_offset_ptr(address addr)
 	noexcept
-	 : _offs(_get_offs(adr, this))
+	 : _offs{_get_offs(addr)}
 	{ }
 
 	basic_offset_ptr(T* ptr)
 	noexcept
-	 : _offs(_get_offs(ptr, this))
+	 : _offs{_get_offs(ptr)}
 	{ }
 
 	basic_offset_ptr(const basic_offset_ptr& that)
 	noexcept
-	 : _offs(that._offs + _get_offs(&that,this))
+	 : _offs{_get_offs(that)}
 	{ }
 
 	basic_offset_ptr& operator = (const basic_offset_ptr& that)
-	noexcept
-	{
-		_offs = that._offs + _get_offs(&that,this);
+	noexcept {
+		_offs = _get_offs(that);
 		return *this;
 	}
 
 	basic_offset_ptr& reset(T* ptr)
-	noexcept
-	{
-		return *this = basic_offset_ptr(ptr);
-	}
+	noexcept { return *this = basic_offset_ptr(ptr); }
 
 	basic_offset_ptr&
-	reset(memory::basic_address<std::is_const<T>::value> adr)
-	noexcept
-	{
-		return *this = basic_offset_ptr(adr);
-	}
+	reset(address adr)
+	noexcept { return *this = basic_offset_ptr(adr); }
 
 	constexpr inline
 	bool is_null(void) const
-	noexcept
-	{
-		return _offs == OffsT(0);
-	}
+	noexcept { return _offs == offset_type(0); }
 
 	explicit constexpr inline
 	operator bool (void) const
-	noexcept
-	{
-		return !is_null();
-	}
+	noexcept { return !is_null(); }
 
 	constexpr inline
 	bool operator !(void) const
-	noexcept
-	{
-		return is_null();
-	}
+	noexcept { return is_null(); }
 
-	OffsT offset(void) const
-	noexcept
-	{
-		return _offs;
-	}
+	offset_type offset(void) const
+	noexcept { return _offs; }
 
-	memory::basic_address<std::is_const<T>::value>
-	addr(void) const
-	noexcept
-	{
-		return is_null()?
-			_memaddr():
-			_memaddr(_this_addr(), _offs);
-	}
+	address addr(void)
+	noexcept { return is_null()?address():address(_this_addr(), _offs); }
 
-	inline
-	T* data(void) const
-	noexcept
-	{
-		return static_cast<T*>(addr());
-	}
+	const_address addr(void) const
+	noexcept { return is_null()?address():address(_this_addr(), _offs); }
 
-	inline
-	T* get(void) const
-	noexcept
-	{
-		return data();
-	}
+	pointer data(void)
+	noexcept { return static_cast<pointer>(addr()); }
 
-	inline
-	operator T* (void) const
-	noexcept
-	{
-		return get();
-	}
+	const_pointer data(void) const
+	noexcept { return static_cast<const_pointer>(addr()); }
 
-	const T& operator * (void) const
-	noexcept
-	{
+	pointer get(void)
+	noexcept { return data(); }
+
+	const_pointer get(void) const
+	noexcept { return data(); }
+
+	operator pointer (void)
+	noexcept { return get(); }
+
+	operator const_pointer (void) const
+	noexcept { return get(); }
+
+	reference operator * (void)
+	noexcept {
 		assert(!is_null());
 		return *get();
 	}
 
-	const T* operator -> (void) const
-	noexcept
-	{
+	const_reference operator * (void) const
+	noexcept {
+		assert(!is_null());
+		return *get();
+	}
+
+	pointer operator -> (void)
+	noexcept {
+		assert(!is_null());
+		return get();
+	}
+
+	const_pointer operator -> (void) const
+	noexcept {
 		assert(!is_null());
 		return get();
 	}
@@ -188,21 +171,35 @@ template <typename T, typename OffsT>
 class basic_offset_array
 {
 public:
-	typedef T value_type;
-	typedef span_size_t size_type;
+	using address = memory::basic_address<std::is_const<T>::value>;
+	using value_type = T;
+	using size_type = span_size_t;
+	using offset_type = OffsT;
+	using pointer = T*;
+	using const_pointer = std::add_const_t<T>*;
+	using reference = T&;
+	using const_reference = std::add_const_t<T>&;
+	using iterator = pointer;
+	using const_iterator = const_pointer;
 private:
 	size_type _size;
-	basic_offset_ptr<T, OffsT> _optr;
+	basic_offset_ptr<T, offset_type> _optr;
 public:
 	constexpr inline
 	basic_offset_array(void)
 	noexcept
-	 : _size(0)
-	 , _optr()
+	 : _size{0}
 	{ }
 
 	constexpr inline
-	basic_offset_array(OffsT offs, size_type len)
+	basic_offset_array(span<T> dest)
+	noexcept
+	 : _size(dest.size())
+	 , _optr(_size>0?dest.data():nullptr)
+	{ }
+
+	constexpr inline
+	basic_offset_array(offset_type offs, size_type len)
 	noexcept
 	 : _size(len)
 	 , _optr(offs)
@@ -210,7 +207,7 @@ public:
 
 	constexpr inline
 	basic_offset_array(
-		memory::basic_address<std::is_const<T>::value> adr,
+		address adr,
 		size_type len
 	) noexcept
 	 : _size(len)
@@ -227,96 +224,58 @@ public:
 
 	basic_offset_array&
 	reset(T* ptr, size_type len)
-	noexcept
-	{
-		return *this = basic_offset_array(ptr, len);
-	}
+	noexcept { return *this = basic_offset_array(ptr, len); }
 
 	basic_offset_array&
-	reset(memory::basic_address<std::is_const<T>::value> adr, size_type len)
-	noexcept
-	{
-		return *this = basic_offset_array(adr, len);
-	}
+	reset(address adr, size_type len)
+	noexcept { return *this = basic_offset_array(adr, len); }
 
 	constexpr inline
 	size_type size(void) const
-	noexcept
-	{
-		return _size;
-	}
+	noexcept { return _size; }
 
-	typedef T* iterator;
-	typedef const T* const_iterator;
-	typedef T& reference;
-	typedef const T& const_reference;
+	offset_type offset(void) const
+	noexcept { return _optr.offset(); }
 
-	OffsT offset(void) const
-	noexcept
-	{
-		return _optr.offset();
-	}
-
-	memory::basic_address<std::is_const<T>::value>
-	addr(void)
-	noexcept
-	{
-		return _optr.addr();
-	}
+	address addr(void)
+	noexcept { return _optr.addr(); }
 
 	iterator data(void)
-	noexcept
-	{
-		return _optr.data();
-	}
+	noexcept { return _optr.data(); }
 
 	iterator begin(void)
-	noexcept
-	{
-		return _optr.data();
-	}
+	noexcept { return _optr.data(); }
 
 	iterator end(void)
-	noexcept
-	{
-		return begin()+size();
-	}
+	noexcept { return begin()+size(); }
 
 	memory::const_address
 	addr(void) const
-	noexcept
-	{
-		return _optr.addr();
-	}
+	noexcept { return _optr.addr(); }
 
 	const_iterator data(void) const
-	noexcept
-	{
-		return _optr.data();
-	}
+	noexcept { return _optr.data(); }
 
 	const_iterator begin(void) const
-	noexcept
-	{
-		return _optr.data();
-	}
+	noexcept { return _optr.data(); }
 
 	const_iterator end(void) const
-	noexcept
-	{
-		return begin()+size();
-	}
+	noexcept { return begin()+size(); }
+
+	const_memory_block block(void) const
+	noexcept { return {data(), size()}; }
+
+	memory_block block(void)
+	noexcept { return {data(), size()}; }
 
 	reference operator [] (size_type index)
-	noexcept
-	{
+	noexcept {
 		assert(index >= size_type(0) && index < size());
 		return begin()[index];
 	}
 
 	const_reference operator [] (size_type index) const
-	noexcept
-	{
+	noexcept {
 		assert(index >= size_type(0) && index < size());
 		return begin()[index];
 	}
@@ -350,14 +309,10 @@ public:
 	{ }
 
 	size_type size(void) const
-	noexcept
-	{
-		return _ptrarray.size();
-	}
+	noexcept { return _ptrarray.size(); }
 
 	T& operator [](span_size_t index) const
-	noexcept
-	{
+	noexcept {
 		assert(index < size());
 		assert(_ptrarray[index] != nullptr);
 		return *_ptrarray[index];

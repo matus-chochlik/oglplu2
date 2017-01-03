@@ -35,6 +35,7 @@ struct capability_state
 	is_enabled(capability cap)
 	noexcept;
 
+#if defined(GL_CLIP_DISTANCE0)
 	static
 	outcome<void>
 	enable(clip_plane cap)
@@ -49,6 +50,7 @@ struct capability_state
 	outcome<boolean>
 	is_enabled(clip_plane cap)
 	noexcept;
+#endif
 
 #if defined(GL_ARB_compatibility)
 	static

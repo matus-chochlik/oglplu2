@@ -185,7 +185,7 @@ string_path::normalized(void) const
 	};
 	_p.for_each_elem(do_norm);
 
-	return std::move(result);
+	return result;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -214,7 +214,7 @@ string_path::parent_path(void) const
 	{
 		result.pop_back();
 	}
-	return std::move(result);
+	return result;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
