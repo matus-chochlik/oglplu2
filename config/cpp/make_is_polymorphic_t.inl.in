@@ -1,3 +1,0 @@
-template <class T>
-using is_polymorphic_t = typename is_polymorphic<T>::type;
-

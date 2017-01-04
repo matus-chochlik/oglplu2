@@ -1,6 +1,6 @@
 #include <utility>
 #ifdef EAGINE_TEST_STD_FEATURE_FIX
-#include <eagine/int_sequence_fix.hpp>
+#include <eagine/stdfix/int_sequence.hpp>
 #endif
 
 template <typename T, T ... I>

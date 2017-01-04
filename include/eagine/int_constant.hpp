@@ -1,5 +1,5 @@
 /**
- *  @file eagine/type_traits.hpp
+ *  @file eagine/int_constant.hpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -7,11 +7,10 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_TYPE_TRAITS_1509260923_HPP
-#define EAGINE_TYPE_TRAITS_1509260923_HPP
+#ifndef EAGINE_INT_CONSTANT_1509260923_HPP
+#define EAGINE_INT_CONSTANT_1509260923_HPP
 
-#include <type_traits>
-#include <eagine/type_traits_fixes.hpp>
+#include "std/type_traits.hpp"
 
 namespace eagine {
 

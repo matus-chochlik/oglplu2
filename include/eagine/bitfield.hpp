@@ -10,7 +10,7 @@
 #ifndef EAGINE_BITFIELD_1509260923_HPP
 #define EAGINE_BITFIELD_1509260923_HPP
 
-#include "type_traits.hpp"
+#include "std/type_traits.hpp"
 
 namespace eagine {
 
@@ -49,78 +49,48 @@ public:
 
 	explicit constexpr inline
 	operator bool (void) const
-	noexcept
-	{
-		return _bits != BF(0);
-	}
+	noexcept { return _bits != BF(0); }
 
 	constexpr inline
 	bool operator ! (void) const
-	noexcept
-	{
-		return _bits == BF(0);
-	}
+	noexcept { return _bits == BF(0); }
 
 	explicit constexpr inline
 	operator value_type(void) const
-	noexcept
-	{
-		return _bits;
-	}
+	noexcept { return _bits; }
 
 	constexpr inline
 	bool has(Bit bit) const
-	noexcept
-	{
-		return (_bits & BF(bit)) == BF(bit);
-	}
+	noexcept { return (_bits & BF(bit)) == BF(bit); }
 
 	friend constexpr inline
 	bool operator == (bitfield a, bitfield b)
-	noexcept
-	{
-		return a._bits == b._bits;
-	}
+	noexcept { return a._bits == b._bits; }
 
 	friend constexpr inline
 	bool operator != (bitfield a, bitfield b)
-	noexcept
-	{
-		return a._bits != b._bits;
-	}
+	noexcept { return a._bits != b._bits; }
 
 	friend constexpr inline
 	bitfield operator | (bitfield a, bitfield b)
-	noexcept
-	{
-		return bitfield(BF(a._bits)|BF(b._bits));
-	}
+	noexcept { return bitfield(BF{a._bits}|BF{b._bits}); }
 
 	bitfield& operator |= (bitfield b)
-	noexcept
-	{
-		_bits |= b._bits;
-		return *this;
-	}
+	noexcept { _bits |= b._bits; return *this; }
 
 	friend constexpr inline
 	bitfield operator & (bitfield a, bitfield b)
-	noexcept
-	{
-		return bitfield{a._bits & b._bits};
-	}
+	noexcept { return bitfield{a._bits & b._bits}; }
 
 	bitfield& operator &= (bitfield b)
-	noexcept
-	{
+	noexcept {
 		_bits &= b._bits;
 		return *this;
 	}
 
 	friend constexpr inline
 	bitfield operator ~ (bitfield b)
-	noexcept
-	{
+	noexcept {
 		return bitfield{~b._bits};
 	}
 };

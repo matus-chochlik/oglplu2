@@ -11,7 +11,7 @@
 #define EAGINE_DEEP_COPY_PTR_1509260923_HPP
 
 #include <memory>
-#include "type_traits.hpp"
+#include "std/type_traits.hpp"
 
 namespace eagine {
 
@@ -36,7 +36,7 @@ static inline
 std::unique_ptr<T>
 make_deep_ptr_copy(const std::unique_ptr<T>& that)
 {
-	return make_deep_ptr_copy(that, std::is_polymorphic_t<T>());
+	return make_deep_ptr_copy(that, std::is_polymorphic<T>());
 }
 
 template <typename T>

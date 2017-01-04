@@ -81,7 +81,7 @@ struct vector
 	template <
 		typename P,
 		typename = std::enable_if_t<
-			(N == 1) && (std::is_convertible<P, T>::value)
+			(N == 1) && (std::is_convertible_v<P, T>)
 		>
 	>
 	static constexpr inline
@@ -105,7 +105,7 @@ struct vector
 		int M,
 		bool W,
 		typename = std::enable_if_t<
-			(!std::is_same<T, P>::value || (N != M) || (V != W))
+			(!std::is_same_v<T, P> || (N != M) || (V != W))
 		>
 	>
 	static constexpr inline

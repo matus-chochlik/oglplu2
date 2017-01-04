@@ -1,5 +1,5 @@
 /**
- *  .file eagine/type_traits_fixes.hpp
+ *  .file eagine/stdfix/type_traits.hpp
  *  .brief Adds missing defintions from the std library
  *
  * Copyright Matus Chochlik.
@@ -9,8 +9,8 @@
  *
  *  Automatically generated file.
  */
-#ifndef EAGINE_TYPE_TRAITS_FIXES_1511211302_HPP
-#define EAGINE_TYPE_TRAITS_FIXES_1511211302_HPP
+#ifndef EAGINE_STDFIX_TYPE_TRAITS_1511211302_HPP
+#define EAGINE_STDFIX_TYPE_TRAITS_1511211302_HPP
 
 namespace std {
 

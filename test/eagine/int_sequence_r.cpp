@@ -8,7 +8,7 @@
 #define BOOST_TEST_MODULE EAGINE_int_sequence
 #include <boost/test/unit_test.hpp>
 
-#include <eagine/int_sequence.hpp>
+#include <eagine/std/utility.hpp>
 
 BOOST_AUTO_TEST_SUITE(int_sequence_tests)
 

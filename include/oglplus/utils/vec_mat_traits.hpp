@@ -15,7 +15,9 @@
 namespace oglplus {
 
 using eagine::is_known_vector_type;
+using eagine::is_known_vector_type_v;
 using eagine::is_known_matrix_type;
+using eagine::is_known_matrix_type_v;
 
 using eagine::canonical_compound_type;
 using eagine::canonical_compound_type_t;

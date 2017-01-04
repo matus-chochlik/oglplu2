@@ -101,7 +101,7 @@ public:
 
 	template <typename Func>
 	std::enable_if_t<
-		!std::is_same<std::result_of_t<Func(T)>, void>::value,
+		!std::is_same_v<std::result_of_t<Func(T)>, void>,
 		valid_if<
 			std::result_of_t<Func(T)>,
 			valid_flag_policy

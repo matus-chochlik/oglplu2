@@ -13,7 +13,7 @@
 #include "cmp_storage.hpp"
 #include "cmp_storage.hpp"
 #include "entity_traits.hpp"
-#include "../type_traits.hpp"
+#include "../std/type_traits.hpp"
 #include "../type_name.hpp"
 #include "../mp_list.hpp"
 #include <memory>

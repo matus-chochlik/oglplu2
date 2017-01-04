@@ -19,6 +19,9 @@ struct conjunction;
 template <typename ... B>
 using conjunction_t = typename conjunction<B...>::type;
 
+template <typename ... B>
+constexpr const bool conjunction_v = conjunction<B...>::value;
+
 template <typename B>
 struct conjunction<B>
  : std::integral_constant<bool, B::value>
@@ -34,6 +37,9 @@ struct disjunction;
 
 template <typename ... B>
 using disjunction_t = typename disjunction<B...>::type;
+
+template <typename ... B>
+constexpr const bool disjunction_v = disjunction<B...>::value;
 
 template <typename B>
 struct disjunction<B>

@@ -93,7 +93,7 @@ noexcept
 template <
 	GLenum Query,
 	typename T,
-	typename = std::enable_if_t<std::is_integral<T>::value>
+	typename = std::enable_if_t<std::is_integral_v<T>>
 >
 static inline
 outcome<T>

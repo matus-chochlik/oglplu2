@@ -10,8 +10,9 @@
 #ifndef EAGINE_FIXED_SIZE_STR_1509260923_HPP
 #define EAGINE_FIXED_SIZE_STR_1509260923_HPP
 
-#include "cstr_ref.hpp"
 #include "types.hpp"
+#include "cstr_ref.hpp"
+#include "int_constant.hpp"
 #include <cstring>
 
 namespace eagine {

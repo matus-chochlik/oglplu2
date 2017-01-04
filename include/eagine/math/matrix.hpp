@@ -10,7 +10,7 @@
 #define EAGINE_MATH_MATRIX_1509260923_HPP
 
 #include "vector.hpp"
-#include "../int_sequence.hpp"
+#include "../std/utility.hpp"
 
 namespace eagine {
 namespace math {

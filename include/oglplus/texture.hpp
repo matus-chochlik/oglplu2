@@ -60,7 +60,7 @@ private:
 
 	template <typename X>
 	using _disable_if_target = std::enable_if_t<
-		!std::is_convertible<X, texture_target>::value
+		!std::is_convertible_v<X, texture_target>
 	>;
 public:
 
@@ -780,7 +780,7 @@ private:
 
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
 	typedef std::conditional_t<
-		std::is_same<Base, texture_target>::value,
+		std::is_same_v<Base, texture_target>,
 		texture_target_only,
 		texture_name_only
 	> _tnt;
@@ -793,7 +793,7 @@ private:
 	texture_target target;
 
 	typedef std::conditional_t<
-		std::is_same<Base, texture_target>::value,
+		std::is_same_v<Base, texture_target>,
 		texture_target_only,
 		texture_name_and_target
 	> _tnt;

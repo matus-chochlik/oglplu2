@@ -9,7 +9,7 @@
 #include <boost/test/unit_test.hpp>
 
 #include <eagine/math/matrix.hpp>
-#include <eagine/int_sequence.hpp>
+#include <eagine/std/utility.hpp>
 
 BOOST_AUTO_TEST_SUITE(math_matrix_tests_2)
 

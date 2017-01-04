@@ -10,8 +10,8 @@
 #ifndef EAGINE_VALID_IF_BASE_1509260923_HPP
 #define EAGINE_VALID_IF_BASE_1509260923_HPP
 
-#include "../type_traits.hpp"
-#include <utility>
+#include "../std/type_traits.hpp"
+#include "../std/utility.hpp"
 #include <cassert>
 
 namespace eagine {
@@ -162,7 +162,7 @@ public:
 	noexcept { return _get_value(); }
 
 	template <typename Func>
-	std::enable_if_t<std::is_same<std::result_of_t<Func(T)>, void>::value>
+	std::enable_if_t<std::is_same_v<std::result_of_t<Func(T)>, void>>
 	then(const Func& func, P ... p) const {
 		if(is_valid(p...)) {
 			func(value(p...));

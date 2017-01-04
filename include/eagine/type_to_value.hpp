@@ -10,9 +10,9 @@
 #ifndef EAGINE_TYPE_TO_VALUE_1509260923_HPP
 #define EAGINE_TYPE_TO_VALUE_1509260923_HPP
 
+#include "std/type_traits.hpp"
 #include "instead_of.hpp"
 #include "identity.hpp"
-#include "type_traits.hpp"
 #include "iterator.hpp"
 #include "types.hpp"
 #include <utility>
@@ -73,7 +73,7 @@ struct type_to_value
 	template <
 		typename Transform,
 		typename = std::enable_if_t<
-			!std::is_same<Value, Transform>::value
+			!std::is_same_v<Value, Transform>
 		>
 	>
 	type_to_value(const Transform& transform)

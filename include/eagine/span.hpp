@@ -10,7 +10,6 @@
 #ifndef EAGINE_SPAN_1509260923_HPP
 #define EAGINE_SPAN_1509260923_HPP
 
-#include "type_traits.hpp"
 #include "types.hpp"
 #include "span_fwd.hpp"
 

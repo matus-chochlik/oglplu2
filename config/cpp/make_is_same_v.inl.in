@@ -1,0 +1,3 @@
+template <class U, class V>
+constexpr const bool is_same_v = is_same<U, V>::value;
+

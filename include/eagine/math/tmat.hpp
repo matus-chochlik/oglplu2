@@ -87,7 +87,7 @@ public:
 		int M,
 		int N,
 		typename = std::enable_if_t<
-			std::is_convertible<P,T>::value &&
+			std::is_convertible_v<P,T> &&
 			(C<=M) && (R<=N)
 		>
 	>

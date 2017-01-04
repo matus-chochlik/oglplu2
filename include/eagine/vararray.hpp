@@ -11,7 +11,7 @@
 #define EAGINE_VARARRAY_1509260923_HPP
 
 #include <cstdint>
-#include "type_traits.hpp"
+#include "std/type_traits.hpp"
 
 namespace eagine {
 

@@ -11,8 +11,8 @@
 #define EAGINE_IDENTIFIER_1509260923_HPP
 
 #include <cstdint>
+#include "std/type_traits.hpp"
 #include "string_span.hpp"
-#include "type_traits.hpp"
 #include "selector.hpp"
 
 namespace eagine {

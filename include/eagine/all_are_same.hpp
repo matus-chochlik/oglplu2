@@ -10,8 +10,7 @@
 #ifndef EAGINE_ALL_ARE_SAME_1509260923_HPP
 #define EAGINE_ALL_ARE_SAME_1509260923_HPP
 
-#include "bool_const_ops.hpp"
-#include "type_traits.hpp"
+#include "std/type_traits.hpp"
 
 namespace eagine {
 

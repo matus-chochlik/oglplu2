@@ -34,7 +34,7 @@ struct object_name_or_target<nothing_t, ObjBindingPoint>
 	template <
 		typename Target,
 		typename = std::enable_if_t<
-			std::is_convertible<Target, ObjBindingPoint>::value
+			std::is_convertible_v<Target, ObjBindingPoint>
 		>
 	>
 	constexpr inline

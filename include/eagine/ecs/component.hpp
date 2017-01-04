@@ -10,7 +10,7 @@
 #define EAGINE_ECS_COMPONENT_1509260923_HPP
 
 #include "../config/basic.hpp"
-#include "../type_traits.hpp"
+#include "../std/type_traits.hpp"
 #include <cstddef>
 #include <vector>
 

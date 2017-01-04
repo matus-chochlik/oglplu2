@@ -12,7 +12,7 @@
 
 #include "byte_alloc.hpp"
 #include "../nothing.hpp"
-#include "../type_traits.hpp"
+#include "../std/type_traits.hpp"
 #include <utility>
 #include <typeinfo>
 #include <new>
@@ -32,7 +32,7 @@ private:
 	static byte_allocator* _get_new(
 		X&& that,
 		std::enable_if_t<
-			std::is_convertible<X*, byte_allocator*>::value
+			std::is_convertible_v<X*, byte_allocator*>
 		>* = nullptr
 	) noexcept {
 		try { return that.accomodate_self(); }
@@ -86,7 +86,7 @@ public:
 	template <
 		typename X,
 		typename = std::enable_if_t<
-			std::is_convertible<X*, byte_allocator*>::value
+			std::is_convertible_v<X*, byte_allocator*>
 		>
 	>
 	basic_shared_byte_alloc(X&& x)

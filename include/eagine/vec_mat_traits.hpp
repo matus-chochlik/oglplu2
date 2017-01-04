@@ -13,7 +13,7 @@
 #include "span.hpp"
 #include "identity.hpp"
 #include "nothing.hpp"
-#include "type_traits.hpp"
+#include "std/type_traits.hpp"
 
 namespace eagine {
 
@@ -21,6 +21,10 @@ template <typename T>
 struct is_known_vector_type
  : std::false_type
 { };
+
+template <typename T>
+constexpr const bool is_known_vector_type_v =
+is_known_vector_type<T>::value;
 
 template <typename T, span_size_t N>
 struct is_known_vector_type<T[N]>
@@ -31,6 +35,10 @@ template <typename T>
 struct is_known_matrix_type
  : std::false_type
 { };
+
+template <typename T>
+constexpr const bool is_known_matrix_type_v =
+is_known_matrix_type<T>::value;
 
 template <typename T, span_size_t C, span_size_t R>
 struct is_known_matrix_type<T[C][R]>

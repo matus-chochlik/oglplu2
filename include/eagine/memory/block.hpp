@@ -10,8 +10,6 @@
 #ifndef EAGINE_MEMORY_BLOCK_1510290655_HPP
 #define EAGINE_MEMORY_BLOCK_1510290655_HPP
 
-#include "../types.hpp"
-#include "../type_traits.hpp"
 #include "address.hpp"
 #include <cstddef>
 #include <utility>

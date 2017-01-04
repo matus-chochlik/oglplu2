@@ -10,7 +10,7 @@
 #ifndef EAGINE_TAGGED_QUANTITY_1509260923_HPP
 #define EAGINE_TAGGED_QUANTITY_1509260923_HPP
 
-#include "type_traits.hpp"
+#include "std/type_traits.hpp"
 #include "units/default.hpp"
 #include "units/traits.hpp"
 #include <cmath>
@@ -29,7 +29,7 @@ template <typename T, typename U>
 class tagged_quantity
 {
 private:
-	static_assert(std::is_arithmetic<T>::value, "");
+	static_assert(std::is_arithmetic_v<T>, "");
 	T _v;
 
 	template <typename, typename>
@@ -50,8 +50,8 @@ public:
 		typename X,
 		typename UX,
 		typename = std::enable_if_t<
-			std::is_convertible<X, T>::value &&
-			units::is_convertible<UX, U>::value
+			std::is_convertible_v<X, T> &&
+			units::is_convertible_v<UX, U>
 		>
 	>
 	constexpr inline
@@ -81,7 +81,7 @@ public:
 
 	template <
 		typename X,
-		typename = std::enable_if_t<std::is_convertible<T, X>::value>
+		typename = std::enable_if_t<std::is_convertible_v<T, X>>
 	>
 	explicit constexpr inline
 	operator X (void) const
@@ -94,8 +94,8 @@ public:
 		typename X,
 		typename UX,
 		typename = std::enable_if_t<
-			std::is_convertible<X, T>::value &&
-			units::is_convertible<UX, U>::value
+			std::is_convertible_v<X, T> &&
+			units::is_convertible_v<UX, U>
 		>
 	>
 	tagged_quantity& operator += (const tagged_quantity<X, UX>& q)
@@ -109,8 +109,8 @@ public:
 		typename X,
 		typename UX,
 		typename = std::enable_if_t<
-			std::is_convertible<X, T>::value &&
-			units::is_convertible<UX, U>::value
+			std::is_convertible_v<X, T> &&
+			units::is_convertible_v<UX, U>
 		>
 	>
 	tagged_quantity& operator -= (const tagged_quantity<X, UX>& q)

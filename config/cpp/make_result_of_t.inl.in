@@ -1,3 +1,0 @@
-template <class T>
-using result_of_t = typename result_of<T>::type;
-

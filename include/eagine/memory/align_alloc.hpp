@@ -12,8 +12,9 @@
 
 #include "shared_alloc.hpp"
 #include "default_alloc.hpp"
-#include "../int_sequence.hpp"
+#include "../std/utility.hpp"
 #include "../instead_of.hpp"
+#include "../int_constant.hpp"
 #include <cassert>
 #include <array>
 
