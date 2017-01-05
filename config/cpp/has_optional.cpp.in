@@ -1,0 +1,59 @@
+#ifdef EAGINE_TEST_STD_FEATURE_FIX
+#include <eagine/stdfix/optional.hpp>
+#endif
+#include <string>
+
+bool test_optional(void) {
+	std::optional<std::string> oe;
+
+	if(oe.has_value()) { return false; }
+	if(bool(oe)) { return false; }
+	if(!!oe) { return false; }
+
+	if(oe.value_or("fallback") != "fallback") { return false; }
+
+	try {
+		oe.value();
+		return false;
+	}
+	catch(std::bad_optional_access&) { }
+
+	std::optional<std::string> o1{"myveeerylooooongstring"};
+
+	if(!o1.has_value()) { return false; }
+	if(!bool(o1)) { return false; }
+	if(!o1) { return false; }
+
+	if(o1.value_or("fallback") == "fallback") { return false; }
+
+	try { o1.value(); }
+	catch(std::bad_optional_access&) {
+		return false;
+	}
+
+	std::optional<std::string> o2{o1};
+
+	if(!o2.has_value()) { return false; }
+	if(!bool(o2)) { return false; }
+	if(!o2) { return false; }
+
+	if(o1.value_or("fallback") != o2.value_or("fallback")) {
+		return false;
+	}
+
+	try {
+		if(o1.value() != o2.value()) {
+			return false;
+		}
+	}
+	catch(std::bad_optional_access&) {
+		return false;
+	}
+
+	return true;
+}
+
+int main(void)
+{
+	return test_optional()?0:1;
+}

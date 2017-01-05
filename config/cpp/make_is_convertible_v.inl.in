@@ -1,3 +1,0 @@
-template <class F, class T>
-constexpr const bool is_convertible_v = is_convertible<F, T>::value;
-

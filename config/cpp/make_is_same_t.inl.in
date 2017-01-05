@@ -1,3 +1,0 @@
-template <class U, class V>
-using is_same_t = typename is_same<U, V>::type;
-

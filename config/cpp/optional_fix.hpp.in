@@ -1,0 +1,192 @@
+/**
+ *  @file eagine/stdfix/optional.hpp
+ *
+ *  Copyright Matus Chochlik.
+ *  Distributed under the Boost Software License, Version 1.0.
+ *  See accompanying file LICENSE_1_0.txt or copy at
+ *   http://www.boost.org/LICENSE_1_0.txt
+ */
+#ifndef EAGINE_STDFIX_OPTIONAL_1509260923_HPP
+#define EAGINE_STDFIX_OPTIONAL_1509260923_HPP
+
+#include <type_traits>
+#include <stdexcept>
+#include <cassert>
+
+namespace std {
+
+class bad_optional_access
+ : public logic_error
+{
+public:
+	bad_optional_access(void)
+	 : logic_error("Bad optional access")
+	{ }
+};
+
+struct nullopt_t {
+	explicit constexpr
+	nullopt_t(int)
+	noexcept
+	{ }
+};
+
+template <typename T>
+class optional
+{
+private:
+	using _store_t = typename std::aligned_storage<
+		sizeof(T),
+		alignof(T)
+	>::type;
+
+	_store_t _store;
+	bool _has_value;
+
+	constexpr T& _get(void)
+	noexcept { return *reinterpret_cast<T*>(&_store); }
+
+	constexpr const T& _get(void) const
+	noexcept { return *reinterpret_cast<const T*>(&_store); }
+
+	void _destroy(void) {
+		_get().T::~T();
+	}
+
+	template <typename U>
+	using _enable_if_convertible = typename std::enable_if<
+		std::is_convertible<U, T>::value
+	>::type;
+public:
+	constexpr
+	optional(std::nullopt_t)
+	noexcept
+	 : _has_value{false}
+	{ }
+
+	constexpr
+	optional(void)
+	noexcept
+	 : optional{std::nullopt_t{0}}
+	{ }
+
+	constexpr
+	optional(const optional<T>& that)
+	 : _has_value{false}
+	{
+		if(that.has_value()) {
+			new (&_store)T(that._get());
+			_has_value = true;
+		}
+	}
+
+	template <typename U, typename = _enable_if_convertible<U>>
+	constexpr explicit
+	optional(optional<U>&& temp)
+	 : _has_value{false}
+	{
+		if(temp.has_value()) {
+			new (&_store)T(std::move(temp._get()));
+			_has_value = true;
+		}
+	}
+
+	template <typename U = T, typename = _enable_if_convertible<U>>
+	constexpr explicit
+	optional(U&& init)
+	 : _has_value{true}
+	{
+		new (&_store)T(std::forward<U>(init));
+	}
+
+	optional& operator = (std::nullopt_t) {
+		reset();
+		return *this;
+	}
+
+	optional& operator = (const optional<T>& that) {
+		optional<T> temp{that};
+		swap(temp);
+		return *this;
+	}
+
+	optional& operator = (optional<T>&& temp) {
+		swap(temp);
+		return *this;
+	}
+
+	~optional(void) {
+		reset();
+	}
+
+	void _move_in(optional<T>& that) {
+		assert(!*this);
+		assert(bool(that));
+		new (&_store)T(std::move(that._get()));
+		_has_value = true;
+		that.reset();
+	}
+
+	void swap(optional<T>& that) {
+		if(bool(*this) && bool(that)) {
+			using std::swap;
+			swap(_get(), that._get());
+		} else if(!bool(*this) && bool(that)) {
+			this->_move_in(that);
+		} else if(bool(*this) && !bool(that)) {
+			that._move_in(*this);
+		}
+	}
+
+	template <typename ... Args>
+	void emplace(Args&& ... args) {
+		reset();
+		new (&_store)T(std::forward<Args>(args)...);
+	}
+
+	void reset(void) {
+		if(has_value()) {
+			_destroy();
+			_has_value = false;
+		}
+	}
+
+	constexpr bool has_value(void) const { return _has_value; }
+	constexpr operator bool (void) const { return has_value(); }
+	constexpr bool operator !(void) const { return !has_value(); }
+
+	constexpr T& value(void) {
+		if(!has_value()) {
+			throw bad_optional_access{};
+		}
+		return _get();
+	}
+
+	constexpr const T& value(void) const {
+		if(!has_value()) {
+			throw bad_optional_access{};
+		}
+		return _get();
+	}
+
+	template <typename U>
+	constexpr T value_or(U&& fallback) const
+	noexcept {
+		return has_value()?
+			_get():
+			static_cast<T>(std::forward<U>(fallback));
+	}
+
+	friend constexpr
+	bool operator == (const optional<T>& l, const optional<T>& r)
+	noexcept {
+		return !(
+			(bool(l) != bool(r)) || !bool(l) ||
+			(l._get() != r._get())
+		);
+	}
+};
+
+} // namespace std
+
+#endif // include guard
