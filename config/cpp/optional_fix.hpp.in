@@ -31,11 +31,13 @@ struct nullopt_t {
 	{ }
 };
 
+constexpr const nullopt_t nullopt{0};
+
 template <typename T>
 class optional
 {
 private:
-	using _store_t = typename std::aligned_storage<
+	using _store_t = typename aligned_storage<
 		sizeof(T),
 		alignof(T)
 	>::type;
@@ -49,17 +51,25 @@ private:
 	constexpr const T& _get(void) const
 	noexcept { return *reinterpret_cast<const T*>(&_store); }
 
+	void _move_in(optional<T>& that) {
+		assert(!*this);
+		assert(bool(that));
+		new (&_store)T(move(that._get()));
+		_has_value = true;
+		that.reset();
+	}
+
 	void _destroy(void) {
 		_get().T::~T();
 	}
 
 	template <typename U>
-	using _enable_if_convertible = typename std::enable_if<
-		std::is_convertible<U, T>::value
+	using _enable_if_convertible = typename enable_if<
+		is_convertible<U, T>::value
 	>::type;
 public:
 	constexpr
-	optional(std::nullopt_t)
+	optional(nullopt_t)
 	noexcept
 	 : _has_value{false}
 	{ }
@@ -67,7 +77,7 @@ public:
 	constexpr
 	optional(void)
 	noexcept
-	 : optional{std::nullopt_t{0}}
+	 : optional{nullopt}
 	{ }
 
 	constexpr
@@ -82,12 +92,35 @@ public:
 
 	template <typename U, typename = _enable_if_convertible<U>>
 	constexpr explicit
+	optional(const optional<U>& that)
+	 : _has_value{false}
+	{
+		if(that.has_value()) {
+			new (&_store)T(that.value());
+			_has_value = true;
+		}
+	}
+
+	constexpr
+	optional(optional<T>&& temp)
+	 : _has_value{false}
+	{
+		if(temp.has_value()) {
+			new (&_store)T(move(temp._get()));
+			_has_value = true;
+			temp.reset();
+		}
+	}
+
+	template <typename U, typename = _enable_if_convertible<U>>
+	constexpr explicit
 	optional(optional<U>&& temp)
 	 : _has_value{false}
 	{
 		if(temp.has_value()) {
-			new (&_store)T(std::move(temp._get()));
+			new (&_store)T(move(temp.value()));
 			_has_value = true;
+			temp.reset();
 		}
 	}
 
@@ -96,10 +129,10 @@ public:
 	optional(U&& init)
 	 : _has_value{true}
 	{
-		new (&_store)T(std::forward<U>(init));
+		new (&_store)T(forward<U>(init));
 	}
 
-	optional& operator = (std::nullopt_t) {
+	optional& operator = (nullopt_t) {
 		reset();
 		return *this;
 	}
@@ -110,21 +143,27 @@ public:
 		return *this;
 	}
 
+	template <typename U = T, typename = _enable_if_convertible<U>>
+	optional& operator = (const optional<U>& that) {
+		optional<T> temp{that};
+		swap(temp);
+		return *this;
+	}
+
 	optional& operator = (optional<T>&& temp) {
 		swap(temp);
 		return *this;
 	}
 
-	~optional(void) {
-		reset();
+	template <typename U = T, typename = _enable_if_convertible<U>>
+	optional& operator = (optional<U>&& temp) {
+		optional<T> that(std::move(temp));
+		swap(that);
+		return *this;
 	}
 
-	void _move_in(optional<T>& that) {
-		assert(!*this);
-		assert(bool(that));
-		new (&_store)T(std::move(that._get()));
-		_has_value = true;
-		that.reset();
+	~optional(void) {
+		reset();
 	}
 
 	void swap(optional<T>& that) {
@@ -141,7 +180,7 @@ public:
 	template <typename ... Args>
 	void emplace(Args&& ... args) {
 		reset();
-		new (&_store)T(std::forward<Args>(args)...);
+		new (&_store)T(forward<Args>(args)...);
 	}
 
 	void reset(void) {
@@ -174,17 +213,104 @@ public:
 	noexcept {
 		return has_value()?
 			_get():
-			static_cast<T>(std::forward<U>(fallback));
+			static_cast<T>(forward<U>(fallback));
 	}
 
 	friend constexpr
 	bool operator == (const optional<T>& l, const optional<T>& r)
 	noexcept {
-		return !(
-			(bool(l) != bool(r)) || !bool(l) ||
-			(l._get() != r._get())
-		);
+		return	(bool(l) != bool(r))?false:
+			(bool(l) == false)?true:
+			(l._get() == r._get());
 	}
+
+	friend constexpr
+	bool operator != (const optional<T>& l, const optional<T>& r)
+	noexcept {
+		return	(bool(l) != bool(r))?true:
+			(bool(l) == false)?false:
+			(l._get() != r._get());
+	}
+
+	friend constexpr
+	bool operator <  (const optional<T>& l, const optional<T>& r)
+	noexcept {
+		return	(bool(r) == false)?false:
+			(bool(l) == false)?true:
+			(l._get() <  r._get());
+	}
+
+	friend constexpr
+	bool operator <= (const optional<T>& l, const optional<T>& r)
+	noexcept {
+		return	(bool(l) == false)?true:
+			(bool(r) == false)?false:
+			(l._get() <= r._get());
+	}
+
+	friend constexpr
+	bool operator >  (const optional<T>& l, const optional<T>& r)
+	noexcept {
+		return	(bool(l) == false)?false:
+			(bool(r) == false)?true:
+			(l._get() >  r._get());
+	}
+
+	friend constexpr
+	bool operator >= (const optional<T>& l, const optional<T>& r)
+	noexcept {
+		return	(bool(r) == false)?true:
+			(bool(l) == false)?false:
+			(l._get() >= r._get());
+	}
+
+	friend constexpr
+	bool operator == (const optional<T>& l, nullopt_t)
+	noexcept { return !l; }
+
+	friend constexpr
+	bool operator == (nullopt_t, const optional<T>& r)
+	noexcept { return !r; }
+
+	friend constexpr
+	bool operator != (const optional<T>& l, nullopt_t)
+	noexcept { return bool(l); }
+
+	friend constexpr
+	bool operator != (nullopt_t, const optional<T>& r)
+	noexcept { return bool(r); }
+
+	friend constexpr
+	bool operator <  (const optional<T>&  , nullopt_t)
+	noexcept { return false; }
+
+	friend constexpr
+	bool operator <  (nullopt_t, const optional<T>& r)
+	noexcept { return bool(r); }
+
+	friend constexpr
+	bool operator <= (const optional<T>& l, nullopt_t)
+	noexcept { return !l; }
+
+	friend constexpr
+	bool operator <= (nullopt_t, const optional<T>&  )
+	noexcept { return true; }
+
+	friend constexpr
+	bool operator >  (const optional<T>& l, nullopt_t)
+	noexcept { return bool(l); }
+
+	friend constexpr
+	bool operator >  (nullopt_t, const optional<T>&  )
+	noexcept { return false; }
+
+	friend constexpr
+	bool operator >= (const optional<T>&  , nullopt_t)
+	noexcept { return true; }
+
+	friend constexpr
+	bool operator >= (nullopt_t, const optional<T>& r)
+	noexcept { return !r; }
 };
 
 } // namespace std

@@ -5,12 +5,12 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE EAGINE_int_sequence
+#define BOOST_TEST_MODULE EAGINE_std_int_sequence
 #include <boost/test/unit_test.hpp>
 
 #include <eagine/std/utility.hpp>
 
-BOOST_AUTO_TEST_SUITE(int_sequence_tests)
+BOOST_AUTO_TEST_SUITE(std_int_sequence_tests)
 
 template <typename Int, Int ... I>
 void test_int_sequence_1I(std::integer_sequence<Int, I...>)
