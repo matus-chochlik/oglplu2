@@ -208,6 +208,12 @@ public:
 		return _get();
 	}
 
+	constexpr T& operator * (void) { return value(); }
+	constexpr const T& operator * (void) const { return value(); }
+
+	constexpr T* operator -> (void) { return &value(); }
+	constexpr const T* operator -> (void) const { return &value(); }
+
 	template <typename U>
 	constexpr T value_or(U&& fallback) const
 	noexcept {

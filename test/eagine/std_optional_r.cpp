@@ -309,4 +309,76 @@ BOOST_AUTO_TEST_CASE(optional_move_assign_2)
 	BOOST_CHECK_EQUAL(o1 == o2, false);
 }
 
+BOOST_AUTO_TEST_CASE(optional_value_n)
+{
+	std::optional<std::string> eo{std::nullopt};
+
+	BOOST_CHECK_EQUAL(eo.value_or("empty"), "empty");
+
+	int passed = 0;
+
+	try {
+		eo.value();
+		BOOST_CHECK_MESSAGE(false, "Should not get here");
+	} 
+	catch(std::bad_optional_access&) {
+		++passed;
+	}
+	BOOST_CHECK_EQUAL(passed, 1);
+
+	try {
+		*eo;
+		BOOST_CHECK_MESSAGE(false, "Should not get here");
+	} 
+	catch(std::bad_optional_access&) {
+		++passed;
+	}
+	BOOST_CHECK_EQUAL(passed, 2);
+
+	try {
+		eo->size();
+		BOOST_CHECK_MESSAGE(false, "Should not get here");
+	} 
+	catch(std::bad_optional_access&) {
+		++passed;
+	}
+	BOOST_CHECK_EQUAL(passed, 3);
+}
+
+BOOST_AUTO_TEST_CASE(optional_value_s)
+{
+	std::optional<std::string> eo{"optional"};
+
+	BOOST_CHECK_EQUAL(eo.value_or("empty"), "optional");
+
+	int passed = 0;
+
+	try {
+		BOOST_CHECK_EQUAL(eo.value(), "optional");
+		++passed;
+	} 
+	catch(std::bad_optional_access&) {
+		BOOST_CHECK_MESSAGE(false, "Should not get here");
+	}
+	BOOST_CHECK_EQUAL(passed, 1);
+
+	try {
+		BOOST_CHECK_EQUAL(*eo, "optional");
+		++passed;
+	} 
+	catch(std::bad_optional_access&) {
+		BOOST_CHECK_MESSAGE(false, "Should not get here");
+	}
+	BOOST_CHECK_EQUAL(passed, 2);
+
+	try {
+		BOOST_CHECK_EQUAL(eo->size(), 8);
+		++passed;
+	} 
+	catch(std::bad_optional_access&) {
+		BOOST_CHECK_MESSAGE(false, "Should not get here");
+	}
+	BOOST_CHECK_EQUAL(passed, 3);
+}
+
 BOOST_AUTO_TEST_SUITE_END()
