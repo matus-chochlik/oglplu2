@@ -7,12 +7,15 @@
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE EAGINE_std_optional
 #include <boost/test/unit_test.hpp>
+#include "../random.hpp"
 
 #include <eagine/std/optional.hpp>
 #include <string>
 #include <tuple>
 
 BOOST_AUTO_TEST_SUITE(std_optional_tests)
+
+static eagine::test_random_generator rg;
 
 BOOST_AUTO_TEST_CASE(optional_empty)
 {
@@ -162,6 +165,62 @@ BOOST_AUTO_TEST_CASE(optional_cmp_4_3)
 	BOOST_CHECK_EQUAL(no >= o2, false);
 }
 
+BOOST_AUTO_TEST_CASE(optional_cmp_1_v)
+{
+	for(int c=0; c<100; ++c) {
+		const int v2 = rg.get_any<int>();
+		const std::optional<int> o1;
+
+		BOOST_CHECK_EQUAL(o1 == v2, false);
+		BOOST_CHECK_EQUAL(o1 != v2, true);
+		BOOST_CHECK_EQUAL(o1 <  v2, true);
+		BOOST_CHECK_EQUAL(o1 >  v2, false);
+		BOOST_CHECK_EQUAL(o1 <= v2, true);
+		BOOST_CHECK_EQUAL(o1 >= v2, false);
+	}
+
+	for(int c=0; c<100; ++c) {
+		const int v1 = rg.get_any<int>();
+		const int v2 = rg.get_any<int>();
+		const std::optional<int> o1{v1};
+
+		BOOST_CHECK_EQUAL(o1 == v2, v1 == v2);
+		BOOST_CHECK_EQUAL(o1 != v2, v1 != v2);
+		BOOST_CHECK_EQUAL(o1 <  v2, v1 <  v2);
+		BOOST_CHECK_EQUAL(o1 >  v2, v1 >  v2);
+		BOOST_CHECK_EQUAL(o1 <= v2, v1 <= v2);
+		BOOST_CHECK_EQUAL(o1 >= v2, v1 >= v2);
+	}
+}
+
+BOOST_AUTO_TEST_CASE(optional_cmp_v_2)
+{
+	for(int c=0; c<100; ++c) {
+		const int v1 = rg.get_any<int>();
+		const std::optional<int> o2;
+
+		BOOST_CHECK_EQUAL(v1 == o2, false);
+		BOOST_CHECK_EQUAL(v1 != o2, true);
+		BOOST_CHECK_EQUAL(v1 <  o2, false);
+		BOOST_CHECK_EQUAL(v1 >  o2, true);
+		BOOST_CHECK_EQUAL(v1 <= o2, false);
+		BOOST_CHECK_EQUAL(v1 >= o2, true);
+	}
+
+	for(int c=0; c<100; ++c) {
+		const int v1 = rg.get_any<int>();
+		const int v2 = rg.get_any<int>();
+		const std::optional<int> o2{v2};
+
+		BOOST_CHECK_EQUAL(v1 == o2, v1 == v2);
+		BOOST_CHECK_EQUAL(v1 != o2, v1 != v2);
+		BOOST_CHECK_EQUAL(v1 <  o2, v1 <  v2);
+		BOOST_CHECK_EQUAL(v1 >  o2, v1 >  v2);
+		BOOST_CHECK_EQUAL(v1 <= o2, v1 <= v2);
+		BOOST_CHECK_EQUAL(v1 >= o2, v1 >= v2);
+	}
+}
+
 BOOST_AUTO_TEST_CASE(optional_cmp_1_n)
 {
 	const std::optional<int> o1{1};
@@ -213,7 +272,7 @@ BOOST_AUTO_TEST_CASE(optional_copy_2)
 	BOOST_CHECK_EQUAL(o1.has_value(), true);
 	BOOST_CHECK_EQUAL(o2.has_value(), true);
 
-	BOOST_CHECK_EQUAL(o1 == o2, true);
+	BOOST_CHECK_EQUAL(decltype(o2)(o1) == o2, true);
 }
 
 BOOST_AUTO_TEST_CASE(optional_copy_assign_1)
@@ -242,14 +301,14 @@ BOOST_AUTO_TEST_CASE(optional_copy_assign_2)
 	BOOST_CHECK_EQUAL(o1.has_value(), true);
 	BOOST_CHECK_EQUAL(o2.has_value(), false);
 
-	BOOST_CHECK_EQUAL(o1 != o2, true);
+	BOOST_CHECK_EQUAL(decltype(o2)(o1) != o2, true);
 
 	o2 = o1;
 
 	BOOST_CHECK_EQUAL(o1.has_value(), true);
 	BOOST_CHECK_EQUAL(o2.has_value(), true);
 
-	BOOST_CHECK_EQUAL(o1 == o2, true);
+	BOOST_CHECK_EQUAL(decltype(o2)(o1) == o2, true);
 }
 
 BOOST_AUTO_TEST_CASE(optional_move_1)
@@ -271,7 +330,7 @@ BOOST_AUTO_TEST_CASE(optional_move_2)
 	BOOST_CHECK_EQUAL(o1.has_value(), false);
 	BOOST_CHECK_EQUAL(o2.has_value(), true);
 
-	BOOST_CHECK_EQUAL(o1 == o2, false);
+	BOOST_CHECK_EQUAL(decltype(o2)(o1) == o2, false);
 }
 
 BOOST_AUTO_TEST_CASE(optional_move_assign_1)
@@ -300,14 +359,14 @@ BOOST_AUTO_TEST_CASE(optional_move_assign_2)
 	BOOST_CHECK_EQUAL(o1.has_value(), true);
 	BOOST_CHECK_EQUAL(o2.has_value(), false);
 
-	BOOST_CHECK_EQUAL(o1 != o2, true);
+	BOOST_CHECK_EQUAL(decltype(o2)(o1) != o2, true);
 
 	o2 = std::move(o1);
 
 	BOOST_CHECK_EQUAL(o1.has_value(), false);
 	BOOST_CHECK_EQUAL(o2.has_value(), true);
 
-	BOOST_CHECK_EQUAL(o1 == o2, false);
+	BOOST_CHECK_EQUAL(decltype(o2)(o1) == o2, false);
 }
 
 BOOST_AUTO_TEST_CASE(optional_value_n)

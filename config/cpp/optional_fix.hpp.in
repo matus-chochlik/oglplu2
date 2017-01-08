@@ -329,6 +329,55 @@ public:
 	friend constexpr
 	bool operator >= (nullopt_t, const optional<T>& r)
 	noexcept { return !r; }
+
+
+	friend constexpr
+	bool operator == (const optional<T>& l, const T& r)
+	noexcept { return !l? false : *l == r; }
+
+	friend constexpr
+	bool operator == (const T& l, const optional<T>& r)
+	noexcept { return !r? false : l == *r; }
+
+	friend constexpr
+	bool operator != (const optional<T>& l, const T& r)
+	noexcept { return !l? true: *l != r; }
+
+	friend constexpr
+	bool operator != (const T& l, const optional<T>& r)
+	noexcept { return !r? true : l != *r; }
+
+	friend constexpr
+	bool operator <  (const optional<T>& l, const T& r)
+	noexcept { return !l? true  : *l <  r; }
+
+	friend constexpr
+	bool operator <  (const T& l, const optional<T>& r)
+	noexcept { return !r? false : l <  *r; }
+
+	friend constexpr
+	bool operator <= (const optional<T>& l, const T& r)
+	noexcept { return !l? true  : *l <= r; }
+
+	friend constexpr
+	bool operator <= (const T& l, const optional<T>& r)
+	noexcept { return !r? false : l <= *r; }
+
+	friend constexpr
+	bool operator >  (const optional<T>& l, const T& r)
+	noexcept { return !l? false : *l >  r; }
+
+	friend constexpr
+	bool operator >  (const T& l, const optional<T>& r)
+	noexcept { return !r? true  : l >  *r; }
+
+	friend constexpr
+	bool operator >= (const optional<T>& l, const T& r)
+	noexcept { return !l? false : *l >= r; }
+
+	friend constexpr
+	bool operator >= (const T& l, const optional<T>& r)
+	noexcept { return !r? true  : l >= *r; }
 };
 
 template <typename T>
