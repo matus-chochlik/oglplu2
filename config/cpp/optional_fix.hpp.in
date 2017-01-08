@@ -33,6 +33,8 @@ struct nullopt_t {
 
 constexpr const nullopt_t nullopt{0};
 
+struct in_place_optional_t { };
+
 template <typename T>
 class optional
 {
@@ -127,9 +129,19 @@ public:
 	template <typename U = T, typename = _enable_if_convertible<U>>
 	constexpr explicit
 	optional(U&& init)
-	 : _has_value{true}
+	 : _has_value{false}
 	{
 		new (&_store)T(forward<U>(init));
+		_has_value = true;
+	}
+
+	template <typename ... Args>
+	constexpr
+	optional(in_place_optional_t, Args&& ... args)
+	 : _has_value{false}
+	{
+		new (&_store)T(forward<Args>(args)...);
+		_has_value = true;
 	}
 
 	optional& operator = (nullopt_t) {
@@ -318,6 +330,22 @@ public:
 	bool operator >= (nullopt_t, const optional<T>& r)
 	noexcept { return !r; }
 };
+
+template <typename T>
+static constexpr inline
+auto make_optional(T&& init) {
+	return optional<typename decay<T>::type>(std::forward<T>(init));
+}
+
+template <typename T, typename ... Args>
+static constexpr inline
+auto make_optional(Args&& ... args) {
+	return optional<T>(
+		in_place_optional_t{},
+		std::forward<Args>(args)...
+	);
+}
+
 
 } // namespace std
 

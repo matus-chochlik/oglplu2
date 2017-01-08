@@ -10,6 +10,7 @@
 
 #include <eagine/std/optional.hpp>
 #include <string>
+#include <tuple>
 
 BOOST_AUTO_TEST_SUITE(std_optional_tests)
 
@@ -379,6 +380,22 @@ BOOST_AUTO_TEST_CASE(optional_value_s)
 		BOOST_CHECK_MESSAGE(false, "Should not get here");
 	}
 	BOOST_CHECK_EQUAL(passed, 3);
+}
+
+BOOST_AUTO_TEST_CASE(optional_make_1)
+{
+	std::optional<int> o1 = std::make_optional(1);
+	BOOST_CHECK_EQUAL(o1.value_or(-1), 1);
+
+	std::optional<std::tuple<bool, char, int>> o2
+		= std::make_optional<std::tuple<bool, char, int>>(true,'2',345);
+	try {
+		BOOST_CHECK_EQUAL(std::get<0>(o2.value()), true);
+		BOOST_CHECK_EQUAL(std::get<1>(o2.value()), '2');
+		BOOST_CHECK_EQUAL(std::get<2>(o2.value()), 345);
+	} catch(...) {
+		BOOST_CHECK_MESSAGE(false, "Should not throw");
+	}
 }
 
 BOOST_AUTO_TEST_SUITE_END()
