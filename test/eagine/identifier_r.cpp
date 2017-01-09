@@ -135,8 +135,18 @@ BOOST_AUTO_TEST_CASE(identifier_2)
 		const std::string s1(name, std_size(n));
 		const std::string s2 = id.str();
 
+		BOOST_CHECK(id.has_value());
+		BOOST_CHECK(bool(id));
+		BOOST_CHECK(!!id);
+
 		BOOST_CHECK_EQUAL(s1, s2);
 	}
+
+	const eagine::identifier id;
+	BOOST_CHECK(!id.has_value());
+	BOOST_CHECK(!bool(id));
+	BOOST_CHECK(!id);
+
 }
 
 BOOST_AUTO_TEST_CASE(identifier_3)

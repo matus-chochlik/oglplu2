@@ -17,8 +17,9 @@
 
 namespace eagine {
 
-constexpr span_size_t max_identifier_length{10};
 using identifier_t = std::uint64_t;
+constexpr span_size_t max_identifier_length{10u};
+constexpr identifier_t empty_identifier_value{0u};
 
 namespace _aux {
 
@@ -92,7 +93,7 @@ span_size_t _do_dec_ident(
 	span_size_t n,
 	bool = true
 ) {
-	return ((ident != 0xFu) && (l < n))?
+	return ((ident != 0x0u) && (ident != 0xFu) && (l < n))?
 		_do_dec_ident(
 			_ident_pop(ident),
 			str, l+1, n,
@@ -159,7 +160,7 @@ public:
 	constexpr
 	identifier(void)
 	noexcept
-	 : _id{0}
+	 : _id{empty_identifier_value}
 	{ }
 
 	template <identifier_t Id>
@@ -185,8 +186,20 @@ public:
 	{ }
 
 	constexpr inline
+	bool has_value(void) const
+	noexcept { return _id != empty_identifier_value; }
+
+	constexpr inline
 	bool is_valid(void) const
-	noexcept { return _id != 0u; }
+	noexcept { return has_value(); }
+
+	explicit constexpr inline
+	operator bool (void) const
+	noexcept { return has_value(); }
+
+	constexpr inline
+	bool operator ! (void) const
+	noexcept { return !has_value(); }
 
 	constexpr inline
 	identifier_t get(void) const
