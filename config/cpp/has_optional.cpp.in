@@ -1,5 +1,7 @@
 #ifdef EAGINE_TEST_STD_FEATURE_FIX
 #include <eagine/stdfix/optional.hpp>
+#else
+#include <optional>
 #endif
 #include <string>
 

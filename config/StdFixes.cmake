@@ -191,5 +191,6 @@ function(make_missing_std_feature_fix FEATURE FILENAME)
 endfunction()
 
 make_missing_std_feature_fix("optional" optional)
+make_missing_std_feature_fix("variant" variant)
 make_missing_std_feature_fix("integer sequence" int_sequence)
 make_missing_std_feature_fix("boolean constant ops" bool_const_ops)

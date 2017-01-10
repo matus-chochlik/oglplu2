@@ -1,0 +1,18 @@
+#ifdef EAGINE_TEST_STD_FEATURE_FIX
+#include <eagine/stdfix/variant.hpp>
+#else
+#include <variant>
+#endif
+#include <string>
+
+bool test_variant(void) {
+
+	std::variant<std::monostate> v0;
+	// TODO:
+	return true;
+}
+
+int main(void)
+{
+	return test_variant()?0:1;
+}
