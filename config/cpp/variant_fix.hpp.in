@@ -9,6 +9,7 @@
 #ifndef EAGINE_STDFIX_VARIANT_1509260923_HPP
 #define EAGINE_STDFIX_VARIANT_1509260923_HPP
 
+#include <tuple>
 #include <type_traits>
 #include <stdexcept>
 #include <cassert>
@@ -50,11 +51,242 @@ constexpr inline
 bool operator >= (monostate, monostate)
 noexcept { return true; }
 
-template <typename ... T>
+constexpr std::size_t variant_npos{static_cast<std::size_t>(-1)};
+
+namespace _aux {
+
+template <typename ... Types>
+struct _detect_variant_type;
+
+template <>
+struct _detect_variant_type<> {
+	static void _result(void);
+};
+
+template <typename H, typename ... P>
+struct _detect_variant_type<H, P...>
+ : _detect_variant_type<P...> {
+
+	using _detect_variant_type<P...>::_result;
+	static H _result(H&&);
+};
+
+} // namespace _aux
+
+template <typename ... Types>
 class variant
 {
 private:
+	static constexpr inline
+	size_t _max_2(size_t a, size_t b)
+	noexcept { return a>b?a:b; }
+
+	static constexpr inline
+	size_t _max_s(void)
+	noexcept { return 1u; }
+
+	template <typename ... S>
+	static constexpr inline
+	auto _max_s(size_t h, S ... t)
+	noexcept { return _max_2(h, _max_s(t...)); }
+
+	using _tuple_t = tuple<Types...>;
+
+	using _store_t = typename aligned_storage<
+		_max_s(sizeof(Types)...),
+		_max_s(alignof(Types)...)
+	>::type;
+
+	std::size_t _index;
+	_store_t _store;
+
+	template <typename T>
+	T* _as(void)
+	noexcept {
+		assert(_get_type_idx<T>() == _index);
+		return reinterpret_cast<T*>(&_store);
+	}
+
+	template <typename T>
+	const T* _as(void) const
+	noexcept {
+		assert(_get_type_idx<T>() == _index);
+		return reinterpret_cast<const T*>(&_store);
+	}
+
+	template <typename T>
+	static constexpr inline
+	T* _select(void)
+	noexcept { return nullptr; }
+
+	template <typename Func>
+	void _do_visit(Func&, tuple<>*, size_t, size_t) const
+	noexcept { }
+
+	template <typename Func, typename H, typename ... P>
+	void _do_visit(
+		Func& func,
+		tuple<H, P...>*,
+		size_t cur,
+		size_t tgt
+	) {
+		if(cur == tgt) { func(*_as<H>(), cur); }
+		else { _do_visit(func, _select<tuple<P...>>(), cur+1, tgt); }
+	}
+
+	template <typename Func, typename H, typename ... P>
+	void _do_visit(
+		Func& func,
+		tuple<H, P...>*,
+		size_t cur,
+		size_t tgt
+	) const {
+		if(cur == tgt) { func(*_as<H>(), cur); }
+		else { _do_visit(func, _select<tuple<P...>>(), cur+1, tgt); }
+	}
+
+	template <typename Func>
+	void _visit_idx(Func&& func)
+	noexcept { return _do_visit(func, _select<_tuple_t>(), 0, _index); }
+
+	template <typename Func>
+	void _visit_idx(Func&& func) const
+	noexcept { return _do_visit(func, _select<_tuple_t>(), 0, _index); }
+
+	void _destroy(void)
+	noexcept {
+		_visit_idx([](auto& v, auto) {
+			using T = typename decay<decltype(v)>::type;
+			v.~T();
+		});
+		_index = variant_npos;
+	}
+
+	template <typename T>
+	static constexpr inline
+	size_t _do_get_type_idx(tuple<>*, size_t idx = 0)
+	noexcept { return idx; }
+
+	template <typename T, typename H, typename ... P>
+	static constexpr inline
+	size_t _do_get_type_idx(tuple<H, P...>*, size_t idx = 0)
+	noexcept {
+		return std::is_same<T, H>::value?idx:
+			_do_get_type_idx<T>(_select<tuple<P...>>(), idx+1);
+	}
+
+	template <typename T>
+	static constexpr inline
+	size_t _get_type_idx(void)
+	noexcept {
+		return _do_get_type_idx<typename decay<T>::type>(
+			_select<_tuple_t>()
+		);
+	}
+
+	template <typename T>
+	static auto _detect_type(T&& t) -> decltype(
+		_aux::_detect_variant_type<Types...>::_result(
+			std::forward<T>(t)
+		)
+	);
+
+	template <typename T>
+	void _init_from(T&& t) {
+		using X = decltype(_detect_type(std::forward<T>(t)));
+		assert(_get_type_idx<X>() < sizeof ... (Types));
+		new(&_store)X(std::forward<T>(t));
+		_index = _get_type_idx<X>();
+	}
+
+	void _copy_from(const variant& v) {
+		 v._visit_idx([this](auto& x, auto i) {
+			using T = typename decay<decltype(x)>::type;
+			new(&_store)T(x);
+			_index = i;
+		 });
+	}
+
+	void _move_from(variant&& v) {
+		 v._visit_idx([this](auto& x, auto i) {
+			using T = typename decay<decltype(x)>::type;
+			new(&_store)T(std::move(x));
+			_index = i;
+		 });
+	}
+public:
+	constexpr
+	variant(void)
+	 : _index{variant_npos} {
+		using X = typename tuple_element<0, _tuple_t>::type;
+		new(&_store)X();
+		_index = 0;
+	}
+
+	constexpr
+	variant(const variant& v)
+	 : _index{variant_npos} {
+		 _copy_from(v);
+	}
+
+	constexpr
+	variant(variant&& v)
+	 : _index{variant_npos} {
+		 _move_from(std::move(v));
+	}
+
+	template <
+		typename T,
+		typename = typename enable_if<
+			!is_same<typename decay<T>::type, variant>::value
+		>::type
+	>
+	constexpr
+	variant(T&& t)
+	 : _index{variant_npos} {
+		 _init_from(std::forward<T>(t));
+	}
+
+	~variant(void)
+	noexcept { _destroy(); }
+
+	variant& operator = (const variant& v) {
+		_destroy();
+		_copy_from(v);
+		return *this;
+	}
+
+	variant& operator = (variant&& v) {
+		_destroy();
+		_move_from(std::move(v));
+		return *this;
+	}
+
+	template <typename T>
+	variant& operator = (T&& t) {
+		_destroy();
+		_init_from(std::forward<T>(t));
+		return *this;
+	}
+
+	template <typename T>
+	constexpr inline
+	bool _holds_alternative(void) const {
+		return _get_type_idx<T>() == _index;
+	}
+
+	constexpr inline
+	bool valueless_by_exception(void) const
+	noexcept { return _index == variant_npos; }
+
+	size_t index(void) const
+	noexcept { return _index; }
 };
+
+template <typename T, typename ... Types>
+static constexpr inline
+bool holds_alternative(const variant<Types...>& v)
+noexcept { return v.template _holds_alternative<T>(); }
 
 } // namespace std
 
