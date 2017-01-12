@@ -288,7 +288,10 @@ public:
 	}
 
 	~variant(void)
-	noexcept { _destroy(); }
+	noexcept {
+		try { _destroy(); }
+		catch(...) { }
+	}
 
 	variant& operator = (const variant& v) {
 		_destroy();

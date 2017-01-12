@@ -16,12 +16,12 @@ BOOST_AUTO_TEST_SUITE(std_variant_tests)
 
 static eagine::test_random_generator rg;
 
-struct throw_on_copy
+struct test_throw_on_copy
 {
-	throw_on_copy(void) = default;
+	test_throw_on_copy(void) = default;
 
 	[[noreturn]]
-	throw_on_copy(const throw_on_copy&) {
+	test_throw_on_copy(const test_throw_on_copy&) {
 		throw 0;
 	}
 };
@@ -287,6 +287,31 @@ BOOST_AUTO_TEST_CASE(variant_8)
 			break;
 		}}
 	}
+}
+
+BOOST_AUTO_TEST_CASE(variant_9)
+{
+	std::variant<std::monostate, test_throw_on_copy> v1;
+
+	BOOST_CHECK(!v1.valueless_by_exception());
+	BOOST_CHECK(std::holds_alternative<std::monostate>(v1));
+	BOOST_CHECK_EQUAL(v1.index(), 0);
+
+	int passed = 0;
+
+	try {
+		BOOST_CHECK_EQUAL(passed, 0);
+		v1 = test_throw_on_copy{};
+		BOOST_CHECK_MESSAGE(false, "Should copy have thrown");
+	}
+	catch(int) { ++passed; }
+
+	BOOST_CHECK_EQUAL(passed, 1);
+
+	BOOST_CHECK(v1.valueless_by_exception());
+	BOOST_CHECK(!std::holds_alternative<std::monostate>(v1));
+	BOOST_CHECK(!std::holds_alternative<test_throw_on_copy>(v1));
+	BOOST_CHECK_EQUAL(v1.index(), std::variant_npos);
 }
 
 BOOST_AUTO_TEST_SUITE_END()
