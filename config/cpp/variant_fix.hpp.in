@@ -68,7 +68,7 @@ struct _detect_variant_type<H, P...>
  : _detect_variant_type<P...> {
 
 	using _detect_variant_type<P...>::_result;
-	static H _result(H&&);
+	static H _result(const H&);
 };
 
 } // namespace _aux
@@ -302,7 +302,12 @@ public:
 		return *this;
 	}
 
-	template <typename T>
+	template <
+		typename T,
+		typename = typename enable_if<
+			!is_same<typename decay<T>::type, variant>::value
+		>::type
+	>
 	variant& operator = (T&& t) {
 		_destroy();
 		_init_from(std::forward<T>(t));
@@ -322,9 +327,16 @@ public:
 	size_t index(void) const
 	noexcept { return _index; }
 
-	template <size_t I>
-	variant_alternative_t<I, variant>& _get(void) {
-		using T = variant_alternative_t<I, variant>;
+	template <typename T>
+	T& _get_t(void) {
+		if(_get_type_idx<T>() != _index) {
+			throw bad_variant_access();
+		}
+		return *_as<T>();
+	}
+
+	template <typename T>
+	const T& _get_t(void) const {
 		if(_get_type_idx<T>() != _index) {
 			throw bad_variant_access();
 		}
@@ -332,12 +344,13 @@ public:
 	}
 
 	template <size_t I>
-	variant_alternative_t<I, const variant>& _get(void) const {
-		using T = variant_alternative_t<I, const variant>;
-		if(_get_type_idx<T>() != _index) {
-			throw bad_variant_access();
-		}
-		return *_as<T>();
+	variant_alternative_t<I, variant>& _get_i(void) {
+		return _get_t<variant_alternative_t<I, variant>>();
+	}
+
+	template <size_t I>
+	variant_alternative_t<I, const variant>& _get_i(void) const {
+		return _get_t<variant_alternative_t<I, const variant>>();
 	}
 	
 };
@@ -345,12 +358,22 @@ public:
 template <typename T, typename ... Types>
 static constexpr inline
 const auto& get(const variant<Types...>& v)
-noexcept { return v.template _get<T>(); }
+noexcept { return v.template _get_t<T>(); }
 
 template <typename T, typename ... Types>
 static constexpr inline
 auto& get(variant<Types...>& v)
-noexcept { return v.template _get<T>(); }
+noexcept { return v.template _get_t<T>(); }
+
+template <size_t I, typename ... Types>
+static constexpr inline
+const auto& get(const variant<Types...>& v)
+noexcept { return v.template _get_i<I>(); }
+
+template <size_t I, typename ... Types>
+static constexpr inline
+auto& get(variant<Types...>& v)
+noexcept { return v.template _get_i<I>(); }
 
 template <typename T, typename ... Types>
 static constexpr inline
