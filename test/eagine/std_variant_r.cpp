@@ -26,6 +26,16 @@ struct test_throw_on_copy
 	}
 };
 
+struct test_throw_on_move
+{
+	test_throw_on_move(void) = default;
+
+	[[noreturn]]
+	test_throw_on_move(test_throw_on_move&&) {
+		throw 0;
+	}
+};
+
 BOOST_AUTO_TEST_CASE(monostate_cmp)
 {
 	std::monostate ms1, ms2;
@@ -302,7 +312,7 @@ BOOST_AUTO_TEST_CASE(variant_9)
 	try {
 		BOOST_CHECK_EQUAL(passed, 0);
 		v1 = test_throw_on_copy{};
-		BOOST_CHECK_MESSAGE(false, "Should copy have thrown");
+		BOOST_CHECK_MESSAGE(false, "Copy should have thrown");
 	}
 	catch(int) { ++passed; }
 
@@ -312,6 +322,68 @@ BOOST_AUTO_TEST_CASE(variant_9)
 	BOOST_CHECK(!std::holds_alternative<std::monostate>(v1));
 	BOOST_CHECK(!std::holds_alternative<test_throw_on_copy>(v1));
 	BOOST_CHECK_EQUAL(v1.index(), std::variant_npos);
+}
+
+BOOST_AUTO_TEST_CASE(variant_10)
+{
+	std::variant<test_throw_on_copy, int> v1{0};
+	std::variant<test_throw_on_copy, int> v2;
+
+	BOOST_CHECK(!v1.valueless_by_exception());
+	BOOST_CHECK(!v2.valueless_by_exception());
+	BOOST_CHECK(std::holds_alternative<int>(v1));
+	BOOST_CHECK_EQUAL(v1.index(), 1);
+	BOOST_CHECK_EQUAL(v2.index(), 0);
+
+	int passed = 0;
+
+	try {
+		BOOST_CHECK_EQUAL(passed, 0);
+		v1 = v2;
+		BOOST_CHECK_MESSAGE(false, "Copy should have thrown");
+	}
+	catch(int) { ++passed; }
+
+	BOOST_CHECK_EQUAL(passed, 1);
+
+	BOOST_CHECK( v1.valueless_by_exception());
+	BOOST_CHECK(!v2.valueless_by_exception());
+	BOOST_CHECK( std::holds_alternative<test_throw_on_copy>(v2));
+	BOOST_CHECK(!std::holds_alternative<test_throw_on_copy>(v1));
+	BOOST_CHECK(!std::holds_alternative<int>(v1));
+	BOOST_CHECK_EQUAL(v1.index(), std::variant_npos);
+	BOOST_CHECK_EQUAL(v2.index(), 0);
+}
+
+BOOST_AUTO_TEST_CASE(variant_11)
+{
+	std::variant<test_throw_on_move, int> v1{0};
+	std::variant<test_throw_on_move, int> v2;
+
+	BOOST_CHECK(!v1.valueless_by_exception());
+	BOOST_CHECK(!v2.valueless_by_exception());
+	BOOST_CHECK(std::holds_alternative<int>(v1));
+	BOOST_CHECK_EQUAL(v1.index(), 1);
+	BOOST_CHECK_EQUAL(v2.index(), 0);
+
+	int passed = 0;
+
+	try {
+		BOOST_CHECK_EQUAL(passed, 0);
+		v1 = std::move(v2);
+		BOOST_CHECK_MESSAGE(false, "Move should have thrown");
+	}
+	catch(int) { ++passed; }
+
+	BOOST_CHECK_EQUAL(passed, 1);
+
+	BOOST_CHECK( v1.valueless_by_exception());
+	BOOST_CHECK(!v2.valueless_by_exception());
+	BOOST_CHECK( std::holds_alternative<test_throw_on_move>(v2));
+	BOOST_CHECK(!std::holds_alternative<test_throw_on_move>(v1));
+	BOOST_CHECK(!std::holds_alternative<int>(v1));
+	BOOST_CHECK_EQUAL(v1.index(), std::variant_npos);
+	BOOST_CHECK_EQUAL(v2.index(), 0);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

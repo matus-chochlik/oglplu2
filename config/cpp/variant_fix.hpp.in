@@ -186,15 +186,16 @@ private:
 	}
 
 	template <typename Func>
-	void _visit_idx(Func&& func)
-	noexcept { return _do_visit(func, _select<_tuple_t>(), 0, _index); }
+	void _visit_idx(Func&& func) {
+		return _do_visit(func, _select<_tuple_t>(), 0, _index);
+	}
 
 	template <typename Func>
-	void _visit_idx(Func&& func) const
-	noexcept { return _do_visit(func, _select<_tuple_t>(), 0, _index); }
+	void _visit_idx(Func&& func) const {
+		return _do_visit(func, _select<_tuple_t>(), 0, _index);
+	}
 
-	void _destroy(void)
-	noexcept {
+	void _destroy(void) {
 		_visit_idx([](auto& v, auto) {
 			using T = typename decay<decltype(v)>::type;
 			v.~T();
