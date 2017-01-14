@@ -232,12 +232,19 @@ private:
 		)
 	);
 
-	template <typename T>
-	void _init_from(T&& t) {
-		using X = decltype(_detect_type(std::forward<T>(t)));
-		assert(_get_type_idx<X>() < sizeof ... (Types));
-		new(&_store)X(std::forward<T>(t));
-		_index = _get_type_idx<X>();
+	template <typename X>
+	void _init_from(X&& x) {
+		using T = decltype(_detect_type(std::forward<X>(x)));
+		assert(_get_type_idx<T>() < sizeof ... (Types));
+		new(&_store)T(std::forward<X>(x));
+		_index = _get_type_idx<T>();
+	}
+
+	template <typename T, typename ... Args>
+	void _empl_from(Args&& ... args) {
+		assert(_get_type_idx<T>() < sizeof ... (Types));
+		new(&_store)T(std::forward<Args>(args)...);
+		_index = _get_type_idx<T>();
 	}
 
 	void _copy_from(const variant& v) {
@@ -318,6 +325,19 @@ public:
 		return *this;
 	}
 
+	template <typename T, typename ... Args>
+	void emplace(Args&& ... args) {
+		_destroy();
+		_empl_from<T>(std::forward<Args>(args)...);
+	}
+
+	template <size_t I, typename ... Args>
+	void emplace(Args&& ... args) {
+		_destroy();
+		using T = variant_alternative_t<I, variant>;
+		_empl_from<T>(std::forward<Args>(args)...);
+	}
+
 	template <typename T>
 	constexpr inline
 	bool _holds_alternative(void) const {
@@ -356,7 +376,6 @@ public:
 	variant_alternative_t<I, const variant>& _get_i(void) const {
 		return _get_t<variant_alternative_t<I, const variant>>();
 	}
-	
 };
 
 template <typename T, typename ... Types>

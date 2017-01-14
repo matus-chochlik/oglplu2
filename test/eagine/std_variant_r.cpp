@@ -386,4 +386,24 @@ BOOST_AUTO_TEST_CASE(variant_11)
 	BOOST_CHECK_EQUAL(v2.index(), 0);
 }
 
+BOOST_AUTO_TEST_CASE(variant_12)
+{
+	std::variant<bool, char, int, std::string> v1;
+
+	v1.emplace<std::string>(8, 'X');
+	BOOST_CHECK_EQUAL(v1.index(), 3);
+	BOOST_CHECK_EQUAL(std::get<3>(v1), "XXXXXXXX");
+	BOOST_CHECK_EQUAL(std::get<std::string>(v1), "XXXXXXXX");
+}
+
+BOOST_AUTO_TEST_CASE(variant_13)
+{
+	std::variant<wchar_t, short, std::string, float> v1;
+
+	v1.emplace<2>(4, 'Y');
+	BOOST_CHECK_EQUAL(v1.index(), 2);
+	BOOST_CHECK_EQUAL(std::get<2>(v1), "YYYY");
+	BOOST_CHECK_EQUAL(std::get<std::string>(v1), "YYYY");
+}
+
 BOOST_AUTO_TEST_SUITE_END()
