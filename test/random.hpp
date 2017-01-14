@@ -80,6 +80,10 @@ public:
 		return chars[get_span_size(0, chars.size()-1)];
 	}
 
+	int get_short(short min, short max) {
+		return get_integer<short>(min, max);
+	}
+
 	int get_int(int min, int max) {
 		return get_integer<int>(min, max);
 	}

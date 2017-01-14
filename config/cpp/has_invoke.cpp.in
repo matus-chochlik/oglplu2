@@ -1,0 +1,31 @@
+#ifdef EAGINE_TEST_STD_FEATURE_FIX
+#include <eagine/stdfix/invoke.hpp>
+#else
+#include <functional>
+#endif
+#include <string>
+
+struct invoke_tester
+{
+	int twice(int i) const { return i+i; }
+};
+
+bool test_invoke(void) {
+	if(std::invoke(
+		[](auto a, auto b) { return a + b; },
+		123, 456
+	) != 579) return false;
+
+	if(std::invoke(
+		&invoke_tester::twice,
+		invoke_tester{},
+		111
+	) != 222) return false;
+
+	return true;
+}
+
+int main(void)
+{
+	return test_invoke()?0:1;
+}

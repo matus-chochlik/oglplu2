@@ -7,9 +7,10 @@
 
 bool test_variant(void) {
 
-	std::variant<std::monostate> v0;
-	// TODO:
-	return true;
+	std::variant<std::monostate, int, std::string> v0{123};
+	return (v0.index() == 1) &&
+		(std::holds_alternative<int>(v0)) &&
+		(std::get<1>(v0) == 123);
 }
 
 int main(void)

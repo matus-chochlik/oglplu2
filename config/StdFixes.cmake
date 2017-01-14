@@ -190,6 +190,7 @@ function(make_missing_std_feature_fix FEATURE FILENAME)
 	endif()
 endfunction()
 
+make_missing_std_feature_fix("invoke" invoke)
 make_missing_std_feature_fix("optional" optional)
 make_missing_std_feature_fix("variant" variant)
 make_missing_std_feature_fix("integer sequence" int_sequence)
