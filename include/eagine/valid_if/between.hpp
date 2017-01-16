@@ -28,7 +28,7 @@ struct valid_if_btwn_policy
 	{
 		template <typename X>
 		constexpr inline
-		do_log(X)
+		do_log(X&&)
 		noexcept
 		{ }
 
@@ -36,17 +36,6 @@ struct valid_if_btwn_policy
 		void operator ()(Log& log, const T& v) const {
 			log	<< "Value " << v << ", not between "
 				<< Min << " and " << Max << " is invalid";
-		}
-	};
-
-	struct abort
-	{
-		[[noreturn]]
-		void operator ()(void) const
-		noexcept {
-			EAGINE_ABORT(
-			"Value outside of the specified limits is invalid"
-			);
 		}
 	};
 };

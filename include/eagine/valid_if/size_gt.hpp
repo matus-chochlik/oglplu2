@@ -26,7 +26,7 @@ struct valid_if_size_gt_policy
 	{
 		template <typename X>
 		constexpr inline
-		do_log(X)
+		do_log(X&&)
 		noexcept
 		{ }
 
@@ -35,17 +35,6 @@ struct valid_if_size_gt_policy
 			log	<< "Size " << c.size() << ", "
 				<< "not greater than value "
 				<< s << " is invalid";
-		}
-	};
-
-	struct abort
-	{
-		[[noreturn]]
-		void operator ()(void) const
-		noexcept {
-			EAGINE_ABORT(
-			"c.size() not greater than specified value is invalid"
-			);
 		}
 	};
 };

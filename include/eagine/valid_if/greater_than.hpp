@@ -28,7 +28,7 @@ struct valid_if_gt_policy
 	{
 		template <typename X>
 		constexpr inline
-		do_log(X)
+		do_log(X&&)
 		noexcept
 		{ }
 
@@ -37,17 +37,6 @@ struct valid_if_gt_policy
 			log	<< "Value " << v << ", "
 				<< "less then or equal to " << Cmp << " "
 				<< "is invalid";
-		}
-	};
-
-	struct abort
-	{
-		[[noreturn]]
-		void operator ()(void) const
-		noexcept {
-			EAGINE_ABORT(
-			"Value less than or equal to the limit is invalid"
-			);
 		}
 	};
 };

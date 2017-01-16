@@ -706,8 +706,8 @@ private:
 			return cstr_ref("VALUE");
 		}
 
-		template <typename X, typename P, typename A, typename L>
-		static cstr_ref _plchldr_name(identity<valid_if<X, P, A, L>>)
+		template <typename X, typename P, typename L>
+		static cstr_ref _plchldr_name(identity<valid_if<X, P, L>>)
 		noexcept {
 			return _plchldr_name(identity<X>());
 		}

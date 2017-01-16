@@ -26,7 +26,7 @@ struct valid_if_lt_size_ge0_policy
 	{
 		template <typename X>
 		constexpr inline
-		do_log(X)
+		do_log(X&&)
 		noexcept
 		{ }
 
@@ -35,17 +35,6 @@ struct valid_if_lt_size_ge0_policy
 			log	<< "Value " << v << ", less than zero or "
 				<< "not less than c.size() = "
 				<< c.size() << " is invalid";
-		}
-	};
-
-	struct abort
-	{
-		[[noreturn]]
-		void operator ()(void) const
-		noexcept {
-			EAGINE_ABORT(
-			"Value less than 0 or not less than c.size() is invalid"
-			);
 		}
 	};
 };

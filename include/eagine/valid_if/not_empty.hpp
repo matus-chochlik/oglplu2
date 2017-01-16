@@ -28,22 +28,13 @@ struct valid_if_not_empty_policy
 	{
 		template <typename X>
 		constexpr inline
-		do_log(X)
+		do_log(X&&)
 		noexcept
 		{ }
 
 		template <typename Log>
 		void operator ()(Log& log, const T&) const {
 			log << "Empty range, string or container is invalid";
-		}
-	};
-
-	struct abort
-	{
-		[[noreturn]]
-		void operator ()(void) const
-		noexcept {
-			EAGINE_ABORT("Empty range or container is invalid");
 		}
 	};
 };
