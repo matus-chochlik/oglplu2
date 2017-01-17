@@ -35,35 +35,19 @@ struct fd_set_valid_fd_policy
 		{ }
 
 		template <typename Log>
-		void operator ()(Log& log, file_descriptor fd) const
-		{
-			if(get_raw_fd(fd) < 0)
-			{
+		void operator ()(Log& log, file_descriptor fd) const {
+
+			if(get_raw_fd(fd) < 0) {
 				log	<< "File descriptor value "
 					<< get_raw_fd(fd)
 					<< " (less than zero)"
 					<< " is invalid.";
-			}
-			else
-			{
+			} else {
 				log	<< "File descriptor value "
 					<< get_raw_fd(fd)
 					<< " (not less than FD_SETSIZE)"
 					<< " is invalid.";
 			}
-		}
-	};
-
-	struct abort
-	{
-		[[noreturn]]
-		void operator ()(void) const
-		noexcept
-		{
-			EAGINE_ABORT(
-				"File descriptor value not between "
-				"0 and FD_SETSIZE"
-			);
 		}
 	};
 };
@@ -74,14 +58,11 @@ private:
 	fd_set _fds;
 	int _min, _max;
 
-	void _update(int fd)
-	{
-		if(_min > fd)
-		{
+	void _update(int fd) {
+		if(_min > fd) {
 			_min = fd;
 		}
-		if(_max < fd)
-		{
+		if(_max < fd) {
 			_max = fd;
 		}
 	}
@@ -99,21 +80,18 @@ public:
 	}
 
 	optionally_valid<int> nfds(void) const
-	noexcept
-	{
+	noexcept {
 		return {_max+1, (_max >= 0) && (_max < FD_SETSIZE)};
 	}
 
 	bool is_set(valid_file_descriptor fd) const
-	noexcept
-	{
+	noexcept {
 		int rfd = get_raw_fd(fd.value());
 		return FD_ISSET(rfd, &_fds);
 	}
 
 	file_descriptor_set& set(valid_file_descriptor fd)
-	noexcept
-	{
+	noexcept {
 		int rfd = get_raw_fd(fd.value());
 		_update(rfd);
 		FD_SET(rfd, &_fds);
@@ -121,8 +99,7 @@ public:
 	}
 
 	file_descriptor_set& clear(valid_file_descriptor fd)
-	noexcept
-	{
+	noexcept {
 		int rfd = get_raw_fd(fd.value());
 		_update(rfd);
 		FD_CLR(rfd, &_fds);
@@ -131,10 +108,7 @@ public:
 
 	friend inline
 	fd_set* get_raw_fd_set(file_descriptor_set& fds)
-	noexcept
-	{
-		return &fds._fds;
-	}
+	noexcept { return &fds._fds; }
 };
 
 static inline
@@ -145,8 +119,7 @@ outcome<int> select(
 	optional_reference_wrapper<file_descriptor_set> except_fds,
 	long timeout_sec,
 	long timeout_nanosec
-) noexcept
-{
+) noexcept {
 	struct timespec timeout;
 	timeout.tv_sec = timeout_sec;
 	timeout.tv_nsec = timeout_nanosec;
@@ -170,19 +143,15 @@ outcome<int> select(
 	optional_reference_wrapper<file_descriptor_set> except_fds,
 	long timeout_sec,
 	long timeout_nsec
-) noexcept
-{
+) noexcept {
 	int nfds = 0;
 
 	auto upd_nfds =
-	[&nfds](optional_reference_wrapper<file_descriptor_set> fds)
-	{
-		if(fds.is_valid())
-		{
-			if(auto fdsn = fds.get().nfds())
-			{
-				if(nfds < fdsn.value())
-				{
+	[&nfds](optional_reference_wrapper<file_descriptor_set> fds) {
+
+		if(fds.is_valid()) {
+			if(auto fdsn = fds.get().nfds()) {
+				if(nfds < fdsn.value()) {
 					nfds = fdsn.value();
 				}
 			}

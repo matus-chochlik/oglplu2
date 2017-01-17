@@ -316,10 +316,8 @@ BOOST_AUTO_TEST_CASE(optional_move_1)
 	std::optional<int> o1{1};
 	const std::optional<int> o2{std::move(o1)};
 
-	BOOST_CHECK_EQUAL(o1.has_value(), false);
+	BOOST_CHECK_EQUAL(o1.has_value(), true);
 	BOOST_CHECK_EQUAL(o2.has_value(), true);
-
-	BOOST_CHECK_EQUAL(o1 == o2, false);
 }
 
 BOOST_AUTO_TEST_CASE(optional_move_2)
@@ -327,10 +325,8 @@ BOOST_AUTO_TEST_CASE(optional_move_2)
 	std::optional<int> o1{2};
 	const std::optional<long> o2{std::move(o1)};
 
-	BOOST_CHECK_EQUAL(o1.has_value(), false);
+	BOOST_CHECK_EQUAL(o1.has_value(), true);
 	BOOST_CHECK_EQUAL(o2.has_value(), true);
-
-	BOOST_CHECK_EQUAL(decltype(o2)(o1) == o2, false);
 }
 
 BOOST_AUTO_TEST_CASE(optional_move_assign_1)
@@ -345,10 +341,8 @@ BOOST_AUTO_TEST_CASE(optional_move_assign_1)
 
 	o2 = std::move(o1);
 
-	BOOST_CHECK_EQUAL(o1.has_value(), false);
+	BOOST_CHECK_EQUAL(o1.has_value(), true);
 	BOOST_CHECK_EQUAL(o2.has_value(), true);
-
-	BOOST_CHECK_EQUAL(o1 == o2, false);
 }
 
 BOOST_AUTO_TEST_CASE(optional_move_assign_2)
@@ -363,10 +357,8 @@ BOOST_AUTO_TEST_CASE(optional_move_assign_2)
 
 	o2 = std::move(o1);
 
-	BOOST_CHECK_EQUAL(o1.has_value(), false);
+	BOOST_CHECK_EQUAL(o1.has_value(), true);
 	BOOST_CHECK_EQUAL(o2.has_value(), true);
-
-	BOOST_CHECK_EQUAL(decltype(o2)(o1) == o2, false);
 }
 
 BOOST_AUTO_TEST_CASE(optional_value_n)
@@ -439,6 +431,13 @@ BOOST_AUTO_TEST_CASE(optional_value_s)
 		BOOST_CHECK_MESSAGE(false, "Should not get here");
 	}
 	BOOST_CHECK_EQUAL(passed, 3);
+}
+
+BOOST_AUTO_TEST_CASE(optional_construct_exp_conv)
+{
+	auto f = []()-> std::optional<double> { return {1}; };
+	std::optional<double> od = f();
+	BOOST_CHECK(od.has_value());
 }
 
 BOOST_AUTO_TEST_CASE(optional_make_1)
