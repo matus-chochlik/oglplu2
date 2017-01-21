@@ -294,6 +294,19 @@ public:
 
 	static
 	outcome<void>
+	generate_texture_mipmap(texture_target_only tnt)
+	noexcept;
+
+
+#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
+	static
+	outcome<void>
+	generate_texture_mipmap(texture_name_only tnt)
+	noexcept;
+#endif
+
+	static
+	outcome<void>
 	texture_parameter_i(
 		texture_target_only tnt,
 		oglplus::texture_parameter param,

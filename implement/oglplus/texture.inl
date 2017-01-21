@@ -619,6 +619,38 @@ texture_image_3d(
 inline
 outcome<void>
 texture_ops::
+generate_texture_mipmap(texture_target_only tnt)
+noexcept
+{
+	OGLPLUS_GLFUNC(GenerateMipmap)(GLenum(tnt._target));
+	OGLPLUS_VERIFY(
+		GenerateMipmap,
+		gl_object_binding(tag::texture(), tnt._target),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
+inline
+outcome<void>
+texture_ops::
+generate_texture_mipmap(texture_name_only tnt)
+noexcept
+{
+	OGLPLUS_GLFUNC(GenerateTextureMipmap)(get_raw_name(tnt._name));
+	OGLPLUS_VERIFY(
+		GenerateTextureMipmap,
+		gl_object(tnt._name),
+		always
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
 texture_parameter_i(
 	texture_target_only tnt,
 	oglplus::texture_parameter param,
