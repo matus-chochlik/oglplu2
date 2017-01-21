@@ -36,10 +36,7 @@ public:
 	uniform_location projection;
 
 	erase_program(const example_params& params)
-	 : example_program_base(
-		params,
-		cstr_ref("028_lighting-bg.oglpprog")
-	) {
+	 : example_program_base(params, "028_lighting-bg.oglpprog") {
 		gl.use(*this);
 		gl.query_location(projection, *this, "Projection");
 	}
@@ -53,10 +50,7 @@ public:
 	uniform_location projection, modelview;
 
 	lighting_program(const example_params& params)
-	 : example_program_base(
-		params,
-		cstr_ref("028_lighting-lt.oglpprog")
-	) {
+	 : example_program_base(params, "028_lighting-lt.oglpprog") {
 		gl.use(*this);
 		gl.query_location(projection, *this, "Projection");
 		gl.query_location(modelview, *this, "Modelview");

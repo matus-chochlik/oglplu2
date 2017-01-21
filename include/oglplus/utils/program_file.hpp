@@ -33,20 +33,13 @@ public:
 	{ }
 
 	bool is_valid(void) const
-	noexcept
-	{
-		return _header->magic.is_valid();
-	}
+	noexcept { return _header->magic.is_valid(); }
 
 	auto shader_type(void) const
-	noexcept
-	{
-		return oglplus::shader_type(_header->shader_type);
-	}
+	noexcept { return oglplus::shader_type(_header->shader_type); }
 
 	cstr_ref source_text(void) const
-	noexcept
-	{
+	noexcept {
 		return {
 			_header->source_text.data(),
 			cstr_ref::size_type(_header->source_text.size())
@@ -54,8 +47,7 @@ public:
 	}
 
 	operator glsl_source_ref (void) const
-	noexcept
-	{
+	noexcept {
 		return glsl_source_ref(1, &_text, &_size);
 	}
 };
@@ -73,6 +65,10 @@ public:
 	shader_source_file(const cstr_ref& path)
 	 : shader_source_file(eagine::file_contents(path))
 	{ }
+
+	shader_source_file(const std::string& path)
+	 : shader_source_file(cstr_ref(path))
+	{ }
 };
 
 class program_source_block
@@ -87,22 +83,17 @@ public:
 	{ }
 
 	bool is_valid(void) const
-	noexcept
-	{
-		return _header->magic.is_valid();
-	}
+	noexcept { return _header->magic.is_valid(); }
 
 	span_size_t shader_source_count(void) const
-	noexcept
-	{
+	noexcept {
 		assert(is_valid());
 		return _sources.size();
 	}
 
 	shader_source_block
 	shader_source(span_size_t index) const
-	noexcept
-	{
+	noexcept {
 		assert(is_valid());
 		assert(index < shader_source_count());
 		return eagine::memory::block_of(_sources[index]);
@@ -110,8 +101,7 @@ public:
 
 	oglplus::shader_type
 	shader_type(span_size_t index) const
-	noexcept
-	{
+	noexcept {
 		assert(is_valid());
 		assert(index < shader_source_count());
 		return oglplus::shader_type(_sources[index].shader_type);
@@ -119,8 +109,7 @@ public:
 
 	cstr_ref
 	shader_source_text(span_size_t index) const
-	noexcept
-	{
+	noexcept {
 		assert(is_valid());
 		assert(index < shader_source_count());
 		return {
@@ -142,6 +131,10 @@ public:
 
 	program_source_file(const cstr_ref& path)
 	 : program_source_file(eagine::file_contents(path))
+	{ }
+
+	program_source_file(const std::string& path)
+	 : program_source_file(cstr_ref(path))
 	{ }
 };
 

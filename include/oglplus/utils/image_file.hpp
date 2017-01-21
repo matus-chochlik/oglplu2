@@ -26,19 +26,19 @@ public:
 	 : _header(path)
 	{ }
 
+	texture_image_file(const std::string& path)
+	 : _header(cstr_ref(path))
+	{ }
+
 	texture_image_file(eagine::file_contents&& fc)
 	 : _header(std::move(fc))
 	{ }
 
 	bool is_valid(void) const
-	noexcept
-	{
-		return _header->magic.is_valid();
-	}
+	noexcept { return _header->magic.is_valid(); }
 
 	image_dimensions dimensions(void) const
-	noexcept
-	{
+	noexcept {
 		return image_dimensions(
 			_header->width,
 			_header->height,
@@ -47,8 +47,7 @@ public:
 	}
 
 	image_pixel_format pixel_format(void) const
-	noexcept
-	{
+	noexcept {
 		return image_pixel_format(
 			pixel_data_format(_header->format),
 			pixel_data_internal_format(_header->internal_format)
@@ -56,8 +55,7 @@ public:
 	}
 
 	image_pixel_format pixel_format(pixel_data_internal_format ifmt) const
-	noexcept
-	{
+	noexcept {
 		return image_pixel_format(
 			pixel_data_format(_header->format),
 			ifmt
@@ -65,8 +63,7 @@ public:
 	}
 
 	image_pixel_data pixel_data(void) const
-	noexcept
-	{
+	noexcept {
 		return image_pixel_data(
 			pixel_data_type(_header->data_type),
 			eagine::memory::data_block_of(_header->pixels),
@@ -76,8 +73,7 @@ public:
 
 	inline
 	image_spec spec(void) const
-	noexcept
-	{
+	noexcept {
 		return image_spec(
 			dimensions(),
 			pixel_format(),
@@ -87,8 +83,7 @@ public:
 
 	inline
 	image_spec spec(pixel_data_internal_format ifmt) const
-	noexcept
-	{
+	noexcept {
 		return image_spec(
 			dimensions(),
 			pixel_format(ifmt),
@@ -98,10 +93,7 @@ public:
 
 	inline
 	operator image_spec (void) const
-	noexcept
-	{
-		return spec();
-	}
+	noexcept { return spec(); }
 };
 
 } // namespace oglplus

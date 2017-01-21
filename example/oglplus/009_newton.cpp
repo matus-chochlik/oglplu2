@@ -57,7 +57,7 @@ public:
 			example_resource_type::program_source,
 			"009_newton.oglpprog"
 		);
-		build_program(prog, program_source_file(cstr_ref(prog_path)));
+		build_program(prog, program_source_file(prog_path));
 
 		gl.use(prog);
 

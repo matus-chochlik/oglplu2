@@ -88,16 +88,11 @@ public:
 	{ }
 
 	bool empty(void) const
-	noexcept
-	{
-		return size() == 0u;
-	}
+	noexcept { return size() == 0; }
 
 	const char* c_str(void) const
-	noexcept
-	{
-		if(data() == nullptr)
-		{
+	noexcept {
+		if(data() == nullptr) {
 			return "";
 		}
 		assert(data()[size()] == '\0');
@@ -109,10 +104,8 @@ public:
 	}
 
 	template <typename Out>
-	void write_to_stream(Out& out) const
-	{
-		if(!empty())
-		{
+	void write_to_stream(Out& out) const {
+		if(!empty()) {
 			out.write(data(), std::streamsize(size()));
 		}
 	}
@@ -137,8 +130,7 @@ noexcept {
 }
 
 static inline
-std::ostream& operator << (std::ostream& out, const cstr_ref& str)
-{
+std::ostream& operator << (std::ostream& out, const cstr_ref& str) {
 	str.write_to_stream(out);
 	return out;
 }

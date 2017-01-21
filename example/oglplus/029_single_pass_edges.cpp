@@ -36,10 +36,7 @@ public:
 	uniform<GLfloat> vp_dimensions;
 
 	example_program(const example_params& params)
-	 : example_program_base(
-		params,
-		cstr_ref("029_single_pass_edges.oglpprog")
-	) {
+	 : example_program_base(params, "029_single_pass_edges.oglpprog") {
 		gl.use(*this);
 		gl.query_location(projection, *this, "Projection");
 		gl.query_location(vp_dimensions, *this, "ViewportDimensions");
