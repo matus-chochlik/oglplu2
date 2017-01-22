@@ -12,8 +12,10 @@
 
 #include "string_list.hpp"
 #include "memory_block.hpp"
+#include "identifier.hpp"
 #include "span.hpp"
 #include <string>
+#include <tuple>
 
 namespace eagine {
 
@@ -75,23 +77,51 @@ public:
 	basic_string_path& operator = (const basic_string_path&) = default;
 	basic_string_path& operator = (basic_string_path&&) = default;
 
-	basic_string_path(const basic_string_path& a,const basic_string_path& b)
-	 : _size(a._size + b._size)
+	basic_string_path(std::string&& str, span_size_t size)
+	 : _size{size}
+	 , _str(std::move(str))
+	{ }
+
+	basic_string_path(std::tuple<std::string, span_size_t>&& init)
+	 : basic_string_path(
+		std::move(std::get<0>(init)),
+		std::move(std::get<1>(init))
+	) { }
+
+	basic_string_path(
+		const str_span& path,
+		EAGINE_TAG_TYPE(split_by),
+		const str_span& sep
+	) : basic_string_path(string_list::split(path, sep))
+	{ }
+
+	explicit
+	basic_string_path(
+		const basic_string_path& a,
+		EAGINE_TAG_TYPE(plus),
+		const basic_string_path& b
+	): _size(a._size + b._size)
 	 , _str(a._str + b._str)
 	{ }
 
+	explicit
 	basic_string_path(const span<const str_span>& names)
 	 : _size(0)
 	{ _init(names); }
 
 	template <std::size_t N>
+	explicit
 	basic_string_path(const std::array<str_span, N>& names)
 	 : basic_string_path(make_span(names))
 	{ }
 
 	template <typename ... Str>
-	basic_string_path(const str_span& name, const Str& ... names)
-	 : basic_string_path(_pack_names(name, make_span(names)...))
+	explicit
+	basic_string_path(
+		EAGINE_TAG_TYPE(from_pack),
+		const str_span& name,
+		const Str& ... names
+	): basic_string_path(_pack_names(name, make_span(names)...))
 	{ }
 
 	friend
@@ -121,7 +151,7 @@ public:
 	friend
 	basic_string_path
 	operator + (const basic_string_path& a, const basic_string_path& b)
-	noexcept { return basic_string_path(a, b); }
+	noexcept { return basic_string_path(a, EAGINE_TAG(plus), b); }
 
 	bool empty(void) const
 	noexcept {
@@ -174,7 +204,7 @@ public:
 
 	void pop_back(void) {
 		assert(!empty());
-		_str.resize(string_list::pop_back(_str).size());
+		_str.resize(std_size(string_list::pop_back(_str).size()));
 		--_size;
 	}
 

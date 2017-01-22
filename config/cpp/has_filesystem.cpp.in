@@ -1,0 +1,16 @@
+#ifdef EAGINE_TEST_STD_FEATURE_FIX
+#include <eagine/stdfix/filesystem.hpp>
+#else
+#include <filesystem>
+#endif
+#include <string>
+
+bool test_filesystem(void) {
+	const std::filesystem::path p = std::filesystem::current_path();
+	return !p.empty();
+}
+
+int main(void)
+{
+	return test_filesystem()?0:1;
+}

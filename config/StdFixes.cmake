@@ -176,6 +176,11 @@ function(make_missing_std_feature_fix FEATURE FILENAME)
 		configure_file("${FEATURE_FIX_IN}" "${FEATURE_HPP}")
 	endif()
 
+	list(APPEND EAGINE_INCLUDE_DIRS "${PROJECT_BINARY_DIR}/include") 
+	list(APPEND EAGINE_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/include") 
+	list(APPEND EAGINE_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/implement") 
+	list(APPEND EAGINE_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/third_party/GSL") 
+
 	try_compile(
 		HAS_FEATURE
 		${PROJECT_BINARY_DIR}/cpp
@@ -183,7 +188,7 @@ function(make_missing_std_feature_fix FEATURE FILENAME)
 		COMPILE_DEFINITIONS "${CPP_STD_COMPILER_SWITCH}"
 		"-DEAGINE_TEST_STD_FEATURE_FIX=1"
 		CMAKE_FLAGS
-		"-DINCLUDE_DIRECTORIES:STRING=${PROJECT_BINARY_DIR}/include "
+		"-DINCLUDE_DIRECTORIES:STRING=${EAGINE_INCLUDE_DIRS}"
 	)
 	if(NOT ${HAS_FEATURE})
 		message(FATAL_ERROR "Failed to fix std ${FEATURE}")
@@ -193,5 +198,6 @@ endfunction()
 make_missing_std_feature_fix("invoke" invoke)
 make_missing_std_feature_fix("optional" optional)
 make_missing_std_feature_fix("variant" variant)
+make_missing_std_feature_fix("filesystem" filesystem)
 make_missing_std_feature_fix("integer sequence" int_sequence)
 make_missing_std_feature_fix("boolean constant ops" bool_const_ops)

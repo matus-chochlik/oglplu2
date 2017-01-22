@@ -67,7 +67,7 @@ public:
 	{ }
 
 	string_path(const string_path& a, const string_path& b)
-	 : _p(a._p, b._p)
+	 : _p(a._p, EAGINE_TAG(plus), b._p)
 	{ }
 
 	friend inline

@@ -150,7 +150,6 @@ BOOST_AUTO_TEST_CASE(string_path_4)
 {
 	using namespace eagine;
 
-
 	basic_string_path bsp;
 	bsp.push_back("");
 	bsp.push_back("A");
@@ -185,6 +184,29 @@ BOOST_AUTO_TEST_CASE(string_path_4)
 		bsp.as_string("::", false),
 		"::A::BC::DEF::GHIJ::KLMNO"
 	);
+}
+
+BOOST_AUTO_TEST_CASE(string_path_5)
+{
+	using namespace eagine;
+
+	basic_string_path bsp("/usr/local/bin", EAGINE_TAG(split_by), "/");
+
+	BOOST_ASSERT(!bsp.empty());
+	BOOST_CHECK_EQUAL(bsp.size(), 4);
+	BOOST_CHECK(bsp.front() == "");
+	BOOST_CHECK(bsp.back() == "bin");
+
+	BOOST_CHECK_EQUAL(
+		bsp.as_string("::", false),
+		"::usr::local::bin"
+	);
+
+	BOOST_CHECK_EQUAL(
+		bsp.as_string(":", true),
+		":usr:local:bin:"
+	);
+
 }
 
 BOOST_AUTO_TEST_SUITE_END()
