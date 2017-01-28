@@ -43,6 +43,10 @@ public:
 private:
 	eagine::basic_string_path _path;
 
+	path(eagine::basic_string_path&& p)
+	 : _path(std::move(p))
+	{ }
+
 	static inline
 	string_type _sep(void) { return string_type(1, preferred_separator); }
 public:
@@ -58,6 +62,21 @@ public:
 
 	string_type native(void) const {
 		return _path.as_string(_sep(), false);
+	}
+
+	path& append(const string_type& src) {
+		_path.push_back(src);
+		return *this;
+	}
+
+	path root_name(void) const {
+		return { eagine::basic_string_path(_path.front(), 1) };
+	}
+
+	path parent_path(void) const {
+		eagine::basic_string_path res(_path);
+		res.pop_back();
+		return { std::move(res) };
 	}
 };
 

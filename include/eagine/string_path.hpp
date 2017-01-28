@@ -77,6 +77,16 @@ public:
 	basic_string_path& operator = (const basic_string_path&) = default;
 	basic_string_path& operator = (basic_string_path&&) = default;
 
+	basic_string_path(const str_span& str, span_size_t size)
+	 : _size{size}
+	 , _str(str.data(), std_size(str.size()))
+	{ }
+
+	basic_string_path(const std::string& str, span_size_t size)
+	 : _size{size}
+	 , _str(str)
+	{ }
+
 	basic_string_path(std::string&& str, span_size_t size)
 	 : _size{size}
 	 , _str(std::move(str))
