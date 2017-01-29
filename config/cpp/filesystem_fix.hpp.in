@@ -61,7 +61,11 @@ public:
 	void clear(void) { _path.clear(); }
 
 	string_type native(void) const {
-		return _path.as_string(_sep(), false);
+		return _path.as_string(_sep(), _path.size()==1);
+	}
+
+	operator string_type(void) const {
+		return native();
 	}
 
 	path& append(const string_type& src) {
@@ -70,12 +74,22 @@ public:
 	}
 
 	path root_name(void) const {
-		return { eagine::basic_string_path(_path.front(), 1) };
+		return empty() ? path{} : path{
+			eagine::basic_string_path(_path.front(), 1)
+		};
+	}
+
+	path filename(void) const {
+		return empty() ? path{} : path{
+			eagine::basic_string_path(_path.back(), 1)
+		};
 	}
 
 	path parent_path(void) const {
 		eagine::basic_string_path res(_path);
-		res.pop_back();
+		if(!res.empty()) {
+			res.pop_back();
+		}
 		return { std::move(res) };
 	}
 };

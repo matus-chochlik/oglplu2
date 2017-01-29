@@ -16,12 +16,37 @@ BOOST_AUTO_TEST_CASE(filesystem_1)
 {
 	std::filesystem::path e;
 	BOOST_CHECK(e.empty());
+	BOOST_CHECK_EQUAL(e.native(), "");
 }
 
 BOOST_AUTO_TEST_CASE(filesystem_2)
 {
-	std::filesystem::path e("/usr/local/bin");
-	BOOST_CHECK(!e.empty());
+	std::filesystem::path p("/usr/local/bin");
+	BOOST_CHECK(!p.empty());
+	std::string s = p;
+	BOOST_CHECK_EQUAL(s, "/usr/local/bin");
+	BOOST_CHECK_EQUAL(s, p.native());
 }
+
+BOOST_AUTO_TEST_CASE(filesystem_3)
+{
+	std::filesystem::path e;
+	std::filesystem::path p("/usr/local/bin");
+	std::filesystem::path q("/etc");
+	BOOST_CHECK( e.empty());
+	BOOST_CHECK(!p.empty());
+
+	std::filesystem::path f = e.parent_path();
+	std::filesystem::path r = p.parent_path();
+	std::filesystem::path s = q.parent_path();
+
+	BOOST_CHECK( f.empty());
+	BOOST_CHECK(!r.empty());
+	BOOST_CHECK(!s.empty());
+
+	BOOST_CHECK_EQUAL(r.native(), "/usr/local");
+	BOOST_CHECK_EQUAL(s.native(), "/");
+}
+
 
 BOOST_AUTO_TEST_SUITE_END()
