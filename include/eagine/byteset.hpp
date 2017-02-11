@@ -20,6 +20,7 @@ namespace eagine {
 template <std::size_t N>
 class byteset {
 public:
+	static_assert(N > 0, "byteset size must be greater than zero");
 	using size_type = span_size_t;
 	using value_type = unsigned char;
 	using reference = value_type&;
@@ -37,7 +38,9 @@ public:
 		typename ... B,
 		typename = std::enable_if_t<
 			(sizeof...(B) == N) &&
+			(sizeof...(B) >  0) &&
 			std::conjunction_v<
+				std::true_type,
 				std::is_convertible<B, value_type>...
 			>
 		>
@@ -69,6 +72,22 @@ public:
 	constexpr
 	const_reference operator[](size_type i) const
 	noexcept { return _bytes[i]; }
+
+	constexpr
+	reference front(void)
+	noexcept { return _bytes[0]; }
+
+	constexpr
+	const_reference front(void) const
+	noexcept { return _bytes[0]; }
+
+	constexpr
+	reference back(void)
+	noexcept { return _bytes[N-1]; }
+
+	constexpr
+	const_reference back(void) const
+	noexcept { return _bytes[N-1]; }
 
 	iterator begin(void)
 	noexcept { return _bytes+0; }
