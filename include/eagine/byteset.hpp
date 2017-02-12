@@ -38,7 +38,7 @@ public:
 		typename ... B,
 		typename = std::enable_if_t<
 			(sizeof...(B) == N) &&
-			(sizeof...(B) >  0) &&
+			(sizeof...(B) != 0) &&
 			std::conjunction_v<
 				std::true_type,
 				std::is_convertible<B, value_type>...

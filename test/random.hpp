@@ -76,6 +76,10 @@ public:
 		return get_integer<char>(min, max);
 	}
 
+	unsigned char get_byte(unsigned char min, unsigned char max) {
+		return get_integer<unsigned char>(min, max);
+	}
+
 	char get_char_from(cstring_span chars) {
 		return chars[get_span_size(0, chars.size()-1)];
 	}
