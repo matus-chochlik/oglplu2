@@ -17,6 +17,9 @@ BOOST_AUTO_TEST_SUITE(byteset_tests)
 
 static eagine::test_random_generator rg;
 
+constexpr const unsigned char bmin = 0x04;
+constexpr const unsigned char bmax = 0x3F;
+
 template <std::size_t N>
 void do_test_byteset_1(const eagine::byteset<N>& bs)
 {
@@ -25,17 +28,17 @@ void do_test_byteset_1(const eagine::byteset<N>& bs)
 	BOOST_CHECK_EQUAL(bs.size(), N);
 
 	for(auto& b : bs) {
-		BOOST_CHECK((b >= 0x00) && (b <= 0xFF));
+		BOOST_CHECK((b >= bmin) && (b <= bmax));
 	}
 
 	using iter = typename eagine::byteset<N>::const_iterator;
 	for(iter i = bs.begin(); i!=bs.end(); ++i) {
-		BOOST_CHECK((*i >= 0x00) && (*i <= 0xFF));
+		BOOST_CHECK((*i >= bmin) && (*i <= bmax));
 	}
 
 	using sz_t = typename eagine::byteset<N>::size_type;
 	for(sz_t i = 0; i < bs.size(); ++i) {
-		BOOST_CHECK((bs[i] >= 0x00) && (bs[i] <= 0xFF));
+		BOOST_CHECK((bs[i] >= bmin) && (bs[i] <= bmax));
 	}
 }
 
@@ -45,63 +48,63 @@ BOOST_AUTO_TEST_CASE(byteset_1)
 
 	for(int i=0; i<100; ++i) {
 		do_test_byteset_1(byteset<1>{
-			rg.get_byte(0x00, 0xFF)
+			rg.get_byte(bmin, bmax)
 		});
 		do_test_byteset_1(byteset<2>{
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF)
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax)
 		});
 		do_test_byteset_1(byteset<3>{
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF)
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax)
 		});
 		do_test_byteset_1(byteset<4>{
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF)
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax)
 		});
 		do_test_byteset_1(byteset<8>{
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF)
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax)
 		});
 		do_test_byteset_1(byteset<11>{
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF)
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax)
 		});
 		do_test_byteset_1(byteset<16>{
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF)
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax)
 		});
 	}
 }
@@ -146,73 +149,73 @@ BOOST_AUTO_TEST_CASE(byteset_2)
 
 	for(int i=0; i<100; ++i) {
 		do_test_byteset_2(byteset<1>{
-			rg.get_byte(0x00, 0xFF)
+			rg.get_byte(bmin, bmax)
 		},byteset<1>{
-			rg.get_byte(0x00, 0xFF)
+			rg.get_byte(bmin, bmax)
 		});
 
 		do_test_byteset_2(byteset<2>{
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF)
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax)
 		},byteset<2>{
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF)
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax)
 		});
 
 		do_test_byteset_2(byteset<4>{
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF)
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax)
 		},byteset<4>{
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF)
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax)
 		});
 
 		do_test_byteset_2(byteset<5>{
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF)
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax)
 		},byteset<5>{
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF)
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax)
 		});
 
 		do_test_byteset_2(byteset<13>{
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF)
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax)
 		},byteset<13>{
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF),
-			rg.get_byte(0x00, 0xFF)
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax)
 		});
 	}
 }
