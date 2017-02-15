@@ -7,7 +7,6 @@
 #include <type_traits>
 #ifdef EAGINE_TEST_TRAIT_FIX
 namespace std {
-#include "make_@TYPE_TRAIT@_t.inl"
 #include "make_@TYPE_TRAIT@_v.inl"
 }
 #endif
