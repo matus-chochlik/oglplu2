@@ -10,8 +10,8 @@
 #ifndef EAGINE_BITESET_1509260923_HPP
 #define EAGINE_BITESET_1509260923_HPP
 
-#include <eagine/byteset.hpp>
-#include <eagine/int_constant.hpp>
+#include "byteset.hpp"
+#include "int_constant.hpp"
 #include <climits>
 
 namespace eagine {

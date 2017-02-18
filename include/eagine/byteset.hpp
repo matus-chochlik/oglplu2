@@ -10,10 +10,10 @@
 #ifndef EAGINE_BYTESET_1509260923_HPP
 #define EAGINE_BYTESET_1509260923_HPP
 
-#include <eagine/types.hpp>
-#include <eagine/memory_block.hpp>
-#include <eagine/std/utility.hpp>
-#include <eagine/std/type_traits.hpp>
+#include "types.hpp"
+#include "memory_block.hpp"
+#include "std/utility.hpp"
+#include "std/type_traits.hpp"
 #include <climits>
 
 namespace eagine {
