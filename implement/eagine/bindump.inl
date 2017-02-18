@@ -21,7 +21,7 @@ void
 bindump::_to_bin_b(std::ostream& out, byte b) {
 	static const char bd[2] = {'0','1'};
 	for(unsigned o=0; o<4; ++o) {
-		byte c = (b >> (o * 2));
+		byte c = (b >> ((4-o-1) * 2));
 		out << " " << bd[(c>>1)&0x01] << bd[c&0x01];
 	}
 }
