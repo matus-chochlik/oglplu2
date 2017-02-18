@@ -83,6 +83,30 @@ public:
 	T operator [](size_type i) const
 	noexcept { return _get_cell(std::size_t(i)); }
 
+	friend constexpr inline
+	bool operator == (const biteset& a, const biteset& b)
+	noexcept { return a.bytes() == b.bytes(); }
+
+	friend constexpr inline
+	bool operator != (const biteset& a, const biteset& b)
+	noexcept { return a.bytes() != b.bytes(); }
+
+	friend constexpr inline
+	bool operator <  (const biteset& a, const biteset& b)
+	noexcept { return a.bytes() <  b.bytes(); }
+
+	friend constexpr inline
+	bool operator <= (const biteset& a, const biteset& b)
+	noexcept { return a.bytes() <= b.bytes(); }
+
+	friend constexpr inline
+	bool operator >  (const biteset& a, const biteset& b)
+	noexcept { return a.bytes() >  b.bytes(); }
+
+	friend constexpr inline
+	bool operator >= (const biteset& a, const biteset& b)
+	noexcept { return a.bytes() >= b.bytes(); }
+
 	constexpr
 	const _bytes_t& bytes(void) const
 	noexcept { return _bytes; }
