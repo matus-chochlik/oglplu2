@@ -48,7 +48,7 @@ operator << (std::ostream& out, const bindump& hd)
 
 		const byte* pos = row;
 		for(unsigned b=0; b<4; ++b) {
-			if(b == 2) {
+			if(b != 0) {
 				out << " ";
 			}
 
@@ -66,7 +66,7 @@ operator << (std::ostream& out, const bindump& hd)
 
 		pos = row;
 		for(unsigned b=0; b<4; ++b) {
-			if(b == 2) {
+			if(b != 0) {
 				out << " ";
 			}
 
