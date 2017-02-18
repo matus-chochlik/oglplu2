@@ -1,5 +1,5 @@
 /**
- *  @file eagine/hexdump.inl
+ *  @file eagine/bindump.inl
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -14,31 +14,29 @@
 
 namespace eagine {
 //------------------------------------------------------------------------------
-// hexdump::_to_hex_b
+// bindump::_to_bin_b
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 void
-hexdump::_to_hex_b(std::ostream& out, byte b) {
-	static const char hd[16] = {
-		'0','1','2','3',
-		'4','5','6','7',
-		'8','9','a','b',
-		'c','d','e','f'
-	};
-	out << " " << hd[(b>>4)&0x0F] << hd[b&0x0F];
+bindump::_to_bin_b(std::ostream& out, byte b) {
+	static const char bd[2] = {'0','1'};
+	for(unsigned o=0; o<4; ++o) {
+		byte c = (b >> (o * 2));
+		out << " " << bd[(c>>1)&0x01] << bd[c&0x01];
+	}
 }
 //------------------------------------------------------------------------------
-// ostream << hexdump
+// ostream << bindump
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 std::ostream&
-operator << (std::ostream& out, const hexdump& hd)
+operator << (std::ostream& out, const bindump& hd)
 {
 	out << std::endl;
 
 	const byte* bgn = hd._mb.begin();
 	const byte* end = hd._mb.end();
-	const byte* row = memory::align_down(bgn, 16);
+	const byte* row = memory::align_down(bgn, 4);
 
 	while(row < end) {
 		const auto adr = hd._offs?
@@ -49,15 +47,17 @@ operator << (std::ostream& out, const hexdump& hd)
 		out << "|";
 
 		const byte* pos = row;
-		for(unsigned b=0; b<16; ++b) {
-			if(b == 8) {
+		for(unsigned b=0; b<4; ++b) {
+			if(b == 2) {
 				out << " ";
 			}
 
 			if(pos < bgn || pos >= end) {
-				out << " ..";
+				for(unsigned p=0; p<4; ++p) {
+					out << " ..";
+				}
 			} else {
-				hexdump::_to_hex_b(out, *pos);
+				bindump::_to_bin_b(out, *pos);
 			}
 			++pos;
 		}
@@ -65,8 +65,8 @@ operator << (std::ostream& out, const hexdump& hd)
 		out << " |";
 
 		pos = row;
-		for(unsigned b=0; b<16; ++b) {
-			if(b == 8) {
+		for(unsigned b=0; b<4; ++b) {
+			if(b == 2) {
 				out << " ";
 			}
 
@@ -78,7 +78,7 @@ operator << (std::ostream& out, const hexdump& hd)
 			++pos;
 		}
 
-		row += 16;
+		row += 4;
 
 		out << "|" << std::endl;
 	}
