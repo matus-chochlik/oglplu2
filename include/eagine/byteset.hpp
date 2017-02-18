@@ -14,6 +14,7 @@
 #include <eagine/memory_block.hpp>
 #include <eagine/std/utility.hpp>
 #include <eagine/std/type_traits.hpp>
+#include <climits>
 
 namespace eagine {
 
@@ -130,8 +131,28 @@ public:
 	friend constexpr inline
 	bool operator >= (const byteset& a, const byteset& b)
 	noexcept { return compare(a, b) >= 0; }
+
+	template <
+		typename UInt,
+		typename = std::enable_if_t<
+			(sizeof(UInt) >= N) &&
+			std::is_integral_v<UInt>
+		>
+	>
+	constexpr inline
+	UInt as(UInt i = 0) const
+	noexcept { return _push_back_to(i, 0); }
 private:
 	value_type _bytes[N];
+
+	template <typename UInt>
+	constexpr inline
+	UInt _push_back_to(UInt state, std::size_t i) const
+	noexcept {
+		return (i<N)?
+		_push_back_to((state << CHAR_BIT)|_bytes[i], i+1):
+		state;
+	}
 
 	static constexpr inline
 	int _cmp_byte(value_type a, value_type b)
