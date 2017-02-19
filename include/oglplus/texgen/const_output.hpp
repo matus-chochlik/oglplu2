@@ -11,7 +11,7 @@
 
 #include "base_output.hpp"
 #include "param_format.hpp"
-#include <eagine/type_traits.hpp>
+#include <eagine/std/type_traits.hpp>
 #include <array>
 
 namespace oglplus {

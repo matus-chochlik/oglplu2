@@ -690,24 +690,24 @@ private:
 		static
 		cstr_ref _plchldr_name(identity<X>)
 		noexcept {
-			if(std::is_same<X, bool>::value) {
+			if(std::is_same_v<X, bool>) {
 				return cstr_ref("BOOLEAN");
 			}
-			if(std::is_same<X, cstr_ref>::value) {
+			if(std::is_same_v<X, cstr_ref>) {
 				return cstr_ref("STRING");
 			}
-			if(std::is_integral<X>::value) {
+			if(std::is_integral_v<X>) {
 				return cstr_ref("INTEGER");
 			}
-			if(std::is_floating_point<X>::value) {
+			if(std::is_floating_point_v<X>) {
 				return cstr_ref("FLOAT");
 			}
 			// TODO: be more precise depending on X
 			return cstr_ref("VALUE");
 		}
 
-		template <typename X, typename P, typename A, typename L>
-		static cstr_ref _plchldr_name(identity<valid_if<X, P, A, L>>)
+		template <typename X, typename P, typename L>
+		static cstr_ref _plchldr_name(identity<valid_if<X, P, L>>)
 		noexcept {
 			return _plchldr_name(identity<X>());
 		}

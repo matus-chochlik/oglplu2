@@ -19,9 +19,8 @@ template <
 	typename T,
 	typename C,
 	typename Policy,
-	typename Abort = typename Policy::abort,
 	typename DoLog = typename Policy::do_log
-> using in_class_valid_if = basic_valid_if<T, Policy, Abort, DoLog, const C&>;
+> using in_class_valid_if = basic_valid_if<T, Policy, DoLog, const C&>;
 
 } // namespace eagine
 

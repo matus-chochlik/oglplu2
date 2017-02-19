@@ -1,0 +1,112 @@
+/**
+ *  @file eagine/stdfix/invoke.hpp
+ *
+ *  Copyright Matus Chochlik.
+ *  Distributed under the Boost Software License, Version 1.0.
+ *  See accompanying file LICENSE_1_0.txt or copy at
+ *   http://www.boost.org/LICENSE_1_0.txt
+ */
+#ifndef EAGINE_STDFIX_INVOKE_1509260923_HPP
+#define EAGINE_STDFIX_INVOKE_1509260923_HPP
+
+#include <type_traits>
+#include <functional>
+#include <utility>
+
+namespace std {
+namespace _aux {
+
+template <class T>
+struct _is_ref_wrap
+ : false_type
+{ };
+
+template <class U>
+struct _is_ref_wrap<reference_wrapper<U>>
+ : true_type
+{ };
+
+template <class Base, class T, class Derived, class... Args>
+auto _invk(T Base::*pmf, Derived&& ref, Args&&... args)
+noexcept(noexcept((forward<Derived>(ref).*pmf)(forward<Args>(args)...)))
+-> typename enable_if<
+	is_function<T>::value &&
+	is_base_of<Base, typename decay<Derived>::type>::value,
+	decltype((forward<Derived>(ref).*pmf)(forward<Args>(args)...))
+>::type { return (forward<Derived>(ref).*pmf)(forward<Args>(args)...); }
+
+ 
+template <class Base, class T, class RefWrap, class... Args>
+auto _invk(T Base::*pmf, RefWrap&& ref, Args&&... args)
+noexcept(noexcept((ref.get().*pmf)(forward<Args>(args)...)))
+-> typename enable_if<
+	is_function<T>::value &&
+	_is_ref_wrap<typename decay<RefWrap>::type>::value,
+	decltype((ref.get().*pmf)(std::forward<Args>(args)...))
+>::type { return (ref.get().*pmf)(std::forward<Args>(args)...); }
+
+ 
+template <class Base, class T, class Pointer, class... Args>
+auto _invk(T Base::*pmf, Pointer&& ptr, Args&&... args)
+noexcept(noexcept(((*forward<Pointer>(ptr)).*pmf)(forward<Args>(args)...)))
+-> typename enable_if<
+	is_function<T>::value &&
+	!_is_ref_wrap<typename decay<Pointer>::type>::value &&
+	!is_base_of<Base, typename decay<Pointer>::type>::value,
+	decltype(((*forward<Pointer>(ptr)).*pmf)(forward<Args>(args)...))
+>::type { return ((*forward<Pointer>(ptr)).*pmf)(forward<Args>(args)...); }
+
+ 
+template <class Base, class T, class Derived>
+auto _invk(T Base::*pmd, Derived&& ref)
+noexcept(noexcept(forward<Derived>(ref).*pmd))
+-> typename enable_if<
+	!is_function<T>::value &&
+	is_base_of<Base, typename decay<Derived>::type>::value,
+	decltype(forward<Derived>(ref).*pmd)
+>::type { return forward<Derived>(ref).*pmd; }
+
+ 
+template <class Base, class T, class RefWrap>
+auto _invk(T Base::*pmd, RefWrap&& ref)
+noexcept(noexcept(ref.get().*pmd))
+-> typename enable_if<
+	!is_function<T>::value &&
+	_is_ref_wrap<typename decay<RefWrap>::type>::value,
+	decltype(ref.get().*pmd)
+>::type { return ref.get().*pmd; }
+
+ 
+template <class Base, class T, class Pointer>
+auto _invk(T Base::*pmd, Pointer&& ptr)
+noexcept(noexcept((*forward<Pointer>(ptr)).*pmd))
+-> typename enable_if<
+	!is_function<T>::value &&
+	!_is_ref_wrap<typename decay<Pointer>::type>::value &&
+	!is_base_of<Base, typename decay<Pointer>::type>::value,
+	decltype((*forward<Pointer>(ptr)).*pmd)
+>::type { return (*std::forward<Pointer>(ptr)).*pmd; }
+
+ 
+template <class F, class... Args>
+auto _invk(F&& f, Args&&... args)
+noexcept(noexcept(forward<F>(f)(forward<Args>(args)...)))
+-> typename enable_if<
+	!is_member_pointer<typename decay<F>::type>::value,
+	decltype(forward<F>(f)(forward<Args>(args)...))
+>::type { return forward<F>(f)(forward<Args>(args)...); }
+
+} // namespace _aux
+
+ 
+template< class F, class... ArgTypes >
+auto invoke(F&& f, ArgTypes&&... args)
+noexcept(noexcept(_aux::_invk(forward<F>(f), forward<ArgTypes>(args)...)))
+-> decltype(_aux::_invk(forward<F>(f), forward<ArgTypes>(args)...)) {
+	return _aux::_invk(forward<F>(f), forward<ArgTypes>(args)...);
+}
+
+
+} // namespace std
+
+#endif // include guard

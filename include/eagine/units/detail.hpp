@@ -370,7 +370,7 @@ struct get_dim_unit<unit_scales<nothing_t, nothing_t>, BD, Fallback>
 template <typename U, typename S, typename T, typename BD, typename F>
 struct get_dim_unit<unit_scales<uni_sca<U, S>, T>, BD, F>
  : std::conditional_t<
-	std::is_same<dimension_of_t<U>, BD>::value,
+	std::is_same_v<dimension_of_t<U>, BD>,
 	base::scaled_unit<S, U>,
 	typename get_dim_unit<T, BD, F>::type
 >

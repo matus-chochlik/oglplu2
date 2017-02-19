@@ -12,8 +12,8 @@
 
 #include <array>
 #include "span.hpp"
-#include "type_traits.hpp"
-#include "int_sequence.hpp"
+#include "std/type_traits.hpp"
+#include "std/utility.hpp"
 
 namespace eagine {
 

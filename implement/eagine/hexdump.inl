@@ -25,7 +25,7 @@ hexdump::_to_hex_b(std::ostream& out, byte b) {
 		'8','9','a','b',
 		'c','d','e','f'
 	};
-	out << hd[(b>>4)&0x0F] << hd[b&0x0F];
+	out << " " << hd[(b>>4)&0x0F] << hd[b&0x0F];
 }
 //------------------------------------------------------------------------------
 // ostream << hexdump
@@ -57,7 +57,6 @@ operator << (std::ostream& out, const hexdump& hd)
 			if(pos < bgn || pos >= end) {
 				out << " ..";
 			} else {
-				out << " ";
 				hexdump::_to_hex_b(out, *pos);
 			}
 			++pos;

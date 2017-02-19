@@ -11,7 +11,7 @@
 #define EAGINE_STRUCT_MEMORY_BLOCK_1509260923_HPP
 
 #include "memory_block.hpp"
-#include "type_traits.hpp"
+#include "std/type_traits.hpp"
 
 namespace eagine {
 
@@ -19,11 +19,11 @@ template <typename T>
 class structured_memory_block
 {
 private:
-	memory::basic_block<std::is_const<T>::value> _blk;
+	memory::basic_block<std::is_const_v<T>> _blk;
 
 	template <
 		typename X = T,
-		typename = std::enable_if_t<!std::is_const<X>::value>
+		typename = std::enable_if_t<!std::is_const_v<X>>
 	>
 	X* _ptr(void)
 	noexcept {
@@ -46,7 +46,7 @@ public:
 	}
 
 	structured_memory_block(
-		memory::basic_block<std::is_const<T>::value> blk
+		memory::basic_block<std::is_const_v<T>> blk
 	) noexcept
 	 : _blk(blk) {
 		assert(is_valid_block(_blk));
@@ -55,8 +55,8 @@ public:
 	template <
 		typename X = T,
 		typename = std::enable_if_t<
-			!std::is_const<X>::value &&
-			std::is_same<X, T>::value
+			!std::is_const_v<X> &&
+			std::is_same_v<X, T>
 		>
 	>
 	X& get(void)
@@ -65,8 +65,8 @@ public:
 	template <
 		typename X = T,
 		typename = std::enable_if_t<
-			!std::is_const<X>::value &&
-			std::is_same<X, T>::value
+			!std::is_const_v<X> &&
+			std::is_same_v<X, T>
 		>
 	>
   	X* operator -> (void)

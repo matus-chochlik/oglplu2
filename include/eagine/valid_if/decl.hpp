@@ -49,28 +49,18 @@ struct valid_flag_policy
 			log << "Getting the value of an empty optional";
 		}
 	};
-
-	struct abort
-	{
-		[[noreturn]]
-		void operator ()(void) const
-		noexcept {
-			EAGINE_ABORT("Getting the value of an empty optional");
-		}
-	};
 };
 
 template <
 	typename T,
 	typename Policy,
-	typename Abort = typename Policy::abort,
 	typename DoLog = typename Policy::do_log
 >
 class valid_if
- : public basic_valid_if<T, Policy, Abort, DoLog>
+ : public basic_valid_if<T, Policy, DoLog>
 {
 private:
-	using _base_t = basic_valid_if<T, Policy, Abort, DoLog> ;
+	using _base_t = basic_valid_if<T, Policy, DoLog> ;
 
 	_base_t& _base(void)
 	noexcept { return *this; }
@@ -101,7 +91,7 @@ public:
 
 	template <typename Func>
 	std::enable_if_t<
-		!std::is_same<std::result_of_t<Func(T)>, void>::value,
+		!std::is_same_v<std::result_of_t<Func(T)>, void>,
 		valid_if<
 			std::result_of_t<Func(T)>,
 			valid_flag_policy

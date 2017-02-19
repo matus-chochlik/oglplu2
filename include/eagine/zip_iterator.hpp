@@ -12,8 +12,8 @@
 
 #include <tuple>
 #include <iterator>
-#include "type_traits.hpp"
-#include "int_sequence.hpp"
+#include "std/utility.hpp"
+#include "std/type_traits.hpp"
 
 namespace eagine {
 

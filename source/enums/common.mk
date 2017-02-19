@@ -94,15 +94,15 @@ $(ROOT)/implement/$(LIBRARY)/enum/%_bq$(LIB_SUFFIX).inl: $(MAKE_ENUM)
 	git add "$@"
 
 .PHONY: _test_enums_cpp
-_test_enums_cpp: $(addprefix $(ROOT)/test/$(LIBRARY)/enums/,$(notdir $(patsubst %.txt,%.cpp,$(SOURCES))))
+_test_enums_cpp: $(addprefix $(ROOT)/test/boost_test/$(LIBRARY)/enums/,$(notdir $(patsubst %.txt,%.cpp,$(SOURCES))))
 
-$(ROOT)/test/$(LIBRARY)/enums/%.cpp: %.txt $(MAKE_ENUM)
+$(ROOT)/test/boost_test/$(LIBRARY)/enums/%.cpp: %.txt $(MAKE_ENUM)
 	$(MAKE_ENUM) $(MEFLAGS) \
 		--action test_enums_cpp \
 		--output "$@" "$<" 
 	git add "$@"
 
-$(ROOT)/test/$(LIBRARY)/enums/%.cpp: */%.txt $(MAKE_ENUM)
+$(ROOT)/test/boost_test/$(LIBRARY)/enums/%.cpp: */%.txt $(MAKE_ENUM)
 	$(MAKE_ENUM) $(MEFLAGS) \
 		--action test_enums_cpp \
 		--output "$@" "$<" 

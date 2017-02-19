@@ -5,21 +5,17 @@
 #
 cmake_minimum_required(VERSION 2.8)
 
-find_package(Boost COMPONENTS unit_test_framework REQUIRED)
+enable_testing()
 
-if(Boost_FOUND)
-	include_directories(${Boost_INCLUDE_DIRS})
-	enable_testing()
-	add_subdirectory("eagine")
-	add_subdirectory("oglplus")
+add_subdirectory(compile_test)
+add_subdirectory(boost_test)
 
-	if(EGL_FOUND)
-		add_subdirectory("eglplus")
-	endif()
+find_program(CTEST ctest)
 
-	if(OPENAL_FOUND)
-		add_subdirectory("oalplus")
-	endif()
-else()
-	message(WARNING "Boost.Test required for testing but not found")
+if(CTEST)
+	add_custom_target(
+		check
+		COMMAND ${CTEST}
+		WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+	)
 endif()

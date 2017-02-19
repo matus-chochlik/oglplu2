@@ -13,7 +13,7 @@
 #include "../vect/data.hpp"
 #include "../vect/fill.hpp"
 #include "../identity.hpp"
-#include "../type_traits.hpp"
+#include "../std/type_traits.hpp"
 
 namespace eagine {
 namespace math {

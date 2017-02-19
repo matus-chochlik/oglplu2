@@ -11,7 +11,7 @@
 #define EAGINE_MEMORY_STACK_ALLOC_1509260923_HPP
 
 #include "byte_alloc.hpp"
-#include "../type_traits.hpp"
+#include "../std/type_traits.hpp"
 #include <cassert>
 
 namespace eagine {

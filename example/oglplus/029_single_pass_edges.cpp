@@ -11,7 +11,6 @@
 
 #include <oglplus/constants.hpp>
 #include <oglplus/operations.hpp>
-#include <oglplus/utils/program.hpp>
 
 #include <oglplus/shapes/wrapper.hpp>
 #include <oglplus/shapes/icosahedron.hpp>
@@ -22,6 +21,7 @@
 #include <oglplus/math/interpolate.hpp>
 
 #include "example.hpp"
+#include "example/program.hpp"
 
 namespace oglplus {
 
@@ -29,25 +29,14 @@ static constants  GL;
 static operations gl;
 
 class example_program
- : public program
+ : public example_program_base
 {
-private:
-	program_source_file
-	_get_source(const example_params& params)
-	{
-		std::string path = params.get_resource_file_path(
-			example_resource_type::program_source,
-			cstr_ref("029_single_pass_edges.oglpprog")
-		);
-		return program_source_file(cstr_ref(path));
-	}
 public:
 	uniform_location projection;
 	uniform<GLfloat> vp_dimensions;
 
 	example_program(const example_params& params)
-	 : program(build_program(_get_source(params)))
-	{
+	 : example_program_base(params, "029_single_pass_edges.oglpprog") {
 		gl.use(*this);
 		gl.query_location(projection, *this, "Projection");
 		gl.query_location(vp_dimensions, *this, "ViewportDimensions");

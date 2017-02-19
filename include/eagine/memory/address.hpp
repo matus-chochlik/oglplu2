@@ -11,7 +11,7 @@
 #define EAGINE_MEMORY_ADDRESS_1510290655_HPP
 
 #include "../types.hpp"
-#include "../type_traits.hpp"
+#include "../std/type_traits.hpp"
 #include "align.hpp"
 #include <cstddef>
 #include <cassert>
@@ -64,8 +64,8 @@ public:
 	template <
 		typename Int,
 		typename = std::enable_if_t<
-			std::is_integral<Int>::value &&
-			std::is_convertible<Int, std::ptrdiff_t>::value
+			std::is_integral_v<Int> &&
+			std::is_convertible_v<Int, std::ptrdiff_t>
 		>
 	>
 	basic_address(basic_address that, Int offs)

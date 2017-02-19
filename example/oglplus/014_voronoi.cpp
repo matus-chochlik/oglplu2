@@ -47,9 +47,9 @@ public:
 	{
 		std::string path = params.get_resource_file_path(
 			example_resource_type::program_source,
-			cstr_ref("014_voronoi.oglpprog")
+			"014_voronoi.oglpprog"
 		);
-		_init(program_source_file(cstr_ref(path)));
+		_init(program_source_file(path));
 
 		gl.use(*this);
 
@@ -79,9 +79,9 @@ public:
 	{
 		std::string path = params.get_resource_file_path(
 			example_resource_type::texture,
-			cstr_ref("noise.256x256x3.oglptex")
+			"noise.256x256x3.oglptex"
 		);
-		init(texture_image_file(cstr_ref(path)));
+		init(texture_image_file(path));
 	}
 };
 

@@ -10,8 +10,8 @@
 #ifndef EAGINE_MP_STRING_1509260923_HPP
 #define EAGINE_MP_STRING_1509260923_HPP
 
-#include "int_sequence.hpp"
-#include "type_traits.hpp"
+#include "std/utility.hpp"
+#include "int_constant.hpp"
 
 namespace eagine {
 

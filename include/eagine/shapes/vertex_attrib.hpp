@@ -12,8 +12,8 @@
 
 #include "../bitfield.hpp"
 #include "../all_are_same.hpp"
-#include "../type_traits.hpp"
-#include "../int_sequence.hpp"
+#include "../std/type_traits.hpp"
+#include "../std/utility.hpp"
 #include <array>
 
 namespace eagine {

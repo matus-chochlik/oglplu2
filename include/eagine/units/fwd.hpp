@@ -10,7 +10,7 @@
 #ifndef EAGINE_UNITS_FWD_1512222148_HPP
 #define EAGINE_UNITS_FWD_1512222148_HPP
 
-#include "../type_traits.hpp"
+#include "../int_constant.hpp"
 #include "../nothing.hpp"
 
 namespace eagine {

@@ -10,8 +10,6 @@
 #ifndef EAGINE_NOT_NULL_1509260923_HPP
 #define EAGINE_NOT_NULL_1509260923_HPP
 
-#include "type_traits.hpp"
-
 #ifdef __clang__
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunknown-pragmas"

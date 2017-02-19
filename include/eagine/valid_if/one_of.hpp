@@ -33,7 +33,7 @@ struct valid_if_one_of_policy
 	{
 		template <typename X>
 		constexpr inline
-		do_log(X)
+		do_log(X&&)
 		noexcept
 		{ }
 
@@ -49,17 +49,6 @@ struct valid_if_one_of_policy
 				first = false;
 			}
 			log	<< "] is invalid";
-		}
-	};
-
-	struct abort
-	{
-		[[noreturn]]
-		void operator ()(void) const
-		noexcept {
-			EAGINE_ABORT(
-			"Value other than enumerated is invalid"
-			);
 		}
 	};
 };

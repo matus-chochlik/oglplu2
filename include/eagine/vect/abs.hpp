@@ -25,8 +25,7 @@ struct abs
 	apply(data_t<T, N, V> v)
 	noexcept {
 		for(int i=0; i<N; ++i) {
-			using std::abs;
-			v[i] = abs(v[i]);
+			v[i] = v[i]<0?-v[i]:v[i];
 		}
 		return v;
 	}

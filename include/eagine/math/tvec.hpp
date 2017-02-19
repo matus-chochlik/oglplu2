@@ -63,7 +63,7 @@ struct tvec : vector<T, N, V>
 		int M,
 		bool W,
 		typename = std::enable_if_t<
-			!std::is_same<P, T>::value ||
+			!std::is_same_v<P, T> ||
 			!(M == N)
 		>
 	>

@@ -14,7 +14,7 @@
 #include <cstdint>
 #include <cassert>
 #include "span_fwd.hpp"
-#include "type_traits.hpp"
+#include "std/type_traits.hpp"
 #include "valid_if/nonnegative.hpp"
 
 namespace eagine {
@@ -40,8 +40,8 @@ template <
 	typename T,
 	typename F,
 	typename = std::enable_if_t<
-		std::is_integral<F>::value &&
-		!std::is_same<T, F>::value
+		std::is_integral_v<F> &&
+		!std::is_same_v<T, F>
 	>
 > static constexpr inline
 T safe_size_t_cast(F v)
@@ -53,19 +53,19 @@ noexcept {
 
 
 // convert to std alignment type
-template <typename T, typename = std::enable_if_t<std::is_integral<T>::value>>
+template <typename T, typename = std::enable_if_t<std::is_integral_v<T>>>
 static constexpr inline
 std_align_t std_align(T v)
 noexcept { return safe_size_t_cast<std_align_t>(v); }
 
 // convert to std size type
-template <typename T, typename = std::enable_if_t<std::is_integral<T>::value>>
+template <typename T, typename = std::enable_if_t<std::is_integral_v<T>>>
 static constexpr inline
 std_size_t std_size(T v)
 noexcept { return safe_size_t_cast<std_size_t>(v); }
 
 // convert to span size type
-template <typename T, typename = std::enable_if_t<std::is_integral<T>::value>>
+template <typename T, typename = std::enable_if_t<std::is_integral_v<T>>>
 static constexpr inline
 span_size_t span_size(T v)
 noexcept { return safe_size_t_cast<span_size_t>(v); }

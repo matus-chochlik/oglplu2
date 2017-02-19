@@ -11,7 +11,6 @@
 
 #include <oglplus/constants.hpp>
 #include <oglplus/operations.hpp>
-#include <oglplus/utils/program.hpp>
 
 #include <oglplus/shapes/wrapper.hpp>
 #include <oglplus/shapes/icosahedron.hpp>
@@ -22,6 +21,7 @@
 #include <oglplus/math/interpolate.hpp>
 
 #include "example.hpp"
+#include "example/program.hpp"
 
 namespace oglplus {
 
@@ -29,47 +29,17 @@ static constants  GL;
 static operations gl;
 
 class example_program
- : public program
+ : public example_program_base
 {
-private:
-	shader_source_file
-	_get_vert_source(const example_params& params)
-	{
-		std::string path = params.get_resource_file_path(
-			example_resource_type::shader_source,
-			cstr_ref("029_cel_shading.vert.oglpshdr")
-		);
-		return shader_source_file(cstr_ref(path));
-	}
-
-	shader_source_file
-	_get_geom_source(const example_params& params)
-	{
-		std::string path = params.get_resource_file_path(
-			example_resource_type::shader_source,
-			cstr_ref("029_cel_shading.geom.oglpshdr")
-		);
-		return shader_source_file(cstr_ref(path));
-	}
-
-	shader_source_file
-	_get_frag_source(const example_params& params)
-	{
-		std::string path = params.get_resource_file_path(
-			example_resource_type::shader_source,
-			cstr_ref("029_cel_shading.frag.oglpshdr")
-		);
-		return shader_source_file(cstr_ref(path));
-	}
 public:
 	uniform_location projection;
 	uniform_location modelview;
 
 	example_program(const example_params& params)
 	{
-		attach(build_shader(_get_vert_source(params)));
-		attach(build_shader(_get_geom_source(params)));
-		attach(build_shader(_get_frag_source(params)));
+		attach(make_shader(params, "029_cel_shading.vert.oglpshdr"));
+		attach(make_shader(params, "029_cel_shading.geom.oglpshdr"));
+		attach(make_shader(params, "029_cel_shading.frag.oglpshdr"));
 		link();
 		report_link_error();
 

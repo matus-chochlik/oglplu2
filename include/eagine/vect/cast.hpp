@@ -11,7 +11,7 @@
 #define EAGINE_VECT_CAST_1509260923_HPP
 
 #include "fill.hpp"
-#include "../int_sequence.hpp"
+#include "../std/utility.hpp"
 
 namespace eagine {
 namespace vect {

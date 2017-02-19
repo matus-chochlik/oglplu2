@@ -1,6 +1,6 @@
 #include <type_traits>
 #ifdef EAGINE_TEST_STD_FEATURE_FIX
-#include <eagine/bool_const_ops_fix.hpp>
+#include <eagine/stdfix/bool_const_ops.hpp>
 #endif
 
 int main(void)

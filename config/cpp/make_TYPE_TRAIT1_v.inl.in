@@ -1,0 +1,4 @@
+template <typename T>
+constexpr const auto @TYPE_TRAIT@_v =
+@TYPE_TRAIT@<T>::value;
+

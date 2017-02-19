@@ -28,24 +28,13 @@ struct valid_if_ne_policy
 	{
 		template <typename X>
 		constexpr inline
-		do_log(X)
+		do_log(X&&)
 		noexcept
 		{ }
 
 		template <typename Log>
 		void operator ()(Log& log, const T&) const {
 			log << "Value equal to " << Cmp << " is invalid";
-		}
-	};
-
-	struct abort
-	{
-		[[noreturn]]
-		void operator ()(void) const
-		noexcept {
-			EAGINE_ABORT(
-			"Value equal to the specified constant is invalid"
-			);
 		}
 	};
 };

@@ -11,7 +11,7 @@
 
 #include "span.hpp"
 #include "identity.hpp"
-#include "type_traits.hpp"
+#include "std/type_traits.hpp"
 
 namespace eagine {
 
@@ -19,7 +19,7 @@ template <typename S>
 class buffer_size
 {
 private:
-	static_assert(std::is_integral<S>::value, "");
+	static_assert(std::is_integral_v<S>, "");
 	S _v;
 public:
 	constexpr inline

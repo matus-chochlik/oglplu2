@@ -9,7 +9,7 @@
 #ifndef EAGINE_MATH_FUNCTIONS_1509260923_HPP
 #define EAGINE_MATH_FUNCTIONS_1509260923_HPP
 
-#include "../type_traits.hpp"
+#include "../std/type_traits.hpp"
 #include <cassert>
 #include <cmath>
 

@@ -28,7 +28,7 @@ struct valid_if_nonneg_policy
 	{
 		template <typename X>
 		constexpr inline
-		do_log(X)
+		do_log(X&&)
 		noexcept
 		{ }
 
@@ -37,15 +37,6 @@ struct valid_if_nonneg_policy
 			log	<< "Value " << v << ", "
 				<< "less then zero "
 				<< "is invalid";
-		}
-	};
-
-	struct abort
-	{
-		[[noreturn]]
-		void operator ()(void) const
-		noexcept {
-			EAGINE_ABORT("Value less than zero is invalid");
 		}
 	};
 };

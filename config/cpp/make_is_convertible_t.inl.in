@@ -1,3 +1,0 @@
-template <class F, class T>
-using is_convertible_t = typename is_convertible<F, T>::type;
-

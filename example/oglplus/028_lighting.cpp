@@ -11,7 +11,6 @@
 
 #include <oglplus/constants.hpp>
 #include <oglplus/operations.hpp>
-#include <oglplus/utils/program.hpp>
 
 #include <oglplus/shapes/wrapper.hpp>
 #include <oglplus/shapes/sphere.hpp>
@@ -23,6 +22,7 @@
 #include <oglplus/math/interpolate.hpp>
 
 #include "example.hpp"
+#include "example/program.hpp"
 
 namespace oglplus {
 
@@ -30,24 +30,13 @@ static constants  GL;
 static operations gl;
 
 class erase_program
- : public program
+ : public example_program_base
 {
-private:
-	program_source_file
-	_get_source(const example_params& params)
-	{
-		std::string path = params.get_resource_file_path(
-			example_resource_type::program_source,
-			cstr_ref("028_lighting-bg.oglpprog")
-		);
-		return program_source_file(cstr_ref(path));
-	}
 public:
 	uniform_location projection;
 
 	erase_program(const example_params& params)
-	 : program(build_program(_get_source(params)))
-	{
+	 : example_program_base(params, "028_lighting-bg.oglpprog") {
 		gl.use(*this);
 		gl.query_location(projection, *this, "Projection");
 	}
@@ -55,21 +44,14 @@ public:
 };
 
 class lighting_program
- : public program
+ : public example_program_base
 {
 public:
 	uniform_location projection, modelview;
 
 	lighting_program(const example_params& params)
-	{
-		std::string path = params.get_resource_file_path(
-			example_resource_type::program_source,
-			cstr_ref("028_lighting-lt.oglpprog")
-		);
-		build_program(*this, program_source_file(cstr_ref(path)));
-
+	 : example_program_base(params, "028_lighting-lt.oglpprog") {
 		gl.use(*this);
-
 		gl.query_location(projection, *this, "Projection");
 		gl.query_location(modelview, *this, "Modelview");
 	}

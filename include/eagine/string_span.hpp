@@ -10,7 +10,6 @@
 #ifndef EAGINE_STRING_SPAN_1509260923_HPP
 #define EAGINE_STRING_SPAN_1509260923_HPP
 
-#include "type_traits.hpp"
 #include "types.hpp"
 
 #ifdef __clang__

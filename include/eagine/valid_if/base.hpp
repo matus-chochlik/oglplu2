@@ -10,8 +10,10 @@
 #ifndef EAGINE_VALID_IF_BASE_1509260923_HPP
 #define EAGINE_VALID_IF_BASE_1509260923_HPP
 
-#include "../type_traits.hpp"
-#include <utility>
+#include "../std/type_traits.hpp"
+#include "../std/utility.hpp"
+#include <stdexcept>
+#include <sstream>
 #include <cassert>
 
 namespace eagine {
@@ -19,7 +21,6 @@ namespace eagine {
 template <
 	typename T,
 	typename Policy,
-	typename Abort,
 	typename DoLog,
 	typename ... P
 >
@@ -28,7 +29,6 @@ class basic_valid_if
 private:
 	T _value;
 	Policy _policy;
-	Abort _do_abort;
 	DoLog _do_log;
 
 protected:
@@ -94,15 +94,15 @@ public:
 
 	constexpr
 	bool is_valid(const T& val, P ... p) const
-	noexcept {
-		return _policy(val, p...);
-	}
+	noexcept { return _policy(val, p...); }
 
 	constexpr
 	bool is_valid(P ... p) const
-	noexcept {
-		return is_valid(_value, p...);
-	}
+	noexcept { return is_valid(_value, p...); }
+
+	constexpr
+	bool has_value(P ... p) const
+	noexcept { return is_valid(p...); }
 
 	constexpr friend
 	bool operator == (const basic_valid_if& a, const basic_valid_if& b)
@@ -112,7 +112,7 @@ public:
 
 	template <typename Log>
 	void log_invalid(Log& log, const T& v, P ... p) const {
-		assert(!is_valid(v));
+		assert(!is_valid(v, p...));
 		_do_log(log, v, p...);
 	}
 
@@ -127,22 +127,21 @@ public:
 		return *this;
 	}
 
-	void abort_if_invalid(P ... p) const
-	noexcept {
+	void throw_if_invalid(P ... p) const {
 		if(!is_valid(p...)) {
-			_do_abort();
+			std::stringstream ss;
+			log_invalid(ss, p...);
+			throw std::runtime_error(ss.str());
 		}
 	}
 
-	T& value(P ... p)
-	noexcept {
-		abort_if_invalid(p...);
+	T& value(P ... p) {
+		throw_if_invalid(p...);
 		return _value;
 	}
 
-	const T& value(P ... p) const
-	noexcept {
-		abort_if_invalid(p...);
+	const T& value(P ... p) const {
+		throw_if_invalid(p...);
 		return _value;
 	}
 
@@ -162,7 +161,7 @@ public:
 	noexcept { return _get_value(); }
 
 	template <typename Func>
-	std::enable_if_t<std::is_same<std::result_of_t<Func(T)>, void>::value>
+	std::enable_if_t<std::is_same_v<std::result_of_t<Func(T)>, void>>
 	then(const Func& func, P ... p) const {
 		if(is_valid(p...)) {
 			func(value(p...));

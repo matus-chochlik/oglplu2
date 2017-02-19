@@ -57,17 +57,6 @@ struct valid_if_in_list_policy
 			log	<< "] is invalid";
 		}
 	};
-
-	struct abort
-	{
-		[[noreturn]]
-		void operator ()(void) const
-		noexcept {
-			EAGINE_ABORT(
-			"Value other than one of specified choices is invalid"
-			);
-		}
-	};
 };
 
 template <typename T, typename Range>

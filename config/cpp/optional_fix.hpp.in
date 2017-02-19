@@ -1,0 +1,482 @@
+/**
+ *  @file eagine/stdfix/optional.hpp
+ *
+ *  Copyright Matus Chochlik.
+ *  Distributed under the Boost Software License, Version 1.0.
+ *  See accompanying file LICENSE_1_0.txt or copy at
+ *   http://www.boost.org/LICENSE_1_0.txt
+ */
+#ifndef EAGINE_STDFIX_OPTIONAL_1509260923_HPP
+#define EAGINE_STDFIX_OPTIONAL_1509260923_HPP
+
+#include <type_traits>
+#include <stdexcept>
+#include <cassert>
+
+namespace std {
+
+class bad_optional_access
+ : public logic_error
+{
+public:
+	bad_optional_access(void)
+	 : logic_error("Bad optional access")
+	{ }
+};
+
+struct nullopt_t {
+	explicit constexpr
+	nullopt_t(int)
+	noexcept
+	{ }
+};
+
+constexpr const nullopt_t nullopt{0};
+
+struct in_place_optional_t { };
+
+template <typename T>
+class optional
+{
+private:
+	using _store_t = typename aligned_storage<
+		sizeof(T),
+		alignof(T)
+	>::type;
+
+	_store_t _store;
+	bool _has_value;
+
+	constexpr T& _get(void)
+	noexcept { return *reinterpret_cast<T*>(&_store); }
+
+	constexpr const T& _get(void) const
+	noexcept { return *reinterpret_cast<const T*>(&_store); }
+
+	template <typename U>
+	void _init_from(U&& init) {
+		assert(!*this);
+		new (&_store)T(static_cast<T>(forward<U>(init)));
+		_has_value = true;
+	}
+
+	template <typename U>
+	void _copy_from(const optional<U>& that) {
+		assert(!*this);
+		if(that.has_value()) {
+			new (&_store)T(move(that.value()));
+			_has_value = true;
+		}
+	}
+
+	template <typename U>
+	void _move_from(optional<U>&& that) {
+		assert(!*this);
+		if(that.has_value()) {
+			new (&_store)T(move(that.value()));
+			_has_value = true;
+		}
+	}
+
+	void _destroy(void) {
+		_get().T::~T();
+	}
+
+	template <typename U>
+	static constexpr const bool _is_not_conv_from_opt =
+		!is_convertible<T, optional<U>&>::value &&
+		!is_convertible<T, const optional<U>&>::value &&
+		!is_convertible<T, optional<U>&&>::value &&
+		!is_convertible<T, const optional<U>&&>::value &&
+		!is_convertible<optional<U>&, T>::value &&
+		!is_convertible<const optional<U>&, T>::value &&
+		!is_convertible<optional<U>&&, T>::value &&
+		!is_convertible<const optional<U>&&, T>::value;
+public:
+	constexpr
+	optional(nullopt_t)
+	noexcept
+	 : _has_value{false}
+	{ }
+
+	constexpr
+	optional(void)
+	noexcept
+	 : optional{nullopt}
+	{ }
+
+	optional(const optional<T>& that)
+	 : _has_value{false} {
+		_copy_from(that);
+	}
+
+	template <
+		typename U,
+		typename = typename enable_if<
+			is_constructible<T, const U&>::value &&
+			_is_not_conv_from_opt<U>
+		>::type
+	>
+	constexpr
+	optional(const optional<U>& that)
+	 : _has_value{false} {
+		_copy_from(that);
+	}
+
+	template <
+		typename U,
+		typename = typename enable_if<
+			is_constructible<T, const U&>::value &&
+			_is_not_conv_from_opt<U>
+		>::type,
+		typename = typename enable_if<
+			!is_convertible<const U&, T>::value
+		>::type
+	>
+	constexpr explicit
+	optional(const optional<U>& that)
+	 : _has_value{false} {
+		_copy_from(that);
+	}
+
+
+	template <
+		typename U,
+		typename = typename enable_if<
+			is_constructible<T, U&&>::value &&
+			_is_not_conv_from_opt<U>
+		>::type
+	>
+	constexpr
+	optional(optional<U>&& temp)
+	 : _has_value{false} {
+		_move_from(move(temp));
+	}
+
+	template <
+		typename U,
+		typename = typename enable_if<
+			is_constructible<T, U&&>::value &&
+			_is_not_conv_from_opt<U>
+		>::type,
+		typename = typename enable_if<
+			!is_convertible<U&&, T>::value
+		>::type
+	>
+	constexpr explicit
+	optional(optional<U>&& temp)
+	 : _has_value{false} {
+		_move_from(move(temp));
+	}
+
+	template <
+		typename U = T,
+		typename = typename enable_if<
+			is_constructible<T, U&&>::value &&
+			!is_same<
+				typename decay<U>::type,
+				optional<T>
+			>::value
+		>::type
+	>
+	constexpr
+	optional(U&& init)
+	 : _has_value{false} {
+		 _init_from(forward<U>(init));
+	}
+
+	template <
+		typename U = T,
+		typename = typename enable_if<
+			is_constructible<T, U&&>::value &&
+			!is_same<
+				typename decay<U>::type,
+				optional<T>
+			>::value
+		>::type,
+		typename = typename enable_if<
+			!is_convertible<U&&, T>::value
+		>::type
+	>
+	constexpr explicit
+	optional(U&& init)
+	 : _has_value{false} {
+		 _init_from(forward<U>(init));
+	}
+
+	template <typename ... Args>
+	constexpr
+	optional(in_place_optional_t, Args&& ... args)
+	 : _has_value{false}
+	{
+		new (&_store)T(forward<Args>(args)...);
+		_has_value = true;
+	}
+
+	optional& operator = (nullopt_t) {
+		reset();
+		return *this;
+	}
+
+	optional& operator = (const optional<T>& that) {
+		optional<T> temp{that};
+		swap(temp);
+		return *this;
+	}
+
+	template <
+		typename U = T,
+		typename = typename enable_if<
+			is_constructible<T, U>::value &&
+			is_assignable<T&, const U&>::value
+		>::type
+	>
+	optional& operator = (const optional<U>& that) {
+		optional<T> temp{that};
+		swap(temp);
+		return *this;
+	}
+
+	optional& operator = (optional<T>&& temp) {
+		swap(temp);
+		return *this;
+	}
+
+	template <
+		typename U = T,
+		typename = typename enable_if<
+			is_constructible<T, U>::value &&
+			is_assignable<T&, U>::value
+		>::type
+	>
+	optional& operator = (optional<U>&& temp) {
+		optional<T> that(move(temp));
+		swap(that);
+		return *this;
+	}
+
+	~optional(void) {
+		reset();
+	}
+
+	void swap(optional<T>& that) {
+		if(bool(*this) && bool(that)) {
+			using std::swap;
+			swap(_get(), that._get());
+		} else if(!bool(*this) && bool(that)) {
+			this->_move_from(move(that));
+		} else if(bool(*this) && !bool(that)) {
+			that._move_from(move(*this));
+		}
+	}
+
+	template <typename ... Args>
+	void emplace(Args&& ... args) {
+		reset();
+		new (&_store)T(forward<Args>(args)...);
+	}
+
+	void reset(void) {
+		if(has_value()) {
+			_destroy();
+			_has_value = false;
+		}
+	}
+
+	constexpr bool has_value(void) const { return _has_value; }
+	constexpr operator bool (void) const { return has_value(); }
+	constexpr bool operator !(void) const { return !has_value(); }
+
+	constexpr T& value(void) {
+		if(!has_value()) {
+			throw bad_optional_access{};
+		}
+		return _get();
+	}
+
+	constexpr const T& value(void) const {
+		if(!has_value()) {
+			throw bad_optional_access{};
+		}
+		return _get();
+	}
+
+	constexpr T& operator * (void) { return value(); }
+	constexpr const T& operator * (void) const { return value(); }
+
+	constexpr T* operator -> (void) { return &value(); }
+	constexpr const T* operator -> (void) const { return &value(); }
+
+	template <typename U>
+	constexpr T value_or(U&& fallback) const
+	noexcept {
+		return has_value()?
+			_get():
+			static_cast<T>(forward<U>(fallback));
+	}
+
+	friend constexpr
+	bool operator == (const optional<T>& l, const optional<T>& r)
+	noexcept {
+		return	(bool(l) != bool(r))?false:
+			(bool(l) == false)?true:
+			(l._get() == r._get());
+	}
+
+	friend constexpr
+	bool operator != (const optional<T>& l, const optional<T>& r)
+	noexcept {
+		return	(bool(l) != bool(r))?true:
+			(bool(l) == false)?false:
+			(l._get() != r._get());
+	}
+
+	friend constexpr
+	bool operator <  (const optional<T>& l, const optional<T>& r)
+	noexcept {
+		return	(bool(r) == false)?false:
+			(bool(l) == false)?true:
+			(l._get() <  r._get());
+	}
+
+	friend constexpr
+	bool operator <= (const optional<T>& l, const optional<T>& r)
+	noexcept {
+		return	(bool(l) == false)?true:
+			(bool(r) == false)?false:
+			(l._get() <= r._get());
+	}
+
+	friend constexpr
+	bool operator >  (const optional<T>& l, const optional<T>& r)
+	noexcept {
+		return	(bool(l) == false)?false:
+			(bool(r) == false)?true:
+			(l._get() >  r._get());
+	}
+
+	friend constexpr
+	bool operator >= (const optional<T>& l, const optional<T>& r)
+	noexcept {
+		return	(bool(r) == false)?true:
+			(bool(l) == false)?false:
+			(l._get() >= r._get());
+	}
+
+	friend constexpr
+	bool operator == (const optional<T>& l, nullopt_t)
+	noexcept { return !l; }
+
+	friend constexpr
+	bool operator == (nullopt_t, const optional<T>& r)
+	noexcept { return !r; }
+
+	friend constexpr
+	bool operator != (const optional<T>& l, nullopt_t)
+	noexcept { return bool(l); }
+
+	friend constexpr
+	bool operator != (nullopt_t, const optional<T>& r)
+	noexcept { return bool(r); }
+
+	friend constexpr
+	bool operator <  (const optional<T>&  , nullopt_t)
+	noexcept { return false; }
+
+	friend constexpr
+	bool operator <  (nullopt_t, const optional<T>& r)
+	noexcept { return bool(r); }
+
+	friend constexpr
+	bool operator <= (const optional<T>& l, nullopt_t)
+	noexcept { return !l; }
+
+	friend constexpr
+	bool operator <= (nullopt_t, const optional<T>&  )
+	noexcept { return true; }
+
+	friend constexpr
+	bool operator >  (const optional<T>& l, nullopt_t)
+	noexcept { return bool(l); }
+
+	friend constexpr
+	bool operator >  (nullopt_t, const optional<T>&  )
+	noexcept { return false; }
+
+	friend constexpr
+	bool operator >= (const optional<T>&  , nullopt_t)
+	noexcept { return true; }
+
+	friend constexpr
+	bool operator >= (nullopt_t, const optional<T>& r)
+	noexcept { return !r; }
+
+
+	friend constexpr
+	bool operator == (const optional<T>& l, const T& r)
+	noexcept { return !l? false : *l == r; }
+
+	friend constexpr
+	bool operator == (const T& l, const optional<T>& r)
+	noexcept { return !r? false : l == *r; }
+
+	friend constexpr
+	bool operator != (const optional<T>& l, const T& r)
+	noexcept { return !l? true: *l != r; }
+
+	friend constexpr
+	bool operator != (const T& l, const optional<T>& r)
+	noexcept { return !r? true : l != *r; }
+
+	friend constexpr
+	bool operator <  (const optional<T>& l, const T& r)
+	noexcept { return !l? true  : *l <  r; }
+
+	friend constexpr
+	bool operator <  (const T& l, const optional<T>& r)
+	noexcept { return !r? false : l <  *r; }
+
+	friend constexpr
+	bool operator <= (const optional<T>& l, const T& r)
+	noexcept { return !l? true  : *l <= r; }
+
+	friend constexpr
+	bool operator <= (const T& l, const optional<T>& r)
+	noexcept { return !r? false : l <= *r; }
+
+	friend constexpr
+	bool operator >  (const optional<T>& l, const T& r)
+	noexcept { return !l? false : *l >  r; }
+
+	friend constexpr
+	bool operator >  (const T& l, const optional<T>& r)
+	noexcept { return !r? true  : l >  *r; }
+
+	friend constexpr
+	bool operator >= (const optional<T>& l, const T& r)
+	noexcept { return !l? false : *l >= r; }
+
+	friend constexpr
+	bool operator >= (const T& l, const optional<T>& r)
+	noexcept { return !r? true  : l >= *r; }
+};
+
+template <typename T>
+static constexpr inline
+auto make_optional(T&& init) {
+	return optional<typename decay<T>::type>(forward<T>(init));
+}
+
+template <typename T, typename ... Args>
+static constexpr inline
+auto make_optional(Args&& ... args) {
+	return optional<T>(
+		in_place_optional_t{},
+		forward<Args>(args)...
+	);
+}
+
+
+} // namespace std
+
+#endif // include guard

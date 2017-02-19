@@ -11,8 +11,8 @@
 #define EAGINE_CALLABLE_REF_1509260923_HPP
 
 #include "mem_func_const.hpp"
-#include "type_traits.hpp"
-#include <utility>
+#include "std/type_traits.hpp"
+#include "std/utility.hpp"
 #include <cassert>
 
 namespace eagine {
@@ -99,12 +99,12 @@ public:
 		typename MF,
 		MF Ptr,
 		typename = std::enable_if_t<
-			std::is_same<
+			std::is_same_v<
 				typename member_function_constant<
 					MF,
 					Ptr
 				>::scope, C
-			>::value
+			>
 		>
 	>
 	callable_ref(

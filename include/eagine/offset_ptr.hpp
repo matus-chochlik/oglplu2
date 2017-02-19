@@ -23,7 +23,7 @@ template <typename T, typename OffsT>
 class basic_offset_ptr
 {
 public:
-	using address = memory::basic_address<std::is_const<T>::value>;
+	using address = memory::basic_address<std::is_const_v<T>>;
 	using const_address = memory::const_address;
 	using offset_type = OffsT;
 	using pointer = T*;
@@ -31,7 +31,7 @@ public:
 	using reference = T&;
 	using const_reference = std::add_const_t<T>&;
 private:
-	static_assert(std::is_signed<offset_type>::value, "");
+	static_assert(std::is_signed_v<offset_type>, "");
 
 	offset_type _offs;
 	using _rawptr = typename address::pointer;
@@ -171,7 +171,7 @@ template <typename T, typename OffsT>
 class basic_offset_array
 {
 public:
-	using address = memory::basic_address<std::is_const<T>::value>;
+	using address = memory::basic_address<std::is_const_v<T>>;
 	using value_type = T;
 	using size_type = span_size_t;
 	using offset_type = OffsT;

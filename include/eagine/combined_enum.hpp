@@ -12,7 +12,7 @@
 
 #include "enum_class.hpp"
 #include "indexed_enum.hpp"
-#include "type_traits.hpp"
+#include "std/type_traits.hpp"
 
 namespace eagine {
 
@@ -22,10 +22,10 @@ struct combined_enum_value
 private:
 	static_assert(
 		Enum::lib_id == IndexedEnum::lib_id &&
-		std::is_same<
+		std::is_same_v<
 			typename Enum::value_type,
 			typename IndexedEnum::value_type
-		>::value,
+		>,
 		""
 	);
 public:

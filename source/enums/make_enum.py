@@ -564,14 +564,13 @@ def action_test_enums_cpp(options):
 
 
 	print_cpp_header(options)
-	print_line(options, "#define BOOST_TEST_DYN_LINK")
+	print_line(options, '#include "common%s.hpp"' % options.lib_suffix)
 	print_line(options, "#define BOOST_TEST_MODULE %s_%s" % (
 		options.library_uc,
 		options.enum_name
 	))
 	print_newline(options)
-	print_line(options, "#include <boost/test/unit_test.hpp>")
-	print_line(options, '#include "common%s.hpp"' % options.lib_suffix)
+	print_line(options, '#include "../../unit_test.inl"')
 	print_line(options, '#include <cstring>')
 	print_newline(options)
 	print_line(options, "BOOST_AUTO_TEST_SUITE(enum_%s_tests)" % options.enum_name)
