@@ -58,8 +58,8 @@ void test_math_matrix_ctr_MC(MC mc)
 	for(int i=0; i<rows(m3); ++i)
 	for(int j=0; j<columns(m3); ++j)
 	{
-		BOOST_CHECK_CLOSE(get_rm(m3, i, j), get_cm(m4, j, i), 0.01);
-		BOOST_CHECK_CLOSE(get_rm(m4, i, j), get_cm(m3, j, i), 0.01);
+		BOOST_CHECK_CLOSE(get_rm(m3, i, j), get_cm(m4, j, i), 0.02);
+		BOOST_CHECK_CLOSE(get_rm(m4, i, j), get_cm(m3, j, i), 0.02);
 	}
 }
 
