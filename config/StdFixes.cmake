@@ -179,7 +179,7 @@ function(make_missing_std_feature_fix FEATURE FILENAME)
 	list(APPEND EAGINE_INCLUDE_DIRS "${PROJECT_BINARY_DIR}/include") 
 	list(APPEND EAGINE_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/include") 
 	list(APPEND EAGINE_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/implement") 
-	list(APPEND EAGINE_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/third_party/GSL") 
+	list(APPEND EAGINE_INCLUDE_DIRS "${PROJECT_SOURCE_DIR}/third_party/GSL/include") 
 
 	try_compile(
 		HAS_FEATURE

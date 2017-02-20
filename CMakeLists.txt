@@ -72,7 +72,7 @@ include_directories("${PROJECT_BINARY_DIR}/include")
 include_directories("include")
 include_directories("implement")
 include_directories("third_party/include")
-include_directories("third_party/GSL")
+include_directories("third_party/GSL/include")
 
 # common functions for GL version and extension detection
 include(config/GLVerExt.cmake)
