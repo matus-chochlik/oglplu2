@@ -6,17 +6,7 @@
 cmake_minimum_required(VERSION 2.8)
 
 enable_testing()
+include(../testing.cmake)
 
-add_subdirectory(compile_test)
-add_subdirectory(boost_test)
-add_subdirectory(memcheck)
+add_memcheck_tests(eagine)
 
-find_program(CTEST ctest)
-
-if(CTEST)
-	add_custom_target(
-		check
-		COMMAND ${CTEST}
-		WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
-	)
-endif()
