@@ -48,11 +48,12 @@ void eagine_test_memory_c_realloc_1_T(std::size_t n)
 		blks.emplace_back(a.allocate(sizeof(T), ao));
 	}
 
+	BOOST_CHECK(blks.back().size() >= span_size_of<T>());
+	BOOST_CHECK(blks.back().is_aligned_to(ao));
+
 	for(memory::owned_block& blk : blks)
 	{
-		BOOST_CHECK(blks.back().size() >= span_size_of<T>());
-		BOOST_CHECK(blks.back().is_aligned_to(ao));
-		BOOST_CHECK(a.has_allocated(blk, ao));
+		BOOST_CHECK(!!a.has_allocated(blk, ao));
 	}
 
 	while(!blks.empty())
