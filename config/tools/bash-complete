@@ -7,20 +7,26 @@ function _oglplus_run_test()
 {
 	COMPREPLY=()
 	local curr="${COMP_WORDS[COMP_CWORD]}"
-	local first="${COMP_WORDS[1]}"
+	local kind="${COMP_WORDS[1]}"
+	local lib="${COMP_WORDS[2]}"
+	local sc='s/^\s*add_subdirectory(\(["]\?\)\([^"]\+\)\1).*$/\2/p'
 
 	testdir="$(<SOURCE_DIR)/test"
 
 	if [[ ${COMP_CWORD} -le 1 ]]
 	then
-		local sc='s/^\s*add_subdirectory(\(["]\?\)\([^"]\+\)\1).*$/\2/p'
 		local libs=$(sed -n ${sc} "${testdir}/CMakeLists.txt")
 		COMPREPLY=($(compgen -W "${libs}" -- "${curr}"))
 		return 0
+	elif [[ ${COMP_CWORD} -le 2 ]]
+	then
+		local libs=$(sed -n ${sc} "${testdir}/${kind}/CMakeLists.txt")
+		COMPREPLY=($(compgen -W "${libs}" -- "${curr}"))
+		return 0
 	else
-		local exc=(${COMP_WORDS[@]:2})
+		local exc=(${COMP_WORDS[@]:3})
 		local tests=$(
-			ls ${testdir}/${first}/*_[rc].cpp |
+			ls ${testdir}/${kind}/${lib}/*.cpp |
 			xargs -i basename {} .cpp |
 			grep -v -w -e '' ${exc[@]/#/-e}
 		)

@@ -4,15 +4,24 @@
 # See accompanying file LICENSE_1_0.txt or copy at
 #  http://www.boost.org/LICENSE_1_0.txt
 
+kind=${1}
+shift
 library=${1}
 shift
-test_src_dir="$(<SOURCE_DIR)/test/${library}"
+test_src_dir="$(<SOURCE_DIR)/test/${kind}/${library}"
+test_bin_dir="$(dirname ${0})/test/${kind}/${library}"
 
-cd $(dirname ${0})/test/${library} &&
+cd "${test_bin_dir}" &&
 for test
 do
 	if [[ -f "${test_src_dir}/${test}.cpp" ]]
-	then make ${library}-${test} && ./${library}-${test}
-	else echo "Invalid '${library}' test name: '${test}'"
+	then
+		if make ${library}-${test}-${kind}
+		then
+			if [[ -x ${library}-${test}-${kind} ]]
+			then ./${library}-${test}-${kind}
+			fi
+		fi
+	else echo "Invalid '${library}' '${kind}' test name: '${test}'"
 	fi
 done
