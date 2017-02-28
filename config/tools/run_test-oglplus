@@ -11,17 +11,34 @@ shift
 test_src_dir="$(<SOURCE_DIR)/test/${kind}/${library}"
 test_bin_dir="$(dirname ${0})/test/${kind}/${library}"
 
+function compile_test() {
+	make ${1}
+	return $?
+}
+
+function boost_test() {
+	if ! make ${1}
+	then return $?
+	fi
+	if ! ${test_bin_dir}/${1}
+	then return $?
+	fi
+}
+
+function memcheck() {
+	if ! make ${1}
+	then return $?
+	fi
+	if ! valgrind --tool=memcheck --leak-check=full ./${1}
+	then return $?
+	fi
+}
+
 cd "${test_bin_dir}" &&
 for test
 do
 	if [[ -f "${test_src_dir}/${test}.cpp" ]]
-	then
-		if make ${library}-${test}-${kind}
-		then
-			if [[ -x ${library}-${test}-${kind} ]]
-			then ./${library}-${test}-${kind}
-			fi
-		fi
+	then ${kind} ${library}-${test}-${kind}
 	else echo "Invalid '${library}' '${kind}' test name: '${test}'"
 	fi
 done
