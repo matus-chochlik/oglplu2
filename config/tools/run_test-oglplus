@@ -20,7 +20,7 @@ function boost_test() {
 	if ! make ${1}
 	then return $?
 	fi
-	if ! ${test_bin_dir}/${1}
+	if ! ./${1}
 	then return $?
 	fi
 }
