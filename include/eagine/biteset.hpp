@@ -12,11 +12,30 @@
 
 #include "byteset.hpp"
 #include "int_constant.hpp"
+#include "std/type_traits.hpp"
+#include <cstdint>
 #include <climits>
 
 namespace eagine {
 
-template <std::size_t N, std::size_t B, typename T = unsigned char>
+template <typename std::size_t B>
+using biteset_cell_type =
+	std::conditional_t<
+		(B <= 8), std::uint_least8_t,
+		std::conditional_t<
+			(B <= 16), std::uint_least16_t,
+			std::conditional_t<
+				(B <= 32), std::uint_least32_t,
+				std::conditional_t<
+					(B <= 64), std::uint_least64_t,
+					void
+				>
+			>
+		>
+	>;
+
+
+template <std::size_t N, std::size_t B, typename T = biteset_cell_type<B>>
 class biteset {
 private:
 public:
@@ -80,8 +99,16 @@ public:
 	noexcept { return N; }
 
 	constexpr inline
-	T operator [](size_type i) const
+	T get(size_type i) const
 	noexcept { return _get_cell(std::size_t(i)); }
+
+	inline
+	void set(size_type i, T value)
+	noexcept { _set_cell(std::size_t(i), value); }
+
+	constexpr inline
+	T operator [](size_type i) const
+	noexcept { return get(i); }
 
 	friend constexpr inline
 	bool operator == (const biteset& a, const biteset& b)
@@ -124,13 +151,6 @@ private:
 			_byte_t((1 << len)-1);
 	}
 
-	static constexpr inline
-	T _extract_cell_bits(_byte_t by, std::size_t ofs, std::size_t len)
-	noexcept {
-		return	T(by >> (_byte_s-ofs-len))&
-			T((1 << len)-1);
-	}
-
 	template <std::size_t L>
 	static constexpr inline
 	_byte_t _do_get_byte_bits(
@@ -145,24 +165,6 @@ private:
 			init,
 			_byte_t(state << bl)|
 			_extract_init_bits(cb<N?init[cb]:T(0), bo, bl),
-			bb+bl, be,
-			cb+1, ce,
-			size_constant<L+1>{}
-		);
-	}
-
-	template <std::size_t L>
-	constexpr inline
-	T _do_get_cell_bits(
-		T state,
-		std::size_t bo, std::size_t bl,
-		std::size_t bb, std::size_t be,
-		std::size_t cb, std::size_t ce,
-		size_constant<L>
-	) const noexcept {
-		return _get_cell_bits(
-			T(state << bl)|
-			_extract_cell_bits(_bytes[size_type(cb)], bo, bl),
 			bb+bl, be,
 			cb+1, ce,
 			size_constant<L+1>{}
@@ -196,6 +198,57 @@ private:
 	}
 
 	static constexpr inline
+	_byte_t _get_byte_bits(
+		const T(&init)[N],
+		std::size_t bb,
+		std::size_t be
+	) noexcept {
+		return _get_byte_bits(
+			init, _byte_t(0),
+			bb, be,
+			bb/_bite_s, be/_bite_s,
+			size_constant<1>{}
+		);
+	}
+
+	static constexpr inline
+	_byte_t _get_byte(const T(&init)[N], std::size_t i)
+	noexcept {
+		return	(B == _byte_s)?
+			_byte_t(init[i]):
+			_get_byte_bits(
+				init,
+				(i+0)*_byte_s,
+				(i+1)*_byte_s
+			);
+	}
+
+	static constexpr inline
+	T _extract_cell_bits(_byte_t by, std::size_t ofs, std::size_t len)
+	noexcept {
+		return	T(by >> (_byte_s-ofs-len))&
+			T((1 << len)-1);
+	}
+
+	template <std::size_t L>
+	constexpr inline
+	T _do_get_cell_bits(
+		T state,
+		std::size_t bo, std::size_t bl,
+		std::size_t bb, std::size_t be,
+		std::size_t cb, std::size_t ce,
+		size_constant<L>
+	) const noexcept {
+		return _get_cell_bits(
+			T(state << bl)|
+			_extract_cell_bits(_bytes[size_type(cb)], bo, bl),
+			bb+bl, be,
+			cb+1, ce,
+			size_constant<L+1>{}
+		);
+	}
+
+	static constexpr inline
 	T _get_cell_bits(
 		T state,
 		std::size_t, std::size_t,
@@ -219,20 +272,6 @@ private:
 		);
 	}
 
-	static constexpr inline
-	_byte_t _get_byte_bits(
-		const T(&init)[N],
-		std::size_t bb,
-		std::size_t be
-	) noexcept {
-		return _get_byte_bits(
-			init, _byte_t(0),
-			bb, be,
-			bb/_bite_s, be/_bite_s,
-			size_constant<1>{}
-		);
-	}
-
 	constexpr inline
 	T _get_cell_bits(
 		std::size_t bb,
@@ -246,18 +285,6 @@ private:
 		);
 	}
 
-	static constexpr inline
-	_byte_t _get_byte(const T(&init)[N], std::size_t i)
-	noexcept {
-		return	(B == _byte_s)?
-			_byte_t(init[i]):
-			_get_byte_bits(
-				init,
-				(i+0)*_byte_s,
-				(i+1)*_byte_s
-			);
-	}
-
 	constexpr inline
 	T _get_cell(std::size_t i) const
 	noexcept {
@@ -269,12 +296,94 @@ private:
 			);
 	}
 
+	static constexpr inline
+	void _store_cell_bits(T v, _byte_t& by, std::size_t ofs, std::size_t len)
+	noexcept {
+		_byte_t msk = _byte_t(((1 << len)-1) << (_byte_s-ofs-len));
+		by ^= (by & msk);
+		by |= (v << (_byte_s-ofs-len));
+	}
+
+	template <std::size_t L>
+	void _do_set_cell_bits(
+		T state,
+		std::size_t bo, std::size_t bl,
+		std::size_t bb, std::size_t be,
+		std::size_t cb, std::size_t ce,
+		size_constant<L>
+	) noexcept {
+		_store_cell_bits(
+			(state >> (_cell_s-bl)),
+			_bytes[size_type(cb)],
+			bo, bl
+		);
+		return _set_cell_bits(
+			T(state << bl),
+			bb+bl, be,
+			cb+1, ce,
+			size_constant<L+1>{}
+		);
+	}
+
+	static constexpr inline
+	void _set_cell_bits(
+		T,
+		std::size_t, std::size_t,
+		std::size_t, std::size_t,
+		size_constant<_byte_s>
+	) noexcept { }
+
+	template <std::size_t L>
+	void _set_cell_bits(
+		T state,
+		std::size_t bb, std::size_t be,
+		std::size_t cb, std::size_t ce,
+		size_constant<L> l
+	) noexcept {
+		if(bb < be) {
+			_do_set_cell_bits(
+				state,
+				(bb-cb*_byte_s),
+				_min_s((be-bb),(_byte_s-(bb-cb*_byte_s))),
+				bb, be, cb, ce, l
+			);
+		}
+	}
+
+	void _set_cell_bits(
+		T state,
+		std::size_t bb,
+		std::size_t be
+	) noexcept {
+		return _set_cell_bits(
+			state,
+			bb, be,
+			bb/_byte_s, be/_byte_s,
+			size_constant<1>{}
+		);
+	}
+
+	void _set_cell(std::size_t i, T value)
+	noexcept {
+		if(B == _byte_s) {
+			_bytes[size_type(i)] = _byte_t(value);
+		} else {
+			_set_cell_bits(
+				T(value << (_cell_s-_bite_s)),
+				(i+0)*_bite_s,
+				(i+1)*_bite_s
+			);
+		}
+	}
+
 	template <std::size_t ... I>
 	static constexpr inline
 	_bytes_t _do_make_bytes(
 		const T(&init)[N],
 		std::index_sequence<I...>
-	) noexcept { return _bytes_t{_get_byte(init, size_constant<I>{})...}; }
+	) noexcept {
+		return _bytes_t{_get_byte(init, size_constant<I>{})...};
+	}
 
 	template <typename ... P>
 	static constexpr inline
