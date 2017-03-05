@@ -13,8 +13,11 @@
 #include "byteset.hpp"
 #include "int_constant.hpp"
 #include "std/type_traits.hpp"
+#include <iterator>
+#include <utility>
 #include <cstdint>
 #include <climits>
+#include <cassert>
 
 namespace eagine {
 
@@ -34,11 +37,371 @@ using biteset_cell_type =
 		>
 	>;
 
-
 template <std::size_t N, std::size_t B, typename T = biteset_cell_type<B>>
+class biteset;
+
+template <typename BiS>
+class biteset_value_proxy;
+
+template <typename BiS>
+class biteset_value_proxy_base {
+public:
+	using size_type = typename BiS::size_type;
+	using value_type = typename BiS::value_type;
+	using self = biteset_value_proxy_base;
+	using derived = biteset_value_proxy<BiS>;
+
+	biteset_value_proxy_base(BiS& bs, size_type pos)
+	noexcept
+	 : _ptr(&bs)
+	 , _pos(pos)
+	{ }
+
+	biteset_value_proxy_base(const self&) = delete;
+	biteset_value_proxy_base& operator = (const self&) = delete;
+	derived& operator = (self&& temp) = delete;
+
+	biteset_value_proxy_base(self&& temp)
+	noexcept
+	 : _ptr(temp._ptr)
+	 , _pos(temp._pos) {
+		 temp._ptr = nullptr;
+	}
+
+	bool is_valid(void) const
+	noexcept { return (_ptr != nullptr) && (_pos < _ptr->size()); }
+
+	value_type get(void) const
+	noexcept {
+		assert(is_valid());
+		return _ptr->get(_pos);
+	}
+
+	void set(value_type val)
+	noexcept {
+		assert(is_valid());
+		return _ptr->set(_pos, val);
+	}
+
+	void swap(self& other)
+	noexcept {
+		using std::swap;
+		assert(_ptr != nullptr);
+		assert(_ptr == other._ptr);
+		value_type a = this->get();
+		value_type b = other.get();
+		swap(a, b);
+		this->set(a);
+		other.set(b);
+	}
+
+	operator value_type (void) const
+	noexcept { return get(); }
+
+	friend
+	bool operator == (const self& a, const self& b)
+	noexcept { return a.get() == b.get(); }
+
+	friend
+	bool operator != (const self& a, const self& b)
+	noexcept { return a.get() != b.get(); }
+
+	friend
+	bool operator <  (const self& a, const self& b)
+	noexcept { return a.get() <  b.get(); }
+
+	friend
+	bool operator <= (const self& a, const self& b)
+	noexcept { return a.get() <= b.get(); }
+
+	friend
+	bool operator >  (const self& a, const self& b)
+	noexcept { return a.get() >  b.get(); }
+
+	friend
+	bool operator >= (const self& a, const self& b)
+	noexcept { return a.get() >= b.get(); }
+protected:
+	BiS* _ptr;
+	size_type _pos;
+};
+
+template <std::size_t N, std::size_t B, typename T>
+class biteset_value_proxy<const biteset<N, B, T>>
+ : public biteset_value_proxy_base<const biteset<N, B, T>> {
+	using _base = biteset_value_proxy_base<const biteset<N, B, T>>;
+public:
+	using size_type = typename _base::size_type;
+	using self = biteset_value_proxy;
+
+	biteset_value_proxy(const biteset<N, B, T>& bs, size_type pos)
+	noexcept
+	 : _base(bs, pos)
+	{ }
+
+	biteset_value_proxy(biteset_value_proxy&&) = default;
+	biteset_value_proxy& operator = (biteset_value_proxy&&) = default;
+};
+
+template <std::size_t N, std::size_t B, typename T>
+class biteset_value_proxy<biteset<N, B, T>>
+ : public biteset_value_proxy_base<biteset<N, B, T>> {
+	using _base = biteset_value_proxy_base<biteset<N, B, T>>;
+	using _base::_ptr;
+	using _base::_pos;
+public:
+	using size_type = typename _base::size_type;
+	using value_type = typename _base::value_type;
+	using self = biteset_value_proxy;
+
+	biteset_value_proxy(biteset<N, B, T>& bs, size_type pos)
+	noexcept
+	 : _base(bs, pos)
+	{ }
+
+	biteset_value_proxy(biteset_value_proxy&& temp) = default;
+	biteset_value_proxy& operator = (biteset_value_proxy&& temp)
+	noexcept {
+		this->set(temp.get());
+		return *this;
+	}
+
+	self& operator = (const T& v)
+	noexcept {
+		this->set(v);
+		return *this;
+	}
+};
+
+template <typename BiS>
+static inline
+void swap(biteset_value_proxy<BiS>&& a, biteset_value_proxy<BiS>&& b) 
+noexcept { return a.swap(b); }
+
+template <typename BiS>
+class biteset_iterator;
+
+template <typename BiS>
+class biteset_iterator_base {
+public:
+	using self = biteset_iterator_base;
+	using derived = biteset_iterator<BiS>;
+	using size_type = typename BiS::size_type;
+	using difference_type = typename BiS::difference_type;
+
+	void swap(self& other)
+	noexcept {
+		using std::swap;
+		assert(_ptr == other._ptr);
+		swap(_pos, other._pos);
+	}
+
+	derived& operator ++ (void)
+	noexcept {
+		++_pos;
+		return *static_cast<derived*>(this);
+	}
+
+	derived operator ++ (int)
+	noexcept {
+		derived that = *static_cast<derived*>(this);
+		++_pos;
+		return that;
+	}
+
+	derived& operator -- (void)
+	noexcept {
+		--_pos;
+		return *static_cast<derived*>(this);
+	}
+
+	derived operator -- (int)
+	noexcept {
+		derived that = *static_cast<derived*>(this);
+		--_pos;
+		return that;
+	}
+
+	derived& operator += (size_type n)
+	noexcept {
+		_pos += n;
+		return *static_cast<derived*>(this);
+	}
+
+	derived& operator -= (size_type n)
+	noexcept {
+		_pos -= n;
+		return *static_cast<derived*>(this);
+	}
+
+	friend
+	derived operator + (const self& a, difference_type n)
+	noexcept { return derived(*a._ptr, a._pos+n); }
+
+	friend
+	derived operator + (difference_type n, const self& a)
+	noexcept { return derived(*a._ptr, n+a._pos); }
+
+	friend
+	derived operator - (const self& a, difference_type n)
+	noexcept { return derived(*a._ptr, a._pos-n); }
+
+	friend
+	difference_type operator - (const self& a, const self& b)
+	noexcept { return a._pos - b._pos; }
+
+	friend
+	bool operator == (const self& a, const self& b)
+	noexcept { return _cmp(a, b) == 0; }
+
+	friend
+	bool operator != (const self& a, const self& b)
+	noexcept { return _cmp(a, b) != 0; }
+
+	friend
+	bool operator <  (const self& a, const self& b)
+	noexcept { return _cmp(a, b) <  0; }
+
+	friend
+	bool operator <= (const self& a, const self& b)
+	noexcept { return _cmp(a, b) <= 0; }
+
+	friend
+	bool operator >  (const self& a, const self& b)
+	noexcept { return _cmp(a, b) >  0; }
+
+	friend
+	bool operator >= (const self& a, const self& b)
+	noexcept { return _cmp(a, b) >= 0; }
+protected:
+	biteset_iterator_base(BiS& bs, size_type pos)
+	noexcept
+	 : _ptr(&bs)
+	 , _pos(pos)
+	{ }
+
+	biteset_iterator_base(void)
+	noexcept
+	 : _ptr(nullptr)
+	 , _pos(0)
+	{ }
+
+	bool is_valid(void) const
+	noexcept { return (_ptr != nullptr) && (_pos < _ptr->size()); }
+
+	static inline
+	difference_type _cmp(const self& a, const self& b)
+	noexcept {
+		assert(a._ptr != nullptr);
+		assert(a._ptr == b._ptr);
+		return a._pos - b._pos;
+	}
+
+	BiS* _ptr;
+	size_type _pos;
+};
+
+template <typename BiS>
+static inline
+void swap(biteset_iterator_base<BiS>& a, biteset_iterator_base<BiS>& b) 
+noexcept { return a.swap(b); }
+
+template <std::size_t N, std::size_t B, typename T>
+class biteset_iterator<const biteset<N, B, T>>
+ : public biteset_iterator_base<const biteset<N, B, T>> {
+	using _base = biteset_iterator_base<const biteset<N, B, T>>;
+	using _base::is_valid;
+	using _base::_ptr;
+	using _base::_pos;
+public:
+	using size_type = typename biteset<N, B, T>::size_type;
+	using difference_type = typename biteset<N, B, T>::difference_type;
+	using value_type = typename biteset<N, B, T>::value_type;
+	using const_proxy = biteset_value_proxy<const biteset<N, B, T>>;
+	using reference = const_proxy;
+	using const_reference = const_proxy;
+	using pointer = const_proxy;
+	using const_pointer = const_proxy;
+	using iterator_category = std::random_access_iterator_tag;
+	using self = biteset_iterator;
+
+	biteset_iterator(const biteset<N, B, T>& bs, size_type pos)
+	noexcept
+	 : _base(bs, pos)
+	{ }
+
+	biteset_iterator(void) = default;
+
+	const_proxy operator * (void) const
+	noexcept {
+		assert(is_valid());
+		return {*_ptr, _pos};
+	}
+};
+
+template <std::size_t N, std::size_t B, typename T>
+class biteset_iterator<biteset<N, B, T>>
+ : public biteset_iterator_base<biteset<N, B, T>> {
+	using _base = biteset_iterator_base<biteset<N, B, T>>;
+	using _base::is_valid;
+	using _base::_cmp;
+	using _base::_ptr;
+	using _base::_pos;
+public:
+	using size_type = typename biteset<N, B, T>::size_type;
+	using difference_type = typename biteset<N, B, T>::difference_type;
+	using value_type = typename biteset<N, B, T>::value_type;
+	using proxy = biteset_value_proxy<biteset<N, B, T>>;
+	using const_proxy = biteset_value_proxy<const biteset<N, B, T>>;
+	using reference = proxy;
+	using const_reference = const_proxy;
+	using pointer = proxy;
+	using const_pointer = const_proxy;
+	using iterator_category = std::random_access_iterator_tag;
+	using self = biteset_iterator;
+
+	biteset_iterator(biteset<N, B, T>& bs, size_type pos)
+	noexcept
+	 : _base(bs, pos)
+	{ }
+
+	biteset_iterator(void)
+	noexcept
+	 : _base()
+	{ }
+
+	biteset_iterator(const biteset_iterator&) = default;
+	biteset_iterator& operator = (const biteset_iterator&) = default;
+
+	proxy operator * (void)
+	noexcept {
+		assert(is_valid());
+		return {*_ptr, _pos};
+	}
+
+	const_proxy operator * (void) const
+	noexcept {
+		assert(is_valid());
+		return {*_ptr, _pos};
+	}
+
+	proxy operator -> (void)
+	noexcept {
+		assert(is_valid());
+		return {*_ptr, &_pos};
+	}
+
+	const_proxy operator -> (void) const
+	noexcept {
+		assert(is_valid());
+		return {*_ptr, &_pos};
+	}
+};
+
+
+template <std::size_t N, std::size_t B, typename T>
 class biteset {
 private:
-public:
 	static constexpr const std::size_t _store_size =
 		((N*B)/CHAR_BIT) + (((N*B)%CHAR_BIT != 0)?1:0);
 
@@ -70,7 +433,10 @@ public:
 	);
 
 	using size_type = span_size_t;
+	using difference_type = span_size_t;
 	using value_type = T;
+	using iterator = biteset_iterator<biteset>;
+	using const_iterator = biteset_iterator<const biteset>;
 
 	constexpr
 	biteset(void)
@@ -106,9 +472,25 @@ public:
 	void set(size_type i, T value)
 	noexcept { _set_cell(std::size_t(i), value); }
 
+	const_iterator begin(void) const
+	noexcept { return {*this, 0}; }
+
+	const_iterator end(void) const
+	noexcept { return {*this, N}; }
+
+	iterator begin(void)
+	noexcept { return {*this, 0}; }
+
+	iterator end(void)
+	noexcept { return {*this, N}; }
+
 	constexpr inline
-	T operator [](size_type i) const
-	noexcept { return get(i); }
+	biteset_value_proxy<const biteset> operator [](size_type i) const
+	noexcept { return {*this, i}; }
+
+	constexpr inline
+	biteset_value_proxy<biteset> operator [](size_type i)
+	noexcept { return {*this, i}; }
 
 	friend constexpr inline
 	bool operator == (const biteset& a, const biteset& b)

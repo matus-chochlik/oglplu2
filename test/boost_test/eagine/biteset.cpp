@@ -8,7 +8,7 @@
 #define BOOST_TEST_MODULE EAGINE_biteset
 #include "../unit_test.inl"
 
-#include <cstring>
+#include <algorithm>
 
 BOOST_AUTO_TEST_SUITE(biteset_tests)
 
@@ -235,11 +235,45 @@ template <std::size_t N, std::size_t B, typename T>
 void do_test_biteset_3(eagine::biteset<N, B, T>&& bs)
 {
 	using namespace eagine;
-
 	using sz_t = typename eagine::biteset<N, B>::size_type;
-	for(sz_t i = 0; i < bs.size(); ++i) {
-		T v = T(i % (1<<B));
+
+	eagine::biteset<N, B, T> bs2;
+
+	sz_t i;
+	for(i = 0; i < bs.size(); ++i) {
+		bs2.set(i, bs.get(i));
+	}
+
+	i = 0;
+	for(T&& c : bs2) {
+		BOOST_CHECK_EQUAL(c, bs[i++]);
+	}
+
+	BOOST_CHECK(bs == bs2);
+
+	for(i = 0; i < bs.size(); ++i) {
+		T v = T((i+1) % (1<<B));
 		bs.set(i, v); 
+		BOOST_CHECK_EQUAL(bs.get(i), v);
+	}
+
+	for(i = 0; i < bs.size(); ++i) {
+		T v = T((i+1) % (1<<B));
+		bs[i] = v;
+		BOOST_CHECK_EQUAL(bs.get(i), v);
+	}
+
+	i = 0;
+	for(auto&& c : bs) {
+		T v = T(++i % (1<<B));
+		BOOST_CHECK_EQUAL(c, v);
+		v = T((i*7) % (1<<B));
+		c = v;
+		BOOST_CHECK_EQUAL(c, v);
+	}
+
+	for(i = 0; i < bs.size(); ++i) {
+		T v = T((i+1)*7 % (1<<B));
 		BOOST_CHECK_EQUAL(bs.get(i), v);
 	}
 }
@@ -329,6 +363,103 @@ BOOST_AUTO_TEST_CASE(biteset_3)
 	test_biteset_3<8>();
 	test_biteset_3<9>();
 	test_biteset_3<12>();
+}
+
+template <std::size_t N, std::size_t B, typename T>
+void do_test_biteset_4(eagine::biteset<N, B, T>&& bs)
+{
+	std::sort(bs.begin(), bs.end());
+
+	const eagine::biteset<N, B, T>& cbs = bs;
+
+	BOOST_CHECK(std::is_sorted(cbs.begin(), cbs.end()));
+}
+
+template <std::size_t B>
+void test_biteset_4(void)
+{
+	using namespace eagine;
+
+	for(int i=0; i<100; ++i) {
+		do_test_biteset_4(biteset<1, B>{
+			rg.get_byte(bmin, bmax)
+		});
+		do_test_biteset_4(biteset<2, B>{
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax)
+		});
+		do_test_biteset_4(biteset<3, B>{
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax)
+		});
+		do_test_biteset_4(biteset<4, B>{
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax)
+		});
+		do_test_biteset_4(biteset<5, B>{
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax)
+		});
+		do_test_biteset_4(biteset<8, B>{
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax)
+		});
+		do_test_biteset_4(biteset<13, B>{
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax)
+		});
+		do_test_biteset_4(biteset<15, B>{
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax),
+			rg.get_byte(bmin, bmax)
+		});
+	}
+}
+
+BOOST_AUTO_TEST_CASE(biteset_4)
+{
+	test_biteset_4<4>();
+	test_biteset_4<5>();
+	test_biteset_4<6>();
+	test_biteset_4<7>();
+	test_biteset_4<8>();
+	test_biteset_4<9>();
+	test_biteset_4<13>();
 }
 
 BOOST_AUTO_TEST_SUITE_END()
