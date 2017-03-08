@@ -13,7 +13,7 @@ BOOST_AUTO_TEST_SUITE(memory_buffer_tests)
 
 static eagine::test_random_generator rg;
 
-BOOST_AUTO_TEST_CASE(memory_block_0)
+BOOST_AUTO_TEST_CASE(memory_buffer_0)
 {
 	using namespace eagine;
 
@@ -31,7 +31,7 @@ BOOST_AUTO_TEST_CASE(memory_block_0)
 	BOOST_CHECK(blk.begin() == blk.end());
 }
 
-BOOST_AUTO_TEST_CASE(memory_block_1)
+BOOST_AUTO_TEST_CASE(memory_buffer_1)
 {
 	using namespace eagine;
 

@@ -23,7 +23,7 @@ test%.o: test%.cpp
 		-Wno-documentation \
 		-Wno-documentation-unknown-command \
 		-I$(BINARY_DIR)/include \
-		-I../third_party/GSL \
+		-I../third_party/GSL/include \
 		-I../third_party/include \
 		-I../include \
 		-I../implement \

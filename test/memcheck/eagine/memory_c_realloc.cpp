@@ -5,18 +5,15 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/memory/c_realloc.hpp>
-#define BOOST_TEST_MODULE EAGINE_memory_c_realloc
-#include "../unit_test.inl"
+#include "../memcheck.inl"
 
 #include <deque>
-
-BOOST_AUTO_TEST_SUITE(memory_c_realloc_tests)
+#include <cassert>
 
 static eagine::test_random_generator rg;
 
 template <typename T>
-void eagine_test_memory_c_realloc_1_T(std::size_t n)
-{
+void eagine_test_memory_c_realloc_1_T(std::size_t n) {
 	using namespace eagine;
 
 	memory::c_byte_reallocator<> a;
@@ -24,40 +21,37 @@ void eagine_test_memory_c_realloc_1_T(std::size_t n)
 	const span_size_t ao = span_align_of<T>();
 	const span_size_t sz = span_size_of<T>(n);
 
-	BOOST_CHECK(a.max_size(ao) >= sz);
+	assert(a.max_size(ao) >= sz);
 
 	memory::owned_block b1 = a.allocate(sz, ao);
 
-	BOOST_CHECK_EQUAL(b1.empty(), n == 0);
-	BOOST_CHECK(b1.size() >= sz);
-	BOOST_CHECK(b1.is_aligned_to(ao));
+	assert(b1.empty() != bool(n));
+	assert(b1.size() >= sz);
+	assert(b1.is_aligned_to(ao));
 
-	BOOST_CHECK(!!a.has_allocated(b1, ao));
+	assert(!!a.has_allocated(b1, ao));
 
 	memory::owned_block b2 = a.reallocate(std::move(b1), sz, ao);
 
-	BOOST_CHECK(b1.empty());
-	BOOST_CHECK(b2.size() >= sz);
+	assert(b1.empty());
+	assert(b2.size() >= sz);
 
 	a.deallocate(std::move(b2), ao);
 
 	std::deque<memory::owned_block> blks;
 
-	for(std::size_t i=0; i<n; ++i)
-	{
+	for(std::size_t i=0; i<n; ++i) {
 		blks.emplace_back(a.allocate(sizeof(T), ao));
 	}
 
-	BOOST_CHECK(blks.back().size() >= span_size_of<T>());
-	BOOST_CHECK(blks.back().is_aligned_to(ao));
+	assert(blks.back().size() >= span_size_of<T>());
+	assert(blks.back().is_aligned_to(ao));
 
-	for(memory::owned_block& blk : blks)
-	{
-		BOOST_CHECK(!!a.has_allocated(blk, ao));
+	for(memory::owned_block& blk : blks) {
+		assert(!!a.has_allocated(blk, ao));
 	}
 
-	while(!blks.empty())
-	{
+	while(!blks.empty()) {
 		auto i = blks.begin() + rg.get_int(0, int(blks.size())-1);
 		a.deallocate(std::move(*i), ao);
 		blks.erase(i);
@@ -66,12 +60,10 @@ void eagine_test_memory_c_realloc_1_T(std::size_t n)
 	a.release();
 }
 
-BOOST_AUTO_TEST_CASE(memory_c_realloc_1)
-{
+void eagine_test_memory_c_realloc_1(void) {
 	std::size_t f[2] = {0,1};
 
-	for(int i=0; i<20; ++i)
-	{
+	for(int i=0; i<16; ++i) {
 		std::size_t n = f[(i+0)%2]+f[(i+1)%2];
 		f[i%2] = n;
 
@@ -83,6 +75,7 @@ BOOST_AUTO_TEST_CASE(memory_c_realloc_1)
 	}
 }
 
-// TODO
-
-BOOST_AUTO_TEST_SUITE_END()
+int main(void) {
+	eagine_test_memory_c_realloc_1();
+	return 0;
+}

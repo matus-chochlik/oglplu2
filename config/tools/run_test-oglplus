@@ -4,15 +4,41 @@
 # See accompanying file LICENSE_1_0.txt or copy at
 #  http://www.boost.org/LICENSE_1_0.txt
 
+kind=${1}
+shift
 library=${1}
 shift
-test_src_dir="$(<SOURCE_DIR)/test/${library}"
+test_src_dir="$(<SOURCE_DIR)/test/${kind}/${library}"
+test_bin_dir="$(dirname ${0})/test/${kind}/${library}"
 
-cd $(dirname ${0})/test/${library} &&
+function compile_test() {
+	make ${1}
+	return $?
+}
+
+function boost_test() {
+	if ! make ${1}
+	then return $?
+	fi
+	if ! ./${1}
+	then return $?
+	fi
+}
+
+function memcheck() {
+	if ! make ${1}
+	then return $?
+	fi
+	if ! valgrind --tool=memcheck --leak-check=full ./${1}
+	then return $?
+	fi
+}
+
+cd "${test_bin_dir}" &&
 for test
 do
 	if [[ -f "${test_src_dir}/${test}.cpp" ]]
-	then make ${library}-${test} && ./${library}-${test}
-	else echo "Invalid '${library}' test name: '${test}'"
+	then ${kind} ${library}-${test}-${kind}
+	else echo "Invalid '${library}' '${kind}' test name: '${test}'"
 	fi
 done
