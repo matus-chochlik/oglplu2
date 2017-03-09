@@ -46,10 +46,10 @@ function _oglplus_config()
 			COMPREPLY=($(compgen -W "True False" -- "${curr}"))
 			return 0;;
 		--use-gl-api-lib)
-			COMPREPLY=($(compgen -W "GLEW GL3W GLCOREARB_H GL3_H" -- "${curr}"))
+			COMPREPLY=($(compgen -W "GLES3_GL32_H GLES3_GL3_H GL3_GL3_H GLES3_GL31_H GLCOREARB_H GLEW GL3W" -- "${curr}"))
 			return 0;;
 		--use-gl-init-lib)
-			COMPREPLY=($(compgen -W "GLUT GLFW3 GLFW WXGL SDL GLX EGL" -- "${curr}"))
+			COMPREPLY=($(compgen -W "GLUT GLFW3 GLFW SDL GLX" -- "${curr}"))
 			return 0;;
 		*)
 	esac
@@ -74,18 +74,19 @@ function _oglplus_config()
 		--strict-gl-version-detection \
 		--gl-tests-compile-only \
 		--use-gl-api-lib \
+		--use-gles3-gl32-h \
+		--use-gles3-gl3-h \
+		--use-gl3-gl3-h \
+		--use-gles3-gl31-h \
+		--use-glcorearb-h \
 		--use-glew \
 		--use-gl3w \
-		--use-glcorearb-h \
-		--use-gl3-h \
 		--use-gl-init-lib \
 		--use-glut \
 		--use-glfw3 \
 		--use-glfw \
-		--use-wxgl \
 		--use-sdl \
 		--use-glx \
-		--use-egl \
 		--clean \
 		--quiet \
 		--quick \
@@ -118,10 +119,13 @@ function _oglplus_config()
 
 	local muog_3=" \
 		--use-gl-api-lib \
+		--use-gles3-gl32-h \
+		--use-gles3-gl3-h \
+		--use-gl3-gl3-h \
+		--use-gles3-gl31-h \
+		--use-glcorearb-h \
 		--use-glew \
 		--use-gl3w \
-		--use-glcorearb-h \
-		--use-gl3-h \
 	"
 
 	local muog_4=" \
@@ -129,10 +133,8 @@ function _oglplus_config()
 		--use-glut \
 		--use-glfw3 \
 		--use-glfw \
-		--use-wxgl \
 		--use-sdl \
 		--use-glx \
-		--use-egl \
 	"
 
 	local repeated_opts=" \
