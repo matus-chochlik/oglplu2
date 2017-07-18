@@ -12,7 +12,7 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_clip_origin
 
-#include "../../unit_test.inl"
+#include "../../unit_test_begin.inl"
 #include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_clip_origin_tests)
@@ -128,3 +128,5 @@ BOOST_AUTO_TEST_CASE(enum_clip_origin_any)
 }
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../../unit_test_end.inl"

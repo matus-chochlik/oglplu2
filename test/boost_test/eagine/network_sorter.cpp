@@ -6,7 +6,7 @@
  */
 #include <eagine/network_sorter.hpp>
 #define BOOST_TEST_MODULE EAGINE_network_sorter
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 #include <algorithm>
 
@@ -84,3 +84,5 @@ BOOST_AUTO_TEST_CASE(network_sorter_1_3)
 }
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

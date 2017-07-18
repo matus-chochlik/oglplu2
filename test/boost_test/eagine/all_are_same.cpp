@@ -6,7 +6,7 @@
  */
 #include <eagine/all_are_same.hpp>
 #define BOOST_TEST_MODULE EAGINE_all_are_same
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 struct A { };
 struct B : A { };
@@ -175,3 +175,5 @@ BOOST_AUTO_TEST_CASE(all_are_convertible_to_1)
 }
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

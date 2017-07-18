@@ -6,7 +6,7 @@
  */
 #include <eagine/fixed_size_str.hpp>
 #define BOOST_TEST_MODULE EAGINE_fixed_size_str
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(fixed_size_string_tests)
 
@@ -139,3 +139,5 @@ BOOST_AUTO_TEST_CASE(fixed_size_string_int)
 // TODO
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

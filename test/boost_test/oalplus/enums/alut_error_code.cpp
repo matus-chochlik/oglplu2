@@ -12,7 +12,7 @@
 #include "common_alut.hpp"
 #define BOOST_TEST_MODULE OALPLUS_alut_error_code
 
-#include "../../unit_test.inl"
+#include "../../unit_test_begin.inl"
 #include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_alut_error_code_tests)
@@ -1233,3 +1233,5 @@ BOOST_AUTO_TEST_CASE(enum_alut_error_code_any)
 }
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../../unit_test_end.inl"

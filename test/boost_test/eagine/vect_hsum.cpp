@@ -6,7 +6,7 @@
  */
 #include <eagine/vect/hsum.hpp>
 #define BOOST_TEST_MODULE eagine_vect_hsum
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(vect_hsum_tests)
 
@@ -77,3 +77,5 @@ BOOST_AUTO_TEST_CASE(vect_hsum_apply_double)
 }
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

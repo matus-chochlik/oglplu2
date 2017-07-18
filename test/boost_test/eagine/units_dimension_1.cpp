@@ -7,7 +7,7 @@
 #include <eagine/units/dimension.hpp>
 #include <eagine/units/dimensionless.hpp>
 #define BOOST_TEST_MODULE EAGINE_units_dimension_1
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 #include <type_traits>
 
@@ -102,3 +102,5 @@ BOOST_AUTO_TEST_CASE(units_fundamental_dimension_power1)
 //TODO
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

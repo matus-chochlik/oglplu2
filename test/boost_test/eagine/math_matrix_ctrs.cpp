@@ -16,7 +16,7 @@
 #include <eagine/math/matrix_ortho.hpp>
 #include <eagine/math/matrix_perspective.hpp>
 #define BOOST_TEST_MODULE EAGINE_math_matrix_ctrs
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 
 BOOST_AUTO_TEST_SUITE(math_matrix_ctr_tests)
@@ -118,3 +118,5 @@ BOOST_AUTO_TEST_CASE(math_matrix_constructors)
 
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

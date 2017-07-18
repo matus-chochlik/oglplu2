@@ -6,7 +6,7 @@
  */
 #include <eagine/valid_if.hpp>
 #define BOOST_TEST_MODULE EAGINE_valid_if
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 #include <eagine/identity.hpp>
 
@@ -154,3 +154,5 @@ BOOST_AUTO_TEST_CASE(valid_if_cmp_test_2)
 // TODO
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

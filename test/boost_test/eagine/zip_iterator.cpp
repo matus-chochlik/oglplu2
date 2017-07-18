@@ -6,7 +6,7 @@
  */
 #include <eagine/zip_iterator.hpp>
 #define BOOST_TEST_MODULE EAGINE_zip_iterator
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 #include <vector>
 #include <array>
@@ -136,3 +136,5 @@ BOOST_AUTO_TEST_CASE(zip_range_3)
 
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

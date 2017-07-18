@@ -6,7 +6,7 @@
  */
 #include <eagine/callable_composer.hpp>
 #define BOOST_TEST_MODULE EAGINE_callable_composer
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 #include <cstring>
 
@@ -31,3 +31,5 @@ BOOST_AUTO_TEST_CASE(callable_composer_foo_1)
 }
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

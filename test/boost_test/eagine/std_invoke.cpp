@@ -6,7 +6,7 @@
  */
 #include <eagine/std/functional.hpp>
 #define BOOST_TEST_MODULE EAGINE_std_invoke
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 #include <string>
 
@@ -166,3 +166,5 @@ BOOST_AUTO_TEST_CASE(invoke_3)
 }
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

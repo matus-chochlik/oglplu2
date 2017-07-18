@@ -6,7 +6,7 @@
  */
 #include <eagine/deferred_handler.hpp>
 #define BOOST_TEST_MODULE EAGINE_deferred_handler
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 void test_increment(int*& pi)
 {
@@ -234,3 +234,5 @@ BOOST_AUTO_TEST_CASE(deferred_handler_trigger_p)
 }
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

@@ -6,7 +6,7 @@
  */
 #include <eagine/scope_exit.hpp>
 #define BOOST_TEST_MODULE EAGINE_scope_exit
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 #include <type_traits>
 #include <exception>
@@ -208,3 +208,5 @@ BOOST_AUTO_TEST_CASE(func_on_scope_exit)
 }
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

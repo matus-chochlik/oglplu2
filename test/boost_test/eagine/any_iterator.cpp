@@ -6,7 +6,7 @@
  */
 #include <eagine/any_iterator.hpp>
 #define BOOST_TEST_MODULE EAGINE_any_iterator
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 #include <algorithm>
 #include <vector>
@@ -122,3 +122,5 @@ BOOST_AUTO_TEST_CASE(any_iterator_3)
 }
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

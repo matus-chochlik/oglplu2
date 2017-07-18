@@ -6,7 +6,7 @@
  */
 #include <eagine/make_array.hpp>
 #define BOOST_TEST_MODULE EAGINE_make_array
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(make_array_tests)
 
@@ -22,3 +22,5 @@ BOOST_AUTO_TEST_CASE(make_array_1)
 }
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

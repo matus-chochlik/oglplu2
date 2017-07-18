@@ -6,7 +6,7 @@
  */
 #include <eagine/vect/shuffle.hpp>
 #define BOOST_TEST_MODULE EAGINE_vect_shuffle
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 #include <array>
 
@@ -341,3 +341,5 @@ BOOST_AUTO_TEST_CASE(vect_shuffle2_double)
 }
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

@@ -6,7 +6,7 @@
  */
 #include <eagine/units/base_dim.hpp>
 #define BOOST_TEST_MODULE EAGINE_units_base_dim
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 #include <algorithm>
 
@@ -41,3 +41,5 @@ BOOST_AUTO_TEST_CASE(units_base_dim_number)
 //TODO
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

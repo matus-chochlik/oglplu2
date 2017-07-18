@@ -6,7 +6,7 @@
  */
 #include <eagine/mp_string.hpp>
 #define BOOST_TEST_MODULE EAGINE_mp_string_test
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 #include <cstring>
 
@@ -94,3 +94,5 @@ BOOST_AUTO_TEST_CASE(mp_int_to_string)
 // TODO
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

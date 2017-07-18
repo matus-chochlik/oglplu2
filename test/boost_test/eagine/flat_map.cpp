@@ -6,7 +6,7 @@
  */
 #include <eagine/flat_map.hpp>
 #define BOOST_TEST_MODULE EAGINE_flat_map
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 #include <map>
 #include <functional>
@@ -247,3 +247,5 @@ BOOST_AUTO_TEST_CASE(flat_map_6)
 }
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

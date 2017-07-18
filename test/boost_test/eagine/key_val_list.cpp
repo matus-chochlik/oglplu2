@@ -6,7 +6,7 @@
  */
 #include <eagine/key_val_list.hpp>
 #define BOOST_TEST_MODULE EAGINE_key_val_list
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 struct mock_kv_list_traits
 {
@@ -160,3 +160,5 @@ BOOST_AUTO_TEST_CASE(key_val_list_3)
 }
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

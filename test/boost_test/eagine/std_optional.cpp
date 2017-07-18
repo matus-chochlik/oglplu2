@@ -6,7 +6,7 @@
  */
 #include <eagine/std/optional.hpp>
 #define BOOST_TEST_MODULE EAGINE_std_optional
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 #include <string>
 #include <tuple>
@@ -455,3 +455,5 @@ BOOST_AUTO_TEST_CASE(optional_make_1)
 }
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

@@ -18,10 +18,10 @@ namespace eagine {
 template <bool IsConst>
 using basic_memory_block = memory::basic_block<IsConst>;
 
-typedef memory::block memory_block;;
-typedef memory::const_block const_memory_block;
+using memory_block = memory::block ;
+using const_memory_block = memory::const_block ;
 
-typedef memory::owned_block owned_memory_block;
+using owned_memory_block = memory::owned_block ;
 
 template <typename T>
 static inline

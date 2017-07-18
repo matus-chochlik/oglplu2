@@ -12,7 +12,7 @@
 #include "common_alc.hpp"
 #define BOOST_TEST_MODULE OALPLUS_context_attrib
 
-#include "../../unit_test.inl"
+#include "../../unit_test_begin.inl"
 #include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_context_attrib_tests)
@@ -260,3 +260,5 @@ BOOST_AUTO_TEST_CASE(enum_context_attrib_any)
 }
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../../unit_test_end.inl"

@@ -7,7 +7,7 @@
 #include <eagine/offset_ptr.hpp>
 #include <eagine/string_span.hpp>
 #define BOOST_TEST_MODULE EAGINE_offset_ptr
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 #include <string>
 #include <cstring>
@@ -234,3 +234,5 @@ BOOST_AUTO_TEST_CASE(offset_array_6)
 
 // TODO
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

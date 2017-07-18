@@ -6,7 +6,7 @@
  */
 #include <eagine/deep_copy_ptr.hpp>
 #define BOOST_TEST_MODULE EAGINE_deep_copy_ptr
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 #include <vector>
 
@@ -125,3 +125,5 @@ BOOST_AUTO_TEST_CASE(deep_copy_ptr_1)
 }
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

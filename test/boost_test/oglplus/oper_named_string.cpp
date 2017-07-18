@@ -6,7 +6,7 @@
  */
 #include <oglplus/gl_fixed.hpp>
 #define BOOST_TEST_MODULE OGLPLUS_oper_named_string
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 #include "helper/mock_gl_func.hpp"
 

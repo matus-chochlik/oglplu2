@@ -6,7 +6,7 @@
  */
 #include <eagine/interleaved_call.hpp>
 #define BOOST_TEST_MODULE EAGINE_interleaved_call
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(interleaved_call_tests)
 
@@ -42,3 +42,5 @@ BOOST_AUTO_TEST_CASE(interleaved_call_1)
 }
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"
