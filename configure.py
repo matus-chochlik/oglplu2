@@ -19,6 +19,13 @@ def get_root_dir():
 # returns the path to the default build directory
 def get_default_build_dir():
 	try:
+		try:
+			if os.environ['BUILD_DIR']:
+				return os.environ['BUILD_DIR']
+			if os.environ['BINARY_DIR']:
+				return os.environ['BINARY_DIR']
+		except: pass
+
 		with open(os.path.join(get_root_dir(), "BINARY_DIR"), "rt") as bdf:
 			return bdf.read()
 	except: return os.path.join(get_root_dir(), "_build");
