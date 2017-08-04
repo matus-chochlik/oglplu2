@@ -15,6 +15,11 @@
 #include "units/traits.hpp"
 #include <cmath>
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdouble-promotion"
+#endif
+
 namespace eagine {
 
 template <typename T, typename U>
@@ -392,5 +397,9 @@ auto operator / (const tagged_quantity<T1, U1>& a, U2)
 }
 
 } // namespace eagine
+
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 #endif // include guard

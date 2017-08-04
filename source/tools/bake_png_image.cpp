@@ -349,7 +349,7 @@ noexcept {
 png_uint_32
 png_read_info_struct::
 row_bytes(void) {
-	return ::png_get_rowbytes(_read, _info);
+	return png_uint_32(::png_get_rowbytes(_read, _info));
 }
 
 png_uint_32

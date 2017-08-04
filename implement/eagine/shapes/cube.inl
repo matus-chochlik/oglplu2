@@ -7,6 +7,11 @@
 
 #include <cassert>
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdouble-promotion"
+#endif
+
 namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
@@ -505,3 +510,8 @@ instructions(const span<draw_operation>& ops)
 //------------------------------------------------------------------------------
 } // namespace shapes
 } // namespace eagine
+
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
+

@@ -13,6 +13,11 @@
 #include "matrix_ctr.hpp"
 #include <cmath>
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdouble-promotion"
+#endif
+
 namespace eagine {
 namespace math {
 
@@ -147,6 +152,10 @@ using matrix_rotation_z =
 
 } // namespace math
 } // namespace eagine
+
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 #endif //include guard
 

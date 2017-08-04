@@ -21,9 +21,9 @@ def get_default_build_dir():
 	try:
 		try:
 			if os.environ['BUILD_DIR']:
-				return os.environ['BUILD_DIR']
+				return os.path.join(os.environ['BUILD_DIR'], 'oglplu2')
 			if os.environ['BINARY_DIR']:
-				return os.environ['BINARY_DIR']
+				return os.path.join(os.environ['BINARY_DIR'], 'oglplu2')
 		except: pass
 
 		with open(os.path.join(get_root_dir(), "BINARY_DIR"), "rt") as bdf:

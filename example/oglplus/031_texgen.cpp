@@ -149,7 +149,7 @@ public:
 		{
 			const float s = value(state.frame_duration())*60;
 			const float t = value(state.exec_time());
-			const float r = float(1.1 + std::sin(t*1.618));
+			const float r = float(1.1f + std::sin(t*1.618f));
 
 			const float dest_offset_x = float(std::sin(t)*r);
 			const float dest_offset_y = float(std::cos(t)*r);
