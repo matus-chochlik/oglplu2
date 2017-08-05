@@ -245,7 +245,7 @@ void do_test_biteset_3(eagine::biteset<N, B, T>&& bs)
 	}
 
 	i = 0;
-	for(T&& c : bs2) {
+	for(T c : bs2) {
 		BOOST_CHECK_EQUAL(c, bs[i++]);
 	}
 
@@ -264,7 +264,7 @@ void do_test_biteset_3(eagine::biteset<N, B, T>&& bs)
 	}
 
 	i = 0;
-	for(auto&& c : bs) {
+	for(auto c : bs) {
 		T v = T(++i % (1<<B));
 		BOOST_CHECK_EQUAL(c, v);
 		v = T((i*7) % (1<<B));

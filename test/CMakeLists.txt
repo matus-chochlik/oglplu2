@@ -19,4 +19,10 @@ if(CTEST)
 		COMMAND ${CTEST}
 		WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
 	)
+
+	add_custom_target(
+		recheck
+		COMMAND ${CTEST} --rerun-failed
+		WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
+	)
 endif()

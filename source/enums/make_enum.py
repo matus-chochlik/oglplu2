@@ -570,7 +570,7 @@ def action_test_enums_cpp(options):
 		options.enum_name
 	))
 	print_newline(options)
-	print_line(options, '#include "../../unit_test.inl"')
+	print_line(options, '#include "../../unit_test_begin.inl"')
 	print_line(options, '#include <cstring>')
 	print_newline(options)
 	print_line(options, "BOOST_AUTO_TEST_SUITE(enum_%s_tests)" % options.enum_name)
@@ -706,6 +706,8 @@ def action_test_enums_cpp(options):
 
 	print_newline(options)
 	print_line(options, "BOOST_AUTO_TEST_SUITE_END()")
+	print_newline(options)
+	print_line(options, '#include "../../unit_test_end.inl"')
 
 
 actions = {
