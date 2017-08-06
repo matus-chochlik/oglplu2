@@ -85,6 +85,7 @@ OGLPLUS_MOCK_GLFUNC(MatrixScaledEXT, void(GLenum, GLdouble, GLdouble, GLdouble))
 #endif
 
 OGLPLUS_MOCK_GLFUNC(Ortho, void(GLdouble, GLdouble, GLdouble, GLdouble, GLdouble, GLdouble));
+OGLPLUS_MOCK_GLFUNC(Orthof, void(GLfloat, GLfloat, GLfloat, GLfloat, GLfloat, GLfloat));
 #ifdef GL_EXT_direct_state_access
 OGLPLUS_MOCK_GLFUNC(MatrixOrthoEXT, void(GLenum, GLdouble, GLdouble, GLdouble, GLdouble, GLdouble, GLdouble));
 #endif

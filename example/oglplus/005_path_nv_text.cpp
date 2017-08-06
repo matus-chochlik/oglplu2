@@ -80,8 +80,10 @@ public:
 		gl.load_identity(GL.projection);
 		gl.ortho(
 			GL.projection,
-			text_left-10, text_right+10,
-			font_min_max[0]+10, font_min_max[1]-10,
+			GLdouble(text_left-10),
+			GLdouble(text_right+10),
+			GLdouble(font_min_max[0]+10),
+			GLdouble(font_min_max[1]-10),
 			0,1
 		);
 

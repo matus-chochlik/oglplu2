@@ -32,8 +32,8 @@ public:
 	{
 		gl.viewport(0, 0, state.width(), state.height());
 
-		float h = 2;
-		float w = h*state.aspect();
+		GLdouble h = 2;
+		GLdouble w = h*GLdouble(state.aspect());
 
 		gl.load_identity(GL.projection);
 		gl.ortho(GL.projection, -w,+w, -h,+h, 0,1);

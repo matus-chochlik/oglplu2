@@ -361,6 +361,17 @@ noexcept
 	return {};
 }
 //------------------------------------------------------------------------------
+inline
+outcome<void>
+compatibility_matrix::
+ortho_f(GLfloat l, GLfloat r, GLfloat b, GLfloat t, GLfloat n, GLfloat f)
+noexcept
+{
+	OGLPLUS_GLFUNC(Orthof)(l, r, b, t, n, f);
+	OGLPLUS_VERIFY_SIMPLE(Orthof,always);
+	return {};
+}
+//------------------------------------------------------------------------------
 #ifdef GL_EXT_direct_state_access
 inline
 outcome<void>
