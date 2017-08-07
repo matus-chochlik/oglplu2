@@ -29,7 +29,8 @@ outcome<off_t> file_size(file_descriptor fd)
 noexcept {
 	struct ::stat buf;
 	buf.st_size = 0;
-	return fstat(fd, buf), buf.st_size;
+	outcome<void> result = fstat(fd, buf);
+	return std::move(result).add(buf.st_size);
 }
 
 class file_stat {

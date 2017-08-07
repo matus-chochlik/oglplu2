@@ -50,7 +50,7 @@ shader_ops::
 report_shader_compile_error(shader_name shdr)
 noexcept
 {
-	if(!shader_compile_status(shdr).value())
+	if(!get_shader_compile_status(shdr).value())
 	{
 		OGLPLUS_REPORT_ERROR(
 			CompileShader,
@@ -83,20 +83,6 @@ noexcept
 	return {};
 }
 //------------------------------------------------------------------------------
-inline
-outcome<shader_type>
-shader_ops::
-shader_type(shader_name shdr)
-noexcept
-{
-	GLint result = GL_NONE;
-	return get_shader_iv(
-		shdr,
-		shader_parameter(GL_SHADER_TYPE),
-		{&result, 1}
-	), oglplus::shader_type(GLenum(result));
-}
-//------------------------------------------------------------------------------
 template <typename R, typename T>
 inline
 outcome<R>
@@ -113,9 +99,23 @@ noexcept
 }
 //------------------------------------------------------------------------------
 inline
+outcome<shader_type>
+shader_ops::
+get_shader_type(shader_name shdr)
+noexcept
+{
+	GLint result = GL_NONE;
+	return get_shader_iv(
+		shdr,
+		shader_parameter(GL_SHADER_TYPE),
+		{&result, 1}
+	), oglplus::shader_type(GLenum(result));
+}
+//------------------------------------------------------------------------------
+inline
 outcome<boolean>
 shader_ops::
-shader_delete_status(shader_name shdr)
+get_shader_delete_status(shader_name shdr)
 noexcept
 {
 	return return_shader_i<boolean, GLboolean>(
@@ -127,7 +127,7 @@ noexcept
 inline
 outcome<boolean>
 shader_ops::
-shader_compile_status(shader_name shdr)
+get_shader_compile_status(shader_name shdr)
 noexcept
 {
 	return return_shader_i<boolean, GLboolean>(
@@ -139,7 +139,7 @@ noexcept
 inline
 outcome<GLsizei>
 shader_ops::
-shader_info_log_length(shader_name shdr)
+get_shader_info_log_length(shader_name shdr)
 noexcept
 {
 	return return_shader_i<GLsizei, GLsizei>(
@@ -151,7 +151,7 @@ noexcept
 inline
 outcome<GLsizei>
 shader_ops::
-shader_info_log(shader_name shdr, span<char> dest)
+get_shader_info_log(shader_name shdr, span<char> dest)
 noexcept
 {
 	GLsizei reallen = 0;

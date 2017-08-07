@@ -78,7 +78,7 @@ public:
 	random_texture(const example_params& params)
 	{
 		std::string path = params.get_resource_file_path(
-			example_resource_type::texture,
+			example_resource_type::texture_image,
 			"noise.256x256x3.oglptex"
 		);
 		init(texture_image_file(path));

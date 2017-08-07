@@ -4,8 +4,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include <eagine/quantities.hpp>
 #include <eagine/units/unit/si/angle.hpp>
+#include <eagine/quantities.hpp>
 #define BOOST_TEST_MODULE EAGINE_quantities_2
 #include "../unit_test_begin.inl"
 

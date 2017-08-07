@@ -98,6 +98,39 @@ def get_argument_parser():
 			For internal use only.
 		"""
 	)
+
+
+	argparser.add_argument(
+		"--config-type",
+		dest="config_types",
+		choices=["Debug", "Release"],
+		action="append",
+		default=list(),
+		help="""
+			Determines the build configuration (default = %(default)s).
+		"""
+	)
+	argparser.add_argument(
+		"--debug",
+		dest="config_types",
+		action="append_const",
+		const="Debug",
+		default=list(),
+		help="""
+			Configures for the 'Debug' build type.
+		"""
+	)
+	argparser.add_argument(
+		"--release",
+		dest="config_types",
+		action="append_const",
+		const="Release",
+		default=list(),
+		help="""
+			Configures for the 'Release' build type.
+		"""
+	)
+
 	argparser.add_argument(
 		"--prefix",
 		dest="install_prefix",
@@ -664,6 +697,14 @@ def main(argv):
 
 	# additional options for cmake
 	cmake_options = list()
+
+	# add configuration options
+	if(len(options.config_types) == 1):
+		cmake_options.append("-DCMAKE_BUILD_TYPE="+options.config_types[0])
+	elif(len(options.config_types) > 1):
+		cmake_options.append(
+			"-DCMAKE_CONFIGURATION_TYPES="+";".join(options.config_types)
+		)
 
 	# add the installation prefix if provided
 	if(options.install_prefix):

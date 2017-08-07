@@ -19,7 +19,7 @@ namespace oglplus {
 
 enum class example_resource_type
 {
-	texture,
+	texture_image,
 	shader_source,
 	program_source
 };
@@ -87,8 +87,7 @@ public:
 	noexcept;
 
 	std::string
-	get_resource_file_path(example_resource_type, cstr_ref res_name) const
-	noexcept;
+	get_resource_file_path(example_resource_type, cstr_ref res_name) const;
 
 	example_params&
 	screenshot_path(eagine::valid_if_not_empty<cstr_ref> path)

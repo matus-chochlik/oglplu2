@@ -84,7 +84,7 @@ get_named_string_iv(
 inline
 outcome<GLint>
 named_string_state::
-named_string_length(cstring_span name)
+get_named_string_length(cstring_span name)
 noexcept
 {
 	GLint result = 0;
@@ -98,7 +98,7 @@ noexcept
 inline
 outcome<named_string_type>
 named_string_state::
-named_string_type(cstring_span name)
+get_named_string_type(cstring_span name)
 noexcept
 {
 	GLint result = 0;

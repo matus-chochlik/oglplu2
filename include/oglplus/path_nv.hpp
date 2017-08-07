@@ -318,10 +318,10 @@ protected:
 public:
 	template <typename T>
 	outcome<Derived&>
-	commands(span<const GLubyte> cmds, span<const T> coords)
+	commands(span<const GLubyte> cmds, span<const T> crds)
 	noexcept
 	{
-		return {_ops::path_commands(*this, cmds, coords), _self()};
+		return {_ops::path_commands(*this, cmds, crds), _self()};
 	}
 
 	template <typename T>
@@ -338,13 +338,13 @@ public:
 		GLsizei cmd_start,
 		GLsizei cmds_to_delete,
 		span<const GLubyte> cmds,
-		span<const T> coords
+		span<const T> crds
 	) noexcept
 	{
 		return {_ops::path_sub_commands(
 			*this,
 			cmd_start, cmds_to_delete,
-			cmds, coords
+			cmds, crds
 		), _self()};
 	}
 
@@ -595,19 +595,19 @@ public:
 	}
 
 	outcome<Derived&>
-	dash_array(span<const GLfloat> dashes)
+	dash_array(span<const GLfloat> dshs)
 	noexcept
 	{
-		return {_ops::path_dash_array(*this, dashes), _self()};
+		return {_ops::path_dash_array(*this, dshs), _self()};
 	}
 
 	template <typename ... T>
 	outcome<Derived&>
-	dashes(T ... dashes)
+	dashes(T ... dshs)
 	noexcept
 	{
 		const std::size_t N = sizeof ... (T);
-		const GLfloat da[N] = {GLfloat(dashes)...};
+		const GLfloat da[N] = {GLfloat(dshs)...};
 		return dash_array(da);
 	}
 
