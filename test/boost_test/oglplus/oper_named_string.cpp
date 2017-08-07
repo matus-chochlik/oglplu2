@@ -13,27 +13,27 @@
 OGLPLUS_MOCK_GLFUNC(
 	NamedStringARB,
 	void(GLenum,GLint,const GLchar*,GLint,const GLchar*)
-);
+)
 
 OGLPLUS_MOCK_GLFUNC(
 	DeleteNamedStringARB,
 	void(GLint,const GLchar*)
-);
+)
 
 OGLPLUS_MOCK_GLFUNC(
 	IsNamedStringARB,
 	GLboolean(GLint,const GLchar*)
-);
+)
 
 OGLPLUS_MOCK_GLFUNC(
 	GetNamedStringARB,
 	void(GLint,const GLchar*,GLsizei,GLint*,GLchar*)
-);
+)
 
 OGLPLUS_MOCK_GLFUNC(
 	GetNamedStringivARB,
 	void(GLint,const GLchar*,GLenum,oglplus::mock_ptr<GLint>)
-);
+)
 
 #include <oglplus/oper/named_string.hpp>
 #include <oglplus/enum/values.hpp>
@@ -80,7 +80,7 @@ BOOST_AUTO_TEST_CASE(named_string_ops)
 			mock_glGetNamedStringivARB,
 			5, "a_key", GLenum(GL_NAMED_STRING_LENGTH_ARB), mock_ptr<GLint>()
 		);
-		gl.named_string_length("a_key");
+		gl.get_named_string_length("a_key");
 		BOOST_CHECK(test_glGetNamedStringivARB);
 	}
 	{
@@ -88,7 +88,7 @@ BOOST_AUTO_TEST_CASE(named_string_ops)
 			mock_glGetNamedStringivARB,
 			5, "a_key", GLenum(GL_NAMED_STRING_TYPE_ARB), mock_ptr<GLint>()
 		);
-		gl.named_string_type("a_key");
+		gl.get_named_string_type("a_key");
 		BOOST_CHECK(test_glGetNamedStringivARB);
 	}
 
