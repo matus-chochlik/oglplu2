@@ -357,14 +357,6 @@ outcome_conversion(
 	return {convert(that.value())};
 }
 
-template <typename T, typename ErrorData, typename HandlerPolicy>
-static inline
-basic_outcome<T, ErrorData, HandlerPolicy>
-operator , (basic_outcome<void, ErrorData, HandlerPolicy>&& bo, T value)
-noexcept {
-	return {std::move(bo), std::move(value), selector<0>()};
-}
-
 template <typename T, typename ErrorData, typename HandlerPolicy, typename Func>
 static inline
 basic_outcome<T, ErrorData, HandlerPolicy>&&

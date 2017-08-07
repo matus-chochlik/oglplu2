@@ -5,6 +5,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <oglplus/gl_fixed.hpp>
+#include <oglplus/constants.hpp>
+#include <oglplus/constant_defs.hpp>
 #define BOOST_TEST_MODULE OGLPLUS_oper_named_string
 #include "../unit_test_begin.inl"
 

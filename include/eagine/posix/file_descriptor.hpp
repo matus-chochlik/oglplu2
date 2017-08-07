@@ -121,7 +121,7 @@ outcome<owned_file_descriptor> dup(file_descriptor from)
 noexcept
 {
 	int fd = ::dup(get_raw_fd(from));
-	return error_if_negative(fd, fd), owned_file_descriptor(fd);
+	return error_if_negative(fd, fd).add(owned_file_descriptor(fd));
 }
 
 static inline

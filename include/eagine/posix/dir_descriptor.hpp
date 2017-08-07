@@ -131,10 +131,10 @@ outcome<owned_dir_descriptor> dup(dir_descriptor from)
 noexcept {
 	int fd = ::dup(::dirfd(get_raw_dp(from)));
 	if(fd < 0) {
-		return error_outcome(fd), owned_dir_descriptor(nullptr);
+		return error_outcome(fd).add(owned_dir_descriptor(nullptr));
 	}
 	DIR* dp = ::fdopendir(fd);
-	return error_if(dp == nullptr, -1), owned_dir_descriptor(dp);
+	return error_if(dp == nullptr, -1).add(owned_dir_descriptor(dp));
 }
 
 static inline
