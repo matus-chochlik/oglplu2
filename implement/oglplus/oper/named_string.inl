@@ -92,7 +92,7 @@ noexcept
 		name,
 		named_string_param(GL_NAMED_STRING_LENGTH_ARB),
 		{&result, 1}
-	), result;
+	).add(result);
 }
 //------------------------------------------------------------------------------
 inline
@@ -106,7 +106,7 @@ noexcept
 		name,
 		named_string_param(GL_NAMED_STRING_TYPE_ARB),
 		{&result, 1}
-	), oglplus::named_string_type(GLenum(result));
+	).add(oglplus::named_string_type(GLenum(result)));
 }
 //------------------------------------------------------------------------------
 inline

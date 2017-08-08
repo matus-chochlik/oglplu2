@@ -46,7 +46,7 @@ noexcept
 	return numeric_queries::get_integer_v(
 		get_binding_query(target),
 		{&result, 1}
-	), framebuffer_name(GLuint(result));
+	).add(framebuffer_name(GLuint(result)));
 }
 //------------------------------------------------------------------------------
 inline

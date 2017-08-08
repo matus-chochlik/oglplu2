@@ -48,7 +48,7 @@ noexcept
 	return numeric_queries::get_integer_v(
 		get_binding_query(target),
 		{&result, 1}
-	), transform_feedback_name(GLuint(result));
+	).add(transform_feedback_name(GLuint(result)));
 }
 //------------------------------------------------------------------------------
 inline
@@ -167,7 +167,7 @@ noexcept
 		xfb,
 		transform_feedback_parameter(GL_TRANSFORM_FEEDBACK_ACTIVE),
 		{&result, 1}
-	), boolean(GLboolean(result));
+	).add(boolean(GLboolean(result)));
 }
 //------------------------------------------------------------------------------
 inline
@@ -181,7 +181,7 @@ noexcept
 		xfb,
 		transform_feedback_parameter(GL_TRANSFORM_FEEDBACK_PAUSED),
 		{&result, 1}
-	), boolean(GLboolean(result));
+	).add(boolean(GLboolean(result)));
 }
 //------------------------------------------------------------------------------
 inline
@@ -196,7 +196,7 @@ noexcept
 		transform_feedback_parameter(
 			GL_TRANSFORM_FEEDBACK_BUFFER_BINDING
 		), {&result, 1}
-	), buffer_name(GLuint(result));
+	).add(buffer_name(GLuint(result)));
 }
 //------------------------------------------------------------------------------
 inline
@@ -214,7 +214,7 @@ transform_feedback_buffer_start(
 			GL_TRANSFORM_FEEDBACK_BUFFER_START
 		), index,
 		{&result, 1}
-	), result;
+	).add(result);
 }
 //------------------------------------------------------------------------------
 inline
@@ -231,7 +231,7 @@ transform_feedback_buffer_size(
 		transform_feedback_parameter(GL_TRANSFORM_FEEDBACK_BUFFER_SIZE),
 		index,
 		{&result, 1}
-	), result;
+	).add(result);
 }
 //------------------------------------------------------------------------------
 inline

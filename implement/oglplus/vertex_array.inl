@@ -35,7 +35,7 @@ noexcept
 	return numeric_queries::get_integer_v(
 		binding_query(GL_VERTEX_ARRAY_BINDING),
 		{&result, 1}
-	), vertex_array_name(GLuint(result));
+	).add(vertex_array_name(GLuint(result)));
 #else
 	return vertex_array_name(0);
 #endif

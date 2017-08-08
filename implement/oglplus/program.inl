@@ -112,7 +112,7 @@ noexcept
 	return numeric_queries::get_integer_v(
 		binding_query(GL_CURRENT_PROGRAM),
 		{&result, 1}
-	), program_name(GLuint(result));
+	).add(program_name(GLuint(result)));
 #else
 	return program_name(0);
 #endif

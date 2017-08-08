@@ -48,7 +48,7 @@ noexcept
 	return numeric_queries::get_integer_v(
 		numeric_query(GL_ACTIVE_TEXTURE),
 		{&result, 1}
-	), texture_unit(GLenum(result));
+	).add(texture_unit(GLenum(result)));
 }
 //------------------------------------------------------------------------------
 inline
@@ -80,7 +80,7 @@ noexcept
 	return numeric_queries::get_integer_v(
 		get_binding_query(target),
 		{&result, 1}
-	), texture_name(GLuint(result));
+	).add(texture_name(GLuint(result)));
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_2) || defined(GL_ARB_texture_storage)

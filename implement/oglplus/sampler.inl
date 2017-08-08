@@ -48,7 +48,7 @@ noexcept
 	return numeric_queries::get_integer_v(
 		binding_query(GL_SAMPLER_BINDING),
 		{&result, 1}
-	), sampler_name(GLuint(result));
+	).add(sampler_name(GLuint(result)));
 }
 //------------------------------------------------------------------------------
 inline

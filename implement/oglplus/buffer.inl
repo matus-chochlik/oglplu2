@@ -46,7 +46,7 @@ noexcept
 	return numeric_queries::get_integer_v(
 		get_binding_query(target),
 		{&result, 1}
-	), buffer_name(GLuint(result));
+	).add(buffer_name(GLuint(result)));
 }
 //------------------------------------------------------------------------------
 inline
@@ -243,7 +243,7 @@ return_buffer_parameter_i(
 		bnt,
 		parameter,
 		{&result, 1}
-	), R(T(result));
+	).add(R(T(result)));
 }
 //------------------------------------------------------------------------------
 template <typename BNT>
@@ -690,7 +690,7 @@ noexcept
 		tgt,
 		buffer_parameter(GL_BUFFER_GPU_ADDRESS_NV),
 		{&result, 1}
-	), buffer_address(result);
+	).add(buffer_address(result));
 }
 //------------------------------------------------------------------------------
 inline
@@ -704,7 +704,7 @@ noexcept
 		buf,
 		buffer_parameter(GL_BUFFER_GPU_ADDRESS_NV),
 		{&result, 1}
-	), buffer_address(result);
+	).add(buffer_address(result));
 }
 #endif
 //------------------------------------------------------------------------------

@@ -57,7 +57,7 @@ get_boolean(numeric_query query)
 noexcept
 {
 	GLboolean result = 0;
-	return get_boolean_v(query, {&result, 1}), boolean(result);
+	return get_boolean_v(query, {&result, 1}).add(boolean(result));
 }
 //------------------------------------------------------------------------------
 inline
@@ -86,7 +86,7 @@ get_integer(numeric_query query)
 noexcept
 {
 	GLint result = 0;
-	return get_integer_v(query, {&result, 1}), result;
+	return get_integer_v(query, {&result, 1}).add(result);
 }
 //------------------------------------------------------------------------------
 inline
@@ -115,7 +115,7 @@ get_float(numeric_query query)
 noexcept
 {
 	GLfloat result = 0;
-	return get_float_v(query, {&result, 1}), result;
+	return get_float_v(query, {&result, 1}).add(result);
 }
 //------------------------------------------------------------------------------
 } // namespace oper

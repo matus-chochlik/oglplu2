@@ -36,7 +36,7 @@ noexcept
 	return numeric_queries::get_integer_v(
 		binding_query(GL_PROGRAM_PIPELINE_BINDING),
 		{&result, 1}
-	), program_pipeline_name(GLuint(result));
+	).add(program_pipeline_name(GLuint(result)));
 #else
 	return program_pipeline_name(0);
 #endif

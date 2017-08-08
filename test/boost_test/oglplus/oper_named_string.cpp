@@ -5,12 +5,15 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <oglplus/gl_fixed.hpp>
-#include <oglplus/constants.hpp>
-#include <oglplus/constant_defs.hpp>
 #define BOOST_TEST_MODULE OGLPLUS_oper_named_string
 #include "../unit_test_begin.inl"
 
 #include "helper/mock_gl_func.hpp"
+
+OGLPLUS_MOCK_GLFUNC(
+	GetIntegerv,
+	void(GLenum,GLint*)
+)
 
 OGLPLUS_MOCK_GLFUNC(
 	NamedStringARB,
@@ -38,7 +41,8 @@ OGLPLUS_MOCK_GLFUNC(
 )
 
 #include <oglplus/oper/named_string.hpp>
-#include <oglplus/enum/values.hpp>
+#include <oglplus/constants.hpp>
+#include <oglplus/constant_defs.hpp>
 #include <cstring>
 
 BOOST_AUTO_TEST_SUITE(named_string_tests)

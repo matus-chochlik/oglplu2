@@ -95,7 +95,7 @@ noexcept
 		shdr,
 		parameter,
 		{&result, 1}
-	), R(T(result));
+	).add(R(T(result)));
 }
 //------------------------------------------------------------------------------
 inline
@@ -109,7 +109,7 @@ noexcept
 		shdr,
 		shader_parameter(GL_SHADER_TYPE),
 		{&result, 1}
-	), oglplus::shader_type(GLenum(result));
+	).add(oglplus::shader_type(GLenum(result)));
 }
 //------------------------------------------------------------------------------
 inline
