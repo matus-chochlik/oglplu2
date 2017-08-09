@@ -70,32 +70,32 @@ struct program_ops
 
 	static
 	outcome<boolean>
-	program_delete_status(program_name prog)
+	get_program_delete_status(program_name prog)
 	noexcept;
 
 	static
 	outcome<boolean>
-	program_link_status(program_name prog)
+	get_program_link_status(program_name prog)
 	noexcept;
 
 	static
 	outcome<GLsizei>
-	program_info_log_length(program_name prog)
+	get_program_info_log_length(program_name prog)
 	noexcept;
 
 	static
 	outcome<GLsizei>
-	program_info_log(program_name prog, span<char> dest)
+	get_program_info_log(program_name prog, span<char> dest)
 	noexcept;
 
 	static
 	outcome<GLuint>
-	program_active_attributes(program_name prog)
+	get_program_active_attributes(program_name prog)
 	noexcept;
 
 	static
 	outcome<GLsizei>
-	program_active_attribute_max_length(program_name prog)
+	get_program_active_attribute_max_length(program_name prog)
 	noexcept;
 
 	static
@@ -110,12 +110,12 @@ struct program_ops
 
 	static
 	outcome<GLuint>
-	program_active_uniforms(program_name prog)
+	get_program_active_uniforms(program_name prog)
 	noexcept;
 
 	static
 	outcome<GLsizei>
-	program_active_uniform_max_length(program_name prog)
+	get_program_active_uniform_max_length(program_name prog)
 	noexcept;
 
 	static
@@ -171,45 +171,45 @@ struct obj_dsa_ops<tag::program>
 	}
 
 	outcome<boolean>
-	link_status(void) const
+	get_link_status(void) const
 	noexcept
 	{
-		return _ops::program_link_status(*this);
+		return _ops::get_program_link_status(*this);
 	}
 
 	outcome<boolean>
-	delete_status(void) const
+	get_delete_status(void) const
 	noexcept
 	{
-		return _ops::program_delete_status(*this);
+		return _ops::get_program_delete_status(*this);
 	}
 
 	outcome<GLsizei>
-	info_log_length(void) const
+	get_info_log_length(void) const
 	noexcept
 	{
-		return _ops::program_info_log_length(*this);
+		return _ops::get_program_info_log_length(*this);
 	}
 
 	outcome<GLsizei>
-	info_log(span<char> dest) const
+	get_info_log(span<char> dest) const
 	noexcept
 	{
-		return _ops::program_info_log(*this, dest);
+		return _ops::get_program_info_log(*this, dest);
 	}
 
 	outcome<GLuint>
-	active_attributes(void) const
+	get_active_attributes(void) const
 	noexcept
 	{
-		return _ops::program_active_attributes(*this);
+		return _ops::get_program_active_attributes(*this);
 	}
 
 	outcome<GLsizei>
-	active_attribute_max_length(void) const
+	get_active_attribute_max_length(void) const
 	noexcept
 	{
-		return _ops::program_active_attribute_max_length(*this);
+		return _ops::get_program_active_attribute_max_length(*this);
 	}
 
 	outcome<GLsizei>
@@ -225,17 +225,17 @@ struct obj_dsa_ops<tag::program>
 	}
 
 	outcome<GLuint>
-	active_uniforms(void) const
+	get_active_uniforms(void) const
 	noexcept
 	{
-		return _ops::program_active_uniforms(*this);
+		return _ops::get_program_active_uniforms(*this);
 	}
 
 	outcome<GLsizei>
-	active_uniform_max_length(void) const
+	get_active_uniform_max_length(void) const
 	noexcept
 	{
-		return _ops::program_active_uniform_max_length(*this);
+		return _ops::get_program_active_uniform_max_length(*this);
 	}
 
 	outcome<GLsizei>

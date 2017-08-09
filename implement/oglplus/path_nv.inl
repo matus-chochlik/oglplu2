@@ -447,7 +447,7 @@ noexcept
 inline
 outcome<GLfloat>
 path_nv_ops::
-path_computed_length(path_nv_name path)
+get_path_computed_length(path_nv_name path)
 noexcept
 {
 	return return_path_parameter_f<GLfloat>(
@@ -472,7 +472,7 @@ noexcept
 inline
 outcome<GLfloat>
 path_nv_ops::
-path_stroke_width(path_nv_name path)
+get_path_stroke_width(path_nv_name path)
 noexcept
 {
 	return return_path_parameter_f<GLfloat>(
@@ -497,7 +497,7 @@ noexcept
 inline
 outcome<GLfloat>
 path_nv_ops::
-path_miter_limit(path_nv_name path)
+get_path_miter_limit(path_nv_name path)
 noexcept
 {
 	return return_path_parameter_f<GLfloat>(
@@ -522,7 +522,7 @@ noexcept
 inline
 outcome<path_join_style_nv>
 path_nv_ops::
-path_join_style(path_nv_name path)
+get_path_join_style(path_nv_name path)
 noexcept
 {
 	return return_path_parameter_i<path_join_style_nv, GLenum>(
@@ -547,7 +547,7 @@ noexcept
 inline
 outcome<path_cap_style_nv>
 path_nv_ops::
-path_initial_dash_cap(path_nv_name path)
+get_path_initial_dash_cap(path_nv_name path)
 noexcept
 {
 	return return_path_parameter_i<path_cap_style_nv, GLenum>(
@@ -572,7 +572,7 @@ noexcept
 inline
 outcome<path_cap_style_nv>
 path_nv_ops::
-path_terminal_dash_cap(path_nv_name path)
+get_path_terminal_dash_cap(path_nv_name path)
 noexcept
 {
 	return return_path_parameter_i<path_cap_style_nv, GLenum>(
@@ -597,7 +597,7 @@ noexcept
 inline
 outcome<GLfloat>
 path_nv_ops::
-path_dash_offset(path_nv_name path)
+get_path_dash_offset(path_nv_name path)
 noexcept
 {
 	return return_path_parameter_f<GLfloat>(
@@ -622,7 +622,7 @@ noexcept
 inline
 outcome<path_dash_offset_reset_nv>
 path_nv_ops::
-path_dash_offset_reset(path_nv_name path)
+get_path_dash_offset_reset(path_nv_name path)
 noexcept
 {
 	return return_path_parameter_i<path_dash_offset_reset_nv, GLenum>(
