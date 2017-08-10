@@ -112,61 +112,61 @@ struct renderbuffer_ops
 	template <typename RNT>
 	static 
 	outcome<GLsizei>
-	renderbuffer_width(const RNT& rnt)
+	get_renderbuffer_width(const RNT& rnt)
 	noexcept;
 
 	template <typename RNT>
 	static 
 	outcome<GLsizei>
-	renderbuffer_height(const RNT& rnt)
+	get_renderbuffer_height(const RNT& rnt)
 	noexcept;
 
 	template <typename RNT>
 	static 
 	outcome<GLsizei>
-	renderbuffer_red_size(const RNT& rnt)
+	get_renderbuffer_red_size(const RNT& rnt)
 	noexcept;
 
 	template <typename RNT>
 	static 
 	outcome<GLsizei>
-	renderbuffer_green_size(const RNT& rnt)
+	get_renderbuffer_green_size(const RNT& rnt)
 	noexcept;
 
 	template <typename RNT>
 	static 
 	outcome<GLsizei>
-	renderbuffer_blue_size(const RNT& rnt)
+	get_renderbuffer_blue_size(const RNT& rnt)
 	noexcept;
 
 	template <typename RNT>
 	static 
 	outcome<GLsizei>
-	renderbuffer_alpha_size(const RNT& rnt)
+	get_renderbuffer_alpha_size(const RNT& rnt)
 	noexcept;
 
 	template <typename RNT>
 	static 
 	outcome<GLsizei>
-	renderbuffer_depth_size(const RNT& rnt)
+	get_renderbuffer_depth_size(const RNT& rnt)
 	noexcept;
 
 	template <typename RNT>
 	static 
 	outcome<GLsizei>
-	renderbuffer_stencil_size(const RNT& rnt)
+	get_renderbuffer_stencil_size(const RNT& rnt)
 	noexcept;
 
 	template <typename RNT>
 	static 
 	outcome<GLsizei>
-	renderbuffer_samples(const RNT& rnt)
+	get_renderbuffer_samples(const RNT& rnt)
 	noexcept;
 
 	template <typename RNT>
 	static 
 	outcome<pixel_data_internal_format>
-	renderbuffer_internal_format(const RNT& rnt)
+	get_renderbuffer_internal_format(const RNT& rnt)
 	noexcept;
 };
 
@@ -220,73 +220,73 @@ public:
 	}
 
 	outcome<GLsizei>
-	width(void) const
+	get_width(void) const
 	noexcept
 	{
-		return _ops::renderbuffer_width(*this);
+		return _ops::get_renderbuffer_width(*this);
 	}
 
 	outcome<GLsizei>
-	height(void) const
+	get_height(void) const
 	noexcept
 	{
-		return _ops::renderbuffer_height(*this);
+		return _ops::get_renderbuffer_height(*this);
 	}
 
 	outcome<GLsizei>
-	red_size(void) const
+	get_red_size(void) const
 	noexcept
 	{
-		return _ops::renderbuffer_red_size(*this);
+		return _ops::get_renderbuffer_red_size(*this);
 	}
 
 	outcome<GLsizei>
-	green_size(void) const
+	get_green_size(void) const
 	noexcept
 	{
-		return _ops::renderbuffer_green_size(*this);
+		return _ops::get_renderbuffer_green_size(*this);
 	}
 
 	outcome<GLsizei>
-	blue_size(void) const
+	get_blue_size(void) const
 	noexcept
 	{
-		return _ops::renderbuffer_blue_size(*this);
+		return _ops::get_renderbuffer_blue_size(*this);
 	}
 
 	outcome<GLsizei>
-	alpha_size(void) const
+	get_alpha_size(void) const
 	noexcept
 	{
-		return _ops::renderbuffer_alpha_size(*this);
+		return _ops::get_renderbuffer_alpha_size(*this);
 	}
 
 	outcome<GLsizei>
-	depth_size(void) const
+	get_depth_size(void) const
 	noexcept
 	{
-		return _ops::renderbuffer_depth_size(*this);
+		return _ops::get_renderbuffer_depth_size(*this);
 	}
 
 	outcome<GLsizei>
-	stencil_size(void) const
+	get_stencil_size(void) const
 	noexcept
 	{
-		return _ops::renderbuffer_stencil_size(*this);
+		return _ops::get_renderbuffer_stencil_size(*this);
 	}
 
 	outcome<GLsizei>
-	samples(void) const
+	get_samples(void) const
 	noexcept
 	{
-		return _ops::renderbuffer_samples(*this);
+		return _ops::get_renderbuffer_samples(*this);
 	}
 
 	outcome<pixel_data_internal_format>
-	internal_format(void) const
+	get_internal_format(void) const
 	noexcept
 	{
-		return _ops::renderbuffer_internal_format(*this);
+		return _ops::get_renderbuffer_internal_format(*this);
 	}
 };
 
