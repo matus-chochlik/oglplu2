@@ -250,7 +250,7 @@ template <typename BNT>
 inline
 outcome<GLint>
 buffer_ops::
-buffer_size(const BNT& bnt)
+get_buffer_size(const BNT& bnt)
 noexcept
 {
 	return return_buffer_parameter_i<GLint, GLint>(
@@ -263,7 +263,7 @@ template <typename BNT>
 inline
 outcome<boolean>
 buffer_ops::
-buffer_mapped(const BNT& bnt)
+is_buffer_mapped(const BNT& bnt)
 noexcept
 {
 	return return_buffer_parameter_i<boolean, GLboolean>(
@@ -276,7 +276,7 @@ template <typename BNT>
 inline
 outcome<oglplus::buffer_usage>
 buffer_ops::
-buffer_usage(const BNT& bnt)
+get_buffer_usage(const BNT& bnt)
 noexcept
 {
 	return return_buffer_parameter_i<
@@ -346,7 +346,7 @@ template <typename BNT>
 inline
 outcome<boolean>
 buffer_ops::
-buffer_immutable_storage(const BNT& bnt)
+has_buffer_immutable_storage(const BNT& bnt)
 noexcept
 {
 	return return_buffer_parameter_i<boolean, GLboolean>(
@@ -359,7 +359,7 @@ template <typename BNT>
 inline
 outcome<enum_bitfield<buffer_storage_bits>>
 buffer_ops::
-buffer_storage_flags(const BNT& bnt)
+get_buffer_storage_flags(const BNT& bnt)
 noexcept
 {
 	return return_buffer_parameter_i<
@@ -682,7 +682,7 @@ noexcept
 inline
 outcome<buffer_address>
 buffer_ops::
-buffer_gpu_address(buffer_target tgt)
+get_buffer_gpu_address(buffer_target tgt)
 noexcept
 {
 	GLuint64EXT result = 0;
@@ -696,7 +696,7 @@ noexcept
 inline
 outcome<buffer_address>
 buffer_ops::
-buffer_gpu_address(buffer_name buf)
+get_buffer_gpu_address(buffer_name buf)
 noexcept
 {
 	GLuint64EXT result = 0;
