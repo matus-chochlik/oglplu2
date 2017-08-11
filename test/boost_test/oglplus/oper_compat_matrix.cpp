@@ -10,94 +10,97 @@
 
 #include "helper/mock_gl_func.hpp"
 
-OGLPLUS_MOCK_GLFUNC(MatrixMode, void(GLenum));
+OGLPLUS_MOCK_GLFUNC(GetIntegerv, void(GLenum,GLint*))
 
-OGLPLUS_MOCK_GLFUNC(PushMatrix, void(void));
+OGLPLUS_MOCK_GLFUNC(MatrixMode, void(GLenum))
+
+OGLPLUS_MOCK_GLFUNC(PushMatrix, void(void))
 #ifdef GL_EXT_direct_state_access
-OGLPLUS_MOCK_GLFUNC(MatrixPushEXT, void(GLenum));
+OGLPLUS_MOCK_GLFUNC(MatrixPushEXT, void(GLenum))
 #endif
 
-OGLPLUS_MOCK_GLFUNC(PopMatrix, void(void));
+OGLPLUS_MOCK_GLFUNC(PopMatrix, void(void))
 #ifdef GL_EXT_direct_state_access
-OGLPLUS_MOCK_GLFUNC(MatrixPopEXT, void(GLenum));
+OGLPLUS_MOCK_GLFUNC(MatrixPopEXT, void(GLenum))
 #endif
 
-OGLPLUS_MOCK_GLFUNC(LoadIdentity, void(void));
+OGLPLUS_MOCK_GLFUNC(LoadIdentity, void(void))
 #ifdef GL_EXT_direct_state_access
-OGLPLUS_MOCK_GLFUNC(MatrixLoadIdentityEXT, void(GLenum));
+OGLPLUS_MOCK_GLFUNC(MatrixLoadIdentityEXT, void(GLenum))
 #endif
 
-OGLPLUS_MOCK_GLFUNC(LoadMatrixf, void(const GLfloat*));
+OGLPLUS_MOCK_GLFUNC(LoadMatrixf, void(const GLfloat*))
 #ifdef GL_EXT_direct_state_access
-OGLPLUS_MOCK_GLFUNC(MatrixLoadfEXT, void(GLenum, const GLfloat*));
+OGLPLUS_MOCK_GLFUNC(MatrixLoadfEXT, void(GLenum, const GLfloat*))
 #endif
 
-OGLPLUS_MOCK_GLFUNC(LoadTransposeMatrixf, void(const GLfloat*));
+OGLPLUS_MOCK_GLFUNC(LoadTransposeMatrixf, void(const GLfloat*))
 #ifdef GL_EXT_direct_state_access
-OGLPLUS_MOCK_GLFUNC(MatrixLoadTransposefEXT, void(GLenum, const GLfloat*));
+OGLPLUS_MOCK_GLFUNC(MatrixLoadTransposefEXT, void(GLenum, const GLfloat*))
 #endif
 
 #if defined(GL_DOUBLE)
-OGLPLUS_MOCK_GLFUNC(LoadMatrixd, void(const GLdouble*));
+OGLPLUS_MOCK_GLFUNC(LoadMatrixd, void(const GLdouble*))
 #ifdef GL_EXT_direct_state_access
-OGLPLUS_MOCK_GLFUNC(MatrixLoaddEXT, void(GLenum, const GLdouble*));
+OGLPLUS_MOCK_GLFUNC(MatrixLoaddEXT, void(GLenum, const GLdouble*))
 #endif
 
-OGLPLUS_MOCK_GLFUNC(LoadTransposeMatrixd, void(const GLdouble*));
+OGLPLUS_MOCK_GLFUNC(LoadTransposeMatrixd, void(const GLdouble*))
 #ifdef GL_EXT_direct_state_access
-OGLPLUS_MOCK_GLFUNC(MatrixLoadTransposedEXT, void(GLenum, const GLdouble*));
+OGLPLUS_MOCK_GLFUNC(MatrixLoadTransposedEXT, void(GLenum, const GLdouble*))
 #endif
 #endif // GL_DOUBLE
 
-OGLPLUS_MOCK_GLFUNC(Translatef, void(GLfloat, GLfloat, GLfloat));
+OGLPLUS_MOCK_GLFUNC(Translatef, void(GLfloat, GLfloat, GLfloat))
 #ifdef GL_EXT_direct_state_access
-OGLPLUS_MOCK_GLFUNC(MatrixTranslatefEXT, void(GLenum, GLfloat, GLfloat, GLfloat));
+OGLPLUS_MOCK_GLFUNC(MatrixTranslatefEXT, void(GLenum, GLfloat, GLfloat, GLfloat))
 #endif
 
 #if defined(GL_DOUBLE)
-OGLPLUS_MOCK_GLFUNC(Translated, void(GLdouble, GLdouble, GLdouble));
+OGLPLUS_MOCK_GLFUNC(Translated, void(GLdouble, GLdouble, GLdouble))
 #ifdef GL_EXT_direct_state_access
-OGLPLUS_MOCK_GLFUNC(MatrixTranslatedEXT, void(GLenum, GLdouble, GLdouble, GLdouble));
+OGLPLUS_MOCK_GLFUNC(MatrixTranslatedEXT, void(GLenum, GLdouble, GLdouble, GLdouble))
 #endif
 #endif // GL_DOUBLE
 
-OGLPLUS_MOCK_GLFUNC(Rotatef, void(GLfloat, GLfloat, GLfloat, GLfloat));
+OGLPLUS_MOCK_GLFUNC(Rotatef, void(GLfloat, GLfloat, GLfloat, GLfloat))
 #ifdef GL_EXT_direct_state_access
-OGLPLUS_MOCK_GLFUNC(MatrixRotatefEXT, void(GLenum, GLfloat, GLfloat, GLfloat, GLfloat));
+OGLPLUS_MOCK_GLFUNC(MatrixRotatefEXT, void(GLenum, GLfloat, GLfloat, GLfloat, GLfloat))
 #endif
 
 #if defined(GL_DOUBLE)
-OGLPLUS_MOCK_GLFUNC(Rotated, void(GLdouble, GLdouble, GLdouble, GLdouble));
+OGLPLUS_MOCK_GLFUNC(Rotated, void(GLdouble, GLdouble, GLdouble, GLdouble))
 #ifdef GL_EXT_direct_state_access
-OGLPLUS_MOCK_GLFUNC(MatrixRotatedEXT, void(GLenum, GLdouble, GLdouble, GLdouble, GLdouble));
+OGLPLUS_MOCK_GLFUNC(MatrixRotatedEXT, void(GLenum, GLdouble, GLdouble, GLdouble, GLdouble))
 #endif
 #endif // GL_DOUBLE
 
-OGLPLUS_MOCK_GLFUNC(Scalef, void(GLfloat, GLfloat, GLfloat));
+OGLPLUS_MOCK_GLFUNC(Scalef, void(GLfloat, GLfloat, GLfloat))
 #ifdef GL_EXT_direct_state_access
-OGLPLUS_MOCK_GLFUNC(MatrixScalefEXT, void(GLenum, GLfloat, GLfloat, GLfloat));
+OGLPLUS_MOCK_GLFUNC(MatrixScalefEXT, void(GLenum, GLfloat, GLfloat, GLfloat))
 #endif
 
 #if defined(GL_DOUBLE)
-OGLPLUS_MOCK_GLFUNC(Scaled, void(GLdouble, GLdouble, GLdouble));
+OGLPLUS_MOCK_GLFUNC(Scaled, void(GLdouble, GLdouble, GLdouble))
 #ifdef GL_EXT_direct_state_access
-OGLPLUS_MOCK_GLFUNC(MatrixScaledEXT, void(GLenum, GLdouble, GLdouble, GLdouble));
+OGLPLUS_MOCK_GLFUNC(MatrixScaledEXT, void(GLenum, GLdouble, GLdouble, GLdouble))
 #endif
 
-OGLPLUS_MOCK_GLFUNC(Ortho, void(GLdouble, GLdouble, GLdouble, GLdouble, GLdouble, GLdouble));
-OGLPLUS_MOCK_GLFUNC(Orthof, void(GLfloat, GLfloat, GLfloat, GLfloat, GLfloat, GLfloat));
+OGLPLUS_MOCK_GLFUNC(Ortho, void(GLdouble, GLdouble, GLdouble, GLdouble, GLdouble, GLdouble))
+OGLPLUS_MOCK_GLFUNC(Orthof, void(GLfloat, GLfloat, GLfloat, GLfloat, GLfloat, GLfloat))
 #ifdef GL_EXT_direct_state_access
-OGLPLUS_MOCK_GLFUNC(MatrixOrthoEXT, void(GLenum, GLdouble, GLdouble, GLdouble, GLdouble, GLdouble, GLdouble));
+OGLPLUS_MOCK_GLFUNC(MatrixOrthoEXT, void(GLenum, GLdouble, GLdouble, GLdouble, GLdouble, GLdouble, GLdouble))
 #endif
 
-OGLPLUS_MOCK_GLFUNC(Frustum, void(GLdouble, GLdouble, GLdouble, GLdouble, GLdouble, GLdouble));
+OGLPLUS_MOCK_GLFUNC(Frustum, void(GLdouble, GLdouble, GLdouble, GLdouble, GLdouble, GLdouble))
 #ifdef GL_EXT_direct_state_access
-OGLPLUS_MOCK_GLFUNC(MatrixFrustumEXT, void(GLenum, GLdouble, GLdouble, GLdouble, GLdouble, GLdouble, GLdouble));
+OGLPLUS_MOCK_GLFUNC(MatrixFrustumEXT, void(GLenum, GLdouble, GLdouble, GLdouble, GLdouble, GLdouble, GLdouble))
 #endif
 #endif // GL_DOUBLE
 
 #include <oglplus/oper/compat_matrix.hpp>
-#include <oglplus/enum/values.hpp>
+#include <oglplus/constants.hpp>
+#include <oglplus/constant_defs.hpp>
 #include <cstring>
 
 BOOST_AUTO_TEST_SUITE(compat_matrix_tests)
