@@ -27,7 +27,7 @@ noexcept
 inline
 outcome<face_orientation>
 rasterization_state::
-front_face(void)
+get_front_face(void)
 noexcept
 {
 	return face_orientation(GLenum(numeric_queries::get_integer(
@@ -49,7 +49,7 @@ noexcept
 inline
 outcome<face>
 rasterization_state::
-cull_face_mode(void)
+get_cull_face_mode(void)
 noexcept
 {
 	return face(GLenum(numeric_queries::get_integer(
@@ -84,7 +84,7 @@ noexcept
 inline
 outcome<GLfloat>
 rasterization_state::
-polygon_offset_factor(void)
+get_polygon_offset_factor(void)
 noexcept
 {
 	return numeric_queries::get_float(
@@ -95,7 +95,7 @@ noexcept
 inline
 outcome<GLfloat>
 rasterization_state::
-polygon_offset_units(void)
+get_polygon_offset_units(void)
 noexcept
 {
 	return numeric_queries::get_float(
@@ -117,7 +117,7 @@ noexcept
 inline
 outcome<GLfloat>
 rasterization_state::
-line_width(void)
+get_line_width(void)
 noexcept
 {
 	return numeric_queries::get_float(numeric_query(GL_LINE_WIDTH));
@@ -138,7 +138,7 @@ noexcept
 inline
 outcome<GLfloat>
 rasterization_state::
-point_size(void)
+get_point_size(void)
 noexcept
 {
 	return numeric_queries::get_float(numeric_query(GL_POINT_SIZE));
@@ -158,7 +158,7 @@ noexcept
 inline
 outcome<GLfloat>
 rasterization_state::
-point_parameter(oglplus::point_parameter param)
+get_point_parameter(oglplus::point_parameter param)
 noexcept
 {
 	return numeric_queries::get_float(numeric_query(GLenum(param)));
@@ -180,7 +180,7 @@ noexcept
 inline
 outcome<provoke_mode>
 rasterization_state::
-provoking_vertex(void)
+get_provoking_vertex(void)
 noexcept
 {
 	return provoke_mode(GLenum(numeric_queries::get_integer(
@@ -204,7 +204,7 @@ noexcept
 inline
 outcome<GLfloat>
 rasterization_state::
-min_stample_shading_value(void)
+get_min_stample_shading_value(void)
 noexcept
 {
 	return numeric_queries::get_float(
