@@ -16,13 +16,13 @@ find_program(CTEST ctest)
 if(CTEST)
 	add_custom_target(
 		check
-		COMMAND ${CTEST}
+		COMMAND ${CTEST} --parallel ${EAGINE_NUM_JOBS}
 		WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
 	)
 
 	add_custom_target(
 		recheck
-		COMMAND ${CTEST} --rerun-failed
+		COMMAND ${CTEST} --parallel ${EAGINE_NUM_JOBS} --rerun-failed
 		WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
 	)
 endif()

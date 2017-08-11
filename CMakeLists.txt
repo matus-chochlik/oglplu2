@@ -31,6 +31,7 @@ if(NOT ${CONFIG_INFO_ONLY})
 	include(config/CppFeature.cmake)
 	include(config/StdFixes.cmake)
 	include(config/LowProfile.cmake)
+	include(config/Jobs.cmake)
 endif()
 
 include(config/Tools.cmake)
