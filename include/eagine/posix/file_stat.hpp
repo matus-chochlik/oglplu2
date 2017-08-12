@@ -17,32 +17,32 @@ namespace posix {
 
 static inline
 outcome<void> fstat(file_descriptor fd, struct ::stat& buf)
-noexcept
-{
-	return error_if_not_zero(::fstat(get_raw_fd(fd), &buf), get_raw_fd(fd));
+noexcept {
+	return error_if_not_zero(
+		::fstat(get_raw_fd(fd), &buf),
+		get_raw_fd(fd)
+	);
 }
 
 static inline
 outcome<off_t> file_size(file_descriptor fd)
-noexcept
-{
+noexcept {
 	struct ::stat buf;
-	return fstat(fd, buf), buf.st_size;
+	buf.st_size = 0;
+	outcome<void> result = fstat(fd, buf);
+	return std::move(result).add(buf.st_size);
 }
 
-class file_stat
-{
+class file_stat {
 private:
 	struct ::stat _st;
 public:
-	file_stat(file_descriptor fdw)
-	{
+	file_stat(file_descriptor fdw) {
 		fstat(fdw, _st);
 	}
 
 	auto size(void) const
-	noexcept
-	{
+	noexcept {
 		return _st.st_size;
 	}
 };

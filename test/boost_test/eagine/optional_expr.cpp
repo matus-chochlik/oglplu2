@@ -7,7 +7,7 @@
 #include <eagine/optional_expr.hpp>
 #include <eagine/valid_if/not_zero.hpp>
 #define BOOST_TEST_MODULE EAGINE_optional_expr
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(optional_expr_tests)
 
@@ -39,3 +39,5 @@ BOOST_AUTO_TEST_CASE(optional_expr_div_test)
 // TODO
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

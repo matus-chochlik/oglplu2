@@ -6,7 +6,7 @@
  */
 #include <eagine/memory/stack_alloc.hpp>
 #define BOOST_TEST_MODULE EAGINE_memory_stack_alloc
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 #include <eagine/identity.hpp>
 #include <deque>
@@ -187,3 +187,5 @@ BOOST_AUTO_TEST_CASE(memory_stack_alloc_3)
 // TODO
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

@@ -20,15 +20,15 @@ struct shuffle_mask
 
 #if EAGINE_USE_SIMD && defined(__GNUC__) && !defined(__clang__)
 template <typename T, int N, bool V>
-struct mask : _vec_data<T, N, V>
+struct mask : _vec_data<T, N>
 { };
 
 template <int N, bool V>
-struct mask<float, N, V> : _vec_data<std::int32_t, N, V>
+struct mask<float, N, V> : _vec_data<std::int32_t, N>
 { };
 
 template <int N, bool V>
-struct mask<double, N, V> : _vec_data<std::int64_t, N, V>
+struct mask<double, N, V> : _vec_data<std::int64_t, N>
 { };
 
 template <typename T, int N, bool V>

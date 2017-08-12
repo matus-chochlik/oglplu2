@@ -6,7 +6,7 @@
  */
 #include <eagine/memory/c_realloc.hpp>
 #define BOOST_TEST_MODULE EAGINE_memory_c_realloc
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 #include <deque>
 
@@ -86,3 +86,5 @@ BOOST_AUTO_TEST_CASE(memory_c_realloc_1)
 // TODO
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

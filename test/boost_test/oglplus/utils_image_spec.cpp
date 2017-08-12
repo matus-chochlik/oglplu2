@@ -8,7 +8,7 @@
 #include <oglplus/utils/image_spec.hpp>
 #include <oglplus/utils/span.hpp>
 #define BOOST_TEST_MODULE OGLPLUS_utils_image_spec
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 #include <cstring>
 

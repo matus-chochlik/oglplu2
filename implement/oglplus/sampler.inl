@@ -48,7 +48,7 @@ noexcept
 	return numeric_queries::get_integer_v(
 		binding_query(GL_SAMPLER_BINDING),
 		{&result, 1}
-	), sampler_name(GLuint(result));
+	).add(sampler_name(GLuint(result)));
 }
 //------------------------------------------------------------------------------
 inline
@@ -195,7 +195,7 @@ noexcept
 inline
 outcome<texture_min_filter>
 sampler_ops::
-sampler_min_filter(sampler_name sam)
+get_sampler_min_filter(sampler_name sam)
 noexcept
 {
 	return return_sampler_parameter_i<texture_min_filter, GLenum>(
@@ -220,7 +220,7 @@ noexcept
 inline
 outcome<texture_mag_filter>
 sampler_ops::
-sampler_mag_filter(sampler_name sam)
+get_sampler_mag_filter(sampler_name sam)
 noexcept
 {
 	return return_sampler_parameter_i<
@@ -248,7 +248,7 @@ noexcept
 inline
 outcome<texture_compare_mode>
 sampler_ops::
-sampler_compare_mode(sampler_name sam)
+get_sampler_compare_mode(sampler_name sam)
 noexcept
 {
 	return return_sampler_parameter_i<
@@ -276,7 +276,7 @@ noexcept
 inline
 outcome<compare_function>
 sampler_ops::
-sampler_compare_func(sampler_name sam)
+get_sampler_compare_func(sampler_name sam)
 noexcept
 {
 	return return_sampler_parameter_i<
@@ -307,7 +307,7 @@ sampler_wrap(
 inline
 outcome<texture_wrap_mode>
 sampler_ops::
-sampler_wrap(sampler_name sam, texture_wrap_coord coord)
+get_sampler_wrap(sampler_name sam, texture_wrap_coord coord)
 noexcept
 {
 	return return_sampler_parameter_i<
@@ -332,7 +332,7 @@ noexcept
 inline
 outcome<texture_wrap_mode>
 sampler_ops::
-sampler_wrap_s(sampler_name sam)
+get_sampler_wrap_s(sampler_name sam)
 noexcept
 {
 	return return_sampler_parameter_i<texture_wrap_mode, GLenum>(
@@ -357,7 +357,7 @@ noexcept
 inline
 outcome<texture_wrap_mode>
 sampler_ops::
-sampler_wrap_t(sampler_name sam)
+get_sampler_wrap_t(sampler_name sam)
 noexcept
 {
 	return return_sampler_parameter_i<texture_wrap_mode, GLenum>(
@@ -382,7 +382,7 @@ noexcept
 inline
 outcome<texture_wrap_mode>
 sampler_ops::
-sampler_wrap_r(sampler_name sam)
+get_sampler_wrap_r(sampler_name sam)
 noexcept
 {
 	return return_sampler_parameter_i<texture_wrap_mode, GLenum>(
@@ -409,7 +409,7 @@ noexcept
 inline
 outcome<GLfloat>
 sampler_ops::
-sampler_lod_bias(sampler_name sam)
+get_sampler_lod_bias(sampler_name sam)
 noexcept
 {
 	return return_sampler_parameter_f<GLfloat>(
@@ -436,7 +436,7 @@ noexcept
 inline
 outcome<GLfloat>
 sampler_ops::
-sampler_min_lod(sampler_name sam)
+get_sampler_min_lod(sampler_name sam)
 noexcept
 {
 	return return_sampler_parameter_f<GLfloat>(
@@ -463,7 +463,7 @@ noexcept
 inline
 outcome<GLfloat>
 sampler_ops::
-sampler_max_lod(sampler_name sam)
+get_sampler_max_lod(sampler_name sam)
 noexcept
 {
 	return return_sampler_parameter_f<GLfloat>(

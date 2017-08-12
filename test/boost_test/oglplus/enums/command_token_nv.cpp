@@ -12,7 +12,7 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_command_token_nv
 
-#include "../../unit_test.inl"
+#include "../../unit_test_begin.inl"
 #include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_command_token_nv_tests)
@@ -1233,3 +1233,5 @@ BOOST_AUTO_TEST_CASE(enum_command_token_nv_any)
 }
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../../unit_test_end.inl"

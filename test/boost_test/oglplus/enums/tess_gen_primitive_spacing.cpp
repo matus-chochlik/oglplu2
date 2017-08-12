@@ -12,7 +12,7 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_tess_gen_primitive_spacing
 
-#include "../../unit_test.inl"
+#include "../../unit_test_begin.inl"
 #include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_tess_gen_primitive_spacing_tests)
@@ -169,3 +169,5 @@ BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_spacing_any)
 }
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../../unit_test_end.inl"

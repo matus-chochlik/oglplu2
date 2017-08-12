@@ -124,6 +124,7 @@ format_error_info(
 			[&out,&n_a_str,&fallback,parsed_fallback]
 			(auto value, auto nil)
 			{
+				(void)nil;
 				if(value != nil)
 				{
 					out << value;

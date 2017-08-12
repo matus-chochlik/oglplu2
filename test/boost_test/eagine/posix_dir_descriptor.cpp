@@ -9,7 +9,7 @@
 #include <eagine/posix/dir_descriptor.hpp>
 #endif
 #define BOOST_TEST_MODULE EAGINE_posix_dir_descriptor
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(posix_dir_descriptor_tests)
 
@@ -88,3 +88,5 @@ BOOST_AUTO_TEST_CASE(dummy_test_case) { }
 #endif // EAGINE_POSIX
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

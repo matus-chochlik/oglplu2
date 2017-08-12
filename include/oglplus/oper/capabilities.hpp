@@ -70,42 +70,42 @@ struct capability_state
 
 	static
 	outcome<GLint>
-	red_bits(void)
+	get_red_bits(void)
 	noexcept;
 
 	static
 	outcome<GLint>
-	green_bits(void)
+	get_green_bits(void)
 	noexcept;
 
 	static
 	outcome<GLint>
-	blue_bits(void)
+	get_blue_bits(void)
 	noexcept;
 
 	static
 	outcome<GLint>
-	alpha_bits(void)
+	get_alpha_bits(void)
 	noexcept;
 
 	static
 	outcome<GLint>
-	depth_bits(void)
+	get_depth_bits(void)
 	noexcept;
 
 	static
 	outcome<GLint>
-	stencil_bits(void)
+	get_stencil_bits(void)
 	noexcept;
 
 	static
 	outcome<boolean>
-	doublebuffer(void)
+	has_doublebuffer(void)
 	noexcept;
 
 	static
 	outcome<boolean>
-	stereo(void)
+	is_stereo(void)
 	noexcept;
 #endif
 };

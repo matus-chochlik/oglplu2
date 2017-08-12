@@ -22,7 +22,7 @@ public:
 	void set_time(float new_time)
 	noexcept
 	{
-		assert(new_time >= 0.0);
+		assert(new_time >= 0.0f);
 		_old_time = _new_time;
 		_new_time = new_time;
 	}

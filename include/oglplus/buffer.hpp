@@ -118,19 +118,19 @@ struct buffer_ops
 	template <typename BNT>
 	static
 	outcome<GLint>
-	buffer_size(const BNT& bnt)
+	get_buffer_size(const BNT& bnt)
 	noexcept;
 
 	template <typename BNT>
 	static
 	outcome<boolean>
-	buffer_mapped(const BNT& bnt)
+	is_buffer_mapped(const BNT& bnt)
 	noexcept;
 
 	template <typename BNT>
 	static
 	outcome<oglplus::buffer_usage>
-	buffer_usage(const BNT& bnt)
+	get_buffer_usage(const BNT& bnt)
 	noexcept;
 
 #if defined(GL_VERSION_4_4) || defined(GL_ARB_buffer_storage)
@@ -155,13 +155,13 @@ struct buffer_ops
 	template <typename BNT>
 	static
 	outcome<boolean>
-	buffer_immutable_storage(const BNT& bnt)
+	has_buffer_immutable_storage(const BNT& bnt)
 	noexcept;
 
 	template <typename BNT>
 	static
 	outcome<enum_bitfield<buffer_storage_bits>>
-	buffer_storage_flags(const BNT& bnt)
+	get_buffer_storage_flags(const BNT& bnt)
 	noexcept;
 #endif
 
@@ -273,12 +273,12 @@ struct buffer_ops
 
 	static
 	outcome<buffer_address>
-	buffer_gpu_address(buffer_target tgt)
+	get_buffer_gpu_address(buffer_target tgt)
 	noexcept;
 
 	static
 	outcome<buffer_address>
-	buffer_gpu_address(buffer_name buf)
+	get_buffer_gpu_address(buffer_name buf)
 	noexcept;
 #endif
 };
@@ -335,24 +335,24 @@ public:
 #endif
 
 	outcome<GLint>
-	size(void) const
+	get_size(void) const
 	noexcept
 	{
-		return _ops::buffer_size(*this);
+		return _ops::get_buffer_size(*this);
 	}
 
 	outcome<boolean>
-	mapped(void) const
+	is_mapped(void) const
 	noexcept
 	{
-		return _ops::buffer_mapped(*this);
+		return _ops::is_buffer_mapped(*this);
 	}
 
 	outcome<buffer_usage>
-	usage(void) const
+	get_usage(void) const
 	noexcept
 	{
-		return _ops::buffer_usage(*this);
+		return _ops::get_buffer_usage(*this);
 	}
 
 #if defined(GL_VERSION_4_4) || defined(GL_ARB_buffer_storage)
@@ -366,17 +366,17 @@ public:
 	}
 
 	outcome<boolean>
-	immutable_storage(void) const
+	has_immutable_storage(void) const
 	noexcept
 	{
-		return _ops::buffer_immutable_storage(*this);
+		return _ops::has_buffer_immutable_storage(*this);
 	}
 
 	outcome<enum_bitfield<buffer_storage_bits>>
-	storage_flags(void) const
+	get_storage_flags(void) const
 	noexcept
 	{
-		return _ops::buffer_storage_flags(*this);
+		return _ops::get_buffer_storage_flags(*this);
 	}
 #endif
 
@@ -403,10 +403,10 @@ public:
 	}
 
 	outcome<buffer_address>
-	gpu_address(void) const
+	get_gpu_address(void) const
 	noexcept
 	{
-		return _ops::buffer_gpu_address(*this);
+		return _ops::get_buffer_gpu_address(*this);
 	}
 #endif
 };

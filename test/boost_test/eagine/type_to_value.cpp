@@ -6,7 +6,7 @@
  */
 #include <eagine/type_to_value.hpp>
 #define BOOST_TEST_MODULE EAGINE_type_to_value
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 #include <type_traits>
 
@@ -78,3 +78,5 @@ BOOST_AUTO_TEST_CASE(type_to_value_1)
 
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

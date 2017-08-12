@@ -91,8 +91,8 @@ noexcept
 {
 	switch(type)
 	{
-		case example_resource_type::texture:
-			return cstr_ref("texture");
+		case example_resource_type::texture_image:
+			return cstr_ref("texture image");
 		case example_resource_type::shader_source:
 			return cstr_ref("shader source");
 		case example_resource_type::program_source:
@@ -106,7 +106,7 @@ noexcept
 {
 	switch(type)
 	{
-		case example_resource_type::texture:
+		case example_resource_type::texture_image:
 			return cstr_ref("textures");
 		case example_resource_type::shader_source:
 			return cstr_ref("shaders");
@@ -130,7 +130,6 @@ noexcept
 std::string
 example_params::
 get_resource_file_path(example_resource_type type, cstr_ref res_name) const
-noexcept
 {
 	auto path = find_resource_file_path(type, res_name);
 

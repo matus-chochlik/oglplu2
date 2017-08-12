@@ -25,46 +25,46 @@ void oglplus_sampler_test_ops1(void)
 	texture_wrap_coord wrap_s(GL_TEXTURE_WRAP_S);
 
 	gl.sampler_min_filter(sam, texture_min_filter(GL_LINEAR));
-	gl.sampler_min_filter(sam);
+	gl.get_sampler_min_filter(sam);
 	gl.sampler_min_filter(sams[0], texture_min_filter(GL_LINEAR));
 	gl.sampler_mag_filter(sam, texture_mag_filter(GL_LINEAR));
-	gl.sampler_mag_filter(sam);
+	gl.get_sampler_mag_filter(sam);
 	gl.sampler_compare_mode(sam, texture_compare_mode(GL_NONE));
-	gl.sampler_compare_mode(sam);
+	gl.get_sampler_compare_mode(sam);
 	gl.sampler_compare_func(sam, compare_function(GL_EQUAL));
-	gl.sampler_compare_func(sam);
+	gl.get_sampler_compare_func(sam);
 	gl.sampler_wrap(sam, wrap_s, texture_wrap_mode(GL_REPEAT));
-	gl.sampler_wrap(sam, wrap_s);
+	gl.get_sampler_wrap(sam, wrap_s);
 
 #if defined(GL_TEXTURE_LOD_BIAS)
 	gl.sampler_lod_bias(sam, 1.0f);
-	gl.sampler_lod_bias(sam);
+	gl.get_sampler_lod_bias(sam);
 #endif
 	gl.sampler_min_lod(sam,-1000.0f);
-	gl.sampler_min_lod(sam);
+	gl.get_sampler_min_lod(sam);
 	gl.sampler_max_lod(sam, 1000.0f);
-	gl.sampler_max_lod(sam);
+	gl.get_sampler_max_lod(sam);
 
 	sam.min_filter(texture_min_filter(GL_NEAREST));
-	sam.min_filter();
+	sam.get_min_filter();
 	sam.mag_filter(texture_mag_filter(GL_NEAREST));
-	sam.mag_filter();
+	sam.get_mag_filter();
 
 	sam.compare_mode(texture_compare_mode(GL_NONE));
-	sam.compare_mode();
+	sam.get_compare_mode();
 	sam.compare_func(compare_function(GL_LESS));
-	sam.compare_func();
+	sam.get_compare_func();
 	sam.wrap(wrap_s, texture_wrap_mode(GL_REPEAT));
-	sam.wrap(wrap_s);
+	sam.get_wrap(wrap_s);
 
 #if defined(GL_TEXTURE_LOD_BIAS)
 	sam.lod_bias(1.0f);
-	sam.lod_bias();
+	sam.get_lod_bias();
 #endif
 	sam.min_lod(-1000.0f);
-	sam.min_lod();
+	sam.get_min_lod();
 	sam.max_lod(1000.0f);
-	sam.max_lod();
+	sam.get_max_lod();
 }
 
 // TODO

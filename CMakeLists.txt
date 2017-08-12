@@ -3,9 +3,17 @@
 # See accompanying file LICENSE_1_0.txt or copy at
 #  http://www.boost.org/LICENSE_1_0.txt
 
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.5)
 if(POLICY CMP0054)
 	cmake_policy(SET CMP0054 NEW)
+endif()
+
+if(POLICY CMP0056)
+	cmake_policy(SET CMP0056 NEW)
+endif()
+
+if(POLICY CMP0066)
+	cmake_policy(SET CMP0066 NEW)
 endif()
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -18,10 +26,12 @@ file(READ VERSION OGLPLUS_VERSION)
 include(config/Defaults.cmake)
 
 if(NOT ${CONFIG_INFO_ONLY})
+	include(config/BuildType.cmake)
 	include(config/Compiler.cmake)
 	include(config/CppFeature.cmake)
 	include(config/StdFixes.cmake)
 	include(config/LowProfile.cmake)
+	include(config/Jobs.cmake)
 endif()
 
 include(config/Tools.cmake)

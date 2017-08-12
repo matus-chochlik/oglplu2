@@ -52,12 +52,12 @@ struct named_string_state
 
 	static
 	outcome<GLint>
-	named_string_length(cstring_span name)
+	get_named_string_length(cstring_span name)
 	noexcept;
 
 	static
 	outcome<named_string_type>
-	named_string_type(cstring_span name)
+	get_named_string_type(cstring_span name)
 	noexcept;
 
 	static

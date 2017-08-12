@@ -6,7 +6,7 @@
  */
 #include <eagine/buffer_data.hpp>
 #define BOOST_TEST_MODULE EAGINE_buffer_data
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(buffer_data_tests)
 
@@ -80,3 +80,5 @@ BOOST_AUTO_TEST_CASE(buffer_data_3)
 // TODO
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

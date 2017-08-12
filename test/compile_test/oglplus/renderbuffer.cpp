@@ -27,29 +27,29 @@ void oglplus_renderbuffer_test_ops1(void)
 
 	gl.renderbuffer_storage(tgt, ifmt, 32, 32);
 	gl.renderbuffer_storage_multisample(tgt, 4, ifmt, 32, 32);
-	gl.renderbuffer_width(tgt);
-	gl.renderbuffer_height(tgt);
-	gl.renderbuffer_red_size(tgt);
-	gl.renderbuffer_green_size(tgt);
-	gl.renderbuffer_blue_size(tgt);
-	gl.renderbuffer_alpha_size(tgt);
-	gl.renderbuffer_depth_size(tgt);
-	gl.renderbuffer_stencil_size(tgt);
-	gl.renderbuffer_samples(tgt);
-	gl.renderbuffer_internal_format(tgt);
+	gl.get_renderbuffer_width(tgt);
+	gl.get_renderbuffer_height(tgt);
+	gl.get_renderbuffer_red_size(tgt);
+	gl.get_renderbuffer_green_size(tgt);
+	gl.get_renderbuffer_blue_size(tgt);
+	gl.get_renderbuffer_alpha_size(tgt);
+	gl.get_renderbuffer_depth_size(tgt);
+	gl.get_renderbuffer_stencil_size(tgt);
+	gl.get_renderbuffer_samples(tgt);
+	gl.get_renderbuffer_internal_format(tgt);
 
 	currbo.storage(ifmt, 32, 32);
 	currbo.storage_multisample(4, ifmt, 32, 32);
-	currbo.width();
-	currbo.height();
-	currbo.red_size();
-	currbo.green_size();
-	currbo.blue_size();
-	currbo.alpha_size();
-	currbo.depth_size();
-	currbo.stencil_size();
-	currbo.samples();
-	currbo.internal_format();
+	currbo.get_width();
+	currbo.get_height();
+	currbo.get_red_size();
+	currbo.get_green_size();
+	currbo.get_blue_size();
+	currbo.get_alpha_size();
+	currbo.get_depth_size();
+	currbo.get_stencil_size();
+	currbo.get_samples();
+	currbo.get_internal_format();
 
 #if defined(GL_VERSION_4_5) ||\
 	defined(GL_ARB_direct_state_access) ||\
@@ -57,29 +57,29 @@ void oglplus_renderbuffer_test_ops1(void)
 
 	gl.renderbuffer_storage(rbo, ifmt, 32, 32);
 	gl.renderbuffer_storage_multisample(rbo, 4, ifmt, 32, 32);
-	gl.renderbuffer_width(rbo);
-	gl.renderbuffer_height(rbo);
-	gl.renderbuffer_red_size(rbo);
-	gl.renderbuffer_green_size(rbo);
-	gl.renderbuffer_blue_size(rbo);
-	gl.renderbuffer_alpha_size(rbo);
-	gl.renderbuffer_depth_size(rbo);
-	gl.renderbuffer_stencil_size(rbo);
-	gl.renderbuffer_samples(rbo);
-	gl.renderbuffer_internal_format(rbo);
+	gl.get_renderbuffer_width(rbo);
+	gl.get_renderbuffer_height(rbo);
+	gl.get_renderbuffer_red_size(rbo);
+	gl.get_renderbuffer_green_size(rbo);
+	gl.get_renderbuffer_blue_size(rbo);
+	gl.get_renderbuffer_alpha_size(rbo);
+	gl.get_renderbuffer_depth_size(rbo);
+	gl.get_renderbuffer_stencil_size(rbo);
+	gl.get_renderbuffer_samples(rbo);
+	gl.get_renderbuffer_internal_format(rbo);
 
 	rbo.storage(ifmt, 32, 32);
 	rbo.storage_multisample(4, ifmt, 32, 32);
-	rbo.width();
-	rbo.height();
-	rbo.red_size();
-	rbo.green_size();
-	rbo.blue_size();
-	rbo.alpha_size();
-	rbo.depth_size();
-	rbo.stencil_size();
-	rbo.samples();
-	rbo.internal_format();
+	rbo.get_width();
+	rbo.get_height();
+	rbo.get_red_size();
+	rbo.get_green_size();
+	rbo.get_blue_size();
+	rbo.get_alpha_size();
+	rbo.get_depth_size();
+	rbo.get_stencil_size();
+	rbo.get_samples();
+	rbo.get_internal_format();
 
 #endif
 }

@@ -220,7 +220,7 @@ noexcept
 		qry,
 		query_parameter(GL_QUERY_RESULT_AVAILABLE),
 		{&result, 1}
-	), boolean(GLboolean(result));
+	).add(boolean(GLboolean(result)));
 }
 #endif
 //------------------------------------------------------------------------------

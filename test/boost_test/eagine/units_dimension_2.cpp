@@ -31,7 +31,7 @@
 #include <eagine/units/dim/frequency.hpp>
 #include <eagine/units/dim/radioactivity.hpp>
 #define BOOST_TEST_MODULE EAGINE_units_dimension_2
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 #include <type_traits>
 
@@ -559,3 +559,5 @@ BOOST_AUTO_TEST_CASE(unit_dimensions_radioactivity)
 //TODO
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

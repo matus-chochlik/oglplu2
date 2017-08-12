@@ -25,7 +25,7 @@ struct rasterization_state
 
 	static
 	outcome<face_orientation>
-	front_face(void)
+	get_front_face(void)
 	noexcept;
 
 	static
@@ -35,7 +35,7 @@ struct rasterization_state
 
 	static
 	outcome<face>
-	cull_face_mode(void)
+	get_cull_face_mode(void)
 	noexcept;
 
 #if defined(GL_VERSION_3_0)
@@ -54,12 +54,12 @@ struct rasterization_state
 
 	static
 	outcome<GLfloat>
-	polygon_offset_factor(void)
+	get_polygon_offset_factor(void)
 	noexcept;
 
 	static
 	outcome<GLfloat>
-	polygon_offset_units(void)
+	get_polygon_offset_units(void)
 	noexcept;
 
 	static
@@ -69,7 +69,7 @@ struct rasterization_state
 
 	static
 	outcome<GLfloat>
-	line_width(void)
+	get_line_width(void)
 	noexcept;
 
 #if defined(GL_VERSION_3_0)
@@ -80,7 +80,7 @@ struct rasterization_state
 
 	static
 	outcome<GLfloat>
-	point_size(void)
+	get_point_size(void)
 	noexcept;
 
 	static
@@ -90,7 +90,7 @@ struct rasterization_state
 
 	static
 	outcome<GLfloat>
-	point_parameter(oglplus::point_parameter param)
+	get_point_parameter(oglplus::point_parameter param)
 	noexcept;
 #endif
 
@@ -102,7 +102,7 @@ struct rasterization_state
 
 	static
 	outcome<provoke_mode>
-	provoking_vertex(void)
+	get_provoking_vertex(void)
 	noexcept;
 #endif
 
@@ -114,7 +114,7 @@ struct rasterization_state
 
 	static
 	outcome<GLfloat>
-	min_stample_shading_value(void)
+	get_min_stample_shading_value(void)
 	noexcept;
 #endif
 };

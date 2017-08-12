@@ -12,7 +12,7 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE EGLPLUS_surface_type_bit
 
-#include "../../unit_test.inl"
+#include "../../unit_test_begin.inl"
 #include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_surface_type_bit_tests)
@@ -363,3 +363,5 @@ BOOST_AUTO_TEST_CASE(enum_surface_type_bit_any)
 }
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../../unit_test_end.inl"

@@ -48,7 +48,7 @@ noexcept
 	return numeric_queries::get_integer_v(
 		numeric_query(GL_ACTIVE_TEXTURE),
 		{&result, 1}
-	), texture_unit(GLenum(result));
+	).add(texture_unit(GLenum(result)));
 }
 //------------------------------------------------------------------------------
 inline
@@ -80,7 +80,7 @@ noexcept
 	return numeric_queries::get_integer_v(
 		get_binding_query(target),
 		{&result, 1}
-	), texture_name(GLuint(result));
+	).add(texture_name(GLuint(result)));
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_2) || defined(GL_ARB_texture_storage)
@@ -1159,7 +1159,7 @@ template <typename TNT>
 inline
 outcome<GLsizei>
 texture_ops::
-texture_width(const TNT& tnt, GLint level)
+get_texture_width(const TNT& tnt, GLint level)
 noexcept
 {
 	return return_texture_level_parameter_i<GLsizei, GLsizei>(
@@ -1173,7 +1173,7 @@ template <typename TNT>
 inline
 outcome<GLsizei>
 texture_ops::
-texture_height(const TNT& tnt, GLint level)
+get_texture_height(const TNT& tnt, GLint level)
 noexcept
 {
 	return return_texture_level_parameter_i<GLsizei, GLsizei>(
@@ -1187,7 +1187,7 @@ template <typename TNT>
 inline
 outcome<GLsizei>
 texture_ops::
-texture_depth(const TNT& tnt, GLint level)
+get_texture_depth(const TNT& tnt, GLint level)
 noexcept
 {
 	return return_texture_level_parameter_i<GLsizei, GLsizei>(
@@ -1201,7 +1201,7 @@ template <typename TNT>
 inline
 outcome<pixel_data_type>
 texture_ops::
-texture_red_type(const TNT& tnt)
+get_texture_red_type(const TNT& tnt)
 noexcept
 {
 	return return_texture_parameter_i<pixel_data_type, GLenum>(
@@ -1214,7 +1214,7 @@ template <typename TNT>
 inline
 outcome<GLsizei>
 texture_ops::
-texture_red_size(const TNT& tnt, GLint level)
+get_texture_red_size(const TNT& tnt, GLint level)
 noexcept
 {
 	return return_texture_level_parameter_i<GLsizei, GLsizei>(
@@ -1228,7 +1228,7 @@ template <typename TNT>
 inline
 outcome<pixel_data_type>
 texture_ops::
-texture_green_type(const TNT& tnt)
+get_texture_green_type(const TNT& tnt)
 noexcept
 {
 	return return_texture_parameter_i<pixel_data_type, GLenum>(
@@ -1241,7 +1241,7 @@ template <typename TNT>
 inline
 outcome<GLsizei>
 texture_ops::
-texture_green_size(const TNT& tnt, GLint level)
+get_texture_green_size(const TNT& tnt, GLint level)
 noexcept
 {
 	return return_texture_level_parameter_i<GLsizei, GLsizei>(
@@ -1255,7 +1255,7 @@ template <typename TNT>
 inline
 outcome<pixel_data_type>
 texture_ops::
-texture_blue_type(const TNT& tnt)
+get_texture_blue_type(const TNT& tnt)
 noexcept
 {
 	return return_texture_parameter_i<pixel_data_type, GLenum>(
@@ -1268,7 +1268,7 @@ template <typename TNT>
 inline
 outcome<GLsizei>
 texture_ops::
-texture_blue_size(const TNT& tnt, GLint level)
+get_texture_blue_size(const TNT& tnt, GLint level)
 noexcept
 {
 	return return_texture_level_parameter_i<GLsizei, GLsizei>(
@@ -1282,7 +1282,7 @@ template <typename TNT>
 inline
 outcome<pixel_data_type>
 texture_ops::
-texture_alpha_type(const TNT& tnt)
+get_texture_alpha_type(const TNT& tnt)
 noexcept
 {
 	return return_texture_parameter_i<pixel_data_type, GLenum>(
@@ -1295,7 +1295,7 @@ template <typename TNT>
 inline
 outcome<GLsizei>
 texture_ops::
-texture_alpha_size(const TNT& tnt, GLint level)
+get_texture_alpha_size(const TNT& tnt, GLint level)
 noexcept
 {
 	return return_texture_level_parameter_i<GLsizei, GLsizei>(
@@ -1309,7 +1309,7 @@ template <typename TNT>
 inline
 outcome<pixel_data_type>
 texture_ops::
-texture_depth_type(const TNT& tnt)
+get_texture_depth_type(const TNT& tnt)
 noexcept
 {
 	return return_texture_parameter_i<pixel_data_type, GLenum>(
@@ -1322,7 +1322,7 @@ template <typename TNT>
 inline
 outcome<GLsizei>
 texture_ops::
-texture_depth_size(const TNT& tnt, GLint level)
+get_texture_depth_size(const TNT& tnt, GLint level)
 noexcept
 {
 	return return_texture_level_parameter_i<GLsizei, GLsizei>(
@@ -1336,7 +1336,7 @@ template <typename TNT>
 inline
 outcome<GLsizei>
 texture_ops::
-texture_stencil_size(const TNT& tnt, GLint level)
+get_texture_stencil_size(const TNT& tnt, GLint level)
 noexcept
 {
 	return return_texture_level_parameter_i<GLsizei, GLsizei>(
@@ -1350,7 +1350,7 @@ template <typename TNT>
 inline
 outcome<GLsizei>
 texture_ops::
-texture_shared_size(const TNT& tnt, GLint level)
+get_texture_shared_size(const TNT& tnt, GLint level)
 noexcept
 {
 	return return_texture_level_parameter_i<GLsizei, GLsizei>(
@@ -1364,7 +1364,7 @@ template <typename TNT>
 inline
 outcome<boolean>
 texture_ops::
-texture_compressed(const TNT& tnt, GLint level)
+is_texture_compressed(const TNT& tnt, GLint level)
 noexcept
 {
 	return return_texture_level_parameter_i<
@@ -1382,7 +1382,7 @@ template <typename TNT>
 inline
 outcome<GLsizei>
 texture_ops::
-texture_compressed_image_size(const TNT& tnt, GLint level)
+get_texture_compressed_image_size(const TNT& tnt, GLint level)
 noexcept
 {
 	return return_texture_level_parameter_i<GLsizei, GLsizei>(
@@ -1399,7 +1399,7 @@ template <typename TNT>
 inline
 outcome<oglplus::pixel_data_internal_format>
 texture_ops::
-texture_internal_format(const TNT& tnt, GLint level)
+get_texture_internal_format(const TNT& tnt, GLint level)
 noexcept
 {
 	return return_texture_level_parameter_i<
@@ -1431,7 +1431,7 @@ template <typename TNT>
 inline
 outcome<oglplus::texture_min_filter>
 texture_ops::
-texture_min_filter(const TNT& tnt)
+get_texture_min_filter(const TNT& tnt)
 noexcept
 {
 	return return_texture_parameter_i<oglplus::texture_min_filter, GLenum>(
@@ -1458,7 +1458,7 @@ template <typename TNT>
 inline
 outcome<oglplus::texture_mag_filter>
 texture_ops::
-texture_mag_filter(const TNT& tnt)
+get_texture_mag_filter(const TNT& tnt)
 noexcept
 {
 	return return_texture_parameter_i<oglplus::texture_mag_filter, GLenum>(
@@ -1487,7 +1487,7 @@ template <typename TNT>
 inline
 outcome<oglplus::compare_function>
 texture_ops::
-texture_compare_func(const TNT& tnt)
+get_texture_compare_func(const TNT& tnt)
 noexcept
 {
 	return return_texture_parameter_i<oglplus::compare_function, GLenum>(
@@ -1516,7 +1516,7 @@ template <typename TNT>
 inline
 outcome<oglplus::texture_compare_mode>
 texture_ops::
-texture_compare_mode(const TNT& tnt)
+get_texture_compare_mode(const TNT& tnt)
 noexcept
 {
 	return return_texture_parameter_i<
@@ -1549,7 +1549,7 @@ template <typename TNT>
 inline
 outcome<texture_wrap_mode>
 texture_ops::
-texture_wrap(const TNT& tnt, texture_wrap_coord coord)
+get_texture_wrap(const TNT& tnt, texture_wrap_coord coord)
 noexcept
 {
 	return return_texture_parameter_i<texture_wrap_mode, GLenum>(
@@ -1579,7 +1579,7 @@ template <typename TNT>
 inline
 outcome<texture_swizzle_mode>
 texture_ops::
-texture_swizzle(const TNT& tnt, texture_swizzle_coord coord)
+get_texture_swizzle(const TNT& tnt, texture_swizzle_coord coord)
 noexcept
 {
 	return return_texture_parameter_i<texture_swizzle_mode, GLenum>(
@@ -1607,7 +1607,7 @@ template <typename TNT>
 inline
 outcome<GLfloat>
 texture_ops::
-texture_lod_bias(const TNT& tnt)
+get_texture_lod_bias(const TNT& tnt)
 noexcept
 {
 	return return_texture_parameter_f<GLfloat>(
@@ -1635,7 +1635,7 @@ template <typename TNT>
 inline
 outcome<GLfloat>
 texture_ops::
-texture_min_lod(const TNT& tnt)
+get_texture_min_lod(const TNT& tnt)
 noexcept
 {
 	return return_texture_parameter_f<GLfloat>(
@@ -1662,7 +1662,7 @@ template <typename TNT>
 inline
 outcome<GLfloat>
 texture_ops::
-texture_max_lod(const TNT& tnt)
+get_texture_max_lod(const TNT& tnt)
 noexcept
 {
 	return return_texture_parameter_f<GLfloat>(

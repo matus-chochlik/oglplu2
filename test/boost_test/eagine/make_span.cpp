@@ -6,7 +6,7 @@
  */
 #include <eagine/span.hpp>
 #define BOOST_TEST_MODULE EAGINE_make_span
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 #include <vector>
 #include <array>
@@ -123,3 +123,5 @@ BOOST_AUTO_TEST_CASE(make_span_std_array)
 }
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

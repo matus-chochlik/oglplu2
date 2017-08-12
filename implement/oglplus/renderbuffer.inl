@@ -46,7 +46,7 @@ noexcept
 	return numeric_queries::get_integer_v(
 		get_binding_query(target),
 		{&result, 1}
-	), renderbuffer_name(GLuint(result));
+	).add(renderbuffer_name(GLuint(result)));
 }
 //------------------------------------------------------------------------------
 inline
@@ -236,7 +236,7 @@ template <typename RNT>
 inline
 outcome<GLsizei>
 renderbuffer_ops::
-renderbuffer_width(const RNT& rnt)
+get_renderbuffer_width(const RNT& rnt)
 noexcept
 {
 	return return_renderbuffer_parameter_i<GLsizei, GLsizei>(
@@ -249,7 +249,7 @@ template <typename RNT>
 inline
 outcome<GLsizei>
 renderbuffer_ops::
-renderbuffer_height(const RNT& rnt)
+get_renderbuffer_height(const RNT& rnt)
 noexcept
 {
 	return return_renderbuffer_parameter_i<GLsizei, GLsizei>(
@@ -262,7 +262,7 @@ template <typename RNT>
 inline
 outcome<GLsizei>
 renderbuffer_ops::
-renderbuffer_red_size(const RNT& rnt)
+get_renderbuffer_red_size(const RNT& rnt)
 noexcept
 {
 	return return_renderbuffer_parameter_i<GLsizei, GLsizei>(
@@ -275,7 +275,7 @@ template <typename RNT>
 inline
 outcome<GLsizei>
 renderbuffer_ops::
-renderbuffer_green_size(const RNT& rnt)
+get_renderbuffer_green_size(const RNT& rnt)
 noexcept
 {
 	return return_renderbuffer_parameter_i<GLsizei, GLsizei>(
@@ -288,7 +288,7 @@ template <typename RNT>
 inline
 outcome<GLsizei>
 renderbuffer_ops::
-renderbuffer_blue_size(const RNT& rnt)
+get_renderbuffer_blue_size(const RNT& rnt)
 noexcept
 {
 	return return_renderbuffer_parameter_i<GLsizei, GLsizei>(
@@ -301,7 +301,7 @@ template <typename RNT>
 inline
 outcome<GLsizei>
 renderbuffer_ops::
-renderbuffer_alpha_size(const RNT& rnt)
+get_renderbuffer_alpha_size(const RNT& rnt)
 noexcept
 {
 	return return_renderbuffer_parameter_i<GLsizei, GLsizei>(
@@ -314,7 +314,7 @@ template <typename RNT>
 inline
 outcome<GLsizei>
 renderbuffer_ops::
-renderbuffer_depth_size(const RNT& rnt)
+get_renderbuffer_depth_size(const RNT& rnt)
 noexcept
 {
 	return return_renderbuffer_parameter_i<GLsizei, GLsizei>(
@@ -327,7 +327,7 @@ template <typename RNT>
 inline
 outcome<GLsizei>
 renderbuffer_ops::
-renderbuffer_stencil_size(const RNT& rnt)
+get_renderbuffer_stencil_size(const RNT& rnt)
 noexcept
 {
 	return return_renderbuffer_parameter_i<GLsizei, GLsizei>(
@@ -340,7 +340,7 @@ template <typename RNT>
 inline
 outcome<GLsizei>
 renderbuffer_ops::
-renderbuffer_samples(const RNT& rnt)
+get_renderbuffer_samples(const RNT& rnt)
 noexcept
 {
 	return return_renderbuffer_parameter_i<GLsizei, GLsizei>(
@@ -353,7 +353,7 @@ template <typename RNT>
 inline
 outcome<pixel_data_internal_format>
 renderbuffer_ops::
-renderbuffer_internal_format(const RNT& rnt)
+get_renderbuffer_internal_format(const RNT& rnt)
 noexcept
 {
 	return return_renderbuffer_parameter_i<

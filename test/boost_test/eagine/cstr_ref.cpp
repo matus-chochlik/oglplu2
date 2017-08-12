@@ -6,7 +6,7 @@
  */
 #include <eagine/cstr_ref.hpp>
 #define BOOST_TEST_MODULE EAGINE_cstr_ref
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 #include <cstring>
 #include <string>
@@ -110,3 +110,5 @@ BOOST_AUTO_TEST_CASE(cstr_ref_std_array)
 // TODO
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

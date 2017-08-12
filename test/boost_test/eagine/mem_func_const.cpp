@@ -6,7 +6,7 @@
  */
 #include <eagine/mem_func_const.hpp>
 #define BOOST_TEST_MODULE EAGINE_mem_func_const
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 #include <type_traits>
 
@@ -100,3 +100,5 @@ BOOST_AUTO_TEST_CASE(mem_func_const_make_free)
 }
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

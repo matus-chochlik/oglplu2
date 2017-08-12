@@ -31,29 +31,29 @@ void oglplus_program_test_ops1(void)
 	gl.link_program(prog);
 	gl.use_program(prog);
 	gl.current_program();
-	gl.program_delete_status(prog);
-	gl.program_link_status(prog);
-	gl.program_info_log_length(prog);
-	gl.program_info_log(prog, span<char>());
-	gl.program_active_attributes(prog);
-	gl.program_active_attribute_max_length(prog);
+	gl.get_program_delete_status(prog);
+	gl.get_program_link_status(prog);
+	gl.get_program_info_log_length(prog);
+	gl.get_program_info_log(prog, span<char>());
+	gl.get_program_active_attributes(prog);
+	gl.get_program_active_attribute_max_length(prog);
 	gl.get_active_attrib(prog, 0, span<char>(), size, type);
-	gl.program_active_uniforms(prog);
-	gl.program_active_uniform_max_length(prog);
+	gl.get_program_active_uniforms(prog);
+	gl.get_program_active_uniform_max_length(prog);
 	gl.get_active_uniform(prog, 0, span<char>(), size, type);
 
 	prog.attach(shdr);
 	prog.detach(shdr);
 	prog.link();
-	prog.delete_status();
-	prog.link_status();
-	prog.info_log_length();
-	prog.info_log(span<char>());
-	prog.active_attributes();
-	prog.active_attribute_max_length();
+	prog.get_delete_status();
+	prog.get_link_status();
+	prog.get_info_log_length();
+	prog.get_info_log(span<char>());
+	prog.get_active_attributes();
+	prog.get_active_attribute_max_length();
 	prog.get_active_attrib(0, span<char>(), size, type);
-	prog.active_uniforms();
-	prog.active_uniform_max_length();
+	prog.get_active_uniforms();
+	prog.get_active_uniform_max_length();
 	prog.get_active_uniform(0, span<char>(), size, type);
 }
 

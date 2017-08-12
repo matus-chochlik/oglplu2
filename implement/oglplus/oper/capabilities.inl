@@ -118,7 +118,7 @@ noexcept
 inline
 outcome<GLint>
 capability_state::
-red_bits(void)
+get_red_bits(void)
 noexcept
 {
 	return numeric_queries::get_integer(numeric_query(GL_RED_BITS));
@@ -127,7 +127,7 @@ noexcept
 inline
 outcome<GLint>
 capability_state::
-green_bits(void)
+get_green_bits(void)
 noexcept
 {
 	return numeric_queries::get_integer(numeric_query(GL_GREEN_BITS));
@@ -136,7 +136,7 @@ noexcept
 inline
 outcome<GLint>
 capability_state::
-blue_bits(void)
+get_blue_bits(void)
 noexcept
 {
 	return numeric_queries::get_integer(numeric_query(GL_BLUE_BITS));
@@ -145,7 +145,7 @@ noexcept
 inline
 outcome<GLint>
 capability_state::
-alpha_bits(void)
+get_alpha_bits(void)
 noexcept
 {
 	return numeric_queries::get_integer(numeric_query(GL_ALPHA_BITS));
@@ -154,7 +154,7 @@ noexcept
 inline
 outcome<GLint>
 capability_state::
-depth_bits(void)
+get_depth_bits(void)
 noexcept
 {
 	return numeric_queries::get_integer(numeric_query(GL_DEPTH_BITS));
@@ -163,7 +163,7 @@ noexcept
 inline
 outcome<GLint>
 capability_state::
-stencil_bits(void)
+get_stencil_bits(void)
 noexcept
 {
 	return numeric_queries::get_integer(numeric_query(GL_STENCIL_BITS));
@@ -172,7 +172,7 @@ noexcept
 inline
 outcome<boolean>
 capability_state::
-doublebuffer(void)
+has_doublebuffer(void)
 noexcept
 {
 	return numeric_queries::get_boolean(numeric_query(GL_DOUBLEBUFFER));
@@ -181,7 +181,7 @@ noexcept
 inline
 outcome<boolean>
 capability_state::
-stereo(void)
+is_stereo(void)
 noexcept
 {
 	return numeric_queries::get_boolean(numeric_query(GL_STEREO));

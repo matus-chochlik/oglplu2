@@ -73,7 +73,7 @@ program_ops::
 report_program_link_error(program_name prog)
 noexcept
 {
-	if(!program_link_status(prog).value())
+	if(!get_program_link_status(prog).value())
 	{
 		OGLPLUS_REPORT_ERROR(
 			LinkProgram,
@@ -112,7 +112,7 @@ noexcept
 	return numeric_queries::get_integer_v(
 		binding_query(GL_CURRENT_PROGRAM),
 		{&result, 1}
-	), program_name(GLuint(result));
+	).add(program_name(GLuint(result)));
 #else
 	return program_name(0);
 #endif
@@ -160,7 +160,7 @@ noexcept
 inline
 outcome<boolean>
 program_ops::
-program_delete_status(program_name prog)
+get_program_delete_status(program_name prog)
 noexcept
 {
 	return return_program_parameter_i<boolean, GLboolean>(
@@ -172,7 +172,7 @@ noexcept
 inline
 outcome<boolean>
 program_ops::
-program_link_status(program_name prog)
+get_program_link_status(program_name prog)
 noexcept
 {
 	return return_program_parameter_i<boolean, GLboolean>(
@@ -184,7 +184,7 @@ noexcept
 inline
 outcome<GLsizei>
 program_ops::
-program_info_log_length(program_name prog)
+get_program_info_log_length(program_name prog)
 noexcept
 {
 	return return_program_parameter_i<GLsizei, GLsizei>(
@@ -196,7 +196,7 @@ noexcept
 inline
 outcome<GLsizei>
 program_ops::
-program_info_log(program_name prog, span<char> dest)
+get_program_info_log(program_name prog, span<char> dest)
 noexcept
 {
 	GLsizei reallen = 0;
@@ -217,7 +217,7 @@ noexcept
 inline
 outcome<GLuint>
 program_ops::
-program_active_attributes(program_name prog)
+get_program_active_attributes(program_name prog)
 noexcept
 {
 	return return_program_parameter_i<GLuint, GLuint>(
@@ -229,7 +229,7 @@ noexcept
 inline
 outcome<GLsizei>
 program_ops::
-program_active_attribute_max_length(program_name prog)
+get_program_active_attribute_max_length(program_name prog)
 noexcept
 {
 	return return_program_parameter_i<GLsizei, GLsizei>(
@@ -273,7 +273,7 @@ get_active_attrib(
 inline
 outcome<GLuint>
 program_ops::
-program_active_uniforms(program_name prog)
+get_program_active_uniforms(program_name prog)
 noexcept
 {
 	return return_program_parameter_i<GLuint, GLuint>(
@@ -285,7 +285,7 @@ noexcept
 inline
 outcome<GLsizei>
 program_ops::
-program_active_uniform_max_length(program_name prog)
+get_program_active_uniform_max_length(program_name prog)
 noexcept
 {
 	return return_program_parameter_i<GLsizei, GLsizei>(

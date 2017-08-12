@@ -200,6 +200,17 @@ struct compatibility_matrix
 		GLdouble f
 	) noexcept;
 
+	static
+	outcome<void>
+	ortho_f(
+		GLfloat l,
+		GLfloat r,
+		GLfloat b,
+		GLfloat t,
+		GLfloat n,
+		GLfloat f
+	) noexcept;
+
 #ifdef GL_EXT_direct_state_access
 	static
 	outcome<void>

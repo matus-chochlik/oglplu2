@@ -84,7 +84,7 @@ get_named_string_iv(
 inline
 outcome<GLint>
 named_string_state::
-named_string_length(cstring_span name)
+get_named_string_length(cstring_span name)
 noexcept
 {
 	GLint result = 0;
@@ -92,13 +92,13 @@ noexcept
 		name,
 		named_string_param(GL_NAMED_STRING_LENGTH_ARB),
 		{&result, 1}
-	), result;
+	).add(result);
 }
 //------------------------------------------------------------------------------
 inline
 outcome<named_string_type>
 named_string_state::
-named_string_type(cstring_span name)
+get_named_string_type(cstring_span name)
 noexcept
 {
 	GLint result = 0;
@@ -106,7 +106,7 @@ noexcept
 		name,
 		named_string_param(GL_NAMED_STRING_TYPE_ARB),
 		{&result, 1}
-	), oglplus::named_string_type(GLenum(result));
+	).add(oglplus::named_string_type(GLenum(result)));
 }
 //------------------------------------------------------------------------------
 inline

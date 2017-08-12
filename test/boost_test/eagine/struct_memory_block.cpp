@@ -6,7 +6,7 @@
  */
 #include <eagine/struct_memory_block.hpp>
 #define BOOST_TEST_MODULE EAGINE_struct_memory_block
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 #include <vector>
 #include <tuple>
@@ -88,3 +88,5 @@ BOOST_AUTO_TEST_CASE(struct_memory_block_2)
 // TODO
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

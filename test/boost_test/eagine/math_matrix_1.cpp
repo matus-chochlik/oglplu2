@@ -6,7 +6,7 @@
  */
 #include <eagine/math/matrix.hpp>
 #define BOOST_TEST_MODULE EAGINE_math_matrix_1
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(math_matrix_tests_1)
 
@@ -333,3 +333,5 @@ BOOST_AUTO_TEST_CASE(math_matrix_reorder)
 //TODO
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

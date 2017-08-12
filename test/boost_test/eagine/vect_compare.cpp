@@ -7,7 +7,7 @@
 #include <eagine/vect/fill.hpp>
 #include <eagine/vect/compare.hpp>
 #define BOOST_TEST_MODULE EAGINE_vect_compare
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(vect_compare_tests)
 
@@ -58,3 +58,5 @@ BOOST_AUTO_TEST_CASE(vect_is_zero_apply)
 
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

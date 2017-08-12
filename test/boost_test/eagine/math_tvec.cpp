@@ -6,7 +6,7 @@
  */
 #include <eagine/math/tvec.hpp>
 #define BOOST_TEST_MODULE EAGINE_math_tvec
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 
 BOOST_AUTO_TEST_SUITE(math_tvec_tests)
@@ -419,3 +419,5 @@ BOOST_AUTO_TEST_CASE(math_tvec_vec_vec_ctr)
 }
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

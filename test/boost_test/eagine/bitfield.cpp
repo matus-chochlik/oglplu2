@@ -6,7 +6,7 @@
  */
 #include <eagine/bitfield.hpp>
 #define BOOST_TEST_MODULE EAGINE_bitfield
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 namespace eagine {
 
@@ -204,3 +204,5 @@ BOOST_AUTO_TEST_CASE(bitfield_test_3)
 }
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

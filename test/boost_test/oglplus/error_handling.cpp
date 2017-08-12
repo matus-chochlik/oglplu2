@@ -7,7 +7,7 @@
 #include <oglplus/gl_fixed.hpp>
 #include <oglplus/error/handling.hpp>
 #define BOOST_TEST_MODULE OGLPLUS_error_handling
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 #include "helper/mock_object.hpp"
 

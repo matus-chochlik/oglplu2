@@ -9,7 +9,7 @@
 #include <oglplus/enum/values.hpp>
 #include <oglplus/enum/value_defs.inl>
 #define BOOST_TEST_MODULE OGLPLUS_data_type
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 #include <cstring>
 

@@ -6,7 +6,7 @@
  */
 #include <eagine/callable_ref.hpp>
 #define BOOST_TEST_MODULE EAGINE_callable_ref
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 #include <type_traits>
 
@@ -186,3 +186,5 @@ BOOST_AUTO_TEST_CASE(callable_ref_baz_2)
 }
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

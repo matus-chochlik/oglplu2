@@ -1442,7 +1442,7 @@ static constexpr const enum_value<
 #ifdef GL_DONT_CARE
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::debug_output_source,oglplus::debug_output_type,oglplus::hint_option,oglplus::debug_output_severity>
+	mp_list<oglplus::debug_output_source,oglplus::debug_output_type,oglplus::debug_output_severity,oglplus::hint_option>
 > dont_care = {GL_DONT_CARE};
 #endif
 
@@ -2123,6 +2123,41 @@ static constexpr const enum_value<
 	GLenum,
 	mp_list<oglplus::framebuffer_status>
 > framebuffer_complete = {GL_FRAMEBUFFER_COMPLETE};
+#endif
+
+#ifdef GL_FRAMEBUFFER_DEFAULT_FIXED_SAMPLE_LOCATIONS
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::framebuffer_parameter>
+> framebuffer_default_fixed_sample_locations = {GL_FRAMEBUFFER_DEFAULT_FIXED_SAMPLE_LOCATIONS};
+#endif
+
+#ifdef GL_FRAMEBUFFER_DEFAULT_HEIGHT
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::framebuffer_parameter>
+> framebuffer_default_height = {GL_FRAMEBUFFER_DEFAULT_HEIGHT};
+#endif
+
+#ifdef GL_FRAMEBUFFER_DEFAULT_LAYERS
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::framebuffer_parameter>
+> framebuffer_default_layers = {GL_FRAMEBUFFER_DEFAULT_LAYERS};
+#endif
+
+#ifdef GL_FRAMEBUFFER_DEFAULT_SAMPLES
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::framebuffer_parameter>
+> framebuffer_default_samples = {GL_FRAMEBUFFER_DEFAULT_SAMPLES};
+#endif
+
+#ifdef GL_FRAMEBUFFER_DEFAULT_WIDTH
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::framebuffer_parameter>
+> framebuffer_default_width = {GL_FRAMEBUFFER_DEFAULT_WIDTH};
 #endif
 
 #ifdef GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT
@@ -4445,7 +4480,7 @@ static constexpr const enum_value<
 #ifdef GL_PATH_FILL_COVER_MODE_NV
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::path_fill_cover_mode_nv,oglplus::path_parameter_nv>
+	mp_list<oglplus::path_parameter_nv,oglplus::path_fill_cover_mode_nv>
 > path_fill_cover_mode_nv = {GL_PATH_FILL_COVER_MODE_NV};
 #endif
 
@@ -4928,63 +4963,63 @@ static constexpr const enum_value<
 #ifdef GL_R11F_G11F_B10F
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::pixel_data_internal_format,oglplus::image_unit_format>
+	mp_list<oglplus::image_unit_format,oglplus::pixel_data_internal_format>
 > r11f_g11f_b10f = {GL_R11F_G11F_B10F};
 #endif
 
 #ifdef GL_R16
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::pixel_data_internal_format,oglplus::image_unit_format>
+	mp_list<oglplus::image_unit_format,oglplus::pixel_data_internal_format>
 > r16 = {GL_R16};
 #endif
 
 #ifdef GL_R16_SNORM
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::pixel_data_internal_format,oglplus::image_unit_format>
+	mp_list<oglplus::image_unit_format,oglplus::pixel_data_internal_format>
 > r16_snorm = {GL_R16_SNORM};
 #endif
 
 #ifdef GL_R16F
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::pixel_data_internal_format,oglplus::image_unit_format>
+	mp_list<oglplus::image_unit_format,oglplus::pixel_data_internal_format>
 > r16f = {GL_R16F};
 #endif
 
 #ifdef GL_R16I
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::pixel_data_internal_format,oglplus::image_unit_format>
+	mp_list<oglplus::image_unit_format,oglplus::pixel_data_internal_format>
 > r16i = {GL_R16I};
 #endif
 
 #ifdef GL_R16UI
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::pixel_data_internal_format,oglplus::image_unit_format>
+	mp_list<oglplus::image_unit_format,oglplus::pixel_data_internal_format>
 > r16ui = {GL_R16UI};
 #endif
 
 #ifdef GL_R32F
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::pixel_data_internal_format,oglplus::image_unit_format>
+	mp_list<oglplus::image_unit_format,oglplus::pixel_data_internal_format>
 > r32f = {GL_R32F};
 #endif
 
 #ifdef GL_R32I
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::pixel_data_internal_format,oglplus::image_unit_format>
+	mp_list<oglplus::image_unit_format,oglplus::pixel_data_internal_format>
 > r32i = {GL_R32I};
 #endif
 
 #ifdef GL_R32UI
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::pixel_data_internal_format,oglplus::image_unit_format>
+	mp_list<oglplus::image_unit_format,oglplus::pixel_data_internal_format>
 > r32ui = {GL_R32UI};
 #endif
 
@@ -4998,28 +5033,28 @@ static constexpr const enum_value<
 #ifdef GL_R8
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::pixel_data_internal_format,oglplus::image_unit_format>
+	mp_list<oglplus::image_unit_format,oglplus::pixel_data_internal_format>
 > r8 = {GL_R8};
 #endif
 
 #ifdef GL_R8_SNORM
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::pixel_data_internal_format,oglplus::image_unit_format>
+	mp_list<oglplus::image_unit_format,oglplus::pixel_data_internal_format>
 > r8_snorm = {GL_R8_SNORM};
 #endif
 
 #ifdef GL_R8I
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::pixel_data_internal_format,oglplus::image_unit_format>
+	mp_list<oglplus::image_unit_format,oglplus::pixel_data_internal_format>
 > r8i = {GL_R8I};
 #endif
 
 #ifdef GL_R8UI
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::pixel_data_internal_format,oglplus::image_unit_format>
+	mp_list<oglplus::image_unit_format,oglplus::pixel_data_internal_format>
 > r8ui = {GL_R8UI};
 #endif
 
@@ -5334,84 +5369,84 @@ static constexpr const enum_value<
 #ifdef GL_RG16
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::pixel_data_internal_format,oglplus::image_unit_format>
+	mp_list<oglplus::image_unit_format,oglplus::pixel_data_internal_format>
 > rg16 = {GL_RG16};
 #endif
 
 #ifdef GL_RG16_SNORM
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::pixel_data_internal_format,oglplus::image_unit_format>
+	mp_list<oglplus::image_unit_format,oglplus::pixel_data_internal_format>
 > rg16_snorm = {GL_RG16_SNORM};
 #endif
 
 #ifdef GL_RG16F
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::pixel_data_internal_format,oglplus::image_unit_format>
+	mp_list<oglplus::image_unit_format,oglplus::pixel_data_internal_format>
 > rg16f = {GL_RG16F};
 #endif
 
 #ifdef GL_RG16I
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::pixel_data_internal_format,oglplus::image_unit_format>
+	mp_list<oglplus::image_unit_format,oglplus::pixel_data_internal_format>
 > rg16i = {GL_RG16I};
 #endif
 
 #ifdef GL_RG16UI
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::pixel_data_internal_format,oglplus::image_unit_format>
+	mp_list<oglplus::image_unit_format,oglplus::pixel_data_internal_format>
 > rg16ui = {GL_RG16UI};
 #endif
 
 #ifdef GL_RG32F
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::pixel_data_internal_format,oglplus::image_unit_format>
+	mp_list<oglplus::image_unit_format,oglplus::pixel_data_internal_format>
 > rg32f = {GL_RG32F};
 #endif
 
 #ifdef GL_RG32I
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::pixel_data_internal_format,oglplus::image_unit_format>
+	mp_list<oglplus::image_unit_format,oglplus::pixel_data_internal_format>
 > rg32i = {GL_RG32I};
 #endif
 
 #ifdef GL_RG32UI
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::pixel_data_internal_format,oglplus::image_unit_format>
+	mp_list<oglplus::image_unit_format,oglplus::pixel_data_internal_format>
 > rg32ui = {GL_RG32UI};
 #endif
 
 #ifdef GL_RG8
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::pixel_data_internal_format,oglplus::image_unit_format>
+	mp_list<oglplus::image_unit_format,oglplus::pixel_data_internal_format>
 > rg8 = {GL_RG8};
 #endif
 
 #ifdef GL_RG8_SNORM
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::pixel_data_internal_format,oglplus::image_unit_format>
+	mp_list<oglplus::image_unit_format,oglplus::pixel_data_internal_format>
 > rg8_snorm = {GL_RG8_SNORM};
 #endif
 
 #ifdef GL_RG8I
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::pixel_data_internal_format,oglplus::image_unit_format>
+	mp_list<oglplus::image_unit_format,oglplus::pixel_data_internal_format>
 > rg8i = {GL_RG8I};
 #endif
 
 #ifdef GL_RG8UI
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::pixel_data_internal_format,oglplus::image_unit_format>
+	mp_list<oglplus::image_unit_format,oglplus::pixel_data_internal_format>
 > rg8ui = {GL_RG8UI};
 #endif
 
@@ -5439,14 +5474,14 @@ static constexpr const enum_value<
 #ifdef GL_RGB10_A2
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::pixel_data_internal_format,oglplus::image_unit_format>
+	mp_list<oglplus::image_unit_format,oglplus::pixel_data_internal_format>
 > rgb10_a2 = {GL_RGB10_A2};
 #endif
 
 #ifdef GL_RGB10_A2UI
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::pixel_data_internal_format,oglplus::image_unit_format>
+	mp_list<oglplus::image_unit_format,oglplus::pixel_data_internal_format>
 > rgb10_a2ui = {GL_RGB10_A2UI};
 #endif
 
@@ -5593,35 +5628,35 @@ static constexpr const enum_value<
 #ifdef GL_RGBA16
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::pixel_data_internal_format,oglplus::image_unit_format>
+	mp_list<oglplus::image_unit_format,oglplus::pixel_data_internal_format>
 > rgba16 = {GL_RGBA16};
 #endif
 
 #ifdef GL_RGBA16_SNORM
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::pixel_data_internal_format,oglplus::image_unit_format>
+	mp_list<oglplus::image_unit_format,oglplus::pixel_data_internal_format>
 > rgba16_snorm = {GL_RGBA16_SNORM};
 #endif
 
 #ifdef GL_RGBA16F
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::pixel_data_internal_format,oglplus::image_unit_format>
+	mp_list<oglplus::image_unit_format,oglplus::pixel_data_internal_format>
 > rgba16f = {GL_RGBA16F};
 #endif
 
 #ifdef GL_RGBA16I
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::pixel_data_internal_format,oglplus::image_unit_format>
+	mp_list<oglplus::image_unit_format,oglplus::pixel_data_internal_format>
 > rgba16i = {GL_RGBA16I};
 #endif
 
 #ifdef GL_RGBA16UI
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::pixel_data_internal_format,oglplus::image_unit_format>
+	mp_list<oglplus::image_unit_format,oglplus::pixel_data_internal_format>
 > rgba16ui = {GL_RGBA16UI};
 #endif
 
@@ -5635,21 +5670,21 @@ static constexpr const enum_value<
 #ifdef GL_RGBA32F
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::pixel_data_internal_format,oglplus::image_unit_format>
+	mp_list<oglplus::image_unit_format,oglplus::pixel_data_internal_format>
 > rgba32f = {GL_RGBA32F};
 #endif
 
 #ifdef GL_RGBA32I
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::pixel_data_internal_format,oglplus::image_unit_format>
+	mp_list<oglplus::image_unit_format,oglplus::pixel_data_internal_format>
 > rgba32i = {GL_RGBA32I};
 #endif
 
 #ifdef GL_RGBA32UI
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::pixel_data_internal_format,oglplus::image_unit_format>
+	mp_list<oglplus::image_unit_format,oglplus::pixel_data_internal_format>
 > rgba32ui = {GL_RGBA32UI};
 #endif
 
@@ -5663,28 +5698,28 @@ static constexpr const enum_value<
 #ifdef GL_RGBA8
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::pixel_data_internal_format,oglplus::image_unit_format>
+	mp_list<oglplus::image_unit_format,oglplus::pixel_data_internal_format>
 > rgba8 = {GL_RGBA8};
 #endif
 
 #ifdef GL_RGBA8_SNORM
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::pixel_data_internal_format,oglplus::image_unit_format>
+	mp_list<oglplus::image_unit_format,oglplus::pixel_data_internal_format>
 > rgba8_snorm = {GL_RGBA8_SNORM};
 #endif
 
 #ifdef GL_RGBA8I
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::pixel_data_internal_format,oglplus::image_unit_format>
+	mp_list<oglplus::image_unit_format,oglplus::pixel_data_internal_format>
 > rgba8i = {GL_RGBA8I};
 #endif
 
 #ifdef GL_RGBA8UI
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::pixel_data_internal_format,oglplus::image_unit_format>
+	mp_list<oglplus::image_unit_format,oglplus::pixel_data_internal_format>
 > rgba8ui = {GL_RGBA8UI};
 #endif
 
@@ -6986,21 +7021,21 @@ static constexpr const enum_value<
 #ifdef GL_TEXTURE_WRAP_R
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::texture_parameter,oglplus::sampler_parameter,oglplus::texture_wrap_coord>
+	mp_list<oglplus::texture_wrap_coord,oglplus::sampler_parameter,oglplus::texture_parameter>
 > texture_wrap_r = {GL_TEXTURE_WRAP_R};
 #endif
 
 #ifdef GL_TEXTURE_WRAP_S
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::texture_parameter,oglplus::sampler_parameter,oglplus::texture_wrap_coord>
+	mp_list<oglplus::texture_wrap_coord,oglplus::sampler_parameter,oglplus::texture_parameter>
 > texture_wrap_s = {GL_TEXTURE_WRAP_S};
 #endif
 
 #ifdef GL_TEXTURE_WRAP_T
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::texture_parameter,oglplus::sampler_parameter,oglplus::texture_wrap_coord>
+	mp_list<oglplus::texture_wrap_coord,oglplus::sampler_parameter,oglplus::texture_parameter>
 > texture_wrap_t = {GL_TEXTURE_WRAP_T};
 #endif
 
@@ -7042,7 +7077,7 @@ static constexpr const enum_value<
 #ifdef GL_TRANSFORM_FEEDBACK
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::transform_feedback_target,oglplus::object_type>
+	mp_list<oglplus::object_type,oglplus::transform_feedback_target>
 > transform_feedback = {GL_TRANSFORM_FEEDBACK};
 #endif
 
@@ -7763,7 +7798,7 @@ static constexpr const enum_value<
 #ifdef GL_VERTEX_ARRAY
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::object_type,oglplus::client_capability>
+	mp_list<oglplus::client_capability,oglplus::object_type>
 > vertex_array = {GL_VERTEX_ARRAY};
 #endif
 

@@ -21,7 +21,7 @@ outcome<owned_file_descriptor> open(const cstr_ref& path, int flags)
 noexcept
 {
 	int fd = ::open(path.c_str(), flags);
-	return error_if_negative(fd, fd), owned_file_descriptor(fd);
+	return error_if_negative(fd, fd).add(owned_file_descriptor(fd));
 }
 
 } // namespace posix

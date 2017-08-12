@@ -7,7 +7,7 @@
 #include <oglplus/gl_fixed.hpp>
 #include <oglplus/glsl/string_ref.hpp>
 #define BOOST_TEST_MODULE OGLPLUS_glsl_string_ref
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 #include <cstring>
 

@@ -7,7 +7,7 @@
 #include <eagine/units/scaled_unit.hpp>
 #include <eagine/units/dimension.hpp>
 #define BOOST_TEST_MODULE EAGINE_units_scaled_unit
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 namespace eagine {
 namespace units {
@@ -308,3 +308,5 @@ BOOST_AUTO_TEST_CASE(units_scaled_unit_div)
 //TODO
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

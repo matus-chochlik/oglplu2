@@ -6,7 +6,7 @@
  */
 #include <eagine/range_algo.hpp>
 #define BOOST_TEST_MODULE EAGINE_range_algo
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 #include <eagine/span.hpp>
 #include <eagine/cstr_ref.hpp>
@@ -815,3 +815,5 @@ BOOST_AUTO_TEST_CASE(range_algo_strip_suffix_1)
 // TODO
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

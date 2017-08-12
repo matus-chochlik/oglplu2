@@ -7,7 +7,7 @@
 #include <eagine/memory/fallback_alloc.hpp>
 #include <eagine/memory/stack_alloc.hpp>
 #define BOOST_TEST_MODULE EAGINE_memory_fallback_alloc
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 #include <deque>
 
@@ -91,3 +91,5 @@ BOOST_AUTO_TEST_CASE(memory_fallback_alloc_1)
 // TODO
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

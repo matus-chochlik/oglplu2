@@ -177,7 +177,7 @@ struct path_nv_ops
 
 	static
 	outcome<GLfloat>
-	path_computed_length(path_nv_name)
+	get_path_computed_length(path_nv_name)
 	noexcept;
 
 	static
@@ -187,7 +187,7 @@ struct path_nv_ops
 
 	static
 	outcome<GLfloat>
-	path_stroke_width(path_nv_name)
+	get_path_stroke_width(path_nv_name)
 	noexcept;
 
 	static
@@ -197,7 +197,7 @@ struct path_nv_ops
 
 	static
 	outcome<GLfloat>
-	path_miter_limit(path_nv_name)
+	get_path_miter_limit(path_nv_name)
 	noexcept;
 
 	static
@@ -207,7 +207,7 @@ struct path_nv_ops
 
 	static
 	outcome<path_join_style_nv>
-	path_join_style(path_nv_name)
+	get_path_join_style(path_nv_name)
 	noexcept;
 
 	static
@@ -217,7 +217,7 @@ struct path_nv_ops
 
 	static
 	outcome<path_cap_style_nv>
-	path_initial_end_cap(path_nv_name)
+	get_path_initial_end_cap(path_nv_name)
 	noexcept;
 
 	static
@@ -227,7 +227,7 @@ struct path_nv_ops
 
 	static
 	outcome<path_cap_style_nv>
-	path_terminal_end_cap(path_nv_name)
+	get_path_terminal_end_cap(path_nv_name)
 	noexcept;
 
 	static
@@ -237,7 +237,7 @@ struct path_nv_ops
 
 	static
 	outcome<path_cap_style_nv>
-	path_initial_dash_cap(path_nv_name)
+	get_path_initial_dash_cap(path_nv_name)
 	noexcept;
 
 	static
@@ -247,7 +247,7 @@ struct path_nv_ops
 
 	static
 	outcome<path_cap_style_nv>
-	path_terminal_dash_cap(path_nv_name)
+	get_path_terminal_dash_cap(path_nv_name)
 	noexcept;
 
 	static
@@ -257,7 +257,7 @@ struct path_nv_ops
 
 	static
 	outcome<GLfloat>
-	path_dash_offset(path_nv_name)
+	get_path_dash_offset(path_nv_name)
 	noexcept;
 
 	static
@@ -267,7 +267,7 @@ struct path_nv_ops
 
 	static
 	outcome<path_dash_offset_reset_nv>
-	path_dash_offset_reset(path_nv_name)
+	get_path_dash_offset_reset(path_nv_name)
 	noexcept;
 
 	static
@@ -318,10 +318,10 @@ protected:
 public:
 	template <typename T>
 	outcome<Derived&>
-	commands(span<const GLubyte> cmds, span<const T> coords)
+	commands(span<const GLubyte> cmds, span<const T> crds)
 	noexcept
 	{
-		return {_ops::path_commands(*this, cmds, coords), _self()};
+		return {_ops::path_commands(*this, cmds, crds), _self()};
 	}
 
 	template <typename T>
@@ -338,13 +338,13 @@ public:
 		GLsizei cmd_start,
 		GLsizei cmds_to_delete,
 		span<const GLubyte> cmds,
-		span<const T> coords
+		span<const T> crds
 	) noexcept
 	{
 		return {_ops::path_sub_commands(
 			*this,
 			cmd_start, cmds_to_delete,
-			cmds, coords
+			cmds, crds
 		), _self()};
 	}
 
@@ -462,10 +462,10 @@ public:
 	}
 
 	outcome<GLfloat>
-	computed_length(void) const
+	get_computed_length(void) const
 	noexcept
 	{
-		return _ops::path_computed_length(*this);
+		return _ops::get_path_computed_length(*this);
 	}
 
 	outcome<Derived&>
@@ -476,10 +476,10 @@ public:
 	}
 
 	outcome<GLfloat>
-	stroke_width(void) const
+	get_stroke_width(void) const
 	noexcept
 	{
-		return _ops::path_stroke_width(*this);
+		return _ops::get_path_stroke_width(*this);
 	}
 
 	outcome<Derived&>
@@ -490,10 +490,10 @@ public:
 	}
 
 	outcome<GLfloat>
-	miter_limit(void) const
+	get_miter_limit(void) const
 	noexcept
 	{
-		return _ops::path_miter_limit(*this);
+		return _ops::get_path_miter_limit(*this);
 	}
 
 	outcome<Derived&>
@@ -504,10 +504,10 @@ public:
 	}
 
 	outcome<path_join_style_nv>
-	join_style(void)
+	get_join_style(void)
 	noexcept
 	{
-		return _ops::path_join_style(*this);
+		return _ops::get_path_join_style(*this);
 	}
 
 	outcome<Derived&>
@@ -518,10 +518,10 @@ public:
 	}
 
 	outcome<path_cap_style_nv>
-	initial_end_cap(void)
+	get_initial_end_cap(void)
 	noexcept
 	{
-		return _ops::path_initial_end_cap(*this);
+		return _ops::get_path_initial_end_cap(*this);
 	}
 
 	outcome<Derived&>
@@ -532,10 +532,10 @@ public:
 	}
 
 	outcome<path_cap_style_nv>
-	terminal_end_cap(void)
+	get_terminal_end_cap(void)
 	noexcept
 	{
-		return _ops::path_terminal_end_cap(*this);
+		return _ops::get_path_terminal_end_cap(*this);
 	}
 
 	outcome<Derived&>
@@ -546,10 +546,10 @@ public:
 	}
 
 	outcome<path_cap_style_nv>
-	initial_dash_cap(void)
+	get_initial_dash_cap(void)
 	noexcept
 	{
-		return _ops::path_initial_dash_cap(*this);
+		return _ops::get_path_initial_dash_cap(*this);
 	}
 
 	outcome<Derived&>
@@ -560,10 +560,10 @@ public:
 	}
 
 	outcome<path_cap_style_nv>
-	terminal_dash_cap(void)
+	get_terminal_dash_cap(void)
 	noexcept
 	{
-		return _ops::path_terminal_dash_cap(*this);
+		return _ops::get_path_terminal_dash_cap(*this);
 	}
 
 	outcome<Derived&>
@@ -574,10 +574,10 @@ public:
 	}
 
 	outcome<GLfloat>
-	dash_offset(void) const
+	get_dash_offset(void) const
 	noexcept
 	{
-		return _ops::path_dash_offset(*this);
+		return _ops::get_path_dash_offset(*this);
 	}
 
 	outcome<Derived&>
@@ -588,26 +588,26 @@ public:
 	}
 
 	outcome<path_dash_offset_reset_nv>
-	dash_offset_reset(void)
+	get_dash_offset_reset(void)
 	noexcept
 	{
-		return _ops::path_dash_offset_reset(*this);
+		return _ops::get_path_dash_offset_reset(*this);
 	}
 
 	outcome<Derived&>
-	dash_array(span<const GLfloat> dashes)
+	dash_array(span<const GLfloat> dshs)
 	noexcept
 	{
-		return {_ops::path_dash_array(*this, dashes), _self()};
+		return {_ops::path_dash_array(*this, dshs), _self()};
 	}
 
 	template <typename ... T>
 	outcome<Derived&>
-	dashes(T ... dashes)
+	dashes(T ... dshs)
 	noexcept
 	{
 		const std::size_t N = sizeof ... (T);
-		const GLfloat da[N] = {GLfloat(dashes)...};
+		const GLfloat da[N] = {GLfloat(dshs)...};
 		return dash_array(da);
 	}
 

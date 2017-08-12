@@ -16,7 +16,7 @@
 #include <eagine/units/unit/si/amount_of_substance.hpp>
 #include <eagine/units/unit/si/frequency.hpp>
 #define BOOST_TEST_MODULE EAGINE_units_si
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(units_si_tests)
 
@@ -264,3 +264,5 @@ BOOST_AUTO_TEST_CASE(units_si_2)
 //TODO
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

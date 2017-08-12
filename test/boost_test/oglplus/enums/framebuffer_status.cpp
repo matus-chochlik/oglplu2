@@ -12,7 +12,7 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_framebuffer_status
 
-#include "../../unit_test.inl"
+#include "../../unit_test_begin.inl"
 #include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_framebuffer_status_tests)
@@ -363,3 +363,5 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_status_any)
 }
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../../unit_test_end.inl"

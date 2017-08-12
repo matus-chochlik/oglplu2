@@ -6,7 +6,7 @@
  */
 #include <eagine/identity.hpp>
 #define BOOST_TEST_MODULE EAGINE_identity
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(identity_tests)
 
@@ -26,3 +26,5 @@ BOOST_AUTO_TEST_CASE(identity_1)
 }
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

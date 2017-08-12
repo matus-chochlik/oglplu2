@@ -36,7 +36,7 @@ noexcept
 	return numeric_queries::get_integer_v(
 		binding_query(GL_PROGRAM_PIPELINE_BINDING),
 		{&result, 1}
-	), program_pipeline_name(GLuint(result));
+	).add(program_pipeline_name(GLuint(result)));
 #else
 	return program_pipeline_name(0);
 #endif
@@ -86,7 +86,7 @@ return_program_pipeline_i(
 inline
 outcome<program_name>
 program_pipeline_ops::
-program_pipeline_active_program(program_pipeline_name ppl)
+get_program_pipeline_active_program(program_pipeline_name ppl)
 noexcept
 {
 	return return_program_pipeline_i<program_name, GLuint>(
@@ -98,7 +98,7 @@ noexcept
 inline
 outcome<GLsizei>
 program_pipeline_ops::
-program_pipeline_info_log_length(program_pipeline_name ppl)
+get_program_pipeline_info_log_length(program_pipeline_name ppl)
 noexcept
 {
 	return return_program_pipeline_i<GLsizei, GLsizei>(

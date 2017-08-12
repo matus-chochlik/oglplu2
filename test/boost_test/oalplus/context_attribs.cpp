@@ -8,7 +8,7 @@
 #include <oalplus/context_attribs.hpp>
 #include <oalplus/enum/value_defs_alc.inl>
 #define BOOST_TEST_MODULE OALPLUS_context_attribs
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 
 BOOST_AUTO_TEST_SUITE(context_attribs_tests)

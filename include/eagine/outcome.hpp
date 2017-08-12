@@ -184,6 +184,11 @@ public:
 	 : _handler(std::move(handler))
 	{ }
 
+	template <typename T>
+	basic_outcome<T, ErrorData, HandlerPolicy, deferred_handler>
+	add(T value) &&
+	noexcept;
+
 	deferred_handler<ErrorData, HandlerPolicy>
 	release_handler(void)
 	noexcept { return std::move(_handler); }
@@ -317,6 +322,17 @@ public:
 	}
 };
 
+template <typename ErrorData, typename HandlerPolicy>
+template <typename T>
+inline
+basic_outcome<T, ErrorData, HandlerPolicy, deferred_handler>
+basic_outcome<void, ErrorData, HandlerPolicy, deferred_handler>::
+add(T value) &&
+noexcept
+{
+	return {std::move(*this), std::move(value), selector<0>()};
+}
+
 template <typename T, typename U, typename ErrorData, typename HandlerPolicy>
 static inline
 basic_outcome<T, ErrorData, HandlerPolicy>
@@ -339,14 +355,6 @@ outcome_conversion(
 		return {that.release_handler()};
 	}
 	return {convert(that.value())};
-}
-
-template <typename T, typename ErrorData, typename HandlerPolicy>
-static inline
-basic_outcome<T, ErrorData, HandlerPolicy>
-operator , (basic_outcome<void, ErrorData, HandlerPolicy>&& bo, T value)
-noexcept {
-	return {std::move(bo), std::move(value), selector<0>()};
 }
 
 template <typename T, typename ErrorData, typename HandlerPolicy, typename Func>

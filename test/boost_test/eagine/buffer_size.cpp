@@ -6,7 +6,7 @@
  */
 #include <eagine/buffer_size.hpp>
 #define BOOST_TEST_MODULE EAGINE_buffer_size
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 #include <eagine/span.hpp>
 
@@ -133,3 +133,5 @@ BOOST_AUTO_TEST_CASE(buffer_size_4)
 // TODO
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

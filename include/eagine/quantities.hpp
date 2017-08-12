@@ -14,6 +14,11 @@
 #include "units/trivial.hpp"
 #include "math/constants.hpp"
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdouble-promotion"
+#endif
+
 namespace eagine {
 
 // seconds
@@ -126,5 +131,9 @@ noexcept
 }
 
 } // namespace eagine
+
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 #endif // include guard

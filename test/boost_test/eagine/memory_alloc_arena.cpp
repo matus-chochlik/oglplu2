@@ -7,7 +7,7 @@
 #include <eagine/memory/alloc_arena.hpp>
 #include <eagine/memory/c_realloc.hpp>
 #define BOOST_TEST_MODULE EAGINE_memory_alloc_arena
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 #include <algorithm>
 
@@ -215,3 +215,5 @@ BOOST_AUTO_TEST_CASE(memory_owning_alloc_4)
 // TODO
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

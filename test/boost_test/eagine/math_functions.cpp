@@ -6,7 +6,7 @@
  */
 #include <eagine/math/functions.hpp>
 #define BOOST_TEST_MODULE EAGINE_math_functions
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(math_function_tests)
 
@@ -158,7 +158,7 @@ void test_math_functions_bezier_3(int l)
 		BOOST_CHECK_CLOSE(
 			bezier(t, x, y, z),
 			(1-t)*(1-t)*x + 2*(1-t)*t*y + t*t*z,
-			0.02
+			0.04
 		);
 	}
 }
@@ -182,7 +182,7 @@ void test_math_functions_bezier_4(int l)
 			3*(1-t)*(1-t)*t*v1 +
 			3*(1-t)*t*t*v2 +
 			t*t*t*v3,
-			0.2
+			0.4
 		);
 	}
 }
@@ -208,7 +208,7 @@ void test_math_functions_bezier_5(int l)
 			6*(1-t)*(1-t)*t*t*v2 +
 			4*(1-t)*t*t*t*v3 +
 			t*t*t*t*v4,
-			0.2
+			0.4
 		);
 	}
 }
@@ -232,3 +232,5 @@ BOOST_AUTO_TEST_CASE(math_functions_bezier)
 //TODO
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

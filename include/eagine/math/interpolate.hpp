@@ -11,6 +11,11 @@
 
 #include "constants.hpp"
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdouble-promotion"
+#endif
+
 namespace eagine {
 namespace math {
 
@@ -46,6 +51,10 @@ auto smooth_oscillate(const T& a, C coef) {
 
 } // namespace math
 } // namespace eagine
+
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 #endif //include guard
 

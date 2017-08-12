@@ -6,7 +6,7 @@
  */
 #include <eagine/math/vector.hpp>
 #define BOOST_TEST_MODULE EAGINE_math_vector
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(math_vector_tests)
 
@@ -607,3 +607,5 @@ BOOST_AUTO_TEST_CASE(math_vector_from4_and_elem)
 //TODO
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"

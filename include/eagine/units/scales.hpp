@@ -12,6 +12,11 @@
 
 #include "../math/constants.hpp"
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdouble-promotion"
+#endif
+
 namespace eagine {
 namespace units {
 namespace scales {
@@ -439,6 +444,10 @@ struct scale_symbol<pi>
 } // namespace scales
 } // namespace units
 } // namespace eagine
+
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 
 #endif //include guard
 

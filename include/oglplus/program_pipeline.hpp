@@ -51,12 +51,12 @@ struct program_pipeline_ops
 
 	static
 	outcome<program_name>
-	program_pipeline_active_program(program_pipeline_name ppl)
+	get_program_pipeline_active_program(program_pipeline_name ppl)
 	noexcept;
 
 	static
 	outcome<GLsizei>
-	program_pipeline_info_log_length(program_pipeline_name ppl)
+	get_program_pipeline_info_log_length(program_pipeline_name ppl)
 	noexcept;
 #endif
 };
@@ -72,12 +72,12 @@ struct obj_dsa_ops<tag::program_pipeline>
 
 #if defined(GL_VERSION_4_1) || defined(GL_ARB_separate_shared_objects)
 	outcome<program_name>
-	active_program(void) const
-	noexcept { return _ops::program_pipeline_active_program(*this); }
+	get_active_program(void) const
+	noexcept { return _ops::get_program_pipeline_active_program(*this); }
 
 	outcome<GLsizei>
-	info_log_length(void) const
-	noexcept { return _ops::program_pipeline_info_log_length(*this); }
+	get_info_log_length(void) const
+	noexcept { return _ops::get_program_pipeline_info_log_length(*this); }
 #endif
 };
 

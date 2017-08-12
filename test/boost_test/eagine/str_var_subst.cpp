@@ -6,7 +6,7 @@
  */
 #include <eagine/str_var_subst.hpp>
 #define BOOST_TEST_MODULE EAGINE_str_var_subst
-#include "../unit_test.inl"
+#include "../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(str_var_subst_tests)
 
@@ -238,3 +238,5 @@ BOOST_AUTO_TEST_CASE(str_var_subst_5)
 }
 
 BOOST_AUTO_TEST_SUITE_END()
+
+#include "../unit_test_end.inl"
