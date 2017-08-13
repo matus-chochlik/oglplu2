@@ -33,7 +33,7 @@ private:
 	{
 		return _lv_t{e};
 	}
-	
+
 public:
 	typedef _lv_t value_type;
 	typedef span_size_t size_type;

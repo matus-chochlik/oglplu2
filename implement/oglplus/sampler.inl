@@ -19,12 +19,12 @@ sampler_ops::
 bind_sampler(texture_unit unit, sampler_name sam)
 noexcept
 {
-	OGLPLUS_GLFUNC(BindFramebuffer)(
+	OGLPLUS_GLFUNC(BindSampler)(
 		GLenum(unit),
 		get_raw_name(sam)
 	);
 	OGLPLUS_VERIFY(
-		BindFramebuffer,
+		BindSampler,
 		gl_enum_value(unit).
 		gl_object(sam),
 		debug
