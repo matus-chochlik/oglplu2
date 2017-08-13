@@ -35,6 +35,7 @@ struct capability_state
 	is_enabled(capability cap)
 	noexcept;
 
+#if defined(GL_VERSION_3_0)
 	static
 	outcome<void>
 	enable(capability cap, GLenum index)
@@ -49,6 +50,7 @@ struct capability_state
 	outcome<boolean>
 	is_enabled(capability cap, GLenum index)
 	noexcept;
+#endif
 
 
 #if defined(GL_CLIP_DISTANCE0)
