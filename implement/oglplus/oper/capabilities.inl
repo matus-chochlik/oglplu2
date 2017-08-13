@@ -46,6 +46,7 @@ noexcept
 	return {boolean(result)};
 }
 //------------------------------------------------------------------------------
+#if defined(GL_VERSION_3_0)
 inline
 outcome<void>
 capability_state::
@@ -93,6 +94,7 @@ noexcept
 	);
 	return {boolean(result)};
 }
+#endif
 //------------------------------------------------------------------------------
 #if defined(GL_CLIP_DISTANCE0)
 inline
