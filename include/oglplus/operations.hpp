@@ -10,6 +10,8 @@
 #define OGLPLUS_OPERATIONS_1509260923_HPP
 
 #include "oper/capabilities.hpp"
+#include "oper/numeric_queries.hpp"
+#include "oper/string_queries.hpp"
 #include "oper/viewport.hpp"
 #include "oper/scissor.hpp"
 #include "oper/buffer_masking.hpp"
@@ -61,6 +63,8 @@ namespace oglplus {
 
 class operations
  : public oper::capability_state
+ , public oper::numeric_queries
+ , public oper::string_queries
  , public oper::viewport_state
  , public oper::scissor_state
  , public oper::buffer_masking_state

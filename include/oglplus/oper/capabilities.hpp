@@ -35,6 +35,22 @@ struct capability_state
 	is_enabled(capability cap)
 	noexcept;
 
+	static
+	outcome<void>
+	enable(capability cap, GLenum index)
+	noexcept;
+
+	static
+	outcome<void>
+	disable(capability cap, GLenum index)
+	noexcept;
+
+	static
+	outcome<boolean>
+	is_enabled(capability cap, GLenum index)
+	noexcept;
+
+
 #if defined(GL_CLIP_DISTANCE0)
 	static
 	outcome<void>

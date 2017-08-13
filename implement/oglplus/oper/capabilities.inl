@@ -46,6 +46,54 @@ noexcept
 	return {boolean(result)};
 }
 //------------------------------------------------------------------------------
+inline
+outcome<void>
+capability_state::
+enable(capability cap, GLuint index)
+noexcept
+{
+	OGLPLUS_GLFUNC(Enablei)(GLenum(cap), index);
+	OGLPLUS_VERIFY(
+		Enablei,
+		gl_enum_value(cap).
+		gl_index(index),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+capability_state::
+disable(capability cap, GLuint index)
+noexcept
+{
+	OGLPLUS_GLFUNC(Disablei)(GLenum(cap), index);
+	OGLPLUS_VERIFY(
+		Disablei,
+		gl_enum_value(cap).
+		gl_index(index),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<boolean>
+capability_state::
+is_enabled(capability cap, GLuint index)
+noexcept
+{
+	GLboolean result = OGLPLUS_GLFUNC(IsEnabledi)(GLenum(cap), index);
+	OGLPLUS_VERIFY(
+		IsEnabledi,
+		gl_enum_value(cap).
+		gl_index(index),
+		always
+	);
+	return {boolean(result)};
+}
+//------------------------------------------------------------------------------
 #if defined(GL_CLIP_DISTANCE0)
 inline
 outcome<void>

@@ -25,6 +25,10 @@ function(standalone_example_common EXAMPLE_NAME)
 	set_property(TARGET ${EXAMPLE_NAME} PROPERTY FOLDER "Example/Standalone")
 endfunction()
 
+if(GLFW3_FOUND AND GLEW_FOUND)
+	standalone_example_common(001_glfw_glew_info GLFW3 GLEW)
+endif()
+
 if(GLFW_FOUND AND GLEW_FOUND)
 	standalone_example_common(001_glfw_glew_clear GLFW GLEW)
 	standalone_example_common(002_glfw_glew_triangle GLFW GLEW)
