@@ -171,6 +171,7 @@ void init_and_run(void)
 			NULL,
 			NULL
 		);
+
 		if(!window)
 		{
 			throw std::runtime_error("Error creating GLFW window");

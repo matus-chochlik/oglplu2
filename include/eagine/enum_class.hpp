@@ -83,6 +83,13 @@ struct enum_class
 	 : _value(value)
 	{ }
 
+	constexpr inline
+	operator Self (void) const
+	noexcept
+	{
+		return Self(_value);
+	}
+
 	explicit constexpr inline
 	operator value_type (void) const
 	noexcept

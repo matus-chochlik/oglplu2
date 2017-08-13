@@ -30,6 +30,10 @@ if(GLFW3_FOUND AND GLEW_FOUND)
 	standalone_example_common(001_glfw3_glew_clear GLFW3 GLEW)
 	standalone_example_common(002_glfw3_glew_triangle GLFW3 GLEW)
 	standalone_example_common(003_glfw3_glew_checker GLFW3 GLEW)
+
+	if(HAS_GLEW_NV_path_rendering)
+		standalone_example_common(003_glfw3_glew_path_nv GLFW3 GLEW)
+	endif()
 endif()
 
 if(GLFW_FOUND AND GLEW_FOUND)
@@ -39,7 +43,6 @@ if(GLFW_FOUND AND GLEW_FOUND)
 	standalone_example_common(020_glfw_glew_recursive_cube GLFW GLEW)
 
 	if(HAS_GLEW_NV_path_rendering)
-		standalone_example_common(003_glfw_glew_path_nv GLFW GLEW)
 		standalone_example_common(004_glfw_glew_path_nv_text GLFW GLEW)
 	endif()
 endif()
