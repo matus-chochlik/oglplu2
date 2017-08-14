@@ -244,7 +244,7 @@ void init_and_run(void)
 			}
 			else
 			{
-				run_loop(width, height);
+				run_loop(window, width, height);
 			}
 		}
 	}

@@ -180,7 +180,7 @@ void init_and_run(void)
 		glfwWindowHint(GLFW_GREEN_BITS, 8);
 		glfwWindowHint(GLFW_ALPHA_BITS, 0);
 		glfwWindowHint(GLFW_DEPTH_BITS, 0);
-		glfwWindowHint(GLFW_STENCIL_BITS, 0);
+		glfwWindowHint(GLFW_STENCIL_BITS, 8);
 
 		glfwWindowHint(GLFW_SAMPLES, GLFW_DONT_CARE);
 
