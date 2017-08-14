@@ -33,6 +33,7 @@ if(GLFW3_FOUND AND GLEW_FOUND)
 
 	if(HAS_GLEW_NV_path_rendering)
 		standalone_example_common(003_glfw3_glew_path_nv GLFW3 GLEW)
+		standalone_example_common(004_glfw3_glew_path_nv_text GLFW3 GLEW)
 	endif()
 endif()
 
@@ -41,9 +42,5 @@ if(GLFW_FOUND AND GLEW_FOUND)
 	standalone_example_common(009_glfw_glew_cube GLFW GLEW)
 	standalone_example_common(012_glfw_glew_cube GLFW GLEW)
 	standalone_example_common(020_glfw_glew_recursive_cube GLFW GLEW)
-
-	if(HAS_GLEW_NV_path_rendering)
-		standalone_example_common(004_glfw_glew_path_nv_text GLFW GLEW)
-	endif()
 endif()
 
