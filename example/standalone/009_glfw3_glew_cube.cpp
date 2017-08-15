@@ -29,10 +29,10 @@ static
 void handle_resize(int width, int height)
 {
 	gl.viewport(0, 0, width, height);
-	GLfloat asp = GLfloat(width)/height;
+	GLdouble asp = GLdouble(width)/height;
 
-	GLfloat h = 0.5f*1.618f;
-	GLfloat w = h*asp;
+	GLdouble h = 0.5*1.618;
+	GLdouble w = h*asp;
 
 	gl.matrix_mode(GL.projection);
 	gl.load_identity();
