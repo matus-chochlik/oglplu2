@@ -20,10 +20,12 @@ OGLplus2 README
 .. _GLEW: http://glew.sourceforge.net/
 .. _GL3W: http://github.com/shakesoda/gl3w
 .. _GLFW: http://www.glfw.org/
+.. _GLFW3: http://www.glfw.org/
 .. _FreeGLUT: http://freeglut.sourceforge.net/
 .. _SDL: http://www.libsdl.org/
 .. _wxGL: http://www.wxwidgets.org/
 .. _Qt: http://qt.digia.com/
+.. _Xlib: https://www.x.org/wiki/guide/
 .. _GSL: https://github.com/Microsoft/GSL
 
 Overview
@@ -38,25 +40,26 @@ directory and its subdirectories.
 Requirements
 ============
 
-A compiler supporting C++14, a python interpreter and the `GLEW`_ and `GLFW`_
-libraries are required.
-Currently the only compiler known to work is clang++-3.6.0.
-Support for other libraries with similar functionality will be added
-in the future.
+A compiler supporting C++14, a python interpreter and a GL API library like
+`GLEW`_, and a GL context management library like `GLFW`_, `GLFW3`_ or `SDL`_
+are required. On Linux OGLplus2 ideally also works with the `Xlib`_ library
+and the ``GL/glcorearb.h`` header (the latter is included in the repository)
+out of the box.
 
-On Linux distributions with the ``apt`` package manager, the following should
-be enough to install most of the dependencies for the GLFW+GLEW configuration:
+On recent Linux distributions with the ``apt`` package manager, the following
+should be enough to install most of the dependencies for the GLFW3+GLEW
+configuration:
 
 ::
 
- sudo apt-get install python cmake clang-3.6 libglew-dev libglfw-dev
+ sudo apt-get install python cmake clang libglew-dev libglfw3-dev
 
 For other configurations using SDL, wxWidgets, GLUT, etc. you need to install
 the appropriate packages (the names vary wildly between distrubutions or even
 between versions of the same distribution so they are not listed here).
 
 The `GSL`_ library is also required; the ``third_party/GSL`` directory contains
-a git submodule which should be updated before building OGLplus2.
+a git submodule which must be initialized and updated before building OGLplus2.
 
 Building
 ========
@@ -90,7 +93,11 @@ parameters for the configuration process.
 
 Some of the more important command-line options are described below:
 
---help  Display the help screen.
+--help              Display the help screen.
+
+--clean             Does a clean reconfigure.
+
+--build             Also builds the examples if possible.
 
 --prefix PATH       Specifies the installation prefix path for cmake (sets
                     the value of the CMAKE_INSTALL_PREFIX variable).
