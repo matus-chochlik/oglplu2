@@ -2259,6 +2259,20 @@ constexpr const enum_value<
 > enum_values::func_subtract;
 #endif
 
+#ifdef GL_GEOMETRY_INPUT_TYPE
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::program_parameter>
+> enum_values::geometry_input_type;
+#endif
+
+#ifdef GL_GEOMETRY_OUTPUT_TYPE
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::program_parameter>
+> enum_values::geometry_output_type;
+#endif
+
 #ifdef GL_GEOMETRY_SHADER
 constexpr const enum_value<
 	GLenum,
@@ -2299,6 +2313,13 @@ constexpr const enum_value<
 	GLenum,
 	mp_list<oglplus::program_interface>
 > enum_values::geometry_subroutine_uniform;
+#endif
+
+#ifdef GL_GEOMETRY_VERTICES_OUT
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::program_parameter>
+> enum_values::geometry_vertices_out;
 #endif
 
 #ifdef GL_GEQUAL

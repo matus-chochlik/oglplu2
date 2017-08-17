@@ -43,6 +43,15 @@ BOOST_AUTO_TEST_CASE(enum_program_parameter_values)
 # ifdef GL_DELETE_STATUS
 	BOOST_CHECK(x != ev.delete_status);
 # endif
+# ifdef GL_GEOMETRY_INPUT_TYPE
+	BOOST_CHECK(x != ev.geometry_input_type);
+# endif
+# ifdef GL_GEOMETRY_OUTPUT_TYPE
+	BOOST_CHECK(x != ev.geometry_output_type);
+# endif
+# ifdef GL_GEOMETRY_VERTICES_OUT
+	BOOST_CHECK(x != ev.geometry_vertices_out);
+# endif
 # ifdef GL_INFO_LOG_LENGTH
 	BOOST_CHECK(x != ev.info_log_length);
 # endif
@@ -69,6 +78,15 @@ BOOST_AUTO_TEST_CASE(enum_program_parameter_values)
 # ifdef GL_DELETE_STATUS
 	BOOST_CHECK(x != ev.delete_status);
 # endif
+# ifdef GL_GEOMETRY_INPUT_TYPE
+	BOOST_CHECK(x != ev.geometry_input_type);
+# endif
+# ifdef GL_GEOMETRY_OUTPUT_TYPE
+	BOOST_CHECK(x != ev.geometry_output_type);
+# endif
+# ifdef GL_GEOMETRY_VERTICES_OUT
+	BOOST_CHECK(x != ev.geometry_vertices_out);
+# endif
 # ifdef GL_INFO_LOG_LENGTH
 	BOOST_CHECK(x != ev.info_log_length);
 # endif
@@ -92,6 +110,15 @@ BOOST_AUTO_TEST_CASE(enum_program_parameter_values)
 # ifdef GL_DELETE_STATUS
 	BOOST_CHECK(x != ev.delete_status);
 # endif
+# ifdef GL_GEOMETRY_INPUT_TYPE
+	BOOST_CHECK(x != ev.geometry_input_type);
+# endif
+# ifdef GL_GEOMETRY_OUTPUT_TYPE
+	BOOST_CHECK(x != ev.geometry_output_type);
+# endif
+# ifdef GL_GEOMETRY_VERTICES_OUT
+	BOOST_CHECK(x != ev.geometry_vertices_out);
+# endif
 # ifdef GL_INFO_LOG_LENGTH
 	BOOST_CHECK(x != ev.info_log_length);
 # endif
@@ -112,6 +139,15 @@ BOOST_AUTO_TEST_CASE(enum_program_parameter_values)
 # ifdef GL_DELETE_STATUS
 	BOOST_CHECK(x != ev.delete_status);
 # endif
+# ifdef GL_GEOMETRY_INPUT_TYPE
+	BOOST_CHECK(x != ev.geometry_input_type);
+# endif
+# ifdef GL_GEOMETRY_OUTPUT_TYPE
+	BOOST_CHECK(x != ev.geometry_output_type);
+# endif
+# ifdef GL_GEOMETRY_VERTICES_OUT
+	BOOST_CHECK(x != ev.geometry_vertices_out);
+# endif
 # ifdef GL_INFO_LOG_LENGTH
 	BOOST_CHECK(x != ev.info_log_length);
 # endif
@@ -129,6 +165,15 @@ BOOST_AUTO_TEST_CASE(enum_program_parameter_values)
 # ifdef GL_DELETE_STATUS
 	BOOST_CHECK(x != ev.delete_status);
 # endif
+# ifdef GL_GEOMETRY_INPUT_TYPE
+	BOOST_CHECK(x != ev.geometry_input_type);
+# endif
+# ifdef GL_GEOMETRY_OUTPUT_TYPE
+	BOOST_CHECK(x != ev.geometry_output_type);
+# endif
+# ifdef GL_GEOMETRY_VERTICES_OUT
+	BOOST_CHECK(x != ev.geometry_vertices_out);
+# endif
 # ifdef GL_INFO_LOG_LENGTH
 	BOOST_CHECK(x != ev.info_log_length);
 # endif
@@ -143,6 +188,66 @@ BOOST_AUTO_TEST_CASE(enum_program_parameter_values)
 #ifdef GL_DELETE_STATUS
 	x = ev.delete_status;
 	BOOST_CHECK(x == ev.delete_status);
+# ifdef GL_GEOMETRY_INPUT_TYPE
+	BOOST_CHECK(x != ev.geometry_input_type);
+# endif
+# ifdef GL_GEOMETRY_OUTPUT_TYPE
+	BOOST_CHECK(x != ev.geometry_output_type);
+# endif
+# ifdef GL_GEOMETRY_VERTICES_OUT
+	BOOST_CHECK(x != ev.geometry_vertices_out);
+# endif
+# ifdef GL_INFO_LOG_LENGTH
+	BOOST_CHECK(x != ev.info_log_length);
+# endif
+# ifdef GL_LINK_STATUS
+	BOOST_CHECK(x != ev.link_status);
+# endif
+# ifdef GL_VALIDATE_STATUS
+	BOOST_CHECK(x != ev.validate_status);
+# endif
+#endif
+
+#ifdef GL_GEOMETRY_INPUT_TYPE
+	x = ev.geometry_input_type;
+	BOOST_CHECK(x == ev.geometry_input_type);
+# ifdef GL_GEOMETRY_OUTPUT_TYPE
+	BOOST_CHECK(x != ev.geometry_output_type);
+# endif
+# ifdef GL_GEOMETRY_VERTICES_OUT
+	BOOST_CHECK(x != ev.geometry_vertices_out);
+# endif
+# ifdef GL_INFO_LOG_LENGTH
+	BOOST_CHECK(x != ev.info_log_length);
+# endif
+# ifdef GL_LINK_STATUS
+	BOOST_CHECK(x != ev.link_status);
+# endif
+# ifdef GL_VALIDATE_STATUS
+	BOOST_CHECK(x != ev.validate_status);
+# endif
+#endif
+
+#ifdef GL_GEOMETRY_OUTPUT_TYPE
+	x = ev.geometry_output_type;
+	BOOST_CHECK(x == ev.geometry_output_type);
+# ifdef GL_GEOMETRY_VERTICES_OUT
+	BOOST_CHECK(x != ev.geometry_vertices_out);
+# endif
+# ifdef GL_INFO_LOG_LENGTH
+	BOOST_CHECK(x != ev.info_log_length);
+# endif
+# ifdef GL_LINK_STATUS
+	BOOST_CHECK(x != ev.link_status);
+# endif
+# ifdef GL_VALIDATE_STATUS
+	BOOST_CHECK(x != ev.validate_status);
+# endif
+#endif
+
+#ifdef GL_GEOMETRY_VERTICES_OUT
+	x = ev.geometry_vertices_out;
+	BOOST_CHECK(x == ev.geometry_vertices_out);
 # ifdef GL_INFO_LOG_LENGTH
 	BOOST_CHECK(x != ev.info_log_length);
 # endif
@@ -241,6 +346,33 @@ BOOST_AUTO_TEST_CASE(enum_program_parameter_names)
 	) == 0);
 #endif
 
+#ifdef GL_GEOMETRY_INPUT_TYPE
+	x = ev.geometry_input_type;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"GEOMETRY_INPUT_TYPE"
+	) == 0);
+#endif
+
+#ifdef GL_GEOMETRY_OUTPUT_TYPE
+	x = ev.geometry_output_type;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"GEOMETRY_OUTPUT_TYPE"
+	) == 0);
+#endif
+
+#ifdef GL_GEOMETRY_VERTICES_OUT
+	x = ev.geometry_vertices_out;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"GEOMETRY_VERTICES_OUT"
+	) == 0);
+#endif
+
 #ifdef GL_INFO_LOG_LENGTH
 	x = ev.info_log_length;
 	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
@@ -336,6 +468,39 @@ BOOST_AUTO_TEST_CASE(enum_program_parameter_range)
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
 		program_parameter(GL_DELETE_STATUS)
+	) != r.end());
+}
+#endif
+
+#ifdef GL_GEOMETRY_INPUT_TYPE
+{
+	--count;
+	auto r = enum_value_range<program_parameter>();
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		program_parameter(GL_GEOMETRY_INPUT_TYPE)
+	) != r.end());
+}
+#endif
+
+#ifdef GL_GEOMETRY_OUTPUT_TYPE
+{
+	--count;
+	auto r = enum_value_range<program_parameter>();
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		program_parameter(GL_GEOMETRY_OUTPUT_TYPE)
+	) != r.end());
+}
+#endif
+
+#ifdef GL_GEOMETRY_VERTICES_OUT
+{
+	--count;
+	auto r = enum_value_range<program_parameter>();
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		program_parameter(GL_GEOMETRY_VERTICES_OUT)
 	) != r.end());
 }
 #endif
@@ -444,6 +609,36 @@ BOOST_AUTO_TEST_CASE(enum_program_parameter_any)
 	BOOST_CHECK(same_enum_class(a, y));
 	BOOST_CHECK(same_enum_class(x, y));
 	BOOST_CHECK(y == ev.delete_status);
+#endif
+
+#ifdef GL_GEOMETRY_INPUT_TYPE
+	x = ev.geometry_input_type;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.geometry_input_type);
+#endif
+
+#ifdef GL_GEOMETRY_OUTPUT_TYPE
+	x = ev.geometry_output_type;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.geometry_output_type);
+#endif
+
+#ifdef GL_GEOMETRY_VERTICES_OUT
+	x = ev.geometry_vertices_out;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.geometry_vertices_out);
 #endif
 
 #ifdef GL_INFO_LOG_LENGTH

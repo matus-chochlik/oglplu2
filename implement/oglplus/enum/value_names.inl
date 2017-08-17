@@ -1305,6 +1305,14 @@ noexcept
 	static const char s_FUNC_SUBTRACT[14] =
 		"FUNC_SUBTRACT";
 #endif
+#ifdef GL_GEOMETRY_INPUT_TYPE
+	static const char s_GEOMETRY_INPUT_TYPE[20] =
+		"GEOMETRY_INPUT_TYPE";
+#endif
+#ifdef GL_GEOMETRY_OUTPUT_TYPE
+	static const char s_GEOMETRY_OUTPUT_TYPE[21] =
+		"GEOMETRY_OUTPUT_TYPE";
+#endif
 #ifdef GL_GEOMETRY_SHADER
 	static const char s_GEOMETRY_SHADER[16] =
 		"GEOMETRY_SHADER";
@@ -1328,6 +1336,10 @@ noexcept
 #ifdef GL_GEOMETRY_SUBROUTINE_UNIFORM
 	static const char s_GEOMETRY_SUBROUTINE_UNIFORM[28] =
 		"GEOMETRY_SUBROUTINE_UNIFORM";
+#endif
+#ifdef GL_GEOMETRY_VERTICES_OUT
+	static const char s_GEOMETRY_VERTICES_OUT[22] =
+		"GEOMETRY_VERTICES_OUT";
 #endif
 #ifdef GL_GEQUAL
 	static const char s_GEQUAL[7] =
@@ -8962,6 +8974,18 @@ noexcept
 #ifdef GL_DELETE_STATUS
 				case GL_DELETE_STATUS:
 					return {s_DELETE_STATUS, 13};
+#endif
+#ifdef GL_GEOMETRY_INPUT_TYPE
+				case GL_GEOMETRY_INPUT_TYPE:
+					return {s_GEOMETRY_INPUT_TYPE, 19};
+#endif
+#ifdef GL_GEOMETRY_OUTPUT_TYPE
+				case GL_GEOMETRY_OUTPUT_TYPE:
+					return {s_GEOMETRY_OUTPUT_TYPE, 20};
+#endif
+#ifdef GL_GEOMETRY_VERTICES_OUT
+				case GL_GEOMETRY_VERTICES_OUT:
+					return {s_GEOMETRY_VERTICES_OUT, 21};
 #endif
 #ifdef GL_INFO_LOG_LENGTH
 				case GL_INFO_LOG_LENGTH:
