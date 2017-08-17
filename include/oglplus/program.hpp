@@ -54,6 +54,26 @@ struct program_ops
 	current_program(void)
 	noexcept;
 
+#if defined(GL_VERSION_4_1)
+	static
+	outcome<void>
+	program_parameter_i(
+		program_name prog,
+		program_parameter param,
+		GLint value
+	) noexcept;
+
+	static
+	outcome<void>
+	program_binary_retrievable_hint(program_name prog, boolean value)
+	noexcept;
+
+	static
+	outcome<void>
+	program_separable(program_name prog, boolean value)
+	noexcept;
+#endif
+
 	static
 	outcome<void>
 	get_program_iv(
@@ -169,6 +189,22 @@ struct obj_dsa_ops<tag::program>
 	{
 		return {_ops::report_program_link_error(*this), *this};
 	}
+
+#if defined(GL_VERSION_4_1)
+	outcome<obj_dsa_ops&>
+	binary_retrievable_hint(boolean value)
+	noexcept
+	{
+		return {_ops::program_binary_retrievable_hint(*this, value), *this};
+	}
+
+	outcome<obj_dsa_ops&>
+	separable(boolean value)
+	noexcept
+	{
+		return {_ops::program_separable(*this, value), *this};
+	}
+#endif
 
 	outcome<boolean>
 	get_link_status(void) const

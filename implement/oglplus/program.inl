@@ -118,6 +118,57 @@ noexcept
 #endif
 }
 //------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_1)
+inline
+outcome<void>
+program_ops::
+program_parameter_i(
+	program_name prog,
+	program_parameter para,
+	GLint value
+) noexcept
+{
+	OGLPLUS_GLFUNC(ProgramParameteri)(
+		get_raw_name(prog),
+		GLenum(para),
+		value
+	);
+	OGLPLUS_VERIFY(
+		ProgramParameteri,
+		gl_enum_value(para).
+		gl_object(prog),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+program_ops::
+program_binary_retrievable_hint(program_name prog, boolean value)
+noexcept
+{
+	return program_parameter_i(
+		prog,
+		program_parameter(GL_PROGRAM_BINARY_RETRIEVABLE_HINT),
+		GLboolean(value)
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+program_ops::
+program_separable(program_name prog, boolean value)
+noexcept
+{
+	return program_parameter_i(
+		prog,
+		program_parameter(GL_PROGRAM_SEPARABLE),
+		GLboolean(value)
+	);
+}
+#endif // GL_VERSION_4_1
+//------------------------------------------------------------------------------
 inline
 outcome<void>
 program_ops::

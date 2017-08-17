@@ -31,6 +31,12 @@ void oglplus_program_test_ops1(void)
 	gl.link_program(prog);
 	gl.use_program(prog);
 	gl.current_program();
+
+#if defined(GL_VERSION_4_1)
+	gl.program_binary_retrievable_hint(prog, true);
+	gl.program_separable(prog, true);
+#endif
+
 	gl.get_program_delete_status(prog);
 	gl.get_program_link_status(prog);
 	gl.get_program_info_log_length(prog);
@@ -45,6 +51,12 @@ void oglplus_program_test_ops1(void)
 	prog.attach(shdr);
 	prog.detach(shdr);
 	prog.link();
+
+#if defined(GL_VERSION_4_1)
+	prog.binary_retrievable_hint(true);
+	prog.separable(true);
+#endif
+
 	prog.get_delete_status();
 	prog.get_link_status();
 	prog.get_info_log_length();
