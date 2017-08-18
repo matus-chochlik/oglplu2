@@ -377,6 +377,48 @@ get_active_uniform(
 	return {reallen};
 }
 //------------------------------------------------------------------------------
+#if defined(GL_VERSION_3_2)
+inline
+outcome<GLsizei>
+program_ops::
+get_program_geometry_vertices_out(program_name prog)
+noexcept
+{
+	return return_program_parameter_i<GLsizei, GLsizei>(
+		prog,
+		program_parameter(GL_GEOMETRY_VERTICES_OUT)
+	);
+}
+#endif
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_3_2)
+inline
+outcome<primitive_type>
+program_ops::
+get_program_geometry_input_type(program_name prog)
+noexcept
+{
+	return return_program_parameter_i<primitive_type, GLenum>(
+		prog,
+		program_parameter(GL_GEOMETRY_INPUT_TYPE)
+	);
+}
+#endif
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_3_2)
+inline
+outcome<primitive_type>
+program_ops::
+get_program_geometry_output_type(program_name prog)
+noexcept
+{
+	return return_program_parameter_i<primitive_type, GLenum>(
+		prog,
+		program_parameter(GL_GEOMETRY_OUTPUT_TYPE)
+	);
+}
+#endif
+//------------------------------------------------------------------------------
 } // namespace oper
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_gen

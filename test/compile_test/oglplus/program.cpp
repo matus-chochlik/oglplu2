@@ -48,6 +48,18 @@ void oglplus_program_test_ops1(void)
 	gl.get_program_active_uniform_max_length(prog);
 	gl.get_active_uniform(prog, 0, span<char>(), size, type);
 
+#if defined(GL_VERSION_3_2)
+	gl.get_program_geometry_vertices_out(prog);
+#endif
+
+#if defined(GL_VERSION_3_2)
+	gl.get_program_geometry_input_type(prog);
+#endif
+
+#if defined(GL_VERSION_3_2)
+	gl.get_program_geometry_output_type(prog);
+#endif
+
 	prog.attach(shdr);
 	prog.detach(shdr);
 	prog.link();
@@ -67,6 +79,18 @@ void oglplus_program_test_ops1(void)
 	prog.get_active_uniforms();
 	prog.get_active_uniform_max_length();
 	prog.get_active_uniform(0, span<char>(), size, type);
+
+#if defined(GL_VERSION_3_2)
+	prog.get_geometry_vertices_out();
+#endif
+
+#if defined(GL_VERSION_3_2)
+	prog.get_geometry_input_type();
+#endif
+
+#if defined(GL_VERSION_3_2)
+	prog.get_geometry_output_type();
+#endif
 }
 
 // TODO

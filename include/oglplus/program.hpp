@@ -148,6 +148,26 @@ struct program_ops
 		sl_data_type& type
 	) noexcept;
 
+#if defined(GL_VERSION_3_2)
+	static
+	outcome<GLsizei>
+	get_program_geometry_vertices_out(program_name prog)
+	noexcept;
+#endif
+
+#if defined(GL_VERSION_3_2)
+	static
+	outcome<primitive_type>
+	get_program_geometry_input_type(program_name prog)
+	noexcept;
+#endif
+
+#if defined(GL_VERSION_3_2)
+	static
+	outcome<primitive_type>
+	get_program_geometry_output_type(program_name prog)
+	noexcept;
+#endif
 	// TODO other parameters
 };
 
@@ -285,6 +305,33 @@ struct obj_dsa_ops<tag::program>
 	{
 		return _ops::get_active_uniform(*this, index, name, size, type);
 	}
+
+#if defined(GL_VERSION_3_2)
+	outcome<GLsizei>
+	get_geometry_vertices_out(void) const
+	noexcept
+	{
+		return _ops::get_program_geometry_vertices_out(*this);
+	}
+#endif
+
+#if defined(GL_VERSION_3_2)
+	outcome<primitive_type>
+	get_geometry_input_type(void) const
+	noexcept
+	{
+		return _ops::get_program_geometry_input_type(*this);
+	}
+#endif
+
+#if defined(GL_VERSION_3_2)
+	outcome<primitive_type>
+	get_geometry_output_type(void) const
+	noexcept
+	{
+		return _ops::get_program_geometry_output_type(*this);
+	}
+#endif
 };
 
 // obj_gen_del_ops
