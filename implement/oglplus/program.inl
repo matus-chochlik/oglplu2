@@ -377,6 +377,30 @@ get_active_uniform(
 	return {reallen};
 }
 //------------------------------------------------------------------------------
+inline
+outcome<GLsizei>
+program_ops::
+get_program_active_atomic_counter_buffers(program_name prog)
+noexcept
+{
+	return return_program_parameter_i<GLsizei, GLsizei>(
+		prog,
+		program_parameter(GL_ACTIVE_ATOMIC_COUNTER_BUFFERS)
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<transform_feedback_mode>
+program_ops::
+get_program_transform_feedback_buffer_mode(program_name prog)
+noexcept
+{
+	return return_program_parameter_i<transform_feedback_mode, GLenum>(
+		prog,
+		program_parameter(GL_TRANSFORM_FEEDBACK_BUFFER_MODE)
+	);
+}
+//------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_2)
 inline
 outcome<GLsizei>
@@ -415,6 +439,20 @@ noexcept
 	return return_program_parameter_i<primitive_type, GLenum>(
 		prog,
 		program_parameter(GL_GEOMETRY_OUTPUT_TYPE)
+	);
+}
+#endif
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_3)
+inline
+outcome<GLsizei>
+program_ops::
+get_program_compute_work_group_size(program_name prog)
+noexcept
+{
+	return return_program_parameter_i<GLsizei, GLsizei>(
+		prog,
+		program_parameter(GL_COMPUTE_WORK_GROUP_SIZE)
 	);
 }
 #endif
