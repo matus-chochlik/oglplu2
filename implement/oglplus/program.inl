@@ -118,6 +118,57 @@ noexcept
 #endif
 }
 //------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_1)
+inline
+outcome<void>
+program_ops::
+program_parameter_i(
+	program_name prog,
+	program_parameter para,
+	GLint value
+) noexcept
+{
+	OGLPLUS_GLFUNC(ProgramParameteri)(
+		get_raw_name(prog),
+		GLenum(para),
+		value
+	);
+	OGLPLUS_VERIFY(
+		ProgramParameteri,
+		gl_enum_value(para).
+		gl_object(prog),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+program_ops::
+program_binary_retrievable_hint(program_name prog, boolean value)
+noexcept
+{
+	return program_parameter_i(
+		prog,
+		program_parameter(GL_PROGRAM_BINARY_RETRIEVABLE_HINT),
+		GLboolean(value)
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+program_ops::
+program_separable(program_name prog, boolean value)
+noexcept
+{
+	return program_parameter_i(
+		prog,
+		program_parameter(GL_PROGRAM_SEPARABLE),
+		GLboolean(value)
+	);
+}
+#endif // GL_VERSION_4_1
+//------------------------------------------------------------------------------
 inline
 outcome<void>
 program_ops::
@@ -325,6 +376,86 @@ get_active_uniform(
 	type = sl_data_type(sl_type);
 	return {reallen};
 }
+//------------------------------------------------------------------------------
+inline
+outcome<GLsizei>
+program_ops::
+get_program_active_atomic_counter_buffers(program_name prog)
+noexcept
+{
+	return return_program_parameter_i<GLsizei, GLsizei>(
+		prog,
+		program_parameter(GL_ACTIVE_ATOMIC_COUNTER_BUFFERS)
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<transform_feedback_mode>
+program_ops::
+get_program_transform_feedback_buffer_mode(program_name prog)
+noexcept
+{
+	return return_program_parameter_i<transform_feedback_mode, GLenum>(
+		prog,
+		program_parameter(GL_TRANSFORM_FEEDBACK_BUFFER_MODE)
+	);
+}
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_3_2)
+inline
+outcome<GLsizei>
+program_ops::
+get_program_geometry_vertices_out(program_name prog)
+noexcept
+{
+	return return_program_parameter_i<GLsizei, GLsizei>(
+		prog,
+		program_parameter(GL_GEOMETRY_VERTICES_OUT)
+	);
+}
+#endif
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_3_2)
+inline
+outcome<primitive_type>
+program_ops::
+get_program_geometry_input_type(program_name prog)
+noexcept
+{
+	return return_program_parameter_i<primitive_type, GLenum>(
+		prog,
+		program_parameter(GL_GEOMETRY_INPUT_TYPE)
+	);
+}
+#endif
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_3_2)
+inline
+outcome<primitive_type>
+program_ops::
+get_program_geometry_output_type(program_name prog)
+noexcept
+{
+	return return_program_parameter_i<primitive_type, GLenum>(
+		prog,
+		program_parameter(GL_GEOMETRY_OUTPUT_TYPE)
+	);
+}
+#endif
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_3)
+inline
+outcome<GLsizei>
+program_ops::
+get_program_compute_work_group_size(program_name prog)
+noexcept
+{
+	return return_program_parameter_i<GLsizei, GLsizei>(
+		prog,
+		program_parameter(GL_COMPUTE_WORK_GROUP_SIZE)
+	);
+}
+#endif
 //------------------------------------------------------------------------------
 } // namespace oper
 //------------------------------------------------------------------------------

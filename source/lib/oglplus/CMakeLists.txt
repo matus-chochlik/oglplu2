@@ -19,3 +19,4 @@ add_library(oglplus EXCLUDE_FROM_ALL ${OGLPLUS_LIB_SOURCES})
 set_property(TARGET oglplus PROPERTY FOLDER "Library/OGLplus")
 
 target_link_libraries(oglplus eagine)
+target_link_libraries(oglplus ${OGLPLUS_GL_LIBRARIES})

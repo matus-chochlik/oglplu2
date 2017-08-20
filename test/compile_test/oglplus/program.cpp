@@ -31,6 +31,12 @@ void oglplus_program_test_ops1(void)
 	gl.link_program(prog);
 	gl.use_program(prog);
 	gl.current_program();
+
+#if defined(GL_VERSION_4_1)
+	gl.program_binary_retrievable_hint(prog, true);
+	gl.program_separable(prog, true);
+#endif
+
 	gl.get_program_delete_status(prog);
 	gl.get_program_link_status(prog);
 	gl.get_program_info_log_length(prog);
@@ -42,9 +48,34 @@ void oglplus_program_test_ops1(void)
 	gl.get_program_active_uniform_max_length(prog);
 	gl.get_active_uniform(prog, 0, span<char>(), size, type);
 
+	gl.get_program_active_atomic_counter_buffers(prog);
+	gl.get_program_transform_feedback_buffer_mode(prog);
+
+#if defined(GL_VERSION_3_2)
+	gl.get_program_geometry_vertices_out(prog);
+#endif
+
+#if defined(GL_VERSION_3_2)
+	gl.get_program_geometry_input_type(prog);
+#endif
+
+#if defined(GL_VERSION_3_2)
+	gl.get_program_geometry_output_type(prog);
+#endif
+
+#if defined(GL_VERSION_4_3)
+	gl.get_program_compute_work_group_size(prog);
+#endif
+
 	prog.attach(shdr);
 	prog.detach(shdr);
 	prog.link();
+
+#if defined(GL_VERSION_4_1)
+	prog.binary_retrievable_hint(true);
+	prog.separable(true);
+#endif
+
 	prog.get_delete_status();
 	prog.get_link_status();
 	prog.get_info_log_length();
@@ -55,6 +86,25 @@ void oglplus_program_test_ops1(void)
 	prog.get_active_uniforms();
 	prog.get_active_uniform_max_length();
 	prog.get_active_uniform(0, span<char>(), size, type);
+
+	prog.get_active_atomic_counter_buffers();
+	prog.get_transform_feedback_buffer_mode();
+
+#if defined(GL_VERSION_3_2)
+	prog.get_geometry_vertices_out();
+#endif
+
+#if defined(GL_VERSION_3_2)
+	prog.get_geometry_input_type();
+#endif
+
+#if defined(GL_VERSION_3_2)
+	prog.get_geometry_output_type();
+#endif
+
+#if defined(GL_VERSION_4_3)
+	prog.get_compute_work_group_size();
+#endif
 }
 
 // TODO

@@ -1,5 +1,5 @@
 /**
- *  @example standalone/012_glfw_glew_cube.cpp
+ *  @example standalone/012_glfw3_glew_cube.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -20,7 +20,7 @@
 
 #include <eagine/scope_exit.hpp>
 
-#include <GL/glfw.h>
+#include <GLFW/glfw3.h>
 
 #include <iostream>
 #include <stdexcept>
@@ -49,7 +49,7 @@ void handle_resize(
 }
 
 static
-void run_loop(int width, int height)
+void run_loop(GLFWwindow* window, int width, int height)
 {
 	using namespace oglplus;
 
@@ -248,6 +248,30 @@ void run_loop(int width, int height)
 
 	while(true)
 	{
+		glfwPollEvents();
+
+		if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		{
+			glfwSetWindowShouldClose(window, 1);
+			break;
+		}
+
+		if(glfwWindowShouldClose(window))
+		{
+			break;
+		}
+
+		int new_width, new_height;
+		glfwGetWindowSize(window, &new_width, &new_height);
+
+		if((width != new_width) || (height != new_height))
+		{
+			width = new_width;
+			height = new_height;
+
+			handle_resize(width, height, projection);
+		}
+
 		gl.clear(GL.color_buffer_bit|GL.depth_buffer_bit);
 
 		gl.uniform(
@@ -261,29 +285,7 @@ void run_loop(int width, int height)
 
 		gl.draw_arrays(GL.triangles, 0, 6 * 2 * 3);
 
-		glfwSwapBuffers();
-
-		int new_width, new_height;
-		glfwGetWindowSize(&new_width, &new_height);
-
-		if((width != new_width) || (height != new_height))
-		{
-			width = new_width;
-			height = new_height;
-
-			handle_resize(width, height, projection);
-		}
-		
-
-		if(glfwGetKey(GLFW_KEY_ESC))
-		{
-			glfwCloseWindow();
-			break;
-		}
-		if(!glfwGetWindowParam(GLFW_OPENED))
-		{
-			break;
-		}
+		glfwSwapBuffers(window);
 	}
 }
 
@@ -298,16 +300,32 @@ void init_and_run(void)
 	{
 		auto ensure_glfw_cleanup = eagine::finally(glfwTerminate);
 
+		glfwWindowHint(GLFW_DOUBLEBUFFER, GL_TRUE);
+		glfwWindowHint(GLFW_RED_BITS, 8);
+		glfwWindowHint(GLFW_BLUE_BITS, 8);
+		glfwWindowHint(GLFW_GREEN_BITS, 8);
+		glfwWindowHint(GLFW_ALPHA_BITS, 0);
+		glfwWindowHint(GLFW_DEPTH_BITS, 24);
+		glfwWindowHint(GLFW_STENCIL_BITS, 0);
+
+		glfwWindowHint(GLFW_SAMPLES, GLFW_DONT_CARE);
+
 		int width = 800, height = 600;
 
-		if(!glfwOpenWindow(width, height, 8, 8, 8, 0, 24, 0, GLFW_WINDOW))
+		GLFWwindow* window = glfwCreateWindow(
+			width, height,
+			"OGLplus example",
+			NULL,
+			NULL
+		);
+
+		if(!window)
 		{
 			throw std::runtime_error("Error creating GLFW window");
 		}
 		else
 		{
-			glfwSetWindowTitle("OGLplus example");
-
+			glfwMakeContextCurrent(window);
 			glewExperimental = GL_TRUE;
 			GLenum init_result = glewInit();
 			glGetError();
@@ -319,7 +337,7 @@ void init_and_run(void)
 			}
 			else
 			{
-				run_loop(width, height);
+				run_loop(window, width, height);
 			}
 		}
 	}

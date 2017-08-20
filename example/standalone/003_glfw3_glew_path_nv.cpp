@@ -1,5 +1,5 @@
 /**
- *  @example standalone/003_glfw_glew_checker.cpp
+ *  @example standalone/003_glfw3_glew_path_nv.cpp
  *
  *  Copyright Matus Chochlik.
  *  Distributed under the Boost Software License, Version 1.0.
@@ -17,7 +17,7 @@
 
 #include <eagine/scope_exit.hpp>
 
-#include <GL/glfw.h>
+#include <GLFW/glfw3.h>
 
 #include <iostream>
 #include <stdexcept>
@@ -29,10 +29,10 @@ static
 void handle_resize(int width, int height)
 {
 	gl.viewport(0, 0, width, height);
-	GLfloat asp = GLfloat(width)/height;
+	GLdouble asp = GLdouble(width)/height;
 
-	GLfloat h = 2;
-	GLfloat w = h*asp;
+	GLdouble h = 2;
+	GLdouble w = h*asp;
 
 	gl.matrix_mode(GL.projection);
 	gl.load_identity();
@@ -40,41 +40,32 @@ void handle_resize(int width, int height)
 }
 
 static
-void run_loop(int width, int height)
+void run_loop(GLFWwindow* window, int width, int height)
 {
 	using namespace oglplus;
 
-	shader fs(GL.fragment_shader);
+	path_nv path;
 
-	gl.shader_source(fs, glsl_literal(
-	"#version 120\n"
+	path.commands(path_nv_spec<GLfloat>(6, 10)
+		.move_to( 0.00f, 0.85f)
+		.line_to( 0.65f,-0.80f)
+		.line_to(-0.85f, 0.30f)
+		.line_to( 0.85f, 0.30f)
+		.line_to(-0.65f,-0.80f)
+		.close()
+	);
 
-	"uniform vec3 Color1;\n"
-	"uniform vec3 Color2;\n"
-
-	"float checker(vec2 c)\n"
-	"{\n"
-	"	return mod(int(c.x*8)+int(c.y*8), 2);\n"
-	"}\n"
-
-	"void main(void)\n"
-	"{\n"
-	"	float c = checker(gl_TexCoord[0].st);\n"
-	"	gl_FragColor = vec4(mix(Color1, Color2, c),1);\n"
-	"}\n"
-	));
-	gl.compile_shader(fs);
-
-	program prog;
-
-	gl.attach_shader(prog, fs);
-	gl.link_program(prog);
-	gl.use_program(prog);
-
-	gl.uniform(uniform<GLfloat>(prog, "Color1"), 0.2f, 0.2f, 0.2f);
-	gl.uniform(uniform<GLfloat[3]>(prog, "Color2"), 1, make_span({0.4f, 0.4f, 0.6f}));
+	path.stroke_width(0.01f);
+	path.join_style(GL.round_nv);
+	path.dashes(0.05f, 0.02f);
 
 	gl.clear_color(vec4(0.6f, 0.7f, 0.6f, 0.0f));
+	gl.clear_stencil(0);
+	gl.stencil_mask(~0u);
+	gl.stencil_func(GL.notequal, 0, 0x1F);
+	gl.stencil_op(GL.keep, GL.keep, GL.zero);
+
+	gl.enable(GL.stencil_test);
 
 	handle_resize(width, height);
 
@@ -82,42 +73,21 @@ void run_loop(int width, int height)
 
 	while(true)
 	{
-		gl.clear(GL.color_buffer_bit);
+		glfwPollEvents();
 
-		gl.matrix_mode(GL.modelview);
-		gl.load_identity();
-		gl.rotate_f(degrees_(deg++), 0, 0, 1);
+		if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		{
+			glfwSetWindowShouldClose(window, 1);
+			break;
+		}
 
-		gl.begin(GL.quads);
-			gl.tex_coord_i( 0, 0);
-			gl.vertex_i(-1,-1);
-
-			gl.tex_coord_i( 1, 0);
-			gl.vertex_i( 1,-1);
-
-			gl.tex_coord_i( 1, 1);
-			gl.vertex_i( 1, 1);
-
-			gl.tex_coord_i( 0, 1);
-			gl.vertex_i(-1, 1);
-		gl.end();
-
-		gl.begin(GL.line_loop);
-			gl.color_f( 1, 1, 1);
-
-			gl.vertex_i(-1,-1);
-
-			gl.vertex_i( 1,-1);
-
-			gl.vertex_i( 1, 1);
-
-			gl.vertex_i(-1, 1);
-		gl.end();
-
-		glfwSwapBuffers();
+		if(glfwWindowShouldClose(window))
+		{
+			break;
+		}
 
 		int new_width, new_height;
-		glfwGetWindowSize(&new_width, &new_height);
+		glfwGetWindowSize(window, &new_width, &new_height);
 
 		if((width != new_width) || (height != new_height))
 		{
@@ -126,17 +96,24 @@ void run_loop(int width, int height)
 
 			handle_resize(width, height);
 		}
-		
 
-		if(glfwGetKey(GLFW_KEY_ESC))
-		{
-			glfwCloseWindow();
-			break;
-		}
-		if(!glfwGetWindowParam(GLFW_OPENED))
-		{
-			break;
-		}
+		gl.clear(GL.color_buffer_bit|GL.stencil_buffer_bit);
+
+		gl.matrix_mode(GL.modelview);
+		gl.load_identity();
+		gl.rotate_f(degrees_(deg++), 0, 0, 1);
+
+		gl.color_f(0.2f, 0.2f, 1.0f);
+
+		path.stencil_fill(GL.count_up_nv, 0x1F);
+		path.cover_fill(GL.bounding_box_nv);
+
+		gl.color_f(0.1f, 0.1f, 0.1f);
+
+		path.stencil_stroke(1, ~0u);
+		path.cover_stroke(GL.convex_hull_nv);
+
+		glfwSwapBuffers(window);
 	}
 }
 
@@ -151,16 +128,32 @@ void init_and_run(void)
 	{
 		auto ensure_glfw_cleanup = eagine::finally(glfwTerminate);
 
+		glfwWindowHint(GLFW_DOUBLEBUFFER, GL_TRUE);
+		glfwWindowHint(GLFW_RED_BITS, 8);
+		glfwWindowHint(GLFW_BLUE_BITS, 8);
+		glfwWindowHint(GLFW_GREEN_BITS, 8);
+		glfwWindowHint(GLFW_ALPHA_BITS, 0);
+		glfwWindowHint(GLFW_DEPTH_BITS, 0);
+		glfwWindowHint(GLFW_STENCIL_BITS, 8);
+
+		glfwWindowHint(GLFW_SAMPLES, GLFW_DONT_CARE);
+
 		int width = 800, height = 600;
 
-		if(!glfwOpenWindow(width, height, 8, 8, 8, 0, 0, 0, GLFW_WINDOW))
+		GLFWwindow* window = glfwCreateWindow(
+			width, height,
+			"OGLplus example",
+			NULL,
+			NULL
+		);
+
+		if(!window)
 		{
 			throw std::runtime_error("Error creating GLFW window");
 		}
 		else
 		{
-			glfwSetWindowTitle("OGLplus example");
-
+			glfwMakeContextCurrent(window);
 			glewExperimental = GL_TRUE;
 			GLenum init_result = glewInit();
 			glGetError();
@@ -172,7 +165,7 @@ void init_and_run(void)
 			}
 			else
 			{
-				run_loop(width, height);
+				run_loop(window, width, height);
 			}
 		}
 	}

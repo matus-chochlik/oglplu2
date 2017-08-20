@@ -19,6 +19,13 @@ constexpr const enum_value<
 > enum_values::accum_adjacent_pairs_nv;
 #endif
 
+#ifdef GL_ACTIVE_ATOMIC_COUNTER_BUFFERS
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::program_parameter>
+> enum_values::active_atomic_counter_buffers;
+#endif
+
 #ifdef GL_ACTIVE_ATTRIBUTE_MAX_LENGTH
 constexpr const enum_value<
 	GLenum,
@@ -934,6 +941,13 @@ constexpr const enum_value<
 	GLenum,
 	mp_list<oglplus::program_interface>
 > enum_values::compute_subroutine_uniform;
+#endif
+
+#ifdef GL_COMPUTE_WORK_GROUP_SIZE
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::program_parameter>
+> enum_values::compute_work_group_size;
 #endif
 
 #ifdef GL_CONDITION_SATISFIED
@@ -2259,6 +2273,20 @@ constexpr const enum_value<
 > enum_values::func_subtract;
 #endif
 
+#ifdef GL_GEOMETRY_INPUT_TYPE
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::program_parameter>
+> enum_values::geometry_input_type;
+#endif
+
+#ifdef GL_GEOMETRY_OUTPUT_TYPE
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::program_parameter>
+> enum_values::geometry_output_type;
+#endif
+
 #ifdef GL_GEOMETRY_SHADER
 constexpr const enum_value<
 	GLenum,
@@ -2299,6 +2327,13 @@ constexpr const enum_value<
 	GLenum,
 	mp_list<oglplus::program_interface>
 > enum_values::geometry_subroutine_uniform;
+#endif
+
+#ifdef GL_GEOMETRY_VERTICES_OUT
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::program_parameter>
+> enum_values::geometry_vertices_out;
 #endif
 
 #ifdef GL_GEQUAL
@@ -4800,6 +4835,13 @@ constexpr const enum_value<
 > enum_values::program_binary_formats;
 #endif
 
+#ifdef GL_PROGRAM_BINARY_LENGTH
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::program_parameter>
+> enum_values::program_binary_length;
+#endif
+
 #ifdef GL_PROGRAM_INPUT
 constexpr const enum_value<
 	GLenum,
@@ -7117,6 +7159,13 @@ constexpr const enum_value<
 > enum_values::transform_feedback_buffer_index;
 #endif
 
+#ifdef GL_TRANSFORM_FEEDBACK_BUFFER_MODE
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::program_parameter>
+> enum_values::transform_feedback_buffer_mode;
+#endif
+
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER_SIZE
 constexpr const enum_value<
 	GLenum,
@@ -7164,6 +7213,20 @@ constexpr const enum_value<
 	GLenum,
 	mp_list<oglplus::query_target>
 > enum_values::transform_feedback_stream_overflow;
+#endif
+
+#ifdef GL_TRANSFORM_FEEDBACK_VARYING_MAX_LENGTH
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::program_parameter>
+> enum_values::transform_feedback_varying_max_length;
+#endif
+
+#ifdef GL_TRANSFORM_FEEDBACK_VARYINGS
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::program_parameter>
+> enum_values::transform_feedback_varyings;
 #endif
 
 #ifdef GL_TRANSFORM_FEEDEBACK_VARYING

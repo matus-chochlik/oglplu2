@@ -54,6 +54,26 @@ struct program_ops
 	current_program(void)
 	noexcept;
 
+#if defined(GL_VERSION_4_1)
+	static
+	outcome<void>
+	program_parameter_i(
+		program_name prog,
+		program_parameter param,
+		GLint value
+	) noexcept;
+
+	static
+	outcome<void>
+	program_binary_retrievable_hint(program_name prog, boolean value)
+	noexcept;
+
+	static
+	outcome<void>
+	program_separable(program_name prog, boolean value)
+	noexcept;
+#endif
+
 	static
 	outcome<void>
 	get_program_iv(
@@ -128,6 +148,43 @@ struct program_ops
 		sl_data_type& type
 	) noexcept;
 
+	static
+	outcome<GLsizei>
+	get_program_active_atomic_counter_buffers(program_name prog)
+	noexcept;
+
+	static
+	outcome<transform_feedback_mode>
+	get_program_transform_feedback_buffer_mode(program_name prog)
+	noexcept;
+
+#if defined(GL_VERSION_3_2)
+	static
+	outcome<GLsizei>
+	get_program_geometry_vertices_out(program_name prog)
+	noexcept;
+#endif
+
+#if defined(GL_VERSION_3_2)
+	static
+	outcome<primitive_type>
+	get_program_geometry_input_type(program_name prog)
+	noexcept;
+#endif
+
+#if defined(GL_VERSION_3_2)
+	static
+	outcome<primitive_type>
+	get_program_geometry_output_type(program_name prog)
+	noexcept;
+#endif
+
+#if defined(GL_VERSION_4_3)
+	static
+	outcome<GLsizei>
+	get_program_compute_work_group_size(program_name prog)
+	noexcept;
+#endif
 	// TODO other parameters
 };
 
@@ -169,6 +226,22 @@ struct obj_dsa_ops<tag::program>
 	{
 		return {_ops::report_program_link_error(*this), *this};
 	}
+
+#if defined(GL_VERSION_4_1)
+	outcome<obj_dsa_ops&>
+	binary_retrievable_hint(boolean value)
+	noexcept
+	{
+		return {_ops::program_binary_retrievable_hint(*this, value), *this};
+	}
+
+	outcome<obj_dsa_ops&>
+	separable(boolean value)
+	noexcept
+	{
+		return {_ops::program_separable(*this, value), *this};
+	}
+#endif
 
 	outcome<boolean>
 	get_link_status(void) const
@@ -249,6 +322,56 @@ struct obj_dsa_ops<tag::program>
 	{
 		return _ops::get_active_uniform(*this, index, name, size, type);
 	}
+
+	outcome<GLsizei>
+	get_active_atomic_counter_buffers(void) const
+	noexcept
+	{
+		return _ops::get_program_active_atomic_counter_buffers(*this);
+	}
+
+	outcome<transform_feedback_mode>
+	get_transform_feedback_buffer_mode(void) const
+	noexcept
+	{
+		return _ops::get_program_transform_feedback_buffer_mode(*this);
+	}
+
+#if defined(GL_VERSION_3_2)
+	outcome<GLsizei>
+	get_geometry_vertices_out(void) const
+	noexcept
+	{
+		return _ops::get_program_geometry_vertices_out(*this);
+	}
+#endif
+
+#if defined(GL_VERSION_3_2)
+	outcome<primitive_type>
+	get_geometry_input_type(void) const
+	noexcept
+	{
+		return _ops::get_program_geometry_input_type(*this);
+	}
+#endif
+
+#if defined(GL_VERSION_3_2)
+	outcome<primitive_type>
+	get_geometry_output_type(void) const
+	noexcept
+	{
+		return _ops::get_program_geometry_output_type(*this);
+	}
+#endif
+
+#if defined(GL_VERSION_4_3)
+	outcome<GLsizei>
+	get_compute_work_group_size(void) const
+	noexcept
+	{
+		return _ops::get_program_compute_work_group_size(*this);
+	}
+#endif
 };
 
 // obj_gen_del_ops
