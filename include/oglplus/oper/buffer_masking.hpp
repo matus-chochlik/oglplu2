@@ -68,6 +68,18 @@ struct buffer_masking_state
 	color_mask(const rgba_mask& m)
 	noexcept;
 
+#if defined(GL_VERSION_3_0)
+	static
+	outcome<void>
+	color_mask_i(GLuint buffer, boolean r, boolean g, boolean b, boolean a)
+	noexcept;
+
+	static
+	outcome<void>
+	color_mask_i(GLuint buffer, const rgba_mask& m)
+	noexcept;
+#endif
+
 	static
 	outcome<void>
 	depth_mask(boolean mask)

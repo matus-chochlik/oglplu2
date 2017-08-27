@@ -44,6 +44,50 @@ noexcept
 	return {};
 }
 //------------------------------------------------------------------------------
+#if defined(GL_VERSION_3_0)
+inline
+outcome<void>
+buffer_masking_state::
+color_mask_i(GLuint buffer, boolean r, boolean g, boolean b, boolean a)
+noexcept
+{
+	OGLPLUS_GLFUNC(ColorMaski)(
+		buffer,
+		GLboolean(r),
+		GLboolean(g),
+		GLboolean(b),
+		GLboolean(a)
+	);
+	OGLPLUS_VERIFY(
+		ColorMaski,
+		gl_index(buffer),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+buffer_masking_state::
+color_mask_i(GLuint buffer, const rgba_mask& m)
+noexcept
+{
+	OGLPLUS_GLFUNC(ColorMaski)(
+		buffer,
+		GLboolean(m._v[0]),
+		GLboolean(m._v[1]),
+		GLboolean(m._v[2]),
+		GLboolean(m._v[3])
+	);
+	OGLPLUS_VERIFY(
+		ColorMaski,
+		gl_index(buffer),
+		debug
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
 inline
 outcome<void>
 buffer_masking_state::
