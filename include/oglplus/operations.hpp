@@ -20,6 +20,7 @@
 #include "oper/stencil_test.hpp"
 #include "oper/rasterization.hpp"
 #include "oper/drawing.hpp"
+#include "oper/pixel_transfer.hpp"
 #include "oper/synchronization.hpp"
 
 #include "oper/object_lifetime.hpp"
@@ -73,6 +74,7 @@ class operations
  , public oper::stencil_test_state
  , public oper::rasterization_state
  , public oper::drawing_ops
+ , public oper::pixel_transfer_state
  , public oper::synchronization
 
  , public oper::object_lifetime_ops

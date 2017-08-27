@@ -572,6 +572,13 @@ constexpr const enum_value<
 > enum_values::circular_tangent_arc_to_nv;
 #endif
 
+#ifdef GL_CLAMP_READ_COLOR
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::clamp_color_target>
+> enum_values::clamp_read_color;
+#endif
+
 #ifdef GL_CLAMP_TO_BORDER
 constexpr const enum_value<
 	GLenum,

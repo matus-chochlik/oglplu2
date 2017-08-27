@@ -578,6 +578,13 @@ static constexpr const enum_value<
 > circular_tangent_arc_to_nv = {GL_CIRCULAR_TANGENT_ARC_TO_NV};
 #endif
 
+#ifdef GL_CLAMP_READ_COLOR
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::clamp_color_target>
+> clamp_read_color = {GL_CLAMP_READ_COLOR};
+#endif
+
 #ifdef GL_CLAMP_TO_BORDER
 static constexpr const enum_value<
 	GLenum,
