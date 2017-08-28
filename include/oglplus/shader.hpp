@@ -170,6 +170,11 @@ struct obj_gen_del_ops<tag::shader>
 
 	static
 	deferred_error_handler
+	_create(shader_type type, span<GLuint> names)
+	noexcept;
+
+	static
+	deferred_error_handler
 	_delete(span<GLuint> names)
 	noexcept;
 

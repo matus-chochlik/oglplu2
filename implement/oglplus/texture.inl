@@ -1717,6 +1717,29 @@ noexcept
 	return {};
 }
 //------------------------------------------------------------------------------
+// obj_gen_del_ops::_create
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_5)
+inline
+deferred_error_handler
+obj_gen_del_ops<tag::texture>::
+_create(texture_target target, span<GLuint> names)
+noexcept
+{
+	OGLPLUS_GLFUNC(CreateTextures)(
+		GLenum(target),
+		GLsizei(names.size()),
+		names.data()
+	);
+	OGLPLUS_VERIFY(
+		CreateTextures,
+		gl_enum_value(target),
+		debug
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
 // obj_gen_del_ops::_delete
 //------------------------------------------------------------------------------
 inline

@@ -468,7 +468,7 @@ public:
 	static
 	outcome<R>
 	return_texture_parameter_i(
-		object_name_or_target<N, T> tnt, 
+		object_name_or_target<N, T> tnt,
 		oglplus::texture_parameter parameter
 	) noexcept;
 
@@ -477,7 +477,7 @@ public:
 	static
 	outcome<R>
 	return_texture_level_parameter_i(
-		object_name_or_target<N, T> tnt, 
+		object_name_or_target<N, T> tnt,
 		GLint level,
 		oglplus::texture_parameter parameter
 	) noexcept;
@@ -487,119 +487,119 @@ public:
 	static
 	outcome<R>
 	return_texture_parameter_f(
-		object_name_or_target<N, T> tnt, 
+		object_name_or_target<N, T> tnt,
 		oglplus::texture_parameter parameter
 	) noexcept;
 
 #if defined(GL_VERSION_3_0) || defined(GL_ES_VERSION_3_1)
 	// texture_width
 	template <typename TNT>
-	static 
+	static
 	outcome<GLsizei>
 	get_texture_width(const TNT& tnt, GLint level = 0)
 	noexcept;
 
 	// texture_height
 	template <typename TNT>
-	static 
+	static
 	outcome<GLsizei>
 	get_texture_height(const TNT& tnt, GLint level = 0)
 	noexcept;
 
 	// texture_depth
 	template <typename TNT>
-	static 
+	static
 	outcome<GLsizei>
 	get_texture_depth(const TNT& tnt, GLint level = 0)
 	noexcept;
 
 	// texture_red_type
 	template <typename TNT>
-	static 
+	static
 	outcome<pixel_data_type>
 	get_texture_red_type(const TNT& tnt)
 	noexcept;
 
 	// texture_red_size
 	template <typename TNT>
-	static 
+	static
 	outcome<GLsizei>
 	get_texture_red_size(const TNT& tnt, GLint level = 0)
 	noexcept;
 
 	// texture_green_type
 	template <typename TNT>
-	static 
+	static
 	outcome<pixel_data_type>
 	get_texture_green_type(const TNT& tnt)
 	noexcept;
 
 	// texture_green_size
 	template <typename TNT>
-	static 
+	static
 	outcome<GLsizei>
 	get_texture_green_size(const TNT& tnt, GLint level = 0)
 	noexcept;
 
 	// texture_blue_type
 	template <typename TNT>
-	static 
+	static
 	outcome<pixel_data_type>
 	get_texture_blue_type(const TNT& tnt)
 	noexcept;
 
 	// texture_blue_size
 	template <typename TNT>
-	static 
+	static
 	outcome<GLsizei>
 	get_texture_blue_size(const TNT& tnt, GLint level = 0)
 	noexcept;
 
 	// texture_alpha_type
 	template <typename TNT>
-	static 
+	static
 	outcome<pixel_data_type>
 	get_texture_alpha_type(const TNT& tnt)
 	noexcept;
 
 	// texture_alpha_size
 	template <typename TNT>
-	static 
+	static
 	outcome<GLsizei>
 	get_texture_alpha_size(const TNT& tnt, GLint level = 0)
 	noexcept;
 
 	// texture_depth_type
 	template <typename TNT>
-	static 
+	static
 	outcome<pixel_data_type>
 	get_texture_depth_type(const TNT& tnt)
 	noexcept;
 
 	// texture_depth_size
 	template <typename TNT>
-	static 
+	static
 	outcome<GLsizei>
 	get_texture_depth_size(const TNT& tnt, GLint level = 0)
 	noexcept;
 
 	// texture_stencil_size
 	template <typename TNT>
-	static 
+	static
 	outcome<GLsizei>
 	get_texture_stencil_size(const TNT& tnt, GLint level = 0)
 	noexcept;
 
 	// texture_shared_size
 	template <typename TNT>
-	static 
+	static
 	outcome<GLsizei>
 	get_texture_shared_size(const TNT& tnt, GLint level = 0)
 	noexcept;
 
 	// texture_compressed
 	template <typename TNT>
-	static 
+	static
 	outcome<boolean>
 	is_texture_compressed(const TNT& tnt, GLint level = 0)
 	noexcept;
@@ -607,7 +607,7 @@ public:
 #if defined(GL_TEXTURE_COMPRESSED_IMAGE_SIZE)
 	// texture_compressed_image_size
 	template <typename TNT>
-	static 
+	static
 	outcome<GLsizei>
 	get_texture_compressed_image_size(const TNT& tnt, GLint level = 0)
 	noexcept;
@@ -615,7 +615,7 @@ public:
 
 	// texture_internal_format
 	template <typename TNT>
-	static 
+	static
 	outcome<oglplus::pixel_data_internal_format>
 	get_texture_internal_format(const TNT& tnt, GLint level = 0)
 	noexcept;
@@ -623,46 +623,46 @@ public:
 
 	// texture_min_filter
 	template <typename TNT>
-	static 
+	static
 	outcome<void>
 	texture_min_filter(const TNT& tnt, oglplus::texture_min_filter value)
 	noexcept;
 
 	template <typename TNT>
-	static 
+	static
 	outcome<oglplus::texture_min_filter>
 	get_texture_min_filter(const TNT& tnt)
 	noexcept;
 
 	// texture_mag_filter
 	template <typename TNT>
-	static 
+	static
 	outcome<void>
 	texture_mag_filter(const TNT& tnt, oglplus::texture_mag_filter value)
 	noexcept;
 
 	template <typename TNT>
-	static 
+	static
 	outcome<oglplus::texture_mag_filter>
 	get_texture_mag_filter(const TNT& tnt)
 	noexcept;
 
 	// texture_compare_func
 	template <typename TNT>
-	static 
+	static
 	outcome<void>
 	texture_compare_func(const TNT& tnt, oglplus::compare_function value)
 	noexcept;
 
 	template <typename TNT>
-	static 
+	static
 	outcome<oglplus::compare_function>
 	get_texture_compare_func(const TNT& tnt)
 	noexcept;
 
 	// texture_compare_mode
 	template <typename TNT>
-	static 
+	static
 	outcome<void>
 	texture_compare_mode(
 		const TNT& tnt,
@@ -670,7 +670,7 @@ public:
 	) noexcept;
 
 	template <typename TNT>
-	static 
+	static
 	outcome<oglplus::texture_compare_mode>
 	get_texture_compare_mode(const TNT& tnt)
 	noexcept;
@@ -712,13 +712,13 @@ public:
 #if defined(GL_TEXTURE_LOD_BIAS)
 	// texture_lod_bias
 	template <typename TNT>
-	static 
+	static
 	outcome<void>
 	texture_lod_bias(const TNT& tnt, GLfloat value)
 	noexcept;
 
 	template <typename TNT>
-	static 
+	static
 	outcome<GLfloat>
 	get_texture_lod_bias(const TNT& tnt)
 	noexcept;
@@ -726,26 +726,26 @@ public:
 
 	// texture_min_lod
 	template <typename TNT>
-	static 
+	static
 	outcome<void>
 	texture_min_lod(const TNT& tnt, GLfloat value)
 	noexcept;
 
 	template <typename TNT>
-	static 
+	static
 	outcome<GLfloat>
 	get_texture_min_lod(const TNT& tnt)
 	noexcept;
 
 	// texture_max_lod
 	template <typename TNT>
-	static 
+	static
 	outcome<void>
 	texture_max_lod(const TNT& tnt, GLfloat value)
 	noexcept;
 
 	template <typename TNT>
-	static 
+	static
 	outcome<GLfloat>
 	get_texture_max_lod(const TNT& tnt)
 	noexcept;
@@ -753,14 +753,14 @@ public:
 #if defined(GL_TEXTURE_BORDER_COLOR)
 	// texture_border_color
 	template <typename TNT>
-	static 
+	static
 	outcome<void>
 	texture_border_color(const TNT& tnt, span<const GLfloat> c)
 	noexcept;
 #endif
 
 	template <typename TNT>
-	static 
+	static
 	outcome<void>
 	texture_border_color(
 		const TNT& tnt,
@@ -1068,6 +1068,13 @@ struct obj_gen_del_ops<tag::texture>
 	deferred_error_handler
 	_gen(span<GLuint> names)
 	noexcept;
+
+#if defined(GL_VERSION_4_5)
+	static
+	deferred_error_handler
+	_create(texture_target target, span<GLuint> names)
+	noexcept;
+#endif
 
 	static
 	deferred_error_handler

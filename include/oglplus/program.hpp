@@ -385,6 +385,11 @@ struct obj_gen_del_ops<tag::program>
 
 	static
 	deferred_error_handler
+	_create(span<GLuint> names)
+	noexcept;
+
+	static
+	deferred_error_handler
 	_delete(span<GLuint> names)
 	noexcept;
 

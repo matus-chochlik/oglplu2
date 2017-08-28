@@ -300,6 +300,25 @@ noexcept
 	return {};
 }
 //------------------------------------------------------------------------------
+// obj_gen_del_ops::_create
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_5)
+inline
+deferred_error_handler
+obj_gen_del_ops<tag::query>::
+_create(query_target target, span<GLuint> names)
+noexcept
+{
+	OGLPLUS_GLFUNC(CreateQueries)(
+		GLenum(target),
+		GLsizei(names.size()),
+		names.data()
+	);
+	OGLPLUS_VERIFY_SIMPLE(CreateQueries, debug);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
 // obj_gen_del_ops::_delete
 //------------------------------------------------------------------------------
 inline

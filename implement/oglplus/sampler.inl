@@ -490,6 +490,24 @@ noexcept
 	return {};
 }
 //------------------------------------------------------------------------------
+// obj_gen_del_ops::_create
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_5)
+inline
+deferred_error_handler
+obj_gen_del_ops<tag::sampler>::
+_create(span<GLuint> names)
+noexcept
+{
+	OGLPLUS_GLFUNC(CreateSamplers)(
+		GLsizei(names.size()),
+		names.data()
+	);
+	OGLPLUS_VERIFY_SIMPLE(CreateSamplers, debug);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
 // obj_gen_del_ops::_delete
 //------------------------------------------------------------------------------
 inline
