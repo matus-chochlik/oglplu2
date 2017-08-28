@@ -123,11 +123,25 @@ static constexpr const enum_value<
 > alpha = {GL_ALPHA};
 #endif
 
+#ifdef GL_ALPHA_BIAS
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::pixel_transfer_parameter>
+> alpha_bias = {GL_ALPHA_BIAS};
+#endif
+
 #ifdef GL_ALPHA_REF_COMMAND_NV
 static constexpr const enum_value<
 	GLenum,
 	mp_list<oglplus::command_token_nv>
 > alpha_ref_command_nv = {GL_ALPHA_REF_COMMAND_NV};
+#endif
+
+#ifdef GL_ALPHA_SCALE
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::pixel_transfer_parameter>
+> alpha_scale = {GL_ALPHA_SCALE};
 #endif
 
 #ifdef GL_ALREADY_SIGNALED
@@ -396,11 +410,25 @@ static constexpr const enum_value<
 > blue = {GL_BLUE};
 #endif
 
+#ifdef GL_BLUE_BIAS
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::pixel_transfer_parameter>
+> blue_bias = {GL_BLUE_BIAS};
+#endif
+
 #ifdef GL_BLUE_INTEGER
 static constexpr const enum_value<
 	GLenum,
 	mp_list<oglplus::pixel_data_format>
 > blue_integer = {GL_BLUE_INTEGER};
+#endif
+
+#ifdef GL_BLUE_SCALE
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::pixel_transfer_parameter>
+> blue_scale = {GL_BLUE_SCALE};
 #endif
 
 #ifdef GL_BOLD_BIT_NV
@@ -1341,6 +1369,13 @@ static constexpr const enum_value<
 > depth_attachment = {GL_DEPTH_ATTACHMENT};
 #endif
 
+#ifdef GL_DEPTH_BIAS
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::pixel_transfer_parameter>
+> depth_bias = {GL_DEPTH_BIAS};
+#endif
+
 #ifdef GL_DEPTH_BUFFER_BIT
 static constexpr const enum_value<
 	GLbitfield,
@@ -1402,6 +1437,13 @@ static constexpr const enum_value<
 	GLenum,
 	mp_list<oglplus::numeric_query>
 > depth_range = {GL_DEPTH_RANGE};
+#endif
+
+#ifdef GL_DEPTH_SCALE
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::pixel_transfer_parameter>
+> depth_scale = {GL_DEPTH_SCALE};
 #endif
 
 #ifdef GL_DEPTH_STENCIL
@@ -2440,11 +2482,25 @@ static constexpr const enum_value<
 > green = {GL_GREEN};
 #endif
 
+#ifdef GL_GREEN_BIAS
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::pixel_transfer_parameter>
+> green_bias = {GL_GREEN_BIAS};
+#endif
+
 #ifdef GL_GREEN_INTEGER
 static constexpr const enum_value<
 	GLenum,
 	mp_list<oglplus::pixel_data_format>
 > green_integer = {GL_GREEN_INTEGER};
+#endif
+
+#ifdef GL_GREEN_SCALE
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::pixel_transfer_parameter>
+> green_scale = {GL_GREEN_SCALE};
 #endif
 
 #ifdef GL_GUILTY_CONTEXT_RESET
@@ -2634,6 +2690,20 @@ static constexpr const enum_value<
 	GLenum,
 	mp_list<oglplus::unified_array_address_nv>
 > index_array_address_nv = {GL_INDEX_ARRAY_ADDRESS_NV};
+#endif
+
+#ifdef GL_INDEX_OFFSET
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::pixel_transfer_parameter>
+> index_offset = {GL_INDEX_OFFSET};
+#endif
+
+#ifdef GL_INDEX_SHIFT
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::pixel_transfer_parameter>
+> index_shift = {GL_INDEX_SHIFT};
 #endif
 
 #ifdef GL_INFO_LOG_LENGTH
@@ -3147,6 +3217,13 @@ static constexpr const enum_value<
 > map_coherent_bit = {GL_MAP_COHERENT_BIT};
 #endif
 
+#ifdef GL_MAP_COLOR
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::pixel_transfer_parameter>
+> map_color = {GL_MAP_COLOR};
+#endif
+
 #ifdef GL_MAP_FLUSH_EXPLICIT_BIT
 static constexpr const enum_value<
 	GLbitfield,
@@ -3180,6 +3257,13 @@ static constexpr const enum_value<
 	GLbitfield,
 	mp_list<oglplus::buffer_storage_bits,oglplus::buffer_map_access>
 > map_read_bit = {GL_MAP_READ_BIT};
+#endif
+
+#ifdef GL_MAP_STENCIL
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::pixel_transfer_parameter>
+> map_stencil = {GL_MAP_STENCIL};
 #endif
 
 #ifdef GL_MAP_UNSYNCHRONIZED_BIT
@@ -4806,6 +4890,118 @@ static constexpr const enum_value<
 > polygon_smooth_hint = {GL_POLYGON_SMOOTH_HINT};
 #endif
 
+#ifdef GL_POST_COLOR_MATRIX_ALPHA_BIAS
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::pixel_transfer_parameter>
+> post_color_matrix_alpha_bias = {GL_POST_COLOR_MATRIX_ALPHA_BIAS};
+#endif
+
+#ifdef GL_POST_COLOR_MATRIX_ALPHA_SCALE
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::pixel_transfer_parameter>
+> post_color_matrix_alpha_scale = {GL_POST_COLOR_MATRIX_ALPHA_SCALE};
+#endif
+
+#ifdef GL_POST_COLOR_MATRIX_BLUE_BIAS
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::pixel_transfer_parameter>
+> post_color_matrix_blue_bias = {GL_POST_COLOR_MATRIX_BLUE_BIAS};
+#endif
+
+#ifdef GL_POST_COLOR_MATRIX_BLUE_SCALE
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::pixel_transfer_parameter>
+> post_color_matrix_blue_scale = {GL_POST_COLOR_MATRIX_BLUE_SCALE};
+#endif
+
+#ifdef GL_POST_COLOR_MATRIX_GREEN_BIAS
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::pixel_transfer_parameter>
+> post_color_matrix_green_bias = {GL_POST_COLOR_MATRIX_GREEN_BIAS};
+#endif
+
+#ifdef GL_POST_COLOR_MATRIX_GREEN_SCALE
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::pixel_transfer_parameter>
+> post_color_matrix_green_scale = {GL_POST_COLOR_MATRIX_GREEN_SCALE};
+#endif
+
+#ifdef GL_POST_COLOR_MATRIX_RED_BIAS
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::pixel_transfer_parameter>
+> post_color_matrix_red_bias = {GL_POST_COLOR_MATRIX_RED_BIAS};
+#endif
+
+#ifdef GL_POST_COLOR_MATRIX_RED_SCALE
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::pixel_transfer_parameter>
+> post_color_matrix_red_scale = {GL_POST_COLOR_MATRIX_RED_SCALE};
+#endif
+
+#ifdef GL_POST_CONVOLUTION_ALPHA_BIAS
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::pixel_transfer_parameter>
+> post_convolution_alpha_bias = {GL_POST_CONVOLUTION_ALPHA_BIAS};
+#endif
+
+#ifdef GL_POST_CONVOLUTION_ALPHA_SCALE
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::pixel_transfer_parameter>
+> post_convolution_alpha_scale = {GL_POST_CONVOLUTION_ALPHA_SCALE};
+#endif
+
+#ifdef GL_POST_CONVOLUTION_BLUE_BIAS
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::pixel_transfer_parameter>
+> post_convolution_blue_bias = {GL_POST_CONVOLUTION_BLUE_BIAS};
+#endif
+
+#ifdef GL_POST_CONVOLUTION_BLUE_SCALE
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::pixel_transfer_parameter>
+> post_convolution_blue_scale = {GL_POST_CONVOLUTION_BLUE_SCALE};
+#endif
+
+#ifdef GL_POST_CONVOLUTION_GREEN_BIAS
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::pixel_transfer_parameter>
+> post_convolution_green_bias = {GL_POST_CONVOLUTION_GREEN_BIAS};
+#endif
+
+#ifdef GL_POST_CONVOLUTION_GREEN_SCALE
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::pixel_transfer_parameter>
+> post_convolution_green_scale = {GL_POST_CONVOLUTION_GREEN_SCALE};
+#endif
+
+#ifdef GL_POST_CONVOLUTION_RED_BIAS
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::pixel_transfer_parameter>
+> post_convolution_red_bias = {GL_POST_CONVOLUTION_RED_BIAS};
+#endif
+
+#ifdef GL_POST_CONVOLUTION_RED_SCALE
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::pixel_transfer_parameter>
+> post_convolution_red_scale = {GL_POST_CONVOLUTION_RED_SCALE};
+#endif
+
 #ifdef GL_PRIMARY_COLOR_NV
 static constexpr const enum_value<
 	GLenum,
@@ -5163,11 +5359,25 @@ static constexpr const enum_value<
 > red = {GL_RED};
 #endif
 
+#ifdef GL_RED_BIAS
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::pixel_transfer_parameter>
+> red_bias = {GL_RED_BIAS};
+#endif
+
 #ifdef GL_RED_INTEGER
 static constexpr const enum_value<
 	GLenum,
 	mp_list<oglplus::pixel_data_format>
 > red_integer = {GL_RED_INTEGER};
+#endif
+
+#ifdef GL_RED_SCALE
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::pixel_transfer_parameter>
+> red_scale = {GL_RED_SCALE};
 #endif
 
 #ifdef GL_REFERENCED_BY_COMPUTE_SHADER
