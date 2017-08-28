@@ -172,6 +172,13 @@ static constexpr const enum_value<
 > any_samples_passed = {GL_ANY_SAMPLES_PASSED};
 #endif
 
+#ifdef GL_ANY_SAMPLES_PASSED_CONSERVATIVE
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::query_target>
+> any_samples_passed_conservative = {GL_ANY_SAMPLES_PASSED_CONSERVATIVE};
+#endif
+
 #ifdef GL_ARC_TO_NV
 static constexpr const enum_value<
 	GLubyte,

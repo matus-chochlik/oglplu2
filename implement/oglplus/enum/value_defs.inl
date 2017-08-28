@@ -166,6 +166,13 @@ constexpr const enum_value<
 > enum_values::any_samples_passed;
 #endif
 
+#ifdef GL_ANY_SAMPLES_PASSED_CONSERVATIVE
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::query_target>
+> enum_values::any_samples_passed_conservative;
+#endif
+
 #ifdef GL_ARC_TO_NV
 constexpr const enum_value<
 	GLubyte,

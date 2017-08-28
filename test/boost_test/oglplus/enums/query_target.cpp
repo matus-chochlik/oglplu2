@@ -28,6 +28,68 @@ BOOST_AUTO_TEST_CASE(enum_query_target_values)
 #ifdef GL_ANY_SAMPLES_PASSED
 	x = ev.any_samples_passed;
 	BOOST_CHECK(x == ev.any_samples_passed);
+# ifdef GL_ANY_SAMPLES_PASSED_CONSERVATIVE
+	BOOST_CHECK(x != ev.any_samples_passed_conservative);
+# endif
+# ifdef GL_CLIPPING_INPUT_PRIMITIVES_ARB
+	BOOST_CHECK(x != ev.clipping_input_primitives);
+# endif
+# ifdef GL_CLIPPING_OUTPUT_PRIMITIVES_ARB
+	BOOST_CHECK(x != ev.clipping_output_primitives);
+# endif
+# ifdef GL_COMPUTE_SHADER_INVOCATIONS_ARB
+	BOOST_CHECK(x != ev.compute_shader_invocations);
+# endif
+# ifdef GL_FRAGMENT_SHADER_INVOCATIONS_ARB
+	BOOST_CHECK(x != ev.fragment_shader_invocations);
+# endif
+# ifdef GL_GEOMETRY_SHADER_INVOCATIONS
+	BOOST_CHECK(x != ev.geometry_shader_invocations);
+# endif
+# ifdef GL_GEOMETRY_SHADER_PRIMITIVES_EMITTED_ARB
+	BOOST_CHECK(x != ev.geometry_shader_primitives_emitted);
+# endif
+# ifdef GL_PRIMITIVES_GENERATED
+	BOOST_CHECK(x != ev.primitives_generated);
+# endif
+# ifdef GL_PRIMITIVES_SUBMITTED_ARB
+	BOOST_CHECK(x != ev.primitives_submitted);
+# endif
+# ifdef GL_SAMPLES_PASSED
+	BOOST_CHECK(x != ev.samples_passed);
+# endif
+# ifdef GL_TESS_CONTROL_SHADER_PATCHES_ARB
+	BOOST_CHECK(x != ev.tess_control_shader_patches);
+# endif
+# ifdef GL_TESS_EVALUATION_SHADER_INVOCATIONS_ARB
+	BOOST_CHECK(x != ev.tess_evaluation_shader_invocations);
+# endif
+# ifdef GL_TIME_ELAPSED
+	BOOST_CHECK(x != ev.time_elapsed);
+# endif
+# ifdef GL_TIMESTAMP
+	BOOST_CHECK(x != ev.timestamp);
+# endif
+# ifdef GL_TRANSFORM_FEEDBACK_OVERFLOW_ARB
+	BOOST_CHECK(x != ev.transform_feedback_overflow);
+# endif
+# ifdef GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN
+	BOOST_CHECK(x != ev.transform_feedback_primitives_written);
+# endif
+# ifdef GL_TRANSFORM_FEEDBACK_STREAM_OVERFLOW_ARB
+	BOOST_CHECK(x != ev.transform_feedback_stream_overflow);
+# endif
+# ifdef GL_VERTEX_SHADER_INVOCATIONS_ARB
+	BOOST_CHECK(x != ev.vertex_shader_invocations);
+# endif
+# ifdef GL_VERTICES_SUBMITTED_ARB
+	BOOST_CHECK(x != ev.vertices_submitted);
+# endif
+#endif
+
+#ifdef GL_ANY_SAMPLES_PASSED_CONSERVATIVE
+	x = ev.any_samples_passed_conservative;
+	BOOST_CHECK(x == ev.any_samples_passed_conservative);
 # ifdef GL_CLIPPING_INPUT_PRIMITIVES_ARB
 	BOOST_CHECK(x != ev.clipping_input_primitives);
 # endif
@@ -651,6 +713,15 @@ BOOST_AUTO_TEST_CASE(enum_query_target_names)
 	) == 0);
 #endif
 
+#ifdef GL_ANY_SAMPLES_PASSED_CONSERVATIVE
+	x = ev.any_samples_passed_conservative;
+	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+	BOOST_CHECK(std::strcmp(
+		enum_value_name(x).data(),
+		"ANY_SAMPLES_PASSED_CONSERVATIVE"
+	) == 0);
+#endif
+
 #ifdef GL_CLIPPING_INPUT_PRIMITIVES_ARB
 	x = ev.clipping_input_primitives;
 	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
@@ -826,6 +897,17 @@ BOOST_AUTO_TEST_CASE(enum_query_target_range)
 	BOOST_CHECK(std::find(
 		r.begin(), r.end(),
 		query_target(GL_ANY_SAMPLES_PASSED)
+	) != r.end());
+}
+#endif
+
+#ifdef GL_ANY_SAMPLES_PASSED_CONSERVATIVE
+{
+	--count;
+	auto r = enum_value_range<query_target>();
+	BOOST_CHECK(std::find(
+		r.begin(), r.end(),
+		query_target(GL_ANY_SAMPLES_PASSED_CONSERVATIVE)
 	) != r.end());
 }
 #endif
@@ -1049,6 +1131,16 @@ BOOST_AUTO_TEST_CASE(enum_query_target_any)
 	BOOST_CHECK(same_enum_class(a, y));
 	BOOST_CHECK(same_enum_class(x, y));
 	BOOST_CHECK(y == ev.any_samples_passed);
+#endif
+
+#ifdef GL_ANY_SAMPLES_PASSED_CONSERVATIVE
+	x = ev.any_samples_passed_conservative;
+	a = x;
+	y = a;
+	BOOST_CHECK(same_enum_class(x, a));
+	BOOST_CHECK(same_enum_class(a, y));
+	BOOST_CHECK(same_enum_class(x, y));
+	BOOST_CHECK(y == ev.any_samples_passed_conservative);
 #endif
 
 #ifdef GL_CLIPPING_INPUT_PRIMITIVES_ARB
