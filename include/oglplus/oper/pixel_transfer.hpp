@@ -9,7 +9,6 @@
 #ifndef OGLPLUS_OPER_PIXEL_TRANSFER_1509260923_HPP
 #define OGLPLUS_OPER_PIXEL_TRANSFER_1509260923_HPP
 
-#include "../utils/gl_func.hpp"
 #include "../error/handling.hpp"
 #include "../error/outcome.hpp"
 #include "../enum/types.hpp"
@@ -23,20 +22,27 @@ struct pixel_transfer_state
 	static
 	outcome<void>
 	clamp_color(clamp_color_target target, boolean clamp)
-	noexcept
-	{
-		OGLPLUS_GLFUNC(ClampColor)(GLenum(target), GLboolean(clamp));
-		OGLPLUS_VERIFY(
-			ClampColor,
-			gl_enum_value(target),
-			debug
-		);
-		return {};
-	}
+	noexcept;
 #endif
+};
+
+struct pixel_transfer_ops
+{
+	template <typename T>
+	static
+	outcome<void>
+	read_pixels(
+		GLint x, GLint y,
+		GLsizei width, GLsizei height,
+		pixel_data_format format,
+		pixel_data_type type,
+		span<T> data
+	) noexcept;
 };
 
 } // namespace oper
 } // namespace oglplus
+
+#include <oglplus/oper/pixel_transfer.inl>
 
 #endif // include guard

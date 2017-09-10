@@ -75,6 +75,7 @@ class operations
  , public oper::rasterization_state
  , public oper::drawing_ops
  , public oper::pixel_transfer_state
+ , public oper::pixel_transfer_ops
  , public oper::synchronization
 
  , public oper::object_lifetime_ops
