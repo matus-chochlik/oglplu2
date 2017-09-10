@@ -225,6 +225,54 @@ struct buffer_ops
 #endif
 #endif
 
+#if defined(GL_VERSION_4_3)
+	static
+	outcome<void>
+	clear_buffer_data(
+		buffer_target tgt,
+		pixel_data_internal_format internal_format,
+		pixel_data_format format,
+		pixel_data_type type,
+		const buffer_data_spec& data
+	) noexcept;
+
+	static
+	outcome<void>
+	clear_buffer_sub_data(
+		buffer_target tgt,
+		pixel_data_internal_format internal_format,
+		oglplus::buffer_size offset,
+		pixel_data_format format,
+		pixel_data_type type,
+		const buffer_data_spec& data
+	) noexcept;
+
+#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+	static
+	outcome<void>
+	clear_buffer_data(
+		buffer_name buf,
+		pixel_data_internal_format internal_format,
+		pixel_data_format format,
+		pixel_data_type type,
+		const buffer_data_spec& data
+	)
+	noexcept;
+
+	static
+	outcome<void>
+	clear_buffer_sub_data(
+		buffer_name buf,
+		pixel_data_internal_format internal_format,
+		oglplus::buffer_size offset,
+		pixel_data_format format,
+		pixel_data_type type,
+		const buffer_data_spec& data
+	) noexcept;
+#endif // GL_VERSION_4_5
+#endif // GL_VERSION_4_3
+
+
 #if defined(GL_VERSION_4_3) || defined(GL_ARB_invalidate_subdata)
 	static
 	outcome<void>
