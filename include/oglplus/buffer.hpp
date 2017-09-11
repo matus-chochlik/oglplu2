@@ -256,8 +256,7 @@ struct buffer_ops
 		pixel_data_format format,
 		pixel_data_type type,
 		const buffer_data_spec& data
-	)
-	noexcept;
+	) noexcept;
 
 	static
 	outcome<void>
@@ -362,6 +361,48 @@ public:
 	{
 		return {_ops::buffer_sub_data(*this, offset, data),_self()};
 	}
+
+#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+	outcome<Derived&>
+	clear_data(
+		pixel_data_internal_format internal_format,
+		pixel_data_format format,
+		pixel_data_type type,
+		const buffer_data_spec& data
+	) noexcept
+	{
+		return {
+			_ops::clear_buffer_data(
+				*this,
+				internal_format,
+				format,
+				type,
+				data
+			),_self()
+		};
+	}
+
+	outcome<Derived&>
+	clear_sub_data(
+		pixel_data_internal_format internal_format,
+		oglplus::buffer_size offset,
+		pixel_data_format format,
+		pixel_data_type type,
+		const buffer_data_spec& data
+	) noexcept
+	{
+		return {
+			_ops::clear_buffer_sub_data(
+				*this,
+				internal_format,
+				offset,
+				format,
+				type,
+				data
+			),_self()
+		};
+	}
+#endif // GL_VERSION_4_5
 
 #if defined(GL_VERSION_4_3) || defined(GL_ARB_invalidate_subdata)
 	outcome<Derived&>
