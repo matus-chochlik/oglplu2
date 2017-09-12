@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_opengl_rns_values)
 {
 	using namespace eglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	opengl_rns x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef EGL_LOSE_CONTEXT_ON_RESET
 	x = ev.lose_context_on_reset;
@@ -43,9 +43,9 @@ BOOST_AUTO_TEST_CASE(enum_opengl_rns_names)
 {
 	using namespace eglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	opengl_rns x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef EGL_LOSE_CONTEXT_ON_RESET
 	x = ev.lose_context_on_reset;
@@ -99,12 +99,12 @@ BOOST_AUTO_TEST_CASE(enum_opengl_rns_any)
 {
 	using namespace eglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	opengl_rns x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef EGL_LOSE_CONTEXT_ON_RESET
 	x = ev.lose_context_on_reset;

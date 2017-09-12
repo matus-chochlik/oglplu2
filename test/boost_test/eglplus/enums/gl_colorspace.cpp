@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_gl_colorspace_values)
 {
 	using namespace eglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	gl_colorspace x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef EGL_GL_COLORSPACE_LINEAR
 	x = ev.gl_colorspace_linear;
@@ -43,9 +43,9 @@ BOOST_AUTO_TEST_CASE(enum_gl_colorspace_names)
 {
 	using namespace eglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	gl_colorspace x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef EGL_GL_COLORSPACE_LINEAR
 	x = ev.gl_colorspace_linear;
@@ -99,12 +99,12 @@ BOOST_AUTO_TEST_CASE(enum_gl_colorspace_any)
 {
 	using namespace eglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	gl_colorspace x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef EGL_GL_COLORSPACE_LINEAR
 	x = ev.gl_colorspace_linear;

@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_context_profile_bits_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	context_profile_bits x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_CONTEXT_COMPATIBILITY_PROFILE_BIT
 	x = ev.context_compatibility_profile_bit;
@@ -43,9 +43,9 @@ BOOST_AUTO_TEST_CASE(enum_context_profile_bits_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	context_profile_bits x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_CONTEXT_COMPATIBILITY_PROFILE_BIT
 	x = ev.context_compatibility_profile_bit;
@@ -99,12 +99,12 @@ BOOST_AUTO_TEST_CASE(enum_context_profile_bits_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	context_profile_bits x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_CONTEXT_COMPATIBILITY_PROFILE_BIT
 	x = ev.context_compatibility_profile_bit;

@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_path_transform_type_nv_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	path_transform_type_nv x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_AFFINE_2D_NV
 	x = ev.affine_2d_nv;
@@ -183,9 +183,9 @@ BOOST_AUTO_TEST_CASE(enum_path_transform_type_nv_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	path_transform_type_nv x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_AFFINE_2D_NV
 	x = ev.affine_2d_nv;
@@ -379,12 +379,12 @@ BOOST_AUTO_TEST_CASE(enum_path_transform_type_nv_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	path_transform_type_nv x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_AFFINE_2D_NV
 	x = ev.affine_2d_nv;

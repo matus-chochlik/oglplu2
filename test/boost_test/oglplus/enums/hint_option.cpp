@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_hint_option_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	hint_option x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_DONT_CARE
 	x = ev.dont_care;
@@ -54,9 +54,9 @@ BOOST_AUTO_TEST_CASE(enum_hint_option_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	hint_option x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_DONT_CARE
 	x = ev.dont_care;
@@ -130,12 +130,12 @@ BOOST_AUTO_TEST_CASE(enum_hint_option_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	hint_option x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_DONT_CARE
 	x = ev.dont_care;

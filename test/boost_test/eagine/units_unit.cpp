@@ -30,7 +30,7 @@ struct units_unit_add_tester
 
 		unit<D, mock_system> a, b;
 		unit<D, mock_system> c = a + b;
-		(void)c;
+		EAGINE_MAYBE_UNUSED(c);
 	}
 };
 
@@ -52,7 +52,7 @@ struct units_unit_sub_tester
 
 		unit<D, mock_system> a, b;
 		unit<D, mock_system> c = a - b;
-		(void)c;
+		EAGINE_MAYBE_UNUSED(c);
 	}
 };
 
@@ -78,7 +78,7 @@ struct units_unit_mul_tester
 		unit<D1, mock_system> a;
 		unit<D2, mock_system> b;
 		unit<D, mock_system> c = a * b;
-		(void)c;
+		EAGINE_MAYBE_UNUSED(c);
 	}
 };
 
@@ -115,7 +115,7 @@ struct units_unit_div_tester
 		unit<D1, mock_system> a;
 		unit<D2, mock_system> b;
 		unit<D, mock_system> c = a / b;
-		(void)c;
+		EAGINE_MAYBE_UNUSED(c);
 	}
 };
 

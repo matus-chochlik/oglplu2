@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_renderable_type_bit_values)
 {
 	using namespace eglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	renderable_type_bit x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef EGL_OPENGL_BIT
 	x = ev.opengl_bit;
@@ -85,9 +85,9 @@ BOOST_AUTO_TEST_CASE(enum_renderable_type_bit_names)
 {
 	using namespace eglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	renderable_type_bit x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef EGL_OPENGL_BIT
 	x = ev.opengl_bit;
@@ -201,12 +201,12 @@ BOOST_AUTO_TEST_CASE(enum_renderable_type_bit_any)
 {
 	using namespace eglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	renderable_type_bit x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef EGL_OPENGL_BIT
 	x = ev.opengl_bit;

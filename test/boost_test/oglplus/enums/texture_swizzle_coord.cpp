@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_coord_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	texture_swizzle_coord x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_TEXTURE_SWIZZLE_A
 	x = ev.texture_swizzle_a;
@@ -85,9 +85,9 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_coord_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	texture_swizzle_coord x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_TEXTURE_SWIZZLE_A
 	x = ev.texture_swizzle_a;
@@ -201,12 +201,12 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_coord_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	texture_swizzle_coord x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_TEXTURE_SWIZZLE_A
 	x = ev.texture_swizzle_a;

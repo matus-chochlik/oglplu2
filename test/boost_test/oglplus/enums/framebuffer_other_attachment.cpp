@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_other_attachment_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	framebuffer_other_attachment x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_DEPTH_ATTACHMENT
 	x = ev.depth_attachment;
@@ -54,9 +54,9 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_other_attachment_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	framebuffer_other_attachment x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_DEPTH_ATTACHMENT
 	x = ev.depth_attachment;
@@ -130,12 +130,12 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_other_attachment_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	framebuffer_other_attachment x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_DEPTH_ATTACHMENT
 	x = ev.depth_attachment;

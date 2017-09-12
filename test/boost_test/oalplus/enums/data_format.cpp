@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_data_format_values)
 {
 	using namespace oalplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	data_format x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef AL_FORMAT_MONO16
 	x = ev.format_mono16;
@@ -68,9 +68,9 @@ BOOST_AUTO_TEST_CASE(enum_data_format_names)
 {
 	using namespace oalplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	data_format x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef AL_FORMAT_MONO16
 	x = ev.format_mono16;
@@ -164,12 +164,12 @@ BOOST_AUTO_TEST_CASE(enum_data_format_any)
 {
 	using namespace oalplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	data_format x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef AL_FORMAT_MONO16
 	x = ev.format_mono16;

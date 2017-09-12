@@ -6,6 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/maybe_unused.hpp>
 #include <oglplus/error/error.hpp>
 #include <oglplus/object/ios.hpp>
 #include <iostream>
@@ -124,7 +125,7 @@ format_error_info(
 			[&out,&n_a_str,&fallback,parsed_fallback]
 			(auto value, auto nil)
 			{
-				(void)nil;
+				EAGINE_MAYBE_UNUSED(nil);
 				if(value != nil)
 				{
 					out << value;

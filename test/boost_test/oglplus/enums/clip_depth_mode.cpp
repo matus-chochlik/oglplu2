@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_clip_depth_mode_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	clip_depth_mode x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_NEGATIVE_ONE_TO_ONE
 	x = ev.negative_one_to_one;
@@ -43,9 +43,9 @@ BOOST_AUTO_TEST_CASE(enum_clip_depth_mode_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	clip_depth_mode x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_NEGATIVE_ONE_TO_ONE
 	x = ev.negative_one_to_one;
@@ -99,12 +99,12 @@ BOOST_AUTO_TEST_CASE(enum_clip_depth_mode_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	clip_depth_mode x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_NEGATIVE_ONE_TO_ONE
 	x = ev.negative_one_to_one;

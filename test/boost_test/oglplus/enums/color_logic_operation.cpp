@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_color_logic_operation_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	color_logic_operation x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_AND
 	x = ev.and_;
@@ -470,9 +470,9 @@ BOOST_AUTO_TEST_CASE(enum_color_logic_operation_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	color_logic_operation x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_AND
 	x = ev.and_;
@@ -806,12 +806,12 @@ BOOST_AUTO_TEST_CASE(enum_color_logic_operation_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	color_logic_operation x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_AND
 	x = ev.and_;

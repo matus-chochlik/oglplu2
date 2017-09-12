@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_texture_wrap_coord_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	texture_wrap_coord x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_TEXTURE_WRAP_R
 	x = ev.texture_wrap_r;
@@ -54,9 +54,9 @@ BOOST_AUTO_TEST_CASE(enum_texture_wrap_coord_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	texture_wrap_coord x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_TEXTURE_WRAP_R
 	x = ev.texture_wrap_r;
@@ -130,12 +130,12 @@ BOOST_AUTO_TEST_CASE(enum_texture_wrap_coord_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	texture_wrap_coord x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_TEXTURE_WRAP_R
 	x = ev.texture_wrap_r;

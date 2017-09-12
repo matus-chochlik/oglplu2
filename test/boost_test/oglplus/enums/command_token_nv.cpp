@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_command_token_nv_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	command_token_nv x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_ALPHA_REF_COMMAND_NV
 	x = ev.alpha_ref_command_nv;
@@ -638,9 +638,9 @@ BOOST_AUTO_TEST_CASE(enum_command_token_nv_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	command_token_nv x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_ALPHA_REF_COMMAND_NV
 	x = ev.alpha_ref_command_nv;
@@ -1034,12 +1034,12 @@ BOOST_AUTO_TEST_CASE(enum_command_token_nv_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	command_token_nv x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_ALPHA_REF_COMMAND_NV
 	x = ev.alpha_ref_command_nv;

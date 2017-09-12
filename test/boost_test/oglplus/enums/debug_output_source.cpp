@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_source_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	debug_output_source x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_DEBUG_SOURCE_API
 	x = ev.debug_source_api;
@@ -128,9 +128,9 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_source_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	debug_output_source x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_DEBUG_SOURCE_API
 	x = ev.debug_source_api;
@@ -284,12 +284,12 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_source_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	debug_output_source x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_DEBUG_SOURCE_API
 	x = ev.debug_source_api;

@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_clamp_color_target_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	clamp_color_target x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_CLAMP_READ_COLOR
 	x = ev.clamp_read_color;
@@ -35,9 +35,9 @@ BOOST_AUTO_TEST_CASE(enum_clamp_color_target_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	clamp_color_target x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_CLAMP_READ_COLOR
 	x = ev.clamp_read_color;
@@ -71,12 +71,12 @@ BOOST_AUTO_TEST_CASE(enum_clamp_color_target_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	clamp_color_target x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_CLAMP_READ_COLOR
 	x = ev.clamp_read_color;

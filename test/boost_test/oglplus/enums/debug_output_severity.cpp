@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_severity_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	debug_output_severity x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_DEBUG_SEVERITY_HIGH
 	x = ev.debug_severity_high;
@@ -85,9 +85,9 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_severity_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	debug_output_severity x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_DEBUG_SEVERITY_HIGH
 	x = ev.debug_severity_high;
@@ -201,12 +201,12 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_severity_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	debug_output_severity x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_DEBUG_SEVERITY_HIGH
 	x = ev.debug_severity_high;

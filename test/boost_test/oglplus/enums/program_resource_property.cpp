@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_program_resource_property_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	program_resource_property x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_ACTIVE_VARIABLES
 	x = ev.active_variables;
@@ -1218,9 +1218,9 @@ BOOST_AUTO_TEST_CASE(enum_program_resource_property_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	program_resource_property x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_ACTIVE_VARIABLES
 	x = ev.active_variables;
@@ -1774,12 +1774,12 @@ BOOST_AUTO_TEST_CASE(enum_program_resource_property_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	program_resource_property x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_ACTIVE_VARIABLES
 	x = ev.active_variables;

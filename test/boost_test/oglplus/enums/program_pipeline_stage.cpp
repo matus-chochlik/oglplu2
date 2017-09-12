@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_program_pipeline_stage_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	program_pipeline_stage x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_ALL_SHADER_BITS
 	x = ev.all_shader_bits;
@@ -128,9 +128,9 @@ BOOST_AUTO_TEST_CASE(enum_program_pipeline_stage_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	program_pipeline_stage x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_ALL_SHADER_BITS
 	x = ev.all_shader_bits;
@@ -284,12 +284,12 @@ BOOST_AUTO_TEST_CASE(enum_program_pipeline_stage_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	program_pipeline_stage x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_ALL_SHADER_BITS
 	x = ev.all_shader_bits;

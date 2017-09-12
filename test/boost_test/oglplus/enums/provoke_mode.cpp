@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_provoke_mode_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	provoke_mode x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_FIRST_VERTEX_CONVENTION
 	x = ev.first_vertex_convention;
@@ -43,9 +43,9 @@ BOOST_AUTO_TEST_CASE(enum_provoke_mode_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	provoke_mode x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_FIRST_VERTEX_CONVENTION
 	x = ev.first_vertex_convention;
@@ -99,12 +99,12 @@ BOOST_AUTO_TEST_CASE(enum_provoke_mode_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	provoke_mode x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_FIRST_VERTEX_CONVENTION
 	x = ev.first_vertex_convention;

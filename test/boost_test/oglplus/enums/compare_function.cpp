@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_compare_function_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	compare_function x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_ALWAYS
 	x = ev.always;
@@ -154,9 +154,9 @@ BOOST_AUTO_TEST_CASE(enum_compare_function_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	compare_function x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_ALWAYS
 	x = ev.always;
@@ -330,12 +330,12 @@ BOOST_AUTO_TEST_CASE(enum_compare_function_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	compare_function x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_ALWAYS
 	x = ev.always;

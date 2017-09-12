@@ -348,6 +348,9 @@ def action_impl_enum_value_names_inl(options):
 
 	print_cpp_header(options)
 
+	print_newline(options)
+	print_line(options, "#include <eagine/maybe_unused.hpp>")
+
 	print_line(options, "#ifdef _MSC_VER")
 	print_line(options, "#pragma warning ( push )")
 	print_line(options, "#pragma warning ( disable : 4065 )")
@@ -413,7 +416,7 @@ def action_impl_enum_value_names_inl(options):
 
 
 	print_newline(options)
-	print_line(options, "	(void)aev;")
+	print_line(options, "	EAGINE_MAYBE_UNUSED(aev);")
 	print_line(options, "	return {};")
 	print_line(options, "}")
 	print_newline(options)
@@ -447,6 +450,9 @@ def action_impl_enum_value_range_inl(options):
 			enum_classes[options.enum_name].values.add(value_info)
 
 	print_cpp_header(options)
+
+	print_newline(options)
+	print_line(options, "#include <eagine/maybe_unused.hpp>")
 
 	print_newline(options)
 	print_line(options, "namespace %s {" % options.library)
@@ -491,7 +497,7 @@ def action_impl_enum_value_range_inl(options):
 	print_line(options, "\t}")
 
 	print_newline(options)
-	print_line(options, "	(void)aec;")
+	print_line(options, "	EAGINE_MAYBE_UNUSED(aec);")
 	print_line(options, "	return {nullptr, 0};")
 	print_line(options, "}")
 	print_newline(options)
@@ -579,9 +585,9 @@ def action_test_enums_cpp(options):
 	print_line(options, "{")
 	print_line(options, "	using namespace %s;" % options.library)
 	print_line(options, "	enum_values%s ev;" % options.lib_suffix)
-	print_line(options, "	(void)ev;")
+	print_line(options, "	EAGINE_MAYBE_UNUSED(ev);")
 	print_line(options, "	%s x;" % options.enum_name)
-	print_line(options, "	(void)x;")
+	print_line(options, "	EAGINE_MAYBE_UNUSED(x);")
 
 	for value_name, value_info in sorted(value_infos.items()):
 		print_newline(options)
@@ -618,9 +624,9 @@ def action_test_enums_cpp(options):
 	print_line(options, "{")
 	print_line(options, "	using namespace %s;" % options.library)
 	print_line(options, "	enum_values%s ev;" % options.lib_suffix)
-	print_line(options, "	(void)ev;")
+	print_line(options, "	EAGINE_MAYBE_UNUSED(ev);")
 	print_line(options, "	%s x;" % options.enum_name)
-	print_line(options, "	(void)x;")
+	print_line(options, "	EAGINE_MAYBE_UNUSED(x);")
 
 	for value_name, value_info in sorted(value_infos.items()):
 		print_newline(options)
@@ -678,12 +684,12 @@ def action_test_enums_cpp(options):
 	print_line(options, "{")
 	print_line(options, "	using namespace %s;" % options.library)
 	print_line(options, "	enum_values%s ev;" % options.lib_suffix)
-	print_line(options, "	(void)ev;")
+	print_line(options, "	EAGINE_MAYBE_UNUSED(ev);")
 	print_line(options, "	%s x, y;" % options.enum_name)
-	print_line(options, "	(void)x;")
-	print_line(options, "	(void)y;")
+	print_line(options, "	EAGINE_MAYBE_UNUSED(x);")
+	print_line(options, "	EAGINE_MAYBE_UNUSED(y);")
 	print_line(options, "	any_enum_value%s a;" % options.lib_suffix)
-	print_line(options, "	(void)a;")
+	print_line(options, "	EAGINE_MAYBE_UNUSED(a);")
 
 
 	for value_name, value_info in sorted(value_infos.items()):

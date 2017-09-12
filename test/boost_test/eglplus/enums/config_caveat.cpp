@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_config_caveat_values)
 {
 	using namespace eglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	config_caveat x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef EGL_NON_CONFORMANT_CONFIG
 	x = ev.non_conformant_config;
@@ -54,9 +54,9 @@ BOOST_AUTO_TEST_CASE(enum_config_caveat_names)
 {
 	using namespace eglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	config_caveat x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef EGL_NON_CONFORMANT_CONFIG
 	x = ev.non_conformant_config;
@@ -130,12 +130,12 @@ BOOST_AUTO_TEST_CASE(enum_config_caveat_any)
 {
 	using namespace eglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	config_caveat x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef EGL_NON_CONFORMANT_CONFIG
 	x = ev.non_conformant_config;

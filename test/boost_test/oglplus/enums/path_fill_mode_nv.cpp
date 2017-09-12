@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_path_fill_mode_nv_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	path_fill_mode_nv x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_COUNT_DOWN_NV
 	x = ev.count_down_nv;
@@ -68,9 +68,9 @@ BOOST_AUTO_TEST_CASE(enum_path_fill_mode_nv_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	path_fill_mode_nv x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_COUNT_DOWN_NV
 	x = ev.count_down_nv;
@@ -164,12 +164,12 @@ BOOST_AUTO_TEST_CASE(enum_path_fill_mode_nv_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	path_fill_mode_nv x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_COUNT_DOWN_NV
 	x = ev.count_down_nv;

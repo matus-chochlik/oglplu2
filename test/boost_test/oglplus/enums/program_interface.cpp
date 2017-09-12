@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_program_interface_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	program_interface x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_ATOMIC_COUNTER_BUFFER
 	x = ev.atomic_counter_buffer;
@@ -700,9 +700,9 @@ BOOST_AUTO_TEST_CASE(enum_program_interface_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	program_interface x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_ATOMIC_COUNTER_BUFFER
 	x = ev.atomic_counter_buffer;
@@ -1116,12 +1116,12 @@ BOOST_AUTO_TEST_CASE(enum_program_interface_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	program_interface x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_ATOMIC_COUNTER_BUFFER
 	x = ev.atomic_counter_buffer;

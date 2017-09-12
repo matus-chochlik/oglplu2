@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_context_attrib_values)
 {
 	using namespace eglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	context_attrib x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef EGL_CONTEXT_FLAGS
 	x = ev.context_flags;
@@ -85,9 +85,9 @@ BOOST_AUTO_TEST_CASE(enum_context_attrib_names)
 {
 	using namespace eglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	context_attrib x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef EGL_CONTEXT_FLAGS
 	x = ev.context_flags;
@@ -201,12 +201,12 @@ BOOST_AUTO_TEST_CASE(enum_context_attrib_any)
 {
 	using namespace eglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	context_attrib x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef EGL_CONTEXT_FLAGS
 	x = ev.context_flags;

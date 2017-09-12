@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_transform_feedback_parameter_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	transform_feedback_parameter x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_TRANSFORM_FEEDBACK_ACTIVE
 	x = ev.transform_feedback_active;
@@ -85,9 +85,9 @@ BOOST_AUTO_TEST_CASE(enum_transform_feedback_parameter_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	transform_feedback_parameter x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_TRANSFORM_FEEDBACK_ACTIVE
 	x = ev.transform_feedback_active;
@@ -201,12 +201,12 @@ BOOST_AUTO_TEST_CASE(enum_transform_feedback_parameter_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	transform_feedback_parameter x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_TRANSFORM_FEEDBACK_ACTIVE
 	x = ev.transform_feedback_active;

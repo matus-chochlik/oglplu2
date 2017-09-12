@@ -4,6 +4,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/maybe_unused.hpp>
 #include <oglplus/gl_fixed.hpp>
 #include <oglplus/operations.hpp>
 
@@ -41,9 +42,9 @@ void oglplus_buffer_clearing_state_test(void)
 	oper::rgba_value cc = gl.get_color_clear_value();
 	GLfloat cd = gl.get_depth_clear_value();
 	GLint cs = gl.get_stencil_clear_value();
-	(void)cc;
-	(void)cd;
-	(void)cs;
+	EAGINE_MAYBE_UNUSED(cc);
+	EAGINE_MAYBE_UNUSED(cd);
+	EAGINE_MAYBE_UNUSED(cs);
 }
 
 void oglplus_buffer_clearing_ops_test(void)

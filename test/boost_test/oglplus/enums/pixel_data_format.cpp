@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_format_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	pixel_data_format x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_BGR
 	x = ev.bgr;
@@ -638,9 +638,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_format_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	pixel_data_format x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_BGR
 	x = ev.bgr;
@@ -1034,12 +1034,12 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_format_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	pixel_data_format x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_BGR
 	x = ev.bgr;

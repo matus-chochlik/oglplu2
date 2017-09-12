@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	numeric_query x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_ALIASED_LINE_WIDTH_RANGE
 	x = ev.aliased_line_width_range;
@@ -14779,9 +14779,9 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	numeric_query x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_ALIASED_LINE_WIDTH_RANGE
 	x = ev.aliased_line_width_range;
@@ -16755,12 +16755,12 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	numeric_query x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_ALIASED_LINE_WIDTH_RANGE
 	x = ev.aliased_line_width_range;

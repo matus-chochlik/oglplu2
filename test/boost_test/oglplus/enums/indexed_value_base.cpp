@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_indexed_value_base_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	indexed_value_base x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_CLIP_DISTANCE0
 	x = ev.clip_distance0;
@@ -68,9 +68,9 @@ BOOST_AUTO_TEST_CASE(enum_indexed_value_base_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	indexed_value_base x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_CLIP_DISTANCE0
 	x = ev.clip_distance0;
@@ -164,12 +164,12 @@ BOOST_AUTO_TEST_CASE(enum_indexed_value_base_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	indexed_value_base x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_CLIP_DISTANCE0
 	x = ev.clip_distance0;

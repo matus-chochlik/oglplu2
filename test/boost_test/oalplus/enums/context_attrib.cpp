@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_context_attrib_values)
 {
 	using namespace oalplus;
 	enum_values_alc ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	context_attrib x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef ALC_FREQUENCY
 	x = ev.frequency;
@@ -85,9 +85,9 @@ BOOST_AUTO_TEST_CASE(enum_context_attrib_names)
 {
 	using namespace oalplus;
 	enum_values_alc ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	context_attrib x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef ALC_FREQUENCY
 	x = ev.frequency;
@@ -201,12 +201,12 @@ BOOST_AUTO_TEST_CASE(enum_context_attrib_any)
 {
 	using namespace oalplus;
 	enum_values_alc ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	context_attrib x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value_alc a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef ALC_FREQUENCY
 	x = ev.frequency;

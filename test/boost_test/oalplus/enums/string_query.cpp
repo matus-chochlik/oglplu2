@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_string_query_values)
 {
 	using namespace oalplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	string_query x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef AL_EXTENSIONS
 	x = ev.extensions;
@@ -68,9 +68,9 @@ BOOST_AUTO_TEST_CASE(enum_string_query_names)
 {
 	using namespace oalplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	string_query x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef AL_EXTENSIONS
 	x = ev.extensions;
@@ -164,12 +164,12 @@ BOOST_AUTO_TEST_CASE(enum_string_query_any)
 {
 	using namespace oalplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	string_query x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef AL_EXTENSIONS
 	x = ev.extensions;

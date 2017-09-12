@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_buffer_storage_bits_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	buffer_storage_bits x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_CLIENT_STORAGE_BIT
 	x = ev.client_storage_bit;
@@ -128,9 +128,9 @@ BOOST_AUTO_TEST_CASE(enum_buffer_storage_bits_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	buffer_storage_bits x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_CLIENT_STORAGE_BIT
 	x = ev.client_storage_bit;
@@ -284,12 +284,12 @@ BOOST_AUTO_TEST_CASE(enum_buffer_storage_bits_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	buffer_storage_bits x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_CLIENT_STORAGE_BIT
 	x = ev.client_storage_bit;

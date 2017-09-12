@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_opengl_profile_bit_values)
 {
 	using namespace eglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	opengl_profile_bit x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef EGL_CONTEXT_OPENGL_COMPATIBILITY_PROFILE_BIT
 	x = ev.context_opengl_compatibility_profile_bit;
@@ -43,9 +43,9 @@ BOOST_AUTO_TEST_CASE(enum_opengl_profile_bit_names)
 {
 	using namespace eglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	opengl_profile_bit x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef EGL_CONTEXT_OPENGL_COMPATIBILITY_PROFILE_BIT
 	x = ev.context_opengl_compatibility_profile_bit;
@@ -99,12 +99,12 @@ BOOST_AUTO_TEST_CASE(enum_opengl_profile_bit_any)
 {
 	using namespace eglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	opengl_profile_bit x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef EGL_CONTEXT_OPENGL_COMPATIBILITY_PROFILE_BIT
 	x = ev.context_opengl_compatibility_profile_bit;

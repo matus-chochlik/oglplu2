@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_graphics_reset_status_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	graphics_reset_status x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_GUILTY_CONTEXT_RESET
 	x = ev.guilty_context_reset;
@@ -68,9 +68,9 @@ BOOST_AUTO_TEST_CASE(enum_graphics_reset_status_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	graphics_reset_status x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_GUILTY_CONTEXT_RESET
 	x = ev.guilty_context_reset;
@@ -164,12 +164,12 @@ BOOST_AUTO_TEST_CASE(enum_graphics_reset_status_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	graphics_reset_status x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_GUILTY_CONTEXT_RESET
 	x = ev.guilty_context_reset;

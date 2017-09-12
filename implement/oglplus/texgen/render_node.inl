@@ -9,6 +9,7 @@
 #include <sstream>
 #include <iostream>
 #include <cassert>
+#include <eagine/maybe_unused.hpp>
 #include <oglplus/shader.hpp>
 #include <oglplus/program.hpp>
 #include <oglplus/buffer.hpp>
@@ -191,7 +192,7 @@ OGLPLUS_LIB_FUNC
 input_intf&
 render_node::input(span_size_t index)
 {
-	(void)index;
+	EAGINE_MAYBE_UNUSED(index);
 	assert(index < input_count());
 	return _input;
 }

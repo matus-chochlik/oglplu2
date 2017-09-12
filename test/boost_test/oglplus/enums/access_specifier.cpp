@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_access_specifier_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	access_specifier x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_READ_ONLY
 	x = ev.read_only;
@@ -54,9 +54,9 @@ BOOST_AUTO_TEST_CASE(enum_access_specifier_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	access_specifier x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_READ_ONLY
 	x = ev.read_only;
@@ -130,12 +130,12 @@ BOOST_AUTO_TEST_CASE(enum_access_specifier_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	access_specifier x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_READ_ONLY
 	x = ev.read_only;

@@ -118,7 +118,7 @@ BOOST_AUTO_TEST_CASE(enum_class_3)
 
 	any_enum_value<0> aev = a;
 
-	(void)aev;
+	EAGINE_MAYBE_UNUSED(aev);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

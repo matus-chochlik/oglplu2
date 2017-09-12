@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_type_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	tess_gen_primitive_type x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_ISOLINES
 	x = ev.isolines;
@@ -54,9 +54,9 @@ BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_type_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	tess_gen_primitive_type x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_ISOLINES
 	x = ev.isolines;
@@ -130,12 +130,12 @@ BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_type_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	tess_gen_primitive_type x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_ISOLINES
 	x = ev.isolines;

@@ -10,6 +10,8 @@
 //   http://www.boost.org/LICENSE_1_0.txt
 //
 
+#include <eagine/maybe_unused.hpp>
+
 namespace oalplus {
 
 OALPLUS_LIB_FUNC
@@ -69,7 +71,7 @@ noexcept
 	default:;
 	}
 
-	(void)aec;
+	EAGINE_MAYBE_UNUSED(aec);
 	return {nullptr, 0};
 }
 

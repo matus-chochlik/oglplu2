@@ -63,7 +63,7 @@ noexcept
 #if! OALPLUS_ERROR_NO_AL_LIB
 	_al_lb_name = al_lb_name;
 #else
-	(void)al_lib_name;
+	EAGINE_MAYBE_UNUSED(al_lib_name);
 #endif
 	return _self();
 }
@@ -92,7 +92,7 @@ noexcept
 #if! OALPLUS_ERROR_NO_AL_FUNC
 	_al_fn_name = al_fn_name;
 #else
-	(void)al_fn_name;
+	EAGINE_MAYBE_UNUSED(al_fn_name);
 #endif
 	return _self();
 }
@@ -121,7 +121,7 @@ noexcept
 #if! OALPLUS_ERROR_NO_SRC_FUNC
 	_src_func = src_func;
 #else
-	(void)src_func;
+	EAGINE_MAYBE_UNUSED(src_func);
 #endif
 	return _self();
 }
@@ -150,7 +150,7 @@ noexcept
 #if! OALPLUS_ERROR_NO_SRC_FILE
 	_src_file = src_file;
 #else
-	(void)src_file;
+	EAGINE_MAYBE_UNUSED(src_file);
 #endif
 	return _self();
 }
@@ -179,7 +179,7 @@ noexcept
 #if! OALPLUS_ERROR_NO_SRC_LINE
 	_src_line = src_line;
 #else
-	(void)src_line;
+	EAGINE_MAYBE_UNUSED(src_line);
 #endif
 	return _self();
 }
