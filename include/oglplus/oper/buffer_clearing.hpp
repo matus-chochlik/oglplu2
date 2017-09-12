@@ -22,6 +22,16 @@ struct rgba_value
 {
 	GLfloat _v[4];
 
+	rgba_value(void) = default;
+
+	rgba_value(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
+	{
+		_v[0] = r;
+		_v[1] = g;
+		_v[2] = b;
+		_v[3] = a;
+	}
+
 	GLfloat red(void) const
 	noexcept
 	{
@@ -54,6 +64,14 @@ struct buffer_clearing_state
 	clear_color(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
 	noexcept;
 
+	static
+	outcome<void>
+	clear_color(const rgba_value& cc)
+	noexcept
+	{
+		return clear_color(cc.red(), cc.green(), cc.blue(), cc.alpha());
+	}
+
 	template <
 		typename V,
 		typename = std::enable_if_t<
@@ -81,17 +99,17 @@ struct buffer_clearing_state
 
 	static
 	outcome<rgba_value>
-	color_clear_value(void)
+	get_color_clear_value(void)
 	noexcept;
 
 	static
 	outcome<GLfloat>
-	depth_clear_value(void)
+	get_depth_clear_value(void)
 	noexcept;
 
 	static
 	outcome<GLint>
-	stencil_clear_value(void)
+	get_stencil_clear_value(void)
 	noexcept;
 };
 

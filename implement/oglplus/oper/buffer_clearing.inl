@@ -48,7 +48,7 @@ noexcept
 inline
 outcome<rgba_value>
 buffer_clearing_state::
-color_clear_value(void)
+get_color_clear_value(void)
 noexcept
 {
 	rgba_value result;
@@ -60,7 +60,7 @@ noexcept
 inline
 outcome<GLfloat>
 buffer_clearing_state::
-depth_clear_value(void)
+get_depth_clear_value(void)
 noexcept
 {
 	GLfloat result;
@@ -72,7 +72,7 @@ noexcept
 inline
 outcome<GLint>
 buffer_clearing_state::
-stencil_clear_value(void)
+get_stencil_clear_value(void)
 noexcept
 {
 	GLint result;

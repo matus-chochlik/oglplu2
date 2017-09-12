@@ -19,6 +19,18 @@ namespace oper {
 
 struct synchronization
 {
+#if defined(GL_VERSION_4_5)
+	static
+	outcome<void>
+	texture_barrier(void)
+	noexcept
+	{
+		OGLPLUS_GLFUNC(TextureBarrier)();
+		OGLPLUS_VERIFY_SIMPLE(TextureBarrier, debug);
+		return {};
+	}
+#endif
+
 #if defined(GL_VERSION_4_2) || defined(GL_ARB_shader_image_load_store)
 	static
 	outcome<void>
