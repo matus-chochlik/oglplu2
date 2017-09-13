@@ -24,7 +24,7 @@ namespace oper {
 
 struct compatibility_drawing
 {
-#ifdef GL_ARB_compatibility
+#if defined(GL_ARB_compatibility)
 	static
 	outcome<void>
 	begin(old_primitive_type mode)
