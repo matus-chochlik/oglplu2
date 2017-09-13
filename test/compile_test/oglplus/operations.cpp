@@ -94,7 +94,7 @@ void oglplus_capability_state_test(void)
 #endif
 }
 
-void oglplus_compatibility_test(void)
+void oglplus_compatibility_drawing_test(void)
 {
 	using namespace oglplus;
 
@@ -162,6 +162,118 @@ void oglplus_compatibility_test(void)
 	gl.tex_coord_d(0.0, 1.0, 2.0);
 	gl.tex_coord_d(0.0, 1.0, 2.0, 1.0);
 	gl.tex_coord(std::array<GLdouble, 4>{{0.0, 1.0, 2.0, 1.0}});
+
+#endif
+}
+
+void oglplus_compatibility_matrix_test(void)
+{
+	using namespace oglplus;
+
+#if defined(GL_ARB_compatibility)
+	oper::compatibility_matrix gl;
+
+	std::array<GLfloat, 16> matfa{{
+		1.f, 0.f, 0.f, 0.f,
+		0.f, 1.f, 0.f, 0.f,
+		0.f, 0.f, 1.f, 0.f,
+		0.f, 0.f, 0.f, 1.f
+	}};
+	span<GLfloat> matf = matfa;
+
+	std::array<GLdouble, 16> matda{{
+		1.0, 0.0, 0.0, 0.0,
+		0.0, 1.0, 0.0, 0.0,
+		0.0, 0.0, 1.0, 0.0,
+		0.0, 0.0, 0.0, 1.0
+	}};
+	span<GLdouble> matd = matda;
+
+	gl.matrix_mode(old_matrix_mode(GL_PROJECTION));
+
+	gl.push_matrix();
+#ifdef GL_EXT_direct_state_access
+	gl.push_matrix(old_matrix_mode(GL_PROJECTION));
+#endif
+
+	gl.pop_matrix();
+#ifdef GL_EXT_direct_state_access
+	gl.pop_matrix(old_matrix_mode(GL_PROJECTION));
+#endif
+
+	gl.load_identity();
+#ifdef GL_EXT_direct_state_access
+	gl.load_identity(old_matrix_mode(GL_PROJECTION));
+#endif
+
+	gl.load_matrix(matf);
+#ifdef GL_EXT_direct_state_access
+	gl.load_matrix(old_matrix_mode(GL_PROJECTION), matf);
+#endif
+
+	gl.load_transpose_matrix(matf);
+#ifdef GL_EXT_direct_state_access
+	gl.load_transpose_matrix(old_matrix_mode(GL_PROJECTION), matf);
+#endif
+
+	gl.load_matrix(matd);
+#ifdef GL_EXT_direct_state_access
+	gl.load_matrix(old_matrix_mode(GL_PROJECTION), matd);
+#endif
+
+	gl.load_transpose_matrix(matd);
+#ifdef GL_EXT_direct_state_access
+	gl.load_transpose_matrix(old_matrix_mode(GL_PROJECTION), matd);
+#endif
+
+	gl.translate_f(1.f, 0.f, 0.f);
+#ifdef GL_EXT_direct_state_access
+	gl.translate_f(old_matrix_mode(GL_PROJECTION), 1.f, 0.f, 0.f);
+#endif
+
+	gl.translate_d(1.0, 0.0, 0.0);
+#ifdef GL_EXT_direct_state_access
+	gl.translate_d(old_matrix_mode(GL_PROJECTION), 1.0, 0.0, 0.0);
+#endif
+
+	gl.rotate_f(degrees_t<GLfloat>(0.f), 1.f, 0.f, 0.f);
+#ifdef GL_EXT_direct_state_access
+	gl.rotate_f(
+		old_matrix_mode(GL_PROJECTION),
+		degrees_t<GLfloat>(0.f), 1.f, 0.f, 0.f
+	);
+#endif
+
+	gl.rotate_d(degrees_t<GLfloat>(0.0), 1.0, 0.0, 0.0);
+#ifdef GL_EXT_direct_state_access
+	gl.rotate_d(
+		old_matrix_mode(GL_PROJECTION),
+		degrees_t<GLfloat>(0.0), 1.0, 0.0, 0.0
+	);
+#endif
+
+	gl.scale_f(1.f, 2.f, 1.f);
+#ifdef GL_EXT_direct_state_access
+	gl.scale_f(old_matrix_mode(GL_MODELVIEW), 1.f, 2.f, 1.f);
+#endif
+
+	gl.scale_d(1.0, 2.0, 1.0);
+#ifdef GL_EXT_direct_state_access
+	gl.scale_d(old_matrix_mode(GL_MODELVIEW), 1.0, 2.0, 1.0);
+#endif
+
+	gl.ortho_f(1.f, 1.f, 1.f, 1.f, 1.f, 1.f);
+	gl.ortho(1.0, 1.0, 1.0, 1.0, 1.0, 1.0);
+
+#ifdef GL_EXT_direct_state_access
+	gl.ortho(old_matrix_mode(GL_MODELVIEW), 1.0, 1.0, 1.0, 1.0, 1.0, 1.0);
+#endif
+
+	gl.frustum(1.0, 1.0, 1.0, 1.0, 1.0, 1.0);
+
+#ifdef GL_EXT_direct_state_access
+	gl.frustum(old_matrix_mode(GL_MODELVIEW), 1.0, 1.0, 1.0, 1.0, 1.0, 1.0);
+#endif
 
 #endif
 }
