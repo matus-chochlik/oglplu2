@@ -38,6 +38,37 @@ struct rasterization_state
 	get_cull_face_mode(void)
 	noexcept;
 
+#if defined(GL_VERSION_4_5)
+	static
+	outcome<void>
+	clip_control(clip_origin origin, clip_depth_mode depth)
+	noexcept;
+#endif
+
+	static
+	outcome<void>
+	depth_func(compare_function func)
+	noexcept;
+
+	static
+	outcome<compare_function>
+	get_depth_func(void)
+	noexcept;
+
+#if defined(GL_VERSION_4_1)
+	static
+	outcome<void>
+	depth_range_f(GLfloat near, GLfloat far)
+	noexcept;
+#endif
+
+#if defined(GL_DOUBLE)
+	static
+	outcome<void>
+	depth_range(GLdouble near, GLdouble far)
+	noexcept;
+#endif
+
 #if defined(GL_VERSION_3_0)
 	static
 	outcome<void>
