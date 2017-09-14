@@ -331,6 +331,27 @@ public:
 		GLint level = 0,
 		GLint border = 0
 	) noexcept;
+
+	static
+	outcome<void>
+	texture_sub_image_1d(
+		texture_name_and_target tnt,
+		GLint level,
+		GLint xoffset,
+		GLsizei width,
+		pixel_data_format format,
+		pixel_data_type type,
+		const_memory_block data
+	) noexcept;
+
+	static
+	outcome<void>
+	texture_sub_image_1d(
+		texture_name_and_target tnt,
+		GLint xoffset,
+		const image_spec& img,
+		GLint level = 0
+	) noexcept;
 #endif
 
 	static
@@ -358,6 +379,30 @@ public:
 
 	static
 	outcome<void>
+	texture_sub_image_2d(
+		texture_name_and_target tnt,
+		GLint level,
+		GLint xoffset,
+		GLint yoffset,
+		GLsizei width,
+		GLsizei height,
+		pixel_data_format format,
+		pixel_data_type type,
+		const_memory_block data
+	) noexcept;
+
+	static
+	outcome<void>
+	texture_sub_image_2d(
+		texture_name_and_target tnt,
+		GLint xoffset,
+		GLint yoffset,
+		const image_spec& img,
+		GLint level = 0
+	) noexcept;
+
+	static
+	outcome<void>
 	texture_image_3d(
 		texture_name_and_target tnt,
 		GLint level,
@@ -378,6 +423,33 @@ public:
 		const image_spec& img,
 		GLint level = 0,
 		GLint border = 0
+	) noexcept;
+
+	static
+	outcome<void>
+	texture_sub_image_3d(
+		texture_name_and_target tnt,
+		GLint level,
+		GLint xoffset,
+		GLint yoffset,
+		GLint zoffset,
+		GLsizei width,
+		GLsizei height,
+		GLsizei depth,
+		pixel_data_format format,
+		pixel_data_type type,
+		const_memory_block data
+	) noexcept;
+
+	static
+	outcome<void>
+	texture_sub_image_3d(
+		texture_name_and_target tnt,
+		GLint xoffset,
+		GLint yoffset,
+		GLint zoffset,
+		const image_spec& img,
+		GLint level = 0
 	) noexcept;
 #endif // GL_EXT_direct_state_access
 
