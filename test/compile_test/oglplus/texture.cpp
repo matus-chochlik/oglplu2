@@ -34,9 +34,19 @@ void oglplus_texture_test_ops1(void)
 	texture_swizzle_coord swizzle_r(GL_TEXTURE_SWIZZLE_R);
 	const_memory_block blk;
 
+	gl.active_texture(texture_unit(0));
+#if defined(GL_VERSION_4_5)
+	gl.bind_texture_unit(texture_unit(1), tex);
+#endif
+	gl.get_active_texture();
+
+
 	gl.bind_texture(tgt, tex);
 	gl.texture_binding(tgt);
 	gl.bind_texture(tgt, texs[0]);
+#if defined(GL_VERSION_4_4)
+	gl.bind_textures(texture_unit(2), texs);
+#endif
 
 #if defined(GL_VERSION_4_2) || defined(GL_ARB_texture_storage)
 	gl.texture_image_1d(tgt, 0, ifmt, 64, 0, fmt, typ, blk);

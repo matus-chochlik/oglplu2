@@ -71,13 +71,30 @@ public:
 
 	static
 	outcome<texture_unit>
-	active_texture(void)
+	get_active_texture(void)
 	noexcept;
 
 	static
 	outcome<void>
 	bind_texture(texture_target target, texture_name tex)
 	noexcept;
+
+#if defined(GL_VERSION_4_5)
+	static
+	outcome<void>
+	bind_texture_unit(texture_unit unit, texture_name tex)
+	noexcept;
+#endif
+
+#if defined(GL_VERSION_4_4)
+	template <typename S>
+	static
+	outcome<void>
+	bind_textures(
+		texture_unit first,
+		const object_names<tag::texture, S>& textures
+	) noexcept;
+#endif
 
 	static
 	outcome<texture_name>

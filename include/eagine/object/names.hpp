@@ -196,6 +196,14 @@ public:
 	{
 		return {ctr._names};
 	}
+
+	friend inline
+	span<const typename _traits::name_type>
+	get_raw_names(const object_name_container& ctr)
+	noexcept
+	{
+		return {ctr._names};
+	}
 };
 
 template <typename NameT>

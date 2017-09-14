@@ -41,7 +41,7 @@ noexcept
 inline
 outcome<texture_unit>
 texture_ops::
-active_texture(void)
+get_active_texture(void)
 noexcept
 {
 	GLint result = 0;
@@ -69,6 +69,52 @@ noexcept
 	);
 	return {};
 }
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_5)
+inline
+outcome<void>
+texture_ops::
+bind_texture_unit(texture_unit unit, texture_name tex)
+noexcept
+{
+	OGLPLUS_GLFUNC(BindTextureUnit)(
+		GLenum(unit),
+		get_raw_name(tex)
+	);
+	OGLPLUS_VERIFY(
+		BindTextureUnit,
+		gl_enum_value(unit).
+		gl_object(tex),
+		debug
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_4)
+template <typename S>
+inline
+outcome<void>
+texture_ops::
+bind_textures(
+	texture_unit first,
+	const object_names<tag::texture, S>& textures
+) noexcept
+{
+	OGLPLUS_GLFUNC(BindTextures)(
+		GLuint(first.index()),
+		textures.size(),
+		get_raw_names(textures).data()
+	);
+	OGLPLUS_VERIFY(
+		BindTextures,
+		gl_enum_value(first).
+		gl_object(textures[0]),
+		debug
+	);
+	return {};
+}
+#endif
 //------------------------------------------------------------------------------
 inline
 outcome<texture_name>
