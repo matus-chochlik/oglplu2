@@ -36,6 +36,13 @@ namespace oper {
 
 struct shader_ops
 {
+#if defined(GL_VERSION_4_1)
+	static
+	outcome<void>
+	release_shader_compiler(void)
+	noexcept;
+#endif
+
 	static
 	outcome<void>
 	shader_source(shader_name shdr, const glsl_source_ref& source)

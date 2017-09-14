@@ -23,6 +23,9 @@ void oglplus_shader_test_ops1(void)
 	shader_array<4> shdrs(shader_type(GL_FRAGMENT_SHADER));
 	glsl_source_ref src(0, nullptr, nullptr);
 
+#if defined(GL_VERSION_4_1)
+	gl.release_shader_compiler();
+#endif
 	gl.shader_source(shdr, src);
 	gl.compile_shader(shdr);
 	gl.shader_source(shdrs[0], src);

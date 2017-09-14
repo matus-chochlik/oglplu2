@@ -988,6 +988,14 @@ private:
 protected:
 	using Base::Base;
 public:
+#if defined(GL_VERSION_4_5)
+	outcome<Derived&>
+	bind_unit(texture_unit unit)
+	noexcept {
+		return {_ops::bind_texture_unit(unit, _get_tnt()), _self()};
+	}
+#endif
+
 #if defined(GL_VERSION_3_0) || defined(GL_ES_VERSION_3_1)
 	outcome<GLsizei>
 	get_width(GLint level = 0) const
