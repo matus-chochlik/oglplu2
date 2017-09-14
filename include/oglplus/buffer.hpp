@@ -246,6 +246,7 @@ struct buffer_ops
 		pixel_data_type type,
 		const buffer_data_spec& data
 	) noexcept;
+#endif // GL_VERSION_4_3
 
 #if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
 	static
@@ -269,7 +270,6 @@ struct buffer_ops
 		const buffer_data_spec& data
 	) noexcept;
 #endif // GL_VERSION_4_5
-#endif // GL_VERSION_4_3
 
 
 #if defined(GL_VERSION_4_3) || defined(GL_ARB_invalidate_subdata)

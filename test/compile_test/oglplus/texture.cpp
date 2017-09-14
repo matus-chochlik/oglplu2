@@ -66,13 +66,13 @@ void oglplus_texture_test_ops1(void)
 #endif
 	gl.texture_image_2d(tnt, 0, ifmt, 64, 64, 0, fmt, typ, blk);
 	gl.texture_image_3d(tnt, 0, ifmt, 64, 64, 64, 0, fmt, typ, blk);
-#endif
 
 #if defined(GL_VERSION_3_0)
 	gl.texture_sub_image_1d(tnt, 0, 1, 64, fmt, typ, blk);
 #endif
 	gl.texture_sub_image_2d(tnt, 0, 1, 1, 64, 64, fmt, typ, blk);
 	gl.texture_sub_image_3d(tnt, 0, 1, 1, 1, 64, 64, 64, fmt, typ, blk);
+#endif
 
 #if defined(GL_VERSION_4_2) || defined(GL_ARB_texture_storage)
 	gl.texture_storage_1d(tgt, 1, ifmt, 64);
