@@ -356,6 +356,58 @@ texture_image_1d(
 		img.data()
 	);
 }
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+texture_sub_image_1d(
+	texture_target_only tnt,
+	GLint level,
+	GLint xoffset,
+	GLsizei width,
+	pixel_data_format format,
+	pixel_data_type type,
+	const_memory_block pixels
+) noexcept
+{
+	OGLPLUS_GLFUNC(TexSubImage1D)(
+		GLenum(tnt._target),
+		level,
+		xoffset,
+		width,
+		GLenum(format),
+		GLenum(type),
+		pixels.data()
+	);
+	OGLPLUS_VERIFY(
+		TexSubImage1D,
+		gl_object_binding(tag::texture(), tnt._target).
+		gl_enum_value(format),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+texture_sub_image_1d(
+	texture_target_only tnt,
+	GLint xoffset,
+	const image_spec& img,
+	GLint level
+) noexcept
+{
+	return texture_sub_image_1d(
+		tnt,
+		level,
+		xoffset,
+		img.width(),
+		img.format(),
+		img.type(),
+		img.data()
+	);
+}
 #endif
 //------------------------------------------------------------------------------
 inline
@@ -419,6 +471,65 @@ texture_image_2d(
 inline
 outcome<void>
 texture_ops::
+texture_sub_image_2d(
+	texture_target_only tnt,
+	GLint level,
+	GLint xoffset,
+	GLint yoffset,
+	GLsizei width,
+	GLsizei height,
+	pixel_data_format format,
+	pixel_data_type type,
+	const_memory_block pixels
+) noexcept
+{
+	OGLPLUS_GLFUNC(TexSubImage2D)(
+		GLenum(tnt._target),
+		level,
+		xoffset,
+		yoffset,
+		width,
+		height,
+		GLenum(format),
+		GLenum(type),
+		pixels.data()
+	);
+	OGLPLUS_VERIFY(
+		TexSubImage2D,
+		gl_object_binding(tag::texture(), tnt._target).
+		gl_enum_value(format),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+texture_sub_image_2d(
+	texture_target_only tnt,
+	GLint xoffset,
+	GLint yoffset,
+	const image_spec& img,
+	GLint level
+) noexcept
+{
+	return texture_sub_image_2d(
+		tnt,
+		level,
+		xoffset,
+		yoffset,
+		img.width(),
+		img.height(),
+		img.format(),
+		img.type(),
+		img.data()
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
 texture_image_3d(
 	texture_target_only tnt,
 	GLint level,
@@ -471,6 +582,72 @@ texture_image_3d(
 		img.height(),
 		img.depth(),
 		border,
+		img.format(),
+		img.type(),
+		img.data()
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+texture_sub_image_3d(
+	texture_target_only tnt,
+	GLint level,
+	GLint xoffset,
+	GLint yoffset,
+	GLint zoffset,
+	GLsizei width,
+	GLsizei height,
+	GLsizei depth,
+	pixel_data_format format,
+	pixel_data_type type,
+	const_memory_block pixels
+) noexcept
+{
+	OGLPLUS_GLFUNC(TexSubImage3D)(
+		GLenum(tnt._target),
+		level,
+		xoffset,
+		yoffset,
+		zoffset,
+		width,
+		height,
+		depth,
+		GLenum(format),
+		GLenum(type),
+		pixels.data()
+	);
+	OGLPLUS_VERIFY(
+		TexSubImage3D,
+		gl_object_binding(tag::texture(), tnt._target).
+		gl_enum_value(format),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+texture_sub_image_3d(
+	texture_target_only tnt,
+	GLint xoffset,
+	GLint yoffset,
+	GLint zoffset,
+	const image_spec& img,
+	GLint level
+) noexcept
+{
+	return texture_sub_image_3d(
+		tnt,
+		level,
+		xoffset,
+		yoffset,
+		zoffset,
+		img.width(),
+		img.height(),
+		img.depth(),
 		img.format(),
 		img.type(),
 		img.data()
