@@ -32,6 +32,31 @@ noexcept
 	return {};
 }
 //------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_4)
+template <typename S>
+inline
+outcome<void>
+sampler_ops::
+bind_samplers(
+	texture_unit first,
+	const object_names<tag::sampler, S>& samplers
+) noexcept
+{
+	OGLPLUS_GLFUNC(BindSamplers)(
+		GLuint(first.index()),
+		samplers.size(),
+		get_raw_names(samplers).data()
+	);
+	OGLPLUS_VERIFY(
+		BindSamplers,
+		gl_enum_value(first).
+		gl_object(samplers[0]),
+		debug
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
 inline
 outcome<sampler_name>
 sampler_ops::

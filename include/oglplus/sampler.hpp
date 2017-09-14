@@ -27,6 +27,16 @@ struct sampler_ops
 	bind_sampler(texture_unit unit, sampler_name sam)
 	noexcept;
 
+#if defined(GL_VERSION_4_4)
+	template <typename S>
+	static
+	outcome<void>
+	bind_samplers(
+		texture_unit first,
+		const object_names<tag::sampler, S>& samplers
+	) noexcept;
+#endif
+
 	static
 	outcome<sampler_name>
 	sampler_binding(texture_unit unit)
