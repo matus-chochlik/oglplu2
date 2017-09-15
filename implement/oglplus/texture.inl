@@ -21,11 +21,9 @@ inline
 outcome<void>
 texture_ops::
 active_texture(texture_unit unit)
-noexcept
-{
+noexcept {
 #if !OGLPLUS_NO_LIMIT_CHECKS
-	if(auto over_limit = failure(check_below_limit(unit)))
-	{
+	if(auto over_limit = failure(check_below_limit(unit))) {
 		return std::move(over_limit);
 	}
 #endif
@@ -42,8 +40,7 @@ inline
 outcome<texture_unit>
 texture_ops::
 get_active_texture(void)
-noexcept
-{
+noexcept {
 	GLint result = 0;
 	return numeric_queries::get_integer_v(
 		numeric_query(GL_ACTIVE_TEXTURE),
@@ -55,8 +52,7 @@ inline
 outcome<void>
 texture_ops::
 bind_texture(texture_target target, texture_name tex)
-noexcept
-{
+noexcept {
 	OGLPLUS_GLFUNC(BindTexture)(
 		GLenum(target),
 		get_raw_name(tex)
@@ -75,8 +71,7 @@ inline
 outcome<void>
 texture_ops::
 bind_texture_unit(texture_unit unit, texture_name tex)
-noexcept
-{
+noexcept {
 	OGLPLUS_GLFUNC(BindTextureUnit)(
 		GLenum(unit),
 		get_raw_name(tex)
@@ -99,8 +94,7 @@ texture_ops::
 bind_textures(
 	texture_unit first,
 	const object_names<tag::texture, S>& textures
-) noexcept
-{
+) noexcept {
 	OGLPLUS_GLFUNC(BindTextures)(
 		GLuint(first.index()),
 		textures.size(),
@@ -120,8 +114,7 @@ inline
 outcome<texture_name>
 texture_ops::
 texture_binding(texture_target target)
-noexcept
-{
+noexcept {
 	GLint result = 0;
 	return numeric_queries::get_integer_v(
 		get_binding_query(target),
@@ -138,8 +131,7 @@ texture_storage_1d(
 	GLsizei levels,
 	pixel_data_internal_format iformat,
 	GLsizei width
-) noexcept
-{
+) noexcept {
 	OGLPLUS_GLFUNC(TexStorage1D)(
 		GLenum(tnt._target),
 		levels,
@@ -164,8 +156,7 @@ texture_storage_2d(
 	pixel_data_internal_format iformat,
 	GLsizei width,
 	GLsizei height
-) noexcept
-{
+) noexcept {
 	OGLPLUS_GLFUNC(TexStorage2D)(
 		GLenum(tnt._target),
 		levels,
@@ -192,8 +183,7 @@ texture_storage_3d(
 	GLsizei width,
 	GLsizei height,
 	GLsizei depth
-) noexcept
-{
+) noexcept {
 	OGLPLUS_GLFUNC(TexStorage3D)(
 		GLenum(tnt._target),
 		levels,
@@ -221,8 +211,7 @@ texture_storage_1d(
 	GLsizei levels,
 	pixel_data_internal_format iformat,
 	GLsizei width
-) noexcept
-{
+) noexcept {
 	OGLPLUS_GLFUNC(TextureStorage1D)(
 		get_raw_name(tnt._name),
 		levels,
@@ -247,8 +236,7 @@ texture_storage_2d(
 	pixel_data_internal_format iformat,
 	GLsizei width,
 	GLsizei height
-) noexcept
-{
+) noexcept {
 	OGLPLUS_GLFUNC(TextureStorage2D)(
 		get_raw_name(tnt._name),
 		levels,
@@ -275,8 +263,7 @@ texture_storage_3d(
 	GLsizei width,
 	GLsizei height,
 	GLsizei depth
-) noexcept
-{
+) noexcept {
 	OGLPLUS_GLFUNC(TextureStorage3D)(
 		get_raw_name(tnt._name),
 		levels,
@@ -314,8 +301,7 @@ texture_image_1d(
 	pixel_data_format format,
 	pixel_data_type type,
 	const_memory_block pixels
-) noexcept
-{
+) noexcept {
 	OGLPLUS_GLFUNC(TexImage1D)(
 		GLenum(tnt._target),
 		level,
@@ -343,8 +329,7 @@ texture_image_1d(
 	const image_spec& img,
 	GLint level,
 	GLint border
-) noexcept
-{
+) noexcept {
 	return texture_image_1d(
 		tnt,
 		level,
@@ -368,8 +353,7 @@ texture_sub_image_1d(
 	pixel_data_format format,
 	pixel_data_type type,
 	const_memory_block pixels
-) noexcept
-{
+) noexcept {
 	OGLPLUS_GLFUNC(TexSubImage1D)(
 		GLenum(tnt._target),
 		level,
@@ -396,8 +380,7 @@ texture_sub_image_1d(
 	GLint xoffset,
 	const image_spec& img,
 	GLint level
-) noexcept
-{
+) noexcept {
 	return texture_sub_image_1d(
 		tnt,
 		level,
@@ -423,8 +406,7 @@ texture_image_2d(
 	pixel_data_format format,
 	pixel_data_type type,
 	const_memory_block pixels
-) noexcept
-{
+) noexcept {
 	OGLPLUS_GLFUNC(TexImage2D)(
 		GLenum(tnt._target),
 		level,
@@ -453,8 +435,7 @@ texture_image_2d(
 	const image_spec& img,
 	GLint level,
 	GLint border
-) noexcept
-{
+) noexcept {
 	return texture_image_2d(
 		tnt,
 		level,
@@ -481,8 +462,7 @@ texture_sub_image_2d(
 	pixel_data_format format,
 	pixel_data_type type,
 	const_memory_block pixels
-) noexcept
-{
+) noexcept {
 	OGLPLUS_GLFUNC(TexSubImage2D)(
 		GLenum(tnt._target),
 		level,
@@ -512,8 +492,7 @@ texture_sub_image_2d(
 	GLint yoffset,
 	const image_spec& img,
 	GLint level
-) noexcept
-{
+) noexcept {
 	return texture_sub_image_2d(
 		tnt,
 		level,
@@ -541,8 +520,7 @@ texture_image_3d(
 	pixel_data_format format,
 	pixel_data_type type,
 	const_memory_block pixels
-) noexcept
-{
+) noexcept {
 	OGLPLUS_GLFUNC(TexImage3D)(
 		GLenum(tnt._target),
 		level,
@@ -572,8 +550,7 @@ texture_image_3d(
 	const image_spec& img,
 	GLint level,
 	GLint border
-) noexcept
-{
+) noexcept {
 	return texture_image_3d(
 		tnt,
 		level,
@@ -603,8 +580,7 @@ texture_sub_image_3d(
 	pixel_data_format format,
 	pixel_data_type type,
 	const_memory_block pixels
-) noexcept
-{
+) noexcept {
 	OGLPLUS_GLFUNC(TexSubImage3D)(
 		GLenum(tnt._target),
 		level,
@@ -637,8 +613,7 @@ texture_sub_image_3d(
 	GLint zoffset,
 	const image_spec& img,
 	GLint level
-) noexcept
-{
+) noexcept {
 	return texture_sub_image_3d(
 		tnt,
 		level,
@@ -668,8 +643,7 @@ texture_image_1d(
 	pixel_data_format format,
 	pixel_data_type type,
 	const_memory_block pixels
-) noexcept
-{
+) noexcept {
 	OGLPLUS_GLFUNC(TextureImage1DEXT)(
 		get_raw_name(tnt._name),
 		GLenum(tnt._target),
@@ -698,8 +672,7 @@ texture_image_1d(
 	const image_spec& img,
 	GLint level,
 	GLint border
-) noexcept
-{
+) noexcept {
 	return texture_image_1d(
 		tnt,
 		level,
@@ -723,8 +696,7 @@ texture_sub_image_1d(
 	pixel_data_format format,
 	pixel_data_type type,
 	const_memory_block pixels
-) noexcept
-{
+) noexcept {
 	OGLPLUS_GLFUNC(TextureSubImage1DEXT)(
 		get_raw_name(tnt._name),
 		GLenum(tnt._target),
@@ -752,8 +724,7 @@ texture_sub_image_1d(
 	GLint xoffset,
 	const image_spec& img,
 	GLint level
-) noexcept
-{
+) noexcept {
 	return texture_sub_image_1d(
 		tnt,
 		level,
@@ -779,8 +750,7 @@ texture_image_2d(
 	pixel_data_format format,
 	pixel_data_type type,
 	const_memory_block pixels
-) noexcept
-{
+) noexcept {
 	OGLPLUS_GLFUNC(TextureImage2DEXT)(
 		get_raw_name(tnt._name),
 		GLenum(tnt._target),
@@ -810,8 +780,7 @@ texture_image_2d(
 	const image_spec& img,
 	GLint level,
 	GLint border
-) noexcept
-{
+) noexcept {
 	return texture_image_2d(
 		tnt,
 		level,
@@ -838,8 +807,7 @@ texture_sub_image_2d(
 	pixel_data_format format,
 	pixel_data_type type,
 	const_memory_block pixels
-) noexcept
-{
+) noexcept {
 	OGLPLUS_GLFUNC(TextureSubImage2DEXT)(
 		get_raw_name(tnt._name),
 		GLenum(tnt._target),
@@ -870,8 +838,7 @@ texture_sub_image_2d(
 	GLint yoffset,
 	const image_spec& img,
 	GLint level
-) noexcept
-{
+) noexcept {
 	return texture_sub_image_2d(
 		tnt,
 		level,
@@ -899,8 +866,7 @@ texture_image_3d(
 	pixel_data_format format,
 	pixel_data_type type,
 	const_memory_block pixels
-) noexcept
-{
+) noexcept {
 	OGLPLUS_GLFUNC(TextureImage3DEXT)(
 		get_raw_name(tnt._name),
 		GLenum(tnt._target),
@@ -931,8 +897,7 @@ texture_image_3d(
 	const image_spec& img,
 	GLint level,
 	GLint border
-) noexcept
-{
+) noexcept {
 	return texture_image_3d(
 		tnt,
 		level,
@@ -962,8 +927,7 @@ texture_sub_image_3d(
 	pixel_data_format format,
 	pixel_data_type type,
 	const_memory_block pixels
-) noexcept
-{
+) noexcept {
 	OGLPLUS_GLFUNC(TextureSubImage3DEXT)(
 		get_raw_name(tnt._name),
 		GLenum(tnt._target),
@@ -997,8 +961,7 @@ texture_sub_image_3d(
 	GLint zoffset,
 	const image_spec& img,
 	GLint level
-) noexcept
-{
+) noexcept {
 	return texture_sub_image_3d(
 		tnt,
 		level,
@@ -1014,6 +977,179 @@ texture_sub_image_3d(
 	);
 }
 //------------------------------------------------------------------------------
+#endif
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
+inline
+outcome<void>
+texture_ops::
+texture_sub_image_1d(
+	texture_name_only tno,
+	GLint level,
+	GLint xoffset,
+	GLsizei width,
+	pixel_data_format format,
+	pixel_data_type type,
+	const_memory_block pixels
+) noexcept {
+	OGLPLUS_GLFUNC(TextureSubImage1D)(
+		get_raw_name(tno._name),
+		level,
+		xoffset,
+		width,
+		GLenum(format),
+		GLenum(type),
+		pixels.data()
+	);
+	OGLPLUS_VERIFY(
+		TextureImage1D,
+		gl_object(tno._name).
+		gl_enum_value(format),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+texture_sub_image_1d(
+	texture_name_only tno,
+	GLint xoffset,
+	const image_spec& img,
+	GLint level
+) noexcept {
+	return texture_sub_image_1d(
+		tno,
+		level,
+		xoffset,
+		img.width(),
+		img.format(),
+		img.type(),
+		img.data()
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+texture_sub_image_2d(
+	texture_name_only tno,
+	GLint level,
+	GLint xoffset,
+	GLint yoffset,
+	GLsizei width,
+	GLsizei height,
+	pixel_data_format format,
+	pixel_data_type type,
+	const_memory_block pixels
+) noexcept {
+	OGLPLUS_GLFUNC(TextureSubImage2D)(
+		get_raw_name(tno._name),
+		level,
+		xoffset,
+		yoffset,
+		width,
+		height,
+		GLenum(format),
+		GLenum(type),
+		pixels.data()
+	);
+	OGLPLUS_VERIFY(
+		TextureImage2D,
+		gl_object(tno._name).
+		gl_enum_value(format),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+texture_sub_image_2d(
+	texture_name_only tno,
+	GLint xoffset,
+	GLint yoffset,
+	const image_spec& img,
+	GLint level
+) noexcept {
+	return texture_sub_image_2d(
+		tno,
+		level,
+		xoffset,
+		yoffset,
+		img.width(),
+		img.height(),
+		img.format(),
+		img.type(),
+		img.data()
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+texture_sub_image_3d(
+	texture_name_only tno,
+	GLint level,
+	GLint xoffset,
+	GLint yoffset,
+	GLint zoffset,
+	GLsizei width,
+	GLsizei height,
+	GLsizei depth,
+	pixel_data_format format,
+	pixel_data_type type,
+	const_memory_block pixels
+) noexcept {
+	OGLPLUS_GLFUNC(TextureSubImage3D)(
+		get_raw_name(tno._name),
+		level,
+		xoffset,
+		yoffset,
+		zoffset,
+		width,
+		height,
+		depth,
+		GLenum(format),
+		GLenum(type),
+		pixels.data()
+	);
+	OGLPLUS_VERIFY(
+		TextureImage3D,
+		gl_object(tno._name).
+		gl_enum_value(format),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+texture_sub_image_3d(
+	texture_name_only tno,
+	GLint xoffset,
+	GLint yoffset,
+	GLint zoffset,
+	const image_spec& img,
+	GLint level
+) noexcept {
+	return texture_sub_image_3d(
+		tno,
+		level,
+		xoffset,
+		yoffset,
+		zoffset,
+		img.width(),
+		img.height(),
+		img.depth(),
+		img.format(),
+		img.type(),
+		img.data()
+	);
+}
 #endif
 //------------------------------------------------------------------------------
 #ifdef __clang__

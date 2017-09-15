@@ -453,6 +453,80 @@ public:
 	) noexcept;
 #endif // GL_EXT_direct_state_access
 
+#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
+	static
+	outcome<void>
+	texture_sub_image_1d(
+		texture_name_only tno,
+		GLint level,
+		GLint xoffset,
+		GLsizei width,
+		pixel_data_format format,
+		pixel_data_type type,
+		const_memory_block data
+	) noexcept;
+
+	static
+	outcome<void>
+	texture_sub_image_1d(
+		texture_name_only tno,
+		GLint xoffset,
+		const image_spec& img,
+		GLint level = 0
+	) noexcept;
+
+	static
+	outcome<void>
+	texture_sub_image_2d(
+		texture_name_only tno,
+		GLint level,
+		GLint xoffset,
+		GLint yoffset,
+		GLsizei width,
+		GLsizei height,
+		pixel_data_format format,
+		pixel_data_type type,
+		const_memory_block data
+	) noexcept;
+
+	static
+	outcome<void>
+	texture_sub_image_2d(
+		texture_name_only tno,
+		GLint xoffset,
+		GLint yoffset,
+		const image_spec& img,
+		GLint level = 0
+	) noexcept;
+
+	static
+	outcome<void>
+	texture_sub_image_3d(
+		texture_name_only tno,
+		GLint level,
+		GLint xoffset,
+		GLint yoffset,
+		GLint zoffset,
+		GLsizei width,
+		GLsizei height,
+		GLsizei depth,
+		pixel_data_format format,
+		pixel_data_type type,
+		const_memory_block data
+	) noexcept;
+
+	static
+	outcome<void>
+	texture_sub_image_3d(
+		texture_name_only tno,
+		GLint xoffset,
+		GLint yoffset,
+		GLint zoffset,
+		const image_spec& img,
+		GLint level = 0
+	) noexcept;
+#endif
+
 	static
 	outcome<void>
 	generate_texture_mipmap(texture_target_only tnt)
@@ -995,6 +1069,140 @@ public:
 		return {_ops::bind_texture_unit(unit, _get_tnt()), _self()};
 	}
 #endif
+
+#if defined(GL_VERSION_3_0)
+	outcome<Derived&>
+	sub_image_1d(
+		GLint level,
+		GLint xoffset,
+		GLsizei width,
+		pixel_data_format format,
+		pixel_data_type type,
+		const_memory_block data
+	) noexcept {
+		return {
+			_ops::texture_sub_image_1d(
+				_get_tnt(),
+				level,
+				xoffset,
+				width,
+				format,
+				type,
+				data
+			), _self()
+		};
+	}
+
+	outcome<Derived&>
+	sub_image_1d(
+		GLint xoffset,
+		const image_spec& img,
+		GLint level = 0
+	) noexcept {
+		return {
+			_ops::texture_sub_image_1d(
+				_get_tnt(),
+				xoffset,
+				img,
+				level
+			), _self()
+		};
+	}
+#endif
+
+	outcome<Derived&>
+	sub_image_2d(
+		GLint level,
+		GLint xoffset,
+		GLint yoffset,
+		GLsizei width,
+		GLsizei height,
+		pixel_data_format format,
+		pixel_data_type type,
+		const_memory_block data
+	) noexcept {
+		return {
+			_ops::texture_sub_image_2d(
+				_get_tnt(),
+				level,
+				xoffset,
+				yoffset,
+				width,
+				height,
+				format,
+				type,
+				data
+			), _self()
+		};
+	}
+
+	outcome<Derived&>
+	sub_image_2d(
+		GLint xoffset,
+		GLint yoffset,
+		const image_spec& img,
+		GLint level = 0
+	) noexcept {
+		return {
+			_ops::texture_sub_image_2d(
+				_get_tnt(),
+				xoffset,
+				yoffset,
+				img,
+				level
+			), _self()
+		};
+	}
+
+	outcome<Derived&>
+	sub_image_3d(
+		GLint level,
+		GLint xoffset,
+		GLint yoffset,
+		GLint zoffset,
+		GLsizei width,
+		GLsizei height,
+		GLsizei depth,
+		pixel_data_format format,
+		pixel_data_type type,
+		const_memory_block data
+	) noexcept {
+		return {
+			_ops::texture_sub_image_3d(
+				_get_tnt(),
+				level,
+				xoffset,
+				yoffset,
+				zoffset,
+				width,
+				height,
+				depth,
+				format,
+				type,
+				data
+			), _self()
+		};
+	}
+
+	outcome<Derived&>
+	sub_image_3d(
+		GLint xoffset,
+		GLint yoffset,
+		GLint zoffset,
+		const image_spec& img,
+		GLint level = 0
+	) noexcept {
+		return {
+			_ops::texture_sub_image_3d(
+				_get_tnt(),
+				xoffset,
+				yoffset,
+				zoffset,
+				img,
+				level
+			), _self()
+		};
+	}
 
 #if defined(GL_VERSION_3_0) || defined(GL_ES_VERSION_3_1)
 	outcome<GLsizei>
