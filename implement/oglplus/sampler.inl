@@ -44,7 +44,7 @@ bind_samplers(
 {
 	OGLPLUS_GLFUNC(BindSamplers)(
 		GLuint(first.index()),
-		samplers.size(),
+		GLsizei(samplers.size()),
 		get_raw_names(samplers).data()
 	);
 	OGLPLUS_VERIFY(

@@ -97,7 +97,7 @@ bind_textures(
 ) noexcept {
 	OGLPLUS_GLFUNC(BindTextures)(
 		GLuint(first.index()),
-		textures.size(),
+		GLsizei(textures.size()),
 		get_raw_names(textures).data()
 	);
 	OGLPLUS_VERIFY(
