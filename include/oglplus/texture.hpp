@@ -10,6 +10,7 @@
 #define OGLPLUS_TEXTURE_1509260923_HPP
 
 #include "texture_name.hpp"
+#include "buffer_name.hpp"
 #include "object/owner.hpp"
 #include "object/name_or_target.hpp"
 #include "error/handling.hpp"
@@ -457,7 +458,7 @@ public:
 	static
 	outcome<void>
 	texture_sub_image_1d(
-		texture_name_only tno,
+		texture_name_only tnt,
 		GLint level,
 		GLint xoffset,
 		GLsizei width,
@@ -469,7 +470,7 @@ public:
 	static
 	outcome<void>
 	texture_sub_image_1d(
-		texture_name_only tno,
+		texture_name_only tnt,
 		GLint xoffset,
 		const image_spec& img,
 		GLint level = 0
@@ -478,7 +479,7 @@ public:
 	static
 	outcome<void>
 	texture_sub_image_2d(
-		texture_name_only tno,
+		texture_name_only tnt,
 		GLint level,
 		GLint xoffset,
 		GLint yoffset,
@@ -492,7 +493,7 @@ public:
 	static
 	outcome<void>
 	texture_sub_image_2d(
-		texture_name_only tno,
+		texture_name_only tnt,
 		GLint xoffset,
 		GLint yoffset,
 		const image_spec& img,
@@ -502,7 +503,7 @@ public:
 	static
 	outcome<void>
 	texture_sub_image_3d(
-		texture_name_only tno,
+		texture_name_only tnt,
 		GLint level,
 		GLint xoffset,
 		GLint yoffset,
@@ -518,7 +519,7 @@ public:
 	static
 	outcome<void>
 	texture_sub_image_3d(
-		texture_name_only tno,
+		texture_name_only tnt,
 		GLint xoffset,
 		GLint yoffset,
 		GLint zoffset,
@@ -527,11 +528,40 @@ public:
 	) noexcept;
 #endif
 
+#if defined(GL_VERSION_3_1)
+	static
+	outcome<void>
+	texture_buffer(
+		texture_target_only tnt,
+		pixel_data_internal_format iformat,
+		buffer_name buf
+	) noexcept;
+
+#if defined(GL_EXT_direct_state_access)
+	static
+	outcome<void>
+	texture_buffer(
+		texture_name_and_target tnt,
+		pixel_data_internal_format iformat,
+		buffer_name buf
+	) noexcept;
+#endif
+#endif
+
+#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
+	static
+	outcome<void>
+	texture_buffer(
+		texture_name_only tnt,
+		pixel_data_internal_format iformat,
+		buffer_name buf
+	) noexcept;
+#endif
+
 	static
 	outcome<void>
 	generate_texture_mipmap(texture_target_only tnt)
 	noexcept;
-
 
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
 	static
@@ -1203,6 +1233,22 @@ public:
 			), _self()
 		};
 	}
+
+#if defined(GL_VERSION_3_1)
+	outcome<Derived&>
+	assign_buffer(
+		pixel_data_internal_format iformat,
+		buffer_name buf
+	) noexcept {
+		return {
+			_ops::texture_buffer(
+				_get_tnt(),
+				iformat,
+				buf
+			), _self()
+		};
+	}
+#endif
 
 #if defined(GL_VERSION_3_0) || defined(GL_ES_VERSION_3_1)
 	outcome<GLsizei>

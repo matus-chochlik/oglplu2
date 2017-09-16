@@ -21,6 +21,7 @@ void oglplus_texture_test_ops1(void)
 	using namespace oglplus;
 
 	oper::texture_ops gl;
+	buffer_name buf(0);
 	texture tex;
 	texture_array<4> texs;
 	texture_target tgt(GL_TEXTURE_2D);
@@ -88,6 +89,21 @@ void oglplus_texture_test_ops1(void)
 	gl.texture_sub_image_1d(tex, 0, 1, 64, fmt, typ, blk);
 	gl.texture_sub_image_2d(tex, 0, 1, 1, 64, 64, fmt, typ, blk);
 	gl.texture_sub_image_3d(tex, 0, 1, 1, 1, 64, 64, 64, fmt, typ, blk);
+#endif
+
+#if defined(GL_VERSION_3_1)
+	gl.texture_buffer(tgt, ifmt, buf);
+#if defined(GL_EXT_direct_state_access)
+	gl.texture_buffer(tnt, ifmt, buf);
+#endif
+#endif
+#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
+	gl.texture_buffer(tex, ifmt, buf);
+#endif
+
+	gl.generate_texture_mipmap(tgt);
+#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
+	gl.generate_texture_mipmap(tex);
 #endif
 
 #if defined(GL_VERSION_3_0) || defined(GL_ES_VERSION_3_1)
@@ -311,6 +327,13 @@ void oglplus_texture_test_ops1(void)
 		64, 64, 64,
 		fmt, typ, blk
 	);
+#endif
+
+#if defined(GL_VERSION_3_1)
+	curtex.assign_buffer(ifmt, buf);
+#endif
+#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
+	tex.assign_buffer(ifmt, buf);
 #endif
 
 #if defined(GL_VERSION_4_5) ||\

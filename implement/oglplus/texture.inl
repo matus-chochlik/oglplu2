@@ -984,7 +984,7 @@ inline
 outcome<void>
 texture_ops::
 texture_sub_image_1d(
-	texture_name_only tno,
+	texture_name_only tnt,
 	GLint level,
 	GLint xoffset,
 	GLsizei width,
@@ -993,7 +993,7 @@ texture_sub_image_1d(
 	const_memory_block pixels
 ) noexcept {
 	OGLPLUS_GLFUNC(TextureSubImage1D)(
-		get_raw_name(tno._name),
+		get_raw_name(tnt._name),
 		level,
 		xoffset,
 		width,
@@ -1003,7 +1003,7 @@ texture_sub_image_1d(
 	);
 	OGLPLUS_VERIFY(
 		TextureImage1D,
-		gl_object(tno._name).
+		gl_object(tnt._name).
 		gl_enum_value(format),
 		always
 	);
@@ -1014,13 +1014,13 @@ inline
 outcome<void>
 texture_ops::
 texture_sub_image_1d(
-	texture_name_only tno,
+	texture_name_only tnt,
 	GLint xoffset,
 	const image_spec& img,
 	GLint level
 ) noexcept {
 	return texture_sub_image_1d(
-		tno,
+		tnt,
 		level,
 		xoffset,
 		img.width(),
@@ -1034,7 +1034,7 @@ inline
 outcome<void>
 texture_ops::
 texture_sub_image_2d(
-	texture_name_only tno,
+	texture_name_only tnt,
 	GLint level,
 	GLint xoffset,
 	GLint yoffset,
@@ -1045,7 +1045,7 @@ texture_sub_image_2d(
 	const_memory_block pixels
 ) noexcept {
 	OGLPLUS_GLFUNC(TextureSubImage2D)(
-		get_raw_name(tno._name),
+		get_raw_name(tnt._name),
 		level,
 		xoffset,
 		yoffset,
@@ -1057,7 +1057,7 @@ texture_sub_image_2d(
 	);
 	OGLPLUS_VERIFY(
 		TextureImage2D,
-		gl_object(tno._name).
+		gl_object(tnt._name).
 		gl_enum_value(format),
 		always
 	);
@@ -1068,14 +1068,14 @@ inline
 outcome<void>
 texture_ops::
 texture_sub_image_2d(
-	texture_name_only tno,
+	texture_name_only tnt,
 	GLint xoffset,
 	GLint yoffset,
 	const image_spec& img,
 	GLint level
 ) noexcept {
 	return texture_sub_image_2d(
-		tno,
+		tnt,
 		level,
 		xoffset,
 		yoffset,
@@ -1091,7 +1091,7 @@ inline
 outcome<void>
 texture_ops::
 texture_sub_image_3d(
-	texture_name_only tno,
+	texture_name_only tnt,
 	GLint level,
 	GLint xoffset,
 	GLint yoffset,
@@ -1104,7 +1104,7 @@ texture_sub_image_3d(
 	const_memory_block pixels
 ) noexcept {
 	OGLPLUS_GLFUNC(TextureSubImage3D)(
-		get_raw_name(tno._name),
+		get_raw_name(tnt._name),
 		level,
 		xoffset,
 		yoffset,
@@ -1118,7 +1118,7 @@ texture_sub_image_3d(
 	);
 	OGLPLUS_VERIFY(
 		TextureImage3D,
-		gl_object(tno._name).
+		gl_object(tnt._name).
 		gl_enum_value(format),
 		always
 	);
@@ -1129,7 +1129,7 @@ inline
 outcome<void>
 texture_ops::
 texture_sub_image_3d(
-	texture_name_only tno,
+	texture_name_only tnt,
 	GLint xoffset,
 	GLint yoffset,
 	GLint zoffset,
@@ -1137,7 +1137,7 @@ texture_sub_image_3d(
 	GLint level
 ) noexcept {
 	return texture_sub_image_3d(
-		tno,
+		tnt,
 		level,
 		xoffset,
 		yoffset,
@@ -1156,12 +1156,87 @@ texture_sub_image_3d(
 #pragma clang diagnostic pop
 #endif
 //------------------------------------------------------------------------------
+#if defined(GL_VERSION_3_1)
+inline
+outcome<void>
+texture_ops::
+texture_buffer(
+	texture_target_only tnt,
+	pixel_data_internal_format iformat,
+	buffer_name buf
+) noexcept {
+	OGLPLUS_GLFUNC(TexBuffer)(
+		GLenum(tnt._target),
+		GLenum(iformat),
+		get_raw_name(buf)
+	);
+	OGLPLUS_VERIFY(
+		TexBuffer,
+		gl_subject(buf).
+		gl_object_binding(tag::texture(), tnt._target).
+		gl_enum_value(iformat),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+#if defined(GL_EXT_direct_state_access)
+inline
+outcome<void>
+texture_ops::
+texture_buffer(
+	texture_name_and_target tnt,
+	pixel_data_internal_format iformat,
+	buffer_name buf
+) noexcept {
+	OGLPLUS_GLFUNC(TextureBufferEXT)(
+		get_raw_name(tnt._name),
+		GLenum(tnt._target),
+		GLenum(iformat),
+		get_raw_name(buf)
+	);
+	OGLPLUS_VERIFY(
+		TextureBufferEXT,
+		gl_subject(buf).
+		gl_object(tnt._name).
+		gl_enum_value(iformat),
+		always
+	);
+	return {};
+}
+#endif
+#endif
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
+inline
+outcome<void>
+texture_ops::
+texture_buffer(
+	texture_name_only tnt,
+	pixel_data_internal_format iformat,
+	buffer_name buf
+) noexcept {
+	OGLPLUS_GLFUNC(TextureBuffer)(
+		get_raw_name(tnt._name),
+		GLenum(iformat),
+		get_raw_name(buf)
+	);
+	OGLPLUS_VERIFY(
+		TextureBuffer,
+		gl_subject(buf).
+		gl_object(tnt._name).
+		gl_enum_value(iformat),
+		always
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
 inline
 outcome<void>
 texture_ops::
 generate_texture_mipmap(texture_target_only tnt)
-noexcept
-{
+noexcept {
 	OGLPLUS_GLFUNC(GenerateMipmap)(GLenum(tnt._target));
 	OGLPLUS_VERIFY(
 		GenerateMipmap,
@@ -1176,8 +1251,7 @@ inline
 outcome<void>
 texture_ops::
 generate_texture_mipmap(texture_name_only tnt)
-noexcept
-{
+noexcept {
 	OGLPLUS_GLFUNC(GenerateTextureMipmap)(get_raw_name(tnt._name));
 	OGLPLUS_VERIFY(
 		GenerateTextureMipmap,
@@ -1195,8 +1269,7 @@ texture_parameter_i(
 	texture_target_only tnt,
 	oglplus::texture_parameter param,
 	GLint value
-) noexcept
-{
+) noexcept {
 	OGLPLUS_GLFUNC(TexParameteri)(
 		GLenum(tnt._target),
 		GLenum(param),
@@ -1218,8 +1291,7 @@ get_texture_parameter_iv(
 	texture_target_only tnt,
 	oglplus::texture_parameter param,
 	span<GLint> values
-) noexcept
-{
+) noexcept {
 	assert(values.size() > 0);
 	OGLPLUS_GLFUNC(GetTexParameteriv)(
 		GLenum(tnt._target),
@@ -1244,8 +1316,7 @@ get_texture_level_parameter_iv(
 	GLint level,
 	oglplus::texture_parameter param,
 	span<GLint> values
-) noexcept
-{
+) noexcept {
 	assert(values.size() > 0);
 	OGLPLUS_GLFUNC(GetTexLevelParameteriv)(
 		GLenum(tnt._target),
@@ -1271,8 +1342,7 @@ texture_parameter_f(
 	texture_target_only tnt,
 	oglplus::texture_parameter param,
 	GLfloat value
-) noexcept
-{
+) noexcept {
 	OGLPLUS_GLFUNC(TexParameterf)(
 		GLenum(tnt._target),
 		GLenum(param),
@@ -1294,8 +1364,7 @@ get_texture_parameter_fv(
 	texture_target_only tnt,
 	oglplus::texture_parameter param,
 	span<GLfloat> values
-) noexcept
-{
+) noexcept {
 	assert(values.size() > 0);
 	OGLPLUS_GLFUNC(GetTexParameterfv)(
 		GLenum(tnt._target),
@@ -1318,8 +1387,7 @@ texture_parameter_fv(
 	texture_target_only tnt,
 	oglplus::texture_parameter param,
 	span<const GLfloat> values
-) noexcept
-{
+) noexcept {
 	assert(values.size() > 0);
 	OGLPLUS_GLFUNC(TexParameterfv)(
 		GLenum(tnt._target),
@@ -1343,8 +1411,7 @@ texture_parameter_i(
 	texture_name_only tnt,
 	oglplus::texture_parameter param,
 	GLint value
-) noexcept
-{
+) noexcept {
 	OGLPLUS_GLFUNC(TextureParameteri)(
 		get_raw_name(tnt._name),
 		GLenum(param),
@@ -1366,8 +1433,7 @@ get_texture_parameter_iv(
 	texture_name_only tnt,
 	oglplus::texture_parameter param,
 	span<GLint> values
-) noexcept
-{
+) noexcept {
 	assert(values.size() > 0);
 	OGLPLUS_GLFUNC(GetTextureParameteriv)(
 		get_raw_name(tnt._name),
@@ -1392,8 +1458,7 @@ get_texture_level_parameter_iv(
 	GLint level,
 	oglplus::texture_parameter param,
 	span<GLint> values
-) noexcept
-{
+) noexcept {
 	assert(values.size() > 0);
 	OGLPLUS_GLFUNC(GetTextureLevelParameteriv)(
 		get_raw_name(tnt._name),
@@ -1419,8 +1484,7 @@ texture_parameter_f(
 	texture_name_only tnt,
 	oglplus::texture_parameter param,
 	GLfloat value
-) noexcept
-{
+) noexcept {
 	OGLPLUS_GLFUNC(TextureParameterf)(
 		get_raw_name(tnt._name),
 		GLenum(param),
@@ -1442,8 +1506,7 @@ get_texture_parameter_fv(
 	texture_name_only tnt,
 	oglplus::texture_parameter param,
 	span<GLfloat> values
-) noexcept
-{
+) noexcept {
 	assert(values.size() > 0);
 	OGLPLUS_GLFUNC(GetTextureParameterfv)(
 		get_raw_name(tnt._name),
@@ -1466,8 +1529,7 @@ texture_parameter_fv(
 	texture_name_only tnt,
 	oglplus::texture_parameter param,
 	span<const GLfloat> values
-) noexcept
-{
+) noexcept {
 	assert(values.size() > 0);
 	OGLPLUS_GLFUNC(TextureParameterfv)(
 		get_raw_name(tnt._name),
@@ -1492,8 +1554,7 @@ texture_parameter_i(
 	texture_name_and_target tnt,
 	oglplus::texture_parameter param,
 	GLint value
-) noexcept
-{
+) noexcept {
 	OGLPLUS_GLFUNC(TextureParameteriEXT)(
 		get_raw_name(tnt._name),
 		GLenum(tnt._target),
@@ -1516,8 +1577,7 @@ get_texture_parameter_iv(
 	texture_name_and_target tnt,
 	oglplus::texture_parameter param,
 	span<GLint> values
-) noexcept
-{
+) noexcept {
 	assert(values.size() > 0);
 	OGLPLUS_GLFUNC(GetTextureParameterivEXT)(
 		get_raw_name(tnt._name),
@@ -1543,8 +1603,7 @@ get_texture_level_parameter_iv(
 	GLint level,
 	oglplus::texture_parameter param,
 	span<GLint> values
-) noexcept
-{
+) noexcept {
 	assert(values.size() > 0);
 	OGLPLUS_GLFUNC(GetTextureLevelParameterivEXT)(
 		get_raw_name(tnt._name),
@@ -1571,8 +1630,7 @@ texture_parameter_f(
 	texture_name_and_target tnt,
 	oglplus::texture_parameter param,
 	GLfloat value
-) noexcept
-{
+) noexcept {
 	OGLPLUS_GLFUNC(TextureParameterfEXT)(
 		get_raw_name(tnt._name),
 		GLenum(tnt._target),
@@ -1595,8 +1653,7 @@ get_texture_parameter_fv(
 	texture_name_and_target tnt,
 	oglplus::texture_parameter param,
 	span<GLfloat> values
-) noexcept
-{
+) noexcept {
 	assert(values.size() > 0);
 	OGLPLUS_GLFUNC(GetTextureParameterfvEXT)(
 		get_raw_name(tnt._name),
@@ -1620,8 +1677,7 @@ texture_parameter_fv(
 	texture_name_and_target tnt,
 	oglplus::texture_parameter param,
 	span<const GLfloat> values
-) noexcept
-{
+) noexcept {
 	assert(values.size() > 0);
 	OGLPLUS_GLFUNC(TextureParameterfvEXT)(
 		get_raw_name(tnt._name),
@@ -1646,8 +1702,7 @@ texture_ops::
 return_texture_parameter_i(
 	object_name_or_target<N, T> tnt,
 	oglplus::texture_parameter parameter
-) noexcept
-{
+) noexcept {
 	GLint result = 0;
 	return get_texture_parameter_iv(
 		tnt,
@@ -1665,8 +1720,7 @@ return_texture_level_parameter_i(
 	object_name_or_target<N, T> tnt,
 	GLint level,
 	oglplus::texture_parameter parameter
-) noexcept
-{
+) noexcept {
 	GLint result = 0;
 	return get_texture_level_parameter_iv(
 		tnt,
@@ -1684,8 +1738,7 @@ texture_ops::
 return_texture_parameter_f(
 	object_name_or_target<N, T> tnt,
 	oglplus::texture_parameter parameter
-) noexcept
-{
+) noexcept {
 	GLfloat result = 0;
 	return get_texture_parameter_fv(
 		tnt,
@@ -1700,8 +1753,7 @@ inline
 outcome<GLsizei>
 texture_ops::
 get_texture_width(const TNT& tnt, GLint level)
-noexcept
-{
+noexcept {
 	return return_texture_level_parameter_i<GLsizei, GLsizei>(
 		_wrap(tnt),
 		level,
@@ -1714,8 +1766,7 @@ inline
 outcome<GLsizei>
 texture_ops::
 get_texture_height(const TNT& tnt, GLint level)
-noexcept
-{
+noexcept {
 	return return_texture_level_parameter_i<GLsizei, GLsizei>(
 		_wrap(tnt),
 		level,
@@ -1728,8 +1779,7 @@ inline
 outcome<GLsizei>
 texture_ops::
 get_texture_depth(const TNT& tnt, GLint level)
-noexcept
-{
+noexcept {
 	return return_texture_level_parameter_i<GLsizei, GLsizei>(
 		_wrap(tnt),
 		level,
@@ -1742,8 +1792,7 @@ inline
 outcome<pixel_data_type>
 texture_ops::
 get_texture_red_type(const TNT& tnt)
-noexcept
-{
+noexcept {
 	return return_texture_parameter_i<pixel_data_type, GLenum>(
 		_wrap(tnt),
 		oglplus::texture_parameter(GL_TEXTURE_RED_TYPE)
@@ -1755,8 +1804,7 @@ inline
 outcome<GLsizei>
 texture_ops::
 get_texture_red_size(const TNT& tnt, GLint level)
-noexcept
-{
+noexcept {
 	return return_texture_level_parameter_i<GLsizei, GLsizei>(
 		_wrap(tnt),
 		level,
@@ -1769,8 +1817,7 @@ inline
 outcome<pixel_data_type>
 texture_ops::
 get_texture_green_type(const TNT& tnt)
-noexcept
-{
+noexcept {
 	return return_texture_parameter_i<pixel_data_type, GLenum>(
 		_wrap(tnt),
 		oglplus::texture_parameter(GL_TEXTURE_GREEN_TYPE)
@@ -1782,8 +1829,7 @@ inline
 outcome<GLsizei>
 texture_ops::
 get_texture_green_size(const TNT& tnt, GLint level)
-noexcept
-{
+noexcept {
 	return return_texture_level_parameter_i<GLsizei, GLsizei>(
 		_wrap(tnt),
 		level,
@@ -1796,8 +1842,7 @@ inline
 outcome<pixel_data_type>
 texture_ops::
 get_texture_blue_type(const TNT& tnt)
-noexcept
-{
+noexcept {
 	return return_texture_parameter_i<pixel_data_type, GLenum>(
 		_wrap(tnt),
 		oglplus::texture_parameter(GL_TEXTURE_BLUE_TYPE)
@@ -1809,8 +1854,7 @@ inline
 outcome<GLsizei>
 texture_ops::
 get_texture_blue_size(const TNT& tnt, GLint level)
-noexcept
-{
+noexcept {
 	return return_texture_level_parameter_i<GLsizei, GLsizei>(
 		_wrap(tnt),
 		level,
@@ -1823,8 +1867,7 @@ inline
 outcome<pixel_data_type>
 texture_ops::
 get_texture_alpha_type(const TNT& tnt)
-noexcept
-{
+noexcept {
 	return return_texture_parameter_i<pixel_data_type, GLenum>(
 		_wrap(tnt),
 		oglplus::texture_parameter(GL_TEXTURE_ALPHA_TYPE)
@@ -1836,8 +1879,7 @@ inline
 outcome<GLsizei>
 texture_ops::
 get_texture_alpha_size(const TNT& tnt, GLint level)
-noexcept
-{
+noexcept {
 	return return_texture_level_parameter_i<GLsizei, GLsizei>(
 		_wrap(tnt),
 		level,
@@ -1850,8 +1892,7 @@ inline
 outcome<pixel_data_type>
 texture_ops::
 get_texture_depth_type(const TNT& tnt)
-noexcept
-{
+noexcept {
 	return return_texture_parameter_i<pixel_data_type, GLenum>(
 		_wrap(tnt),
 		oglplus::texture_parameter(GL_TEXTURE_DEPTH_TYPE)
@@ -1863,8 +1904,7 @@ inline
 outcome<GLsizei>
 texture_ops::
 get_texture_depth_size(const TNT& tnt, GLint level)
-noexcept
-{
+noexcept {
 	return return_texture_level_parameter_i<GLsizei, GLsizei>(
 		_wrap(tnt),
 		level,
@@ -1877,8 +1917,7 @@ inline
 outcome<GLsizei>
 texture_ops::
 get_texture_stencil_size(const TNT& tnt, GLint level)
-noexcept
-{
+noexcept {
 	return return_texture_level_parameter_i<GLsizei, GLsizei>(
 		_wrap(tnt),
 		level,
@@ -1891,8 +1930,7 @@ inline
 outcome<GLsizei>
 texture_ops::
 get_texture_shared_size(const TNT& tnt, GLint level)
-noexcept
-{
+noexcept {
 	return return_texture_level_parameter_i<GLsizei, GLsizei>(
 		_wrap(tnt),
 		level,
@@ -1905,8 +1943,7 @@ inline
 outcome<boolean>
 texture_ops::
 is_texture_compressed(const TNT& tnt, GLint level)
-noexcept
-{
+noexcept {
 	return return_texture_level_parameter_i<
 		boolean,
 		GLboolean
@@ -1923,8 +1960,7 @@ inline
 outcome<GLsizei>
 texture_ops::
 get_texture_compressed_image_size(const TNT& tnt, GLint level)
-noexcept
-{
+noexcept {
 	return return_texture_level_parameter_i<GLsizei, GLsizei>(
 		_wrap(tnt),
 		level,
@@ -1940,8 +1976,7 @@ inline
 outcome<oglplus::pixel_data_internal_format>
 texture_ops::
 get_texture_internal_format(const TNT& tnt, GLint level)
-noexcept
-{
+noexcept {
 	return return_texture_level_parameter_i<
 		oglplus::pixel_data_internal_format,
 		GLenum
@@ -1958,8 +1993,7 @@ inline
 outcome<void>
 texture_ops::
 texture_min_filter(const TNT& tnt, oglplus::texture_min_filter value)
-noexcept
-{
+noexcept {
 	return texture_parameter_i(
 		_wrap(tnt),
 		oglplus::texture_parameter(GL_TEXTURE_MIN_FILTER),
@@ -1972,8 +2006,7 @@ inline
 outcome<oglplus::texture_min_filter>
 texture_ops::
 get_texture_min_filter(const TNT& tnt)
-noexcept
-{
+noexcept {
 	return return_texture_parameter_i<oglplus::texture_min_filter, GLenum>(
 		_wrap(tnt),
 		oglplus::texture_parameter(GL_TEXTURE_MIN_FILTER)
@@ -1985,8 +2018,7 @@ inline
 outcome<void>
 texture_ops::
 texture_mag_filter(const TNT& tnt, oglplus::texture_mag_filter value)
-noexcept
-{
+noexcept {
 	return texture_parameter_i(
 		_wrap(tnt),
 		oglplus::texture_parameter(GL_TEXTURE_MAG_FILTER),
@@ -1999,8 +2031,7 @@ inline
 outcome<oglplus::texture_mag_filter>
 texture_ops::
 get_texture_mag_filter(const TNT& tnt)
-noexcept
-{
+noexcept {
 	return return_texture_parameter_i<oglplus::texture_mag_filter, GLenum>(
 		_wrap(tnt),
 		oglplus::texture_parameter(GL_TEXTURE_MAG_FILTER)
@@ -2014,8 +2045,7 @@ texture_ops::
 texture_compare_func(
 	const TNT& tnt,
 	oglplus::compare_function value
-) noexcept
-{
+) noexcept {
 	return texture_parameter_i(
 		_wrap(tnt),
 		oglplus::texture_parameter(GL_TEXTURE_COMPARE_FUNC),
@@ -2028,8 +2058,7 @@ inline
 outcome<oglplus::compare_function>
 texture_ops::
 get_texture_compare_func(const TNT& tnt)
-noexcept
-{
+noexcept {
 	return return_texture_parameter_i<oglplus::compare_function, GLenum>(
 		_wrap(tnt),
 		oglplus::texture_parameter(GL_TEXTURE_COMPARE_FUNC)
@@ -2043,8 +2072,7 @@ texture_ops::
 texture_compare_mode(
 	const TNT& tnt,
 	oglplus::texture_compare_mode value
-) noexcept
-{
+) noexcept {
 	return texture_parameter_i(
 		_wrap(tnt),
 		oglplus::texture_parameter(GL_TEXTURE_COMPARE_MODE),
@@ -2057,8 +2085,7 @@ inline
 outcome<oglplus::texture_compare_mode>
 texture_ops::
 get_texture_compare_mode(const TNT& tnt)
-noexcept
-{
+noexcept {
 	return return_texture_parameter_i<
 		oglplus::texture_compare_mode,
 		GLenum
@@ -2076,8 +2103,7 @@ texture_wrap(
 	const TNT& tnt,
 	texture_wrap_coord coord,
 	texture_wrap_mode value
-) noexcept
-{
+) noexcept {
 	return texture_parameter_i(
 		_wrap(tnt),
 		oglplus::texture_parameter(GLenum(coord)),
@@ -2090,8 +2116,7 @@ inline
 outcome<texture_wrap_mode>
 texture_ops::
 get_texture_wrap(const TNT& tnt, texture_wrap_coord coord)
-noexcept
-{
+noexcept {
 	return return_texture_parameter_i<texture_wrap_mode, GLenum>(
 		_wrap(tnt),
 		oglplus::texture_parameter(GLenum(coord))
@@ -2106,8 +2131,7 @@ texture_swizzle(
 	const TNT& tnt,
 	texture_swizzle_coord coord,
 	texture_swizzle_mode value
-) noexcept
-{
+) noexcept {
 	return texture_parameter_i(
 		_wrap(tnt),
 		oglplus::texture_parameter(GLenum(coord)),
@@ -2120,8 +2144,7 @@ inline
 outcome<texture_swizzle_mode>
 texture_ops::
 get_texture_swizzle(const TNT& tnt, texture_swizzle_coord coord)
-noexcept
-{
+noexcept {
 	return return_texture_parameter_i<texture_swizzle_mode, GLenum>(
 		_wrap(tnt),
 		oglplus::texture_parameter(GLenum(coord))
@@ -2134,8 +2157,7 @@ inline
 outcome<void>
 texture_ops::
 texture_lod_bias(const TNT& tnt, GLfloat value)
-noexcept
-{
+noexcept {
 	return texture_parameter_f(
 		_wrap(tnt),
 		oglplus::texture_parameter(GL_TEXTURE_LOD_BIAS),
@@ -2148,8 +2170,7 @@ inline
 outcome<GLfloat>
 texture_ops::
 get_texture_lod_bias(const TNT& tnt)
-noexcept
-{
+noexcept {
 	return return_texture_parameter_f<GLfloat>(
 		_wrap(tnt),
 		oglplus::texture_parameter(GL_TEXTURE_LOD_BIAS)
@@ -2162,8 +2183,7 @@ inline
 outcome<void>
 texture_ops::
 texture_min_lod(const TNT& tnt, GLfloat value)
-noexcept
-{
+noexcept {
 	return texture_parameter_f(
 		_wrap(tnt),
 		oglplus::texture_parameter(GL_TEXTURE_MIN_LOD),
@@ -2176,8 +2196,7 @@ inline
 outcome<GLfloat>
 texture_ops::
 get_texture_min_lod(const TNT& tnt)
-noexcept
-{
+noexcept {
 	return return_texture_parameter_f<GLfloat>(
 		_wrap(tnt),
 		oglplus::texture_parameter(GL_TEXTURE_MIN_LOD)
@@ -2189,8 +2208,7 @@ inline
 outcome<void>
 texture_ops::
 texture_max_lod(const TNT& tnt, GLfloat value)
-noexcept
-{
+noexcept {
 	return texture_parameter_f(
 		_wrap(tnt),
 		oglplus::texture_parameter(GL_TEXTURE_MAX_LOD),
@@ -2203,8 +2221,7 @@ inline
 outcome<GLfloat>
 texture_ops::
 get_texture_max_lod(const TNT& tnt)
-noexcept
-{
+noexcept {
 	return return_texture_parameter_f<GLfloat>(
 		_wrap(tnt),
 		oglplus::texture_parameter(GL_TEXTURE_MAX_LOD)
@@ -2217,8 +2234,7 @@ inline
 outcome<void>
 texture_ops::
 texture_border_color(const TNT& tnt, span<const GLfloat> c)
-noexcept
-{
+noexcept {
 	assert(c.size() >= 4);
 	return texture_parameter_fv(
 		_wrap(tnt),
@@ -2233,8 +2249,7 @@ inline
 outcome<void>
 texture_ops::
 texture_border_color(const TNT& tnt, GLfloat r, GLfloat g, GLfloat b, GLfloat a)
-noexcept
-{
+noexcept {
 	const GLfloat c[4] = {r, g, b, a};
 	return texture_border_color(tnt, c);
 }
@@ -2247,8 +2262,7 @@ inline
 deferred_error_handler
 obj_gen_del_ops<tag::texture>::
 _gen(span<GLuint> names)
-noexcept
-{
+noexcept {
 	OGLPLUS_GLFUNC(GenTextures)(
 		GLsizei(names.size()),
 		names.data()
@@ -2264,8 +2278,7 @@ inline
 deferred_error_handler
 obj_gen_del_ops<tag::texture>::
 _create(texture_target target, span<GLuint> names)
-noexcept
-{
+noexcept {
 	OGLPLUS_GLFUNC(CreateTextures)(
 		GLenum(target),
 		GLsizei(names.size()),
@@ -2286,8 +2299,7 @@ inline
 deferred_error_handler
 obj_gen_del_ops<tag::texture>::
 _delete(span<GLuint> names)
-noexcept
-{
+noexcept {
 	OGLPLUS_GLFUNC(DeleteTextures)(
 		GLsizei(names.size()),
 		names.data()
@@ -2302,8 +2314,7 @@ inline
 outcome<boolean>
 obj_gen_del_ops<tag::texture>::
 _is_a(GLuint name)
-noexcept
-{
+noexcept {
 	GLboolean res = OGLPLUS_GLFUNC(IsTexture)(name);
 	OGLPLUS_VERIFY_SIMPLE(IsTexture,debug);
 	return boolean(res);
