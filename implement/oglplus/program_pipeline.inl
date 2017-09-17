@@ -26,6 +26,40 @@ noexcept
 }
 //------------------------------------------------------------------------------
 inline
+outcome<void>
+program_pipeline_ops::
+validate_program_pipeline(program_pipeline_name ppl)
+noexcept
+{
+	OGLPLUS_GLFUNC(ValidateProgram)(get_raw_name(ppl));
+	OGLPLUS_VERIFY(
+		ValidateProgramPipeline,
+		gl_object(ppl).
+		info_log_of(ppl),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+program_pipeline_ops::
+report_program_pipeline_validate_error(program_pipeline_name ppl)
+noexcept
+{
+	if(!get_program_pipeline_validate_status(ppl).value())
+	{
+		OGLPLUS_REPORT_ERROR(
+			ValidateProgramPipeline,
+			GL_INVALID_OPERATION,
+			info_log_of(ppl),
+			always
+		);
+	}
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
 outcome<program_pipeline_name>
 program_pipeline_ops::
 program_pipeline_binding(void)
@@ -81,6 +115,18 @@ return_program_pipeline_i(
 		parameter,
 		{&result, 1}
 	), R(T(result));
+}
+//------------------------------------------------------------------------------
+inline
+outcome<boolean>
+program_pipeline_ops::
+get_program_pipeline_validate_status(program_pipeline_name ppl)
+noexcept
+{
+	return return_program_pipeline_i<boolean, GLboolean>(
+		ppl,
+		program_pipeline_parameter(GL_VALIDATE_STATUS)
+	);
 }
 //------------------------------------------------------------------------------
 inline

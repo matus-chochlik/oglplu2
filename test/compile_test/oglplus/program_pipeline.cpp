@@ -20,6 +20,23 @@ void oglplus_program_pipeline_test_1(void)
 
 void oglplus_program_pipeline_test_ops1(void)
 {
+#if defined(GL_VERSION_4_1) || defined(GL_ARB_separate_shared_objects)
+	oper::program_pipeline_ops gl;
+	program_pipeline ppl;
+	program_pipeline_array<4> ppls;
+
+	gl.validate_program_pipeline(ppl);
+	gl.get_program_pipeline_validate_status(ppls[0]);
+	gl.get_program_pipeline_active_program(ppl);
+	gl.get_program_pipeline_info_log_length(ppl);
+	gl.report_program_pipeline_validate_error(ppls[1]);
+
+	ppl.validate();
+	ppl.get_validate_status();
+	ppl.get_active_program();
+	ppl.get_info_log_length();
+	ppl.report_validate_error();
+#endif
 }
 
 // TODO

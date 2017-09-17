@@ -88,6 +88,40 @@ noexcept
 inline
 outcome<void>
 program_ops::
+validate_program(program_name prog)
+noexcept
+{
+	OGLPLUS_GLFUNC(ValidateProgram)(get_raw_name(prog));
+	OGLPLUS_VERIFY(
+		ValidateProgram,
+		gl_object(prog).
+		info_log_of(prog),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+program_ops::
+report_program_validate_error(program_name prog)
+noexcept
+{
+	if(!get_program_validate_status(prog).value())
+	{
+		OGLPLUS_REPORT_ERROR(
+			ValidateProgram,
+			GL_INVALID_OPERATION,
+			info_log_of(prog),
+			always
+		);
+	}
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+program_ops::
 use_program(program_name prog)
 noexcept
 {
@@ -229,6 +263,18 @@ noexcept
 	return return_program_parameter_i<boolean, GLboolean>(
 		prog,
 		program_parameter(GL_LINK_STATUS)
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<boolean>
+program_ops::
+get_program_validate_status(program_name prog)
+noexcept
+{
+	return return_program_parameter_i<boolean, GLboolean>(
+		prog,
+		program_parameter(GL_VALIDATE_STATUS)
 	);
 }
 //------------------------------------------------------------------------------
