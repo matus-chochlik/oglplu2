@@ -36,7 +36,7 @@
 		<xsl:apply-templates select="feature"/>
 	</xsl:template>
 
-	<xsl:template match="/registry/feature[@api='gl' and @number>=3.0]">
+	<xsl:template match="/registry/feature[@api='gl' and @number>=2.0]">
 		<xsl:variable name="version_major" select="substring-before(@number,'.')"/>
 		<xsl:variable name="version_minor" select="substring-after(@number,'.')"/>
 		<xsl:text>#if (</xsl:text>
