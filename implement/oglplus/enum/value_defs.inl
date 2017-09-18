@@ -4317,6 +4317,13 @@ constexpr const enum_value<
 > enum_values::object_linear;
 #endif
 
+#ifdef GL_OBJECT_TYPE
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::sync_parameter>
+> enum_values::object_type;
+#endif
+
 #ifdef GL_OFFSET
 constexpr const enum_value<
 	GLenum,
@@ -6753,6 +6760,13 @@ constexpr const enum_value<
 > enum_values::subpixel_bits;
 #endif
 
+#ifdef GL_SYNC_CONDITION
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::sync_parameter>
+> enum_values::sync_condition;
+#endif
+
 #ifdef GL_SYNC_FENCE
 constexpr const enum_value<
 	GLenum,
@@ -6763,8 +6777,15 @@ constexpr const enum_value<
 #ifdef GL_SYNC_GPU_COMMANDS_COMPLETE
 constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::sync_condition>
+	mp_list<oglplus::sync_condition,oglplus::sync_parameter>
 > enum_values::sync_gpu_commands_complete;
+#endif
+
+#ifdef GL_SYNC_STATUS
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::sync_parameter>
+> enum_values::sync_status;
 #endif
 
 #ifdef GL_SYSTEM_FONT_NAME_NV

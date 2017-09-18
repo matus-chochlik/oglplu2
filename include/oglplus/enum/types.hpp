@@ -416,88 +416,92 @@ struct sync_condition
  : enum_class<sync_condition, GLenum, 99>
 { using enum_class::enum_class; };
 
+struct sync_parameter
+ : enum_class<sync_parameter, GLenum, 100>
+{ using enum_class::enum_class; };
+
 struct sync_status
- : enum_class<sync_status, GLenum, 100>
+ : enum_class<sync_status, GLenum, 101>
 { using enum_class::enum_class; };
 
 struct sync_type
- : enum_class<sync_type, GLenum, 101>
+ : enum_class<sync_type, GLenum, 102>
 { using enum_class::enum_class; };
 
 struct sync_wait_result
- : enum_class<sync_wait_result, GLenum, 102>
+ : enum_class<sync_wait_result, GLenum, 103>
 { using enum_class::enum_class; };
 
 struct tess_gen_primitive_spacing
- : enum_class<tess_gen_primitive_spacing, GLenum, 103>
+ : enum_class<tess_gen_primitive_spacing, GLenum, 104>
 { using enum_class::enum_class; };
 
 struct tess_gen_primitive_type
- : enum_class<tess_gen_primitive_type, GLenum, 104>
+ : enum_class<tess_gen_primitive_type, GLenum, 105>
 { using enum_class::enum_class; };
 
 struct texture_compare_mode
- : enum_class<texture_compare_mode, GLenum, 105>
+ : enum_class<texture_compare_mode, GLenum, 106>
 { using enum_class::enum_class; };
 
 struct texture_filter
- : enum_class<texture_filter, GLenum, 106>
+ : enum_class<texture_filter, GLenum, 107>
 { using enum_class::enum_class; };
 
 struct texture_mag_filter
- : enum_class<texture_mag_filter, GLenum, 107>
+ : enum_class<texture_mag_filter, GLenum, 108>
 { using enum_class::enum_class; };
 
 struct texture_min_filter
- : enum_class<texture_min_filter, GLenum, 108>
+ : enum_class<texture_min_filter, GLenum, 109>
 { using enum_class::enum_class; };
 
 struct texture_parameter
- : enum_class<texture_parameter, GLenum, 109>
+ : enum_class<texture_parameter, GLenum, 110>
 { using enum_class::enum_class; };
 
 struct texture_swizzle_coord
- : enum_class<texture_swizzle_coord, GLenum, 110>
+ : enum_class<texture_swizzle_coord, GLenum, 111>
 { using enum_class::enum_class; };
 
 struct texture_swizzle_mode
- : enum_class<texture_swizzle_mode, GLenum, 111>
+ : enum_class<texture_swizzle_mode, GLenum, 112>
 { using enum_class::enum_class; };
 
 struct texture_target
- : enum_class<texture_target, GLenum, 112>
+ : enum_class<texture_target, GLenum, 113>
 { using enum_class::enum_class; };
 
 struct texture_wrap_coord
- : enum_class<texture_wrap_coord, GLenum, 113>
+ : enum_class<texture_wrap_coord, GLenum, 114>
 { using enum_class::enum_class; };
 
 struct texture_wrap_mode
- : enum_class<texture_wrap_mode, GLenum, 114>
+ : enum_class<texture_wrap_mode, GLenum, 115>
 { using enum_class::enum_class; };
 
 struct transform_feedback_mode
- : enum_class<transform_feedback_mode, GLenum, 115>
+ : enum_class<transform_feedback_mode, GLenum, 116>
 { using enum_class::enum_class; };
 
 struct transform_feedback_parameter
- : enum_class<transform_feedback_parameter, GLenum, 116>
+ : enum_class<transform_feedback_parameter, GLenum, 117>
 { using enum_class::enum_class; };
 
 struct transform_feedback_primitive_type
- : enum_class<transform_feedback_primitive_type, GLenum, 117>
+ : enum_class<transform_feedback_primitive_type, GLenum, 118>
 { using enum_class::enum_class; };
 
 struct transform_feedback_target
- : enum_class<transform_feedback_target, GLenum, 118>
+ : enum_class<transform_feedback_target, GLenum, 119>
 { using enum_class::enum_class; };
 
 struct true_false
- : enum_class<true_false, GLboolean, 119>
+ : enum_class<true_false, GLboolean, 120>
 { using enum_class::enum_class; };
 
 struct unified_array_address_nv
- : enum_class<unified_array_address_nv, GLenum, 120>
+ : enum_class<unified_array_address_nv, GLenum, 121>
 { using enum_class::enum_class; };
 
 } // namespace oglplus

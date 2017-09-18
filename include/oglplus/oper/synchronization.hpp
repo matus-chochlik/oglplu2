@@ -15,6 +15,41 @@
 #include "../enum/types.hpp"
 
 namespace oglplus {
+
+#if defined(GL_VERSION_3_2) || defined(GL_ARB_sync)
+struct sync_object {
+public:
+	inline
+	sync_object(void)
+	noexcept
+	 : _handle{}
+	{ }
+
+	explicit inline
+	sync_object(GLsync s)
+	noexcept
+	 : _handle(s)
+	{ }
+
+	sync_object(const sync_object&) = default;
+	sync_object(sync_object&&) = default;
+private:
+	GLsync _handle;
+
+	friend
+	GLsync get_raw_handle(const sync_object& so)
+	noexcept {
+		return so._handle;
+	}
+
+	friend
+	GLsync& get_raw_handle(sync_object& so)
+	noexcept {
+		return so._handle;
+	}
+};
+#endif
+
 namespace oper {
 
 struct synchronization
@@ -23,8 +58,7 @@ struct synchronization
 	static
 	outcome<void>
 	texture_barrier(void)
-	noexcept
-	{
+	noexcept {
 		OGLPLUS_GLFUNC(TextureBarrier)();
 		OGLPLUS_VERIFY_SIMPLE(TextureBarrier, debug);
 		return {};
@@ -35,8 +69,7 @@ struct synchronization
 	static
 	outcome<void>
 	memory_barrier(enum_bitfield<memory_barrier_bits> bits)
-	noexcept
-	{
+	noexcept {
 		OGLPLUS_GLFUNC(MemoryBarrier)(GLbitfield(bits));
 		OGLPLUS_VERIFY_SIMPLE(MemoryBarrier, debug);
 		return {};
@@ -46,8 +79,7 @@ struct synchronization
 	static
 	outcome<void>
 	flush(void)
-	noexcept
-	{
+	noexcept {
 		OGLPLUS_GLFUNC(Flush)();
 		OGLPLUS_VERIFY_SIMPLE(Flush, debug);
 		return {};
@@ -56,15 +88,67 @@ struct synchronization
 	static
 	outcome<void>
 	finish(void)
-	noexcept
-	{
+	noexcept {
 		OGLPLUS_GLFUNC(Finish)();
 		OGLPLUS_VERIFY_SIMPLE(Finish, debug);
 		return {};
 	}
+
+#if defined(GL_VERSION_3_2) || defined(GL_ARB_sync)
+	static
+	outcome<sync_object>
+	fence_sync(sync_condition cond)
+	noexcept;
+
+	static
+	outcome<sync_object>
+	fence_sync(void)
+	noexcept;
+
+	static
+	outcome<void>
+	delete_sync(sync_object sync)
+	noexcept;
+
+	static
+	outcome<boolean>
+	is_sync(sync_object sync)
+	noexcept;
+
+	static
+	outcome<void>
+	get_sync_iv(
+		sync_object sync,
+		oglplus::sync_parameter param,
+		span<GLint> values
+	) noexcept;
+
+	template <typename R, typename T>
+	static
+	outcome<R>
+	return_sync_i(sync_object sync, sync_parameter param)
+	noexcept;
+
+	static
+	outcome<sync_status>
+	get_sync_status(sync_object sync)
+	noexcept;
+
+	static
+	outcome<boolean>
+	is_sync_signaled(sync_object sync)
+	noexcept;
+
+	static
+	outcome<void>
+	wait_sync(sync_object sync)
+	noexcept;
+#endif
 };
 
 } // namespace oper
 } // namespace oglplus
+
+#include <oglplus/oper/synchronization.inl>
 
 #endif // include guard

@@ -26,6 +26,15 @@ void oglplus_synchronization_test(void)
 
 	gl.flush();
 	gl.finish();
+
+#if defined(GL_VERSION_3_2) || defined(GL_ARB_sync)
+	sync_object so = gl.fence_sync();
+	gl.is_sync(so);
+	gl.wait_sync(so);
+	gl.get_sync_status(so);
+	gl.is_sync_signaled(so);
+	gl.delete_sync(so);
+#endif
 }
 
 void oglplus_buffer_clearing_state_test(void)
