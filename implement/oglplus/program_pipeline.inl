@@ -18,8 +18,7 @@ inline
 outcome<void>
 program_pipeline_ops::
 bind_program_pipeline(program_pipeline_name ppo)
-noexcept
-{
+noexcept {
 	OGLPLUS_GLFUNC(BindProgramPipeline)(get_raw_name(ppo));
 	OGLPLUS_VERIFY(BindProgramPipeline, gl_object(ppo), debug);
 	return {};
@@ -28,9 +27,48 @@ noexcept
 inline
 outcome<void>
 program_pipeline_ops::
+use_program_stages(
+	program_pipeline_name ppl,
+	enum_bitfield<program_pipeline_stage> stages,
+	program_name prog
+) noexcept {
+	OGLPLUS_GLFUNC(UseProgramStages)(
+		get_raw_name(ppl),
+		GLbitfield(stages),
+		get_raw_name(prog)
+	);
+	OGLPLUS_VERIFY(
+		UseProgramStages,
+		gl_subject(prog).
+		gl_object(ppl),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+program_pipeline_ops::
+active_shader_program(program_pipeline_name ppl, program_name prog)
+noexcept {
+	OGLPLUS_GLFUNC(ActiveShaderProgram)(
+		get_raw_name(ppl),
+		get_raw_name(prog)
+	);
+	OGLPLUS_VERIFY(
+		ActiveShaderProgram,
+		gl_subject(prog).
+		gl_object(ppl),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+program_pipeline_ops::
 validate_program_pipeline(program_pipeline_name ppl)
-noexcept
-{
+noexcept {
 	OGLPLUS_GLFUNC(ValidateProgram)(get_raw_name(ppl));
 	OGLPLUS_VERIFY(
 		ValidateProgramPipeline,
@@ -45,8 +83,7 @@ inline
 outcome<void>
 program_pipeline_ops::
 report_program_pipeline_validate_error(program_pipeline_name ppl)
-noexcept
-{
+noexcept {
 	if(!get_program_pipeline_validate_status(ppl).value())
 	{
 		OGLPLUS_REPORT_ERROR(
@@ -63,8 +100,7 @@ inline
 outcome<program_pipeline_name>
 program_pipeline_ops::
 program_pipeline_binding(void)
-noexcept
-{
+noexcept {
 #ifdef GL_PROGRAM_PIPELINE_BINDING
 	GLint result = 0;
 	return numeric_queries::get_integer_v(
@@ -83,8 +119,7 @@ get_program_pipeline_iv(
 	program_pipeline_name buf,
 	oglplus::program_pipeline_parameter param,
 	span<GLint> values
-) noexcept
-{
+) noexcept {
 	assert(values.size() > 0);
 	OGLPLUS_GLFUNC(GetProgramPipelineiv)(
 		get_raw_name(buf),
@@ -107,8 +142,7 @@ program_pipeline_ops::
 return_program_pipeline_i(
 	program_pipeline_name ppl,
 	program_pipeline_parameter parameter
-) noexcept
-{
+) noexcept {
 	GLint result = 0;
 	return get_program_pipeline_iv(
 		ppl,
@@ -121,8 +155,7 @@ inline
 outcome<boolean>
 program_pipeline_ops::
 get_program_pipeline_validate_status(program_pipeline_name ppl)
-noexcept
-{
+noexcept {
 	return return_program_pipeline_i<boolean, GLboolean>(
 		ppl,
 		program_pipeline_parameter(GL_VALIDATE_STATUS)
@@ -133,8 +166,7 @@ inline
 outcome<program_name>
 program_pipeline_ops::
 get_program_pipeline_active_program(program_pipeline_name ppl)
-noexcept
-{
+noexcept {
 	return return_program_pipeline_i<program_name, GLuint>(
 		ppl,
 		program_pipeline_parameter(GL_ACTIVE_PROGRAM)
@@ -145,8 +177,7 @@ inline
 outcome<GLsizei>
 program_pipeline_ops::
 get_program_pipeline_info_log_length(program_pipeline_name ppl)
-noexcept
-{
+noexcept {
 	return return_program_pipeline_i<GLsizei, GLsizei>(
 		ppl,
 		program_pipeline_parameter(GL_INFO_LOG_LENGTH)
@@ -163,8 +194,7 @@ inline
 deferred_error_handler
 obj_gen_del_ops<tag::program_pipeline>::
 _gen(span<GLuint> names)
-noexcept
-{
+noexcept {
 	OGLPLUS_GLFUNC(GenProgramPipelines)(
 		GLsizei(names.size()),
 		names.data()
@@ -180,8 +210,7 @@ inline
 deferred_error_handler
 obj_gen_del_ops<tag::program_pipeline>::
 _create(span<GLuint> names)
-noexcept
-{
+noexcept {
 	OGLPLUS_GLFUNC(CreateProgramPipelines)(
 		GLsizei(names.size()),
 		names.data()
@@ -197,8 +226,7 @@ inline
 deferred_error_handler
 obj_gen_del_ops<tag::program_pipeline>::
 _delete(span<GLuint> names)
-noexcept
-{
+noexcept {
 	OGLPLUS_GLFUNC(DeleteProgramPipelines)(
 		GLsizei(names.size()),
 		names.data()
@@ -213,8 +241,7 @@ inline
 outcome<boolean>
 obj_gen_del_ops<tag::program_pipeline>::
 _is_a(GLuint name)
-noexcept
-{
+noexcept {
 	GLboolean res = OGLPLUS_GLFUNC(IsProgramPipeline)(name);
 	OGLPLUS_VERIFY_SIMPLE(IsProgramPipeline,debug);
 	return boolean(res);
