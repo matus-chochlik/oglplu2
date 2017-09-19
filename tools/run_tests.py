@@ -342,6 +342,8 @@ def main():
 		if options.gl_libs is None:
 			if options.release:
 				options.gl_libs = "all-libs"
+			elif test_level_at_least(options, "basic"):
+				options.gl_libs ="all-apis"
 			else: options.gl_libs ="default"
 
 
