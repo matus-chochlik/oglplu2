@@ -1232,6 +1232,94 @@ texture_buffer(
 }
 #endif
 //------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_3)
+inline
+outcome<void>
+texture_ops::
+texture_buffer_range(
+	texture_target_only tnt,
+	pixel_data_internal_format iformat,
+	buffer_name buf,
+	buffer_size offset,
+	buffer_size size
+) noexcept {
+	OGLPLUS_GLFUNC(TexBufferRange)(
+		GLenum(tnt._target),
+		GLenum(iformat),
+		get_raw_name(buf),
+		GLintptr(offset),
+		GLsizeiptr(size)
+	);
+	OGLPLUS_VERIFY(
+		TexBufferRange,
+		gl_subject(buf).
+		gl_object_binding(tag::texture(), tnt._target).
+		gl_enum_value(iformat),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+#if defined(GL_EXT_direct_state_access)
+inline
+outcome<void>
+texture_ops::
+texture_buffer_range(
+	texture_name_and_target tnt,
+	pixel_data_internal_format iformat,
+	buffer_name buf,
+	buffer_size offset,
+	buffer_size size
+) noexcept {
+	OGLPLUS_GLFUNC(TextureBufferRangeEXT)(
+		get_raw_name(tnt._name),
+		GLenum(tnt._target),
+		GLenum(iformat),
+		get_raw_name(buf),
+		GLintptr(offset),
+		GLsizeiptr(size)
+	);
+	OGLPLUS_VERIFY(
+		TextureBufferRangeEXT,
+		gl_subject(buf).
+		gl_object(tnt._name).
+		gl_enum_value(iformat),
+		always
+	);
+	return {};
+}
+#endif
+#endif
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
+inline
+outcome<void>
+texture_ops::
+texture_buffer_range(
+	texture_name_only tnt,
+	pixel_data_internal_format iformat,
+	buffer_name buf,
+	buffer_size offset,
+	buffer_size size
+) noexcept {
+	OGLPLUS_GLFUNC(TextureBufferRange)(
+		get_raw_name(tnt._name),
+		GLenum(iformat),
+		get_raw_name(buf),
+		GLintptr(offset),
+		GLsizeiptr(size)
+	);
+	OGLPLUS_VERIFY(
+		TextureBufferRange,
+		gl_subject(buf).
+		gl_object(tnt._name).
+		gl_enum_value(iformat),
+		always
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
 inline
 outcome<void>
 texture_ops::

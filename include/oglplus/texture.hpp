@@ -17,6 +17,7 @@
 #include "error/outcome.hpp"
 #include "utils/gl_func.hpp"
 #include "utils/boolean.hpp"
+#include "utils/buffer_size.hpp"
 #include "utils/image_spec.hpp"
 #include "enum/indexed_types.hpp"
 
@@ -555,6 +556,43 @@ public:
 		texture_name_only tnt,
 		pixel_data_internal_format iformat,
 		buffer_name buf
+	) noexcept;
+
+#endif
+
+#if defined(GL_VERSION_4_2)
+	static
+	outcome<void>
+	texture_buffer_range(
+		texture_target_only tnt,
+		pixel_data_internal_format iformat,
+		buffer_name buf,
+		buffer_size offset,
+		buffer_size size
+	) noexcept;
+
+#if defined(GL_EXT_direct_state_access)
+	static
+	outcome<void>
+	texture_buffer_range(
+		texture_name_and_target tnt,
+		pixel_data_internal_format iformat,
+		buffer_name buf,
+		buffer_size offset,
+		buffer_size size
+	) noexcept;
+#endif
+#endif
+
+#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
+	static
+	outcome<void>
+	texture_buffer_range(
+		texture_name_only tnt,
+		pixel_data_internal_format iformat,
+		buffer_name buf,
+		buffer_size offset,
+		buffer_size size
 	) noexcept;
 #endif
 
@@ -1236,7 +1274,7 @@ public:
 
 #if defined(GL_VERSION_3_1)
 	outcome<Derived&>
-	assign_buffer(
+	buffer_(
 		pixel_data_internal_format iformat,
 		buffer_name buf
 	) noexcept {
@@ -1245,6 +1283,26 @@ public:
 				_get_tnt(),
 				iformat,
 				buf
+			), _self()
+		};
+	}
+#endif
+
+#if defined(GL_VERSION_4_3)
+	outcome<Derived&>
+	buffer_range(
+		pixel_data_internal_format iformat,
+		buffer_name buf,
+		buffer_size offset,
+		buffer_size size
+	) noexcept {
+		return {
+			_ops::texture_buffer_range(
+				_get_tnt(),
+				iformat,
+				buf,
+				offset,
+				size
 			), _self()
 		};
 	}

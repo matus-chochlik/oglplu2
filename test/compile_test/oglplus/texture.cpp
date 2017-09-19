@@ -27,6 +27,7 @@ void oglplus_texture_test_ops1(void)
 	texture_target tgt(GL_TEXTURE_2D);
 	texture_name_and_target tnt(tex,tgt);
 	bound_texture curtex(tgt);
+	buffer_size offs, size;
 
 	pixel_data_internal_format ifmt(GL_RGBA);
 	pixel_data_format fmt(GL_RGBA);
@@ -99,6 +100,16 @@ void oglplus_texture_test_ops1(void)
 #endif
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
 	gl.texture_buffer(tex, ifmt, buf);
+#endif
+
+#if defined(GL_VERSION_4_3)
+	gl.texture_buffer_range(tgt, ifmt, buf, offs, size);
+#if defined(GL_EXT_direct_state_access)
+	gl.texture_buffer_range(tnt, ifmt, buf, offs, size);
+#endif
+#endif
+#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
+	gl.texture_buffer_range(tex, ifmt, buf, offs, size);
 #endif
 
 	gl.generate_texture_mipmap(tgt);
@@ -330,10 +341,17 @@ void oglplus_texture_test_ops1(void)
 #endif
 
 #if defined(GL_VERSION_3_1)
-	curtex.assign_buffer(ifmt, buf);
+	curtex.buffer_(ifmt, buf);
 #endif
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
-	tex.assign_buffer(ifmt, buf);
+	tex.buffer_(ifmt, buf);
+#endif
+
+#if defined(GL_VERSION_4_3)
+	curtex.buffer_range(ifmt, buf, offs, size);
+#endif
+#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
+	tex.buffer_range(ifmt, buf, offs, size);
 #endif
 
 #if defined(GL_VERSION_4_5) ||\
