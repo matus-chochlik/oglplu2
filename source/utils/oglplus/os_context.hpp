@@ -35,9 +35,10 @@ typedef offscreen_context_glfw offscreen_context;
 # define OGLPLUS_HAS_OS_CONTEXT 1
 #elif OGLPLUS_USE_SDL
 typedef offscreen_context_sdl offscreen_context;
-#elif OGLPLUS_USE_GLUT
 # define OGLPLUS_HAS_OS_CONTEXT 1
+#elif OGLPLUS_USE_GLUT
 typedef offscreen_context_glut offscreen_context;
+# define OGLPLUS_HAS_OS_CONTEXT 1
 #else
 # define OGLPLUS_HAS_OS_CONTEXT 0
 #endif

@@ -22,7 +22,7 @@ bool query_gl(int argc, char **argv)
 
 	return do_query_gl();
 #else
-	return true;
+	return false;
 #endif
 }
 
