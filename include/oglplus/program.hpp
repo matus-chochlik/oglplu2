@@ -164,10 +164,12 @@ struct program_ops
 		sl_data_type& type
 	) noexcept;
 
+#if defined(GL_ACTIVE_ATOMIC_COUNTER_BUFFERS)
 	static
 	outcome<GLsizei>
 	get_program_active_atomic_counter_buffers(program_name prog)
 	noexcept;
+#endif
 
 	static
 	outcome<transform_feedback_mode>
@@ -307,9 +309,11 @@ struct obj_dsa_ops<tag::program>
 		return _ops::get_active_uniform(*this, index, name, size, type);
 	}
 
+#if defined(GL_ACTIVE_ATOMIC_COUNTER_BUFFERS)
 	outcome<GLsizei>
 	get_active_atomic_counter_buffers(void) const
 	noexcept { return _ops::get_program_active_atomic_counter_buffers(*this); }
+#endif
 
 	outcome<transform_feedback_mode>
 	get_transform_feedback_buffer_mode(void) const

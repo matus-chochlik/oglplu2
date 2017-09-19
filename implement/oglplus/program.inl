@@ -423,6 +423,7 @@ get_active_uniform(
 	return {reallen};
 }
 //------------------------------------------------------------------------------
+#if defined(GL_ACTIVE_ATOMIC_COUNTER_BUFFERS)
 inline
 outcome<GLsizei>
 program_ops::
@@ -434,6 +435,7 @@ noexcept
 		program_parameter(GL_ACTIVE_ATOMIC_COUNTER_BUFFERS)
 	);
 }
+#endif
 //------------------------------------------------------------------------------
 inline
 outcome<transform_feedback_mode>

@@ -54,7 +54,10 @@ void oglplus_program_test_ops1(void)
 	gl.get_program_active_uniform_max_length(prog);
 	gl.get_active_uniform(prog, 0, span<char>(), size, type);
 
+#if defined(GL_ACTIVE_ATOMIC_COUNTER_BUFFERS)
 	gl.get_program_active_atomic_counter_buffers(prog);
+#endif
+
 	gl.get_program_transform_feedback_buffer_mode(prog);
 
 #if defined(GL_VERSION_3_2)
@@ -98,7 +101,10 @@ void oglplus_program_test_ops1(void)
 	prog.get_active_uniform_max_length();
 	prog.get_active_uniform(0, span<char>(), size, type);
 
+#if defined(GL_ACTIVE_ATOMIC_COUNTER_BUFFERS)
 	prog.get_active_atomic_counter_buffers();
+#endif
+
 	prog.get_transform_feedback_buffer_mode();
 
 #if defined(GL_VERSION_3_2)
