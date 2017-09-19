@@ -491,15 +491,17 @@ noexcept
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_3)
 inline
-outcome<GLsizei>
+outcome<compute_work_group_size>
 program_ops::
 get_program_compute_work_group_size(program_name prog)
 noexcept
 {
-	return return_program_parameter_i<GLsizei, GLsizei>(
+	compute_work_group_size result(0, 0, 0);
+	return get_program_iv(
 		prog,
-		program_parameter(GL_COMPUTE_WORK_GROUP_SIZE)
-	);
+		program_parameter(GL_COMPUTE_WORK_GROUP_SIZE),
+		{result._v, 3}
+	).add(result);
 }
 #endif
 //------------------------------------------------------------------------------

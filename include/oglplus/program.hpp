@@ -11,6 +11,7 @@
 
 #include "program_name.hpp"
 #include "shader_name.hpp"
+#include "oper/computing.hpp"
 #include "object/owner.hpp"
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
@@ -196,7 +197,7 @@ struct program_ops
 
 #if defined(GL_VERSION_4_3)
 	static
-	outcome<GLsizei>
+	outcome<compute_work_group_size>
 	get_program_compute_work_group_size(program_name prog)
 	noexcept;
 #endif
@@ -333,7 +334,7 @@ struct obj_dsa_ops<tag::program>
 #endif
 
 #if defined(GL_VERSION_4_3)
-	outcome<GLsizei>
+	outcome<oper::compute_work_group_size>
 	get_compute_work_group_size(void) const
 	noexcept { return _ops::get_program_compute_work_group_size(*this); }
 #endif
