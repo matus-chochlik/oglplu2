@@ -28,6 +28,7 @@ void oglplus_texture_test_ops1(void)
 	texture_name_and_target tnt(tex,tgt);
 	bound_texture curtex(tgt);
 	buffer_size offs, size;
+	buffer_data_spec data;
 
 	pixel_data_internal_format ifmt(GL_RGBA);
 	pixel_data_format fmt(GL_RGBA);
@@ -48,6 +49,11 @@ void oglplus_texture_test_ops1(void)
 	gl.bind_texture(tgt, texs[0]);
 #if defined(GL_VERSION_4_4)
 	gl.bind_textures(texture_unit(2), texs);
+#endif
+
+#if defined(GL_VERSION_4_4)
+	gl.clear_texture_image(tex, 0, fmt, typ, data);
+	gl.clear_texture_sub_image(tex, 0, 1, 1, 1, 64, 64, 64, fmt, typ, data);
 #endif
 
 #if defined(GL_VERSION_3_0)

@@ -18,6 +18,7 @@
 #include "utils/gl_func.hpp"
 #include "utils/boolean.hpp"
 #include "utils/buffer_size.hpp"
+#include "utils/buffer_data.hpp"
 #include "utils/image_spec.hpp"
 #include "enum/indexed_types.hpp"
 
@@ -164,6 +165,34 @@ public:
 		GLsizei width,
 		GLsizei height,
 		GLsizei depth
+	) noexcept;
+#endif
+
+#if defined(GL_VERSION_4_4)
+	static
+	outcome<void>
+	clear_texture_image(
+		texture_name_only tnt,
+		GLint level,
+		pixel_data_format format,
+		pixel_data_type type,
+		const buffer_data_spec& data
+	) noexcept;
+
+	static
+	outcome<void>
+	clear_texture_sub_image(
+		texture_name_only tnt,
+		GLint level,
+		GLint xoffset,
+		GLint yoffset,
+		GLint zoffset,
+		GLsizei width,
+		GLsizei height,
+		GLsizei depth,
+		pixel_data_format format,
+		pixel_data_type type,
+		const buffer_data_spec& data
 	) noexcept;
 #endif
 

@@ -282,6 +282,72 @@ texture_storage_3d(
 }
 #endif
 //------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_4)
+inline
+outcome<void>
+texture_ops::
+clear_texture_image(
+	texture_name_only tnt,
+	GLint level,
+	pixel_data_format format,
+	pixel_data_type type,
+	const buffer_data_spec& data
+) noexcept {
+	OGLPLUS_GLFUNC(ClearTexImage)(
+		get_raw_name(tnt._name),
+		level,
+		GLenum(format),
+		GLenum(type),
+		data.data()
+	);
+	OGLPLUS_VERIFY(
+		ClearTexImage,
+		gl_object(tnt._name).
+		gl_enum_value(format),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+clear_texture_sub_image(
+	texture_name_only tnt,
+	GLint level,
+	GLint xoffset,
+	GLint yoffset,
+	GLint zoffset,
+	GLsizei width,
+	GLsizei height,
+	GLsizei depth,
+	pixel_data_format format,
+	pixel_data_type type,
+	const buffer_data_spec& data
+) noexcept {
+	OGLPLUS_GLFUNC(ClearTexSubImage)(
+		get_raw_name(tnt._name),
+		level,
+		xoffset,
+		yoffset,
+		zoffset,
+		width,
+		height,
+		depth,
+		GLenum(format),
+		GLenum(type),
+		data.data()
+	);
+	OGLPLUS_VERIFY(
+		ClearTexSubImage,
+		gl_object(tnt._name).
+		gl_enum_value(format),
+		always
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
 // TODO throw this out once the type of internalformat in GLEW is fixed
 #ifdef __clang__
 #pragma clang diagnostic push
