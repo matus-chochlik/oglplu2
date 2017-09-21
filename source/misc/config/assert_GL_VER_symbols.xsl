@@ -1,5 +1,5 @@
 <!--
-   - Copyright 2014 Matus Chochlik. Distributed under the Boost
+   - Copyright Matus Chochlik. Distributed under the Boost
    - Software License, Version 1.0. (See accompanying file
    - LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
    -
@@ -19,7 +19,7 @@
 	</xsl:template>
 
 	<xsl:template match="/registry">
-		
+
 <xsl:text>/**
  *  .file config/gl/assert_GL_VER_symbols.ipp.in
  *  .brief Helper file used by GL version detection.
@@ -36,7 +36,7 @@
 		<xsl:apply-templates select="feature"/>
 	</xsl:template>
 
-	<xsl:template match="/registry/feature[@api='gl' and @number>=3.0]">
+	<xsl:template match="/registry/feature[@api='gl' and @number>=2.0]">
 		<xsl:variable name="version_major" select="substring-before(@number,'.')"/>
 		<xsl:variable name="version_minor" select="substring-after(@number,'.')"/>
 		<xsl:text>#if (</xsl:text>

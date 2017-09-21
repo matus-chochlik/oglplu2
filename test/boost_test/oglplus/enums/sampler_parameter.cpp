@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_sampler_parameter_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	sampler_parameter x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_TEXTURE_BORDER_COLOR
 	x = ev.texture_border_color;
@@ -250,9 +250,9 @@ BOOST_AUTO_TEST_CASE(enum_sampler_parameter_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	sampler_parameter x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_TEXTURE_BORDER_COLOR
 	x = ev.texture_border_color;
@@ -486,12 +486,12 @@ BOOST_AUTO_TEST_CASE(enum_sampler_parameter_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	sampler_parameter x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_TEXTURE_BORDER_COLOR
 	x = ev.texture_border_color;

@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_color_buffer_type_values)
 {
 	using namespace eglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	color_buffer_type x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef EGL_LUMINANCE_BUFFER
 	x = ev.luminance_buffer;
@@ -43,9 +43,9 @@ BOOST_AUTO_TEST_CASE(enum_color_buffer_type_names)
 {
 	using namespace eglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	color_buffer_type x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef EGL_LUMINANCE_BUFFER
 	x = ev.luminance_buffer;
@@ -99,12 +99,12 @@ BOOST_AUTO_TEST_CASE(enum_color_buffer_type_any)
 {
 	using namespace eglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	color_buffer_type x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef EGL_LUMINANCE_BUFFER
 	x = ev.luminance_buffer;

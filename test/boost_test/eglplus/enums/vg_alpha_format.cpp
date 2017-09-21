@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_vg_alpha_format_values)
 {
 	using namespace eglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	vg_alpha_format x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef EGL_VG_ALPHA_FORMAT_NONPRE
 	x = ev.vg_alpha_format_nonpre;
@@ -43,9 +43,9 @@ BOOST_AUTO_TEST_CASE(enum_vg_alpha_format_names)
 {
 	using namespace eglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	vg_alpha_format x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef EGL_VG_ALPHA_FORMAT_NONPRE
 	x = ev.vg_alpha_format_nonpre;
@@ -99,12 +99,12 @@ BOOST_AUTO_TEST_CASE(enum_vg_alpha_format_any)
 {
 	using namespace eglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	vg_alpha_format x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef EGL_VG_ALPHA_FORMAT_NONPRE
 	x = ev.vg_alpha_format_nonpre;

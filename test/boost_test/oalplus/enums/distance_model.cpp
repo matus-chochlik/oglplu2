@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_distance_model_values)
 {
 	using namespace oalplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	distance_model x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef AL_EXPONENT_DISTANCE
 	x = ev.exponent_distance;
@@ -128,9 +128,9 @@ BOOST_AUTO_TEST_CASE(enum_distance_model_names)
 {
 	using namespace oalplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	distance_model x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef AL_EXPONENT_DISTANCE
 	x = ev.exponent_distance;
@@ -284,12 +284,12 @@ BOOST_AUTO_TEST_CASE(enum_distance_model_any)
 {
 	using namespace oalplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	distance_model x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef AL_EXPONENT_DISTANCE
 	x = ev.exponent_distance;

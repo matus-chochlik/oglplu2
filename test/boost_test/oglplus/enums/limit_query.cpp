@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	limit_query x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_MAX_3D_TEXTURE_SIZE
 	x = ev.max_3d_texture_size;
@@ -18233,9 +18233,9 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	limit_query x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_MAX_3D_TEXTURE_SIZE
 	x = ev.max_3d_texture_size;
@@ -20429,12 +20429,12 @@ BOOST_AUTO_TEST_CASE(enum_limit_query_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	limit_query x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_MAX_3D_TEXTURE_SIZE
 	x = ev.max_3d_texture_size;

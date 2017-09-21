@@ -35,6 +35,29 @@ struct program_pipeline_ops
 
 	static
 	outcome<void>
+	use_program_stages(
+		program_pipeline_name ppl,
+		enum_bitfield<program_pipeline_stage> stages,
+		program_name prog
+	) noexcept;
+
+	static
+	outcome<void>
+	active_shader_program(program_pipeline_name ppl, program_name prog)
+	noexcept;
+
+	static
+	outcome<void>
+	validate_program_pipeline(program_pipeline_name ppl)
+	noexcept;
+
+	static
+	outcome<void>
+	report_program_pipeline_validate_error(program_pipeline_name ppl)
+	noexcept;
+
+	static
+	outcome<void>
 	get_program_pipeline_iv(
 		program_pipeline_name buf,
 		program_pipeline_parameter param,
@@ -48,6 +71,11 @@ struct program_pipeline_ops
 		program_pipeline_name ppl,
 		program_pipeline_parameter parameter
 	) noexcept;
+
+	static
+	outcome<boolean>
+	get_program_pipeline_validate_status(program_pipeline_name ppl)
+	noexcept;
 
 	static
 	outcome<program_name>
@@ -70,7 +98,35 @@ struct obj_dsa_ops<tag::program_pipeline>
 {
 	typedef oper::program_pipeline_ops _ops;
 
+	using obj_zero_dsa_ops<tag::program_pipeline>::obj_zero_dsa_ops;
+
 #if defined(GL_VERSION_4_1) || defined(GL_ARB_separate_shared_objects)
+	outcome<obj_dsa_ops&>
+	use_program_stages(
+		enum_bitfield<program_pipeline_stage> stages,
+		program_name prog
+	) noexcept {
+		return {_ops::use_program_stages(*this, stages, prog), *this};
+	}
+
+	outcome<obj_dsa_ops&>
+	active_program(program_name prog)
+	noexcept { return {_ops::active_shader_program(*this, prog), *this}; }
+
+	outcome<obj_dsa_ops&>
+	validate(void)
+	noexcept { return {_ops::validate_program_pipeline(*this), *this}; }
+
+	outcome<boolean>
+	get_validate_status(void) const
+	noexcept { return _ops::get_program_pipeline_validate_status(*this); }
+
+	outcome<obj_dsa_ops&>
+	report_validate_error(void)
+	noexcept {
+		return {_ops::report_program_pipeline_validate_error(*this), *this};
+	}
+
 	outcome<program_name>
 	get_active_program(void) const
 	noexcept { return _ops::get_program_pipeline_active_program(*this); }
@@ -89,6 +145,13 @@ struct obj_gen_del_ops<tag::program_pipeline>
 	deferred_error_handler
 	_gen(span<GLuint> names)
 	noexcept;
+
+#if defined(GL_VERSION_4_5)
+	static
+	deferred_error_handler
+	_create(span<GLuint> names)
+	noexcept;
+#endif
 
 	static
 	deferred_error_handler

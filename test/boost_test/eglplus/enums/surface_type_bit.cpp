@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_surface_type_bit_values)
 {
 	using namespace eglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	surface_type_bit x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef EGL_MULTISAMPLE_RESOLVE_BOX_BIT
 	x = ev.multisample_resolve_box_bit;
@@ -128,9 +128,9 @@ BOOST_AUTO_TEST_CASE(enum_surface_type_bit_names)
 {
 	using namespace eglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	surface_type_bit x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef EGL_MULTISAMPLE_RESOLVE_BOX_BIT
 	x = ev.multisample_resolve_box_bit;
@@ -284,12 +284,12 @@ BOOST_AUTO_TEST_CASE(enum_surface_type_bit_any)
 {
 	using namespace eglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	surface_type_bit x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef EGL_MULTISAMPLE_RESOLVE_BOX_BIT
 	x = ev.multisample_resolve_box_bit;

@@ -1,0 +1,34 @@
+# Copyright Matus Chochlik.
+# Distributed under the Boost Software License, Version 1.0.
+# See accompanying file LICENSE_1_0.txt or copy at
+#  http://www.boost.org/LICENSE_1_0.txt
+MAP_COLOR::::bool
+MAP_STENCIL::::bool
+INDEX_SHIFT::::int
+INDEX_OFFSET::::int
+RED_SCALE::::float
+RED_BIAS::::float
+GREEN_SCALE::::float
+GREEN_BIAS::::float
+BLUE_SCALE::::float
+BLUE_BIAS::::float
+ALPHA_SCALE::::float
+ALPHA_BIAS::::float
+DEPTH_SCALE::::float
+DEPTH_BIAS::::float
+POST_COLOR_MATRIX_RED_SCALE::::float
+POST_COLOR_MATRIX_GREEN_SCALE::::float
+POST_COLOR_MATRIX_BLUE_SCALE::::float
+POST_COLOR_MATRIX_ALPHA_SCALE::::float
+POST_COLOR_MATRIX_RED_BIAS::::float
+POST_COLOR_MATRIX_GREEN_BIAS::::float
+POST_COLOR_MATRIX_BLUE_BIAS::::float
+POST_COLOR_MATRIX_ALPHA_BIAS::::float
+POST_CONVOLUTION_RED_SCALE::::float
+POST_CONVOLUTION_GREEN_SCALE::::float
+POST_CONVOLUTION_BLUE_SCALE::::float
+POST_CONVOLUTION_ALPHA_SCALE::::float
+POST_CONVOLUTION_RED_BIAS::::float
+POST_CONVOLUTION_GREEN_BIAS::::float
+POST_CONVOLUTION_BLUE_BIAS::::float
+POST_CONVOLUTION_ALPHA_BIAS::::float

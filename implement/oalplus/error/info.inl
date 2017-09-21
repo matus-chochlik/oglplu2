@@ -34,7 +34,7 @@ noexcept
 #if !OALPLUS_ERROR_NO_OBJECT
 	_obj_name = obj_name;
 #else
-	(void)obj_name;
+	EAGINE_MAYBE_UNUSED(obj_name);
 #endif
 	return *this;
 }
@@ -61,7 +61,7 @@ noexcept
 #if !OALPLUS_ERROR_NO_INDEX
 	_index = idx;
 #else
-	(void)idx;
+	EAGINE_MAYBE_UNUSED(idx);
 #endif
 	return *this;
 }
@@ -88,7 +88,7 @@ noexcept
 #if !OALPLUS_ERROR_NO_ENUM_VALUE
 	_enum_val = enum_val;
 #else
-	(void)enum_val;
+	EAGINE_MAYBE_UNUSED(enum_val);
 #endif
 	return *this;
 }

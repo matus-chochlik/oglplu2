@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	pixel_data_internal_format x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_COMPRESSED_R11_EAC
 	x = ev.compressed_r11_eac;
@@ -15380,9 +15380,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	pixel_data_internal_format x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_COMPRESSED_R11_EAC
 	x = ev.compressed_r11_eac;
@@ -17396,12 +17396,12 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	pixel_data_internal_format x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_COMPRESSED_R11_EAC
 	x = ev.compressed_r11_eac;

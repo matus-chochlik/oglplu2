@@ -29,6 +29,7 @@ void oglplus_program_test_ops1(void)
 	gl.detach_shader(prog, shdr);
 	gl.attach_shader(progs[0], shdr);
 	gl.link_program(prog);
+	gl.validate_program(prog);
 	gl.use_program(prog);
 	gl.current_program();
 
@@ -39,6 +40,11 @@ void oglplus_program_test_ops1(void)
 
 	gl.get_program_delete_status(prog);
 	gl.get_program_link_status(prog);
+	gl.get_program_validate_status(prog);
+
+	gl.report_program_link_error(prog);
+	gl.report_program_validate_error(prog);
+
 	gl.get_program_info_log_length(prog);
 	gl.get_program_info_log(prog, span<char>());
 	gl.get_program_active_attributes(prog);
@@ -48,7 +54,10 @@ void oglplus_program_test_ops1(void)
 	gl.get_program_active_uniform_max_length(prog);
 	gl.get_active_uniform(prog, 0, span<char>(), size, type);
 
+#if defined(GL_ACTIVE_ATOMIC_COUNTER_BUFFERS)
 	gl.get_program_active_atomic_counter_buffers(prog);
+#endif
+
 	gl.get_program_transform_feedback_buffer_mode(prog);
 
 #if defined(GL_VERSION_3_2)
@@ -78,6 +87,11 @@ void oglplus_program_test_ops1(void)
 
 	prog.get_delete_status();
 	prog.get_link_status();
+	prog.get_validate_status();
+
+	prog.report_link_error();
+	prog.report_validate_error();
+
 	prog.get_info_log_length();
 	prog.get_info_log(span<char>());
 	prog.get_active_attributes();
@@ -87,7 +101,10 @@ void oglplus_program_test_ops1(void)
 	prog.get_active_uniform_max_length();
 	prog.get_active_uniform(0, span<char>(), size, type);
 
+#if defined(GL_ACTIVE_ATOMIC_COUNTER_BUFFERS)
 	prog.get_active_atomic_counter_buffers();
+#endif
+
 	prog.get_transform_feedback_buffer_mode();
 
 #if defined(GL_VERSION_3_2)

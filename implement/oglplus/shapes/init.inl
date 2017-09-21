@@ -6,6 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/maybe_unused.hpp>
 #include <oglplus/constants.hpp>
 #include <oglplus/operations.hpp>
 
@@ -30,7 +31,7 @@ initialize_vao_and_buffers(
 	auto vaale = vaals.end();
 	auto bufsi = bufs.begin();
 	auto bufse = bufs.end();
-	(void)bufse;
+	EAGINE_MAYBE_UNUSED(bufse);
 
 	if(auto res = failure(gl.bind(vao)))
 	{

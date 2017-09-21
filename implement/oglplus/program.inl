@@ -88,6 +88,40 @@ noexcept
 inline
 outcome<void>
 program_ops::
+validate_program(program_name prog)
+noexcept
+{
+	OGLPLUS_GLFUNC(ValidateProgram)(get_raw_name(prog));
+	OGLPLUS_VERIFY(
+		ValidateProgram,
+		gl_object(prog).
+		info_log_of(prog),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+program_ops::
+report_program_validate_error(program_name prog)
+noexcept
+{
+	if(!get_program_validate_status(prog).value())
+	{
+		OGLPLUS_REPORT_ERROR(
+			ValidateProgram,
+			GL_INVALID_OPERATION,
+			info_log_of(prog),
+			always
+		);
+	}
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+program_ops::
 use_program(program_name prog)
 noexcept
 {
@@ -229,6 +263,18 @@ noexcept
 	return return_program_parameter_i<boolean, GLboolean>(
 		prog,
 		program_parameter(GL_LINK_STATUS)
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<boolean>
+program_ops::
+get_program_validate_status(program_name prog)
+noexcept
+{
+	return return_program_parameter_i<boolean, GLboolean>(
+		prog,
+		program_parameter(GL_VALIDATE_STATUS)
 	);
 }
 //------------------------------------------------------------------------------
@@ -377,6 +423,7 @@ get_active_uniform(
 	return {reallen};
 }
 //------------------------------------------------------------------------------
+#if defined(GL_ACTIVE_ATOMIC_COUNTER_BUFFERS)
 inline
 outcome<GLsizei>
 program_ops::
@@ -388,6 +435,7 @@ noexcept
 		program_parameter(GL_ACTIVE_ATOMIC_COUNTER_BUFFERS)
 	);
 }
+#endif
 //------------------------------------------------------------------------------
 inline
 outcome<transform_feedback_mode>
@@ -445,15 +493,17 @@ noexcept
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_3)
 inline
-outcome<GLsizei>
+outcome<compute_work_group_size>
 program_ops::
 get_program_compute_work_group_size(program_name prog)
 noexcept
 {
-	return return_program_parameter_i<GLsizei, GLsizei>(
+	compute_work_group_size result(0, 0, 0);
+	return get_program_iv(
 		prog,
-		program_parameter(GL_COMPUTE_WORK_GROUP_SIZE)
-	);
+		program_parameter(GL_COMPUTE_WORK_GROUP_SIZE),
+		{result._v, 3}
+	).add(result);
 }
 #endif
 //------------------------------------------------------------------------------
@@ -487,6 +537,17 @@ noexcept
 		}
 	}
 	return {};
+}
+//------------------------------------------------------------------------------
+// obj_gen_del_ops::_create
+//------------------------------------------------------------------------------
+inline
+deferred_error_handler
+obj_gen_del_ops<tag::program>::
+_create(span<GLuint> names)
+noexcept
+{
+	return _gen(names);
 }
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_delete

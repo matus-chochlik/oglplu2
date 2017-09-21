@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_point_parameter_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	point_parameter x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_POINT_FADE_THRESHOLD_SIZE
 	x = ev.point_fade_threshold_size;
@@ -68,9 +68,9 @@ BOOST_AUTO_TEST_CASE(enum_point_parameter_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	point_parameter x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_POINT_FADE_THRESHOLD_SIZE
 	x = ev.point_fade_threshold_size;
@@ -164,12 +164,12 @@ BOOST_AUTO_TEST_CASE(enum_point_parameter_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	point_parameter x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_POINT_FADE_THRESHOLD_SIZE
 	x = ev.point_fade_threshold_size;

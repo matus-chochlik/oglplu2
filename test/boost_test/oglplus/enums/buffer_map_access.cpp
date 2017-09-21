@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_buffer_map_access_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	buffer_map_access x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_MAP_COHERENT_BIT
 	x = ev.map_coherent_bit;
@@ -154,9 +154,9 @@ BOOST_AUTO_TEST_CASE(enum_buffer_map_access_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	buffer_map_access x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_MAP_COHERENT_BIT
 	x = ev.map_coherent_bit;
@@ -330,12 +330,12 @@ BOOST_AUTO_TEST_CASE(enum_buffer_map_access_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	buffer_map_access x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_MAP_COHERENT_BIT
 	x = ev.map_coherent_bit;

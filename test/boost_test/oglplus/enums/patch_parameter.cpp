@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_patch_parameter_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	patch_parameter x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_PATCH_DEFAULT_INNER_LEVEL
 	x = ev.patch_default_inner_level;
@@ -54,9 +54,9 @@ BOOST_AUTO_TEST_CASE(enum_patch_parameter_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	patch_parameter x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_PATCH_DEFAULT_INNER_LEVEL
 	x = ev.patch_default_inner_level;
@@ -130,12 +130,12 @@ BOOST_AUTO_TEST_CASE(enum_patch_parameter_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	patch_parameter x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_PATCH_DEFAULT_INNER_LEVEL
 	x = ev.patch_default_inner_level;

@@ -11,6 +11,7 @@
 
 #include "program_name.hpp"
 #include "shader_name.hpp"
+#include "oper/computing.hpp"
 #include "object/owner.hpp"
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
@@ -42,6 +43,16 @@ struct program_ops
 	static
 	outcome<void>
 	report_program_link_error(program_name prog)
+	noexcept;
+
+	static
+	outcome<void>
+	validate_program(program_name prog)
+	noexcept;
+
+	static
+	outcome<void>
+	report_program_validate_error(program_name prog)
 	noexcept;
 
 	static
@@ -99,6 +110,11 @@ struct program_ops
 	noexcept;
 
 	static
+	outcome<boolean>
+	get_program_validate_status(program_name prog)
+	noexcept;
+
+	static
 	outcome<GLsizei>
 	get_program_info_log_length(program_name prog)
 	noexcept;
@@ -148,10 +164,12 @@ struct program_ops
 		sl_data_type& type
 	) noexcept;
 
+#if defined(GL_ACTIVE_ATOMIC_COUNTER_BUFFERS)
 	static
 	outcome<GLsizei>
 	get_program_active_atomic_counter_buffers(program_name prog)
 	noexcept;
+#endif
 
 	static
 	outcome<transform_feedback_mode>
@@ -181,7 +199,7 @@ struct program_ops
 
 #if defined(GL_VERSION_4_3)
 	static
-	outcome<GLsizei>
+	outcome<compute_work_group_size>
 	get_program_compute_work_group_size(program_name prog)
 	noexcept;
 #endif
@@ -201,89 +219,67 @@ struct obj_dsa_ops<tag::program>
 
 	outcome<obj_dsa_ops&>
 	attach(shader_name shdr)
-	noexcept
-	{
-		return {_ops::attach_shader(*this, shdr), *this};
-	}
+	noexcept { return {_ops::attach_shader(*this, shdr), *this}; }
 
 	outcome<obj_dsa_ops&>
 	detach(shader_name shdr)
-	noexcept
-	{
-		return {_ops::detach_shader(*this, shdr), *this};
-	}
+	noexcept { return {_ops::detach_shader(*this, shdr), *this}; }
 
 	outcome<obj_dsa_ops&>
 	link(void)
-	noexcept
-	{
-		return {_ops::link_program(*this), *this};
-	}
+	noexcept { return {_ops::link_program(*this), *this}; }
+
+	outcome<obj_dsa_ops&>
+	validate(void)
+	noexcept { return {_ops::validate_program(*this), *this}; }
 
 	outcome<obj_dsa_ops&>
 	report_link_error(void)
-	noexcept
-	{
-		return {_ops::report_program_link_error(*this), *this};
-	}
+	noexcept { return {_ops::report_program_link_error(*this), *this}; }
+
+	outcome<obj_dsa_ops&>
+	report_validate_error(void)
+	noexcept { return {_ops::report_program_validate_error(*this), *this}; }
 
 #if defined(GL_VERSION_4_1)
 	outcome<obj_dsa_ops&>
 	binary_retrievable_hint(boolean value)
-	noexcept
-	{
+	noexcept {
 		return {_ops::program_binary_retrievable_hint(*this, value), *this};
 	}
 
 	outcome<obj_dsa_ops&>
 	separable(boolean value)
-	noexcept
-	{
-		return {_ops::program_separable(*this, value), *this};
-	}
+	noexcept { return {_ops::program_separable(*this, value), *this}; }
 #endif
 
 	outcome<boolean>
-	get_link_status(void) const
-	noexcept
-	{
-		return _ops::get_program_link_status(*this);
-	}
+	get_delete_status(void) const
+	noexcept { return _ops::get_program_delete_status(*this); }
 
 	outcome<boolean>
-	get_delete_status(void) const
-	noexcept
-	{
-		return _ops::get_program_delete_status(*this);
-	}
+	get_link_status(void) const
+	noexcept { return _ops::get_program_link_status(*this); }
+
+	outcome<boolean>
+	get_validate_status(void) const
+	noexcept { return _ops::get_program_validate_status(*this); }
 
 	outcome<GLsizei>
 	get_info_log_length(void) const
-	noexcept
-	{
-		return _ops::get_program_info_log_length(*this);
-	}
+	noexcept { return _ops::get_program_info_log_length(*this); }
 
 	outcome<GLsizei>
 	get_info_log(span<char> dest) const
-	noexcept
-	{
-		return _ops::get_program_info_log(*this, dest);
-	}
+	noexcept { return _ops::get_program_info_log(*this, dest); }
 
 	outcome<GLuint>
 	get_active_attributes(void) const
-	noexcept
-	{
-		return _ops::get_program_active_attributes(*this);
-	}
+	noexcept { return _ops::get_program_active_attributes(*this); }
 
 	outcome<GLsizei>
 	get_active_attribute_max_length(void) const
-	noexcept
-	{
-		return _ops::get_program_active_attribute_max_length(*this);
-	}
+	noexcept { return _ops::get_program_active_attribute_max_length(*this); }
 
 	outcome<GLsizei>
 	get_active_attrib(
@@ -292,24 +288,15 @@ struct obj_dsa_ops<tag::program>
 		GLint& size,
 		sl_data_type& type
 	) const
-	noexcept
-	{
-		return _ops::get_active_attrib(*this, index, name, size, type);
-	}
+	noexcept { return _ops::get_active_attrib(*this, index, name, size, type); }
 
 	outcome<GLuint>
 	get_active_uniforms(void) const
-	noexcept
-	{
-		return _ops::get_program_active_uniforms(*this);
-	}
+	noexcept { return _ops::get_program_active_uniforms(*this); }
 
 	outcome<GLsizei>
 	get_active_uniform_max_length(void) const
-	noexcept
-	{
-		return _ops::get_program_active_uniform_max_length(*this);
-	}
+	noexcept { return _ops::get_program_active_uniform_max_length(*this); }
 
 	outcome<GLsizei>
 	get_active_uniform(
@@ -318,59 +305,42 @@ struct obj_dsa_ops<tag::program>
 		GLint& size,
 		sl_data_type& type
 	) const
-	noexcept
-	{
+	noexcept {
 		return _ops::get_active_uniform(*this, index, name, size, type);
 	}
 
+#if defined(GL_ACTIVE_ATOMIC_COUNTER_BUFFERS)
 	outcome<GLsizei>
 	get_active_atomic_counter_buffers(void) const
-	noexcept
-	{
-		return _ops::get_program_active_atomic_counter_buffers(*this);
-	}
+	noexcept { return _ops::get_program_active_atomic_counter_buffers(*this); }
+#endif
 
 	outcome<transform_feedback_mode>
 	get_transform_feedback_buffer_mode(void) const
-	noexcept
-	{
-		return _ops::get_program_transform_feedback_buffer_mode(*this);
-	}
+	noexcept { return _ops::get_program_transform_feedback_buffer_mode(*this); }
 
 #if defined(GL_VERSION_3_2)
 	outcome<GLsizei>
 	get_geometry_vertices_out(void) const
-	noexcept
-	{
-		return _ops::get_program_geometry_vertices_out(*this);
-	}
+	noexcept { return _ops::get_program_geometry_vertices_out(*this); }
 #endif
 
 #if defined(GL_VERSION_3_2)
 	outcome<primitive_type>
 	get_geometry_input_type(void) const
-	noexcept
-	{
-		return _ops::get_program_geometry_input_type(*this);
-	}
+	noexcept { return _ops::get_program_geometry_input_type(*this); }
 #endif
 
 #if defined(GL_VERSION_3_2)
 	outcome<primitive_type>
 	get_geometry_output_type(void) const
-	noexcept
-	{
-		return _ops::get_program_geometry_output_type(*this);
-	}
+	noexcept { return _ops::get_program_geometry_output_type(*this); }
 #endif
 
 #if defined(GL_VERSION_4_3)
-	outcome<GLsizei>
+	outcome<oper::compute_work_group_size>
 	get_compute_work_group_size(void) const
-	noexcept
-	{
-		return _ops::get_program_compute_work_group_size(*this);
-	}
+	noexcept { return _ops::get_program_compute_work_group_size(*this); }
 #endif
 };
 
@@ -381,6 +351,11 @@ struct obj_gen_del_ops<tag::program>
 	static
 	deferred_error_handler
 	_gen(span<GLuint> names)
+	noexcept;
+
+	static
+	deferred_error_handler
+	_create(span<GLuint> names)
 	noexcept;
 
 	static

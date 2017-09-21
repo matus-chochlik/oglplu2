@@ -9,6 +9,8 @@
 //  See accompanying file LICENSE_1_0.txt or copy at
 //   http://www.boost.org/LICENSE_1_0.txt
 //
+
+#include <eagine/maybe_unused.hpp>
 #ifdef _MSC_VER
 #pragma warning ( push )
 #pragma warning ( disable : 4065 )
@@ -127,7 +129,7 @@ noexcept
 	default:;
 	}
 
-	(void)aev;
+	EAGINE_MAYBE_UNUSED(aev);
 	return {};
 }
 

@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_buffer_select_bits_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	buffer_select_bits x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_COLOR_BUFFER_BIT
 	x = ev.color_buffer_bit;
@@ -54,9 +54,9 @@ BOOST_AUTO_TEST_CASE(enum_buffer_select_bits_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	buffer_select_bits x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_COLOR_BUFFER_BIT
 	x = ev.color_buffer_bit;
@@ -130,12 +130,12 @@ BOOST_AUTO_TEST_CASE(enum_buffer_select_bits_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	buffer_select_bits x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_COLOR_BUFFER_BIT
 	x = ev.color_buffer_bit;

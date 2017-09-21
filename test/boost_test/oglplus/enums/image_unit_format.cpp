@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	image_unit_format x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_R11F_G11F_B10F
 	x = ev.r11f_g11f_b10f;
@@ -2448,9 +2448,9 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	image_unit_format x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_R11F_G11F_B10F
 	x = ev.r11f_g11f_b10f;
@@ -3244,12 +3244,12 @@ BOOST_AUTO_TEST_CASE(enum_image_unit_format_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	image_unit_format x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_R11F_G11F_B10F
 	x = ev.r11f_g11f_b10f;

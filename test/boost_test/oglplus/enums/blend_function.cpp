@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_blend_function_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	blend_function x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_CONSTANT_ALPHA
 	x = ev.constant_alpha;
@@ -638,9 +638,9 @@ BOOST_AUTO_TEST_CASE(enum_blend_function_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	blend_function x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_CONSTANT_ALPHA
 	x = ev.constant_alpha;
@@ -1034,12 +1034,12 @@ BOOST_AUTO_TEST_CASE(enum_blend_function_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	blend_function x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_CONSTANT_ALPHA
 	x = ev.constant_alpha;

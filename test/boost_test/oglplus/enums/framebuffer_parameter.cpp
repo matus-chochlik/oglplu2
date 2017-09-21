@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_parameter_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	framebuffer_parameter x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_FRAMEBUFFER_DEFAULT_FIXED_SAMPLE_LOCATIONS
 	x = ev.framebuffer_default_fixed_sample_locations;
@@ -85,9 +85,9 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_parameter_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	framebuffer_parameter x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_FRAMEBUFFER_DEFAULT_FIXED_SAMPLE_LOCATIONS
 	x = ev.framebuffer_default_fixed_sample_locations;
@@ -201,12 +201,12 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_parameter_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	framebuffer_parameter x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_FRAMEBUFFER_DEFAULT_FIXED_SAMPLE_LOCATIONS
 	x = ev.framebuffer_default_fixed_sample_locations;

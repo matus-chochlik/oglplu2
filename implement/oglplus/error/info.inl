@@ -6,6 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/maybe_unused.hpp>
 #include <oglplus/enum/types.hpp>
 #include <oglplus/utils/span.hpp>
 #include <string>
@@ -108,7 +109,7 @@ noexcept
 #if! OGLPLUS_ERROR_NO_GL_LIB
 	_gl_lb_name = gl_lb_name;
 #else
-	(void)gl_lb_name;
+	EAGINE_MAYBE_UNUSED(gl_lb_name);
 #endif
 	return *this;
 }
@@ -135,7 +136,7 @@ noexcept
 #if! OGLPLUS_ERROR_NO_GL_FUNC
 	_gl_fn_name = gl_fn_name;
 #else
-	(void)gl_fn_name;
+	EAGINE_MAYBE_UNUSED(gl_fn_name);
 #endif
 	return *this;
 }
@@ -162,7 +163,7 @@ noexcept
 #if! OGLPLUS_ERROR_NO_SRC_FUNC
 	_src_func = src_func;
 #else
-	(void)src_func;
+	EAGINE_MAYBE_UNUSED(src_func);
 #endif
 	return *this;
 }
@@ -189,7 +190,7 @@ noexcept
 #if! OGLPLUS_ERROR_NO_SRC_FILE
 	_src_file = src_file;
 #else
-	(void)src_file;
+	EAGINE_MAYBE_UNUSED(src_file);
 #endif
 	return *this;
 }
@@ -216,7 +217,7 @@ noexcept
 #if! OGLPLUS_ERROR_NO_SRC_LINE
 	_src_line = src_line;
 #else
-	(void)src_line;
+	EAGINE_MAYBE_UNUSED(src_line);
 #endif
 	return *this;
 }
@@ -243,7 +244,7 @@ noexcept
 #if !OGLPLUS_ERROR_NO_OBJECT
 	_obj_name = obj_name;
 #else
-	(void)obj_name;
+	EAGINE_MAYBE_UNUSED(obj_name);
 #endif
 	return *this;
 }
@@ -290,7 +291,7 @@ noexcept
 #if !OGLPLUS_ERROR_NO_SUBJECT
 	_ext_info()._sub_name = sub_name;
 #else
-	(void)sub_name;
+	EAGINE_MAYBE_UNUSED(sub_name);
 #endif
 	return *this;
 }
@@ -317,7 +318,7 @@ noexcept
 #if !OGLPLUS_ERROR_NO_INDEX
 	_index = idx;
 #else
-	(void)idx;
+	EAGINE_MAYBE_UNUSED(idx);
 #endif
 	return *this;
 }
@@ -344,7 +345,7 @@ noexcept
 #if !OGLPLUS_ERROR_NO_ENUM_VALUE
 	_enum_val = enum_val;
 #else
-	(void)enum_val;
+	EAGINE_MAYBE_UNUSED(enum_val);
 #endif
 	return *this;
 }
@@ -361,7 +362,7 @@ noexcept
 #if !OGLPLUS_ERROR_NO_INDEX
 	_index = GLuint(enum_val.index());
 #endif
-	(void)enum_val;
+	EAGINE_MAYBE_UNUSED(enum_val);
 	return *this;
 }
 //------------------------------------------------------------------------------
@@ -389,7 +390,7 @@ noexcept
 	try { _ext_info()._identifier.assign(ident.begin(), ident.end()); }
 	catch(...) { }
 #else
-	(void)ident;
+	EAGINE_MAYBE_UNUSED(ident);
 #endif
 	return *this;
 }
@@ -417,7 +418,7 @@ noexcept
 	try { _ext_info()._info_log.assign(log.begin(), log.end()); }
 	catch(...) { }
 #else
-	(void)log;
+	EAGINE_MAYBE_UNUSED(log);
 #endif
 	return *this;
 }
@@ -470,7 +471,7 @@ noexcept
 		}
 	}
 #else
-	(void)log;
+	EAGINE_MAYBE_UNUSED(log);
 #endif
 	return *this;
 }

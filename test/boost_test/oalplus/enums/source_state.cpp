@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_source_state_values)
 {
 	using namespace oalplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	source_state x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef AL_INITIAL
 	x = ev.initial;
@@ -68,9 +68,9 @@ BOOST_AUTO_TEST_CASE(enum_source_state_names)
 {
 	using namespace oalplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	source_state x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef AL_INITIAL
 	x = ev.initial;
@@ -164,12 +164,12 @@ BOOST_AUTO_TEST_CASE(enum_source_state_any)
 {
 	using namespace oalplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	source_state x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef AL_INITIAL
 	x = ev.initial;

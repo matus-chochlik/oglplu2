@@ -31,7 +31,7 @@ noexcept
 #if !OALPLUS_ERROR_NO_DEVICE
 	_device = alc_dev;
 #else
-	(void)alc_dev;
+	EAGINE_MAYBE_UNUSED(alc_dev);
 #endif
 	return *this;
 }
@@ -58,7 +58,7 @@ noexcept
 #if !OALPLUS_ERROR_NO_CONTEXT
 	_context = alc_ctx;
 #else
-	(void)alc_ctx;
+	EAGINE_MAYBE_UNUSED(alc_ctx);
 #endif
 	return *this;
 }

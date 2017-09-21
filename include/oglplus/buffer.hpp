@@ -225,6 +225,53 @@ struct buffer_ops
 #endif
 #endif
 
+#if defined(GL_VERSION_4_3)
+	static
+	outcome<void>
+	clear_buffer_data(
+		buffer_target tgt,
+		pixel_data_internal_format internal_format,
+		pixel_data_format format,
+		pixel_data_type type,
+		const buffer_data_spec& data
+	) noexcept;
+
+	static
+	outcome<void>
+	clear_buffer_sub_data(
+		buffer_target tgt,
+		pixel_data_internal_format internal_format,
+		oglplus::buffer_size offset,
+		pixel_data_format format,
+		pixel_data_type type,
+		const buffer_data_spec& data
+	) noexcept;
+#endif // GL_VERSION_4_3
+
+#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+	static
+	outcome<void>
+	clear_buffer_data(
+		buffer_name buf,
+		pixel_data_internal_format internal_format,
+		pixel_data_format format,
+		pixel_data_type type,
+		const buffer_data_spec& data
+	) noexcept;
+
+	static
+	outcome<void>
+	clear_buffer_sub_data(
+		buffer_name buf,
+		pixel_data_internal_format internal_format,
+		oglplus::buffer_size offset,
+		pixel_data_format format,
+		pixel_data_type type,
+		const buffer_data_spec& data
+	) noexcept;
+#endif // GL_VERSION_4_5
+
+
 #if defined(GL_VERSION_4_3) || defined(GL_ARB_invalidate_subdata)
 	static
 	outcome<void>
@@ -314,6 +361,48 @@ public:
 	{
 		return {_ops::buffer_sub_data(*this, offset, data),_self()};
 	}
+
+#if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
+	outcome<Derived&>
+	clear_data(
+		pixel_data_internal_format internal_format,
+		pixel_data_format format,
+		pixel_data_type type,
+		const buffer_data_spec& data
+	) noexcept
+	{
+		return {
+			_ops::clear_buffer_data(
+				*this,
+				internal_format,
+				format,
+				type,
+				data
+			),_self()
+		};
+	}
+
+	outcome<Derived&>
+	clear_sub_data(
+		pixel_data_internal_format internal_format,
+		oglplus::buffer_size offset,
+		pixel_data_format format,
+		pixel_data_type type,
+		const buffer_data_spec& data
+	) noexcept
+	{
+		return {
+			_ops::clear_buffer_sub_data(
+				*this,
+				internal_format,
+				offset,
+				format,
+				type,
+				data
+			),_self()
+		};
+	}
+#endif // GL_VERSION_4_5
 
 #if defined(GL_VERSION_4_3) || defined(GL_ARB_invalidate_subdata)
 	outcome<Derived&>
@@ -450,6 +539,13 @@ struct obj_gen_del_ops<tag::buffer>
 	deferred_error_handler
 	_gen(span<GLuint> names)
 	noexcept;
+
+#if defined(GL_VERSION_4_5)
+	static
+	deferred_error_handler
+	_create(span<GLuint> names)
+	noexcept;
+#endif
 
 	static
 	deferred_error_handler

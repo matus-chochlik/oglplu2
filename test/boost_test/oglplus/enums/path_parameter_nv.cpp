@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_path_parameter_nv_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	path_parameter_nv x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_PATH_CLIENT_LENGTH_NV
 	x = ev.path_client_length_nv;
@@ -904,9 +904,9 @@ BOOST_AUTO_TEST_CASE(enum_path_parameter_nv_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	path_parameter_nv x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_PATH_CLIENT_LENGTH_NV
 	x = ev.path_client_length_nv;
@@ -1380,12 +1380,12 @@ BOOST_AUTO_TEST_CASE(enum_path_parameter_nv_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	path_parameter_nv x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_PATH_CLIENT_LENGTH_NV
 	x = ev.path_client_length_nv;

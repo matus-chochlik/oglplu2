@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_spacing_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	tess_gen_primitive_spacing x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_EQUAL
 	x = ev.equal;
@@ -54,9 +54,9 @@ BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_spacing_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	tess_gen_primitive_spacing x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_EQUAL
 	x = ev.equal;
@@ -130,12 +130,12 @@ BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_spacing_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	tess_gen_primitive_spacing x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_EQUAL
 	x = ev.equal;

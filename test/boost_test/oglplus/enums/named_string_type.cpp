@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_named_string_type_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	named_string_type x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_SHADER_INCLUDE_ARB
 	x = ev.shader_include;
@@ -35,9 +35,9 @@ BOOST_AUTO_TEST_CASE(enum_named_string_type_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	named_string_type x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_SHADER_INCLUDE_ARB
 	x = ev.shader_include;
@@ -71,12 +71,12 @@ BOOST_AUTO_TEST_CASE(enum_named_string_type_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	named_string_type x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_SHADER_INCLUDE_ARB
 	x = ev.shader_include;

@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_buffer_usage_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	buffer_usage x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_DYNAMIC_COPY
 	x = ev.dynamic_copy;
@@ -183,9 +183,9 @@ BOOST_AUTO_TEST_CASE(enum_buffer_usage_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	buffer_usage x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_DYNAMIC_COPY
 	x = ev.dynamic_copy;
@@ -379,12 +379,12 @@ BOOST_AUTO_TEST_CASE(enum_buffer_usage_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	buffer_usage x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_DYNAMIC_COPY
 	x = ev.dynamic_copy;

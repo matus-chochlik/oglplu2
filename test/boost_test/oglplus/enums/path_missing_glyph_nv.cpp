@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_path_missing_glyph_nv_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	path_missing_glyph_nv x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_SKIP_MISSING_GLYPH_NV
 	x = ev.skip_missing_glyph_nv;
@@ -43,9 +43,9 @@ BOOST_AUTO_TEST_CASE(enum_path_missing_glyph_nv_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	path_missing_glyph_nv x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_SKIP_MISSING_GLYPH_NV
 	x = ev.skip_missing_glyph_nv;
@@ -99,12 +99,12 @@ BOOST_AUTO_TEST_CASE(enum_path_missing_glyph_nv_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	path_missing_glyph_nv x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_SKIP_MISSING_GLYPH_NV
 	x = ev.skip_missing_glyph_nv;

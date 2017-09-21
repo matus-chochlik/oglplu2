@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_conditional_render_mode_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	conditional_render_mode x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_QUERY_BY_REGION_NO_WAIT
 	x = ev.query_by_region_no_wait;
@@ -154,9 +154,9 @@ BOOST_AUTO_TEST_CASE(enum_conditional_render_mode_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	conditional_render_mode x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_QUERY_BY_REGION_NO_WAIT
 	x = ev.query_by_region_no_wait;
@@ -330,12 +330,12 @@ BOOST_AUTO_TEST_CASE(enum_conditional_render_mode_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	conditional_render_mode x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_QUERY_BY_REGION_NO_WAIT
 	x = ev.query_by_region_no_wait;

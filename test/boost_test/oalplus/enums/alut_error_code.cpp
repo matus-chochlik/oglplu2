@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_alut_error_code_values)
 {
 	using namespace oalplus;
 	enum_values_alut ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	alut_error_code x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef ALUT_ERROR_AL_ERROR_ON_ENTRY
 	x = ev.error_al_error_on_entry;
@@ -638,9 +638,9 @@ BOOST_AUTO_TEST_CASE(enum_alut_error_code_names)
 {
 	using namespace oalplus;
 	enum_values_alut ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	alut_error_code x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef ALUT_ERROR_AL_ERROR_ON_ENTRY
 	x = ev.error_al_error_on_entry;
@@ -1034,12 +1034,12 @@ BOOST_AUTO_TEST_CASE(enum_alut_error_code_any)
 {
 	using namespace oalplus;
 	enum_values_alut ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	alut_error_code x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value_alut a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef ALUT_ERROR_AL_ERROR_ON_ENTRY
 	x = ev.error_al_error_on_entry;

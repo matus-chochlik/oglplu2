@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_error_code_values)
 {
 	using namespace eglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	error_code x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef EGL_BAD_ACCESS
 	x = ev.bad_access;
@@ -373,9 +373,9 @@ BOOST_AUTO_TEST_CASE(enum_error_code_names)
 {
 	using namespace eglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	error_code x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef EGL_BAD_ACCESS
 	x = ev.bad_access;
@@ -669,12 +669,12 @@ BOOST_AUTO_TEST_CASE(enum_error_code_any)
 {
 	using namespace eglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	error_code x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef EGL_BAD_ACCESS
 	x = ev.bad_access;

@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_advanced_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	blend_equation_advanced x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_COLORBURN_KHR
 	x = ev.colorburn_khr;
@@ -420,9 +420,9 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_advanced_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	blend_equation_advanced x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_COLORBURN_KHR
 	x = ev.colorburn_khr;
@@ -736,12 +736,12 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_advanced_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	blend_equation_advanced x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_COLORBURN_KHR
 	x = ev.colorburn_khr;

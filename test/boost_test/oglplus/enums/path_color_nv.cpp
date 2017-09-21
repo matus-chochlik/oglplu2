@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_path_color_nv_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	path_color_nv x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_PRIMARY_COLOR_NV
 	x = ev.primary_color_nv;
@@ -43,9 +43,9 @@ BOOST_AUTO_TEST_CASE(enum_path_color_nv_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	path_color_nv x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_PRIMARY_COLOR_NV
 	x = ev.primary_color_nv;
@@ -99,12 +99,12 @@ BOOST_AUTO_TEST_CASE(enum_path_color_nv_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	path_color_nv x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_PRIMARY_COLOR_NV
 	x = ev.primary_color_nv;

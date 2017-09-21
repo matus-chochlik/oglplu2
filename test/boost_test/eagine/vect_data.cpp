@@ -52,14 +52,14 @@ void test_vect_data_default_construct_TV(void)
 	typename eagine::vect::data<T, 7, V>::type v7;
 	typename eagine::vect::data<T, 8, V>::type v8;
 
-	(void)v1;
-	(void)v2;
-	(void)v3;
-	(void)v4;
-	(void)v5;
-	(void)v6;
-	(void)v7;
-	(void)v8;
+	EAGINE_MAYBE_UNUSED(v1);
+	EAGINE_MAYBE_UNUSED(v2);
+	EAGINE_MAYBE_UNUSED(v3);
+	EAGINE_MAYBE_UNUSED(v4);
+	EAGINE_MAYBE_UNUSED(v5);
+	EAGINE_MAYBE_UNUSED(v6);
+	EAGINE_MAYBE_UNUSED(v7);
+	EAGINE_MAYBE_UNUSED(v8);
 }
 
 template <typename T>
@@ -96,14 +96,14 @@ void test_vect_data_initialization_TV(void)
 	typename eagine::vect::data<T, 8, V>::type v8 =
 		{T(1), T(2), T(3), T(4), T(5), T(6), T(7), T(8)};
 
-	(void)v1;
-	(void)v2;
-	(void)v3;
-	(void)v4;
-	(void)v5;
-	(void)v6;
-	(void)v7;
-	(void)v8;
+	EAGINE_MAYBE_UNUSED(v1);
+	EAGINE_MAYBE_UNUSED(v2);
+	EAGINE_MAYBE_UNUSED(v3);
+	EAGINE_MAYBE_UNUSED(v4);
+	EAGINE_MAYBE_UNUSED(v5);
+	EAGINE_MAYBE_UNUSED(v6);
+	EAGINE_MAYBE_UNUSED(v7);
+	EAGINE_MAYBE_UNUSED(v8);
 }
 
 template <typename T>
@@ -140,14 +140,14 @@ void test_vect_data_copy_construct_TV(void)
 	typename eagine::vect::data<T, 8, V1>::type v8 = { };
 	typename eagine::vect::data<T, 8, V2>::type v8c = v8;
 
-	(void)v1c;
-	(void)v2c;
-	(void)v3c;
-	(void)v4c;
-	(void)v5c;
-	(void)v6c;
-	(void)v7c;
-	(void)v8c;
+	EAGINE_MAYBE_UNUSED(v1c);
+	EAGINE_MAYBE_UNUSED(v2c);
+	EAGINE_MAYBE_UNUSED(v3c);
+	EAGINE_MAYBE_UNUSED(v4c);
+	EAGINE_MAYBE_UNUSED(v5c);
+	EAGINE_MAYBE_UNUSED(v6c);
+	EAGINE_MAYBE_UNUSED(v7c);
+	EAGINE_MAYBE_UNUSED(v8c);
 }
 
 template <typename T>

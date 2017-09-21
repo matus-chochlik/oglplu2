@@ -31,9 +31,8 @@ OGLplus2 README
 Overview
 ========
 
-OGLplus2 is an experimental wrapper for modern `OpenGL`_, using latest C++
+OGLplus2 is a new wrapper for modern `OpenGL`_, using latest C++
 features and a different design and naming conventions than `OGLplus`_.
-OGLplus2 is in a very early stage of development.
 Several examples showing the usage of OGLplus can be found in the ``example/``
 directory and its subdirectories.
 
@@ -194,7 +193,7 @@ TODO
 License
 =======
 
-Copyright Matus Chochlik, 2015.
+Copyright Matus Chochlik, 2015-2017.
 Distributed under the Boost Software License, Version 1.0.
 See accompanying file LICENSE_1_0.txt or copy at
  http://www.boost.org/LICENSE_1_0.txt

@@ -22,6 +22,13 @@ void oglplus_sampler_test_ops1(void)
 	sampler sam;
 	sampler_array<4> sams;
 
+	gl.bind_sampler(texture_unit(0), sam);
+	gl.sampler_binding(texture_unit(0));
+	gl.bind_sampler(texture_unit(1), sams[0]);
+#if defined(GL_VERSION_4_4)
+	gl.bind_samplers(texture_unit(0), sams);
+#endif
+
 	texture_wrap_coord wrap_s(GL_TEXTURE_WRAP_S);
 
 	gl.sampler_min_filter(sam, texture_min_filter(GL_LINEAR));

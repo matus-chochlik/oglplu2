@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_swap_behavior_values)
 {
 	using namespace eglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	swap_behavior x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef EGL_BUFFER_DESTROYED
 	x = ev.buffer_destroyed;
@@ -43,9 +43,9 @@ BOOST_AUTO_TEST_CASE(enum_swap_behavior_names)
 {
 	using namespace eglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	swap_behavior x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef EGL_BUFFER_DESTROYED
 	x = ev.buffer_destroyed;
@@ -99,12 +99,12 @@ BOOST_AUTO_TEST_CASE(enum_swap_behavior_any)
 {
 	using namespace eglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	swap_behavior x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef EGL_BUFFER_DESTROYED
 	x = ev.buffer_destroyed;

@@ -258,6 +258,13 @@ struct obj_gen_del_ops<tag::transform_feedback>
 	_gen(span<GLuint> names)
 	noexcept;
 
+#if defined(GL_VERSION_4_5)
+	static
+	deferred_error_handler
+	_create(span<GLuint> names)
+	noexcept;
+#endif
+
 	static
 	deferred_error_handler
 	_delete(span<GLuint> names)

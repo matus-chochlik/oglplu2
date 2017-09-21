@@ -32,6 +32,31 @@ noexcept
 	return {};
 }
 //------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_4)
+template <typename S>
+inline
+outcome<void>
+sampler_ops::
+bind_samplers(
+	texture_unit first,
+	const object_names<tag::sampler, S>& samplers
+) noexcept
+{
+	OGLPLUS_GLFUNC(BindSamplers)(
+		GLuint(first.index()),
+		GLsizei(samplers.size()),
+		get_raw_names(samplers).data()
+	);
+	OGLPLUS_VERIFY(
+		BindSamplers,
+		gl_enum_value(first).
+		gl_object(samplers[0]),
+		debug
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
 inline
 outcome<sampler_name>
 sampler_ops::
@@ -489,6 +514,24 @@ noexcept
 	OGLPLUS_VERIFY_SIMPLE(GenSamplers,debug);
 	return {};
 }
+//------------------------------------------------------------------------------
+// obj_gen_del_ops::_create
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_5)
+inline
+deferred_error_handler
+obj_gen_del_ops<tag::sampler>::
+_create(span<GLuint> names)
+noexcept
+{
+	OGLPLUS_GLFUNC(CreateSamplers)(
+		GLsizei(names.size()),
+		names.data()
+	);
+	OGLPLUS_VERIFY_SIMPLE(CreateSamplers, debug);
+	return {};
+}
+#endif
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_delete
 //------------------------------------------------------------------------------

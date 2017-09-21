@@ -15,4 +15,4 @@ do
 	if [[ ${n} -eq 0 ]]
 	then echo ${function}
 	fi
-done
+done | sort | uniq

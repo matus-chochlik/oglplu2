@@ -5,6 +5,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/any_iterator.hpp>
+#include <eagine/maybe_unused.hpp>
 #include "../memcheck.inl"
 
 #include <cassert>
@@ -21,7 +22,7 @@ void test_any_iterator_1_I(
 ) {
 	std::vector<T> v(b, e);
 
-	(void)std::equal(b, e, v.begin());
+	EAGINE_MAYBE_UNUSED(std::equal(b, e, v.begin()));
 }
 
 template <typename T>
@@ -61,12 +62,12 @@ void test_any_iterator_2_T(void) {
 
 	tmp = T(0);
 	for(auto i=b; i!=e; ++i, ++tmp) {
-		(void)(*i == tmp);
+		EAGINE_MAYBE_UNUSED(*i == tmp);
 	}
 
 	tmp = T(0);
 	for(auto i=b; i!=e; i++, ++tmp) {
-		(void)(*i, tmp);
+		EAGINE_MAYBE_UNUSED((*i, tmp));
 	}
 }
 
@@ -93,13 +94,13 @@ void test_any_iterator_3_T(void) {
 
 	tmp = T(0);
 	for(const T& val : rng) {
-		(void)(val == tmp);
+		EAGINE_MAYBE_UNUSED(val == tmp);
 		++tmp;
 	}
 
 	tmp = T(0);
 	for(const T& val : rng) {
-		(void)(val == tmp);
+		EAGINE_MAYBE_UNUSED(val == tmp);
 		++tmp;
 	}
 }

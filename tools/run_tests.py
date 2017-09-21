@@ -185,12 +185,15 @@ def for_each_gl_api_lib(options, parameters):
 
 def for_each_profile(options, parameters):
 	func = for_each_gl_api_lib
+	if not test_level_at_least(options, "extended"):
+		parameters = parameters+["--no-enum-tests"]
+
 	if test_level_at_least(options, "basic"):
 		func(options, parameters+["--low-profile=True"])
 		func(options, parameters+["--low-profile=False"])
 	else:
 		func(options, parameters)
-	
+
 
 # creates the command line argument parser
 def get_argument_parser():
@@ -305,7 +308,7 @@ def get_argument_parser():
 	)
 
 	return argparser
-	
+
 
 def main():
 	import os, sys
@@ -336,10 +339,12 @@ def main():
 				options.jobs = options.max_jobs
 
 		# set the gl-libs if none
-		if options.test_level is None:
+		if options.gl_libs is None:
 			if options.release:
-				options.test_level = "all-libs"
-			else: options.test_level="default"
+				options.gl_libs = "all-libs"
+			elif test_level_at_least(options, "basic"):
+				options.gl_libs ="all-apis"
+			else: options.gl_libs ="default"
 
 
 		# if necessary ..

@@ -13,14 +13,14 @@ BOOST_AUTO_TEST_SUITE(tribool_tests)
 BOOST_AUTO_TEST_CASE(tribool_default_construction)
 {
 	eagine::tribool b;
-	(void)b;
+	EAGINE_MAYBE_UNUSED(b);
 }
 
 BOOST_AUTO_TEST_CASE(tribool_copy_construction)
 {
 	eagine::tribool b1;
 	eagine::tribool b2(b1);
-	(void)b2;
+	EAGINE_MAYBE_UNUSED(b2);
 }
 
 BOOST_AUTO_TEST_CASE(tribool_initialization)
@@ -29,9 +29,9 @@ BOOST_AUTO_TEST_CASE(tribool_initialization)
 	eagine::tribool f(false);
 	eagine::tribool i(eagine::indeterminate);
 
-	(void)t;
-	(void)f;
-	(void)i;
+	EAGINE_MAYBE_UNUSED(t);
+	EAGINE_MAYBE_UNUSED(f);
+	EAGINE_MAYBE_UNUSED(i);
 }
 
 BOOST_AUTO_TEST_CASE(tribool_ops)

@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_al_error_code_values)
 {
 	using namespace oalplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	al_error_code x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef AL_INVALID_ENUM
 	x = ev.invalid_enum;
@@ -105,9 +105,9 @@ BOOST_AUTO_TEST_CASE(enum_al_error_code_names)
 {
 	using namespace oalplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	al_error_code x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef AL_INVALID_ENUM
 	x = ev.invalid_enum;
@@ -241,12 +241,12 @@ BOOST_AUTO_TEST_CASE(enum_al_error_code_any)
 {
 	using namespace oalplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	al_error_code x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef AL_INVALID_ENUM
 	x = ev.invalid_enum;

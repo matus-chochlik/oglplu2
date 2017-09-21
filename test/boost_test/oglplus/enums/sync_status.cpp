@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_sync_status_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	sync_status x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_SIGNALED
 	x = ev.signaled;
@@ -43,9 +43,9 @@ BOOST_AUTO_TEST_CASE(enum_sync_status_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	sync_status x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_SIGNALED
 	x = ev.signaled;
@@ -99,12 +99,12 @@ BOOST_AUTO_TEST_CASE(enum_sync_status_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	sync_status x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_SIGNALED
 	x = ev.signaled;

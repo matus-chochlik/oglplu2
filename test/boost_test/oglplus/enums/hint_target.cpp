@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_hint_target_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	hint_target x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_FRAGMENT_SHADER_DERIVATIVE_HINT
 	x = ev.fragment_shader_derivative_hint;
@@ -68,9 +68,9 @@ BOOST_AUTO_TEST_CASE(enum_hint_target_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	hint_target x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_FRAGMENT_SHADER_DERIVATIVE_HINT
 	x = ev.fragment_shader_derivative_hint;
@@ -164,12 +164,12 @@ BOOST_AUTO_TEST_CASE(enum_hint_target_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	hint_target x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_FRAGMENT_SHADER_DERIVATIVE_HINT
 	x = ev.fragment_shader_derivative_hint;

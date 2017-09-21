@@ -7,6 +7,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/assert.hpp>
+#include <eagine/maybe_unused.hpp>
 
 namespace oglplus {
 namespace texgen {
@@ -117,7 +118,7 @@ OGLPLUS_LIB_FUNC
 output_intf&
 base_single_output_node::output(span_size_t index)
 {
-	(void)index;
+	EAGINE_MAYBE_UNUSED(index);
 	assert(index == 0);
 	return single_output();
 }

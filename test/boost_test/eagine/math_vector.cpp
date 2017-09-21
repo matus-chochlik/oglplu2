@@ -15,17 +15,17 @@ static eagine::test_random_generator rg;
 template <typename T, bool V>
 void test_math_vector_default_ctr_TV(void)
 {
-	eagine::math::vector<T, 1, V> v1; (void)v1;
-	eagine::math::vector<T, 2, V> v2; (void)v2;
-	eagine::math::vector<T, 3, V> v3; (void)v3;
-	eagine::math::vector<T, 4, V> v4; (void)v4;
-	eagine::math::vector<T, 5, V> v5; (void)v5;
-	eagine::math::vector<T, 6, V> v6; (void)v6;
-	eagine::math::vector<T, 7, V> v7; (void)v7;
-	eagine::math::vector<T, 8, V> v8; (void)v8;
-	eagine::math::vector<T,11, V> v11; (void)v11;
-	eagine::math::vector<T,17, V> v17; (void)v17;
-	eagine::math::vector<T,23, V> v23; (void)v23;
+	eagine::math::vector<T, 1, V> v1;  EAGINE_MAYBE_UNUSED(v1);
+	eagine::math::vector<T, 2, V> v2;  EAGINE_MAYBE_UNUSED(v2);
+	eagine::math::vector<T, 3, V> v3;  EAGINE_MAYBE_UNUSED(v3);
+	eagine::math::vector<T, 4, V> v4;  EAGINE_MAYBE_UNUSED(v4);
+	eagine::math::vector<T, 5, V> v5;  EAGINE_MAYBE_UNUSED(v5);
+	eagine::math::vector<T, 6, V> v6;  EAGINE_MAYBE_UNUSED(v6);
+	eagine::math::vector<T, 7, V> v7;  EAGINE_MAYBE_UNUSED(v7);
+	eagine::math::vector<T, 8, V> v8;  EAGINE_MAYBE_UNUSED(v8);
+	eagine::math::vector<T,11, V> v11; EAGINE_MAYBE_UNUSED(v11);
+	eagine::math::vector<T,17, V> v17; EAGINE_MAYBE_UNUSED(v17);
+	eagine::math::vector<T,23, V> v23; EAGINE_MAYBE_UNUSED(v23);
 
 }
 

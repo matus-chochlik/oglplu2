@@ -36,6 +36,13 @@ namespace oper {
 
 struct shader_ops
 {
+#if defined(GL_VERSION_4_1)
+	static
+	outcome<void>
+	release_shader_compiler(void)
+	noexcept;
+#endif
+
 	static
 	outcome<void>
 	shader_source(shader_name shdr, const glsl_source_ref& source)
@@ -166,6 +173,11 @@ struct obj_gen_del_ops<tag::shader>
 	static
 	deferred_error_handler
 	_gen(span<GLuint> names, shader_type type)
+	noexcept;
+
+	static
+	deferred_error_handler
+	_create(shader_type type, span<GLuint> names)
 	noexcept;
 
 	static

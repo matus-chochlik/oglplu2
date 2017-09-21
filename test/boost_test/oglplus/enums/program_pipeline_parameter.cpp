@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_program_pipeline_parameter_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	program_pipeline_parameter x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_ACTIVE_PROGRAM
 	x = ev.active_program;
@@ -128,9 +128,9 @@ BOOST_AUTO_TEST_CASE(enum_program_pipeline_parameter_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	program_pipeline_parameter x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_ACTIVE_PROGRAM
 	x = ev.active_program;
@@ -284,12 +284,12 @@ BOOST_AUTO_TEST_CASE(enum_program_pipeline_parameter_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	program_pipeline_parameter x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_ACTIVE_PROGRAM
 	x = ev.active_program;

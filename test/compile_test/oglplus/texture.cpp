@@ -21,11 +21,14 @@ void oglplus_texture_test_ops1(void)
 	using namespace oglplus;
 
 	oper::texture_ops gl;
+	buffer_name buf(0);
 	texture tex;
 	texture_array<4> texs;
 	texture_target tgt(GL_TEXTURE_2D);
 	texture_name_and_target tnt(tex,tgt);
 	bound_texture curtex(tgt);
+	buffer_size offs, size;
+	buffer_data_spec data;
 
 	pixel_data_internal_format ifmt(GL_RGBA);
 	pixel_data_format fmt(GL_RGBA);
@@ -34,22 +37,49 @@ void oglplus_texture_test_ops1(void)
 	texture_swizzle_coord swizzle_r(GL_TEXTURE_SWIZZLE_R);
 	const_memory_block blk;
 
+	gl.active_texture(texture_unit(0));
+#if defined(GL_VERSION_4_5)
+	gl.bind_texture_unit(texture_unit(1), tex);
+#endif
+	gl.get_active_texture();
+
+
 	gl.bind_texture(tgt, tex);
 	gl.texture_binding(tgt);
 	gl.bind_texture(tgt, texs[0]);
+#if defined(GL_VERSION_4_4)
+	gl.bind_textures(texture_unit(2), texs);
+#endif
 
-#if defined(GL_VERSION_4_2) || defined(GL_ARB_texture_storage)
+#if defined(GL_VERSION_4_4)
+	gl.clear_texture_image(tex, 0, fmt, typ, data);
+	gl.clear_texture_sub_image(tex, 0, 1, 1, 1, 64, 64, 64, fmt, typ, data);
+#endif
+
+#if defined(GL_VERSION_3_0)
 	gl.texture_image_1d(tgt, 0, ifmt, 64, 0, fmt, typ, blk);
-	gl.texture_image_3d(tgt, 0, ifmt, 64, 64, 64, 0, fmt, typ, blk);
 #endif
 	gl.texture_image_2d(tgt, 0, ifmt, 64, 64, 0, fmt, typ, blk);
+	gl.texture_image_3d(tgt, 0, ifmt, 64, 64, 64, 0, fmt, typ, blk);
+
+#if defined(GL_VERSION_3_0)
+	gl.texture_sub_image_1d(tgt, 0, 1, 64, fmt, typ, blk);
+#endif
+	gl.texture_sub_image_2d(tgt, 0, 1, 1, 64, 64, fmt, typ, blk);
+	gl.texture_sub_image_3d(tgt, 0, 1, 1, 1, 64, 64, 64, fmt, typ, blk);
 
 #if defined(GL_EXT_direct_state_access)
-#if defined(GL_VERSION_4_2) || defined(GL_ARB_texture_storage)
+#if defined(GL_VERSION_3_0)
 	gl.texture_image_1d(tnt, 0, ifmt, 64, 0, fmt, typ, blk);
-	gl.texture_image_3d(tnt, 0, ifmt, 64, 64, 64, 0, fmt, typ, blk);
 #endif
 	gl.texture_image_2d(tnt, 0, ifmt, 64, 64, 0, fmt, typ, blk);
+	gl.texture_image_3d(tnt, 0, ifmt, 64, 64, 64, 0, fmt, typ, blk);
+
+#if defined(GL_VERSION_3_0)
+	gl.texture_sub_image_1d(tnt, 0, 1, 64, fmt, typ, blk);
+#endif
+	gl.texture_sub_image_2d(tnt, 0, 1, 1, 64, 64, fmt, typ, blk);
+	gl.texture_sub_image_3d(tnt, 0, 1, 1, 1, 64, 64, 64, fmt, typ, blk);
 #endif
 
 #if defined(GL_VERSION_4_2) || defined(GL_ARB_texture_storage)
@@ -62,6 +92,35 @@ void oglplus_texture_test_ops1(void)
 	gl.texture_storage_1d(tex, 1, ifmt, 64);
 	gl.texture_storage_2d(tex, 1, ifmt, 64, 64);
 	gl.texture_storage_3d(tex, 1, ifmt, 64, 64, 64);
+
+	gl.texture_sub_image_1d(tex, 0, 1, 64, fmt, typ, blk);
+	gl.texture_sub_image_2d(tex, 0, 1, 1, 64, 64, fmt, typ, blk);
+	gl.texture_sub_image_3d(tex, 0, 1, 1, 1, 64, 64, 64, fmt, typ, blk);
+#endif
+
+#if defined(GL_VERSION_3_1)
+	gl.texture_buffer(tgt, ifmt, buf);
+#if defined(GL_EXT_direct_state_access)
+	gl.texture_buffer(tnt, ifmt, buf);
+#endif
+#endif
+#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
+	gl.texture_buffer(tex, ifmt, buf);
+#endif
+
+#if defined(GL_VERSION_4_3)
+	gl.texture_buffer_range(tgt, ifmt, buf, offs, size);
+#if defined(GL_EXT_direct_state_access)
+	gl.texture_buffer_range(tnt, ifmt, buf, offs, size);
+#endif
+#endif
+#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
+	gl.texture_buffer_range(tex, ifmt, buf, offs, size);
+#endif
+
+	gl.generate_texture_mipmap(tgt);
+#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
+	gl.generate_texture_mipmap(tex);
 #endif
 
 #if defined(GL_VERSION_3_0) || defined(GL_ES_VERSION_3_1)
@@ -202,6 +261,27 @@ void oglplus_texture_test_ops1(void)
 	gl.get_texture_max_lod(tex);
 #endif
 
+#if defined(GL_VERSION_3_0)
+	curtex.sub_image_1d(
+		0,
+		1,
+		64,
+		fmt, typ, blk
+	);
+#endif
+	curtex.sub_image_2d(
+		0,
+		1, 1,
+		64, 64,
+		fmt, typ, blk
+	);
+	curtex.sub_image_3d(
+		0,
+		1, 1, 1,
+		64, 64, 64,
+		fmt, typ, blk
+	);
+
 #if defined(GL_VERSION_3_0) || defined(GL_ES_VERSION_3_1)
 	curtex.get_width();
 	curtex.get_height();
@@ -243,6 +323,42 @@ void oglplus_texture_test_ops1(void)
 	curtex.get_min_lod();
 	curtex.max_lod(1000.0f);
 	curtex.get_max_lod();
+
+#if defined(GL_VERSION_4_5) ||\
+	defined(GL_ARB_direct_state_access)
+	tex.sub_image_1d(
+		0,
+		1,
+		64,
+		fmt, typ, blk
+	);
+	tex.sub_image_2d(
+		0,
+		1, 1,
+		64, 64,
+		fmt, typ, blk
+	);
+	tex.sub_image_3d(
+		0,
+		1, 1, 1,
+		64, 64, 64,
+		fmt, typ, blk
+	);
+#endif
+
+#if defined(GL_VERSION_3_1)
+	curtex.buffer_(ifmt, buf);
+#endif
+#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
+	tex.buffer_(ifmt, buf);
+#endif
+
+#if defined(GL_VERSION_4_3)
+	curtex.buffer_range(ifmt, buf, offs, size);
+#endif
+#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
+	tex.buffer_range(ifmt, buf, offs, size);
+#endif
 
 #if defined(GL_VERSION_4_5) ||\
 	defined(GL_ARB_direct_state_access) ||\

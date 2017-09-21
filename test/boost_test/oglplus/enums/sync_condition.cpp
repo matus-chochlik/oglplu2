@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_sync_condition_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	sync_condition x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_SYNC_GPU_COMMANDS_COMPLETE
 	x = ev.sync_gpu_commands_complete;
@@ -35,9 +35,9 @@ BOOST_AUTO_TEST_CASE(enum_sync_condition_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	sync_condition x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_SYNC_GPU_COMMANDS_COMPLETE
 	x = ev.sync_gpu_commands_complete;
@@ -71,12 +71,12 @@ BOOST_AUTO_TEST_CASE(enum_sync_condition_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	sync_condition x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_SYNC_GPU_COMMANDS_COMPLETE
 	x = ev.sync_gpu_commands_complete;

@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_values)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	pixel_parameter x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_PACK_ALIGNMENT
 	x = ev.pack_alignment;
@@ -978,9 +978,9 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_names)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	pixel_parameter x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_PACK_ALIGNMENT
 	x = ev.pack_alignment;
@@ -1474,12 +1474,12 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_any)
 {
 	using namespace oglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	pixel_parameter x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_PACK_ALIGNMENT
 	x = ev.pack_alignment;

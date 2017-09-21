@@ -21,9 +21,9 @@ BOOST_AUTO_TEST_CASE(enum_texture_target_values)
 {
 	using namespace eglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	texture_target x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef EGL_NO_TEXTURE
 	x = ev.no_texture;
@@ -43,9 +43,9 @@ BOOST_AUTO_TEST_CASE(enum_texture_target_names)
 {
 	using namespace eglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	texture_target x;
-	(void)x;
+	EAGINE_MAYBE_UNUSED(x);
 
 #ifdef EGL_NO_TEXTURE
 	x = ev.no_texture;
@@ -99,12 +99,12 @@ BOOST_AUTO_TEST_CASE(enum_texture_target_any)
 {
 	using namespace eglplus;
 	enum_values ev;
-	(void)ev;
+	EAGINE_MAYBE_UNUSED(ev);
 	texture_target x, y;
-	(void)x;
-	(void)y;
+	EAGINE_MAYBE_UNUSED(x);
+	EAGINE_MAYBE_UNUSED(y);
 	any_enum_value a;
-	(void)a;
+	EAGINE_MAYBE_UNUSED(a);
 
 #ifdef EGL_NO_TEXTURE
 	x = ev.no_texture;
