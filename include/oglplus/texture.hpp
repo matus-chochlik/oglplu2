@@ -625,6 +625,21 @@ public:
 	) noexcept;
 #endif
 
+#if defined(GL_VERSION_4_3)
+	static
+	outcome<void>
+	texture_view(
+		texture_name newtex,
+		texture_target target,
+		texture_name origtex,
+		pixel_data_internal_format iformat,
+		GLuint minlevels,
+		GLuint numlevels,
+		GLuint minlayers,
+		GLuint numlayers
+	) noexcept;
+#endif
+
 	static
 	outcome<void>
 	generate_texture_mipmap(texture_target_only tnt)

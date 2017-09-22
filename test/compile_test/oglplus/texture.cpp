@@ -23,6 +23,7 @@ void oglplus_texture_test_ops1(void)
 	oper::texture_ops gl;
 	buffer_name buf(0);
 	texture tex;
+	texture tex2;
 	texture_array<4> texs;
 	texture_target tgt(GL_TEXTURE_2D);
 	texture_name_and_target tnt(tex,tgt);
@@ -116,6 +117,10 @@ void oglplus_texture_test_ops1(void)
 #endif
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
 	gl.texture_buffer_range(tex, ifmt, buf, offs, size);
+#endif
+
+#if defined(GL_VERSION_4_3)
+	gl.texture_view(tex, tgt, tex2, ifmt, 0, 1, 2, 3);
 #endif
 
 	gl.generate_texture_mipmap(tgt);

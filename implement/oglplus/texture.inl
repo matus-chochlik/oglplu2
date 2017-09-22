@@ -1386,6 +1386,41 @@ texture_buffer_range(
 }
 #endif
 //------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_3)
+inline
+outcome<void>
+texture_ops::
+texture_view(
+	texture_name newtex,
+	texture_target target,
+	texture_name origtex,
+	pixel_data_internal_format iformat,
+	GLuint minlevels,
+	GLuint numlevels,
+	GLuint minlayers,
+	GLuint numlayers
+) noexcept {
+	OGLPLUS_GLFUNC(TextureView)(
+		get_raw_name(newtex),
+		GLenum(target),
+		get_raw_name(origtex),
+		GLenum(iformat),
+		minlevels,
+		numlevels,
+		minlayers,
+		numlayers
+	);
+	OGLPLUS_VERIFY(
+		TextureView,
+		gl_subject(newtex).
+		gl_object(newtex).
+		gl_enum_value(target),
+		always
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
 inline
 outcome<void>
 texture_ops::
