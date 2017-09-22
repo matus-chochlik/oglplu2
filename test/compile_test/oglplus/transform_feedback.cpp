@@ -25,7 +25,7 @@ void oglplus_transform_feedback_test_ops1(void)
 	transform_feedback_target tgt(GL_TRANSFORM_FEEDBACK);
 	transform_feedback_primitive_type xfbm(GL_TRIANGLES);
 	buffer_name buf(1);
-	
+
 	gl.bind_transform_feedback(tgt, xfb);
 	gl.transform_feedback_binding(tgt);
 
