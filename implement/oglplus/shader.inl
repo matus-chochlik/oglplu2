@@ -124,7 +124,7 @@ shader_ops::
 get_shader_delete_status(shader_name shdr)
 noexcept {
 	return return_shader_i<boolean, GLboolean>(
-		shdr, 
+		shdr,
 		shader_parameter(GL_DELETE_STATUS)
 	);
 }
@@ -135,9 +135,40 @@ shader_ops::
 get_shader_compile_status(shader_name shdr)
 noexcept {
 	return return_shader_i<boolean, GLboolean>(
-		shdr, 
+		shdr,
 		shader_parameter(GL_COMPILE_STATUS)
 	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<GLsizei>
+shader_ops::
+get_shader_source_length(shader_name shdr)
+noexcept {
+	return return_shader_i<GLsizei, GLsizei>(
+		shdr,
+		shader_parameter(GL_SHADER_SOURCE_LENGTH)
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<GLsizei>
+shader_ops::
+get_shader_source(shader_name shdr, span<char> dest)
+noexcept {
+	GLsizei reallen = 0;
+	OGLPLUS_GLFUNC(GetShaderSource)(
+		get_raw_name(shdr),
+		GLsizei(dest.size()),
+		&reallen,
+		dest.data()
+	);
+	OGLPLUS_VERIFY(
+		GetShaderSource,
+		gl_object(shdr),
+		always
+	);
+	return {reallen};
 }
 //------------------------------------------------------------------------------
 inline
@@ -146,7 +177,7 @@ shader_ops::
 get_shader_info_log_length(shader_name shdr)
 noexcept {
 	return return_shader_i<GLsizei, GLsizei>(
-		shdr, 
+		shdr,
 		shader_parameter(GL_INFO_LOG_LENGTH)
 	);
 }

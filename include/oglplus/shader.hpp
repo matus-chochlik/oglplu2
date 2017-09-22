@@ -21,8 +21,7 @@
 namespace eagine {
 
 template <>
-struct object_subtype<oglplus::tag::shader>
-{
+struct object_subtype<oglplus::tag::shader> {
 	typedef oglplus::shader_type type;
 };
 
@@ -34,8 +33,7 @@ using shader_name = object_name<tag::shader>;
 
 namespace oper {
 
-struct shader_ops
-{
+struct shader_ops {
 #if defined(GL_VERSION_4_1)
 	static
 	outcome<void>
@@ -46,6 +44,16 @@ struct shader_ops
 	static
 	outcome<void>
 	shader_source(shader_name shdr, const glsl_source_ref& source)
+	noexcept;
+
+	static
+	outcome<GLsizei>
+	get_shader_source_length(shader_name shdr)
+	noexcept;
+
+	static
+	outcome<GLsizei>
+	get_shader_source(shader_name shdr, span<char> dest)
 	noexcept;
 
 	static
@@ -111,57 +119,61 @@ struct obj_dsa_ops<tag::shader>
 
 	outcome<shader_type>
 	get_type(void) const
-	noexcept
-	{
+	noexcept {
 		return _ops::get_shader_type(*this);
 	}
 
 	outcome<obj_dsa_ops&>
 	source(const glsl_source_ref& source)
-	noexcept
-	{
+	noexcept {
 		return {_ops::shader_source(*this, source), *this};
+	}
+
+	outcome<GLsizei>
+	get_source_length(void) const
+	noexcept {
+		return _ops::get_shader_source_length(*this);
+	}
+
+	outcome<GLsizei>
+	get_source(span<char> dest) const
+	noexcept {
+		return _ops::get_shader_source(*this, dest);
 	}
 
 	outcome<obj_dsa_ops&>
 	compile(void)
-	noexcept
-	{
+	noexcept {
 		return {_ops::compile_shader(*this), *this};
 	}
 
 	outcome<obj_dsa_ops&>
 	report_compile_error(void)
-	noexcept
-	{
+	noexcept {
 		return {_ops::report_shader_compile_error(*this), *this};
 	}
 
 	outcome<boolean>
 	get_compile_status(void) const
-	noexcept
-	{
+	noexcept {
 		return _ops::get_shader_compile_status(*this);
 	}
 
 	outcome<boolean>
 	get_delete_status(void) const
-	noexcept
-	{
+	noexcept {
 		return _ops::get_shader_delete_status(*this);
 	}
 
 	outcome<GLsizei>
 	get_info_log_length(void) const
-	noexcept
-	{
+	noexcept {
 		return _ops::get_shader_info_log_length(*this);
 	}
 
 	outcome<GLsizei>
 	get_info_log(span<char> dest) const
-	noexcept
-	{
+	noexcept {
 		return _ops::get_shader_info_log(*this, dest);
 	}
 };

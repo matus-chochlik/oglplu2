@@ -27,6 +27,8 @@ void oglplus_shader_test_ops1(void)
 	gl.release_shader_compiler();
 #endif
 	gl.shader_source(shdr, src);
+	gl.get_shader_source_length(shdr);
+	gl.get_shader_source(shdr, span<char>());
 	gl.compile_shader(shdr);
 	gl.shader_source(shdrs[0], src);
 
@@ -38,6 +40,8 @@ void oglplus_shader_test_ops1(void)
 
 	shdr.get_type();
 	shdr.source(src);
+	shdr.get_source_length();
+	shdr.get_source(span<char>());
 	shdr.compile();
 	shdr.get_compile_status();
 	shdr.get_delete_status();
