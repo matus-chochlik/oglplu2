@@ -6,6 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/range_algo.hpp>
 #include <oglplus/utils/gl_func.hpp>
 #include <cassert>
 
@@ -152,7 +153,7 @@ noexcept {
 }
 //------------------------------------------------------------------------------
 inline
-outcome<GLsizei>
+outcome<span<char>>
 shader_ops::
 get_shader_source(shader_name shdr, span<char> dest)
 noexcept {
@@ -168,7 +169,7 @@ noexcept {
 		gl_object(shdr),
 		always
 	);
-	return {reallen};
+	return {eagine::ranges::head(dest, reallen)};
 }
 //------------------------------------------------------------------------------
 inline
@@ -183,7 +184,7 @@ noexcept {
 }
 //------------------------------------------------------------------------------
 inline
-outcome<GLsizei>
+outcome<span<char>>
 shader_ops::
 get_shader_info_log(shader_name shdr, span<char> dest)
 noexcept {
@@ -199,7 +200,7 @@ noexcept {
 		gl_object(shdr),
 		always
 	);
-	return {reallen};
+	return {eagine::ranges::head(dest, reallen)};
 }
 //------------------------------------------------------------------------------
 } // namespace oper

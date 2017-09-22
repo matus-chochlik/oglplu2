@@ -52,7 +52,7 @@ struct shader_ops {
 	noexcept;
 
 	static
-	outcome<GLsizei>
+	outcome<span<char>>
 	get_shader_source(shader_name shdr, span<char> dest)
 	noexcept;
 
@@ -101,7 +101,7 @@ struct shader_ops {
 	noexcept;
 
 	static
-	outcome<GLsizei>
+	outcome<span<char>>
 	get_shader_info_log(shader_name shdr, span<char> dest)
 	noexcept;
 };
@@ -135,7 +135,7 @@ struct obj_dsa_ops<tag::shader>
 		return _ops::get_shader_source_length(*this);
 	}
 
-	outcome<GLsizei>
+	outcome<span<char>>
 	get_source(span<char> dest) const
 	noexcept {
 		return _ops::get_shader_source(*this, dest);
@@ -171,7 +171,7 @@ struct obj_dsa_ops<tag::shader>
 		return _ops::get_shader_info_log_length(*this);
 	}
 
-	outcome<GLsizei>
+	outcome<span<char>>
 	get_info_log(span<char> dest) const
 	noexcept {
 		return _ops::get_shader_info_log(*this, dest);
