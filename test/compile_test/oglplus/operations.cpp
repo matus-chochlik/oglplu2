@@ -10,6 +10,91 @@
 
 using namespace oglplus;
 
+void oglplus_numeric_queries_test(void)
+{
+	using namespace oglplus;
+
+	oper::numeric_queries gl;
+
+	gl.get_integer_v(
+		binding_query(GL_DRAW_FRAMEBUFFER_BINDING),
+		span<GLint>()
+	);
+
+	gl.get_boolean_v(
+		numeric_query(GL_DEPTH_TEST),
+		span<GLboolean>()
+	);
+	gl.get_boolean(numeric_query(GL_DEPTH_TEST));
+
+	gl.get_integer_v(
+		numeric_query(GL_ACTIVE_TEXTURE),
+		span<GLint>()
+	);
+	gl.get_integer(numeric_query(GL_ACTIVE_TEXTURE));
+
+#if defined(GL_VERSION_3_2)
+	gl.get_integer64_v(
+		numeric_query(GL_SHADER_STORAGE_BUFFER_START),
+		span<GLint64>()
+	);
+	gl.get_integer64(numeric_query(GL_SHADER_STORAGE_BUFFER_START));
+#endif
+
+	gl.get_float_v(
+		numeric_query(GL_MAX_TEXTURE_LOD_BIAS),
+		span<GLfloat>()
+	);
+	gl.get_float(numeric_query(GL_MAX_TEXTURE_LOD_BIAS));
+
+#if defined(GLdouble)
+	gl.get_double_v(
+		numeric_query(GL_MAX_TEXTURE_LOD_BIAS),
+		span<GLdouble>()
+	);
+	gl.get_double(numeric_query(GL_MAX_TEXTURE_LOD_BIAS));
+#endif
+
+#if defined(GL_VERSION_3_2)
+	gl.get_boolean_v(
+		numeric_query(GL_DEPTH_TEST),
+		0,
+		span<GLboolean>()
+	);
+	gl.get_boolean(numeric_query(GL_DEPTH_TEST), 0);
+
+	gl.get_integer_v(
+		numeric_query(GL_ACTIVE_TEXTURE),
+		0,
+		span<GLint>()
+	);
+	gl.get_integer(numeric_query(GL_ACTIVE_TEXTURE), 0);
+
+	gl.get_integer64_v(
+		numeric_query(GL_SHADER_STORAGE_BUFFER_START),
+		0,
+		span<GLint64>()
+	);
+	gl.get_integer64(numeric_query(GL_SHADER_STORAGE_BUFFER_START), 0);
+#endif
+
+#if defined(GL_VERSION_4_1)
+	gl.get_float_v(
+		numeric_query(GL_MAX_TEXTURE_LOD_BIAS),
+		0,
+		span<GLfloat>()
+	);
+	gl.get_float(numeric_query(GL_MAX_TEXTURE_LOD_BIAS), 0);
+
+	gl.get_double_v(
+		numeric_query(GL_MAX_TEXTURE_LOD_BIAS),
+		0,
+		span<GLdouble>()
+	);
+	gl.get_double(numeric_query(GL_MAX_TEXTURE_LOD_BIAS), 0);
+#endif
+}
+
 void oglplus_synchronization_test(void)
 {
 	using namespace oglplus;
