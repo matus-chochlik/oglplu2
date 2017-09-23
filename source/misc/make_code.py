@@ -376,6 +376,39 @@ def print_glVertexAttribNTv(options, typ, prefix, n, infix):
 	print_line(options, "\t\treturn {};")
 	print_line(options, "\t}")
 
+def print_glVertexAttribPNT(options, typ, n, infix):
+	info = type_infos[typ]
+	print_newline(options)
+	print_line(options, "\tstatic")
+	print_line(options, "\toutcome<void>")
+	print_line(options, "\tsetP%d%s(" % (n, infix))
+	print_line(options, "\t\tidentity<GL%s>," % typ)
+	print_line(options, "\t\tvertex_attrib_location va,")
+	print_line(options, "\t\tbool ge,")
+	print_line(options, "\t\tdata_type type,")
+	print_line(options, "\t\tboolean norm,")
+	print_line(options, "\t\tGL%s val" % typ)
+
+	print_line(options, "\t) noexcept {")
+	glfunc = "VertexAttribP%d%s%s" % (n, infix, info.suffix)
+	print_line(
+		options,
+		"\t\tOGLPLUS_GLFUNC(%s)" % glfunc + "("
+	)
+	print_line(options, "\t\t\tva.index(),")
+	print_line(options, "\t\t\tGLenum(type),")
+	print_line(options, "\t\t\tGLboolean(norm),")
+	print_line(options, "\t\t\tval")
+	print_line(options, "\t\t);")
+
+	print_line(
+		options,
+		"\t\tif(ge) { OGLPLUS_VERIFY_SIMPLE"+
+		"(%s, debug); }" % glfunc
+	)
+	print_line(options, "\t\treturn {};")
+	print_line(options, "\t}")
+
 def action_gl_vertex_attrib_get_set(options):
 	print_cpp_header(options)
 
@@ -384,41 +417,109 @@ def action_gl_vertex_attrib_get_set(options):
 	print_line(options, "namespace %s {" % options.library)
 	print_newline(options)
 
-	for typ in ["short", "int", "uint", "float", "double"]:
-
-		if typ not in ["float"]:
-			print_line(options, "#if defined(GL_VERSION_3_0)")
-
-		print_prog_var_get_set_decl(options, "vertex_attrib", typ)
-
-		prefix = "I" if typ in ["int", "uint"] else ""
-		for n in range(1,5):
-			print_glVertexAttribNT(options, typ, prefix, n, "")
-		print_newline(options)
-
-		prefix = "I" if typ in ["int", "uint"] else ""
-		for n in range(1,5):
-			print_glVertexAttribNTv(options, typ, prefix, n, "")
-
-		if typ in ["double"]:
-			print_line(options, "#if defined(GL_VERSION_4_1)")
-			for n in range(1,5):
-				print_glVertexAttribNT(options, "double", "L", n, "")
-			print_line(options, "#endif // GL_VERSION_4_1")
-
-		print_line(options, "};")
-
-		if typ not in ["float"]:
-			print_line(options, "#endif // GL_VERSION_3_0")
-
-		print_newline(options)
+	typ = "float"
+	print_prog_var_get_set_decl(options, "vertex_attrib", typ)
+	print_glVertexAttribNT(options, typ, "", 1, "")
+	print_glVertexAttribNT(options, typ, "", 2, "")
+	print_glVertexAttribNT(options, typ, "", 3, "")
+	print_glVertexAttribNT(options, typ, "", 4, "")
+	print_glVertexAttribNTv(options, typ, "", 1, "")
+	print_glVertexAttribNTv(options, typ, "", 2, "")
+	print_glVertexAttribNTv(options, typ, "", 3, "")
+	print_glVertexAttribNTv(options, typ, "", 4, "")
+	print_line(options, "};")
 
 	print_line(options, "#if defined(GL_VERSION_3_0)")
-	print_prog_var_get_set_decl(options, "vertex_attrib", "ubyte")
-	print_glVertexAttribNT(options, "ubyte", "", 4, "N")
+
+	typ = "byte"
+	print_prog_var_get_set_decl(options, "vertex_attrib", typ)
+	print_glVertexAttribNTv(options, typ, "", 4, "")
+	print_glVertexAttribNTv(options, typ, "I", 4, "")
+	print_glVertexAttribNTv(options, typ, "", 4, "N")
 	print_line(options, "};")
-	print_line(options, "#endif // GL_VERSION_3_0")
 	print_newline(options)
+
+	typ = "ubyte"
+	print_prog_var_get_set_decl(options, "vertex_attrib", typ)
+	print_glVertexAttribNTv(options, typ, "", 4, "")
+	print_glVertexAttribNTv(options, typ, "I", 4, "")
+	print_glVertexAttribNTv(options, typ, "", 4, "N")
+	print_line(options, "};")
+	print_newline(options)
+
+	typ = "short"
+	print_prog_var_get_set_decl(options, "vertex_attrib", typ)
+	print_glVertexAttribNT(options, typ, "", 1, "")
+	print_glVertexAttribNT(options, typ, "", 2, "")
+	print_glVertexAttribNT(options, typ, "", 3, "")
+	print_glVertexAttribNT(options, typ, "", 4, "")
+	print_glVertexAttribNTv(options, typ, "", 1, "")
+	print_glVertexAttribNTv(options, typ, "", 2, "")
+	print_glVertexAttribNTv(options, typ, "", 3, "")
+	print_glVertexAttribNTv(options, typ, "", 4, "")
+	print_glVertexAttribNTv(options, typ, "I", 4, "")
+	print_glVertexAttribNTv(options, typ, "", 4, "N")
+	print_line(options, "};")
+
+	typ = "ushort"
+	print_prog_var_get_set_decl(options, "vertex_attrib", typ)
+	print_glVertexAttribNTv(options, typ, "", 4, "")
+	print_glVertexAttribNTv(options, typ, "I", 4, "")
+	print_glVertexAttribNTv(options, typ, "", 4, "N")
+	print_line(options, "};")
+	print_newline(options)
+
+	typ = "int"
+	print_prog_var_get_set_decl(options, "vertex_attrib", typ)
+	print_glVertexAttribNTv(options, typ, "", 4, "")
+	print_glVertexAttribNTv(options, typ, "I", 1, "")
+	print_glVertexAttribNTv(options, typ, "I", 2, "")
+	print_glVertexAttribNTv(options, typ, "I", 3, "")
+	print_glVertexAttribNTv(options, typ, "I", 4, "")
+	print_glVertexAttribNTv(options, typ, "", 4, "N")
+	print_line(options, "};")
+
+	typ = "uint"
+	print_prog_var_get_set_decl(options, "vertex_attrib", typ)
+	print_glVertexAttribNTv(options, typ, "", 4, "")
+	print_glVertexAttribNTv(options, typ, "I", 1, "")
+	print_glVertexAttribNTv(options, typ, "I", 2, "")
+	print_glVertexAttribNTv(options, typ, "I", 3, "")
+	print_glVertexAttribNTv(options, typ, "I", 4, "")
+	print_glVertexAttribNTv(options, typ, "", 4, "N")
+	print_glVertexAttribPNT(options, typ, 1, "")
+	print_glVertexAttribPNT(options, typ, 2, "")
+	print_glVertexAttribPNT(options, typ, 3, "")
+	print_glVertexAttribPNT(options, typ, 4, "")
+	print_line(options, "};")
+
+	print_line(options, "#if defined(GL_VERSION_3_0)")
+	typ = "double"
+	print_prog_var_get_set_decl(options, "vertex_attrib", typ)
+	print_glVertexAttribNT(options, typ, "", 1, "")
+	print_glVertexAttribNT(options, typ, "", 2, "")
+	print_glVertexAttribNT(options, typ, "", 3, "")
+	print_glVertexAttribNT(options, typ, "", 4, "")
+	print_glVertexAttribNTv(options, typ, "", 1, "")
+	print_glVertexAttribNTv(options, typ, "", 2, "")
+	print_glVertexAttribNTv(options, typ, "", 3, "")
+	print_glVertexAttribNTv(options, typ, "", 4, "")
+
+	print_line(options, "#if defined(GL_VERSION_4_1)")
+	print_glVertexAttribNT(options, typ, "L", 1, "")
+	print_glVertexAttribNT(options, typ, "L", 2, "")
+	print_glVertexAttribNT(options, typ, "L", 3, "")
+	print_glVertexAttribNT(options, typ, "L", 4, "")
+	print_glVertexAttribNTv(options, typ, "L", 1, "")
+	print_glVertexAttribNTv(options, typ, "L", 2, "")
+	print_glVertexAttribNTv(options, typ, "L", 3, "")
+	print_glVertexAttribNTv(options, typ, "L", 4, "")
+	print_line(options, "#endif // GL_VERSION_4_1")
+
+	print_line(options, "};")
+	print_line(options, "#endif // GL_DOUBLE")
+
+	print_line(options, "#endif // GL_VERSION_3_0")
 
 	print_line(options, "} // namespace %s" % options.library)
 
