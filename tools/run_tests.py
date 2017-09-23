@@ -234,6 +234,14 @@ def get_argument_parser():
 	)
 
 	argparser.add_argument(
+		"--development",
+		default=False,
+		action="store_true",
+		help="""
+		Run all tests usually done for development testing.
+		"""
+	)
+	argparser.add_argument(
 		"--release",
 		default=False,
 		action="store_true",
@@ -241,6 +249,7 @@ def get_argument_parser():
 		Run all tests usually done for release candidate testing.
 		"""
 	)
+
 	argparser.add_argument(
 		"--jobs",
 		type=JobCountValue,
@@ -267,8 +276,8 @@ def get_argument_parser():
 		default=None,
 		help="""
 		Influences the GL library combinations with which
-		the tests are configured and executed.
-		"""
+		the tests are configured and executed (%(options)s).
+		""" % {"options": str(gl_libs_names)}
 	)
 
 	argparser.add_argument(
@@ -277,8 +286,8 @@ def get_argument_parser():
 		default=None,
 		help="""
 		Influences the number of configurations in which
-		the tests are executed.
-		"""
+		the tests are executed (%(options)s).
+		""" % {"options": str(test_level_names)}
 	)
 
 	argparser.add_argument(
@@ -287,8 +296,8 @@ def get_argument_parser():
 		default=list(),
 		action="append",
 		help="""
-		Specifies the test type(s) to be executed.
-		"""
+		Specifies the test type(s) to be executed (%(options)s).
+		""" % {"options": str(test_type_names)}
 	)
 
 	argparser.add_argument(
@@ -321,6 +330,8 @@ def main():
 		if options.test_level is None:
 			if options.release:
 				options.test_level = "complete"
+			elif options.development:
+				options.test_level = "extended"
 			else: options.test_level="minimal"
 
 		# set the test type if empty
@@ -342,6 +353,8 @@ def main():
 		if options.gl_libs is None:
 			if options.release:
 				options.gl_libs = "all-libs"
+			elif options.development:
+				options.gl_libs = "all-apis"
 			elif test_level_at_least(options, "basic"):
 				options.gl_libs ="all-apis"
 			else: options.gl_libs ="default"
