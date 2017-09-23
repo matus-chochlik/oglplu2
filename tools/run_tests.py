@@ -331,7 +331,7 @@ def main():
 			if options.release:
 				options.test_level = "complete"
 			elif options.development:
-				options.test_level = "extended"
+				options.test_level = "basic"
 			else: options.test_level="minimal"
 
 		# set the test type if empty
