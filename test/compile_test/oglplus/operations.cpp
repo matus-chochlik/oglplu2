@@ -95,6 +95,24 @@ void oglplus_numeric_queries_test(void)
 #endif
 }
 
+void oglplus_viewport_test(void)
+{
+	using namespace oglplus;
+
+	oper::viewport_state gl;
+
+	gl.viewport(0, 0, 800, 600);
+	gl.viewport(800, 600);
+	gl.get_viewport();
+
+#if defined(GL_VERSION_4_1)
+	gl.viewport(0, 0, 0, 800, 600);
+	gl.viewport(1, oper::viewport_extents());
+	gl.viewport_array(2, span<const GLfloat>());
+	gl.get_viewport(0);
+#endif
+}
+
 void oglplus_synchronization_test(void)
 {
 	using namespace oglplus;
