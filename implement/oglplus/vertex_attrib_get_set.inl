@@ -14,8 +14,8 @@ namespace oglplus {
 
 #if defined(GL_VERSION_3_0)
 template <>
-struct prog_var_get_set_ops<tag::vertex_attrib, GLshort>
-{
+struct prog_var_get_set_ops<tag::vertex_attrib, GLshort> {
+
 	static
 	outcome<void>
 	set(
@@ -23,8 +23,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLshort>
 		vertex_attrib_location va,
 		bool ge,
 		GLshort v0
-	) noexcept
-	{
+	) noexcept {
 		OGLPLUS_GLFUNC(VertexAttrib1s)(va.index(), v0);
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttrib1s, debug); }
 		return {};
@@ -37,8 +36,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLshort>
 		vertex_attrib_location va,
 		bool ge,
 		GLshort v0, GLshort v1
-	) noexcept
-	{
+	) noexcept {
 		OGLPLUS_GLFUNC(VertexAttrib2s)(va.index(), v0, v1);
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttrib2s, debug); }
 		return {};
@@ -51,8 +49,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLshort>
 		vertex_attrib_location va,
 		bool ge,
 		GLshort v0, GLshort v1, GLshort v2
-	) noexcept
-	{
+	) noexcept {
 		OGLPLUS_GLFUNC(VertexAttrib3s)(va.index(), v0, v1, v2);
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttrib3s, debug); }
 		return {};
@@ -65,8 +62,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLshort>
 		vertex_attrib_location va,
 		bool ge,
 		GLshort v0, GLshort v1, GLshort v2, GLshort v3
-	) noexcept
-	{
+	) noexcept {
 		OGLPLUS_GLFUNC(VertexAttrib4s)(va.index(), v0, v1, v2, v3);
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttrib4s, debug); }
 		return {};
@@ -81,8 +77,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLshort>
 		vertex_attrib_location va,
 		bool ge,
 		const span<const GLshort, N>& v
-	) noexcept
-	{
+	) noexcept {
 		assert(v.size() >= 1);
 		OGLPLUS_GLFUNC(VertexAttrib1sv)(va.index(), v.data());
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttrib1sv, debug); }
@@ -97,8 +92,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLshort>
 		vertex_attrib_location va,
 		bool ge,
 		const span<const GLshort, N>& v
-	) noexcept
-	{
+	) noexcept {
 		assert(v.size() >= 2);
 		OGLPLUS_GLFUNC(VertexAttrib2sv)(va.index(), v.data());
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttrib2sv, debug); }
@@ -113,8 +107,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLshort>
 		vertex_attrib_location va,
 		bool ge,
 		const span<const GLshort, N>& v
-	) noexcept
-	{
+	) noexcept {
 		assert(v.size() >= 3);
 		OGLPLUS_GLFUNC(VertexAttrib3sv)(va.index(), v.data());
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttrib3sv, debug); }
@@ -129,20 +122,18 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLshort>
 		vertex_attrib_location va,
 		bool ge,
 		const span<const GLshort, N>& v
-	) noexcept
-	{
+	) noexcept {
 		assert(v.size() >= 4);
 		OGLPLUS_GLFUNC(VertexAttrib4sv)(va.index(), v.data());
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttrib4sv, debug); }
 		return {};
 	}
 };
-#endif
+#endif // GL_VERSION_3_0
 
 #if defined(GL_VERSION_3_0)
 template <>
-struct prog_var_get_set_ops<tag::vertex_attrib, GLint>
-{
+struct prog_var_get_set_ops<tag::vertex_attrib, GLint> {
 
 	static
 	outcome<void>
@@ -151,8 +142,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLint>
 		vertex_attrib_location va,
 		bool ge,
 		GLint v0
-	) noexcept
-	{
+	) noexcept {
 		OGLPLUS_GLFUNC(VertexAttribI1i)(va.index(), v0);
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttribI1i, debug); }
 		return {};
@@ -165,8 +155,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLint>
 		vertex_attrib_location va,
 		bool ge,
 		GLint v0, GLint v1
-	) noexcept
-	{
+	) noexcept {
 		OGLPLUS_GLFUNC(VertexAttribI2i)(va.index(), v0, v1);
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttribI2i, debug); }
 		return {};
@@ -179,8 +168,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLint>
 		vertex_attrib_location va,
 		bool ge,
 		GLint v0, GLint v1, GLint v2
-	) noexcept
-	{
+	) noexcept {
 		OGLPLUS_GLFUNC(VertexAttribI3i)(va.index(), v0, v1, v2);
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttribI3i, debug); }
 		return {};
@@ -193,8 +181,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLint>
 		vertex_attrib_location va,
 		bool ge,
 		GLint v0, GLint v1, GLint v2, GLint v3
-	) noexcept
-	{
+	) noexcept {
 		OGLPLUS_GLFUNC(VertexAttribI4i)(va.index(), v0, v1, v2, v3);
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttribI4i, debug); }
 		return {};
@@ -209,8 +196,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLint>
 		vertex_attrib_location va,
 		bool ge,
 		const span<const GLint, N>& v
-	) noexcept
-	{
+	) noexcept {
 		assert(v.size() >= 1);
 		OGLPLUS_GLFUNC(VertexAttribI1iv)(va.index(), v.data());
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttribI1iv, debug); }
@@ -225,8 +211,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLint>
 		vertex_attrib_location va,
 		bool ge,
 		const span<const GLint, N>& v
-	) noexcept
-	{
+	) noexcept {
 		assert(v.size() >= 2);
 		OGLPLUS_GLFUNC(VertexAttribI2iv)(va.index(), v.data());
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttribI2iv, debug); }
@@ -241,8 +226,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLint>
 		vertex_attrib_location va,
 		bool ge,
 		const span<const GLint, N>& v
-	) noexcept
-	{
+	) noexcept {
 		assert(v.size() >= 3);
 		OGLPLUS_GLFUNC(VertexAttribI3iv)(va.index(), v.data());
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttribI3iv, debug); }
@@ -257,20 +241,18 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLint>
 		vertex_attrib_location va,
 		bool ge,
 		const span<const GLint, N>& v
-	) noexcept
-	{
+	) noexcept {
 		assert(v.size() >= 4);
 		OGLPLUS_GLFUNC(VertexAttribI4iv)(va.index(), v.data());
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttribI4iv, debug); }
 		return {};
 	}
 };
-#endif
+#endif // GL_VERSION_3_0
 
 #if defined(GL_VERSION_3_0)
 template <>
-struct prog_var_get_set_ops<tag::vertex_attrib, GLuint>
-{
+struct prog_var_get_set_ops<tag::vertex_attrib, GLuint> {
 
 	static
 	outcome<void>
@@ -279,8 +261,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLuint>
 		vertex_attrib_location va,
 		bool ge,
 		GLuint v0
-	) noexcept
-	{
+	) noexcept {
 		OGLPLUS_GLFUNC(VertexAttribI1ui)(va.index(), v0);
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttribI1ui, debug); }
 		return {};
@@ -293,8 +274,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLuint>
 		vertex_attrib_location va,
 		bool ge,
 		GLuint v0, GLuint v1
-	) noexcept
-	{
+	) noexcept {
 		OGLPLUS_GLFUNC(VertexAttribI2ui)(va.index(), v0, v1);
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttribI2ui, debug); }
 		return {};
@@ -307,8 +287,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLuint>
 		vertex_attrib_location va,
 		bool ge,
 		GLuint v0, GLuint v1, GLuint v2
-	) noexcept
-	{
+	) noexcept {
 		OGLPLUS_GLFUNC(VertexAttribI3ui)(va.index(), v0, v1, v2);
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttribI3ui, debug); }
 		return {};
@@ -321,8 +300,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLuint>
 		vertex_attrib_location va,
 		bool ge,
 		GLuint v0, GLuint v1, GLuint v2, GLuint v3
-	) noexcept
-	{
+	) noexcept {
 		OGLPLUS_GLFUNC(VertexAttribI4ui)(va.index(), v0, v1, v2, v3);
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttribI4ui, debug); }
 		return {};
@@ -337,8 +315,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLuint>
 		vertex_attrib_location va,
 		bool ge,
 		const span<const GLuint, N>& v
-	) noexcept
-	{
+	) noexcept {
 		assert(v.size() >= 1);
 		OGLPLUS_GLFUNC(VertexAttribI1uiv)(va.index(), v.data());
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttribI1uiv, debug); }
@@ -353,8 +330,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLuint>
 		vertex_attrib_location va,
 		bool ge,
 		const span<const GLuint, N>& v
-	) noexcept
-	{
+	) noexcept {
 		assert(v.size() >= 2);
 		OGLPLUS_GLFUNC(VertexAttribI2uiv)(va.index(), v.data());
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttribI2uiv, debug); }
@@ -369,8 +345,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLuint>
 		vertex_attrib_location va,
 		bool ge,
 		const span<const GLuint, N>& v
-	) noexcept
-	{
+	) noexcept {
 		assert(v.size() >= 3);
 		OGLPLUS_GLFUNC(VertexAttribI3uiv)(va.index(), v.data());
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttribI3uiv, debug); }
@@ -385,19 +360,17 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLuint>
 		vertex_attrib_location va,
 		bool ge,
 		const span<const GLuint, N>& v
-	) noexcept
-	{
+	) noexcept {
 		assert(v.size() >= 4);
 		OGLPLUS_GLFUNC(VertexAttribI4uiv)(va.index(), v.data());
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttribI4uiv, debug); }
 		return {};
 	}
 };
-#endif
+#endif // GL_VERSION_3_0
 
 template <>
-struct prog_var_get_set_ops<tag::vertex_attrib, GLfloat>
-{
+struct prog_var_get_set_ops<tag::vertex_attrib, GLfloat> {
 
 	static
 	outcome<void>
@@ -406,8 +379,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLfloat>
 		vertex_attrib_location va,
 		bool ge,
 		GLfloat v0
-	) noexcept
-	{
+	) noexcept {
 		OGLPLUS_GLFUNC(VertexAttrib1f)(va.index(), v0);
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttrib1f, debug); }
 		return {};
@@ -420,8 +392,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLfloat>
 		vertex_attrib_location va,
 		bool ge,
 		GLfloat v0, GLfloat v1
-	) noexcept
-	{
+	) noexcept {
 		OGLPLUS_GLFUNC(VertexAttrib2f)(va.index(), v0, v1);
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttrib2f, debug); }
 		return {};
@@ -434,8 +405,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLfloat>
 		vertex_attrib_location va,
 		bool ge,
 		GLfloat v0, GLfloat v1, GLfloat v2
-	) noexcept
-	{
+	) noexcept {
 		OGLPLUS_GLFUNC(VertexAttrib3f)(va.index(), v0, v1, v2);
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttrib3f, debug); }
 		return {};
@@ -448,8 +418,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLfloat>
 		vertex_attrib_location va,
 		bool ge,
 		GLfloat v0, GLfloat v1, GLfloat v2, GLfloat v3
-	) noexcept
-	{
+	) noexcept {
 		OGLPLUS_GLFUNC(VertexAttrib4f)(va.index(), v0, v1, v2, v3);
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttrib4f, debug); }
 		return {};
@@ -464,8 +433,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLfloat>
 		vertex_attrib_location va,
 		bool ge,
 		const span<const GLfloat, N>& v
-	) noexcept
-	{
+	) noexcept {
 		assert(v.size() >= 1);
 		OGLPLUS_GLFUNC(VertexAttrib1fv)(va.index(), v.data());
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttrib1fv, debug); }
@@ -480,8 +448,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLfloat>
 		vertex_attrib_location va,
 		bool ge,
 		const span<const GLfloat, N>& v
-	) noexcept
-	{
+	) noexcept {
 		assert(v.size() >= 2);
 		OGLPLUS_GLFUNC(VertexAttrib2fv)(va.index(), v.data());
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttrib2fv, debug); }
@@ -496,8 +463,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLfloat>
 		vertex_attrib_location va,
 		bool ge,
 		const span<const GLfloat, N>& v
-	) noexcept
-	{
+	) noexcept {
 		assert(v.size() >= 3);
 		OGLPLUS_GLFUNC(VertexAttrib3fv)(va.index(), v.data());
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttrib3fv, debug); }
@@ -512,8 +478,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLfloat>
 		vertex_attrib_location va,
 		bool ge,
 		const span<const GLfloat, N>& v
-	) noexcept
-	{
+	) noexcept {
 		assert(v.size() >= 4);
 		OGLPLUS_GLFUNC(VertexAttrib4fv)(va.index(), v.data());
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttrib4fv, debug); }
@@ -521,10 +486,9 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLfloat>
 	}
 };
 
-#if defined(GL_VERSION_4_1)
+#if defined(GL_VERSION_3_0)
 template <>
-struct prog_var_get_set_ops<tag::vertex_attrib, GLdouble>
-{
+struct prog_var_get_set_ops<tag::vertex_attrib, GLdouble> {
 
 	static
 	outcome<void>
@@ -533,8 +497,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLdouble>
 		vertex_attrib_location va,
 		bool ge,
 		GLdouble v0
-	) noexcept
-	{
+	) noexcept {
 		OGLPLUS_GLFUNC(VertexAttrib1d)(va.index(), v0);
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttrib1d, debug); }
 		return {};
@@ -547,8 +510,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLdouble>
 		vertex_attrib_location va,
 		bool ge,
 		GLdouble v0, GLdouble v1
-	) noexcept
-	{
+	) noexcept {
 		OGLPLUS_GLFUNC(VertexAttrib2d)(va.index(), v0, v1);
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttrib2d, debug); }
 		return {};
@@ -561,8 +523,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLdouble>
 		vertex_attrib_location va,
 		bool ge,
 		GLdouble v0, GLdouble v1, GLdouble v2
-	) noexcept
-	{
+	) noexcept {
 		OGLPLUS_GLFUNC(VertexAttrib3d)(va.index(), v0, v1, v2);
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttrib3d, debug); }
 		return {};
@@ -575,8 +536,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLdouble>
 		vertex_attrib_location va,
 		bool ge,
 		GLdouble v0, GLdouble v1, GLdouble v2, GLdouble v3
-	) noexcept
-	{
+	) noexcept {
 		OGLPLUS_GLFUNC(VertexAttrib4d)(va.index(), v0, v1, v2, v3);
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttrib4d, debug); }
 		return {};
@@ -591,8 +551,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLdouble>
 		vertex_attrib_location va,
 		bool ge,
 		const span<const GLdouble, N>& v
-	) noexcept
-	{
+	) noexcept {
 		assert(v.size() >= 1);
 		OGLPLUS_GLFUNC(VertexAttrib1dv)(va.index(), v.data());
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttrib1dv, debug); }
@@ -607,8 +566,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLdouble>
 		vertex_attrib_location va,
 		bool ge,
 		const span<const GLdouble, N>& v
-	) noexcept
-	{
+	) noexcept {
 		assert(v.size() >= 2);
 		OGLPLUS_GLFUNC(VertexAttrib2dv)(va.index(), v.data());
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttrib2dv, debug); }
@@ -623,8 +581,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLdouble>
 		vertex_attrib_location va,
 		bool ge,
 		const span<const GLdouble, N>& v
-	) noexcept
-	{
+	) noexcept {
 		assert(v.size() >= 3);
 		OGLPLUS_GLFUNC(VertexAttrib3dv)(va.index(), v.data());
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttrib3dv, debug); }
@@ -639,13 +596,13 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLdouble>
 		vertex_attrib_location va,
 		bool ge,
 		const span<const GLdouble, N>& v
-	) noexcept
-	{
+	) noexcept {
 		assert(v.size() >= 4);
 		OGLPLUS_GLFUNC(VertexAttrib4dv)(va.index(), v.data());
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttrib4dv, debug); }
 		return {};
 	}
+#if defined(GL_VERSION_4_1)
 
 	static
 	outcome<void>
@@ -654,8 +611,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLdouble>
 		vertex_attrib_location va,
 		bool ge,
 		GLdouble v0
-	) noexcept
-	{
+	) noexcept {
 		OGLPLUS_GLFUNC(VertexAttribL1d)(va.index(), v0);
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttribL1d, debug); }
 		return {};
@@ -668,8 +624,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLdouble>
 		vertex_attrib_location va,
 		bool ge,
 		GLdouble v0, GLdouble v1
-	) noexcept
-	{
+	) noexcept {
 		OGLPLUS_GLFUNC(VertexAttribL2d)(va.index(), v0, v1);
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttribL2d, debug); }
 		return {};
@@ -682,8 +637,7 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLdouble>
 		vertex_attrib_location va,
 		bool ge,
 		GLdouble v0, GLdouble v1, GLdouble v2
-	) noexcept
-	{
+	) noexcept {
 		OGLPLUS_GLFUNC(VertexAttribL3d)(va.index(), v0, v1, v2);
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttribL3d, debug); }
 		return {};
@@ -696,19 +650,18 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLdouble>
 		vertex_attrib_location va,
 		bool ge,
 		GLdouble v0, GLdouble v1, GLdouble v2, GLdouble v3
-	) noexcept
-	{
+	) noexcept {
 		OGLPLUS_GLFUNC(VertexAttribL4d)(va.index(), v0, v1, v2, v3);
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttribL4d, debug); }
 		return {};
 	}
+#endif // GL_VERSION_4_1
 };
-#endif
+#endif // GL_VERSION_3_0
 
 #if defined(GL_VERSION_3_0)
 template <>
-struct prog_var_get_set_ops<tag::vertex_attrib, GLubyte>
-{
+struct prog_var_get_set_ops<tag::vertex_attrib, GLubyte> {
 
 	static
 	outcome<void>
@@ -717,13 +670,12 @@ struct prog_var_get_set_ops<tag::vertex_attrib, GLubyte>
 		vertex_attrib_location va,
 		bool ge,
 		GLubyte v0, GLubyte v1, GLubyte v2, GLubyte v3
-	) noexcept
-	{
+	) noexcept {
 		OGLPLUS_GLFUNC(VertexAttrib4Nub)(va.index(), v0, v1, v2, v3);
 		if(ge) { OGLPLUS_VERIFY_SIMPLE(VertexAttrib4Nub, debug); }
 		return {};
 	}
 };
-#endif
+#endif // GL_VERSION_3_0
 
 } // namespace oglplus

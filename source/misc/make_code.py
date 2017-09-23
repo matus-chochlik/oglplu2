@@ -81,8 +81,7 @@ def print_glUniformNT(options, typ, n):
 		["GL%s v%d" % (typ, i) for i in range(n)]
 	))
 
-	print_line(options, "\t) noexcept")
-	print_line(options, "\t{")
+	print_line(options, "\t) noexcept {")
 	glfunc = "Uniform%d%s" % (n, info.suffix)
 	print_line(
 		options,
@@ -109,8 +108,7 @@ def print_glUniformNTv(options, typ, n):
 	print_line(options, "\t\tuniform_location u,")
 	print_line(options, "\t\tGLsizei count,")
 	print_line(options, "\t\tconst span<const GL%s>& v" % typ)
-	print_line(options, "\t) noexcept")
-	print_line(options, "\t{")
+	print_line(options, "\t) noexcept {")
 	print_line(options, "\t\tassert(count >= 0);")
 	print_line(options, "\t\tassert(v.size() >= span_size_t(%d*count));" % (n))
 	glfunc = "Uniform%d%sv" % (n, info.suffix)
@@ -138,8 +136,7 @@ def print_glUniformMatrixMxNTv(options, typ, m, n):
 	print_line(options, "\t\tGLsizei count,")
 	print_line(options, "\t\tGLboolean transpose,")
 	print_line(options, "\t\tconst span<const GL%s>& v" % typ)
-	print_line(options, "\t) noexcept")
-	print_line(options, "\t{")
+	print_line(options, "\t) noexcept {")
 	print_line(options, "\t\tassert(count >= 0);")
 	print_line(options, "\t\tassert(v.size() >= span_size_t(%d*%d*count));" % (m,n))
 
@@ -174,8 +171,7 @@ def print_glProgramUniformNT(options, typ, n):
 		["GL%s v%d" % (typ, i) for i in range(n)]
 	))
 
-	print_line(options, "\t) noexcept")
-	print_line(options, "\t{")
+	print_line(options, "\t) noexcept {")
 	glfunc = "ProgramUniform%d%s"  % (n, info.suffix)
 	print_line(
 		options,
@@ -206,8 +202,7 @@ def print_glProgramUniformNTv(options, typ, n):
 	print_line(options, "\t\tprogram_uniform_location pu,")
 	print_line(options, "\t\tGLsizei count,")
 	print_line(options, "\t\tconst span<const GL%s>& v" % typ)
-	print_line(options, "\t) noexcept")
-	print_line(options, "\t{")
+	print_line(options, "\t) noexcept {")
 	print_line(options, "\t\tassert(count >= 0);")
 	print_line(options, "\t\tassert(v.size() >= span_size_t(%d*count));" % (n))
 	glfunc = "ProgramUniform%d%sv"  % (n, info.suffix)
@@ -237,8 +232,7 @@ def print_glProgramUniformMatrixMxNTv(options, typ, m, n):
 	print_line(options, "\t\tGLsizei count,")
 	print_line(options, "\t\tGLboolean transpose,")
 	print_line(options, "\t\tconst span<const GL%s, N>& v" % typ)
-	print_line(options, "\t) noexcept")
-	print_line(options, "\t{")
+	print_line(options, "\t) noexcept {")
 	print_line(options, "\t\tassert(count >= 0);")
 	print_line(options, "\t\tassert(v.size() >= span_size_t(%d*%d*count));" % (m,n))
 
@@ -264,10 +258,9 @@ def print_glProgramUniformMatrixMxNTv(options, typ, m, n):
 
 def print_prog_var_get_set_decl(options, kind, typ):
 	print_line(options, "template <>")
-	print_line(options, "struct prog_var_get_set_ops<tag::%s, GL%s>" % (
+	print_line(options, "struct prog_var_get_set_ops<tag::%s, GL%s> {" % (
 		kind, typ
 	))
-	print_line(options, "{")
 
 def action_gl_uniform_get_set(options):
 	print_cpp_header(options)
@@ -277,15 +270,19 @@ def action_gl_uniform_get_set(options):
 	print_line(options, "namespace %s {" % options.library)
 	print_newline(options)
 
-	for typ in ["int", "uint", "float"]:
+	for typ in ["int", "uint", "float", "double"]:
+		if typ in ["double"]:
+			print_line(options, "#if defined(GL_DOUBLE)")
+
 		print_prog_var_get_set_decl(options, "uniform", typ)
+
 		for n in range(1,5):
 			print_glUniformNT(options, typ, n)
 
 		for n in range(1,5):
 			print_glUniformNTv(options, typ, n)
 
-		if typ in ["float"]:
+		if typ in ["float", "double"]:
 			for m in range(2,5):
 				for n in range(2,5):
 					print_glUniformMatrixMxNTv(options, typ, m, n)
@@ -304,13 +301,17 @@ def action_gl_uniform_get_set(options):
 		for n in range(1,5):
 			print_glProgramUniformNTv(options, typ, n)
 
-		if typ in ["float"]:
+		if typ in ["float", "double"]:
 			for m in range(2,5):
 				for n in range(2,5):
 					print_glProgramUniformMatrixMxNTv(options, typ, m, n)
 		print_line(options, "#endif") 
 
 		print_line(options, "};")
+
+		if typ in ["double"]:
+			print_line(options, "#endif // GL_DOUBLE")
+
 		print_newline(options)
 
 	print_newline(options)
@@ -331,8 +332,7 @@ def print_glVertexAttribNT(options, typ, prefix, n, infix):
 		["GL%s v%d" % (typ, i) for i in range(n)]
 	))
 
-	print_line(options, "\t) noexcept")
-	print_line(options, "\t{")
+	print_line(options, "\t) noexcept {")
 	glfunc = "VertexAttrib%s%d%s%s" % (prefix, n, infix, info.suffix)
 	print_line(
 		options,
@@ -360,8 +360,7 @@ def print_glVertexAttribNTv(options, typ, prefix, n, infix):
 	print_line(options, "\t\tvertex_attrib_location va,")
 	print_line(options, "\t\tbool ge,")
 	print_line(options, "\t\tconst span<const GL%s, N>& v" % typ)
-	print_line(options, "\t) noexcept")
-	print_line(options, "\t{")
+	print_line(options, "\t) noexcept {")
 	print_line(options, "\t\tassert(v.size() >= %d);" % (n))
 	glfunc = "VertexAttrib%s%d%s%sv" % (prefix, n, infix, info.suffix)
 	print_line(
@@ -386,7 +385,12 @@ def action_gl_vertex_attrib_get_set(options):
 	print_newline(options)
 
 	for typ in ["short", "int", "uint", "float", "double"]:
+
+		if typ not in ["float"]:
+			print_line(options, "#if defined(GL_VERSION_3_0)")
+
 		print_prog_var_get_set_decl(options, "vertex_attrib", typ)
+
 		prefix = "I" if typ in ["int", "uint"] else ""
 		for n in range(1,5):
 			print_glVertexAttribNT(options, typ, prefix, n, "")
@@ -397,15 +401,23 @@ def action_gl_vertex_attrib_get_set(options):
 			print_glVertexAttribNTv(options, typ, prefix, n, "")
 
 		if typ in ["double"]:
+			print_line(options, "#if defined(GL_VERSION_4_1)")
 			for n in range(1,5):
 				print_glVertexAttribNT(options, "double", "L", n, "")
+			print_line(options, "#endif // GL_VERSION_4_1")
 
 		print_line(options, "};")
+
+		if typ not in ["float"]:
+			print_line(options, "#endif // GL_VERSION_3_0")
+
 		print_newline(options)
 
+	print_line(options, "#if defined(GL_VERSION_3_0)")
 	print_prog_var_get_set_decl(options, "vertex_attrib", "ubyte")
 	print_glVertexAttribNT(options, "ubyte", "", 4, "N")
 	print_line(options, "};")
+	print_line(options, "#endif // GL_VERSION_3_0")
 	print_newline(options)
 
 	print_line(options, "} // namespace %s" % options.library)
