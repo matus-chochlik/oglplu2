@@ -110,6 +110,49 @@ debug_message_callback(
 
 }
 //------------------------------------------------------------------------------
+inline
+outcome<void>
+debugging::
+get_debug_message_log(
+	GLuint count,
+	span<debug_output_source> sources,
+	span<debug_output_type> types,
+	span<GLuint> ids,
+	span<debug_output_severity> severities,
+	span<GLsizei> lengths,
+	span<GLchar> message_log
+) noexcept {
+	assert(count >= 0);
+	assert(span_size_t(count) <= sources.size());
+	assert(span_size_t(count) <= types.size());
+	assert(span_size_t(count) <= ids.size());
+	assert(span_size_t(count) <= severities.size());
+	assert(span_size_t(count) <= lengths.size());
+
+	std::vector<GLenum> dst_sources(count);
+	std::vector<GLenum> dst_types(count);
+	std::vector<GLenum> dst_severities(count);
+
+	OGLPLUS_GLFUNC(GetDebugMessageLog)(
+		count,
+		GLsizei(message_log.size()),
+		dst_sources.data(),
+		dst_types.data(),
+		ids.data(),
+		dst_severities.data(),
+		lengths.data(),
+		message_log.data()
+	);
+	OGLPLUS_VERIFY_SIMPLE(GetDebugMessageLog, debug);
+
+	for(std::size_t i=0; i<std::size_t(count); ++i) {
+		sources[i] = debug_output_source(dst_sources[i]);
+		types[i] = debug_output_type(dst_types[i]);
+		severities[i] = debug_output_severity(dst_severities[i]);
+	}
+	return {};
+}
+//------------------------------------------------------------------------------
 #endif
 //------------------------------------------------------------------------------
 } // namespace oper

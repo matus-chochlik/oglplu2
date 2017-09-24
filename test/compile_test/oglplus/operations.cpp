@@ -184,6 +184,38 @@ void oglplus_synchronization_test(void)
 #endif
 }
 
+void oglplus_debugging_test(void)
+{
+	using namespace oglplus;
+
+#if defined(GL_VERSION_4_3)
+	oper::debugging gl;
+
+	debug_output_source src(GL_DEBUG_SOURCE_APPLICATION);
+	debug_output_type typ(GL_DEBUG_TYPE_ERROR);
+	debug_output_severity svt(GL_DEBUG_SEVERITY_LOW);
+	span<GLuint> ids;
+
+	gl.push_debug_group(src, 123, "debug group");
+	gl.pop_debug_group();
+
+	gl.debug_message_control(src, typ, svt, ids, true);
+	gl.debug_message_insert(src, typ, 123, svt, "debug message");
+
+	gl.debug_message_callback(nullptr, nullptr);
+
+	gl.get_debug_message_log(
+		0,
+		span<debug_output_source>(),
+		span<debug_output_type>(),
+		span<GLuint>(),
+		span<debug_output_severity>(),
+		span<GLsizei>(),
+		span<char>()
+	);
+#endif
+}
+
 void oglplus_buffer_clearing_state_test(void)
 {
 	using namespace oglplus;

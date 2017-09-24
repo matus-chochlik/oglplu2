@@ -58,6 +58,18 @@ struct debugging
 		GLDEBUGPROC callback,
 		void* user_param
 	) noexcept;
+
+	static
+	outcome<void>
+	get_debug_message_log(
+		GLuint count,
+		span<debug_output_source> sources,
+		span<debug_output_type> types,
+		span<GLuint> ids,
+		span<debug_output_severity> severities,
+		span<GLsizei> lengths,
+		span<GLchar> message_log
+	) noexcept;
 #endif
 };
 
