@@ -23,6 +23,7 @@
 #include "oper/computing.hpp"
 #include "oper/pixel_transfer.hpp"
 #include "oper/synchronization.hpp"
+#include "oper/debugging.hpp"
 
 #include "oper/object_lifetime.hpp"
 #include "oper/object_common.hpp"
@@ -80,6 +81,7 @@ class operations
  , public oper::pixel_transfer_state
  , public oper::pixel_transfer_ops
  , public oper::synchronization
+ , public oper::debugging
 
  , public oper::object_lifetime_ops
  , public oper::object_common_ops
