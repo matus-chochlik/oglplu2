@@ -37,7 +37,7 @@ private:
 	GLsync _handle;
 
 	friend
-	GLsync get_raw_handle(const sync_object& so)
+	const GLsync& get_raw_handle(const sync_object& so)
 	noexcept {
 		return so._handle;
 	}

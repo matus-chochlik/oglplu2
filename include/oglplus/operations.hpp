@@ -25,6 +25,7 @@
 #include "oper/synchronization.hpp"
 
 #include "oper/object_lifetime.hpp"
+#include "oper/object_common.hpp"
 #include "vertex_array.hpp"
 #include "buffer.hpp"
 #include "texture.hpp"
@@ -81,6 +82,7 @@ class operations
  , public oper::synchronization
 
  , public oper::object_lifetime_ops
+ , public oper::object_common_ops
  , public oper::vertex_array_ops
  , public oper::buffer_ops
  , public oper::texture_ops

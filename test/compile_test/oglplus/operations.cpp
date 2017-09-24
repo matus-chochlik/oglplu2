@@ -7,8 +7,52 @@
 #include <eagine/maybe_unused.hpp>
 #include <oglplus/gl_fixed.hpp>
 #include <oglplus/operations.hpp>
+#include <oglplus/buffer_name.hpp>
+#include <oglplus/shader_name.hpp>
+#include <oglplus/program_name.hpp>
+#include <oglplus/program_pipeline_name.hpp>
+#include <oglplus/query_name.hpp>
+#include <oglplus/transform_feedback_name.hpp>
+#include <oglplus/renderbuffer_name.hpp>
+#include <oglplus/framebuffer_name.hpp>
+#include <oglplus/sampler_name.hpp>
+#include <oglplus/texture_name.hpp>
 
 using namespace oglplus;
+
+void oglplus_object_common_test(void)
+{
+	using namespace oglplus;
+
+	oper::object_common_ops gl;
+
+	EAGINE_MAYBE_UNUSED(gl);
+
+#if defined(GL_VERSION_4_3)
+	buffer_name buf;
+	shader_name shd;
+	program_name prg;
+	program_pipeline_name ppl;
+	query_name qry;
+	transform_feedback_name xfb;
+	texture_name tex;
+	sampler_name sam;
+	renderbuffer_name rbo;
+	framebuffer_name fbo;
+	sync_object syn;
+
+	gl.object_label(buf, "test buffer");
+	gl.object_label(shd, "test shader");
+	gl.object_label(prg, "test program");
+	gl.object_label(ppl, "test program pipeline");
+	gl.object_label(xfb, "test transform feedback");
+	gl.object_label(sam, "test sampler");
+	gl.object_label(tex, "test texture");
+	gl.object_label(rbo, "test renderbuffer");
+	gl.object_label(fbo, "test framebuffer");
+	gl.object_label(syn, "test sync object");
+#endif
+}
 
 void oglplus_numeric_queries_test(void)
 {
