@@ -38,6 +38,11 @@ void oglplus_query_test_ops1(void)
 
 	qry.begin(query_target(GL_SAMPLES_PASSED));
 	qry.end(query_target(GL_SAMPLES_PASSED));
+
+#if defined(GL_VERSION_4_0)
+	gl.begin_query_indexed(query_target(GL_SAMPLES_PASSED), 1, qry);
+	gl.end_query_indexed(query_target(GL_SAMPLES_PASSED), 1);
+#endif
 #endif
 
 #if defined(GL_VERSION_3_0)

@@ -122,7 +122,6 @@ get_debug_message_log(
 	span<GLsizei> lengths,
 	span<GLchar> message_log
 ) noexcept {
-	assert(count >= 0);
 	assert(span_size_t(count) <= sources.size());
 	assert(span_size_t(count) <= types.size());
 	assert(span_size_t(count) <= ids.size());

@@ -46,6 +46,46 @@ noexcept
 	return {};
 }
 //------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_0)
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+query_ops::
+begin_query_indexed(query_target target, GLuint index, query_name qry)
+noexcept
+{
+	OGLPLUS_GLFUNC(BeginQueryIndexed)(
+		GLenum(target),
+		index,
+		get_raw_name(qry)
+	);
+	OGLPLUS_VERIFY(
+		BeginQueryIndexed,
+		gl_enum_value(target).
+		gl_object(qry).
+		gl_index(index),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+query_ops::
+end_query_indexed(query_target target, GLuint index)
+noexcept
+{
+	OGLPLUS_GLFUNC(EndQueryIndexed)(GLenum(target), index);
+	OGLPLUS_VERIFY(
+		EndQueryIndexed,
+		gl_enum_value(target).
+		gl_index(index),
+		debug
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_0)
 inline
 outcome<void>
