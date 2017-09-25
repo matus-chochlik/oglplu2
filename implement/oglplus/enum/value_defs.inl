@@ -579,6 +579,13 @@ constexpr const enum_value<
 > enum_values::byte_;
 #endif
 
+#ifdef GL_CAVEAT_SUPPORT
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::support_level>
+> enum_values::caveat_support;
+#endif
+
 #ifdef GL_CCW
 constexpr const enum_value<
 	GLenum,
@@ -2306,6 +2313,13 @@ constexpr const enum_value<
 	GLenum,
 	mp_list<oglplus::color_buffer>
 > enum_values::front_right;
+#endif
+
+#ifdef GL_FULL_SUPPORT
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::support_level>
+> enum_values::full_support;
 #endif
 
 #ifdef GL_FUNC_ADD
@@ -4222,7 +4236,7 @@ constexpr const enum_value<
 #ifdef GL_NONE
 constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::sl_data_type,oglplus::context_release_behavior,oglplus::color_buffer,oglplus::object_type,oglplus::texture_compare_mode,oglplus::path_transform_type_nv,oglplus::path_join_style_nv,oglplus::path_gen_mode_nv>
+	mp_list<oglplus::sl_data_type,oglplus::context_release_behavior,oglplus::support_level,oglplus::color_buffer,oglplus::object_type,oglplus::texture_compare_mode,oglplus::path_transform_type_nv,oglplus::path_join_style_nv,oglplus::path_gen_mode_nv>
 > enum_values::none;
 #endif
 
