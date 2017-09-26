@@ -5537,7 +5537,7 @@ static constexpr const enum_value<
 #ifdef GL_RENDERBUFFER
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::object_type,oglplus::renderbuffer_target>
+	mp_list<oglplus::object_type,oglplus::renderbuffer_target,oglplus::internal_format_target>
 > renderbuffer = {GL_RENDERBUFFER};
 #endif
 
@@ -6916,49 +6916,49 @@ static constexpr const enum_value<
 #ifdef GL_TEXTURE_1D
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::texture_target>
+	mp_list<oglplus::texture_target,oglplus::internal_format_target>
 > texture_1d = {GL_TEXTURE_1D};
 #endif
 
 #ifdef GL_TEXTURE_1D_ARRAY
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::texture_target>
+	mp_list<oglplus::texture_target,oglplus::internal_format_target>
 > texture_1d_array = {GL_TEXTURE_1D_ARRAY};
 #endif
 
 #ifdef GL_TEXTURE_2D
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::texture_target>
+	mp_list<oglplus::texture_target,oglplus::internal_format_target>
 > texture_2d = {GL_TEXTURE_2D};
 #endif
 
 #ifdef GL_TEXTURE_2D_ARRAY
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::texture_target>
+	mp_list<oglplus::texture_target,oglplus::internal_format_target>
 > texture_2d_array = {GL_TEXTURE_2D_ARRAY};
 #endif
 
 #ifdef GL_TEXTURE_2D_MULTISAMPLE
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::texture_target>
+	mp_list<oglplus::texture_target,oglplus::internal_format_target>
 > texture_2d_multisample = {GL_TEXTURE_2D_MULTISAMPLE};
 #endif
 
 #ifdef GL_TEXTURE_2D_MULTISAMPLE_ARRAY
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::texture_target>
+	mp_list<oglplus::texture_target,oglplus::internal_format_target>
 > texture_2d_multisample_array = {GL_TEXTURE_2D_MULTISAMPLE_ARRAY};
 #endif
 
 #ifdef GL_TEXTURE_3D
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::texture_target>
+	mp_list<oglplus::texture_target,oglplus::internal_format_target>
 > texture_3d = {GL_TEXTURE_3D};
 #endif
 
@@ -7056,7 +7056,7 @@ static constexpr const enum_value<
 #ifdef GL_TEXTURE_BUFFER
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::texture_target,oglplus::buffer_target>
+	mp_list<oglplus::texture_target,oglplus::buffer_target,oglplus::internal_format_target>
 > texture_buffer = {GL_TEXTURE_BUFFER};
 #endif
 
@@ -7112,14 +7112,14 @@ static constexpr const enum_value<
 #ifdef GL_TEXTURE_CUBE_MAP
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::texture_target>
+	mp_list<oglplus::texture_target,oglplus::internal_format_target>
 > texture_cube_map = {GL_TEXTURE_CUBE_MAP};
 #endif
 
 #ifdef GL_TEXTURE_CUBE_MAP_ARRAY
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::texture_target>
+	mp_list<oglplus::texture_target,oglplus::internal_format_target>
 > texture_cube_map_array = {GL_TEXTURE_CUBE_MAP_ARRAY};
 #endif
 
@@ -7238,7 +7238,7 @@ static constexpr const enum_value<
 #ifdef GL_TEXTURE_RECTANGLE
 static constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::texture_target>
+	mp_list<oglplus::texture_target,oglplus::internal_format_target>
 > texture_rectangle = {GL_TEXTURE_RECTANGLE};
 #endif
 

@@ -5531,7 +5531,7 @@ constexpr const enum_value<
 #ifdef GL_RENDERBUFFER
 constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::object_type,oglplus::renderbuffer_target>
+	mp_list<oglplus::object_type,oglplus::renderbuffer_target,oglplus::internal_format_target>
 > enum_values::renderbuffer;
 #endif
 
@@ -6910,49 +6910,49 @@ constexpr const enum_value<
 #ifdef GL_TEXTURE_1D
 constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::texture_target>
+	mp_list<oglplus::texture_target,oglplus::internal_format_target>
 > enum_values::texture_1d;
 #endif
 
 #ifdef GL_TEXTURE_1D_ARRAY
 constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::texture_target>
+	mp_list<oglplus::texture_target,oglplus::internal_format_target>
 > enum_values::texture_1d_array;
 #endif
 
 #ifdef GL_TEXTURE_2D
 constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::texture_target>
+	mp_list<oglplus::texture_target,oglplus::internal_format_target>
 > enum_values::texture_2d;
 #endif
 
 #ifdef GL_TEXTURE_2D_ARRAY
 constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::texture_target>
+	mp_list<oglplus::texture_target,oglplus::internal_format_target>
 > enum_values::texture_2d_array;
 #endif
 
 #ifdef GL_TEXTURE_2D_MULTISAMPLE
 constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::texture_target>
+	mp_list<oglplus::texture_target,oglplus::internal_format_target>
 > enum_values::texture_2d_multisample;
 #endif
 
 #ifdef GL_TEXTURE_2D_MULTISAMPLE_ARRAY
 constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::texture_target>
+	mp_list<oglplus::texture_target,oglplus::internal_format_target>
 > enum_values::texture_2d_multisample_array;
 #endif
 
 #ifdef GL_TEXTURE_3D
 constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::texture_target>
+	mp_list<oglplus::texture_target,oglplus::internal_format_target>
 > enum_values::texture_3d;
 #endif
 
@@ -7050,7 +7050,7 @@ constexpr const enum_value<
 #ifdef GL_TEXTURE_BUFFER
 constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::texture_target,oglplus::buffer_target>
+	mp_list<oglplus::texture_target,oglplus::buffer_target,oglplus::internal_format_target>
 > enum_values::texture_buffer;
 #endif
 
@@ -7106,14 +7106,14 @@ constexpr const enum_value<
 #ifdef GL_TEXTURE_CUBE_MAP
 constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::texture_target>
+	mp_list<oglplus::texture_target,oglplus::internal_format_target>
 > enum_values::texture_cube_map;
 #endif
 
 #ifdef GL_TEXTURE_CUBE_MAP_ARRAY
 constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::texture_target>
+	mp_list<oglplus::texture_target,oglplus::internal_format_target>
 > enum_values::texture_cube_map_array;
 #endif
 
@@ -7232,7 +7232,7 @@ constexpr const enum_value<
 #ifdef GL_TEXTURE_RECTANGLE
 constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::texture_target>
+	mp_list<oglplus::texture_target,oglplus::internal_format_target>
 > enum_values::texture_rectangle;
 #endif
 
