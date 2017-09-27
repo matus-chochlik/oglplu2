@@ -1599,6 +1599,50 @@ noexcept
 	static const char s_IMAGE_BUFFER[13] =
 		"IMAGE_BUFFER";
 #endif
+#ifdef GL_IMAGE_CLASS_10_10_10_2
+	static const char s_IMAGE_CLASS_10_10_10_2[23] =
+		"IMAGE_CLASS_10_10_10_2";
+#endif
+#ifdef GL_IMAGE_CLASS_11_11_10
+	static const char s_IMAGE_CLASS_11_11_10[21] =
+		"IMAGE_CLASS_11_11_10";
+#endif
+#ifdef GL_IMAGE_CLASS_1_X_16
+	static const char s_IMAGE_CLASS_1_X_16[19] =
+		"IMAGE_CLASS_1_X_16";
+#endif
+#ifdef GL_IMAGE_CLASS_1_X_32
+	static const char s_IMAGE_CLASS_1_X_32[19] =
+		"IMAGE_CLASS_1_X_32";
+#endif
+#ifdef GL_IMAGE_CLASS_1_X_8
+	static const char s_IMAGE_CLASS_1_X_8[18] =
+		"IMAGE_CLASS_1_X_8";
+#endif
+#ifdef GL_IMAGE_CLASS_2_X_16
+	static const char s_IMAGE_CLASS_2_X_16[19] =
+		"IMAGE_CLASS_2_X_16";
+#endif
+#ifdef GL_IMAGE_CLASS_2_X_32
+	static const char s_IMAGE_CLASS_2_X_32[19] =
+		"IMAGE_CLASS_2_X_32";
+#endif
+#ifdef GL_IMAGE_CLASS_2_X_8
+	static const char s_IMAGE_CLASS_2_X_8[18] =
+		"IMAGE_CLASS_2_X_8";
+#endif
+#ifdef GL_IMAGE_CLASS_4_X_16
+	static const char s_IMAGE_CLASS_4_X_16[19] =
+		"IMAGE_CLASS_4_X_16";
+#endif
+#ifdef GL_IMAGE_CLASS_4_X_32
+	static const char s_IMAGE_CLASS_4_X_32[19] =
+		"IMAGE_CLASS_4_X_32";
+#endif
+#ifdef GL_IMAGE_CLASS_4_X_8
+	static const char s_IMAGE_CLASS_4_X_8[18] =
+		"IMAGE_CLASS_4_X_8";
+#endif
 #ifdef GL_IMAGE_COMPATIBILITY_CLASS
 	static const char s_IMAGE_COMPATIBILITY_CLASS[26] =
 		"IMAGE_COMPATIBILITY_CLASS";
@@ -6572,7 +6616,57 @@ noexcept
 				default:;
 			}
 			break;
-		case 41: /* image_unit_format */
+		case 41: /* image_compatibility_class */
+			switch(GLenum(aev._value))
+			{
+#ifdef GL_IMAGE_CLASS_10_10_10_2
+				case GL_IMAGE_CLASS_10_10_10_2:
+					return {s_IMAGE_CLASS_10_10_10_2, 22};
+#endif
+#ifdef GL_IMAGE_CLASS_11_11_10
+				case GL_IMAGE_CLASS_11_11_10:
+					return {s_IMAGE_CLASS_11_11_10, 20};
+#endif
+#ifdef GL_IMAGE_CLASS_1_X_16
+				case GL_IMAGE_CLASS_1_X_16:
+					return {s_IMAGE_CLASS_1_X_16, 18};
+#endif
+#ifdef GL_IMAGE_CLASS_1_X_32
+				case GL_IMAGE_CLASS_1_X_32:
+					return {s_IMAGE_CLASS_1_X_32, 18};
+#endif
+#ifdef GL_IMAGE_CLASS_1_X_8
+				case GL_IMAGE_CLASS_1_X_8:
+					return {s_IMAGE_CLASS_1_X_8, 17};
+#endif
+#ifdef GL_IMAGE_CLASS_2_X_16
+				case GL_IMAGE_CLASS_2_X_16:
+					return {s_IMAGE_CLASS_2_X_16, 18};
+#endif
+#ifdef GL_IMAGE_CLASS_2_X_32
+				case GL_IMAGE_CLASS_2_X_32:
+					return {s_IMAGE_CLASS_2_X_32, 18};
+#endif
+#ifdef GL_IMAGE_CLASS_2_X_8
+				case GL_IMAGE_CLASS_2_X_8:
+					return {s_IMAGE_CLASS_2_X_8, 17};
+#endif
+#ifdef GL_IMAGE_CLASS_4_X_16
+				case GL_IMAGE_CLASS_4_X_16:
+					return {s_IMAGE_CLASS_4_X_16, 18};
+#endif
+#ifdef GL_IMAGE_CLASS_4_X_32
+				case GL_IMAGE_CLASS_4_X_32:
+					return {s_IMAGE_CLASS_4_X_32, 18};
+#endif
+#ifdef GL_IMAGE_CLASS_4_X_8
+				case GL_IMAGE_CLASS_4_X_8:
+					return {s_IMAGE_CLASS_4_X_8, 17};
+#endif
+				default:;
+			}
+			break;
+		case 42: /* image_unit_format */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_R11F_G11F_B10F
@@ -6734,7 +6828,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 42: /* index_type */
+		case 43: /* index_type */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_UNSIGNED_BYTE
@@ -6752,7 +6846,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 43: /* indexed_value_base */
+		case 44: /* indexed_value_base */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_CLIP_DISTANCE0
@@ -6774,7 +6868,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 44: /* internal_format_parameter */
+		case 45: /* internal_format_parameter */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_AUTO_GENERATE_MIPMAP
@@ -7076,7 +7170,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 45: /* internal_format_target */
+		case 46: /* internal_format_target */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_RENDERBUFFER
@@ -7130,7 +7224,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 46: /* limit_query */
+		case 47: /* limit_query */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_MAX_3D_TEXTURE_SIZE
@@ -7572,7 +7666,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 47: /* memory_barrier_bits */
+		case 48: /* memory_barrier_bits */
 			switch(GLbitfield(aev._value))
 			{
 #ifdef GL_ALL_BARRIER_BITS
@@ -7642,7 +7736,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 48: /* named_string_param */
+		case 49: /* named_string_param */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_NAMED_STRING_LENGTH_ARB
@@ -7656,7 +7750,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 49: /* named_string_type */
+		case 50: /* named_string_type */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_SHADER_INCLUDE_ARB
@@ -7666,7 +7760,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 50: /* numeric_query */
+		case 51: /* numeric_query */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_ALIASED_LINE_WIDTH_RANGE
@@ -8064,7 +8158,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 51: /* object_type */
+		case 52: /* object_type */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_BUFFER
@@ -8118,7 +8212,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 52: /* old_matrix_mode */
+		case 53: /* old_matrix_mode */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_COLOR
@@ -8140,7 +8234,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 53: /* old_primitive_type */
+		case 54: /* old_primitive_type */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_LINES
@@ -8186,7 +8280,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 54: /* patch_parameter */
+		case 55: /* patch_parameter */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_PATCH_DEFAULT_INNER_LEVEL
@@ -8204,7 +8298,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 55: /* path_cap_style_nv */
+		case 56: /* path_cap_style_nv */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_FLAT
@@ -8226,7 +8320,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 56: /* path_color_format_nv */
+		case 57: /* path_color_format_nv */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_ALPHA
@@ -8256,7 +8350,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 57: /* path_color_nv */
+		case 58: /* path_color_nv */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_PRIMARY_COLOR_NV
@@ -8270,7 +8364,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 58: /* path_command_nv */
+		case 59: /* path_command_nv */
 			switch(GLubyte(aev._value))
 			{
 #ifdef GL_ARC_TO_NV
@@ -8412,7 +8506,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 59: /* path_dash_offset_reset_nv */
+		case 60: /* path_dash_offset_reset_nv */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_MOVE_TO_CONTINUES_NV
@@ -8426,7 +8520,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 60: /* path_fill_cover_mode_nv */
+		case 61: /* path_fill_cover_mode_nv */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_BOUNDING_BOX_NV
@@ -8448,7 +8542,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 61: /* path_fill_mode_nv */
+		case 62: /* path_fill_mode_nv */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_COUNT_DOWN_NV
@@ -8470,7 +8564,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 62: /* path_font_style_nv */
+		case 63: /* path_font_style_nv */
 			switch(GLbitfield(aev._value))
 			{
 #ifdef GL_BOLD_BIT_NV
@@ -8484,7 +8578,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 63: /* path_font_target_nv */
+		case 64: /* path_font_target_nv */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_FILE_NAME_NV
@@ -8502,7 +8596,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 64: /* path_format_nv */
+		case 65: /* path_format_nv */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_PATH_FORMAT_PS_NV
@@ -8516,7 +8610,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 65: /* path_gen_mode_nv */
+		case 66: /* path_gen_mode_nv */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_EYE_LINEAR
@@ -8538,7 +8632,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 66: /* path_join_style_nv */
+		case 67: /* path_join_style_nv */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_BEVEL_NV
@@ -8564,7 +8658,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 67: /* path_list_mode_nv */
+		case 68: /* path_list_mode_nv */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_ACCUM_ADJACENT_PAIRS_NV
@@ -8582,7 +8676,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 68: /* path_metric_query_nv */
+		case 69: /* path_metric_query_nv */
 			switch(GLbitfield(aev._value))
 			{
 #ifdef GL_FONT_ASCENDER_BIT_NV
@@ -8676,7 +8770,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 69: /* path_missing_glyph_nv */
+		case 70: /* path_missing_glyph_nv */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_SKIP_MISSING_GLYPH_NV
@@ -8690,7 +8784,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 70: /* path_parameter_nv */
+		case 71: /* path_parameter_nv */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_PATH_CLIENT_LENGTH_NV
@@ -8788,7 +8882,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 71: /* path_stroke_cover_mode_nv */
+		case 72: /* path_stroke_cover_mode_nv */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_BOUNDING_BOX_NV
@@ -8810,7 +8904,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 72: /* path_text_encoding_nv */
+		case 73: /* path_text_encoding_nv */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_UTF16_NV
@@ -8824,7 +8918,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 73: /* path_transform_type_nv */
+		case 74: /* path_transform_type_nv */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_AFFINE_2D_NV
@@ -8866,7 +8960,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 74: /* pixel_data_format */
+		case 75: /* pixel_data_format */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_BGR
@@ -8948,7 +9042,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 75: /* pixel_data_internal_format */
+		case 76: /* pixel_data_internal_format */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_COMPRESSED_R11_EAC
@@ -9354,7 +9448,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 76: /* pixel_data_type */
+		case 77: /* pixel_data_type */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_BYTE
@@ -9460,7 +9554,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 77: /* pixel_parameter */
+		case 78: /* pixel_parameter */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_PACK_ALIGNMENT
@@ -9562,7 +9656,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 78: /* pixel_transfer_parameter */
+		case 79: /* pixel_transfer_parameter */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_ALPHA_BIAS
@@ -9688,7 +9782,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 79: /* point_parameter */
+		case 80: /* point_parameter */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_POINT_FADE_THRESHOLD_SIZE
@@ -9710,7 +9804,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 80: /* polygon_mode */
+		case 81: /* polygon_mode */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_FILL
@@ -9732,7 +9826,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 81: /* precision_type */
+		case 82: /* precision_type */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_HIGH_FLOAT
@@ -9762,7 +9856,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 82: /* primitive_type */
+		case 83: /* primitive_type */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_LINES
@@ -9816,7 +9910,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 83: /* program_interface */
+		case 84: /* program_interface */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_ATOMIC_COUNTER_BUFFER
@@ -9902,7 +9996,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 84: /* program_parameter */
+		case 85: /* program_parameter */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_ACTIVE_ATOMIC_COUNTER_BUFFERS
@@ -9980,7 +10074,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 85: /* program_pipeline_parameter */
+		case 86: /* program_pipeline_parameter */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_ACTIVE_PROGRAM
@@ -10014,7 +10108,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 86: /* program_pipeline_stage */
+		case 87: /* program_pipeline_stage */
 			switch(GLbitfield(aev._value))
 			{
 #ifdef GL_ALL_SHADER_BITS
@@ -10048,7 +10142,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 87: /* program_resource_property */
+		case 88: /* program_resource_property */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_ACTIVE_VARIABLES
@@ -10162,7 +10256,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 88: /* provoke_mode */
+		case 89: /* provoke_mode */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_FIRST_VERTEX_CONVENTION
@@ -10176,7 +10270,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 89: /* query_parameter */
+		case 90: /* query_parameter */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_QUERY_RESULT
@@ -10190,7 +10284,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 90: /* query_target */
+		case 91: /* query_target */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_ANY_SAMPLES_PASSED
@@ -10276,7 +10370,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 91: /* renderbuffer_parameter */
+		case 92: /* renderbuffer_parameter */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_RENDERBUFFER_ALPHA_SIZE
@@ -10322,7 +10416,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 92: /* renderbuffer_target */
+		case 93: /* renderbuffer_target */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_RENDERBUFFER
@@ -10332,7 +10426,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 93: /* reset_notification_strategy */
+		case 94: /* reset_notification_strategy */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_LOSE_CONTEXT_ON_RESET
@@ -10346,7 +10440,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 94: /* sampler_parameter */
+		case 95: /* sampler_parameter */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_TEXTURE_BORDER_COLOR
@@ -10396,7 +10490,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 95: /* shader_parameter */
+		case 96: /* shader_parameter */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_COMPILE_STATUS
@@ -10422,7 +10516,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 96: /* shader_type */
+		case 97: /* shader_type */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_COMPUTE_SHADER
@@ -10452,7 +10546,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 97: /* single_face */
+		case 98: /* single_face */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_BACK
@@ -10466,7 +10560,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 98: /* sl_data_type */
+		case 99: /* sl_data_type */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_BOOL
@@ -10912,7 +11006,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 99: /* stencil_operation */
+		case 100: /* stencil_operation */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_DECR
@@ -10950,7 +11044,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 100: /* string_query */
+		case 101: /* string_query */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_RENDERER
@@ -10972,7 +11066,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 101: /* support_level */
+		case 102: /* support_level */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_CAVEAT_SUPPORT
@@ -10990,7 +11084,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 102: /* sync_condition */
+		case 103: /* sync_condition */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_SYNC_GPU_COMMANDS_COMPLETE
@@ -11000,7 +11094,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 103: /* sync_parameter */
+		case 104: /* sync_parameter */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_OBJECT_TYPE
@@ -11022,7 +11116,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 104: /* sync_status */
+		case 105: /* sync_status */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_SIGNALED
@@ -11036,7 +11130,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 105: /* sync_type */
+		case 106: /* sync_type */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_SYNC_FENCE
@@ -11046,7 +11140,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 106: /* sync_wait_result */
+		case 107: /* sync_wait_result */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_ALREADY_SIGNALED
@@ -11068,7 +11162,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 107: /* tess_gen_primitive_spacing */
+		case 108: /* tess_gen_primitive_spacing */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_EQUAL
@@ -11086,7 +11180,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 108: /* tess_gen_primitive_type */
+		case 109: /* tess_gen_primitive_type */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_ISOLINES
@@ -11104,7 +11198,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 109: /* texture_compare_mode */
+		case 110: /* texture_compare_mode */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_COMPARE_REF_TO_TEXTURE
@@ -11118,7 +11212,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 110: /* texture_filter */
+		case 111: /* texture_filter */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_LINEAR
@@ -11132,7 +11226,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 111: /* texture_mag_filter */
+		case 112: /* texture_mag_filter */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_LINEAR
@@ -11146,7 +11240,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 112: /* texture_min_filter */
+		case 113: /* texture_min_filter */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_LINEAR
@@ -11176,7 +11270,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 113: /* texture_parameter */
+		case 114: /* texture_parameter */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_DEPTH_STENCIL_TEXTURE_MODE
@@ -11290,7 +11384,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 114: /* texture_swizzle_coord */
+		case 115: /* texture_swizzle_coord */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_TEXTURE_SWIZZLE_A
@@ -11316,7 +11410,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 115: /* texture_swizzle_mode */
+		case 116: /* texture_swizzle_mode */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_ALPHA
@@ -11346,7 +11440,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 116: /* texture_target */
+		case 117: /* texture_target */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_TEXTURE_1D
@@ -11420,7 +11514,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 117: /* texture_wrap_coord */
+		case 118: /* texture_wrap_coord */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_TEXTURE_WRAP_R
@@ -11438,7 +11532,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 118: /* texture_wrap_mode */
+		case 119: /* texture_wrap_mode */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_CLAMP_TO_BORDER
@@ -11464,7 +11558,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 119: /* transform_feedback_mode */
+		case 120: /* transform_feedback_mode */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_INTERLEAVED_ATTRIBS
@@ -11478,7 +11572,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 120: /* transform_feedback_parameter */
+		case 121: /* transform_feedback_parameter */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_TRANSFORM_FEEDBACK_ACTIVE
@@ -11504,7 +11598,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 121: /* transform_feedback_primitive_type */
+		case 122: /* transform_feedback_primitive_type */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_LINES
@@ -11522,7 +11616,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 122: /* transform_feedback_target */
+		case 123: /* transform_feedback_target */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_TRANSFORM_FEEDBACK
@@ -11532,7 +11626,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 123: /* true_false */
+		case 124: /* true_false */
 			switch(GLboolean(aev._value))
 			{
 #ifdef GL_FALSE
@@ -11546,7 +11640,7 @@ noexcept
 				default:;
 			}
 			break;
-		case 124: /* unified_array_address_nv */
+		case 125: /* unified_array_address_nv */
 			switch(GLenum(aev._value))
 			{
 #ifdef GL_COLOR_ARRAY_ADDRESS_NV

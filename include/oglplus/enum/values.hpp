@@ -2776,6 +2776,83 @@ static constexpr const enum_value<
 > image_buffer = {GL_IMAGE_BUFFER};
 #endif
 
+#ifdef GL_IMAGE_CLASS_10_10_10_2
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::image_compatibility_class>
+> image_class_10_10_10_2 = {GL_IMAGE_CLASS_10_10_10_2};
+#endif
+
+#ifdef GL_IMAGE_CLASS_11_11_10
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::image_compatibility_class>
+> image_class_11_11_10 = {GL_IMAGE_CLASS_11_11_10};
+#endif
+
+#ifdef GL_IMAGE_CLASS_1_X_16
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::image_compatibility_class>
+> image_class_1_x_16 = {GL_IMAGE_CLASS_1_X_16};
+#endif
+
+#ifdef GL_IMAGE_CLASS_1_X_32
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::image_compatibility_class>
+> image_class_1_x_32 = {GL_IMAGE_CLASS_1_X_32};
+#endif
+
+#ifdef GL_IMAGE_CLASS_1_X_8
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::image_compatibility_class>
+> image_class_1_x_8 = {GL_IMAGE_CLASS_1_X_8};
+#endif
+
+#ifdef GL_IMAGE_CLASS_2_X_16
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::image_compatibility_class>
+> image_class_2_x_16 = {GL_IMAGE_CLASS_2_X_16};
+#endif
+
+#ifdef GL_IMAGE_CLASS_2_X_32
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::image_compatibility_class>
+> image_class_2_x_32 = {GL_IMAGE_CLASS_2_X_32};
+#endif
+
+#ifdef GL_IMAGE_CLASS_2_X_8
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::image_compatibility_class>
+> image_class_2_x_8 = {GL_IMAGE_CLASS_2_X_8};
+#endif
+
+#ifdef GL_IMAGE_CLASS_4_X_16
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::image_compatibility_class>
+> image_class_4_x_16 = {GL_IMAGE_CLASS_4_X_16};
+#endif
+
+#ifdef GL_IMAGE_CLASS_4_X_32
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::image_compatibility_class>
+> image_class_4_x_32 = {GL_IMAGE_CLASS_4_X_32};
+#endif
+
+#ifdef GL_IMAGE_CLASS_4_X_8
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::image_compatibility_class>
+> image_class_4_x_8 = {GL_IMAGE_CLASS_4_X_8};
+#endif
+
 #ifdef GL_IMAGE_COMPATIBILITY_CLASS
 static constexpr const enum_value<
 	GLenum,

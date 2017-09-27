@@ -2770,6 +2770,83 @@ constexpr const enum_value<
 > enum_values::image_buffer;
 #endif
 
+#ifdef GL_IMAGE_CLASS_10_10_10_2
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::image_compatibility_class>
+> enum_values::image_class_10_10_10_2;
+#endif
+
+#ifdef GL_IMAGE_CLASS_11_11_10
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::image_compatibility_class>
+> enum_values::image_class_11_11_10;
+#endif
+
+#ifdef GL_IMAGE_CLASS_1_X_16
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::image_compatibility_class>
+> enum_values::image_class_1_x_16;
+#endif
+
+#ifdef GL_IMAGE_CLASS_1_X_32
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::image_compatibility_class>
+> enum_values::image_class_1_x_32;
+#endif
+
+#ifdef GL_IMAGE_CLASS_1_X_8
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::image_compatibility_class>
+> enum_values::image_class_1_x_8;
+#endif
+
+#ifdef GL_IMAGE_CLASS_2_X_16
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::image_compatibility_class>
+> enum_values::image_class_2_x_16;
+#endif
+
+#ifdef GL_IMAGE_CLASS_2_X_32
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::image_compatibility_class>
+> enum_values::image_class_2_x_32;
+#endif
+
+#ifdef GL_IMAGE_CLASS_2_X_8
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::image_compatibility_class>
+> enum_values::image_class_2_x_8;
+#endif
+
+#ifdef GL_IMAGE_CLASS_4_X_16
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::image_compatibility_class>
+> enum_values::image_class_4_x_16;
+#endif
+
+#ifdef GL_IMAGE_CLASS_4_X_32
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::image_compatibility_class>
+> enum_values::image_class_4_x_32;
+#endif
+
+#ifdef GL_IMAGE_CLASS_4_X_8
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::image_compatibility_class>
+> enum_values::image_class_4_x_8;
+#endif
+
 #ifdef GL_IMAGE_COMPATIBILITY_CLASS
 constexpr const enum_value<
 	GLenum,

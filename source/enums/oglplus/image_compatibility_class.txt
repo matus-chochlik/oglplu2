@@ -1,0 +1,15 @@
+# Copyright Matus Chochlik.
+# Distributed under the Boost Software License, Version 1.0.
+# See accompanying file LICENSE_1_0.txt or copy at
+#  http://www.boost.org/LICENSE_1_0.txt
+IMAGE_CLASS_4_X_32
+IMAGE_CLASS_2_X_32
+IMAGE_CLASS_1_X_32
+IMAGE_CLASS_4_X_16
+IMAGE_CLASS_2_X_16
+IMAGE_CLASS_1_X_16
+IMAGE_CLASS_4_X_8
+IMAGE_CLASS_2_X_8
+IMAGE_CLASS_1_X_8
+IMAGE_CLASS_11_11_10
+IMAGE_CLASS_10_10_10_2
