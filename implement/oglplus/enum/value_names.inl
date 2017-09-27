@@ -5051,6 +5051,70 @@ noexcept
 	static const char s_VIEWPORT_SUBPIXEL_BITS[23] =
 		"VIEWPORT_SUBPIXEL_BITS";
 #endif
+#ifdef GL_VIEW_CLASS_128_BITS
+	static const char s_VIEW_CLASS_128_BITS[20] =
+		"VIEW_CLASS_128_BITS";
+#endif
+#ifdef GL_VIEW_CLASS_16_BITS
+	static const char s_VIEW_CLASS_16_BITS[19] =
+		"VIEW_CLASS_16_BITS";
+#endif
+#ifdef GL_VIEW_CLASS_24_BITS
+	static const char s_VIEW_CLASS_24_BITS[19] =
+		"VIEW_CLASS_24_BITS";
+#endif
+#ifdef GL_VIEW_CLASS_32_BITS
+	static const char s_VIEW_CLASS_32_BITS[19] =
+		"VIEW_CLASS_32_BITS";
+#endif
+#ifdef GL_VIEW_CLASS_48_BITS
+	static const char s_VIEW_CLASS_48_BITS[19] =
+		"VIEW_CLASS_48_BITS";
+#endif
+#ifdef GL_VIEW_CLASS_64_BITS
+	static const char s_VIEW_CLASS_64_BITS[19] =
+		"VIEW_CLASS_64_BITS";
+#endif
+#ifdef GL_VIEW_CLASS_8_BITS
+	static const char s_VIEW_CLASS_8_BITS[18] =
+		"VIEW_CLASS_8_BITS";
+#endif
+#ifdef GL_VIEW_CLASS_96_BITS
+	static const char s_VIEW_CLASS_96_BITS[19] =
+		"VIEW_CLASS_96_BITS";
+#endif
+#ifdef GL_VIEW_CLASS_BPTC_FLOAT
+	static const char s_VIEW_CLASS_BPTC_FLOAT[22] =
+		"VIEW_CLASS_BPTC_FLOAT";
+#endif
+#ifdef GL_VIEW_CLASS_BPTC_UNORM
+	static const char s_VIEW_CLASS_BPTC_UNORM[22] =
+		"VIEW_CLASS_BPTC_UNORM";
+#endif
+#ifdef GL_VIEW_CLASS_RGTC1_RED
+	static const char s_VIEW_CLASS_RGTC1_RED[21] =
+		"VIEW_CLASS_RGTC1_RED";
+#endif
+#ifdef GL_VIEW_CLASS_RGTC2_RG
+	static const char s_VIEW_CLASS_RGTC2_RG[20] =
+		"VIEW_CLASS_RGTC2_RG";
+#endif
+#ifdef GL_VIEW_CLASS_S3TC_DXT1_RGB
+	static const char s_VIEW_CLASS_S3TC_DXT1_RGB[25] =
+		"VIEW_CLASS_S3TC_DXT1_RGB";
+#endif
+#ifdef GL_VIEW_CLASS_S3TC_DXT1_RGBA
+	static const char s_VIEW_CLASS_S3TC_DXT1_RGBA[26] =
+		"VIEW_CLASS_S3TC_DXT1_RGBA";
+#endif
+#ifdef GL_VIEW_CLASS_S3TC_DXT3_RGBA
+	static const char s_VIEW_CLASS_S3TC_DXT3_RGBA[26] =
+		"VIEW_CLASS_S3TC_DXT3_RGBA";
+#endif
+#ifdef GL_VIEW_CLASS_S3TC_DXT5_RGBA
+	static const char s_VIEW_CLASS_S3TC_DXT5_RGBA[26] =
+		"VIEW_CLASS_S3TC_DXT5_RGBA";
+#endif
 #ifdef GL_VIEW_COMPATIBILITY_CLASS
 	static const char s_VIEW_COMPATIBILITY_CLASS[25] =
 		"VIEW_COMPATIBILITY_CLASS";
@@ -11686,6 +11750,76 @@ noexcept
 #ifdef GL_VERTEX_ATTRIB_ARRAY_ADDRESS_NV
 				case GL_VERTEX_ATTRIB_ARRAY_ADDRESS_NV:
 					return {s_VERTEX_ATTRIB_ARRAY_ADDRESS_NV, 30};
+#endif
+				default:;
+			}
+			break;
+		case 126: /* view_compatibility_class */
+			switch(GLenum(aev._value))
+			{
+#ifdef GL_VIEW_CLASS_128_BITS
+				case GL_VIEW_CLASS_128_BITS:
+					return {s_VIEW_CLASS_128_BITS, 19};
+#endif
+#ifdef GL_VIEW_CLASS_16_BITS
+				case GL_VIEW_CLASS_16_BITS:
+					return {s_VIEW_CLASS_16_BITS, 18};
+#endif
+#ifdef GL_VIEW_CLASS_24_BITS
+				case GL_VIEW_CLASS_24_BITS:
+					return {s_VIEW_CLASS_24_BITS, 18};
+#endif
+#ifdef GL_VIEW_CLASS_32_BITS
+				case GL_VIEW_CLASS_32_BITS:
+					return {s_VIEW_CLASS_32_BITS, 18};
+#endif
+#ifdef GL_VIEW_CLASS_48_BITS
+				case GL_VIEW_CLASS_48_BITS:
+					return {s_VIEW_CLASS_48_BITS, 18};
+#endif
+#ifdef GL_VIEW_CLASS_64_BITS
+				case GL_VIEW_CLASS_64_BITS:
+					return {s_VIEW_CLASS_64_BITS, 18};
+#endif
+#ifdef GL_VIEW_CLASS_8_BITS
+				case GL_VIEW_CLASS_8_BITS:
+					return {s_VIEW_CLASS_8_BITS, 17};
+#endif
+#ifdef GL_VIEW_CLASS_96_BITS
+				case GL_VIEW_CLASS_96_BITS:
+					return {s_VIEW_CLASS_96_BITS, 18};
+#endif
+#ifdef GL_VIEW_CLASS_BPTC_FLOAT
+				case GL_VIEW_CLASS_BPTC_FLOAT:
+					return {s_VIEW_CLASS_BPTC_FLOAT, 21};
+#endif
+#ifdef GL_VIEW_CLASS_BPTC_UNORM
+				case GL_VIEW_CLASS_BPTC_UNORM:
+					return {s_VIEW_CLASS_BPTC_UNORM, 21};
+#endif
+#ifdef GL_VIEW_CLASS_RGTC1_RED
+				case GL_VIEW_CLASS_RGTC1_RED:
+					return {s_VIEW_CLASS_RGTC1_RED, 20};
+#endif
+#ifdef GL_VIEW_CLASS_RGTC2_RG
+				case GL_VIEW_CLASS_RGTC2_RG:
+					return {s_VIEW_CLASS_RGTC2_RG, 19};
+#endif
+#ifdef GL_VIEW_CLASS_S3TC_DXT1_RGB
+				case GL_VIEW_CLASS_S3TC_DXT1_RGB:
+					return {s_VIEW_CLASS_S3TC_DXT1_RGB, 24};
+#endif
+#ifdef GL_VIEW_CLASS_S3TC_DXT1_RGBA
+				case GL_VIEW_CLASS_S3TC_DXT1_RGBA:
+					return {s_VIEW_CLASS_S3TC_DXT1_RGBA, 25};
+#endif
+#ifdef GL_VIEW_CLASS_S3TC_DXT3_RGBA
+				case GL_VIEW_CLASS_S3TC_DXT3_RGBA:
+					return {s_VIEW_CLASS_S3TC_DXT3_RGBA, 25};
+#endif
+#ifdef GL_VIEW_CLASS_S3TC_DXT5_RGBA
+				case GL_VIEW_CLASS_S3TC_DXT5_RGBA:
+					return {s_VIEW_CLASS_S3TC_DXT5_RGBA, 25};
 #endif
 				default:;
 			}

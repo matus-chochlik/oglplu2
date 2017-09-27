@@ -8782,6 +8782,118 @@ static constexpr const enum_value<
 > vertices_submitted = {GL_VERTICES_SUBMITTED_ARB};
 #endif
 
+#ifdef GL_VIEW_CLASS_128_BITS
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> view_class_128_bits = {GL_VIEW_CLASS_128_BITS};
+#endif
+
+#ifdef GL_VIEW_CLASS_16_BITS
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> view_class_16_bits = {GL_VIEW_CLASS_16_BITS};
+#endif
+
+#ifdef GL_VIEW_CLASS_24_BITS
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> view_class_24_bits = {GL_VIEW_CLASS_24_BITS};
+#endif
+
+#ifdef GL_VIEW_CLASS_32_BITS
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> view_class_32_bits = {GL_VIEW_CLASS_32_BITS};
+#endif
+
+#ifdef GL_VIEW_CLASS_48_BITS
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> view_class_48_bits = {GL_VIEW_CLASS_48_BITS};
+#endif
+
+#ifdef GL_VIEW_CLASS_64_BITS
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> view_class_64_bits = {GL_VIEW_CLASS_64_BITS};
+#endif
+
+#ifdef GL_VIEW_CLASS_8_BITS
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> view_class_8_bits = {GL_VIEW_CLASS_8_BITS};
+#endif
+
+#ifdef GL_VIEW_CLASS_96_BITS
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> view_class_96_bits = {GL_VIEW_CLASS_96_BITS};
+#endif
+
+#ifdef GL_VIEW_CLASS_BPTC_FLOAT
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> view_class_bptc_float = {GL_VIEW_CLASS_BPTC_FLOAT};
+#endif
+
+#ifdef GL_VIEW_CLASS_BPTC_UNORM
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> view_class_bptc_unorm = {GL_VIEW_CLASS_BPTC_UNORM};
+#endif
+
+#ifdef GL_VIEW_CLASS_RGTC1_RED
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> view_class_rgtc1_red = {GL_VIEW_CLASS_RGTC1_RED};
+#endif
+
+#ifdef GL_VIEW_CLASS_RGTC2_RG
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> view_class_rgtc2_rg = {GL_VIEW_CLASS_RGTC2_RG};
+#endif
+
+#ifdef GL_VIEW_CLASS_S3TC_DXT1_RGB
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> view_class_s3tc_dxt1_rgb = {GL_VIEW_CLASS_S3TC_DXT1_RGB};
+#endif
+
+#ifdef GL_VIEW_CLASS_S3TC_DXT1_RGBA
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> view_class_s3tc_dxt1_rgba = {GL_VIEW_CLASS_S3TC_DXT1_RGBA};
+#endif
+
+#ifdef GL_VIEW_CLASS_S3TC_DXT3_RGBA
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> view_class_s3tc_dxt3_rgba = {GL_VIEW_CLASS_S3TC_DXT3_RGBA};
+#endif
+
+#ifdef GL_VIEW_CLASS_S3TC_DXT5_RGBA
+static constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> view_class_s3tc_dxt5_rgba = {GL_VIEW_CLASS_S3TC_DXT5_RGBA};
+#endif
+
 #ifdef GL_VIEW_COMPATIBILITY_CLASS
 static constexpr const enum_value<
 	GLenum,

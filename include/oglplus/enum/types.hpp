@@ -520,6 +520,10 @@ struct unified_array_address_nv
  : enum_class<unified_array_address_nv, GLenum, 125>
 { using enum_class::enum_class; };
 
+struct view_compatibility_class
+ : enum_class<view_compatibility_class, GLenum, 126>
+{ using enum_class::enum_class; };
+
 } // namespace oglplus
 
 #endif // include guard

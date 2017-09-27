@@ -5295,6 +5295,61 @@ noexcept
 			};
 			return {vr, sizeof(vr)/sizeof(vr[0])-1};
 		}
+		case 126: /* view_compatibility_class */
+		{
+			static const GLenum vr[] = {
+#ifdef GL_VIEW_CLASS_128_BITS
+				GL_VIEW_CLASS_128_BITS,
+#endif
+#ifdef GL_VIEW_CLASS_16_BITS
+				GL_VIEW_CLASS_16_BITS,
+#endif
+#ifdef GL_VIEW_CLASS_24_BITS
+				GL_VIEW_CLASS_24_BITS,
+#endif
+#ifdef GL_VIEW_CLASS_32_BITS
+				GL_VIEW_CLASS_32_BITS,
+#endif
+#ifdef GL_VIEW_CLASS_48_BITS
+				GL_VIEW_CLASS_48_BITS,
+#endif
+#ifdef GL_VIEW_CLASS_64_BITS
+				GL_VIEW_CLASS_64_BITS,
+#endif
+#ifdef GL_VIEW_CLASS_8_BITS
+				GL_VIEW_CLASS_8_BITS,
+#endif
+#ifdef GL_VIEW_CLASS_96_BITS
+				GL_VIEW_CLASS_96_BITS,
+#endif
+#ifdef GL_VIEW_CLASS_BPTC_FLOAT
+				GL_VIEW_CLASS_BPTC_FLOAT,
+#endif
+#ifdef GL_VIEW_CLASS_BPTC_UNORM
+				GL_VIEW_CLASS_BPTC_UNORM,
+#endif
+#ifdef GL_VIEW_CLASS_RGTC1_RED
+				GL_VIEW_CLASS_RGTC1_RED,
+#endif
+#ifdef GL_VIEW_CLASS_RGTC2_RG
+				GL_VIEW_CLASS_RGTC2_RG,
+#endif
+#ifdef GL_VIEW_CLASS_S3TC_DXT1_RGB
+				GL_VIEW_CLASS_S3TC_DXT1_RGB,
+#endif
+#ifdef GL_VIEW_CLASS_S3TC_DXT1_RGBA
+				GL_VIEW_CLASS_S3TC_DXT1_RGBA,
+#endif
+#ifdef GL_VIEW_CLASS_S3TC_DXT3_RGBA
+				GL_VIEW_CLASS_S3TC_DXT3_RGBA,
+#endif
+#ifdef GL_VIEW_CLASS_S3TC_DXT5_RGBA
+				GL_VIEW_CLASS_S3TC_DXT5_RGBA,
+#endif
+				0
+			};
+			return {vr, sizeof(vr)/sizeof(vr[0])-1};
+		}
 	default:;
 	}
 

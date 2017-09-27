@@ -8776,6 +8776,118 @@ constexpr const enum_value<
 > enum_values::vertices_submitted;
 #endif
 
+#ifdef GL_VIEW_CLASS_128_BITS
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> enum_values::view_class_128_bits;
+#endif
+
+#ifdef GL_VIEW_CLASS_16_BITS
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> enum_values::view_class_16_bits;
+#endif
+
+#ifdef GL_VIEW_CLASS_24_BITS
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> enum_values::view_class_24_bits;
+#endif
+
+#ifdef GL_VIEW_CLASS_32_BITS
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> enum_values::view_class_32_bits;
+#endif
+
+#ifdef GL_VIEW_CLASS_48_BITS
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> enum_values::view_class_48_bits;
+#endif
+
+#ifdef GL_VIEW_CLASS_64_BITS
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> enum_values::view_class_64_bits;
+#endif
+
+#ifdef GL_VIEW_CLASS_8_BITS
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> enum_values::view_class_8_bits;
+#endif
+
+#ifdef GL_VIEW_CLASS_96_BITS
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> enum_values::view_class_96_bits;
+#endif
+
+#ifdef GL_VIEW_CLASS_BPTC_FLOAT
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> enum_values::view_class_bptc_float;
+#endif
+
+#ifdef GL_VIEW_CLASS_BPTC_UNORM
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> enum_values::view_class_bptc_unorm;
+#endif
+
+#ifdef GL_VIEW_CLASS_RGTC1_RED
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> enum_values::view_class_rgtc1_red;
+#endif
+
+#ifdef GL_VIEW_CLASS_RGTC2_RG
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> enum_values::view_class_rgtc2_rg;
+#endif
+
+#ifdef GL_VIEW_CLASS_S3TC_DXT1_RGB
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> enum_values::view_class_s3tc_dxt1_rgb;
+#endif
+
+#ifdef GL_VIEW_CLASS_S3TC_DXT1_RGBA
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> enum_values::view_class_s3tc_dxt1_rgba;
+#endif
+
+#ifdef GL_VIEW_CLASS_S3TC_DXT3_RGBA
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> enum_values::view_class_s3tc_dxt3_rgba;
+#endif
+
+#ifdef GL_VIEW_CLASS_S3TC_DXT5_RGBA
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> enum_values::view_class_s3tc_dxt5_rgba;
+#endif
+
 #ifdef GL_VIEW_COMPATIBILITY_CLASS
 constexpr const enum_value<
 	GLenum,
