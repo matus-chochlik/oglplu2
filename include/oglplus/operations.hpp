@@ -11,6 +11,7 @@
 
 #include "oper/capabilities.hpp"
 #include "oper/numeric_queries.hpp"
+#include "oper/internal_format_queries.hpp"
 #include "oper/string_queries.hpp"
 #include "oper/viewport.hpp"
 #include "oper/scissor.hpp"
@@ -68,6 +69,7 @@ namespace oglplus {
 class operations
  : public oper::capability_state
  , public oper::numeric_queries
+ , public oper::internal_format_queries
  , public oper::string_queries
  , public oper::viewport_state
  , public oper::scissor_state
