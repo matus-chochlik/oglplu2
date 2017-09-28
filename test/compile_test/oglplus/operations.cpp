@@ -139,6 +139,82 @@ void oglplus_numeric_queries_test(void)
 #endif
 }
 
+void oglplus_internal_format_queries_test(void)
+{
+	using namespace oglplus;
+
+	oper::internal_format_queries gl;
+	GLint temp = 0;
+	GLint64 temp64 = 0;
+
+	EAGINE_MAYBE_UNUSED(gl);
+	EAGINE_MAYBE_UNUSED(temp);
+	EAGINE_MAYBE_UNUSED(temp64);
+
+#if defined(GL_VERSION_4_2)
+	gl.get_internal_format_iv(
+		internal_format_target(GL_RENDERBUFFER),
+		pixel_data_internal_format(GL_RED),
+		internal_format_parameter(GL_INTERNALFORMAT_SUPPORTED),
+		{&temp, 1}
+	);
+#endif
+
+#if defined(GL_VERSION_4_3)
+	gl.get_internal_format_i64v(
+		internal_format_target(GL_RENDERBUFFER),
+		pixel_data_internal_format(GL_RED),
+		internal_format_parameter(GL_INTERNALFORMAT_SUPPORTED),
+		{&temp64, 1}
+	);
+
+	gl.is_internal_format_supported(
+		internal_format_target(GL_RENDERBUFFER),
+		pixel_data_internal_format(GL_RED)
+	);
+
+	gl.is_internal_format_preferred(
+		internal_format_target(GL_RENDERBUFFER),
+		pixel_data_internal_format(GL_RED)
+	);
+
+	gl.is_internal_format_compressed(
+		internal_format_target(GL_RENDERBUFFER),
+		pixel_data_internal_format(GL_RED)
+	);
+
+	gl.has_internal_format_color_components(
+		internal_format_target(GL_RENDERBUFFER),
+		pixel_data_internal_format(GL_RED)
+	);
+
+	gl.has_internal_format_depth_components(
+		internal_format_target(GL_RENDERBUFFER),
+		pixel_data_internal_format(GL_RED)
+	);
+
+	gl.has_internal_format_stencil_components(
+		internal_format_target(GL_RENDERBUFFER),
+		pixel_data_internal_format(GL_RED)
+	);
+
+	gl.supports_internal_format_framebuffer_blend(
+		internal_format_target(GL_RENDERBUFFER),
+		pixel_data_internal_format(GL_RED)
+	);
+
+	gl.supports_internal_format_mipmap(
+		internal_format_target(GL_RENDERBUFFER),
+		pixel_data_internal_format(GL_RED)
+	);
+
+	gl.supports_internal_format_filter(
+		internal_format_target(GL_RENDERBUFFER),
+		pixel_data_internal_format(GL_RED)
+	);
+#endif
+}
+
 void oglplus_viewport_test(void)
 {
 	using namespace oglplus;

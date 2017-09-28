@@ -30,6 +30,15 @@ struct internal_format_queries
 		internal_format_parameter param,
 		span<GLint> data
 	) noexcept;
+
+	template <typename Result, typename Temp = Result>
+	static
+	outcome<Result>
+	return_internal_format_i(
+		internal_format_target target,
+		pixel_data_internal_format iformat,
+		internal_format_parameter param
+	) noexcept;
 #endif
 
 #if defined(GL_VERSION_4_3)
@@ -40,6 +49,78 @@ struct internal_format_queries
 		pixel_data_internal_format iformat,
 		internal_format_parameter param,
 		span<GLint64> data
+	) noexcept;
+
+	template <typename Result, typename Temp = Result>
+	static
+	outcome<Result>
+	return_internal_format_i64(
+		internal_format_target target,
+		pixel_data_internal_format iformat,
+		internal_format_parameter param
+	) noexcept;
+
+	static
+	outcome<boolean>
+	is_internal_format_supported(
+		internal_format_target target,
+		pixel_data_internal_format iformat
+	) noexcept;
+
+	static
+	outcome<boolean>
+	is_internal_format_preferred(
+		internal_format_target target,
+		pixel_data_internal_format iformat
+	) noexcept;
+
+	static
+	outcome<boolean>
+	is_internal_format_compressed(
+		internal_format_target target,
+		pixel_data_internal_format iformat
+	) noexcept;
+
+	static
+	outcome<boolean>
+	has_internal_format_color_components(
+		internal_format_target target,
+		pixel_data_internal_format iformat
+	) noexcept;
+
+	static
+	outcome<boolean>
+	has_internal_format_depth_components(
+		internal_format_target target,
+		pixel_data_internal_format iformat
+	) noexcept;
+
+	static
+	outcome<boolean>
+	has_internal_format_stencil_components(
+		internal_format_target target,
+		pixel_data_internal_format iformat
+	) noexcept;
+
+	static
+	outcome<boolean>
+	supports_internal_format_framebuffer_blend(
+		internal_format_target target,
+		pixel_data_internal_format iformat
+	) noexcept;
+
+	static
+	outcome<boolean>
+	supports_internal_format_mipmap(
+		internal_format_target target,
+		pixel_data_internal_format iformat
+	) noexcept;
+
+	static
+	outcome<boolean>
+	supports_internal_format_filter(
+		internal_format_target target,
+		pixel_data_internal_format iformat
 	) noexcept;
 #endif
 };

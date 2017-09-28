@@ -37,6 +37,25 @@ get_internal_format_iv(
 	);
 	return {};
 }
+//------------------------------------------------------------------------------
+template <typename Result, typename Temp>
+inline
+outcome<Result>
+internal_format_queries::
+return_internal_format_i(
+	internal_format_target target,
+	pixel_data_internal_format iformat,
+	internal_format_parameter param
+) noexcept {
+	GLint result = 0;
+
+	return get_internal_format_iv(
+		target,
+		iformat,
+		param,
+		{&result, 1}
+	).add(Result(Temp(result)));
+}
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_3)
@@ -63,6 +82,142 @@ get_internal_format_i64v(
 		always
 	);
 	return {};
+}
+//------------------------------------------------------------------------------
+template <typename Result, typename Temp>
+inline
+outcome<Result>
+internal_format_queries::
+return_internal_format_i64(
+	internal_format_target target,
+	pixel_data_internal_format iformat,
+	internal_format_parameter param
+) noexcept {
+	GLint64 result = 0;
+
+	return get_internal_format_i64v(
+		target,
+		iformat,
+		param,
+		{&result, 1}
+	).add(Result(Temp(result)));
+}
+//------------------------------------------------------------------------------
+inline
+outcome<boolean>
+internal_format_queries::
+is_internal_format_supported(
+	internal_format_target target,
+	pixel_data_internal_format iformat
+) noexcept {
+	return return_internal_format_i<boolean, GLboolean>(
+		target, iformat,
+		internal_format_parameter(GL_INTERNALFORMAT_SUPPORTED)
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<boolean>
+internal_format_queries::
+is_internal_format_preferred(
+	internal_format_target target,
+	pixel_data_internal_format iformat
+) noexcept {
+	return return_internal_format_i<boolean, GLboolean>(
+		target, iformat,
+		internal_format_parameter(GL_INTERNALFORMAT_PREFERRED)
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<boolean>
+internal_format_queries::
+is_internal_format_compressed(
+	internal_format_target target,
+	pixel_data_internal_format iformat
+) noexcept {
+	return return_internal_format_i<boolean, GLboolean>(
+		target, iformat,
+		internal_format_parameter(GL_TEXTURE_COMPRESSED)
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<boolean>
+internal_format_queries::
+has_internal_format_color_components(
+	internal_format_target target,
+	pixel_data_internal_format iformat
+) noexcept {
+	return return_internal_format_i<boolean, GLboolean>(
+		target, iformat,
+		internal_format_parameter(GL_COLOR_COMPONENTS)
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<boolean>
+internal_format_queries::
+has_internal_format_depth_components(
+	internal_format_target target,
+	pixel_data_internal_format iformat
+) noexcept {
+	return return_internal_format_i<boolean, GLboolean>(
+		target, iformat,
+		internal_format_parameter(GL_DEPTH_COMPONENTS)
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<boolean>
+internal_format_queries::
+has_internal_format_stencil_components(
+	internal_format_target target,
+	pixel_data_internal_format iformat
+) noexcept {
+	return return_internal_format_i<boolean, GLboolean>(
+		target, iformat,
+		internal_format_parameter(GL_STENCIL_COMPONENTS)
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<boolean>
+internal_format_queries::
+supports_internal_format_framebuffer_blend(
+	internal_format_target target,
+	pixel_data_internal_format iformat
+) noexcept {
+	return return_internal_format_i<boolean, GLboolean>(
+		target, iformat,
+		internal_format_parameter(GL_FRAMEBUFFER_BLEND)
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<boolean>
+internal_format_queries::
+supports_internal_format_mipmap(
+	internal_format_target target,
+	pixel_data_internal_format iformat
+) noexcept {
+	return return_internal_format_i<boolean, GLboolean>(
+		target, iformat,
+		internal_format_parameter(GL_MIPMAP)
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<boolean>
+internal_format_queries::
+supports_internal_format_filter(
+	internal_format_target target,
+	pixel_data_internal_format iformat
+) noexcept {
+	return return_internal_format_i<boolean, GLboolean>(
+		target, iformat,
+		internal_format_parameter(GL_FILTER)
+	);
 }
 #endif
 //------------------------------------------------------------------------------
