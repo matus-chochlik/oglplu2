@@ -219,6 +219,73 @@ supports_internal_format_filter(
 		internal_format_parameter(GL_FILTER)
 	);
 }
+//------------------------------------------------------------------------------
+inline
+outcome<support_level>
+internal_format_queries::
+get_internal_format_framebuffer_renderable_support(
+	internal_format_target target,
+	pixel_data_internal_format iformat
+) noexcept {
+	return return_internal_format_i<support_level, GLenum>(
+		target, iformat,
+		internal_format_parameter(GL_FRAMEBUFFER_RENDERABLE)
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<support_level>
+internal_format_queries::
+get_internal_format_framebuffer_renderable_layered_support(
+	internal_format_target target,
+	pixel_data_internal_format iformat
+) noexcept {
+	return return_internal_format_i<support_level, GLenum>(
+		target, iformat,
+		internal_format_parameter(GL_FRAMEBUFFER_RENDERABLE_LAYERED)
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<support_level>
+internal_format_queries::
+get_internal_format_read_pixels_support(
+	internal_format_target target,
+	pixel_data_internal_format iformat
+) noexcept {
+	return return_internal_format_i<support_level, GLenum>(
+		target, iformat,
+		internal_format_parameter(GL_READ_PIXELS)
+	);
+}
+//------------------------------------------------------------------------------
+#if defined(GL_GENERATE_MIPMAP)
+inline
+outcome<support_level>
+internal_format_queries::
+get_internal_format_generate_mipmap_support(
+	internal_format_target target,
+	pixel_data_internal_format iformat
+) noexcept {
+	return return_internal_format_i<support_level, GLenum>(
+		target, iformat,
+		internal_format_parameter(GL_GENERATE_MIPMAP)
+	);
+}
+#endif
+//------------------------------------------------------------------------------
+inline
+outcome<support_level>
+internal_format_queries::
+get_internal_format_auto_generate_mipmap_support(
+	internal_format_target target,
+	pixel_data_internal_format iformat
+) noexcept {
+	return return_internal_format_i<support_level, GLenum>(
+		target, iformat,
+		internal_format_parameter(GL_AUTO_GENERATE_MIPMAP)
+	);
+}
 #endif
 //------------------------------------------------------------------------------
 } // namespace oper

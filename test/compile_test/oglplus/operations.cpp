@@ -212,6 +212,26 @@ void oglplus_internal_format_queries_test(void)
 		internal_format_target(GL_RENDERBUFFER),
 		pixel_data_internal_format(GL_RED)
 	);
+
+	gl.get_internal_format_framebuffer_renderable_support(
+		internal_format_target(GL_RENDERBUFFER),
+		pixel_data_internal_format(GL_RED)
+	);
+
+	gl.get_internal_format_framebuffer_renderable_layered_support(
+		internal_format_target(GL_RENDERBUFFER),
+		pixel_data_internal_format(GL_RED)
+	);
+
+	gl.get_internal_format_read_pixels_support(
+		internal_format_target(GL_RENDERBUFFER),
+		pixel_data_internal_format(GL_RED)
+	);
+
+	gl.get_internal_format_auto_generate_mipmap_support(
+		internal_format_target(GL_RENDERBUFFER),
+		pixel_data_internal_format(GL_RED)
+	);
 #endif
 }
 

@@ -122,6 +122,43 @@ struct internal_format_queries
 		internal_format_target target,
 		pixel_data_internal_format iformat
 	) noexcept;
+
+	static
+	outcome<support_level>
+	get_internal_format_framebuffer_renderable_support(
+		internal_format_target target,
+		pixel_data_internal_format iformat
+	) noexcept;
+
+	static
+	outcome<support_level>
+	get_internal_format_framebuffer_renderable_layered_support(
+		internal_format_target target,
+		pixel_data_internal_format iformat
+	) noexcept;
+
+	static
+	outcome<support_level>
+	get_internal_format_read_pixels_support(
+		internal_format_target target,
+		pixel_data_internal_format iformat
+	) noexcept;
+
+#if defined(GL_GENERATE_MIPMAP)
+	static
+	outcome<support_level>
+	get_internal_format_generate_mipmap_support(
+		internal_format_target target,
+		pixel_data_internal_format iformat
+	) noexcept;
+#endif
+
+	static
+	outcome<support_level>
+	get_internal_format_auto_generate_mipmap_support(
+		internal_format_target target,
+		pixel_data_internal_format iformat
+	) noexcept;
 #endif
 };
 
