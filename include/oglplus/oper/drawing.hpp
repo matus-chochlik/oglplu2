@@ -44,6 +44,27 @@ struct drawing_ops
 	) noexcept;
 #endif
 
+#if defined(GL_VERSION_4_2)
+	static
+	outcome<void>
+	draw_arrays_instanced_base_instance(
+		primitive_type mode,
+		GLint first,
+		GLsizei count,
+		GLsizei primcount,
+		GLuint baseinstance
+	) noexcept;
+#endif
+
+#if defined(GL_VERSION_4_0)
+	static
+	outcome<void>
+	draw_arrays_indirect(
+		primitive_type mode,
+		const GLvoid* indirect
+	) noexcept;
+#endif
+
 	static
 	outcome<void>
 	draw_elements(
@@ -79,6 +100,60 @@ struct drawing_ops
 		GLsizei count,
 		index_type type,
 		GLsizei primcount
+	) noexcept;
+#endif
+
+#if defined(GL_VERSION_3_2)
+	static
+	outcome<void>
+	draw_elements_base_vertex(
+		primitive_type mode,
+		GLsizei count,
+		index_type type,
+		const GLvoid* indices,
+		GLint basevertex
+	) noexcept;
+
+	static
+	outcome<void>
+	draw_elements_base_vertex(
+		primitive_type mode,
+		GLsizei count,
+		index_type type,
+		GLint basevertex
+	) noexcept;
+#endif
+
+#if defined(GL_VERSION_4_2)
+	static
+	outcome<void>
+	draw_elements_instanced_base_instance(
+		primitive_type mode,
+		GLsizei count,
+		index_type type,
+		const GLvoid* indices,
+		GLsizei primcount,
+		GLuint baseinstance
+	) noexcept;
+
+	static
+	outcome<void>
+	draw_elements_instanced_base_instance(
+		primitive_type mode,
+		GLsizei count,
+		index_type type,
+		GLsizei primcount,
+		GLuint baseinstance
+	) noexcept;
+#endif
+
+#if defined(GL_VERSION_4_0)
+	static
+	outcome<void>
+	draw_elements_indirect(
+		primitive_type mode,
+		index_type type,
+		const GLvoid* indirect
 	) noexcept;
 #endif
 };

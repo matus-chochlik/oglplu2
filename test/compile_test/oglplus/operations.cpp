@@ -414,11 +414,48 @@ void oglplus_drawing_ops_test(void)
 		primitive_type(GL_TRIANGLES),
 		0, 3, 10
 	);
+
 	gl.draw_elements_instanced(
 		primitive_type(GL_TRIANGLES),
 		12,
 		index_type(GL_UNSIGNED_BYTE),
 		10
+	);
+#endif
+
+#if defined(GL_VERSION_3_2)
+	gl.draw_elements_base_vertex(
+		primitive_type(GL_TRIANGLES),
+		12,
+		index_type(GL_UNSIGNED_BYTE),
+		10
+	);
+#endif
+
+#if defined(GL_VERSION_4_2)
+	gl.draw_arrays_instanced_base_instance(
+		primitive_type(GL_TRIANGLES),
+		0, 3, 10, 123
+	);
+
+	gl.draw_elements_instanced_base_instance(
+		primitive_type(GL_TRIANGLES),
+		12,
+		index_type(GL_UNSIGNED_BYTE),
+		10, 123
+	);
+#endif
+
+#if defined(GL_VERSION_4_0)
+	gl.draw_arrays_indirect(
+		primitive_type(GL_TRIANGLES),
+		nullptr
+	);
+
+	gl.draw_elements_indirect(
+		primitive_type(GL_TRIANGLES),
+		index_type(GL_UNSIGNED_BYTE),
+		nullptr
 	);
 #endif
 }
