@@ -378,6 +378,51 @@ void oglplus_capability_state_test(void)
 #endif
 }
 
+void oglplus_drawing_state_test(void)
+{
+	using namespace oglplus;
+
+	oper::drawing_state gl;
+
+	EAGINE_MAYBE_UNUSED(gl);
+
+#if defined(GL_VERSION_3_1)
+	gl.primitive_restart_index(0);
+#endif
+}
+
+void oglplus_drawing_ops_test(void)
+{
+	using namespace oglplus;
+
+	oper::drawing_ops gl;
+
+	EAGINE_MAYBE_UNUSED(gl);
+
+	gl.draw_arrays(
+		primitive_type(GL_TRIANGLES),
+		0, 3
+	);
+	gl.draw_elements(
+		primitive_type(GL_TRIANGLES),
+		12,
+		index_type(GL_UNSIGNED_BYTE)
+	);
+
+#if defined(GL_VERSION_3_1)
+	gl.draw_arrays_instanced(
+		primitive_type(GL_TRIANGLES),
+		0, 3, 10
+	);
+	gl.draw_elements_instanced(
+		primitive_type(GL_TRIANGLES),
+		12,
+		index_type(GL_UNSIGNED_BYTE),
+		10
+	);
+#endif
+}
+
 void oglplus_compatibility_drawing_test(void)
 {
 	using namespace oglplus;

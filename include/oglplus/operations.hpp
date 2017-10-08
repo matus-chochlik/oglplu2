@@ -78,6 +78,7 @@ class operations
  , public oper::buffer_clearing_ops
  , public oper::stencil_test_state
  , public oper::rasterization_state
+ , public oper::drawing_state
  , public oper::drawing_ops
  , public oper::computing_ops
  , public oper::pixel_transfer_state
