@@ -143,6 +143,46 @@ noexcept {
 	return draw_elements(mode, count, type, nullptr);
 }
 //------------------------------------------------------------------------------
+inline
+outcome<void>
+drawing_ops::
+draw_range_elements(
+	primitive_type mode,
+	GLuint start,
+	GLuint end,
+	GLsizei count,
+	index_type type,
+	const GLvoid* indices
+) noexcept {
+	OGLPLUS_GLFUNC(DrawRangeElements)(
+		GLenum(mode),
+		start,
+		end,
+		count,
+		GLenum(type),
+		indices
+	);
+	OGLPLUS_VERIFY(
+		DrawRangeElements,
+		gl_enum_value(mode),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+drawing_ops::
+draw_range_elements(
+	primitive_type mode,
+	GLuint start,
+	GLuint end,
+	GLsizei count,
+	index_type type
+) noexcept {
+	return draw_range_elements(mode, start, end, count, type, nullptr);
+}
+//------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_1)
 inline
 outcome<void>
@@ -217,7 +257,111 @@ draw_elements_base_vertex(
 	index_type type,
 	GLint basevertex
 ) noexcept {
-	return draw_elements_base_vertex(mode, count, type, nullptr, basevertex);
+	return draw_elements_base_vertex(
+		mode,
+		count,
+		type,
+		nullptr,
+		basevertex
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+drawing_ops::
+draw_range_elements_base_vertex(
+	primitive_type mode,
+	GLuint start,
+	GLuint end,
+	GLsizei count,
+	index_type type,
+	const GLvoid* indices,
+	GLint basevertex
+) noexcept {
+	OGLPLUS_GLFUNC(DrawRangeElementsBaseVertex)(
+		GLenum(mode),
+		start,
+		end,
+		count,
+		GLenum(type),
+		indices,
+		basevertex
+	);
+	OGLPLUS_VERIFY(
+		DrawRangeElementsBaseVertex,
+		gl_enum_value(mode),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+drawing_ops::
+draw_range_elements_base_vertex(
+	primitive_type mode,
+	GLuint start,
+	GLuint end,
+	GLsizei count,
+	index_type type,
+	GLint basevertex
+) noexcept {
+	return draw_range_elements_base_vertex(
+		mode,
+		start,
+		end,
+		count,
+		type,
+		nullptr,
+		basevertex
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+drawing_ops::
+draw_elements_instanced_base_vertex(
+	primitive_type mode,
+	GLsizei count,
+	index_type type,
+	const GLvoid* indices,
+	GLsizei primcount,
+	GLint basevertex
+) noexcept {
+	OGLPLUS_GLFUNC(DrawElementsInstancedBaseVertex)(
+		GLenum(mode),
+		count,
+		GLenum(type),
+		indices,
+		primcount,
+		basevertex
+	);
+	OGLPLUS_VERIFY(
+		DrawElementsInstancedBaseVertex,
+		gl_enum_value(mode),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+drawing_ops::
+draw_elements_instanced_base_vertex(
+	primitive_type mode,
+	GLsizei count,
+	index_type type,
+	GLsizei primcount,
+	GLint basevertex
+) noexcept {
+	return draw_elements_instanced_base_vertex(
+		mode,
+		count,
+		type,
+		nullptr,
+		primcount,
+		basevertex
+	);
 }
 #endif
 //------------------------------------------------------------------------------
@@ -265,6 +409,57 @@ draw_elements_instanced_base_instance(
 		type,
 		nullptr,
 		primcount,
+		baseinstance
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+drawing_ops::
+draw_elements_instanced_base_vertex_base_instance(
+	primitive_type mode,
+	GLsizei count,
+	index_type type,
+	const GLvoid* indices,
+	GLsizei primcount,
+	GLint basevertex,
+	GLuint baseinstance
+) noexcept {
+	OGLPLUS_GLFUNC(DrawElementsInstancedBaseVertexBaseInstance)(
+		GLenum(mode),
+		count,
+		GLenum(type),
+		indices,
+		primcount,
+		basevertex,
+		baseinstance
+	);
+	OGLPLUS_VERIFY(
+		DrawElementsInstancedBaseVertexBaseInstance,
+		gl_enum_value(mode),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+drawing_ops::
+draw_elements_instanced_base_vertex_base_instance(
+	primitive_type mode,
+	GLsizei count,
+	index_type type,
+	GLsizei primcount,
+	GLint basevertex,
+	GLuint baseinstance
+) noexcept {
+	return draw_elements_instanced_base_vertex_base_instance(
+		mode,
+		count,
+		type,
+		nullptr,
+		primcount,
+		basevertex,
 		baseinstance
 	);
 }

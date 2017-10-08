@@ -430,6 +430,13 @@ void oglplus_drawing_ops_test(void)
 		index_type(GL_UNSIGNED_BYTE),
 		10
 	);
+
+	gl.draw_elements_instanced_base_vertex(
+		primitive_type(GL_TRIANGLES),
+		12,
+		index_type(GL_UNSIGNED_BYTE),
+		4, 10
+	);
 #endif
 
 #if defined(GL_VERSION_4_2)
@@ -443,6 +450,13 @@ void oglplus_drawing_ops_test(void)
 		12,
 		index_type(GL_UNSIGNED_BYTE),
 		10, 123
+	);
+
+	gl.draw_elements_instanced_base_vertex_base_instance(
+		primitive_type(GL_TRIANGLES),
+		12,
+		index_type(GL_UNSIGNED_BYTE),
+		10, 12, 345
 	);
 #endif
 
