@@ -6,6 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <algorithm>
 #include <oglplus/utils/gl_func.hpp>
 
 namespace oglplus {
@@ -41,6 +42,30 @@ noexcept {
 	);
 	return {};
 }
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_3_0)
+inline
+outcome<void>
+drawing_ops::
+multi_draw_arrays(
+	primitive_type mode,
+	span<const GLint> first,
+	span<const GLsizei> count
+) noexcept {
+	OGLPLUS_GLFUNC(MultiDrawArrays)(
+		GLenum(mode),
+		first.data(),
+		count.data(),
+		GLsizei(std::min(first.size(), count.size()))
+	);
+	OGLPLUS_VERIFY(
+		MultiDrawArrays,
+		gl_enum_value(mode),
+		debug
+	);
+	return {};
+}
+#endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_1)
 inline
@@ -142,6 +167,32 @@ draw_elements(primitive_type mode, GLsizei count, index_type type)
 noexcept {
 	return draw_elements(mode, count, type, nullptr);
 }
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_3_0)
+inline
+outcome<void>
+drawing_ops::
+multi_draw_elements(
+	primitive_type mode,
+	span<const GLsizei> count,
+	index_type type,
+	span<const GLvoid*> indices
+) noexcept {
+	OGLPLUS_GLFUNC(MultiDrawElements)(
+		GLenum(mode),
+		count.data(),
+		GLenum(type),
+		indices.data(),
+		GLsizei(std::min(count.size(), indices.size()))
+	);
+	OGLPLUS_VERIFY(
+		MultiDrawElements,
+		gl_enum_value(mode),
+		debug
+	);
+	return {};
+}
+#endif
 //------------------------------------------------------------------------------
 inline
 outcome<void>
@@ -264,6 +315,35 @@ draw_elements_base_vertex(
 		nullptr,
 		basevertex
 	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+drawing_ops::
+multi_draw_elements_base_vertex(
+	primitive_type mode,
+	span<const GLsizei> count,
+	index_type type,
+	span<const GLvoid*> indices,
+	span<const GLint> basevertex
+) noexcept {
+	OGLPLUS_GLFUNC(MultiDrawElementsBaseVertex)(
+		GLenum(mode),
+		count.data(),
+		GLenum(type),
+		indices.data(),
+		GLsizei(std::min(
+			std::min(count.size(), indices.size()),
+			basevertex.size()
+		)),
+		basevertex.data()
+	);
+	OGLPLUS_VERIFY(
+		MultiDrawElementsBaseVertex,
+		gl_enum_value(mode),
+		debug
+	);
+	return {};
 }
 //------------------------------------------------------------------------------
 inline
@@ -510,7 +590,7 @@ draw_transform_feedback(
 inline
 outcome<void>
 drawing_ops::
-draw_transform_feedback(
+draw_transform_feedback_stream(
 	primitive_type mode,
 	transform_feedback_name xfb,
 	GLuint stream

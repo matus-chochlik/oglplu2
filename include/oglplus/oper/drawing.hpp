@@ -34,6 +34,16 @@ struct drawing_ops
 	draw_arrays(primitive_type mode, GLint first, GLsizei count)
 	noexcept;
 
+#if defined(GL_VERSION_3_0)
+	static
+	outcome<void>
+	multi_draw_arrays(
+		primitive_type mode,
+		span<const GLint> first,
+		span<const GLsizei> count
+	) noexcept;
+#endif
+
 #if defined(GL_VERSION_3_1)
 	static
 	outcome<void>
@@ -82,6 +92,17 @@ struct drawing_ops
 		GLsizei count,
 		index_type type
 	) noexcept;
+
+#if defined(GL_VERSION_3_0)
+	static
+	outcome<void>
+	multi_draw_elements(
+		primitive_type mode,
+		span<const GLsizei> count,
+		index_type type,
+		span<const GLvoid*> indices
+	) noexcept;
+#endif
 
 	static
 	outcome<void>
@@ -143,6 +164,16 @@ struct drawing_ops
 		GLsizei count,
 		index_type type,
 		GLint basevertex
+	) noexcept;
+
+	static
+	outcome<void>
+	multi_draw_elements_base_vertex(
+		primitive_type mode,
+		span<const GLsizei> count,
+		index_type type,
+		span<const GLvoid*> indices,
+		span<const GLint> basevertex
 	) noexcept;
 
 	static
@@ -254,7 +285,7 @@ struct drawing_ops
 
 	static
 	outcome<void>
-	draw_transform_feedback(
+	draw_transform_feedback_stream(
 		primitive_type mode,
 		transform_feedback_name xfb,
 		GLuint stream
