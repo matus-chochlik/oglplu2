@@ -396,8 +396,10 @@ void oglplus_drawing_ops_test(void)
 	using namespace oglplus;
 
 	oper::drawing_ops gl;
+	transform_feedback_name xfb;
 
 	EAGINE_MAYBE_UNUSED(gl);
+	EAGINE_MAYBE_UNUSED(xfb);
 
 	gl.draw_arrays(
 		primitive_type(GL_TRIANGLES),
@@ -470,6 +472,32 @@ void oglplus_drawing_ops_test(void)
 		primitive_type(GL_TRIANGLES),
 		index_type(GL_UNSIGNED_BYTE),
 		nullptr
+	);
+#endif
+
+#if defined(GL_VERSION_4_0)
+	gl.draw_transform_feedback(
+		primitive_type(GL_TRIANGLES),
+		xfb
+	);
+
+	gl.draw_transform_feedback_stream(
+		primitive_type(GL_TRIANGLES),
+		xfb,
+		2
+	);
+#endif
+
+#if defined(GL_VERSION_4_2)
+	gl.draw_transform_feedback_instanced(
+		primitive_type(GL_TRIANGLES),
+		xfb, 10
+	);
+
+	gl.draw_transform_feedback_stream_instanced(
+		primitive_type(GL_TRIANGLES),
+		xfb,
+		2, 10
 	);
 #endif
 }

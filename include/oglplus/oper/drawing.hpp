@@ -12,6 +12,7 @@
 #include "../error/handling.hpp"
 #include "../error/outcome.hpp"
 #include "../enum/types.hpp"
+#include "../transform_feedback_name.hpp"
 
 namespace oglplus {
 namespace oper {
@@ -242,6 +243,40 @@ struct drawing_ops
 		primitive_type mode,
 		index_type type,
 		const GLvoid* indirect
+	) noexcept;
+
+	static
+	outcome<void>
+	draw_transform_feedback(
+		primitive_type mode,
+		transform_feedback_name xfb
+	) noexcept;
+
+	static
+	outcome<void>
+	draw_transform_feedback(
+		primitive_type mode,
+		transform_feedback_name xfb,
+		GLuint stream
+	) noexcept;
+#endif
+
+#if defined(GL_VERSION_4_2)
+	static
+	outcome<void>
+	draw_transform_feedback_instanced(
+		primitive_type mode,
+		transform_feedback_name xfb,
+		GLsizei primcount
+	) noexcept;
+
+	static
+	outcome<void>
+	draw_transform_feedback_stream_instanced(
+		primitive_type mode,
+		transform_feedback_name xfb,
+		GLuint stream,
+		GLsizei primcount
 	) noexcept;
 #endif
 };

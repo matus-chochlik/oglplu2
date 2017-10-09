@@ -486,6 +486,98 @@ draw_elements_indirect(
 	);
 	return {};
 }
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+drawing_ops::
+draw_transform_feedback(
+	primitive_type mode,
+	transform_feedback_name xfb
+) noexcept {
+	OGLPLUS_GLFUNC(DrawTransformFeedback)(
+		GLenum(mode),
+		get_raw_name(xfb)
+	);
+	OGLPLUS_VERIFY(
+		DrawTransformFeedback,
+		gl_object(xfb).
+		gl_enum_value(mode),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+drawing_ops::
+draw_transform_feedback(
+	primitive_type mode,
+	transform_feedback_name xfb,
+	GLuint stream
+) noexcept {
+	OGLPLUS_GLFUNC(DrawTransformFeedbackStream)(
+		GLenum(mode),
+		get_raw_name(xfb),
+		stream
+	);
+	OGLPLUS_VERIFY(
+		DrawTransformFeedbackStream,
+		gl_object(xfb).
+		gl_index(stream).
+		gl_enum_value(mode),
+		debug
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_2)
+inline
+outcome<void>
+drawing_ops::
+draw_transform_feedback_instanced(
+	primitive_type mode,
+	transform_feedback_name xfb,
+	GLsizei primcount
+) noexcept {
+	OGLPLUS_GLFUNC(DrawTransformFeedbackInstanced)(
+		GLenum(mode),
+		get_raw_name(xfb),
+		primcount
+	);
+	OGLPLUS_VERIFY(
+		DrawTransformFeedback,
+		gl_object(xfb).
+		gl_enum_value(mode),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+drawing_ops::
+draw_transform_feedback_stream_instanced(
+	primitive_type mode,
+	transform_feedback_name xfb,
+	GLuint stream,
+	GLsizei primcount
+) noexcept {
+	OGLPLUS_GLFUNC(DrawTransformFeedbackStreamInstanced)(
+		GLenum(mode),
+		get_raw_name(xfb),
+		stream,
+		primcount
+	);
+	OGLPLUS_VERIFY(
+		DrawTransformFeedbackStreamInstanced,
+		gl_object(xfb).
+		gl_index(stream).
+		gl_enum_value(mode),
+		debug
+	);
+	return {};
+}
 #endif
 //------------------------------------------------------------------------------
 } // namespace oper
