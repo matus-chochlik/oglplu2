@@ -378,6 +378,23 @@ void oglplus_capability_state_test(void)
 #endif
 }
 
+void oglplus_computing_ops_test(void)
+{
+	using namespace oglplus;
+
+	oper::computing_ops gl;
+
+	EAGINE_MAYBE_UNUSED(gl);
+
+#if defined(GL_VERSION_4_2)
+	gl.dispatch_compute(8, 16, 32);
+#endif
+
+#if defined(GL_VERSION_4_3)
+	gl.dispatch_compute_indirect(0);
+#endif
+}
+
 void oglplus_drawing_state_test(void)
 {
 	using namespace oglplus;

@@ -17,10 +17,21 @@ inline
 outcome<void>
 computing_ops::
 dispatch_compute(GLuint x_groups, GLuint y_groups, GLuint z_groups)
-noexcept
-{
+noexcept {
 	OGLPLUS_GLFUNC(DispatchCompute)(x_groups, y_groups, z_groups);
 	OGLPLUS_VERIFY_SIMPLE(DispatchCompute, debug);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_3)
+inline
+outcome<void>
+computing_ops::
+dispatch_compute_indirect(GLintptr indirect)
+noexcept {
+	OGLPLUS_GLFUNC(DispatchComputeIndirect)(indirect);
+	OGLPLUS_VERIFY_SIMPLE(DispatchComputeIndirect, debug);
 	return {};
 }
 #endif

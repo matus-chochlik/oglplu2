@@ -61,6 +61,14 @@ struct computing_ops
 		);
 	}
 #endif
+
+#if defined(GL_VERSION_4_3)
+	static
+	outcome<void>
+	dispatch_compute_indirect(GLintptr indirect)
+	noexcept;
+#endif
+
 };
 
 } // namespace oper
