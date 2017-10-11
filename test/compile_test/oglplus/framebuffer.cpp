@@ -27,9 +27,11 @@ void oglplus_framebuffer_test_ops1(void)
 	bound_framebuffer curfbo(tgt);
 	framebuffer_attachment attch(GL_DEPTH_ATTACHMENT);
 	framebuffer_color_attachment cattch(GL_COLOR_ATTACHMENT0);
+	framebuffer_buffer fbb(GL_COLOR);
 	color_buffer cbuf(GL_FRONT);
 	renderbuffer_target rbt(GL_RENDERBUFFER);
 	renderbuffer_name rbo(0);
+
 #if defined(GL_VERSION_4_2) || defined(GL_ARB_texture_storage)
 	texture_target textgt1(GL_TEXTURE_1D);
 	texture_target textgt3(GL_TEXTURE_3D);
@@ -53,6 +55,10 @@ void oglplus_framebuffer_test_ops1(void)
 	gl.draw_buffer(cbuf);
 #endif
 	gl.read_buffer(cbuf);
+
+#if defined(GL_VERSION_3_0)
+	gl.clear_buffer(fbb, 1, 1.0f, 0);
+#endif
 
 	curfbo.check_status();
 	curfbo.is_complete();
@@ -93,6 +99,10 @@ void oglplus_framebuffer_test_ops1(void)
 #endif
 	fbo.draw_buffer(cattch);
 	fbo.read_buffer(cattch);
+#endif
+
+#if defined(GL_VERSION_4_5)
+	fbo.clear_buffer(fbb, 1, 1.0f, 0);
 #endif
 
 #if defined(GL_EXT_direct_state_access)

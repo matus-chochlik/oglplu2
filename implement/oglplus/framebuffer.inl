@@ -21,8 +21,7 @@ inline
 outcome<void>
 framebuffer_ops::
 bind_framebuffer(framebuffer_target target, framebuffer_name fbo)
-noexcept
-{
+noexcept {
 	OGLPLUS_GLFUNC(BindFramebuffer)(
 		GLenum(target),
 		get_raw_name(fbo)
@@ -40,8 +39,7 @@ inline
 outcome<framebuffer_name>
 framebuffer_ops::
 framebuffer_binding(framebuffer_target target)
-noexcept
-{
+noexcept {
 	GLint result = 0;
 	return numeric_queries::get_integer_v(
 		get_binding_query(target),
@@ -53,8 +51,7 @@ inline
 outcome<framebuffer_status>
 framebuffer_ops::
 check_framebuffer_status(framebuffer_target target)
-noexcept
-{
+noexcept {
 	GLenum result = OGLPLUS_GLFUNC(CheckFramebufferStatus)(GLenum(target));
 	if(result == 0)
 	{
@@ -71,8 +68,7 @@ inline
 outcome<bool>
 framebuffer_ops::
 is_framebuffer_complete(framebuffer_target target)
-noexcept
-{
+noexcept {
 	return outcome_conversion<bool, framebuffer_status>(
 		check_framebuffer_status(target),
 		[](framebuffer_status status) -> bool
@@ -89,8 +85,7 @@ inline
 outcome<framebuffer_status>
 framebuffer_ops::
 check_framebuffer_status(framebuffer_name fbo, framebuffer_target target)
-noexcept
-{
+noexcept {
 #ifdef GL_VERSION_4_5
 	GLenum result = OGLPLUS_GLFUNC(CheckNamedFramebufferStatus)(
 #else
@@ -99,8 +94,7 @@ noexcept
 		get_raw_name(fbo),
 		GLenum(target)
 	);
-	if(result == 0)
-	{
+	if(result == 0) {
 		OGLPLUS_VERIFY_STR(
 			OGLPLUS_GL_DSA_FUNC_NAME(CheckNamedFramebufferStatus),
 			gl_object(fbo).
@@ -115,12 +109,10 @@ inline
 outcome<bool>
 framebuffer_ops::
 is_framebuffer_complete(framebuffer_name fb, framebuffer_target target)
-noexcept
-{
+noexcept {
 	return outcome_conversion<bool, framebuffer_status>(
 		check_framebuffer_status(fb, target),
-		[](framebuffer_status status) -> bool
-		{
+		[](framebuffer_status status) -> bool {
 			return status == framebuffer_status(
 				GL_FRAMEBUFFER_COMPLETE
 			);
@@ -137,8 +129,7 @@ framebuffer_renderbuffer(
 	framebuffer_attachment fb_attach,
 	renderbuffer_target rb_target,
 	renderbuffer_name rbo
-) noexcept
-{
+) noexcept {
 	OGLPLUS_GLFUNC(FramebufferRenderbuffer)(
 		GLenum(fb_target),
 		GLenum(fb_attach),
@@ -163,8 +154,7 @@ framebuffer_renderbuffer(
 	framebuffer_attachment fb_attach,
 	renderbuffer_target rb_target,
 	renderbuffer_name rbo
-) noexcept
-{
+) noexcept {
 #ifdef GL_VERSION_4_5
 	OGLPLUS_GLFUNC(NamedFramebufferRenderbuffer)(
 #else
@@ -196,8 +186,7 @@ framebuffer_texture_1d(
 	texture_target tx_target,
 	texture_name tex,
 	GLint level
-) noexcept
-{
+) noexcept {
 	OGLPLUS_GLFUNC(FramebufferTexture1D)(
 		GLenum(fb_target),
 		GLenum(fb_attach),
@@ -224,8 +213,7 @@ framebuffer_texture_1d(
 	texture_target tx_target,
 	texture_name tex,
 	GLint level
-) noexcept
-{
+) noexcept {
 	OGLPLUS_GLFUNC(NamedFramebufferTexture1DEXT)(
 		get_raw_name(fbo),
 		GLenum(fb_attach),
@@ -254,8 +242,7 @@ framebuffer_texture_2d(
 	texture_target tx_target,
 	texture_name tex,
 	GLint level
-) noexcept
-{
+) noexcept {
 	OGLPLUS_GLFUNC(FramebufferTexture2D)(
 		GLenum(fb_target),
 		GLenum(fb_attach),
@@ -282,8 +269,7 @@ framebuffer_texture_2d(
 	texture_target tx_target,
 	texture_name tex,
 	GLint level
-) noexcept
-{
+) noexcept {
 	OGLPLUS_GLFUNC(NamedFramebufferTexture2DEXT)(
 		get_raw_name(fbo),
 		GLenum(fb_attach),
@@ -313,8 +299,7 @@ framebuffer_texture_3d(
 	texture_name tex,
 	GLint level,
 	GLint layer
-) noexcept
-{
+) noexcept {
 	OGLPLUS_GLFUNC(FramebufferTexture3D)(
 		GLenum(fb_target),
 		GLenum(fb_attach),
@@ -343,8 +328,7 @@ framebuffer_texture_3d(
 	texture_name tex,
 	GLint level,
 	GLint layer
-) noexcept
-{
+) noexcept {
 	OGLPLUS_GLFUNC(NamedFramebufferTexture3DEXT)(
 		get_raw_name(fbo),
 		GLenum(fb_attach),
@@ -374,8 +358,7 @@ framebuffer_texture(
 	framebuffer_attachment fb_attach,
 	texture_name tex,
 	GLint level
-) noexcept
-{
+) noexcept {
 	OGLPLUS_GLFUNC(FramebufferTexture)(
 		GLenum(fb_target),
 		GLenum(fb_attach),
@@ -400,8 +383,7 @@ framebuffer_texture(
 	framebuffer_attachment fb_attach,
 	texture_name tex,
 	GLint level
-) noexcept
-{
+) noexcept {
 #ifdef GL_VERSION_4_5
 	OGLPLUS_GLFUNC(NamedFramebufferTexture)(
 #else
@@ -429,8 +411,7 @@ inline
 outcome<void>
 framebuffer_ops::
 draw_buffer(color_buffer buf)
-noexcept
-{
+noexcept {
 	OGLPLUS_GLFUNC(DrawBuffer)(GLenum(buf));
 	OGLPLUS_VERIFY(
 		DrawBuffer,
@@ -447,8 +428,7 @@ framebuffer_ops::
 framebuffer_draw_buffer(
 	framebuffer_name fbo,
 	framebuffer_color_attachment buf
-) noexcept
-{
+) noexcept {
 #ifdef GL_VERSION_4_5
 	OGLPLUS_GLFUNC(NamedFramebufferDrawBuffer)(
 #else
@@ -472,8 +452,7 @@ inline
 outcome<void>
 framebuffer_ops::
 read_buffer(color_buffer buf)
-noexcept
-{
+noexcept {
 	OGLPLUS_GLFUNC(ReadBuffer)(GLenum(buf));
 	OGLPLUS_VERIFY(
 		ReadBuffer,
@@ -491,8 +470,7 @@ framebuffer_read_buffer(
 	framebuffer_name fbo,
 	framebuffer_color_attachment buf
 )
-noexcept
-{
+noexcept {
 #ifdef GL_VERSION_4_5
 	OGLPLUS_GLFUNC(NamedFramebufferReadBuffer)(
 #else
@@ -511,6 +489,61 @@ noexcept
 }
 #endif
 //------------------------------------------------------------------------------
+#if defined(GL_VERSION_3_0)
+inline
+outcome<void>
+framebuffer_ops::
+clear_buffer(
+	framebuffer_buffer buf,
+	GLint draw_buffer,
+	GLfloat depth,
+	GLint stencil
+) noexcept {
+	OGLPLUS_GLFUNC(ClearBufferfi)(
+		GLenum(buf),
+		draw_buffer,
+		depth,
+		stencil
+	);
+	OGLPLUS_VERIFY(
+		ClearBufferfi,
+		gl_enum_value(buf).
+		gl_index(draw_buffer),
+		debug
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_5)
+inline
+outcome<void>
+framebuffer_ops::
+clear_framebuffer(
+	framebuffer_name fbo,
+	framebuffer_buffer buf,
+	GLint draw_buffer,
+	GLfloat depth,
+	GLint stencil
+) noexcept {
+	OGLPLUS_GLFUNC(ClearNamedFramebufferfi)(
+		get_raw_name(fbo),
+		GLenum(buf),
+		draw_buffer,
+		depth,
+		stencil
+	);
+	OGLPLUS_VERIFY_STR(
+		OGLPLUS_GL_DSA_FUNC_NAME(NamedFramebufferReadBufferfi),
+		gl_object(fbo).
+		gl_enum_value(buf).
+		gl_index(draw_buffer),
+		debug
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
 } // namespace oper
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_gen
@@ -519,8 +552,7 @@ inline
 deferred_error_handler
 obj_gen_del_ops<tag::framebuffer>::
 _gen(span<GLuint> names)
-noexcept
-{
+noexcept {
 	OGLPLUS_GLFUNC(GenFramebuffers)(
 		GLsizei(names.size()),
 		names.data()
@@ -536,8 +568,7 @@ inline
 deferred_error_handler
 obj_gen_del_ops<tag::framebuffer>::
 _create(span<GLuint> names)
-noexcept
-{
+noexcept {
 	OGLPLUS_GLFUNC(CreateFramebuffers)(
 		GLsizei(names.size()),
 		names.data()
@@ -553,8 +584,7 @@ inline
 deferred_error_handler
 obj_gen_del_ops<tag::framebuffer>::
 _delete(span<GLuint> names)
-noexcept
-{
+noexcept {
 	OGLPLUS_GLFUNC(DeleteFramebuffers)(
 		GLsizei(names.size()),
 		names.data()
@@ -569,9 +599,7 @@ inline
 outcome<boolean>
 obj_gen_del_ops<tag::framebuffer>::
 _is_a(GLuint name)
-noexcept
-{
-	GLboolean res = OGLPLUS_GLFUNC(IsFramebuffer)(name);
+noexcept { GLboolean res = OGLPLUS_GLFUNC(IsFramebuffer)(name);
 	OGLPLUS_VERIFY_SIMPLE(IsFramebuffer,debug);
 	return boolean(res);
 }

@@ -212,6 +212,30 @@ struct framebuffer_ops
 	) noexcept;
 	// TODO GL_NONE
 #endif
+
+
+#if defined(GL_VERSION_3_0)
+	static
+	outcome<void>
+	clear_buffer(
+		framebuffer_buffer buf,
+		GLint draw_buffer,
+		GLfloat depth,
+		GLint stencil
+	) noexcept;
+#endif
+
+#ifdef OGLPLUS_DSA_FRAMEBUFFER
+	static
+	outcome<void>
+	clear_framebuffer(
+		framebuffer_name fbo,
+		framebuffer_buffer buf,
+		GLint draw_buffer,
+		GLfloat depth,
+		GLint stencil
+	) noexcept;
+#endif
 };
 
 } // namespace oper
@@ -222,8 +246,7 @@ struct obj_member_ops<tag::framebuffer, Derived, Base>
 {
 private:
 	Derived& _self()
-	noexcept
-	{
+	noexcept {
 		return *static_cast<Derived*>(this);
 	}
 
@@ -236,8 +259,7 @@ public:
 		framebuffer_attachment fb_attch,
 		renderbuffer_target rb_target,
 		renderbuffer_name rbo
-	) noexcept
-	{
+	) noexcept {
 		return {_ops::framebuffer_renderbuffer(
 			*this, fb_attch,
 			rb_target, rbo
@@ -250,8 +272,7 @@ public:
 		framebuffer_attachment fb_attch,
 		texture_name tex,
 		GLint level
-	) noexcept
-	{
+	) noexcept {
 		return {_ops::framebuffer_texture(
 			*this, fb_attch, 
 			tex, level
@@ -278,15 +299,13 @@ struct object_binding<tag::framebuffer>
 
 	outcome<framebuffer_status>
 	check_status(void)
-	noexcept
-	{
+	noexcept {
 		return _ops::check_framebuffer_status(*this);
 	}
 
 	outcome<bool>
 	is_complete(void)
-	noexcept
-	{
+	noexcept {
 		return _ops::is_framebuffer_complete(*this);
 	}
 
@@ -297,8 +316,7 @@ struct object_binding<tag::framebuffer>
 		texture_target tx_target,
 		texture_name tex,
 		GLint level
-	) noexcept
-	{
+	) noexcept {
 		return {_ops::framebuffer_texture_1d(
 			*this, fb_attch, 
 			tx_target, tex,
@@ -313,8 +331,7 @@ struct object_binding<tag::framebuffer>
 		texture_target tx_target,
 		texture_name tex,
 		GLint level
-	) noexcept
-	{
+	) noexcept {
 		return {_ops::framebuffer_texture_2d(
 			*this, fb_attch, 
 			tx_target, tex,
@@ -330,8 +347,7 @@ struct object_binding<tag::framebuffer>
 		texture_name tex,
 		GLint level,
 		GLint layer
-	) noexcept
-	{
+	) noexcept {
 		return {_ops::framebuffer_texture_3d(
 			*this, fb_attch, 
 			tx_target, tex,
@@ -360,15 +376,13 @@ struct obj_dsa_ops<tag::framebuffer>
 
 	outcome<framebuffer_status>
 	check_status(framebuffer_target target)
-	noexcept
-	{
+	noexcept {
 		return _ops::check_framebuffer_status(*this, target);
 	}
 
 	outcome<bool>
 	is_complete(framebuffer_target target)
-	noexcept
-	{
+	noexcept {
 		return _ops::is_framebuffer_complete(*this, target);
 	}
 
@@ -379,8 +393,7 @@ struct obj_dsa_ops<tag::framebuffer>
 		texture_target tx_target,
 		texture_name tex,
 		GLint level
-	) noexcept
-	{
+	) noexcept {
 		return {_ops::framebuffer_texture_1d(
 			*this, fb_attch, 
 			tx_target, tex,
@@ -394,8 +407,7 @@ struct obj_dsa_ops<tag::framebuffer>
 		texture_target tx_target,
 		texture_name tex,
 		GLint level
-	) noexcept
-	{
+	) noexcept {
 		return {_ops::framebuffer_texture_2d(
 			*this, fb_attch, 
 			tx_target, tex,
@@ -410,8 +422,7 @@ struct obj_dsa_ops<tag::framebuffer>
 		texture_name tex,
 		GLint level,
 		GLint layer
-	) noexcept
-	{
+	) noexcept {
 		return {_ops::framebuffer_texture_3d(
 			*this, fb_attch, 
 			tx_target, tex,
@@ -422,17 +433,33 @@ struct obj_dsa_ops<tag::framebuffer>
 
 	outcome<obj_dsa_ops&>
 	draw_buffer(framebuffer_color_attachment buf)
-	noexcept
-	{
+	noexcept {
 		return {_ops::framebuffer_draw_buffer(*this, buf), *this};
 	}
 
 	outcome<obj_dsa_ops&>
 	read_buffer(framebuffer_color_attachment buf)
-	noexcept
-	{
+	noexcept {
 		return {_ops::framebuffer_read_buffer(*this, buf), *this};
 	}
+
+#if defined(GL_VERSION_4_5)
+	outcome<obj_dsa_ops&>
+	clear_buffer(
+		framebuffer_buffer buf,
+		GLint draw_buffer,
+		GLfloat depth,
+		GLint stencil
+	) noexcept {
+		return {_ops::clear_framebuffer(
+			*this,
+			buf,
+			draw_buffer,
+			depth,
+			stencil
+		), *this};
+	}
+#endif
 };
 #endif
 
