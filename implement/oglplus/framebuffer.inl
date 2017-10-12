@@ -580,6 +580,35 @@ clear_buffer(
 	return {};
 }
 //------------------------------------------------------------------------------
+inline
+outcome<void>
+framebuffer_ops::
+blit_framebuffer(
+	GLint srcX0,
+	GLint srcY0,
+	GLint srcX1,
+	GLint srcY1,
+	GLint dstX0,
+	GLint dstY0,
+	GLint dstX1,
+	GLint dstY1,
+	enum_bitfield<buffer_select_bits> mask,
+	blit_filter filter
+) noexcept {
+	OGLPLUS_GLFUNC(BlitFramebuffer)(
+		srcX0, srcY0, srcX1, srcY1,
+		dstX0, dstY0, dstX1, dstY1,
+		GLbitfield(mask),
+		GLenum(filter)
+	);
+	OGLPLUS_VERIFY(
+		BlitFramebuffer,
+		gl_enum_value(filter),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5)
@@ -680,6 +709,41 @@ clear_framebuffer(
 		gl_object(fbo).
 		gl_enum_value(buf).
 		gl_index(draw_buffer),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+framebuffer_ops::
+blit_framebuffer(
+	framebuffer_name srcfbo,
+	framebuffer_name dstfbo,
+	GLint srcX0,
+	GLint srcY0,
+	GLint srcX1,
+	GLint srcY1,
+	GLint dstX0,
+	GLint dstY0,
+	GLint dstX1,
+	GLint dstY1,
+	enum_bitfield<buffer_select_bits> mask,
+	blit_filter filter
+) noexcept {
+	OGLPLUS_GLFUNC(BlitNamedFramebuffer)(
+		get_raw_name(srcfbo),
+		get_raw_name(dstfbo),
+		srcX0, srcY0, srcX1, srcY1,
+		dstX0, dstY0, dstX1, dstY1,
+		GLbitfield(mask),
+		GLenum(filter)
+	);
+	OGLPLUS_VERIFY(
+		BlitNamedFramebuffer,
+		gl_subject(dstfbo).
+		gl_object(srcfbo).
+		gl_enum_value(filter),
 		debug
 	);
 	return {};

@@ -247,9 +247,24 @@ struct framebuffer_ops
 		GLfloat depth,
 		GLint stencil
 	) noexcept;
+
+	static
+	outcome<void>
+	blit_framebuffer(
+		GLint srcX0,
+		GLint srcY0,
+		GLint srcX1,
+		GLint srcY1,
+		GLint dstX0,
+		GLint dstY0,
+		GLint dstX1,
+		GLint dstY1,
+		enum_bitfield<buffer_select_bits> mask,
+		blit_filter filter
+	) noexcept;
 #endif
 
-#ifdef OGLPLUS_DSA_FRAMEBUFFER
+#if defined(GL_VERSION_4_5)
 	static
 	outcome<void>
 	clear_framebuffer(
@@ -285,6 +300,23 @@ struct framebuffer_ops
 		GLint draw_buffer,
 		GLfloat depth,
 		GLint stencil
+	) noexcept;
+
+	static
+	outcome<void>
+	blit_framebuffer(
+		framebuffer_name srcfbo,
+		framebuffer_name dstfbo,
+		GLint srcX0,
+		GLint srcY0,
+		GLint srcX1,
+		GLint srcY1,
+		GLint dstX0,
+		GLint dstY0,
+		GLint dstX1,
+		GLint dstY1,
+		enum_bitfield<buffer_select_bits> mask,
+		blit_filter filter
 	) noexcept;
 #endif
 };

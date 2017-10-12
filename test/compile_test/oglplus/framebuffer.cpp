@@ -61,6 +61,27 @@ void oglplus_framebuffer_test_ops1(void)
 	gl.clear_buffer(fbb, 1, span<GLuint>());
 	gl.clear_buffer(fbb, 2, span<GLfloat>());
 	gl.clear_buffer(fbb, 3, 1.0f, 0);
+	gl.blit_framebuffer(
+		0, 0, 128, 128,
+		0, 0, 128, 128,
+		enum_bitfield<buffer_select_bits>(0),
+		blit_filter(GL_NEAREST)
+	);
+#endif
+
+#if defined(GL_VERSION_4_5)
+	gl.clear_framebuffer(fbo, fbb, 0, span<GLint>());
+	gl.clear_framebuffer(fbo, fbb, 1, span<GLuint>());
+	gl.clear_framebuffer(fbo, fbb, 2, span<GLfloat>());
+	gl.clear_framebuffer(fbo, fbb, 3, 1.0f, 0);
+	gl.blit_framebuffer(
+		fbos[1],
+		fbos[2],
+		0, 0, 128, 128,
+		0, 0, 128, 128,
+		enum_bitfield<buffer_select_bits>(0),
+		blit_filter(GL_NEAREST)
+	);
 #endif
 
 	curfbo.check_status();
