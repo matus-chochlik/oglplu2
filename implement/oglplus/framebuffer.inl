@@ -496,6 +496,72 @@ framebuffer_ops::
 clear_buffer(
 	framebuffer_buffer buf,
 	GLint draw_buffer,
+	span<const GLint> values
+) noexcept {
+	OGLPLUS_GLFUNC(ClearBufferiv)(
+		GLenum(buf),
+		draw_buffer,
+		values.data()
+	);
+	OGLPLUS_VERIFY(
+		ClearBufferiv,
+		gl_enum_value(buf).
+		gl_index(draw_buffer),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+framebuffer_ops::
+clear_buffer(
+	framebuffer_buffer buf,
+	GLint draw_buffer,
+	span<const GLuint> values
+) noexcept {
+	OGLPLUS_GLFUNC(ClearBufferuiv)(
+		GLenum(buf),
+		draw_buffer,
+		values.data()
+	);
+	OGLPLUS_VERIFY(
+		ClearBufferuiv,
+		gl_enum_value(buf).
+		gl_index(draw_buffer),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+framebuffer_ops::
+clear_buffer(
+	framebuffer_buffer buf,
+	GLint draw_buffer,
+	span<const GLfloat> values
+) noexcept {
+	OGLPLUS_GLFUNC(ClearBufferfv)(
+		GLenum(buf),
+		draw_buffer,
+		values.data()
+	);
+	OGLPLUS_VERIFY(
+		ClearBufferfv,
+		gl_enum_value(buf).
+		gl_index(draw_buffer),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+framebuffer_ops::
+clear_buffer(
+	framebuffer_buffer buf,
+	GLint draw_buffer,
 	GLfloat depth,
 	GLint stencil
 ) noexcept {
@@ -513,9 +579,85 @@ clear_buffer(
 	);
 	return {};
 }
+//------------------------------------------------------------------------------
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5)
+inline
+outcome<void>
+framebuffer_ops::
+clear_framebuffer(
+	framebuffer_name fbo,
+	framebuffer_buffer buf,
+	GLint draw_buffer,
+	span<const GLint> values
+) noexcept {
+	OGLPLUS_GLFUNC(ClearNamedFramebufferiv)(
+		get_raw_name(fbo),
+		GLenum(buf),
+		draw_buffer,
+		values.data()
+	);
+	OGLPLUS_VERIFY_STR(
+		OGLPLUS_GL_DSA_FUNC_NAME(NamedFramebufferReadBufferiv),
+		gl_object(fbo).
+		gl_enum_value(buf).
+		gl_index(draw_buffer),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+framebuffer_ops::
+clear_framebuffer(
+	framebuffer_name fbo,
+	framebuffer_buffer buf,
+	GLint draw_buffer,
+	span<const GLuint> values
+) noexcept {
+	OGLPLUS_GLFUNC(ClearNamedFramebufferuiv)(
+		get_raw_name(fbo),
+		GLenum(buf),
+		draw_buffer,
+		values.data()
+	);
+	OGLPLUS_VERIFY_STR(
+		OGLPLUS_GL_DSA_FUNC_NAME(NamedFramebufferReadBufferuiv),
+		gl_object(fbo).
+		gl_enum_value(buf).
+		gl_index(draw_buffer),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+framebuffer_ops::
+clear_framebuffer(
+	framebuffer_name fbo,
+	framebuffer_buffer buf,
+	GLint draw_buffer,
+	span<const GLfloat> values
+) noexcept {
+	OGLPLUS_GLFUNC(ClearNamedFramebufferfv)(
+		get_raw_name(fbo),
+		GLenum(buf),
+		draw_buffer,
+		const_cast<GLfloat*>(values.data()) // TODO:remove when fixed in GL APIs
+	);
+	OGLPLUS_VERIFY_STR(
+		OGLPLUS_GL_DSA_FUNC_NAME(NamedFramebufferReadBufferfv),
+		gl_object(fbo).
+		gl_enum_value(buf).
+		gl_index(draw_buffer),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
 inline
 outcome<void>
 framebuffer_ops::

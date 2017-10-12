@@ -57,7 +57,10 @@ void oglplus_framebuffer_test_ops1(void)
 	gl.read_buffer(cbuf);
 
 #if defined(GL_VERSION_3_0)
-	gl.clear_buffer(fbb, 1, 1.0f, 0);
+	gl.clear_buffer(fbb, 0, span<GLint>());
+	gl.clear_buffer(fbb, 1, span<GLuint>());
+	gl.clear_buffer(fbb, 2, span<GLfloat>());
+	gl.clear_buffer(fbb, 3, 1.0f, 0);
 #endif
 
 	curfbo.check_status();
@@ -102,7 +105,10 @@ void oglplus_framebuffer_test_ops1(void)
 #endif
 
 #if defined(GL_VERSION_4_5)
-	fbo.clear_buffer(fbb, 1, 1.0f, 0);
+	fbo.clear_buffer(fbb, 0, span<GLint>());
+	fbo.clear_buffer(fbb, 1, span<GLuint>());
+	fbo.clear_buffer(fbb, 2, span<GLfloat>());
+	fbo.clear_buffer(fbb, 3, 1.0f, 0);
 #endif
 
 #if defined(GL_EXT_direct_state_access)

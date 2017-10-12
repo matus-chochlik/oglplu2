@@ -220,12 +220,63 @@ struct framebuffer_ops
 	clear_buffer(
 		framebuffer_buffer buf,
 		GLint draw_buffer,
+		span<const GLint> values
+	) noexcept;
+
+	static
+	outcome<void>
+	clear_buffer(
+		framebuffer_buffer buf,
+		GLint draw_buffer,
+		span<const GLuint> values
+	) noexcept;
+
+	static
+	outcome<void>
+	clear_buffer(
+		framebuffer_buffer buf,
+		GLint draw_buffer,
+		span<const GLfloat> values
+	) noexcept;
+
+	static
+	outcome<void>
+	clear_buffer(
+		framebuffer_buffer buf,
+		GLint draw_buffer,
 		GLfloat depth,
 		GLint stencil
 	) noexcept;
 #endif
 
 #ifdef OGLPLUS_DSA_FRAMEBUFFER
+	static
+	outcome<void>
+	clear_framebuffer(
+		framebuffer_name fbo,
+		framebuffer_buffer buf,
+		GLint draw_buffer,
+		span<const GLint> values
+	) noexcept;
+
+	static
+	outcome<void>
+	clear_framebuffer(
+		framebuffer_name fbo,
+		framebuffer_buffer buf,
+		GLint draw_buffer,
+		span<const GLuint> values
+	) noexcept;
+
+	static
+	outcome<void>
+	clear_framebuffer(
+		framebuffer_name fbo,
+		framebuffer_buffer buf,
+		GLint draw_buffer,
+		span<const GLfloat> values
+	) noexcept;
+
 	static
 	outcome<void>
 	clear_framebuffer(
@@ -444,6 +495,48 @@ struct obj_dsa_ops<tag::framebuffer>
 	}
 
 #if defined(GL_VERSION_4_5)
+	outcome<obj_dsa_ops&>
+	clear_buffer(
+		framebuffer_buffer buf,
+		GLint draw_buffer,
+		span<const GLint> values
+	) noexcept {
+		return {_ops::clear_framebuffer(
+			*this,
+			buf,
+			draw_buffer,
+			values
+		), *this};
+	}
+
+	outcome<obj_dsa_ops&>
+	clear_buffer(
+		framebuffer_buffer buf,
+		GLint draw_buffer,
+		span<const GLuint> values
+	) noexcept {
+		return {_ops::clear_framebuffer(
+			*this,
+			buf,
+			draw_buffer,
+			values
+		), *this};
+	}
+
+	outcome<obj_dsa_ops&>
+	clear_buffer(
+		framebuffer_buffer buf,
+		GLint draw_buffer,
+		span<const GLfloat> values
+	) noexcept {
+		return {_ops::clear_framebuffer(
+			*this,
+			buf,
+			draw_buffer,
+			values
+		), *this};
+	}
+
 	outcome<obj_dsa_ops&>
 	clear_buffer(
 		framebuffer_buffer buf,
