@@ -378,6 +378,21 @@ void oglplus_capability_state_test(void)
 #endif
 }
 
+void oglplus_blending_state_test(void)
+{
+	using namespace oglplus;
+
+	oper::blending_state gl;
+
+	EAGINE_MAYBE_UNUSED(gl);
+
+	gl.blend_equation(blend_equation(GL_MIN));
+
+#if defined(GL_VERSION_4_0)
+	gl.blend_equation(0, blend_equation(GL_MIN));
+#endif
+}
+
 void oglplus_computing_ops_test(void)
 {
 	using namespace oglplus;

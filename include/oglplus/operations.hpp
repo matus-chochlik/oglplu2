@@ -23,6 +23,7 @@
 #include "oper/drawing.hpp"
 #include "oper/computing.hpp"
 #include "oper/pixel_transfer.hpp"
+#include "oper/blending.hpp"
 #include "oper/synchronization.hpp"
 #include "oper/debugging.hpp"
 
@@ -83,6 +84,7 @@ class operations
  , public oper::computing_ops
  , public oper::pixel_transfer_state
  , public oper::pixel_transfer_ops
+ , public oper::blending_state
  , public oper::synchronization
  , public oper::debugging
 
