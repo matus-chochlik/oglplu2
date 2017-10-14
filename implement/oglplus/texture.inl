@@ -457,6 +457,35 @@ texture_sub_image_1d(
 		img.data()
 	);
 }
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+compressed_texture_sub_image_1d(
+	texture_target_only tnt,
+	GLint level,
+	GLint xoffset,
+	GLsizei width,
+	pixel_data_format format,
+	const_memory_block pixels
+) noexcept {
+	OGLPLUS_GLFUNC(CompressedTexSubImage1D)(
+		GLenum(tnt._target),
+		level,
+		xoffset,
+		width,
+		GLenum(format),
+		GLsizei(pixels.size()),
+		pixels.data()
+	);
+	OGLPLUS_VERIFY(
+		CompressedTexSubImage1D,
+		gl_object_binding(tag::texture(), tnt._target).
+		gl_enum_value(format),
+		always
+	);
+	return {};
+}
 #endif
 //------------------------------------------------------------------------------
 inline
@@ -570,6 +599,39 @@ texture_sub_image_2d(
 		img.type(),
 		img.data()
 	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+compressed_texture_sub_image_2d(
+	texture_target_only tnt,
+	GLint level,
+	GLint xoffset,
+	GLint yoffset,
+	GLsizei width,
+	GLsizei height,
+	pixel_data_format format,
+	const_memory_block pixels
+) noexcept {
+	OGLPLUS_GLFUNC(CompressedTexSubImage2D)(
+		GLenum(tnt._target),
+		level,
+		xoffset,
+		yoffset,
+		width,
+		height,
+		GLenum(format),
+		GLsizei(pixels.size()),
+		pixels.data()
+	);
+	OGLPLUS_VERIFY(
+		CompressedTexSubImage2D,
+		gl_object_binding(tag::texture(), tnt._target).
+		gl_enum_value(format),
+		always
+	);
+	return {};
 }
 //------------------------------------------------------------------------------
 inline
@@ -695,6 +757,43 @@ texture_sub_image_3d(
 	);
 }
 //------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+compressed_texture_sub_image_3d(
+	texture_target_only tnt,
+	GLint level,
+	GLint xoffset,
+	GLint yoffset,
+	GLint zoffset,
+	GLsizei width,
+	GLsizei height,
+	GLsizei depth,
+	pixel_data_format format,
+	const_memory_block pixels
+) noexcept {
+	OGLPLUS_GLFUNC(CompressedTexSubImage3D)(
+		GLenum(tnt._target),
+		level,
+		xoffset,
+		yoffset,
+		zoffset,
+		width,
+		height,
+		depth,
+		GLenum(format),
+		GLsizei(pixels.size()),
+		pixels.data()
+	);
+	OGLPLUS_VERIFY(
+		CompressedTexSubImage3D,
+		gl_object_binding(tag::texture(), tnt._target).
+		gl_enum_value(format),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
 #if defined(GL_EXT_direct_state_access)
 #if defined(GL_VERSION_3_0)
 inline
@@ -800,6 +899,36 @@ texture_sub_image_1d(
 		img.type(),
 		img.data()
 	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+compressed_texture_sub_image_1d(
+	texture_name_and_target tnt,
+	GLint level,
+	GLint xoffset,
+	GLsizei width,
+	pixel_data_format format,
+	const_memory_block pixels
+) noexcept {
+	OGLPLUS_GLFUNC(CompressedTextureSubImage1DEXT)(
+		get_raw_name(tnt._name),
+		GLenum(tnt._target),
+		level,
+		xoffset,
+		width,
+		GLenum(format),
+		GLsizei(pixels.size()),
+		pixels.data()
+	);
+	OGLPLUS_VERIFY(
+		CompressedTextureImage1DEXT,
+		gl_object_binding(tag::texture(), tnt._target).
+		gl_enum_value(format),
+		always
+	);
+	return {};
 }
 #endif // GL_VERSION_3_0
 //------------------------------------------------------------------------------
@@ -916,6 +1045,40 @@ texture_sub_image_2d(
 		img.type(),
 		img.data()
 	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+compressed_texture_sub_image_2d(
+	texture_name_and_target tnt,
+	GLint level,
+	GLint xoffset,
+	GLint yoffset,
+	GLsizei width,
+	GLsizei height,
+	pixel_data_format format,
+	const_memory_block pixels
+) noexcept {
+	OGLPLUS_GLFUNC(CompressedTextureSubImage2DEXT)(
+		get_raw_name(tnt._name),
+		GLenum(tnt._target),
+		level,
+		xoffset,
+		yoffset,
+		width,
+		height,
+		GLenum(format),
+		GLsizei(pixels.size()),
+		pixels.data()
+	);
+	OGLPLUS_VERIFY(
+		CompressedTextureImage2DEXT,
+		gl_object_binding(tag::texture(), tnt._target).
+		gl_enum_value(format),
+		always
+	);
+	return {};
 }
 //------------------------------------------------------------------------------
 inline
@@ -1043,6 +1206,44 @@ texture_sub_image_3d(
 	);
 }
 //------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+compressed_texture_sub_image_3d(
+	texture_name_and_target tnt,
+	GLint level,
+	GLint xoffset,
+	GLint yoffset,
+	GLint zoffset,
+	GLsizei width,
+	GLsizei height,
+	GLsizei depth,
+	pixel_data_format format,
+	const_memory_block pixels
+) noexcept {
+	OGLPLUS_GLFUNC(CompressedTextureSubImage3DEXT)(
+		get_raw_name(tnt._name),
+		GLenum(tnt._target),
+		level,
+		xoffset,
+		yoffset,
+		zoffset,
+		width,
+		height,
+		depth,
+		GLenum(format),
+		GLsizei(pixels.size()),
+		pixels.data()
+	);
+	OGLPLUS_VERIFY(
+		CompressedTextureImage3DEXT,
+		gl_object_binding(tag::texture(), tnt._target).
+		gl_enum_value(format),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
@@ -1068,7 +1269,7 @@ texture_sub_image_1d(
 		pixels.data()
 	);
 	OGLPLUS_VERIFY(
-		TextureImage1D,
+		TextureSubImage1D,
 		gl_object(tnt._name).
 		gl_enum_value(format),
 		always
@@ -1099,6 +1300,35 @@ texture_sub_image_1d(
 inline
 outcome<void>
 texture_ops::
+compressed_texture_sub_image_1d(
+	texture_name_only tnt,
+	GLint level,
+	GLint xoffset,
+	GLsizei width,
+	pixel_data_format format,
+	const_memory_block pixels
+) noexcept {
+	OGLPLUS_GLFUNC(CompressedTextureSubImage1D)(
+		get_raw_name(tnt._name),
+		level,
+		xoffset,
+		width,
+		GLenum(format),
+		GLsizei(pixels.size()),
+		pixels.data()
+	);
+	OGLPLUS_VERIFY(
+		CompressedTextureSubImage1D,
+		gl_object(tnt._name).
+		gl_enum_value(format),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
 texture_sub_image_2d(
 	texture_name_only tnt,
 	GLint level,
@@ -1122,7 +1352,7 @@ texture_sub_image_2d(
 		pixels.data()
 	);
 	OGLPLUS_VERIFY(
-		TextureImage2D,
+		TextureSubImage2D,
 		gl_object(tnt._name).
 		gl_enum_value(format),
 		always
@@ -1156,6 +1386,39 @@ texture_sub_image_2d(
 inline
 outcome<void>
 texture_ops::
+compressed_texture_sub_image_2d(
+	texture_name_only tnt,
+	GLint level,
+	GLint xoffset,
+	GLint yoffset,
+	GLsizei width,
+	GLsizei height,
+	pixel_data_format format,
+	const_memory_block pixels
+) noexcept {
+	OGLPLUS_GLFUNC(CompressedTextureSubImage2D)(
+		get_raw_name(tnt._name),
+		level,
+		xoffset,
+		yoffset,
+		width,
+		height,
+		GLenum(format),
+		GLsizei(pixels.size()),
+		pixels.data()
+	);
+	OGLPLUS_VERIFY(
+		CompressedTextureSubImage2D,
+		gl_object(tnt._name).
+		gl_enum_value(format),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
 texture_sub_image_3d(
 	texture_name_only tnt,
 	GLint level,
@@ -1183,7 +1446,7 @@ texture_sub_image_3d(
 		pixels.data()
 	);
 	OGLPLUS_VERIFY(
-		TextureImage3D,
+		TextureSubImage3D,
 		gl_object(tnt._name).
 		gl_enum_value(format),
 		always
@@ -1215,6 +1478,43 @@ texture_sub_image_3d(
 		img.type(),
 		img.data()
 	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+compressed_texture_sub_image_3d(
+	texture_name_only tnt,
+	GLint level,
+	GLint xoffset,
+	GLint yoffset,
+	GLint zoffset,
+	GLsizei width,
+	GLsizei height,
+	GLsizei depth,
+	pixel_data_format format,
+	const_memory_block pixels
+) noexcept {
+	OGLPLUS_GLFUNC(CompressedTextureSubImage3D)(
+		get_raw_name(tnt._name),
+		level,
+		xoffset,
+		yoffset,
+		zoffset,
+		width,
+		height,
+		depth,
+		GLenum(format),
+		GLsizei(pixels.size()),
+		pixels.data()
+	);
+	OGLPLUS_VERIFY(
+		CompressedTextureSubImage3D,
+		gl_object(tnt._name).
+		gl_enum_value(format),
+		always
+	);
+	return {};
 }
 #endif
 //------------------------------------------------------------------------------

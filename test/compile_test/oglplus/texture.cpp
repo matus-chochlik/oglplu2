@@ -65,9 +65,12 @@ void oglplus_texture_test_ops1(void)
 
 #if defined(GL_VERSION_3_0)
 	gl.texture_sub_image_1d(tgt, 0, 1, 64, fmt, typ, blk);
+	gl.compressed_texture_sub_image_1d(tgt, 0, 1, 64, fmt, blk);
 #endif
 	gl.texture_sub_image_2d(tgt, 0, 1, 1, 64, 64, fmt, typ, blk);
+	gl.compressed_texture_sub_image_2d(tgt, 0, 1, 1, 64, 64, fmt, blk);
 	gl.texture_sub_image_3d(tgt, 0, 1, 1, 1, 64, 64, 64, fmt, typ, blk);
+	gl.compressed_texture_sub_image_3d(tgt, 0, 1, 1, 1, 64, 64, 64, fmt, blk);
 
 #if defined(GL_EXT_direct_state_access)
 #if defined(GL_VERSION_3_0)
@@ -78,9 +81,12 @@ void oglplus_texture_test_ops1(void)
 
 #if defined(GL_VERSION_3_0)
 	gl.texture_sub_image_1d(tnt, 0, 1, 64, fmt, typ, blk);
+	gl.compressed_texture_sub_image_1d(tnt, 0, 1, 64, fmt, blk);
 #endif
 	gl.texture_sub_image_2d(tnt, 0, 1, 1, 64, 64, fmt, typ, blk);
+	gl.compressed_texture_sub_image_2d(tnt, 0, 1, 1, 64, 64, fmt, blk);
 	gl.texture_sub_image_3d(tnt, 0, 1, 1, 1, 64, 64, 64, fmt, typ, blk);
+	gl.compressed_texture_sub_image_3d(tnt, 0, 1, 1, 1, 64, 64, 64, fmt, blk);
 #endif
 
 #if defined(GL_VERSION_4_2) || defined(GL_ARB_texture_storage)
@@ -95,8 +101,11 @@ void oglplus_texture_test_ops1(void)
 	gl.texture_storage_3d(tex, 1, ifmt, 64, 64, 64);
 
 	gl.texture_sub_image_1d(tex, 0, 1, 64, fmt, typ, blk);
+	gl.compressed_texture_sub_image_1d(tex, 0, 1, 64, fmt, blk);
 	gl.texture_sub_image_2d(tex, 0, 1, 1, 64, 64, fmt, typ, blk);
+	gl.compressed_texture_sub_image_2d(tex, 0, 1, 1, 64, 64, fmt, blk);
 	gl.texture_sub_image_3d(tex, 0, 1, 1, 1, 64, 64, 64, fmt, typ, blk);
+	gl.compressed_texture_sub_image_3d(tex, 0, 1, 1, 1, 64, 64, 64, fmt, blk);
 #endif
 
 #if defined(GL_VERSION_3_1)
@@ -273,6 +282,12 @@ void oglplus_texture_test_ops1(void)
 		64,
 		fmt, typ, blk
 	);
+	curtex.compressed_sub_image_1d(
+		0,
+		1,
+		64,
+		fmt, blk
+	);
 #endif
 	curtex.sub_image_2d(
 		0,
@@ -280,11 +295,23 @@ void oglplus_texture_test_ops1(void)
 		64, 64,
 		fmt, typ, blk
 	);
+	curtex.compressed_sub_image_2d(
+		0,
+		1, 1,
+		64, 64,
+		fmt, blk
+	);
 	curtex.sub_image_3d(
 		0,
 		1, 1, 1,
 		64, 64, 64,
 		fmt, typ, blk
+	);
+	curtex.compressed_sub_image_3d(
+		0,
+		1, 1, 1,
+		64, 64, 64,
+		fmt, blk
 	);
 
 #if defined(GL_VERSION_3_0) || defined(GL_ES_VERSION_3_1)
@@ -337,17 +364,35 @@ void oglplus_texture_test_ops1(void)
 		64,
 		fmt, typ, blk
 	);
+	tex.compressed_sub_image_1d(
+		0,
+		1,
+		64,
+		fmt, blk
+	);
 	tex.sub_image_2d(
 		0,
 		1, 1,
 		64, 64,
 		fmt, typ, blk
 	);
+	tex.compressed_sub_image_2d(
+		0,
+		1, 1,
+		64, 64,
+		fmt, blk
+	);
 	tex.sub_image_3d(
 		0,
 		1, 1, 1,
 		64, 64, 64,
 		fmt, typ, blk
+	);
+	tex.compressed_sub_image_3d(
+		0,
+		1, 1, 1,
+		64, 64, 64,
+		fmt, blk
 	);
 #endif
 

@@ -239,6 +239,17 @@ public:
 		const image_spec& img,
 		GLint level = 0
 	) noexcept;
+
+	static
+	outcome<void>
+	compressed_texture_sub_image_1d(
+		texture_target_only tnt,
+		GLint level,
+		GLint xoffset,
+		GLsizei width,
+		pixel_data_format format,
+		const_memory_block data
+	) noexcept;
 #endif // GL_VERSION_3_0
 
 	static
@@ -290,6 +301,19 @@ public:
 
 	static
 	outcome<void>
+	compressed_texture_sub_image_2d(
+		texture_target_only tnt,
+		GLint level,
+		GLint xoffset,
+		GLint yoffset,
+		GLsizei width,
+		GLsizei height,
+		pixel_data_format format,
+		const_memory_block data
+	) noexcept;
+
+	static
+	outcome<void>
 	texture_image_3d(
 		texture_target_only tnt,
 		GLint level,
@@ -337,6 +361,21 @@ public:
 		GLint zoffset,
 		const image_spec& img,
 		GLint level = 0
+	) noexcept;
+
+	static
+	outcome<void>
+	compressed_texture_sub_image_3d(
+		texture_target_only tnt,
+		GLint level,
+		GLint xoffset,
+		GLint yoffset,
+		GLint zoffset,
+		GLsizei width,
+		GLsizei height,
+		GLsizei depth,
+		pixel_data_format format,
+		const_memory_block data
 	) noexcept;
 
 #if defined(GL_EXT_direct_state_access)
@@ -382,6 +421,17 @@ public:
 		GLint xoffset,
 		const image_spec& img,
 		GLint level = 0
+	) noexcept;
+
+	static
+	outcome<void>
+	compressed_texture_sub_image_1d(
+		texture_name_and_target tnt,
+		GLint level,
+		GLint xoffset,
+		GLsizei width,
+		pixel_data_format format,
+		const_memory_block data
 	) noexcept;
 #endif
 
@@ -434,6 +484,19 @@ public:
 
 	static
 	outcome<void>
+	compressed_texture_sub_image_2d(
+		texture_name_and_target tnt,
+		GLint level,
+		GLint xoffset,
+		GLint yoffset,
+		GLsizei width,
+		GLsizei height,
+		pixel_data_format format,
+		const_memory_block data
+	) noexcept;
+
+	static
+	outcome<void>
 	texture_image_3d(
 		texture_name_and_target tnt,
 		GLint level,
@@ -482,6 +545,21 @@ public:
 		const image_spec& img,
 		GLint level = 0
 	) noexcept;
+
+	static
+	outcome<void>
+	compressed_texture_sub_image_3d(
+		texture_name_and_target tnt,
+		GLint level,
+		GLint xoffset,
+		GLint yoffset,
+		GLint zoffset,
+		GLsizei width,
+		GLsizei height,
+		GLsizei depth,
+		pixel_data_format format,
+		const_memory_block data
+	) noexcept;
 #endif // GL_EXT_direct_state_access
 
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
@@ -508,6 +586,17 @@ public:
 
 	static
 	outcome<void>
+	compressed_texture_sub_image_1d(
+		texture_name_only tnt,
+		GLint level,
+		GLint xoffset,
+		GLsizei width,
+		pixel_data_format format,
+		const_memory_block data
+	) noexcept;
+
+	static
+	outcome<void>
 	texture_sub_image_2d(
 		texture_name_only tnt,
 		GLint level,
@@ -528,6 +617,19 @@ public:
 		GLint yoffset,
 		const image_spec& img,
 		GLint level = 0
+	) noexcept;
+
+	static
+	outcome<void>
+	compressed_texture_sub_image_2d(
+		texture_name_only tnt,
+		GLint level,
+		GLint xoffset,
+		GLint yoffset,
+		GLsizei width,
+		GLsizei height,
+		pixel_data_format format,
+		const_memory_block data
 	) noexcept;
 
 	static
@@ -555,6 +657,21 @@ public:
 		GLint zoffset,
 		const image_spec& img,
 		GLint level = 0
+	) noexcept;
+
+	static
+	outcome<void>
+	compressed_texture_sub_image_3d(
+		texture_name_only tnt,
+		GLint level,
+		GLint xoffset,
+		GLint yoffset,
+		GLint zoffset,
+		GLsizei width,
+		GLsizei height,
+		GLsizei depth,
+		pixel_data_format format,
+		const_memory_block data
 	) noexcept;
 #endif
 
@@ -1220,6 +1337,26 @@ public:
 			), _self()
 		};
 	}
+
+	outcome<Derived&>
+	compressed_sub_image_1d(
+		GLint level,
+		GLint xoffset,
+		GLsizei width,
+		pixel_data_format format,
+		const_memory_block data
+	) noexcept {
+		return {
+			_ops::compressed_texture_sub_image_1d(
+				_get_tnt(),
+				level,
+				xoffset,
+				width,
+				format,
+				data
+			), _self()
+		};
+	}
 #endif
 
 	outcome<Derived&>
@@ -1262,6 +1399,30 @@ public:
 				yoffset,
 				img,
 				level
+			), _self()
+		};
+	}
+
+	outcome<Derived&>
+	compressed_sub_image_2d(
+		GLint level,
+		GLint xoffset,
+		GLint yoffset,
+		GLsizei width,
+		GLsizei height,
+		pixel_data_format format,
+		const_memory_block data
+	) noexcept {
+		return {
+			_ops::compressed_texture_sub_image_2d(
+				_get_tnt(),
+				level,
+				xoffset,
+				yoffset,
+				width,
+				height,
+				format,
+				data
 			), _self()
 		};
 	}
@@ -1312,6 +1473,34 @@ public:
 				zoffset,
 				img,
 				level
+			), _self()
+		};
+	}
+
+	outcome<Derived&>
+	compressed_sub_image_3d(
+		GLint level,
+		GLint xoffset,
+		GLint yoffset,
+		GLint zoffset,
+		GLsizei width,
+		GLsizei height,
+		GLsizei depth,
+		pixel_data_format format,
+		const_memory_block data
+	) noexcept {
+		return {
+			_ops::compressed_texture_sub_image_3d(
+				_get_tnt(),
+				level,
+				xoffset,
+				yoffset,
+				zoffset,
+				width,
+				height,
+				depth,
+				format,
+				data
 			), _self()
 		};
 	}
