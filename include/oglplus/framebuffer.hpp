@@ -264,6 +264,15 @@ struct framebuffer_ops
 	) noexcept;
 #endif
 
+#if defined(GL_VERSION_4_3)
+	static
+	outcome<void>
+	invalidate_framebuffer_data(
+		framebuffer_target tgt,
+		enum_span<framebuffer_attachment> attachments
+	) noexcept;
+#endif
+
 #if defined(GL_VERSION_4_5)
 	static
 	outcome<void>
@@ -300,6 +309,13 @@ struct framebuffer_ops
 		GLint draw_buffer,
 		GLfloat depth,
 		GLint stencil
+	) noexcept;
+
+	static
+	outcome<void>
+	invalidate_framebuffer_data(
+		framebuffer_name fbo,
+		enum_span<framebuffer_attachment> attachments
 	) noexcept;
 
 	static
@@ -583,6 +599,12 @@ struct obj_dsa_ops<tag::framebuffer>
 			depth,
 			stencil
 		), *this};
+	}
+
+	outcome<obj_dsa_ops&>
+	invalidate_data(enum_span<framebuffer_attachment> attchs)
+	noexcept {
+		return {_ops::invalidate_framebuffer_data(*this, attchs), *this};
 	}
 #endif
 };

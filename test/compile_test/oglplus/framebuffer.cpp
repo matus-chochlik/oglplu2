@@ -27,6 +27,7 @@ void oglplus_framebuffer_test_ops1(void)
 	bound_framebuffer curfbo(tgt);
 	framebuffer_attachment attch(GL_DEPTH_ATTACHMENT);
 	framebuffer_color_attachment cattch(GL_COLOR_ATTACHMENT0);
+	enum_list<framebuffer_attachment> attchs(attch, cattch);
 	framebuffer_buffer fbb(GL_COLOR);
 	color_buffer cbuf(GL_FRONT);
 	renderbuffer_target rbt(GL_RENDERBUFFER);
@@ -69,11 +70,16 @@ void oglplus_framebuffer_test_ops1(void)
 	);
 #endif
 
+#if defined(GL_VERSION_4_3)
+	gl.invalidate_framebuffer_data(tgt, attchs);
+#endif
+
 #if defined(GL_VERSION_4_5)
 	gl.clear_framebuffer(fbo, fbb, 0, span<GLint>());
 	gl.clear_framebuffer(fbo, fbb, 1, span<GLuint>());
 	gl.clear_framebuffer(fbo, fbb, 2, span<GLfloat>());
 	gl.clear_framebuffer(fbo, fbb, 3, 1.0f, 0);
+	gl.invalidate_framebuffer_data(fbo, attchs);
 	gl.blit_framebuffer(
 		fbos[1],
 		fbos[2],
