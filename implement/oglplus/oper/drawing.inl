@@ -29,6 +29,36 @@ noexcept {
 }
 #endif
 //------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_0)
+inline
+outcome<void>
+drawing_state::
+patch_parameter_i(oglplus::patch_parameter param, GLint value)
+noexcept {
+	OGLPLUS_GLFUNC(PatchParameteri)(GLenum(param), value);
+	OGLPLUS_VERIFY(
+		PatchParameteri,
+		gl_enum_value(param),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+drawing_state::
+patch_parameter(oglplus::patch_parameter param, span<const GLfloat> values)
+noexcept {
+	OGLPLUS_GLFUNC(PatchParameterfv)(GLenum(param), values.data());
+	OGLPLUS_VERIFY(
+		PatchParameterfv,
+		gl_enum_value(param),
+		debug
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
 inline
 outcome<void>
 drawing_ops::

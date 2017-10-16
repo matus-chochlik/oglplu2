@@ -421,6 +421,17 @@ void oglplus_drawing_state_test(void)
 #if defined(GL_VERSION_3_1)
 	gl.primitive_restart_index(0);
 #endif
+
+#if defined(GL_VERSION_4_0)
+	gl.patch_parameter_i(
+		patch_parameter(GL_PATCH_DEFAULT_INNER_LEVEL),
+		4
+	);
+	gl.patch_parameter(
+		patch_parameter(GL_PATCH_VERTICES),
+		span<GLfloat>()
+	);
+#endif
 }
 
 void oglplus_drawing_ops_test(void)

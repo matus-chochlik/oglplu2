@@ -25,6 +25,20 @@ struct drawing_state
 	primitive_restart_index(GLuint index)
 	noexcept;
 #endif
+
+#if defined(GL_VERSION_4_0)
+	static
+	outcome<void>
+	patch_parameter_i(oglplus::patch_parameter param, GLint value)
+	noexcept;
+
+	static
+	outcome<void>
+	patch_parameter(
+		oglplus::patch_parameter param,
+		span<const GLfloat> values
+	) noexcept;
+#endif
 };
 
 struct drawing_ops
