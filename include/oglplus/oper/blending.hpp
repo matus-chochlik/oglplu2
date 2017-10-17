@@ -29,6 +29,18 @@ struct blending_state
 	blend_equation(GLuint buf, oglplus::blend_equation equation)
 	noexcept;
 #endif
+
+	static
+	outcome<void>
+	blend_func(blend_function sfactor, blend_function dfactor)
+	noexcept;
+
+#if defined(GL_VERSION_4_0)
+	static
+	outcome<void>
+	blend_func(GLuint buf, blend_function sfactor, blend_function dfactor)
+	noexcept;
+#endif
 };
 
 } // namespace oper

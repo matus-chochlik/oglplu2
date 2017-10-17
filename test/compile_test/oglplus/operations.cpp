@@ -387,9 +387,11 @@ void oglplus_blending_state_test(void)
 	EAGINE_MAYBE_UNUSED(gl);
 
 	gl.blend_equation(blend_equation(GL_MIN));
+	gl.blend_func(blend_function(GL_ONE), blend_function(GL_ZERO));
 
 #if defined(GL_VERSION_4_0)
-	gl.blend_equation(0, blend_equation(GL_MIN));
+	gl.blend_equation(1, blend_equation(GL_MIN));
+	gl.blend_func(1, blend_function(GL_ONE), blend_function(GL_ZERO));
 #endif
 }
 

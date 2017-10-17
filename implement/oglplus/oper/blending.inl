@@ -44,6 +44,36 @@ noexcept {
 }
 #endif
 //------------------------------------------------------------------------------
+inline
+outcome<void>
+blending_state::
+blend_func(blend_function sfactor, blend_function dfactor)
+noexcept {
+	OGLPLUS_GLFUNC(BlendFunc)(GLenum(sfactor), GLenum(dfactor));
+	OGLPLUS_VERIFY(
+		BlendFunc,
+		gl_enum_value(sfactor),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_0)
+inline
+outcome<void>
+blending_state::
+blend_func(GLuint buf, blend_function sfactor, blend_function dfactor)
+noexcept {
+	OGLPLUS_GLFUNC(BlendFunci)(buf, GLenum(sfactor), GLenum(dfactor));
+	OGLPLUS_VERIFY(
+		BlendFunci,
+		gl_enum_value(sfactor),
+		debug
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
 } // namespace oper
 //------------------------------------------------------------------------------
 } // namespace oglplus
