@@ -136,6 +136,28 @@ public:
 	) noexcept;
 #endif
 
+#if defined(GL_VERSION_4_3)
+	static
+	outcome<void>
+	invalidate_texture_image(
+		texture_target_only tnt,
+		GLint level
+	) noexcept;
+
+	static
+	outcome<void>
+	invalidate_texture_sub_image(
+		texture_target_only tnt,
+		GLint level,
+		GLint xoffset,
+		GLint yoffset,
+		GLint zoffset,
+		GLsizei width,
+		GLsizei height,
+		GLsizei depth
+	) noexcept;
+#endif
+
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
 	static
 	outcome<void>

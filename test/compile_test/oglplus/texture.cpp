@@ -95,6 +95,11 @@ void oglplus_texture_test_ops1(void)
 	gl.texture_storage_3d(tgt, 1, ifmt, 64, 64, 64);
 #endif
 
+#if defined(GL_VERSION_4_3)
+	gl.invalidate_texture_image(tgt, 1);
+	gl.invalidate_texture_sub_image(tgt, 1, 32, 32, 32, 64, 64, 64);
+#endif
+
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
 	gl.texture_storage_1d(tex, 1, ifmt, 64);
 	gl.texture_storage_2d(tex, 1, ifmt, 64, 64);

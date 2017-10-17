@@ -202,6 +202,54 @@ texture_storage_3d(
 }
 #endif
 //------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_3)
+inline
+outcome<void>
+invalidate_texture_image(texture_target_only tnt, GLint level)
+noexcept {
+	OGLPLUS_GLFUNC(InvalidateTexImage)(
+		GLenum(tnt._target),
+		level
+	);
+	OGLPLUS_VERIFY(
+		InvalidateTexImage,
+		gl_object_binding(tag::texture(), tnt._target),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+invalidate_texture_sub_image(
+	texture_target_only tnt,
+	GLint level,
+	GLint xoffset,
+	GLint yoffset,
+	GLint zoffset,
+	GLsizei width,
+	GLsizei height,
+	GLsizei depth
+) noexcept {
+	OGLPLUS_GLFUNC(InvalidateTexSubImage)(
+		GLenum(tnt._target),
+		level,
+		xoffset,
+		yoffset,
+		zoffset,
+		width,
+		height,
+		depth
+	);
+	OGLPLUS_VERIFY(
+		InvalidateTexSubImage,
+		gl_object_binding(tag::texture(), tnt._target),
+		always
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
 inline
 outcome<void>
