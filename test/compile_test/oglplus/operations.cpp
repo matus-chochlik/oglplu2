@@ -387,11 +387,42 @@ void oglplus_blending_state_test(void)
 	EAGINE_MAYBE_UNUSED(gl);
 
 	gl.blend_equation(blend_equation(GL_MIN));
-	gl.blend_func(blend_function(GL_ONE), blend_function(GL_ZERO));
+	gl.blend_equation_separate(
+		blend_equation(GL_MIN),
+		blend_equation(GL_MAX)
+	);
+
+	gl.blend_func(
+		blend_function(GL_ONE),
+		blend_function(GL_ZERO)
+	);
+
+	gl.blend_func_separate(
+		blend_function(GL_ONE),
+		blend_function(GL_ONE),
+		blend_function(GL_ZERO),
+		blend_function(GL_ZERO)
+	);
 
 #if defined(GL_VERSION_4_0)
 	gl.blend_equation(1, blend_equation(GL_MIN));
-	gl.blend_func(1, blend_function(GL_ONE), blend_function(GL_ZERO));
+	gl.blend_equation_separate(
+		1,
+		blend_equation(GL_MIN),
+		blend_equation(GL_MAX)
+	);
+	gl.blend_func(
+		1,
+		blend_function(GL_ONE),
+		blend_function(GL_ZERO)
+	);
+	gl.blend_func_separate(
+		1,
+		blend_function(GL_ONE),
+		blend_function(GL_ONE),
+		blend_function(GL_ZERO),
+		blend_function(GL_ZERO)
+	);
 #endif
 }
 
