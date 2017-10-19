@@ -421,6 +421,19 @@ noexcept {
 	return {};
 }
 //------------------------------------------------------------------------------
+inline
+outcome<void>
+framebuffer_ops::
+draw_buffers(enum_span<color_buffer> bufs)
+noexcept {
+	OGLPLUS_GLFUNC(DrawBuffers)(
+		GLsizei(bufs.size()),
+		bufs.data()
+	);
+	OGLPLUS_VERIFY_SIMPLE(DrawBuffers, debug);
+	return {};
+}
+//------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
 inline
 outcome<void>

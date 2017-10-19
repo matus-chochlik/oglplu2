@@ -187,6 +187,11 @@ struct framebuffer_ops
 	draw_buffer(color_buffer buf)
 	noexcept;
 
+	static
+	outcome<void>
+	draw_buffers(enum_span<color_buffer> bufs)
+	noexcept;
+
 #ifdef OGLPLUS_DSA_FRAMEBUFFER
 	static
 	outcome<void>

@@ -30,6 +30,10 @@ void oglplus_framebuffer_test_ops1(void)
 	enum_list<framebuffer_attachment> attchs(attch, cattch);
 	framebuffer_buffer fbb(GL_COLOR);
 	color_buffer cbuf(GL_FRONT);
+	enum_list<color_buffer> cbufs(
+		color_buffer(GL_NONE),
+		color_buffer(GL_NONE)
+	);
 	renderbuffer_target rbt(GL_RENDERBUFFER);
 	renderbuffer_name rbo(0);
 
@@ -54,6 +58,7 @@ void oglplus_framebuffer_test_ops1(void)
 #endif
 #if defined(GL_VERSION_3_0)
 	gl.draw_buffer(cbuf);
+	gl.draw_buffers(cbufs);
 #endif
 	gl.read_buffer(cbuf);
 
