@@ -122,6 +122,9 @@ struct is_enum_class<enum_class<Self, T, LibId, Id>>
  : std::true_type
 { };
 
+template <typename T>
+constexpr bool is_enum_class_v = is_enum_class<T>::value;
+
 template <unsigned LibId>
 struct any_enum_class
 {

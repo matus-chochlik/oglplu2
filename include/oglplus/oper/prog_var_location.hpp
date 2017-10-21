@@ -24,8 +24,7 @@ struct prog_var_location_ops
 	static inline
 	outcome<prog_var_loc<VarTag>>
 	get_location(program_name prog, const cstr_ref& identifier)
-	noexcept
-	{
+	noexcept {
 		return prog_var_loc_ops<VarTag>::get_location(prog, identifier);
 	}
 
@@ -36,8 +35,7 @@ struct prog_var_location_ops
 		prog_var_loc<VarTag>& pvl,
 		program_name prog,
 		const cstr_ref& identifier
-	) noexcept
-	{
+	) noexcept {
 		auto loc = success(get_location<VarTag>(prog, identifier));
 		if(loc)
 		{
@@ -53,8 +51,7 @@ struct prog_var_location_ops
 	query_location(
 		dsa_prog_var_loc<VarTag>& pvl,
 		const cstr_ref& identifier
-	) noexcept
-	{
+	) noexcept {
 		return query_location(pvl, pvl.program(), identifier);
 	}
 };

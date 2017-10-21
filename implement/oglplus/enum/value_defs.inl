@@ -264,6 +264,13 @@ constexpr const enum_value<
 > enum_values::attribute_address_command_nv;
 #endif
 
+#ifdef GL_AUTO_GENERATE_MIPMAP
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::auto_generate_mipmap;
+#endif
+
 #ifdef GL_BACK
 constexpr const enum_value<
 	GLenum,
@@ -579,6 +586,13 @@ constexpr const enum_value<
 > enum_values::byte_;
 #endif
 
+#ifdef GL_CAVEAT_SUPPORT
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::support_level>
+> enum_values::caveat_support;
+#endif
+
 #ifdef GL_CCW
 constexpr const enum_value<
 	GLenum,
@@ -633,6 +647,20 @@ constexpr const enum_value<
 	GLenum,
 	mp_list<oglplus::color_logic_operation>
 > enum_values::clear;
+#endif
+
+#ifdef GL_CLEAR_BUFFER
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::clear_buffer;
+#endif
+
+#ifdef GL_CLEAR_TEXTURE
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::clear_texture;
 #endif
 
 #ifdef GL_CLIENT_MAPPED_BUFFER_BARRIER_BIT
@@ -719,11 +747,32 @@ constexpr const enum_value<
 > enum_values::color_clear_value;
 #endif
 
+#ifdef GL_COLOR_COMPONENTS
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::color_components;
+#endif
+
+#ifdef GL_COLOR_ENCODING
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::color_encoding;
+#endif
+
 #ifdef GL_COLOR_LOGIC_OP
 constexpr const enum_value<
 	GLenum,
 	mp_list<oglplus::capability>
 > enum_values::color_logic_op;
+#endif
+
+#ifdef GL_COLOR_RENDERABLE
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::color_renderable;
 #endif
 
 #ifdef GL_COLOR_WRITEMASK
@@ -983,6 +1032,13 @@ constexpr const enum_value<
 	GLenum,
 	mp_list<oglplus::program_interface>
 > enum_values::compute_subroutine_uniform;
+#endif
+
+#ifdef GL_COMPUTE_TEXTURE
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::compute_texture;
 #endif
 
 #ifdef GL_COMPUTE_WORK_GROUP_SIZE
@@ -1419,6 +1475,13 @@ constexpr const enum_value<
 > enum_values::depth_component32f;
 #endif
 
+#ifdef GL_DEPTH_COMPONENTS
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::depth_components;
+#endif
+
 #ifdef GL_DEPTH_FUNC
 constexpr const enum_value<
 	GLenum,
@@ -1431,6 +1494,13 @@ constexpr const enum_value<
 	GLenum,
 	mp_list<oglplus::numeric_query>
 > enum_values::depth_range;
+#endif
+
+#ifdef GL_DEPTH_RENDERABLE
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::depth_renderable;
 #endif
 
 #ifdef GL_DEPTH_SCALE
@@ -1874,6 +1944,13 @@ constexpr const enum_value<
 > enum_values::fill_rectangle;
 #endif
 
+#ifdef GL_FILTER
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::filter;
+#endif
+
 #ifdef GL_FIRST_TO_REST_NV
 constexpr const enum_value<
 	GLenum,
@@ -2168,6 +2245,13 @@ constexpr const enum_value<
 > enum_values::fragment_subroutine_uniform;
 #endif
 
+#ifdef GL_FRAGMENT_TEXTURE
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::fragment_texture;
+#endif
+
 #ifdef GL_FRAMEBUFFER
 constexpr const enum_value<
 	GLenum,
@@ -2180,6 +2264,13 @@ constexpr const enum_value<
 	GLbitfield,
 	mp_list<oglplus::memory_barrier_bits>
 > enum_values::framebuffer_barrier_bit;
+#endif
+
+#ifdef GL_FRAMEBUFFER_BLEND
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::framebuffer_blend;
 #endif
 
 #ifdef GL_FRAMEBUFFER_COMPLETE
@@ -2252,6 +2343,20 @@ constexpr const enum_value<
 > enum_values::framebuffer_incomplete_multisample;
 #endif
 
+#ifdef GL_FRAMEBUFFER_RENDERABLE
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::framebuffer_renderable;
+#endif
+
+#ifdef GL_FRAMEBUFFER_RENDERABLE_LAYERED
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::framebuffer_renderable_layered;
+#endif
+
 #ifdef GL_FRAMEBUFFER_SRGB
 constexpr const enum_value<
 	GLenum,
@@ -2308,6 +2413,13 @@ constexpr const enum_value<
 > enum_values::front_right;
 #endif
 
+#ifdef GL_FULL_SUPPORT
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::support_level>
+> enum_values::full_support;
+#endif
+
 #ifdef GL_FUNC_ADD
 constexpr const enum_value<
 	GLenum,
@@ -2327,6 +2439,13 @@ constexpr const enum_value<
 	GLenum,
 	mp_list<oglplus::blend_equation>
 > enum_values::func_subtract;
+#endif
+
+#ifdef GL_GENERATE_MIPMAP
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::generate_mipmap;
 #endif
 
 #ifdef GL_GEOMETRY_INPUT_TYPE
@@ -2385,6 +2504,13 @@ constexpr const enum_value<
 > enum_values::geometry_subroutine_uniform;
 #endif
 
+#ifdef GL_GEOMETRY_TEXTURE
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::geometry_texture;
+#endif
+
 #ifdef GL_GEOMETRY_VERTICES_OUT
 constexpr const enum_value<
 	GLenum,
@@ -2397,6 +2523,20 @@ constexpr const enum_value<
 	GLenum,
 	mp_list<oglplus::compare_function>
 > enum_values::gequal;
+#endif
+
+#ifdef GL_GET_TEXTURE_IMAGE_FORMAT
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::get_texture_image_format;
+#endif
+
+#ifdef GL_GET_TEXTURE_IMAGE_TYPE
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::get_texture_image_type;
 #endif
 
 #ifdef GL_GLYPH_HAS_KERNING_BIT_NV
@@ -2630,6 +2770,90 @@ constexpr const enum_value<
 > enum_values::image_buffer;
 #endif
 
+#ifdef GL_IMAGE_CLASS_10_10_10_2
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::image_compatibility_class>
+> enum_values::image_class_10_10_10_2;
+#endif
+
+#ifdef GL_IMAGE_CLASS_11_11_10
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::image_compatibility_class>
+> enum_values::image_class_11_11_10;
+#endif
+
+#ifdef GL_IMAGE_CLASS_1_X_16
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::image_compatibility_class>
+> enum_values::image_class_1_x_16;
+#endif
+
+#ifdef GL_IMAGE_CLASS_1_X_32
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::image_compatibility_class>
+> enum_values::image_class_1_x_32;
+#endif
+
+#ifdef GL_IMAGE_CLASS_1_X_8
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::image_compatibility_class>
+> enum_values::image_class_1_x_8;
+#endif
+
+#ifdef GL_IMAGE_CLASS_2_X_16
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::image_compatibility_class>
+> enum_values::image_class_2_x_16;
+#endif
+
+#ifdef GL_IMAGE_CLASS_2_X_32
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::image_compatibility_class>
+> enum_values::image_class_2_x_32;
+#endif
+
+#ifdef GL_IMAGE_CLASS_2_X_8
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::image_compatibility_class>
+> enum_values::image_class_2_x_8;
+#endif
+
+#ifdef GL_IMAGE_CLASS_4_X_16
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::image_compatibility_class>
+> enum_values::image_class_4_x_16;
+#endif
+
+#ifdef GL_IMAGE_CLASS_4_X_32
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::image_compatibility_class>
+> enum_values::image_class_4_x_32;
+#endif
+
+#ifdef GL_IMAGE_CLASS_4_X_8
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::image_compatibility_class>
+> enum_values::image_class_4_x_8;
+#endif
+
+#ifdef GL_IMAGE_COMPATIBILITY_CLASS
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::image_compatibility_class;
+#endif
+
 #ifdef GL_IMAGE_CUBE
 constexpr const enum_value<
 	GLenum,
@@ -2640,8 +2864,29 @@ constexpr const enum_value<
 #ifdef GL_IMAGE_FORMAT_COMPATIBILITY_TYPE
 constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::texture_parameter>
+	mp_list<oglplus::texture_parameter,oglplus::internal_format_parameter>
 > enum_values::image_format_compatibility_type;
+#endif
+
+#ifdef GL_IMAGE_PIXEL_FORMAT
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::image_pixel_format;
+#endif
+
+#ifdef GL_IMAGE_PIXEL_TYPE
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::image_pixel_type;
+#endif
+
+#ifdef GL_IMAGE_TEXEL_SIZE
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::image_texel_size;
 #endif
 
 #ifdef GL_IMPLEMENTATION_COLOR_READ_FORMAT
@@ -2901,6 +3146,111 @@ constexpr const enum_value<
 	GLenum,
 	mp_list<oglplus::transform_feedback_mode>
 > enum_values::interleaved_attribs;
+#endif
+
+#ifdef GL_INTERNALFORMAT_ALPHA_SIZE
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::internalformat_alpha_size;
+#endif
+
+#ifdef GL_INTERNALFORMAT_ALPHA_TYPE
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::internalformat_alpha_type;
+#endif
+
+#ifdef GL_INTERNALFORMAT_BLUE_SIZE
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::internalformat_blue_size;
+#endif
+
+#ifdef GL_INTERNALFORMAT_BLUE_TYPE
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::internalformat_blue_type;
+#endif
+
+#ifdef GL_INTERNALFORMAT_DEPTH_SIZE
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::internalformat_depth_size;
+#endif
+
+#ifdef GL_INTERNALFORMAT_DEPTH_TYPE
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::internalformat_depth_type;
+#endif
+
+#ifdef GL_INTERNALFORMAT_GREEN_SIZE
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::internalformat_green_size;
+#endif
+
+#ifdef GL_INTERNALFORMAT_GREEN_TYPE
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::internalformat_green_type;
+#endif
+
+#ifdef GL_INTERNALFORMAT_PREFERRED
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::internalformat_preferred;
+#endif
+
+#ifdef GL_INTERNALFORMAT_RED_SIZE
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::internalformat_red_size;
+#endif
+
+#ifdef GL_INTERNALFORMAT_RED_TYPE
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::internalformat_red_type;
+#endif
+
+#ifdef GL_INTERNALFORMAT_SHARED_SIZE
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::internalformat_shared_size;
+#endif
+
+#ifdef GL_INTERNALFORMAT_STENCIL_SIZE
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::internalformat_stencil_size;
+#endif
+
+#ifdef GL_INTERNALFORMAT_STENCIL_TYPE
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::internalformat_stencil_type;
+#endif
+
+#ifdef GL_INTERNALFORMAT_SUPPORTED
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::internalformat_supported;
 #endif
 
 #ifdef GL_INVALID_ENUM
@@ -3358,6 +3708,13 @@ constexpr const enum_value<
 > enum_values::max_combined_clip_and_cull_distances;
 #endif
 
+#ifdef GL_MAX_COMBINED_DIMENSIONS
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::max_combined_dimensions;
+#endif
+
 #ifdef GL_MAX_COMBINED_FRAGMENT_UNIFORM_COMPONENTS
 constexpr const enum_value<
 	GLenum,
@@ -3461,6 +3818,13 @@ constexpr const enum_value<
 	GLenum,
 	mp_list<oglplus::limit_query>
 > enum_values::max_cull_distances;
+#endif
+
+#ifdef GL_MAX_DEPTH
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::max_depth;
 #endif
 
 #ifdef GL_MAX_DEPTH_TEXTURE_SAMPLES
@@ -3631,6 +3995,13 @@ constexpr const enum_value<
 > enum_values::max_geometry_uniform_components;
 #endif
 
+#ifdef GL_MAX_HEIGHT
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::max_height;
+#endif
+
 #ifdef GL_MAX_IMAGE_SAMPLES
 constexpr const enum_value<
 	GLenum,
@@ -3650,6 +4021,13 @@ constexpr const enum_value<
 	GLenum,
 	mp_list<oglplus::limit_query>
 > enum_values::max_integer_samples;
+#endif
+
+#ifdef GL_MAX_LAYERS
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::max_layers;
 #endif
 
 #ifdef GL_MAX_PATCH_VERTICES
@@ -4023,6 +4401,13 @@ constexpr const enum_value<
 > enum_values::max_viewports;
 #endif
 
+#ifdef GL_MAX_WIDTH
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::max_width;
+#endif
+
 #ifdef GL_MEDIUM_FLOAT
 constexpr const enum_value<
 	GLenum,
@@ -4070,6 +4455,13 @@ constexpr const enum_value<
 	GLenum,
 	mp_list<oglplus::limit_query>
 > enum_values::min_program_texture_gather_offset;
+#endif
+
+#ifdef GL_MIPMAP
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::mipmap;
 #endif
 
 #ifdef GL_MIRROR_CLAMP_TO_EDGE
@@ -4222,7 +4614,7 @@ constexpr const enum_value<
 #ifdef GL_NONE
 constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::sl_data_type,oglplus::context_release_behavior,oglplus::color_buffer,oglplus::object_type,oglplus::texture_compare_mode,oglplus::path_transform_type_nv,oglplus::path_join_style_nv,oglplus::path_gen_mode_nv>
+	mp_list<oglplus::sl_data_type,oglplus::context_release_behavior,oglplus::support_level,oglplus::color_buffer,oglplus::object_type,oglplus::texture_compare_mode,oglplus::path_transform_type_nv,oglplus::path_join_style_nv,oglplus::path_gen_mode_nv>
 > enum_values::none;
 #endif
 
@@ -4301,6 +4693,13 @@ constexpr const enum_value<
 	GLenum,
 	mp_list<oglplus::numeric_query>
 > enum_values::num_program_binary_formats;
+#endif
+
+#ifdef GL_NUM_SAMPLE_COUNTS
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::num_sample_counts;
 #endif
 
 #ifdef GL_NUM_SHADER_BINARY_FORMATS
@@ -5339,6 +5738,27 @@ constexpr const enum_value<
 > enum_values::read_only;
 #endif
 
+#ifdef GL_READ_PIXELS
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::read_pixels;
+#endif
+
+#ifdef GL_READ_PIXELS_FORMAT
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::read_pixels_format;
+#endif
+
+#ifdef GL_READ_PIXELS_TYPE
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::read_pixels_type;
+#endif
+
 #ifdef GL_READ_WRITE
 constexpr const enum_value<
 	GLenum,
@@ -5517,7 +5937,7 @@ constexpr const enum_value<
 #ifdef GL_RENDERBUFFER
 constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::object_type,oglplus::renderbuffer_target>
+	mp_list<oglplus::object_type,oglplus::renderbuffer_target,oglplus::internal_format_target>
 > enum_values::renderbuffer;
 #endif
 
@@ -6210,7 +6630,7 @@ constexpr const enum_value<
 #ifdef GL_SAMPLES
 constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::numeric_query>
+	mp_list<oglplus::numeric_query,oglplus::internal_format_parameter>
 > enum_values::samples;
 #endif
 
@@ -6312,6 +6732,27 @@ constexpr const enum_value<
 > enum_values::shader_image_access_barrier_bit;
 #endif
 
+#ifdef GL_SHADER_IMAGE_ATOMIC
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::shader_image_atomic;
+#endif
+
+#ifdef GL_SHADER_IMAGE_LOAD
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::shader_image_load;
+#endif
+
+#ifdef GL_SHADER_IMAGE_STORE
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::shader_image_store;
+#endif
+
 #ifdef GL_SHADER_INCLUDE_ARB
 constexpr const enum_value<
 	GLenum,
@@ -6401,6 +6842,34 @@ constexpr const enum_value<
 	GLenum,
 	mp_list<oglplus::sync_status>
 > enum_values::signaled;
+#endif
+
+#ifdef GL_SIMULTANEOUS_TEXTURE_AND_DEPTH_TEST
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::simultaneous_texture_and_depth_test;
+#endif
+
+#ifdef GL_SIMULTANEOUS_TEXTURE_AND_DEPTH_WRITE
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::simultaneous_texture_and_depth_write;
+#endif
+
+#ifdef GL_SIMULTANEOUS_TEXTURE_AND_STENCIL_TEST
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::simultaneous_texture_and_stencil_test;
+#endif
+
+#ifdef GL_SIMULTANEOUS_TEXTURE_AND_STENCIL_WRITE
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::simultaneous_texture_and_stencil_write;
 #endif
 
 #ifdef GL_SKIP_MISSING_GLYPH_NV
@@ -6522,6 +6991,20 @@ constexpr const enum_value<
 > enum_values::srgb8_alpha8;
 #endif
 
+#ifdef GL_SRGB_READ
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::srgb_read;
+#endif
+
+#ifdef GL_SRGB_WRITE
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::srgb_write;
+#endif
+
 #ifdef GL_STACK_OVERFLOW
 constexpr const enum_value<
 	GLenum,
@@ -6641,6 +7124,13 @@ constexpr const enum_value<
 > enum_values::stencil_clear_value;
 #endif
 
+#ifdef GL_STENCIL_COMPONENTS
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::stencil_components;
+#endif
+
 #ifdef GL_STENCIL_FAIL
 constexpr const enum_value<
 	GLenum,
@@ -6695,6 +7185,13 @@ constexpr const enum_value<
 	GLenum,
 	mp_list<oglplus::command_token_nv>
 > enum_values::stencil_ref_command_nv;
+#endif
+
+#ifdef GL_STENCIL_RENDERABLE
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::stencil_renderable;
 #endif
 
 #ifdef GL_STENCIL_TEST
@@ -6844,6 +7341,13 @@ constexpr const enum_value<
 > enum_values::tess_control_subroutine_uniform;
 #endif
 
+#ifdef GL_TESS_CONTROL_TEXTURE
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::tess_control_texture;
+#endif
+
 #ifdef GL_TESS_EVALUATION_SHADER
 constexpr const enum_value<
 	GLenum,
@@ -6879,6 +7383,13 @@ constexpr const enum_value<
 > enum_values::tess_evaluation_subroutine_uniform;
 #endif
 
+#ifdef GL_TESS_EVALUATION_TEXTURE
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::tess_evaluation_texture;
+#endif
+
 #ifdef GL_TEXTURE
 constexpr const enum_value<
 	GLenum,
@@ -6896,49 +7407,49 @@ constexpr const enum_value<
 #ifdef GL_TEXTURE_1D
 constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::texture_target>
+	mp_list<oglplus::texture_target,oglplus::internal_format_target>
 > enum_values::texture_1d;
 #endif
 
 #ifdef GL_TEXTURE_1D_ARRAY
 constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::texture_target>
+	mp_list<oglplus::texture_target,oglplus::internal_format_target>
 > enum_values::texture_1d_array;
 #endif
 
 #ifdef GL_TEXTURE_2D
 constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::texture_target>
+	mp_list<oglplus::texture_target,oglplus::internal_format_target>
 > enum_values::texture_2d;
 #endif
 
 #ifdef GL_TEXTURE_2D_ARRAY
 constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::texture_target>
+	mp_list<oglplus::texture_target,oglplus::internal_format_target>
 > enum_values::texture_2d_array;
 #endif
 
 #ifdef GL_TEXTURE_2D_MULTISAMPLE
 constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::texture_target>
+	mp_list<oglplus::texture_target,oglplus::internal_format_target>
 > enum_values::texture_2d_multisample;
 #endif
 
 #ifdef GL_TEXTURE_2D_MULTISAMPLE_ARRAY
 constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::texture_target>
+	mp_list<oglplus::texture_target,oglplus::internal_format_target>
 > enum_values::texture_2d_multisample_array;
 #endif
 
 #ifdef GL_TEXTURE_3D
 constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::texture_target>
+	mp_list<oglplus::texture_target,oglplus::internal_format_target>
 > enum_values::texture_3d;
 #endif
 
@@ -7036,7 +7547,7 @@ constexpr const enum_value<
 #ifdef GL_TEXTURE_BUFFER
 constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::texture_target,oglplus::buffer_target>
+	mp_list<oglplus::texture_target,oglplus::buffer_target,oglplus::internal_format_target>
 > enum_values::texture_buffer;
 #endif
 
@@ -7068,6 +7579,34 @@ constexpr const enum_value<
 > enum_values::texture_compare_mode;
 #endif
 
+#ifdef GL_TEXTURE_COMPRESSED
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::texture_compressed;
+#endif
+
+#ifdef GL_TEXTURE_COMPRESSED_BLOCK_HEIGHT
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::texture_compressed_block_height;
+#endif
+
+#ifdef GL_TEXTURE_COMPRESSED_BLOCK_SIZE
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::texture_compressed_block_size;
+#endif
+
+#ifdef GL_TEXTURE_COMPRESSED_BLOCK_WIDTH
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::texture_compressed_block_width;
+#endif
+
 #ifdef GL_TEXTURE_COMPRESSION_HINT
 constexpr const enum_value<
 	GLenum,
@@ -7092,14 +7631,14 @@ constexpr const enum_value<
 #ifdef GL_TEXTURE_CUBE_MAP
 constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::texture_target>
+	mp_list<oglplus::texture_target,oglplus::internal_format_target>
 > enum_values::texture_cube_map;
 #endif
 
 #ifdef GL_TEXTURE_CUBE_MAP_ARRAY
 constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::texture_target>
+	mp_list<oglplus::texture_target,oglplus::internal_format_target>
 > enum_values::texture_cube_map_array;
 #endif
 
@@ -7157,6 +7696,34 @@ constexpr const enum_value<
 	GLbitfield,
 	mp_list<oglplus::memory_barrier_bits>
 > enum_values::texture_fetch_barrier_bit;
+#endif
+
+#ifdef GL_TEXTURE_GATHER
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::texture_gather;
+#endif
+
+#ifdef GL_TEXTURE_GATHER_SHADOW
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::texture_gather_shadow;
+#endif
+
+#ifdef GL_TEXTURE_IMAGE_FORMAT
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::texture_image_format;
+#endif
+
+#ifdef GL_TEXTURE_IMAGE_TYPE
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::texture_image_type;
 #endif
 
 #ifdef GL_TEXTURE_IMMUTABLE_FORMAT
@@ -7218,8 +7785,15 @@ constexpr const enum_value<
 #ifdef GL_TEXTURE_RECTANGLE
 constexpr const enum_value<
 	GLenum,
-	mp_list<oglplus::texture_target>
+	mp_list<oglplus::texture_target,oglplus::internal_format_target>
 > enum_values::texture_rectangle;
+#endif
+
+#ifdef GL_TEXTURE_SHADOW
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::texture_shadow;
 #endif
 
 #ifdef GL_TEXTURE_SWIZZLE_A
@@ -7269,6 +7843,13 @@ constexpr const enum_value<
 	GLbitfield,
 	mp_list<oglplus::memory_barrier_bits>
 > enum_values::texture_update_barrier_bit;
+#endif
+
+#ifdef GL_TEXTURE_VIEW
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::texture_view;
 #endif
 
 #ifdef GL_TEXTURE_VIEW_MIN_LAYER
@@ -8174,6 +8755,13 @@ constexpr const enum_value<
 > enum_values::vertex_subroutine_uniform;
 #endif
 
+#ifdef GL_VERTEX_TEXTURE
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::vertex_texture;
+#endif
+
 #ifdef GL_VERTICAL_LINE_TO_NV
 constexpr const enum_value<
 	GLubyte,
@@ -8186,6 +8774,125 @@ constexpr const enum_value<
 	GLenum,
 	mp_list<oglplus::query_target>
 > enum_values::vertices_submitted;
+#endif
+
+#ifdef GL_VIEW_CLASS_128_BITS
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> enum_values::view_class_128_bits;
+#endif
+
+#ifdef GL_VIEW_CLASS_16_BITS
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> enum_values::view_class_16_bits;
+#endif
+
+#ifdef GL_VIEW_CLASS_24_BITS
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> enum_values::view_class_24_bits;
+#endif
+
+#ifdef GL_VIEW_CLASS_32_BITS
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> enum_values::view_class_32_bits;
+#endif
+
+#ifdef GL_VIEW_CLASS_48_BITS
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> enum_values::view_class_48_bits;
+#endif
+
+#ifdef GL_VIEW_CLASS_64_BITS
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> enum_values::view_class_64_bits;
+#endif
+
+#ifdef GL_VIEW_CLASS_8_BITS
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> enum_values::view_class_8_bits;
+#endif
+
+#ifdef GL_VIEW_CLASS_96_BITS
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> enum_values::view_class_96_bits;
+#endif
+
+#ifdef GL_VIEW_CLASS_BPTC_FLOAT
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> enum_values::view_class_bptc_float;
+#endif
+
+#ifdef GL_VIEW_CLASS_BPTC_UNORM
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> enum_values::view_class_bptc_unorm;
+#endif
+
+#ifdef GL_VIEW_CLASS_RGTC1_RED
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> enum_values::view_class_rgtc1_red;
+#endif
+
+#ifdef GL_VIEW_CLASS_RGTC2_RG
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> enum_values::view_class_rgtc2_rg;
+#endif
+
+#ifdef GL_VIEW_CLASS_S3TC_DXT1_RGB
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> enum_values::view_class_s3tc_dxt1_rgb;
+#endif
+
+#ifdef GL_VIEW_CLASS_S3TC_DXT1_RGBA
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> enum_values::view_class_s3tc_dxt1_rgba;
+#endif
+
+#ifdef GL_VIEW_CLASS_S3TC_DXT3_RGBA
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> enum_values::view_class_s3tc_dxt3_rgba;
+#endif
+
+#ifdef GL_VIEW_CLASS_S3TC_DXT5_RGBA
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::view_compatibility_class>
+> enum_values::view_class_s3tc_dxt5_rgba;
+#endif
+
+#ifdef GL_VIEW_COMPATIBILITY_CLASS
+constexpr const enum_value<
+	GLenum,
+	mp_list<oglplus::internal_format_parameter>
+> enum_values::view_compatibility_class;
 #endif
 
 #ifdef GL_VIEWPORT

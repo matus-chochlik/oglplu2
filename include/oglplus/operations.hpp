@@ -11,6 +11,7 @@
 
 #include "oper/capabilities.hpp"
 #include "oper/numeric_queries.hpp"
+#include "oper/internal_format_queries.hpp"
 #include "oper/string_queries.hpp"
 #include "oper/viewport.hpp"
 #include "oper/scissor.hpp"
@@ -22,9 +23,12 @@
 #include "oper/drawing.hpp"
 #include "oper/computing.hpp"
 #include "oper/pixel_transfer.hpp"
+#include "oper/blending.hpp"
 #include "oper/synchronization.hpp"
+#include "oper/debugging.hpp"
 
 #include "oper/object_lifetime.hpp"
+#include "oper/object_common.hpp"
 #include "vertex_array.hpp"
 #include "buffer.hpp"
 #include "texture.hpp"
@@ -66,6 +70,7 @@ namespace oglplus {
 class operations
  : public oper::capability_state
  , public oper::numeric_queries
+ , public oper::internal_format_queries
  , public oper::string_queries
  , public oper::viewport_state
  , public oper::scissor_state
@@ -74,13 +79,17 @@ class operations
  , public oper::buffer_clearing_ops
  , public oper::stencil_test_state
  , public oper::rasterization_state
+ , public oper::drawing_state
  , public oper::drawing_ops
  , public oper::computing_ops
  , public oper::pixel_transfer_state
  , public oper::pixel_transfer_ops
+ , public oper::blending_state
  , public oper::synchronization
+ , public oper::debugging
 
  , public oper::object_lifetime_ops
+ , public oper::object_common_ops
  , public oper::vertex_array_ops
  , public oper::buffer_ops
  , public oper::texture_ops

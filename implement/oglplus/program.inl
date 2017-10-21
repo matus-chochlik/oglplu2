@@ -6,6 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/range_algo.hpp>
 #include <oglplus/utils/gl_func.hpp>
 #include <oglplus/oper/numeric_queries.hpp>
 
@@ -201,6 +202,58 @@ noexcept
 		GLboolean(value)
 	);
 }
+//------------------------------------------------------------------------------
+inline
+outcome<GLsizei>
+program_ops::
+get_program_binary_length(program_name prog)
+noexcept {
+	return return_program_parameter_i<GLsizei, GLsizei>(
+		prog,
+		program_parameter(GL_PROGRAM_BINARY_LENGTH)
+	);
+}
+//------------------------------------------------------------------------------
+inline
+outcome<memory_block>
+program_ops::
+get_program_binary(program_name prog, GLenum& format, memory_block dest)
+noexcept {
+	GLsizei reallen = 0;
+	OGLPLUS_GLFUNC(GetProgramBinary)(
+		get_raw_name(prog),
+		GLsizei(dest.size()),
+		&reallen,
+		&format,
+		dest.data()
+	);
+	OGLPLUS_VERIFY(
+		GetProgramBinary,
+		gl_object(prog),
+		always
+	);
+	return {eagine::ranges::head(dest, reallen)};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+program_ops::
+program_binary(program_name prog, GLenum format, const_memory_block binary)
+noexcept {
+	OGLPLUS_GLFUNC(ProgramBinary)(
+		get_raw_name(prog),
+		format,
+		binary.data(),
+		GLsizei(binary.size())
+	);
+	OGLPLUS_VERIFY(
+		ProgramBinary,
+		gl_object(prog),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
 #endif // GL_VERSION_4_1
 //------------------------------------------------------------------------------
 inline
@@ -291,7 +344,7 @@ noexcept
 }
 //------------------------------------------------------------------------------
 inline
-outcome<GLsizei>
+outcome<span<char>>
 program_ops::
 get_program_info_log(program_name prog, span<char> dest)
 noexcept
@@ -308,7 +361,7 @@ noexcept
 		gl_object(prog),
 		always
 	);
-	return {reallen};
+	return {eagine::ranges::head(dest, reallen)};
 }
 //------------------------------------------------------------------------------
 inline

@@ -86,6 +86,11 @@ struct program_pipeline_ops
 	outcome<GLsizei>
 	get_program_pipeline_info_log_length(program_pipeline_name ppl)
 	noexcept;
+
+	static
+	outcome<span<char>>
+	get_program_pipeline_info_log(program_pipeline_name ppl, span<char> dest)
+	noexcept;
 #endif
 };
 
@@ -134,6 +139,10 @@ struct obj_dsa_ops<tag::program_pipeline>
 	outcome<GLsizei>
 	get_info_log_length(void) const
 	noexcept { return _ops::get_program_pipeline_info_log_length(*this); }
+
+	outcome<span<char>>
+	get_info_log(span<char> dest) const
+	noexcept { return _ops::get_program_pipeline_info_log(*this, dest); }
 #endif
 };
 

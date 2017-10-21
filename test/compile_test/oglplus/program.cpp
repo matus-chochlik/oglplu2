@@ -23,7 +23,11 @@ void oglplus_program_test_ops1(void)
 	program_array<4> progs;
 	shader shdr(shader_type(GL_VERTEX_SHADER));
 	sl_data_type type;
+	memory_block blk;
 	GLint size;
+	GLenum format;
+
+	EAGINE_MAYBE_UNUSED(format);
 
 	gl.attach_shader(prog, shdr);
 	gl.detach_shader(prog, shdr);
@@ -36,6 +40,9 @@ void oglplus_program_test_ops1(void)
 #if defined(GL_VERSION_4_1)
 	gl.program_binary_retrievable_hint(prog, true);
 	gl.program_separable(prog, true);
+	gl.get_program_binary_length(prog);
+	gl.get_program_binary(prog, format, blk);
+	gl.program_binary(prog, format, blk);
 #endif
 
 	gl.get_program_delete_status(prog);
@@ -83,6 +90,9 @@ void oglplus_program_test_ops1(void)
 #if defined(GL_VERSION_4_1)
 	prog.binary_retrievable_hint(true);
 	prog.separable(true);
+	prog.get_binary_length();
+	prog.get_binary(format, blk);
+	prog.binary(format, blk);
 #endif
 
 	prog.get_delete_status();

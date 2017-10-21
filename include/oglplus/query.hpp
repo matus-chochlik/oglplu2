@@ -30,6 +30,18 @@ struct query_ops
 	end_query(query_target target)
 	noexcept;
 
+#if defined(GL_VERSION_4_0)
+	static
+	outcome<void>
+	begin_query_indexed(query_target target, GLuint index, query_name qry)
+	noexcept;
+
+	static
+	outcome<void>
+	end_query_indexed(query_target target, GLuint index)
+	noexcept;
+#endif
+
 #if defined(GL_VERSION_3_0)
 	static
 	outcome<void>

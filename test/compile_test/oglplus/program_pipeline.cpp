@@ -33,6 +33,7 @@ void oglplus_program_pipeline_test_ops1(void)
 	gl.get_program_pipeline_validate_status(ppls[0]);
 	gl.get_program_pipeline_active_program(ppl);
 	gl.get_program_pipeline_info_log_length(ppl);
+	gl.get_program_pipeline_info_log(ppl, span<char>());
 	gl.report_program_pipeline_validate_error(ppls[1]);
 
 	ppl.use_program_stages(stages, prog);
@@ -41,6 +42,7 @@ void oglplus_program_pipeline_test_ops1(void)
 	ppl.get_validate_status();
 	ppl.get_active_program();
 	ppl.get_info_log_length();
+	ppl.get_info_log(span<char>());
 	ppl.report_validate_error();
 #endif
 }

@@ -18,6 +18,7 @@
 #include "glsl/source_ref.hpp"
 #include "utils/gl_func.hpp"
 #include "utils/boolean.hpp"
+#include "utils/memory_block.hpp"
 #include "enum/types.hpp"
 
 namespace oglplus {
@@ -83,6 +84,21 @@ struct program_ops
 	outcome<void>
 	program_separable(program_name prog, boolean value)
 	noexcept;
+
+	static
+	outcome<GLsizei>
+	get_program_binary_length(program_name prog)
+	noexcept;
+
+	static
+	outcome<memory_block>
+	get_program_binary(program_name prog, GLenum& format, memory_block dest)
+	noexcept;
+
+	static
+	outcome<void>
+	program_binary(program_name prog, GLenum format, const_memory_block binary)
+	noexcept;
 #endif
 
 	static
@@ -120,7 +136,7 @@ struct program_ops
 	noexcept;
 
 	static
-	outcome<GLsizei>
+	outcome<span<char>>
 	get_program_info_log(program_name prog, span<char> dest)
 	noexcept;
 
@@ -251,6 +267,18 @@ struct obj_dsa_ops<tag::program>
 	outcome<obj_dsa_ops&>
 	separable(boolean value)
 	noexcept { return {_ops::program_separable(*this, value), *this}; }
+
+	outcome<GLsizei>
+	get_binary_length(void)
+	noexcept { return _ops::get_program_binary_length(*this); }
+
+	outcome<memory_block>
+	get_binary(GLenum& format, memory_block dest)
+	noexcept { return _ops::get_program_binary(*this, format, dest); }
+
+	outcome<obj_dsa_ops&>
+	binary(GLenum format, memory_block dest)
+	noexcept { return {_ops::program_binary(*this, format, dest), *this}; }
 #endif
 
 	outcome<boolean>
@@ -269,7 +297,7 @@ struct obj_dsa_ops<tag::program>
 	get_info_log_length(void) const
 	noexcept { return _ops::get_program_info_log_length(*this); }
 
-	outcome<GLsizei>
+	outcome<span<char>>
 	get_info_log(span<char> dest) const
 	noexcept { return _ops::get_program_info_log(*this, dest); }
 

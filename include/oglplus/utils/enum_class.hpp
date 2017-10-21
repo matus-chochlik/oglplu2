@@ -12,6 +12,7 @@
 
 #include <eagine/enum_class.hpp>
 #include <eagine/enum_bitfield.hpp>
+#include <eagine/enum_span.hpp>
 
 namespace oglplus {
 
@@ -22,8 +23,6 @@ using enum_class = eagine::enum_class<Self, T, 0, Id>;
 
 using eagine::is_enum_class;
 
-using eagine::enum_bitfield;
-
 using any_enum_class = eagine::any_enum_class<0>;
 using any_enum_value = eagine::any_enum_value<0>;
 
@@ -33,6 +32,10 @@ noexcept
 {
 	return ::eagine::same_enum_class(a, b);
 }
+
+using eagine::enum_bitfield;
+using eagine::enum_list;
+using eagine::enum_span;
 
 } // namespace oglplus
 

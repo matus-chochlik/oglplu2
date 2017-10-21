@@ -7,8 +7,251 @@
 #include <eagine/maybe_unused.hpp>
 #include <oglplus/gl_fixed.hpp>
 #include <oglplus/operations.hpp>
+#include <oglplus/buffer_name.hpp>
+#include <oglplus/shader_name.hpp>
+#include <oglplus/program_name.hpp>
+#include <oglplus/program_pipeline_name.hpp>
+#include <oglplus/query_name.hpp>
+#include <oglplus/transform_feedback_name.hpp>
+#include <oglplus/renderbuffer_name.hpp>
+#include <oglplus/framebuffer_name.hpp>
+#include <oglplus/sampler_name.hpp>
+#include <oglplus/texture_name.hpp>
 
 using namespace oglplus;
+
+void oglplus_object_common_test(void)
+{
+	using namespace oglplus;
+
+	oper::object_common_ops gl;
+
+	EAGINE_MAYBE_UNUSED(gl);
+
+#if defined(GL_VERSION_4_3)
+	buffer_name buf;
+	shader_name shd;
+	program_name prg;
+	program_pipeline_name ppl;
+	query_name qry;
+	transform_feedback_name xfb;
+	texture_name tex;
+	sampler_name sam;
+	renderbuffer_name rbo;
+	framebuffer_name fbo;
+	sync_object syn;
+
+	gl.object_label(buf, "test buffer");
+	gl.object_label(shd, "test shader");
+	gl.object_label(prg, "test program");
+	gl.object_label(ppl, "test program pipeline");
+	gl.object_label(xfb, "test transform feedback");
+	gl.object_label(sam, "test sampler");
+	gl.object_label(tex, "test texture");
+	gl.object_label(rbo, "test renderbuffer");
+	gl.object_label(fbo, "test framebuffer");
+	gl.object_label(syn, "test sync object");
+#endif
+}
+
+void oglplus_numeric_queries_test(void)
+{
+	using namespace oglplus;
+
+	oper::numeric_queries gl;
+
+	gl.get_integer_v(
+		binding_query(GL_DRAW_FRAMEBUFFER_BINDING),
+		span<GLint>()
+	);
+
+	gl.get_boolean_v(
+		numeric_query(GL_DEPTH_TEST),
+		span<GLboolean>()
+	);
+	gl.get_boolean(numeric_query(GL_DEPTH_TEST));
+
+	gl.get_integer_v(
+		numeric_query(GL_ACTIVE_TEXTURE),
+		span<GLint>()
+	);
+	gl.get_integer(numeric_query(GL_ACTIVE_TEXTURE));
+
+#if defined(GL_VERSION_3_2)
+	gl.get_integer64_v(
+		numeric_query(GL_SHADER_STORAGE_BUFFER_START),
+		span<GLint64>()
+	);
+	gl.get_integer64(numeric_query(GL_SHADER_STORAGE_BUFFER_START));
+#endif
+
+	gl.get_float_v(
+		numeric_query(GL_MAX_TEXTURE_LOD_BIAS),
+		span<GLfloat>()
+	);
+	gl.get_float(numeric_query(GL_MAX_TEXTURE_LOD_BIAS));
+
+#if defined(GLdouble)
+	gl.get_double_v(
+		numeric_query(GL_MAX_TEXTURE_LOD_BIAS),
+		span<GLdouble>()
+	);
+	gl.get_double(numeric_query(GL_MAX_TEXTURE_LOD_BIAS));
+#endif
+
+#if defined(GL_VERSION_3_2)
+	gl.get_boolean_v(
+		numeric_query(GL_DEPTH_TEST),
+		0,
+		span<GLboolean>()
+	);
+	gl.get_boolean(numeric_query(GL_DEPTH_TEST), 0);
+
+	gl.get_integer_v(
+		numeric_query(GL_ACTIVE_TEXTURE),
+		0,
+		span<GLint>()
+	);
+	gl.get_integer(numeric_query(GL_ACTIVE_TEXTURE), 0);
+
+	gl.get_integer64_v(
+		numeric_query(GL_SHADER_STORAGE_BUFFER_START),
+		0,
+		span<GLint64>()
+	);
+	gl.get_integer64(numeric_query(GL_SHADER_STORAGE_BUFFER_START), 0);
+#endif
+
+#if defined(GL_VERSION_4_1)
+	gl.get_float_v(
+		numeric_query(GL_MAX_TEXTURE_LOD_BIAS),
+		0,
+		span<GLfloat>()
+	);
+	gl.get_float(numeric_query(GL_MAX_TEXTURE_LOD_BIAS), 0);
+
+	gl.get_double_v(
+		numeric_query(GL_MAX_TEXTURE_LOD_BIAS),
+		0,
+		span<GLdouble>()
+	);
+	gl.get_double(numeric_query(GL_MAX_TEXTURE_LOD_BIAS), 0);
+#endif
+}
+
+void oglplus_internal_format_queries_test(void)
+{
+	using namespace oglplus;
+
+	oper::internal_format_queries gl;
+	GLint temp = 0;
+	GLint64 temp64 = 0;
+
+	EAGINE_MAYBE_UNUSED(gl);
+	EAGINE_MAYBE_UNUSED(temp);
+	EAGINE_MAYBE_UNUSED(temp64);
+
+#if defined(GL_VERSION_4_2)
+	gl.get_internal_format_iv(
+		internal_format_target(GL_RENDERBUFFER),
+		pixel_data_internal_format(GL_RED),
+		internal_format_parameter(GL_INTERNALFORMAT_SUPPORTED),
+		{&temp, 1}
+	);
+#endif
+
+#if defined(GL_VERSION_4_3)
+	gl.get_internal_format_i64v(
+		internal_format_target(GL_RENDERBUFFER),
+		pixel_data_internal_format(GL_RED),
+		internal_format_parameter(GL_INTERNALFORMAT_SUPPORTED),
+		{&temp64, 1}
+	);
+
+	gl.is_internal_format_supported(
+		internal_format_target(GL_RENDERBUFFER),
+		pixel_data_internal_format(GL_RED)
+	);
+
+	gl.is_internal_format_preferred(
+		internal_format_target(GL_RENDERBUFFER),
+		pixel_data_internal_format(GL_RED)
+	);
+
+	gl.is_internal_format_compressed(
+		internal_format_target(GL_RENDERBUFFER),
+		pixel_data_internal_format(GL_RED)
+	);
+
+	gl.has_internal_format_color_components(
+		internal_format_target(GL_RENDERBUFFER),
+		pixel_data_internal_format(GL_RED)
+	);
+
+	gl.has_internal_format_depth_components(
+		internal_format_target(GL_RENDERBUFFER),
+		pixel_data_internal_format(GL_RED)
+	);
+
+	gl.has_internal_format_stencil_components(
+		internal_format_target(GL_RENDERBUFFER),
+		pixel_data_internal_format(GL_RED)
+	);
+
+	gl.supports_internal_format_framebuffer_blend(
+		internal_format_target(GL_RENDERBUFFER),
+		pixel_data_internal_format(GL_RED)
+	);
+
+	gl.supports_internal_format_mipmap(
+		internal_format_target(GL_RENDERBUFFER),
+		pixel_data_internal_format(GL_RED)
+	);
+
+	gl.supports_internal_format_filter(
+		internal_format_target(GL_RENDERBUFFER),
+		pixel_data_internal_format(GL_RED)
+	);
+
+	gl.get_internal_format_framebuffer_renderable_support(
+		internal_format_target(GL_RENDERBUFFER),
+		pixel_data_internal_format(GL_RED)
+	);
+
+	gl.get_internal_format_framebuffer_renderable_layered_support(
+		internal_format_target(GL_RENDERBUFFER),
+		pixel_data_internal_format(GL_RED)
+	);
+
+	gl.get_internal_format_read_pixels_support(
+		internal_format_target(GL_RENDERBUFFER),
+		pixel_data_internal_format(GL_RED)
+	);
+
+	gl.get_internal_format_auto_generate_mipmap_support(
+		internal_format_target(GL_RENDERBUFFER),
+		pixel_data_internal_format(GL_RED)
+	);
+#endif
+}
+
+void oglplus_viewport_test(void)
+{
+	using namespace oglplus;
+
+	oper::viewport_state gl;
+
+	gl.viewport(0, 0, 800, 600);
+	gl.viewport(800, 600);
+	gl.get_viewport();
+
+#if defined(GL_VERSION_4_1)
+	gl.viewport(0, 0, 0, 800, 600);
+	gl.viewport(1, oper::viewport_extents());
+	gl.viewport_array(2, span<const GLfloat>());
+	gl.get_viewport(0);
+#endif
+}
 
 void oglplus_synchronization_test(void)
 {
@@ -34,6 +277,38 @@ void oglplus_synchronization_test(void)
 	gl.get_sync_status(so);
 	gl.is_sync_signaled(so);
 	gl.delete_sync(so);
+#endif
+}
+
+void oglplus_debugging_test(void)
+{
+	using namespace oglplus;
+
+#if defined(GL_VERSION_4_3)
+	oper::debugging gl;
+
+	debug_output_source src(GL_DEBUG_SOURCE_APPLICATION);
+	debug_output_type typ(GL_DEBUG_TYPE_ERROR);
+	debug_output_severity svt(GL_DEBUG_SEVERITY_LOW);
+	span<GLuint> ids;
+
+	gl.push_debug_group(src, 123, "debug group");
+	gl.pop_debug_group();
+
+	gl.debug_message_control(src, typ, svt, ids, true);
+	gl.debug_message_insert(src, typ, 123, svt, "debug message");
+
+	gl.debug_message_callback(nullptr, nullptr);
+
+	gl.get_debug_message_log(
+		0,
+		span<debug_output_source>(),
+		span<debug_output_type>(),
+		span<GLuint>(),
+		span<debug_output_severity>(),
+		span<GLsizei>(),
+		span<char>()
+	);
 #endif
 }
 
@@ -100,6 +375,231 @@ void oglplus_capability_state_test(void)
 	gl.get_stencil_bits();
 	gl.has_doublebuffer();
 	gl.is_stereo();
+#endif
+}
+
+void oglplus_blending_state_test(void)
+{
+	using namespace oglplus;
+
+	oper::blending_state gl;
+
+	EAGINE_MAYBE_UNUSED(gl);
+
+	gl.blend_equation(blend_equation(GL_MIN));
+	gl.blend_equation_separate(
+		blend_equation(GL_MIN),
+		blend_equation(GL_MAX)
+	);
+
+	gl.blend_func(
+		blend_function(GL_ONE),
+		blend_function(GL_ZERO)
+	);
+
+	gl.blend_func_separate(
+		blend_function(GL_ONE),
+		blend_function(GL_ONE),
+		blend_function(GL_ZERO),
+		blend_function(GL_ZERO)
+	);
+
+#if defined(GL_VERSION_4_0)
+	gl.blend_equation(1, blend_equation(GL_MIN));
+	gl.blend_equation_separate(
+		1,
+		blend_equation(GL_MIN),
+		blend_equation(GL_MAX)
+	);
+	gl.blend_func(
+		1,
+		blend_function(GL_ONE),
+		blend_function(GL_ZERO)
+	);
+	gl.blend_func_separate(
+		1,
+		blend_function(GL_ONE),
+		blend_function(GL_ONE),
+		blend_function(GL_ZERO),
+		blend_function(GL_ZERO)
+	);
+#endif
+}
+
+void oglplus_computing_ops_test(void)
+{
+	using namespace oglplus;
+
+	oper::computing_ops gl;
+
+	EAGINE_MAYBE_UNUSED(gl);
+
+#if defined(GL_VERSION_4_2)
+	gl.dispatch_compute(8, 16, 32);
+#endif
+
+#if defined(GL_VERSION_4_3)
+	gl.dispatch_compute_indirect(0);
+#endif
+}
+
+void oglplus_drawing_state_test(void)
+{
+	using namespace oglplus;
+
+	oper::drawing_state gl;
+
+	EAGINE_MAYBE_UNUSED(gl);
+
+#if defined(GL_VERSION_3_1)
+	gl.primitive_restart_index(0);
+#endif
+
+#if defined(GL_VERSION_4_0)
+	gl.patch_parameter_i(
+		patch_parameter(GL_PATCH_DEFAULT_INNER_LEVEL),
+		4
+	);
+	gl.patch_parameter(
+		patch_parameter(GL_PATCH_VERTICES),
+		span<GLfloat>()
+	);
+#endif
+}
+
+void oglplus_drawing_ops_test(void)
+{
+	using namespace oglplus;
+
+	oper::drawing_ops gl;
+	transform_feedback_name xfb;
+
+	EAGINE_MAYBE_UNUSED(gl);
+	EAGINE_MAYBE_UNUSED(xfb);
+
+	gl.draw_arrays(
+		primitive_type(GL_TRIANGLES),
+		0, 3
+	);
+
+#if defined(GL_VERSION_3_0)
+	gl.multi_draw_arrays(
+		primitive_type(GL_TRIANGLES),
+		span<GLint>(), span<GLsizei>()
+	);
+#endif
+
+	gl.draw_elements(
+		primitive_type(GL_TRIANGLES),
+		12,
+		index_type(GL_UNSIGNED_BYTE)
+	);
+
+#if defined(GL_VERSION_3_0)
+	gl.multi_draw_elements(
+		primitive_type(GL_TRIANGLES),
+		span<GLsizei>(),
+		index_type(GL_UNSIGNED_BYTE),
+		span<const GLvoid*>()
+	);
+#endif
+
+#if defined(GL_VERSION_3_1)
+	gl.draw_arrays_instanced(
+		primitive_type(GL_TRIANGLES),
+		0, 3, 10
+	);
+
+	gl.draw_elements_instanced(
+		primitive_type(GL_TRIANGLES),
+		12,
+		index_type(GL_UNSIGNED_BYTE),
+		10
+	);
+#endif
+
+#if defined(GL_VERSION_3_2)
+	gl.draw_elements_base_vertex(
+		primitive_type(GL_TRIANGLES),
+		12,
+		index_type(GL_UNSIGNED_BYTE),
+		10
+	);
+
+	gl.multi_draw_elements_base_vertex(
+		primitive_type(GL_TRIANGLES),
+		span<GLsizei>(),
+		index_type(GL_UNSIGNED_BYTE),
+		span<const GLvoid*>(),
+		span<GLint>()
+	);
+
+	gl.draw_elements_instanced_base_vertex(
+		primitive_type(GL_TRIANGLES),
+		12,
+		index_type(GL_UNSIGNED_BYTE),
+		4, 10
+	);
+#endif
+
+#if defined(GL_VERSION_4_2)
+	gl.draw_arrays_instanced_base_instance(
+		primitive_type(GL_TRIANGLES),
+		0, 3, 10, 123
+	);
+
+	gl.draw_elements_instanced_base_instance(
+		primitive_type(GL_TRIANGLES),
+		12,
+		index_type(GL_UNSIGNED_BYTE),
+		10, 123
+	);
+
+	gl.draw_elements_instanced_base_vertex_base_instance(
+		primitive_type(GL_TRIANGLES),
+		12,
+		index_type(GL_UNSIGNED_BYTE),
+		10, 12, 345
+	);
+#endif
+
+#if defined(GL_VERSION_4_0)
+	gl.draw_arrays_indirect(
+		primitive_type(GL_TRIANGLES),
+		nullptr
+	);
+
+	gl.draw_elements_indirect(
+		primitive_type(GL_TRIANGLES),
+		index_type(GL_UNSIGNED_BYTE),
+		nullptr
+	);
+#endif
+
+#if defined(GL_VERSION_4_0)
+	gl.draw_transform_feedback(
+		primitive_type(GL_TRIANGLES),
+		xfb
+	);
+
+	gl.draw_transform_feedback_stream(
+		primitive_type(GL_TRIANGLES),
+		xfb,
+		2
+	);
+#endif
+
+#if defined(GL_VERSION_4_2)
+	gl.draw_transform_feedback_instanced(
+		primitive_type(GL_TRIANGLES),
+		xfb, 10
+	);
+
+	gl.draw_transform_feedback_stream_instanced(
+		primitive_type(GL_TRIANGLES),
+		xfb,
+		2, 10
+	);
 #endif
 }
 
