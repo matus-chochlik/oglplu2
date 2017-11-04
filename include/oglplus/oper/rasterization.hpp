@@ -83,6 +83,13 @@ struct rasterization_state
 	polygon_offset(GLfloat factor, GLfloat units)
 	noexcept;
 
+#if defined(GL_VERSION_4_6) || defined(GL_EXT_polygon_offset_clamp)
+	static
+	outcome<void>
+	polygon_offset_clamp(GLfloat factor, GLfloat units, GLfloat clamp)
+	noexcept;
+#endif
+
 	static
 	outcome<GLfloat>
 	get_polygon_offset_factor(void)
@@ -92,6 +99,13 @@ struct rasterization_state
 	outcome<GLfloat>
 	get_polygon_offset_units(void)
 	noexcept;
+
+#if defined(GL_VERSION_4_6) || defined(GL_EXT_polygon_offset_clamp)
+	static
+	outcome<GLfloat>
+	get_polygon_offset_clamp(void)
+	noexcept;
+#endif
 
 	static
 	outcome<void>

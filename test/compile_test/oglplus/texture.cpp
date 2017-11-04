@@ -411,7 +411,7 @@ void oglplus_texture_test_ops1(void)
 #if defined(GL_VERSION_4_3)
 	curtex.buffer_range(ifmt, buf, offs, size);
 #endif
-#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
+#if defined(GL_VERSION_4_5)
 	tex.buffer_range(ifmt, buf, offs, size);
 #endif
 

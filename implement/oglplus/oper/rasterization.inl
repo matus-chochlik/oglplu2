@@ -131,6 +131,23 @@ noexcept {
 	return {};
 }
 //------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_6) || defined(GL_EXT_polygon_offset_clamp)
+inline
+outcome<void>
+rasterization_state::
+polygon_offset_clamp(GLfloat factor, GLfloat units, GLfloat clamp)
+noexcept {
+#if defined(GL_VERSION_4_6)
+	OGLPLUS_GLFUNC(PolygonOffsetClamp)(factor, units, clamp);
+	OGLPLUS_VERIFY_SIMPLE(PolygonOffsetClamp, debug);
+#elif defined(GL_EXT_polygon_offset_clamp)
+	OGLPLUS_GLFUNC(PolygonOffsetClampEXT)(factor, units, clamp);
+	OGLPLUS_VERIFY_SIMPLE(PolygonOffsetClampEXT, debug);
+#endif
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
 inline
 outcome<GLfloat>
 rasterization_state::
@@ -150,6 +167,24 @@ noexcept {
 		numeric_query(GL_POLYGON_OFFSET_UNITS)
 	);
 }
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_6) || defined(GL_EXT_polygon_offset_clamp)
+inline
+outcome<GLfloat>
+rasterization_state::
+get_polygon_offset_clamp(void)
+noexcept {
+#if defined(GL_POLYGON_OFFSET_CLAMP)
+	return numeric_queries::get_float(
+		numeric_query(GL_POLYGON_OFFSET_CLAMP)
+	);
+#elif defined(GL_POLYGON_OFFSET_CLAMP_EXT)
+	return numeric_queries::get_float(
+		numeric_query(GL_POLYGON_OFFSET_CLAMP_EXT)
+	);
+#endif
+}
+#endif
 //------------------------------------------------------------------------------
 inline
 outcome<void>

@@ -787,3 +787,37 @@ void oglplus_compatibility_matrix_test(void)
 #endif
 }
 
+void oglplus_rasterization_state_test(void)
+{
+	using namespace oglplus;
+
+	oper::rasterization_state gl;
+
+	gl.front_face(face_orientation(GL_CCW));
+	gl.get_front_face();
+	gl.cull_face(face(GL_BACK));
+	gl.get_cull_face_mode();
+
+#if defined(GL_VERSION_4_5)
+	gl.clip_control(
+		clip_origin(GL_LOWER_LEFT),
+		clip_depth_mode(GL_NEGATIVE_ONE_TO_ONE)
+	);
+#endif
+
+	gl.depth_func(compare_function(GL_LESS));
+	gl.get_depth_func();
+
+#if defined(GL_VERSION_4_1)
+	gl.depth_range_f(0.0f, 1.0f);
+#endif
+
+#if defined(GL_DOUBLE)
+	gl.depth_range(0.0, 1.0);
+#endif
+
+#if defined(GL_VERSION_3_0)
+	gl.polygon_mode(face(GL_FRONT), polygon_mode(GL_FILL));
+#endif
+}
+
