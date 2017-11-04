@@ -819,5 +819,35 @@ void oglplus_rasterization_state_test(void)
 #if defined(GL_VERSION_3_0)
 	gl.polygon_mode(face(GL_FRONT), polygon_mode(GL_FILL));
 #endif
+
+	gl.polygon_offset(0.0f, 0.0f);
+	gl.get_polygon_offset_factor();
+	gl.get_polygon_offset_units();
+
+#if defined(GL_VERSION_4_6) || defined(GL_EXT_polygon_offset_clamp)
+	gl.polygon_offset_clamp(0.0f, 0.0f, 0.0f);
+	gl.get_polygon_offset_clamp();
+#endif
+
+	gl.line_width(2.0f);
+	gl.get_line_width();
+
+#if defined(GL_VERSION_3_0)
+	gl.point_size(2.0f);
+	gl.get_point_size();
+
+	gl.point_parameter(point_parameter(GL_POINT_FADE_THRESHOLD_SIZE), 2.0f);
+	gl.get_point_parameter(point_parameter(GL_POINT_FADE_THRESHOLD_SIZE));
+#endif
+
+#if defined(GL_VERSION_4_6) || defined(GL_EXT_polygon_offset_clamp)
+	gl.provoking_vertex(provoke_mode(GL_FIRST_VERTEX_CONVENTION));
+	gl.get_provoking_vertex();
+#endif
+
+#if defined(GL_VERSION_4_0)
+	gl.min_sample_shading(0.5f);
+	gl.get_min_sample_shading_value();
+#endif
 }
 
