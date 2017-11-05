@@ -159,7 +159,7 @@ struct rasterization_state
 
 	static
 	outcome<GLfloat>
-	get_min_stample_shading_value(void)
+	get_min_sample_shading_value(void)
 	noexcept;
 #endif
 };

@@ -77,6 +77,7 @@ void oglplus_framebuffer_test_ops1(void)
 
 #if defined(GL_VERSION_4_3)
 	gl.invalidate_framebuffer_data(tgt, attchs);
+	gl.invalidate_framebuffer_sub_data(tgt, attchs, 32, 32, 64, 64);
 #endif
 
 #if defined(GL_VERSION_4_5)

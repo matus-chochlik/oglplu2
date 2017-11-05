@@ -643,6 +643,33 @@ invalidate_framebuffer_data(
 	);
 	return {};
 }
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+framebuffer_ops::
+invalidate_framebuffer_sub_data(
+	framebuffer_target tgt,
+	enum_span<framebuffer_attachment> attachments,
+	GLint x,
+	GLint y,
+	GLint width,
+	GLint height
+) noexcept {
+	OGLPLUS_GLFUNC(InvalidateSubFramebuffer)(
+		GLenum(tgt),
+		GLsizei(attachments.size()),
+		attachments.data(),
+		x, y,
+		width,
+		height
+	);
+	OGLPLUS_VERIFY(
+		InvalidateSubFramebuffer,
+		gl_enum_value(tgt),
+		debug
+	);
+	return {};
+}
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5)
@@ -762,6 +789,33 @@ invalidate_framebuffer_data(
 	);
 	OGLPLUS_VERIFY(
 		InvalidateNamedFramebufferData,
+		gl_object(fbo),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+framebuffer_ops::
+invalidate_framebuffer_sub_data(
+	framebuffer_name fbo,
+	enum_span<framebuffer_attachment> attachments,
+	GLint x,
+	GLint y,
+	GLint width,
+	GLint height
+) noexcept {
+	OGLPLUS_GLFUNC(InvalidateNamedFramebufferSubData)(
+		get_raw_name(fbo),
+		GLsizei(attachments.size()),
+		attachments.data(),
+		x, y,
+		width,
+		height
+	);
+	OGLPLUS_VERIFY(
+		InvalidateNamedFramebufferSubData,
 		gl_object(fbo),
 		debug
 	);

@@ -278,7 +278,7 @@ noexcept {
 inline
 outcome<GLfloat>
 rasterization_state::
-get_min_stample_shading_value(void)
+get_min_sample_shading_value(void)
 noexcept {
 	return numeric_queries::get_float(
 		numeric_query(GL_MIN_SAMPLE_SHADING_VALUE)
