@@ -67,6 +67,26 @@ struct framebuffer_ops
 	noexcept;
 #endif
 
+#if defined(GL_VERSION_4_3)
+	static
+	outcome<void>
+	framebuffer_parameter_i(
+		framebuffer_target fb_target,
+		framebuffer_parameter param,
+		GLint value
+	) noexcept;
+#endif
+
+#if defined(GL_VERSION_4_5)
+	static
+	outcome<void>
+	framebuffer_parameter_i(
+		framebuffer_name fbo,
+		framebuffer_parameter param,
+		GLint value
+	) noexcept;
+#endif
+
 	static
 	outcome<void>
 	framebuffer_renderbuffer(

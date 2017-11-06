@@ -36,6 +36,9 @@ void oglplus_framebuffer_test_ops1(void)
 	);
 	renderbuffer_target rbt(GL_RENDERBUFFER);
 	renderbuffer_name rbo(0);
+#if defined(GL_VERSION_4_3)
+	framebuffer_parameter param(GL_FRAMEBUFFER_DEFAULT_WIDTH);
+#endif
 
 #if defined(GL_VERSION_4_2) || defined(GL_ARB_texture_storage)
 	texture_target textgt1(GL_TEXTURE_1D);
@@ -47,6 +50,13 @@ void oglplus_framebuffer_test_ops1(void)
 	gl.bind_framebuffer(tgt, fbo);
 	gl.framebuffer_binding(tgt);
 	gl.bind_framebuffer(tgt, fbos[0]);
+
+#if defined(GL_VERSION_4_3)
+	gl.framebuffer_parameter_i(tgt, param, 1024);
+#endif
+#if defined(GL_VERSION_4_3)
+	gl.framebuffer_parameter_i(fbo, param, 1024);
+#endif
 
 	gl.check_framebuffer_status(tgt);
 	gl.is_framebuffer_complete(tgt);

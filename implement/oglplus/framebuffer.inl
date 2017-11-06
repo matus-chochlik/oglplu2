@@ -121,6 +121,53 @@ noexcept {
 }
 #endif
 //------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_3)
+inline
+outcome<void>
+framebuffer_ops::
+framebuffer_parameter_i(
+	framebuffer_target fb_target,
+	framebuffer_parameter param,
+	GLint value
+) noexcept {
+	OGLPLUS_GLFUNC(FramebufferParameteri)(
+		GLenum(fb_target),
+		GLenum(param),
+		value
+	);
+	OGLPLUS_VERIFY(
+		FramebufferParameteri,
+		gl_enum_value(param),
+		debug
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_5)
+inline
+outcome<void>
+framebuffer_ops::
+framebuffer_parameter_i(
+	framebuffer_name fbo,
+	framebuffer_parameter param,
+	GLint value
+) noexcept {
+	OGLPLUS_GLFUNC(NamedFramebufferParameteri)(
+		get_raw_name(fbo),
+		GLenum(param),
+		value
+	);
+	OGLPLUS_VERIFY(
+		NamedFramebufferParameteri,
+		gl_enum_value(param).
+		gl_object(fbo),
+		debug
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
 inline
 outcome<void>
 framebuffer_ops::
