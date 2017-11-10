@@ -814,7 +814,11 @@ void oglplus_rasterization_state_test(void)
 
 #if defined(GL_DOUBLE)
 	gl.depth_range(0.0, 1.0);
+#if defined(GL_VERSION_4_1)
+	gl.depth_range(1, 0.0, 1.0);
 #endif
+#endif
+
 
 #if defined(GL_VERSION_3_0)
 	gl.polygon_mode(face(GL_FRONT), polygon_mode(GL_FILL));

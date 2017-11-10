@@ -205,6 +205,66 @@ texture_storage_3d(
 #if defined(GL_VERSION_4_3)
 inline
 outcome<void>
+texture_ops::
+texture_storage_2d_multisample(
+	texture_target_only tnt,
+	GLsizei samples,
+	pixel_data_internal_format iformat,
+	GLsizei width,
+	GLsizei height,
+	boolean fixed_locations
+) noexcept {
+	OGLPLUS_GLFUNC(TexStorage2DMultisample)(
+		GLenum(tnt._target),
+		samples,
+		GLenum(iformat),
+		width,
+		height,
+		fixed_locations
+	);
+	OGLPLUS_VERIFY(
+		TexStorage2DMultisample,
+		gl_object_binding(tag::texture(), tnt._target).
+		gl_enum_value(iformat),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+texture_storage_3d_multisample(
+	texture_target_only tnt,
+	GLsizei samples,
+	pixel_data_internal_format iformat,
+	GLsizei width,
+	GLsizei height,
+	GLsizei depth,
+	boolean fixed_locations
+) noexcept {
+	OGLPLUS_GLFUNC(TexStorage3DMultisample)(
+		GLenum(tnt._target),
+		samples,
+		GLenum(iformat),
+		width,
+		height,
+		depth,
+		fixed_locations
+	);
+	OGLPLUS_VERIFY(
+		TexStorage3DMultisample,
+		gl_object_binding(tag::texture(), tnt._target).
+		gl_enum_value(iformat),
+		always
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_3)
+inline
+outcome<void>
 invalidate_texture_image(texture_target_only tnt, GLint level)
 noexcept {
 	OGLPLUS_GLFUNC(InvalidateTexImage)(
@@ -322,6 +382,66 @@ texture_storage_3d(
 	);
 	OGLPLUS_VERIFY(
 		TextureStorage3D,
+		gl_object(tnt._name).
+		gl_enum_value(iformat),
+		always
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
+inline
+outcome<void>
+texture_ops::
+texture_storage_2d_multisample(
+	texture_name_only tnt,
+	GLsizei samples,
+	pixel_data_internal_format iformat,
+	GLsizei width,
+	GLsizei height,
+	boolean fixed_locations
+) noexcept {
+	OGLPLUS_GLFUNC(TextureStorage2DMultisample)(
+		get_raw_name(tnt._name),
+		samples,
+		GLenum(iformat),
+		width,
+		height,
+		fixed_locations
+	);
+	OGLPLUS_VERIFY(
+		TextureStorage2DMultisample,
+		gl_object(tnt._name).
+		gl_enum_value(iformat),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+texture_storage_3d_multisample(
+	texture_name_only tnt,
+	GLsizei samples,
+	pixel_data_internal_format iformat,
+	GLsizei width,
+	GLsizei height,
+	GLsizei depth,
+	boolean fixed_locations
+) noexcept {
+	OGLPLUS_GLFUNC(TextureStorage3DMultisample)(
+		get_raw_name(tnt._name),
+		samples,
+		GLenum(iformat),
+		width,
+		height,
+		depth,
+		fixed_locations
+	);
+	OGLPLUS_VERIFY(
+		TextureStorage3DMultisample,
 		gl_object(tnt._name).
 		gl_enum_value(iformat),
 		always

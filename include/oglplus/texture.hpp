@@ -139,6 +139,31 @@ public:
 #if defined(GL_VERSION_4_3)
 	static
 	outcome<void>
+	texture_storage_2d_multisample(
+		texture_target_only tnt,
+		GLsizei samples,
+		pixel_data_internal_format iformat,
+		GLsizei width,
+		GLsizei height,
+		boolean fixed_locations
+	) noexcept;
+
+	static
+	outcome<void>
+	texture_storage_3d_multisample(
+		texture_target_only tnt,
+		GLsizei samples,
+		pixel_data_internal_format iformat,
+		GLsizei width,
+		GLsizei height,
+		GLsizei depth,
+		boolean fixed_locations
+	) noexcept;
+#endif
+
+#if defined(GL_VERSION_4_3)
+	static
+	outcome<void>
 	invalidate_texture_image(
 		texture_target_only tnt,
 		GLint level
@@ -187,6 +212,31 @@ public:
 		GLsizei width,
 		GLsizei height,
 		GLsizei depth
+	) noexcept;
+#endif
+
+#if defined(GL_VERSION_4_5)
+	static
+	outcome<void>
+	texture_storage_2d_multisample(
+		texture_name_only tnt,
+		GLsizei samples,
+		pixel_data_internal_format iformat,
+		GLsizei width,
+		GLsizei height,
+		boolean fixed_locations
+	) noexcept;
+
+	static
+	outcome<void>
+	texture_storage_3d_multisample(
+		texture_name_only tnt,
+		GLsizei samples,
+		pixel_data_internal_format iformat,
+		GLsizei width,
+		GLsizei height,
+		GLsizei depth,
+		boolean fixed_locations
 	) noexcept;
 #endif
 

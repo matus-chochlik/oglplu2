@@ -67,6 +67,11 @@ struct rasterization_state
 	outcome<void>
 	depth_range(GLdouble near, GLdouble far)
 	noexcept;
+
+	static
+	outcome<void>
+	depth_range(GLuint index, GLdouble near, GLdouble far)
+	noexcept;
 #endif
 
 #if defined(GL_VERSION_3_0)

@@ -107,6 +107,20 @@ noexcept {
 	OGLPLUS_VERIFY_SIMPLE(DepthRange, debug);
 	return {};
 }
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+rasterization_state::
+depth_range(GLuint index, GLdouble near, GLdouble far)
+noexcept {
+	OGLPLUS_GLFUNC(DepthRangeIndexed)(index, near, far);
+	OGLPLUS_VERIFY(
+		DepthRangeIndexed,
+		gl_index(index),
+		debug
+	);
+	return {};
+}
 #endif
 //------------------------------------------------------------------------------
 #ifdef GL_VERSION_3_0

@@ -96,6 +96,32 @@ void oglplus_texture_test_ops1(void)
 #endif
 
 #if defined(GL_VERSION_4_3)
+	gl.texture_storage_2d_multisample(tgt, 4, ifmt, 64, 64, true);
+	gl.texture_storage_3d_multisample(tgt, 4, ifmt, 64, 64, 64, false);
+#endif
+
+#if defined(GL_VERSION_4_3)
+	gl.invalidate_texture_image(tgt, 1);
+	gl.invalidate_texture_sub_image(tgt, 1, 32, 32, 32, 64, 64, 64);
+#endif
+
+#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
+	gl.texture_storage_1d(tex, 1, ifmt, 64);
+	gl.texture_storage_2d(tex, 1, ifmt, 64, 64);
+	gl.texture_storage_3d(tex, 1, ifmt, 64, 64, 64);
+
+	gl.texture_storage_2d_multisample(tex, 4, ifmt, 64, 64, true);
+	gl.texture_storage_3d_multisample(tex, 4, ifmt, 64, 64, 64, false);
+
+	gl.texture_sub_image_1d(tex, 0, 1, 64, fmt, typ, blk);
+	gl.compressed_texture_sub_image_1d(tex, 0, 1, 64, fmt, blk);
+	gl.texture_sub_image_2d(tex, 0, 1, 1, 64, 64, fmt, typ, blk);
+	gl.compressed_texture_sub_image_2d(tex, 0, 1, 1, 64, 64, fmt, blk);
+	gl.texture_sub_image_3d(tex, 0, 1, 1, 1, 64, 64, 64, fmt, typ, blk);
+	gl.compressed_texture_sub_image_3d(tex, 0, 1, 1, 1, 64, 64, 64, fmt, blk);
+#endif
+
+#if defined(GL_VERSION_4_3)
 	gl.invalidate_texture_image(tgt, 1);
 	gl.invalidate_texture_sub_image(tgt, 1, 32, 32, 32, 64, 64, 64);
 #endif
