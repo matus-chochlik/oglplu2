@@ -376,6 +376,10 @@ void oglplus_capability_state_test(void)
 	gl.has_doublebuffer();
 	gl.is_stereo();
 #endif
+
+#if defined(GL_VERSION_4_5)
+	gl.get_graphics_reset_status();
+#endif
 }
 
 void oglplus_blending_state_test(void)
