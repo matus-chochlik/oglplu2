@@ -263,6 +263,10 @@ void oglplus_synchronization_test(void)
 	gl.memory_barrier(enum_bitfield<memory_barrier_bits>(0));
 #endif
 
+#if defined(GL_ES_VERSION_3_1)
+	gl.memory_barrier_by_region(enum_bitfield<memory_barrier_bits>(0));
+#endif
+
 #if defined(GL_VERSION_4_5)
 	gl.texture_barrier();
 #endif
