@@ -791,6 +791,19 @@ void oglplus_compatibility_matrix_test(void)
 #endif
 }
 
+void oglplus_scissor_state_test(void)
+{
+	using namespace oglplus;
+
+	oper::scissor_state gl;
+
+	gl.scissor(16, 16, 32, 32);
+
+#if defined(GL_VERSION_4_1)
+	gl.scissor(2, 16, 16, 32, 32);
+#endif
+}
+
 void oglplus_rasterization_state_test(void)
 {
 	using namespace oglplus;
