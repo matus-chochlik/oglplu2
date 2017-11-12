@@ -132,9 +132,20 @@ void oglplus_framebuffer_test_ops1(void)
 	gl.framebuffer_texture_3d(fbo, attch, textgt1, tex, 0, 0);
 #endif
 
+#if defined(GL_VERSION_3_0)
+	gl.framebuffer_texture_layer(tgt, attch, tex, 0, 1);
+#endif
 #if defined(GL_VERSION_3_2)
 	gl.framebuffer_texture(fbo, attch, tex, 0);
 #endif
+
+#if defined(GL_VERSION_4_5) ||\
+	defined(GL_ARB_direct_state_access) ||\
+	defined(GL_EXT_direct_state_access)
+	gl.framebuffer_texture_layer(fbo, attch, tex, 0, 1);
+	gl.framebuffer_texture(fbo, attch, tex, 0);
+#endif
+
 	gl.framebuffer_draw_buffer(fbo, cattch);
 	gl.framebuffer_read_buffer(fbo, cattch);
 

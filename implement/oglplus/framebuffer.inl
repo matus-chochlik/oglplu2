@@ -396,6 +396,67 @@ framebuffer_texture_3d(
 #endif
 #endif // GL_VERSION_3_0
 //------------------------------------------------------------------------------
+#if defined(GL_VERSION_3_0)
+inline
+outcome<void>
+framebuffer_ops::
+framebuffer_texture_layer(
+	framebuffer_target fb_target,
+	framebuffer_attachment fb_attach,
+	texture_name tex,
+	GLint level,
+	GLint layer
+) noexcept {
+	OGLPLUS_GLFUNC(FramebufferTextureLayer)(
+		GLenum(fb_target),
+		GLenum(fb_attach),
+		get_raw_name(tex),
+		level,
+		layer
+	);
+	OGLPLUS_VERIFY(
+		FramebufferTextureLayer,
+		gl_enum_value(fb_target).
+		gl_subject(tex),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+#ifdef OGLPLUS_DSA_FRAMEBUFFER
+inline
+outcome<void>
+framebuffer_ops::
+framebuffer_texture_layer(
+	framebuffer_name fbo,
+	framebuffer_attachment fb_attach,
+	texture_name tex,
+	GLint level,
+	GLint layer
+) noexcept {
+#ifdef GL_VERSION_4_5
+	OGLPLUS_GLFUNC(NamedFramebufferTextureLayer)(
+#else
+	OGLPLUS_GLFUNC(NamedFramebufferTextureLayerEXT)(
+#endif
+		get_raw_name(fbo),
+		GLenum(fb_attach),
+		get_raw_name(tex),
+		level,
+		layer
+	);
+	OGLPLUS_VERIFY_STR(
+		OGLPLUS_GL_DSA_FUNC_NAME(NamedFramebufferTextureLayer),
+		gl_object(fbo).
+		//gl_enum_value(fb_target).
+		gl_subject(tex),
+		debug
+	);
+	return {};
+}
+#endif
+#endif // GL_VERSION_3_0
+//------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_2)
 inline
 outcome<void>

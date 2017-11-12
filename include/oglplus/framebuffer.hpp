@@ -179,6 +179,30 @@ struct framebuffer_ops
 #endif
 #endif // GL_VERSION_3_0
 
+#if defined(GL_VERSION_3_0)
+	static
+	outcome<void>
+	framebuffer_texture_layer(
+		framebuffer_target fb_target,
+		framebuffer_attachment fb_attch,
+		texture_name tex,
+		GLint level,
+		GLint layer
+	) noexcept;
+
+#ifdef OGLPLUS_DSA_FRAMEBUFFER
+	static
+	outcome<void>
+	framebuffer_texture_layer(
+		framebuffer_name fbo,
+		framebuffer_attachment fb_attch,
+		texture_name tex,
+		GLint level,
+		GLint layer
+	) noexcept;
+#endif
+#endif
+
 #if defined(GL_VERSION_3_2)
 	static
 	outcome<void>
