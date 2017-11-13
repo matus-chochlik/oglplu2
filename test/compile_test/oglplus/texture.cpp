@@ -69,6 +69,9 @@ void oglplus_texture_test_ops1(void)
 #endif
 	gl.texture_sub_image_2d(tgt, 0, 1, 1, 64, 64, fmt, typ, blk);
 	gl.compressed_texture_sub_image_2d(tgt, 0, 1, 1, 64, 64, fmt, blk);
+#if defined(GL_VERSION_3_2)
+	gl.texture_image_2d_multisample(tgt, 4, ifmt, 64, 64, true);
+#endif
 	gl.texture_sub_image_3d(tgt, 0, 1, 1, 1, 64, 64, 64, fmt, typ, blk);
 	gl.compressed_texture_sub_image_3d(tgt, 0, 1, 1, 1, 64, 64, 64, fmt, blk);
 
@@ -86,6 +89,9 @@ void oglplus_texture_test_ops1(void)
 	gl.texture_sub_image_2d(tnt, 0, 1, 1, 64, 64, fmt, typ, blk);
 	gl.compressed_texture_sub_image_2d(tnt, 0, 1, 1, 64, 64, fmt, blk);
 	gl.texture_sub_image_3d(tnt, 0, 1, 1, 1, 64, 64, 64, fmt, typ, blk);
+#if defined(GL_VERSION_3_2)
+	gl.texture_image_3d_multisample(tgt, 4, ifmt, 64, 64, 64, false);
+#endif
 	gl.compressed_texture_sub_image_3d(tnt, 0, 1, 1, 1, 64, 64, 64, fmt, blk);
 #endif
 

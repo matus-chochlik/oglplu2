@@ -746,6 +746,36 @@ texture_sub_image_2d(
 	return {};
 }
 //------------------------------------------------------------------------------
+#if defined(GL_VERSION_3_2)
+inline
+outcome<void>
+texture_ops::
+texture_image_2d_multisample(
+	texture_target_only tnt,
+	GLsizei samples,
+	pixel_data_internal_format iformat,
+	GLsizei width,
+	GLsizei height,
+	boolean fixed_locations
+) noexcept {
+	OGLPLUS_GLFUNC(TexImage2DMultisample)(
+		GLenum(tnt._target),
+		samples,
+		GLenum(iformat),
+		width,
+		height,
+		GLboolean(fixed_locations)
+	);
+	OGLPLUS_VERIFY(
+		TexImage2DMultisample,
+		gl_object_binding(tag::texture(), tnt._target).
+		gl_enum_value(iformat),
+		always
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
 inline
 outcome<void>
 texture_ops::
@@ -898,6 +928,38 @@ texture_sub_image_3d(
 	);
 	return {};
 }
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_3_2)
+inline
+outcome<void>
+texture_ops::
+texture_image_3d_multisample(
+	texture_target_only tnt,
+	GLsizei samples,
+	pixel_data_internal_format iformat,
+	GLsizei width,
+	GLsizei height,
+	GLsizei depth,
+	boolean fixed_locations
+) noexcept {
+	OGLPLUS_GLFUNC(TexImage3DMultisample)(
+		GLenum(tnt._target),
+		samples,
+		GLenum(iformat),
+		width,
+		height,
+		depth,
+		GLboolean(fixed_locations)
+	);
+	OGLPLUS_VERIFY(
+		TexImage3DMultisample,
+		gl_object_binding(tag::texture(), tnt._target).
+		gl_enum_value(iformat),
+		always
+	);
+	return {};
+}
+#endif
 //------------------------------------------------------------------------------
 inline
 outcome<void>

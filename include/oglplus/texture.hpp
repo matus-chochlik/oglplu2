@@ -361,6 +361,20 @@ public:
 		const_memory_block data
 	) noexcept;
 
+#if defined(GL_VERSION_3_2)
+	static
+	outcome<void>
+	texture_image_2d_multisample(
+		texture_target_only tnt,
+		GLsizei samples,
+		pixel_data_internal_format iformat,
+		GLsizei width,
+		GLsizei height,
+		boolean fixed_locations
+	) noexcept;
+#endif
+
+
 	static
 	outcome<void>
 	texture_sub_image_2d(
@@ -407,6 +421,20 @@ public:
 		GLint level = 0,
 		GLint border = 0
 	) noexcept;
+
+#if defined(GL_VERSION_3_2)
+	static
+	outcome<void>
+	texture_image_3d_multisample(
+		texture_target_only tnt,
+		GLsizei samples,
+		pixel_data_internal_format iformat,
+		GLsizei width,
+		GLsizei height,
+		GLsizei depth,
+		boolean fixed_locations
+	) noexcept;
+#endif
 
 	static
 	outcome<void>
