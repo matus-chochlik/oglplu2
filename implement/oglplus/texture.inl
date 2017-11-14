@@ -310,6 +310,96 @@ invalidate_texture_sub_image(
 }
 #endif
 //------------------------------------------------------------------------------
+#if defined(GL_VERSION_2_0)
+inline
+outcome<void>
+texture_ops::
+copy_texture_sub_image_1d(
+	texture_target_only tnt,
+	GLint level,
+	GLint xoffset,
+	GLint x,
+	GLint y,
+	GLsizei width
+) noexcept {
+	OGLPLUS_GLFUNC(CopyTexSubImage1D)(
+		GLenum(tnt._target),
+		level,
+		xoffset,
+		x, y,
+		width
+	);
+	OGLPLUS_VERIFY(
+		CopyTexSubImage1D,
+		gl_object_binding(tag::texture(), tnt._target),
+		always
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+copy_texture_sub_image_2d(
+	texture_target_only tnt,
+	GLint level,
+	GLint xoffset,
+	GLint yoffset,
+	GLint x,
+	GLint y,
+	GLsizei width,
+	GLsizei height
+) noexcept {
+	OGLPLUS_GLFUNC(CopyTexSubImage2D)(
+		GLenum(tnt._target),
+		level,
+		xoffset,
+		yoffset,
+		x, y,
+		width,
+		height
+	);
+	OGLPLUS_VERIFY(
+		CopyTexSubImage2D,
+		gl_object_binding(tag::texture(), tnt._target),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+copy_texture_sub_image_3d(
+	texture_target_only tnt,
+	GLint level,
+	GLint xoffset,
+	GLint yoffset,
+	GLint zoffset,
+	GLint x,
+	GLint y,
+	GLsizei width,
+	GLsizei height
+) noexcept {
+	OGLPLUS_GLFUNC(CopyTexSubImage3D)(
+		GLenum(tnt._target),
+		level,
+		xoffset,
+		yoffset,
+		zoffset,
+		x, y,
+		width,
+		height
+	);
+	OGLPLUS_VERIFY(
+		CopyTexSubImage3D,
+		gl_object_binding(tag::texture(), tnt._target),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
 inline
 outcome<void>

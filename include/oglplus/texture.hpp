@@ -183,6 +183,47 @@ public:
 	) noexcept;
 #endif
 
+#if defined(GL_VERSION_2_0)
+	static
+	outcome<void>
+	copy_texture_sub_image_1d(
+		texture_target_only tnt,
+		GLint level,
+		GLint xoffset,
+		GLint x,
+		GLint y,
+		GLsizei width
+	) noexcept;
+#endif
+
+	static
+	outcome<void>
+	copy_texture_sub_image_2d(
+		texture_target_only tnt,
+		GLint level,
+		GLint xoffset,
+		GLint yoffset,
+		GLint x,
+		GLint y,
+		GLsizei width,
+		GLsizei height
+	) noexcept;
+
+	static
+	outcome<void>
+	copy_texture_sub_image_3d(
+		texture_target_only tnt,
+		GLint level,
+		GLint xoffset,
+		GLint yoffset,
+		GLint zoffset,
+		GLint x,
+		GLint y,
+		GLsizei width,
+		GLsizei height
+	) noexcept;
+
+
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
 	static
 	outcome<void>
