@@ -25,11 +25,10 @@ struct uniform { };
 } // namespace tag
 
 using uniform_location = prog_var_loc<tag::uniform>;
+using program_uniform_location = dsa_prog_var_loc<tag::uniform>;
 
 template <typename T>
 using uniform = prog_var_wrapper<uniform_location, T>;
-
-using program_uniform_location = dsa_prog_var_loc<tag::uniform>;
 
 template <typename T>
 using program_uniform = prog_var_wrapper<program_uniform_location, T>;

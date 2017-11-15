@@ -10,7 +10,7 @@
 #define OGLPLUS_PROG_VAR_LOCATION_1509260923_HPP
 
 #include "fwd.hpp"
-#include "../program.hpp"
+#include "../program_name.hpp"
 
 namespace oglplus {
 
@@ -40,7 +40,7 @@ public:
 	noexcept
 	 : _loc(loc)
 	{ }
-	
+
 	constexpr
 	GLint location(void) const
 	noexcept

@@ -560,6 +560,27 @@ noexcept
 }
 #endif
 //------------------------------------------------------------------------------
+inline
+outcome<void>
+program_ops::
+bind_attrib_location(
+	program_name prog,
+	GLuint index,
+	cstr_ref attr_name
+) noexcept {
+	OGLPLUS_GLFUNC(BindAttribLocation)(
+		get_raw_name(prog),
+		index,
+		attr_name.data()
+	);
+	OGLPLUS_VERIFY(
+		BindAttribLocation,
+		gl_object(prog).
+		gl_index(index),
+		always
+	);
+}
+//------------------------------------------------------------------------------
 } // namespace oper
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_gen

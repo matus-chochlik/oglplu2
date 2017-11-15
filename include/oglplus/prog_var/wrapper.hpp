@@ -10,7 +10,7 @@
 #define OGLPLUS_PROG_VAR_WRAPPER_1509260923_HPP
 
 #include "fwd.hpp"
-#include "../program.hpp"
+#include "../program_name.hpp"
 #include "../utils/cstr_ref.hpp"
 
 namespace oglplus {
