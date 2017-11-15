@@ -118,6 +118,10 @@ void oglplus_texture_test_ops1(void)
 	gl.copy_texture_sub_image_3d(tgt, 1, 16, 16, 16, 32, 32, 64, 64);
 
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
+	gl.copy_texture_sub_image_1d(tex, 1, 16, 32, 32, 64);
+	gl.copy_texture_sub_image_2d(tex, 1, 16, 16, 32, 32, 64, 64);
+	gl.copy_texture_sub_image_3d(tex, 1, 16, 16, 16, 32, 32, 64, 64);
+
 	gl.texture_storage_1d(tex, 1, ifmt, 64);
 	gl.texture_storage_2d(tex, 1, ifmt, 64, 64);
 	gl.texture_storage_3d(tex, 1, ifmt, 64, 64, 64);

@@ -404,6 +404,94 @@ copy_texture_sub_image_3d(
 inline
 outcome<void>
 texture_ops::
+copy_texture_sub_image_1d(
+	texture_name_only tnt,
+	GLint level,
+	GLint xoffset,
+	GLint x,
+	GLint y,
+	GLsizei width
+) noexcept {
+	OGLPLUS_GLFUNC(CopyTextureSubImage1D)(
+		get_raw_name(tnt._name),
+		level,
+		xoffset,
+		x, y,
+		width
+	);
+	OGLPLUS_VERIFY(
+		CopyTextureSubImage1D,
+		gl_object(tnt._name),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+copy_texture_sub_image_2d(
+	texture_name_only tnt,
+	GLint level,
+	GLint xoffset,
+	GLint yoffset,
+	GLint x,
+	GLint y,
+	GLsizei width,
+	GLsizei height
+) noexcept {
+	OGLPLUS_GLFUNC(CopyTextureSubImage2D)(
+		get_raw_name(tnt._name),
+		level,
+		xoffset,
+		yoffset,
+		x, y,
+		width,
+		height
+	);
+	OGLPLUS_VERIFY(
+		CopyTextureSubImage2D,
+		gl_object(tnt._name),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+copy_texture_sub_image_3d(
+	texture_name_only tnt,
+	GLint level,
+	GLint xoffset,
+	GLint yoffset,
+	GLint zoffset,
+	GLint x,
+	GLint y,
+	GLsizei width,
+	GLsizei height
+) noexcept {
+	OGLPLUS_GLFUNC(CopyTextureSubImage3D)(
+		get_raw_name(tnt._name),
+		level,
+		xoffset,
+		yoffset,
+		zoffset,
+		x, y,
+		width,
+		height
+	);
+	OGLPLUS_VERIFY(
+		CopyTexSubtureImage3D,
+		gl_object(tnt._name),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
 texture_storage_1d(
 	texture_name_only tnt,
 	GLsizei levels,
