@@ -4,6 +4,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <string>
 #include <eagine/maybe_unused.hpp>
 #include <oglplus/gl_fixed.hpp>
 #include <oglplus/operations.hpp>
@@ -29,6 +30,9 @@ void oglplus_object_common_test(void)
 	EAGINE_MAYBE_UNUSED(gl);
 
 #if defined(GL_VERSION_4_3)
+	std::string storage(gl.get_max_label_length().value(), ' ');
+	string_span dest(storage);
+
 	buffer_name buf;
 	shader_name shd;
 	program_name prg;
@@ -51,6 +55,17 @@ void oglplus_object_common_test(void)
 	gl.object_label(rbo, "test renderbuffer");
 	gl.object_label(fbo, "test framebuffer");
 	gl.object_label(syn, "test sync object");
+
+	gl.get_object_label(buf, dest);
+	gl.get_object_label(shd, dest);
+	gl.get_object_label(prg, dest);
+	gl.get_object_label(ppl, dest);
+	gl.get_object_label(xfb, dest);
+	gl.get_object_label(sam, dest);
+	gl.get_object_label(tex, dest);
+	gl.get_object_label(rbo, dest);
+	gl.get_object_label(fbo, dest);
+	gl.get_object_label(syn, dest);
 #endif
 }
 
