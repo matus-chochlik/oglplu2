@@ -579,6 +579,7 @@ bind_attrib_location(
 		gl_index(index),
 		always
 	);
+	return {};
 }
 //------------------------------------------------------------------------------
 } // namespace oper
