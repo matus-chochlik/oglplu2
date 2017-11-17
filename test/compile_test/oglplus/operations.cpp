@@ -4,6 +4,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <string>
 #include <eagine/maybe_unused.hpp>
 #include <oglplus/gl_fixed.hpp>
 #include <oglplus/operations.hpp>
@@ -29,6 +30,9 @@ void oglplus_object_common_test(void)
 	EAGINE_MAYBE_UNUSED(gl);
 
 #if defined(GL_VERSION_4_3)
+	std::string storage(gl.get_max_label_length().value(), ' ');
+	string_span dest(storage);
+
 	buffer_name buf;
 	shader_name shd;
 	program_name prg;
@@ -51,6 +55,17 @@ void oglplus_object_common_test(void)
 	gl.object_label(rbo, "test renderbuffer");
 	gl.object_label(fbo, "test framebuffer");
 	gl.object_label(syn, "test sync object");
+
+	gl.get_object_label(buf, dest);
+	gl.get_object_label(shd, dest);
+	gl.get_object_label(prg, dest);
+	gl.get_object_label(ppl, dest);
+	gl.get_object_label(xfb, dest);
+	gl.get_object_label(sam, dest);
+	gl.get_object_label(tex, dest);
+	gl.get_object_label(rbo, dest);
+	gl.get_object_label(fbo, dest);
+	gl.get_object_label(syn, dest);
 #endif
 }
 
@@ -263,6 +278,10 @@ void oglplus_synchronization_test(void)
 	gl.memory_barrier(enum_bitfield<memory_barrier_bits>(0));
 #endif
 
+#if defined(GL_ES_VERSION_3_1)
+	gl.memory_barrier_by_region(enum_bitfield<memory_barrier_bits>(0));
+#endif
+
 #if defined(GL_VERSION_4_5)
 	gl.texture_barrier();
 #endif
@@ -375,6 +394,10 @@ void oglplus_capability_state_test(void)
 	gl.get_stencil_bits();
 	gl.has_doublebuffer();
 	gl.is_stereo();
+#endif
+
+#if defined(GL_VERSION_4_5)
+	gl.get_graphics_reset_status();
 #endif
 }
 
@@ -784,6 +807,87 @@ void oglplus_compatibility_matrix_test(void)
 	gl.frustum(old_matrix_mode(GL_MODELVIEW), 1.0, 1.0, 1.0, 1.0, 1.0, 1.0);
 #endif
 
+#endif
+}
+
+void oglplus_scissor_state_test(void)
+{
+	using namespace oglplus;
+
+	oper::scissor_state gl;
+
+	gl.scissor(16, 16, 32, 32);
+
+#if defined(GL_VERSION_4_1)
+	gl.scissor(2, 16, 16, 32, 32);
+#endif
+}
+
+void oglplus_rasterization_state_test(void)
+{
+	using namespace oglplus;
+
+	oper::rasterization_state gl;
+
+	gl.front_face(face_orientation(GL_CCW));
+	gl.get_front_face();
+	gl.cull_face(face(GL_BACK));
+	gl.get_cull_face_mode();
+
+#if defined(GL_VERSION_4_5)
+	gl.clip_control(
+		clip_origin(GL_LOWER_LEFT),
+		clip_depth_mode(GL_NEGATIVE_ONE_TO_ONE)
+	);
+#endif
+
+	gl.depth_func(compare_function(GL_LESS));
+	gl.get_depth_func();
+
+#if defined(GL_VERSION_4_1)
+	gl.depth_range_f(0.0f, 1.0f);
+#endif
+
+#if defined(GL_DOUBLE)
+	gl.depth_range(0.0, 1.0);
+#if defined(GL_VERSION_4_1)
+	gl.depth_range(1, 0.0, 1.0);
+#endif
+#endif
+
+
+#if defined(GL_VERSION_3_0)
+	gl.polygon_mode(face(GL_FRONT), polygon_mode(GL_FILL));
+#endif
+
+	gl.polygon_offset(0.0f, 0.0f);
+	gl.get_polygon_offset_factor();
+	gl.get_polygon_offset_units();
+
+#if defined(GL_VERSION_4_6) || defined(GL_EXT_polygon_offset_clamp)
+	gl.polygon_offset_clamp(0.0f, 0.0f, 0.0f);
+	gl.get_polygon_offset_clamp();
+#endif
+
+	gl.line_width(2.0f);
+	gl.get_line_width();
+
+#if defined(GL_VERSION_3_0)
+	gl.point_size(2.0f);
+	gl.get_point_size();
+
+	gl.point_parameter(point_parameter(GL_POINT_FADE_THRESHOLD_SIZE), 2.0f);
+	gl.get_point_parameter(point_parameter(GL_POINT_FADE_THRESHOLD_SIZE));
+#endif
+
+#if defined(GL_VERSION_4_6) || defined(GL_EXT_polygon_offset_clamp)
+	gl.provoking_vertex(provoke_mode(GL_FIRST_VERTEX_CONVENTION));
+	gl.get_provoking_vertex();
+#endif
+
+#if defined(GL_VERSION_4_0)
+	gl.min_sample_shading(0.5f);
+	gl.get_min_sample_shading_value();
 #endif
 }
 

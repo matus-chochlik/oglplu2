@@ -205,6 +205,66 @@ texture_storage_3d(
 #if defined(GL_VERSION_4_3)
 inline
 outcome<void>
+texture_ops::
+texture_storage_2d_multisample(
+	texture_target_only tnt,
+	GLsizei samples,
+	pixel_data_internal_format iformat,
+	GLsizei width,
+	GLsizei height,
+	boolean fixed_locations
+) noexcept {
+	OGLPLUS_GLFUNC(TexStorage2DMultisample)(
+		GLenum(tnt._target),
+		samples,
+		GLenum(iformat),
+		width,
+		height,
+		fixed_locations
+	);
+	OGLPLUS_VERIFY(
+		TexStorage2DMultisample,
+		gl_object_binding(tag::texture(), tnt._target).
+		gl_enum_value(iformat),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+texture_storage_3d_multisample(
+	texture_target_only tnt,
+	GLsizei samples,
+	pixel_data_internal_format iformat,
+	GLsizei width,
+	GLsizei height,
+	GLsizei depth,
+	boolean fixed_locations
+) noexcept {
+	OGLPLUS_GLFUNC(TexStorage3DMultisample)(
+		GLenum(tnt._target),
+		samples,
+		GLenum(iformat),
+		width,
+		height,
+		depth,
+		fixed_locations
+	);
+	OGLPLUS_VERIFY(
+		TexStorage3DMultisample,
+		gl_object_binding(tag::texture(), tnt._target).
+		gl_enum_value(iformat),
+		always
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_3)
+inline
+outcome<void>
 invalidate_texture_image(texture_target_only tnt, GLint level)
 noexcept {
 	OGLPLUS_GLFUNC(InvalidateTexImage)(
@@ -250,7 +310,185 @@ invalidate_texture_sub_image(
 }
 #endif
 //------------------------------------------------------------------------------
+#if defined(GL_VERSION_2_0)
+inline
+outcome<void>
+texture_ops::
+copy_texture_sub_image_1d(
+	texture_target_only tnt,
+	GLint level,
+	GLint xoffset,
+	GLint x,
+	GLint y,
+	GLsizei width
+) noexcept {
+	OGLPLUS_GLFUNC(CopyTexSubImage1D)(
+		GLenum(tnt._target),
+		level,
+		xoffset,
+		x, y,
+		width
+	);
+	OGLPLUS_VERIFY(
+		CopyTexSubImage1D,
+		gl_object_binding(tag::texture(), tnt._target),
+		always
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+copy_texture_sub_image_2d(
+	texture_target_only tnt,
+	GLint level,
+	GLint xoffset,
+	GLint yoffset,
+	GLint x,
+	GLint y,
+	GLsizei width,
+	GLsizei height
+) noexcept {
+	OGLPLUS_GLFUNC(CopyTexSubImage2D)(
+		GLenum(tnt._target),
+		level,
+		xoffset,
+		yoffset,
+		x, y,
+		width,
+		height
+	);
+	OGLPLUS_VERIFY(
+		CopyTexSubImage2D,
+		gl_object_binding(tag::texture(), tnt._target),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+copy_texture_sub_image_3d(
+	texture_target_only tnt,
+	GLint level,
+	GLint xoffset,
+	GLint yoffset,
+	GLint zoffset,
+	GLint x,
+	GLint y,
+	GLsizei width,
+	GLsizei height
+) noexcept {
+	OGLPLUS_GLFUNC(CopyTexSubImage3D)(
+		GLenum(tnt._target),
+		level,
+		xoffset,
+		yoffset,
+		zoffset,
+		x, y,
+		width,
+		height
+	);
+	OGLPLUS_VERIFY(
+		CopyTexSubImage3D,
+		gl_object_binding(tag::texture(), tnt._target),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
+inline
+outcome<void>
+texture_ops::
+copy_texture_sub_image_1d(
+	texture_name_only tnt,
+	GLint level,
+	GLint xoffset,
+	GLint x,
+	GLint y,
+	GLsizei width
+) noexcept {
+	OGLPLUS_GLFUNC(CopyTextureSubImage1D)(
+		get_raw_name(tnt._name),
+		level,
+		xoffset,
+		x, y,
+		width
+	);
+	OGLPLUS_VERIFY(
+		CopyTextureSubImage1D,
+		gl_object(tnt._name),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+copy_texture_sub_image_2d(
+	texture_name_only tnt,
+	GLint level,
+	GLint xoffset,
+	GLint yoffset,
+	GLint x,
+	GLint y,
+	GLsizei width,
+	GLsizei height
+) noexcept {
+	OGLPLUS_GLFUNC(CopyTextureSubImage2D)(
+		get_raw_name(tnt._name),
+		level,
+		xoffset,
+		yoffset,
+		x, y,
+		width,
+		height
+	);
+	OGLPLUS_VERIFY(
+		CopyTextureSubImage2D,
+		gl_object(tnt._name),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+copy_texture_sub_image_3d(
+	texture_name_only tnt,
+	GLint level,
+	GLint xoffset,
+	GLint yoffset,
+	GLint zoffset,
+	GLint x,
+	GLint y,
+	GLsizei width,
+	GLsizei height
+) noexcept {
+	OGLPLUS_GLFUNC(CopyTextureSubImage3D)(
+		get_raw_name(tnt._name),
+		level,
+		xoffset,
+		yoffset,
+		zoffset,
+		x, y,
+		width,
+		height
+	);
+	OGLPLUS_VERIFY(
+		CopyTexSubtureImage3D,
+		gl_object(tnt._name),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
 inline
 outcome<void>
 texture_ops::
@@ -322,6 +560,66 @@ texture_storage_3d(
 	);
 	OGLPLUS_VERIFY(
 		TextureStorage3D,
+		gl_object(tnt._name).
+		gl_enum_value(iformat),
+		always
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
+inline
+outcome<void>
+texture_ops::
+texture_storage_2d_multisample(
+	texture_name_only tnt,
+	GLsizei samples,
+	pixel_data_internal_format iformat,
+	GLsizei width,
+	GLsizei height,
+	boolean fixed_locations
+) noexcept {
+	OGLPLUS_GLFUNC(TextureStorage2DMultisample)(
+		get_raw_name(tnt._name),
+		samples,
+		GLenum(iformat),
+		width,
+		height,
+		fixed_locations
+	);
+	OGLPLUS_VERIFY(
+		TextureStorage2DMultisample,
+		gl_object(tnt._name).
+		gl_enum_value(iformat),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+texture_ops::
+texture_storage_3d_multisample(
+	texture_name_only tnt,
+	GLsizei samples,
+	pixel_data_internal_format iformat,
+	GLsizei width,
+	GLsizei height,
+	GLsizei depth,
+	boolean fixed_locations
+) noexcept {
+	OGLPLUS_GLFUNC(TextureStorage3DMultisample)(
+		get_raw_name(tnt._name),
+		samples,
+		GLenum(iformat),
+		width,
+		height,
+		depth,
+		fixed_locations
+	);
+	OGLPLUS_VERIFY(
+		TextureStorage3DMultisample,
 		gl_object(tnt._name).
 		gl_enum_value(iformat),
 		always
@@ -626,6 +924,36 @@ texture_sub_image_2d(
 	return {};
 }
 //------------------------------------------------------------------------------
+#if defined(GL_VERSION_3_2)
+inline
+outcome<void>
+texture_ops::
+texture_image_2d_multisample(
+	texture_target_only tnt,
+	GLsizei samples,
+	pixel_data_internal_format iformat,
+	GLsizei width,
+	GLsizei height,
+	boolean fixed_locations
+) noexcept {
+	OGLPLUS_GLFUNC(TexImage2DMultisample)(
+		GLenum(tnt._target),
+		samples,
+		GLenum(iformat),
+		width,
+		height,
+		GLboolean(fixed_locations)
+	);
+	OGLPLUS_VERIFY(
+		TexImage2DMultisample,
+		gl_object_binding(tag::texture(), tnt._target).
+		gl_enum_value(iformat),
+		always
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
 inline
 outcome<void>
 texture_ops::
@@ -778,6 +1106,38 @@ texture_sub_image_3d(
 	);
 	return {};
 }
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_3_2)
+inline
+outcome<void>
+texture_ops::
+texture_image_3d_multisample(
+	texture_target_only tnt,
+	GLsizei samples,
+	pixel_data_internal_format iformat,
+	GLsizei width,
+	GLsizei height,
+	GLsizei depth,
+	boolean fixed_locations
+) noexcept {
+	OGLPLUS_GLFUNC(TexImage3DMultisample)(
+		GLenum(tnt._target),
+		samples,
+		GLenum(iformat),
+		width,
+		height,
+		depth,
+		GLboolean(fixed_locations)
+	);
+	OGLPLUS_VERIFY(
+		TexImage3DMultisample,
+		gl_object_binding(tag::texture(), tnt._target).
+		gl_enum_value(iformat),
+		always
+	);
+	return {};
+}
+#endif
 //------------------------------------------------------------------------------
 inline
 outcome<void>

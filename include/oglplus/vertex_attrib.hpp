@@ -21,6 +21,7 @@ struct vertex_attrib { };
 } // namespace tag
 
 using vertex_attrib_location = prog_var_loc<tag::vertex_attrib>;
+using program_vertex_attrib_location = dsa_prog_var_loc<tag::vertex_attrib>;
 
 template <typename T>
 using vertex_attrib = prog_var_wrapper<vertex_attrib_location, T>;

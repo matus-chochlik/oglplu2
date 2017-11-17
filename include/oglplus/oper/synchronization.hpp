@@ -76,6 +76,17 @@ struct synchronization
 	}
 #endif
 
+#if defined(GL_ES_VERSION_3_1)
+	static
+	outcome<void>
+	memory_barrier_by_region(enum_bitfield<memory_barrier_bits> bits)
+	noexcept {
+		OGLPLUS_GLFUNC(MemoryBarrierByRegion)(GLbitfield(bits));
+		OGLPLUS_VERIFY_SIMPLE(MemoryBarrierByRegion, debug);
+		return {};
+	}
+#endif
+
 	static
 	outcome<void>
 	flush(void)

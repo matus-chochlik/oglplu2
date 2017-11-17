@@ -67,6 +67,26 @@ struct framebuffer_ops
 	noexcept;
 #endif
 
+#if defined(GL_VERSION_4_3)
+	static
+	outcome<void>
+	framebuffer_parameter_i(
+		framebuffer_target fb_target,
+		framebuffer_parameter param,
+		GLint value
+	) noexcept;
+#endif
+
+#if defined(GL_VERSION_4_5)
+	static
+	outcome<void>
+	framebuffer_parameter_i(
+		framebuffer_name fbo,
+		framebuffer_parameter param,
+		GLint value
+	) noexcept;
+#endif
+
 	static
 	outcome<void>
 	framebuffer_renderbuffer(
@@ -158,6 +178,30 @@ struct framebuffer_ops
 	) noexcept;
 #endif
 #endif // GL_VERSION_3_0
+
+#if defined(GL_VERSION_3_0)
+	static
+	outcome<void>
+	framebuffer_texture_layer(
+		framebuffer_target fb_target,
+		framebuffer_attachment fb_attch,
+		texture_name tex,
+		GLint level,
+		GLint layer
+	) noexcept;
+
+#ifdef OGLPLUS_DSA_FRAMEBUFFER
+	static
+	outcome<void>
+	framebuffer_texture_layer(
+		framebuffer_name fbo,
+		framebuffer_attachment fb_attch,
+		texture_name tex,
+		GLint level,
+		GLint layer
+	) noexcept;
+#endif
+#endif
 
 #if defined(GL_VERSION_3_2)
 	static
@@ -276,6 +320,17 @@ struct framebuffer_ops
 		framebuffer_target tgt,
 		enum_span<framebuffer_attachment> attachments
 	) noexcept;
+
+	static
+	outcome<void>
+	invalidate_framebuffer_sub_data(
+		framebuffer_target tgt,
+		enum_span<framebuffer_attachment> attachments,
+		GLint x,
+		GLint y,
+		GLint width,
+		GLint height
+	) noexcept;
 #endif
 
 #if defined(GL_VERSION_4_5)
@@ -321,6 +376,17 @@ struct framebuffer_ops
 	invalidate_framebuffer_data(
 		framebuffer_name fbo,
 		enum_span<framebuffer_attachment> attachments
+	) noexcept;
+
+	static
+	outcome<void>
+	invalidate_framebuffer_sub_data(
+		framebuffer_name fbo,
+		enum_span<framebuffer_attachment> attachments,
+		GLint x,
+		GLint y,
+		GLint width,
+		GLint height
 	) noexcept;
 
 	static
@@ -610,6 +676,25 @@ struct obj_dsa_ops<tag::framebuffer>
 	invalidate_data(enum_span<framebuffer_attachment> attchs)
 	noexcept {
 		return {_ops::invalidate_framebuffer_data(*this, attchs), *this};
+	}
+
+	outcome<obj_dsa_ops&>
+	invalidate_sub_data(
+		enum_span<framebuffer_attachment> attchs,
+		GLint x,
+		GLint y,
+		GLint width,
+		GLint height
+	)
+	noexcept {
+		return {_ops::invalidate_framebuffer_sub_data(
+			*this,
+			attchs,
+			x, y,
+			width,
+			height
+		),
+		*this};
 	}
 #endif
 };

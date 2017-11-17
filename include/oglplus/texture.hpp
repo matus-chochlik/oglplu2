@@ -139,6 +139,31 @@ public:
 #if defined(GL_VERSION_4_3)
 	static
 	outcome<void>
+	texture_storage_2d_multisample(
+		texture_target_only tnt,
+		GLsizei samples,
+		pixel_data_internal_format iformat,
+		GLsizei width,
+		GLsizei height,
+		boolean fixed_locations
+	) noexcept;
+
+	static
+	outcome<void>
+	texture_storage_3d_multisample(
+		texture_target_only tnt,
+		GLsizei samples,
+		pixel_data_internal_format iformat,
+		GLsizei width,
+		GLsizei height,
+		GLsizei depth,
+		boolean fixed_locations
+	) noexcept;
+#endif
+
+#if defined(GL_VERSION_4_3)
+	static
+	outcome<void>
 	invalidate_texture_image(
 		texture_target_only tnt,
 		GLint level
@@ -158,7 +183,85 @@ public:
 	) noexcept;
 #endif
 
+#if defined(GL_VERSION_2_0)
+	static
+	outcome<void>
+	copy_texture_sub_image_1d(
+		texture_target_only tnt,
+		GLint level,
+		GLint xoffset,
+		GLint x,
+		GLint y,
+		GLsizei width
+	) noexcept;
+#endif
+
+	static
+	outcome<void>
+	copy_texture_sub_image_2d(
+		texture_target_only tnt,
+		GLint level,
+		GLint xoffset,
+		GLint yoffset,
+		GLint x,
+		GLint y,
+		GLsizei width,
+		GLsizei height
+	) noexcept;
+
+	static
+	outcome<void>
+	copy_texture_sub_image_3d(
+		texture_target_only tnt,
+		GLint level,
+		GLint xoffset,
+		GLint yoffset,
+		GLint zoffset,
+		GLint x,
+		GLint y,
+		GLsizei width,
+		GLsizei height
+	) noexcept;
+
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
+	static
+	outcome<void>
+	copy_texture_sub_image_1d(
+		texture_name_only tnt,
+		GLint level,
+		GLint xoffset,
+		GLint x,
+		GLint y,
+		GLsizei width
+	) noexcept;
+
+	static
+	outcome<void>
+	copy_texture_sub_image_2d(
+		texture_name_only tnt,
+		GLint level,
+		GLint xoffset,
+		GLint yoffset,
+		GLint x,
+		GLint y,
+		GLsizei width,
+		GLsizei height
+	) noexcept;
+
+	static
+	outcome<void>
+	copy_texture_sub_image_3d(
+		texture_name_only tnt,
+		GLint level,
+		GLint xoffset,
+		GLint yoffset,
+		GLint zoffset,
+		GLint x,
+		GLint y,
+		GLsizei width,
+		GLsizei height
+	) noexcept;
+
 	static
 	outcome<void>
 	texture_storage_1d(
@@ -187,6 +290,31 @@ public:
 		GLsizei width,
 		GLsizei height,
 		GLsizei depth
+	) noexcept;
+#endif
+
+#if defined(GL_VERSION_4_5)
+	static
+	outcome<void>
+	texture_storage_2d_multisample(
+		texture_name_only tnt,
+		GLsizei samples,
+		pixel_data_internal_format iformat,
+		GLsizei width,
+		GLsizei height,
+		boolean fixed_locations
+	) noexcept;
+
+	static
+	outcome<void>
+	texture_storage_3d_multisample(
+		texture_name_only tnt,
+		GLsizei samples,
+		pixel_data_internal_format iformat,
+		GLsizei width,
+		GLsizei height,
+		GLsizei depth,
+		boolean fixed_locations
 	) noexcept;
 #endif
 
@@ -311,6 +439,20 @@ public:
 		const_memory_block data
 	) noexcept;
 
+#if defined(GL_VERSION_3_2)
+	static
+	outcome<void>
+	texture_image_2d_multisample(
+		texture_target_only tnt,
+		GLsizei samples,
+		pixel_data_internal_format iformat,
+		GLsizei width,
+		GLsizei height,
+		boolean fixed_locations
+	) noexcept;
+#endif
+
+
 	static
 	outcome<void>
 	texture_sub_image_2d(
@@ -357,6 +499,20 @@ public:
 		GLint level = 0,
 		GLint border = 0
 	) noexcept;
+
+#if defined(GL_VERSION_3_2)
+	static
+	outcome<void>
+	texture_image_3d_multisample(
+		texture_target_only tnt,
+		GLsizei samples,
+		pixel_data_internal_format iformat,
+		GLsizei width,
+		GLsizei height,
+		GLsizei depth,
+		boolean fixed_locations
+	) noexcept;
+#endif
 
 	static
 	outcome<void>

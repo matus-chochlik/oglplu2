@@ -11,6 +11,8 @@
 
 #include "program_name.hpp"
 #include "shader_name.hpp"
+#include "vertex_attrib.hpp"
+#include "uniform.hpp"
 #include "oper/computing.hpp"
 #include "object/owner.hpp"
 #include "error/handling.hpp"
@@ -220,6 +222,27 @@ struct program_ops
 	noexcept;
 #endif
 	// TODO other parameters
+
+	static
+	outcome<void>
+	bind_attrib_location(
+		program_name prog,
+		GLuint index,
+		cstr_ref attr_name
+	) noexcept;
+
+	static
+	outcome<void>
+	bind_attrib_location(
+		program_uniform_location location,
+		cstr_ref attr_name
+	) noexcept {
+		return bind_attrib_location(
+			location.program(),
+			location.index(),
+			attr_name
+		);
+	}
 };
 
 } // namespace oper

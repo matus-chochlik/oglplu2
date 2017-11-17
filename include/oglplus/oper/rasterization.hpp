@@ -67,6 +67,11 @@ struct rasterization_state
 	outcome<void>
 	depth_range(GLdouble near, GLdouble far)
 	noexcept;
+
+	static
+	outcome<void>
+	depth_range(GLuint index, GLdouble near, GLdouble far)
+	noexcept;
 #endif
 
 #if defined(GL_VERSION_3_0)
@@ -83,6 +88,13 @@ struct rasterization_state
 	polygon_offset(GLfloat factor, GLfloat units)
 	noexcept;
 
+#if defined(GL_VERSION_4_6) || defined(GL_EXT_polygon_offset_clamp)
+	static
+	outcome<void>
+	polygon_offset_clamp(GLfloat factor, GLfloat units, GLfloat clamp)
+	noexcept;
+#endif
+
 	static
 	outcome<GLfloat>
 	get_polygon_offset_factor(void)
@@ -92,6 +104,13 @@ struct rasterization_state
 	outcome<GLfloat>
 	get_polygon_offset_units(void)
 	noexcept;
+
+#if defined(GL_VERSION_4_6) || defined(GL_EXT_polygon_offset_clamp)
+	static
+	outcome<GLfloat>
+	get_polygon_offset_clamp(void)
+	noexcept;
+#endif
 
 	static
 	outcome<void>
@@ -145,7 +164,7 @@ struct rasterization_state
 
 	static
 	outcome<GLfloat>
-	get_min_stample_shading_value(void)
+	get_min_sample_shading_value(void)
 	noexcept;
 #endif
 };

@@ -36,6 +36,9 @@ void oglplus_framebuffer_test_ops1(void)
 	);
 	renderbuffer_target rbt(GL_RENDERBUFFER);
 	renderbuffer_name rbo(0);
+#if defined(GL_VERSION_4_3)
+	framebuffer_parameter param(GL_FRAMEBUFFER_DEFAULT_WIDTH);
+#endif
 
 #if defined(GL_VERSION_4_2) || defined(GL_ARB_texture_storage)
 	texture_target textgt1(GL_TEXTURE_1D);
@@ -47,6 +50,13 @@ void oglplus_framebuffer_test_ops1(void)
 	gl.bind_framebuffer(tgt, fbo);
 	gl.framebuffer_binding(tgt);
 	gl.bind_framebuffer(tgt, fbos[0]);
+
+#if defined(GL_VERSION_4_3)
+	gl.framebuffer_parameter_i(tgt, param, 1024);
+#endif
+#if defined(GL_VERSION_4_3)
+	gl.framebuffer_parameter_i(fbo, param, 1024);
+#endif
 
 	gl.check_framebuffer_status(tgt);
 	gl.is_framebuffer_complete(tgt);
@@ -77,6 +87,7 @@ void oglplus_framebuffer_test_ops1(void)
 
 #if defined(GL_VERSION_4_3)
 	gl.invalidate_framebuffer_data(tgt, attchs);
+	gl.invalidate_framebuffer_sub_data(tgt, attchs, 32, 32, 64, 64);
 #endif
 
 #if defined(GL_VERSION_4_5)
@@ -115,14 +126,26 @@ void oglplus_framebuffer_test_ops1(void)
 	gl.check_framebuffer_status(fbo, tgt);
 	gl.is_framebuffer_complete(fbo, tgt);
 	gl.framebuffer_renderbuffer(fbo, attch, rbt, rbo);
-#if defined(GL_VERSION_4_2) || defined(GL_ARB_texture_storage)
+#if defined(GL_VERSION_3_0) && defined(GL_EXT_direct_state_access)
 	gl.framebuffer_texture_1d(fbo, attch, textgt1, tex, 0);
+	gl.framebuffer_texture_2d(fbo, attch, textgt1, tex, 0);
 	gl.framebuffer_texture_3d(fbo, attch, textgt1, tex, 0, 0);
 #endif
-	gl.framebuffer_texture_2d(fbo, attch, textgt1, tex, 0);
+
+#if defined(GL_VERSION_3_0)
+	gl.framebuffer_texture_layer(tgt, attch, tex, 0, 1);
+#endif
 #if defined(GL_VERSION_3_2)
 	gl.framebuffer_texture(fbo, attch, tex, 0);
 #endif
+
+#if defined(GL_VERSION_4_5) ||\
+	defined(GL_ARB_direct_state_access) ||\
+	defined(GL_EXT_direct_state_access)
+	gl.framebuffer_texture_layer(fbo, attch, tex, 0, 1);
+	gl.framebuffer_texture(fbo, attch, tex, 0);
+#endif
+
 	gl.framebuffer_draw_buffer(fbo, cattch);
 	gl.framebuffer_read_buffer(fbo, cattch);
 

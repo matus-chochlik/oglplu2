@@ -121,6 +121,53 @@ noexcept {
 }
 #endif
 //------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_3)
+inline
+outcome<void>
+framebuffer_ops::
+framebuffer_parameter_i(
+	framebuffer_target fb_target,
+	framebuffer_parameter param,
+	GLint value
+) noexcept {
+	OGLPLUS_GLFUNC(FramebufferParameteri)(
+		GLenum(fb_target),
+		GLenum(param),
+		value
+	);
+	OGLPLUS_VERIFY(
+		FramebufferParameteri,
+		gl_enum_value(param),
+		debug
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_5)
+inline
+outcome<void>
+framebuffer_ops::
+framebuffer_parameter_i(
+	framebuffer_name fbo,
+	framebuffer_parameter param,
+	GLint value
+) noexcept {
+	OGLPLUS_GLFUNC(NamedFramebufferParameteri)(
+		get_raw_name(fbo),
+		GLenum(param),
+		value
+	);
+	OGLPLUS_VERIFY(
+		NamedFramebufferParameteri,
+		gl_enum_value(param).
+		gl_object(fbo),
+		debug
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
 inline
 outcome<void>
 framebuffer_ops::
@@ -339,6 +386,67 @@ framebuffer_texture_3d(
 	);
 	OGLPLUS_VERIFY(
 		NamedFramebufferTexture3DEXT,
+		gl_object(fbo).
+		//gl_enum_value(fb_target).
+		gl_subject(tex),
+		debug
+	);
+	return {};
+}
+#endif
+#endif // GL_VERSION_3_0
+//------------------------------------------------------------------------------
+#if defined(GL_VERSION_3_0)
+inline
+outcome<void>
+framebuffer_ops::
+framebuffer_texture_layer(
+	framebuffer_target fb_target,
+	framebuffer_attachment fb_attach,
+	texture_name tex,
+	GLint level,
+	GLint layer
+) noexcept {
+	OGLPLUS_GLFUNC(FramebufferTextureLayer)(
+		GLenum(fb_target),
+		GLenum(fb_attach),
+		get_raw_name(tex),
+		level,
+		layer
+	);
+	OGLPLUS_VERIFY(
+		FramebufferTextureLayer,
+		gl_enum_value(fb_target).
+		gl_subject(tex),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+#ifdef OGLPLUS_DSA_FRAMEBUFFER
+inline
+outcome<void>
+framebuffer_ops::
+framebuffer_texture_layer(
+	framebuffer_name fbo,
+	framebuffer_attachment fb_attach,
+	texture_name tex,
+	GLint level,
+	GLint layer
+) noexcept {
+#ifdef GL_VERSION_4_5
+	OGLPLUS_GLFUNC(NamedFramebufferTextureLayer)(
+#else
+	OGLPLUS_GLFUNC(NamedFramebufferTextureLayerEXT)(
+#endif
+		get_raw_name(fbo),
+		GLenum(fb_attach),
+		get_raw_name(tex),
+		level,
+		layer
+	);
+	OGLPLUS_VERIFY_STR(
+		OGLPLUS_GL_DSA_FUNC_NAME(NamedFramebufferTextureLayer),
 		gl_object(fbo).
 		//gl_enum_value(fb_target).
 		gl_subject(tex),
@@ -643,6 +751,33 @@ invalidate_framebuffer_data(
 	);
 	return {};
 }
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+framebuffer_ops::
+invalidate_framebuffer_sub_data(
+	framebuffer_target tgt,
+	enum_span<framebuffer_attachment> attachments,
+	GLint x,
+	GLint y,
+	GLint width,
+	GLint height
+) noexcept {
+	OGLPLUS_GLFUNC(InvalidateSubFramebuffer)(
+		GLenum(tgt),
+		GLsizei(attachments.size()),
+		attachments.data(),
+		x, y,
+		width,
+		height
+	);
+	OGLPLUS_VERIFY(
+		InvalidateSubFramebuffer,
+		gl_enum_value(tgt),
+		debug
+	);
+	return {};
+}
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5)
@@ -762,6 +897,33 @@ invalidate_framebuffer_data(
 	);
 	OGLPLUS_VERIFY(
 		InvalidateNamedFramebufferData,
+		gl_object(fbo),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+framebuffer_ops::
+invalidate_framebuffer_sub_data(
+	framebuffer_name fbo,
+	enum_span<framebuffer_attachment> attachments,
+	GLint x,
+	GLint y,
+	GLint width,
+	GLint height
+) noexcept {
+	OGLPLUS_GLFUNC(InvalidateNamedFramebufferSubData)(
+		get_raw_name(fbo),
+		GLsizei(attachments.size()),
+		attachments.data(),
+		x, y,
+		width,
+		height
+	);
+	OGLPLUS_VERIFY(
+		InvalidateNamedFramebufferSubData,
 		gl_object(fbo),
 		debug
 	);
