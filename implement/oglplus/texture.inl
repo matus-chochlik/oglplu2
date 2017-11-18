@@ -122,6 +122,38 @@ noexcept {
 	).add(texture_name(GLuint(result)));
 }
 //------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_4)
+inline
+outcome<void>
+texture_ops::
+bind_image_texture(
+	texture_unit unit,
+	texture_name_only tnt,
+	GLint level,
+	boolean layered,
+	GLint layer,
+	access_specifier access,
+	pixel_data_format format
+) noexcept {
+	OGLPLUS_GLFUNC(BindImageTexture)(
+		GLenum(unit),
+		get_raw_name(tnt._name),
+		level,
+		GLboolean(layered),
+		layer,
+		GLenum(access),
+		GLenum(format)
+	);
+	OGLPLUS_VERIFY(
+		BindImageTexture,
+		gl_object(tnt._name).
+		gl_enum_value(format),
+		always
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_2) || defined(GL_ARB_texture_storage)
 inline
 outcome<void>

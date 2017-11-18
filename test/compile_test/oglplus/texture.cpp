@@ -52,6 +52,16 @@ void oglplus_texture_test_ops1(void)
 	gl.bind_textures(texture_unit(2), texs);
 #endif
 
+#if defined(GL_VERSION_4_2)
+	gl.bind_image_texture(
+		texture_unit(2),
+		tex, 1,
+		true, 0,
+		access_specifier(GL_READ_ONLY),
+		fmt
+	);
+#endif
+
 #if defined(GL_VERSION_4_4)
 	gl.clear_texture_image(tex, 0, fmt, typ, data);
 	gl.clear_texture_sub_image(tex, 0, 1, 1, 1, 64, 64, 64, fmt, typ, data);

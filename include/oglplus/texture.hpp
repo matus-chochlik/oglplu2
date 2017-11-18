@@ -104,6 +104,20 @@ public:
 	texture_binding(texture_target target)
 	noexcept;
 
+#if defined(GL_VERSION_4_2)
+	static
+	outcome<void>
+	bind_image_texture(
+		texture_unit unit,
+		texture_name_only tnt,
+		GLint level,
+		boolean layered,
+		GLint layer,
+		access_specifier access,
+		pixel_data_format format
+	) noexcept;
+#endif
+
 #if defined(GL_VERSION_4_2) || defined(GL_ARB_texture_storage)
 	static
 	outcome<void>
