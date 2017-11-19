@@ -148,6 +148,11 @@ void oglplus_framebuffer_test_ops1(void)
 
 	gl.framebuffer_draw_buffer(fbo, cattch);
 	gl.framebuffer_read_buffer(fbo, cattch);
+#if defined(GL_VERSION_4_5) ||\
+	defined(GL_ARB_direct_state_access) ||\
+	defined(GL_EXT_direct_state_access)
+	gl.framebuffer_draw_buffers(fbo, attchs);
+#endif
 
 	fbo.check_status(tgt);
 	fbo.is_complete(tgt);

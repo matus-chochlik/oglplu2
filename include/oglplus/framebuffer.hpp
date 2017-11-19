@@ -244,6 +244,13 @@ struct framebuffer_ops
 		framebuffer_color_attachment buf
 	) noexcept;
 	// TODO GL_NONE
+
+	static
+	outcome<void>
+	framebuffer_draw_buffers(
+		framebuffer_name fbo,
+		enum_span<framebuffer_attachment> bufs
+	) noexcept;
 #endif
 #endif // GL_VERSION_3_0
 

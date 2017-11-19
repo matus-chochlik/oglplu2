@@ -566,6 +566,30 @@ framebuffer_draw_buffer(
 	);
 	return {};
 }
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+framebuffer_ops::
+framebuffer_draw_buffers(
+	framebuffer_name fbo,
+	enum_span<framebuffer_attachment> bufs
+) noexcept {
+#ifdef GL_VERSION_4_5
+	OGLPLUS_GLFUNC(NamedFramebufferDrawBuffers)(
+#else
+	OGLPLUS_GLFUNC(FramebufferDrawBuffersEXT)(
+#endif
+		get_raw_name(fbo),
+		GLsizei(bufs.size()),
+		bufs.data()
+	);
+	OGLPLUS_VERIFY_STR(
+		OGLPLUS_GL_DSA_FUNC_NAME(NamedFramebufferDrawBuffers),
+		gl_object(fbo),
+		debug
+	);
+	return {};
+}
 #endif
 #endif // GL_VERSION_3_0
 //------------------------------------------------------------------------------
