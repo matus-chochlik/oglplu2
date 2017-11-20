@@ -33,8 +33,7 @@ noexcept;
 
 namespace oper {
 
-struct buffer_ops
-{
+struct buffer_ops {
 	static
 	outcome<void>
 	bind_buffer(buffer_target target, buffer_name buf)
@@ -51,6 +50,16 @@ struct buffer_ops
 		buffer_indexed_target target,
 		GLuint index,
 		buffer_name buf
+	) noexcept;
+
+	static
+	outcome<void>
+	bind_buffer_range(
+		buffer_indexed_target target,
+		GLuint index,
+		buffer_name buf,
+		oglplus::buffer_size offset,
+		oglplus::buffer_size size
 	) noexcept;
 
 	static
@@ -334,12 +343,10 @@ struct buffer_ops
 
 template <typename Derived, typename Base>
 struct obj_member_ops<tag::buffer, Derived, Base>
- : Base
-{
+ : Base {
 private:
 	Derived& _self()
-	noexcept
-	{
+	noexcept {
 		return *static_cast<Derived*>(this);
 	}
 
@@ -350,15 +357,13 @@ public:
 
 	outcome<Derived&>
 	data(const buffer_data_spec& data, buffer_usage usage)
-	noexcept
-	{
+	noexcept {
 		return {_ops::buffer_data(*this, data, usage),_self()};
 	}
 
 	outcome<Derived&>
 	sub_data(buffer_size offset, const buffer_data_spec& data)
-	noexcept
-	{
+	noexcept {
 		return {_ops::buffer_sub_data(*this, offset, data),_self()};
 	}
 
@@ -369,8 +374,7 @@ public:
 		pixel_data_format format,
 		pixel_data_type type,
 		const buffer_data_spec& data
-	) noexcept
-	{
+	) noexcept {
 		return {
 			_ops::clear_buffer_data(
 				*this,
@@ -389,8 +393,7 @@ public:
 		pixel_data_format format,
 		pixel_data_type type,
 		const buffer_data_spec& data
-	) noexcept
-	{
+	) noexcept {
 		return {
 			_ops::clear_buffer_sub_data(
 				*this,
@@ -407,15 +410,13 @@ public:
 #if defined(GL_VERSION_4_3) || defined(GL_ARB_invalidate_subdata)
 	outcome<Derived&>
 	invalidate_data(void)
-	noexcept
-	{
+	noexcept {
 		return {_ops::invalidate_buffer_data(*this),_self()};
 	}
 
 	outcome<Derived&>
 	invalidate_sub_data(buffer_size offset, buffer_size size)
-	noexcept
-	{
+	noexcept {
 		return {
 			_ops::invalidate_buffer_sub_data(*this, offset, size),
 			_self()
@@ -425,22 +426,19 @@ public:
 
 	outcome<GLint>
 	get_size(void) const
-	noexcept
-	{
+	noexcept {
 		return _ops::get_buffer_size(*this);
 	}
 
 	outcome<boolean>
 	is_mapped(void) const
-	noexcept
-	{
+	noexcept {
 		return _ops::is_buffer_mapped(*this);
 	}
 
 	outcome<buffer_usage>
 	get_usage(void) const
-	noexcept
-	{
+	noexcept {
 		return _ops::get_buffer_usage(*this);
 	}
 
@@ -449,22 +447,19 @@ public:
 	storage(
 		const buffer_data_spec& data,
 		enum_bitfield<buffer_storage_bits>flags
-	) noexcept
-	{
+	) noexcept {
 		return {_ops::buffer_storage(*this, data, flags),_self()};
 	}
 
 	outcome<boolean>
 	has_immutable_storage(void) const
-	noexcept
-	{
+	noexcept {
 		return _ops::has_buffer_immutable_storage(*this);
 	}
 
 	outcome<enum_bitfield<buffer_storage_bits>>
 	get_storage_flags(void) const
-	noexcept
-	{
+	noexcept {
 		return _ops::get_buffer_storage_flags(*this);
 	}
 #endif
@@ -472,29 +467,25 @@ public:
 #if defined(GL_NV_shader_buffer_load)
 	outcome<void>
 	make_resident(access_specifier access)
-	noexcept
-	{
+	noexcept {
 		return _ops::make_buffer_resident(*this, access);
 	}
 
 	outcome<void>
 	make_non_resident(void)
-	noexcept
-	{
+	noexcept {
 		return _ops::make_buffer_non_resident(*this);
 	}
 
 	outcome<boolean>
 	is_resident(void) const
-	noexcept
-	{
+	noexcept {
 		return _ops::is_buffer_resident(*this);
 	}
 
 	outcome<buffer_address>
 	get_gpu_address(void) const
-	noexcept
-	{
+	noexcept {
 		return _ops::get_buffer_gpu_address(*this);
 	}
 #endif

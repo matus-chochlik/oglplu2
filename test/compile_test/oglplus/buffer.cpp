@@ -24,6 +24,7 @@ void oglplus_buffer_test_ops1(void)
 	buffer buf;
 	buffer_array<3> bufs;
 	buffer_target tgt(GL_ARRAY_BUFFER);
+	buffer_indexed_target itgt(GL_UNIFORM_BUFFER);
 	bound_buffer curbuf(tgt);
 	buffer_data_spec data;
 	buffer_size size;
@@ -31,6 +32,9 @@ void oglplus_buffer_test_ops1(void)
 	gl.bind_buffer(tgt, buf);
 	gl.buffer_binding(tgt);
 	gl.bind_buffer(tgt, bufs[0]);
+
+	gl.bind_buffer_base(itgt, 0, buf);
+	gl.bind_buffer_range(itgt, 0, buf, size, size);
 
 	gl.buffer_data(tgt, data, buffer_usage(GL_STATIC_DRAW));
 	gl.buffer_sub_data(tgt, size, data);

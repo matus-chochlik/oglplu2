@@ -21,8 +21,7 @@ inline
 outcome<void>
 buffer_ops::
 bind_buffer(buffer_target target, buffer_name buf)
-noexcept
-{
+noexcept {
 	OGLPLUS_GLFUNC(BindBuffer)(
 		GLenum(target),
 		get_raw_name(buf)
@@ -40,8 +39,7 @@ inline
 outcome<buffer_name>
 buffer_ops::
 buffer_binding(buffer_target target)
-noexcept
-{
+noexcept {
 	GLint result = 0;
 	return numeric_queries::get_integer_v(
 		get_binding_query(target),
@@ -56,8 +54,7 @@ bind_buffer_base(
 	buffer_indexed_target target,
 	GLuint index,
 	buffer_name buf
-) noexcept
-{
+) noexcept {
 	OGLPLUS_GLFUNC(BindBufferBase)(
 		GLenum(target),
 		index,
@@ -76,12 +73,38 @@ bind_buffer_base(
 inline
 outcome<void>
 buffer_ops::
+bind_buffer_range(
+	buffer_indexed_target target,
+	GLuint index,
+	buffer_name buf,
+	oglplus::buffer_size offset,
+	oglplus::buffer_size size
+) noexcept {
+	OGLPLUS_GLFUNC(BindBufferRange)(
+		GLenum(target),
+		index,
+		get_raw_name(buf),
+		GLintptr(offset),
+		GLsizeiptr(size)
+	);
+	OGLPLUS_VERIFY(
+		BindBufferRange,
+		gl_enum_value(target).
+		gl_index(index).
+		gl_object(buf),
+		debug
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+buffer_ops::
 get_buffer_parameter_iv(
 	buffer_target target,
 	oglplus::buffer_parameter param,
 	span<GLint> values
-) noexcept
-{
+) noexcept {
 	assert(values.size() > 0);
 	OGLPLUS_GLFUNC(GetBufferParameteriv)(
 		GLenum(target),
@@ -104,8 +127,7 @@ get_buffer_parameter_i64v(
 	buffer_target target,
 	oglplus::buffer_parameter param,
 	span<GLint64> values
-) noexcept
-{
+) noexcept {
 	assert(values.size() > 0);
 	OGLPLUS_GLFUNC(GetBufferParameteri64v)(
 		GLenum(target),
@@ -129,8 +151,7 @@ get_buffer_parameter_ui64v(
 	buffer_target target,
 	oglplus::buffer_parameter param,
 	span<GLuint64> values
-) noexcept
-{
+) noexcept {
 	assert(values.size() > 0);
 	OGLPLUS_GLFUNC(GetBufferParameterui64vNV)(
 		GLenum(target),
@@ -155,8 +176,7 @@ get_buffer_parameter_iv(
 	buffer_name buf,
 	oglplus::buffer_parameter param,
 	span<GLint> values
-) noexcept
-{
+) noexcept {
 	assert(values.size() > 0);
 #ifdef GL_VERSION_4_5
 	OGLPLUS_GLFUNC(GetNamedBufferParameteriv)(
@@ -185,8 +205,7 @@ get_buffer_parameter_i64v(
 	buffer_name buf,
 	oglplus::buffer_parameter param,
 	span<GLint64> values
-) noexcept
-{
+) noexcept {
 	assert(values.size() > 0);
 	OGLPLUS_GLFUNC(GetNamedBufferParameteri64v)(
 		get_raw_name(buf),
@@ -211,8 +230,7 @@ get_buffer_parameter_ui64v(
 	buffer_name buf,
 	oglplus::buffer_parameter param,
 	span<GLuint64> values
-) noexcept
-{
+) noexcept {
 	assert(values.size() > 0);
 	OGLPLUS_GLFUNC(GetNamedBufferParameterui64vNV)(
 		get_raw_name(buf),
@@ -236,8 +254,7 @@ buffer_ops::
 return_buffer_parameter_i(
 	const BNT& bnt,
 	oglplus::buffer_parameter parameter
-) noexcept
-{
+) noexcept {
 	GLint result = 0;
 	return get_buffer_parameter_iv(
 		bnt,
@@ -251,8 +268,7 @@ inline
 outcome<GLint>
 buffer_ops::
 get_buffer_size(const BNT& bnt)
-noexcept
-{
+noexcept {
 	return return_buffer_parameter_i<GLint, GLint>(
 		bnt,
 		oglplus::buffer_parameter(GL_BUFFER_SIZE)
@@ -264,8 +280,7 @@ inline
 outcome<boolean>
 buffer_ops::
 is_buffer_mapped(const BNT& bnt)
-noexcept
-{
+noexcept {
 	return return_buffer_parameter_i<boolean, GLboolean>(
 		bnt,
 		oglplus::buffer_parameter(GL_BUFFER_MAPPED)
@@ -277,8 +292,7 @@ inline
 outcome<oglplus::buffer_usage>
 buffer_ops::
 get_buffer_usage(const BNT& bnt)
-noexcept
-{
+noexcept {
 	return return_buffer_parameter_i<
 		oglplus::buffer_usage,
 		GLboolean
@@ -297,8 +311,7 @@ buffer_storage(
 	buffer_target target,
 	const buffer_data_spec& data,
 	enum_bitfield<buffer_storage_bits> flags
-) noexcept
-{
+) noexcept {
 	OGLPLUS_GLFUNC(BufferStorage)(
 		GLenum(target),
 		GLsizei(data.size()),
@@ -321,8 +334,7 @@ buffer_storage(
 	buffer_name buf,
 	const buffer_data_spec& data,
 	enum_bitfield<buffer_storage_bits> flags
-) noexcept
-{
+) noexcept {
 #ifdef GL_VERSION_4_5
 	OGLPLUS_GLFUNC(NamedBufferStorage)(
 #else
@@ -347,8 +359,7 @@ inline
 outcome<boolean>
 buffer_ops::
 has_buffer_immutable_storage(const BNT& bnt)
-noexcept
-{
+noexcept {
 	return return_buffer_parameter_i<boolean, GLboolean>(
 		bnt,
 		oglplus::buffer_parameter(GL_BUFFER_IMMUTABLE_STORAGE)
@@ -360,8 +371,7 @@ inline
 outcome<enum_bitfield<buffer_storage_bits>>
 buffer_ops::
 get_buffer_storage_flags(const BNT& bnt)
-noexcept
-{
+noexcept {
 	return return_buffer_parameter_i<
 		enum_bitfield<buffer_storage_bits>,
 		GLbitfield
@@ -379,8 +389,7 @@ buffer_data(
 	buffer_target target,
 	const buffer_data_spec& data,
 	oglplus::buffer_usage usage
-) noexcept
-{
+) noexcept {
 	OGLPLUS_GLFUNC(BufferData)(
 		GLenum(target),
 		GLsizei(data.size()),
@@ -403,8 +412,7 @@ buffer_data(
 	buffer_name buf,
 	const buffer_data_spec& data,
 	oglplus::buffer_usage usage
-) noexcept
-{
+) noexcept {
 #ifdef GL_VERSION_4_5
 	OGLPLUS_GLFUNC(NamedBufferData)(
 #else
@@ -432,8 +440,7 @@ buffer_sub_data(
 	buffer_target target,
 	oglplus::buffer_size offset,
 	const buffer_data_spec& data
-) noexcept
-{
+) noexcept {
 	OGLPLUS_GLFUNC(BufferSubData)(
 		GLenum(target),
 		GLintptr(offset),
@@ -456,8 +463,7 @@ buffer_sub_data(
 	buffer_name buf,
 	oglplus::buffer_size offset,
 	const buffer_data_spec& data
-) noexcept
-{
+) noexcept {
 #ifdef GL_VERSION_4_5
 	OGLPLUS_GLFUNC(NamedBufferSubData)(
 #else
@@ -488,8 +494,7 @@ copy_buffer_sub_data(
 	oglplus::buffer_size read_offset,
 	oglplus::buffer_size write_offset,
 	oglplus::buffer_size size
-) noexcept
-{
+) noexcept {
 	OGLPLUS_GLFUNC(CopyBufferSubData)(
 		GLenum(read_target),
 		GLenum(write_target),
@@ -515,8 +520,7 @@ copy_buffer_sub_data(
 	oglplus::buffer_size read_offset,
 	oglplus::buffer_size write_offset,
 	oglplus::buffer_size size
-) noexcept
-{
+) noexcept {
 #ifdef GL_VERSION_4_5
 	OGLPLUS_GLFUNC(CopyNamedBufferSubData)(
 #else
@@ -549,8 +553,7 @@ clear_buffer_data(
 	pixel_data_format format,
 	pixel_data_type type,
 	const buffer_data_spec& data
-) noexcept
-{
+) noexcept {
 	OGLPLUS_GLFUNC(ClearBufferData)(
 		GLenum(target),
 		GLenum(internal_format),
@@ -578,8 +581,7 @@ clear_buffer_sub_data(
 	pixel_data_format format,
 	pixel_data_type type,
 	const buffer_data_spec& data
-) noexcept
-{
+) noexcept {
 	OGLPLUS_GLFUNC(ClearBufferSubData)(
 		GLenum(target),
 		GLenum(internal_format),
@@ -610,8 +612,7 @@ clear_buffer_data(
 	pixel_data_type type,
 	const buffer_data_spec& data
 )
-noexcept
-{
+noexcept {
 #ifdef GL_VERSION_4_5
 	OGLPLUS_GLFUNC(ClearNamedBufferData)(
 #else
@@ -643,8 +644,7 @@ clear_buffer_sub_data(
 	pixel_data_format format,
 	pixel_data_type type,
 	const buffer_data_spec& data
-) noexcept
-{
+) noexcept {
 #ifdef GL_VERSION_4_5
 	OGLPLUS_GLFUNC(ClearNamedBufferSubData)(
 #else
@@ -675,8 +675,7 @@ inline
 outcome<void>
 buffer_ops::
 invalidate_buffer_data(buffer_name buf)
-noexcept
-{
+noexcept {
 	OGLPLUS_GLFUNC(InvalidateBufferData)(get_raw_name(buf));
 	OGLPLUS_VERIFY(
 		InvalidateBufferData,
@@ -693,8 +692,7 @@ invalidate_buffer_sub_data(
 	buffer_name buf,
 	oglplus::buffer_size offset,
 	oglplus::buffer_size size
-) noexcept
-{
+) noexcept {
 	OGLPLUS_GLFUNC(InvalidateBufferSubData)(
 		get_raw_name(buf),
 		GLintptr(offset),
@@ -714,8 +712,7 @@ inline
 outcome<void>
 buffer_ops::
 make_buffer_resident(buffer_target target, access_specifier access)
-noexcept
-{
+noexcept {
 	OGLPLUS_GLFUNC(MakeBufferResidentNV)(
 		GLenum(target),
 		GLenum(access)
@@ -733,8 +730,7 @@ inline
 outcome<void>
 buffer_ops::
 make_buffer_resident(buffer_name buf, access_specifier access)
-noexcept
-{
+noexcept {
 	OGLPLUS_GLFUNC(MakeNamedBufferResidentNV)(
 		get_raw_name(buf),
 		GLenum(access)
@@ -752,8 +748,7 @@ inline
 outcome<void>
 buffer_ops::
 make_buffer_non_resident(buffer_target target)
-noexcept
-{
+noexcept {
 	OGLPLUS_GLFUNC(MakeBufferNonResidentNV)(GLenum(target));
 	OGLPLUS_VERIFY(
 		MakeBufferNonResidentNV,
@@ -767,8 +762,7 @@ inline
 outcome<void>
 buffer_ops::
 make_buffer_non_resident(buffer_name buf)
-noexcept
-{
+noexcept {
 	OGLPLUS_GLFUNC(MakeNamedBufferNonResidentNV)(get_raw_name(buf));
 	OGLPLUS_VERIFY(
 		MakeNamedBufferNonResidentNV,
@@ -782,8 +776,7 @@ inline
 outcome<boolean>
 buffer_ops::
 is_buffer_resident(buffer_target target)
-noexcept
-{
+noexcept {
 	GLboolean res = OGLPLUS_GLFUNC(IsBufferResidentNV)(GLenum(target));
 	OGLPLUS_VERIFY(
 		IsBufferResidentNV,
@@ -797,8 +790,7 @@ inline
 outcome<boolean>
 buffer_ops::
 is_buffer_resident(buffer_name buf)
-noexcept
-{
+noexcept {
 	GLboolean res = OGLPLUS_GLFUNC(IsNamedBufferResidentNV)(
 		get_raw_name(buf)
 	);
@@ -814,8 +806,7 @@ inline
 outcome<buffer_address>
 buffer_ops::
 get_buffer_gpu_address(buffer_target target)
-noexcept
-{
+noexcept {
 	GLuint64EXT result = 0;
 	return get_buffer_parameter_ui64v(
 		target,
@@ -828,8 +819,7 @@ inline
 outcome<buffer_address>
 buffer_ops::
 get_buffer_gpu_address(buffer_name buf)
-noexcept
-{
+noexcept {
 	GLuint64EXT result = 0;
 	return get_buffer_parameter_ui64v(
 		buf,
@@ -847,8 +837,7 @@ inline
 deferred_error_handler
 obj_gen_del_ops<tag::buffer>::
 _gen(span<GLuint> names)
-noexcept
-{
+noexcept {
 	OGLPLUS_GLFUNC(GenBuffers)(
 		GLsizei(names.size()),
 		names.data()
@@ -864,8 +853,7 @@ inline
 deferred_error_handler
 obj_gen_del_ops<tag::buffer>::
 _create(span<GLuint> names)
-noexcept
-{
+noexcept {
 	OGLPLUS_GLFUNC(CreateBuffers)(
 		GLsizei(names.size()),
 		names.data()
@@ -881,8 +869,7 @@ inline
 deferred_error_handler
 obj_gen_del_ops<tag::buffer>::
 _delete(span<GLuint> names)
-noexcept
-{
+noexcept {
 	OGLPLUS_GLFUNC(DeleteBuffers)(
 		GLsizei(names.size()),
 		names.data()
@@ -897,8 +884,7 @@ inline
 outcome<boolean>
 obj_gen_del_ops<tag::buffer>::
 _is_a(GLuint name)
-noexcept
-{
+noexcept {
 	GLboolean res = OGLPLUS_GLFUNC(IsBuffer)(name);
 	OGLPLUS_VERIFY_SIMPLE(IsBuffer,debug);
 	return boolean(res);
