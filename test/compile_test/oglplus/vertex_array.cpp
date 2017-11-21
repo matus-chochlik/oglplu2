@@ -50,6 +50,14 @@ void oglplus_vertex_array_test_ops1(void)
 	);
 #endif
 
+#if defined(GL_VERSION_4_3)
+	gl.vertex_binding_divisor(1, 4);
+#endif
+
+#if defined(GL_VERSION_4_5) || defined(GL_ARB_vertex_attrib_binding)
+	gl.vertex_array_binding_divisor(vao, 1, 4);
+#endif
+
 	curvao.enable_attrib(loc);
 	curvao.disable_attrib(loc);
 	curvao.attrib_pointer(loc, 1, data_type(GL_FLOAT), true, 0, nullptr);
@@ -82,6 +90,8 @@ void oglplus_vertex_array_test_ops1(void)
 	vao.attrib_format(loc, 1, data_type(GL_FLOAT), false, 0);
 	vao.attrib_i_format(loc, 1, data_type(GL_INT), 0);
 	vao.attrib_l_format(loc, 1, data_type(GL_DOUBLE), 0);
+
+	vao.binding_divisor(1, 4);
 
 	vaa.vertex_buffer(buf, 0, 1);
 	vaa.format(1, data_type(GL_FLOAT), false, 0);

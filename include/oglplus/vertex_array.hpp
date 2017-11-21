@@ -28,8 +28,7 @@
 namespace oglplus {
 namespace oper {
 
-struct vertex_array_ops
-{
+struct vertex_array_ops {
 	static
 	outcome<void>
 	bind_vertex_array(vertex_array_name vao)
@@ -193,26 +192,42 @@ struct vertex_array_ops
 		GLsizei length
 	) noexcept;
 #endif
+
+#if defined(GL_VERSION_4_3)
+	static
+	outcome<void>
+	vertex_binding_divisor(
+		GLuint index,
+		GLuint divisor
+	) noexcept;
+#endif
+
+#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
+	static
+	outcome<void>
+	vertex_array_binding_divisor(
+		vertex_array_name vao,
+		GLuint index,
+		GLuint divisor
+	) noexcept;
+#endif
 };
 
 } // namespace oper
 
 template <>
-struct object_binding<tag::vertex_array>
-{
+struct object_binding<tag::vertex_array> {
 	typedef oper::vertex_array_ops _ops;
 
 	outcome<object_binding&>
 	enable_attrib(vertex_attrib_location loc)
-	noexcept
-	{
+	noexcept {
 		return {_ops::enable_vertex_array_attrib(loc), *this};
 	}
 
 	outcome<object_binding&>
 	disable_attrib(vertex_attrib_location loc)
-	noexcept
-	{
+	noexcept {
 		return {_ops::disable_vertex_array_attrib(loc), *this};
 	}
 
@@ -224,8 +239,7 @@ struct object_binding<tag::vertex_array>
 		boolean normalized,
 		GLsizei stride,
 		const void* pointer
-	) noexcept
-	{
+	) noexcept {
 		return {_ops::vertex_array_attrib_pointer(
 			loc,
 			values_per_vertex, type,
@@ -241,8 +255,7 @@ struct object_binding<tag::vertex_array>
 		data_type type,
 		GLsizei stride,
 		const void* pointer
-	) noexcept
-	{
+	) noexcept {
 		return {_ops::vertex_array_attrib_i_pointer(
 			loc,
 			values_per_vertex, type,
@@ -259,8 +272,7 @@ struct object_binding<tag::vertex_array>
 		data_type type,
 		boolean normalized,
 		GLuint relative_offset
-	) noexcept
-	{
+	) noexcept {
 		return {_ops::vertex_array_attrib_format(
 			loc,
 			values_per_vertex, type,
@@ -274,8 +286,7 @@ struct object_binding<tag::vertex_array>
 		GLint values_per_vertex,
 		data_type type,
 		GLuint relative_offset
-	) noexcept
-	{
+	) noexcept {
 		return {_ops::vertex_array_attrib_i_format(
 			loc,
 			values_per_vertex, type,
@@ -289,8 +300,7 @@ struct object_binding<tag::vertex_array>
 		GLint values_per_vertex,
 		data_type type,
 		GLuint relative_offset
-	) noexcept
-	{
+	) noexcept {
 		return {_ops::vertex_array_attrib_l_format(
 			loc,
 			values_per_vertex, type,
@@ -303,23 +313,21 @@ struct object_binding<tag::vertex_array>
 #ifdef OGLPLUS_DSA_VERTEX_ARRAY
 template <>
 struct obj_dsa_ops<tag::vertex_array>
- : obj_zero_dsa_ops<tag::vertex_array>
-{
+ : obj_zero_dsa_ops<tag::vertex_array> {
+
 	typedef oper::vertex_array_ops _ops;
 
 	using obj_zero_dsa_ops<tag::vertex_array>::obj_zero_dsa_ops;
 
 	outcome<obj_dsa_ops&>
 	enable_attrib(vertex_attrib_location loc)
-	noexcept
-	{
+	noexcept {
 		return {_ops::enable_vertex_array_attrib(*this, loc), *this};
 	}
 
 	outcome<obj_dsa_ops&>
 	disable_attrib(vertex_attrib_location loc)
-	noexcept
-	{
+	noexcept {
 		return {_ops::disable_vertex_array_attrib(*this, loc), *this};
 	}
 
@@ -330,8 +338,7 @@ struct obj_dsa_ops<tag::vertex_array>
 		buffer_name buf,
 		GLintptr offset,
 		GLsizei stride
-	) noexcept
-	{
+	) noexcept {
 		return {_ops::vertex_array_vertex_buffer(
 			*this, loc,
 			buf,
@@ -346,8 +353,7 @@ struct obj_dsa_ops<tag::vertex_array>
 		data_type type,
 		boolean normalized,
 		GLuint relative_offset
-	) noexcept
-	{
+	) noexcept {
 		return {_ops::vertex_array_attrib_format(
 			*this, loc,
 			values_per_vertex,
@@ -362,8 +368,7 @@ struct obj_dsa_ops<tag::vertex_array>
 		GLint values_per_vertex,
 		data_type type,
 		GLuint relative_offset
-	) noexcept
-	{
+	) noexcept {
 		return {_ops::vertex_array_attrib_i_format(
 			*this, loc,
 			values_per_vertex,
@@ -378,8 +383,7 @@ struct obj_dsa_ops<tag::vertex_array>
 		GLint values_per_vertex,
 		data_type type,
 		GLuint relative_offset
-	) noexcept
-	{
+	) noexcept {
 		return {_ops::vertex_array_attrib_l_format(
 			*this, loc,
 			values_per_vertex,
@@ -399,8 +403,7 @@ struct obj_dsa_ops<tag::vertex_array>
 		boolean normalized,
 		GLsizei stride,
 		GLintptr offset
-	) noexcept
-	{
+	) noexcept {
 		return {_ops::vertex_array_attrib_offset(
 			*this, buf, loc,
 			values_per_vertex,
@@ -417,8 +420,7 @@ struct obj_dsa_ops<tag::vertex_array>
 		data_type type,
 		GLsizei stride,
 		GLintptr offset
-	) noexcept
-	{
+	) noexcept {
 		return {_ops::vertex_array_attrib_i_offset(
 			*this, buf, loc,
 			values_per_vertex,
@@ -427,10 +429,20 @@ struct obj_dsa_ops<tag::vertex_array>
 		), *this};
 	}
 #endif
+
+	outcome<obj_dsa_ops&>
+	binding_divisor(
+		GLuint index,
+		GLuint divisor
+	) noexcept {
+		return {_ops::vertex_array_binding_divisor(
+			*this,
+			index, divisor
+		), *this};
+	}
 };
 
-class vertex_array_attrib
-{
+class vertex_array_attrib {
 private:
 	vertex_array_name _vao;
 	vertex_attrib_location _loc;
@@ -447,23 +459,20 @@ public:
 
 	outcome<vertex_array_attrib&>
 	enable(void)
-	noexcept
-	{
+	noexcept {
 		return {_ops::enable_vertex_array_attrib(_vao,_loc), *this};
 	}
 
 	outcome<vertex_array_attrib&>
 	disable(void)
-	noexcept
-	{
+	noexcept {
 		return {_ops::disable_vertex_array_attrib(_vao,_loc), *this};
 	}
 
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
 	outcome<vertex_array_attrib&>
 	vertex_buffer(buffer_name buf, GLintptr offset, GLsizei stride)
-	noexcept
-	{
+	noexcept {
 		return {_ops::vertex_array_vertex_buffer(
 			_vao,_loc,
 			buf,
@@ -477,8 +486,7 @@ public:
 		data_type type,
 		boolean normalized,
 		GLuint relative_offset
-	) noexcept
-	{
+	) noexcept {
 		return {_ops::vertex_array_attrib_format(
 			_vao,_loc,
 			values_per_vertex,
@@ -492,8 +500,7 @@ public:
 		GLint values_per_vertex,
 		data_type type,
 		GLuint relative_offset
-	) noexcept
-	{
+	) noexcept {
 		return {_ops::vertex_array_attrib_i_format(
 			_vao,_loc,
 			values_per_vertex,
@@ -507,8 +514,7 @@ public:
 		GLint values_per_vertex,
 		data_type type,
 		GLuint relative_offset
-	) noexcept
-	{
+	) noexcept {
 		return {_ops::vertex_array_attrib_l_format(
 			_vao,_loc,
 			values_per_vertex,
@@ -527,8 +533,7 @@ public:
 		boolean normalized,
 		GLsizei stride,
 		GLintptr offset
-	) noexcept
-	{
+	) noexcept {
 		return {_ops::vertex_array_attrib_offset(
 			_vao, buf,_loc,
 			values_per_vertex,
@@ -544,8 +549,7 @@ public:
 		data_type type,
 		GLsizei stride,
 		GLintptr offset
-	) noexcept
-	{
+	) noexcept {
 		return {_ops::vertex_array_attrib_i_offset(
 			_vao, buf,_loc,
 			values_per_vertex,
@@ -558,8 +562,7 @@ public:
 #endif
 
 template <>
-struct obj_gen_del_ops<tag::vertex_array>
-{
+struct obj_gen_del_ops<tag::vertex_array> {
 	static
 	deferred_error_handler
 	_gen(span<GLuint> names)
