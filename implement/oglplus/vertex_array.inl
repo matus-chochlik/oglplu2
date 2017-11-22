@@ -451,17 +451,36 @@ buffer_address_range(
 inline
 outcome<void>
 vertex_array_ops::
+vertex_attrib_binding(
+	vertex_attrib_location loc,
+	GLuint binding_index
+) noexcept {
+	OGLPLUS_GLFUNC(VertexAttribBinding)(
+		loc.index(),
+		binding_index
+	);
+	OGLPLUS_VERIFY(
+		VertexAttribBinding,
+		gl_index(binding_index),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+vertex_array_ops::
 vertex_binding_divisor(
-	GLuint index,
+	GLuint binding_index,
 	GLuint divisor
 ) noexcept {
 	OGLPLUS_GLFUNC(VertexBindingDivisor)(
-		index,
+		binding_index,
 		divisor
 	);
 	OGLPLUS_VERIFY(
 		VertexBindingDivisor,
-		gl_index(index),
+		gl_index(binding_index),
 		always
 	);
 	return {};
@@ -472,19 +491,42 @@ vertex_binding_divisor(
 inline
 outcome<void>
 vertex_array_ops::
+vertex_array_attrib_binding(
+	vertex_array_name vao,
+	vertex_attrib_location loc,
+	GLuint binding_index
+) noexcept {
+	OGLPLUS_GLFUNC(VertexArrayAttribBinding)(
+		get_raw_name(vao),
+		loc.index(),
+		binding_index
+	);
+	OGLPLUS_VERIFY(
+		VertexArrayAttribBinding,
+		gl_object(vao).
+		gl_index(binding_index),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+vertex_array_ops::
 vertex_array_binding_divisor(
 	vertex_array_name vao,
-	GLuint index,
+	GLuint binding_index,
 	GLuint divisor
 ) noexcept {
 	OGLPLUS_GLFUNC(VertexArrayBindingDivisor)(
 		get_raw_name(vao),
-		index,
+		binding_index,
 		divisor
 	);
 	OGLPLUS_VERIFY(
 		VertexArrayBindingDivisor,
-		gl_index(index),
+		gl_object(vao).
+		gl_index(binding_index),
 		always
 	);
 	return {};

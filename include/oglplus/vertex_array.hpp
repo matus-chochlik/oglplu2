@@ -196,8 +196,15 @@ struct vertex_array_ops {
 #if defined(GL_VERSION_4_3)
 	static
 	outcome<void>
+	vertex_attrib_binding(
+		vertex_attrib_location loc,
+		GLuint binding_index
+	) noexcept;
+
+	static
+	outcome<void>
 	vertex_binding_divisor(
-		GLuint index,
+		GLuint binding_index,
 		GLuint divisor
 	) noexcept;
 #endif
@@ -205,9 +212,17 @@ struct vertex_array_ops {
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
 	static
 	outcome<void>
+	vertex_array_attrib_binding(
+		vertex_array_name vao,
+		vertex_attrib_location loc,
+		GLuint binding_index
+	) noexcept;
+
+	static
+	outcome<void>
 	vertex_array_binding_divisor(
 		vertex_array_name vao,
-		GLuint index,
+		GLuint binding_index,
 		GLuint divisor
 	) noexcept;
 #endif

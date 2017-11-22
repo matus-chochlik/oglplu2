@@ -51,10 +51,12 @@ void oglplus_vertex_array_test_ops1(void)
 #endif
 
 #if defined(GL_VERSION_4_3)
+	gl.vertex_attrib_binding(loc, 1);
 	gl.vertex_binding_divisor(1, 4);
 #endif
 
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_vertex_attrib_binding)
+	gl.vertex_array_attrib_binding(vao, loc, 1);
 	gl.vertex_array_binding_divisor(vao, 1, 4);
 #endif
 
