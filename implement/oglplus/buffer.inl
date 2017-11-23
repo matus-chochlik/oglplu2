@@ -97,6 +97,33 @@ bind_buffer_range(
 	return {};
 }
 //------------------------------------------------------------------------------
+#if defined(GL_VERSION_4_4)
+template <typename S>
+inline
+outcome<void>
+buffer_ops::
+bind_buffers_base(
+	buffer_indexed_target target,
+	GLuint first,
+	const object_names<tag::buffer, S>& buffers
+) noexcept {
+	OGLPLUS_GLFUNC(BindBuffersBase)(
+		GLenum(target),
+		first,
+		GLsizei(buffers.size()),
+		get_raw_names(buffers).data()
+	);
+	OGLPLUS_VERIFY(
+		BindBuffersBase,
+		gl_enum_value(target).
+		gl_index(first).
+		gl_object(buffers[0]),
+		debug
+	);
+	return {};
+}
+#endif
+//------------------------------------------------------------------------------
 inline
 outcome<void>
 buffer_ops::

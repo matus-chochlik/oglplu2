@@ -62,6 +62,17 @@ struct buffer_ops {
 		oglplus::buffer_size size
 	) noexcept;
 
+#if defined(GL_VERSION_4_4)
+	template <typename S>
+	static
+	outcome<void>
+	bind_buffers_base(
+		buffer_indexed_target target,
+		GLuint first,
+		const object_names<tag::buffer, S>& buffers
+	) noexcept;
+#endif
+
 	static
 	outcome<void>
 	get_buffer_parameter_iv(

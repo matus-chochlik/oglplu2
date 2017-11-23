@@ -35,6 +35,9 @@ void oglplus_buffer_test_ops1(void)
 
 	gl.bind_buffer_base(itgt, 0, buf);
 	gl.bind_buffer_range(itgt, 0, buf, size, size);
+#if defined(GL_VERSION_4_4)
+	gl.bind_buffers_base(itgt, 1, bufs);
+#endif
 
 	gl.buffer_data(tgt, data, buffer_usage(GL_STATIC_DRAW));
 	gl.buffer_sub_data(tgt, size, data);
