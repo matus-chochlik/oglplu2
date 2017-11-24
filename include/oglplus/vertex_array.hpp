@@ -18,6 +18,7 @@
 #include "error/outcome.hpp"
 #include "utils/gl_func.hpp"
 #include "utils/boolean.hpp"
+#include "utils/buffer_size.hpp"
 
 #if defined(GL_VERSION_4_5) ||\
 	defined(GL_ARB_direct_state_access) ||\
@@ -85,6 +86,29 @@ struct vertex_array_ops {
 #if defined(GL_VERSION_4_3) || defined(GL_ARB_vertex_attrib_binding)
 	static
 	outcome<void>
+	vertex_array_vertex_buffer(
+		GLuint binding_index,
+		buffer_name buf,
+		buffer_size offset,
+		buffer_size stride
+	) noexcept;
+
+	static
+	outcome<void>
+	vertex_array_attrib_binding(
+		vertex_attrib_location loc,
+		GLuint binding_index
+	) noexcept;
+
+	static
+	outcome<void>
+	vertex_array_binding_divisor(
+		GLuint binding_index,
+		GLuint divisor
+	) noexcept;
+
+	static
+	outcome<void>
 	vertex_array_attrib_format(
 		vertex_attrib_location loc,
 		GLint values_per_vertex,
@@ -121,6 +145,32 @@ struct vertex_array_ops {
 		buffer_name buf,
 		GLintptr offset,
 		GLsizei stride
+	) noexcept;
+
+	static
+	outcome<void>
+	vertex_array_vertex_buffer(
+		vertex_array_name vao,
+		GLuint binding_index,
+		buffer_name buf,
+		buffer_size offset,
+		buffer_size stride
+	) noexcept;
+
+	static
+	outcome<void>
+	vertex_array_attrib_binding(
+		vertex_array_name vao,
+		vertex_attrib_location loc,
+		GLuint binding_index
+	) noexcept;
+
+	static
+	outcome<void>
+	vertex_array_binding_divisor(
+		vertex_array_name vao,
+		GLuint binding_index,
+		GLuint divisor
 	) noexcept;
 
 	static
@@ -190,40 +240,6 @@ struct vertex_array_ops {
 		GLuint index,
 		buffer_address addr,
 		GLsizei length
-	) noexcept;
-#endif
-
-#if defined(GL_VERSION_4_3)
-	static
-	outcome<void>
-	vertex_attrib_binding(
-		vertex_attrib_location loc,
-		GLuint binding_index
-	) noexcept;
-
-	static
-	outcome<void>
-	vertex_binding_divisor(
-		GLuint binding_index,
-		GLuint divisor
-	) noexcept;
-#endif
-
-#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
-	static
-	outcome<void>
-	vertex_array_attrib_binding(
-		vertex_array_name vao,
-		vertex_attrib_location loc,
-		GLuint binding_index
-	) noexcept;
-
-	static
-	outcome<void>
-	vertex_array_binding_divisor(
-		vertex_array_name vao,
-		GLuint binding_index,
-		GLuint divisor
 	) noexcept;
 #endif
 };

@@ -171,6 +171,68 @@ vertex_array_attrib_i_pointer(
 inline
 outcome<void>
 vertex_array_ops::
+vertex_array_vertex_buffer(
+	GLuint binding_index,
+	buffer_name buf,
+	buffer_size offset,
+	buffer_size stride
+) noexcept {
+	OGLPLUS_GLFUNC(BindVertexBuffer)(
+		binding_index,
+		get_raw_name(buf),
+		GLintptr(offset),
+		GLintptr(stride)
+	);
+	OGLPLUS_VERIFY(
+		BindVertexBuffer,
+		gl_subject(buf).
+		gl_index(binding_index),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+vertex_array_ops::
+vertex_array_attrib_binding(
+	vertex_attrib_location loc,
+	GLuint binding_index
+) noexcept {
+	OGLPLUS_GLFUNC(VertexAttribBinding)(
+		loc.index(),
+		binding_index
+	);
+	OGLPLUS_VERIFY(
+		VertexAttribBinding,
+		gl_index(binding_index),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+vertex_array_ops::
+vertex_array_binding_divisor(
+	GLuint binding_index,
+	GLuint divisor
+) noexcept {
+	OGLPLUS_GLFUNC(VertexBindingDivisor)(
+		binding_index,
+		divisor
+	);
+	OGLPLUS_VERIFY(
+		VertexBindingDivisor,
+		gl_index(binding_index),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+vertex_array_ops::
 vertex_array_attrib_format(
 	vertex_attrib_location loc,
 	GLint values_per_vertex,
@@ -266,6 +328,77 @@ vertex_array_vertex_buffer(
 		gl_object(vao).
 		gl_subject(buf).
 		gl_index(loc.index()),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+vertex_array_ops::
+vertex_array_vertex_buffer(
+	vertex_array_name vao,
+	GLuint binding_index,
+	buffer_name buf,
+	buffer_size offset,
+	buffer_size stride
+) noexcept {
+	OGLPLUS_GLFUNC(VertexArrayVertexBuffer)(
+		get_raw_name(vao),
+		binding_index,
+		get_raw_name(buf),
+		GLintptr(offset),
+		GLintptr(stride)
+	);
+	OGLPLUS_VERIFY(
+		VertexArrayVertexBuffer,
+		gl_subject(buf).
+		gl_object(vao).
+		gl_index(binding_index),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+vertex_array_ops::
+vertex_array_attrib_binding(
+	vertex_array_name vao,
+	vertex_attrib_location loc,
+	GLuint binding_index
+) noexcept {
+	OGLPLUS_GLFUNC(VertexArrayAttribBinding)(
+		get_raw_name(vao),
+		loc.index(),
+		binding_index
+	);
+	OGLPLUS_VERIFY(
+		VertexArrayAttribBinding,
+		gl_object(vao).
+		gl_index(binding_index),
+		always
+	);
+	return {};
+}
+//------------------------------------------------------------------------------
+inline
+outcome<void>
+vertex_array_ops::
+vertex_array_binding_divisor(
+	vertex_array_name vao,
+	GLuint binding_index,
+	GLuint divisor
+) noexcept {
+	OGLPLUS_GLFUNC(VertexArrayBindingDivisor)(
+		get_raw_name(vao),
+		binding_index,
+		divisor
+	);
+	OGLPLUS_VERIFY(
+		VertexArrayBindingDivisor,
+		gl_object(vao).
+		gl_index(binding_index),
 		always
 	);
 	return {};
@@ -442,92 +575,6 @@ buffer_address_range(
 		gl_index(index).
 		gl_enum_value(uba),
 		debug
-	);
-	return {};
-}
-#endif
-//------------------------------------------------------------------------------
-#if defined(GL_VERSION_4_3)
-inline
-outcome<void>
-vertex_array_ops::
-vertex_attrib_binding(
-	vertex_attrib_location loc,
-	GLuint binding_index
-) noexcept {
-	OGLPLUS_GLFUNC(VertexAttribBinding)(
-		loc.index(),
-		binding_index
-	);
-	OGLPLUS_VERIFY(
-		VertexAttribBinding,
-		gl_index(binding_index),
-		always
-	);
-	return {};
-}
-//------------------------------------------------------------------------------
-inline
-outcome<void>
-vertex_array_ops::
-vertex_binding_divisor(
-	GLuint binding_index,
-	GLuint divisor
-) noexcept {
-	OGLPLUS_GLFUNC(VertexBindingDivisor)(
-		binding_index,
-		divisor
-	);
-	OGLPLUS_VERIFY(
-		VertexBindingDivisor,
-		gl_index(binding_index),
-		always
-	);
-	return {};
-}
-#endif
-//------------------------------------------------------------------------------
-#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
-inline
-outcome<void>
-vertex_array_ops::
-vertex_array_attrib_binding(
-	vertex_array_name vao,
-	vertex_attrib_location loc,
-	GLuint binding_index
-) noexcept {
-	OGLPLUS_GLFUNC(VertexArrayAttribBinding)(
-		get_raw_name(vao),
-		loc.index(),
-		binding_index
-	);
-	OGLPLUS_VERIFY(
-		VertexArrayAttribBinding,
-		gl_object(vao).
-		gl_index(binding_index),
-		always
-	);
-	return {};
-}
-//------------------------------------------------------------------------------
-inline
-outcome<void>
-vertex_array_ops::
-vertex_array_binding_divisor(
-	vertex_array_name vao,
-	GLuint binding_index,
-	GLuint divisor
-) noexcept {
-	OGLPLUS_GLFUNC(VertexArrayBindingDivisor)(
-		get_raw_name(vao),
-		binding_index,
-		divisor
-	);
-	OGLPLUS_VERIFY(
-		VertexArrayBindingDivisor,
-		gl_object(vao).
-		gl_index(binding_index),
-		always
 	);
 	return {};
 }

@@ -26,6 +26,7 @@ void oglplus_vertex_array_test_ops1(void)
 	bound_vertex_array curvao;
 	vertex_attrib_location loc(0);
 	buffer_name buf(0);
+	buffer_size size;
 
 	gl.bind_vertex_array(vao);
 	gl.vertex_array_binding();
@@ -36,6 +37,9 @@ void oglplus_vertex_array_test_ops1(void)
 	gl.vertex_array_attrib_pointer(loc, 1, data_type(GL_FLOAT), true, 0, nullptr);
 	gl.vertex_array_attrib_i_pointer(loc, 1, data_type(GL_INT), 0, nullptr);
 #if defined(GL_VERSION_4_3) || defined(GL_ARB_vertex_attrib_binding)
+	gl.vertex_array_vertex_buffer(1, buf, size, size);
+	gl.vertex_array_attrib_binding(loc, 1);
+	gl.vertex_array_binding_divisor(1, 4);
 	gl.vertex_array_attrib_format(loc, 1, data_type(GL_FLOAT), true, 0);
 	gl.vertex_array_attrib_i_format(loc, 1, data_type(GL_INT), 0);
 	gl.vertex_array_attrib_l_format(loc, 1, data_type(GL_DOUBLE), 0);
@@ -48,16 +52,6 @@ void oglplus_vertex_array_test_ops1(void)
 		buffer_address(0),
 		10
 	);
-#endif
-
-#if defined(GL_VERSION_4_3)
-	gl.vertex_attrib_binding(loc, 1);
-	gl.vertex_binding_divisor(1, 4);
-#endif
-
-#if defined(GL_VERSION_4_5) || defined(GL_ARB_vertex_attrib_binding)
-	gl.vertex_array_attrib_binding(vao, loc, 1);
-	gl.vertex_array_binding_divisor(vao, 1, 4);
 #endif
 
 	curvao.enable_attrib(loc);
@@ -83,7 +77,9 @@ void oglplus_vertex_array_test_ops1(void)
 	vaa.disable();
 
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
-	gl.vertex_array_vertex_buffer(vao, loc, buf, 0, 1);
+	gl.vertex_array_vertex_buffer(vao, 1, buf, size, size);
+	gl.vertex_array_attrib_binding(vao, loc, 1);
+	gl.vertex_array_binding_divisor(vao, 1, 4);
 	gl.vertex_array_attrib_format(vao, loc, 1, data_type(GL_FLOAT), false, 0);
 	gl.vertex_array_attrib_i_format(vao, loc, 1, data_type(GL_INT), 0);
 	gl.vertex_array_attrib_l_format(vao, loc, 1, data_type(GL_DOUBLE), 0);
