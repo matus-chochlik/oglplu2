@@ -22,9 +22,15 @@ struct example
 	~example(void) = default;
 
 	virtual
+	seconds_t<float> default_timeout(void)
+	{
+		return seconds_(10);
+	}
+
+	virtual
 	bool continue_running(const example_state_view& state)
 	{
-		return state.user_idle_time() < seconds_(10);
+		return state.user_idle_time() < default_timeout();
 	}
 
 	virtual

@@ -115,7 +115,7 @@ bool example_wrapper::next_frame(void)
 		_now = clock_type::now();
 		_state.set_time((_now-_start).count() * period);
 	}
-	
+
 	if(_params.doing_screenshot())
 	{
 		return !_screenshot_done;
@@ -160,7 +160,7 @@ void example_wrapper::render(void)
 
 			_example->render(_state);
 			glFlush();
-			
+
 		} while(!_state.next_tile());
 	}
 	else _example->render(_state);

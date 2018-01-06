@@ -72,13 +72,13 @@ public:
 
 	seconds_t<float> user_activity_time(void) const
 	noexcept
-	{	
+	{
 		return seconds_(_usr_act_time);
 	}
 
 	seconds_t<float> user_idle_time(void) const
 	noexcept
-	{	
+	{
 		return exec_time() - user_activity_time();
 	}
 

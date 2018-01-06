@@ -222,10 +222,10 @@ public:
 		shape.draw();
 	}
 
-	bool continue_running(const example_state_view& state)
+	seconds_t<float> default_timeout(void)
 	override
 	{
-		return state.user_idle_time() < seconds_(20);
+		return seconds_(20);
 	}
 };
 
