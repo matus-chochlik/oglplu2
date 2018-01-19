@@ -174,8 +174,8 @@ public:
 	{
 		if(state.pointer_dragging())
 		{
-			offset_x -= 2*state.norm_delta_pointer_x()*scale;
-			offset_y -= 2*state.norm_delta_pointer_y()*scale;
+			offset_x -= 2*state.norm_pointer_x().delta()*scale;
+			offset_y -= 2*state.norm_pointer_y().delta()*scale;
 
 			gl.uniform(offset_loc, offset_x, offset_y);
 		}
@@ -185,7 +185,7 @@ public:
 	override
 	{
 
-		scale *= float(std::pow(2,-state.norm_delta_pointer_z()));
+		scale *= float(std::pow(2,-state.norm_pointer_z().delta()));
 		if(scale < min_scale) scale = min_scale;
 		if(scale > max_scale) scale = max_scale;
 

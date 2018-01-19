@@ -129,8 +129,8 @@ public:
 	{
 		if(state.pointer_dragging())
 		{
-			offset_x -= state.norm_delta_pointer_x();
-			offset_y -= state.norm_delta_pointer_y();
+			offset_x -= state.norm_pointer_x().delta();
+			offset_y -= state.norm_pointer_y().delta();
 			gl.uniform(erg.offset_loc, offset_x, offset_y);
 		}
 	}

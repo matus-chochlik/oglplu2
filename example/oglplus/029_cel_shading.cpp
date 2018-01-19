@@ -142,8 +142,8 @@ public:
 	{
 		if(state.pointer_dragging())
 		{
-			mod_cam_turns(-state.norm_delta_pointer_x()*0.5f);
-			mod_cam_pitch(-state.norm_delta_pointer_y()*1.0f);
+			mod_cam_turns(-state.norm_pointer_x().delta()*0.5f);
+			mod_cam_pitch(-state.norm_pointer_y().delta()*1.0f);
 			set_projection(state);
 		}
 	}
@@ -151,7 +151,7 @@ public:
 	void pointer_scrolling(const example_state_view& state)
 	override
 	{
-		mod_cam_orbit(-state.norm_delta_pointer_z());
+		mod_cam_orbit(-state.norm_pointer_z().delta());
 		set_projection(state);
 	}
 

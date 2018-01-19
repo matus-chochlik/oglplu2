@@ -104,7 +104,7 @@ public:
 	void pointer_scrolling(const example_state_view& state)
 	override
 	{
-		scale *= float(std::pow(2,-state.norm_delta_pointer_z()));
+		scale *= float(std::pow(2,-state.norm_pointer_z().delta()));
 		if(scale < min_scale) scale = min_scale;
 		if(scale > max_scale) scale = max_scale;
 

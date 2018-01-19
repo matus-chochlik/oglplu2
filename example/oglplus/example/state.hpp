@@ -18,75 +18,50 @@ namespace oglplus {
 class example_state
  : public example_state_view
 {
+private:
+	template <typename T>
+	T _clamp(T value, T min, T max)
+	noexcept {
+		if(value < min) value = min;
+		if(value > max) value = max;
+		return value;
+	}
 public:
 	void set_time(float new_time)
-	noexcept
-	{
+	noexcept {
 		assert(new_time >= 0.0f);
-		_old_time = _new_time;
-		_new_time = new_time;
+		_exe_time.assign(new_time);
 	}
 
 	void advance_time(float dt)
-	noexcept
-	{
-		_old_time = _new_time;
-		_new_time += dt;
+	noexcept {
+		_exe_time.advance(dt);
 	}
 
 	void advance_frame(void)
-	noexcept
-	{
+	noexcept {
 		++_frame_no;
 		_old_user_idle = _new_user_idle;
 		_new_user_idle = true;
 	}
 
 	bool set_width(eagine::valid_if_positive<int> new_width)
-	noexcept
-	{
-		_old_width = _new_width;
-		if(_new_width != new_width.value())
-		{
-			_new_width =  new_width.value();
-			_usr_act_time = _new_time;
-			_new_user_idle = false;
-			return true;
-		}
-		return false;
+	noexcept {
+		return _notice_user_activity(_width.assign(new_width));
 	}
 
 	bool set_height(eagine::valid_if_positive<int> new_height)
-	noexcept
-	{
-		_old_height = _new_height;
-		if(_new_height != new_height.value())
-		{
-			_new_height =  new_height.value();
-			_usr_act_time = _new_time;
-			_new_user_idle = false;
-			return true;
-		}
-		return false;
+	noexcept {
+		return _notice_user_activity(_height.assign(new_height));
 	}
 
 	bool set_depth(eagine::valid_if_positive<int> new_depth)
-	noexcept
-	{
-		_old_depth = _new_depth;
-		if(_new_depth != new_depth.value())
-		{
-			_new_depth =  new_depth.value();
-			_usr_act_time = _new_time;
-			_new_user_idle = false;
-			return true;
-		}
-		return false;
+	noexcept {
+		return _notice_user_activity(_depth.assign(new_depth));
 	}
 
 	void set_tiles(int x, int y)
-	noexcept
-	{
+	noexcept {
 		if(x < 1) x = 1;
 		if(y < 1) y = 1;
 
@@ -97,21 +72,16 @@ public:
 	}
 
 	bool first_tile(void)
-	noexcept
-	{
+	noexcept {
 		return (_tile_i == 0) && (_tile_j == 0);
 	}
 
 	bool next_tile(void)
-	noexcept
-	{
-		if(multiple_tiles())
-		{
-			if(++_tile_i >= _x_tiles)
-			{
+	noexcept {
+		if(multiple_tiles()) {
+			if(++_tile_i >= _x_tiles) {
 				_tile_i = 0;
-				if(++_tile_j >= _y_tiles)
-				{
+				if(++_tile_j >= _y_tiles) {
 					_tile_j = 0;
 				}
 			}
@@ -122,8 +92,8 @@ public:
 	bool set_size(
 		eagine::valid_if_positive<int> new_width,
 		eagine::valid_if_positive<int> new_height
-	) noexcept
-	{
+	) noexcept {
+		// intentional to bypass short circuiting
 		bool ws = set_width(new_width);
 		bool hs = set_height(new_height);
 
@@ -131,77 +101,43 @@ public:
 	}
 
 	void sync_size(void)
-	noexcept
-	{
-		_old_width = _new_width;
-		_old_height = _new_height;
-		_old_depth = _new_depth;
+	noexcept {
+		_width.sync();
+		_height.sync();
+		_depth.sync();
 	}
 
 	bool set_mouse_btn(int button, bool pressed)
-	noexcept
-	{
-		if(_mouse_btn(button) != pressed)
-		{
+	noexcept {
+		if(_mouse_btn(button) != pressed) {
 			_set_mouse_btn(button, pressed);
-			_usr_act_time = _new_time;
-			_new_user_idle = false;
+			_notice_user_activity();
 			return true;
 		}
 		return false;
 	}
 
 	bool set_mouse_pos(int new_mouse_x, int new_mouse_y)
-	noexcept
-	{
-		bool result = false;
-
-		if(new_mouse_x < 0) new_mouse_x = 0;
-		if(new_mouse_x > _new_width) new_mouse_x = _new_width;
-		if(new_mouse_y < 0) new_mouse_y = 0;
-		if(new_mouse_y > _new_height) new_mouse_y = _new_height;
-
-		_old_mouse_x = _new_mouse_x;
-		if(_new_mouse_x != new_mouse_x)
-		{
-			_new_mouse_x =  new_mouse_x;
-			_usr_act_time = _new_time;
-			_new_user_idle = false;
-			result = true;
-		}
-
-		_old_mouse_y = _new_mouse_y;
-		if(_new_mouse_y != new_mouse_y)
-		{
-			_new_mouse_y =  new_mouse_y;
-			_usr_act_time = _new_time;
-			_new_user_idle = false;
-			result = true;
-		}
-
-		return result;
+	noexcept {
+		return _notice_user_activity(
+			_mouse_x.assign(_clamp(new_mouse_x, 0, _width.value())) ||
+			_mouse_y.assign(_clamp(new_mouse_y, 0, _height.value()))
+		);
 	}
 
 	bool set_mouse_wheel(int new_mouse_z)
-	noexcept
-	{
-		_old_mouse_z = _new_mouse_z;
-		if(_new_mouse_z != new_mouse_z)
-		{
-			_new_mouse_z =  new_mouse_z;
-			_usr_act_time = _new_time;
-			_new_user_idle = false;
-			return true;
-		}
-		return false;
+	noexcept {
+		return _notice_user_activity(_mouse_z.assign(new_mouse_z));
 	}
 
 	void center_mouse(void)
-	noexcept
-	{
-		_old_mouse_x = _new_mouse_x = width()/2;
-		_old_mouse_y = _new_mouse_y = height()/2;
-		_old_mouse_z = _new_mouse_z = 0;
+	noexcept {
+		_mouse_x.assign(width()/2);
+		_mouse_x.sync();
+		_mouse_y.assign(height()/2);
+		_mouse_y.sync();
+		_mouse_z.assign(0);
+		_mouse_z.sync();
 	}
 };
 
