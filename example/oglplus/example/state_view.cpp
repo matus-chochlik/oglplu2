@@ -44,6 +44,16 @@ noexcept {
 	return something_changed;
 }
 //------------------------------------------------------------------------------
+example_state_value<bool>
+example_state_view::
+mouse_button_pressed(int button) const
+noexcept {
+	if((button >= 0) && (button < _mouse_btn_count)) {
+		return _mouse_btn[button];
+	}
+	return {false, false};
+}
+//------------------------------------------------------------------------------
 bool
 example_state_view::
 pointer_dragging(int index) const
@@ -83,6 +93,22 @@ noexcept {
 		return mouse_z().as<float>() / depth();
 	}
 	return {0.0f, 0.0f};
+}
+//------------------------------------------------------------------------------
+example_state_value<float>
+example_state_view::
+ndc_pointer_x(int index) const
+noexcept {
+	auto norm = norm_pointer_x(index);
+	return {-1.f + 2.f*norm.old_value(), -1.f + 2.f*norm.value()};
+}
+//------------------------------------------------------------------------------
+example_state_value<float>
+example_state_view::
+ndc_pointer_y(int index) const
+noexcept {
+	auto norm = norm_pointer_y(index);
+	return {-1.f + 2.f*norm.old_value(), -1.f + 2.f*norm.value()};
 }
 //------------------------------------------------------------------------------
 } // namespace oglplus

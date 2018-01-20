@@ -208,8 +208,6 @@ public:
 class example_state_view {
 
 protected:
-	static constexpr const bool _old = true;
-
 	example_state_variable<eagine::valid_if_positive<int>> _width;
 	example_state_variable<eagine::valid_if_positive<int>> _height;
 	example_state_variable<eagine::valid_if_positive<int>> _depth;
@@ -219,7 +217,7 @@ protected:
 	example_state_variable<int> _mouse_z;
 
 	static constexpr const int _mouse_btn_count = 4;
-	example_state_variable<bool> _mouse_btn[_mouse_btn_count ];
+	example_state_variable<bool> _mouse_btn[_mouse_btn_count];
 
 	example_state_variable<float> _exe_time;
 	float _usr_act_time;
@@ -342,6 +340,9 @@ public:
 		return x_tiles() > 1 || y_tiles() > 1;
 	}
 
+	example_state_value<bool>
+	mouse_button_pressed(int button) const
+	noexcept;
 
 	bool pointer_dragging(int index = 0) const
 	noexcept;
@@ -356,6 +357,14 @@ public:
 
 	example_state_value<float>
 	norm_pointer_z(int index = 0) const
+	noexcept;
+
+	example_state_value<float>
+	ndc_pointer_x(int index = 0) const
+	noexcept;
+
+	example_state_value<float>
+	ndc_pointer_y(int index = 0) const
 	noexcept;
 };
 
