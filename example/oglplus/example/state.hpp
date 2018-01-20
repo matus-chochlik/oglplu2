@@ -109,10 +109,10 @@ public:
 
 	bool set_mouse_btn(int button, bool pressed)
 	noexcept {
-		if(_mouse_btn(button) != pressed) {
-			_set_mouse_btn(button, pressed);
-			_notice_user_activity();
-			return true;
+		button -= 1;
+		if((button >= 0) && (button < this->_mouse_btn_count)) {
+			auto& mouse_btn = _mouse_btn[button];
+			return _notice_user_activity(mouse_btn.assign(pressed));
 		}
 		return false;
 	}

@@ -17,7 +17,7 @@
 namespace oglplus {
 
 template <typename T>
-class example_state_variable_base
+class example_state_value_base
 {
 protected:
 	T _old_value;
@@ -42,24 +42,21 @@ protected:
 	}
 
 
-	example_state_variable_base(void) = default;
+	example_state_value_base(void) = default;
 
 	constexpr inline explicit
-	example_state_variable_base(const T& initial)
+	example_state_value_base(const T& initial)
 	noexcept
 	 : _old_value(initial)
 	 , _new_value(initial)
 	{ }
 public:
 	constexpr inline
-	example_state_variable_base(const T& old_val, const T& new_val)
+	example_state_value_base(const T& old_val, const T& new_val)
 	noexcept
 	 : _old_value(old_val)
 	 , _new_value(new_val)
 	{ }
-
-	void sync(void)
-	noexcept { _old_value = _new_value; }
 
 	const T& value(void) const
 	noexcept { return _new_value; }
@@ -67,11 +64,81 @@ public:
 	const T& old_value(void) const
 	noexcept { return _old_value; }
 
-	const T& value(bool old) const
-	noexcept { return old ? old_value() : value(); }
-
-	T delta(void) const
+	auto delta(void) const
 	noexcept { return value() - old_value(); }
+};
+
+template <>
+class example_state_value_base<bool>
+{
+protected:
+	bool _old_value : 1;
+	bool _new_value : 1;
+
+	bool _update_value(bool new_value)
+	noexcept {
+		_old_value = _new_value;
+
+		if(_new_value != new_value) {
+			_new_value =  new_value;
+			return true;
+		}
+		return false;
+	}
+
+	example_state_value_base(void) = default;
+
+	constexpr inline explicit
+	example_state_value_base(bool initial)
+	noexcept
+	 : _old_value(initial)
+	 , _new_value(initial)
+	{ }
+public:
+	constexpr inline
+	example_state_value_base(bool old_val, bool new_val)
+	noexcept
+	 : _old_value(old_val)
+	 , _new_value(new_val)
+	{ }
+
+	bool value(void) const
+	noexcept { return _new_value; }
+
+	bool old_value(void) const
+	noexcept { return _old_value; }
+
+	int delta(void) const
+	noexcept {
+		if(value()) {
+			return old_value() ? 0 : 1;
+		} else {
+			return old_value() ? -1 : 0;
+		}
+	}
+
+	bool switched_on(void) const
+	noexcept { return !old_value() && value(); }
+
+	bool switched_off(void) const
+	noexcept { return old_value() && !value(); }
+};
+
+
+template <typename T>
+class example_state_value
+ : public example_state_value_base<T>
+{
+public:
+	using example_state_value_base<T>::example_state_value_base;
+	using example_state_value_base<T>::value;
+	using example_state_value_base<T>::old_value;
+
+	void sync(void)
+	noexcept { this->_old_value = this->_new_value; }
+
+	auto value(bool old) const
+	noexcept { return old ? old_value() : value(); }
 
 	operator T (void) const
 	noexcept { return value(); }
@@ -81,31 +148,33 @@ public:
 	noexcept { return {U(value())}; }
 
 	template <typename U>
-	example_state_variable_base<U> as(void) const
-	noexcept { return {U(_old_value), U(_new_value)}; }
+	example_state_value<U> as(void) const
+	noexcept { return {U(old_value()), U(value())}; }
+
+	bool changed(void) const
+	noexcept {
+		return old_value() != value();
+	}
 };
 
 template <typename T1, typename T2>
 static inline
-example_state_variable_base<decltype(std::declval<T1>()/std::declval<T2>())>
+example_state_value<decltype(std::declval<T1>()/std::declval<T2>())>
 operator / (
-	const example_state_variable_base<T1>& v1,
-	const example_state_variable_base<T2>& v2
+	const example_state_value<T1>& v1,
+	const example_state_value<T2>& v2
 ) noexcept {
 	return {v1.old_value()/v2.old_value(), v1.value()/v2.value()};
 }
 
 template <typename T>
-class example_state_variable;
-
-template <typename T>
-class example_state_variable
- : public example_state_variable_base<T> {
+class  example_state_variable
+ : public example_state_value<T> {
 public:
 	constexpr inline
 	example_state_variable(const T& initial)
 	noexcept
-	 : example_state_variable_base<T>(initial)
+	 : example_state_value<T>(initial)
 	{ }
 
 	bool assign(const T& new_value) {
@@ -119,12 +188,12 @@ public:
 
 template <typename T, typename ... P>
 class example_state_variable<eagine::valid_if<T, P...>>
- : public example_state_variable_base<T> {
+ : public example_state_value<T> {
 public:
 	constexpr inline
 	example_state_variable(const eagine::valid_if<T, P...>& initial)
 	noexcept
-	 : example_state_variable_base<T>(initial.value())
+	 : example_state_value<T>(initial.value())
 	{ }
 
 	bool assign(const eagine::valid_if<T, P...>& new_value) {
@@ -149,6 +218,9 @@ protected:
 	example_state_variable<int> _mouse_y;
 	example_state_variable<int> _mouse_z;
 
+	static constexpr const int _mouse_btn_count = 4;
+	example_state_variable<bool> _mouse_btn[_mouse_btn_count ];
+
 	example_state_variable<float> _exe_time;
 	float _usr_act_time;
 
@@ -159,22 +231,6 @@ protected:
 
 	int _x_tiles, _tile_i;
 	int _y_tiles, _tile_j;
-
-
-	bool _old_mouse_btn_1 : 1;
-	bool _new_mouse_btn_1 : 1;
-	bool _old_mouse_btn_2 : 1;
-	bool _new_mouse_btn_2 : 1;
-	bool _old_mouse_btn_3 : 1;
-	bool _new_mouse_btn_3 : 1;
-	bool _old_mouse_btn_4 : 1;
-	bool _new_mouse_btn_4 : 1;
-
-	bool _mouse_btn(int i, bool old = false) const
-	noexcept;
-
-	void _set_mouse_btn(int i, bool state)
-	noexcept;
 
 	bool _old_user_idle : 1;
 	bool _new_user_idle : 1;
@@ -220,19 +276,19 @@ public:
 		return exec_time() - user_activity_time();
 	}
 
-	bool user_idle(bool old = false) const
+	example_state_value<bool> user_idle(void) const
 	noexcept {
-		return old?_old_user_idle:_new_user_idle;
+		return {_old_user_idle, _new_user_idle};
 	}
 
 	bool user_became_idle(void) const
 	noexcept {
-		return !user_idle(_old) && user_idle();
+		return user_idle().switched_on();
 	}
 
 	bool user_became_active(void) const
 	noexcept {
-		return user_idle(_old) && !user_idle();
+		return user_idle().switched_off();
 	}
 
 	seconds_t<float> frame_duration(void) const
@@ -290,15 +346,15 @@ public:
 	bool pointer_dragging(int index = 0) const
 	noexcept;
 
-	example_state_variable_base<float>
+	example_state_value<float>
 	norm_pointer_x(int index = 0) const
 	noexcept;
 
-	example_state_variable_base<float>
+	example_state_value<float>
 	norm_pointer_y(int index = 0) const
 	noexcept;
 
-	example_state_variable_base<float>
+	example_state_value<float>
 	norm_pointer_z(int index = 0) const
 	noexcept;
 };

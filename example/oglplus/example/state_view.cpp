@@ -21,6 +21,7 @@ noexcept
  , _mouse_x(0)
  , _mouse_y(0)
  , _mouse_z(0)
+ , _mouse_btn{{false},{false},{false},{false}}
  , _exe_time(0.0f)
  , _usr_act_time(0)
  , _frame_no(0)
@@ -28,14 +29,6 @@ noexcept
  , _tile_i(0)
  , _y_tiles(1)
  , _tile_j(0)
- , _old_mouse_btn_1(false)
- , _new_mouse_btn_1(false)
- , _old_mouse_btn_2(false)
- , _new_mouse_btn_2(false)
- , _old_mouse_btn_3(false)
- , _new_mouse_btn_3(false)
- , _old_mouse_btn_4(false)
- , _new_mouse_btn_4(false)
  , _old_user_idle(false)
  , _new_user_idle(false)
 { }
@@ -53,55 +46,16 @@ noexcept {
 //------------------------------------------------------------------------------
 bool
 example_state_view::
-_mouse_btn(int i, bool old) const
-noexcept {
-	switch(i) {
-		case 1: return old?_old_mouse_btn_1:_new_mouse_btn_1;
-		case 2: return old?_old_mouse_btn_2:_new_mouse_btn_2;
-		case 3: return old?_old_mouse_btn_3:_new_mouse_btn_3;
-		case 4: return old?_old_mouse_btn_4:_new_mouse_btn_4;
-		default:;
-	}
-	return false;
-}
-//------------------------------------------------------------------------------
-void
-example_state_view::
-_set_mouse_btn(int i, bool pressed)
-noexcept {
-	switch(i) {
-		case 1:
-			_old_mouse_btn_1 = _new_mouse_btn_1;
-			_new_mouse_btn_1 = pressed;
-			break;
-		case 2:
-			_old_mouse_btn_2 = _new_mouse_btn_2;
-			_new_mouse_btn_2 = pressed;
-			break;
-		case 3:
-			_old_mouse_btn_3 = _new_mouse_btn_3;
-			_new_mouse_btn_3 = pressed;
-			break;
-		case 4:
-			_old_mouse_btn_4 = _new_mouse_btn_4;
-			_new_mouse_btn_4 = pressed;
-			break;
-		default:;
-	}
-}
-//------------------------------------------------------------------------------
-bool
-example_state_view::
 pointer_dragging(int index) const
 noexcept {
 	if(index == 0) {
-		return _mouse_btn(1);
+		return _mouse_btn[0];
 	}
 	// TODO
 	return false;
 }
 //------------------------------------------------------------------------------
-example_state_variable_base<float>
+example_state_value<float>
 example_state_view::
 norm_pointer_x(int index) const
 noexcept {
@@ -111,7 +65,7 @@ noexcept {
 	return {0.5f, 0.5f};
 }
 //------------------------------------------------------------------------------
-example_state_variable_base<float>
+example_state_value<float>
 example_state_view::
 norm_pointer_y(int index) const
 noexcept {
@@ -121,7 +75,7 @@ noexcept {
 	return {0.5f, 0.5f};
 }
 //------------------------------------------------------------------------------
-example_state_variable_base<float>
+example_state_value<float>
 example_state_view::
 norm_pointer_z(int index) const
 noexcept {
