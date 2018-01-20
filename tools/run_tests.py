@@ -94,7 +94,11 @@ def execute_ctest(options):
 					work_dir = os.path.join(test_dir, test_lib)
 					proc = subprocess.Popen(cmd_line, cwd=work_dir)
 					proc.communicate()
-				except subprocess.CalledProcessError: pass
+				except subprocess.CalledProcessError:
+					pass
+				except OSError as osError:
+					if osError.errno == os.errno.ENOENT:
+						pass
 		raise
 
 
