@@ -27,7 +27,14 @@ protected:
 	noexcept {
 		_old_value = _new_value;
 
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfloat-equal"
+#endif
 		if(_new_value != new_value) {
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 			_new_value =  new_value;
 			return true;
 		}
@@ -153,7 +160,14 @@ public:
 
 	bool changed(void) const
 	noexcept {
+#ifdef __clang__
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wfloat-equal"
+#endif
 		return old_value() != value();
+#ifdef __clang__
+#pragma clang diagnostic pop
+#endif
 	}
 };
 

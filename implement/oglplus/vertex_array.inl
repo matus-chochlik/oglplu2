@@ -181,7 +181,7 @@ vertex_array_vertex_buffer(
 		binding_index,
 		get_raw_name(buf),
 		GLintptr(offset),
-		GLintptr(stride)
+		GLsizei(stride)
 	);
 	OGLPLUS_VERIFY(
 		BindVertexBuffer,
@@ -348,7 +348,7 @@ vertex_array_vertex_buffer(
 		binding_index,
 		get_raw_name(buf),
 		GLintptr(offset),
-		GLintptr(stride)
+		GLsizei(stride)
 	);
 	OGLPLUS_VERIFY(
 		VertexArrayVertexBuffer,
