@@ -75,7 +75,6 @@ public:
 	{
 		return make_tagged_quantity<UX>(units::value_conv<U, UX>()(_v));
 	}
-	
 
 	constexpr inline
 	T value(void) const

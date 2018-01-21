@@ -99,16 +99,42 @@ example_state_value<float>
 example_state_view::
 ndc_pointer_x(int index) const
 noexcept {
-	auto norm = norm_pointer_x(index);
-	return {-1.f + 2.f*norm.old_value(), -1.f + 2.f*norm.value()};
+	return transform(
+		[](float v) { return -1.f + 2.f*v; },
+		norm_pointer_x(index)
+	);
 }
 //------------------------------------------------------------------------------
 example_state_value<float>
 example_state_view::
 ndc_pointer_y(int index) const
 noexcept {
-	auto norm = norm_pointer_y(index);
-	return {-1.f + 2.f*norm.old_value(), -1.f + 2.f*norm.value()};
+	return transform(
+		[](float v) { return -1.f + 2.f*v; },
+		norm_pointer_y(index)
+	);
+}
+//------------------------------------------------------------------------------
+example_state_value<float>
+example_state_view::
+pointer_radius(int index) const
+noexcept {
+	using std::sqrt;
+	using std::pow;
+	return transform(
+		[](float x, float y) { return float(sqrt(pow(x, 2.f) + pow(y, 2.f))); },
+		ndc_pointer_x(index), ndc_pointer_y(index)
+	);
+}
+//------------------------------------------------------------------------------
+example_state_value<radians_t<float>>
+example_state_view::
+pointer_angle(int index) const
+noexcept {
+	return transform(
+		[](float x, float y) { return arctan(y, x); },
+		ndc_pointer_x(index), ndc_pointer_y(index)
+	);
 }
 //------------------------------------------------------------------------------
 } // namespace oglplus

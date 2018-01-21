@@ -171,14 +171,26 @@ public:
 	}
 };
 
+template <typename Transform, typename ... T>
+static inline
+example_state_value<decltype(std::declval<Transform>()(std::declval<T>()...))>
+transform(
+	Transform transform,
+	const example_state_value<T>& ... v
+) {
+	return {transform(v.old_value()...), transform(v.value()...)};
+}
+
 template <typename T1, typename T2>
 static inline
-example_state_value<decltype(std::declval<T1>()/std::declval<T2>())>
-operator / (
+auto operator / (
 	const example_state_value<T1>& v1,
 	const example_state_value<T2>& v2
 ) noexcept {
-	return {v1.old_value()/v2.old_value(), v1.value()/v2.value()};
+	return transform(
+		[](const T1& t1, const T2& t2) { return t1 / t2; },
+		v1, v2
+	);
 }
 
 template <typename T>
@@ -379,6 +391,14 @@ public:
 
 	example_state_value<float>
 	ndc_pointer_y(int index = 0) const
+	noexcept;
+
+	example_state_value<float>
+	pointer_radius(int index = 0) const
+	noexcept;
+
+	example_state_value<radians_t<float>>
+	pointer_angle(int index = 0) const
 	noexcept;
 };
 
