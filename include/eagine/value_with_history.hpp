@@ -10,6 +10,7 @@
 #ifndef EAGINE_VALUE_WITH_HISTORY_1509260923_HPP
 #define EAGINE_VALUE_WITH_HISTORY_1509260923_HPP
 
+#include <cmath>
 #include "std/utility.hpp"
 #include "valid_if/decl.hpp"
 
@@ -40,6 +41,14 @@ static constexpr inline
 int value_with_history_delta(bool new_value, bool old_value)
 noexcept {
 	return int(new_value) - int(old_value);
+}
+
+template <typename T>
+static constexpr inline
+auto value_with_history_distance(const T& new_value, const T& old_value)
+noexcept {
+	using std::abs;
+	return abs(value_with_history_delta(new_value, old_value));
 }
 
 template <typename T, std::size_t N>
@@ -99,6 +108,23 @@ auto transform_stored_values(
 
 	for(std::size_t i=0; i<N; ++i) {
 		result.set(i, transform_op(v.get(i)...));
+	}
+	return result;
+}
+
+template <typename Delta, typename T, std::size_t N>
+static inline
+auto differentiate_stored_values(
+	Delta delta_op,
+	const value_with_history_storage<T, N>& v
+) {
+	value_with_history_storage<
+		decltype(std::declval<Delta>()(std::declval<T>(), std::declval<T>())),
+		N-1
+	> result;
+
+	for(std::size_t i=1; i<N; ++i) {
+		result.set(i-1, delta_op(v.get(i-1), v.get(i)));
 	}
 	return result;
 }
@@ -183,6 +209,22 @@ public:
 	auto delta(void) const
 	noexcept {
 		return value_with_history_delta(value(), old_value());
+	}
+
+	auto deltas(void) const
+	noexcept {
+		return value_with_history<decltype(delta()), N-1>(
+			differentiate_stored_values(
+				[](const T& n, const T& o) {
+					return value_with_history_delta(n, o);
+				}, values()
+			)
+		);
+	}
+
+	auto distance(void) const
+	noexcept {
+		return value_with_history_distance(value(), old_value());
 	}
 
 	bool changed(void) const

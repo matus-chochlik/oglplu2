@@ -17,10 +17,10 @@
 namespace oglplus {
 
 template <typename T>
-using example_state_value = eagine::value_with_history<T, 2>;
+using example_state_value = eagine::value_with_history<T, 3>;
 
 template <typename T>
-using example_state_variable = eagine::variable_with_history<T, 2>;
+using example_state_variable = eagine::variable_with_history<T, 3>;
 
 class example_state_view {
 
