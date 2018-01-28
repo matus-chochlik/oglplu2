@@ -24,7 +24,7 @@ std::vector<char>&
 example_wrapper::
 pixels(void)
 {
-	std::size_t size = std::size_t(_state.height()* _state.width()*4);
+	std::size_t size = std::size_t(_state.height().get()*_state.width().get()*4);
 
 	if(_pixel_data.size() < size)
 	{

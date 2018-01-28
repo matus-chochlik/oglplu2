@@ -9,227 +9,18 @@
 #ifndef OGLPLUS_EXAMPLE_STATE_VIEW_1512120710_HPP
 #define OGLPLUS_EXAMPLE_STATE_VIEW_1512120710_HPP
 
-#include <eagine/valid_if/decl.hpp>
+#include <eagine/value_with_history.hpp>
+#include <cassert>
 #include <eagine/valid_if/positive.hpp>
 #include <oglplus/utils/quantities.hpp>
-#include <cassert>
 
 namespace oglplus {
 
 template <typename T>
-class example_state_value_base
-{
-protected:
-	T _old_value;
-	T _new_value;
-
-	bool _update_value(const T& new_value)
-	noexcept {
-		_old_value = _new_value;
-
-#ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wfloat-equal"
-#endif
-		if(_new_value != new_value) {
-#ifdef __clang__
-#pragma clang diagnostic pop
-#endif
-			_new_value =  new_value;
-			return true;
-		}
-		return false;
-	}
-
-	bool _advance_value(const T& delta_value)
-	noexcept {
-		_old_value = _new_value;
-		_new_value += delta_value;
-		return true;
-	}
-
-
-	example_state_value_base(void) = default;
-
-	constexpr inline explicit
-	example_state_value_base(const T& initial)
-	noexcept
-	 : _old_value(initial)
-	 , _new_value(initial)
-	{ }
-public:
-	constexpr inline
-	example_state_value_base(const T& old_val, const T& new_val)
-	noexcept
-	 : _old_value(old_val)
-	 , _new_value(new_val)
-	{ }
-
-	const T& value(void) const
-	noexcept { return _new_value; }
-
-	const T& old_value(void) const
-	noexcept { return _old_value; }
-
-	auto delta(void) const
-	noexcept { return value() - old_value(); }
-};
-
-template <>
-class example_state_value_base<bool>
-{
-protected:
-	bool _old_value : 1;
-	bool _new_value : 1;
-
-	bool _update_value(bool new_value)
-	noexcept {
-		_old_value = _new_value;
-
-		if(_new_value != new_value) {
-			_new_value =  new_value;
-			return true;
-		}
-		return false;
-	}
-
-	example_state_value_base(void) = default;
-
-	constexpr inline explicit
-	example_state_value_base(bool initial)
-	noexcept
-	 : _old_value(initial)
-	 , _new_value(initial)
-	{ }
-public:
-	constexpr inline
-	example_state_value_base(bool old_val, bool new_val)
-	noexcept
-	 : _old_value(old_val)
-	 , _new_value(new_val)
-	{ }
-
-	bool value(void) const
-	noexcept { return _new_value; }
-
-	bool old_value(void) const
-	noexcept { return _old_value; }
-
-	int delta(void) const
-	noexcept {
-		if(value()) {
-			return old_value() ? 0 : 1;
-		} else {
-			return old_value() ? -1 : 0;
-		}
-	}
-
-	bool switched_on(void) const
-	noexcept { return !old_value() && value(); }
-
-	bool switched_off(void) const
-	noexcept { return old_value() && !value(); }
-};
-
+using example_state_value = eagine::value_with_history<T, 2>;
 
 template <typename T>
-class example_state_value
- : public example_state_value_base<T>
-{
-public:
-	using example_state_value_base<T>::example_state_value_base;
-	using example_state_value_base<T>::value;
-	using example_state_value_base<T>::old_value;
-
-	void sync(void)
-	noexcept { this->_old_value = this->_new_value; }
-
-	auto value(bool old) const
-	noexcept { return old ? old_value() : value(); }
-
-	operator T (void) const
-	noexcept { return value(); }
-
-	template <typename U, typename ... P>
-	operator eagine::valid_if<U, P...> (void) const
-	noexcept { return {U(value())}; }
-
-	template <typename U>
-	example_state_value<U> as(void) const
-	noexcept { return {U(old_value()), U(value())}; }
-
-	bool changed(void) const
-	noexcept {
-#ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wfloat-equal"
-#endif
-		return old_value() != value();
-#ifdef __clang__
-#pragma clang diagnostic pop
-#endif
-	}
-};
-
-template <typename Transform, typename ... T>
-static inline
-example_state_value<decltype(std::declval<Transform>()(std::declval<T>()...))>
-transform(
-	Transform transform,
-	const example_state_value<T>& ... v
-) {
-	return {transform(v.old_value()...), transform(v.value()...)};
-}
-
-template <typename T1, typename T2>
-static inline
-auto operator / (
-	const example_state_value<T1>& v1,
-	const example_state_value<T2>& v2
-) noexcept {
-	return transform(
-		[](const T1& t1, const T2& t2) { return t1 / t2; },
-		v1, v2
-	);
-}
-
-template <typename T>
-class  example_state_variable
- : public example_state_value<T> {
-public:
-	constexpr inline
-	example_state_variable(const T& initial)
-	noexcept
-	 : example_state_value<T>(initial)
-	{ }
-
-	bool assign(const T& new_value) {
-		return this->_update_value(new_value);
-	}
-
-	bool advance(const T& delta_value) {
-		return this->_advance_value(delta_value);
-	}
-};
-
-template <typename T, typename ... P>
-class example_state_variable<eagine::valid_if<T, P...>>
- : public example_state_value<T> {
-public:
-	constexpr inline
-	example_state_variable(const eagine::valid_if<T, P...>& initial)
-	noexcept
-	 : example_state_value<T>(initial.value())
-	{ }
-
-	bool assign(const eagine::valid_if<T, P...>& new_value) {
-		return this->_update_value(new_value.value());
-	}
-
-	bool advance(const eagine::valid_if<T, P...>& delta_value) {
-		return this->_advance_value(delta_value.value());
-	}
-};
+using example_state_variable = eagine::variable_with_history<T, 2>;
 
 class example_state_view {
 
@@ -302,17 +93,17 @@ public:
 
 	example_state_value<bool> user_idle(void) const
 	noexcept {
-		return {_old_user_idle, _new_user_idle};
+		return {_new_user_idle, _old_user_idle};
 	}
 
 	bool user_became_idle(void) const
 	noexcept {
-		return user_idle().switched_on();
+		return user_idle().delta() > 0;
 	}
 
 	bool user_became_active(void) const
 	noexcept {
-		return user_idle().switched_off();
+		return user_idle().delta() < 0;
 	}
 
 	seconds_t<float> frame_duration(void) const
