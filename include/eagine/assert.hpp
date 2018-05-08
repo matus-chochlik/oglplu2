@@ -14,5 +14,4 @@
 #define EAGINE_ABORT(MSG) assert(!bool(MSG))
 #define EAGINE_UNREACHABLE(MSG) EAGINE_ABORT(MSG)
 
-#endif //include guard
-
+#endif // include guard

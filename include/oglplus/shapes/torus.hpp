@@ -17,7 +17,7 @@ namespace oglplus {
 namespace shapes {
 
 typedef concrete_adapted_generator<eagine::shapes::unit_torus_gen>
-	unit_torus_gen;
+  unit_torus_gen;
 
 } // namespace shapes
 } // namespace oglplus

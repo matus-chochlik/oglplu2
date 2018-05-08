@@ -17,27 +17,21 @@
 namespace oglplus {
 namespace x11 {
 
-class Pixmap
- : public DisplayObject< ::Pixmap>
-{
+class Pixmap : public DisplayObject<::Pixmap> {
 public:
-	Pixmap(
-		const Display& display,
-		const VisualInfo& vi,
-		unsigned width,
-		unsigned height
-	): DisplayObject< ::Pixmap>(
-		display,
-		::XCreatePixmap(
-			display,
-			RootWindow(display.Get(), vi->screen),
-			width,
-			height,
-			unsigned(vi->depth)
-		),
-		::XFreePixmap,
-		"Error creating X Pixmap"
-	){ }
+    Pixmap(const Display& display,
+      const VisualInfo& vi,
+      unsigned width,
+      unsigned height)
+      : DisplayObject<::Pixmap>(display,
+	  ::XCreatePixmap(display,
+	    RootWindow(display.Get(), vi->screen),
+	    width,
+	    height,
+	    unsigned(vi->depth)),
+	  ::XFreePixmap,
+	  "Error creating X Pixmap") {
+    }
 };
 
 } // namespace x11

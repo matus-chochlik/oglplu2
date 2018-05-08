@@ -14,8 +14,8 @@
 
 namespace oglplus {
 
-using eagine::string_span;
 using eagine::cstring_span;
+using eagine::string_span;
 
 } // namespace oglplus
 

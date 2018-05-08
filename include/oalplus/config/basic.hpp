@@ -11,17 +11,17 @@
 
 // TODO
 #ifndef OALPLUS_LOW_PROFILE
-# define OALPLUS_LOW_PROFILE 0
+#define OALPLUS_LOW_PROFILE 0
 #endif
 
 #ifndef OALPLUS_LINK_LIBRARY
-# define OALPLUS_LINK_LIBRARY 0
+#define OALPLUS_LINK_LIBRARY 0
 #endif
 
 #if OALPLUS_LINK_LIBRARY
-# define OALPLUS_LIB_FUNC
+#define OALPLUS_LIB_FUNC
 #else
-# define OALPLUS_LIB_FUNC inline
+#define OALPLUS_LIB_FUNC inline
 #endif
 
 #endif // include guard

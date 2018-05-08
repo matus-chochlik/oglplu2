@@ -9,52 +9,45 @@
 #ifndef OGLPLUS_TEXGEN_SWIZZLE_NODE_1509260923_HPP
 #define OGLPLUS_TEXGEN_SWIZZLE_NODE_1509260923_HPP
 
-#include "fallback_input.hpp"
 #include "base_node.hpp"
+#include "fallback_input.hpp"
 #include <string>
 
 namespace oglplus {
 namespace texgen {
 
-bool is_valid_swizzle(const cstr_ref&)
-noexcept;
+bool
+is_valid_swizzle(const cstr_ref&) noexcept;
 
-class swizzle_output
- : public base_output
-{
+class swizzle_output : public base_output {
 public:
-	std::string swizzle;
-	input_with_const_default<float[4]> input;
+    std::string swizzle;
+    input_with_const_default<float[4]> input;
 
-	swizzle_output(node_intf& parent);
-	swizzle_output(node_intf& parent, const std::string& swizzle);
+    swizzle_output(node_intf& parent);
+    swizzle_output(node_intf& parent, const std::string& swizzle);
 
-	cstr_ref type_name(void)
-	override;
+    cstr_ref type_name(void) override;
 
-	slot_data_type value_type(void)
-	override;
+    slot_data_type value_type(void) override;
 
-	std::ostream& definitions(std::ostream& out, compile_context& ctxt)
-	override;
+    std::ostream& definitions(
+      std::ostream& out, compile_context& ctxt) override;
 };
 
 class swizzle_node
- : public unary_single_output_node<
-	swizzle_output,
-	decltype(swizzle_output::input), &swizzle_output::input
->
-{
+  : public unary_single_output_node<swizzle_output,
+      decltype(swizzle_output::input),
+      &swizzle_output::input> {
 public:
-	swizzle_node(void) = default;
+    swizzle_node(void) = default;
 
-	swizzle_node&
-	set_swizzle(const std::string& swizzle) {
-		if(is_valid_swizzle(cstr_ref(swizzle))) {
-			_output.swizzle = swizzle;
-		}
-		return *this;
+    swizzle_node& set_swizzle(const std::string& swizzle) {
+	if(is_valid_swizzle(cstr_ref(swizzle))) {
+	    _output.swizzle = swizzle;
 	}
+	return *this;
+    }
 };
 
 } // namespace texgen

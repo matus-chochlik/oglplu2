@@ -13,19 +13,15 @@ namespace oalplus {
 //------------------------------------------------------------------------------
 OALPLUS_LIB_FUNC
 std::string
-error::
-_make_msg(error_info& info)
-{
-	return ::alGetString(info.al_error_code());
+error::_make_msg(error_info& info) {
+    return ::alGetString(info.al_error_code());
 }
 //------------------------------------------------------------------------------
 #endif
 //------------------------------------------------------------------------------
-inline
-error::
-error(error_info&& info)
- : std::runtime_error(_make_msg(info))
- , _info(std::move(info))
-{ }
+inline error::error(error_info&& info)
+  : std::runtime_error(_make_msg(info))
+  , _info(std::move(info)) {
+}
 //------------------------------------------------------------------------------
 } // namespace oalplus

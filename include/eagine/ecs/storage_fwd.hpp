@@ -51,5 +51,4 @@ using relation_storage = storage<Entity, Data, true>;
 } // namespace ecs
 } // namespace eagine
 
-#endif //include guard
-
+#endif // include guard

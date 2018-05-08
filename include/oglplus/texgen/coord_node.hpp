@@ -14,47 +14,37 @@
 namespace oglplus {
 namespace texgen {
 
-enum class coord_type
-{
-	normalized,
-	frag_coord
-};
+enum class coord_type { normalized, frag_coord };
 
-class coord_output
- : public base_output
-{
+class coord_output : public base_output {
 private:
-	friend class coord_node;
+    friend class coord_node;
 
-	coord_type _type;
+    coord_type _type;
 
-	cstr_ref _func_name(void) const;
+    cstr_ref _func_name(void) const;
+
 public:
-	coord_output(node_intf& parent, coord_type);
+    coord_output(node_intf& parent, coord_type);
 
-	coord_output(node_intf& parent)
-	 : coord_output(parent, coord_type::normalized)
-	{ }
+    coord_output(node_intf& parent)
+      : coord_output(parent, coord_type::normalized) {
+    }
 
-	cstr_ref type_name(void)
-	override;
+    cstr_ref type_name(void) override;
 
-	slot_data_type value_type(void)
-	override;
+    slot_data_type value_type(void) override;
 
-	std::ostream& definitions(std::ostream& out, compile_context& ctxt)
-	override;
+    std::ostream& definitions(
+      std::ostream& out, compile_context& ctxt) override;
 };
 
-class coord_node
- : public single_output_node<coord_output>
-{
+class coord_node : public single_output_node<coord_output> {
 public:
-	coord_node&
-	set_type(coord_type type) {
-		_output._type = type;
-		return *this;
-	}
+    coord_node& set_type(coord_type type) {
+	_output._type = type;
+	return *this;
+    }
 };
 
 } // namespace texgen

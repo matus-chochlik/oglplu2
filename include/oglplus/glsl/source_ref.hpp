@@ -9,40 +9,38 @@
 #ifndef OGLPLUS_GLSL_SOURCE_REF_1509260923_HPP
 #define OGLPLUS_GLSL_SOURCE_REF_1509260923_HPP
 
+#include "../utils/types.hpp"
 #include <cassert>
 #include <cstddef>
-#include "../utils/types.hpp"
 
 namespace oglplus {
 
-class glsl_source_ref
-{
+class glsl_source_ref {
 private:
-	GLsizei _count;
-	const GLchar** _parts;
-	const GLint* _lengths;
+    GLsizei _count;
+    const GLchar** _parts;
+    const GLint* _lengths;
+
 public:
-	glsl_source_ref(span_size_t n, const GLchar** ps, const GLint* ls)
-	noexcept
-	 : _count(GLsizei(n))
-	 , _parts(ps)
-	 , _lengths(ls)
-	{
-		assert(_count >= 0);
-		assert(_parts != nullptr);
-	}
+    glsl_source_ref(span_size_t n, const GLchar** ps, const GLint* ls) noexcept
+      : _count(GLsizei(n))
+      , _parts(ps)
+      , _lengths(ls) {
+	assert(_count >= 0);
+	assert(_parts != nullptr);
+    }
 
-	inline
-	GLsizei count(void) const
-	noexcept { return _count; }
+    inline GLsizei count(void) const noexcept {
+	return _count;
+    }
 
-	inline
-	const GLchar** parts(void) const
-	noexcept { return _parts; }
+    inline const GLchar** parts(void) const noexcept {
+	return _parts;
+    }
 
-	inline
-	const GLint* lengths(void) const
-	noexcept { return _lengths; }
+    inline const GLint* lengths(void) const noexcept {
+	return _lengths;
+    }
 };
 
 } // namespace oglplus

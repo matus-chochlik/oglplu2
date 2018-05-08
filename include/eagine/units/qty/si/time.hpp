@@ -10,49 +10,43 @@
 #ifndef EAGINE_UNITS_QTY_SI_TIME_1512222148_HPP
 #define EAGINE_UNITS_QTY_SI_TIME_1512222148_HPP
 
-#include "../../unit/si/time.hpp"
 #include "../../quantity.hpp"
+#include "../../unit/si/time.hpp"
 
 namespace eagine {
 namespace units {
 
 template <typename T>
-static inline
-auto milliseconds(const T& v)
-{
-	return quantity<millisecond>(v);
+static inline auto
+milliseconds(const T& v) {
+    return quantity<millisecond>(v);
 }
 
 template <typename T>
-static inline
-auto seconds(const T& v)
-{
-	return quantity<second>(v);
+static inline auto
+seconds(const T& v) {
+    return quantity<second>(v);
 }
 
 template <typename T>
-static inline
-auto minutes(const T& v)
-{
-	return quantity<minute>(v);
+static inline auto
+minutes(const T& v) {
+    return quantity<minute>(v);
 }
 
 template <typename T>
-static inline
-auto hours(const T& v)
-{
-	return quantity<hour>(v);
+static inline auto
+hours(const T& v) {
+    return quantity<hour>(v);
 }
 
 template <typename T>
-static inline
-auto days(const T& v)
-{
-	return quantity<day>(v);
+static inline auto
+days(const T& v) {
+    return quantity<day>(v);
 }
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // include guard

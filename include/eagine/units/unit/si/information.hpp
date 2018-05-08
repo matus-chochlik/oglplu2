@@ -17,79 +17,67 @@ namespace units {
 namespace base {
 
 // bit
-struct bit : unit<amount_of_information, bit> { };
+struct bit : unit<amount_of_information, bit> {};
 
 template <>
-struct unit_name<bit>
-{
-	static constexpr const char mp_str[] = "bit";
+struct unit_name<bit> {
+    static constexpr const char mp_str[] = "bit";
 };
 template <>
-struct unit_symbol<bit>
-{
-	static constexpr const char mp_str[] = "b";
+struct unit_symbol<bit> {
+    static constexpr const char mp_str[] = "b";
 };
 
 // byte
 typedef scaled_unit<scales::constant<8>, bit> byte;
 
 template <>
-struct unit_name<byte>
-{
-	static constexpr const char mp_str[] = "byte";
+struct unit_name<byte> {
+    static constexpr const char mp_str[] = "byte";
 };
 template <>
-struct unit_symbol<byte>
-{
-	static constexpr const char mp_str[] = "B";
+struct unit_symbol<byte> {
+    static constexpr const char mp_str[] = "B";
 };
 
 } // namespace base
 
 // si::base_unit<amount_of_information>
 template <>
-struct si::base_unit<base::amount_of_information>
- : base::bit
-{ };
+struct si::base_unit<base::amount_of_information> : base::bit {};
 
 typedef unit<amount_of_information, si> bit;
 
 typedef make_scaled_base_dim_unit_t<
-	base::scaled_unit<scales::constant<8>, base::bit>,
-	si
-> byte;
+  base::scaled_unit<scales::constant<8>, base::bit>,
+  si>
+  byte;
 
 typedef make_scaled_base_dim_unit_t<
-	base::scaled_unit<
-		scales::recombined<scales::kilo, scales::constant<8>>,
-		base::bit
-	>, si
-> kilobyte;
+  base::scaled_unit<scales::recombined<scales::kilo, scales::constant<8>>,
+    base::bit>,
+  si>
+  kilobyte;
 
 typedef make_scaled_base_dim_unit_t<
-	base::scaled_unit<
-		scales::recombined<scales::kibi, scales::constant<8>>,
-		base::bit
-	>, si
-> kibibyte;
+  base::scaled_unit<scales::recombined<scales::kibi, scales::constant<8>>,
+    base::bit>,
+  si>
+  kibibyte;
 
 typedef make_scaled_base_dim_unit_t<
-	base::scaled_unit<
-		scales::recombined<scales::mega, scales::constant<8>>,
-		base::bit
-	>, si
-> megabyte;
+  base::scaled_unit<scales::recombined<scales::mega, scales::constant<8>>,
+    base::bit>,
+  si>
+  megabyte;
 
 typedef make_scaled_base_dim_unit_t<
-	base::scaled_unit<
-		scales::recombined<scales::mebi, scales::constant<8>>,
-		base::bit
-	>, si
-> mebibyte;
-
+  base::scaled_unit<scales::recombined<scales::mebi, scales::constant<8>>,
+    base::bit>,
+  si>
+  mebibyte;
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // include guard

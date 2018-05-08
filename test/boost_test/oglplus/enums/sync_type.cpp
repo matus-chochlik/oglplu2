@@ -17,75 +17,66 @@
 
 BOOST_AUTO_TEST_SUITE(enum_sync_type_tests)
 
-BOOST_AUTO_TEST_CASE(enum_sync_type_values)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	sync_type x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_sync_type_values) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    sync_type x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_SYNC_FENCE
-	x = ev.sync_fence;
-	BOOST_CHECK(x == ev.sync_fence);
+    x = ev.sync_fence;
+    BOOST_CHECK(x == ev.sync_fence);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_sync_type_names)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	sync_type x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_sync_type_names) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    sync_type x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_SYNC_FENCE
-	x = ev.sync_fence;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"SYNC_FENCE"
-	) == 0);
+    x = ev.sync_fence;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(std::strcmp(enum_value_name(x).data(), "SYNC_FENCE") == 0);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_sync_type_range)
-{
-	using namespace oglplus;
-	auto count = enum_value_range<sync_type>().size();
+BOOST_AUTO_TEST_CASE(enum_sync_type_range) {
+    using namespace oglplus;
+    auto count = enum_value_range<sync_type>().size();
 
 #ifdef GL_SYNC_FENCE
-{
+    {
 	--count;
 	auto r = enum_value_range<sync_type>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		sync_type(GL_SYNC_FENCE)
-	) != r.end());
-}
+	BOOST_CHECK(
+	  std::find(r.begin(), r.end(), sync_type(GL_SYNC_FENCE)) != r.end());
+    }
 #endif
-	BOOST_CHECK_EQUAL(count, 0);
+    BOOST_CHECK_EQUAL(count, 0);
 }
 
-BOOST_AUTO_TEST_CASE(enum_sync_type_any)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	sync_type x, y;
-	EAGINE_MAYBE_UNUSED(x);
-	EAGINE_MAYBE_UNUSED(y);
-	any_enum_value a;
-	EAGINE_MAYBE_UNUSED(a);
+BOOST_AUTO_TEST_CASE(enum_sync_type_any) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    sync_type x, y;
+    EAGINE_MAYBE_UNUSED(x);
+    EAGINE_MAYBE_UNUSED(y);
+    any_enum_value a;
+    EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_SYNC_FENCE
-	x = ev.sync_fence;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.sync_fence);
+    x = ev.sync_fence;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.sync_fence);
 #endif
 }
 

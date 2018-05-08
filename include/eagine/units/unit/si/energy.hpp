@@ -10,11 +10,11 @@
 #ifndef EAGINE_UNITS_UNIT_SI_ENERGY_1512222148_HPP
 #define EAGINE_UNITS_UNIT_SI_ENERGY_1512222148_HPP
 
+#include "../../dim/energy.hpp"
 #include "common.hpp"
+#include "length.hpp"
 #include "mass.hpp"
 #include "time.hpp"
-#include "length.hpp"
-#include "../../dim/energy.hpp"
 
 namespace eagine {
 namespace units {
@@ -23,15 +23,13 @@ namespace units {
 typedef unit<energy, si> joule;
 
 template <>
-struct unit_name<joule>
-{
-	static constexpr const char mp_str[] = "joule";
+struct unit_name<joule> {
+    static constexpr const char mp_str[] = "joule";
 };
 
 template <>
-struct unit_symbol<joule>
-{
-	static constexpr const char mp_str[] = "J";
+struct unit_symbol<joule> {
+    static constexpr const char mp_str[] = "J";
 };
 
 // derived
@@ -42,5 +40,4 @@ typedef make_scaled_unit_t<scales::mega, joule> megajoule;
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // include guard

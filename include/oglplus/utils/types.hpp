@@ -14,13 +14,13 @@
 
 namespace oglplus {
 
-using eagine::std_size_t;
-using eagine::std_align_t;
 using eagine::span_size_t;
+using eagine::std_align_t;
+using eagine::std_size_t;
 
-using eagine::std_size;
-using eagine::std_align;
 using eagine::span_size;
+using eagine::std_align;
+using eagine::std_size;
 
 } // namespace oglplus
 

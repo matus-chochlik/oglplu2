@@ -20,9 +20,7 @@ template <typename ObjTag>
 using object_name_t = typename object_traits<ObjTag>::name_type;
 
 template <typename ObjTag>
-struct object_subtype
- : nothing_t
-{ };
+struct object_subtype : nothing_t {};
 
 template <typename ObjTag>
 using object_subtype_t = typename object_subtype<ObjTag>::type;
@@ -31,10 +29,11 @@ template <typename ObjTag, typename Storage>
 class object_names;
 
 template <typename ObjTag>
-using object_name = object_names<
-	ObjTag,
-	typename object_traits<ObjTag>::name_type
->;
+using object_name =
+  object_names<ObjTag, typename object_traits<ObjTag>::name_type>;
+
+template <typename ObjTag>
+struct object_zero_name;
 
 template <typename NameT>
 class object_name_base_and_count_view;
@@ -50,6 +49,9 @@ class owned;
 
 template <typename ObjTag>
 class object_owner;
+
+template <typename TypeT, TypeT InvalidType>
+struct any_object_type;
 
 template <typename NameT, typename TypeT, NameT InvalidName, TypeT InvalidType>
 struct any_object_name;

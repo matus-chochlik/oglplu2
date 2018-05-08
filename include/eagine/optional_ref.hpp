@@ -15,63 +15,47 @@
 namespace eagine {
 
 template <typename T>
-class optional_reference_wrapper
-{
+class optional_reference_wrapper {
 private:
-	T* _ptr;
+    T* _ptr;
+
 public:
-	optional_reference_wrapper(T& ref)
-	noexcept
-	 : _ptr(std::addressof(ref))
-	{ }
+    optional_reference_wrapper(T& ref) noexcept
+      : _ptr(std::addressof(ref)) {
+    }
 
-	optional_reference_wrapper(const optional_reference_wrapper&) = default;
-	optional_reference_wrapper&
-	operator = (const optional_reference_wrapper&) = default;
+    optional_reference_wrapper(const optional_reference_wrapper&) = default;
+    optional_reference_wrapper& operator=(
+      const optional_reference_wrapper&) = default;
 
-	constexpr
-	optional_reference_wrapper(nothing_t)
-	noexcept
-	 : _ptr(nullptr)
-	{ }
+    constexpr optional_reference_wrapper(nothing_t) noexcept
+      : _ptr(nullptr) {
+    }
 
-	constexpr
-	optional_reference_wrapper(std::nullptr_t)
-	noexcept
-	 : _ptr(nullptr)
-	{ }
+    constexpr optional_reference_wrapper(std::nullptr_t) noexcept
+      : _ptr(nullptr) {
+    }
 
-	bool is_valid(void) const
-	noexcept
-	{
-		return _ptr != nullptr;
-	}
+    bool is_valid(void) const noexcept {
+	return _ptr != nullptr;
+    }
 
-	explicit
-	operator bool (void) const
-	noexcept
-	{
-		return is_valid();
-	}
+    explicit operator bool(void) const noexcept {
+	return is_valid();
+    }
 
-	bool operator ! (void) const
-	noexcept
-	{
-		return !is_valid();
-	}
+    bool operator!(void)const noexcept {
+	return !is_valid();
+    }
 
-	T& get(void) const
-	noexcept
-	{
-		assert(is_valid());
-		return *_ptr;
-	}
+    T& get(void) const noexcept {
+	assert(is_valid());
+	return *_ptr;
+    }
 
-	operator T& (void) const
-	noexcept
-	{
-		return get();
-	}
+    operator T&(void)const noexcept {
+	return get();
+    }
 };
 
 } // namespace eagine

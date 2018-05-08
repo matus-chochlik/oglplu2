@@ -15,16 +15,14 @@
 namespace eagine {
 namespace units {
 
-typedef decltype(energy()/electric_current()) magnetic_flux;
+typedef decltype(energy() / electric_current()) magnetic_flux;
 
 template <>
-struct dim_name<magnetic_flux>
-{
-	static constexpr const char mp_str[] = "magnetic flux";
+struct dim_name<magnetic_flux> {
+    static constexpr const char mp_str[] = "magnetic flux";
 };
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // include guard

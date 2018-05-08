@@ -9,47 +9,40 @@
 #ifndef OGLPLUS_TEXGEN_COMBINE_NODE_1509260923_HPP
 #define OGLPLUS_TEXGEN_COMBINE_NODE_1509260923_HPP
 
-#include "fallback_input.hpp"
 #include "base_node.hpp"
+#include "fallback_input.hpp"
 
 namespace oglplus {
 namespace texgen {
 
-class combine_output
- : public base_output
-{
+class combine_output : public base_output {
 private:
-	typedef input_with_const_default<float[1]> _input_t;
-	std::string _input_expr(_input_t&, slot_data_type, compile_context&);
+    typedef input_with_const_default<float[1]> _input_t;
+    std::string _input_expr(_input_t&, slot_data_type, compile_context&);
+
 public:
-	_input_t input_r;
-	_input_t input_g;
-	_input_t input_b;
-	_input_t input_a;
+    _input_t input_r;
+    _input_t input_g;
+    _input_t input_b;
+    _input_t input_a;
 
-	combine_output(node_intf& parent);
+    combine_output(node_intf& parent);
 
-	cstr_ref type_name(void)
-	override;
+    cstr_ref type_name(void) override;
 
-	scalar_data_type component_type(void);
+    scalar_data_type component_type(void);
 
-	slot_data_type value_type(void)
-	override;
+    slot_data_type value_type(void) override;
 
-	std::ostream& definitions(std::ostream& out, compile_context& ctxt)
-	override;
+    std::ostream& definitions(
+      std::ostream& out, compile_context& ctxt) override;
 };
 
-class combine_node
- : public single_output_node<combine_output>
-{
+class combine_node : public single_output_node<combine_output> {
 public:
-	span_size_t input_count(void)
-	override;
+    span_size_t input_count(void) override;
 
-	input_intf& input(span_size_t index)
-	override;
+    input_intf& input(span_size_t index) override;
 };
 
 } // namespace texgen

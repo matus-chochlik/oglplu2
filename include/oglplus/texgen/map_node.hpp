@@ -9,44 +9,38 @@
 #ifndef OGLPLUS_TEXGEN_MAP_NODE_1509260923_HPP
 #define OGLPLUS_TEXGEN_MAP_NODE_1509260923_HPP
 
-#include "fallback_input.hpp"
 #include "base_node.hpp"
+#include "fallback_input.hpp"
 
 namespace oglplus {
 namespace texgen {
 
-class map_output
- : public base_output
-{
+class map_output : public base_output {
 public:
-	input_with_const_default<float[4]> input;
-	input_with_const_default<float[3]> coord;
+    input_with_const_default<float[4]> input;
+    input_with_const_default<float[3]> coord;
 
-	map_output(node_intf& parent);
+    map_output(node_intf& parent);
 
-	cstr_ref type_name(void)
-	override;
+    cstr_ref type_name(void) override;
 
-	slot_data_type value_type(void)
-	override;
+    slot_data_type value_type(void) override;
 
-	std::ostream& definitions(std::ostream& out, compile_context& ctxt)
-	override;
+    std::ostream& definitions(
+      std::ostream& out, compile_context& ctxt) override;
 };
 
 class map_node
- : public binary_single_output_node<
-	map_output,
-	decltype(map_output::input), &map_output::input,
-	decltype(map_output::coord), &map_output::coord
->
-{
+  : public binary_single_output_node<map_output,
+      decltype(map_output::input),
+      &map_output::input,
+      decltype(map_output::coord),
+      &map_output::coord> {
 public:
-	map_node&
-	set_coord(float x, float y, float z) {
-		_output.coord.fallback().set(x, y, z);
-		return *this;
-	}
+    map_node& set_coord(float x, float y, float z) {
+	_output.coord.fallback().set(x, y, z);
+	return *this;
+    }
 };
 
 } // namespace texgen

@@ -16,23 +16,19 @@ namespace eagine {
 namespace vect {
 
 template <typename T, int N, bool V>
-struct sqrt
-{
-	typedef data_t<T, N, V> _dT;
+struct sqrt {
+    typedef data_t<T, N, V> _dT;
 
-	static
-	_dT apply(_dT v)
-	noexcept {
-		for(int i=0; i<N; ++i) {
-			using std::sqrt;
-			v[i] = T(sqrt(v[i]));
-		}
-		return v;
+    static _dT apply(_dT v) noexcept {
+	for(int i = 0; i < N; ++i) {
+	    using std::sqrt;
+	    v[i] = T(sqrt(v[i]));
 	}
+	return v;
+    }
 };
 
 } // namespace vect
 } // namespace eagine
 
-#endif //include guard
-
+#endif // include guard

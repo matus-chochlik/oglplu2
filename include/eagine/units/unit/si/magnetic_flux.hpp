@@ -10,12 +10,12 @@
 #ifndef EAGINE_UNITS_UNIT_SI_MAGNETIC_FLUX_1512222148_HPP
 #define EAGINE_UNITS_UNIT_SI_MAGNETIC_FLUX_1512222148_HPP
 
+#include "../../dim/magnetic_flux.hpp"
 #include "common.hpp"
+#include "electric_current.hpp"
+#include "length.hpp"
 #include "mass.hpp"
 #include "time.hpp"
-#include "length.hpp"
-#include "electric_current.hpp"
-#include "../../dim/magnetic_flux.hpp"
 
 namespace eagine {
 namespace units {
@@ -24,15 +24,13 @@ namespace units {
 typedef unit<magnetic_flux, si> weber;
 
 template <>
-struct unit_name<weber>
-{
-	static constexpr const char mp_str[] = "weber";
+struct unit_name<weber> {
+    static constexpr const char mp_str[] = "weber";
 };
 
 template <>
-struct unit_symbol<weber>
-{
-	static constexpr const char mp_str[] = "Wb";
+struct unit_symbol<weber> {
+    static constexpr const char mp_str[] = "Wb";
 };
 
 // derived
@@ -43,5 +41,4 @@ typedef make_scaled_unit_t<scales::kilo, weber> kiloweber;
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // include guard

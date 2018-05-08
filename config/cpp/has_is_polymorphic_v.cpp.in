@@ -11,7 +11,7 @@ namespace std {
 }
 #endif
 
-int main(void)
-{
-	return std::is_polymorphic_v<int>?1:0;
+int
+main(void) {
+    return std::is_polymorphic_v<int> ? 1 : 0;
 }

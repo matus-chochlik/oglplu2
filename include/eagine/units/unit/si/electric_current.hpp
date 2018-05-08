@@ -17,41 +17,38 @@ namespace units {
 namespace base {
 
 // ampere
-struct ampere : unit<electric_current, ampere> { };
+struct ampere : unit<electric_current, ampere> {};
 
 template <>
-struct unit_name<ampere>
-{
-	static constexpr const char mp_str[] = "ampere";
+struct unit_name<ampere> {
+    static constexpr const char mp_str[] = "ampere";
 };
 template <>
-struct unit_symbol<ampere>
-{
-	static constexpr const char mp_str[] = "A";
+struct unit_symbol<ampere> {
+    static constexpr const char mp_str[] = "A";
 };
 
 } // namespace base
 
 // si::base_unit<electric_current>
 template <>
-struct si::base_unit<base::electric_current> : base::ampere { };
+struct si::base_unit<base::electric_current> : base::ampere {};
 
 // kiloampere
 typedef unit<electric_current, si> ampere;
 
 // derived
 typedef make_scaled_base_dim_unit_t<
-	base::scaled_unit<scales::kilo, base::ampere>,
-	si
-> kiloampere;
+  base::scaled_unit<scales::kilo, base::ampere>,
+  si>
+  kiloampere;
 
 typedef make_scaled_base_dim_unit_t<
-	base::scaled_unit<scales::milli, base::ampere>,
-	si
-> milliampere;
+  base::scaled_unit<scales::milli, base::ampere>,
+  si>
+  milliampere;
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // include guard

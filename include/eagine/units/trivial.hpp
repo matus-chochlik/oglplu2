@@ -45,18 +45,14 @@ typedef dimension<base::angle, 1> angle;
 typedef unit<time, si> second;
 
 typedef unit<angle, si> radian;
-typedef scaled_dim_unit<
-	angle,
-	bits::unit_scales<
-		bits::uni_sca<
-			base::radian,
-			scales::divided<scales::pi, scales::constant<180>>
-		>, nothing_t
-	>, si
-> degree;
+typedef scaled_dim_unit<angle,
+  bits::unit_scales<bits::uni_sca<base::radian,
+		      scales::divided<scales::pi, scales::constant<180>>>,
+    nothing_t>,
+  si>
+  degree;
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // include guard

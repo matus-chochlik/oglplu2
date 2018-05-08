@@ -11,11 +11,9 @@ namespace std {
 }
 #endif
 
-int main(void)
-{
-	return std::conditional_t<
-		true,
-		std::integral_constant<int,0>,
-		std::integral_constant<int,1>
-	>::value;
+int
+main(void) {
+    return std::conditional_t<true,
+      std::integral_constant<int, 0>,
+      std::integral_constant<int, 1>>::value;
 }

@@ -16,43 +16,42 @@
 
 namespace oglplus {
 
-class example_wrapper
-{
+class example_wrapper {
 private:
-	example_params& _params;
-	example_state& _state;
+    example_params& _params;
+    example_state& _state;
 
-	std::unique_ptr<example> _example;
+    std::unique_ptr<example> _example;
 
-	bool _screenshot_done;
+    bool _screenshot_done;
 
-	typedef std::chrono::system_clock clock_type;
-	const std::chrono::time_point<clock_type> _start;
-	std::chrono::time_point<clock_type> _now;
+    typedef std::chrono::system_clock clock_type;
+    const std::chrono::time_point<clock_type> _start;
+    std::chrono::time_point<clock_type> _now;
 
-	std::vector<char> _pixel_data;
-	std::vector<char>& pixels(void);
-	std::vector<char> _textbuf;
-	std::vector<char>& textbuf(std::size_t);
+    std::vector<char> _pixel_data;
+    std::vector<char>& pixels(void);
+    std::vector<char> _textbuf;
+    std::vector<char>& textbuf(std::size_t);
 
 public:
-	example_wrapper(example_args&, example_params&, example_state&);
+    example_wrapper(example_args&, example_params&, example_state&);
 
-	void destroy(void);
+    void destroy(void);
 
-	bool next_frame(void);
+    bool next_frame(void);
 
-	void update(void);
+    void update(void);
 
-	void render(void);
+    void render(void);
 
-	void set_size(int width, int height);
+    void set_size(int width, int height);
 
-	void set_mouse_btn(int i, bool pressed);
+    void set_mouse_btn(int i, bool pressed);
 
-	void set_mouse_pos(int x, int y);
+    void set_mouse_pos(int x, int y);
 
-	void set_mouse_wheel(int w);
+    void set_mouse_wheel(int w);
 };
 
 } // namespace oglplus

@@ -17,75 +17,70 @@
 
 BOOST_AUTO_TEST_SUITE(enum_sync_condition_tests)
 
-BOOST_AUTO_TEST_CASE(enum_sync_condition_values)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	sync_condition x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_sync_condition_values) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    sync_condition x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_SYNC_GPU_COMMANDS_COMPLETE
-	x = ev.sync_gpu_commands_complete;
-	BOOST_CHECK(x == ev.sync_gpu_commands_complete);
+    x = ev.sync_gpu_commands_complete;
+    BOOST_CHECK(x == ev.sync_gpu_commands_complete);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_sync_condition_names)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	sync_condition x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_sync_condition_names) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    sync_condition x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_SYNC_GPU_COMMANDS_COMPLETE
-	x = ev.sync_gpu_commands_complete;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"SYNC_GPU_COMMANDS_COMPLETE"
-	) == 0);
+    x = ev.sync_gpu_commands_complete;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(
+      std::strcmp(enum_value_name(x).data(), "SYNC_GPU_COMMANDS_COMPLETE")
+      == 0);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_sync_condition_range)
-{
-	using namespace oglplus;
-	auto count = enum_value_range<sync_condition>().size();
+BOOST_AUTO_TEST_CASE(enum_sync_condition_range) {
+    using namespace oglplus;
+    auto count = enum_value_range<sync_condition>().size();
 
 #ifdef GL_SYNC_GPU_COMMANDS_COMPLETE
-{
+    {
 	--count;
 	auto r = enum_value_range<sync_condition>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		sync_condition(GL_SYNC_GPU_COMMANDS_COMPLETE)
-	) != r.end());
-}
+	BOOST_CHECK(
+	  std::find(
+	    r.begin(), r.end(), sync_condition(GL_SYNC_GPU_COMMANDS_COMPLETE))
+	  != r.end());
+    }
 #endif
-	BOOST_CHECK_EQUAL(count, 0);
+    BOOST_CHECK_EQUAL(count, 0);
 }
 
-BOOST_AUTO_TEST_CASE(enum_sync_condition_any)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	sync_condition x, y;
-	EAGINE_MAYBE_UNUSED(x);
-	EAGINE_MAYBE_UNUSED(y);
-	any_enum_value a;
-	EAGINE_MAYBE_UNUSED(a);
+BOOST_AUTO_TEST_CASE(enum_sync_condition_any) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    sync_condition x, y;
+    EAGINE_MAYBE_UNUSED(x);
+    EAGINE_MAYBE_UNUSED(y);
+    any_enum_value a;
+    EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_SYNC_GPU_COMMANDS_COMPLETE
-	x = ev.sync_gpu_commands_complete;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.sync_gpu_commands_complete);
+    x = ev.sync_gpu_commands_complete;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.sync_gpu_commands_complete);
 #endif
 }
 

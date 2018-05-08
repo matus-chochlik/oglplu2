@@ -14,8 +14,8 @@
 
 namespace oglplus {
 
-using eagine::nothing_t;
 using eagine::nothing;
+using eagine::nothing_t;
 
 } // namespace oglplus
 

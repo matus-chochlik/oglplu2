@@ -10,8 +10,8 @@
 #ifndef EAGINE_SPAN_1509260923_HPP
 #define EAGINE_SPAN_1509260923_HPP
 
-#include "types.hpp"
 #include "span_fwd.hpp"
+#include "types.hpp"
 
 #ifdef __clang__
 #pragma clang diagnostic push
@@ -33,16 +33,13 @@
 
 namespace eagine {
 
-using gsl::span;
 using gsl::make_span;
+using gsl::span;
 
 template <typename T>
-static inline
-span<const T>
-make_span(std::initializer_list<T> il)
-noexcept
-{
-	return {il.begin(), span_size_t(il.size())};
+static inline span<const T>
+make_span(std::initializer_list<T> il) noexcept {
+    return {il.begin(), span_size_t(il.size())};
 }
 
 } // namespace eagine

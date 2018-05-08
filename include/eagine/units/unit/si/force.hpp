@@ -10,11 +10,11 @@
 #ifndef EAGINE_UNITS_UNIT_SI_FORCE_1512222148_HPP
 #define EAGINE_UNITS_UNIT_SI_FORCE_1512222148_HPP
 
+#include "../../dim/force.hpp"
 #include "common.hpp"
+#include "length.hpp"
 #include "mass.hpp"
 #include "time.hpp"
-#include "length.hpp"
-#include "../../dim/force.hpp"
 
 namespace eagine {
 namespace units {
@@ -23,15 +23,13 @@ namespace units {
 typedef unit<force, si> newton;
 
 template <>
-struct unit_name<newton>
-{
-	static constexpr const char mp_str[] = "newton";
+struct unit_name<newton> {
+    static constexpr const char mp_str[] = "newton";
 };
 
 template <>
-struct unit_symbol<newton>
-{
-	static constexpr const char mp_str[] = "N";
+struct unit_symbol<newton> {
+    static constexpr const char mp_str[] = "N";
 };
 
 // derived
@@ -42,5 +40,4 @@ typedef make_scaled_unit_t<scales::mega, newton> meganewton;
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // include guard

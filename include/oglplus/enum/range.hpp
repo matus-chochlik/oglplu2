@@ -9,7 +9,7 @@
 #ifndef OGLPLUS_ENUM_RANGE_1509260923_HPP
 #define OGLPLUS_ENUM_RANGE_1509260923_HPP
 
-#include "value_range.hpp"
 #include "indexed_value_range.hpp"
+#include "value_range.hpp"
 
 #endif // include guard

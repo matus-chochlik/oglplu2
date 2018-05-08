@@ -1,4 +1,2 @@
 template <typename T1, typename T2>
-using @TYPE_TRAIT@_t =
-typename @TYPE_TRAIT@<T1, T2>::type;
-
+using @TYPE_TRAIT@_t = typename @TYPE_TRAIT@<T1, T2>::type;

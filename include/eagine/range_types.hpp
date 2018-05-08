@@ -10,30 +10,27 @@
 #ifndef EAGINE_RANGE_TYPES_1509260923_HPP
 #define EAGINE_RANGE_TYPES_1509260923_HPP
 
-#include "types.hpp"
 #include "span_fwd.hpp"
-#include "valid_if/lt_size_ge0.hpp"
+#include "types.hpp"
 #include "valid_if/le_size_ge0.hpp"
+#include "valid_if/lt_size_ge0.hpp"
 
 namespace eagine {
 
 // range_index_type
 template <typename R>
-struct range_index_type
-{
-	using type = typename R::size_type;
+struct range_index_type {
+    using type = typename R::size_type;
 };
 
 template <typename T, span_size_t I>
-struct range_index_type<gsl::span<T, I>>
-{
-	using type = span_size_t;
+struct range_index_type<gsl::span<T, I>> {
+    using type = span_size_t;
 };
 
 template <typename T, span_size_t I>
-struct range_index_type<gsl::basic_string_span<T, I>>
-{
-	using type = span_size_t;
+struct range_index_type<gsl::basic_string_span<T, I>> {
+    using type = span_size_t;
 };
 
 // range_index_t
@@ -54,9 +51,10 @@ using valid_range_position = valid_if_le_size_ge0<R, range_index_t<R>>;
 
 // convert to range index type
 template <typename R, typename T>
-static constexpr inline
-range_index_t<R> range_index(T i)
-noexcept { return safe_size_t_cast<range_index_t<R>>(i); }
+static constexpr inline range_index_t<R>
+range_index(T i) noexcept {
+    return safe_size_t_cast<range_index_t<R>>(i);
+}
 
 } // namespace eagine
 

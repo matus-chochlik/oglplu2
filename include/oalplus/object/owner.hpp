@@ -9,8 +9,8 @@
 #ifndef OALPLUS_OBJECT_OWNER_1509260923_HPP
 #define OALPLUS_OBJECT_OWNER_1509260923_HPP
 
-#include <eagine/object/owner.hpp>
 #include "../utils/span.hpp"
+#include <eagine/object/owner.hpp>
 
 namespace oalplus {
 

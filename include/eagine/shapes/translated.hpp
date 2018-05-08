@@ -11,40 +11,37 @@
 #define EAGINE_SHAPES_TRANSLATED_1509260923_HPP
 
 #include "delegated.hpp"
-#include <eagine/config/basic.hpp>
 #include <array>
+#include <eagine/config/basic.hpp>
 
 namespace eagine {
 namespace shapes {
 
-class translated_gen
- : public delegated_gen
-{
+class translated_gen : public delegated_gen {
 private:
-	std::array<float, 3> _d;
+    std::array<float, 3> _d;
+
 public:
-	translated_gen(
-		std::unique_ptr<generator_intf>&& gen,
-		float dx,
-		float dy,
-		float dz
-	) noexcept
-	 : delegated_gen(std::move(gen))
-	 , _d{{dx, dy, dz}}
-	{ }
+    translated_gen(std::unique_ptr<generator_intf>&& gen,
+      float dx,
+      float dy,
+      float dz) noexcept
+      : delegated_gen(std::move(gen))
+      , _d{{dx, dy, dz}} {
+    }
 
-	void attrib_values(vertex_attrib_kind attr, const span<float>& dest)
-	override {
-		delegated_gen::attrib_values(attr, dest);
+    void attrib_values(
+      vertex_attrib_kind attr, const span<float>& dest) override {
+	delegated_gen::attrib_values(attr, dest);
 
-		if(attr == vertex_attrib_kind::position) {
-			for(span_size_t v=0, n=vertex_count(); v<n; ++v)
-			for(span_size_t c=0, m=values_per_vertex(attr);c<m; ++c)
-			{
-				dest[v*m+c] += _d[c];
-			}
+	if(attr == vertex_attrib_kind::position) {
+	    for(span_size_t v = 0, n = vertex_count(); v < n; ++v)
+		for(span_size_t c = 0, m = values_per_vertex(attr); c < m;
+		    ++c) {
+		    dest[v * m + c] += _d[c];
 		}
 	}
+    }
 };
 
 } // namespace shapes

@@ -12,16 +12,12 @@
 namespace eagine {
 
 template <typename Src, typename Dst>
-struct instead_of
-{
-	typedef Dst type;
+struct instead_of {
+    typedef Dst type;
 
-	static constexpr inline
-	Dst value(Dst val)
-	noexcept
-	{
-		return val;
-	}
+    static constexpr inline Dst value(Dst val) noexcept {
+	return val;
+    }
 };
 
 template <typename Src, typename Dst>
@@ -29,5 +25,4 @@ using instead_of_t = typename instead_of<Src, Dst>::type;
 
 } // namespace eagine
 
-#endif //include guard
-
+#endif // include guard

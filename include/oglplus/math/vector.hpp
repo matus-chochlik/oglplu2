@@ -9,8 +9,8 @@
 #ifndef OGLPLUS_MATH_VECTOR_1509260923_HPP
 #define OGLPLUS_MATH_VECTOR_1509260923_HPP
 
-#include <eagine/math/tvec.hpp>
 #include "config.hpp"
+#include <eagine/math/tvec.hpp>
 
 namespace oglplus {
 

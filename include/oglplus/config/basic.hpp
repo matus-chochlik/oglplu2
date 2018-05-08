@@ -14,21 +14,21 @@
 #endif
 
 #ifndef OGLPLUS_LOW_PROFILE
-# define OGLPLUS_LOW_PROFILE 0
+#define OGLPLUS_LOW_PROFILE 0
 #endif
 
 #ifndef OGLPLUS_NO_LIMIT_CHECKS
-# define OGLPLUS_NO_LIMIT_CHECKS OGLPLUS_LOW_PROFILE
+#define OGLPLUS_NO_LIMIT_CHECKS OGLPLUS_LOW_PROFILE
 #endif
 
 #ifndef OGLPLUS_LINK_LIBRARY
-# define OGLPLUS_LINK_LIBRARY 0
+#define OGLPLUS_LINK_LIBRARY 0
 #endif
 
 #if OGLPLUS_LINK_LIBRARY
-# define OGLPLUS_LIB_FUNC
+#define OGLPLUS_LIB_FUNC
 #else
-# define OGLPLUS_LIB_FUNC inline
+#define OGLPLUS_LIB_FUNC inline
 #endif
 
 #endif // include guard

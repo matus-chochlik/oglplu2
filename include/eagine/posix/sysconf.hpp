@@ -15,19 +15,15 @@
 namespace eagine {
 namespace posix {
 
-static inline
-outcome<long> system_config(int name)
-noexcept
-{
-	long res = ::sysconf(name);
-	return {error_if_negative(res), res};
+static inline outcome<long>
+system_config(int name) noexcept {
+    long res = ::sysconf(name);
+    return {error_if_negative(res), res};
 }
 
-static inline
-outcome<long> page_size(void)
-noexcept
-{
-	return system_config(_SC_PAGESIZE);
+static inline outcome<long>
+page_size(void) noexcept {
+    return system_config(_SC_PAGESIZE);
 }
 
 } // namespace posix

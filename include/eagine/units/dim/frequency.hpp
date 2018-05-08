@@ -15,16 +15,14 @@
 namespace eagine {
 namespace units {
 
-typedef decltype(number_of_cycles()/time()) frequency;
+typedef decltype(number_of_cycles() / time()) frequency;
 
 template <>
-struct dim_name<frequency>
-{
-	static constexpr const char mp_str[] = "frequency";
+struct dim_name<frequency> {
+    static constexpr const char mp_str[] = "frequency";
 };
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // include guard

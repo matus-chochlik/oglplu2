@@ -10,15 +10,17 @@
 #define EAGINE_INPUT_DATA_1408161720_HPP
 
 #include "config/basic.hpp"
-#include "memory/buffer.hpp"
 #include "cstr_ref.hpp"
+#include "memory/buffer.hpp"
 #include <iosfwd>
 #include <vector>
 
 namespace eagine {
 
-void read_stream_data(std::istream&, memory::buffer& dest);
-void read_file_data(const cstr_ref& path, memory::buffer& dest);
+void
+read_stream_data(std::istream&, memory::buffer& dest);
+void
+read_file_data(const cstr_ref& path, memory::buffer& dest);
 
 } // namespace eagine
 
@@ -26,5 +28,4 @@ void read_file_data(const cstr_ref& path, memory::buffer& dest);
 #include <eagine/input_data.inl>
 #endif
 
-#endif //include guard
-
+#endif // include guard

@@ -7,9 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#include "prologue.inl"
-#include "predeclare.inl"
-#include "implement.inl"
-#include <oalplus/enum/value_names.hpp>
 #include "epilogue.inl"
-
+#include "implement.inl"
+#include "predeclare.inl"
+#include "prologue.inl"
+#include <oalplus/enum/value_names.hpp>

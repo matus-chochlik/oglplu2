@@ -9,35 +9,29 @@
 #ifndef OGLPLUS_OPER_PIXEL_TRANSFER_1509260923_HPP
 #define OGLPLUS_OPER_PIXEL_TRANSFER_1509260923_HPP
 
+#include "../enum/types.hpp"
 #include "../error/handling.hpp"
 #include "../error/outcome.hpp"
-#include "../enum/types.hpp"
 
 namespace oglplus {
 namespace oper {
 
-struct pixel_transfer_state
-{
+struct pixel_transfer_state {
 #if defined(GL_VERSION_3_0)
-	static
-	outcome<void>
-	clamp_color(clamp_color_target target, boolean clamp)
-	noexcept;
+    static outcome<void> clamp_color(
+      clamp_color_target target, boolean clamp) noexcept;
 #endif
 };
 
-struct pixel_transfer_ops
-{
-	template <typename T>
-	static
-	outcome<void>
-	read_pixels(
-		GLint x, GLint y,
-		GLsizei width, GLsizei height,
-		pixel_data_format format,
-		pixel_data_type type,
-		span<T> data
-	) noexcept;
+struct pixel_transfer_ops {
+    template <typename T>
+    static outcome<void> read_pixels(GLint x,
+      GLint y,
+      GLsizei width,
+      GLsizei height,
+      pixel_data_format format,
+      pixel_data_type type,
+      span<T> data) noexcept;
 };
 
 } // namespace oper

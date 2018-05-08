@@ -9,52 +9,41 @@
 #ifndef OGLPLUS_TEXGEN_INTERLACE_NODE_1509260923_HPP
 #define OGLPLUS_TEXGEN_INTERLACE_NODE_1509260923_HPP
 
-#include "fallback_input.hpp"
 #include "base_node.hpp"
+#include "fallback_input.hpp"
 
 namespace oglplus {
 namespace texgen {
 
-enum class interlace_mode
-{
-	columns,
-	rows,
-	layers
-};
+enum class interlace_mode { columns, rows, layers };
 
-class interlace_output
- : public base_output
-{
+class interlace_output : public base_output {
 private:
-	interlace_mode _mode;
+    interlace_mode _mode;
 
-	friend class interlace_node;
+    friend class interlace_node;
+
 public:
-	interlace_output(node_intf& parent, interlace_mode);
+    interlace_output(node_intf& parent, interlace_mode);
 
-	interlace_output(node_intf& parent)
-	 : interlace_output(parent, interlace_mode::rows)
-	{ }
+    interlace_output(node_intf& parent)
+      : interlace_output(parent, interlace_mode::rows) {
+    }
 
-	cstr_ref type_name(void)
-	override;
+    cstr_ref type_name(void) override;
 
-	slot_data_type value_type(void)
-	override;
+    slot_data_type value_type(void) override;
 
-	std::ostream& definitions(std::ostream& out, compile_context& ctxt)
-	override;
+    std::ostream& definitions(
+      std::ostream& out, compile_context& ctxt) override;
 };
 
-class interlace_node
- : public single_output_node<interlace_output>
-{
+class interlace_node : public single_output_node<interlace_output> {
 public:
-	interlace_node&
-	set_mode(interlace_mode mode) {
-		_output._mode = mode;
-		return *this;
-	}
+    interlace_node& set_mode(interlace_mode mode) {
+	_output._mode = mode;
+	return *this;
+    }
 };
 
 } // namespace texgen

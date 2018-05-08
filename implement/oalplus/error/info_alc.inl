@@ -9,70 +9,53 @@
 
 namespace oalplus {
 //------------------------------------------------------------------------------
-constexpr inline
-error_info_alc::
-error_info_alc(ALCdevice* device, ALenum alc_err_code)
-noexcept
- : error_info_base<error_info_alc>(alc_err_code)
+constexpr inline error_info_alc::error_info_alc(
+  ALCdevice* device, ALenum alc_err_code) noexcept
+  : error_info_base<error_info_alc>(alc_err_code)
 #if !OALPLUS_ERROR_NO_DEVICE
- , _device(device)
+  , _device(device)
 #endif
 #if !OALPLUS_ERROR_NO_CONTEXT
- , _context(nullptr)
+  , _context(nullptr)
 #endif
-{ }
-//------------------------------------------------------------------------------
-inline
-error_info_alc&
-error_info_alc::
-alc_device(::ALCdevice* alc_dev)
-noexcept
 {
-#if !OALPLUS_ERROR_NO_DEVICE
-	_device = alc_dev;
-#else
-	EAGINE_MAYBE_UNUSED(alc_dev);
-#endif
-	return *this;
 }
 //------------------------------------------------------------------------------
-inline
-::ALCdevice*
-error_info_alc::
-alc_device(void) const
-noexcept
-{
+inline error_info_alc&
+error_info_alc::alc_device(::ALCdevice* alc_dev) noexcept {
 #if !OALPLUS_ERROR_NO_DEVICE
-	return _device;
+    _device = alc_dev;
 #else
-	return nullptr;
+    EAGINE_MAYBE_UNUSED(alc_dev);
+#endif
+    return *this;
+}
+//------------------------------------------------------------------------------
+inline ::ALCdevice*
+error_info_alc::alc_device(void) const noexcept {
+#if !OALPLUS_ERROR_NO_DEVICE
+    return _device;
+#else
+    return nullptr;
 #endif
 }
 //------------------------------------------------------------------------------
-inline
-error_info_alc&
-error_info_alc::
-alc_context(const ::ALCcontext* alc_ctx)
-noexcept
-{
+inline error_info_alc&
+error_info_alc::alc_context(const ::ALCcontext* alc_ctx) noexcept {
 #if !OALPLUS_ERROR_NO_CONTEXT
-	_context = alc_ctx;
+    _context = alc_ctx;
 #else
-	EAGINE_MAYBE_UNUSED(alc_ctx);
+    EAGINE_MAYBE_UNUSED(alc_ctx);
 #endif
-	return *this;
+    return *this;
 }
 //------------------------------------------------------------------------------
-inline
-const ::ALCcontext*
-error_info_alc::
-alc_context(void) const
-noexcept
-{
+inline const ::ALCcontext*
+error_info_alc::alc_context(void) const noexcept {
 #if !OALPLUS_ERROR_NO_CONTEXT
-	return _context;
+    return _context;
 #else
-	return nullptr;
+    return nullptr;
 #endif
 }
 //------------------------------------------------------------------------------

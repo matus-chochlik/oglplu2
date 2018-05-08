@@ -17,7 +17,7 @@ namespace oglplus {
 namespace shapes {
 
 typedef concrete_adapted_generator<eagine::shapes::unit_icosahedron_gen>
-	unit_icosahedron_gen;
+  unit_icosahedron_gen;
 
 } // namespace shapes
 } // namespace oglplus

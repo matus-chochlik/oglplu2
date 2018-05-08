@@ -12,34 +12,30 @@
 
 namespace oglplus {
 
-struct offscreen_context_params
-{
-	int argc;
-	char** argv;
-	const char* title;
-	int version_major;
-	int version_minor;
-	int width;
-	int height;
+struct offscreen_context_params {
+    int argc;
+    char** argv;
+    const char* title;
+    int version_major;
+    int version_minor;
+    int width;
+    int height;
 
-	static
-	char** fake_argv(void)
-	noexcept
-	{
-		static char name[64] = {'<','N','/','A','>','\0'};
-		static char* av[2] = {name, nullptr};
-		return av;
-	}
+    static char** fake_argv(void) noexcept {
+	static char name[64] = {'<', 'N', '/', 'A', '>', '\0'};
+	static char* av[2] = {name, nullptr};
+	return av;
+    }
 
-	offscreen_context_params(void)
-	 : argc(1)
-	 , argv(fake_argv())
-	 , title("")
-	 , version_major(OGLPLUS_GL_VERSION_MAJOR)
-	 , version_minor(OGLPLUS_GL_VERSION_MINOR)
-	 , width(64)
-	 , height(64)
-	{ }
+    offscreen_context_params(void)
+      : argc(1)
+      , argv(fake_argv())
+      , title("")
+      , version_major(OGLPLUS_GL_VERSION_MAJOR)
+      , version_minor(OGLPLUS_GL_VERSION_MINOR)
+      , width(64)
+      , height(64) {
+    }
 };
 
 } // namespace oglplus

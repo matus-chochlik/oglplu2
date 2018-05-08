@@ -9,9 +9,11 @@
 #ifndef OGLPLUS_GL_FIXED_1509260923_HPP
 #define OGLPLUS_GL_FIXED_1509260923_HPP
 
+// clang-format off
 #include <oglplus/gl.hpp>
 #include <oglplus/config/fix_gl_version.hpp>
 #include <oglplus/config/fix_gl_extension.hpp>
+// clang-format on
 
 #ifndef GL_SHADER
 #define GL_SHADER 0x82E1

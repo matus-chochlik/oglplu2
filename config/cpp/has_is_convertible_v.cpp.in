@@ -11,7 +11,7 @@ namespace std {
 }
 #endif
 
-int main(void)
-{
-	return std::is_convertible_v<int, float>?0:1;
+int
+main(void) {
+    return std::is_convertible_v<int, float> ? 0 : 1;
 }

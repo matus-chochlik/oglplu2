@@ -15,26 +15,23 @@ namespace eagine {
 
 template <typename ObjTag>
 class object_zero_and_ops
- : public object_traits<ObjTag>::template zero_dsa_ops_t<ObjTag>
-{
+  : public object_traits<ObjTag>::template zero_dsa_ops_t<ObjTag> {
 private:
-	typedef typename object_traits<ObjTag>::
-		template zero_dsa_ops_t<ObjTag>
-		_base;
+    typedef typename object_traits<ObjTag>::template zero_dsa_ops_t<ObjTag>
+      _base;
+
 public:
-	object_zero_and_ops(void) = default;
+    object_zero_and_ops(void) = default;
 };
 
 template <typename ObjTag>
 class object_name_and_ops
- : public object_traits<ObjTag>::template dsa_ops_t<ObjTag>
-{
+  : public object_traits<ObjTag>::template dsa_ops_t<ObjTag> {
 private:
-	typedef typename object_traits<ObjTag>::
-		template dsa_ops_t<ObjTag>
-		_base;
+    typedef typename object_traits<ObjTag>::template dsa_ops_t<ObjTag> _base;
+
 public:
-	using _base::_base;
+    using _base::_base;
 };
 
 } // namespace eagine

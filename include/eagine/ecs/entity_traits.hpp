@@ -13,15 +13,12 @@ namespace eagine {
 namespace ecs {
 
 template <typename Entity>
-struct entity_traits
-{
-	typedef Entity parameter_type;
+struct entity_traits {
+    typedef Entity parameter_type;
 
-	static inline Entity minimum(void)
-	noexcept
-	{
-		return Entity();
-	}
+    static inline Entity minimum(void) noexcept {
+	return Entity();
+    }
 };
 
 template <typename Entity>
@@ -30,5 +27,4 @@ using entity_param_t = typename entity_traits<Entity>::parameter_type;
 } // namespace ecs
 } // namespace eagine
 
-#endif //include guard
-
+#endif // include guard

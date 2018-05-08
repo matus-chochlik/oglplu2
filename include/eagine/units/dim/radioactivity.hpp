@@ -15,16 +15,14 @@
 namespace eagine {
 namespace units {
 
-typedef decltype(number_of_decays()/time()) radioactivity;
+typedef decltype(number_of_decays() / time()) radioactivity;
 
 template <>
-struct dim_name<radioactivity>
-{
-	static constexpr const char mp_str[] = "radioactivity";
+struct dim_name<radioactivity> {
+    static constexpr const char mp_str[] = "radioactivity";
 };
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // include guard

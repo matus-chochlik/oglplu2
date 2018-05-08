@@ -17,245 +17,230 @@
 
 BOOST_AUTO_TEST_SUITE(enum_debug_output_severity_tests)
 
-BOOST_AUTO_TEST_CASE(enum_debug_output_severity_values)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	debug_output_severity x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_debug_output_severity_values) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    debug_output_severity x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_DEBUG_SEVERITY_HIGH
-	x = ev.debug_severity_high;
-	BOOST_CHECK(x == ev.debug_severity_high);
-# ifdef GL_DEBUG_SEVERITY_LOW
-	BOOST_CHECK(x != ev.debug_severity_low);
-# endif
-# ifdef GL_DEBUG_SEVERITY_MEDIUM
-	BOOST_CHECK(x != ev.debug_severity_medium);
-# endif
-# ifdef GL_DEBUG_SEVERITY_NOTIFICATION
-	BOOST_CHECK(x != ev.debug_severity_notification);
-# endif
-# ifdef GL_DONT_CARE
-	BOOST_CHECK(x != ev.dont_care);
-# endif
+    x = ev.debug_severity_high;
+    BOOST_CHECK(x == ev.debug_severity_high);
+#ifdef GL_DEBUG_SEVERITY_LOW
+    BOOST_CHECK(x != ev.debug_severity_low);
+#endif
+#ifdef GL_DEBUG_SEVERITY_MEDIUM
+    BOOST_CHECK(x != ev.debug_severity_medium);
+#endif
+#ifdef GL_DEBUG_SEVERITY_NOTIFICATION
+    BOOST_CHECK(x != ev.debug_severity_notification);
+#endif
+#ifdef GL_DONT_CARE
+    BOOST_CHECK(x != ev.dont_care);
+#endif
 #endif
 
 #ifdef GL_DEBUG_SEVERITY_LOW
-	x = ev.debug_severity_low;
-	BOOST_CHECK(x == ev.debug_severity_low);
-# ifdef GL_DEBUG_SEVERITY_MEDIUM
-	BOOST_CHECK(x != ev.debug_severity_medium);
-# endif
-# ifdef GL_DEBUG_SEVERITY_NOTIFICATION
-	BOOST_CHECK(x != ev.debug_severity_notification);
-# endif
-# ifdef GL_DONT_CARE
-	BOOST_CHECK(x != ev.dont_care);
-# endif
+    x = ev.debug_severity_low;
+    BOOST_CHECK(x == ev.debug_severity_low);
+#ifdef GL_DEBUG_SEVERITY_MEDIUM
+    BOOST_CHECK(x != ev.debug_severity_medium);
+#endif
+#ifdef GL_DEBUG_SEVERITY_NOTIFICATION
+    BOOST_CHECK(x != ev.debug_severity_notification);
+#endif
+#ifdef GL_DONT_CARE
+    BOOST_CHECK(x != ev.dont_care);
+#endif
 #endif
 
 #ifdef GL_DEBUG_SEVERITY_MEDIUM
-	x = ev.debug_severity_medium;
-	BOOST_CHECK(x == ev.debug_severity_medium);
-# ifdef GL_DEBUG_SEVERITY_NOTIFICATION
-	BOOST_CHECK(x != ev.debug_severity_notification);
-# endif
-# ifdef GL_DONT_CARE
-	BOOST_CHECK(x != ev.dont_care);
-# endif
+    x = ev.debug_severity_medium;
+    BOOST_CHECK(x == ev.debug_severity_medium);
+#ifdef GL_DEBUG_SEVERITY_NOTIFICATION
+    BOOST_CHECK(x != ev.debug_severity_notification);
+#endif
+#ifdef GL_DONT_CARE
+    BOOST_CHECK(x != ev.dont_care);
+#endif
 #endif
 
 #ifdef GL_DEBUG_SEVERITY_NOTIFICATION
-	x = ev.debug_severity_notification;
-	BOOST_CHECK(x == ev.debug_severity_notification);
-# ifdef GL_DONT_CARE
-	BOOST_CHECK(x != ev.dont_care);
-# endif
+    x = ev.debug_severity_notification;
+    BOOST_CHECK(x == ev.debug_severity_notification);
+#ifdef GL_DONT_CARE
+    BOOST_CHECK(x != ev.dont_care);
+#endif
 #endif
 
 #ifdef GL_DONT_CARE
-	x = ev.dont_care;
-	BOOST_CHECK(x == ev.dont_care);
+    x = ev.dont_care;
+    BOOST_CHECK(x == ev.dont_care);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_debug_output_severity_names)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	debug_output_severity x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_debug_output_severity_names) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    debug_output_severity x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_DEBUG_SEVERITY_HIGH
-	x = ev.debug_severity_high;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"DEBUG_SEVERITY_HIGH"
-	) == 0);
+    x = ev.debug_severity_high;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(
+      std::strcmp(enum_value_name(x).data(), "DEBUG_SEVERITY_HIGH") == 0);
 #endif
 
 #ifdef GL_DEBUG_SEVERITY_LOW
-	x = ev.debug_severity_low;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"DEBUG_SEVERITY_LOW"
-	) == 0);
+    x = ev.debug_severity_low;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(
+      std::strcmp(enum_value_name(x).data(), "DEBUG_SEVERITY_LOW") == 0);
 #endif
 
 #ifdef GL_DEBUG_SEVERITY_MEDIUM
-	x = ev.debug_severity_medium;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"DEBUG_SEVERITY_MEDIUM"
-	) == 0);
+    x = ev.debug_severity_medium;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(
+      std::strcmp(enum_value_name(x).data(), "DEBUG_SEVERITY_MEDIUM") == 0);
 #endif
 
 #ifdef GL_DEBUG_SEVERITY_NOTIFICATION
-	x = ev.debug_severity_notification;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"DEBUG_SEVERITY_NOTIFICATION"
-	) == 0);
+    x = ev.debug_severity_notification;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(
+      std::strcmp(enum_value_name(x).data(), "DEBUG_SEVERITY_NOTIFICATION")
+      == 0);
 #endif
 
 #ifdef GL_DONT_CARE
-	x = ev.dont_care;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"DONT_CARE"
-	) == 0);
+    x = ev.dont_care;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(std::strcmp(enum_value_name(x).data(), "DONT_CARE") == 0);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_debug_output_severity_range)
-{
-	using namespace oglplus;
-	auto count = enum_value_range<debug_output_severity>().size();
+BOOST_AUTO_TEST_CASE(enum_debug_output_severity_range) {
+    using namespace oglplus;
+    auto count = enum_value_range<debug_output_severity>().size();
 
 #ifdef GL_DEBUG_SEVERITY_HIGH
-{
+    {
 	--count;
 	auto r = enum_value_range<debug_output_severity>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		debug_output_severity(GL_DEBUG_SEVERITY_HIGH)
-	) != r.end());
-}
+	BOOST_CHECK(
+	  std::find(
+	    r.begin(), r.end(), debug_output_severity(GL_DEBUG_SEVERITY_HIGH))
+	  != r.end());
+    }
 #endif
 
 #ifdef GL_DEBUG_SEVERITY_LOW
-{
+    {
 	--count;
 	auto r = enum_value_range<debug_output_severity>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		debug_output_severity(GL_DEBUG_SEVERITY_LOW)
-	) != r.end());
-}
+	BOOST_CHECK(
+	  std::find(
+	    r.begin(), r.end(), debug_output_severity(GL_DEBUG_SEVERITY_LOW))
+	  != r.end());
+    }
 #endif
 
 #ifdef GL_DEBUG_SEVERITY_MEDIUM
-{
+    {
 	--count;
 	auto r = enum_value_range<debug_output_severity>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		debug_output_severity(GL_DEBUG_SEVERITY_MEDIUM)
-	) != r.end());
-}
+	BOOST_CHECK(
+	  std::find(
+	    r.begin(), r.end(), debug_output_severity(GL_DEBUG_SEVERITY_MEDIUM))
+	  != r.end());
+    }
 #endif
 
 #ifdef GL_DEBUG_SEVERITY_NOTIFICATION
-{
+    {
 	--count;
 	auto r = enum_value_range<debug_output_severity>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		debug_output_severity(GL_DEBUG_SEVERITY_NOTIFICATION)
-	) != r.end());
-}
+	BOOST_CHECK(std::find(r.begin(),
+		      r.end(),
+		      debug_output_severity(GL_DEBUG_SEVERITY_NOTIFICATION))
+		    != r.end());
+    }
 #endif
 
 #ifdef GL_DONT_CARE
-{
+    {
 	--count;
 	auto r = enum_value_range<debug_output_severity>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		debug_output_severity(GL_DONT_CARE)
-	) != r.end());
-}
+	BOOST_CHECK(
+	  std::find(r.begin(), r.end(), debug_output_severity(GL_DONT_CARE))
+	  != r.end());
+    }
 #endif
-	BOOST_CHECK_EQUAL(count, 0);
+    BOOST_CHECK_EQUAL(count, 0);
 }
 
-BOOST_AUTO_TEST_CASE(enum_debug_output_severity_any)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	debug_output_severity x, y;
-	EAGINE_MAYBE_UNUSED(x);
-	EAGINE_MAYBE_UNUSED(y);
-	any_enum_value a;
-	EAGINE_MAYBE_UNUSED(a);
+BOOST_AUTO_TEST_CASE(enum_debug_output_severity_any) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    debug_output_severity x, y;
+    EAGINE_MAYBE_UNUSED(x);
+    EAGINE_MAYBE_UNUSED(y);
+    any_enum_value a;
+    EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_DEBUG_SEVERITY_HIGH
-	x = ev.debug_severity_high;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.debug_severity_high);
+    x = ev.debug_severity_high;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.debug_severity_high);
 #endif
 
 #ifdef GL_DEBUG_SEVERITY_LOW
-	x = ev.debug_severity_low;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.debug_severity_low);
+    x = ev.debug_severity_low;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.debug_severity_low);
 #endif
 
 #ifdef GL_DEBUG_SEVERITY_MEDIUM
-	x = ev.debug_severity_medium;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.debug_severity_medium);
+    x = ev.debug_severity_medium;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.debug_severity_medium);
 #endif
 
 #ifdef GL_DEBUG_SEVERITY_NOTIFICATION
-	x = ev.debug_severity_notification;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.debug_severity_notification);
+    x = ev.debug_severity_notification;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.debug_severity_notification);
 #endif
 
 #ifdef GL_DONT_CARE
-	x = ev.dont_care;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.dont_care);
+    x = ev.dont_care;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.dont_care);
 #endif
 }
 

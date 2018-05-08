@@ -14,18 +14,18 @@
 
 namespace oglplus {
 
-using eagine::seconds_t;
 using eagine::seconds_;
+using eagine::seconds_t;
 
-using eagine::radians_t;
-using eagine::radians_;
-using eagine::turns_;
-using eagine::right_angles_;
-using eagine::right_angle_;
 using eagine::arctan;
+using eagine::radians_;
+using eagine::radians_t;
+using eagine::right_angle_;
+using eagine::right_angles_;
+using eagine::turns_;
 
-using eagine::degrees_t;
 using eagine::degrees_;
+using eagine::degrees_t;
 
 } // namespace oglplus
 

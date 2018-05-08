@@ -10,8 +10,8 @@
 #ifndef EAGINE_UNITS_DIMLESS_1512222148_HPP
 #define EAGINE_UNITS_DIMLESS_1512222148_HPP
 
-#include "fwd.hpp"
 #include "detail.hpp"
+#include "fwd.hpp"
 
 namespace eagine {
 namespace units {
@@ -19,13 +19,11 @@ namespace units {
 typedef bits::dimless dimensionless;
 
 template <>
-struct dim_name<dimensionless>
-{
-	static constexpr const char mp_str[] = "dimensionless";
+struct dim_name<dimensionless> {
+    static constexpr const char mp_str[] = "dimensionless";
 };
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // include guard

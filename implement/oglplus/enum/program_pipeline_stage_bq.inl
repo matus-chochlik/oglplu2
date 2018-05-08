@@ -13,51 +13,42 @@ namespace oglplus {
 
 OGLPLUS_LIB_FUNC
 binding_query
-get_binding_query(program_pipeline_stage tgt)
-noexcept
-{
-	GLbitfield result = 0;
-	switch(GLbitfield(tgt))
-	{
-#if	defined(GL_COMPUTE_SHADER_BIT) && \
-	defined(GL_COMPUTE_SHADER)
-		case GL_COMPUTE_SHADER_BIT:
-			result = GL_COMPUTE_SHADER;
-			break;
+get_binding_query(program_pipeline_stage tgt) noexcept {
+    GLbitfield result = 0;
+    switch(GLbitfield(tgt)) {
+#if defined(GL_COMPUTE_SHADER_BIT) && defined(GL_COMPUTE_SHADER)
+	case GL_COMPUTE_SHADER_BIT:
+	    result = GL_COMPUTE_SHADER;
+	    break;
 #endif
-#if	defined(GL_FRAGMENT_SHADER_BIT) && \
-	defined(GL_FRAGMENT_SHADER)
-		case GL_FRAGMENT_SHADER_BIT:
-			result = GL_FRAGMENT_SHADER;
-			break;
+#if defined(GL_FRAGMENT_SHADER_BIT) && defined(GL_FRAGMENT_SHADER)
+	case GL_FRAGMENT_SHADER_BIT:
+	    result = GL_FRAGMENT_SHADER;
+	    break;
 #endif
-#if	defined(GL_GEOMETRY_SHADER_BIT) && \
-	defined(GL_GEOMETRY_SHADER)
-		case GL_GEOMETRY_SHADER_BIT:
-			result = GL_GEOMETRY_SHADER;
-			break;
+#if defined(GL_GEOMETRY_SHADER_BIT) && defined(GL_GEOMETRY_SHADER)
+	case GL_GEOMETRY_SHADER_BIT:
+	    result = GL_GEOMETRY_SHADER;
+	    break;
 #endif
-#if	defined(GL_TESS_CONTROL_SHADER_BIT) && \
-	defined(GL_TESS_CONTROL_SHADER)
-		case GL_TESS_CONTROL_SHADER_BIT:
-			result = GL_TESS_CONTROL_SHADER;
-			break;
+#if defined(GL_TESS_CONTROL_SHADER_BIT) && defined(GL_TESS_CONTROL_SHADER)
+	case GL_TESS_CONTROL_SHADER_BIT:
+	    result = GL_TESS_CONTROL_SHADER;
+	    break;
 #endif
-#if	defined(GL_TESS_EVALUATION_SHADER_BIT) && \
-	defined(GL_TESS_EVALUATION_SHADER)
-		case GL_TESS_EVALUATION_SHADER_BIT:
-			result = GL_TESS_EVALUATION_SHADER;
-			break;
+#if defined(GL_TESS_EVALUATION_SHADER_BIT) && defined(GL_TESS_EVALUATION_SHADER)
+	case GL_TESS_EVALUATION_SHADER_BIT:
+	    result = GL_TESS_EVALUATION_SHADER;
+	    break;
 #endif
-#if	defined(GL_VERTEX_SHADER_BIT) && \
-	defined(GL_VERTEX_SHADER)
-		case GL_VERTEX_SHADER_BIT:
-			result = GL_VERTEX_SHADER;
-			break;
+#if defined(GL_VERTEX_SHADER_BIT) && defined(GL_VERTEX_SHADER)
+	case GL_VERTEX_SHADER_BIT:
+	    result = GL_VERTEX_SHADER;
+	    break;
 #endif
-		default:;
-	}
-	return binding_query(result);
+	default:;
+    }
+    return binding_query(result);
 }
 
 } // namespace oglplus

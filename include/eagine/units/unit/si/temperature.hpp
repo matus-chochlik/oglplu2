@@ -17,41 +17,38 @@ namespace units {
 namespace base {
 
 // kelvin
-struct kelvin : unit<temperature, kelvin> { };
+struct kelvin : unit<temperature, kelvin> {};
 
 template <>
-struct unit_name<kelvin>
-{
-	static constexpr const char mp_str[] = "kelvin";
+struct unit_name<kelvin> {
+    static constexpr const char mp_str[] = "kelvin";
 };
 template <>
-struct unit_symbol<kelvin>
-{
-	static constexpr const char mp_str[] = "K";
+struct unit_symbol<kelvin> {
+    static constexpr const char mp_str[] = "K";
 };
 
 } // namespace base
 
 // si::base_unit<temperature>
 template <>
-struct si::base_unit<base::temperature> : base::kelvin { };
+struct si::base_unit<base::temperature> : base::kelvin {};
 
 // kelvin
 typedef unit<temperature, si> kelvin;
 
 // derived
 typedef make_scaled_base_dim_unit_t<
-	base::scaled_unit<scales::milli, base::kelvin>,
-	si
-> millikelvin;
+  base::scaled_unit<scales::milli, base::kelvin>,
+  si>
+  millikelvin;
 
 typedef make_scaled_base_dim_unit_t<
-	base::scaled_unit<scales::kilo, base::kelvin>,
-	si
-> kilokelvin;
+  base::scaled_unit<scales::kilo, base::kelvin>,
+  si>
+  kilokelvin;
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // include guard

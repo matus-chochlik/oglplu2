@@ -15,16 +15,14 @@
 namespace eagine {
 namespace units {
 
-typedef decltype(length()*length()*length()) volume;
+typedef decltype(length() * length() * length()) volume;
 
 template <>
-struct dim_name<volume>
-{
-	static constexpr const char mp_str[] = "volume";
+struct dim_name<volume> {
+    static constexpr const char mp_str[] = "volume";
 };
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // include guard

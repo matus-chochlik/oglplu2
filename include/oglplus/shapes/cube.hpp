@@ -16,8 +16,7 @@
 namespace oglplus {
 namespace shapes {
 
-typedef concrete_adapted_generator<eagine::shapes::unit_cube_gen>
-	unit_cube_gen;
+typedef concrete_adapted_generator<eagine::shapes::unit_cube_gen> unit_cube_gen;
 
 } // namespace shapes
 } // namespace oglplus

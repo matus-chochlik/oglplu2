@@ -9,62 +9,51 @@
 #ifndef OGLPLUS_TEXGEN_SPLIT_NODE_1509260923_HPP
 #define OGLPLUS_TEXGEN_SPLIT_NODE_1509260923_HPP
 
-#include "fallback_input.hpp"
-#include "base_node.hpp"
 #include "../utils/types.hpp"
+#include "base_node.hpp"
+#include "fallback_input.hpp"
 
 namespace oglplus {
 namespace texgen {
 
-class split_output
- : public base_output
-{
+class split_output : public base_output {
 private:
-	input_with_const_default<float[4]>& _input;
-	span_size_t _index;
+    input_with_const_default<float[4]>& _input;
+    span_size_t _index;
+
 public:
-	split_output(
-		node_intf& parent,
-		input_with_const_default<float[4]>& input,
-		eagine::valid_if_between<span_size_t, 0, 3> index
-	);
+    split_output(node_intf& parent,
+      input_with_const_default<float[4]>& input,
+      eagine::valid_if_between<span_size_t, 0, 3> index);
 
-	cstr_ref type_name(void)
-	override;
+    cstr_ref type_name(void) override;
 
-	slot_data_type value_type(void)
-	override;
+    slot_data_type value_type(void) override;
 
-	std::ostream& definitions(std::ostream& out, compile_context& ctxt)
-	override;
+    std::ostream& definitions(
+      std::ostream& out, compile_context& ctxt) override;
 };
 
-class split_node
- : public base_node
-{
+class split_node : public base_node {
 private:
-	input_with_const_default<float[4]> _input;
-	split_output _output_r;
-	split_output _output_g;
-	split_output _output_b;
-	split_output _output_a;
+    input_with_const_default<float[4]> _input;
+    split_output _output_r;
+    split_output _output_g;
+    split_output _output_b;
+    split_output _output_a;
+
 public:
-	split_node(void);
+    split_node(void);
 
-	cstr_ref type_name(void)
-	override;
+    cstr_ref type_name(void) override;
 
-	span_size_t input_count(void)
-	override;
+    span_size_t input_count(void) override;
 
-	input_intf& input(span_size_t index)
-	override;
+    input_intf& input(span_size_t index) override;
 
-	span_size_t output_count(void)
-	override;
+    span_size_t output_count(void) override;
 
-	output_intf& output(span_size_t index)
-	override;
+    output_intf& output(span_size_t index) override;
 };
 
 } // namespace texgen

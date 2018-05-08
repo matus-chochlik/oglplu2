@@ -11,5 +11,4 @@
 
 #define EAGINE_MAYBE_UNUSED(EXPR) (void)(EXPR)
 
-#endif //include guard
-
+#endif // include guard

@@ -15,34 +15,33 @@
 namespace eagine {
 
 template <typename Func, typename SepFunc>
-class interleaved_call
-{
+class interleaved_call {
 private:
-	Func _func;
-	SepFunc _sep_func;
-	bool _first;
-public:
-	interleaved_call(Func func, SepFunc sep_func)
-	 : _func(func)
-	 , _sep_func(sep_func)
-	 , _first(true)
-	{ }
+    Func _func;
+    SepFunc _sep_func;
+    bool _first;
 
-	template <typename ... P>
-	auto operator()(P&& ... p)
-	{
-		if(!_first) _sep_func();
-		else _first = false;
-		return _func(std::forward<P>(p)...);
-	}
+public:
+    interleaved_call(Func func, SepFunc sep_func)
+      : _func(func)
+      , _sep_func(sep_func)
+      , _first(true) {
+    }
+
+    template <typename... P>
+    auto operator()(P&&... p) {
+	if(!_first)
+	    _sep_func();
+	else
+	    _first = false;
+	return _func(std::forward<P>(p)...);
+    }
 };
 
 template <typename Func, typename SepFunc>
-static inline
-interleaved_call<Func, SepFunc>
-make_interleaved(Func func, SepFunc sep_func)
-{
-	return {func, sep_func};
+static inline interleaved_call<Func, SepFunc>
+make_interleaved(Func func, SepFunc sep_func) {
+    return {func, sep_func};
 }
 
 } // namespace eagine

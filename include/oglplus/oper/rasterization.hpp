@@ -9,163 +9,90 @@
 #ifndef OGLPLUS_OPER_RASTERIZATION_1509260923_HPP
 #define OGLPLUS_OPER_RASTERIZATION_1509260923_HPP
 
+#include "../enum/types.hpp"
 #include "../error/handling.hpp"
 #include "../error/outcome.hpp"
-#include "../enum/types.hpp"
 
 namespace oglplus {
 namespace oper {
 
-struct rasterization_state
-{
-	static
-	outcome<void>
-	front_face(face_orientation orientation)
-	noexcept;
+struct rasterization_state {
+    static outcome<void> front_face(face_orientation orientation) noexcept;
 
-	static
-	outcome<face_orientation>
-	get_front_face(void)
-	noexcept;
+    static outcome<face_orientation> get_front_face(void) noexcept;
 
-	static
-	outcome<void>
-	cull_face(face mode)
-	noexcept;
+    static outcome<void> cull_face(face mode) noexcept;
 
-	static
-	outcome<face>
-	get_cull_face_mode(void)
-	noexcept;
+    static outcome<face> get_cull_face_mode(void) noexcept;
 
 #if defined(GL_VERSION_4_5)
-	static
-	outcome<void>
-	clip_control(clip_origin origin, clip_depth_mode depth)
-	noexcept;
+    static outcome<void> clip_control(
+      clip_origin origin, clip_depth_mode depth) noexcept;
 #endif
 
-	static
-	outcome<void>
-	depth_func(compare_function func)
-	noexcept;
+    static outcome<void> depth_func(compare_function func) noexcept;
 
-	static
-	outcome<compare_function>
-	get_depth_func(void)
-	noexcept;
+    static outcome<compare_function> get_depth_func(void) noexcept;
 
 #if defined(GL_VERSION_4_1)
-	static
-	outcome<void>
-	depth_range_f(GLfloat near, GLfloat far)
-	noexcept;
+    static outcome<void> depth_range_f(GLfloat near, GLfloat far) noexcept;
 #endif
 
 #if defined(GL_DOUBLE)
-	static
-	outcome<void>
-	depth_range(GLdouble near, GLdouble far)
-	noexcept;
+    static outcome<void> depth_range(GLdouble near, GLdouble far) noexcept;
 
-	static
-	outcome<void>
-	depth_range(GLuint index, GLdouble near, GLdouble far)
-	noexcept;
+    static outcome<void> depth_range(
+      GLuint index, GLdouble near, GLdouble far) noexcept;
 #endif
 
 #if defined(GL_VERSION_3_0)
-	static
-	outcome<void>
-	polygon_mode(face side, oglplus::polygon_mode mode)
-	noexcept;
+    static outcome<void> polygon_mode(
+      face side, oglplus::polygon_mode mode) noexcept;
 
-	// TODO getter
+    // TODO getter
 #endif
 
-	static
-	outcome<void>
-	polygon_offset(GLfloat factor, GLfloat units)
-	noexcept;
+    static outcome<void> polygon_offset(GLfloat factor, GLfloat units) noexcept;
 
 #if defined(GL_VERSION_4_6) || defined(GL_EXT_polygon_offset_clamp)
-	static
-	outcome<void>
-	polygon_offset_clamp(GLfloat factor, GLfloat units, GLfloat clamp)
-	noexcept;
+    static outcome<void> polygon_offset_clamp(
+      GLfloat factor, GLfloat units, GLfloat clamp) noexcept;
 #endif
 
-	static
-	outcome<GLfloat>
-	get_polygon_offset_factor(void)
-	noexcept;
+    static outcome<GLfloat> get_polygon_offset_factor(void) noexcept;
 
-	static
-	outcome<GLfloat>
-	get_polygon_offset_units(void)
-	noexcept;
+    static outcome<GLfloat> get_polygon_offset_units(void) noexcept;
 
 #if defined(GL_VERSION_4_6) || defined(GL_EXT_polygon_offset_clamp)
-	static
-	outcome<GLfloat>
-	get_polygon_offset_clamp(void)
-	noexcept;
+    static outcome<GLfloat> get_polygon_offset_clamp(void) noexcept;
 #endif
 
-	static
-	outcome<void>
-	line_width(GLfloat value)
-	noexcept;
+    static outcome<void> line_width(GLfloat value) noexcept;
 
-	static
-	outcome<GLfloat>
-	get_line_width(void)
-	noexcept;
+    static outcome<GLfloat> get_line_width(void) noexcept;
 
 #if defined(GL_VERSION_3_0)
-	static
-	outcome<void>
-	point_size(GLfloat value)
-	noexcept;
+    static outcome<void> point_size(GLfloat value) noexcept;
 
-	static
-	outcome<GLfloat>
-	get_point_size(void)
-	noexcept;
+    static outcome<GLfloat> get_point_size(void) noexcept;
 
-	static
-	outcome<void>
-	point_parameter(oglplus::point_parameter param, GLfloat value)
-	noexcept;
+    static outcome<void> point_parameter(
+      oglplus::point_parameter param, GLfloat value) noexcept;
 
-	static
-	outcome<GLfloat>
-	get_point_parameter(oglplus::point_parameter param)
-	noexcept;
+    static outcome<GLfloat> get_point_parameter(
+      oglplus::point_parameter param) noexcept;
 #endif
 
 #if defined(GL_VERSION_3_2) || defined(GL_ARB_provoking_vertex)
-	static
-	outcome<void>
-	provoking_vertex(provoke_mode mode)
-	noexcept;
+    static outcome<void> provoking_vertex(provoke_mode mode) noexcept;
 
-	static
-	outcome<provoke_mode>
-	get_provoking_vertex(void)
-	noexcept;
+    static outcome<provoke_mode> get_provoking_vertex(void) noexcept;
 #endif
 
 #if defined(GL_VERSION_4_0)
-	static
-	outcome<void>
-	min_sample_shading(GLfloat value)
-	noexcept;
+    static outcome<void> min_sample_shading(GLfloat value) noexcept;
 
-	static
-	outcome<GLfloat>
-	get_min_sample_shading_value(void)
-	noexcept;
+    static outcome<GLfloat> get_min_sample_shading_value(void) noexcept;
 #endif
 };
 

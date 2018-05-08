@@ -17,113 +17,99 @@
 
 BOOST_AUTO_TEST_SUITE(enum_face_orientation_tests)
 
-BOOST_AUTO_TEST_CASE(enum_face_orientation_values)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	face_orientation x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_face_orientation_values) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    face_orientation x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_CCW
-	x = ev.ccw;
-	BOOST_CHECK(x == ev.ccw);
-# ifdef GL_CW
-	BOOST_CHECK(x != ev.cw);
-# endif
+    x = ev.ccw;
+    BOOST_CHECK(x == ev.ccw);
+#ifdef GL_CW
+    BOOST_CHECK(x != ev.cw);
+#endif
 #endif
 
 #ifdef GL_CW
-	x = ev.cw;
-	BOOST_CHECK(x == ev.cw);
+    x = ev.cw;
+    BOOST_CHECK(x == ev.cw);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_face_orientation_names)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	face_orientation x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_face_orientation_names) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    face_orientation x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_CCW
-	x = ev.ccw;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"CCW"
-	) == 0);
+    x = ev.ccw;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(std::strcmp(enum_value_name(x).data(), "CCW") == 0);
 #endif
 
 #ifdef GL_CW
-	x = ev.cw;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"CW"
-	) == 0);
+    x = ev.cw;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(std::strcmp(enum_value_name(x).data(), "CW") == 0);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_face_orientation_range)
-{
-	using namespace oglplus;
-	auto count = enum_value_range<face_orientation>().size();
+BOOST_AUTO_TEST_CASE(enum_face_orientation_range) {
+    using namespace oglplus;
+    auto count = enum_value_range<face_orientation>().size();
 
 #ifdef GL_CCW
-{
+    {
 	--count;
 	auto r = enum_value_range<face_orientation>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		face_orientation(GL_CCW)
-	) != r.end());
-}
+	BOOST_CHECK(
+	  std::find(r.begin(), r.end(), face_orientation(GL_CCW)) != r.end());
+    }
 #endif
 
 #ifdef GL_CW
-{
+    {
 	--count;
 	auto r = enum_value_range<face_orientation>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		face_orientation(GL_CW)
-	) != r.end());
-}
+	BOOST_CHECK(
+	  std::find(r.begin(), r.end(), face_orientation(GL_CW)) != r.end());
+    }
 #endif
-	BOOST_CHECK_EQUAL(count, 0);
+    BOOST_CHECK_EQUAL(count, 0);
 }
 
-BOOST_AUTO_TEST_CASE(enum_face_orientation_any)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	face_orientation x, y;
-	EAGINE_MAYBE_UNUSED(x);
-	EAGINE_MAYBE_UNUSED(y);
-	any_enum_value a;
-	EAGINE_MAYBE_UNUSED(a);
+BOOST_AUTO_TEST_CASE(enum_face_orientation_any) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    face_orientation x, y;
+    EAGINE_MAYBE_UNUSED(x);
+    EAGINE_MAYBE_UNUSED(y);
+    any_enum_value a;
+    EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_CCW
-	x = ev.ccw;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.ccw);
+    x = ev.ccw;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.ccw);
 #endif
 
 #ifdef GL_CW
-	x = ev.cw;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.cw);
+    x = ev.cw;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.cw);
 #endif
 }
 

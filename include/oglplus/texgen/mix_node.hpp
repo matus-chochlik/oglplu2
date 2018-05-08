@@ -9,59 +9,48 @@
 #ifndef OGLPLUS_TEXGEN_MIX_NODE_1509260923_HPP
 #define OGLPLUS_TEXGEN_MIX_NODE_1509260923_HPP
 
-#include "fallback_input.hpp"
 #include "base_node.hpp"
+#include "fallback_input.hpp"
 
 namespace oglplus {
 namespace texgen {
 
-class mix_output
- : public base_output
-{
+class mix_output : public base_output {
 public:
-	input_with_const_default<float[4]> zero;
-	input_with_const_default<float[4]> one;
-	input_with_const_default<float[1]> value;
+    input_with_const_default<float[4]> zero;
+    input_with_const_default<float[4]> one;
+    input_with_const_default<float[1]> value;
 
-	mix_output(node_intf& parent);
+    mix_output(node_intf& parent);
 
-	cstr_ref type_name(void)
-	override;
+    cstr_ref type_name(void) override;
 
-	slot_data_type value_type(void)
-	override;
+    slot_data_type value_type(void) override;
 
-	std::ostream& definitions(std::ostream& out, compile_context& ctxt)
-	override;
+    std::ostream& definitions(
+      std::ostream& out, compile_context& ctxt) override;
 };
 
-class mix_node
- : public single_output_node<mix_output>
-{
+class mix_node : public single_output_node<mix_output> {
 public:
-	mix_node&
-	set_zero(float x, float y, float z, float w) {
-		_output.zero.fallback().set(x, y, z, w);
-		return *this;
-	}
+    mix_node& set_zero(float x, float y, float z, float w) {
+	_output.zero.fallback().set(x, y, z, w);
+	return *this;
+    }
 
-	mix_node&
-	set_one(float x, float y, float z, float w) {
-		_output.one.fallback().set(x, y, z, w);
-		return *this;
-	}
+    mix_node& set_one(float x, float y, float z, float w) {
+	_output.one.fallback().set(x, y, z, w);
+	return *this;
+    }
 
-	mix_node&
-	set_value(float v) {
-		_output.value.fallback().set(v);
-		return *this;
-	}
+    mix_node& set_value(float v) {
+	_output.value.fallback().set(v);
+	return *this;
+    }
 
-	span_size_t input_count(void)
-	override;
+    span_size_t input_count(void) override;
 
-	input_intf& input(span_size_t index)
-	override;
+    input_intf& input(span_size_t index) override;
 };
 
 } // namespace texgen

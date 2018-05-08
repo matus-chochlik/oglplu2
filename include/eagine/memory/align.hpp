@@ -15,26 +15,31 @@
 namespace eagine {
 namespace memory {
 
-static constexpr inline
-span_size_t misalignment(span_size_t addr, span_size_t alignment)
-noexcept { return addr % alignment; }
+static constexpr inline span_size_t
+misalignment(span_size_t addr, span_size_t alignment) noexcept {
+    return addr % alignment;
+}
 
-static constexpr inline
-span_size_t misalignment(std::nullptr_t, span_size_t)
-noexcept { return 0; }
+static constexpr inline span_size_t
+misalignment(std::nullptr_t, span_size_t) noexcept {
+    return 0;
+}
 
-static constexpr inline
-bool is_aligned_to(span_size_t addr, span_size_t algn)
-noexcept { return misalignment(addr, algn) == 0; }
+static constexpr inline bool
+is_aligned_to(span_size_t addr, span_size_t algn) noexcept {
+    return misalignment(addr, algn) == 0;
+}
 
-static constexpr inline
-bool is_aligned_to(std::nullptr_t, span_size_t)
-noexcept { return true; }
+static constexpr inline bool
+is_aligned_to(std::nullptr_t, span_size_t) noexcept {
+    return true;
+}
 
 template <typename T>
-static constexpr inline
-bool is_aligned_as(span_size_t addr)
-noexcept { return is_aligned_to(addr, span_align_of<T>()); }
+static constexpr inline bool
+is_aligned_as(span_size_t addr) noexcept {
+    return is_aligned_to(addr, span_align_of<T>());
+}
 
 } // namespace memory
 } // namespace eagine

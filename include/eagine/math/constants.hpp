@@ -20,10 +20,9 @@ static constexpr const auto pi = M_PI;
 static constexpr const auto pi = 3.14159265358979323846;
 #endif
 
-static const auto phi = (1.0+std::sqrt(5.0)) * 0.5;
+static const auto phi = (1.0 + std::sqrt(5.0)) * 0.5;
 
 } // namespace math
 } // namespace eagine
 
-#endif //include guard
-
+#endif // include guard

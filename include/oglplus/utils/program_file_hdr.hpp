@@ -10,38 +10,29 @@
 #ifndef OGLPLUS_UTILS_PROGRAM_FILE_HDR_1509260923_HPP
 #define OGLPLUS_UTILS_PROGRAM_FILE_HDR_1509260923_HPP
 
+#include <array>
 #include <eagine/file_magic_number.hpp>
 #include <eagine/offset_ptr.hpp>
-#include <array>
 
 namespace oglplus {
 
-struct shader_source_header
-{
-	eagine::file_magic_number<'o', 'g', 'l', '+', 's', 'h', 'd','r'> magic;
-	eagine::offset_array<const char> source_text;
-	GLenum shader_type;
+struct shader_source_header {
+    eagine::file_magic_number<'o', 'g', 'l', '+', 's', 'h', 'd', 'r'> magic;
+    eagine::offset_array<const char> source_text;
+    GLenum shader_type;
 
-	constexpr
-	shader_source_header(void)
-	noexcept
-	 : shader_type(GL_NONE)
-	{ }
+    constexpr shader_source_header(void) noexcept
+      : shader_type(GL_NONE) {
+    }
 };
 
-struct program_source_header
-{
-	eagine::file_magic_number<'o', 'g', 'l', '+', 'p', 'r', 'o','g'> magic;
-	eagine::offset_array<
-		const eagine::offset_ptr<
-			const shader_source_header
-		>
-	> shader_sources;
+struct program_source_header {
+    eagine::file_magic_number<'o', 'g', 'l', '+', 'p', 'r', 'o', 'g'> magic;
+    eagine::offset_array<const eagine::offset_ptr<const shader_source_header>>
+      shader_sources;
 
-	constexpr
-	program_source_header(void)
-	noexcept
-	{ }
+    constexpr program_source_header(void) noexcept {
+    }
 };
 
 } // namespace oglplus

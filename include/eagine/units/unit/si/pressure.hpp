@@ -10,11 +10,11 @@
 #ifndef EAGINE_UNITS_UNIT_SI_PRESSURE_1512222148_HPP
 #define EAGINE_UNITS_UNIT_SI_PRESSURE_1512222148_HPP
 
+#include "../../dim/pressure.hpp"
 #include "common.hpp"
+#include "length.hpp"
 #include "mass.hpp"
 #include "time.hpp"
-#include "length.hpp"
-#include "../../dim/pressure.hpp"
 
 namespace eagine {
 namespace units {
@@ -23,15 +23,13 @@ namespace units {
 typedef unit<pressure, si> pascal;
 
 template <>
-struct unit_name<pascal>
-{
-	static constexpr const char mp_str[] = "pascal";
+struct unit_name<pascal> {
+    static constexpr const char mp_str[] = "pascal";
 };
 
 template <>
-struct unit_symbol<pascal>
-{
-	static constexpr const char mp_str[] = "Pa";
+struct unit_symbol<pascal> {
+    static constexpr const char mp_str[] = "Pa";
 };
 
 // derived
@@ -42,5 +40,4 @@ typedef make_scaled_unit_t<scales::mega, pascal> megapascal;
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // include guard

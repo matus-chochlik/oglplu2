@@ -16,14 +16,12 @@ namespace eagine {
 namespace units {
 
 template <typename U, typename T>
-static inline
-tagged_quantity<T, U> quantity(const T& value)
-{
-	return tagged_quantity<T, U>(value);
+static inline tagged_quantity<T, U>
+quantity(const T& value) {
+    return tagged_quantity<T, U>(value);
 }
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // include guard

@@ -15,55 +15,39 @@
 namespace oglplus {
 namespace texgen {
 namespace expr {
-struct constant_id
-{
-	constant_intf& constant;
-	compile_context& context;
+struct constant_id {
+    constant_intf& constant;
+    compile_context& context;
 };
-std::ostream& operator << (std::ostream& out, const constant_id&);
+std::ostream&
+operator<<(std::ostream& out, const constant_id&);
 } // namespace expr
 
-class base_constant
- : public constant_intf
-{
+class base_constant : public constant_intf {
 public:
-	std::string identifier(void);
+    std::string identifier(void);
 
-	slot_data_type value_type(void)
-	override;
+    slot_data_type value_type(void) override;
 
-	virtual
-	std::ostream& value(std::ostream&, compile_context&) = 0;
+    virtual std::ostream& value(std::ostream&, compile_context&) = 0;
 
-	std::ostream& definitions(std::ostream&, compile_context&)
-	override;
+    std::ostream& definitions(std::ostream&, compile_context&) override;
 
-	std::ostream& expression(std::ostream&, compile_context&)
-	override;
+    std::ostream& expression(std::ostream&, compile_context&) override;
 };
 
-class constant_pi
- : public base_constant
-{
+class constant_pi : public base_constant {
 public:
-	cstr_ref name(void) const
-	noexcept
-	override;
+    cstr_ref name(void) const noexcept override;
 
-	std::ostream& value(std::ostream&, compile_context&)
-	override;
+    std::ostream& value(std::ostream&, compile_context&) override;
 };
 
-class constant_phi
- : public base_constant
-{
+class constant_phi : public base_constant {
 public:
-	cstr_ref name(void) const
-	noexcept
-	override;
+    cstr_ref name(void) const noexcept override;
 
-	std::ostream& value(std::ostream&, compile_context&)
-	override;
+    std::ostream& value(std::ostream&, compile_context&) override;
 };
 
 } // namespace texgen

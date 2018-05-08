@@ -14,74 +14,57 @@
 namespace oglplus {
 namespace texgen {
 
-class base_input
- : public input_intf
-{
+class base_input : public input_intf {
 private:
-	node_intf& _parent;
-	cstr_ref _name;
-	output_intf* _output;
+    node_intf& _parent;
+    cstr_ref _name;
+    output_intf* _output;
+
 public:
-	base_input(base_input&&) = default;
+    base_input(base_input&&) = default;
 
-	base_input(node_intf& par_node, const cstr_ref& name_str)
-	noexcept
-	 : _parent(par_node)
-	 , _name(name_str)
-	 , _output(nullptr)
-	{ }
+    base_input(node_intf& par_node, const cstr_ref& name_str) noexcept
+      : _parent(par_node)
+      , _name(name_str)
+      , _output(nullptr) {
+    }
 
-	~base_input(void)
-	noexcept
-	override;
+    ~base_input(void) noexcept override;
 
-	node_intf& parent(void)
-	noexcept { return _parent; }
+    node_intf& parent(void) noexcept {
+	return _parent;
+    }
 
-	void set_name(const cstr_ref& name)
-	noexcept { _name = name; }
+    void set_name(const cstr_ref& name) noexcept {
+	_name = name;
+    }
 
-	cstr_ref name(void)
-	noexcept
-	override;
+    cstr_ref name(void) noexcept override;
 
-	bool is_connected(void)
-	noexcept
-	override;
+    bool is_connected(void) noexcept override;
 
-	bool is_connected(output_intf&)
-	override;
+    bool is_connected(output_intf&) override;
 
-	bool can_connect(output_intf&)
-	override;
+    bool can_connect(output_intf&) override;
 
-	bool do_connect(output_intf&);
+    bool do_connect(output_intf&);
 
-	bool connect(output_intf&)
-	override;
+    bool connect(output_intf&) override;
 
-	void disconnect(void)
-	override;
+    void disconnect(void) override;
 
-	bool disconnect(output_intf&)
-	override;
+    bool disconnect(output_intf&) override;
 
-	output_intf& connected_output(void)
-	override;
+    output_intf& connected_output(void) override;
 
-	bool set_default_value(
-		eagine::valid_if_between<span_size_t, 0, 3> cmp,
-		float val
-	) override;
+    bool set_default_value(
+      eagine::valid_if_between<span_size_t, 0, 3> cmp, float val) override;
 
-	void update_needed(void)
-	override;
+    void update_needed(void) override;
 
-	void prepare_connected(void)
-	override;
+    void prepare_connected(void) override;
 
-	bool render_connected(const render_params&)
-	override;
+    bool render_connected(const render_params&) override;
 };
 
 } // namespace texgen

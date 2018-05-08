@@ -15,16 +15,13 @@ namespace eagine {
 namespace vect {
 
 template <typename T, int N, bool V>
-struct diff
-{
-	typedef data_t<T, N, V> _dT;
-	typedef data_param_t<T, N, V> _dpT;
+struct diff {
+    typedef data_t<T, N, V> _dT;
+    typedef data_param_t<T, N, V> _dpT;
 
-	static
-	_dT apply(_dpT a, _dpT b)
-	noexcept {
-		return vect::abs<T, N, V>::apply(a-b);
-	}
+    static _dT apply(_dpT a, _dpT b) noexcept {
+	return vect::abs<T, N, V>::apply(a - b);
+    }
 };
 
 // TODO: some optimizations ?
@@ -32,5 +29,4 @@ struct diff
 } // namespace vect
 } // namespace eagine
 
-#endif //include guard
-
+#endif // include guard

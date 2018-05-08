@@ -17,32 +17,28 @@ namespace units {
 namespace base {
 
 // gram
-struct gram : unit<mass, gram> { };
+struct gram : unit<mass, gram> {};
 
 template <>
-struct unit_name<gram>
-{
-	static constexpr const char mp_str[] = "gram";
+struct unit_name<gram> {
+    static constexpr const char mp_str[] = "gram";
 };
 template <>
-struct unit_symbol<gram>
-{
-	static constexpr const char mp_str[] = "g";
+struct unit_symbol<gram> {
+    static constexpr const char mp_str[] = "g";
 };
 
 // tonne
 typedef scaled_unit<scales::mega, gram> tonne;
 
 template <>
-struct unit_name<tonne>
-{
-	static constexpr const char mp_str[] = "tonne";
+struct unit_name<tonne> {
+    static constexpr const char mp_str[] = "tonne";
 };
 
 template <>
-struct unit_symbol<tonne>
-{
-	static constexpr const char mp_str[] = "t";
+struct unit_symbol<tonne> {
+    static constexpr const char mp_str[] = "t";
 };
 
 } // namespace base
@@ -50,27 +46,24 @@ struct unit_symbol<tonne>
 // si::base_unit<mass>
 template <>
 struct si::base_unit<base::mass>
- : base::scaled_unit<scales::kilo, base::gram>
-{ };
+  : base::scaled_unit<scales::kilo, base::gram> {};
 
 // kilogram
 typedef unit<mass, si> kilogram;
 
 // derived
-typedef make_scaled_base_dim_unit_t<
-	base::scaled_unit<scales::one, base::gram>,
-	si
-> gram;
+typedef make_scaled_base_dim_unit_t<base::scaled_unit<scales::one, base::gram>,
+  si>
+  gram;
 
 typedef make_scaled_base_dim_unit_t<
-	base::scaled_unit<scales::milli, base::gram>,
-	si
-> milligram;
+  base::scaled_unit<scales::milli, base::gram>,
+  si>
+  milligram;
 
 typedef make_scaled_base_dim_unit_t<base::tonne, si> tonne;
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // include guard

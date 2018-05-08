@@ -8,13 +8,12 @@
 #ifdef EAGINE_TEST_TRAIT_FIX
 namespace std {
 #include "make_@TYPE_TRAIT@_v.inl"
-} 
+}
 #endif
 
-int main(void)
-{
-	return (
-		std::@TYPE_TRAIT@_v<int, int> ==
-		std::@TYPE_TRAIT@<int, int>::value
-	)?0:1;
+int
+main(void) {
+    return (std::@TYPE_TRAIT@_v<int, int> == std::@TYPE_TRAIT@<int, int>::value)
+	     ? 0
+	     : 1;
 }

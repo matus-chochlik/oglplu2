@@ -9,31 +9,22 @@
 #ifndef OGLPLUS_OPER_STRING_QUERIES_1509260923_HPP
 #define OGLPLUS_OPER_STRING_QUERIES_1509260923_HPP
 
-#include "../utils/gl_func.hpp"
-#include "../utils/cstr_ref.hpp"
+#include "../enum/types.hpp"
 #include "../error/handling.hpp"
 #include "../error/outcome.hpp"
-#include "../enum/types.hpp"
+#include "../utils/cstr_ref.hpp"
+#include "../utils/gl_func.hpp"
 
 namespace oglplus {
 namespace oper {
 
-struct string_queries
-{
-	static
-	outcome<cstr_ref>
-	get_string(string_query query)
-	noexcept;
+struct string_queries {
+    static outcome<cstr_ref> get_string(string_query query) noexcept;
 
-	static
-	outcome<cstr_ref>
-	get_string(string_query query, GLuint index)
-	noexcept;
+    static outcome<cstr_ref> get_string(
+      string_query query, GLuint index) noexcept;
 
-	static
-	outcome<cstr_ref>
-	get_extension_name(GLuint index)
-	noexcept;
+    static outcome<cstr_ref> get_extension_name(GLuint index) noexcept;
 };
 
 } // namespace oper

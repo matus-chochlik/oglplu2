@@ -16,22 +16,17 @@ using mock_gl_function = eagine::mock_function<Sig>;
 
 using eagine::mock_ptr;
 
-static inline
-GLenum mock_glGetError(void)
-noexcept
-{
-	return GL_NO_ERROR;
+static inline GLenum
+mock_glGetError(void) noexcept {
+    return GL_NO_ERROR;
 }
 
 #define OGLPLUS_MOCK_GLFUNC(NAME, SIG) \
-	static oglplus::mock_gl_function<SIG> \
-	mock_gl##NAME(#NAME);
+    static oglplus::mock_gl_function<SIG> mock_gl##NAME(#NAME);
 
-#define OGLPLUS_GLFUNC(FUNC) \
-	mock_gl##FUNC.called_function(#FUNC)
+#define OGLPLUS_GLFUNC(FUNC) mock_gl##FUNC.called_function(#FUNC)
 
-#define OGLPLUS_GL_GET_ERROR() \
-	oglplus::mock_glGetError()
+#define OGLPLUS_GL_GET_ERROR() oglplus::mock_glGetError()
 
 } // namespace oglplus
 

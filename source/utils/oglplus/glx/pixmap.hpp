@@ -19,19 +19,16 @@ namespace oglplus {
 namespace glx {
 
 class Pixmap
- : public x11::DisplayObject< ::GLXPixmap, void(::Display*, ::GLXPixmap)>
-{
+  : public x11::DisplayObject<::GLXPixmap, void(::Display*, ::GLXPixmap)> {
 public:
-	Pixmap(
-		const x11::Display& display,
-		const x11::VisualInfo& vi,
-		const x11::Pixmap& pixmap
-	): x11::DisplayObject< ::GLXPixmap, void(::Display*, ::GLXPixmap)>(
-		display,
-		::glXCreateGLXPixmap(display, vi, pixmap),
-		::glXDestroyGLXPixmap,
-		"Error creating glX Pixmap"
-	){ }
+    Pixmap(const x11::Display& display,
+      const x11::VisualInfo& vi,
+      const x11::Pixmap& pixmap)
+      : x11::DisplayObject<::GLXPixmap, void(::Display*, ::GLXPixmap)>(display,
+	  ::glXCreateGLXPixmap(display, vi, pixmap),
+	  ::glXDestroyGLXPixmap,
+	  "Error creating glX Pixmap") {
+    }
 };
 
 } // namespace glx

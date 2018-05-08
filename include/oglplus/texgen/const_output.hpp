@@ -11,8 +11,8 @@
 
 #include "base_output.hpp"
 #include "param_format.hpp"
-#include <eagine/std/type_traits.hpp>
 #include <array>
+#include <eagine/std/type_traits.hpp>
 
 namespace oglplus {
 namespace texgen {
@@ -20,80 +20,68 @@ namespace texgen {
 template <typename T>
 class constant_output;
 
-class constant_output_base
- : public base_output
-{
+class constant_output_base : public base_output {
 public:
-	constant_output_base(constant_output_base&&) = default;
+    constant_output_base(constant_output_base&&) = default;
 
-	constant_output_base(node_intf& parent)
-	noexcept
-	 : base_output(parent)
-	{ }
+    constant_output_base(node_intf& parent) noexcept
+      : base_output(parent) {
+    }
 
-	cstr_ref type_name(void)
-	noexcept
-	override { return cstr_ref("Const"); }
+    cstr_ref type_name(void) noexcept override {
+	return cstr_ref("Const");
+    }
 
-	render_param_bits required_params(void)
-	override { return render_param_bits(); }
+    render_param_bits required_params(void) override {
+	return render_param_bits();
+    }
 };
 
 template <typename T, span_size_t N>
-class constant_output<T[N]>
- : public constant_output_base
-{
+class constant_output<T[N]> : public constant_output_base {
 private:
-	std::array<T, N> _coords;
+    std::array<T, N> _coords;
+
 public:
-	constant_output(constant_output&&) = default;
+    constant_output(constant_output&&) = default;
 
-	constant_output(node_intf& parent)
-	noexcept
-	 : constant_output_base(parent)
-	 , _coords{}
-	{ }
+    constant_output(node_intf& parent) noexcept
+      : constant_output_base(parent)
+      , _coords{} {
+    }
 
-	template <
-		typename ... P,
-		typename = std::enable_if_t<sizeof...(P) == N>
-	>
-	constant_output(node_intf& parent, P ... coords)
-	noexcept
-	 : constant_output_base(parent)
-	 , _coords{{T(coords)...}}
-	{ }
+    template <typename... P, typename = std::enable_if_t<sizeof...(P) == N>>
+    constant_output(node_intf& parent, P... coords) noexcept
+      : constant_output_base(parent)
+      , _coords{{T(coords)...}} {
+    }
 
-	template <
-		typename ... P,
-		typename = std::enable_if_t<sizeof...(P) == N>
-	>
-	void set(P ... coords)
-	noexcept { _coords = std::array<T, N>{{T(coords)...}}; }
+    template <typename... P, typename = std::enable_if_t<sizeof...(P) == N>>
+    void set(P... coords) noexcept {
+	_coords = std::array<T, N>{{T(coords)...}};
+    }
 
-	bool set_default_value(span_size_t c, float v)
-	override {
-		if(c < N) {
-			_coords[std_size(c)] = T(v);
-			return true;
-		}
-		return false;
+    bool set_default_value(span_size_t c, float v) override {
+	if(c < N) {
+	    _coords[std_size(c)] = T(v);
+	    return true;
 	}
+	return false;
+    }
 
-	slot_data_type value_type(void)
-	noexcept
-	override { return get_data_type_v<T[N]>; }
+    slot_data_type value_type(void) noexcept override {
+	return get_data_type_v<T[N]>;
+    }
 
-	std::ostream& expression(std::ostream& out, compile_context&)
-	override {
-		out << data_type_name(value_type());
-		out << "(";
-		out << _coords[0];
-		for(span_size_t i=1; i<N; ++i) {
-			out << ", " << _coords[std_size(i)];
-		}
-		return out << ")";
+    std::ostream& expression(std::ostream& out, compile_context&) override {
+	out << data_type_name(value_type());
+	out << "(";
+	out << _coords[0];
+	for(span_size_t i = 1; i < N; ++i) {
+	    out << ", " << _coords[std_size(i)];
 	}
+	return out << ")";
+    }
 };
 
 } // namespace texgen

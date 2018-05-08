@@ -15,12 +15,11 @@
 namespace eagine {
 
 // in_class_valid_if
-template <
-	typename T,
-	typename C,
-	typename Policy,
-	typename DoLog = typename Policy::do_log
-> using in_class_valid_if = basic_valid_if<T, Policy, DoLog, const C&>;
+template <typename T,
+  typename C,
+  typename Policy,
+  typename DoLog = typename Policy::do_log>
+using in_class_valid_if = basic_valid_if<T, Policy, DoLog, const C&>;
 
 } // namespace eagine
 

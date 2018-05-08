@@ -5,8 +5,8 @@ namespace std {
 }
 #endif
 
-int main(void)
-{
-	typedef std::aligned_storage_t<64, 64> as;
-	return ((alignof(as) == 64) && (sizeof(as) == 64))?0:1;
+int
+main(void) {
+    typedef std::aligned_storage_t<64, 64> as;
+    return ((alignof(as) == 64) && (sizeof(as) == 64)) ? 0 : 1;
 }

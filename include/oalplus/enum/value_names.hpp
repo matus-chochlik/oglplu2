@@ -9,23 +9,19 @@
 #ifndef OALPLUS_ENUM_VALUE_NAMES_1509260923_HPP
 #define OALPLUS_ENUM_VALUE_NAMES_1509260923_HPP
 
-#include "../utils/enum_class.hpp"
-#include "../utils/cstr_ref.hpp"
 #include "../config/basic.hpp"
+#include "../utils/cstr_ref.hpp"
+#include "../utils/enum_class.hpp"
 
 namespace oalplus {
 
 cstr_ref
-get_enum_value_name(const any_enum_value&)
-noexcept;
+get_enum_value_name(const any_enum_value&) noexcept;
 
 template <typename EnumClass, typename T, unsigned EnumId>
-static inline
-cstr_ref
-enum_value_name(enum_class<EnumClass, T, EnumId> val)
-noexcept
-{
-	return ::oalplus::get_enum_value_name(val);
+static inline cstr_ref
+enum_value_name(enum_class<EnumClass, T, EnumId> val) noexcept {
+    return ::oalplus::get_enum_value_name(val);
 }
 
 } // namespace oalplus

@@ -15,16 +15,14 @@
 namespace eagine {
 namespace units {
 
-typedef decltype(electric_tension()/electric_current()) electrical_resistance;
+typedef decltype(electric_tension() / electric_current()) electrical_resistance;
 
 template <>
-struct dim_name<electrical_resistance>
-{
-	static constexpr const char mp_str[] = "electrical resistance";
+struct dim_name<electrical_resistance> {
+    static constexpr const char mp_str[] = "electrical resistance";
 };
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // include guard

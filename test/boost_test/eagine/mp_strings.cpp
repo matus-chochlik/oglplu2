@@ -12,26 +12,26 @@
 
 BOOST_AUTO_TEST_SUITE(mp_strings_tests)
 
-BOOST_AUTO_TEST_CASE(mp_strings_subscript)
-{
-	using namespace eagine;
+BOOST_AUTO_TEST_CASE(mp_strings_subscript) {
+    using namespace eagine;
 
-	typedef mp_int_to_string_t<-1234567890> d;
-	typedef mp_translate_t<d, mp_subscript> s;
+    typedef mp_int_to_string_t<-1234567890> d;
+    typedef mp_translate_t<d, mp_subscript> s;
 
-	BOOST_CHECK(std::strcmp(s::value, "₋₁₂₃₄₅₆₇₈₉₀") == 0);
+    BOOST_CHECK(std::strcmp(s::value, "₋₁₂₃₄₅₆₇₈₉₀") == 0);
 }
 
-BOOST_AUTO_TEST_CASE(mp_strings_superscript)
-{
-	using namespace eagine;
+BOOST_AUTO_TEST_CASE(mp_strings_superscript) {
+    using namespace eagine;
 
-	typedef mp_int_to_string_t<-1234567890> d;
-	typedef mp_concat_t<
-		mp_string<'n','1','=','('>, d, mp_string<')','+','i'>> x;
-	typedef mp_translate_t<x, mp_superscript> s;
+    typedef mp_int_to_string_t<-1234567890> d;
+    typedef mp_concat_t<mp_string<'n', '1', '=', '('>,
+      d,
+      mp_string<')', '+', 'i'>>
+      x;
+    typedef mp_translate_t<x, mp_superscript> s;
 
-	BOOST_CHECK(std::strcmp(s::value, "ⁿ¹⁼⁽⁻¹²³⁴⁵⁶⁷⁸⁹⁰⁾⁺ⁱ") == 0);
+    BOOST_CHECK(std::strcmp(s::value, "ⁿ¹⁼⁽⁻¹²³⁴⁵⁶⁷⁸⁹⁰⁾⁺ⁱ") == 0);
 }
 
 // TODO

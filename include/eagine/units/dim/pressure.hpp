@@ -10,22 +10,20 @@
 #ifndef EAGINE_UNITS_DIM_PRESSURE_1512222148_HPP
 #define EAGINE_UNITS_DIM_PRESSURE_1512222148_HPP
 
-#include "force.hpp"
 #include "area.hpp"
+#include "force.hpp"
 
 namespace eagine {
 namespace units {
 
-typedef decltype(force()/area()) pressure;
+typedef decltype(force() / area()) pressure;
 
 template <>
-struct dim_name<pressure>
-{
-	static constexpr const char mp_str[] = "pressure";
+struct dim_name<pressure> {
+    static constexpr const char mp_str[] = "pressure";
 };
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // include guard

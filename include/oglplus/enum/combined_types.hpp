@@ -9,16 +9,15 @@
 #ifndef OGLPLUS_ENUM_COMBINED_TYPES_1509260923_HPP
 #define OGLPLUS_ENUM_COMBINED_TYPES_1509260923_HPP
 
-#include "types.hpp"
-#include "indexed_types.hpp"
 #include "../utils/combined_enum.hpp"
+#include "indexed_types.hpp"
+#include "types.hpp"
 
 namespace oglplus {
 
-typedef combined_enum_value<
-	framebuffer_other_attachment,
-	framebuffer_color_attachment
-> framebuffer_attachment;
+typedef combined_enum_value<framebuffer_other_attachment,
+  framebuffer_color_attachment>
+  framebuffer_attachment;
 
 } // namespace oglplus
 

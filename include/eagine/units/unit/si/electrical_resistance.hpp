@@ -10,10 +10,10 @@
 #ifndef EAGINE_UNITS_UNIT_SI_ELECTRICAL_RESISTANCE_1512222148_HPP
 #define EAGINE_UNITS_UNIT_SI_ELECTRICAL_RESISTANCE_1512222148_HPP
 
+#include "../../dim/electrical_resistance.hpp"
 #include "common.hpp"
 #include "electric_current.hpp"
 #include "electric_tension.hpp"
-#include "../../dim/electrical_resistance.hpp"
 
 namespace eagine {
 namespace units {
@@ -22,15 +22,13 @@ namespace units {
 typedef unit<electrical_resistance, si> ohm;
 
 template <>
-struct unit_name<ohm>
-{
-	static constexpr const char mp_str[] = "ohm";
+struct unit_name<ohm> {
+    static constexpr const char mp_str[] = "ohm";
 };
 
 template <>
-struct unit_symbol<ohm>
-{
-	static constexpr const char mp_str[] = {char(0xCE),char(0xA9),'\0'};
+struct unit_symbol<ohm> {
+    static constexpr const char mp_str[] = {char(0xCE), char(0xA9), '\0'};
 };
 
 // derived
@@ -41,5 +39,4 @@ typedef make_scaled_unit_t<scales::kilo, ohm> kiloohm;
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // include guard

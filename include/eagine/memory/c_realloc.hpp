@@ -20,38 +20,33 @@ namespace memory {
 // c_byte_reallocator
 template <typename Policy = default_byte_allocator_policy>
 class c_byte_reallocator
- : public byte_allocator_impl<Policy, c_byte_reallocator>
-{
+  : public byte_allocator_impl<Policy, c_byte_reallocator> {
 public:
-	typedef span_size_t size_type;
+    typedef span_size_t size_type;
 
-	bool equal(byte_allocator* a) const
-	noexcept
-	override { return dynamic_cast<c_byte_reallocator*>(a) != nullptr; }
+    bool equal(byte_allocator* a) const noexcept override {
+	return dynamic_cast<c_byte_reallocator*>(a) != nullptr;
+    }
 
-	size_type max_size(size_type)
-	noexcept
-	override { return std::numeric_limits<size_type>::max(); }
+    size_type max_size(size_type) noexcept override {
+	return std::numeric_limits<size_type>::max();
+    }
 
-	tribool has_allocated(const owned_block&, size_type)
-	noexcept
-	override { return indeterminate; }
+    tribool has_allocated(const owned_block&, size_type) noexcept override {
+	return indeterminate;
+    }
 
-	owned_block allocate(size_type n, size_type a)
-	noexcept
-	override;
+    owned_block allocate(size_type n, size_type a) noexcept override;
 
-	void deallocate(owned_block&& b, size_type)
-	noexcept
-	override;
+    void deallocate(owned_block&& b, size_type) noexcept override;
 
-	bool can_reallocate(const owned_block&, size_type, size_type)
-	noexcept
-	override { return true; }
+    bool can_reallocate(
+      const owned_block&, size_type, size_type) noexcept override {
+	return true;
+    }
 
-	owned_block reallocate(owned_block&& b, size_type n, size_type a)
-	noexcept
-	override;
+    owned_block reallocate(
+      owned_block&& b, size_type n, size_type a) noexcept override;
 };
 
 } // namespace memory
@@ -59,5 +54,4 @@ public:
 
 #include <eagine/memory/c_realloc.inl>
 
-#endif //include guard
-
+#endif // include guard

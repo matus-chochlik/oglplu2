@@ -7,6 +7,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
+// clang-format off
 #include <oglplus/texgen/data_type.hpp>
 #include <oglplus/texgen/interface.hpp>
 #include <oglplus/texgen/param_format.hpp>
@@ -14,4 +15,4 @@
 #include <oglplus/texgen/base_input.hpp>
 #include <oglplus/texgen/base_output.hpp>
 #include <oglplus/texgen/base_node.hpp>
-
+// clang-format on

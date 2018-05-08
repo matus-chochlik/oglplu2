@@ -13,23 +13,17 @@
 
 namespace oglplus {
 
-struct buffer_address
-{
-	GLuint64EXT _addr;
+struct buffer_address {
+    GLuint64EXT _addr;
 
-	constexpr
-	buffer_address(GLuint64EXT addr)
-	noexcept
-	 : _addr(addr)
-	{ }
+    constexpr buffer_address(GLuint64EXT addr) noexcept
+      : _addr(addr) {
+    }
 };
 
-static inline
-GLuint64EXT
-get_raw_address(buffer_address ba)
-noexcept
-{
-	return ba._addr;
+static inline GLuint64EXT
+get_raw_address(buffer_address ba) noexcept {
+    return ba._addr;
 }
 
 } // namespace oglplus

@@ -11,15 +11,10 @@ namespace std {
 }
 #endif
 
-enum class test_enum : short
-{
-	test_value_1 = 1
-};
+enum class test_enum : short { test_value_1 = 1 };
 
-int main(void)
-{
-	return std::is_same<
-		std::underlying_type_t<test_enum>,
-		short
-	>::value?0:1;
+int
+main(void) {
+    return std::is_same<std::underlying_type_t<test_enum>, short>::value ? 0
+									 : 1;
 }

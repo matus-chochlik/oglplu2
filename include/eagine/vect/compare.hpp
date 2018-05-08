@@ -15,29 +15,26 @@ namespace eagine {
 namespace vect {
 
 template <typename T, int N, bool V>
-struct is_zero
-{
-	typedef data_t<T, N, V> _dT;
-	typedef data_param_t<T, N, V> _dpT;
+struct is_zero {
+    typedef data_t<T, N, V> _dT;
+    typedef data_param_t<T, N, V> _dpT;
 
-	static
-	bool apply(_dpT v)
-	noexcept {
-		for(int i=0; i<N; ++i) {
+    static bool apply(_dpT v) noexcept {
+	for(int i = 0; i < N; ++i) {
 #ifdef __clang__
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wfloat-equal"
 #endif
-			if(v[i] != 0)
+	    if(v[i] != 0)
 #ifdef __clang__
-#pragma clang diagnostic pop 
+#pragma clang diagnostic pop
 #endif
-			{
-				return false;
-			}
-		}
-		return true;
+	    {
+		return false;
+	    }
 	}
+	return true;
+    }
 };
 
 // TODO: some optimizations ?
@@ -45,5 +42,4 @@ struct is_zero
 } // namespace vect
 } // namespace eagine
 
-#endif //include guard
-
+#endif // include guard

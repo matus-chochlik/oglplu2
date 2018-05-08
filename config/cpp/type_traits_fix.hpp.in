@@ -13,4 +13,3 @@
 #define EAGINE_STDFIX_TYPE_TRAITS_1511211302_HPP
 
 namespace std {
-

@@ -9,51 +9,38 @@
 #ifndef OALPLUS_ERROR_INFO_ALC_1509260923_HPP
 #define OALPLUS_ERROR_INFO_ALC_1509260923_HPP
 
-#include "info_base.hpp"
 #include "../utils/enum_class.hpp"
+#include "info_base.hpp"
 
 namespace oalplus {
 
-class error_info_alc
- : public error_info_base<error_info_alc>
-{
+class error_info_alc : public error_info_base<error_info_alc> {
 private:
 #if !OALPLUS_ERROR_NO_DEVICE
-	::ALCdevice* _device;
+    ::ALCdevice* _device;
 #endif
 
 #if !OALPLUS_ERROR_NO_CONTEXT
-	::ALCcontext* _context;
+    ::ALCcontext* _context;
 #endif
 public:
-	constexpr
-	error_info_alc(ALCdevice* device, ALenum alc_err_code)
-	noexcept;
+    constexpr error_info_alc(ALCdevice* device, ALenum alc_err_code) noexcept;
 
-	constexpr
-	error_info_alc(void)
-	noexcept
-	 : error_info_alc(nullptr, ALenum(AL_NONE))
-	{ }
+    constexpr error_info_alc(void) noexcept
+      : error_info_alc(nullptr, ALenum(AL_NONE)) {
+    }
 
-	constexpr
-	error_info_alc& no_info(void)
-	noexcept
-	{
-		return *this;
-	}
+    constexpr error_info_alc& no_info(void) noexcept {
+	return *this;
+    }
 
-	error_info_alc& alc_device(::ALCdevice* dev)
-	noexcept;
+    error_info_alc& alc_device(::ALCdevice* dev) noexcept;
 
-	::ALCdevice* alc_device(void) const
-	noexcept;
+    ::ALCdevice* alc_device(void) const noexcept;
 
-	error_info_alc& alc_context(const ::ALCcontext* ctx)
-	noexcept;
+    error_info_alc& alc_context(const ::ALCcontext* ctx) noexcept;
 
-	const ::ALCcontext* alc_context(void) const
-	noexcept;
+    const ::ALCcontext* alc_context(void) const noexcept;
 };
 
 } // namespace oalplus

@@ -10,27 +10,27 @@
 #define EAGINE_CONFIG_PLATFORM_1509260923_HPP
 
 #ifndef EAGINE_POSIX
-# if defined(__unix__) || (defined(__APPLE__) && defined(__MACH__))
-#  define EAGINE_POSIX 1
-# else
-#  define EAGINE_POSIX 0
-# endif
+#if defined(__unix__) || (defined(__APPLE__) && defined(__MACH__))
+#define EAGINE_POSIX 1
+#else
+#define EAGINE_POSIX 0
+#endif
 #endif
 
 #ifndef EAGINE_APPLE
-# if defined(__APPLE__) && __APPLE__
-#  define EAGINE_APPLE 1
-# else
-#  define EAGINE_APPLE 0
-# endif
+#if defined(__APPLE__) && __APPLE__
+#define EAGINE_APPLE 1
+#else
+#define EAGINE_APPLE 0
+#endif
 #endif
 
 #ifndef EAGINE_WINDOWS
-# if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64)
-#  define EAGINE_WINDOWS 1
-# else
-#  define EAGINE_WINDOWS 0
-# endif
+#if defined(WIN32) || defined(_WIN32) || defined(WIN64) || defined(_WIN64)
+#define EAGINE_WINDOWS 1
+#else
+#define EAGINE_WINDOWS 0
+#endif
 #endif
 
 #endif // include guard

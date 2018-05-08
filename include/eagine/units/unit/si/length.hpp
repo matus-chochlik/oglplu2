@@ -17,51 +17,48 @@ namespace units {
 namespace base {
 
 // meter
-struct meter : unit<length, meter> { };
+struct meter : unit<length, meter> {};
 
 template <>
-struct unit_name<meter>
-{
-	static constexpr const char mp_str[] = "meter";
+struct unit_name<meter> {
+    static constexpr const char mp_str[] = "meter";
 };
 template <>
-struct unit_symbol<meter>
-{
-	static constexpr const char mp_str[] = "m";
+struct unit_symbol<meter> {
+    static constexpr const char mp_str[] = "m";
 };
 
 } // namespace base
 
 // si::base_unit<length>
 template <>
-struct si::base_unit<base::length> : base::meter { };
+struct si::base_unit<base::length> : base::meter {};
 
 // kilometer
 typedef unit<length, si> meter;
 
 // derived
 typedef make_scaled_base_dim_unit_t<
-	base::scaled_unit<scales::kilo, base::meter>,
-	si
-> kilometer;
+  base::scaled_unit<scales::kilo, base::meter>,
+  si>
+  kilometer;
 
 typedef make_scaled_base_dim_unit_t<
-	base::scaled_unit<scales::deci, base::meter>,
-	si
-> decimeter;
+  base::scaled_unit<scales::deci, base::meter>,
+  si>
+  decimeter;
 
 typedef make_scaled_base_dim_unit_t<
-	base::scaled_unit<scales::centi, base::meter>,
-	si
-> centimeter;
+  base::scaled_unit<scales::centi, base::meter>,
+  si>
+  centimeter;
 
 typedef make_scaled_base_dim_unit_t<
-	base::scaled_unit<scales::milli, base::meter>,
-	si
-> millimeter;
+  base::scaled_unit<scales::milli, base::meter>,
+  si>
+  millimeter;
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // include guard

@@ -16,47 +16,42 @@ namespace eagine {
 
 // in range
 template <typename T, typename Range>
-struct valid_if_in_list_policy
-{
-	Range _choices;
+struct valid_if_in_list_policy {
+    Range _choices;
 
-	valid_if_in_list_policy(const Range& choices)
-	 : _choices(choices)
-	{ }
+    valid_if_in_list_policy(const Range& choices)
+      : _choices(choices) {
+    }
 
-	bool operator ()(const T& value) const
-	noexcept {
-		for(const T& choice : _choices) {
-			if(value == choice) {
-				return true;
-			}
-		}
-		return false;
+    bool operator()(const T& value) const noexcept {
+	for(const T& choice : _choices) {
+	    if(value == choice) {
+		return true;
+	    }
+	}
+	return false;
+    }
+
+    struct do_log {
+	const Range* _choices;
+
+	inline do_log(const valid_if_in_list_policy<T, Range>& p) noexcept
+	  : _choices(&p._choices) {
 	}
 
-	struct do_log
-	{
-		const Range* _choices;
+	template <typename Log>
+	void operator()(Log& log, const T& v) const {
+	    log << "Value '" << v << "', "
+		<< "other than one of the values [";
 
-		inline
-		do_log(const valid_if_in_list_policy<T, Range>& p)
-		noexcept
-		 : _choices(&p._choices)
-		{ }
-
-		template <typename Log>
-		void operator ()(Log& log, const T& v) const {
-			log	<< "Value '" << v << "', "
-				<< "other than one of the values [";
-
-			bool first = true;
-			for(const T& choice : *_choices) {
-				log << (first?"":", ") << "'" << choice << "'";
-				first = false;
-			}
-			log	<< "] is invalid";
-		}
-	};
+	    bool first = true;
+	    for(const T& choice : *_choices) {
+		log << (first ? "" : ", ") << "'" << choice << "'";
+		first = false;
+	    }
+	    log << "] is invalid";
+	}
+    };
 };
 
 template <typename T, typename Range>

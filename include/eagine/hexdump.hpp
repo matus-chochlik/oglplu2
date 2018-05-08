@@ -17,22 +17,20 @@
 
 namespace eagine {
 
-class hexdump
-{
+class hexdump {
 private:
-	const_memory_block _mb;
-	bool _offs;
+    const_memory_block _mb;
+    bool _offs;
 
-	static void _to_hex_b(std::ostream& out, byte b);
+    static void _to_hex_b(std::ostream& out, byte b);
+
 public:
-	hexdump(const const_memory_block& mb, bool offs = true)
-	noexcept
-	 : _mb(mb)
-	 , _offs(offs)
-	{ }
+    hexdump(const const_memory_block& mb, bool offs = true) noexcept
+      : _mb(mb)
+      , _offs(offs) {
+    }
 
-	friend
-	std::ostream& operator << (std::ostream&, const hexdump&);
+    friend std::ostream& operator<<(std::ostream&, const hexdump&);
 };
 
 } // namespace eagine

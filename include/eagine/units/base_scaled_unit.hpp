@@ -13,16 +13,14 @@ namespace units {
 namespace base {
 
 template <typename Scale, typename Unit>
-struct scaled_unit
-{
-	typedef dimension_of_t<Unit> dimension;
-	typedef Scale scale;
-	typedef scaled_unit type;
+struct scaled_unit {
+    typedef dimension_of_t<Unit> dimension;
+    typedef Scale scale;
+    typedef scaled_unit type;
 };
 
 } // namespace base
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // include guard

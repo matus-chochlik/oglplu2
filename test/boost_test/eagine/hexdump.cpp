@@ -12,17 +12,16 @@
 
 BOOST_AUTO_TEST_SUITE(hexdump_tests)
 
-BOOST_AUTO_TEST_CASE(hexdump_1)
-{
-	using namespace eagine;
+BOOST_AUTO_TEST_CASE(hexdump_1) {
+    using namespace eagine;
 
-	const char buf[] = "hexdump test 1234567890";
+    const char buf[] = "hexdump test 1234567890";
 
-	std::stringstream out;
+    std::stringstream out;
 
-	out << hexdump(memory_block_of(buf));
+    out << hexdump(memory_block_of(buf));
 
-	BOOST_CHECK(!out.str().empty());
+    BOOST_CHECK(!out.str().empty());
 }
 
 BOOST_AUTO_TEST_SUITE_END()

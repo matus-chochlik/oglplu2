@@ -10,13 +10,13 @@
 #define OGLPLUS_OPER_COMPATIBILITY_1509260923_HPP
 
 #ifdef GL_ARB_compatibility
-#include "../utils/gl_func.hpp"
+#include "../enum/types.hpp"
 #include "../error/handling.hpp"
 #include "../error/outcome.hpp"
-#include "../enum/types.hpp"
+#include "../utils/gl_func.hpp"
 
-#include "compat_matrix.hpp"
 #include "compat_drawing.hpp"
+#include "compat_matrix.hpp"
 #endif // ARB_compatibility
 
 namespace oglplus {
@@ -24,12 +24,12 @@ namespace oper {
 
 struct compatibility
 #ifdef GL_ARB_compatibility
- : compatibility_matrix
- , compatibility_drawing
-{
+  : compatibility_matrix
+  , compatibility_drawing {
 };
 #else
-{ };
+{
+};
 #endif // ARB_compatibility
 
 } // namespace oper

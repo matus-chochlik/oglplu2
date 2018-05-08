@@ -9,7 +9,6 @@
 
 #include "prologue.inl"
 
+#include "epilogue.inl"
 #include "implement.inl"
 #include <eagine/input_data.hpp>
-#include "epilogue.inl"
-

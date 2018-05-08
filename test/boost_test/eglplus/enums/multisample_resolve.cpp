@@ -17,113 +17,106 @@
 
 BOOST_AUTO_TEST_SUITE(enum_multisample_resolve_tests)
 
-BOOST_AUTO_TEST_CASE(enum_multisample_resolve_values)
-{
-	using namespace eglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	multisample_resolve x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_multisample_resolve_values) {
+    using namespace eglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    multisample_resolve x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef EGL_MULTISAMPLE_RESOLVE_BOX
-	x = ev.multisample_resolve_box;
-	BOOST_CHECK(x == ev.multisample_resolve_box);
-# ifdef EGL_MULTISAMPLE_RESOLVE_DEFAULT
-	BOOST_CHECK(x != ev.multisample_resolve_default);
-# endif
+    x = ev.multisample_resolve_box;
+    BOOST_CHECK(x == ev.multisample_resolve_box);
+#ifdef EGL_MULTISAMPLE_RESOLVE_DEFAULT
+    BOOST_CHECK(x != ev.multisample_resolve_default);
+#endif
 #endif
 
 #ifdef EGL_MULTISAMPLE_RESOLVE_DEFAULT
-	x = ev.multisample_resolve_default;
-	BOOST_CHECK(x == ev.multisample_resolve_default);
+    x = ev.multisample_resolve_default;
+    BOOST_CHECK(x == ev.multisample_resolve_default);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_multisample_resolve_names)
-{
-	using namespace eglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	multisample_resolve x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_multisample_resolve_names) {
+    using namespace eglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    multisample_resolve x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef EGL_MULTISAMPLE_RESOLVE_BOX
-	x = ev.multisample_resolve_box;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"MULTISAMPLE_RESOLVE_BOX"
-	) == 0);
+    x = ev.multisample_resolve_box;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(
+      std::strcmp(enum_value_name(x).data(), "MULTISAMPLE_RESOLVE_BOX") == 0);
 #endif
 
 #ifdef EGL_MULTISAMPLE_RESOLVE_DEFAULT
-	x = ev.multisample_resolve_default;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"MULTISAMPLE_RESOLVE_DEFAULT"
-	) == 0);
+    x = ev.multisample_resolve_default;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(
+      std::strcmp(enum_value_name(x).data(), "MULTISAMPLE_RESOLVE_DEFAULT")
+      == 0);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_multisample_resolve_range)
-{
-	using namespace eglplus;
-	auto count = enum_value_range<multisample_resolve>().size();
+BOOST_AUTO_TEST_CASE(enum_multisample_resolve_range) {
+    using namespace eglplus;
+    auto count = enum_value_range<multisample_resolve>().size();
 
 #ifdef EGL_MULTISAMPLE_RESOLVE_BOX
-{
+    {
 	--count;
 	auto r = enum_value_range<multisample_resolve>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		multisample_resolve(EGL_MULTISAMPLE_RESOLVE_BOX)
-	) != r.end());
-}
+	BOOST_CHECK(std::find(r.begin(),
+		      r.end(),
+		      multisample_resolve(EGL_MULTISAMPLE_RESOLVE_BOX))
+		    != r.end());
+    }
 #endif
 
 #ifdef EGL_MULTISAMPLE_RESOLVE_DEFAULT
-{
+    {
 	--count;
 	auto r = enum_value_range<multisample_resolve>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		multisample_resolve(EGL_MULTISAMPLE_RESOLVE_DEFAULT)
-	) != r.end());
-}
+	BOOST_CHECK(std::find(r.begin(),
+		      r.end(),
+		      multisample_resolve(EGL_MULTISAMPLE_RESOLVE_DEFAULT))
+		    != r.end());
+    }
 #endif
-	BOOST_CHECK_EQUAL(count, 0);
+    BOOST_CHECK_EQUAL(count, 0);
 }
 
-BOOST_AUTO_TEST_CASE(enum_multisample_resolve_any)
-{
-	using namespace eglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	multisample_resolve x, y;
-	EAGINE_MAYBE_UNUSED(x);
-	EAGINE_MAYBE_UNUSED(y);
-	any_enum_value a;
-	EAGINE_MAYBE_UNUSED(a);
+BOOST_AUTO_TEST_CASE(enum_multisample_resolve_any) {
+    using namespace eglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    multisample_resolve x, y;
+    EAGINE_MAYBE_UNUSED(x);
+    EAGINE_MAYBE_UNUSED(y);
+    any_enum_value a;
+    EAGINE_MAYBE_UNUSED(a);
 
 #ifdef EGL_MULTISAMPLE_RESOLVE_BOX
-	x = ev.multisample_resolve_box;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.multisample_resolve_box);
+    x = ev.multisample_resolve_box;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.multisample_resolve_box);
 #endif
 
 #ifdef EGL_MULTISAMPLE_RESOLVE_DEFAULT
-	x = ev.multisample_resolve_default;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.multisample_resolve_default);
+    x = ev.multisample_resolve_default;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.multisample_resolve_default);
 #endif
 }
 

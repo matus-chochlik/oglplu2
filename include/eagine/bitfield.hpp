@@ -15,84 +15,77 @@
 namespace eagine {
 
 template <typename Bit>
-class bitfield
-{
+class bitfield {
 private:
-	typedef std::underlying_type_t<Bit> BF;
-	BF _bits;
+    typedef std::underlying_type_t<Bit> BF;
+    BF _bits;
+
 public:
-	typedef BF value_type;
+    typedef BF value_type;
 
-	constexpr
-	bitfield(void)
-	noexcept
-	 : _bits(0)
-	{ }
+    constexpr bitfield(void) noexcept
+      : _bits(0) {
+    }
 
-	constexpr explicit
-	bitfield(BF bits)
-	noexcept
-	 : _bits(bits)
-	{ }
+    constexpr explicit bitfield(BF bits) noexcept
+      : _bits(bits) {
+    }
 
-	constexpr
-	bitfield(Bit _bit)
-	noexcept
-	 : _bits(BF(_bit))
-	{ }
+    constexpr bitfield(Bit _bit) noexcept
+      : _bits(BF(_bit)) {
+    }
 
-	constexpr
-	bitfield(Bit _bit_a, Bit _bit_b)
-	noexcept
-	 : _bits(BF(_bit_a) | BF(_bit_b))
-	{ }
+    constexpr bitfield(Bit _bit_a, Bit _bit_b) noexcept
+      : _bits(BF(_bit_a) | BF(_bit_b)) {
+    }
 
-	explicit constexpr inline
-	operator bool (void) const
-	noexcept { return _bits != BF(0); }
+    explicit constexpr inline operator bool(void) const noexcept {
+	return _bits != BF(0);
+    }
 
-	constexpr inline
-	bool operator ! (void) const
-	noexcept { return _bits == BF(0); }
+    constexpr inline bool operator!(void)const noexcept {
+	return _bits == BF(0);
+    }
 
-	explicit constexpr inline
-	operator value_type(void) const
-	noexcept { return _bits; }
+    explicit constexpr inline operator value_type(void) const noexcept {
+	return _bits;
+    }
 
-	constexpr inline
-	bool has(Bit bit) const
-	noexcept { return (_bits & BF(bit)) == BF(bit); }
+    constexpr inline bool has(Bit bit) const noexcept {
+	return (_bits & BF(bit)) == BF(bit);
+    }
 
-	friend constexpr inline
-	bool operator == (bitfield a, bitfield b)
-	noexcept { return a._bits == b._bits; }
+    friend constexpr inline bool operator==(bitfield a, bitfield b) noexcept {
+	return a._bits == b._bits;
+    }
 
-	friend constexpr inline
-	bool operator != (bitfield a, bitfield b)
-	noexcept { return a._bits != b._bits; }
+    friend constexpr inline bool operator!=(bitfield a, bitfield b) noexcept {
+	return a._bits != b._bits;
+    }
 
-	friend constexpr inline
-	bitfield operator | (bitfield a, bitfield b)
-	noexcept { return bitfield(BF{a._bits}|BF{b._bits}); }
+    friend constexpr inline bitfield operator|(
+      bitfield a, bitfield b) noexcept {
+	return bitfield(BF{a._bits} | BF{b._bits});
+    }
 
-	bitfield& operator |= (bitfield b)
-	noexcept { _bits |= b._bits; return *this; }
+    bitfield& operator|=(bitfield b) noexcept {
+	_bits |= b._bits;
+	return *this;
+    }
 
-	friend constexpr inline
-	bitfield operator & (bitfield a, bitfield b)
-	noexcept { return bitfield{a._bits & b._bits}; }
+    friend constexpr inline bitfield operator&(
+      bitfield a, bitfield b) noexcept {
+	return bitfield{a._bits & b._bits};
+    }
 
-	bitfield& operator &= (bitfield b)
-	noexcept {
-		_bits &= b._bits;
-		return *this;
-	}
+    bitfield& operator&=(bitfield b) noexcept {
+	_bits &= b._bits;
+	return *this;
+    }
 
-	friend constexpr inline
-	bitfield operator ~ (bitfield b)
-	noexcept {
-		return bitfield{~b._bits};
-	}
+    friend constexpr inline bitfield operator~(bitfield b) noexcept {
+	return bitfield{~b._bits};
+    }
 };
 
 } // namespace eagine

@@ -9,8 +9,8 @@
 
 #ifdef __GNUG__
 #include <cstdlib>
-#include <memory>
 #include <cxxabi.h>
+#include <memory>
 #endif
 
 namespace eagine {
@@ -18,29 +18,20 @@ namespace eagine {
 // demangle_type_name
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-std::string demangle_type_name(const char* name)
-noexcept
-{
+std::string
+demangle_type_name(const char* name) noexcept {
 #ifdef __GNUG__
-	try
-	{
-		int status = -1;
+    try {
+	int status = -1;
 
-		std::unique_ptr<char, void(*)(void*)> demangled {
-			::abi::__cxa_demangle(
-				name,
-				nullptr,
-				nullptr,
-				&status
-			),
-			::std::free
-		};
+	std::unique_ptr<char, void (*)(void*)> demangled{
+	  ::abi::__cxa_demangle(name, nullptr, nullptr, &status), ::std::free};
 
-		return (status == 0) ? demangled.get() : name;
-	}
-	catch(...) { }
+	return (status == 0) ? demangled.get() : name;
+    } catch(...) {
+    }
 #endif
-	return name;
+    return name;
 }
 //------------------------------------------------------------------------------
 } // namespace eagine

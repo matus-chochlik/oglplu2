@@ -7,8 +7,10 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
+// clang-format off
 #include "prologue.inl"
 #include <oglplus/gl_fixed.hpp>
 #include "implement.inl"
 #include "error.inl"
 #include "epilogue.inl"
+// clang-format on

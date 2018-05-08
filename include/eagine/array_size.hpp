@@ -15,11 +15,9 @@
 namespace eagine {
 
 template <typename T, std::size_t N>
-static constexpr inline
-span_size_t array_size(const T(&)[N])
-noexcept
-{
-	return span_size(N);
+static constexpr inline span_size_t
+array_size(const T (&)[N]) noexcept {
+    return span_size(N);
 }
 
 } // namespace eagine

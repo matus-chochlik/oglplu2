@@ -7,6 +7,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
+// clang-format off
 #include "prologue.inl"
 #include "predeclare.inl"
 #include "texgen_common.inl"
@@ -43,4 +44,4 @@
 #include <oglplus/texgen/voronoi2d_node.hpp>
 #include <oglplus/texgen/wrap_node.hpp>
 #include "epilogue.inl"
-
+// clang-format on

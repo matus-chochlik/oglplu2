@@ -17,295 +17,267 @@
 
 BOOST_AUTO_TEST_SUITE(enum_al_error_code_tests)
 
-BOOST_AUTO_TEST_CASE(enum_al_error_code_values)
-{
-	using namespace oalplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	al_error_code x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_al_error_code_values) {
+    using namespace oalplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    al_error_code x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef AL_INVALID_ENUM
-	x = ev.invalid_enum;
-	BOOST_CHECK(x == ev.invalid_enum);
-# ifdef AL_INVALID_NAME
-	BOOST_CHECK(x != ev.invalid_name);
-# endif
-# ifdef AL_INVALID_OPERATION
-	BOOST_CHECK(x != ev.invalid_operation);
-# endif
-# ifdef AL_INVALID_VALUE
-	BOOST_CHECK(x != ev.invalid_value);
-# endif
-# ifdef AL_NO_ERROR
-	BOOST_CHECK(x != ev.no_error);
-# endif
-# ifdef AL_OUT_OF_MEMORY
-	BOOST_CHECK(x != ev.out_of_memory);
-# endif
+    x = ev.invalid_enum;
+    BOOST_CHECK(x == ev.invalid_enum);
+#ifdef AL_INVALID_NAME
+    BOOST_CHECK(x != ev.invalid_name);
+#endif
+#ifdef AL_INVALID_OPERATION
+    BOOST_CHECK(x != ev.invalid_operation);
+#endif
+#ifdef AL_INVALID_VALUE
+    BOOST_CHECK(x != ev.invalid_value);
+#endif
+#ifdef AL_NO_ERROR
+    BOOST_CHECK(x != ev.no_error);
+#endif
+#ifdef AL_OUT_OF_MEMORY
+    BOOST_CHECK(x != ev.out_of_memory);
+#endif
 #endif
 
 #ifdef AL_INVALID_NAME
-	x = ev.invalid_name;
-	BOOST_CHECK(x == ev.invalid_name);
-# ifdef AL_INVALID_OPERATION
-	BOOST_CHECK(x != ev.invalid_operation);
-# endif
-# ifdef AL_INVALID_VALUE
-	BOOST_CHECK(x != ev.invalid_value);
-# endif
-# ifdef AL_NO_ERROR
-	BOOST_CHECK(x != ev.no_error);
-# endif
-# ifdef AL_OUT_OF_MEMORY
-	BOOST_CHECK(x != ev.out_of_memory);
-# endif
+    x = ev.invalid_name;
+    BOOST_CHECK(x == ev.invalid_name);
+#ifdef AL_INVALID_OPERATION
+    BOOST_CHECK(x != ev.invalid_operation);
+#endif
+#ifdef AL_INVALID_VALUE
+    BOOST_CHECK(x != ev.invalid_value);
+#endif
+#ifdef AL_NO_ERROR
+    BOOST_CHECK(x != ev.no_error);
+#endif
+#ifdef AL_OUT_OF_MEMORY
+    BOOST_CHECK(x != ev.out_of_memory);
+#endif
 #endif
 
 #ifdef AL_INVALID_OPERATION
-	x = ev.invalid_operation;
-	BOOST_CHECK(x == ev.invalid_operation);
-# ifdef AL_INVALID_VALUE
-	BOOST_CHECK(x != ev.invalid_value);
-# endif
-# ifdef AL_NO_ERROR
-	BOOST_CHECK(x != ev.no_error);
-# endif
-# ifdef AL_OUT_OF_MEMORY
-	BOOST_CHECK(x != ev.out_of_memory);
-# endif
+    x = ev.invalid_operation;
+    BOOST_CHECK(x == ev.invalid_operation);
+#ifdef AL_INVALID_VALUE
+    BOOST_CHECK(x != ev.invalid_value);
+#endif
+#ifdef AL_NO_ERROR
+    BOOST_CHECK(x != ev.no_error);
+#endif
+#ifdef AL_OUT_OF_MEMORY
+    BOOST_CHECK(x != ev.out_of_memory);
+#endif
 #endif
 
 #ifdef AL_INVALID_VALUE
-	x = ev.invalid_value;
-	BOOST_CHECK(x == ev.invalid_value);
-# ifdef AL_NO_ERROR
-	BOOST_CHECK(x != ev.no_error);
-# endif
-# ifdef AL_OUT_OF_MEMORY
-	BOOST_CHECK(x != ev.out_of_memory);
-# endif
+    x = ev.invalid_value;
+    BOOST_CHECK(x == ev.invalid_value);
+#ifdef AL_NO_ERROR
+    BOOST_CHECK(x != ev.no_error);
+#endif
+#ifdef AL_OUT_OF_MEMORY
+    BOOST_CHECK(x != ev.out_of_memory);
+#endif
 #endif
 
 #ifdef AL_NO_ERROR
-	x = ev.no_error;
-	BOOST_CHECK(x == ev.no_error);
-# ifdef AL_OUT_OF_MEMORY
-	BOOST_CHECK(x != ev.out_of_memory);
-# endif
+    x = ev.no_error;
+    BOOST_CHECK(x == ev.no_error);
+#ifdef AL_OUT_OF_MEMORY
+    BOOST_CHECK(x != ev.out_of_memory);
+#endif
 #endif
 
 #ifdef AL_OUT_OF_MEMORY
-	x = ev.out_of_memory;
-	BOOST_CHECK(x == ev.out_of_memory);
+    x = ev.out_of_memory;
+    BOOST_CHECK(x == ev.out_of_memory);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_al_error_code_names)
-{
-	using namespace oalplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	al_error_code x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_al_error_code_names) {
+    using namespace oalplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    al_error_code x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef AL_INVALID_ENUM
-	x = ev.invalid_enum;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"INVALID_ENUM"
-	) == 0);
+    x = ev.invalid_enum;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(std::strcmp(enum_value_name(x).data(), "INVALID_ENUM") == 0);
 #endif
 
 #ifdef AL_INVALID_NAME
-	x = ev.invalid_name;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"INVALID_NAME"
-	) == 0);
+    x = ev.invalid_name;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(std::strcmp(enum_value_name(x).data(), "INVALID_NAME") == 0);
 #endif
 
 #ifdef AL_INVALID_OPERATION
-	x = ev.invalid_operation;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"INVALID_OPERATION"
-	) == 0);
+    x = ev.invalid_operation;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(
+      std::strcmp(enum_value_name(x).data(), "INVALID_OPERATION") == 0);
 #endif
 
 #ifdef AL_INVALID_VALUE
-	x = ev.invalid_value;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"INVALID_VALUE"
-	) == 0);
+    x = ev.invalid_value;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(std::strcmp(enum_value_name(x).data(), "INVALID_VALUE") == 0);
 #endif
 
 #ifdef AL_NO_ERROR
-	x = ev.no_error;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"NO_ERROR"
-	) == 0);
+    x = ev.no_error;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(std::strcmp(enum_value_name(x).data(), "NO_ERROR") == 0);
 #endif
 
 #ifdef AL_OUT_OF_MEMORY
-	x = ev.out_of_memory;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"OUT_OF_MEMORY"
-	) == 0);
+    x = ev.out_of_memory;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(std::strcmp(enum_value_name(x).data(), "OUT_OF_MEMORY") == 0);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_al_error_code_range)
-{
-	using namespace oalplus;
-	auto count = enum_value_range<al_error_code>().size();
+BOOST_AUTO_TEST_CASE(enum_al_error_code_range) {
+    using namespace oalplus;
+    auto count = enum_value_range<al_error_code>().size();
 
 #ifdef AL_INVALID_ENUM
-{
+    {
 	--count;
 	auto r = enum_value_range<al_error_code>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		al_error_code(AL_INVALID_ENUM)
-	) != r.end());
-}
+	BOOST_CHECK(
+	  std::find(r.begin(), r.end(), al_error_code(AL_INVALID_ENUM))
+	  != r.end());
+    }
 #endif
 
 #ifdef AL_INVALID_NAME
-{
+    {
 	--count;
 	auto r = enum_value_range<al_error_code>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		al_error_code(AL_INVALID_NAME)
-	) != r.end());
-}
+	BOOST_CHECK(
+	  std::find(r.begin(), r.end(), al_error_code(AL_INVALID_NAME))
+	  != r.end());
+    }
 #endif
 
 #ifdef AL_INVALID_OPERATION
-{
+    {
 	--count;
 	auto r = enum_value_range<al_error_code>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		al_error_code(AL_INVALID_OPERATION)
-	) != r.end());
-}
+	BOOST_CHECK(
+	  std::find(r.begin(), r.end(), al_error_code(AL_INVALID_OPERATION))
+	  != r.end());
+    }
 #endif
 
 #ifdef AL_INVALID_VALUE
-{
+    {
 	--count;
 	auto r = enum_value_range<al_error_code>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		al_error_code(AL_INVALID_VALUE)
-	) != r.end());
-}
+	BOOST_CHECK(
+	  std::find(r.begin(), r.end(), al_error_code(AL_INVALID_VALUE))
+	  != r.end());
+    }
 #endif
 
 #ifdef AL_NO_ERROR
-{
+    {
 	--count;
 	auto r = enum_value_range<al_error_code>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		al_error_code(AL_NO_ERROR)
-	) != r.end());
-}
+	BOOST_CHECK(
+	  std::find(r.begin(), r.end(), al_error_code(AL_NO_ERROR)) != r.end());
+    }
 #endif
 
 #ifdef AL_OUT_OF_MEMORY
-{
+    {
 	--count;
 	auto r = enum_value_range<al_error_code>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		al_error_code(AL_OUT_OF_MEMORY)
-	) != r.end());
-}
+	BOOST_CHECK(
+	  std::find(r.begin(), r.end(), al_error_code(AL_OUT_OF_MEMORY))
+	  != r.end());
+    }
 #endif
-	BOOST_CHECK_EQUAL(count, 0);
+    BOOST_CHECK_EQUAL(count, 0);
 }
 
-BOOST_AUTO_TEST_CASE(enum_al_error_code_any)
-{
-	using namespace oalplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	al_error_code x, y;
-	EAGINE_MAYBE_UNUSED(x);
-	EAGINE_MAYBE_UNUSED(y);
-	any_enum_value a;
-	EAGINE_MAYBE_UNUSED(a);
+BOOST_AUTO_TEST_CASE(enum_al_error_code_any) {
+    using namespace oalplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    al_error_code x, y;
+    EAGINE_MAYBE_UNUSED(x);
+    EAGINE_MAYBE_UNUSED(y);
+    any_enum_value a;
+    EAGINE_MAYBE_UNUSED(a);
 
 #ifdef AL_INVALID_ENUM
-	x = ev.invalid_enum;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.invalid_enum);
+    x = ev.invalid_enum;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.invalid_enum);
 #endif
 
 #ifdef AL_INVALID_NAME
-	x = ev.invalid_name;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.invalid_name);
+    x = ev.invalid_name;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.invalid_name);
 #endif
 
 #ifdef AL_INVALID_OPERATION
-	x = ev.invalid_operation;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.invalid_operation);
+    x = ev.invalid_operation;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.invalid_operation);
 #endif
 
 #ifdef AL_INVALID_VALUE
-	x = ev.invalid_value;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.invalid_value);
+    x = ev.invalid_value;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.invalid_value);
 #endif
 
 #ifdef AL_NO_ERROR
-	x = ev.no_error;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.no_error);
+    x = ev.no_error;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.no_error);
 #endif
 
 #ifdef AL_OUT_OF_MEMORY
-	x = ev.out_of_memory;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.out_of_memory);
+    x = ev.out_of_memory;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.out_of_memory);
 #endif
 }
 

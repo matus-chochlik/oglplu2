@@ -14,22 +14,18 @@
 
 namespace oglplus {
 
-class error
- : public std::runtime_error
-{
+class error : public std::runtime_error {
 private:
-	error_info _info;
+    error_info _info;
 
-	static
-	std::string _make_msg(error_info& info);
+    static std::string _make_msg(error_info& info);
+
 public:
-	error(error_info&& info);
+    error(error_info&& info);
 
-	const error_info& info(void) const
-	noexcept
-	{
-		return _info;
-	}
+    const error_info& info(void) const noexcept {
+	return _info;
+    }
 };
 
 } // namespace oglplus

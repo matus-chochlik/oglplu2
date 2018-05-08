@@ -11,18 +11,18 @@ namespace std {
 }
 #endif
 
-int bar(int v)
-{
-	return v;
+int
+bar(int v) {
+    return v;
 }
 
 template <typename Func>
-std::result_of_t<Func(int)> foo(Func func)
-{
-	return func(0);
+std::result_of_t<Func(int)>
+foo(Func func) {
+    return func(0);
 }
 
-int main(void)
-{
-	return foo(&bar);
+int
+main(void) {
+    return foo(&bar);
 }

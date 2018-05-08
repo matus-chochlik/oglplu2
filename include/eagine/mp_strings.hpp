@@ -21,89 +21,55 @@ template <char C>
 using mp_superscript_t = typename mp_superscript<C>::type;
 
 template <>
-struct mp_superscript<'i'>
- : mp_string<char(0xE2),char(0x81),char(0xB1)>
-{ };
+struct mp_superscript<'i'> : mp_string<char(0xE2), char(0x81), char(0xB1)> {};
 
 template <>
-struct mp_superscript<'n'>
- : mp_string<char(0xE2),char(0x81),char(0xBF)>
-{ };
+struct mp_superscript<'n'> : mp_string<char(0xE2), char(0x81), char(0xBF)> {};
 
 template <>
-struct mp_superscript<'+'>
- : mp_string<char(0xE2),char(0x81),char(0xBA)>
-{ };
+struct mp_superscript<'+'> : mp_string<char(0xE2), char(0x81), char(0xBA)> {};
 
 template <>
-struct mp_superscript<'-'>
- : mp_string<char(0xE2),char(0x81),char(0xBB)>
-{ };
+struct mp_superscript<'-'> : mp_string<char(0xE2), char(0x81), char(0xBB)> {};
 
 template <>
-struct mp_superscript<'='>
- : mp_string<char(0xE2),char(0x81),char(0xBC)>
-{ };
+struct mp_superscript<'='> : mp_string<char(0xE2), char(0x81), char(0xBC)> {};
 
 template <>
-struct mp_superscript<'('>
- : mp_string<char(0xE2),char(0x81),char(0xBD)>
-{ };
+struct mp_superscript<'('> : mp_string<char(0xE2), char(0x81), char(0xBD)> {};
 
 template <>
-struct mp_superscript<')'>
- : mp_string<char(0xE2),char(0x81),char(0xBE)>
-{ };
+struct mp_superscript<')'> : mp_string<char(0xE2), char(0x81), char(0xBE)> {};
 
 template <>
-struct mp_superscript<'0'>
- : mp_string<char(0xE2),char(0x81),char(0xB0)>
-{ };
+struct mp_superscript<'0'> : mp_string<char(0xE2), char(0x81), char(0xB0)> {};
 
 template <>
-struct mp_superscript<'1'>
- : mp_string<char(0xC2),char(0xB9)>
-{ };
+struct mp_superscript<'1'> : mp_string<char(0xC2), char(0xB9)> {};
 
 template <>
-struct mp_superscript<'2'>
- : mp_string<char(0xC2),char(0xB2)>
-{ };
+struct mp_superscript<'2'> : mp_string<char(0xC2), char(0xB2)> {};
 
 template <>
-struct mp_superscript<'3'>
- : mp_string<char(0xC2),char(0xB3)>
-{ };
+struct mp_superscript<'3'> : mp_string<char(0xC2), char(0xB3)> {};
 
 template <>
-struct mp_superscript<'4'>
- : mp_string<char(0xE2),char(0x81),char(0xB4)>
-{ };
+struct mp_superscript<'4'> : mp_string<char(0xE2), char(0x81), char(0xB4)> {};
 
 template <>
-struct mp_superscript<'5'>
- : mp_string<char(0xE2),char(0x81),char(0xB5)>
-{ };
+struct mp_superscript<'5'> : mp_string<char(0xE2), char(0x81), char(0xB5)> {};
 
 template <>
-struct mp_superscript<'6'>
- : mp_string<char(0xE2),char(0x81),char(0xB6)>
-{ };
+struct mp_superscript<'6'> : mp_string<char(0xE2), char(0x81), char(0xB6)> {};
 
 template <>
-struct mp_superscript<'7'>
- : mp_string<char(0xE2),char(0x81),char(0xB7)>
-{ };
+struct mp_superscript<'7'> : mp_string<char(0xE2), char(0x81), char(0xB7)> {};
 
 template <>
-struct mp_superscript<'8'>
- : mp_string<char(0xE2),char(0x81),char(0xB8)>
-{ };
+struct mp_superscript<'8'> : mp_string<char(0xE2), char(0x81), char(0xB8)> {};
 
 template <>
-struct mp_superscript<'9'>
- : mp_string<char(0xE2),char(0x81),char(0xB9)>
-{ };
+struct mp_superscript<'9'> : mp_string<char(0xE2), char(0x81), char(0xB9)> {};
 
 // mp_subscript
 template <char C>
@@ -113,64 +79,40 @@ template <char C>
 using mp_subscript_t = typename mp_subscript<C>::type;
 
 template <>
-struct mp_subscript<'0'>
- : mp_string<char(0xE2),char(0x82),char(0x80)>
-{ };
+struct mp_subscript<'0'> : mp_string<char(0xE2), char(0x82), char(0x80)> {};
 
 template <>
-struct mp_subscript<'1'>
- : mp_string<char(0xE2),char(0x82),char(0x81)>
-{ };
+struct mp_subscript<'1'> : mp_string<char(0xE2), char(0x82), char(0x81)> {};
 
 template <>
-struct mp_subscript<'2'>
- : mp_string<char(0xE2),char(0x82),char(0x82)>
-{ };
+struct mp_subscript<'2'> : mp_string<char(0xE2), char(0x82), char(0x82)> {};
 
 template <>
-struct mp_subscript<'3'>
- : mp_string<char(0xE2),char(0x82),char(0x83)>
-{ };
+struct mp_subscript<'3'> : mp_string<char(0xE2), char(0x82), char(0x83)> {};
 
 template <>
-struct mp_subscript<'4'>
- : mp_string<char(0xE2),char(0x82),char(0x84)>
-{ };
+struct mp_subscript<'4'> : mp_string<char(0xE2), char(0x82), char(0x84)> {};
 
 template <>
-struct mp_subscript<'5'>
- : mp_string<char(0xE2),char(0x82),char(0x85)>
-{ };
+struct mp_subscript<'5'> : mp_string<char(0xE2), char(0x82), char(0x85)> {};
 
 template <>
-struct mp_subscript<'6'>
- : mp_string<char(0xE2),char(0x82),char(0x86)>
-{ };
+struct mp_subscript<'6'> : mp_string<char(0xE2), char(0x82), char(0x86)> {};
 
 template <>
-struct mp_subscript<'7'>
- : mp_string<char(0xE2),char(0x82),char(0x87)>
-{ };
+struct mp_subscript<'7'> : mp_string<char(0xE2), char(0x82), char(0x87)> {};
 
 template <>
-struct mp_subscript<'8'>
- : mp_string<char(0xE2),char(0x82),char(0x88)>
-{ };
+struct mp_subscript<'8'> : mp_string<char(0xE2), char(0x82), char(0x88)> {};
 
 template <>
-struct mp_subscript<'9'>
- : mp_string<char(0xE2),char(0x82),char(0x89)>
-{ };
+struct mp_subscript<'9'> : mp_string<char(0xE2), char(0x82), char(0x89)> {};
 
 template <>
-struct mp_subscript<'+'>
- : mp_string<char(0xE2),char(0x82),char(0x8A)>
-{ };
+struct mp_subscript<'+'> : mp_string<char(0xE2), char(0x82), char(0x8A)> {};
 
 template <>
-struct mp_subscript<'-'>
- : mp_string<char(0xE2),char(0x82),char(0x8B)>
-{ };
+struct mp_subscript<'-'> : mp_string<char(0xE2), char(0x82), char(0x8B)> {};
 
 } // namespace eagine
 

@@ -11,60 +11,45 @@
 #define EAGINE_SHAPES_SCREEN_1509260923_HPP
 
 #include "gen_base.hpp"
-#include <eagine/config/basic.hpp>
 #include <cassert>
+#include <eagine/config/basic.hpp>
 
 namespace eagine {
 namespace shapes {
 
-class unit_screen_gen
- : public centered_unit_shape_generator_base
-{
+class unit_screen_gen : public centered_unit_shape_generator_base {
 private:
-	typedef centered_unit_shape_generator_base _base;
+    typedef centered_unit_shape_generator_base _base;
 
-	static
-	vertex_attrib_bits _attr_mask(void)
-	noexcept;
+    static vertex_attrib_bits _attr_mask(void) noexcept;
+
 public:
-	unit_screen_gen(vertex_attrib_bits attr_bits)
-	noexcept;
+    unit_screen_gen(vertex_attrib_bits attr_bits) noexcept;
 
-	span_size_t vertex_count(void)
-	override;
+    span_size_t vertex_count(void) override;
 
-	void positions(const span<float>& dest)
-	noexcept;
+    void positions(const span<float>& dest) noexcept;
 
-	void normals(const span<float>& dest)
-	noexcept;
+    void normals(const span<float>& dest) noexcept;
 
-	void tangentials(const span<float>& dest)
-	noexcept;
+    void tangentials(const span<float>& dest) noexcept;
 
-	void bitangentials(const span<float>& dest)
-	noexcept;
+    void bitangentials(const span<float>& dest) noexcept;
 
-	void face_coords(const span<float>& dest)
-	noexcept;
+    void face_coords(const span<float>& dest) noexcept;
 
-	void attrib_values(vertex_attrib_kind attr, const span<float>& dest)
-	override;
+    void attrib_values(
+      vertex_attrib_kind attr, const span<float>& dest) override;
 
-	index_data_type index_type(void)
-	override;
+    index_data_type index_type(void) override;
 
-	span_size_t index_count(void)
-	override;
+    span_size_t index_count(void) override;
 
-	void indices(const span<unsigned>& dest)
-	override;
+    void indices(const span<unsigned>& dest) override;
 
-	span_size_t operation_count(void)
-	override;
+    span_size_t operation_count(void) override;
 
-	void instructions(const span<draw_operation>& ops)
-	override;
+    void instructions(const span<draw_operation>& ops) override;
 };
 
 } // namespace shapes

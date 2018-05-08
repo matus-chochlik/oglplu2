@@ -7,10 +7,11 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
+// clang-format off
 #include "prologue.inl"
 #include "predeclare.inl"
 #include "objects.inl"
 #include "implement.inl"
 #include "shapes.inl"
 #include "epilogue.inl"
-
+// clang-format on

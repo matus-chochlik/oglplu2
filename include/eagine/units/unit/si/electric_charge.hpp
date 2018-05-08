@@ -10,10 +10,10 @@
 #ifndef EAGINE_UNITS_UNIT_SI_ELECTRIC_CHARGE_1512222148_HPP
 #define EAGINE_UNITS_UNIT_SI_ELECTRIC_CHARGE_1512222148_HPP
 
+#include "../../dim/electric_charge.hpp"
 #include "common.hpp"
 #include "electric_current.hpp"
 #include "time.hpp"
-#include "../../dim/electric_charge.hpp"
 
 namespace eagine {
 namespace units {
@@ -22,15 +22,13 @@ namespace units {
 typedef unit<electric_charge, si> coulomb;
 
 template <>
-struct unit_name<coulomb>
-{
-	static constexpr const char mp_str[] = "coulomb";
+struct unit_name<coulomb> {
+    static constexpr const char mp_str[] = "coulomb";
 };
 
 template <>
-struct unit_symbol<coulomb>
-{
-	static constexpr const char mp_str[] = "C";
+struct unit_symbol<coulomb> {
+    static constexpr const char mp_str[] = "C";
 };
 
 // derived
@@ -41,5 +39,4 @@ typedef make_scaled_unit_t<scales::kilo, coulomb> kilocoulomb;
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // include guard

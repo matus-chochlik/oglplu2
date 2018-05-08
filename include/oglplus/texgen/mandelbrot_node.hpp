@@ -14,20 +14,16 @@
 namespace oglplus {
 namespace texgen {
 
-class mandelbrot_output
- : public base_output
-{
+class mandelbrot_output : public base_output {
 public:
-	mandelbrot_output(node_intf& parent);
+    mandelbrot_output(node_intf& parent);
 
-	cstr_ref type_name(void)
-	override;
+    cstr_ref type_name(void) override;
 
-	slot_data_type value_type(void)
-	override;
+    slot_data_type value_type(void) override;
 
-	std::ostream& definitions(std::ostream& out, compile_context& ctxt)
-	override;
+    std::ostream& definitions(
+      std::ostream& out, compile_context& ctxt) override;
 };
 
 using mandelbrot_node = single_output_node<mandelbrot_output>;

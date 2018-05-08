@@ -24,16 +24,14 @@ template <typename Unit>
 struct unit_symbol;
 
 template <typename Dimension, typename Derived>
-struct unit
-{
-	typedef Dimension dimension;
-	typedef scales::one scale;
-	typedef Derived type;
+struct unit {
+    typedef Dimension dimension;
+    typedef scales::one scale;
+    typedef Derived type;
 };
 
 } // namespace base
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // include guard

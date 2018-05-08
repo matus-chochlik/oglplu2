@@ -14,8 +14,7 @@
 namespace oalplus {
 
 std::pair<const void*, span_size_t>
-get_enum_value_range(const any_enum_class_alc&)
-noexcept;
+get_enum_value_range(const any_enum_class_alc&) noexcept;
 
 } // namespace oalplus
 

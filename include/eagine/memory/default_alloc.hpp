@@ -20,5 +20,4 @@ typedef c_byte_reallocator<> default_byte_allocator;
 } // namespace memory
 } // namespace eagine
 
-#endif //include guard
-
+#endif // include guard

@@ -16,50 +16,40 @@
 namespace eagine {
 
 template <typename T, typename Selector = identity<T>>
-class protected_member
-{
+class protected_member {
 private:
-	T _member;
-protected:
-	template <typename ... P>
-	protected_member(P&& ... p)
-	 : _member(std::forward<P>(p)...)
-	{ }
-public:
-	T& get_the_member(Selector = Selector())
-	noexcept
-	{
-		return _member;
-	}
+    T _member;
 
-	const T& get_the_member(Selector = Selector()) const
-	noexcept
-	{
-		return _member;
-	}
+protected:
+    template <typename... P>
+    protected_member(P&&... p)
+      : _member(std::forward<P>(p)...) {
+    }
+
+public:
+    T& get_the_member(Selector = Selector()) noexcept {
+	return _member;
+    }
+
+    const T& get_the_member(Selector = Selector()) const noexcept {
+	return _member;
+    }
 };
 
 template <typename Selector, typename T>
-static inline
-T& get_member(
-	protected_member<T, Selector>& pm,
-	Selector selector = Selector()
-) noexcept
-{
-	return pm.get_the_member(selector);
+static inline T&
+get_member(
+  protected_member<T, Selector>& pm, Selector selector = Selector()) noexcept {
+    return pm.get_the_member(selector);
 }
 
 template <typename Selector, typename T>
-static inline
-const T& get_member(
-	const protected_member<T, Selector>& pm,
-	Selector selector = Selector()
-) noexcept
-{
-	return pm.get_the_member(selector);
+static inline const T&
+get_member(const protected_member<T, Selector>& pm,
+  Selector selector = Selector()) noexcept {
+    return pm.get_the_member(selector);
 }
 
 } // namespace eagine
-
 
 #endif // include guard

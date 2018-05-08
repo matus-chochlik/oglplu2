@@ -13,7 +13,8 @@
 
 namespace eagine {
 
-void fill_with_random_bytes(const span<unsigned char>& buffer);
+void
+fill_with_random_bytes(const span<unsigned char>& buffer);
 
 } // namespace eagine
 
@@ -21,5 +22,4 @@ void fill_with_random_bytes(const span<unsigned char>& buffer);
 #include <eagine/random_bytes.inl>
 #endif
 
-#endif //include guard
-
+#endif // include guard

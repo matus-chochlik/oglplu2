@@ -16,11 +16,7 @@
 namespace oglplus {
 
 template <typename T>
-using outcome = basic_outcome<
-	T,
-	error_info,
-	gl_error_handling_policy
->;
+using outcome = basic_outcome<T, error_info, gl_error_handling_policy>;
 
 } // namespace oglplus
 

@@ -4,7 +4,7 @@
  *  http://www.boost.org/LICENSE_1_0.txt
  */
 #include <EGL/egl.h>
-#include <eglplus/enum/values.hpp>
 #include <eglplus/enum/value_defs.inl>
 #include <eglplus/enum/value_names.hpp>
 #include <eglplus/enum/value_range.hpp>
+#include <eglplus/enum/values.hpp>

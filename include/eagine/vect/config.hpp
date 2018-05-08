@@ -11,17 +11,16 @@
 
 #ifndef EAGINE_USE_SIMD
 
-# if defined(__clang__) || defined(__GNUC__)
-# define EAGINE_USE_SIMD __SSE__
-# else
-# define EAGINE_USE_SIMD 1
-# endif
+#if defined(__clang__) || defined(__GNUC__)
+#define EAGINE_USE_SIMD __SSE__
+#else
+#define EAGINE_USE_SIMD 1
+#endif
 
 #endif
 
 #ifndef EAGINE_VECT_OPTS
-# define EAGINE_VECT_OPTS 1
+#define EAGINE_VECT_OPTS 1
 #endif
 
-#endif //include guard
-
+#endif // include guard

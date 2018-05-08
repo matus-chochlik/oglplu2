@@ -11,7 +11,7 @@ namespace std {
 }
 #endif
 
-int main(void)
-{
-	return std::is_same_v<int, int>?0:1;
+int
+main(void) {
+    return std::is_same_v<int, int> ? 0 : 1;
 }

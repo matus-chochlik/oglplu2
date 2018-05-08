@@ -9,73 +9,49 @@
 #ifndef OGLPLUS_OPER_BLENDING_1509260923_HPP
 #define OGLPLUS_OPER_BLENDING_1509260923_HPP
 
+#include "../enum/types.hpp"
 #include "../error/handling.hpp"
 #include "../error/outcome.hpp"
-#include "../enum/types.hpp"
 
 namespace oglplus {
 namespace oper {
 
-struct blending_state
-{
-	static
-	outcome<void>
-	blend_equation(oglplus::blend_equation equation)
-	noexcept;
+struct blending_state {
+    static outcome<void> blend_equation(
+      oglplus::blend_equation equation) noexcept;
 
 #if defined(GL_VERSION_4_0)
-	static
-	outcome<void>
-	blend_equation(GLuint buf, oglplus::blend_equation equation)
-	noexcept;
+    static outcome<void> blend_equation(
+      GLuint buf, oglplus::blend_equation equation) noexcept;
 #endif
 
-	static
-	outcome<void>
-	blend_equation_separate(
-		oglplus::blend_equation modeRGB,
-		oglplus::blend_equation modeAlpha
-	) noexcept;
+    static outcome<void> blend_equation_separate(
+      oglplus::blend_equation modeRGB,
+      oglplus::blend_equation modeAlpha) noexcept;
 
 #if defined(GL_VERSION_4_0)
-	static
-	outcome<void>
-	blend_equation_separate(
-		GLuint buf,
-		oglplus::blend_equation modeRGB,
-		oglplus::blend_equation modeAlpha
-	) noexcept;
+    static outcome<void> blend_equation_separate(GLuint buf,
+      oglplus::blend_equation modeRGB,
+      oglplus::blend_equation modeAlpha) noexcept;
 #endif
 
-	static
-	outcome<void>
-	blend_func(blend_function sfactor, blend_function dfactor)
-	noexcept;
+    static outcome<void> blend_func(
+      blend_function sfactor, blend_function dfactor) noexcept;
 
-	static
-	outcome<void>
-	blend_func_separate(
-		blend_function srcRGB,
-		blend_function dstRGB,
-		blend_function srcAlpha,
-		blend_function dstAlpha
-	) noexcept;
+    static outcome<void> blend_func_separate(blend_function srcRGB,
+      blend_function dstRGB,
+      blend_function srcAlpha,
+      blend_function dstAlpha) noexcept;
 
 #if defined(GL_VERSION_4_0)
-	static
-	outcome<void>
-	blend_func(GLuint buf, blend_function sfactor, blend_function dfactor)
-	noexcept;
+    static outcome<void> blend_func(
+      GLuint buf, blend_function sfactor, blend_function dfactor) noexcept;
 
-	static
-	outcome<void>
-	blend_func_separate(
-		GLuint buf,
-		blend_function srcRGB,
-		blend_function dstRGB,
-		blend_function srcAlpha,
-		blend_function dstAlpha
-	) noexcept;
+    static outcome<void> blend_func_separate(GLuint buf,
+      blend_function srcRGB,
+      blend_function dstRGB,
+      blend_function srcAlpha,
+      blend_function dstAlpha) noexcept;
 #endif
 };
 

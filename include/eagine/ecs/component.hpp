@@ -22,39 +22,34 @@ typedef unsigned component_uid_t;
 
 // component_uid_getter
 template <bool IsRelation>
-class component_uid_getter
-{
+class component_uid_getter {
 private:
-	static component_uid_t& _curr_uid(void);
+    static component_uid_t& _curr_uid(void);
+
 public:
-	static inline component_uid_t new_uid(void)
-	{
-		return _curr_uid()++;
-	}
+    static inline component_uid_t new_uid(void) {
+	return _curr_uid()++;
+    }
 };
 
 // component_uid
 template <typename Derived, bool IsRelation>
-struct component_uid
-{
-	static component_uid_t value(void)
-	{
-		static component_uid_t cid =
-			component_uid_getter<IsRelation>::new_uid();
-		return cid;
-	}
+struct component_uid {
+    static component_uid_t value(void) {
+	static component_uid_t cid =
+	  component_uid_getter<IsRelation>::new_uid();
+	return cid;
+    }
 
-	component_uid_t operator()(void) const
-	{
-		return value();
-	}
+    component_uid_t operator()(void) const {
+	return value();
+    }
 };
 
 // entity_data
 template <typename Derived, bool IsRelation>
-struct entity_data
-{
-	static component_uid<Derived, IsRelation> _uid;
+struct entity_data {
+    static component_uid<Derived, IsRelation> _uid;
 };
 
 template <typename Derived, bool IsRelation>
@@ -70,79 +65,65 @@ using relation = entity_data<Derived, true>;
 
 // get_component_uid
 template <typename X>
-static inline
-component_uid_t get_component_uid(void)
-{
-	typedef std::remove_const_t<std::remove_reference_t<X>> Component;
-	return Component::_uid();
+static inline component_uid_t
+get_component_uid(void) {
+    typedef std::remove_const_t<std::remove_reference_t<X>> Component;
+    return Component::_uid();
 }
 
 // component_uid_map
 template <typename T>
-class component_uid_map
-{
+class component_uid_map {
 private:
-	std::vector<T> _storage;
+    std::vector<T> _storage;
+
 public:
-	component_uid_map(void) = default;
+    component_uid_map(void) = default;
 
-	typedef typename std::vector<T>::iterator iterator;
-	typedef typename std::vector<T>::const_iterator const_iterator;
-	typedef typename std::vector<T>::difference_type difference_type;
+    typedef typename std::vector<T>::iterator iterator;
+    typedef typename std::vector<T>::const_iterator const_iterator;
+    typedef typename std::vector<T>::difference_type difference_type;
 
-	const_iterator begin(void) const
-	{
-		return _storage.begin();
+    const_iterator begin(void) const {
+	return _storage.begin();
+    }
+
+    iterator begin(void) {
+	return _storage.begin();
+    }
+
+    const_iterator end(void) const {
+	return _storage.end();
+    }
+
+    iterator end(void) {
+	return _storage.end();
+    }
+
+    const_iterator find(component_uid_t cid) const {
+	if(cid < _storage.size()) {
+	    return _storage.begin() + difference_type(cid);
+	} else
+	    return _storage.end();
+    }
+
+    iterator find(component_uid_t cid) {
+	if(cid < _storage.size()) {
+	    return _storage.begin() + difference_type(cid);
+	} else
+	    return _storage.end();
+    }
+
+    void erase(iterator pos) {
+	*pos = T();
+    }
+
+    T& operator[](component_uid_t cid) {
+	if(cid >= _storage.size()) {
+	    _storage.resize(cid + 1);
 	}
-
-	iterator begin(void)
-	{
-		return _storage.begin();
-	}
-
-	const_iterator end(void) const
-	{
-		return _storage.end();
-	}
-
-	iterator end(void)
-	{
-		return _storage.end();
-	}
-
-	const_iterator
-	find(component_uid_t cid) const
-	{
-		if(cid < _storage.size())
-		{
-			return _storage.begin()+difference_type(cid);
-		}
-		else return _storage.end();
-	}
-
-	iterator
-	find(component_uid_t cid)
-	{
-		if(cid < _storage.size())
-		{
-			return _storage.begin()+difference_type(cid);
-		}
-		else return _storage.end();
-	}
-
-	void erase(iterator pos)
-	{
-		*pos = T();
-	}
-
-	T& operator [] (component_uid_t cid)
-	{
-		if(cid >= _storage.size())
-		{
-			_storage.resize(cid+1);
-		}
-		return _storage[cid];
-	}
+	return _storage[cid];
+    }
 };
 
 } // namespace ecs
@@ -152,5 +133,4 @@ public:
 #include <eagine/ecs/component.inl>
 #endif
 
-#endif //include guard
-
+#endif // include guard

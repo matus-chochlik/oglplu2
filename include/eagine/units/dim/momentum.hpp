@@ -15,16 +15,14 @@
 namespace eagine {
 namespace units {
 
-typedef decltype(velocity()*mass()) momentum;
+typedef decltype(velocity() * mass()) momentum;
 
 template <>
-struct dim_name<momentum>
-{
-	static constexpr const char mp_str[] = "momentum";
+struct dim_name<momentum> {
+    static constexpr const char mp_str[] = "momentum";
 };
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // include guard

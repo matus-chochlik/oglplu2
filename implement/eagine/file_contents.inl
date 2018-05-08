@@ -6,82 +6,68 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include <eagine/input_data.hpp>
 #include <eagine/config/platform.hpp>
+#include <eagine/input_data.hpp>
 
 #if EAGINE_POSIX
-#include <eagine/posix/sysconf.hpp>
 #include <eagine/posix/file.hpp>
 #include <eagine/posix/memory_map.hpp>
+#include <eagine/posix/sysconf.hpp>
 #endif
 
 namespace eagine {
 //------------------------------------------------------------------------------
-class buffered_file_contents
- : public file_contents_intf
-{
+class buffered_file_contents : public file_contents_intf {
 private:
-	memory::buffer _buf;
-public:
-	buffered_file_contents(const cstr_ref& path)
-	{
-		read_file_data(path, _buf);
-	}
+    memory::buffer _buf;
 
-	const_memory_block block(void)
-	noexcept
-	override
-	{
-		return _buf;
-	}
+public:
+    buffered_file_contents(const cstr_ref& path) {
+	read_file_data(path, _buf);
+    }
+
+    const_memory_block block(void) noexcept override {
+	return _buf;
+    }
 };
 //------------------------------------------------------------------------------
 #if EAGINE_POSIX
 //------------------------------------------------------------------------------
-class memory_mapped_file_contents
- : public file_contents_intf
-{
+class memory_mapped_file_contents : public file_contents_intf {
 private:
-	posix::memory_mapped_file _mmf;
-public:
-	memory_mapped_file_contents(posix::file_descriptor_owner& fd)
-	 : _mmf(fd, PROT_READ, MAP_SHARED)
-	{ }
+    posix::memory_mapped_file _mmf;
 
-	const_memory_block block(void)
-	noexcept
-	override
-	{
-		return _mmf.block();
-	}
+public:
+    memory_mapped_file_contents(posix::file_descriptor_owner& fd)
+      : _mmf(fd, PROT_READ, MAP_SHARED) {
+    }
+
+    const_memory_block block(void) noexcept override {
+	return _mmf.block();
+    }
 };
 //------------------------------------------------------------------------------
-inline
-std::shared_ptr<file_contents_intf>
-make_file_contents_impl(const cstr_ref& path)
-{
-	posix::file_descriptor_owner fd(posix::open(path, 0));
-	auto size = posix::file_size(fd);
-	auto pgsize = posix::page_size();
+inline std::shared_ptr<file_contents_intf>
+make_file_contents_impl(const cstr_ref& path) {
+    posix::file_descriptor_owner fd(posix::open(path, 0));
+    auto size = posix::file_size(fd);
+    auto pgsize = posix::page_size();
 
-	bool do_map = (size % pgsize) == 0;
-	do_map |= (size % pgsize) > (pgsize / (2*(1+(size)/pgsize)));
-	do_map |= (size > 8*pgsize);
+    bool do_map = (size % pgsize) == 0;
+    do_map |= (size % pgsize) > (pgsize / (2 * (1 + (size) / pgsize)));
+    do_map |= (size > 8 * pgsize);
 
-	if(do_map)
-	{
-		return std::make_shared<memory_mapped_file_contents>(fd);
-	}
-	return std::make_shared<buffered_file_contents>(path);
+    if(do_map) {
+	return std::make_shared<memory_mapped_file_contents>(fd);
+    }
+    return std::make_shared<buffered_file_contents>(path);
 }
 //------------------------------------------------------------------------------
 #else
 //------------------------------------------------------------------------------
-inline
-std::shared_ptr<file_contents_intf>
-make_file_contents_impl(const cstr_ref& path)
-{
-	return std::make_shared<buffered_file_contents>(path);
+inline std::shared_ptr<file_contents_intf>
+make_file_contents_impl(const cstr_ref& path) {
+    return std::make_shared<buffered_file_contents>(path);
 }
 //------------------------------------------------------------------------------
 #endif
@@ -89,9 +75,8 @@ make_file_contents_impl(const cstr_ref& path)
 // file_contents::file_contents
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-file_contents::
-file_contents(const cstr_ref& path)
- : _pimpl(make_file_contents_impl(path))
-{ }
+file_contents::file_contents(const cstr_ref& path)
+  : _pimpl(make_file_contents_impl(path)) {
+}
 //------------------------------------------------------------------------------
 } // namespace eagine

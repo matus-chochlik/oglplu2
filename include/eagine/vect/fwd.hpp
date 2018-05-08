@@ -21,9 +21,7 @@ template <typename T, int N>
 struct _vec_data;
 
 template <typename T, int N>
-struct _has_vec_data
- : std::false_type
-{ };
+struct _has_vec_data : std::false_type {};
 
 template <typename T, int N, bool V>
 struct has_vect_data;
@@ -46,5 +44,4 @@ using data_param_t = typename data_param<T, N, V>::type;
 } // namespace vect
 } // namespace eagine
 
-#endif //include guard
-
+#endif // include guard

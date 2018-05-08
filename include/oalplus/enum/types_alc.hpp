@@ -16,13 +16,13 @@
 
 namespace oalplus {
 
-struct alc_error_code
- : enum_class_alc<alc_error_code, ALCenum, 0>
-{ using enum_class::enum_class; };
+struct alc_error_code : enum_class_alc<alc_error_code, ALCenum, 0> {
+    using enum_class::enum_class;
+};
 
-struct context_attrib
- : enum_class_alc<context_attrib, ALCenum, 1>
-{ using enum_class::enum_class; };
+struct context_attrib : enum_class_alc<context_attrib, ALCenum, 1> {
+    using enum_class::enum_class;
+};
 
 } // namespace oalplus
 

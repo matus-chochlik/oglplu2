@@ -17,57 +17,41 @@ namespace units {
 
 // is_dimension
 template <typename X>
-struct is_dimension
- : std::false_type
-{ };
+struct is_dimension : std::false_type {};
 
 template <typename X>
 constexpr bool is_dimension_v = is_dimension<X>::value;
 
 template <typename H, typename T>
-struct is_dimension<bits::dims<H, T>>
- : std::true_type
-{ };
+struct is_dimension<bits::dims<H, T>> : std::true_type {};
 
 // is_unit
 template <typename X>
-struct is_unit
- : std::false_type
-{ };
+struct is_unit : std::false_type {};
 
 template <typename D, typename S>
-struct is_unit<unit<D, S>>
- : std::true_type
-{ };
+struct is_unit<unit<D, S>> : std::true_type {};
 
 template <typename D, typename US, typename S>
-struct is_unit<scaled_dim_unit<D, US, S>>
- : std::true_type
-{ };
+struct is_unit<scaled_dim_unit<D, US, S>> : std::true_type {};
 
 // same_dimension
 template <typename D, typename S>
-struct same_dimension<unit<D, S>, unit<D, S>>
- : std::true_type
-{ };
+struct same_dimension<unit<D, S>, unit<D, S>> : std::true_type {};
 
 template <typename D, typename US, typename S>
 struct same_dimension<unit<D, S>, scaled_dim_unit<D, US, S>>
- : std::true_type
-{ };
+  : std::true_type {};
 
 template <typename D, typename US, typename S>
 struct same_dimension<scaled_dim_unit<D, US, S>, unit<D, S>>
- : std::true_type
-{ };
+  : std::true_type {};
 
 template <typename D, typename US1, typename US2, typename S>
 struct same_dimension<scaled_dim_unit<D, US1, S>, scaled_dim_unit<D, US2, S>>
- : std::true_type
-{ };
+  : std::true_type {};
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // include guard

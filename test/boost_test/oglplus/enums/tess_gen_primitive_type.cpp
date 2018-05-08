@@ -17,154 +17,138 @@
 
 BOOST_AUTO_TEST_SUITE(enum_tess_gen_primitive_type_tests)
 
-BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_type_values)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	tess_gen_primitive_type x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_type_values) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    tess_gen_primitive_type x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_ISOLINES
-	x = ev.isolines;
-	BOOST_CHECK(x == ev.isolines);
-# ifdef GL_QUADS
-	BOOST_CHECK(x != ev.quads);
-# endif
-# ifdef GL_TRIANGLES
-	BOOST_CHECK(x != ev.triangles);
-# endif
+    x = ev.isolines;
+    BOOST_CHECK(x == ev.isolines);
+#ifdef GL_QUADS
+    BOOST_CHECK(x != ev.quads);
+#endif
+#ifdef GL_TRIANGLES
+    BOOST_CHECK(x != ev.triangles);
+#endif
 #endif
 
 #ifdef GL_QUADS
-	x = ev.quads;
-	BOOST_CHECK(x == ev.quads);
-# ifdef GL_TRIANGLES
-	BOOST_CHECK(x != ev.triangles);
-# endif
+    x = ev.quads;
+    BOOST_CHECK(x == ev.quads);
+#ifdef GL_TRIANGLES
+    BOOST_CHECK(x != ev.triangles);
+#endif
 #endif
 
 #ifdef GL_TRIANGLES
-	x = ev.triangles;
-	BOOST_CHECK(x == ev.triangles);
+    x = ev.triangles;
+    BOOST_CHECK(x == ev.triangles);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_type_names)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	tess_gen_primitive_type x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_type_names) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    tess_gen_primitive_type x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_ISOLINES
-	x = ev.isolines;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"ISOLINES"
-	) == 0);
+    x = ev.isolines;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(std::strcmp(enum_value_name(x).data(), "ISOLINES") == 0);
 #endif
 
 #ifdef GL_QUADS
-	x = ev.quads;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"QUADS"
-	) == 0);
+    x = ev.quads;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(std::strcmp(enum_value_name(x).data(), "QUADS") == 0);
 #endif
 
 #ifdef GL_TRIANGLES
-	x = ev.triangles;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"TRIANGLES"
-	) == 0);
+    x = ev.triangles;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(std::strcmp(enum_value_name(x).data(), "TRIANGLES") == 0);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_type_range)
-{
-	using namespace oglplus;
-	auto count = enum_value_range<tess_gen_primitive_type>().size();
+BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_type_range) {
+    using namespace oglplus;
+    auto count = enum_value_range<tess_gen_primitive_type>().size();
 
 #ifdef GL_ISOLINES
-{
+    {
 	--count;
 	auto r = enum_value_range<tess_gen_primitive_type>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		tess_gen_primitive_type(GL_ISOLINES)
-	) != r.end());
-}
+	BOOST_CHECK(
+	  std::find(r.begin(), r.end(), tess_gen_primitive_type(GL_ISOLINES))
+	  != r.end());
+    }
 #endif
 
 #ifdef GL_QUADS
-{
+    {
 	--count;
 	auto r = enum_value_range<tess_gen_primitive_type>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		tess_gen_primitive_type(GL_QUADS)
-	) != r.end());
-}
+	BOOST_CHECK(
+	  std::find(r.begin(), r.end(), tess_gen_primitive_type(GL_QUADS))
+	  != r.end());
+    }
 #endif
 
 #ifdef GL_TRIANGLES
-{
+    {
 	--count;
 	auto r = enum_value_range<tess_gen_primitive_type>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		tess_gen_primitive_type(GL_TRIANGLES)
-	) != r.end());
-}
+	BOOST_CHECK(
+	  std::find(r.begin(), r.end(), tess_gen_primitive_type(GL_TRIANGLES))
+	  != r.end());
+    }
 #endif
-	BOOST_CHECK_EQUAL(count, 0);
+    BOOST_CHECK_EQUAL(count, 0);
 }
 
-BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_type_any)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	tess_gen_primitive_type x, y;
-	EAGINE_MAYBE_UNUSED(x);
-	EAGINE_MAYBE_UNUSED(y);
-	any_enum_value a;
-	EAGINE_MAYBE_UNUSED(a);
+BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_type_any) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    tess_gen_primitive_type x, y;
+    EAGINE_MAYBE_UNUSED(x);
+    EAGINE_MAYBE_UNUSED(y);
+    any_enum_value a;
+    EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_ISOLINES
-	x = ev.isolines;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.isolines);
+    x = ev.isolines;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.isolines);
 #endif
 
 #ifdef GL_QUADS
-	x = ev.quads;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.quads);
+    x = ev.quads;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.quads);
 #endif
 
 #ifdef GL_TRIANGLES
-	x = ev.triangles;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.triangles);
+    x = ev.triangles;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.triangles);
 #endif
 }
 

@@ -9,8 +9,7 @@
 
 #include "prologue.inl"
 
+#include "epilogue.inl"
 #include "implement.inl"
 #include <eagine/hexdump.hpp>
 #include <eagine/type_name.hpp>
-#include "epilogue.inl"
-

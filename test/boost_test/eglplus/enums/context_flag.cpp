@@ -17,154 +17,146 @@
 
 BOOST_AUTO_TEST_SUITE(enum_context_flag_tests)
 
-BOOST_AUTO_TEST_CASE(enum_context_flag_values)
-{
-	using namespace eglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	context_flag x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_context_flag_values) {
+    using namespace eglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    context_flag x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef EGL_CONTEXT_OPENGL_DEBUG_BIT
-	x = ev.context_opengl_debug_bit;
-	BOOST_CHECK(x == ev.context_opengl_debug_bit);
-# ifdef EGL_CONTEXT_OPENGL_FORWARD_COMPATIBLE_BIT
-	BOOST_CHECK(x != ev.context_opengl_forward_compatible_bit);
-# endif
-# ifdef EGL_CONTEXT_OPENGL_ROBUST_ACCESS_BIT
-	BOOST_CHECK(x != ev.context_opengl_robust_access_bit);
-# endif
+    x = ev.context_opengl_debug_bit;
+    BOOST_CHECK(x == ev.context_opengl_debug_bit);
+#ifdef EGL_CONTEXT_OPENGL_FORWARD_COMPATIBLE_BIT
+    BOOST_CHECK(x != ev.context_opengl_forward_compatible_bit);
+#endif
+#ifdef EGL_CONTEXT_OPENGL_ROBUST_ACCESS_BIT
+    BOOST_CHECK(x != ev.context_opengl_robust_access_bit);
+#endif
 #endif
 
 #ifdef EGL_CONTEXT_OPENGL_FORWARD_COMPATIBLE_BIT
-	x = ev.context_opengl_forward_compatible_bit;
-	BOOST_CHECK(x == ev.context_opengl_forward_compatible_bit);
-# ifdef EGL_CONTEXT_OPENGL_ROBUST_ACCESS_BIT
-	BOOST_CHECK(x != ev.context_opengl_robust_access_bit);
-# endif
+    x = ev.context_opengl_forward_compatible_bit;
+    BOOST_CHECK(x == ev.context_opengl_forward_compatible_bit);
+#ifdef EGL_CONTEXT_OPENGL_ROBUST_ACCESS_BIT
+    BOOST_CHECK(x != ev.context_opengl_robust_access_bit);
+#endif
 #endif
 
 #ifdef EGL_CONTEXT_OPENGL_ROBUST_ACCESS_BIT
-	x = ev.context_opengl_robust_access_bit;
-	BOOST_CHECK(x == ev.context_opengl_robust_access_bit);
+    x = ev.context_opengl_robust_access_bit;
+    BOOST_CHECK(x == ev.context_opengl_robust_access_bit);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_context_flag_names)
-{
-	using namespace eglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	context_flag x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_context_flag_names) {
+    using namespace eglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    context_flag x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef EGL_CONTEXT_OPENGL_DEBUG_BIT
-	x = ev.context_opengl_debug_bit;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"CONTEXT_OPENGL_DEBUG_BIT"
-	) == 0);
+    x = ev.context_opengl_debug_bit;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(
+      std::strcmp(enum_value_name(x).data(), "CONTEXT_OPENGL_DEBUG_BIT") == 0);
 #endif
 
 #ifdef EGL_CONTEXT_OPENGL_FORWARD_COMPATIBLE_BIT
-	x = ev.context_opengl_forward_compatible_bit;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"CONTEXT_OPENGL_FORWARD_COMPATIBLE_BIT"
-	) == 0);
+    x = ev.context_opengl_forward_compatible_bit;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(std::strcmp(enum_value_name(x).data(),
+		  "CONTEXT_OPENGL_FORWARD_COMPATIBLE_BIT")
+		== 0);
 #endif
 
 #ifdef EGL_CONTEXT_OPENGL_ROBUST_ACCESS_BIT
-	x = ev.context_opengl_robust_access_bit;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"CONTEXT_OPENGL_ROBUST_ACCESS_BIT"
-	) == 0);
+    x = ev.context_opengl_robust_access_bit;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(
+      std::strcmp(enum_value_name(x).data(), "CONTEXT_OPENGL_ROBUST_ACCESS_BIT")
+      == 0);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_context_flag_range)
-{
-	using namespace eglplus;
-	auto count = enum_value_range<context_flag>().size();
+BOOST_AUTO_TEST_CASE(enum_context_flag_range) {
+    using namespace eglplus;
+    auto count = enum_value_range<context_flag>().size();
 
 #ifdef EGL_CONTEXT_OPENGL_DEBUG_BIT
-{
+    {
 	--count;
 	auto r = enum_value_range<context_flag>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		context_flag(EGL_CONTEXT_OPENGL_DEBUG_BIT)
-	) != r.end());
-}
+	BOOST_CHECK(
+	  std::find(
+	    r.begin(), r.end(), context_flag(EGL_CONTEXT_OPENGL_DEBUG_BIT))
+	  != r.end());
+    }
 #endif
 
 #ifdef EGL_CONTEXT_OPENGL_FORWARD_COMPATIBLE_BIT
-{
+    {
 	--count;
 	auto r = enum_value_range<context_flag>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		context_flag(EGL_CONTEXT_OPENGL_FORWARD_COMPATIBLE_BIT)
-	) != r.end());
-}
+	BOOST_CHECK(std::find(r.begin(),
+		      r.end(),
+		      context_flag(EGL_CONTEXT_OPENGL_FORWARD_COMPATIBLE_BIT))
+		    != r.end());
+    }
 #endif
 
 #ifdef EGL_CONTEXT_OPENGL_ROBUST_ACCESS_BIT
-{
+    {
 	--count;
 	auto r = enum_value_range<context_flag>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		context_flag(EGL_CONTEXT_OPENGL_ROBUST_ACCESS_BIT)
-	) != r.end());
-}
+	BOOST_CHECK(std::find(r.begin(),
+		      r.end(),
+		      context_flag(EGL_CONTEXT_OPENGL_ROBUST_ACCESS_BIT))
+		    != r.end());
+    }
 #endif
-	BOOST_CHECK_EQUAL(count, 0);
+    BOOST_CHECK_EQUAL(count, 0);
 }
 
-BOOST_AUTO_TEST_CASE(enum_context_flag_any)
-{
-	using namespace eglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	context_flag x, y;
-	EAGINE_MAYBE_UNUSED(x);
-	EAGINE_MAYBE_UNUSED(y);
-	any_enum_value a;
-	EAGINE_MAYBE_UNUSED(a);
+BOOST_AUTO_TEST_CASE(enum_context_flag_any) {
+    using namespace eglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    context_flag x, y;
+    EAGINE_MAYBE_UNUSED(x);
+    EAGINE_MAYBE_UNUSED(y);
+    any_enum_value a;
+    EAGINE_MAYBE_UNUSED(a);
 
 #ifdef EGL_CONTEXT_OPENGL_DEBUG_BIT
-	x = ev.context_opengl_debug_bit;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.context_opengl_debug_bit);
+    x = ev.context_opengl_debug_bit;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.context_opengl_debug_bit);
 #endif
 
 #ifdef EGL_CONTEXT_OPENGL_FORWARD_COMPATIBLE_BIT
-	x = ev.context_opengl_forward_compatible_bit;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.context_opengl_forward_compatible_bit);
+    x = ev.context_opengl_forward_compatible_bit;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.context_opengl_forward_compatible_bit);
 #endif
 
 #ifdef EGL_CONTEXT_OPENGL_ROBUST_ACCESS_BIT
-	x = ev.context_opengl_robust_access_bit;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.context_opengl_robust_access_bit);
+    x = ev.context_opengl_robust_access_bit;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.context_opengl_robust_access_bit);
 #endif
 }
 

@@ -10,12 +10,12 @@
 #ifndef EAGINE_UNITS_UNIT_SI_MAGNETIC_FIELD_STRENGTH_1512222148_HPP
 #define EAGINE_UNITS_UNIT_SI_MAGNETIC_FIELD_STRENGTH_1512222148_HPP
 
+#include "../../dim/magnetic_field_strength.hpp"
 #include "common.hpp"
+#include "electric_current.hpp"
+#include "length.hpp"
 #include "mass.hpp"
 #include "time.hpp"
-#include "length.hpp"
-#include "electric_current.hpp"
-#include "../../dim/magnetic_field_strength.hpp"
 
 namespace eagine {
 namespace units {
@@ -24,15 +24,13 @@ namespace units {
 typedef unit<magnetic_field_strength, si> tesla;
 
 template <>
-struct unit_name<tesla>
-{
-	static constexpr const char mp_str[] = "tesla";
+struct unit_name<tesla> {
+    static constexpr const char mp_str[] = "tesla";
 };
 
 template <>
-struct unit_symbol<tesla>
-{
-	static constexpr const char mp_str[] = "T";
+struct unit_symbol<tesla> {
+    static constexpr const char mp_str[] = "T";
 };
 
 // derived
@@ -42,5 +40,4 @@ typedef make_scaled_unit_t<scales::milli, tesla> millitesla;
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // include guard

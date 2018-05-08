@@ -17,154 +17,135 @@
 
 BOOST_AUTO_TEST_SUITE(enum_index_type_tests)
 
-BOOST_AUTO_TEST_CASE(enum_index_type_values)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	index_type x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_index_type_values) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    index_type x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_UNSIGNED_BYTE
-	x = ev.unsigned_byte;
-	BOOST_CHECK(x == ev.unsigned_byte);
-# ifdef GL_UNSIGNED_INT
-	BOOST_CHECK(x != ev.unsigned_int);
-# endif
-# ifdef GL_UNSIGNED_SHORT
-	BOOST_CHECK(x != ev.unsigned_short);
-# endif
+    x = ev.unsigned_byte;
+    BOOST_CHECK(x == ev.unsigned_byte);
+#ifdef GL_UNSIGNED_INT
+    BOOST_CHECK(x != ev.unsigned_int);
+#endif
+#ifdef GL_UNSIGNED_SHORT
+    BOOST_CHECK(x != ev.unsigned_short);
+#endif
 #endif
 
 #ifdef GL_UNSIGNED_INT
-	x = ev.unsigned_int;
-	BOOST_CHECK(x == ev.unsigned_int);
-# ifdef GL_UNSIGNED_SHORT
-	BOOST_CHECK(x != ev.unsigned_short);
-# endif
+    x = ev.unsigned_int;
+    BOOST_CHECK(x == ev.unsigned_int);
+#ifdef GL_UNSIGNED_SHORT
+    BOOST_CHECK(x != ev.unsigned_short);
+#endif
 #endif
 
 #ifdef GL_UNSIGNED_SHORT
-	x = ev.unsigned_short;
-	BOOST_CHECK(x == ev.unsigned_short);
+    x = ev.unsigned_short;
+    BOOST_CHECK(x == ev.unsigned_short);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_index_type_names)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	index_type x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_index_type_names) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    index_type x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_UNSIGNED_BYTE
-	x = ev.unsigned_byte;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"UNSIGNED_BYTE"
-	) == 0);
+    x = ev.unsigned_byte;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(std::strcmp(enum_value_name(x).data(), "UNSIGNED_BYTE") == 0);
 #endif
 
 #ifdef GL_UNSIGNED_INT
-	x = ev.unsigned_int;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"UNSIGNED_INT"
-	) == 0);
+    x = ev.unsigned_int;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(std::strcmp(enum_value_name(x).data(), "UNSIGNED_INT") == 0);
 #endif
 
 #ifdef GL_UNSIGNED_SHORT
-	x = ev.unsigned_short;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"UNSIGNED_SHORT"
-	) == 0);
+    x = ev.unsigned_short;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(std::strcmp(enum_value_name(x).data(), "UNSIGNED_SHORT") == 0);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_index_type_range)
-{
-	using namespace oglplus;
-	auto count = enum_value_range<index_type>().size();
+BOOST_AUTO_TEST_CASE(enum_index_type_range) {
+    using namespace oglplus;
+    auto count = enum_value_range<index_type>().size();
 
 #ifdef GL_UNSIGNED_BYTE
-{
+    {
 	--count;
 	auto r = enum_value_range<index_type>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		index_type(GL_UNSIGNED_BYTE)
-	) != r.end());
-}
+	BOOST_CHECK(std::find(r.begin(), r.end(), index_type(GL_UNSIGNED_BYTE))
+		    != r.end());
+    }
 #endif
 
 #ifdef GL_UNSIGNED_INT
-{
+    {
 	--count;
 	auto r = enum_value_range<index_type>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		index_type(GL_UNSIGNED_INT)
-	) != r.end());
-}
+	BOOST_CHECK(std::find(r.begin(), r.end(), index_type(GL_UNSIGNED_INT))
+		    != r.end());
+    }
 #endif
 
 #ifdef GL_UNSIGNED_SHORT
-{
+    {
 	--count;
 	auto r = enum_value_range<index_type>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		index_type(GL_UNSIGNED_SHORT)
-	) != r.end());
-}
+	BOOST_CHECK(std::find(r.begin(), r.end(), index_type(GL_UNSIGNED_SHORT))
+		    != r.end());
+    }
 #endif
-	BOOST_CHECK_EQUAL(count, 0);
+    BOOST_CHECK_EQUAL(count, 0);
 }
 
-BOOST_AUTO_TEST_CASE(enum_index_type_any)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	index_type x, y;
-	EAGINE_MAYBE_UNUSED(x);
-	EAGINE_MAYBE_UNUSED(y);
-	any_enum_value a;
-	EAGINE_MAYBE_UNUSED(a);
+BOOST_AUTO_TEST_CASE(enum_index_type_any) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    index_type x, y;
+    EAGINE_MAYBE_UNUSED(x);
+    EAGINE_MAYBE_UNUSED(y);
+    any_enum_value a;
+    EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_UNSIGNED_BYTE
-	x = ev.unsigned_byte;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.unsigned_byte);
+    x = ev.unsigned_byte;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.unsigned_byte);
 #endif
 
 #ifdef GL_UNSIGNED_INT
-	x = ev.unsigned_int;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.unsigned_int);
+    x = ev.unsigned_int;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.unsigned_int);
 #endif
 
 #ifdef GL_UNSIGNED_SHORT
-	x = ev.unsigned_short;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.unsigned_short);
+    x = ev.unsigned_short;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.unsigned_short);
 #endif
 }
 

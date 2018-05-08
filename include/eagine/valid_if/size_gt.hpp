@@ -16,32 +16,26 @@ namespace eagine {
 
 // valid if less than container.size()
 template <typename C, typename T>
-struct valid_if_size_gt_policy
-{
-	bool operator()(const C& c, T s) const {
-		return c.size() > s;
+struct valid_if_size_gt_policy {
+    bool operator()(const C& c, T s) const {
+	return c.size() > s;
+    }
+
+    struct do_log {
+	template <typename X>
+	constexpr inline do_log(X&&) noexcept {
 	}
 
-	struct do_log
-	{
-		template <typename X>
-		constexpr inline
-		do_log(X&&)
-		noexcept
-		{ }
-
-		template <typename Log>
-		void operator ()(Log& log, const C& c, const T& s) const {
-			log	<< "Size " << c.size() << ", "
-				<< "not greater than value "
-				<< s << " is invalid";
-		}
-	};
+	template <typename Log>
+	void operator()(Log& log, const C& c, const T& s) const {
+	    log << "Size " << c.size() << ", "
+		<< "not greater than value " << s << " is invalid";
+	}
+    };
 };
 
 template <typename C, typename T>
-using valid_if_size_gt =
-	in_class_valid_if<C, T, valid_if_size_gt_policy<C, T>>;
+using valid_if_size_gt = in_class_valid_if<C, T, valid_if_size_gt_policy<C, T>>;
 
 } // namespace eagine
 

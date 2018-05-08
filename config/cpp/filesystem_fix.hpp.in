@@ -14,99 +14,100 @@
 #include <eagine/config/platform.hpp>
 #include <eagine/posix/fd_path.hpp>
 #include <eagine/string_path.hpp>
-#include <system_error>
 #include <string>
+#include <system_error>
 
 namespace std {
 namespace filesystem {
 
-class filesystem_error
- : public runtime_error
-{
+class filesystem_error : public runtime_error {
 private:
-	std::error_code _ec;
-public:
-	filesystem_error(const std::string& what, std::error_code ec)
-	 : runtime_error(what)
-	 , _ec(ec)
-	{ }
+    std::error_code _ec;
 
-	std::error_code code(void) const { return _ec; }
+public:
+    filesystem_error(const std::string& what, std::error_code ec)
+      : runtime_error(what)
+      , _ec(ec) {
+    }
+
+    std::error_code code(void) const {
+	return _ec;
+    }
 };
 
-class path
-{
+class path {
 public:
-	using value_type = char;
-	using string_type = string;
-	static constexpr value_type preferred_separator = '/';
+    using value_type = char;
+    using string_type = string;
+    static constexpr value_type preferred_separator = '/';
+
 private:
-	eagine::basic_string_path _path;
+    eagine::basic_string_path _path;
 
-	path(eagine::basic_string_path&& p)
-	 : _path(std::move(p))
-	{ }
+    path(eagine::basic_string_path&& p)
+      : _path(std::move(p)) {
+    }
 
-	static inline
-	string_type _sep(void) { return string_type(1, preferred_separator); }
+    static inline string_type _sep(void) {
+	return string_type(1, preferred_separator);
+    }
+
 public:
-	path(void) = default;
+    path(void) = default;
 
-	path(const string_type& source)
-	 : _path(source, EAGINE_TAG(split_by), _sep())
-	{ }
+    path(const string_type& source)
+      : _path(source, EAGINE_TAG(split_by), _sep()) {
+    }
 
-	bool empty(void) const { return _path.empty(); }
+    bool empty(void) const {
+	return _path.empty();
+    }
 
-	void clear(void) { _path.clear(); }
+    void clear(void) {
+	_path.clear();
+    }
 
-	string_type native(void) const {
-		return _path.as_string(_sep(), _path.size()==1);
+    string_type native(void) const {
+	return _path.as_string(_sep(), _path.size() == 1);
+    }
+
+    operator string_type(void) const {
+	return native();
+    }
+
+    path& append(const string_type& src) {
+	_path.push_back(src);
+	return *this;
+    }
+
+    path root_name(void) const {
+	return empty() ? path{}
+		       : path{eagine::basic_string_path(_path.front(), 1)};
+    }
+
+    path filename(void) const {
+	return empty() ? path{}
+		       : path{eagine::basic_string_path(_path.back(), 1)};
+    }
+
+    path parent_path(void) const {
+	eagine::basic_string_path res(_path);
+	if(!res.empty()) {
+	    res.pop_back();
 	}
-
-	operator string_type(void) const {
-		return native();
-	}
-
-	path& append(const string_type& src) {
-		_path.push_back(src);
-		return *this;
-	}
-
-	path root_name(void) const {
-		return empty() ? path{} : path{
-			eagine::basic_string_path(_path.front(), 1)
-		};
-	}
-
-	path filename(void) const {
-		return empty() ? path{} : path{
-			eagine::basic_string_path(_path.back(), 1)
-		};
-	}
-
-	path parent_path(void) const {
-		eagine::basic_string_path res(_path);
-		if(!res.empty()) {
-			res.pop_back();
-		}
-		return { std::move(res) };
-	}
+	return {std::move(res)};
+    }
 };
 
-static inline
-path current_path(void) {
-	auto res = eagine::posix::safe_getcwd();
-	if(res.failed()) {
-		throw filesystem_error(
-			"Failed to get current path",
-			std::error_code(
-				res.ignore_error().handler_data().error_code,
-				std::system_category()
-			)
-		);
-	}
-	return res.value();
+static inline path
+current_path(void) {
+    auto res = eagine::posix::safe_getcwd();
+    if(res.failed()) {
+	throw filesystem_error("Failed to get current path",
+	  std::error_code(res.ignore_error().handler_data().error_code,
+	    std::system_category()));
+    }
+    return res.value();
 }
 
 } // namespace filesystem

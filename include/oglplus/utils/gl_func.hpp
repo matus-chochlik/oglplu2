@@ -20,15 +20,13 @@
 #define OGLPLUS_WGLFUNC(FUNCNAME) ::wgl##FUNCNAME
 #endif
 
-
 #ifndef OGLPLUS_GL_DSA_FUNC_NAME
-# ifdef GL_VERSION_4_5
-#  define OGLPLUS_GL_DSA_FUNC_NAME(FUNC) #FUNC
-# elif defined(GL_EXT_direct_state_access)
-#  define OGLPLUS_GL_DSA_FUNC_NAME(FUNC) #FUNC "EXT"
-# endif
+#ifdef GL_VERSION_4_5
+#define OGLPLUS_GL_DSA_FUNC_NAME(FUNC) #FUNC
+#elif defined(GL_EXT_direct_state_access)
+#define OGLPLUS_GL_DSA_FUNC_NAME(FUNC) #FUNC "EXT"
 #endif
-
+#endif
 
 #if defined(__GLEW_H__)
 #define OGLPLUS_DYN_LOADED_GL_FUNCTIONS 1

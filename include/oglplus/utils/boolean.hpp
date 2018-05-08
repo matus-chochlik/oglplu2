@@ -15,56 +15,37 @@
 
 namespace oglplus {
 
-struct boolean
-{
-	GLboolean _v;
+struct boolean {
+    GLboolean _v;
 
-	constexpr
-	boolean(void)
-	noexcept
-	 : _v(GL_FALSE)
-	{ }
+    constexpr boolean(void) noexcept
+      : _v(GL_FALSE) {
+    }
 
-	explicit inline
-	boolean(GLboolean v)
-	noexcept
-	 : _v(v)
-	{
-		assert((_v == GL_TRUE) || (_v == GL_FALSE));
-	}
+    explicit inline boolean(GLboolean v) noexcept
+      : _v(v) {
+	assert((_v == GL_TRUE) || (_v == GL_FALSE));
+    }
 
-	constexpr inline
-	boolean(bool v)
-	noexcept
-	 : _v(v?GL_TRUE:GL_FALSE)
-	{ }
+    constexpr inline boolean(bool v) noexcept
+      : _v(v ? GL_TRUE : GL_FALSE) {
+    }
 
-	constexpr inline
-	boolean(true_false v)
-	noexcept
-	 : _v(GLboolean(v))
-	{ }
+    constexpr inline boolean(true_false v) noexcept
+      : _v(GLboolean(v)) {
+    }
 
-	explicit constexpr inline
-	operator bool (void) const
-	noexcept
-	{
-		return _v == GL_TRUE;
-	}
+    explicit constexpr inline operator bool(void) const noexcept {
+	return _v == GL_TRUE;
+    }
 
-	constexpr inline
-	bool operator ! (void) const
-	noexcept
-	{
-		return _v == GL_FALSE;
-	}
+    constexpr inline bool operator!(void)const noexcept {
+	return _v == GL_FALSE;
+    }
 
-	constexpr inline
-	operator GLboolean (void) const
-	noexcept
-	{
-		return _v;
-	}
+    constexpr inline operator GLboolean(void) const noexcept {
+	return _v;
+    }
 };
 
 } // namespace oglplus

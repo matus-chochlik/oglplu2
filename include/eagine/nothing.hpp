@@ -12,9 +12,8 @@
 
 namespace eagine {
 
-struct nothing_t
-{
-	typedef nothing_t type;
+struct nothing_t {
+    typedef nothing_t type;
 };
 
 static constexpr nothing_t nothing = {};

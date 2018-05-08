@@ -48,56 +48,55 @@
 
 namespace oglplus {
 
-struct api_initializer
-{
-	api_initializer(const api_initializer&) = delete;
+struct api_initializer {
+    api_initializer(const api_initializer&) = delete;
 
-	api_initializer(int /*gl_ver_major*/ = 3, int /*gl_ver_minor*/ = 3);
-	~api_initializer(void);
+    api_initializer(int /*gl_ver_major*/ = 3, int /*gl_ver_minor*/ = 3);
+    ~api_initializer(void);
 };
 
 } // namespace oglplus
 
-# if OGLPLUS_USE_GLCOREARB_H
-#  define GLCOREARB_PROTOTYPES
-#  define GL_GLEXT_PROTOTYPES
-#  include <GL/glcorearb.h>
-#  include <GL/glext.h>
+#if OGLPLUS_USE_GLCOREARB_H
+#define GLCOREARB_PROTOTYPES
+#define GL_GLEXT_PROTOTYPES
+#include <GL/glcorearb.h>
+#include <GL/glext.h>
 
-# elif OGLPLUS_USE_GL3_GL3_H
-#  define GL3_PROTOTYPES
-#  ifdef __APPLE__
-#   include <OpenGL/gl3.h>
-#  else
-#   include <GL3/gl3.h>
-#  endif
-#  define __gl_h_
-#  define __gl_h__
-#  define __glext_h_
-#  define __glext_h__
+#elif OGLPLUS_USE_GL3_GL3_H
+#define GL3_PROTOTYPES
+#ifdef __APPLE__
+#include <OpenGL/gl3.h>
+#else
+#include <GL3/gl3.h>
+#endif
+#define __gl_h_
+#define __gl_h__
+#define __glext_h_
+#define __glext_h__
 
-# elif OGLPLUS_USE_GLES3_GL32_H
-#  define GL3_PROTOTYPES
-#   include <GLES3/gl32.h>
+#elif OGLPLUS_USE_GLES3_GL32_H
+#define GL3_PROTOTYPES
+#include <GLES3/gl32.h>
 
-# elif OGLPLUS_USE_GLES3_GL31_H
-#  define GL3_PROTOTYPES
-#   include <GLES3/gl31.h>
+#elif OGLPLUS_USE_GLES3_GL31_H
+#define GL3_PROTOTYPES
+#include <GLES3/gl31.h>
 
-# elif OGLPLUS_USE_GLES3_GL3_H
-#  define GL3_PROTOTYPES
-#   include <GLES3/gl3.h>
+#elif OGLPLUS_USE_GLES3_GL3_H
+#define GL3_PROTOTYPES
+#include <GLES3/gl3.h>
 
-# elif OGLPLUS_USE_GLEW
-#  include <GL/glew.h>
+#elif OGLPLUS_USE_GLEW
+#include <GL/glew.h>
 
-# elif OGLPLUS_USE_GL3W
-#  define GL3_PROTOTYPES
-#  include <GL/gl3w.h>
+#elif OGLPLUS_USE_GL3W
+#define GL3_PROTOTYPES
+#include <GL/gl3w.h>
 
-# else
-#  error "Some library including OpenGL symbols is required!"
-# endif // OGLPLUS_USE_*
+#else
+#error "Some library including OpenGL symbols is required!"
+#endif // OGLPLUS_USE_*
 
 #endif // OGLPLUS_NO_GL
 

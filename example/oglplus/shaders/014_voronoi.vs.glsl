@@ -8,9 +8,8 @@ in vec2 TexCoord;
 
 out vec2 vertTexCoord;
 
-void main(void)
-{
-	gl_Position = Position;
-	vertTexCoord = Scale*TexCoord + Offset;
+void
+main(void) {
+    gl_Position = Position;
+    vertTexCoord = Scale * TexCoord + Offset;
 }
-

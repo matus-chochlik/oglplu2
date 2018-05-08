@@ -28,24 +28,20 @@ namespace eagine {
 
 template <std::size_t N>
 class object_names<oglplus::tag::path_nv, std::array<GLuint, N>>
- : public object_name_fake_array<oglplus::tag::path_nv>
-{
+  : public object_name_fake_array<oglplus::tag::path_nv> {
 public:
-	object_names(void)
-	noexcept
-	 : object_name_fake_array<oglplus::tag::path_nv>(span_size(N))
-	{ }
+    object_names(void) noexcept
+      : object_name_fake_array<oglplus::tag::path_nv>(span_size(N)) {
+    }
 };
 
 template <>
 class object_names<oglplus::tag::path_nv, std::vector<GLuint>>
- : public object_name_fake_array<oglplus::tag::path_nv>
-{
+  : public object_name_fake_array<oglplus::tag::path_nv> {
 public:
-	object_names(span_size_t n)
-	noexcept
-	 : object_name_fake_array<oglplus::tag::path_nv>(n)
-	{ }
+    object_names(span_size_t n) noexcept
+      : object_name_fake_array<oglplus::tag::path_nv>(n) {
+    }
 };
 
 } // namespace eagine

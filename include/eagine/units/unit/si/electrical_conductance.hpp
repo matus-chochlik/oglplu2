@@ -10,10 +10,10 @@
 #ifndef EAGINE_UNITS_UNIT_SI_ELECTRICAL_CONDUCTANCE_1512222148_HPP
 #define EAGINE_UNITS_UNIT_SI_ELECTRICAL_CONDUCTANCE_1512222148_HPP
 
+#include "../../dim/electrical_conductance.hpp"
 #include "common.hpp"
 #include "electric_current.hpp"
 #include "electric_tension.hpp"
-#include "../../dim/electrical_conductance.hpp"
 
 namespace eagine {
 namespace units {
@@ -22,15 +22,13 @@ namespace units {
 typedef unit<electrical_conductance, si> siemens;
 
 template <>
-struct unit_name<siemens>
-{
-	static constexpr const char mp_str[] = "siemens";
+struct unit_name<siemens> {
+    static constexpr const char mp_str[] = "siemens";
 };
 
 template <>
-struct unit_symbol<siemens>
-{
-	static constexpr const char mp_str[] = "S";
+struct unit_symbol<siemens> {
+    static constexpr const char mp_str[] = "S";
 };
 
 // derived
@@ -40,5 +38,4 @@ typedef make_scaled_unit_t<scales::milli, siemens> millisiemens;
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // include guard

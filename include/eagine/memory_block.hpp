@@ -18,17 +18,15 @@ namespace eagine {
 template <bool IsConst>
 using basic_memory_block = memory::basic_block<IsConst>;
 
-using memory_block = memory::block ;
-using const_memory_block = memory::const_block ;
+using memory_block = memory::block;
+using const_memory_block = memory::const_block;
 
-using owned_memory_block = memory::owned_block ;
+using owned_memory_block = memory::owned_block;
 
 template <typename T>
-static inline
-auto memory_block_of(T& x)
-noexcept
-{
-	return memory::block_of(x);
+static inline auto
+memory_block_of(T& x) noexcept {
+    return memory::block_of(x);
 }
 
 using memory::make_span_of;

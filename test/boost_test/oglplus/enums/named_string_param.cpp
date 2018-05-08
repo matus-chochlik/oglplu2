@@ -17,113 +17,105 @@
 
 BOOST_AUTO_TEST_SUITE(enum_named_string_param_tests)
 
-BOOST_AUTO_TEST_CASE(enum_named_string_param_values)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	named_string_param x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_named_string_param_values) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    named_string_param x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_NAMED_STRING_LENGTH_ARB
-	x = ev.named_string_length;
-	BOOST_CHECK(x == ev.named_string_length);
-# ifdef GL_NAMED_STRING_TYPE_ARB
-	BOOST_CHECK(x != ev.named_string_type);
-# endif
+    x = ev.named_string_length;
+    BOOST_CHECK(x == ev.named_string_length);
+#ifdef GL_NAMED_STRING_TYPE_ARB
+    BOOST_CHECK(x != ev.named_string_type);
+#endif
 #endif
 
 #ifdef GL_NAMED_STRING_TYPE_ARB
-	x = ev.named_string_type;
-	BOOST_CHECK(x == ev.named_string_type);
+    x = ev.named_string_type;
+    BOOST_CHECK(x == ev.named_string_type);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_named_string_param_names)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	named_string_param x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_named_string_param_names) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    named_string_param x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_NAMED_STRING_LENGTH_ARB
-	x = ev.named_string_length;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"NAMED_STRING_LENGTH_ARB"
-	) == 0);
+    x = ev.named_string_length;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(
+      std::strcmp(enum_value_name(x).data(), "NAMED_STRING_LENGTH_ARB") == 0);
 #endif
 
 #ifdef GL_NAMED_STRING_TYPE_ARB
-	x = ev.named_string_type;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"NAMED_STRING_TYPE_ARB"
-	) == 0);
+    x = ev.named_string_type;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(
+      std::strcmp(enum_value_name(x).data(), "NAMED_STRING_TYPE_ARB") == 0);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_named_string_param_range)
-{
-	using namespace oglplus;
-	auto count = enum_value_range<named_string_param>().size();
+BOOST_AUTO_TEST_CASE(enum_named_string_param_range) {
+    using namespace oglplus;
+    auto count = enum_value_range<named_string_param>().size();
 
 #ifdef GL_NAMED_STRING_LENGTH_ARB
-{
+    {
 	--count;
 	auto r = enum_value_range<named_string_param>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		named_string_param(GL_NAMED_STRING_LENGTH_ARB)
-	) != r.end());
-}
+	BOOST_CHECK(
+	  std::find(
+	    r.begin(), r.end(), named_string_param(GL_NAMED_STRING_LENGTH_ARB))
+	  != r.end());
+    }
 #endif
 
 #ifdef GL_NAMED_STRING_TYPE_ARB
-{
+    {
 	--count;
 	auto r = enum_value_range<named_string_param>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		named_string_param(GL_NAMED_STRING_TYPE_ARB)
-	) != r.end());
-}
+	BOOST_CHECK(
+	  std::find(
+	    r.begin(), r.end(), named_string_param(GL_NAMED_STRING_TYPE_ARB))
+	  != r.end());
+    }
 #endif
-	BOOST_CHECK_EQUAL(count, 0);
+    BOOST_CHECK_EQUAL(count, 0);
 }
 
-BOOST_AUTO_TEST_CASE(enum_named_string_param_any)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	named_string_param x, y;
-	EAGINE_MAYBE_UNUSED(x);
-	EAGINE_MAYBE_UNUSED(y);
-	any_enum_value a;
-	EAGINE_MAYBE_UNUSED(a);
+BOOST_AUTO_TEST_CASE(enum_named_string_param_any) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    named_string_param x, y;
+    EAGINE_MAYBE_UNUSED(x);
+    EAGINE_MAYBE_UNUSED(y);
+    any_enum_value a;
+    EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_NAMED_STRING_LENGTH_ARB
-	x = ev.named_string_length;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.named_string_length);
+    x = ev.named_string_length;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.named_string_length);
 #endif
 
 #ifdef GL_NAMED_STRING_TYPE_ARB
-	x = ev.named_string_type;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.named_string_type);
+    x = ev.named_string_type;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.named_string_type);
 #endif
 }
 

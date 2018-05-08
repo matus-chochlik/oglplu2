@@ -20,15 +20,12 @@ struct al_obj_tag;
 } // namespace tag
 
 template <typename ObjTag>
-struct obj_dsa_ops
- : object_name<ObjTag>
-{
-	obj_dsa_ops(void) = default;
+struct obj_dsa_ops : object_name<ObjTag> {
+    obj_dsa_ops(void) = default;
 
-	obj_dsa_ops(object_name<ObjTag> name)
-	noexcept
-	 : object_name<ObjTag>(name)
-	{ }
+    obj_dsa_ops(object_name<ObjTag> name) noexcept
+      : object_name<ObjTag>(name) {
+    }
 };
 
 } // namespace oalplus
@@ -36,29 +33,22 @@ struct obj_dsa_ops
 namespace eagine {
 
 template <ALenum Tag>
-struct object_traits<oalplus::tag::al_obj_tag<Tag>>
-{
-	typedef ALuint name_type;
-	typedef oalplus::tag::al_obj_tag<Tag> tag;
+struct object_traits<oalplus::tag::al_obj_tag<Tag>> {
+    typedef ALuint name_type;
+    typedef oalplus::tag::al_obj_tag<Tag> tag;
 
-	typedef oalplus::obj_gen_del_ops<tag> gen_del_ops;
+    typedef oalplus::obj_gen_del_ops<tag> gen_del_ops;
 
-	template <typename ObjTag>
-	using dsa_ops_t = oalplus::obj_dsa_ops<ObjTag>;
+    template <typename ObjTag>
+    using dsa_ops_t = oalplus::obj_dsa_ops<ObjTag>;
 
-	static inline constexpr
-	ALuint invalid_name(void)
-	noexcept
-	{
-		return ~ALuint(0);
-	}
+    static inline constexpr ALuint invalid_name(void) noexcept {
+	return ~ALuint(0);
+    }
 
-	static inline constexpr
-	ALenum get_type(void)
-	noexcept
-	{
-		return Tag;
-	}
+    static inline constexpr ALenum get_type(void) noexcept {
+	return Tag;
+    }
 };
 
 } // namespace eagine

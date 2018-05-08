@@ -5,7 +5,7 @@
  */
 #include <AL/al.h>
 #include <AL/alut.h>
-#include <oalplus/enum/values_alut.hpp>
 #include <oalplus/enum/value_defs_alut.inl>
 #include <oalplus/enum/value_names_alut.hpp>
 #include <oalplus/enum/value_range_alut.hpp>
+#include <oalplus/enum/values_alut.hpp>

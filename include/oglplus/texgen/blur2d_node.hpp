@@ -9,34 +9,29 @@
 #ifndef OGLPLUS_TEXGEN_BLUR_NODE_1509260923_HPP
 #define OGLPLUS_TEXGEN_BLUR_NODE_1509260923_HPP
 
-#include "fallback_input.hpp"
 #include "base_node.hpp"
+#include "fallback_input.hpp"
 
 namespace oglplus {
 namespace texgen {
 
-class blur2d_output
- : public base_output
-{
+class blur2d_output : public base_output {
 public:
-	input_with_const_default<float[4]> input;
+    input_with_const_default<float[4]> input;
 
-	blur2d_output(node_intf& parent);
+    blur2d_output(node_intf& parent);
 
-	cstr_ref type_name(void)
-	override;
+    cstr_ref type_name(void) override;
 
-	slot_data_type value_type(void)
-	override;
+    slot_data_type value_type(void) override;
 
-	std::ostream& definitions(std::ostream& out, compile_context& ctxt)
-	override;
+    std::ostream& definitions(
+      std::ostream& out, compile_context& ctxt) override;
 };
 
-using blur2d_node = unary_single_output_node<
-	blur2d_output,
-	decltype(blur2d_output::input), &blur2d_output::input
->;
+using blur2d_node = unary_single_output_node<blur2d_output,
+  decltype(blur2d_output::input),
+  &blur2d_output::input>;
 
 } // namespace texgen
 } // namespace oglplus

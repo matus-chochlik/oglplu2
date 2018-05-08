@@ -26,178 +26,137 @@
 namespace oglplus {
 
 #if !OGLPLUS_ERROR_NO_EXTENDED_INFO
-struct extended_error_info
-{
+struct extended_error_info {
 #if !OGLPLUS_ERROR_NO_SUBJECT
-	any_object_name _sub_name;
+    any_object_name _sub_name;
 #endif
 
 #if !OGLPLUS_ERROR_NO_INFO_LOG
-	std::string _info_log;
+    std::string _info_log;
 #endif
 
 #if !OGLPLUS_ERROR_NO_IDENTIFIER
-	std::string _identifier;
+    std::string _identifier;
 #endif
 
-	extended_error_info(void)
-	noexcept
-	{ }
+    extended_error_info(void) noexcept {
+    }
 };
 #endif
 
-class error_info
-{
+class error_info {
 private:
-	GLenum _gl_err_code;
+    GLenum _gl_err_code;
 
 #if !OGLPLUS_ERROR_NO_EXTENDED_INFO
-	mutable std::unique_ptr<extended_error_info> _ext_info_ptr;
+    mutable std::unique_ptr<extended_error_info> _ext_info_ptr;
 
-	extended_error_info& _ext_info(void) const
-	noexcept;
+    extended_error_info& _ext_info(void) const noexcept;
 #endif
 
-#if! OGLPLUS_ERROR_NO_GL_LIB
-	const char* _gl_lb_name;
+#if !OGLPLUS_ERROR_NO_GL_LIB
+    const char* _gl_lb_name;
 #endif
 
-#if! OGLPLUS_ERROR_NO_GL_FUNC
-	const char* _gl_fn_name;
+#if !OGLPLUS_ERROR_NO_GL_FUNC
+    const char* _gl_fn_name;
 #endif
 
-#if! OGLPLUS_ERROR_NO_SRC_FUNC
-	const char* _src_func;
+#if !OGLPLUS_ERROR_NO_SRC_FUNC
+    const char* _src_func;
 #endif
 
-#if! OGLPLUS_ERROR_NO_SRC_FILE
-	const char* _src_file;
+#if !OGLPLUS_ERROR_NO_SRC_FILE
+    const char* _src_file;
 #endif
 
-#if! OGLPLUS_ERROR_NO_SRC_LINE
-	unsigned _src_line;
+#if !OGLPLUS_ERROR_NO_SRC_LINE
+    unsigned _src_line;
 #endif
 
 #if !OGLPLUS_ERROR_NO_OBJECT
-	any_object_name _obj_name;
+    any_object_name _obj_name;
 #endif
 
 #if !OGLPLUS_ERROR_NO_INDEX
-	GLuint _index;
+    GLuint _index;
 #endif
 
 #if !OGLPLUS_ERROR_NO_ENUM_VALUE
-	any_enum_value _enum_val;
+    any_enum_value _enum_val;
 #endif
 public:
-	static constexpr inline
-	GLuint invalid_index(void)
-	noexcept
-	{
-		return ~GLuint(0);
-	}
+    static constexpr inline GLuint invalid_index(void) noexcept {
+	return ~GLuint(0);
+    }
 
-	error_info(GLenum gl_err_code)
-	noexcept;
+    error_info(GLenum gl_err_code) noexcept;
 
-	error_info(void)
-	noexcept
-	 : error_info(GLenum(GL_NONE))
-	{ }
+    error_info(void) noexcept
+      : error_info(GLenum(GL_NONE)) {
+    }
 
-	error_info& no_info(void)
-	noexcept
-	{
-		return *this;
-	}
+    error_info& no_info(void) noexcept {
+	return *this;
+    }
 
-	error_info& gl_error_code(GLenum gl_err_code)
-	noexcept;
+    error_info& gl_error_code(GLenum gl_err_code) noexcept;
 
-	GLenum gl_error_code(void) const
-	noexcept;
+    GLenum gl_error_code(void) const noexcept;
 
-	error_info& gl_library_name(const char* gl_lb_name)
-	noexcept;
+    error_info& gl_library_name(const char* gl_lb_name) noexcept;
 
-	const char* gl_library_name(void) const
-	noexcept;
+    const char* gl_library_name(void) const noexcept;
 
-	error_info& gl_function_name(const char* gl_fn_name)
-	noexcept;
+    error_info& gl_function_name(const char* gl_fn_name) noexcept;
 
-	const char* gl_function_name(void) const
-	noexcept;
+    const char* gl_function_name(void) const noexcept;
 
-	error_info& source_function(const char* src_func)
-	noexcept;
+    error_info& source_function(const char* src_func) noexcept;
 
-	const char* source_function(void) const
-	noexcept;
+    const char* source_function(void) const noexcept;
 
-	error_info& source_file(const char* src_file)
-	noexcept;
+    error_info& source_file(const char* src_file) noexcept;
 
-	const char* source_file(void) const
-	noexcept;
+    const char* source_file(void) const noexcept;
 
-	error_info& source_line(unsigned src_line)
-	noexcept;
+    error_info& source_line(unsigned src_line) noexcept;
 
-	unsigned source_line(void) const
-	noexcept;
+    unsigned source_line(void) const noexcept;
 
-	error_info& gl_object_binding(
-		const any_object_type& typ,
-		const any_enum_value& tgt
-	) noexcept;
+    error_info& gl_object_binding(
+      const any_object_type& typ, const any_enum_value& tgt) noexcept;
 
-	error_info& gl_object(const any_object_name& obj)
-	noexcept;
+    error_info& gl_object(const any_object_name& obj) noexcept;
 
-	any_object_name gl_object(void) const
-	noexcept;
+    any_object_name gl_object(void) const noexcept;
 
-	error_info& gl_subject_binding(
-		const any_object_type& typ,
-		const any_enum_value& tgt
-	) noexcept;
+    error_info& gl_subject_binding(
+      const any_object_type& typ, const any_enum_value& tgt) noexcept;
 
-	error_info& gl_subject(const any_object_name& sub)
-	noexcept;
+    error_info& gl_subject(const any_object_name& sub) noexcept;
 
-	any_object_name gl_subject(void) const
-	noexcept;
+    any_object_name gl_subject(void) const noexcept;
 
-	error_info& gl_index(GLuint idx)
-	noexcept;
+    error_info& gl_index(GLuint idx) noexcept;
 
-	GLuint gl_index(void) const
-	noexcept;
+    GLuint gl_index(void) const noexcept;
 
-	error_info& gl_enum_value(const any_enum_value& enum_val)
-	noexcept;
+    error_info& gl_enum_value(const any_enum_value& enum_val) noexcept;
 
-	error_info& gl_enum_value(const any_indexed_enum_value& enum_val)
-	noexcept;
+    error_info& gl_enum_value(const any_indexed_enum_value& enum_val) noexcept;
 
-	const any_enum_value& gl_enum_value(void) const
-	noexcept;
+    const any_enum_value& gl_enum_value(void) const noexcept;
 
-	error_info& identifier(const cstring_span& log)
-	noexcept;
+    error_info& identifier(const cstring_span& log) noexcept;
 
-	cstring_span identifier(void) const
-	noexcept;
+    cstring_span identifier(void) const noexcept;
 
-	error_info& info_log(const cstring_span& log)
-	noexcept;
+    error_info& info_log(const cstring_span& log) noexcept;
 
-	error_info& info_log_of(const any_object_name& obj)
-	noexcept;
+    error_info& info_log_of(const any_object_name& obj) noexcept;
 
-	cstring_span info_log(void) const
-	noexcept;
+    cstring_span info_log(void) const noexcept;
 };
 
 } // namespace oglplus

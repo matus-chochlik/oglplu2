@@ -9,8 +9,8 @@
 #ifndef OGLPLUS_TEXTURE_NAME_1509260923_HPP
 #define OGLPLUS_TEXTURE_NAME_1509260923_HPP
 
-#include "object/gl_name.hpp"
 #include "enum/types.hpp"
+#include "object/gl_name.hpp"
 
 #ifndef GL_TEXTURE
 #define GL_TEXTURE 0x1702
@@ -26,9 +26,8 @@ using texture = gl_obj_tag<GL_TEXTURE>;
 using texture_name = object_name<tag::texture>;
 
 template <>
-struct get_obj_binding_point<tag::texture>
-{
-	typedef texture_target type;
+struct get_obj_binding_point<tag::texture> {
+    typedef texture_target type;
 };
 
 } // namespace oglplus

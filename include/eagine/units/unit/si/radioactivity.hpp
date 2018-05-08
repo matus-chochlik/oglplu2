@@ -10,20 +10,20 @@
 #ifndef EAGINE_UNITS_UNIT_SI_RADIOACTIVITY_1512222148_HPP
 #define EAGINE_UNITS_UNIT_SI_RADIOACTIVITY_1512222148_HPP
 
-#include "common.hpp"
 #include "../../dim/radioactivity.hpp"
+#include "common.hpp"
 
 namespace eagine {
 namespace units {
 namespace base {
 
-struct count_of_decays : unit<number_of_decays, count_of_decays> { };
+struct count_of_decays : unit<number_of_decays, count_of_decays> {};
 
 } // namespace base
 
 // si::base_unit<angle>
 template <>
-struct si::base_unit<base::number_of_decays> : base::count_of_decays { };
+struct si::base_unit<base::number_of_decays> : base::count_of_decays {};
 
 // count of decays
 typedef unit<number_of_decays, si> count_of_decays;
@@ -32,15 +32,13 @@ typedef unit<number_of_decays, si> count_of_decays;
 typedef unit<radioactivity, si> becquerel;
 
 template <>
-struct unit_name<becquerel>
-{
-	static constexpr const char mp_str[] = "becquerel";
+struct unit_name<becquerel> {
+    static constexpr const char mp_str[] = "becquerel";
 };
 
 template <>
-struct unit_symbol<becquerel>
-{
-	static constexpr const char mp_str[] = "Bq";
+struct unit_symbol<becquerel> {
+    static constexpr const char mp_str[] = "Bq";
 };
 
 // derived
@@ -52,5 +50,4 @@ typedef make_scaled_unit_t<scales::giga, becquerel> gigabecquerel;
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // include guard

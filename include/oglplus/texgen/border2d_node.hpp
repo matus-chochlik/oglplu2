@@ -9,52 +9,41 @@
 #ifndef OGLPLUS_TEXGEN_BORDER2D_NODE_1509260923_HPP
 #define OGLPLUS_TEXGEN_BORDER2D_NODE_1509260923_HPP
 
-#include "fallback_input.hpp"
 #include "base_node.hpp"
+#include "fallback_input.hpp"
 #include <string>
 
 namespace oglplus {
 namespace texgen {
 
-enum class border2d_mode
-{
-	min,
-	max
-};
+enum class border2d_mode { min, max };
 
-class border2d_output
- : public base_output
-{
+class border2d_output : public base_output {
 public:
-	border2d_mode mode;
-	input_with_const_default<float[4]> input;
+    border2d_mode mode;
+    input_with_const_default<float[4]> input;
 
-	border2d_output(node_intf& parent);
+    border2d_output(node_intf& parent);
 
-	cstr_ref type_name(void)
-	override;
+    cstr_ref type_name(void) override;
 
-	slot_data_type value_type(void)
-	override;
+    slot_data_type value_type(void) override;
 
-	std::ostream& definitions(std::ostream& out, compile_context& ctxt)
-	override;
+    std::ostream& definitions(
+      std::ostream& out, compile_context& ctxt) override;
 };
 
 class border2d_node
- : public unary_single_output_node<
-	border2d_output,
-	decltype(border2d_output::input), &border2d_output::input
->
-{
+  : public unary_single_output_node<border2d_output,
+      decltype(border2d_output::input),
+      &border2d_output::input> {
 public:
-	border2d_node(void) = default;
+    border2d_node(void) = default;
 
-	border2d_node&
-	set_type(border2d_mode mode) {
-		_output.mode = mode;
-		return *this;
-	}
+    border2d_node& set_type(border2d_mode mode) {
+	_output.mode = mode;
+	return *this;
+    }
 };
 
 } // namespace texgen

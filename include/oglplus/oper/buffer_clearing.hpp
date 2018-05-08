@@ -9,116 +9,72 @@
 #ifndef OGLPLUS_OPER_BUFFER_CLEARING_1509260923_HPP
 #define OGLPLUS_OPER_BUFFER_CLEARING_1509260923_HPP
 
-#include "../utils/vec_mat_traits.hpp"
-#include "../utils/span.hpp"
+#include "../enum/types.hpp"
 #include "../error/handling.hpp"
 #include "../error/outcome.hpp"
-#include "../enum/types.hpp"
+#include "../utils/span.hpp"
+#include "../utils/vec_mat_traits.hpp"
 
 namespace oglplus {
 namespace oper {
 
-struct rgba_value
-{
-	GLfloat _v[4];
+struct rgba_value {
+    GLfloat _v[4];
 
-	rgba_value(void) = default;
+    rgba_value(void) = default;
 
-	rgba_value(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
-	{
-		_v[0] = r;
-		_v[1] = g;
-		_v[2] = b;
-		_v[3] = a;
-	}
+    rgba_value(GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
+	_v[0] = r;
+	_v[1] = g;
+	_v[2] = b;
+	_v[3] = a;
+    }
 
-	GLfloat red(void) const
-	noexcept
-	{
-		return _v[0];
-	}
+    GLfloat red(void) const noexcept {
+	return _v[0];
+    }
 
-	GLfloat green(void) const
-	noexcept
-	{
-		return _v[1];
-	}
+    GLfloat green(void) const noexcept {
+	return _v[1];
+    }
 
-	GLfloat blue(void) const
-	noexcept
-	{
-		return _v[2];
-	}
+    GLfloat blue(void) const noexcept {
+	return _v[2];
+    }
 
-	GLfloat alpha(void) const
-	noexcept
-	{
-		return _v[3];
-	}
+    GLfloat alpha(void) const noexcept {
+	return _v[3];
+    }
 };
 
-struct buffer_clearing_state
-{
-	static
-	outcome<void>
-	clear_color(GLfloat r, GLfloat g, GLfloat b, GLfloat a)
-	noexcept;
+struct buffer_clearing_state {
+    static outcome<void> clear_color(
+      GLfloat r, GLfloat g, GLfloat b, GLfloat a) noexcept;
 
-	static
-	outcome<void>
-	clear_color(const rgba_value& cc)
-	noexcept
-	{
-		return clear_color(cc.red(), cc.green(), cc.blue(), cc.alpha());
-	}
+    static outcome<void> clear_color(const rgba_value& cc) noexcept {
+	return clear_color(cc.red(), cc.green(), cc.blue(), cc.alpha());
+    }
 
-	template <
-		typename V,
-		typename = std::enable_if_t<
-			has_canonical_type<V, GLfloat[4]>::value
-		>
-	>
-	static
-	outcome<void>
-	clear_color(const V& cc)
-	noexcept
-	{
-		auto ccv = element_view(cc);
-		return clear_color(ccv[0],ccv[1],ccv[2],ccv[3]);
-	}
+    template <typename V,
+      typename = std::enable_if_t<has_canonical_type<V, GLfloat[4]>::value>>
+    static outcome<void> clear_color(const V& cc) noexcept {
+	auto ccv = element_view(cc);
+	return clear_color(ccv[0], ccv[1], ccv[2], ccv[3]);
+    }
 
-	static
-	outcome<void>
-	clear_depth(GLfloat d)
-	noexcept;
+    static outcome<void> clear_depth(GLfloat d) noexcept;
 
-	static
-	outcome<void>
-	clear_stencil(GLint s)
-	noexcept;
+    static outcome<void> clear_stencil(GLint s) noexcept;
 
-	static
-	outcome<rgba_value>
-	get_color_clear_value(void)
-	noexcept;
+    static outcome<rgba_value> get_color_clear_value(void) noexcept;
 
-	static
-	outcome<GLfloat>
-	get_depth_clear_value(void)
-	noexcept;
+    static outcome<GLfloat> get_depth_clear_value(void) noexcept;
 
-	static
-	outcome<GLint>
-	get_stencil_clear_value(void)
-	noexcept;
+    static outcome<GLint> get_stencil_clear_value(void) noexcept;
 };
 
-struct buffer_clearing_ops
-{
-	static
-	outcome<void>
-	clear(enum_bitfield<buffer_select_bits> bits)
-	noexcept;
+struct buffer_clearing_ops {
+    static outcome<void> clear(enum_bitfield<buffer_select_bits> bits) noexcept;
 };
 
 } // namespace oper

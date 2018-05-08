@@ -33,9 +33,7 @@ template <typename T, int R, int C, bool RM, bool V>
 struct tmat;
 
 template <typename T1, typename T2>
-struct are_multiplicable
- : std::false_type
-{ };
+struct are_multiplicable : std::false_type {};
 
 template <typename T1, typename T2>
 struct multiplication_result;
@@ -43,5 +41,4 @@ struct multiplication_result;
 } // namespace math
 } // namespace eagine
 
-#endif //include guard
-
+#endif // include guard

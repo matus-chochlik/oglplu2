@@ -15,16 +15,15 @@
 namespace eagine {
 namespace units {
 
-typedef decltype(electric_current()/electric_tension()) electrical_conductance;
+typedef decltype(
+  electric_current() / electric_tension()) electrical_conductance;
 
 template <>
-struct dim_name<electrical_conductance>
-{
-	static constexpr const char mp_str[] = "electrical conductance";
+struct dim_name<electrical_conductance> {
+    static constexpr const char mp_str[] = "electrical conductance";
 };
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // include guard

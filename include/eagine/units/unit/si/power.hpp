@@ -10,11 +10,11 @@
 #ifndef EAGINE_UNITS_UNIT_SI_POWER_1512222148_HPP
 #define EAGINE_UNITS_UNIT_SI_POWER_1512222148_HPP
 
+#include "../../dim/power.hpp"
 #include "common.hpp"
+#include "length.hpp"
 #include "mass.hpp"
 #include "time.hpp"
-#include "length.hpp"
-#include "../../dim/power.hpp"
 
 namespace eagine {
 namespace units {
@@ -23,15 +23,13 @@ namespace units {
 typedef unit<power, si> watt;
 
 template <>
-struct unit_name<watt>
-{
-	static constexpr const char mp_str[] = "watt";
+struct unit_name<watt> {
+    static constexpr const char mp_str[] = "watt";
 };
 
 template <>
-struct unit_symbol<watt>
-{
-	static constexpr const char mp_str[] = "W";
+struct unit_symbol<watt> {
+    static constexpr const char mp_str[] = "W";
 };
 
 // derived
@@ -42,5 +40,4 @@ typedef make_scaled_unit_t<scales::mega, watt> megawatt;
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // include guard

@@ -14,22 +14,18 @@
 
 namespace oalplus {
 
-class error_alc
- : public std::runtime_error
-{
+class error_alc : public std::runtime_error {
 private:
-	error_info_alc _info;
+    error_info_alc _info;
 
-	static
-	std::string _make_msg(error_info_alc& info);
+    static std::string _make_msg(error_info_alc& info);
+
 public:
-	error_alc(error_info_alc&& info);
+    error_alc(error_info_alc&& info);
 
-	const error_info_alc& info(void) const
-	noexcept
-	{
-		return _info;
-	}
+    const error_info_alc& info(void) const noexcept {
+	return _info;
+    }
 };
 
 } // namespace oalplus

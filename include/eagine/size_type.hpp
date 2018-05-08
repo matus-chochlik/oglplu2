@@ -10,8 +10,6 @@
 #ifndef EAGINE_SIZE_TYPE_1509260923_HPP
 #define EAGINE_SIZE_TYPE_1509260923_HPP
 
-namespace eagine {
-
-} // namespace eagine
+namespace eagine {} // namespace eagine
 
 #endif // include guard

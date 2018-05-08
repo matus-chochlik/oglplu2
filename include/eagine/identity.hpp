@@ -15,25 +15,21 @@
 namespace eagine {
 
 template <typename T>
-struct identity
-{
-	typedef T type;
+struct identity {
+    typedef T type;
 
-	template <
-		typename X,
-		typename = std::enable_if_t<
-			std::is_same_v<T, X> &&
-			!std::is_array_v<X>
-		>
-	>
-	constexpr inline
-	X operator()(X v) const { return v; }
+    template <typename X,
+      typename = std::enable_if_t<std::is_same_v<T, X> && !std::is_array_v<X>>>
+    constexpr inline X operator()(X v) const {
+	return v;
+    }
 };
 
 template <typename T>
-static constexpr inline
-identity<T> make_identity(const T&)
-noexcept { return {}; }
+static constexpr inline identity<T>
+make_identity(const T&) noexcept {
+    return {};
+}
 
 } // namespace eagine
 

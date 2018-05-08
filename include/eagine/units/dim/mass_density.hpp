@@ -15,16 +15,14 @@
 namespace eagine {
 namespace units {
 
-typedef decltype(mass()/volume()) mass_density;
+typedef decltype(mass() / volume()) mass_density;
 
 template <>
-struct dim_name<mass_density>
-{
-	static constexpr const char mp_str[] = "mass density";
+struct dim_name<mass_density> {
+    static constexpr const char mp_str[] = "mass density";
 };
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // include guard

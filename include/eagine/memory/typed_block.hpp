@@ -10,20 +10,17 @@
 #ifndef EAGINE_MEMORY_TYPED_BLOCK_1510290655_HPP
 #define EAGINE_MEMORY_TYPED_BLOCK_1510290655_HPP
 
-#include "block.hpp"
 #include "../span.hpp"
+#include "block.hpp"
 
 namespace eagine {
 namespace memory {
 
 template <typename T>
-static inline
-span<T> make_span_of(const basic_block<std::is_const<T>::value>& blk) {
-	assert(blk.template is_aligned_as<T>());
-	return {
-		static_cast<T*>(blk.addr()),
-		blk.size()/span_size_of<T>()
-	};
+static inline span<T>
+make_span_of(const basic_block<std::is_const<T>::value>& blk) {
+    assert(blk.template is_aligned_as<T>());
+    return {static_cast<T*>(blk.addr()), blk.size() / span_size_of<T>()};
 }
 
 } // namespace memory

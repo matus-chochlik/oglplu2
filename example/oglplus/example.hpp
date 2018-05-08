@@ -9,56 +9,44 @@
 #ifndef OGLPLUS_EXAMPLE_1512120710_HPP
 #define OGLPLUS_EXAMPLE_1512120710_HPP
 
-#include "example/state_view.hpp"
-#include "example/params.hpp"
 #include "example/args.hpp"
+#include "example/params.hpp"
+#include "example/state_view.hpp"
 #include <memory>
 
 namespace oglplus {
 
-struct example
-{
-	virtual
-	~example(void) = default;
+struct example {
+    virtual ~example(void) = default;
 
-	virtual
-	seconds_t<float> default_timeout(void)
-	{
-		return seconds_(10);
-	}
+    virtual seconds_t<float> default_timeout(void) {
+	return seconds_(10);
+    }
 
-	virtual
-	bool continue_running(const example_state_view& state)
-	{
-		return state.user_idle_time() < default_timeout();
-	}
+    virtual bool continue_running(const example_state_view& state) {
+	return state.user_idle_time() < default_timeout();
+    }
 
-	virtual
-	void user_idle(const example_state_view&) { }
+    virtual void user_idle(const example_state_view&) {
+    }
 
-	virtual
-	void pointer_motion(const example_state_view&) { }
+    virtual void pointer_motion(const example_state_view&) {
+    }
 
-	virtual
-	void pointer_scrolling(const example_state_view&) { }
+    virtual void pointer_scrolling(const example_state_view&) {
+    }
 
-	virtual
-	void resize(const example_state_view&) = 0;
+    virtual void resize(const example_state_view&) = 0;
 
-	virtual
-	void render(const example_state_view&) = 0;
+    virtual void render(const example_state_view&) = 0;
 };
 
-extern
-std::unique_ptr<example>
+extern std::unique_ptr<example>
 make_example(
-	const example_args&,
-	const example_params&,
-	const example_state_view&
-);
+  const example_args&, const example_params&, const example_state_view&);
 
-extern
-bool is_example_param(const example_arg&);
+extern bool
+is_example_param(const example_arg&);
 
 } // namespace oglplus
 

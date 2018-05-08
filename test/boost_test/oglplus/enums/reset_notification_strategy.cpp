@@ -17,113 +17,105 @@
 
 BOOST_AUTO_TEST_SUITE(enum_reset_notification_strategy_tests)
 
-BOOST_AUTO_TEST_CASE(enum_reset_notification_strategy_values)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	reset_notification_strategy x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_reset_notification_strategy_values) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    reset_notification_strategy x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_LOSE_CONTEXT_ON_RESET
-	x = ev.lose_context_on_reset;
-	BOOST_CHECK(x == ev.lose_context_on_reset);
-# ifdef GL_NO_RESET_NOTIFICATION
-	BOOST_CHECK(x != ev.no_reset_notification);
-# endif
+    x = ev.lose_context_on_reset;
+    BOOST_CHECK(x == ev.lose_context_on_reset);
+#ifdef GL_NO_RESET_NOTIFICATION
+    BOOST_CHECK(x != ev.no_reset_notification);
+#endif
 #endif
 
 #ifdef GL_NO_RESET_NOTIFICATION
-	x = ev.no_reset_notification;
-	BOOST_CHECK(x == ev.no_reset_notification);
+    x = ev.no_reset_notification;
+    BOOST_CHECK(x == ev.no_reset_notification);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_reset_notification_strategy_names)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	reset_notification_strategy x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_reset_notification_strategy_names) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    reset_notification_strategy x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_LOSE_CONTEXT_ON_RESET
-	x = ev.lose_context_on_reset;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"LOSE_CONTEXT_ON_RESET"
-	) == 0);
+    x = ev.lose_context_on_reset;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(
+      std::strcmp(enum_value_name(x).data(), "LOSE_CONTEXT_ON_RESET") == 0);
 #endif
 
 #ifdef GL_NO_RESET_NOTIFICATION
-	x = ev.no_reset_notification;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"NO_RESET_NOTIFICATION"
-	) == 0);
+    x = ev.no_reset_notification;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(
+      std::strcmp(enum_value_name(x).data(), "NO_RESET_NOTIFICATION") == 0);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_reset_notification_strategy_range)
-{
-	using namespace oglplus;
-	auto count = enum_value_range<reset_notification_strategy>().size();
+BOOST_AUTO_TEST_CASE(enum_reset_notification_strategy_range) {
+    using namespace oglplus;
+    auto count = enum_value_range<reset_notification_strategy>().size();
 
 #ifdef GL_LOSE_CONTEXT_ON_RESET
-{
+    {
 	--count;
 	auto r = enum_value_range<reset_notification_strategy>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		reset_notification_strategy(GL_LOSE_CONTEXT_ON_RESET)
-	) != r.end());
-}
+	BOOST_CHECK(std::find(r.begin(),
+		      r.end(),
+		      reset_notification_strategy(GL_LOSE_CONTEXT_ON_RESET))
+		    != r.end());
+    }
 #endif
 
 #ifdef GL_NO_RESET_NOTIFICATION
-{
+    {
 	--count;
 	auto r = enum_value_range<reset_notification_strategy>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		reset_notification_strategy(GL_NO_RESET_NOTIFICATION)
-	) != r.end());
-}
+	BOOST_CHECK(std::find(r.begin(),
+		      r.end(),
+		      reset_notification_strategy(GL_NO_RESET_NOTIFICATION))
+		    != r.end());
+    }
 #endif
-	BOOST_CHECK_EQUAL(count, 0);
+    BOOST_CHECK_EQUAL(count, 0);
 }
 
-BOOST_AUTO_TEST_CASE(enum_reset_notification_strategy_any)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	reset_notification_strategy x, y;
-	EAGINE_MAYBE_UNUSED(x);
-	EAGINE_MAYBE_UNUSED(y);
-	any_enum_value a;
-	EAGINE_MAYBE_UNUSED(a);
+BOOST_AUTO_TEST_CASE(enum_reset_notification_strategy_any) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    reset_notification_strategy x, y;
+    EAGINE_MAYBE_UNUSED(x);
+    EAGINE_MAYBE_UNUSED(y);
+    any_enum_value a;
+    EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_LOSE_CONTEXT_ON_RESET
-	x = ev.lose_context_on_reset;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.lose_context_on_reset);
+    x = ev.lose_context_on_reset;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.lose_context_on_reset);
 #endif
 
 #ifdef GL_NO_RESET_NOTIFICATION
-	x = ev.no_reset_notification;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.no_reset_notification);
+    x = ev.no_reset_notification;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.no_reset_notification);
 #endif
 }
 

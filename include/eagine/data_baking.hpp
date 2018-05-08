@@ -16,19 +16,14 @@
 namespace eagine {
 
 class data_bake_arena
- : public memory::basic_allocation_arena<
-	memory::stack_byte_allocator_only<
-		memory::byte_alloc_managed_policy
-	>
-> {
+  : public memory::basic_allocation_arena<
+      memory::stack_byte_allocator_only<memory::byte_alloc_managed_policy>> {
 public:
-	explicit
-	data_bake_arena(memory::block blk)
-	 : memory::basic_allocation_arena<
-		memory::stack_byte_allocator_only<
-			memory::byte_alloc_managed_policy
-		>
-	>(blk) { }
+    explicit data_bake_arena(memory::block blk)
+      : memory::basic_allocation_arena<
+	  memory::stack_byte_allocator_only<memory::byte_alloc_managed_policy>>(
+	  blk) {
+    }
 };
 
 } // namespace eagine

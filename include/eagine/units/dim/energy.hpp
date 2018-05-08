@@ -15,16 +15,14 @@
 namespace eagine {
 namespace units {
 
-typedef decltype(force()*length()) energy;
+typedef decltype(force() * length()) energy;
 
 template <>
-struct dim_name<energy>
-{
-	static constexpr const char mp_str[] = "energy";
+struct dim_name<energy> {
+    static constexpr const char mp_str[] = "energy";
 };
 
 } // namespace units
 } // namespace eagine
 
-#endif //include guard
-
+#endif // include guard

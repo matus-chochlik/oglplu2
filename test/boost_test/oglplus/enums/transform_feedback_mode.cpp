@@ -17,113 +17,105 @@
 
 BOOST_AUTO_TEST_SUITE(enum_transform_feedback_mode_tests)
 
-BOOST_AUTO_TEST_CASE(enum_transform_feedback_mode_values)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	transform_feedback_mode x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_transform_feedback_mode_values) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    transform_feedback_mode x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_INTERLEAVED_ATTRIBS
-	x = ev.interleaved_attribs;
-	BOOST_CHECK(x == ev.interleaved_attribs);
-# ifdef GL_SEPARATE_ATTRIBS
-	BOOST_CHECK(x != ev.separate_attribs);
-# endif
+    x = ev.interleaved_attribs;
+    BOOST_CHECK(x == ev.interleaved_attribs);
+#ifdef GL_SEPARATE_ATTRIBS
+    BOOST_CHECK(x != ev.separate_attribs);
+#endif
 #endif
 
 #ifdef GL_SEPARATE_ATTRIBS
-	x = ev.separate_attribs;
-	BOOST_CHECK(x == ev.separate_attribs);
+    x = ev.separate_attribs;
+    BOOST_CHECK(x == ev.separate_attribs);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_transform_feedback_mode_names)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	transform_feedback_mode x;
-	EAGINE_MAYBE_UNUSED(x);
+BOOST_AUTO_TEST_CASE(enum_transform_feedback_mode_names) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    transform_feedback_mode x;
+    EAGINE_MAYBE_UNUSED(x);
 
 #ifdef GL_INTERLEAVED_ATTRIBS
-	x = ev.interleaved_attribs;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"INTERLEAVED_ATTRIBS"
-	) == 0);
+    x = ev.interleaved_attribs;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(
+      std::strcmp(enum_value_name(x).data(), "INTERLEAVED_ATTRIBS") == 0);
 #endif
 
 #ifdef GL_SEPARATE_ATTRIBS
-	x = ev.separate_attribs;
-	BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-	BOOST_CHECK(std::strcmp(
-		enum_value_name(x).data(),
-		"SEPARATE_ATTRIBS"
-	) == 0);
+    x = ev.separate_attribs;
+    BOOST_ASSERT(enum_value_name(x).data() != nullptr);
+    BOOST_CHECK(
+      std::strcmp(enum_value_name(x).data(), "SEPARATE_ATTRIBS") == 0);
 #endif
 }
 
-BOOST_AUTO_TEST_CASE(enum_transform_feedback_mode_range)
-{
-	using namespace oglplus;
-	auto count = enum_value_range<transform_feedback_mode>().size();
+BOOST_AUTO_TEST_CASE(enum_transform_feedback_mode_range) {
+    using namespace oglplus;
+    auto count = enum_value_range<transform_feedback_mode>().size();
 
 #ifdef GL_INTERLEAVED_ATTRIBS
-{
+    {
 	--count;
 	auto r = enum_value_range<transform_feedback_mode>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		transform_feedback_mode(GL_INTERLEAVED_ATTRIBS)
-	) != r.end());
-}
+	BOOST_CHECK(
+	  std::find(
+	    r.begin(), r.end(), transform_feedback_mode(GL_INTERLEAVED_ATTRIBS))
+	  != r.end());
+    }
 #endif
 
 #ifdef GL_SEPARATE_ATTRIBS
-{
+    {
 	--count;
 	auto r = enum_value_range<transform_feedback_mode>();
-	BOOST_CHECK(std::find(
-		r.begin(), r.end(),
-		transform_feedback_mode(GL_SEPARATE_ATTRIBS)
-	) != r.end());
-}
+	BOOST_CHECK(
+	  std::find(
+	    r.begin(), r.end(), transform_feedback_mode(GL_SEPARATE_ATTRIBS))
+	  != r.end());
+    }
 #endif
-	BOOST_CHECK_EQUAL(count, 0);
+    BOOST_CHECK_EQUAL(count, 0);
 }
 
-BOOST_AUTO_TEST_CASE(enum_transform_feedback_mode_any)
-{
-	using namespace oglplus;
-	enum_values ev;
-	EAGINE_MAYBE_UNUSED(ev);
-	transform_feedback_mode x, y;
-	EAGINE_MAYBE_UNUSED(x);
-	EAGINE_MAYBE_UNUSED(y);
-	any_enum_value a;
-	EAGINE_MAYBE_UNUSED(a);
+BOOST_AUTO_TEST_CASE(enum_transform_feedback_mode_any) {
+    using namespace oglplus;
+    enum_values ev;
+    EAGINE_MAYBE_UNUSED(ev);
+    transform_feedback_mode x, y;
+    EAGINE_MAYBE_UNUSED(x);
+    EAGINE_MAYBE_UNUSED(y);
+    any_enum_value a;
+    EAGINE_MAYBE_UNUSED(a);
 
 #ifdef GL_INTERLEAVED_ATTRIBS
-	x = ev.interleaved_attribs;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.interleaved_attribs);
+    x = ev.interleaved_attribs;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.interleaved_attribs);
 #endif
 
 #ifdef GL_SEPARATE_ATTRIBS
-	x = ev.separate_attribs;
-	a = x;
-	y = a;
-	BOOST_CHECK(same_enum_class(x, a));
-	BOOST_CHECK(same_enum_class(a, y));
-	BOOST_CHECK(same_enum_class(x, y));
-	BOOST_CHECK(y == ev.separate_attribs);
+    x = ev.separate_attribs;
+    a = x;
+    y = a;
+    BOOST_CHECK(same_enum_class(x, a));
+    BOOST_CHECK(same_enum_class(a, y));
+    BOOST_CHECK(same_enum_class(x, y));
+    BOOST_CHECK(y == ev.separate_attribs);
 #endif
 }
 

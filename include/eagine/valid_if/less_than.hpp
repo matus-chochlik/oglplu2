@@ -16,29 +16,23 @@ namespace eagine {
 
 // less-than
 template <typename T, T Cmp>
-struct valid_if_lt_policy
-{
-	constexpr
-	bool operator ()(T value) const
-	noexcept {
-		return value < Cmp;
+struct valid_if_lt_policy {
+    constexpr bool operator()(T value) const noexcept {
+	return value < Cmp;
+    }
+
+    struct do_log {
+	template <typename X>
+	constexpr inline do_log(X&&) noexcept {
 	}
 
-	struct do_log
-	{
-		template <typename X>
-		constexpr inline
-		do_log(X&&)
-		noexcept
-		{ }
-
-		template <typename Log>
-		void operator ()(Log& log, const T& v) const {
-			log	<< "Value " << v << ", "
-				<< "greater then or equal to " << Cmp << " "
-				<< "is invalid";
-		}
-	};
+	template <typename Log>
+	void operator()(Log& log, const T& v) const {
+	    log << "Value " << v << ", "
+		<< "greater then or equal to " << Cmp << " "
+		<< "is invalid";
+	}
+    };
 };
 
 template <typename T, T Cmp>

@@ -9,7 +9,6 @@
 
 #include "prologue.inl"
 
+#include "epilogue.inl"
 #include "implement.inl"
 #include <eagine/str_var_subst.hpp>
-#include "epilogue.inl"
-

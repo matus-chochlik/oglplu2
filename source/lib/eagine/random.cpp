@@ -9,7 +9,6 @@
 
 #include "prologue.inl"
 
+#include "epilogue.inl"
 #include "implement.inl"
 #include <eagine/random_bytes.hpp>
-#include "epilogue.inl"
-

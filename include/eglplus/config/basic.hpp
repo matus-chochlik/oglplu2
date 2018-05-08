@@ -12,13 +12,13 @@
 // TODO
 
 #ifndef EGLPLUS_LINK_LIBRARY
-# define EGLPLUS_LINK_LIBRARY 0
+#define EGLPLUS_LINK_LIBRARY 0
 #endif
 
 #if EGLPLUS_LINK_LIBRARY
-# define EGLPLUS_LIB_FUNC
+#define EGLPLUS_LIB_FUNC
 #else
-# define EGLPLUS_LIB_FUNC inline
+#define EGLPLUS_LIB_FUNC inline
 #endif
 
 #endif // include guard

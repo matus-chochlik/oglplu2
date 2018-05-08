@@ -24,7 +24,7 @@ using eagine::owned;
 using eagine::object_owner;
 
 using any_object_name =
-	eagine::any_object_name<ALuint, ALenum, ~ALuint(0), 200>;
+  eagine::any_object_name<ALuint, ALenum, ~ALuint(0), 200>;
 
 template <typename ObjTag>
 struct obj_gen_del_ops;
