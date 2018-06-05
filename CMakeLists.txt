@@ -16,6 +16,10 @@ if(POLICY CMP0066)
 	cmake_policy(SET CMP0066 NEW)
 endif()
 
+if(POLICY CMP0067)
+	cmake_policy(SET CMP0067 NEW)
+endif()
+
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(CMAKE_DEBUG_POSTFIX d)
 
