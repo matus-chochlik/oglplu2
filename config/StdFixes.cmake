@@ -42,13 +42,23 @@ function(do_fix_std_type_trait TPL_HAS TPL_MAKE TYPE_TRAIT SUFFIX FIXES_HPP)
 				${HAS_TRAIT_SRC}
 				COMPILE_DEFINITIONS
 				"-DEAGINE_TEST_TRAIT_FIX=1"
+				OUTPUT_VARIABLE HAS_TRAIT_OUTPUT
 			)
 			if(NOT ${HAS_TRAIT})
-				message(
-					FATAL_ERROR
-					"Failed to fix std::${TYPE_TRAIT}${SUFFIX}"
-				)
+				if(DEBUG_CONFIG)
+					message(
+						FATAL_ERROR
+						"${HAS_TRAIT_OUTPUT}\n"
+						"Failed to fix std::${TYPE_TRAIT}${SUFFIX}"
+					)
+				else()
+					message(
+						SEND_ERROR
+						"Failed to fix std::${TYPE_TRAIT}${SUFFIX}"
+					)
+				endif()
 			endif()
+			unset(HAS_TRAIT_OUTPUT)
 		endif()
 	endif()
 endfunction()
@@ -187,10 +197,23 @@ function(make_missing_std_feature_fix FEATURE FILENAME)
 		"-DEAGINE_TEST_STD_FEATURE_FIX=1"
 		CMAKE_FLAGS
 		"-DINCLUDE_DIRECTORIES:STRING=${EAGINE_INCLUDE_DIRS}"
+		OUTPUT_VARIABLE HAS_TRAIT_OUTPUT
 	)
 	if(NOT ${HAS_FEATURE})
-		message(FATAL_ERROR "Failed to fix std ${FEATURE}")
+		if(DEBUG_CONFIG)
+			message(
+				FATAL_ERROR
+				"${HAS_TRAIT_OUTPUT}\n"
+				"Failed to fix std ${FEATURE}"
+			)
+		else()
+			message(
+				SEND_ERROR
+				"Failed to fix std ${FEATURE}"
+			)
+		endif()
 	endif()
+	unset(HAS_TRAIT_OUTPUT)
 endfunction()
 
 make_missing_std_feature_fix("boolean constant ops" bool_const_ops)
