@@ -89,7 +89,7 @@ draw_operation::indexed(void) const noexcept {
 OGLPLUS_LIB_FUNC
 const void*
 draw_operation::_idx_ptr(void) const noexcept {
-    return static_cast<const GLubyte*>(0) + _first;
+    return static_cast<const GLubyte*>(nullptr) + _first;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC

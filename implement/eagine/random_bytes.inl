@@ -24,7 +24,7 @@ fill_with_random_bytes(const span<unsigned char>& buffer) {
     std::mt19937 re(rd());
     std::independent_bits_engine<std::mt19937, CHAR_BIT, unsigned> ibe(re);
 
-    auto gen = [&ibe, mask] {
+    auto gen = [&ibe] {
 	return static_cast<unsigned char>(ibe() & mask);
     };
 

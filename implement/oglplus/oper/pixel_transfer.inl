@@ -23,8 +23,8 @@ pixel_transfer_state::clamp_color(
 #endif
 //------------------------------------------------------------------------------
 template <typename T>
-static outcome<void>
-read_pixels(GLint x,
+inline outcome<void>
+pixel_transfer_ops::read_pixels(GLint x,
   GLint y,
   GLsizei width,
   GLsizei height,

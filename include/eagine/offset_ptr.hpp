@@ -303,13 +303,13 @@ public:
     }
 
     size_type size(void) const noexcept {
-	return _ptrarray.size();
+		return _ptrarray.size();
     }
 
     T& operator[](span_size_t index) const noexcept {
-	assert(index < size());
-	assert(_ptrarray[index] != nullptr);
-	return *_ptrarray[index];
+		assert(index < size());
+		assert(_ptrarray[index]);
+		return *_ptrarray[index];
     }
 };
 

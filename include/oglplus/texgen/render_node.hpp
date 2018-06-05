@@ -43,7 +43,7 @@ private:
 public:
     render_node(void);
     render_node(const render_node&) = delete;
-    ~render_node(void);
+    ~render_node(void) override;
 
     std::ostream& make_fragment_shader_source(std::ostream&, compile_context&);
 

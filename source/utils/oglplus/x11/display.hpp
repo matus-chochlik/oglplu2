@@ -40,7 +40,7 @@ public:
     Object(Object&& temp)
       : _pimpl(temp._pimpl)
       , _deleter(temp._deleter) {
-	temp._pimpl = 0;
+	temp._pimpl = nullptr;
     }
 
     ~Object(void) {
@@ -69,7 +69,7 @@ private:
     }
 
 public:
-    Display(const char* name = 0)
+    Display(const char* name = nullptr)
       : Object<::Display>(
 	  ::XOpenDisplay(name), ::XCloseDisplay, "Error opening X Display") {
     }

@@ -29,11 +29,11 @@ private:
       int version_minor,
       bool debugging,
       bool compatibility,
-      ::GLXContext share_context = ::GLXContext(0)) {
+      ::GLXContext share_context = ::GLXContext(nullptr)) {
 	typedef GLXContext (*glXCreateContextAttribsARBProc)(
 	  ::Display*, ::GLXFBConfig, ::GLXContext, Bool, const int*);
 
-	glXCreateContextAttribsARBProc glXCreateContextAttribsARB = 0;
+	glXCreateContextAttribsARBProc glXCreateContextAttribsARB = nullptr;
 	glXCreateContextAttribsARB =
 	  reinterpret_cast<glXCreateContextAttribsARBProc>(glXGetProcAddressARB(
 	    reinterpret_cast<const GLubyte*>("glXCreateContextAttribsARB")));
@@ -106,7 +106,7 @@ public:
     }
 
     static void Release(const x11::Display& display) {
-	::glXMakeCurrent(display, 0, 0);
+	::glXMakeCurrent(display, 0, nullptr);
     }
 
     void SwapBuffers(const Drawable& drawable) const {

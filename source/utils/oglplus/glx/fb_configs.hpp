@@ -41,7 +41,7 @@ public:
       : _count(temp._count)
       , _handle(temp._handle) {
 	temp._count = 0;
-	temp._handle = 0;
+	temp._handle = nullptr;
     }
 
     ~FBConfigs(void) {
