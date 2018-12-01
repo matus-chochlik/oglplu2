@@ -10,8 +10,8 @@
 #ifndef EAGINE_VARARRAY_1509260923_HPP
 #define EAGINE_VARARRAY_1509260923_HPP
 
-#include "std/type_traits.hpp"
 #include <cstdint>
+#include "std/type_traits.hpp"
 
 namespace eagine {
 
@@ -25,13 +25,13 @@ public:
     typedef std::conditional_t<alignof(T) >= alignof(S), T, S> alloc_unit_t;
 
     static std::size_t alloc_unit_c(std::size_t n) noexcept {
-	if(alignof(T) >= alignof(S)) {
-	    return n + (sizeof(S) / sizeof(T))
-		   + ((sizeof(S) % sizeof(T)) ? 1 : 0);
-	} else {
-	    return 1 + ((n * sizeof(T)) / sizeof(S))
-		   + (((n * sizeof(T)) % sizeof(S)) ? 1 : 0);
-	}
+        if(alignof(T) >= alignof(S)) {
+            return n + (sizeof(S) / sizeof(T)) +
+                   ((sizeof(S) % sizeof(T)) ? 1 : 0);
+        } else {
+            return 1 + ((n * sizeof(T)) / sizeof(S)) +
+                   (((n * sizeof(T)) % sizeof(S)) ? 1 : 0);
+        }
     }
 
 private:
@@ -44,34 +44,34 @@ public:
     }
 
     static std::size_t instance_size(size_type n) noexcept {
-	return alloc_unit_c(n) * sizeof(alloc_unit_t);
+        return alloc_unit_c(n) * sizeof(alloc_unit_t);
     }
 
     std::size_t instance_size(void) const noexcept {
-	return instance_size(_size);
+        return instance_size(_size);
     }
 
     size_type size(void) const noexcept {
-	return _size;
+        return _size;
     }
 
     typedef T* iterator;
     typedef const T* const_iterator;
 
     iterator begin(void) noexcept {
-	return _data;
+        return _data;
     }
 
     iterator end(void) noexcept {
-	return begin() + size();
+        return begin() + size();
     }
 
     const_iterator begin(void) const noexcept {
-	return _data;
+        return _data;
     }
 
     const_iterator end(void) const noexcept {
-	return begin() + size();
+        return begin() + size();
     }
 };
 
@@ -91,11 +91,11 @@ public:
     }
 
     operator basic_vararray<T, S>&(void) {
-	return *reinterpret_cast<basic_vararray<T, S>*>(this);
+        return *reinterpret_cast<basic_vararray<T, S>*>(this);
     }
 
     operator const basic_vararray<T, S>&(void)const {
-	return *reinterpret_cast<const basic_vararray<T, S>*>(this);
+        return *reinterpret_cast<const basic_vararray<T, S>*>(this);
     }
 };
 

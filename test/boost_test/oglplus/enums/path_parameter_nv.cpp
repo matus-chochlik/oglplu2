@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_path_parameter_nv
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_path_parameter_nv_tests)
 
@@ -1015,8 +1015,8 @@ BOOST_AUTO_TEST_CASE(enum_path_parameter_nv_names) {
     x = ev.path_object_bounding_box_nv;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "PATH_OBJECT_BOUNDING_BOX_NV")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "PATH_OBJECT_BOUNDING_BOX_NV") ==
+      0);
 #endif
 
 #ifdef GL_PATH_STROKE_BOUND_NV
@@ -1030,8 +1030,8 @@ BOOST_AUTO_TEST_CASE(enum_path_parameter_nv_names) {
     x = ev.path_stroke_bounding_box_nv;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "PATH_STROKE_BOUNDING_BOX_NV")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "PATH_STROKE_BOUNDING_BOX_NV") ==
+      0);
 #endif
 
 #ifdef GL_PATH_STROKE_COVER_MODE_NV
@@ -1076,252 +1076,266 @@ BOOST_AUTO_TEST_CASE(enum_path_parameter_nv_range) {
 
 #ifdef GL_PATH_CLIENT_LENGTH_NV
     {
-	--count;
-	auto r = enum_value_range<path_parameter_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), path_parameter_nv(GL_PATH_CLIENT_LENGTH_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_parameter_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), path_parameter_nv(GL_PATH_CLIENT_LENGTH_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_PATH_COMMAND_COUNT_NV
     {
-	--count;
-	auto r = enum_value_range<path_parameter_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), path_parameter_nv(GL_PATH_COMMAND_COUNT_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_parameter_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), path_parameter_nv(GL_PATH_COMMAND_COUNT_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_PATH_COMPUTED_LENGTH_NV
     {
-	--count;
-	auto r = enum_value_range<path_parameter_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), path_parameter_nv(GL_PATH_COMPUTED_LENGTH_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_parameter_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            path_parameter_nv(GL_PATH_COMPUTED_LENGTH_NV)) != r.end());
     }
 #endif
 
 #ifdef GL_PATH_COORD_COUNT_NV
     {
-	--count;
-	auto r = enum_value_range<path_parameter_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), path_parameter_nv(GL_PATH_COORD_COUNT_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_parameter_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), path_parameter_nv(GL_PATH_COORD_COUNT_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_PATH_DASH_ARRAY_COUNT_NV
     {
-	--count;
-	auto r = enum_value_range<path_parameter_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), path_parameter_nv(GL_PATH_DASH_ARRAY_COUNT_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_parameter_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            path_parameter_nv(GL_PATH_DASH_ARRAY_COUNT_NV)) != r.end());
     }
 #endif
 
 #ifdef GL_PATH_DASH_OFFSET_NV
     {
-	--count;
-	auto r = enum_value_range<path_parameter_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), path_parameter_nv(GL_PATH_DASH_OFFSET_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_parameter_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), path_parameter_nv(GL_PATH_DASH_OFFSET_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_PATH_DASH_OFFSET_RESET_NV
     {
-	--count;
-	auto r = enum_value_range<path_parameter_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), path_parameter_nv(GL_PATH_DASH_OFFSET_RESET_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_parameter_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            path_parameter_nv(GL_PATH_DASH_OFFSET_RESET_NV)) != r.end());
     }
 #endif
 
 #ifdef GL_PATH_FILL_BOUNDING_BOX_NV
     {
-	--count;
-	auto r = enum_value_range<path_parameter_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), path_parameter_nv(GL_PATH_FILL_BOUNDING_BOX_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_parameter_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            path_parameter_nv(GL_PATH_FILL_BOUNDING_BOX_NV)) != r.end());
     }
 #endif
 
 #ifdef GL_PATH_FILL_COVER_MODE_NV
     {
-	--count;
-	auto r = enum_value_range<path_parameter_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), path_parameter_nv(GL_PATH_FILL_COVER_MODE_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_parameter_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            path_parameter_nv(GL_PATH_FILL_COVER_MODE_NV)) != r.end());
     }
 #endif
 
 #ifdef GL_PATH_FILL_MASK_NV
     {
-	--count;
-	auto r = enum_value_range<path_parameter_nv>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), path_parameter_nv(GL_PATH_FILL_MASK_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_parameter_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), path_parameter_nv(GL_PATH_FILL_MASK_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_PATH_FILL_MODE_NV
     {
-	--count;
-	auto r = enum_value_range<path_parameter_nv>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), path_parameter_nv(GL_PATH_FILL_MODE_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_parameter_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), path_parameter_nv(GL_PATH_FILL_MODE_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_PATH_INITIAL_DASH_CAP_NV
     {
-	--count;
-	auto r = enum_value_range<path_parameter_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), path_parameter_nv(GL_PATH_INITIAL_DASH_CAP_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_parameter_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            path_parameter_nv(GL_PATH_INITIAL_DASH_CAP_NV)) != r.end());
     }
 #endif
 
 #ifdef GL_PATH_INITIAL_END_CAP_NV
     {
-	--count;
-	auto r = enum_value_range<path_parameter_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), path_parameter_nv(GL_PATH_INITIAL_END_CAP_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_parameter_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            path_parameter_nv(GL_PATH_INITIAL_END_CAP_NV)) != r.end());
     }
 #endif
 
 #ifdef GL_PATH_JOIN_STYLE_NV
     {
-	--count;
-	auto r = enum_value_range<path_parameter_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), path_parameter_nv(GL_PATH_JOIN_STYLE_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_parameter_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), path_parameter_nv(GL_PATH_JOIN_STYLE_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_PATH_MITER_LIMIT_NV
     {
-	--count;
-	auto r = enum_value_range<path_parameter_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), path_parameter_nv(GL_PATH_MITER_LIMIT_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_parameter_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), path_parameter_nv(GL_PATH_MITER_LIMIT_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_PATH_OBJECT_BOUNDING_BOX_NV
     {
-	--count;
-	auto r = enum_value_range<path_parameter_nv>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      path_parameter_nv(GL_PATH_OBJECT_BOUNDING_BOX_NV))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<path_parameter_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            path_parameter_nv(GL_PATH_OBJECT_BOUNDING_BOX_NV)) != r.end());
     }
 #endif
 
 #ifdef GL_PATH_STROKE_BOUND_NV
     {
-	--count;
-	auto r = enum_value_range<path_parameter_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), path_parameter_nv(GL_PATH_STROKE_BOUND_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_parameter_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), path_parameter_nv(GL_PATH_STROKE_BOUND_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_PATH_STROKE_BOUNDING_BOX_NV
     {
-	--count;
-	auto r = enum_value_range<path_parameter_nv>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      path_parameter_nv(GL_PATH_STROKE_BOUNDING_BOX_NV))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<path_parameter_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            path_parameter_nv(GL_PATH_STROKE_BOUNDING_BOX_NV)) != r.end());
     }
 #endif
 
 #ifdef GL_PATH_STROKE_COVER_MODE_NV
     {
-	--count;
-	auto r = enum_value_range<path_parameter_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), path_parameter_nv(GL_PATH_STROKE_COVER_MODE_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_parameter_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            path_parameter_nv(GL_PATH_STROKE_COVER_MODE_NV)) != r.end());
     }
 #endif
 
 #ifdef GL_PATH_STROKE_MASK_NV
     {
-	--count;
-	auto r = enum_value_range<path_parameter_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), path_parameter_nv(GL_PATH_STROKE_MASK_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_parameter_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), path_parameter_nv(GL_PATH_STROKE_MASK_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_PATH_STROKE_WIDTH_NV
     {
-	--count;
-	auto r = enum_value_range<path_parameter_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), path_parameter_nv(GL_PATH_STROKE_WIDTH_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_parameter_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), path_parameter_nv(GL_PATH_STROKE_WIDTH_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_PATH_TERMINAL_DASH_CAP_NV
     {
-	--count;
-	auto r = enum_value_range<path_parameter_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), path_parameter_nv(GL_PATH_TERMINAL_DASH_CAP_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_parameter_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            path_parameter_nv(GL_PATH_TERMINAL_DASH_CAP_NV)) != r.end());
     }
 #endif
 
 #ifdef GL_PATH_TERMINAL_END_CAP_NV
     {
-	--count;
-	auto r = enum_value_range<path_parameter_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), path_parameter_nv(GL_PATH_TERMINAL_END_CAP_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_parameter_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            path_parameter_nv(GL_PATH_TERMINAL_END_CAP_NV)) != r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

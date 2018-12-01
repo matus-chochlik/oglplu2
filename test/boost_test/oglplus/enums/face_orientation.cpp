@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_face_orientation
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_face_orientation_tests)
 
@@ -64,19 +64,19 @@ BOOST_AUTO_TEST_CASE(enum_face_orientation_range) {
 
 #ifdef GL_CCW
     {
-	--count;
-	auto r = enum_value_range<face_orientation>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), face_orientation(GL_CCW)) != r.end());
+        --count;
+        auto r = enum_value_range<face_orientation>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), face_orientation(GL_CCW)) != r.end());
     }
 #endif
 
 #ifdef GL_CW
     {
-	--count;
-	auto r = enum_value_range<face_orientation>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), face_orientation(GL_CW)) != r.end());
+        --count;
+        auto r = enum_value_range<face_orientation>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), face_orientation(GL_CW)) != r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

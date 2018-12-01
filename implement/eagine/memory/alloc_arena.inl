@@ -18,7 +18,7 @@ basic_allocation_arena<Alloc>::_do_allocate(
     owned_block b = _alloc.allocate(size, align);
 
     if(b.empty()) {
-	return {};
+        return {};
     }
 
     assert(b.is_aligned_to(align));
@@ -36,7 +36,7 @@ basic_allocation_arena<Alloc>::clear(void) {
     assert(_blks.size() == _alns.size());
 
     for(std_size_t i = 0; i < _blks.size(); ++i) {
-	_alloc.deallocate(std::move(_blks[i]), _alns[i]);
+        _alloc.deallocate(std::move(_blks[i]), _alns[i]);
     }
     _blks.clear();
     _alns.clear();
@@ -72,12 +72,12 @@ inline span<T>
 basic_allocation_arena<Alloc>::make_aligned_array(
   const span_size_t count, const span_size_t align) {
     if(count < 1) {
-	return {};
+        return {};
     }
 
     T* p = _make_n<T>(count, align);
     if(!p) {
-	throw std::bad_alloc();
+        throw std::bad_alloc();
     }
     return {p, count};
 }
@@ -89,7 +89,7 @@ basic_allocation_arena<Alloc>::make_aligned(
   const span_size_t align, Args&&... args) {
     T* p = _make_1<T>(align, std::forward<Args>(args)...);
     if(!p) {
-	throw std::bad_alloc();
+        throw std::bad_alloc();
     }
 
     return *p;

@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_object_type
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_object_type_tests)
 
@@ -371,111 +371,114 @@ BOOST_AUTO_TEST_CASE(enum_object_type_range) {
 
 #ifdef GL_BUFFER
     {
-	--count;
-	auto r = enum_value_range<object_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), object_type(GL_BUFFER)) != r.end());
+        --count;
+        auto r = enum_value_range<object_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), object_type(GL_BUFFER)) != r.end());
     }
 #endif
 
 #ifdef GL_FRAMEBUFFER
     {
-	--count;
-	auto r = enum_value_range<object_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), object_type(GL_FRAMEBUFFER))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<object_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), object_type(GL_FRAMEBUFFER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_NONE
     {
-	--count;
-	auto r = enum_value_range<object_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), object_type(GL_NONE)) != r.end());
+        --count;
+        auto r = enum_value_range<object_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), object_type(GL_NONE)) != r.end());
     }
 #endif
 
 #ifdef GL_PROGRAM
     {
-	--count;
-	auto r = enum_value_range<object_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), object_type(GL_PROGRAM)) != r.end());
+        --count;
+        auto r = enum_value_range<object_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), object_type(GL_PROGRAM)) != r.end());
     }
 #endif
 
 #ifdef GL_PROGRAM_PIPELINE
     {
-	--count;
-	auto r = enum_value_range<object_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), object_type(GL_PROGRAM_PIPELINE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<object_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), object_type(GL_PROGRAM_PIPELINE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_QUERY
     {
-	--count;
-	auto r = enum_value_range<object_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), object_type(GL_QUERY)) != r.end());
+        --count;
+        auto r = enum_value_range<object_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), object_type(GL_QUERY)) != r.end());
     }
 #endif
 
 #ifdef GL_RENDERBUFFER
     {
-	--count;
-	auto r = enum_value_range<object_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), object_type(GL_RENDERBUFFER))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<object_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), object_type(GL_RENDERBUFFER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SAMPLER
     {
-	--count;
-	auto r = enum_value_range<object_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), object_type(GL_SAMPLER)) != r.end());
+        --count;
+        auto r = enum_value_range<object_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), object_type(GL_SAMPLER)) != r.end());
     }
 #endif
 
 #ifdef GL_SHADER
     {
-	--count;
-	auto r = enum_value_range<object_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), object_type(GL_SHADER)) != r.end());
+        --count;
+        auto r = enum_value_range<object_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), object_type(GL_SHADER)) != r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE
     {
-	--count;
-	auto r = enum_value_range<object_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), object_type(GL_TEXTURE)) != r.end());
+        --count;
+        auto r = enum_value_range<object_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), object_type(GL_TEXTURE)) != r.end());
     }
 #endif
 
 #ifdef GL_TRANSFORM_FEEDBACK
     {
-	--count;
-	auto r = enum_value_range<object_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), object_type(GL_TRANSFORM_FEEDBACK))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<object_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), object_type(GL_TRANSFORM_FEEDBACK)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_VERTEX_ARRAY
     {
-	--count;
-	auto r = enum_value_range<object_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), object_type(GL_VERTEX_ARRAY))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<object_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), object_type(GL_VERTEX_ARRAY)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

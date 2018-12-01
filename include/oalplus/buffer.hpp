@@ -22,7 +22,8 @@ namespace oalplus {
 namespace oper {
 
 struct buffer_ops {
-    static outcome<void> buffer_data(buffer_name buf,
+    static outcome<void> buffer_data(
+      buffer_name buf,
       data_format format,
       const buffer_data_spec& data,
       ALsizei frequency) noexcept;
@@ -48,7 +49,7 @@ template <typename Derived, typename Base>
 struct obj_member_ops<tag::buffer, Derived, Base> : Base {
 private:
     Derived& _self() noexcept {
-	return *static_cast<Derived*>(this);
+        return *static_cast<Derived*>(this);
     }
 
     typedef oper::buffer_ops _ops;
@@ -57,35 +58,38 @@ protected:
     using Base::Base;
 
 public:
-    outcome<Derived&> data(data_format format,
+    outcome<Derived&> data(
+      data_format format,
       const buffer_data_spec& data,
       ALsizei frequency) noexcept {
-	return {_ops::buffer_data(*this, format, data, frequency), _self()};
+        return {_ops::buffer_data(*this, format, data, frequency), _self()};
     }
 
     outcome<ALint> size(void) noexcept {
-	return _ops::buffer_size(*this);
+        return _ops::buffer_size(*this);
     }
 
     outcome<ALint> bits(void) noexcept {
-	return _ops::buffer_bits(*this);
+        return _ops::buffer_bits(*this);
     }
 
     outcome<ALint> channels(void) noexcept {
-	return _ops::buffer_channels(*this);
+        return _ops::buffer_channels(*this);
     }
 
     outcome<ALfloat> frequency(void) noexcept {
-	return _ops::buffer_frequency(*this);
+        return _ops::buffer_frequency(*this);
     }
 };
 
 template <>
 struct obj_dsa_ops<tag::buffer>
-  : obj_member_ops<tag::buffer,
+  : obj_member_ops<
+      tag::buffer,
       obj_dsa_ops<tag::buffer>,
       object_name<tag::buffer>> {
-    using obj_member_ops<tag::buffer,
+    using obj_member_ops<
+      tag::buffer,
       obj_dsa_ops<tag::buffer>,
       object_name<tag::buffer>>::obj_member_ops;
 };

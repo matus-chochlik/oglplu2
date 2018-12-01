@@ -75,8 +75,8 @@ eagine_test_memory_block_2(void) {
     span_size_t s = 0;
 
     for(byte b : bmb) {
-	++s;
-	EAGINE_MAYBE_UNUSED(b);
+        ++s;
+        EAGINE_MAYBE_UNUSED(b);
     }
 
     BOOST_CHECK(bmb.size() == s);
@@ -107,8 +107,8 @@ eagine_test_memory_block_3(void) {
     span_size_t s = 0;
 
     for(byte b : bmb) {
-	++s;
-	EAGINE_MAYBE_UNUSED(b);
+        ++s;
+        EAGINE_MAYBE_UNUSED(b);
     }
 
     BOOST_CHECK(bmb.size() == s);
@@ -139,8 +139,8 @@ eagine_test_memory_block_4(void) {
     span_size_t s = 0;
 
     for(byte b : bmb) {
-	++s;
-	EAGINE_MAYBE_UNUSED(b);
+        ++s;
+        EAGINE_MAYBE_UNUSED(b);
     }
 
     BOOST_CHECK(bmb.size() == s);
@@ -161,7 +161,7 @@ eagine_test_memory_block_5(void) {
     byte x[256];
 
     for(byte& b : x) {
-	b = rg.get<byte>(0x00, 0xFF);
+        b = rg.get<byte>(0x00, 0xFF);
     }
 
     basic_memory_block<is_const> bmb = memory::block_of(x);
@@ -172,7 +172,7 @@ eagine_test_memory_block_5(void) {
     BOOST_ASSERT(bmb.size() == sizeof(x));
 
     for(span_size_t i = 0; i < bmb.size(); ++i) {
-	BOOST_CHECK_EQUAL(bmb.data()[i], x[i]);
+        BOOST_CHECK_EQUAL(bmb.data()[i], x[i]);
     }
 }
 
@@ -242,12 +242,12 @@ eagine_test_memory_block_7(void) {
 
 BOOST_AUTO_TEST_CASE(memory_block_7) {
     for(int i = 0; i < 100; ++i) {
-	eagine_test_memory_block_7<char>();
-	eagine_test_memory_block_7<short>();
-	eagine_test_memory_block_7<float>();
-	eagine_test_memory_block_7<int>();
-	eagine_test_memory_block_7<long>();
-	eagine_test_memory_block_7<double>();
+        eagine_test_memory_block_7<char>();
+        eagine_test_memory_block_7<short>();
+        eagine_test_memory_block_7<float>();
+        eagine_test_memory_block_7<int>();
+        eagine_test_memory_block_7<long>();
+        eagine_test_memory_block_7<double>();
     }
 }
 
@@ -265,12 +265,12 @@ eagine_test_memory_block_8(void) {
 
 BOOST_AUTO_TEST_CASE(memory_block_8) {
     for(int i = 0; i < 100; ++i) {
-	eagine_test_memory_block_8<char>();
-	eagine_test_memory_block_8<short>();
-	eagine_test_memory_block_8<float>();
-	eagine_test_memory_block_8<int>();
-	eagine_test_memory_block_8<long>();
-	eagine_test_memory_block_8<double>();
+        eagine_test_memory_block_8<char>();
+        eagine_test_memory_block_8<short>();
+        eagine_test_memory_block_8<float>();
+        eagine_test_memory_block_8<int>();
+        eagine_test_memory_block_8<long>();
+        eagine_test_memory_block_8<double>();
     }
 }
 

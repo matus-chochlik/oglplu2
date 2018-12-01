@@ -33,7 +33,7 @@ OGLPLUS_LIB_FUNC
 std::ostream&
 sphere_coord_output::definitions(std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt))
-	return out;
+        return out;
 
     constant_pi cpi;
 

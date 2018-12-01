@@ -10,11 +10,11 @@
 #ifndef EAGINE_ENUM_SPAN_1509260923_HPP
 #define EAGINE_ENUM_SPAN_1509260923_HPP
 
+#include <algorithm>
+#include <vector>
 #include "enum_class.hpp"
 #include "span.hpp"
 #include "types.hpp"
-#include <algorithm>
-#include <vector>
 
 namespace eagine {
 
@@ -33,7 +33,7 @@ public:
     }
 
     span<const typename EnumClass::value_type> values(void) const noexcept {
-	return {_values};
+        return {_values};
     }
 };
 

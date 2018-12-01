@@ -20,7 +20,7 @@ struct sdiv {
     typedef data_param_t<T, N, V> _dpT;
 
     static constexpr inline _dT apply(_dpT a, _dpT b) noexcept {
-	return a / b;
+        return a / b;
     }
 };
 
@@ -33,15 +33,15 @@ struct sdiv<T, 3, V> {
     typedef data_param_t<T, 3, V> _dpT;
 
     static constexpr inline _dT _hlp(_dpT a, _dpT b, std::true_type) noexcept {
-	return a / _dT{b[0], b[1], b[2], T(1)};
+        return a / _dT{b[0], b[1], b[2], T(1)};
     }
 
     static constexpr inline _dT _hlp(_dpT a, _dpT b, std::false_type) noexcept {
-	return a / b;
+        return a / b;
     }
 
     static constexpr inline _dT apply(_dpT a, _dpT b) noexcept {
-	return _hlp(a, b, has_vect_data<T, 3, V>());
+        return _hlp(a, b, has_vect_data<T, 3, V>());
     }
 };
 

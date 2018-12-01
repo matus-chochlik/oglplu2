@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OALPLUS_string_query
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_string_query_tests)
 
@@ -101,37 +101,38 @@ BOOST_AUTO_TEST_CASE(enum_string_query_range) {
 
 #ifdef AL_EXTENSIONS
     {
-	--count;
-	auto r = enum_value_range<string_query>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), string_query(AL_EXTENSIONS))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<string_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), string_query(AL_EXTENSIONS)) !=
+          r.end());
     }
 #endif
 
 #ifdef AL_RENDERER
     {
-	--count;
-	auto r = enum_value_range<string_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), string_query(AL_RENDERER)) != r.end());
+        --count;
+        auto r = enum_value_range<string_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), string_query(AL_RENDERER)) != r.end());
     }
 #endif
 
 #ifdef AL_VENDOR
     {
-	--count;
-	auto r = enum_value_range<string_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), string_query(AL_VENDOR)) != r.end());
+        --count;
+        auto r = enum_value_range<string_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), string_query(AL_VENDOR)) != r.end());
     }
 #endif
 
 #ifdef AL_VERSION
     {
-	--count;
-	auto r = enum_value_range<string_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), string_query(AL_VERSION)) != r.end());
+        --count;
+        auto r = enum_value_range<string_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), string_query(AL_VERSION)) != r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

@@ -9,10 +9,10 @@
 #ifndef OGLPLUS_EXAMPLE_WRAPPER_1512120710_HPP
 #define OGLPLUS_EXAMPLE_WRAPPER_1512120710_HPP
 
-#include "../example.hpp"
 #include <cassert>
 #include <chrono>
 #include <vector>
+#include "../example.hpp"
 
 namespace oglplus {
 

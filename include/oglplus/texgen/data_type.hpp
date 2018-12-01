@@ -9,11 +9,11 @@
 #ifndef OGLPLUS_TEXGEN_DATA_TYPE_1509260923_HPP
 #define OGLPLUS_TEXGEN_DATA_TYPE_1509260923_HPP
 
+#include <iosfwd>
+#include <eagine/valid_if/between.hpp>
 #include "../config/basic.hpp"
 #include "../utils/cstr_ref.hpp"
 #include "../utils/types.hpp"
-#include <eagine/valid_if/between.hpp>
-#include <iosfwd>
 
 namespace oglplus {
 namespace texgen {
@@ -98,27 +98,24 @@ scalar_data_type elem_data_type(slot_data_type) noexcept;
 
 span_size_t data_type_dims(slot_data_type) noexcept;
 
-slot_data_type
-make_data_type(scalar_data_type type,
+slot_data_type make_data_type(
+  scalar_data_type type,
   eagine::valid_if_between<span_size_t, 1, 4> dims) noexcept;
 
-scalar_data_type
-common_elem_type(slot_data_type a, slot_data_type b) noexcept;
+scalar_data_type common_elem_type(slot_data_type a, slot_data_type b) noexcept;
 
-span_size_t
-common_dims(slot_data_type a, slot_data_type b) noexcept;
+span_size_t common_dims(slot_data_type a, slot_data_type b) noexcept;
 
-slot_data_type
-common_data_type(slot_data_type a, slot_data_type b) noexcept;
+slot_data_type common_data_type(slot_data_type a, slot_data_type b) noexcept;
 
-std::ostream&
-conversion_prefix(std::ostream& out, slot_data_type from, slot_data_type to);
+std::ostream& conversion_prefix(
+  std::ostream& out, slot_data_type from, slot_data_type to);
 
-std::ostream&
-conversion_suffix(std::ostream& out, slot_data_type from, slot_data_type to);
+std::ostream& conversion_suffix(
+  std::ostream& out, slot_data_type from, slot_data_type to);
 
-std::ostream&
-conversion_suffix(std::ostream& out,
+std::ostream& conversion_suffix(
+  std::ostream& out,
   slot_data_type from,
   slot_data_type to,
   cstr_ref x,
@@ -132,23 +129,20 @@ struct conversion_prefix {
     slot_data_type from;
     slot_data_type to;
 };
-std::ostream&
-operator<<(std::ostream&, conversion_prefix);
+std::ostream& operator<<(std::ostream&, conversion_prefix);
 
 struct conversion_suffix {
     slot_data_type from;
     slot_data_type to;
 };
-std::ostream&
-operator<<(std::ostream&, conversion_suffix);
+std::ostream& operator<<(std::ostream&, conversion_suffix);
 
 struct conversion_suffix_v {
     slot_data_type from;
     slot_data_type to;
     cstr_ref val[4];
 };
-std::ostream&
-operator<<(std::ostream&, conversion_suffix_v);
+std::ostream& operator<<(std::ostream&, conversion_suffix_v);
 
 } // namespace expr
 } // namespace texgen

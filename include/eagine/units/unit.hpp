@@ -75,33 +75,33 @@ operator!(U) noexcept {
 
 // addition
 template <typename U1, typename U2>
-static constexpr inline std::enable_if_t<is_unit_v<U1> && is_unit_v<U2>,
-  add_result_t<U1, U2>>
-operator+(U1, U2) noexcept {
+static constexpr inline std::
+  enable_if_t<is_unit_v<U1> && is_unit_v<U2>, add_result_t<U1, U2>>
+  operator+(U1, U2) noexcept {
     return {};
 }
 
 // subtraction
 template <typename U1, typename U2>
-static constexpr inline std::enable_if_t<is_unit_v<U1> && is_unit_v<U2>,
-  sub_result_t<U1, U2>>
-operator-(U1, U2) noexcept {
+static constexpr inline std::
+  enable_if_t<is_unit_v<U1> && is_unit_v<U2>, sub_result_t<U1, U2>>
+  operator-(U1, U2) noexcept {
     return {};
 }
 
 // multiplication
 template <typename U1, typename U2>
-static constexpr inline std::enable_if_t<is_unit_v<U1> && is_unit_v<U2>,
-  mul_result_t<U1, U2>>
-operator*(U1, U2) noexcept {
+static constexpr inline std::
+  enable_if_t<is_unit_v<U1> && is_unit_v<U2>, mul_result_t<U1, U2>>
+  operator*(U1, U2) noexcept {
     return {};
 }
 
 // division
 template <typename U1, typename U2>
-static constexpr inline std::enable_if_t<is_unit_v<U1> && is_unit_v<U2>,
-  div_result_t<U1, U2>>
-operator/(U1, U2) noexcept {
+static constexpr inline std::
+  enable_if_t<is_unit_v<U1> && is_unit_v<U2>, div_result_t<U1, U2>>
+  operator/(U1, U2) noexcept {
     return {};
 }
 

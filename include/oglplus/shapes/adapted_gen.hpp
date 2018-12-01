@@ -10,12 +10,12 @@
 #ifndef OGLPLUS_SHAPES_ADAPTED_GEN_1509260923_HPP
 #define OGLPLUS_SHAPES_ADAPTED_GEN_1509260923_HPP
 
-#include "../utils/span.hpp"
-#include "drawing.hpp"
+#include <memory>
 #include <eagine/memory/typed_block.hpp>
 #include <eagine/shapes/gen_base.hpp>
 #include <eagine/shapes/vertex_attrib.hpp>
-#include <memory>
+#include "../utils/span.hpp"
+#include "drawing.hpp"
 
 namespace oglplus {
 namespace shapes {
@@ -30,7 +30,7 @@ private:
 
     template <typename Gen>
     static inline eagine::shapes::generator_base* _copy_gen(const Gen& gen) {
-	return new Gen(gen);
+        return new Gen(gen);
     }
 
     static span_size_t _index_type_size(eagine::shapes::index_data_type type);
@@ -42,52 +42,52 @@ public:
     }
 
     span_size_t vertex_count(void) const {
-	return _gen->vertex_count();
+        return _gen->vertex_count();
     }
 
     span_size_t values_per_vertex(vertex_attrib_kind attr) const {
-	return _gen->values_per_vertex(attr);
+        return _gen->values_per_vertex(attr);
     }
 
     span_size_t value_count(vertex_attrib_kind attr) const {
-	return vertex_count() * values_per_vertex(attr);
+        return vertex_count() * values_per_vertex(attr);
     }
 
     span_size_t attrib_data_block_size(vertex_attrib_kind attr) const {
-	// TODO other attrib data types
-	return value_count(attr) * span_size(sizeof(GLfloat));
+        // TODO other attrib data types
+        return value_count(attr) * span_size(sizeof(GLfloat));
     }
 
     void attrib_data(
       vertex_attrib_kind attrib, const eagine::memory::block& data) const {
-	// TODO other attrib data types
-	_gen->attrib_values(
-	  attrib, eagine::memory::make_span_of<GLfloat>(data));
+        // TODO other attrib data types
+        _gen->attrib_values(
+          attrib, eagine::memory::make_span_of<GLfloat>(data));
     }
 
     bool indexed(void) const {
-	return _gen->index_count() > 0;
+        return _gen->index_count() > 0;
     }
 
     span_size_t index_count(void) const {
-	return _gen->index_count();
+        return _gen->index_count();
     }
 
     span_size_t index_type_size(void) const {
-	return _index_type_size(_gen->index_type());
+        return _index_type_size(_gen->index_type());
     }
 
     span_size_t index_data_block_size(void) const {
-	return index_count() * index_type_size();
+        return index_count() * index_type_size();
     }
 
     void index_data(const eagine::memory::block& data) const {
-	// TODO other index data types, see also drawing
-	_gen->indices(eagine::memory::make_span_of<GLuint>(data));
+        // TODO other index data types, see also drawing
+        _gen->indices(eagine::memory::make_span_of<GLuint>(data));
     }
 
     span_size_t operation_count(void) const {
-	return _gen->operation_count();
+        return _gen->operation_count();
     }
 
     void instructions(const span<draw_operation>& ops) const;

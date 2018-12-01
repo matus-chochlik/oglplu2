@@ -19,19 +19,19 @@ struct bar {
     int i;
 
     int foo(int j) const {
-	return i + j;
+        return i + j;
     }
 
     float foo(float j, float k, float l) const {
-	return (i + j) / (k - l);
+        return (i + j) / (k - l);
     }
 
     static float foo(bar* b, float j, float k, float l) {
-	return b->foo(j, k, l);
+        return b->foo(j, k, l);
     }
 
     float operator()(float a, float b, float c) {
-	return foo(a, b, c);
+        return foo(a, b, c);
     }
 };
 
@@ -39,13 +39,13 @@ struct baz {
     int i;
 
     baz& inc(void) {
-	++i;
-	return *this;
+        ++i;
+        return *this;
     }
 
     baz& add(int c) {
-	i += c;
-	return *this;
+        i += c;
+        return *this;
     }
 };
 
@@ -117,9 +117,11 @@ BOOST_AUTO_TEST_CASE(callable_ref_foo_5) {
 
     bar br{123};
 
-    callable_ref<float(float, float, float)> cr5(&br,
-      member_function_constant<float (bar::*)(float, float, float) const,
-	&bar::foo>());
+    callable_ref<float(float, float, float)> cr5(
+      &br,
+      member_function_constant<
+        float (bar::*)(float, float, float) const,
+        &bar::foo>());
 
     BOOST_CHECK(bool(cr5) == true);
     BOOST_CHECK(!(cr5) == false);

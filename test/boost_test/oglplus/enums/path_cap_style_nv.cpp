@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_path_cap_style_nv
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_path_cap_style_nv_tests)
 
@@ -101,40 +101,40 @@ BOOST_AUTO_TEST_CASE(enum_path_cap_style_nv_range) {
 
 #ifdef GL_FLAT
     {
-	--count;
-	auto r = enum_value_range<path_cap_style_nv>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), path_cap_style_nv(GL_FLAT)) != r.end());
+        --count;
+        auto r = enum_value_range<path_cap_style_nv>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), path_cap_style_nv(GL_FLAT)) != r.end());
     }
 #endif
 
 #ifdef GL_ROUND_NV
     {
-	--count;
-	auto r = enum_value_range<path_cap_style_nv>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), path_cap_style_nv(GL_ROUND_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_cap_style_nv>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), path_cap_style_nv(GL_ROUND_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SQUARE_NV
     {
-	--count;
-	auto r = enum_value_range<path_cap_style_nv>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), path_cap_style_nv(GL_SQUARE_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_cap_style_nv>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), path_cap_style_nv(GL_SQUARE_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TRIANGULAR_NV
     {
-	--count;
-	auto r = enum_value_range<path_cap_style_nv>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), path_cap_style_nv(GL_TRIANGULAR_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_cap_style_nv>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), path_cap_style_nv(GL_TRIANGULAR_NV)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

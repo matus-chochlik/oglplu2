@@ -18,7 +18,7 @@ template <typename ErrorInfo>
 static inline void
 handle_gl_error(ErrorInfo& info) {
     if(!std::uncaught_exception()) {
-	throw error(std::move(info));
+        throw error(std::move(info));
     }
 }
 
@@ -29,15 +29,15 @@ is_gl_error(GLenum ec) noexcept {
 
 struct gl_error_handling_policy {
     static bool is_valid(const error_info& info) noexcept {
-	return is_gl_error(info.gl_error_code());
+        return is_gl_error(info.gl_error_code());
     }
 
     static void invoke(error_info& info) {
-	handle_gl_error(info);
+        handle_gl_error(info);
     }
 
     static void cancel(error_info& info) noexcept {
-	info.gl_error_code(GL_NO_ERROR);
+        info.gl_error_code(GL_NO_ERROR);
     }
 };
 
@@ -53,25 +53,26 @@ using deferred_error_handler =
 #define OGLPLUS_RETURN_HANDLER(ERROR_CODE, ERROR_INFO, SEVERITY) \
     return oglplus::deferred_error_handler(                      \
       std::move(oglplus::error_info(ERROR_CODE)                  \
-		  .ERROR_INFO.source_file(__FILE__)              \
-		  .source_line(__LINE__)))
+                  .ERROR_INFO.source_file(__FILE__)              \
+                  .source_line(__LINE__)))
 
 #define OGLPLUS_RETURN_HANDLER_IF(CONDITION, ERROR_CODE, ERROR_INFO, SEVERITY) \
     {                                                                          \
-	GLenum oglplus_error_code##__LINE__ = ERROR_CODE;                      \
-	if(CONDITION(oglplus_error_code##__LINE__)) {                          \
-	    OGLPLUS_RETURN_HANDLER(                                            \
-	      oglplus_error_code##__LINE__, ERROR_INFO, SEVERITY);             \
-	}                                                                      \
+        GLenum oglplus_error_code##__LINE__ = ERROR_CODE;                      \
+        if(CONDITION(oglplus_error_code##__LINE__)) {                          \
+            OGLPLUS_RETURN_HANDLER(                                            \
+              oglplus_error_code##__LINE__, ERROR_INFO, SEVERITY);             \
+        }                                                                      \
     }
 
 #define OGLPLUS_RETURN_HANDLER_IF_GL_ERROR(ERROR_CODE, ERROR_INFO, SEVERITY) \
     OGLPLUS_RETURN_HANDLER_IF(                                               \
       oglplus::is_gl_error, ERROR_CODE, ERROR_INFO, SEVERITY)
 
-#define OGLPLUS_VERIFY_STR(GLFUNC_NAME, ERROR_INFO, SEVERITY)  \
-    OGLPLUS_RETURN_HANDLER_IF_GL_ERROR(OGLPLUS_GL_GET_ERROR(), \
-      ERROR_INFO.gl_function_name(GLFUNC_NAME),                \
+#define OGLPLUS_VERIFY_STR(GLFUNC_NAME, ERROR_INFO, SEVERITY) \
+    OGLPLUS_RETURN_HANDLER_IF_GL_ERROR(                       \
+      OGLPLUS_GL_GET_ERROR(),                                 \
+      ERROR_INFO.gl_function_name(GLFUNC_NAME),               \
       SEVERITY)
 
 #define OGLPLUS_VERIFY(GLFUNC, ERROR_INFO, SEVERITY) \

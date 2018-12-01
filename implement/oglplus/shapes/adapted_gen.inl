@@ -15,15 +15,15 @@ OGLPLUS_LIB_FUNC
 span_size_t
 adapted_generator::_index_type_size(eagine::shapes::index_data_type type) {
     switch(type) {
-	// TODO currently all indices are GLuint
-	case eagine::shapes::index_data_type::unsigned_byte:
-	    // TODO return sizeof(GLubyte);
-	case eagine::shapes::index_data_type::unsigned_short:
-	    // TODO return sizeof(GLushort);
-	case eagine::shapes::index_data_type::unsigned_int:
-	    return sizeof(GLuint);
-	case eagine::shapes::index_data_type::none:
-	    break;
+        // TODO currently all indices are GLuint
+        case eagine::shapes::index_data_type::unsigned_byte:
+            // TODO return sizeof(GLubyte);
+        case eagine::shapes::index_data_type::unsigned_short:
+            // TODO return sizeof(GLushort);
+        case eagine::shapes::index_data_type::unsigned_int:
+            return sizeof(GLuint);
+        case eagine::shapes::index_data_type::none:
+            break;
     }
     return 0;
 }
@@ -37,7 +37,7 @@ adapted_generator::instructions(const span<draw_operation>& ops) const {
     _gen->instructions(tmp);
 
     for(decltype(tmp.size()) i = 0; i < tmp.size(); ++i) {
-	ops[span_size(i)] = draw_operation(tmp[i]);
+        ops[span_size(i)] = draw_operation(tmp[i]);
     }
 }
 //------------------------------------------------------------------------------

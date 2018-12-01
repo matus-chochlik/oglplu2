@@ -23,7 +23,7 @@ template <typename T, int N, bool V>
 struct cast<T, N, V, T, N, V> {
     static constexpr inline data_t<T, N, V> apply(
       data_param_t<T, N, V> v, T) noexcept {
-	return v;
+        return v;
     }
 };
 
@@ -36,32 +36,35 @@ private:
     using _make_idx_seq = std::make_integer_sequence<int, N>;
 
     template <int... I, int... D>
-    static constexpr inline data_t<TT, NT, VT> _cast(data_param_t<TF, NF, VF> v,
+    static constexpr inline data_t<TT, NT, VT> _cast(
+      data_param_t<TF, NF, VF> v,
       data_param_t<TT, sizeof...(D), VT> d,
       _idx_seq<I...>,
       _idx_seq<D...>) noexcept {
-	return data_t<TT, NT, VT>{TT(v[I])..., TT(d[D])...};
+        return data_t<TT, NT, VT>{TT(v[I])..., TT(d[D])...};
     }
 
     template <int... I>
-    static constexpr inline data_t<TT, NT, VT> _cast(data_param_t<TF, NF, VF> v,
+    static constexpr inline data_t<TT, NT, VT> _cast(
+      data_param_t<TF, NF, VF> v,
       data_param_t<TT, 0u, VT>,
       _idx_seq<I...>,
       _idx_seq<>) noexcept {
-	return data_t<TT, NT, VT>{TT(v[I])...};
+        return data_t<TT, NT, VT>{TT(v[I])...};
     }
 
 public:
-    static constexpr inline data_t<TT, NT, VT> apply(data_param_t<TF, NF, VF> v,
+    static constexpr inline data_t<TT, NT, VT> apply(
+      data_param_t<TF, NF, VF> v,
       data_param_t<TT, (NT > NF) ? NT - NF : 0, VT> d) noexcept {
-	typedef _make_idx_seq<(NT > NF) ? NF : NT> is;
-	typedef _make_idx_seq<(NT > NF) ? NT - NF : 0> ds;
-	return _cast(v, d, is(), ds());
+        typedef _make_idx_seq<(NT > NF) ? NF : NT> is;
+        typedef _make_idx_seq<(NT > NF) ? NT - NF : 0> ds;
+        return _cast(v, d, is(), ds());
     }
 
     static constexpr inline data_t<TT, NT, VT> apply(
       data_param_t<TF, NF, VF> v, TT d) noexcept {
-	return apply(v, fill < TT, (NT > NF) ? NT - NF : 0, VT > ::apply(d));
+        return apply(v, fill < TT, (NT > NF) ? NT - NF : 0, VT > ::apply(d));
     }
 };
 

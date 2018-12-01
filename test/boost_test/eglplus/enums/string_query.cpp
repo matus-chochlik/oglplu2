@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE EGLPLUS_string_query
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_string_query_tests)
 
@@ -101,37 +101,39 @@ BOOST_AUTO_TEST_CASE(enum_string_query_range) {
 
 #ifdef EGL_CLIENT_APIS
     {
-	--count;
-	auto r = enum_value_range<string_query>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), string_query(EGL_CLIENT_APIS))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<string_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), string_query(EGL_CLIENT_APIS)) !=
+          r.end());
     }
 #endif
 
 #ifdef EGL_EXTENSIONS
     {
-	--count;
-	auto r = enum_value_range<string_query>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), string_query(EGL_EXTENSIONS))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<string_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), string_query(EGL_EXTENSIONS)) !=
+          r.end());
     }
 #endif
 
 #ifdef EGL_VENDOR
     {
-	--count;
-	auto r = enum_value_range<string_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), string_query(EGL_VENDOR)) != r.end());
+        --count;
+        auto r = enum_value_range<string_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), string_query(EGL_VENDOR)) != r.end());
     }
 #endif
 
 #ifdef EGL_VERSION
     {
-	--count;
-	auto r = enum_value_range<string_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), string_query(EGL_VERSION)) != r.end());
+        --count;
+        auto r = enum_value_range<string_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), string_query(EGL_VERSION)) != r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

@@ -21,38 +21,38 @@ BOOST_AUTO_TEST_CASE(string_path_1) {
     basic_string_path bsp;
 
     for(int i = 0; i < 100; ++i) {
-	std::size_t s = 0;
+        std::size_t s = 0;
 
-	for(int j = 0, k = rg.get_int(10, 100); j < k; ++j) {
-	    std::string n(
-	      rg.get<std::string::size_type>(0, 8196), rg.get<char>('A', 'Z'));
-	    bsp.push_back(cstring_span(n));
-	    ++s;
+        for(int j = 0, k = rg.get_int(10, 100); j < k; ++j) {
+            std::string n(
+              rg.get<std::string::size_type>(0, 8196), rg.get<char>('A', 'Z'));
+            bsp.push_back(cstring_span(n));
+            ++s;
 
-	    BOOST_CHECK_EQUAL(bsp.size(), s);
-	    BOOST_CHECK_EQUAL(bsp.back().size(), n.size());
-	    BOOST_CHECK(bsp.back() == cstring_span(n));
+            BOOST_CHECK_EQUAL(bsp.size(), s);
+            BOOST_CHECK_EQUAL(bsp.back().size(), n.size());
+            BOOST_CHECK(bsp.back() == cstring_span(n));
 
-	    if((rg.get_int(0, 9) == 0) && !bsp.empty()) {
-		bsp.pop_back();
-		--s;
-	    }
-	    BOOST_CHECK_EQUAL(bsp.size(), s);
-	}
+            if((rg.get_int(0, 9) == 0) && !bsp.empty()) {
+                bsp.pop_back();
+                --s;
+            }
+            BOOST_CHECK_EQUAL(bsp.size(), s);
+        }
 
-	bsp = bsp + bsp;
+        bsp = bsp + bsp;
 
-	BOOST_CHECK_EQUAL(bsp.size(), 2 * s);
+        BOOST_CHECK_EQUAL(bsp.size(), 2 * s);
 
-	if(rg.get_bool()) {
-	    while(!bsp.empty()) {
-		bsp.pop_back();
-	    }
-	} else {
-	    bsp.clear();
-	}
+        if(rg.get_bool()) {
+            while(!bsp.empty()) {
+                bsp.pop_back();
+            }
+        } else {
+            bsp.clear();
+        }
 
-	BOOST_CHECK_EQUAL(bsp.size(), 0);
+        BOOST_CHECK_EQUAL(bsp.size(), 0);
     }
 }
 
@@ -60,33 +60,33 @@ BOOST_AUTO_TEST_CASE(string_path_2) {
     using namespace eagine;
 
     for(int i = 0; i < 200; ++i) {
-	basic_string_path bsp;
+        basic_string_path bsp;
 
-	for(int j = 0, k = rg.get_int(0, 30); j < k; ++j) {
-	    auto n = rg.get<std::string::size_type>(0, 8196);
-	    char c = rg.get<char>('A', 'Z');
-	    std::string s(n, c);
-	    bsp.push_back(cstring_span(s));
+        for(int j = 0, k = rg.get_int(0, 30); j < k; ++j) {
+            auto n = rg.get<std::string::size_type>(0, 8196);
+            char c = rg.get<char>('A', 'Z');
+            std::string s(n, c);
+            bsp.push_back(cstring_span(s));
 
-	    BOOST_CHECK(bsp.back() == cstring_span(s));
-	    BOOST_CHECK(!bsp.empty());
-	}
+            BOOST_CHECK(bsp.back() == cstring_span(s));
+            BOOST_CHECK(!bsp.empty());
+        }
 
-	std::stack<std::string> stk;
-	bsp.for_each([&stk](basic_string_path::value_type s) {
-	    stk.push(std::string(s.begin(), s.end()));
-	    BOOST_CHECK(s == cstring_span(stk.top()));
-	});
+        std::stack<std::string> stk;
+        bsp.for_each([&stk](basic_string_path::value_type s) {
+            stk.push(std::string(s.begin(), s.end()));
+            BOOST_CHECK(s == cstring_span(stk.top()));
+        });
 
-	BOOST_CHECK_EQUAL(bsp.size(), stk.size());
+        BOOST_CHECK_EQUAL(bsp.size(), stk.size());
 
-	bsp.rev_for_each([&stk](basic_string_path::value_type s) {
-	    BOOST_ASSERT(!stk.empty());
-	    BOOST_CHECK(s == cstring_span(stk.top()));
-	    stk.pop();
-	});
+        bsp.rev_for_each([&stk](basic_string_path::value_type s) {
+            BOOST_ASSERT(!stk.empty());
+            BOOST_CHECK(s == cstring_span(stk.top()));
+            stk.pop();
+        });
 
-	BOOST_CHECK(stk.empty());
+        BOOST_CHECK(stk.empty());
     }
 }
 
@@ -94,32 +94,32 @@ BOOST_AUTO_TEST_CASE(string_path_3) {
     using namespace eagine;
 
     for(int i = 0; i < 200; ++i) {
-	basic_string_path bsp;
+        basic_string_path bsp;
 
-	for(int j = 0, k = rg.get_int(0, 30); j < k; ++j) {
-	    auto n = rg.get<std::string::size_type>(0, 8196);
-	    char c = rg.get<char>('A', 'Z');
-	    std::string s(n, c);
-	    bsp.push_back(cstring_span(s));
+        for(int j = 0, k = rg.get_int(0, 30); j < k; ++j) {
+            auto n = rg.get<std::string::size_type>(0, 8196);
+            char c = rg.get<char>('A', 'Z');
+            std::string s(n, c);
+            bsp.push_back(cstring_span(s));
 
-	    BOOST_CHECK(bsp.back() == cstring_span(s));
-	    BOOST_CHECK(!bsp.empty());
-	}
+            BOOST_CHECK(bsp.back() == cstring_span(s));
+            BOOST_CHECK(!bsp.empty());
+        }
 
-	std::stack<std::string> stk;
-	for(auto p = bsp.begin(); p != bsp.end(); ++p) {
-	    stk.push(std::string((*p).begin(), p->end()));
-	    BOOST_CHECK(*p == cstring_span(stk.top()));
-	}
+        std::stack<std::string> stk;
+        for(auto p = bsp.begin(); p != bsp.end(); ++p) {
+            stk.push(std::string((*p).begin(), p->end()));
+            BOOST_CHECK(*p == cstring_span(stk.top()));
+        }
 
-	BOOST_CHECK_EQUAL(bsp.size(), stk.size());
+        BOOST_CHECK_EQUAL(bsp.size(), stk.size());
 
-	for(auto p = bsp.rbegin(); p != bsp.rend(); ++p) {
-	    BOOST_ASSERT(!stk.empty());
-	    BOOST_CHECK(*p == cstring_span(stk.top()));
-	    stk.pop();
-	}
-	BOOST_CHECK(stk.empty());
+        for(auto p = bsp.rbegin(); p != bsp.rend(); ++p) {
+            BOOST_ASSERT(!stk.empty());
+            BOOST_CHECK(*p == cstring_span(stk.top()));
+            stk.pop();
+        }
+        BOOST_CHECK(stk.empty());
     }
 }
 

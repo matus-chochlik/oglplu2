@@ -16,14 +16,14 @@ template <typename T, int N, bool V>
 void
 test_vect_fill_apply_TNV(void) {
     for(int k = 0; k < 1000; ++k) {
-	T a = rg.get_any<T>();
+        T a = rg.get_any<T>();
 
-	typename eagine::vect::data<T, N, V>::type v =
-	  eagine::vect::fill<T, N, V>::apply(a);
+        typename eagine::vect::data<T, N, V>::type v =
+          eagine::vect::fill<T, N, V>::apply(a);
 
-	for(int i = 0; i < N; ++i) {
-	    BOOST_CHECK_EQUAL(v[i], a);
-	}
+        for(int i = 0; i < N; ++i) {
+            BOOST_CHECK_EQUAL(v[i], a);
+        }
     }
 }
 

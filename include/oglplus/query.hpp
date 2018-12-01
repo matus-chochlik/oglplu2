@@ -47,21 +47,25 @@ struct query_ops {
 #endif
 
 #if defined(GL_VERSION_3_0)
-    static outcome<void> get_query_object_iv(query_name qry,
+    static outcome<void> get_query_object_iv(
+      query_name qry,
       oglplus::query_parameter param,
       span<GLint> values) noexcept;
 
-    static outcome<void> get_query_object_uiv(query_name qry,
+    static outcome<void> get_query_object_uiv(
+      query_name qry,
       oglplus::query_parameter param,
       span<GLuint> values) noexcept;
 #endif
 
 #if defined(GL_VERSION_3_3) || defined(GL_ARB_timer_query)
-    static outcome<void> get_query_object_i64v(query_name qry,
+    static outcome<void> get_query_object_i64v(
+      query_name qry,
       oglplus::query_parameter param,
       span<GLint64> values) noexcept;
 
-    static outcome<void> get_query_object_ui64v(query_name qry,
+    static outcome<void> get_query_object_ui64v(
+      query_name qry,
       oglplus::query_parameter param,
       span<GLuint64> values) noexcept;
 #endif
@@ -92,44 +96,44 @@ struct obj_dsa_ops<tag::query> : obj_zero_dsa_ops<tag::query> {
     using obj_zero_dsa_ops<tag::query>::obj_zero_dsa_ops;
 
     outcome<void> begin(query_target target) noexcept {
-	return _ops::begin_query(target, *this);
+        return _ops::begin_query(target, *this);
     }
 
     outcome<void> end(query_target target) noexcept {
-	return _ops::end_query(target);
+        return _ops::end_query(target);
     }
 
 #if defined(GL_VERSION_3_3) || defined(GL_ARB_timer_query)
     outcome<void> counter(query_target target) noexcept {
-	return _ops::query_counter(*this, target);
+        return _ops::query_counter(*this, target);
     }
 
     outcome<void> timestamp(void) noexcept {
-	return _ops::query_timestamp(*this);
+        return _ops::query_timestamp(*this);
     }
 #endif
 
     outcome<boolean> result_available(void) const noexcept {
-	return _ops::query_result_available(*this);
+        return _ops::query_result_available(*this);
     }
 
 #if defined(GL_VERSION_3_0)
     outcome<void> result(GLint& result) const noexcept {
-	return _ops::query_result(*this, result);
+        return _ops::query_result(*this, result);
     }
 
     outcome<void> result(GLuint& result) const noexcept {
-	return _ops::query_result(*this, result);
+        return _ops::query_result(*this, result);
     }
 #endif
 
 #if defined(GL_VERSION_3_3) || defined(GL_ARB_timer_query)
     outcome<void> result(GLint64& result) const noexcept {
-	return _ops::query_result(*this, result);
+        return _ops::query_result(*this, result);
     }
 
     outcome<void> result(GLuint64& result) const noexcept {
-	return _ops::query_result(*this, result);
+        return _ops::query_result(*this, result);
     }
 #endif
 };

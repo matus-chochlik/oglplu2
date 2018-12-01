@@ -18,13 +18,13 @@ test_math_matrix_mult_TCRRMV(void) {
     T d1[M * N];
 
     for(int i = 0; i < (M * N); ++i) {
-	d1[i] = rg.get<T>(0, 10000);
+        d1[i] = rg.get<T>(0, 10000);
     }
 
     T d2[N * K];
 
     for(int i = 0; i < (N * K); ++i) {
-	d2[i] = rg.get<T>(0, 10000);
+        d2[i] = rg.get<T>(0, 10000);
     }
 
     auto m1 = eagine::math::matrix<T, N, M, RM1, V>::from(d1, M * N);
@@ -34,16 +34,16 @@ test_math_matrix_mult_TCRRMV(void) {
     EAGINE_MAYBE_UNUSED(m);
 
     for(int i = 0; i < M; ++i)
-	for(int j = 0; j < K; ++j) {
-	    T e = T(0);
+        for(int j = 0; j < K; ++j) {
+            T e = T(0);
 
-	    for(int k = 0; k < N; ++k) {
-		e += row(m1, i)[k] * column(m2, j)[k];
-	    }
+            for(int k = 0; k < N; ++k) {
+                e += row(m1, i)[k] * column(m2, j)[k];
+            }
 
-	    BOOST_CHECK_EQUAL(get_cm(m, j, i), e);
-	    BOOST_CHECK_EQUAL(get_rm(m, i, j), e);
-	}
+            BOOST_CHECK_EQUAL(get_cm(m, j, i), e);
+            BOOST_CHECK_EQUAL(get_rm(m, i, j), e);
+        }
 }
 
 template <typename T, bool RM1, bool RM2, bool V>

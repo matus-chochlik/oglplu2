@@ -27,6 +27,6 @@ oglplus_object_test(ObjectType type) {
     eagine_object_test<Object>(type);
 }
 
-    // TODO
+// TODO
 
 #endif // include guard

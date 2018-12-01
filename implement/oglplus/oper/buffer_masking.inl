@@ -43,10 +43,10 @@ inline outcome<void>
 buffer_masking_state::color_mask_i(GLuint buffer, const rgba_mask& m) noexcept {
     OGLPLUS_GLFUNC(ColorMaski)
     (buffer,
-      GLboolean(m._v[0]),
-      GLboolean(m._v[1]),
-      GLboolean(m._v[2]),
-      GLboolean(m._v[3]));
+     GLboolean(m._v[0]),
+     GLboolean(m._v[1]),
+     GLboolean(m._v[2]),
+     GLboolean(m._v[3]));
     OGLPLUS_VERIFY(ColorMaski, gl_index(buffer), debug);
     return {};
 }

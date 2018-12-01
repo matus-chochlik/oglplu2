@@ -10,9 +10,9 @@
 #ifndef EAGINE_MEMORY_C_REALLOC_1509260923_HPP
 #define EAGINE_MEMORY_C_REALLOC_1509260923_HPP
 
-#include "byte_alloc.hpp"
 #include <cassert>
 #include <limits>
+#include "byte_alloc.hpp"
 
 namespace eagine {
 namespace memory {
@@ -25,15 +25,15 @@ public:
     typedef span_size_t size_type;
 
     bool equal(byte_allocator* a) const noexcept override {
-	return dynamic_cast<c_byte_reallocator*>(a) != nullptr;
+        return dynamic_cast<c_byte_reallocator*>(a) != nullptr;
     }
 
     size_type max_size(size_type) noexcept override {
-	return std::numeric_limits<size_type>::max();
+        return std::numeric_limits<size_type>::max();
     }
 
     tribool has_allocated(const owned_block&, size_type) noexcept override {
-	return indeterminate;
+        return indeterminate;
     }
 
     owned_block allocate(size_type n, size_type a) noexcept override;
@@ -42,7 +42,7 @@ public:
 
     bool can_reallocate(
       const owned_block&, size_type, size_type) noexcept override {
-	return true;
+        return true;
     }
 
     owned_block reallocate(

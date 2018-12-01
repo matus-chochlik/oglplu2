@@ -22,9 +22,9 @@ struct offscreen_context_params {
     int height;
 
     static char** fake_argv(void) noexcept {
-	static char name[64] = {'<', 'N', '/', 'A', '>', '\0'};
-	static char* av[2] = {name, nullptr};
-	return av;
+        static char name[64] = {'<', 'N', '/', 'A', '>', '\0'};
+        static char* av[2] = {name, nullptr};
+        return av;
     }
 
     offscreen_context_params(void)

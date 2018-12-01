@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_blend_function
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_blend_function_tests)
 
@@ -770,185 +770,198 @@ BOOST_AUTO_TEST_CASE(enum_blend_function_range) {
 
 #ifdef GL_CONSTANT_ALPHA
     {
-	--count;
-	auto r = enum_value_range<blend_function>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), blend_function(GL_CONSTANT_ALPHA))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<blend_function>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), blend_function(GL_CONSTANT_ALPHA)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_CONSTANT_COLOR
     {
-	--count;
-	auto r = enum_value_range<blend_function>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), blend_function(GL_CONSTANT_COLOR))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<blend_function>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), blend_function(GL_CONSTANT_COLOR)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_DST_ALPHA
     {
-	--count;
-	auto r = enum_value_range<blend_function>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), blend_function(GL_DST_ALPHA))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<blend_function>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), blend_function(GL_DST_ALPHA)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_DST_COLOR
     {
-	--count;
-	auto r = enum_value_range<blend_function>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), blend_function(GL_DST_COLOR))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<blend_function>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), blend_function(GL_DST_COLOR)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_ONE
     {
-	--count;
-	auto r = enum_value_range<blend_function>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), blend_function(GL_ONE)) != r.end());
+        --count;
+        auto r = enum_value_range<blend_function>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), blend_function(GL_ONE)) != r.end());
     }
 #endif
 
 #ifdef GL_ONE_MINUS_CONSTANT_ALPHA
     {
-	--count;
-	auto r = enum_value_range<blend_function>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), blend_function(GL_ONE_MINUS_CONSTANT_ALPHA))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<blend_function>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), blend_function(GL_ONE_MINUS_CONSTANT_ALPHA)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_ONE_MINUS_CONSTANT_COLOR
     {
-	--count;
-	auto r = enum_value_range<blend_function>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), blend_function(GL_ONE_MINUS_CONSTANT_COLOR))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<blend_function>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), blend_function(GL_ONE_MINUS_CONSTANT_COLOR)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_ONE_MINUS_DST_ALPHA
     {
-	--count;
-	auto r = enum_value_range<blend_function>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), blend_function(GL_ONE_MINUS_DST_ALPHA))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<blend_function>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), blend_function(GL_ONE_MINUS_DST_ALPHA)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_ONE_MINUS_DST_COLOR
     {
-	--count;
-	auto r = enum_value_range<blend_function>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), blend_function(GL_ONE_MINUS_DST_COLOR))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<blend_function>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), blend_function(GL_ONE_MINUS_DST_COLOR)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_ONE_MINUS_SRC1_ALPHA
     {
-	--count;
-	auto r = enum_value_range<blend_function>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), blend_function(GL_ONE_MINUS_SRC1_ALPHA))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<blend_function>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), blend_function(GL_ONE_MINUS_SRC1_ALPHA)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_ONE_MINUS_SRC1_COLOR
     {
-	--count;
-	auto r = enum_value_range<blend_function>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), blend_function(GL_ONE_MINUS_SRC1_COLOR))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<blend_function>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), blend_function(GL_ONE_MINUS_SRC1_COLOR)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_ONE_MINUS_SRC_ALPHA
     {
-	--count;
-	auto r = enum_value_range<blend_function>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), blend_function(GL_ONE_MINUS_SRC_ALPHA))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<blend_function>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), blend_function(GL_ONE_MINUS_SRC_ALPHA)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_ONE_MINUS_SRC_COLOR
     {
-	--count;
-	auto r = enum_value_range<blend_function>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), blend_function(GL_ONE_MINUS_SRC_COLOR))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<blend_function>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), blend_function(GL_ONE_MINUS_SRC_COLOR)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SRC1_ALPHA
     {
-	--count;
-	auto r = enum_value_range<blend_function>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), blend_function(GL_SRC1_ALPHA))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<blend_function>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), blend_function(GL_SRC1_ALPHA)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SRC1_COLOR
     {
-	--count;
-	auto r = enum_value_range<blend_function>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), blend_function(GL_SRC1_COLOR))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<blend_function>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), blend_function(GL_SRC1_COLOR)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SRC_ALPHA
     {
-	--count;
-	auto r = enum_value_range<blend_function>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), blend_function(GL_SRC_ALPHA))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<blend_function>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), blend_function(GL_SRC_ALPHA)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SRC_ALPHA_SATURATE
     {
-	--count;
-	auto r = enum_value_range<blend_function>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), blend_function(GL_SRC_ALPHA_SATURATE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<blend_function>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), blend_function(GL_SRC_ALPHA_SATURATE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SRC_COLOR
     {
-	--count;
-	auto r = enum_value_range<blend_function>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), blend_function(GL_SRC_COLOR))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<blend_function>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), blend_function(GL_SRC_COLOR)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_ZERO
     {
-	--count;
-	auto r = enum_value_range<blend_function>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), blend_function(GL_ZERO)) != r.end());
+        --count;
+        auto r = enum_value_range<blend_function>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), blend_function(GL_ZERO)) != r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

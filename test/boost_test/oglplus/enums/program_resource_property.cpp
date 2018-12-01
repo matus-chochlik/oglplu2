@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_program_resource_property
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_program_resource_property_tests)
 
@@ -1243,8 +1243,8 @@ BOOST_AUTO_TEST_CASE(enum_program_resource_property_names) {
     x = ev.atomic_counter_buffer_index;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "ATOMIC_COUNTER_BUFFER_INDEX")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "ATOMIC_COUNTER_BUFFER_INDEX") ==
+      0);
 #endif
 
 #ifdef GL_BLOCK_INDEX
@@ -1321,8 +1321,8 @@ BOOST_AUTO_TEST_CASE(enum_program_resource_property_names) {
     x = ev.num_compatible_subroutines;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "NUM_COMPATIBLE_SUBROUTINES")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "NUM_COMPATIBLE_SUBROUTINES") ==
+      0);
 #endif
 
 #ifdef GL_OFFSET
@@ -1335,48 +1335,49 @@ BOOST_AUTO_TEST_CASE(enum_program_resource_property_names) {
     x = ev.referenced_by_compute_shader;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "REFERENCED_BY_COMPUTE_SHADER")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "REFERENCED_BY_COMPUTE_SHADER") ==
+      0);
 #endif
 
 #ifdef GL_REFERENCED_BY_FRAGMENT_SHADER
     x = ev.referenced_by_fragment_shader;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "REFERENCED_BY_FRAGMENT_SHADER")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "REFERENCED_BY_FRAGMENT_SHADER") ==
+      0);
 #endif
 
 #ifdef GL_REFERENCED_BY_GEOMETRY_SHADER
     x = ev.referenced_by_geometry_shader;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "REFERENCED_BY_GEOMETRY_SHADER")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "REFERENCED_BY_GEOMETRY_SHADER") ==
+      0);
 #endif
 
 #ifdef GL_REFERENCED_BY_TESS_CONTROL_SHADER
     x = ev.referenced_by_tess_control_shader;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-    BOOST_CHECK(std::strcmp(enum_value_name(x).data(),
-		  "REFERENCED_BY_TESS_CONTROL_SHADER")
-		== 0);
+    BOOST_CHECK(
+      std::strcmp(
+        enum_value_name(x).data(), "REFERENCED_BY_TESS_CONTROL_SHADER") == 0);
 #endif
 
 #ifdef GL_REFERENCED_BY_TESS_EVALUATION_SHADER
     x = ev.referenced_by_tess_evaluation_shader;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-    BOOST_CHECK(std::strcmp(enum_value_name(x).data(),
-		  "REFERENCED_BY_TESS_EVALUATION_SHADER")
-		== 0);
+    BOOST_CHECK(
+      std::strcmp(
+        enum_value_name(x).data(), "REFERENCED_BY_TESS_EVALUATION_SHADER") ==
+      0);
 #endif
 
 #ifdef GL_REFERENCED_BY_VERTEX_SHADER
     x = ev.referenced_by_vertex_shader;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "REFERENCED_BY_VERTEX_SHADER")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "REFERENCED_BY_VERTEX_SHADER") ==
+      0);
 #endif
 
 #ifdef GL_TOP_LEVEL_ARRAY_SIZE
@@ -1397,16 +1398,16 @@ BOOST_AUTO_TEST_CASE(enum_program_resource_property_names) {
     x = ev.transform_feedback_buffer_index;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "TRANSFORM_FEEDBACK_BUFFER_INDEX")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "TRANSFORM_FEEDBACK_BUFFER_INDEX") == 0);
 #endif
 
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER_STRIDE
     x = ev.transform_feedback_buffer_stride;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "TRANSFORM_FEEDBACK_BUFFER_STRIDE")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "TRANSFORM_FEEDBACK_BUFFER_STRIDE") == 0);
 #endif
 }
 
@@ -1416,303 +1417,324 @@ BOOST_AUTO_TEST_CASE(enum_program_resource_property_range) {
 
 #ifdef GL_ACTIVE_VARIABLES
     {
-	--count;
-	auto r = enum_value_range<program_resource_property>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), program_resource_property(GL_ACTIVE_VARIABLES))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_resource_property>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_resource_property(GL_ACTIVE_VARIABLES)) != r.end());
     }
 #endif
 
 #ifdef GL_ARRAY_SIZE
     {
-	--count;
-	auto r = enum_value_range<program_resource_property>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), program_resource_property(GL_ARRAY_SIZE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_resource_property>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), program_resource_property(GL_ARRAY_SIZE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_ARRAY_STRIDE
     {
-	--count;
-	auto r = enum_value_range<program_resource_property>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), program_resource_property(GL_ARRAY_STRIDE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_resource_property>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), program_resource_property(GL_ARRAY_STRIDE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_ATOMIC_COUNTER_BUFFER_INDEX
     {
-	--count;
-	auto r = enum_value_range<program_resource_property>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      program_resource_property(GL_ATOMIC_COUNTER_BUFFER_INDEX))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<program_resource_property>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_resource_property(GL_ATOMIC_COUNTER_BUFFER_INDEX)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_BLOCK_INDEX
     {
-	--count;
-	auto r = enum_value_range<program_resource_property>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), program_resource_property(GL_BLOCK_INDEX))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_resource_property>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), program_resource_property(GL_BLOCK_INDEX)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_BUFFER_BINDING
     {
-	--count;
-	auto r = enum_value_range<program_resource_property>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), program_resource_property(GL_BUFFER_BINDING))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_resource_property>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), program_resource_property(GL_BUFFER_BINDING)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_BUFFER_DATA_SIZE
     {
-	--count;
-	auto r = enum_value_range<program_resource_property>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), program_resource_property(GL_BUFFER_DATA_SIZE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_resource_property>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_resource_property(GL_BUFFER_DATA_SIZE)) != r.end());
     }
 #endif
 
 #ifdef GL_COMPATIBLE_SUBROUTINES
     {
-	--count;
-	auto r = enum_value_range<program_resource_property>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      program_resource_property(GL_COMPATIBLE_SUBROUTINES))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<program_resource_property>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_resource_property(GL_COMPATIBLE_SUBROUTINES)) != r.end());
     }
 #endif
 
 #ifdef GL_IS_PER_PATCH
     {
-	--count;
-	auto r = enum_value_range<program_resource_property>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), program_resource_property(GL_IS_PER_PATCH))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_resource_property>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), program_resource_property(GL_IS_PER_PATCH)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_IS_ROW_MAJOR
     {
-	--count;
-	auto r = enum_value_range<program_resource_property>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), program_resource_property(GL_IS_ROW_MAJOR))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_resource_property>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), program_resource_property(GL_IS_ROW_MAJOR)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_LOCATION
     {
-	--count;
-	auto r = enum_value_range<program_resource_property>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), program_resource_property(GL_LOCATION))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_resource_property>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), program_resource_property(GL_LOCATION)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_LOCATION_COMPONENT
     {
-	--count;
-	auto r = enum_value_range<program_resource_property>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      program_resource_property(GL_LOCATION_COMPONENT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<program_resource_property>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_resource_property(GL_LOCATION_COMPONENT)) != r.end());
     }
 #endif
 
 #ifdef GL_LOCATION_INDEX
     {
-	--count;
-	auto r = enum_value_range<program_resource_property>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), program_resource_property(GL_LOCATION_INDEX))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_resource_property>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), program_resource_property(GL_LOCATION_INDEX)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_MATRIX_STRIDE
     {
-	--count;
-	auto r = enum_value_range<program_resource_property>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), program_resource_property(GL_MATRIX_STRIDE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_resource_property>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), program_resource_property(GL_MATRIX_STRIDE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_NUM_ACTIVE_VARIABLES
     {
-	--count;
-	auto r = enum_value_range<program_resource_property>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      program_resource_property(GL_NUM_ACTIVE_VARIABLES))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<program_resource_property>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_resource_property(GL_NUM_ACTIVE_VARIABLES)) != r.end());
     }
 #endif
 
 #ifdef GL_NUM_COMPATIBLE_SUBROUTINES
     {
-	--count;
-	auto r = enum_value_range<program_resource_property>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      program_resource_property(GL_NUM_COMPATIBLE_SUBROUTINES))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<program_resource_property>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_resource_property(GL_NUM_COMPATIBLE_SUBROUTINES)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_OFFSET
     {
-	--count;
-	auto r = enum_value_range<program_resource_property>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), program_resource_property(GL_OFFSET))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_resource_property>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), program_resource_property(GL_OFFSET)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_REFERENCED_BY_COMPUTE_SHADER
     {
-	--count;
-	auto r = enum_value_range<program_resource_property>();
-	BOOST_CHECK(
-	  std::find(r.begin(),
-	    r.end(),
-	    program_resource_property(GL_REFERENCED_BY_COMPUTE_SHADER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_resource_property>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_resource_property(GL_REFERENCED_BY_COMPUTE_SHADER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_REFERENCED_BY_FRAGMENT_SHADER
     {
-	--count;
-	auto r = enum_value_range<program_resource_property>();
-	BOOST_CHECK(
-	  std::find(r.begin(),
-	    r.end(),
-	    program_resource_property(GL_REFERENCED_BY_FRAGMENT_SHADER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_resource_property>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_resource_property(GL_REFERENCED_BY_FRAGMENT_SHADER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_REFERENCED_BY_GEOMETRY_SHADER
     {
-	--count;
-	auto r = enum_value_range<program_resource_property>();
-	BOOST_CHECK(
-	  std::find(r.begin(),
-	    r.end(),
-	    program_resource_property(GL_REFERENCED_BY_GEOMETRY_SHADER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_resource_property>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_resource_property(GL_REFERENCED_BY_GEOMETRY_SHADER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_REFERENCED_BY_TESS_CONTROL_SHADER
     {
-	--count;
-	auto r = enum_value_range<program_resource_property>();
-	BOOST_CHECK(
-	  std::find(r.begin(),
-	    r.end(),
-	    program_resource_property(GL_REFERENCED_BY_TESS_CONTROL_SHADER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_resource_property>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_resource_property(GL_REFERENCED_BY_TESS_CONTROL_SHADER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_REFERENCED_BY_TESS_EVALUATION_SHADER
     {
-	--count;
-	auto r = enum_value_range<program_resource_property>();
-	BOOST_CHECK(
-	  std::find(r.begin(),
-	    r.end(),
-	    program_resource_property(GL_REFERENCED_BY_TESS_EVALUATION_SHADER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_resource_property>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_resource_property(
+              GL_REFERENCED_BY_TESS_EVALUATION_SHADER)) != r.end());
     }
 #endif
 
 #ifdef GL_REFERENCED_BY_VERTEX_SHADER
     {
-	--count;
-	auto r = enum_value_range<program_resource_property>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      program_resource_property(GL_REFERENCED_BY_VERTEX_SHADER))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<program_resource_property>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_resource_property(GL_REFERENCED_BY_VERTEX_SHADER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TOP_LEVEL_ARRAY_SIZE
     {
-	--count;
-	auto r = enum_value_range<program_resource_property>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      program_resource_property(GL_TOP_LEVEL_ARRAY_SIZE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<program_resource_property>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_resource_property(GL_TOP_LEVEL_ARRAY_SIZE)) != r.end());
     }
 #endif
 
 #ifdef GL_TOP_LEVEL_ARRAY_STRIDE
     {
-	--count;
-	auto r = enum_value_range<program_resource_property>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      program_resource_property(GL_TOP_LEVEL_ARRAY_STRIDE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<program_resource_property>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_resource_property(GL_TOP_LEVEL_ARRAY_STRIDE)) != r.end());
     }
 #endif
 
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER_INDEX
     {
-	--count;
-	auto r = enum_value_range<program_resource_property>();
-	BOOST_CHECK(
-	  std::find(r.begin(),
-	    r.end(),
-	    program_resource_property(GL_TRANSFORM_FEEDBACK_BUFFER_INDEX))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_resource_property>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_resource_property(GL_TRANSFORM_FEEDBACK_BUFFER_INDEX)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER_STRIDE
     {
-	--count;
-	auto r = enum_value_range<program_resource_property>();
-	BOOST_CHECK(
-	  std::find(r.begin(),
-	    r.end(),
-	    program_resource_property(GL_TRANSFORM_FEEDBACK_BUFFER_STRIDE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_resource_property>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_resource_property(GL_TRANSFORM_FEEDBACK_BUFFER_STRIDE)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

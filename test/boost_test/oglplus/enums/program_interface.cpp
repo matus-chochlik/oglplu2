@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_program_interface
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_program_interface_tests)
 
@@ -726,8 +726,8 @@ BOOST_AUTO_TEST_CASE(enum_program_interface_names) {
     x = ev.compute_subroutine_uniform;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "COMPUTE_SUBROUTINE_UNIFORM")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "COMPUTE_SUBROUTINE_UNIFORM") ==
+      0);
 #endif
 
 #ifdef GL_FRAGMENT_SUBROUTINE
@@ -741,8 +741,8 @@ BOOST_AUTO_TEST_CASE(enum_program_interface_names) {
     x = ev.fragment_subroutine_uniform;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "FRAGMENT_SUBROUTINE_UNIFORM")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "FRAGMENT_SUBROUTINE_UNIFORM") ==
+      0);
 #endif
 
 #ifdef GL_GEOMETRY_SUBROUTINE
@@ -756,8 +756,8 @@ BOOST_AUTO_TEST_CASE(enum_program_interface_names) {
     x = ev.geometry_subroutine_uniform;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "GEOMETRY_SUBROUTINE_UNIFORM")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "GEOMETRY_SUBROUTINE_UNIFORM") ==
+      0);
 #endif
 
 #ifdef GL_PROGRAM_INPUT
@@ -790,32 +790,32 @@ BOOST_AUTO_TEST_CASE(enum_program_interface_names) {
     x = ev.tess_control_subroutine_uniform;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "TESS_CONTROL_SUBROUTINE_UNIFORM")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "TESS_CONTROL_SUBROUTINE_UNIFORM") == 0);
 #endif
 
 #ifdef GL_TESS_EVALUATION_SUBROUTINE
     x = ev.tess_evaluation_subroutine;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "TESS_EVALUATION_SUBROUTINE")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "TESS_EVALUATION_SUBROUTINE") ==
+      0);
 #endif
 
 #ifdef GL_TESS_EVALUATION_SUBROUTINE_UNIFORM
     x = ev.tess_evaluation_subroutine_uniform;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-    BOOST_CHECK(std::strcmp(enum_value_name(x).data(),
-		  "TESS_EVALUATION_SUBROUTINE_UNIFORM")
-		== 0);
+    BOOST_CHECK(
+      std::strcmp(
+        enum_value_name(x).data(), "TESS_EVALUATION_SUBROUTINE_UNIFORM") == 0);
 #endif
 
 #ifdef GL_TRANSFORM_FEEDEBACK_VARYING
     x = ev.transform_feedeback_varying;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "TRANSFORM_FEEDEBACK_VARYING")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "TRANSFORM_FEEDEBACK_VARYING") ==
+      0);
 #endif
 
 #ifdef GL_UNIFORM
@@ -851,214 +851,227 @@ BOOST_AUTO_TEST_CASE(enum_program_interface_range) {
 
 #ifdef GL_ATOMIC_COUNTER_BUFFER
     {
-	--count;
-	auto r = enum_value_range<program_interface>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), program_interface(GL_ATOMIC_COUNTER_BUFFER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_interface>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), program_interface(GL_ATOMIC_COUNTER_BUFFER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_BUFFER_VARIABLE
     {
-	--count;
-	auto r = enum_value_range<program_interface>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), program_interface(GL_BUFFER_VARIABLE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_interface>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), program_interface(GL_BUFFER_VARIABLE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_COMPUTE_SUBROUTINE
     {
-	--count;
-	auto r = enum_value_range<program_interface>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), program_interface(GL_COMPUTE_SUBROUTINE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_interface>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), program_interface(GL_COMPUTE_SUBROUTINE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_COMPUTE_SUBROUTINE_UNIFORM
     {
-	--count;
-	auto r = enum_value_range<program_interface>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      program_interface(GL_COMPUTE_SUBROUTINE_UNIFORM))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<program_interface>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_interface(GL_COMPUTE_SUBROUTINE_UNIFORM)) != r.end());
     }
 #endif
 
 #ifdef GL_FRAGMENT_SUBROUTINE
     {
-	--count;
-	auto r = enum_value_range<program_interface>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), program_interface(GL_FRAGMENT_SUBROUTINE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_interface>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), program_interface(GL_FRAGMENT_SUBROUTINE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_FRAGMENT_SUBROUTINE_UNIFORM
     {
-	--count;
-	auto r = enum_value_range<program_interface>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      program_interface(GL_FRAGMENT_SUBROUTINE_UNIFORM))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<program_interface>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_interface(GL_FRAGMENT_SUBROUTINE_UNIFORM)) != r.end());
     }
 #endif
 
 #ifdef GL_GEOMETRY_SUBROUTINE
     {
-	--count;
-	auto r = enum_value_range<program_interface>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), program_interface(GL_GEOMETRY_SUBROUTINE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_interface>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), program_interface(GL_GEOMETRY_SUBROUTINE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_GEOMETRY_SUBROUTINE_UNIFORM
     {
-	--count;
-	auto r = enum_value_range<program_interface>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      program_interface(GL_GEOMETRY_SUBROUTINE_UNIFORM))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<program_interface>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_interface(GL_GEOMETRY_SUBROUTINE_UNIFORM)) != r.end());
     }
 #endif
 
 #ifdef GL_PROGRAM_INPUT
     {
-	--count;
-	auto r = enum_value_range<program_interface>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), program_interface(GL_PROGRAM_INPUT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_interface>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), program_interface(GL_PROGRAM_INPUT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_PROGRAM_OUTPUT
     {
-	--count;
-	auto r = enum_value_range<program_interface>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), program_interface(GL_PROGRAM_OUTPUT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_interface>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), program_interface(GL_PROGRAM_OUTPUT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SHADER_STORAGE_BLOCK
     {
-	--count;
-	auto r = enum_value_range<program_interface>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), program_interface(GL_SHADER_STORAGE_BLOCK))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_interface>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), program_interface(GL_SHADER_STORAGE_BLOCK)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TESS_CONTROL_SUBROUTINE
     {
-	--count;
-	auto r = enum_value_range<program_interface>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), program_interface(GL_TESS_CONTROL_SUBROUTINE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_interface>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_interface(GL_TESS_CONTROL_SUBROUTINE)) != r.end());
     }
 #endif
 
 #ifdef GL_TESS_CONTROL_SUBROUTINE_UNIFORM
     {
-	--count;
-	auto r = enum_value_range<program_interface>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      program_interface(GL_TESS_CONTROL_SUBROUTINE_UNIFORM))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<program_interface>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_interface(GL_TESS_CONTROL_SUBROUTINE_UNIFORM)) != r.end());
     }
 #endif
 
 #ifdef GL_TESS_EVALUATION_SUBROUTINE
     {
-	--count;
-	auto r = enum_value_range<program_interface>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      program_interface(GL_TESS_EVALUATION_SUBROUTINE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<program_interface>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_interface(GL_TESS_EVALUATION_SUBROUTINE)) != r.end());
     }
 #endif
 
 #ifdef GL_TESS_EVALUATION_SUBROUTINE_UNIFORM
     {
-	--count;
-	auto r = enum_value_range<program_interface>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      program_interface(GL_TESS_EVALUATION_SUBROUTINE_UNIFORM))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<program_interface>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_interface(GL_TESS_EVALUATION_SUBROUTINE_UNIFORM)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TRANSFORM_FEEDEBACK_VARYING
     {
-	--count;
-	auto r = enum_value_range<program_interface>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      program_interface(GL_TRANSFORM_FEEDEBACK_VARYING))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<program_interface>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_interface(GL_TRANSFORM_FEEDEBACK_VARYING)) != r.end());
     }
 #endif
 
 #ifdef GL_UNIFORM
     {
-	--count;
-	auto r = enum_value_range<program_interface>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), program_interface(GL_UNIFORM))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<program_interface>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), program_interface(GL_UNIFORM)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNIFORM_BLOCK
     {
-	--count;
-	auto r = enum_value_range<program_interface>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), program_interface(GL_UNIFORM_BLOCK))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_interface>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), program_interface(GL_UNIFORM_BLOCK)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_VERTEX_SUBROUTINE
     {
-	--count;
-	auto r = enum_value_range<program_interface>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), program_interface(GL_VERTEX_SUBROUTINE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_interface>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), program_interface(GL_VERTEX_SUBROUTINE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_VERTEX_SUBROUTINE_UNIFORM
     {
-	--count;
-	auto r = enum_value_range<program_interface>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), program_interface(GL_VERTEX_SUBROUTINE_UNIFORM))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_interface>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_interface(GL_VERTEX_SUBROUTINE_UNIFORM)) != r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

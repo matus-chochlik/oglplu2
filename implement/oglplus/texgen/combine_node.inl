@@ -34,11 +34,11 @@ combine_output::type_name(void) {
 OGLPLUS_LIB_FUNC
 scalar_data_type
 combine_output::component_type(void) {
-    return elem_data_type(
-      common_data_type(common_data_type(input_r.output().value_type(),
-			 input_g.output().value_type()),
-	common_data_type(
-	  input_b.output().value_type(), input_a.output().value_type())));
+    return elem_data_type(common_data_type(
+      common_data_type(
+        input_r.output().value_type(), input_g.output().value_type()),
+      common_data_type(
+        input_b.output().value_type(), input_a.output().value_type())));
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -64,7 +64,7 @@ OGLPLUS_LIB_FUNC
 std::ostream&
 combine_output::definitions(std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt))
-	return out;
+        return out;
 
     input_defs(out, ctxt);
     opening_expr(out, ctxt);
@@ -83,20 +83,20 @@ combine_output::definitions(std::ostream& out, compile_context& ctxt) {
     span_size_t v = 0;
 
     for(const auto& ei : expr_to_inputs) {
-	out << "\t" << data_type_name(dt);
-	out << " value" << v << " = " << ei.first << ";" << std::endl;
+        out << "\t" << data_type_name(dt);
+        out << " value" << v << " = " << ei.first << ";" << std::endl;
 
-	for(span_size_t cmpn : ei.second) {
-	    component_to_expr[cmpn] = v;
-	}
-	++v;
+        for(span_size_t cmpn : ei.second) {
+            component_to_expr[cmpn] = v;
+        }
+        ++v;
     }
 
     out << "\treturn " << data_type_name(value_type()) << "(";
     for(span_size_t i = 0; i < 4; ++i) {
-	if(i > 0)
-	    out << ", ";
-	out << "value" << component_to_expr[i];
+        if(i > 0)
+            out << ", ";
+        out << "value" << component_to_expr[i];
     }
     out << ");" << std::endl;
 
@@ -113,11 +113,11 @@ OGLPLUS_LIB_FUNC
 input_intf&
 combine_node::input(span_size_t index) {
     if(index == 0)
-	return _output.input_r;
+        return _output.input_r;
     if(index == 1)
-	return _output.input_g;
+        return _output.input_g;
     if(index == 2)
-	return _output.input_b;
+        return _output.input_b;
     assert(index < input_count());
     return _output.input_a;
 }

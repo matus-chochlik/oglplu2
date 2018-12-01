@@ -30,7 +30,7 @@ public:
     }
 
     operator glsl_source_ref(void) const noexcept {
-	return glsl_source_ref(1, &_src_str, &_length);
+        return glsl_source_ref(1, &_src_str, &_length);
     }
 };
 

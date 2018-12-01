@@ -40,27 +40,27 @@ public:
     }
 
     bool can_hide(void) const noexcept {
-	return has(storage_cap_bit::hide);
+        return has(storage_cap_bit::hide);
     }
 
     bool can_copy(void) const noexcept {
-	return has(storage_cap_bit::hide);
+        return has(storage_cap_bit::hide);
     }
 
     bool can_swap(void) const noexcept {
-	return has(storage_cap_bit::hide);
+        return has(storage_cap_bit::hide);
     }
 
     bool can_remove(void) const noexcept {
-	return has(storage_cap_bit::remove);
+        return has(storage_cap_bit::remove);
     }
 
     bool can_store(void) const noexcept {
-	return has(storage_cap_bit::store);
+        return has(storage_cap_bit::store);
     }
 
     bool can_modify(void) const noexcept {
-	return has(storage_cap_bit::modify);
+        return has(storage_cap_bit::modify);
     }
 };
 

@@ -31,7 +31,8 @@ struct orbiting_y_up<matrix<T, 4, 4, RM, V>> {
     vector<T, 3, V> _x, _z, _y;
     T _r;
 
-    constexpr orbiting_y_up(const vector<T, 3, V>& t,
+    constexpr orbiting_y_up(
+      const vector<T, 3, V>& t,
       const vector<T, 3, V>& x,
       const vector<T, 3, V>& y,
       const vector<T, 3, V>& z,
@@ -43,7 +44,8 @@ struct orbiting_y_up<matrix<T, 4, 4, RM, V>> {
       , _r(r) {
     }
 
-    constexpr orbiting_y_up(const vector<T, 3, V>& t,
+    constexpr orbiting_y_up(
+      const vector<T, 3, V>& t,
       const T rs,
       const T sa,
       const T ca,
@@ -56,34 +58,36 @@ struct orbiting_y_up<matrix<T, 4, 4, RM, V>> {
       , _r(rs) {
     }
 
-    constexpr orbiting_y_up(const vector<T, 3, V>& target,
+    constexpr orbiting_y_up(
+      const vector<T, 3, V>& target,
       const T radius,
       radians_t<T> azimuth,
       radians_t<T> elevation)
-      : orbiting_y_up(target,
-	  radius,
-	  sin(azimuth),
-	  cos(azimuth),
-	  sin(elevation),
-	  cos(elevation)) {
+      : orbiting_y_up(
+          target,
+          radius,
+          sin(azimuth),
+          cos(azimuth),
+          sin(elevation),
+          cos(elevation)) {
     }
 
     constexpr inline matrix<T, 4, 4, true, V> _make(std::true_type) const
       noexcept {
-	return matrix<T, 4, 4, true, V>{
-	  {{_x[0], _x[1], _x[2], -_r * dot(_x, _z) - dot(_x, _t)},
-	    {_y[0], _y[1], _y[2], -_r * dot(_y, _z) - dot(_y, _t)},
-	    {_z[0], _z[1], _z[2], -_r * dot(_z, _z) - dot(_z, _t)},
-	    {T(0), T(0), T(0), T(1)}}};
+        return matrix<T, 4, 4, true, V>{
+          {{_x[0], _x[1], _x[2], -_r * dot(_x, _z) - dot(_x, _t)},
+           {_y[0], _y[1], _y[2], -_r * dot(_y, _z) - dot(_y, _t)},
+           {_z[0], _z[1], _z[2], -_r * dot(_z, _z) - dot(_z, _t)},
+           {T(0), T(0), T(0), T(1)}}};
     }
 
     constexpr inline matrix<T, 4, 4, false, V> _make(std::false_type) const
       noexcept {
-	return reorder(_make(std::true_type()));
+        return reorder(_make(std::true_type()));
     }
 
     constexpr inline matrix<T, 4, 4, RM, V> operator()(void) const noexcept {
-	return _make(bool_constant<RM>());
+        return _make(bool_constant<RM>());
     }
 };
 

@@ -16,7 +16,7 @@ test_int_sequence_1I(std::integer_sequence<Int, I...>) {
     const Int a[sizeof...(I)] = {I...};
 
     for(std::size_t i = 0; i < sizeof...(I); ++i) {
-	BOOST_CHECK_EQUAL(Int(i), a[i]);
+        BOOST_CHECK_EQUAL(Int(i), a[i]);
     }
 }
 
@@ -52,7 +52,7 @@ test_int_sequence_2I(std::index_sequence<I...>) {
     const std::size_t a[sizeof...(I)] = {I...};
 
     for(std::size_t i = 0; i < sizeof...(I); ++i) {
-	BOOST_CHECK_EQUAL(i, a[i]);
+        BOOST_CHECK_EQUAL(i, a[i]);
     }
 }
 

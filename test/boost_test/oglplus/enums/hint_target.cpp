@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_hint_target
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_hint_target_tests)
 
@@ -74,8 +74,8 @@ BOOST_AUTO_TEST_CASE(enum_hint_target_names) {
     x = ev.fragment_shader_derivative_hint;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "FRAGMENT_SHADER_DERIVATIVE_HINT")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "FRAGMENT_SHADER_DERIVATIVE_HINT") == 0);
 #endif
 
 #ifdef GL_LINE_SMOOTH_HINT
@@ -106,43 +106,44 @@ BOOST_AUTO_TEST_CASE(enum_hint_target_range) {
 
 #ifdef GL_FRAGMENT_SHADER_DERIVATIVE_HINT
     {
-	--count;
-	auto r = enum_value_range<hint_target>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), hint_target(GL_FRAGMENT_SHADER_DERIVATIVE_HINT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<hint_target>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            hint_target(GL_FRAGMENT_SHADER_DERIVATIVE_HINT)) != r.end());
     }
 #endif
 
 #ifdef GL_LINE_SMOOTH_HINT
     {
-	--count;
-	auto r = enum_value_range<hint_target>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), hint_target(GL_LINE_SMOOTH_HINT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<hint_target>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), hint_target(GL_LINE_SMOOTH_HINT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_POLYGON_SMOOTH_HINT
     {
-	--count;
-	auto r = enum_value_range<hint_target>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), hint_target(GL_POLYGON_SMOOTH_HINT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<hint_target>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), hint_target(GL_POLYGON_SMOOTH_HINT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_COMPRESSION_HINT
     {
-	--count;
-	auto r = enum_value_range<hint_target>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), hint_target(GL_TEXTURE_COMPRESSION_HINT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<hint_target>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), hint_target(GL_TEXTURE_COMPRESSION_HINT)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

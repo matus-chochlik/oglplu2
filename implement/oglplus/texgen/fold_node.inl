@@ -22,14 +22,14 @@ OGLPLUS_LIB_FUNC
 cstr_ref
 fold_output::type_name(void) {
     switch(_func) {
-	case fold_function::add:
-	    return cstr_ref("Add");
-	case fold_function::multiply:
-	    return cstr_ref("Multiply");
-	case fold_function::max:
-	    return cstr_ref("Max");
-	case fold_function::min:
-	    return cstr_ref("Min");
+        case fold_function::add:
+            return cstr_ref("Add");
+        case fold_function::multiply:
+            return cstr_ref("Multiply");
+        case fold_function::max:
+            return cstr_ref("Max");
+        case fold_function::min:
+            return cstr_ref("Min");
     }
     return cstr_ref("Fold");
 }
@@ -44,7 +44,7 @@ OGLPLUS_LIB_FUNC
 std::ostream&
 fold_output::definitions(std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt))
-	return out;
+        return out;
 
     input_defs(out, ctxt);
     opening_expr(out, ctxt);
@@ -59,47 +59,47 @@ fold_output::definitions(std::ostream& out, compile_context& ctxt) {
     out << ";" << std::endl;
 
     for(auto i = _inputs.begin(); i != _inputs.end(); ++i) {
-	input_with_const_default<float[4]>& input = i->second;
+        input_with_const_default<float[4]>& input = i->second;
 
-	out << "\tr = ";
-	switch(_func) {
-	    case fold_function::max:
-		out << "max(";
-		break;
-	    case fold_function::min:
-		out << "min(";
-		break;
-	    default:
-		out << "(";
-		break;
-	}
+        out << "\tr = ";
+        switch(_func) {
+            case fold_function::max:
+                out << "max(";
+                break;
+            case fold_function::min:
+                out << "min(";
+                break;
+            default:
+                out << "(";
+                break;
+        }
 
-	out << "r";
+        out << "r";
 
-	switch(_func) {
-	    case fold_function::add:
-		out << " + ";
-		break;
-	    case fold_function::multiply:
-		out << " * ";
-		break;
-	    default:
-		out << ", ";
-		break;
-	}
+        switch(_func) {
+            case fold_function::add:
+                out << " + ";
+                break;
+            case fold_function::multiply:
+                out << " * ";
+                break;
+            default:
+                out << ", ";
+                break;
+        }
 
-	out << expr::conversion_prefix{input.value_type(), pt};
-	out << expr::output_id{input.output(), ctxt};
-	out << expr::render_param_pass{input.output()};
-	out << expr::conversion_suffix{input.value_type(), pt};
+        out << expr::conversion_prefix{input.value_type(), pt};
+        out << expr::output_id{input.output(), ctxt};
+        out << expr::render_param_pass{input.output()};
+        out << expr::conversion_suffix{input.value_type(), pt};
 
-	switch(_func) {
-	    default:
-		out << ")";
-		break;
-	}
+        switch(_func) {
+            default:
+                out << ")";
+                break;
+        }
 
-	out << ";" << std::endl;
+        out << ";" << std::endl;
     }
 
     out << "\treturn r;" << std::endl;

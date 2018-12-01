@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_sl_data_type
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_sl_data_type_tests)
 
@@ -18782,8 +18782,8 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_names) {
     x = ev.image_2d_multisample_array;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "IMAGE_2D_MULTISAMPLE_ARRAY")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "IMAGE_2D_MULTISAMPLE_ARRAY") ==
+      0);
 #endif
 
 #ifdef GL_IMAGE_2D_RECT
@@ -18853,8 +18853,8 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_names) {
     x = ev.int_image_2d_multisample_array;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "INT_IMAGE_2D_MULTISAMPLE_ARRAY")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "INT_IMAGE_2D_MULTISAMPLE_ARRAY") == 0);
 #endif
 
 #ifdef GL_INT_IMAGE_2D_RECT
@@ -18913,16 +18913,16 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_names) {
     x = ev.int_sampler_2d_multisample;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "INT_SAMPLER_2D_MULTISAMPLE")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "INT_SAMPLER_2D_MULTISAMPLE") ==
+      0);
 #endif
 
 #ifdef GL_INT_SAMPLER_2D_MULTISAMPLE_ARRAY
     x = ev.int_sampler_2d_multisample_array;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "INT_SAMPLER_2D_MULTISAMPLE_ARRAY")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "INT_SAMPLER_2D_MULTISAMPLE_ARRAY") == 0);
 #endif
 
 #ifdef GL_INT_SAMPLER_2D_RECT
@@ -18956,8 +18956,8 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_names) {
     x = ev.int_sampler_cube_map_array;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "INT_SAMPLER_CUBE_MAP_ARRAY")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "INT_SAMPLER_CUBE_MAP_ARRAY") ==
+      0);
 #endif
 
 #ifdef GL_INT_VEC2
@@ -19042,8 +19042,8 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_names) {
     x = ev.sampler_2d_multisample_array;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "SAMPLER_2D_MULTISAMPLE_ARRAY")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "SAMPLER_2D_MULTISAMPLE_ARRAY") ==
+      0);
 #endif
 
 #ifdef GL_SAMPLER_2D_RECT
@@ -19095,8 +19095,8 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_names) {
     x = ev.sampler_cube_map_array_shadow;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "SAMPLER_CUBE_MAP_ARRAY_SHADOW")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "SAMPLER_CUBE_MAP_ARRAY_SHADOW") ==
+      0);
 #endif
 
 #ifdef GL_SAMPLER_CUBE_SHADOW
@@ -19116,8 +19116,8 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_names) {
     x = ev.unsigned_int_atomic_counter;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "UNSIGNED_INT_ATOMIC_COUNTER")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "UNSIGNED_INT_ATOMIC_COUNTER") ==
+      0);
 #endif
 
 #ifdef GL_UNSIGNED_INT_IMAGE_1D
@@ -19131,8 +19131,8 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_names) {
     x = ev.unsigned_int_image_1d_array;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "UNSIGNED_INT_IMAGE_1D_ARRAY")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "UNSIGNED_INT_IMAGE_1D_ARRAY") ==
+      0);
 #endif
 
 #ifdef GL_UNSIGNED_INT_IMAGE_2D
@@ -19146,32 +19146,33 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_names) {
     x = ev.unsigned_int_image_2d_array;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "UNSIGNED_INT_IMAGE_2D_ARRAY")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "UNSIGNED_INT_IMAGE_2D_ARRAY") ==
+      0);
 #endif
 
 #ifdef GL_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE
     x = ev.unsigned_int_image_2d_multisample;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-    BOOST_CHECK(std::strcmp(enum_value_name(x).data(),
-		  "UNSIGNED_INT_IMAGE_2D_MULTISAMPLE")
-		== 0);
+    BOOST_CHECK(
+      std::strcmp(
+        enum_value_name(x).data(), "UNSIGNED_INT_IMAGE_2D_MULTISAMPLE") == 0);
 #endif
 
 #ifdef GL_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE_ARRAY
     x = ev.unsigned_int_image_2d_multisample_array;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-    BOOST_CHECK(std::strcmp(enum_value_name(x).data(),
-		  "UNSIGNED_INT_IMAGE_2D_MULTISAMPLE_ARRAY")
-		== 0);
+    BOOST_CHECK(
+      std::strcmp(
+        enum_value_name(x).data(), "UNSIGNED_INT_IMAGE_2D_MULTISAMPLE_ARRAY") ==
+      0);
 #endif
 
 #ifdef GL_UNSIGNED_INT_IMAGE_2D_RECT
     x = ev.unsigned_int_image_2d_rect;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "UNSIGNED_INT_IMAGE_2D_RECT")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "UNSIGNED_INT_IMAGE_2D_RECT") ==
+      0);
 #endif
 
 #ifdef GL_UNSIGNED_INT_IMAGE_3D
@@ -19206,8 +19207,8 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_names) {
     x = ev.unsigned_int_sampler_1d_array;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "UNSIGNED_INT_SAMPLER_1D_ARRAY")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "UNSIGNED_INT_SAMPLER_1D_ARRAY") ==
+      0);
 #endif
 
 #ifdef GL_UNSIGNED_INT_SAMPLER_2D
@@ -19221,32 +19222,33 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_names) {
     x = ev.unsigned_int_sampler_2d_array;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "UNSIGNED_INT_SAMPLER_2D_ARRAY")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "UNSIGNED_INT_SAMPLER_2D_ARRAY") ==
+      0);
 #endif
 
 #ifdef GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE
     x = ev.unsigned_int_sampler_2d_multisample;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-    BOOST_CHECK(std::strcmp(enum_value_name(x).data(),
-		  "UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE")
-		== 0);
+    BOOST_CHECK(
+      std::strcmp(
+        enum_value_name(x).data(), "UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE") == 0);
 #endif
 
 #ifdef GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE_ARRAY
     x = ev.unsigned_int_sampler_2d_multisample_array;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-    BOOST_CHECK(std::strcmp(enum_value_name(x).data(),
-		  "UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE_ARRAY")
-		== 0);
+    BOOST_CHECK(
+      std::strcmp(
+        enum_value_name(x).data(),
+        "UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE_ARRAY") == 0);
 #endif
 
 #ifdef GL_UNSIGNED_INT_SAMPLER_2D_RECT
     x = ev.unsigned_int_sampler_2d_rect;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "UNSIGNED_INT_SAMPLER_2D_RECT")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "UNSIGNED_INT_SAMPLER_2D_RECT") ==
+      0);
 #endif
 
 #ifdef GL_UNSIGNED_INT_SAMPLER_3D
@@ -19260,8 +19262,8 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_names) {
     x = ev.unsigned_int_sampler_buffer;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "UNSIGNED_INT_SAMPLER_BUFFER")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "UNSIGNED_INT_SAMPLER_BUFFER") ==
+      0);
 #endif
 
 #ifdef GL_UNSIGNED_INT_SAMPLER_CUBE
@@ -19274,9 +19276,9 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_names) {
 #ifdef GL_UNSIGNED_INT_SAMPLER_CUBE_MAP_ARRAY
     x = ev.unsigned_int_sampler_cube_map_array;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-    BOOST_CHECK(std::strcmp(enum_value_name(x).data(),
-		  "UNSIGNED_INT_SAMPLER_CUBE_MAP_ARRAY")
-		== 0);
+    BOOST_CHECK(
+      std::strcmp(
+        enum_value_name(x).data(), "UNSIGNED_INT_SAMPLER_CUBE_MAP_ARRAY") == 0);
 #endif
 
 #ifdef GL_UNSIGNED_INT_VEC2
@@ -19307,1089 +19309,1139 @@ BOOST_AUTO_TEST_CASE(enum_sl_data_type_range) {
 
 #ifdef GL_BOOL
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_BOOL)) != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_BOOL)) != r.end());
     }
 #endif
 
 #ifdef GL_BOOL_VEC2
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_BOOL_VEC2)) != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_BOOL_VEC2)) != r.end());
     }
 #endif
 
 #ifdef GL_BOOL_VEC3
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_BOOL_VEC3)) != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_BOOL_VEC3)) != r.end());
     }
 #endif
 
 #ifdef GL_BOOL_VEC4
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_BOOL_VEC4)) != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_BOOL_VEC4)) != r.end());
     }
 #endif
 
 #ifdef GL_DOUBLE
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_DOUBLE)) != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_DOUBLE)) != r.end());
     }
 #endif
 
 #ifdef GL_DOUBLE_MAT2
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), sl_data_type(GL_DOUBLE_MAT2))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_DOUBLE_MAT2)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_DOUBLE_MAT2x3
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_DOUBLE_MAT2x3))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_DOUBLE_MAT2x3)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_DOUBLE_MAT2x4
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_DOUBLE_MAT2x4))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_DOUBLE_MAT2x4)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_DOUBLE_MAT3
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), sl_data_type(GL_DOUBLE_MAT3))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_DOUBLE_MAT3)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_DOUBLE_MAT3x2
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_DOUBLE_MAT3x2))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_DOUBLE_MAT3x2)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_DOUBLE_MAT3x4
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_DOUBLE_MAT3x4))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_DOUBLE_MAT3x4)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_DOUBLE_MAT4
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), sl_data_type(GL_DOUBLE_MAT4))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_DOUBLE_MAT4)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_DOUBLE_MAT4x2
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_DOUBLE_MAT4x2))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_DOUBLE_MAT4x2)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_DOUBLE_MAT4x3
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_DOUBLE_MAT4x3))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_DOUBLE_MAT4x3)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_DOUBLE_VEC2
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), sl_data_type(GL_DOUBLE_VEC2))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_DOUBLE_VEC2)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_DOUBLE_VEC3
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), sl_data_type(GL_DOUBLE_VEC3))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_DOUBLE_VEC3)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_DOUBLE_VEC4
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), sl_data_type(GL_DOUBLE_VEC4))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_DOUBLE_VEC4)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_FLOAT
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_FLOAT)) != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_FLOAT)) != r.end());
     }
 #endif
 
 #ifdef GL_FLOAT_MAT2
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), sl_data_type(GL_FLOAT_MAT2))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_FLOAT_MAT2)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_FLOAT_MAT2x3
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), sl_data_type(GL_FLOAT_MAT2x3))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_FLOAT_MAT2x3)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_FLOAT_MAT2x4
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), sl_data_type(GL_FLOAT_MAT2x4))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_FLOAT_MAT2x4)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_FLOAT_MAT3
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), sl_data_type(GL_FLOAT_MAT3))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_FLOAT_MAT3)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_FLOAT_MAT3x2
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), sl_data_type(GL_FLOAT_MAT3x2))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_FLOAT_MAT3x2)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_FLOAT_MAT3x4
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), sl_data_type(GL_FLOAT_MAT3x4))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_FLOAT_MAT3x4)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_FLOAT_MAT4
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), sl_data_type(GL_FLOAT_MAT4))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_FLOAT_MAT4)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_FLOAT_MAT4x2
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), sl_data_type(GL_FLOAT_MAT4x2))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_FLOAT_MAT4x2)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_FLOAT_MAT4x3
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), sl_data_type(GL_FLOAT_MAT4x3))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_FLOAT_MAT4x3)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_FLOAT_VEC2
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), sl_data_type(GL_FLOAT_VEC2))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_FLOAT_VEC2)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_FLOAT_VEC3
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), sl_data_type(GL_FLOAT_VEC3))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_FLOAT_VEC3)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_FLOAT_VEC4
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), sl_data_type(GL_FLOAT_VEC4))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_FLOAT_VEC4)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_IMAGE_1D
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_IMAGE_1D)) != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_IMAGE_1D)) != r.end());
     }
 #endif
 
 #ifdef GL_IMAGE_1D_ARRAY
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_IMAGE_1D_ARRAY))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_IMAGE_1D_ARRAY)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_IMAGE_2D
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_IMAGE_2D)) != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_IMAGE_2D)) != r.end());
     }
 #endif
 
 #ifdef GL_IMAGE_2D_ARRAY
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_IMAGE_2D_ARRAY))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_IMAGE_2D_ARRAY)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_IMAGE_2D_MULTISAMPLE
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_IMAGE_2D_MULTISAMPLE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), sl_data_type(GL_IMAGE_2D_MULTISAMPLE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_IMAGE_2D_MULTISAMPLE_ARRAY
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), sl_data_type(GL_IMAGE_2D_MULTISAMPLE_ARRAY))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), sl_data_type(GL_IMAGE_2D_MULTISAMPLE_ARRAY)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_IMAGE_2D_RECT
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_IMAGE_2D_RECT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_IMAGE_2D_RECT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_IMAGE_3D
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_IMAGE_3D)) != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_IMAGE_3D)) != r.end());
     }
 #endif
 
 #ifdef GL_IMAGE_BUFFER
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), sl_data_type(GL_IMAGE_BUFFER))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_IMAGE_BUFFER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_IMAGE_CUBE
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), sl_data_type(GL_IMAGE_CUBE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_IMAGE_CUBE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INT
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_INT)) != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_INT)) != r.end());
     }
 #endif
 
 #ifdef GL_INT_IMAGE_1D
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), sl_data_type(GL_INT_IMAGE_1D))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_INT_IMAGE_1D)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INT_IMAGE_1D_ARRAY
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_INT_IMAGE_1D_ARRAY))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_INT_IMAGE_1D_ARRAY)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INT_IMAGE_2D
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), sl_data_type(GL_INT_IMAGE_2D))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_INT_IMAGE_2D)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INT_IMAGE_2D_ARRAY
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_INT_IMAGE_2D_ARRAY))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_INT_IMAGE_2D_ARRAY)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INT_IMAGE_2D_MULTISAMPLE
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), sl_data_type(GL_INT_IMAGE_2D_MULTISAMPLE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), sl_data_type(GL_INT_IMAGE_2D_MULTISAMPLE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INT_IMAGE_2D_MULTISAMPLE_ARRAY
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), sl_data_type(GL_INT_IMAGE_2D_MULTISAMPLE_ARRAY))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            sl_data_type(GL_INT_IMAGE_2D_MULTISAMPLE_ARRAY)) != r.end());
     }
 #endif
 
 #ifdef GL_INT_IMAGE_2D_RECT
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_INT_IMAGE_2D_RECT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_INT_IMAGE_2D_RECT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INT_IMAGE_3D
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), sl_data_type(GL_INT_IMAGE_3D))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_INT_IMAGE_3D)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INT_IMAGE_BUFFER
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_INT_IMAGE_BUFFER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_INT_IMAGE_BUFFER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INT_IMAGE_CUBE
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_INT_IMAGE_CUBE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_INT_IMAGE_CUBE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INT_SAMPLER_1D
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_INT_SAMPLER_1D))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_INT_SAMPLER_1D)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INT_SAMPLER_1D_ARRAY
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_INT_SAMPLER_1D_ARRAY))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), sl_data_type(GL_INT_SAMPLER_1D_ARRAY)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INT_SAMPLER_2D
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_INT_SAMPLER_2D))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_INT_SAMPLER_2D)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INT_SAMPLER_2D_ARRAY
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_INT_SAMPLER_2D_ARRAY))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), sl_data_type(GL_INT_SAMPLER_2D_ARRAY)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INT_SAMPLER_2D_MULTISAMPLE
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), sl_data_type(GL_INT_SAMPLER_2D_MULTISAMPLE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), sl_data_type(GL_INT_SAMPLER_2D_MULTISAMPLE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INT_SAMPLER_2D_MULTISAMPLE_ARRAY
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      sl_data_type(GL_INT_SAMPLER_2D_MULTISAMPLE_ARRAY))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            sl_data_type(GL_INT_SAMPLER_2D_MULTISAMPLE_ARRAY)) != r.end());
     }
 #endif
 
 #ifdef GL_INT_SAMPLER_2D_RECT
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_INT_SAMPLER_2D_RECT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_INT_SAMPLER_2D_RECT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INT_SAMPLER_3D
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_INT_SAMPLER_3D))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_INT_SAMPLER_3D)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INT_SAMPLER_BUFFER
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_INT_SAMPLER_BUFFER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_INT_SAMPLER_BUFFER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INT_SAMPLER_CUBE
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_INT_SAMPLER_CUBE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_INT_SAMPLER_CUBE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INT_SAMPLER_CUBE_MAP_ARRAY
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), sl_data_type(GL_INT_SAMPLER_CUBE_MAP_ARRAY))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), sl_data_type(GL_INT_SAMPLER_CUBE_MAP_ARRAY)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INT_VEC2
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_INT_VEC2)) != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_INT_VEC2)) != r.end());
     }
 #endif
 
 #ifdef GL_INT_VEC3
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_INT_VEC3)) != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_INT_VEC3)) != r.end());
     }
 #endif
 
 #ifdef GL_INT_VEC4
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_INT_VEC4)) != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_INT_VEC4)) != r.end());
     }
 #endif
 
 #ifdef GL_NONE
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_NONE)) != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_NONE)) != r.end());
     }
 #endif
 
 #ifdef GL_SAMPLER_1D
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), sl_data_type(GL_SAMPLER_1D))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_SAMPLER_1D)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SAMPLER_1D_ARRAY
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_SAMPLER_1D_ARRAY))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_SAMPLER_1D_ARRAY)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SAMPLER_1D_ARRAY_SHADOW
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), sl_data_type(GL_SAMPLER_1D_ARRAY_SHADOW))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), sl_data_type(GL_SAMPLER_1D_ARRAY_SHADOW)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SAMPLER_1D_SHADOW
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_SAMPLER_1D_SHADOW))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_SAMPLER_1D_SHADOW)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SAMPLER_2D
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), sl_data_type(GL_SAMPLER_2D))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_SAMPLER_2D)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SAMPLER_2D_ARRAY
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_SAMPLER_2D_ARRAY))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_SAMPLER_2D_ARRAY)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SAMPLER_2D_ARRAY_SHADOW
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), sl_data_type(GL_SAMPLER_2D_ARRAY_SHADOW))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), sl_data_type(GL_SAMPLER_2D_ARRAY_SHADOW)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SAMPLER_2D_MULTISAMPLE
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_SAMPLER_2D_MULTISAMPLE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), sl_data_type(GL_SAMPLER_2D_MULTISAMPLE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SAMPLER_2D_MULTISAMPLE_ARRAY
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), sl_data_type(GL_SAMPLER_2D_MULTISAMPLE_ARRAY))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            sl_data_type(GL_SAMPLER_2D_MULTISAMPLE_ARRAY)) != r.end());
     }
 #endif
 
 #ifdef GL_SAMPLER_2D_RECT
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_SAMPLER_2D_RECT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_SAMPLER_2D_RECT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SAMPLER_2D_RECT_SHADOW
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_SAMPLER_2D_RECT_SHADOW))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), sl_data_type(GL_SAMPLER_2D_RECT_SHADOW)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SAMPLER_2D_SHADOW
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_SAMPLER_2D_SHADOW))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_SAMPLER_2D_SHADOW)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SAMPLER_3D
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), sl_data_type(GL_SAMPLER_3D))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_SAMPLER_3D)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SAMPLER_BUFFER
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_SAMPLER_BUFFER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_SAMPLER_BUFFER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SAMPLER_CUBE
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), sl_data_type(GL_SAMPLER_CUBE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_SAMPLER_CUBE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SAMPLER_CUBE_MAP_ARRAY
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_SAMPLER_CUBE_MAP_ARRAY))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), sl_data_type(GL_SAMPLER_CUBE_MAP_ARRAY)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SAMPLER_CUBE_MAP_ARRAY_SHADOW
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), sl_data_type(GL_SAMPLER_CUBE_MAP_ARRAY_SHADOW))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            sl_data_type(GL_SAMPLER_CUBE_MAP_ARRAY_SHADOW)) != r.end());
     }
 #endif
 
 #ifdef GL_SAMPLER_CUBE_SHADOW
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_SAMPLER_CUBE_SHADOW))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_SAMPLER_CUBE_SHADOW)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_INT
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), sl_data_type(GL_UNSIGNED_INT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_UNSIGNED_INT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_INT_ATOMIC_COUNTER
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), sl_data_type(GL_UNSIGNED_INT_ATOMIC_COUNTER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), sl_data_type(GL_UNSIGNED_INT_ATOMIC_COUNTER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_INT_IMAGE_1D
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_UNSIGNED_INT_IMAGE_1D))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), sl_data_type(GL_UNSIGNED_INT_IMAGE_1D)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_INT_IMAGE_1D_ARRAY
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), sl_data_type(GL_UNSIGNED_INT_IMAGE_1D_ARRAY))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), sl_data_type(GL_UNSIGNED_INT_IMAGE_1D_ARRAY)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_INT_IMAGE_2D
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_UNSIGNED_INT_IMAGE_2D))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), sl_data_type(GL_UNSIGNED_INT_IMAGE_2D)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_INT_IMAGE_2D_ARRAY
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), sl_data_type(GL_UNSIGNED_INT_IMAGE_2D_ARRAY))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), sl_data_type(GL_UNSIGNED_INT_IMAGE_2D_ARRAY)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      sl_data_type(GL_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            sl_data_type(GL_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE)) != r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE_ARRAY
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      sl_data_type(GL_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE_ARRAY))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            sl_data_type(GL_UNSIGNED_INT_IMAGE_2D_MULTISAMPLE_ARRAY)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_INT_IMAGE_2D_RECT
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), sl_data_type(GL_UNSIGNED_INT_IMAGE_2D_RECT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), sl_data_type(GL_UNSIGNED_INT_IMAGE_2D_RECT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_INT_IMAGE_3D
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_UNSIGNED_INT_IMAGE_3D))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), sl_data_type(GL_UNSIGNED_INT_IMAGE_3D)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_INT_IMAGE_BUFFER
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), sl_data_type(GL_UNSIGNED_INT_IMAGE_BUFFER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), sl_data_type(GL_UNSIGNED_INT_IMAGE_BUFFER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_INT_IMAGE_CUBE
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), sl_data_type(GL_UNSIGNED_INT_IMAGE_CUBE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), sl_data_type(GL_UNSIGNED_INT_IMAGE_CUBE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_INT_SAMPLER_1D
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), sl_data_type(GL_UNSIGNED_INT_SAMPLER_1D))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), sl_data_type(GL_UNSIGNED_INT_SAMPLER_1D)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_INT_SAMPLER_1D_ARRAY
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), sl_data_type(GL_UNSIGNED_INT_SAMPLER_1D_ARRAY))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            sl_data_type(GL_UNSIGNED_INT_SAMPLER_1D_ARRAY)) != r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_INT_SAMPLER_2D
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), sl_data_type(GL_UNSIGNED_INT_SAMPLER_2D))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), sl_data_type(GL_UNSIGNED_INT_SAMPLER_2D)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_INT_SAMPLER_2D_ARRAY
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), sl_data_type(GL_UNSIGNED_INT_SAMPLER_2D_ARRAY))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            sl_data_type(GL_UNSIGNED_INT_SAMPLER_2D_ARRAY)) != r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      sl_data_type(GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            sl_data_type(GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE)) != r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE_ARRAY
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(),
-	    r.end(),
-	    sl_data_type(GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE_ARRAY))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            sl_data_type(GL_UNSIGNED_INT_SAMPLER_2D_MULTISAMPLE_ARRAY)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_INT_SAMPLER_2D_RECT
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), sl_data_type(GL_UNSIGNED_INT_SAMPLER_2D_RECT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            sl_data_type(GL_UNSIGNED_INT_SAMPLER_2D_RECT)) != r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_INT_SAMPLER_3D
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), sl_data_type(GL_UNSIGNED_INT_SAMPLER_3D))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), sl_data_type(GL_UNSIGNED_INT_SAMPLER_3D)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_INT_SAMPLER_BUFFER
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), sl_data_type(GL_UNSIGNED_INT_SAMPLER_BUFFER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), sl_data_type(GL_UNSIGNED_INT_SAMPLER_BUFFER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_INT_SAMPLER_CUBE
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), sl_data_type(GL_UNSIGNED_INT_SAMPLER_CUBE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), sl_data_type(GL_UNSIGNED_INT_SAMPLER_CUBE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_INT_SAMPLER_CUBE_MAP_ARRAY
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      sl_data_type(GL_UNSIGNED_INT_SAMPLER_CUBE_MAP_ARRAY))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            sl_data_type(GL_UNSIGNED_INT_SAMPLER_CUBE_MAP_ARRAY)) != r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_INT_VEC2
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_UNSIGNED_INT_VEC2))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_UNSIGNED_INT_VEC2)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_INT_VEC3
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_UNSIGNED_INT_VEC3))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_UNSIGNED_INT_VEC3)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_INT_VEC4
     {
-	--count;
-	auto r = enum_value_range<sl_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sl_data_type(GL_UNSIGNED_INT_VEC4))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sl_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sl_data_type(GL_UNSIGNED_INT_VEC4)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

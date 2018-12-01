@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_transform_feedback_target
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_transform_feedback_target_tests)
 
@@ -51,12 +51,13 @@ BOOST_AUTO_TEST_CASE(enum_transform_feedback_target_range) {
 
 #ifdef GL_TRANSFORM_FEEDBACK
     {
-	--count;
-	auto r = enum_value_range<transform_feedback_target>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      transform_feedback_target(GL_TRANSFORM_FEEDBACK))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<transform_feedback_target>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            transform_feedback_target(GL_TRANSFORM_FEEDBACK)) != r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

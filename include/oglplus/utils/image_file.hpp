@@ -10,10 +10,10 @@
 #ifndef OGLPLUS_UTILS_IMAGE_FILE_1509260923_HPP
 #define OGLPLUS_UTILS_IMAGE_FILE_1509260923_HPP
 
+#include <eagine/file_contents.hpp>
 #include "cstr_ref.hpp"
 #include "image_file_hdr.hpp"
 #include "image_spec.hpp"
-#include <eagine/file_contents.hpp>
 
 namespace oglplus {
 
@@ -35,40 +35,42 @@ public:
     }
 
     bool is_valid(void) const noexcept {
-	return _header->magic.is_valid();
+        return _header->magic.is_valid();
     }
 
     image_dimensions dimensions(void) const noexcept {
-	return image_dimensions(
-	  _header->width, _header->height, _header->depth);
+        return image_dimensions(
+          _header->width, _header->height, _header->depth);
     }
 
     image_pixel_format pixel_format(void) const noexcept {
-	return image_pixel_format(pixel_data_format(_header->format),
-	  pixel_data_internal_format(_header->internal_format));
+        return image_pixel_format(
+          pixel_data_format(_header->format),
+          pixel_data_internal_format(_header->internal_format));
     }
 
     image_pixel_format pixel_format(pixel_data_internal_format ifmt) const
       noexcept {
-	return image_pixel_format(pixel_data_format(_header->format), ifmt);
+        return image_pixel_format(pixel_data_format(_header->format), ifmt);
     }
 
     image_pixel_data pixel_data(void) const noexcept {
-	return image_pixel_data(pixel_data_type(_header->data_type),
-	  eagine::memory::data_block_of(_header->pixels),
-	  sizeof(GLubyte));
+        return image_pixel_data(
+          pixel_data_type(_header->data_type),
+          eagine::memory::data_block_of(_header->pixels),
+          sizeof(GLubyte));
     }
 
     inline image_spec spec(void) const noexcept {
-	return image_spec(dimensions(), pixel_format(), pixel_data());
+        return image_spec(dimensions(), pixel_format(), pixel_data());
     }
 
     inline image_spec spec(pixel_data_internal_format ifmt) const noexcept {
-	return image_spec(dimensions(), pixel_format(ifmt), pixel_data());
+        return image_spec(dimensions(), pixel_format(ifmt), pixel_data());
     }
 
     inline operator image_spec(void) const noexcept {
-	return spec();
+        return spec();
     }
 };
 

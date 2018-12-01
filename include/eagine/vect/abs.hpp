@@ -9,8 +9,8 @@
 #ifndef EAGINE_VECT_ABS_1509260923_HPP
 #define EAGINE_VECT_ABS_1509260923_HPP
 
-#include "data.hpp"
 #include <cmath>
+#include "data.hpp"
 
 namespace eagine {
 namespace vect {
@@ -20,10 +20,10 @@ struct abs {
     // TODO: SIMD version?
 
     static data_t<T, N, V> apply(data_t<T, N, V> v) noexcept {
-	for(int i = 0; i < N; ++i) {
-	    v[i] = v[i] < 0 ? -v[i] : v[i];
-	}
-	return v;
+        for(int i = 0; i < N; ++i) {
+            v[i] = v[i] < 0 ? -v[i] : v[i];
+        }
+        return v;
     }
 };
 

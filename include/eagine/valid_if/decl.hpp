@@ -80,7 +80,8 @@ public:
     }
 
     template <typename Func>
-    std::enable_if_t<!std::is_same_v<std::result_of_t<Func(T)>, void>,
+    std::enable_if_t<
+      !std::is_same_v<std::result_of_t<Func(T)>, void>,
       valid_if<std::result_of_t<Func(T)>, valid_flag_policy>>
     then(const Func& func) const {
         if(is_valid()) {
@@ -135,42 +136,42 @@ template <typename T, typename P1, typename P2>
 static constexpr inline tribool
 operator==(const valid_if<T, P1>& v1, const valid_if<T, P2>& v2) {
     return {(v1.value_anyway() == v2.value_anyway()),
-      (!v1.is_valid() || !v2.is_valid())};
+            (!v1.is_valid() || !v2.is_valid())};
 }
 
 template <typename T, typename P1, typename P2>
 static constexpr inline tribool
 operator!=(const valid_if<T, P1>& v1, const valid_if<T, P2>& v2) {
     return {(v1.value_anyway() != v2.value_anyway()),
-      (!v1.is_valid() || !v2.is_valid())};
+            (!v1.is_valid() || !v2.is_valid())};
 }
 
 template <typename T, typename P1, typename P2>
 static constexpr inline tribool
 operator<(const valid_if<T, P1>& v1, const valid_if<T, P2>& v2) {
     return {(v1.value_anyway() < v2.value_anyway()),
-      (!v1.is_valid() || !v2.is_valid())};
+            (!v1.is_valid() || !v2.is_valid())};
 }
 
 template <typename T, typename P1, typename P2>
 static constexpr inline tribool
 operator>(const valid_if<T, P1>& v1, const valid_if<T, P2>& v2) {
     return {(v1.value_anyway() > v2.value_anyway()),
-      (!v1.is_valid() || !v2.is_valid())};
+            (!v1.is_valid() || !v2.is_valid())};
 }
 
 template <typename T, typename P1, typename P2>
 static constexpr inline tribool
 operator<=(const valid_if<T, P1>& v1, const valid_if<T, P2>& v2) {
     return {(v1.value_anyway() <= v2.value_anyway()),
-      (!v1.is_valid() || !v2.is_valid())};
+            (!v1.is_valid() || !v2.is_valid())};
 }
 
 template <typename T, typename P1, typename P2>
 static constexpr inline tribool
 operator>=(const valid_if<T, P1>& v1, const valid_if<T, P2>& v2) {
     return {(v1.value_anyway() >= v2.value_anyway()),
-      (!v1.is_valid() || !v2.is_valid())};
+            (!v1.is_valid() || !v2.is_valid())};
 }
 
 template <typename T>

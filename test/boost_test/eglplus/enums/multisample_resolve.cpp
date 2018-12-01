@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE EGLPLUS_multisample_resolve
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_multisample_resolve_tests)
 
@@ -56,8 +56,8 @@ BOOST_AUTO_TEST_CASE(enum_multisample_resolve_names) {
     x = ev.multisample_resolve_default;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "MULTISAMPLE_RESOLVE_DEFAULT")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "MULTISAMPLE_RESOLVE_DEFAULT") ==
+      0);
 #endif
 }
 
@@ -67,23 +67,25 @@ BOOST_AUTO_TEST_CASE(enum_multisample_resolve_range) {
 
 #ifdef EGL_MULTISAMPLE_RESOLVE_BOX
     {
-	--count;
-	auto r = enum_value_range<multisample_resolve>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      multisample_resolve(EGL_MULTISAMPLE_RESOLVE_BOX))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<multisample_resolve>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            multisample_resolve(EGL_MULTISAMPLE_RESOLVE_BOX)) != r.end());
     }
 #endif
 
 #ifdef EGL_MULTISAMPLE_RESOLVE_DEFAULT
     {
-	--count;
-	auto r = enum_value_range<multisample_resolve>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      multisample_resolve(EGL_MULTISAMPLE_RESOLVE_DEFAULT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<multisample_resolve>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            multisample_resolve(EGL_MULTISAMPLE_RESOLVE_DEFAULT)) != r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

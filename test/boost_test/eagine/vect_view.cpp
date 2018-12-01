@@ -18,15 +18,15 @@ test_vect_view_TNV(void) {
     typename eagine::vect::data<T, N, V>::type v = {};
 
     for(int i = 0; i < N; ++i) {
-	T n = rg.get<T>(-5000, 5000);
-	v[i] = n;
+        T n = rg.get<T>(-5000, 5000);
+        v[i] = n;
     }
 
     auto vv = eagine::vect::view<T, N, V>::apply(v);
     eagine::span<const T> av = vv;
 
     for(int i = 0; i < N; ++i) {
-	BOOST_CHECK_EQUAL(av[i], v[i]);
+        BOOST_CHECK_EQUAL(av[i], v[i]);
     }
 }
 

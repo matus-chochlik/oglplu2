@@ -133,7 +133,8 @@ constexpr const enum_value<EGLenum, mp_list<eglplus::config_attrib>>
 #endif
 
 #ifdef EGL_CONFIG_ID
-constexpr const enum_value<EGLenum,
+constexpr const enum_value<
+  EGLenum,
   mp_list<eglplus::config_attrib, eglplus::surface_attrib>>
   enum_values::config_id;
 #endif
@@ -339,7 +340,8 @@ constexpr const enum_value<EGLenum, mp_list<eglplus::opengl_rns>>
 #endif
 
 #ifdef EGL_NO_TEXTURE
-constexpr const enum_value<EGLenum,
+constexpr const enum_value<
+  EGLenum,
   mp_list<eglplus::texture_target, eglplus::texture_format>>
   enum_values::no_texture;
 #endif
@@ -350,8 +352,10 @@ constexpr const enum_value<EGLenum, mp_list<eglplus::config_caveat>>
 #endif
 
 #ifdef EGL_NONE
-constexpr const enum_value<EGLenum,
-  mp_list<eglplus::rendering_api,
+constexpr const enum_value<
+  EGLenum,
+  mp_list<
+    eglplus::rendering_api,
     eglplus::config_caveat,
     eglplus::transparent_type>>
   enum_values::none;

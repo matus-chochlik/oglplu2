@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_texture_swizzle_coord
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_texture_swizzle_coord_tests)
 
@@ -129,56 +129,57 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_coord_range) {
 
 #ifdef GL_TEXTURE_SWIZZLE_A
     {
-	--count;
-	auto r = enum_value_range<texture_swizzle_coord>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), texture_swizzle_coord(GL_TEXTURE_SWIZZLE_A))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_swizzle_coord>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), texture_swizzle_coord(GL_TEXTURE_SWIZZLE_A)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_SWIZZLE_B
     {
-	--count;
-	auto r = enum_value_range<texture_swizzle_coord>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), texture_swizzle_coord(GL_TEXTURE_SWIZZLE_B))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_swizzle_coord>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), texture_swizzle_coord(GL_TEXTURE_SWIZZLE_B)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_SWIZZLE_G
     {
-	--count;
-	auto r = enum_value_range<texture_swizzle_coord>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), texture_swizzle_coord(GL_TEXTURE_SWIZZLE_G))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_swizzle_coord>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), texture_swizzle_coord(GL_TEXTURE_SWIZZLE_G)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_SWIZZLE_R
     {
-	--count;
-	auto r = enum_value_range<texture_swizzle_coord>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), texture_swizzle_coord(GL_TEXTURE_SWIZZLE_R))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_swizzle_coord>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), texture_swizzle_coord(GL_TEXTURE_SWIZZLE_R)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_SWIZZLE_RGBA
     {
-	--count;
-	auto r = enum_value_range<texture_swizzle_coord>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), texture_swizzle_coord(GL_TEXTURE_SWIZZLE_RGBA))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_swizzle_coord>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            texture_swizzle_coord(GL_TEXTURE_SWIZZLE_RGBA)) != r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

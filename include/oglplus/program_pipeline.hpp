@@ -28,7 +28,8 @@ struct program_pipeline_ops {
     static outcome<program_pipeline_name> program_pipeline_binding(
       void) noexcept;
 
-    static outcome<void> use_program_stages(program_pipeline_name ppl,
+    static outcome<void> use_program_stages(
+      program_pipeline_name ppl,
       enum_bitfield<program_pipeline_stage> stages,
       program_name prog) noexcept;
 
@@ -41,7 +42,8 @@ struct program_pipeline_ops {
     static outcome<void> report_program_pipeline_validate_error(
       program_pipeline_name ppl) noexcept;
 
-    static outcome<void> get_program_pipeline_iv(program_pipeline_name buf,
+    static outcome<void> get_program_pipeline_iv(
+      program_pipeline_name buf,
       program_pipeline_parameter param,
       span<GLint> values) noexcept;
 
@@ -77,35 +79,35 @@ struct obj_dsa_ops<tag::program_pipeline>
     outcome<obj_dsa_ops&> use_program_stages(
       enum_bitfield<program_pipeline_stage> stages,
       program_name prog) noexcept {
-	return {_ops::use_program_stages(*this, stages, prog), *this};
+        return {_ops::use_program_stages(*this, stages, prog), *this};
     }
 
     outcome<obj_dsa_ops&> active_program(program_name prog) noexcept {
-	return {_ops::active_shader_program(*this, prog), *this};
+        return {_ops::active_shader_program(*this, prog), *this};
     }
 
     outcome<obj_dsa_ops&> validate(void) noexcept {
-	return {_ops::validate_program_pipeline(*this), *this};
+        return {_ops::validate_program_pipeline(*this), *this};
     }
 
     outcome<boolean> get_validate_status(void) const noexcept {
-	return _ops::get_program_pipeline_validate_status(*this);
+        return _ops::get_program_pipeline_validate_status(*this);
     }
 
     outcome<obj_dsa_ops&> report_validate_error(void) noexcept {
-	return {_ops::report_program_pipeline_validate_error(*this), *this};
+        return {_ops::report_program_pipeline_validate_error(*this), *this};
     }
 
     outcome<program_name> get_active_program(void) const noexcept {
-	return _ops::get_program_pipeline_active_program(*this);
+        return _ops::get_program_pipeline_active_program(*this);
     }
 
     outcome<GLsizei> get_info_log_length(void) const noexcept {
-	return _ops::get_program_pipeline_info_log_length(*this);
+        return _ops::get_program_pipeline_info_log_length(*this);
     }
 
     outcome<span<char>> get_info_log(span<char> dest) const noexcept {
-	return _ops::get_program_pipeline_info_log(*this, dest);
+        return _ops::get_program_pipeline_info_log(*this, dest);
     }
 #endif
 };

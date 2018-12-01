@@ -9,13 +9,13 @@
 #ifndef EAGINE_OBJECT_NAMES_1509260923_HPP
 #define EAGINE_OBJECT_NAMES_1509260923_HPP
 
-#include "../iterator.hpp"
-#include "../range_types.hpp"
-#include "name.hpp"
 #include <algorithm>
 #include <array>
 #include <cassert>
 #include <vector>
+#include "../iterator.hpp"
+#include "../range_types.hpp"
+#include "name.hpp"
 
 namespace eagine {
 
@@ -36,34 +36,37 @@ public:
     typedef const object_name<ObjTag>& reference;
 
     void swap(object_name_const_iterator& that) noexcept {
-	using std::swap;
-	swap(_iter, that._iter);
-	swap(_name, that._name);
+        using std::swap;
+        swap(_iter, that._iter);
+        swap(_name, that._name);
     }
 
     object_name_const_iterator& operator++(void) {
-	++_iter;
-	return *this;
+        ++_iter;
+        return *this;
     }
 
     reference operator*(void) {
-	_name = object_name<ObjTag>(*_iter);
-	return _name;
+        _name = object_name<ObjTag>(*_iter);
+        return _name;
     }
 
-    friend inline bool operator==(const object_name_const_iterator& a,
+    friend inline bool operator==(
+      const object_name_const_iterator& a,
       const object_name_const_iterator& b) noexcept {
-	return a._iter == b._iter;
+        return a._iter == b._iter;
     }
 
-    friend inline bool operator!=(const object_name_const_iterator& a,
+    friend inline bool operator!=(
+      const object_name_const_iterator& a,
       const object_name_const_iterator& b) noexcept {
-	return a._iter != b._iter;
+        return a._iter != b._iter;
     }
 
-    friend inline bool operator<(const object_name_const_iterator& a,
+    friend inline bool operator<(
+      const object_name_const_iterator& a,
       const object_name_const_iterator& b) noexcept {
-	return a._iter < b._iter;
+        return a._iter < b._iter;
     }
 };
 
@@ -74,21 +77,21 @@ private:
     Container _names;
 
     static void _invalidate_names(Container& names) {
-	using std::begin;
-	using std::end;
-	using std::fill;
-	fill(begin(names), end(names), _traits::invalid_name());
+        using std::begin;
+        using std::end;
+        using std::fill;
+        fill(begin(names), end(names), _traits::invalid_name());
     }
 
     auto _release_names(void) noexcept {
-	Container names = std::move(_names);
-	_invalidate_names(_names);
-	return names;
+        Container names = std::move(_names);
+        _invalidate_names(_names);
+        return names;
     }
 
 public:
     object_name_container(void) noexcept {
-	_invalidate_names(_names);
+        _invalidate_names(_names);
     }
 
     object_name_container(const object_name_container&) = default;
@@ -99,58 +102,59 @@ public:
     }
 
     object_name_container& operator=(object_name_container&& temp) noexcept {
-	swap(temp, *this);
-	return *this;
+        swap(temp, *this);
+        return *this;
     }
 
     void swap(object_name_container& that) noexcept {
-	std::swap(this->_names, that._names);
+        std::swap(this->_names, that._names);
     }
 
     bool empty(void) const noexcept {
-	return _names.empty();
+        return _names.empty();
     }
 
     span_size_t size(void) const noexcept {
-	return span_size(_names.size());
+        return span_size(_names.size());
     }
 
     object_name<ObjTag> operator[](span_size_t index) const noexcept {
-	const auto i = range_index<Container>(index);
-	return object_name<ObjTag>(_names[i]);
+        const auto i = range_index<Container>(index);
+        return object_name<ObjTag>(_names[i]);
     }
 
     object_name<ObjTag> at(span_size_t index) const noexcept {
-	const auto i = range_index<Container>(index);
-	return object_name<ObjTag>(_names.at(i));
+        const auto i = range_index<Container>(index);
+        return object_name<ObjTag>(_names.at(i));
     }
 
-    typedef object_name_const_iterator<ObjTag,
+    typedef object_name_const_iterator<
+      ObjTag,
       typename Container::const_iterator>
       iterator;
 
     iterator begin(void) const noexcept {
-	return _names.begin();
+        return _names.begin();
     }
 
     iterator end(void) const noexcept {
-	return _names.end();
+        return _names.end();
     }
 
     friend inline constexpr typename _traits::name_type get_raw_name(
       const object_name_container& ctr) noexcept {
-	assert(ctr._names.size() > 0);
-	return *ctr._names.data();
+        assert(ctr._names.size() > 0);
+        return *ctr._names.data();
     }
 
     friend inline span<typename _traits::name_type> get_raw_names(
       object_name_container& ctr) noexcept {
-	return {ctr._names};
+        return {ctr._names};
     }
 
     friend inline span<const typename _traits::name_type> get_raw_names(
       const object_name_container& ctr) noexcept {
-	return {ctr._names};
+        return {ctr._names};
     }
 };
 
@@ -168,17 +172,17 @@ public:
     }
 
     NameT base(void) const noexcept {
-	assert(_pbase);
-	return *_pbase;
+        assert(_pbase);
+        return *_pbase;
     }
 
     void base(NameT name) noexcept {
-	assert(_pbase);
-	*_pbase = name;
+        assert(_pbase);
+        *_pbase = name;
     }
 
     span_size_t size(void) const noexcept {
-	return _size;
+        return _size;
     }
 };
 
@@ -203,53 +207,54 @@ public:
     }
 
     void swap(object_name_fake_array& that) noexcept {
-	std::swap(this->_base, that._base);
-	std::swap(this->_size, that._size);
+        std::swap(this->_base, that._base);
+        std::swap(this->_size, that._size);
     }
 
     bool empty(void) const noexcept {
-	return !(_size > 0);
+        return !(_size > 0);
     }
 
     span_size_t size(void) const noexcept {
-	return _size;
+        return _size;
     }
 
     object_name<ObjTag> operator[](span_size_t index) const noexcept {
-	assert(index < size());
-	return object_name<ObjTag>(_name_type(_base + index));
+        assert(index < size());
+        return object_name<ObjTag>(_name_type(_base + index));
     }
 
     object_name<ObjTag> at(span_size_t index) const noexcept {
-	if(!(index < size())) {
-	    throw std::out_of_range(
-	      "Index exceeds object_name_fake_array bounds.");
-	}
-	return object_name<ObjTag>(_name_type(_base + index));
+        if(!(index < size())) {
+            throw std::out_of_range(
+              "Index exceeds object_name_fake_array bounds.");
+        }
+        return object_name<ObjTag>(_name_type(_base + index));
     }
 
-    typedef noexcept_casting_iterator<selfref_iterator<_name_type>,
+    typedef noexcept_casting_iterator<
+      selfref_iterator<_name_type>,
       const object_name<ObjTag>,
       object_name<ObjTag>>
       iterator;
 
     iterator begin(void) const noexcept {
-	return iterator(_base);
+        return iterator(_base);
     }
 
     iterator end(void) const noexcept {
-	return iterator(_name_type(_base + _size));
+        return iterator(_name_type(_base + _size));
     }
 
     friend inline constexpr typename _traits::name_type get_raw_name(
       const object_name_fake_array& onfa) noexcept {
-	assert(onfa.size() > 0);
-	return onfa._base;
+        assert(onfa.size() > 0);
+        return onfa._base;
     }
 
     friend inline object_name_base_and_count_view<_name_type> get_raw_names(
       object_name_fake_array& onfa) noexcept {
-	return {onfa._base, onfa._size};
+        return {onfa._base, onfa._size};
     }
 };
 
@@ -257,8 +262,8 @@ template <typename ObjTag, std::size_t N>
 class object_names<ObjTag, std::array<object_name_t<ObjTag>, N>>
   : public object_name_container<ObjTag, std::array<object_name_t<ObjTag>, N>> {
 public:
-    using object_name_container<ObjTag,
-      std::array<object_name_t<ObjTag>, N>>::object_name_container;
+    using object_name_container<ObjTag, std::array<object_name_t<ObjTag>, N>>::
+      object_name_container;
 };
 
 template <typename ObjTag, std::size_t N>

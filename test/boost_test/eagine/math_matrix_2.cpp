@@ -25,14 +25,14 @@ test_math_matrix_init_TCRRMVJI(
     typedef eagine::math::matrix<T, C, R, RM, V> M;
 
     M m = {{get_test_math_matrix_vec < T,
-      RM ? C : R,
-      V > (std::integral_constant<int, J>(),
-	    std::integer_sequence<int, I...>())...}};
+            RM ? C : R,
+            V > (std::integral_constant<int, J>(),
+                 std::integer_sequence<int, I...>())...}};
 
     for(int i = 0; i < (RM ? R : C); ++i)
-	for(int j = 0; j < (RM ? C : R); ++j) {
-	    BOOST_CHECK_EQUAL(m[i][j], i + j);
-	}
+        for(int j = 0; j < (RM ? C : R); ++j) {
+            BOOST_CHECK_EQUAL(m[i][j], i + j);
+        }
 }
 
 template <typename T, int C, int R, bool RM, bool V>

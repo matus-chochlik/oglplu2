@@ -8,8 +8,8 @@
  */
 #include <algorithm>
 #include <climits>
-#include <eagine/config/basic.hpp>
 #include <random>
+#include <eagine/config/basic.hpp>
 
 namespace eagine {
 //------------------------------------------------------------------------------
@@ -24,9 +24,7 @@ fill_with_random_bytes(const span<unsigned char>& buffer) {
     std::mt19937 re(rd());
     std::independent_bits_engine<std::mt19937, CHAR_BIT, unsigned> ibe(re);
 
-    auto gen = [&ibe] {
-	return static_cast<unsigned char>(ibe() & mask);
-    };
+    auto gen = [&ibe] { return static_cast<unsigned char>(ibe() & mask); };
 
     std::generate(buffer.begin(), buffer.end(), gen);
 }

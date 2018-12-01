@@ -29,7 +29,8 @@ stencil_test_state::stencil_func_separate(
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-stencil_test_state::stencil_op(stencil_operation sfail,
+stencil_test_state::stencil_op(
+  stencil_operation sfail,
   stencil_operation dfail,
   stencil_operation dpass) noexcept {
     OGLPLUS_GLFUNC(StencilOp)(GLenum(sfail), GLenum(dfail), GLenum(dpass));
@@ -38,7 +39,8 @@ stencil_test_state::stencil_op(stencil_operation sfail,
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-stencil_test_state::stencil_op_separate(single_face face,
+stencil_test_state::stencil_op_separate(
+  single_face face,
   stencil_operation sfail,
   stencil_operation dfail,
   stencil_operation dpass) noexcept {

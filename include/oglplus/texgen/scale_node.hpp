@@ -31,15 +31,16 @@ public:
 };
 
 class scale_node
-  : public binary_single_output_node<scale_output,
+  : public binary_single_output_node<
+      scale_output,
       decltype(scale_output::input),
       &scale_output::input,
       decltype(scale_output::scale),
       &scale_output::scale> {
 public:
     scale_node& set_scale(float x, float y, float z) {
-	_output.scale.fallback().set(x, y, z);
-	return *this;
+        _output.scale.fallback().set(x, y, z);
+        return *this;
     }
 };
 

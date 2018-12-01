@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_memory_barrier_bits
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_memory_barrier_bits_tests)
 
@@ -483,8 +483,8 @@ BOOST_AUTO_TEST_CASE(enum_memory_barrier_bits_names) {
     x = ev.atomic_counter_barrier_bit;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "ATOMIC_COUNTER_BARRIER_BIT")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "ATOMIC_COUNTER_BARRIER_BIT") ==
+      0);
 #endif
 
 #ifdef GL_BUFFER_UPDATE_BARRIER_BIT
@@ -498,8 +498,8 @@ BOOST_AUTO_TEST_CASE(enum_memory_barrier_bits_names) {
     x = ev.client_mapped_buffer_barrier_bit;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "CLIENT_MAPPED_BUFFER_BARRIER_BIT")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "CLIENT_MAPPED_BUFFER_BARRIER_BIT") == 0);
 #endif
 
 #ifdef GL_COMMAND_BARRIER_BIT
@@ -533,25 +533,25 @@ BOOST_AUTO_TEST_CASE(enum_memory_barrier_bits_names) {
 #ifdef GL_SHADER_GLOBAL_ACCESS_BARRIER_BIT_NV
     x = ev.shader_global_access_barrier_bit_nv;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-    BOOST_CHECK(std::strcmp(enum_value_name(x).data(),
-		  "SHADER_GLOBAL_ACCESS_BARRIER_BIT_NV")
-		== 0);
+    BOOST_CHECK(
+      std::strcmp(
+        enum_value_name(x).data(), "SHADER_GLOBAL_ACCESS_BARRIER_BIT_NV") == 0);
 #endif
 
 #ifdef GL_SHADER_IMAGE_ACCESS_BARRIER_BIT
     x = ev.shader_image_access_barrier_bit;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "SHADER_IMAGE_ACCESS_BARRIER_BIT")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "SHADER_IMAGE_ACCESS_BARRIER_BIT") == 0);
 #endif
 
 #ifdef GL_SHADER_STORAGE_BARRIER_BIT
     x = ev.shader_storage_barrier_bit;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "SHADER_STORAGE_BARRIER_BIT")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "SHADER_STORAGE_BARRIER_BIT") ==
+      0);
 #endif
 
 #ifdef GL_TEXTURE_FETCH_BARRIER_BIT
@@ -565,16 +565,16 @@ BOOST_AUTO_TEST_CASE(enum_memory_barrier_bits_names) {
     x = ev.texture_update_barrier_bit;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "TEXTURE_UPDATE_BARRIER_BIT")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "TEXTURE_UPDATE_BARRIER_BIT") ==
+      0);
 #endif
 
 #ifdef GL_TRANSFORM_FEEDBACK_BARRIER_BIT
     x = ev.transform_feedback_barrier_bit;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "TRANSFORM_FEEDBACK_BARRIER_BIT")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "TRANSFORM_FEEDBACK_BARRIER_BIT") == 0);
 #endif
 
 #ifdef GL_UNIFORM_BARRIER_BIT
@@ -588,8 +588,8 @@ BOOST_AUTO_TEST_CASE(enum_memory_barrier_bits_names) {
     x = ev.vertex_attrib_array_barrier_bit;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "VERTEX_ATTRIB_ARRAY_BARRIER_BIT")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "VERTEX_ATTRIB_ARRAY_BARRIER_BIT") == 0);
 #endif
 }
 
@@ -599,178 +599,194 @@ BOOST_AUTO_TEST_CASE(enum_memory_barrier_bits_range) {
 
 #ifdef GL_ALL_BARRIER_BITS
     {
-	--count;
-	auto r = enum_value_range<memory_barrier_bits>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), memory_barrier_bits(GL_ALL_BARRIER_BITS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<memory_barrier_bits>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), memory_barrier_bits(GL_ALL_BARRIER_BITS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_ATOMIC_COUNTER_BARRIER_BIT
     {
-	--count;
-	auto r = enum_value_range<memory_barrier_bits>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      memory_barrier_bits(GL_ATOMIC_COUNTER_BARRIER_BIT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<memory_barrier_bits>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            memory_barrier_bits(GL_ATOMIC_COUNTER_BARRIER_BIT)) != r.end());
     }
 #endif
 
 #ifdef GL_BUFFER_UPDATE_BARRIER_BIT
     {
-	--count;
-	auto r = enum_value_range<memory_barrier_bits>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      memory_barrier_bits(GL_BUFFER_UPDATE_BARRIER_BIT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<memory_barrier_bits>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            memory_barrier_bits(GL_BUFFER_UPDATE_BARRIER_BIT)) != r.end());
     }
 #endif
 
 #ifdef GL_CLIENT_MAPPED_BUFFER_BARRIER_BIT
     {
-	--count;
-	auto r = enum_value_range<memory_barrier_bits>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      memory_barrier_bits(GL_CLIENT_MAPPED_BUFFER_BARRIER_BIT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<memory_barrier_bits>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            memory_barrier_bits(GL_CLIENT_MAPPED_BUFFER_BARRIER_BIT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_COMMAND_BARRIER_BIT
     {
-	--count;
-	auto r = enum_value_range<memory_barrier_bits>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), memory_barrier_bits(GL_COMMAND_BARRIER_BIT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<memory_barrier_bits>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), memory_barrier_bits(GL_COMMAND_BARRIER_BIT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_ELEMENT_ARRAY_BARRIER_BIT
     {
-	--count;
-	auto r = enum_value_range<memory_barrier_bits>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      memory_barrier_bits(GL_ELEMENT_ARRAY_BARRIER_BIT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<memory_barrier_bits>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            memory_barrier_bits(GL_ELEMENT_ARRAY_BARRIER_BIT)) != r.end());
     }
 #endif
 
 #ifdef GL_FRAMEBUFFER_BARRIER_BIT
     {
-	--count;
-	auto r = enum_value_range<memory_barrier_bits>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), memory_barrier_bits(GL_FRAMEBUFFER_BARRIER_BIT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<memory_barrier_bits>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            memory_barrier_bits(GL_FRAMEBUFFER_BARRIER_BIT)) != r.end());
     }
 #endif
 
 #ifdef GL_PIXEL_BUFFER_BARRIER_BIT
     {
-	--count;
-	auto r = enum_value_range<memory_barrier_bits>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      memory_barrier_bits(GL_PIXEL_BUFFER_BARRIER_BIT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<memory_barrier_bits>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            memory_barrier_bits(GL_PIXEL_BUFFER_BARRIER_BIT)) != r.end());
     }
 #endif
 
 #ifdef GL_SHADER_GLOBAL_ACCESS_BARRIER_BIT_NV
     {
-	--count;
-	auto r = enum_value_range<memory_barrier_bits>();
-	BOOST_CHECK(
-	  std::find(r.begin(),
-	    r.end(),
-	    memory_barrier_bits(GL_SHADER_GLOBAL_ACCESS_BARRIER_BIT_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<memory_barrier_bits>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            memory_barrier_bits(GL_SHADER_GLOBAL_ACCESS_BARRIER_BIT_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SHADER_IMAGE_ACCESS_BARRIER_BIT
     {
-	--count;
-	auto r = enum_value_range<memory_barrier_bits>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      memory_barrier_bits(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<memory_barrier_bits>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            memory_barrier_bits(GL_SHADER_IMAGE_ACCESS_BARRIER_BIT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SHADER_STORAGE_BARRIER_BIT
     {
-	--count;
-	auto r = enum_value_range<memory_barrier_bits>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      memory_barrier_bits(GL_SHADER_STORAGE_BARRIER_BIT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<memory_barrier_bits>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            memory_barrier_bits(GL_SHADER_STORAGE_BARRIER_BIT)) != r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_FETCH_BARRIER_BIT
     {
-	--count;
-	auto r = enum_value_range<memory_barrier_bits>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      memory_barrier_bits(GL_TEXTURE_FETCH_BARRIER_BIT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<memory_barrier_bits>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            memory_barrier_bits(GL_TEXTURE_FETCH_BARRIER_BIT)) != r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_UPDATE_BARRIER_BIT
     {
-	--count;
-	auto r = enum_value_range<memory_barrier_bits>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      memory_barrier_bits(GL_TEXTURE_UPDATE_BARRIER_BIT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<memory_barrier_bits>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            memory_barrier_bits(GL_TEXTURE_UPDATE_BARRIER_BIT)) != r.end());
     }
 #endif
 
 #ifdef GL_TRANSFORM_FEEDBACK_BARRIER_BIT
     {
-	--count;
-	auto r = enum_value_range<memory_barrier_bits>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      memory_barrier_bits(GL_TRANSFORM_FEEDBACK_BARRIER_BIT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<memory_barrier_bits>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            memory_barrier_bits(GL_TRANSFORM_FEEDBACK_BARRIER_BIT)) != r.end());
     }
 #endif
 
 #ifdef GL_UNIFORM_BARRIER_BIT
     {
-	--count;
-	auto r = enum_value_range<memory_barrier_bits>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), memory_barrier_bits(GL_UNIFORM_BARRIER_BIT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<memory_barrier_bits>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), memory_barrier_bits(GL_UNIFORM_BARRIER_BIT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_VERTEX_ATTRIB_ARRAY_BARRIER_BIT
     {
-	--count;
-	auto r = enum_value_range<memory_barrier_bits>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      memory_barrier_bits(GL_VERTEX_ATTRIB_ARRAY_BARRIER_BIT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<memory_barrier_bits>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            memory_barrier_bits(GL_VERTEX_ATTRIB_ARRAY_BARRIER_BIT)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

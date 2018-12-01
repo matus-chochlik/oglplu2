@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OALPLUS_source_state
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_source_state_tests)
 
@@ -101,37 +101,37 @@ BOOST_AUTO_TEST_CASE(enum_source_state_range) {
 
 #ifdef AL_INITIAL
     {
-	--count;
-	auto r = enum_value_range<source_state>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), source_state(AL_INITIAL)) != r.end());
+        --count;
+        auto r = enum_value_range<source_state>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), source_state(AL_INITIAL)) != r.end());
     }
 #endif
 
 #ifdef AL_PAUSED
     {
-	--count;
-	auto r = enum_value_range<source_state>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), source_state(AL_PAUSED)) != r.end());
+        --count;
+        auto r = enum_value_range<source_state>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), source_state(AL_PAUSED)) != r.end());
     }
 #endif
 
 #ifdef AL_PLAYING
     {
-	--count;
-	auto r = enum_value_range<source_state>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), source_state(AL_PLAYING)) != r.end());
+        --count;
+        auto r = enum_value_range<source_state>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), source_state(AL_PLAYING)) != r.end());
     }
 #endif
 
 #ifdef AL_STOPPED
     {
-	--count;
-	auto r = enum_value_range<source_state>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), source_state(AL_STOPPED)) != r.end());
+        --count;
+        auto r = enum_value_range<source_state>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), source_state(AL_STOPPED)) != r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

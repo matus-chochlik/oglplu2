@@ -58,7 +58,8 @@ turns_(T value) noexcept {
     return radians_(value * math::pi * 2);
 }
 
-template <typename Qty,
+template <
+  typename Qty,
   typename = std::enable_if_t<is_convertible_quantity_v<Qty, units::radian>>>
 static constexpr inline auto
 sin(const Qty& qty) {
@@ -66,7 +67,8 @@ sin(const Qty& qty) {
     return sin(value(convert_to<units::radian>(qty)));
 }
 
-template <typename Qty,
+template <
+  typename Qty,
   typename = std::enable_if_t<is_convertible_quantity_v<Qty, units::radian>>>
 static constexpr inline auto
 cos(const Qty& qty) {
@@ -74,7 +76,8 @@ cos(const Qty& qty) {
     return cos(value(convert_to<units::radian>(qty)));
 }
 
-template <typename Qty,
+template <
+  typename Qty,
   typename = std::enable_if_t<is_convertible_quantity_v<Qty, units::radian>>>
 static constexpr inline auto
 tan(const Qty& qty) {

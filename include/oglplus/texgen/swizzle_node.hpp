@@ -9,15 +9,14 @@
 #ifndef OGLPLUS_TEXGEN_SWIZZLE_NODE_1509260923_HPP
 #define OGLPLUS_TEXGEN_SWIZZLE_NODE_1509260923_HPP
 
+#include <string>
 #include "base_node.hpp"
 #include "fallback_input.hpp"
-#include <string>
 
 namespace oglplus {
 namespace texgen {
 
-bool
-is_valid_swizzle(const cstr_ref&) noexcept;
+bool is_valid_swizzle(const cstr_ref&) noexcept;
 
 class swizzle_output : public base_output {
 public:
@@ -36,17 +35,18 @@ public:
 };
 
 class swizzle_node
-  : public unary_single_output_node<swizzle_output,
+  : public unary_single_output_node<
+      swizzle_output,
       decltype(swizzle_output::input),
       &swizzle_output::input> {
 public:
     swizzle_node(void) = default;
 
     swizzle_node& set_swizzle(const std::string& swizzle) {
-	if(is_valid_swizzle(cstr_ref(swizzle))) {
-	    _output.swizzle = swizzle;
-	}
-	return *this;
+        if(is_valid_swizzle(cstr_ref(swizzle))) {
+            _output.swizzle = swizzle;
+        }
+        return *this;
     }
 };
 

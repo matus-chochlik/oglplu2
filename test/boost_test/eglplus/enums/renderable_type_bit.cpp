@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE EGLPLUS_renderable_type_bit
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_renderable_type_bit_tests)
 
@@ -124,51 +124,54 @@ BOOST_AUTO_TEST_CASE(enum_renderable_type_bit_range) {
 
 #ifdef EGL_OPENGL_BIT
     {
-	--count;
-	auto r = enum_value_range<renderable_type_bit>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), renderable_type_bit(EGL_OPENGL_BIT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<renderable_type_bit>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), renderable_type_bit(EGL_OPENGL_BIT)) !=
+          r.end());
     }
 #endif
 
 #ifdef EGL_OPENGL_ES2_BIT
     {
-	--count;
-	auto r = enum_value_range<renderable_type_bit>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), renderable_type_bit(EGL_OPENGL_ES2_BIT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<renderable_type_bit>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), renderable_type_bit(EGL_OPENGL_ES2_BIT)) !=
+          r.end());
     }
 #endif
 
 #ifdef EGL_OPENGL_ES3_BIT
     {
-	--count;
-	auto r = enum_value_range<renderable_type_bit>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), renderable_type_bit(EGL_OPENGL_ES3_BIT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<renderable_type_bit>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), renderable_type_bit(EGL_OPENGL_ES3_BIT)) !=
+          r.end());
     }
 #endif
 
 #ifdef EGL_OPENGL_ES_BIT
     {
-	--count;
-	auto r = enum_value_range<renderable_type_bit>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), renderable_type_bit(EGL_OPENGL_ES_BIT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<renderable_type_bit>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), renderable_type_bit(EGL_OPENGL_ES_BIT)) !=
+          r.end());
     }
 #endif
 
 #ifdef EGL_OPENVG_BIT
     {
-	--count;
-	auto r = enum_value_range<renderable_type_bit>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), renderable_type_bit(EGL_OPENVG_BIT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<renderable_type_bit>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), renderable_type_bit(EGL_OPENVG_BIT)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

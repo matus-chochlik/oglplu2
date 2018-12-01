@@ -9,9 +9,9 @@
 #ifndef OGLPLUS_TEXGEN_FOLD_NODE_1509260923_HPP
 #define OGLPLUS_TEXGEN_FOLD_NODE_1509260923_HPP
 
+#include <map>
 #include "fallback_input.hpp"
 #include "multi_input_node.hpp"
-#include <map>
 
 namespace oglplus {
 namespace texgen {
@@ -53,12 +53,12 @@ public:
     fold_node(void);
 
     fold_output& single_output(void) override {
-	return _output;
+        return _output;
     }
 
     fold_node& set_function(fold_function func) {
-	_output._func = func;
-	return *this;
+        _output._func = func;
+        return *this;
     }
 };
 

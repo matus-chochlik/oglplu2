@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_precision_type
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_precision_type_tests)
 
@@ -150,56 +150,60 @@ BOOST_AUTO_TEST_CASE(enum_precision_type_range) {
 
 #ifdef GL_HIGH_FLOAT
     {
-	--count;
-	auto r = enum_value_range<precision_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), precision_type(GL_HIGH_FLOAT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<precision_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), precision_type(GL_HIGH_FLOAT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_HIGH_INT
     {
-	--count;
-	auto r = enum_value_range<precision_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), precision_type(GL_HIGH_INT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<precision_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), precision_type(GL_HIGH_INT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_LOW_FLOAT
     {
-	--count;
-	auto r = enum_value_range<precision_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), precision_type(GL_LOW_FLOAT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<precision_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), precision_type(GL_LOW_FLOAT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_LOW_INT
     {
-	--count;
-	auto r = enum_value_range<precision_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), precision_type(GL_LOW_INT)) != r.end());
+        --count;
+        auto r = enum_value_range<precision_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), precision_type(GL_LOW_INT)) != r.end());
     }
 #endif
 
 #ifdef GL_MEDIUM_FLOAT
     {
-	--count;
-	auto r = enum_value_range<precision_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), precision_type(GL_MEDIUM_FLOAT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<precision_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), precision_type(GL_MEDIUM_FLOAT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_MEDIUM_INT
     {
-	--count;
-	auto r = enum_value_range<precision_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), precision_type(GL_MEDIUM_INT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<precision_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), precision_type(GL_MEDIUM_INT)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

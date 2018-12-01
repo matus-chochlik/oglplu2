@@ -17,7 +17,7 @@ void
 test_math_tvec_default_ctr_TNV(void) {
     eagine::math::tvec<T, N, V> v;
     for(int i = 0; i < N; ++i) {
-	BOOST_CHECK_EQUAL(v[i], T(0));
+        BOOST_CHECK_EQUAL(v[i], T(0));
     }
 }
 
@@ -57,7 +57,7 @@ test_math_tvec_fill_ctr_TNV(void) {
     T r = rg.get_any<T>();
     eagine::math::tvec<T, N, V> v(r);
     for(int i = 0; i < N; ++i) {
-	BOOST_CHECK_EQUAL(v[i], r);
+        BOOST_CHECK_EQUAL(v[i], r);
     }
 }
 
@@ -97,7 +97,7 @@ test_math_tvec_vector_ctr_TNV(void) {
     T r = rg.get_any<T>();
     eagine::math::tvec<T, N, V> v(eagine::math::vector<T, N, V>::fill(r));
     for(int i = 0; i < N; ++i) {
-	BOOST_CHECK_EQUAL(v[i], r);
+        BOOST_CHECK_EQUAL(v[i], r);
     }
 }
 
@@ -137,13 +137,13 @@ test_math_tvec_cary_ctr_TNV(void) {
     T a[N];
 
     for(int i = 0; i < N; ++i) {
-	a[i] = rg.get_any<T>();
+        a[i] = rg.get_any<T>();
     }
 
     eagine::math::tvec<T, N, V> v(a);
 
     for(int i = 0; i < N; ++i) {
-	BOOST_CHECK_EQUAL(v[i], a[i]);
+        BOOST_CHECK_EQUAL(v[i], a[i]);
     }
 }
 

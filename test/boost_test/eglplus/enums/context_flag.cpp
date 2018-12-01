@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE EGLPLUS_context_flag
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_context_flag_tests)
 
@@ -66,17 +66,18 @@ BOOST_AUTO_TEST_CASE(enum_context_flag_names) {
 #ifdef EGL_CONTEXT_OPENGL_FORWARD_COMPATIBLE_BIT
     x = ev.context_opengl_forward_compatible_bit;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-    BOOST_CHECK(std::strcmp(enum_value_name(x).data(),
-		  "CONTEXT_OPENGL_FORWARD_COMPATIBLE_BIT")
-		== 0);
+    BOOST_CHECK(
+      std::strcmp(
+        enum_value_name(x).data(), "CONTEXT_OPENGL_FORWARD_COMPATIBLE_BIT") ==
+      0);
 #endif
 
 #ifdef EGL_CONTEXT_OPENGL_ROBUST_ACCESS_BIT
     x = ev.context_opengl_robust_access_bit;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "CONTEXT_OPENGL_ROBUST_ACCESS_BIT")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "CONTEXT_OPENGL_ROBUST_ACCESS_BIT") == 0);
 #endif
 }
 
@@ -86,34 +87,37 @@ BOOST_AUTO_TEST_CASE(enum_context_flag_range) {
 
 #ifdef EGL_CONTEXT_OPENGL_DEBUG_BIT
     {
-	--count;
-	auto r = enum_value_range<context_flag>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), context_flag(EGL_CONTEXT_OPENGL_DEBUG_BIT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<context_flag>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), context_flag(EGL_CONTEXT_OPENGL_DEBUG_BIT)) !=
+          r.end());
     }
 #endif
 
 #ifdef EGL_CONTEXT_OPENGL_FORWARD_COMPATIBLE_BIT
     {
-	--count;
-	auto r = enum_value_range<context_flag>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      context_flag(EGL_CONTEXT_OPENGL_FORWARD_COMPATIBLE_BIT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<context_flag>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            context_flag(EGL_CONTEXT_OPENGL_FORWARD_COMPATIBLE_BIT)) !=
+          r.end());
     }
 #endif
 
 #ifdef EGL_CONTEXT_OPENGL_ROBUST_ACCESS_BIT
     {
-	--count;
-	auto r = enum_value_range<context_flag>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      context_flag(EGL_CONTEXT_OPENGL_ROBUST_ACCESS_BIT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<context_flag>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            context_flag(EGL_CONTEXT_OPENGL_ROBUST_ACCESS_BIT)) != r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

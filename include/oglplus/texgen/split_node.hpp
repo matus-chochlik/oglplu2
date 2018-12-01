@@ -22,7 +22,8 @@ private:
     span_size_t _index;
 
 public:
-    split_output(node_intf& parent,
+    split_output(
+      node_intf& parent,
       input_with_const_default<float[4]>& input,
       eagine::valid_if_between<span_size_t, 0, 3> index);
 

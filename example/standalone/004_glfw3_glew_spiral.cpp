@@ -44,47 +44,49 @@ run_loop(GLFWwindow* window, int width, int height) {
 
     shader vs(GL.vertex_shader);
 
-    gl.shader_source(vs,
+    gl.shader_source(
+      vs,
       glsl_literal("#version 120\n"
 
-		   "attribute vec2 Coord;\n"
-		   "attribute vec3 Color1;\n"
-		   "attribute vec3 Color2;\n"
-		   "varying vec2 vertCoord;\n"
-		   "varying vec3 vertColor1;\n"
-		   "varying vec3 vertColor2;\n"
+                   "attribute vec2 Coord;\n"
+                   "attribute vec3 Color1;\n"
+                   "attribute vec3 Color2;\n"
+                   "varying vec2 vertCoord;\n"
+                   "varying vec3 vertColor1;\n"
+                   "varying vec3 vertColor2;\n"
 
-		   "void main(void)\n"
-		   "{\n"
-		   "	gl_Position = ftransform();\n"
-		   "	vertCoord = Coord;\n"
-		   "	vertColor1 = Color1;\n"
-		   "	vertColor2 = Color2;\n"
-		   "}\n"));
+                   "void main(void)\n"
+                   "{\n"
+                   "	gl_Position = ftransform();\n"
+                   "	vertCoord = Coord;\n"
+                   "	vertColor1 = Color1;\n"
+                   "	vertColor2 = Color2;\n"
+                   "}\n"));
     gl.compile_shader(vs);
 
     shader fs(GL.fragment_shader);
 
-    gl.shader_source(fs,
+    gl.shader_source(
+      fs,
       glsl_literal("#version 120\n"
 
-		   "varying vec2 vertCoord;\n"
-		   "varying vec3 vertColor1;\n"
-		   "varying vec3 vertColor2;\n"
+                   "varying vec2 vertCoord;\n"
+                   "varying vec3 vertColor1;\n"
+                   "varying vec3 vertColor2;\n"
 
-		   "float spiral(vec2 c)\n"
-		   "{\n"
-		   "	return max(sign(mod(8*(sqrt(c.x)+c.y), 2)-1),0);\n"
-		   "}\n"
+                   "float spiral(vec2 c)\n"
+                   "{\n"
+                   "	return max(sign(mod(8*(sqrt(c.x)+c.y), 2)-1),0);\n"
+                   "}\n"
 
-		   "void main(void)\n"
-		   "{\n"
-		   "	gl_FragColor = vec4(mix(\n"
-		   "		vertColor1,\n"
-		   "		vertColor2,\n"
-		   "		spiral(vertCoord)\n"
-		   "	), 1);\n"
-		   "}\n"));
+                   "void main(void)\n"
+                   "{\n"
+                   "	gl_FragColor = vec4(mix(\n"
+                   "		vertColor1,\n"
+                   "		vertColor2,\n"
+                   "		spiral(vertCoord)\n"
+                   "	), 1);\n"
+                   "}\n"));
     gl.compile_shader(fs);
 
     program prog;
@@ -112,136 +114,137 @@ run_loop(GLFWwindow* window, int width, int height) {
     float a;
 
     while(true) {
-	using std::cos;
-	using std::sin;
+        using std::cos;
+        using std::sin;
 
-	glfwPollEvents();
+        glfwPollEvents();
 
-	if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-	    glfwSetWindowShouldClose(window, 1);
-	    break;
-	}
+        if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+            glfwSetWindowShouldClose(window, 1);
+            break;
+        }
 
-	if(glfwWindowShouldClose(window)) {
-	    break;
-	}
+        if(glfwWindowShouldClose(window)) {
+            break;
+        }
 
-	int new_width, new_height;
-	glfwGetWindowSize(window, &new_width, &new_height);
+        int new_width, new_height;
+        glfwGetWindowSize(window, &new_width, &new_height);
 
-	if((width != new_width) || (height != new_height)) {
-	    width = new_width;
-	    height = new_height;
+        if((width != new_width) || (height != new_height)) {
+            width = new_width;
+            height = new_height;
 
-	    handle_resize(width, height);
-	}
+            handle_resize(width, height);
+        }
 
-	gl.clear(GL.color_buffer_bit);
+        gl.clear(GL.color_buffer_bit);
 
-	gl.matrix_mode(GL.modelview);
-	gl.load_identity();
-	gl.rotate_f(degrees_(deg += 2), 0, 0, 1);
+        gl.matrix_mode(GL.modelview);
+        gl.load_identity();
+        gl.rotate_f(degrees_(deg += 2), 0, 0, 1);
 
-	gl.begin(GL.triangle_strip);
-	for(int s = 0; s < nseg; ++s) {
-	    a = (s + 0) * spart;
+        gl.begin(GL.triangle_strip);
+        for(int s = 0; s < nseg; ++s) {
+            a = (s + 0) * spart;
 
-	    gl.vertex_attrib(coord, make_span({z, a}), false);
-	    gl.vertex_attrib(color1, 0.2f, 0.1f, 0.1f, false);
-	    gl.vertex_attrib(color2, 0.3f, 0.1f, 0.2f, false);
-	    gl.vertex_f(0, 0);
+            gl.vertex_attrib(coord, make_span({z, a}), false);
+            gl.vertex_attrib(color1, 0.2f, 0.1f, 0.1f, false);
+            gl.vertex_attrib(color2, 0.3f, 0.1f, 0.2f, false);
+            gl.vertex_f(0, 0);
 
-	    gl.vertex_attrib(coord, make_span({o, a}), false);
-	    gl.vertex_attrib(color1, 0.0f, 0.0f, 0.0f, false);
-	    gl.vertex_attrib(color2, 0.9f, 0.3f, 0.4f, false);
-	    gl.vertex_f(cos((s + 0) * sstep), sin((s + 0) * sstep));
+            gl.vertex_attrib(coord, make_span({o, a}), false);
+            gl.vertex_attrib(color1, 0.0f, 0.0f, 0.0f, false);
+            gl.vertex_attrib(color2, 0.9f, 0.3f, 0.4f, false);
+            gl.vertex_f(cos((s + 0) * sstep), sin((s + 0) * sstep));
 
-	    a = (s + 1) * spart;
+            a = (s + 1) * spart;
 
-	    gl.vertex_attrib(coord, make_span({z, a}), false);
-	    gl.vertex_attrib(color1, 0.2f, 0.1f, 0.1f, false);
-	    gl.vertex_attrib(color2, 0.3f, 0.1f, 0.2f, false);
-	    gl.vertex_f(0, 0);
+            gl.vertex_attrib(coord, make_span({z, a}), false);
+            gl.vertex_attrib(color1, 0.2f, 0.1f, 0.1f, false);
+            gl.vertex_attrib(color2, 0.3f, 0.1f, 0.2f, false);
+            gl.vertex_f(0, 0);
 
-	    gl.vertex_attrib(coord, make_span({o, a}), false);
-	    gl.vertex_attrib(color1, 0.0f, 0.0f, 0.0f, false);
-	    gl.vertex_attrib(color2, 0.9f, 0.3f, 0.4f, false);
-	    gl.vertex_f(cos((s + 1) * sstep), sin((s + 1) * sstep));
-	}
-	gl.end();
+            gl.vertex_attrib(coord, make_span({o, a}), false);
+            gl.vertex_attrib(color1, 0.0f, 0.0f, 0.0f, false);
+            gl.vertex_attrib(color2, 0.9f, 0.3f, 0.4f, false);
+            gl.vertex_f(cos((s + 1) * sstep), sin((s + 1) * sstep));
+        }
+        gl.end();
 
-	gl.vertex_attrib(color1, 0.2f, 0.1f, 0.1f, true);
+        gl.vertex_attrib(color1, 0.2f, 0.1f, 0.1f, true);
 
-	const GLfloat c2[3] = {0.3f, 0.1f, 0.2f};
-	gl.vertex_attrib(color2, c2, true);
+        const GLfloat c2[3] = {0.3f, 0.1f, 0.2f};
+        gl.vertex_attrib(color2, c2, true);
 
-	gl.begin(GL.line_loop);
-	for(int s = 0; s < nseg; ++s) {
-	    gl.vertex_attrib(coord, make_span({o, s * spart}), false);
-	    gl.vertex_f(cos(s * sstep), sin(s * sstep));
-	}
-	gl.end();
+        gl.begin(GL.line_loop);
+        for(int s = 0; s < nseg; ++s) {
+            gl.vertex_attrib(coord, make_span({o, s * spart}), false);
+            gl.vertex_f(cos(s * sstep), sin(s * sstep));
+        }
+        gl.end();
 
-	glfwSwapBuffers(window);
+        glfwSwapBuffers(window);
     }
 }
 
 static void
 init_and_run(void) {
     if(!glfwInit()) {
-	throw std::runtime_error("GLFW initialization error");
+        throw std::runtime_error("GLFW initialization error");
     } else {
-	auto ensure_glfw_cleanup = eagine::finally(glfwTerminate);
+        auto ensure_glfw_cleanup = eagine::finally(glfwTerminate);
 
-	glfwWindowHint(GLFW_DOUBLEBUFFER, GL_TRUE);
-	glfwWindowHint(GLFW_RED_BITS, 8);
-	glfwWindowHint(GLFW_BLUE_BITS, 8);
-	glfwWindowHint(GLFW_GREEN_BITS, 8);
-	glfwWindowHint(GLFW_ALPHA_BITS, 0);
-	glfwWindowHint(GLFW_DEPTH_BITS, 0);
-	glfwWindowHint(GLFW_STENCIL_BITS, 0);
+        glfwWindowHint(GLFW_DOUBLEBUFFER, GL_TRUE);
+        glfwWindowHint(GLFW_RED_BITS, 8);
+        glfwWindowHint(GLFW_BLUE_BITS, 8);
+        glfwWindowHint(GLFW_GREEN_BITS, 8);
+        glfwWindowHint(GLFW_ALPHA_BITS, 0);
+        glfwWindowHint(GLFW_DEPTH_BITS, 0);
+        glfwWindowHint(GLFW_STENCIL_BITS, 0);
 
-	glfwWindowHint(GLFW_SAMPLES, GLFW_DONT_CARE);
+        glfwWindowHint(GLFW_SAMPLES, GLFW_DONT_CARE);
 
-	int width = 800, height = 600;
+        int width = 800, height = 600;
 
-	GLFWwindow* window =
-	  glfwCreateWindow(width, height, "OGLplus example", NULL, NULL);
+        GLFWwindow* window =
+          glfwCreateWindow(width, height, "OGLplus example", NULL, NULL);
 
-	if(!window) {
-	    throw std::runtime_error("Error creating GLFW window");
-	} else {
-	    glfwMakeContextCurrent(window);
-	    glewExperimental = GL_TRUE;
-	    GLenum init_result = glewInit();
-	    glGetError();
-	    if(init_result != GLEW_OK) {
-		throw std::runtime_error("OpenGL/GLEW initialization error.");
-	    } else {
-		run_loop(window, width, height);
-	    }
-	}
+        if(!window) {
+            throw std::runtime_error("Error creating GLFW window");
+        } else {
+            glfwMakeContextCurrent(window);
+            glewExperimental = GL_TRUE;
+            GLenum init_result = glewInit();
+            glGetError();
+            if(init_result != GLEW_OK) {
+                throw std::runtime_error("OpenGL/GLEW initialization error.");
+            } else {
+                run_loop(window, width, height);
+            }
+        }
     }
 }
 
 int
 main(void) {
     try {
-	init_and_run();
-	return 0;
+        init_and_run();
+        return 0;
     } catch(oglplus::error& gle) {
-	oglplus::format_error(gle,
-	  "OpenGL error\n"
-	  "in GL function: %(gl_function_name)\n"
-	  "with enum parameter: %(gl_enum_value)\n"
-	  "from source file: %(source_file)\n"
-	  "%(message)",
-	  std::cerr)
-	  << std::endl;
+        oglplus::format_error(
+          gle,
+          "OpenGL error\n"
+          "in GL function: %(gl_function_name)\n"
+          "with enum parameter: %(gl_enum_value)\n"
+          "from source file: %(source_file)\n"
+          "%(message)",
+          std::cerr)
+          << std::endl;
     } catch(std::runtime_error& sre) {
-	std::cerr << "Runtime error: " << sre.what() << std::endl;
+        std::cerr << "Runtime error: " << sre.what() << std::endl;
     } catch(std::exception& se) {
-	std::cerr << "Unknown error: " << se.what() << std::endl;
+        std::cerr << "Unknown error: " << se.what() << std::endl;
     }
     return 1;
 }

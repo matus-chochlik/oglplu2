@@ -9,11 +9,11 @@
 #ifndef OGLPLUS_TEXGEN_RENDER_GRAPH_1509260923_HPP
 #define OGLPLUS_TEXGEN_RENDER_GRAPH_1509260923_HPP
 
-#include "render_node.hpp"
 #include <map>
 #include <memory>
 #include <string>
 #include <vector>
+#include "render_node.hpp"
 
 namespace oglplus {
 namespace texgen {
@@ -26,50 +26,50 @@ public:
     // TODO throw connect error
     render_graph_node<Node>& connect(
       const cstr_ref& inp_name, output_intf& out) {
-	if(auto inp = this->input_by_name(inp_name)) {
-	    connect_output_to_input(out, inp);
-	}
-	return *this;
+        if(auto inp = this->input_by_name(inp_name)) {
+            connect_output_to_input(out, inp);
+        }
+        return *this;
     }
 
     render_graph_node<Node>& connect(
       const cstr_ref& inp_name, node_intf& out_node, span_size_t oidx) {
-	if(oidx < out_node.output_count()) {
-	    return connect(inp_name, out_node.output(oidx));
-	}
-	return *this;
+        if(oidx < out_node.output_count()) {
+            return connect(inp_name, out_node.output(oidx));
+        }
+        return *this;
     }
 
     render_graph_node<Node>& connect(
       const cstr_ref& inp_name, node_intf& out_node) {
-	return connect(inp_name, out_node, 0);
+        return connect(inp_name, out_node, 0);
     }
 
     render_graph_node<Node>& connect(span_size_t iidx, output_intf& out) {
-	if(iidx < this->input_count()) {
-	    connect_output_to_input(out, this->input(iidx));
-	}
-	return *this;
+        if(iidx < this->input_count()) {
+            connect_output_to_input(out, this->input(iidx));
+        }
+        return *this;
     }
 
     render_graph_node<Node>& connect(
       span_size_t iidx, node_intf& out_node, span_size_t oidx) {
-	if(oidx < out_node.output_count()) {
-	    return connect(iidx, out_node.output(oidx));
-	}
-	return *this;
+        if(oidx < out_node.output_count()) {
+            return connect(iidx, out_node.output(oidx));
+        }
+        return *this;
     }
 
     render_graph_node<Node>& connect(span_size_t iidx, node_intf& out_node) {
-	return connect(iidx, out_node, 0);
+        return connect(iidx, out_node, 0);
     }
 
     render_graph_node<Node>& connect(output_intf& out) {
-	return connect(0, out);
+        return connect(0, out);
     }
 
     render_graph_node<Node>& connect(node_intf& out_node) {
-	return connect(0, out_node);
+        return connect(0, out_node);
     }
 };
 
@@ -92,20 +92,20 @@ public:
 
     template <typename NodeType, typename... P>
     render_graph_node<NodeType>& add_new_anon(P&&... p) {
-	render_graph_node<NodeType>* ptr =
-	  new render_graph_node<NodeType>(std::forward<P>(p)...);
-	assert(ptr);
-	add_anonymous_node(_node_ptr_t(ptr));
-	return *ptr;
+        render_graph_node<NodeType>* ptr =
+          new render_graph_node<NodeType>(std::forward<P>(p)...);
+        assert(ptr);
+        add_anonymous_node(_node_ptr_t(ptr));
+        return *ptr;
     }
 
     template <typename NodeType, typename... P>
     render_graph_node<NodeType>& add_new(std::string name, P&&... p) {
-	render_graph_node<NodeType>* ptr =
-	  new render_graph_node<NodeType>(std::forward<P>(p)...);
-	assert(ptr);
-	add_node(std::move(name), _node_ptr_t(ptr));
-	return *ptr;
+        render_graph_node<NodeType>* ptr =
+          new render_graph_node<NodeType>(std::forward<P>(p)...);
+        assert(ptr);
+        add_node(std::move(name), _node_ptr_t(ptr));
+        return *ptr;
     }
 
     render_node& renderer(void);
@@ -152,18 +152,20 @@ public:
     bool connect_to_renderer(const std::string& node_name, span_size_t index);
 
     bool connect_to_renderer(const std::string& node_name) {
-	return connect_to_renderer(node_name, 0);
+        return connect_to_renderer(node_name, 0);
     }
 
     // connect
     bool connect(output_intf& out, input_intf& inp);
 
-    bool connect(node_intf& output_node,
+    bool connect(
+      node_intf& output_node,
       span_size_t oindex,
       node_intf& input_node,
       span_size_t iindex);
 
-    bool connect(node_intf& output_node,
+    bool connect(
+      node_intf& output_node,
       const cstr_ref& oname,
       node_intf& input_node,
       const cstr_ref& iname);
@@ -171,21 +173,25 @@ public:
     bool connect(
       node_intf& output_node, node_intf& input_node, const cstr_ref& iname);
 
-    bool connect(const std::string& output_node_name,
+    bool connect(
+      const std::string& output_node_name,
       span_size_t oindex,
       const std::string& input_node_name,
       span_size_t iindex);
 
-    bool connect(const std::string& output_node_name,
+    bool connect(
+      const std::string& output_node_name,
       const std::string& input_node_name,
       span_size_t iindex);
 
-    bool connect(const std::string& output_node_name,
+    bool connect(
+      const std::string& output_node_name,
       const cstr_ref& oname,
       const std::string& input_node_name,
       const cstr_ref& iname);
 
-    bool connect(const std::string& output_node_name,
+    bool connect(
+      const std::string& output_node_name,
       const std::string& input_node_name,
       const cstr_ref& iname);
 

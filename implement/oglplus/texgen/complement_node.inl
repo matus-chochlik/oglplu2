@@ -37,7 +37,7 @@ OGLPLUS_LIB_FUNC
 std::ostream&
 complement_output::definitions(std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt))
-	return out;
+        return out;
 
     input_defs(out, ctxt);
     opening_expr(out, ctxt);
@@ -55,7 +55,8 @@ complement_output::definitions(std::ostream& out, compile_context& ctxt) {
     out << expr::conversion_prefix{input.value_type(), dt};
     out << expr::output_id{input.output(), ctxt};
     out << expr::render_param_pass{input.output()};
-    out << expr::conversion_suffix_v{input.value_type(),
+    out << expr::conversion_suffix_v{
+      input.value_type(),
       dt,
       {cstr_ref("c.r"), cstr_ref("c.g"), cstr_ref("c.b"), cstr_ref("c.a")}};
     out << ";" << std::endl;

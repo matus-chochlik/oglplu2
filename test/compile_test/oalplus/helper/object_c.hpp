@@ -21,6 +21,6 @@ oalplus_object_test(void) {
     eagine_object_test<Object>();
 }
 
-    // TODO
+// TODO
 
 #endif // include guard

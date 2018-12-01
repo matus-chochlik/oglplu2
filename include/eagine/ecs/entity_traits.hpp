@@ -17,7 +17,7 @@ struct entity_traits {
     typedef Entity parameter_type;
 
     static inline Entity minimum(void) noexcept {
-	return Entity();
+        return Entity();
     }
 };
 

@@ -93,7 +93,7 @@ test_units_si_1(void) {
 
 BOOST_AUTO_TEST_CASE(units_si_1) {
     for(int i = 0; i < 100; ++i) {
-	test_units_si_1<float>();
+        test_units_si_1<float>();
     }
 }
 
@@ -135,7 +135,8 @@ test_units_si_2(void) {
     BOOST_CHECK_CLOSE(
       value(ql3_mm) * value(ql3_mm), value(ql3_mm * ql3_mm), 0.001);
 
-    BOOST_CHECK_CLOSE(value(ql1_m) * value(ql2_cm) * value(ql3_mm) / 100000,
+    BOOST_CHECK_CLOSE(
+      value(ql1_m) * value(ql2_cm) * value(ql3_mm) / 100000,
       value(qv123_m3),
       0.001);
 
@@ -158,7 +159,7 @@ test_units_si_2(void) {
 
 BOOST_AUTO_TEST_CASE(units_si_2) {
     for(int i = 0; i < 100; ++i) {
-	test_units_si_2<float>();
+        test_units_si_2<float>();
     }
 }
 
@@ -233,7 +234,7 @@ test_units_si_3(void) {
 
 BOOST_AUTO_TEST_CASE(units_si_3) {
     for(int i = 0; i < 100; ++i) {
-	test_units_si_3<float>();
+        test_units_si_3<float>();
     }
 }
 
@@ -259,7 +260,7 @@ test_units_si_4(void) {
 
 BOOST_AUTO_TEST_CASE(units_si_4) {
     for(int i = 0; i < 100; ++i) {
-	test_units_si_4<float>();
+        test_units_si_4<float>();
     }
 }
 
@@ -288,7 +289,7 @@ test_units_si_5(void) {
 
 BOOST_AUTO_TEST_CASE(units_si_5) {
     for(int i = 0; i < 100; ++i) {
-	test_units_si_5<float>();
+        test_units_si_5<float>();
     }
 }
 
@@ -348,7 +349,7 @@ test_units_si_6(void) {
 
 BOOST_AUTO_TEST_CASE(units_si_6) {
     for(int i = 0; i < 100; ++i) {
-	test_units_si_6<float>();
+        test_units_si_6<float>();
     }
 }
 

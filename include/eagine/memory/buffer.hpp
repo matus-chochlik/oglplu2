@@ -29,11 +29,11 @@ private:
     shared_byte_allocator _alloc;
 
     bool _is_ok(void) const noexcept {
-	return bool(_alloc) && size() <= capacity();
+        return bool(_alloc) && size() <= capacity();
     }
 
     void _reallocate(span_size_t new_size) {
-	_alloc.do_reallocate(_storage, new_size, _align);
+        _alloc.do_reallocate(_storage, new_size, _align);
     }
 
 public:
@@ -50,51 +50,51 @@ public:
     buffer(const buffer&) = delete;
 
     ~buffer(void) noexcept {
-	free();
+        free();
     }
 
     auto addr(void) const noexcept {
-	return _storage.addr();
+        return _storage.addr();
     }
 
     pointer data(void) const noexcept {
-	return _storage.data();
+        return _storage.data();
     }
 
     span_size_t size(void) const noexcept {
-	return _size;
+        return _size;
     }
 
     span_size_t capacity(void) const noexcept {
-	return _storage.size();
+        return _storage.size();
     }
 
     void reserve(span_size_t new_size) {
-	if(capacity() < new_size) {
-	    _reallocate(new_size);
-	}
-	assert(_is_ok());
+        if(capacity() < new_size) {
+            _reallocate(new_size);
+        }
+        assert(_is_ok());
     }
 
     void resize(span_size_t new_size) {
-	reserve(new_size);
-	_size = new_size;
-	assert(_is_ok());
+        reserve(new_size);
+        _size = new_size;
+        assert(_is_ok());
     }
 
     void free(void) {
-	_alloc.deallocate(std::move(_storage), _align);
-	_size = 0;
+        _alloc.deallocate(std::move(_storage), _align);
+        _size = 0;
     }
 
     operator block(void) noexcept {
-	assert(_is_ok());
-	return {_storage.begin(), _size};
+        assert(_is_ok());
+        return {_storage.begin(), _size};
     }
 
     operator const_block(void) const noexcept {
-	assert(_is_ok());
-	return {_storage.begin(), _size};
+        assert(_is_ok());
+        return {_storage.begin(), _size};
     }
 };
 

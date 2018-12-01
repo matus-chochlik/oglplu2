@@ -10,11 +10,11 @@
 #ifndef EAGINE_OFFSET_PTR_1509260923_HPP
 #define EAGINE_OFFSET_PTR_1509260923_HPP
 
+#include <cassert>
 #include "memory/address.hpp"
 #include "memory_block.hpp"
 #include "span.hpp"
 #include "types.hpp"
-#include <cassert>
 
 namespace eagine {
 
@@ -37,23 +37,23 @@ private:
     using _rawptr = typename address::pointer;
 
     static address _that_addr(const basic_offset_ptr& that) {
-	return address(_rawptr(&that));
+        return address(_rawptr(&that));
     }
 
     address _this_addr(void) const noexcept {
-	return _that_addr(*this);
+        return _that_addr(*this);
     }
 
     offset_type _get_offs(address addr) noexcept {
-	return addr ? addr - _this_addr() : 0;
+        return addr ? addr - _this_addr() : 0;
     }
 
     offset_type _get_offs(T* ptr) noexcept {
-	return _get_offs(address(ptr));
+        return _get_offs(address(ptr));
     }
 
     offset_type _get_offs(const basic_offset_ptr& that) noexcept {
-	return that._offs ? that._offs + _get_offs(_that_addr(that)) : 0;
+        return that._offs ? that._offs + _get_offs(_that_addr(that)) : 0;
     }
 
 public:
@@ -78,84 +78,84 @@ public:
     }
 
     basic_offset_ptr& operator=(const basic_offset_ptr& that) noexcept {
-	_offs = _get_offs(that);
-	return *this;
+        _offs = _get_offs(that);
+        return *this;
     }
 
     basic_offset_ptr& reset(T* ptr) noexcept {
-	return *this = basic_offset_ptr(ptr);
+        return *this = basic_offset_ptr(ptr);
     }
 
     basic_offset_ptr& reset(address adr) noexcept {
-	return *this = basic_offset_ptr(adr);
+        return *this = basic_offset_ptr(adr);
     }
 
     constexpr inline bool is_null(void) const noexcept {
-	return _offs == offset_type(0);
+        return _offs == offset_type(0);
     }
 
     explicit constexpr inline operator bool(void) const noexcept {
-	return !is_null();
+        return !is_null();
     }
 
-    constexpr inline bool operator!(void)const noexcept {
-	return is_null();
+    constexpr inline bool operator!(void) const noexcept {
+        return is_null();
     }
 
     offset_type offset(void) const noexcept {
-	return _offs;
+        return _offs;
     }
 
     address addr(void) noexcept {
-	return is_null() ? address() : address(_this_addr(), _offs);
+        return is_null() ? address() : address(_this_addr(), _offs);
     }
 
     const_address addr(void) const noexcept {
-	return is_null() ? address() : address(_this_addr(), _offs);
+        return is_null() ? address() : address(_this_addr(), _offs);
     }
 
     pointer data(void) noexcept {
-	return static_cast<pointer>(addr());
+        return static_cast<pointer>(addr());
     }
 
     const_pointer data(void) const noexcept {
-	return static_cast<const_pointer>(addr());
+        return static_cast<const_pointer>(addr());
     }
 
     pointer get(void) noexcept {
-	return data();
+        return data();
     }
 
     const_pointer get(void) const noexcept {
-	return data();
+        return data();
     }
 
     operator pointer(void) noexcept {
-	return get();
+        return get();
     }
 
     operator const_pointer(void) const noexcept {
-	return get();
+        return get();
     }
 
     reference operator*(void)noexcept {
-	assert(!is_null());
-	return *get();
+        assert(!is_null());
+        return *get();
     }
 
     const_reference operator*(void)const noexcept {
-	assert(!is_null());
-	return *get();
+        assert(!is_null());
+        return *get();
     }
 
     pointer operator->(void)noexcept {
-	assert(!is_null());
-	return get();
+        assert(!is_null());
+        return get();
     }
 
     const_pointer operator->(void)const noexcept {
-	assert(!is_null());
-	return get();
+        assert(!is_null());
+        return get();
     }
 };
 
@@ -213,69 +213,69 @@ public:
     basic_offset_array& operator=(const basic_offset_array&) = default;
 
     basic_offset_array& reset(T* ptr, size_type len) noexcept {
-	return *this = basic_offset_array(ptr, len);
+        return *this = basic_offset_array(ptr, len);
     }
 
     basic_offset_array& reset(address adr, size_type len) noexcept {
-	return *this = basic_offset_array(adr, len);
+        return *this = basic_offset_array(adr, len);
     }
 
     constexpr inline size_type size(void) const noexcept {
-	return _size;
+        return _size;
     }
 
     offset_type offset(void) const noexcept {
-	return _optr.offset();
+        return _optr.offset();
     }
 
     address addr(void) noexcept {
-	return _optr.addr();
+        return _optr.addr();
     }
 
     iterator data(void) noexcept {
-	return _optr.data();
+        return _optr.data();
     }
 
     iterator begin(void) noexcept {
-	return _optr.data();
+        return _optr.data();
     }
 
     iterator end(void) noexcept {
-	return begin() + size();
+        return begin() + size();
     }
 
     memory::const_address addr(void) const noexcept {
-	return _optr.addr();
+        return _optr.addr();
     }
 
     const_iterator data(void) const noexcept {
-	return _optr.data();
+        return _optr.data();
     }
 
     const_iterator begin(void) const noexcept {
-	return _optr.data();
+        return _optr.data();
     }
 
     const_iterator end(void) const noexcept {
-	return begin() + size();
+        return begin() + size();
     }
 
     const_memory_block block(void) const noexcept {
-	return {data(), size()};
+        return {data(), size()};
     }
 
     memory_block block(void) noexcept {
-	return {data(), size()};
+        return {data(), size()};
     }
 
     reference operator[](size_type index) noexcept {
-	assert(index >= size_type(0) && index < size());
-	return begin()[index];
+        assert(index >= size_type(0) && index < size());
+        return begin()[index];
     }
 
     const_reference operator[](size_type index) const noexcept {
-	assert(index >= size_type(0) && index < size());
-	return begin()[index];
+        assert(index >= size_type(0) && index < size());
+        return begin()[index];
     }
 };
 
@@ -298,18 +298,18 @@ private:
 public:
     basic_offset_ptr_array_facade(
       const basic_offset_array<const basic_offset_ptr<T, PtrOffsT>, AryOffsT>&
-	pa) noexcept
+        pa) noexcept
       : _ptrarray(pa) {
     }
 
     size_type size(void) const noexcept {
-		return _ptrarray.size();
+        return _ptrarray.size();
     }
 
     T& operator[](span_size_t index) const noexcept {
-		assert(index < size());
-		assert(_ptrarray[index]);
-		return *_ptrarray[index];
+        assert(index < size());
+        assert(_ptrarray[index]);
+        return *_ptrarray[index];
     }
 };
 

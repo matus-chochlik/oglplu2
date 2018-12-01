@@ -9,8 +9,8 @@
 #ifndef OGLPLUS_OBJECT_GL_NAMES_1509260923_HPP
 #define OGLPLUS_OBJECT_GL_NAMES_1509260923_HPP
 
+#include <eagine/object/names.hpp>
 #include "fwd.hpp"
 #include "gl_traits.hpp"
-#include <eagine/object/names.hpp>
 
 #endif // include guard

@@ -10,9 +10,9 @@
 #ifndef EAGINE_ENUM_CLASS_1509260923_HPP
 #define EAGINE_ENUM_CLASS_1509260923_HPP
 
+#include <cassert>
 #include "mp_list.hpp"
 #include "std/type_traits.hpp"
-#include <cassert>
 
 namespace eagine {
 
@@ -32,7 +32,7 @@ struct enum_value<T, mp_list<Classes...>> {
     }
 
     explicit constexpr inline operator T(void) const noexcept {
-	return value;
+        return value;
     }
 };
 
@@ -52,7 +52,8 @@ struct enum_class {
 
     enum_class(void) = default;
 
-    template <typename Classes,
+    template <
+      typename Classes,
       typename = std::enable_if_t<mp_contains<Classes, Self>::value>>
     constexpr inline enum_class(enum_value<T, Classes> ev) noexcept
       : _value(ev.value) {
@@ -60,7 +61,7 @@ struct enum_class {
 
     constexpr enum_class(const any_enum_value<LibId>& aev) noexcept
       : _value(static_cast<T>(aev._value)) {
-	assert(aev._type_id == Id);
+        assert(aev._type_id == Id);
     }
 
     explicit constexpr inline enum_class(value_type value) noexcept
@@ -68,21 +69,21 @@ struct enum_class {
     }
 
     constexpr inline operator Self(void) const noexcept {
-	return Self(_value);
+        return Self(_value);
     }
 
     explicit constexpr inline operator value_type(void) const noexcept {
-	return _value;
+        return _value;
     }
 
     friend constexpr inline bool operator==(
       enum_class a, enum_class b) noexcept {
-	return a._value == b._value;
+        return a._value == b._value;
     }
 
     friend constexpr inline bool operator!=(
       enum_class a, enum_class b) noexcept {
-	return a._value != b._value;
+        return a._value != b._value;
     }
 };
 
@@ -114,21 +115,21 @@ struct any_enum_class {
     }
 
     explicit constexpr inline operator bool(void) const noexcept {
-	return _type_id != ~unsigned(0);
+        return _type_id != ~unsigned(0);
     }
 
-    constexpr inline bool operator!(void)const noexcept {
-	return _type_id == ~unsigned(0);
+    constexpr inline bool operator!(void) const noexcept {
+        return _type_id == ~unsigned(0);
     }
 
     friend bool operator==(
       const any_enum_class& a, const any_enum_class& b) noexcept {
-	return a._type_id == b._type_id;
+        return a._type_id == b._type_id;
     }
 
     friend bool operator!=(
       const any_enum_class& a, const any_enum_class& b) noexcept {
-	return a._type_id != b._type_id;
+        return a._type_id != b._type_id;
     }
 };
 
@@ -149,21 +150,21 @@ struct any_enum_value {
     }
 
     explicit constexpr inline operator bool(void) const noexcept {
-	return _type_id != ~unsigned(0);
+        return _type_id != ~unsigned(0);
     }
 
-    constexpr inline bool operator!(void)const noexcept {
-	return _type_id == ~unsigned(0);
+    constexpr inline bool operator!(void) const noexcept {
+        return _type_id == ~unsigned(0);
     }
 
     friend bool operator==(
       const any_enum_value& a, const any_enum_value& b) noexcept {
-	return (a._value == b._value) && (a._type_id == b._type_id);
+        return (a._value == b._value) && (a._type_id == b._type_id);
     }
 
     friend bool operator!=(
       const any_enum_value& a, const any_enum_value& b) noexcept {
-	return (a._value != b._value) || (a._type_id != b._type_id);
+        return (a._value != b._value) || (a._type_id != b._type_id);
     }
 };
 

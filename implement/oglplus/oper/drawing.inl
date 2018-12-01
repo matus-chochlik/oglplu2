@@ -50,14 +50,15 @@ drawing_ops::draw_arrays(
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_0)
 inline outcome<void>
-drawing_ops::multi_draw_arrays(primitive_type mode,
+drawing_ops::multi_draw_arrays(
+  primitive_type mode,
   span<const GLint> first,
   span<const GLsizei> count) noexcept {
     OGLPLUS_GLFUNC(MultiDrawArrays)
     (GLenum(mode),
-      first.data(),
-      count.data(),
-      GLsizei(std::min(first.size(), count.size())));
+     first.data(),
+     count.data(),
+     GLsizei(std::min(first.size(), count.size())));
     OGLPLUS_VERIFY(MultiDrawArrays, gl_enum_value(mode), debug);
     return {};
 }
@@ -75,7 +76,8 @@ drawing_ops::draw_arrays_instanced(
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_2)
 inline outcome<void>
-drawing_ops::draw_arrays_instanced_base_instance(primitive_type mode,
+drawing_ops::draw_arrays_instanced_base_instance(
+  primitive_type mode,
   GLint first,
   GLsizei count,
   GLsizei primcount,
@@ -98,7 +100,8 @@ drawing_ops::draw_arrays_indirect(
 #endif
 //------------------------------------------------------------------------------
 inline outcome<void>
-drawing_ops::draw_elements(primitive_type mode,
+drawing_ops::draw_elements(
+  primitive_type mode,
   GLsizei count,
   index_type type,
   const GLvoid* indices) noexcept {
@@ -115,23 +118,25 @@ drawing_ops::draw_elements(
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_0)
 inline outcome<void>
-drawing_ops::multi_draw_elements(primitive_type mode,
+drawing_ops::multi_draw_elements(
+  primitive_type mode,
   span<const GLsizei> count,
   index_type type,
   span<const GLvoid*> indices) noexcept {
     OGLPLUS_GLFUNC(MultiDrawElements)
     (GLenum(mode),
-      count.data(),
-      GLenum(type),
-      indices.data(),
-      GLsizei(std::min(count.size(), indices.size())));
+     count.data(),
+     GLenum(type),
+     indices.data(),
+     GLsizei(std::min(count.size(), indices.size())));
     OGLPLUS_VERIFY(MultiDrawElements, gl_enum_value(mode), debug);
     return {};
 }
 #endif
 //------------------------------------------------------------------------------
 inline outcome<void>
-drawing_ops::draw_range_elements(primitive_type mode,
+drawing_ops::draw_range_elements(
+  primitive_type mode,
   GLuint start,
   GLuint end,
   GLsizei count,
@@ -144,7 +149,8 @@ drawing_ops::draw_range_elements(primitive_type mode,
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-drawing_ops::draw_range_elements(primitive_type mode,
+drawing_ops::draw_range_elements(
+  primitive_type mode,
   GLuint start,
   GLuint end,
   GLsizei count,
@@ -154,7 +160,8 @@ drawing_ops::draw_range_elements(primitive_type mode,
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_1)
 inline outcome<void>
-drawing_ops::draw_elements_instanced(primitive_type mode,
+drawing_ops::draw_elements_instanced(
+  primitive_type mode,
   GLsizei count,
   index_type type,
   const GLvoid* indices,
@@ -166,7 +173,8 @@ drawing_ops::draw_elements_instanced(primitive_type mode,
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-drawing_ops::draw_elements_instanced(primitive_type mode,
+drawing_ops::draw_elements_instanced(
+  primitive_type mode,
   GLsizei count,
   index_type type,
   GLsizei primcount) noexcept {
@@ -176,7 +184,8 @@ drawing_ops::draw_elements_instanced(primitive_type mode,
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_2)
 inline outcome<void>
-drawing_ops::draw_elements_base_vertex(primitive_type mode,
+drawing_ops::draw_elements_base_vertex(
+  primitive_type mode,
   GLsizei count,
   index_type type,
   const GLvoid* indices,
@@ -188,7 +197,8 @@ drawing_ops::draw_elements_base_vertex(primitive_type mode,
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-drawing_ops::draw_elements_base_vertex(primitive_type mode,
+drawing_ops::draw_elements_base_vertex(
+  primitive_type mode,
   GLsizei count,
   index_type type,
   GLint basevertex) noexcept {
@@ -196,25 +206,27 @@ drawing_ops::draw_elements_base_vertex(primitive_type mode,
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-drawing_ops::multi_draw_elements_base_vertex(primitive_type mode,
+drawing_ops::multi_draw_elements_base_vertex(
+  primitive_type mode,
   span<const GLsizei> count,
   index_type type,
   span<const GLvoid*> indices,
   span<const GLint> basevertex) noexcept {
     OGLPLUS_GLFUNC(MultiDrawElementsBaseVertex)
     (GLenum(mode),
-      count.data(),
-      GLenum(type),
-      indices.data(),
-      GLsizei(
-	std::min(std::min(count.size(), indices.size()), basevertex.size())),
-      basevertex.data());
+     count.data(),
+     GLenum(type),
+     indices.data(),
+     GLsizei(
+       std::min(std::min(count.size(), indices.size()), basevertex.size())),
+     basevertex.data());
     OGLPLUS_VERIFY(MultiDrawElementsBaseVertex, gl_enum_value(mode), debug);
     return {};
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-drawing_ops::draw_range_elements_base_vertex(primitive_type mode,
+drawing_ops::draw_range_elements_base_vertex(
+  primitive_type mode,
   GLuint start,
   GLuint end,
   GLsizei count,
@@ -228,7 +240,8 @@ drawing_ops::draw_range_elements_base_vertex(primitive_type mode,
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-drawing_ops::draw_range_elements_base_vertex(primitive_type mode,
+drawing_ops::draw_range_elements_base_vertex(
+  primitive_type mode,
   GLuint start,
   GLuint end,
   GLsizei count,
@@ -239,7 +252,8 @@ drawing_ops::draw_range_elements_base_vertex(primitive_type mode,
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-drawing_ops::draw_elements_instanced_base_vertex(primitive_type mode,
+drawing_ops::draw_elements_instanced_base_vertex(
+  primitive_type mode,
   GLsizei count,
   index_type type,
   const GLvoid* indices,
@@ -252,7 +266,8 @@ drawing_ops::draw_elements_instanced_base_vertex(primitive_type mode,
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-drawing_ops::draw_elements_instanced_base_vertex(primitive_type mode,
+drawing_ops::draw_elements_instanced_base_vertex(
+  primitive_type mode,
   GLsizei count,
   index_type type,
   GLsizei primcount,
@@ -264,7 +279,8 @@ drawing_ops::draw_elements_instanced_base_vertex(primitive_type mode,
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_2)
 inline outcome<void>
-drawing_ops::draw_elements_instanced_base_instance(primitive_type mode,
+drawing_ops::draw_elements_instanced_base_instance(
+  primitive_type mode,
   GLsizei count,
   index_type type,
   const GLvoid* indices,
@@ -278,7 +294,8 @@ drawing_ops::draw_elements_instanced_base_instance(primitive_type mode,
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-drawing_ops::draw_elements_instanced_base_instance(primitive_type mode,
+drawing_ops::draw_elements_instanced_base_instance(
+  primitive_type mode,
   GLsizei count,
   index_type type,
   GLsizei primcount,
@@ -298,12 +315,12 @@ drawing_ops::draw_elements_instanced_base_vertex_base_instance(
   GLuint baseinstance) noexcept {
     OGLPLUS_GLFUNC(DrawElementsInstancedBaseVertexBaseInstance)
     (GLenum(mode),
-      count,
-      GLenum(type),
-      indices,
-      primcount,
-      basevertex,
-      baseinstance);
+     count,
+     GLenum(type),
+     indices,
+     primcount,
+     basevertex,
+     baseinstance);
     OGLPLUS_VERIFY(
       DrawElementsInstancedBaseVertexBaseInstance, gl_enum_value(mode), debug);
     return {};
@@ -345,7 +362,8 @@ drawing_ops::draw_transform_feedback_stream(
   primitive_type mode, transform_feedback_name xfb, GLuint stream) noexcept {
     OGLPLUS_GLFUNC(DrawTransformFeedbackStream)
     (GLenum(mode), get_raw_name(xfb), stream);
-    OGLPLUS_VERIFY(DrawTransformFeedbackStream,
+    OGLPLUS_VERIFY(
+      DrawTransformFeedbackStream,
       gl_object(xfb).gl_index(stream).gl_enum_value(mode),
       debug);
     return {};
@@ -354,7 +372,8 @@ drawing_ops::draw_transform_feedback_stream(
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_2)
 inline outcome<void>
-drawing_ops::draw_transform_feedback_instanced(primitive_type mode,
+drawing_ops::draw_transform_feedback_instanced(
+  primitive_type mode,
   transform_feedback_name xfb,
   GLsizei primcount) noexcept {
     OGLPLUS_GLFUNC(DrawTransformFeedbackInstanced)
@@ -365,13 +384,15 @@ drawing_ops::draw_transform_feedback_instanced(primitive_type mode,
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-drawing_ops::draw_transform_feedback_stream_instanced(primitive_type mode,
+drawing_ops::draw_transform_feedback_stream_instanced(
+  primitive_type mode,
   transform_feedback_name xfb,
   GLuint stream,
   GLsizei primcount) noexcept {
     OGLPLUS_GLFUNC(DrawTransformFeedbackStreamInstanced)
     (GLenum(mode), get_raw_name(xfb), stream, primcount);
-    OGLPLUS_VERIFY(DrawTransformFeedbackStreamInstanced,
+    OGLPLUS_VERIFY(
+      DrawTransformFeedbackStreamInstanced,
       gl_object(xfb).gl_index(stream).gl_enum_value(mode),
       debug);
     return {};

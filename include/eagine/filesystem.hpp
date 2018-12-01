@@ -17,26 +17,19 @@
 namespace eagine {
 namespace filesystem {
 
-cstr_ref
-path_separator(void) noexcept;
+cstr_ref path_separator(void) noexcept;
 
-cstr_ref
-alt_path_separator(void) noexcept;
+cstr_ref alt_path_separator(void) noexcept;
 
-bool
-has_alt_path_separator(void) noexcept;
+bool has_alt_path_separator(void) noexcept;
 
-cstr_ref
-path_curdir(void) noexcept;
+cstr_ref path_curdir(void) noexcept;
 
-cstr_ref
-path_pardir(void) noexcept;
+cstr_ref path_pardir(void) noexcept;
 
-cstr_ref
-basename(const cstr_ref& path) noexcept;
+cstr_ref basename(const cstr_ref& path) noexcept;
 
-cstr_ref
-dirname(const cstr_ref& path) noexcept;
+cstr_ref dirname(const cstr_ref& path) noexcept;
 
 class string_path {
 private:
@@ -67,86 +60,86 @@ public:
 
     friend inline bool operator==(
       const string_path& a, const string_path& b) noexcept {
-	return a._p == b._p;
+        return a._p == b._p;
     }
 
     friend inline bool operator!=(
       const string_path& a, const string_path& b) noexcept {
-	return a._p != b._p;
+        return a._p != b._p;
     }
 
     friend inline bool operator<(
       const string_path& a, const string_path& b) noexcept {
-	return a._p < b._p;
+        return a._p < b._p;
     }
 
     friend inline bool operator<=(
       const string_path& a, const string_path& b) noexcept {
-	return a._p <= b._p;
+        return a._p <= b._p;
     }
 
     friend inline bool operator>(
       const string_path& a, const string_path& b) noexcept {
-	return a._p > b._p;
+        return a._p > b._p;
     }
 
     friend inline bool operator>=(
       const string_path& a, const string_path& b) noexcept {
-	return a._p >= b._p;
+        return a._p >= b._p;
     }
 
     friend inline string_path operator+(
       const string_path& a, const string_path& b) noexcept {
-	return string_path(a, b);
+        return string_path(a, b);
     }
 
     inline bool empty(void) const noexcept {
-	return _p.empty();
+        return _p.empty();
     }
 
     inline size_type size(void) const noexcept {
-	return _p.size();
+        return _p.size();
     }
 
     inline str_span front(void) const noexcept {
-	return _p.front();
+        return _p.front();
     }
 
     inline str_span back(void) const noexcept {
-	return _p.back();
+        return _p.back();
     }
 
     inline string_path& push_back(const str_span& name) {
-	_p.push_back(name);
-	return *this;
+        _p.push_back(name);
+        return *this;
     }
 
     inline void pop_back(void) {
-	_p.pop_back();
+        _p.pop_back();
     }
 
     inline iterator begin(void) const {
-	return _p.begin();
+        return _p.begin();
     }
 
     inline iterator end(void) const {
-	return _p.end();
+        return _p.end();
     }
 
     inline reverse_iterator rbegin(void) const {
-	return _p.rbegin();
+        return _p.rbegin();
     }
 
     inline reverse_iterator rend(void) const {
-	return _p.rend();
+        return _p.rend();
     }
 
     inline std::string str(void) const {
-	return _p.as_string(path_separator(), false);
+        return _p.as_string(path_separator(), false);
     }
 
     inline std::string dir_str(void) const {
-	return empty() ? std::string() : _p.as_string(path_separator(), true);
+        return empty() ? std::string() : _p.as_string(path_separator(), true);
     }
 
     string_path normalized(void) const;
@@ -162,8 +155,7 @@ public:
     bool is_relative(void) const noexcept;
 };
 
-string_path
-current_working_directory(void);
+string_path current_working_directory(void);
 
 } // namespace filesystem
 } // namespace eagine

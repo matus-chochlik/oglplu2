@@ -37,6 +37,6 @@ oglplus_command_list_nv_test_ops1(void) {
     lst.call();
 }
 
-    // TODO
+// TODO
 
 #endif

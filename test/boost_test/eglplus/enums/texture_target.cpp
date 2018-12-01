@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE EGLPLUS_texture_target
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_texture_target_tests)
 
@@ -64,21 +64,21 @@ BOOST_AUTO_TEST_CASE(enum_texture_target_range) {
 
 #ifdef EGL_NO_TEXTURE
     {
-	--count;
-	auto r = enum_value_range<texture_target>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), texture_target(EGL_NO_TEXTURE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_target>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), texture_target(EGL_NO_TEXTURE)) !=
+          r.end());
     }
 #endif
 
 #ifdef EGL_TEXTURE_2D
     {
-	--count;
-	auto r = enum_value_range<texture_target>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), texture_target(EGL_TEXTURE_2D))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_target>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), texture_target(EGL_TEXTURE_2D)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

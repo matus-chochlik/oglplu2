@@ -27,27 +27,27 @@ struct name_surname : eagine::ecs::component<name_surname> {
 template <bool Const>
 struct name_surname_manip
   : eagine::ecs::basic_manipulator<name_surname, Const> {
-    using eagine::ecs::basic_manipulator<name_surname,
-      Const>::basic_manipulator;
+    using eagine::ecs::basic_manipulator<name_surname, Const>::
+      basic_manipulator;
 
     const std::string& get_first_name(void) const {
-	return this->read().first_name;
+        return this->read().first_name;
     }
 
     void set_first_name(std::string s) {
-	this->write().first_name = std::move(s);
+        this->write().first_name = std::move(s);
     }
 
     bool has_family_name(const char* str) const {
-	return this->is_valid() && this->read().family_name == str;
+        return this->is_valid() && this->read().family_name == str;
     }
 
     const std::string& get_family_name(void) const {
-	return this->read().family_name;
+        return this->read().family_name;
     }
 
     void set_family_name(std::string s) {
-	this->write().family_name = std::move(s);
+        this->write().family_name = std::move(s);
     }
 };
 
@@ -66,29 +66,29 @@ struct measurements : eagine::ecs::component<measurements> {
 template <bool Const>
 struct measurements_manip
   : eagine::ecs::basic_manipulator<measurements, Const> {
-    using eagine::ecs::basic_manipulator<measurements,
-      Const>::basic_manipulator;
+    using eagine::ecs::basic_manipulator<measurements, Const>::
+      basic_manipulator;
 
     bool has_height_m(float v) const {
-	return this->is_valid() && std::abs(this->read().height_m - v) < 0.01f;
+        return this->is_valid() && std::abs(this->read().height_m - v) < 0.01f;
     }
 
     float get_height_m(void) const {
-	return this->read().height_m;
+        return this->read().height_m;
     }
 
     void set_height_m(float v) {
-	assert(v > 0);
-	this->write().height_m = v;
+        assert(v > 0);
+        this->write().height_m = v;
     }
 
     float get_weight_kg(void) const {
-	return this->read().weight_kg;
+        return this->read().weight_kg;
     }
 
     void set_weight_kg(float v) {
-	assert(v > 0);
-	this->write().weight_kg = v;
+        assert(v > 0);
+        this->write().weight_kg = v;
     }
 };
 
@@ -103,7 +103,7 @@ struct entity_traits<std::string> {
     typedef const std::string& parameter_type;
 
     static inline std::string minimum(void) noexcept {
-	return {};
+        return {};
     }
 };
 
@@ -197,7 +197,7 @@ BOOST_AUTO_TEST_CASE(ecs_test_component_manip_1) {
 
     mgr.for_each_with<const name_surname>(
       [&names](const entity&, manipulator<const name_surname>& ns) {
-	  names.insert(ns.get_first_name());
+          names.insert(ns.get_first_name());
       });
 
     BOOST_CHECK_EQUAL(names.size(), 5);
@@ -208,13 +208,14 @@ BOOST_AUTO_TEST_CASE(ecs_test_component_manip_1) {
     BOOST_CHECK(names.find("Emmett") != names.end());
 
     mgr.for_each_with<const name_surname, measurements>(
-      [](const entity&,
-	manipulator<const name_surname>& ns,
-	manipulator<measurements>& m) {
-	  if(ns.get_family_name() == "Tannen") {
-	      m.set_height_m(2.0f);
-	      m.set_weight_kg(105.f);
-	  }
+      [](
+        const entity&,
+        manipulator<const name_surname>& ns,
+        manipulator<measurements>& m) {
+          if(ns.get_family_name() == "Tannen") {
+              m.set_height_m(2.0f);
+              m.set_weight_kg(105.f);
+          }
       });
 
     float min_h = 3.0f;
@@ -223,16 +224,16 @@ BOOST_AUTO_TEST_CASE(ecs_test_component_manip_1) {
 
     mgr.for_each_with<const measurements>(
       [&min_h, &max_h, &max_w](
-	const entity&, manipulator<const measurements>& m) {
-	  if(min_h > m.get_height_m()) {
-	      min_h = m.get_height_m();
-	  }
-	  if(max_h < m.get_height_m()) {
-	      max_h = m.get_height_m();
-	  }
-	  if(max_w < m.get_weight_kg()) {
-	      max_w = m.get_weight_kg();
-	  }
+        const entity&, manipulator<const measurements>& m) {
+          if(min_h > m.get_height_m()) {
+              min_h = m.get_height_m();
+          }
+          if(max_h < m.get_height_m()) {
+              max_h = m.get_height_m();
+          }
+          if(max_w < m.get_weight_kg()) {
+              max_w = m.get_weight_kg();
+          }
       });
 
     BOOST_CHECK_EQUAL(min_h, 1.6f);
@@ -243,9 +244,9 @@ BOOST_AUTO_TEST_CASE(ecs_test_component_manip_1) {
 
     mgr.for_each_with<name_surname>(
       [](const entity&, manipulator<name_surname>& ns) {
-	  if(ns.get_first_name() == "Buford") {
-	      ns.set_first_name("Mad-dog");
-	  }
+          if(ns.get_first_name() == "Buford") {
+              ns.set_first_name("Mad-dog");
+          }
       });
 
     BOOST_CHECK_EQUAL(mgr.get(&name_surname::first_name, "buford"), "Mad-dog");
@@ -254,26 +255,28 @@ BOOST_AUTO_TEST_CASE(ecs_test_component_manip_1) {
     BOOST_CHECK(mgr.has<measurements>("biff"));
 
     mgr.for_each_with<const name_surname, measurements>(
-      [](const entity&,
-	manipulator<const name_surname>& ns,
-	manipulator<measurements>& m) {
-	  if(ns.get_family_name() == "Tannen") {
-	      BOOST_ASSERT(m.can_remove());
-	      m.remove();
-	  }
+      [](
+        const entity&,
+        manipulator<const name_surname>& ns,
+        manipulator<measurements>& m) {
+          if(ns.get_family_name() == "Tannen") {
+              BOOST_ASSERT(m.can_remove());
+              m.remove();
+          }
       });
 
     BOOST_CHECK(!mgr.has<measurements>("buford"));
     BOOST_CHECK(!mgr.has<measurements>("biff"));
 
     mgr.for_each_with_opt<const name_surname, measurements>(
-      [](const entity&,
-	manipulator<const name_surname>& ns,
-	manipulator<measurements>& m) {
-	  if(ns.has_family_name("Tannen")) {
-	      BOOST_ASSERT(m.can_add());
-	      m.add(measurements(2.0f, 100.f));
-	  }
+      [](
+        const entity&,
+        manipulator<const name_surname>& ns,
+        manipulator<measurements>& m) {
+          if(ns.has_family_name("Tannen")) {
+              BOOST_ASSERT(m.can_add());
+              m.add(measurements(2.0f, 100.f));
+          }
       });
 
     BOOST_CHECK(mgr.has<measurements>("buford"));
@@ -281,12 +284,13 @@ BOOST_AUTO_TEST_CASE(ecs_test_component_manip_1) {
     BOOST_CHECK(mgr.has<measurements>("griff"));
 
     mgr.for_each_with_opt<const name_surname, const measurements>(
-      [](const entity&,
-	manipulator<const name_surname>& ns,
-	manipulator<const measurements>& m) {
-	  if(ns.has_family_name("Tannen")) {
-	      BOOST_CHECK(m.has_height_m(2.f));
-	  }
+      [](
+        const entity&,
+        manipulator<const name_surname>& ns,
+        manipulator<const measurements>& m) {
+          if(ns.has_family_name("Tannen")) {
+              BOOST_CHECK(m.has_height_m(2.f));
+          }
       });
 
     BOOST_CHECK(mgr.has<name_surname>("buford"));
@@ -295,10 +299,10 @@ BOOST_AUTO_TEST_CASE(ecs_test_component_manip_1) {
 
     mgr.for_each_with<name_surname>(
       [](const entity&, manipulator<name_surname>& ns) {
-	  if(ns.get_family_name() == "Tannen") {
-	      BOOST_ASSERT(ns.can_remove());
-	      ns.remove();
-	  }
+          if(ns.get_family_name() == "Tannen") {
+              BOOST_ASSERT(ns.can_remove());
+              ns.remove();
+          }
       });
 
     BOOST_CHECK(!mgr.has<name_surname>("buford"));

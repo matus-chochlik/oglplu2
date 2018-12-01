@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_transform_feedback_primitive_type
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_transform_feedback_primitive_type_tests)
 
@@ -81,34 +81,35 @@ BOOST_AUTO_TEST_CASE(enum_transform_feedback_primitive_type_range) {
 
 #ifdef GL_LINES
     {
-	--count;
-	auto r = enum_value_range<transform_feedback_primitive_type>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), transform_feedback_primitive_type(GL_LINES))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<transform_feedback_primitive_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), transform_feedback_primitive_type(GL_LINES)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_POINTS
     {
-	--count;
-	auto r = enum_value_range<transform_feedback_primitive_type>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), transform_feedback_primitive_type(GL_POINTS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<transform_feedback_primitive_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), transform_feedback_primitive_type(GL_POINTS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TRIANGLES
     {
-	--count;
-	auto r = enum_value_range<transform_feedback_primitive_type>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), transform_feedback_primitive_type(GL_TRIANGLES))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<transform_feedback_primitive_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            transform_feedback_primitive_type(GL_TRIANGLES)) != r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

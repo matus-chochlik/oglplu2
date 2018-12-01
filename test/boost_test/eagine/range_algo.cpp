@@ -8,9 +8,9 @@
 #define BOOST_TEST_MODULE EAGINE_range_algo
 #include "../unit_test_begin.inl"
 
+#include <vector>
 #include <eagine/cstr_ref.hpp>
 #include <eagine/span.hpp>
-#include <vector>
 
 BOOST_AUTO_TEST_SUITE(range_algo_tests)
 
@@ -24,7 +24,7 @@ test_range_equal_1(eagine::span<T> rng1, eagine::span<T> rng2) {
     bool are_equal = (rng1.size() == rng2.size());
 
     for(span_size_t i = 0; i < rng1.size(); ++i) {
-	are_equal &= (rng1[i] == rng2[i]);
+        are_equal &= (rng1[i] == rng2[i]);
     }
 
     BOOST_CHECK_EQUAL(ranges::equal(rng1, rng2), are_equal);
@@ -37,11 +37,11 @@ test_range_equal_1(T min, T max, bool are) {
     std::vector<T> v2(v1.size());
 
     for(typename std::vector<T>::size_type i = 0; i < v1.size(); ++i) {
-	v1[i] = rg.get<T>(min, max);
-	if(are)
-	    v2[i] = v1[i];
-	else
-	    v2[i] = rg.get<T>(min, max);
+        v1[i] = rg.get<T>(min, max);
+        if(are)
+            v2[i] = v1[i];
+        else
+            v2[i] = rg.get<T>(min, max);
     }
 
     test_range_equal_1<T>(eagine::make_span(v1), eagine::make_span(v2));
@@ -54,7 +54,7 @@ test_range_equal_1(T min, T max) {
     test_range_equal_1(min, max, false);
 
     for(int i = 0; i < 10; ++i) {
-	test_range_equal_1(min, max, rg.get_bool());
+        test_range_equal_1(min, max, rg.get_bool());
     }
 }
 
@@ -77,7 +77,7 @@ test_range_slice_r_p_s_1(
     BOOST_CHECK(slc.size() <= s);
 
     for(span_size_t i = 0; i < n; ++i) {
-	BOOST_CHECK_EQUAL(rng[p + i], slc[i]);
+        BOOST_CHECK_EQUAL(rng[p + i], slc[i]);
     }
 }
 
@@ -102,9 +102,10 @@ test_range_slice_r_p_s_1(eagine::span<T> rng) {
     test_range_slice_r_p_s_1(rng, rng.size() * 2, rng.size() * 2);
 
     for(int i = 0; i < 100; ++i) {
-	test_range_slice_r_p_s_1(rng,
-	  rg.get_span_size(0, rng.size() * 2),
-	  rg.get_span_size(0, rng.size() * 2));
+        test_range_slice_r_p_s_1(
+          rng,
+          rg.get_span_size(0, rng.size() * 2),
+          rg.get_span_size(0, rng.size() * 2));
     }
 }
 
@@ -112,11 +113,11 @@ template <typename T>
 void
 test_range_slice_r_p_s_1(T min, T max) {
     for(int i = 0; i < 10; ++i) {
-	std::vector<T> v(rg.get_std_size(20, 100));
-	for(T& x : v) {
-	    x = rg.get<T>(min, max);
-	}
-	test_range_slice_r_p_s_1(eagine::make_span(v));
+        std::vector<T> v(rg.get_std_size(20, 100));
+        for(T& x : v) {
+            x = rg.get<T>(min, max);
+        }
+        test_range_slice_r_p_s_1(eagine::make_span(v));
     }
 }
 
@@ -137,7 +138,7 @@ test_range_slice_r_p_1(eagine::span<T> rng, eagine::span_size_t p) {
     BOOST_CHECK(slc.size() <= rng.size());
 
     for(span_size_t i = 0; i < n; ++i) {
-	BOOST_CHECK_EQUAL(rng[p + i], slc[i]);
+        BOOST_CHECK_EQUAL(rng[p + i], slc[i]);
     }
 }
 
@@ -152,7 +153,7 @@ test_range_slice_r_p_1(eagine::span<T> rng) {
     test_range_slice_r_p_1(rng, rng.size() * 2);
 
     for(int i = 0; i < 100; ++i) {
-	test_range_slice_r_p_1(rng, rg.get_span_size(0, rng.size() * 2));
+        test_range_slice_r_p_1(rng, rg.get_span_size(0, rng.size() * 2));
     }
 }
 
@@ -160,11 +161,11 @@ template <typename T>
 void
 test_range_slice_r_p_1(T min, T max) {
     for(int i = 0; i < 10; ++i) {
-	std::vector<T> v(rg.get_std_size(20, 100));
-	for(T& x : v) {
-	    x = rg.get<T>(min, max);
-	}
-	test_range_slice_r_p_1(eagine::make_span(v));
+        std::vector<T> v(rg.get_std_size(20, 100));
+        for(T& x : v) {
+            x = rg.get<T>(min, max);
+        }
+        test_range_slice_r_p_1(eagine::make_span(v));
     }
 }
 
@@ -185,7 +186,7 @@ test_range_head_1(eagine::span<T> rng, eagine::span_size_t l) {
     BOOST_CHECK(rng2.size() <= rng.size());
 
     for(span_size_t i = 0; i < n; ++i) {
-	BOOST_CHECK_EQUAL(rng[i], rng2[i]);
+        BOOST_CHECK_EQUAL(rng[i], rng2[i]);
     }
 }
 
@@ -200,7 +201,7 @@ test_range_head_1(eagine::span<T> rng) {
     test_range_head_1(rng, rng.size() * 2);
 
     for(int i = 0; i < 100; ++i) {
-	test_range_head_1(rng, rg.get_span_size(0, rng.size() * 2));
+        test_range_head_1(rng, rg.get_span_size(0, rng.size() * 2));
     }
 }
 
@@ -208,11 +209,11 @@ template <typename T>
 void
 test_range_head_1(T min, T max) {
     for(int i = 0; i < 10; ++i) {
-	std::vector<T> v(rg.get_std_size(20, 100));
-	for(T& x : v) {
-	    x = rg.get<T>(min, max);
-	}
-	test_range_head_1(eagine::make_span(v));
+        std::vector<T> v(rg.get_std_size(20, 100));
+        for(T& x : v) {
+            x = rg.get<T>(min, max);
+        }
+        test_range_head_1(eagine::make_span(v));
     }
 }
 
@@ -234,10 +235,10 @@ test_range_tail_1(eagine::span<T> rng, eagine::span_size_t l) {
 
     span_size_t p = rng.size() - l;
     if(p < 0)
-	p = 0;
+        p = 0;
 
     for(span_size_t i = 0; i < n; ++i) {
-	BOOST_CHECK_EQUAL(rng[p + i], rng2[i]);
+        BOOST_CHECK_EQUAL(rng[p + i], rng2[i]);
     }
 }
 
@@ -252,7 +253,7 @@ test_range_tail_1(eagine::span<T> rng) {
     test_range_tail_1(rng, rng.size() * 2);
 
     for(int i = 0; i < 100; ++i) {
-	test_range_tail_1(rng, rg.get_span_size(0, rng.size() * 2));
+        test_range_tail_1(rng, rg.get_span_size(0, rng.size() * 2));
     }
 }
 
@@ -260,11 +261,11 @@ template <typename T>
 void
 test_range_tail_1(T min, T max) {
     for(int i = 0; i < 10; ++i) {
-	std::vector<T> v(rg.get_std_size(20, 100));
-	for(T& x : v) {
-	    x = rg.get<T>(min, max);
-	}
-	test_range_tail_1(eagine::make_span(v));
+        std::vector<T> v(rg.get_std_size(20, 100));
+        for(T& x : v) {
+            x = rg.get<T>(min, max);
+        }
+        test_range_tail_1(eagine::make_span(v));
     }
 }
 
@@ -283,7 +284,7 @@ test_range_starts_with_1(eagine::span<T> rng1, eagine::span<T> rng2) {
     bool equal = true;
 
     for(span_size_t i = 0; i < n; ++i) {
-	equal &= (rng1[i] == rng2[i]);
+        equal &= (rng1[i] == rng2[i]);
     }
 
     BOOST_CHECK_EQUAL(ranges::starts_with(rng1, rng2), equal);
@@ -298,17 +299,17 @@ test_range_starts_with_1(T min, T max, bool does) {
     typename std::vector<T>::size_type i = 0;
 
     while(i < v2.size()) {
-	v1[i] = rg.get<T>(min, max);
-	if(does)
-	    v2[i] = v1[i];
-	else
-	    v2[i] = rg.get<T>(min, max);
-	++i;
+        v1[i] = rg.get<T>(min, max);
+        if(does)
+            v2[i] = v1[i];
+        else
+            v2[i] = rg.get<T>(min, max);
+        ++i;
     }
 
     while(i < v1.size()) {
-	v1[i] = rg.get<T>(min, max);
-	++i;
+        v1[i] = rg.get<T>(min, max);
+        ++i;
     }
 
     test_range_starts_with_1(eagine::make_span(v1), eagine::make_span(v2));
@@ -321,7 +322,7 @@ test_range_starts_with_1(T min, T max) {
     test_range_starts_with_1<T>(min, max, true);
 
     for(int i = 0; i < 10; ++i) {
-	test_range_starts_with_1<T>(min, max, rg.get_bool());
+        test_range_starts_with_1<T>(min, max, rg.get_bool());
     }
 }
 
@@ -342,7 +343,7 @@ test_range_ends_with_1(eagine::span<T> rng1, eagine::span<T> rng2) {
     bool equal = true;
 
     for(span_size_t i = 0; i < n; ++i) {
-	equal &= (rng1[p + i] == rng2[i]);
+        equal &= (rng1[p + i] == rng2[i]);
     }
 
     BOOST_CHECK_EQUAL(ranges::ends_with(rng1, rng2), equal);
@@ -358,17 +359,17 @@ test_range_ends_with_1(T min, T max, bool does) {
     typename std::vector<T>::size_type p = v1.size() - v2.size();
 
     while(i < p) {
-	v1[i] = rg.get<T>(min, max);
-	++i;
+        v1[i] = rg.get<T>(min, max);
+        ++i;
     }
 
     while(i < v1.size()) {
-	v1[i] = rg.get<T>(min, max);
-	if(does)
-	    v2[i - p] = v1[i];
-	else
-	    v2[i - p] = rg.get<T>(min, max);
-	++i;
+        v1[i] = rg.get<T>(min, max);
+        if(does)
+            v2[i - p] = v1[i];
+        else
+            v2[i - p] = rg.get<T>(min, max);
+        ++i;
     }
 
     test_range_ends_with_1(eagine::make_span(v1), eagine::make_span(v2));
@@ -381,7 +382,7 @@ test_range_ends_with_1(T min, T max) {
     test_range_ends_with_1<T>(min, max, true);
 
     for(int i = 0; i < 10; ++i) {
-	test_range_ends_with_1<T>(min, max, rg.get_bool());
+        test_range_ends_with_1<T>(min, max, rg.get_bool());
     }
 }
 
@@ -396,19 +397,19 @@ test_range_find_pos_1(eagine::span<T> rng1, eagine::span<T> rng2) {
     using namespace eagine;
 
     if(auto f = ranges::find_pos(rng1, rng2)) {
-	span_size_t p = f.value();
-	span_size_t n = rng2.size();
+        span_size_t p = f.value();
+        span_size_t n = rng2.size();
 
-	bool equal = true;
+        bool equal = true;
 
-	for(span_size_t i = 0; i < n; ++i) {
-	    equal &= (rng1[p + i] == rng2[i]);
-	}
+        for(span_size_t i = 0; i < n; ++i) {
+            equal &= (rng1[p + i] == rng2[i]);
+        }
 
-	BOOST_CHECK(equal);
-	BOOST_CHECK(ranges::contains(rng1, rng2));
+        BOOST_CHECK(equal);
+        BOOST_CHECK(ranges::contains(rng1, rng2));
     } else if(rng2.size() > 0) {
-	BOOST_CHECK(!ranges::contains(rng1, rng2));
+        BOOST_CHECK(!ranges::contains(rng1, rng2));
     }
 }
 
@@ -428,22 +429,22 @@ test_range_find_pos_1(T min, T max, bool has) {
     std::vector<T> v2(l2);
 
     while(i < p2) {
-	v1[i] = rg.get<T>(min, max);
-	++i;
+        v1[i] = rg.get<T>(min, max);
+        ++i;
     }
 
     while(i < p2 + l2) {
-	v1[i] = rg.get<T>(min, max);
-	if(has)
-	    v2[i - p2] = v1[i];
-	else
-	    v2[i - p2] = rg.get<T>(min, max);
-	++i;
+        v1[i] = rg.get<T>(min, max);
+        if(has)
+            v2[i - p2] = v1[i];
+        else
+            v2[i - p2] = rg.get<T>(min, max);
+        ++i;
     }
 
     while(i < l1) {
-	v1[i] = rg.get<T>(min, max);
-	++i;
+        v1[i] = rg.get<T>(min, max);
+        ++i;
     }
 
     test_range_find_pos_1(eagine::make_span(v1), eagine::make_span(v2));
@@ -456,7 +457,7 @@ test_range_find_pos_1(T min, T max) {
     test_range_find_pos_1(min, max, false);
 
     for(int i = 0; i < 10; ++i) {
-	test_range_find_pos_1(min, max, rg.get_bool());
+        test_range_find_pos_1(min, max, rg.get_bool());
     }
 }
 
@@ -471,19 +472,19 @@ test_range_rfind_pos_1(eagine::span<T> rng1, eagine::span<T> rng2) {
     using namespace eagine;
 
     if(auto f = ranges::rfind_pos(rng1, rng2)) {
-	span_size_t p = f.value();
-	span_size_t n = rng2.size();
+        span_size_t p = f.value();
+        span_size_t n = rng2.size();
 
-	bool equal = true;
+        bool equal = true;
 
-	for(span_size_t i = 0; i < n; ++i) {
-	    equal &= (rng1[p + i] == rng2[i]);
-	}
+        for(span_size_t i = 0; i < n; ++i) {
+            equal &= (rng1[p + i] == rng2[i]);
+        }
 
-	BOOST_CHECK(equal);
-	BOOST_CHECK(ranges::contains(rng1, rng2));
+        BOOST_CHECK(equal);
+        BOOST_CHECK(ranges::contains(rng1, rng2));
     } else if(rng2.size() > 0) {
-	BOOST_CHECK(!ranges::contains(rng1, rng2));
+        BOOST_CHECK(!ranges::contains(rng1, rng2));
     }
 }
 
@@ -503,22 +504,22 @@ test_range_rfind_pos_1(T min, T max, bool has) {
     std::vector<T> v2(l2);
 
     while(i < p2) {
-	v1[i] = rg.get<T>(min, max);
-	++i;
+        v1[i] = rg.get<T>(min, max);
+        ++i;
     }
 
     while(i < p2 + l2) {
-	v1[i] = rg.get<T>(min, max);
-	if(has)
-	    v2[i - p2] = v1[i];
-	else
-	    v2[i - p2] = rg.get<T>(min, max);
-	++i;
+        v1[i] = rg.get<T>(min, max);
+        if(has)
+            v2[i - p2] = v1[i];
+        else
+            v2[i - p2] = rg.get<T>(min, max);
+        ++i;
     }
 
     while(i < l1) {
-	v1[i] = rg.get<T>(min, max);
-	++i;
+        v1[i] = rg.get<T>(min, max);
+        ++i;
     }
 
     test_range_rfind_pos_1(eagine::make_span(v1), eagine::make_span(v2));
@@ -531,7 +532,7 @@ test_range_rfind_pos_1(T min, T max) {
     test_range_rfind_pos_1(min, max, false);
 
     for(int i = 0; i < 10; ++i) {
-	test_range_rfind_pos_1(min, max, rg.get_bool());
+        test_range_rfind_pos_1(min, max, rg.get_bool());
     }
 }
 
@@ -547,17 +548,17 @@ test_range_find_1(eagine::span<T> rng1, eagine::span<T> rng2) {
 
     eagine::span<T> rng3 = ranges::find(rng1, rng2);
     if(rng3.size() > 0) {
-	BOOST_ASSERT(rng2.size() <= rng3.size());
+        BOOST_ASSERT(rng2.size() <= rng3.size());
 
-	span_size_t n = rng2.size();
+        span_size_t n = rng2.size();
 
-	bool equal = true;
+        bool equal = true;
 
-	for(span_size_t i = 0; i < n; ++i) {
-	    equal &= (rng2[i] == rng3[i]);
-	}
+        for(span_size_t i = 0; i < n; ++i) {
+            equal &= (rng2[i] == rng3[i]);
+        }
 
-	BOOST_CHECK(equal);
+        BOOST_CHECK(equal);
     }
 }
 
@@ -577,22 +578,22 @@ test_range_find_1(T min, T max, bool has) {
     std::vector<T> v2(l2);
 
     while(i < p2) {
-	v1[i] = rg.get<T>(min, max);
-	++i;
+        v1[i] = rg.get<T>(min, max);
+        ++i;
     }
 
     while(i < p2 + l2) {
-	v1[i] = rg.get<T>(min, max);
-	if(has)
-	    v2[i - p2] = v1[i];
-	else
-	    v2[i - p2] = rg.get<T>(min, max);
-	++i;
+        v1[i] = rg.get<T>(min, max);
+        if(has)
+            v2[i - p2] = v1[i];
+        else
+            v2[i - p2] = rg.get<T>(min, max);
+        ++i;
     }
 
     while(i < l1) {
-	v1[i] = rg.get<T>(min, max);
-	++i;
+        v1[i] = rg.get<T>(min, max);
+        ++i;
     }
 
     test_range_find_1(eagine::make_span(v1), eagine::make_span(v2));
@@ -605,7 +606,7 @@ test_range_find_1(T min, T max) {
     test_range_find_1(min, max, false);
 
     for(int i = 0; i < 10; ++i) {
-	test_range_find_1(min, max, rg.get_bool());
+        test_range_find_1(min, max, rg.get_bool());
     }
 }
 
@@ -628,11 +629,11 @@ test_range_strip_prefix_1(eagine::span<T> rng1, eagine::span<T> rng2) {
       (rng3.size() == rng1.size()) && ranges::starts_with(rng3, rng2);
 
     if(had_prefix) {
-	BOOST_CHECK(!has_prefix || empty_prefix);
-	BOOST_CHECK_EQUAL(rng1.size(), rng2.size() + rng3.size());
+        BOOST_CHECK(!has_prefix || empty_prefix);
+        BOOST_CHECK_EQUAL(rng1.size(), rng2.size() + rng3.size());
     } else {
-	BOOST_CHECK(!has_prefix);
-	BOOST_CHECK_EQUAL(rng1.size(), rng3.size());
+        BOOST_CHECK(!has_prefix);
+        BOOST_CHECK_EQUAL(rng1.size(), rng3.size());
     }
 }
 
@@ -645,17 +646,17 @@ test_range_strip_prefix_1(T min, T max, bool has) {
     typename std::vector<T>::size_type i = 0;
 
     while(i < v2.size()) {
-	v1[i] = rg.get<T>(min, max);
-	if(has)
-	    v2[i] = v1[i];
-	else
-	    v2[i] = rg.get<T>(min, max);
-	++i;
+        v1[i] = rg.get<T>(min, max);
+        if(has)
+            v2[i] = v1[i];
+        else
+            v2[i] = rg.get<T>(min, max);
+        ++i;
     }
 
     while(i < v1.size()) {
-	v1[i] = rg.get<T>(min, max);
-	++i;
+        v1[i] = rg.get<T>(min, max);
+        ++i;
     }
 
     test_range_strip_prefix_1(eagine::make_span(v1), eagine::make_span(v2));
@@ -668,7 +669,7 @@ test_range_strip_prefix_1(T min, T max) {
     test_range_strip_prefix_1(min, max, false);
 
     for(int i = 0; i < 10; ++i) {
-	test_range_strip_prefix_1(min, max, rg.get_bool());
+        test_range_strip_prefix_1(min, max, rg.get_bool());
     }
 }
 
@@ -691,11 +692,11 @@ test_range_strip_suffix_1(eagine::span<T> rng1, eagine::span<T> rng2) {
       (rng3.size() == rng1.size()) && ranges::ends_with(rng3, rng2);
 
     if(had_suffix) {
-	BOOST_CHECK(!has_suffix || empty_suffix);
-	BOOST_CHECK_EQUAL(rng1.size(), rng2.size() + rng3.size());
+        BOOST_CHECK(!has_suffix || empty_suffix);
+        BOOST_CHECK_EQUAL(rng1.size(), rng2.size() + rng3.size());
     } else {
-	BOOST_CHECK(!has_suffix);
-	BOOST_CHECK_EQUAL(rng1.size(), rng3.size());
+        BOOST_CHECK(!has_suffix);
+        BOOST_CHECK_EQUAL(rng1.size(), rng3.size());
     }
 }
 
@@ -709,17 +710,17 @@ test_range_strip_suffix_1(T min, T max, bool has) {
     typename std::vector<T>::size_type p = v1.size() - v2.size();
 
     while(i < p) {
-	v1[i] = rg.get<T>(min, max);
-	++i;
+        v1[i] = rg.get<T>(min, max);
+        ++i;
     }
 
     while(i < v1.size()) {
-	v1[i] = rg.get<T>(min, max);
-	if(has)
-	    v2[i - p] = v1[i];
-	else
-	    v2[i - p] = rg.get<T>(min, max);
-	++i;
+        v1[i] = rg.get<T>(min, max);
+        if(has)
+            v2[i - p] = v1[i];
+        else
+            v2[i - p] = rg.get<T>(min, max);
+        ++i;
     }
 
     test_range_strip_suffix_1(eagine::make_span(v1), eagine::make_span(v2));
@@ -732,7 +733,7 @@ test_range_strip_suffix_1(T min, T max) {
     test_range_strip_suffix_1(min, max, false);
 
     for(int i = 0; i < 10; ++i) {
-	test_range_strip_suffix_1(min, max, rg.get_bool());
+        test_range_strip_suffix_1(min, max, rg.get_bool());
     }
 }
 

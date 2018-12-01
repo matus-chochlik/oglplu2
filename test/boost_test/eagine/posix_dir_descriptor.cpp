@@ -38,43 +38,43 @@ BOOST_AUTO_TEST_CASE(posix_dir_descriptor_2) {
     ::DIR** dp = reinterpret_cast<::DIR**>(fake_dp);
 
     for(int i = 0; i < 3; ++i) {
-	posix::dir_descriptor dd(dp[i]);
+        posix::dir_descriptor dd(dp[i]);
 
-	BOOST_CHECK(dd.is_valid());
-	BOOST_CHECK(bool(dd));
-	BOOST_CHECK(!!dd);
-	BOOST_CHECK_EQUAL(get_raw_dp(dd), dp[i]);
+        BOOST_CHECK(dd.is_valid());
+        BOOST_CHECK(bool(dd));
+        BOOST_CHECK(!!dd);
+        BOOST_CHECK_EQUAL(get_raw_dp(dd), dp[i]);
 
-	posix::dir_descriptor ddc1 = dd;
+        posix::dir_descriptor ddc1 = dd;
 
-	BOOST_CHECK(ddc1.is_valid());
-	BOOST_CHECK(bool(ddc1));
-	BOOST_CHECK(!!ddc1);
-	BOOST_CHECK_EQUAL(get_raw_dp(ddc1), dp[i]);
+        BOOST_CHECK(ddc1.is_valid());
+        BOOST_CHECK(bool(ddc1));
+        BOOST_CHECK(!!ddc1);
+        BOOST_CHECK_EQUAL(get_raw_dp(ddc1), dp[i]);
 
-	posix::dir_descriptor ddc2, ddc3;
+        posix::dir_descriptor ddc2, ddc3;
 
-	BOOST_CHECK(!ddc2.is_valid());
-	BOOST_CHECK(!bool(ddc2));
-	BOOST_CHECK(!ddc2);
+        BOOST_CHECK(!ddc2.is_valid());
+        BOOST_CHECK(!bool(ddc2));
+        BOOST_CHECK(!ddc2);
 
-	ddc2 = ddc1;
+        ddc2 = ddc1;
 
-	BOOST_CHECK(ddc2.is_valid());
-	BOOST_CHECK(bool(ddc2));
-	BOOST_CHECK(!!ddc2);
-	BOOST_CHECK_EQUAL(get_raw_dp(ddc2), dp[i]);
+        BOOST_CHECK(ddc2.is_valid());
+        BOOST_CHECK(bool(ddc2));
+        BOOST_CHECK(!!ddc2);
+        BOOST_CHECK_EQUAL(get_raw_dp(ddc2), dp[i]);
 
-	ddc3 = std::move(ddc1);
+        ddc3 = std::move(ddc1);
 
-	BOOST_CHECK(!ddc1.is_valid());
-	BOOST_CHECK(!bool(ddc1));
-	BOOST_CHECK(!ddc1);
+        BOOST_CHECK(!ddc1.is_valid());
+        BOOST_CHECK(!bool(ddc1));
+        BOOST_CHECK(!ddc1);
 
-	BOOST_CHECK(ddc3.is_valid());
-	BOOST_CHECK(bool(ddc3));
-	BOOST_CHECK(!!ddc3);
-	BOOST_CHECK_EQUAL(get_raw_dp(ddc3), dp[i]);
+        BOOST_CHECK(ddc3.is_valid());
+        BOOST_CHECK(bool(ddc3));
+        BOOST_CHECK(!!ddc3);
+        BOOST_CHECK_EQUAL(get_raw_dp(ddc3), dp[i]);
     }
 }
 

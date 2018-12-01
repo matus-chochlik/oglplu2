@@ -86,88 +86,88 @@ get_enum_value_name(const any_enum_value_alut& aev) noexcept {
 #endif
 
     switch(aev._type_id) {
-	case 0: /* alut_error_code */
-	    switch(ALenum(aev._value)) {
+        case 0: /* alut_error_code */
+            switch(ALenum(aev._value)) {
 #ifdef ALUT_ERROR_ALC_ERROR_ON_ENTRY
-		case ALUT_ERROR_ALC_ERROR_ON_ENTRY:
-		    return {s_ERROR_ALC_ERROR_ON_ENTRY, 24};
+                case ALUT_ERROR_ALC_ERROR_ON_ENTRY:
+                    return {s_ERROR_ALC_ERROR_ON_ENTRY, 24};
 #endif
 #ifdef ALUT_ERROR_AL_ERROR_ON_ENTRY
-		case ALUT_ERROR_AL_ERROR_ON_ENTRY:
-		    return {s_ERROR_AL_ERROR_ON_ENTRY, 23};
+                case ALUT_ERROR_AL_ERROR_ON_ENTRY:
+                    return {s_ERROR_AL_ERROR_ON_ENTRY, 23};
 #endif
 #ifdef ALUT_ERROR_BUFFER_DATA
-		case ALUT_ERROR_BUFFER_DATA:
-		    return {s_ERROR_BUFFER_DATA, 17};
+                case ALUT_ERROR_BUFFER_DATA:
+                    return {s_ERROR_BUFFER_DATA, 17};
 #endif
 #ifdef ALUT_ERROR_CLOSE_DEVICE
-		case ALUT_ERROR_CLOSE_DEVICE:
-		    return {s_ERROR_CLOSE_DEVICE, 18};
+                case ALUT_ERROR_CLOSE_DEVICE:
+                    return {s_ERROR_CLOSE_DEVICE, 18};
 #endif
 #ifdef ALUT_ERROR_CORRUPT_OR_TRUNCATED_DATA
-		case ALUT_ERROR_CORRUPT_OR_TRUNCATED_DATA:
-		    return {s_ERROR_CORRUPT_OR_TRUNCATED_DATA, 31};
+                case ALUT_ERROR_CORRUPT_OR_TRUNCATED_DATA:
+                    return {s_ERROR_CORRUPT_OR_TRUNCATED_DATA, 31};
 #endif
 #ifdef ALUT_ERROR_CREATE_CONTEXT
-		case ALUT_ERROR_CREATE_CONTEXT:
-		    return {s_ERROR_CREATE_CONTEXT, 20};
+                case ALUT_ERROR_CREATE_CONTEXT:
+                    return {s_ERROR_CREATE_CONTEXT, 20};
 #endif
 #ifdef ALUT_ERROR_DESTROY_CONTEXT
-		case ALUT_ERROR_DESTROY_CONTEXT:
-		    return {s_ERROR_DESTROY_CONTEXT, 21};
+                case ALUT_ERROR_DESTROY_CONTEXT:
+                    return {s_ERROR_DESTROY_CONTEXT, 21};
 #endif
 #ifdef ALUT_ERROR_GEN_BUFFERS
-		case ALUT_ERROR_GEN_BUFFERS:
-		    return {s_ERROR_GEN_BUFFERS, 17};
+                case ALUT_ERROR_GEN_BUFFERS:
+                    return {s_ERROR_GEN_BUFFERS, 17};
 #endif
 #ifdef ALUT_ERROR_INVALID_ENUM
-		case ALUT_ERROR_INVALID_ENUM:
-		    return {s_ERROR_INVALID_ENUM, 18};
+                case ALUT_ERROR_INVALID_ENUM:
+                    return {s_ERROR_INVALID_ENUM, 18};
 #endif
 #ifdef ALUT_ERROR_INVALID_OPERATION
-		case ALUT_ERROR_INVALID_OPERATION:
-		    return {s_ERROR_INVALID_OPERATION, 23};
+                case ALUT_ERROR_INVALID_OPERATION:
+                    return {s_ERROR_INVALID_OPERATION, 23};
 #endif
 #ifdef ALUT_ERROR_INVALID_VALUE
-		case ALUT_ERROR_INVALID_VALUE:
-		    return {s_ERROR_INVALID_VALUE, 19};
+                case ALUT_ERROR_INVALID_VALUE:
+                    return {s_ERROR_INVALID_VALUE, 19};
 #endif
 #ifdef ALUT_ERROR_IO_ERROR
-		case ALUT_ERROR_IO_ERROR:
-		    return {s_ERROR_IO_ERROR, 14};
+                case ALUT_ERROR_IO_ERROR:
+                    return {s_ERROR_IO_ERROR, 14};
 #endif
 #ifdef ALUT_ERROR_MAKE_CONTEXT_CURRENT
-		case ALUT_ERROR_MAKE_CONTEXT_CURRENT:
-		    return {s_ERROR_MAKE_CONTEXT_CURRENT, 26};
+                case ALUT_ERROR_MAKE_CONTEXT_CURRENT:
+                    return {s_ERROR_MAKE_CONTEXT_CURRENT, 26};
 #endif
 #ifdef ALUT_ERROR_NO_CURRENT_CONTEXT
-		case ALUT_ERROR_NO_CURRENT_CONTEXT:
-		    return {s_ERROR_NO_CURRENT_CONTEXT, 24};
+                case ALUT_ERROR_NO_CURRENT_CONTEXT:
+                    return {s_ERROR_NO_CURRENT_CONTEXT, 24};
 #endif
 #ifdef ALUT_ERROR_NO_ERROR
-		case ALUT_ERROR_NO_ERROR:
-		    return {s_ERROR_NO_ERROR, 14};
+                case ALUT_ERROR_NO_ERROR:
+                    return {s_ERROR_NO_ERROR, 14};
 #endif
 #ifdef ALUT_ERROR_OPEN_DEVICE
-		case ALUT_ERROR_OPEN_DEVICE:
-		    return {s_ERROR_OPEN_DEVICE, 17};
+                case ALUT_ERROR_OPEN_DEVICE:
+                    return {s_ERROR_OPEN_DEVICE, 17};
 #endif
 #ifdef ALUT_ERROR_OUT_OF_MEMORY
-		case ALUT_ERROR_OUT_OF_MEMORY:
-		    return {s_ERROR_OUT_OF_MEMORY, 19};
+                case ALUT_ERROR_OUT_OF_MEMORY:
+                    return {s_ERROR_OUT_OF_MEMORY, 19};
 #endif
 #ifdef ALUT_ERROR_UNSUPPORTED_FILE_SUBTYPE
-		case ALUT_ERROR_UNSUPPORTED_FILE_SUBTYPE:
-		    return {s_ERROR_UNSUPPORTED_FILE_SUBTYPE, 30};
+                case ALUT_ERROR_UNSUPPORTED_FILE_SUBTYPE:
+                    return {s_ERROR_UNSUPPORTED_FILE_SUBTYPE, 30};
 #endif
 #ifdef ALUT_ERROR_UNSUPPORTED_FILE_TYPE
-		case ALUT_ERROR_UNSUPPORTED_FILE_TYPE:
-		    return {s_ERROR_UNSUPPORTED_FILE_TYPE, 27};
+                case ALUT_ERROR_UNSUPPORTED_FILE_TYPE:
+                    return {s_ERROR_UNSUPPORTED_FILE_TYPE, 27};
 #endif
-		default:;
-	    }
-	    break;
-	default:;
+                default:;
+            }
+            break;
+        default:;
     }
 
     EAGINE_MAYBE_UNUSED(aev);

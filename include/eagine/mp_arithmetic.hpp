@@ -37,7 +37,8 @@ template <typename T1, typename T2>
 constexpr auto mp_minus_v = mp_minus<T1, T2>::value;
 
 template <typename Int, Int I1, Int I2>
-struct mp_minus<std::integral_constant<Int, I1>,
+struct mp_minus<
+  std::integral_constant<Int, I1>,
   std::integral_constant<Int, I2>> : std::integral_constant<Int, I1 - I2> {};
 
 template <typename T1>

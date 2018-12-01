@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_face
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_face_tests)
 
@@ -81,26 +81,26 @@ BOOST_AUTO_TEST_CASE(enum_face_range) {
 
 #ifdef GL_BACK
     {
-	--count;
-	auto r = enum_value_range<face>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), face(GL_BACK)) != r.end());
+        --count;
+        auto r = enum_value_range<face>();
+        BOOST_CHECK(std::find(r.begin(), r.end(), face(GL_BACK)) != r.end());
     }
 #endif
 
 #ifdef GL_FRONT
     {
-	--count;
-	auto r = enum_value_range<face>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), face(GL_FRONT)) != r.end());
+        --count;
+        auto r = enum_value_range<face>();
+        BOOST_CHECK(std::find(r.begin(), r.end(), face(GL_FRONT)) != r.end());
     }
 #endif
 
 #ifdef GL_FRONT_AND_BACK
     {
-	--count;
-	auto r = enum_value_range<face>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), face(GL_FRONT_AND_BACK)) != r.end());
+        --count;
+        auto r = enum_value_range<face>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), face(GL_FRONT_AND_BACK)) != r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

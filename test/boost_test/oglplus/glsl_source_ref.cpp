@@ -37,14 +37,14 @@ BOOST_AUTO_TEST_CASE(glsl_source_ref_2) {
 
     const std::size_t n = 6;
     const char* s[n] = {"#version 150\n",
-      "vec4 in Position;\n",
-      "void main(void)\n",
-      "{\n",
-      "	gl_Position = Position;\n",
-      "}\n"};
+                        "vec4 in Position;\n",
+                        "void main(void)\n",
+                        "{\n",
+                        "	gl_Position = Position;\n",
+                        "}\n"};
     GLint l[n];
     for(std::size_t i = 0; i < n; ++i) {
-	l[i] = GLint(std::strlen(s[i]));
+        l[i] = GLint(std::strlen(s[i]));
     }
 
     glsl_source_ref sr{n, s, l};
@@ -54,9 +54,9 @@ BOOST_AUTO_TEST_CASE(glsl_source_ref_2) {
     BOOST_ASSERT(sr.lengths() != nullptr);
 
     for(std::size_t i = 0; i < n; ++i) {
-	BOOST_CHECK(std::strcmp(sr.parts()[i], s[i]) == 0);
-	BOOST_CHECK(sr.lengths()[i] == l[i]);
-	BOOST_CHECK(std::strlen(sr.parts()[i]) == std::size_t(l[i]));
+        BOOST_CHECK(std::strcmp(sr.parts()[i], s[i]) == 0);
+        BOOST_CHECK(sr.lengths()[i] == l[i]);
+        BOOST_CHECK(std::strlen(sr.parts()[i]) == std::size_t(l[i]));
     }
 }
 

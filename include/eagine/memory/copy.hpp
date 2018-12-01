@@ -10,9 +10,9 @@
 #ifndef EAGINE_MEMORY_COPY_1510290655_HPP
 #define EAGINE_MEMORY_COPY_1510290655_HPP
 
-#include "block.hpp"
 #include <cassert>
 #include <cstring>
+#include "block.hpp"
 
 namespace eagine {
 namespace memory {

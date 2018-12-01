@@ -10,23 +10,26 @@
 #ifndef EAGINE_BITESET_1509260923_HPP
 #define EAGINE_BITESET_1509260923_HPP
 
-#include "byteset.hpp"
-#include "int_constant.hpp"
-#include "std/type_traits.hpp"
 #include <cassert>
 #include <climits>
 #include <cstdint>
 #include <iterator>
 #include <utility>
+#include "byteset.hpp"
+#include "int_constant.hpp"
+#include "std/type_traits.hpp"
 
 namespace eagine {
 
 template <typename std::size_t B>
-using biteset_cell_type = std::conditional_t<(B <= 8),
+using biteset_cell_type = std::conditional_t<
+  (B <= 8),
   std::uint_least8_t,
-  std::conditional_t<(B <= 16),
+  std::conditional_t<
+    (B <= 16),
     std::uint_least16_t,
-    std::conditional_t<(B <= 32),
+    std::conditional_t<
+      (B <= 32),
       std::uint_least32_t,
       std::conditional_t<(B <= 64), std::uint_least64_t, void>>>>;
 
@@ -56,60 +59,60 @@ public:
     biteset_value_proxy_base(self&& temp) noexcept
       : _ptr(temp._ptr)
       , _pos(temp._pos) {
-	temp._ptr = nullptr;
+        temp._ptr = nullptr;
     }
 
     bool is_valid(void) const noexcept {
-	return (_ptr != nullptr) && (_pos < _ptr->size());
+        return (_ptr != nullptr) && (_pos < _ptr->size());
     }
 
     value_type get(void) const noexcept {
-	assert(is_valid());
-	return _ptr->get(_pos);
+        assert(is_valid());
+        return _ptr->get(_pos);
     }
 
     void set(value_type val) noexcept {
-	assert(is_valid());
-	return _ptr->set(_pos, val);
+        assert(is_valid());
+        return _ptr->set(_pos, val);
     }
 
     void swap(self& other) noexcept {
-	using std::swap;
-	assert(_ptr != nullptr);
-	assert(_ptr == other._ptr);
-	value_type a = this->get();
-	value_type b = other.get();
-	swap(a, b);
-	this->set(a);
-	other.set(b);
+        using std::swap;
+        assert(_ptr != nullptr);
+        assert(_ptr == other._ptr);
+        value_type a = this->get();
+        value_type b = other.get();
+        swap(a, b);
+        this->set(a);
+        other.set(b);
     }
 
     operator value_type(void) const noexcept {
-	return get();
+        return get();
     }
 
     friend bool operator==(const self& a, const self& b) noexcept {
-	return a.get() == b.get();
+        return a.get() == b.get();
     }
 
     friend bool operator!=(const self& a, const self& b) noexcept {
-	return a.get() != b.get();
+        return a.get() != b.get();
     }
 
     friend bool operator<(const self& a, const self& b) noexcept {
-	return a.get() < b.get();
+        return a.get() < b.get();
     }
 
     friend bool operator<=(const self& a, const self& b) noexcept {
-	return a.get() <= b.get();
+        return a.get() <= b.get();
     }
 
     friend bool operator>(const self& a, const self& b) noexcept {
-	return a.get() > b.get();
+        return a.get() > b.get();
     }
 
     friend bool operator>=(const self& a, const self& b) noexcept {
-	return a.get() >= b.get();
+        return a.get() >= b.get();
     }
 
 protected:
@@ -152,13 +155,13 @@ public:
 
     biteset_value_proxy(biteset_value_proxy&& temp) = default;
     biteset_value_proxy& operator=(biteset_value_proxy&& temp) noexcept {
-	this->set(temp.get());
-	return *this;
+        this->set(temp.get());
+        return *this;
     }
 
     self& operator=(const T& v) noexcept {
-	this->set(v);
-	return *this;
+        this->set(v);
+        return *this;
     }
 };
 
@@ -180,81 +183,81 @@ public:
     using difference_type = typename BiS::difference_type;
 
     void swap(self& other) noexcept {
-	using std::swap;
-	assert(_ptr == other._ptr);
-	swap(_pos, other._pos);
+        using std::swap;
+        assert(_ptr == other._ptr);
+        swap(_pos, other._pos);
     }
 
-    derived& operator++(void)noexcept {
-	++_pos;
-	return *static_cast<derived*>(this);
+    derived& operator++(void) noexcept {
+        ++_pos;
+        return *static_cast<derived*>(this);
     }
 
-    derived operator++(int)noexcept {
-	derived that = *static_cast<derived*>(this);
-	++_pos;
-	return that;
+    derived operator++(int) noexcept {
+        derived that = *static_cast<derived*>(this);
+        ++_pos;
+        return that;
     }
 
-    derived& operator--(void)noexcept {
-	--_pos;
-	return *static_cast<derived*>(this);
+    derived& operator--(void) noexcept {
+        --_pos;
+        return *static_cast<derived*>(this);
     }
 
-    derived operator--(int)noexcept {
-	derived that = *static_cast<derived*>(this);
-	--_pos;
-	return that;
+    derived operator--(int) noexcept {
+        derived that = *static_cast<derived*>(this);
+        --_pos;
+        return that;
     }
 
     derived& operator+=(size_type n) noexcept {
-	_pos += n;
-	return *static_cast<derived*>(this);
+        _pos += n;
+        return *static_cast<derived*>(this);
     }
 
     derived& operator-=(size_type n) noexcept {
-	_pos -= n;
-	return *static_cast<derived*>(this);
+        _pos -= n;
+        return *static_cast<derived*>(this);
     }
 
     friend derived operator+(const self& a, difference_type n) noexcept {
-	return derived(*a._ptr, a._pos + n);
+        return derived(*a._ptr, a._pos + n);
     }
 
     friend derived operator+(difference_type n, const self& a) noexcept {
-	return derived(*a._ptr, n + a._pos);
+        return derived(*a._ptr, n + a._pos);
     }
 
     friend derived operator-(const self& a, difference_type n) noexcept {
-	return derived(*a._ptr, a._pos - n);
+        return derived(*a._ptr, a._pos - n);
     }
 
     friend difference_type operator-(const self& a, const self& b) noexcept {
-	return a._pos - b._pos;
+        return a._pos - b._pos;
     }
 
     friend bool operator==(const self& a, const self& b) noexcept {
-	return _cmp(a, b) == 0;
+        return _cmp(a, b) == 0;
     }
 
     friend bool operator!=(const self& a, const self& b) noexcept {
-	return _cmp(a, b) != 0;
+        return _cmp(a, b) != 0;
     }
 
     friend bool operator<(const self& a, const self& b) noexcept {
-	return _cmp(a, b) < 0;
+        return _cmp(a, b) < 0;
     }
 
     friend bool operator<=(const self& a, const self& b) noexcept {
-	return _cmp(a, b) <= 0;
+        return _cmp(a, b) <= 0;
     }
 
     friend bool operator>(const self& a, const self& b) noexcept {
-	return _cmp(a, b) > 0;
+        return _cmp(a, b) > 0;
     }
 
     friend bool operator>=(const self& a, const self& b) noexcept {
-	return _cmp(a, b) >= 0;
+        return _cmp(a, b) >= 0;
     }
 
 protected:
@@ -269,13 +272,13 @@ protected:
     }
 
     bool is_valid(void) const noexcept {
-	return (_ptr != nullptr) && (_pos < _ptr->size());
+        return (_ptr != nullptr) && (_pos < _ptr->size());
     }
 
     static inline difference_type _cmp(const self& a, const self& b) noexcept {
-	assert(a._ptr != nullptr);
-	assert(a._ptr == b._ptr);
-	return a._pos - b._pos;
+        assert(a._ptr != nullptr);
+        assert(a._ptr == b._ptr);
+        return a._pos - b._pos;
     }
 
     BiS* _ptr;
@@ -315,8 +318,8 @@ public:
     biteset_iterator(void) = default;
 
     const_proxy operator*(void)const noexcept {
-	assert(is_valid());
-	return {*_ptr, _pos};
+        assert(is_valid());
+        return {*_ptr, _pos};
     }
 };
 
@@ -354,23 +357,23 @@ public:
     biteset_iterator& operator=(const biteset_iterator&) = default;
 
     proxy operator*(void)noexcept {
-	assert(is_valid());
-	return {*_ptr, _pos};
+        assert(is_valid());
+        return {*_ptr, _pos};
     }
 
     const_proxy operator*(void)const noexcept {
-	assert(is_valid());
-	return {*_ptr, _pos};
+        assert(is_valid());
+        return {*_ptr, _pos};
     }
 
     proxy operator->(void)noexcept {
-	assert(is_valid());
-	return {*_ptr, &_pos};
+        assert(is_valid());
+        return {*_ptr, &_pos};
     }
 
     const_proxy operator->(void)const noexcept {
-	assert(is_valid());
-	return {*_ptr, &_pos};
+        assert(is_valid());
+        return {*_ptr, &_pos};
     }
 };
 
@@ -407,84 +410,85 @@ public:
       : _bytes{} {
     }
 
-    template <typename... P,
+    template <
+      typename... P,
       typename = std::enable_if_t<
-	(sizeof...(P) == N)
-	&& std::conjunction_v<std::true_type, std::is_convertible<P, T>...>>>
+        (sizeof...(P) == N) &&
+        std::conjunction_v<std::true_type, std::is_convertible<P, T>...>>>
     explicit constexpr inline biteset(P... p) noexcept
       : _bytes{_make_bytes(T(p)...)} {
     }
 
     constexpr inline size_type size(void) const noexcept {
-	return N;
+        return N;
     }
 
     constexpr inline T get(size_type i) const noexcept {
-	return _get_cell(std::size_t(i));
+        return _get_cell(std::size_t(i));
     }
 
     inline void set(size_type i, T value) noexcept {
-	_set_cell(std::size_t(i), value);
+        _set_cell(std::size_t(i), value);
     }
 
     const_iterator begin(void) const noexcept {
-	return {*this, 0};
+        return {*this, 0};
     }
 
     const_iterator end(void) const noexcept {
-	return {*this, N};
+        return {*this, N};
     }
 
     iterator begin(void) noexcept {
-	return {*this, 0};
+        return {*this, 0};
     }
 
     iterator end(void) noexcept {
-	return {*this, N};
+        return {*this, N};
     }
 
     constexpr inline biteset_value_proxy<const biteset> operator[](
       size_type i) const noexcept {
-	return {*this, i};
+        return {*this, i};
     }
 
     constexpr inline biteset_value_proxy<biteset> operator[](
       size_type i) noexcept {
-	return {*this, i};
+        return {*this, i};
     }
 
     friend constexpr inline bool operator==(
       const biteset& a, const biteset& b) noexcept {
-	return a.bytes() == b.bytes();
+        return a.bytes() == b.bytes();
     }
 
     friend constexpr inline bool operator!=(
       const biteset& a, const biteset& b) noexcept {
-	return a.bytes() != b.bytes();
+        return a.bytes() != b.bytes();
     }
 
     friend constexpr inline bool operator<(
       const biteset& a, const biteset& b) noexcept {
-	return a.bytes() < b.bytes();
+        return a.bytes() < b.bytes();
     }
 
     friend constexpr inline bool operator<=(
       const biteset& a, const biteset& b) noexcept {
-	return a.bytes() <= b.bytes();
+        return a.bytes() <= b.bytes();
     }
 
     friend constexpr inline bool operator>(
       const biteset& a, const biteset& b) noexcept {
-	return a.bytes() > b.bytes();
+        return a.bytes() > b.bytes();
     }
 
     friend constexpr inline bool operator>=(
       const biteset& a, const biteset& b) noexcept {
-	return a.bytes() >= b.bytes();
+        return a.bytes() >= b.bytes();
     }
 
     constexpr const _bytes_t& bytes(void) const noexcept {
-	return _bytes;
+        return _bytes;
     }
 
 private:
@@ -492,16 +496,17 @@ private:
 
     static constexpr inline std::size_t _min_s(
       std::size_t x, std::size_t y) noexcept {
-	return (x < y) ? x : y;
+        return (x < y) ? x : y;
     }
 
     static constexpr inline _byte_t _extract_init_bits(
       T init, std::size_t ofs, std::size_t len) noexcept {
-	return _byte_t(init >> (_bite_s - ofs - len)) & _byte_t((1 << len) - 1);
+        return _byte_t(init >> (_bite_s - ofs - len)) & _byte_t((1 << len) - 1);
     }
 
     template <std::size_t L>
-    static constexpr inline _byte_t _do_get_byte_bits(const T (&init)[N],
+    static constexpr inline _byte_t _do_get_byte_bits(
+      const T (&init)[N],
       _byte_t state,
       std::size_t bo,
       std::size_t bl,
@@ -510,72 +515,78 @@ private:
       std::size_t cb,
       std::size_t ce,
       size_constant<L>) noexcept {
-	return _get_byte_bits(init,
-	  _byte_t(state << bl)
-	    | _extract_init_bits(cb < N ? init[cb] : T(0), bo, bl),
-	  bb + bl,
-	  be,
-	  cb + 1,
-	  ce,
-	  size_constant<L + 1>{});
+        return _get_byte_bits(
+          init,
+          _byte_t(state << bl) |
+            _extract_init_bits(cb < N ? init[cb] : T(0), bo, bl),
+          bb + bl,
+          be,
+          cb + 1,
+          ce,
+          size_constant<L + 1>{});
     }
 
-    static constexpr inline _byte_t _get_byte_bits(const T (&)[N],
+    static constexpr inline _byte_t _get_byte_bits(
+      const T (&)[N],
       _byte_t state,
       std::size_t,
       std::size_t,
       std::size_t,
       std::size_t,
       size_constant<_byte_s>) noexcept {
-	return state;
+        return state;
     }
 
     template <std::size_t L>
-    static constexpr inline _byte_t _get_byte_bits(const T (&init)[N],
+    static constexpr inline _byte_t _get_byte_bits(
+      const T (&init)[N],
       _byte_t state,
       std::size_t bb,
       std::size_t be,
       std::size_t cb,
       std::size_t ce,
       size_constant<L> l) noexcept {
-	return (bb >= be)
-		 ? state
-		 : _do_get_byte_bits(init,
-		     state,
-		     (bb - cb * _bite_s),
-		     _min_s((be - bb), (_bite_s - (bb - cb * _bite_s))),
-		     bb,
-		     be,
-		     cb,
-		     ce,
-		     l);
+        return (bb >= be)
+                 ? state
+                 : _do_get_byte_bits(
+                     init,
+                     state,
+                     (bb - cb * _bite_s),
+                     _min_s((be - bb), (_bite_s - (bb - cb * _bite_s))),
+                     bb,
+                     be,
+                     cb,
+                     ce,
+                     l);
     }
 
     static constexpr inline _byte_t _get_byte_bits(
       const T (&init)[N], std::size_t bb, std::size_t be) noexcept {
-	return _get_byte_bits(init,
-	  _byte_t(0),
-	  bb,
-	  be,
-	  bb / _bite_s,
-	  be / _bite_s,
-	  size_constant<1>{});
+        return _get_byte_bits(
+          init,
+          _byte_t(0),
+          bb,
+          be,
+          bb / _bite_s,
+          be / _bite_s,
+          size_constant<1>{});
     }
 
     static constexpr inline _byte_t _get_byte(
       const T (&init)[N], std::size_t i) noexcept {
-	return (B == _byte_s)
-		 ? _byte_t(init[i])
-		 : _get_byte_bits(init, (i + 0) * _byte_s, (i + 1) * _byte_s);
+        return (B == _byte_s)
+                 ? _byte_t(init[i])
+                 : _get_byte_bits(init, (i + 0) * _byte_s, (i + 1) * _byte_s);
     }
 
     static constexpr inline T _extract_cell_bits(
       _byte_t by, std::size_t ofs, std::size_t len) noexcept {
-	return T(by >> (_byte_s - ofs - len)) & T((1 << len) - 1);
+        return T(by >> (_byte_s - ofs - len)) & T((1 << len) - 1);
     }
 
     template <std::size_t L>
-    constexpr inline T _do_get_cell_bits(T state,
+    constexpr inline T _do_get_cell_bits(
+      T state,
       std::size_t bo,
       std::size_t bl,
       std::size_t bb,
@@ -583,64 +594,68 @@ private:
       std::size_t cb,
       std::size_t ce,
       size_constant<L>) const noexcept {
-	return _get_cell_bits(
-	  T(state << bl) | _extract_cell_bits(_bytes[size_type(cb)], bo, bl),
-	  bb + bl,
-	  be,
-	  cb + 1,
-	  ce,
-	  size_constant<L + 1>{});
+        return _get_cell_bits(
+          T(state << bl) | _extract_cell_bits(_bytes[size_type(cb)], bo, bl),
+          bb + bl,
+          be,
+          cb + 1,
+          ce,
+          size_constant<L + 1>{});
     }
 
-    static constexpr inline T _get_cell_bits(T state,
+    static constexpr inline T _get_cell_bits(
+      T state,
       std::size_t,
       std::size_t,
       std::size_t,
       std::size_t,
       size_constant<_byte_s>) noexcept {
-	return state;
+        return state;
     }
 
     template <std::size_t L>
-    constexpr inline T _get_cell_bits(T state,
+    constexpr inline T _get_cell_bits(
+      T state,
       std::size_t bb,
       std::size_t be,
       std::size_t cb,
       std::size_t ce,
       size_constant<L> l) const noexcept {
-	return (bb >= be)
-		 ? state
-		 : _do_get_cell_bits(state,
-		     (bb - cb * _byte_s),
-		     _min_s((be - bb), (_byte_s - (bb - cb * _byte_s))),
-		     bb,
-		     be,
-		     cb,
-		     ce,
-		     l);
+        return (bb >= be)
+                 ? state
+                 : _do_get_cell_bits(
+                     state,
+                     (bb - cb * _byte_s),
+                     _min_s((be - bb), (_byte_s - (bb - cb * _byte_s))),
+                     bb,
+                     be,
+                     cb,
+                     ce,
+                     l);
     }
 
     constexpr inline T _get_cell_bits(std::size_t bb, std::size_t be) const
       noexcept {
-	return _get_cell_bits(
-	  _byte_t(0), bb, be, bb / _byte_s, be / _byte_s, size_constant<1>{});
+        return _get_cell_bits(
+          _byte_t(0), bb, be, bb / _byte_s, be / _byte_s, size_constant<1>{});
     }
 
     constexpr inline T _get_cell(std::size_t i) const noexcept {
-	return (B == _byte_s)
-		 ? T(_bytes[size_type(i)])
-		 : _get_cell_bits((i + 0) * _bite_s, (i + 1) * _bite_s);
+        return (B == _byte_s)
+                 ? T(_bytes[size_type(i)])
+                 : _get_cell_bits((i + 0) * _bite_s, (i + 1) * _bite_s);
     }
 
     static constexpr inline void _store_cell_bits(
       T v, _byte_t& by, std::size_t ofs, std::size_t len) noexcept {
-	_byte_t msk = _byte_t(((1 << len) - 1) << (_byte_s - ofs - len));
-	by ^= (by & msk);
-	by |= (v << (_byte_s - ofs - len));
+        _byte_t msk = _byte_t(((1 << len) - 1) << (_byte_s - ofs - len));
+        by ^= (by & msk);
+        by |= (v << (_byte_s - ofs - len));
     }
 
     template <std::size_t L>
-    void _do_set_cell_bits(T state,
+    void _do_set_cell_bits(
+      T state,
       std::size_t bo,
       std::size_t bl,
       std::size_t bb,
@@ -648,13 +663,14 @@ private:
       std::size_t cb,
       std::size_t ce,
       size_constant<L>) noexcept {
-	_store_cell_bits(
-	  (state >> (_cell_s - bl)), _bytes[size_type(cb)], bo, bl);
-	return _set_cell_bits(
-	  T(state << bl), bb + bl, be, cb + 1, ce, size_constant<L + 1>{});
+        _store_cell_bits(
+          (state >> (_cell_s - bl)), _bytes[size_type(cb)], bo, bl);
+        return _set_cell_bits(
+          T(state << bl), bb + bl, be, cb + 1, ce, size_constant<L + 1>{});
     }
 
-    static constexpr inline void _set_cell_bits(T,
+    static constexpr inline void _set_cell_bits(
+      T,
       std::size_t,
       std::size_t,
       std::size_t,
@@ -663,49 +679,52 @@ private:
     }
 
     template <std::size_t L>
-    void _set_cell_bits(T state,
+    void _set_cell_bits(
+      T state,
       std::size_t bb,
       std::size_t be,
       std::size_t cb,
       std::size_t ce,
       size_constant<L> l) noexcept {
-	if(bb < be) {
-	    _do_set_cell_bits(state,
-	      (bb - cb * _byte_s),
-	      _min_s((be - bb), (_byte_s - (bb - cb * _byte_s))),
-	      bb,
-	      be,
-	      cb,
-	      ce,
-	      l);
-	}
+        if(bb < be) {
+            _do_set_cell_bits(
+              state,
+              (bb - cb * _byte_s),
+              _min_s((be - bb), (_byte_s - (bb - cb * _byte_s))),
+              bb,
+              be,
+              cb,
+              ce,
+              l);
+        }
     }
 
     void _set_cell_bits(T state, std::size_t bb, std::size_t be) noexcept {
-	return _set_cell_bits(
-	  state, bb, be, bb / _byte_s, be / _byte_s, size_constant<1>{});
+        return _set_cell_bits(
+          state, bb, be, bb / _byte_s, be / _byte_s, size_constant<1>{});
     }
 
     void _set_cell(std::size_t i, T value) noexcept {
-	if(B == _byte_s) {
-	    _bytes[size_type(i)] = _byte_t(value);
-	} else {
-	    _set_cell_bits(T(value << (_cell_s - _bite_s)),
-	      (i + 0) * _bite_s,
-	      (i + 1) * _bite_s);
-	}
+        if(B == _byte_s) {
+            _bytes[size_type(i)] = _byte_t(value);
+        } else {
+            _set_cell_bits(
+              T(value << (_cell_s - _bite_s)),
+              (i + 0) * _bite_s,
+              (i + 1) * _bite_s);
+        }
     }
 
     template <std::size_t... I>
     static constexpr inline _bytes_t _do_make_bytes(
       const T (&init)[N], std::index_sequence<I...>) noexcept {
-	return _bytes_t{_get_byte(init, size_constant<I>{})...};
+        return _bytes_t{_get_byte(init, size_constant<I>{})...};
     }
 
     template <typename... P>
     static constexpr inline _bytes_t _make_bytes(P... p) noexcept {
-	return _do_make_bytes(
-	  {T(p)...}, std::make_index_sequence<_store_size>{});
+        return _do_make_bytes(
+          {T(p)...}, std::make_index_sequence<_store_size>{});
     }
 };
 

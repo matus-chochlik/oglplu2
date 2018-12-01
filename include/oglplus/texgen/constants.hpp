@@ -9,8 +9,8 @@
 #ifndef OGLPLUS_TEXGEN_CONSTANTS_1509260923_HPP
 #define OGLPLUS_TEXGEN_CONSTANTS_1509260923_HPP
 
-#include "interface.hpp"
 #include <string>
+#include "interface.hpp"
 
 namespace oglplus {
 namespace texgen {
@@ -19,8 +19,7 @@ struct constant_id {
     constant_intf& constant;
     compile_context& context;
 };
-std::ostream&
-operator<<(std::ostream& out, const constant_id&);
+std::ostream& operator<<(std::ostream& out, const constant_id&);
 } // namespace expr
 
 class base_constant : public constant_intf {

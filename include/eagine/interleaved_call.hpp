@@ -30,11 +30,11 @@ public:
 
     template <typename... P>
     auto operator()(P&&... p) {
-	if(!_first)
-	    _sep_func();
-	else
-	    _first = false;
-	return _func(std::forward<P>(p)...);
+        if(!_first)
+            _sep_func();
+        else
+            _first = false;
+        return _func(std::forward<P>(p)...);
     }
 };
 

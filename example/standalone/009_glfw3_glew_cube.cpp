@@ -48,21 +48,21 @@ run_loop(GLFWwindow* window, int width, int height) {
     vs.source(
       glsl_literal("#version 120\n"
 
-		   "attribute vec3 Position;\n"
-		   "attribute vec3 Normal;\n"
-		   "attribute vec2 Coord;\n"
+                   "attribute vec3 Position;\n"
+                   "attribute vec3 Normal;\n"
+                   "attribute vec2 Coord;\n"
 
-		   "varying vec3 vertPosition;\n"
-		   "varying vec3 vertNormal;\n"
-		   "varying vec2 vertCoord;\n"
+                   "varying vec3 vertPosition;\n"
+                   "varying vec3 vertNormal;\n"
+                   "varying vec2 vertCoord;\n"
 
-		   "void main(void)\n"
-		   "{\n"
-		   "	gl_Position = ftransform();\n"
-		   "	vertPosition = Position;\n"
-		   "	vertNormal = Normal;\n"
-		   "	vertCoord = Coord;\n"
-		   "}\n"));
+                   "void main(void)\n"
+                   "{\n"
+                   "	gl_Position = ftransform();\n"
+                   "	vertPosition = Position;\n"
+                   "	vertNormal = Normal;\n"
+                   "	vertCoord = Coord;\n"
+                   "}\n"));
     vs.compile();
 
     shader fs(GL.fragment_shader);
@@ -101,33 +101,33 @@ run_loop(GLFWwindow* window, int width, int height) {
 
     // positions
     const GLfloat v[8][3] = {{-0.5f, -0.5f, -0.5f},
-      {+0.5f, -0.5f, -0.5f},
-      {-0.5f, +0.5f, -0.5f},
-      {+0.5f, +0.5f, -0.5f},
-      {-0.5f, -0.5f, +0.5f},
-      {+0.5f, -0.5f, +0.5f},
-      {-0.5f, +0.5f, +0.5f},
-      {+0.5f, +0.5f, +0.5f}};
+                             {+0.5f, -0.5f, -0.5f},
+                             {-0.5f, +0.5f, -0.5f},
+                             {+0.5f, +0.5f, -0.5f},
+                             {-0.5f, -0.5f, +0.5f},
+                             {+0.5f, -0.5f, +0.5f},
+                             {-0.5f, +0.5f, +0.5f},
+                             {+0.5f, +0.5f, +0.5f}};
 
     const GLint f[6][2][3] = {{{0, 4, 2}, {2, 4, 6}},
-      {{5, 1, 7}, {7, 1, 3}},
-      {{0, 1, 4}, {4, 1, 5}},
-      {{6, 7, 2}, {2, 7, 3}},
-      {{1, 0, 3}, {3, 0, 2}},
-      {{4, 5, 6}, {6, 5, 7}}};
+                              {{5, 1, 7}, {7, 1, 3}},
+                              {{0, 1, 4}, {4, 1, 5}},
+                              {{6, 7, 2}, {2, 7, 3}},
+                              {{1, 0, 3}, {3, 0, 2}},
+                              {{4, 5, 6}, {6, 5, 7}}};
 
     const GLuint vertex_count = 6 * 2 * 3;
     GLfloat cube_vertices[vertex_count * 3];
 
     for(GLuint fi = 0; fi != 6; ++fi) {
-	for(GLuint ti = 0; ti != 2; ++ti) {
-	    for(GLuint vi = 0; vi != 3; ++vi) {
-		for(GLuint ci = 0; ci != 3; ++ci) {
-		    cube_vertices[fi * 2 * 3 * 3 + ti * 3 * 3 + vi * 3 + ci] =
-		      v[f[fi][ti][vi]][ci];
-		}
-	    }
-	}
+        for(GLuint ti = 0; ti != 2; ++ti) {
+            for(GLuint vi = 0; vi != 3; ++vi) {
+                for(GLuint ci = 0; ci != 3; ++ci) {
+                    cube_vertices[fi * 2 * 3 * 3 + ti * 3 * 3 + vi * 3 + ci] =
+                      v[f[fi][ti][vi]][ci];
+                }
+            }
+        }
     }
 
     buffer pos;
@@ -145,18 +145,18 @@ run_loop(GLFWwindow* window, int width, int height) {
 
     // normals
     const GLfloat n[6][3] = {{-1.0f, 0.0f, 0.0f},
-      {1.0f, 0.0f, 0.0f},
-      {0.0f, -1.0f, 0.0f},
-      {0.0f, 1.0f, 0.0f},
-      {0.0f, 0.0f, -1.0f},
-      {0.0f, 0.0f, 1.0f}};
+                             {1.0f, 0.0f, 0.0f},
+                             {0.0f, -1.0f, 0.0f},
+                             {0.0f, 1.0f, 0.0f},
+                             {0.0f, 0.0f, -1.0f},
+                             {0.0f, 0.0f, 1.0f}};
     GLfloat cube_normals[vertex_count * 3];
     for(GLuint fi = 0; fi != 6; ++fi) {
-	for(GLuint vi = 0; vi != 6; ++vi) {
-	    for(GLuint ci = 0; ci != 3; ++ci) {
-		cube_normals[(fi * 6 + vi) * 3 + ci] = n[fi][ci];
-	    }
-	}
+        for(GLuint vi = 0; vi != 6; ++vi) {
+            for(GLuint ci = 0; ci != 3; ++ci) {
+                cube_normals[(fi * 6 + vi) * 3 + ci] = n[fi][ci];
+            }
+        }
     }
 
     buffer nml;
@@ -170,20 +170,20 @@ run_loop(GLFWwindow* window, int width, int height) {
 
     // face-coords
     const GLfloat c[6][2] = {{-1.0f, -1.0f},
-      {+1.0f, -1.0f},
-      {-1.0f, +1.0f},
-      {-1.0f, +1.0f},
-      {+1.0f, -1.0f},
-      {+1.0f, +1.0f}};
+                             {+1.0f, -1.0f},
+                             {-1.0f, +1.0f},
+                             {-1.0f, +1.0f},
+                             {+1.0f, -1.0f},
+                             {+1.0f, +1.0f}};
 
     GLfloat cube_coords[vertex_count * 2];
 
     for(GLuint fi = 0; fi != 6; ++fi) {
-	for(GLuint vi = 0; vi != 6; ++vi) {
-	    for(GLuint ci = 0; ci != 2; ++ci) {
-		cube_coords[(fi * 6 + vi) * 2 + ci] = c[vi][ci];
-	    }
-	}
+        for(GLuint vi = 0; vi != 6; ++vi) {
+            for(GLuint ci = 0; ci != 2; ++ci) {
+                cube_coords[(fi * 6 + vi) * 2 + ci] = c[vi][ci];
+            }
+        }
     }
 
     buffer crd;
@@ -205,98 +205,99 @@ run_loop(GLFWwindow* window, int width, int height) {
     int deg = 0;
 
     while(true) {
-	glfwPollEvents();
+        glfwPollEvents();
 
-	if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-	    glfwSetWindowShouldClose(window, 1);
-	    break;
-	}
+        if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+            glfwSetWindowShouldClose(window, 1);
+            break;
+        }
 
-	if(glfwWindowShouldClose(window)) {
-	    break;
-	}
+        if(glfwWindowShouldClose(window)) {
+            break;
+        }
 
-	int new_width, new_height;
-	glfwGetWindowSize(window, &new_width, &new_height);
+        int new_width, new_height;
+        glfwGetWindowSize(window, &new_width, &new_height);
 
-	if((width != new_width) || (height != new_height)) {
-	    width = new_width;
-	    height = new_height;
+        if((width != new_width) || (height != new_height)) {
+            width = new_width;
+            height = new_height;
 
-	    handle_resize(width, height);
-	}
+            handle_resize(width, height);
+        }
 
-	gl.clear(GL.color_buffer_bit | GL.depth_buffer_bit);
+        gl.clear(GL.color_buffer_bit | GL.depth_buffer_bit);
 
-	gl.matrix_mode(GL.modelview);
-	gl.load_identity();
-	gl.rotate_f(degrees_(0.1f * (deg += 1)), 1, 0, 0);
-	gl.rotate_f(degrees_(0.1f * (deg += 2)), 0, 1, 0);
-	gl.rotate_f(degrees_(0.1f * (deg += 3)), 0, 0, 1);
+        gl.matrix_mode(GL.modelview);
+        gl.load_identity();
+        gl.rotate_f(degrees_(0.1f * (deg += 1)), 1, 0, 0);
+        gl.rotate_f(degrees_(0.1f * (deg += 2)), 0, 1, 0);
+        gl.rotate_f(degrees_(0.1f * (deg += 3)), 0, 0, 1);
 
-	gl.draw_arrays(GL.triangles, 0, 6 * 2 * 3);
+        gl.draw_arrays(GL.triangles, 0, 6 * 2 * 3);
 
-	glfwSwapBuffers(window);
+        glfwSwapBuffers(window);
     }
 }
 
 static void
 init_and_run(void) {
     if(!glfwInit()) {
-	throw std::runtime_error("GLFW initialization error");
+        throw std::runtime_error("GLFW initialization error");
     } else {
-	auto ensure_glfw_cleanup = eagine::finally(glfwTerminate);
+        auto ensure_glfw_cleanup = eagine::finally(glfwTerminate);
 
-	glfwWindowHint(GLFW_DOUBLEBUFFER, GL_TRUE);
-	glfwWindowHint(GLFW_RED_BITS, 8);
-	glfwWindowHint(GLFW_BLUE_BITS, 8);
-	glfwWindowHint(GLFW_GREEN_BITS, 8);
-	glfwWindowHint(GLFW_ALPHA_BITS, 0);
-	glfwWindowHint(GLFW_DEPTH_BITS, 24);
-	glfwWindowHint(GLFW_STENCIL_BITS, 0);
+        glfwWindowHint(GLFW_DOUBLEBUFFER, GL_TRUE);
+        glfwWindowHint(GLFW_RED_BITS, 8);
+        glfwWindowHint(GLFW_BLUE_BITS, 8);
+        glfwWindowHint(GLFW_GREEN_BITS, 8);
+        glfwWindowHint(GLFW_ALPHA_BITS, 0);
+        glfwWindowHint(GLFW_DEPTH_BITS, 24);
+        glfwWindowHint(GLFW_STENCIL_BITS, 0);
 
-	glfwWindowHint(GLFW_SAMPLES, GLFW_DONT_CARE);
+        glfwWindowHint(GLFW_SAMPLES, GLFW_DONT_CARE);
 
-	int width = 800, height = 600;
+        int width = 800, height = 600;
 
-	GLFWwindow* window =
-	  glfwCreateWindow(width, height, "OGLplus example", NULL, NULL);
+        GLFWwindow* window =
+          glfwCreateWindow(width, height, "OGLplus example", NULL, NULL);
 
-	if(!window) {
-	    throw std::runtime_error("Error creating GLFW window");
-	} else {
-	    glfwMakeContextCurrent(window);
-	    glewExperimental = GL_TRUE;
-	    GLenum init_result = glewInit();
-	    glGetError();
-	    if(init_result != GLEW_OK) {
-		throw std::runtime_error("OpenGL/GLEW initialization error.");
-	    } else {
-		run_loop(window, width, height);
-	    }
-	}
+        if(!window) {
+            throw std::runtime_error("Error creating GLFW window");
+        } else {
+            glfwMakeContextCurrent(window);
+            glewExperimental = GL_TRUE;
+            GLenum init_result = glewInit();
+            glGetError();
+            if(init_result != GLEW_OK) {
+                throw std::runtime_error("OpenGL/GLEW initialization error.");
+            } else {
+                run_loop(window, width, height);
+            }
+        }
     }
 }
 
 int
 main(void) {
     try {
-	init_and_run();
-	return 0;
+        init_and_run();
+        return 0;
     } catch(oglplus::error& gle) {
-	oglplus::format_error(gle,
-	  "OpenGL error\n"
-	  "in GL function: %(gl_function_name)\n"
-	  "with object: %(gl_object)\n"
-	  "with enum parameter: %(gl_enum_value)\n"
-	  "from source file: %(source_file)\n"
-	  "%(message)",
-	  std::cerr)
-	  << std::endl;
+        oglplus::format_error(
+          gle,
+          "OpenGL error\n"
+          "in GL function: %(gl_function_name)\n"
+          "with object: %(gl_object)\n"
+          "with enum parameter: %(gl_enum_value)\n"
+          "from source file: %(source_file)\n"
+          "%(message)",
+          std::cerr)
+          << std::endl;
     } catch(std::runtime_error& sre) {
-	std::cerr << "Runtime error: " << sre.what() << std::endl;
+        std::cerr << "Runtime error: " << sre.what() << std::endl;
     } catch(std::exception& se) {
-	std::cerr << "Unknown error: " << se.what() << std::endl;
+        std::cerr << "Unknown error: " << se.what() << std::endl;
     }
     return 1;
 }

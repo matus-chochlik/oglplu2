@@ -53,8 +53,8 @@ oglplus_renderbuffer_test_ops1(void) {
     currbo.get_samples();
     currbo.get_internal_format();
 
-#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access) \
-  || defined(GL_EXT_direct_state_access)
+#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access) || \
+  defined(GL_EXT_direct_state_access)
 
     gl.renderbuffer_storage(rbo, ifmt, 32, 32);
     gl.renderbuffer_storage_multisample(rbo, 4, ifmt, 32, 32);

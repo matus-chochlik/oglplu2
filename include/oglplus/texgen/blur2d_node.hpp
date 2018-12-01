@@ -29,7 +29,8 @@ public:
       std::ostream& out, compile_context& ctxt) override;
 };
 
-using blur2d_node = unary_single_output_node<blur2d_output,
+using blur2d_node = unary_single_output_node<
+  blur2d_output,
   decltype(blur2d_output::input),
   &blur2d_output::input>;
 

@@ -24,7 +24,8 @@ pixel_transfer_state::clamp_color(
 //------------------------------------------------------------------------------
 template <typename T>
 inline outcome<void>
-pixel_transfer_ops::read_pixels(GLint x,
+pixel_transfer_ops::read_pixels(
+  GLint x,
   GLint y,
   GLsizei width,
   GLsizei height,
@@ -34,13 +35,13 @@ pixel_transfer_ops::read_pixels(GLint x,
 #if defined(GL_VERSION_4_5)
     OGLPLUS_GLFUNC(ReadnPixels)
     (x,
-      y,
-      width,
-      height,
-      GLenum(format),
-      GLenum(type),
-      GLsizei(data.size()),
-      data.data());
+     y,
+     width,
+     height,
+     GLenum(format),
+     GLenum(type),
+     GLsizei(data.size()),
+     data.data());
     OGLPLUS_VERIFY(ReadnPixels, gl_enum_value(format), debug);
     return {};
 #else

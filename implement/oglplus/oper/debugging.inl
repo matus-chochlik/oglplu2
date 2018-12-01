@@ -30,35 +30,37 @@ debugging::pop_debug_group(void) noexcept {
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-debugging::debug_message_control(debug_output_source source,
+debugging::debug_message_control(
+  debug_output_source source,
   debug_output_type type,
   debug_output_severity severity,
   span<const GLuint> ids,
   boolean enabled) noexcept {
     OGLPLUS_GLFUNC(DebugMessageControl)
     (GLenum(source),
-      GLenum(type),
-      GLenum(severity),
-      GLsizei(ids.size()),
-      ids.data(),
-      GLboolean(enabled));
+     GLenum(type),
+     GLenum(severity),
+     GLsizei(ids.size()),
+     ids.data(),
+     GLboolean(enabled));
     OGLPLUS_VERIFY(DebugMessageControl, gl_enum_value(source), debug);
     return {};
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-debugging::debug_message_insert(debug_output_source source,
+debugging::debug_message_insert(
+  debug_output_source source,
   debug_output_type type,
   GLuint id,
   debug_output_severity severity,
   cstring_span message) noexcept {
     OGLPLUS_GLFUNC(DebugMessageInsert)
     (GLenum(source),
-      GLenum(type),
-      id,
-      GLenum(severity),
-      GLsizei(message.size()),
-      message.data());
+     GLenum(type),
+     id,
+     GLenum(severity),
+     GLsizei(message.size()),
+     message.data());
     OGLPLUS_VERIFY(DebugMessageInsert, gl_enum_value(source), debug);
     return {};
 }
@@ -72,7 +74,8 @@ debugging::debug_message_callback(
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-debugging::get_debug_message_log(GLuint count,
+debugging::get_debug_message_log(
+  GLuint count,
   span<debug_output_source> sources,
   span<debug_output_type> types,
   span<GLuint> ids,
@@ -91,19 +94,19 @@ debugging::get_debug_message_log(GLuint count,
 
     OGLPLUS_GLFUNC(GetDebugMessageLog)
     (count,
-      GLsizei(message_log.size()),
-      dst_sources.data(),
-      dst_types.data(),
-      ids.data(),
-      dst_severities.data(),
-      lengths.data(),
-      message_log.data());
+     GLsizei(message_log.size()),
+     dst_sources.data(),
+     dst_types.data(),
+     ids.data(),
+     dst_severities.data(),
+     lengths.data(),
+     message_log.data());
     OGLPLUS_VERIFY_SIMPLE(GetDebugMessageLog, debug);
 
     for(std::size_t i = 0; i < std::size_t(count); ++i) {
-	sources[i] = debug_output_source(dst_sources[i]);
-	types[i] = debug_output_type(dst_types[i]);
-	severities[i] = debug_output_severity(dst_severities[i]);
+        sources[i] = debug_output_source(dst_sources[i]);
+        types[i] = debug_output_type(dst_types[i]);
+        severities[i] = debug_output_severity(dst_severities[i]);
     }
     return {};
 }

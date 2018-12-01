@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_context_release_behavior
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_context_release_behavior_tests)
 
@@ -49,8 +49,8 @@ BOOST_AUTO_TEST_CASE(enum_context_release_behavior_names) {
     x = ev.context_release_behavior_flush;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "CONTEXT_RELEASE_BEHAVIOR_FLUSH")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "CONTEXT_RELEASE_BEHAVIOR_FLUSH") == 0);
 #endif
 
 #ifdef GL_NONE
@@ -66,23 +66,24 @@ BOOST_AUTO_TEST_CASE(enum_context_release_behavior_range) {
 
 #ifdef GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH
     {
-	--count;
-	auto r = enum_value_range<context_release_behavior>();
-	BOOST_CHECK(
-	  std::find(r.begin(),
-	    r.end(),
-	    context_release_behavior(GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<context_release_behavior>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            context_release_behavior(GL_CONTEXT_RELEASE_BEHAVIOR_FLUSH)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_NONE
     {
-	--count;
-	auto r = enum_value_range<context_release_behavior>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), context_release_behavior(GL_NONE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<context_release_behavior>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), context_release_behavior(GL_NONE)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

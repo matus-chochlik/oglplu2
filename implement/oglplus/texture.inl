@@ -21,7 +21,7 @@ inline outcome<void>
 texture_ops::active_texture(texture_unit unit) noexcept {
 #if !OGLPLUS_NO_LIMIT_CHECKS
     if(auto over_limit = failure(check_below_limit(unit))) {
-	return std::move(over_limit);
+        return std::move(over_limit);
     }
 #endif
     OGLPLUS_GLFUNC(ActiveTexture)(GLenum(unit));
@@ -33,7 +33,7 @@ inline outcome<texture_unit>
 texture_ops::get_active_texture(void) noexcept {
     GLint result = 0;
     return numeric_queries::get_integer_v(
-      numeric_query(GL_ACTIVE_TEXTURE), {&result, 1})
+             numeric_query(GL_ACTIVE_TEXTURE), {&result, 1})
       .add(texture_unit(GLenum(result)));
 }
 //------------------------------------------------------------------------------
@@ -60,8 +60,8 @@ texture_ops::bind_textures(
   texture_unit first, const object_names<tag::texture, S>& textures) noexcept {
     OGLPLUS_GLFUNC(BindTextures)
     (GLuint(first.index()),
-      GLsizei(textures.size()),
-      get_raw_names(textures).data());
+     GLsizei(textures.size()),
+     get_raw_names(textures).data());
     OGLPLUS_VERIFY(
       BindTextures, gl_enum_value(first).gl_object(textures[0]), debug);
     return {};
@@ -72,13 +72,14 @@ inline outcome<texture_name>
 texture_ops::texture_binding(texture_target target) noexcept {
     GLint result = 0;
     return numeric_queries::get_integer_v(
-      get_binding_query(target), {&result, 1})
+             get_binding_query(target), {&result, 1})
       .add(texture_name(GLuint(result)));
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_4)
 inline outcome<void>
-texture_ops::bind_image_texture(texture_unit unit,
+texture_ops::bind_image_texture(
+  texture_unit unit,
   texture_name_only tnt,
   GLint level,
   boolean layered,
@@ -87,12 +88,12 @@ texture_ops::bind_image_texture(texture_unit unit,
   pixel_data_format format) noexcept {
     OGLPLUS_GLFUNC(BindImageTexture)
     (GLenum(unit),
-      get_raw_name(tnt._name),
-      level,
-      GLboolean(layered),
-      layer,
-      GLenum(access),
-      GLenum(format));
+     get_raw_name(tnt._name),
+     level,
+     GLboolean(layered),
+     layer,
+     GLenum(access),
+     GLenum(format));
     OGLPLUS_VERIFY(
       BindImageTexture, gl_object(tnt._name).gl_enum_value(format), always);
     return {};
@@ -101,34 +102,39 @@ texture_ops::bind_image_texture(texture_unit unit,
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_2) || defined(GL_ARB_texture_storage)
 inline outcome<void>
-texture_ops::texture_storage_1d(texture_target_only tnt,
+texture_ops::texture_storage_1d(
+  texture_target_only tnt,
   GLsizei levels,
   pixel_data_internal_format iformat,
   GLsizei width) noexcept {
     OGLPLUS_GLFUNC(TexStorage1D)
     (GLenum(tnt._target), levels, GLenum(iformat), width);
-    OGLPLUS_VERIFY(TexStorage1D,
+    OGLPLUS_VERIFY(
+      TexStorage1D,
       gl_object_binding(tag::texture(), tnt._target).gl_enum_value(iformat),
       always);
     return {};
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::texture_storage_2d(texture_target_only tnt,
+texture_ops::texture_storage_2d(
+  texture_target_only tnt,
   GLsizei levels,
   pixel_data_internal_format iformat,
   GLsizei width,
   GLsizei height) noexcept {
     OGLPLUS_GLFUNC(TexStorage2D)
     (GLenum(tnt._target), levels, GLenum(iformat), width, height);
-    OGLPLUS_VERIFY(TexStorage2D,
+    OGLPLUS_VERIFY(
+      TexStorage2D,
       gl_object_binding(tag::texture(), tnt._target).gl_enum_value(iformat),
       always);
     return {};
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::texture_storage_3d(texture_target_only tnt,
+texture_ops::texture_storage_3d(
+  texture_target_only tnt,
   GLsizei levels,
   pixel_data_internal_format iformat,
   GLsizei width,
@@ -136,7 +142,8 @@ texture_ops::texture_storage_3d(texture_target_only tnt,
   GLsizei depth) noexcept {
     OGLPLUS_GLFUNC(TexStorage3D)
     (GLenum(tnt._target), levels, GLenum(iformat), width, height, depth);
-    OGLPLUS_VERIFY(TexStorage3D,
+    OGLPLUS_VERIFY(
+      TexStorage3D,
       gl_object_binding(tag::texture(), tnt._target).gl_enum_value(iformat),
       always);
     return {};
@@ -145,7 +152,8 @@ texture_ops::texture_storage_3d(texture_target_only tnt,
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_3)
 inline outcome<void>
-texture_ops::texture_storage_2d_multisample(texture_target_only tnt,
+texture_ops::texture_storage_2d_multisample(
+  texture_target_only tnt,
   GLsizei samples,
   pixel_data_internal_format iformat,
   GLsizei width,
@@ -153,19 +161,21 @@ texture_ops::texture_storage_2d_multisample(texture_target_only tnt,
   boolean fixed_locations) noexcept {
     OGLPLUS_GLFUNC(TexStorage2DMultisample)
     (GLenum(tnt._target),
-      samples,
-      GLenum(iformat),
-      width,
-      height,
-      fixed_locations);
-    OGLPLUS_VERIFY(TexStorage2DMultisample,
+     samples,
+     GLenum(iformat),
+     width,
+     height,
+     fixed_locations);
+    OGLPLUS_VERIFY(
+      TexStorage2DMultisample,
       gl_object_binding(tag::texture(), tnt._target).gl_enum_value(iformat),
       always);
     return {};
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::texture_storage_3d_multisample(texture_target_only tnt,
+texture_ops::texture_storage_3d_multisample(
+  texture_target_only tnt,
   GLsizei samples,
   pixel_data_internal_format iformat,
   GLsizei width,
@@ -174,13 +184,14 @@ texture_ops::texture_storage_3d_multisample(texture_target_only tnt,
   boolean fixed_locations) noexcept {
     OGLPLUS_GLFUNC(TexStorage3DMultisample)
     (GLenum(tnt._target),
-      samples,
-      GLenum(iformat),
-      width,
-      height,
-      depth,
-      fixed_locations);
-    OGLPLUS_VERIFY(TexStorage3DMultisample,
+     samples,
+     GLenum(iformat),
+     width,
+     height,
+     depth,
+     fixed_locations);
+    OGLPLUS_VERIFY(
+      TexStorage3DMultisample,
       gl_object_binding(tag::texture(), tnt._target).gl_enum_value(iformat),
       always);
     return {};
@@ -191,14 +202,16 @@ texture_ops::texture_storage_3d_multisample(texture_target_only tnt,
 inline outcome<void>
 invalidate_texture_image(texture_target_only tnt, GLint level) noexcept {
     OGLPLUS_GLFUNC(InvalidateTexImage)(GLenum(tnt._target), level);
-    OGLPLUS_VERIFY(InvalidateTexImage,
+    OGLPLUS_VERIFY(
+      InvalidateTexImage,
       gl_object_binding(tag::texture(), tnt._target),
       always);
     return {};
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-invalidate_texture_sub_image(texture_target_only tnt,
+invalidate_texture_sub_image(
+  texture_target_only tnt,
   GLint level,
   GLint xoffset,
   GLint yoffset,
@@ -208,14 +221,15 @@ invalidate_texture_sub_image(texture_target_only tnt,
   GLsizei depth) noexcept {
     OGLPLUS_GLFUNC(InvalidateTexSubImage)
     (GLenum(tnt._target),
-      level,
-      xoffset,
-      yoffset,
-      zoffset,
-      width,
-      height,
-      depth);
-    OGLPLUS_VERIFY(InvalidateTexSubImage,
+     level,
+     xoffset,
+     yoffset,
+     zoffset,
+     width,
+     height,
+     depth);
+    OGLPLUS_VERIFY(
+      InvalidateTexSubImage,
       gl_object_binding(tag::texture(), tnt._target),
       always);
     return {};
@@ -224,7 +238,8 @@ invalidate_texture_sub_image(texture_target_only tnt,
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_2_0)
 inline outcome<void>
-texture_ops::copy_texture_sub_image_1d(texture_target_only tnt,
+texture_ops::copy_texture_sub_image_1d(
+  texture_target_only tnt,
   GLint level,
   GLint xoffset,
   GLint x,
@@ -232,7 +247,8 @@ texture_ops::copy_texture_sub_image_1d(texture_target_only tnt,
   GLsizei width) noexcept {
     OGLPLUS_GLFUNC(CopyTexSubImage1D)
     (GLenum(tnt._target), level, xoffset, x, y, width);
-    OGLPLUS_VERIFY(CopyTexSubImage1D,
+    OGLPLUS_VERIFY(
+      CopyTexSubImage1D,
       gl_object_binding(tag::texture(), tnt._target),
       always);
     return {};
@@ -240,7 +256,8 @@ texture_ops::copy_texture_sub_image_1d(texture_target_only tnt,
 #endif
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::copy_texture_sub_image_2d(texture_target_only tnt,
+texture_ops::copy_texture_sub_image_2d(
+  texture_target_only tnt,
   GLint level,
   GLint xoffset,
   GLint yoffset,
@@ -250,14 +267,16 @@ texture_ops::copy_texture_sub_image_2d(texture_target_only tnt,
   GLsizei height) noexcept {
     OGLPLUS_GLFUNC(CopyTexSubImage2D)
     (GLenum(tnt._target), level, xoffset, yoffset, x, y, width, height);
-    OGLPLUS_VERIFY(CopyTexSubImage2D,
+    OGLPLUS_VERIFY(
+      CopyTexSubImage2D,
       gl_object_binding(tag::texture(), tnt._target),
       always);
     return {};
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::copy_texture_sub_image_3d(texture_target_only tnt,
+texture_ops::copy_texture_sub_image_3d(
+  texture_target_only tnt,
   GLint level,
   GLint xoffset,
   GLint yoffset,
@@ -268,15 +287,16 @@ texture_ops::copy_texture_sub_image_3d(texture_target_only tnt,
   GLsizei height) noexcept {
     OGLPLUS_GLFUNC(CopyTexSubImage3D)
     (GLenum(tnt._target),
-      level,
-      xoffset,
-      yoffset,
-      zoffset,
-      x,
-      y,
-      width,
-      height);
-    OGLPLUS_VERIFY(CopyTexSubImage3D,
+     level,
+     xoffset,
+     yoffset,
+     zoffset,
+     x,
+     y,
+     width,
+     height);
+    OGLPLUS_VERIFY(
+      CopyTexSubImage3D,
       gl_object_binding(tag::texture(), tnt._target),
       always);
     return {};
@@ -284,7 +304,8 @@ texture_ops::copy_texture_sub_image_3d(texture_target_only tnt,
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
 inline outcome<void>
-texture_ops::copy_texture_sub_image_1d(texture_name_only tnt,
+texture_ops::copy_texture_sub_image_1d(
+  texture_name_only tnt,
   GLint level,
   GLint xoffset,
   GLint x,
@@ -297,7 +318,8 @@ texture_ops::copy_texture_sub_image_1d(texture_name_only tnt,
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::copy_texture_sub_image_2d(texture_name_only tnt,
+texture_ops::copy_texture_sub_image_2d(
+  texture_name_only tnt,
   GLint level,
   GLint xoffset,
   GLint yoffset,
@@ -312,7 +334,8 @@ texture_ops::copy_texture_sub_image_2d(texture_name_only tnt,
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::copy_texture_sub_image_3d(texture_name_only tnt,
+texture_ops::copy_texture_sub_image_3d(
+  texture_name_only tnt,
   GLint level,
   GLint xoffset,
   GLint yoffset,
@@ -323,20 +346,21 @@ texture_ops::copy_texture_sub_image_3d(texture_name_only tnt,
   GLsizei height) noexcept {
     OGLPLUS_GLFUNC(CopyTextureSubImage3D)
     (get_raw_name(tnt._name),
-      level,
-      xoffset,
-      yoffset,
-      zoffset,
-      x,
-      y,
-      width,
-      height);
+     level,
+     xoffset,
+     yoffset,
+     zoffset,
+     x,
+     y,
+     width,
+     height);
     OGLPLUS_VERIFY(CopyTexSubtureImage3D, gl_object(tnt._name), always);
     return {};
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::texture_storage_1d(texture_name_only tnt,
+texture_ops::texture_storage_1d(
+  texture_name_only tnt,
   GLsizei levels,
   pixel_data_internal_format iformat,
   GLsizei width) noexcept {
@@ -348,7 +372,8 @@ texture_ops::texture_storage_1d(texture_name_only tnt,
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::texture_storage_2d(texture_name_only tnt,
+texture_ops::texture_storage_2d(
+  texture_name_only tnt,
   GLsizei levels,
   pixel_data_internal_format iformat,
   GLsizei width,
@@ -361,7 +386,8 @@ texture_ops::texture_storage_2d(texture_name_only tnt,
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::texture_storage_3d(texture_name_only tnt,
+texture_ops::texture_storage_3d(
+  texture_name_only tnt,
   GLsizei levels,
   pixel_data_internal_format iformat,
   GLsizei width,
@@ -377,7 +403,8 @@ texture_ops::texture_storage_3d(texture_name_only tnt,
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
 inline outcome<void>
-texture_ops::texture_storage_2d_multisample(texture_name_only tnt,
+texture_ops::texture_storage_2d_multisample(
+  texture_name_only tnt,
   GLsizei samples,
   pixel_data_internal_format iformat,
   GLsizei width,
@@ -385,19 +412,21 @@ texture_ops::texture_storage_2d_multisample(texture_name_only tnt,
   boolean fixed_locations) noexcept {
     OGLPLUS_GLFUNC(TextureStorage2DMultisample)
     (get_raw_name(tnt._name),
-      samples,
-      GLenum(iformat),
-      width,
-      height,
-      fixed_locations);
-    OGLPLUS_VERIFY(TextureStorage2DMultisample,
+     samples,
+     GLenum(iformat),
+     width,
+     height,
+     fixed_locations);
+    OGLPLUS_VERIFY(
+      TextureStorage2DMultisample,
       gl_object(tnt._name).gl_enum_value(iformat),
       always);
     return {};
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::texture_storage_3d_multisample(texture_name_only tnt,
+texture_ops::texture_storage_3d_multisample(
+  texture_name_only tnt,
   GLsizei samples,
   pixel_data_internal_format iformat,
   GLsizei width,
@@ -406,13 +435,14 @@ texture_ops::texture_storage_3d_multisample(texture_name_only tnt,
   boolean fixed_locations) noexcept {
     OGLPLUS_GLFUNC(TextureStorage3DMultisample)
     (get_raw_name(tnt._name),
-      samples,
-      GLenum(iformat),
-      width,
-      height,
-      depth,
-      fixed_locations);
-    OGLPLUS_VERIFY(TextureStorage3DMultisample,
+     samples,
+     GLenum(iformat),
+     width,
+     height,
+     depth,
+     fixed_locations);
+    OGLPLUS_VERIFY(
+      TextureStorage3DMultisample,
       gl_object(tnt._name).gl_enum_value(iformat),
       always);
     return {};
@@ -421,7 +451,8 @@ texture_ops::texture_storage_3d_multisample(texture_name_only tnt,
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_4)
 inline outcome<void>
-texture_ops::clear_texture_image(texture_name_only tnt,
+texture_ops::clear_texture_image(
+  texture_name_only tnt,
   GLint level,
   pixel_data_format format,
   pixel_data_type type,
@@ -434,7 +465,8 @@ texture_ops::clear_texture_image(texture_name_only tnt,
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::clear_texture_sub_image(texture_name_only tnt,
+texture_ops::clear_texture_sub_image(
+  texture_name_only tnt,
   GLint level,
   GLint xoffset,
   GLint yoffset,
@@ -447,16 +479,16 @@ texture_ops::clear_texture_sub_image(texture_name_only tnt,
   const buffer_data_spec& data) noexcept {
     OGLPLUS_GLFUNC(ClearTexSubImage)
     (get_raw_name(tnt._name),
-      level,
-      xoffset,
-      yoffset,
-      zoffset,
-      width,
-      height,
-      depth,
-      GLenum(format),
-      GLenum(type),
-      data.data());
+     level,
+     xoffset,
+     yoffset,
+     zoffset,
+     width,
+     height,
+     depth,
+     GLenum(format),
+     GLenum(type),
+     data.data());
     OGLPLUS_VERIFY(
       ClearTexSubImage, gl_object(tnt._name).gl_enum_value(format), always);
     return {};
@@ -471,7 +503,8 @@ texture_ops::clear_texture_sub_image(texture_name_only tnt,
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_0)
 inline outcome<void>
-texture_ops::texture_image_1d(texture_target_only tnt,
+texture_ops::texture_image_1d(
+  texture_target_only tnt,
   GLint level,
   pixel_data_internal_format iformat,
   GLsizei width,
@@ -481,25 +514,28 @@ texture_ops::texture_image_1d(texture_target_only tnt,
   const_memory_block pixels) noexcept {
     OGLPLUS_GLFUNC(TexImage1D)
     (GLenum(tnt._target),
-      level,
-      GLenum(iformat),
-      width,
-      border,
-      GLenum(format),
-      GLenum(type),
-      pixels.data());
-    OGLPLUS_VERIFY(TexImage1D,
+     level,
+     GLenum(iformat),
+     width,
+     border,
+     GLenum(format),
+     GLenum(type),
+     pixels.data());
+    OGLPLUS_VERIFY(
+      TexImage1D,
       gl_object_binding(tag::texture(), tnt._target).gl_enum_value(format),
       always);
     return {};
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::texture_image_1d(texture_target_only tnt,
+texture_ops::texture_image_1d(
+  texture_target_only tnt,
   const image_spec& img,
   GLint level,
   GLint border) noexcept {
-    return texture_image_1d(tnt,
+    return texture_image_1d(
+      tnt,
       level,
       img.internal_format(),
       img.width(),
@@ -510,7 +546,8 @@ texture_ops::texture_image_1d(texture_target_only tnt,
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::texture_sub_image_1d(texture_target_only tnt,
+texture_ops::texture_sub_image_1d(
+  texture_target_only tnt,
   GLint level,
   GLint xoffset,
   GLsizei width,
@@ -519,20 +556,22 @@ texture_ops::texture_sub_image_1d(texture_target_only tnt,
   const_memory_block pixels) noexcept {
     OGLPLUS_GLFUNC(TexSubImage1D)
     (GLenum(tnt._target),
-      level,
-      xoffset,
-      width,
-      GLenum(format),
-      GLenum(type),
-      pixels.data());
-    OGLPLUS_VERIFY(TexSubImage1D,
+     level,
+     xoffset,
+     width,
+     GLenum(format),
+     GLenum(type),
+     pixels.data());
+    OGLPLUS_VERIFY(
+      TexSubImage1D,
       gl_object_binding(tag::texture(), tnt._target).gl_enum_value(format),
       always);
     return {};
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::texture_sub_image_1d(texture_target_only tnt,
+texture_ops::texture_sub_image_1d(
+  texture_target_only tnt,
   GLint xoffset,
   const image_spec& img,
   GLint level) noexcept {
@@ -541,7 +580,8 @@ texture_ops::texture_sub_image_1d(texture_target_only tnt,
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::compressed_texture_sub_image_1d(texture_target_only tnt,
+texture_ops::compressed_texture_sub_image_1d(
+  texture_target_only tnt,
   GLint level,
   GLint xoffset,
   GLsizei width,
@@ -549,13 +589,14 @@ texture_ops::compressed_texture_sub_image_1d(texture_target_only tnt,
   const_memory_block pixels) noexcept {
     OGLPLUS_GLFUNC(CompressedTexSubImage1D)
     (GLenum(tnt._target),
-      level,
-      xoffset,
-      width,
-      GLenum(format),
-      GLsizei(pixels.size()),
-      pixels.data());
-    OGLPLUS_VERIFY(CompressedTexSubImage1D,
+     level,
+     xoffset,
+     width,
+     GLenum(format),
+     GLsizei(pixels.size()),
+     pixels.data());
+    OGLPLUS_VERIFY(
+      CompressedTexSubImage1D,
       gl_object_binding(tag::texture(), tnt._target).gl_enum_value(format),
       always);
     return {};
@@ -563,7 +604,8 @@ texture_ops::compressed_texture_sub_image_1d(texture_target_only tnt,
 #endif
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::texture_image_2d(texture_target_only tnt,
+texture_ops::texture_image_2d(
+  texture_target_only tnt,
   GLint level,
   pixel_data_internal_format iformat,
   GLsizei width,
@@ -574,26 +616,29 @@ texture_ops::texture_image_2d(texture_target_only tnt,
   const_memory_block pixels) noexcept {
     OGLPLUS_GLFUNC(TexImage2D)
     (GLenum(tnt._target),
-      level,
-      GLenum(iformat),
-      width,
-      height,
-      border,
-      GLenum(format),
-      GLenum(type),
-      pixels.data());
-    OGLPLUS_VERIFY(TexImage2D,
+     level,
+     GLenum(iformat),
+     width,
+     height,
+     border,
+     GLenum(format),
+     GLenum(type),
+     pixels.data());
+    OGLPLUS_VERIFY(
+      TexImage2D,
       gl_object_binding(tag::texture(), tnt._target).gl_enum_value(format),
       always);
     return {};
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::texture_image_2d(texture_target_only tnt,
+texture_ops::texture_image_2d(
+  texture_target_only tnt,
   const image_spec& img,
   GLint level,
   GLint border) noexcept {
-    return texture_image_2d(tnt,
+    return texture_image_2d(
+      tnt,
       level,
       img.internal_format(),
       img.width(),
@@ -605,7 +650,8 @@ texture_ops::texture_image_2d(texture_target_only tnt,
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::texture_sub_image_2d(texture_target_only tnt,
+texture_ops::texture_sub_image_2d(
+  texture_target_only tnt,
   GLint level,
   GLint xoffset,
   GLint yoffset,
@@ -616,15 +662,16 @@ texture_ops::texture_sub_image_2d(texture_target_only tnt,
   const_memory_block pixels) noexcept {
     OGLPLUS_GLFUNC(TexSubImage2D)
     (GLenum(tnt._target),
-      level,
-      xoffset,
-      yoffset,
-      width,
-      height,
-      GLenum(format),
-      GLenum(type),
-      pixels.data());
-    OGLPLUS_VERIFY(TexSubImage2D,
+     level,
+     xoffset,
+     yoffset,
+     width,
+     height,
+     GLenum(format),
+     GLenum(type),
+     pixels.data());
+    OGLPLUS_VERIFY(
+      TexSubImage2D,
       gl_object_binding(tag::texture(), tnt._target).gl_enum_value(format),
       always);
     return {};
@@ -632,7 +679,8 @@ texture_ops::texture_sub_image_2d(texture_target_only tnt,
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_2)
 inline outcome<void>
-texture_ops::texture_image_2d_multisample(texture_target_only tnt,
+texture_ops::texture_image_2d_multisample(
+  texture_target_only tnt,
   GLsizei samples,
   pixel_data_internal_format iformat,
   GLsizei width,
@@ -640,12 +688,13 @@ texture_ops::texture_image_2d_multisample(texture_target_only tnt,
   boolean fixed_locations) noexcept {
     OGLPLUS_GLFUNC(TexImage2DMultisample)
     (GLenum(tnt._target),
-      samples,
-      GLenum(iformat),
-      width,
-      height,
-      GLboolean(fixed_locations));
-    OGLPLUS_VERIFY(TexImage2DMultisample,
+     samples,
+     GLenum(iformat),
+     width,
+     height,
+     GLboolean(fixed_locations));
+    OGLPLUS_VERIFY(
+      TexImage2DMultisample,
       gl_object_binding(tag::texture(), tnt._target).gl_enum_value(iformat),
       always);
     return {};
@@ -653,12 +702,14 @@ texture_ops::texture_image_2d_multisample(texture_target_only tnt,
 #endif
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::texture_sub_image_2d(texture_target_only tnt,
+texture_ops::texture_sub_image_2d(
+  texture_target_only tnt,
   GLint xoffset,
   GLint yoffset,
   const image_spec& img,
   GLint level) noexcept {
-    return texture_sub_image_2d(tnt,
+    return texture_sub_image_2d(
+      tnt,
       level,
       xoffset,
       yoffset,
@@ -670,7 +721,8 @@ texture_ops::texture_sub_image_2d(texture_target_only tnt,
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::compressed_texture_sub_image_2d(texture_target_only tnt,
+texture_ops::compressed_texture_sub_image_2d(
+  texture_target_only tnt,
   GLint level,
   GLint xoffset,
   GLint yoffset,
@@ -680,22 +732,24 @@ texture_ops::compressed_texture_sub_image_2d(texture_target_only tnt,
   const_memory_block pixels) noexcept {
     OGLPLUS_GLFUNC(CompressedTexSubImage2D)
     (GLenum(tnt._target),
-      level,
-      xoffset,
-      yoffset,
-      width,
-      height,
-      GLenum(format),
-      GLsizei(pixels.size()),
-      pixels.data());
-    OGLPLUS_VERIFY(CompressedTexSubImage2D,
+     level,
+     xoffset,
+     yoffset,
+     width,
+     height,
+     GLenum(format),
+     GLsizei(pixels.size()),
+     pixels.data());
+    OGLPLUS_VERIFY(
+      CompressedTexSubImage2D,
       gl_object_binding(tag::texture(), tnt._target).gl_enum_value(format),
       always);
     return {};
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::texture_image_3d(texture_target_only tnt,
+texture_ops::texture_image_3d(
+  texture_target_only tnt,
   GLint level,
   pixel_data_internal_format iformat,
   GLsizei width,
@@ -707,27 +761,30 @@ texture_ops::texture_image_3d(texture_target_only tnt,
   const_memory_block pixels) noexcept {
     OGLPLUS_GLFUNC(TexImage3D)
     (GLenum(tnt._target),
-      level,
-      GLenum(iformat),
-      width,
-      height,
-      depth,
-      border,
-      GLenum(format),
-      GLenum(type),
-      pixels.data());
-    OGLPLUS_VERIFY(TexImage3D,
+     level,
+     GLenum(iformat),
+     width,
+     height,
+     depth,
+     border,
+     GLenum(format),
+     GLenum(type),
+     pixels.data());
+    OGLPLUS_VERIFY(
+      TexImage3D,
       gl_object_binding(tag::texture(), tnt._target).gl_enum_value(format),
       always);
     return {};
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::texture_image_3d(texture_target_only tnt,
+texture_ops::texture_image_3d(
+  texture_target_only tnt,
   const image_spec& img,
   GLint level,
   GLint border) noexcept {
-    return texture_image_3d(tnt,
+    return texture_image_3d(
+      tnt,
       level,
       img.internal_format(),
       img.width(),
@@ -740,7 +797,8 @@ texture_ops::texture_image_3d(texture_target_only tnt,
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::texture_sub_image_3d(texture_target_only tnt,
+texture_ops::texture_sub_image_3d(
+  texture_target_only tnt,
   GLint level,
   GLint xoffset,
   GLint yoffset,
@@ -753,17 +811,18 @@ texture_ops::texture_sub_image_3d(texture_target_only tnt,
   const_memory_block pixels) noexcept {
     OGLPLUS_GLFUNC(TexSubImage3D)
     (GLenum(tnt._target),
-      level,
-      xoffset,
-      yoffset,
-      zoffset,
-      width,
-      height,
-      depth,
-      GLenum(format),
-      GLenum(type),
-      pixels.data());
-    OGLPLUS_VERIFY(TexSubImage3D,
+     level,
+     xoffset,
+     yoffset,
+     zoffset,
+     width,
+     height,
+     depth,
+     GLenum(format),
+     GLenum(type),
+     pixels.data());
+    OGLPLUS_VERIFY(
+      TexSubImage3D,
       gl_object_binding(tag::texture(), tnt._target).gl_enum_value(format),
       always);
     return {};
@@ -771,7 +830,8 @@ texture_ops::texture_sub_image_3d(texture_target_only tnt,
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_2)
 inline outcome<void>
-texture_ops::texture_image_3d_multisample(texture_target_only tnt,
+texture_ops::texture_image_3d_multisample(
+  texture_target_only tnt,
   GLsizei samples,
   pixel_data_internal_format iformat,
   GLsizei width,
@@ -780,13 +840,14 @@ texture_ops::texture_image_3d_multisample(texture_target_only tnt,
   boolean fixed_locations) noexcept {
     OGLPLUS_GLFUNC(TexImage3DMultisample)
     (GLenum(tnt._target),
-      samples,
-      GLenum(iformat),
-      width,
-      height,
-      depth,
-      GLboolean(fixed_locations));
-    OGLPLUS_VERIFY(TexImage3DMultisample,
+     samples,
+     GLenum(iformat),
+     width,
+     height,
+     depth,
+     GLboolean(fixed_locations));
+    OGLPLUS_VERIFY(
+      TexImage3DMultisample,
       gl_object_binding(tag::texture(), tnt._target).gl_enum_value(iformat),
       always);
     return {};
@@ -794,13 +855,15 @@ texture_ops::texture_image_3d_multisample(texture_target_only tnt,
 #endif
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::texture_sub_image_3d(texture_target_only tnt,
+texture_ops::texture_sub_image_3d(
+  texture_target_only tnt,
   GLint xoffset,
   GLint yoffset,
   GLint zoffset,
   const image_spec& img,
   GLint level) noexcept {
-    return texture_sub_image_3d(tnt,
+    return texture_sub_image_3d(
+      tnt,
       level,
       xoffset,
       yoffset,
@@ -814,7 +877,8 @@ texture_ops::texture_sub_image_3d(texture_target_only tnt,
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::compressed_texture_sub_image_3d(texture_target_only tnt,
+texture_ops::compressed_texture_sub_image_3d(
+  texture_target_only tnt,
   GLint level,
   GLint xoffset,
   GLint yoffset,
@@ -826,17 +890,18 @@ texture_ops::compressed_texture_sub_image_3d(texture_target_only tnt,
   const_memory_block pixels) noexcept {
     OGLPLUS_GLFUNC(CompressedTexSubImage3D)
     (GLenum(tnt._target),
-      level,
-      xoffset,
-      yoffset,
-      zoffset,
-      width,
-      height,
-      depth,
-      GLenum(format),
-      GLsizei(pixels.size()),
-      pixels.data());
-    OGLPLUS_VERIFY(CompressedTexSubImage3D,
+     level,
+     xoffset,
+     yoffset,
+     zoffset,
+     width,
+     height,
+     depth,
+     GLenum(format),
+     GLsizei(pixels.size()),
+     pixels.data());
+    OGLPLUS_VERIFY(
+      CompressedTexSubImage3D,
       gl_object_binding(tag::texture(), tnt._target).gl_enum_value(format),
       always);
     return {};
@@ -845,7 +910,8 @@ texture_ops::compressed_texture_sub_image_3d(texture_target_only tnt,
 #if defined(GL_EXT_direct_state_access)
 #if defined(GL_VERSION_3_0)
 inline outcome<void>
-texture_ops::texture_image_1d(texture_name_and_target tnt,
+texture_ops::texture_image_1d(
+  texture_name_and_target tnt,
   GLint level,
   pixel_data_internal_format iformat,
   GLsizei width,
@@ -855,26 +921,29 @@ texture_ops::texture_image_1d(texture_name_and_target tnt,
   const_memory_block pixels) noexcept {
     OGLPLUS_GLFUNC(TextureImage1DEXT)
     (get_raw_name(tnt._name),
-      GLenum(tnt._target),
-      level,
-      GLenum(iformat),
-      width,
-      border,
-      GLenum(format),
-      GLenum(type),
-      pixels.data());
-    OGLPLUS_VERIFY(TextureImage1DEXT,
+     GLenum(tnt._target),
+     level,
+     GLenum(iformat),
+     width,
+     border,
+     GLenum(format),
+     GLenum(type),
+     pixels.data());
+    OGLPLUS_VERIFY(
+      TextureImage1DEXT,
       gl_object_binding(tag::texture(), tnt._target).gl_enum_value(format),
       always);
     return {};
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::texture_image_1d(texture_name_and_target tnt,
+texture_ops::texture_image_1d(
+  texture_name_and_target tnt,
   const image_spec& img,
   GLint level,
   GLint border) noexcept {
-    return texture_image_1d(tnt,
+    return texture_image_1d(
+      tnt,
       level,
       img.internal_format(),
       img.width(),
@@ -885,7 +954,8 @@ texture_ops::texture_image_1d(texture_name_and_target tnt,
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::texture_sub_image_1d(texture_name_and_target tnt,
+texture_ops::texture_sub_image_1d(
+  texture_name_and_target tnt,
   GLint level,
   GLint xoffset,
   GLsizei width,
@@ -894,21 +964,23 @@ texture_ops::texture_sub_image_1d(texture_name_and_target tnt,
   const_memory_block pixels) noexcept {
     OGLPLUS_GLFUNC(TextureSubImage1DEXT)
     (get_raw_name(tnt._name),
-      GLenum(tnt._target),
-      level,
-      xoffset,
-      width,
-      GLenum(format),
-      GLenum(type),
-      pixels.data());
-    OGLPLUS_VERIFY(TextureImage1DEXT,
+     GLenum(tnt._target),
+     level,
+     xoffset,
+     width,
+     GLenum(format),
+     GLenum(type),
+     pixels.data());
+    OGLPLUS_VERIFY(
+      TextureImage1DEXT,
       gl_object_binding(tag::texture(), tnt._target).gl_enum_value(format),
       always);
     return {};
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::texture_sub_image_1d(texture_name_and_target tnt,
+texture_ops::texture_sub_image_1d(
+  texture_name_and_target tnt,
   GLint xoffset,
   const image_spec& img,
   GLint level) noexcept {
@@ -917,7 +989,8 @@ texture_ops::texture_sub_image_1d(texture_name_and_target tnt,
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::compressed_texture_sub_image_1d(texture_name_and_target tnt,
+texture_ops::compressed_texture_sub_image_1d(
+  texture_name_and_target tnt,
   GLint level,
   GLint xoffset,
   GLsizei width,
@@ -925,14 +998,15 @@ texture_ops::compressed_texture_sub_image_1d(texture_name_and_target tnt,
   const_memory_block pixels) noexcept {
     OGLPLUS_GLFUNC(CompressedTextureSubImage1DEXT)
     (get_raw_name(tnt._name),
-      GLenum(tnt._target),
-      level,
-      xoffset,
-      width,
-      GLenum(format),
-      GLsizei(pixels.size()),
-      pixels.data());
-    OGLPLUS_VERIFY(CompressedTextureImage1DEXT,
+     GLenum(tnt._target),
+     level,
+     xoffset,
+     width,
+     GLenum(format),
+     GLsizei(pixels.size()),
+     pixels.data());
+    OGLPLUS_VERIFY(
+      CompressedTextureImage1DEXT,
       gl_object_binding(tag::texture(), tnt._target).gl_enum_value(format),
       always);
     return {};
@@ -940,7 +1014,8 @@ texture_ops::compressed_texture_sub_image_1d(texture_name_and_target tnt,
 #endif // GL_VERSION_3_0
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::texture_image_2d(texture_name_and_target tnt,
+texture_ops::texture_image_2d(
+  texture_name_and_target tnt,
   GLint level,
   pixel_data_internal_format iformat,
   GLsizei width,
@@ -951,27 +1026,30 @@ texture_ops::texture_image_2d(texture_name_and_target tnt,
   const_memory_block pixels) noexcept {
     OGLPLUS_GLFUNC(TextureImage2DEXT)
     (get_raw_name(tnt._name),
-      GLenum(tnt._target),
-      level,
-      GLenum(iformat),
-      width,
-      height,
-      border,
-      GLenum(format),
-      GLenum(type),
-      pixels.data());
-    OGLPLUS_VERIFY(TextureImage2DEXT,
+     GLenum(tnt._target),
+     level,
+     GLenum(iformat),
+     width,
+     height,
+     border,
+     GLenum(format),
+     GLenum(type),
+     pixels.data());
+    OGLPLUS_VERIFY(
+      TextureImage2DEXT,
       gl_object_binding(tag::texture(), tnt._target).gl_enum_value(format),
       always);
     return {};
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::texture_image_2d(texture_name_and_target tnt,
+texture_ops::texture_image_2d(
+  texture_name_and_target tnt,
   const image_spec& img,
   GLint level,
   GLint border) noexcept {
-    return texture_image_2d(tnt,
+    return texture_image_2d(
+      tnt,
       level,
       img.internal_format(),
       img.width(),
@@ -983,7 +1061,8 @@ texture_ops::texture_image_2d(texture_name_and_target tnt,
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::texture_sub_image_2d(texture_name_and_target tnt,
+texture_ops::texture_sub_image_2d(
+  texture_name_and_target tnt,
   GLint level,
   GLint xoffset,
   GLint yoffset,
@@ -994,28 +1073,31 @@ texture_ops::texture_sub_image_2d(texture_name_and_target tnt,
   const_memory_block pixels) noexcept {
     OGLPLUS_GLFUNC(TextureSubImage2DEXT)
     (get_raw_name(tnt._name),
-      GLenum(tnt._target),
-      level,
-      xoffset,
-      yoffset,
-      width,
-      height,
-      GLenum(format),
-      GLenum(type),
-      pixels.data());
-    OGLPLUS_VERIFY(TextureImage2DEXT,
+     GLenum(tnt._target),
+     level,
+     xoffset,
+     yoffset,
+     width,
+     height,
+     GLenum(format),
+     GLenum(type),
+     pixels.data());
+    OGLPLUS_VERIFY(
+      TextureImage2DEXT,
       gl_object_binding(tag::texture(), tnt._target).gl_enum_value(format),
       always);
     return {};
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::texture_sub_image_2d(texture_name_and_target tnt,
+texture_ops::texture_sub_image_2d(
+  texture_name_and_target tnt,
   GLint xoffset,
   GLint yoffset,
   const image_spec& img,
   GLint level) noexcept {
-    return texture_sub_image_2d(tnt,
+    return texture_sub_image_2d(
+      tnt,
       level,
       xoffset,
       yoffset,
@@ -1027,7 +1109,8 @@ texture_ops::texture_sub_image_2d(texture_name_and_target tnt,
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::compressed_texture_sub_image_2d(texture_name_and_target tnt,
+texture_ops::compressed_texture_sub_image_2d(
+  texture_name_and_target tnt,
   GLint level,
   GLint xoffset,
   GLint yoffset,
@@ -1037,23 +1120,25 @@ texture_ops::compressed_texture_sub_image_2d(texture_name_and_target tnt,
   const_memory_block pixels) noexcept {
     OGLPLUS_GLFUNC(CompressedTextureSubImage2DEXT)
     (get_raw_name(tnt._name),
-      GLenum(tnt._target),
-      level,
-      xoffset,
-      yoffset,
-      width,
-      height,
-      GLenum(format),
-      GLsizei(pixels.size()),
-      pixels.data());
-    OGLPLUS_VERIFY(CompressedTextureImage2DEXT,
+     GLenum(tnt._target),
+     level,
+     xoffset,
+     yoffset,
+     width,
+     height,
+     GLenum(format),
+     GLsizei(pixels.size()),
+     pixels.data());
+    OGLPLUS_VERIFY(
+      CompressedTextureImage2DEXT,
       gl_object_binding(tag::texture(), tnt._target).gl_enum_value(format),
       always);
     return {};
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::texture_image_3d(texture_name_and_target tnt,
+texture_ops::texture_image_3d(
+  texture_name_and_target tnt,
   GLint level,
   pixel_data_internal_format iformat,
   GLsizei width,
@@ -1065,28 +1150,31 @@ texture_ops::texture_image_3d(texture_name_and_target tnt,
   const_memory_block pixels) noexcept {
     OGLPLUS_GLFUNC(TextureImage3DEXT)
     (get_raw_name(tnt._name),
-      GLenum(tnt._target),
-      level,
-      GLenum(iformat),
-      width,
-      height,
-      depth,
-      border,
-      GLenum(format),
-      GLenum(type),
-      pixels.data());
-    OGLPLUS_VERIFY(TextureImage3DEXT,
+     GLenum(tnt._target),
+     level,
+     GLenum(iformat),
+     width,
+     height,
+     depth,
+     border,
+     GLenum(format),
+     GLenum(type),
+     pixels.data());
+    OGLPLUS_VERIFY(
+      TextureImage3DEXT,
       gl_object_binding(tag::texture(), tnt._target).gl_enum_value(format),
       always);
     return {};
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::texture_image_3d(texture_name_and_target tnt,
+texture_ops::texture_image_3d(
+  texture_name_and_target tnt,
   const image_spec& img,
   GLint level,
   GLint border) noexcept {
-    return texture_image_3d(tnt,
+    return texture_image_3d(
+      tnt,
       level,
       img.internal_format(),
       img.width(),
@@ -1099,7 +1187,8 @@ texture_ops::texture_image_3d(texture_name_and_target tnt,
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::texture_sub_image_3d(texture_name_and_target tnt,
+texture_ops::texture_sub_image_3d(
+  texture_name_and_target tnt,
   GLint level,
   GLint xoffset,
   GLint yoffset,
@@ -1112,31 +1201,34 @@ texture_ops::texture_sub_image_3d(texture_name_and_target tnt,
   const_memory_block pixels) noexcept {
     OGLPLUS_GLFUNC(TextureSubImage3DEXT)
     (get_raw_name(tnt._name),
-      GLenum(tnt._target),
-      level,
-      xoffset,
-      yoffset,
-      zoffset,
-      width,
-      height,
-      depth,
-      GLenum(format),
-      GLenum(type),
-      pixels.data());
-    OGLPLUS_VERIFY(TextureImage3DEXT,
+     GLenum(tnt._target),
+     level,
+     xoffset,
+     yoffset,
+     zoffset,
+     width,
+     height,
+     depth,
+     GLenum(format),
+     GLenum(type),
+     pixels.data());
+    OGLPLUS_VERIFY(
+      TextureImage3DEXT,
       gl_object_binding(tag::texture(), tnt._target).gl_enum_value(format),
       always);
     return {};
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::texture_sub_image_3d(texture_name_and_target tnt,
+texture_ops::texture_sub_image_3d(
+  texture_name_and_target tnt,
   GLint xoffset,
   GLint yoffset,
   GLint zoffset,
   const image_spec& img,
   GLint level) noexcept {
-    return texture_sub_image_3d(tnt,
+    return texture_sub_image_3d(
+      tnt,
       level,
       xoffset,
       yoffset,
@@ -1150,7 +1242,8 @@ texture_ops::texture_sub_image_3d(texture_name_and_target tnt,
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::compressed_texture_sub_image_3d(texture_name_and_target tnt,
+texture_ops::compressed_texture_sub_image_3d(
+  texture_name_and_target tnt,
   GLint level,
   GLint xoffset,
   GLint yoffset,
@@ -1162,18 +1255,19 @@ texture_ops::compressed_texture_sub_image_3d(texture_name_and_target tnt,
   const_memory_block pixels) noexcept {
     OGLPLUS_GLFUNC(CompressedTextureSubImage3DEXT)
     (get_raw_name(tnt._name),
-      GLenum(tnt._target),
-      level,
-      xoffset,
-      yoffset,
-      zoffset,
-      width,
-      height,
-      depth,
-      GLenum(format),
-      GLsizei(pixels.size()),
-      pixels.data());
-    OGLPLUS_VERIFY(CompressedTextureImage3DEXT,
+     GLenum(tnt._target),
+     level,
+     xoffset,
+     yoffset,
+     zoffset,
+     width,
+     height,
+     depth,
+     GLenum(format),
+     GLsizei(pixels.size()),
+     pixels.data());
+    OGLPLUS_VERIFY(
+      CompressedTextureImage3DEXT,
       gl_object_binding(tag::texture(), tnt._target).gl_enum_value(format),
       always);
     return {};
@@ -1183,7 +1277,8 @@ texture_ops::compressed_texture_sub_image_3d(texture_name_and_target tnt,
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
 inline outcome<void>
-texture_ops::texture_sub_image_1d(texture_name_only tnt,
+texture_ops::texture_sub_image_1d(
+  texture_name_only tnt,
   GLint level,
   GLint xoffset,
   GLsizei width,
@@ -1192,19 +1287,20 @@ texture_ops::texture_sub_image_1d(texture_name_only tnt,
   const_memory_block pixels) noexcept {
     OGLPLUS_GLFUNC(TextureSubImage1D)
     (get_raw_name(tnt._name),
-      level,
-      xoffset,
-      width,
-      GLenum(format),
-      GLenum(type),
-      pixels.data());
+     level,
+     xoffset,
+     width,
+     GLenum(format),
+     GLenum(type),
+     pixels.data());
     OGLPLUS_VERIFY(
       TextureSubImage1D, gl_object(tnt._name).gl_enum_value(format), always);
     return {};
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::texture_sub_image_1d(texture_name_only tnt,
+texture_ops::texture_sub_image_1d(
+  texture_name_only tnt,
   GLint xoffset,
   const image_spec& img,
   GLint level) noexcept {
@@ -1213,7 +1309,8 @@ texture_ops::texture_sub_image_1d(texture_name_only tnt,
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::compressed_texture_sub_image_1d(texture_name_only tnt,
+texture_ops::compressed_texture_sub_image_1d(
+  texture_name_only tnt,
   GLint level,
   GLint xoffset,
   GLsizei width,
@@ -1221,20 +1318,22 @@ texture_ops::compressed_texture_sub_image_1d(texture_name_only tnt,
   const_memory_block pixels) noexcept {
     OGLPLUS_GLFUNC(CompressedTextureSubImage1D)
     (get_raw_name(tnt._name),
-      level,
-      xoffset,
-      width,
-      GLenum(format),
-      GLsizei(pixels.size()),
-      pixels.data());
-    OGLPLUS_VERIFY(CompressedTextureSubImage1D,
+     level,
+     xoffset,
+     width,
+     GLenum(format),
+     GLsizei(pixels.size()),
+     pixels.data());
+    OGLPLUS_VERIFY(
+      CompressedTextureSubImage1D,
       gl_object(tnt._name).gl_enum_value(format),
       always);
     return {};
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::texture_sub_image_2d(texture_name_only tnt,
+texture_ops::texture_sub_image_2d(
+  texture_name_only tnt,
   GLint level,
   GLint xoffset,
   GLint yoffset,
@@ -1245,26 +1344,28 @@ texture_ops::texture_sub_image_2d(texture_name_only tnt,
   const_memory_block pixels) noexcept {
     OGLPLUS_GLFUNC(TextureSubImage2D)
     (get_raw_name(tnt._name),
-      level,
-      xoffset,
-      yoffset,
-      width,
-      height,
-      GLenum(format),
-      GLenum(type),
-      pixels.data());
+     level,
+     xoffset,
+     yoffset,
+     width,
+     height,
+     GLenum(format),
+     GLenum(type),
+     pixels.data());
     OGLPLUS_VERIFY(
       TextureSubImage2D, gl_object(tnt._name).gl_enum_value(format), always);
     return {};
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::texture_sub_image_2d(texture_name_only tnt,
+texture_ops::texture_sub_image_2d(
+  texture_name_only tnt,
   GLint xoffset,
   GLint yoffset,
   const image_spec& img,
   GLint level) noexcept {
-    return texture_sub_image_2d(tnt,
+    return texture_sub_image_2d(
+      tnt,
       level,
       xoffset,
       yoffset,
@@ -1276,7 +1377,8 @@ texture_ops::texture_sub_image_2d(texture_name_only tnt,
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::compressed_texture_sub_image_2d(texture_name_only tnt,
+texture_ops::compressed_texture_sub_image_2d(
+  texture_name_only tnt,
   GLint level,
   GLint xoffset,
   GLint yoffset,
@@ -1286,22 +1388,24 @@ texture_ops::compressed_texture_sub_image_2d(texture_name_only tnt,
   const_memory_block pixels) noexcept {
     OGLPLUS_GLFUNC(CompressedTextureSubImage2D)
     (get_raw_name(tnt._name),
-      level,
-      xoffset,
-      yoffset,
-      width,
-      height,
-      GLenum(format),
-      GLsizei(pixels.size()),
-      pixels.data());
-    OGLPLUS_VERIFY(CompressedTextureSubImage2D,
+     level,
+     xoffset,
+     yoffset,
+     width,
+     height,
+     GLenum(format),
+     GLsizei(pixels.size()),
+     pixels.data());
+    OGLPLUS_VERIFY(
+      CompressedTextureSubImage2D,
       gl_object(tnt._name).gl_enum_value(format),
       always);
     return {};
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::texture_sub_image_3d(texture_name_only tnt,
+texture_ops::texture_sub_image_3d(
+  texture_name_only tnt,
   GLint level,
   GLint xoffset,
   GLint yoffset,
@@ -1314,29 +1418,31 @@ texture_ops::texture_sub_image_3d(texture_name_only tnt,
   const_memory_block pixels) noexcept {
     OGLPLUS_GLFUNC(TextureSubImage3D)
     (get_raw_name(tnt._name),
-      level,
-      xoffset,
-      yoffset,
-      zoffset,
-      width,
-      height,
-      depth,
-      GLenum(format),
-      GLenum(type),
-      pixels.data());
+     level,
+     xoffset,
+     yoffset,
+     zoffset,
+     width,
+     height,
+     depth,
+     GLenum(format),
+     GLenum(type),
+     pixels.data());
     OGLPLUS_VERIFY(
       TextureSubImage3D, gl_object(tnt._name).gl_enum_value(format), always);
     return {};
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::texture_sub_image_3d(texture_name_only tnt,
+texture_ops::texture_sub_image_3d(
+  texture_name_only tnt,
   GLint xoffset,
   GLint yoffset,
   GLint zoffset,
   const image_spec& img,
   GLint level) noexcept {
-    return texture_sub_image_3d(tnt,
+    return texture_sub_image_3d(
+      tnt,
       level,
       xoffset,
       yoffset,
@@ -1350,7 +1456,8 @@ texture_ops::texture_sub_image_3d(texture_name_only tnt,
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::compressed_texture_sub_image_3d(texture_name_only tnt,
+texture_ops::compressed_texture_sub_image_3d(
+  texture_name_only tnt,
   GLint level,
   GLint xoffset,
   GLint yoffset,
@@ -1362,17 +1469,18 @@ texture_ops::compressed_texture_sub_image_3d(texture_name_only tnt,
   const_memory_block pixels) noexcept {
     OGLPLUS_GLFUNC(CompressedTextureSubImage3D)
     (get_raw_name(tnt._name),
-      level,
-      xoffset,
-      yoffset,
-      zoffset,
-      width,
-      height,
-      depth,
-      GLenum(format),
-      GLsizei(pixels.size()),
-      pixels.data());
-    OGLPLUS_VERIFY(CompressedTextureSubImage3D,
+     level,
+     xoffset,
+     yoffset,
+     zoffset,
+     width,
+     height,
+     depth,
+     GLenum(format),
+     GLsizei(pixels.size()),
+     pixels.data());
+    OGLPLUS_VERIFY(
+      CompressedTextureSubImage3D,
       gl_object(tnt._name).gl_enum_value(format),
       always);
     return {};
@@ -1385,30 +1493,34 @@ texture_ops::compressed_texture_sub_image_3d(texture_name_only tnt,
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_1)
 inline outcome<void>
-texture_ops::texture_buffer(texture_target_only tnt,
+texture_ops::texture_buffer(
+  texture_target_only tnt,
   pixel_data_internal_format iformat,
   buffer_name buf) noexcept {
     OGLPLUS_GLFUNC(TexBuffer)
     (GLenum(tnt._target), GLenum(iformat), get_raw_name(buf));
-    OGLPLUS_VERIFY(TexBuffer,
+    OGLPLUS_VERIFY(
+      TexBuffer,
       gl_subject(buf)
-	.gl_object_binding(tag::texture(), tnt._target)
-	.gl_enum_value(iformat),
+        .gl_object_binding(tag::texture(), tnt._target)
+        .gl_enum_value(iformat),
       always);
     return {};
 }
 //------------------------------------------------------------------------------
 #if defined(GL_EXT_direct_state_access)
 inline outcome<void>
-texture_ops::texture_buffer(texture_name_and_target tnt,
+texture_ops::texture_buffer(
+  texture_name_and_target tnt,
   pixel_data_internal_format iformat,
   buffer_name buf) noexcept {
     OGLPLUS_GLFUNC(TextureBufferEXT)
     (get_raw_name(tnt._name),
-      GLenum(tnt._target),
-      GLenum(iformat),
-      get_raw_name(buf));
-    OGLPLUS_VERIFY(TextureBufferEXT,
+     GLenum(tnt._target),
+     GLenum(iformat),
+     get_raw_name(buf));
+    OGLPLUS_VERIFY(
+      TextureBufferEXT,
       gl_subject(buf).gl_object(tnt._name).gl_enum_value(iformat),
       always);
     return {};
@@ -1418,12 +1530,14 @@ texture_ops::texture_buffer(texture_name_and_target tnt,
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
 inline outcome<void>
-texture_ops::texture_buffer(texture_name_only tnt,
+texture_ops::texture_buffer(
+  texture_name_only tnt,
   pixel_data_internal_format iformat,
   buffer_name buf) noexcept {
     OGLPLUS_GLFUNC(TextureBuffer)
     (get_raw_name(tnt._name), GLenum(iformat), get_raw_name(buf));
-    OGLPLUS_VERIFY(TextureBuffer,
+    OGLPLUS_VERIFY(
+      TextureBuffer,
       gl_subject(buf).gl_object(tnt._name).gl_enum_value(iformat),
       always);
     return {};
@@ -1432,40 +1546,44 @@ texture_ops::texture_buffer(texture_name_only tnt,
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_3)
 inline outcome<void>
-texture_ops::texture_buffer_range(texture_target_only tnt,
+texture_ops::texture_buffer_range(
+  texture_target_only tnt,
   pixel_data_internal_format iformat,
   buffer_name buf,
   buffer_size offset,
   buffer_size size) noexcept {
     OGLPLUS_GLFUNC(TexBufferRange)
     (GLenum(tnt._target),
-      GLenum(iformat),
-      get_raw_name(buf),
-      GLintptr(offset),
-      GLsizeiptr(size));
-    OGLPLUS_VERIFY(TexBufferRange,
+     GLenum(iformat),
+     get_raw_name(buf),
+     GLintptr(offset),
+     GLsizeiptr(size));
+    OGLPLUS_VERIFY(
+      TexBufferRange,
       gl_subject(buf)
-	.gl_object_binding(tag::texture(), tnt._target)
-	.gl_enum_value(iformat),
+        .gl_object_binding(tag::texture(), tnt._target)
+        .gl_enum_value(iformat),
       always);
     return {};
 }
 //------------------------------------------------------------------------------
 #if defined(GL_EXT_direct_state_access)
 inline outcome<void>
-texture_ops::texture_buffer_range(texture_name_and_target tnt,
+texture_ops::texture_buffer_range(
+  texture_name_and_target tnt,
   pixel_data_internal_format iformat,
   buffer_name buf,
   buffer_size offset,
   buffer_size size) noexcept {
     OGLPLUS_GLFUNC(TextureBufferRangeEXT)
     (get_raw_name(tnt._name),
-      GLenum(tnt._target),
-      GLenum(iformat),
-      get_raw_name(buf),
-      GLintptr(offset),
-      GLsizeiptr(size));
-    OGLPLUS_VERIFY(TextureBufferRangeEXT,
+     GLenum(tnt._target),
+     GLenum(iformat),
+     get_raw_name(buf),
+     GLintptr(offset),
+     GLsizeiptr(size));
+    OGLPLUS_VERIFY(
+      TextureBufferRangeEXT,
       gl_subject(buf).gl_object(tnt._name).gl_enum_value(iformat),
       always);
     return {};
@@ -1475,18 +1593,20 @@ texture_ops::texture_buffer_range(texture_name_and_target tnt,
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
 inline outcome<void>
-texture_ops::texture_buffer_range(texture_name_only tnt,
+texture_ops::texture_buffer_range(
+  texture_name_only tnt,
   pixel_data_internal_format iformat,
   buffer_name buf,
   buffer_size offset,
   buffer_size size) noexcept {
     OGLPLUS_GLFUNC(TextureBufferRange)
     (get_raw_name(tnt._name),
-      GLenum(iformat),
-      get_raw_name(buf),
-      GLintptr(offset),
-      GLsizeiptr(size));
-    OGLPLUS_VERIFY(TextureBufferRange,
+     GLenum(iformat),
+     get_raw_name(buf),
+     GLintptr(offset),
+     GLsizeiptr(size));
+    OGLPLUS_VERIFY(
+      TextureBufferRange,
       gl_subject(buf).gl_object(tnt._name).gl_enum_value(iformat),
       always);
     return {};
@@ -1495,7 +1615,8 @@ texture_ops::texture_buffer_range(texture_name_only tnt,
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_3)
 inline outcome<void>
-texture_ops::texture_view(texture_name newtex,
+texture_ops::texture_view(
+  texture_name newtex,
   texture_target target,
   texture_name origtex,
   pixel_data_internal_format iformat,
@@ -1505,14 +1626,15 @@ texture_ops::texture_view(texture_name newtex,
   GLuint numlayers) noexcept {
     OGLPLUS_GLFUNC(TextureView)
     (get_raw_name(newtex),
-      GLenum(target),
-      get_raw_name(origtex),
-      GLenum(iformat),
-      minlevels,
-      numlevels,
-      minlayers,
-      numlayers);
-    OGLPLUS_VERIFY(TextureView,
+     GLenum(target),
+     get_raw_name(origtex),
+     GLenum(iformat),
+     minlevels,
+     numlevels,
+     minlayers,
+     numlayers);
+    OGLPLUS_VERIFY(
+      TextureView,
       gl_subject(newtex).gl_object(newtex).gl_enum_value(target),
       always);
     return {};
@@ -1537,24 +1659,28 @@ texture_ops::generate_texture_mipmap(texture_name_only tnt) noexcept {
 #endif
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::texture_parameter_i(texture_target_only tnt,
+texture_ops::texture_parameter_i(
+  texture_target_only tnt,
   oglplus::texture_parameter param,
   GLint value) noexcept {
     OGLPLUS_GLFUNC(TexParameteri)(GLenum(tnt._target), GLenum(param), value);
-    OGLPLUS_VERIFY(TexParameteri,
+    OGLPLUS_VERIFY(
+      TexParameteri,
       gl_object_binding(tag::texture(), tnt._target).gl_enum_value(param),
       always);
     return {};
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::get_texture_parameter_iv(texture_target_only tnt,
+texture_ops::get_texture_parameter_iv(
+  texture_target_only tnt,
   oglplus::texture_parameter param,
   span<GLint> values) noexcept {
     assert(values.size() > 0);
     OGLPLUS_GLFUNC(GetTexParameteriv)
     (GLenum(tnt._target), GLenum(param), values.data());
-    OGLPLUS_VERIFY(GetTexParameteriv,
+    OGLPLUS_VERIFY(
+      GetTexParameteriv,
       gl_object_binding(tag::texture(), tnt._target).gl_enum_value(param),
       always);
     return {};
@@ -1562,54 +1688,62 @@ texture_ops::get_texture_parameter_iv(texture_target_only tnt,
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_0) || defined(GL_ES_VERSION_3_1)
 inline outcome<void>
-texture_ops::get_texture_level_parameter_iv(texture_target_only tnt,
+texture_ops::get_texture_level_parameter_iv(
+  texture_target_only tnt,
   GLint level,
   oglplus::texture_parameter param,
   span<GLint> values) noexcept {
     assert(values.size() > 0);
     OGLPLUS_GLFUNC(GetTexLevelParameteriv)
     (GLenum(tnt._target), level, GLenum(param), values.data());
-    OGLPLUS_VERIFY(GetTexLevelParameteriv,
+    OGLPLUS_VERIFY(
+      GetTexLevelParameteriv,
       gl_object_binding(tag::texture(), tnt._target)
-	.gl_index(GLuint(level))
-	.gl_enum_value(param),
+        .gl_index(GLuint(level))
+        .gl_enum_value(param),
       always);
     return {};
 }
 #endif
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::texture_parameter_f(texture_target_only tnt,
+texture_ops::texture_parameter_f(
+  texture_target_only tnt,
   oglplus::texture_parameter param,
   GLfloat value) noexcept {
     OGLPLUS_GLFUNC(TexParameterf)(GLenum(tnt._target), GLenum(param), value);
-    OGLPLUS_VERIFY(TexParameterf,
+    OGLPLUS_VERIFY(
+      TexParameterf,
       gl_object_binding(tag::texture(), tnt._target).gl_enum_value(param),
       always);
     return {};
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::get_texture_parameter_fv(texture_target_only tnt,
+texture_ops::get_texture_parameter_fv(
+  texture_target_only tnt,
   oglplus::texture_parameter param,
   span<GLfloat> values) noexcept {
     assert(values.size() > 0);
     OGLPLUS_GLFUNC(GetTexParameterfv)
     (GLenum(tnt._target), GLenum(param), values.data());
-    OGLPLUS_VERIFY(GetTexParameterfv,
+    OGLPLUS_VERIFY(
+      GetTexParameterfv,
       gl_object_binding(tag::texture(), tnt._target).gl_enum_value(param),
       always);
     return {};
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::texture_parameter_fv(texture_target_only tnt,
+texture_ops::texture_parameter_fv(
+  texture_target_only tnt,
   oglplus::texture_parameter param,
   span<const GLfloat> values) noexcept {
     assert(values.size() > 0);
     OGLPLUS_GLFUNC(TexParameterfv)
     (GLenum(tnt._target), GLenum(param), values.data());
-    OGLPLUS_VERIFY(TexParameterfv,
+    OGLPLUS_VERIFY(
+      TexParameterfv,
       gl_object_binding(tag::texture(), tnt._target).gl_enum_value(param),
       always);
     return {};
@@ -1617,7 +1751,8 @@ texture_ops::texture_parameter_fv(texture_target_only tnt,
 //------------------------------------------------------------------------------
 #ifdef GL_VERSION_4_5
 inline outcome<void>
-texture_ops::texture_parameter_i(texture_name_only tnt,
+texture_ops::texture_parameter_i(
+  texture_name_only tnt,
   oglplus::texture_parameter param,
   GLint value) noexcept {
     OGLPLUS_GLFUNC(TextureParameteri)
@@ -1628,7 +1763,8 @@ texture_ops::texture_parameter_i(texture_name_only tnt,
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::get_texture_parameter_iv(texture_name_only tnt,
+texture_ops::get_texture_parameter_iv(
+  texture_name_only tnt,
   oglplus::texture_parameter param,
   span<GLint> values) noexcept {
     assert(values.size() > 0);
@@ -1641,14 +1777,16 @@ texture_ops::get_texture_parameter_iv(texture_name_only tnt,
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_0) || defined(GL_ES_VERSION_3_1)
 inline outcome<void>
-texture_ops::get_texture_level_parameter_iv(texture_name_only tnt,
+texture_ops::get_texture_level_parameter_iv(
+  texture_name_only tnt,
   GLint level,
   oglplus::texture_parameter param,
   span<GLint> values) noexcept {
     assert(values.size() > 0);
     OGLPLUS_GLFUNC(GetTextureLevelParameteriv)
     (get_raw_name(tnt._name), level, GLenum(param), values.data());
-    OGLPLUS_VERIFY(GetTextureLevelParameteriv,
+    OGLPLUS_VERIFY(
+      GetTextureLevelParameteriv,
       gl_object(tnt._name).gl_index(GLuint(level)).gl_enum_value(param),
       always);
     return {};
@@ -1656,7 +1794,8 @@ texture_ops::get_texture_level_parameter_iv(texture_name_only tnt,
 #endif
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::texture_parameter_f(texture_name_only tnt,
+texture_ops::texture_parameter_f(
+  texture_name_only tnt,
   oglplus::texture_parameter param,
   GLfloat value) noexcept {
     OGLPLUS_GLFUNC(TextureParameterf)
@@ -1667,7 +1806,8 @@ texture_ops::texture_parameter_f(texture_name_only tnt,
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::get_texture_parameter_fv(texture_name_only tnt,
+texture_ops::get_texture_parameter_fv(
+  texture_name_only tnt,
   oglplus::texture_parameter param,
   span<GLfloat> values) noexcept {
     assert(values.size() > 0);
@@ -1679,7 +1819,8 @@ texture_ops::get_texture_parameter_fv(texture_name_only tnt,
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::texture_parameter_fv(texture_name_only tnt,
+texture_ops::texture_parameter_fv(
+  texture_name_only tnt,
   oglplus::texture_parameter param,
   span<const GLfloat> values) noexcept {
     assert(values.size() > 0);
@@ -1693,7 +1834,8 @@ texture_ops::texture_parameter_fv(texture_name_only tnt,
 //------------------------------------------------------------------------------
 #ifdef GL_EXT_direct_state_access
 inline outcome<void>
-texture_ops::texture_parameter_i(texture_name_and_target tnt,
+texture_ops::texture_parameter_i(
+  texture_name_and_target tnt,
   oglplus::texture_parameter param,
   GLint value) noexcept {
     OGLPLUS_GLFUNC(TextureParameteriEXT)
@@ -1704,16 +1846,18 @@ texture_ops::texture_parameter_i(texture_name_and_target tnt,
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::get_texture_parameter_iv(texture_name_and_target tnt,
+texture_ops::get_texture_parameter_iv(
+  texture_name_and_target tnt,
   oglplus::texture_parameter param,
   span<GLint> values) noexcept {
     assert(values.size() > 0);
     OGLPLUS_GLFUNC(GetTextureParameterivEXT)
     (get_raw_name(tnt._name),
-      GLenum(tnt._target),
-      GLenum(param),
-      values.data());
-    OGLPLUS_VERIFY(GetTextureParameterivEXT,
+     GLenum(tnt._target),
+     GLenum(param),
+     values.data());
+    OGLPLUS_VERIFY(
+      GetTextureParameterivEXT,
       gl_object(tnt._name).gl_enum_value(param),
       always);
     return {};
@@ -1721,18 +1865,20 @@ texture_ops::get_texture_parameter_iv(texture_name_and_target tnt,
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_0) || defined(GL_ES_VERSION_3_1)
 inline outcome<void>
-texture_ops::get_texture_level_parameter_iv(texture_name_and_target tnt,
+texture_ops::get_texture_level_parameter_iv(
+  texture_name_and_target tnt,
   GLint level,
   oglplus::texture_parameter param,
   span<GLint> values) noexcept {
     assert(values.size() > 0);
     OGLPLUS_GLFUNC(GetTextureLevelParameterivEXT)
     (get_raw_name(tnt._name),
-      GLenum(tnt._target),
-      level,
-      GLenum(param),
-      values.data());
-    OGLPLUS_VERIFY(GetTextureLevelParameterivEXT,
+     GLenum(tnt._target),
+     level,
+     GLenum(param),
+     values.data());
+    OGLPLUS_VERIFY(
+      GetTextureLevelParameterivEXT,
       gl_object(tnt._name).gl_index(GLuint(level)).gl_enum_value(param),
       always);
     return {};
@@ -1740,7 +1886,8 @@ texture_ops::get_texture_level_parameter_iv(texture_name_and_target tnt,
 #endif
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::texture_parameter_f(texture_name_and_target tnt,
+texture_ops::texture_parameter_f(
+  texture_name_and_target tnt,
   oglplus::texture_parameter param,
   GLfloat value) noexcept {
     OGLPLUS_GLFUNC(TextureParameterfEXT)
@@ -1751,31 +1898,34 @@ texture_ops::texture_parameter_f(texture_name_and_target tnt,
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::get_texture_parameter_fv(texture_name_and_target tnt,
+texture_ops::get_texture_parameter_fv(
+  texture_name_and_target tnt,
   oglplus::texture_parameter param,
   span<GLfloat> values) noexcept {
     assert(values.size() > 0);
     OGLPLUS_GLFUNC(GetTextureParameterfvEXT)
     (get_raw_name(tnt._name),
-      GLenum(tnt._target),
-      GLenum(param),
-      values.data());
-    OGLPLUS_VERIFY(GetTextureParameterfvEXT,
+     GLenum(tnt._target),
+     GLenum(param),
+     values.data());
+    OGLPLUS_VERIFY(
+      GetTextureParameterfvEXT,
       gl_object(tnt._name).gl_enum_value(param),
       always);
     return {};
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-texture_ops::texture_parameter_fv(texture_name_and_target tnt,
+texture_ops::texture_parameter_fv(
+  texture_name_and_target tnt,
   oglplus::texture_parameter param,
   span<const GLfloat> values) noexcept {
     assert(values.size() > 0);
     OGLPLUS_GLFUNC(TextureParameterfvEXT)
     (get_raw_name(tnt._name),
-      GLenum(tnt._target),
-      GLenum(param),
-      values.data());
+     GLenum(tnt._target),
+     GLenum(param),
+     values.data());
     OGLPLUS_VERIFY(
       TextureParameterfvEXT, gl_object(tnt._name).gl_enum_value(param), always);
     return {};
@@ -1784,7 +1934,8 @@ texture_ops::texture_parameter_fv(texture_name_and_target tnt,
 //------------------------------------------------------------------------------
 template <typename R, typename P, typename N, typename T>
 inline outcome<R>
-texture_ops::return_texture_parameter_i(object_name_or_target<N, T> tnt,
+texture_ops::return_texture_parameter_i(
+  object_name_or_target<N, T> tnt,
   oglplus::texture_parameter parameter) noexcept {
     GLint result = 0;
     return get_texture_parameter_iv(tnt, parameter, {&result, 1}), R(P(result));
@@ -1793,18 +1944,20 @@ texture_ops::return_texture_parameter_i(object_name_or_target<N, T> tnt,
 #if defined(GL_VERSION_3_0) || defined(GL_ES_VERSION_3_1)
 template <typename R, typename P, typename N, typename T>
 inline outcome<R>
-texture_ops::return_texture_level_parameter_i(object_name_or_target<N, T> tnt,
+texture_ops::return_texture_level_parameter_i(
+  object_name_or_target<N, T> tnt,
   GLint level,
   oglplus::texture_parameter parameter) noexcept {
     GLint result = 0;
     return get_texture_level_parameter_iv(tnt, level, parameter, {&result, 1}),
-	   R(P(result));
+           R(P(result));
 }
 #endif
 //------------------------------------------------------------------------------
 template <typename R, typename N, typename T>
 inline outcome<R>
-texture_ops::return_texture_parameter_f(object_name_or_target<N, T> tnt,
+texture_ops::return_texture_parameter_f(
+  object_name_or_target<N, T> tnt,
   oglplus::texture_parameter parameter) noexcept {
     GLfloat result = 0;
     return get_texture_parameter_fv(tnt, parameter, {&result, 1}), R(result);
@@ -1928,7 +2081,8 @@ template <typename TNT>
 inline outcome<GLsizei>
 texture_ops::get_texture_compressed_image_size(
   const TNT& tnt, GLint level) noexcept {
-    return return_texture_level_parameter_i<GLsizei, GLsizei>(_wrap(tnt),
+    return return_texture_level_parameter_i<GLsizei, GLsizei>(
+      _wrap(tnt),
       level,
       oglplus::texture_parameter(GL_TEXTURE_COMPRESSED_IMAGE_SIZE));
 }
@@ -1937,8 +2091,10 @@ texture_ops::get_texture_compressed_image_size(
 template <typename TNT>
 inline outcome<oglplus::pixel_data_internal_format>
 texture_ops::get_texture_internal_format(const TNT& tnt, GLint level) noexcept {
-    return return_texture_level_parameter_i<oglplus::pixel_data_internal_format,
-      GLenum>(_wrap(tnt),
+    return return_texture_level_parameter_i<
+      oglplus::pixel_data_internal_format,
+      GLenum>(
+      _wrap(tnt),
       level,
       oglplus::texture_parameter(GL_TEXTURE_INTERNAL_FORMAT));
 }
@@ -1948,7 +2104,8 @@ template <typename TNT>
 inline outcome<void>
 texture_ops::texture_min_filter(
   const TNT& tnt, oglplus::texture_min_filter value) noexcept {
-    return texture_parameter_i(_wrap(tnt),
+    return texture_parameter_i(
+      _wrap(tnt),
       oglplus::texture_parameter(GL_TEXTURE_MIN_FILTER),
       GLint(GLenum(value)));
 }
@@ -1964,7 +2121,8 @@ template <typename TNT>
 inline outcome<void>
 texture_ops::texture_mag_filter(
   const TNT& tnt, oglplus::texture_mag_filter value) noexcept {
-    return texture_parameter_i(_wrap(tnt),
+    return texture_parameter_i(
+      _wrap(tnt),
       oglplus::texture_parameter(GL_TEXTURE_MAG_FILTER),
       GLint(GLenum(value)));
 }
@@ -1980,7 +2138,8 @@ template <typename TNT>
 inline outcome<void>
 texture_ops::texture_compare_func(
   const TNT& tnt, oglplus::compare_function value) noexcept {
-    return texture_parameter_i(_wrap(tnt),
+    return texture_parameter_i(
+      _wrap(tnt),
       oglplus::texture_parameter(GL_TEXTURE_COMPARE_FUNC),
       GLint(GLenum(value)));
 }
@@ -1996,7 +2155,8 @@ template <typename TNT>
 inline outcome<void>
 texture_ops::texture_compare_mode(
   const TNT& tnt, oglplus::texture_compare_mode value) noexcept {
-    return texture_parameter_i(_wrap(tnt),
+    return texture_parameter_i(
+      _wrap(tnt),
       oglplus::texture_parameter(GL_TEXTURE_COMPARE_MODE),
       GLint(GLenum(value)));
 }
@@ -2012,7 +2172,8 @@ template <typename TNT>
 inline outcome<void>
 texture_ops::texture_wrap(
   const TNT& tnt, texture_wrap_coord coord, texture_wrap_mode value) noexcept {
-    return texture_parameter_i(_wrap(tnt),
+    return texture_parameter_i(
+      _wrap(tnt),
       oglplus::texture_parameter(GLenum(coord)),
       GLint(GLenum(value)));
 }
@@ -2027,10 +2188,12 @@ texture_ops::get_texture_wrap(
 //------------------------------------------------------------------------------
 template <typename TNT>
 inline outcome<void>
-texture_ops::texture_swizzle(const TNT& tnt,
+texture_ops::texture_swizzle(
+  const TNT& tnt,
   texture_swizzle_coord coord,
   texture_swizzle_mode value) noexcept {
-    return texture_parameter_i(_wrap(tnt),
+    return texture_parameter_i(
+      _wrap(tnt),
       oglplus::texture_parameter(GLenum(coord)),
       GLint(GLenum(value)));
 }

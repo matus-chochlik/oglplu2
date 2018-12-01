@@ -106,14 +106,14 @@ BOOST_AUTO_TEST_CASE(memory_shared_alloc_2) {
     std::size_t f[2] = {0, 1};
 
     for(int i = 0; i < 20; ++i) {
-	std::size_t n = f[(i + 0) % 2] + f[(i + 1) % 2];
-	f[i % 2] = n;
+        std::size_t n = f[(i + 0) % 2] + f[(i + 1) % 2];
+        f[i % 2] = n;
 
-	eagine_test_memory_shared_alloc_2_T<char>(n);
-	eagine_test_memory_shared_alloc_2_T<short>(n);
-	eagine_test_memory_shared_alloc_2_T<int>(n);
-	eagine_test_memory_shared_alloc_2_T<long>(n);
-	eagine_test_memory_shared_alloc_2_T<double>(n);
+        eagine_test_memory_shared_alloc_2_T<char>(n);
+        eagine_test_memory_shared_alloc_2_T<short>(n);
+        eagine_test_memory_shared_alloc_2_T<int>(n);
+        eagine_test_memory_shared_alloc_2_T<long>(n);
+        eagine_test_memory_shared_alloc_2_T<double>(n);
     }
 }
 

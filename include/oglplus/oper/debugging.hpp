@@ -23,13 +23,15 @@ struct debugging {
 
     static outcome<void> pop_debug_group(void) noexcept;
 
-    static outcome<void> debug_message_control(debug_output_source source,
+    static outcome<void> debug_message_control(
+      debug_output_source source,
       debug_output_type type,
       debug_output_severity severity,
       span<const GLuint> ids,
       boolean enabled) noexcept;
 
-    static outcome<void> debug_message_insert(debug_output_source source,
+    static outcome<void> debug_message_insert(
+      debug_output_source source,
       debug_output_type type,
       GLuint id,
       debug_output_severity severity,
@@ -38,7 +40,8 @@ struct debugging {
     static outcome<void> debug_message_callback(
       GLDEBUGPROC callback, void* user_param) noexcept;
 
-    static outcome<void> get_debug_message_log(GLuint count,
+    static outcome<void> get_debug_message_log(
+      GLuint count,
       span<debug_output_source> sources,
       span<debug_output_type> types,
       span<GLuint> ids,

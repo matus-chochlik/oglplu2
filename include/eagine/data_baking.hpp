@@ -21,8 +21,8 @@ class data_bake_arena
 public:
     explicit data_bake_arena(memory::block blk)
       : memory::basic_allocation_arena<
-	  memory::stack_byte_allocator_only<memory::byte_alloc_managed_policy>>(
-	  blk) {
+          memory::stack_byte_allocator_only<memory::byte_alloc_managed_policy>>(
+          blk) {
     }
 };
 

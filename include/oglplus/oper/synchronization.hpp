@@ -34,11 +34,11 @@ private:
     GLsync _handle;
 
     friend const GLsync& get_raw_handle(const sync_object& so) noexcept {
-	return so._handle;
+        return so._handle;
     }
 
     friend GLsync& get_raw_handle(sync_object& so) noexcept {
-	return so._handle;
+        return so._handle;
     }
 };
 #endif
@@ -48,40 +48,40 @@ namespace oper {
 struct synchronization {
 #if defined(GL_VERSION_4_5)
     static outcome<void> texture_barrier(void) noexcept {
-	OGLPLUS_GLFUNC(TextureBarrier)();
-	OGLPLUS_VERIFY_SIMPLE(TextureBarrier, debug);
-	return {};
+        OGLPLUS_GLFUNC(TextureBarrier)();
+        OGLPLUS_VERIFY_SIMPLE(TextureBarrier, debug);
+        return {};
     }
 #endif
 
 #if defined(GL_VERSION_4_2) || defined(GL_ARB_shader_image_load_store)
     static outcome<void> memory_barrier(
       enum_bitfield<memory_barrier_bits> bits) noexcept {
-	OGLPLUS_GLFUNC(MemoryBarrier)(GLbitfield(bits));
-	OGLPLUS_VERIFY_SIMPLE(MemoryBarrier, debug);
-	return {};
+        OGLPLUS_GLFUNC(MemoryBarrier)(GLbitfield(bits));
+        OGLPLUS_VERIFY_SIMPLE(MemoryBarrier, debug);
+        return {};
     }
 #endif
 
 #if defined(GL_ES_VERSION_3_1)
     static outcome<void> memory_barrier_by_region(
       enum_bitfield<memory_barrier_bits> bits) noexcept {
-	OGLPLUS_GLFUNC(MemoryBarrierByRegion)(GLbitfield(bits));
-	OGLPLUS_VERIFY_SIMPLE(MemoryBarrierByRegion, debug);
-	return {};
+        OGLPLUS_GLFUNC(MemoryBarrierByRegion)(GLbitfield(bits));
+        OGLPLUS_VERIFY_SIMPLE(MemoryBarrierByRegion, debug);
+        return {};
     }
 #endif
 
     static outcome<void> flush(void) noexcept {
-	OGLPLUS_GLFUNC(Flush)();
-	OGLPLUS_VERIFY_SIMPLE(Flush, debug);
-	return {};
+        OGLPLUS_GLFUNC(Flush)();
+        OGLPLUS_VERIFY_SIMPLE(Flush, debug);
+        return {};
     }
 
     static outcome<void> finish(void) noexcept {
-	OGLPLUS_GLFUNC(Finish)();
-	OGLPLUS_VERIFY_SIMPLE(Finish, debug);
-	return {};
+        OGLPLUS_GLFUNC(Finish)();
+        OGLPLUS_VERIFY_SIMPLE(Finish, debug);
+        return {};
     }
 
 #if defined(GL_VERSION_3_2) || defined(GL_ARB_sync)
@@ -93,7 +93,8 @@ struct synchronization {
 
     static outcome<boolean> is_sync(sync_object sync) noexcept;
 
-    static outcome<void> get_sync_iv(sync_object sync,
+    static outcome<void> get_sync_iv(
+      sync_object sync,
       oglplus::sync_parameter param,
       span<GLint> values) noexcept;
 

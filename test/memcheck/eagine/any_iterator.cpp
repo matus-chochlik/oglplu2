@@ -4,9 +4,9 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include "../memcheck.inl"
 #include <eagine/any_iterator.hpp>
 #include <eagine/maybe_unused.hpp>
+#include "../memcheck.inl"
 
 #include <algorithm>
 #include <cassert>
@@ -17,7 +17,8 @@ static eagine::test_random_generator rg;
 
 template <typename T>
 void
-test_any_iterator_1_I(const eagine::any_std_forward_iterator<T>& b,
+test_any_iterator_1_I(
+  const eagine::any_std_forward_iterator<T>& b,
   const eagine::any_std_forward_iterator<T>& e) {
     std::vector<T> v(b, e);
 
@@ -31,7 +32,7 @@ test_any_iterator_1_T(void) {
     const int n = rg.get_int(10, 100);
 
     for(int i = 0; i < n; ++i) {
-	s.insert(rg.get_any<T>());
+        s.insert(rg.get_any<T>());
     }
 
     test_any_iterator_1_I<T>(s.begin(), s.end());
@@ -41,9 +42,9 @@ void
 test_any_iterator_1(void) {
 
     for(int i = 0; i < 50; ++i) {
-	test_any_iterator_1_T<int>();
-	test_any_iterator_1_T<float>();
-	test_any_iterator_1_T<double>();
+        test_any_iterator_1_T<int>();
+        test_any_iterator_1_T<float>();
+        test_any_iterator_1_T<double>();
     }
 }
 
@@ -59,26 +60,26 @@ test_any_iterator_2_T(void) {
 
     T tmp = T(0);
     for(T& val : vec) {
-	val = tmp++;
+        val = tmp++;
     }
 
     tmp = T(0);
     for(auto i = b; i != e; ++i, ++tmp) {
-	EAGINE_MAYBE_UNUSED(*i == tmp);
+        EAGINE_MAYBE_UNUSED(*i == tmp);
     }
 
     tmp = T(0);
     for(auto i = b; i != e; i++, ++tmp) {
-	EAGINE_MAYBE_UNUSED((*i, tmp));
+        EAGINE_MAYBE_UNUSED((*i, tmp));
     }
 }
 
 void
 test_any_iterator_2(void) {
     for(int i = 0; i < 50; ++i) {
-	test_any_iterator_2_T<short>();
-	test_any_iterator_2_T<int>();
-	test_any_iterator_2_T<unsigned>();
+        test_any_iterator_2_T<short>();
+        test_any_iterator_2_T<int>();
+        test_any_iterator_2_T<unsigned>();
     }
 }
 
@@ -93,28 +94,28 @@ test_any_iterator_3_T(void) {
 
     T tmp = T(0);
     for(T& val : vec) {
-	val = tmp++;
+        val = tmp++;
     }
 
     tmp = T(0);
     for(const T& val : rng) {
-	EAGINE_MAYBE_UNUSED(val == tmp);
-	++tmp;
+        EAGINE_MAYBE_UNUSED(val == tmp);
+        ++tmp;
     }
 
     tmp = T(0);
     for(const T& val : rng) {
-	EAGINE_MAYBE_UNUSED(val == tmp);
-	++tmp;
+        EAGINE_MAYBE_UNUSED(val == tmp);
+        ++tmp;
     }
 }
 
 void
 test_any_iterator_3(void) {
     for(int i = 0; i < 50; ++i) {
-	test_any_iterator_3_T<short>();
-	test_any_iterator_3_T<int>();
-	test_any_iterator_3_T<unsigned>();
+        test_any_iterator_3_T<short>();
+        test_any_iterator_3_T<int>();
+        test_any_iterator_3_T<unsigned>();
     }
 }
 

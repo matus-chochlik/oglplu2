@@ -13,8 +13,7 @@
 
 namespace oalplus {
 
-cstr_ref
-get_enum_value_name(const any_enum_value_alc&) noexcept;
+cstr_ref get_enum_value_name(const any_enum_value_alc&) noexcept;
 
 template <typename EnumClass, typename T, unsigned EnumId>
 static inline cstr_ref

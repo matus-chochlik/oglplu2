@@ -18,19 +18,19 @@ namespace eagine {
 template <typename T>
 struct valid_if_gt0_lt1_policy {
     constexpr bool operator()(T value) const noexcept {
-	return (T(0) < value) && (value < T(1));
+        return (T(0) < value) && (value < T(1));
     }
 
     struct do_log {
-	template <typename X>
-	constexpr inline do_log(X&&) noexcept {
-	}
+        template <typename X>
+        constexpr inline do_log(X&&) noexcept {
+        }
 
-	template <typename Log>
-	void operator()(Log& log, const T& v) const {
-	    log << "Value " << v << ", "
-		<< "outside of interval (0,1) is invalid";
-	}
+        template <typename Log>
+        void operator()(Log& log, const T& v) const {
+            log << "Value " << v << ", "
+                << "outside of interval (0,1) is invalid";
+        }
     };
 };
 

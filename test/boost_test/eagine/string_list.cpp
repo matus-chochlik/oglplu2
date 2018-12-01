@@ -43,23 +43,23 @@ BOOST_AUTO_TEST_CASE(string_list_elem_2) {
     using namespace eagine;
 
     const char s2[18] = {0x10,
-      'A',
-      'B',
-      'C',
-      'D',
-      'E',
-      'F',
-      'G',
-      'H',
-      'I',
-      'J',
-      'K',
-      'L',
-      'M',
-      'N',
-      'O',
-      'P',
-      0x10};
+                         'A',
+                         'B',
+                         'C',
+                         'D',
+                         'E',
+                         'F',
+                         'G',
+                         'H',
+                         'I',
+                         'J',
+                         'K',
+                         'L',
+                         'M',
+                         'N',
+                         'O',
+                         'P',
+                         0x10};
     string_list::element e2(s2, 18);
 
     BOOST_CHECK_EQUAL(e2.size(), 18);
@@ -72,138 +72,21 @@ BOOST_AUTO_TEST_CASE(string_list_elem_2) {
 BOOST_AUTO_TEST_CASE(string_list_elem_3) {
     using namespace eagine;
 
-    const char s3[132] = {char(0xC2),
-      char(0x80),
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      'x',
-      char(0xC2),
-      char(0x80)};
+    const char s3[132] = {
+      char(0xC2), char(0x80), 'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x',
+      'x',        'x',        'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x',
+      'x',        'x',        'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x',
+      'x',        'x',        'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x',
+      'x',        'x',        'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x',
+      'x',        'x',        'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x',
+      'x',        'x',        'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x',
+      'x',        'x',        'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x',
+      'x',        'x',        'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x',
+      'x',        'x',        'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x',
+      'x',        'x',        'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x',
+      'x',        'x',        'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x',
+      'x',        'x',        'x', 'x', 'x', 'x', 'x', 'x', 'x', 'x',
+      char(0xC2), char(0x80)};
     string_list::element e3(s3, 132);
 
     BOOST_CHECK_EQUAL(e3.size(), 132);
@@ -218,42 +101,20 @@ BOOST_AUTO_TEST_CASE(string_list_elem_3) {
 BOOST_AUTO_TEST_CASE(string_list_for_each_elem_1) {
     using namespace eagine;
 
-    const char s1[25] = {0x01,
-      'A',
-      0x01,
-      0x02,
-      'b',
-      'C',
-      0x02,
-      0x03,
-      'D',
-      'e',
-      'F',
-      0x03,
-      0x04,
-      'g',
-      'H',
-      'i',
-      'J',
-      0x04,
-      0x05,
-      'K',
-      'l',
-      'M',
-      'n',
-      'O',
-      0x05};
+    const char s1[25] = {0x01, 'A', 0x01, 0x02, 'b', 'C', 0x02, 0x03, 'D',
+                         'e',  'F', 0x03, 0x04, 'g', 'H', 'i',  'J',  0x04,
+                         0x05, 'K', 'l',  'M',  'n', 'O', 0x05};
     const cstring_span ss1(s1, 25);
 
     int i = 1;
     string_list::for_each_elem(ss1, [&i](string_list::element e, bool first) {
-	BOOST_CHECK_EQUAL(first, i == 1);
-	BOOST_CHECK_EQUAL(e.value_size(), i++);
+        BOOST_CHECK_EQUAL(first, i == 1);
+        BOOST_CHECK_EQUAL(e.value_size(), i++);
     });
 
     std::string ts;
     string_list::for_each_elem(ss1, [&ts](string_list::element e, bool) {
-	ts.append(e.value().data(), std_size(e.value().size()));
+        ts.append(e.value().data(), std_size(e.value().size()));
     });
     BOOST_CHECK_EQUAL(ts, "AbCDeFgHiJKlMnO");
 }
@@ -261,43 +122,21 @@ BOOST_AUTO_TEST_CASE(string_list_for_each_elem_1) {
 BOOST_AUTO_TEST_CASE(string_list_rev_for_each_elem_1) {
     using namespace eagine;
 
-    const char s1[25] = {0x01,
-      'A',
-      0x01,
-      0x02,
-      'b',
-      'C',
-      0x02,
-      0x03,
-      'D',
-      'e',
-      'F',
-      0x03,
-      0x04,
-      'g',
-      'H',
-      'i',
-      'J',
-      0x04,
-      0x05,
-      'K',
-      'l',
-      'M',
-      'n',
-      'O',
-      0x05};
+    const char s1[25] = {0x01, 'A', 0x01, 0x02, 'b', 'C', 0x02, 0x03, 'D',
+                         'e',  'F', 0x03, 0x04, 'g', 'H', 'i',  'J',  0x04,
+                         0x05, 'K', 'l',  'M',  'n', 'O', 0x05};
     const cstring_span ss1(s1, 25);
 
     int i = 5;
     string_list::rev_for_each_elem(
       ss1, [&i](string_list::element e, bool first) {
-	  BOOST_CHECK_EQUAL(first, i == 5);
-	  BOOST_CHECK_EQUAL(e.value_size(), i--);
+          BOOST_CHECK_EQUAL(first, i == 5);
+          BOOST_CHECK_EQUAL(e.value_size(), i--);
       });
 
     std::string ts;
     string_list::rev_for_each_elem(ss1, [&ts](string_list::element e, bool) {
-	ts.append(e.value().data(), std_size(e.value().size()));
+        ts.append(e.value().data(), std_size(e.value().size()));
     });
     BOOST_CHECK_EQUAL(ts, "KlMnOgHiJDeFbCA");
 }
@@ -305,31 +144,9 @@ BOOST_AUTO_TEST_CASE(string_list_rev_for_each_elem_1) {
 BOOST_AUTO_TEST_CASE(string_list_for_each_1) {
     using namespace eagine;
 
-    const char s1[25] = {0x01,
-      'a',
-      0x01,
-      0x02,
-      'B',
-      'c',
-      0x02,
-      0x03,
-      'd',
-      'E',
-      'f',
-      0x03,
-      0x04,
-      'G',
-      'h',
-      'I',
-      'j',
-      0x04,
-      0x05,
-      'k',
-      'L',
-      'm',
-      'N',
-      'o',
-      0x05};
+    const char s1[25] = {0x01, 'a', 0x01, 0x02, 'B', 'c', 0x02, 0x03, 'd',
+                         'E',  'f', 0x03, 0x04, 'G', 'h', 'I',  'j',  0x04,
+                         0x05, 'k', 'L',  'm',  'N', 'o', 0x05};
     const cstring_span ss1(s1, 25);
 
     int i = 1;
@@ -345,31 +162,9 @@ BOOST_AUTO_TEST_CASE(string_list_for_each_1) {
 BOOST_AUTO_TEST_CASE(string_list_rev_for_each_1) {
     using namespace eagine;
 
-    const char s1[25] = {0x01,
-      'a',
-      0x01,
-      0x02,
-      'B',
-      'c',
-      0x02,
-      0x03,
-      'd',
-      'E',
-      'f',
-      0x03,
-      0x04,
-      'G',
-      'h',
-      'I',
-      'j',
-      0x04,
-      0x05,
-      'k',
-      'L',
-      'm',
-      'N',
-      'o',
-      0x05};
+    const char s1[25] = {0x01, 'a', 0x01, 0x02, 'B', 'c', 0x02, 0x03, 'd',
+                         'E',  'f', 0x03, 0x04, 'G', 'h', 'I',  'j',  0x04,
+                         0x05, 'k', 'L',  'm',  'N', 'o', 0x05};
     const cstring_span ss1(s1, 25);
 
     int i = 5;
@@ -385,31 +180,9 @@ BOOST_AUTO_TEST_CASE(string_list_rev_for_each_1) {
 BOOST_AUTO_TEST_CASE(string_list_join_1) {
     using namespace eagine;
 
-    const char s1[25] = {0x01,
-      'A',
-      0x01,
-      0x02,
-      'B',
-      'C',
-      0x02,
-      0x03,
-      'D',
-      'E',
-      'F',
-      0x03,
-      0x04,
-      'G',
-      'H',
-      'I',
-      'J',
-      0x04,
-      0x05,
-      'K',
-      'L',
-      'M',
-      'N',
-      'O',
-      0x05};
+    const char s1[25] = {0x01, 'A', 0x01, 0x02, 'B', 'C', 0x02, 0x03, 'D',
+                         'E',  'F', 0x03, 0x04, 'G', 'H', 'I',  'J',  0x04,
+                         0x05, 'K', 'L',  'M',  'N', 'O', 0x05};
     const cstring_span ss1(s1, 25);
     const cstring_span sep("");
 
@@ -419,31 +192,9 @@ BOOST_AUTO_TEST_CASE(string_list_join_1) {
 BOOST_AUTO_TEST_CASE(string_list_join_2) {
     using namespace eagine;
 
-    const char s1[25] = {0x01,
-      'A',
-      0x01,
-      0x02,
-      'B',
-      'C',
-      0x02,
-      0x03,
-      'D',
-      'E',
-      'F',
-      0x03,
-      0x04,
-      'G',
-      'H',
-      'I',
-      'J',
-      0x04,
-      0x05,
-      'K',
-      'L',
-      'M',
-      'N',
-      'O',
-      0x05};
+    const char s1[25] = {0x01, 'A', 0x01, 0x02, 'B', 'C', 0x02, 0x03, 'D',
+                         'E',  'F', 0x03, 0x04, 'G', 'H', 'I',  'J',  0x04,
+                         0x05, 'K', 'L',  'M',  'N', 'O', 0x05};
     const cstring_span ss1(s1, 25);
     const cstring_span sep("/");
 
@@ -454,31 +205,9 @@ BOOST_AUTO_TEST_CASE(string_list_join_2) {
 BOOST_AUTO_TEST_CASE(string_list_join_3) {
     using namespace eagine;
 
-    const char s1[25] = {0x01,
-      'A',
-      0x01,
-      0x02,
-      'B',
-      'C',
-      0x02,
-      0x03,
-      'D',
-      'E',
-      'F',
-      0x03,
-      0x04,
-      'G',
-      'H',
-      'I',
-      'J',
-      0x04,
-      0x05,
-      'K',
-      'L',
-      'M',
-      'N',
-      'O',
-      0x05};
+    const char s1[25] = {0x01, 'A', 0x01, 0x02, 'B', 'C', 0x02, 0x03, 'D',
+                         'E',  'F', 0x03, 0x04, 'G', 'H', 'I',  'J',  0x04,
+                         0x05, 'K', 'L',  'M',  'N', 'O', 0x05};
     const cstring_span ss1(s1, 25);
     const cstring_span sep("...");
 

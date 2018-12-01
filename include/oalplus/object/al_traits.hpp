@@ -43,11 +43,11 @@ struct object_traits<oalplus::tag::al_obj_tag<Tag>> {
     using dsa_ops_t = oalplus::obj_dsa_ops<ObjTag>;
 
     static inline constexpr ALuint invalid_name(void) noexcept {
-	return ~ALuint(0);
+        return ~ALuint(0);
     }
 
     static inline constexpr ALenum get_type(void) noexcept {
-	return Tag;
+        return Tag;
     }
 };
 

@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_sync_parameter
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_sync_parameter_tests)
 
@@ -86,8 +86,8 @@ BOOST_AUTO_TEST_CASE(enum_sync_parameter_names) {
     x = ev.sync_gpu_commands_complete;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "SYNC_GPU_COMMANDS_COMPLETE")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "SYNC_GPU_COMMANDS_COMPLETE") ==
+      0);
 #endif
 
 #ifdef GL_SYNC_STATUS
@@ -103,42 +103,43 @@ BOOST_AUTO_TEST_CASE(enum_sync_parameter_range) {
 
 #ifdef GL_OBJECT_TYPE
     {
-	--count;
-	auto r = enum_value_range<sync_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sync_parameter(GL_OBJECT_TYPE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sync_parameter>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sync_parameter(GL_OBJECT_TYPE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SYNC_CONDITION
     {
-	--count;
-	auto r = enum_value_range<sync_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sync_parameter(GL_SYNC_CONDITION))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sync_parameter>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sync_parameter(GL_SYNC_CONDITION)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SYNC_GPU_COMMANDS_COMPLETE
     {
-	--count;
-	auto r = enum_value_range<sync_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), sync_parameter(GL_SYNC_GPU_COMMANDS_COMPLETE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sync_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            sync_parameter(GL_SYNC_GPU_COMMANDS_COMPLETE)) != r.end());
     }
 #endif
 
 #ifdef GL_SYNC_STATUS
     {
-	--count;
-	auto r = enum_value_range<sync_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sync_parameter(GL_SYNC_STATUS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sync_parameter>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sync_parameter(GL_SYNC_STATUS)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

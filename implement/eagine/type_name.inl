@@ -22,12 +22,12 @@ std::string
 demangle_type_name(const char* name) noexcept {
 #ifdef __GNUG__
     try {
-	int status = -1;
+        int status = -1;
 
-	std::unique_ptr<char, void (*)(void*)> demangled{
-	  ::abi::__cxa_demangle(name, nullptr, nullptr, &status), ::std::free};
+        std::unique_ptr<char, void (*)(void*)> demangled{
+          ::abi::__cxa_demangle(name, nullptr, nullptr, &status), ::std::free};
 
-	return (status == 0) ? demangled.get() : name;
+        return (status == 0) ? demangled.get() : name;
     } catch(...) {
     }
 #endif

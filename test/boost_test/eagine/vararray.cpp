@@ -28,7 +28,7 @@ test_vararray_1_TSN(void) {
     int v = 0;
 
     for(T& x : va) {
-	x = T(v++);
+        x = T(v++);
     }
 
     BOOST_CHECK_EQUAL(va.size(), v);
@@ -36,7 +36,7 @@ test_vararray_1_TSN(void) {
     v = 0;
 
     for(auto i = va.begin(); i != va.end(); ++i) {
-	BOOST_CHECK_EQUAL(*i, T(v++));
+        BOOST_CHECK_EQUAL(*i, T(v++));
     }
 
     BOOST_CHECK_EQUAL(va.size(), v);

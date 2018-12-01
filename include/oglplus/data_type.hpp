@@ -9,9 +9,9 @@
 #ifndef OGLPLUS_DATA_TYPE_1509260923_HPP
 #define OGLPLUS_DATA_TYPE_1509260923_HPP
 
+#include <eagine/std/type_traits.hpp>
 #include "enum/types.hpp"
 #include "utils/identity.hpp"
-#include <eagine/std/type_traits.hpp>
 
 namespace oglplus {
 
@@ -21,7 +21,8 @@ struct is_gl_data_type : std::false_type {};
 template <typename T>
 constexpr const bool is_gl_data_type_v = is_gl_data_type<T>::value;
 
-template <typename T,
+template <
+  typename T,
   typename =
     std::enable_if_t<std::is_same_v<T, char> && !std::is_same_v<T, GLbyte>>>
 static constexpr inline data_type

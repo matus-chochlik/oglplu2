@@ -28,7 +28,8 @@ private:
     cstr_ref type_abbr(void) const;
 
 public:
-    honeycomb_output(node_intf& parent,
+    honeycomb_output(
+      node_intf& parent,
       input_with_const_default<float[2]>&,
       honeycomb_direction& direction,
       honeycomb_output_type type);
@@ -56,8 +57,8 @@ public:
     honeycomb_node(void);
 
     honeycomb_node& set_cell_count(float x, float y) {
-	_cells.fallback().set(x, y);
-	return *this;
+        _cells.fallback().set(x, y);
+        return *this;
     }
 
     cstr_ref type_name(void) override;

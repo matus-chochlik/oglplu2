@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_program_pipeline_stage
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_program_pipeline_stage_tests)
 
@@ -168,8 +168,8 @@ BOOST_AUTO_TEST_CASE(enum_program_pipeline_stage_names) {
     x = ev.tess_evaluation_shader_bit;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "TESS_EVALUATION_SHADER_BIT")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "TESS_EVALUATION_SHADER_BIT") ==
+      0);
 #endif
 
 #ifdef GL_VERTEX_SHADER_BIT
@@ -186,78 +186,83 @@ BOOST_AUTO_TEST_CASE(enum_program_pipeline_stage_range) {
 
 #ifdef GL_ALL_SHADER_BITS
     {
-	--count;
-	auto r = enum_value_range<program_pipeline_stage>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), program_pipeline_stage(GL_ALL_SHADER_BITS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_pipeline_stage>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), program_pipeline_stage(GL_ALL_SHADER_BITS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_COMPUTE_SHADER_BIT
     {
-	--count;
-	auto r = enum_value_range<program_pipeline_stage>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), program_pipeline_stage(GL_COMPUTE_SHADER_BIT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_pipeline_stage>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_pipeline_stage(GL_COMPUTE_SHADER_BIT)) != r.end());
     }
 #endif
 
 #ifdef GL_FRAGMENT_SHADER_BIT
     {
-	--count;
-	auto r = enum_value_range<program_pipeline_stage>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), program_pipeline_stage(GL_FRAGMENT_SHADER_BIT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_pipeline_stage>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_pipeline_stage(GL_FRAGMENT_SHADER_BIT)) != r.end());
     }
 #endif
 
 #ifdef GL_GEOMETRY_SHADER_BIT
     {
-	--count;
-	auto r = enum_value_range<program_pipeline_stage>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), program_pipeline_stage(GL_GEOMETRY_SHADER_BIT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_pipeline_stage>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_pipeline_stage(GL_GEOMETRY_SHADER_BIT)) != r.end());
     }
 #endif
 
 #ifdef GL_TESS_CONTROL_SHADER_BIT
     {
-	--count;
-	auto r = enum_value_range<program_pipeline_stage>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      program_pipeline_stage(GL_TESS_CONTROL_SHADER_BIT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<program_pipeline_stage>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_pipeline_stage(GL_TESS_CONTROL_SHADER_BIT)) != r.end());
     }
 #endif
 
 #ifdef GL_TESS_EVALUATION_SHADER_BIT
     {
-	--count;
-	auto r = enum_value_range<program_pipeline_stage>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      program_pipeline_stage(GL_TESS_EVALUATION_SHADER_BIT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<program_pipeline_stage>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_pipeline_stage(GL_TESS_EVALUATION_SHADER_BIT)) != r.end());
     }
 #endif
 
 #ifdef GL_VERTEX_SHADER_BIT
     {
-	--count;
-	auto r = enum_value_range<program_pipeline_stage>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), program_pipeline_stage(GL_VERTEX_SHADER_BIT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_pipeline_stage>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), program_pipeline_stage(GL_VERTEX_SHADER_BIT)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

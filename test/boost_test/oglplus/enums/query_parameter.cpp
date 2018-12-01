@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_query_parameter
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_query_parameter_tests)
 
@@ -65,22 +65,22 @@ BOOST_AUTO_TEST_CASE(enum_query_parameter_range) {
 
 #ifdef GL_QUERY_RESULT
     {
-	--count;
-	auto r = enum_value_range<query_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), query_parameter(GL_QUERY_RESULT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<query_parameter>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), query_parameter(GL_QUERY_RESULT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_QUERY_RESULT_AVAILABLE
     {
-	--count;
-	auto r = enum_value_range<query_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), query_parameter(GL_QUERY_RESULT_AVAILABLE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<query_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), query_parameter(GL_QUERY_RESULT_AVAILABLE)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

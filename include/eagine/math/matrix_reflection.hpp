@@ -9,8 +9,8 @@
 #ifndef EAGINE_MATH_MATRIX_REFLECTION_1509260923_HPP
 #define EAGINE_MATH_MATRIX_REFLECTION_1509260923_HPP
 
-#include "matrix_ctr.hpp"
 #include <cmath>
+#include "matrix_ctr.hpp"
 
 namespace eagine {
 namespace math {
@@ -34,21 +34,22 @@ struct reflection_I<matrix<T, 4, 4, RM, V>, I> {
     }
 
     constexpr inline T v(int i) const noexcept {
-	return (I == i) ? _v : T(1);
+        return (I == i) ? _v : T(1);
     }
 
     constexpr inline matrix<T, 4, 4, RM, V> operator()(void) const noexcept {
-	return matrix<T, 4, 4, RM, V>{{{v(0), T(0), T(0), T(0)},
-	  {T(0), v(1), T(0), T(0)},
-	  {T(0), T(0), v(2), T(0)},
-	  {T(0), T(0), T(0), T(1)}}};
+        return matrix<T, 4, 4, RM, V>{{{v(0), T(0), T(0), T(0)},
+                                       {T(0), v(1), T(0), T(0)},
+                                       {T(0), T(0), v(2), T(0)},
+                                       {T(0), T(0), T(0), T(1)}}};
     }
 };
 
 // multiply
 template <typename T, int N, bool RM1, bool RM2, bool V, int I>
 static constexpr inline reflection_I<matrix<T, N, N, RM1, V>, I>
-multiply(const reflection_I<matrix<T, N, N, RM1, V>, I>& a,
+multiply(
+  const reflection_I<matrix<T, N, N, RM1, V>, I>& a,
   const reflection_I<matrix<T, N, N, RM2, V>, I>& b) noexcept {
     return {(a._v < b._v) || (a._v > b._v)};
 }

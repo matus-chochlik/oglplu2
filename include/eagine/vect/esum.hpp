@@ -32,30 +32,30 @@ private:
 
     template <int M, bool B>
     static inline T _hlp(_dpT v, _int<M>, _bool<B>) noexcept {
-	static_assert(M == N, "");
-	T r = T(0);
+        static_assert(M == N, "");
+        T r = T(0);
 
-	for(int i = 0; i < N; ++i) {
-	    r += v[i];
-	}
-	return r;
+        for(int i = 0; i < N; ++i) {
+            r += v[i];
+        }
+        return r;
     }
 
 #if EAGINE_VECT_OPTS
     template <bool B>
     static constexpr inline T _hlp(_dpT v, _int<1>, _bool<B>) noexcept {
-	return v[0];
+        return v[0];
     }
 
     template <int M>
     static inline T _hlp(_dpT v, _int<M>, std::true_type) noexcept {
-	static_assert(M == N, "");
-	return hsum<T, N, V>::apply(v)[N - 1];
+        static_assert(M == N, "");
+        return hsum<T, N, V>::apply(v)[N - 1];
     }
 #endif
 public:
     static inline T apply(_dpT v) noexcept {
-	return _hlp(v, _int<N>(), has_vect_data<T, N, V>());
+        return _hlp(v, _int<N>(), has_vect_data<T, N, V>());
     }
 };
 

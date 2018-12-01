@@ -101,7 +101,8 @@ private:
     }
 
 public:
-    program_parameter(const cstr_ref& short_tag,
+    program_parameter(
+      const cstr_ref& short_tag,
       const cstr_ref& long_tag,
       const T& initial) noexcept
       : basic_program_parameter(short_tag, long_tag)
@@ -147,7 +148,8 @@ private:
 public:
     program_parameter_alias(const program_parameter_alias&) = delete;
 
-    program_parameter_alias(const cstr_ref& short_tag,
+    program_parameter_alias(
+      const cstr_ref& short_tag,
       const cstr_ref& long_tag,
       program_parameter<T>& that) noexcept
       : basic_program_parameter(short_tag, long_tag)
@@ -269,8 +271,8 @@ public:
     typedef cstr_ref value_type;
 
     bool is_valid(void) const noexcept {
-        return (0 < _argi) && (_argi < _argc) && (_argv != nullptr)
-               && (_argv[_argi] != nullptr);
+        return (0 < _argi) && (_argi < _argc) && (_argv != nullptr) &&
+               (_argv[_argi] != nullptr);
     }
 
     operator bool(void) const noexcept {
@@ -340,7 +342,8 @@ public:
     }
 
     auto invalid_handler(std::ostream& errorlog) {
-        return [&errorlog](const cstr_ref& arg_tag,
+        return [&errorlog](
+                 const cstr_ref& arg_tag,
                  const cstr_ref& arg_val,
                  const cstr_ref& log_str) {
             errorlog << "Invalid value '" << arg_val << "' after '" << arg_tag
@@ -373,7 +376,8 @@ public:
     }
 
     template <typename T, typename MissingFunc, typename InvalidFunc>
-    bool do_parse_param(program_parameter<T>& param,
+    bool do_parse_param(
+      program_parameter<T>& param,
       MissingFunc handle_missing,
       InvalidFunc handle_invalid) {
         if(is_tag_param(param)) {
@@ -400,7 +404,8 @@ public:
     }
 
     template <typename T, typename MissingFunc, typename InvalidFunc>
-    bool do_consume_next(T& dest,
+    bool do_consume_next(
+      T& dest,
       const span<const T>& choices,
       MissingFunc handle_missing,
       InvalidFunc handle_invalid) {
@@ -413,7 +418,8 @@ public:
     }
 
     template <typename T, typename P, class MissingFunc, class InvalidFunc>
-    bool do_consume_next(valid_if<T, P>& dest,
+    bool do_consume_next(
+      valid_if<T, P>& dest,
       const span<const T>& choices,
       MissingFunc handle_missing,
       InvalidFunc handle_invalid) {
@@ -436,7 +442,8 @@ public:
     }
 
     template <typename T, typename C, class MissingFunc, class InvalidFunc>
-    bool do_parse_param(program_parameter<T>& param,
+    bool do_parse_param(
+      program_parameter<T>& param,
       const span<const C>& choices,
       MissingFunc handle_missing,
       InvalidFunc handle_invalid) {
@@ -448,7 +455,8 @@ public:
     }
 
     template <typename T, typename C>
-    bool parse_param(program_parameter<T>& param,
+    bool parse_param(
+      program_parameter<T>& param,
       const span<const C>& choices,
       std::ostream& errorlog) {
         auto if_missing = missing_handler(errorlog);
@@ -457,7 +465,8 @@ public:
     }
 
     template <typename T, typename MissingFunc, typename InvalidFunc>
-    bool do_consume_next(T& dest,
+    bool do_consume_next(
+      T& dest,
       const span<const cstr_ref>& symbols,
       const span<const T>& translations,
       MissingFunc handle_missing,
@@ -477,7 +486,8 @@ public:
     }
 
     template <typename T, typename P, class MissingFunc, class InvalidFunc>
-    bool do_consume_next(valid_if<T, P>& dest,
+    bool do_consume_next(
+      valid_if<T, P>& dest,
       const span<const cstr_ref>& symbols,
       const span<const T>& translations,
       MissingFunc handle_missing,
@@ -494,7 +504,8 @@ public:
     }
 
     template <typename T, typename R>
-    bool consume_next(T& dest,
+    bool consume_next(
+      T& dest,
       const span<const cstr_ref>& symbols,
       const span<const R>& translations,
       std::ostream& errorlog) {
@@ -505,13 +516,15 @@ public:
     }
 
     template <typename T, typename R, class MissingFunc, class InvalidFunc>
-    bool do_parse_param(program_parameter<T>& param,
+    bool do_parse_param(
+      program_parameter<T>& param,
       const span<const cstr_ref>& symbols,
       const span<const R>& translations,
       MissingFunc handle_missing,
       InvalidFunc handle_invalid) {
         if(is_tag_param(param)) {
-            return do_consume_next(param.ref(),
+            return do_consume_next(
+              param.ref(),
               symbols,
               translations,
               handle_missing,
@@ -521,7 +534,8 @@ public:
     }
 
     template <typename T, typename R>
-    bool parse_param(program_parameter<T>& param,
+    bool parse_param(
+      program_parameter<T>& param,
       const span<const cstr_ref>& symbols,
       const span<const R>& translations,
       std::ostream& errorlog) {
@@ -532,13 +546,15 @@ public:
     }
 
     template <typename T, typename R, class MissingFunc, class InvalidFunc>
-    bool do_parse_param(program_parameter_alias<T>& param,
+    bool do_parse_param(
+      program_parameter_alias<T>& param,
       const span<const cstr_ref>& symbols,
       const span<const R>& translations,
       MissingFunc handle_missing,
       InvalidFunc handle_invalid) {
         if(is_tag_param(param)) {
-            return do_consume_next(param.ref(),
+            return do_consume_next(
+              param.ref(),
               symbols,
               translations,
               handle_missing,
@@ -548,7 +564,8 @@ public:
     }
 
     template <typename T, typename R>
-    bool parse_param(program_parameter_alias<T>& param,
+    bool parse_param(
+      program_parameter_alias<T>& param,
       const span<const cstr_ref>& symbols,
       const span<const R>& translations,
       std::ostream& errorlog) {
@@ -810,8 +827,8 @@ public:
     }
 
     bool is_valid(valid_index pos) const noexcept {
-        return pos.is_valid(*this) && (_argv != nullptr)
-               && (_argv[pos.value(*this)] != nullptr);
+        return pos.is_valid(*this) && (_argv != nullptr) &&
+               (_argv[pos.value(*this)] != nullptr);
     }
 
     value_type get(valid_index pos) const noexcept {

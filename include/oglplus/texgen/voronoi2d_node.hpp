@@ -35,7 +35,8 @@ private:
     cstr_ref type_abbr(void) const;
 
 public:
-    voronoi2d_output(node_intf& parent,
+    voronoi2d_output(
+      node_intf& parent,
       input_with_const_default<float[2]>&,
       input_with_const_default<float[2]>&,
       voronoi_output_type type);
@@ -68,8 +69,8 @@ public:
     voronoi2d_node(void);
 
     voronoi2d_node& set_cell_count(float x, float y) {
-	_cells.fallback().set(x, y);
-	return *this;
+        _cells.fallback().set(x, y);
+        return *this;
     }
 
     cstr_ref type_name(void) override;

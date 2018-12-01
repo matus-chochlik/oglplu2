@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_indexed_value_base
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_indexed_value_base_tests)
 
@@ -102,42 +102,43 @@ BOOST_AUTO_TEST_CASE(enum_indexed_value_base_range) {
 
 #ifdef GL_CLIP_DISTANCE0
     {
-	--count;
-	auto r = enum_value_range<indexed_value_base>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), indexed_value_base(GL_CLIP_DISTANCE0))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<indexed_value_base>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), indexed_value_base(GL_CLIP_DISTANCE0)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_COLOR_ATTACHMENT0
     {
-	--count;
-	auto r = enum_value_range<indexed_value_base>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), indexed_value_base(GL_COLOR_ATTACHMENT0))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<indexed_value_base>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), indexed_value_base(GL_COLOR_ATTACHMENT0)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_DRAW_BUFFER0
     {
-	--count;
-	auto r = enum_value_range<indexed_value_base>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), indexed_value_base(GL_DRAW_BUFFER0))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<indexed_value_base>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), indexed_value_base(GL_DRAW_BUFFER0)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE0
     {
-	--count;
-	auto r = enum_value_range<indexed_value_base>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), indexed_value_base(GL_TEXTURE0))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<indexed_value_base>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), indexed_value_base(GL_TEXTURE0)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

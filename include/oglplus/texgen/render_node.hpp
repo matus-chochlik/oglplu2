@@ -9,13 +9,13 @@
 #ifndef OGLPLUS_TEXGEN_RENDER_NODE_1509260923_HPP
 #define OGLPLUS_TEXGEN_RENDER_NODE_1509260923_HPP
 
+#include <eagine/valid_if/positive.hpp>
 #include "../buffer.hpp"
 #include "../program.hpp"
 #include "../uniform.hpp"
 #include "../vertex_array.hpp"
 #include "base_node.hpp"
 #include "fallback_input.hpp"
-#include <eagine/valid_if/positive.hpp>
 
 namespace oglplus {
 namespace texgen {
@@ -66,7 +66,8 @@ public:
     void set_divisions(
       eagine::valid_if_positive<int> xdiv, eagine::valid_if_positive<int> ydiv);
 
-    void set_dimensions(eagine::valid_if_positive<int> width,
+    void set_dimensions(
+      eagine::valid_if_positive<int> width,
       eagine::valid_if_positive<int> height);
 };
 

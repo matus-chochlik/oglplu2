@@ -23,7 +23,8 @@ namespace oper {
 
 struct named_string_state {
 #ifdef GL_ARB_shading_language_include
-    static outcome<void> named_string(oglplus::named_string_type type,
+    static outcome<void> named_string(
+      oglplus::named_string_type type,
       cstring_span name,
       cstring_span value) noexcept;
 

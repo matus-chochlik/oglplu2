@@ -9,9 +9,9 @@
 #ifndef EAGINE_MATH_FUNCTIONS_1509260923_HPP
 #define EAGINE_MATH_FUNCTIONS_1509260923_HPP
 
-#include "../std/type_traits.hpp"
 #include <cassert>
 #include <cmath>
+#include "../std/type_traits.hpp"
 
 namespace eagine {
 namespace math {

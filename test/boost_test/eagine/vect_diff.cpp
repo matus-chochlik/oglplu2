@@ -17,23 +17,23 @@ template <typename T, int N, bool V>
 void
 test_vect_diff_TNV_1(void) {
     for(int k = 0; k < 1000; ++k) {
-	T a[N];
+        T a[N];
 
-	typename eagine::vect::data<T, N, V>::type u = {}, v = {};
+        typename eagine::vect::data<T, N, V>::type u = {}, v = {};
 
-	for(int i = 0; i < N; ++i) {
-	    a[i] = rg.get(-10000, +10000);
-	    u[i] = a[i];
-	    v[i] = a[i];
-	}
+        for(int i = 0; i < N; ++i) {
+            a[i] = rg.get(-10000, +10000);
+            u[i] = a[i];
+            v[i] = a[i];
+        }
 
-	typedef eagine::vect::diff<T, N, V> _diff;
-	typedef eagine::vect::esum<T, N, V> _esum;
+        typedef eagine::vect::diff<T, N, V> _diff;
+        typedef eagine::vect::esum<T, N, V> _esum;
 
-	BOOST_CHECK_EQUAL(_esum::apply(_diff::apply(u, u)), T(0));
-	BOOST_CHECK_EQUAL(_esum::apply(_diff::apply(v, u)), T(0));
-	BOOST_CHECK_EQUAL(_esum::apply(_diff::apply(u, v)), T(0));
-	BOOST_CHECK_EQUAL(_esum::apply(_diff::apply(v, v)), T(0));
+        BOOST_CHECK_EQUAL(_esum::apply(_diff::apply(u, u)), T(0));
+        BOOST_CHECK_EQUAL(_esum::apply(_diff::apply(v, u)), T(0));
+        BOOST_CHECK_EQUAL(_esum::apply(_diff::apply(u, v)), T(0));
+        BOOST_CHECK_EQUAL(_esum::apply(_diff::apply(v, v)), T(0));
     }
 }
 

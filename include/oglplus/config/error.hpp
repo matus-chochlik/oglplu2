@@ -60,8 +60,8 @@
 #endif
 
 //
-#define OGLPLUS_ERROR_NO_EXTENDED_INFO                       \
-    (OGLPLUS_ERROR_NO_SUBJECT && OGLPLUS_ERROR_NO_IDENTIFIER \
-      && OGLPLUS_ERROR_NO_INFO_LOG)
+#define OGLPLUS_ERROR_NO_EXTENDED_INFO                          \
+    (OGLPLUS_ERROR_NO_SUBJECT && OGLPLUS_ERROR_NO_IDENTIFIER && \
+     OGLPLUS_ERROR_NO_INFO_LOG)
 
 #endif // include guard

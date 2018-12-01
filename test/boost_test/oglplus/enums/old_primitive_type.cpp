@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_old_primitive_type
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_old_primitive_type_tests)
 
@@ -284,98 +284,102 @@ BOOST_AUTO_TEST_CASE(enum_old_primitive_type_range) {
 
 #ifdef GL_LINE_LOOP
     {
-	--count;
-	auto r = enum_value_range<old_primitive_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), old_primitive_type(GL_LINE_LOOP))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<old_primitive_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), old_primitive_type(GL_LINE_LOOP)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_LINE_STRIP
     {
-	--count;
-	auto r = enum_value_range<old_primitive_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), old_primitive_type(GL_LINE_STRIP))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<old_primitive_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), old_primitive_type(GL_LINE_STRIP)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_LINES
     {
-	--count;
-	auto r = enum_value_range<old_primitive_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), old_primitive_type(GL_LINES))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<old_primitive_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), old_primitive_type(GL_LINES)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_POINTS
     {
-	--count;
-	auto r = enum_value_range<old_primitive_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), old_primitive_type(GL_POINTS))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<old_primitive_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), old_primitive_type(GL_POINTS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_POLYGON
     {
-	--count;
-	auto r = enum_value_range<old_primitive_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), old_primitive_type(GL_POLYGON))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<old_primitive_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), old_primitive_type(GL_POLYGON)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_QUAD_STRIP
     {
-	--count;
-	auto r = enum_value_range<old_primitive_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), old_primitive_type(GL_QUAD_STRIP))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<old_primitive_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), old_primitive_type(GL_QUAD_STRIP)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_QUADS
     {
-	--count;
-	auto r = enum_value_range<old_primitive_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), old_primitive_type(GL_QUADS))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<old_primitive_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), old_primitive_type(GL_QUADS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TRIANGLE_FAN
     {
-	--count;
-	auto r = enum_value_range<old_primitive_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), old_primitive_type(GL_TRIANGLE_FAN))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<old_primitive_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), old_primitive_type(GL_TRIANGLE_FAN)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TRIANGLE_STRIP
     {
-	--count;
-	auto r = enum_value_range<old_primitive_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), old_primitive_type(GL_TRIANGLE_STRIP))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<old_primitive_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), old_primitive_type(GL_TRIANGLE_STRIP)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TRIANGLES
     {
-	--count;
-	auto r = enum_value_range<old_primitive_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), old_primitive_type(GL_TRIANGLES))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<old_primitive_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), old_primitive_type(GL_TRIANGLES)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

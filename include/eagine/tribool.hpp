@@ -37,15 +37,15 @@ private:
 
 public:
     constexpr explicit operator bool(void) const noexcept {
-	return _value != _value_t::_false;
+        return _value != _value_t::_false;
     }
 
-    constexpr bool operator!(void)const noexcept {
-	return _value != _value_t::_true;
+    constexpr bool operator!(void) const noexcept {
+        return _value != _value_t::_true;
     }
 
     constexpr bool is(indeterminate_t) const noexcept {
-	return _value == _value_t::_unknown;
+        return _value == _value_t::_unknown;
     }
 };
 
@@ -68,49 +68,50 @@ public:
     }
 
     constexpr tribool(bool value, bool is_unknown) noexcept
-      : _value(is_unknown ? _value_t::_unknown
-			  : value ? _value_t::_true : _value_t::_false) {
+      : _value(
+          is_unknown ? _value_t::_unknown
+                     : value ? _value_t::_true : _value_t::_false) {
     }
 
     constexpr explicit operator bool(void) const noexcept {
-	return _value == _value_t::_true;
+        return _value == _value_t::_true;
     }
 
-    constexpr bool operator!(void)const noexcept {
-	return _value == _value_t::_false;
+    constexpr bool operator!(void) const noexcept {
+        return _value == _value_t::_false;
     }
 
     constexpr bool operator*(void)const noexcept {
-	return _value == _value_t::_unknown;
+        return _value == _value_t::_unknown;
     }
 
-    constexpr weakbool operator~(void)const noexcept {
-	return weakbool{_value};
+    constexpr weakbool operator~(void) const noexcept {
+        return weakbool{_value};
     }
 
     constexpr bool is(indeterminate_t) const noexcept {
-	return *(*this);
+        return *(*this);
     }
 
     friend constexpr tribool operator==(tribool a, tribool b) noexcept {
-	return {a._value == b._value, (*a || *b)};
+        return {a._value == b._value, (*a || *b)};
     }
 
     friend constexpr tribool operator!=(tribool a, tribool b) noexcept {
-	return {a._value != b._value, (*a || *b)};
+        return {a._value != b._value, (*a || *b)};
     }
 };
 
 constexpr inline tribool
 operator&&(tribool a, tribool b) noexcept {
     return !a ? tribool{false}
-	      : a ? b : !b ? tribool{false} : tribool{indeterminate};
+              : a ? b : !b ? tribool{false} : tribool{indeterminate};
 }
 
 constexpr inline tribool
 operator||(tribool a, tribool b) noexcept {
     return a ? tribool{true}
-	     : !a ? b : b ? tribool{true} : tribool{indeterminate};
+             : !a ? b : b ? tribool{true} : tribool{indeterminate};
 }
 
 } // namespace eagine

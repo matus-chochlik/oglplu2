@@ -28,11 +28,11 @@ private:
 
 public:
     ::GLXFBConfig Handle(void) const {
-	return _handle;
+        return _handle;
     }
 
     operator ::GLXFBConfig(void) const {
-	return Handle();
+        return Handle();
     }
 };
 

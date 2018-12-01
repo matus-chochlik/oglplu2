@@ -30,13 +30,14 @@ public:
 };
 
 class concentric_node
-  : public unary_single_output_node<concentric_output,
+  : public unary_single_output_node<
+      concentric_output,
       decltype(concentric_output::repeat),
       &concentric_output::repeat> {
 public:
     concentric_node& set_repeat(float x, float y, float z) {
-	_output.repeat.fallback().set(x, y, z);
-	return *this;
+        _output.repeat.fallback().set(x, y, z);
+        return *this;
     }
 };
 

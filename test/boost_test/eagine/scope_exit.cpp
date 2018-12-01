@@ -8,8 +8,8 @@
 #define BOOST_TEST_MODULE EAGINE_scope_exit
 #include "../unit_test_begin.inl"
 
-#include <exception>
 #include <type_traits>
+#include <exception>
 
 BOOST_AUTO_TEST_SUITE(scope_exit_tests)
 
@@ -20,29 +20,29 @@ BOOST_AUTO_TEST_CASE(scope_exit_f) {
     auto inc_i = [&i](void) { ++i; };
 
     {
-	BOOST_CHECK_EQUAL(i, 10);
-	on_scope_exit<std::false_type> se(inc_i);
-	BOOST_CHECK_EQUAL(i, 10);
-	++passed;
+        BOOST_CHECK_EQUAL(i, 10);
+        on_scope_exit<std::false_type> se(inc_i);
+        BOOST_CHECK_EQUAL(i, 10);
+        ++passed;
     }
     BOOST_CHECK_EQUAL(i, 11);
     {
-	BOOST_CHECK_EQUAL(i, 11);
-	on_scope_exit<std::false_type> se(inc_i);
-	BOOST_CHECK_EQUAL(i, 11);
-	++passed;
-	se.cancel();
+        BOOST_CHECK_EQUAL(i, 11);
+        on_scope_exit<std::false_type> se(inc_i);
+        BOOST_CHECK_EQUAL(i, 11);
+        ++passed;
+        se.cancel();
     }
     try {
-	BOOST_CHECK_EQUAL(i, 11);
-	on_scope_exit<std::false_type> se(inc_i);
-	BOOST_CHECK_EQUAL(i, 11);
-	++passed;
+        BOOST_CHECK_EQUAL(i, 11);
+        on_scope_exit<std::false_type> se(inc_i);
+        BOOST_CHECK_EQUAL(i, 11);
+        ++passed;
 
-	throw std::exception();
+        throw std::exception();
     } catch(std::exception&) {
-	BOOST_CHECK_EQUAL(i, 11);
-	++passed;
+        BOOST_CHECK_EQUAL(i, 11);
+        ++passed;
     }
     BOOST_CHECK_EQUAL(passed, 4);
 }
@@ -54,34 +54,34 @@ BOOST_AUTO_TEST_CASE(scope_exit_t) {
     auto inc_i = [&i](void) { ++i; };
 
     {
-	BOOST_CHECK_EQUAL(i, 11);
-	on_scope_exit<std::true_type> se(inc_i);
-	BOOST_CHECK_EQUAL(i, 11);
-	++passed;
+        BOOST_CHECK_EQUAL(i, 11);
+        on_scope_exit<std::true_type> se(inc_i);
+        BOOST_CHECK_EQUAL(i, 11);
+        ++passed;
     }
     BOOST_CHECK_EQUAL(i, 11);
     try {
-	BOOST_CHECK_EQUAL(i, 11);
-	on_scope_exit<std::true_type> se(inc_i);
-	BOOST_CHECK_EQUAL(i, 11);
-	++passed;
+        BOOST_CHECK_EQUAL(i, 11);
+        on_scope_exit<std::true_type> se(inc_i);
+        BOOST_CHECK_EQUAL(i, 11);
+        ++passed;
 
-	throw std::exception();
+        throw std::exception();
     } catch(std::exception&) {
-	BOOST_CHECK_EQUAL(i, 12);
-	++passed;
+        BOOST_CHECK_EQUAL(i, 12);
+        ++passed;
     }
     try {
-	BOOST_CHECK_EQUAL(i, 12);
-	on_scope_exit<std::true_type> se(inc_i);
-	BOOST_CHECK_EQUAL(i, 12);
-	++passed;
-	se.cancel();
+        BOOST_CHECK_EQUAL(i, 12);
+        on_scope_exit<std::true_type> se(inc_i);
+        BOOST_CHECK_EQUAL(i, 12);
+        ++passed;
+        se.cancel();
 
-	throw std::exception();
+        throw std::exception();
     } catch(std::exception&) {
-	BOOST_CHECK_EQUAL(i, 12);
-	++passed;
+        BOOST_CHECK_EQUAL(i, 12);
+        ++passed;
     }
 
     BOOST_CHECK_EQUAL(passed, 5);
@@ -94,42 +94,42 @@ BOOST_AUTO_TEST_CASE(scope_exit_n) {
     auto inc_i = [&i](void) { ++i; };
 
     {
-	BOOST_CHECK_EQUAL(i, 41);
-	on_scope_exit<nothing_t> se(inc_i);
-	BOOST_CHECK_EQUAL(i, 41);
-	++passed;
+        BOOST_CHECK_EQUAL(i, 41);
+        on_scope_exit<nothing_t> se(inc_i);
+        BOOST_CHECK_EQUAL(i, 41);
+        ++passed;
     }
     BOOST_CHECK_EQUAL(i, 42);
     {
-	BOOST_CHECK_EQUAL(i, 42);
-	on_scope_exit<nothing_t> se(inc_i);
-	BOOST_CHECK_EQUAL(i, 42);
-	++passed;
-	se.cancel();
+        BOOST_CHECK_EQUAL(i, 42);
+        on_scope_exit<nothing_t> se(inc_i);
+        BOOST_CHECK_EQUAL(i, 42);
+        ++passed;
+        se.cancel();
     }
     BOOST_CHECK_EQUAL(i, 42);
     try {
-	BOOST_CHECK_EQUAL(i, 42);
-	on_scope_exit<nothing_t> se(inc_i);
-	BOOST_CHECK_EQUAL(i, 42);
-	++passed;
+        BOOST_CHECK_EQUAL(i, 42);
+        on_scope_exit<nothing_t> se(inc_i);
+        BOOST_CHECK_EQUAL(i, 42);
+        ++passed;
 
-	throw std::exception();
+        throw std::exception();
     } catch(std::exception&) {
-	BOOST_CHECK_EQUAL(i, 43);
-	++passed;
+        BOOST_CHECK_EQUAL(i, 43);
+        ++passed;
     }
     try {
-	BOOST_CHECK_EQUAL(i, 43);
-	on_scope_exit<nothing_t> se(inc_i);
-	BOOST_CHECK_EQUAL(i, 43);
-	++passed;
-	se.cancel();
+        BOOST_CHECK_EQUAL(i, 43);
+        on_scope_exit<nothing_t> se(inc_i);
+        BOOST_CHECK_EQUAL(i, 43);
+        ++passed;
+        se.cancel();
 
-	throw std::exception();
+        throw std::exception();
     } catch(std::exception&) {
-	BOOST_CHECK_EQUAL(i, 43);
-	++passed;
+        BOOST_CHECK_EQUAL(i, 43);
+        ++passed;
     }
 
     BOOST_CHECK_EQUAL(passed, 6);
@@ -141,42 +141,42 @@ BOOST_AUTO_TEST_CASE(func_on_scope_exit) {
     int i = 41, passed = 0;
 
     {
-	BOOST_CHECK_EQUAL(i, 41);
-	auto fse = finally([&i](void) { i += 2; });
-	BOOST_CHECK_EQUAL(i, 41);
-	++passed;
+        BOOST_CHECK_EQUAL(i, 41);
+        auto fse = finally([&i](void) { i += 2; });
+        BOOST_CHECK_EQUAL(i, 41);
+        ++passed;
     }
     BOOST_CHECK_EQUAL(i, 43);
     {
-	BOOST_CHECK_EQUAL(i, 43);
-	auto fse = finally([&i](void) { i += 2; });
-	BOOST_CHECK_EQUAL(i, 43);
-	++passed;
-	fse.cancel();
+        BOOST_CHECK_EQUAL(i, 43);
+        auto fse = finally([&i](void) { i += 2; });
+        BOOST_CHECK_EQUAL(i, 43);
+        ++passed;
+        fse.cancel();
     }
     BOOST_CHECK_EQUAL(i, 43);
     try {
-	BOOST_CHECK_EQUAL(i, 43);
-	auto fse = finally([&i](void) { --i; });
-	BOOST_CHECK_EQUAL(i, 43);
-	++passed;
+        BOOST_CHECK_EQUAL(i, 43);
+        auto fse = finally([&i](void) { --i; });
+        BOOST_CHECK_EQUAL(i, 43);
+        ++passed;
 
-	throw std::exception();
+        throw std::exception();
     } catch(std::exception&) {
-	BOOST_CHECK_EQUAL(i, 42);
-	++passed;
+        BOOST_CHECK_EQUAL(i, 42);
+        ++passed;
     }
     try {
-	BOOST_CHECK_EQUAL(i, 42);
-	auto fse = finally([&i](void) { --i; });
-	BOOST_CHECK_EQUAL(i, 42);
-	++passed;
-	fse.cancel();
+        BOOST_CHECK_EQUAL(i, 42);
+        auto fse = finally([&i](void) { --i; });
+        BOOST_CHECK_EQUAL(i, 42);
+        ++passed;
+        fse.cancel();
 
-	throw std::exception();
+        throw std::exception();
     } catch(std::exception&) {
-	BOOST_CHECK_EQUAL(i, 42);
-	++passed;
+        BOOST_CHECK_EQUAL(i, 42);
+        ++passed;
     }
 
     BOOST_CHECK_EQUAL(passed, 6);

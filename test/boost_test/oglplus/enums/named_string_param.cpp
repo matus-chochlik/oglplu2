@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_named_string_param
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_named_string_param_tests)
 
@@ -66,23 +66,24 @@ BOOST_AUTO_TEST_CASE(enum_named_string_param_range) {
 
 #ifdef GL_NAMED_STRING_LENGTH_ARB
     {
-	--count;
-	auto r = enum_value_range<named_string_param>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), named_string_param(GL_NAMED_STRING_LENGTH_ARB))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<named_string_param>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            named_string_param(GL_NAMED_STRING_LENGTH_ARB)) != r.end());
     }
 #endif
 
 #ifdef GL_NAMED_STRING_TYPE_ARB
     {
-	--count;
-	auto r = enum_value_range<named_string_param>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), named_string_param(GL_NAMED_STRING_TYPE_ARB))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<named_string_param>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), named_string_param(GL_NAMED_STRING_TYPE_ARB)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

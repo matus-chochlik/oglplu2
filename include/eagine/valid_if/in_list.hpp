@@ -24,33 +24,33 @@ struct valid_if_in_list_policy {
     }
 
     bool operator()(const T& value) const noexcept {
-	for(const T& choice : _choices) {
-	    if(value == choice) {
-		return true;
-	    }
-	}
-	return false;
+        for(const T& choice : _choices) {
+            if(value == choice) {
+                return true;
+            }
+        }
+        return false;
     }
 
     struct do_log {
-	const Range* _choices;
+        const Range* _choices;
 
-	inline do_log(const valid_if_in_list_policy<T, Range>& p) noexcept
-	  : _choices(&p._choices) {
-	}
+        inline do_log(const valid_if_in_list_policy<T, Range>& p) noexcept
+          : _choices(&p._choices) {
+        }
 
-	template <typename Log>
-	void operator()(Log& log, const T& v) const {
-	    log << "Value '" << v << "', "
-		<< "other than one of the values [";
+        template <typename Log>
+        void operator()(Log& log, const T& v) const {
+            log << "Value '" << v << "', "
+                << "other than one of the values [";
 
-	    bool first = true;
-	    for(const T& choice : *_choices) {
-		log << (first ? "" : ", ") << "'" << choice << "'";
-		first = false;
-	    }
-	    log << "] is invalid";
-	}
+            bool first = true;
+            for(const T& choice : *_choices) {
+                log << (first ? "" : ", ") << "'" << choice << "'";
+                first = false;
+            }
+            log << "] is invalid";
+        }
     };
 };
 

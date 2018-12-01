@@ -20,7 +20,7 @@ protected:
     GLint _loc;
 
     static constexpr inline GLint _invalid_loc(void) noexcept {
-	return -1;
+        return -1;
     }
 
 public:
@@ -35,38 +35,38 @@ public:
     }
 
     constexpr GLint location(void) const noexcept {
-	return _loc;
+        return _loc;
     }
 
     GLuint index(void) const noexcept {
-	if(_loc < 0) {
-	    return GL_INVALID_INDEX;
-	}
-	return GLuint(_loc);
+        if(_loc < 0) {
+            return GL_INVALID_INDEX;
+        }
+        return GLuint(_loc);
     }
 
     constexpr bool is_active(void) const noexcept {
-	return _loc >= 0;
+        return _loc >= 0;
     }
 
     explicit constexpr operator bool(void) const noexcept {
-	return is_active();
+        return is_active();
     }
 
-    constexpr bool operator!(void)const noexcept {
-	return !is_active();
+    constexpr bool operator!(void) const noexcept {
+        return !is_active();
     }
 
     friend constexpr bool operator==(prog_var_loc a, prog_var_loc b) noexcept {
-	return a._loc == b._loc;
+        return a._loc == b._loc;
     }
 
     friend constexpr bool operator!=(prog_var_loc a, prog_var_loc b) noexcept {
-	return a._loc != b._loc;
+        return a._loc != b._loc;
     }
 
     friend constexpr bool operator<(prog_var_loc a, prog_var_loc b) noexcept {
-	return a._loc < b._loc;
+        return a._loc < b._loc;
     }
 };
 

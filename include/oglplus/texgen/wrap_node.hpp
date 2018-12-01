@@ -9,10 +9,10 @@
 #ifndef OGLPLUS_TEXGEN_WRAP_NODE_1509260923_HPP
 #define OGLPLUS_TEXGEN_WRAP_NODE_1509260923_HPP
 
+#include <string>
 #include "base_node.hpp"
 #include "coord_node.hpp"
 #include "fallback_input.hpp"
-#include <string>
 
 namespace oglplus {
 namespace texgen {
@@ -35,15 +35,16 @@ public:
 };
 
 class wrap_node
-  : public unary_single_output_node<wrap_output,
+  : public unary_single_output_node<
+      wrap_output,
       decltype(wrap_output::input),
       &wrap_output::input> {
 public:
     wrap_node(void) = default;
 
     wrap_node& set_mode(wrap_mode mode) {
-	_output.mode = mode;
-	return *this;
+        _output.mode = mode;
+        return *this;
     }
 };
 

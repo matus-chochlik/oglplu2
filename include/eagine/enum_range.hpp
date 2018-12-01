@@ -10,11 +10,11 @@
 #ifndef EAGINE_ENUM_RANGE_1509260923_HPP
 #define EAGINE_ENUM_RANGE_1509260923_HPP
 
-#include "enum_class.hpp"
-#include "iterator.hpp"
 #include <cassert>
 #include <cstdint>
 #include <utility>
+#include "enum_class.hpp"
+#include "iterator.hpp"
 
 namespace eagine {
 
@@ -30,7 +30,7 @@ private:
     typedef enum_class<EnumClass, T, LibId, EnumId> _ec_t;
 
     static _ec_t _wrap_enum(T e) noexcept {
-	return _ec_t{e};
+        return _ec_t{e};
     }
 
 public:
@@ -40,28 +40,28 @@ public:
     explicit enumerated_value_range(span<const T> v) noexcept
       : _begin(v.data())
       , _end(v.data() + v.size()) {
-	assert(_begin <= _end);
+        assert(_begin <= _end);
     }
 
     explicit enumerated_value_range(
       std::pair<const void*, size_type> p) noexcept
       : enumerated_value_range(
-	  span<const T>{static_cast<const T*>(p.first), p.second}) {
+          span<const T>{static_cast<const T*>(p.first), p.second}) {
     }
 
     typedef transforming_iterator<const T*, _ec_t, _ec_t, _ec_t (*)(T) noexcept>
       iterator;
 
     size_type size(void) const noexcept {
-	return size_type(_end - _begin);
+        return size_type(_end - _begin);
     }
 
     iterator begin(void) const noexcept {
-	return iterator(_begin, &_wrap_enum);
+        return iterator(_begin, &_wrap_enum);
     }
 
     iterator end(void) const noexcept {
-	return iterator(_end, &_wrap_enum);
+        return iterator(_end, &_wrap_enum);
     }
 };
 

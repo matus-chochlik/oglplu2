@@ -19,7 +19,8 @@ oglplus_path_nv_array_test_ops1(void) {
     paths_nv pnvs(4);
     oper::path_nv_array_ops gl;
 
-    gl.path_glyphs(pnvs,
+    gl.path_glyphs(
+      pnvs,
       path_font_target_nv(GL_FILE_NAME_NV),
       "font.ttf",
       path_font_style_nv(),
@@ -28,7 +29,8 @@ oglplus_path_nv_array_test_ops1(void) {
       ~0u,
       1.0f);
 
-    gl.path_glyphs(pnvs,
+    gl.path_glyphs(
+      pnvs,
       path_font_target_nv(GL_FILE_NAME_NV),
       "font.ttf",
       path_font_style_nv(),
@@ -37,7 +39,8 @@ oglplus_path_nv_array_test_ops1(void) {
       ~0u,
       1.0f);
 
-    gl.path_glyph_range(pnvs,
+    gl.path_glyph_range(
+      pnvs,
       path_font_target_nv(GL_FILE_NAME_NV),
       "font.ttf",
       path_font_style_nv(),
@@ -47,7 +50,8 @@ oglplus_path_nv_array_test_ops1(void) {
       ~0u,
       1.0f);
 
-    gl.get_path_spacing(path_list_mode_nv(GL_ACCUM_ADJACENT_PAIRS_NV),
+    gl.get_path_spacing(
+      path_list_mode_nv(GL_ACCUM_ADJACENT_PAIRS_NV),
       span<const GLushort>(),
       pnvs,
       1.0f,
@@ -55,7 +59,8 @@ oglplus_path_nv_array_test_ops1(void) {
       path_transform_type_nv(GL_NONE),
       span<GLfloat>());
 
-    gl.get_path_spacing(path_list_mode_nv(GL_ACCUM_ADJACENT_PAIRS_NV),
+    gl.get_path_spacing(
+      path_list_mode_nv(GL_ACCUM_ADJACENT_PAIRS_NV),
       "blah",
       pnvs,
       1.0f,
@@ -63,33 +68,38 @@ oglplus_path_nv_array_test_ops1(void) {
       path_transform_type_nv(GL_NONE),
       span<GLfloat>());
 
-    gl.stencil_fill_path_instanced(span<const GLuint>(),
+    gl.stencil_fill_path_instanced(
+      span<const GLuint>(),
       pnvs,
       path_fill_mode_nv(GL_INVERT),
       ~0u,
       path_transform_type_nv(GL_NONE),
       span<GLfloat>());
 
-    gl.stencil_fill_path_instanced("blah",
+    gl.stencil_fill_path_instanced(
+      "blah",
       pnvs,
       path_fill_mode_nv(GL_INVERT),
       ~0u,
       path_transform_type_nv(GL_NONE),
       span<GLfloat>());
 
-    gl.cover_fill_path_instanced(span<const GLuint>(),
+    gl.cover_fill_path_instanced(
+      span<const GLuint>(),
       pnvs,
       path_fill_cover_mode_nv(GL_CONVEX_HULL_NV),
       path_transform_type_nv(GL_NONE),
       span<GLfloat>());
 
-    gl.cover_fill_path_instanced("blah",
+    gl.cover_fill_path_instanced(
+      "blah",
       pnvs,
       path_fill_cover_mode_nv(GL_BOUNDING_BOX_NV),
       path_transform_type_nv(GL_NONE),
       span<GLfloat>());
 
-    gl.stencil_stroke_path_instanced(span<const GLuint>(),
+    gl.stencil_stroke_path_instanced(
+      span<const GLuint>(),
       pnvs,
       0,
       ~0u,
@@ -99,13 +109,15 @@ oglplus_path_nv_array_test_ops1(void) {
     gl.stencil_stroke_path_instanced(
       "blah", pnvs, 0, ~0u, path_transform_type_nv(GL_NONE), span<GLfloat>());
 
-    gl.cover_stroke_path_instanced(span<const GLuint>(),
+    gl.cover_stroke_path_instanced(
+      span<const GLuint>(),
       pnvs,
       path_stroke_cover_mode_nv(GL_CONVEX_HULL_NV),
       path_transform_type_nv(GL_NONE),
       span<GLfloat>());
 
-    gl.cover_stroke_path_instanced("blah",
+    gl.cover_stroke_path_instanced(
+      "blah",
       pnvs,
       path_stroke_cover_mode_nv(GL_BOUNDING_BOX_NV),
       path_transform_type_nv(GL_NONE),
@@ -113,7 +125,8 @@ oglplus_path_nv_array_test_ops1(void) {
 
     //
 
-    pnvs.glyphs(path_font_target_nv(GL_FILE_NAME_NV),
+    pnvs.glyphs(
+      path_font_target_nv(GL_FILE_NAME_NV),
       "font.ttf",
       path_font_style_nv(),
       span<const GLubyte>(),
@@ -121,7 +134,8 @@ oglplus_path_nv_array_test_ops1(void) {
       ~0u,
       1.0f);
 
-    pnvs.glyphs(path_font_target_nv(GL_FILE_NAME_NV),
+    pnvs.glyphs(
+      path_font_target_nv(GL_FILE_NAME_NV),
       "font.ttf",
       path_font_style_nv(),
       "blah",
@@ -129,7 +143,8 @@ oglplus_path_nv_array_test_ops1(void) {
       ~0u,
       1.0f);
 
-    pnvs.glyph_range(path_font_target_nv(GL_FILE_NAME_NV),
+    pnvs.glyph_range(
+      path_font_target_nv(GL_FILE_NAME_NV),
       "font.ttf",
       path_font_style_nv(),
       60,
@@ -138,43 +153,50 @@ oglplus_path_nv_array_test_ops1(void) {
       ~0u,
       1.0f);
 
-    pnvs.get_spacing(path_list_mode_nv(GL_ACCUM_ADJACENT_PAIRS_NV),
+    pnvs.get_spacing(
+      path_list_mode_nv(GL_ACCUM_ADJACENT_PAIRS_NV),
       span<const GLushort>(),
       1.0f,
       1.0f,
       path_transform_type_nv(GL_NONE),
       span<GLfloat>());
 
-    pnvs.get_spacing(path_list_mode_nv(GL_ACCUM_ADJACENT_PAIRS_NV),
+    pnvs.get_spacing(
+      path_list_mode_nv(GL_ACCUM_ADJACENT_PAIRS_NV),
       "blah",
       1.0f,
       1.0f,
       path_transform_type_nv(GL_NONE),
       span<GLfloat>());
 
-    pnvs.stencil_fill_instanced(span<const GLuint>(),
+    pnvs.stencil_fill_instanced(
+      span<const GLuint>(),
       path_fill_mode_nv(GL_INVERT),
       ~0u,
       path_transform_type_nv(GL_NONE),
       span<GLfloat>());
 
-    pnvs.stencil_fill_instanced("blah",
+    pnvs.stencil_fill_instanced(
+      "blah",
       path_fill_mode_nv(GL_INVERT),
       ~0u,
       path_transform_type_nv(GL_NONE),
       span<GLfloat>());
 
-    pnvs.cover_fill_instanced(span<const GLuint>(),
+    pnvs.cover_fill_instanced(
+      span<const GLuint>(),
       path_fill_cover_mode_nv(GL_CONVEX_HULL_NV),
       path_transform_type_nv(GL_NONE),
       span<GLfloat>());
 
-    pnvs.cover_fill_instanced("blah",
+    pnvs.cover_fill_instanced(
+      "blah",
       path_fill_cover_mode_nv(GL_BOUNDING_BOX_NV),
       path_transform_type_nv(GL_NONE),
       span<GLfloat>());
 
-    pnvs.stencil_stroke_instanced(span<const GLuint>(),
+    pnvs.stencil_stroke_instanced(
+      span<const GLuint>(),
       0,
       ~0u,
       path_transform_type_nv(GL_NONE),
@@ -183,17 +205,19 @@ oglplus_path_nv_array_test_ops1(void) {
     pnvs.stencil_stroke_instanced(
       "blah", 0, ~0u, path_transform_type_nv(GL_NONE), span<GLfloat>());
 
-    pnvs.cover_stroke_instanced(span<const GLuint>(),
+    pnvs.cover_stroke_instanced(
+      span<const GLuint>(),
       path_stroke_cover_mode_nv(GL_CONVEX_HULL_NV),
       path_transform_type_nv(GL_NONE),
       span<GLfloat>());
 
-    pnvs.cover_stroke_instanced("blah",
+    pnvs.cover_stroke_instanced(
+      "blah",
       path_stroke_cover_mode_nv(GL_BOUNDING_BOX_NV),
       path_transform_type_nv(GL_NONE),
       span<GLfloat>());
 }
 
-    // TODO
+// TODO
 
 #endif // NV_path_rendering

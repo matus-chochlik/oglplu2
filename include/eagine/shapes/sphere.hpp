@@ -10,10 +10,10 @@
 #ifndef EAGINE_SHAPES_SPHERE_1509260923_HPP
 #define EAGINE_SHAPES_SPHERE_1509260923_HPP
 
+#include <cassert>
 #include "../config/basic.hpp"
 #include "../valid_if/greater_than.hpp"
 #include "gen_base.hpp"
-#include <cassert>
 
 namespace eagine {
 namespace shapes {
@@ -28,7 +28,8 @@ private:
     static vertex_attrib_bits _attr_mask(void) noexcept;
 
 public:
-    unit_sphere_gen(vertex_attrib_bits attr_bits,
+    unit_sphere_gen(
+      vertex_attrib_bits attr_bits,
       valid_if_greater_than<int, 2> rings,
       valid_if_greater_than<int, 3> sections) noexcept;
 

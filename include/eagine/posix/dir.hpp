@@ -9,10 +9,10 @@
 #ifndef EAGINE_POSIX_DIR_1509260923_HPP
 #define EAGINE_POSIX_DIR_1509260923_HPP
 
+#include <fcntl.h>
 #include "../cstr_ref.hpp"
 #include "dir_descriptor.hpp"
 #include "file_descriptor.hpp"
-#include <fcntl.h>
 
 namespace eagine {
 namespace posix {

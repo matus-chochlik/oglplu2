@@ -9,10 +9,10 @@
 #ifndef EAGINE_OBJECT_NAME_1509260923_HPP
 #define EAGINE_OBJECT_NAME_1509260923_HPP
 
-#include "../span.hpp"
-#include "fwd.hpp"
 #include <cstddef>
 #include <utility>
+#include "../span.hpp"
+#include "fwd.hpp"
 
 namespace eagine {
 
@@ -24,9 +24,9 @@ private:
     _name_type _name;
 
     _name_type _release_name(void) noexcept {
-	auto name = _name;
-	_name = _traits::invalid_name();
-	return name;
+        auto name = _name;
+        _name = _traits::invalid_name();
+        return name;
     }
 
 public:
@@ -42,7 +42,7 @@ public:
     explicit constexpr object_names(
       const any_object_name<_name_type, TypeT, In, It>& name) noexcept
       : _name(name._name) {
-	assert(name._type == _traits::get_type());
+        assert(name._type == _traits::get_type());
     }
 
     object_names(const object_names&) = default;
@@ -53,62 +53,62 @@ public:
     }
 
     object_names& operator=(object_names&& temp) noexcept {
-	swap(temp);
-	return *this;
+        swap(temp);
+        return *this;
     }
 
     constexpr inline bool is_valid(void) const noexcept {
-	return _name != _traits::invalid_name();
+        return _name != _traits::invalid_name();
     }
 
     explicit constexpr inline operator bool(void) const noexcept {
-	return is_valid();
+        return is_valid();
     }
 
-    constexpr inline bool operator!(void)const noexcept {
-	return !is_valid();
+    constexpr inline bool operator!(void) const noexcept {
+        return !is_valid();
     }
 
     friend constexpr inline bool operator==(
       object_names a, object_names b) noexcept {
-	return a._name == b._name;
+        return a._name == b._name;
     }
 
     friend constexpr inline bool operator!=(
       object_names a, object_names b) noexcept {
-	return a._name != b._name;
+        return a._name != b._name;
     }
 
     friend constexpr inline bool operator<(
       object_names a, object_names b) noexcept {
-	return a._name < b._name;
+        return a._name < b._name;
     }
 
     friend constexpr inline bool operator>(
       object_names a, object_names b) noexcept {
-	return a._name > b._name;
+        return a._name > b._name;
     }
 
     friend constexpr inline bool operator<=(
       object_names a, object_names b) noexcept {
-	return a._name <= b._name;
+        return a._name <= b._name;
     }
 
     friend constexpr inline bool operator>=(
       object_names a, object_names b) noexcept {
-	return a._name >= b._name;
+        return a._name >= b._name;
     }
 
     void swap(object_names& that) noexcept {
-	std::swap(this->_name, that._name);
+        std::swap(this->_name, that._name);
     }
 
     friend inline constexpr _name_type get_raw_name(object_names nt) noexcept {
-	return nt._name;
+        return nt._name;
     }
 
     friend inline span<_name_type> get_raw_names(object_names& ntr) noexcept {
-	return {&ntr._name, 1};
+        return {&ntr._name, 1};
     }
 };
 
@@ -139,25 +139,25 @@ struct any_object_type {
     }
 
     constexpr inline bool is_valid(void) const noexcept {
-	return (_type != InvalidType);
+        return (_type != InvalidType);
     }
 
     explicit constexpr inline operator bool(void) const noexcept {
-	return is_valid();
+        return is_valid();
     }
 
-    constexpr inline bool operator!(void)const noexcept {
-	return !is_valid();
+    constexpr inline bool operator!(void) const noexcept {
+        return !is_valid();
     }
 
     friend constexpr inline bool operator==(
       const any_object_type& a, const any_object_type& b) noexcept {
-	return (a._type == b._type);
+        return (a._type == b._type);
     }
 
     friend constexpr inline bool operator!=(
       const any_object_type& a, const any_object_type& b) noexcept {
-	return (a._type != b._type);
+        return (a._type != b._type);
     }
 };
 
@@ -178,46 +178,47 @@ struct any_object_name {
     }
 
     constexpr inline bool is_valid(void) const noexcept {
-	return (_name != InvalidName) && (_type != InvalidType);
+        return (_name != InvalidName) && (_type != InvalidType);
     }
 
     explicit constexpr inline operator bool(void) const noexcept {
-	return is_valid();
+        return is_valid();
     }
 
-    constexpr inline bool operator!(void)const noexcept {
-	return !is_valid();
+    constexpr inline bool operator!(void) const noexcept {
+        return !is_valid();
     }
 
     friend constexpr inline bool operator==(
       const any_object_name& a, const any_object_name& b) noexcept {
-	return (a._name == b._name) && (a._type == b._type);
+        return (a._name == b._name) && (a._type == b._type);
     }
 
     friend constexpr inline bool operator!=(
       const any_object_name& a, const any_object_name& b) noexcept {
-	return (a._name != b._name) || (a._type != b._type);
+        return (a._name != b._name) || (a._type != b._type);
     }
 
     constexpr inline any_object_type<TypeT, InvalidType> type(void) const
       noexcept {
-	return {_type};
+        return {_type};
     }
 
     template <typename ObjTag>
     constexpr inline bool is_a(ObjTag = ObjTag()) noexcept {
-	return _type == object_traits<ObjTag>::get_type();
+        return _type == object_traits<ObjTag>::get_type();
     }
 
     friend inline constexpr NameT get_raw_name(
       const any_object_name& aon) noexcept {
-	return aon._name;
+        return aon._name;
     }
 };
 
 template <typename NameT, typename TypeT, NameT In, TypeT It>
 static constexpr inline bool
-same_object_type(const any_object_name<NameT, TypeT, In, It>& a,
+same_object_type(
+  const any_object_name<NameT, TypeT, In, It>& a,
   const any_object_name<NameT, TypeT, In, It>& b) noexcept {
     return a._type == b._type;
 }

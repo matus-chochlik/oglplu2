@@ -24,11 +24,12 @@ eagine_test_struct_memory_block_1(void) {
     std::vector<unsigned char> buf(2 * span_size_of<T>());
 
     for(int i = 0; i < 100; ++i) {
-	memory_block blk(
-	  buf.data(), rg.get<span_size_t>(0, span_size(buf.size()) - 1));
+        memory_block blk(
+          buf.data(), rg.get<span_size_t>(0, span_size(buf.size()) - 1));
 
-	BOOST_CHECK_EQUAL(structured_memory_block<T>::is_valid_block(blk),
-	  blk.size() >= span_size(span_size_of<T>()));
+        BOOST_CHECK_EQUAL(
+          structured_memory_block<T>::is_valid_block(blk),
+          blk.size() >= span_size(span_size_of<T>()));
     }
     BOOST_CHECK_EQUAL(
       structured_memory_block<T>::is_valid_block(memory_block()), false);

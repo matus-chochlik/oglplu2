@@ -9,8 +9,8 @@
 #ifndef EAGINE_VECT_SQRT_1308281038_HPP
 #define EAGINE_VECT_SQRT_1308281038_HPP
 
-#include "data.hpp"
 #include <cmath>
+#include "data.hpp"
 
 namespace eagine {
 namespace vect {
@@ -20,11 +20,11 @@ struct sqrt {
     typedef data_t<T, N, V> _dT;
 
     static _dT apply(_dT v) noexcept {
-	for(int i = 0; i < N; ++i) {
-	    using std::sqrt;
-	    v[i] = T(sqrt(v[i]));
-	}
-	return v;
+        for(int i = 0; i < N; ++i) {
+            using std::sqrt;
+            v[i] = T(sqrt(v[i]));
+        }
+        return v;
     }
 };
 

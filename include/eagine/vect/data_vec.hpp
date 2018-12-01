@@ -9,10 +9,10 @@
 #ifndef EAGINE_VECT_DATA_VEC_1509260923_HPP
 #define EAGINE_VECT_DATA_VEC_1509260923_HPP
 
-#include "config.hpp"
-#include "fwd.hpp"
 #include <cstdint>
 #include <utility>
+#include "config.hpp"
+#include "fwd.hpp"
 
 namespace eagine {
 namespace vect {

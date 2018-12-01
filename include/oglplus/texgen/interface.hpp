@@ -9,13 +9,13 @@
 #ifndef OGLPLUS_TEXGEN_INTERFACE_1509260923_HPP
 #define OGLPLUS_TEXGEN_INTERFACE_1509260923_HPP
 
+#include <cstddef>
+#include <iosfwd>
+#include <eagine/optional_ref.hpp>
+#include <eagine/valid_if/between.hpp>
 #include "../utils/types.hpp"
 #include "data_type.hpp"
 #include "render_params.hpp"
-#include <cstddef>
-#include <eagine/optional_ref.hpp>
-#include <eagine/valid_if/between.hpp>
-#include <iosfwd>
 
 namespace oglplus {
 namespace texgen {
@@ -98,21 +98,21 @@ struct input_intf {
       eagine::valid_if_between<span_size_t, 0, 3> c, float v) = 0;
 
     bool set_default(float x) {
-	return set_default_value(0, x);
+        return set_default_value(0, x);
     }
 
     bool set_default(float x, float y) {
-	return set_default_value(0, x) && set_default_value(1, y);
+        return set_default_value(0, x) && set_default_value(1, y);
     }
 
     bool set_default(float x, float y, float z) {
-	return set_default_value(0, x) && set_default_value(1, y)
-	       && set_default_value(2, z);
+        return set_default_value(0, x) && set_default_value(1, y) &&
+               set_default_value(2, z);
     }
 
     bool set_default(float x, float y, float z, float w) {
-	return set_default_value(0, x) && set_default_value(1, y)
-	       && set_default_value(3, z) && set_default_value(4, w);
+        return set_default_value(0, x) && set_default_value(1, y) &&
+               set_default_value(3, z) && set_default_value(4, w);
     }
 
     virtual void update_needed(void) = 0;
@@ -137,7 +137,7 @@ struct output_intf {
     virtual render_param_bits required_params(void) = 0;
 
     virtual bool needs_params(void) {
-	return bool(required_params());
+        return bool(required_params());
     }
 
     virtual std::ostream& definitions(std::ostream&, compile_context&) = 0;
@@ -159,10 +159,8 @@ struct output_intf {
     virtual bool render_parent(const render_params&) = 0;
 };
 
-bool
-connect_output_to_input(output_intf& output, input_intf& input);
-bool
-disconnect_output_from_input(output_intf& output, input_intf& input);
+bool connect_output_to_input(output_intf& output, input_intf& input);
+bool disconnect_output_from_input(output_intf& output, input_intf& input);
 
 struct node_intf {
     virtual ~node_intf(void) noexcept {
@@ -208,13 +206,13 @@ private:
     input_intf* _pimpl;
 
     input_intf& _impl(void) noexcept {
-	assert(is_valid());
-	return *_pimpl;
+        assert(is_valid());
+        return *_pimpl;
     }
 
     const input_intf& _impl(void) const noexcept {
-	assert(is_valid());
-	return *_pimpl;
+        assert(is_valid());
+        return *_pimpl;
     }
 
 public:
@@ -225,35 +223,35 @@ public:
     }
 
     bool is_valid(void) const noexcept {
-	return _pimpl != nullptr;
+        return _pimpl != nullptr;
     }
 
     explicit inline operator bool(void) const noexcept {
-	return is_valid();
+        return is_valid();
     }
 
-    bool operator!(void)const noexcept {
-	return !is_valid();
+    bool operator!(void) const noexcept {
+        return !is_valid();
     }
 
     friend bool operator==(const input_slot& a, const input_slot& b) noexcept {
-	return a.is_valid() && b.is_valid() && (a._pimpl == b._pimpl);
+        return a.is_valid() && b.is_valid() && (a._pimpl == b._pimpl);
     }
 
     friend bool operator!=(const input_slot& a, const input_slot& b) noexcept {
-	return a.is_valid() && b.is_valid() && (a._pimpl != b._pimpl);
+        return a.is_valid() && b.is_valid() && (a._pimpl != b._pimpl);
     }
 
     friend bool operator<(const input_slot& a, const input_slot& b) noexcept {
-	return a.is_valid() && b.is_valid() && (a._pimpl < b._pimpl);
+        return a.is_valid() && b.is_valid() && (a._pimpl < b._pimpl);
     }
 
     cstr_ref name(void) noexcept {
-	return _impl().name();
+        return _impl().name();
     }
 
     bool accepts_value_type(slot_data_type type) {
-	return _impl().accepts_value_type(type);
+        return _impl().accepts_value_type(type);
     }
 
     bool is_connected(output_slot& output);
@@ -268,8 +266,8 @@ private:
     output_intf* _pimpl;
 
     output_intf& _impl(void) noexcept {
-	assert(is_valid());
-	return *_pimpl;
+        assert(is_valid());
+        return *_pimpl;
     }
 
 public:
@@ -280,45 +278,45 @@ public:
     }
 
     bool is_valid(void) const noexcept {
-	return _pimpl != nullptr;
+        return _pimpl != nullptr;
     }
 
     explicit inline operator bool(void) const noexcept {
-	return is_valid();
+        return is_valid();
     }
 
-    bool operator!(void)const noexcept {
-	return !is_valid();
+    bool operator!(void) const noexcept {
+        return !is_valid();
     }
 
     friend bool operator==(
       const output_slot& a, const output_slot& b) noexcept {
-	return a.is_valid() && b.is_valid() && (a._pimpl == b._pimpl);
+        return a.is_valid() && b.is_valid() && (a._pimpl == b._pimpl);
     }
 
     friend bool operator!=(
       const output_slot& a, const output_slot& b) noexcept {
-	return a.is_valid() && b.is_valid() && (a._pimpl != b._pimpl);
+        return a.is_valid() && b.is_valid() && (a._pimpl != b._pimpl);
     }
 
     friend bool operator<(const output_slot& a, const output_slot& b) noexcept {
-	return a.is_valid() && b.is_valid() && (a._pimpl < b._pimpl);
+        return a.is_valid() && b.is_valid() && (a._pimpl < b._pimpl);
     }
 
     cstr_ref name(void) noexcept {
-	return _impl().name();
+        return _impl().name();
     }
 
     slot_data_type value_type(void) {
-	return _impl().value_type();
+        return _impl().value_type();
     }
 
     std::ostream& definitions(std::ostream& out, compile_context& ctxt) {
-	return _impl().definitions(out, ctxt);
+        return _impl().definitions(out, ctxt);
     }
 
     std::ostream& expression(std::ostream& out, compile_context& ctxt) {
-	return _impl().expression(out, ctxt);
+        return _impl().expression(out, ctxt);
     }
 
     bool is_connected(input_slot&);
@@ -327,7 +325,7 @@ public:
     bool disconnect(input_slot&);
 
     void notify_connected(void) {
-	_impl().notify_connected();
+        _impl().notify_connected();
     }
 };
 

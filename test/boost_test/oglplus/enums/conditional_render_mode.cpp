@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_conditional_render_mode
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_conditional_render_mode_tests)
 
@@ -167,8 +167,8 @@ BOOST_AUTO_TEST_CASE(enum_conditional_render_mode_names) {
     x = ev.query_by_region_no_wait_inverted;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "QUERY_BY_REGION_NO_WAIT_INVERTED")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "QUERY_BY_REGION_NO_WAIT_INVERTED") == 0);
 #endif
 
 #ifdef GL_QUERY_BY_REGION_WAIT
@@ -182,8 +182,8 @@ BOOST_AUTO_TEST_CASE(enum_conditional_render_mode_names) {
     x = ev.query_by_region_wait_inverted;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "QUERY_BY_REGION_WAIT_INVERTED")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "QUERY_BY_REGION_WAIT_INVERTED") ==
+      0);
 #endif
 
 #ifdef GL_QUERY_NO_WAIT
@@ -219,89 +219,97 @@ BOOST_AUTO_TEST_CASE(enum_conditional_render_mode_range) {
 
 #ifdef GL_QUERY_BY_REGION_NO_WAIT
     {
-	--count;
-	auto r = enum_value_range<conditional_render_mode>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      conditional_render_mode(GL_QUERY_BY_REGION_NO_WAIT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<conditional_render_mode>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            conditional_render_mode(GL_QUERY_BY_REGION_NO_WAIT)) != r.end());
     }
 #endif
 
 #ifdef GL_QUERY_BY_REGION_NO_WAIT_INVERTED
     {
-	--count;
-	auto r = enum_value_range<conditional_render_mode>();
-	BOOST_CHECK(
-	  std::find(r.begin(),
-	    r.end(),
-	    conditional_render_mode(GL_QUERY_BY_REGION_NO_WAIT_INVERTED))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<conditional_render_mode>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            conditional_render_mode(GL_QUERY_BY_REGION_NO_WAIT_INVERTED)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_QUERY_BY_REGION_WAIT
     {
-	--count;
-	auto r = enum_value_range<conditional_render_mode>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      conditional_render_mode(GL_QUERY_BY_REGION_WAIT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<conditional_render_mode>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            conditional_render_mode(GL_QUERY_BY_REGION_WAIT)) != r.end());
     }
 #endif
 
 #ifdef GL_QUERY_BY_REGION_WAIT_INVERTED
     {
-	--count;
-	auto r = enum_value_range<conditional_render_mode>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      conditional_render_mode(GL_QUERY_BY_REGION_WAIT_INVERTED))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<conditional_render_mode>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            conditional_render_mode(GL_QUERY_BY_REGION_WAIT_INVERTED)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_QUERY_NO_WAIT
     {
-	--count;
-	auto r = enum_value_range<conditional_render_mode>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), conditional_render_mode(GL_QUERY_NO_WAIT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<conditional_render_mode>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), conditional_render_mode(GL_QUERY_NO_WAIT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_QUERY_NO_WAIT_INVERTED
     {
-	--count;
-	auto r = enum_value_range<conditional_render_mode>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      conditional_render_mode(GL_QUERY_NO_WAIT_INVERTED))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<conditional_render_mode>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            conditional_render_mode(GL_QUERY_NO_WAIT_INVERTED)) != r.end());
     }
 #endif
 
 #ifdef GL_QUERY_WAIT
     {
-	--count;
-	auto r = enum_value_range<conditional_render_mode>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), conditional_render_mode(GL_QUERY_WAIT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<conditional_render_mode>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), conditional_render_mode(GL_QUERY_WAIT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_QUERY_WAIT_INVERTED
     {
-	--count;
-	auto r = enum_value_range<conditional_render_mode>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), conditional_render_mode(GL_QUERY_WAIT_INVERTED))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<conditional_render_mode>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            conditional_render_mode(GL_QUERY_WAIT_INVERTED)) != r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

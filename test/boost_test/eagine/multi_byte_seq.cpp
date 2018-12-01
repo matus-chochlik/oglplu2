@@ -23,21 +23,21 @@ BOOST_AUTO_TEST_CASE(multi_byte_seq_1) {
 
     for(span_size_t l = 1; l <= 6; ++l) {
 
-	bytes.resize(std_size(l));
-	while(cp < mbs::max_code_point(l).value()) {
+        bytes.resize(std_size(l));
+        while(cp < mbs::max_code_point(l).value()) {
 
-	    BOOST_CHECK(mbs::encode_code_point(cp, make_span(bytes)));
-	    BOOST_CHECK(
-	      mbs::is_valid_encoding(mbs::make_cbyte_span(make_span(bytes))));
+            BOOST_CHECK(mbs::encode_code_point(cp, make_span(bytes)));
+            BOOST_CHECK(
+              mbs::is_valid_encoding(mbs::make_cbyte_span(make_span(bytes))));
 
-	    cp2 = mbs::decode_code_point(mbs::make_cbyte_span(make_span(bytes)))
-		    .value();
+            cp2 = mbs::decode_code_point(mbs::make_cbyte_span(make_span(bytes)))
+                    .value();
 
-	    BOOST_CHECK_EQUAL(cp, cp2);
+            BOOST_CHECK_EQUAL(cp, cp2);
 
-	    cp +=
-	      rg.get<mbs::code_point_t>(1, mbs::code_point_t(l * l * l * l));
-	}
+            cp +=
+              rg.get<mbs::code_point_t>(1, mbs::code_point_t(l * l * l * l));
+        }
     }
 }
 
@@ -49,33 +49,33 @@ BOOST_AUTO_TEST_CASE(multi_byte_seq_2) {
 
     for(int i = 0; i < 10000; ++i) {
 
-	std::size_t len = rg.get<std::size_t>(1, 100);
-	cps.resize(len);
+        std::size_t len = rg.get<std::size_t>(1, 100);
+        cps.resize(len);
 
-	for(mbs::code_point& cp : cps) {
-	    do {
-		cp = rg.get_any<mbs::code_point_t>();
-	    } while(!cp.is_valid());
-	}
+        for(mbs::code_point& cp : cps) {
+            do {
+                cp = rg.get_any<mbs::code_point_t>();
+            } while(!cp.is_valid());
+        }
 
-	bytes.resize(
-	  std_size(mbs::encoding_bytes_required(make_span(cps)).value()));
+        bytes.resize(
+          std_size(mbs::encoding_bytes_required(make_span(cps)).value()));
 
-	BOOST_CHECK(mbs::encode_code_points(make_span(cps), make_span(bytes)));
+        BOOST_CHECK(mbs::encode_code_points(make_span(cps), make_span(bytes)));
 
-	BOOST_ASSERT(
-	  mbs::is_valid_encoding(mbs::make_cbyte_span(make_span(bytes))));
+        BOOST_ASSERT(
+          mbs::is_valid_encoding(mbs::make_cbyte_span(make_span(bytes))));
 
-	cps2.resize(std_size(mbs::decoding_code_points_required(
-	  mbs::make_cbyte_span(make_span(bytes)))
-			       .value()));
+        cps2.resize(std_size(mbs::decoding_code_points_required(
+                               mbs::make_cbyte_span(make_span(bytes)))
+                               .value()));
 
-	BOOST_ASSERT(cps.size() == cps2.size());
+        BOOST_ASSERT(cps.size() == cps2.size());
 
-	BOOST_CHECK(mbs::decode_code_points(
-	  mbs::make_cbyte_span(make_span(bytes)), make_span(cps2)));
+        BOOST_CHECK(mbs::decode_code_points(
+          mbs::make_cbyte_span(make_span(bytes)), make_span(cps2)));
 
-	BOOST_CHECK(make_span(cps) == make_span(cps2));
+        BOOST_CHECK(make_span(cps) == make_span(cps2));
     }
 }
 

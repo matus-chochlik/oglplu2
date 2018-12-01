@@ -55,12 +55,12 @@ public:
     example_params(void) noexcept;
 
     example_params& exec_command(eagine::valid_if_not_empty<cstr_ref> cmd) {
-	_exec_cmd = cmd.value();
-	return *this;
+        _exec_cmd = cmd.value();
+        return *this;
     }
 
     cstr_ref exec_command(void) const noexcept {
-	return _exec_cmd;
+        return _exec_cmd;
     }
 
     bool is_readable_file(cstr_ref path) const noexcept;
@@ -70,7 +70,7 @@ public:
 
     eagine::valid_if_not_empty<std::string> find_resource_file_path(
       cstr_ref res_name) const noexcept {
-	return find_resource_file_path(cstr_ref(), res_name);
+        return find_resource_file_path(cstr_ref(), res_name);
     }
 
     eagine::valid_if_not_empty<std::string> find_resource_file_path(
@@ -80,197 +80,196 @@ public:
       example_resource_type, cstr_ref res_name) const;
 
     example_params& screenshot_path(eagine::valid_if_not_empty<cstr_ref> path) {
-	_screenshot_path = path.value();
-	return *this;
+        _screenshot_path = path.value();
+        return *this;
     }
 
     cstr_ref screenshot_path(void) const noexcept {
-	return _screenshot_path;
+        return _screenshot_path;
     }
 
     bool doing_screenshot(void) const noexcept {
-	return !_screenshot_path.empty();
+        return !_screenshot_path.empty();
     }
 
     example_params& screenshot_time(seconds_t<float> ss_time) {
-	_screenshot_time = value(ss_time);
-	return *this;
+        _screenshot_time = value(ss_time);
+        return *this;
     }
 
     seconds_t<float> screenshot_time(void) const noexcept {
-	return seconds_(_screenshot_time);
+        return seconds_(_screenshot_time);
     }
 
     example_params& framedump_prefix(
       eagine::valid_if_not_empty<cstr_ref> prefix) {
-	_framedump_prefix = prefix.value();
-	return *this;
+        _framedump_prefix = prefix.value();
+        return *this;
     }
 
     cstr_ref framedump_prefix(void) const noexcept {
-	return _framedump_prefix;
+        return _framedump_prefix;
     }
 
     bool doing_framedump(void) const noexcept {
-	return !_framedump_prefix.empty();
+        return !_framedump_prefix.empty();
     }
 
     bool fixed_framerate(void) const noexcept {
-	return doing_screenshot() || doing_framedump();
+        return doing_screenshot() || doing_framedump();
     }
 
     example_params& fixed_fps(eagine::valid_if_positive<float> fps) noexcept {
-	_fixed_fps = fps.value();
-	return *this;
+        _fixed_fps = fps.value();
+        return *this;
     }
 
     float frame_time(void) const noexcept {
-	return 1.0f / _fixed_fps;
+        return 1.0f / _fixed_fps;
     }
 
     example_params& window_x_pos(int pos) noexcept {
-	_x_pos = pos;
-	return *this;
+        _x_pos = pos;
+        return *this;
     }
 
     int window_x_pos(void) const noexcept {
-	return _x_pos;
+        return _x_pos;
     }
 
     example_params& window_y_pos(int pos) noexcept {
-	_y_pos = pos;
-	return *this;
+        _y_pos = pos;
+        return *this;
     }
 
     int window_y_pos(void) const noexcept {
-	return _y_pos;
+        return _y_pos;
     }
 
     example_params& rand_seed(unsigned seed) noexcept {
-	_rand_seed = seed;
-	return *this;
+        _rand_seed = seed;
+        return *this;
     }
 
     unsigned rand_seed(void) const noexcept {
-	return _rand_seed;
+        return _rand_seed;
     }
 
     example_params& compatibility_context(bool v) noexcept {
-	_compat_ctxt = v;
-	return *this;
+        _compat_ctxt = v;
+        return *this;
     }
 
     bool compatibility_context(void) const noexcept {
-	return _compat_ctxt;
+        return _compat_ctxt;
     }
 
     example_params& debugging_context(bool v) noexcept {
-	_debug_ctxt = v;
-	return *this;
+        _debug_ctxt = v;
+        return *this;
     }
 
     bool debugging_context(void) const noexcept {
-	return _debug_ctxt;
+        return _debug_ctxt;
     }
 
     example_params& auto_tiles(bool v) noexcept {
-	_auto_tiles = v;
-	return *this;
+        _auto_tiles = v;
+        return *this;
     }
 
     bool auto_tiles(void) const noexcept {
-	return _auto_tiles;
+        return _auto_tiles;
     }
 
     example_params& x_tiles(eagine::valid_if_positive<int> n) noexcept {
-	_x_tiles = n.value();
-	return *this;
+        _x_tiles = n.value();
+        return *this;
     }
 
     int x_tiles(void) const noexcept {
-	return _x_tiles;
+        return _x_tiles;
     }
 
     example_params& y_tiles(eagine::valid_if_positive<int> n) noexcept {
-	_y_tiles = n.value();
-	return *this;
+        _y_tiles = n.value();
+        return *this;
     }
 
     int y_tiles(void) const noexcept {
-	return _y_tiles;
+        return _y_tiles;
     }
 
     example_params& demo_mode(bool v) noexcept {
-	_demo_mode = v;
-	return *this;
+        _demo_mode = v;
+        return *this;
     }
 
     bool demo_mode(void) const noexcept {
-	return _demo_mode;
+        return _demo_mode;
     }
 
     example_params& samples(eagine::valid_if_positive<int> n) noexcept {
-	_samples = n.value();
-	return *this;
+        _samples = n.value();
+        return *this;
     }
 
     example_params& samples_dont_care(void) noexcept {
-	_samples = 0;
-	return *this;
+        _samples = 0;
+        return *this;
     }
 
     eagine::valid_if_positive<int> samples(void) const noexcept {
-	return _samples;
+        return _samples;
     }
 
     example_params& color_bits(int n) noexcept {
-	assert(n >= 0);
-	_color_bits = n;
-	return *this;
+        assert(n >= 0);
+        _color_bits = n;
+        return *this;
     }
 
     int color_bits(void) const noexcept {
-	return _color_bits;
+        return _color_bits;
     }
 
     example_params& with_alpha(bool v) noexcept {
-	_alpha_bits = v ? 8 : 0;
-	return *this;
+        _alpha_bits = v ? 8 : 0;
+        return *this;
     }
 
     int alpha_bits(void) const noexcept {
-	return _alpha_bits;
+        return _alpha_bits;
     }
 
     example_params& depth_buffer(bool v) noexcept {
-	_depth_bits = v ? 24 : 0;
-	return *this;
+        _depth_bits = v ? 24 : 0;
+        return *this;
     }
 
     int depth_bits(void) const noexcept {
-	return _depth_bits;
+        return _depth_bits;
     }
 
     bool depth_buffer(void) const noexcept {
-	return _depth_bits > 0;
+        return _depth_bits > 0;
     }
 
     example_params& stencil_buffer(bool v) noexcept {
-	_stencil_bits = v ? 8 : 0;
-	return *this;
+        _stencil_bits = v ? 8 : 0;
+        return *this;
     }
 
     int stencil_bits(void) const noexcept {
-	return _stencil_bits;
+        return _stencil_bits;
     }
 
     bool stencil_buffer(void) const noexcept {
-	return _stencil_bits > 0;
+        return _stencil_bits > 0;
     }
 };
 
-extern void
-adjust_params(example_params&);
+extern void adjust_params(example_params&);
 
 } // namespace oglplus
 

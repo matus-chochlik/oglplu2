@@ -13,7 +13,8 @@ namespace oglplus {
 namespace texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-voronoi2d_output::voronoi2d_output(node_intf& parent,
+voronoi2d_output::voronoi2d_output(
+  node_intf& parent,
   input_with_const_default<float[2]>& input,
   input_with_const_default<float[2]>& cells,
   voronoi_output_type type)
@@ -27,16 +28,16 @@ OGLPLUS_LIB_FUNC
 short
 voronoi2d_output::order(void) const {
     switch(_type) {
-	case voronoi_output_type::distance3:
-	    return 3;
-	case voronoi_output_type::distance2:
-	    return 2;
-	case voronoi_output_type::distance1:
-	case voronoi_output_type::cell_coord:
-	case voronoi_output_type::cell_center:
-	    return 1;
-	case voronoi_output_type::input_cell_center:
-	    break;
+        case voronoi_output_type::distance3:
+            return 3;
+        case voronoi_output_type::distance2:
+            return 2;
+        case voronoi_output_type::distance1:
+        case voronoi_output_type::cell_coord:
+        case voronoi_output_type::cell_center:
+            return 1;
+        case voronoi_output_type::input_cell_center:
+            break;
     }
     return 0;
 }
@@ -45,18 +46,18 @@ OGLPLUS_LIB_FUNC
 cstr_ref
 voronoi2d_output::type_abbr(void) const {
     switch(_type) {
-	case voronoi_output_type::distance1:
-	    return cstr_ref("Dist");
-	case voronoi_output_type::distance2:
-	    return cstr_ref("Dist2");
-	case voronoi_output_type::distance3:
-	    return cstr_ref("Dist3");
-	case voronoi_output_type::cell_coord:
-	    return cstr_ref("CCrd");
-	case voronoi_output_type::cell_center:
-	    return cstr_ref("CCtr");
-	case voronoi_output_type::input_cell_center:
-	    return cstr_ref("InCell");
+        case voronoi_output_type::distance1:
+            return cstr_ref("Dist");
+        case voronoi_output_type::distance2:
+            return cstr_ref("Dist2");
+        case voronoi_output_type::distance3:
+            return cstr_ref("Dist3");
+        case voronoi_output_type::cell_coord:
+            return cstr_ref("CCrd");
+        case voronoi_output_type::cell_center:
+            return cstr_ref("CCtr");
+        case voronoi_output_type::input_cell_center:
+            return cstr_ref("InCell");
     }
     return cstr_ref();
 }
@@ -71,15 +72,15 @@ OGLPLUS_LIB_FUNC
 slot_data_type
 voronoi2d_output::value_type(void) {
     switch(_type) {
-	case voronoi_output_type::distance1:
-	case voronoi_output_type::distance2:
-	case voronoi_output_type::distance3:
-	    return slot_data_type::float_;
-	case voronoi_output_type::cell_coord:
-	case voronoi_output_type::cell_center:
-	    return slot_data_type::float_2;
-	case voronoi_output_type::input_cell_center:
-	    break;
+        case voronoi_output_type::distance1:
+        case voronoi_output_type::distance2:
+        case voronoi_output_type::distance3:
+            return slot_data_type::float_;
+        case voronoi_output_type::cell_coord:
+        case voronoi_output_type::cell_center:
+            return slot_data_type::float_2;
+        case voronoi_output_type::input_cell_center:
+            break;
     }
     return _input.value_type();
 }
@@ -94,7 +95,7 @@ OGLPLUS_LIB_FUNC
 std::ostream&
 voronoi2d_output::definitions(std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt))
-	return out;
+        return out;
 
     input_defs(out, ctxt);
 
@@ -106,16 +107,16 @@ voronoi2d_output::definitions(std::ostream& out, compile_context& ctxt) {
     const short ord = order();
 
     if(_type != voronoi_output_type::input_cell_center) {
-	out << "\tfloat min_dist[" << ord << "];" << std::endl;
-	for(short o = 0; o < ord; ++o) {
-	    out << "\tmin_dist[" << o << "] = 2.0;" << std::endl;
-	}
+        out << "\tfloat min_dist[" << ord << "];" << std::endl;
+        for(short o = 0; o < ord; ++o) {
+            out << "\tmin_dist[" << o << "] = 2.0;" << std::endl;
+        }
     }
 
     if(_type == voronoi_output_type::cell_coord) {
-	out << "\tvec2 min_cell_coord[" << ord << "];" << std::endl;
+        out << "\tvec2 min_cell_coord[" << ord << "];" << std::endl;
     } else if(_type == voronoi_output_type::cell_center) {
-	out << "\tvec2 min_cell_center[" << ord << "];" << std::endl;
+        out << "\tvec2 min_cell_center[" << ord << "];" << std::endl;
     }
 
     out << "\tvec2 norm_coord = vec2(";
@@ -130,24 +131,24 @@ voronoi2d_output::definitions(std::ostream& out, compile_context& ctxt) {
     out << std::endl;
 
     if(_type == voronoi_output_type::input_cell_center) {
-	slot_data_type vt = value_type();
+        slot_data_type vt = value_type();
 
-	out << "\tvec2 cell_coord = floor(norm_coord*cell_count)*";
-	out << "cell_size;" << std::endl;
-	out << "\treturn ";
-	out << expr::conversion_prefix{_input.value_type(), vt};
-	out << expr::output_id{_input.output(), ctxt};
+        out << "\tvec2 cell_coord = floor(norm_coord*cell_count)*";
+        out << "cell_size;" << std::endl;
+        out << "\treturn ";
+        out << expr::conversion_prefix{_input.value_type(), vt};
+        out << expr::output_id{_input.output(), ctxt};
 
-	if(_input.output().needs_params()) {
-	    out << "(" << std::endl;
-	    out << "\t\tvec3(cell_coord,0)," << std::endl;
-	    out << "\t\tvec3(cell_size, 1)," << std::endl;
-	    out << "\t\tvec3(0)" << std::endl;
-	    out << "\t)";
-	}
-	out << expr::conversion_suffix{_input.value_type(), vt};
-	out << ";" << std::endl;
-	return closing_expr(out, ctxt);
+        if(_input.output().needs_params()) {
+            out << "(" << std::endl;
+            out << "\t\tvec3(cell_coord,0)," << std::endl;
+            out << "\t\tvec3(cell_size, 1)," << std::endl;
+            out << "\t\tvec3(0)" << std::endl;
+            out << "\t)";
+        }
+        out << expr::conversion_suffix{_input.value_type(), vt};
+        out << ";" << std::endl;
+        return closing_expr(out, ctxt);
     }
 
     out << "\tfor(int i=0; i<9; ++i)" << std::endl;
@@ -161,11 +162,11 @@ voronoi2d_output::definitions(std::ostream& out, compile_context& ctxt) {
     out << expr::output_id{_input.output(), ctxt};
 
     if(_input.output().needs_params()) {
-	out << "(" << std::endl;
-	out << "\t\t\tvec3(cell_coord,0)," << std::endl;
-	out << "\t\t\tvec3(cell_size, 1)," << std::endl;
-	out << "\t\t\tvec3(0)" << std::endl;
-	out << "\t\t)";
+        out << "(" << std::endl;
+        out << "\t\t\tvec3(cell_coord,0)," << std::endl;
+        out << "\t\t\tvec3(cell_size, 1)," << std::endl;
+        out << "\t\t\tvec3(0)" << std::endl;
+        out << "\t\t)";
     }
 
     out << expr::conversion_suffix{_input.value_type(), v2};
@@ -184,22 +185,22 @@ voronoi2d_output::definitions(std::ostream& out, compile_context& ctxt) {
     out << "\t\t\t\t\tmin_dist[k] = min_dist[k-1];" << std::endl;
 
     if(_type == voronoi_output_type::cell_coord) {
-	out << "\t\t\t\t\tmin_cell_coord[k] = min_cell_coord[k-1];";
-	out << std::endl;
+        out << "\t\t\t\t\tmin_cell_coord[k] = min_cell_coord[k-1];";
+        out << std::endl;
     } else if(_type == voronoi_output_type::cell_center) {
-	out << "\t\t\t\t\tmin_cell_center[k] = min_cell_center[k-1];";
-	out << std::endl;
+        out << "\t\t\t\t\tmin_cell_center[k] = min_cell_center[k-1];";
+        out << std::endl;
     }
 
     out << "\t\t\t\t}" << std::endl;
     out << "\t\t\t\tmin_dist[o] = dist;" << std::endl;
 
     if(_type == voronoi_output_type::cell_coord) {
-	out << "\t\t\t\tmin_cell_coord[o] = cell_coord;";
-	out << std::endl;
+        out << "\t\t\t\tmin_cell_coord[o] = cell_coord;";
+        out << std::endl;
     } else if(_type == voronoi_output_type::cell_center) {
-	out << "\t\t\t\tmin_cell_center[o] = abs_cell_center;";
-	out << std::endl;
+        out << "\t\t\t\tmin_cell_center[o] = abs_cell_center;";
+        out << std::endl;
     }
 
     out << "\t\t\t\tbreak;" << std::endl;
@@ -208,20 +209,20 @@ voronoi2d_output::definitions(std::ostream& out, compile_context& ctxt) {
     out << "\t}" << std::endl;
 
     switch(_type) {
-	case voronoi_output_type::distance1:
-	case voronoi_output_type::distance2:
-	case voronoi_output_type::distance3:
-	    out << "\treturn min_dist[" << (ord - 1) << "]*";
-	    out << "min(cell_count.x, cell_count.y)/sqrt(2.0);";
-	    break;
-	case voronoi_output_type::cell_coord:
-	    out << "\treturn min_cell_coord[" << (ord - 1) << "];";
-	    break;
-	case voronoi_output_type::cell_center:
-	    out << "\treturn min_cell_center[" << (ord - 1) << "];";
-	    break;
-	case voronoi_output_type::input_cell_center:
-	    break;
+        case voronoi_output_type::distance1:
+        case voronoi_output_type::distance2:
+        case voronoi_output_type::distance3:
+            out << "\treturn min_dist[" << (ord - 1) << "]*";
+            out << "min(cell_count.x, cell_count.y)/sqrt(2.0);";
+            break;
+        case voronoi_output_type::cell_coord:
+            out << "\treturn min_cell_coord[" << (ord - 1) << "];";
+            break;
+        case voronoi_output_type::cell_center:
+            out << "\treturn min_cell_center[" << (ord - 1) << "];";
+            break;
+        case voronoi_output_type::input_cell_center:
+            break;
     }
     out << std::endl;
 
@@ -265,7 +266,7 @@ OGLPLUS_LIB_FUNC
 input_intf&
 voronoi2d_node::input(span_size_t index) {
     if(index == 0)
-	return _input;
+        return _input;
     assert(index < input_count());
     return _cells;
 }
@@ -280,15 +281,15 @@ OGLPLUS_LIB_FUNC
 output_intf&
 voronoi2d_node::output(span_size_t index) {
     if(index == 0)
-	return _distance1;
+        return _distance1;
     if(index == 1)
-	return _distance2;
+        return _distance2;
     if(index == 2)
-	return _distance3;
+        return _distance3;
     if(index == 3)
-	return _cell_coord;
+        return _cell_coord;
     if(index == 4)
-	return _cell_center;
+        return _cell_center;
     assert(index < output_count());
     return _input_cell_center;
 }

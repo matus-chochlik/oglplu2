@@ -37,7 +37,7 @@ bool
 example_args::_parse_param(example_param<T>& param) const {
     eagine::program_parameter<T> temp(param._stag, param._ltag, param._value);
     if(_args.parse_param(temp, _errlog)) {
-	param._value = temp.value();
+        param._value = temp.value();
     }
     return false;
 }

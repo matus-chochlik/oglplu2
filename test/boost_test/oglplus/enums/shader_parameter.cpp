@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_shader_parameter
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_shader_parameter_tests)
 
@@ -125,52 +125,52 @@ BOOST_AUTO_TEST_CASE(enum_shader_parameter_range) {
 
 #ifdef GL_COMPILE_STATUS
     {
-	--count;
-	auto r = enum_value_range<shader_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), shader_parameter(GL_COMPILE_STATUS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<shader_parameter>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), shader_parameter(GL_COMPILE_STATUS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_DELETE_STATUS
     {
-	--count;
-	auto r = enum_value_range<shader_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), shader_parameter(GL_DELETE_STATUS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<shader_parameter>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), shader_parameter(GL_DELETE_STATUS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INFO_LOG_LENGTH
     {
-	--count;
-	auto r = enum_value_range<shader_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), shader_parameter(GL_INFO_LOG_LENGTH))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<shader_parameter>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), shader_parameter(GL_INFO_LOG_LENGTH)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SHADER_SOURCE_LENGTH
     {
-	--count;
-	auto r = enum_value_range<shader_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), shader_parameter(GL_SHADER_SOURCE_LENGTH))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<shader_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), shader_parameter(GL_SHADER_SOURCE_LENGTH)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SHADER_TYPE
     {
-	--count;
-	auto r = enum_value_range<shader_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), shader_parameter(GL_SHADER_TYPE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<shader_parameter>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), shader_parameter(GL_SHADER_TYPE)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

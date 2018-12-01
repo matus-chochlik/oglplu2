@@ -17,14 +17,14 @@ void
 test_vect_from_array_TNV(void) {
     T a[N];
     for(int i = 0; i < N; ++i) {
-	a[i] = rg.get_any<T>();
+        a[i] = rg.get_any<T>();
     }
 
     typename eagine::vect::data<T, N, V>::type v =
       eagine::vect::from_array<T, N, V>::apply(a, N);
 
     for(int i = 0; i < N; ++i) {
-	BOOST_CHECK_EQUAL(v[i], a[i]);
+        BOOST_CHECK_EQUAL(v[i], a[i]);
     }
 }
 
@@ -49,9 +49,9 @@ test_vect_from_array_T(void) {
 
 BOOST_AUTO_TEST_CASE(vect_from_array) {
     for(int k = 0; k < 1000; ++k) {
-	test_vect_from_array_T<int>();
-	test_vect_from_array_T<float>();
-	test_vect_from_array_T<double>();
+        test_vect_from_array_T<int>();
+        test_vect_from_array_T<float>();
+        test_vect_from_array_T<double>();
     }
 }
 
@@ -62,7 +62,7 @@ test_vect_from_saafv_TNMV(void) {
 
     T a[M];
     for(int i = 0; i < M; ++i) {
-	a[i] = rg.get_any<T>();
+        a[i] = rg.get_any<T>();
     }
     T f = rg.get_any<T>();
 
@@ -70,10 +70,10 @@ test_vect_from_saafv_TNMV(void) {
       eagine::vect::from_saafv<T, N, V>::apply(a, M, f);
 
     for(int i = 0; i < M; ++i) {
-	BOOST_CHECK_EQUAL(v[i], a[i]);
+        BOOST_CHECK_EQUAL(v[i], a[i]);
     }
     for(int i = M; i < N; ++i) {
-	BOOST_CHECK_EQUAL(v[i], f);
+        BOOST_CHECK_EQUAL(v[i], f);
     }
 }
 
@@ -132,9 +132,9 @@ test_vect_from_saafv_T(void) {
 
 BOOST_AUTO_TEST_CASE(vect_from_saafv) {
     for(int k = 0; k < 1000; ++k) {
-	test_vect_from_saafv_T<int>();
-	test_vect_from_saafv_T<float>();
-	test_vect_from_saafv_T<double>();
+        test_vect_from_saafv_T<int>();
+        test_vect_from_saafv_T<float>();
+        test_vect_from_saafv_T<double>();
     }
 }
 

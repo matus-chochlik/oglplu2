@@ -38,8 +38,8 @@ program_ops::link_program(program_name prog) noexcept {
 inline outcome<void>
 program_ops::report_program_link_error(program_name prog) noexcept {
     if(!get_program_link_status(prog).value()) {
-	OGLPLUS_REPORT_ERROR(
-	  LinkProgram, GL_INVALID_OPERATION, info_log_of(prog), always);
+        OGLPLUS_REPORT_ERROR(
+          LinkProgram, GL_INVALID_OPERATION, info_log_of(prog), always);
     }
     return {};
 }
@@ -54,8 +54,8 @@ program_ops::validate_program(program_name prog) noexcept {
 inline outcome<void>
 program_ops::report_program_validate_error(program_name prog) noexcept {
     if(!get_program_validate_status(prog).value()) {
-	OGLPLUS_REPORT_ERROR(
-	  ValidateProgram, GL_INVALID_OPERATION, info_log_of(prog), always);
+        OGLPLUS_REPORT_ERROR(
+          ValidateProgram, GL_INVALID_OPERATION, info_log_of(prog), always);
     }
     return {};
 }
@@ -72,7 +72,7 @@ program_ops::current_program(void) noexcept {
 #ifdef GL_CURRENT_PROGRAM
     GLint result = 0;
     return numeric_queries::get_integer_v(
-      binding_query(GL_CURRENT_PROGRAM), {&result, 1})
+             binding_query(GL_CURRENT_PROGRAM), {&result, 1})
       .add(program_name(GLuint(result)));
 #else
     return program_name(0);
@@ -92,7 +92,8 @@ program_ops::program_parameter_i(
 inline outcome<void>
 program_ops::program_binary_retrievable_hint(
   program_name prog, boolean value) noexcept {
-    return program_parameter_i(prog,
+    return program_parameter_i(
+      prog,
       program_parameter(GL_PROGRAM_BINARY_RETRIEVABLE_HINT),
       GLboolean(value));
 }
@@ -195,7 +196,8 @@ program_ops::get_program_active_attribute_max_length(
 }
 //------------------------------------------------------------------------------
 inline outcome<GLsizei>
-program_ops::get_active_attrib(program_name prog,
+program_ops::get_active_attrib(
+  program_name prog,
   GLuint index,
   span<char> name,
   GLint& size,
@@ -204,12 +206,12 @@ program_ops::get_active_attrib(program_name prog,
     GLsizei reallen = 0;
     OGLPLUS_GLFUNC(GetActiveAttrib)
     (get_raw_name(prog),
-      index,
-      GLsizei(name.size()),
-      &reallen,
-      &size,
-      &sl_type,
-      name.data());
+     index,
+     GLsizei(name.size()),
+     &reallen,
+     &size,
+     &sl_type,
+     name.data());
     OGLPLUS_VERIFY(GetActiveAttrib, gl_object(prog).gl_index(index), always);
     type = sl_data_type(sl_type);
     return {reallen};
@@ -228,7 +230,8 @@ program_ops::get_program_active_uniform_max_length(program_name prog) noexcept {
 }
 //------------------------------------------------------------------------------
 inline outcome<GLsizei>
-program_ops::get_active_uniform(program_name prog,
+program_ops::get_active_uniform(
+  program_name prog,
   GLuint index,
   span<char> name,
   GLint& size,
@@ -237,12 +240,12 @@ program_ops::get_active_uniform(program_name prog,
     GLsizei reallen = 0;
     OGLPLUS_GLFUNC(GetActiveUniform)
     (get_raw_name(prog),
-      index,
-      GLsizei(name.size()),
-      &reallen,
-      &size,
-      &sl_type,
-      name.data());
+     index,
+     GLsizei(name.size()),
+     &reallen,
+     &size,
+     &sl_type,
+     name.data());
     OGLPLUS_VERIFY(GetActiveUniform, gl_object(prog).gl_index(index), always);
     type = sl_data_type(sl_type);
     return {reallen};
@@ -293,7 +296,9 @@ inline outcome<compute_work_group_size>
 program_ops::get_program_compute_work_group_size(program_name prog) noexcept {
     compute_work_group_size result(0, 0, 0);
     return get_program_iv(
-      prog, program_parameter(GL_COMPUTE_WORK_GROUP_SIZE), {result._v, 3})
+             prog,
+             program_parameter(GL_COMPUTE_WORK_GROUP_SIZE),
+             {result._v, 3})
       .add(result);
 }
 #endif
@@ -314,17 +319,18 @@ program_ops::bind_attrib_location(
 inline deferred_error_handler
 obj_gen_del_ops<tag::program>::_gen(span<GLuint> names) noexcept {
     for(auto b = names.begin(), i = b, e = names.end(); i != e; ++i) {
-	*i = OGLPLUS_GLFUNC(CreateProgram)();
-	GLenum error_code = OGLPLUS_GLFUNC(GetError)();
-	if(error_code != GL_NO_ERROR) {
-	    for(auto j = b; j != i; ++j) {
-		OGLPLUS_GLFUNC(DeleteProgram)(*j);
-		OGLPLUS_VERIFY_SIMPLE(DeleteProgram, fatal);
-	    }
-	    OGLPLUS_RETURN_HANDLER_IF_GL_ERROR(error_code,
-	      gl_library_name("gl").gl_function_name("CreateProgram"),
-	      debug);
-	}
+        *i = OGLPLUS_GLFUNC(CreateProgram)();
+        GLenum error_code = OGLPLUS_GLFUNC(GetError)();
+        if(error_code != GL_NO_ERROR) {
+            for(auto j = b; j != i; ++j) {
+                OGLPLUS_GLFUNC(DeleteProgram)(*j);
+                OGLPLUS_VERIFY_SIMPLE(DeleteProgram, fatal);
+            }
+            OGLPLUS_RETURN_HANDLER_IF_GL_ERROR(
+              error_code,
+              gl_library_name("gl").gl_function_name("CreateProgram"),
+              debug);
+        }
     }
     return {};
 }
@@ -341,8 +347,8 @@ obj_gen_del_ops<tag::program>::_create(span<GLuint> names) noexcept {
 inline deferred_error_handler
 obj_gen_del_ops<tag::program>::_delete(span<GLuint> names) noexcept {
     for(auto& name : names) {
-	OGLPLUS_GLFUNC(DeleteProgram)(name);
-	OGLPLUS_VERIFY_SIMPLE(DeleteProgram, debug);
+        OGLPLUS_GLFUNC(DeleteProgram)(name);
+        OGLPLUS_VERIFY_SIMPLE(DeleteProgram, debug);
     }
     return {};
 }

@@ -19,13 +19,15 @@ namespace oalplus {
 struct enum_values {
 
 #ifdef AL_BITS
-    static constexpr const enum_value<ALenum,
+    static constexpr const enum_value<
+      ALenum,
       mp_list<oalplus::buffer_parameter>>
       bits = {AL_BITS};
 #endif
 
 #ifdef AL_CHANNELS
-    static constexpr const enum_value<ALenum,
+    static constexpr const enum_value<
+      ALenum,
       mp_list<oalplus::buffer_parameter>>
       channels = {AL_CHANNELS};
 #endif
@@ -66,7 +68,8 @@ struct enum_values {
 #endif
 
 #ifdef AL_FREQUENCY
-    static constexpr const enum_value<ALenum,
+    static constexpr const enum_value<
+      ALenum,
       mp_list<oalplus::buffer_parameter>>
       frequency = {AL_FREQUENCY};
 #endif
@@ -147,7 +150,8 @@ struct enum_values {
 #endif
 
 #ifdef AL_SIZE
-    static constexpr const enum_value<ALenum,
+    static constexpr const enum_value<
+      ALenum,
       mp_list<oalplus::buffer_parameter>>
       size = {AL_SIZE};
 #endif

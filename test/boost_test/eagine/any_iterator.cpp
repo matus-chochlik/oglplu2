@@ -18,7 +18,8 @@ static eagine::test_random_generator rg;
 
 template <typename T>
 void
-test_any_iterator_1_I(const eagine::any_std_forward_iterator<T>& b,
+test_any_iterator_1_I(
+  const eagine::any_std_forward_iterator<T>& b,
   const eagine::any_std_forward_iterator<T>& e) {
     std::vector<T> v(b, e);
 
@@ -32,7 +33,7 @@ test_any_iterator_1_T(void) {
     const int n = rg.get_int(10, 100);
 
     for(int i = 0; i < n; ++i) {
-	s.insert(rg.get_any<T>());
+        s.insert(rg.get_any<T>());
     }
 
     test_any_iterator_1_I<T>(s.begin(), s.end());
@@ -56,17 +57,17 @@ test_any_iterator_2_T(void) {
 
     T tmp = T(0);
     for(T& val : vec) {
-	val = tmp++;
+        val = tmp++;
     }
 
     tmp = T(0);
     for(auto i = b; i != e; ++i, ++tmp) {
-	BOOST_CHECK_EQUAL(*i, tmp);
+        BOOST_CHECK_EQUAL(*i, tmp);
     }
 
     tmp = T(0);
     for(auto i = b; i != e; i++, ++tmp) {
-	BOOST_CHECK_EQUAL(*i, tmp);
+        BOOST_CHECK_EQUAL(*i, tmp);
     }
 }
 
@@ -87,19 +88,19 @@ test_any_iterator_3_T(void) {
 
     T tmp = T(0);
     for(T& val : vec) {
-	val = tmp++;
+        val = tmp++;
     }
 
     tmp = T(0);
     for(const T& val : rng) {
-	BOOST_CHECK_EQUAL(val, tmp);
-	++tmp;
+        BOOST_CHECK_EQUAL(val, tmp);
+        ++tmp;
     }
 
     tmp = T(0);
     for(const T& val : rng) {
-	BOOST_CHECK_EQUAL(val, tmp);
-	++tmp;
+        BOOST_CHECK_EQUAL(val, tmp);
+        ++tmp;
     }
 }
 

@@ -19,8 +19,7 @@
 
 namespace oglplus {
 
-binding_query
-get_binding_query(transform_feedback_target tgt) noexcept;
+binding_query get_binding_query(transform_feedback_target tgt) noexcept;
 
 namespace oper {
 
@@ -41,11 +40,13 @@ struct transform_feedback_ops {
     static outcome<void> resume_transform_feedback(void) noexcept;
 
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
-    static outcome<void> get_transform_feedback_iv(transform_feedback_name xfb,
+    static outcome<void> get_transform_feedback_iv(
+      transform_feedback_name xfb,
       transform_feedback_parameter param,
       span<GLint> values) noexcept;
 
-    static outcome<void> get_transform_feedback_iv(transform_feedback_name xfb,
+    static outcome<void> get_transform_feedback_iv(
+      transform_feedback_name xfb,
       transform_feedback_parameter param,
       GLuint index,
       span<GLint> values) noexcept;
@@ -98,19 +99,19 @@ struct obj_zero_dsa_ops<tag::transform_feedback>
     }
 
     outcome<void> begin(transform_feedback_primitive_type mode) noexcept {
-	return _ops::begin_transform_feedback(mode);
+        return _ops::begin_transform_feedback(mode);
     }
 
     outcome<void> end(void) noexcept {
-	return _ops::end_transform_feedback();
+        return _ops::end_transform_feedback();
     }
 
     outcome<void> pause(void) noexcept {
-	return _ops::pause_transform_feedback();
+        return _ops::pause_transform_feedback();
     }
 
     outcome<void> resume(void) noexcept {
-	return _ops::resume_transform_feedback();
+        return _ops::resume_transform_feedback();
     }
 };
 
@@ -124,35 +125,36 @@ struct obj_dsa_ops<tag::transform_feedback>
 
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
     outcome<boolean> active(void) const noexcept {
-	return _ops::transform_feedback_active(*this);
+        return _ops::transform_feedback_active(*this);
     }
 
     outcome<boolean> paused(void) const noexcept {
-	return _ops::transform_feedback_paused(*this);
+        return _ops::transform_feedback_paused(*this);
     }
 
     outcome<buffer_name> buffer_binding(void) const noexcept {
-	return _ops::transform_feedback_buffer_binding(*this);
+        return _ops::transform_feedback_buffer_binding(*this);
     }
 
     outcome<GLint64> buffer_start(GLuint index) noexcept {
-	return _ops::transform_feedback_buffer_start(*this, index);
+        return _ops::transform_feedback_buffer_start(*this, index);
     }
 
     outcome<GLint64> buffer_size(GLuint index) noexcept {
-	return _ops::transform_feedback_buffer_size(*this, index);
+        return _ops::transform_feedback_buffer_size(*this, index);
     }
 
     outcome<void> buffer_base(GLuint index, buffer_name buf) noexcept {
-	return _ops::transform_feedback_buffer_base(*this, index, buf);
+        return _ops::transform_feedback_buffer_base(*this, index, buf);
     }
 
-    outcome<void> buffer_range(GLuint index,
+    outcome<void> buffer_range(
+      GLuint index,
       buffer_name buf,
       GLintptr offset,
       GLsizeiptr size) noexcept {
-	return _ops::transform_feedback_buffer_range(
-	  *this, index, buf, offset, size);
+        return _ops::transform_feedback_buffer_range(
+          *this, index, buf, offset, size);
     }
 #endif
 };

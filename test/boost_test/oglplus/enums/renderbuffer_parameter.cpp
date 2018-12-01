@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_renderbuffer_parameter
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_renderbuffer_parameter_tests)
 
@@ -256,8 +256,8 @@ BOOST_AUTO_TEST_CASE(enum_renderbuffer_parameter_names) {
     x = ev.renderbuffer_internal_format;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "RENDERBUFFER_INTERNAL_FORMAT")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "RENDERBUFFER_INTERNAL_FORMAT") ==
+      0);
 #endif
 
 #ifdef GL_RENDERBUFFER_RED_SIZE
@@ -295,111 +295,122 @@ BOOST_AUTO_TEST_CASE(enum_renderbuffer_parameter_range) {
 
 #ifdef GL_RENDERBUFFER_ALPHA_SIZE
     {
-	--count;
-	auto r = enum_value_range<renderbuffer_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      renderbuffer_parameter(GL_RENDERBUFFER_ALPHA_SIZE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<renderbuffer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            renderbuffer_parameter(GL_RENDERBUFFER_ALPHA_SIZE)) != r.end());
     }
 #endif
 
 #ifdef GL_RENDERBUFFER_BLUE_SIZE
     {
-	--count;
-	auto r = enum_value_range<renderbuffer_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      renderbuffer_parameter(GL_RENDERBUFFER_BLUE_SIZE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<renderbuffer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            renderbuffer_parameter(GL_RENDERBUFFER_BLUE_SIZE)) != r.end());
     }
 #endif
 
 #ifdef GL_RENDERBUFFER_DEPTH_SIZE
     {
-	--count;
-	auto r = enum_value_range<renderbuffer_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      renderbuffer_parameter(GL_RENDERBUFFER_DEPTH_SIZE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<renderbuffer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            renderbuffer_parameter(GL_RENDERBUFFER_DEPTH_SIZE)) != r.end());
     }
 #endif
 
 #ifdef GL_RENDERBUFFER_GREEN_SIZE
     {
-	--count;
-	auto r = enum_value_range<renderbuffer_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      renderbuffer_parameter(GL_RENDERBUFFER_GREEN_SIZE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<renderbuffer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            renderbuffer_parameter(GL_RENDERBUFFER_GREEN_SIZE)) != r.end());
     }
 #endif
 
 #ifdef GL_RENDERBUFFER_HEIGHT
     {
-	--count;
-	auto r = enum_value_range<renderbuffer_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), renderbuffer_parameter(GL_RENDERBUFFER_HEIGHT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<renderbuffer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            renderbuffer_parameter(GL_RENDERBUFFER_HEIGHT)) != r.end());
     }
 #endif
 
 #ifdef GL_RENDERBUFFER_INTERNAL_FORMAT
     {
-	--count;
-	auto r = enum_value_range<renderbuffer_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      renderbuffer_parameter(GL_RENDERBUFFER_INTERNAL_FORMAT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<renderbuffer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            renderbuffer_parameter(GL_RENDERBUFFER_INTERNAL_FORMAT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RENDERBUFFER_RED_SIZE
     {
-	--count;
-	auto r = enum_value_range<renderbuffer_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      renderbuffer_parameter(GL_RENDERBUFFER_RED_SIZE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<renderbuffer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            renderbuffer_parameter(GL_RENDERBUFFER_RED_SIZE)) != r.end());
     }
 #endif
 
 #ifdef GL_RENDERBUFFER_SAMPLES
     {
-	--count;
-	auto r = enum_value_range<renderbuffer_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), renderbuffer_parameter(GL_RENDERBUFFER_SAMPLES))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<renderbuffer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            renderbuffer_parameter(GL_RENDERBUFFER_SAMPLES)) != r.end());
     }
 #endif
 
 #ifdef GL_RENDERBUFFER_STENCIL_SIZE
     {
-	--count;
-	auto r = enum_value_range<renderbuffer_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      renderbuffer_parameter(GL_RENDERBUFFER_STENCIL_SIZE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<renderbuffer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            renderbuffer_parameter(GL_RENDERBUFFER_STENCIL_SIZE)) != r.end());
     }
 #endif
 
 #ifdef GL_RENDERBUFFER_WIDTH
     {
-	--count;
-	auto r = enum_value_range<renderbuffer_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), renderbuffer_parameter(GL_RENDERBUFFER_WIDTH))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<renderbuffer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            renderbuffer_parameter(GL_RENDERBUFFER_WIDTH)) != r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

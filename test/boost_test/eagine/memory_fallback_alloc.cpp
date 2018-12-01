@@ -49,19 +49,19 @@ eagine_test_memory_fallback_alloc_T(std::size_t n) {
     std::deque<memory::owned_block> blks;
 
     for(std::size_t i = 0; i < n; ++i) {
-	blks.emplace_back(a.allocate(span_size_of<T>(), ao));
+        blks.emplace_back(a.allocate(span_size_of<T>(), ao));
     }
 
     for(memory::owned_block& blk : blks) {
-	BOOST_CHECK(blks.back().size() >= span_size_of<T>());
-	BOOST_CHECK(blks.back().is_aligned_to(ao));
-	BOOST_CHECK(!!a.has_allocated(blk, ao));
+        BOOST_CHECK(blks.back().size() >= span_size_of<T>());
+        BOOST_CHECK(blks.back().is_aligned_to(ao));
+        BOOST_CHECK(!!a.has_allocated(blk, ao));
     }
 
     while(!blks.empty()) {
-	auto i = blks.begin() + rg.get<int>(0, int(blks.size()) - 1);
-	a.deallocate(std::move(*i), ao);
-	blks.erase(i);
+        auto i = blks.begin() + rg.get<int>(0, int(blks.size()) - 1);
+        a.deallocate(std::move(*i), ao);
+        blks.erase(i);
     }
 
     a.release();
@@ -71,14 +71,14 @@ BOOST_AUTO_TEST_CASE(memory_fallback_alloc_1) {
     std::size_t f[2] = {0, 1};
 
     for(int i = 0; i < 20; ++i) {
-	std::size_t n = f[(i + 0) % 2] + f[(i + 1) % 2];
-	f[i % 2] = n;
+        std::size_t n = f[(i + 0) % 2] + f[(i + 1) % 2];
+        f[i % 2] = n;
 
-	eagine_test_memory_fallback_alloc_T<char>(n);
-	eagine_test_memory_fallback_alloc_T<short>(n);
-	eagine_test_memory_fallback_alloc_T<int>(n);
-	eagine_test_memory_fallback_alloc_T<float>(n);
-	eagine_test_memory_fallback_alloc_T<double>(n);
+        eagine_test_memory_fallback_alloc_T<char>(n);
+        eagine_test_memory_fallback_alloc_T<short>(n);
+        eagine_test_memory_fallback_alloc_T<int>(n);
+        eagine_test_memory_fallback_alloc_T<float>(n);
+        eagine_test_memory_fallback_alloc_T<double>(n);
     }
 }
 

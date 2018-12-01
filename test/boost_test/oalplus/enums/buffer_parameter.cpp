@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OALPLUS_buffer_parameter
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_buffer_parameter_tests)
 
@@ -101,38 +101,39 @@ BOOST_AUTO_TEST_CASE(enum_buffer_parameter_range) {
 
 #ifdef AL_BITS
     {
-	--count;
-	auto r = enum_value_range<buffer_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), buffer_parameter(AL_BITS)) != r.end());
+        --count;
+        auto r = enum_value_range<buffer_parameter>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), buffer_parameter(AL_BITS)) != r.end());
     }
 #endif
 
 #ifdef AL_CHANNELS
     {
-	--count;
-	auto r = enum_value_range<buffer_parameter>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), buffer_parameter(AL_CHANNELS))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<buffer_parameter>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), buffer_parameter(AL_CHANNELS)) !=
+          r.end());
     }
 #endif
 
 #ifdef AL_FREQUENCY
     {
-	--count;
-	auto r = enum_value_range<buffer_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), buffer_parameter(AL_FREQUENCY))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<buffer_parameter>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), buffer_parameter(AL_FREQUENCY)) !=
+          r.end());
     }
 #endif
 
 #ifdef AL_SIZE
     {
-	--count;
-	auto r = enum_value_range<buffer_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), buffer_parameter(AL_SIZE)) != r.end());
+        --count;
+        auto r = enum_value_range<buffer_parameter>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), buffer_parameter(AL_SIZE)) != r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

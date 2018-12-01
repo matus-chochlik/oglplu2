@@ -31,15 +31,16 @@ public:
 };
 
 class map_node
-  : public binary_single_output_node<map_output,
+  : public binary_single_output_node<
+      map_output,
       decltype(map_output::input),
       &map_output::input,
       decltype(map_output::coord),
       &map_output::coord> {
 public:
     map_node& set_coord(float x, float y, float z) {
-	_output.coord.fallback().set(x, y, z);
-	return *this;
+        _output.coord.fallback().set(x, y, z);
+        return *this;
     }
 };
 

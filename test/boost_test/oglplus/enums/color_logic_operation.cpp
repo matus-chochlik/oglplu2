@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_color_logic_operation
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_color_logic_operation_tests)
 
@@ -575,156 +575,165 @@ BOOST_AUTO_TEST_CASE(enum_color_logic_operation_range) {
 
 #ifdef GL_AND
     {
-	--count;
-	auto r = enum_value_range<color_logic_operation>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), color_logic_operation(GL_AND))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<color_logic_operation>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), color_logic_operation(GL_AND)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_AND_INVERTED
     {
-	--count;
-	auto r = enum_value_range<color_logic_operation>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), color_logic_operation(GL_AND_INVERTED))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<color_logic_operation>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), color_logic_operation(GL_AND_INVERTED)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_AND_REVERSE
     {
-	--count;
-	auto r = enum_value_range<color_logic_operation>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), color_logic_operation(GL_AND_REVERSE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<color_logic_operation>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), color_logic_operation(GL_AND_REVERSE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_CLEAR
     {
-	--count;
-	auto r = enum_value_range<color_logic_operation>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), color_logic_operation(GL_CLEAR))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<color_logic_operation>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), color_logic_operation(GL_CLEAR)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_COPY
     {
-	--count;
-	auto r = enum_value_range<color_logic_operation>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), color_logic_operation(GL_COPY))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<color_logic_operation>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), color_logic_operation(GL_COPY)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_COPY_INVERTED
     {
-	--count;
-	auto r = enum_value_range<color_logic_operation>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), color_logic_operation(GL_COPY_INVERTED))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<color_logic_operation>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), color_logic_operation(GL_COPY_INVERTED)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_EQUIV
     {
-	--count;
-	auto r = enum_value_range<color_logic_operation>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), color_logic_operation(GL_EQUIV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<color_logic_operation>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), color_logic_operation(GL_EQUIV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INVERT
     {
-	--count;
-	auto r = enum_value_range<color_logic_operation>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), color_logic_operation(GL_INVERT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<color_logic_operation>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), color_logic_operation(GL_INVERT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_NAND
     {
-	--count;
-	auto r = enum_value_range<color_logic_operation>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), color_logic_operation(GL_NAND))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<color_logic_operation>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), color_logic_operation(GL_NAND)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_NOOP
     {
-	--count;
-	auto r = enum_value_range<color_logic_operation>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), color_logic_operation(GL_NOOP))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<color_logic_operation>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), color_logic_operation(GL_NOOP)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_NOR
     {
-	--count;
-	auto r = enum_value_range<color_logic_operation>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), color_logic_operation(GL_NOR))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<color_logic_operation>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), color_logic_operation(GL_NOR)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_OR
     {
-	--count;
-	auto r = enum_value_range<color_logic_operation>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), color_logic_operation(GL_OR))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<color_logic_operation>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), color_logic_operation(GL_OR)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_OR_INVERTED
     {
-	--count;
-	auto r = enum_value_range<color_logic_operation>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), color_logic_operation(GL_OR_INVERTED))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<color_logic_operation>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), color_logic_operation(GL_OR_INVERTED)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_OR_REVERSE
     {
-	--count;
-	auto r = enum_value_range<color_logic_operation>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), color_logic_operation(GL_OR_REVERSE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<color_logic_operation>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), color_logic_operation(GL_OR_REVERSE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SET
     {
-	--count;
-	auto r = enum_value_range<color_logic_operation>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), color_logic_operation(GL_SET))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<color_logic_operation>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), color_logic_operation(GL_SET)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_XOR
     {
-	--count;
-	auto r = enum_value_range<color_logic_operation>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), color_logic_operation(GL_XOR))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<color_logic_operation>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), color_logic_operation(GL_XOR)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

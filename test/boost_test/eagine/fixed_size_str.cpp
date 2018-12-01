@@ -67,8 +67,8 @@ BOOST_AUTO_TEST_CASE(fixed_size_string_concat) {
     const char three[] = "three";
     const char four[] = "four";
 
-    auto s = make_fixed_size_string(one) + make_fixed_size_string(two)
-	     + make_fixed_size_string(three) + make_fixed_size_string(four);
+    auto s = make_fixed_size_string(one) + make_fixed_size_string(two) +
+             make_fixed_size_string(three) + make_fixed_size_string(four);
 
     BOOST_CHECK(!s.empty());
     BOOST_ASSERT(std::strcmp(s.c_str(), "onetwothreefour") == 0);
@@ -101,18 +101,18 @@ BOOST_AUTO_TEST_CASE(fixed_size_string_int) {
       std::strcmp(to_fixed_size_string(int_constant<10>()).c_str(), "10") == 0);
 
     BOOST_CHECK(
-      std::strcmp(to_fixed_size_string(int_constant<-10>()).c_str(), "-10")
-      == 0);
+      std::strcmp(to_fixed_size_string(int_constant<-10>()).c_str(), "-10") ==
+      0);
 
     BOOST_CHECK(
       std::strcmp(
-	to_fixed_size_string(int_constant<1234567890>()).c_str(), "1234567890")
-      == 0);
+        to_fixed_size_string(int_constant<1234567890>()).c_str(),
+        "1234567890") == 0);
 
     BOOST_CHECK(
-      std::strcmp(to_fixed_size_string(int_constant<-1234567890>()).c_str(),
-	"-1234567890")
-      == 0);
+      std::strcmp(
+        to_fixed_size_string(int_constant<-1234567890>()).c_str(),
+        "-1234567890") == 0);
 }
 
 // TODO

@@ -72,17 +72,17 @@ test_math_matrix(const Tester& t) {
 struct matrix_default_ctr_tester {
     template <typename T, int C, int R, bool RM, bool V>
     struct _test {
-	void operator()(void) const {
-	    eagine::math::matrix<T, C, R, RM, V> m;
-	    BOOST_CHECK_EQUAL(rows(m), R);
-	    BOOST_CHECK_EQUAL(columns(m), C);
-	    BOOST_CHECK_EQUAL(row_major(m), RM);
-	}
+        void operator()(void) const {
+            eagine::math::matrix<T, C, R, RM, V> m;
+            BOOST_CHECK_EQUAL(rows(m), R);
+            BOOST_CHECK_EQUAL(columns(m), C);
+            BOOST_CHECK_EQUAL(row_major(m), RM);
+        }
     };
 
     template <typename T, int C, int R, bool RM, bool V>
     static _test<T, C, R, RM, V> make(void) {
-	return {};
+        return {};
     }
 };
 
@@ -94,25 +94,25 @@ BOOST_AUTO_TEST_CASE(math_matrix_default_ctr) {
 struct matrix_from1_tester {
     template <typename T, int C, int R, bool RM, bool V>
     struct _test {
-	void operator()(void) const {
-	    T d[C * R];
+        void operator()(void) const {
+            T d[C * R];
 
-	    for(int i = 0; i < (C * R); ++i) {
-		d[i] = rg.get<T>(-5000, 5000);
-	    }
+            for(int i = 0; i < (C * R); ++i) {
+                d[i] = rg.get<T>(-5000, 5000);
+            }
 
-	    auto m = eagine::math::matrix<T, C, R, RM, V>::from(d, C * R);
+            auto m = eagine::math::matrix<T, C, R, RM, V>::from(d, C * R);
 
-	    for(int i = 0; i < (RM ? R : C); ++i)
-		for(int j = 0; j < (RM ? C : R); ++j) {
-		    BOOST_CHECK_EQUAL(m[i][j], d[(RM ? C : R) * i + j]);
-		}
-	}
+            for(int i = 0; i < (RM ? R : C); ++i)
+                for(int j = 0; j < (RM ? C : R); ++j) {
+                    BOOST_CHECK_EQUAL(m[i][j], d[(RM ? C : R) * i + j]);
+                }
+        }
     };
 
     template <typename T, int C, int R, bool RM, bool V>
     static _test<T, C, R, RM, V> make(void) {
-	return {};
+        return {};
     }
 };
 
@@ -124,52 +124,52 @@ BOOST_AUTO_TEST_CASE(math_matrix_from1) {
 struct matrix_from2_tester {
     template <typename T, int C, int R, bool RM, bool V>
     struct _test {
-	template <int I>
-	using _uint = std::integral_constant<int, I>;
+        template <int I>
+        using _uint = std::integral_constant<int, I>;
 
-	template <int M, int N>
-	static void _do_test(
-	  _uint<M>, _uint<N>, const eagine::math::matrix<T, C, R, RM, V>& m) {
-	    auto n = eagine::math::matrix<T, M, N, RM, V>::from(m);
-	    for(int i = 0; i < (RM ? N : M); ++i)
-		for(int j = 0; j < (RM ? M : N); ++j) {
-		    BOOST_CHECK_EQUAL(n[i][j], m[i][j]);
-		}
-	}
+        template <int M, int N>
+        static void _do_test(
+          _uint<M>, _uint<N>, const eagine::math::matrix<T, C, R, RM, V>& m) {
+            auto n = eagine::math::matrix<T, M, N, RM, V>::from(m);
+            for(int i = 0; i < (RM ? N : M); ++i)
+                for(int j = 0; j < (RM ? M : N); ++j) {
+                    BOOST_CHECK_EQUAL(n[i][j], m[i][j]);
+                }
+        }
 
-	template <int N>
-	static void _call_test(
-	  _uint<0>, _uint<N>, const eagine::math::matrix<T, C, R, RM, V>&) {
-	}
+        template <int N>
+        static void _call_test(
+          _uint<0>, _uint<N>, const eagine::math::matrix<T, C, R, RM, V>&) {
+        }
 
-	template <int M>
-	static void _call_test(
-	  _uint<M>, _uint<0>, const eagine::math::matrix<T, C, R, RM, V>& m) {
-	    _call_test(_uint<M - 1>(), _uint<R>(), m);
-	}
+        template <int M>
+        static void _call_test(
+          _uint<M>, _uint<0>, const eagine::math::matrix<T, C, R, RM, V>& m) {
+            _call_test(_uint<M - 1>(), _uint<R>(), m);
+        }
 
-	template <int M, int N>
-	static void _call_test(
-	  _uint<M>, _uint<N>, const eagine::math::matrix<T, C, R, RM, V>& m) {
-	    _do_test(_uint<M>(), _uint<N>(), m);
-	    _call_test(_uint<M>(), _uint<N - 1>(), m);
-	}
+        template <int M, int N>
+        static void _call_test(
+          _uint<M>, _uint<N>, const eagine::math::matrix<T, C, R, RM, V>& m) {
+            _do_test(_uint<M>(), _uint<N>(), m);
+            _call_test(_uint<M>(), _uint<N - 1>(), m);
+        }
 
-	void operator()(void) const {
-	    T d[C * R];
+        void operator()(void) const {
+            T d[C * R];
 
-	    for(int i = 0; i < (C * R); ++i) {
-		d[i] = rg.get<T>(-5000, 5000);
-	    }
+            for(int i = 0; i < (C * R); ++i) {
+                d[i] = rg.get<T>(-5000, 5000);
+            }
 
-	    auto m = eagine::math::matrix<T, C, R, RM, V>::from(d, C * R);
-	    _call_test(_uint<C>(), _uint<R>(), m);
-	}
+            auto m = eagine::math::matrix<T, C, R, RM, V>::from(d, C * R);
+            _call_test(_uint<C>(), _uint<R>(), m);
+        }
     };
 
     template <typename T, int C, int R, bool RM, bool V>
     static _test<T, C, R, RM, V> make(void) {
-	return {};
+        return {};
     }
 };
 
@@ -181,40 +181,40 @@ BOOST_AUTO_TEST_CASE(math_matrix_from2) {
 struct matrix_get_set_tester {
     template <typename T, int C, int R, bool RM, bool V>
     struct _test {
-	void operator()(void) const {
-	    T d[C * R];
+        void operator()(void) const {
+            T d[C * R];
 
-	    for(int i = 0; i < (C * R); ++i) {
-		d[i] = rg.get<T>(-5000, 5000);
-	    }
+            for(int i = 0; i < (C * R); ++i) {
+                d[i] = rg.get<T>(-5000, 5000);
+            }
 
-	    auto m = eagine::math::matrix<T, C, R, RM, V>::from(d, C * R);
+            auto m = eagine::math::matrix<T, C, R, RM, V>::from(d, C * R);
 
-	    for(int i = 0; i < (RM ? R : C); ++i)
-		for(int j = 0; j < (RM ? C : R); ++j) {
-		    BOOST_CHECK_EQUAL(m[i][j], d[(RM ? C : R) * i + j]);
-		}
+            for(int i = 0; i < (RM ? R : C); ++i)
+                for(int j = 0; j < (RM ? C : R); ++j) {
+                    BOOST_CHECK_EQUAL(m[i][j], d[(RM ? C : R) * i + j]);
+                }
 
-	    for(int i = 0; i < C; ++i)
-		for(int j = 0; j < R; ++j) {
-		    set_cm(m, i, j, get_cm(m, i, j) + 1);
-		}
+            for(int i = 0; i < C; ++i)
+                for(int j = 0; j < R; ++j) {
+                    set_cm(m, i, j, get_cm(m, i, j) + 1);
+                }
 
-	    for(int i = 0; i < R; ++i)
-		for(int j = 0; j < C; ++j) {
-		    BOOST_CHECK_EQUAL(get_rm(m, i, j), get_cm(m, j, i));
-		}
+            for(int i = 0; i < R; ++i)
+                for(int j = 0; j < C; ++j) {
+                    BOOST_CHECK_EQUAL(get_rm(m, i, j), get_cm(m, j, i));
+                }
 
-	    for(int i = 0; i < (RM ? R : C); ++i)
-		for(int j = 0; j < (RM ? C : R); ++j) {
-		    BOOST_CHECK_EQUAL(m[i][j], d[(RM ? C : R) * i + j] + 1);
-		}
-	}
+            for(int i = 0; i < (RM ? R : C); ++i)
+                for(int j = 0; j < (RM ? C : R); ++j) {
+                    BOOST_CHECK_EQUAL(m[i][j], d[(RM ? C : R) * i + j] + 1);
+                }
+        }
     };
 
     template <typename T, int C, int R, bool RM, bool V>
     static _test<T, C, R, RM, V> make(void) {
-	return {};
+        return {};
     }
 };
 
@@ -226,27 +226,27 @@ BOOST_AUTO_TEST_CASE(math_matrix_get_set) {
 struct matrix_transpose_tester {
     template <typename T, int M, int N, bool RM, bool V>
     struct _test {
-	void operator()(void) const {
-	    T d[M * N];
+        void operator()(void) const {
+            T d[M * N];
 
-	    for(int i = 0; i < (M * N); ++i) {
-		d[i] = rg.get<T>(-5000, 5000);
-	    }
+            for(int i = 0; i < (M * N); ++i) {
+                d[i] = rg.get<T>(-5000, 5000);
+            }
 
-	    auto m = eagine::math::matrix<T, M, N, RM, V>::from(d, M * N);
-	    eagine::math::matrix<T, N, M, RM, V> n = transpose(m);
+            auto m = eagine::math::matrix<T, M, N, RM, V>::from(d, M * N);
+            eagine::math::matrix<T, N, M, RM, V> n = transpose(m);
 
-	    for(int i = 0; i < M; ++i)
-		for(int j = 0; j < N; ++j) {
-		    BOOST_CHECK_EQUAL(get_cm(m, i, j), get_cm(n, j, i));
-		    BOOST_CHECK_EQUAL(get_rm(m, j, i), get_rm(n, i, j));
-		}
-	}
+            for(int i = 0; i < M; ++i)
+                for(int j = 0; j < N; ++j) {
+                    BOOST_CHECK_EQUAL(get_cm(m, i, j), get_cm(n, j, i));
+                    BOOST_CHECK_EQUAL(get_rm(m, j, i), get_rm(n, i, j));
+                }
+        }
     };
 
     template <typename T, int C, int R, bool RM, bool V>
     static _test<T, C, R, RM, V> make(void) {
-	return {};
+        return {};
     }
 };
 
@@ -258,30 +258,30 @@ BOOST_AUTO_TEST_CASE(math_matrix_transpose) {
 struct matrix_reorder_tester {
     template <typename T, int M, int N, bool RM, bool V>
     struct _test {
-	void operator()(void) const {
-	    T d[M * N];
+        void operator()(void) const {
+            T d[M * N];
 
-	    for(int i = 0; i < (M * N); ++i) {
-		d[i] = rg.get<T>(-5000, 5000);
-	    }
+            for(int i = 0; i < (M * N); ++i) {
+                d[i] = rg.get<T>(-5000, 5000);
+            }
 
-	    auto m = eagine::math::matrix<T, M, N, RM, V>::from(d, M * N);
-	    eagine::math::matrix<T, M, N, !RM, V> n = reorder(m);
+            auto m = eagine::math::matrix<T, M, N, RM, V>::from(d, M * N);
+            eagine::math::matrix<T, M, N, !RM, V> n = reorder(m);
 
-	    BOOST_CHECK_EQUAL(row_major(m), !row_major(n));
-	    BOOST_CHECK_EQUAL(row_major(n), !row_major(m));
+            BOOST_CHECK_EQUAL(row_major(m), !row_major(n));
+            BOOST_CHECK_EQUAL(row_major(n), !row_major(m));
 
-	    for(int i = 0; i < M; ++i)
-		for(int j = 0; j < N; ++j) {
-		    BOOST_CHECK_EQUAL(get_cm(m, i, j), get_cm(n, i, j));
-		    BOOST_CHECK_EQUAL(get_rm(m, j, i), get_rm(n, j, i));
-		}
-	}
+            for(int i = 0; i < M; ++i)
+                for(int j = 0; j < N; ++j) {
+                    BOOST_CHECK_EQUAL(get_cm(m, i, j), get_cm(n, i, j));
+                    BOOST_CHECK_EQUAL(get_rm(m, j, i), get_rm(n, j, i));
+                }
+        }
     };
 
     template <typename T, int C, int R, bool RM, bool V>
     static _test<T, C, R, RM, V> make(void) {
-	return {};
+        return {};
     }
 };
 

@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include <eagine/str_var_subst.hpp>
 #include <iostream>
+#include <eagine/str_var_subst.hpp>
 
 namespace oglplus {
 namespace texgen {
@@ -36,7 +36,7 @@ OGLPLUS_LIB_FUNC
 std::ostream&
 glsl_output::definitions(std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt))
-	return out;
+        return out;
 
     input_defs(out, ctxt);
     opening_expr(out, ctxt);
@@ -60,15 +60,15 @@ glsl_output::definitions(std::ostream& out, compile_context& ctxt) {
     dict["^"] = "oglptgi";
 
     for(auto i = _inputs.begin(); i != _inputs.end(); ++i) {
-	input_with_const_default<float[4]>& input = i->second;
+        input_with_const_default<float[4]>& input = i->second;
 
-	out << "\t" << data_type_name(input.value_type());
-	out << " oglptgi_" << i->first << " = ";
-	out << expr::output_id{input.output(), ctxt};
-	out << expr::render_param_pass{input.output()};
-	out << ";" << std::endl;
+        out << "\t" << data_type_name(input.value_type());
+        out << " oglptgi_" << i->first << " = ";
+        out << expr::output_id{input.output(), ctxt};
+        out << expr::render_param_pass{input.output()};
+        out << ";" << std::endl;
 
-	dict[i->first] = std::string("oglptgi_") + i->first;
+        dict[i->first] = std::string("oglptgi_") + i->first;
     }
 
     out << "\treturn ";

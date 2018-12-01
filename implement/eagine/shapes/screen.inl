@@ -18,10 +18,10 @@ namespace shapes {
 EAGINE_LIB_FUNC
 vertex_attrib_bits
 unit_screen_gen::_attr_mask(void) noexcept {
-    return vertex_attrib_kind::position | vertex_attrib_kind::normal
-	   | vertex_attrib_kind::tangential | vertex_attrib_kind::bitangential
-	   | vertex_attrib_kind::wrap_coord | vertex_attrib_kind::face_coord
-	   | vertex_attrib_kind::box_coord;
+    return vertex_attrib_kind::position | vertex_attrib_kind::normal |
+           vertex_attrib_kind::tangential | vertex_attrib_kind::bitangential |
+           vertex_attrib_kind::wrap_coord | vertex_attrib_kind::face_coord |
+           vertex_attrib_kind::box_coord;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -79,9 +79,9 @@ unit_screen_gen::normals(const span<float>& dest) noexcept {
 
     span_size_t k = 0;
     for(span_size_t i = 0; i < 4; ++i) {
-	dest[k++] = 0.f;
-	dest[k++] = 0.f;
-	dest[k++] = 1.f;
+        dest[k++] = 0.f;
+        dest[k++] = 0.f;
+        dest[k++] = 1.f;
     }
 
     assert(k == vertex_count() * 3);
@@ -95,9 +95,9 @@ unit_screen_gen::tangentials(const span<float>& dest) noexcept {
 
     span_size_t k = 0;
     for(span_size_t i = 0; i < 4; ++i) {
-	dest[k++] = 1.f;
-	dest[k++] = 0.f;
-	dest[k++] = 0.f;
+        dest[k++] = 1.f;
+        dest[k++] = 0.f;
+        dest[k++] = 0.f;
     }
 
     assert(k == vertex_count() * 3);
@@ -111,9 +111,9 @@ unit_screen_gen::bitangentials(const span<float>& dest) noexcept {
 
     span_size_t k = 0;
     for(span_size_t i = 0; i < 4; ++i) {
-	dest[k++] = 0.f;
-	dest[k++] = 1.f;
-	dest[k++] = 0.f;
+        dest[k++] = 0.f;
+        dest[k++] = 1.f;
+        dest[k++] = 0.f;
     }
 
     assert(k == vertex_count() * 3);
@@ -161,23 +161,23 @@ void
 unit_screen_gen::attrib_values(
   vertex_attrib_kind attr, const span<float>& dest) {
     switch(attr) {
-	case vertex_attrib_kind::position:
-	    positions(dest);
-	    break;
-	case vertex_attrib_kind::normal:
-	    normals(dest);
-	    break;
-	case vertex_attrib_kind::tangential:
-	    tangentials(dest);
-	    break;
-	case vertex_attrib_kind::bitangential:
-	    bitangentials(dest);
-	    break;
-	case vertex_attrib_kind::box_coord:
-	case vertex_attrib_kind::wrap_coord:
-	case vertex_attrib_kind::face_coord:
-	    face_coords(dest);
-	    break;
+        case vertex_attrib_kind::position:
+            positions(dest);
+            break;
+        case vertex_attrib_kind::normal:
+            normals(dest);
+            break;
+        case vertex_attrib_kind::tangential:
+            tangentials(dest);
+            break;
+        case vertex_attrib_kind::bitangential:
+            bitangentials(dest);
+            break;
+        case vertex_attrib_kind::box_coord:
+        case vertex_attrib_kind::wrap_coord:
+        case vertex_attrib_kind::face_coord:
+            face_coords(dest);
+            break;
     }
 }
 //------------------------------------------------------------------------------

@@ -10,9 +10,9 @@
 #ifndef EAGINE_SHAPES_CUBE_1509260923_HPP
 #define EAGINE_SHAPES_CUBE_1509260923_HPP
 
-#include "gen_base.hpp"
 #include <cassert>
 #include <eagine/config/basic.hpp>
+#include "gen_base.hpp"
 
 namespace eagine {
 namespace shapes {

@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE EGLPLUS_opengl_profile_bit
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_opengl_profile_bit_tests)
 
@@ -48,17 +48,18 @@ BOOST_AUTO_TEST_CASE(enum_opengl_profile_bit_names) {
 #ifdef EGL_CONTEXT_OPENGL_COMPATIBILITY_PROFILE_BIT
     x = ev.context_opengl_compatibility_profile_bit;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-    BOOST_CHECK(std::strcmp(enum_value_name(x).data(),
-		  "CONTEXT_OPENGL_COMPATIBILITY_PROFILE_BIT")
-		== 0);
+    BOOST_CHECK(
+      std::strcmp(
+        enum_value_name(x).data(),
+        "CONTEXT_OPENGL_COMPATIBILITY_PROFILE_BIT") == 0);
 #endif
 
 #ifdef EGL_CONTEXT_OPENGL_CORE_PROFILE_BIT
     x = ev.context_opengl_core_profile_bit;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "CONTEXT_OPENGL_CORE_PROFILE_BIT")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "CONTEXT_OPENGL_CORE_PROFILE_BIT") == 0);
 #endif
 }
 
@@ -68,24 +69,27 @@ BOOST_AUTO_TEST_CASE(enum_opengl_profile_bit_range) {
 
 #ifdef EGL_CONTEXT_OPENGL_COMPATIBILITY_PROFILE_BIT
     {
-	--count;
-	auto r = enum_value_range<opengl_profile_bit>();
-	BOOST_CHECK(
-	  std::find(r.begin(),
-	    r.end(),
-	    opengl_profile_bit(EGL_CONTEXT_OPENGL_COMPATIBILITY_PROFILE_BIT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<opengl_profile_bit>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            opengl_profile_bit(EGL_CONTEXT_OPENGL_COMPATIBILITY_PROFILE_BIT)) !=
+          r.end());
     }
 #endif
 
 #ifdef EGL_CONTEXT_OPENGL_CORE_PROFILE_BIT
     {
-	--count;
-	auto r = enum_value_range<opengl_profile_bit>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      opengl_profile_bit(EGL_CONTEXT_OPENGL_CORE_PROFILE_BIT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<opengl_profile_bit>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            opengl_profile_bit(EGL_CONTEXT_OPENGL_CORE_PROFILE_BIT)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

@@ -15,7 +15,8 @@ BOOST_AUTO_TEST_SUITE(callable_composer_tests)
 BOOST_AUTO_TEST_CASE(callable_composer_foo_1) {
     using namespace eagine;
 
-    auto func = compose_callables([](int) { return "int"; },
+    auto func = compose_callables(
+      [](int) { return "int"; },
       [](float) { return "float"; },
       [](double) { return "double"; },
       [](auto) { return "other"; });

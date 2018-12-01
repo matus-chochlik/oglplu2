@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_tess_gen_primitive_spacing
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_tess_gen_primitive_spacing_tests)
 
@@ -81,33 +81,35 @@ BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_spacing_range) {
 
 #ifdef GL_EQUAL
     {
-	--count;
-	auto r = enum_value_range<tess_gen_primitive_spacing>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), tess_gen_primitive_spacing(GL_EQUAL))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<tess_gen_primitive_spacing>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), tess_gen_primitive_spacing(GL_EQUAL)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_FRACTIONAL_EVEN
     {
-	--count;
-	auto r = enum_value_range<tess_gen_primitive_spacing>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), tess_gen_primitive_spacing(GL_FRACTIONAL_EVEN))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<tess_gen_primitive_spacing>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            tess_gen_primitive_spacing(GL_FRACTIONAL_EVEN)) != r.end());
     }
 #endif
 
 #ifdef GL_FRACTIONAL_ODD
     {
-	--count;
-	auto r = enum_value_range<tess_gen_primitive_spacing>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), tess_gen_primitive_spacing(GL_FRACTIONAL_ODD))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<tess_gen_primitive_spacing>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            tess_gen_primitive_spacing(GL_FRACTIONAL_ODD)) != r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

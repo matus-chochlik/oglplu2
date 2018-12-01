@@ -24,18 +24,19 @@ private:
 
 public:
     void resize(const example_state_view& state) override {
-	gl.viewport(0, 0, state.width(), state.height());
+        gl.viewport(0, 0, state.width(), state.height());
     }
 
     void render(const example_state_view& state) override {
-	int sec = int(state.exec_time());
+        int sec = int(state.exec_time());
 
-	gl.clear_color((sec % 3 == 0) ? 1.f : 0.f,
-	  (sec % 3 == 1) ? 1.f : 0.f,
-	  (sec % 3 == 2) ? 1.f : 0.f,
-	  0.0f);
+        gl.clear_color(
+          (sec % 3 == 0) ? 1.f : 0.f,
+          (sec % 3 == 1) ? 1.f : 0.f,
+          (sec % 3 == 2) ? 1.f : 0.f,
+          0.0f);
 
-	gl.clear(GL.color_buffer_bit);
+        gl.clear(GL.color_buffer_bit);
     }
 };
 

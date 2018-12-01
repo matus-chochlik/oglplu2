@@ -19,9 +19,11 @@ namespace eagine {
 template <typename Enum, typename IndexedEnum>
 struct combined_enum_value {
 private:
-    static_assert(Enum::lib_id == IndexedEnum::lib_id
-		    && std::is_same_v<typename Enum::value_type,
-			 typename IndexedEnum::value_type>,
+    static_assert(
+      Enum::lib_id == IndexedEnum::lib_id &&
+        std::is_same_v<
+          typename Enum::value_type,
+          typename IndexedEnum::value_type>,
       "");
 
 public:
@@ -33,7 +35,8 @@ public:
 
     combined_enum_value(void) = default;
 
-    template <typename Classes,
+    template <
+      typename Classes,
       typename = std::enable_if_t<mp_contains<Classes, Enum>::value>>
     constexpr inline combined_enum_value(
       enum_value<value_type, Classes> ev) noexcept
@@ -55,30 +58,30 @@ public:
     }
 
     explicit constexpr inline operator value_type(void) const noexcept {
-	return _value;
+        return _value;
     }
 
     explicit operator Enum(void) const noexcept {
-	return Enum(_value);
+        return Enum(_value);
     }
 
     explicit operator IndexedEnum(void) const noexcept {
-	return IndexedEnum(_value);
+        return IndexedEnum(_value);
     }
 
     friend constexpr inline bool operator==(
       combined_enum_value a, combined_enum_value b) noexcept {
-	return a._value == b._value;
+        return a._value == b._value;
     }
 
     friend constexpr inline bool operator!=(
       combined_enum_value a, combined_enum_value b) noexcept {
-	return a._value != b._value;
+        return a._value != b._value;
     }
 
     friend constexpr inline bool operator<(
       combined_enum_value a, combined_enum_value b) noexcept {
-	return a._value < b._value;
+        return a._value < b._value;
     }
 };
 

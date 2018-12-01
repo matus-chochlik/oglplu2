@@ -11,7 +11,7 @@
 #endif
 
 #define BOOST_TEST_DYN_LINK
-#include "../random.hpp"
 #include <boost/test/floating_point_comparison.hpp>
 #include <boost/test/unit_test.hpp>
 #include <eagine/maybe_unused.hpp>
+#include "../random.hpp"

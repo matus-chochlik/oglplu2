@@ -13,8 +13,8 @@
 #error NV_path_rendering API is not defined
 #endif
 
-#include "object/gl_names.hpp"
 #include <vector>
+#include "object/gl_names.hpp"
 
 namespace oglplus {
 namespace tag {

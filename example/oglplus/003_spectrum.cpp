@@ -24,72 +24,72 @@ private:
 
 public:
     example_clear(void) {
-	gl.clear_color(0.4f, 0.4f, 0.4f, 0.0f);
+        gl.clear_color(0.4f, 0.4f, 0.4f, 0.0f);
     }
 
     void resize(const example_state_view& state) override {
-	gl.viewport(0, 0, state.width(), state.height());
+        gl.viewport(0, 0, state.width(), state.height());
 
-	GLdouble h = 2;
-	GLdouble w = h * GLdouble(state.aspect());
+        GLdouble h = 2;
+        GLdouble w = h * GLdouble(state.aspect());
 
-	gl.load_identity(GL.projection);
-	gl.ortho(GL.projection, -w, +w, -h, +h, 0, 1);
+        gl.load_identity(GL.projection);
+        gl.ortho(GL.projection, -w, +w, -h, +h, 0, 1);
     }
 
     void render(const example_state_view& state) override {
-	gl.clear(GL.color_buffer_bit);
+        gl.clear(GL.color_buffer_bit);
 
-	gl.load_identity(GL.modelview);
-	gl.rotate_f(
-	  GL.modelview, degrees_(state.exec_time().value() * 90), 0, 0, 1);
+        gl.load_identity(GL.modelview);
+        gl.rotate_f(
+          GL.modelview, degrees_(state.exec_time().value() * 90), 0, 0, 1);
 
-	gl.begin(GL.triangle_fan);
-	gl.color_f(0.5f, 0.5f, 0.5f);
-	gl.vertex_f(0.000f, 0.000f);
+        gl.begin(GL.triangle_fan);
+        gl.color_f(0.5f, 0.5f, 0.5f);
+        gl.vertex_f(0.000f, 0.000f);
 
-	gl.color_f(1.0f, 0.0f, 0.0f);
-	gl.vertex_f(0.000f, 1.000f);
+        gl.color_f(1.0f, 0.0f, 0.0f);
+        gl.vertex_f(0.000f, 1.000f);
 
-	gl.color_f(1.0f, 0.7f, 0.0f);
-	gl.vertex_f(0.707f, 0.707f);
+        gl.color_f(1.0f, 0.7f, 0.0f);
+        gl.vertex_f(0.707f, 0.707f);
 
-	gl.color_f(0.7f, 1.0f, 0.0f);
-	gl.vertex_f(1.000f, 0.000f);
+        gl.color_f(0.7f, 1.0f, 0.0f);
+        gl.vertex_f(1.000f, 0.000f);
 
-	gl.color_f(0.0f, 1.0f, 0.0f);
-	gl.vertex_f(0.707f, -0.707f);
+        gl.color_f(0.0f, 1.0f, 0.0f);
+        gl.vertex_f(0.707f, -0.707f);
 
-	gl.color_f(0.0f, 1.0f, 0.7f);
-	gl.vertex_f(0.000f, -1.000f);
+        gl.color_f(0.0f, 1.0f, 0.7f);
+        gl.vertex_f(0.000f, -1.000f);
 
-	gl.color_f(0.0f, 0.7f, 1.0f);
-	gl.vertex_f(-0.707f, -0.707f);
+        gl.color_f(0.0f, 0.7f, 1.0f);
+        gl.vertex_f(-0.707f, -0.707f);
 
-	gl.color_f(0.0f, 0.0f, 1.0f);
-	gl.vertex_f(-1.000f, 0.000f);
+        gl.color_f(0.0f, 0.0f, 1.0f);
+        gl.vertex_f(-1.000f, 0.000f);
 
-	gl.color_f(0.7f, 0.0f, 0.7f);
-	gl.vertex_f(-0.707f, 0.707f);
+        gl.color_f(0.7f, 0.0f, 0.7f);
+        gl.vertex_f(-0.707f, 0.707f);
 
-	gl.color_f(1.0f, 0.0f, 0.0f);
-	gl.vertex_f(0.000f, 1.000f);
+        gl.color_f(1.0f, 0.0f, 0.0f);
+        gl.vertex_f(0.000f, 1.000f);
 
-	gl.end();
+        gl.end();
 
-	gl.begin(GL.line_loop);
-	gl.color_f(0, 0, 0);
+        gl.begin(GL.line_loop);
+        gl.color_f(0, 0, 0);
 
-	gl.vertex_f(0.000f, 1.000f);
-	gl.vertex_f(0.707f, 0.707f);
-	gl.vertex_f(1.000f, 0.000f);
-	gl.vertex_f(0.707f, -0.707f);
-	gl.vertex_f(0.000f, -1.000f);
-	gl.vertex_f(-0.707f, -0.707f);
-	gl.vertex_f(-1.000f, 0.000f);
-	gl.vertex_f(-0.707f, 0.707f);
-	gl.vertex_f(0.000f, 1.000f);
-	gl.end();
+        gl.vertex_f(0.000f, 1.000f);
+        gl.vertex_f(0.707f, 0.707f);
+        gl.vertex_f(1.000f, 0.000f);
+        gl.vertex_f(0.707f, -0.707f);
+        gl.vertex_f(0.000f, -1.000f);
+        gl.vertex_f(-0.707f, -0.707f);
+        gl.vertex_f(-1.000f, 0.000f);
+        gl.vertex_f(-0.707f, 0.707f);
+        gl.vertex_f(0.000f, 1.000f);
+        gl.end();
     }
 };
 

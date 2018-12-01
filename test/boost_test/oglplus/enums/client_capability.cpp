@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_client_capability
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_client_capability_tests)
 
@@ -320,8 +320,8 @@ BOOST_AUTO_TEST_CASE(enum_client_capability_names) {
     x = ev.vertex_attrib_array_unified_nv;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "VERTEX_ATTRIB_ARRAY_UNIFIED_NV")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "VERTEX_ATTRIB_ARRAY_UNIFIED_NV") == 0);
 #endif
 }
 
@@ -331,116 +331,121 @@ BOOST_AUTO_TEST_CASE(enum_client_capability_range) {
 
 #ifdef GL_COLOR_ARRAY
     {
-	--count;
-	auto r = enum_value_range<client_capability>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), client_capability(GL_COLOR_ARRAY))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<client_capability>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), client_capability(GL_COLOR_ARRAY)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_EDGE_FLAG_ARRAY
     {
-	--count;
-	auto r = enum_value_range<client_capability>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), client_capability(GL_EDGE_FLAG_ARRAY))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<client_capability>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), client_capability(GL_EDGE_FLAG_ARRAY)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_ELEMENT_ARRAY_UNIFIED_NV
     {
-	--count;
-	auto r = enum_value_range<client_capability>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), client_capability(GL_ELEMENT_ARRAY_UNIFIED_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<client_capability>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            client_capability(GL_ELEMENT_ARRAY_UNIFIED_NV)) != r.end());
     }
 #endif
 
 #ifdef GL_FOG_COORD_ARRAY
     {
-	--count;
-	auto r = enum_value_range<client_capability>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), client_capability(GL_FOG_COORD_ARRAY))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<client_capability>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), client_capability(GL_FOG_COORD_ARRAY)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INDEX_ARRAY
     {
-	--count;
-	auto r = enum_value_range<client_capability>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), client_capability(GL_INDEX_ARRAY))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<client_capability>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), client_capability(GL_INDEX_ARRAY)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_NORMAL_ARRAY
     {
-	--count;
-	auto r = enum_value_range<client_capability>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), client_capability(GL_NORMAL_ARRAY))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<client_capability>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), client_capability(GL_NORMAL_ARRAY)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SECONDARY_COLOR_ARRAY
     {
-	--count;
-	auto r = enum_value_range<client_capability>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), client_capability(GL_SECONDARY_COLOR_ARRAY))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<client_capability>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), client_capability(GL_SECONDARY_COLOR_ARRAY)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_COORD_ARRAY
     {
-	--count;
-	auto r = enum_value_range<client_capability>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), client_capability(GL_TEXTURE_COORD_ARRAY))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<client_capability>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), client_capability(GL_TEXTURE_COORD_ARRAY)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNIFORM_BUFFER_UNIFIED_NV
     {
-	--count;
-	auto r = enum_value_range<client_capability>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), client_capability(GL_UNIFORM_BUFFER_UNIFIED_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<client_capability>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            client_capability(GL_UNIFORM_BUFFER_UNIFIED_NV)) != r.end());
     }
 #endif
 
 #ifdef GL_VERTEX_ARRAY
     {
-	--count;
-	auto r = enum_value_range<client_capability>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), client_capability(GL_VERTEX_ARRAY))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<client_capability>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), client_capability(GL_VERTEX_ARRAY)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_VERTEX_ATTRIB_ARRAY_UNIFIED_NV
     {
-	--count;
-	auto r = enum_value_range<client_capability>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      client_capability(GL_VERTEX_ATTRIB_ARRAY_UNIFIED_NV))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<client_capability>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            client_capability(GL_VERTEX_ATTRIB_ARRAY_UNIFIED_NV)) != r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

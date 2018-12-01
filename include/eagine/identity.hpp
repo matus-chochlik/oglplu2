@@ -18,10 +18,11 @@ template <typename T>
 struct identity {
     typedef T type;
 
-    template <typename X,
+    template <
+      typename X,
       typename = std::enable_if_t<std::is_same_v<T, X> && !std::is_array_v<X>>>
     constexpr inline X operator()(X v) const {
-	return v;
+        return v;
     }
 };
 

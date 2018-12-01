@@ -7,12 +7,14 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
+// clang-format off
 #include "prologue.inl"
 
-#include "epilogue.inl"
 #include "implement.inl"
 #include <eagine/shapes/cube.hpp>
 #include <eagine/shapes/icosahedron.hpp>
 #include <eagine/shapes/screen.hpp>
 #include <eagine/shapes/sphere.hpp>
 #include <eagine/shapes/torus.hpp>
+#include "epilogue.inl"
+// clang-format on

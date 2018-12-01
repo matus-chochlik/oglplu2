@@ -10,12 +10,12 @@
 #ifndef EAGINE_UTILS_CSTR_REF_1509260923_HPP
 #define EAGINE_UTILS_CSTR_REF_1509260923_HPP
 
-#include "config/platform.hpp"
-#include "string_span.hpp"
 #include <cassert>
 #include <cstring>
 #include <iosfwd>
 #include <string>
+#include "config/platform.hpp"
+#include "string_span.hpp"
 #if EAGINE_APPLE
 #include <ostream>
 #endif
@@ -33,10 +33,12 @@ private:
 
     static std::false_type _is_v_c(...);
 
-    template <typename C,
+    template <
+      typename C,
       typename VT = typename C::value_type,
       typename ST = typename C::size_type>
-    static std::true_type _is_v_c(C*,
+    static std::true_type _is_v_c(
+      C*,
       const VT* (C::*)(void)const = &C::data,
       ST (C::*)(void) const = &C::size);
 
@@ -62,33 +64,34 @@ public:
       : cstr_ref(cstr, span_size(std::strlen(cstr))) {
     }
 
-    template <typename Container,
+    template <
+      typename Container,
       typename = std::enable_if_t<_is_compatible_container<Container>::value>>
     explicit cstr_ref(const Container& cont) noexcept
       : cstr_ref(cont.data(), span_size(cont.size())) {
     }
 
     bool empty(void) const noexcept {
-	return size() == 0;
+        return size() == 0;
     }
 
     const char* c_str(void) const noexcept {
-	if(data() == nullptr) {
-	    return "";
-	}
-	assert(data()[size()] == '\0');
-	return data();
+        if(data() == nullptr) {
+            return "";
+        }
+        assert(data()[size()] == '\0');
+        return data();
     }
 
     std::string str(void) const {
-	return {data(), std_size(size())};
+        return {data(), std_size(size())};
     }
 
     template <typename Out>
     void write_to_stream(Out& out) const {
-	if(!empty()) {
-	    out.write(data(), std::streamsize(size()));
-	}
+        if(!empty()) {
+            out.write(data(), std::streamsize(size()));
+        }
     }
 };
 
@@ -98,14 +101,14 @@ public:
 
 static inline bool
 operator==(const cstr_ref& a, const cstr_ref& b) noexcept {
-    return static_cast<const cstring_span&>(a)
-	   == static_cast<const cstring_span&>(b);
+    return static_cast<const cstring_span&>(a) ==
+           static_cast<const cstring_span&>(b);
 }
 
 static inline bool
 operator!=(const cstr_ref& a, const cstr_ref& b) noexcept {
-    return static_cast<const cstring_span&>(a)
-	   != static_cast<const cstring_span&>(b);
+    return static_cast<const cstring_span&>(a) !=
+           static_cast<const cstring_span&>(b);
 }
 
 static inline std::ostream&

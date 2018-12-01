@@ -25,7 +25,8 @@ struct pixel_transfer_state {
 
 struct pixel_transfer_ops {
     template <typename T>
-    static outcome<void> read_pixels(GLint x,
+    static outcome<void> read_pixels(
+      GLint x,
       GLint y,
       GLsizei width,
       GLsizei height,

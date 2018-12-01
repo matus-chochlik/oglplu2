@@ -20,7 +20,7 @@ protected:
     T _value;
 
     Derived& self(void) noexcept {
-	return *static_cast<Derived*>(this);
+        return *static_cast<Derived*>(this);
     }
 
 public:
@@ -34,88 +34,88 @@ public:
     }
 
     explicit constexpr operator T(void) const noexcept {
-	return _value;
+        return _value;
     }
 
-    Derived& operator++(void)noexcept {
-	++_value;
-	return self();
+    Derived& operator++(void) noexcept {
+        ++_value;
+        return self();
     }
 
     Derived& operator+=(difference_type d) noexcept {
-	_value += d;
-	return self();
+        _value += d;
+        return self();
     }
 
-    Derived operator++(int)noexcept {
-	Derived res(self());
-	++_value;
-	return res;
+    Derived operator++(int) noexcept {
+        Derived res(self());
+        ++_value;
+        return res;
     }
 
     friend Derived operator+(
       basic_iterable_type a, difference_type d) noexcept {
-	Derived res(a.self());
-	res += d;
-	return res;
+        Derived res(a.self());
+        res += d;
+        return res;
     }
 
-    Derived& operator--(void)noexcept {
-	--_value;
-	return self();
+    Derived& operator--(void) noexcept {
+        --_value;
+        return self();
     }
 
     Derived& operator-=(difference_type d) noexcept {
-	_value -= d;
-	return self();
+        _value -= d;
+        return self();
     }
 
-    Derived operator--(int)noexcept {
-	Derived res(self());
-	--_value;
-	return res;
+    Derived operator--(int) noexcept {
+        Derived res(self());
+        --_value;
+        return res;
     }
 
     friend Derived operator-(
       basic_iterable_type a, difference_type d) noexcept {
-	Derived res(a.self());
-	res -= d;
-	return res;
+        Derived res(a.self());
+        res -= d;
+        return res;
     }
 
     constexpr friend difference_type operator-(
       basic_iterable_type a, basic_iterable_type b) noexcept {
-	return a._value - b._value;
+        return a._value - b._value;
     }
 
     constexpr friend bool operator==(
       basic_iterable_type a, basic_iterable_type b) noexcept {
-	return a._value == b._value;
+        return a._value == b._value;
     }
 
     constexpr friend bool operator!=(
       basic_iterable_type a, basic_iterable_type b) noexcept {
-	return a._value != b._value;
+        return a._value != b._value;
     }
 
     constexpr friend bool operator<(
       basic_iterable_type a, basic_iterable_type b) noexcept {
-	return a._value < b._value;
+        return a._value < b._value;
     }
 
     constexpr friend bool operator<=(
       basic_iterable_type a, basic_iterable_type b) noexcept {
-	return a._value <= b._value;
+        return a._value <= b._value;
     }
 
     constexpr friend bool operator>(
       basic_iterable_type a, basic_iterable_type b) noexcept {
-	return a._value > b._value;
+        return a._value > b._value;
     }
 
     constexpr friend bool operator>=(
       basic_iterable_type a, basic_iterable_type b) noexcept {
-	return a._value >= b._value;
+        return a._value >= b._value;
     }
 };
 
@@ -129,17 +129,18 @@ public:
     using basic_iterable_type<T, Derived>::basic_iterable_type;
 
     const T& operator*(void)const noexcept {
-	return this->_value;
+        return this->_value;
     }
 };
 
 template <typename T>
 struct selfref_iterator : basic_selfref_iterator<T, selfref_iterator<T>> {
-    using basic_selfref_iterator<T,
-      selfref_iterator<T>>::basic_selfref_iterator;
+    using basic_selfref_iterator<T, selfref_iterator<T>>::
+      basic_selfref_iterator;
 };
 
-template <typename Iterator,
+template <
+  typename Iterator,
   typename T,
   typename S,
   typename Transform,
@@ -153,7 +154,7 @@ private:
     mutable S _tempval;
 
     const _base& _base_iter(void) const noexcept {
-	return *this;
+        return *this;
     }
 
 public:
@@ -170,8 +171,8 @@ public:
     typedef const T* pointer;
 
     const T& operator*(void)const {
-	_tempval = _transf(**_base_iter());
-	return _tempval;
+        _tempval = _transf(**_base_iter());
+        return _tempval;
     }
 };
 
@@ -183,7 +184,7 @@ private:
     Transform _transf;
 
     const _base& _base_iter(void) const noexcept {
-	return *this;
+        return *this;
     }
 
 public:
@@ -199,22 +200,24 @@ public:
     typedef const T* pointer;
 
     T& operator*(void) {
-	return _transf(**_base_iter());
+        return _transf(**_base_iter());
     }
 
     const T& operator*(void)const {
-	return _transf(**_base_iter());
+        return _transf(**_base_iter());
     }
 };
 
 template <typename Iterator, typename T, typename S, typename Transform>
 struct transforming_iterator
-  : basic_transforming_iterator<Iterator,
+  : basic_transforming_iterator<
+      Iterator,
       T,
       S,
       Transform,
       transforming_iterator<Iterator, T, S, Transform>> {
-    using basic_transforming_iterator<Iterator,
+    using basic_transforming_iterator<
+      Iterator,
       T,
       S,
       Transform,
@@ -224,13 +227,15 @@ struct transforming_iterator
 
 template <typename Iterator, typename T, typename S, typename Derived>
 class basic_noexcept_casting_iterator
-  : public basic_transforming_iterator<Iterator,
+  : public basic_transforming_iterator<
+      Iterator,
       T,
       S,
       S (*)(typename std::iterator_traits<Iterator>::reference) noexcept,
       Derived> {
 private:
-    typedef basic_transforming_iterator<Iterator,
+    typedef basic_transforming_iterator<
+      Iterator,
       T,
       S,
       S (*)(typename std::iterator_traits<Iterator>::reference) noexcept,
@@ -239,7 +244,7 @@ private:
 
     static S _cast(
       typename std::iterator_traits<Iterator>::reference r) noexcept {
-	return static_cast<S>(r);
+        return static_cast<S>(r);
     }
 
 public:
@@ -250,11 +255,13 @@ public:
 
 template <typename Iterator, typename T, typename S>
 struct noexcept_casting_iterator
-  : basic_noexcept_casting_iterator<Iterator,
+  : basic_noexcept_casting_iterator<
+      Iterator,
       T,
       S,
       noexcept_casting_iterator<Iterator, T, S>> {
-    using basic_noexcept_casting_iterator<Iterator,
+    using basic_noexcept_casting_iterator<
+      Iterator,
       T,
       S,
       noexcept_casting_iterator<Iterator, T, S>>::

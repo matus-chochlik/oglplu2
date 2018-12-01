@@ -36,7 +36,7 @@ OGLPLUS_LIB_FUNC
 std::ostream&
 interlace_output::definitions(std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt))
-	return out;
+        return out;
 
     input_defs(out, ctxt);
     opening_expr(out, ctxt);
@@ -44,15 +44,15 @@ interlace_output::definitions(std::ostream& out, compile_context& ctxt) {
     out << "\tfloat c = (gl_FragCoord.xyz + ";
     out << expr::voxel_offset{*this} << ").";
     switch(_mode) {
-	case interlace_mode::columns:
-	    out << "x";
-	    break;
-	case interlace_mode::rows:
-	    out << "y";
-	    break;
-	case interlace_mode::layers:
-	    out << "z";
-	    break;
+        case interlace_mode::columns:
+            out << "x";
+            break;
+        case interlace_mode::rows:
+            out << "y";
+            break;
+        case interlace_mode::layers:
+            out << "z";
+            break;
     }
     out << ";" << std::endl;
     out << "\treturn mod(floor(c), 2);" << std::endl;

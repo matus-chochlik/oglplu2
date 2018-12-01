@@ -25,10 +25,10 @@ namespace oper {
 struct viewport_extents {
 
     viewport_extents(GLfloat x, GLfloat y, GLfloat w, GLfloat h) noexcept {
-	_v[0] = x;
-	_v[1] = y;
-	_v[2] = w;
-	_v[3] = h;
+        _v[0] = x;
+        _v[1] = y;
+        _v[2] = w;
+        _v[3] = h;
     }
 
     viewport_extents(void) noexcept
@@ -36,19 +36,19 @@ struct viewport_extents {
     }
 
     GLfloat x(void) const noexcept {
-	return _v[0];
+        return _v[0];
     }
 
     GLfloat y(void) const noexcept {
-	return _v[1];
+        return _v[1];
     }
 
     GLfloat width(void) const noexcept {
-	return _v[2];
+        return _v[2];
     }
 
     GLfloat height(void) const noexcept {
-	return _v[3];
+        return _v[3];
     }
 
     GLfloat _v[4];
@@ -63,7 +63,8 @@ struct viewport_state {
     static outcome<viewport_extents> get_viewport(void) noexcept;
 
 #if defined(GL_VERSION_4_1)
-    static outcome<void> viewport(viewport_index index,
+    static outcome<void> viewport(
+      viewport_index index,
       GLfloat x,
       GLfloat y,
       GLfloat w,

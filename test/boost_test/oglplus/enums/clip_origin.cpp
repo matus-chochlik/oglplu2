@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_clip_origin
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_clip_origin_tests)
 
@@ -64,19 +64,19 @@ BOOST_AUTO_TEST_CASE(enum_clip_origin_range) {
 
 #ifdef GL_LOWER_LEFT
     {
-	--count;
-	auto r = enum_value_range<clip_origin>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), clip_origin(GL_LOWER_LEFT)) != r.end());
+        --count;
+        auto r = enum_value_range<clip_origin>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), clip_origin(GL_LOWER_LEFT)) != r.end());
     }
 #endif
 
 #ifdef GL_UPPER_LEFT
     {
-	--count;
-	auto r = enum_value_range<clip_origin>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), clip_origin(GL_UPPER_LEFT)) != r.end());
+        --count;
+        auto r = enum_value_range<clip_origin>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), clip_origin(GL_UPPER_LEFT)) != r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

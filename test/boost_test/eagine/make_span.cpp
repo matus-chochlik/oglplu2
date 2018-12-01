@@ -64,14 +64,14 @@ BOOST_AUTO_TEST_CASE(make_span_std_vector) {
     std::vector<int> v;
 
     for(int i = 0, n = rg.get_int(10, 100); i < n; ++i) {
-	v.push_back(rg.get_any<int>());
+        v.push_back(rg.get_any<int>());
     }
 
     span<int> vi = make_span(v);
     BOOST_CHECK_EQUAL(vi.size(), v.size());
 
     for(std::size_t l = 0; l < v.size(); ++l) {
-	BOOST_CHECK(vi[span_size(l)] == v[l]);
+        BOOST_CHECK(vi[span_size(l)] == v[l]);
     }
 
     const std::vector<int>& vr = v;
@@ -80,7 +80,7 @@ BOOST_AUTO_TEST_CASE(make_span_std_vector) {
     BOOST_CHECK_EQUAL(cvi.size(), vr.size());
 
     for(std::size_t l = 0; l < vr.size(); ++l) {
-	BOOST_CHECK(cvi[span_size(l)] == vr[l]);
+        BOOST_CHECK(cvi[span_size(l)] == vr[l]);
     }
 }
 
@@ -90,14 +90,14 @@ BOOST_AUTO_TEST_CASE(make_span_std_array) {
     std::array<int, 100> a;
 
     for(std::size_t l = 0; l < a.size(); ++l) {
-	a[l] = rg.get_any<int>();
+        a[l] = rg.get_any<int>();
     }
 
     span<int> vi = make_span(a);
     BOOST_CHECK_EQUAL(vi.size(), a.size());
 
     for(std::size_t l = 0; l < a.size(); ++l) {
-	BOOST_CHECK(vi[span_size(l)] == a[l]);
+        BOOST_CHECK(vi[span_size(l)] == a[l]);
     }
 
     const std::array<int, 100>& ar = a;
@@ -106,7 +106,7 @@ BOOST_AUTO_TEST_CASE(make_span_std_array) {
     BOOST_CHECK_EQUAL(cvi.size(), ar.size());
 
     for(std::size_t l = 0; l < ar.size(); ++l) {
-	BOOST_CHECK(cvi[span_size(l)] == ar[l]);
+        BOOST_CHECK(cvi[span_size(l)] == ar[l]);
     }
 }
 

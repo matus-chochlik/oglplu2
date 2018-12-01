@@ -22,13 +22,13 @@ BOOST_AUTO_TEST_SUITE(units_unit_tests)
 struct units_unit_add_tester {
     template <typename BD>
     void operator()(BD) const {
-	using namespace eagine::units;
+        using namespace eagine::units;
 
-	typedef dimension<BD, 1> D;
+        typedef dimension<BD, 1> D;
 
-	unit<D, mock_system> a, b;
-	unit<D, mock_system> c = a + b;
-	EAGINE_MAYBE_UNUSED(c);
+        unit<D, mock_system> a, b;
+        unit<D, mock_system> c = a + b;
+        EAGINE_MAYBE_UNUSED(c);
     }
 };
 
@@ -41,13 +41,13 @@ BOOST_AUTO_TEST_CASE(units_unit_add) {
 struct units_unit_sub_tester {
     template <typename BD>
     void operator()(BD) const {
-	using namespace eagine::units;
+        using namespace eagine::units;
 
-	typedef dimension<BD, 1> D;
+        typedef dimension<BD, 1> D;
 
-	unit<D, mock_system> a, b;
-	unit<D, mock_system> c = a - b;
-	EAGINE_MAYBE_UNUSED(c);
+        unit<D, mock_system> a, b;
+        unit<D, mock_system> c = a - b;
+        EAGINE_MAYBE_UNUSED(c);
     }
 };
 
@@ -61,25 +61,25 @@ template <typename BD1>
 struct units_unit_mul_tester {
     template <typename BD2>
     void operator()(BD2) const {
-	using namespace eagine::units;
+        using namespace eagine::units;
 
-	typedef dimension<BD1, 1> D1;
-	typedef dimension<BD2, 1> D2;
-	typedef decltype(D1() * D2()) D;
+        typedef dimension<BD1, 1> D1;
+        typedef dimension<BD2, 1> D2;
+        typedef decltype(D1() * D2()) D;
 
-	unit<D1, mock_system> a;
-	unit<D2, mock_system> b;
-	unit<D, mock_system> c = a * b;
-	EAGINE_MAYBE_UNUSED(c);
+        unit<D1, mock_system> a;
+        unit<D2, mock_system> b;
+        unit<D, mock_system> c = a * b;
+        EAGINE_MAYBE_UNUSED(c);
     }
 };
 
 struct units_unit_mul_hlp_tester {
     template <typename BD>
     void operator()(BD) const {
-	using namespace eagine::units;
+        using namespace eagine::units;
 
-	base::for_each_dim(units_unit_mul_tester<BD>());
+        base::for_each_dim(units_unit_mul_tester<BD>());
     }
 };
 
@@ -93,25 +93,25 @@ template <typename BD1>
 struct units_unit_div_tester {
     template <typename BD2>
     void operator()(BD2) const {
-	using namespace eagine::units;
+        using namespace eagine::units;
 
-	typedef dimension<BD1, 1> D1;
-	typedef dimension<BD2, 1> D2;
-	typedef decltype(D1() / D2()) D;
+        typedef dimension<BD1, 1> D1;
+        typedef dimension<BD2, 1> D2;
+        typedef decltype(D1() / D2()) D;
 
-	unit<D1, mock_system> a;
-	unit<D2, mock_system> b;
-	unit<D, mock_system> c = a / b;
-	EAGINE_MAYBE_UNUSED(c);
+        unit<D1, mock_system> a;
+        unit<D2, mock_system> b;
+        unit<D, mock_system> c = a / b;
+        EAGINE_MAYBE_UNUSED(c);
     }
 };
 
 struct units_unit_div_hlp_tester {
     template <typename BD>
     void operator()(BD) const {
-	using namespace eagine::units;
+        using namespace eagine::units;
 
-	base::for_each_dim(units_unit_div_tester<BD>());
+        base::for_each_dim(units_unit_div_tester<BD>());
     }
 };
 

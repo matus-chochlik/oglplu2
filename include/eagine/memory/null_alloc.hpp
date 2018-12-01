@@ -10,8 +10,8 @@
 #ifndef EAGINE_MEMORY_NULL_ALLOC_1509260923_HPP
 #define EAGINE_MEMORY_NULL_ALLOC_1509260923_HPP
 
-#include "byte_alloc.hpp"
 #include <cassert>
+#include "byte_alloc.hpp"
 
 namespace eagine {
 namespace memory {
@@ -23,23 +23,23 @@ public:
     typedef span_size_t size_type;
 
     bool equal(byte_allocator* a) const noexcept override {
-	return dynamic_cast<null_byte_allocator*>(a) != nullptr;
+        return dynamic_cast<null_byte_allocator*>(a) != nullptr;
     }
 
     size_type max_size(size_type) noexcept override {
-	return 0;
+        return 0;
     }
 
     tribool has_allocated(const owned_block&, size_type) noexcept override {
-	return indeterminate;
+        return indeterminate;
     }
 
     owned_block allocate(size_type, size_type) noexcept override {
-	return {};
+        return {};
     }
 
     void deallocate(owned_block&& b, size_type) noexcept override {
-	assert(b.empty());
+        assert(b.empty());
     }
 };
 

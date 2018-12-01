@@ -9,12 +9,12 @@
 #ifndef EAGINE_ECS_REL_STORAGE_1509260923_HPP
 #define EAGINE_ECS_REL_STORAGE_1509260923_HPP
 
+#include <cassert>
 #include "../callable_ref.hpp"
 #include "entity_traits.hpp"
 #include "manipulator.hpp"
 #include "storage_caps.hpp"
 #include "storage_fwd.hpp"
-#include <cassert>
 
 namespace eagine {
 namespace ecs {
@@ -42,54 +42,54 @@ private:
 public:
     storage_iterator(storage_iterator_intf<Entity, true>* i) noexcept
       : _i(i) {
-	assert(_i);
+        assert(_i);
     }
 
     storage_iterator(const storage_iterator&) = delete;
 
     storage_iterator(storage_iterator&& tmp) noexcept
       : _i(tmp._i) {
-	tmp._i = nullptr;
+        tmp._i = nullptr;
     }
 
     ~storage_iterator(void) noexcept {
-	assert(_i == nullptr);
+        assert(_i == nullptr);
     }
 
     storage_iterator_intf<Entity, true>* release(void) {
-	storage_iterator_intf<Entity, true>* p = _i;
-	_i = nullptr;
-	return p;
+        storage_iterator_intf<Entity, true>* p = _i;
+        _i = nullptr;
+        return p;
     }
 
     storage_iterator_intf<Entity, true>* ptr(void) noexcept {
-	assert(_i);
-	return _i;
+        assert(_i);
+        return _i;
     }
 
     storage_iterator_intf<Entity, true>& get(void) noexcept {
-	assert(_i);
-	return *_i;
+        assert(_i);
+        return *_i;
     }
 
     void reset(void) {
-	get().reset();
+        get().reset();
     }
 
     bool done(void) {
-	return get().done();
+        return get().done();
     }
 
     void next(void) {
-	get().next();
+        get().next();
     }
 
     Entity subject(void) {
-	return get().subject();
+        return get().subject();
     }
 
     Entity object(void) {
-	return get().object();
+        return get().object();
     }
 };
 
@@ -131,14 +131,14 @@ struct storage<Entity, Relation, true> : base_storage<Entity, true> {
       entity_param subject, entity_param object, Relation&&) = 0;
 
     virtual void for_single(
-      callable_ref<void(
-	entity_param, entity_param, manipulator<const Relation>&)>,
+      callable_ref<
+        void(entity_param, entity_param, manipulator<const Relation>&)>,
       entity_param subject,
       entity_param object) = 0;
 
     virtual void for_single(
-      callable_ref<void(
-	entity_param, entity_param, manipulator<const Relation>&)>,
+      callable_ref<
+        void(entity_param, entity_param, manipulator<const Relation>&)>,
       iterator_t&) = 0;
 
     virtual void for_single(
@@ -153,19 +153,21 @@ struct storage<Entity, Relation, true> : base_storage<Entity, true> {
     using base_storage<Entity, true>::for_each;
 
     virtual void for_each(
-      callable_ref<void(
-	entity_param, entity_param, manipulator<const Relation>&)>,
+      callable_ref<
+        void(entity_param, entity_param, manipulator<const Relation>&)>,
       entity_param subject) = 0;
 
     virtual void for_each(
       callable_ref<void(entity_param, entity_param, manipulator<Relation>&)>,
       entity_param subject) = 0;
 
-    virtual void for_each(callable_ref<void(
-	entity_param, entity_param, manipulator<const Relation>&)>) = 0;
+    virtual void for_each(
+      callable_ref<
+        void(entity_param, entity_param, manipulator<const Relation>&)>) = 0;
 
-    virtual void for_each(callable_ref<void(
-	entity_param, entity_param, manipulator<Relation>&)>) = 0;
+    virtual void for_each(
+      callable_ref<
+        void(entity_param, entity_param, manipulator<Relation>&)>) = 0;
 };
 
 } // namespace ecs

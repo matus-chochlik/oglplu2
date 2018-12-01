@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_texture_target
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_texture_target_tests)
 
@@ -562,8 +562,8 @@ BOOST_AUTO_TEST_CASE(enum_texture_target_names) {
     x = ev.texture_2d_multisample_array;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "TEXTURE_2D_MULTISAMPLE_ARRAY")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "TEXTURE_2D_MULTISAMPLE_ARRAY") ==
+      0);
 #endif
 
 #ifdef GL_TEXTURE_3D
@@ -596,48 +596,48 @@ BOOST_AUTO_TEST_CASE(enum_texture_target_names) {
     x = ev.texture_cube_map_negative_x;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "TEXTURE_CUBE_MAP_NEGATIVE_X")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "TEXTURE_CUBE_MAP_NEGATIVE_X") ==
+      0);
 #endif
 
 #ifdef GL_TEXTURE_CUBE_MAP_NEGATIVE_Y
     x = ev.texture_cube_map_negative_y;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "TEXTURE_CUBE_MAP_NEGATIVE_Y")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "TEXTURE_CUBE_MAP_NEGATIVE_Y") ==
+      0);
 #endif
 
 #ifdef GL_TEXTURE_CUBE_MAP_NEGATIVE_Z
     x = ev.texture_cube_map_negative_z;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "TEXTURE_CUBE_MAP_NEGATIVE_Z")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "TEXTURE_CUBE_MAP_NEGATIVE_Z") ==
+      0);
 #endif
 
 #ifdef GL_TEXTURE_CUBE_MAP_POSITIVE_X
     x = ev.texture_cube_map_positive_x;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "TEXTURE_CUBE_MAP_POSITIVE_X")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "TEXTURE_CUBE_MAP_POSITIVE_X") ==
+      0);
 #endif
 
 #ifdef GL_TEXTURE_CUBE_MAP_POSITIVE_Y
     x = ev.texture_cube_map_positive_y;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "TEXTURE_CUBE_MAP_POSITIVE_Y")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "TEXTURE_CUBE_MAP_POSITIVE_Y") ==
+      0);
 #endif
 
 #ifdef GL_TEXTURE_CUBE_MAP_POSITIVE_Z
     x = ev.texture_cube_map_positive_z;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "TEXTURE_CUBE_MAP_POSITIVE_Z")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "TEXTURE_CUBE_MAP_POSITIVE_Z") ==
+      0);
 #endif
 
 #ifdef GL_TEXTURE_RECTANGLE
@@ -654,177 +654,187 @@ BOOST_AUTO_TEST_CASE(enum_texture_target_range) {
 
 #ifdef GL_TEXTURE_1D
     {
-	--count;
-	auto r = enum_value_range<texture_target>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), texture_target(GL_TEXTURE_1D))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<texture_target>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), texture_target(GL_TEXTURE_1D)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_1D_ARRAY
     {
-	--count;
-	auto r = enum_value_range<texture_target>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), texture_target(GL_TEXTURE_1D_ARRAY))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_target>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), texture_target(GL_TEXTURE_1D_ARRAY)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_2D
     {
-	--count;
-	auto r = enum_value_range<texture_target>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), texture_target(GL_TEXTURE_2D))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<texture_target>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), texture_target(GL_TEXTURE_2D)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_2D_ARRAY
     {
-	--count;
-	auto r = enum_value_range<texture_target>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), texture_target(GL_TEXTURE_2D_ARRAY))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_target>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), texture_target(GL_TEXTURE_2D_ARRAY)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_2D_MULTISAMPLE
     {
-	--count;
-	auto r = enum_value_range<texture_target>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), texture_target(GL_TEXTURE_2D_MULTISAMPLE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_target>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), texture_target(GL_TEXTURE_2D_MULTISAMPLE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_2D_MULTISAMPLE_ARRAY
     {
-	--count;
-	auto r = enum_value_range<texture_target>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), texture_target(GL_TEXTURE_2D_MULTISAMPLE_ARRAY))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_target>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            texture_target(GL_TEXTURE_2D_MULTISAMPLE_ARRAY)) != r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_3D
     {
-	--count;
-	auto r = enum_value_range<texture_target>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), texture_target(GL_TEXTURE_3D))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<texture_target>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), texture_target(GL_TEXTURE_3D)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_BUFFER
     {
-	--count;
-	auto r = enum_value_range<texture_target>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), texture_target(GL_TEXTURE_BUFFER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_target>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), texture_target(GL_TEXTURE_BUFFER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_CUBE_MAP
     {
-	--count;
-	auto r = enum_value_range<texture_target>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), texture_target(GL_TEXTURE_CUBE_MAP))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_target>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), texture_target(GL_TEXTURE_CUBE_MAP)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_CUBE_MAP_ARRAY
     {
-	--count;
-	auto r = enum_value_range<texture_target>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), texture_target(GL_TEXTURE_CUBE_MAP_ARRAY))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_target>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), texture_target(GL_TEXTURE_CUBE_MAP_ARRAY)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_CUBE_MAP_NEGATIVE_X
     {
-	--count;
-	auto r = enum_value_range<texture_target>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), texture_target(GL_TEXTURE_CUBE_MAP_NEGATIVE_X))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_target>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            texture_target(GL_TEXTURE_CUBE_MAP_NEGATIVE_X)) != r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_CUBE_MAP_NEGATIVE_Y
     {
-	--count;
-	auto r = enum_value_range<texture_target>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), texture_target(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_target>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            texture_target(GL_TEXTURE_CUBE_MAP_NEGATIVE_Y)) != r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_CUBE_MAP_NEGATIVE_Z
     {
-	--count;
-	auto r = enum_value_range<texture_target>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), texture_target(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_target>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            texture_target(GL_TEXTURE_CUBE_MAP_NEGATIVE_Z)) != r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_CUBE_MAP_POSITIVE_X
     {
-	--count;
-	auto r = enum_value_range<texture_target>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), texture_target(GL_TEXTURE_CUBE_MAP_POSITIVE_X))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_target>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            texture_target(GL_TEXTURE_CUBE_MAP_POSITIVE_X)) != r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_CUBE_MAP_POSITIVE_Y
     {
-	--count;
-	auto r = enum_value_range<texture_target>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), texture_target(GL_TEXTURE_CUBE_MAP_POSITIVE_Y))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_target>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            texture_target(GL_TEXTURE_CUBE_MAP_POSITIVE_Y)) != r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_CUBE_MAP_POSITIVE_Z
     {
-	--count;
-	auto r = enum_value_range<texture_target>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), texture_target(GL_TEXTURE_CUBE_MAP_POSITIVE_Z))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_target>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            texture_target(GL_TEXTURE_CUBE_MAP_POSITIVE_Z)) != r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_RECTANGLE
     {
-	--count;
-	auto r = enum_value_range<texture_target>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), texture_target(GL_TEXTURE_RECTANGLE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_target>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), texture_target(GL_TEXTURE_RECTANGLE)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

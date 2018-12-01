@@ -59,6 +59,6 @@ eagine_object_test(ObjectType type) {
     eagine_do_test_object(o1);
 }
 
-    // TODO
+// TODO
 
 #endif // include guard

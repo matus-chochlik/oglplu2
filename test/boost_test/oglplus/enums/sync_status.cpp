@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_sync_status
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_sync_status_tests)
 
@@ -64,19 +64,19 @@ BOOST_AUTO_TEST_CASE(enum_sync_status_range) {
 
 #ifdef GL_SIGNALED
     {
-	--count;
-	auto r = enum_value_range<sync_status>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sync_status(GL_SIGNALED)) != r.end());
+        --count;
+        auto r = enum_value_range<sync_status>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sync_status(GL_SIGNALED)) != r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNALED
     {
-	--count;
-	auto r = enum_value_range<sync_status>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sync_status(GL_UNSIGNALED)) != r.end());
+        --count;
+        auto r = enum_value_range<sync_status>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sync_status(GL_UNSIGNALED)) != r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

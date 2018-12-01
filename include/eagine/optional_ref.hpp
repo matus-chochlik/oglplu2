@@ -25,8 +25,8 @@ public:
     }
 
     optional_reference_wrapper(const optional_reference_wrapper&) = default;
-    optional_reference_wrapper& operator=(
-      const optional_reference_wrapper&) = default;
+    optional_reference_wrapper& operator=(const optional_reference_wrapper&) =
+      default;
 
     constexpr optional_reference_wrapper(nothing_t) noexcept
       : _ptr(nullptr) {
@@ -37,24 +37,24 @@ public:
     }
 
     bool is_valid(void) const noexcept {
-	return _ptr != nullptr;
+        return _ptr != nullptr;
     }
 
     explicit operator bool(void) const noexcept {
-	return is_valid();
+        return is_valid();
     }
 
-    bool operator!(void)const noexcept {
-	return !is_valid();
+    bool operator!(void) const noexcept {
+        return !is_valid();
     }
 
     T& get(void) const noexcept {
-	assert(is_valid());
-	return *_ptr;
+        assert(is_valid());
+        return *_ptr;
     }
 
     operator T&(void)const noexcept {
-	return get();
+        return get();
     }
 };
 

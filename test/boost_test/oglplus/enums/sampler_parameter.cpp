@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_sampler_parameter
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_sampler_parameter_tests)
 
@@ -331,116 +331,119 @@ BOOST_AUTO_TEST_CASE(enum_sampler_parameter_range) {
 
 #ifdef GL_TEXTURE_BORDER_COLOR
     {
-	--count;
-	auto r = enum_value_range<sampler_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), sampler_parameter(GL_TEXTURE_BORDER_COLOR))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sampler_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), sampler_parameter(GL_TEXTURE_BORDER_COLOR)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_COMPARE_FUNC
     {
-	--count;
-	auto r = enum_value_range<sampler_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), sampler_parameter(GL_TEXTURE_COMPARE_FUNC))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sampler_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), sampler_parameter(GL_TEXTURE_COMPARE_FUNC)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_COMPARE_MODE
     {
-	--count;
-	auto r = enum_value_range<sampler_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), sampler_parameter(GL_TEXTURE_COMPARE_MODE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sampler_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), sampler_parameter(GL_TEXTURE_COMPARE_MODE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_LOD_BIAS
     {
-	--count;
-	auto r = enum_value_range<sampler_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sampler_parameter(GL_TEXTURE_LOD_BIAS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sampler_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), sampler_parameter(GL_TEXTURE_LOD_BIAS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_MAG_FILTER
     {
-	--count;
-	auto r = enum_value_range<sampler_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), sampler_parameter(GL_TEXTURE_MAG_FILTER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sampler_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), sampler_parameter(GL_TEXTURE_MAG_FILTER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_MAX_LOD
     {
-	--count;
-	auto r = enum_value_range<sampler_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sampler_parameter(GL_TEXTURE_MAX_LOD))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sampler_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), sampler_parameter(GL_TEXTURE_MAX_LOD)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_MIN_FILTER
     {
-	--count;
-	auto r = enum_value_range<sampler_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), sampler_parameter(GL_TEXTURE_MIN_FILTER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sampler_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), sampler_parameter(GL_TEXTURE_MIN_FILTER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_MIN_LOD
     {
-	--count;
-	auto r = enum_value_range<sampler_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sampler_parameter(GL_TEXTURE_MIN_LOD))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sampler_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), sampler_parameter(GL_TEXTURE_MIN_LOD)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_WRAP_R
     {
-	--count;
-	auto r = enum_value_range<sampler_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sampler_parameter(GL_TEXTURE_WRAP_R))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sampler_parameter>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sampler_parameter(GL_TEXTURE_WRAP_R)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_WRAP_S
     {
-	--count;
-	auto r = enum_value_range<sampler_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sampler_parameter(GL_TEXTURE_WRAP_S))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sampler_parameter>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sampler_parameter(GL_TEXTURE_WRAP_S)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_WRAP_T
     {
-	--count;
-	auto r = enum_value_range<sampler_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sampler_parameter(GL_TEXTURE_WRAP_T))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sampler_parameter>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sampler_parameter(GL_TEXTURE_WRAP_T)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

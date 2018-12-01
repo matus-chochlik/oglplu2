@@ -18,18 +18,18 @@ namespace eagine {
 template <typename T, T Cmp>
 struct valid_if_ne_policy {
     constexpr bool operator()(T value) const noexcept {
-	return value != Cmp;
+        return value != Cmp;
     }
 
     struct do_log {
-	template <typename X>
-	constexpr inline do_log(X&&) noexcept {
-	}
+        template <typename X>
+        constexpr inline do_log(X&&) noexcept {
+        }
 
-	template <typename Log>
-	void operator()(Log& log, const T&) const {
-	    log << "Value equal to " << Cmp << " is invalid";
-	}
+        template <typename Log>
+        void operator()(Log& log, const T&) const {
+            log << "Value equal to " << Cmp << " is invalid";
+        }
     };
 };
 

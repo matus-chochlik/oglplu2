@@ -9,8 +9,8 @@
 #ifndef EAGINE_POSIX_FILE_STAT_1509260923_HPP
 #define EAGINE_POSIX_FILE_STAT_1509260923_HPP
 
-#include "file_descriptor.hpp"
 #include <sys/stat.h>
+#include "file_descriptor.hpp"
 
 namespace eagine {
 namespace posix {
@@ -34,11 +34,11 @@ private:
 
 public:
     file_stat(file_descriptor fdw) {
-	fstat(fdw, _st);
+        fstat(fdw, _st);
     }
 
     auto size(void) const noexcept {
-	return _st.st_size;
+        return _st.st_size;
     }
 };
 

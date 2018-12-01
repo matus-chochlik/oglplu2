@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_path_list_mode_nv
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_path_list_mode_nv_tests)
 
@@ -84,32 +84,35 @@ BOOST_AUTO_TEST_CASE(enum_path_list_mode_nv_range) {
 
 #ifdef GL_ACCUM_ADJACENT_PAIRS_NV
     {
-	--count;
-	auto r = enum_value_range<path_list_mode_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), path_list_mode_nv(GL_ACCUM_ADJACENT_PAIRS_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_list_mode_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            path_list_mode_nv(GL_ACCUM_ADJACENT_PAIRS_NV)) != r.end());
     }
 #endif
 
 #ifdef GL_ADJACENT_PAIRS_NV
     {
-	--count;
-	auto r = enum_value_range<path_list_mode_nv>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), path_list_mode_nv(GL_ADJACENT_PAIRS_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_list_mode_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), path_list_mode_nv(GL_ADJACENT_PAIRS_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_FIRST_TO_REST_NV
     {
-	--count;
-	auto r = enum_value_range<path_list_mode_nv>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), path_list_mode_nv(GL_FIRST_TO_REST_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_list_mode_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), path_list_mode_nv(GL_FIRST_TO_REST_NV)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

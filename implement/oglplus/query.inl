@@ -32,7 +32,8 @@ inline outcome<void>
 query_ops::begin_query_indexed(
   query_target target, GLuint index, query_name qry) noexcept {
     OGLPLUS_GLFUNC(BeginQueryIndexed)(GLenum(target), index, get_raw_name(qry));
-    OGLPLUS_VERIFY(BeginQueryIndexed,
+    OGLPLUS_VERIFY(
+      BeginQueryIndexed,
       gl_enum_value(target).gl_object(qry).gl_index(index),
       debug);
     return {};
@@ -92,7 +93,8 @@ query_ops::get_query_object_iv(
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-query_ops::get_query_object_uiv(query_name qry,
+query_ops::get_query_object_uiv(
+  query_name qry,
   oglplus::query_parameter param,
   span<GLuint> values) noexcept {
     assert(values.size() > 0);
@@ -106,7 +108,8 @@ query_ops::get_query_object_uiv(query_name qry,
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_3) || defined(GL_ARB_timer_query)
 inline outcome<void>
-query_ops::get_query_object_i64v(query_name qry,
+query_ops::get_query_object_i64v(
+  query_name qry,
   oglplus::query_parameter param,
   span<GLint64> values) noexcept {
     assert(values.size() > 0);
@@ -118,7 +121,8 @@ query_ops::get_query_object_i64v(query_name qry,
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-query_ops::get_query_object_ui64v(query_name qry,
+query_ops::get_query_object_ui64v(
+  query_name qry,
   oglplus::query_parameter param,
   span<GLuint64> values) noexcept {
     assert(values.size() > 0);
@@ -135,7 +139,7 @@ inline outcome<boolean>
 query_ops::query_result_available(query_name qry) noexcept {
     GLint result = GLint(GL_FALSE);
     return get_query_object_iv(
-      qry, query_parameter(GL_QUERY_RESULT_AVAILABLE), {&result, 1})
+             qry, query_parameter(GL_QUERY_RESULT_AVAILABLE), {&result, 1})
       .add(boolean(GLboolean(result)));
 }
 #endif

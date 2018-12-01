@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_program_pipeline_parameter
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_program_pipeline_parameter_tests)
 
@@ -181,78 +181,84 @@ BOOST_AUTO_TEST_CASE(enum_program_pipeline_parameter_range) {
 
 #ifdef GL_ACTIVE_PROGRAM
     {
-	--count;
-	auto r = enum_value_range<program_pipeline_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), program_pipeline_parameter(GL_ACTIVE_PROGRAM))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_pipeline_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_pipeline_parameter(GL_ACTIVE_PROGRAM)) != r.end());
     }
 #endif
 
 #ifdef GL_FRAGMENT_SHADER
     {
-	--count;
-	auto r = enum_value_range<program_pipeline_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), program_pipeline_parameter(GL_FRAGMENT_SHADER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_pipeline_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_pipeline_parameter(GL_FRAGMENT_SHADER)) != r.end());
     }
 #endif
 
 #ifdef GL_GEOMETRY_SHADER
     {
-	--count;
-	auto r = enum_value_range<program_pipeline_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), program_pipeline_parameter(GL_GEOMETRY_SHADER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_pipeline_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_pipeline_parameter(GL_GEOMETRY_SHADER)) != r.end());
     }
 #endif
 
 #ifdef GL_INFO_LOG_LENGTH
     {
-	--count;
-	auto r = enum_value_range<program_pipeline_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), program_pipeline_parameter(GL_INFO_LOG_LENGTH))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_pipeline_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_pipeline_parameter(GL_INFO_LOG_LENGTH)) != r.end());
     }
 #endif
 
 #ifdef GL_TESS_CONTROL_SHADER
     {
-	--count;
-	auto r = enum_value_range<program_pipeline_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      program_pipeline_parameter(GL_TESS_CONTROL_SHADER))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<program_pipeline_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_pipeline_parameter(GL_TESS_CONTROL_SHADER)) != r.end());
     }
 #endif
 
 #ifdef GL_TESS_EVALUATION_SHADER
     {
-	--count;
-	auto r = enum_value_range<program_pipeline_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      program_pipeline_parameter(GL_TESS_EVALUATION_SHADER))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<program_pipeline_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_pipeline_parameter(GL_TESS_EVALUATION_SHADER)) != r.end());
     }
 #endif
 
 #ifdef GL_VERTEX_SHADER
     {
-	--count;
-	auto r = enum_value_range<program_pipeline_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), program_pipeline_parameter(GL_VERTEX_SHADER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_pipeline_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), program_pipeline_parameter(GL_VERTEX_SHADER)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

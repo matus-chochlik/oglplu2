@@ -13,16 +13,17 @@ namespace oalplus {
 namespace oper {
 //------------------------------------------------------------------------------
 inline outcome<void>
-buffer_ops::buffer_data(buffer_name buf,
+buffer_ops::buffer_data(
+  buffer_name buf,
   data_format format,
   const buffer_data_spec& data,
   ALsizei frequency) noexcept {
     OALPLUS_ALFUNC(BufferData)
     (get_raw_name(buf),
-      ALenum(format),
-      data.data(),
-      ALsizei(data.size()),
-      frequency);
+     ALenum(format),
+     data.data(),
+     ALsizei(data.size()),
+     frequency);
     OALPLUS_VERIFY(BufferData, al_enum_value(format).al_object(buf), always);
     return {};
 }
@@ -63,14 +64,14 @@ inline outcome<ALint>
 buffer_ops::buffer_channels(buffer_name buf) noexcept {
     ALint result = 0;
     return get_buffer_iv(buf, buffer_parameter(AL_CHANNELS), {&result, 1}),
-	   result;
+           result;
 }
 //------------------------------------------------------------------------------
 inline outcome<ALfloat>
 buffer_ops::buffer_frequency(buffer_name buf) noexcept {
     ALfloat result = 0.f;
     return get_buffer_fv(buf, buffer_parameter(AL_FREQUENCY), {&result, 1}),
-	   result;
+           result;
 }
 //------------------------------------------------------------------------------
 } // namespace oper

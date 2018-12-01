@@ -24,24 +24,24 @@ BOOST_AUTO_TEST_CASE(buffer_data_2) {
     using namespace eagine;
 
     {
-	const long clv[8] = {0, 1, 2, 3, 4, 5, 6, 7};
+        const long clv[8] = {0, 1, 2, 3, 4, 5, 6, 7};
 
-	buffer_data_spec<int> bd(clv);
-	BOOST_CHECK(!bd.empty());
-	BOOST_CHECK(bd.data() != nullptr);
-	BOOST_CHECK(bd.data() == static_cast<const void*>(clv));
-	BOOST_CHECK(int(bd.size()) == int(sizeof(long) * 8));
-	BOOST_CHECK(unsigned(bd.size()) == unsigned(sizeof(long) * 8));
+        buffer_data_spec<int> bd(clv);
+        BOOST_CHECK(!bd.empty());
+        BOOST_CHECK(bd.data() != nullptr);
+        BOOST_CHECK(bd.data() == static_cast<const void*>(clv));
+        BOOST_CHECK(int(bd.size()) == int(sizeof(long) * 8));
+        BOOST_CHECK(unsigned(bd.size()) == unsigned(sizeof(long) * 8));
     }
 
     {
-	float fv[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+        float fv[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
 
-	buffer_data_spec<long> bd(fv);
-	BOOST_CHECK(!bd.empty());
-	BOOST_CHECK(bd.data() != nullptr);
-	BOOST_CHECK(bd.data() == static_cast<const void*>(fv));
-	BOOST_CHECK(long(bd.size()) == long(sizeof(float) * 10));
+        buffer_data_spec<long> bd(fv);
+        BOOST_CHECK(!bd.empty());
+        BOOST_CHECK(bd.data() != nullptr);
+        BOOST_CHECK(bd.data() == static_cast<const void*>(fv));
+        BOOST_CHECK(long(bd.size()) == long(sizeof(float) * 10));
     }
 }
 
@@ -49,28 +49,28 @@ BOOST_AUTO_TEST_CASE(buffer_data_3) {
     using namespace eagine;
 
     {
-	buffer_data_spec<int> bd;
-	span<const byte> v = bd.view();
+        buffer_data_spec<int> bd;
+        span<const byte> v = bd.view();
 
-	BOOST_CHECK(v.begin() == v.end());
+        BOOST_CHECK(v.begin() == v.end());
     }
 
     {
-	const short csv[8] = {0, 1, 2, 3, 4, 5, 6, 7};
+        const short csv[8] = {0, 1, 2, 3, 4, 5, 6, 7};
 
-	buffer_data_spec<short> bd(csv);
-	span<const byte> v = bd.view();
+        buffer_data_spec<short> bd(csv);
+        span<const byte> v = bd.view();
 
-	BOOST_CHECK(v.begin() != v.end());
+        BOOST_CHECK(v.begin() != v.end());
     }
 
     {
-	double fv[9] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+        double fv[9] = {1, 2, 3, 4, 5, 6, 7, 8, 9};
 
-	buffer_data_spec<unsigned> bd(fv);
-	span<const byte> v = bd.view();
+        buffer_data_spec<unsigned> bd(fv);
+        span<const byte> v = bd.view();
 
-	BOOST_CHECK(v.begin() != v.end());
+        BOOST_CHECK(v.begin() != v.end());
     }
 }
 

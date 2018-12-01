@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_buffer_target
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_buffer_target_tests)
 
@@ -523,9 +523,9 @@ BOOST_AUTO_TEST_CASE(enum_buffer_target_names) {
 #ifdef GL_EXTERNAL_VIRTUAL_MEMORY_BUFFER_AMD
     x = ev.external_virtual_memory_buffer;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-    BOOST_CHECK(std::strcmp(enum_value_name(x).data(),
-		  "EXTERNAL_VIRTUAL_MEMORY_BUFFER_AMD")
-		== 0);
+    BOOST_CHECK(
+      std::strcmp(
+        enum_value_name(x).data(), "EXTERNAL_VIRTUAL_MEMORY_BUFFER_AMD") == 0);
 #endif
 
 #ifdef GL_PARAMETER_BUFFER_ARB
@@ -588,164 +588,171 @@ BOOST_AUTO_TEST_CASE(enum_buffer_target_range) {
 
 #ifdef GL_ARRAY_BUFFER
     {
-	--count;
-	auto r = enum_value_range<buffer_target>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), buffer_target(GL_ARRAY_BUFFER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<buffer_target>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), buffer_target(GL_ARRAY_BUFFER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_ATOMIC_COUNTER_BUFFER
     {
-	--count;
-	auto r = enum_value_range<buffer_target>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), buffer_target(GL_ATOMIC_COUNTER_BUFFER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<buffer_target>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), buffer_target(GL_ATOMIC_COUNTER_BUFFER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_COPY_READ_BUFFER
     {
-	--count;
-	auto r = enum_value_range<buffer_target>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), buffer_target(GL_COPY_READ_BUFFER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<buffer_target>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), buffer_target(GL_COPY_READ_BUFFER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_COPY_WRITE_BUFFER
     {
-	--count;
-	auto r = enum_value_range<buffer_target>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), buffer_target(GL_COPY_WRITE_BUFFER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<buffer_target>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), buffer_target(GL_COPY_WRITE_BUFFER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_DISPATCH_INDIRECT_BUFFER
     {
-	--count;
-	auto r = enum_value_range<buffer_target>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), buffer_target(GL_DISPATCH_INDIRECT_BUFFER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<buffer_target>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), buffer_target(GL_DISPATCH_INDIRECT_BUFFER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_DRAW_INDIRECT_BUFFER
     {
-	--count;
-	auto r = enum_value_range<buffer_target>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), buffer_target(GL_DRAW_INDIRECT_BUFFER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<buffer_target>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), buffer_target(GL_DRAW_INDIRECT_BUFFER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_ELEMENT_ARRAY_BUFFER
     {
-	--count;
-	auto r = enum_value_range<buffer_target>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), buffer_target(GL_ELEMENT_ARRAY_BUFFER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<buffer_target>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), buffer_target(GL_ELEMENT_ARRAY_BUFFER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_EXTERNAL_VIRTUAL_MEMORY_BUFFER_AMD
     {
-	--count;
-	auto r = enum_value_range<buffer_target>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      buffer_target(GL_EXTERNAL_VIRTUAL_MEMORY_BUFFER_AMD))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<buffer_target>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            buffer_target(GL_EXTERNAL_VIRTUAL_MEMORY_BUFFER_AMD)) != r.end());
     }
 #endif
 
 #ifdef GL_PARAMETER_BUFFER_ARB
     {
-	--count;
-	auto r = enum_value_range<buffer_target>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), buffer_target(GL_PARAMETER_BUFFER_ARB))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<buffer_target>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), buffer_target(GL_PARAMETER_BUFFER_ARB)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_PIXEL_PACK_BUFFER
     {
-	--count;
-	auto r = enum_value_range<buffer_target>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), buffer_target(GL_PIXEL_PACK_BUFFER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<buffer_target>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), buffer_target(GL_PIXEL_PACK_BUFFER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_PIXEL_UNPACK_BUFFER
     {
-	--count;
-	auto r = enum_value_range<buffer_target>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), buffer_target(GL_PIXEL_UNPACK_BUFFER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<buffer_target>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), buffer_target(GL_PIXEL_UNPACK_BUFFER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_QUERY_BUFFER
     {
-	--count;
-	auto r = enum_value_range<buffer_target>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), buffer_target(GL_QUERY_BUFFER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<buffer_target>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), buffer_target(GL_QUERY_BUFFER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SHADER_STORAGE_BUFFER
     {
-	--count;
-	auto r = enum_value_range<buffer_target>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), buffer_target(GL_SHADER_STORAGE_BUFFER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<buffer_target>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), buffer_target(GL_SHADER_STORAGE_BUFFER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_BUFFER
     {
-	--count;
-	auto r = enum_value_range<buffer_target>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), buffer_target(GL_TEXTURE_BUFFER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<buffer_target>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), buffer_target(GL_TEXTURE_BUFFER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER
     {
-	--count;
-	auto r = enum_value_range<buffer_target>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), buffer_target(GL_TRANSFORM_FEEDBACK_BUFFER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<buffer_target>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), buffer_target(GL_TRANSFORM_FEEDBACK_BUFFER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNIFORM_BUFFER
     {
-	--count;
-	auto r = enum_value_range<buffer_target>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), buffer_target(GL_UNIFORM_BUFFER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<buffer_target>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), buffer_target(GL_UNIFORM_BUFFER)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

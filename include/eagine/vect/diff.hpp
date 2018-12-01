@@ -20,7 +20,7 @@ struct diff {
     typedef data_param_t<T, N, V> _dpT;
 
     static _dT apply(_dpT a, _dpT b) noexcept {
-	return vect::abs<T, N, V>::apply(a - b);
+        return vect::abs<T, N, V>::apply(a - b);
     }
 };
 

@@ -10,11 +10,11 @@
 #ifndef EAGINE_SHAPES_TORUS_1509260923_HPP
 #define EAGINE_SHAPES_TORUS_1509260923_HPP
 
+#include <cassert>
 #include "../config/basic.hpp"
 #include "../valid_if/ge0_lt1.hpp"
 #include "../valid_if/greater_than.hpp"
 #include "gen_base.hpp"
-#include <cassert>
 
 namespace eagine {
 namespace shapes {
@@ -30,12 +30,14 @@ private:
     static vertex_attrib_bits _attr_mask(void) noexcept;
 
 public:
-    unit_torus_gen(vertex_attrib_bits attr_bits,
+    unit_torus_gen(
+      vertex_attrib_bits attr_bits,
       valid_if_greater_than<int, 4> rings,
       valid_if_greater_than<int, 3> sections,
       valid_if_ge0_lt1<float> radius_ratio) noexcept;
 
-    unit_torus_gen(vertex_attrib_bits attr_bits,
+    unit_torus_gen(
+      vertex_attrib_bits attr_bits,
       valid_if_greater_than<int, 4> rings,
       valid_if_greater_than<int, 3> sections) noexcept
       : unit_torus_gen(attr_bits, rings, sections, 0.5f) {

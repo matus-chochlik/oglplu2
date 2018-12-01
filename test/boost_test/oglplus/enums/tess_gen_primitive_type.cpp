@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_tess_gen_primitive_type
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_tess_gen_primitive_type_tests)
 
@@ -81,31 +81,32 @@ BOOST_AUTO_TEST_CASE(enum_tess_gen_primitive_type_range) {
 
 #ifdef GL_ISOLINES
     {
-	--count;
-	auto r = enum_value_range<tess_gen_primitive_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), tess_gen_primitive_type(GL_ISOLINES))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<tess_gen_primitive_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), tess_gen_primitive_type(GL_ISOLINES)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_QUADS
     {
-	--count;
-	auto r = enum_value_range<tess_gen_primitive_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), tess_gen_primitive_type(GL_QUADS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<tess_gen_primitive_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), tess_gen_primitive_type(GL_QUADS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TRIANGLES
     {
-	--count;
-	auto r = enum_value_range<tess_gen_primitive_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), tess_gen_primitive_type(GL_TRIANGLES))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<tess_gen_primitive_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), tess_gen_primitive_type(GL_TRIANGLES)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

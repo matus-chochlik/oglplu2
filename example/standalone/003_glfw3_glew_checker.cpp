@@ -44,22 +44,23 @@ run_loop(GLFWwindow* window, int width, int height) {
 
     shader fs(GL.fragment_shader);
 
-    gl.shader_source(fs,
+    gl.shader_source(
+      fs,
       glsl_literal("#version 120\n"
 
-		   "uniform vec3 Color1;\n"
-		   "uniform vec3 Color2;\n"
+                   "uniform vec3 Color1;\n"
+                   "uniform vec3 Color2;\n"
 
-		   "float checker(vec2 c)\n"
-		   "{\n"
-		   "	return mod(int(c.x*8)+int(c.y*8), 2);\n"
-		   "}\n"
+                   "float checker(vec2 c)\n"
+                   "{\n"
+                   "	return mod(int(c.x*8)+int(c.y*8), 2);\n"
+                   "}\n"
 
-		   "void main(void)\n"
-		   "{\n"
-		   "	float c = checker(gl_TexCoord[0].st);\n"
-		   "	gl_FragColor = vec4(mix(Color1, Color2, c),1);\n"
-		   "}\n"));
+                   "void main(void)\n"
+                   "{\n"
+                   "	float c = checker(gl_TexCoord[0].st);\n"
+                   "	gl_FragColor = vec4(mix(Color1, Color2, c),1);\n"
+                   "}\n"));
     gl.compile_shader(fs);
 
     program prog;
@@ -79,119 +80,120 @@ run_loop(GLFWwindow* window, int width, int height) {
     int deg = 0;
 
     while(true) {
-	glfwPollEvents();
+        glfwPollEvents();
 
-	if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-	    glfwSetWindowShouldClose(window, 1);
-	    break;
-	}
+        if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+            glfwSetWindowShouldClose(window, 1);
+            break;
+        }
 
-	if(glfwWindowShouldClose(window)) {
-	    break;
-	}
+        if(glfwWindowShouldClose(window)) {
+            break;
+        }
 
-	int new_width, new_height;
-	glfwGetWindowSize(window, &new_width, &new_height);
+        int new_width, new_height;
+        glfwGetWindowSize(window, &new_width, &new_height);
 
-	if((width != new_width) || (height != new_height)) {
-	    width = new_width;
-	    height = new_height;
+        if((width != new_width) || (height != new_height)) {
+            width = new_width;
+            height = new_height;
 
-	    handle_resize(width, height);
-	}
+            handle_resize(width, height);
+        }
 
-	gl.clear(GL.color_buffer_bit);
+        gl.clear(GL.color_buffer_bit);
 
-	gl.matrix_mode(GL.modelview);
-	gl.load_identity();
-	gl.rotate_f(degrees_(deg++), 0, 0, 1);
+        gl.matrix_mode(GL.modelview);
+        gl.load_identity();
+        gl.rotate_f(degrees_(deg++), 0, 0, 1);
 
-	gl.begin(GL.quads);
-	gl.tex_coord_i(0, 0);
-	gl.vertex_i(-1, -1);
+        gl.begin(GL.quads);
+        gl.tex_coord_i(0, 0);
+        gl.vertex_i(-1, -1);
 
-	gl.tex_coord_i(1, 0);
-	gl.vertex_i(1, -1);
+        gl.tex_coord_i(1, 0);
+        gl.vertex_i(1, -1);
 
-	gl.tex_coord_i(1, 1);
-	gl.vertex_i(1, 1);
+        gl.tex_coord_i(1, 1);
+        gl.vertex_i(1, 1);
 
-	gl.tex_coord_i(0, 1);
-	gl.vertex_i(-1, 1);
-	gl.end();
+        gl.tex_coord_i(0, 1);
+        gl.vertex_i(-1, 1);
+        gl.end();
 
-	gl.begin(GL.line_loop);
-	gl.color_f(1, 1, 1);
+        gl.begin(GL.line_loop);
+        gl.color_f(1, 1, 1);
 
-	gl.vertex_i(-1, -1);
+        gl.vertex_i(-1, -1);
 
-	gl.vertex_i(1, -1);
+        gl.vertex_i(1, -1);
 
-	gl.vertex_i(1, 1);
+        gl.vertex_i(1, 1);
 
-	gl.vertex_i(-1, 1);
-	gl.end();
+        gl.vertex_i(-1, 1);
+        gl.end();
 
-	glfwSwapBuffers(window);
+        glfwSwapBuffers(window);
     }
 }
 
 static void
 init_and_run(void) {
     if(!glfwInit()) {
-	throw std::runtime_error("GLFW initialization error");
+        throw std::runtime_error("GLFW initialization error");
     } else {
-	auto ensure_glfw_cleanup = eagine::finally(glfwTerminate);
+        auto ensure_glfw_cleanup = eagine::finally(glfwTerminate);
 
-	glfwWindowHint(GLFW_DOUBLEBUFFER, GL_TRUE);
-	glfwWindowHint(GLFW_RED_BITS, 8);
-	glfwWindowHint(GLFW_BLUE_BITS, 8);
-	glfwWindowHint(GLFW_GREEN_BITS, 8);
-	glfwWindowHint(GLFW_ALPHA_BITS, 0);
-	glfwWindowHint(GLFW_DEPTH_BITS, 0);
-	glfwWindowHint(GLFW_STENCIL_BITS, 0);
+        glfwWindowHint(GLFW_DOUBLEBUFFER, GL_TRUE);
+        glfwWindowHint(GLFW_RED_BITS, 8);
+        glfwWindowHint(GLFW_BLUE_BITS, 8);
+        glfwWindowHint(GLFW_GREEN_BITS, 8);
+        glfwWindowHint(GLFW_ALPHA_BITS, 0);
+        glfwWindowHint(GLFW_DEPTH_BITS, 0);
+        glfwWindowHint(GLFW_STENCIL_BITS, 0);
 
-	glfwWindowHint(GLFW_SAMPLES, GLFW_DONT_CARE);
+        glfwWindowHint(GLFW_SAMPLES, GLFW_DONT_CARE);
 
-	int width = 800, height = 600;
+        int width = 800, height = 600;
 
-	GLFWwindow* window =
-	  glfwCreateWindow(width, height, "OGLplus example", NULL, NULL);
+        GLFWwindow* window =
+          glfwCreateWindow(width, height, "OGLplus example", NULL, NULL);
 
-	if(!window) {
-	    throw std::runtime_error("Error creating GLFW window");
-	} else {
-	    glfwMakeContextCurrent(window);
-	    glewExperimental = GL_TRUE;
-	    GLenum init_result = glewInit();
-	    glGetError();
-	    if(init_result != GLEW_OK) {
-		throw std::runtime_error("OpenGL/GLEW initialization error.");
-	    } else {
-		run_loop(window, width, height);
-	    }
-	}
+        if(!window) {
+            throw std::runtime_error("Error creating GLFW window");
+        } else {
+            glfwMakeContextCurrent(window);
+            glewExperimental = GL_TRUE;
+            GLenum init_result = glewInit();
+            glGetError();
+            if(init_result != GLEW_OK) {
+                throw std::runtime_error("OpenGL/GLEW initialization error.");
+            } else {
+                run_loop(window, width, height);
+            }
+        }
     }
 }
 
 int
 main(void) {
     try {
-	init_and_run();
-	return 0;
+        init_and_run();
+        return 0;
     } catch(oglplus::error& gle) {
-	oglplus::format_error(gle,
-	  "OpenGL error\n"
-	  "in GL function: %(gl_function_name)\n"
-	  "with enum parameter: %(gl_enum_value)\n"
-	  "from source file: %(source_file)\n"
-	  "%(message)",
-	  std::cerr)
-	  << std::endl;
+        oglplus::format_error(
+          gle,
+          "OpenGL error\n"
+          "in GL function: %(gl_function_name)\n"
+          "with enum parameter: %(gl_enum_value)\n"
+          "from source file: %(source_file)\n"
+          "%(message)",
+          std::cerr)
+          << std::endl;
     } catch(std::runtime_error& sre) {
-	std::cerr << "Runtime error: " << sre.what() << std::endl;
+        std::cerr << "Runtime error: " << sre.what() << std::endl;
     } catch(std::exception& se) {
-	std::cerr << "Unknown error: " << se.what() << std::endl;
+        std::cerr << "Unknown error: " << se.what() << std::endl;
     }
     return 1;
 }

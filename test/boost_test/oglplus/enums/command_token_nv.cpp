@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_command_token_nv
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_command_token_nv_tests)
 
@@ -651,8 +651,8 @@ BOOST_AUTO_TEST_CASE(enum_command_token_nv_names) {
     x = ev.attribute_address_command_nv;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "ATTRIBUTE_ADDRESS_COMMAND_NV")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "ATTRIBUTE_ADDRESS_COMMAND_NV") ==
+      0);
 #endif
 
 #ifdef GL_BLEND_COLOR_COMMAND_NV
@@ -673,16 +673,16 @@ BOOST_AUTO_TEST_CASE(enum_command_token_nv_names) {
     x = ev.draw_arrays_instanced_command_nv;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "DRAW_ARRAYS_INSTANCED_COMMAND_NV")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "DRAW_ARRAYS_INSTANCED_COMMAND_NV") == 0);
 #endif
 
 #ifdef GL_DRAW_ARRAYS_STRIP_COMMAND_NV
     x = ev.draw_arrays_strip_command_nv;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "DRAW_ARRAYS_STRIP_COMMAND_NV")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "DRAW_ARRAYS_STRIP_COMMAND_NV") ==
+      0);
 #endif
 
 #ifdef GL_DRAW_ELEMENTS_COMMAND_NV
@@ -695,25 +695,25 @@ BOOST_AUTO_TEST_CASE(enum_command_token_nv_names) {
 #ifdef GL_DRAW_ELEMENTS_INSTANCED_COMMAND_NV
     x = ev.draw_elements_instanced_command_nv;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-    BOOST_CHECK(std::strcmp(enum_value_name(x).data(),
-		  "DRAW_ELEMENTS_INSTANCED_COMMAND_NV")
-		== 0);
+    BOOST_CHECK(
+      std::strcmp(
+        enum_value_name(x).data(), "DRAW_ELEMENTS_INSTANCED_COMMAND_NV") == 0);
 #endif
 
 #ifdef GL_DRAW_ELEMENTS_STRIP_COMMAND_NV
     x = ev.draw_elements_strip_command_nv;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "DRAW_ELEMENTS_STRIP_COMMAND_NV")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "DRAW_ELEMENTS_STRIP_COMMAND_NV") == 0);
 #endif
 
 #ifdef GL_ELEMENT_ADDRESS_COMMAND_NV
     x = ev.element_address_command_nv;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "ELEMENT_ADDRESS_COMMAND_NV")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "ELEMENT_ADDRESS_COMMAND_NV") ==
+      0);
 #endif
 
 #ifdef GL_FRONT_FACE_COMMAND_NV
@@ -761,16 +761,16 @@ BOOST_AUTO_TEST_CASE(enum_command_token_nv_names) {
     x = ev.terminate_sequence_command_nv;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "TERMINATE_SEQUENCE_COMMAND_NV")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "TERMINATE_SEQUENCE_COMMAND_NV") ==
+      0);
 #endif
 
 #ifdef GL_UNIFORM_ADDRESS_COMMAND_NV
     x = ev.uniform_address_command_nv;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "UNIFORM_ADDRESS_COMMAND_NV")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "UNIFORM_ADDRESS_COMMAND_NV") ==
+      0);
 #endif
 
 #ifdef GL_VIEWPORT_COMMAND_NV
@@ -787,208 +787,220 @@ BOOST_AUTO_TEST_CASE(enum_command_token_nv_range) {
 
 #ifdef GL_ALPHA_REF_COMMAND_NV
     {
-	--count;
-	auto r = enum_value_range<command_token_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), command_token_nv(GL_ALPHA_REF_COMMAND_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<command_token_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), command_token_nv(GL_ALPHA_REF_COMMAND_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_ATTRIBUTE_ADDRESS_COMMAND_NV
     {
-	--count;
-	auto r = enum_value_range<command_token_nv>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      command_token_nv(GL_ATTRIBUTE_ADDRESS_COMMAND_NV))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<command_token_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            command_token_nv(GL_ATTRIBUTE_ADDRESS_COMMAND_NV)) != r.end());
     }
 #endif
 
 #ifdef GL_BLEND_COLOR_COMMAND_NV
     {
-	--count;
-	auto r = enum_value_range<command_token_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), command_token_nv(GL_BLEND_COLOR_COMMAND_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<command_token_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), command_token_nv(GL_BLEND_COLOR_COMMAND_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_DRAW_ARRAYS_COMMAND_NV
     {
-	--count;
-	auto r = enum_value_range<command_token_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), command_token_nv(GL_DRAW_ARRAYS_COMMAND_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<command_token_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), command_token_nv(GL_DRAW_ARRAYS_COMMAND_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_DRAW_ARRAYS_INSTANCED_COMMAND_NV
     {
-	--count;
-	auto r = enum_value_range<command_token_nv>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      command_token_nv(GL_DRAW_ARRAYS_INSTANCED_COMMAND_NV))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<command_token_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            command_token_nv(GL_DRAW_ARRAYS_INSTANCED_COMMAND_NV)) != r.end());
     }
 #endif
 
 #ifdef GL_DRAW_ARRAYS_STRIP_COMMAND_NV
     {
-	--count;
-	auto r = enum_value_range<command_token_nv>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      command_token_nv(GL_DRAW_ARRAYS_STRIP_COMMAND_NV))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<command_token_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            command_token_nv(GL_DRAW_ARRAYS_STRIP_COMMAND_NV)) != r.end());
     }
 #endif
 
 #ifdef GL_DRAW_ELEMENTS_COMMAND_NV
     {
-	--count;
-	auto r = enum_value_range<command_token_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), command_token_nv(GL_DRAW_ELEMENTS_COMMAND_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<command_token_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            command_token_nv(GL_DRAW_ELEMENTS_COMMAND_NV)) != r.end());
     }
 #endif
 
 #ifdef GL_DRAW_ELEMENTS_INSTANCED_COMMAND_NV
     {
-	--count;
-	auto r = enum_value_range<command_token_nv>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      command_token_nv(GL_DRAW_ELEMENTS_INSTANCED_COMMAND_NV))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<command_token_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            command_token_nv(GL_DRAW_ELEMENTS_INSTANCED_COMMAND_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_DRAW_ELEMENTS_STRIP_COMMAND_NV
     {
-	--count;
-	auto r = enum_value_range<command_token_nv>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      command_token_nv(GL_DRAW_ELEMENTS_STRIP_COMMAND_NV))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<command_token_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            command_token_nv(GL_DRAW_ELEMENTS_STRIP_COMMAND_NV)) != r.end());
     }
 #endif
 
 #ifdef GL_ELEMENT_ADDRESS_COMMAND_NV
     {
-	--count;
-	auto r = enum_value_range<command_token_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), command_token_nv(GL_ELEMENT_ADDRESS_COMMAND_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<command_token_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            command_token_nv(GL_ELEMENT_ADDRESS_COMMAND_NV)) != r.end());
     }
 #endif
 
 #ifdef GL_FRONT_FACE_COMMAND_NV
     {
-	--count;
-	auto r = enum_value_range<command_token_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), command_token_nv(GL_FRONT_FACE_COMMAND_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<command_token_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), command_token_nv(GL_FRONT_FACE_COMMAND_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_LINE_WIDTH_COMMAND_NV
     {
-	--count;
-	auto r = enum_value_range<command_token_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), command_token_nv(GL_LINE_WIDTH_COMMAND_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<command_token_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), command_token_nv(GL_LINE_WIDTH_COMMAND_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_NOP_COMMAND_NV
     {
-	--count;
-	auto r = enum_value_range<command_token_nv>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), command_token_nv(GL_NOP_COMMAND_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<command_token_nv>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), command_token_nv(GL_NOP_COMMAND_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_POLYGON_OFFSET_COMMAND_NV
     {
-	--count;
-	auto r = enum_value_range<command_token_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), command_token_nv(GL_POLYGON_OFFSET_COMMAND_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<command_token_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            command_token_nv(GL_POLYGON_OFFSET_COMMAND_NV)) != r.end());
     }
 #endif
 
 #ifdef GL_SCISSOR_COMMAND_NV
     {
-	--count;
-	auto r = enum_value_range<command_token_nv>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), command_token_nv(GL_SCISSOR_COMMAND_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<command_token_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), command_token_nv(GL_SCISSOR_COMMAND_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_STENCIL_REF_COMMAND_NV
     {
-	--count;
-	auto r = enum_value_range<command_token_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), command_token_nv(GL_STENCIL_REF_COMMAND_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<command_token_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), command_token_nv(GL_STENCIL_REF_COMMAND_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TERMINATE_SEQUENCE_COMMAND_NV
     {
-	--count;
-	auto r = enum_value_range<command_token_nv>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      command_token_nv(GL_TERMINATE_SEQUENCE_COMMAND_NV))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<command_token_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            command_token_nv(GL_TERMINATE_SEQUENCE_COMMAND_NV)) != r.end());
     }
 #endif
 
 #ifdef GL_UNIFORM_ADDRESS_COMMAND_NV
     {
-	--count;
-	auto r = enum_value_range<command_token_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), command_token_nv(GL_UNIFORM_ADDRESS_COMMAND_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<command_token_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            command_token_nv(GL_UNIFORM_ADDRESS_COMMAND_NV)) != r.end());
     }
 #endif
 
 #ifdef GL_VIEWPORT_COMMAND_NV
     {
-	--count;
-	auto r = enum_value_range<command_token_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), command_token_nv(GL_VIEWPORT_COMMAND_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<command_token_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), command_token_nv(GL_VIEWPORT_COMMAND_NV)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

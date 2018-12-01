@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE EGLPLUS_swap_behavior
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_swap_behavior_tests)
 
@@ -66,21 +66,21 @@ BOOST_AUTO_TEST_CASE(enum_swap_behavior_range) {
 
 #ifdef EGL_BUFFER_DESTROYED
     {
-	--count;
-	auto r = enum_value_range<swap_behavior>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), swap_behavior(EGL_BUFFER_DESTROYED))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<swap_behavior>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), swap_behavior(EGL_BUFFER_DESTROYED)) !=
+          r.end());
     }
 #endif
 
 #ifdef EGL_BUFFER_PRESERVED
     {
-	--count;
-	auto r = enum_value_range<swap_behavior>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), swap_behavior(EGL_BUFFER_PRESERVED))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<swap_behavior>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), swap_behavior(EGL_BUFFER_PRESERVED)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

@@ -28,62 +28,62 @@ run(void) {
     operations gl;
 
     for(auto str_query : enum_value_range<string_query>()) {
-	std::cout << enum_value_name(str_query) << ": "
-		  << gl.get_string(str_query) << std::endl;
+        std::cout << enum_value_name(str_query) << ": "
+                  << gl.get_string(str_query) << std::endl;
     }
 
     std::cout << "EXTENSIONS:" << std::endl;
 
     GLuint index = 0;
     while(true) {
-	if(auto result = success(gl.get_extension_name(index++))) {
-	    std::cout << '\t' << result.value() << std::endl;
-	} else {
-	    result.ignore_error();
-	    break;
-	}
+        if(auto result = success(gl.get_extension_name(index++))) {
+            std::cout << '\t' << result.value() << std::endl;
+        } else {
+            result.ignore_error();
+            break;
+        }
     }
 }
 
 static void
 init_and_run(void) {
     if(!glfwInit()) {
-	throw std::runtime_error("GLFW initialization error");
+        throw std::runtime_error("GLFW initialization error");
     } else {
-	auto ensure_glfw_cleanup = eagine::finally(glfwTerminate);
+        auto ensure_glfw_cleanup = eagine::finally(glfwTerminate);
 
-	glfwWindowHint(GLFW_DOUBLEBUFFER, GL_TRUE);
+        glfwWindowHint(GLFW_DOUBLEBUFFER, GL_TRUE);
 
-	int width = 800, height = 600;
+        int width = 800, height = 600;
 
-	GLFWwindow* window =
-	  glfwCreateWindow(width, height, "OGLplus example", NULL, NULL);
+        GLFWwindow* window =
+          glfwCreateWindow(width, height, "OGLplus example", NULL, NULL);
 
-	if(!window) {
-	    throw std::runtime_error("Error creating GLFW window");
-	} else {
-	    glfwMakeContextCurrent(window);
-	    glewExperimental = GL_TRUE;
-	    GLenum init_result = glewInit();
-	    glGetError();
-	    if(init_result != GLEW_OK) {
-		throw std::runtime_error("OpenGL/GLEW initialization error.");
-	    } else {
-		run();
-	    }
-	}
+        if(!window) {
+            throw std::runtime_error("Error creating GLFW window");
+        } else {
+            glfwMakeContextCurrent(window);
+            glewExperimental = GL_TRUE;
+            GLenum init_result = glewInit();
+            glGetError();
+            if(init_result != GLEW_OK) {
+                throw std::runtime_error("OpenGL/GLEW initialization error.");
+            } else {
+                run();
+            }
+        }
     }
 }
 
 int
 main(void) {
     try {
-	init_and_run();
-	return 0;
+        init_and_run();
+        return 0;
     } catch(std::runtime_error& sre) {
-	std::cerr << "Runtime error: " << sre.what() << std::endl;
+        std::cerr << "Runtime error: " << sre.what() << std::endl;
     } catch(std::exception& se) {
-	std::cerr << "Unknown error: " << se.what() << std::endl;
+        std::cerr << "Unknown error: " << se.what() << std::endl;
     }
     return 1;
 }

@@ -23,7 +23,8 @@ program_pipeline_ops::bind_program_pipeline(
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-program_pipeline_ops::use_program_stages(program_pipeline_name ppl,
+program_pipeline_ops::use_program_stages(
+  program_pipeline_name ppl,
   enum_bitfield<program_pipeline_stage> stages,
   program_name prog) noexcept {
     OGLPLUS_GLFUNC(UseProgramStages)
@@ -54,10 +55,11 @@ inline outcome<void>
 program_pipeline_ops::report_program_pipeline_validate_error(
   program_pipeline_name ppl) noexcept {
     if(!get_program_pipeline_validate_status(ppl).value()) {
-	OGLPLUS_REPORT_ERROR(ValidateProgramPipeline,
-	  GL_INVALID_OPERATION,
-	  info_log_of(ppl),
-	  always);
+        OGLPLUS_REPORT_ERROR(
+          ValidateProgramPipeline,
+          GL_INVALID_OPERATION,
+          info_log_of(ppl),
+          always);
     }
     return {};
 }
@@ -67,7 +69,7 @@ program_pipeline_ops::program_pipeline_binding(void) noexcept {
 #ifdef GL_PROGRAM_PIPELINE_BINDING
     GLint result = 0;
     return numeric_queries::get_integer_v(
-      binding_query(GL_PROGRAM_PIPELINE_BINDING), {&result, 1})
+             binding_query(GL_PROGRAM_PIPELINE_BINDING), {&result, 1})
       .add(program_pipeline_name(GLuint(result)));
 #else
     return program_pipeline_name(0);
@@ -75,7 +77,8 @@ program_pipeline_ops::program_pipeline_binding(void) noexcept {
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-program_pipeline_ops::get_program_pipeline_iv(program_pipeline_name buf,
+program_pipeline_ops::get_program_pipeline_iv(
+  program_pipeline_name buf,
   oglplus::program_pipeline_parameter param,
   span<GLint> values) noexcept {
     assert(values.size() > 0);

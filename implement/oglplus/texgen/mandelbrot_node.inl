@@ -35,7 +35,7 @@ OGLPLUS_LIB_FUNC
 std::ostream&
 mandelbrot_output::definitions(std::ostream& result, compile_context& context) {
     if(already_defined(context))
-	return result;
+        return result;
 
     input_defs(result, context);
 

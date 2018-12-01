@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_texture_swizzle_mode
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_texture_swizzle_mode_tests)
 
@@ -150,57 +150,61 @@ BOOST_AUTO_TEST_CASE(enum_texture_swizzle_mode_range) {
 
 #ifdef GL_ALPHA
     {
-	--count;
-	auto r = enum_value_range<texture_swizzle_mode>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), texture_swizzle_mode(GL_ALPHA))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_swizzle_mode>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), texture_swizzle_mode(GL_ALPHA)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_BLUE
     {
-	--count;
-	auto r = enum_value_range<texture_swizzle_mode>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), texture_swizzle_mode(GL_BLUE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<texture_swizzle_mode>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), texture_swizzle_mode(GL_BLUE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_GREEN
     {
-	--count;
-	auto r = enum_value_range<texture_swizzle_mode>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), texture_swizzle_mode(GL_GREEN))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_swizzle_mode>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), texture_swizzle_mode(GL_GREEN)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_ONE
     {
-	--count;
-	auto r = enum_value_range<texture_swizzle_mode>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), texture_swizzle_mode(GL_ONE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<texture_swizzle_mode>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), texture_swizzle_mode(GL_ONE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RED
     {
-	--count;
-	auto r = enum_value_range<texture_swizzle_mode>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), texture_swizzle_mode(GL_RED))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<texture_swizzle_mode>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), texture_swizzle_mode(GL_RED)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_ZERO
     {
-	--count;
-	auto r = enum_value_range<texture_swizzle_mode>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), texture_swizzle_mode(GL_ZERO))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<texture_swizzle_mode>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), texture_swizzle_mode(GL_ZERO)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

@@ -15,25 +15,25 @@ cstr_ref
 get_enum_value_name_cstr(const any_indexed_enum_value& aiev) noexcept {
     switch(aiev._base_id) {
 #ifdef GL_TEXTURE0
-	case GL_TEXTURE0:
-	    return {"TEXTURE", 7};
+        case GL_TEXTURE0:
+            return {"TEXTURE", 7};
 #endif
 
 #ifdef GL_DRAW_BUFFER0
-	case GL_DRAW_BUFFER0:
-	    return {"DRAW_BUFFER", 11};
+        case GL_DRAW_BUFFER0:
+            return {"DRAW_BUFFER", 11};
 #endif
 
 #ifdef GL_CLIP_DISTANCE0
-	case GL_CLIP_DISTANCE0:
-	    return {"CLIP_DISTANCE", 13};
+        case GL_CLIP_DISTANCE0:
+            return {"CLIP_DISTANCE", 13};
 #endif
 
 #ifdef GL_COLOR_ATTACHMENT0
-	case GL_COLOR_ATTACHMENT0:
-	    return {"COLOR_ATTACHMENT", 16};
+        case GL_COLOR_ATTACHMENT0:
+            return {"COLOR_ATTACHMENT", 16};
 #endif
-	default:;
+        default:;
     }
 
     EAGINE_MAYBE_UNUSED(aiev);

@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_stencil_operation
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_stencil_operation_tests)
 
@@ -211,75 +211,77 @@ BOOST_AUTO_TEST_CASE(enum_stencil_operation_range) {
 
 #ifdef GL_DECR
     {
-	--count;
-	auto r = enum_value_range<stencil_operation>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), stencil_operation(GL_DECR)) != r.end());
+        --count;
+        auto r = enum_value_range<stencil_operation>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), stencil_operation(GL_DECR)) != r.end());
     }
 #endif
 
 #ifdef GL_DECR_WRAP
     {
-	--count;
-	auto r = enum_value_range<stencil_operation>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), stencil_operation(GL_DECR_WRAP))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<stencil_operation>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), stencil_operation(GL_DECR_WRAP)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INCR
     {
-	--count;
-	auto r = enum_value_range<stencil_operation>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), stencil_operation(GL_INCR)) != r.end());
+        --count;
+        auto r = enum_value_range<stencil_operation>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), stencil_operation(GL_INCR)) != r.end());
     }
 #endif
 
 #ifdef GL_INCR_WRAP
     {
-	--count;
-	auto r = enum_value_range<stencil_operation>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), stencil_operation(GL_INCR_WRAP))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<stencil_operation>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), stencil_operation(GL_INCR_WRAP)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INVERT
     {
-	--count;
-	auto r = enum_value_range<stencil_operation>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), stencil_operation(GL_INVERT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<stencil_operation>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), stencil_operation(GL_INVERT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_KEEP
     {
-	--count;
-	auto r = enum_value_range<stencil_operation>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), stencil_operation(GL_KEEP)) != r.end());
+        --count;
+        auto r = enum_value_range<stencil_operation>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), stencil_operation(GL_KEEP)) != r.end());
     }
 #endif
 
 #ifdef GL_REPLACE
     {
-	--count;
-	auto r = enum_value_range<stencil_operation>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), stencil_operation(GL_REPLACE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<stencil_operation>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), stencil_operation(GL_REPLACE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_ZERO
     {
-	--count;
-	auto r = enum_value_range<stencil_operation>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), stencil_operation(GL_ZERO)) != r.end());
+        --count;
+        auto r = enum_value_range<stencil_operation>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), stencil_operation(GL_ZERO)) != r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

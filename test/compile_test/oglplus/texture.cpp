@@ -402,8 +402,8 @@ oglplus_texture_test_ops1(void) {
     tex.buffer_range(ifmt, buf, offs, size);
 #endif
 
-#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access) \
-  || defined(GL_EXT_direct_state_access)
+#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access) || \
+  defined(GL_EXT_direct_state_access)
 
     tex.get_width();
     tex.get_height();

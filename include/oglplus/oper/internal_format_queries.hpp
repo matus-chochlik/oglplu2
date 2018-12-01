@@ -21,7 +21,8 @@ namespace oper {
 
 struct internal_format_queries {
 #if defined(GL_VERSION_4_2)
-    static outcome<void> get_internal_format_iv(internal_format_target target,
+    static outcome<void> get_internal_format_iv(
+      internal_format_target target,
       pixel_data_internal_format iformat,
       internal_format_parameter param,
       span<GLint> data) noexcept;
@@ -34,7 +35,8 @@ struct internal_format_queries {
 #endif
 
 #if defined(GL_VERSION_4_3)
-    static outcome<void> get_internal_format_i64v(internal_format_target target,
+    static outcome<void> get_internal_format_i64v(
+      internal_format_target target,
       pixel_data_internal_format iformat,
       internal_format_parameter param,
       span<GLint64> data) noexcept;

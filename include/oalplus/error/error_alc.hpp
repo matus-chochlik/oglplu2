@@ -9,8 +9,8 @@
 #ifndef OALPLUS_ERROR_ERROR_ALC_1509260923_HPP
 #define OALPLUS_ERROR_ERROR_ALC_1509260923_HPP
 
-#include "info_alc.hpp"
 #include <stdexcept>
+#include "info_alc.hpp"
 
 namespace oalplus {
 
@@ -24,7 +24,7 @@ public:
     error_alc(error_info_alc&& info);
 
     const error_info_alc& info(void) const noexcept {
-	return _info;
+        return _info;
     }
 };
 

@@ -26,23 +26,23 @@ public:
     }
 
     unsigned glsl_version(void) const noexcept {
-	return _glsl_version;
+        return _glsl_version;
     }
 
     void add_tag(const std::string& tag) {
-	_tags.insert(tag);
+        _tags.insert(tag);
     }
 
     bool has_tag(const std::string& tag) const noexcept {
-	return _tags.find(tag) != _tags.end();
+        return _tags.find(tag) != _tags.end();
     }
 
     void remember_output(std::intptr_t oid) {
-	_outputs.insert(oid);
+        _outputs.insert(oid);
     }
 
     bool remembers_output(std::intptr_t oid) const noexcept {
-	return _outputs.find(oid) != _outputs.end();
+        return _outputs.find(oid) != _outputs.end();
     }
 };
 //------------------------------------------------------------------------------
@@ -123,7 +123,7 @@ OGLPLUS_LIB_FUNC
 std::ostream&
 node_intf::input_definitions(std::ostream& out, compile_context& ctxt) {
     for(span_size_t i = 0, n = input_count(); i < n; ++i) {
-	input(i).definitions(out, ctxt);
+        input(i).definitions(out, ctxt);
     }
     return out;
 }
@@ -132,10 +132,10 @@ OGLPLUS_LIB_FUNC
 eagine::optional_reference_wrapper<input_intf>
 node_intf::input_by_name(const cstr_ref& name) {
     for(span_size_t i = 0, n = input_count(); i < n; ++i) {
-	input_intf& inp = input(i);
-	if(inp.name() == name) {
-	    return inp;
-	}
+        input_intf& inp = input(i);
+        if(inp.name() == name) {
+            return inp;
+        }
     }
     return eagine::nothing;
 }
@@ -144,10 +144,10 @@ OGLPLUS_LIB_FUNC
 eagine::optional_reference_wrapper<output_intf>
 node_intf::output_by_name(const cstr_ref& name) {
     for(span_size_t i = 0, n = output_count(); i < n; ++i) {
-	output_intf& outp = output(i);
-	if(outp.name() == name) {
-	    return outp;
-	}
+        output_intf& outp = output(i);
+        if(outp.name() == name) {
+            return outp;
+        }
     }
     return eagine::nothing;
 }
@@ -156,10 +156,10 @@ OGLPLUS_LIB_FUNC
 void
 node_intf::disconnect_all(void) {
     for(span_size_t i = 0; i < input_count(); ++i) {
-	input(i).disconnect();
+        input(i).disconnect();
     }
     for(span_size_t o = 0; o < output_count(); ++o) {
-	output(o).disconnect_all();
+        output(o).disconnect_all();
     }
 }
 //------------------------------------------------------------------------------
@@ -203,12 +203,12 @@ OGLPLUS_LIB_FUNC
 bool
 connect_output_to_input(output_intf& output, input_intf& input) {
     if(input.can_connect(output)) {
-	if(output.connect(input)) {
-	    if(input.connect(output)) {
-		return true;
-	    }
-	    output.disconnect(input);
-	}
+        if(output.connect(input)) {
+            if(input.connect(output)) {
+                return true;
+            }
+            output.disconnect(input);
+        }
     }
     return false;
 }
@@ -217,9 +217,9 @@ OGLPLUS_LIB_FUNC
 bool
 disconnect_output_from_input(output_intf& output, input_intf& input) {
     if(input.is_connected(output)) {
-	assert(output.is_connected(input));
-	input.disconnect(output);
-	output.disconnect(input);
+        assert(output.is_connected(input));
+        input.disconnect(output);
+        output.disconnect(input);
     }
     return false;
 }

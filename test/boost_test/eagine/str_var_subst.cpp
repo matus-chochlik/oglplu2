@@ -46,19 +46,24 @@ BOOST_AUTO_TEST_CASE(str_var_subst_2) {
       substitute_variables(std::string("a{bc{defg}h{ijk}l}mn"), dict),
       std::string("a{bc{defg}h{ijk}l}mn"));
 
-    BOOST_CHECK_EQUAL(substitute_variables(std::string("bla+ble$"), dict),
+    BOOST_CHECK_EQUAL(
+      substitute_variables(std::string("bla+ble$"), dict),
       std::string("bla+ble$"));
 
-    BOOST_CHECK_EQUAL(substitute_variables(std::string("$bla+ble"), dict),
+    BOOST_CHECK_EQUAL(
+      substitute_variables(std::string("$bla+ble"), dict),
       std::string("$bla+ble"));
 
-    BOOST_CHECK_EQUAL(substitute_variables(std::string("$bla$ble$"), dict),
+    BOOST_CHECK_EQUAL(
+      substitute_variables(std::string("$bla$ble$"), dict),
       std::string("$bla$ble$"));
 
-    BOOST_CHECK_EQUAL(substitute_variables(std::string("{${A}+${B}}"), dict),
+    BOOST_CHECK_EQUAL(
+      substitute_variables(std::string("{${A}+${B}}"), dict),
       std::string("{1+2}"));
 
-    BOOST_CHECK_EQUAL(substitute_variables(std::string("{${E}+${F}}"), dict),
+    BOOST_CHECK_EQUAL(
+      substitute_variables(std::string("{${E}+${F}}"), dict),
       std::string("{+}"));
 
     BOOST_CHECK_EQUAL(
@@ -96,20 +101,22 @@ BOOST_AUTO_TEST_CASE(str_var_subst_3) {
 
     BOOST_CHECK_EQUAL(substitute_variables(std::string(), dict), std::string());
 
-    BOOST_CHECK_EQUAL(substitute_variables(std::string("${${B}+${B}}"), dict),
+    BOOST_CHECK_EQUAL(
+      substitute_variables(std::string("${${B}+${B}}"), dict),
       std::string("D"));
 
-    BOOST_CHECK_EQUAL(substitute_variables(std::string("${${A}+${B}}"), dict),
+    BOOST_CHECK_EQUAL(
+      substitute_variables(std::string("${${A}+${B}}"), dict),
       std::string("C"));
 
     BOOST_CHECK_EQUAL(
       substitute_variables(
-	std::string("${${${${B}+${B}}}-${${${A}+${B}}}}"), dict),
+        std::string("${${${${B}+${B}}}-${${${A}+${B}}}}"), dict),
       std::string("A"));
 
     BOOST_CHECK_EQUAL(
       substitute_variables(
-	std::string("${${${${${B}+${B}}}-${${${A}+${B}}}}}"), dict),
+        std::string("${${${${${B}+${B}}}-${${${A}+${B}}}}}"), dict),
       std::string("1"));
 }
 
@@ -125,8 +132,9 @@ BOOST_AUTO_TEST_CASE(str_var_subst_4) {
       .set("2+2", "D")
       .set("4-3", "A");
 
-    BOOST_CHECK_EQUAL(vars.subst_variables(
-			std::string("${${${${${B}+${B}}}-${${${A}+${B}}}}}")),
+    BOOST_CHECK_EQUAL(
+      vars.subst_variables(
+        std::string("${${${${${B}+${B}}}-${${${A}+${B}}}}}")),
       std::string("1"));
 }
 
@@ -141,7 +149,8 @@ BOOST_AUTO_TEST_CASE(str_var_subst_5) {
       substitute_variables(std::string("${1}${2}${3}${4}${5}"), ss),
       std::string("ABCDE"));
 
-    BOOST_CHECK_EQUAL(substitute_variables(std::string("${1}${3}${5}${7}"), ss),
+    BOOST_CHECK_EQUAL(
+      substitute_variables(std::string("${1}${3}${5}${7}"), ss),
       std::string("ACE"));
 
     BOOST_CHECK_EQUAL(

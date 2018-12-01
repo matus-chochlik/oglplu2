@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_path_metric_query_nv
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_path_metric_query_nv_tests)
 
@@ -867,32 +867,32 @@ BOOST_AUTO_TEST_CASE(enum_path_metric_query_nv_names) {
     x = ev.font_max_advance_height_bit_nv;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "FONT_MAX_ADVANCE_HEIGHT_BIT_NV")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "FONT_MAX_ADVANCE_HEIGHT_BIT_NV") == 0);
 #endif
 
 #ifdef GL_FONT_MAX_ADVANCE_WIDTH_BIT_NV
     x = ev.font_max_advance_width_bit_nv;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "FONT_MAX_ADVANCE_WIDTH_BIT_NV")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "FONT_MAX_ADVANCE_WIDTH_BIT_NV") ==
+      0);
 #endif
 
 #ifdef GL_FONT_UNDERLINE_POSITION_BIT_NV
     x = ev.font_underline_position_bit_nv;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "FONT_UNDERLINE_POSITION_BIT_NV")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "FONT_UNDERLINE_POSITION_BIT_NV") == 0);
 #endif
 
 #ifdef GL_FONT_UNDERLINE_THICKNESS_BIT_NV
     x = ev.font_underline_thickness_bit_nv;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "FONT_UNDERLINE_THICKNESS_BIT_NV")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "FONT_UNDERLINE_THICKNESS_BIT_NV") == 0);
 #endif
 
 #ifdef GL_FONT_UNITS_PER_EM_BIT_NV
@@ -947,49 +947,51 @@ BOOST_AUTO_TEST_CASE(enum_path_metric_query_nv_names) {
 #ifdef GL_GLYPH_HORIZONTAL_BEARING_ADVANCE_BIT_NV
     x = ev.glyph_horizontal_bearing_advance_bit_nv;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-    BOOST_CHECK(std::strcmp(enum_value_name(x).data(),
-		  "GLYPH_HORIZONTAL_BEARING_ADVANCE_BIT_NV")
-		== 0);
+    BOOST_CHECK(
+      std::strcmp(
+        enum_value_name(x).data(), "GLYPH_HORIZONTAL_BEARING_ADVANCE_BIT_NV") ==
+      0);
 #endif
 
 #ifdef GL_GLYPH_HORIZONTAL_BEARING_X_BIT_NV
     x = ev.glyph_horizontal_bearing_x_bit_nv;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-    BOOST_CHECK(std::strcmp(enum_value_name(x).data(),
-		  "GLYPH_HORIZONTAL_BEARING_X_BIT_NV")
-		== 0);
+    BOOST_CHECK(
+      std::strcmp(
+        enum_value_name(x).data(), "GLYPH_HORIZONTAL_BEARING_X_BIT_NV") == 0);
 #endif
 
 #ifdef GL_GLYPH_HORIZONTAL_BEARING_Y_BIT_NV
     x = ev.glyph_horizontal_bearing_y_bit_nv;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-    BOOST_CHECK(std::strcmp(enum_value_name(x).data(),
-		  "GLYPH_HORIZONTAL_BEARING_Y_BIT_NV")
-		== 0);
+    BOOST_CHECK(
+      std::strcmp(
+        enum_value_name(x).data(), "GLYPH_HORIZONTAL_BEARING_Y_BIT_NV") == 0);
 #endif
 
 #ifdef GL_GLYPH_VERTICAL_BEARING_ADVANCE_BIT_NV
     x = ev.glyph_vertical_bearing_advance_bit_nv;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-    BOOST_CHECK(std::strcmp(enum_value_name(x).data(),
-		  "GLYPH_VERTICAL_BEARING_ADVANCE_BIT_NV")
-		== 0);
+    BOOST_CHECK(
+      std::strcmp(
+        enum_value_name(x).data(), "GLYPH_VERTICAL_BEARING_ADVANCE_BIT_NV") ==
+      0);
 #endif
 
 #ifdef GL_GLYPH_VERTICAL_BEARING_X_BIT_NV
     x = ev.glyph_vertical_bearing_x_bit_nv;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "GLYPH_VERTICAL_BEARING_X_BIT_NV")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "GLYPH_VERTICAL_BEARING_X_BIT_NV") == 0);
 #endif
 
 #ifdef GL_GLYPH_VERTICAL_BEARING_Y_BIT_NV
     x = ev.glyph_vertical_bearing_y_bit_nv;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "GLYPH_VERTICAL_BEARING_Y_BIT_NV")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "GLYPH_VERTICAL_BEARING_Y_BIT_NV") == 0);
 #endif
 
 #ifdef GL_GLYPH_WIDTH_BIT_NV
@@ -1006,247 +1008,271 @@ BOOST_AUTO_TEST_CASE(enum_path_metric_query_nv_range) {
 
 #ifdef GL_FONT_ASCENDER_BIT_NV
     {
-	--count;
-	auto r = enum_value_range<path_metric_query_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), path_metric_query_nv(GL_FONT_ASCENDER_BIT_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_metric_query_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            path_metric_query_nv(GL_FONT_ASCENDER_BIT_NV)) != r.end());
     }
 #endif
 
 #ifdef GL_FONT_DESCENDER_BIT_NV
     {
-	--count;
-	auto r = enum_value_range<path_metric_query_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), path_metric_query_nv(GL_FONT_DESCENDER_BIT_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_metric_query_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            path_metric_query_nv(GL_FONT_DESCENDER_BIT_NV)) != r.end());
     }
 #endif
 
 #ifdef GL_FONT_HAS_KERNING_BIT_NV
     {
-	--count;
-	auto r = enum_value_range<path_metric_query_nv>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      path_metric_query_nv(GL_FONT_HAS_KERNING_BIT_NV))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<path_metric_query_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            path_metric_query_nv(GL_FONT_HAS_KERNING_BIT_NV)) != r.end());
     }
 #endif
 
 #ifdef GL_FONT_HEIGHT_BIT_NV
     {
-	--count;
-	auto r = enum_value_range<path_metric_query_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), path_metric_query_nv(GL_FONT_HEIGHT_BIT_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_metric_query_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), path_metric_query_nv(GL_FONT_HEIGHT_BIT_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_FONT_MAX_ADVANCE_HEIGHT_BIT_NV
     {
-	--count;
-	auto r = enum_value_range<path_metric_query_nv>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      path_metric_query_nv(GL_FONT_MAX_ADVANCE_HEIGHT_BIT_NV))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<path_metric_query_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            path_metric_query_nv(GL_FONT_MAX_ADVANCE_HEIGHT_BIT_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_FONT_MAX_ADVANCE_WIDTH_BIT_NV
     {
-	--count;
-	auto r = enum_value_range<path_metric_query_nv>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      path_metric_query_nv(GL_FONT_MAX_ADVANCE_WIDTH_BIT_NV))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<path_metric_query_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            path_metric_query_nv(GL_FONT_MAX_ADVANCE_WIDTH_BIT_NV)) != r.end());
     }
 #endif
 
 #ifdef GL_FONT_UNDERLINE_POSITION_BIT_NV
     {
-	--count;
-	auto r = enum_value_range<path_metric_query_nv>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      path_metric_query_nv(GL_FONT_UNDERLINE_POSITION_BIT_NV))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<path_metric_query_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            path_metric_query_nv(GL_FONT_UNDERLINE_POSITION_BIT_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_FONT_UNDERLINE_THICKNESS_BIT_NV
     {
-	--count;
-	auto r = enum_value_range<path_metric_query_nv>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      path_metric_query_nv(GL_FONT_UNDERLINE_THICKNESS_BIT_NV))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<path_metric_query_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            path_metric_query_nv(GL_FONT_UNDERLINE_THICKNESS_BIT_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_FONT_UNITS_PER_EM_BIT_NV
     {
-	--count;
-	auto r = enum_value_range<path_metric_query_nv>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      path_metric_query_nv(GL_FONT_UNITS_PER_EM_BIT_NV))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<path_metric_query_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            path_metric_query_nv(GL_FONT_UNITS_PER_EM_BIT_NV)) != r.end());
     }
 #endif
 
 #ifdef GL_FONT_X_MAX_BOUNDS_BIT_NV
     {
-	--count;
-	auto r = enum_value_range<path_metric_query_nv>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      path_metric_query_nv(GL_FONT_X_MAX_BOUNDS_BIT_NV))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<path_metric_query_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            path_metric_query_nv(GL_FONT_X_MAX_BOUNDS_BIT_NV)) != r.end());
     }
 #endif
 
 #ifdef GL_FONT_X_MIN_BOUNDS_BIT_NV
     {
-	--count;
-	auto r = enum_value_range<path_metric_query_nv>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      path_metric_query_nv(GL_FONT_X_MIN_BOUNDS_BIT_NV))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<path_metric_query_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            path_metric_query_nv(GL_FONT_X_MIN_BOUNDS_BIT_NV)) != r.end());
     }
 #endif
 
 #ifdef GL_FONT_Y_MAX_BOUNDS_BIT_NV
     {
-	--count;
-	auto r = enum_value_range<path_metric_query_nv>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      path_metric_query_nv(GL_FONT_Y_MAX_BOUNDS_BIT_NV))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<path_metric_query_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            path_metric_query_nv(GL_FONT_Y_MAX_BOUNDS_BIT_NV)) != r.end());
     }
 #endif
 
 #ifdef GL_FONT_Y_MIN_BOUNDS_BIT_NV
     {
-	--count;
-	auto r = enum_value_range<path_metric_query_nv>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      path_metric_query_nv(GL_FONT_Y_MIN_BOUNDS_BIT_NV))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<path_metric_query_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            path_metric_query_nv(GL_FONT_Y_MIN_BOUNDS_BIT_NV)) != r.end());
     }
 #endif
 
 #ifdef GL_GLYPH_HAS_KERNING_BIT_NV
     {
-	--count;
-	auto r = enum_value_range<path_metric_query_nv>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      path_metric_query_nv(GL_GLYPH_HAS_KERNING_BIT_NV))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<path_metric_query_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            path_metric_query_nv(GL_GLYPH_HAS_KERNING_BIT_NV)) != r.end());
     }
 #endif
 
 #ifdef GL_GLYPH_HEIGHT_BIT_NV
     {
-	--count;
-	auto r = enum_value_range<path_metric_query_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), path_metric_query_nv(GL_GLYPH_HEIGHT_BIT_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_metric_query_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), path_metric_query_nv(GL_GLYPH_HEIGHT_BIT_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_GLYPH_HORIZONTAL_BEARING_ADVANCE_BIT_NV
     {
-	--count;
-	auto r = enum_value_range<path_metric_query_nv>();
-	BOOST_CHECK(
-	  std::find(r.begin(),
-	    r.end(),
-	    path_metric_query_nv(GL_GLYPH_HORIZONTAL_BEARING_ADVANCE_BIT_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_metric_query_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            path_metric_query_nv(GL_GLYPH_HORIZONTAL_BEARING_ADVANCE_BIT_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_GLYPH_HORIZONTAL_BEARING_X_BIT_NV
     {
-	--count;
-	auto r = enum_value_range<path_metric_query_nv>();
-	BOOST_CHECK(
-	  std::find(r.begin(),
-	    r.end(),
-	    path_metric_query_nv(GL_GLYPH_HORIZONTAL_BEARING_X_BIT_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_metric_query_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            path_metric_query_nv(GL_GLYPH_HORIZONTAL_BEARING_X_BIT_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_GLYPH_HORIZONTAL_BEARING_Y_BIT_NV
     {
-	--count;
-	auto r = enum_value_range<path_metric_query_nv>();
-	BOOST_CHECK(
-	  std::find(r.begin(),
-	    r.end(),
-	    path_metric_query_nv(GL_GLYPH_HORIZONTAL_BEARING_Y_BIT_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_metric_query_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            path_metric_query_nv(GL_GLYPH_HORIZONTAL_BEARING_Y_BIT_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_GLYPH_VERTICAL_BEARING_ADVANCE_BIT_NV
     {
-	--count;
-	auto r = enum_value_range<path_metric_query_nv>();
-	BOOST_CHECK(
-	  std::find(r.begin(),
-	    r.end(),
-	    path_metric_query_nv(GL_GLYPH_VERTICAL_BEARING_ADVANCE_BIT_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_metric_query_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            path_metric_query_nv(GL_GLYPH_VERTICAL_BEARING_ADVANCE_BIT_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_GLYPH_VERTICAL_BEARING_X_BIT_NV
     {
-	--count;
-	auto r = enum_value_range<path_metric_query_nv>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      path_metric_query_nv(GL_GLYPH_VERTICAL_BEARING_X_BIT_NV))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<path_metric_query_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            path_metric_query_nv(GL_GLYPH_VERTICAL_BEARING_X_BIT_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_GLYPH_VERTICAL_BEARING_Y_BIT_NV
     {
-	--count;
-	auto r = enum_value_range<path_metric_query_nv>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      path_metric_query_nv(GL_GLYPH_VERTICAL_BEARING_Y_BIT_NV))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<path_metric_query_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            path_metric_query_nv(GL_GLYPH_VERTICAL_BEARING_Y_BIT_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_GLYPH_WIDTH_BIT_NV
     {
-	--count;
-	auto r = enum_value_range<path_metric_query_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), path_metric_query_nv(GL_GLYPH_WIDTH_BIT_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_metric_query_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), path_metric_query_nv(GL_GLYPH_WIDTH_BIT_NV)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

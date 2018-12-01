@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_clamp_color_target
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_clamp_color_target_tests)
 
@@ -51,11 +51,12 @@ BOOST_AUTO_TEST_CASE(enum_clamp_color_target_range) {
 
 #ifdef GL_CLAMP_READ_COLOR
     {
-	--count;
-	auto r = enum_value_range<clamp_color_target>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), clamp_color_target(GL_CLAMP_READ_COLOR))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<clamp_color_target>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), clamp_color_target(GL_CLAMP_READ_COLOR)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

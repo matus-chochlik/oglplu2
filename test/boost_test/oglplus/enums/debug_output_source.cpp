@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_debug_output_source
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_debug_output_source_tests)
 
@@ -155,8 +155,8 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_source_names) {
     x = ev.debug_source_shader_compiler;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "DEBUG_SOURCE_SHADER_COMPILER")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "DEBUG_SOURCE_SHADER_COMPILER") ==
+      0);
 #endif
 
 #ifdef GL_DEBUG_SOURCE_THIRD_PARTY
@@ -170,8 +170,8 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_source_names) {
     x = ev.debug_source_window_system;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "DEBUG_SOURCE_WINDOW_SYSTEM")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "DEBUG_SOURCE_WINDOW_SYSTEM") ==
+      0);
 #endif
 
 #ifdef GL_DONT_CARE
@@ -187,77 +187,81 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_source_range) {
 
 #ifdef GL_DEBUG_SOURCE_API
     {
-	--count;
-	auto r = enum_value_range<debug_output_source>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), debug_output_source(GL_DEBUG_SOURCE_API))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<debug_output_source>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), debug_output_source(GL_DEBUG_SOURCE_API)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_DEBUG_SOURCE_APPLICATION
     {
-	--count;
-	auto r = enum_value_range<debug_output_source>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      debug_output_source(GL_DEBUG_SOURCE_APPLICATION))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<debug_output_source>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            debug_output_source(GL_DEBUG_SOURCE_APPLICATION)) != r.end());
     }
 #endif
 
 #ifdef GL_DEBUG_SOURCE_OTHER
     {
-	--count;
-	auto r = enum_value_range<debug_output_source>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), debug_output_source(GL_DEBUG_SOURCE_OTHER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<debug_output_source>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), debug_output_source(GL_DEBUG_SOURCE_OTHER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_DEBUG_SOURCE_SHADER_COMPILER
     {
-	--count;
-	auto r = enum_value_range<debug_output_source>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      debug_output_source(GL_DEBUG_SOURCE_SHADER_COMPILER))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<debug_output_source>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            debug_output_source(GL_DEBUG_SOURCE_SHADER_COMPILER)) != r.end());
     }
 #endif
 
 #ifdef GL_DEBUG_SOURCE_THIRD_PARTY
     {
-	--count;
-	auto r = enum_value_range<debug_output_source>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      debug_output_source(GL_DEBUG_SOURCE_THIRD_PARTY))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<debug_output_source>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            debug_output_source(GL_DEBUG_SOURCE_THIRD_PARTY)) != r.end());
     }
 #endif
 
 #ifdef GL_DEBUG_SOURCE_WINDOW_SYSTEM
     {
-	--count;
-	auto r = enum_value_range<debug_output_source>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      debug_output_source(GL_DEBUG_SOURCE_WINDOW_SYSTEM))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<debug_output_source>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            debug_output_source(GL_DEBUG_SOURCE_WINDOW_SYSTEM)) != r.end());
     }
 #endif
 
 #ifdef GL_DONT_CARE
     {
-	--count;
-	auto r = enum_value_range<debug_output_source>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), debug_output_source(GL_DONT_CARE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<debug_output_source>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), debug_output_source(GL_DONT_CARE)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

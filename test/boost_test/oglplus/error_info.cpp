@@ -38,31 +38,37 @@ BOOST_AUTO_TEST_CASE(error_info_1) {
     BOOST_CHECK(ei1.gl_error_code() == GL_OUT_OF_MEMORY);
 
     ei1.gl_library_name("GL");
-    BOOST_CHECK(((ei1.gl_library_name() == nullptr)
-		 || (strcmp(ei1.gl_library_name(), "GL") == 0)));
+    BOOST_CHECK(
+      ((ei1.gl_library_name() == nullptr) ||
+       (strcmp(ei1.gl_library_name(), "GL") == 0)));
 
     ei1.gl_function_name("Function");
-    BOOST_CHECK(((ei1.gl_function_name() == nullptr)
-		 || (strcmp(ei1.gl_function_name(), "Function") == 0)));
+    BOOST_CHECK(
+      ((ei1.gl_function_name() == nullptr) ||
+       (strcmp(ei1.gl_function_name(), "Function") == 0)));
 
     ei1.source_function("function");
-    BOOST_CHECK(((ei1.source_function() == nullptr)
-		 || (strcmp(ei1.source_function(), "function") == 0)));
+    BOOST_CHECK(
+      ((ei1.source_function() == nullptr) ||
+       (strcmp(ei1.source_function(), "function") == 0)));
 
     ei1.source_file("file.cpp");
-    BOOST_CHECK(((ei1.source_file() == nullptr)
-		 || (strcmp(ei1.source_file(), "file.cpp") == 0)));
+    BOOST_CHECK(
+      ((ei1.source_file() == nullptr) ||
+       (strcmp(ei1.source_file(), "file.cpp") == 0)));
 
     ei1.source_line(12345);
     BOOST_CHECK(((ei1.source_line() == 0) || (ei1.source_line() == 12345)));
 
     ei1.gl_object(mock_object_name(23456));
-    BOOST_CHECK(((ei1.gl_object() == mock_object_name())
-		 || (ei1.gl_object(), mock_object_name(23456))));
+    BOOST_CHECK(
+      ((ei1.gl_object() == mock_object_name()) ||
+       (ei1.gl_object(), mock_object_name(23456))));
 
     ei1.gl_subject(mock_object_name(34567));
-    BOOST_CHECK(((ei1.gl_subject() == mock_object_name())
-		 || (ei1.gl_subject(), mock_object_name(34567))));
+    BOOST_CHECK(
+      ((ei1.gl_subject() == mock_object_name()) ||
+       (ei1.gl_subject(), mock_object_name(34567))));
 }
 
 BOOST_AUTO_TEST_CASE(error_info_2) {
@@ -82,25 +88,31 @@ BOOST_AUTO_TEST_CASE(error_info_2) {
 
     BOOST_CHECK(ei2.gl_error_code() == GL_OUT_OF_MEMORY);
 
-    BOOST_CHECK(((ei2.gl_library_name() == nullptr)
-		 || (strcmp(ei2.gl_library_name(), "GL") == 0)));
+    BOOST_CHECK(
+      ((ei2.gl_library_name() == nullptr) ||
+       (strcmp(ei2.gl_library_name(), "GL") == 0)));
 
-    BOOST_CHECK(((ei2.gl_function_name() == nullptr)
-		 || (strcmp(ei2.gl_function_name(), "Function") == 0)));
+    BOOST_CHECK(
+      ((ei2.gl_function_name() == nullptr) ||
+       (strcmp(ei2.gl_function_name(), "Function") == 0)));
 
-    BOOST_CHECK(((ei2.source_function() == nullptr)
-		 || (strcmp(ei2.source_function(), "function") == 0)));
+    BOOST_CHECK(
+      ((ei2.source_function() == nullptr) ||
+       (strcmp(ei2.source_function(), "function") == 0)));
 
-    BOOST_CHECK(((ei2.source_file() == nullptr)
-		 || (strcmp(ei2.source_file(), "file.cpp") == 0)));
+    BOOST_CHECK(
+      ((ei2.source_file() == nullptr) ||
+       (strcmp(ei2.source_file(), "file.cpp") == 0)));
 
     BOOST_CHECK(((ei2.source_line() == 0) || (ei2.source_line() == 12345)));
 
-    BOOST_CHECK(((ei2.gl_object() == mock_object_name())
-		 || (ei2.gl_object(), mock_object_name(23456))));
+    BOOST_CHECK(
+      ((ei2.gl_object() == mock_object_name()) ||
+       (ei2.gl_object(), mock_object_name(23456))));
 
-    BOOST_CHECK(((ei2.gl_subject() == mock_object_name())
-		 || (ei2.gl_subject(), mock_object_name(34567))));
+    BOOST_CHECK(
+      ((ei2.gl_subject() == mock_object_name()) ||
+       (ei2.gl_subject(), mock_object_name(34567))));
 }
 
 BOOST_AUTO_TEST_SUITE_END()

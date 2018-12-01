@@ -62,18 +62,19 @@ public:
 };
 
 class unary_function_node
-  : public unary_single_output_node<unary_function_output,
+  : public unary_single_output_node<
+      unary_function_output,
       decltype(unary_function_output::_input),
       &unary_function_output::_input> {
 public:
     unary_function_node& set_function(unary_function func) {
-	_output._func = func;
-	return *this;
+        _output._func = func;
+        return *this;
     }
 
     unary_function_node& set_value(float x, float y, float z, float w) {
-	_output._input.fallback().set(x, y, z, w);
-	return *this;
+        _output._input.fallback().set(x, y, z, w);
+        return *this;
     }
 };
 
@@ -121,25 +122,26 @@ public:
 };
 
 class binary_function_node
-  : public binary_single_output_node<binary_function_output,
+  : public binary_single_output_node<
+      binary_function_output,
       decltype(binary_function_output::_input_a),
       &binary_function_output::_input_a,
       decltype(binary_function_output::_input_b),
       &binary_function_output::_input_b> {
 public:
     binary_function_node& set_function(binary_function func) {
-	_output._func = func;
-	return *this;
+        _output._func = func;
+        return *this;
     }
 
     binary_function_node& set_value_a(float x, float y, float z, float w) {
-	_output._input_a.fallback().set(x, y, z, w);
-	return *this;
+        _output._input_a.fallback().set(x, y, z, w);
+        return *this;
     }
 
     binary_function_node& set_value_b(float x, float y, float z, float w) {
-	_output._input_b.fallback().set(x, y, z, w);
-	return *this;
+        _output._input_b.fallback().set(x, y, z, w);
+        return *this;
     }
 };
 

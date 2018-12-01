@@ -25,21 +25,21 @@ public:
     Version(const x11::Display& display)
       : _major(0)
       , _minor(0) {
-	if(!::glXQueryVersion(display, &_major, &_minor))
-	    throw std::runtime_error("Error querying GLX version");
+        if(!::glXQueryVersion(display, &_major, &_minor))
+            throw std::runtime_error("Error querying GLX version");
     }
 
     void AssertAtLeast(int major, int minor) const {
-	if((_major < major) || ((_major == major) && (_minor < minor)))
-	    throw std::runtime_error("Invalid GLX version");
+        if((_major < major) || ((_major == major) && (_minor < minor)))
+            throw std::runtime_error("Invalid GLX version");
     }
 
     int Major(void) const {
-	return _major;
+        return _major;
     }
 
     int Minor(void) const {
-	return _minor;
+        return _minor;
     }
 };
 

@@ -9,9 +9,9 @@
 #ifndef OGLPLUS_TEXGEN_BASE_OUTPUT_1509260923_HPP
 #define OGLPLUS_TEXGEN_BASE_OUTPUT_1509260923_HPP
 
+#include <set>
 #include "interface.hpp"
 #include "param_format.hpp"
-#include <set>
 
 namespace oglplus {
 namespace texgen {
@@ -34,7 +34,7 @@ public:
     }
 
     node_intf& parent(void) noexcept {
-	return _parent;
+        return _parent;
     }
 
     virtual cstr_ref type_name(void) = 0;
@@ -56,7 +56,7 @@ public:
     void disconnect_all(void) override;
 
     virtual bool set_default_value(span_size_t, float) {
-	return false;
+        return false;
     }
 
     void notify_connected(void) override;
@@ -76,8 +76,7 @@ struct output_id {
     output_intf& output;
     compile_context& context;
 };
-std::ostream&
-operator<<(std::ostream& out, const output_id&);
+std::ostream& operator<<(std::ostream& out, const output_id&);
 } // namespace expr
 } // namespace texgen
 } // namespace oglplus

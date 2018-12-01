@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_sync_wait_result
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_sync_wait_result_tests)
 
@@ -103,42 +103,43 @@ BOOST_AUTO_TEST_CASE(enum_sync_wait_result_range) {
 
 #ifdef GL_ALREADY_SIGNALED
     {
-	--count;
-	auto r = enum_value_range<sync_wait_result>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sync_wait_result(GL_ALREADY_SIGNALED))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sync_wait_result>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), sync_wait_result(GL_ALREADY_SIGNALED)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_CONDITION_SATISFIED
     {
-	--count;
-	auto r = enum_value_range<sync_wait_result>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), sync_wait_result(GL_CONDITION_SATISFIED))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sync_wait_result>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), sync_wait_result(GL_CONDITION_SATISFIED)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TIMEOUT_EXPIRED
     {
-	--count;
-	auto r = enum_value_range<sync_wait_result>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sync_wait_result(GL_TIMEOUT_EXPIRED))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sync_wait_result>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sync_wait_result(GL_TIMEOUT_EXPIRED)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_WAIT_FAILED
     {
-	--count;
-	auto r = enum_value_range<sync_wait_result>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), sync_wait_result(GL_WAIT_FAILED))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<sync_wait_result>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), sync_wait_result(GL_WAIT_FAILED)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

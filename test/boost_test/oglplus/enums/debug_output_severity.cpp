@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_debug_output_severity
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_debug_output_severity_tests)
 
@@ -112,8 +112,8 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_severity_names) {
     x = ev.debug_severity_notification;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "DEBUG_SEVERITY_NOTIFICATION")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "DEBUG_SEVERITY_NOTIFICATION") ==
+      0);
 #endif
 
 #ifdef GL_DONT_CARE
@@ -129,55 +129,58 @@ BOOST_AUTO_TEST_CASE(enum_debug_output_severity_range) {
 
 #ifdef GL_DEBUG_SEVERITY_HIGH
     {
-	--count;
-	auto r = enum_value_range<debug_output_severity>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), debug_output_severity(GL_DEBUG_SEVERITY_HIGH))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<debug_output_severity>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            debug_output_severity(GL_DEBUG_SEVERITY_HIGH)) != r.end());
     }
 #endif
 
 #ifdef GL_DEBUG_SEVERITY_LOW
     {
-	--count;
-	auto r = enum_value_range<debug_output_severity>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), debug_output_severity(GL_DEBUG_SEVERITY_LOW))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<debug_output_severity>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), debug_output_severity(GL_DEBUG_SEVERITY_LOW)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_DEBUG_SEVERITY_MEDIUM
     {
-	--count;
-	auto r = enum_value_range<debug_output_severity>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), debug_output_severity(GL_DEBUG_SEVERITY_MEDIUM))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<debug_output_severity>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            debug_output_severity(GL_DEBUG_SEVERITY_MEDIUM)) != r.end());
     }
 #endif
 
 #ifdef GL_DEBUG_SEVERITY_NOTIFICATION
     {
-	--count;
-	auto r = enum_value_range<debug_output_severity>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      debug_output_severity(GL_DEBUG_SEVERITY_NOTIFICATION))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<debug_output_severity>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            debug_output_severity(GL_DEBUG_SEVERITY_NOTIFICATION)) != r.end());
     }
 #endif
 
 #ifdef GL_DONT_CARE
     {
-	--count;
-	auto r = enum_value_range<debug_output_severity>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), debug_output_severity(GL_DONT_CARE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<debug_output_severity>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), debug_output_severity(GL_DONT_CARE)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

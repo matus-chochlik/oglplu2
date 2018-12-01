@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_pixel_data_internal_format
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_pixel_data_internal_format_tests)
 
@@ -15438,25 +15438,26 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_names) {
 #ifdef GL_COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2
     x = ev.compressed_rgb8_punchthrough_alpha1_etc2;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-    BOOST_CHECK(std::strcmp(enum_value_name(x).data(),
-		  "COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2")
-		== 0);
+    BOOST_CHECK(
+      std::strcmp(
+        enum_value_name(x).data(),
+        "COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2") == 0);
 #endif
 
 #ifdef GL_COMPRESSED_RGB_BPTC_SIGNED_FLOAT
     x = ev.compressed_rgb_bptc_signed_float;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "COMPRESSED_RGB_BPTC_SIGNED_FLOAT")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "COMPRESSED_RGB_BPTC_SIGNED_FLOAT") == 0);
 #endif
 
 #ifdef GL_COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT
     x = ev.compressed_rgb_bptc_unsigned_float;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-    BOOST_CHECK(std::strcmp(enum_value_name(x).data(),
-		  "COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT")
-		== 0);
+    BOOST_CHECK(
+      std::strcmp(
+        enum_value_name(x).data(), "COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT") == 0);
 #endif
 
 #ifdef GL_COMPRESSED_RGBA
@@ -15476,8 +15477,8 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_names) {
     x = ev.compressed_rgba_bptc_unorm;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "COMPRESSED_RGBA_BPTC_UNORM")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "COMPRESSED_RGBA_BPTC_UNORM") ==
+      0);
 #endif
 
 #ifdef GL_COMPRESSED_SIGNED_R11_EAC
@@ -15491,24 +15492,24 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_names) {
     x = ev.compressed_signed_red_rgtc1;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "COMPRESSED_SIGNED_RED_RGTC1")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "COMPRESSED_SIGNED_RED_RGTC1") ==
+      0);
 #endif
 
 #ifdef GL_COMPRESSED_SIGNED_RG11_EAC
     x = ev.compressed_signed_rg11_eac;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "COMPRESSED_SIGNED_RG11_EAC")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "COMPRESSED_SIGNED_RG11_EAC") ==
+      0);
 #endif
 
 #ifdef GL_COMPRESSED_SIGNED_RG_RGTC2
     x = ev.compressed_signed_rg_rgtc2;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "COMPRESSED_SIGNED_RG_RGTC2")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "COMPRESSED_SIGNED_RG_RGTC2") ==
+      0);
 #endif
 
 #ifdef GL_COMPRESSED_SRGB
@@ -15521,8 +15522,8 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_names) {
     x = ev.compressed_srgb8_alpha8_etc2_eac;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "COMPRESSED_SRGB8_ALPHA8_ETC2_EAC")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "COMPRESSED_SRGB8_ALPHA8_ETC2_EAC") == 0);
 #endif
 
 #ifdef GL_COMPRESSED_SRGB8_ETC2
@@ -15535,9 +15536,10 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_names) {
 #ifdef GL_COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2
     x = ev.compressed_srgb8_punchthrough_alpha1_etc2;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-    BOOST_CHECK(std::strcmp(enum_value_name(x).data(),
-		  "COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2")
-		== 0);
+    BOOST_CHECK(
+      std::strcmp(
+        enum_value_name(x).data(),
+        "COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2") == 0);
 #endif
 
 #ifdef GL_COMPRESSED_SRGB_ALPHA
@@ -15551,8 +15553,8 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_names) {
     x = ev.compressed_srgb_alpha_bptc_unorm;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "COMPRESSED_SRGB_ALPHA_BPTC_UNORM")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "COMPRESSED_SRGB_ALPHA_BPTC_UNORM") == 0);
 #endif
 
 #ifdef GL_DEPTH24_STENCIL8
@@ -16024,1051 +16026,1112 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_internal_format_range) {
 
 #ifdef GL_COMPRESSED_R11_EAC
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      pixel_data_internal_format(GL_COMPRESSED_R11_EAC))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_data_internal_format(GL_COMPRESSED_R11_EAC)) != r.end());
     }
 #endif
 
 #ifdef GL_COMPRESSED_RED
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), pixel_data_internal_format(GL_COMPRESSED_RED))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_data_internal_format(GL_COMPRESSED_RED)) != r.end());
     }
 #endif
 
 #ifdef GL_COMPRESSED_RED_RGTC1
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      pixel_data_internal_format(GL_COMPRESSED_RED_RGTC1))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_data_internal_format(GL_COMPRESSED_RED_RGTC1)) != r.end());
     }
 #endif
 
 #ifdef GL_COMPRESSED_RG
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), pixel_data_internal_format(GL_COMPRESSED_RG))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_internal_format(GL_COMPRESSED_RG)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_COMPRESSED_RG11_EAC
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      pixel_data_internal_format(GL_COMPRESSED_RG11_EAC))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_data_internal_format(GL_COMPRESSED_RG11_EAC)) != r.end());
     }
 #endif
 
 #ifdef GL_COMPRESSED_RG_RGTC2
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      pixel_data_internal_format(GL_COMPRESSED_RG_RGTC2))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_data_internal_format(GL_COMPRESSED_RG_RGTC2)) != r.end());
     }
 #endif
 
 #ifdef GL_COMPRESSED_RGB
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), pixel_data_internal_format(GL_COMPRESSED_RGB))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_data_internal_format(GL_COMPRESSED_RGB)) != r.end());
     }
 #endif
 
 #ifdef GL_COMPRESSED_RGB8_ETC2
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      pixel_data_internal_format(GL_COMPRESSED_RGB8_ETC2))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_data_internal_format(GL_COMPRESSED_RGB8_ETC2)) != r.end());
     }
 #endif
 
 #ifdef GL_COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      pixel_data_internal_format(
-			GL_COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_data_internal_format(
+              GL_COMPRESSED_RGB8_PUNCHTHROUGH_ALPHA1_ETC2)) != r.end());
     }
 #endif
 
 #ifdef GL_COMPRESSED_RGB_BPTC_SIGNED_FLOAT
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(),
-	    r.end(),
-	    pixel_data_internal_format(GL_COMPRESSED_RGB_BPTC_SIGNED_FLOAT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_data_internal_format(GL_COMPRESSED_RGB_BPTC_SIGNED_FLOAT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(),
-	    r.end(),
-	    pixel_data_internal_format(GL_COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_data_internal_format(
+              GL_COMPRESSED_RGB_BPTC_UNSIGNED_FLOAT)) != r.end());
     }
 #endif
 
 #ifdef GL_COMPRESSED_RGBA
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), pixel_data_internal_format(GL_COMPRESSED_RGBA))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_data_internal_format(GL_COMPRESSED_RGBA)) != r.end());
     }
 #endif
 
 #ifdef GL_COMPRESSED_RGBA8_ETC2_EAC
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      pixel_data_internal_format(GL_COMPRESSED_RGBA8_ETC2_EAC))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_data_internal_format(GL_COMPRESSED_RGBA8_ETC2_EAC)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_COMPRESSED_RGBA_BPTC_UNORM
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      pixel_data_internal_format(GL_COMPRESSED_RGBA_BPTC_UNORM))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_data_internal_format(GL_COMPRESSED_RGBA_BPTC_UNORM)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_COMPRESSED_SIGNED_R11_EAC
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      pixel_data_internal_format(GL_COMPRESSED_SIGNED_R11_EAC))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_data_internal_format(GL_COMPRESSED_SIGNED_R11_EAC)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_COMPRESSED_SIGNED_RED_RGTC1
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(),
-	    r.end(),
-	    pixel_data_internal_format(GL_COMPRESSED_SIGNED_RED_RGTC1))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_data_internal_format(GL_COMPRESSED_SIGNED_RED_RGTC1)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_COMPRESSED_SIGNED_RG11_EAC
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      pixel_data_internal_format(GL_COMPRESSED_SIGNED_RG11_EAC))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_data_internal_format(GL_COMPRESSED_SIGNED_RG11_EAC)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_COMPRESSED_SIGNED_RG_RGTC2
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      pixel_data_internal_format(GL_COMPRESSED_SIGNED_RG_RGTC2))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_data_internal_format(GL_COMPRESSED_SIGNED_RG_RGTC2)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_COMPRESSED_SRGB
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), pixel_data_internal_format(GL_COMPRESSED_SRGB))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_data_internal_format(GL_COMPRESSED_SRGB)) != r.end());
     }
 #endif
 
 #ifdef GL_COMPRESSED_SRGB8_ALPHA8_ETC2_EAC
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(),
-	    r.end(),
-	    pixel_data_internal_format(GL_COMPRESSED_SRGB8_ALPHA8_ETC2_EAC))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_data_internal_format(GL_COMPRESSED_SRGB8_ALPHA8_ETC2_EAC)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_COMPRESSED_SRGB8_ETC2
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      pixel_data_internal_format(GL_COMPRESSED_SRGB8_ETC2))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_data_internal_format(GL_COMPRESSED_SRGB8_ETC2)) != r.end());
     }
 #endif
 
 #ifdef GL_COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      pixel_data_internal_format(
-			GL_COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_data_internal_format(
+              GL_COMPRESSED_SRGB8_PUNCHTHROUGH_ALPHA1_ETC2)) != r.end());
     }
 #endif
 
 #ifdef GL_COMPRESSED_SRGB_ALPHA
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      pixel_data_internal_format(GL_COMPRESSED_SRGB_ALPHA))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_data_internal_format(GL_COMPRESSED_SRGB_ALPHA)) != r.end());
     }
 #endif
 
 #ifdef GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(),
-	    r.end(),
-	    pixel_data_internal_format(GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_data_internal_format(GL_COMPRESSED_SRGB_ALPHA_BPTC_UNORM)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_DEPTH24_STENCIL8
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), pixel_data_internal_format(GL_DEPTH24_STENCIL8))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_data_internal_format(GL_DEPTH24_STENCIL8)) != r.end());
     }
 #endif
 
 #ifdef GL_DEPTH32F_STENCIL8
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      pixel_data_internal_format(GL_DEPTH32F_STENCIL8))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_data_internal_format(GL_DEPTH32F_STENCIL8)) != r.end());
     }
 #endif
 
 #ifdef GL_DEPTH_COMPONENT
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), pixel_data_internal_format(GL_DEPTH_COMPONENT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_data_internal_format(GL_DEPTH_COMPONENT)) != r.end());
     }
 #endif
 
 #ifdef GL_DEPTH_COMPONENT16
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      pixel_data_internal_format(GL_DEPTH_COMPONENT16))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_data_internal_format(GL_DEPTH_COMPONENT16)) != r.end());
     }
 #endif
 
 #ifdef GL_DEPTH_COMPONENT24
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      pixel_data_internal_format(GL_DEPTH_COMPONENT24))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_data_internal_format(GL_DEPTH_COMPONENT24)) != r.end());
     }
 #endif
 
 #ifdef GL_DEPTH_COMPONENT32
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      pixel_data_internal_format(GL_DEPTH_COMPONENT32))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_data_internal_format(GL_DEPTH_COMPONENT32)) != r.end());
     }
 #endif
 
 #ifdef GL_DEPTH_COMPONENT32F
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      pixel_data_internal_format(GL_DEPTH_COMPONENT32F))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_data_internal_format(GL_DEPTH_COMPONENT32F)) != r.end());
     }
 #endif
 
 #ifdef GL_DEPTH_STENCIL
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), pixel_data_internal_format(GL_DEPTH_STENCIL))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_internal_format(GL_DEPTH_STENCIL)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_R11F_G11F_B10F
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), pixel_data_internal_format(GL_R11F_G11F_B10F))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_data_internal_format(GL_R11F_G11F_B10F)) != r.end());
     }
 #endif
 
 #ifdef GL_R16
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_R16))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_data_internal_format(GL_R16)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_R16_SNORM
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), pixel_data_internal_format(GL_R16_SNORM))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_internal_format(GL_R16_SNORM)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_R16F
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_R16F))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_data_internal_format(GL_R16F)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_R16I
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_R16I))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_data_internal_format(GL_R16I)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_R16UI
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_R16UI))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_data_internal_format(GL_R16UI)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_R32F
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_R32F))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_data_internal_format(GL_R32F)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_R32I
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_R32I))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_data_internal_format(GL_R32I)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_R32UI
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_R32UI))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_data_internal_format(GL_R32UI)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_R3_G3_B2
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_R3_G3_B2))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_internal_format(GL_R3_G3_B2)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_R8
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_R8))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_data_internal_format(GL_R8)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_R8_SNORM
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_R8_SNORM))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_internal_format(GL_R8_SNORM)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_R8I
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_R8I))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_data_internal_format(GL_R8I)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_R8UI
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_R8UI))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_data_internal_format(GL_R8UI)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RED
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RED))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RED)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RG
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RG))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RG)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RG16
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RG16))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RG16)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RG16_SNORM
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), pixel_data_internal_format(GL_RG16_SNORM))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_internal_format(GL_RG16_SNORM)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RG16F
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RG16F))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RG16F)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RG16I
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RG16I))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RG16I)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RG16UI
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RG16UI))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_internal_format(GL_RG16UI)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RG32F
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RG32F))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RG32F)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RG32I
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RG32I))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RG32I)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RG32UI
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RG32UI))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_internal_format(GL_RG32UI)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RG8
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RG8))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RG8)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RG8_SNORM
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), pixel_data_internal_format(GL_RG8_SNORM))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_internal_format(GL_RG8_SNORM)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RG8I
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RG8I))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RG8I)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RG8UI
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RG8UI))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RG8UI)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RGB
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGB))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGB)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RGB10
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGB10))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGB10)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RGB10_A2
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGB10_A2))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_internal_format(GL_RGB10_A2)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RGB10_A2UI
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), pixel_data_internal_format(GL_RGB10_A2UI))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_internal_format(GL_RGB10_A2UI)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RGB12
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGB12))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGB12)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RGB16
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGB16))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGB16)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RGB16_SNORM
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), pixel_data_internal_format(GL_RGB16_SNORM))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_internal_format(GL_RGB16_SNORM)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RGB16F
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGB16F))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_internal_format(GL_RGB16F)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RGB16I
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGB16I))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_internal_format(GL_RGB16I)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RGB16UI
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGB16UI))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_internal_format(GL_RGB16UI)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RGB32F
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGB32F))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_internal_format(GL_RGB32F)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RGB32I
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGB32I))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_internal_format(GL_RGB32I)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RGB32UI
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGB32UI))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_internal_format(GL_RGB32UI)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RGB4
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGB4))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGB4)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RGB5
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGB5))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGB5)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RGB5_A1
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGB5_A1))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_internal_format(GL_RGB5_A1)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RGB8
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGB8))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGB8)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RGB8_SNORM
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), pixel_data_internal_format(GL_RGB8_SNORM))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_internal_format(GL_RGB8_SNORM)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RGB8I
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGB8I))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGB8I)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RGB8UI
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGB8UI))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_internal_format(GL_RGB8UI)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RGB9_E5
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGB9_E5))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_internal_format(GL_RGB9_E5)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RGBA
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGBA))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGBA)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RGBA12
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGBA12))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_internal_format(GL_RGBA12)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RGBA16
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGBA16))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_internal_format(GL_RGBA16)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RGBA16_SNORM
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), pixel_data_internal_format(GL_RGBA16_SNORM))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_internal_format(GL_RGBA16_SNORM)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RGBA16F
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGBA16F))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_internal_format(GL_RGBA16F)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RGBA16I
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGBA16I))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_internal_format(GL_RGBA16I)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RGBA16UI
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGBA16UI))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_internal_format(GL_RGBA16UI)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RGBA2
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGBA2))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGBA2)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RGBA32F
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGBA32F))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_internal_format(GL_RGBA32F)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RGBA32I
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGBA32I))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_internal_format(GL_RGBA32I)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RGBA32UI
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGBA32UI))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_internal_format(GL_RGBA32UI)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RGBA4
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGBA4))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGBA4)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RGBA8
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGBA8))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGBA8)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RGBA8_SNORM
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), pixel_data_internal_format(GL_RGBA8_SNORM))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_internal_format(GL_RGBA8_SNORM)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RGBA8I
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGBA8I))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_internal_format(GL_RGBA8I)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RGBA8UI
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_RGBA8UI))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_internal_format(GL_RGBA8UI)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SRGB8
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_internal_format(GL_SRGB8))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_data_internal_format(GL_SRGB8)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SRGB8_ALPHA8
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), pixel_data_internal_format(GL_SRGB8_ALPHA8))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_internal_format(GL_SRGB8_ALPHA8)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_STENCIL_INDEX8
     {
-	--count;
-	auto r = enum_value_range<pixel_data_internal_format>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), pixel_data_internal_format(GL_STENCIL_INDEX8))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_internal_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_data_internal_format(GL_STENCIL_INDEX8)) != r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

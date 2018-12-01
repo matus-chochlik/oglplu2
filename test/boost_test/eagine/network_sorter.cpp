@@ -20,15 +20,15 @@ test_network_sorter_1_TNC(int n) {
     using namespace eagine;
 
     for(int i = 0; i < n; ++i) {
-	std::array<T, N> a;
-	for(T& e : a) {
-	    e = rg.get_any<T>();
-	}
+        std::array<T, N> a;
+        for(T& e : a) {
+            e = rg.get_any<T>();
+        }
 
-	network_sorter<T, N, Cmp> s{a};
-	const std::array<T, N>& r = s();
+        network_sorter<T, N, Cmp> s{a};
+        const std::array<T, N>& r = s();
 
-	BOOST_CHECK(std::is_sorted(r.begin(), r.end(), Cmp()));
+        BOOST_CHECK(std::is_sorted(r.begin(), r.end(), Cmp()));
     }
 }
 

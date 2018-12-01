@@ -34,35 +34,35 @@ struct scalar {
     typedef const scalar& _cpT;
 
     static constexpr inline scalar _from(data_type v) noexcept {
-	return scalar{v};
+        return scalar{v};
     }
 
     static constexpr inline scalar _make(T v, std::true_type) noexcept {
-	return scalar{vect::fill<T, N, V>::apply(v)};
+        return scalar{vect::fill<T, N, V>::apply(v)};
     }
 
     static constexpr inline scalar _make(T v, std::false_type) noexcept {
-	return scalar{v};
+        return scalar{v};
     }
 
     static constexpr inline scalar make(T v) noexcept {
-	return _make(v, is_vectorized());
+        return _make(v, is_vectorized());
     }
 
     constexpr inline T _get(std::true_type) const noexcept {
-	return _v[0];
+        return _v[0];
     }
 
     constexpr inline T _get(std::false_type) const noexcept {
-	return _v;
+        return _v;
     }
 
     constexpr inline operator T(void) const noexcept {
-	return _get(is_vectorized());
+        return _get(is_vectorized());
     }
 
     inline scalar& operator=(T v) noexcept {
-	return *this = make(v);
+        return *this = make(v);
     }
 };
 

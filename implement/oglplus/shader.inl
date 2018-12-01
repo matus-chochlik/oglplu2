@@ -42,8 +42,8 @@ shader_ops::compile_shader(shader_name shdr) noexcept {
 inline outcome<void>
 shader_ops::report_shader_compile_error(shader_name shdr) noexcept {
     if(!get_shader_compile_status(shdr).value()) {
-	OGLPLUS_REPORT_ERROR(
-	  CompileShader, GL_INVALID_OPERATION, info_log_of(shdr), always);
+        OGLPLUS_REPORT_ERROR(
+          CompileShader, GL_INVALID_OPERATION, info_log_of(shdr), always);
     }
     return {};
 }
@@ -123,17 +123,18 @@ inline deferred_error_handler
 obj_gen_del_ops<tag::shader>::_gen(
   span<GLuint> names, shader_type type) noexcept {
     for(auto b = names.begin(), i = b, e = names.end(); i != e; ++i) {
-	*i = OGLPLUS_GLFUNC(CreateShader)(GLenum(type));
-	GLenum error_code = OGLPLUS_GLFUNC(GetError)();
-	if(error_code != GL_NO_ERROR) {
-	    for(auto j = b; j != i; ++j) {
-		OGLPLUS_GLFUNC(DeleteShader)(*j);
-		OGLPLUS_VERIFY_SIMPLE(DeleteShader, fatal);
-	    }
-	    OGLPLUS_RETURN_HANDLER_IF_GL_ERROR(error_code,
-	      gl_library_name("gl").gl_function_name("CreateShader"),
-	      debug);
-	}
+        *i = OGLPLUS_GLFUNC(CreateShader)(GLenum(type));
+        GLenum error_code = OGLPLUS_GLFUNC(GetError)();
+        if(error_code != GL_NO_ERROR) {
+            for(auto j = b; j != i; ++j) {
+                OGLPLUS_GLFUNC(DeleteShader)(*j);
+                OGLPLUS_VERIFY_SIMPLE(DeleteShader, fatal);
+            }
+            OGLPLUS_RETURN_HANDLER_IF_GL_ERROR(
+              error_code,
+              gl_library_name("gl").gl_function_name("CreateShader"),
+              debug);
+        }
     }
     return {};
 }
@@ -151,8 +152,8 @@ obj_gen_del_ops<tag::shader>::_create(
 inline deferred_error_handler
 obj_gen_del_ops<tag::shader>::_delete(span<GLuint> names) noexcept {
     for(auto& name : names) {
-	OGLPLUS_GLFUNC(DeleteShader)(name);
-	OGLPLUS_VERIFY_SIMPLE(DeleteShader, debug);
+        OGLPLUS_GLFUNC(DeleteShader)(name);
+        OGLPLUS_VERIFY_SIMPLE(DeleteShader, debug);
     }
     return {};
 }

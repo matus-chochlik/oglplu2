@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_index_type
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_index_type_tests)
 
@@ -81,28 +81,31 @@ BOOST_AUTO_TEST_CASE(enum_index_type_range) {
 
 #ifdef GL_UNSIGNED_BYTE
     {
-	--count;
-	auto r = enum_value_range<index_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), index_type(GL_UNSIGNED_BYTE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<index_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), index_type(GL_UNSIGNED_BYTE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_INT
     {
-	--count;
-	auto r = enum_value_range<index_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), index_type(GL_UNSIGNED_INT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<index_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), index_type(GL_UNSIGNED_INT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_SHORT
     {
-	--count;
-	auto r = enum_value_range<index_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), index_type(GL_UNSIGNED_SHORT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<index_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), index_type(GL_UNSIGNED_SHORT)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

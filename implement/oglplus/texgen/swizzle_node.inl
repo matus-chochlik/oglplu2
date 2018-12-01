@@ -18,9 +18,9 @@ OGLPLUS_LIB_FUNC
 bool
 is_valid_swizzle(const cstr_ref& swizzle) noexcept {
     if(swizzle.size() < 1)
-	return false;
+        return false;
     if(swizzle.size() > 4)
-	return false;
+        return false;
 
     const std::string rgba("rgba");
     const std::string xyzw("xyzw");
@@ -29,16 +29,16 @@ is_valid_swizzle(const cstr_ref& swizzle) noexcept {
     cstr_ref::size_type rgba_c = 0, xyzw_c = 0, stpq_c = 0;
 
     for(char c : swizzle) {
-	if(rgba.find(c) != std::string::npos)
-	    ++rgba_c;
-	else if(xyzw.find(c) != std::string::npos)
-	    ++xyzw_c;
-	else if(stpq.find(c) != std::string::npos)
-	    ++stpq_c;
+        if(rgba.find(c) != std::string::npos)
+            ++rgba_c;
+        else if(xyzw.find(c) != std::string::npos)
+            ++xyzw_c;
+        else if(stpq.find(c) != std::string::npos)
+            ++stpq_c;
     }
 
-    return (swizzle.size() == rgba_c) || (swizzle.size() == xyzw_c)
-	   || (swizzle.size() == stpq_c);
+    return (swizzle.size() == rgba_c) || (swizzle.size() == xyzw_c) ||
+           (swizzle.size() == stpq_c);
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -70,7 +70,7 @@ OGLPLUS_LIB_FUNC
 std::ostream&
 swizzle_output::definitions(std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt))
-	return out;
+        return out;
 
     input_defs(out, ctxt);
     opening_expr(out, ctxt);

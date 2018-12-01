@@ -10,13 +10,13 @@
 #ifndef EAGINE_TYPE_TO_VALUE_1509260923_HPP
 #define EAGINE_TYPE_TO_VALUE_1509260923_HPP
 
+#include <cassert>
+#include <utility>
 #include "identity.hpp"
 #include "instead_of.hpp"
 #include "iterator.hpp"
 #include "std/type_traits.hpp"
 #include "types.hpp"
-#include <cassert>
-#include <utility>
 
 namespace eagine {
 
@@ -32,11 +32,11 @@ struct type_to_value_unit_base {
     }
 
     operator Value&(void)noexcept {
-	return _value;
+        return _value;
     }
 
     operator const Value&(void)const noexcept {
-	return _value;
+        return _value;
     }
 };
 
@@ -61,106 +61,108 @@ struct type_to_value : type_to_value_unit<Value, Keys>... {
       : type_to_value_unit<Value, Keys>(values)... {
     }
 
-    template <typename Transform,
+    template <
+      typename Transform,
       typename = std::enable_if_t<!std::is_same_v<Value, Transform>>>
     type_to_value(const Transform& transform)
       : type_to_value_unit<Value, Keys>(transform(identity<Keys>()))... {
     }
 
     static constexpr inline size_type size(void) noexcept {
-	return sizeof...(Keys);
+        return sizeof...(Keys);
     }
 
     type_to_value_unit_base<Value>* units(void) noexcept {
-	static_assert(
-	  sizeof(type_to_value)
-	    == sizeof(type_to_value_unit_base<Value>) * sizeof...(Keys),
-	  "Unable to reinterpret this as array of units");
-	typedef type_to_value_unit_base<Value> ub_t;
-	return reinterpret_cast<ub_t*>(this);
+        static_assert(
+          sizeof(type_to_value) ==
+            sizeof(type_to_value_unit_base<Value>) * sizeof...(Keys),
+          "Unable to reinterpret this as array of units");
+        typedef type_to_value_unit_base<Value> ub_t;
+        return reinterpret_cast<ub_t*>(this);
     }
 
     const type_to_value_unit_base<Value>* units(void) const noexcept {
-	static_assert(
-	  sizeof(type_to_value)
-	    == sizeof(type_to_value_unit_base<Value>) * sizeof...(Keys),
-	  "Unable to reinterpret this as array of units");
-	typedef type_to_value_unit_base<Value> ub_t;
-	return reinterpret_cast<const ub_t*>(this);
+        static_assert(
+          sizeof(type_to_value) ==
+            sizeof(type_to_value_unit_base<Value>) * sizeof...(Keys),
+          "Unable to reinterpret this as array of units");
+        typedef type_to_value_unit_base<Value> ub_t;
+        return reinterpret_cast<const ub_t*>(this);
     }
 
     type_to_value_unit_base<Value>& unit(size_type pos) noexcept {
-	assert(pos < size());
-	return units()[pos];
+        assert(pos < size());
+        return units()[pos];
     }
 
     const type_to_value_unit_base<Value>& unit(size_type pos) const noexcept {
-	assert(pos < size());
-	return units()[pos];
+        assert(pos < size());
+        return units()[pos];
     }
 
     template <typename Key>
     type_to_value_unit<Value, Key>& unit(void) noexcept {
-	return *this;
+        return *this;
     }
 
     template <typename Key>
     const type_to_value_unit<Value, Key>& unit(void) const noexcept {
-	return *this;
+        return *this;
     }
 
     template <typename Key>
     Value& ref(void) noexcept {
-	return unit<Key>();
+        return unit<Key>();
     }
 
     template <typename Key>
     const Value& ref(void) const noexcept {
-	return unit<Key>();
+        return unit<Key>();
     }
 
     Value& ref(size_type pos) noexcept {
-	return unit(pos);
+        return unit(pos);
     }
 
     const Value& ref(size_type pos) const noexcept {
-	return unit(pos);
+        return unit(pos);
     }
 
     Value& operator[](size_type pos) noexcept {
-	return ref(pos);
+        return ref(pos);
     }
 
     const Value& operator[](size_type pos) const noexcept {
-	return ref(pos);
+        return ref(pos);
     }
 
-    typedef noexcept_casting_iterator<type_to_value_unit_base<Value>*,
+    typedef noexcept_casting_iterator<
+      type_to_value_unit_base<Value>*,
       Value,
       Value&>
       iterator;
 
     iterator begin(void) noexcept {
-	return iterator(units());
+        return iterator(units());
     }
 
     iterator end(void) noexcept {
-	return iterator(units() + size());
+        return iterator(units() + size());
     }
 
     friend bool operator==(
       const type_to_value& a, const type_to_value& b) noexcept {
-	for(size_type i = 0; i < size(); ++i) {
-	    if(a[i] != b[i]) {
-		return false;
-	    }
-	}
-	return true;
+        for(size_type i = 0; i < size(); ++i) {
+            if(a[i] != b[i]) {
+                return false;
+            }
+        }
+        return true;
     }
 
     friend bool operator!=(
       const type_to_value& a, const type_to_value& b) noexcept {
-	return !(a == b);
+        return !(a == b);
     }
 };
 

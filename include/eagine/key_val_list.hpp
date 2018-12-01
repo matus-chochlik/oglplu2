@@ -10,10 +10,10 @@
 #ifndef EAGINE_ATTRIB_LIST_1509260923_HPP
 #define EAGINE_ATTRIB_LIST_1509260923_HPP
 
+#include <array>
 #include "span.hpp"
 #include "std/type_traits.hpp"
 #include "std/utility.hpp"
-#include <array>
 
 namespace eagine {
 
@@ -45,8 +45,8 @@ struct key_value_list_base<Traits, 0> {
     key_value_list_base(void) = default;
 
     static const value_type* data(void) noexcept {
-	static const value_type term = Traits::terminator();
-	return &term;
+        static const value_type term = Traits::terminator();
+        return &term;
     }
 };
 
@@ -62,7 +62,8 @@ struct key_value_list_base<Traits, 2> {
       : _elements{{value_type(conv_type(key)), value, Traits::terminator()}} {
     }
 
-    constexpr key_value_list_base(const key_value_list_base<Traits, 0>&,
+    constexpr key_value_list_base(
+      const key_value_list_base<Traits, 0>&,
       key_type key,
       value_type value,
       std::index_sequence<>) noexcept
@@ -70,7 +71,7 @@ struct key_value_list_base<Traits, 2> {
     }
 
     const value_type* data(void) const noexcept {
-	return _elements.data();
+        return _elements.data();
     }
 };
 
@@ -82,21 +83,23 @@ struct key_value_list_base {
     typedef typename Traits::conv_type conv_type;
     typedef typename Traits::value_type value_type;
 
-    template <std::size_t M,
+    template <
+      std::size_t M,
       std::size_t... I,
       typename = std::enable_if_t<(M + 2 == N) && (sizeof...(I) == M)>>
-    constexpr key_value_list_base(const key_value_list_base<Traits, M>& head,
+    constexpr key_value_list_base(
+      const key_value_list_base<Traits, M>& head,
       key_type key,
       value_type value,
       std::index_sequence<I...>) noexcept
       : _elements{{head._elements[I]...,
-	  value_type(conv_type(key)),
-	  value,
-	  Traits::terminator()}} {
+                   value_type(conv_type(key)),
+                   value,
+                   Traits::terminator()}} {
     }
 
     const value_type* data(void) const noexcept {
-	return _elements.data();
+        return _elements.data();
     }
 };
 
@@ -113,7 +116,8 @@ public:
     key_value_list(void) = default;
 
     template <std::size_t M, typename = std::enable_if_t<M + 2 == N>>
-    constexpr key_value_list(const key_value_list_base<Traits, M>& head,
+    constexpr key_value_list(
+      const key_value_list_base<Traits, M>& head,
       key_type key,
       value_type value) noexcept
       : _base(head, key, value, std::make_index_sequence<M>()) {
@@ -124,33 +128,35 @@ public:
     }
 
     static constexpr inline span_size_t size(void) noexcept {
-	return span_size(N + 1);
+        return span_size(N + 1);
     }
 
     const value_type* data(void) const noexcept {
-	return _base.data();
+        return _base.data();
     }
 
     span<const value_type> get(void) const noexcept {
-	return {data(), size()};
+        return {data(), size()};
     }
 
     constexpr key_value_list<Traits, N + 2> append(
       const key_value_list_element<Traits>& key_val) const noexcept {
-	return {_base, key_val._key, key_val._value};
+        return {_base, key_val._key, key_val._value};
     }
 };
 
 template <typename Traits>
 static constexpr inline key_value_list<Traits, 4>
-operator+(const key_value_list_element<Traits>& l,
+operator+(
+  const key_value_list_element<Traits>& l,
   const key_value_list_element<Traits>& r) noexcept {
     return key_value_list<Traits, 2>(l).append(r);
 }
 
 template <typename Traits, std::size_t N>
 static constexpr inline key_value_list<Traits, N + 2>
-operator+(const key_value_list<Traits, N>& l,
+operator+(
+  const key_value_list<Traits, N>& l,
   const key_value_list_element<Traits>& r) noexcept {
     return l.append(r);
 }

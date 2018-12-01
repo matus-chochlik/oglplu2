@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_image_compatibility_class
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_image_compatibility_class_tests)
 
@@ -336,122 +336,133 @@ BOOST_AUTO_TEST_CASE(enum_image_compatibility_class_range) {
 
 #ifdef GL_IMAGE_CLASS_10_10_10_2
     {
-	--count;
-	auto r = enum_value_range<image_compatibility_class>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      image_compatibility_class(GL_IMAGE_CLASS_10_10_10_2))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<image_compatibility_class>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            image_compatibility_class(GL_IMAGE_CLASS_10_10_10_2)) != r.end());
     }
 #endif
 
 #ifdef GL_IMAGE_CLASS_11_11_10
     {
-	--count;
-	auto r = enum_value_range<image_compatibility_class>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      image_compatibility_class(GL_IMAGE_CLASS_11_11_10))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<image_compatibility_class>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            image_compatibility_class(GL_IMAGE_CLASS_11_11_10)) != r.end());
     }
 #endif
 
 #ifdef GL_IMAGE_CLASS_1_X_16
     {
-	--count;
-	auto r = enum_value_range<image_compatibility_class>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      image_compatibility_class(GL_IMAGE_CLASS_1_X_16))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<image_compatibility_class>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            image_compatibility_class(GL_IMAGE_CLASS_1_X_16)) != r.end());
     }
 #endif
 
 #ifdef GL_IMAGE_CLASS_1_X_32
     {
-	--count;
-	auto r = enum_value_range<image_compatibility_class>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      image_compatibility_class(GL_IMAGE_CLASS_1_X_32))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<image_compatibility_class>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            image_compatibility_class(GL_IMAGE_CLASS_1_X_32)) != r.end());
     }
 #endif
 
 #ifdef GL_IMAGE_CLASS_1_X_8
     {
-	--count;
-	auto r = enum_value_range<image_compatibility_class>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), image_compatibility_class(GL_IMAGE_CLASS_1_X_8))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<image_compatibility_class>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            image_compatibility_class(GL_IMAGE_CLASS_1_X_8)) != r.end());
     }
 #endif
 
 #ifdef GL_IMAGE_CLASS_2_X_16
     {
-	--count;
-	auto r = enum_value_range<image_compatibility_class>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      image_compatibility_class(GL_IMAGE_CLASS_2_X_16))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<image_compatibility_class>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            image_compatibility_class(GL_IMAGE_CLASS_2_X_16)) != r.end());
     }
 #endif
 
 #ifdef GL_IMAGE_CLASS_2_X_32
     {
-	--count;
-	auto r = enum_value_range<image_compatibility_class>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      image_compatibility_class(GL_IMAGE_CLASS_2_X_32))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<image_compatibility_class>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            image_compatibility_class(GL_IMAGE_CLASS_2_X_32)) != r.end());
     }
 #endif
 
 #ifdef GL_IMAGE_CLASS_2_X_8
     {
-	--count;
-	auto r = enum_value_range<image_compatibility_class>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), image_compatibility_class(GL_IMAGE_CLASS_2_X_8))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<image_compatibility_class>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            image_compatibility_class(GL_IMAGE_CLASS_2_X_8)) != r.end());
     }
 #endif
 
 #ifdef GL_IMAGE_CLASS_4_X_16
     {
-	--count;
-	auto r = enum_value_range<image_compatibility_class>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      image_compatibility_class(GL_IMAGE_CLASS_4_X_16))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<image_compatibility_class>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            image_compatibility_class(GL_IMAGE_CLASS_4_X_16)) != r.end());
     }
 #endif
 
 #ifdef GL_IMAGE_CLASS_4_X_32
     {
-	--count;
-	auto r = enum_value_range<image_compatibility_class>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      image_compatibility_class(GL_IMAGE_CLASS_4_X_32))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<image_compatibility_class>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            image_compatibility_class(GL_IMAGE_CLASS_4_X_32)) != r.end());
     }
 #endif
 
 #ifdef GL_IMAGE_CLASS_4_X_8
     {
-	--count;
-	auto r = enum_value_range<image_compatibility_class>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), image_compatibility_class(GL_IMAGE_CLASS_4_X_8))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<image_compatibility_class>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            image_compatibility_class(GL_IMAGE_CLASS_4_X_8)) != r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

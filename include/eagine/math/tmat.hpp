@@ -39,33 +39,37 @@ public:
     }
 
 private:
-    template <typename... P,
-      typename = std::enable_if_t<((sizeof...(P)) == (C * R))
-				  && all_are_convertible_to<T, P...>::value>>
+    template <
+      typename... P,
+      typename = std::enable_if_t<
+        ((sizeof...(P)) == (C * R)) && all_are_convertible_to<T, P...>::value>>
     static inline _base _make(P&&... p) {
-	T d[C * R] = {T(p)...};
-	return _base::from(d, C * R);
+        T d[C * R] = {T(p)...};
+        return _base::from(d, C * R);
     }
 
 public:
-    template <typename... P,
-      typename = std::enable_if_t<((sizeof...(P)) == (R * C))
-				  && all_are_convertible_to<T, P...>::value>>
+    template <
+      typename... P,
+      typename = std::enable_if_t<
+        ((sizeof...(P)) == (R * C)) && all_are_convertible_to<T, P...>::value>>
     inline tmat(P&&... p)
       : _base(_make(std::forward<P>(p)...)) {
     }
 
-    template <typename... P,
+    template <
+      typename... P,
       typename = std::enable_if_t<((sizeof...(P)) == (RM ? R : C))>>
     constexpr inline tmat(const vector<P, RM ? C : R, V>&... v) noexcept
       : _base{{v._v...}} {
     }
 
-    template <typename P,
+    template <
+      typename P,
       int M,
       int N,
       typename =
-	std::enable_if_t<std::is_convertible_v<P, T> && (C <= M) && (R <= N)>>
+        std::enable_if_t<std::is_convertible_v<P, T> && (C <= M) && (R <= N)>>
     constexpr inline tmat(const matrix<P, M, N, RM, V>& m) noexcept
       : _base(_base::from(m)) {
     }
@@ -83,7 +87,7 @@ struct canonical_compound_type<math::tmat<T, C, R, RM, V>>
 template <typename T, int C, int R, bool RM, bool V>
 struct compound_view_maker<math::tmat<T, C, R, RM, V>> {
     inline auto operator()(const math::tmat<T, C, R, RM, V>& m) const noexcept {
-	return vect::view < T, RM ? C : R, V > ::apply(m._v);
+        return vect::view < T, RM ? C : R, V > ::apply(m._v);
     }
 };
 

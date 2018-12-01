@@ -29,13 +29,15 @@ test_all_are_same_1T(void) {
     BOOST_CHECK_EQUAL(
       (all_are_same<T1, T3>::value), (std::is_same<T1, T3>::value));
 
-    BOOST_CHECK_EQUAL((all_are_same<T4, T3, T2, T1>::value),
-      (std::is_same<T2, T1>::value && std::is_same<T1, T3>::value
-	&& std::is_same<T3, T4>::value));
+    BOOST_CHECK_EQUAL(
+      (all_are_same<T4, T3, T2, T1>::value),
+      (std::is_same<T2, T1>::value && std::is_same<T1, T3>::value &&
+       std::is_same<T3, T4>::value));
 
-    BOOST_CHECK_EQUAL((all_are_same<T1, T2, T3, T4>::value),
-      (std::is_same<T1, T2>::value && std::is_same<T1, T3>::value
-	&& std::is_same<T1, T4>::value));
+    BOOST_CHECK_EQUAL(
+      (all_are_same<T1, T2, T3, T4>::value),
+      (std::is_same<T1, T2>::value && std::is_same<T1, T3>::value &&
+       std::is_same<T1, T4>::value));
 }
 
 template <typename T1, typename T2, typename T3, typename T4>
@@ -72,13 +74,15 @@ test_all_are_derived_from_1T(void) {
     BOOST_CHECK_EQUAL(
       (all_are_derived_from<T1, T3>::value), (std::is_base_of<T1, T3>::value));
 
-    BOOST_CHECK_EQUAL((all_are_derived_from<T1, T2, T3, T4>::value),
-      (std::is_base_of<T1, T2>::value && std::is_base_of<T1, T3>::value
-	&& std::is_base_of<T1, T4>::value));
+    BOOST_CHECK_EQUAL(
+      (all_are_derived_from<T1, T2, T3, T4>::value),
+      (std::is_base_of<T1, T2>::value && std::is_base_of<T1, T3>::value &&
+       std::is_base_of<T1, T4>::value));
 
-    BOOST_CHECK_EQUAL((all_are_derived_from<T2, T1, T3, T4>::value),
-      (std::is_base_of<T2, T1>::value && std::is_base_of<T2, T3>::value
-	&& std::is_base_of<T2, T4>::value));
+    BOOST_CHECK_EQUAL(
+      (all_are_derived_from<T2, T1, T3, T4>::value),
+      (std::is_base_of<T2, T1>::value && std::is_base_of<T2, T3>::value &&
+       std::is_base_of<T2, T4>::value));
 }
 
 template <typename T1, typename T2, typename T3, typename T4>
@@ -112,16 +116,21 @@ test_all_are_convertible_to_1T(void) {
     BOOST_CHECK(all_are_convertible_to<T3>::value);
     BOOST_CHECK(all_are_convertible_to<T4>::value);
 
-    BOOST_CHECK_EQUAL((all_are_convertible_to<T1, T3>::value),
+    BOOST_CHECK_EQUAL(
+      (all_are_convertible_to<T1, T3>::value),
       (std::is_convertible<T3, T1>::value));
 
-    BOOST_CHECK_EQUAL((all_are_convertible_to<T1, T2, T3, T4>::value),
-      (std::is_convertible<T2, T1>::value && std::is_convertible<T3, T1>::value
-	&& std::is_convertible<T4, T1>::value));
+    BOOST_CHECK_EQUAL(
+      (all_are_convertible_to<T1, T2, T3, T4>::value),
+      (std::is_convertible<T2, T1>::value &&
+       std::is_convertible<T3, T1>::value &&
+       std::is_convertible<T4, T1>::value));
 
-    BOOST_CHECK_EQUAL((all_are_convertible_to<T2, T1, T3, T4>::value),
-      (std::is_convertible<T1, T2>::value && std::is_convertible<T3, T2>::value
-	&& std::is_convertible<T4, T2>::value));
+    BOOST_CHECK_EQUAL(
+      (all_are_convertible_to<T2, T1, T3, T4>::value),
+      (std::is_convertible<T1, T2>::value &&
+       std::is_convertible<T3, T2>::value &&
+       std::is_convertible<T4, T2>::value));
 }
 
 template <typename T1, typename T2, typename T3, typename T4>

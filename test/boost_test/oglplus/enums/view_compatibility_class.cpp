@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_view_compatibility_class
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_view_compatibility_class_tests)
 
@@ -591,177 +591,193 @@ BOOST_AUTO_TEST_CASE(enum_view_compatibility_class_range) {
 
 #ifdef GL_VIEW_CLASS_128_BITS
     {
-	--count;
-	auto r = enum_value_range<view_compatibility_class>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      view_compatibility_class(GL_VIEW_CLASS_128_BITS))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<view_compatibility_class>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            view_compatibility_class(GL_VIEW_CLASS_128_BITS)) != r.end());
     }
 #endif
 
 #ifdef GL_VIEW_CLASS_16_BITS
     {
-	--count;
-	auto r = enum_value_range<view_compatibility_class>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), view_compatibility_class(GL_VIEW_CLASS_16_BITS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<view_compatibility_class>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            view_compatibility_class(GL_VIEW_CLASS_16_BITS)) != r.end());
     }
 #endif
 
 #ifdef GL_VIEW_CLASS_24_BITS
     {
-	--count;
-	auto r = enum_value_range<view_compatibility_class>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), view_compatibility_class(GL_VIEW_CLASS_24_BITS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<view_compatibility_class>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            view_compatibility_class(GL_VIEW_CLASS_24_BITS)) != r.end());
     }
 #endif
 
 #ifdef GL_VIEW_CLASS_32_BITS
     {
-	--count;
-	auto r = enum_value_range<view_compatibility_class>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), view_compatibility_class(GL_VIEW_CLASS_32_BITS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<view_compatibility_class>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            view_compatibility_class(GL_VIEW_CLASS_32_BITS)) != r.end());
     }
 #endif
 
 #ifdef GL_VIEW_CLASS_48_BITS
     {
-	--count;
-	auto r = enum_value_range<view_compatibility_class>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), view_compatibility_class(GL_VIEW_CLASS_48_BITS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<view_compatibility_class>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            view_compatibility_class(GL_VIEW_CLASS_48_BITS)) != r.end());
     }
 #endif
 
 #ifdef GL_VIEW_CLASS_64_BITS
     {
-	--count;
-	auto r = enum_value_range<view_compatibility_class>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), view_compatibility_class(GL_VIEW_CLASS_64_BITS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<view_compatibility_class>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            view_compatibility_class(GL_VIEW_CLASS_64_BITS)) != r.end());
     }
 #endif
 
 #ifdef GL_VIEW_CLASS_8_BITS
     {
-	--count;
-	auto r = enum_value_range<view_compatibility_class>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), view_compatibility_class(GL_VIEW_CLASS_8_BITS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<view_compatibility_class>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            view_compatibility_class(GL_VIEW_CLASS_8_BITS)) != r.end());
     }
 #endif
 
 #ifdef GL_VIEW_CLASS_96_BITS
     {
-	--count;
-	auto r = enum_value_range<view_compatibility_class>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), view_compatibility_class(GL_VIEW_CLASS_96_BITS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<view_compatibility_class>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            view_compatibility_class(GL_VIEW_CLASS_96_BITS)) != r.end());
     }
 #endif
 
 #ifdef GL_VIEW_CLASS_BPTC_FLOAT
     {
-	--count;
-	auto r = enum_value_range<view_compatibility_class>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      view_compatibility_class(GL_VIEW_CLASS_BPTC_FLOAT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<view_compatibility_class>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            view_compatibility_class(GL_VIEW_CLASS_BPTC_FLOAT)) != r.end());
     }
 #endif
 
 #ifdef GL_VIEW_CLASS_BPTC_UNORM
     {
-	--count;
-	auto r = enum_value_range<view_compatibility_class>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      view_compatibility_class(GL_VIEW_CLASS_BPTC_UNORM))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<view_compatibility_class>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            view_compatibility_class(GL_VIEW_CLASS_BPTC_UNORM)) != r.end());
     }
 #endif
 
 #ifdef GL_VIEW_CLASS_RGTC1_RED
     {
-	--count;
-	auto r = enum_value_range<view_compatibility_class>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      view_compatibility_class(GL_VIEW_CLASS_RGTC1_RED))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<view_compatibility_class>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            view_compatibility_class(GL_VIEW_CLASS_RGTC1_RED)) != r.end());
     }
 #endif
 
 #ifdef GL_VIEW_CLASS_RGTC2_RG
     {
-	--count;
-	auto r = enum_value_range<view_compatibility_class>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      view_compatibility_class(GL_VIEW_CLASS_RGTC2_RG))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<view_compatibility_class>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            view_compatibility_class(GL_VIEW_CLASS_RGTC2_RG)) != r.end());
     }
 #endif
 
 #ifdef GL_VIEW_CLASS_S3TC_DXT1_RGB
     {
-	--count;
-	auto r = enum_value_range<view_compatibility_class>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      view_compatibility_class(GL_VIEW_CLASS_S3TC_DXT1_RGB))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<view_compatibility_class>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            view_compatibility_class(GL_VIEW_CLASS_S3TC_DXT1_RGB)) != r.end());
     }
 #endif
 
 #ifdef GL_VIEW_CLASS_S3TC_DXT1_RGBA
     {
-	--count;
-	auto r = enum_value_range<view_compatibility_class>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      view_compatibility_class(GL_VIEW_CLASS_S3TC_DXT1_RGBA))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<view_compatibility_class>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            view_compatibility_class(GL_VIEW_CLASS_S3TC_DXT1_RGBA)) != r.end());
     }
 #endif
 
 #ifdef GL_VIEW_CLASS_S3TC_DXT3_RGBA
     {
-	--count;
-	auto r = enum_value_range<view_compatibility_class>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      view_compatibility_class(GL_VIEW_CLASS_S3TC_DXT3_RGBA))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<view_compatibility_class>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            view_compatibility_class(GL_VIEW_CLASS_S3TC_DXT3_RGBA)) != r.end());
     }
 #endif
 
 #ifdef GL_VIEW_CLASS_S3TC_DXT5_RGBA
     {
-	--count;
-	auto r = enum_value_range<view_compatibility_class>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      view_compatibility_class(GL_VIEW_CLASS_S3TC_DXT5_RGBA))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<view_compatibility_class>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            view_compatibility_class(GL_VIEW_CLASS_S3TC_DXT5_RGBA)) != r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

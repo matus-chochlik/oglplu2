@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_blend_equation_advanced
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_blend_equation_advanced_tests)
 
@@ -521,161 +521,168 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_advanced_range) {
 
 #ifdef GL_COLORBURN_KHR
     {
-	--count;
-	auto r = enum_value_range<blend_equation_advanced>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), blend_equation_advanced(GL_COLORBURN_KHR))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<blend_equation_advanced>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), blend_equation_advanced(GL_COLORBURN_KHR)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_COLORDODGE_KHR
     {
-	--count;
-	auto r = enum_value_range<blend_equation_advanced>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), blend_equation_advanced(GL_COLORDODGE_KHR))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<blend_equation_advanced>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), blend_equation_advanced(GL_COLORDODGE_KHR)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_DARKEN_KHR
     {
-	--count;
-	auto r = enum_value_range<blend_equation_advanced>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), blend_equation_advanced(GL_DARKEN_KHR))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<blend_equation_advanced>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), blend_equation_advanced(GL_DARKEN_KHR)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_DIFFERENCE_KHR
     {
-	--count;
-	auto r = enum_value_range<blend_equation_advanced>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), blend_equation_advanced(GL_DIFFERENCE_KHR))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<blend_equation_advanced>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), blend_equation_advanced(GL_DIFFERENCE_KHR)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_EXCLUSION_KHR
     {
-	--count;
-	auto r = enum_value_range<blend_equation_advanced>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), blend_equation_advanced(GL_EXCLUSION_KHR))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<blend_equation_advanced>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), blend_equation_advanced(GL_EXCLUSION_KHR)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_HARDLIGHT_KHR
     {
-	--count;
-	auto r = enum_value_range<blend_equation_advanced>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), blend_equation_advanced(GL_HARDLIGHT_KHR))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<blend_equation_advanced>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), blend_equation_advanced(GL_HARDLIGHT_KHR)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_HSL_COLOR_KHR
     {
-	--count;
-	auto r = enum_value_range<blend_equation_advanced>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), blend_equation_advanced(GL_HSL_COLOR_KHR))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<blend_equation_advanced>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), blend_equation_advanced(GL_HSL_COLOR_KHR)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_HSL_HUE_KHR
     {
-	--count;
-	auto r = enum_value_range<blend_equation_advanced>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), blend_equation_advanced(GL_HSL_HUE_KHR))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<blend_equation_advanced>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), blend_equation_advanced(GL_HSL_HUE_KHR)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_HSL_LUMINOSITY_KHR
     {
-	--count;
-	auto r = enum_value_range<blend_equation_advanced>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), blend_equation_advanced(GL_HSL_LUMINOSITY_KHR))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<blend_equation_advanced>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            blend_equation_advanced(GL_HSL_LUMINOSITY_KHR)) != r.end());
     }
 #endif
 
 #ifdef GL_HSL_SATURATION_KHR
     {
-	--count;
-	auto r = enum_value_range<blend_equation_advanced>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), blend_equation_advanced(GL_HSL_SATURATION_KHR))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<blend_equation_advanced>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            blend_equation_advanced(GL_HSL_SATURATION_KHR)) != r.end());
     }
 #endif
 
 #ifdef GL_LIGHTEN_KHR
     {
-	--count;
-	auto r = enum_value_range<blend_equation_advanced>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), blend_equation_advanced(GL_LIGHTEN_KHR))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<blend_equation_advanced>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), blend_equation_advanced(GL_LIGHTEN_KHR)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_MULTIPLY_KHR
     {
-	--count;
-	auto r = enum_value_range<blend_equation_advanced>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), blend_equation_advanced(GL_MULTIPLY_KHR))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<blend_equation_advanced>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), blend_equation_advanced(GL_MULTIPLY_KHR)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_OVERLAY_KHR
     {
-	--count;
-	auto r = enum_value_range<blend_equation_advanced>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), blend_equation_advanced(GL_OVERLAY_KHR))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<blend_equation_advanced>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), blend_equation_advanced(GL_OVERLAY_KHR)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SCREEN_KHR
     {
-	--count;
-	auto r = enum_value_range<blend_equation_advanced>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), blend_equation_advanced(GL_SCREEN_KHR))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<blend_equation_advanced>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), blend_equation_advanced(GL_SCREEN_KHR)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SOFTLIGHT_KHR
     {
-	--count;
-	auto r = enum_value_range<blend_equation_advanced>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), blend_equation_advanced(GL_SOFTLIGHT_KHR))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<blend_equation_advanced>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), blend_equation_advanced(GL_SOFTLIGHT_KHR)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

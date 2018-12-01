@@ -20,7 +20,8 @@ private:
     typedef input_with_const_default<float[4]> _base;
 
 public:
-    complement_input(node_intf& parent,
+    complement_input(
+      node_intf& parent,
       const cstr_ref& name,
       float r,
       float g,
@@ -30,7 +31,7 @@ public:
     }
 
     bool accepts_value_type(slot_data_type type) override {
-	return data_type_dims(type) == data_type_dims(output().value_type());
+        return data_type_dims(type) == data_type_dims(output().value_type());
     }
 };
 
@@ -50,15 +51,16 @@ public:
 };
 
 class complement_node
-  : public binary_single_output_node<complement_output,
+  : public binary_single_output_node<
+      complement_output,
       decltype(complement_output::input),
       &complement_output::input,
       decltype(complement_output::complement),
       &complement_output::complement> {
 public:
     complement_node& set_complement(float r, float g, float b, float a) {
-	_output.complement.fallback().set(r, g, b, a);
-	return *this;
+        _output.complement.fallback().set(r, g, b, a);
+        return *this;
     }
 };
 

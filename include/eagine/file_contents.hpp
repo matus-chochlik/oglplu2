@@ -10,11 +10,11 @@
 #ifndef EAGINE_FILE_CONTENTS_1509260923_HPP
 #define EAGINE_FILE_CONTENTS_1509260923_HPP
 
+#include <memory>
 #include "config/basic.hpp"
 #include "cstr_ref.hpp"
 #include "protected_member.hpp"
 #include "struct_memory_block.hpp"
-#include <memory>
 
 namespace eagine {
 
@@ -38,15 +38,15 @@ public:
     file_contents(const cstr_ref& path);
 
     bool is_loaded(void) const noexcept {
-	return bool(_pimpl);
+        return bool(_pimpl);
     }
 
     const_memory_block block(void) const noexcept {
-	return bool(_pimpl) ? _pimpl->block() : const_memory_block();
+        return bool(_pimpl) ? _pimpl->block() : const_memory_block();
     }
 
     operator const_memory_block(void) const noexcept {
-	return block();
+        return block();
     }
 };
 

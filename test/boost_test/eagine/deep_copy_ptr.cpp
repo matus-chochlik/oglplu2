@@ -21,11 +21,11 @@ struct test_copyable {
     }
 
     std::unique_ptr<test_copyable> copy(void) {
-	return new test_copyable(value);
+        return new test_copyable(value);
     }
 
     friend bool operator==(const this_class& a, const this_class& b) {
-	return a.value == b.value;
+        return a.value == b.value;
     }
 };
 
@@ -42,7 +42,7 @@ struct test_copyable_intf {
     virtual bool equal(const test_copyable_intf&) const = 0;
 
     friend bool operator==(const this_class& a, const this_class& b) {
-	return a.equal(b);
+        return a.equal(b);
     }
 };
 
@@ -55,12 +55,12 @@ struct test_copyable_impl : test_copyable_intf<T> {
     }
 
     std::unique_ptr<test_copyable_intf<T>> copy(void) override {
-	return std::unique_ptr<test_copyable_intf<T>>(
-	  new test_copyable_impl(value));
+        return std::unique_ptr<test_copyable_intf<T>>(
+          new test_copyable_impl(value));
     }
 
     bool equal(const test_copyable_intf<T>& intf) const override {
-	return value == dynamic_cast<const test_copyable_impl&>(intf).value;
+        return value == dynamic_cast<const test_copyable_impl&>(intf).value;
     }
 };
 
@@ -74,21 +74,21 @@ test_deep_copy_ptr_1(void) {
     using namespace eagine;
 
     for(unsigned r = 0; r < 10; ++r) {
-	deep_copy_ptr<I> val = make_deep_copy_ptr<T>(rg.get_int(0, 10000));
+        deep_copy_ptr<I> val = make_deep_copy_ptr<T>(rg.get_int(0, 10000));
 
-	std::vector<deep_copy_ptr<I>> vec;
+        std::vector<deep_copy_ptr<I>> vec;
 
-	const unsigned n = 100;
-	for(unsigned i = 0; i < n; ++i) {
-	    vec.push_back(val);
-	}
+        const unsigned n = 100;
+        for(unsigned i = 0; i < n; ++i) {
+            vec.push_back(val);
+        }
 
-	for(unsigned i = 0; i < n; ++i) {
-	    BOOST_CHECK(bool(val.get()));
-	    BOOST_CHECK(bool(vec[i].get()));
-	    BOOST_CHECK(val.get() != vec[i].get());
-	    BOOST_CHECK(*val == *vec[i]);
-	}
+        for(unsigned i = 0; i < n; ++i) {
+            BOOST_CHECK(bool(val.get()));
+            BOOST_CHECK(bool(vec[i].get()));
+            BOOST_CHECK(val.get() != vec[i].get());
+            BOOST_CHECK(*val == *vec[i]);
+        }
     }
 }
 

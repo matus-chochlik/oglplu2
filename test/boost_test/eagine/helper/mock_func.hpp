@@ -30,7 +30,7 @@ struct mock_ptr {
     }
 
     friend bool operator==(mock_ptr a, mock_ptr b) {
-	return (a._p == b._p) || (a._p == nullptr) || (b._p == nullptr);
+        return (a._p == b._p) || (a._p == nullptr) || (b._p == nullptr);
     }
 };
 
@@ -52,8 +52,8 @@ protected:
 
     template <typename... A>
     void _handle_call(const A&... a) {
-	++_func_called;
-	_params_ok |= _expected_params == std::tie(a...);
+        ++_func_called;
+        _params_ok |= _expected_params == std::tie(a...);
     }
 
 public:
@@ -70,32 +70,32 @@ public:
     }
 
     mock_function<R(P...)>& self(void) {
-	return static_cast<mock_function<R(P...)>&>(*this);
+        return static_cast<mock_function<R(P...)>&>(*this);
     }
 
     mock_function<R(P...)>& reset_params(const P&... p) {
-	_expected_params = std::tie(p...);
-	_params_ok = false;
-	return self();
+        _expected_params = std::tie(p...);
+        _params_ok = false;
+        return self();
     }
 
     mock_function<R(P...)>& reset_called(void) {
-	_func_called = 0;
-	return self();
+        _func_called = 0;
+        return self();
     }
 
     mock_function<R(P...)>& called_function(const char* func_name) {
-	assert(_expected_func_name != nullptr);
-	_func_ok |= std::strcmp(_expected_func_name, func_name) == 0;
-	return self();
+        assert(_expected_func_name != nullptr);
+        _func_ok |= std::strcmp(_expected_func_name, func_name) == 0;
+        return self();
     }
 
     bool was_called(void) const {
-	return _func_called > 0;
+        return _func_called > 0;
     }
 
     bool all_ok_exclusive(void) const {
-	return (_func_called == 1) && (_func_ok) && (_params_ok);
+        return (_func_called == 1) && (_func_ok) && (_params_ok);
     }
 };
 
@@ -110,14 +110,14 @@ public:
     }
 
     mock_function& reset_result(const R& result) {
-	_result = result;
-	return *this;
+        _result = result;
+        return *this;
     }
 
     template <typename... A>
     R operator()(const A&... a) {
-	this->_handle_call(a...);
-	return _result;
+        this->_handle_call(a...);
+        return _result;
     }
 };
 
@@ -130,7 +130,7 @@ public:
 
     template <typename... A>
     void operator()(const A&... a) {
-	this->_handle_call(a...);
+        this->_handle_call(a...);
     }
 };
 
@@ -145,14 +145,14 @@ private:
 public:
     mock_function_aoe_test(mock_function<R(P...)>& mf, R r, P... p)
       : _mf(mf) {
-	_mf.reset_result(r);
-	_mf.reset_params(p...);
-	_mf.reset_called();
-	assert(!_mf.all_ok_exclusive());
+        _mf.reset_result(r);
+        _mf.reset_params(p...);
+        _mf.reset_called();
+        assert(!_mf.all_ok_exclusive());
     }
 
     explicit operator bool(void) const {
-	return _mf.all_ok_exclusive();
+        return _mf.all_ok_exclusive();
     }
 };
 
@@ -170,13 +170,13 @@ private:
 public:
     mock_function_aoe_test(mock_function<void(P...)>& mf, P... p)
       : _mf(mf) {
-	_mf.reset_params(p...);
-	_mf.reset_called();
-	assert(!_mf.all_ok_exclusive());
+        _mf.reset_params(p...);
+        _mf.reset_called();
+        assert(!_mf.all_ok_exclusive());
     }
 
     explicit operator bool(void) const {
-	return _mf.all_ok_exclusive();
+        return _mf.all_ok_exclusive();
     }
 };
 

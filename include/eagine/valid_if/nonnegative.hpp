@@ -18,20 +18,20 @@ namespace eagine {
 template <typename T>
 struct valid_if_nonneg_policy {
     constexpr bool operator()(T value) const noexcept {
-	return value >= T(0);
+        return value >= T(0);
     }
 
     struct do_log {
-	template <typename X>
-	constexpr inline do_log(X&&) noexcept {
-	}
+        template <typename X>
+        constexpr inline do_log(X&&) noexcept {
+        }
 
-	template <typename Log>
-	void operator()(Log& log, const T& v) const {
-	    log << "Value " << v << ", "
-		<< "less then zero "
-		<< "is invalid";
-	}
+        template <typename Log>
+        void operator()(Log& log, const T& v) const {
+            log << "Value " << v << ", "
+                << "less then zero "
+                << "is invalid";
+        }
     };
 };
 

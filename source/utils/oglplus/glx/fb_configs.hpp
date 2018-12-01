@@ -28,11 +28,11 @@ public:
     FBConfigs(const x11::Display& display, const int* visual_attribs)
       : _count(0)
       , _handle(::glXChooseFBConfig(
-	  display, DefaultScreen(display.Get()), visual_attribs, &_count)) {
-	if(!_handle || (_count <= 0)) {
-	    throw std::runtime_error(
-	      "Failed to get matching framebuffer configs");
-	}
+          display, DefaultScreen(display.Get()), visual_attribs, &_count)) {
+        if(!_handle || (_count <= 0)) {
+            throw std::runtime_error(
+              "Failed to get matching framebuffer configs");
+        }
     }
 
     FBConfigs(const FBConfigs&) = delete;
@@ -40,32 +40,32 @@ public:
     FBConfigs(FBConfigs&& temp)
       : _count(temp._count)
       , _handle(temp._handle) {
-	temp._count = 0;
-	temp._handle = nullptr;
+        temp._count = 0;
+        temp._handle = nullptr;
     }
 
     ~FBConfigs(void) {
-	if(_handle)
-	    ::XFree(_handle);
+        if(_handle)
+            ::XFree(_handle);
     }
 
     FBConfig FindBest(const x11::Display& display) const {
-	int best = -1, best_num = -1;
-	assert(_count > 0);
-	for(int i = 0; i != _count; ++i) {
-	    int sample_buf, samples;
+        int best = -1, best_num = -1;
+        assert(_count > 0);
+        for(int i = 0; i != _count; ++i) {
+            int sample_buf, samples;
 
-	    ::glXGetFBConfigAttrib(
-	      display, _handle[i], GLX_SAMPLE_BUFFERS, &sample_buf);
-	    ::glXGetFBConfigAttrib(display, _handle[i], GLX_SAMPLES, &samples);
-	    if((best < 0) || (sample_buf && (samples > best_num))) {
-		best = i;
-		best_num = samples;
-	    }
-	}
-	assert(best >= 0);
-	assert(best < _count);
-	return FBConfig(_handle[best]);
+            ::glXGetFBConfigAttrib(
+              display, _handle[i], GLX_SAMPLE_BUFFERS, &sample_buf);
+            ::glXGetFBConfigAttrib(display, _handle[i], GLX_SAMPLES, &samples);
+            if((best < 0) || (sample_buf && (samples > best_num))) {
+                best = i;
+                best_num = samples;
+            }
+        }
+        assert(best >= 0);
+        assert(best < _count);
+        return FBConfig(_handle[best]);
     }
 };
 

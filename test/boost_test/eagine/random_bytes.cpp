@@ -26,12 +26,12 @@ BOOST_AUTO_TEST_CASE(random_bytes_1) {
     fill_with_random_bytes(bytes);
 
     for(auto b : bytes) {
-	++counts[b];
+        ++counts[b];
     }
 
     for(auto c : counts) {
-	double x = (int(c) - int(m)) / double(m);
-	BOOST_CHECK_SMALL(x, 0.05);
+        double x = (int(c) - int(m)) / double(m);
+        BOOST_CHECK_SMALL(x, 0.05);
     }
 }
 

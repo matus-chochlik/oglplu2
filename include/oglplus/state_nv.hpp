@@ -39,7 +39,7 @@ struct obj_dsa_ops<tag::state_nv> : obj_zero_dsa_ops<tag::state_nv> {
     using obj_zero_dsa_ops<tag::state_nv>::obj_zero_dsa_ops;
 
     outcome<obj_dsa_ops&> capture(old_primitive_type mode) noexcept {
-	return {_ops::state_capture(*this, mode), *this};
+        return {_ops::state_capture(*this, mode), *this};
     }
 };
 

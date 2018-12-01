@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_path_transform_type_nv
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_path_transform_type_nv_tests)
 
@@ -248,97 +248,101 @@ BOOST_AUTO_TEST_CASE(enum_path_transform_type_nv_range) {
 
 #ifdef GL_AFFINE_2D_NV
     {
-	--count;
-	auto r = enum_value_range<path_transform_type_nv>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), path_transform_type_nv(GL_AFFINE_2D_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_transform_type_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), path_transform_type_nv(GL_AFFINE_2D_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_AFFINE_3D_NV
     {
-	--count;
-	auto r = enum_value_range<path_transform_type_nv>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), path_transform_type_nv(GL_AFFINE_3D_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_transform_type_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), path_transform_type_nv(GL_AFFINE_3D_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_NONE
     {
-	--count;
-	auto r = enum_value_range<path_transform_type_nv>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), path_transform_type_nv(GL_NONE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_transform_type_nv>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), path_transform_type_nv(GL_NONE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TRANSLATE_2D_NV
     {
-	--count;
-	auto r = enum_value_range<path_transform_type_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), path_transform_type_nv(GL_TRANSLATE_2D_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_transform_type_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), path_transform_type_nv(GL_TRANSLATE_2D_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TRANSLATE_3D_NV
     {
-	--count;
-	auto r = enum_value_range<path_transform_type_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), path_transform_type_nv(GL_TRANSLATE_3D_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_transform_type_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), path_transform_type_nv(GL_TRANSLATE_3D_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TRANSLATE_X_NV
     {
-	--count;
-	auto r = enum_value_range<path_transform_type_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), path_transform_type_nv(GL_TRANSLATE_X_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_transform_type_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), path_transform_type_nv(GL_TRANSLATE_X_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TRANSLATE_Y_NV
     {
-	--count;
-	auto r = enum_value_range<path_transform_type_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), path_transform_type_nv(GL_TRANSLATE_Y_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_transform_type_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), path_transform_type_nv(GL_TRANSLATE_Y_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TRANSPOSE_AFFINE_2D_NV
     {
-	--count;
-	auto r = enum_value_range<path_transform_type_nv>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      path_transform_type_nv(GL_TRANSPOSE_AFFINE_2D_NV))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<path_transform_type_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            path_transform_type_nv(GL_TRANSPOSE_AFFINE_2D_NV)) != r.end());
     }
 #endif
 
 #ifdef GL_TRANSPOSE_AFFINE_3D_NV
     {
-	--count;
-	auto r = enum_value_range<path_transform_type_nv>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      path_transform_type_nv(GL_TRANSPOSE_AFFINE_3D_NV))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<path_transform_type_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            path_transform_type_nv(GL_TRANSPOSE_AFFINE_3D_NV)) != r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

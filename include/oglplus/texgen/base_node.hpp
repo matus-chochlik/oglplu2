@@ -9,9 +9,9 @@
 #ifndef OGLPLUS_TEXGEN_BASE_NODE_1509260923_HPP
 #define OGLPLUS_TEXGEN_BASE_NODE_1509260923_HPP
 
+#include <cassert>
 #include "base_output.hpp"
 #include "interface.hpp"
-#include <cassert>
 
 namespace oglplus {
 namespace texgen {
@@ -67,7 +67,7 @@ public:
     }
 
     base_output& single_output(void) override {
-	return _output;
+        return _output;
     }
 };
 
@@ -77,17 +77,18 @@ public:
     using single_output_node<Output>::single_output_node;
 
     span_size_t input_count(void) override {
-	return 1;
+        return 1;
     }
 
     input_intf& input(span_size_t index) override {
-	(void)index;
-	assert(index < input_count());
-	return this->_output.*Input1;
+        (void)index;
+        assert(index < input_count());
+        return this->_output.*Input1;
     }
 };
 
-template <typename Output,
+template <
+  typename Output,
   typename T1,
   T1 Output::*Input1,
   typename T2,
@@ -97,13 +98,13 @@ public:
     using single_output_node<Output>::single_output_node;
 
     span_size_t input_count(void) override {
-	return 2;
+        return 2;
     }
 
     input_intf& input(span_size_t index) override {
-	assert(index < input_count());
-	return (index == 0) ? static_cast<input_intf&>(this->_output.*Input1)
-			    : static_cast<input_intf&>(this->_output.*Input2);
+        assert(index < input_count());
+        return (index == 0) ? static_cast<input_intf&>(this->_output.*Input1)
+                            : static_cast<input_intf&>(this->_output.*Input2);
     }
 };
 

@@ -161,55 +161,55 @@ BOOST_AUTO_TEST_CASE(optional_cmp_4_3) {
 
 BOOST_AUTO_TEST_CASE(optional_cmp_1_v) {
     for(int c = 0; c < 100; ++c) {
-	const int v2 = rg.get_any<int>();
-	const std::optional<int> o1;
+        const int v2 = rg.get_any<int>();
+        const std::optional<int> o1;
 
-	BOOST_CHECK_EQUAL(o1 == v2, false);
-	BOOST_CHECK_EQUAL(o1 != v2, true);
-	BOOST_CHECK_EQUAL(o1 < v2, true);
-	BOOST_CHECK_EQUAL(o1 > v2, false);
-	BOOST_CHECK_EQUAL(o1 <= v2, true);
-	BOOST_CHECK_EQUAL(o1 >= v2, false);
+        BOOST_CHECK_EQUAL(o1 == v2, false);
+        BOOST_CHECK_EQUAL(o1 != v2, true);
+        BOOST_CHECK_EQUAL(o1 < v2, true);
+        BOOST_CHECK_EQUAL(o1 > v2, false);
+        BOOST_CHECK_EQUAL(o1 <= v2, true);
+        BOOST_CHECK_EQUAL(o1 >= v2, false);
     }
 
     for(int c = 0; c < 100; ++c) {
-	const int v1 = rg.get_any<int>();
-	const int v2 = rg.get_any<int>();
-	const std::optional<int> o1{v1};
+        const int v1 = rg.get_any<int>();
+        const int v2 = rg.get_any<int>();
+        const std::optional<int> o1{v1};
 
-	BOOST_CHECK_EQUAL(o1 == v2, v1 == v2);
-	BOOST_CHECK_EQUAL(o1 != v2, v1 != v2);
-	BOOST_CHECK_EQUAL(o1 < v2, v1 < v2);
-	BOOST_CHECK_EQUAL(o1 > v2, v1 > v2);
-	BOOST_CHECK_EQUAL(o1 <= v2, v1 <= v2);
-	BOOST_CHECK_EQUAL(o1 >= v2, v1 >= v2);
+        BOOST_CHECK_EQUAL(o1 == v2, v1 == v2);
+        BOOST_CHECK_EQUAL(o1 != v2, v1 != v2);
+        BOOST_CHECK_EQUAL(o1 < v2, v1 < v2);
+        BOOST_CHECK_EQUAL(o1 > v2, v1 > v2);
+        BOOST_CHECK_EQUAL(o1 <= v2, v1 <= v2);
+        BOOST_CHECK_EQUAL(o1 >= v2, v1 >= v2);
     }
 }
 
 BOOST_AUTO_TEST_CASE(optional_cmp_v_2) {
     for(int c = 0; c < 100; ++c) {
-	const int v1 = rg.get_any<int>();
-	const std::optional<int> o2;
+        const int v1 = rg.get_any<int>();
+        const std::optional<int> o2;
 
-	BOOST_CHECK_EQUAL(v1 == o2, false);
-	BOOST_CHECK_EQUAL(v1 != o2, true);
-	BOOST_CHECK_EQUAL(v1 < o2, false);
-	BOOST_CHECK_EQUAL(v1 > o2, true);
-	BOOST_CHECK_EQUAL(v1 <= o2, false);
-	BOOST_CHECK_EQUAL(v1 >= o2, true);
+        BOOST_CHECK_EQUAL(v1 == o2, false);
+        BOOST_CHECK_EQUAL(v1 != o2, true);
+        BOOST_CHECK_EQUAL(v1 < o2, false);
+        BOOST_CHECK_EQUAL(v1 > o2, true);
+        BOOST_CHECK_EQUAL(v1 <= o2, false);
+        BOOST_CHECK_EQUAL(v1 >= o2, true);
     }
 
     for(int c = 0; c < 100; ++c) {
-	const int v1 = rg.get_any<int>();
-	const int v2 = rg.get_any<int>();
-	const std::optional<int> o2{v2};
+        const int v1 = rg.get_any<int>();
+        const int v2 = rg.get_any<int>();
+        const std::optional<int> o2{v2};
 
-	BOOST_CHECK_EQUAL(v1 == o2, v1 == v2);
-	BOOST_CHECK_EQUAL(v1 != o2, v1 != v2);
-	BOOST_CHECK_EQUAL(v1 < o2, v1 < v2);
-	BOOST_CHECK_EQUAL(v1 > o2, v1 > v2);
-	BOOST_CHECK_EQUAL(v1 <= o2, v1 <= v2);
-	BOOST_CHECK_EQUAL(v1 >= o2, v1 >= v2);
+        BOOST_CHECK_EQUAL(v1 == o2, v1 == v2);
+        BOOST_CHECK_EQUAL(v1 != o2, v1 != v2);
+        BOOST_CHECK_EQUAL(v1 < o2, v1 < v2);
+        BOOST_CHECK_EQUAL(v1 > o2, v1 > v2);
+        BOOST_CHECK_EQUAL(v1 <= o2, v1 <= v2);
+        BOOST_CHECK_EQUAL(v1 >= o2, v1 >= v2);
     }
 }
 
@@ -351,26 +351,26 @@ BOOST_AUTO_TEST_CASE(optional_value_n) {
     int passed = 0;
 
     try {
-	eo.value();
-	BOOST_CHECK_MESSAGE(false, "Should not get here");
+        eo.value();
+        BOOST_CHECK_MESSAGE(false, "Should not get here");
     } catch(std::bad_optional_access&) {
-	++passed;
+        ++passed;
     }
     BOOST_CHECK_EQUAL(passed, 1);
 
     try {
-	*eo;
-	BOOST_CHECK_MESSAGE(false, "Should not get here");
+        *eo;
+        BOOST_CHECK_MESSAGE(false, "Should not get here");
     } catch(std::bad_optional_access&) {
-	++passed;
+        ++passed;
     }
     BOOST_CHECK_EQUAL(passed, 2);
 
     try {
-	eo->size();
-	BOOST_CHECK_MESSAGE(false, "Should not get here");
+        eo->size();
+        BOOST_CHECK_MESSAGE(false, "Should not get here");
     } catch(std::bad_optional_access&) {
-	++passed;
+        ++passed;
     }
     BOOST_CHECK_EQUAL(passed, 3);
 }
@@ -383,26 +383,26 @@ BOOST_AUTO_TEST_CASE(optional_value_s) {
     int passed = 0;
 
     try {
-	BOOST_CHECK_EQUAL(eo.value(), "optional");
-	++passed;
+        BOOST_CHECK_EQUAL(eo.value(), "optional");
+        ++passed;
     } catch(std::bad_optional_access&) {
-	BOOST_CHECK_MESSAGE(false, "Should not get here");
+        BOOST_CHECK_MESSAGE(false, "Should not get here");
     }
     BOOST_CHECK_EQUAL(passed, 1);
 
     try {
-	BOOST_CHECK_EQUAL(*eo, "optional");
-	++passed;
+        BOOST_CHECK_EQUAL(*eo, "optional");
+        ++passed;
     } catch(std::bad_optional_access&) {
-	BOOST_CHECK_MESSAGE(false, "Should not get here");
+        BOOST_CHECK_MESSAGE(false, "Should not get here");
     }
     BOOST_CHECK_EQUAL(passed, 2);
 
     try {
-	BOOST_CHECK_EQUAL(eo->size(), 8);
-	++passed;
+        BOOST_CHECK_EQUAL(eo->size(), 8);
+        ++passed;
     } catch(std::bad_optional_access&) {
-	BOOST_CHECK_MESSAGE(false, "Should not get here");
+        BOOST_CHECK_MESSAGE(false, "Should not get here");
     }
     BOOST_CHECK_EQUAL(passed, 3);
 }
@@ -420,11 +420,11 @@ BOOST_AUTO_TEST_CASE(optional_make_1) {
     std::optional<std::tuple<bool, char, int>> o2 =
       std::make_optional<std::tuple<bool, char, int>>(true, '2', 345);
     try {
-	BOOST_CHECK_EQUAL(std::get<0>(o2.value()), true);
-	BOOST_CHECK_EQUAL(std::get<1>(o2.value()), '2');
-	BOOST_CHECK_EQUAL(std::get<2>(o2.value()), 345);
+        BOOST_CHECK_EQUAL(std::get<0>(o2.value()), true);
+        BOOST_CHECK_EQUAL(std::get<1>(o2.value()), '2');
+        BOOST_CHECK_EQUAL(std::get<2>(o2.value()), 345);
     } catch(...) {
-	BOOST_CHECK_MESSAGE(false, "Should not throw");
+        BOOST_CHECK_MESSAGE(false, "Should not throw");
     }
 }
 

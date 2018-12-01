@@ -10,8 +10,8 @@
 #ifndef OGLPLUS_UTILS_SPAN_1509260923_HPP
 #define OGLPLUS_UTILS_SPAN_1509260923_HPP
 
-#include "types.hpp"
 #include <eagine/span.hpp>
+#include "types.hpp"
 
 namespace oglplus {
 

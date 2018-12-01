@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_buffer_indexed_target
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_buffer_indexed_target_tests)
 
@@ -104,45 +104,48 @@ BOOST_AUTO_TEST_CASE(enum_buffer_indexed_target_range) {
 
 #ifdef GL_ATOMIC_COUNTER_BUFFER
     {
-	--count;
-	auto r = enum_value_range<buffer_indexed_target>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), buffer_indexed_target(GL_ATOMIC_COUNTER_BUFFER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<buffer_indexed_target>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            buffer_indexed_target(GL_ATOMIC_COUNTER_BUFFER)) != r.end());
     }
 #endif
 
 #ifdef GL_SHADER_STORAGE_BUFFER
     {
-	--count;
-	auto r = enum_value_range<buffer_indexed_target>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), buffer_indexed_target(GL_SHADER_STORAGE_BUFFER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<buffer_indexed_target>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            buffer_indexed_target(GL_SHADER_STORAGE_BUFFER)) != r.end());
     }
 #endif
 
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER
     {
-	--count;
-	auto r = enum_value_range<buffer_indexed_target>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      buffer_indexed_target(GL_TRANSFORM_FEEDBACK_BUFFER))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<buffer_indexed_target>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            buffer_indexed_target(GL_TRANSFORM_FEEDBACK_BUFFER)) != r.end());
     }
 #endif
 
 #ifdef GL_UNIFORM_BUFFER
     {
-	--count;
-	auto r = enum_value_range<buffer_indexed_target>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), buffer_indexed_target(GL_UNIFORM_BUFFER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<buffer_indexed_target>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), buffer_indexed_target(GL_UNIFORM_BUFFER)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

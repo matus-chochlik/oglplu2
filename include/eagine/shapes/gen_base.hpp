@@ -66,40 +66,40 @@ protected:
 
 public:
     vertex_attrib_bits attrib_bits(void) const noexcept {
-	return _attr_bits;
+        return _attr_bits;
     }
 
     generator_params& parameters(void) noexcept {
-	return _params;
+        return _params;
     }
 
     bool strips_allowed(void) const noexcept {
-	return _params.allow_strips;
+        return _params.allow_strips;
     }
 
     bool fans_allowed(void) const noexcept {
-	return _params.allow_fans;
+        return _params.allow_fans;
     }
 
     bool primitive_restart(void) const noexcept {
-	return _params.allow_primitive_restart;
+        return _params.allow_primitive_restart;
     }
 
     bool has(vertex_attrib_kind attr) const noexcept {
-	return bool(attrib_bits() | attr);
+        return bool(attrib_bits() | attr);
     }
 
     span_size_t values_per_vertex(vertex_attrib_kind attr) override {
-	return has(attr) ? attrib_values_per_vertex(attr) : 0u;
+        return has(attr) ? attrib_values_per_vertex(attr) : 0u;
     }
 
     span_size_t value_count(vertex_attrib_kind attr) {
-	return vertex_count() * values_per_vertex(attr);
+        return vertex_count() * values_per_vertex(attr);
     }
 
     void attrib_values(vertex_attrib_kind, const span<float>&) override {
-	EAGINE_UNREACHABLE(
-	  "Generator failed to handle the specified attribute kind.");
+        EAGINE_UNREACHABLE(
+          "Generator failed to handle the specified attribute kind.");
     }
 };
 
@@ -112,14 +112,14 @@ protected:
 public:
     void attrib_values(
       vertex_attrib_kind attr, const span<float>& dest) override {
-	if(attr == vertex_attrib_kind::box_coord) {
-	    this->attrib_values(vertex_attrib_kind::position, dest);
-	    for(float& x : dest) {
-		x += 0.5f;
-	    }
-	} else {
-	    generator_base::attrib_values(attr, dest);
-	}
+        if(attr == vertex_attrib_kind::box_coord) {
+            this->attrib_values(vertex_attrib_kind::position, dest);
+            for(float& x : dest) {
+                x += 0.5f;
+            }
+        } else {
+            generator_base::attrib_values(attr, dest);
+        }
     }
 };
 

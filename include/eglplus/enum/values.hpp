@@ -139,7 +139,8 @@ struct enum_values {
 #endif
 
 #ifdef EGL_CONFIG_ID
-    static constexpr const enum_value<EGLenum,
+    static constexpr const enum_value<
+      EGLenum,
       mp_list<eglplus::config_attrib, eglplus::surface_attrib>>
       config_id = {EGL_CONFIG_ID};
 #endif
@@ -170,14 +171,16 @@ struct enum_values {
 #endif
 
 #ifdef EGL_CONTEXT_OPENGL_COMPATIBILITY_PROFILE_BIT
-    static constexpr const enum_value<EGLenum,
+    static constexpr const enum_value<
+      EGLenum,
       mp_list<eglplus::opengl_profile_bit>>
       context_opengl_compatibility_profile_bit = {
-	EGL_CONTEXT_OPENGL_COMPATIBILITY_PROFILE_BIT};
+        EGL_CONTEXT_OPENGL_COMPATIBILITY_PROFILE_BIT};
 #endif
 
 #ifdef EGL_CONTEXT_OPENGL_CORE_PROFILE_BIT
-    static constexpr const enum_value<EGLenum,
+    static constexpr const enum_value<
+      EGLenum,
       mp_list<eglplus::opengl_profile_bit>>
       context_opengl_core_profile_bit = {EGL_CONTEXT_OPENGL_CORE_PROFILE_BIT};
 #endif
@@ -190,7 +193,7 @@ struct enum_values {
 #ifdef EGL_CONTEXT_OPENGL_FORWARD_COMPATIBLE_BIT
     static constexpr const enum_value<EGLenum, mp_list<eglplus::context_flag>>
       context_opengl_forward_compatible_bit = {
-	EGL_CONTEXT_OPENGL_FORWARD_COMPATIBLE_BIT};
+        EGL_CONTEXT_OPENGL_FORWARD_COMPATIBLE_BIT};
 #endif
 
 #ifdef EGL_CONTEXT_OPENGL_PROFILE_MASK
@@ -201,7 +204,7 @@ struct enum_values {
 #ifdef EGL_CONTEXT_OPENGL_RESET_NOTIFICATION_STRATEGY
     static constexpr const enum_value<EGLenum, mp_list<eglplus::context_attrib>>
       context_opengl_reset_notification_strategy = {
-	EGL_CONTEXT_OPENGL_RESET_NOTIFICATION_STRATEGY};
+        EGL_CONTEXT_OPENGL_RESET_NOTIFICATION_STRATEGY};
 #endif
 
 #ifdef EGL_CONTEXT_OPENGL_ROBUST_ACCESS_BIT
@@ -265,7 +268,8 @@ struct enum_values {
 #endif
 
 #ifdef EGL_LUMINANCE_BUFFER
-    static constexpr const enum_value<EGLenum,
+    static constexpr const enum_value<
+      EGLenum,
       mp_list<eglplus::color_buffer_type>>
       luminance_buffer = {EGL_LUMINANCE_BUFFER};
 #endif
@@ -316,19 +320,22 @@ struct enum_values {
 #endif
 
 #ifdef EGL_MULTISAMPLE_RESOLVE_BOX
-    static constexpr const enum_value<EGLenum,
+    static constexpr const enum_value<
+      EGLenum,
       mp_list<eglplus::multisample_resolve>>
       multisample_resolve_box = {EGL_MULTISAMPLE_RESOLVE_BOX};
 #endif
 
 #ifdef EGL_MULTISAMPLE_RESOLVE_BOX_BIT
-    static constexpr const enum_value<EGLenum,
+    static constexpr const enum_value<
+      EGLenum,
       mp_list<eglplus::surface_type_bit>>
       multisample_resolve_box_bit = {EGL_MULTISAMPLE_RESOLVE_BOX_BIT};
 #endif
 
 #ifdef EGL_MULTISAMPLE_RESOLVE_DEFAULT
-    static constexpr const enum_value<EGLenum,
+    static constexpr const enum_value<
+      EGLenum,
       mp_list<eglplus::multisample_resolve>>
       multisample_resolve_default = {EGL_MULTISAMPLE_RESOLVE_DEFAULT};
 #endif
@@ -354,7 +361,8 @@ struct enum_values {
 #endif
 
 #ifdef EGL_NO_TEXTURE
-    static constexpr const enum_value<EGLenum,
+    static constexpr const enum_value<
+      EGLenum,
       mp_list<eglplus::texture_target, eglplus::texture_format>>
       no_texture = {EGL_NO_TEXTURE};
 #endif
@@ -365,10 +373,12 @@ struct enum_values {
 #endif
 
 #ifdef EGL_NONE
-    static constexpr const enum_value<EGLenum,
-      mp_list<eglplus::rendering_api,
-	eglplus::config_caveat,
-	eglplus::transparent_type>>
+    static constexpr const enum_value<
+      EGLenum,
+      mp_list<
+        eglplus::rendering_api,
+        eglplus::config_caveat,
+        eglplus::transparent_type>>
       none = {EGL_NONE};
 #endif
 
@@ -383,19 +393,22 @@ struct enum_values {
 #endif
 
 #ifdef EGL_OPENGL_BIT
-    static constexpr const enum_value<EGLenum,
+    static constexpr const enum_value<
+      EGLenum,
       mp_list<eglplus::renderable_type_bit>>
       opengl_bit = {EGL_OPENGL_BIT};
 #endif
 
 #ifdef EGL_OPENGL_ES2_BIT
-    static constexpr const enum_value<EGLenum,
+    static constexpr const enum_value<
+      EGLenum,
       mp_list<eglplus::renderable_type_bit>>
       opengl_es2_bit = {EGL_OPENGL_ES2_BIT};
 #endif
 
 #ifdef EGL_OPENGL_ES3_BIT
-    static constexpr const enum_value<EGLenum,
+    static constexpr const enum_value<
+      EGLenum,
       mp_list<eglplus::renderable_type_bit>>
       opengl_es3_bit = {EGL_OPENGL_ES3_BIT};
 #endif
@@ -406,7 +419,8 @@ struct enum_values {
 #endif
 
 #ifdef EGL_OPENGL_ES_BIT
-    static constexpr const enum_value<EGLenum,
+    static constexpr const enum_value<
+      EGLenum,
       mp_list<eglplus::renderable_type_bit>>
       opengl_es_bit = {EGL_OPENGL_ES_BIT};
 #endif
@@ -417,13 +431,15 @@ struct enum_values {
 #endif
 
 #ifdef EGL_OPENVG_BIT
-    static constexpr const enum_value<EGLenum,
+    static constexpr const enum_value<
+      EGLenum,
       mp_list<eglplus::renderable_type_bit>>
       openvg_bit = {EGL_OPENVG_BIT};
 #endif
 
 #ifdef EGL_PBUFFER_BIT
-    static constexpr const enum_value<EGLenum,
+    static constexpr const enum_value<
+      EGLenum,
       mp_list<eglplus::surface_type_bit>>
       pbuffer_bit = {EGL_PBUFFER_BIT};
 #endif
@@ -434,7 +450,8 @@ struct enum_values {
 #endif
 
 #ifdef EGL_PIXMAP_BIT
-    static constexpr const enum_value<EGLenum,
+    static constexpr const enum_value<
+      EGLenum,
       mp_list<eglplus::surface_type_bit>>
       pixmap_bit = {EGL_PIXMAP_BIT};
 #endif
@@ -455,7 +472,8 @@ struct enum_values {
 #endif
 
 #ifdef EGL_RGB_BUFFER
-    static constexpr const enum_value<EGLenum,
+    static constexpr const enum_value<
+      EGLenum,
       mp_list<eglplus::color_buffer_type>>
       rgb_buffer = {EGL_RGB_BUFFER};
 #endif
@@ -496,7 +514,8 @@ struct enum_values {
 #endif
 
 #ifdef EGL_SWAP_BEHAVIOR_PRESERVED_BIT
-    static constexpr const enum_value<EGLenum,
+    static constexpr const enum_value<
+      EGLenum,
       mp_list<eglplus::surface_type_bit>>
       swap_behavior_preserved_bit = {EGL_SWAP_BEHAVIOR_PRESERVED_BIT};
 #endif
@@ -542,7 +561,8 @@ struct enum_values {
 #endif
 
 #ifdef EGL_TRANSPARENT_RGB
-    static constexpr const enum_value<EGLenum,
+    static constexpr const enum_value<
+      EGLenum,
       mp_list<eglplus::transparent_type>>
       transparent_rgb = {EGL_TRANSPARENT_RGB};
 #endif
@@ -573,19 +593,22 @@ struct enum_values {
 #endif
 
 #ifdef EGL_VG_ALPHA_FORMAT_NONPRE
-    static constexpr const enum_value<EGLenum,
+    static constexpr const enum_value<
+      EGLenum,
       mp_list<eglplus::vg_alpha_format>>
       vg_alpha_format_nonpre = {EGL_VG_ALPHA_FORMAT_NONPRE};
 #endif
 
 #ifdef EGL_VG_ALPHA_FORMAT_PRE
-    static constexpr const enum_value<EGLenum,
+    static constexpr const enum_value<
+      EGLenum,
       mp_list<eglplus::vg_alpha_format>>
       vg_alpha_format_pre = {EGL_VG_ALPHA_FORMAT_PRE};
 #endif
 
 #ifdef EGL_VG_ALPHA_FORMAT_PRE_BIT
-    static constexpr const enum_value<EGLenum,
+    static constexpr const enum_value<
+      EGLenum,
       mp_list<eglplus::surface_type_bit>>
       vg_alpha_format_pre_bit = {EGL_VG_ALPHA_FORMAT_PRE_BIT};
 #endif
@@ -601,7 +624,8 @@ struct enum_values {
 #endif
 
 #ifdef EGL_VG_COLORSPACE_LINEAR_BIT
-    static constexpr const enum_value<EGLenum,
+    static constexpr const enum_value<
+      EGLenum,
       mp_list<eglplus::surface_type_bit>>
       vg_colorspace_linear_bit = {EGL_VG_COLORSPACE_LINEAR_BIT};
 #endif
@@ -617,7 +641,8 @@ struct enum_values {
 #endif
 
 #ifdef EGL_WINDOW_BIT
-    static constexpr const enum_value<EGLenum,
+    static constexpr const enum_value<
+      EGLenum,
       mp_list<eglplus::surface_type_bit>>
       window_bit = {EGL_WINDOW_BIT};
 #endif

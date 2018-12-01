@@ -43,19 +43,19 @@ BOOST_AUTO_TEST_CASE(context_attribs_1) {
     BOOST_CHECK_EQUAL(a10.size(), a10.get().size());
 
     const ALint cmp[11] = {ALC_REFRESH,
-      3000,
-      ALC_FREQUENCY,
-      44000,
-      ALC_MONO_SOURCES,
-      5,
-      ALC_STEREO_SOURCES,
-      6,
-      ALC_SYNC,
-      ALC_FALSE,
-      0};
+                           3000,
+                           ALC_FREQUENCY,
+                           44000,
+                           ALC_MONO_SOURCES,
+                           5,
+                           ALC_STEREO_SOURCES,
+                           6,
+                           ALC_SYNC,
+                           ALC_FALSE,
+                           0};
 
     for(int i = 0; i < 11; ++i) {
-	BOOST_CHECK_EQUAL(a10.get()[i], cmp[i]);
+        BOOST_CHECK_EQUAL(a10.get()[i], cmp[i]);
     }
 }
 
@@ -89,19 +89,19 @@ BOOST_AUTO_TEST_CASE(context_attribs_2) {
     BOOST_CHECK_EQUAL(a10.size(), a10.get().size());
 
     const ALint cmp[11] = {ALC_FREQUENCY,
-      11000,
-      ALC_REFRESH,
-      2000,
-      ALC_STEREO_SOURCES,
-      3,
-      ALC_MONO_SOURCES,
-      9,
-      ALC_SYNC,
-      ALC_FALSE,
-      0};
+                           11000,
+                           ALC_REFRESH,
+                           2000,
+                           ALC_STEREO_SOURCES,
+                           3,
+                           ALC_MONO_SOURCES,
+                           9,
+                           ALC_SYNC,
+                           ALC_FALSE,
+                           0};
 
     for(int i = 0; i < 11; ++i) {
-	BOOST_CHECK_EQUAL(a10.get()[i], cmp[i]);
+        BOOST_CHECK_EQUAL(a10.get()[i], cmp[i]);
     }
 }
 
@@ -135,19 +135,19 @@ BOOST_AUTO_TEST_CASE(context_attribs_3) {
     BOOST_CHECK_EQUAL(a10.size(), a10.get().size());
 
     const ALint cmp[11] = {ALC_FREQUENCY,
-      22000,
-      ALC_REFRESH,
-      1000,
-      ALC_STEREO_SOURCES,
-      10,
-      ALC_MONO_SOURCES,
-      5,
-      ALC_SYNC,
-      ALC_TRUE,
-      0};
+                           22000,
+                           ALC_REFRESH,
+                           1000,
+                           ALC_STEREO_SOURCES,
+                           10,
+                           ALC_MONO_SOURCES,
+                           5,
+                           ALC_SYNC,
+                           ALC_TRUE,
+                           0};
 
     for(int i = 0; i < 11; ++i) {
-	BOOST_CHECK_EQUAL(a10.get()[i], cmp[i]);
+        BOOST_CHECK_EQUAL(a10.get()[i], cmp[i]);
     }
 }
 

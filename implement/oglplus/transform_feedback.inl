@@ -31,7 +31,7 @@ transform_feedback_ops::transform_feedback_binding(
   transform_feedback_target target) noexcept {
     GLint result = 0;
     return numeric_queries::get_integer_v(
-      get_binding_query(target), {&result, 1})
+             get_binding_query(target), {&result, 1})
       .add(transform_feedback_name(GLuint(result)));
 }
 //------------------------------------------------------------------------------
@@ -66,7 +66,8 @@ transform_feedback_ops::resume_transform_feedback(void) noexcept {
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
 inline outcome<void>
-transform_feedback_ops::get_transform_feedback_iv(transform_feedback_name xfb,
+transform_feedback_ops::get_transform_feedback_iv(
+  transform_feedback_name xfb,
   transform_feedback_parameter param,
   span<GLint> values) noexcept {
     assert(values.size() > 0);
@@ -78,28 +79,32 @@ transform_feedback_ops::get_transform_feedback_iv(transform_feedback_name xfb,
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-transform_feedback_ops::get_transform_feedback_iv(transform_feedback_name xfb,
+transform_feedback_ops::get_transform_feedback_iv(
+  transform_feedback_name xfb,
   transform_feedback_parameter param,
   GLuint index,
   span<GLint> values) noexcept {
     assert(values.size() > 0);
     OGLPLUS_GLFUNC(GetTransformFeedbacki_v)
     (get_raw_name(xfb), GLenum(param), index, values.data());
-    OGLPLUS_VERIFY(GetTransformFeedbacki_v,
+    OGLPLUS_VERIFY(
+      GetTransformFeedbacki_v,
       gl_index(index).gl_object(xfb).gl_enum_value(param),
       always);
     return {};
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-transform_feedback_ops::get_transform_feedback_i64v(transform_feedback_name xfb,
+transform_feedback_ops::get_transform_feedback_i64v(
+  transform_feedback_name xfb,
   transform_feedback_parameter param,
   GLuint index,
   span<GLint64> values) noexcept {
     assert(values.size() > 0);
     OGLPLUS_GLFUNC(GetTransformFeedbacki64_v)
     (get_raw_name(xfb), GLenum(param), index, values.data());
-    OGLPLUS_VERIFY(GetTransformFeedbacki64_v,
+    OGLPLUS_VERIFY(
+      GetTransformFeedbacki64_v,
       gl_index(index).gl_object(xfb).gl_enum_value(param),
       always);
     return {};
@@ -109,9 +114,10 @@ inline outcome<boolean>
 transform_feedback_ops::transform_feedback_active(
   transform_feedback_name xfb) noexcept {
     GLint result = 0;
-    return get_transform_feedback_iv(xfb,
-      transform_feedback_parameter(GL_TRANSFORM_FEEDBACK_ACTIVE),
-      {&result, 1})
+    return get_transform_feedback_iv(
+             xfb,
+             transform_feedback_parameter(GL_TRANSFORM_FEEDBACK_ACTIVE),
+             {&result, 1})
       .add(boolean(GLboolean(result)));
 }
 //------------------------------------------------------------------------------
@@ -119,9 +125,10 @@ inline outcome<boolean>
 transform_feedback_ops::transform_feedback_paused(
   transform_feedback_name xfb) noexcept {
     GLint result = 0;
-    return get_transform_feedback_iv(xfb,
-      transform_feedback_parameter(GL_TRANSFORM_FEEDBACK_PAUSED),
-      {&result, 1})
+    return get_transform_feedback_iv(
+             xfb,
+             transform_feedback_parameter(GL_TRANSFORM_FEEDBACK_PAUSED),
+             {&result, 1})
       .add(boolean(GLboolean(result)));
 }
 //------------------------------------------------------------------------------
@@ -129,9 +136,10 @@ inline outcome<buffer_name>
 transform_feedback_ops::transform_feedback_buffer_binding(
   transform_feedback_name xfb) noexcept {
     GLint result = 0;
-    return get_transform_feedback_iv(xfb,
-      transform_feedback_parameter(GL_TRANSFORM_FEEDBACK_BUFFER_BINDING),
-      {&result, 1})
+    return get_transform_feedback_iv(
+             xfb,
+             transform_feedback_parameter(GL_TRANSFORM_FEEDBACK_BUFFER_BINDING),
+             {&result, 1})
       .add(buffer_name(GLuint(result)));
 }
 //------------------------------------------------------------------------------
@@ -139,10 +147,11 @@ inline outcome<GLint64>
 transform_feedback_ops::transform_feedback_buffer_start(
   transform_feedback_name xfb, GLuint index) noexcept {
     GLint64 result = 0;
-    return get_transform_feedback_i64v(xfb,
-      transform_feedback_parameter(GL_TRANSFORM_FEEDBACK_BUFFER_START),
-      index,
-      {&result, 1})
+    return get_transform_feedback_i64v(
+             xfb,
+             transform_feedback_parameter(GL_TRANSFORM_FEEDBACK_BUFFER_START),
+             index,
+             {&result, 1})
       .add(result);
 }
 //------------------------------------------------------------------------------
@@ -150,10 +159,11 @@ inline outcome<GLint64>
 transform_feedback_ops::transform_feedback_buffer_size(
   transform_feedback_name xfb, GLuint index) noexcept {
     GLint64 result = 0;
-    return get_transform_feedback_i64v(xfb,
-      transform_feedback_parameter(GL_TRANSFORM_FEEDBACK_BUFFER_SIZE),
-      index,
-      {&result, 1})
+    return get_transform_feedback_i64v(
+             xfb,
+             transform_feedback_parameter(GL_TRANSFORM_FEEDBACK_BUFFER_SIZE),
+             index,
+             {&result, 1})
       .add(result);
 }
 //------------------------------------------------------------------------------
@@ -162,7 +172,8 @@ transform_feedback_ops::transform_feedback_buffer_base(
   transform_feedback_name xfb, GLuint index, buffer_name buf) noexcept {
     OGLPLUS_GLFUNC(TransformFeedbackBufferBase)
     (get_raw_name(xfb), index, get_raw_name(buf));
-    OGLPLUS_VERIFY(TransformFeedbackBufferBase,
+    OGLPLUS_VERIFY(
+      TransformFeedbackBufferBase,
       gl_index(index).gl_subject(buf).gl_object(xfb),
       always);
     return {};
@@ -177,7 +188,8 @@ transform_feedback_ops::transform_feedback_buffer_range(
   GLsizeiptr size) noexcept {
     OGLPLUS_GLFUNC(TransformFeedbackBufferRange)
     (get_raw_name(xfb), index, get_raw_name(buf), offset, size);
-    OGLPLUS_VERIFY(TransformFeedbackBufferRange,
+    OGLPLUS_VERIFY(
+      TransformFeedbackBufferRange,
       gl_index(index).gl_subject(buf).gl_object(xfb),
       always);
     return {};

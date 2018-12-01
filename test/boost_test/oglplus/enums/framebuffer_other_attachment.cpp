@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_framebuffer_other_attachment
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_framebuffer_other_attachment_tests)
 
@@ -84,34 +84,38 @@ BOOST_AUTO_TEST_CASE(enum_framebuffer_other_attachment_range) {
 
 #ifdef GL_DEPTH_ATTACHMENT
     {
-	--count;
-	auto r = enum_value_range<framebuffer_other_attachment>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      framebuffer_other_attachment(GL_DEPTH_ATTACHMENT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<framebuffer_other_attachment>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            framebuffer_other_attachment(GL_DEPTH_ATTACHMENT)) != r.end());
     }
 #endif
 
 #ifdef GL_DEPTH_STENCIL_ATTACHMENT
     {
-	--count;
-	auto r = enum_value_range<framebuffer_other_attachment>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      framebuffer_other_attachment(GL_DEPTH_STENCIL_ATTACHMENT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<framebuffer_other_attachment>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            framebuffer_other_attachment(GL_DEPTH_STENCIL_ATTACHMENT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_STENCIL_ATTACHMENT
     {
-	--count;
-	auto r = enum_value_range<framebuffer_other_attachment>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      framebuffer_other_attachment(GL_STENCIL_ATTACHMENT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<framebuffer_other_attachment>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            framebuffer_other_attachment(GL_STENCIL_ATTACHMENT)) != r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_binding_query
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_binding_query_tests)
 
@@ -1792,8 +1792,8 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_names) {
     x = ev.atomic_counter_buffer_binding;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "ATOMIC_COUNTER_BUFFER_BINDING")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "ATOMIC_COUNTER_BUFFER_BINDING") ==
+      0);
 #endif
 
 #ifdef GL_BUFFER_BINDING
@@ -1826,8 +1826,8 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_names) {
     x = ev.dispatch_indirect_buffer_binding;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "DISPATCH_INDIRECT_BUFFER_BINDING")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "DISPATCH_INDIRECT_BUFFER_BINDING") == 0);
 #endif
 
 #ifdef GL_DRAW_FRAMEBUFFER_BINDING
@@ -1841,24 +1841,24 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_names) {
     x = ev.draw_indirect_buffer_binding;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "DRAW_INDIRECT_BUFFER_BINDING")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "DRAW_INDIRECT_BUFFER_BINDING") ==
+      0);
 #endif
 
 #ifdef GL_ELEMENT_ARRAY_BUFFER_BINDING
     x = ev.element_array_buffer_binding;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "ELEMENT_ARRAY_BUFFER_BINDING")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "ELEMENT_ARRAY_BUFFER_BINDING") ==
+      0);
 #endif
 
 #ifdef GL_PARAMETER_BUFFER_BINDING_ARB
     x = ev.parameter_buffer_binding;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "PARAMETER_BUFFER_BINDING_ARB")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "PARAMETER_BUFFER_BINDING_ARB") ==
+      0);
 #endif
 
 #ifdef GL_PIXEL_PACK_BUFFER_BINDING
@@ -1872,8 +1872,8 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_names) {
     x = ev.pixel_unpack_buffer_binding;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "PIXEL_UNPACK_BUFFER_BINDING")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "PIXEL_UNPACK_BUFFER_BINDING") ==
+      0);
 #endif
 
 #ifdef GL_QUERY_BUFFER_BINDING
@@ -1900,8 +1900,8 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_names) {
     x = ev.shader_storage_buffer_binding;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "SHADER_STORAGE_BUFFER_BINDING")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "SHADER_STORAGE_BUFFER_BINDING") ==
+      0);
 #endif
 
 #ifdef GL_TEXTURE_BINDING_1D
@@ -1936,16 +1936,17 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_names) {
     x = ev.texture_binding_2d_multisample;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "TEXTURE_BINDING_2D_MULTISAMPLE")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "TEXTURE_BINDING_2D_MULTISAMPLE") == 0);
 #endif
 
 #ifdef GL_TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY
     x = ev.texture_binding_2d_multisample_array;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-    BOOST_CHECK(std::strcmp(enum_value_name(x).data(),
-		  "TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY")
-		== 0);
+    BOOST_CHECK(
+      std::strcmp(
+        enum_value_name(x).data(), "TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY") ==
+      0);
 #endif
 
 #ifdef GL_TEXTURE_BINDING_3D
@@ -1973,8 +1974,8 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_names) {
     x = ev.texture_binding_cube_map_array;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "TEXTURE_BINDING_CUBE_MAP_ARRAY")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "TEXTURE_BINDING_CUBE_MAP_ARRAY") == 0);
 #endif
 
 #ifdef GL_TEXTURE_BINDING_RECTANGLE
@@ -1995,16 +1996,16 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_names) {
     x = ev.transform_feedback_binding;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "TRANSFORM_FEEDBACK_BINDING")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "TRANSFORM_FEEDBACK_BINDING") ==
+      0);
 #endif
 
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER_BINDING
     x = ev.transform_feedback_buffer_binding;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-    BOOST_CHECK(std::strcmp(enum_value_name(x).data(),
-		  "TRANSFORM_FEEDBACK_BUFFER_BINDING")
-		== 0);
+    BOOST_CHECK(
+      std::strcmp(
+        enum_value_name(x).data(), "TRANSFORM_FEEDBACK_BUFFER_BINDING") == 0);
 #endif
 
 #ifdef GL_UNIFORM_BUFFER_BINDING
@@ -2028,354 +2029,369 @@ BOOST_AUTO_TEST_CASE(enum_binding_query_range) {
 
 #ifdef GL_ARRAY_BUFFER_BINDING
     {
-	--count;
-	auto r = enum_value_range<binding_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), binding_query(GL_ARRAY_BUFFER_BINDING))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<binding_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), binding_query(GL_ARRAY_BUFFER_BINDING)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_ATOMIC_COUNTER_BUFFER_BINDING
     {
-	--count;
-	auto r = enum_value_range<binding_query>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), binding_query(GL_ATOMIC_COUNTER_BUFFER_BINDING))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<binding_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            binding_query(GL_ATOMIC_COUNTER_BUFFER_BINDING)) != r.end());
     }
 #endif
 
 #ifdef GL_BUFFER_BINDING
     {
-	--count;
-	auto r = enum_value_range<binding_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), binding_query(GL_BUFFER_BINDING))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<binding_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), binding_query(GL_BUFFER_BINDING)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_COPY_READ_BUFFER_BINDING
     {
-	--count;
-	auto r = enum_value_range<binding_query>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), binding_query(GL_COPY_READ_BUFFER_BINDING))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<binding_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), binding_query(GL_COPY_READ_BUFFER_BINDING)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_COPY_WRITE_BUFFER_BINDING
     {
-	--count;
-	auto r = enum_value_range<binding_query>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), binding_query(GL_COPY_WRITE_BUFFER_BINDING))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<binding_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), binding_query(GL_COPY_WRITE_BUFFER_BINDING)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_CURRENT_PROGRAM
     {
-	--count;
-	auto r = enum_value_range<binding_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), binding_query(GL_CURRENT_PROGRAM))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<binding_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), binding_query(GL_CURRENT_PROGRAM)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_DISPATCH_INDIRECT_BUFFER_BINDING
     {
-	--count;
-	auto r = enum_value_range<binding_query>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      binding_query(GL_DISPATCH_INDIRECT_BUFFER_BINDING))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<binding_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            binding_query(GL_DISPATCH_INDIRECT_BUFFER_BINDING)) != r.end());
     }
 #endif
 
 #ifdef GL_DRAW_FRAMEBUFFER_BINDING
     {
-	--count;
-	auto r = enum_value_range<binding_query>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), binding_query(GL_DRAW_FRAMEBUFFER_BINDING))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<binding_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), binding_query(GL_DRAW_FRAMEBUFFER_BINDING)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_DRAW_INDIRECT_BUFFER_BINDING
     {
-	--count;
-	auto r = enum_value_range<binding_query>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), binding_query(GL_DRAW_INDIRECT_BUFFER_BINDING))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<binding_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            binding_query(GL_DRAW_INDIRECT_BUFFER_BINDING)) != r.end());
     }
 #endif
 
 #ifdef GL_ELEMENT_ARRAY_BUFFER_BINDING
     {
-	--count;
-	auto r = enum_value_range<binding_query>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), binding_query(GL_ELEMENT_ARRAY_BUFFER_BINDING))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<binding_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            binding_query(GL_ELEMENT_ARRAY_BUFFER_BINDING)) != r.end());
     }
 #endif
 
 #ifdef GL_PARAMETER_BUFFER_BINDING_ARB
     {
-	--count;
-	auto r = enum_value_range<binding_query>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), binding_query(GL_PARAMETER_BUFFER_BINDING_ARB))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<binding_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            binding_query(GL_PARAMETER_BUFFER_BINDING_ARB)) != r.end());
     }
 #endif
 
 #ifdef GL_PIXEL_PACK_BUFFER_BINDING
     {
-	--count;
-	auto r = enum_value_range<binding_query>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), binding_query(GL_PIXEL_PACK_BUFFER_BINDING))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<binding_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), binding_query(GL_PIXEL_PACK_BUFFER_BINDING)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_PIXEL_UNPACK_BUFFER_BINDING
     {
-	--count;
-	auto r = enum_value_range<binding_query>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), binding_query(GL_PIXEL_UNPACK_BUFFER_BINDING))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<binding_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            binding_query(GL_PIXEL_UNPACK_BUFFER_BINDING)) != r.end());
     }
 #endif
 
 #ifdef GL_QUERY_BUFFER_BINDING
     {
-	--count;
-	auto r = enum_value_range<binding_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), binding_query(GL_QUERY_BUFFER_BINDING))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<binding_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), binding_query(GL_QUERY_BUFFER_BINDING)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RENDERBUFFER_BINDING
     {
-	--count;
-	auto r = enum_value_range<binding_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), binding_query(GL_RENDERBUFFER_BINDING))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<binding_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), binding_query(GL_RENDERBUFFER_BINDING)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SAMPLER_BINDING
     {
-	--count;
-	auto r = enum_value_range<binding_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), binding_query(GL_SAMPLER_BINDING))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<binding_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), binding_query(GL_SAMPLER_BINDING)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SHADER_STORAGE_BUFFER_BINDING
     {
-	--count;
-	auto r = enum_value_range<binding_query>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), binding_query(GL_SHADER_STORAGE_BUFFER_BINDING))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<binding_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            binding_query(GL_SHADER_STORAGE_BUFFER_BINDING)) != r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_BINDING_1D
     {
-	--count;
-	auto r = enum_value_range<binding_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), binding_query(GL_TEXTURE_BINDING_1D))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<binding_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), binding_query(GL_TEXTURE_BINDING_1D)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_BINDING_1D_ARRAY
     {
-	--count;
-	auto r = enum_value_range<binding_query>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), binding_query(GL_TEXTURE_BINDING_1D_ARRAY))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<binding_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), binding_query(GL_TEXTURE_BINDING_1D_ARRAY)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_BINDING_2D
     {
-	--count;
-	auto r = enum_value_range<binding_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), binding_query(GL_TEXTURE_BINDING_2D))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<binding_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), binding_query(GL_TEXTURE_BINDING_2D)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_BINDING_2D_ARRAY
     {
-	--count;
-	auto r = enum_value_range<binding_query>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), binding_query(GL_TEXTURE_BINDING_2D_ARRAY))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<binding_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), binding_query(GL_TEXTURE_BINDING_2D_ARRAY)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_BINDING_2D_MULTISAMPLE
     {
-	--count;
-	auto r = enum_value_range<binding_query>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      binding_query(GL_TEXTURE_BINDING_2D_MULTISAMPLE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<binding_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            binding_query(GL_TEXTURE_BINDING_2D_MULTISAMPLE)) != r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY
     {
-	--count;
-	auto r = enum_value_range<binding_query>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      binding_query(GL_TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<binding_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            binding_query(GL_TEXTURE_BINDING_2D_MULTISAMPLE_ARRAY)) != r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_BINDING_3D
     {
-	--count;
-	auto r = enum_value_range<binding_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), binding_query(GL_TEXTURE_BINDING_3D))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<binding_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), binding_query(GL_TEXTURE_BINDING_3D)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_BINDING_BUFFER
     {
-	--count;
-	auto r = enum_value_range<binding_query>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), binding_query(GL_TEXTURE_BINDING_BUFFER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<binding_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), binding_query(GL_TEXTURE_BINDING_BUFFER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_BINDING_CUBE_MAP
     {
-	--count;
-	auto r = enum_value_range<binding_query>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), binding_query(GL_TEXTURE_BINDING_CUBE_MAP))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<binding_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), binding_query(GL_TEXTURE_BINDING_CUBE_MAP)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_BINDING_CUBE_MAP_ARRAY
     {
-	--count;
-	auto r = enum_value_range<binding_query>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      binding_query(GL_TEXTURE_BINDING_CUBE_MAP_ARRAY))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<binding_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            binding_query(GL_TEXTURE_BINDING_CUBE_MAP_ARRAY)) != r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_BINDING_RECTANGLE
     {
-	--count;
-	auto r = enum_value_range<binding_query>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), binding_query(GL_TEXTURE_BINDING_RECTANGLE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<binding_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), binding_query(GL_TEXTURE_BINDING_RECTANGLE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_BUFFER_BINDING
     {
-	--count;
-	auto r = enum_value_range<binding_query>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), binding_query(GL_TEXTURE_BUFFER_BINDING))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<binding_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), binding_query(GL_TEXTURE_BUFFER_BINDING)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TRANSFORM_FEEDBACK_BINDING
     {
-	--count;
-	auto r = enum_value_range<binding_query>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), binding_query(GL_TRANSFORM_FEEDBACK_BINDING))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<binding_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), binding_query(GL_TRANSFORM_FEEDBACK_BINDING)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER_BINDING
     {
-	--count;
-	auto r = enum_value_range<binding_query>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      binding_query(GL_TRANSFORM_FEEDBACK_BUFFER_BINDING))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<binding_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            binding_query(GL_TRANSFORM_FEEDBACK_BUFFER_BINDING)) != r.end());
     }
 #endif
 
 #ifdef GL_UNIFORM_BUFFER_BINDING
     {
-	--count;
-	auto r = enum_value_range<binding_query>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), binding_query(GL_UNIFORM_BUFFER_BINDING))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<binding_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), binding_query(GL_UNIFORM_BUFFER_BINDING)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_VERTEX_ARRAY_BINDING
     {
-	--count;
-	auto r = enum_value_range<binding_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), binding_query(GL_VERTEX_ARRAY_BINDING))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<binding_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), binding_query(GL_VERTEX_ARRAY_BINDING)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

@@ -57,7 +57,7 @@ void
 test_math_vector_zero_TNV(void) {
     auto v = eagine::math::vector<T, N, V>::zero();
     for(int i = 0; i < N; ++i) {
-	BOOST_CHECK_EQUAL(v[i], T(0));
+        BOOST_CHECK_EQUAL(v[i], T(0));
     }
 }
 
@@ -96,7 +96,7 @@ test_math_vector_fill_TNV(void) {
     T r = rg.get_any<T>();
     auto v = eagine::math::vector<T, N, V>::fill(r);
     for(int i = 0; i < N; ++i) {
-	BOOST_CHECK_EQUAL(v[i], r);
+        BOOST_CHECK_EQUAL(v[i], r);
     }
 }
 
@@ -133,11 +133,11 @@ template <typename T, int N, bool V>
 void
 test_math_vector_axis_TNV(void) {
     for(int j = 0; j < N; ++j) {
-	T r = rg.get_any<T>();
-	auto v = eagine::math::vector<T, N, V>::axis(j, r);
-	for(int i = 0; i < N; ++i) {
-	    BOOST_CHECK_EQUAL(v[i], j == i ? r : T(0));
-	}
+        T r = rg.get_any<T>();
+        auto v = eagine::math::vector<T, N, V>::axis(j, r);
+        for(int i = 0; i < N; ++i) {
+            BOOST_CHECK_EQUAL(v[i], j == i ? r : T(0));
+        }
     }
 }
 
@@ -177,7 +177,7 @@ test_math_vector_axis_TINV(void) {
 
     auto v = eagine::math::vector<T, N, V>::template axis<I>(r);
     for(int i = 0; i < N; ++i) {
-	BOOST_CHECK_EQUAL(v[i], i == I ? r : T(0));
+        BOOST_CHECK_EQUAL(v[i], i == I ? r : T(0));
     }
 }
 
@@ -503,13 +503,13 @@ void
 test_math_vector_from3_and_elem_TNV(void) {
     T a[N];
     for(int i = 0; i < N; ++i) {
-	a[i] = rg.get_any<T>();
+        a[i] = rg.get_any<T>();
     }
 
     auto v = eagine::math::vector<T, N, V>::from(a, N);
 
     for(int i = 0; i < N; ++i) {
-	BOOST_CHECK_EQUAL(v[i], a[i]);
+        BOOST_CHECK_EQUAL(v[i], a[i]);
     }
 }
 
@@ -546,22 +546,22 @@ template <typename T, int N, bool V>
 void
 test_math_vector_from4_and_elem_TNV(void) {
     for(int j = 0; j < N; ++j) {
-	T a[N];
-	for(int i = 0; i < N - j; ++i) {
-	    a[i] = rg.get_any<T>();
-	}
+        T a[N];
+        for(int i = 0; i < N - j; ++i) {
+            a[i] = rg.get_any<T>();
+        }
 
-	T r = rg.get_any<T>();
+        T r = rg.get_any<T>();
 
-	auto v = eagine::math::vector<T, N, V>::from(a, N - j, r);
+        auto v = eagine::math::vector<T, N, V>::from(a, N - j, r);
 
-	for(int i = 0; i < N - j; ++i) {
-	    BOOST_CHECK_EQUAL(v[i], a[i]);
-	}
+        for(int i = 0; i < N - j; ++i) {
+            BOOST_CHECK_EQUAL(v[i], a[i]);
+        }
 
-	for(int i = N - j; i < N; ++i) {
-	    BOOST_CHECK_EQUAL(v[i], r);
-	}
+        for(int i = N - j; i < N; ++i) {
+            BOOST_CHECK_EQUAL(v[i], r);
+        }
     }
 }
 

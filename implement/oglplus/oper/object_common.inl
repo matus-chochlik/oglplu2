@@ -28,9 +28,9 @@ object_common_ops::object_label(
   cstring_span label) noexcept {
     OGLPLUS_GLFUNC(ObjectLabel)
     (ObjectType,
-      get_raw_name(obj),
-      GLsizei(label.size()),
-      (label.empty() ? nullptr : label.data()));
+     get_raw_name(obj),
+     GLsizei(label.size()),
+     (label.empty() ? nullptr : label.data()));
     OGLPLUS_VERIFY(ObjectLabel, gl_object(obj), debug);
     return {};
 }
@@ -40,8 +40,8 @@ object_common_ops::object_label(
   const sync_object& sync, cstring_span label) noexcept {
     OGLPLUS_GLFUNC(ObjectPtrLabel)
     (const_cast<GLsync*>(&get_raw_handle(sync)),
-      GLsizei(label.size()),
-      (label.empty() ? nullptr : label.data()));
+     GLsizei(label.size()),
+     (label.empty() ? nullptr : label.data()));
     OGLPLUS_VERIFY_SIMPLE(ObjectPtrLabel, debug);
     return {};
 }
@@ -54,10 +54,10 @@ object_common_ops::get_object_label(
     GLsizei realLen = 0;
     OGLPLUS_GLFUNC(GetObjectLabel)
     (ObjectType,
-      get_raw_name(obj),
-      GLsizei(storage.size()),
-      &realLen,
-      storage.data());
+     get_raw_name(obj),
+     GLsizei(storage.size()),
+     &realLen,
+     storage.data());
     OGLPLUS_VERIFY(GetObjectLabel, gl_object(obj), debug);
     return {eagine::ranges::head(storage, realLen)};
 }
@@ -68,9 +68,9 @@ object_common_ops::get_object_label(
     GLsizei realLen = 0;
     OGLPLUS_GLFUNC(GetObjectPtrLabel)
     (const_cast<GLsync*>(&get_raw_handle(sync)),
-      GLsizei(storage.size()),
-      &realLen,
-      storage.data());
+     GLsizei(storage.size()),
+     &realLen,
+     storage.data());
     OGLPLUS_VERIFY_SIMPLE(GetObjectPtrLabel, debug);
     return {eagine::ranges::head(storage, realLen)};
 }

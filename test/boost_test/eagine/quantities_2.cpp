@@ -44,11 +44,11 @@ eagine_test_angles_2(void) {
     using namespace eagine;
 
     for(int i = 0; i < 100; ++i) {
-	T x = rg.get<T>(-1000, 1000);
+        T x = rg.get<T>(-1000, 1000);
 
-	BOOST_CHECK_CLOSE(sin(radians_(x)), std::sin(x), 0.0001);
-	BOOST_CHECK_CLOSE(cos(radians_(x)), std::cos(x), 0.0001);
-	BOOST_CHECK_CLOSE(tan(radians_(x)), std::tan(x), 0.0001);
+        BOOST_CHECK_CLOSE(sin(radians_(x)), std::sin(x), 0.0001);
+        BOOST_CHECK_CLOSE(cos(radians_(x)), std::cos(x), 0.0001);
+        BOOST_CHECK_CLOSE(tan(radians_(x)), std::tan(x), 0.0001);
     }
 }
 

@@ -51,44 +51,46 @@ public:
     template <typename Storage>
     static inline auto gen_(
       owned<object_names<ObjTag, Storage>>& names) noexcept {
-	return obj_lifetime_ops<ObjTag>::gen_objects(names);
+        return obj_lifetime_ops<ObjTag>::gen_objects(names);
     }
 
     static inline auto gen_(
       owned<object_name_and_ops<ObjTag>>& names) noexcept {
-	return obj_lifetime_ops<ObjTag>::gen_objects(names);
+        return obj_lifetime_ops<ObjTag>::gen_objects(names);
     }
 
     template <typename Storage>
-    static inline auto gen_(owned<object_names<ObjTag, Storage>>& names,
+    static inline auto gen_(
+      owned<object_names<ObjTag, Storage>>& names,
       object_subtype_t<ObjTag> subtype) noexcept {
-	return obj_lifetime_ops<ObjTag>::gen_objects(names, subtype);
+        return obj_lifetime_ops<ObjTag>::gen_objects(names, subtype);
     }
 
-    static inline auto gen_(owned<object_name_and_ops<ObjTag>>& names,
+    static inline auto gen_(
+      owned<object_name_and_ops<ObjTag>>& names,
       object_subtype_t<ObjTag> subtype) noexcept {
-	return obj_lifetime_ops<ObjTag>::gen_objects(names, subtype);
+        return obj_lifetime_ops<ObjTag>::gen_objects(names, subtype);
     }
 
     template <typename Storage>
     static inline auto delete_(
       owned<object_names<ObjTag, Storage>>& names) noexcept {
-	return obj_lifetime_ops<ObjTag>::delete_objects(names);
+        return obj_lifetime_ops<ObjTag>::delete_objects(names);
     }
 
     static inline auto delete_(
       owned<object_name_and_ops<ObjTag>>& names) noexcept {
-	return obj_lifetime_ops<ObjTag>::delete_objects(names);
+        return obj_lifetime_ops<ObjTag>::delete_objects(names);
     }
 
     object_owner(void)
       : owned<object_name_and_ops<ObjTag>>() {
-	gen_(*this);
+        gen_(*this);
     }
 
     object_owner(object_subtype_t<ObjTag> subtype)
       : owned<object_name_and_ops<ObjTag>>() {
-	gen_(*this, subtype);
+        gen_(*this, subtype);
     }
 
     object_owner(owned<object_name_and_ops<ObjTag>>&& temp)
@@ -99,18 +101,18 @@ public:
     object_owner& operator=(object_owner&&) = default;
 
     ~object_owner(void) {
-	try {
-	    delete_(*this);
-	} catch(...) {
-	}
+        try {
+            delete_(*this);
+        } catch(...) {
+        }
     }
 
     static auto is_object(object_name<ObjTag> name) noexcept {
-	return obj_lifetime_ops<ObjTag>::is_object(name);
+        return obj_lifetime_ops<ObjTag>::is_object(name);
     }
 
     auto is_object(void) const noexcept {
-	return is_object(*this);
+        return is_object(*this);
     }
 };
 

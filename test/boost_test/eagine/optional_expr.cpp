@@ -17,19 +17,19 @@ BOOST_AUTO_TEST_CASE(optional_expr_div_test) {
     using namespace eagine;
 
     for(int i = 0; i < 1000; ++i) {
-	int n = rg.get_int(0, 100);
-	int d = rg.get_int(0, 10);
+        int n = rg.get_int(0, 100);
+        int d = rg.get_int(0, 10);
 
-	auto r = n / nonzero(d);
+        auto r = n / nonzero(d);
 
-	BOOST_CHECK_EQUAL(r.is_valid(), d != 0);
-	BOOST_CHECK_EQUAL(bool(r), d != 0);
-	BOOST_CHECK_EQUAL(!r, d == 0);
+        BOOST_CHECK_EQUAL(r.is_valid(), d != 0);
+        BOOST_CHECK_EQUAL(bool(r), d != 0);
+        BOOST_CHECK_EQUAL(!r, d == 0);
 
-	BOOST_CHECK_EQUAL(r.value_or(n), d ? n / d : n);
-	if(r.is_valid()) {
-	    BOOST_CHECK_EQUAL(r.value(), n / d);
-	}
+        BOOST_CHECK_EQUAL(r.value_or(n), d ? n / d : n);
+        if(r.is_valid()) {
+            BOOST_CHECK_EQUAL(r.value(), n / d);
+        }
     }
 }
 

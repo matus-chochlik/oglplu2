@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE EGLPLUS_vg_alpha_format
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_vg_alpha_format_tests)
 
@@ -66,23 +66,23 @@ BOOST_AUTO_TEST_CASE(enum_vg_alpha_format_range) {
 
 #ifdef EGL_VG_ALPHA_FORMAT_NONPRE
     {
-	--count;
-	auto r = enum_value_range<vg_alpha_format>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), vg_alpha_format(EGL_VG_ALPHA_FORMAT_NONPRE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<vg_alpha_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), vg_alpha_format(EGL_VG_ALPHA_FORMAT_NONPRE)) !=
+          r.end());
     }
 #endif
 
 #ifdef EGL_VG_ALPHA_FORMAT_PRE
     {
-	--count;
-	auto r = enum_value_range<vg_alpha_format>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), vg_alpha_format(EGL_VG_ALPHA_FORMAT_PRE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<vg_alpha_format>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), vg_alpha_format(EGL_VG_ALPHA_FORMAT_PRE)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

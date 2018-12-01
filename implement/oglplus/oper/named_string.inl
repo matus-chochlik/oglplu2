@@ -14,15 +14,16 @@ namespace oglplus {
 namespace oper {
 //------------------------------------------------------------------------------
 inline outcome<void>
-named_string_state::named_string(oglplus::named_string_type type,
+named_string_state::named_string(
+  oglplus::named_string_type type,
   cstring_span name,
   cstring_span value) noexcept {
     OGLPLUS_GLFUNC(NamedStringARB)
     (GLenum(type),
-      GLint(name.size()),
-      name.data(),
-      GLint(value.size()),
-      value.data());
+     GLint(name.size()),
+     name.data(),
+     GLint(value.size()),
+     value.data());
     OGLPLUS_VERIFY_SIMPLE(NamedStringARB, always);
     return {};
 }
@@ -56,7 +57,7 @@ inline outcome<GLint>
 named_string_state::get_named_string_length(cstring_span name) noexcept {
     GLint result = 0;
     return get_named_string_iv(
-      name, named_string_param(GL_NAMED_STRING_LENGTH_ARB), {&result, 1})
+             name, named_string_param(GL_NAMED_STRING_LENGTH_ARB), {&result, 1})
       .add(result);
 }
 //------------------------------------------------------------------------------
@@ -64,7 +65,7 @@ inline outcome<named_string_type>
 named_string_state::get_named_string_type(cstring_span name) noexcept {
     GLint result = 0;
     return get_named_string_iv(
-      name, named_string_param(GL_NAMED_STRING_TYPE_ARB), {&result, 1})
+             name, named_string_param(GL_NAMED_STRING_TYPE_ARB), {&result, 1})
       .add(oglplus::named_string_type(GLenum(result)));
 }
 //------------------------------------------------------------------------------
@@ -74,10 +75,10 @@ named_string_state::get_named_string(
     GLint reallen = 0;
     OGLPLUS_GLFUNC(GetNamedStringARB)
     (GLint(name.size()),
-      name.data(),
-      GLsizei(buf.size()),
-      &reallen,
-      buf.data());
+     name.data(),
+     GLsizei(buf.size()),
+     &reallen,
+     buf.data());
     OGLPLUS_VERIFY_SIMPLE(GetNamedStringARB, always);
     return {reallen};
 }

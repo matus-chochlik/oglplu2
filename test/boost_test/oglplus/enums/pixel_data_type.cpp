@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_pixel_data_type
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_pixel_data_type_tests)
 
@@ -1079,8 +1079,8 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_names) {
     x = ev.float_32_unsigned_int_24_8_rev;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "FLOAT_32_UNSIGNED_INT_24_8_REV")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "FLOAT_32_UNSIGNED_INT_24_8_REV") == 0);
 #endif
 
 #ifdef GL_HALF_FLOAT
@@ -1138,8 +1138,8 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_names) {
     x = ev.unsigned_int_10f_11f_11f_rev;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "UNSIGNED_INT_10F_11F_11F_REV")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "UNSIGNED_INT_10F_11F_11F_REV") ==
+      0);
 #endif
 
 #ifdef GL_UNSIGNED_INT_24_8
@@ -1153,8 +1153,8 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_names) {
     x = ev.unsigned_int_2_10_10_10_rev;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "UNSIGNED_INT_2_10_10_10_REV")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "UNSIGNED_INT_2_10_10_10_REV") ==
+      0);
 #endif
 
 #ifdef GL_UNSIGNED_INT_5_9_9_9_REV
@@ -1188,8 +1188,8 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_names) {
     x = ev.unsigned_short_1_5_5_5_rev;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "UNSIGNED_SHORT_1_5_5_5_REV")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "UNSIGNED_SHORT_1_5_5_5_REV") ==
+      0);
 #endif
 
 #ifdef GL_UNSIGNED_SHORT_4_4_4_4
@@ -1203,8 +1203,8 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_names) {
     x = ev.unsigned_short_4_4_4_4_rev;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "UNSIGNED_SHORT_4_4_4_4_REV")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "UNSIGNED_SHORT_4_4_4_4_REV") ==
+      0);
 #endif
 
 #ifdef GL_UNSIGNED_SHORT_5_5_5_1
@@ -1235,260 +1235,267 @@ BOOST_AUTO_TEST_CASE(enum_pixel_data_type_range) {
 
 #ifdef GL_BYTE
     {
-	--count;
-	auto r = enum_value_range<pixel_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_type(GL_BYTE)) != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_data_type(GL_BYTE)) != r.end());
     }
 #endif
 
 #ifdef GL_DOUBLE
     {
-	--count;
-	auto r = enum_value_range<pixel_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_type(GL_DOUBLE)) != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_data_type(GL_DOUBLE)) != r.end());
     }
 #endif
 
 #ifdef GL_FLOAT
     {
-	--count;
-	auto r = enum_value_range<pixel_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_type(GL_FLOAT)) != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_data_type(GL_FLOAT)) != r.end());
     }
 #endif
 
 #ifdef GL_FLOAT_32_UNSIGNED_INT_24_8_REV
     {
-	--count;
-	auto r = enum_value_range<pixel_data_type>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      pixel_data_type(GL_FLOAT_32_UNSIGNED_INT_24_8_REV))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_data_type(GL_FLOAT_32_UNSIGNED_INT_24_8_REV)) != r.end());
     }
 #endif
 
 #ifdef GL_HALF_FLOAT
     {
-	--count;
-	auto r = enum_value_range<pixel_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_type(GL_HALF_FLOAT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_data_type(GL_HALF_FLOAT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INT
     {
-	--count;
-	auto r = enum_value_range<pixel_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_type(GL_INT)) != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_data_type(GL_INT)) != r.end());
     }
 #endif
 
 #ifdef GL_SHORT
     {
-	--count;
-	auto r = enum_value_range<pixel_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_type(GL_SHORT)) != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_data_type(GL_SHORT)) != r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_BYTE
     {
-	--count;
-	auto r = enum_value_range<pixel_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_type(GL_UNSIGNED_BYTE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_data_type(GL_UNSIGNED_BYTE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_BYTE_2_3_3_REV
     {
-	--count;
-	auto r = enum_value_range<pixel_data_type>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), pixel_data_type(GL_UNSIGNED_BYTE_2_3_3_REV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_type(GL_UNSIGNED_BYTE_2_3_3_REV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_BYTE_3_3_2
     {
-	--count;
-	auto r = enum_value_range<pixel_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_type(GL_UNSIGNED_BYTE_3_3_2))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_type(GL_UNSIGNED_BYTE_3_3_2)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_INT
     {
-	--count;
-	auto r = enum_value_range<pixel_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_type(GL_UNSIGNED_INT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_data_type(GL_UNSIGNED_INT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_INT_10_10_10_2
     {
-	--count;
-	auto r = enum_value_range<pixel_data_type>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), pixel_data_type(GL_UNSIGNED_INT_10_10_10_2))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_type(GL_UNSIGNED_INT_10_10_10_2)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_INT_10F_11F_11F_REV
     {
-	--count;
-	auto r = enum_value_range<pixel_data_type>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      pixel_data_type(GL_UNSIGNED_INT_10F_11F_11F_REV))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_data_type(GL_UNSIGNED_INT_10F_11F_11F_REV)) != r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_INT_24_8
     {
-	--count;
-	auto r = enum_value_range<pixel_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_type(GL_UNSIGNED_INT_24_8))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_type(GL_UNSIGNED_INT_24_8)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_INT_2_10_10_10_REV
     {
-	--count;
-	auto r = enum_value_range<pixel_data_type>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), pixel_data_type(GL_UNSIGNED_INT_2_10_10_10_REV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_data_type(GL_UNSIGNED_INT_2_10_10_10_REV)) != r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_INT_5_9_9_9_REV
     {
-	--count;
-	auto r = enum_value_range<pixel_data_type>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), pixel_data_type(GL_UNSIGNED_INT_5_9_9_9_REV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_type(GL_UNSIGNED_INT_5_9_9_9_REV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_INT_8_8_8_8
     {
-	--count;
-	auto r = enum_value_range<pixel_data_type>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), pixel_data_type(GL_UNSIGNED_INT_8_8_8_8))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_type(GL_UNSIGNED_INT_8_8_8_8)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_INT_8_8_8_8_REV
     {
-	--count;
-	auto r = enum_value_range<pixel_data_type>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), pixel_data_type(GL_UNSIGNED_INT_8_8_8_8_REV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_type(GL_UNSIGNED_INT_8_8_8_8_REV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_SHORT
     {
-	--count;
-	auto r = enum_value_range<pixel_data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_data_type(GL_UNSIGNED_SHORT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_data_type(GL_UNSIGNED_SHORT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_SHORT_1_5_5_5_REV
     {
-	--count;
-	auto r = enum_value_range<pixel_data_type>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), pixel_data_type(GL_UNSIGNED_SHORT_1_5_5_5_REV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_data_type(GL_UNSIGNED_SHORT_1_5_5_5_REV)) != r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_SHORT_4_4_4_4
     {
-	--count;
-	auto r = enum_value_range<pixel_data_type>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), pixel_data_type(GL_UNSIGNED_SHORT_4_4_4_4))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_type(GL_UNSIGNED_SHORT_4_4_4_4)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_SHORT_4_4_4_4_REV
     {
-	--count;
-	auto r = enum_value_range<pixel_data_type>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), pixel_data_type(GL_UNSIGNED_SHORT_4_4_4_4_REV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_data_type(GL_UNSIGNED_SHORT_4_4_4_4_REV)) != r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_SHORT_5_5_5_1
     {
-	--count;
-	auto r = enum_value_range<pixel_data_type>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), pixel_data_type(GL_UNSIGNED_SHORT_5_5_5_1))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_type(GL_UNSIGNED_SHORT_5_5_5_1)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_SHORT_5_6_5
     {
-	--count;
-	auto r = enum_value_range<pixel_data_type>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), pixel_data_type(GL_UNSIGNED_SHORT_5_6_5))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_type(GL_UNSIGNED_SHORT_5_6_5)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_SHORT_5_6_5_REV
     {
-	--count;
-	auto r = enum_value_range<pixel_data_type>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), pixel_data_type(GL_UNSIGNED_SHORT_5_6_5_REV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_data_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_data_type(GL_UNSIGNED_SHORT_5_6_5_REV)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

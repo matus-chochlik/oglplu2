@@ -10,11 +10,11 @@
 #ifndef EAGINE_IDENTIFIER_1509260923_HPP
 #define EAGINE_IDENTIFIER_1509260923_HPP
 
+#include <iosfwd>
 #include "biteset.hpp"
 #include "fixed_size_str.hpp"
 #include "mp_string.hpp"
 #include "selector.hpp"
-#include <iosfwd>
 
 namespace eagine {
 
@@ -25,49 +25,50 @@ template <char... C>
 class identifier_encoding<mp_string<C...>> {
 public:
     static constexpr inline std::uint8_t encode(char c) noexcept {
-	return _do_encode(c, 0, mp_string<C...>{});
+        return _do_encode(c, 0, mp_string<C...>{});
     }
 
     static constexpr inline char decode(std::uint8_t i) noexcept {
-	return _do_decode(i, mp_string<C...>{});
+        return _do_decode(i, mp_string<C...>{});
     }
 
     static constexpr inline bool invalid(std::uint8_t c) noexcept {
-	return (c >= std::uint8_t(sizeof...(C)));
+        return (c >= std::uint8_t(sizeof...(C)));
     }
 
     static inline cstring_span chars(void) {
-	static const char s[] = {C..., '\0'};
-	return {s, s + sizeof...(C)};
+        static const char s[] = {C..., '\0'};
+        return {s, s + sizeof...(C)};
     }
 
 private:
     static constexpr inline std::uint8_t _do_encode(
       char, std::uint8_t, mp_string<>) noexcept {
-	return std::uint8_t(sizeof...(C));
+        return std::uint8_t(sizeof...(C));
     }
 
     template <char H, char... T>
     static constexpr inline std::uint8_t _do_encode(
       char c, std::uint8_t i, mp_string<H, T...>) noexcept {
-	return (c == H) ? i : _do_encode(c, i + 1, mp_string<T...>{});
+        return (c == H) ? i : _do_encode(c, i + 1, mp_string<T...>{});
     }
 
     static constexpr inline char _do_decode(
       std::uint8_t, mp_string<>) noexcept {
-	return '\0';
+        return '\0';
     }
 
     template <char H, char... T>
     static constexpr inline char _do_decode(
       std::uint8_t i, mp_string<H, T...>) noexcept {
-	return (i == (sizeof...(C) - sizeof...(T) - 1))
-		 ? H
-		 : _do_decode(i, mp_string<T...>{});
+        return (i == (sizeof...(C) - sizeof...(T) - 1))
+                 ? H
+                 : _do_decode(i, mp_string<T...>{});
     }
 };
 
-using default_identifier_char_set = mp_string<'a',
+using default_identifier_char_set = mp_string<
+  'a',
   'b',
   'c',
   'd',
@@ -131,7 +132,8 @@ using default_identifier_char_set = mp_string<'a',
   '9',
   '_'>;
 
-using hex_identifier_char_set = mp_string<'0',
+using hex_identifier_char_set = mp_string<
+  '0',
   '1',
   '2',
   '3',
@@ -163,23 +165,23 @@ public:
     using const_iterator = iterator;
 
     const char* data(void) const noexcept {
-	return _str.data();
+        return _str.data();
     }
 
     size_type size(void) const noexcept {
-	return size_type(_len);
+        return size_type(_len);
     }
 
     const_iterator begin(void) const {
-	return _str.data();
+        return _str.data();
     }
 
     const_iterator end(void) const {
-	return _str.data() + size();
+        return _str.data() + size();
     }
 
     std::string str(void) const {
-	return {_str.data(), _len};
+        return {_str.data(), _len};
     }
 
 private:
@@ -196,7 +198,8 @@ operator<<(std::ostream& out, const identifier_name<M>& n) {
 template <std::size_t M, std::size_t B, typename CharSet, typename UIntT>
 class basic_identifier {
 public:
-    static_assert((1 << B) >= mp_strlen<CharSet>::value,
+    static_assert(
+      (1 << B) >= mp_strlen<CharSet>::value,
       "B-bits are not sufficient to represent CharSet");
 
     using encoding = identifier_encoding<CharSet>;
@@ -212,57 +215,57 @@ public:
     }
 
     static constexpr inline size_type max_size(void) noexcept {
-	return size_type(M);
+        return size_type(M);
     }
 
     constexpr inline size_type size(void) const noexcept {
-	return size_type(_get_size(0));
+        return size_type(_get_size(0));
     }
 
     constexpr inline value_type operator[](size_type idx) const noexcept {
-	return value_type(encoding::decode(_bites[idx]));
+        return value_type(encoding::decode(_bites[idx]));
     }
 
     constexpr inline UIntT value(void) const noexcept {
-	return _bites.bytes().template as<UIntT>();
+        return _bites.bytes().template as<UIntT>();
     }
 
     constexpr inline name_type name(void) const noexcept {
-	return _get_name(std::make_index_sequence<M>{});
+        return _get_name(std::make_index_sequence<M>{});
     }
 
     inline std::string str(void) const {
-	return name().str();
+        return name().str();
     }
 
     friend constexpr inline bool operator==(
       const basic_identifier& a, const basic_identifier& b) noexcept {
-	return a._bites == b._bites;
+        return a._bites == b._bites;
     }
 
     friend constexpr inline bool operator!=(
       const basic_identifier& a, const basic_identifier& b) noexcept {
-	return a._bites != b._bites;
+        return a._bites != b._bites;
     }
 
     friend constexpr inline bool operator<(
       const basic_identifier& a, const basic_identifier& b) noexcept {
-	return a._bites < b._bites;
+        return a._bites < b._bites;
     }
 
     friend constexpr inline bool operator<=(
       const basic_identifier& a, const basic_identifier& b) noexcept {
-	return a._bites <= b._bites;
+        return a._bites <= b._bites;
     }
 
     friend constexpr inline bool operator>(
       const basic_identifier& a, const basic_identifier& b) noexcept {
-	return a._bites > b._bites;
+        return a._bites > b._bites;
     }
 
     friend constexpr inline bool operator>=(
       const basic_identifier& a, const basic_identifier& b) noexcept {
-	return a._bites >= b._bites;
+        return a._bites >= b._bites;
     }
 
 private:
@@ -271,21 +274,21 @@ private:
     template <std::size_t L, std::size_t... I>
     static constexpr inline auto _make_bites(
       const char (&init)[L], std::index_sequence<I...>) noexcept {
-	return biteset<M, B, std::uint8_t>{
-	  encoding::encode((I < L) ? init[(I < L) ? I : 0] : '\0')...};
+        return biteset<M, B, std::uint8_t>{
+          encoding::encode((I < L) ? init[(I < L) ? I : 0] : '\0')...};
     }
 
     template <std::size_t... I>
     constexpr inline name_type _get_name(std::index_sequence<I...>) const
       noexcept {
-	return name_type{size(), (*this)[size_type(I)]...};
+        return name_type{size(), (*this)[size_type(I)]...};
     }
 
     constexpr inline std::size_t _get_size(std::size_t s) const noexcept {
-	return (s < M) ? !encoding::invalid(_bites[size_type(s)])
-			   ? _get_size(s + 1)
-			   : s
-		       : M;
+        return (s < M) ? !encoding::invalid(_bites[size_type(s)])
+                           ? _get_size(s + 1)
+                           : s
+                       : M;
     }
 };
 

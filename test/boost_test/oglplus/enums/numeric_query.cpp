@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_numeric_query
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_numeric_query_tests)
 
@@ -14849,8 +14849,8 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_names) {
     x = ev.compressed_texture_formats;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "COMPRESSED_TEXTURE_FORMATS")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "COMPRESSED_TEXTURE_FORMATS") ==
+      0);
 #endif
 
 #ifdef GL_CONTEXT_FLAGS
@@ -14907,24 +14907,24 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_names) {
     x = ev.fragment_shader_derivative_hint;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "FRAGMENT_SHADER_DERIVATIVE_HINT")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "FRAGMENT_SHADER_DERIVATIVE_HINT") == 0);
 #endif
 
 #ifdef GL_IMPLEMENTATION_COLOR_READ_FORMAT
     x = ev.implementation_color_read_format;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "IMPLEMENTATION_COLOR_READ_FORMAT")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "IMPLEMENTATION_COLOR_READ_FORMAT") == 0);
 #endif
 
 #ifdef GL_IMPLEMENTATION_COLOR_READ_TYPE
     x = ev.implementation_color_read_type;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "IMPLEMENTATION_COLOR_READ_TYPE")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "IMPLEMENTATION_COLOR_READ_TYPE") == 0);
 #endif
 
 #ifdef GL_LAYER_PROVOKING_VERTEX
@@ -14957,8 +14957,8 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_names) {
     x = ev.num_compressed_texture_formats;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "NUM_COMPRESSED_TEXTURE_FORMATS")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "NUM_COMPRESSED_TEXTURE_FORMATS") == 0);
 #endif
 
 #ifdef GL_NUM_EXTENSIONS
@@ -14971,8 +14971,8 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_names) {
     x = ev.num_program_binary_formats;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "NUM_PROGRAM_BINARY_FORMATS")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "NUM_PROGRAM_BINARY_FORMATS") ==
+      0);
 #endif
 
 #ifdef GL_NUM_SHADER_BINARY_FORMATS
@@ -15156,33 +15156,34 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_names) {
 #ifdef GL_SHADER_STORAGE_BUFFER_OFFSET_ALIGNMENT
     x = ev.shader_storage_buffer_offset_alignment;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-    BOOST_CHECK(std::strcmp(enum_value_name(x).data(),
-		  "SHADER_STORAGE_BUFFER_OFFSET_ALIGNMENT")
-		== 0);
+    BOOST_CHECK(
+      std::strcmp(
+        enum_value_name(x).data(), "SHADER_STORAGE_BUFFER_OFFSET_ALIGNMENT") ==
+      0);
 #endif
 
 #ifdef GL_SHADER_STORAGE_BUFFER_SIZE
     x = ev.shader_storage_buffer_size;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "SHADER_STORAGE_BUFFER_SIZE")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "SHADER_STORAGE_BUFFER_SIZE") ==
+      0);
 #endif
 
 #ifdef GL_SHADER_STORAGE_BUFFER_START
     x = ev.shader_storage_buffer_start;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "SHADER_STORAGE_BUFFER_START")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "SHADER_STORAGE_BUFFER_START") ==
+      0);
 #endif
 
 #ifdef GL_SMOOTH_LINE_WIDTH_GRANULARITY
     x = ev.smooth_line_width_granularity;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "SMOOTH_LINE_WIDTH_GRANULARITY")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "SMOOTH_LINE_WIDTH_GRANULARITY") ==
+      0);
 #endif
 
 #ifdef GL_SMOOTH_LINE_WIDTH_RANGE
@@ -15210,16 +15211,16 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_names) {
     x = ev.stencil_back_pass_depth_fail;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "STENCIL_BACK_PASS_DEPTH_FAIL")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "STENCIL_BACK_PASS_DEPTH_FAIL") ==
+      0);
 #endif
 
 #ifdef GL_STENCIL_BACK_PASS_DEPTH_PASS
     x = ev.stencil_back_pass_depth_pass;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "STENCIL_BACK_PASS_DEPTH_PASS")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "STENCIL_BACK_PASS_DEPTH_PASS") ==
+      0);
 #endif
 
 #ifdef GL_STENCIL_BACK_REF
@@ -15312,8 +15313,8 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_names) {
     x = ev.texture_buffer_offset_alignment;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "TEXTURE_BUFFER_OFFSET_ALIGNMENT")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "TEXTURE_BUFFER_OFFSET_ALIGNMENT") == 0);
 #endif
 
 #ifdef GL_TEXTURE_COMPRESSION_HINT
@@ -15333,24 +15334,24 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_names) {
     x = ev.transform_feedback_buffer_size;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "TRANSFORM_FEEDBACK_BUFFER_SIZE")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "TRANSFORM_FEEDBACK_BUFFER_SIZE") == 0);
 #endif
 
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER_START
     x = ev.transform_feedback_buffer_start;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "TRANSFORM_FEEDBACK_BUFFER_START")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "TRANSFORM_FEEDBACK_BUFFER_START") == 0);
 #endif
 
 #ifdef GL_UNIFORM_BUFFER_OFFSET_ALIGNMENT
     x = ev.uniform_buffer_offset_alignment;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "UNIFORM_BUFFER_OFFSET_ALIGNMENT")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "UNIFORM_BUFFER_OFFSET_ALIGNMENT") == 0);
 #endif
 
 #ifdef GL_UNIFORM_BUFFER_SIZE
@@ -15440,8 +15441,8 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_names) {
     x = ev.viewport_index_provoking_vertex;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "VIEWPORT_INDEX_PROVOKING_VERTEX")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "VIEWPORT_INDEX_PROVOKING_VERTEX") == 0);
 #endif
 
 #ifdef GL_VIEWPORT_SUBPIXEL_BITS
@@ -15458,1001 +15459,1036 @@ BOOST_AUTO_TEST_CASE(enum_numeric_query_range) {
 
 #ifdef GL_ALIASED_LINE_WIDTH_RANGE
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), numeric_query(GL_ALIASED_LINE_WIDTH_RANGE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), numeric_query(GL_ALIASED_LINE_WIDTH_RANGE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_BLEND_COLOR
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), numeric_query(GL_BLEND_COLOR))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_BLEND_COLOR)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_BLEND_DST_ALPHA
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_BLEND_DST_ALPHA))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_BLEND_DST_ALPHA)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_BLEND_DST_RGB
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_BLEND_DST_RGB))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_BLEND_DST_RGB)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_BLEND_EQUATION_ALPHA
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_BLEND_EQUATION_ALPHA))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), numeric_query(GL_BLEND_EQUATION_ALPHA)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_BLEND_EQUATION_RGB
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_BLEND_EQUATION_RGB))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_BLEND_EQUATION_RGB)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_BLEND_SRC_ALPHA
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_BLEND_SRC_ALPHA))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_BLEND_SRC_ALPHA)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_BLEND_SRC_RGB
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_BLEND_SRC_RGB))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_BLEND_SRC_RGB)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_COLOR_CLEAR_VALUE
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_COLOR_CLEAR_VALUE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_COLOR_CLEAR_VALUE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_COLOR_WRITEMASK
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_COLOR_WRITEMASK))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_COLOR_WRITEMASK)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_COMPRESSED_TEXTURE_FORMATS
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), numeric_query(GL_COMPRESSED_TEXTURE_FORMATS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), numeric_query(GL_COMPRESSED_TEXTURE_FORMATS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_CONTEXT_FLAGS
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_CONTEXT_FLAGS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_CONTEXT_FLAGS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_DEBUG_GROUP_STACK_DEPTH
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), numeric_query(GL_DEBUG_GROUP_STACK_DEPTH))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), numeric_query(GL_DEBUG_GROUP_STACK_DEPTH)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_DEPTH_CLEAR_VALUE
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_DEPTH_CLEAR_VALUE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_DEPTH_CLEAR_VALUE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_DEPTH_FUNC
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), numeric_query(GL_DEPTH_FUNC))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_DEPTH_FUNC)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_DEPTH_RANGE
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), numeric_query(GL_DEPTH_RANGE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_DEPTH_RANGE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_DEPTH_WRITEMASK
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_DEPTH_WRITEMASK))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_DEPTH_WRITEMASK)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_DOUBLEBUFFER
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_DOUBLEBUFFER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_DOUBLEBUFFER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_DRAW_BUFFER
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), numeric_query(GL_DRAW_BUFFER))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_DRAW_BUFFER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_FRAGMENT_SHADER_DERIVATIVE_HINT
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      numeric_query(GL_FRAGMENT_SHADER_DERIVATIVE_HINT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            numeric_query(GL_FRAGMENT_SHADER_DERIVATIVE_HINT)) != r.end());
     }
 #endif
 
 #ifdef GL_IMPLEMENTATION_COLOR_READ_FORMAT
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      numeric_query(GL_IMPLEMENTATION_COLOR_READ_FORMAT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            numeric_query(GL_IMPLEMENTATION_COLOR_READ_FORMAT)) != r.end());
     }
 #endif
 
 #ifdef GL_IMPLEMENTATION_COLOR_READ_TYPE
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      numeric_query(GL_IMPLEMENTATION_COLOR_READ_TYPE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            numeric_query(GL_IMPLEMENTATION_COLOR_READ_TYPE)) != r.end());
     }
 #endif
 
 #ifdef GL_LAYER_PROVOKING_VERTEX
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), numeric_query(GL_LAYER_PROVOKING_VERTEX))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), numeric_query(GL_LAYER_PROVOKING_VERTEX)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_LINE_SMOOTH_HINT
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_LINE_SMOOTH_HINT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_LINE_SMOOTH_HINT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_LINE_WIDTH
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), numeric_query(GL_LINE_WIDTH))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_LINE_WIDTH)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_LOGIC_OP_MODE
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_LOGIC_OP_MODE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_LOGIC_OP_MODE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_NUM_COMPRESSED_TEXTURE_FORMATS
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      numeric_query(GL_NUM_COMPRESSED_TEXTURE_FORMATS))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            numeric_query(GL_NUM_COMPRESSED_TEXTURE_FORMATS)) != r.end());
     }
 #endif
 
 #ifdef GL_NUM_EXTENSIONS
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_NUM_EXTENSIONS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_NUM_EXTENSIONS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_NUM_PROGRAM_BINARY_FORMATS
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), numeric_query(GL_NUM_PROGRAM_BINARY_FORMATS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), numeric_query(GL_NUM_PROGRAM_BINARY_FORMATS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_NUM_SHADER_BINARY_FORMATS
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), numeric_query(GL_NUM_SHADER_BINARY_FORMATS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), numeric_query(GL_NUM_SHADER_BINARY_FORMATS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_PACK_ALIGNMENT
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_PACK_ALIGNMENT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_PACK_ALIGNMENT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_PACK_IMAGE_HEIGHT
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_PACK_IMAGE_HEIGHT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_PACK_IMAGE_HEIGHT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_PACK_LSB_FIRST
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_PACK_LSB_FIRST))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_PACK_LSB_FIRST)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_PACK_ROW_LENGTH
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_PACK_ROW_LENGTH))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_PACK_ROW_LENGTH)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_PACK_SKIP_IMAGES
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_PACK_SKIP_IMAGES))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_PACK_SKIP_IMAGES)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_PACK_SKIP_PIXELS
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_PACK_SKIP_PIXELS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_PACK_SKIP_PIXELS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_PACK_SKIP_ROWS
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_PACK_SKIP_ROWS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_PACK_SKIP_ROWS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_PACK_SWAP_BYTES
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_PACK_SWAP_BYTES))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_PACK_SWAP_BYTES)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_POINT_FADE_THRESHOLD_SIZE
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), numeric_query(GL_POINT_FADE_THRESHOLD_SIZE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), numeric_query(GL_POINT_FADE_THRESHOLD_SIZE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_POINT_SIZE
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), numeric_query(GL_POINT_SIZE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_POINT_SIZE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_POINT_SIZE_GRANULARITY
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), numeric_query(GL_POINT_SIZE_GRANULARITY))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), numeric_query(GL_POINT_SIZE_GRANULARITY)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_POINT_SIZE_RANGE
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_POINT_SIZE_RANGE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_POINT_SIZE_RANGE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_POLYGON_OFFSET_FACTOR
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_POLYGON_OFFSET_FACTOR))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), numeric_query(GL_POLYGON_OFFSET_FACTOR)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_POLYGON_OFFSET_UNITS
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_POLYGON_OFFSET_UNITS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), numeric_query(GL_POLYGON_OFFSET_UNITS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_POLYGON_SMOOTH_HINT
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_POLYGON_SMOOTH_HINT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), numeric_query(GL_POLYGON_SMOOTH_HINT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_PRIMITIVE_RESTART_INDEX
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), numeric_query(GL_PRIMITIVE_RESTART_INDEX))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), numeric_query(GL_PRIMITIVE_RESTART_INDEX)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_PROGRAM_BINARY_FORMATS
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), numeric_query(GL_PROGRAM_BINARY_FORMATS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), numeric_query(GL_PROGRAM_BINARY_FORMATS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_PROGRAM_POINT_SIZE
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_PROGRAM_POINT_SIZE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_PROGRAM_POINT_SIZE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_PROVOKING_VERTEX
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_PROVOKING_VERTEX))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_PROVOKING_VERTEX)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_READ_BUFFER
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), numeric_query(GL_READ_BUFFER))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_READ_BUFFER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SAMPLE_BUFFERS
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_SAMPLE_BUFFERS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_SAMPLE_BUFFERS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SAMPLE_COVERAGE_INVERT
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), numeric_query(GL_SAMPLE_COVERAGE_INVERT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), numeric_query(GL_SAMPLE_COVERAGE_INVERT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SAMPLE_COVERAGE_VALUE
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_SAMPLE_COVERAGE_VALUE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), numeric_query(GL_SAMPLE_COVERAGE_VALUE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SAMPLES
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_SAMPLES)) != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_SAMPLES)) != r.end());
     }
 #endif
 
 #ifdef GL_SCISSOR_BOX
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), numeric_query(GL_SCISSOR_BOX))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_SCISSOR_BOX)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SHADER_COMPILER
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_SHADER_COMPILER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_SHADER_COMPILER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SHADER_STORAGE_BUFFER_OFFSET_ALIGNMENT
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      numeric_query(GL_SHADER_STORAGE_BUFFER_OFFSET_ALIGNMENT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            numeric_query(GL_SHADER_STORAGE_BUFFER_OFFSET_ALIGNMENT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SHADER_STORAGE_BUFFER_SIZE
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), numeric_query(GL_SHADER_STORAGE_BUFFER_SIZE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), numeric_query(GL_SHADER_STORAGE_BUFFER_SIZE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SHADER_STORAGE_BUFFER_START
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), numeric_query(GL_SHADER_STORAGE_BUFFER_START))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            numeric_query(GL_SHADER_STORAGE_BUFFER_START)) != r.end());
     }
 #endif
 
 #ifdef GL_SMOOTH_LINE_WIDTH_GRANULARITY
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), numeric_query(GL_SMOOTH_LINE_WIDTH_GRANULARITY))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            numeric_query(GL_SMOOTH_LINE_WIDTH_GRANULARITY)) != r.end());
     }
 #endif
 
 #ifdef GL_SMOOTH_LINE_WIDTH_RANGE
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), numeric_query(GL_SMOOTH_LINE_WIDTH_RANGE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), numeric_query(GL_SMOOTH_LINE_WIDTH_RANGE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_STENCIL_BACK_FAIL
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_STENCIL_BACK_FAIL))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_STENCIL_BACK_FAIL)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_STENCIL_BACK_FUNC
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_STENCIL_BACK_FUNC))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_STENCIL_BACK_FUNC)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_STENCIL_BACK_PASS_DEPTH_FAIL
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), numeric_query(GL_STENCIL_BACK_PASS_DEPTH_FAIL))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            numeric_query(GL_STENCIL_BACK_PASS_DEPTH_FAIL)) != r.end());
     }
 #endif
 
 #ifdef GL_STENCIL_BACK_PASS_DEPTH_PASS
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), numeric_query(GL_STENCIL_BACK_PASS_DEPTH_PASS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            numeric_query(GL_STENCIL_BACK_PASS_DEPTH_PASS)) != r.end());
     }
 #endif
 
 #ifdef GL_STENCIL_BACK_REF
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_STENCIL_BACK_REF))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_STENCIL_BACK_REF)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_STENCIL_BACK_VALUE_MASK
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), numeric_query(GL_STENCIL_BACK_VALUE_MASK))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), numeric_query(GL_STENCIL_BACK_VALUE_MASK)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_STENCIL_BACK_WRITEMASK
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), numeric_query(GL_STENCIL_BACK_WRITEMASK))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), numeric_query(GL_STENCIL_BACK_WRITEMASK)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_STENCIL_CLEAR_VALUE
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_STENCIL_CLEAR_VALUE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), numeric_query(GL_STENCIL_CLEAR_VALUE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_STENCIL_FAIL
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_STENCIL_FAIL))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_STENCIL_FAIL)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_STENCIL_FUNC
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_STENCIL_FUNC))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_STENCIL_FUNC)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_STENCIL_PASS_DEPTH_FAIL
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), numeric_query(GL_STENCIL_PASS_DEPTH_FAIL))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), numeric_query(GL_STENCIL_PASS_DEPTH_FAIL)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_STENCIL_PASS_DEPTH_PASS
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), numeric_query(GL_STENCIL_PASS_DEPTH_PASS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), numeric_query(GL_STENCIL_PASS_DEPTH_PASS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_STENCIL_REF
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), numeric_query(GL_STENCIL_REF))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_STENCIL_REF)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_STENCIL_VALUE_MASK
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_STENCIL_VALUE_MASK))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_STENCIL_VALUE_MASK)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_STENCIL_WRITEMASK
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_STENCIL_WRITEMASK))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_STENCIL_WRITEMASK)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_STEREO
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_STEREO)) != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_STEREO)) != r.end());
     }
 #endif
 
 #ifdef GL_SUBPIXEL_BITS
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_SUBPIXEL_BITS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_SUBPIXEL_BITS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_BUFFER_OFFSET_ALIGNMENT
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      numeric_query(GL_TEXTURE_BUFFER_OFFSET_ALIGNMENT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            numeric_query(GL_TEXTURE_BUFFER_OFFSET_ALIGNMENT)) != r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_COMPRESSION_HINT
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), numeric_query(GL_TEXTURE_COMPRESSION_HINT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), numeric_query(GL_TEXTURE_COMPRESSION_HINT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TIMESTAMP
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), numeric_query(GL_TIMESTAMP))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_TIMESTAMP)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER_SIZE
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      numeric_query(GL_TRANSFORM_FEEDBACK_BUFFER_SIZE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            numeric_query(GL_TRANSFORM_FEEDBACK_BUFFER_SIZE)) != r.end());
     }
 #endif
 
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER_START
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      numeric_query(GL_TRANSFORM_FEEDBACK_BUFFER_START))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            numeric_query(GL_TRANSFORM_FEEDBACK_BUFFER_START)) != r.end());
     }
 #endif
 
 #ifdef GL_UNIFORM_BUFFER_OFFSET_ALIGNMENT
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      numeric_query(GL_UNIFORM_BUFFER_OFFSET_ALIGNMENT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            numeric_query(GL_UNIFORM_BUFFER_OFFSET_ALIGNMENT)) != r.end());
     }
 #endif
 
 #ifdef GL_UNIFORM_BUFFER_SIZE
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_UNIFORM_BUFFER_SIZE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), numeric_query(GL_UNIFORM_BUFFER_SIZE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNIFORM_BUFFER_START
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_UNIFORM_BUFFER_START))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), numeric_query(GL_UNIFORM_BUFFER_START)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNPACK_ALIGNMENT
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_UNPACK_ALIGNMENT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_UNPACK_ALIGNMENT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNPACK_IMAGE_HEIGHT
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_UNPACK_IMAGE_HEIGHT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), numeric_query(GL_UNPACK_IMAGE_HEIGHT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNPACK_LSB_FIRST
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_UNPACK_LSB_FIRST))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_UNPACK_LSB_FIRST)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNPACK_ROW_LENGTH
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_UNPACK_ROW_LENGTH))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_UNPACK_ROW_LENGTH)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNPACK_SKIP_IMAGES
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_UNPACK_SKIP_IMAGES))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_UNPACK_SKIP_IMAGES)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNPACK_SKIP_PIXELS
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_UNPACK_SKIP_PIXELS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_UNPACK_SKIP_PIXELS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNPACK_SKIP_ROWS
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_UNPACK_SKIP_ROWS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_UNPACK_SKIP_ROWS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNPACK_SWAP_BYTES
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_UNPACK_SWAP_BYTES))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_UNPACK_SWAP_BYTES)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_VIEWPORT
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_VIEWPORT)) != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), numeric_query(GL_VIEWPORT)) != r.end());
     }
 #endif
 
 #ifdef GL_VIEWPORT_BOUNDS_RANGE
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), numeric_query(GL_VIEWPORT_BOUNDS_RANGE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), numeric_query(GL_VIEWPORT_BOUNDS_RANGE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_VIEWPORT_INDEX_PROVOKING_VERTEX
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      numeric_query(GL_VIEWPORT_INDEX_PROVOKING_VERTEX))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            numeric_query(GL_VIEWPORT_INDEX_PROVOKING_VERTEX)) != r.end());
     }
 #endif
 
 #ifdef GL_VIEWPORT_SUBPIXEL_BITS
     {
-	--count;
-	auto r = enum_value_range<numeric_query>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), numeric_query(GL_VIEWPORT_SUBPIXEL_BITS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<numeric_query>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), numeric_query(GL_VIEWPORT_SUBPIXEL_BITS)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

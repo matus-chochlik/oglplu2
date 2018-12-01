@@ -10,10 +10,10 @@
 #ifndef EAGINE_CALLABLE_REF_1509260923_HPP
 #define EAGINE_CALLABLE_REF_1509260923_HPP
 
+#include <cassert>
 #include "mem_func_const.hpp"
 #include "std/type_traits.hpp"
 #include "std/utility.hpp"
-#include <cassert>
 
 namespace eagine {
 
@@ -32,16 +32,16 @@ private:
 
     template <typename C>
     static RV _cls_fn_call_op(void* that, P... p) {
-	assert(that);
-	C& obj = *(static_cast<C*>(that));
-	return obj(std::forward<P>(p)...);
+        assert(that);
+        C& obj = *(static_cast<C*>(that));
+        return obj(std::forward<P>(p)...);
     }
 
     template <typename C>
     static RV _cls_fn_call_op_c(void* that, P... p) {
-	assert(that);
-	const C& obj = *(static_cast<const C*>(that));
-	return obj(std::forward<P>(p)...);
+        assert(that);
+        const C& obj = *(static_cast<const C*>(that));
+        return obj(std::forward<P>(p)...);
     }
 
 public:
@@ -59,7 +59,7 @@ public:
     callable_ref(T* data, RV (*func)(T*, P...)) noexcept
       : _data(static_cast<void*>(data))
       , _func(reinterpret_cast<_func_t>(func)) {
-	assert(_data != nullptr);
+        assert(_data != nullptr);
     }
 
     template <typename T>
@@ -80,39 +80,40 @@ public:
       , _func(reinterpret_cast<_func_t>(&_cls_fn_call_op_c<C>)) {
     }
 
-    template <typename C,
+    template <
+      typename C,
       typename MF,
       MF Ptr,
       typename = std::enable_if_t<
-	std::is_same_v<typename member_function_constant<MF, Ptr>::scope, C>>>
+        std::is_same_v<typename member_function_constant<MF, Ptr>::scope, C>>>
     callable_ref(C* obj, member_function_constant<MF, Ptr> mfc) noexcept
       : _data(static_cast<void*>(obj))
       , _func(reinterpret_cast<_func_t>(mfc.make_free())) {
-	assert(_data != nullptr);
-	assert(_func != nullptr);
+        assert(_data != nullptr);
+        assert(_func != nullptr);
     }
 
     constexpr bool is_valid(void) const noexcept {
-	return _func != nullptr;
+        return _func != nullptr;
     }
 
     explicit constexpr operator bool(void) const noexcept {
-	return is_valid();
+        return is_valid();
     }
 
-    constexpr bool operator!(void)const noexcept {
-	return !is_valid();
+    constexpr bool operator!(void) const noexcept {
+        return !is_valid();
     }
 
     template <typename... A>
     RV operator()(A&&... a) const {
-	assert(is_valid());
-	if(_data == nullptr) {
-	    return (reinterpret_cast<_func_pt>(_func))(std::forward<A>(a)...);
-	} else {
-	    return (reinterpret_cast<_func_vpt>(_func))(
-	      _data, std::forward<A>(a)...);
-	}
+        assert(is_valid());
+        if(_data == nullptr) {
+            return (reinterpret_cast<_func_pt>(_func))(std::forward<A>(a)...);
+        } else {
+            return (reinterpret_cast<_func_vpt>(_func))(
+              _data, std::forward<A>(a)...);
+        }
     }
 };
 

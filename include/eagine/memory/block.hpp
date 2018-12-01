@@ -10,9 +10,9 @@
 #ifndef EAGINE_MEMORY_BLOCK_1510290655_HPP
 #define EAGINE_MEMORY_BLOCK_1510290655_HPP
 
-#include "address.hpp"
 #include <cstddef>
 #include <utility>
+#include "address.hpp"
 
 namespace eagine {
 namespace memory {
@@ -34,8 +34,8 @@ private:
 
     template <typename T>
     static span_size_t _positive_distance(T* a, T* b) noexcept {
-	assert(a <= b);
-	return span_size(b - a);
+        assert(a <= b);
+        return span_size(b - a);
     }
 
 public:
@@ -67,14 +67,14 @@ public:
     basic_block(basic_block&& temp) noexcept
       : _addr(temp._addr)
       , _size(temp._size) {
-	temp.reset();
+        temp.reset();
     }
 
     basic_block& operator=(basic_block&& temp) noexcept {
-	using std::swap;
-	swap(_addr, temp._addr);
-	swap(_size, temp._size);
-	return *this;
+        using std::swap;
+        swap(_addr, temp._addr);
+        swap(_size, temp._size);
+        return *this;
     }
 
     template <bool IsConst2, typename = std::enable_if_t<IsConst && !IsConst2>>
@@ -84,87 +84,87 @@ public:
     }
 
     basic_block& reset(void) noexcept {
-	_addr = nullptr;
-	_size = 0;
-	return *this;
+        _addr = nullptr;
+        _size = 0;
+        return *this;
     }
 
     size_type size(void) const noexcept {
-	return _size;
+        return _size;
     }
 
     bool empty(void) const noexcept {
-	return !(size() > 0);
+        return !(size() > 0);
     }
 
     explicit operator bool(void) const noexcept {
-	return _addr != nullptr && !empty();
+        return _addr != nullptr && !empty();
     }
 
-    bool operator!(void)const noexcept {
-	return _addr == nullptr || empty();
+    bool operator!(void) const noexcept {
+        return _addr == nullptr || empty();
     }
 
     iterator data(void) const noexcept {
-	return static_cast<iterator>(_addr);
+        return static_cast<iterator>(_addr);
     }
 
     basic_address<IsConst> addr(void) const noexcept {
-	return basic_address<IsConst>(_addr);
+        return basic_address<IsConst>(_addr);
     }
 
     basic_address<IsConst> end_addr(void) const noexcept {
-	return basic_address<IsConst>(addr(), _size);
+        return basic_address<IsConst>(addr(), _size);
     }
 
     iterator begin(void) const noexcept {
-	return static_cast<iterator>(_addr);
+        return static_cast<iterator>(_addr);
     }
 
     iterator end(void) const noexcept {
-	return begin() + size();
+        return begin() + size();
     }
 
     reference operator[](span_size_t i) noexcept {
-	assert(i < size());
-	return *(begin() + i);
+        assert(i < size());
+        return *(begin() + i);
     }
 
     friend bool operator==(
       const basic_block& a, const basic_block& b) noexcept {
-	return (a._addr == b._addr) && (a._size == b._size);
+        return (a._addr == b._addr) && (a._size == b._size);
     }
 
     friend bool operator!=(
       const basic_block& a, const basic_block& b) noexcept {
-	return (a._addr != b._addr) || (a._size != b._size);
+        return (a._addr != b._addr) || (a._size != b._size);
     }
 
     bool is_aligned_to(span_size_t align) const noexcept {
-	return addr().is_aligned_to(align);
+        return addr().is_aligned_to(align);
     }
 
     template <typename T>
     bool is_aligned_as(void) const noexcept {
-	return addr().template is_aligned_as<T>();
+        return addr().template is_aligned_as<T>();
     }
 
     template <typename T>
     bool is_enough_for(void) const noexcept {
-	return size() >= span_size(sizeof(T));
+        return size() >= span_size(sizeof(T));
     }
 
     bool encloses(const_address a) const noexcept {
-	return (addr() <= a) && (a <= end_addr());
+        return (addr() <= a) && (a <= end_addr());
     }
 
     bool contains(const basic_block& b) const noexcept {
-	return (addr() <= b.addr()) && (b.end_addr() <= end_addr());
+        return (addr() <= b.addr()) && (b.end_addr() <= end_addr());
     }
 
     bool overlaps(const basic_block& b) const noexcept {
-	return encloses(b.addr()) || encloses(b.end_addr())
-	       || b.encloses(addr()) || b.encloses(end_addr());
+        return encloses(b.addr()) || encloses(b.end_addr()) ||
+               b.encloses(addr()) || b.encloses(end_addr());
     }
 };
 
@@ -184,8 +184,8 @@ block_of(T (&a)[N]) noexcept {
 }
 
 template <typename T>
-static inline basic_block<std::is_const<T>::value
-			  || std::is_const<typename T::value_type>::value>
+static inline basic_block<
+  std::is_const<T>::value || std::is_const<typename T::value_type>::value>
 data_block_of(T& c) noexcept {
     return {c.data(), span_size(c.size())};
 }
@@ -211,18 +211,18 @@ public:
     owned_block& operator=(const owned_block&) = delete;
 
     ~owned_block(void) noexcept {
-	assert(empty());
+        assert(empty());
     }
 };
 
 class block_owner {
 protected:
     static inline owned_block acquire_block(block b) noexcept {
-	return {b};
+        return {b};
     }
 
     static inline void release_block(owned_block&& b) noexcept {
-	b.reset();
+        b.reset();
     }
 };
 

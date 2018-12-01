@@ -136,14 +136,14 @@ eagine_test_memory_address_2(void) {
     using namespace eagine;
 
     for(int i = 0; i < 100; ++i) {
-	int offs = rg.get_int(0, 1000) - rg.get_int(0, 1000);
+        int offs = rg.get_int(0, 1000) - rg.get_int(0, 1000);
 
-	memory::basic_address<is_const> bma1(&i);
-	memory::basic_address<is_const> bma2 = bma1 + offs;
-	memory::basic_address<is_const> bma3 = bma1 - offs;
+        memory::basic_address<is_const> bma1(&i);
+        memory::basic_address<is_const> bma2 = bma1 + offs;
+        memory::basic_address<is_const> bma3 = bma1 - offs;
 
-	BOOST_CHECK(bma1 == bma2 - offs);
-	BOOST_CHECK(bma1 == bma3 + offs);
+        BOOST_CHECK(bma1 == bma2 - offs);
+        BOOST_CHECK(bma1 == bma3 + offs);
     }
 }
 

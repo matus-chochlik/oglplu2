@@ -23,26 +23,26 @@ struct rgba_mask {
     rgba_mask(void) = default;
 
     rgba_mask(boolean r, boolean g, boolean b, boolean a) noexcept {
-	_v[0] = GLboolean(r);
-	_v[1] = GLboolean(g);
-	_v[2] = GLboolean(b);
-	_v[3] = GLboolean(a);
+        _v[0] = GLboolean(r);
+        _v[1] = GLboolean(g);
+        _v[2] = GLboolean(b);
+        _v[3] = GLboolean(a);
     }
 
     boolean red(void) const noexcept {
-	return boolean{_v[0]};
+        return boolean{_v[0]};
     }
 
     boolean green(void) const noexcept {
-	return boolean{_v[1]};
+        return boolean{_v[1]};
     }
 
     boolean blue(void) const noexcept {
-	return boolean{_v[2]};
+        return boolean{_v[2]};
     }
 
     boolean alpha(void) const noexcept {
-	return boolean{_v[3]};
+        return boolean{_v[3]};
     }
 };
 

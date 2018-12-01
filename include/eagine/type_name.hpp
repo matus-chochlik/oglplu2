@@ -16,8 +16,7 @@
 
 namespace eagine {
 
-std::string
-demangle_type_name(const char*) noexcept;
+std::string demangle_type_name(const char*) noexcept;
 
 template <typename T>
 static inline std::string

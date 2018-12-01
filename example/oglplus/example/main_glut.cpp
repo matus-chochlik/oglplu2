@@ -6,9 +6,9 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <oglplus/gl_fixed.hpp>
 #include "state.hpp"
 #include "wrapper.hpp"
-#include <oglplus/gl_fixed.hpp>
 
 #include <eagine/program_args.hpp>
 #include <eagine/scope_exit.hpp>
@@ -34,13 +34,13 @@ private:
     single_glut_context(const single_glut_context&);
 
     static single_glut_context*& instance_ptr(void) {
-	static single_glut_context* pinst = nullptr;
-	return pinst;
+        static single_glut_context* pinst = nullptr;
+        return pinst;
     }
 
     static single_glut_context& instance(void) {
-	assert(instance_ptr());
-	return *instance_ptr();
+        assert(instance_ptr());
+        return *instance_ptr();
     }
 
     oglplus::example_wrapper example;
@@ -48,35 +48,36 @@ private:
     int _wheel;
 
 public:
-    single_glut_context(oglplus::example_args& args,
+    single_glut_context(
+      oglplus::example_args& args,
       oglplus::example_params& params,
       oglplus::example_state& state)
       : example(args, params, state)
       , _height(state.height())
       , _wheel(0) {
-	assert(!instance_ptr());
-	instance_ptr() = this;
+        assert(!instance_ptr());
+        instance_ptr() = this;
 
-	glutDisplayFunc(&display_func);
-	glutIdleFunc(&display_func);
-	glutReshapeFunc(&reshape_func);
+        glutDisplayFunc(&display_func);
+        glutIdleFunc(&display_func);
+        glutReshapeFunc(&reshape_func);
 
-	glutMotionFunc(&motion_func);
-	glutPassiveMotionFunc(&motion_func);
+        glutMotionFunc(&motion_func);
+        glutPassiveMotionFunc(&motion_func);
 
-	glutMouseFunc(&mouse_func);
-	glutKeyboardFunc(&keyboard_func);
+        glutMouseFunc(&mouse_func);
+        glutKeyboardFunc(&keyboard_func);
 
 #ifdef FREEGLUT
-	glutSetOption(
-	  GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS);
-	glutCloseFunc(&close_func);
+        glutSetOption(
+          GLUT_ACTION_ON_WINDOW_CLOSE, GLUT_ACTION_GLUTMAINLOOP_RETURNS);
+        glutCloseFunc(&close_func);
 #endif
     }
 
     ~single_glut_context(void) {
-	assert(instance_ptr());
-	instance_ptr() = nullptr;
+        assert(instance_ptr());
+        instance_ptr() = nullptr;
     }
 
 #if defined(__clang__)
@@ -86,11 +87,11 @@ public:
 
 #ifdef FREEGLUT
     void quit(void) {
-	glutLeaveMainLoop();
+        glutLeaveMainLoop();
     }
 #else
     [[noreturn]] void quit(void) {
-	exit(0);
+        exit(0);
     }
 #endif
 
@@ -100,79 +101,80 @@ public:
 
 private:
     void close(void) {
-	example.destroy();
+        example.destroy();
     }
 
     static void close_func(void) {
-	instance().close();
+        instance().close();
     }
 
     void display(void) {
-	example.update();
+        example.update();
 
-	example.render();
-	glutSwapBuffers();
+        example.render();
+        glutSwapBuffers();
 
-	if(!example.next_frame()) {
-	    quit();
-	}
+        if(!example.next_frame()) {
+            quit();
+        }
     }
 
     static void display_func(void) {
-	instance().display();
+        instance().display();
     }
 
     void reshape(int width, int height) {
-	_height = height;
-	example.set_size(width, height);
+        _height = height;
+        example.set_size(width, height);
     }
 
     static void reshape_func(int width, int height) {
-	instance().reshape(width, height);
+        instance().reshape(width, height);
     }
 
     void motion(int x, int y) {
-	example.set_mouse_pos(x, _height - y);
+        example.set_mouse_pos(x, _height - y);
     }
 
     static void motion_func(int x, int y) {
-	instance().motion(x, y);
+        instance().motion(x, y);
     }
 
     void mouse_press(int button, int state, int x, int y) {
-	example.set_mouse_pos(x, _height - y);
-	if(button == GLUT_LEFT_BUTTON) {
-	    example.set_mouse_btn(1, state == GLUT_DOWN);
-	} else if(button == 3) {
-	    if(state == GLUT_DOWN) {
-		example.set_mouse_wheel(++_wheel);
-	    }
-	} else if(button == 4) {
-	    if(state == GLUT_DOWN) {
-		example.set_mouse_wheel(--_wheel);
-	    }
-	}
+        example.set_mouse_pos(x, _height - y);
+        if(button == GLUT_LEFT_BUTTON) {
+            example.set_mouse_btn(1, state == GLUT_DOWN);
+        } else if(button == 3) {
+            if(state == GLUT_DOWN) {
+                example.set_mouse_wheel(++_wheel);
+            }
+        } else if(button == 4) {
+            if(state == GLUT_DOWN) {
+                example.set_mouse_wheel(--_wheel);
+            }
+        }
     }
 
     static void mouse_func(int button, int state, int x, int y) {
-	instance().mouse_press(button, state, x, y);
+        instance().mouse_press(button, state, x, y);
     }
 
     void key_press(unsigned char k) {
-	if(k == 0x1B) // Escape
-	{
-	    quit();
-	}
-	// TODO
+        if(k == 0x1B) // Escape
+        {
+            quit();
+        }
+        // TODO
     }
 
     static void keyboard_func(unsigned char k, int, int) {
-	instance().key_press(k);
+        instance().key_press(k);
     }
 };
 
 int
-example_main(oglplus::example_args& args,
+example_main(
+  oglplus::example_args& args,
   oglplus::example_params& params,
   oglplus::example_state& state) {
     int argc = args.argc();
@@ -183,8 +185,8 @@ example_main(oglplus::example_args& args,
 #if defined(__APPLE__) && __APPLE__
       GLUT_3_2_CORE_PROFILE |
 #endif
-      GLUT_DOUBLE | GLUT_RGBA | (params.depth_buffer() ? GLUT_DEPTH : 0)
-      | (params.stencil_buffer() ? GLUT_STENCIL : 0));
+      GLUT_DOUBLE | GLUT_RGBA | (params.depth_buffer() ? GLUT_DEPTH : 0) |
+      (params.stencil_buffer() ? GLUT_STENCIL : 0));
 #ifdef FREEGLUT
     glutInitContextVersion(OGLPLUS_GL_VERSION_MAJOR, OGLPLUS_GL_VERSION_MINOR);
 #endif

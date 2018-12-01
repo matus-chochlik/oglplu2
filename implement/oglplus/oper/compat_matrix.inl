@@ -188,7 +188,8 @@ compatibility_matrix::rotate_f(
 //------------------------------------------------------------------------------
 #ifdef GL_EXT_direct_state_access
 inline outcome<void>
-compatibility_matrix::rotate_f(old_matrix_mode mode,
+compatibility_matrix::rotate_f(
+  old_matrix_mode mode,
   degrees_t<GLfloat> a,
   GLfloat x,
   GLfloat y,
@@ -209,7 +210,8 @@ compatibility_matrix::rotate_d(
 //------------------------------------------------------------------------------
 #ifdef GL_EXT_direct_state_access
 inline outcome<void>
-compatibility_matrix::rotate_d(old_matrix_mode mode,
+compatibility_matrix::rotate_d(
+  old_matrix_mode mode,
   degrees_t<GLdouble> a,
   GLdouble x,
   GLdouble y,
@@ -255,7 +257,8 @@ compatibility_matrix::scale_d(
 #endif
 //------------------------------------------------------------------------------
 inline outcome<void>
-compatibility_matrix::ortho(GLdouble l,
+compatibility_matrix::ortho(
+  GLdouble l,
   GLdouble r,
   GLdouble b,
   GLdouble t,
@@ -276,7 +279,8 @@ compatibility_matrix::ortho_f(
 //------------------------------------------------------------------------------
 #ifdef GL_EXT_direct_state_access
 inline outcome<void>
-compatibility_matrix::ortho(old_matrix_mode mode,
+compatibility_matrix::ortho(
+  old_matrix_mode mode,
   GLdouble l,
   GLdouble r,
   GLdouble b,
@@ -290,7 +294,8 @@ compatibility_matrix::ortho(old_matrix_mode mode,
 #endif
 //------------------------------------------------------------------------------
 inline outcome<void>
-compatibility_matrix::frustum(GLdouble l,
+compatibility_matrix::frustum(
+  GLdouble l,
   GLdouble r,
   GLdouble b,
   GLdouble t,
@@ -303,7 +308,8 @@ compatibility_matrix::frustum(GLdouble l,
 //------------------------------------------------------------------------------
 #ifdef GL_EXT_direct_state_access
 inline outcome<void>
-compatibility_matrix::frustum(old_matrix_mode mode,
+compatibility_matrix::frustum(
+  old_matrix_mode mode,
   GLdouble l,
   GLdouble r,
   GLdouble b,

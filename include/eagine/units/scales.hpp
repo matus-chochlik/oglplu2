@@ -40,12 +40,12 @@ struct one {
 
     template <typename T>
     static constexpr inline T mul(T v) {
-	return v;
+        return v;
     }
 
     template <typename T>
     static constexpr inline T div(T v) {
-	return v;
+        return v;
     }
 };
 
@@ -67,12 +67,12 @@ struct constant {
 
     template <typename T>
     static constexpr inline auto mul(T v) {
-	return v * I;
+        return v * I;
     }
 
     template <typename T>
     static constexpr inline auto div(T v) {
-	return v / float(I);
+        return v / float(I);
     }
 };
 
@@ -82,12 +82,12 @@ struct rational {
 
     template <typename T>
     static constexpr inline auto mul(T v) {
-	return (v * Num) / float(Den);
+        return (v * Num) / float(Den);
     }
 
     template <typename T>
     static constexpr inline auto div(T v) {
-	return (v * Den) / float(Num);
+        return (v * Den) / float(Num);
     }
 };
 
@@ -97,14 +97,14 @@ struct power {
 
     template <typename T>
     static constexpr inline auto mul(T v) {
-	using std::pow;
-	return v * pow(X, Y);
+        using std::pow;
+        return v * pow(X, Y);
     }
 
     template <typename T>
     static constexpr inline auto div(T v) {
-	using std::pow;
-	return v / pow(X, Y);
+        using std::pow;
+        return v / pow(X, Y);
     }
 };
 
@@ -114,12 +114,12 @@ struct inverted {
 
     template <typename T>
     static constexpr inline auto mul(T v) {
-	return S::div(v);
+        return S::div(v);
     }
 
     template <typename T>
     static constexpr inline auto div(T v) {
-	return S::mul(v);
+        return S::mul(v);
     }
 };
 
@@ -129,12 +129,12 @@ struct multiplied {
 
     template <typename T>
     static constexpr inline auto mul(T v) {
-	return S2::mul(S1::mul(v));
+        return S2::mul(S1::mul(v));
     }
 
     template <typename T>
     static constexpr inline auto div(T v) {
-	return S2::div(S1::div(v));
+        return S2::div(S1::div(v));
     }
 };
 
@@ -144,12 +144,12 @@ struct divided {
 
     template <typename T>
     static constexpr inline auto mul(T v) {
-	return S2::div(S1::mul(v));
+        return S2::div(S1::mul(v));
     }
 
     template <typename T>
     static constexpr inline auto div(T v) {
-	return S2::mul(S1::div(v));
+        return S2::mul(S1::div(v));
     }
 };
 
@@ -344,12 +344,12 @@ struct pi {
 
     template <typename T>
     static constexpr inline auto mul(T v) {
-	return v * math::pi;
+        return v * math::pi;
     }
 
     template <typename T>
     static constexpr inline auto div(T v) {
-	return v / math::pi;
+        return v / math::pi;
     }
 };
 

@@ -9,9 +9,9 @@
 #ifndef EAGINE_POSIX_FILE_DESCRIPTOR_1509260923_HPP
 #define EAGINE_POSIX_FILE_DESCRIPTOR_1509260923_HPP
 
+#include <unistd.h>
 #include "../memory_block.hpp"
 #include "error.hpp"
-#include <unistd.h>
 
 namespace eagine {
 namespace posix {
@@ -31,36 +31,36 @@ public:
 
     file_descriptor(file_descriptor&& temp) noexcept
       : _fd(temp._fd) {
-	temp._fd = -1;
+        temp._fd = -1;
     }
 
     file_descriptor(const file_descriptor&) = default;
     file_descriptor& operator=(const file_descriptor&) = default;
 
     file_descriptor& operator=(file_descriptor&& temp) noexcept {
-	_fd = temp._fd;
-	temp._fd = -1;
-	return *this;
+        _fd = temp._fd;
+        temp._fd = -1;
+        return *this;
     }
 
     constexpr bool is_valid(void) const noexcept {
-	return _fd >= 0;
+        return _fd >= 0;
     }
 
     explicit constexpr operator bool(void) const noexcept {
-	return is_valid();
+        return is_valid();
     }
 
-    constexpr bool operator!(void)const noexcept {
-	return !is_valid();
+    constexpr bool operator!(void) const noexcept {
+        return !is_valid();
     }
 
     friend constexpr inline int get_raw_fd(file_descriptor fd) noexcept {
-	return fd._fd;
+        return fd._fd;
     }
 
     friend inline void swap(file_descriptor& a, file_descriptor& b) noexcept {
-	std::swap(a._fd, b._fd);
+        std::swap(a._fd, b._fd);
     }
 };
 
@@ -81,7 +81,7 @@ public:
 
     friend inline void swap(
       owned_file_descriptor& a, owned_file_descriptor& b) noexcept {
-	std::swap(a._fd, b._fd);
+        std::swap(a._fd, b._fd);
     }
 };
 
@@ -128,37 +128,37 @@ public:
     }
 
     file_descriptor_owner& operator=(file_descriptor_owner&& temp) noexcept {
-	swap(_ofd, temp._ofd);
-	try {
-	    ::close(get_raw_fd(temp._ofd));
-	} catch(...) {
-	}
-	return *this;
+        swap(_ofd, temp._ofd);
+        try {
+            ::close(get_raw_fd(temp._ofd));
+        } catch(...) {
+        }
+        return *this;
     }
 
     file_descriptor_owner& operator=(const file_descriptor_owner& that) {
-	owned_file_descriptor ofd(dup(that._ofd));
-	swap(_ofd, ofd);
-	try {
-	    ::close(get_raw_fd(ofd));
-	} catch(...) {
-	}
-	return *this;
+        owned_file_descriptor ofd(dup(that._ofd));
+        swap(_ofd, ofd);
+        try {
+            ::close(get_raw_fd(ofd));
+        } catch(...) {
+        }
+        return *this;
     }
 
     ~file_descriptor_owner(void) noexcept {
-	try {
-	    ::close(get_raw_fd(_ofd));
-	} catch(...) {
-	}
+        try {
+            ::close(get_raw_fd(_ofd));
+        } catch(...) {
+        }
     }
 
     file_descriptor get(void) const noexcept {
-	return _ofd;
+        return _ofd;
     }
 
     operator file_descriptor(void) const noexcept {
-	return get();
+        return get();
     }
 };
 

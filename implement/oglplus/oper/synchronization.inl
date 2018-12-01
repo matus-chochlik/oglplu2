@@ -41,16 +41,17 @@ synchronization::is_sync(sync_object sync) noexcept {
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-synchronization::get_sync_iv(sync_object sync,
+synchronization::get_sync_iv(
+  sync_object sync,
   oglplus::sync_parameter param,
   span<GLint> values) noexcept {
     assert(values.size() > 0);
     OGLPLUS_GLFUNC(GetSynciv)
     (get_raw_handle(sync),
-      GLenum(param),
-      GLsizei(values.size()),
-      static_cast<GLsizei*>(nullptr),
-      values.data());
+     GLenum(param),
+     GLsizei(values.size()),
+     static_cast<GLsizei*>(nullptr),
+     values.data());
     OGLPLUS_VERIFY(GetSynciv, gl_enum_value(param), always);
     return {};
 }

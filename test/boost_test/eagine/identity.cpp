@@ -16,10 +16,10 @@ BOOST_AUTO_TEST_CASE(identity_1) {
     using namespace eagine;
 
     for(int k = 0; k < 1000; ++k) {
-	identity<int> i;
-	int r = rg.get_any<int>();
+        identity<int> i;
+        int r = rg.get_any<int>();
 
-	BOOST_CHECK_EQUAL(i(r), r);
+        BOOST_CHECK_EQUAL(i(r), r);
     }
 }
 

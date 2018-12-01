@@ -7,8 +7,10 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#include "epilogue.inl"
-#include "implement.inl"
-#include "predeclare.inl"
+// clang-format off
 #include "prologue.inl"
+#include "predeclare.inl"
+#include "implement.inl"
 #include <eglplus/enum/value_names.hpp>
+#include "epilogue.inl"
+// clang-format on

@@ -10,10 +10,10 @@
 #ifndef EAGINE_FIXED_SIZE_STR_1509260923_HPP
 #define EAGINE_FIXED_SIZE_STR_1509260923_HPP
 
+#include <cstring>
 #include "cstr_ref.hpp"
 #include "int_constant.hpp"
 #include "types.hpp"
-#include <cstring>
 
 namespace eagine {
 
@@ -29,7 +29,7 @@ private:
 
 public:
     fixed_size_string(void) noexcept {
-	std::memset(_str, '\0', N);
+        std::memset(_str, '\0', N);
     }
 
     template <typename... C, typename = std::enable_if_t<sizeof...(C) == N>>
@@ -38,17 +38,19 @@ public:
     }
 
     fixed_size_string(const char (&s)[N]) noexcept {
-	std::strncpy(_str, s, N);
-	assert(_str[N - 1] == '\0');
+        std::strncpy(_str, s, N);
+        assert(_str[N - 1] == '\0');
     }
 
-    template <span_size_t N1,
+    template <
+      span_size_t N1,
       span_size_t N2,
       typename = std::enable_if_t<N1 + N2 == N + 1>>
-    fixed_size_string(const fixed_size_string<N1>& s1,
+    fixed_size_string(
+      const fixed_size_string<N1>& s1,
       const fixed_size_string<N2>& s2) noexcept {
-	std::strncpy(_str, s1._str, N1);
-	std::strncpy(_str + N1 - 1, s2._str, N2);
+        std::strncpy(_str, s1._str, N1);
+        std::strncpy(_str + N1 - 1, s2._str, N2);
     }
 
     typedef span_size_t size_type;
@@ -56,44 +58,44 @@ public:
     typedef const char* const_iterator;
 
     bool empty(void) const noexcept {
-	return _str[0] == '\0';
+        return _str[0] == '\0';
     }
 
     span_size_t size(void) const noexcept {
-	return N - 1;
+        return N - 1;
     }
 
     const char* data(void) const noexcept {
-	return _str;
+        return _str;
     }
 
     const char* c_str(void) const noexcept {
-	assert(_str[N - 1] == '\0');
-	return data();
+        assert(_str[N - 1] == '\0');
+        return data();
     }
 
     iterator begin(void) noexcept {
-	return _str;
+        return _str;
     }
 
     const_iterator begin(void) const noexcept {
-	return _str;
+        return _str;
     }
 
     iterator end(void) noexcept {
-	return _str + N - 1;
+        return _str + N - 1;
     }
 
     const_iterator end(void) const noexcept {
-	return _str + N - 1;
+        return _str + N - 1;
     }
 
     cstr_ref ref(void) const noexcept {
-	return cstr_ref(_str, N - 1);
+        return cstr_ref(_str, N - 1);
     }
 
     operator cstr_ref(void) const noexcept {
-	return ref();
+        return ref();
     }
 };
 
@@ -120,8 +122,8 @@ to_fixed_size_string(
 template <int I>
 static inline auto
 to_fixed_size_string(int_constant<I>, std::enable_if_t<(I > 9)>* = 0) noexcept {
-    return to_fixed_size_string(int_constant<I / 10>())
-	   + fixed_size_string<2>(char('0' + I % 10), '\0');
+    return to_fixed_size_string(int_constant<I / 10>()) +
+           fixed_size_string<2>(char('0' + I % 10), '\0');
 }
 
 template <int I>

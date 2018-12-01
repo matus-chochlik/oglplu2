@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_polygon_mode
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_polygon_mode_tests)
 
@@ -102,38 +102,38 @@ BOOST_AUTO_TEST_CASE(enum_polygon_mode_range) {
 
 #ifdef GL_FILL
     {
-	--count;
-	auto r = enum_value_range<polygon_mode>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), polygon_mode(GL_FILL)) != r.end());
+        --count;
+        auto r = enum_value_range<polygon_mode>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), polygon_mode(GL_FILL)) != r.end());
     }
 #endif
 
 #ifdef GL_FILL_RECTANGLE_NV
     {
-	--count;
-	auto r = enum_value_range<polygon_mode>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), polygon_mode(GL_FILL_RECTANGLE_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<polygon_mode>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), polygon_mode(GL_FILL_RECTANGLE_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_LINE
     {
-	--count;
-	auto r = enum_value_range<polygon_mode>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), polygon_mode(GL_LINE)) != r.end());
+        --count;
+        auto r = enum_value_range<polygon_mode>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), polygon_mode(GL_LINE)) != r.end());
     }
 #endif
 
 #ifdef GL_POINT
     {
-	--count;
-	auto r = enum_value_range<polygon_mode>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), polygon_mode(GL_POINT)) != r.end());
+        --count;
+        auto r = enum_value_range<polygon_mode>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), polygon_mode(GL_POINT)) != r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

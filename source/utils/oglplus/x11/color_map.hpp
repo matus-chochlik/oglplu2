@@ -20,13 +20,15 @@ namespace x11 {
 class Colormap : public DisplayObject<::Colormap> {
 public:
     Colormap(const Display& display, const VisualInfo& vi)
-      : DisplayObject<::Colormap>(display,
-	  ::XCreateColormap(display,
-	    RootWindow(display.Get(), vi->screen),
-	    vi->visual,
-	    AllocNone),
-	  ::XFreeColormap,
-	  "Error creating X Colormap") {
+      : DisplayObject<::Colormap>(
+          display,
+          ::XCreateColormap(
+            display,
+            RootWindow(display.Get(), vi->screen),
+            vi->visual,
+            AllocNone),
+          ::XFreeColormap,
+          "Error creating X Colormap") {
     }
 };
 

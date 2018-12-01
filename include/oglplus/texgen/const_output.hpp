@@ -9,10 +9,10 @@
 #ifndef OGLPLUS_TEXGEN_CONST_OUTPUT_1509260923_HPP
 #define OGLPLUS_TEXGEN_CONST_OUTPUT_1509260923_HPP
 
-#include "base_output.hpp"
-#include "param_format.hpp"
 #include <array>
 #include <eagine/std/type_traits.hpp>
+#include "base_output.hpp"
+#include "param_format.hpp"
 
 namespace oglplus {
 namespace texgen {
@@ -29,11 +29,11 @@ public:
     }
 
     cstr_ref type_name(void) noexcept override {
-	return cstr_ref("Const");
+        return cstr_ref("Const");
     }
 
     render_param_bits required_params(void) override {
-	return render_param_bits();
+        return render_param_bits();
     }
 };
 
@@ -58,29 +58,29 @@ public:
 
     template <typename... P, typename = std::enable_if_t<sizeof...(P) == N>>
     void set(P... coords) noexcept {
-	_coords = std::array<T, N>{{T(coords)...}};
+        _coords = std::array<T, N>{{T(coords)...}};
     }
 
     bool set_default_value(span_size_t c, float v) override {
-	if(c < N) {
-	    _coords[std_size(c)] = T(v);
-	    return true;
-	}
-	return false;
+        if(c < N) {
+            _coords[std_size(c)] = T(v);
+            return true;
+        }
+        return false;
     }
 
     slot_data_type value_type(void) noexcept override {
-	return get_data_type_v<T[N]>;
+        return get_data_type_v<T[N]>;
     }
 
     std::ostream& expression(std::ostream& out, compile_context&) override {
-	out << data_type_name(value_type());
-	out << "(";
-	out << _coords[0];
-	for(span_size_t i = 1; i < N; ++i) {
-	    out << ", " << _coords[std_size(i)];
-	}
-	return out << ")";
+        out << data_type_name(value_type());
+        out << "(";
+        out << _coords[0];
+        for(span_size_t i = 1; i < N; ++i) {
+            out << ", " << _coords[std_size(i)];
+        }
+        return out << ")";
     }
 };
 

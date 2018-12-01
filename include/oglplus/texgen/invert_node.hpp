@@ -29,7 +29,8 @@ public:
       std::ostream& out, compile_context& ctxt) override;
 };
 
-using invert_node = unary_single_output_node<invert_output,
+using invert_node = unary_single_output_node<
+  invert_output,
   decltype(invert_output::input),
   &invert_output::input>;
 

@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_path_gen_mode_nv
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_path_gen_mode_nv_tests)
 
@@ -92,8 +92,8 @@ BOOST_AUTO_TEST_CASE(enum_path_gen_mode_nv_names) {
     x = ev.path_object_bounding_box_nv;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "PATH_OBJECT_BOUNDING_BOX_NV")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "PATH_OBJECT_BOUNDING_BOX_NV") ==
+      0);
 #endif
 }
 
@@ -103,41 +103,42 @@ BOOST_AUTO_TEST_CASE(enum_path_gen_mode_nv_range) {
 
 #ifdef GL_EYE_LINEAR
     {
-	--count;
-	auto r = enum_value_range<path_gen_mode_nv>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), path_gen_mode_nv(GL_EYE_LINEAR))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_gen_mode_nv>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), path_gen_mode_nv(GL_EYE_LINEAR)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_NONE
     {
-	--count;
-	auto r = enum_value_range<path_gen_mode_nv>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), path_gen_mode_nv(GL_NONE)) != r.end());
+        --count;
+        auto r = enum_value_range<path_gen_mode_nv>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), path_gen_mode_nv(GL_NONE)) != r.end());
     }
 #endif
 
 #ifdef GL_OBJECT_LINEAR
     {
-	--count;
-	auto r = enum_value_range<path_gen_mode_nv>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), path_gen_mode_nv(GL_OBJECT_LINEAR))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_gen_mode_nv>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), path_gen_mode_nv(GL_OBJECT_LINEAR)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_PATH_OBJECT_BOUNDING_BOX_NV
     {
-	--count;
-	auto r = enum_value_range<path_gen_mode_nv>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      path_gen_mode_nv(GL_PATH_OBJECT_BOUNDING_BOX_NV))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<path_gen_mode_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            path_gen_mode_nv(GL_PATH_OBJECT_BOUNDING_BOX_NV)) != r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

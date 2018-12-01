@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_pixel_transfer_parameter
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_pixel_transfer_parameter_tests)
 
@@ -1563,112 +1563,112 @@ BOOST_AUTO_TEST_CASE(enum_pixel_transfer_parameter_names) {
     x = ev.post_color_matrix_alpha_bias;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "POST_COLOR_MATRIX_ALPHA_BIAS")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "POST_COLOR_MATRIX_ALPHA_BIAS") ==
+      0);
 #endif
 
 #ifdef GL_POST_COLOR_MATRIX_ALPHA_SCALE
     x = ev.post_color_matrix_alpha_scale;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "POST_COLOR_MATRIX_ALPHA_SCALE")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "POST_COLOR_MATRIX_ALPHA_SCALE") ==
+      0);
 #endif
 
 #ifdef GL_POST_COLOR_MATRIX_BLUE_BIAS
     x = ev.post_color_matrix_blue_bias;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "POST_COLOR_MATRIX_BLUE_BIAS")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "POST_COLOR_MATRIX_BLUE_BIAS") ==
+      0);
 #endif
 
 #ifdef GL_POST_COLOR_MATRIX_BLUE_SCALE
     x = ev.post_color_matrix_blue_scale;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "POST_COLOR_MATRIX_BLUE_SCALE")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "POST_COLOR_MATRIX_BLUE_SCALE") ==
+      0);
 #endif
 
 #ifdef GL_POST_COLOR_MATRIX_GREEN_BIAS
     x = ev.post_color_matrix_green_bias;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "POST_COLOR_MATRIX_GREEN_BIAS")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "POST_COLOR_MATRIX_GREEN_BIAS") ==
+      0);
 #endif
 
 #ifdef GL_POST_COLOR_MATRIX_GREEN_SCALE
     x = ev.post_color_matrix_green_scale;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "POST_COLOR_MATRIX_GREEN_SCALE")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "POST_COLOR_MATRIX_GREEN_SCALE") ==
+      0);
 #endif
 
 #ifdef GL_POST_COLOR_MATRIX_RED_BIAS
     x = ev.post_color_matrix_red_bias;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "POST_COLOR_MATRIX_RED_BIAS")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "POST_COLOR_MATRIX_RED_BIAS") ==
+      0);
 #endif
 
 #ifdef GL_POST_COLOR_MATRIX_RED_SCALE
     x = ev.post_color_matrix_red_scale;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "POST_COLOR_MATRIX_RED_SCALE")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "POST_COLOR_MATRIX_RED_SCALE") ==
+      0);
 #endif
 
 #ifdef GL_POST_CONVOLUTION_ALPHA_BIAS
     x = ev.post_convolution_alpha_bias;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "POST_CONVOLUTION_ALPHA_BIAS")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "POST_CONVOLUTION_ALPHA_BIAS") ==
+      0);
 #endif
 
 #ifdef GL_POST_CONVOLUTION_ALPHA_SCALE
     x = ev.post_convolution_alpha_scale;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "POST_CONVOLUTION_ALPHA_SCALE")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "POST_CONVOLUTION_ALPHA_SCALE") ==
+      0);
 #endif
 
 #ifdef GL_POST_CONVOLUTION_BLUE_BIAS
     x = ev.post_convolution_blue_bias;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "POST_CONVOLUTION_BLUE_BIAS")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "POST_CONVOLUTION_BLUE_BIAS") ==
+      0);
 #endif
 
 #ifdef GL_POST_CONVOLUTION_BLUE_SCALE
     x = ev.post_convolution_blue_scale;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "POST_CONVOLUTION_BLUE_SCALE")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "POST_CONVOLUTION_BLUE_SCALE") ==
+      0);
 #endif
 
 #ifdef GL_POST_CONVOLUTION_GREEN_BIAS
     x = ev.post_convolution_green_bias;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "POST_CONVOLUTION_GREEN_BIAS")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "POST_CONVOLUTION_GREEN_BIAS") ==
+      0);
 #endif
 
 #ifdef GL_POST_CONVOLUTION_GREEN_SCALE
     x = ev.post_convolution_green_scale;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "POST_CONVOLUTION_GREEN_SCALE")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "POST_CONVOLUTION_GREEN_SCALE") ==
+      0);
 #endif
 
 #ifdef GL_POST_CONVOLUTION_RED_BIAS
@@ -1682,8 +1682,8 @@ BOOST_AUTO_TEST_CASE(enum_pixel_transfer_parameter_names) {
     x = ev.post_convolution_red_scale;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "POST_CONVOLUTION_RED_SCALE")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "POST_CONVOLUTION_RED_SCALE") ==
+      0);
 #endif
 
 #ifdef GL_RED_BIAS
@@ -1705,325 +1705,362 @@ BOOST_AUTO_TEST_CASE(enum_pixel_transfer_parameter_range) {
 
 #ifdef GL_ALPHA_BIAS
     {
-	--count;
-	auto r = enum_value_range<pixel_transfer_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_transfer_parameter(GL_ALPHA_BIAS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_transfer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_transfer_parameter(GL_ALPHA_BIAS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_ALPHA_SCALE
     {
-	--count;
-	auto r = enum_value_range<pixel_transfer_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), pixel_transfer_parameter(GL_ALPHA_SCALE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_transfer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_transfer_parameter(GL_ALPHA_SCALE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_BLUE_BIAS
     {
-	--count;
-	auto r = enum_value_range<pixel_transfer_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_transfer_parameter(GL_BLUE_BIAS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_transfer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_transfer_parameter(GL_BLUE_BIAS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_BLUE_SCALE
     {
-	--count;
-	auto r = enum_value_range<pixel_transfer_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_transfer_parameter(GL_BLUE_SCALE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_transfer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_transfer_parameter(GL_BLUE_SCALE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_DEPTH_BIAS
     {
-	--count;
-	auto r = enum_value_range<pixel_transfer_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_transfer_parameter(GL_DEPTH_BIAS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_transfer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_transfer_parameter(GL_DEPTH_BIAS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_DEPTH_SCALE
     {
-	--count;
-	auto r = enum_value_range<pixel_transfer_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), pixel_transfer_parameter(GL_DEPTH_SCALE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_transfer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_transfer_parameter(GL_DEPTH_SCALE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_GREEN_BIAS
     {
-	--count;
-	auto r = enum_value_range<pixel_transfer_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_transfer_parameter(GL_GREEN_BIAS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_transfer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_transfer_parameter(GL_GREEN_BIAS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_GREEN_SCALE
     {
-	--count;
-	auto r = enum_value_range<pixel_transfer_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), pixel_transfer_parameter(GL_GREEN_SCALE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_transfer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_transfer_parameter(GL_GREEN_SCALE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INDEX_OFFSET
     {
-	--count;
-	auto r = enum_value_range<pixel_transfer_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), pixel_transfer_parameter(GL_INDEX_OFFSET))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_transfer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_transfer_parameter(GL_INDEX_OFFSET)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INDEX_SHIFT
     {
-	--count;
-	auto r = enum_value_range<pixel_transfer_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), pixel_transfer_parameter(GL_INDEX_SHIFT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_transfer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_transfer_parameter(GL_INDEX_SHIFT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_MAP_COLOR
     {
-	--count;
-	auto r = enum_value_range<pixel_transfer_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_transfer_parameter(GL_MAP_COLOR))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_transfer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_transfer_parameter(GL_MAP_COLOR)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_MAP_STENCIL
     {
-	--count;
-	auto r = enum_value_range<pixel_transfer_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), pixel_transfer_parameter(GL_MAP_STENCIL))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_transfer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_transfer_parameter(GL_MAP_STENCIL)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_POST_COLOR_MATRIX_ALPHA_BIAS
     {
-	--count;
-	auto r = enum_value_range<pixel_transfer_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      pixel_transfer_parameter(GL_POST_COLOR_MATRIX_ALPHA_BIAS))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<pixel_transfer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_transfer_parameter(GL_POST_COLOR_MATRIX_ALPHA_BIAS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_POST_COLOR_MATRIX_ALPHA_SCALE
     {
-	--count;
-	auto r = enum_value_range<pixel_transfer_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(),
-	    r.end(),
-	    pixel_transfer_parameter(GL_POST_COLOR_MATRIX_ALPHA_SCALE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_transfer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_transfer_parameter(GL_POST_COLOR_MATRIX_ALPHA_SCALE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_POST_COLOR_MATRIX_BLUE_BIAS
     {
-	--count;
-	auto r = enum_value_range<pixel_transfer_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      pixel_transfer_parameter(GL_POST_COLOR_MATRIX_BLUE_BIAS))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<pixel_transfer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_transfer_parameter(GL_POST_COLOR_MATRIX_BLUE_BIAS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_POST_COLOR_MATRIX_BLUE_SCALE
     {
-	--count;
-	auto r = enum_value_range<pixel_transfer_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      pixel_transfer_parameter(GL_POST_COLOR_MATRIX_BLUE_SCALE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<pixel_transfer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_transfer_parameter(GL_POST_COLOR_MATRIX_BLUE_SCALE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_POST_COLOR_MATRIX_GREEN_BIAS
     {
-	--count;
-	auto r = enum_value_range<pixel_transfer_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      pixel_transfer_parameter(GL_POST_COLOR_MATRIX_GREEN_BIAS))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<pixel_transfer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_transfer_parameter(GL_POST_COLOR_MATRIX_GREEN_BIAS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_POST_COLOR_MATRIX_GREEN_SCALE
     {
-	--count;
-	auto r = enum_value_range<pixel_transfer_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(),
-	    r.end(),
-	    pixel_transfer_parameter(GL_POST_COLOR_MATRIX_GREEN_SCALE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_transfer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_transfer_parameter(GL_POST_COLOR_MATRIX_GREEN_SCALE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_POST_COLOR_MATRIX_RED_BIAS
     {
-	--count;
-	auto r = enum_value_range<pixel_transfer_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      pixel_transfer_parameter(GL_POST_COLOR_MATRIX_RED_BIAS))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<pixel_transfer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_transfer_parameter(GL_POST_COLOR_MATRIX_RED_BIAS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_POST_COLOR_MATRIX_RED_SCALE
     {
-	--count;
-	auto r = enum_value_range<pixel_transfer_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      pixel_transfer_parameter(GL_POST_COLOR_MATRIX_RED_SCALE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<pixel_transfer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_transfer_parameter(GL_POST_COLOR_MATRIX_RED_SCALE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_POST_CONVOLUTION_ALPHA_BIAS
     {
-	--count;
-	auto r = enum_value_range<pixel_transfer_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      pixel_transfer_parameter(GL_POST_CONVOLUTION_ALPHA_BIAS))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<pixel_transfer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_transfer_parameter(GL_POST_CONVOLUTION_ALPHA_BIAS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_POST_CONVOLUTION_ALPHA_SCALE
     {
-	--count;
-	auto r = enum_value_range<pixel_transfer_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      pixel_transfer_parameter(GL_POST_CONVOLUTION_ALPHA_SCALE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<pixel_transfer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_transfer_parameter(GL_POST_CONVOLUTION_ALPHA_SCALE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_POST_CONVOLUTION_BLUE_BIAS
     {
-	--count;
-	auto r = enum_value_range<pixel_transfer_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      pixel_transfer_parameter(GL_POST_CONVOLUTION_BLUE_BIAS))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<pixel_transfer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_transfer_parameter(GL_POST_CONVOLUTION_BLUE_BIAS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_POST_CONVOLUTION_BLUE_SCALE
     {
-	--count;
-	auto r = enum_value_range<pixel_transfer_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      pixel_transfer_parameter(GL_POST_CONVOLUTION_BLUE_SCALE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<pixel_transfer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_transfer_parameter(GL_POST_CONVOLUTION_BLUE_SCALE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_POST_CONVOLUTION_GREEN_BIAS
     {
-	--count;
-	auto r = enum_value_range<pixel_transfer_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      pixel_transfer_parameter(GL_POST_CONVOLUTION_GREEN_BIAS))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<pixel_transfer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_transfer_parameter(GL_POST_CONVOLUTION_GREEN_BIAS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_POST_CONVOLUTION_GREEN_SCALE
     {
-	--count;
-	auto r = enum_value_range<pixel_transfer_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      pixel_transfer_parameter(GL_POST_CONVOLUTION_GREEN_SCALE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<pixel_transfer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_transfer_parameter(GL_POST_CONVOLUTION_GREEN_SCALE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_POST_CONVOLUTION_RED_BIAS
     {
-	--count;
-	auto r = enum_value_range<pixel_transfer_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      pixel_transfer_parameter(GL_POST_CONVOLUTION_RED_BIAS))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<pixel_transfer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_transfer_parameter(GL_POST_CONVOLUTION_RED_BIAS)) != r.end());
     }
 #endif
 
 #ifdef GL_POST_CONVOLUTION_RED_SCALE
     {
-	--count;
-	auto r = enum_value_range<pixel_transfer_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      pixel_transfer_parameter(GL_POST_CONVOLUTION_RED_SCALE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<pixel_transfer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_transfer_parameter(GL_POST_CONVOLUTION_RED_SCALE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RED_BIAS
     {
-	--count;
-	auto r = enum_value_range<pixel_transfer_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_transfer_parameter(GL_RED_BIAS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_transfer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_transfer_parameter(GL_RED_BIAS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RED_SCALE
     {
-	--count;
-	auto r = enum_value_range<pixel_transfer_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_transfer_parameter(GL_RED_SCALE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_transfer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_transfer_parameter(GL_RED_SCALE)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

@@ -30,81 +30,81 @@ run_loop(GLFWwindow* window, int width, int height) {
     gl.clear_depth(1.0f);
 
     while(true) {
-	glfwPollEvents();
+        glfwPollEvents();
 
-	if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-	    glfwSetWindowShouldClose(window, 1);
-	    break;
-	}
+        if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+            glfwSetWindowShouldClose(window, 1);
+            break;
+        }
 
-	if(glfwWindowShouldClose(window)) {
-	    break;
-	}
+        if(glfwWindowShouldClose(window)) {
+            break;
+        }
 
-	int new_width, new_height;
-	glfwGetWindowSize(window, &new_width, &new_height);
-	if((width != new_width) || (height != new_height)) {
-	    width = new_width;
-	    height = new_height;
+        int new_width, new_height;
+        glfwGetWindowSize(window, &new_width, &new_height);
+        if((width != new_width) || (height != new_height)) {
+            width = new_width;
+            height = new_height;
 
-	    gl.viewport(width, height);
-	}
+            gl.viewport(width, height);
+        }
 
-	gl.viewport(0, 0, width, height);
+        gl.viewport(0, 0, width, height);
 
-	gl.clear(GL.color_buffer_bit | GL.depth_buffer_bit);
+        gl.clear(GL.color_buffer_bit | GL.depth_buffer_bit);
 
-	glfwSwapBuffers(window);
+        glfwSwapBuffers(window);
     }
 }
 
 static void
 init_and_run(void) {
     if(!glfwInit()) {
-	throw std::runtime_error("GLFW initialization error");
+        throw std::runtime_error("GLFW initialization error");
     } else {
-	auto ensure_glfw_cleanup = eagine::finally(glfwTerminate);
+        auto ensure_glfw_cleanup = eagine::finally(glfwTerminate);
 
-	glfwWindowHint(GLFW_DOUBLEBUFFER, GL_TRUE);
-	glfwWindowHint(GLFW_RED_BITS, 8);
-	glfwWindowHint(GLFW_BLUE_BITS, 8);
-	glfwWindowHint(GLFW_GREEN_BITS, 8);
-	glfwWindowHint(GLFW_ALPHA_BITS, 0);
-	glfwWindowHint(GLFW_DEPTH_BITS, 24);
-	glfwWindowHint(GLFW_STENCIL_BITS, 0);
+        glfwWindowHint(GLFW_DOUBLEBUFFER, GL_TRUE);
+        glfwWindowHint(GLFW_RED_BITS, 8);
+        glfwWindowHint(GLFW_BLUE_BITS, 8);
+        glfwWindowHint(GLFW_GREEN_BITS, 8);
+        glfwWindowHint(GLFW_ALPHA_BITS, 0);
+        glfwWindowHint(GLFW_DEPTH_BITS, 24);
+        glfwWindowHint(GLFW_STENCIL_BITS, 0);
 
-	glfwWindowHint(GLFW_SAMPLES, GLFW_DONT_CARE);
+        glfwWindowHint(GLFW_SAMPLES, GLFW_DONT_CARE);
 
-	int width = 800, height = 600;
+        int width = 800, height = 600;
 
-	GLFWwindow* window =
-	  glfwCreateWindow(width, height, "OGLplus example", NULL, NULL);
+        GLFWwindow* window =
+          glfwCreateWindow(width, height, "OGLplus example", NULL, NULL);
 
-	if(!window) {
-	    throw std::runtime_error("Error creating GLFW window");
-	} else {
-	    glfwMakeContextCurrent(window);
-	    glewExperimental = GL_TRUE;
-	    GLenum init_result = glewInit();
-	    glGetError();
-	    if(init_result != GLEW_OK) {
-		throw std::runtime_error("OpenGL/GLEW initialization error.");
-	    } else {
-		run_loop(window, width, height);
-	    }
-	}
+        if(!window) {
+            throw std::runtime_error("Error creating GLFW window");
+        } else {
+            glfwMakeContextCurrent(window);
+            glewExperimental = GL_TRUE;
+            GLenum init_result = glewInit();
+            glGetError();
+            if(init_result != GLEW_OK) {
+                throw std::runtime_error("OpenGL/GLEW initialization error.");
+            } else {
+                run_loop(window, width, height);
+            }
+        }
     }
 }
 
 int
 main(void) {
     try {
-	init_and_run();
-	return 0;
+        init_and_run();
+        return 0;
     } catch(std::runtime_error& sre) {
-	std::cerr << "Runtime error: " << sre.what() << std::endl;
+        std::cerr << "Runtime error: " << sre.what() << std::endl;
     } catch(std::exception& se) {
-	std::cerr << "Unknown error: " << se.what() << std::endl;
+        std::cerr << "Unknown error: " << se.what() << std::endl;
     }
     return 1;
 }

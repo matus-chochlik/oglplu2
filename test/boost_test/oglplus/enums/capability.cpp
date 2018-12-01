@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_capability
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_capability_tests)
 
@@ -1230,8 +1230,8 @@ BOOST_AUTO_TEST_CASE(enum_capability_names) {
     x = ev.blend_advanced_coherent;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "BLEND_ADVANCED_COHERENT_KHR")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "BLEND_ADVANCED_COHERENT_KHR") ==
+      0);
 #endif
 
 #ifdef GL_COLOR_LOGIC_OP
@@ -1269,8 +1269,8 @@ BOOST_AUTO_TEST_CASE(enum_capability_names) {
     x = ev.fragment_coverage_to_color;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "FRAGMENT_COVERAGE_TO_COLOR_NV")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "FRAGMENT_COVERAGE_TO_COLOR_NV") ==
+      0);
 #endif
 
 #ifdef GL_FRAMEBUFFER_SRGB
@@ -1405,262 +1405,270 @@ BOOST_AUTO_TEST_CASE(enum_capability_range) {
 
 #ifdef GL_BLEND
     {
-	--count;
-	auto r = enum_value_range<capability>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), capability(GL_BLEND)) != r.end());
+        --count;
+        auto r = enum_value_range<capability>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), capability(GL_BLEND)) != r.end());
     }
 #endif
 
 #ifdef GL_BLEND_ADVANCED_COHERENT_KHR
     {
-	--count;
-	auto r = enum_value_range<capability>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), capability(GL_BLEND_ADVANCED_COHERENT_KHR))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<capability>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), capability(GL_BLEND_ADVANCED_COHERENT_KHR)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_COLOR_LOGIC_OP
     {
-	--count;
-	auto r = enum_value_range<capability>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), capability(GL_COLOR_LOGIC_OP))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<capability>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), capability(GL_COLOR_LOGIC_OP)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_CULL_FACE
     {
-	--count;
-	auto r = enum_value_range<capability>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), capability(GL_CULL_FACE)) != r.end());
+        --count;
+        auto r = enum_value_range<capability>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), capability(GL_CULL_FACE)) != r.end());
     }
 #endif
 
 #ifdef GL_DEBUG_OUTPUT_SYNCHRONOUS
     {
-	--count;
-	auto r = enum_value_range<capability>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), capability(GL_DEBUG_OUTPUT_SYNCHRONOUS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<capability>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), capability(GL_DEBUG_OUTPUT_SYNCHRONOUS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_DEPTH_TEST
     {
-	--count;
-	auto r = enum_value_range<capability>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), capability(GL_DEPTH_TEST)) != r.end());
+        --count;
+        auto r = enum_value_range<capability>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), capability(GL_DEPTH_TEST)) != r.end());
     }
 #endif
 
 #ifdef GL_DITHER
     {
-	--count;
-	auto r = enum_value_range<capability>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), capability(GL_DITHER)) != r.end());
+        --count;
+        auto r = enum_value_range<capability>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), capability(GL_DITHER)) != r.end());
     }
 #endif
 
 #ifdef GL_FRAGMENT_COVERAGE_TO_COLOR_NV
     {
-	--count;
-	auto r = enum_value_range<capability>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), capability(GL_FRAGMENT_COVERAGE_TO_COLOR_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<capability>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), capability(GL_FRAGMENT_COVERAGE_TO_COLOR_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_FRAMEBUFFER_SRGB
     {
-	--count;
-	auto r = enum_value_range<capability>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), capability(GL_FRAMEBUFFER_SRGB))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<capability>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), capability(GL_FRAMEBUFFER_SRGB)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_LINE_SMOOTH
     {
-	--count;
-	auto r = enum_value_range<capability>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), capability(GL_LINE_SMOOTH)) != r.end());
+        --count;
+        auto r = enum_value_range<capability>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), capability(GL_LINE_SMOOTH)) != r.end());
     }
 #endif
 
 #ifdef GL_MULTISAMPLE
     {
-	--count;
-	auto r = enum_value_range<capability>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), capability(GL_MULTISAMPLE)) != r.end());
+        --count;
+        auto r = enum_value_range<capability>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), capability(GL_MULTISAMPLE)) != r.end());
     }
 #endif
 
 #ifdef GL_POLYGON_OFFSET_FILL
     {
-	--count;
-	auto r = enum_value_range<capability>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), capability(GL_POLYGON_OFFSET_FILL))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<capability>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), capability(GL_POLYGON_OFFSET_FILL)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_POLYGON_OFFSET_LINE
     {
-	--count;
-	auto r = enum_value_range<capability>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), capability(GL_POLYGON_OFFSET_LINE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<capability>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), capability(GL_POLYGON_OFFSET_LINE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_POLYGON_OFFSET_POINT
     {
-	--count;
-	auto r = enum_value_range<capability>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), capability(GL_POLYGON_OFFSET_POINT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<capability>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), capability(GL_POLYGON_OFFSET_POINT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_POLYGON_SMOOTH
     {
-	--count;
-	auto r = enum_value_range<capability>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), capability(GL_POLYGON_SMOOTH))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<capability>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), capability(GL_POLYGON_SMOOTH)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_PRIMITIVE_RESTART
     {
-	--count;
-	auto r = enum_value_range<capability>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), capability(GL_PRIMITIVE_RESTART))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<capability>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), capability(GL_PRIMITIVE_RESTART)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_PROGRAM_POINT_SIZE
     {
-	--count;
-	auto r = enum_value_range<capability>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), capability(GL_PROGRAM_POINT_SIZE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<capability>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), capability(GL_PROGRAM_POINT_SIZE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RASTERIZER_DISCARD
     {
-	--count;
-	auto r = enum_value_range<capability>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), capability(GL_RASTERIZER_DISCARD))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<capability>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), capability(GL_RASTERIZER_DISCARD)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SAMPLE_ALPHA_TO_COVERAGE
     {
-	--count;
-	auto r = enum_value_range<capability>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), capability(GL_SAMPLE_ALPHA_TO_COVERAGE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<capability>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), capability(GL_SAMPLE_ALPHA_TO_COVERAGE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SAMPLE_ALPHA_TO_ONE
     {
-	--count;
-	auto r = enum_value_range<capability>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), capability(GL_SAMPLE_ALPHA_TO_ONE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<capability>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), capability(GL_SAMPLE_ALPHA_TO_ONE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SAMPLE_COVERAGE
     {
-	--count;
-	auto r = enum_value_range<capability>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), capability(GL_SAMPLE_COVERAGE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<capability>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), capability(GL_SAMPLE_COVERAGE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SAMPLE_MASK
     {
-	--count;
-	auto r = enum_value_range<capability>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), capability(GL_SAMPLE_MASK)) != r.end());
+        --count;
+        auto r = enum_value_range<capability>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), capability(GL_SAMPLE_MASK)) != r.end());
     }
 #endif
 
 #ifdef GL_SAMPLE_SHADING
     {
-	--count;
-	auto r = enum_value_range<capability>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), capability(GL_SAMPLE_SHADING))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<capability>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), capability(GL_SAMPLE_SHADING)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SCISSOR_TEST
     {
-	--count;
-	auto r = enum_value_range<capability>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), capability(GL_SCISSOR_TEST))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<capability>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), capability(GL_SCISSOR_TEST)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_STENCIL_TEST
     {
-	--count;
-	auto r = enum_value_range<capability>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), capability(GL_STENCIL_TEST))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<capability>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), capability(GL_STENCIL_TEST)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_STREAM_RASTERIZATION_AMD
     {
-	--count;
-	auto r = enum_value_range<capability>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), capability(GL_STREAM_RASTERIZATION_AMD))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<capability>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), capability(GL_STREAM_RASTERIZATION_AMD)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_CUBE_MAP_SEAMLESS
     {
-	--count;
-	auto r = enum_value_range<capability>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), capability(GL_TEXTURE_CUBE_MAP_SEAMLESS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<capability>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), capability(GL_TEXTURE_CUBE_MAP_SEAMLESS)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

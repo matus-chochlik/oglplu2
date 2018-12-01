@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_old_matrix_mode
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_old_matrix_mode_tests)
 
@@ -101,38 +101,40 @@ BOOST_AUTO_TEST_CASE(enum_old_matrix_mode_range) {
 
 #ifdef GL_COLOR
     {
-	--count;
-	auto r = enum_value_range<old_matrix_mode>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), old_matrix_mode(GL_COLOR)) != r.end());
+        --count;
+        auto r = enum_value_range<old_matrix_mode>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), old_matrix_mode(GL_COLOR)) != r.end());
     }
 #endif
 
 #ifdef GL_MODELVIEW
     {
-	--count;
-	auto r = enum_value_range<old_matrix_mode>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), old_matrix_mode(GL_MODELVIEW))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<old_matrix_mode>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), old_matrix_mode(GL_MODELVIEW)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_PROJECTION
     {
-	--count;
-	auto r = enum_value_range<old_matrix_mode>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), old_matrix_mode(GL_PROJECTION))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<old_matrix_mode>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), old_matrix_mode(GL_PROJECTION)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE
     {
-	--count;
-	auto r = enum_value_range<old_matrix_mode>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), old_matrix_mode(GL_TEXTURE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<old_matrix_mode>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), old_matrix_mode(GL_TEXTURE)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_program_parameter
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_program_parameter_tests)
 
@@ -585,16 +585,16 @@ BOOST_AUTO_TEST_CASE(enum_program_parameter_names) {
     x = ev.active_atomic_counter_buffers;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "ACTIVE_ATOMIC_COUNTER_BUFFERS")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "ACTIVE_ATOMIC_COUNTER_BUFFERS") ==
+      0);
 #endif
 
 #ifdef GL_ACTIVE_ATTRIBUTE_MAX_LENGTH
     x = ev.active_attribute_max_length;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "ACTIVE_ATTRIBUTE_MAX_LENGTH")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "ACTIVE_ATTRIBUTE_MAX_LENGTH") ==
+      0);
 #endif
 
 #ifdef GL_ACTIVE_ATTRIBUTES
@@ -681,24 +681,25 @@ BOOST_AUTO_TEST_CASE(enum_program_parameter_names) {
     x = ev.transform_feedback_buffer_mode;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "TRANSFORM_FEEDBACK_BUFFER_MODE")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "TRANSFORM_FEEDBACK_BUFFER_MODE") == 0);
 #endif
 
 #ifdef GL_TRANSFORM_FEEDBACK_VARYING_MAX_LENGTH
     x = ev.transform_feedback_varying_max_length;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-    BOOST_CHECK(std::strcmp(enum_value_name(x).data(),
-		  "TRANSFORM_FEEDBACK_VARYING_MAX_LENGTH")
-		== 0);
+    BOOST_CHECK(
+      std::strcmp(
+        enum_value_name(x).data(), "TRANSFORM_FEEDBACK_VARYING_MAX_LENGTH") ==
+      0);
 #endif
 
 #ifdef GL_TRANSFORM_FEEDBACK_VARYINGS
     x = ev.transform_feedback_varyings;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "TRANSFORM_FEEDBACK_VARYINGS")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "TRANSFORM_FEEDBACK_VARYINGS") ==
+      0);
 #endif
 
 #ifdef GL_VALIDATE_STATUS
@@ -714,193 +715,205 @@ BOOST_AUTO_TEST_CASE(enum_program_parameter_range) {
 
 #ifdef GL_ACTIVE_ATOMIC_COUNTER_BUFFERS
     {
-	--count;
-	auto r = enum_value_range<program_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      program_parameter(GL_ACTIVE_ATOMIC_COUNTER_BUFFERS))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<program_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_parameter(GL_ACTIVE_ATOMIC_COUNTER_BUFFERS)) != r.end());
     }
 #endif
 
 #ifdef GL_ACTIVE_ATTRIBUTE_MAX_LENGTH
     {
-	--count;
-	auto r = enum_value_range<program_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      program_parameter(GL_ACTIVE_ATTRIBUTE_MAX_LENGTH))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<program_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_parameter(GL_ACTIVE_ATTRIBUTE_MAX_LENGTH)) != r.end());
     }
 #endif
 
 #ifdef GL_ACTIVE_ATTRIBUTES
     {
-	--count;
-	auto r = enum_value_range<program_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), program_parameter(GL_ACTIVE_ATTRIBUTES))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), program_parameter(GL_ACTIVE_ATTRIBUTES)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_ACTIVE_UNIFORM_MAX_LENGTH
     {
-	--count;
-	auto r = enum_value_range<program_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), program_parameter(GL_ACTIVE_UNIFORM_MAX_LENGTH))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_parameter(GL_ACTIVE_UNIFORM_MAX_LENGTH)) != r.end());
     }
 #endif
 
 #ifdef GL_ACTIVE_UNIFORMS
     {
-	--count;
-	auto r = enum_value_range<program_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), program_parameter(GL_ACTIVE_UNIFORMS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), program_parameter(GL_ACTIVE_UNIFORMS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_ATTACHED_SHADERS
     {
-	--count;
-	auto r = enum_value_range<program_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), program_parameter(GL_ATTACHED_SHADERS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), program_parameter(GL_ATTACHED_SHADERS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_COMPUTE_WORK_GROUP_SIZE
     {
-	--count;
-	auto r = enum_value_range<program_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), program_parameter(GL_COMPUTE_WORK_GROUP_SIZE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_parameter(GL_COMPUTE_WORK_GROUP_SIZE)) != r.end());
     }
 #endif
 
 #ifdef GL_DELETE_STATUS
     {
-	--count;
-	auto r = enum_value_range<program_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), program_parameter(GL_DELETE_STATUS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_parameter>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), program_parameter(GL_DELETE_STATUS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_GEOMETRY_INPUT_TYPE
     {
-	--count;
-	auto r = enum_value_range<program_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), program_parameter(GL_GEOMETRY_INPUT_TYPE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), program_parameter(GL_GEOMETRY_INPUT_TYPE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_GEOMETRY_OUTPUT_TYPE
     {
-	--count;
-	auto r = enum_value_range<program_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), program_parameter(GL_GEOMETRY_OUTPUT_TYPE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), program_parameter(GL_GEOMETRY_OUTPUT_TYPE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_GEOMETRY_VERTICES_OUT
     {
-	--count;
-	auto r = enum_value_range<program_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), program_parameter(GL_GEOMETRY_VERTICES_OUT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), program_parameter(GL_GEOMETRY_VERTICES_OUT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INFO_LOG_LENGTH
     {
-	--count;
-	auto r = enum_value_range<program_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), program_parameter(GL_INFO_LOG_LENGTH))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), program_parameter(GL_INFO_LOG_LENGTH)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_LINK_STATUS
     {
-	--count;
-	auto r = enum_value_range<program_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), program_parameter(GL_LINK_STATUS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_parameter>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), program_parameter(GL_LINK_STATUS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_PROGRAM_BINARY_LENGTH
     {
-	--count;
-	auto r = enum_value_range<program_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), program_parameter(GL_PROGRAM_BINARY_LENGTH))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), program_parameter(GL_PROGRAM_BINARY_LENGTH)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER_MODE
     {
-	--count;
-	auto r = enum_value_range<program_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      program_parameter(GL_TRANSFORM_FEEDBACK_BUFFER_MODE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<program_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_parameter(GL_TRANSFORM_FEEDBACK_BUFFER_MODE)) != r.end());
     }
 #endif
 
 #ifdef GL_TRANSFORM_FEEDBACK_VARYING_MAX_LENGTH
     {
-	--count;
-	auto r = enum_value_range<program_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(),
-	    r.end(),
-	    program_parameter(GL_TRANSFORM_FEEDBACK_VARYING_MAX_LENGTH))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_parameter(GL_TRANSFORM_FEEDBACK_VARYING_MAX_LENGTH)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TRANSFORM_FEEDBACK_VARYINGS
     {
-	--count;
-	auto r = enum_value_range<program_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      program_parameter(GL_TRANSFORM_FEEDBACK_VARYINGS))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<program_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            program_parameter(GL_TRANSFORM_FEEDBACK_VARYINGS)) != r.end());
     }
 #endif
 
 #ifdef GL_VALIDATE_STATUS
     {
-	--count;
-	auto r = enum_value_range<program_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), program_parameter(GL_VALIDATE_STATUS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<program_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), program_parameter(GL_VALIDATE_STATUS)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

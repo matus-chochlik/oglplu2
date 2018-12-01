@@ -10,10 +10,10 @@
 #ifndef EAGINE_BINDUMP_1509260923_HPP
 #define EAGINE_BINDUMP_1509260923_HPP
 
+#include <iosfwd>
 #include "config/basic.hpp"
 #include "memory_block.hpp"
 #include "types.hpp"
-#include <iosfwd>
 
 namespace eagine {
 

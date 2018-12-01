@@ -51,7 +51,7 @@ public:
 
     prog_var_wrapper(program_name prog, const cstr_ref& identifier)
       : dsa_prog_var_loc<VarTag>(
-	  prog, _loc_ops::get_location(prog, identifier)) {
+          prog, _loc_ops::get_location(prog, identifier)) {
     }
 };
 

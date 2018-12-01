@@ -37,7 +37,7 @@ OGLPLUS_LIB_FUNC
 std::ostream&
 posterize_output::definitions(std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt))
-	return out;
+        return out;
 
     input_defs(out, ctxt);
     opening_expr(out, ctxt);

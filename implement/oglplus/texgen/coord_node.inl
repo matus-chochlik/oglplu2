@@ -34,19 +34,19 @@ OGLPLUS_LIB_FUNC
 std::ostream&
 coord_output::definitions(std::ostream& out, compile_context& context) {
     if(already_defined(context))
-	return out;
+        return out;
 
     input_defs(out, context);
     opening_expr(out, context);
 
     switch(_type) {
-	case coord_type::normalized:
-	    out << "\treturn " << expr::norm_sample_coord{*this};
-	    out << ";" << std::endl;
-	    break;
-	case coord_type::frag_coord:
-	    out << "\treturn gl_FragCoord;" << std::endl;
-	    break;
+        case coord_type::normalized:
+            out << "\treturn " << expr::norm_sample_coord{*this};
+            out << ";" << std::endl;
+            break;
+        case coord_type::frag_coord:
+            out << "\treturn gl_FragCoord;" << std::endl;
+            break;
     }
 
     return closing_expr(out, context);

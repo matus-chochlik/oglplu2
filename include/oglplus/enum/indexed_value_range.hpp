@@ -9,10 +9,10 @@
 #ifndef OGLPLUS_ENUM_INDEXED_VALUE_RANGE_1509260923_HPP
 #define OGLPLUS_ENUM_INDEXED_VALUE_RANGE_1509260923_HPP
 
-#include "../utils/indexed_enum.hpp"
-#include "../utils/limited_value.hpp"
 #include <cassert>
 #include <eagine/iterator.hpp>
+#include "../utils/indexed_enum.hpp"
+#include "../utils/limited_value.hpp"
 
 namespace oglplus {
 
@@ -27,7 +27,7 @@ private:
     typedef limited_value<Query, indexed_enum_value<Base>> _lv_t;
 
     static _lv_t _wrap_enum(GLenum e) noexcept {
-	return _lv_t{e};
+        return _lv_t{e};
     }
 
 public:
@@ -36,33 +36,35 @@ public:
 
     limited_value_range(_lv_t limit) noexcept
       : _limit(GLenum(limit)) {
-	assert(Base <= _limit);
+        assert(Base <= _limit);
     }
 
     limited_value_range(void)
       : limited_value_range(get_limit(identity<_lv_t>()).value()) {
     }
 
-    typedef eagine::transforming_iterator<eagine::selfref_iterator<GLenum>,
+    typedef eagine::transforming_iterator<
+      eagine::selfref_iterator<GLenum>,
       _lv_t,
       _lv_t,
       _lv_t (*)(GLenum) noexcept>
       iterator;
 
     size_type size(void) const noexcept {
-	return _limit - Base;
+        return _limit - Base;
     }
 
     iterator begin(void) const noexcept {
-	return iterator(Base, &_wrap_enum);
+        return iterator(Base, &_wrap_enum);
     }
 
     iterator end(void) const noexcept {
-	return iterator(_limit, &_wrap_enum);
+        return iterator(_limit, &_wrap_enum);
     }
 };
 
-template <typename LimitedValue,
+template <
+  typename LimitedValue,
   typename = std::enable_if_t<is_limited_value<LimitedValue>::value>>
 static inline limited_value_range<LimitedValue>
 enum_value_range(void) {

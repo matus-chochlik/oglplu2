@@ -9,9 +9,9 @@
 #ifndef EAGINE_MATH_MATRIX_ROTATION_1509260923_HPP
 #define EAGINE_MATH_MATRIX_ROTATION_1509260923_HPP
 
+#include <cmath>
 #include "../quantities.hpp"
 #include "matrix_ctr.hpp"
-#include <cmath>
 
 #ifdef __clang__
 #pragma clang diagnostic push
@@ -45,38 +45,39 @@ struct rotation_I<matrix<T, 4, 4, RM, V>, I> {
 
     static constexpr inline matrix<T, 4, 4, RM, V> _make(
       T cx, T sx, _x) noexcept {
-	return matrix<T, 4, 4, RM, V>{{{T(1), T(0), T(0), T(0)},
-	  {T(0), cx, -sx, T(0)},
-	  {T(0), sx, cx, T(0)},
-	  {T(0), T(0), T(0), T(1)}}};
+        return matrix<T, 4, 4, RM, V>{{{T(1), T(0), T(0), T(0)},
+                                       {T(0), cx, -sx, T(0)},
+                                       {T(0), sx, cx, T(0)},
+                                       {T(0), T(0), T(0), T(1)}}};
     }
 
     static constexpr inline matrix<T, 4, 4, RM, V> _make(
       T cx, T sx, _y) noexcept {
-	return matrix<T, 4, 4, RM, V>{{{cx, T(0), sx, T(0)},
-	  {T(0), T(1), T(0), T(0)},
-	  {-sx, T(0), cx, T(0)},
-	  {T(0), T(0), T(0), T(1)}}};
+        return matrix<T, 4, 4, RM, V>{{{cx, T(0), sx, T(0)},
+                                       {T(0), T(1), T(0), T(0)},
+                                       {-sx, T(0), cx, T(0)},
+                                       {T(0), T(0), T(0), T(1)}}};
     }
 
     static constexpr inline matrix<T, 4, 4, RM, V> _make(
       T cx, T sx, _z) noexcept {
-	return matrix<T, 4, 4, RM, V>{{{cx, -sx, T(0), T(0)},
-	  {sx, cx, T(0), T(0)},
-	  {T(0), T(0), T(1), T(0)},
-	  {T(0), T(0), T(0), T(1)}}};
+        return matrix<T, 4, 4, RM, V>{{{cx, -sx, T(0), T(0)},
+                                       {sx, cx, T(0), T(0)},
+                                       {T(0), T(0), T(1), T(0)},
+                                       {T(0), T(0), T(0), T(1)}}};
     }
 
     constexpr inline matrix<T, 4, 4, RM, V> operator()(void) const {
-	typedef int_constant<I> _axis;
-	return _make(cos(_v), sin(_v) * (RM ? 1 : -1), _axis());
+        typedef int_constant<I> _axis;
+        return _make(cos(_v), sin(_v) * (RM ? 1 : -1), _axis());
     }
 };
 
 // multiply
 template <typename T, int N, bool RM1, bool RM2, bool V, int I>
 static constexpr inline rotation_I<matrix<T, N, N, RM1, V>, I>
-multiply(const rotation_I<matrix<T, N, N, RM1, V>, I>& a,
+multiply(
+  const rotation_I<matrix<T, N, N, RM1, V>, I>& a,
   const rotation_I<matrix<T, N, N, RM2, V>, I>& b) noexcept {
     return {radians_t<T>{T(a._v) + T(b._v)}};
 }

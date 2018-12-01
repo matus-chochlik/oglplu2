@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_true_false
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_true_false_tests)
 
@@ -64,19 +64,19 @@ BOOST_AUTO_TEST_CASE(enum_true_false_range) {
 
 #ifdef GL_FALSE
     {
-	--count;
-	auto r = enum_value_range<true_false>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), true_false(GL_FALSE)) != r.end());
+        --count;
+        auto r = enum_value_range<true_false>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), true_false(GL_FALSE)) != r.end());
     }
 #endif
 
 #ifdef GL_TRUE
     {
-	--count;
-	auto r = enum_value_range<true_false>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), true_false(GL_TRUE)) != r.end());
+        --count;
+        auto r = enum_value_range<true_false>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), true_false(GL_TRUE)) != r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

@@ -20,10 +20,11 @@ namespace x11 {
 class GC : public DisplayObject<::GC> {
 public:
     GC(const Display& display, const Pixmap& pixmap)
-      : DisplayObject<::GC>(display,
-	  ::XCreateGC(display, pixmap, 0, NULL),
-	  ::XFreeGC,
-	  "Error creating X GC (graphics context)") {
+      : DisplayObject<::GC>(
+          display,
+          ::XCreateGC(display, pixmap, 0, NULL),
+          ::XFreeGC,
+          "Error creating X GC (graphics context)") {
     }
 };
 

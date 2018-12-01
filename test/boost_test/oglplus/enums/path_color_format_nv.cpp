@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_path_color_format_nv
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_path_color_format_nv_tests)
 
@@ -150,60 +150,62 @@ BOOST_AUTO_TEST_CASE(enum_path_color_format_nv_range) {
 
 #ifdef GL_ALPHA
     {
-	--count;
-	auto r = enum_value_range<path_color_format_nv>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), path_color_format_nv(GL_ALPHA))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_color_format_nv>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), path_color_format_nv(GL_ALPHA)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INTENSITY
     {
-	--count;
-	auto r = enum_value_range<path_color_format_nv>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), path_color_format_nv(GL_INTENSITY))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_color_format_nv>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), path_color_format_nv(GL_INTENSITY)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_LUMINANCE
     {
-	--count;
-	auto r = enum_value_range<path_color_format_nv>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), path_color_format_nv(GL_LUMINANCE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_color_format_nv>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), path_color_format_nv(GL_LUMINANCE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_LUMINANCE_ALPHA
     {
-	--count;
-	auto r = enum_value_range<path_color_format_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), path_color_format_nv(GL_LUMINANCE_ALPHA))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_color_format_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), path_color_format_nv(GL_LUMINANCE_ALPHA)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RGB
     {
-	--count;
-	auto r = enum_value_range<path_color_format_nv>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), path_color_format_nv(GL_RGB))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<path_color_format_nv>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), path_color_format_nv(GL_RGB)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_RGBA
     {
-	--count;
-	auto r = enum_value_range<path_color_format_nv>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), path_color_format_nv(GL_RGBA))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<path_color_format_nv>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), path_color_format_nv(GL_RGBA)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

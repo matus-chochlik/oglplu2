@@ -30,18 +30,20 @@ inline outcome<renderbuffer_name>
 renderbuffer_ops::renderbuffer_binding(renderbuffer_target target) noexcept {
     GLint result = 0;
     return numeric_queries::get_integer_v(
-      get_binding_query(target), {&result, 1})
+             get_binding_query(target), {&result, 1})
       .add(renderbuffer_name(GLuint(result)));
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-renderbuffer_ops::renderbuffer_storage(renderbuffer_target target,
+renderbuffer_ops::renderbuffer_storage(
+  renderbuffer_target target,
   pixel_data_internal_format ifmt,
   GLsizei width,
   GLsizei height) noexcept {
     OGLPLUS_GLFUNC(RenderbufferStorage)
     (GLenum(target), GLenum(ifmt), width, height);
-    OGLPLUS_VERIFY(RenderbufferStorage,
+    OGLPLUS_VERIFY(
+      RenderbufferStorage,
       gl_object_binding(tag::renderbuffer(), target).gl_enum_value(ifmt),
       always);
     return {};
@@ -49,7 +51,8 @@ renderbuffer_ops::renderbuffer_storage(renderbuffer_target target,
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
 inline outcome<void>
-renderbuffer_ops::renderbuffer_storage(renderbuffer_name rbo,
+renderbuffer_ops::renderbuffer_storage(
+  renderbuffer_name rbo,
   pixel_data_internal_format ifmt,
   GLsizei width,
   GLsizei height) noexcept {
@@ -61,7 +64,8 @@ renderbuffer_ops::renderbuffer_storage(renderbuffer_name rbo,
     (
 #endif
       get_raw_name(rbo), GLenum(ifmt), width, height);
-    OGLPLUS_VERIFY_STR(OGLPLUS_GL_DSA_FUNC_NAME(NamedRenderbufferStorage),
+    OGLPLUS_VERIFY_STR(
+      OGLPLUS_GL_DSA_FUNC_NAME(NamedRenderbufferStorage),
       gl_object(rbo).gl_enum_value(ifmt),
       always);
     return {};
@@ -69,14 +73,16 @@ renderbuffer_ops::renderbuffer_storage(renderbuffer_name rbo,
 #endif
 //------------------------------------------------------------------------------
 inline outcome<void>
-renderbuffer_ops::renderbuffer_storage_multisample(renderbuffer_target target,
+renderbuffer_ops::renderbuffer_storage_multisample(
+  renderbuffer_target target,
   GLsizei samples,
   pixel_data_internal_format ifmt,
   GLsizei width,
   GLsizei height) noexcept {
     OGLPLUS_GLFUNC(RenderbufferStorageMultisample)
     (GLenum(target), samples, GLenum(ifmt), width, height);
-    OGLPLUS_VERIFY(RenderbufferStorage,
+    OGLPLUS_VERIFY(
+      RenderbufferStorage,
       gl_object_binding(tag::renderbuffer(), target).gl_enum_value(ifmt),
       always);
     return {};
@@ -84,7 +90,8 @@ renderbuffer_ops::renderbuffer_storage_multisample(renderbuffer_target target,
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
 inline outcome<void>
-renderbuffer_ops::renderbuffer_storage_multisample(renderbuffer_name rbo,
+renderbuffer_ops::renderbuffer_storage_multisample(
+  renderbuffer_name rbo,
   GLsizei samples,
   pixel_data_internal_format ifmt,
   GLsizei width,
@@ -106,13 +113,15 @@ renderbuffer_ops::renderbuffer_storage_multisample(renderbuffer_name rbo,
 #endif
 //------------------------------------------------------------------------------
 inline outcome<void>
-renderbuffer_ops::get_renderbuffer_parameter_iv(renderbuffer_target target,
+renderbuffer_ops::get_renderbuffer_parameter_iv(
+  renderbuffer_target target,
   oglplus::renderbuffer_parameter param,
   span<GLint> values) noexcept {
     assert(values.size() > 0);
     OGLPLUS_GLFUNC(GetRenderbufferParameteriv)
     (GLenum(target), GLenum(param), values.data());
-    OGLPLUS_VERIFY(GetRenderbufferParameteriv,
+    OGLPLUS_VERIFY(
+      GetRenderbufferParameteriv,
       gl_object_binding(tag::renderbuffer(), target).gl_enum_value(param),
       always);
     return {};
@@ -120,7 +129,8 @@ renderbuffer_ops::get_renderbuffer_parameter_iv(renderbuffer_target target,
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
 inline outcome<void>
-renderbuffer_ops::get_renderbuffer_parameter_iv(renderbuffer_name buf,
+renderbuffer_ops::get_renderbuffer_parameter_iv(
+  renderbuffer_name buf,
   oglplus::renderbuffer_parameter param,
   span<GLint> values) noexcept {
     assert(values.size() > 0);
@@ -146,7 +156,7 @@ renderbuffer_ops::return_renderbuffer_parameter_i(
   const RNT& rnt, oglplus::renderbuffer_parameter parameter) noexcept {
     GLint result = 0;
     return get_renderbuffer_parameter_iv(rnt, parameter, {&result, 1}),
-	   R(T(result));
+           R(T(result));
 }
 //------------------------------------------------------------------------------
 template <typename RNT>

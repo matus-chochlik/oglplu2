@@ -10,10 +10,10 @@
 #ifndef EAGINE_SCOPE_EXIT_1509260923_HPP
 #define EAGINE_SCOPE_EXIT_1509260923_HPP
 
+#include <exception>
 #include "callable_ref.hpp"
 #include "nothing.hpp"
 #include "std/type_traits.hpp"
-#include <exception>
 
 namespace eagine {
 
@@ -26,28 +26,28 @@ private:
     action_type _action;
 
     void _invoke(std::true_type) const {
-	if(_action) {
-	    if(std::uncaught_exception()) {
-		try {
-		    _action();
-		} catch(...) {
-		}
-	    }
-	}
+        if(_action) {
+            if(std::uncaught_exception()) {
+                try {
+                    _action();
+                } catch(...) {
+                }
+            }
+        }
     }
 
     void _invoke(std::false_type) const {
-	if(_action) {
-	    if(!std::uncaught_exception()) {
-		_action();
-	    }
-	}
+        if(_action) {
+            if(!std::uncaught_exception()) {
+                _action();
+            }
+        }
     }
 
     void _invoke(nothing_t) const {
-	if(_action) {
-	    _action();
-	}
+        if(_action) {
+            _action();
+        }
     }
 
 public:
@@ -67,15 +67,15 @@ public:
     on_scope_exit& operator=(on_scope_exit&&) = default;
 
     ~on_scope_exit(void) noexcept(false) {
-	_invoke(OnException());
+        _invoke(OnException());
     }
 
     action_type release(void) noexcept {
-	return std::move(_action);
+        return std::move(_action);
     }
 
     void cancel(void) noexcept {
-	_action = action_type();
+        _action = action_type();
     }
 };
 
@@ -92,7 +92,7 @@ public:
     }
 
     void cancel(void) noexcept {
-	_ose.cancel();
+        _ose.cancel();
     }
 };
 

@@ -9,9 +9,9 @@
 #ifndef OGLPLUS_TEXGEN_MULTI_INPUT_NODE_1509260923_HPP
 #define OGLPLUS_TEXGEN_MULTI_INPUT_NODE_1509260923_HPP
 
+#include <map>
 #include "base_node.hpp"
 #include "fallback_input.hpp"
-#include <map>
 
 namespace oglplus {
 namespace texgen {
@@ -46,13 +46,13 @@ public:
 
     multi_input_node& add_input(
       const cstr_ref& name, float x, float y, float z, float w) {
-	add_input(name).fallback().set(x, y, z, w);
-	return *this;
+        add_input(name).fallback().set(x, y, z, w);
+        return *this;
     }
 
     multi_input_node& set_value(float x, float y, float z, float w) {
-	single_output()._input.fallback().set(x, y, z, w);
-	return *this;
+        single_output()._input.fallback().set(x, y, z, w);
+        return *this;
     }
 };
 

@@ -77,7 +77,8 @@ public:
     }
 };
 
-template <typename T,
+template <
+  typename T,
   typename ErrorData,
   typename HandlerPolicy = default_deferred_handler_policy<ErrorData>,
   template <class, class> class Handler = deferred_handler>
@@ -129,7 +130,8 @@ private:
 public:
     basic_outcome(basic_outcome&&) = default;
 
-    basic_outcome(cancelled_handler<ErrorData, HandlerPolicy>&& handler,
+    basic_outcome(
+      cancelled_handler<ErrorData, HandlerPolicy>&& handler,
       basic_outcome_storage<T>&& val_stor) noexcept
       : _base(std::move(handler))
       , _value(std::move(val_stor)) {
@@ -176,8 +178,9 @@ public:
     }
 
     template <typename T>
-      basic_outcome<T, ErrorData, HandlerPolicy, deferred_handler> add(T value)
-      && noexcept;
+      basic_outcome<T, ErrorData, HandlerPolicy, deferred_handler> add(
+        T value) &&
+      noexcept;
 
     deferred_handler<ErrorData, HandlerPolicy> release_handler(void) noexcept {
         return std::move(_handler);
@@ -246,14 +249,16 @@ public:
       , _value(std::move(val)) {
     }
 
-    basic_outcome(basic_outcome<void, ErrorData, HandlerPolicy>&& that,
+    basic_outcome(
+      basic_outcome<void, ErrorData, HandlerPolicy>&& that,
       T&& val,
       selector<0>) noexcept
       : _base(std::move(that))
       , _value(std::move(val)) {
     }
 
-    basic_outcome(basic_outcome<void, ErrorData, HandlerPolicy>&& that,
+    basic_outcome(
+      basic_outcome<void, ErrorData, HandlerPolicy>&& that,
       const T& val) noexcept
       : _base(std::move(that))
       , _value(val) {
@@ -263,7 +268,7 @@ public:
       void) noexcept {
         return {cancelled_handler<ErrorData, HandlerPolicy>(
                   std::move(this->_handler.data()), this->_handler.cancel()),
-          std::move(_value)};
+                std::move(_value)};
     }
 
     void trigger_error(void) {
@@ -301,8 +306,9 @@ public:
 template <typename ErrorData, typename HandlerPolicy>
   template <typename T>
   inline basic_outcome<T, ErrorData, HandlerPolicy, deferred_handler>
-  basic_outcome<void, ErrorData, HandlerPolicy, deferred_handler>::add(T value)
-  && noexcept {
+  basic_outcome<void, ErrorData, HandlerPolicy, deferred_handler>::add(
+    T value) &&
+  noexcept {
     return {std::move(*this), std::move(value), selector<0>()};
 }
 

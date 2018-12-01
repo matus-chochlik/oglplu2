@@ -25,15 +25,15 @@ BOOST_AUTO_TEST_CASE(program_args_1) {
     program_arg a = pa.first();
 
     while(a.is_valid()) {
-	BOOST_ASSERT(bool(a));
-	BOOST_ASSERT(!!a);
-	BOOST_ASSERT(i < int(array_size(argv)));
-	BOOST_CHECK_EQUAL(a.get(), cstr_ref(argv[i]));
-	BOOST_CHECK_EQUAL(a.get(), pa.get(i));
-	BOOST_CHECK_EQUAL(a.get(), pa[i]);
+        BOOST_ASSERT(bool(a));
+        BOOST_ASSERT(!!a);
+        BOOST_ASSERT(i < int(array_size(argv)));
+        BOOST_CHECK_EQUAL(a.get(), cstr_ref(argv[i]));
+        BOOST_CHECK_EQUAL(a.get(), pa.get(i));
+        BOOST_CHECK_EQUAL(a.get(), pa[i]);
 
-	++i;
-	a = a.next();
+        ++i;
+        a = a.next();
     }
 }
 

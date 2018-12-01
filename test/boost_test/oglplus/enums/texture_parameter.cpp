@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_texture_parameter
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_texture_parameter_tests)
 
@@ -1224,16 +1224,16 @@ BOOST_AUTO_TEST_CASE(enum_texture_parameter_names) {
     x = ev.depth_stencil_texture_mode;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "DEPTH_STENCIL_TEXTURE_MODE")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "DEPTH_STENCIL_TEXTURE_MODE") ==
+      0);
 #endif
 
 #ifdef GL_IMAGE_FORMAT_COMPATIBILITY_TYPE
     x = ev.image_format_compatibility_type;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "IMAGE_FORMAT_COMPATIBILITY_TYPE")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "IMAGE_FORMAT_COMPATIBILITY_TYPE") == 0);
 #endif
 
 #ifdef GL_TEXTURE_BASE_LEVEL
@@ -1412,286 +1412,300 @@ BOOST_AUTO_TEST_CASE(enum_texture_parameter_range) {
 
 #ifdef GL_DEPTH_STENCIL_TEXTURE_MODE
     {
-	--count;
-	auto r = enum_value_range<texture_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      texture_parameter(GL_DEPTH_STENCIL_TEXTURE_MODE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<texture_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            texture_parameter(GL_DEPTH_STENCIL_TEXTURE_MODE)) != r.end());
     }
 #endif
 
 #ifdef GL_IMAGE_FORMAT_COMPATIBILITY_TYPE
     {
-	--count;
-	auto r = enum_value_range<texture_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      texture_parameter(GL_IMAGE_FORMAT_COMPATIBILITY_TYPE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<texture_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            texture_parameter(GL_IMAGE_FORMAT_COMPATIBILITY_TYPE)) != r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_BASE_LEVEL
     {
-	--count;
-	auto r = enum_value_range<texture_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), texture_parameter(GL_TEXTURE_BASE_LEVEL))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), texture_parameter(GL_TEXTURE_BASE_LEVEL)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_BORDER_COLOR
     {
-	--count;
-	auto r = enum_value_range<texture_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), texture_parameter(GL_TEXTURE_BORDER_COLOR))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), texture_parameter(GL_TEXTURE_BORDER_COLOR)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_COMPARE_FUNC
     {
-	--count;
-	auto r = enum_value_range<texture_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), texture_parameter(GL_TEXTURE_COMPARE_FUNC))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), texture_parameter(GL_TEXTURE_COMPARE_FUNC)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_COMPARE_MODE
     {
-	--count;
-	auto r = enum_value_range<texture_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), texture_parameter(GL_TEXTURE_COMPARE_MODE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), texture_parameter(GL_TEXTURE_COMPARE_MODE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_IMMUTABLE_FORMAT
     {
-	--count;
-	auto r = enum_value_range<texture_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), texture_parameter(GL_TEXTURE_IMMUTABLE_FORMAT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            texture_parameter(GL_TEXTURE_IMMUTABLE_FORMAT)) != r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_IMMUTABLE_LEVELS
     {
-	--count;
-	auto r = enum_value_range<texture_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), texture_parameter(GL_TEXTURE_IMMUTABLE_LEVELS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            texture_parameter(GL_TEXTURE_IMMUTABLE_LEVELS)) != r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_LOD_BIAS
     {
-	--count;
-	auto r = enum_value_range<texture_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), texture_parameter(GL_TEXTURE_LOD_BIAS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), texture_parameter(GL_TEXTURE_LOD_BIAS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_MAG_FILTER
     {
-	--count;
-	auto r = enum_value_range<texture_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), texture_parameter(GL_TEXTURE_MAG_FILTER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), texture_parameter(GL_TEXTURE_MAG_FILTER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_MAX_LEVEL
     {
-	--count;
-	auto r = enum_value_range<texture_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), texture_parameter(GL_TEXTURE_MAX_LEVEL))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), texture_parameter(GL_TEXTURE_MAX_LEVEL)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_MAX_LOD
     {
-	--count;
-	auto r = enum_value_range<texture_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), texture_parameter(GL_TEXTURE_MAX_LOD))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), texture_parameter(GL_TEXTURE_MAX_LOD)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_MIN_FILTER
     {
-	--count;
-	auto r = enum_value_range<texture_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), texture_parameter(GL_TEXTURE_MIN_FILTER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), texture_parameter(GL_TEXTURE_MIN_FILTER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_MIN_LOD
     {
-	--count;
-	auto r = enum_value_range<texture_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), texture_parameter(GL_TEXTURE_MIN_LOD))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), texture_parameter(GL_TEXTURE_MIN_LOD)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_SWIZZLE_A
     {
-	--count;
-	auto r = enum_value_range<texture_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), texture_parameter(GL_TEXTURE_SWIZZLE_A))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), texture_parameter(GL_TEXTURE_SWIZZLE_A)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_SWIZZLE_B
     {
-	--count;
-	auto r = enum_value_range<texture_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), texture_parameter(GL_TEXTURE_SWIZZLE_B))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), texture_parameter(GL_TEXTURE_SWIZZLE_B)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_SWIZZLE_G
     {
-	--count;
-	auto r = enum_value_range<texture_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), texture_parameter(GL_TEXTURE_SWIZZLE_G))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), texture_parameter(GL_TEXTURE_SWIZZLE_G)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_SWIZZLE_R
     {
-	--count;
-	auto r = enum_value_range<texture_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), texture_parameter(GL_TEXTURE_SWIZZLE_R))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), texture_parameter(GL_TEXTURE_SWIZZLE_R)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_SWIZZLE_RGBA
     {
-	--count;
-	auto r = enum_value_range<texture_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), texture_parameter(GL_TEXTURE_SWIZZLE_RGBA))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), texture_parameter(GL_TEXTURE_SWIZZLE_RGBA)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_TARGET
     {
-	--count;
-	auto r = enum_value_range<texture_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), texture_parameter(GL_TEXTURE_TARGET))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_parameter>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), texture_parameter(GL_TEXTURE_TARGET)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_VIEW_MIN_LAYER
     {
-	--count;
-	auto r = enum_value_range<texture_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), texture_parameter(GL_TEXTURE_VIEW_MIN_LAYER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), texture_parameter(GL_TEXTURE_VIEW_MIN_LAYER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_VIEW_MIN_LEVEL
     {
-	--count;
-	auto r = enum_value_range<texture_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), texture_parameter(GL_TEXTURE_VIEW_MIN_LEVEL))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), texture_parameter(GL_TEXTURE_VIEW_MIN_LEVEL)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_VIEW_NUM_LAYERS
     {
-	--count;
-	auto r = enum_value_range<texture_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), texture_parameter(GL_TEXTURE_VIEW_NUM_LAYERS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            texture_parameter(GL_TEXTURE_VIEW_NUM_LAYERS)) != r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_VIEW_NUM_LEVELS
     {
-	--count;
-	auto r = enum_value_range<texture_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), texture_parameter(GL_TEXTURE_VIEW_NUM_LEVELS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            texture_parameter(GL_TEXTURE_VIEW_NUM_LEVELS)) != r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_WRAP_R
     {
-	--count;
-	auto r = enum_value_range<texture_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), texture_parameter(GL_TEXTURE_WRAP_R))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_parameter>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), texture_parameter(GL_TEXTURE_WRAP_R)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_WRAP_S
     {
-	--count;
-	auto r = enum_value_range<texture_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), texture_parameter(GL_TEXTURE_WRAP_S))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_parameter>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), texture_parameter(GL_TEXTURE_WRAP_S)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_WRAP_T
     {
-	--count;
-	auto r = enum_value_range<texture_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), texture_parameter(GL_TEXTURE_WRAP_T))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_parameter>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), texture_parameter(GL_TEXTURE_WRAP_T)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

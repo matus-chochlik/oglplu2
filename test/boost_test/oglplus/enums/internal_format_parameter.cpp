@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_internal_format_parameter
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_internal_format_parameter_tests)
 
@@ -8595,8 +8595,8 @@ BOOST_AUTO_TEST_CASE(enum_internal_format_parameter_names) {
     x = ev.framebuffer_renderable_layered;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "FRAMEBUFFER_RENDERABLE_LAYERED")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "FRAMEBUFFER_RENDERABLE_LAYERED") == 0);
 #endif
 
 #ifdef GL_GENERATE_MIPMAP
@@ -8637,8 +8637,8 @@ BOOST_AUTO_TEST_CASE(enum_internal_format_parameter_names) {
     x = ev.image_format_compatibility_type;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "IMAGE_FORMAT_COMPATIBILITY_TYPE")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "IMAGE_FORMAT_COMPATIBILITY_TYPE") == 0);
 #endif
 
 #ifdef GL_IMAGE_PIXEL_FORMAT
@@ -8743,24 +8743,24 @@ BOOST_AUTO_TEST_CASE(enum_internal_format_parameter_names) {
     x = ev.internalformat_shared_size;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "INTERNALFORMAT_SHARED_SIZE")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "INTERNALFORMAT_SHARED_SIZE") ==
+      0);
 #endif
 
 #ifdef GL_INTERNALFORMAT_STENCIL_SIZE
     x = ev.internalformat_stencil_size;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "INTERNALFORMAT_STENCIL_SIZE")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "INTERNALFORMAT_STENCIL_SIZE") ==
+      0);
 #endif
 
 #ifdef GL_INTERNALFORMAT_STENCIL_TYPE
     x = ev.internalformat_stencil_type;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "INTERNALFORMAT_STENCIL_TYPE")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "INTERNALFORMAT_STENCIL_TYPE") ==
+      0);
 #endif
 
 #ifdef GL_INTERNALFORMAT_SUPPORTED
@@ -8864,33 +8864,36 @@ BOOST_AUTO_TEST_CASE(enum_internal_format_parameter_names) {
 #ifdef GL_SIMULTANEOUS_TEXTURE_AND_DEPTH_TEST
     x = ev.simultaneous_texture_and_depth_test;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-    BOOST_CHECK(std::strcmp(enum_value_name(x).data(),
-		  "SIMULTANEOUS_TEXTURE_AND_DEPTH_TEST")
-		== 0);
+    BOOST_CHECK(
+      std::strcmp(
+        enum_value_name(x).data(), "SIMULTANEOUS_TEXTURE_AND_DEPTH_TEST") == 0);
 #endif
 
 #ifdef GL_SIMULTANEOUS_TEXTURE_AND_DEPTH_WRITE
     x = ev.simultaneous_texture_and_depth_write;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-    BOOST_CHECK(std::strcmp(enum_value_name(x).data(),
-		  "SIMULTANEOUS_TEXTURE_AND_DEPTH_WRITE")
-		== 0);
+    BOOST_CHECK(
+      std::strcmp(
+        enum_value_name(x).data(), "SIMULTANEOUS_TEXTURE_AND_DEPTH_WRITE") ==
+      0);
 #endif
 
 #ifdef GL_SIMULTANEOUS_TEXTURE_AND_STENCIL_TEST
     x = ev.simultaneous_texture_and_stencil_test;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-    BOOST_CHECK(std::strcmp(enum_value_name(x).data(),
-		  "SIMULTANEOUS_TEXTURE_AND_STENCIL_TEST")
-		== 0);
+    BOOST_CHECK(
+      std::strcmp(
+        enum_value_name(x).data(), "SIMULTANEOUS_TEXTURE_AND_STENCIL_TEST") ==
+      0);
 #endif
 
 #ifdef GL_SIMULTANEOUS_TEXTURE_AND_STENCIL_WRITE
     x = ev.simultaneous_texture_and_stencil_write;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-    BOOST_CHECK(std::strcmp(enum_value_name(x).data(),
-		  "SIMULTANEOUS_TEXTURE_AND_STENCIL_WRITE")
-		== 0);
+    BOOST_CHECK(
+      std::strcmp(
+        enum_value_name(x).data(), "SIMULTANEOUS_TEXTURE_AND_STENCIL_WRITE") ==
+      0);
 #endif
 
 #ifdef GL_SRGB_READ
@@ -8944,24 +8947,24 @@ BOOST_AUTO_TEST_CASE(enum_internal_format_parameter_names) {
     x = ev.texture_compressed_block_height;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "TEXTURE_COMPRESSED_BLOCK_HEIGHT")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "TEXTURE_COMPRESSED_BLOCK_HEIGHT") == 0);
 #endif
 
 #ifdef GL_TEXTURE_COMPRESSED_BLOCK_SIZE
     x = ev.texture_compressed_block_size;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "TEXTURE_COMPRESSED_BLOCK_SIZE")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "TEXTURE_COMPRESSED_BLOCK_SIZE") ==
+      0);
 #endif
 
 #ifdef GL_TEXTURE_COMPRESSED_BLOCK_WIDTH
     x = ev.texture_compressed_block_width;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "TEXTURE_COMPRESSED_BLOCK_WIDTH")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "TEXTURE_COMPRESSED_BLOCK_WIDTH") == 0);
 #endif
 
 #ifdef GL_TEXTURE_GATHER
@@ -9023,818 +9026,889 @@ BOOST_AUTO_TEST_CASE(enum_internal_format_parameter_range) {
 
 #ifdef GL_AUTO_GENERATE_MIPMAP
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      internal_format_parameter(GL_AUTO_GENERATE_MIPMAP))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_AUTO_GENERATE_MIPMAP)) != r.end());
     }
 #endif
 
 #ifdef GL_CLEAR_BUFFER
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), internal_format_parameter(GL_CLEAR_BUFFER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), internal_format_parameter(GL_CLEAR_BUFFER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_CLEAR_TEXTURE
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), internal_format_parameter(GL_CLEAR_TEXTURE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), internal_format_parameter(GL_CLEAR_TEXTURE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_COLOR_COMPONENTS
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), internal_format_parameter(GL_COLOR_COMPONENTS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_COLOR_COMPONENTS)) != r.end());
     }
 #endif
 
 #ifdef GL_COLOR_ENCODING
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), internal_format_parameter(GL_COLOR_ENCODING))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), internal_format_parameter(GL_COLOR_ENCODING)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_COLOR_RENDERABLE
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), internal_format_parameter(GL_COLOR_RENDERABLE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_COLOR_RENDERABLE)) != r.end());
     }
 #endif
 
 #ifdef GL_COMPUTE_TEXTURE
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), internal_format_parameter(GL_COMPUTE_TEXTURE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_COMPUTE_TEXTURE)) != r.end());
     }
 #endif
 
 #ifdef GL_DEPTH_COMPONENTS
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), internal_format_parameter(GL_DEPTH_COMPONENTS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_DEPTH_COMPONENTS)) != r.end());
     }
 #endif
 
 #ifdef GL_DEPTH_RENDERABLE
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), internal_format_parameter(GL_DEPTH_RENDERABLE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_DEPTH_RENDERABLE)) != r.end());
     }
 #endif
 
 #ifdef GL_FILTER
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), internal_format_parameter(GL_FILTER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), internal_format_parameter(GL_FILTER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_FRAGMENT_TEXTURE
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), internal_format_parameter(GL_FRAGMENT_TEXTURE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_FRAGMENT_TEXTURE)) != r.end());
     }
 #endif
 
 #ifdef GL_FRAMEBUFFER_BLEND
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), internal_format_parameter(GL_FRAMEBUFFER_BLEND))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_FRAMEBUFFER_BLEND)) != r.end());
     }
 #endif
 
 #ifdef GL_FRAMEBUFFER_RENDERABLE
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      internal_format_parameter(GL_FRAMEBUFFER_RENDERABLE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_FRAMEBUFFER_RENDERABLE)) != r.end());
     }
 #endif
 
 #ifdef GL_FRAMEBUFFER_RENDERABLE_LAYERED
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(),
-	    r.end(),
-	    internal_format_parameter(GL_FRAMEBUFFER_RENDERABLE_LAYERED))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_FRAMEBUFFER_RENDERABLE_LAYERED)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_GENERATE_MIPMAP
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), internal_format_parameter(GL_GENERATE_MIPMAP))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_GENERATE_MIPMAP)) != r.end());
     }
 #endif
 
 #ifdef GL_GEOMETRY_TEXTURE
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), internal_format_parameter(GL_GEOMETRY_TEXTURE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_GEOMETRY_TEXTURE)) != r.end());
     }
 #endif
 
 #ifdef GL_GET_TEXTURE_IMAGE_FORMAT
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      internal_format_parameter(GL_GET_TEXTURE_IMAGE_FORMAT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_GET_TEXTURE_IMAGE_FORMAT)) != r.end());
     }
 #endif
 
 #ifdef GL_GET_TEXTURE_IMAGE_TYPE
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      internal_format_parameter(GL_GET_TEXTURE_IMAGE_TYPE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_GET_TEXTURE_IMAGE_TYPE)) != r.end());
     }
 #endif
 
 #ifdef GL_IMAGE_COMPATIBILITY_CLASS
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      internal_format_parameter(GL_IMAGE_COMPATIBILITY_CLASS))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_IMAGE_COMPATIBILITY_CLASS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_IMAGE_FORMAT_COMPATIBILITY_TYPE
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(),
-	    r.end(),
-	    internal_format_parameter(GL_IMAGE_FORMAT_COMPATIBILITY_TYPE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_IMAGE_FORMAT_COMPATIBILITY_TYPE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_IMAGE_PIXEL_FORMAT
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      internal_format_parameter(GL_IMAGE_PIXEL_FORMAT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_IMAGE_PIXEL_FORMAT)) != r.end());
     }
 #endif
 
 #ifdef GL_IMAGE_PIXEL_TYPE
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), internal_format_parameter(GL_IMAGE_PIXEL_TYPE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_IMAGE_PIXEL_TYPE)) != r.end());
     }
 #endif
 
 #ifdef GL_IMAGE_TEXEL_SIZE
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), internal_format_parameter(GL_IMAGE_TEXEL_SIZE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_IMAGE_TEXEL_SIZE)) != r.end());
     }
 #endif
 
 #ifdef GL_INTERNALFORMAT_ALPHA_SIZE
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      internal_format_parameter(GL_INTERNALFORMAT_ALPHA_SIZE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_INTERNALFORMAT_ALPHA_SIZE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INTERNALFORMAT_ALPHA_TYPE
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      internal_format_parameter(GL_INTERNALFORMAT_ALPHA_TYPE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_INTERNALFORMAT_ALPHA_TYPE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INTERNALFORMAT_BLUE_SIZE
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      internal_format_parameter(GL_INTERNALFORMAT_BLUE_SIZE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_INTERNALFORMAT_BLUE_SIZE)) != r.end());
     }
 #endif
 
 #ifdef GL_INTERNALFORMAT_BLUE_TYPE
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      internal_format_parameter(GL_INTERNALFORMAT_BLUE_TYPE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_INTERNALFORMAT_BLUE_TYPE)) != r.end());
     }
 #endif
 
 #ifdef GL_INTERNALFORMAT_DEPTH_SIZE
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      internal_format_parameter(GL_INTERNALFORMAT_DEPTH_SIZE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_INTERNALFORMAT_DEPTH_SIZE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INTERNALFORMAT_DEPTH_TYPE
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      internal_format_parameter(GL_INTERNALFORMAT_DEPTH_TYPE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_INTERNALFORMAT_DEPTH_TYPE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INTERNALFORMAT_GREEN_SIZE
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      internal_format_parameter(GL_INTERNALFORMAT_GREEN_SIZE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_INTERNALFORMAT_GREEN_SIZE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INTERNALFORMAT_GREEN_TYPE
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      internal_format_parameter(GL_INTERNALFORMAT_GREEN_TYPE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_INTERNALFORMAT_GREEN_TYPE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INTERNALFORMAT_PREFERRED
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      internal_format_parameter(GL_INTERNALFORMAT_PREFERRED))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_INTERNALFORMAT_PREFERRED)) != r.end());
     }
 #endif
 
 #ifdef GL_INTERNALFORMAT_RED_SIZE
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      internal_format_parameter(GL_INTERNALFORMAT_RED_SIZE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_INTERNALFORMAT_RED_SIZE)) != r.end());
     }
 #endif
 
 #ifdef GL_INTERNALFORMAT_RED_TYPE
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      internal_format_parameter(GL_INTERNALFORMAT_RED_TYPE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_INTERNALFORMAT_RED_TYPE)) != r.end());
     }
 #endif
 
 #ifdef GL_INTERNALFORMAT_SHARED_SIZE
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      internal_format_parameter(GL_INTERNALFORMAT_SHARED_SIZE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_INTERNALFORMAT_SHARED_SIZE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INTERNALFORMAT_STENCIL_SIZE
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      internal_format_parameter(GL_INTERNALFORMAT_STENCIL_SIZE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_INTERNALFORMAT_STENCIL_SIZE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INTERNALFORMAT_STENCIL_TYPE
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      internal_format_parameter(GL_INTERNALFORMAT_STENCIL_TYPE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_INTERNALFORMAT_STENCIL_TYPE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INTERNALFORMAT_SUPPORTED
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      internal_format_parameter(GL_INTERNALFORMAT_SUPPORTED))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_INTERNALFORMAT_SUPPORTED)) != r.end());
     }
 #endif
 
 #ifdef GL_MAX_COMBINED_DIMENSIONS
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      internal_format_parameter(GL_MAX_COMBINED_DIMENSIONS))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_MAX_COMBINED_DIMENSIONS)) != r.end());
     }
 #endif
 
 #ifdef GL_MAX_DEPTH
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), internal_format_parameter(GL_MAX_DEPTH))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), internal_format_parameter(GL_MAX_DEPTH)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_MAX_HEIGHT
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), internal_format_parameter(GL_MAX_HEIGHT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), internal_format_parameter(GL_MAX_HEIGHT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_MAX_LAYERS
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), internal_format_parameter(GL_MAX_LAYERS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), internal_format_parameter(GL_MAX_LAYERS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_MAX_WIDTH
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), internal_format_parameter(GL_MAX_WIDTH))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), internal_format_parameter(GL_MAX_WIDTH)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_MIPMAP
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), internal_format_parameter(GL_MIPMAP))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), internal_format_parameter(GL_MIPMAP)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_NUM_SAMPLE_COUNTS
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), internal_format_parameter(GL_NUM_SAMPLE_COUNTS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_NUM_SAMPLE_COUNTS)) != r.end());
     }
 #endif
 
 #ifdef GL_READ_PIXELS
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), internal_format_parameter(GL_READ_PIXELS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), internal_format_parameter(GL_READ_PIXELS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_READ_PIXELS_FORMAT
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      internal_format_parameter(GL_READ_PIXELS_FORMAT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_READ_PIXELS_FORMAT)) != r.end());
     }
 #endif
 
 #ifdef GL_READ_PIXELS_TYPE
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), internal_format_parameter(GL_READ_PIXELS_TYPE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_READ_PIXELS_TYPE)) != r.end());
     }
 #endif
 
 #ifdef GL_SAMPLES
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), internal_format_parameter(GL_SAMPLES))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), internal_format_parameter(GL_SAMPLES)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SHADER_IMAGE_ATOMIC
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      internal_format_parameter(GL_SHADER_IMAGE_ATOMIC))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_SHADER_IMAGE_ATOMIC)) != r.end());
     }
 #endif
 
 #ifdef GL_SHADER_IMAGE_LOAD
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), internal_format_parameter(GL_SHADER_IMAGE_LOAD))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_SHADER_IMAGE_LOAD)) != r.end());
     }
 #endif
 
 #ifdef GL_SHADER_IMAGE_STORE
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      internal_format_parameter(GL_SHADER_IMAGE_STORE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_SHADER_IMAGE_STORE)) != r.end());
     }
 #endif
 
 #ifdef GL_SIMULTANEOUS_TEXTURE_AND_DEPTH_TEST
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(),
-	    r.end(),
-	    internal_format_parameter(GL_SIMULTANEOUS_TEXTURE_AND_DEPTH_TEST))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(
+              GL_SIMULTANEOUS_TEXTURE_AND_DEPTH_TEST)) != r.end());
     }
 #endif
 
 #ifdef GL_SIMULTANEOUS_TEXTURE_AND_DEPTH_WRITE
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(),
-	    r.end(),
-	    internal_format_parameter(GL_SIMULTANEOUS_TEXTURE_AND_DEPTH_WRITE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(
+              GL_SIMULTANEOUS_TEXTURE_AND_DEPTH_WRITE)) != r.end());
     }
 #endif
 
 #ifdef GL_SIMULTANEOUS_TEXTURE_AND_STENCIL_TEST
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(),
-	    r.end(),
-	    internal_format_parameter(GL_SIMULTANEOUS_TEXTURE_AND_STENCIL_TEST))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(
+              GL_SIMULTANEOUS_TEXTURE_AND_STENCIL_TEST)) != r.end());
     }
 #endif
 
 #ifdef GL_SIMULTANEOUS_TEXTURE_AND_STENCIL_WRITE
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      internal_format_parameter(
-			GL_SIMULTANEOUS_TEXTURE_AND_STENCIL_WRITE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(
+              GL_SIMULTANEOUS_TEXTURE_AND_STENCIL_WRITE)) != r.end());
     }
 #endif
 
 #ifdef GL_SRGB_READ
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), internal_format_parameter(GL_SRGB_READ))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), internal_format_parameter(GL_SRGB_READ)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SRGB_WRITE
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), internal_format_parameter(GL_SRGB_WRITE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), internal_format_parameter(GL_SRGB_WRITE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_STENCIL_COMPONENTS
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      internal_format_parameter(GL_STENCIL_COMPONENTS))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_STENCIL_COMPONENTS)) != r.end());
     }
 #endif
 
 #ifdef GL_STENCIL_RENDERABLE
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      internal_format_parameter(GL_STENCIL_RENDERABLE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_STENCIL_RENDERABLE)) != r.end());
     }
 #endif
 
 #ifdef GL_TESS_CONTROL_TEXTURE
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      internal_format_parameter(GL_TESS_CONTROL_TEXTURE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_TESS_CONTROL_TEXTURE)) != r.end());
     }
 #endif
 
 #ifdef GL_TESS_EVALUATION_TEXTURE
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      internal_format_parameter(GL_TESS_EVALUATION_TEXTURE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_TESS_EVALUATION_TEXTURE)) != r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_COMPRESSED
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      internal_format_parameter(GL_TEXTURE_COMPRESSED))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_TEXTURE_COMPRESSED)) != r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_COMPRESSED_BLOCK_HEIGHT
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(),
-	    r.end(),
-	    internal_format_parameter(GL_TEXTURE_COMPRESSED_BLOCK_HEIGHT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_TEXTURE_COMPRESSED_BLOCK_HEIGHT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_COMPRESSED_BLOCK_SIZE
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(),
-	    r.end(),
-	    internal_format_parameter(GL_TEXTURE_COMPRESSED_BLOCK_SIZE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_TEXTURE_COMPRESSED_BLOCK_SIZE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_COMPRESSED_BLOCK_WIDTH
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(),
-	    r.end(),
-	    internal_format_parameter(GL_TEXTURE_COMPRESSED_BLOCK_WIDTH))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_TEXTURE_COMPRESSED_BLOCK_WIDTH)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_GATHER
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), internal_format_parameter(GL_TEXTURE_GATHER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), internal_format_parameter(GL_TEXTURE_GATHER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_GATHER_SHADOW
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      internal_format_parameter(GL_TEXTURE_GATHER_SHADOW))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_TEXTURE_GATHER_SHADOW)) != r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_IMAGE_FORMAT
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      internal_format_parameter(GL_TEXTURE_IMAGE_FORMAT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_TEXTURE_IMAGE_FORMAT)) != r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_IMAGE_TYPE
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      internal_format_parameter(GL_TEXTURE_IMAGE_TYPE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_TEXTURE_IMAGE_TYPE)) != r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_SHADOW
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), internal_format_parameter(GL_TEXTURE_SHADOW))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), internal_format_parameter(GL_TEXTURE_SHADOW)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_VIEW
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), internal_format_parameter(GL_TEXTURE_VIEW))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), internal_format_parameter(GL_TEXTURE_VIEW)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_VERTEX_TEXTURE
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), internal_format_parameter(GL_VERTEX_TEXTURE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), internal_format_parameter(GL_VERTEX_TEXTURE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_VIEW_COMPATIBILITY_CLASS
     {
-	--count;
-	auto r = enum_value_range<internal_format_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      internal_format_parameter(GL_VIEW_COMPATIBILITY_CLASS))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<internal_format_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            internal_format_parameter(GL_VIEW_COMPATIBILITY_CLASS)) != r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

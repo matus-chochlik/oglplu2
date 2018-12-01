@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_error_code
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_error_code_tests)
 
@@ -233,8 +233,8 @@ BOOST_AUTO_TEST_CASE(enum_error_code_names) {
     x = ev.invalid_framebuffer_operation;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "INVALID_FRAMEBUFFER_OPERATION")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "INVALID_FRAMEBUFFER_OPERATION") ==
+      0);
 #endif
 
 #ifdef GL_INVALID_OPERATION
@@ -287,96 +287,101 @@ BOOST_AUTO_TEST_CASE(enum_error_code_range) {
 
 #ifdef GL_CONTEXT_LOST
     {
-	--count;
-	auto r = enum_value_range<error_code>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), error_code(GL_CONTEXT_LOST))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<error_code>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), error_code(GL_CONTEXT_LOST)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INVALID_ENUM
     {
-	--count;
-	auto r = enum_value_range<error_code>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), error_code(GL_INVALID_ENUM))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<error_code>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), error_code(GL_INVALID_ENUM)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INVALID_FRAMEBUFFER_OPERATION
     {
-	--count;
-	auto r = enum_value_range<error_code>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), error_code(GL_INVALID_FRAMEBUFFER_OPERATION))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<error_code>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), error_code(GL_INVALID_FRAMEBUFFER_OPERATION)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INVALID_OPERATION
     {
-	--count;
-	auto r = enum_value_range<error_code>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), error_code(GL_INVALID_OPERATION))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<error_code>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), error_code(GL_INVALID_OPERATION)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INVALID_VALUE
     {
-	--count;
-	auto r = enum_value_range<error_code>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), error_code(GL_INVALID_VALUE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<error_code>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), error_code(GL_INVALID_VALUE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_NO_ERROR
     {
-	--count;
-	auto r = enum_value_range<error_code>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), error_code(GL_NO_ERROR)) != r.end());
+        --count;
+        auto r = enum_value_range<error_code>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), error_code(GL_NO_ERROR)) != r.end());
     }
 #endif
 
 #ifdef GL_OUT_OF_MEMORY
     {
-	--count;
-	auto r = enum_value_range<error_code>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), error_code(GL_OUT_OF_MEMORY))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<error_code>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), error_code(GL_OUT_OF_MEMORY)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_STACK_OVERFLOW
     {
-	--count;
-	auto r = enum_value_range<error_code>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), error_code(GL_STACK_OVERFLOW))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<error_code>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), error_code(GL_STACK_OVERFLOW)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_STACK_UNDERFLOW
     {
-	--count;
-	auto r = enum_value_range<error_code>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), error_code(GL_STACK_UNDERFLOW))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<error_code>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), error_code(GL_STACK_UNDERFLOW)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TABLE_TOO_LARGE
     {
-	--count;
-	auto r = enum_value_range<error_code>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), error_code(GL_TABLE_TOO_LARGE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<error_code>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), error_code(GL_TABLE_TOO_LARGE)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

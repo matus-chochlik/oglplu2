@@ -42,8 +42,8 @@ public:
 class coord_node : public single_output_node<coord_output> {
 public:
     coord_node& set_type(coord_type type) {
-	_output._type = type;
-	return *this;
+        _output._type = type;
+        return *this;
     }
 };
 

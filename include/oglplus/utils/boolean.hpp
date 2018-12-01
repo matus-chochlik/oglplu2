@@ -10,8 +10,8 @@
 #ifndef OGLPLUS_UTILS_BOOLEAN_1509260923_HPP
 #define OGLPLUS_UTILS_BOOLEAN_1509260923_HPP
 
-#include "../enum/types.hpp"
 #include <cassert>
+#include "../enum/types.hpp"
 
 namespace oglplus {
 
@@ -24,7 +24,7 @@ struct boolean {
 
     explicit inline boolean(GLboolean v) noexcept
       : _v(v) {
-	assert((_v == GL_TRUE) || (_v == GL_FALSE));
+        assert((_v == GL_TRUE) || (_v == GL_FALSE));
     }
 
     constexpr inline boolean(bool v) noexcept
@@ -36,15 +36,15 @@ struct boolean {
     }
 
     explicit constexpr inline operator bool(void) const noexcept {
-	return _v == GL_TRUE;
+        return _v == GL_TRUE;
     }
 
-    constexpr inline bool operator!(void)const noexcept {
-	return _v == GL_FALSE;
+    constexpr inline bool operator!(void) const noexcept {
+        return _v == GL_FALSE;
     }
 
     constexpr inline operator GLboolean(void) const noexcept {
-	return _v;
+        return _v;
     }
 };
 

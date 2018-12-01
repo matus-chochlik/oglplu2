@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_shader_type
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_shader_type_tests)
 
@@ -152,60 +152,62 @@ BOOST_AUTO_TEST_CASE(enum_shader_type_range) {
 
 #ifdef GL_COMPUTE_SHADER
     {
-	--count;
-	auto r = enum_value_range<shader_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), shader_type(GL_COMPUTE_SHADER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<shader_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), shader_type(GL_COMPUTE_SHADER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_FRAGMENT_SHADER
     {
-	--count;
-	auto r = enum_value_range<shader_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), shader_type(GL_FRAGMENT_SHADER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<shader_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), shader_type(GL_FRAGMENT_SHADER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_GEOMETRY_SHADER
     {
-	--count;
-	auto r = enum_value_range<shader_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), shader_type(GL_GEOMETRY_SHADER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<shader_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), shader_type(GL_GEOMETRY_SHADER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TESS_CONTROL_SHADER
     {
-	--count;
-	auto r = enum_value_range<shader_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), shader_type(GL_TESS_CONTROL_SHADER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<shader_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), shader_type(GL_TESS_CONTROL_SHADER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TESS_EVALUATION_SHADER
     {
-	--count;
-	auto r = enum_value_range<shader_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), shader_type(GL_TESS_EVALUATION_SHADER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<shader_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), shader_type(GL_TESS_EVALUATION_SHADER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_VERTEX_SHADER
     {
-	--count;
-	auto r = enum_value_range<shader_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), shader_type(GL_VERTEX_SHADER))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<shader_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), shader_type(GL_VERTEX_SHADER)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

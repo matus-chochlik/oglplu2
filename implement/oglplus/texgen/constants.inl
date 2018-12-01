@@ -42,11 +42,11 @@ OGLPLUS_LIB_FUNC
 std::ostream&
 base_constant::definitions(std::ostream& out, compile_context& ctxt) {
     if(!ctxt.remembers_constant(*this)) {
-	out << "const " << data_type_name(value_type());
-	out << " " << identifier() << " = ";
-	value(out, ctxt);
-	out << ";" << std::endl << std::endl;
-	ctxt.remember_constant(*this);
+        out << "const " << data_type_name(value_type());
+        out << " " << identifier() << " = ";
+        value(out, ctxt);
+        out << ";" << std::endl << std::endl;
+        ctxt.remember_constant(*this);
     }
     return out;
 }

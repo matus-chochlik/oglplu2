@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_unified_array_address_nv
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_unified_array_address_nv_tests)
 
@@ -263,8 +263,8 @@ BOOST_AUTO_TEST_CASE(enum_unified_array_address_nv_names) {
     x = ev.edge_flag_array_address_nv;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "EDGE_FLAG_ARRAY_ADDRESS_NV")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "EDGE_FLAG_ARRAY_ADDRESS_NV") ==
+      0);
 #endif
 
 #ifdef GL_ELEMENT_ARRAY_ADDRESS_NV
@@ -278,8 +278,8 @@ BOOST_AUTO_TEST_CASE(enum_unified_array_address_nv_names) {
     x = ev.fog_coord_array_address_nv;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "FOG_COORD_ARRAY_ADDRESS_NV")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "FOG_COORD_ARRAY_ADDRESS_NV") ==
+      0);
 #endif
 
 #ifdef GL_INDEX_ARRAY_ADDRESS_NV
@@ -300,16 +300,16 @@ BOOST_AUTO_TEST_CASE(enum_unified_array_address_nv_names) {
     x = ev.secondary_color_array_address_nv;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "SECONDARY_COLOR_ARRAY_ADDRESS_NV")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "SECONDARY_COLOR_ARRAY_ADDRESS_NV") == 0);
 #endif
 
 #ifdef GL_TEXTURE_COORD_ARRAY_ADDRESS_NV
     x = ev.texture_coord_array_address_nv;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "TEXTURE_COORD_ARRAY_ADDRESS_NV")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "TEXTURE_COORD_ARRAY_ADDRESS_NV") == 0);
 #endif
 
 #ifdef GL_UNIFORM_BUFFER_ADDRESS_NV
@@ -330,8 +330,8 @@ BOOST_AUTO_TEST_CASE(enum_unified_array_address_nv_names) {
     x = ev.vertex_attrib_array_address_nv;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "VERTEX_ATTRIB_ARRAY_ADDRESS_NV")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "VERTEX_ATTRIB_ARRAY_ADDRESS_NV") == 0);
 #endif
 }
 
@@ -341,125 +341,138 @@ BOOST_AUTO_TEST_CASE(enum_unified_array_address_nv_range) {
 
 #ifdef GL_COLOR_ARRAY_ADDRESS_NV
     {
-	--count;
-	auto r = enum_value_range<unified_array_address_nv>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      unified_array_address_nv(GL_COLOR_ARRAY_ADDRESS_NV))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<unified_array_address_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            unified_array_address_nv(GL_COLOR_ARRAY_ADDRESS_NV)) != r.end());
     }
 #endif
 
 #ifdef GL_EDGE_FLAG_ARRAY_ADDRESS_NV
     {
-	--count;
-	auto r = enum_value_range<unified_array_address_nv>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      unified_array_address_nv(GL_EDGE_FLAG_ARRAY_ADDRESS_NV))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<unified_array_address_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            unified_array_address_nv(GL_EDGE_FLAG_ARRAY_ADDRESS_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_ELEMENT_ARRAY_ADDRESS_NV
     {
-	--count;
-	auto r = enum_value_range<unified_array_address_nv>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      unified_array_address_nv(GL_ELEMENT_ARRAY_ADDRESS_NV))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<unified_array_address_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            unified_array_address_nv(GL_ELEMENT_ARRAY_ADDRESS_NV)) != r.end());
     }
 #endif
 
 #ifdef GL_FOG_COORD_ARRAY_ADDRESS_NV
     {
-	--count;
-	auto r = enum_value_range<unified_array_address_nv>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      unified_array_address_nv(GL_FOG_COORD_ARRAY_ADDRESS_NV))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<unified_array_address_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            unified_array_address_nv(GL_FOG_COORD_ARRAY_ADDRESS_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INDEX_ARRAY_ADDRESS_NV
     {
-	--count;
-	auto r = enum_value_range<unified_array_address_nv>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      unified_array_address_nv(GL_INDEX_ARRAY_ADDRESS_NV))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<unified_array_address_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            unified_array_address_nv(GL_INDEX_ARRAY_ADDRESS_NV)) != r.end());
     }
 #endif
 
 #ifdef GL_NORMAL_ARRAY_ADDRESS_NV
     {
-	--count;
-	auto r = enum_value_range<unified_array_address_nv>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      unified_array_address_nv(GL_NORMAL_ARRAY_ADDRESS_NV))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<unified_array_address_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            unified_array_address_nv(GL_NORMAL_ARRAY_ADDRESS_NV)) != r.end());
     }
 #endif
 
 #ifdef GL_SECONDARY_COLOR_ARRAY_ADDRESS_NV
     {
-	--count;
-	auto r = enum_value_range<unified_array_address_nv>();
-	BOOST_CHECK(
-	  std::find(r.begin(),
-	    r.end(),
-	    unified_array_address_nv(GL_SECONDARY_COLOR_ARRAY_ADDRESS_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<unified_array_address_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            unified_array_address_nv(GL_SECONDARY_COLOR_ARRAY_ADDRESS_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_COORD_ARRAY_ADDRESS_NV
     {
-	--count;
-	auto r = enum_value_range<unified_array_address_nv>();
-	BOOST_CHECK(
-	  std::find(r.begin(),
-	    r.end(),
-	    unified_array_address_nv(GL_TEXTURE_COORD_ARRAY_ADDRESS_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<unified_array_address_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            unified_array_address_nv(GL_TEXTURE_COORD_ARRAY_ADDRESS_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNIFORM_BUFFER_ADDRESS_NV
     {
-	--count;
-	auto r = enum_value_range<unified_array_address_nv>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      unified_array_address_nv(GL_UNIFORM_BUFFER_ADDRESS_NV))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<unified_array_address_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            unified_array_address_nv(GL_UNIFORM_BUFFER_ADDRESS_NV)) != r.end());
     }
 #endif
 
 #ifdef GL_VERTEX_ARRAY_ADDRESS_NV
     {
-	--count;
-	auto r = enum_value_range<unified_array_address_nv>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      unified_array_address_nv(GL_VERTEX_ARRAY_ADDRESS_NV))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<unified_array_address_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            unified_array_address_nv(GL_VERTEX_ARRAY_ADDRESS_NV)) != r.end());
     }
 #endif
 
 #ifdef GL_VERTEX_ATTRIB_ARRAY_ADDRESS_NV
     {
-	--count;
-	auto r = enum_value_range<unified_array_address_nv>();
-	BOOST_CHECK(
-	  std::find(r.begin(),
-	    r.end(),
-	    unified_array_address_nv(GL_VERTEX_ATTRIB_ARRAY_ADDRESS_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<unified_array_address_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            unified_array_address_nv(GL_VERTEX_ATTRIB_ARRAY_ADDRESS_NV)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

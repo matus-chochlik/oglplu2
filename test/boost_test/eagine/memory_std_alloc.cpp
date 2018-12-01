@@ -26,17 +26,17 @@ eagine_test_memory_std_alloc_1_T(eagine::span_size_t n) {
     std::vector<T, memory::std_allocator<T>> v;
 
     for(span_size_t i = 1; i <= n; ++i) {
-	v.reserve(std_size(i));
+        v.reserve(std_size(i));
     }
 
     for(span_size_t i = 1; i <= n; ++i) {
-	v.push_back(T());
+        v.push_back(T());
     }
 
     v.clear();
 
     for(span_size_t i = 1; i <= n; ++i) {
-	v.push_back(T());
+        v.push_back(T());
     }
     BOOST_CHECK_EQUAL(v.size(), n);
 }
@@ -45,14 +45,14 @@ BOOST_AUTO_TEST_CASE(memory_std_alloc_1) {
     eagine::span_size_t f[2] = {0, 1};
 
     for(int i = 0; i < 20; ++i) {
-	eagine::span_size_t n = f[(i + 0) % 2] + f[(i + 1) % 2];
-	f[i % 2] = n;
+        eagine::span_size_t n = f[(i + 0) % 2] + f[(i + 1) % 2];
+        f[i % 2] = n;
 
-	eagine_test_memory_std_alloc_1_T<char>(n);
-	eagine_test_memory_std_alloc_1_T<short>(n);
-	eagine_test_memory_std_alloc_1_T<int>(n);
-	eagine_test_memory_std_alloc_1_T<float>(n);
-	eagine_test_memory_std_alloc_1_T<double>(n);
+        eagine_test_memory_std_alloc_1_T<char>(n);
+        eagine_test_memory_std_alloc_1_T<short>(n);
+        eagine_test_memory_std_alloc_1_T<int>(n);
+        eagine_test_memory_std_alloc_1_T<float>(n);
+        eagine_test_memory_std_alloc_1_T<double>(n);
     }
 }
 

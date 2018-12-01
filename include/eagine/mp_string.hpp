@@ -94,7 +94,8 @@ struct mp_uint_to_string
 // mp_int_to_string
 template <int I>
 struct mp_int_to_string
-  : std::conditional_t<(I < 0),
+  : std::conditional_t<
+      (I < 0),
       mp_concat<mp_string<'-'>, mp_uint_to_string_t<unsigned(-I)>>,
       mp_uint_to_string_t<unsigned(I)>> {};
 
@@ -121,11 +122,9 @@ struct mp_do_make_string<S, const char[N]>
   : mp_create_string<S, std::make_index_sequence<N - 1>> {};
 
 template <typename X>
-std::true_type
-does_have_mp_str_const(X*, decltype(X::mp_str) = X::mp_str);
+std::true_type does_have_mp_str_const(X*, decltype(X::mp_str) = X::mp_str);
 
-std::false_type
-does_have_mp_str_const(...);
+std::false_type does_have_mp_str_const(...);
 
 } // namespace bits
 

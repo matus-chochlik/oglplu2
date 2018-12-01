@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OALPLUS_source_type
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_source_type_tests)
 
@@ -81,28 +81,29 @@ BOOST_AUTO_TEST_CASE(enum_source_type_range) {
 
 #ifdef AL_STATIC
     {
-	--count;
-	auto r = enum_value_range<source_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), source_type(AL_STATIC)) != r.end());
+        --count;
+        auto r = enum_value_range<source_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), source_type(AL_STATIC)) != r.end());
     }
 #endif
 
 #ifdef AL_STREAMING
     {
-	--count;
-	auto r = enum_value_range<source_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), source_type(AL_STREAMING)) != r.end());
+        --count;
+        auto r = enum_value_range<source_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), source_type(AL_STREAMING)) != r.end());
     }
 #endif
 
 #ifdef AL_UNDETERMINED
     {
-	--count;
-	auto r = enum_value_range<source_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), source_type(AL_UNDETERMINED))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<source_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), source_type(AL_UNDETERMINED)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

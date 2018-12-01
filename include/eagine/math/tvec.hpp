@@ -36,14 +36,16 @@ struct tvec : vector<T, N, V> {
       : _base(_base::from(d, N)) {
     }
 
-    template <typename... P,
-      typename = std::enable_if_t<(sizeof...(P) == N)
-				  && all_are_convertible_to<T, P...>::value>>
+    template <
+      typename... P,
+      typename = std::enable_if_t<
+        (sizeof...(P) == N) && all_are_convertible_to<T, P...>::value>>
     constexpr inline tvec(P&&... p) noexcept
       : _base(_base::make(std::forward<P>(p)...)) {
     }
 
-    template <typename P,
+    template <
+      typename P,
       int M,
       bool W,
       typename = std::enable_if_t<!std::is_same_v<P, T> || !(M == N)>>
@@ -56,15 +58,17 @@ struct tvec : vector<T, N, V> {
       : _base(_base::from(v, d)) {
     }
 
-    template <typename P,
+    template <
+      typename P,
       int M,
       bool W,
       typename... R,
-      typename = std::enable_if_t<(sizeof...(R) > 1) && (M + sizeof...(R) == N)
-				  && all_are_convertible_to<T, R...>::value>>
+      typename = std::enable_if_t<
+        (sizeof...(R) > 1) && (M + sizeof...(R) == N) &&
+        all_are_convertible_to<T, R...>::value>>
     constexpr inline tvec(const vector<P, M, W>& v, R&&... r) noexcept
       : _base(
-	  _base::from(v, vector<T, N - M, W>::make(std::forward<R>(r)...))) {
+          _base::from(v, vector<T, N - M, W>::make(std::forward<R>(r)...))) {
     }
 
     template <typename P, int M, bool W>
@@ -86,7 +90,7 @@ struct canonical_compound_type<math::tvec<T, N, V>>
 template <typename T, int N, bool V>
 struct compound_view_maker<math::tvec<T, N, V>> {
     inline auto operator()(const math::vector<T, N, V>& v) const noexcept {
-	return vect::view<T, N, V>::apply(v._v);
+        return vect::view<T, N, V>::apply(v._v);
     }
 };
 

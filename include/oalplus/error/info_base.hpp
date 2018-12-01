@@ -17,7 +17,7 @@ template <typename Derived>
 class error_info_base {
 private:
     Derived& _self(void) noexcept {
-	return *static_cast<Derived*>(this);
+        return *static_cast<Derived*>(this);
     }
 
     ALenum _al_err_code;

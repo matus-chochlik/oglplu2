@@ -14,24 +14,26 @@ namespace oper {
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_2)
 inline outcome<void>
-internal_format_queries::get_internal_format_iv(internal_format_target target,
+internal_format_queries::get_internal_format_iv(
+  internal_format_target target,
   pixel_data_internal_format iformat,
   internal_format_parameter query,
   span<GLint> data) noexcept {
     assert(data.size() > 0);
     OGLPLUS_GLFUNC(GetInternalformativ)
     (GLenum(target),
-      GLenum(iformat),
-      GLenum(query),
-      GLsizei(data.size()),
-      data.data());
+     GLenum(iformat),
+     GLenum(query),
+     GLsizei(data.size()),
+     data.data());
     OGLPLUS_VERIFY(GetInternalFormativ, gl_enum_value(query), always);
     return {};
 }
 //------------------------------------------------------------------------------
 template <typename Result, typename Temp>
 inline outcome<Result>
-internal_format_queries::return_internal_format_i(internal_format_target target,
+internal_format_queries::return_internal_format_i(
+  internal_format_target target,
   pixel_data_internal_format iformat,
   internal_format_parameter param) noexcept {
     GLint result = 0;
@@ -43,17 +45,18 @@ internal_format_queries::return_internal_format_i(internal_format_target target,
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_3)
 inline outcome<void>
-internal_format_queries::get_internal_format_i64v(internal_format_target target,
+internal_format_queries::get_internal_format_i64v(
+  internal_format_target target,
   pixel_data_internal_format iformat,
   internal_format_parameter query,
   span<GLint64> data) noexcept {
     assert(data.size() > 0);
     OGLPLUS_GLFUNC(GetInternalformati64v)
     (GLenum(target),
-      GLenum(iformat),
-      GLenum(query),
-      GLsizei(data.size()),
-      data.data());
+     GLenum(iformat),
+     GLenum(query),
+     GLsizei(data.size()),
+     data.data());
     OGLPLUS_VERIFY(GetInternalFormati64v, gl_enum_value(query), always);
     return {};
 }
@@ -145,7 +148,8 @@ internal_format_queries::
   get_internal_format_framebuffer_renderable_layered_support(
     internal_format_target target,
     pixel_data_internal_format iformat) noexcept {
-    return return_internal_format_i<support_level, GLenum>(target,
+    return return_internal_format_i<support_level, GLenum>(
+      target,
       iformat,
       internal_format_parameter(GL_FRAMEBUFFER_RENDERABLE_LAYERED));
 }

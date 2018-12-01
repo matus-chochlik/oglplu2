@@ -40,15 +40,15 @@ struct obj_dsa_ops<tag::command_list_nv>
     using obj_zero_dsa_ops<tag::command_list_nv>::obj_zero_dsa_ops;
 
     outcome<obj_dsa_ops&> segments(GLuint nseg) noexcept {
-	return {_ops::command_list_segments(*this, nseg), *this};
+        return {_ops::command_list_segments(*this, nseg), *this};
     }
 
     outcome<obj_dsa_ops&> compile(void) noexcept {
-	return {_ops::compile_command_list(*this), *this};
+        return {_ops::compile_command_list(*this), *this};
     }
 
     outcome<obj_dsa_ops&> call(void) noexcept {
-	return {_ops::call_command_list(*this), *this};
+        return {_ops::call_command_list(*this), *this};
     }
 };
 

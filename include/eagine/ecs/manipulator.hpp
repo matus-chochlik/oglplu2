@@ -9,9 +9,9 @@
 #ifndef EAGINE_ECS_MANIPULATOR_1509260923_HPP
 #define EAGINE_ECS_MANIPULATOR_1509260923_HPP
 
-#include "../std/type_traits.hpp"
 #include <cassert>
 #include <utility>
+#include "../std/type_traits.hpp"
 
 namespace eagine {
 namespace ecs {
@@ -26,7 +26,7 @@ private:
 
 protected:
     void _reset_cmp(Component& cmp) noexcept {
-	_ptr = &cmp;
+        _ptr = &cmp;
     }
 
 public:
@@ -39,17 +39,17 @@ public:
     }
 
     bool is_valid(void) const noexcept {
-	return _ptr != nullptr;
+        return _ptr != nullptr;
     }
 
     const Component& read(void) const {
-	assert(is_valid());
-	return *_ptr;
+        assert(is_valid());
+        return *_ptr;
     }
 
     Component& write(void) {
-	assert(is_valid());
-	return *_ptr;
+        assert(is_valid());
+        return *_ptr;
     }
 };
 
@@ -60,7 +60,7 @@ private:
 
 protected:
     void _reset_cmp(const Component& cmp) noexcept {
-	_ptr = &cmp;
+        _ptr = &cmp;
     }
 
 public:
@@ -73,12 +73,12 @@ public:
     }
 
     bool is_valid(void) const noexcept {
-	return _ptr != nullptr;
+        return _ptr != nullptr;
     }
 
     const Component& read(void) const {
-	assert(_ptr != nullptr);
-	return *_ptr;
+        assert(_ptr != nullptr);
+        return *_ptr;
     }
 };
 
@@ -89,10 +89,12 @@ struct get_manipulator {
 
 template <typename Component>
 class manipulator
-  : public get_manipulator<std::remove_const_t<Component>,
+  : public get_manipulator<
+      std::remove_const_t<Component>,
       std::is_const<Component>::value>::type {
 private:
-    using _base = typename get_manipulator<std::remove_const_t<Component>,
+    using _base = typename get_manipulator<
+      std::remove_const_t<Component>,
       std::is_const<Component>::value>::type;
 
     typedef std::remove_const_t<Component> _nonconstC;
@@ -137,23 +139,23 @@ public:
     }
 
     bool can_add(void) const noexcept {
-	return _add_place != nullptr;
+        return _add_place != nullptr;
     }
 
     void add(std::remove_const_t<Component>&& cmp) {
-	assert(can_add());
-	assert(_add_place);
-	*_add_place = std::move(cmp);
-	this->_reset_cmp(*_add_place);
-	_added = true;
+        assert(can_add());
+        assert(_add_place);
+        *_add_place = std::move(cmp);
+        this->_reset_cmp(*_add_place);
+        _added = true;
     }
 
     bool can_remove(void) const noexcept {
-	return _can_rem && this->is_valid();
+        return _can_rem && this->is_valid();
     }
 
     void remove(void) {
-	_removed = true;
+        _removed = true;
     }
 };
 
@@ -163,17 +165,17 @@ public:
     using manipulator<Component>::manipulator;
 
     void reset(Component& cmp) noexcept {
-	this->_reset_cmp(cmp);
-	this->_added = false;
-	this->_removed = false;
+        this->_reset_cmp(cmp);
+        this->_added = false;
+        this->_removed = false;
     }
 
     bool add_requested(void) const noexcept {
-	return this->_added;
+        return this->_added;
     }
 
     bool remove_requested(void) const noexcept {
-	return this->_removed;
+        return this->_removed;
     }
 };
 

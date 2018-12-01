@@ -38,7 +38,7 @@ OGLPLUS_LIB_FUNC
 std::ostream&
 mix_output::definitions(std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt))
-	return out;
+        return out;
 
     slot_data_type res_type = value_type();
     slot_data_type val_type = slot_data_type::float_;
@@ -80,9 +80,9 @@ OGLPLUS_LIB_FUNC
 input_intf&
 mix_node::input(span_size_t index) {
     if(index == 0)
-	return _output.zero;
+        return _output.zero;
     if(index == 1)
-	return _output.one;
+        return _output.one;
     assert(index < input_count());
     return _output.value;
 }

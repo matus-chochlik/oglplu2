@@ -9,9 +9,9 @@
 #ifndef OGLPLUS_TEXGEN_BORDER2D_NODE_1509260923_HPP
 #define OGLPLUS_TEXGEN_BORDER2D_NODE_1509260923_HPP
 
+#include <string>
 #include "base_node.hpp"
 #include "fallback_input.hpp"
-#include <string>
 
 namespace oglplus {
 namespace texgen {
@@ -34,15 +34,16 @@ public:
 };
 
 class border2d_node
-  : public unary_single_output_node<border2d_output,
+  : public unary_single_output_node<
+      border2d_output,
       decltype(border2d_output::input),
       &border2d_output::input> {
 public:
     border2d_node(void) = default;
 
     border2d_node& set_type(border2d_mode mode) {
-	_output.mode = mode;
-	return *this;
+        _output.mode = mode;
+        return *this;
     }
 };
 

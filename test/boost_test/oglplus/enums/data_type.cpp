@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_data_type
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_data_type_tests)
 
@@ -284,91 +284,93 @@ BOOST_AUTO_TEST_CASE(enum_data_type_range) {
 
 #ifdef GL_BYTE
     {
-	--count;
-	auto r = enum_value_range<data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), data_type(GL_BYTE)) != r.end());
+        --count;
+        auto r = enum_value_range<data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), data_type(GL_BYTE)) != r.end());
     }
 #endif
 
 #ifdef GL_DOUBLE
     {
-	--count;
-	auto r = enum_value_range<data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), data_type(GL_DOUBLE)) != r.end());
+        --count;
+        auto r = enum_value_range<data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), data_type(GL_DOUBLE)) != r.end());
     }
 #endif
 
 #ifdef GL_FIXED
     {
-	--count;
-	auto r = enum_value_range<data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), data_type(GL_FIXED)) != r.end());
+        --count;
+        auto r = enum_value_range<data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), data_type(GL_FIXED)) != r.end());
     }
 #endif
 
 #ifdef GL_FLOAT
     {
-	--count;
-	auto r = enum_value_range<data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), data_type(GL_FLOAT)) != r.end());
+        --count;
+        auto r = enum_value_range<data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), data_type(GL_FLOAT)) != r.end());
     }
 #endif
 
 #ifdef GL_HALF_FLOAT
     {
-	--count;
-	auto r = enum_value_range<data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), data_type(GL_HALF_FLOAT)) != r.end());
+        --count;
+        auto r = enum_value_range<data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), data_type(GL_HALF_FLOAT)) != r.end());
     }
 #endif
 
 #ifdef GL_INT
     {
-	--count;
-	auto r = enum_value_range<data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), data_type(GL_INT)) != r.end());
+        --count;
+        auto r = enum_value_range<data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), data_type(GL_INT)) != r.end());
     }
 #endif
 
 #ifdef GL_SHORT
     {
-	--count;
-	auto r = enum_value_range<data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), data_type(GL_SHORT)) != r.end());
+        --count;
+        auto r = enum_value_range<data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), data_type(GL_SHORT)) != r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_BYTE
     {
-	--count;
-	auto r = enum_value_range<data_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), data_type(GL_UNSIGNED_BYTE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), data_type(GL_UNSIGNED_BYTE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_INT
     {
-	--count;
-	auto r = enum_value_range<data_type>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), data_type(GL_UNSIGNED_INT)) != r.end());
+        --count;
+        auto r = enum_value_range<data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), data_type(GL_UNSIGNED_INT)) != r.end());
     }
 #endif
 
 #ifdef GL_UNSIGNED_SHORT
     {
-	--count;
-	auto r = enum_value_range<data_type>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), data_type(GL_UNSIGNED_SHORT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<data_type>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), data_type(GL_UNSIGNED_SHORT)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

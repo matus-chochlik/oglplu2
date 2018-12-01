@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_blend_equation
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_blend_equation_tests)
 
@@ -125,49 +125,50 @@ BOOST_AUTO_TEST_CASE(enum_blend_equation_range) {
 
 #ifdef GL_FUNC_ADD
     {
-	--count;
-	auto r = enum_value_range<blend_equation>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), blend_equation(GL_FUNC_ADD))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<blend_equation>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), blend_equation(GL_FUNC_ADD)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_FUNC_REVERSE_SUBTRACT
     {
-	--count;
-	auto r = enum_value_range<blend_equation>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), blend_equation(GL_FUNC_REVERSE_SUBTRACT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<blend_equation>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), blend_equation(GL_FUNC_REVERSE_SUBTRACT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_FUNC_SUBTRACT
     {
-	--count;
-	auto r = enum_value_range<blend_equation>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), blend_equation(GL_FUNC_SUBTRACT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<blend_equation>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), blend_equation(GL_FUNC_SUBTRACT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_MAX
     {
-	--count;
-	auto r = enum_value_range<blend_equation>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), blend_equation(GL_MAX)) != r.end());
+        --count;
+        auto r = enum_value_range<blend_equation>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), blend_equation(GL_MAX)) != r.end());
     }
 #endif
 
 #ifdef GL_MIN
     {
-	--count;
-	auto r = enum_value_range<blend_equation>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), blend_equation(GL_MIN)) != r.end());
+        --count;
+        auto r = enum_value_range<blend_equation>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), blend_equation(GL_MIN)) != r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

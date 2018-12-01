@@ -24,26 +24,26 @@ struct rgba_value {
     rgba_value(void) = default;
 
     rgba_value(GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
-	_v[0] = r;
-	_v[1] = g;
-	_v[2] = b;
-	_v[3] = a;
+        _v[0] = r;
+        _v[1] = g;
+        _v[2] = b;
+        _v[3] = a;
     }
 
     GLfloat red(void) const noexcept {
-	return _v[0];
+        return _v[0];
     }
 
     GLfloat green(void) const noexcept {
-	return _v[1];
+        return _v[1];
     }
 
     GLfloat blue(void) const noexcept {
-	return _v[2];
+        return _v[2];
     }
 
     GLfloat alpha(void) const noexcept {
-	return _v[3];
+        return _v[3];
     }
 };
 
@@ -52,14 +52,15 @@ struct buffer_clearing_state {
       GLfloat r, GLfloat g, GLfloat b, GLfloat a) noexcept;
 
     static outcome<void> clear_color(const rgba_value& cc) noexcept {
-	return clear_color(cc.red(), cc.green(), cc.blue(), cc.alpha());
+        return clear_color(cc.red(), cc.green(), cc.blue(), cc.alpha());
     }
 
-    template <typename V,
+    template <
+      typename V,
       typename = std::enable_if_t<has_canonical_type<V, GLfloat[4]>::value>>
     static outcome<void> clear_color(const V& cc) noexcept {
-	auto ccv = element_view(cc);
-	return clear_color(ccv[0], ccv[1], ccv[2], ccv[3]);
+        auto ccv = element_view(cc);
+        return clear_color(ccv[0], ccv[1], ccv[2], ccv[3]);
     }
 
     static outcome<void> clear_depth(GLfloat d) noexcept;

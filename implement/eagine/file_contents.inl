@@ -23,11 +23,11 @@ private:
 
 public:
     buffered_file_contents(const cstr_ref& path) {
-	read_file_data(path, _buf);
+        read_file_data(path, _buf);
     }
 
     const_memory_block block(void) noexcept override {
-	return _buf;
+        return _buf;
     }
 };
 //------------------------------------------------------------------------------
@@ -43,7 +43,7 @@ public:
     }
 
     const_memory_block block(void) noexcept override {
-	return _mmf.block();
+        return _mmf.block();
     }
 };
 //------------------------------------------------------------------------------
@@ -58,7 +58,7 @@ make_file_contents_impl(const cstr_ref& path) {
     do_map |= (size > 8 * pgsize);
 
     if(do_map) {
-	return std::make_shared<memory_mapped_file_contents>(fd);
+        return std::make_shared<memory_mapped_file_contents>(fd);
     }
     return std::make_shared<buffered_file_contents>(path);
 }

@@ -52,7 +52,7 @@ struct gl_object_traits {
     using dsa_ops_t = obj_dsa_ops<ObjTag>;
 
     static inline constexpr GLuint invalid_name(void) noexcept {
-	return ~GLuint(0);
+        return ~GLuint(0);
     }
 };
 
@@ -64,7 +64,7 @@ template <GLenum Tag>
 struct object_traits<oglplus::tag::gl_obj_tag<Tag>>
   : oglplus::gl_object_traits<oglplus::tag::gl_obj_tag<Tag>> {
     static inline constexpr GLenum get_type(void) noexcept {
-	return Tag;
+        return Tag;
     }
 };
 

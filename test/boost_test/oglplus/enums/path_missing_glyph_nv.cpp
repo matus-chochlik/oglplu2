@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_path_missing_glyph_nv
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_path_missing_glyph_nv_tests)
 
@@ -66,23 +66,25 @@ BOOST_AUTO_TEST_CASE(enum_path_missing_glyph_nv_range) {
 
 #ifdef GL_SKIP_MISSING_GLYPH_NV
     {
-	--count;
-	auto r = enum_value_range<path_missing_glyph_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), path_missing_glyph_nv(GL_SKIP_MISSING_GLYPH_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_missing_glyph_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            path_missing_glyph_nv(GL_SKIP_MISSING_GLYPH_NV)) != r.end());
     }
 #endif
 
 #ifdef GL_USE_MISSING_GLYPH_NV
     {
-	--count;
-	auto r = enum_value_range<path_missing_glyph_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), path_missing_glyph_nv(GL_USE_MISSING_GLYPH_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_missing_glyph_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            path_missing_glyph_nv(GL_USE_MISSING_GLYPH_NV)) != r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

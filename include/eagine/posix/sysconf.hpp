@@ -9,8 +9,8 @@
 #ifndef EAGINE_POSIX_SYSCONF_1509260923_HPP
 #define EAGINE_POSIX_SYSCONF_1509260923_HPP
 
-#include "error.hpp"
 #include <unistd.h>
+#include "error.hpp"
 
 namespace eagine {
 namespace posix {

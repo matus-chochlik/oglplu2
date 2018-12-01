@@ -17,11 +17,11 @@ get_binding_query(renderbuffer_target tgt) noexcept {
     GLenum result = 0;
     switch(GLenum(tgt)) {
 #if defined(GL_RENDERBUFFER) && defined(GL_RENDERBUFFER_BINDING)
-	case GL_RENDERBUFFER:
-	    result = GL_RENDERBUFFER_BINDING;
-	    break;
+        case GL_RENDERBUFFER:
+            result = GL_RENDERBUFFER_BINDING;
+            break;
 #endif
-	default:;
+        default:;
     }
     return binding_query(result);
 }

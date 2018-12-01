@@ -29,7 +29,8 @@ public:
       std::ostream& out, compile_context& ctxt) override;
 };
 
-using spheres_node = unary_single_output_node<spheres_output,
+using spheres_node = unary_single_output_node<
+  spheres_output,
   decltype(spheres_output::repeat),
   &spheres_output::repeat>;
 

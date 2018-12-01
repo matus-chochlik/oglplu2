@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OALPLUS_data_format
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_data_format_tests)
 
@@ -101,39 +101,41 @@ BOOST_AUTO_TEST_CASE(enum_data_format_range) {
 
 #ifdef AL_FORMAT_MONO16
     {
-	--count;
-	auto r = enum_value_range<data_format>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), data_format(AL_FORMAT_MONO16))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<data_format>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), data_format(AL_FORMAT_MONO16)) !=
+          r.end());
     }
 #endif
 
 #ifdef AL_FORMAT_MONO8
     {
-	--count;
-	auto r = enum_value_range<data_format>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), data_format(AL_FORMAT_MONO8))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<data_format>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), data_format(AL_FORMAT_MONO8)) !=
+          r.end());
     }
 #endif
 
 #ifdef AL_FORMAT_STEREO16
     {
-	--count;
-	auto r = enum_value_range<data_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), data_format(AL_FORMAT_STEREO16))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<data_format>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), data_format(AL_FORMAT_STEREO16)) !=
+          r.end());
     }
 #endif
 
 #ifdef AL_FORMAT_STEREO8
     {
-	--count;
-	auto r = enum_value_range<data_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), data_format(AL_FORMAT_STEREO8))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<data_format>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), data_format(AL_FORMAT_STEREO8)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

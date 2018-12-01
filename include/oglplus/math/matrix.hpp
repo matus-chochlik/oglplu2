@@ -9,14 +9,15 @@
 #ifndef OGLPLUS_MATH_MATRIX_1509260923_HPP
 #define OGLPLUS_MATH_MATRIX_1509260923_HPP
 
-#include "config.hpp"
 #include <eagine/math/tmat.hpp>
+#include "config.hpp"
 
 namespace oglplus {
 
 using eagine::math::matrix;
 
-template <typename T,
+template <
+  typename T,
   unsigned C,
   unsigned R,
   bool RM = false,

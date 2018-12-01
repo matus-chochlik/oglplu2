@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_path_font_target_nv
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_path_font_target_nv_tests)
 
@@ -83,33 +83,34 @@ BOOST_AUTO_TEST_CASE(enum_path_font_target_nv_range) {
 
 #ifdef GL_FILE_NAME_NV
     {
-	--count;
-	auto r = enum_value_range<path_font_target_nv>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), path_font_target_nv(GL_FILE_NAME_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_font_target_nv>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), path_font_target_nv(GL_FILE_NAME_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_STANDARD_FONT_NAME_NV
     {
-	--count;
-	auto r = enum_value_range<path_font_target_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), path_font_target_nv(GL_STANDARD_FONT_NAME_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_font_target_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            path_font_target_nv(GL_STANDARD_FONT_NAME_NV)) != r.end());
     }
 #endif
 
 #ifdef GL_SYSTEM_FONT_NAME_NV
     {
-	--count;
-	auto r = enum_value_range<path_font_target_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), path_font_target_nv(GL_SYSTEM_FONT_NAME_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_font_target_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), path_font_target_nv(GL_SYSTEM_FONT_NAME_NV)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

@@ -90,7 +90,8 @@ struct compatibility_matrix {
       degrees_t<GLfloat> a, GLfloat x, GLfloat y, GLfloat z) noexcept;
 
 #ifdef GL_EXT_direct_state_access
-    static outcome<void> rotate_f(old_matrix_mode mode,
+    static outcome<void> rotate_f(
+      old_matrix_mode mode,
       degrees_t<GLfloat> a,
       GLfloat x,
       GLfloat y,
@@ -101,7 +102,8 @@ struct compatibility_matrix {
       degrees_t<GLdouble> a, GLdouble x, GLdouble y, GLdouble z) noexcept;
 
 #ifdef GL_EXT_direct_state_access
-    static outcome<void> rotate_d(old_matrix_mode mode,
+    static outcome<void> rotate_d(
+      old_matrix_mode mode,
       degrees_t<GLdouble> a,
       GLdouble x,
       GLdouble y,
@@ -122,14 +124,16 @@ struct compatibility_matrix {
       old_matrix_mode mode, GLdouble x, GLdouble y, GLdouble z) noexcept;
 #endif
 
-    static outcome<void> ortho(GLdouble l,
+    static outcome<void> ortho(
+      GLdouble l,
       GLdouble r,
       GLdouble b,
       GLdouble t,
       GLdouble n,
       GLdouble f) noexcept;
 
-    static outcome<void> ortho_f(GLfloat l,
+    static outcome<void> ortho_f(
+      GLfloat l,
       GLfloat r,
       GLfloat b,
       GLfloat t,
@@ -137,7 +141,8 @@ struct compatibility_matrix {
       GLfloat f) noexcept;
 
 #ifdef GL_EXT_direct_state_access
-    static outcome<void> ortho(old_matrix_mode mode,
+    static outcome<void> ortho(
+      old_matrix_mode mode,
       GLdouble l,
       GLdouble r,
       GLdouble b,
@@ -146,7 +151,8 @@ struct compatibility_matrix {
       GLdouble f) noexcept;
 #endif
 
-    static outcome<void> frustum(GLdouble l,
+    static outcome<void> frustum(
+      GLdouble l,
       GLdouble r,
       GLdouble b,
       GLdouble t,
@@ -154,7 +160,8 @@ struct compatibility_matrix {
       GLdouble f) noexcept;
 
 #ifdef GL_EXT_direct_state_access
-    static outcome<void> frustum(old_matrix_mode mode,
+    static outcome<void> frustum(
+      old_matrix_mode mode,
       GLdouble l,
       GLdouble r,
       GLdouble b,

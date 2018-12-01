@@ -86,43 +86,51 @@ oglplus_buffer_test_ops1(void) {
 #endif
 
 #if defined(GL_VERSION_4_3)
-    gl.clear_buffer_data(tgt,
+    gl.clear_buffer_data(
+      tgt,
       pixel_data_internal_format(GL_R8),
       pixel_data_format(GL_RED),
       pixel_data_type(GL_FLOAT),
       data);
-    gl.clear_buffer_sub_data(tgt,
+    gl.clear_buffer_sub_data(
+      tgt,
       pixel_data_internal_format(GL_R8),
       size,
       pixel_data_format(GL_RED),
       pixel_data_type(GL_FLOAT),
       data);
-    curbuf.clear_data(pixel_data_internal_format(GL_R8),
+    curbuf.clear_data(
+      pixel_data_internal_format(GL_R8),
       pixel_data_format(GL_RED),
       pixel_data_type(GL_FLOAT),
       data);
-    curbuf.clear_sub_data(pixel_data_internal_format(GL_R8),
+    curbuf.clear_sub_data(
+      pixel_data_internal_format(GL_R8),
       size,
       pixel_data_format(GL_RED),
       pixel_data_type(GL_FLOAT),
       data);
 #if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
-    gl.clear_buffer_data(buf,
+    gl.clear_buffer_data(
+      buf,
       pixel_data_internal_format(GL_R8),
       pixel_data_format(GL_RED),
       pixel_data_type(GL_FLOAT),
       data);
-    gl.clear_buffer_sub_data(buf,
+    gl.clear_buffer_sub_data(
+      buf,
       pixel_data_internal_format(GL_R8),
       size,
       pixel_data_format(GL_RED),
       pixel_data_type(GL_FLOAT),
       data);
-    buf.clear_data(pixel_data_internal_format(GL_R8),
+    buf.clear_data(
+      pixel_data_internal_format(GL_R8),
       pixel_data_format(GL_RED),
       pixel_data_type(GL_FLOAT),
       data);
-    buf.clear_sub_data(pixel_data_internal_format(GL_R8),
+    buf.clear_sub_data(
+      pixel_data_internal_format(GL_R8),
       size,
       pixel_data_format(GL_RED),
       pixel_data_type(GL_FLOAT),
@@ -135,8 +143,8 @@ oglplus_buffer_test_ops1(void) {
     gl.invalidate_buffer_sub_data(buf, size, size);
 #endif
 
-#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access) \
-  || defined(GL_EXT_direct_state_access)
+#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access) || \
+  defined(GL_EXT_direct_state_access)
 
     gl.buffer_data(buf, data, buffer_usage(GL_STATIC_DRAW));
     gl.buffer_sub_data(buf, size, data);

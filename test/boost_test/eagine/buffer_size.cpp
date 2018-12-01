@@ -43,34 +43,34 @@ BOOST_AUTO_TEST_CASE(buffer_size_2) {
     using namespace eagine;
     span_size_t n;
     {
-	n = get_n();
-	buffer_size<int> st(identity<char>(), n);
-	BOOST_CHECK_EQUAL(st.get(), int(sz<char>() * n));
-	BOOST_CHECK_EQUAL(int(st), int(sz<char>() * n));
+        n = get_n();
+        buffer_size<int> st(identity<char>(), n);
+        BOOST_CHECK_EQUAL(st.get(), int(sz<char>() * n));
+        BOOST_CHECK_EQUAL(int(st), int(sz<char>() * n));
     }
     {
-	n = get_n();
-	buffer_size<int> st(identity<short>(), n);
-	BOOST_CHECK_EQUAL(st.get(), int(sz<short>() * n));
-	BOOST_CHECK_EQUAL(int(st), int(sz<short>() * n));
+        n = get_n();
+        buffer_size<int> st(identity<short>(), n);
+        BOOST_CHECK_EQUAL(st.get(), int(sz<short>() * n));
+        BOOST_CHECK_EQUAL(int(st), int(sz<short>() * n));
     }
     {
-	n = get_n();
-	buffer_size<int> st(identity<unsigned>(), n);
-	BOOST_CHECK_EQUAL(st.get(), int(sz<unsigned>() * n));
-	BOOST_CHECK_EQUAL(int(st), int(sz<unsigned>() * n));
+        n = get_n();
+        buffer_size<int> st(identity<unsigned>(), n);
+        BOOST_CHECK_EQUAL(st.get(), int(sz<unsigned>() * n));
+        BOOST_CHECK_EQUAL(int(st), int(sz<unsigned>() * n));
     }
     {
-	n = get_n();
-	buffer_size<int> st(identity<long>(), n);
-	BOOST_CHECK_EQUAL(st.get(), int(sz<long>() * n));
-	BOOST_CHECK_EQUAL(int(st), int(sz<long>() * n));
+        n = get_n();
+        buffer_size<int> st(identity<long>(), n);
+        BOOST_CHECK_EQUAL(st.get(), int(sz<long>() * n));
+        BOOST_CHECK_EQUAL(int(st), int(sz<long>() * n));
     }
     {
-	n = get_n();
-	buffer_size<int> st(identity<float>(), n);
-	BOOST_CHECK_EQUAL(st.get(), int(sz<float>() * n));
-	BOOST_CHECK_EQUAL(int(st), int(sz<float>() * n));
+        n = get_n();
+        buffer_size<int> st(identity<float>(), n);
+        BOOST_CHECK_EQUAL(st.get(), int(sz<float>() * n));
+        BOOST_CHECK_EQUAL(int(st), int(sz<float>() * n));
     }
 }
 
@@ -78,51 +78,51 @@ BOOST_AUTO_TEST_CASE(buffer_size_3) {
     using namespace eagine;
     span_size_t n;
     {
-	n = get_n();
-	buffer_size<unsigned> st(identity<char>(), n);
-	BOOST_CHECK_EQUAL(unsigned(st), unsigned(sz<char>() * n));
+        n = get_n();
+        buffer_size<unsigned> st(identity<char>(), n);
+        BOOST_CHECK_EQUAL(unsigned(st), unsigned(sz<char>() * n));
     }
     {
-	n = get_n();
-	buffer_size<unsigned> st(identity<short>(), n);
-	BOOST_CHECK_EQUAL(unsigned(st), unsigned(sz<short>() * n));
+        n = get_n();
+        buffer_size<unsigned> st(identity<short>(), n);
+        BOOST_CHECK_EQUAL(unsigned(st), unsigned(sz<short>() * n));
     }
     {
-	n = get_n();
-	buffer_size<unsigned> st(identity<int>(), n);
-	BOOST_CHECK_EQUAL(unsigned(st), unsigned(sz<int>() * n));
+        n = get_n();
+        buffer_size<unsigned> st(identity<int>(), n);
+        BOOST_CHECK_EQUAL(unsigned(st), unsigned(sz<int>() * n));
     }
     {
-	n = get_n();
-	buffer_size<unsigned> st(identity<long>(), n);
-	BOOST_CHECK_EQUAL(unsigned(st), unsigned(sz<long>() * n));
+        n = get_n();
+        buffer_size<unsigned> st(identity<long>(), n);
+        BOOST_CHECK_EQUAL(unsigned(st), unsigned(sz<long>() * n));
     }
     {
-	n = get_n();
-	buffer_size<unsigned> st(identity<float>(), n);
-	BOOST_CHECK_EQUAL(unsigned(st), unsigned(sz<float>() * n));
+        n = get_n();
+        buffer_size<unsigned> st(identity<float>(), n);
+        BOOST_CHECK_EQUAL(unsigned(st), unsigned(sz<float>() * n));
     }
 }
 
 BOOST_AUTO_TEST_CASE(buffer_size_4) {
     using namespace eagine;
     {
-	const char bla[4] = "bla";
-	buffer_size<int> st(make_span(bla));
-	BOOST_CHECK_EQUAL(st.get(), int(sz<char>() * 4));
-	BOOST_CHECK_EQUAL(int(st), int(sz<char>() * 4));
+        const char bla[4] = "bla";
+        buffer_size<int> st(make_span(bla));
+        BOOST_CHECK_EQUAL(st.get(), int(sz<char>() * 4));
+        BOOST_CHECK_EQUAL(int(st), int(sz<char>() * 4));
     }
     {
-	const unsigned short csv[7] = {1, 2, 3, 4, 5, 6, 7};
-	buffer_size<long> st(make_span(csv));
-	BOOST_CHECK_EQUAL(st.get(), long(sz<short>() * 7));
-	BOOST_CHECK_EQUAL(long(st), long(sz<short>() * 7));
+        const unsigned short csv[7] = {1, 2, 3, 4, 5, 6, 7};
+        buffer_size<long> st(make_span(csv));
+        BOOST_CHECK_EQUAL(st.get(), long(sz<short>() * 7));
+        BOOST_CHECK_EQUAL(long(st), long(sz<short>() * 7));
     }
     {
-	const int civ[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-	buffer_size<unsigned> st(make_span(civ));
-	BOOST_CHECK_EQUAL(st.get(), unsigned(sz<int>() * 10));
-	BOOST_CHECK_EQUAL(unsigned(st), unsigned(sz<int>() * 10));
+        const int civ[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+        buffer_size<unsigned> st(make_span(civ));
+        BOOST_CHECK_EQUAL(st.get(), unsigned(sz<int>() * 10));
+        BOOST_CHECK_EQUAL(unsigned(st), unsigned(sz<int>() * 10));
     }
 }
 

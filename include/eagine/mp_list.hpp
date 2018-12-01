@@ -59,7 +59,8 @@ struct mp_union_add<mp_list<>, mp_list<T2...>, mp_list<T3...>>
 
 template <typename H, typename... T1, typename... T2, typename... T3>
 struct mp_union_add<mp_list<H, T1...>, mp_list<T2...>, mp_list<T3...>>
-  : std::conditional_t<mp_contains<mp_list<T2...>, H>::value,
+  : std::conditional_t<
+      mp_contains<mp_list<T2...>, H>::value,
       mp_union_add<mp_list<T1...>, mp_list<T2...>, mp_list<T3..., H>>,
       mp_union_add<mp_list<T1...>, mp_list<T2...>, mp_list<T3...>>> {};
 

@@ -10,8 +10,8 @@
 #ifndef EAGINE_DEEP_COPY_PTR_1509260923_HPP
 #define EAGINE_DEEP_COPY_PTR_1509260923_HPP
 
-#include "std/type_traits.hpp"
 #include <memory>
+#include "std/type_traits.hpp"
 
 namespace eagine {
 
@@ -38,7 +38,7 @@ class deep_copy_ptr : public std::unique_ptr<T> {
 private:
     typedef std::unique_ptr<T> _base;
     _base& _self(void) noexcept {
-	return *this;
+        return *this;
     }
 
 public:
@@ -58,21 +58,23 @@ public:
       : _base(make_deep_ptr_copy(that)) {
     }
 
-    template <typename D,
+    template <
+      typename D,
       typename = std::enable_if_t<std::is_base_of<T, D>::value>>
     deep_copy_ptr(deep_copy_ptr<D>&& that)
       : _base(std::move(that)) {
     }
 
-    template <typename D,
+    template <
+      typename D,
       typename = std::enable_if_t<std::is_base_of<T, D>::value>>
     deep_copy_ptr(const deep_copy_ptr<D>& that)
       : _base(make_deep_ptr_copy(that)) {
     }
 
     deep_copy_ptr& operator=(const deep_copy_ptr& that) {
-	_self() = make_deep_ptr_copy(that);
-	return *this;
+        _self() = make_deep_ptr_copy(that);
+        return *this;
     }
 };
 

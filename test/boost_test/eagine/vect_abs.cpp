@@ -18,24 +18,24 @@ template <typename T, int N, bool V>
 void
 test_vect_abs_TNV_1(void) {
     for(int k = 0; k < 1000; ++k) {
-	T a[N];
+        T a[N];
 
-	typename eagine::vect::data<T, N, V>::type u = {};
+        typename eagine::vect::data<T, N, V>::type u = {};
 
-	for(int i = 0; i < N; ++i) {
-	    a[i] = rg.get<T>(-1000, 1000);
-	    u[i] = a[i];
-	}
+        for(int i = 0; i < N; ++i) {
+            a[i] = rg.get<T>(-1000, 1000);
+            u[i] = a[i];
+        }
 
-	typename eagine::vect::data<T, N, V>::type v =
-	  eagine::vect::abs<T, N, V>::apply(u);
+        typename eagine::vect::data<T, N, V>::type v =
+          eagine::vect::abs<T, N, V>::apply(u);
 
-	for(int i = 0; i < N; ++i) {
-	    using std::abs;
-	    BOOST_CHECK(!(v[i] < T(0)));
-	    BOOST_CHECK_EQUAL(v[i], abs(a[i]));
-	    BOOST_CHECK_EQUAL(v[i], abs(u[i]));
-	}
+        for(int i = 0; i < N; ++i) {
+            using std::abs;
+            BOOST_CHECK(!(v[i] < T(0)));
+            BOOST_CHECK_EQUAL(v[i], abs(a[i]));
+            BOOST_CHECK_EQUAL(v[i], abs(u[i]));
+        }
     }
 }
 

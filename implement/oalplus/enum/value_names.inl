@@ -121,170 +121,170 @@ get_enum_value_name(const any_enum_value& aev) noexcept {
 #endif
 
     switch(aev._type_id) {
-	case 0: /* al_error_code */
-	    switch(ALenum(aev._value)) {
+        case 0: /* al_error_code */
+            switch(ALenum(aev._value)) {
 #ifdef AL_INVALID_ENUM
-		case AL_INVALID_ENUM:
-		    return {s_INVALID_ENUM, 12};
+                case AL_INVALID_ENUM:
+                    return {s_INVALID_ENUM, 12};
 #endif
 #ifdef AL_INVALID_NAME
-		case AL_INVALID_NAME:
-		    return {s_INVALID_NAME, 12};
+                case AL_INVALID_NAME:
+                    return {s_INVALID_NAME, 12};
 #endif
 #ifdef AL_INVALID_OPERATION
-		case AL_INVALID_OPERATION:
-		    return {s_INVALID_OPERATION, 17};
+                case AL_INVALID_OPERATION:
+                    return {s_INVALID_OPERATION, 17};
 #endif
 #ifdef AL_INVALID_VALUE
-		case AL_INVALID_VALUE:
-		    return {s_INVALID_VALUE, 13};
+                case AL_INVALID_VALUE:
+                    return {s_INVALID_VALUE, 13};
 #endif
 #ifdef AL_NO_ERROR
-		case AL_NO_ERROR:
-		    return {s_NO_ERROR, 8};
+                case AL_NO_ERROR:
+                    return {s_NO_ERROR, 8};
 #endif
 #ifdef AL_OUT_OF_MEMORY
-		case AL_OUT_OF_MEMORY:
-		    return {s_OUT_OF_MEMORY, 13};
+                case AL_OUT_OF_MEMORY:
+                    return {s_OUT_OF_MEMORY, 13};
 #endif
-		default:;
-	    }
-	    break;
-	case 1: /* buffer_parameter */
-	    switch(ALenum(aev._value)) {
+                default:;
+            }
+            break;
+        case 1: /* buffer_parameter */
+            switch(ALenum(aev._value)) {
 #ifdef AL_BITS
-		case AL_BITS:
-		    return {s_BITS, 4};
+                case AL_BITS:
+                    return {s_BITS, 4};
 #endif
 #ifdef AL_CHANNELS
-		case AL_CHANNELS:
-		    return {s_CHANNELS, 8};
+                case AL_CHANNELS:
+                    return {s_CHANNELS, 8};
 #endif
 #ifdef AL_FREQUENCY
-		case AL_FREQUENCY:
-		    return {s_FREQUENCY, 9};
+                case AL_FREQUENCY:
+                    return {s_FREQUENCY, 9};
 #endif
 #ifdef AL_SIZE
-		case AL_SIZE:
-		    return {s_SIZE, 4};
+                case AL_SIZE:
+                    return {s_SIZE, 4};
 #endif
-		default:;
-	    }
-	    break;
-	case 2: /* data_format */
-	    switch(ALenum(aev._value)) {
+                default:;
+            }
+            break;
+        case 2: /* data_format */
+            switch(ALenum(aev._value)) {
 #ifdef AL_FORMAT_MONO16
-		case AL_FORMAT_MONO16:
-		    return {s_FORMAT_MONO16, 13};
+                case AL_FORMAT_MONO16:
+                    return {s_FORMAT_MONO16, 13};
 #endif
 #ifdef AL_FORMAT_MONO8
-		case AL_FORMAT_MONO8:
-		    return {s_FORMAT_MONO8, 12};
+                case AL_FORMAT_MONO8:
+                    return {s_FORMAT_MONO8, 12};
 #endif
 #ifdef AL_FORMAT_STEREO16
-		case AL_FORMAT_STEREO16:
-		    return {s_FORMAT_STEREO16, 15};
+                case AL_FORMAT_STEREO16:
+                    return {s_FORMAT_STEREO16, 15};
 #endif
 #ifdef AL_FORMAT_STEREO8
-		case AL_FORMAT_STEREO8:
-		    return {s_FORMAT_STEREO8, 14};
+                case AL_FORMAT_STEREO8:
+                    return {s_FORMAT_STEREO8, 14};
 #endif
-		default:;
-	    }
-	    break;
-	case 3: /* distance_model */
-	    switch(ALenum(aev._value)) {
+                default:;
+            }
+            break;
+        case 3: /* distance_model */
+            switch(ALenum(aev._value)) {
 #ifdef AL_EXPONENT_DISTANCE
-		case AL_EXPONENT_DISTANCE:
-		    return {s_EXPONENT_DISTANCE, 17};
+                case AL_EXPONENT_DISTANCE:
+                    return {s_EXPONENT_DISTANCE, 17};
 #endif
 #ifdef AL_EXPONENT_DISTANCE_CLAMPED
-		case AL_EXPONENT_DISTANCE_CLAMPED:
-		    return {s_EXPONENT_DISTANCE_CLAMPED, 25};
+                case AL_EXPONENT_DISTANCE_CLAMPED:
+                    return {s_EXPONENT_DISTANCE_CLAMPED, 25};
 #endif
 #ifdef AL_INVERSE_DISTANCE
-		case AL_INVERSE_DISTANCE:
-		    return {s_INVERSE_DISTANCE, 16};
+                case AL_INVERSE_DISTANCE:
+                    return {s_INVERSE_DISTANCE, 16};
 #endif
 #ifdef AL_INVERSE_DISTANCE_CLAMPED
-		case AL_INVERSE_DISTANCE_CLAMPED:
-		    return {s_INVERSE_DISTANCE_CLAMPED, 24};
+                case AL_INVERSE_DISTANCE_CLAMPED:
+                    return {s_INVERSE_DISTANCE_CLAMPED, 24};
 #endif
 #ifdef AL_LINEAR_DISTANCE
-		case AL_LINEAR_DISTANCE:
-		    return {s_LINEAR_DISTANCE, 15};
+                case AL_LINEAR_DISTANCE:
+                    return {s_LINEAR_DISTANCE, 15};
 #endif
 #ifdef AL_LINEAR_DISTANCE_CLAMPED
-		case AL_LINEAR_DISTANCE_CLAMPED:
-		    return {s_LINEAR_DISTANCE_CLAMPED, 23};
+                case AL_LINEAR_DISTANCE_CLAMPED:
+                    return {s_LINEAR_DISTANCE_CLAMPED, 23};
 #endif
 #ifdef AL_NONE
-		case AL_NONE:
-		    return {s_NONE, 4};
+                case AL_NONE:
+                    return {s_NONE, 4};
 #endif
-		default:;
-	    }
-	    break;
-	case 4: /* source_state */
-	    switch(ALenum(aev._value)) {
+                default:;
+            }
+            break;
+        case 4: /* source_state */
+            switch(ALenum(aev._value)) {
 #ifdef AL_INITIAL
-		case AL_INITIAL:
-		    return {s_INITIAL, 7};
+                case AL_INITIAL:
+                    return {s_INITIAL, 7};
 #endif
 #ifdef AL_PAUSED
-		case AL_PAUSED:
-		    return {s_PAUSED, 6};
+                case AL_PAUSED:
+                    return {s_PAUSED, 6};
 #endif
 #ifdef AL_PLAYING
-		case AL_PLAYING:
-		    return {s_PLAYING, 7};
+                case AL_PLAYING:
+                    return {s_PLAYING, 7};
 #endif
 #ifdef AL_STOPPED
-		case AL_STOPPED:
-		    return {s_STOPPED, 7};
+                case AL_STOPPED:
+                    return {s_STOPPED, 7};
 #endif
-		default:;
-	    }
-	    break;
-	case 5: /* source_type */
-	    switch(ALenum(aev._value)) {
+                default:;
+            }
+            break;
+        case 5: /* source_type */
+            switch(ALenum(aev._value)) {
 #ifdef AL_STATIC
-		case AL_STATIC:
-		    return {s_STATIC, 6};
+                case AL_STATIC:
+                    return {s_STATIC, 6};
 #endif
 #ifdef AL_STREAMING
-		case AL_STREAMING:
-		    return {s_STREAMING, 9};
+                case AL_STREAMING:
+                    return {s_STREAMING, 9};
 #endif
 #ifdef AL_UNDETERMINED
-		case AL_UNDETERMINED:
-		    return {s_UNDETERMINED, 12};
+                case AL_UNDETERMINED:
+                    return {s_UNDETERMINED, 12};
 #endif
-		default:;
-	    }
-	    break;
-	case 6: /* string_query */
-	    switch(ALenum(aev._value)) {
+                default:;
+            }
+            break;
+        case 6: /* string_query */
+            switch(ALenum(aev._value)) {
 #ifdef AL_EXTENSIONS
-		case AL_EXTENSIONS:
-		    return {s_EXTENSIONS, 10};
+                case AL_EXTENSIONS:
+                    return {s_EXTENSIONS, 10};
 #endif
 #ifdef AL_RENDERER
-		case AL_RENDERER:
-		    return {s_RENDERER, 8};
+                case AL_RENDERER:
+                    return {s_RENDERER, 8};
 #endif
 #ifdef AL_VENDOR
-		case AL_VENDOR:
-		    return {s_VENDOR, 6};
+                case AL_VENDOR:
+                    return {s_VENDOR, 6};
 #endif
 #ifdef AL_VERSION
-		case AL_VERSION:
-		    return {s_VERSION, 7};
+                case AL_VERSION:
+                    return {s_VERSION, 7};
 #endif
-		default:;
-	    }
-	    break;
-	default:;
+                default:;
+            }
+            break;
+        default:;
     }
 
     EAGINE_MAYBE_UNUSED(aev);

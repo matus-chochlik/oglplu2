@@ -15,14 +15,14 @@ BOOST_AUTO_TEST_SUITE(type_to_value_tests)
 struct test_sizeof_getter {
     template <typename T>
     std::size_t operator()(eagine::identity<T>) const {
-	return sizeof(T);
+        return sizeof(T);
     }
 };
 
 struct test_zero_getter {
     template <typename T>
     std::size_t operator()(eagine::identity<T>) const {
-	return 0;
+        return 0;
     }
 };
 
@@ -46,7 +46,7 @@ BOOST_AUTO_TEST_CASE(type_to_value_1) {
     BOOST_CHECK(!(ttv1 != ttv2));
 
     for(std::size_t s : ttv2) {
-	BOOST_CHECK(s > 0);
+        BOOST_CHECK(s > 0);
     }
 
     type_to_value<std::size_t, char, short, int, long> ttv3(
@@ -56,7 +56,7 @@ BOOST_AUTO_TEST_CASE(type_to_value_1) {
     BOOST_CHECK(!(ttv1 == ttv3));
 
     for(std::size_t s : ttv3) {
-	BOOST_CHECK(s == 0);
+        BOOST_CHECK(s == 0);
     }
 }
 

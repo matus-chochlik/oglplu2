@@ -35,38 +35,38 @@ public:
     }
 
     FallbackOutput& fallback(void) noexcept {
-	return _fallback;
+        return _fallback;
     }
 
     bool accepts_value_type(slot_data_type) override {
-	return true;
+        return true;
     }
 
     output_intf& output(void) {
-	if(is_connected()) {
-	    return connected_output();
-	} else {
-	    return fallback();
-	}
+        if(is_connected()) {
+            return connected_output();
+        } else {
+            return fallback();
+        }
     }
 
     bool set_default_value(
       eagine::valid_if_between<span_size_t, 0, 3> c, float v) override {
-	return fallback().set_default_value(c.value(), v);
+        return fallback().set_default_value(c.value(), v);
     }
 
     slot_data_type value_type(void) {
-	return output().value_type();
+        return output().value_type();
     }
 
     std::ostream& definitions(
       std::ostream& out, compile_context& ctxt) override {
-	return output().definitions(out, ctxt);
+        return output().definitions(out, ctxt);
     }
 
     std::ostream& expression(
       std::ostream& out, compile_context& ctxt) override {
-	return output().expression(out, ctxt);
+        return output().expression(out, ctxt);
     }
 };
 

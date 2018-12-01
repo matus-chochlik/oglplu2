@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_patch_parameter
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_patch_parameter_tests)
 
@@ -83,33 +83,35 @@ BOOST_AUTO_TEST_CASE(enum_patch_parameter_range) {
 
 #ifdef GL_PATCH_DEFAULT_INNER_LEVEL
     {
-	--count;
-	auto r = enum_value_range<patch_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), patch_parameter(GL_PATCH_DEFAULT_INNER_LEVEL))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<patch_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            patch_parameter(GL_PATCH_DEFAULT_INNER_LEVEL)) != r.end());
     }
 #endif
 
 #ifdef GL_PATCH_DEFAULT_OUTER_LEVEL
     {
-	--count;
-	auto r = enum_value_range<patch_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), patch_parameter(GL_PATCH_DEFAULT_OUTER_LEVEL))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<patch_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            patch_parameter(GL_PATCH_DEFAULT_OUTER_LEVEL)) != r.end());
     }
 #endif
 
 #ifdef GL_PATCH_VERTICES
     {
-	--count;
-	auto r = enum_value_range<patch_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), patch_parameter(GL_PATCH_VERTICES))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<patch_parameter>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), patch_parameter(GL_PATCH_VERTICES)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

@@ -8,9 +8,9 @@
  */
 
 #include <cctype>
-#include <eagine/memory/address.hpp>
 #include <iomanip>
 #include <iostream>
+#include <eagine/memory/address.hpp>
 
 namespace eagine {
 //------------------------------------------------------------------------------
@@ -20,21 +20,21 @@ EAGINE_LIB_FUNC
 void
 hexdump::_to_hex_b(std::ostream& out, byte b) {
     static const char hd[16] = {'0',
-      '1',
-      '2',
-      '3',
-      '4',
-      '5',
-      '6',
-      '7',
-      '8',
-      '9',
-      'a',
-      'b',
-      'c',
-      'd',
-      'e',
-      'f'};
+                                '1',
+                                '2',
+                                '3',
+                                '4',
+                                '5',
+                                '6',
+                                '7',
+                                '8',
+                                '9',
+                                'a',
+                                'b',
+                                'c',
+                                'd',
+                                'e',
+                                'f'};
     out << " " << hd[(b >> 4) & 0x0F] << hd[b & 0x0F];
 }
 //------------------------------------------------------------------------------
@@ -50,45 +50,45 @@ operator<<(std::ostream& out, const hexdump& hd) {
     const byte* row = memory::align_down(bgn, 16);
 
     while(row < end) {
-	const auto adr = hd._offs ? memory::const_address(row)
-				  : memory::const_address(row - bgn);
-	out << std::setw(20) << std::setfill('.');
-	out << (static_cast<const void*>(adr.ptr()));
-	out << "|";
+        const auto adr = hd._offs ? memory::const_address(row)
+                                  : memory::const_address(row - bgn);
+        out << std::setw(20) << std::setfill('.');
+        out << (static_cast<const void*>(adr.ptr()));
+        out << "|";
 
-	const byte* pos = row;
-	for(unsigned b = 0; b < 16; ++b) {
-	    if(b == 8) {
-		out << " ";
-	    }
+        const byte* pos = row;
+        for(unsigned b = 0; b < 16; ++b) {
+            if(b == 8) {
+                out << " ";
+            }
 
-	    if(pos < bgn || pos >= end) {
-		out << " ..";
-	    } else {
-		hexdump::_to_hex_b(out, *pos);
-	    }
-	    ++pos;
-	}
+            if(pos < bgn || pos >= end) {
+                out << " ..";
+            } else {
+                hexdump::_to_hex_b(out, *pos);
+            }
+            ++pos;
+        }
 
-	out << " |";
+        out << " |";
 
-	pos = row;
-	for(unsigned b = 0; b < 16; ++b) {
-	    if(b == 8) {
-		out << " ";
-	    }
+        pos = row;
+        for(unsigned b = 0; b < 16; ++b) {
+            if(b == 8) {
+                out << " ";
+            }
 
-	    if(pos < bgn || pos >= end || !std::isprint(*pos)) {
-		out << ".";
-	    } else {
-		out << char(*pos);
-	    }
-	    ++pos;
-	}
+            if(pos < bgn || pos >= end || !std::isprint(*pos)) {
+                out << ".";
+            } else {
+                out << char(*pos);
+            }
+            ++pos;
+        }
 
-	row += 16;
+        row += 16;
 
-	out << "|" << std::endl;
+        out << "|" << std::endl;
     }
 
     return out;

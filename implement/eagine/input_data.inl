@@ -7,28 +7,30 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#include <eagine/memory/copy.hpp>
-#include <eagine/scope_exit.hpp>
 #include <fstream>
 #include <vector>
+#include <eagine/memory/copy.hpp>
+#include <eagine/scope_exit.hpp>
 
 namespace eagine {
 //------------------------------------------------------------------------------
 static inline void
 do_read_stream_data(std::istream& input, memory::buffer& dest) {
     try {
-	input.seekg(0, std::ios::end);
-	dest.resize(memory::buffer::size_type(input.tellg()));
-	input.seekg(0, std::ios::beg);
-	input.read(static_cast<char*>(dest.data()),
-	  static_cast<std::streamsize>(dest.size()));
+        input.seekg(0, std::ios::end);
+        dest.resize(memory::buffer::size_type(input.tellg()));
+        input.seekg(0, std::ios::beg);
+        input.read(
+          static_cast<char*>(dest.data()),
+          static_cast<std::streamsize>(dest.size()));
     } catch(std::ios_base::failure&) {
-	std::vector<char> temp;
-	temp.insert(temp.begin(),
-	  std::istreambuf_iterator<char>(input),
-	  std::istreambuf_iterator<char>());
-	dest.resize(memory::buffer::size_type(temp.size()));
-	memory::copy(memory::data_block_of(temp), dest);
+        std::vector<char> temp;
+        temp.insert(
+          temp.begin(),
+          std::istreambuf_iterator<char>(input),
+          std::istreambuf_iterator<char>());
+        dest.resize(memory::buffer::size_type(temp.size()));
+        memory::copy(memory::data_block_of(temp), dest);
     }
 }
 //------------------------------------------------------------------------------

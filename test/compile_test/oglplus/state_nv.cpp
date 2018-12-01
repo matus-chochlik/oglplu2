@@ -37,6 +37,6 @@ oglplus_state_nv_test_ops1(void) {
     ste.capture(cpt);
 }
 
-    // TODO
+// TODO
 
 #endif

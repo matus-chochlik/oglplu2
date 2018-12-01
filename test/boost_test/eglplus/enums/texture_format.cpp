@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE EGLPLUS_texture_format
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_texture_format_tests)
 
@@ -81,31 +81,31 @@ BOOST_AUTO_TEST_CASE(enum_texture_format_range) {
 
 #ifdef EGL_NO_TEXTURE
     {
-	--count;
-	auto r = enum_value_range<texture_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), texture_format(EGL_NO_TEXTURE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_format>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), texture_format(EGL_NO_TEXTURE)) !=
+          r.end());
     }
 #endif
 
 #ifdef EGL_TEXTURE_RGB
     {
-	--count;
-	auto r = enum_value_range<texture_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), texture_format(EGL_TEXTURE_RGB))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_format>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), texture_format(EGL_TEXTURE_RGB)) !=
+          r.end());
     }
 #endif
 
 #ifdef EGL_TEXTURE_RGBA
     {
-	--count;
-	auto r = enum_value_range<texture_format>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), texture_format(EGL_TEXTURE_RGBA))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_format>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), texture_format(EGL_TEXTURE_RGBA)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

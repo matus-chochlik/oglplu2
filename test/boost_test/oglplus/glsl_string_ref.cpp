@@ -34,14 +34,15 @@ BOOST_AUTO_TEST_CASE(glsl_string_ref_1) {
     BOOST_CHECK(sr.count() == 1);
 
     BOOST_ASSERT(sr.parts() != nullptr);
-    BOOST_CHECK(std::strcmp(*sr.parts(),
-		  "#version 150\n"
-		  "vec4 in Position;\n"
-		  "void main(void)\n"
-		  "{\n"
-		  "	gl_Position = Position;\n"
-		  "}\n")
-		== 0);
+    BOOST_CHECK(
+      std::strcmp(
+        *sr.parts(),
+        "#version 150\n"
+        "vec4 in Position;\n"
+        "void main(void)\n"
+        "{\n"
+        "	gl_Position = Position;\n"
+        "}\n") == 0);
 
     BOOST_ASSERT(sr.lengths() != nullptr);
 }
@@ -62,14 +63,15 @@ BOOST_AUTO_TEST_CASE(glsl_literal_1) {
     BOOST_CHECK(sr.count() == 1);
 
     BOOST_ASSERT(sr.parts() != nullptr);
-    BOOST_CHECK(std::strcmp(*sr.parts(),
-		  "#version 150\n"
-		  "vec4 in Position;\n"
-		  "void main(void)\n"
-		  "{\n"
-		  "	gl_Position = Position;\n"
-		  "}\n")
-		== 0);
+    BOOST_CHECK(
+      std::strcmp(
+        *sr.parts(),
+        "#version 150\n"
+        "vec4 in Position;\n"
+        "void main(void)\n"
+        "{\n"
+        "	gl_Position = Position;\n"
+        "}\n") == 0);
 
     BOOST_ASSERT(sr.lengths() != nullptr);
 }

@@ -16,7 +16,7 @@ static void
 test_gen_ident(char* str, eagine::span_size_t n) {
 
     for(eagine::span_size_t i = 0; i < n; ++i) {
-	str[i] = rg.get_char_from(eagine::identifier::encoding::chars());
+        str[i] = rg.get_char_from(eagine::identifier::encoding::chars());
     }
     str[n] = '\0';
 }
@@ -41,17 +41,17 @@ BOOST_AUTO_TEST_CASE(identifier_1) {
     using eagine::std_size;
 
     for(int k = 0; k < 1000; ++k) {
-	const span_size_t l = eagine::identifier::max_size();
-	char name[l + 1];
+        const span_size_t l = eagine::identifier::max_size();
+        char name[l + 1];
 
-	const span_size_t n = rg.get_span_size(0, l - 1);
-	test_gen_ident(name, n);
+        const span_size_t n = rg.get_span_size(0, l - 1);
+        test_gen_ident(name, n);
 
-	const eagine::identifier id{name};
-	const std::string s1(name, std_size(n));
-	const std::string s2 = id.str();
+        const eagine::identifier id{name};
+        const std::string s1(name, std_size(n));
+        const std::string s2 = id.str();
 
-	BOOST_CHECK_EQUAL(s1, s2);
+        BOOST_CHECK_EQUAL(s1, s2);
     }
 }
 

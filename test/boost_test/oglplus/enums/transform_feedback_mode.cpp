@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_transform_feedback_mode
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_transform_feedback_mode_tests)
 
@@ -66,23 +66,24 @@ BOOST_AUTO_TEST_CASE(enum_transform_feedback_mode_range) {
 
 #ifdef GL_INTERLEAVED_ATTRIBS
     {
-	--count;
-	auto r = enum_value_range<transform_feedback_mode>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), transform_feedback_mode(GL_INTERLEAVED_ATTRIBS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<transform_feedback_mode>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            transform_feedback_mode(GL_INTERLEAVED_ATTRIBS)) != r.end());
     }
 #endif
 
 #ifdef GL_SEPARATE_ATTRIBS
     {
-	--count;
-	auto r = enum_value_range<transform_feedback_mode>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), transform_feedback_mode(GL_SEPARATE_ATTRIBS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<transform_feedback_mode>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), transform_feedback_mode(GL_SEPARATE_ATTRIBS)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

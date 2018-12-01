@@ -58,7 +58,8 @@ struct unit_symbol<gradian> {
 };
 
 // quarter
-typedef scaled_unit<scales::multiplied<scales::pi, scales::rational<1, 2>>,
+typedef scaled_unit<
+  scales::multiplied<scales::pi, scales::rational<1, 2>>,
   radian>
   quarter;
 
@@ -101,7 +102,8 @@ typedef make_scaled_base_dim_unit_t<base::gradian, si> gradian;
 typedef make_scaled_base_dim_unit_t<base::quarter, si> quarter;
 typedef make_scaled_base_dim_unit_t<base::turn, si> turn;
 
-typedef make_scaled_base_dim_unit_t<base::scaled_unit<scales::pi, base::radian>,
+typedef make_scaled_base_dim_unit_t<
+  base::scaled_unit<scales::pi, base::radian>,
   si>
   pi_rad;
 

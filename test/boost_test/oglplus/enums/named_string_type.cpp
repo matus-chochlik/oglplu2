@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_named_string_type
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_named_string_type_tests)
 
@@ -51,12 +51,12 @@ BOOST_AUTO_TEST_CASE(enum_named_string_type_range) {
 
 #ifdef GL_SHADER_INCLUDE_ARB
     {
-	--count;
-	auto r = enum_value_range<named_string_type>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), named_string_type(GL_SHADER_INCLUDE_ARB))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<named_string_type>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), named_string_type(GL_SHADER_INCLUDE_ARB)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

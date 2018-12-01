@@ -39,8 +39,8 @@ OGLPLUS_LIB_FUNC
 bool
 base_output::already_defined(compile_context& context) {
     if(!context.remembers_output(*this)) {
-	context.remember_output(*this);
-	return false;
+        context.remember_output(*this);
+        return false;
     }
     return true;
 }
@@ -80,9 +80,9 @@ OGLPLUS_LIB_FUNC
 bool
 base_output::connect(input_intf& input) {
     if(input.accepts_value_type(value_type())) {
-	assert(!is_connected(input));
-	_inputs.insert(std::addressof(input));
-	return true;
+        assert(!is_connected(input));
+        _inputs.insert(std::addressof(input));
+        return true;
     }
     return false;
 }
@@ -105,8 +105,8 @@ OGLPLUS_LIB_FUNC
 void
 base_output::notify_connected(void) {
     for(auto* input : _inputs) {
-	assert(input != nullptr);
-	input->update_needed();
+        assert(input != nullptr);
+        input->update_needed();
     }
 }
 //------------------------------------------------------------------------------

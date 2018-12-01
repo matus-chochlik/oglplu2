@@ -41,21 +41,21 @@ public:
     }
 
     constexpr inline S get(void) const noexcept {
-	return _v;
+        return _v;
     }
 
     constexpr inline operator S(void) const noexcept {
-	return _v;
+        return _v;
     }
 
     template <typename T>
     explicit constexpr inline operator T(void) const {
-	return T(_v);
+        return T(_v);
     }
 
     friend constexpr inline buffer_size operator+(
       buffer_size a, buffer_size b) noexcept {
-	return buffer_size{a._v + b._v};
+        return buffer_size{a._v + b._v};
     }
 };
 

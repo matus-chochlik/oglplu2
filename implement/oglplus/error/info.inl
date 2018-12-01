@@ -6,11 +6,11 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <string>
+#include <vector>
 #include <eagine/maybe_unused.hpp>
 #include <oglplus/enum/types.hpp>
 #include <oglplus/utils/span.hpp>
-#include <string>
-#include <vector>
 
 #ifndef GL_SHADER
 #define GL_SHADER 0x82E1
@@ -32,14 +32,14 @@ OGLPLUS_LIB_FUNC
 extended_error_info&
 error_info::_ext_info(void) const noexcept {
     if(!_ext_info_ptr) {
-	try {
-	    _ext_info_ptr.reset(new extended_error_info());
-	} catch(...) {
-	}
+        try {
+            _ext_info_ptr.reset(new extended_error_info());
+        } catch(...) {
+        }
     }
     if(!_ext_info_ptr) {
-	static extended_error_info fbk;
-	return fbk;
+        static extended_error_info fbk;
+        return fbk;
     }
     return *_ext_info_ptr;
 }
@@ -314,7 +314,7 @@ error_info&
 error_info::identifier(const cstring_span& ident) noexcept {
 #if !OGLPLUS_ERROR_NO_IDENTIFIER
     try {
-	_ext_info()._identifier.assign(ident.begin(), ident.end());
+        _ext_info()._identifier.assign(ident.begin(), ident.end());
     } catch(...) {
     }
 #else
@@ -338,7 +338,7 @@ error_info&
 error_info::info_log(const cstring_span& log) noexcept {
 #if !OGLPLUS_ERROR_NO_INFO_LOG
     try {
-	_ext_info()._info_log.assign(log.begin(), log.end());
+        _ext_info()._info_log.assign(log.begin(), log.end());
     } catch(...) {
     }
 #else
@@ -355,28 +355,28 @@ error_info::info_log_of(const any_object_name& obj) noexcept {
     PFNGLGETPROGRAMINFOLOGPROC _GetObjectInfoLog = nullptr;
 
     if(obj._type == GL_SHADER) {
-	_GetObjectiv = glGetShaderiv;
-	_GetObjectInfoLog = glGetShaderInfoLog;
+        _GetObjectiv = glGetShaderiv;
+        _GetObjectInfoLog = glGetShaderInfoLog;
     } else if(obj._type == GL_PROGRAM) {
-	_GetObjectiv = glGetProgramiv;
-	_GetObjectInfoLog = glGetProgramInfoLog;
+        _GetObjectiv = glGetProgramiv;
+        _GetObjectInfoLog = glGetProgramInfoLog;
     } else if(obj._type == GL_PROGRAM_PIPELINE) {
 #if defined(GL_VERSION_4_1) || defined(GL_ARB_separate_shader_objects)
-	_GetObjectiv = glGetProgramPipelineiv;
-	_GetObjectInfoLog = glGetProgramPipelineInfoLog;
+        _GetObjectiv = glGetProgramPipelineiv;
+        _GetObjectInfoLog = glGetProgramPipelineInfoLog;
 #endif
     }
 
     if(_GetObjectiv && _GetObjectInfoLog) {
-	GLint len = 0;
-	_GetObjectiv(get_raw_name(obj), GL_INFO_LOG_LENGTH, &len);
-	if(len > 0) {
-	    std::vector<GLchar> tmp(std_size(len + 1), '\0');
-	    _GetObjectInfoLog(get_raw_name(obj), len, nullptr, tmp.data());
-	    if(glGetError() == GL_NO_ERROR && tmp.front() != '\0') {
-		info_log(tmp);
-	    }
-	}
+        GLint len = 0;
+        _GetObjectiv(get_raw_name(obj), GL_INFO_LOG_LENGTH, &len);
+        if(len > 0) {
+            std::vector<GLchar> tmp(std_size(len + 1), '\0');
+            _GetObjectInfoLog(get_raw_name(obj), len, nullptr, tmp.data());
+            if(glGetError() == GL_NO_ERROR && tmp.front() != '\0') {
+                info_log(tmp);
+            }
+        }
     }
 #else
     EAGINE_MAYBE_UNUSED(log);

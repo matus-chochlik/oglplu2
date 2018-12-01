@@ -43,21 +43,24 @@ example_render_graph::example_render_graph(void) {
 
     connect_to_renderer(
       add_new_anon<offset_node>()
-	.connect("Input",
-	  add_new_anon<scale_node>()
-	    .connect("Scale", uscale)
-	    .connect("Input",
-	      add_new_anon<mix_node>()
-		.connect("Value",
-		  add_new_anon<wrap_node>()
-		    .connect(add_new_anon<binary_function_node>()
-			       .connect(add_new_anon<newton_node>())
-			       .set_function(binary_function::multiply)
-			       .set_value_b(8.f, 8.f, 1.f, 1.f))
-		    .set_mode(wrap_mode::mirror))
-		.set_one(0.6f, 0.9f, 0.2f, 1.0f)
-		.set_zero(0.2f, 0.3f, 0.8f, 1.0f)))
-	.set_offset(-0.5, -0.5, 0.0f));
+        .connect(
+          "Input",
+          add_new_anon<scale_node>()
+            .connect("Scale", uscale)
+            .connect(
+              "Input",
+              add_new_anon<mix_node>()
+                .connect(
+                  "Value",
+                  add_new_anon<wrap_node>()
+                    .connect(add_new_anon<binary_function_node>()
+                               .connect(add_new_anon<newton_node>())
+                               .set_function(binary_function::multiply)
+                               .set_value_b(8.f, 8.f, 1.f, 1.f))
+                    .set_mode(wrap_mode::mirror))
+                .set_one(0.6f, 0.9f, 0.2f, 1.0f)
+                .set_zero(0.2f, 0.3f, 0.8f, 1.0f)))
+        .set_offset(-0.5, -0.5, 0.0f));
 
     finalize();
 
@@ -80,45 +83,45 @@ public:
     example_texgen(void)
       : scale(1.0f)
       , aspect(1.0f) {
-	gl.uniform(erg.scale_loc, scale, scale);
-	gl.disable(GL.depth_test);
+        gl.uniform(erg.scale_loc, scale, scale);
+        gl.disable(GL.depth_test);
     }
 
     void resize(const example_state_view& state) override {
-	gl.viewport(0, 0, state.width(), state.height());
-	erg.set_dimensions(state.width(), state.height());
+        gl.viewport(0, 0, state.width(), state.height());
+        erg.set_dimensions(state.width(), state.height());
 
-	aspect = state.aspect();
+        aspect = state.aspect();
     }
 
     void pointer_scrolling(const example_state_view& state) override {
-	scale *= float(std::pow(2, -state.norm_pointer_z().delta()));
-	if(scale < min_scale)
-	    scale = min_scale;
-	if(scale > max_scale)
-	    scale = max_scale;
+        scale *= float(std::pow(2, -state.norm_pointer_z().delta()));
+        if(scale < min_scale)
+            scale = min_scale;
+        if(scale > max_scale)
+            scale = max_scale;
 
-	gl.uniform(erg.scale_loc, scale * aspect, scale);
+        gl.uniform(erg.scale_loc, scale * aspect, scale);
     }
 
     void user_idle(const example_state_view& state) override {
-	if(state.user_idle_time() > seconds_(1)) {
-	    using namespace eagine::math;
-	    float new_sc = float(smooth_lerp(
-	      min_scale, max_scale, value(state.exec_time()) * 0.4f));
+        if(state.user_idle_time() > seconds_(1)) {
+            using namespace eagine::math;
+            float new_sc = float(smooth_lerp(
+              min_scale, max_scale, value(state.exec_time()) * 0.4f));
 
-	    scale = interpolate_linear(new_sc, scale, 0.9f);
+            scale = interpolate_linear(new_sc, scale, 0.9f);
 
-	    gl.uniform(erg.scale_loc, scale, scale);
-	}
+            gl.uniform(erg.scale_loc, scale, scale);
+        }
     }
 
     seconds_t<float> default_timeout(void) override {
-	return seconds_(30);
+        return seconds_(30);
     }
 
     void render(const example_state_view& /*state*/) override {
-	erg.render();
+        erg.render();
     }
 };
 

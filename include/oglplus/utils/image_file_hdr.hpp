@@ -35,7 +35,8 @@ struct image_data_header {
       , pixels() {
     }
 
-    image_data_header(eagine::valid_if_positive<GLsizei> w,
+    image_data_header(
+      eagine::valid_if_positive<GLsizei> w,
       eagine::valid_if_positive<GLsizei> h,
       eagine::valid_if_positive<GLsizei> d) noexcept
       : width(w.value())

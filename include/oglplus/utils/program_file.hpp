@@ -10,12 +10,12 @@
 #ifndef OGLPLUS_UTILS_PROGRAM_FILE_1509260923_HPP
 #define OGLPLUS_UTILS_PROGRAM_FILE_1509260923_HPP
 
+#include <eagine/file_contents.hpp>
 #include "../enum/types.hpp"
 #include "../glsl/source_ref.hpp"
 #include "cstr_ref.hpp"
 #include "program_file_hdr.hpp"
 #include "string_span.hpp"
-#include <eagine/file_contents.hpp>
 
 namespace oglplus {
 
@@ -33,20 +33,20 @@ public:
     }
 
     bool is_valid(void) const noexcept {
-	return _header->magic.is_valid();
+        return _header->magic.is_valid();
     }
 
     auto shader_type(void) const noexcept {
-	return oglplus::shader_type(_header->shader_type);
+        return oglplus::shader_type(_header->shader_type);
     }
 
     cstr_ref source_text(void) const noexcept {
-	return {_header->source_text.data(),
-	  cstr_ref::size_type(_header->source_text.size())};
+        return {_header->source_text.data(),
+                cstr_ref::size_type(_header->source_text.size())};
     }
 
     operator glsl_source_ref(void) const noexcept {
-	return glsl_source_ref(1, &_text, &_size);
+        return glsl_source_ref(1, &_text, &_size);
     }
 };
 
@@ -80,31 +80,31 @@ public:
     }
 
     bool is_valid(void) const noexcept {
-	return _header->magic.is_valid();
+        return _header->magic.is_valid();
     }
 
     span_size_t shader_source_count(void) const noexcept {
-	assert(is_valid());
-	return _sources.size();
+        assert(is_valid());
+        return _sources.size();
     }
 
     shader_source_block shader_source(span_size_t index) const noexcept {
-	assert(is_valid());
-	assert(index < shader_source_count());
-	return eagine::memory::block_of(_sources[index]);
+        assert(is_valid());
+        assert(index < shader_source_count());
+        return eagine::memory::block_of(_sources[index]);
     }
 
     oglplus::shader_type shader_type(span_size_t index) const noexcept {
-	assert(is_valid());
-	assert(index < shader_source_count());
-	return oglplus::shader_type(_sources[index].shader_type);
+        assert(is_valid());
+        assert(index < shader_source_count());
+        return oglplus::shader_type(_sources[index].shader_type);
     }
 
     cstr_ref shader_source_text(span_size_t index) const noexcept {
-	assert(is_valid());
-	assert(index < shader_source_count());
-	return {_sources[index].source_text.data(),
-	  cstr_ref::size_type(_sources[index].source_text.size())};
+        assert(is_valid());
+        assert(index < shader_source_count());
+        return {_sources[index].source_text.data(),
+                cstr_ref::size_type(_sources[index].source_text.size())};
     }
 };
 

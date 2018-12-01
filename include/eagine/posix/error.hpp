@@ -9,9 +9,9 @@
 #ifndef EAGINE_POSIX_ERROR_1509260923_HPP
 #define EAGINE_POSIX_ERROR_1509260923_HPP
 
-#include "../outcome.hpp"
-#include <cerrno>
 #include <system_error>
+#include <cerrno>
+#include "../outcome.hpp"
 
 namespace eagine {
 namespace posix {
@@ -33,15 +33,15 @@ struct error_info {
 
 struct error_handling_policy {
     static bool is_valid(const error_info& info) noexcept {
-	return info.error_code != 0;
+        return info.error_code != 0;
     }
 
     [[noreturn]] static void invoke(const error_info& info) {
-	throw std::system_error(info.error_code, std::system_category());
+        throw std::system_error(info.error_code, std::system_category());
     }
 
     static void cancel(error_info& info) noexcept {
-	info.error_code = 0;
+        info.error_code = 0;
     }
 };
 
@@ -67,7 +67,7 @@ template <typename T>
 static inline outcome<T>
 error_if_negative(T result, int fd) noexcept {
     return (result < T(0)) ? outcome<T>(error_info(errno, fd))
-			   : outcome<T>(result);
+                           : outcome<T>(result);
 }
 
 template <typename T>

@@ -14,7 +14,8 @@ namespace oglplus {
 namespace texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-split_output::split_output(node_intf& parent,
+split_output::split_output(
+  node_intf& parent,
   input_with_const_default<float[4]>& input,
   eagine::valid_if_between<span_size_t, 0, 3> index)
   : base_output(parent)
@@ -40,7 +41,7 @@ OGLPLUS_LIB_FUNC
 std::ostream&
 split_output::definitions(std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt))
-	return out;
+        return out;
 
     input_defs(out, ctxt);
     opening_expr(out, ctxt);
@@ -97,11 +98,11 @@ OGLPLUS_LIB_FUNC
 output_intf&
 split_node::output(span_size_t index) {
     if(index == 0)
-	return _output_r;
+        return _output_r;
     if(index == 1)
-	return _output_g;
+        return _output_g;
     if(index == 2)
-	return _output_b;
+        return _output_b;
     assert(index < output_count());
     return _output_a;
 }

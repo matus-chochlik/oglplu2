@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_transform_feedback_parameter
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_transform_feedback_parameter_tests)
 
@@ -97,25 +97,25 @@ BOOST_AUTO_TEST_CASE(enum_transform_feedback_parameter_names) {
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER_BINDING
     x = ev.transform_feedback_buffer_binding;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-    BOOST_CHECK(std::strcmp(enum_value_name(x).data(),
-		  "TRANSFORM_FEEDBACK_BUFFER_BINDING")
-		== 0);
+    BOOST_CHECK(
+      std::strcmp(
+        enum_value_name(x).data(), "TRANSFORM_FEEDBACK_BUFFER_BINDING") == 0);
 #endif
 
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER_SIZE
     x = ev.transform_feedback_buffer_size;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "TRANSFORM_FEEDBACK_BUFFER_SIZE")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "TRANSFORM_FEEDBACK_BUFFER_SIZE") == 0);
 #endif
 
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER_START
     x = ev.transform_feedback_buffer_start;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "TRANSFORM_FEEDBACK_BUFFER_START")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "TRANSFORM_FEEDBACK_BUFFER_START") == 0);
 #endif
 
 #ifdef GL_TRANSFORM_FEEDBACK_PAUSED
@@ -132,61 +132,66 @@ BOOST_AUTO_TEST_CASE(enum_transform_feedback_parameter_range) {
 
 #ifdef GL_TRANSFORM_FEEDBACK_ACTIVE
     {
-	--count;
-	auto r = enum_value_range<transform_feedback_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(),
-	    r.end(),
-	    transform_feedback_parameter(GL_TRANSFORM_FEEDBACK_ACTIVE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<transform_feedback_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            transform_feedback_parameter(GL_TRANSFORM_FEEDBACK_ACTIVE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER_BINDING
     {
-	--count;
-	auto r = enum_value_range<transform_feedback_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(),
-	    r.end(),
-	    transform_feedback_parameter(GL_TRANSFORM_FEEDBACK_BUFFER_BINDING))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<transform_feedback_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            transform_feedback_parameter(
+              GL_TRANSFORM_FEEDBACK_BUFFER_BINDING)) != r.end());
     }
 #endif
 
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER_SIZE
     {
-	--count;
-	auto r = enum_value_range<transform_feedback_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(),
-	    r.end(),
-	    transform_feedback_parameter(GL_TRANSFORM_FEEDBACK_BUFFER_SIZE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<transform_feedback_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            transform_feedback_parameter(GL_TRANSFORM_FEEDBACK_BUFFER_SIZE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TRANSFORM_FEEDBACK_BUFFER_START
     {
-	--count;
-	auto r = enum_value_range<transform_feedback_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(),
-	    r.end(),
-	    transform_feedback_parameter(GL_TRANSFORM_FEEDBACK_BUFFER_START))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<transform_feedback_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            transform_feedback_parameter(GL_TRANSFORM_FEEDBACK_BUFFER_START)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TRANSFORM_FEEDBACK_PAUSED
     {
-	--count;
-	auto r = enum_value_range<transform_feedback_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(),
-	    r.end(),
-	    transform_feedback_parameter(GL_TRANSFORM_FEEDBACK_PAUSED))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<transform_feedback_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            transform_feedback_parameter(GL_TRANSFORM_FEEDBACK_PAUSED)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

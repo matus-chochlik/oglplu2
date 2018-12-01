@@ -27,11 +27,11 @@ BOOST_AUTO_TEST_CASE(flat_map_1) {
     std::hash<int> h;
 
     for(int i = 0; i < 1000; ++i) {
-	int k = rg.get_any<int>();
-	std::size_t v = h(k + k);
+        int k = rg.get_any<int>();
+        std::size_t v = h(k + k);
 
-	sm.insert(p_t(k, v));
-	d.push_back(p_t(k, v));
+        sm.insert(p_t(k, v));
+        d.push_back(p_t(k, v));
     }
 
     flat_map<int, std::size_t> fm(d);
@@ -43,10 +43,10 @@ BOOST_AUTO_TEST_CASE(flat_map_1) {
     auto fmi = fm.begin();
 
     while((smi != sm.end()) && (fmi != fm.end())) {
-	BOOST_CHECK_EQUAL(smi->first, fmi->first);
-	BOOST_CHECK_EQUAL(smi->second, fmi->second);
-	++smi;
-	++fmi;
+        BOOST_CHECK_EQUAL(smi->first, fmi->first);
+        BOOST_CHECK_EQUAL(smi->second, fmi->second);
+        ++smi;
+        ++fmi;
     }
 
     BOOST_CHECK(smi == sm.end());
@@ -64,11 +64,11 @@ BOOST_AUTO_TEST_CASE(flat_map_2) {
     std::hash<int> h;
 
     for(int i = 0; i < 1000; ++i) {
-	int k = rg.get_any<int>();
-	std::size_t v = h(k + k);
+        int k = rg.get_any<int>();
+        std::size_t v = h(k + k);
 
-	sm.insert(p_t(k, v));
-	fm.insert(p_t(k, v));
+        sm.insert(p_t(k, v));
+        fm.insert(p_t(k, v));
     }
 
     BOOST_CHECK_EQUAL(sm.empty(), fm.empty());
@@ -78,10 +78,10 @@ BOOST_AUTO_TEST_CASE(flat_map_2) {
     auto fmi = fm.begin();
 
     while((smi != sm.end()) && (fmi != fm.end())) {
-	BOOST_CHECK_EQUAL(smi->first, fmi->first);
-	BOOST_CHECK_EQUAL(smi->second, fmi->second);
-	++smi;
-	++fmi;
+        BOOST_CHECK_EQUAL(smi->first, fmi->first);
+        BOOST_CHECK_EQUAL(smi->second, fmi->second);
+        ++smi;
+        ++fmi;
     }
 
     BOOST_CHECK(smi == sm.end());
@@ -99,11 +99,11 @@ BOOST_AUTO_TEST_CASE(flat_map_3) {
     std::hash<int> h;
 
     for(int i = 0; i < 1000; ++i) {
-	int k = rg.get_any<int>();
-	std::size_t v = h(k + k);
+        int k = rg.get_any<int>();
+        std::size_t v = h(k + k);
 
-	sm.insert(sm.begin(), p_t(k, v));
-	fm.insert(fm.begin(), p_t(k, v));
+        sm.insert(sm.begin(), p_t(k, v));
+        fm.insert(fm.begin(), p_t(k, v));
     }
 
     BOOST_CHECK_EQUAL(sm.empty(), fm.empty());
@@ -113,10 +113,10 @@ BOOST_AUTO_TEST_CASE(flat_map_3) {
     auto fmi = fm.begin();
 
     while((smi != sm.end()) && (fmi != fm.end())) {
-	BOOST_CHECK_EQUAL(smi->first, fmi->first);
-	BOOST_CHECK_EQUAL(smi->second, fmi->second);
-	++smi;
-	++fmi;
+        BOOST_CHECK_EQUAL(smi->first, fmi->first);
+        BOOST_CHECK_EQUAL(smi->second, fmi->second);
+        ++smi;
+        ++fmi;
     }
 
     BOOST_CHECK(smi == sm.end());
@@ -134,11 +134,11 @@ BOOST_AUTO_TEST_CASE(flat_map_4) {
     std::hash<int> h;
 
     for(int i = 0; i < 1000; ++i) {
-	int k = rg.get_any<int>();
-	std::size_t v = h(k + k);
+        int k = rg.get_any<int>();
+        std::size_t v = h(k + k);
 
-	sm.insert(sm.end(), p_t(k, v));
-	fm.insert(fm.end(), p_t(k, v));
+        sm.insert(sm.end(), p_t(k, v));
+        fm.insert(fm.end(), p_t(k, v));
     }
 
     BOOST_CHECK_EQUAL(sm.empty(), fm.empty());
@@ -148,10 +148,10 @@ BOOST_AUTO_TEST_CASE(flat_map_4) {
     auto fmi = fm.begin();
 
     while((smi != sm.end()) && (fmi != fm.end())) {
-	BOOST_CHECK_EQUAL(smi->first, fmi->first);
-	BOOST_CHECK_EQUAL(smi->second, fmi->second);
-	++smi;
-	++fmi;
+        BOOST_CHECK_EQUAL(smi->first, fmi->first);
+        BOOST_CHECK_EQUAL(smi->second, fmi->second);
+        ++smi;
+        ++fmi;
     }
 
     BOOST_CHECK(smi == sm.end());
@@ -169,11 +169,11 @@ BOOST_AUTO_TEST_CASE(flat_map_5) {
     std::hash<int> h;
 
     for(int i = 0; i < 1000; ++i) {
-	int k = rg.get_any<int>();
-	std::size_t v = h(k + k);
+        int k = rg.get_any<int>();
+        std::size_t v = h(k + k);
 
-	sm.insert(sm.lower_bound(k), p_t(k, v));
-	fm.insert(fm.lower_bound(k), p_t(k, v));
+        sm.insert(sm.lower_bound(k), p_t(k, v));
+        fm.insert(fm.lower_bound(k), p_t(k, v));
     }
 
     BOOST_CHECK_EQUAL(sm.empty(), fm.empty());
@@ -183,10 +183,10 @@ BOOST_AUTO_TEST_CASE(flat_map_5) {
     flat_map<int, std::size_t>::iterator fmi = fm.begin();
 
     while((smi != sm.end()) && (fmi != fm.end())) {
-	BOOST_CHECK_EQUAL(smi->first, fmi->first);
-	BOOST_CHECK_EQUAL(smi->second, fmi->second);
-	++smi;
-	++fmi;
+        BOOST_CHECK_EQUAL(smi->first, fmi->first);
+        BOOST_CHECK_EQUAL(smi->second, fmi->second);
+        ++smi;
+        ++fmi;
     }
 
     BOOST_CHECK(smi == sm.end());
@@ -205,26 +205,26 @@ BOOST_AUTO_TEST_CASE(flat_map_6) {
     std::hash<int> h;
 
     for(int i = 0; i < 1000; ++i) {
-	int k = rg.get_any<int>();
-	std::size_t v = h(k + k);
-	ks.push_back(k);
+        int k = rg.get_any<int>();
+        std::size_t v = h(k + k);
+        ks.push_back(k);
 
-	sm.insert(p_t(k, v));
-	fm.insert(p_t(k, v));
+        sm.insert(p_t(k, v));
+        fm.insert(p_t(k, v));
     }
 
     BOOST_CHECK_EQUAL(sm.empty(), fm.empty());
     BOOST_CHECK_EQUAL(sm.size(), fm.size());
 
     for(int k : ks) {
-	auto smi = sm.find(k);
-	auto fmi = fm.find(k);
+        auto smi = sm.find(k);
+        auto fmi = fm.find(k);
 
-	BOOST_ASSERT(smi != sm.end());
-	BOOST_ASSERT(fmi != fm.end());
+        BOOST_ASSERT(smi != sm.end());
+        BOOST_ASSERT(fmi != fm.end());
 
-	BOOST_CHECK_EQUAL(smi->first, fmi->first);
-	BOOST_CHECK_EQUAL(smi->second, fmi->second);
+        BOOST_CHECK_EQUAL(smi->first, fmi->first);
+        BOOST_CHECK_EQUAL(smi->second, fmi->second);
     }
 }
 

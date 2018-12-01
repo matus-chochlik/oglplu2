@@ -16,14 +16,14 @@ template <typename T, int I, int N, bool V>
 void
 test_vect_axis_apply_TINV(void) {
     for(int k = 0; k < 1000; ++k) {
-	T a = rg.get_any<T>();
+        T a = rg.get_any<T>();
 
-	typename eagine::vect::data<T, N, V>::type v =
-	  eagine::vect::axis<T, N, I, V>::apply(a);
+        typename eagine::vect::data<T, N, V>::type v =
+          eagine::vect::axis<T, N, I, V>::apply(a);
 
-	for(int i = 0; i < N; ++i) {
-	    BOOST_CHECK_EQUAL(v[i], T(i == I ? a : 0));
-	}
+        for(int i = 0; i < N; ++i) {
+            BOOST_CHECK_EQUAL(v[i], T(i == I ? a : 0));
+        }
     }
 }
 

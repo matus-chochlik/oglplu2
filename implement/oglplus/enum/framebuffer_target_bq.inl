@@ -17,16 +17,16 @@ get_binding_query(framebuffer_target tgt) noexcept {
     GLenum result = 0;
     switch(GLenum(tgt)) {
 #if defined(GL_DRAW_FRAMEBUFFER) && defined(GL_DRAW_FRAMEBUFFER_BINDING)
-	case GL_DRAW_FRAMEBUFFER:
-	    result = GL_DRAW_FRAMEBUFFER_BINDING;
-	    break;
+        case GL_DRAW_FRAMEBUFFER:
+            result = GL_DRAW_FRAMEBUFFER_BINDING;
+            break;
 #endif
 #if defined(GL_READ_FRAMEBUFFER) && defined(GL_READ_FRAMEBUFFER_BINDING)
-	case GL_READ_FRAMEBUFFER:
-	    result = GL_READ_FRAMEBUFFER_BINDING;
-	    break;
+        case GL_READ_FRAMEBUFFER:
+            result = GL_READ_FRAMEBUFFER_BINDING;
+            break;
 #endif
-	default:;
+        default:;
     }
     return binding_query(result);
 }

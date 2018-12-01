@@ -31,15 +31,16 @@ public:
 };
 
 class offset_node
-  : public binary_single_output_node<offset_output,
+  : public binary_single_output_node<
+      offset_output,
       decltype(offset_output::input),
       &offset_output::input,
       decltype(offset_output::offset),
       &offset_output::offset> {
 public:
     offset_node& set_offset(float x, float y, float z) {
-	_output.offset.fallback().set(x, y, z);
-	return *this;
+        _output.offset.fallback().set(x, y, z);
+        return *this;
     }
 };
 

@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_reset_notification_strategy
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_reset_notification_strategy_tests)
 
@@ -66,23 +66,25 @@ BOOST_AUTO_TEST_CASE(enum_reset_notification_strategy_range) {
 
 #ifdef GL_LOSE_CONTEXT_ON_RESET
     {
-	--count;
-	auto r = enum_value_range<reset_notification_strategy>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      reset_notification_strategy(GL_LOSE_CONTEXT_ON_RESET))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<reset_notification_strategy>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            reset_notification_strategy(GL_LOSE_CONTEXT_ON_RESET)) != r.end());
     }
 #endif
 
 #ifdef GL_NO_RESET_NOTIFICATION
     {
-	--count;
-	auto r = enum_value_range<reset_notification_strategy>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      reset_notification_strategy(GL_NO_RESET_NOTIFICATION))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<reset_notification_strategy>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            reset_notification_strategy(GL_NO_RESET_NOTIFICATION)) != r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

@@ -10,11 +10,11 @@
 #ifndef OGLPLUS_SHAPES_DRAWING_1509260923_HPP
 #define OGLPLUS_SHAPES_DRAWING_1509260923_HPP
 
+#include <eagine/shapes/drawing.hpp>
 #include "../config/basic.hpp"
 #include "../enum/types.hpp"
 #include "../error/outcome.hpp"
 #include "../utils/span.hpp"
-#include <eagine/shapes/drawing.hpp>
 
 namespace oglplus {
 namespace shapes {
@@ -57,8 +57,8 @@ public:
     outcome<void> draw(void) const noexcept;
 };
 
-outcome<void>
-draw_using_instructions(const span<const draw_operation>& ops) noexcept;
+outcome<void> draw_using_instructions(
+  const span<const draw_operation>& ops) noexcept;
 
 } // namespace shapes
 } // namespace oglplus

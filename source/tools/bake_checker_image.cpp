@@ -5,9 +5,9 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
+#include <fstream>
 #include <eagine/program_args.hpp>
 #include <eagine/valid_if/positive.hpp>
-#include <fstream>
 #include <oglplus/gl.hpp>
 #include <oglplus/utils/image_file_io.hpp>
 
@@ -41,26 +41,26 @@ struct options {
       , rep_y("-y", "--y-repeat", 8)
       , rep_z("-z", "--z-repeat", 8)
       , all(output_path, width, height, depth, rep_x, rep_y, rep_z) {
-	output_path.description(
-	  "Output file path, or '-' for standard output.");
-	width.description("Output image width in pixels.");
-	height.description("Output image height in pixels.");
-	depth.description("Output image depth in pixels.");
-	rep_x.description("Pattern repeat along the X axis.");
-	rep_y.description("Pattern repeat along the Y axis.");
-	rep_z.description("Pattern repeat along the Z axis.");
+        output_path.description(
+          "Output file path, or '-' for standard output.");
+        width.description("Output image width in pixels.");
+        height.description("Output image height in pixels.");
+        depth.description("Output image depth in pixels.");
+        rep_x.description("Pattern repeat along the X axis.");
+        rep_y.description("Pattern repeat along the Y axis.");
+        rep_z.description("Pattern repeat along the Z axis.");
     }
 
     void print_usage(std::ostream& log) {
-	all.print_usage(log, "bake_checker_image");
+        all.print_usage(log, "bake_checker_image");
     }
 
     bool check(std::ostream& log) {
-	return all.validate(log);
+        return all.validate(log);
     }
 
     bool parse(eagine::program_arg& arg, std::ostream& log) {
-	return all.parse(arg, log);
+        return all.parse(arg, log);
     }
 };
 
@@ -71,12 +71,12 @@ write_output(std::ostream& output, const options& opts) {
 
     if(has_r3g3b2) {
 #if defined(GL_R3_G3_B2) && defined(GL_UNSIGNED_BYTE_3_3_2)
-	hdr.internal_format = GL_R3_G3_B2;
-	hdr.data_type = GL_UNSIGNED_BYTE_3_3_2;
+        hdr.internal_format = GL_R3_G3_B2;
+        hdr.data_type = GL_UNSIGNED_BYTE_3_3_2;
 #endif
     } else {
-	hdr.internal_format = GL_RGB;
-	hdr.data_type = GL_UNSIGNED_BYTE;
+        hdr.internal_format = GL_RGB;
+        hdr.data_type = GL_UNSIGNED_BYTE;
     }
     const GLsizei channels = has_r3g3b2 ? 1 : 3;
 
@@ -90,38 +90,37 @@ write_output(std::ostream& output, const options& opts) {
     const GLsizei fw = opts.width.value() / opts.rep_x.value();
 
     for(GLsizei z = 0; z < hdr.depth; ++z) {
-	const GLsizei fz = (fd == 0 ? 0 : z / fd);
-	for(GLsizei y = 0; y < hdr.height; ++y) {
-	    const GLsizei fy = (fh == 0 ? 0 : y / fh);
-	    for(GLsizei x = 0; x < hdr.width; ++x) {
-		const GLsizei fx = (fw == 0 ? 0 : x / fw);
-		const bool black = ((fx % 2) + (fy % 2) + (fz % 2)) % 2 == 0;
-		const char outb = char(black ? 0x00 : 0xFF);
+        const GLsizei fz = (fd == 0 ? 0 : z / fd);
+        for(GLsizei y = 0; y < hdr.height; ++y) {
+            const GLsizei fy = (fh == 0 ? 0 : y / fh);
+            for(GLsizei x = 0; x < hdr.width; ++x) {
+                const GLsizei fx = (fw == 0 ? 0 : x / fw);
+                const bool black = ((fx % 2) + (fy % 2) + (fz % 2)) % 2 == 0;
+                const char outb = char(black ? 0x00 : 0xFF);
 
-		for(GLsizei c = 0; c < channels; ++c) {
-		    output.put(outb);
-		}
-	    }
-	}
+                for(GLsizei c = 0; c < channels; ++c) {
+                    output.put(outb);
+                }
+            }
+        }
     }
 }
 
-int
-parse_options(int argc, const char** argv, options& opts);
+int parse_options(int argc, const char** argv, options& opts);
 
 int
 main(int argc, const char** argv) {
     options opts;
 
     if(int err = parse_options(argc, argv, opts)) {
-	return err;
+        return err;
     }
 
     if(opts.output_path.value() == eagine::cstr_ref("-")) {
-	write_output(std::cout, opts);
+        write_output(std::cout, opts);
     } else {
-	std::ofstream output_file(opts.output_path.value().c_str());
-	write_output(output_file, opts);
+        std::ofstream output_file(opts.output_path.value().c_str());
+        write_output(output_file, opts);
     }
     return 0;
 }
@@ -129,9 +128,9 @@ main(int argc, const char** argv) {
 bool
 parse_argument(eagine::program_arg& a, options& opts) {
     if(!opts.parse(a, std::cerr)) {
-	std::cerr << "Failed to parse argument '" << a.get() << "'"
-		  << std::endl;
-	return false;
+        std::cerr << "Failed to parse argument '" << a.get() << "'"
+                  << std::endl;
+        return false;
     }
     return true;
 }
@@ -141,18 +140,18 @@ parse_options(int argc, const char** argv, options& opts) {
     eagine::program_args args(argc, argv);
 
     for(eagine::program_arg a = args.first(); a; a = a.next()) {
-	if(a.is_help_arg()) {
-	    opts.print_usage(std::cout);
-	    return 1;
-	} else if(!parse_argument(a, opts)) {
-	    opts.print_usage(std::cerr);
-	    return 2;
-	}
+        if(a.is_help_arg()) {
+            opts.print_usage(std::cout);
+            return 1;
+        } else if(!parse_argument(a, opts)) {
+            opts.print_usage(std::cerr);
+            return 2;
+        }
     }
 
     if(!opts.check(std::cerr)) {
-	opts.print_usage(std::cerr);
-	return 3;
+        opts.print_usage(std::cerr);
+        return 3;
     }
 
     return 0;

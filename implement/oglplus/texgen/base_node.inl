@@ -59,7 +59,7 @@ OGLPLUS_LIB_FUNC
 void
 base_node::update_needed(void) {
     for(span_size_t i = 0, n = output_count(); i < n; ++i) {
-	output(i).notify_connected();
+        output(i).notify_connected();
     }
 }
 //------------------------------------------------------------------------------
@@ -67,7 +67,7 @@ OGLPLUS_LIB_FUNC
 void
 base_node::prepare(void) {
     for(span_size_t i = 0, n = input_count(); i < n; ++i) {
-	input(i).prepare_connected();
+        input(i).prepare_connected();
     }
 }
 //------------------------------------------------------------------------------
@@ -75,13 +75,13 @@ OGLPLUS_LIB_FUNC
 bool
 base_node::render(const render_params& params) {
     if(auto n = input_count()) {
-	while(_render_input < n) {
-	    if(input(_render_input).render_connected(params)) {
-		++_render_input;
-	    } else
-		return false;
-	}
-	_render_input = 0;
+        while(_render_input < n) {
+            if(input(_render_input).render_connected(params)) {
+                ++_render_input;
+            } else
+                return false;
+        }
+        _render_input = 0;
     }
     return true;
 }

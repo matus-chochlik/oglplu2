@@ -72,11 +72,11 @@ string_path::string_path(
     span_size_t s = 0;
 
     auto count = [&s](const str_span& name) {
-	s += basic_string_path::required_bytes(name);
+        s += basic_string_path::required_bytes(name);
     };
 
     auto count_alt = [&count, &alt_sep](const str_span& name) {
-	ranges::for_each_delimited(name, alt_sep, count);
+        ranges::for_each_delimited(name, alt_sep, count);
     };
 
     ranges::for_each_delimited(path_str, sep, count_alt);
@@ -85,7 +85,7 @@ string_path::string_path(
     auto push_back = [this](const str_span& name) { _p.push_back(name); };
 
     auto push_back_alt = [&push_back, &alt_sep](const str_span& name) {
-	ranges::for_each_delimited(name, alt_sep, push_back);
+        ranges::for_each_delimited(name, alt_sep, push_back);
     };
 
     ranges::for_each_delimited(path_str, sep, push_back_alt);
@@ -96,7 +96,7 @@ string_path::string_path(const str_span& path_str, const str_span& sep) {
     span_size_t s = 0;
 
     auto count = [&s](const str_span& name) {
-	s += basic_string_path::required_bytes(name);
+        s += basic_string_path::required_bytes(name);
     };
 
     ranges::for_each_delimited(path_str, sep, count);
@@ -123,25 +123,25 @@ string_path::normalized(void) const {
     string_path result;
 
     auto do_norm = [&result](const string_list::element& elem, bool first) {
-	auto val = elem.value();
-	if(val == path_curdir() && !first)
-	    return;
-	if((val.size() == 0) && !first)
-	    return;
+        auto val = elem.value();
+        if(val == path_curdir() && !first)
+            return;
+        if((val.size() == 0) && !first)
+            return;
 
-	if(result.empty() || (result.back() == path_pardir())) {
-	    result._p.push_back_elem(elem);
-	} else if(val == path_pardir()) {
-	    if(result.back() == path_curdir()) {
-		result._p.pop_back();
-		result._p.push_back_elem(elem);
+        if(result.empty() || (result.back() == path_pardir())) {
+            result._p.push_back_elem(elem);
+        } else if(val == path_pardir()) {
+            if(result.back() == path_curdir()) {
+                result._p.pop_back();
+                result._p.push_back_elem(elem);
 
-	    } else if((result.size() != 1) || (result.back().size() != 0)) {
-		result._p.pop_back();
-	    }
-	} else {
-	    result._p.push_back_elem(elem);
-	}
+            } else if((result.size() != 1) || (result.back().size() != 0)) {
+                result._p.pop_back();
+            }
+        } else {
+            result._p.push_back_elem(elem);
+        }
     };
     _p.for_each_elem(do_norm);
 
@@ -153,17 +153,17 @@ string_path
 string_path::parent_path(void) const {
     string_path result(normalized());
     if(result.empty() || result.back() == path_pardir()) {
-	result.push_back(path_pardir());
+        result.push_back(path_pardir());
     } else if(result.size() == 1) {
-	if((result.back() == path_curdir())) {
-	    result.pop_back();
-	    result.push_back(path_pardir());
-	} else {
-	    result.pop_back();
-	    result.push_back(path_curdir());
-	}
+        if((result.back() == path_curdir())) {
+            result.pop_back();
+            result.push_back(path_pardir());
+        } else {
+            result.pop_back();
+            result.push_back(path_curdir());
+        }
     } else if((result.size() > 1) || (!is_root_name(front()))) {
-	result.pop_back();
+        result.pop_back();
     }
     return result;
 }

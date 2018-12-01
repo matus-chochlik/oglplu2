@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_support_level
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_support_level_tests)
 
@@ -81,30 +81,30 @@ BOOST_AUTO_TEST_CASE(enum_support_level_range) {
 
 #ifdef GL_CAVEAT_SUPPORT
     {
-	--count;
-	auto r = enum_value_range<support_level>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), support_level(GL_CAVEAT_SUPPORT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<support_level>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), support_level(GL_CAVEAT_SUPPORT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_FULL_SUPPORT
     {
-	--count;
-	auto r = enum_value_range<support_level>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), support_level(GL_FULL_SUPPORT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<support_level>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), support_level(GL_FULL_SUPPORT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_NONE
     {
-	--count;
-	auto r = enum_value_range<support_level>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), support_level(GL_NONE)) != r.end());
+        --count;
+        auto r = enum_value_range<support_level>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), support_level(GL_NONE)) != r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

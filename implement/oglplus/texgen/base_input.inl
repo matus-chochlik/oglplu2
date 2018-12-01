@@ -45,9 +45,9 @@ OGLPLUS_LIB_FUNC
 bool
 base_input::do_connect(output_intf& output) {
     if(can_connect(output)) {
-	assert(!is_connected());
-	_output = std::addressof(output);
-	return true;
+        assert(!is_connected());
+        _output = std::addressof(output);
+        return true;
     }
     return false;
 }
@@ -56,13 +56,13 @@ OGLPLUS_LIB_FUNC
 bool
 base_input::connect(output_intf& output) {
     if(do_connect(output)) {
-	try {
-	    parent().update_needed();
-	    return true;
-	} catch(...) {
-	    _output = nullptr;
-	    throw;
-	}
+        try {
+            parent().update_needed();
+            return true;
+        } catch(...) {
+            _output = nullptr;
+            throw;
+        }
     }
     return false;
 }
@@ -78,8 +78,8 @@ OGLPLUS_LIB_FUNC
 bool
 base_input::disconnect(output_intf& output) {
     if(is_connected(output)) {
-	disconnect();
-	return true;
+        disconnect();
+        return true;
     }
     return false;
 }
@@ -108,7 +108,7 @@ OGLPLUS_LIB_FUNC
 void
 base_input::prepare_connected(void) {
     if(is_connected()) {
-	return connected_output().prepare_parent();
+        return connected_output().prepare_parent();
     }
 }
 //------------------------------------------------------------------------------
@@ -116,7 +116,7 @@ OGLPLUS_LIB_FUNC
 bool
 base_input::render_connected(const render_params& params) {
     if(is_connected()) {
-	return connected_output().render_parent(params);
+        return connected_output().render_parent(params);
     }
     return true;
 }

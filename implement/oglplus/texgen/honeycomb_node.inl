@@ -13,7 +13,8 @@ namespace oglplus {
 namespace texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-honeycomb_output::honeycomb_output(node_intf& parent,
+honeycomb_output::honeycomb_output(
+  node_intf& parent,
   input_with_const_default<float[2]>& cells,
   honeycomb_direction& direction,
   honeycomb_output_type type)
@@ -27,12 +28,12 @@ OGLPLUS_LIB_FUNC
 cstr_ref
 honeycomb_output::type_abbr(void) const {
     switch(_type) {
-	case honeycomb_output_type::distance:
-	    return cstr_ref("Dist");
-	case honeycomb_output_type::cell_coord:
-	    return cstr_ref("CCrd");
-	case honeycomb_output_type::cell_center:
-	    return cstr_ref("CCtr");
+        case honeycomb_output_type::distance:
+            return cstr_ref("Dist");
+        case honeycomb_output_type::cell_coord:
+            return cstr_ref("CCrd");
+        case honeycomb_output_type::cell_center:
+            return cstr_ref("CCtr");
     }
     return cstr_ref();
 }
@@ -47,11 +48,11 @@ OGLPLUS_LIB_FUNC
 slot_data_type
 honeycomb_output::value_type(void) {
     switch(_type) {
-	case honeycomb_output_type::cell_coord:
-	case honeycomb_output_type::cell_center:
-	    return slot_data_type::float_2;
-	case honeycomb_output_type::distance:
-	    break;
+        case honeycomb_output_type::cell_coord:
+        case honeycomb_output_type::cell_center:
+            return slot_data_type::float_2;
+        case honeycomb_output_type::distance:
+            break;
     }
     return slot_data_type::float_;
 }
@@ -60,7 +61,7 @@ OGLPLUS_LIB_FUNC
 std::ostream&
 honeycomb_output::definitions(std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt))
-	return out;
+        return out;
 
     input_defs(out, ctxt);
 
@@ -73,9 +74,9 @@ honeycomb_output::definitions(std::ostream& out, compile_context& ctxt) {
     out << "\tfloat min_dist = 2.0;" << std::endl;
 
     if(_type == honeycomb_output_type::cell_coord) {
-	out << "\tvec2 min_cell_coord;" << std::endl;
+        out << "\tvec2 min_cell_coord;" << std::endl;
     } else if(_type == honeycomb_output_type::cell_center) {
-	out << "\tvec2 min_cell_center;" << std::endl;
+        out << "\tvec2 min_cell_center;" << std::endl;
     }
 
     out << "\tvec2 norm_coord = vec2(";
@@ -90,19 +91,19 @@ honeycomb_output::definitions(std::ostream& out, compile_context& ctxt) {
     out << std::endl;
 
     /*
-	    out << "\tvec2 cell_coord = floor(norm_coord*cell_count);";
-	    out << "\t\tfloat stripes = mod(floor(cell_coord.";
-	    switch(_direction)
-	    {
-		    case honeycomb_direction::vertical:
-			    out << "y";
-			    break;
-		    case honeycomb_direction::horizontal:
-			    out << "x";
-			    break;
-	    }
-	    out << "), 2.0);" << std::endl;
-	    out << "\treturn vec2(stripes);" << std::endl;
+        out << "\tvec2 cell_coord = floor(norm_coord*cell_count);";
+        out << "\t\tfloat stripes = mod(floor(cell_coord.";
+        switch(_direction)
+        {
+            case honeycomb_direction::vertical:
+                out << "y";
+                break;
+            case honeycomb_direction::horizontal:
+                out << "x";
+                break;
+        }
+        out << "), 2.0);" << std::endl;
+        out << "\treturn vec2(stripes);" << std::endl;
     */
     out << "\tfor(int i=0; i<9; ++i)" << std::endl;
     out << "\t{" << std::endl;
@@ -113,23 +114,23 @@ honeycomb_output::definitions(std::ostream& out, compile_context& ctxt) {
 
     out << "\t\tfloat stripes = mod(floor(cell_coord.";
     switch(_direction) {
-	case honeycomb_direction::vertical:
-	    out << "y";
-	    break;
-	case honeycomb_direction::horizontal:
-	    out << "x";
-	    break;
+        case honeycomb_direction::vertical:
+            out << "y";
+            break;
+        case honeycomb_direction::horizontal:
+            out << "x";
+            break;
     }
     out << "), 2.0);" << std::endl;
 
     out << "\t\tvec2 rel_cell_center = mix(";
     switch(_direction) {
-	case honeycomb_direction::vertical:
-	    out << "vec2(0.5, 0.5), vec2(0.0, 0.5),";
-	    break;
-	case honeycomb_direction::horizontal:
-	    out << "vec2(0.5, 0.0), vec2(0.5, 0.5),";
-	    break;
+        case honeycomb_direction::vertical:
+            out << "vec2(0.5, 0.5), vec2(0.0, 0.5),";
+            break;
+        case honeycomb_direction::horizontal:
+            out << "vec2(0.5, 0.0), vec2(0.5, 0.5),";
+            break;
     }
     out << "stripes);" << std::endl;
 
@@ -145,27 +146,27 @@ honeycomb_output::definitions(std::ostream& out, compile_context& ctxt) {
     out << "\t\t\tmin_dist = dist;" << std::endl;
 
     if(_type == honeycomb_output_type::cell_coord) {
-	out << "\t\t\tmin_cell_coord = cell_coord;";
-	out << std::endl;
+        out << "\t\t\tmin_cell_coord = cell_coord;";
+        out << std::endl;
     } else if(_type == honeycomb_output_type::cell_center) {
-	out << "\t\t\tmin_cell_center = abs_cell_center;";
-	out << std::endl;
+        out << "\t\t\tmin_cell_center = abs_cell_center;";
+        out << std::endl;
     }
 
     out << "\t\t}" << std::endl;
     out << "\t}" << std::endl;
 
     switch(_type) {
-	case honeycomb_output_type::distance:
-	    out << "\treturn min_dist*";
-	    out << "min(cell_count.x, cell_count.y)/sqrt(2.0);";
-	    break;
-	case honeycomb_output_type::cell_coord:
-	    out << "\treturn min_cell_coord;";
-	    break;
-	case honeycomb_output_type::cell_center:
-	    out << "\treturn min_cell_center;";
-	    break;
+        case honeycomb_output_type::distance:
+            out << "\treturn min_dist*";
+            out << "min(cell_count.x, cell_count.y)/sqrt(2.0);";
+            break;
+        case honeycomb_output_type::cell_coord:
+            out << "\treturn min_cell_coord;";
+            break;
+        case honeycomb_output_type::cell_center:
+            out << "\treturn min_cell_center;";
+            break;
     }
     out << std::endl;
 
@@ -218,9 +219,9 @@ OGLPLUS_LIB_FUNC
 output_intf&
 honeycomb_node::output(span_size_t index) {
     if(index == 0)
-	return _cell_coord;
+        return _cell_coord;
     if(index == 1)
-	return _cell_center;
+        return _cell_center;
     assert(index < output_count());
     return _distance;
 }

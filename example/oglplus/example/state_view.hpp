@@ -53,101 +53,101 @@ protected:
 
 public:
     const auto& width(void) const noexcept {
-	return _width;
+        return _width;
     }
 
     const auto& height(void) const noexcept {
-	return _height;
+        return _height;
     }
 
     const auto& depth(void) const noexcept {
-	return _depth;
+        return _depth;
     }
 
     const auto& mouse_x(void) const noexcept {
-	return _mouse_x;
+        return _mouse_x;
     }
 
     const auto& mouse_y(void) const noexcept {
-	return _mouse_y;
+        return _mouse_y;
     }
 
     const auto& mouse_z(void) const noexcept {
-	return _mouse_z;
+        return _mouse_z;
     }
 
     auto aspect(void) const noexcept {
-	return width().as<float>() / height().as<float>();
+        return width().as<float>() / height().as<float>();
     }
 
     seconds_t<float> exec_time(void) const noexcept {
-	return seconds_(_exe_time.value());
+        return seconds_(_exe_time.value());
     }
 
     seconds_t<float> user_activity_time(void) const noexcept {
-	return seconds_(_usr_act_time);
+        return seconds_(_usr_act_time);
     }
 
     seconds_t<float> user_idle_time(void) const noexcept {
-	return exec_time() - user_activity_time();
+        return exec_time() - user_activity_time();
     }
 
     example_state_value<bool> user_idle(void) const noexcept {
-	return {_new_user_idle, _old_user_idle};
+        return {_new_user_idle, _old_user_idle};
     }
 
     bool user_became_idle(void) const noexcept {
-	return user_idle().delta() > 0;
+        return user_idle().delta() > 0;
     }
 
     bool user_became_active(void) const noexcept {
-	return user_idle().delta() < 0;
+        return user_idle().delta() < 0;
     }
 
     seconds_t<float> frame_duration(void) const noexcept {
-	return seconds_(_exe_time.delta());
+        return seconds_(_exe_time.delta());
     }
 
     int frame_number(void) const noexcept {
-	return _frame_no;
+        return _frame_no;
     }
 
     int x_tiles(void) const noexcept {
-	return _x_tiles;
+        return _x_tiles;
     }
 
     int tile_i(void) const noexcept {
-	assert(_tile_i < _x_tiles);
-	return _tile_i;
+        assert(_tile_i < _x_tiles);
+        return _tile_i;
     }
 
     int tile_w(void) const noexcept {
-	return (width() / x_tiles()) + ((tile_i() + 1 == x_tiles()) ? 1 : 0);
+        return (width() / x_tiles()) + ((tile_i() + 1 == x_tiles()) ? 1 : 0);
     }
 
     int tile_x(void) const noexcept {
-	return tile_i() * (width() / x_tiles());
+        return tile_i() * (width() / x_tiles());
     }
 
     int y_tiles(void) const noexcept {
-	return _y_tiles;
+        return _y_tiles;
     }
 
     int tile_j(void) const noexcept {
-	assert(_tile_j < _y_tiles);
-	return _tile_j;
+        assert(_tile_j < _y_tiles);
+        return _tile_j;
     }
 
     int tile_h(void) const noexcept {
-	return (height() / y_tiles()) + ((tile_j() + 1 == y_tiles()) ? 1 : 0);
+        return (height() / y_tiles()) + ((tile_j() + 1 == y_tiles()) ? 1 : 0);
     }
 
     int tile_y(void) const noexcept {
-	return tile_j() * (height() / y_tiles());
+        return tile_j() * (height() / y_tiles());
     }
 
     bool multiple_tiles(void) const noexcept {
-	return x_tiles() > 1 || y_tiles() > 1;
+        return x_tiles() > 1 || y_tiles() > 1;
     }
 
     example_state_value<bool> mouse_button_pressed(int button) const noexcept;

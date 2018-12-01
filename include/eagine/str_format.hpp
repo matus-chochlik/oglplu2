@@ -10,9 +10,9 @@
 #ifndef EAGINE_STR_FORMAT_1509260923_HPP
 #define EAGINE_STR_FORMAT_1509260923_HPP
 
+#include <string>
 #include "config/basic.hpp"
 #include "span.hpp"
-#include <string>
 
 namespace eagine {
 
@@ -44,7 +44,7 @@ public:
     }
 
     operator std::string(void) const {
-	return _fmt({});
+        return _fmt({});
     }
 };
 
@@ -57,14 +57,14 @@ public:
     format_string_and_list(
       format_string_and_list<N - 1>&& prev, std::string&& val) noexcept
       : format_string_and_list_base(prev) {
-	for(span_size_t i = 0; i < N - 1; ++i) {
-	    _list[i] = std::move(prev._list[i]);
-	}
-	_list[N - 1] = std::move(val);
+        for(span_size_t i = 0; i < N - 1; ++i) {
+            _list[i] = std::move(prev._list[i]);
+        }
+        _list[N - 1] = std::move(val);
     }
 
     operator std::string(void) const {
-	return _fmt({_list});
+        return _fmt({_list});
     }
 };
 
@@ -77,11 +77,11 @@ public:
     format_string_and_list(
       format_string_and_list<0>&& prev, std::string&& val) noexcept
       : format_string_and_list_base(prev) {
-	_list[0] = std::move(val);
+        _list[0] = std::move(val);
     }
 
     operator std::string(void) const {
-	return _fmt({_list});
+        return _fmt({_list});
     }
 };
 

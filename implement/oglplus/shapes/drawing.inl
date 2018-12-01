@@ -15,20 +15,20 @@ OGLPLUS_LIB_FUNC
 primitive_type
 draw_operation::_translate(eagine::shapes::primitive_type mode) noexcept {
     switch(mode) {
-	case eagine::shapes::primitive_type::points:
-	    return primitive_type(GL_POINTS);
-	case eagine::shapes::primitive_type::lines:
-	    return primitive_type(GL_LINES);
-	case eagine::shapes::primitive_type::line_strip:
-	    return primitive_type(GL_LINE_STRIP);
-	case eagine::shapes::primitive_type::line_loop:
-	    return primitive_type(GL_LINE_LOOP);
-	case eagine::shapes::primitive_type::triangles:
-	    return primitive_type(GL_TRIANGLES);
-	case eagine::shapes::primitive_type::triangle_strip:
-	    return primitive_type(GL_TRIANGLE_STRIP);
-	case eagine::shapes::primitive_type::triangle_fan:
-	    return primitive_type(GL_TRIANGLE_FAN);
+        case eagine::shapes::primitive_type::points:
+            return primitive_type(GL_POINTS);
+        case eagine::shapes::primitive_type::lines:
+            return primitive_type(GL_LINES);
+        case eagine::shapes::primitive_type::line_strip:
+            return primitive_type(GL_LINE_STRIP);
+        case eagine::shapes::primitive_type::line_loop:
+            return primitive_type(GL_LINE_LOOP);
+        case eagine::shapes::primitive_type::triangles:
+            return primitive_type(GL_TRIANGLES);
+        case eagine::shapes::primitive_type::triangle_strip:
+            return primitive_type(GL_TRIANGLE_STRIP);
+        case eagine::shapes::primitive_type::triangle_fan:
+            return primitive_type(GL_TRIANGLE_FAN);
     }
     return primitive_type(GL_NONE);
 }
@@ -37,15 +37,15 @@ OGLPLUS_LIB_FUNC
 data_type
 draw_operation::_translate(eagine::shapes::index_data_type type) noexcept {
     switch(type) {
-	// TODO currently all indices are GLuint
-	case eagine::shapes::index_data_type::unsigned_byte:
-	    // TODO return data_type(GL_UNSIGNED_BYTE);
-	case eagine::shapes::index_data_type::unsigned_short:
-	    // TODO return data_type(GL_UNSIGNED_SHORT);
-	case eagine::shapes::index_data_type::unsigned_int:
-	    return data_type(GL_UNSIGNED_INT);
-	case eagine::shapes::index_data_type::none:
-	    break;
+        // TODO currently all indices are GLuint
+        case eagine::shapes::index_data_type::unsigned_byte:
+            // TODO return data_type(GL_UNSIGNED_BYTE);
+        case eagine::shapes::index_data_type::unsigned_short:
+            // TODO return data_type(GL_UNSIGNED_SHORT);
+        case eagine::shapes::index_data_type::unsigned_int:
+            return data_type(GL_UNSIGNED_INT);
+        case eagine::shapes::index_data_type::none:
+            break;
     }
     return data_type(GL_NONE);
 }
@@ -54,15 +54,15 @@ OGLPLUS_LIB_FUNC
 span_size_t
 draw_operation::_byte_mult(eagine::shapes::index_data_type type) noexcept {
     switch(type) {
-	// TODO currently all indices are GLuint
-	case eagine::shapes::index_data_type::unsigned_byte:
-	    // TODO return sizeof(GLubyte);
-	case eagine::shapes::index_data_type::unsigned_short:
-	    // TODO return sizeof(GLushort);
-	case eagine::shapes::index_data_type::unsigned_int:
-	    return span_size(sizeof(GLuint));
-	case eagine::shapes::index_data_type::none:
-	    break;
+        // TODO currently all indices are GLuint
+        case eagine::shapes::index_data_type::unsigned_byte:
+            // TODO return sizeof(GLubyte);
+        case eagine::shapes::index_data_type::unsigned_short:
+            // TODO return sizeof(GLushort);
+        case eagine::shapes::index_data_type::unsigned_int:
+            return span_size(sizeof(GLuint));
+        case eagine::shapes::index_data_type::none:
+            break;
     }
     return 1;
 }
@@ -98,13 +98,13 @@ draw_operation::draw(void) const noexcept {
     OGLPLUS_GLFUNC(FrontFace)(_cw_face_winding ? GL_CW : GL_CCW);
 
     if(indexed()) {
-	OGLPLUS_GLFUNC(DrawElements)
-	(GLenum(_mode), GLsizei(_count), GLenum(_idx_type), _idx_ptr());
-	OGLPLUS_VERIFY(DrawElements, gl_enum_value(_mode), debug);
+        OGLPLUS_GLFUNC(DrawElements)
+        (GLenum(_mode), GLsizei(_count), GLenum(_idx_type), _idx_ptr());
+        OGLPLUS_VERIFY(DrawElements, gl_enum_value(_mode), debug);
     } else {
-	OGLPLUS_GLFUNC(DrawArrays)
-	(GLenum(_mode), GLint(_first), GLsizei(_count));
-	OGLPLUS_VERIFY(DrawArrays, gl_enum_value(_mode), debug);
+        OGLPLUS_GLFUNC(DrawArrays)
+        (GLenum(_mode), GLint(_first), GLsizei(_count));
+        OGLPLUS_VERIFY(DrawArrays, gl_enum_value(_mode), debug);
     }
     return {};
 }
@@ -113,9 +113,9 @@ OGLPLUS_LIB_FUNC
 outcome<void>
 draw_using_instructions(const span<const draw_operation>& ops) noexcept {
     for(const draw_operation& op : ops) {
-	if(auto res = failure(op.draw())) {
-	    return std::move(res);
-	}
+        if(auto res = failure(op.draw())) {
+            return std::move(res);
+        }
     }
     return {};
 }

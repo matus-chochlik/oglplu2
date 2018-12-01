@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_pixel_parameter
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_pixel_parameter_tests)
 
@@ -990,32 +990,32 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_names) {
     x = ev.pack_compressed_block_depth;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "PACK_COMPRESSED_BLOCK_DEPTH")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "PACK_COMPRESSED_BLOCK_DEPTH") ==
+      0);
 #endif
 
 #ifdef GL_PACK_COMPRESSED_BLOCK_HEIGHT
     x = ev.pack_compressed_block_height;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "PACK_COMPRESSED_BLOCK_HEIGHT")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "PACK_COMPRESSED_BLOCK_HEIGHT") ==
+      0);
 #endif
 
 #ifdef GL_PACK_COMPRESSED_BLOCK_SIZE
     x = ev.pack_compressed_block_size;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "PACK_COMPRESSED_BLOCK_SIZE")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "PACK_COMPRESSED_BLOCK_SIZE") ==
+      0);
 #endif
 
 #ifdef GL_PACK_COMPRESSED_BLOCK_WIDTH
     x = ev.pack_compressed_block_width;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "PACK_COMPRESSED_BLOCK_WIDTH")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "PACK_COMPRESSED_BLOCK_WIDTH") ==
+      0);
 #endif
 
 #ifdef GL_PACK_IMAGE_HEIGHT
@@ -1074,32 +1074,32 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_names) {
     x = ev.unpack_compressed_block_depth;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "UNPACK_COMPRESSED_BLOCK_DEPTH")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "UNPACK_COMPRESSED_BLOCK_DEPTH") ==
+      0);
 #endif
 
 #ifdef GL_UNPACK_COMPRESSED_BLOCK_HEIGHT
     x = ev.unpack_compressed_block_height;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "UNPACK_COMPRESSED_BLOCK_HEIGHT")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "UNPACK_COMPRESSED_BLOCK_HEIGHT") == 0);
 #endif
 
 #ifdef GL_UNPACK_COMPRESSED_BLOCK_SIZE
     x = ev.unpack_compressed_block_size;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "UNPACK_COMPRESSED_BLOCK_SIZE")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "UNPACK_COMPRESSED_BLOCK_SIZE") ==
+      0);
 #endif
 
 #ifdef GL_UNPACK_COMPRESSED_BLOCK_WIDTH
     x = ev.unpack_compressed_block_width;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "UNPACK_COMPRESSED_BLOCK_WIDTH")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "UNPACK_COMPRESSED_BLOCK_WIDTH") ==
+      0);
 #endif
 
 #ifdef GL_UNPACK_IMAGE_HEIGHT
@@ -1158,249 +1158,263 @@ BOOST_AUTO_TEST_CASE(enum_pixel_parameter_range) {
 
 #ifdef GL_PACK_ALIGNMENT
     {
-	--count;
-	auto r = enum_value_range<pixel_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_parameter(GL_PACK_ALIGNMENT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_parameter>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_parameter(GL_PACK_ALIGNMENT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_PACK_COMPRESSED_BLOCK_DEPTH
     {
-	--count;
-	auto r = enum_value_range<pixel_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), pixel_parameter(GL_PACK_COMPRESSED_BLOCK_DEPTH))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_parameter(GL_PACK_COMPRESSED_BLOCK_DEPTH)) != r.end());
     }
 #endif
 
 #ifdef GL_PACK_COMPRESSED_BLOCK_HEIGHT
     {
-	--count;
-	auto r = enum_value_range<pixel_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      pixel_parameter(GL_PACK_COMPRESSED_BLOCK_HEIGHT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<pixel_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_parameter(GL_PACK_COMPRESSED_BLOCK_HEIGHT)) != r.end());
     }
 #endif
 
 #ifdef GL_PACK_COMPRESSED_BLOCK_SIZE
     {
-	--count;
-	auto r = enum_value_range<pixel_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), pixel_parameter(GL_PACK_COMPRESSED_BLOCK_SIZE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_parameter(GL_PACK_COMPRESSED_BLOCK_SIZE)) != r.end());
     }
 #endif
 
 #ifdef GL_PACK_COMPRESSED_BLOCK_WIDTH
     {
-	--count;
-	auto r = enum_value_range<pixel_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), pixel_parameter(GL_PACK_COMPRESSED_BLOCK_WIDTH))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_parameter(GL_PACK_COMPRESSED_BLOCK_WIDTH)) != r.end());
     }
 #endif
 
 #ifdef GL_PACK_IMAGE_HEIGHT
     {
-	--count;
-	auto r = enum_value_range<pixel_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_parameter(GL_PACK_IMAGE_HEIGHT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_parameter(GL_PACK_IMAGE_HEIGHT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_PACK_LSB_FIRST
     {
-	--count;
-	auto r = enum_value_range<pixel_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_parameter(GL_PACK_LSB_FIRST))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_parameter>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_parameter(GL_PACK_LSB_FIRST)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_PACK_ROW_LENGTH
     {
-	--count;
-	auto r = enum_value_range<pixel_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_parameter(GL_PACK_ROW_LENGTH))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_parameter>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_parameter(GL_PACK_ROW_LENGTH)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_PACK_SKIP_IMAGES
     {
-	--count;
-	auto r = enum_value_range<pixel_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_parameter(GL_PACK_SKIP_IMAGES))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_parameter>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_parameter(GL_PACK_SKIP_IMAGES)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_PACK_SKIP_PIXELS
     {
-	--count;
-	auto r = enum_value_range<pixel_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_parameter(GL_PACK_SKIP_PIXELS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_parameter>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_parameter(GL_PACK_SKIP_PIXELS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_PACK_SKIP_ROWS
     {
-	--count;
-	auto r = enum_value_range<pixel_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_parameter(GL_PACK_SKIP_ROWS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_parameter>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_parameter(GL_PACK_SKIP_ROWS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_PACK_SWAP_BYTES
     {
-	--count;
-	auto r = enum_value_range<pixel_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_parameter(GL_PACK_SWAP_BYTES))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_parameter>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_parameter(GL_PACK_SWAP_BYTES)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNPACK_ALIGNMENT
     {
-	--count;
-	auto r = enum_value_range<pixel_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_parameter(GL_UNPACK_ALIGNMENT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_parameter>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_parameter(GL_UNPACK_ALIGNMENT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNPACK_COMPRESSED_BLOCK_DEPTH
     {
-	--count;
-	auto r = enum_value_range<pixel_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      pixel_parameter(GL_UNPACK_COMPRESSED_BLOCK_DEPTH))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<pixel_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_parameter(GL_UNPACK_COMPRESSED_BLOCK_DEPTH)) != r.end());
     }
 #endif
 
 #ifdef GL_UNPACK_COMPRESSED_BLOCK_HEIGHT
     {
-	--count;
-	auto r = enum_value_range<pixel_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      pixel_parameter(GL_UNPACK_COMPRESSED_BLOCK_HEIGHT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<pixel_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_parameter(GL_UNPACK_COMPRESSED_BLOCK_HEIGHT)) != r.end());
     }
 #endif
 
 #ifdef GL_UNPACK_COMPRESSED_BLOCK_SIZE
     {
-	--count;
-	auto r = enum_value_range<pixel_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      pixel_parameter(GL_UNPACK_COMPRESSED_BLOCK_SIZE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<pixel_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_parameter(GL_UNPACK_COMPRESSED_BLOCK_SIZE)) != r.end());
     }
 #endif
 
 #ifdef GL_UNPACK_COMPRESSED_BLOCK_WIDTH
     {
-	--count;
-	auto r = enum_value_range<pixel_parameter>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      pixel_parameter(GL_UNPACK_COMPRESSED_BLOCK_WIDTH))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<pixel_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            pixel_parameter(GL_UNPACK_COMPRESSED_BLOCK_WIDTH)) != r.end());
     }
 #endif
 
 #ifdef GL_UNPACK_IMAGE_HEIGHT
     {
-	--count;
-	auto r = enum_value_range<pixel_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_parameter(GL_UNPACK_IMAGE_HEIGHT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_parameter(GL_UNPACK_IMAGE_HEIGHT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNPACK_LSB_FIRST
     {
-	--count;
-	auto r = enum_value_range<pixel_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_parameter(GL_UNPACK_LSB_FIRST))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_parameter>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_parameter(GL_UNPACK_LSB_FIRST)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNPACK_ROW_LENGTH
     {
-	--count;
-	auto r = enum_value_range<pixel_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_parameter(GL_UNPACK_ROW_LENGTH))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_parameter(GL_UNPACK_ROW_LENGTH)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNPACK_SKIP_IMAGES
     {
-	--count;
-	auto r = enum_value_range<pixel_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_parameter(GL_UNPACK_SKIP_IMAGES))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_parameter(GL_UNPACK_SKIP_IMAGES)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNPACK_SKIP_PIXELS
     {
-	--count;
-	auto r = enum_value_range<pixel_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_parameter(GL_UNPACK_SKIP_PIXELS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_parameter(GL_UNPACK_SKIP_PIXELS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNPACK_SKIP_ROWS
     {
-	--count;
-	auto r = enum_value_range<pixel_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_parameter(GL_UNPACK_SKIP_ROWS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_parameter>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), pixel_parameter(GL_UNPACK_SKIP_ROWS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNPACK_SWAP_BYTES
     {
-	--count;
-	auto r = enum_value_range<pixel_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), pixel_parameter(GL_UNPACK_SWAP_BYTES))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<pixel_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), pixel_parameter(GL_UNPACK_SWAP_BYTES)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

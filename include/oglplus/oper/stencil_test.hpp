@@ -24,7 +24,8 @@ struct stencil_func_args {
 
     stencil_func_args(void) = default;
 
-    stencil_func_args(compare_function func,
+    stencil_func_args(
+      compare_function func,
       GLint refv = GLint(0),
       GLuint mask = ~GLuint(0)) noexcept
       : _func(func)
@@ -33,15 +34,15 @@ struct stencil_func_args {
     }
 
     compare_function func(void) const noexcept {
-	return _func;
+        return _func;
     }
 
     GLint ref(void) const noexcept {
-	return _refv;
+        return _refv;
     }
 
     GLuint value_mask(void) const noexcept {
-	return _mask;
+        return _mask;
     }
 };
 
@@ -52,7 +53,8 @@ struct stencil_operations {
 
     stencil_operations(void) = default;
 
-    stencil_operations(stencil_operation sfail,
+    stencil_operations(
+      stencil_operation sfail,
       stencil_operation dfail,
       stencil_operation dpass) noexcept
       : _sfail(sfail)
@@ -61,55 +63,59 @@ struct stencil_operations {
     }
 
     stencil_operation stencil_fail(void) const noexcept {
-	return _sfail;
+        return _sfail;
     }
 
     stencil_operation depth_fail(void) const noexcept {
-	return _dfail;
+        return _dfail;
     }
 
     stencil_operation depth_pass(void) const noexcept {
-	return _dpass;
+        return _dpass;
     }
 };
 
 struct stencil_test_state {
-    static outcome<void> stencil_func(compare_function func,
+    static outcome<void> stencil_func(
+      compare_function func,
       GLint ref = GLint(0),
       GLuint mask = ~GLuint(0)) noexcept;
 
     static outcome<void> stencil_func(const stencil_func_args& fa) noexcept {
-	return stencil_func(fa.func(), fa.ref(), fa.value_mask());
+        return stencil_func(fa.func(), fa.ref(), fa.value_mask());
     }
 
-    static outcome<void> stencil_func_separate(single_face face,
+    static outcome<void> stencil_func_separate(
+      single_face face,
       compare_function func,
       GLint ref = GLint(0),
       GLuint mask = ~GLuint(0)) noexcept;
 
     static outcome<void> stencil_func_separate(
       single_face face, const stencil_func_args& fa) noexcept {
-	return stencil_func_separate(
-	  face, fa.func(), fa.ref(), fa.value_mask());
+        return stencil_func_separate(
+          face, fa.func(), fa.ref(), fa.value_mask());
     }
 
-    static outcome<void> stencil_op(stencil_operation sfail,
+    static outcome<void> stencil_op(
+      stencil_operation sfail,
       stencil_operation dfail,
       stencil_operation dpass) noexcept;
 
     static outcome<void> stencil_op(const stencil_operations& so) noexcept {
-	return stencil_op(so.stencil_fail(), so.depth_fail(), so.depth_pass());
+        return stencil_op(so.stencil_fail(), so.depth_fail(), so.depth_pass());
     }
 
-    static outcome<void> stencil_op_separate(single_face face,
+    static outcome<void> stencil_op_separate(
+      single_face face,
       stencil_operation sfail,
       stencil_operation dfail,
       stencil_operation dpass) noexcept;
 
     static outcome<void> stencil_op_separate(
       single_face face, const stencil_operations& so) noexcept {
-	return stencil_op_separate(
-	  face, so.stencil_fail(), so.depth_fail(), so.depth_pass());
+        return stencil_op_separate(
+          face, so.stencil_fail(), so.depth_fail(), so.depth_pass());
     }
 
     // TODO: getters

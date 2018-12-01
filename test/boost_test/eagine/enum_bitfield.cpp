@@ -27,14 +27,14 @@ struct ec_D : enum_class<ec_D, unsigned, 1, 4> {
 };
 
 static constexpr const enum_value<unsigned, mp_list<ec_A>> ev_1 = {1 << 0};
-static constexpr const enum_value<unsigned, mp_list<ec_A, ec_B>> ev_2 = {
-  1 << 1};
+static constexpr const enum_value<unsigned, mp_list<ec_A, ec_B>> ev_2 = {1
+                                                                         << 1};
 static constexpr const enum_value<unsigned, mp_list<ec_A, ec_B, ec_C>> ev_3 = {
   1 << 2};
 static constexpr const enum_value<unsigned, mp_list<ec_B, ec_C, ec_D>> ev_4 = {
   1 << 3};
-static constexpr const enum_value<unsigned, mp_list<ec_B, ec_D>> ev_5 = {
-  1 << 4};
+static constexpr const enum_value<unsigned, mp_list<ec_B, ec_D>> ev_5 = {1
+                                                                         << 4};
 static constexpr const enum_value<unsigned, mp_list<ec_D>> ev_6 = {1 << 5};
 
 } // namespace eagine

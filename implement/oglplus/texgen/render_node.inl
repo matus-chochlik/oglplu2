@@ -7,15 +7,15 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <cassert>
-#include <eagine/maybe_unused.hpp>
 #include <iostream>
+#include <sstream>
+#include <eagine/maybe_unused.hpp>
 #include <oglplus/buffer.hpp>
 #include <oglplus/glsl/string_ref.hpp>
 #include <oglplus/math/vector.hpp>
 #include <oglplus/program.hpp>
 #include <oglplus/shader.hpp>
 #include <oglplus/vertex_array.hpp>
-#include <sstream>
 
 #include <oglplus/constants.hpp>
 #include <oglplus/operations.hpp>
@@ -30,9 +30,9 @@ render_node::_init_screen(void) {
     constants GL;
 
     if(_data)
-	buffer::delete_(_data);
+        buffer::delete_(_data);
     if(_vao)
-	vertex_array::delete_(_vao);
+        vertex_array::delete_(_vao);
 
     vertex_array::gen_(_vao);
     gl.bind(_vao);
@@ -78,20 +78,20 @@ render_node::_update_program(void) {
     constants GL;
 
     if(_prog)
-	program::delete_(_prog);
+        program::delete_(_prog);
     program::gen_(_prog);
 
     shader vs(GL.vertex_shader);
     vs.source(
       glsl_literal("#version 150\n"
-		   "in vec2 Position;\n"
-		   "in vec2 Coordinate;\n"
-		   "out vec3 oglptg_nc;\n"
-		   "void main(void)\n"
-		   "{\n"
-		   "	gl_Position = vec4(Position, 0.0, 1.0);\n"
-		   "	oglptg_nc = vec3(Coordinate, 0.0);\n"
-		   "}\n"));
+                   "in vec2 Position;\n"
+                   "in vec2 Coordinate;\n"
+                   "out vec3 oglptg_nc;\n"
+                   "void main(void)\n"
+                   "{\n"
+                   "	gl_Position = vec4(Position, 0.0, 1.0);\n"
+                   "	oglptg_nc = vec3(Coordinate, 0.0);\n"
+                   "}\n"));
     vs.compile();
     vs.report_compile_error();
     gl.attach_shader(_prog, vs);
@@ -129,11 +129,11 @@ render_node::render_node(void)
 OGLPLUS_LIB_FUNC
 render_node::~render_node(void) {
     if(_prog)
-	program::delete_(_prog);
+        program::delete_(_prog);
     if(_data)
-	buffer::delete_(_data);
+        buffer::delete_(_data);
     if(_vao)
-	vertex_array::delete_(_vao);
+        vertex_array::delete_(_vao);
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -204,8 +204,8 @@ OGLPLUS_LIB_FUNC
 void
 render_node::update_if_needed(void) {
     if(_needs_update) {
-	_update_program();
-	_needs_update = false;
+        _update_program();
+        _needs_update = false;
     }
 }
 //------------------------------------------------------------------------------
@@ -213,38 +213,39 @@ OGLPLUS_LIB_FUNC
 bool
 render_node::render(const render_params& params) {
     if(_render_version < params.version) {
-	update_if_needed();
+        update_if_needed();
 
-	operations gl;
-	constants GL;
+        operations gl;
+        constants GL;
 
-	if(_tile == 0) {
-	    if(!_input.render_connected(params)) {
-		return false;
-	    }
-	    if(_voxel_size) {
-		gl.uniform(_voxel_size,
-		  vec3(1.f / params.width, 1.f / params.height, 1.f));
-	    }
-	}
-	int x_tile = _tile % _xdiv;
-	int y_tile = _tile / _ydiv;
+        if(_tile == 0) {
+            if(!_input.render_connected(params)) {
+                return false;
+            }
+            if(_voxel_size) {
+                gl.uniform(
+                  _voxel_size,
+                  vec3(1.f / params.width, 1.f / params.height, 1.f));
+            }
+        }
+        int x_tile = _tile % _xdiv;
+        int y_tile = _tile / _ydiv;
 
-	int w = params.width / _xdiv;
-	int h = params.width / _ydiv;
+        int w = params.width / _xdiv;
+        int h = params.width / _ydiv;
 
-	gl.enable(GL.scissor_test);
-	gl.scissor(
-	  GLint(x_tile * w), GLint(y_tile * h), GLint(w + 1), GLint(h + 1));
-	draw_screen();
-	gl.disable(GL.scissor_test);
+        gl.enable(GL.scissor_test);
+        gl.scissor(
+          GLint(x_tile * w), GLint(y_tile * h), GLint(w + 1), GLint(h + 1));
+        draw_screen();
+        gl.disable(GL.scissor_test);
 
-	if(++_tile < _xdiv * _ydiv) {
-	    return false;
-	}
+        if(++_tile < _xdiv * _ydiv) {
+            return false;
+        }
 
-	_tile = 0;
-	_render_version = params.version;
+        _tile = 0;
+        _render_version = params.version;
     }
     return true;
 }
@@ -253,8 +254,8 @@ OGLPLUS_LIB_FUNC
 bool
 render_node::render(void) {
     if(render(_render_params)) {
-	++_render_params.version;
-	return true;
+        ++_render_params.version;
+        return true;
     }
     return false;
 }

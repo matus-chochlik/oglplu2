@@ -9,9 +9,9 @@
 #ifndef OGLPLUS_GLSL_SOURCE_REF_1509260923_HPP
 #define OGLPLUS_GLSL_SOURCE_REF_1509260923_HPP
 
-#include "../utils/types.hpp"
 #include <cassert>
 #include <cstddef>
+#include "../utils/types.hpp"
 
 namespace oglplus {
 
@@ -26,20 +26,20 @@ public:
       : _count(GLsizei(n))
       , _parts(ps)
       , _lengths(ls) {
-	assert(_count >= 0);
-	assert(_parts != nullptr);
+        assert(_count >= 0);
+        assert(_parts != nullptr);
     }
 
     inline GLsizei count(void) const noexcept {
-	return _count;
+        return _count;
     }
 
     inline const GLchar** parts(void) const noexcept {
-	return _parts;
+        return _parts;
     }
 
     inline const GLint* lengths(void) const noexcept {
-	return _lengths;
+        return _lengths;
     }
 };
 

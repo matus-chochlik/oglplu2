@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE EGLPLUS_context_attrib
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_context_attrib_tests)
 
@@ -111,16 +111,17 @@ BOOST_AUTO_TEST_CASE(enum_context_attrib_names) {
     x = ev.context_opengl_profile_mask;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "CONTEXT_OPENGL_PROFILE_MASK")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "CONTEXT_OPENGL_PROFILE_MASK") ==
+      0);
 #endif
 
 #ifdef EGL_CONTEXT_OPENGL_RESET_NOTIFICATION_STRATEGY
     x = ev.context_opengl_reset_notification_strategy;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-    BOOST_CHECK(std::strcmp(enum_value_name(x).data(),
-		  "CONTEXT_OPENGL_RESET_NOTIFICATION_STRATEGY")
-		== 0);
+    BOOST_CHECK(
+      std::strcmp(
+        enum_value_name(x).data(),
+        "CONTEXT_OPENGL_RESET_NOTIFICATION_STRATEGY") == 0);
 #endif
 }
 
@@ -130,56 +131,58 @@ BOOST_AUTO_TEST_CASE(enum_context_attrib_range) {
 
 #ifdef EGL_CONTEXT_FLAGS
     {
-	--count;
-	auto r = enum_value_range<context_attrib>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), context_attrib(EGL_CONTEXT_FLAGS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<context_attrib>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), context_attrib(EGL_CONTEXT_FLAGS)) !=
+          r.end());
     }
 #endif
 
 #ifdef EGL_CONTEXT_MAJOR_VERSION
     {
-	--count;
-	auto r = enum_value_range<context_attrib>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), context_attrib(EGL_CONTEXT_MAJOR_VERSION))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<context_attrib>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), context_attrib(EGL_CONTEXT_MAJOR_VERSION)) !=
+          r.end());
     }
 #endif
 
 #ifdef EGL_CONTEXT_MINOR_VERSION
     {
-	--count;
-	auto r = enum_value_range<context_attrib>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), context_attrib(EGL_CONTEXT_MINOR_VERSION))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<context_attrib>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), context_attrib(EGL_CONTEXT_MINOR_VERSION)) !=
+          r.end());
     }
 #endif
 
 #ifdef EGL_CONTEXT_OPENGL_PROFILE_MASK
     {
-	--count;
-	auto r = enum_value_range<context_attrib>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), context_attrib(EGL_CONTEXT_OPENGL_PROFILE_MASK))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<context_attrib>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            context_attrib(EGL_CONTEXT_OPENGL_PROFILE_MASK)) != r.end());
     }
 #endif
 
 #ifdef EGL_CONTEXT_OPENGL_RESET_NOTIFICATION_STRATEGY
     {
-	--count;
-	auto r = enum_value_range<context_attrib>();
-	BOOST_CHECK(
-	  std::find(r.begin(),
-	    r.end(),
-	    context_attrib(EGL_CONTEXT_OPENGL_RESET_NOTIFICATION_STRATEGY))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<context_attrib>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            context_attrib(EGL_CONTEXT_OPENGL_RESET_NOTIFICATION_STRATEGY)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

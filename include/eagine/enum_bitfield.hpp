@@ -26,7 +26,8 @@ struct enum_bits<T, mp_list<Classes...>> {
     }
 };
 
-template <typename T,
+template <
+  typename T,
   typename TL1,
   typename TL2,
   typename = std::enable_if_t<!mp_empty<mp_union_t<TL1, TL2>>::value>>
@@ -35,7 +36,8 @@ operator|(enum_value<T, TL1> a, enum_value<T, TL2> b) noexcept {
     return enum_bits<T, mp_union_t<TL1, TL2>>{a.value | b.value};
 }
 
-template <typename T,
+template <
+  typename T,
   typename TL1,
   typename TL2,
   typename = std::enable_if_t<!mp_empty<mp_union_t<TL1, TL2>>::value>>
@@ -62,46 +64,48 @@ struct enum_bitfield {
       : _value(e._value) {
     }
 
-    template <typename Classes,
+    template <
+      typename Classes,
       typename = std::enable_if_t<mp_contains<Classes, EnumClass>::value>>
     constexpr inline enum_bitfield(enum_value<value_type, Classes> ev) noexcept
       : _value(ev.value) {
     }
 
-    template <typename Classes,
+    template <
+      typename Classes,
       typename = std::enable_if_t<mp_contains<Classes, EnumClass>::value>>
     constexpr inline enum_bitfield(enum_bits<value_type, Classes> eb) noexcept
       : _value(eb._bits) {
     }
 
     explicit constexpr inline operator value_type(void) const noexcept {
-	return _value;
+        return _value;
     }
 
     template <typename Classes>
     constexpr inline bool has(enum_value<value_type, Classes> ev) const
       noexcept {
-	return (_value & ev.value) == ev.value;
+        return (_value & ev.value) == ev.value;
     }
 
     friend constexpr inline bool operator==(
       enum_bitfield a, enum_bitfield b) noexcept {
-	return a._value == b._value;
+        return a._value == b._value;
     }
 
     friend constexpr inline bool operator!=(
       enum_bitfield a, enum_bitfield b) noexcept {
-	return a._value != b._value;
+        return a._value != b._value;
     }
 
     friend constexpr inline enum_bitfield operator|(
       enum_bitfield a, enum_bitfield b) noexcept {
-	return enum_bitfield{a._value | b._value};
+        return enum_bitfield{a._value | b._value};
     }
 
     friend constexpr inline enum_bitfield operator&(
       enum_bitfield a, enum_bitfield b) noexcept {
-	return enum_bitfield{a._value & b._value};
+        return enum_bitfield{a._value & b._value};
     }
 };
 

@@ -18,17 +18,17 @@ namespace eagine {
 struct always_valid_policy {
     template <typename T>
     constexpr inline bool operator()(T) const noexcept {
-	return true;
+        return true;
     }
 
     struct do_log {
-	template <typename X>
-	constexpr inline do_log(X&&) noexcept {
-	}
+        template <typename X>
+        constexpr inline do_log(X&&) noexcept {
+        }
 
-	template <typename Log, typename T>
-	void operator()(Log&, const T&) const {
-	}
+        template <typename Log, typename T>
+        void operator()(Log&, const T&) const {
+        }
     };
 };
 

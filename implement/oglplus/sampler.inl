@@ -27,8 +27,8 @@ sampler_ops::bind_samplers(
   texture_unit first, const object_names<tag::sampler, S>& samplers) noexcept {
     OGLPLUS_GLFUNC(BindSamplers)
     (GLuint(first.index()),
-      GLsizei(samplers.size()),
-      get_raw_names(samplers).data());
+     GLsizei(samplers.size()),
+     get_raw_names(samplers).data());
     OGLPLUS_VERIFY(
       BindSamplers, gl_enum_value(first).gl_object(samplers[0]), debug);
     return {};
@@ -41,7 +41,7 @@ sampler_ops::sampler_binding(texture_unit unit) noexcept {
     OGLPLUS_VERIFY(ActiveTexture, gl_enum_value(unit), always);
     GLint result = 0;
     return numeric_queries::get_integer_v(
-      binding_query(GL_SAMPLER_BINDING), {&result, 1})
+             binding_query(GL_SAMPLER_BINDING), {&result, 1})
       .add(sampler_name(GLuint(result)));
 }
 //------------------------------------------------------------------------------
@@ -55,7 +55,8 @@ sampler_ops::sampler_parameter_i(
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-sampler_ops::get_sampler_parameter_iv(sampler_name sam,
+sampler_ops::get_sampler_parameter_iv(
+  sampler_name sam,
   oglplus::sampler_parameter param,
   span<GLint> values) noexcept {
     assert(values.size() > 0);
@@ -76,7 +77,8 @@ sampler_ops::sampler_parameter_f(
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-sampler_ops::get_sampler_parameter_fv(sampler_name sam,
+sampler_ops::get_sampler_parameter_fv(
+  sampler_name sam,
   oglplus::sampler_parameter param,
   span<GLfloat> values) noexcept {
     assert(values.size() > 0);
@@ -156,7 +158,8 @@ sampler_ops::get_sampler_compare_func(sampler_name sam) noexcept {
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-sampler_ops::sampler_wrap(sampler_name sam,
+sampler_ops::sampler_wrap(
+  sampler_name sam,
   texture_wrap_coord coord,
   texture_wrap_mode value) noexcept {
     return sampler_parameter_i(

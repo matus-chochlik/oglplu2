@@ -10,12 +10,12 @@
 #ifndef EAGINE_TYPES_1509260923_HPP
 #define EAGINE_TYPES_1509260923_HPP
 
-#include "span_fwd.hpp"
-#include "std/type_traits.hpp"
-#include "valid_if/nonnegative.hpp"
 #include <cassert>
 #include <cstdint>
 #include <limits>
+#include "span_fwd.hpp"
+#include "std/type_traits.hpp"
+#include "valid_if/nonnegative.hpp"
 
 namespace eagine {
 
@@ -37,7 +37,8 @@ safe_size_t_cast(T v) noexcept {
     return v;
 }
 
-template <typename T,
+template <
+  typename T,
   typename F,
   typename = std::enable_if_t<std::is_integral_v<F> && !std::is_same_v<T, F>>>
 static constexpr inline T

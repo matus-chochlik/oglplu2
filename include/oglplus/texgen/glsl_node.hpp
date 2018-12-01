@@ -9,9 +9,9 @@
 #ifndef OGLPLUS_TEXGEN_GLSL_NODE_1509260923_HPP
 #define OGLPLUS_TEXGEN_GLSL_NODE_1509260923_HPP
 
+#include <map>
 #include "fallback_input.hpp"
 #include "multi_input_node.hpp"
-#include <map>
 
 namespace oglplus {
 namespace texgen {
@@ -46,17 +46,17 @@ public:
     glsl_node(void);
 
     glsl_output& single_output(void) override {
-	return _output;
+        return _output;
     }
 
     glsl_node& set_glsl(const std::string& glsl) {
-	_output._glsl = glsl;
-	return *this;
+        _output._glsl = glsl;
+        return *this;
     }
 
     glsl_node& set_type(slot_data_type type) {
-	_output._type = type;
-	return *this;
+        _output._type = type;
+        return *this;
     }
 };
 

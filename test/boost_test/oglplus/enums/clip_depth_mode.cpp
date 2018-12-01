@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_clip_depth_mode
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_clip_depth_mode_tests)
 
@@ -65,21 +65,22 @@ BOOST_AUTO_TEST_CASE(enum_clip_depth_mode_range) {
 
 #ifdef GL_NEGATIVE_ONE_TO_ONE
     {
-	--count;
-	auto r = enum_value_range<clip_depth_mode>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), clip_depth_mode(GL_NEGATIVE_ONE_TO_ONE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<clip_depth_mode>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), clip_depth_mode(GL_NEGATIVE_ONE_TO_ONE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_ZERO_TO_ONE
     {
-	--count;
-	auto r = enum_value_range<clip_depth_mode>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), clip_depth_mode(GL_ZERO_TO_ONE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<clip_depth_mode>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), clip_depth_mode(GL_ZERO_TO_ONE)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

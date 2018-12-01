@@ -9,8 +9,8 @@
 #ifndef OALPLUS_OBJECT_AL_NAME_1509260923_HPP
 #define OALPLUS_OBJECT_AL_NAME_1509260923_HPP
 
+#include <eagine/object/name.hpp>
 #include "al_traits.hpp"
 #include "fwd.hpp"
-#include <eagine/object/name.hpp>
 
 #endif // include guard

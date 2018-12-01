@@ -10,11 +10,11 @@
 #ifndef OGLPLUS_UTILS_IMAGE_SPEC_1509260923_HPP
 #define OGLPLUS_UTILS_IMAGE_SPEC_1509260923_HPP
 
+#include <cassert>
 #include "../data_type.hpp"
 #include "../enum/types.hpp"
 #include "memory_block.hpp"
 #include "span.hpp"
-#include <cassert>
 
 namespace oglplus {
 
@@ -29,7 +29,7 @@ public:
       : _width(w)
       , _height(h)
       , _depth(d) {
-	assert(_width > 0 && _height > 0 && _depth > 0);
+        assert(_width > 0 && _height > 0 && _depth > 0);
     }
 
     image_dimensions(GLsizei w, GLsizei h) noexcept
@@ -41,15 +41,15 @@ public:
     }
 
     GLsizei width(void) const noexcept {
-	return _width;
+        return _width;
     }
 
     GLsizei height(void) const noexcept {
-	return _height;
+        return _height;
     }
 
     GLsizei depth(void) const noexcept {
-	return _depth;
+        return _depth;
     }
 };
 
@@ -71,11 +71,11 @@ public:
     }
 
     pixel_data_format format(void) const noexcept {
-	return _format;
+        return _format;
     }
 
     pixel_data_internal_format internal_format(void) const noexcept {
-	return _internal_format;
+        return _internal_format;
     }
 };
 
@@ -93,25 +93,26 @@ public:
       , _elem_size(sizeof(T)) {
     }
 
-    image_pixel_data(pixel_data_type pix_type,
+    image_pixel_data(
+      pixel_data_type pix_type,
       const_memory_block pix_data,
       span_size_t type_size) noexcept
       : _type(pix_type)
       , _pixels(pix_data)
       , _elem_size(type_size) {
-	assert(_elem_size > 0);
+        assert(_elem_size > 0);
     }
 
     pixel_data_type type(void) const noexcept {
-	return _type;
+        return _type;
     }
 
     const_memory_block data(void) const noexcept {
-	return _pixels;
+        return _pixels;
     }
 
     span_size_t elem_size(void) const noexcept {
-	return _elem_size;
+        return _elem_size;
     }
 };
 
@@ -120,7 +121,8 @@ class image_spec
   , public image_pixel_format
   , public image_pixel_data {
 public:
-    image_spec(const image_dimensions& dims,
+    image_spec(
+      const image_dimensions& dims,
       const image_pixel_format& fmt,
       const image_pixel_data& pix_data) noexcept
       : image_dimensions(dims)

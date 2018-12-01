@@ -30,7 +30,7 @@ struct limited_value {
     }
 
     explicit constexpr operator T(void) const noexcept {
-	return _value;
+        return _value;
     }
 };
 
@@ -66,7 +66,8 @@ get_integer_limit(limit_query lq) noexcept {
     return {value};
 }
 
-template <GLenum Query,
+template <
+  GLenum Query,
   typename T,
   typename = std::enable_if_t<std::is_integral_v<T>>>
 static inline outcome<T>
@@ -82,7 +83,8 @@ get_limit(identity<limited_value<Query, indexed_enum_value<Base>>>) noexcept {
       [](GLenum& val) { val += Base; });
 }
 
-template <typename LimitedValue,
+template <
+  typename LimitedValue,
   typename = std::enable_if_t<is_limited_value<LimitedValue>::value>>
 static inline auto
 limit(void) noexcept {
@@ -97,7 +99,8 @@ exceeds_limit(limited_value<Query, T> lv, T limit) noexcept {
 
 template <GLenum Query, GLenum Base>
 static inline bool
-exceeds_limit(limited_value<Query, indexed_enum_value<Base>> lv,
+exceeds_limit(
+  limited_value<Query, indexed_enum_value<Base>> lv,
   indexed_enum_value<Base> limit) noexcept {
     return lv.index() >= limit.index();
 }
@@ -105,9 +108,9 @@ exceeds_limit(limited_value<Query, indexed_enum_value<Base>> lv,
 static inline deferred_error_handler
 handle_above_limit(limit_query lq) noexcept {
     return deferred_error_handler(std::move(error_info(GL_INVALID_VALUE)
-					      .gl_enum_value(lq)
-					      .source_file(__FILE__)
-					      .source_line(__LINE__)));
+                                              .gl_enum_value(lq)
+                                              .source_file(__FILE__)
+                                              .source_line(__LINE__)));
 }
 
 template <GLenum Query, typename T>
@@ -115,10 +118,10 @@ static inline outcome<void>
 check_below_limit(limited_value<Query, T> lv) noexcept {
     outcome<T> lim = get_limit(make_identity(lv));
     if(lim.failed()) {
-	return lim.release_handler();
+        return lim.release_handler();
     }
     if(exceeds_limit(lv, lim.value())) {
-	handle_above_limit(limit_query(Query));
+        handle_above_limit(limit_query(Query));
     }
     return {};
 }

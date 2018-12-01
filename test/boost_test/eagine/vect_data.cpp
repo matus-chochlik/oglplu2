@@ -213,28 +213,28 @@ template <typename T, int N, bool V>
 void
 test_vect_data_plus_TNV(void) {
     for(int k = 0; k < 1000; ++k) {
-	T a[N], b[N];
-	for(int i = 0; i < N; ++i) {
-	    a[i] = rg.get<T>(-1000, 1000);
-	    b[i] = rg.get<T>(-1000, 1000);
-	}
+        T a[N], b[N];
+        for(int i = 0; i < N; ++i) {
+            a[i] = rg.get<T>(-1000, 1000);
+            b[i] = rg.get<T>(-1000, 1000);
+        }
 
-	typename eagine::vect::data<T, N, V>::type vNa = {};
-	typename eagine::vect::data<T, N, V>::type vNb = {};
+        typename eagine::vect::data<T, N, V>::type vNa = {};
+        typename eagine::vect::data<T, N, V>::type vNb = {};
 
-	for(int i = 0; i < N; ++i) {
-	    vNa[i] = a[i];
-	    vNb[i] = b[i];
-	}
+        for(int i = 0; i < N; ++i) {
+            vNa[i] = a[i];
+            vNb[i] = b[i];
+        }
 
-	typename eagine::vect::data<T, N, V>::type vNc = vNa + vNb;
-	typename eagine::vect::data<T, N, V>::type vNd = vNb + vNa;
+        typename eagine::vect::data<T, N, V>::type vNc = vNa + vNb;
+        typename eagine::vect::data<T, N, V>::type vNd = vNb + vNa;
 
-	for(int i = 0; i < N; ++i) {
-	    _check_close<T>(vNc[i], vNd[i]);
-	    _check_close<T>(vNc[i], a[i] + b[i]);
-	    _check_close<T>(vNd[i], b[i] + a[i]);
-	}
+        for(int i = 0; i < N; ++i) {
+            _check_close<T>(vNc[i], vNd[i]);
+            _check_close<T>(vNc[i], a[i] + b[i]);
+            _check_close<T>(vNd[i], b[i] + a[i]);
+        }
     }
 }
 
@@ -268,27 +268,27 @@ template <typename T, int N, bool V>
 void
 test_vect_data_minus_TNV(void) {
     for(int k = 0; k < 1000; ++k) {
-	T a[N], b[N];
-	for(int i = 0; i < N; ++i) {
-	    a[i] = rg.get<T>(-1000, 1000);
-	    b[i] = rg.get<T>(-1000, 1000);
-	}
+        T a[N], b[N];
+        for(int i = 0; i < N; ++i) {
+            a[i] = rg.get<T>(-1000, 1000);
+            b[i] = rg.get<T>(-1000, 1000);
+        }
 
-	typename eagine::vect::data<T, N, V>::type vNa = {};
-	typename eagine::vect::data<T, N, V>::type vNb = {};
+        typename eagine::vect::data<T, N, V>::type vNa = {};
+        typename eagine::vect::data<T, N, V>::type vNb = {};
 
-	for(int i = 0; i < N; ++i) {
-	    vNa[i] = a[i];
-	    vNb[i] = b[i];
-	}
+        for(int i = 0; i < N; ++i) {
+            vNa[i] = a[i];
+            vNb[i] = b[i];
+        }
 
-	typename eagine::vect::data<T, N, V>::type vNc = vNa - vNb;
-	typename eagine::vect::data<T, N, V>::type vNd = vNb - vNa;
+        typename eagine::vect::data<T, N, V>::type vNc = vNa - vNb;
+        typename eagine::vect::data<T, N, V>::type vNd = vNb - vNa;
 
-	for(int i = 0; i < N; ++i) {
-	    _check_close<T>(vNc[i], a[i] - b[i]);
-	    _check_close<T>(vNd[i], b[i] - a[i]);
-	}
+        for(int i = 0; i < N; ++i) {
+            _check_close<T>(vNc[i], a[i] - b[i]);
+            _check_close<T>(vNd[i], b[i] - a[i]);
+        }
     }
 }
 
@@ -322,28 +322,28 @@ template <typename T, int N, bool V>
 void
 test_vect_data_multiply_TNV(void) {
     for(int k = 0; k < 1000; ++k) {
-	T a[N], b[N];
-	for(int i = 0; i < N; ++i) {
-	    a[i] = rg.get<T>(-1000, 1000);
-	    b[i] = rg.get<T>(-1000, 1000);
-	}
+        T a[N], b[N];
+        for(int i = 0; i < N; ++i) {
+            a[i] = rg.get<T>(-1000, 1000);
+            b[i] = rg.get<T>(-1000, 1000);
+        }
 
-	typename eagine::vect::data<T, N, V>::type vNa = {};
-	typename eagine::vect::data<T, N, V>::type vNb = {};
+        typename eagine::vect::data<T, N, V>::type vNa = {};
+        typename eagine::vect::data<T, N, V>::type vNb = {};
 
-	for(int i = 0; i < N; ++i) {
-	    vNa[i] = a[i];
-	    vNb[i] = b[i];
-	}
+        for(int i = 0; i < N; ++i) {
+            vNa[i] = a[i];
+            vNb[i] = b[i];
+        }
 
-	typename eagine::vect::data<T, N, V>::type vNc = vNa * vNb;
-	typename eagine::vect::data<T, N, V>::type vNd = vNb * vNa;
+        typename eagine::vect::data<T, N, V>::type vNc = vNa * vNb;
+        typename eagine::vect::data<T, N, V>::type vNd = vNb * vNa;
 
-	for(int i = 0; i < N; ++i) {
-	    _check_close<T>(vNc[i], vNd[i]);
-	    _check_close<T>(vNc[i], a[i] * b[i]);
-	    _check_close<T>(vNd[i], b[i] * a[i]);
-	}
+        for(int i = 0; i < N; ++i) {
+            _check_close<T>(vNc[i], vNd[i]);
+            _check_close<T>(vNc[i], a[i] * b[i]);
+            _check_close<T>(vNd[i], b[i] * a[i]);
+        }
     }
 }
 
@@ -377,29 +377,29 @@ template <typename T, int N, bool V>
 void
 test_vect_data_divide_TNV(void) {
     for(int k = 0; k < 1000; ++k) {
-	T a[N], b[N];
-	for(int i = 0; i < N; ++i) {
-	    a[i] = rg.get<T>(1, 1000);
-	    b[i] = rg.get<T>(1, 1000);
-	}
+        T a[N], b[N];
+        for(int i = 0; i < N; ++i) {
+            a[i] = rg.get<T>(1, 1000);
+            b[i] = rg.get<T>(1, 1000);
+        }
 
-	typename eagine::vect::data<T, N, V>::type vNa = {};
-	typename eagine::vect::data<T, N, V>::type vNb = {};
+        typename eagine::vect::data<T, N, V>::type vNa = {};
+        typename eagine::vect::data<T, N, V>::type vNb = {};
 
-	for(int i = 0; i < N; ++i) {
-	    vNa[i] = a[i];
-	    vNb[i] = b[i];
-	}
+        for(int i = 0; i < N; ++i) {
+            vNa[i] = a[i];
+            vNb[i] = b[i];
+        }
 
-	typename eagine::vect::data<T, N, V>::type vNc =
-	  eagine::vect::sdiv<T, N, V>::apply(vNa, vNb);
-	typename eagine::vect::data<T, N, V>::type vNd =
-	  eagine::vect::sdiv<T, N, V>::apply(vNb, vNa);
+        typename eagine::vect::data<T, N, V>::type vNc =
+          eagine::vect::sdiv<T, N, V>::apply(vNa, vNb);
+        typename eagine::vect::data<T, N, V>::type vNd =
+          eagine::vect::sdiv<T, N, V>::apply(vNb, vNa);
 
-	for(int i = 0; i < N; ++i) {
-	    _check_close<T>(vNc[i], a[i] / b[i]);
-	    _check_close<T>(vNd[i], b[i] / a[i]);
-	}
+        for(int i = 0; i < N; ++i) {
+            _check_close<T>(vNc[i], a[i] / b[i]);
+            _check_close<T>(vNd[i], b[i] / a[i]);
+        }
     }
 }
 

@@ -9,10 +9,10 @@
 #ifndef EAGINE_ECS_COMPONENT_1509260923_HPP
 #define EAGINE_ECS_COMPONENT_1509260923_HPP
 
-#include "../config/basic.hpp"
-#include "../std/type_traits.hpp"
 #include <cstddef>
 #include <vector>
+#include "../config/basic.hpp"
+#include "../std/type_traits.hpp"
 
 namespace eagine {
 namespace ecs {
@@ -28,7 +28,7 @@ private:
 
 public:
     static inline component_uid_t new_uid(void) {
-	return _curr_uid()++;
+        return _curr_uid()++;
     }
 };
 
@@ -36,13 +36,13 @@ public:
 template <typename Derived, bool IsRelation>
 struct component_uid {
     static component_uid_t value(void) {
-	static component_uid_t cid =
-	  component_uid_getter<IsRelation>::new_uid();
-	return cid;
+        static component_uid_t cid =
+          component_uid_getter<IsRelation>::new_uid();
+        return cid;
     }
 
     component_uid_t operator()(void) const {
-	return value();
+        return value();
     }
 };
 
@@ -85,44 +85,44 @@ public:
     typedef typename std::vector<T>::difference_type difference_type;
 
     const_iterator begin(void) const {
-	return _storage.begin();
+        return _storage.begin();
     }
 
     iterator begin(void) {
-	return _storage.begin();
+        return _storage.begin();
     }
 
     const_iterator end(void) const {
-	return _storage.end();
+        return _storage.end();
     }
 
     iterator end(void) {
-	return _storage.end();
+        return _storage.end();
     }
 
     const_iterator find(component_uid_t cid) const {
-	if(cid < _storage.size()) {
-	    return _storage.begin() + difference_type(cid);
-	} else
-	    return _storage.end();
+        if(cid < _storage.size()) {
+            return _storage.begin() + difference_type(cid);
+        } else
+            return _storage.end();
     }
 
     iterator find(component_uid_t cid) {
-	if(cid < _storage.size()) {
-	    return _storage.begin() + difference_type(cid);
-	} else
-	    return _storage.end();
+        if(cid < _storage.size()) {
+            return _storage.begin() + difference_type(cid);
+        } else
+            return _storage.end();
     }
 
     void erase(iterator pos) {
-	*pos = T();
+        *pos = T();
     }
 
     T& operator[](component_uid_t cid) {
-	if(cid >= _storage.size()) {
-	    _storage.resize(cid + 1);
-	}
-	return _storage[cid];
+        if(cid >= _storage.size()) {
+            _storage.resize(cid + 1);
+        }
+        return _storage[cid];
     }
 };
 

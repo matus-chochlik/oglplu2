@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_point_parameter
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_point_parameter_tests)
 
@@ -103,43 +103,45 @@ BOOST_AUTO_TEST_CASE(enum_point_parameter_range) {
 
 #ifdef GL_POINT_FADE_THRESHOLD_SIZE
     {
-	--count;
-	auto r = enum_value_range<point_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), point_parameter(GL_POINT_FADE_THRESHOLD_SIZE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<point_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            point_parameter(GL_POINT_FADE_THRESHOLD_SIZE)) != r.end());
     }
 #endif
 
 #ifdef GL_POINT_SIZE_MAX
     {
-	--count;
-	auto r = enum_value_range<point_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), point_parameter(GL_POINT_SIZE_MAX))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<point_parameter>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), point_parameter(GL_POINT_SIZE_MAX)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_POINT_SIZE_MIN
     {
-	--count;
-	auto r = enum_value_range<point_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), point_parameter(GL_POINT_SIZE_MIN))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<point_parameter>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), point_parameter(GL_POINT_SIZE_MIN)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_POINT_SPRITE_COORD_ORIGIN
     {
-	--count;
-	auto r = enum_value_range<point_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), point_parameter(GL_POINT_SPRITE_COORD_ORIGIN))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<point_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            point_parameter(GL_POINT_SPRITE_COORD_ORIGIN)) != r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

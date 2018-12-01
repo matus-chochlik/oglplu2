@@ -10,8 +10,8 @@
 #ifndef EAGINE_PROTECTED_MEMBER_1509260923_HPP
 #define EAGINE_PROTECTED_MEMBER_1509260923_HPP
 
-#include "identity.hpp"
 #include <utility>
+#include "identity.hpp"
 
 namespace eagine {
 
@@ -28,11 +28,11 @@ protected:
 
 public:
     T& get_the_member(Selector = Selector()) noexcept {
-	return _member;
+        return _member;
     }
 
     const T& get_the_member(Selector = Selector()) const noexcept {
-	return _member;
+        return _member;
     }
 };
 
@@ -45,7 +45,8 @@ get_member(
 
 template <typename Selector, typename T>
 static inline const T&
-get_member(const protected_member<T, Selector>& pm,
+get_member(
+  const protected_member<T, Selector>& pm,
   Selector selector = Selector()) noexcept {
     return pm.get_the_member(selector);
 }

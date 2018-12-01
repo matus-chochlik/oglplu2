@@ -9,8 +9,8 @@
 #ifndef OGLPLUS_GLSL_CONTAINER_1509260923_HPP
 #define OGLPLUS_GLSL_CONTAINER_1509260923_HPP
 
-#include "string_ref.hpp"
 #include <string>
+#include "string_ref.hpp"
 
 namespace oglplus {
 
@@ -33,11 +33,11 @@ public:
     }
 
     Container& storage(void) noexcept {
-	return _storage;
+        return _storage;
     }
 
     operator glsl_source_ref(void) const noexcept {
-	return _str_ref;
+        return _str_ref;
     }
 };
 

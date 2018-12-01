@@ -10,11 +10,11 @@
 #ifndef EAGINE_BYTESET_1509260923_HPP
 #define EAGINE_BYTESET_1509260923_HPP
 
+#include <climits>
 #include "memory_block.hpp"
 #include "std/type_traits.hpp"
 #include "std/utility.hpp"
 #include "types.hpp"
-#include <climits>
 
 namespace eagine {
 
@@ -34,110 +34,113 @@ public:
 
     constexpr byteset(void) = default;
 
-    template <typename... B,
-      typename = std::enable_if_t<(sizeof...(B) == N) && (sizeof...(B) != 0)
-				  && std::conjunction_v<std::true_type,
-				       std::is_convertible<B, value_type>...>>>
+    template <
+      typename... B,
+      typename = std::enable_if_t<
+        (sizeof...(B) == N) && (sizeof...(B) != 0) &&
+        std::
+          conjunction_v<std::true_type, std::is_convertible<B, value_type>...>>>
     explicit constexpr inline byteset(B... b) noexcept
       : _bytes{value_type(b)...} {
     }
 
     pointer data(void) noexcept {
-	return _bytes;
+        return _bytes;
     }
 
     constexpr const_pointer data(void) const noexcept {
-	return _bytes;
+        return _bytes;
     }
 
     constexpr size_type size(void) const noexcept {
-	return N;
+        return N;
     }
 
     const_memory_block block(void) const noexcept {
-	return {data(), size()};
+        return {data(), size()};
     }
 
     constexpr reference operator[](size_type i) noexcept {
-	return _bytes[i];
+        return _bytes[i];
     }
 
     constexpr const_reference operator[](size_type i) const noexcept {
-	return _bytes[i];
+        return _bytes[i];
     }
 
     constexpr reference front(void) noexcept {
-	return _bytes[0];
+        return _bytes[0];
     }
 
     constexpr const_reference front(void) const noexcept {
-	return _bytes[0];
+        return _bytes[0];
     }
 
     constexpr reference back(void) noexcept {
-	return _bytes[N - 1];
+        return _bytes[N - 1];
     }
 
     constexpr const_reference back(void) const noexcept {
-	return _bytes[N - 1];
+        return _bytes[N - 1];
     }
 
     iterator begin(void) noexcept {
-	return _bytes + 0;
+        return _bytes + 0;
     }
 
     iterator end(void) noexcept {
-	return _bytes + N;
+        return _bytes + N;
     }
 
     constexpr const_iterator begin(void) const noexcept {
-	return _bytes + 0;
+        return _bytes + 0;
     }
 
     constexpr const_iterator end(void) const noexcept {
-	return _bytes + N;
+        return _bytes + N;
     }
 
     friend constexpr inline int compare(
       const byteset& a, const byteset& b) noexcept {
-	return _do_cmp(a, b, std::make_index_sequence<N>{});
+        return _do_cmp(a, b, std::make_index_sequence<N>{});
     }
 
     friend constexpr inline bool operator==(
       const byteset& a, const byteset& b) noexcept {
-	return compare(a, b) == 0;
+        return compare(a, b) == 0;
     }
 
     friend constexpr inline bool operator!=(
       const byteset& a, const byteset& b) noexcept {
-	return compare(a, b) != 0;
+        return compare(a, b) != 0;
     }
 
     friend constexpr inline bool operator<(
       const byteset& a, const byteset& b) noexcept {
-	return compare(a, b) < 0;
+        return compare(a, b) < 0;
     }
 
     friend constexpr inline bool operator<=(
       const byteset& a, const byteset& b) noexcept {
-	return compare(a, b) <= 0;
+        return compare(a, b) <= 0;
     }
 
     friend constexpr inline bool operator>(
       const byteset& a, const byteset& b) noexcept {
-	return compare(a, b) > 0;
+        return compare(a, b) > 0;
     }
 
     friend constexpr inline bool operator>=(
       const byteset& a, const byteset& b) noexcept {
-	return compare(a, b) >= 0;
+        return compare(a, b) >= 0;
     }
 
-    template <typename UInt,
+    template <
+      typename UInt,
       typename =
-	std::enable_if_t<(sizeof(UInt) >= N) && std::is_integral_v<UInt>>>
+        std::enable_if_t<(sizeof(UInt) >= N) && std::is_integral_v<UInt>>>
     constexpr inline UInt as(UInt i = 0) const noexcept {
-	return _push_back_to(i, 0);
+        return _push_back_to(i, 0);
     }
 
 private:
@@ -146,25 +149,25 @@ private:
     template <typename UInt>
     constexpr inline UInt _push_back_to(UInt state, std::size_t i) const
       noexcept {
-	return (i < N) ? _push_back_to((state << CHAR_BIT) | _bytes[i], i + 1)
-		       : state;
+        return (i < N) ? _push_back_to((state << CHAR_BIT) | _bytes[i], i + 1)
+                       : state;
     }
 
     static constexpr inline int _cmp_byte(value_type a, value_type b) noexcept {
-	return (a == b) ? 0 : (a < b) ? -1 : 1;
+        return (a == b) ? 0 : (a < b) ? -1 : 1;
     }
 
     static constexpr inline int _do_cmp(
       const byteset&, const byteset&, std::index_sequence<>) noexcept {
-	return 0;
+        return 0;
     }
 
     template <std::size_t I, std::size_t... In>
     static constexpr inline int _do_cmp(
       const byteset& a, const byteset& b, std::index_sequence<I, In...>) {
-	return (a._bytes[I] == b._bytes[I])
-		 ? _do_cmp(a, b, std::index_sequence<In...>{})
-		 : _cmp_byte(a._bytes[I], b._bytes[I]);
+        return (a._bytes[I] == b._bytes[I])
+                 ? _do_cmp(a, b, std::index_sequence<In...>{})
+                 : _cmp_byte(a._bytes[I], b._bytes[I]);
     }
 };
 

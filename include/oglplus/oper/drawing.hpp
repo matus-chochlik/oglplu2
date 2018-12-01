@@ -36,13 +36,15 @@ struct drawing_ops {
       primitive_type mode, GLint first, GLsizei count) noexcept;
 
 #if defined(GL_VERSION_3_0)
-    static outcome<void> multi_draw_arrays(primitive_type mode,
+    static outcome<void> multi_draw_arrays(
+      primitive_type mode,
       span<const GLint> first,
       span<const GLsizei> count) noexcept;
 #endif
 
 #if defined(GL_VERSION_3_1)
-    static outcome<void> draw_arrays_instanced(primitive_type mode,
+    static outcome<void> draw_arrays_instanced(
+      primitive_type mode,
       GLint first,
       GLsizei count,
       GLsizei primcount) noexcept;
@@ -62,7 +64,8 @@ struct drawing_ops {
       primitive_type mode, const GLvoid* indirect) noexcept;
 #endif
 
-    static outcome<void> draw_elements(primitive_type mode,
+    static outcome<void> draw_elements(
+      primitive_type mode,
       GLsizei count,
       index_type type,
       const GLvoid* indices) noexcept;
@@ -71,57 +74,66 @@ struct drawing_ops {
       primitive_type mode, GLsizei count, index_type type) noexcept;
 
 #if defined(GL_VERSION_3_0)
-    static outcome<void> multi_draw_elements(primitive_type mode,
+    static outcome<void> multi_draw_elements(
+      primitive_type mode,
       span<const GLsizei> count,
       index_type type,
       span<const GLvoid*> indices) noexcept;
 #endif
 
-    static outcome<void> draw_range_elements(primitive_type mode,
+    static outcome<void> draw_range_elements(
+      primitive_type mode,
       GLuint start,
       GLuint end,
       GLsizei count,
       index_type type,
       const GLvoid* indices) noexcept;
 
-    static outcome<void> draw_range_elements(primitive_type mode,
+    static outcome<void> draw_range_elements(
+      primitive_type mode,
       GLuint start,
       GLuint end,
       GLsizei count,
       index_type type) noexcept;
 
 #if defined(GL_VERSION_3_1)
-    static outcome<void> draw_elements_instanced(primitive_type mode,
+    static outcome<void> draw_elements_instanced(
+      primitive_type mode,
       GLsizei count,
       index_type type,
       const GLvoid* indices,
       GLsizei primcount) noexcept;
 
-    static outcome<void> draw_elements_instanced(primitive_type mode,
+    static outcome<void> draw_elements_instanced(
+      primitive_type mode,
       GLsizei count,
       index_type type,
       GLsizei primcount) noexcept;
 #endif
 
 #if defined(GL_VERSION_3_2)
-    static outcome<void> draw_elements_base_vertex(primitive_type mode,
+    static outcome<void> draw_elements_base_vertex(
+      primitive_type mode,
       GLsizei count,
       index_type type,
       const GLvoid* indices,
       GLint basevertex) noexcept;
 
-    static outcome<void> draw_elements_base_vertex(primitive_type mode,
+    static outcome<void> draw_elements_base_vertex(
+      primitive_type mode,
       GLsizei count,
       index_type type,
       GLint basevertex) noexcept;
 
-    static outcome<void> multi_draw_elements_base_vertex(primitive_type mode,
+    static outcome<void> multi_draw_elements_base_vertex(
+      primitive_type mode,
       span<const GLsizei> count,
       index_type type,
       span<const GLvoid*> indices,
       span<const GLint> basevertex) noexcept;
 
-    static outcome<void> draw_range_elements_base_vertex(primitive_type mode,
+    static outcome<void> draw_range_elements_base_vertex(
+      primitive_type mode,
       GLuint start,
       GLuint end,
       GLsizei count,
@@ -129,7 +141,8 @@ struct drawing_ops {
       const GLvoid* indices,
       GLint basevertex) noexcept;
 
-    static outcome<void> draw_range_elements_base_vertex(primitive_type mode,
+    static outcome<void> draw_range_elements_base_vertex(
+      primitive_type mode,
       GLuint start,
       GLuint end,
       GLsizei count,
@@ -198,7 +211,8 @@ struct drawing_ops {
 #endif
 
 #if defined(GL_VERSION_4_2)
-    static outcome<void> draw_transform_feedback_instanced(primitive_type mode,
+    static outcome<void> draw_transform_feedback_instanced(
+      primitive_type mode,
       transform_feedback_name xfb,
       GLsizei primcount) noexcept;
 

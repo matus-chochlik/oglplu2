@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_path_join_style_nv
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_path_join_style_nv_tests)
 
@@ -125,51 +125,53 @@ BOOST_AUTO_TEST_CASE(enum_path_join_style_nv_range) {
 
 #ifdef GL_BEVEL_NV
     {
-	--count;
-	auto r = enum_value_range<path_join_style_nv>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), path_join_style_nv(GL_BEVEL_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_join_style_nv>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), path_join_style_nv(GL_BEVEL_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_MITER_REVERT_NV
     {
-	--count;
-	auto r = enum_value_range<path_join_style_nv>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), path_join_style_nv(GL_MITER_REVERT_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_join_style_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), path_join_style_nv(GL_MITER_REVERT_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_MITER_TRUNCATE_NV
     {
-	--count;
-	auto r = enum_value_range<path_join_style_nv>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), path_join_style_nv(GL_MITER_TRUNCATE_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_join_style_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), path_join_style_nv(GL_MITER_TRUNCATE_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_NONE
     {
-	--count;
-	auto r = enum_value_range<path_join_style_nv>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), path_join_style_nv(GL_NONE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<path_join_style_nv>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), path_join_style_nv(GL_NONE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_ROUND_NV
     {
-	--count;
-	auto r = enum_value_range<path_join_style_nv>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), path_join_style_nv(GL_ROUND_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_join_style_nv>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), path_join_style_nv(GL_ROUND_NV)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

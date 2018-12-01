@@ -45,39 +45,41 @@ template <typename Sc1, typename Sc2, typename System>
 struct units_scaled_unit_add_tester {
     template <typename BD>
     void operator()(BD) const {
-	using namespace eagine::units;
+        using namespace eagine::units;
 
-	typedef dimension<BD, 1> D;
+        typedef dimension<BD, 1> D;
 
-	typedef typename System::template base_unit<BD>::type BU;
+        typedef typename System::template base_unit<BD>::type BU;
 
-	typedef unit<D, System> U;
+        typedef unit<D, System> U;
 
-	typedef scaled_dim_unit<D,
-	  bits::unit_scales<bits::uni_sca<BU, Sc1>, eagine::nothing_t>,
-	  System>
-	  S1U;
+        typedef scaled_dim_unit<
+          D,
+          bits::unit_scales<bits::uni_sca<BU, Sc1>, eagine::nothing_t>,
+          System>
+          S1U;
 
-	typedef scaled_dim_unit<D,
-	  bits::unit_scales<bits::uni_sca<BU, Sc2>, eagine::nothing_t>,
-	  System>
-	  S2U;
+        typedef scaled_dim_unit<
+          D,
+          bits::unit_scales<bits::uni_sca<BU, Sc2>, eagine::nothing_t>,
+          System>
+          S2U;
 
-	U a, b;
-	S1U s1a, s1b;
-	S2U s2b;
+        U a, b;
+        S1U s1a, s1b;
+        S2U s2b;
 
-	U ca1b = a + s1b;
-	EAGINE_MAYBE_UNUSED(ca1b);
+        U ca1b = a + s1b;
+        EAGINE_MAYBE_UNUSED(ca1b);
 
-	U c1ab = s1a + b;
-	EAGINE_MAYBE_UNUSED(c1ab);
+        U c1ab = s1a + b;
+        EAGINE_MAYBE_UNUSED(c1ab);
 
-	S1U s1c = s1a + s1b;
-	EAGINE_MAYBE_UNUSED(s1c);
+        S1U s1c = s1a + s1b;
+        EAGINE_MAYBE_UNUSED(s1c);
 
-	auto s12c = s1a + s2b;
-	EAGINE_MAYBE_UNUSED(s12c);
+        auto s12c = s1a + s2b;
+        EAGINE_MAYBE_UNUSED(s12c);
     }
 };
 
@@ -89,39 +91,41 @@ template <typename Sc1, typename Sc2, typename System>
 struct units_scaled_unit_sub_tester {
     template <typename BD>
     void operator()(BD) const {
-	using namespace eagine::units;
+        using namespace eagine::units;
 
-	typedef dimension<BD, 1> D;
+        typedef dimension<BD, 1> D;
 
-	typedef typename System::template base_unit<BD>::type BU;
+        typedef typename System::template base_unit<BD>::type BU;
 
-	typedef unit<D, System> U;
+        typedef unit<D, System> U;
 
-	typedef scaled_dim_unit<D,
-	  bits::unit_scales<bits::uni_sca<BU, Sc1>, eagine::nothing_t>,
-	  System>
-	  S1U;
+        typedef scaled_dim_unit<
+          D,
+          bits::unit_scales<bits::uni_sca<BU, Sc1>, eagine::nothing_t>,
+          System>
+          S1U;
 
-	typedef scaled_dim_unit<D,
-	  bits::unit_scales<bits::uni_sca<BU, Sc2>, eagine::nothing_t>,
-	  System>
-	  S2U;
+        typedef scaled_dim_unit<
+          D,
+          bits::unit_scales<bits::uni_sca<BU, Sc2>, eagine::nothing_t>,
+          System>
+          S2U;
 
-	U a, b;
-	S1U s1a, s1b;
-	S2U s2b;
+        U a, b;
+        S1U s1a, s1b;
+        S2U s2b;
 
-	U ca1b = a - s1b;
-	EAGINE_MAYBE_UNUSED(ca1b);
+        U ca1b = a - s1b;
+        EAGINE_MAYBE_UNUSED(ca1b);
 
-	U c1ab = s1a - b;
-	EAGINE_MAYBE_UNUSED(c1ab);
+        U c1ab = s1a - b;
+        EAGINE_MAYBE_UNUSED(c1ab);
 
-	S1U s1c = s1a - s1b;
-	EAGINE_MAYBE_UNUSED(s1c);
+        S1U s1c = s1a - s1b;
+        EAGINE_MAYBE_UNUSED(s1c);
 
-	auto s12c = s1a - s2b;
-	EAGINE_MAYBE_UNUSED(s12c);
+        auto s12c = s1a - s2b;
+        EAGINE_MAYBE_UNUSED(s12c);
     }
 };
 
@@ -135,55 +139,57 @@ template <typename BD1>
 struct units_scaled_unit_mul_tester {
     template <typename Sc1, typename Sc2, typename System>
     struct impl {
-	template <typename BD2>
-	void operator()(BD2) const {
-	    using namespace eagine::units;
+        template <typename BD2>
+        void operator()(BD2) const {
+            using namespace eagine::units;
 
-	    typedef dimension<BD1, 1> D1;
-	    typedef dimension<BD2, 1> D2;
+            typedef dimension<BD1, 1> D1;
+            typedef dimension<BD2, 1> D2;
 
-	    typedef typename System::template base_unit<BD1>::type BU1;
-	    typedef typename System::template base_unit<BD2>::type BU2;
+            typedef typename System::template base_unit<BD1>::type BU1;
+            typedef typename System::template base_unit<BD2>::type BU2;
 
-	    typedef unit<D1, System> U1;
-	    typedef unit<D2, System> U2;
+            typedef unit<D1, System> U1;
+            typedef unit<D2, System> U2;
 
-	    typedef scaled_dim_unit<D1,
-	      bits::unit_scales<bits::uni_sca<BU1, Sc1>, eagine::nothing_t>,
-	      System>
-	      S1U1;
+            typedef scaled_dim_unit<
+              D1,
+              bits::unit_scales<bits::uni_sca<BU1, Sc1>, eagine::nothing_t>,
+              System>
+              S1U1;
 
-	    typedef scaled_dim_unit<D2,
-	      bits::unit_scales<bits::uni_sca<BU2, Sc2>, eagine::nothing_t>,
-	      System>
-	      S2U2;
+            typedef scaled_dim_unit<
+              D2,
+              bits::unit_scales<bits::uni_sca<BU2, Sc2>, eagine::nothing_t>,
+              System>
+              S2U2;
 
-	    U1 a;
-	    U2 b;
-	    S1U1 s1a, s1b;
-	    S2U2 s2b;
+            U1 a;
+            U2 b;
+            S1U1 s1a, s1b;
+            S2U2 s2b;
 
-	    auto ca1b = a * s1b;
-	    EAGINE_MAYBE_UNUSED(ca1b);
+            auto ca1b = a * s1b;
+            EAGINE_MAYBE_UNUSED(ca1b);
 
-	    auto c1ab = s1a * b;
-	    EAGINE_MAYBE_UNUSED(c1ab);
+            auto c1ab = s1a * b;
+            EAGINE_MAYBE_UNUSED(c1ab);
 
-	    auto s1c = s1a * s1b;
-	    EAGINE_MAYBE_UNUSED(s1c);
+            auto s1c = s1a * s1b;
+            EAGINE_MAYBE_UNUSED(s1c);
 
-	    auto s12c = s1a * s2b;
-	    EAGINE_MAYBE_UNUSED(s12c);
-	}
+            auto s12c = s1a * s2b;
+            EAGINE_MAYBE_UNUSED(s12c);
+        }
     };
 };
 
 struct units_scaled_unit_mul_hlp_tester {
     template <typename BD>
     void operator()(BD) const {
-	using namespace eagine::units;
+        using namespace eagine::units;
 
-	do_units_arith_tests<units_scaled_unit_mul_tester<BD>::template impl>();
+        do_units_arith_tests<units_scaled_unit_mul_tester<BD>::template impl>();
     }
 };
 
@@ -197,55 +203,57 @@ template <typename BD1>
 struct units_scaled_unit_div_tester {
     template <typename Sc1, typename Sc2, typename System>
     struct impl {
-	template <typename BD2>
-	void operator()(BD2) const {
-	    using namespace eagine::units;
+        template <typename BD2>
+        void operator()(BD2) const {
+            using namespace eagine::units;
 
-	    typedef dimension<BD1, 1> D1;
-	    typedef dimension<BD2, 1> D2;
+            typedef dimension<BD1, 1> D1;
+            typedef dimension<BD2, 1> D2;
 
-	    typedef typename System::template base_unit<BD1>::type BU1;
-	    typedef typename System::template base_unit<BD2>::type BU2;
+            typedef typename System::template base_unit<BD1>::type BU1;
+            typedef typename System::template base_unit<BD2>::type BU2;
 
-	    typedef unit<D1, System> U1;
-	    typedef unit<D2, System> U2;
+            typedef unit<D1, System> U1;
+            typedef unit<D2, System> U2;
 
-	    typedef scaled_dim_unit<D1,
-	      bits::unit_scales<bits::uni_sca<BU1, Sc1>, eagine::nothing_t>,
-	      System>
-	      S1U1;
+            typedef scaled_dim_unit<
+              D1,
+              bits::unit_scales<bits::uni_sca<BU1, Sc1>, eagine::nothing_t>,
+              System>
+              S1U1;
 
-	    typedef scaled_dim_unit<D2,
-	      bits::unit_scales<bits::uni_sca<BU2, Sc2>, eagine::nothing_t>,
-	      System>
-	      S2U2;
+            typedef scaled_dim_unit<
+              D2,
+              bits::unit_scales<bits::uni_sca<BU2, Sc2>, eagine::nothing_t>,
+              System>
+              S2U2;
 
-	    U1 a;
-	    U2 b;
-	    S1U1 s1a, s1b;
-	    S2U2 s2b;
+            U1 a;
+            U2 b;
+            S1U1 s1a, s1b;
+            S2U2 s2b;
 
-	    auto ca1b = a / s1b;
-	    EAGINE_MAYBE_UNUSED(ca1b);
+            auto ca1b = a / s1b;
+            EAGINE_MAYBE_UNUSED(ca1b);
 
-	    auto c1ab = s1a / b;
-	    EAGINE_MAYBE_UNUSED(c1ab);
+            auto c1ab = s1a / b;
+            EAGINE_MAYBE_UNUSED(c1ab);
 
-	    auto s1c = s1a / s1b;
-	    EAGINE_MAYBE_UNUSED(s1c);
+            auto s1c = s1a / s1b;
+            EAGINE_MAYBE_UNUSED(s1c);
 
-	    auto s12c = s1a / s2b;
-	    EAGINE_MAYBE_UNUSED(s12c);
-	}
+            auto s12c = s1a / s2b;
+            EAGINE_MAYBE_UNUSED(s12c);
+        }
     };
 };
 
 struct units_scaled_unit_div_hlp_tester {
     template <typename BD>
     void operator()(BD) const {
-	using namespace eagine::units;
+        using namespace eagine::units;
 
-	do_units_arith_tests<units_scaled_unit_div_tester<BD>::template impl>();
+        do_units_arith_tests<units_scaled_unit_div_tester<BD>::template impl>();
     }
 };
 

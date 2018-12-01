@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_texture_mag_filter
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_texture_mag_filter_tests)
 
@@ -64,20 +64,21 @@ BOOST_AUTO_TEST_CASE(enum_texture_mag_filter_range) {
 
 #ifdef GL_LINEAR
     {
-	--count;
-	auto r = enum_value_range<texture_mag_filter>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), texture_mag_filter(GL_LINEAR))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<texture_mag_filter>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), texture_mag_filter(GL_LINEAR)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_NEAREST
     {
-	--count;
-	auto r = enum_value_range<texture_mag_filter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), texture_mag_filter(GL_NEAREST))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_mag_filter>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), texture_mag_filter(GL_NEAREST)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

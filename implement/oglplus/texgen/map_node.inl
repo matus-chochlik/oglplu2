@@ -37,7 +37,7 @@ OGLPLUS_LIB_FUNC
 std::ostream&
 map_output::definitions(std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt))
-	return out;
+        return out;
 
     input_defs(out, ctxt);
     opening_expr(out, ctxt);
@@ -54,7 +54,7 @@ map_output::definitions(std::ostream& out, compile_context& ctxt) {
     out << "\treturn ";
     out << expr::output_id{input.output(), ctxt};
     if(input.output().needs_params()) {
-	out << "(coord, vec3(0), vec3(0))" << std::endl;
+        out << "(coord, vec3(0), vec3(0))" << std::endl;
     }
     out << ";" << std::endl;
 

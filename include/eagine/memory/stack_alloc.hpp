@@ -10,9 +10,9 @@
 #ifndef EAGINE_MEMORY_STACK_ALLOC_1509260923_HPP
 #define EAGINE_MEMORY_STACK_ALLOC_1509260923_HPP
 
+#include <cassert>
 #include "../std/type_traits.hpp"
 #include "byte_alloc.hpp"
-#include <cassert>
 
 namespace eagine {
 namespace memory {
@@ -57,11 +57,11 @@ public:
     ~base_stack_allocator(void) noexcept;
 
     size_type max_size(void) const noexcept {
-	return _available().size();
+        return _available().size();
     }
 
     size_type allocated_size(void) const noexcept {
-	return _allocated().size();
+        return _allocated().size();
     }
 
     tribool has_allocated(const owned_block& b) const noexcept;
@@ -74,14 +74,14 @@ public:
 
     friend bool operator==(
       const base_stack_allocator& a, const base_stack_allocator& b) noexcept {
-	if((a._btm == b._btm) && (a._top == b._top)) {
-	    assert(a._pos == b._pos);
-	    assert(a._min == b._min);
-	    assert(a._dif == b._dif);
+        if((a._btm == b._btm) && (a._top == b._top)) {
+            assert(a._pos == b._pos);
+            assert(a._min == b._min);
+            assert(a._dif == b._dif);
 
-	    return true;
-	}
-	return false;
+            return true;
+        }
+        return false;
     }
 };
 
@@ -104,11 +104,11 @@ public:
     bool equal(byte_allocator* a) const noexcept override;
 
     size_type max_size(size_type) noexcept override {
-	return _alloc.max_size();
+        return _alloc.max_size();
     }
 
     tribool has_allocated(const owned_block& b, span_size_t) noexcept override {
-	return _alloc.has_allocated(b);
+        return _alloc.has_allocated(b);
     }
 
     owned_block allocate(size_type n, size_type a) noexcept override;
@@ -135,11 +135,11 @@ public:
     bool equal(byte_allocator* a) const noexcept override;
 
     size_type max_size(size_type a) noexcept override {
-	return _alloc.max_size() > a ? _alloc.max_size() - a : 0;
+        return _alloc.max_size() > a ? _alloc.max_size() - a : 0;
     }
 
     tribool has_allocated(const owned_block& b, span_size_t) noexcept override {
-	return _alloc.has_allocated(b);
+        return _alloc.has_allocated(b);
     }
 
     owned_block allocate(size_type n, size_type a) noexcept override;
@@ -171,7 +171,7 @@ public:
     bool equal(byte_allocator* a) const noexcept override;
 
     size_type max_size(size_type) noexcept override {
-	return _alloc.max_size();
+        return _alloc.max_size();
     }
 
     tribool has_allocated(const owned_block& b, span_size_t) noexcept override;

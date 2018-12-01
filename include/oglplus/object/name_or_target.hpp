@@ -27,9 +27,10 @@ template <typename ObjBindingPoint>
 struct object_name_or_target<nothing_t, ObjBindingPoint> {
     ObjBindingPoint _target;
 
-    template <typename Target,
+    template <
+      typename Target,
       typename =
-	std::enable_if_t<std::is_convertible_v<Target, ObjBindingPoint>>>
+        std::enable_if_t<std::is_convertible_v<Target, ObjBindingPoint>>>
     constexpr inline object_name_or_target(Target target) noexcept
       : _target(target) {
     }

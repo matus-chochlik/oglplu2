@@ -40,7 +40,7 @@ viewport_state::viewport(
   viewport_index index, GLfloat x, GLfloat y, GLfloat w, GLfloat h) noexcept {
 #if !OGLPLUS_NO_LIMIT_CHECKS
     if(auto invalid_index = failure(check_below_limit(index))) {
-	return std::move(invalid_index);
+        return std::move(invalid_index);
     }
 #endif
     OGLPLUS_GLFUNC(ViewportIndexedf)(GLuint(index), x, y, w, h);
@@ -53,7 +53,7 @@ viewport_state::viewport(
   viewport_index index, const viewport_extents& vpe) noexcept {
 #if !OGLPLUS_NO_LIMIT_CHECKS
     if(auto invalid_index = failure(check_below_limit(index))) {
-	return std::move(invalid_index);
+        return std::move(invalid_index);
     }
 #endif
     OGLPLUS_GLFUNC(ViewportIndexedfv)(GLuint(index), vpe._v);
@@ -67,7 +67,7 @@ viewport_state::viewport_array(
     assert(vpe.size() % 4 == 0);
 #if !OGLPLUS_NO_LIMIT_CHECKS
     if(auto invalid_index = failure(check_below_limit(first))) {
-	return std::move(invalid_index);
+        return std::move(invalid_index);
     }
 #endif
     OGLPLUS_GLFUNC(ViewportArrayv)
@@ -81,11 +81,11 @@ viewport_state::get_viewport(viewport_index index) noexcept {
     viewport_extents result;
 #if !OGLPLUS_NO_LIMIT_CHECKS
     if(auto invalid_index = failure(check_below_limit(index))) {
-	return std::move(invalid_index).add(result);
+        return std::move(invalid_index).add(result);
     }
 #endif
     return numeric_queries::get_float_v(
-      numeric_query(GL_VIEWPORT), GLuint(index), {result._v})
+             numeric_query(GL_VIEWPORT), GLuint(index), {result._v})
       .add(result);
 }
 #endif

@@ -30,13 +30,14 @@ public:
 };
 
 class checker_node
-  : public unary_single_output_node<checker_output,
+  : public unary_single_output_node<
+      checker_output,
       decltype(checker_output::repeat),
       &checker_output::repeat> {
 public:
     checker_node& set_repeat(float x, float y, float z) {
-	_output.repeat.fallback().set(x, y, z);
-	return *this;
+        _output.repeat.fallback().set(x, y, z);
+        return *this;
     }
 };
 

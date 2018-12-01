@@ -17,15 +17,16 @@ namespace eagine {
 template <typename Dst, typename Src>
 struct implicitly_within_limits
   : bool_constant<(
-      ((std::is_integral_v<Dst> && std::is_integral_v<Src>)
-        || (std::is_floating_point_v<Dst> && std::is_floating_point_v<Src>))
-      && (std::is_signed_v<Dst> == std::is_signed_v<Src>)&&(
-           sizeof(Dst) >= sizeof(Src)))> {};
+      ((std::is_integral_v<Dst> && std::is_integral_v<Src>) ||
+       (std::is_floating_point_v<Dst> && std::is_floating_point_v<Src>)) &&
+      (std::is_signed_v<Dst> ==
+       std::is_signed_v<Src>)&&(sizeof(Dst) >= sizeof(Src)))> {};
 
 template <typename Dst>
 struct implicitly_within_limits<Dst, bool> : std::is_integral<Dst> {};
 
-template <typename Dst,
+template <
+  typename Dst,
   typename Src,
   bool DIsInt,
   bool SIsInt,
@@ -66,7 +67,8 @@ struct within_limits_num<Dst, Src, IsInt, IsInt, true, false> {
 
 template <typename Dst, typename Src>
 struct within_limits
-  : within_limits_num<Dst,
+  : within_limits_num<
+      Dst,
       Src,
       std::is_integral_v<Dst>,
       std::is_integral_v<Src>,
@@ -83,8 +85,8 @@ struct within_limits<T, T> {
 template <typename Dst, typename Src>
 static constexpr inline bool
 is_within_limits(Src value) noexcept {
-    return implicitly_within_limits<Dst, Src>::value
-           || within_limits<Dst, Src>::check(value);
+    return implicitly_within_limits<Dst, Src>::value ||
+           within_limits<Dst, Src>::check(value);
 }
 
 } // namespace eagine

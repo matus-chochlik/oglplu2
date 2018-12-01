@@ -40,51 +40,51 @@ public:
     }
 
     explicit constexpr inline operator bool(void) const noexcept {
-	return _bits != BF(0);
+        return _bits != BF(0);
     }
 
-    constexpr inline bool operator!(void)const noexcept {
-	return _bits == BF(0);
+    constexpr inline bool operator!(void) const noexcept {
+        return _bits == BF(0);
     }
 
     explicit constexpr inline operator value_type(void) const noexcept {
-	return _bits;
+        return _bits;
     }
 
     constexpr inline bool has(Bit bit) const noexcept {
-	return (_bits & BF(bit)) == BF(bit);
+        return (_bits & BF(bit)) == BF(bit);
     }
 
     friend constexpr inline bool operator==(bitfield a, bitfield b) noexcept {
-	return a._bits == b._bits;
+        return a._bits == b._bits;
     }
 
     friend constexpr inline bool operator!=(bitfield a, bitfield b) noexcept {
-	return a._bits != b._bits;
+        return a._bits != b._bits;
     }
 
     friend constexpr inline bitfield operator|(
       bitfield a, bitfield b) noexcept {
-	return bitfield(BF{a._bits} | BF{b._bits});
+        return bitfield(BF{a._bits} | BF{b._bits});
     }
 
     bitfield& operator|=(bitfield b) noexcept {
-	_bits |= b._bits;
-	return *this;
+        _bits |= b._bits;
+        return *this;
     }
 
     friend constexpr inline bitfield operator&(
       bitfield a, bitfield b) noexcept {
-	return bitfield{a._bits & b._bits};
+        return bitfield{a._bits & b._bits};
     }
 
     bitfield& operator&=(bitfield b) noexcept {
-	_bits &= b._bits;
-	return *this;
+        _bits &= b._bits;
+        return *this;
     }
 
     friend constexpr inline bitfield operator~(bitfield b) noexcept {
-	return bitfield{~b._bits};
+        return bitfield{~b._bits};
     }
 };
 

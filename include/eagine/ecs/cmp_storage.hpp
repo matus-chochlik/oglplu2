@@ -9,12 +9,12 @@
 #ifndef EAGINE_ECS_CMP_STORAGE_1509260923_HPP
 #define EAGINE_ECS_CMP_STORAGE_1509260923_HPP
 
+#include <cassert>
 #include "../callable_ref.hpp"
 #include "entity_traits.hpp"
 #include "manipulator.hpp"
 #include "storage_caps.hpp"
 #include "storage_fwd.hpp"
-#include <cassert>
 
 namespace eagine {
 namespace ecs {
@@ -42,54 +42,54 @@ private:
 public:
     storage_iterator(storage_iterator_intf<Entity, false>* i) noexcept
       : _i(i) {
-	assert(_i);
+        assert(_i);
     }
 
     storage_iterator(const storage_iterator&) = delete;
 
     storage_iterator(storage_iterator&& tmp) noexcept
       : _i(tmp._i) {
-	tmp._i = nullptr;
+        tmp._i = nullptr;
     }
 
     ~storage_iterator(void) noexcept {
-	assert(_i == nullptr);
+        assert(_i == nullptr);
     }
 
     storage_iterator_intf<Entity, false>* release(void) {
-	storage_iterator_intf<Entity, false>* p = _i;
-	_i = nullptr;
-	return p;
+        storage_iterator_intf<Entity, false>* p = _i;
+        _i = nullptr;
+        return p;
     }
 
     storage_iterator_intf<Entity, false>* ptr(void) noexcept {
-	assert(_i);
-	return _i;
+        assert(_i);
+        return _i;
     }
 
     storage_iterator_intf<Entity, false>& get(void) noexcept {
-	assert(_i);
-	return *_i;
+        assert(_i);
+        return *_i;
     }
 
     void reset(void) {
-	get().reset();
+        get().reset();
     }
 
     bool done(void) {
-	return get().done();
+        return get().done();
     }
 
     void next(void) {
-	get().next();
+        get().next();
     }
 
     bool find(Entity e) {
-	return get().find(e);
+        return get().find(e);
     }
 
     Entity current(void) {
-	return get().current();
+        return get().current();
     }
 };
 

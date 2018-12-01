@@ -20,14 +20,14 @@ oglplus::error_info
 get_error_info(void) {
     using namespace oglplus;
     return std::move(oglplus::error_info()
-		       .gl_library_name("GL")
-		       .gl_function_name("Function")
-		       .source_function("function")
-		       .source_file("file.cpp")
-		       .source_line(12345)
-		       .gl_object(mock_object_name(23456))
-		       .gl_subject(mock_object_name(34567))
-		       .gl_error_code(GL_OUT_OF_MEMORY));
+                       .gl_library_name("GL")
+                       .gl_function_name("Function")
+                       .source_function("function")
+                       .source_file("file.cpp")
+                       .source_line(12345)
+                       .gl_object(mock_object_name(23456))
+                       .gl_subject(mock_object_name(34567))
+                       .gl_error_code(GL_OUT_OF_MEMORY));
 }
 
 BOOST_AUTO_TEST_CASE(error_format_empty) {
@@ -69,72 +69,72 @@ BOOST_AUTO_TEST_CASE(error_format_fail) {
     int passed = 0;
 
     try {
-	format_error_info(get_error_info(), "%", out);
+        format_error_info(get_error_info(), "%", out);
     } catch(std::runtime_error&) {
-	++passed;
+        ++passed;
     }
     out.str(std::string());
 
     try {
-	format_error_info(get_error_info(), "%  ", out);
+        format_error_info(get_error_info(), "%  ", out);
     } catch(std::runtime_error&) {
-	++passed;
+        ++passed;
     }
     out.str(std::string());
 
     try {
-	format_error_info(get_error_info(), "  %", out);
+        format_error_info(get_error_info(), "  %", out);
     } catch(std::runtime_error&) {
-	++passed;
+        ++passed;
     }
     out.str(std::string());
 
     try {
-	format_error_info(get_error_info(), "%()", out);
+        format_error_info(get_error_info(), "%()", out);
     } catch(std::runtime_error&) {
-	++passed;
+        ++passed;
     }
     out.str(std::string());
 
     try {
-	format_error_info(get_error_info(), "%(|)", out);
+        format_error_info(get_error_info(), "%(|)", out);
     } catch(std::runtime_error&) {
-	++passed;
+        ++passed;
     }
     out.str(std::string());
 
     try {
-	format_error_info(get_error_info(), "%(|blah)", out);
+        format_error_info(get_error_info(), "%(|blah)", out);
     } catch(std::runtime_error&) {
-	++passed;
+        ++passed;
     }
     out.str(std::string());
 
     try {
-	format_error_info(get_error_info(), "%(", out);
+        format_error_info(get_error_info(), "%(", out);
     } catch(std::runtime_error&) {
-	++passed;
+        ++passed;
     }
     out.str(std::string());
 
     try {
-	format_error_info(get_error_info(), "%(invalid)", out);
+        format_error_info(get_error_info(), "%(invalid)", out);
     } catch(std::runtime_error&) {
-	++passed;
+        ++passed;
     }
     out.str(std::string());
 
     try {
-	format_error_info(get_error_info(), "%(invalid|)", out);
+        format_error_info(get_error_info(), "%(invalid|)", out);
     } catch(std::runtime_error&) {
-	++passed;
+        ++passed;
     }
     out.str(std::string());
 
     try {
-	format_error_info(get_error_info(), "%(invalid|blah)", out);
+        format_error_info(get_error_info(), "%(invalid|blah)", out);
     } catch(std::runtime_error&) {
-	++passed;
+        ++passed;
     }
     out.str(std::string());
 

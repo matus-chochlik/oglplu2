@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_context_profile_bits
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_context_profile_bits_tests)
 
@@ -48,9 +48,9 @@ BOOST_AUTO_TEST_CASE(enum_context_profile_bits_names) {
 #ifdef GL_CONTEXT_COMPATIBILITY_PROFILE_BIT
     x = ev.context_compatibility_profile_bit;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-    BOOST_CHECK(std::strcmp(enum_value_name(x).data(),
-		  "CONTEXT_COMPATIBILITY_PROFILE_BIT")
-		== 0);
+    BOOST_CHECK(
+      std::strcmp(
+        enum_value_name(x).data(), "CONTEXT_COMPATIBILITY_PROFILE_BIT") == 0);
 #endif
 
 #ifdef GL_CONTEXT_CORE_PROFILE_BIT
@@ -67,24 +67,26 @@ BOOST_AUTO_TEST_CASE(enum_context_profile_bits_range) {
 
 #ifdef GL_CONTEXT_COMPATIBILITY_PROFILE_BIT
     {
-	--count;
-	auto r = enum_value_range<context_profile_bits>();
-	BOOST_CHECK(
-	  std::find(r.begin(),
-	    r.end(),
-	    context_profile_bits(GL_CONTEXT_COMPATIBILITY_PROFILE_BIT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<context_profile_bits>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            context_profile_bits(GL_CONTEXT_COMPATIBILITY_PROFILE_BIT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_CONTEXT_CORE_PROFILE_BIT
     {
-	--count;
-	auto r = enum_value_range<context_profile_bits>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      context_profile_bits(GL_CONTEXT_CORE_PROFILE_BIT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<context_profile_bits>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            context_profile_bits(GL_CONTEXT_CORE_PROFILE_BIT)) != r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

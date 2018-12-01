@@ -12,8 +12,8 @@
 #include "common_alc.hpp"
 #define BOOST_TEST_MODULE OALPLUS_alc_error_code
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_alc_error_code_tests)
 
@@ -150,60 +150,61 @@ BOOST_AUTO_TEST_CASE(enum_alc_error_code_range) {
 
 #ifdef ALC_INVALID_CONTEXT
     {
-	--count;
-	auto r = enum_value_range<alc_error_code>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), alc_error_code(ALC_INVALID_CONTEXT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<alc_error_code>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), alc_error_code(ALC_INVALID_CONTEXT)) !=
+          r.end());
     }
 #endif
 
 #ifdef ALC_INVALID_DEVICE
     {
-	--count;
-	auto r = enum_value_range<alc_error_code>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), alc_error_code(ALC_INVALID_DEVICE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<alc_error_code>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), alc_error_code(ALC_INVALID_DEVICE)) !=
+          r.end());
     }
 #endif
 
 #ifdef ALC_INVALID_ENUM
     {
-	--count;
-	auto r = enum_value_range<alc_error_code>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), alc_error_code(ALC_INVALID_ENUM))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<alc_error_code>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), alc_error_code(ALC_INVALID_ENUM)) !=
+          r.end());
     }
 #endif
 
 #ifdef ALC_INVALID_VALUE
     {
-	--count;
-	auto r = enum_value_range<alc_error_code>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), alc_error_code(ALC_INVALID_VALUE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<alc_error_code>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), alc_error_code(ALC_INVALID_VALUE)) !=
+          r.end());
     }
 #endif
 
 #ifdef ALC_NO_ERROR
     {
-	--count;
-	auto r = enum_value_range<alc_error_code>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), alc_error_code(ALC_NO_ERROR))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<alc_error_code>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), alc_error_code(ALC_NO_ERROR)) !=
+          r.end());
     }
 #endif
 
 #ifdef ALC_OUT_OF_MEMORY
     {
-	--count;
-	auto r = enum_value_range<alc_error_code>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), alc_error_code(ALC_OUT_OF_MEMORY))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<alc_error_code>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), alc_error_code(ALC_OUT_OF_MEMORY)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

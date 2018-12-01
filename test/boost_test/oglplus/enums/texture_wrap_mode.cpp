@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_texture_wrap_mode
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_texture_wrap_mode_tests)
 
@@ -125,51 +125,54 @@ BOOST_AUTO_TEST_CASE(enum_texture_wrap_mode_range) {
 
 #ifdef GL_CLAMP_TO_BORDER
     {
-	--count;
-	auto r = enum_value_range<texture_wrap_mode>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), texture_wrap_mode(GL_CLAMP_TO_BORDER))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_wrap_mode>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), texture_wrap_mode(GL_CLAMP_TO_BORDER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_CLAMP_TO_EDGE
     {
-	--count;
-	auto r = enum_value_range<texture_wrap_mode>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), texture_wrap_mode(GL_CLAMP_TO_EDGE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_wrap_mode>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), texture_wrap_mode(GL_CLAMP_TO_EDGE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_MIRROR_CLAMP_TO_EDGE
     {
-	--count;
-	auto r = enum_value_range<texture_wrap_mode>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), texture_wrap_mode(GL_MIRROR_CLAMP_TO_EDGE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_wrap_mode>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), texture_wrap_mode(GL_MIRROR_CLAMP_TO_EDGE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_MIRRORED_REPEAT
     {
-	--count;
-	auto r = enum_value_range<texture_wrap_mode>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), texture_wrap_mode(GL_MIRRORED_REPEAT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_wrap_mode>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), texture_wrap_mode(GL_MIRRORED_REPEAT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_REPEAT
     {
-	--count;
-	auto r = enum_value_range<texture_wrap_mode>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), texture_wrap_mode(GL_REPEAT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<texture_wrap_mode>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), texture_wrap_mode(GL_REPEAT)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

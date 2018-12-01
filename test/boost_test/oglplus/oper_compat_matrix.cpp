@@ -97,14 +97,16 @@ OGLPLUS_MOCK_GLFUNC(
 OGLPLUS_MOCK_GLFUNC(
   Orthof, void(GLfloat, GLfloat, GLfloat, GLfloat, GLfloat, GLfloat))
 #ifdef GL_EXT_direct_state_access
-OGLPLUS_MOCK_GLFUNC(MatrixOrthoEXT,
+OGLPLUS_MOCK_GLFUNC(
+  MatrixOrthoEXT,
   void(GLenum, GLdouble, GLdouble, GLdouble, GLdouble, GLdouble, GLdouble))
 #endif
 
 OGLPLUS_MOCK_GLFUNC(
   Frustum, void(GLdouble, GLdouble, GLdouble, GLdouble, GLdouble, GLdouble))
 #ifdef GL_EXT_direct_state_access
-OGLPLUS_MOCK_GLFUNC(MatrixFrustumEXT,
+OGLPLUS_MOCK_GLFUNC(
+  MatrixFrustumEXT,
   void(GLenum, GLdouble, GLdouble, GLdouble, GLdouble, GLdouble, GLdouble))
 #endif
 #endif // GL_DOUBLE
@@ -116,8 +118,8 @@ OGLPLUS_MOCK_GLFUNC(MatrixFrustumEXT,
 
 BOOST_AUTO_TEST_SUITE(compat_matrix_tests)
 
-#if defined(GL_MODELVIEW) && defined(GL_PROJECTION) \
-  && defined(GL_ARB_compatibility)
+#if defined(GL_MODELVIEW) && defined(GL_PROJECTION) && \
+  defined(GL_ARB_compatibility)
 
 static eagine::test_random_generator rg;
 
@@ -134,10 +136,10 @@ BOOST_AUTO_TEST_CASE(compat_matrix_mode) {
     oglplus::enum_values GL;
 
     {
-	old_matrix_mode m = GL.projection;
-	auto test_glMatrixMode = make_aoe_test(mock_glMatrixMode, GLenum(m));
-	gl.matrix_mode(m);
-	BOOST_CHECK(test_glMatrixMode);
+        old_matrix_mode m = GL.projection;
+        auto test_glMatrixMode = make_aoe_test(mock_glMatrixMode, GLenum(m));
+        gl.matrix_mode(m);
+        BOOST_CHECK(test_glMatrixMode);
     }
 
     BOOST_CHECK(mock_glMatrixMode.was_called());
@@ -150,32 +152,32 @@ BOOST_AUTO_TEST_CASE(compat_matrix_push_pop) {
     oglplus::enum_values GL;
 
     {
-	auto test_glPushMatrix = make_aoe_test(mock_glPushMatrix);
-	gl.push_matrix();
-	BOOST_CHECK(test_glPushMatrix);
+        auto test_glPushMatrix = make_aoe_test(mock_glPushMatrix);
+        gl.push_matrix();
+        BOOST_CHECK(test_glPushMatrix);
     }
 #ifdef GL_EXT_direct_state_access
     {
-	old_matrix_mode m = GL.projection;
-	auto test_glMatrixPushEXT =
-	  make_aoe_test(mock_glMatrixPushEXT, GLenum(m));
-	gl.push_matrix(m);
-	BOOST_CHECK(test_glMatrixPushEXT);
+        old_matrix_mode m = GL.projection;
+        auto test_glMatrixPushEXT =
+          make_aoe_test(mock_glMatrixPushEXT, GLenum(m));
+        gl.push_matrix(m);
+        BOOST_CHECK(test_glMatrixPushEXT);
     }
 #endif
 
     {
-	auto test_glPopMatrix = make_aoe_test(mock_glPopMatrix);
-	gl.pop_matrix();
-	BOOST_CHECK(test_glPopMatrix);
+        auto test_glPopMatrix = make_aoe_test(mock_glPopMatrix);
+        gl.pop_matrix();
+        BOOST_CHECK(test_glPopMatrix);
     }
 #ifdef GL_EXT_direct_state_access
     {
-	old_matrix_mode m = GL.modelview;
-	auto test_glMatrixPopEXT =
-	  make_aoe_test(mock_glMatrixPopEXT, GLenum(m));
-	gl.pop_matrix(m);
-	BOOST_CHECK(test_glMatrixPopEXT);
+        old_matrix_mode m = GL.modelview;
+        auto test_glMatrixPopEXT =
+          make_aoe_test(mock_glMatrixPopEXT, GLenum(m));
+        gl.pop_matrix(m);
+        BOOST_CHECK(test_glMatrixPopEXT);
     }
 #endif
 
@@ -194,17 +196,17 @@ BOOST_AUTO_TEST_CASE(compat_matrix_load_identity) {
     oglplus::enum_values GL;
 
     {
-	auto test_glLoadIdentity = make_aoe_test(mock_glLoadIdentity);
-	gl.load_identity();
-	BOOST_CHECK(test_glLoadIdentity);
+        auto test_glLoadIdentity = make_aoe_test(mock_glLoadIdentity);
+        gl.load_identity();
+        BOOST_CHECK(test_glLoadIdentity);
     }
 #ifdef GL_EXT_direct_state_access
     {
-	old_matrix_mode m = GL.projection;
-	auto test_glMatrixLoadIdentityEXT =
-	  make_aoe_test(mock_glMatrixLoadIdentityEXT, GLenum(m));
-	gl.load_identity(m);
-	BOOST_CHECK(test_glMatrixLoadIdentityEXT);
+        old_matrix_mode m = GL.projection;
+        auto test_glMatrixLoadIdentityEXT =
+          make_aoe_test(mock_glMatrixLoadIdentityEXT, GLenum(m));
+        gl.load_identity(m);
+        BOOST_CHECK(test_glMatrixLoadIdentityEXT);
     }
 #endif
 
@@ -223,37 +225,37 @@ BOOST_AUTO_TEST_CASE(compat_matrix_load_f) {
     GLfloat v[16];
 
     for(GLfloat& c : v) {
-	c = get<GLfloat>();
+        c = get<GLfloat>();
     }
 
     {
-	auto test_glLoadMatrixf = make_aoe_test(mock_glLoadMatrixf, v);
-	gl.load_matrix(v);
-	BOOST_CHECK(test_glLoadMatrixf);
+        auto test_glLoadMatrixf = make_aoe_test(mock_glLoadMatrixf, v);
+        gl.load_matrix(v);
+        BOOST_CHECK(test_glLoadMatrixf);
     }
 #ifdef GL_EXT_direct_state_access
     {
-	old_matrix_mode m = GL.projection;
-	auto test_glMatrixLoadfEXT =
-	  make_aoe_test(mock_glMatrixLoadfEXT, GLenum(m), v);
-	gl.load_matrix(m, v);
-	BOOST_CHECK(test_glMatrixLoadfEXT);
+        old_matrix_mode m = GL.projection;
+        auto test_glMatrixLoadfEXT =
+          make_aoe_test(mock_glMatrixLoadfEXT, GLenum(m), v);
+        gl.load_matrix(m, v);
+        BOOST_CHECK(test_glMatrixLoadfEXT);
     }
 #endif
 
     {
-	auto test_glLoadTransposeMatrixf =
-	  make_aoe_test(mock_glLoadTransposeMatrixf, v);
-	gl.load_transpose_matrix(v);
-	BOOST_CHECK(test_glLoadTransposeMatrixf);
+        auto test_glLoadTransposeMatrixf =
+          make_aoe_test(mock_glLoadTransposeMatrixf, v);
+        gl.load_transpose_matrix(v);
+        BOOST_CHECK(test_glLoadTransposeMatrixf);
     }
 #ifdef GL_EXT_direct_state_access
     {
-	old_matrix_mode m = GL.projection;
-	auto test_glMatrixLoadTransposefEXT =
-	  make_aoe_test(mock_glMatrixLoadTransposefEXT, GLenum(m), v);
-	gl.load_transpose_matrix(m, v);
-	BOOST_CHECK(test_glMatrixLoadTransposefEXT);
+        old_matrix_mode m = GL.projection;
+        auto test_glMatrixLoadTransposefEXT =
+          make_aoe_test(mock_glMatrixLoadTransposefEXT, GLenum(m), v);
+        gl.load_transpose_matrix(m, v);
+        BOOST_CHECK(test_glMatrixLoadTransposefEXT);
     }
 #endif
 
@@ -275,37 +277,37 @@ BOOST_AUTO_TEST_CASE(compat_matrix_load_d) {
     GLdouble v[16];
 
     for(GLdouble& c : v) {
-	c = get<GLdouble>();
+        c = get<GLdouble>();
     }
 
     {
-	auto test_glLoadMatrixd = make_aoe_test(mock_glLoadMatrixd, v);
-	gl.load_matrix(v);
-	BOOST_CHECK(test_glLoadMatrixd);
+        auto test_glLoadMatrixd = make_aoe_test(mock_glLoadMatrixd, v);
+        gl.load_matrix(v);
+        BOOST_CHECK(test_glLoadMatrixd);
     }
 #ifdef GL_EXT_direct_state_access
     {
-	old_matrix_mode m = GL.projection;
-	auto test_glMatrixLoaddEXT =
-	  make_aoe_test(mock_glMatrixLoaddEXT, GLenum(m), v);
-	gl.load_matrix(m, v);
-	BOOST_CHECK(test_glMatrixLoaddEXT);
+        old_matrix_mode m = GL.projection;
+        auto test_glMatrixLoaddEXT =
+          make_aoe_test(mock_glMatrixLoaddEXT, GLenum(m), v);
+        gl.load_matrix(m, v);
+        BOOST_CHECK(test_glMatrixLoaddEXT);
     }
 #endif
 
     {
-	auto test_glLoadTransposeMatrixd =
-	  make_aoe_test(mock_glLoadTransposeMatrixd, v);
-	gl.load_transpose_matrix(v);
-	BOOST_CHECK(test_glLoadTransposeMatrixd);
+        auto test_glLoadTransposeMatrixd =
+          make_aoe_test(mock_glLoadTransposeMatrixd, v);
+        gl.load_transpose_matrix(v);
+        BOOST_CHECK(test_glLoadTransposeMatrixd);
     }
 #ifdef GL_EXT_direct_state_access
     {
-	old_matrix_mode m = GL.projection;
-	auto test_glMatrixLoadTransposedEXT =
-	  make_aoe_test(mock_glMatrixLoadTransposedEXT, GLenum(m), v);
-	gl.load_transpose_matrix(m, v);
-	BOOST_CHECK(test_glMatrixLoadTransposedEXT);
+        old_matrix_mode m = GL.projection;
+        auto test_glMatrixLoadTransposedEXT =
+          make_aoe_test(mock_glMatrixLoadTransposedEXT, GLenum(m), v);
+        gl.load_transpose_matrix(m, v);
+        BOOST_CHECK(test_glMatrixLoadTransposedEXT);
     }
 #endif
 
@@ -329,17 +331,17 @@ BOOST_AUTO_TEST_CASE(compat_matrix_translate_f) {
     GLfloat z = get<GLfloat>();
 
     {
-	auto test_glTranslatef = make_aoe_test(mock_glTranslatef, x, y, z);
-	gl.translate_f(x, y, z);
-	BOOST_CHECK(test_glTranslatef);
+        auto test_glTranslatef = make_aoe_test(mock_glTranslatef, x, y, z);
+        gl.translate_f(x, y, z);
+        BOOST_CHECK(test_glTranslatef);
     }
 #ifdef GL_EXT_direct_state_access
     {
-	old_matrix_mode m = GL.projection;
-	auto test_glMatrixTranslatefEXT =
-	  make_aoe_test(mock_glMatrixTranslatefEXT, GLenum(m), x, y, z);
-	gl.translate_f(m, x, y, z);
-	BOOST_CHECK(test_glMatrixTranslatefEXT);
+        old_matrix_mode m = GL.projection;
+        auto test_glMatrixTranslatefEXT =
+          make_aoe_test(mock_glMatrixTranslatefEXT, GLenum(m), x, y, z);
+        gl.translate_f(m, x, y, z);
+        BOOST_CHECK(test_glMatrixTranslatefEXT);
     }
 #endif
 
@@ -361,17 +363,17 @@ BOOST_AUTO_TEST_CASE(compat_matrix_translate_d) {
     GLdouble z = get<GLdouble>();
 
     {
-	auto test_glTranslated = make_aoe_test(mock_glTranslated, x, y, z);
-	gl.translate_d(x, y, z);
-	BOOST_CHECK(test_glTranslated);
+        auto test_glTranslated = make_aoe_test(mock_glTranslated, x, y, z);
+        gl.translate_d(x, y, z);
+        BOOST_CHECK(test_glTranslated);
     }
 #ifdef GL_EXT_direct_state_access
     {
-	old_matrix_mode m = GL.projection;
-	auto test_glMatrixTranslatedEXT =
-	  make_aoe_test(mock_glMatrixTranslatedEXT, GLenum(m), x, y, z);
-	gl.translate_d(m, x, y, z);
-	BOOST_CHECK(test_glMatrixTranslatedEXT);
+        old_matrix_mode m = GL.projection;
+        auto test_glMatrixTranslatedEXT =
+          make_aoe_test(mock_glMatrixTranslatedEXT, GLenum(m), x, y, z);
+        gl.translate_d(m, x, y, z);
+        BOOST_CHECK(test_glMatrixTranslatedEXT);
     }
 #endif
 
@@ -394,17 +396,17 @@ BOOST_AUTO_TEST_CASE(compat_matrix_rotate_f) {
     GLfloat z = get<GLfloat>();
 
     {
-	auto test_glRotatef = make_aoe_test(mock_glRotatef, a, x, y, z);
-	gl.rotate_f(degrees_(a), x, y, z);
-	BOOST_CHECK(test_glRotatef);
+        auto test_glRotatef = make_aoe_test(mock_glRotatef, a, x, y, z);
+        gl.rotate_f(degrees_(a), x, y, z);
+        BOOST_CHECK(test_glRotatef);
     }
 #ifdef GL_EXT_direct_state_access
     {
-	old_matrix_mode m = GL.projection;
-	auto test_glMatrixRotatefEXT =
-	  make_aoe_test(mock_glMatrixRotatefEXT, GLenum(m), a, x, y, z);
-	gl.rotate_f(m, degrees_(a), x, y, z);
-	BOOST_CHECK(test_glMatrixRotatefEXT);
+        old_matrix_mode m = GL.projection;
+        auto test_glMatrixRotatefEXT =
+          make_aoe_test(mock_glMatrixRotatefEXT, GLenum(m), a, x, y, z);
+        gl.rotate_f(m, degrees_(a), x, y, z);
+        BOOST_CHECK(test_glMatrixRotatefEXT);
     }
 #endif
 
@@ -427,17 +429,17 @@ BOOST_AUTO_TEST_CASE(compat_matrix_rotate_d) {
     GLdouble z = get<GLdouble>();
 
     {
-	auto test_glRotated = make_aoe_test(mock_glRotated, a, x, y, z);
-	gl.rotate_d(degrees_(a), x, y, z);
-	BOOST_CHECK(test_glRotated);
+        auto test_glRotated = make_aoe_test(mock_glRotated, a, x, y, z);
+        gl.rotate_d(degrees_(a), x, y, z);
+        BOOST_CHECK(test_glRotated);
     }
 #ifdef GL_EXT_direct_state_access
     {
-	old_matrix_mode m = GL.projection;
-	auto test_glMatrixRotatedEXT =
-	  make_aoe_test(mock_glMatrixRotatedEXT, GLenum(m), a, x, y, z);
-	gl.rotate_d(m, degrees_(a), x, y, z);
-	BOOST_CHECK(test_glMatrixRotatedEXT);
+        old_matrix_mode m = GL.projection;
+        auto test_glMatrixRotatedEXT =
+          make_aoe_test(mock_glMatrixRotatedEXT, GLenum(m), a, x, y, z);
+        gl.rotate_d(m, degrees_(a), x, y, z);
+        BOOST_CHECK(test_glMatrixRotatedEXT);
     }
 #endif
 
@@ -459,17 +461,17 @@ BOOST_AUTO_TEST_CASE(compat_matrix_scale_f) {
     GLfloat z = get<GLfloat>();
 
     {
-	auto test_glScalef = make_aoe_test(mock_glScalef, x, y, z);
-	gl.scale_f(x, y, z);
-	BOOST_CHECK(test_glScalef);
+        auto test_glScalef = make_aoe_test(mock_glScalef, x, y, z);
+        gl.scale_f(x, y, z);
+        BOOST_CHECK(test_glScalef);
     }
 #ifdef GL_EXT_direct_state_access
     {
-	old_matrix_mode m = GL.projection;
-	auto test_glMatrixScalefEXT =
-	  make_aoe_test(mock_glMatrixScalefEXT, GLenum(m), x, y, z);
-	gl.scale_f(m, x, y, z);
-	BOOST_CHECK(test_glMatrixScalefEXT);
+        old_matrix_mode m = GL.projection;
+        auto test_glMatrixScalefEXT =
+          make_aoe_test(mock_glMatrixScalefEXT, GLenum(m), x, y, z);
+        gl.scale_f(m, x, y, z);
+        BOOST_CHECK(test_glMatrixScalefEXT);
     }
 #endif
 
@@ -491,17 +493,17 @@ BOOST_AUTO_TEST_CASE(compat_matrix_scale_d) {
     GLdouble z = get<GLdouble>();
 
     {
-	auto test_glScaled = make_aoe_test(mock_glScaled, x, y, z);
-	gl.scale_d(x, y, z);
-	BOOST_CHECK(test_glScaled);
+        auto test_glScaled = make_aoe_test(mock_glScaled, x, y, z);
+        gl.scale_d(x, y, z);
+        BOOST_CHECK(test_glScaled);
     }
 #ifdef GL_EXT_direct_state_access
     {
-	old_matrix_mode m = GL.projection;
-	auto test_glMatrixScaledEXT =
-	  make_aoe_test(mock_glMatrixScaledEXT, GLenum(m), x, y, z);
-	gl.scale_d(m, x, y, z);
-	BOOST_CHECK(test_glMatrixScaledEXT);
+        old_matrix_mode m = GL.projection;
+        auto test_glMatrixScaledEXT =
+          make_aoe_test(mock_glMatrixScaledEXT, GLenum(m), x, y, z);
+        gl.scale_d(m, x, y, z);
+        BOOST_CHECK(test_glMatrixScaledEXT);
     }
 #endif
 
@@ -525,17 +527,17 @@ BOOST_AUTO_TEST_CASE(compat_matrix_ortho) {
     GLdouble f = get<GLdouble>();
 
     {
-	auto test_glOrtho = make_aoe_test(mock_glOrtho, l, r, b, t, n, f);
-	gl.ortho(l, r, b, t, n, f);
-	BOOST_CHECK(test_glOrtho);
+        auto test_glOrtho = make_aoe_test(mock_glOrtho, l, r, b, t, n, f);
+        gl.ortho(l, r, b, t, n, f);
+        BOOST_CHECK(test_glOrtho);
     }
 #ifdef GL_EXT_direct_state_access
     {
-	old_matrix_mode m = GL.projection;
-	auto test_glMatrixOrthoEXT =
-	  make_aoe_test(mock_glMatrixOrthoEXT, GLenum(m), l, r, b, t, n, f);
-	gl.ortho(m, l, r, b, t, n, f);
-	BOOST_CHECK(test_glMatrixOrthoEXT);
+        old_matrix_mode m = GL.projection;
+        auto test_glMatrixOrthoEXT =
+          make_aoe_test(mock_glMatrixOrthoEXT, GLenum(m), l, r, b, t, n, f);
+        gl.ortho(m, l, r, b, t, n, f);
+        BOOST_CHECK(test_glMatrixOrthoEXT);
     }
 #endif
 
@@ -559,17 +561,17 @@ BOOST_AUTO_TEST_CASE(compat_matrix_frustum) {
     GLdouble f = get<GLdouble>();
 
     {
-	auto test_glFrustum = make_aoe_test(mock_glFrustum, l, r, b, t, n, f);
-	gl.frustum(l, r, b, t, n, f);
-	BOOST_CHECK(test_glFrustum);
+        auto test_glFrustum = make_aoe_test(mock_glFrustum, l, r, b, t, n, f);
+        gl.frustum(l, r, b, t, n, f);
+        BOOST_CHECK(test_glFrustum);
     }
 #ifdef GL_EXT_direct_state_access
     {
-	old_matrix_mode m = GL.projection;
-	auto test_glMatrixFrustumEXT =
-	  make_aoe_test(mock_glMatrixFrustumEXT, GLenum(m), l, r, b, t, n, f);
-	gl.frustum(m, l, r, b, t, n, f);
-	BOOST_CHECK(test_glMatrixFrustumEXT);
+        old_matrix_mode m = GL.projection;
+        auto test_glMatrixFrustumEXT =
+          make_aoe_test(mock_glMatrixFrustumEXT, GLenum(m), l, r, b, t, n, f);
+        gl.frustum(m, l, r, b, t, n, f);
+        BOOST_CHECK(test_glMatrixFrustumEXT);
     }
 #endif
 

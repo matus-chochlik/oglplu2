@@ -35,47 +35,50 @@ struct identity<matrix<T, R, C, RM, V>> {
     template <int... I>
     static constexpr inline matrix<T, R, C, RM, V> _identity(
       _useq<I...>) noexcept {
-	return {{vect::axis < T, RM ? C : R, I, V > ::apply(1)...}};
+        return {{vect::axis < T, RM ? C : R, I, V > ::apply(1)...}};
     }
 
     constexpr inline matrix<T, R, C, RM, V> operator()(void) const noexcept {
-	typedef _make_useq<RM ? R : C> _riS;
-	return _identity(_riS());
+        typedef _make_useq<RM ? R : C> _riS;
+        return _identity(_riS());
     }
 };
 
 // multiply
 template <typename T, int C, int R, bool RM1, bool RM2, bool V>
 static constexpr inline identity<matrix<T, C, R, RM1, V>>
-multiply(const identity<matrix<T, C, R, RM1, V>>&,
+multiply(
+  const identity<matrix<T, C, R, RM1, V>>&,
   const identity<matrix<T, C, R, RM2, V>>&) noexcept {
     return {};
 }
 
 // multiply
-template <typename MC,
+template <
+  typename MC,
   typename T,
   int C,
   int R,
   bool RM,
   bool V,
-  typename = std::enable_if_t<is_matrix_constructor<MC>::value
-			      && are_multiplicable<constructed_matrix_t<MC>,
-				   matrix<T, C, R, RM, V>>::value>>
+  typename = std::enable_if_t<
+    is_matrix_constructor<MC>::value &&
+    are_multiplicable<constructed_matrix_t<MC>, matrix<T, C, R, RM, V>>::value>>
 static constexpr inline MC
 multiply(const MC& mc, const identity<matrix<T, C, R, RM, V>>&) noexcept {
     return mc;
 }
 
-template <typename T,
+template <
+  typename T,
   int C,
   int R,
   bool RM,
   bool V,
   typename MC,
-  typename = std::enable_if_t<is_matrix_constructor<MC>::value
-			      && are_multiplicable<matrix<T, C, R, RM, V>,
-				   constructed_matrix_t<MC>>::value>>
+  typename = std::enable_if_t<
+    is_matrix_constructor<MC>::value &&
+    are_multiplicable<matrix<T, C, R, RM, V>, constructed_matrix_t<MC>>::value>>
 static constexpr inline MC
 multiply(const identity<matrix<T, C, R, RM, V>>&, const MC& mc) noexcept {
     return mc;

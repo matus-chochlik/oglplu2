@@ -15,16 +15,16 @@ test_increment(int*& pi) {
 
 struct test_deferred_handler_policy {
     bool is_valid(int* pi) const {
-	return pi != nullptr;
+        return pi != nullptr;
     }
 
     void invoke(int*& pi) {
-	assert(is_valid(pi));
-	test_increment(pi);
+        assert(is_valid(pi));
+        test_increment(pi);
     }
 
     void cancel(int*& pi) {
-	pi = nullptr;
+        pi = nullptr;
     }
 };
 
@@ -59,12 +59,12 @@ BOOST_AUTO_TEST_CASE(deferred_handler_2) {
 
     BOOST_CHECK_EQUAL(i, 0);
     {
-	deferred_handler<int*> dh(test_increment, &i);
+        deferred_handler<int*> dh(test_increment, &i);
 
-	BOOST_CHECK_EQUAL(!dh, false);
-	BOOST_CHECK_EQUAL(bool(dh), true);
-	BOOST_CHECK_EQUAL(i, 0);
-	BOOST_CHECK_EQUAL(*dh.data(), 0);
+        BOOST_CHECK_EQUAL(!dh, false);
+        BOOST_CHECK_EQUAL(bool(dh), true);
+        BOOST_CHECK_EQUAL(i, 0);
+        BOOST_CHECK_EQUAL(*dh.data(), 0);
     }
     BOOST_CHECK_EQUAL(i, 1);
 }
@@ -75,12 +75,12 @@ BOOST_AUTO_TEST_CASE(deferred_handler_2p) {
 
     BOOST_CHECK_EQUAL(i, 0);
     {
-	deferred_handler<int*, test_deferred_handler_policy> dh(&i);
+        deferred_handler<int*, test_deferred_handler_policy> dh(&i);
 
-	BOOST_CHECK_EQUAL(!dh, false);
-	BOOST_CHECK_EQUAL(bool(dh), true);
-	BOOST_CHECK_EQUAL(i, 0);
-	BOOST_CHECK_EQUAL(*dh.data(), 0);
+        BOOST_CHECK_EQUAL(!dh, false);
+        BOOST_CHECK_EQUAL(bool(dh), true);
+        BOOST_CHECK_EQUAL(i, 0);
+        BOOST_CHECK_EQUAL(*dh.data(), 0);
     }
     BOOST_CHECK_EQUAL(i, 1);
 }
@@ -91,21 +91,21 @@ BOOST_AUTO_TEST_CASE(deferred_handler_3) {
 
     BOOST_CHECK_EQUAL(i, 0);
     {
-	deferred_handler<int*> dh = get_handler(&i);
+        deferred_handler<int*> dh = get_handler(&i);
 
-	BOOST_CHECK_EQUAL(!dh, false);
-	BOOST_CHECK_EQUAL(bool(dh), true);
-	BOOST_CHECK_EQUAL(i, 0);
-	BOOST_CHECK_EQUAL(*dh.data(), 0);
+        BOOST_CHECK_EQUAL(!dh, false);
+        BOOST_CHECK_EQUAL(bool(dh), true);
+        BOOST_CHECK_EQUAL(i, 0);
+        BOOST_CHECK_EQUAL(*dh.data(), 0);
     }
     BOOST_CHECK_EQUAL(i, 1);
     {
-	deferred_handler<int*> dh = get_handler(&i);
+        deferred_handler<int*> dh = get_handler(&i);
 
-	BOOST_CHECK_EQUAL(!dh, false);
-	BOOST_CHECK_EQUAL(bool(dh), true);
-	BOOST_CHECK_EQUAL(i, 1);
-	BOOST_CHECK_EQUAL(*dh.data(), 1);
+        BOOST_CHECK_EQUAL(!dh, false);
+        BOOST_CHECK_EQUAL(bool(dh), true);
+        BOOST_CHECK_EQUAL(i, 1);
+        BOOST_CHECK_EQUAL(*dh.data(), 1);
     }
     BOOST_CHECK_EQUAL(i, 2);
 }
@@ -116,21 +116,21 @@ BOOST_AUTO_TEST_CASE(deferred_handler_3p) {
 
     BOOST_CHECK_EQUAL(i, 0);
     {
-	deferred_handler<int*, test_deferred_handler_policy> dh(&i);
+        deferred_handler<int*, test_deferred_handler_policy> dh(&i);
 
-	BOOST_CHECK_EQUAL(!dh, false);
-	BOOST_CHECK_EQUAL(bool(dh), true);
-	BOOST_CHECK_EQUAL(i, 0);
-	BOOST_CHECK_EQUAL(*dh.data(), 0);
+        BOOST_CHECK_EQUAL(!dh, false);
+        BOOST_CHECK_EQUAL(bool(dh), true);
+        BOOST_CHECK_EQUAL(i, 0);
+        BOOST_CHECK_EQUAL(*dh.data(), 0);
     }
     BOOST_CHECK_EQUAL(i, 1);
     {
-	deferred_handler<int*, test_deferred_handler_policy> dh(&i);
+        deferred_handler<int*, test_deferred_handler_policy> dh(&i);
 
-	BOOST_CHECK_EQUAL(!dh, false);
-	BOOST_CHECK_EQUAL(bool(dh), true);
-	BOOST_CHECK_EQUAL(i, 1);
-	BOOST_CHECK_EQUAL(*dh.data(), 1);
+        BOOST_CHECK_EQUAL(!dh, false);
+        BOOST_CHECK_EQUAL(bool(dh), true);
+        BOOST_CHECK_EQUAL(i, 1);
+        BOOST_CHECK_EQUAL(*dh.data(), 1);
     }
     BOOST_CHECK_EQUAL(i, 2);
 }
@@ -141,17 +141,17 @@ BOOST_AUTO_TEST_CASE(deferred_handler_cancel) {
 
     BOOST_CHECK_EQUAL(i, 0);
     {
-	deferred_handler<int*> dh = get_handler(&i);
+        deferred_handler<int*> dh = get_handler(&i);
 
-	BOOST_CHECK_EQUAL(!dh, false);
-	BOOST_CHECK_EQUAL(bool(dh), true);
-	BOOST_CHECK_EQUAL(i, 0);
+        BOOST_CHECK_EQUAL(!dh, false);
+        BOOST_CHECK_EQUAL(bool(dh), true);
+        BOOST_CHECK_EQUAL(i, 0);
 
-	dh.cancel();
+        dh.cancel();
 
-	BOOST_CHECK_EQUAL(!dh, true);
-	BOOST_CHECK_EQUAL(bool(dh), false);
-	BOOST_CHECK_EQUAL(i, 0);
+        BOOST_CHECK_EQUAL(!dh, true);
+        BOOST_CHECK_EQUAL(bool(dh), false);
+        BOOST_CHECK_EQUAL(i, 0);
     }
     BOOST_CHECK_EQUAL(i, 0);
 }
@@ -162,17 +162,17 @@ BOOST_AUTO_TEST_CASE(deferred_handler_cancel_p) {
 
     BOOST_CHECK_EQUAL(i, 0);
     {
-	deferred_handler<int*, test_deferred_handler_policy> dh(&i);
+        deferred_handler<int*, test_deferred_handler_policy> dh(&i);
 
-	BOOST_CHECK_EQUAL(!dh, false);
-	BOOST_CHECK_EQUAL(bool(dh), true);
-	BOOST_CHECK_EQUAL(i, 0);
+        BOOST_CHECK_EQUAL(!dh, false);
+        BOOST_CHECK_EQUAL(bool(dh), true);
+        BOOST_CHECK_EQUAL(i, 0);
 
-	dh.cancel();
+        dh.cancel();
 
-	BOOST_CHECK_EQUAL(!dh, true);
-	BOOST_CHECK_EQUAL(bool(dh), false);
-	BOOST_CHECK_EQUAL(i, 0);
+        BOOST_CHECK_EQUAL(!dh, true);
+        BOOST_CHECK_EQUAL(bool(dh), false);
+        BOOST_CHECK_EQUAL(i, 0);
     }
     BOOST_CHECK_EQUAL(i, 0);
 }
@@ -183,17 +183,17 @@ BOOST_AUTO_TEST_CASE(deferred_handler_trigger) {
 
     BOOST_CHECK_EQUAL(i, 0);
     {
-	deferred_handler<int*> dh = get_handler(&i);
+        deferred_handler<int*> dh = get_handler(&i);
 
-	BOOST_CHECK_EQUAL(!dh, false);
-	BOOST_CHECK_EQUAL(bool(dh), true);
-	BOOST_CHECK_EQUAL(i, 0);
+        BOOST_CHECK_EQUAL(!dh, false);
+        BOOST_CHECK_EQUAL(bool(dh), true);
+        BOOST_CHECK_EQUAL(i, 0);
 
-	dh.trigger();
+        dh.trigger();
 
-	BOOST_CHECK_EQUAL(!dh, true);
-	BOOST_CHECK_EQUAL(bool(dh), false);
-	BOOST_CHECK_EQUAL(i, 1);
+        BOOST_CHECK_EQUAL(!dh, true);
+        BOOST_CHECK_EQUAL(bool(dh), false);
+        BOOST_CHECK_EQUAL(i, 1);
     }
     BOOST_CHECK_EQUAL(i, 1);
 }
@@ -204,17 +204,17 @@ BOOST_AUTO_TEST_CASE(deferred_handler_trigger_p) {
 
     BOOST_CHECK_EQUAL(i, 0);
     {
-	deferred_handler<int*, test_deferred_handler_policy> dh(&i);
+        deferred_handler<int*, test_deferred_handler_policy> dh(&i);
 
-	BOOST_CHECK_EQUAL(!dh, false);
-	BOOST_CHECK_EQUAL(bool(dh), true);
-	BOOST_CHECK_EQUAL(i, 0);
+        BOOST_CHECK_EQUAL(!dh, false);
+        BOOST_CHECK_EQUAL(bool(dh), true);
+        BOOST_CHECK_EQUAL(i, 0);
 
-	dh.trigger();
+        dh.trigger();
 
-	BOOST_CHECK_EQUAL(!dh, true);
-	BOOST_CHECK_EQUAL(bool(dh), false);
-	BOOST_CHECK_EQUAL(i, 1);
+        BOOST_CHECK_EQUAL(!dh, true);
+        BOOST_CHECK_EQUAL(bool(dh), false);
+        BOOST_CHECK_EQUAL(i, 1);
     }
     BOOST_CHECK_EQUAL(i, 1);
 }

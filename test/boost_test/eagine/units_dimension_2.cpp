@@ -40,9 +40,10 @@ BOOST_AUTO_TEST_SUITE(units_dimension_tests_2)
 struct area_base_dim_tester {
     template <typename BD>
     void operator()(BD) const {
-	BOOST_CHECK(get_pow_of_dim(BD(), eagine::units::area())
-		    == get_pow_of_dim(BD(), eagine::units::length())
-			 + get_pow_of_dim(BD(), eagine::units::length()));
+        BOOST_CHECK(
+          get_pow_of_dim(BD(), eagine::units::area()) ==
+          get_pow_of_dim(BD(), eagine::units::length()) +
+            get_pow_of_dim(BD(), eagine::units::length()));
     }
 };
 
@@ -55,13 +56,15 @@ BOOST_AUTO_TEST_CASE(unit_dimensions_area) {
 struct volume_base_dim_tester {
     template <typename BD>
     void operator()(BD) const {
-	BOOST_CHECK(get_pow_of_dim(BD(), eagine::units::volume())
-		    == get_pow_of_dim(BD(), eagine::units::length())
-			 + get_pow_of_dim(BD(), eagine::units::length())
-			 + get_pow_of_dim(BD(), eagine::units::length()));
-	BOOST_CHECK(get_pow_of_dim(BD(), eagine::units::volume())
-		    == get_pow_of_dim(BD(), eagine::units::area())
-			 + get_pow_of_dim(BD(), eagine::units::length()));
+        BOOST_CHECK(
+          get_pow_of_dim(BD(), eagine::units::volume()) ==
+          get_pow_of_dim(BD(), eagine::units::length()) +
+            get_pow_of_dim(BD(), eagine::units::length()) +
+            get_pow_of_dim(BD(), eagine::units::length()));
+        BOOST_CHECK(
+          get_pow_of_dim(BD(), eagine::units::volume()) ==
+          get_pow_of_dim(BD(), eagine::units::area()) +
+            get_pow_of_dim(BD(), eagine::units::length()));
     }
 };
 
@@ -74,14 +77,16 @@ BOOST_AUTO_TEST_CASE(unit_dimensions_volume) {
 struct mass_density_base_dim_tester {
     template <typename BD>
     void operator()(BD) const {
-	BOOST_CHECK(get_pow_of_dim(BD(), eagine::units::mass_density())
-		    == get_pow_of_dim(BD(), eagine::units::mass())
-			 - get_pow_of_dim(BD(), eagine::units::volume()));
-	BOOST_CHECK(get_pow_of_dim(BD(), eagine::units::mass_density())
-		    == get_pow_of_dim(BD(), eagine::units::mass())
-			 - get_pow_of_dim(BD(), eagine::units::length())
-			 - get_pow_of_dim(BD(), eagine::units::length())
-			 - get_pow_of_dim(BD(), eagine::units::length()));
+        BOOST_CHECK(
+          get_pow_of_dim(BD(), eagine::units::mass_density()) ==
+          get_pow_of_dim(BD(), eagine::units::mass()) -
+            get_pow_of_dim(BD(), eagine::units::volume()));
+        BOOST_CHECK(
+          get_pow_of_dim(BD(), eagine::units::mass_density()) ==
+          get_pow_of_dim(BD(), eagine::units::mass()) -
+            get_pow_of_dim(BD(), eagine::units::length()) -
+            get_pow_of_dim(BD(), eagine::units::length()) -
+            get_pow_of_dim(BD(), eagine::units::length()));
     }
 };
 
@@ -94,9 +99,10 @@ BOOST_AUTO_TEST_CASE(unit_dimensions_mass_density) {
 struct velocity_base_dim_tester {
     template <typename BD>
     void operator()(BD) const {
-	BOOST_CHECK(get_pow_of_dim(BD(), eagine::units::velocity())
-		    == get_pow_of_dim(BD(), eagine::units::length())
-			 - get_pow_of_dim(BD(), eagine::units::time()));
+        BOOST_CHECK(
+          get_pow_of_dim(BD(), eagine::units::velocity()) ==
+          get_pow_of_dim(BD(), eagine::units::length()) -
+            get_pow_of_dim(BD(), eagine::units::time()));
     }
 };
 
@@ -109,9 +115,10 @@ BOOST_AUTO_TEST_CASE(unit_dimensions_velocity) {
 struct angular_velocity_base_dim_tester {
     template <typename BD>
     void operator()(BD) const {
-	BOOST_CHECK(get_pow_of_dim(BD(), eagine::units::angular_velocity())
-		    == get_pow_of_dim(BD(), eagine::units::angle())
-			 - get_pow_of_dim(BD(), eagine::units::time()));
+        BOOST_CHECK(
+          get_pow_of_dim(BD(), eagine::units::angular_velocity()) ==
+          get_pow_of_dim(BD(), eagine::units::angle()) -
+            get_pow_of_dim(BD(), eagine::units::time()));
     }
 };
 
@@ -124,13 +131,15 @@ BOOST_AUTO_TEST_CASE(unit_dimensions_angular_velocity) {
 struct acceleration_base_dim_tester {
     template <typename BD>
     void operator()(BD) const {
-	BOOST_CHECK(get_pow_of_dim(BD(), eagine::units::acceleration())
-		    == get_pow_of_dim(BD(), eagine::units::velocity())
-			 - get_pow_of_dim(BD(), eagine::units::time()));
-	BOOST_CHECK(get_pow_of_dim(BD(), eagine::units::acceleration())
-		    == get_pow_of_dim(BD(), eagine::units::length())
-			 - get_pow_of_dim(BD(), eagine::units::time())
-			 - get_pow_of_dim(BD(), eagine::units::time()));
+        BOOST_CHECK(
+          get_pow_of_dim(BD(), eagine::units::acceleration()) ==
+          get_pow_of_dim(BD(), eagine::units::velocity()) -
+            get_pow_of_dim(BD(), eagine::units::time()));
+        BOOST_CHECK(
+          get_pow_of_dim(BD(), eagine::units::acceleration()) ==
+          get_pow_of_dim(BD(), eagine::units::length()) -
+            get_pow_of_dim(BD(), eagine::units::time()) -
+            get_pow_of_dim(BD(), eagine::units::time()));
     }
 };
 
@@ -143,9 +152,10 @@ BOOST_AUTO_TEST_CASE(unit_dimensions_acceleration) {
 struct momentum_base_dim_tester {
     template <typename BD>
     void operator()(BD) const {
-	BOOST_CHECK(get_pow_of_dim(BD(), eagine::units::momentum())
-		    == get_pow_of_dim(BD(), eagine::units::velocity())
-			 + get_pow_of_dim(BD(), eagine::units::mass()));
+        BOOST_CHECK(
+          get_pow_of_dim(BD(), eagine::units::momentum()) ==
+          get_pow_of_dim(BD(), eagine::units::velocity()) +
+            get_pow_of_dim(BD(), eagine::units::mass()));
     }
 };
 
@@ -158,13 +168,15 @@ BOOST_AUTO_TEST_CASE(unit_dimensions_momentum) {
 struct force_base_dim_tester {
     template <typename BD>
     void operator()(BD) const {
-	BOOST_CHECK(get_pow_of_dim(BD(), eagine::units::force())
-		    == get_pow_of_dim(BD(), eagine::units::acceleration())
-			 + get_pow_of_dim(BD(), eagine::units::mass()));
-	BOOST_CHECK(get_pow_of_dim(BD(), eagine::units::force())
-		    == get_pow_of_dim(BD(), eagine::units::velocity())
-			 + get_pow_of_dim(BD(), eagine::units::mass())
-			 - get_pow_of_dim(BD(), eagine::units::time()));
+        BOOST_CHECK(
+          get_pow_of_dim(BD(), eagine::units::force()) ==
+          get_pow_of_dim(BD(), eagine::units::acceleration()) +
+            get_pow_of_dim(BD(), eagine::units::mass()));
+        BOOST_CHECK(
+          get_pow_of_dim(BD(), eagine::units::force()) ==
+          get_pow_of_dim(BD(), eagine::units::velocity()) +
+            get_pow_of_dim(BD(), eagine::units::mass()) -
+            get_pow_of_dim(BD(), eagine::units::time()));
     }
 };
 
@@ -177,15 +189,17 @@ BOOST_AUTO_TEST_CASE(unit_dimensions_force) {
 struct energy_base_dim_tester {
     template <typename BD>
     void operator()(BD) const {
-	BOOST_CHECK(get_pow_of_dim(BD(), eagine::units::energy())
-		    == get_pow_of_dim(BD(), eagine::units::force())
-			 + get_pow_of_dim(BD(), eagine::units::length()));
-	BOOST_CHECK(get_pow_of_dim(BD(), eagine::units::energy())
-		    == get_pow_of_dim(BD(), eagine::units::length())
-			 - get_pow_of_dim(BD(), eagine::units::time())
-			 + get_pow_of_dim(BD(), eagine::units::length())
-			 - get_pow_of_dim(BD(), eagine::units::time())
-			 + get_pow_of_dim(BD(), eagine::units::mass()));
+        BOOST_CHECK(
+          get_pow_of_dim(BD(), eagine::units::energy()) ==
+          get_pow_of_dim(BD(), eagine::units::force()) +
+            get_pow_of_dim(BD(), eagine::units::length()));
+        BOOST_CHECK(
+          get_pow_of_dim(BD(), eagine::units::energy()) ==
+          get_pow_of_dim(BD(), eagine::units::length()) -
+            get_pow_of_dim(BD(), eagine::units::time()) +
+            get_pow_of_dim(BD(), eagine::units::length()) -
+            get_pow_of_dim(BD(), eagine::units::time()) +
+            get_pow_of_dim(BD(), eagine::units::mass()));
     }
 };
 
@@ -198,13 +212,15 @@ BOOST_AUTO_TEST_CASE(unit_dimensions_energy) {
 struct power_base_dim_tester {
     template <typename BD>
     void operator()(BD) const {
-	BOOST_CHECK(get_pow_of_dim(BD(), eagine::units::power())
-		    == get_pow_of_dim(BD(), eagine::units::energy())
-			 - get_pow_of_dim(BD(), eagine::units::time()));
-	BOOST_CHECK(get_pow_of_dim(BD(), eagine::units::power())
-		    == get_pow_of_dim(BD(), eagine::units::area())
-			 + get_pow_of_dim(BD(), eagine::units::mass())
-			 - get_pow_of_dim(BD(), eagine::units::time()) * 3);
+        BOOST_CHECK(
+          get_pow_of_dim(BD(), eagine::units::power()) ==
+          get_pow_of_dim(BD(), eagine::units::energy()) -
+            get_pow_of_dim(BD(), eagine::units::time()));
+        BOOST_CHECK(
+          get_pow_of_dim(BD(), eagine::units::power()) ==
+          get_pow_of_dim(BD(), eagine::units::area()) +
+            get_pow_of_dim(BD(), eagine::units::mass()) -
+            get_pow_of_dim(BD(), eagine::units::time()) * 3);
     }
 };
 
@@ -217,14 +233,16 @@ BOOST_AUTO_TEST_CASE(unit_dimensions_power) {
 struct pressure_base_dim_tester {
     template <typename BD>
     void operator()(BD) const {
-	BOOST_CHECK(get_pow_of_dim(BD(), eagine::units::pressure())
-		    == get_pow_of_dim(BD(), eagine::units::force())
-			 - get_pow_of_dim(BD(), eagine::units::area()));
-	BOOST_CHECK(get_pow_of_dim(BD(), eagine::units::pressure())
-		    == get_pow_of_dim(BD(), eagine::units::velocity())
-			 + get_pow_of_dim(BD(), eagine::units::mass())
-			 - get_pow_of_dim(BD(), eagine::units::time())
-			 - get_pow_of_dim(BD(), eagine::units::area()));
+        BOOST_CHECK(
+          get_pow_of_dim(BD(), eagine::units::pressure()) ==
+          get_pow_of_dim(BD(), eagine::units::force()) -
+            get_pow_of_dim(BD(), eagine::units::area()));
+        BOOST_CHECK(
+          get_pow_of_dim(BD(), eagine::units::pressure()) ==
+          get_pow_of_dim(BD(), eagine::units::velocity()) +
+            get_pow_of_dim(BD(), eagine::units::mass()) -
+            get_pow_of_dim(BD(), eagine::units::time()) -
+            get_pow_of_dim(BD(), eagine::units::area()));
     }
 };
 
@@ -237,9 +255,10 @@ BOOST_AUTO_TEST_CASE(unit_dimensions_pressure) {
 struct electric_charge_base_dim_tester {
     template <typename BD>
     void operator()(BD) const {
-	BOOST_CHECK(get_pow_of_dim(BD(), eagine::units::electric_charge())
-		    == get_pow_of_dim(BD(), eagine::units::electric_current())
-			 + get_pow_of_dim(BD(), eagine::units::time()));
+        BOOST_CHECK(
+          get_pow_of_dim(BD(), eagine::units::electric_charge()) ==
+          get_pow_of_dim(BD(), eagine::units::electric_current()) +
+            get_pow_of_dim(BD(), eagine::units::time()));
     }
 };
 
@@ -252,16 +271,16 @@ BOOST_AUTO_TEST_CASE(unit_dimensions_electric_charge) {
 struct electric_tension_base_dim_tester {
     template <typename BD>
     void operator()(BD) const {
-	BOOST_CHECK(
-	  get_pow_of_dim(BD(), eagine::units::electric_tension())
-	  == get_pow_of_dim(BD(), eagine::units::power())
-	       - get_pow_of_dim(BD(), eagine::units::electric_current()));
-	BOOST_CHECK(
-	  get_pow_of_dim(BD(), eagine::units::electric_tension())
-	  == get_pow_of_dim(BD(), eagine::units::length()) * 2
-	       + get_pow_of_dim(BD(), eagine::units::mass())
-	       - get_pow_of_dim(BD(), eagine::units::time()) * 3
-	       - get_pow_of_dim(BD(), eagine::units::electric_current()));
+        BOOST_CHECK(
+          get_pow_of_dim(BD(), eagine::units::electric_tension()) ==
+          get_pow_of_dim(BD(), eagine::units::power()) -
+            get_pow_of_dim(BD(), eagine::units::electric_current()));
+        BOOST_CHECK(
+          get_pow_of_dim(BD(), eagine::units::electric_tension()) ==
+          get_pow_of_dim(BD(), eagine::units::length()) * 2 +
+            get_pow_of_dim(BD(), eagine::units::mass()) -
+            get_pow_of_dim(BD(), eagine::units::time()) * 3 -
+            get_pow_of_dim(BD(), eagine::units::electric_current()));
     }
 };
 
@@ -274,16 +293,16 @@ BOOST_AUTO_TEST_CASE(unit_dimensions_electric_tension) {
 struct electrical_capacitance_base_dim_tester {
     template <typename BD>
     void operator()(BD) const {
-	BOOST_CHECK(
-	  get_pow_of_dim(BD(), eagine::units::electrical_capacitance())
-	  == get_pow_of_dim(BD(), eagine::units::electric_charge())
-	       - get_pow_of_dim(BD(), eagine::units::electric_tension()));
-	BOOST_CHECK(
-	  get_pow_of_dim(BD(), eagine::units::electrical_capacitance())
-	  == get_pow_of_dim(BD(), eagine::units::electric_current()) * 2
-	       - get_pow_of_dim(BD(), eagine::units::length()) * 2
-	       - get_pow_of_dim(BD(), eagine::units::mass())
-	       + get_pow_of_dim(BD(), eagine::units::time()) * 4);
+        BOOST_CHECK(
+          get_pow_of_dim(BD(), eagine::units::electrical_capacitance()) ==
+          get_pow_of_dim(BD(), eagine::units::electric_charge()) -
+            get_pow_of_dim(BD(), eagine::units::electric_tension()));
+        BOOST_CHECK(
+          get_pow_of_dim(BD(), eagine::units::electrical_capacitance()) ==
+          get_pow_of_dim(BD(), eagine::units::electric_current()) * 2 -
+            get_pow_of_dim(BD(), eagine::units::length()) * 2 -
+            get_pow_of_dim(BD(), eagine::units::mass()) +
+            get_pow_of_dim(BD(), eagine::units::time()) * 4);
     }
 };
 
@@ -296,16 +315,16 @@ BOOST_AUTO_TEST_CASE(unit_dimensions_electrical_capacitance) {
 struct electrical_conductance_base_dim_tester {
     template <typename BD>
     void operator()(BD) const {
-	BOOST_CHECK(
-	  get_pow_of_dim(BD(), eagine::units::electrical_conductance())
-	  == get_pow_of_dim(BD(), eagine::units::electric_current())
-	       - get_pow_of_dim(BD(), eagine::units::electric_tension()));
-	BOOST_CHECK(
-	  get_pow_of_dim(BD(), eagine::units::electrical_conductance())
-	  == get_pow_of_dim(BD(), eagine::units::electric_current()) * 2
-	       - get_pow_of_dim(BD(), eagine::units::length()) * 2
-	       - get_pow_of_dim(BD(), eagine::units::mass())
-	       + get_pow_of_dim(BD(), eagine::units::time()) * 3);
+        BOOST_CHECK(
+          get_pow_of_dim(BD(), eagine::units::electrical_conductance()) ==
+          get_pow_of_dim(BD(), eagine::units::electric_current()) -
+            get_pow_of_dim(BD(), eagine::units::electric_tension()));
+        BOOST_CHECK(
+          get_pow_of_dim(BD(), eagine::units::electrical_conductance()) ==
+          get_pow_of_dim(BD(), eagine::units::electric_current()) * 2 -
+            get_pow_of_dim(BD(), eagine::units::length()) * 2 -
+            get_pow_of_dim(BD(), eagine::units::mass()) +
+            get_pow_of_dim(BD(), eagine::units::time()) * 3);
     }
 };
 
@@ -318,14 +337,14 @@ BOOST_AUTO_TEST_CASE(unit_dimensions_electrical_conductance) {
 struct electrical_resistance_base_dim_tester {
     template <typename BD>
     void operator()(BD) const {
-	BOOST_CHECK(
-	  get_pow_of_dim(BD(), eagine::units::electrical_resistance())
-	  == get_pow_of_dim(BD(), eagine::units::electric_tension())
-	       - get_pow_of_dim(BD(), eagine::units::electric_current()));
-	BOOST_CHECK(
-	  get_pow_of_dim(BD(), eagine::units::electrical_resistance())
-	  == get_pow_of_dim(BD(), eagine::units::dimensionless())
-	       - get_pow_of_dim(BD(), eagine::units::electrical_conductance()));
+        BOOST_CHECK(
+          get_pow_of_dim(BD(), eagine::units::electrical_resistance()) ==
+          get_pow_of_dim(BD(), eagine::units::electric_tension()) -
+            get_pow_of_dim(BD(), eagine::units::electric_current()));
+        BOOST_CHECK(
+          get_pow_of_dim(BD(), eagine::units::electrical_resistance()) ==
+          get_pow_of_dim(BD(), eagine::units::dimensionless()) -
+            get_pow_of_dim(BD(), eagine::units::electrical_conductance()));
     }
 };
 
@@ -338,19 +357,20 @@ BOOST_AUTO_TEST_CASE(unit_dimensions_electrical_resistance) {
 struct magnetic_flux_base_dim_tester {
     template <typename BD>
     void operator()(BD) const {
-	BOOST_CHECK(
-	  get_pow_of_dim(BD(), eagine::units::magnetic_flux())
-	  == get_pow_of_dim(BD(), eagine::units::energy())
-	       - get_pow_of_dim(BD(), eagine::units::electric_current()));
-	BOOST_CHECK(get_pow_of_dim(BD(), eagine::units::magnetic_flux())
-		    == get_pow_of_dim(BD(), eagine::units::electric_tension())
-			 + get_pow_of_dim(BD(), eagine::units::time()));
-	BOOST_CHECK(
-	  get_pow_of_dim(BD(), eagine::units::magnetic_flux())
-	  == get_pow_of_dim(BD(), eagine::units::length()) * 2
-	       - get_pow_of_dim(BD(), eagine::units::time()) * 2
-	       + get_pow_of_dim(BD(), eagine::units::mass())
-	       - get_pow_of_dim(BD(), eagine::units::electric_current()));
+        BOOST_CHECK(
+          get_pow_of_dim(BD(), eagine::units::magnetic_flux()) ==
+          get_pow_of_dim(BD(), eagine::units::energy()) -
+            get_pow_of_dim(BD(), eagine::units::electric_current()));
+        BOOST_CHECK(
+          get_pow_of_dim(BD(), eagine::units::magnetic_flux()) ==
+          get_pow_of_dim(BD(), eagine::units::electric_tension()) +
+            get_pow_of_dim(BD(), eagine::units::time()));
+        BOOST_CHECK(
+          get_pow_of_dim(BD(), eagine::units::magnetic_flux()) ==
+          get_pow_of_dim(BD(), eagine::units::length()) * 2 -
+            get_pow_of_dim(BD(), eagine::units::time()) * 2 +
+            get_pow_of_dim(BD(), eagine::units::mass()) -
+            get_pow_of_dim(BD(), eagine::units::electric_current()));
     }
 };
 
@@ -363,15 +383,15 @@ BOOST_AUTO_TEST_CASE(unit_dimensions_magnetic_flux) {
 struct magnetic_field_strength_base_dim_tester {
     template <typename BD>
     void operator()(BD) const {
-	BOOST_CHECK(
-	  get_pow_of_dim(BD(), eagine::units::magnetic_field_strength())
-	  == get_pow_of_dim(BD(), eagine::units::magnetic_flux())
-	       - get_pow_of_dim(BD(), eagine::units::area()));
-	BOOST_CHECK(
-	  get_pow_of_dim(BD(), eagine::units::magnetic_field_strength())
-	  == get_pow_of_dim(BD(), eagine::units::mass())
-	       - get_pow_of_dim(BD(), eagine::units::electric_current())
-	       - get_pow_of_dim(BD(), eagine::units::time()) * 2);
+        BOOST_CHECK(
+          get_pow_of_dim(BD(), eagine::units::magnetic_field_strength()) ==
+          get_pow_of_dim(BD(), eagine::units::magnetic_flux()) -
+            get_pow_of_dim(BD(), eagine::units::area()));
+        BOOST_CHECK(
+          get_pow_of_dim(BD(), eagine::units::magnetic_field_strength()) ==
+          get_pow_of_dim(BD(), eagine::units::mass()) -
+            get_pow_of_dim(BD(), eagine::units::electric_current()) -
+            get_pow_of_dim(BD(), eagine::units::time()) * 2);
     }
 };
 
@@ -384,16 +404,16 @@ BOOST_AUTO_TEST_CASE(unit_dimensions_magnetic_field_strength) {
 struct inductance_base_dim_tester {
     template <typename BD>
     void operator()(BD) const {
-	BOOST_CHECK(
-	  get_pow_of_dim(BD(), eagine::units::inductance())
-	  == get_pow_of_dim(BD(), eagine::units::magnetic_flux())
-	       - get_pow_of_dim(BD(), eagine::units::electric_current()));
-	BOOST_CHECK(
-	  get_pow_of_dim(BD(), eagine::units::inductance())
-	  == get_pow_of_dim(BD(), eagine::units::length()) * 2
-	       - get_pow_of_dim(BD(), eagine::units::time()) * 2
-	       + get_pow_of_dim(BD(), eagine::units::mass())
-	       - get_pow_of_dim(BD(), eagine::units::electric_current()) * 2);
+        BOOST_CHECK(
+          get_pow_of_dim(BD(), eagine::units::inductance()) ==
+          get_pow_of_dim(BD(), eagine::units::magnetic_flux()) -
+            get_pow_of_dim(BD(), eagine::units::electric_current()));
+        BOOST_CHECK(
+          get_pow_of_dim(BD(), eagine::units::inductance()) ==
+          get_pow_of_dim(BD(), eagine::units::length()) * 2 -
+            get_pow_of_dim(BD(), eagine::units::time()) * 2 +
+            get_pow_of_dim(BD(), eagine::units::mass()) -
+            get_pow_of_dim(BD(), eagine::units::electric_current()) * 2);
     }
 };
 
@@ -406,9 +426,10 @@ BOOST_AUTO_TEST_CASE(unit_dimensions_inductance) {
 struct frequency_base_dim_tester {
     template <typename BD>
     void operator()(BD) const {
-	BOOST_CHECK(get_pow_of_dim(BD(), eagine::units::frequency())
-		    == get_pow_of_dim(BD(), eagine::units::number_of_cycles())
-			 - get_pow_of_dim(BD(), eagine::units::time()));
+        BOOST_CHECK(
+          get_pow_of_dim(BD(), eagine::units::frequency()) ==
+          get_pow_of_dim(BD(), eagine::units::number_of_cycles()) -
+            get_pow_of_dim(BD(), eagine::units::time()));
     }
 };
 
@@ -421,9 +442,10 @@ BOOST_AUTO_TEST_CASE(unit_dimensions_frequency) {
 struct radioactivity_base_dim_tester {
     template <typename BD>
     void operator()(BD) const {
-	BOOST_CHECK(get_pow_of_dim(BD(), eagine::units::radioactivity())
-		    == get_pow_of_dim(BD(), eagine::units::number_of_decays())
-			 - get_pow_of_dim(BD(), eagine::units::time()));
+        BOOST_CHECK(
+          get_pow_of_dim(BD(), eagine::units::radioactivity()) ==
+          get_pow_of_dim(BD(), eagine::units::number_of_decays()) -
+            get_pow_of_dim(BD(), eagine::units::time()));
     }
 };
 

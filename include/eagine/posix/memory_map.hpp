@@ -9,15 +9,16 @@
 #ifndef EAGINE_POSIX_MEMORY_MAP_1509260923_HPP
 #define EAGINE_POSIX_MEMORY_MAP_1509260923_HPP
 
+#include <sys/mman.h>
 #include "file_descriptor.hpp"
 #include "file_stat.hpp"
-#include <sys/mman.h>
 
 namespace eagine {
 namespace posix {
 
 static inline outcome<memory_block>
-mmap(void* addr,
+mmap(
+  void* addr,
   size_t len,
   int prot,
   int flags,
@@ -25,8 +26,8 @@ mmap(void* addr,
   off_t offs) noexcept {
     void* result = ::mmap(addr, len, prot, flags, get_raw_fd(fdw), offs);
     return (result == MAP_FAILED)
-	     ? outcome<memory_block>(error_info(errno, get_raw_fd(fdw)))
-	     : outcome<memory_block>(memory_block(result, span_size(len)));
+             ? outcome<memory_block>(error_info(errno, get_raw_fd(fdw)))
+             : outcome<memory_block>(memory_block(result, span_size(len)));
 }
 
 static inline outcome<memory_block>
@@ -49,16 +50,16 @@ public:
     }
 
     ~memory_mapped_file(void) noexcept {
-	if(_blk) {
-	    try {
-		::munmap(_blk.data(), std_size(_blk.size()));
-	    } catch(...) {
-	    }
-	}
+        if(_blk) {
+            try {
+                ::munmap(_blk.data(), std_size(_blk.size()));
+            } catch(...) {
+            }
+        }
     }
 
     memory_block block(void) noexcept {
-	return _blk;
+        return _blk;
     }
 };
 

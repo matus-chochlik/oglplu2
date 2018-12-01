@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_buffer_parameter
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_buffer_parameter_tests)
 
@@ -251,94 +251,97 @@ BOOST_AUTO_TEST_CASE(enum_buffer_parameter_range) {
 
 #ifdef GL_BUFFER_ACCESS
     {
-	--count;
-	auto r = enum_value_range<buffer_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), buffer_parameter(GL_BUFFER_ACCESS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<buffer_parameter>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), buffer_parameter(GL_BUFFER_ACCESS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_BUFFER_ACCESS_FLAGS
     {
-	--count;
-	auto r = enum_value_range<buffer_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), buffer_parameter(GL_BUFFER_ACCESS_FLAGS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<buffer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), buffer_parameter(GL_BUFFER_ACCESS_FLAGS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_BUFFER_IMMUTABLE_STORAGE
     {
-	--count;
-	auto r = enum_value_range<buffer_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), buffer_parameter(GL_BUFFER_IMMUTABLE_STORAGE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<buffer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            buffer_parameter(GL_BUFFER_IMMUTABLE_STORAGE)) != r.end());
     }
 #endif
 
 #ifdef GL_BUFFER_MAP_LENGTH
     {
-	--count;
-	auto r = enum_value_range<buffer_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), buffer_parameter(GL_BUFFER_MAP_LENGTH))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<buffer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), buffer_parameter(GL_BUFFER_MAP_LENGTH)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_BUFFER_MAP_OFFSET
     {
-	--count;
-	auto r = enum_value_range<buffer_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), buffer_parameter(GL_BUFFER_MAP_OFFSET))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<buffer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), buffer_parameter(GL_BUFFER_MAP_OFFSET)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_BUFFER_MAPPED
     {
-	--count;
-	auto r = enum_value_range<buffer_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), buffer_parameter(GL_BUFFER_MAPPED))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<buffer_parameter>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), buffer_parameter(GL_BUFFER_MAPPED)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_BUFFER_SIZE
     {
-	--count;
-	auto r = enum_value_range<buffer_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), buffer_parameter(GL_BUFFER_SIZE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<buffer_parameter>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), buffer_parameter(GL_BUFFER_SIZE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_BUFFER_STORAGE_FLAGS
     {
-	--count;
-	auto r = enum_value_range<buffer_parameter>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), buffer_parameter(GL_BUFFER_STORAGE_FLAGS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<buffer_parameter>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), buffer_parameter(GL_BUFFER_STORAGE_FLAGS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_BUFFER_USAGE
     {
-	--count;
-	auto r = enum_value_range<buffer_parameter>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), buffer_parameter(GL_BUFFER_USAGE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<buffer_parameter>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), buffer_parameter(GL_BUFFER_USAGE)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

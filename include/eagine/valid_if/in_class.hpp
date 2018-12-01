@@ -15,7 +15,8 @@
 namespace eagine {
 
 // in_class_valid_if
-template <typename T,
+template <
+  typename T,
   typename C,
   typename Policy,
   typename DoLog = typename Policy::do_log>

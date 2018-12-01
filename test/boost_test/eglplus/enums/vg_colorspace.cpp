@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE EGLPLUS_vg_colorspace
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_vg_colorspace_tests)
 
@@ -66,21 +66,23 @@ BOOST_AUTO_TEST_CASE(enum_vg_colorspace_range) {
 
 #ifdef EGL_VG_COLORSPACE_LINEAR
     {
-	--count;
-	auto r = enum_value_range<vg_colorspace>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), vg_colorspace(EGL_VG_COLORSPACE_LINEAR))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<vg_colorspace>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), vg_colorspace(EGL_VG_COLORSPACE_LINEAR)) !=
+          r.end());
     }
 #endif
 
 #ifdef EGL_VG_COLORSPACE_sRGB
     {
-	--count;
-	auto r = enum_value_range<vg_colorspace>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), vg_colorspace(EGL_VG_COLORSPACE_sRGB))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<vg_colorspace>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), vg_colorspace(EGL_VG_COLORSPACE_sRGB)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

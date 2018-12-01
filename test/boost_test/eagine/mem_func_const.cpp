@@ -14,11 +14,11 @@ struct bar {
     int i;
 
     int foo(int j) const {
-	return i + j;
+        return i + j;
     }
 
     float foo(int j, float k) {
-	return (i + j) / k;
+        return (i + j) / k;
     }
 };
 
@@ -26,8 +26,8 @@ struct baz {
     int i;
 
     baz& inc(void) {
-	++i;
-	return *this;
+        ++i;
+        return *this;
     }
 };
 

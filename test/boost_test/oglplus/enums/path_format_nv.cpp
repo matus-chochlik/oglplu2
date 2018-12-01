@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_path_format_nv
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_path_format_nv_tests)
 
@@ -66,21 +66,22 @@ BOOST_AUTO_TEST_CASE(enum_path_format_nv_range) {
 
 #ifdef GL_PATH_FORMAT_PS_NV
     {
-	--count;
-	auto r = enum_value_range<path_format_nv>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), path_format_nv(GL_PATH_FORMAT_PS_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_format_nv>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), path_format_nv(GL_PATH_FORMAT_PS_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_PATH_FORMAT_SVG_NV
     {
-	--count;
-	auto r = enum_value_range<path_format_nv>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), path_format_nv(GL_PATH_FORMAT_SVG_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_format_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), path_format_nv(GL_PATH_FORMAT_SVG_NV)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

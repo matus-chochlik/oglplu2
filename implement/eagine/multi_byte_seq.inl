@@ -13,9 +13,9 @@ namespace mbs {
 inline valid_sequence_length
 do_decode_sequence_length(const byte b) noexcept {
     for(span_size_t l = 1; l <= 6; ++l) {
-	if(is_valid_head_byte(b, l)) {
-	    return l;
-	}
+        if(is_valid_head_byte(b, l)) {
+            return l;
+        }
     }
     return 0;
 }
@@ -23,30 +23,31 @@ do_decode_sequence_length(const byte b) noexcept {
 inline bool
 is_valid_encoding(const valid_cbyte_span& vseq) noexcept {
     if(auto len = decode_sequence_length(vseq)) {
-	const span_size_t l = len.value();
-	const span<const byte>& seq = vseq.value(l - 1);
+        const span_size_t l = len.value();
+        const span<const byte>& seq = vseq.value(l - 1);
 
-	if(!is_valid_head_byte(seq[0], l)) {
-	    return false;
-	}
+        if(!is_valid_head_byte(seq[0], l)) {
+            return false;
+        }
 
-	for(span_size_t i = 1; i < l; ++i) {
-	    if(!is_valid_tail_byte(seq[i], i, l)) {
-		return false;
-	    }
-	}
-	return true;
+        for(span_size_t i = 1; i < l; ++i) {
+            if(!is_valid_tail_byte(seq[i], i, l)) {
+                return false;
+            }
+        }
+        return true;
     }
     return false;
 }
 //------------------------------------------------------------------------------
 template <typename P1, typename P2>
 static constexpr inline optionally_valid<code_point_t>
-do_decode_code_point_head(const byte b,
+do_decode_code_point_head(
+  const byte b,
   const valid_if<byte, P1> mask,
   const valid_if<span_size_t, P2> bitshift) noexcept {
     return {code_point_t((b & mask.value_anyway()) << bitshift.value_anyway()),
-      (mask.is_valid() && bitshift.is_valid())};
+            (mask.is_valid() && bitshift.is_valid())};
 }
 //------------------------------------------------------------------------------
 static constexpr inline optionally_valid<code_point_t>
@@ -57,15 +58,17 @@ decode_code_point_head(const byte b, const valid_sequence_length l) noexcept {
 //------------------------------------------------------------------------------
 template <typename P1, typename P2>
 static constexpr inline optionally_valid<code_point_t>
-do_decode_code_point_tail(const byte b,
+do_decode_code_point_tail(
+  const byte b,
   const valid_if<byte, P1> mask,
   const valid_if<span_size_t, P2> bitshift) noexcept {
     return {code_point_t((b & mask.value_anyway()) << bitshift.value_anyway()),
-      (mask.is_valid() && bitshift.is_valid())};
+            (mask.is_valid() && bitshift.is_valid())};
 }
 //------------------------------------------------------------------------------
 static constexpr inline optionally_valid<code_point_t>
-decode_code_point_tail(const byte b,
+decode_code_point_tail(
+  const byte b,
   const valid_sequence_length i,
   const valid_sequence_length l) noexcept {
     return do_decode_code_point_tail(
@@ -81,7 +84,7 @@ do_decode_code_point(
     code_point_t cp = decode_code_point_head(src[0], vl).value();
 
     for(span_size_t i = 1; i < l; ++i) {
-	cp |= decode_code_point_tail(src[i], i, vl).value();
+        cp |= decode_code_point_tail(src[i], i, vl).value();
     }
 
     return cp;
@@ -89,13 +92,15 @@ do_decode_code_point(
 //------------------------------------------------------------------------------
 template <typename P1, typename P2, typename P3>
 static constexpr inline optionally_valid<byte>
-do_encode_code_point_byte(const code_point_t cp,
+do_encode_code_point_byte(
+  const code_point_t cp,
   const valid_if<byte, P1> code,
   const valid_if<byte, P2> mask,
   const valid_if<span_size_t, P3> bitshift) noexcept {
-    return {byte((code.value_anyway())
-		 | (mask.value_anyway() & (cp >> bitshift.value_anyway()))),
-      (code.is_valid() && mask.is_valid() && bitshift.is_valid())};
+    return {byte(
+              (code.value_anyway()) |
+              (mask.value_anyway() & (cp >> bitshift.value_anyway()))),
+            (code.is_valid() && mask.is_valid() && bitshift.is_valid())};
 }
 //------------------------------------------------------------------------------
 static constexpr inline optionally_valid<byte>
@@ -106,7 +111,8 @@ encode_code_point_head(
 }
 //------------------------------------------------------------------------------
 static constexpr inline optionally_valid<byte>
-encode_code_point_tail(const code_point_t cp,
+encode_code_point_tail(
+  const code_point_t cp,
   const valid_sequence_length i,
   const valid_sequence_length l) noexcept {
     return do_encode_code_point_byte(
@@ -114,7 +120,8 @@ encode_code_point_tail(const code_point_t cp,
 }
 //------------------------------------------------------------------------------
 inline void
-do_encode_code_point(const code_point cp,
+do_encode_code_point(
+  const code_point cp,
   const valid_byte_span& vdest,
   const valid_sequence_length vl) noexcept {
     const span_size_t l = vl.value();
@@ -125,7 +132,7 @@ do_encode_code_point(const code_point cp,
     dest[0] = encode_code_point_head(val, vl).value();
 
     for(span_size_t i = 1; i < l; ++i) {
-	dest[i] = encode_code_point_tail(val, i, vl).value();
+        dest[i] = encode_code_point_tail(val, i, vl).value();
     }
 }
 //------------------------------------------------------------------------------
@@ -139,10 +146,10 @@ encode_code_point(const code_point cp, const valid_byte_span& dest) noexcept {
 inline valid_if_not_empty<std::string>
 encode_code_point(code_point cp) {
     if(auto len = required_sequence_length(cp.value())) {
-	std::array<byte, 7> tmp;
-	do_encode_code_point(cp, make_byte_span(make_span(tmp)), len.value());
-	return {std::string(
-	  reinterpret_cast<const char*>(tmp.data()), std_size(len.value()))};
+        std::array<byte, 7> tmp;
+        do_encode_code_point(cp, make_byte_span(make_span(tmp)), len.value());
+        return {std::string(
+          reinterpret_cast<const char*>(tmp.data()), std_size(len.value()))};
     }
     return {};
 }
@@ -151,10 +158,10 @@ inline optionally_valid<span_size_t>
 encoding_bytes_required(const span<const code_point_t>& cps) noexcept {
     span_size_t result = 0;
     for(code_point_t cp : cps) {
-	if(auto len = required_sequence_length(cp)) {
-	    result += len.value();
-	} else
-	    return {0, false};
+        if(auto len = required_sequence_length(cp)) {
+            result += len.value();
+        } else
+            return {0, false};
     }
     return {result, true};
 }
@@ -163,13 +170,13 @@ inline optionally_valid<span_size_t>
 encoding_bytes_required(const span<const code_point>& cps) noexcept {
     span_size_t result = 0;
     for(code_point cp : cps) {
-	if(cp.is_valid()) {
-	    if(auto len = required_sequence_length(cp.value())) {
-		result += len.value();
-	    } else
-		return {0, false};
-	} else
-	    return {0, false};
+        if(cp.is_valid()) {
+            if(auto len = required_sequence_length(cp.value())) {
+                result += len.value();
+            } else
+                return {0, false};
+        } else
+            return {0, false};
     }
     return {result, true};
 }
@@ -182,12 +189,12 @@ decoding_code_points_required(const valid_cbyte_span& bytes) noexcept {
     auto e = bytes.value(0).end();
 
     while(i != e) {
-	if(auto len = do_decode_sequence_length(*i)) {
-	    ++result;
-	    i += span_size(len.value());
-	    assert(!(i > e));
-	} else
-	    return {0, false};
+        if(auto len = do_decode_sequence_length(*i)) {
+            ++result;
+            i += span_size(len.value());
+            assert(!(i > e));
+        } else
+            return {0, false};
     }
 
     return {result, true};
@@ -199,18 +206,18 @@ encode_code_points(
     span_size_t i = 0;
 
     for(code_point cp : cps) {
-	if(!cp.is_valid()) {
-	    return false;
-	}
+        if(!cp.is_valid()) {
+            return false;
+        }
 
-	span<byte> sub{bytes.value(i).data() + i, bytes.value(i).size() - i};
-	auto len = encode_code_point(cp.value(), sub);
+        span<byte> sub{bytes.value(i).data() + i, bytes.value(i).size() - i};
+        auto len = encode_code_point(cp.value(), sub);
 
-	if(!len.is_valid()) {
-	    return false;
-	}
+        if(!len.is_valid()) {
+            return false;
+        }
 
-	i += span_size(len.value());
+        i += span_size(len.value());
     }
     return true;
 }
@@ -220,14 +227,14 @@ decode_code_points(const valid_cbyte_span& bytes, const span<code_point>& cps) {
     span_size_t i = 0;
 
     for(code_point& cp : cps) {
-	span<const byte> sub{
-	  bytes.value(i).data() + i, bytes.value(i).size() - i};
-	if(auto len = decode_sequence_length(sub)) {
-	    cp = do_decode_code_point(sub, len.value());
+        span<const byte> sub{bytes.value(i).data() + i,
+                             bytes.value(i).size() - i};
+        if(auto len = decode_sequence_length(sub)) {
+            cp = do_decode_code_point(sub, len.value());
 
-	    i += span_size(len.value());
-	} else
-	    return false;
+            i += span_size(len.value());
+        } else
+            return false;
     }
     return true;
 }

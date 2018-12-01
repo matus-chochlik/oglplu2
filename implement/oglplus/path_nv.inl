@@ -14,16 +14,17 @@ namespace oper {
 //------------------------------------------------------------------------------
 template <typename T>
 inline outcome<void>
-path_nv_ops::path_commands(path_nv_name path,
+path_nv_ops::path_commands(
+  path_nv_name path,
   span<const GLubyte> commands,
   span<const T> coords) noexcept {
     OGLPLUS_GLFUNC(PathCommandsNV)
     (get_raw_name(path),
-      GLsizei(commands.size()),
-      commands.data(),
-      GLsizei(coords.size()),
-      GLenum(get_data_type<T>()),
-      static_cast<const void*>(coords.data()));
+     GLsizei(commands.size()),
+     commands.data(),
+     GLsizei(coords.size()),
+     GLenum(get_data_type<T>()),
+     static_cast<const void*>(coords.data()));
     OGLPLUS_VERIFY(PathCommandsNV, gl_object(path), always);
     return {};
 }
@@ -37,27 +38,29 @@ path_nv_ops::path_commands(
 //------------------------------------------------------------------------------
 template <typename T>
 inline outcome<void>
-path_nv_ops::path_sub_commands(path_nv_name path,
+path_nv_ops::path_sub_commands(
+  path_nv_name path,
   GLsizei command_start,
   GLsizei commands_to_delete,
   span<const GLubyte> commands,
   span<const T> coords) noexcept {
     OGLPLUS_GLFUNC(PathSubCommandsNV)
     (get_raw_name(path),
-      command_start,
-      commands_to_delete,
-      GLsizei(commands.size()),
-      commands.data(),
-      GLsizei(coords.size()),
-      GLenum(get_data_type<T>()),
-      static_cast<const void*>(coords.data()));
+     command_start,
+     commands_to_delete,
+     GLsizei(commands.size()),
+     commands.data(),
+     GLsizei(coords.size()),
+     GLenum(get_data_type<T>()),
+     static_cast<const void*>(coords.data()));
     OGLPLUS_VERIFY(PathSubCommandsNV, gl_object(path), always);
     return {};
 }
 //------------------------------------------------------------------------------
 template <typename T>
 inline outcome<void>
-path_nv_ops::path_sub_commands(path_nv_name path,
+path_nv_ops::path_sub_commands(
+  path_nv_name path,
   GLsizei command_start,
   GLsizei commands_to_delete,
   const path_nv_spec<T>& spec) noexcept {
@@ -70,22 +73,23 @@ inline outcome<void>
 path_nv_ops::path_coords(path_nv_name path, span<const T> coords) noexcept {
     OGLPLUS_GLFUNC(PathCoordsNV)
     (get_raw_name(path),
-      GLsizei(coords.size()),
-      GLenum(get_data_type<T>()),
-      static_cast<const void*>(coords.data()));
+     GLsizei(coords.size()),
+     GLenum(get_data_type<T>()),
+     static_cast<const void*>(coords.data()));
     OGLPLUS_VERIFY(PathCoordsNV, gl_object(path), always);
     return {};
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-path_nv_ops::path_string(path_nv_name path,
+path_nv_ops::path_string(
+  path_nv_name path,
   path_format_nv format,
   span<const char> path_str) noexcept {
     OGLPLUS_GLFUNC(PathStringNV)
     (get_raw_name(path),
-      GLenum(format),
-      GLsizei(path_str.size()),
-      static_cast<const void*>(path_str.data()));
+     GLenum(format),
+     GLsizei(path_str.size()),
+     static_cast<const void*>(path_str.data()));
     OGLPLUS_VERIFY(PathStringNV, gl_enum_value(format).gl_object(path), always);
     return {};
 }
@@ -128,7 +132,8 @@ path_nv_ops::get_path_length(
 }
 //------------------------------------------------------------------------------
 inline outcome<boolean>
-path_nv_ops::point_along_path(path_nv_name path,
+path_nv_ops::point_along_path(
+  path_nv_name path,
   GLsizei start_seg,
   GLsizei num_segs,
   GLfloat distance,
@@ -136,7 +141,8 @@ path_nv_ops::point_along_path(path_nv_name path,
   GLfloat& ref_y,
   GLfloat& ref_tg_x,
   GLfloat& ref_tg_y) noexcept {
-    boolean result = OGLPLUS_GLFUNC(PointAlongPathNV)(get_raw_name(path),
+    boolean result = OGLPLUS_GLFUNC(PointAlongPathNV)(
+      get_raw_name(path),
       start_seg,
       num_segs,
       distance,
@@ -201,7 +207,8 @@ path_nv_ops::path_parameter_f(
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-path_nv_ops::get_path_parameter_iv(path_nv_name path,
+path_nv_ops::get_path_parameter_iv(
+  path_nv_name path,
   oglplus::path_parameter_nv param,
   span<GLint> values) noexcept {
     assert(values.size() > 0);
@@ -213,7 +220,8 @@ path_nv_ops::get_path_parameter_iv(path_nv_name path,
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-path_nv_ops::get_path_parameter_fv(path_nv_name path,
+path_nv_ops::get_path_parameter_fv(
+  path_nv_name path,
   oglplus::path_parameter_nv param,
   span<GLfloat> values) noexcept {
     assert(values.size() > 0);
@@ -286,7 +294,8 @@ path_nv_ops::get_path_join_style(path_nv_name path) noexcept {
 inline outcome<void>
 path_nv_ops::path_initial_dash_cap(
   path_nv_name path, path_cap_style_nv value) noexcept {
-    return path_parameter_i(path,
+    return path_parameter_i(
+      path,
       path_parameter_nv(GL_PATH_INITIAL_DASH_CAP_NV),
       GLint(GLenum(value)));
 }
@@ -300,7 +309,8 @@ path_nv_ops::get_path_initial_dash_cap(path_nv_name path) noexcept {
 inline outcome<void>
 path_nv_ops::path_terminal_dash_cap(
   path_nv_name path, path_cap_style_nv value) noexcept {
-    return path_parameter_i(path,
+    return path_parameter_i(
+      path,
       path_parameter_nv(GL_PATH_TERMINAL_DASH_CAP_NV),
       GLint(GLenum(value)));
 }
@@ -326,7 +336,8 @@ path_nv_ops::get_path_dash_offset(path_nv_name path) noexcept {
 inline outcome<void>
 path_nv_ops::path_dash_offset_reset(
   path_nv_name path, path_dash_offset_reset_nv value) noexcept {
-    return path_parameter_i(path,
+    return path_parameter_i(
+      path,
       path_parameter_nv(GL_PATH_DASH_OFFSET_RESET_NV),
       GLint(GLenum(value)));
 }
@@ -355,31 +366,34 @@ path_nv_ops::copy_path(path_nv_name dst_path, path_nv_name src_path) noexcept {
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-path_nv_ops::interpolate_path(path_nv_name dst_path,
+path_nv_ops::interpolate_path(
+  path_nv_name dst_path,
   path_nv_name path_a,
   path_nv_name path_b,
   GLfloat weight) noexcept {
     OGLPLUS_GLFUNC(InterpolatePathsNV)
     (get_raw_name(dst_path),
-      get_raw_name(path_a),
-      get_raw_name(path_b),
-      weight);
+     get_raw_name(path_a),
+     get_raw_name(path_b),
+     weight);
     OGLPLUS_VERIFY(InterpolatePathNV, gl_object(dst_path), debug);
     return {};
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-path_nv_ops::transform_path(path_nv_name dst_path,
+path_nv_ops::transform_path(
+  path_nv_name dst_path,
   path_nv_name src_path,
   path_transform_type_nv transform_type,
   span<const GLfloat> transform_values) noexcept {
     // TODO: check if we have enough values
     OGLPLUS_GLFUNC(TransformPathNV)
     (get_raw_name(dst_path),
-      get_raw_name(src_path),
-      GLenum(transform_type),
-      transform_values.data());
-    OGLPLUS_VERIFY(TransformPathNV,
+     get_raw_name(src_path),
+     GLenum(transform_type),
+     transform_values.data());
+    OGLPLUS_VERIFY(
+      TransformPathNV,
       gl_enum_value(transform_type).gl_subject(src_path).gl_object(dst_path),
       debug);
     return {};
@@ -393,7 +407,7 @@ inline deferred_error_handler
 obj_gen_del_ops<tag::path_nv>::_gen(span<GLuint> names) noexcept {
     GLuint base = OGLPLUS_GLFUNC(GenPathsNV)(GLsizei(names.size()));
     for(span_size_t i = 0; i < names.size(); ++i) {
-	names[i] = base + GLuint(i);
+        names[i] = base + GLuint(i);
     }
     OGLPLUS_VERIFY_SIMPLE(GenPathsNV, debug);
     return {};
@@ -412,8 +426,8 @@ obj_gen_del_ops<tag::path_nv>::_gen(
 inline deferred_error_handler
 obj_gen_del_ops<tag::path_nv>::_delete(span<GLuint> names) noexcept {
     if(names.begin() != names.end()) {
-	OGLPLUS_GLFUNC(DeletePathsNV)(*names.begin(), GLsizei(names.size()));
-	OGLPLUS_VERIFY_SIMPLE(DeletePathsNV, debug);
+        OGLPLUS_GLFUNC(DeletePathsNV)(*names.begin(), GLsizei(names.size()));
+        OGLPLUS_VERIFY_SIMPLE(DeletePathsNV, debug);
     }
     return {};
 }
@@ -422,8 +436,8 @@ inline deferred_error_handler
 obj_gen_del_ops<tag::path_nv>::_delete(
   object_name_base_and_count_view<GLuint> names) noexcept {
     if(names.size() > 0) {
-	OGLPLUS_GLFUNC(DeletePathsNV)(names.base(), GLsizei(names.size()));
-	OGLPLUS_VERIFY_SIMPLE(DeletePathsNV, debug);
+        OGLPLUS_GLFUNC(DeletePathsNV)(names.base(), GLsizei(names.size()));
+        OGLPLUS_VERIFY_SIMPLE(DeletePathsNV, debug);
     }
     return {};
 }

@@ -12,8 +12,8 @@
 #include "common_alc.hpp"
 #define BOOST_TEST_MODULE OALPLUS_context_attrib
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_context_attrib_tests)
 
@@ -124,48 +124,50 @@ BOOST_AUTO_TEST_CASE(enum_context_attrib_range) {
 
 #ifdef ALC_FREQUENCY
     {
-	--count;
-	auto r = enum_value_range<context_attrib>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), context_attrib(ALC_FREQUENCY))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<context_attrib>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), context_attrib(ALC_FREQUENCY)) !=
+          r.end());
     }
 #endif
 
 #ifdef ALC_MONO_SOURCES
     {
-	--count;
-	auto r = enum_value_range<context_attrib>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), context_attrib(ALC_MONO_SOURCES))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<context_attrib>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), context_attrib(ALC_MONO_SOURCES)) !=
+          r.end());
     }
 #endif
 
 #ifdef ALC_REFRESH
     {
-	--count;
-	auto r = enum_value_range<context_attrib>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), context_attrib(ALC_REFRESH))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<context_attrib>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), context_attrib(ALC_REFRESH)) !=
+          r.end());
     }
 #endif
 
 #ifdef ALC_STEREO_SOURCES
     {
-	--count;
-	auto r = enum_value_range<context_attrib>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), context_attrib(ALC_STEREO_SOURCES))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<context_attrib>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), context_attrib(ALC_STEREO_SOURCES)) !=
+          r.end());
     }
 #endif
 
 #ifdef ALC_SYNC
     {
-	--count;
-	auto r = enum_value_range<context_attrib>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), context_attrib(ALC_SYNC)) != r.end());
+        --count;
+        auto r = enum_value_range<context_attrib>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), context_attrib(ALC_SYNC)) != r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

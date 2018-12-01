@@ -51,20 +51,20 @@ public:
     }
 
     bool empty(void) const noexcept {
-	return _size.get() == 0;
+        return _size.get() == 0;
     }
 
     buffer_size<S> size(void) const noexcept {
-	return _size;
+        return _size;
     }
 
     const void* data(void) const noexcept {
-	return _data;
+        return _data;
     }
 
     span<const byte> view(void) const noexcept {
-	return {
-	  static_cast<const byte*>(_data), static_cast<std::ptrdiff_t>(_size)};
+        return {static_cast<const byte*>(_data),
+                static_cast<std::ptrdiff_t>(_size)};
     }
 };
 

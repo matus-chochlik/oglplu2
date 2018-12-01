@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_path_fill_mode_nv
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_path_fill_mode_nv_tests)
 
@@ -102,40 +102,42 @@ BOOST_AUTO_TEST_CASE(enum_path_fill_mode_nv_range) {
 
 #ifdef GL_COUNT_DOWN_NV
     {
-	--count;
-	auto r = enum_value_range<path_fill_mode_nv>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), path_fill_mode_nv(GL_COUNT_DOWN_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_fill_mode_nv>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), path_fill_mode_nv(GL_COUNT_DOWN_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_COUNT_UP_NV
     {
-	--count;
-	auto r = enum_value_range<path_fill_mode_nv>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), path_fill_mode_nv(GL_COUNT_UP_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_fill_mode_nv>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), path_fill_mode_nv(GL_COUNT_UP_NV)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_INVERT
     {
-	--count;
-	auto r = enum_value_range<path_fill_mode_nv>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), path_fill_mode_nv(GL_INVERT))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<path_fill_mode_nv>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), path_fill_mode_nv(GL_INVERT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_PATH_FILL_MODE_NV
     {
-	--count;
-	auto r = enum_value_range<path_fill_mode_nv>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), path_fill_mode_nv(GL_PATH_FILL_MODE_NV))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<path_fill_mode_nv>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), path_fill_mode_nv(GL_PATH_FILL_MODE_NV)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

@@ -180,19 +180,19 @@ test_units_unit_si_2(double r) {
     using namespace eagine;
 
     for(int i = 0; i < 100; ++i) {
-	double x = rg.get<double>(-10, 10);
+        double x = rg.get<double>(-10, 10);
 
-	typedef tagged_quantity<double, U1> q_U1;
-	typedef tagged_quantity<double, U2> q_U2;
+        typedef tagged_quantity<double, U1> q_U1;
+        typedef tagged_quantity<double, U2> q_U2;
 
-	q_U1 q1(x);
-	q_U2 q2(x / r);
+        q_U1 q1(x);
+        q_U2 q2(x / r);
 
-	BOOST_CHECK((q1 > q2) != (q1 <= q2));
-	BOOST_CHECK((q1 >= q2) != (q1 < q2));
+        BOOST_CHECK((q1 > q2) != (q1 <= q2));
+        BOOST_CHECK((q1 >= q2) != (q1 < q2));
 
-	BOOST_CHECK_CLOSE(value(q1), value(q_U1(q2)), 0.01);
-	BOOST_CHECK_CLOSE(value(q_U2(q1)), value(q2), 0.01);
+        BOOST_CHECK_CLOSE(value(q1), value(q_U1(q2)), 0.01);
+        BOOST_CHECK_CLOSE(value(q_U2(q1)), value(q2), 0.01);
     }
 }
 

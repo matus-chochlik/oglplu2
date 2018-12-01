@@ -9,10 +9,10 @@
 #ifndef EAGINE_POSIX_DIR_DESCRIPTOR_1509260923_HPP
 #define EAGINE_POSIX_DIR_DESCRIPTOR_1509260923_HPP
 
-#include "error.hpp"
-#include <dirent.h>
 #include <sys/types.h>
+#include <dirent.h>
 #include <unistd.h>
+#include "error.hpp"
 
 #ifdef __clang__
 #pragma clang diagnostic push
@@ -43,54 +43,54 @@ public:
 
     dir_descriptor(dir_descriptor&& temp) noexcept
       : _dp(temp._dp) {
-	temp._dp = nullptr;
+        temp._dp = nullptr;
     }
 
     dir_descriptor(const dir_descriptor&) = default;
     dir_descriptor& operator=(const dir_descriptor&) = default;
 
     dir_descriptor& operator=(dir_descriptor&& temp) noexcept {
-	_dp = temp._dp;
-	temp._dp = nullptr;
-	return *this;
+        _dp = temp._dp;
+        temp._dp = nullptr;
+        return *this;
     }
 
     constexpr bool is_valid(void) const noexcept {
-	return _dp != nullptr;
+        return _dp != nullptr;
     }
 
     explicit constexpr operator bool(void) const noexcept {
-	return is_valid();
+        return is_valid();
     }
 
-    constexpr bool operator!(void)const noexcept {
-	return !is_valid();
+    constexpr bool operator!(void) const noexcept {
+        return !is_valid();
     }
 
     template <typename Func>
     outcome<void> for_each_entry(Func func) {
-	::dirent entry;
-	::dirent* pent = nullptr;
+        ::dirent entry;
+        ::dirent* pent = nullptr;
 
-	do {
-	    if(::readdir_r(_dp, &entry, &pent) != 0) {
-		return error_outcome(-1);
-	    }
-	    if(pent != nullptr) {
-		if(!func(entry))
-		    break;
-	    }
-	} while(pent != nullptr);
+        do {
+            if(::readdir_r(_dp, &entry, &pent) != 0) {
+                return error_outcome(-1);
+            }
+            if(pent != nullptr) {
+                if(!func(entry))
+                    break;
+            }
+        } while(pent != nullptr);
 
-	return {};
+        return {};
     }
 
     friend constexpr inline DIR* get_raw_dp(dir_descriptor dp) noexcept {
-	return dp._dp;
+        return dp._dp;
     }
 
     friend inline void swap(dir_descriptor& a, dir_descriptor& b) noexcept {
-	std::swap(a._dp, b._dp);
+        std::swap(a._dp, b._dp);
     }
 };
 
@@ -111,7 +111,7 @@ public:
 
     friend inline void swap(
       owned_dir_descriptor& a, owned_dir_descriptor& b) noexcept {
-	std::swap(a._dp, b._dp);
+        std::swap(a._dp, b._dp);
     }
 };
 
@@ -119,7 +119,7 @@ static inline outcome<owned_dir_descriptor>
 dup(dir_descriptor from) noexcept {
     int fd = ::dup(::dirfd(get_raw_dp(from)));
     if(fd < 0) {
-	return error_outcome(fd).add(owned_dir_descriptor(nullptr));
+        return error_outcome(fd).add(owned_dir_descriptor(nullptr));
     }
     DIR* dp = ::fdopendir(fd);
     return error_if(dp == nullptr, -1).add(owned_dir_descriptor(dp));
@@ -150,37 +150,37 @@ public:
     }
 
     dir_descriptor_owner& operator=(dir_descriptor_owner&& temp) noexcept {
-	swap(_odd, temp._odd);
-	try {
-	    ::closedir(get_raw_dp(temp._odd));
-	} catch(...) {
-	}
-	return *this;
+        swap(_odd, temp._odd);
+        try {
+            ::closedir(get_raw_dp(temp._odd));
+        } catch(...) {
+        }
+        return *this;
     }
 
     dir_descriptor_owner& operator=(const dir_descriptor_owner& that) {
-	owned_dir_descriptor odd(dup(that._odd));
-	swap(_odd, odd);
-	try {
-	    ::closedir(get_raw_dp(odd));
-	} catch(...) {
-	}
-	return *this;
+        owned_dir_descriptor odd(dup(that._odd));
+        swap(_odd, odd);
+        try {
+            ::closedir(get_raw_dp(odd));
+        } catch(...) {
+        }
+        return *this;
     }
 
     ~dir_descriptor_owner(void) noexcept {
-	try {
-	    ::closedir(get_raw_dp(_odd));
-	} catch(...) {
-	}
+        try {
+            ::closedir(get_raw_dp(_odd));
+        } catch(...) {
+        }
     }
 
     dir_descriptor get(void) const noexcept {
-	return _odd;
+        return _odd;
     }
 
     operator dir_descriptor(void) const noexcept {
-	return get();
+        return get();
     }
 };
 

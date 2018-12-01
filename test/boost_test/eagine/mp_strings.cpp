@@ -25,7 +25,8 @@ BOOST_AUTO_TEST_CASE(mp_strings_superscript) {
     using namespace eagine;
 
     typedef mp_int_to_string_t<-1234567890> d;
-    typedef mp_concat_t<mp_string<'n', '1', '=', '('>,
+    typedef mp_concat_t<
+      mp_string<'n', '1', '=', '('>,
       d,
       mp_string<')', '+', 'i'>>
       x;

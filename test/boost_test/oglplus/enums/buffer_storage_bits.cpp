@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_buffer_storage_bits
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_buffer_storage_bits_tests)
 
@@ -184,76 +184,78 @@ BOOST_AUTO_TEST_CASE(enum_buffer_storage_bits_range) {
 
 #ifdef GL_CLIENT_STORAGE_BIT
     {
-	--count;
-	auto r = enum_value_range<buffer_storage_bits>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), buffer_storage_bits(GL_CLIENT_STORAGE_BIT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<buffer_storage_bits>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), buffer_storage_bits(GL_CLIENT_STORAGE_BIT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_DYNAMIC_STORAGE_BIT
     {
-	--count;
-	auto r = enum_value_range<buffer_storage_bits>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), buffer_storage_bits(GL_DYNAMIC_STORAGE_BIT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<buffer_storage_bits>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), buffer_storage_bits(GL_DYNAMIC_STORAGE_BIT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_MAP_COHERENT_BIT
     {
-	--count;
-	auto r = enum_value_range<buffer_storage_bits>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), buffer_storage_bits(GL_MAP_COHERENT_BIT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<buffer_storage_bits>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), buffer_storage_bits(GL_MAP_COHERENT_BIT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_MAP_PERSISTENT_BIT
     {
-	--count;
-	auto r = enum_value_range<buffer_storage_bits>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), buffer_storage_bits(GL_MAP_PERSISTENT_BIT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<buffer_storage_bits>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), buffer_storage_bits(GL_MAP_PERSISTENT_BIT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_MAP_READ_BIT
     {
-	--count;
-	auto r = enum_value_range<buffer_storage_bits>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), buffer_storage_bits(GL_MAP_READ_BIT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<buffer_storage_bits>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), buffer_storage_bits(GL_MAP_READ_BIT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_MAP_WRITE_BIT
     {
-	--count;
-	auto r = enum_value_range<buffer_storage_bits>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), buffer_storage_bits(GL_MAP_WRITE_BIT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<buffer_storage_bits>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), buffer_storage_bits(GL_MAP_WRITE_BIT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SPARSE_STORAGE_BIT_ARB
     {
-	--count;
-	auto r = enum_value_range<buffer_storage_bits>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), buffer_storage_bits(GL_SPARSE_STORAGE_BIT_ARB))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<buffer_storage_bits>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            buffer_storage_bits(GL_SPARSE_STORAGE_BIT_ARB)) != r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

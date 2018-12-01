@@ -38,7 +38,7 @@ public:
     }
 
     constexpr error_info& no_info(void) noexcept {
-	return *this;
+        return *this;
     }
 
     error_info& al_object(const any_object_name& obj) noexcept;

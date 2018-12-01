@@ -18,19 +18,19 @@ namespace eagine {
 template <typename T, T Min, T Max>
 struct valid_if_btwn_policy {
     constexpr bool operator()(T value) const noexcept {
-	return (Min <= value) && (value <= Max);
+        return (Min <= value) && (value <= Max);
     }
 
     struct do_log {
-	template <typename X>
-	constexpr inline do_log(X&&) noexcept {
-	}
+        template <typename X>
+        constexpr inline do_log(X&&) noexcept {
+        }
 
-	template <typename Log>
-	void operator()(Log& log, const T& v) const {
-	    log << "Value " << v << ", not between " << Min << " and " << Max
-		<< " is invalid";
-	}
+        template <typename Log>
+        void operator()(Log& log, const T& v) const {
+            log << "Value " << v << ", not between " << Min << " and " << Max
+                << " is invalid";
+        }
     };
 };
 

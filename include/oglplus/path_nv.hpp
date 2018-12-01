@@ -23,7 +23,8 @@ namespace oper {
 
 struct path_nv_ops {
     template <typename T>
-    static outcome<void> path_commands(path_nv_name path,
+    static outcome<void> path_commands(
+      path_nv_name path,
       span<const GLubyte> commands,
       span<const T> coords) noexcept;
 
@@ -32,14 +33,16 @@ struct path_nv_ops {
       path_nv_name path, const path_nv_spec<T>& spec) noexcept;
 
     template <typename T>
-    static outcome<void> path_sub_commands(path_nv_name path,
+    static outcome<void> path_sub_commands(
+      path_nv_name path,
       GLsizei command_start,
       GLsizei commands_to_delete,
       span<const GLubyte> commands,
       span<const T> coords) noexcept;
 
     template <typename T>
-    static outcome<void> path_sub_commands(path_nv_name path,
+    static outcome<void> path_sub_commands(
+      path_nv_name path,
       GLsizei command_start,
       GLsizei commands_to_delete,
       const path_nv_spec<T>& spec) noexcept;
@@ -66,7 +69,8 @@ struct path_nv_ops {
     static outcome<GLfloat> get_path_length(
       path_nv_name, GLsizei start_seg, GLsizei num_segs) noexcept;
 
-    static outcome<boolean> point_along_path(path_nv_name,
+    static outcome<boolean> point_along_path(
+      path_nv_name,
       GLsizei start_seg,
       GLsizei num_segs,
       GLfloat distance,
@@ -87,19 +91,23 @@ struct path_nv_ops {
     static outcome<void> cover_stroke_path(
       path_nv_name, path_stroke_cover_mode_nv mode) noexcept;
 
-    static outcome<void> path_parameter_i(path_nv_name path,
+    static outcome<void> path_parameter_i(
+      path_nv_name path,
       oglplus::path_parameter_nv param,
       GLint value) noexcept;
 
-    static outcome<void> path_parameter_f(path_nv_name path,
+    static outcome<void> path_parameter_f(
+      path_nv_name path,
       oglplus::path_parameter_nv param,
       GLfloat value) noexcept;
 
-    static outcome<void> get_path_parameter_iv(path_nv_name path,
+    static outcome<void> get_path_parameter_iv(
+      path_nv_name path,
       oglplus::path_parameter_nv param,
       span<GLint> values) noexcept;
 
-    static outcome<void> get_path_parameter_fv(path_nv_name path,
+    static outcome<void> get_path_parameter_fv(
+      path_nv_name path,
       oglplus::path_parameter_nv param,
       span<GLfloat> values) noexcept;
 
@@ -168,12 +176,14 @@ struct path_nv_ops {
     static outcome<void> copy_path(
       path_nv_name dst_path, path_nv_name src_path) noexcept;
 
-    static outcome<void> interpolate_path(path_nv_name dst_path,
+    static outcome<void> interpolate_path(
+      path_nv_name dst_path,
       path_nv_name path_a,
       path_nv_name path_b,
       GLfloat weight) noexcept;
 
-    static outcome<void> transform_path(path_nv_name dst_path,
+    static outcome<void> transform_path(
+      path_nv_name dst_path,
       path_nv_name src_path,
       path_transform_type_nv transform_type,
       span<const GLfloat> transform_values) noexcept;
@@ -185,7 +195,7 @@ template <typename Derived, typename Base>
 struct obj_member_ops<tag::path_nv, Derived, Base> : Base {
 private:
     Derived& _self() noexcept {
-	return *static_cast<Derived*>(this);
+        return *static_cast<Derived*>(this);
     }
 
     typedef oper::path_nv_ops _ops;
@@ -197,209 +207,216 @@ public:
     template <typename T>
     outcome<Derived&> commands(
       span<const GLubyte> cmds, span<const T> crds) noexcept {
-	return {_ops::path_commands(*this, cmds, crds), _self()};
+        return {_ops::path_commands(*this, cmds, crds), _self()};
     }
 
     template <typename T>
     outcome<Derived&> commands(const path_nv_spec<T>& spec) noexcept {
-	return {_ops::path_commands(*this, spec), _self()};
+        return {_ops::path_commands(*this, spec), _self()};
     }
 
     template <typename T>
-    outcome<Derived&> sub_commands(GLsizei cmd_start,
+    outcome<Derived&> sub_commands(
+      GLsizei cmd_start,
       GLsizei cmds_to_delete,
       span<const GLubyte> cmds,
       span<const T> crds) noexcept {
-	return {
-	  _ops::path_sub_commands(*this, cmd_start, cmds_to_delete, cmds, crds),
-	  _self()};
+        return {
+          _ops::path_sub_commands(*this, cmd_start, cmds_to_delete, cmds, crds),
+          _self()};
     }
 
     template <typename T>
-    outcome<Derived&> sub_commands(GLsizei cmd_start,
+    outcome<Derived&> sub_commands(
+      GLsizei cmd_start,
       GLsizei cmds_to_delete,
       const path_nv_spec<T>& spec) noexcept {
-	return {_ops::path_sub_commands(*this, cmd_start, cmds_to_delete, spec),
-	  _self()};
+        return {_ops::path_sub_commands(*this, cmd_start, cmds_to_delete, spec),
+                _self()};
     }
 
     template <typename T>
     outcome<Derived&> coords(span<const T> crds) noexcept {
-	return {_ops::path_coords(*this, crds), _self()};
+        return {_ops::path_coords(*this, crds), _self()};
     }
 
     outcome<Derived&> string(
       path_format_nv format, span<const char> path_str) noexcept {
-	return {_ops::path_string(*this, format, path_str), _self()};
+        return {_ops::path_string(*this, format, path_str), _self()};
     }
 
     outcome<Derived&> svg_string(span<const char> path_str) noexcept {
-	return {_ops::path_svg_string(*this, path_str), _self()};
+        return {_ops::path_svg_string(*this, path_str), _self()};
     }
 
     outcome<Derived&> ps_string(span<const char> path_str) noexcept {
-	return {_ops::path_ps_string(*this, path_str), _self()};
+        return {_ops::path_ps_string(*this, path_str), _self()};
     }
 
     outcome<boolean> is_point_in_fill(
       GLuint mask, GLfloat x, GLfloat y) noexcept {
-	return _ops::is_point_in_fill_path(*this, mask, x, y);
+        return _ops::is_point_in_fill_path(*this, mask, x, y);
     }
 
     outcome<boolean> is_point_in_stroke(GLfloat x, GLfloat y) noexcept {
-	return _ops::is_point_in_stroke_path(*this, x, y);
+        return _ops::is_point_in_stroke_path(*this, x, y);
     }
 
     outcome<GLfloat> get_length(GLsizei start_seg, GLsizei num_segs) noexcept {
-	return _ops::get_path_length(*this, start_seg, num_segs);
+        return _ops::get_path_length(*this, start_seg, num_segs);
     }
 
-    outcome<boolean> point_along(GLsizei start_seg,
+    outcome<boolean> point_along(
+      GLsizei start_seg,
       GLsizei num_segs,
       GLfloat distance,
       GLfloat& ref_x,
       GLfloat& ref_y,
       GLfloat& ref_tg_x,
       GLfloat& ref_tg_y) noexcept {
-	return _ops::point_along_path(*this,
-	  start_seg,
-	  num_segs,
-	  distance,
-	  ref_x,
-	  ref_y,
-	  ref_tg_x,
-	  ref_tg_y);
+        return _ops::point_along_path(
+          *this,
+          start_seg,
+          num_segs,
+          distance,
+          ref_x,
+          ref_y,
+          ref_tg_x,
+          ref_tg_y);
     }
 
     outcome<Derived&> stencil_fill(
       path_fill_mode_nv mode, GLuint mask) noexcept {
-	return {_ops::stencil_fill_path(*this, mode, mask), _self()};
+        return {_ops::stencil_fill_path(*this, mode, mask), _self()};
     }
 
     outcome<Derived&> cover_fill(path_fill_cover_mode_nv mode) noexcept {
-	return {_ops::cover_fill_path(*this, mode), _self()};
+        return {_ops::cover_fill_path(*this, mode), _self()};
     }
 
     outcome<Derived&> stencil_stroke(GLint ref, GLuint mask) noexcept {
-	return {_ops::stencil_stroke_path(*this, ref, mask), _self()};
+        return {_ops::stencil_stroke_path(*this, ref, mask), _self()};
     }
 
     outcome<Derived&> cover_stroke(path_stroke_cover_mode_nv mode) noexcept {
-	return {_ops::cover_stroke_path(*this, mode), _self()};
+        return {_ops::cover_stroke_path(*this, mode), _self()};
     }
 
     outcome<GLfloat> get_computed_length(void) const noexcept {
-	return _ops::get_path_computed_length(*this);
+        return _ops::get_path_computed_length(*this);
     }
 
     outcome<Derived&> stroke_width(GLfloat value) noexcept {
-	return {_ops::path_stroke_width(*this, value), _self()};
+        return {_ops::path_stroke_width(*this, value), _self()};
     }
 
     outcome<GLfloat> get_stroke_width(void) const noexcept {
-	return _ops::get_path_stroke_width(*this);
+        return _ops::get_path_stroke_width(*this);
     }
 
     outcome<Derived&> miter_limit(GLfloat value) noexcept {
-	return {_ops::path_miter_limit(*this, value), _self()};
+        return {_ops::path_miter_limit(*this, value), _self()};
     }
 
     outcome<GLfloat> get_miter_limit(void) const noexcept {
-	return _ops::get_path_miter_limit(*this);
+        return _ops::get_path_miter_limit(*this);
     }
 
     outcome<Derived&> join_style(path_join_style_nv value) noexcept {
-	return {_ops::path_join_style(*this, value), _self()};
+        return {_ops::path_join_style(*this, value), _self()};
     }
 
     outcome<path_join_style_nv> get_join_style(void) noexcept {
-	return _ops::get_path_join_style(*this);
+        return _ops::get_path_join_style(*this);
     }
 
     outcome<Derived&> initial_end_cap(path_cap_style_nv value) noexcept {
-	return {_ops::path_initial_end_cap(*this, value), _self()};
+        return {_ops::path_initial_end_cap(*this, value), _self()};
     }
 
     outcome<path_cap_style_nv> get_initial_end_cap(void) noexcept {
-	return _ops::get_path_initial_end_cap(*this);
+        return _ops::get_path_initial_end_cap(*this);
     }
 
     outcome<Derived&> terminal_end_cap(path_cap_style_nv value) noexcept {
-	return {_ops::path_terminal_end_cap(*this, value), _self()};
+        return {_ops::path_terminal_end_cap(*this, value), _self()};
     }
 
     outcome<path_cap_style_nv> get_terminal_end_cap(void) noexcept {
-	return _ops::get_path_terminal_end_cap(*this);
+        return _ops::get_path_terminal_end_cap(*this);
     }
 
     outcome<Derived&> initial_dash_cap(path_cap_style_nv value) noexcept {
-	return {_ops::path_initial_dash_cap(*this, value), _self()};
+        return {_ops::path_initial_dash_cap(*this, value), _self()};
     }
 
     outcome<path_cap_style_nv> get_initial_dash_cap(void) noexcept {
-	return _ops::get_path_initial_dash_cap(*this);
+        return _ops::get_path_initial_dash_cap(*this);
     }
 
     outcome<Derived&> terminal_dash_cap(path_cap_style_nv value) noexcept {
-	return {_ops::path_terminal_dash_cap(*this, value), _self()};
+        return {_ops::path_terminal_dash_cap(*this, value), _self()};
     }
 
     outcome<path_cap_style_nv> get_terminal_dash_cap(void) noexcept {
-	return _ops::get_path_terminal_dash_cap(*this);
+        return _ops::get_path_terminal_dash_cap(*this);
     }
 
     outcome<Derived&> dash_offset(GLfloat value) noexcept {
-	return {_ops::path_dash_offset(*this, value), _self()};
+        return {_ops::path_dash_offset(*this, value), _self()};
     }
 
     outcome<GLfloat> get_dash_offset(void) const noexcept {
-	return _ops::get_path_dash_offset(*this);
+        return _ops::get_path_dash_offset(*this);
     }
 
     outcome<Derived&> dash_offset_reset(
       path_dash_offset_reset_nv value) noexcept {
-	return {_ops::path_dash_offset_reset(*this, value), _self()};
+        return {_ops::path_dash_offset_reset(*this, value), _self()};
     }
 
     outcome<path_dash_offset_reset_nv> get_dash_offset_reset(void) noexcept {
-	return _ops::get_path_dash_offset_reset(*this);
+        return _ops::get_path_dash_offset_reset(*this);
     }
 
     outcome<Derived&> dash_array(span<const GLfloat> dshs) noexcept {
-	return {_ops::path_dash_array(*this, dshs), _self()};
+        return {_ops::path_dash_array(*this, dshs), _self()};
     }
 
     template <typename... T>
     outcome<Derived&> dashes(T... dshs) noexcept {
-	const std::size_t N = sizeof...(T);
-	const GLfloat da[N] = {GLfloat(dshs)...};
-	return dash_array(da);
+        const std::size_t N = sizeof...(T);
+        const GLfloat da[N] = {GLfloat(dshs)...};
+        return dash_array(da);
     }
 
     outcome<Derived&> copy_from(path_nv_name src_path) noexcept {
-	return {_ops::copy_path(*this, src_path), _self()};
+        return {_ops::copy_path(*this, src_path), _self()};
     }
 
     outcome<Derived&> interpolate_from(
       path_nv_name path_a, path_nv_name path_b, GLfloat weight) noexcept {
-	return {_ops::interpolate_path(*this, path_a, path_b, weight), _self()};
+        return {_ops::interpolate_path(*this, path_a, path_b, weight), _self()};
     }
 
-    outcome<Derived&> transform_from(path_nv_name src_path,
+    outcome<Derived&> transform_from(
+      path_nv_name src_path,
       path_transform_type_nv transform_type,
       span<const GLfloat> transform_values) noexcept {
-	return {_ops::transform_path(
-		  *this, src_path, transform_type, transform_values),
-	  _self()};
+        return {_ops::transform_path(
+                  *this, src_path, transform_type, transform_values),
+                _self()};
     }
 };
 
 template <>
 struct obj_dsa_ops<tag::path_nv>
-  : obj_member_ops<tag::path_nv,
+  : obj_member_ops<
+      tag::path_nv,
       obj_dsa_ops<tag::path_nv>,
       obj_zero_dsa_ops<tag::path_nv>> {
-    using obj_member_ops<tag::path_nv,
+    using obj_member_ops<
+      tag::path_nv,
       obj_dsa_ops<tag::path_nv>,
       obj_zero_dsa_ops<tag::path_nv>>::obj_member_ops;
 };

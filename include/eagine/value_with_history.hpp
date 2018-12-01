@@ -10,9 +10,9 @@
 #ifndef EAGINE_VALUE_WITH_HISTORY_1509260923_HPP
 #define EAGINE_VALUE_WITH_HISTORY_1509260923_HPP
 
+#include <cmath>
 #include "std/utility.hpp"
 #include "valid_if/decl.hpp"
-#include <cmath>
 
 namespace eagine {
 
@@ -61,29 +61,29 @@ public:
     }
 
     value_with_history_storage(const T& initial) noexcept {
-	for(std::size_t i = 0; i < N; ++i) {
-	    _values[i] = initial;
-	}
+        for(std::size_t i = 0; i < N; ++i) {
+            _values[i] = initial;
+        }
     }
 
     constexpr inline const T& get(std::size_t i) const noexcept {
-	return _values[i];
+        return _values[i];
     }
 
     inline void set(std::size_t i, const T& value) noexcept {
-	_values[i] = value;
+        _values[i] = value;
     }
 
     void make_history(void) noexcept {
-	for(std::size_t i = 1; i < N; ++i) {
-	    _values[N - i] = _values[N - i - 1];
-	}
+        for(std::size_t i = 1; i < N; ++i) {
+            _values[N - i] = _values[N - i - 1];
+        }
     }
 
     void sync(void) noexcept {
-	for(std::size_t i = 1; i < N; ++i) {
-	    _values[i] = _values[0];
-	}
+        for(std::size_t i = 1; i < N; ++i) {
+            _values[i] = _values[0];
+        }
     }
 };
 
@@ -91,13 +91,13 @@ template <typename Transform, typename... T, std::size_t N>
 static inline auto
 transform_stored_values(
   Transform transform_op, const value_with_history_storage<T, N>&... v) {
-    value_with_history_storage<decltype(std::declval<Transform>()(
-				 std::declval<T>()...)),
+    value_with_history_storage<
+      decltype(std::declval<Transform>()(std::declval<T>()...)),
       N>
       result;
 
     for(std::size_t i = 0; i < N; ++i) {
-	result.set(i, transform_op(v.get(i)...));
+        result.set(i, transform_op(v.get(i)...));
     }
     return result;
 }
@@ -106,13 +106,13 @@ template <typename Delta, typename T, std::size_t N>
 static inline auto
 differentiate_stored_values(
   Delta delta_op, const value_with_history_storage<T, N>& v) {
-    value_with_history_storage<decltype(std::declval<Delta>()(
-				 std::declval<T>(), std::declval<T>())),
+    value_with_history_storage<
+      decltype(std::declval<Delta>()(std::declval<T>(), std::declval<T>())),
       N - 1>
       result;
 
     for(std::size_t i = 1; i < N; ++i) {
-	result.set(i - 1, delta_op(v.get(i - 1), v.get(i)));
+        result.set(i - 1, delta_op(v.get(i - 1), v.get(i)));
     }
     return result;
 }
@@ -131,23 +131,23 @@ private:
 
 protected:
     value_with_history_storage<T, N>& values(void) noexcept {
-	return _values;
+        return _values;
     }
 
     bool _update_value(const T& new_value) noexcept {
-	values().make_history();
+        values().make_history();
 
-	if(value_with_history_changed(values().get(0), new_value)) {
-	    values().set(0, new_value);
-	    return true;
-	}
-	return false;
+        if(value_with_history_changed(values().get(0), new_value)) {
+            values().set(0, new_value);
+            return true;
+        }
+        return false;
     }
 
     bool _advance_value(const T& delta_value) noexcept {
-	values().make_history();
-	values().set(0, values().get(0) + delta_value);
-	return true;
+        values().make_history();
+        values().set(0, values().get(0) + delta_value);
+        return true;
     }
 
     value_with_history(void) = default;
@@ -168,75 +168,76 @@ public:
     }
 
     const value_with_history_storage<T, N>& values(void) const noexcept {
-	return _values;
+        return _values;
     }
 
     auto get(void) const noexcept {
-	return values().get(0);
+        return values().get(0);
     }
 
     auto value(void) const noexcept {
-	return values().get(0);
+        return values().get(0);
     }
 
     auto old_value(void) const noexcept {
-	return values().get(1);
+        return values().get(1);
     }
 
     auto value(bool old) const noexcept {
-	return old ? old_value() : value();
+        return old ? old_value() : value();
     }
 
     operator T(void) const noexcept {
-	return value();
+        return value();
     }
 
     template <typename U, typename... P>
     operator valid_if<U, P...>(void) const noexcept {
-	return {U(value())};
+        return {U(value())};
     }
 
     auto delta(void) const noexcept {
-	return value_with_history_delta(value(), old_value());
+        return value_with_history_delta(value(), old_value());
     }
 
     auto deltas(void) const noexcept {
-	return value_with_history<decltype(delta()), N - 1>(
-	  differentiate_stored_values(
-	    [](const T& n, const T& o) {
-		return value_with_history_delta(n, o);
-	    },
-	    values()));
+        return value_with_history<decltype(delta()), N - 1>(
+          differentiate_stored_values(
+            [](const T& n, const T& o) {
+                return value_with_history_delta(n, o);
+            },
+            values()));
     }
 
     auto distance(void) const noexcept {
-	return value_with_history_distance(value(), old_value());
+        return value_with_history_distance(value(), old_value());
     }
 
     bool changed(void) const noexcept {
-	return value_with_history_changed(old_value(), value());
+        return value_with_history_changed(old_value(), value());
     }
 
     template <typename U>
     auto as(void) const {
-	return value_with_history<U, N>(convert_stored_values<U>(values()));
+        return value_with_history<U, N>(convert_stored_values<U>(values()));
     }
 
     void sync(void) {
-	this->values().sync();
+        this->values().sync();
     }
 };
 
 template <typename Transform, typename... T, std::size_t N>
 static inline auto
 transform(Transform transform_op, const value_with_history<T, N>&... v) {
-    return value_with_history<decltype(std::declval<Transform>()(
-				std::declval<T>()...)),
+    return value_with_history<
+      decltype(std::declval<Transform>()(std::declval<T>()...)),
       N>(transform_stored_values(transform_op, v.values()...));
 }
 
 template <typename T1, typename T2, std::size_t N>
-static inline auto operator*(const value_with_history<T1, N>& v1,
+static inline auto operator*(
+  const value_with_history<T1, N>& v1,
   const value_with_history<T2, N>& v2) noexcept {
     return transform(
       [](const T1& t1, const T2& t2) { return t1 * t2; }, v1, v2);
@@ -244,7 +245,8 @@ static inline auto operator*(const value_with_history<T1, N>& v1,
 
 template <typename T1, typename T2, std::size_t N>
 static inline auto
-operator/(const value_with_history<T1, N>& v1,
+operator/(
+  const value_with_history<T1, N>& v1,
   const value_with_history<T2, N>& v2) noexcept {
     return transform(
       [](const T1& t1, const T2& t2) { return t1 / t2; }, v1, v2);
@@ -258,11 +260,11 @@ public:
     }
 
     bool assign(const T& new_value) {
-	return this->_update_value(new_value);
+        return this->_update_value(new_value);
     }
 
     bool advance(const T& delta_value) {
-	return this->_advance_value(delta_value);
+        return this->_advance_value(delta_value);
     }
 };
 
@@ -276,11 +278,11 @@ public:
     }
 
     bool assign(const valid_if<T, P...>& new_value) {
-	return this->_update_value(new_value.value());
+        return this->_update_value(new_value.value());
     }
 
     bool advance(const valid_if<T, P...>& delta_value) {
-	return this->_advance_value(delta_value.value());
+        return this->_advance_value(delta_value.value());
     }
 };
 

@@ -75,14 +75,14 @@ unit_icosahedron_gen::positions(const span<float>& dest) noexcept {
     const float ns = -1.f;
 
     for(int p = 0; p < 3; ++p) {
-	for(int v = 0; v < 4; ++v) {
-	    const float sv[3] = {
-	      0.f, v % 2 == 0 ? ns : ps, v / 2 == 0 ? ns : ps};
-	    for(int c = 0; c < 3; ++c) {
-		span_size_t qci = qi[p][c];
-		dest[k++] = float(sv[qci] * q[qci]);
-	    }
-	}
+        for(int v = 0; v < 4; ++v) {
+            const float sv[3] = {
+              0.f, v % 2 == 0 ? ns : ps, v / 2 == 0 ? ns : ps};
+            for(int c = 0; c < 3; ++c) {
+                span_size_t qci = qi[p][c];
+                dest[k++] = float(sv[qci] * q[qci]);
+            }
+        }
     }
 
     assert(k == vertex_count() * 3);
@@ -92,17 +92,17 @@ void
 unit_icosahedron_gen::attrib_values(
   vertex_attrib_kind attr, const span<float>& dest) {
     switch(attr) {
-	case vertex_attrib_kind::position:
-	    positions(dest);
-	    break;
-	case vertex_attrib_kind::normal:
-	case vertex_attrib_kind::tangential:
-	case vertex_attrib_kind::bitangential:
-	case vertex_attrib_kind::face_coord:
-	case vertex_attrib_kind::wrap_coord:
-	case vertex_attrib_kind::box_coord:
-	    _base::attrib_values(attr, dest);
-	    break;
+        case vertex_attrib_kind::position:
+            positions(dest);
+            break;
+        case vertex_attrib_kind::normal:
+        case vertex_attrib_kind::tangential:
+        case vertex_attrib_kind::bitangential:
+        case vertex_attrib_kind::face_coord:
+        case vertex_attrib_kind::wrap_coord:
+        case vertex_attrib_kind::box_coord:
+            _base::attrib_values(attr, dest);
+            break;
     }
 }
 //------------------------------------------------------------------------------

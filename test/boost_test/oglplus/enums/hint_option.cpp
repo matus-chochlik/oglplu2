@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_hint_option
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_hint_option_tests)
 
@@ -81,28 +81,28 @@ BOOST_AUTO_TEST_CASE(enum_hint_option_range) {
 
 #ifdef GL_DONT_CARE
     {
-	--count;
-	auto r = enum_value_range<hint_option>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), hint_option(GL_DONT_CARE)) != r.end());
+        --count;
+        auto r = enum_value_range<hint_option>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), hint_option(GL_DONT_CARE)) != r.end());
     }
 #endif
 
 #ifdef GL_FASTEST
     {
-	--count;
-	auto r = enum_value_range<hint_option>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), hint_option(GL_FASTEST)) != r.end());
+        --count;
+        auto r = enum_value_range<hint_option>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), hint_option(GL_FASTEST)) != r.end());
     }
 #endif
 
 #ifdef GL_NICEST
     {
-	--count;
-	auto r = enum_value_range<hint_option>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), hint_option(GL_NICEST)) != r.end());
+        --count;
+        auto r = enum_value_range<hint_option>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), hint_option(GL_NICEST)) != r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

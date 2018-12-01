@@ -76,7 +76,8 @@ oglplus_framebuffer_test_ops1(void) {
     gl.clear_buffer(fbb, 1, span<GLuint>());
     gl.clear_buffer(fbb, 2, span<GLfloat>());
     gl.clear_buffer(fbb, 3, 1.0f, 0);
-    gl.blit_framebuffer(0,
+    gl.blit_framebuffer(
+      0,
       0,
       128,
       128,
@@ -99,7 +100,8 @@ oglplus_framebuffer_test_ops1(void) {
     gl.clear_framebuffer(fbo, fbb, 2, span<GLfloat>());
     gl.clear_framebuffer(fbo, fbb, 3, 1.0f, 0);
     gl.invalidate_framebuffer_data(fbo, attchs);
-    gl.blit_framebuffer(fbos[1],
+    gl.blit_framebuffer(
+      fbos[1],
       fbos[2],
       0,
       0,
@@ -126,8 +128,8 @@ oglplus_framebuffer_test_ops1(void) {
 #endif
     curfbo.texture_2d(attch, textgt2, tex, 0);
 
-#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access) \
-  || defined(GL_EXT_direct_state_access)
+#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access) || \
+  defined(GL_EXT_direct_state_access)
 
     gl.check_framebuffer_status(fbo, tgt);
     gl.is_framebuffer_complete(fbo, tgt);
@@ -145,16 +147,16 @@ oglplus_framebuffer_test_ops1(void) {
     gl.framebuffer_texture(fbo, attch, tex, 0);
 #endif
 
-#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access) \
-  || defined(GL_EXT_direct_state_access)
+#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access) || \
+  defined(GL_EXT_direct_state_access)
     gl.framebuffer_texture_layer(fbo, attch, tex, 0, 1);
     gl.framebuffer_texture(fbo, attch, tex, 0);
 #endif
 
     gl.framebuffer_draw_buffer(fbo, cattch);
     gl.framebuffer_read_buffer(fbo, cattch);
-#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access) \
-  || defined(GL_EXT_direct_state_access)
+#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access) || \
+  defined(GL_EXT_direct_state_access)
     gl.framebuffer_draw_buffers(fbo, attchs);
 #endif
 

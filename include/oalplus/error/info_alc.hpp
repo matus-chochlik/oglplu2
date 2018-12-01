@@ -31,7 +31,7 @@ public:
     }
 
     constexpr error_info_alc& no_info(void) noexcept {
-	return *this;
+        return *this;
     }
 
     error_info_alc& alc_device(::ALCdevice* dev) noexcept;

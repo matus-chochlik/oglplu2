@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_buffer_usage
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_buffer_usage_tests)
 
@@ -246,82 +246,91 @@ BOOST_AUTO_TEST_CASE(enum_buffer_usage_range) {
 
 #ifdef GL_DYNAMIC_COPY
     {
-	--count;
-	auto r = enum_value_range<buffer_usage>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), buffer_usage(GL_DYNAMIC_COPY))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<buffer_usage>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), buffer_usage(GL_DYNAMIC_COPY)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_DYNAMIC_DRAW
     {
-	--count;
-	auto r = enum_value_range<buffer_usage>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), buffer_usage(GL_DYNAMIC_DRAW))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<buffer_usage>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), buffer_usage(GL_DYNAMIC_DRAW)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_DYNAMIC_READ
     {
-	--count;
-	auto r = enum_value_range<buffer_usage>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), buffer_usage(GL_DYNAMIC_READ))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<buffer_usage>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), buffer_usage(GL_DYNAMIC_READ)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_STATIC_COPY
     {
-	--count;
-	auto r = enum_value_range<buffer_usage>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), buffer_usage(GL_STATIC_COPY))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<buffer_usage>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), buffer_usage(GL_STATIC_COPY)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_STATIC_DRAW
     {
-	--count;
-	auto r = enum_value_range<buffer_usage>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), buffer_usage(GL_STATIC_DRAW))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<buffer_usage>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), buffer_usage(GL_STATIC_DRAW)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_STATIC_READ
     {
-	--count;
-	auto r = enum_value_range<buffer_usage>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), buffer_usage(GL_STATIC_READ))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<buffer_usage>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), buffer_usage(GL_STATIC_READ)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_STREAM_COPY
     {
-	--count;
-	auto r = enum_value_range<buffer_usage>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), buffer_usage(GL_STREAM_COPY))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<buffer_usage>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), buffer_usage(GL_STREAM_COPY)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_STREAM_DRAW
     {
-	--count;
-	auto r = enum_value_range<buffer_usage>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), buffer_usage(GL_STREAM_DRAW))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<buffer_usage>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), buffer_usage(GL_STREAM_DRAW)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_STREAM_READ
     {
-	--count;
-	auto r = enum_value_range<buffer_usage>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), buffer_usage(GL_STREAM_READ))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<buffer_usage>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), buffer_usage(GL_STREAM_READ)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

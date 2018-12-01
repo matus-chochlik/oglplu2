@@ -10,9 +10,9 @@
 #ifndef EAGINE_SHAPES_TRANSLATED_1509260923_HPP
 #define EAGINE_SHAPES_TRANSLATED_1509260923_HPP
 
-#include "delegated.hpp"
 #include <array>
 #include <eagine/config/basic.hpp>
+#include "delegated.hpp"
 
 namespace eagine {
 namespace shapes {
@@ -22,7 +22,8 @@ private:
     std::array<float, 3> _d;
 
 public:
-    translated_gen(std::unique_ptr<generator_intf>&& gen,
+    translated_gen(
+      std::unique_ptr<generator_intf>&& gen,
       float dx,
       float dy,
       float dz) noexcept
@@ -32,15 +33,15 @@ public:
 
     void attrib_values(
       vertex_attrib_kind attr, const span<float>& dest) override {
-	delegated_gen::attrib_values(attr, dest);
+        delegated_gen::attrib_values(attr, dest);
 
-	if(attr == vertex_attrib_kind::position) {
-	    for(span_size_t v = 0, n = vertex_count(); v < n; ++v)
-		for(span_size_t c = 0, m = values_per_vertex(attr); c < m;
-		    ++c) {
-		    dest[v * m + c] += _d[c];
-		}
-	}
+        if(attr == vertex_attrib_kind::position) {
+            for(span_size_t v = 0, n = vertex_count(); v < n; ++v)
+                for(span_size_t c = 0, m = values_per_vertex(attr); c < m;
+                    ++c) {
+                    dest[v * m + c] += _d[c];
+                }
+        }
     }
 };
 

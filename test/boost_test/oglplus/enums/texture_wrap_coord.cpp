@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_texture_wrap_coord
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_texture_wrap_coord_tests)
 
@@ -81,31 +81,34 @@ BOOST_AUTO_TEST_CASE(enum_texture_wrap_coord_range) {
 
 #ifdef GL_TEXTURE_WRAP_R
     {
-	--count;
-	auto r = enum_value_range<texture_wrap_coord>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), texture_wrap_coord(GL_TEXTURE_WRAP_R))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_wrap_coord>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), texture_wrap_coord(GL_TEXTURE_WRAP_R)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_WRAP_S
     {
-	--count;
-	auto r = enum_value_range<texture_wrap_coord>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), texture_wrap_coord(GL_TEXTURE_WRAP_S))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_wrap_coord>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), texture_wrap_coord(GL_TEXTURE_WRAP_S)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TEXTURE_WRAP_T
     {
-	--count;
-	auto r = enum_value_range<texture_wrap_coord>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), texture_wrap_coord(GL_TEXTURE_WRAP_T))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<texture_wrap_coord>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), texture_wrap_coord(GL_TEXTURE_WRAP_T)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

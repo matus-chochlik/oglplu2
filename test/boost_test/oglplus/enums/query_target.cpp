@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_query_target
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_query_target_tests)
 
@@ -713,56 +713,57 @@ BOOST_AUTO_TEST_CASE(enum_query_target_names) {
     x = ev.any_samples_passed_conservative;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "ANY_SAMPLES_PASSED_CONSERVATIVE")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "ANY_SAMPLES_PASSED_CONSERVATIVE") == 0);
 #endif
 
 #ifdef GL_CLIPPING_INPUT_PRIMITIVES_ARB
     x = ev.clipping_input_primitives;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "CLIPPING_INPUT_PRIMITIVES_ARB")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "CLIPPING_INPUT_PRIMITIVES_ARB") ==
+      0);
 #endif
 
 #ifdef GL_CLIPPING_OUTPUT_PRIMITIVES_ARB
     x = ev.clipping_output_primitives;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "CLIPPING_OUTPUT_PRIMITIVES_ARB")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "CLIPPING_OUTPUT_PRIMITIVES_ARB") == 0);
 #endif
 
 #ifdef GL_COMPUTE_SHADER_INVOCATIONS_ARB
     x = ev.compute_shader_invocations;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "COMPUTE_SHADER_INVOCATIONS_ARB")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "COMPUTE_SHADER_INVOCATIONS_ARB") == 0);
 #endif
 
 #ifdef GL_FRAGMENT_SHADER_INVOCATIONS_ARB
     x = ev.fragment_shader_invocations;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "FRAGMENT_SHADER_INVOCATIONS_ARB")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "FRAGMENT_SHADER_INVOCATIONS_ARB") == 0);
 #endif
 
 #ifdef GL_GEOMETRY_SHADER_INVOCATIONS
     x = ev.geometry_shader_invocations;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "GEOMETRY_SHADER_INVOCATIONS")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "GEOMETRY_SHADER_INVOCATIONS") ==
+      0);
 #endif
 
 #ifdef GL_GEOMETRY_SHADER_PRIMITIVES_EMITTED_ARB
     x = ev.geometry_shader_primitives_emitted;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-    BOOST_CHECK(std::strcmp(enum_value_name(x).data(),
-		  "GEOMETRY_SHADER_PRIMITIVES_EMITTED_ARB")
-		== 0);
+    BOOST_CHECK(
+      std::strcmp(
+        enum_value_name(x).data(), "GEOMETRY_SHADER_PRIMITIVES_EMITTED_ARB") ==
+      0);
 #endif
 
 #ifdef GL_PRIMITIVES_GENERATED
@@ -789,16 +790,17 @@ BOOST_AUTO_TEST_CASE(enum_query_target_names) {
     x = ev.tess_control_shader_patches;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "TESS_CONTROL_SHADER_PATCHES_ARB")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "TESS_CONTROL_SHADER_PATCHES_ARB") == 0);
 #endif
 
 #ifdef GL_TESS_EVALUATION_SHADER_INVOCATIONS_ARB
     x = ev.tess_evaluation_shader_invocations;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-    BOOST_CHECK(std::strcmp(enum_value_name(x).data(),
-		  "TESS_EVALUATION_SHADER_INVOCATIONS_ARB")
-		== 0);
+    BOOST_CHECK(
+      std::strcmp(
+        enum_value_name(x).data(), "TESS_EVALUATION_SHADER_INVOCATIONS_ARB") ==
+      0);
 #endif
 
 #ifdef GL_TIME_ELAPSED
@@ -817,32 +819,34 @@ BOOST_AUTO_TEST_CASE(enum_query_target_names) {
     x = ev.transform_feedback_overflow;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "TRANSFORM_FEEDBACK_OVERFLOW_ARB")
-      == 0);
+      std::strcmp(
+        enum_value_name(x).data(), "TRANSFORM_FEEDBACK_OVERFLOW_ARB") == 0);
 #endif
 
 #ifdef GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN
     x = ev.transform_feedback_primitives_written;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-    BOOST_CHECK(std::strcmp(enum_value_name(x).data(),
-		  "TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN")
-		== 0);
+    BOOST_CHECK(
+      std::strcmp(
+        enum_value_name(x).data(), "TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN") ==
+      0);
 #endif
 
 #ifdef GL_TRANSFORM_FEEDBACK_STREAM_OVERFLOW_ARB
     x = ev.transform_feedback_stream_overflow;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
-    BOOST_CHECK(std::strcmp(enum_value_name(x).data(),
-		  "TRANSFORM_FEEDBACK_STREAM_OVERFLOW_ARB")
-		== 0);
+    BOOST_CHECK(
+      std::strcmp(
+        enum_value_name(x).data(), "TRANSFORM_FEEDBACK_STREAM_OVERFLOW_ARB") ==
+      0);
 #endif
 
 #ifdef GL_VERTEX_SHADER_INVOCATIONS_ARB
     x = ev.vertex_shader_invocations;
     BOOST_ASSERT(enum_value_name(x).data() != nullptr);
     BOOST_CHECK(
-      std::strcmp(enum_value_name(x).data(), "VERTEX_SHADER_INVOCATIONS_ARB")
-      == 0);
+      std::strcmp(enum_value_name(x).data(), "VERTEX_SHADER_INVOCATIONS_ARB") ==
+      0);
 #endif
 
 #ifdef GL_VERTICES_SUBMITTED_ARB
@@ -859,213 +863,231 @@ BOOST_AUTO_TEST_CASE(enum_query_target_range) {
 
 #ifdef GL_ANY_SAMPLES_PASSED
     {
-	--count;
-	auto r = enum_value_range<query_target>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), query_target(GL_ANY_SAMPLES_PASSED))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<query_target>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), query_target(GL_ANY_SAMPLES_PASSED)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_ANY_SAMPLES_PASSED_CONSERVATIVE
     {
-	--count;
-	auto r = enum_value_range<query_target>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      query_target(GL_ANY_SAMPLES_PASSED_CONSERVATIVE))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<query_target>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            query_target(GL_ANY_SAMPLES_PASSED_CONSERVATIVE)) != r.end());
     }
 #endif
 
 #ifdef GL_CLIPPING_INPUT_PRIMITIVES_ARB
     {
-	--count;
-	auto r = enum_value_range<query_target>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), query_target(GL_CLIPPING_INPUT_PRIMITIVES_ARB))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<query_target>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            query_target(GL_CLIPPING_INPUT_PRIMITIVES_ARB)) != r.end());
     }
 #endif
 
 #ifdef GL_CLIPPING_OUTPUT_PRIMITIVES_ARB
     {
-	--count;
-	auto r = enum_value_range<query_target>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), query_target(GL_CLIPPING_OUTPUT_PRIMITIVES_ARB))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<query_target>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            query_target(GL_CLIPPING_OUTPUT_PRIMITIVES_ARB)) != r.end());
     }
 #endif
 
 #ifdef GL_COMPUTE_SHADER_INVOCATIONS_ARB
     {
-	--count;
-	auto r = enum_value_range<query_target>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), query_target(GL_COMPUTE_SHADER_INVOCATIONS_ARB))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<query_target>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            query_target(GL_COMPUTE_SHADER_INVOCATIONS_ARB)) != r.end());
     }
 #endif
 
 #ifdef GL_FRAGMENT_SHADER_INVOCATIONS_ARB
     {
-	--count;
-	auto r = enum_value_range<query_target>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      query_target(GL_FRAGMENT_SHADER_INVOCATIONS_ARB))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<query_target>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            query_target(GL_FRAGMENT_SHADER_INVOCATIONS_ARB)) != r.end());
     }
 #endif
 
 #ifdef GL_GEOMETRY_SHADER_INVOCATIONS
     {
-	--count;
-	auto r = enum_value_range<query_target>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), query_target(GL_GEOMETRY_SHADER_INVOCATIONS))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<query_target>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), query_target(GL_GEOMETRY_SHADER_INVOCATIONS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_GEOMETRY_SHADER_PRIMITIVES_EMITTED_ARB
     {
-	--count;
-	auto r = enum_value_range<query_target>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      query_target(GL_GEOMETRY_SHADER_PRIMITIVES_EMITTED_ARB))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<query_target>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            query_target(GL_GEOMETRY_SHADER_PRIMITIVES_EMITTED_ARB)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_PRIMITIVES_GENERATED
     {
-	--count;
-	auto r = enum_value_range<query_target>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), query_target(GL_PRIMITIVES_GENERATED))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<query_target>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), query_target(GL_PRIMITIVES_GENERATED)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_PRIMITIVES_SUBMITTED_ARB
     {
-	--count;
-	auto r = enum_value_range<query_target>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), query_target(GL_PRIMITIVES_SUBMITTED_ARB))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<query_target>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), query_target(GL_PRIMITIVES_SUBMITTED_ARB)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_SAMPLES_PASSED
     {
-	--count;
-	auto r = enum_value_range<query_target>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), query_target(GL_SAMPLES_PASSED))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<query_target>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), query_target(GL_SAMPLES_PASSED)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TESS_CONTROL_SHADER_PATCHES_ARB
     {
-	--count;
-	auto r = enum_value_range<query_target>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      query_target(GL_TESS_CONTROL_SHADER_PATCHES_ARB))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<query_target>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            query_target(GL_TESS_CONTROL_SHADER_PATCHES_ARB)) != r.end());
     }
 #endif
 
 #ifdef GL_TESS_EVALUATION_SHADER_INVOCATIONS_ARB
     {
-	--count;
-	auto r = enum_value_range<query_target>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      query_target(GL_TESS_EVALUATION_SHADER_INVOCATIONS_ARB))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<query_target>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            query_target(GL_TESS_EVALUATION_SHADER_INVOCATIONS_ARB)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TIME_ELAPSED
     {
-	--count;
-	auto r = enum_value_range<query_target>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), query_target(GL_TIME_ELAPSED))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<query_target>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), query_target(GL_TIME_ELAPSED)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_TIMESTAMP
     {
-	--count;
-	auto r = enum_value_range<query_target>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), query_target(GL_TIMESTAMP)) != r.end());
+        --count;
+        auto r = enum_value_range<query_target>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), query_target(GL_TIMESTAMP)) != r.end());
     }
 #endif
 
 #ifdef GL_TRANSFORM_FEEDBACK_OVERFLOW_ARB
     {
-	--count;
-	auto r = enum_value_range<query_target>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      query_target(GL_TRANSFORM_FEEDBACK_OVERFLOW_ARB))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<query_target>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            query_target(GL_TRANSFORM_FEEDBACK_OVERFLOW_ARB)) != r.end());
     }
 #endif
 
 #ifdef GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN
     {
-	--count;
-	auto r = enum_value_range<query_target>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      query_target(GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<query_target>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            query_target(GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN)) != r.end());
     }
 #endif
 
 #ifdef GL_TRANSFORM_FEEDBACK_STREAM_OVERFLOW_ARB
     {
-	--count;
-	auto r = enum_value_range<query_target>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      query_target(GL_TRANSFORM_FEEDBACK_STREAM_OVERFLOW_ARB))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<query_target>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            query_target(GL_TRANSFORM_FEEDBACK_STREAM_OVERFLOW_ARB)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_VERTEX_SHADER_INVOCATIONS_ARB
     {
-	--count;
-	auto r = enum_value_range<query_target>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), query_target(GL_VERTEX_SHADER_INVOCATIONS_ARB))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<query_target>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            query_target(GL_VERTEX_SHADER_INVOCATIONS_ARB)) != r.end());
     }
 #endif
 
 #ifdef GL_VERTICES_SUBMITTED_ARB
     {
-	--count;
-	auto r = enum_value_range<query_target>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), query_target(GL_VERTICES_SUBMITTED_ARB))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<query_target>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), query_target(GL_VERTICES_SUBMITTED_ARB)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

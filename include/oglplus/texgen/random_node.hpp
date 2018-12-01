@@ -30,7 +30,8 @@ public:
       std::ostream& out, compile_context& ctxt) override;
 };
 
-using random_node = unary_single_output_node<random_output,
+using random_node = unary_single_output_node<
+  random_output,
   decltype(random_output::seed),
   &random_output::seed>;
 

@@ -16,15 +16,14 @@
 #include "utils/boolean.hpp"
 #include "utils/gl_func.hpp"
 
-#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access) \
-  || defined(GL_EXT_direct_state_access)
+#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access) || \
+  defined(GL_EXT_direct_state_access)
 #define OGLPLUS_DSA_RENDERBUFFER 1
 #endif
 
 namespace oglplus {
 
-binding_query
-get_binding_query(renderbuffer_target tgt) noexcept;
+binding_query get_binding_query(renderbuffer_target tgt) noexcept;
 
 namespace oper {
 
@@ -35,13 +34,15 @@ struct renderbuffer_ops {
     static outcome<renderbuffer_name> renderbuffer_binding(
       renderbuffer_target target) noexcept;
 
-    static outcome<void> renderbuffer_storage(renderbuffer_target tgt,
+    static outcome<void> renderbuffer_storage(
+      renderbuffer_target tgt,
       pixel_data_internal_format ifmt,
       GLsizei width,
       GLsizei height) noexcept;
 
 #ifdef OGLPLUS_DSA_RENDERBUFFER
-    static outcome<void> renderbuffer_storage(renderbuffer_name rbo,
+    static outcome<void> renderbuffer_storage(
+      renderbuffer_name rbo,
       pixel_data_internal_format ifmt,
       GLsizei width,
       GLsizei height) noexcept;
@@ -54,19 +55,22 @@ struct renderbuffer_ops {
       GLsizei height) noexcept;
 
 #ifdef OGLPLUS_DSA_RENDERBUFFER
-    static outcome<void> renderbuffer_storage_multisample(renderbuffer_name rbo,
+    static outcome<void> renderbuffer_storage_multisample(
+      renderbuffer_name rbo,
       GLsizei samples,
       pixel_data_internal_format ifmt,
       GLsizei width,
       GLsizei height) noexcept;
 #endif
 
-    static outcome<void> get_renderbuffer_parameter_iv(renderbuffer_target tgt,
+    static outcome<void> get_renderbuffer_parameter_iv(
+      renderbuffer_target tgt,
       oglplus::renderbuffer_parameter param,
       span<GLint> values) noexcept;
 
 #ifdef OGLPLUS_DSA_RENDERBUFFER
-    static outcome<void> get_renderbuffer_parameter_iv(renderbuffer_name buf,
+    static outcome<void> get_renderbuffer_parameter_iv(
+      renderbuffer_name buf,
       oglplus::renderbuffer_parameter param,
       span<GLint> values) noexcept;
 #endif
@@ -117,7 +121,7 @@ template <typename Derived, typename Base>
 struct obj_member_ops<tag::renderbuffer, Derived, Base> : Base {
 private:
     Derived& _self() noexcept {
-	return *static_cast<Derived*>(this);
+        return *static_cast<Derived*>(this);
     }
 
     typedef oper::renderbuffer_ops _ops;
@@ -128,67 +132,70 @@ protected:
 public:
     outcome<Derived&> storage(
       pixel_data_internal_format ifmt, GLsizei width, GLsizei height) noexcept {
-	return {
-	  _ops::renderbuffer_storage(*this, ifmt, width, height), _self()};
+        return {_ops::renderbuffer_storage(*this, ifmt, width, height),
+                _self()};
     }
 
-    outcome<Derived&> storage_multisample(GLsizei samples,
+    outcome<Derived&> storage_multisample(
+      GLsizei samples,
       pixel_data_internal_format ifmt,
       GLsizei width,
       GLsizei height) noexcept {
-	return {_ops::renderbuffer_storage_multisample(
-		  *this, samples, ifmt, width, height),
-	  _self()};
+        return {_ops::renderbuffer_storage_multisample(
+                  *this, samples, ifmt, width, height),
+                _self()};
     }
 
     outcome<GLsizei> get_width(void) const noexcept {
-	return _ops::get_renderbuffer_width(*this);
+        return _ops::get_renderbuffer_width(*this);
     }
 
     outcome<GLsizei> get_height(void) const noexcept {
-	return _ops::get_renderbuffer_height(*this);
+        return _ops::get_renderbuffer_height(*this);
     }
 
     outcome<GLsizei> get_red_size(void) const noexcept {
-	return _ops::get_renderbuffer_red_size(*this);
+        return _ops::get_renderbuffer_red_size(*this);
     }
 
     outcome<GLsizei> get_green_size(void) const noexcept {
-	return _ops::get_renderbuffer_green_size(*this);
+        return _ops::get_renderbuffer_green_size(*this);
     }
 
     outcome<GLsizei> get_blue_size(void) const noexcept {
-	return _ops::get_renderbuffer_blue_size(*this);
+        return _ops::get_renderbuffer_blue_size(*this);
     }
 
     outcome<GLsizei> get_alpha_size(void) const noexcept {
-	return _ops::get_renderbuffer_alpha_size(*this);
+        return _ops::get_renderbuffer_alpha_size(*this);
     }
 
     outcome<GLsizei> get_depth_size(void) const noexcept {
-	return _ops::get_renderbuffer_depth_size(*this);
+        return _ops::get_renderbuffer_depth_size(*this);
     }
 
     outcome<GLsizei> get_stencil_size(void) const noexcept {
-	return _ops::get_renderbuffer_stencil_size(*this);
+        return _ops::get_renderbuffer_stencil_size(*this);
     }
 
     outcome<GLsizei> get_samples(void) const noexcept {
-	return _ops::get_renderbuffer_samples(*this);
+        return _ops::get_renderbuffer_samples(*this);
     }
 
     outcome<pixel_data_internal_format> get_internal_format(void) const
       noexcept {
-	return _ops::get_renderbuffer_internal_format(*this);
+        return _ops::get_renderbuffer_internal_format(*this);
     }
 };
 
 template <>
 struct object_binding<tag::renderbuffer>
-  : obj_member_ops<tag::renderbuffer,
+  : obj_member_ops<
+      tag::renderbuffer,
       object_binding<tag::renderbuffer>,
       renderbuffer_target> {
-    using obj_member_ops<tag::renderbuffer,
+    using obj_member_ops<
+      tag::renderbuffer,
       object_binding<tag::renderbuffer>,
       renderbuffer_target>::obj_member_ops;
 };
@@ -196,10 +203,12 @@ struct object_binding<tag::renderbuffer>
 #ifdef OGLPLUS_DSA_RENDERBUFFER
 template <>
 struct obj_dsa_ops<tag::renderbuffer>
-  : obj_member_ops<tag::renderbuffer,
+  : obj_member_ops<
+      tag::renderbuffer,
       obj_dsa_ops<tag::renderbuffer>,
       obj_zero_dsa_ops<tag::renderbuffer>> {
-    using obj_member_ops<tag::renderbuffer,
+    using obj_member_ops<
+      tag::renderbuffer,
       obj_dsa_ops<tag::renderbuffer>,
       obj_zero_dsa_ops<tag::renderbuffer>>::obj_member_ops;
 };

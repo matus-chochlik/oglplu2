@@ -66,8 +66,8 @@ oglplus_vertex_array_test_ops1(void) {
     curvao.attrib_l_format(loc, 1, data_type(GL_DOUBLE), 0);
 #endif
 
-#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access) \
-  || defined(GL_EXT_direct_state_access)
+#if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access) || \
+  defined(GL_EXT_direct_state_access)
 
     vertex_array_attrib vaa(vao, loc);
 

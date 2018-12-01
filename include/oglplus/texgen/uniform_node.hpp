@@ -29,7 +29,7 @@ public:
     void bind_location(void);
 
     uniform_location get_location(void) const {
-	return _location;
+        return _location;
     }
 
     cstr_ref type_name(void) override;
@@ -46,18 +46,18 @@ public:
     uniform_node(void);
 
     uniform_node& set_value_type(slot_data_type type) {
-	_output._value_type = type;
-	return *this;
+        _output._value_type = type;
+        return *this;
     }
 
     template <typename T>
     uniform_node& set_value_type(void) {
-	set_value_type(get_data_type_v<T>);
-	return *this;
+        set_value_type(get_data_type_v<T>);
+        return *this;
     }
 
     uniform_location get_uniform_location(void) const {
-	return _output.get_location();
+        return _output.get_location();
     }
 
     void prepare(void) override;

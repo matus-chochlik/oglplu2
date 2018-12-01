@@ -54,9 +54,9 @@ test_math_vector_dot_TNV(void) {
     T d = T(0);
 
     for(int i = 0; i < N; ++i) {
-	a[i] = rg.get<T>(0, 5000);
-	b[i] = rg.get<T>(0, 5000);
-	d += a[i] * b[i];
+        a[i] = rg.get<T>(0, 5000);
+        b[i] = rg.get<T>(0, 5000);
+        d += a[i] * b[i];
     }
 
     auto u = eagine::math::vector<T, N, V>::from(a, N);
@@ -101,8 +101,8 @@ test_math_vector_magnitude_TNV(void) {
     T m = T(0);
 
     for(int i = 0; i < N; ++i) {
-	a[i] = rg.get<T>(0, 5000);
-	m += a[i] * a[i];
+        a[i] = rg.get<T>(0, 5000);
+        m += a[i] * a[i];
     }
 
     auto v = eagine::math::vector<T, N, V>::from(a, N);

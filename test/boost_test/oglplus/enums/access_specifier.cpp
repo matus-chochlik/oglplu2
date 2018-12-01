@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_access_specifier
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_access_specifier_tests)
 
@@ -81,31 +81,31 @@ BOOST_AUTO_TEST_CASE(enum_access_specifier_range) {
 
 #ifdef GL_READ_ONLY
     {
-	--count;
-	auto r = enum_value_range<access_specifier>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), access_specifier(GL_READ_ONLY))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<access_specifier>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), access_specifier(GL_READ_ONLY)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_READ_WRITE
     {
-	--count;
-	auto r = enum_value_range<access_specifier>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), access_specifier(GL_READ_WRITE))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<access_specifier>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), access_specifier(GL_READ_WRITE)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_WRITE_ONLY
     {
-	--count;
-	auto r = enum_value_range<access_specifier>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), access_specifier(GL_WRITE_ONLY))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<access_specifier>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), access_specifier(GL_WRITE_ONLY)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

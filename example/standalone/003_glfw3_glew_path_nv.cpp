@@ -45,12 +45,12 @@ run_loop(GLFWwindow* window, int width, int height) {
     path_nv path;
 
     path.commands(path_nv_spec<GLfloat>(6, 10)
-		    .move_to(0.00f, 0.85f)
-		    .line_to(0.65f, -0.80f)
-		    .line_to(-0.85f, 0.30f)
-		    .line_to(0.85f, 0.30f)
-		    .line_to(-0.65f, -0.80f)
-		    .close());
+                    .move_to(0.00f, 0.85f)
+                    .line_to(0.65f, -0.80f)
+                    .line_to(-0.85f, 0.30f)
+                    .line_to(0.85f, 0.30f)
+                    .line_to(-0.65f, -0.80f)
+                    .close());
 
     path.stroke_width(0.01f);
     path.join_style(GL.round_nv);
@@ -69,103 +69,104 @@ run_loop(GLFWwindow* window, int width, int height) {
     int deg = 0;
 
     while(true) {
-	glfwPollEvents();
+        glfwPollEvents();
 
-	if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-	    glfwSetWindowShouldClose(window, 1);
-	    break;
-	}
+        if(glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+            glfwSetWindowShouldClose(window, 1);
+            break;
+        }
 
-	if(glfwWindowShouldClose(window)) {
-	    break;
-	}
+        if(glfwWindowShouldClose(window)) {
+            break;
+        }
 
-	int new_width, new_height;
-	glfwGetWindowSize(window, &new_width, &new_height);
+        int new_width, new_height;
+        glfwGetWindowSize(window, &new_width, &new_height);
 
-	if((width != new_width) || (height != new_height)) {
-	    width = new_width;
-	    height = new_height;
+        if((width != new_width) || (height != new_height)) {
+            width = new_width;
+            height = new_height;
 
-	    handle_resize(width, height);
-	}
+            handle_resize(width, height);
+        }
 
-	gl.clear(GL.color_buffer_bit | GL.stencil_buffer_bit);
+        gl.clear(GL.color_buffer_bit | GL.stencil_buffer_bit);
 
-	gl.matrix_mode(GL.modelview);
-	gl.load_identity();
-	gl.rotate_f(degrees_(deg++), 0, 0, 1);
+        gl.matrix_mode(GL.modelview);
+        gl.load_identity();
+        gl.rotate_f(degrees_(deg++), 0, 0, 1);
 
-	gl.color_f(0.2f, 0.2f, 1.0f);
+        gl.color_f(0.2f, 0.2f, 1.0f);
 
-	path.stencil_fill(GL.count_up_nv, 0x1F);
-	path.cover_fill(GL.bounding_box_nv);
+        path.stencil_fill(GL.count_up_nv, 0x1F);
+        path.cover_fill(GL.bounding_box_nv);
 
-	gl.color_f(0.1f, 0.1f, 0.1f);
+        gl.color_f(0.1f, 0.1f, 0.1f);
 
-	path.stencil_stroke(1, ~0u);
-	path.cover_stroke(GL.convex_hull_nv);
+        path.stencil_stroke(1, ~0u);
+        path.cover_stroke(GL.convex_hull_nv);
 
-	glfwSwapBuffers(window);
+        glfwSwapBuffers(window);
     }
 }
 
 static void
 init_and_run(void) {
     if(!glfwInit()) {
-	throw std::runtime_error("GLFW initialization error");
+        throw std::runtime_error("GLFW initialization error");
     } else {
-	auto ensure_glfw_cleanup = eagine::finally(glfwTerminate);
+        auto ensure_glfw_cleanup = eagine::finally(glfwTerminate);
 
-	glfwWindowHint(GLFW_DOUBLEBUFFER, GL_TRUE);
-	glfwWindowHint(GLFW_RED_BITS, 8);
-	glfwWindowHint(GLFW_BLUE_BITS, 8);
-	glfwWindowHint(GLFW_GREEN_BITS, 8);
-	glfwWindowHint(GLFW_ALPHA_BITS, 0);
-	glfwWindowHint(GLFW_DEPTH_BITS, 0);
-	glfwWindowHint(GLFW_STENCIL_BITS, 8);
+        glfwWindowHint(GLFW_DOUBLEBUFFER, GL_TRUE);
+        glfwWindowHint(GLFW_RED_BITS, 8);
+        glfwWindowHint(GLFW_BLUE_BITS, 8);
+        glfwWindowHint(GLFW_GREEN_BITS, 8);
+        glfwWindowHint(GLFW_ALPHA_BITS, 0);
+        glfwWindowHint(GLFW_DEPTH_BITS, 0);
+        glfwWindowHint(GLFW_STENCIL_BITS, 8);
 
-	glfwWindowHint(GLFW_SAMPLES, GLFW_DONT_CARE);
+        glfwWindowHint(GLFW_SAMPLES, GLFW_DONT_CARE);
 
-	int width = 800, height = 600;
+        int width = 800, height = 600;
 
-	GLFWwindow* window =
-	  glfwCreateWindow(width, height, "OGLplus example", NULL, NULL);
+        GLFWwindow* window =
+          glfwCreateWindow(width, height, "OGLplus example", NULL, NULL);
 
-	if(!window) {
-	    throw std::runtime_error("Error creating GLFW window");
-	} else {
-	    glfwMakeContextCurrent(window);
-	    glewExperimental = GL_TRUE;
-	    GLenum init_result = glewInit();
-	    glGetError();
-	    if(init_result != GLEW_OK) {
-		throw std::runtime_error("OpenGL/GLEW initialization error.");
-	    } else {
-		run_loop(window, width, height);
-	    }
-	}
+        if(!window) {
+            throw std::runtime_error("Error creating GLFW window");
+        } else {
+            glfwMakeContextCurrent(window);
+            glewExperimental = GL_TRUE;
+            GLenum init_result = glewInit();
+            glGetError();
+            if(init_result != GLEW_OK) {
+                throw std::runtime_error("OpenGL/GLEW initialization error.");
+            } else {
+                run_loop(window, width, height);
+            }
+        }
     }
 }
 
 int
 main(void) {
     try {
-	init_and_run();
-	return 0;
+        init_and_run();
+        return 0;
     } catch(oglplus::error& gle) {
-	oglplus::format_error(gle,
-	  "OpenGL error\n"
-	  "in GL function: %(gl_function_name)\n"
-	  "with enum parameter: %(gl_enum_value)\n"
-	  "from source file: %(source_file)\n"
-	  "%(message)",
-	  std::cerr)
-	  << std::endl;
+        oglplus::format_error(
+          gle,
+          "OpenGL error\n"
+          "in GL function: %(gl_function_name)\n"
+          "with enum parameter: %(gl_enum_value)\n"
+          "from source file: %(source_file)\n"
+          "%(message)",
+          std::cerr)
+          << std::endl;
     } catch(std::runtime_error& sre) {
-	std::cerr << "Runtime error: " << sre.what() << std::endl;
+        std::cerr << "Runtime error: " << sre.what() << std::endl;
     } catch(std::exception& se) {
-	std::cerr << "Unknown error: " << se.what() << std::endl;
+        std::cerr << "Unknown error: " << se.what() << std::endl;
     }
     return 1;
 }

@@ -40,7 +40,8 @@ blending_state::blend_equation_separate(
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_0)
 inline outcome<void>
-blending_state::blend_equation_separate(GLuint buf,
+blending_state::blend_equation_separate(
+  GLuint buf,
   oglplus::blend_equation modeRGB,
   oglplus::blend_equation modeAlpha) noexcept {
     OGLPLUS_GLFUNC(BlendEquationSeparatei)
@@ -69,7 +70,8 @@ blending_state::blend_func(
 #endif
 //------------------------------------------------------------------------------
 inline outcome<void>
-blending_state::blend_func_separate(blend_function srcRGB,
+blending_state::blend_func_separate(
+  blend_function srcRGB,
   blend_function dstRGB,
   blend_function srcAlpha,
   blend_function dstAlpha) noexcept {
@@ -81,7 +83,8 @@ blending_state::blend_func_separate(blend_function srcRGB,
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_0)
 inline outcome<void>
-blending_state::blend_func_separate(GLuint buf,
+blending_state::blend_func_separate(
+  GLuint buf,
   blend_function srcRGB,
   blend_function dstRGB,
   blend_function srcAlpha,

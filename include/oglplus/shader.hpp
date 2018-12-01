@@ -81,43 +81,43 @@ struct obj_dsa_ops<tag::shader> : obj_zero_dsa_ops<tag::shader> {
     using obj_zero_dsa_ops<tag::shader>::obj_zero_dsa_ops;
 
     outcome<shader_type> get_type(void) const noexcept {
-	return _ops::get_shader_type(*this);
+        return _ops::get_shader_type(*this);
     }
 
     outcome<obj_dsa_ops&> source(const glsl_source_ref& source) noexcept {
-	return {_ops::shader_source(*this, source), *this};
+        return {_ops::shader_source(*this, source), *this};
     }
 
     outcome<GLsizei> get_source_length(void) const noexcept {
-	return _ops::get_shader_source_length(*this);
+        return _ops::get_shader_source_length(*this);
     }
 
     outcome<span<char>> get_source(span<char> dest) const noexcept {
-	return _ops::get_shader_source(*this, dest);
+        return _ops::get_shader_source(*this, dest);
     }
 
     outcome<obj_dsa_ops&> compile(void) noexcept {
-	return {_ops::compile_shader(*this), *this};
+        return {_ops::compile_shader(*this), *this};
     }
 
     outcome<obj_dsa_ops&> report_compile_error(void) noexcept {
-	return {_ops::report_shader_compile_error(*this), *this};
+        return {_ops::report_shader_compile_error(*this), *this};
     }
 
     outcome<boolean> get_compile_status(void) const noexcept {
-	return _ops::get_shader_compile_status(*this);
+        return _ops::get_shader_compile_status(*this);
     }
 
     outcome<boolean> get_delete_status(void) const noexcept {
-	return _ops::get_shader_delete_status(*this);
+        return _ops::get_shader_delete_status(*this);
     }
 
     outcome<GLsizei> get_info_log_length(void) const noexcept {
-	return _ops::get_shader_info_log_length(*this);
+        return _ops::get_shader_info_log_length(*this);
     }
 
     outcome<span<char>> get_info_log(span<char> dest) const noexcept {
-	return _ops::get_shader_info_log(*this, dest);
+        return _ops::get_shader_info_log(*this, dest);
     }
 };
 

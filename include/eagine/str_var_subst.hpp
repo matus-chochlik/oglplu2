@@ -10,23 +10,23 @@
 #ifndef EAGINE_STR_VAR_SUBST_1509260923_HPP
 #define EAGINE_STR_VAR_SUBST_1509260923_HPP
 
-#include "callable_ref.hpp"
-#include "config/basic.hpp"
-#include "span.hpp"
 #include <cassert>
 #include <map>
 #include <string>
 #include <vector>
+#include "callable_ref.hpp"
+#include "config/basic.hpp"
+#include "span.hpp"
 
 namespace eagine {
 
-std::string
-substitute_variables(const std::string& str,
+std::string substitute_variables(
+  const std::string& str,
   const callable_ref<std::string(const std::string&)>& translate,
   bool keep_untranslated = false);
 
-std::string
-substitute_variables(const std::string& str,
+std::string substitute_variables(
+  const std::string& str,
   span<const std::string> strings,
   bool keep_untranslated = false);
 
@@ -36,8 +36,8 @@ substitute_variables(
     return substitute_variables(str, span<const std::string>{strings});
 }
 
-std::string
-substitute_variables(const std::string& str,
+std::string substitute_variables(
+  const std::string& str,
   const std::map<std::string, std::string>& dictionary,
   bool keep_untranslated = false);
 
@@ -47,16 +47,16 @@ private:
 
 public:
     string_variable_map& set(std::string name, std::string value) {
-	_dict.emplace(std::move(name), std::move(value));
-	return *this;
+        _dict.emplace(std::move(name), std::move(value));
+        return *this;
     }
 
     std::string subst_variables(const std::string& str) const {
-	return substitute_variables(str, _dict);
+        return substitute_variables(str, _dict);
     }
 
     std::string operator()(const std::string& str) const {
-	return substitute_variables(str, _dict);
+        return substitute_variables(str, _dict);
     }
 };
 
@@ -66,11 +66,11 @@ private:
 
 public:
     std::string subst_variables(const std::string& str) const {
-	return substitute_variables(str, _translate);
+        return substitute_variables(str, _translate);
     }
 
     std::string operator()(const std::string& str) const {
-	return substitute_variables(str, _translate);
+        return substitute_variables(str, _translate);
     }
 };
 

@@ -10,23 +10,24 @@
 #ifndef OGLPLUS_UTILS_IMAGE_FILE_IO_1509260923_HPP
 #define OGLPLUS_UTILS_IMAGE_FILE_IO_1509260923_HPP
 
+#include <iostream>
+#include <eagine/memory/align.hpp>
 #include "image_file_hdr.hpp"
 #include "memory_block.hpp"
 #include "types.hpp"
-#include <eagine/memory/align.hpp>
-#include <iostream>
 
 namespace oglplus {
 
 inline void
-write_and_pad_texture_image_data_header(std::ostream& output,
+write_and_pad_texture_image_data_header(
+  std::ostream& output,
   image_data_header& header,
   span_size_t pixel_data_size,
   span_size_t& spos) {
     using eagine::memory::is_aligned_as;
     while(!is_aligned_as<image_data_header>(spos)) {
-	output.put('\0');
-	++spos;
+        output.put('\0');
+        ++spos;
     }
 
     const span_size_t size = 64;
@@ -42,20 +43,21 @@ write_and_pad_texture_image_data_header(std::ostream& output,
     done += sizeof(header);
 
     while(done < size) {
-	output.put('\0');
-	++spos;
-	++done;
+        output.put('\0');
+        ++spos;
+        ++done;
     }
 }
 
 inline void
-write_and_pad_texture_image_data_header(std::ostream& output,
+write_and_pad_texture_image_data_header(
+  std::ostream& output,
   image_data_header& header,
   span_size_t pixel_data_size) {
     span_size_t spos = 0;
 
     if(output.tellp() >= 0) {
-	spos = span_size_t(output.tellp());
+        spos = span_size_t(output.tellp());
     }
 
     write_and_pad_texture_image_data_header(
@@ -63,13 +65,15 @@ write_and_pad_texture_image_data_header(std::ostream& output,
 }
 
 inline void
-write_texture_image_data(std::ostream& output,
+write_texture_image_data(
+  std::ostream& output,
   image_data_header& header,
   const const_memory_block& pixels) {
     write_and_pad_texture_image_data_header(
       output, header, span_size(pixels.size()));
 
-    output.write(reinterpret_cast<const char*>(pixels.data()),
+    output.write(
+      reinterpret_cast<const char*>(pixels.data()),
       std::streamsize(pixels.size()));
 }
 

@@ -18,7 +18,7 @@ struct test_throw_on_copy {
     test_throw_on_copy(void) = default;
 
     [[noreturn]] test_throw_on_copy(const test_throw_on_copy&) {
-	throw 0;
+        throw 0;
     }
 };
 
@@ -26,7 +26,7 @@ struct test_throw_on_move {
     test_throw_on_move(void) = default;
 
     [[noreturn]] test_throw_on_move(test_throw_on_move&&) {
-	throw 0;
+        throw 0;
     }
 };
 
@@ -205,83 +205,83 @@ BOOST_AUTO_TEST_CASE(variant_8) {
 
     for(int r = 0; r < 1000; ++r) {
 
-	switch(rg.get_int(0, 4)) {
-	    case 0: {
-		const bool b = rg.get_any<bool>();
-		v1 = b;
+        switch(rg.get_int(0, 4)) {
+            case 0: {
+                const bool b = rg.get_any<bool>();
+                v1 = b;
 
-		BOOST_CHECK_EQUAL(v1.index(), 0);
-		BOOST_CHECK(!v1.valueless_by_exception());
-		BOOST_CHECK(std::holds_alternative<bool>(v1));
-		BOOST_CHECK(!std::holds_alternative<char>(v1));
-		BOOST_CHECK(!std::holds_alternative<int>(v1));
-		BOOST_CHECK(!std::holds_alternative<double>(v1));
-		BOOST_CHECK(!std::holds_alternative<std::string>(v1));
-		BOOST_CHECK_EQUAL(std::get<0>(v1), b);
-		BOOST_CHECK_EQUAL(std::get<bool>(v1), b);
-		break;
-	    }
-	    case 1: {
-		const char c = rg.get_char('A', 'Z');
-		v1 = c;
+                BOOST_CHECK_EQUAL(v1.index(), 0);
+                BOOST_CHECK(!v1.valueless_by_exception());
+                BOOST_CHECK(std::holds_alternative<bool>(v1));
+                BOOST_CHECK(!std::holds_alternative<char>(v1));
+                BOOST_CHECK(!std::holds_alternative<int>(v1));
+                BOOST_CHECK(!std::holds_alternative<double>(v1));
+                BOOST_CHECK(!std::holds_alternative<std::string>(v1));
+                BOOST_CHECK_EQUAL(std::get<0>(v1), b);
+                BOOST_CHECK_EQUAL(std::get<bool>(v1), b);
+                break;
+            }
+            case 1: {
+                const char c = rg.get_char('A', 'Z');
+                v1 = c;
 
-		BOOST_CHECK_EQUAL(v1.index(), 1);
-		BOOST_CHECK(!v1.valueless_by_exception());
-		BOOST_CHECK(!std::holds_alternative<bool>(v1));
-		BOOST_CHECK(std::holds_alternative<char>(v1));
-		BOOST_CHECK(!std::holds_alternative<int>(v1));
-		BOOST_CHECK(!std::holds_alternative<double>(v1));
-		BOOST_CHECK(!std::holds_alternative<std::string>(v1));
-		BOOST_CHECK_EQUAL(std::get<1>(v1), c);
-		BOOST_CHECK_EQUAL(std::get<char>(v1), c);
-		break;
-	    }
-	    case 2: {
-		const int i = rg.get_any<int>();
-		v1 = i;
+                BOOST_CHECK_EQUAL(v1.index(), 1);
+                BOOST_CHECK(!v1.valueless_by_exception());
+                BOOST_CHECK(!std::holds_alternative<bool>(v1));
+                BOOST_CHECK(std::holds_alternative<char>(v1));
+                BOOST_CHECK(!std::holds_alternative<int>(v1));
+                BOOST_CHECK(!std::holds_alternative<double>(v1));
+                BOOST_CHECK(!std::holds_alternative<std::string>(v1));
+                BOOST_CHECK_EQUAL(std::get<1>(v1), c);
+                BOOST_CHECK_EQUAL(std::get<char>(v1), c);
+                break;
+            }
+            case 2: {
+                const int i = rg.get_any<int>();
+                v1 = i;
 
-		BOOST_CHECK_EQUAL(v1.index(), 2);
-		BOOST_CHECK(!v1.valueless_by_exception());
-		BOOST_CHECK(!std::holds_alternative<bool>(v1));
-		BOOST_CHECK(!std::holds_alternative<char>(v1));
-		BOOST_CHECK(std::holds_alternative<int>(v1));
-		BOOST_CHECK(!std::holds_alternative<double>(v1));
-		BOOST_CHECK(!std::holds_alternative<std::string>(v1));
-		BOOST_CHECK_EQUAL(std::get<2>(v1), i);
-		BOOST_CHECK_EQUAL(std::get<int>(v1), i);
-		break;
-	    }
-	    case 3: {
-		const double d = rg.get_any<double>();
-		v1 = d;
+                BOOST_CHECK_EQUAL(v1.index(), 2);
+                BOOST_CHECK(!v1.valueless_by_exception());
+                BOOST_CHECK(!std::holds_alternative<bool>(v1));
+                BOOST_CHECK(!std::holds_alternative<char>(v1));
+                BOOST_CHECK(std::holds_alternative<int>(v1));
+                BOOST_CHECK(!std::holds_alternative<double>(v1));
+                BOOST_CHECK(!std::holds_alternative<std::string>(v1));
+                BOOST_CHECK_EQUAL(std::get<2>(v1), i);
+                BOOST_CHECK_EQUAL(std::get<int>(v1), i);
+                break;
+            }
+            case 3: {
+                const double d = rg.get_any<double>();
+                v1 = d;
 
-		BOOST_CHECK_EQUAL(v1.index(), 3);
-		BOOST_CHECK(!v1.valueless_by_exception());
-		BOOST_CHECK(!std::holds_alternative<bool>(v1));
-		BOOST_CHECK(!std::holds_alternative<char>(v1));
-		BOOST_CHECK(!std::holds_alternative<int>(v1));
-		BOOST_CHECK(std::holds_alternative<double>(v1));
-		BOOST_CHECK(!std::holds_alternative<std::string>(v1));
-		BOOST_CHECK_EQUAL(std::get<3>(v1), d);
-		BOOST_CHECK_EQUAL(std::get<double>(v1), d);
-		break;
-	    }
-	    case 4: {
-		const std::string s = rg.get_string(0, 10);
-		v1 = s;
+                BOOST_CHECK_EQUAL(v1.index(), 3);
+                BOOST_CHECK(!v1.valueless_by_exception());
+                BOOST_CHECK(!std::holds_alternative<bool>(v1));
+                BOOST_CHECK(!std::holds_alternative<char>(v1));
+                BOOST_CHECK(!std::holds_alternative<int>(v1));
+                BOOST_CHECK(std::holds_alternative<double>(v1));
+                BOOST_CHECK(!std::holds_alternative<std::string>(v1));
+                BOOST_CHECK_EQUAL(std::get<3>(v1), d);
+                BOOST_CHECK_EQUAL(std::get<double>(v1), d);
+                break;
+            }
+            case 4: {
+                const std::string s = rg.get_string(0, 10);
+                v1 = s;
 
-		BOOST_CHECK_EQUAL(v1.index(), 4);
-		BOOST_CHECK(!v1.valueless_by_exception());
-		BOOST_CHECK(!std::holds_alternative<bool>(v1));
-		BOOST_CHECK(!std::holds_alternative<char>(v1));
-		BOOST_CHECK(!std::holds_alternative<int>(v1));
-		BOOST_CHECK(!std::holds_alternative<double>(v1));
-		BOOST_CHECK(std::holds_alternative<std::string>(v1));
-		BOOST_CHECK_EQUAL(std::get<4>(v1), s);
-		BOOST_CHECK_EQUAL(std::get<std::string>(v1), s);
-		break;
-	    }
-	}
+                BOOST_CHECK_EQUAL(v1.index(), 4);
+                BOOST_CHECK(!v1.valueless_by_exception());
+                BOOST_CHECK(!std::holds_alternative<bool>(v1));
+                BOOST_CHECK(!std::holds_alternative<char>(v1));
+                BOOST_CHECK(!std::holds_alternative<int>(v1));
+                BOOST_CHECK(!std::holds_alternative<double>(v1));
+                BOOST_CHECK(std::holds_alternative<std::string>(v1));
+                BOOST_CHECK_EQUAL(std::get<4>(v1), s);
+                BOOST_CHECK_EQUAL(std::get<std::string>(v1), s);
+                break;
+            }
+        }
     }
 }
 
@@ -295,11 +295,11 @@ BOOST_AUTO_TEST_CASE(variant_9) {
     int passed = 0;
 
     try {
-	BOOST_CHECK_EQUAL(passed, 0);
-	v1 = test_throw_on_copy{};
-	BOOST_CHECK_MESSAGE(false, "Copy should have thrown");
+        BOOST_CHECK_EQUAL(passed, 0);
+        v1 = test_throw_on_copy{};
+        BOOST_CHECK_MESSAGE(false, "Copy should have thrown");
     } catch(int) {
-	++passed;
+        ++passed;
     }
 
     BOOST_CHECK_EQUAL(passed, 1);
@@ -323,11 +323,11 @@ BOOST_AUTO_TEST_CASE(variant_10) {
     int passed = 0;
 
     try {
-	BOOST_CHECK_EQUAL(passed, 0);
-	v1 = v2;
-	BOOST_CHECK_MESSAGE(false, "Copy should have thrown");
+        BOOST_CHECK_EQUAL(passed, 0);
+        v1 = v2;
+        BOOST_CHECK_MESSAGE(false, "Copy should have thrown");
     } catch(int) {
-	++passed;
+        ++passed;
     }
 
     BOOST_CHECK_EQUAL(passed, 1);
@@ -354,11 +354,11 @@ BOOST_AUTO_TEST_CASE(variant_11) {
     int passed = 0;
 
     try {
-	BOOST_CHECK_EQUAL(passed, 0);
-	v1 = std::move(v2);
-	BOOST_CHECK_MESSAGE(false, "Move should have thrown");
+        BOOST_CHECK_EQUAL(passed, 0);
+        v1 = std::move(v2);
+        BOOST_CHECK_MESSAGE(false, "Move should have thrown");
     } catch(int) {
-	++passed;
+        ++passed;
     }
 
     BOOST_CHECK_EQUAL(passed, 1);

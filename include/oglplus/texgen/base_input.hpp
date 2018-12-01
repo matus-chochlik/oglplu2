@@ -32,11 +32,11 @@ public:
     ~base_input(void) noexcept override;
 
     node_intf& parent(void) noexcept {
-	return _parent;
+        return _parent;
     }
 
     void set_name(const cstr_ref& name) noexcept {
-	_name = name;
+        _name = name;
     }
 
     cstr_ref name(void) noexcept override;

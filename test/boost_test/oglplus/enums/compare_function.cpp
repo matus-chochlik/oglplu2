@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_compare_function
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_compare_function_tests)
 
@@ -211,73 +211,78 @@ BOOST_AUTO_TEST_CASE(enum_compare_function_range) {
 
 #ifdef GL_ALWAYS
     {
-	--count;
-	auto r = enum_value_range<compare_function>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), compare_function(GL_ALWAYS))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<compare_function>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), compare_function(GL_ALWAYS)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_EQUAL
     {
-	--count;
-	auto r = enum_value_range<compare_function>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), compare_function(GL_EQUAL)) != r.end());
+        --count;
+        auto r = enum_value_range<compare_function>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), compare_function(GL_EQUAL)) != r.end());
     }
 #endif
 
 #ifdef GL_GEQUAL
     {
-	--count;
-	auto r = enum_value_range<compare_function>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), compare_function(GL_GEQUAL))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<compare_function>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), compare_function(GL_GEQUAL)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_GREATER
     {
-	--count;
-	auto r = enum_value_range<compare_function>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), compare_function(GL_GREATER))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<compare_function>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), compare_function(GL_GREATER)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_LEQUAL
     {
-	--count;
-	auto r = enum_value_range<compare_function>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), compare_function(GL_LEQUAL))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<compare_function>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), compare_function(GL_LEQUAL)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_LESS
     {
-	--count;
-	auto r = enum_value_range<compare_function>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), compare_function(GL_LESS)) != r.end());
+        --count;
+        auto r = enum_value_range<compare_function>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), compare_function(GL_LESS)) != r.end());
     }
 #endif
 
 #ifdef GL_NEVER
     {
-	--count;
-	auto r = enum_value_range<compare_function>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), compare_function(GL_NEVER)) != r.end());
+        --count;
+        auto r = enum_value_range<compare_function>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), compare_function(GL_NEVER)) != r.end());
     }
 #endif
 
 #ifdef GL_NOTEQUAL
     {
-	--count;
-	auto r = enum_value_range<compare_function>();
-	BOOST_CHECK(std::find(r.begin(), r.end(), compare_function(GL_NOTEQUAL))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<compare_function>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), compare_function(GL_NOTEQUAL)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

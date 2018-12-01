@@ -7,9 +7,9 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <cassert>
-#include <eagine/math/constants.hpp>
 #include <iostream>
 #include <string>
+#include <eagine/math/constants.hpp>
 
 namespace oglplus {
 namespace texgen {
@@ -38,7 +38,7 @@ OGLPLUS_LIB_FUNC
 std::ostream&
 random_output::definitions(std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt))
-	return out;
+        return out;
     assert(dims >= 1 && dims <= 4);
 
     input_defs(out, ctxt);
@@ -55,32 +55,33 @@ random_output::definitions(std::ostream& out, compile_context& ctxt) {
     out << expr::conversion_suffix{seed.value_type(), vec3_type};
     out << ";" << std::endl;
 
-    const decltype(eagine::math::phi) sdm[4] = {eagine::math::phi,
+    const decltype(eagine::math::phi) sdm[4] = {
+      eagine::math::phi,
       1 / eagine::math::phi,
       eagine::math::phi * eagine::math::phi,
       eagine::math::phi / eagine::math::phi};
 
     for(span_size_t d = 0; d < dims; ++d) {
-	auto s = std::fmod(get_id() / sdm[d], 100.0);
-	auto cx = std::fmod(s * get_id() / 11, 100.0);
-	auto cy = std::fmod(s * get_id() / 13, 100.0);
-	auto cz = std::fmod(s * get_id() / 17, 100.0);
+        auto s = std::fmod(get_id() / sdm[d], 100.0);
+        auto cx = std::fmod(s * get_id() / 11, 100.0);
+        auto cy = std::fmod(s * get_id() / 13, 100.0);
+        auto cz = std::fmod(s * get_id() / 17, 100.0);
 
-	out << "\tvec3 c" << d << " = vec3(";
-	out << float(cx) << ", ";
-	out << float(cy) << ", ";
-	out << float(cz) << ");";
-	out << std::endl;
+        out << "\tvec3 c" << d << " = vec3(";
+        out << float(cx) << ", ";
+        out << float(cy) << ", ";
+        out << float(cz) << ");";
+        out << std::endl;
     }
 
     out << "\tvec3 m = vec3(12.9898, 4.1414, 78.233);" << std::endl;
     out << "\treturn " << data_type_name(value_type()) << "(" << std::endl;
     for(span_size_t d = 0; d < dims; ++d) {
-	out << "\t\tfract(sin(dot(s*c" << d;
-	out << ", m)) * 43758.5453)";
-	if(d + 1 < dims)
-	    out << ",";
-	out << std::endl;
+        out << "\t\tfract(sin(dot(s*c" << d;
+        out << ", m)) * 43758.5453)";
+        if(d + 1 < dims)
+            out << ",";
+        out << std::endl;
     }
     out << "\t);" << std::endl;
 

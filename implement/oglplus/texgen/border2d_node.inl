@@ -35,7 +35,7 @@ OGLPLUS_LIB_FUNC
 std::ostream&
 border2d_output::definitions(std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt))
-	return out;
+        return out;
 
     input_defs(out, ctxt);
     opening_expr(out, ctxt);
@@ -50,23 +50,23 @@ border2d_output::definitions(std::ostream& out, compile_context& ctxt) {
 
     cstr_ref func_name;
     switch(mode) {
-	case border2d_mode::max:
-	    out << "0.0";
-	    func_name = cstr_ref("max");
-	    break;
-	case border2d_mode::min:
-	    out << "1.0";
-	    func_name = cstr_ref("min");
-	    break;
+        case border2d_mode::max:
+            out << "0.0";
+            func_name = cstr_ref("max");
+            break;
+        case border2d_mode::min:
+            out << "1.0";
+            func_name = cstr_ref("min");
+            break;
     }
 
     out << ");" << std::endl;
 
     auto func = [this, &out, &ctxt, &func_name](float x, float y) {
-	out << "\tr = " << func_name << "(r, ";
-	out << expr::output_id{input.output(), ctxt};
-	out << expr::render_param_pass_voxel_offs{input.output(), {x, y, 0.f}};
-	out << ");" << std::endl;
+        out << "\tr = " << func_name << "(r, ";
+        out << expr::output_id{input.output(), ctxt};
+        out << expr::render_param_pass_voxel_offs{input.output(), {x, y, 0.f}};
+        out << ");" << std::endl;
     };
 
     func(-1, -1);

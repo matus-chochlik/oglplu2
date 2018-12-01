@@ -42,8 +42,8 @@ public:
 class newton_node : public single_output_node<newton_output> {
 public:
     newton_node& set_function(newton_function function) {
-	_output._function = function;
-	return *this;
+        _output._function = function;
+        return *this;
     }
 };
 

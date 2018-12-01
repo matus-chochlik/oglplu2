@@ -65,22 +65,22 @@ struct texture_handle_ops {
 #if defined(GL_ARB_bindless_texture)
     static outcome<texture_handle> get_texture_handle(
       texture_name tex) noexcept {
-	return get_texture_handle_arb(tex);
+        return get_texture_handle_arb(tex);
     }
 
     static outcome<texture_handle> get_texture_sampler_handle(
       texture_name tex, sampler_name sam) noexcept {
-	return get_texture_sampler_handle_arb(tex, sam);
+        return get_texture_sampler_handle_arb(tex, sam);
     }
 #elif defined(GL_NV_bindless_texture)
     static outcome<texture_handle> get_texture_handle(
       texture_name tex) noexcept {
-	return get_texture_handle_nv(tex);
+        return get_texture_handle_nv(tex);
     }
 
     static outcome<texture_handle> get_texture_sampler_handle(
       texture_name tex, sampler_name sam) noexcept {
-	return get_texture_sampler_handle_nv(tex, sam);
+        return get_texture_sampler_handle_nv(tex, sam);
     }
 #endif
 

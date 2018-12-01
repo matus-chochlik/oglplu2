@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_buffer_select_bits
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_buffer_select_bits_tests)
 
@@ -84,32 +84,34 @@ BOOST_AUTO_TEST_CASE(enum_buffer_select_bits_range) {
 
 #ifdef GL_COLOR_BUFFER_BIT
     {
-	--count;
-	auto r = enum_value_range<buffer_select_bits>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), buffer_select_bits(GL_COLOR_BUFFER_BIT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<buffer_select_bits>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), buffer_select_bits(GL_COLOR_BUFFER_BIT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_DEPTH_BUFFER_BIT
     {
-	--count;
-	auto r = enum_value_range<buffer_select_bits>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), buffer_select_bits(GL_DEPTH_BUFFER_BIT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<buffer_select_bits>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), buffer_select_bits(GL_DEPTH_BUFFER_BIT)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_STENCIL_BUFFER_BIT
     {
-	--count;
-	auto r = enum_value_range<buffer_select_bits>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), buffer_select_bits(GL_STENCIL_BUFFER_BIT))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<buffer_select_bits>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(), r.end(), buffer_select_bits(GL_STENCIL_BUFFER_BIT)) !=
+          r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

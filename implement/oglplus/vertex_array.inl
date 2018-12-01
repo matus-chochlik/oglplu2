@@ -25,7 +25,7 @@ vertex_array_ops::vertex_array_binding(void) noexcept {
 #ifdef GL_VERTEX_ARRAY_BINDING
     GLint result = 0;
     return numeric_queries::get_integer_v(
-      binding_query(GL_VERTEX_ARRAY_BINDING), {&result, 1})
+             binding_query(GL_VERTEX_ARRAY_BINDING), {&result, 1})
       .add(vertex_array_name(GLuint(result)));
 #else
     return vertex_array_name(0);
@@ -60,7 +60,8 @@ vertex_array_ops::enable_vertex_array_attrib(
     (
 #endif
       get_raw_name(vao), va.index());
-    OGLPLUS_VERIFY_STR(OGLPLUS_GL_DSA_FUNC_NAME(EnableVertexArrayAttrib),
+    OGLPLUS_VERIFY_STR(
+      OGLPLUS_GL_DSA_FUNC_NAME(EnableVertexArrayAttrib),
       gl_object(vao).gl_index(va.index()),
       always);
     return {};
@@ -77,7 +78,8 @@ vertex_array_ops::disable_vertex_array_attrib(
     (
 #endif
       get_raw_name(vao), va.index());
-    OGLPLUS_VERIFY_STR(OGLPLUS_GL_DSA_FUNC_NAME(DisableVertexArrayAttrib),
+    OGLPLUS_VERIFY_STR(
+      OGLPLUS_GL_DSA_FUNC_NAME(DisableVertexArrayAttrib),
       gl_object(vao).gl_index(va.index()),
       always);
     return {};
@@ -85,7 +87,8 @@ vertex_array_ops::disable_vertex_array_attrib(
 #endif
 //------------------------------------------------------------------------------
 inline outcome<void>
-vertex_array_ops::vertex_array_attrib_pointer(vertex_attrib_location loc,
+vertex_array_ops::vertex_array_attrib_pointer(
+  vertex_attrib_location loc,
   GLint values_per_vertex,
   data_type type,
   boolean normalized,
@@ -99,7 +102,8 @@ vertex_array_ops::vertex_array_attrib_pointer(vertex_attrib_location loc,
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-vertex_array_ops::vertex_array_attrib_i_pointer(vertex_attrib_location loc,
+vertex_array_ops::vertex_array_attrib_i_pointer(
+  vertex_attrib_location loc,
   GLint values_per_vertex,
   data_type type,
   GLsizei stride,
@@ -113,7 +117,8 @@ vertex_array_ops::vertex_array_attrib_i_pointer(vertex_attrib_location loc,
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_3) || defined(GL_ARB_vertex_attrib_binding)
 inline outcome<void>
-vertex_array_ops::vertex_array_vertex_buffer(GLuint binding_index,
+vertex_array_ops::vertex_array_vertex_buffer(
+  GLuint binding_index,
   buffer_name buf,
   buffer_size offset,
   buffer_size stride) noexcept {
@@ -141,7 +146,8 @@ vertex_array_ops::vertex_array_binding_divisor(
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-vertex_array_ops::vertex_array_attrib_format(vertex_attrib_location loc,
+vertex_array_ops::vertex_array_attrib_format(
+  vertex_attrib_location loc,
   GLint values_per_vertex,
   data_type type,
   boolean normalized,
@@ -154,7 +160,8 @@ vertex_array_ops::vertex_array_attrib_format(vertex_attrib_location loc,
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-vertex_array_ops::vertex_array_attrib_i_format(vertex_attrib_location loc,
+vertex_array_ops::vertex_array_attrib_i_format(
+  vertex_attrib_location loc,
   GLint values_per_vertex,
   data_type type,
   GLuint relative_offset) noexcept {
@@ -166,7 +173,8 @@ vertex_array_ops::vertex_array_attrib_i_format(vertex_attrib_location loc,
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-vertex_array_ops::vertex_array_attrib_l_format(vertex_attrib_location loc,
+vertex_array_ops::vertex_array_attrib_l_format(
+  vertex_attrib_location loc,
   GLint values_per_vertex,
   data_type type,
   GLuint relative_offset) noexcept {
@@ -180,39 +188,44 @@ vertex_array_ops::vertex_array_attrib_l_format(vertex_attrib_location loc,
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5)
 inline outcome<void>
-vertex_array_ops::vertex_array_vertex_buffer(vertex_array_name vao,
+vertex_array_ops::vertex_array_vertex_buffer(
+  vertex_array_name vao,
   vertex_attrib_location loc,
   buffer_name buf,
   GLintptr offset,
   GLsizei stride) noexcept {
     OGLPLUS_GLFUNC(VertexArrayVertexBuffer)
     (get_raw_name(vao), loc.index(), get_raw_name(buf), offset, stride);
-    OGLPLUS_VERIFY(VertexArrayVertexBuffer,
+    OGLPLUS_VERIFY(
+      VertexArrayVertexBuffer,
       gl_object(vao).gl_subject(buf).gl_index(loc.index()),
       always);
     return {};
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-vertex_array_ops::vertex_array_vertex_buffer(vertex_array_name vao,
+vertex_array_ops::vertex_array_vertex_buffer(
+  vertex_array_name vao,
   GLuint binding_index,
   buffer_name buf,
   buffer_size offset,
   buffer_size stride) noexcept {
     OGLPLUS_GLFUNC(VertexArrayVertexBuffer)
     (get_raw_name(vao),
-      binding_index,
-      get_raw_name(buf),
-      GLintptr(offset),
-      GLsizei(stride));
-    OGLPLUS_VERIFY(VertexArrayVertexBuffer,
+     binding_index,
+     get_raw_name(buf),
+     GLintptr(offset),
+     GLsizei(stride));
+    OGLPLUS_VERIFY(
+      VertexArrayVertexBuffer,
       gl_subject(buf).gl_object(vao).gl_index(binding_index),
       always);
     return {};
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-vertex_array_ops::vertex_array_attrib_binding(vertex_array_name vao,
+vertex_array_ops::vertex_array_attrib_binding(
+  vertex_array_name vao,
   vertex_attrib_location loc,
   GLuint binding_index) noexcept {
     OGLPLUS_GLFUNC(VertexArrayAttribBinding)
@@ -227,14 +240,16 @@ vertex_array_ops::vertex_array_binding_divisor(
   vertex_array_name vao, GLuint binding_index, GLuint divisor) noexcept {
     OGLPLUS_GLFUNC(VertexArrayBindingDivisor)
     (get_raw_name(vao), binding_index, divisor);
-    OGLPLUS_VERIFY(VertexArrayBindingDivisor,
+    OGLPLUS_VERIFY(
+      VertexArrayBindingDivisor,
       gl_object(vao).gl_index(binding_index),
       always);
     return {};
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-vertex_array_ops::vertex_array_attrib_format(vertex_array_name vao,
+vertex_array_ops::vertex_array_attrib_format(
+  vertex_array_name vao,
   vertex_attrib_location loc,
   GLint values_per_vertex,
   data_type type,
@@ -242,48 +257,53 @@ vertex_array_ops::vertex_array_attrib_format(vertex_array_name vao,
   GLuint relative_offset) noexcept {
     OGLPLUS_GLFUNC(VertexArrayAttribFormat)
     (get_raw_name(vao),
-      loc.index(),
-      values_per_vertex,
-      GLenum(type),
-      normalized,
-      relative_offset);
-    OGLPLUS_VERIFY(VertexAttribFormat,
+     loc.index(),
+     values_per_vertex,
+     GLenum(type),
+     normalized,
+     relative_offset);
+    OGLPLUS_VERIFY(
+      VertexAttribFormat,
       gl_object(vao).gl_enum_value(type).gl_index(loc.index()),
       always);
     return {};
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-vertex_array_ops::vertex_array_attrib_i_format(vertex_array_name vao,
+vertex_array_ops::vertex_array_attrib_i_format(
+  vertex_array_name vao,
   vertex_attrib_location loc,
   GLint values_per_vertex,
   data_type type,
   GLuint relative_offset) noexcept {
     OGLPLUS_GLFUNC(VertexArrayAttribIFormat)
     (get_raw_name(vao),
-      loc.index(),
-      values_per_vertex,
-      GLenum(type),
-      relative_offset);
-    OGLPLUS_VERIFY(VertexAttribIFormat,
+     loc.index(),
+     values_per_vertex,
+     GLenum(type),
+     relative_offset);
+    OGLPLUS_VERIFY(
+      VertexAttribIFormat,
       gl_object(vao).gl_enum_value(type).gl_index(loc.index()),
       always);
     return {};
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-vertex_array_ops::vertex_array_attrib_l_format(vertex_array_name vao,
+vertex_array_ops::vertex_array_attrib_l_format(
+  vertex_array_name vao,
   vertex_attrib_location loc,
   GLint values_per_vertex,
   data_type type,
   GLuint relative_offset) noexcept {
     OGLPLUS_GLFUNC(VertexArrayAttribLFormat)
     (get_raw_name(vao),
-      loc.index(),
-      values_per_vertex,
-      GLenum(type),
-      relative_offset);
-    OGLPLUS_VERIFY(VertexAttribLFormat,
+     loc.index(),
+     values_per_vertex,
+     GLenum(type),
+     relative_offset);
+    OGLPLUS_VERIFY(
+      VertexAttribLFormat,
       gl_object(vao).gl_enum_value(type).gl_index(loc.index()),
       always);
     return {};
@@ -292,7 +312,8 @@ vertex_array_ops::vertex_array_attrib_l_format(vertex_array_name vao,
 //------------------------------------------------------------------------------
 #if defined(GL_EXT_direct_state_access)
 inline outcome<void>
-vertex_array_ops::vertex_array_attrib_offset(vertex_array_name vao,
+vertex_array_ops::vertex_array_attrib_offset(
+  vertex_array_name vao,
   buffer_name buf,
   vertex_attrib_location loc,
   GLint values_per_vertex,
@@ -302,21 +323,23 @@ vertex_array_ops::vertex_array_attrib_offset(vertex_array_name vao,
   GLintptr offset) noexcept {
     OGLPLUS_GLFUNC(VertexArrayVertexAttribOffsetEXT)
     (get_raw_name(vao),
-      get_raw_name(buf),
-      loc.index(),
-      values_per_vertex,
-      GLenum(type),
-      normalized,
-      stride,
-      offset);
-    OGLPLUS_VERIFY(VertexArrayVertexAttribOffsetEXT,
+     get_raw_name(buf),
+     loc.index(),
+     values_per_vertex,
+     GLenum(type),
+     normalized,
+     stride,
+     offset);
+    OGLPLUS_VERIFY(
+      VertexArrayVertexAttribOffsetEXT,
       gl_object(vao).gl_subject(buf).gl_enum_value(type).gl_index(loc.index()),
       always);
     return {};
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-vertex_array_ops::vertex_array_attrib_i_offset(vertex_array_name vao,
+vertex_array_ops::vertex_array_attrib_i_offset(
+  vertex_array_name vao,
   buffer_name buf,
   vertex_attrib_location loc,
   GLint values_per_vertex,
@@ -325,13 +348,14 @@ vertex_array_ops::vertex_array_attrib_i_offset(vertex_array_name vao,
   GLintptr offset) noexcept {
     OGLPLUS_GLFUNC(VertexArrayVertexAttribIOffsetEXT)
     (get_raw_name(vao),
-      get_raw_name(buf),
-      loc.index(),
-      values_per_vertex,
-      GLenum(type),
-      stride,
-      offset);
-    OGLPLUS_VERIFY(VertexArrayVertexAttribIOffsetEXT,
+     get_raw_name(buf),
+     loc.index(),
+     values_per_vertex,
+     GLenum(type),
+     stride,
+     offset);
+    OGLPLUS_VERIFY(
+      VertexArrayVertexAttribIOffsetEXT,
       gl_object(vao).gl_subject(buf).gl_enum_value(type).gl_index(loc.index()),
       always);
     return {};
@@ -340,7 +364,8 @@ vertex_array_ops::vertex_array_attrib_i_offset(vertex_array_name vao,
 //------------------------------------------------------------------------------
 #if defined(GL_NV_vertex_buffer_unified_memory)
 inline outcome<void>
-vertex_array_ops::buffer_address_range(unified_array_address_nv uba,
+vertex_array_ops::buffer_address_range(
+  unified_array_address_nv uba,
   GLuint index,
   buffer_address addr,
   GLsizei length) noexcept {

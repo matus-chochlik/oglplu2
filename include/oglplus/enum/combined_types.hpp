@@ -15,7 +15,8 @@
 
 namespace oglplus {
 
-typedef combined_enum_value<framebuffer_other_attachment,
+typedef combined_enum_value<
+  framebuffer_other_attachment,
   framebuffer_color_attachment>
   framebuffer_attachment;
 

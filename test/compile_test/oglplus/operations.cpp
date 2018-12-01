@@ -134,25 +134,30 @@ oglplus_internal_format_queries_test(void) {
     EAGINE_MAYBE_UNUSED(temp64);
 
 #if defined(GL_VERSION_4_2)
-    gl.get_internal_format_iv(internal_format_target(GL_RENDERBUFFER),
+    gl.get_internal_format_iv(
+      internal_format_target(GL_RENDERBUFFER),
       pixel_data_internal_format(GL_RED),
       internal_format_parameter(GL_INTERNALFORMAT_SUPPORTED),
       {&temp, 1});
 #endif
 
 #if defined(GL_VERSION_4_3)
-    gl.get_internal_format_i64v(internal_format_target(GL_RENDERBUFFER),
+    gl.get_internal_format_i64v(
+      internal_format_target(GL_RENDERBUFFER),
       pixel_data_internal_format(GL_RED),
       internal_format_parameter(GL_INTERNALFORMAT_SUPPORTED),
       {&temp64, 1});
 
-    gl.is_internal_format_supported(internal_format_target(GL_RENDERBUFFER),
+    gl.is_internal_format_supported(
+      internal_format_target(GL_RENDERBUFFER),
       pixel_data_internal_format(GL_RED));
 
-    gl.is_internal_format_preferred(internal_format_target(GL_RENDERBUFFER),
+    gl.is_internal_format_preferred(
+      internal_format_target(GL_RENDERBUFFER),
       pixel_data_internal_format(GL_RED));
 
-    gl.is_internal_format_compressed(internal_format_target(GL_RENDERBUFFER),
+    gl.is_internal_format_compressed(
+      internal_format_target(GL_RENDERBUFFER),
       pixel_data_internal_format(GL_RED));
 
     gl.has_internal_format_color_components(
@@ -171,10 +176,12 @@ oglplus_internal_format_queries_test(void) {
       internal_format_target(GL_RENDERBUFFER),
       pixel_data_internal_format(GL_RED));
 
-    gl.supports_internal_format_mipmap(internal_format_target(GL_RENDERBUFFER),
+    gl.supports_internal_format_mipmap(
+      internal_format_target(GL_RENDERBUFFER),
       pixel_data_internal_format(GL_RED));
 
-    gl.supports_internal_format_filter(internal_format_target(GL_RENDERBUFFER),
+    gl.supports_internal_format_filter(
+      internal_format_target(GL_RENDERBUFFER),
       pixel_data_internal_format(GL_RED));
 
     gl.get_internal_format_framebuffer_renderable_support(
@@ -264,7 +271,8 @@ oglplus_debugging_test(void) {
 
     gl.debug_message_callback(nullptr, nullptr);
 
-    gl.get_debug_message_log(0,
+    gl.get_debug_message_log(
+      0,
       span<debug_output_source>(),
       span<debug_output_type>(),
       span<GLuint>(),
@@ -357,7 +365,8 @@ oglplus_blending_state_test(void) {
 
     gl.blend_func(blend_function(GL_ONE), blend_function(GL_ZERO));
 
-    gl.blend_func_separate(blend_function(GL_ONE),
+    gl.blend_func_separate(
+      blend_function(GL_ONE),
       blend_function(GL_ONE),
       blend_function(GL_ZERO),
       blend_function(GL_ZERO));
@@ -367,7 +376,8 @@ oglplus_blending_state_test(void) {
     gl.blend_equation_separate(
       1, blend_equation(GL_MIN), blend_equation(GL_MAX));
     gl.blend_func(1, blend_function(GL_ONE), blend_function(GL_ZERO));
-    gl.blend_func_separate(1,
+    gl.blend_func_separate(
+      1,
       blend_function(GL_ONE),
       blend_function(GL_ONE),
       blend_function(GL_ZERO),
@@ -431,7 +441,8 @@ oglplus_drawing_ops_test(void) {
       primitive_type(GL_TRIANGLES), 12, index_type(GL_UNSIGNED_BYTE));
 
 #if defined(GL_VERSION_3_0)
-    gl.multi_draw_elements(primitive_type(GL_TRIANGLES),
+    gl.multi_draw_elements(
+      primitive_type(GL_TRIANGLES),
       span<GLsizei>(),
       index_type(GL_UNSIGNED_BYTE),
       span<const GLvoid*>());
@@ -448,7 +459,8 @@ oglplus_drawing_ops_test(void) {
     gl.draw_elements_base_vertex(
       primitive_type(GL_TRIANGLES), 12, index_type(GL_UNSIGNED_BYTE), 10);
 
-    gl.multi_draw_elements_base_vertex(primitive_type(GL_TRIANGLES),
+    gl.multi_draw_elements_base_vertex(
+      primitive_type(GL_TRIANGLES),
       span<GLsizei>(),
       index_type(GL_UNSIGNED_BYTE),
       span<const GLvoid*>(),
@@ -575,39 +587,39 @@ oglplus_compatibility_matrix_test(void) {
     oper::compatibility_matrix gl;
 
     std::array<GLfloat, 16> matfa{{1.f,
-      0.f,
-      0.f,
-      0.f,
-      0.f,
-      1.f,
-      0.f,
-      0.f,
-      0.f,
-      0.f,
-      1.f,
-      0.f,
-      0.f,
-      0.f,
-      0.f,
-      1.f}};
+                                   0.f,
+                                   0.f,
+                                   0.f,
+                                   0.f,
+                                   1.f,
+                                   0.f,
+                                   0.f,
+                                   0.f,
+                                   0.f,
+                                   1.f,
+                                   0.f,
+                                   0.f,
+                                   0.f,
+                                   0.f,
+                                   1.f}};
     span<GLfloat> matf = matfa;
 
     std::array<GLdouble, 16> matda{{1.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      1.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      1.0,
-      0.0,
-      0.0,
-      0.0,
-      0.0,
-      1.0}};
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    1.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    1.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    0.0,
+                                    1.0}};
     span<GLdouble> matd = matda;
 
     gl.matrix_mode(old_matrix_mode(GL_PROJECTION));

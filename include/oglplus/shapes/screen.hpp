@@ -10,8 +10,8 @@
 #ifndef OGLPLUS_SHAPES_SCREEN_1509260923_HPP
 #define OGLPLUS_SHAPES_SCREEN_1509260923_HPP
 
-#include "adapted_gen.hpp"
 #include <eagine/shapes/screen.hpp>
+#include "adapted_gen.hpp"
 
 namespace oglplus {
 namespace shapes {

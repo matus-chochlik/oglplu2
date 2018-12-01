@@ -9,8 +9,8 @@
 #ifndef OGLPLUS_ERROR_ERROR_1509260923_HPP
 #define OGLPLUS_ERROR_ERROR_1509260923_HPP
 
-#include "info.hpp"
 #include <stdexcept>
+#include "info.hpp"
 
 namespace oglplus {
 
@@ -24,7 +24,7 @@ public:
     error(error_info&& info);
 
     const error_info& info(void) const noexcept {
-	return _info;
+        return _info;
     }
 };
 

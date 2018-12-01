@@ -52,7 +52,8 @@ struct si::base_unit<base::mass>
 typedef unit<mass, si> kilogram;
 
 // derived
-typedef make_scaled_base_dim_unit_t<base::scaled_unit<scales::one, base::gram>,
+typedef make_scaled_base_dim_unit_t<
+  base::scaled_unit<scales::one, base::gram>,
   si>
   gram;
 

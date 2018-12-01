@@ -19,7 +19,7 @@ private:
     GLuint _prog;
 
     static constexpr inline GLuint _invalid_prog(void) noexcept {
-	return 0u;
+        return 0u;
     }
 
 public:
@@ -34,27 +34,27 @@ public:
     }
 
     constexpr program_name program(void) const noexcept {
-	return program_name(_prog);
+        return program_name(_prog);
     }
 
     constexpr bool is_bound(void) const noexcept {
-	return _prog != _invalid_prog();
+        return _prog != _invalid_prog();
     }
 
     constexpr explicit operator bool(void) const noexcept {
-	return this->is_bound() && this->is_active();
+        return this->is_bound() && this->is_active();
     }
 
-    constexpr bool operator!(void)const noexcept {
-	return !this->is_bound() || !this->is_active();
+    constexpr bool operator!(void) const noexcept {
+        return !this->is_bound() || !this->is_active();
     }
 
     friend constexpr bool operator==(prog_var_loc a, prog_var_loc b) noexcept {
-	return (a._prog == b._prog) && (a._loc == b._loc);
+        return (a._prog == b._prog) && (a._loc == b._loc);
     }
 
     friend constexpr bool operator!=(prog_var_loc a, prog_var_loc b) noexcept {
-	return (a._prog != b._prog) || (a._loc != b._loc);
+        return (a._prog != b._prog) || (a._loc != b._loc);
     }
 };
 

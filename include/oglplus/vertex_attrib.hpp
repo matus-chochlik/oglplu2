@@ -32,12 +32,12 @@ struct prog_var_loc_ops<tag::vertex_attrib> {
 
     static outcome<prog_var_loc<tag>> get_location(
       program_name prog, cstr_ref identifier) noexcept {
-	GLint loc = OGLPLUS_GLFUNC(GetAttribLocation)(
-	  get_raw_name(prog), identifier.c_str());
-	OGLPLUS_VERIFY(
-	  GetAttribLocation, identifier(identifier).gl_object(prog), always);
+        GLint loc = OGLPLUS_GLFUNC(GetAttribLocation)(
+          get_raw_name(prog), identifier.c_str());
+        OGLPLUS_VERIFY(
+          GetAttribLocation, identifier(identifier).gl_object(prog), always);
 
-	return {prog_var_loc<tag>{loc}};
+        return {prog_var_loc<tag>{loc}};
     }
 };
 

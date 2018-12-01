@@ -16,7 +16,7 @@ struct instead_of {
     typedef Dst type;
 
     static constexpr inline Dst value(Dst val) noexcept {
-	return val;
+        return val;
     }
 };
 

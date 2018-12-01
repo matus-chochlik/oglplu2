@@ -35,7 +35,7 @@ OGLPLUS_LIB_FUNC
 std::ostream&
 wrap_output::definitions(std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt))
-	return out;
+        return out;
 
     input_defs(out, ctxt);
     opening_expr(out, ctxt);
@@ -48,30 +48,30 @@ wrap_output::definitions(std::ostream& out, compile_context& ctxt) {
     out << ";" << std::endl;
 
     switch(mode) {
-	case wrap_mode::repeat:
-	case wrap_mode::mirror:
-	    out << "\t" << data_type_name(vt);
-	    out << " f = fract(v);" << std::endl;
-	    out << "\tf = f - floor(f);" << std::endl;
-	    break;
-	case wrap_mode::clamp:
-	    break;
+        case wrap_mode::repeat:
+        case wrap_mode::mirror:
+            out << "\t" << data_type_name(vt);
+            out << " f = fract(v);" << std::endl;
+            out << "\tf = f - floor(f);" << std::endl;
+            break;
+        case wrap_mode::clamp:
+            break;
     }
 
     out << "\treturn ";
     switch(mode) {
-	case wrap_mode::repeat:
-	    out << "f";
-	    break;
-	case wrap_mode::mirror:
-	    out << "mix(f, " << data_type_name(vt);
-	    out << "(1)-f, mod(floor(v), 2))";
-	    break;
-	case wrap_mode::clamp:
-	    out << "clamp(v, " << data_type_name(vt);
-	    out << "(0.0), " << data_type_name(vt);
-	    out << "(1.0))" << std::endl;
-	    break;
+        case wrap_mode::repeat:
+            out << "f";
+            break;
+        case wrap_mode::mirror:
+            out << "mix(f, " << data_type_name(vt);
+            out << "(1)-f, mod(floor(v), 2))";
+            break;
+        case wrap_mode::clamp:
+            out << "clamp(v, " << data_type_name(vt);
+            out << "(0.0), " << data_type_name(vt);
+            out << "(1.0))" << std::endl;
+            break;
     }
     out << ";" << std::endl;
 

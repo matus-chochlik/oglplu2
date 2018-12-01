@@ -15,8 +15,8 @@
 #include "../utils/indexed_enum.hpp"
 
 #if !OGLPLUS_ERROR_NO_INFO_LOG
-#include "../utils/string_span.hpp"
 #include <string>
+#include "../utils/string_span.hpp"
 #endif
 
 #if !OGLPLUS_ERROR_NO_EXTENDED_INFO
@@ -87,7 +87,7 @@ private:
 #endif
 public:
     static constexpr inline GLuint invalid_index(void) noexcept {
-	return ~GLuint(0);
+        return ~GLuint(0);
     }
 
     error_info(GLenum gl_err_code) noexcept;
@@ -97,7 +97,7 @@ public:
     }
 
     error_info& no_info(void) noexcept {
-	return *this;
+        return *this;
     }
 
     error_info& gl_error_code(GLenum gl_err_code) noexcept;

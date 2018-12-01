@@ -379,593 +379,593 @@ get_enum_value_name(const any_enum_value& aev) noexcept {
 #endif
 
     switch(aev._type_id) {
-	case 0: /* color_buffer_type */
-	    switch(EGLenum(aev._value)) {
+        case 0: /* color_buffer_type */
+            switch(EGLenum(aev._value)) {
 #ifdef EGL_LUMINANCE_BUFFER
-		case EGL_LUMINANCE_BUFFER:
-		    return {s_LUMINANCE_BUFFER, 16};
+                case EGL_LUMINANCE_BUFFER:
+                    return {s_LUMINANCE_BUFFER, 16};
 #endif
 #ifdef EGL_RGB_BUFFER
-		case EGL_RGB_BUFFER:
-		    return {s_RGB_BUFFER, 10};
+                case EGL_RGB_BUFFER:
+                    return {s_RGB_BUFFER, 10};
 #endif
-		default:;
-	    }
-	    break;
-	case 1: /* config_attrib */
-	    switch(EGLenum(aev._value)) {
+                default:;
+            }
+            break;
+        case 1: /* config_attrib */
+            switch(EGLenum(aev._value)) {
 #ifdef EGL_ALPHA_MASK_SIZE
-		case EGL_ALPHA_MASK_SIZE:
-		    return {s_ALPHA_MASK_SIZE, 15};
+                case EGL_ALPHA_MASK_SIZE:
+                    return {s_ALPHA_MASK_SIZE, 15};
 #endif
 #ifdef EGL_ALPHA_SIZE
-		case EGL_ALPHA_SIZE:
-		    return {s_ALPHA_SIZE, 10};
+                case EGL_ALPHA_SIZE:
+                    return {s_ALPHA_SIZE, 10};
 #endif
 #ifdef EGL_BIND_TO_TEXTURE_RGB
-		case EGL_BIND_TO_TEXTURE_RGB:
-		    return {s_BIND_TO_TEXTURE_RGB, 19};
+                case EGL_BIND_TO_TEXTURE_RGB:
+                    return {s_BIND_TO_TEXTURE_RGB, 19};
 #endif
 #ifdef EGL_BIND_TO_TEXTURE_RGBA
-		case EGL_BIND_TO_TEXTURE_RGBA:
-		    return {s_BIND_TO_TEXTURE_RGBA, 20};
+                case EGL_BIND_TO_TEXTURE_RGBA:
+                    return {s_BIND_TO_TEXTURE_RGBA, 20};
 #endif
 #ifdef EGL_BLUE_SIZE
-		case EGL_BLUE_SIZE:
-		    return {s_BLUE_SIZE, 9};
+                case EGL_BLUE_SIZE:
+                    return {s_BLUE_SIZE, 9};
 #endif
 #ifdef EGL_BUFFER_SIZE
-		case EGL_BUFFER_SIZE:
-		    return {s_BUFFER_SIZE, 11};
+                case EGL_BUFFER_SIZE:
+                    return {s_BUFFER_SIZE, 11};
 #endif
 #ifdef EGL_COLOR_BUFFER_TYPE
-		case EGL_COLOR_BUFFER_TYPE:
-		    return {s_COLOR_BUFFER_TYPE, 17};
+                case EGL_COLOR_BUFFER_TYPE:
+                    return {s_COLOR_BUFFER_TYPE, 17};
 #endif
 #ifdef EGL_CONFIG_CAVEAT
-		case EGL_CONFIG_CAVEAT:
-		    return {s_CONFIG_CAVEAT, 13};
+                case EGL_CONFIG_CAVEAT:
+                    return {s_CONFIG_CAVEAT, 13};
 #endif
 #ifdef EGL_CONFIG_ID
-		case EGL_CONFIG_ID:
-		    return {s_CONFIG_ID, 9};
+                case EGL_CONFIG_ID:
+                    return {s_CONFIG_ID, 9};
 #endif
 #ifdef EGL_CONFORMANT
-		case EGL_CONFORMANT:
-		    return {s_CONFORMANT, 10};
+                case EGL_CONFORMANT:
+                    return {s_CONFORMANT, 10};
 #endif
 #ifdef EGL_DEPTH_SIZE
-		case EGL_DEPTH_SIZE:
-		    return {s_DEPTH_SIZE, 10};
+                case EGL_DEPTH_SIZE:
+                    return {s_DEPTH_SIZE, 10};
 #endif
 #ifdef EGL_GREEN_SIZE
-		case EGL_GREEN_SIZE:
-		    return {s_GREEN_SIZE, 10};
+                case EGL_GREEN_SIZE:
+                    return {s_GREEN_SIZE, 10};
 #endif
 #ifdef EGL_LEVEL
-		case EGL_LEVEL:
-		    return {s_LEVEL, 5};
+                case EGL_LEVEL:
+                    return {s_LEVEL, 5};
 #endif
 #ifdef EGL_LUMINANCE_SIZE
-		case EGL_LUMINANCE_SIZE:
-		    return {s_LUMINANCE_SIZE, 14};
+                case EGL_LUMINANCE_SIZE:
+                    return {s_LUMINANCE_SIZE, 14};
 #endif
 #ifdef EGL_MAX_PBUFFER_HEIGHT
-		case EGL_MAX_PBUFFER_HEIGHT:
-		    return {s_MAX_PBUFFER_HEIGHT, 18};
+                case EGL_MAX_PBUFFER_HEIGHT:
+                    return {s_MAX_PBUFFER_HEIGHT, 18};
 #endif
 #ifdef EGL_MAX_PBUFFER_PIXELS
-		case EGL_MAX_PBUFFER_PIXELS:
-		    return {s_MAX_PBUFFER_PIXELS, 18};
+                case EGL_MAX_PBUFFER_PIXELS:
+                    return {s_MAX_PBUFFER_PIXELS, 18};
 #endif
 #ifdef EGL_MAX_PBUFFER_WIDTH
-		case EGL_MAX_PBUFFER_WIDTH:
-		    return {s_MAX_PBUFFER_WIDTH, 17};
+                case EGL_MAX_PBUFFER_WIDTH:
+                    return {s_MAX_PBUFFER_WIDTH, 17};
 #endif
 #ifdef EGL_MAX_SWAP_INTERVAL
-		case EGL_MAX_SWAP_INTERVAL:
-		    return {s_MAX_SWAP_INTERVAL, 17};
+                case EGL_MAX_SWAP_INTERVAL:
+                    return {s_MAX_SWAP_INTERVAL, 17};
 #endif
 #ifdef EGL_MIN_SWAP_INTERVAL
-		case EGL_MIN_SWAP_INTERVAL:
-		    return {s_MIN_SWAP_INTERVAL, 17};
+                case EGL_MIN_SWAP_INTERVAL:
+                    return {s_MIN_SWAP_INTERVAL, 17};
 #endif
 #ifdef EGL_NATIVE_RENDERABLE
-		case EGL_NATIVE_RENDERABLE:
-		    return {s_NATIVE_RENDERABLE, 17};
+                case EGL_NATIVE_RENDERABLE:
+                    return {s_NATIVE_RENDERABLE, 17};
 #endif
 #ifdef EGL_NATIVE_VISUAL_ID
-		case EGL_NATIVE_VISUAL_ID:
-		    return {s_NATIVE_VISUAL_ID, 16};
+                case EGL_NATIVE_VISUAL_ID:
+                    return {s_NATIVE_VISUAL_ID, 16};
 #endif
 #ifdef EGL_NATIVE_VISUAL_TYPE
-		case EGL_NATIVE_VISUAL_TYPE:
-		    return {s_NATIVE_VISUAL_TYPE, 18};
+                case EGL_NATIVE_VISUAL_TYPE:
+                    return {s_NATIVE_VISUAL_TYPE, 18};
 #endif
 #ifdef EGL_RED_SIZE
-		case EGL_RED_SIZE:
-		    return {s_RED_SIZE, 8};
+                case EGL_RED_SIZE:
+                    return {s_RED_SIZE, 8};
 #endif
 #ifdef EGL_RENDERABLE_TYPE
-		case EGL_RENDERABLE_TYPE:
-		    return {s_RENDERABLE_TYPE, 15};
+                case EGL_RENDERABLE_TYPE:
+                    return {s_RENDERABLE_TYPE, 15};
 #endif
 #ifdef EGL_SAMPLES
-		case EGL_SAMPLES:
-		    return {s_SAMPLES, 7};
+                case EGL_SAMPLES:
+                    return {s_SAMPLES, 7};
 #endif
 #ifdef EGL_SAMPLE_BUFFERS
-		case EGL_SAMPLE_BUFFERS:
-		    return {s_SAMPLE_BUFFERS, 14};
+                case EGL_SAMPLE_BUFFERS:
+                    return {s_SAMPLE_BUFFERS, 14};
 #endif
 #ifdef EGL_STENCIL_SIZE
-		case EGL_STENCIL_SIZE:
-		    return {s_STENCIL_SIZE, 12};
+                case EGL_STENCIL_SIZE:
+                    return {s_STENCIL_SIZE, 12};
 #endif
 #ifdef EGL_SURFACE_TYPE
-		case EGL_SURFACE_TYPE:
-		    return {s_SURFACE_TYPE, 12};
+                case EGL_SURFACE_TYPE:
+                    return {s_SURFACE_TYPE, 12};
 #endif
 #ifdef EGL_TRANSPARENT_BLUE_VALUE
-		case EGL_TRANSPARENT_BLUE_VALUE:
-		    return {s_TRANSPARENT_BLUE_VALUE, 22};
+                case EGL_TRANSPARENT_BLUE_VALUE:
+                    return {s_TRANSPARENT_BLUE_VALUE, 22};
 #endif
 #ifdef EGL_TRANSPARENT_GREEN_VALUE
-		case EGL_TRANSPARENT_GREEN_VALUE:
-		    return {s_TRANSPARENT_GREEN_VALUE, 23};
+                case EGL_TRANSPARENT_GREEN_VALUE:
+                    return {s_TRANSPARENT_GREEN_VALUE, 23};
 #endif
 #ifdef EGL_TRANSPARENT_RED_VALUE
-		case EGL_TRANSPARENT_RED_VALUE:
-		    return {s_TRANSPARENT_RED_VALUE, 21};
+                case EGL_TRANSPARENT_RED_VALUE:
+                    return {s_TRANSPARENT_RED_VALUE, 21};
 #endif
 #ifdef EGL_TRANSPARENT_TYPE
-		case EGL_TRANSPARENT_TYPE:
-		    return {s_TRANSPARENT_TYPE, 16};
+                case EGL_TRANSPARENT_TYPE:
+                    return {s_TRANSPARENT_TYPE, 16};
 #endif
-		default:;
-	    }
-	    break;
-	case 2: /* config_caveat */
-	    switch(EGLenum(aev._value)) {
+                default:;
+            }
+            break;
+        case 2: /* config_caveat */
+            switch(EGLenum(aev._value)) {
 #ifdef EGL_NONE
-		case EGL_NONE:
-		    return {s_NONE, 4};
+                case EGL_NONE:
+                    return {s_NONE, 4};
 #endif
 #ifdef EGL_NON_CONFORMANT_CONFIG
-		case EGL_NON_CONFORMANT_CONFIG:
-		    return {s_NON_CONFORMANT_CONFIG, 21};
+                case EGL_NON_CONFORMANT_CONFIG:
+                    return {s_NON_CONFORMANT_CONFIG, 21};
 #endif
 #ifdef EGL_SLOW_CONFIG
-		case EGL_SLOW_CONFIG:
-		    return {s_SLOW_CONFIG, 11};
+                case EGL_SLOW_CONFIG:
+                    return {s_SLOW_CONFIG, 11};
 #endif
-		default:;
-	    }
-	    break;
-	case 3: /* context_attrib */
-	    switch(EGLenum(aev._value)) {
+                default:;
+            }
+            break;
+        case 3: /* context_attrib */
+            switch(EGLenum(aev._value)) {
 #ifdef EGL_CONTEXT_FLAGS
-		case EGL_CONTEXT_FLAGS:
-		    return {s_CONTEXT_FLAGS, 13};
+                case EGL_CONTEXT_FLAGS:
+                    return {s_CONTEXT_FLAGS, 13};
 #endif
 #ifdef EGL_CONTEXT_MAJOR_VERSION
-		case EGL_CONTEXT_MAJOR_VERSION:
-		    return {s_CONTEXT_MAJOR_VERSION, 21};
+                case EGL_CONTEXT_MAJOR_VERSION:
+                    return {s_CONTEXT_MAJOR_VERSION, 21};
 #endif
 #ifdef EGL_CONTEXT_MINOR_VERSION
-		case EGL_CONTEXT_MINOR_VERSION:
-		    return {s_CONTEXT_MINOR_VERSION, 21};
+                case EGL_CONTEXT_MINOR_VERSION:
+                    return {s_CONTEXT_MINOR_VERSION, 21};
 #endif
 #ifdef EGL_CONTEXT_OPENGL_PROFILE_MASK
-		case EGL_CONTEXT_OPENGL_PROFILE_MASK:
-		    return {s_CONTEXT_OPENGL_PROFILE_MASK, 27};
+                case EGL_CONTEXT_OPENGL_PROFILE_MASK:
+                    return {s_CONTEXT_OPENGL_PROFILE_MASK, 27};
 #endif
 #ifdef EGL_CONTEXT_OPENGL_RESET_NOTIFICATION_STRATEGY
-		case EGL_CONTEXT_OPENGL_RESET_NOTIFICATION_STRATEGY:
-		    return {s_CONTEXT_OPENGL_RESET_NOTIFICATION_STRATEGY, 42};
+                case EGL_CONTEXT_OPENGL_RESET_NOTIFICATION_STRATEGY:
+                    return {s_CONTEXT_OPENGL_RESET_NOTIFICATION_STRATEGY, 42};
 #endif
-		default:;
-	    }
-	    break;
-	case 4: /* context_flag */
-	    switch(EGLenum(aev._value)) {
+                default:;
+            }
+            break;
+        case 4: /* context_flag */
+            switch(EGLenum(aev._value)) {
 #ifdef EGL_CONTEXT_OPENGL_DEBUG_BIT
-		case EGL_CONTEXT_OPENGL_DEBUG_BIT:
-		    return {s_CONTEXT_OPENGL_DEBUG_BIT, 24};
+                case EGL_CONTEXT_OPENGL_DEBUG_BIT:
+                    return {s_CONTEXT_OPENGL_DEBUG_BIT, 24};
 #endif
 #ifdef EGL_CONTEXT_OPENGL_FORWARD_COMPATIBLE_BIT
-		case EGL_CONTEXT_OPENGL_FORWARD_COMPATIBLE_BIT:
-		    return {s_CONTEXT_OPENGL_FORWARD_COMPATIBLE_BIT, 37};
+                case EGL_CONTEXT_OPENGL_FORWARD_COMPATIBLE_BIT:
+                    return {s_CONTEXT_OPENGL_FORWARD_COMPATIBLE_BIT, 37};
 #endif
 #ifdef EGL_CONTEXT_OPENGL_ROBUST_ACCESS_BIT
-		case EGL_CONTEXT_OPENGL_ROBUST_ACCESS_BIT:
-		    return {s_CONTEXT_OPENGL_ROBUST_ACCESS_BIT, 32};
+                case EGL_CONTEXT_OPENGL_ROBUST_ACCESS_BIT:
+                    return {s_CONTEXT_OPENGL_ROBUST_ACCESS_BIT, 32};
 #endif
-		default:;
-	    }
-	    break;
-	case 5: /* error_code */
-	    switch(EGLenum(aev._value)) {
+                default:;
+            }
+            break;
+        case 5: /* error_code */
+            switch(EGLenum(aev._value)) {
 #ifdef EGL_BAD_ACCESS
-		case EGL_BAD_ACCESS:
-		    return {s_BAD_ACCESS, 10};
+                case EGL_BAD_ACCESS:
+                    return {s_BAD_ACCESS, 10};
 #endif
 #ifdef EGL_BAD_ALLOC
-		case EGL_BAD_ALLOC:
-		    return {s_BAD_ALLOC, 9};
+                case EGL_BAD_ALLOC:
+                    return {s_BAD_ALLOC, 9};
 #endif
 #ifdef EGL_BAD_ATTRIBUTE
-		case EGL_BAD_ATTRIBUTE:
-		    return {s_BAD_ATTRIBUTE, 13};
+                case EGL_BAD_ATTRIBUTE:
+                    return {s_BAD_ATTRIBUTE, 13};
 #endif
 #ifdef EGL_BAD_CONFIG
-		case EGL_BAD_CONFIG:
-		    return {s_BAD_CONFIG, 10};
+                case EGL_BAD_CONFIG:
+                    return {s_BAD_CONFIG, 10};
 #endif
 #ifdef EGL_BAD_CONTEXT
-		case EGL_BAD_CONTEXT:
-		    return {s_BAD_CONTEXT, 11};
+                case EGL_BAD_CONTEXT:
+                    return {s_BAD_CONTEXT, 11};
 #endif
 #ifdef EGL_BAD_CURRENT_SURFACE
-		case EGL_BAD_CURRENT_SURFACE:
-		    return {s_BAD_CURRENT_SURFACE, 19};
+                case EGL_BAD_CURRENT_SURFACE:
+                    return {s_BAD_CURRENT_SURFACE, 19};
 #endif
 #ifdef EGL_BAD_DISPLAY
-		case EGL_BAD_DISPLAY:
-		    return {s_BAD_DISPLAY, 11};
+                case EGL_BAD_DISPLAY:
+                    return {s_BAD_DISPLAY, 11};
 #endif
 #ifdef EGL_BAD_MATCH
-		case EGL_BAD_MATCH:
-		    return {s_BAD_MATCH, 9};
+                case EGL_BAD_MATCH:
+                    return {s_BAD_MATCH, 9};
 #endif
 #ifdef EGL_BAD_NATIVE_PIXMAP
-		case EGL_BAD_NATIVE_PIXMAP:
-		    return {s_BAD_NATIVE_PIXMAP, 17};
+                case EGL_BAD_NATIVE_PIXMAP:
+                    return {s_BAD_NATIVE_PIXMAP, 17};
 #endif
 #ifdef EGL_BAD_NATIVE_WINDOW
-		case EGL_BAD_NATIVE_WINDOW:
-		    return {s_BAD_NATIVE_WINDOW, 17};
+                case EGL_BAD_NATIVE_WINDOW:
+                    return {s_BAD_NATIVE_WINDOW, 17};
 #endif
 #ifdef EGL_BAD_PARAMETER
-		case EGL_BAD_PARAMETER:
-		    return {s_BAD_PARAMETER, 13};
+                case EGL_BAD_PARAMETER:
+                    return {s_BAD_PARAMETER, 13};
 #endif
 #ifdef EGL_BAD_SURFACE
-		case EGL_BAD_SURFACE:
-		    return {s_BAD_SURFACE, 11};
+                case EGL_BAD_SURFACE:
+                    return {s_BAD_SURFACE, 11};
 #endif
 #ifdef EGL_CONTEXT_LOST
-		case EGL_CONTEXT_LOST:
-		    return {s_CONTEXT_LOST, 12};
+                case EGL_CONTEXT_LOST:
+                    return {s_CONTEXT_LOST, 12};
 #endif
 #ifdef EGL_NOT_INITIALIZED
-		case EGL_NOT_INITIALIZED:
-		    return {s_NOT_INITIALIZED, 15};
+                case EGL_NOT_INITIALIZED:
+                    return {s_NOT_INITIALIZED, 15};
 #endif
-		default:;
-	    }
-	    break;
-	case 6: /* gl_colorspace */
-	    switch(EGLenum(aev._value)) {
+                default:;
+            }
+            break;
+        case 6: /* gl_colorspace */
+            switch(EGLenum(aev._value)) {
 #ifdef EGL_GL_COLORSPACE_LINEAR
-		case EGL_GL_COLORSPACE_LINEAR:
-		    return {s_GL_COLORSPACE_LINEAR, 20};
+                case EGL_GL_COLORSPACE_LINEAR:
+                    return {s_GL_COLORSPACE_LINEAR, 20};
 #endif
 #ifdef EGL_GL_COLORSPACE_sRGB
-		case EGL_GL_COLORSPACE_sRGB:
-		    return {s_GL_COLORSPACE_sRGB, 18};
+                case EGL_GL_COLORSPACE_sRGB:
+                    return {s_GL_COLORSPACE_sRGB, 18};
 #endif
-		default:;
-	    }
-	    break;
-	case 7: /* multisample_resolve */
-	    switch(EGLenum(aev._value)) {
+                default:;
+            }
+            break;
+        case 7: /* multisample_resolve */
+            switch(EGLenum(aev._value)) {
 #ifdef EGL_MULTISAMPLE_RESOLVE_BOX
-		case EGL_MULTISAMPLE_RESOLVE_BOX:
-		    return {s_MULTISAMPLE_RESOLVE_BOX, 23};
+                case EGL_MULTISAMPLE_RESOLVE_BOX:
+                    return {s_MULTISAMPLE_RESOLVE_BOX, 23};
 #endif
 #ifdef EGL_MULTISAMPLE_RESOLVE_DEFAULT
-		case EGL_MULTISAMPLE_RESOLVE_DEFAULT:
-		    return {s_MULTISAMPLE_RESOLVE_DEFAULT, 27};
+                case EGL_MULTISAMPLE_RESOLVE_DEFAULT:
+                    return {s_MULTISAMPLE_RESOLVE_DEFAULT, 27};
 #endif
-		default:;
-	    }
-	    break;
-	case 8: /* opengl_profile_bit */
-	    switch(EGLenum(aev._value)) {
+                default:;
+            }
+            break;
+        case 8: /* opengl_profile_bit */
+            switch(EGLenum(aev._value)) {
 #ifdef EGL_CONTEXT_OPENGL_COMPATIBILITY_PROFILE_BIT
-		case EGL_CONTEXT_OPENGL_COMPATIBILITY_PROFILE_BIT:
-		    return {s_CONTEXT_OPENGL_COMPATIBILITY_PROFILE_BIT, 40};
+                case EGL_CONTEXT_OPENGL_COMPATIBILITY_PROFILE_BIT:
+                    return {s_CONTEXT_OPENGL_COMPATIBILITY_PROFILE_BIT, 40};
 #endif
 #ifdef EGL_CONTEXT_OPENGL_CORE_PROFILE_BIT
-		case EGL_CONTEXT_OPENGL_CORE_PROFILE_BIT:
-		    return {s_CONTEXT_OPENGL_CORE_PROFILE_BIT, 31};
+                case EGL_CONTEXT_OPENGL_CORE_PROFILE_BIT:
+                    return {s_CONTEXT_OPENGL_CORE_PROFILE_BIT, 31};
 #endif
-		default:;
-	    }
-	    break;
-	case 9: /* opengl_rns */
-	    switch(EGLenum(aev._value)) {
+                default:;
+            }
+            break;
+        case 9: /* opengl_rns */
+            switch(EGLenum(aev._value)) {
 #ifdef EGL_LOSE_CONTEXT_ON_RESET
-		case EGL_LOSE_CONTEXT_ON_RESET:
-		    return {s_LOSE_CONTEXT_ON_RESET, 21};
+                case EGL_LOSE_CONTEXT_ON_RESET:
+                    return {s_LOSE_CONTEXT_ON_RESET, 21};
 #endif
 #ifdef EGL_NO_RESET_NOTIFICATION
-		case EGL_NO_RESET_NOTIFICATION:
-		    return {s_NO_RESET_NOTIFICATION, 21};
+                case EGL_NO_RESET_NOTIFICATION:
+                    return {s_NO_RESET_NOTIFICATION, 21};
 #endif
-		default:;
-	    }
-	    break;
-	case 10: /* render_buffer */
-	    switch(EGLenum(aev._value)) {
+                default:;
+            }
+            break;
+        case 10: /* render_buffer */
+            switch(EGLenum(aev._value)) {
 #ifdef EGL_BACK_BUFFER
-		case EGL_BACK_BUFFER:
-		    return {s_BACK_BUFFER, 11};
+                case EGL_BACK_BUFFER:
+                    return {s_BACK_BUFFER, 11};
 #endif
 #ifdef EGL_SINGLE_BUFFER
-		case EGL_SINGLE_BUFFER:
-		    return {s_SINGLE_BUFFER, 13};
+                case EGL_SINGLE_BUFFER:
+                    return {s_SINGLE_BUFFER, 13};
 #endif
-		default:;
-	    }
-	    break;
-	case 11: /* renderable_type_bit */
-	    switch(EGLenum(aev._value)) {
+                default:;
+            }
+            break;
+        case 11: /* renderable_type_bit */
+            switch(EGLenum(aev._value)) {
 #ifdef EGL_OPENGL_BIT
-		case EGL_OPENGL_BIT:
-		    return {s_OPENGL_BIT, 10};
+                case EGL_OPENGL_BIT:
+                    return {s_OPENGL_BIT, 10};
 #endif
 #ifdef EGL_OPENGL_ES2_BIT
-		case EGL_OPENGL_ES2_BIT:
-		    return {s_OPENGL_ES2_BIT, 14};
+                case EGL_OPENGL_ES2_BIT:
+                    return {s_OPENGL_ES2_BIT, 14};
 #endif
 #ifdef EGL_OPENGL_ES3_BIT
-		case EGL_OPENGL_ES3_BIT:
-		    return {s_OPENGL_ES3_BIT, 14};
+                case EGL_OPENGL_ES3_BIT:
+                    return {s_OPENGL_ES3_BIT, 14};
 #endif
 #ifdef EGL_OPENGL_ES_BIT
-		case EGL_OPENGL_ES_BIT:
-		    return {s_OPENGL_ES_BIT, 13};
+                case EGL_OPENGL_ES_BIT:
+                    return {s_OPENGL_ES_BIT, 13};
 #endif
 #ifdef EGL_OPENVG_BIT
-		case EGL_OPENVG_BIT:
-		    return {s_OPENVG_BIT, 10};
+                case EGL_OPENVG_BIT:
+                    return {s_OPENVG_BIT, 10};
 #endif
-		default:;
-	    }
-	    break;
-	case 12: /* rendering_api */
-	    switch(EGLenum(aev._value)) {
+                default:;
+            }
+            break;
+        case 12: /* rendering_api */
+            switch(EGLenum(aev._value)) {
 #ifdef EGL_NONE
-		case EGL_NONE:
-		    return {s_NONE, 4};
+                case EGL_NONE:
+                    return {s_NONE, 4};
 #endif
 #ifdef EGL_OPENGL_API
-		case EGL_OPENGL_API:
-		    return {s_OPENGL_API, 10};
+                case EGL_OPENGL_API:
+                    return {s_OPENGL_API, 10};
 #endif
 #ifdef EGL_OPENGL_ES_API
-		case EGL_OPENGL_ES_API:
-		    return {s_OPENGL_ES_API, 13};
+                case EGL_OPENGL_ES_API:
+                    return {s_OPENGL_ES_API, 13};
 #endif
 #ifdef EGL_OPENVG_API
-		case EGL_OPENVG_API:
-		    return {s_OPENVG_API, 10};
+                case EGL_OPENVG_API:
+                    return {s_OPENVG_API, 10};
 #endif
-		default:;
-	    }
-	    break;
-	case 13: /* string_query */
-	    switch(EGLenum(aev._value)) {
+                default:;
+            }
+            break;
+        case 13: /* string_query */
+            switch(EGLenum(aev._value)) {
 #ifdef EGL_CLIENT_APIS
-		case EGL_CLIENT_APIS:
-		    return {s_CLIENT_APIS, 11};
+                case EGL_CLIENT_APIS:
+                    return {s_CLIENT_APIS, 11};
 #endif
 #ifdef EGL_EXTENSIONS
-		case EGL_EXTENSIONS:
-		    return {s_EXTENSIONS, 10};
+                case EGL_EXTENSIONS:
+                    return {s_EXTENSIONS, 10};
 #endif
 #ifdef EGL_VENDOR
-		case EGL_VENDOR:
-		    return {s_VENDOR, 6};
+                case EGL_VENDOR:
+                    return {s_VENDOR, 6};
 #endif
 #ifdef EGL_VERSION
-		case EGL_VERSION:
-		    return {s_VERSION, 7};
+                case EGL_VERSION:
+                    return {s_VERSION, 7};
 #endif
-		default:;
-	    }
-	    break;
-	case 14: /* surface_attrib */
-	    switch(EGLenum(aev._value)) {
+                default:;
+            }
+            break;
+        case 14: /* surface_attrib */
+            switch(EGLenum(aev._value)) {
 #ifdef EGL_CONFIG_ID
-		case EGL_CONFIG_ID:
-		    return {s_CONFIG_ID, 9};
+                case EGL_CONFIG_ID:
+                    return {s_CONFIG_ID, 9};
 #endif
 #ifdef EGL_GL_COLORSPACE
-		case EGL_GL_COLORSPACE:
-		    return {s_GL_COLORSPACE, 13};
+                case EGL_GL_COLORSPACE:
+                    return {s_GL_COLORSPACE, 13};
 #endif
 #ifdef EGL_HEIGHT
-		case EGL_HEIGHT:
-		    return {s_HEIGHT, 6};
+                case EGL_HEIGHT:
+                    return {s_HEIGHT, 6};
 #endif
 #ifdef EGL_HORIZONTAL_RESOLUTION
-		case EGL_HORIZONTAL_RESOLUTION:
-		    return {s_HORIZONTAL_RESOLUTION, 21};
+                case EGL_HORIZONTAL_RESOLUTION:
+                    return {s_HORIZONTAL_RESOLUTION, 21};
 #endif
 #ifdef EGL_LARGEST_PBUFFER
-		case EGL_LARGEST_PBUFFER:
-		    return {s_LARGEST_PBUFFER, 15};
+                case EGL_LARGEST_PBUFFER:
+                    return {s_LARGEST_PBUFFER, 15};
 #endif
 #ifdef EGL_MIPMAP_LEVEL
-		case EGL_MIPMAP_LEVEL:
-		    return {s_MIPMAP_LEVEL, 12};
+                case EGL_MIPMAP_LEVEL:
+                    return {s_MIPMAP_LEVEL, 12};
 #endif
 #ifdef EGL_MIPMAP_TEXTURE
-		case EGL_MIPMAP_TEXTURE:
-		    return {s_MIPMAP_TEXTURE, 14};
+                case EGL_MIPMAP_TEXTURE:
+                    return {s_MIPMAP_TEXTURE, 14};
 #endif
 #ifdef EGL_MULTISAMPLE_RESOLVE
-		case EGL_MULTISAMPLE_RESOLVE:
-		    return {s_MULTISAMPLE_RESOLVE, 19};
+                case EGL_MULTISAMPLE_RESOLVE:
+                    return {s_MULTISAMPLE_RESOLVE, 19};
 #endif
 #ifdef EGL_PIXEL_ASPECT_RATIO
-		case EGL_PIXEL_ASPECT_RATIO:
-		    return {s_PIXEL_ASPECT_RATIO, 18};
+                case EGL_PIXEL_ASPECT_RATIO:
+                    return {s_PIXEL_ASPECT_RATIO, 18};
 #endif
 #ifdef EGL_RENDER_BUFFER
-		case EGL_RENDER_BUFFER:
-		    return {s_RENDER_BUFFER, 13};
+                case EGL_RENDER_BUFFER:
+                    return {s_RENDER_BUFFER, 13};
 #endif
 #ifdef EGL_SWAP_BEHAVIOR
-		case EGL_SWAP_BEHAVIOR:
-		    return {s_SWAP_BEHAVIOR, 13};
+                case EGL_SWAP_BEHAVIOR:
+                    return {s_SWAP_BEHAVIOR, 13};
 #endif
 #ifdef EGL_TEXTURE_FORMAT
-		case EGL_TEXTURE_FORMAT:
-		    return {s_TEXTURE_FORMAT, 14};
+                case EGL_TEXTURE_FORMAT:
+                    return {s_TEXTURE_FORMAT, 14};
 #endif
 #ifdef EGL_TEXTURE_TARGET
-		case EGL_TEXTURE_TARGET:
-		    return {s_TEXTURE_TARGET, 14};
+                case EGL_TEXTURE_TARGET:
+                    return {s_TEXTURE_TARGET, 14};
 #endif
 #ifdef EGL_VERTICAL_RESOLUTION
-		case EGL_VERTICAL_RESOLUTION:
-		    return {s_VERTICAL_RESOLUTION, 19};
+                case EGL_VERTICAL_RESOLUTION:
+                    return {s_VERTICAL_RESOLUTION, 19};
 #endif
 #ifdef EGL_VG_ALPHA_FORMAT
-		case EGL_VG_ALPHA_FORMAT:
-		    return {s_VG_ALPHA_FORMAT, 15};
+                case EGL_VG_ALPHA_FORMAT:
+                    return {s_VG_ALPHA_FORMAT, 15};
 #endif
 #ifdef EGL_VG_COLORSPACE
-		case EGL_VG_COLORSPACE:
-		    return {s_VG_COLORSPACE, 13};
+                case EGL_VG_COLORSPACE:
+                    return {s_VG_COLORSPACE, 13};
 #endif
 #ifdef EGL_WIDTH
-		case EGL_WIDTH:
-		    return {s_WIDTH, 5};
+                case EGL_WIDTH:
+                    return {s_WIDTH, 5};
 #endif
-		default:;
-	    }
-	    break;
-	case 15: /* surface_type_bit */
-	    switch(EGLenum(aev._value)) {
+                default:;
+            }
+            break;
+        case 15: /* surface_type_bit */
+            switch(EGLenum(aev._value)) {
 #ifdef EGL_MULTISAMPLE_RESOLVE_BOX_BIT
-		case EGL_MULTISAMPLE_RESOLVE_BOX_BIT:
-		    return {s_MULTISAMPLE_RESOLVE_BOX_BIT, 27};
+                case EGL_MULTISAMPLE_RESOLVE_BOX_BIT:
+                    return {s_MULTISAMPLE_RESOLVE_BOX_BIT, 27};
 #endif
 #ifdef EGL_PBUFFER_BIT
-		case EGL_PBUFFER_BIT:
-		    return {s_PBUFFER_BIT, 11};
+                case EGL_PBUFFER_BIT:
+                    return {s_PBUFFER_BIT, 11};
 #endif
 #ifdef EGL_PIXMAP_BIT
-		case EGL_PIXMAP_BIT:
-		    return {s_PIXMAP_BIT, 10};
+                case EGL_PIXMAP_BIT:
+                    return {s_PIXMAP_BIT, 10};
 #endif
 #ifdef EGL_SWAP_BEHAVIOR_PRESERVED_BIT
-		case EGL_SWAP_BEHAVIOR_PRESERVED_BIT:
-		    return {s_SWAP_BEHAVIOR_PRESERVED_BIT, 27};
+                case EGL_SWAP_BEHAVIOR_PRESERVED_BIT:
+                    return {s_SWAP_BEHAVIOR_PRESERVED_BIT, 27};
 #endif
 #ifdef EGL_VG_ALPHA_FORMAT_PRE_BIT
-		case EGL_VG_ALPHA_FORMAT_PRE_BIT:
-		    return {s_VG_ALPHA_FORMAT_PRE_BIT, 23};
+                case EGL_VG_ALPHA_FORMAT_PRE_BIT:
+                    return {s_VG_ALPHA_FORMAT_PRE_BIT, 23};
 #endif
 #ifdef EGL_VG_COLORSPACE_LINEAR_BIT
-		case EGL_VG_COLORSPACE_LINEAR_BIT:
-		    return {s_VG_COLORSPACE_LINEAR_BIT, 24};
+                case EGL_VG_COLORSPACE_LINEAR_BIT:
+                    return {s_VG_COLORSPACE_LINEAR_BIT, 24};
 #endif
 #ifdef EGL_WINDOW_BIT
-		case EGL_WINDOW_BIT:
-		    return {s_WINDOW_BIT, 10};
+                case EGL_WINDOW_BIT:
+                    return {s_WINDOW_BIT, 10};
 #endif
-		default:;
-	    }
-	    break;
-	case 16: /* swap_behavior */
-	    switch(EGLenum(aev._value)) {
+                default:;
+            }
+            break;
+        case 16: /* swap_behavior */
+            switch(EGLenum(aev._value)) {
 #ifdef EGL_BUFFER_DESTROYED
-		case EGL_BUFFER_DESTROYED:
-		    return {s_BUFFER_DESTROYED, 16};
+                case EGL_BUFFER_DESTROYED:
+                    return {s_BUFFER_DESTROYED, 16};
 #endif
 #ifdef EGL_BUFFER_PRESERVED
-		case EGL_BUFFER_PRESERVED:
-		    return {s_BUFFER_PRESERVED, 16};
+                case EGL_BUFFER_PRESERVED:
+                    return {s_BUFFER_PRESERVED, 16};
 #endif
-		default:;
-	    }
-	    break;
-	case 17: /* texture_format */
-	    switch(EGLenum(aev._value)) {
+                default:;
+            }
+            break;
+        case 17: /* texture_format */
+            switch(EGLenum(aev._value)) {
 #ifdef EGL_NO_TEXTURE
-		case EGL_NO_TEXTURE:
-		    return {s_NO_TEXTURE, 10};
+                case EGL_NO_TEXTURE:
+                    return {s_NO_TEXTURE, 10};
 #endif
 #ifdef EGL_TEXTURE_RGB
-		case EGL_TEXTURE_RGB:
-		    return {s_TEXTURE_RGB, 11};
+                case EGL_TEXTURE_RGB:
+                    return {s_TEXTURE_RGB, 11};
 #endif
 #ifdef EGL_TEXTURE_RGBA
-		case EGL_TEXTURE_RGBA:
-		    return {s_TEXTURE_RGBA, 12};
+                case EGL_TEXTURE_RGBA:
+                    return {s_TEXTURE_RGBA, 12};
 #endif
-		default:;
-	    }
-	    break;
-	case 18: /* texture_target */
-	    switch(EGLenum(aev._value)) {
+                default:;
+            }
+            break;
+        case 18: /* texture_target */
+            switch(EGLenum(aev._value)) {
 #ifdef EGL_NO_TEXTURE
-		case EGL_NO_TEXTURE:
-		    return {s_NO_TEXTURE, 10};
+                case EGL_NO_TEXTURE:
+                    return {s_NO_TEXTURE, 10};
 #endif
 #ifdef EGL_TEXTURE_2D
-		case EGL_TEXTURE_2D:
-		    return {s_TEXTURE_2D, 10};
+                case EGL_TEXTURE_2D:
+                    return {s_TEXTURE_2D, 10};
 #endif
-		default:;
-	    }
-	    break;
-	case 19: /* transparent_type */
-	    switch(EGLenum(aev._value)) {
+                default:;
+            }
+            break;
+        case 19: /* transparent_type */
+            switch(EGLenum(aev._value)) {
 #ifdef EGL_NONE
-		case EGL_NONE:
-		    return {s_NONE, 4};
+                case EGL_NONE:
+                    return {s_NONE, 4};
 #endif
 #ifdef EGL_TRANSPARENT_RGB
-		case EGL_TRANSPARENT_RGB:
-		    return {s_TRANSPARENT_RGB, 15};
+                case EGL_TRANSPARENT_RGB:
+                    return {s_TRANSPARENT_RGB, 15};
 #endif
-		default:;
-	    }
-	    break;
-	case 20: /* vg_alpha_format */
-	    switch(EGLenum(aev._value)) {
+                default:;
+            }
+            break;
+        case 20: /* vg_alpha_format */
+            switch(EGLenum(aev._value)) {
 #ifdef EGL_VG_ALPHA_FORMAT_NONPRE
-		case EGL_VG_ALPHA_FORMAT_NONPRE:
-		    return {s_VG_ALPHA_FORMAT_NONPRE, 22};
+                case EGL_VG_ALPHA_FORMAT_NONPRE:
+                    return {s_VG_ALPHA_FORMAT_NONPRE, 22};
 #endif
 #ifdef EGL_VG_ALPHA_FORMAT_PRE
-		case EGL_VG_ALPHA_FORMAT_PRE:
-		    return {s_VG_ALPHA_FORMAT_PRE, 19};
+                case EGL_VG_ALPHA_FORMAT_PRE:
+                    return {s_VG_ALPHA_FORMAT_PRE, 19};
 #endif
-		default:;
-	    }
-	    break;
-	case 21: /* vg_colorspace */
-	    switch(EGLenum(aev._value)) {
+                default:;
+            }
+            break;
+        case 21: /* vg_colorspace */
+            switch(EGLenum(aev._value)) {
 #ifdef EGL_VG_COLORSPACE_LINEAR
-		case EGL_VG_COLORSPACE_LINEAR:
-		    return {s_VG_COLORSPACE_LINEAR, 20};
+                case EGL_VG_COLORSPACE_LINEAR:
+                    return {s_VG_COLORSPACE_LINEAR, 20};
 #endif
 #ifdef EGL_VG_COLORSPACE_sRGB
-		case EGL_VG_COLORSPACE_sRGB:
-		    return {s_VG_COLORSPACE_sRGB, 18};
+                case EGL_VG_COLORSPACE_sRGB:
+                    return {s_VG_COLORSPACE_sRGB, 18};
 #endif
-		default:;
-	    }
-	    break;
-	default:;
+                default:;
+            }
+            break;
+        default:;
     }
 
     EAGINE_MAYBE_UNUSED(aev);

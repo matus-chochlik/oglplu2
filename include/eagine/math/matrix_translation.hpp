@@ -38,29 +38,30 @@ struct translation<matrix<T, 4, 4, RM, V>> {
 
     constexpr inline matrix<T, 4, 4, true, V> _make(std::true_type) const
       noexcept {
-	return matrix<T, 4, 4, true, V>{{{T(1), T(0), T(0), _v[0]},
-	  {T(0), T(1), T(0), _v[1]},
-	  {T(0), T(0), T(1), _v[2]},
-	  {T(0), T(0), T(0), T(1)}}};
+        return matrix<T, 4, 4, true, V>{{{T(1), T(0), T(0), _v[0]},
+                                         {T(0), T(1), T(0), _v[1]},
+                                         {T(0), T(0), T(1), _v[2]},
+                                         {T(0), T(0), T(0), T(1)}}};
     }
 
     constexpr inline matrix<T, 4, 4, false, V> _make(std::false_type) const
       noexcept {
-	return matrix<T, 4, 4, false, V>{{{T(1), T(0), T(0), T(0)},
-	  {T(0), T(1), T(0), T(0)},
-	  {T(0), T(0), T(1), T(0)},
-	  {_v[0], _v[1], _v[2], T(1)}}};
+        return matrix<T, 4, 4, false, V>{{{T(1), T(0), T(0), T(0)},
+                                          {T(0), T(1), T(0), T(0)},
+                                          {T(0), T(0), T(1), T(0)},
+                                          {_v[0], _v[1], _v[2], T(1)}}};
     }
 
     constexpr inline matrix<T, 4, 4, RM, V> operator()(void) const noexcept {
-	return _make(bool_constant<RM>());
+        return _make(bool_constant<RM>());
     }
 };
 
 // multiply
 template <typename T, int N, bool RM1, bool RM2, bool V>
 static constexpr inline translation<matrix<T, N, N, RM1, V>>
-multiply(const translation<matrix<T, N, N, RM1, V>>& a,
+multiply(
+  const translation<matrix<T, N, N, RM1, V>>& a,
   const translation<matrix<T, N, N, RM2, V>>& b) noexcept {
     return {a._v + b._v};
 }

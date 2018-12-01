@@ -20,22 +20,22 @@ test_vect_shuffle_TNVI(void) {
     std::array<int, N> n = {{I...}};
 
     for(int k = 0; k < 10; ++k) {
-	T a[N];
+        T a[N];
 
-	typename eagine::vect::data<T, N, V>::type v = {};
-	typename eagine::vect::shuffle_mask<I...> m = {};
+        typename eagine::vect::data<T, N, V>::type v = {};
+        typename eagine::vect::shuffle_mask<I...> m = {};
 
-	for(int i = 0; i < N; ++i) {
-	    a[i] = rg.get_any<T>();
-	    v[i] = a[i];
-	}
+        for(int i = 0; i < N; ++i) {
+            a[i] = rg.get_any<T>();
+            v[i] = a[i];
+        }
 
-	typename eagine::vect::data<T, N, V>::type u =
-	  eagine::vect::shuffle<T, N, V>::apply(v, m);
+        typename eagine::vect::data<T, N, V>::type u =
+          eagine::vect::shuffle<T, N, V>::apply(v, m);
 
-	for(int i = 0; i < N; ++i) {
-	    BOOST_CHECK_EQUAL(u[i], a[n[size_t(i)]]);
-	}
+        for(int i = 0; i < N; ++i) {
+            BOOST_CHECK_EQUAL(u[i], a[n[size_t(i)]]);
+        }
     }
 }
 
@@ -226,25 +226,25 @@ test_vect_shuffle2_TNVI(void) {
     std::array<int, N> n = {{I...}};
 
     for(int k = 0; k < 10; ++k) {
-	T a[N * 2];
+        T a[N * 2];
 
-	typename eagine::vect::data<T, N, V>::type v = {}, u = {};
-	typename eagine::vect::shuffle_mask<I...> m = {};
+        typename eagine::vect::data<T, N, V>::type v = {}, u = {};
+        typename eagine::vect::shuffle_mask<I...> m = {};
 
-	for(int i = 0; i < N * 2; ++i) {
-	    a[i] = rg.get_any<T>();
-	}
-	for(int i = 0; i < N; ++i) {
-	    v[i] = a[0 + i];
-	    u[i] = a[N + i];
-	}
+        for(int i = 0; i < N * 2; ++i) {
+            a[i] = rg.get_any<T>();
+        }
+        for(int i = 0; i < N; ++i) {
+            v[i] = a[0 + i];
+            u[i] = a[N + i];
+        }
 
-	typename eagine::vect::data<T, N, V>::type w =
-	  eagine::vect::shuffle2<T, N, V>::apply(v, u, m);
+        typename eagine::vect::data<T, N, V>::type w =
+          eagine::vect::shuffle2<T, N, V>::apply(v, u, m);
 
-	for(int i = 0; i < N; ++i) {
-	    BOOST_CHECK_EQUAL(w[i], a[n[size_t(i)]]);
-	}
+        for(int i = 0; i < N; ++i) {
+            BOOST_CHECK_EQUAL(w[i], a[n[size_t(i)]]);
+        }
     }
 }
 

@@ -15,29 +15,29 @@ OGLPLUS_LIB_FUNC
 std::string
 error::_make_msg(error_info& info) {
     switch(info.gl_error_code()) {
-	case GL_OUT_OF_MEMORY:
-	    return {"OpenGL out of memory"};
-	case GL_INVALID_ENUM:
-	    return {"Invalid OpenGL enum argument"};
-	case GL_INVALID_VALUE:
-	    return {"OpenGL numeric argument out of range"};
-	case GL_INVALID_OPERATION:
-	    return {"Invalid OpenGL operation"};
-	case GL_INVALID_FRAMEBUFFER_OPERATION:
-	    return {"Invalid OpenGL framebuffer operation"};
+        case GL_OUT_OF_MEMORY:
+            return {"OpenGL out of memory"};
+        case GL_INVALID_ENUM:
+            return {"Invalid OpenGL enum argument"};
+        case GL_INVALID_VALUE:
+            return {"OpenGL numeric argument out of range"};
+        case GL_INVALID_OPERATION:
+            return {"Invalid OpenGL operation"};
+        case GL_INVALID_FRAMEBUFFER_OPERATION:
+            return {"Invalid OpenGL framebuffer operation"};
 #ifdef GL_STACK_OVERFLOW
-	case GL_STACK_OVERFLOW:
-	    return {"OpenGL stack overflow"};
+        case GL_STACK_OVERFLOW:
+            return {"OpenGL stack overflow"};
 #endif
 #ifdef GL_STACK_UNDERFLOW
-	case GL_STACK_UNDERFLOW:
-	    return {"OpenGL stack underflow"};
+        case GL_STACK_UNDERFLOW:
+            return {"OpenGL stack underflow"};
 #endif
 #ifdef GL_TABLE_TOO_LARGE
-	case GL_TABLE_TOO_LARGE:
-	    return {"OpenGL table too large"};
+        case GL_TABLE_TOO_LARGE:
+            return {"OpenGL table too large"};
 #endif
-	default:;
+        default:;
     }
     return {"Unknown OpenGL error"};
 }

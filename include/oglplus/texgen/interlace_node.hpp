@@ -41,8 +41,8 @@ public:
 class interlace_node : public single_output_node<interlace_output> {
 public:
     interlace_node& set_mode(interlace_mode mode) {
-	_output._mode = mode;
-	return *this;
+        _output._mode = mode;
+        return *this;
     }
 };
 

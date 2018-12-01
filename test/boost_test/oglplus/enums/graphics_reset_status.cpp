@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_graphics_reset_status
 
-#include "../../unit_test_begin.inl"
 #include <cstring>
+#include "../../unit_test_begin.inl"
 
 BOOST_AUTO_TEST_SUITE(enum_graphics_reset_status_tests)
 
@@ -104,44 +104,47 @@ BOOST_AUTO_TEST_CASE(enum_graphics_reset_status_range) {
 
 #ifdef GL_GUILTY_CONTEXT_RESET
     {
-	--count;
-	auto r = enum_value_range<graphics_reset_status>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), graphics_reset_status(GL_GUILTY_CONTEXT_RESET))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<graphics_reset_status>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            graphics_reset_status(GL_GUILTY_CONTEXT_RESET)) != r.end());
     }
 #endif
 
 #ifdef GL_INNOCENT_CONTEXT_RESET
     {
-	--count;
-	auto r = enum_value_range<graphics_reset_status>();
-	BOOST_CHECK(std::find(r.begin(),
-		      r.end(),
-		      graphics_reset_status(GL_INNOCENT_CONTEXT_RESET))
-		    != r.end());
+        --count;
+        auto r = enum_value_range<graphics_reset_status>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            graphics_reset_status(GL_INNOCENT_CONTEXT_RESET)) != r.end());
     }
 #endif
 
 #ifdef GL_NO_ERROR
     {
-	--count;
-	auto r = enum_value_range<graphics_reset_status>();
-	BOOST_CHECK(
-	  std::find(r.begin(), r.end(), graphics_reset_status(GL_NO_ERROR))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<graphics_reset_status>();
+        BOOST_CHECK(
+          std::find(r.begin(), r.end(), graphics_reset_status(GL_NO_ERROR)) !=
+          r.end());
     }
 #endif
 
 #ifdef GL_UNKNOWN_CONTEXT_RESET
     {
-	--count;
-	auto r = enum_value_range<graphics_reset_status>();
-	BOOST_CHECK(
-	  std::find(
-	    r.begin(), r.end(), graphics_reset_status(GL_UNKNOWN_CONTEXT_RESET))
-	  != r.end());
+        --count;
+        auto r = enum_value_range<graphics_reset_status>();
+        BOOST_CHECK(
+          std::find(
+            r.begin(),
+            r.end(),
+            graphics_reset_status(GL_UNKNOWN_CONTEXT_RESET)) != r.end());
     }
 #endif
     BOOST_CHECK_EQUAL(count, 0);

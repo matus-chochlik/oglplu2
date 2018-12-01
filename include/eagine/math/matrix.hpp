@@ -31,32 +31,33 @@ struct matrix {
     template <typename P, int... I>
     static inline matrix _from_hlp(
       const P* dt, span_size_t sz, _iseq<I...>) noexcept {
-	return matrix{{vect::from_array < T,
-	  RM ? C : R,
-	  V > ::apply(dt + I * (RM ? C : R), sz - I * (RM ? C : R))...}};
+        return matrix{
+          {vect::from_array < T,
+           RM ? C : R,
+           V > ::apply(dt + I * (RM ? C : R), sz - I * (RM ? C : R))...}};
     }
 
     template <typename P>
     static inline matrix from(const P* dt, span_size_t sz) noexcept {
-	return _from_hlp(dt, sz, _make_iseq < RM ? R : C > ());
+        return _from_hlp(dt, sz, _make_iseq < RM ? R : C > ());
     }
 
     template <typename P, int M, int N, bool W, int... I>
     static inline matrix _from_hlp(
       const matrix<P, M, N, RM, W>& m, _iseq<I...>) noexcept {
-	return matrix{
-	  {vect::cast<P, (RM ? M : N), W, T, (RM ? C : R), V>::apply(
-	    m._v[I], T(0))...}};
+        return matrix{
+          {vect::cast<P, (RM ? M : N), W, T, (RM ? C : R), V>::apply(
+            m._v[I], T(0))...}};
     }
 
     template <typename P, int M, int N, bool W>
     static inline std::enable_if_t<(C <= M) && (R <= N), matrix> from(
       const matrix<P, M, N, RM, W>& m) noexcept {
-	return _from_hlp(m, _make_iseq < RM ? R : C > ());
+        return _from_hlp(m, _make_iseq < RM ? R : C > ());
     }
 
     inline const vector<T, RM ? C : R, V> operator[](int i) const noexcept {
-	return vector < T, RM ? C : R, V > {_v[i]};
+        return vector < T, RM ? C : R, V > {_v[i]};
     }
 };
 
@@ -210,15 +211,16 @@ set_rm(matrix<T, C, R, true, V>& m, int ri, int ci, T v) noexcept {
 // transpose_tpl helper 4x4 matrix
 template <bool DstRM, typename T, bool V>
 static inline matrix<T, 4, 4, DstRM, V>
-transpose_tpl_hlp(const vect::data_t<T, 4, V>& q0,
+transpose_tpl_hlp(
+  const vect::data_t<T, 4, V>& q0,
   const vect::data_t<T, 4, V>& q1,
   const vect::data_t<T, 4, V>& q2,
   const vect::data_t<T, 4, V>& q3) noexcept {
     return matrix<T, 4, 4, DstRM, V>{
       {vect::shuffle2<T, 4, V>::template apply<0, 2, 4, 6>(q0, q2),
-	vect::shuffle2<T, 4, V>::template apply<1, 3, 5, 7>(q0, q2),
-	vect::shuffle2<T, 4, V>::template apply<0, 2, 4, 6>(q1, q3),
-	vect::shuffle2<T, 4, V>::template apply<1, 3, 5, 7>(q1, q3)}};
+       vect::shuffle2<T, 4, V>::template apply<1, 3, 5, 7>(q0, q2),
+       vect::shuffle2<T, 4, V>::template apply<0, 2, 4, 6>(q1, q3),
+       vect::shuffle2<T, 4, V>::template apply<1, 3, 5, 7>(q1, q3)}};
 }
 
 // transpose_tpl 4x4 matrix
@@ -234,7 +236,8 @@ transpose_tpl(const matrix<T, 4, 4, SrcRM, V>& m) noexcept {
 
 // transpose_tpl
 template <bool DstRM, bool SrcRM, typename T, int C, int R, bool V>
-static inline matrix<T,
+static inline matrix<
+  T,
   (DstRM == SrcRM ? R : C),
   (DstRM == SrcRM ? C : R),
   DstRM,
@@ -244,9 +247,9 @@ transpose_tpl(const matrix<T, C, R, SrcRM, V>& m) noexcept {
     matrix<T, (S ? C : R), (S ? R : C), DstRM, V> r;
 
     for(int i = 0; i < R; ++i)
-	for(int j = 0; j < C; ++j) {
-	    set_rm(r, S ? i : j, S ? j : i, get_rm(m, i, j));
-	}
+        for(int j = 0; j < C; ++j) {
+            set_rm(r, S ? i : j, S ? j : i, get_rm(m, i, j));
+        }
 
     return r;
 }
@@ -306,9 +309,9 @@ make_column_major(const matrix<T, C, R, true, V>& m) noexcept {
 
 // major_vector
 template <int I, typename T, int C, int R, bool RM, bool V>
-static constexpr inline std::enable_if_t<(I < (RM ? R : C)),
-  vector<T, (RM ? C : R), V>>
-major_vector(const matrix<T, C, R, RM, V>& m) noexcept {
+static constexpr inline std::
+  enable_if_t<(I < (RM ? R : C)), vector<T, (RM ? C : R), V>>
+  major_vector(const matrix<T, C, R, RM, V>& m) noexcept {
     return {m._v[I]};
 }
 
@@ -325,9 +328,9 @@ static inline std::enable_if_t<(I < 4), vector<T, 4, V>>
 minor_vector(const matrix<T, 4, 4, RM, V>& m) noexcept {
     return {vect::shuffle2<T, 4, V>::template apply<0, 1, 4, 5>(
       vect::shuffle2<T, 4, V>::template apply<0 + I, 4 + I, -1, -1>(
-	m._v[0], m._v[1]),
+        m._v[0], m._v[1]),
       vect::shuffle2<T, 4, V>::template apply<0 + I, 4 + I, -1, -1>(
-	m._v[2], m._v[3]))};
+        m._v[2], m._v[3]))};
 }
 
 // row (Row-Major)
@@ -359,7 +362,7 @@ template <typename T, int R, int C, bool RM, bool V, int I>
 static inline vector<T, C, V>
 _row_hlp(const matrix<T, C, R, RM, V>& m, int_constant<I>, int i) noexcept {
     if(I == i)
-	return row<I>(m);
+        return row<I>(m);
     return _row_hlp(m, int_constant<I - 1>(), i);
 }
 
@@ -397,7 +400,7 @@ template <typename T, int C, int R, bool RM, bool V, int I>
 static inline vector<T, R, V>
 _col_hlp(const matrix<T, C, R, RM, V>& m, int_constant<I>, int i) noexcept {
     if(I == i)
-	return column<I>(m);
+        return column<I>(m);
     return _col_hlp(m, int_constant<I - 1>(), i);
 }
 
@@ -453,29 +456,31 @@ struct multiplication_result<matrix<T, K, M, RM1, V>, matrix<T, N, K, RM2, V>>
 // multiply MxM
 template <typename T, int M, int N, int K, bool RM1, bool RM2, bool V>
 static inline matrix<T, N, M, RM1, V>
-multiply(const matrix<T, K, M, RM1, V>& m1,
+multiply(
+  const matrix<T, K, M, RM1, V>& m1,
   const matrix<T, N, K, RM2, V>& m2) noexcept {
     matrix<T, N, M, RM1, V> m3;
 
     for(int i = 0; i < M; ++i)
-	for(int j = 0; j < N; ++j) {
-	    T s = T(0);
+        for(int j = 0; j < N; ++j) {
+            T s = T(0);
 
-	    for(int k = 0; k < K; ++k) {
-		s += get_rm(m1, i, k) * get_rm(m2, k, j);
-	    }
+            for(int k = 0; k < K; ++k) {
+                s += get_rm(m1, i, k) * get_rm(m2, k, j);
+            }
 
-	    set_rm(m3, i, j, s);
-	}
+            set_rm(m3, i, j, s);
+        }
     return m3;
 }
 
-template <typename MC1,
+template <
+  typename MC1,
   typename MC2,
-  typename = std::enable_if_t<is_matrix_constructor<MC1>::value
-			      && is_matrix_constructor<MC2>::value
-			      && are_multiplicable<constructed_matrix_t<MC1>,
-				   constructed_matrix_t<MC2>>::value>>
+  typename = std::enable_if_t<
+    is_matrix_constructor<MC1>::value && is_matrix_constructor<MC2>::value &&
+    are_multiplicable<constructed_matrix_t<MC1>, constructed_matrix_t<MC2>>::
+      value>>
 static inline auto operator*(const MC1& mc1, const MC2& mc2) noexcept {
     return multiply(mc1, mc2);
 }
@@ -494,7 +499,7 @@ template <typename T, int C, int R, bool RM, bool V>
 struct compound_view_maker<math::matrix<T, C, R, RM, V>> {
     inline auto operator()(const math::matrix<T, C, R, RM, V>& m) const
       noexcept {
-	return vect::view < T, RM ? C : R, V > ::apply(m._v);
+        return vect::view < T, RM ? C : R, V > ::apply(m._v);
     }
 };
 
