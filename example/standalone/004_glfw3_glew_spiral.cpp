@@ -108,8 +108,8 @@ run_loop(GLFWwindow* window, int width, int height) {
 
     const auto twopi = std::atan(1) * 8;
     const int nseg = 72;
-    const float sstep = float(twopi / nseg);
-    const float spart = float(1.0f / nseg);
+    const auto sstep = float(twopi / nseg);
+    const auto spart = float(1.0f / nseg);
     const float z = 0, o = 1;
     float a;
 

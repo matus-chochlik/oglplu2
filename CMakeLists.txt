@@ -31,6 +31,7 @@ include(config/Defaults.cmake)
 
 if(NOT ${CONFIG_INFO_ONLY})
 	include(config/BuildType.cmake)
+	include(config/StaticAnalysis.cmake)
 	include(config/Compiler.cmake)
 	include(config/CppFeature.cmake)
 	include(config/StdFixes.cmake)

@@ -15,6 +15,7 @@
 #include <oglplus/math/vector.hpp>
 #include <oglplus/operations.hpp>
 
+#include <eagine/range_algo.hpp>
 #include <eagine/scope_exit.hpp>
 
 #include <GLFW/glfw3.h>
@@ -60,13 +61,14 @@ run_loop(GLFWwindow* window, int width, int height) {
       1.0f,
       1.0f,
       GL.translate_x_nv,
-      span<GLfloat>(spacings + 1, spacings + 9));
+      eagine::ranges::slice(span<GLfloat>(spacings), 1, 8));
 
-    span<GLuint> glyph_indices = make_span(indices, indices + 7);
-    span<GLfloat> glyph_spacings = make_span(spacings, spacings + 8);
+    const auto glyph_indices = eagine::ranges::head(span<GLuint>(indices), 7);
+    const auto glyph_spacings =
+      eagine::ranges::head(span<GLfloat>(spacings), 8);
 
-    GLfloat text_left = *glyph_spacings.begin();
-    GLfloat text_right = *glyph_spacings.rbegin();
+    const GLfloat text_left = *glyph_spacings.begin();
+    const GLfloat text_right = *glyph_spacings.rbegin();
 
     GLfloat font_min_max[2];
 
