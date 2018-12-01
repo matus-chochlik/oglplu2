@@ -60,7 +60,7 @@ compiler_opts = [
     '-Wno-padded',
     '-Wno-missing-prototypes',
     '-Wno-switch-enum',
-    '-std=c++14',
+    '-std=c++17',
     '-x', 'c++',
 ]
 #------------------------------------------------------------------------------#

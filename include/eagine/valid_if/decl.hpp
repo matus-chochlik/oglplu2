@@ -29,18 +29,18 @@ struct valid_flag_policy {
 
     template <typename T>
     bool operator()(const T&) const noexcept {
-	return _is_valid;
+        return _is_valid;
     }
 
     struct do_log {
-	template <typename X>
-	constexpr inline do_log(X) noexcept {
-	}
+        template <typename X>
+        constexpr inline do_log(X) noexcept {
+        }
 
-	template <typename Log, typename T>
-	void operator()(Log& log, const T&) const {
-	    log << "Getting the value of an empty optional";
-	}
+        template <typename Log, typename T>
+        void operator()(Log& log, const T&) const {
+            log << "Getting the value of an empty optional";
+        }
     };
 };
 
@@ -50,7 +50,7 @@ private:
     using _base_t = basic_valid_if<T, Policy, DoLog>;
 
     _base_t& _base(void) noexcept {
-	return *this;
+        return *this;
     }
 
     using _base_t::_get_value;
@@ -62,72 +62,72 @@ public:
     using _base_t::value_or;
 
     valid_if& operator=(const T& v) {
-	_base() = v;
-	return *this;
+        _base() = v;
+        return *this;
     }
 
     valid_if& operator=(T&& v) {
-	_base() = std::move(v);
-	return *this;
+        _base() = std::move(v);
+        return *this;
     }
 
     explicit operator bool(void) const noexcept {
-	return is_valid();
+        return is_valid();
     }
 
-    bool operator!(void)const noexcept {
-	return !is_valid();
+    bool operator!(void) const noexcept {
+        return !is_valid();
     }
 
     template <typename Func>
     std::enable_if_t<!std::is_same_v<std::result_of_t<Func(T)>, void>,
       valid_if<std::result_of_t<Func(T)>, valid_flag_policy>>
     then(const Func& func) const {
-	if(is_valid()) {
-	    return {func(_get_value()), true};
-	}
-	return {};
+        if(is_valid()) {
+            return {func(_get_value()), true};
+        }
+        return {};
     }
 
     template <typename Func>
     auto operator|(const Func& func) const {
-	return then(func);
+        return then(func);
     }
 
     const T& operator/(const T& fallback) const noexcept {
-	return value_or(fallback);
+        return value_or(fallback);
     }
 
     const T& operator*(void)const noexcept {
-	return value();
+        return value();
     }
 
     const T* operator->(void)const noexcept {
-	return &value();
+        return &value();
     }
 
     constexpr tribool operator==(const T& v) const {
-	return {_get_value() == v, !is_valid()};
+        return {_get_value() == v, !is_valid()};
     }
 
     constexpr tribool operator!=(const T& v) const {
-	return {_get_value() != v, !is_valid()};
+        return {_get_value() != v, !is_valid()};
     }
 
     constexpr tribool operator<(const T& v) const {
-	return {_get_value() < v, !is_valid()};
+        return {_get_value() < v, !is_valid()};
     }
 
     constexpr tribool operator>(const T& v) const {
-	return {_get_value() > v, !is_valid()};
+        return {_get_value() > v, !is_valid()};
     }
 
     constexpr tribool operator<=(const T& v) const {
-	return {_get_value() <= v, !is_valid()};
+        return {_get_value() <= v, !is_valid()};
     }
 
     constexpr tribool operator>=(const T& v) const {
-	return {_get_value() >= v, !is_valid()};
+        return {_get_value() >= v, !is_valid()};
     }
 };
 

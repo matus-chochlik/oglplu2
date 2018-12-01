@@ -10,10 +10,10 @@
 #ifndef EAGINE_OUTCOME_1509260923_HPP
 #define EAGINE_OUTCOME_1509260923_HPP
 
-#include "deferred_handler.hpp"
-#include "selector.hpp"
 #include <cassert>
 #include <utility>
+#include "deferred_handler.hpp"
+#include "selector.hpp"
 
 namespace eagine {
 
@@ -33,19 +33,19 @@ public:
     }
 
     constexpr const T& get(void) const noexcept {
-	return _val;
+        return _val;
     }
 
     T& ref(void) noexcept {
-	return _val;
+        return _val;
     }
 
     template <typename Func>
     void apply(Func func) noexcept {
-	try {
-	    func(_val);
-	} catch(...) {
-	}
+        try {
+            func(_val);
+        } catch(...) {
+        }
     }
 };
 
@@ -64,16 +64,16 @@ public:
     }
 
     T& get(void) const noexcept {
-	assert(_ref != nullptr);
-	return *_ref;
+        assert(_ref != nullptr);
+        return *_ref;
     }
 
     template <typename Func>
     void apply(Func func) noexcept {
-	try {
-	    func(get());
-	} catch(...) {
-	}
+        try {
+            func(get());
+        } catch(...) {
+        }
     }
 };
 
@@ -98,23 +98,23 @@ public:
     }
 
     ErrorData& handler_data(void) noexcept {
-	return _handler.data();
+        return _handler.data();
     }
 
     const ErrorData& handler_data(void) const noexcept {
-	return _handler.data();
+        return _handler.data();
     }
 
     bool failed(void) const noexcept {
-	return bool(_handler);
+        return bool(_handler);
     }
 
     bool succeeded(void) const noexcept {
-	return !_handler;
+        return !_handler;
     }
 
     bool done_without_error(void) noexcept {
-	return !_handler.cancel();
+        return !_handler.cancel();
     }
 };
 
@@ -136,28 +136,28 @@ public:
     }
 
     T value(void) {
-	assert(this->succeeded());
-	return _value.get();
+        assert(this->succeeded());
+        return _value.get();
     }
 
     T value_or(const T& fallback) {
-	return this->succeeded() ? _value.get() : fallback;
+        return this->succeeded() ? _value.get() : fallback;
     }
 
     T&& rvalue(void) {
-	assert(this->succeeded());
-	return std::move(_value.ref());
+        assert(this->succeeded());
+        return std::move(_value.ref());
     }
 
     operator T &&(void) {
-	return rvalue();
+        return rvalue();
     }
 
     template <typename Func>
     void then(Func func) noexcept {
-	if(this->succeeded()) {
-	    _value.apply(func);
-	}
+        if(this->succeeded()) {
+            _value.apply(func);
+        }
     }
 };
 
@@ -180,43 +180,43 @@ public:
       && noexcept;
 
     deferred_handler<ErrorData, HandlerPolicy> release_handler(void) noexcept {
-	return std::move(_handler);
+        return std::move(_handler);
     }
 
     ErrorData& handler_data(void) noexcept {
-	return _handler.data();
+        return _handler.data();
     }
 
     const ErrorData& handler_data(void) const noexcept {
-	return _handler.data();
+        return _handler.data();
     }
 
     basic_outcome<void, ErrorData, HandlerPolicy, cancelled_handler>
     ignore_error(void) noexcept {
-	return cancelled_handler<ErrorData, HandlerPolicy>(
-	  std::move(_handler.data()), _handler.cancel());
+        return cancelled_handler<ErrorData, HandlerPolicy>(
+          std::move(_handler.data()), _handler.cancel());
     }
 
     void trigger_error(void) {
-	_handler.trigger();
+        _handler.trigger();
     }
 
     template <typename HandlerFunc>
     auto handle_error(HandlerFunc handler_func) {
-	_handler.cancel();
-	return handler_func(_handler.data());
+        _handler.cancel();
+        return handler_func(_handler.data());
     }
 
     bool failed(void) const noexcept {
-	return bool(_handler);
+        return bool(_handler);
     }
 
     bool succeeded(void) const noexcept {
-	return !_handler;
+        return !_handler;
     }
 
     bool done_without_error(void) noexcept {
-	return !_handler.cancel();
+        return !_handler.cancel();
     }
 };
 
@@ -261,40 +261,40 @@ public:
 
     basic_outcome<T, ErrorData, HandlerPolicy, cancelled_handler> ignore_error(
       void) noexcept {
-	return {cancelled_handler<ErrorData, HandlerPolicy>(
-		  std::move(this->_handler.data()), this->_handler.cancel()),
-	  std::move(_value)};
+        return {cancelled_handler<ErrorData, HandlerPolicy>(
+                  std::move(this->_handler.data()), this->_handler.cancel()),
+          std::move(_value)};
     }
 
     void trigger_error(void) {
-	this->_handler.trigger();
+        this->_handler.trigger();
     }
 
     template <typename HandlerFunc>
     auto handle_error(HandlerFunc handler_func) {
-	this->_handler.cancel();
-	return handler_func(this->_handler.data());
+        this->_handler.cancel();
+        return handler_func(this->_handler.data());
     }
 
     T value(void) {
-	trigger_error();
-	return _value.get();
+        trigger_error();
+        return _value.get();
     }
 
     T&& rvalue(void) {
-	trigger_error();
-	return std::move(_value.ref());
+        trigger_error();
+        return std::move(_value.ref());
     }
 
     operator T &&(void) {
-	return rvalue();
+        return rvalue();
     }
 
     template <typename Func>
     void then(Func func) noexcept {
-	if(this->succeeded()) {
-	    _value.apply(func);
-	}
+        if(this->succeeded()) {
+            _value.apply(func);
+        }
     }
 };
 
@@ -310,7 +310,7 @@ template <typename T, typename U, typename ErrorData, typename HandlerPolicy>
 static inline basic_outcome<T, ErrorData, HandlerPolicy>
 outcome_cast(basic_outcome<U, ErrorData, HandlerPolicy>&& that) noexcept {
     if(that.failed()) {
-	return {that.release_handler()};
+        return {that.release_handler()};
     }
     return {T(that.value())};
 }
@@ -320,7 +320,7 @@ static inline basic_outcome<T, ErrorData, HandlerPolicy>
 outcome_conversion(
   basic_outcome<U, ErrorData, HandlerPolicy>&& that, T (*convert)(U)) noexcept {
     if(that.failed()) {
-	return {that.release_handler()};
+        return {that.release_handler()};
     }
     return {convert(that.value())};
 }
@@ -342,11 +342,11 @@ public:
     }
 
     explicit operator bool(void) const noexcept {
-	return this->succeeded();
+        return this->succeeded();
     }
 
-    bool operator!(void)const noexcept {
-	return this->failed();
+    bool operator!(void) const noexcept {
+        return this->failed();
     }
 };
 
@@ -366,11 +366,11 @@ public:
     }
 
     explicit operator bool(void) const noexcept {
-	return this->failed();
+        return this->failed();
     }
 
-    bool operator!(void)const noexcept {
-	return this->succeeded();
+    bool operator!(void) const noexcept {
+        return this->succeeded();
     }
 };
 

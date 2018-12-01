@@ -25,16 +25,16 @@ public:
     typedef Int value_type;
 
     constexpr value_type value(void) const noexcept {
-	return _c;
+        return _c;
     }
 
     constexpr operator value_type(void) const noexcept {
-	return _c;
+        return _c;
     }
 
     template <typename... P>
     void operator()(const P&...) noexcept {
-	++_c;
+        ++_c;
     }
 };
 

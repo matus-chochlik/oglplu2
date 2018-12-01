@@ -73,6 +73,13 @@ struct within_limits
       std::is_signed_v<Dst>,
       std::is_signed_v<Src>> {};
 
+template <typename T>
+struct within_limits<T, T> {
+    static constexpr inline bool check(T&) noexcept {
+        return true;
+    }
+};
+
 template <typename Dst, typename Src>
 static constexpr inline bool
 is_within_limits(Src value) noexcept {
