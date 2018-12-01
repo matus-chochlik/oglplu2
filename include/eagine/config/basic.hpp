@@ -9,7 +9,7 @@
 #ifndef EAGINE_CONFIG_BASIC_1509260923_HPP
 #define EAGINE_CONFIG_BASIC_1509260923_HPP
 
-#ifndef EAGINE_NO_SITE_CONFIG
+#if __has_include(<eagine/config/site.hpp>)
 #include <eagine/config/site.hpp>
 #endif
 
