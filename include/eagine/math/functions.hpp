@@ -52,8 +52,8 @@ factorial(int n) noexcept {
 static constexpr inline int
 binomial(int n, int k) noexcept {
     return ((n >= 0) && (k >= 0) && (k <= n))
-	     ? (factorial(n) / (factorial(k) * factorial(n - k)))
-	     : 0;
+             ? (factorial(n) / (factorial(k) * factorial(n - k)))
+             : 0;
 }
 
 // bezier
@@ -61,23 +61,23 @@ template <typename T, int N>
 struct bezier_t {
 private:
     static constexpr T _coef(int m, int i, T t) noexcept {
-	using std::pow;
-	return T(binomial(m, i) * pow(t, i) * pow(1 - t, m - i));
+        using std::pow;
+        return T(binomial(m, i) * pow(t, i) * pow(1 - t, m - i));
     }
 
     static constexpr T _calc(int, int, T) noexcept {
-	return 0;
+        return 0;
     }
 
     template <typename... P>
     static constexpr T _calc(int m, int i, T t, T f, P... r) noexcept {
-	return f * _coef(m, i, t) + _calc(m, i + 1, t, r...);
+        return f * _coef(m, i, t) + _calc(m, i + 1, t, r...);
     }
 
 public:
     template <typename... P, typename = std::enable_if_t<sizeof...(P) == N>>
     constexpr inline T operator()(T t, P... p) noexcept {
-	return _calc(N - 1, 0, t, p...);
+        return _calc(N - 1, 0, t, p...);
     }
 };
 

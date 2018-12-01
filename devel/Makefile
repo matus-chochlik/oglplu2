@@ -9,6 +9,9 @@ BINARY_DIR = $(shell cat $(ROOT_DIR)/BINARY_DIR)
 
 all: $(TESTS)
 
+check%: test%
+	./$<
+
 test%: test%.o
 	$(CXX) -std=c++14 -g3 \
 		-o $@ $<

@@ -22,7 +22,7 @@ operator<<(std::ostream& o, const vector<T, N, V>& v) {
 
     o << "[" << v._v[0];
     for(int i = 1; i < N; ++i) {
-	o << ", " << v._v[i];
+        o << ", " << v._v[i];
     }
     return o << "]";
 }
@@ -33,16 +33,16 @@ operator<<(std::ostream& o, const matrix<T, C, R, true, V>& m) {
     o << "|R0[" << m._v[0][0];
 
     for(int c = 1; c < C; ++c) {
-	o << ", " << m._v[0][c];
+        o << ", " << m._v[0][c];
     }
     o << "]";
 
     for(int r = 1; r < R; ++r) {
-	o << ",R" << r << "[" << m._v[r][0];
-	for(int c = 1; c < C; ++c) {
-	    o << ", " << m._v[r][c];
-	}
-	o << "]";
+        o << ",R" << r << "[" << m._v[r][0];
+        for(int c = 1; c < C; ++c) {
+            o << ", " << m._v[r][c];
+        }
+        o << "]";
     }
     return o << "|";
 }
@@ -53,16 +53,16 @@ operator<<(std::ostream& o, const matrix<T, C, R, false, V>& m) {
     o << "|C0[" << m._v[0][0];
 
     for(int r = 1; r < R; ++r) {
-	o << ", " << m._v[0][r];
+        o << ", " << m._v[0][r];
     }
     o << "]";
 
     for(int c = 1; c < C; ++c) {
-	o << ",C" << c << "[" << m._v[c][0];
-	for(int r = 1; r < R; ++r) {
-	    o << ", " << m._v[c][r];
-	}
-	o << "]";
+        o << ",C" << c << "[" << m._v[c][0];
+        for(int r = 1; r < R; ++r) {
+            o << ", " << m._v[c][r];
+        }
+        o << "]";
     }
     return o << "|";
 }
