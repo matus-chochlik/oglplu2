@@ -44,7 +44,7 @@ public:
         temp._handle = nullptr;
     }
 
-    ~FBConfigs(void) {
+    ~FBConfigs() {
         if(_handle)
             ::XFree(_handle);
     }

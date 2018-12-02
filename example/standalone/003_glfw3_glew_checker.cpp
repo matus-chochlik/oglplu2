@@ -54,7 +54,7 @@ static void run_loop(GLFWwindow* window, int width, int height) {
                    "	return mod(int(c.x*8)+int(c.y*8), 2);\n"
                    "}\n"
 
-                   "void main(void)\n"
+                   "void main()\n"
                    "{\n"
                    "	float c = checker(gl_TexCoord[0].st);\n"
                    "	gl_FragColor = vec4(mix(Color1, Color2, c),1);\n"
@@ -135,7 +135,7 @@ static void run_loop(GLFWwindow* window, int width, int height) {
     }
 }
 
-static void init_and_run(void) {
+static void init_and_run() {
     if(!glfwInit()) {
         throw std::runtime_error("GLFW initialization error");
     } else {
@@ -172,7 +172,7 @@ static void init_and_run(void) {
     }
 }
 
-int main(void) {
+int main() {
     try {
         init_and_run();
         return 0;

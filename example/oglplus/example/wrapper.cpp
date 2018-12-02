@@ -20,7 +20,7 @@
 
 namespace oglplus {
 
-std::vector<char>& example_wrapper::pixels(void) {
+std::vector<char>& example_wrapper::pixels() {
     std::size_t size =
       std::size_t(_state.height().get() * _state.width().get() * 4);
 
@@ -73,11 +73,11 @@ example_wrapper::example_wrapper(
     }
 }
 
-void example_wrapper::destroy(void) {
+void example_wrapper::destroy() {
     _example.reset();
 }
 
-bool example_wrapper::next_frame(void) {
+bool example_wrapper::next_frame() {
     assert(_example);
 
     _state.advance_frame();
@@ -97,7 +97,7 @@ bool example_wrapper::next_frame(void) {
     }
 }
 
-void example_wrapper::update(void) {
+void example_wrapper::update() {
     assert(_example);
 
     if(_state.user_idle()) {
@@ -105,7 +105,7 @@ void example_wrapper::update(void) {
     }
 }
 
-void example_wrapper::render(void) {
+void example_wrapper::render() {
     assert(_example);
 
     bool save_frame = _params.doing_framedump();

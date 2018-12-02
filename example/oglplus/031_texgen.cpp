@@ -34,7 +34,7 @@ class example_render_graph : public texgen::render_graph {
 public:
     uniform<GLfloat> offset_loc;
 
-    example_render_graph(void) {
+    example_render_graph() {
         using namespace texgen;
 
         add_new<sphere_coord_node>("sphere_coords");
@@ -112,7 +112,7 @@ private:
     GLfloat offset_x, offset_y;
 
 public:
-    example_texgen(void)
+    example_texgen()
       : offset_x(-0.25f)
       , offset_y(-0.25f) {
         gl.uniform(erg.offset_loc, offset_x, offset_y);
@@ -148,7 +148,7 @@ public:
         }
     }
 
-    seconds_t<float> default_timeout(void) override {
+    seconds_t<float> default_timeout() override {
         return seconds_(20);
     }
 

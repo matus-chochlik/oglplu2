@@ -21,13 +21,13 @@ struct offscreen_context_params {
     int width;
     int height;
 
-    static char** fake_argv(void) noexcept {
+    static char** fake_argv() noexcept {
         static char name[64] = {'<', 'N', '/', 'A', '>', '\0'};
         static char* av[2] = {name, nullptr};
         return av;
     }
 
-    offscreen_context_params(void)
+    offscreen_context_params()
       : argc(1)
       , argv(fake_argv())
       , title("")

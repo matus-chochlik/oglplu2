@@ -33,7 +33,7 @@ public:
         glfwMakeContextCurrent(window);
     }
 
-    ~offscreen_context_glfw3(void) noexcept {
+    ~offscreen_context_glfw3() noexcept {
         try {
             glfwTerminate();
         } catch(...) {

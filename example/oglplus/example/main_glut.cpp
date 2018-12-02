@@ -33,12 +33,12 @@ class single_glut_context {
 private:
     single_glut_context(const single_glut_context&);
 
-    static single_glut_context*& instance_ptr(void) {
+    static single_glut_context*& instance_ptr() {
         static single_glut_context* pinst = nullptr;
         return pinst;
     }
 
-    static single_glut_context& instance(void) {
+    static single_glut_context& instance() {
         assert(instance_ptr());
         return *instance_ptr();
     }
@@ -75,7 +75,7 @@ public:
 #endif
     }
 
-    ~single_glut_context(void) {
+    ~single_glut_context() {
         assert(instance_ptr());
         instance_ptr() = nullptr;
     }
@@ -86,11 +86,11 @@ public:
 #endif
 
 #ifdef FREEGLUT
-    void quit(void) {
+    void quit() {
         glutLeaveMainLoop();
     }
 #else
-    [[noreturn]] void quit(void) {
+    [[noreturn]] void quit() {
         exit(0);
     }
 #endif
@@ -100,15 +100,15 @@ public:
 #endif
 
 private:
-    void close(void) {
+    void close() {
         example.destroy();
     }
 
-    static void close_func(void) {
+    static void close_func() {
         instance().close();
     }
 
-    void display(void) {
+    void display() {
         example.update();
 
         example.render();
@@ -119,7 +119,7 @@ private:
         }
     }
 
-    static void display_func(void) {
+    static void display_func() {
         instance().display();
     }
 

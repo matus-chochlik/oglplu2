@@ -108,7 +108,7 @@ bool parse_arg(
   oglplus::example_params& params) {
     using namespace eagine;
 
-    auto errstr = [](void) -> std::ostream& {
+    auto errstr = []() -> std::ostream& {
         return std::cerr << "oglplus-example: ";
     };
 

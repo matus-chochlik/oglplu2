@@ -49,104 +49,104 @@ protected:
     bool _old_user_idle : 1;
     bool _new_user_idle : 1;
 
-    example_state_view(void) noexcept;
+    example_state_view() noexcept;
 
 public:
-    const auto& width(void) const noexcept {
+    const auto& width() const noexcept {
         return _width;
     }
 
-    const auto& height(void) const noexcept {
+    const auto& height() const noexcept {
         return _height;
     }
 
-    const auto& depth(void) const noexcept {
+    const auto& depth() const noexcept {
         return _depth;
     }
 
-    const auto& mouse_x(void) const noexcept {
+    const auto& mouse_x() const noexcept {
         return _mouse_x;
     }
 
-    const auto& mouse_y(void) const noexcept {
+    const auto& mouse_y() const noexcept {
         return _mouse_y;
     }
 
-    const auto& mouse_z(void) const noexcept {
+    const auto& mouse_z() const noexcept {
         return _mouse_z;
     }
 
-    auto aspect(void) const noexcept {
+    auto aspect() const noexcept {
         return width().as<float>() / height().as<float>();
     }
 
-    seconds_t<float> exec_time(void) const noexcept {
+    seconds_t<float> exec_time() const noexcept {
         return seconds_(_exe_time.value());
     }
 
-    seconds_t<float> user_activity_time(void) const noexcept {
+    seconds_t<float> user_activity_time() const noexcept {
         return seconds_(_usr_act_time);
     }
 
-    seconds_t<float> user_idle_time(void) const noexcept {
+    seconds_t<float> user_idle_time() const noexcept {
         return exec_time() - user_activity_time();
     }
 
-    example_state_value<bool> user_idle(void) const noexcept {
+    example_state_value<bool> user_idle() const noexcept {
         return {_new_user_idle, _old_user_idle};
     }
 
-    bool user_became_idle(void) const noexcept {
+    bool user_became_idle() const noexcept {
         return user_idle().delta() > 0;
     }
 
-    bool user_became_active(void) const noexcept {
+    bool user_became_active() const noexcept {
         return user_idle().delta() < 0;
     }
 
-    seconds_t<float> frame_duration(void) const noexcept {
+    seconds_t<float> frame_duration() const noexcept {
         return seconds_(_exe_time.delta());
     }
 
-    int frame_number(void) const noexcept {
+    int frame_number() const noexcept {
         return _frame_no;
     }
 
-    int x_tiles(void) const noexcept {
+    int x_tiles() const noexcept {
         return _x_tiles;
     }
 
-    int tile_i(void) const noexcept {
+    int tile_i() const noexcept {
         assert(_tile_i < _x_tiles);
         return _tile_i;
     }
 
-    int tile_w(void) const noexcept {
+    int tile_w() const noexcept {
         return (width() / x_tiles()) + ((tile_i() + 1 == x_tiles()) ? 1 : 0);
     }
 
-    int tile_x(void) const noexcept {
+    int tile_x() const noexcept {
         return tile_i() * (width() / x_tiles());
     }
 
-    int y_tiles(void) const noexcept {
+    int y_tiles() const noexcept {
         return _y_tiles;
     }
 
-    int tile_j(void) const noexcept {
+    int tile_j() const noexcept {
         assert(_tile_j < _y_tiles);
         return _tile_j;
     }
 
-    int tile_h(void) const noexcept {
+    int tile_h() const noexcept {
         return (height() / y_tiles()) + ((tile_j() + 1 == y_tiles()) ? 1 : 0);
     }
 
-    int tile_y(void) const noexcept {
+    int tile_y() const noexcept {
         return tile_j() * (height() / y_tiles());
     }
 
-    bool multiple_tiles(void) const noexcept {
+    bool multiple_tiles() const noexcept {
         return x_tiles() > 1 || y_tiles() > 1;
     }
 

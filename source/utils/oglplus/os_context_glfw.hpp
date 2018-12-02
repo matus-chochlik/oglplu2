@@ -27,7 +27,7 @@ public:
         }
     }
 
-    ~offscreen_context_glfw(void) noexcept {
+    ~offscreen_context_glfw() noexcept {
         try {
             glfwTerminate();
         } catch(...) {

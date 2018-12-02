@@ -2,7 +2,6 @@
 
 out vec3 fragColor;
 
-void
-main(void) {
+void main() {
     fragColor = vec3(0.05, 0.05, 0.01);
 }

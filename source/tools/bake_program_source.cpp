@@ -40,7 +40,7 @@ struct options {
 
     eagine::program_parameters all;
 
-    options(void)
+    options()
       : vertex_shader_paths("-vx", "--vertex", {})
 #ifdef GL_GEOMETRY_SHADER
       , geometry_shader_paths("-gy", "--geometry", {})

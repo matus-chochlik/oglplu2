@@ -30,7 +30,7 @@ struct options {
 
     eagine::program_parameters all;
 
-    options(void)
+    options()
       : output_path("-o", "--output", "a.oglptex")
       , components("-c", "--components", 1)
       , format("-f", "--format", components)

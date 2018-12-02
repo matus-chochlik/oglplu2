@@ -31,7 +31,7 @@ private:
     span<GLfloat> glyph_spacings;
 
 public:
-    example_clear(void)
+    example_clear()
       : text("OpenGL®")
       , text_paths(span_size(text.length())) {
         text_paths.glyphs(

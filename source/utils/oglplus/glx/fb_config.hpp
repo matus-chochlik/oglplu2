@@ -27,11 +27,11 @@ private:
     friend class FBConfigs;
 
 public:
-    ::GLXFBConfig Handle(void) const {
+    ::GLXFBConfig Handle() const {
         return _handle;
     }
 
-    operator ::GLXFBConfig(void) const {
+    operator ::GLXFBConfig() const {
         return Handle();
     }
 };

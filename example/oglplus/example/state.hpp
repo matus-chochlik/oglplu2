@@ -36,7 +36,7 @@ public:
         _exe_time.advance(dt);
     }
 
-    void advance_frame(void) noexcept {
+    void advance_frame() noexcept {
         ++_frame_no;
         _old_user_idle = _new_user_idle;
         _new_user_idle = true;
@@ -66,11 +66,11 @@ public:
         _tile_j = 0;
     }
 
-    bool first_tile(void) noexcept {
+    bool first_tile() noexcept {
         return (_tile_i == 0) && (_tile_j == 0);
     }
 
-    bool next_tile(void) noexcept {
+    bool next_tile() noexcept {
         if(multiple_tiles()) {
             if(++_tile_i >= _x_tiles) {
                 _tile_i = 0;
@@ -92,7 +92,7 @@ public:
         return ws || hs;
     }
 
-    void sync_size(void) noexcept {
+    void sync_size() noexcept {
         _width.sync();
         _height.sync();
         _depth.sync();
@@ -117,7 +117,7 @@ public:
         return _notice_user_activity(_mouse_z.assign(new_mouse_z));
     }
 
-    void center_mouse(void) noexcept {
+    void center_mouse() noexcept {
         _mouse_x.assign(width() / 2);
         _mouse_x.sync();
         _mouse_y.assign(height() / 2);

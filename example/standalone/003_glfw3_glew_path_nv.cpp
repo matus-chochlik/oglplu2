@@ -108,7 +108,7 @@ static void run_loop(GLFWwindow* window, int width, int height) {
     }
 }
 
-static void init_and_run(void) {
+static void init_and_run() {
     if(!glfwInit()) {
         throw std::runtime_error("GLFW initialization error");
     } else {
@@ -145,7 +145,7 @@ static void init_and_run(void) {
     }
 }
 
-int main(void) {
+int main() {
     try {
         init_and_run();
         return 0;

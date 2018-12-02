@@ -6,8 +6,7 @@ noperspective in vec3 geomDist;
 in vec3 geomNormal;
 out vec3 fragColor;
 
-void
-main(void) {
+void main() {
     float MinDist = min(min(geomDist.x, geomDist.y), geomDist.z);
     float EdgeAlpha = exp2(-pow(MinDist / EdgeWidth, 2.0));
 

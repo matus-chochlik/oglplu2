@@ -131,11 +131,11 @@ public:
         }
     }
 
-    seconds_t<float> default_timeout(void) override {
+    seconds_t<float> default_timeout() override {
         return seconds_(20);
     }
 
-    void render(const example_state_view& /*state*/) override {
+    void render(const example_state_view&) override {
         screen.draw();
     }
 };

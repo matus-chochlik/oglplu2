@@ -53,7 +53,7 @@ static void run_loop(GLFWwindow* window, int width, int height) {
                    "varying vec3 vertColor1;\n"
                    "varying vec3 vertColor2;\n"
 
-                   "void main(void)\n"
+                   "void main()\n"
                    "{\n"
                    "	gl_Position = ftransform();\n"
                    "	vertCoord = Coord;\n"
@@ -77,7 +77,7 @@ static void run_loop(GLFWwindow* window, int width, int height) {
                    "	return max(sign(mod(8*(sqrt(c.x)+c.y), 2)-1),0);\n"
                    "}\n"
 
-                   "void main(void)\n"
+                   "void main()\n"
                    "{\n"
                    "	gl_FragColor = vec4(mix(\n"
                    "		vertColor1,\n"
@@ -186,7 +186,7 @@ static void run_loop(GLFWwindow* window, int width, int height) {
     }
 }
 
-static void init_and_run(void) {
+static void init_and_run() {
     if(!glfwInit()) {
         throw std::runtime_error("GLFW initialization error");
     } else {
@@ -223,7 +223,7 @@ static void init_and_run(void) {
     }
 }
 
-int main(void) {
+int main() {
     try {
         init_and_run();
         return 0;

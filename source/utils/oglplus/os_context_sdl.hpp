@@ -32,7 +32,7 @@ public:
         SDL_WM_SetCaption(p.title, nullptr);
     }
 
-    ~offscreen_context_sdl(void) noexcept {
+    ~offscreen_context_sdl() noexcept {
         try {
             SDL_Quit();
         } catch(...) {

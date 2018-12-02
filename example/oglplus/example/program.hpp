@@ -40,7 +40,7 @@ protected:
     }
 
 public:
-    example_program_base(void) = default;
+    example_program_base() = default;
 
     example_program_base(
       const example_params& params, const cstr_ref& prog_name)

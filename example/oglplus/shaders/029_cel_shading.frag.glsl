@@ -11,8 +11,7 @@ const vec3 LightDir2 = normalize(vec3(0, -1, 0));
 
 const float pi_2 = 3.141592653589793238462643383 * 0.5;
 
-void
-main(void) {
+void main() {
     vec3 Dir = geomCorner - geomCenter;
     float len = length(Dir);
     float mask = max(sign(1 - len * 4), 0.0);

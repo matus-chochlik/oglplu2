@@ -192,7 +192,7 @@ public:
         shape.draw();
     }
 
-    seconds_t<float> default_timeout(void) override {
+    seconds_t<float> default_timeout() override {
         return seconds_(20);
     }
 };

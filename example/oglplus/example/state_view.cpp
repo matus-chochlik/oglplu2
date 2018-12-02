@@ -12,7 +12,7 @@
 
 namespace oglplus {
 //------------------------------------------------------------------------------
-example_state_view::example_state_view(void) noexcept
+example_state_view::example_state_view() noexcept
   : _width(1)
   , _height(1)
   , _depth(1)

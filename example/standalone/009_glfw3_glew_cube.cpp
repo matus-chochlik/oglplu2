@@ -54,7 +54,7 @@ static void run_loop(GLFWwindow* window, int width, int height) {
                    "varying vec3 vertNormal;\n"
                    "varying vec2 vertCoord;\n"
 
-                   "void main(void)\n"
+                   "void main()\n"
                    "{\n"
                    "	gl_Position = ftransform();\n"
                    "	vertPosition = Position;\n"
@@ -72,7 +72,7 @@ static void run_loop(GLFWwindow* window, int width, int height) {
       "varying vec3 vertNormal;\n"
       "varying vec2 vertCoord;\n"
 
-      "void main(void)\n"
+      "void main()\n"
       "{\n"
       "	vec2 vc = abs(vertCoord);\n"
       "	float c1 = max(max(vc.x, vc.y)-0.9875, 0.0)*100;\n"
@@ -238,7 +238,7 @@ static void run_loop(GLFWwindow* window, int width, int height) {
     }
 }
 
-static void init_and_run(void) {
+static void init_and_run() {
     if(!glfwInit()) {
         throw std::runtime_error("GLFW initialization error");
     } else {
@@ -275,7 +275,7 @@ static void init_and_run(void) {
     }
 }
 
-int main(void) {
+int main() {
     try {
         init_and_run();
         return 0;

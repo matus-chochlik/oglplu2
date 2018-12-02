@@ -23,7 +23,7 @@ private:
     operations gl;
 
 public:
-    example_clear(void) {
+    example_clear() {
         gl.clear_color(0.4f, 0.4f, 0.4f, 0.0f);
     }
 

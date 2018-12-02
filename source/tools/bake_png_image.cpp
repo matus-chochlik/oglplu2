@@ -33,7 +33,7 @@ struct options {
 
     eagine::program_parameters all;
 
-    options(void)
+    options()
       : input_path("-i", "--input", eagine::cstr_ref())
       , output_path("-o", "--output", eagine::cstr_ref("a.oglptex"))
       , all(input_path, output_path) {
@@ -76,8 +76,8 @@ protected:
     friend class png_read_driver;
 
 public:
-    png_read_struct(void);
-    ~png_read_struct(void) noexcept;
+    png_read_struct();
+    ~png_read_struct() noexcept;
 };
 
 // png_read_info_struct
@@ -88,19 +88,19 @@ protected:
     friend class png_read_driver;
 
 public:
-    png_read_info_struct(void);
-    ~png_read_info_struct(void) noexcept;
+    png_read_info_struct();
+    ~png_read_info_struct() noexcept;
 
-    png_uint_32 row_bytes(void);
-    png_uint_32 image_width(void);
-    png_uint_32 image_height(void);
-    png_byte bit_depth(void);
-    png_byte channels(void);
-    png_byte color_type(void);
+    png_uint_32 row_bytes();
+    png_uint_32 image_width();
+    png_uint_32 image_height();
+    png_byte bit_depth();
+    png_byte channels();
+    png_byte color_type();
 
-    void set_palette_to_rgb(void);
-    void set_expand_gray_1_2_4_to_8(void);
-    void set_tRNS_to_alpha(void);
+    void set_palette_to_rgb();
+    void set_expand_gray_1_2_4_to_8();
+    void set_tRNS_to_alpha();
     png_uint_32 get_valid(png_uint_32);
 };
 
@@ -112,8 +112,8 @@ protected:
     friend class png_read_driver;
 
 public:
-    png_read_info_end_struct(void);
-    ~png_read_info_end_struct(void) noexcept;
+    png_read_info_end_struct();
+    ~png_read_info_end_struct() noexcept;
 };
 
 class png_reader;
@@ -153,22 +153,22 @@ public:
         _driver._read_row(data);
     }
 
-    png_uint_32 image_width(void) {
+    png_uint_32 image_width() {
         return _driver._png.image_width();
     }
-    png_uint_32 image_height(void) {
+    png_uint_32 image_height() {
         return _driver._png.image_height();
     }
-    png_uint_32 row_bytes(void) {
+    png_uint_32 row_bytes() {
         return _driver._png.row_bytes();
     }
-    png_uint_32 data_size(void) {
+    png_uint_32 data_size() {
         return row_bytes() * image_height();
     }
 
-    GLenum gl_data_type(void);
-    GLenum gl_format(void);
-    GLenum gl_iformat(void);
+    GLenum gl_data_type();
+    GLenum gl_format();
+    GLenum gl_iformat();
 };
 
 void convert_image(
@@ -287,7 +287,7 @@ void png_read_struct::_handle_warning(::png_structp, const char* message) {
     ::std::cerr << "libpng warning: " << message << ::std::endl;
 }
 
-png_read_struct::png_read_struct(void)
+png_read_struct::png_read_struct()
   : _read(::png_create_read_struct(
       PNG_LIBPNG_VER_STRING,
       reinterpret_cast<::png_voidp>(this),
@@ -298,14 +298,14 @@ png_read_struct::png_read_struct(void)
     }
 }
 
-png_read_struct::~png_read_struct(void) noexcept {
+png_read_struct::~png_read_struct() noexcept {
     try {
         ::png_destroy_read_struct(&_read, nullptr, nullptr);
     } catch(...) {
     }
 }
 
-png_read_info_struct::png_read_info_struct(void)
+png_read_info_struct::png_read_info_struct()
   : png_read_struct()
   , _info(::png_create_info_struct(_read)) {
     if(!_info) {
@@ -313,46 +313,46 @@ png_read_info_struct::png_read_info_struct(void)
     }
 }
 
-png_read_info_struct::~png_read_info_struct(void) noexcept {
+png_read_info_struct::~png_read_info_struct() noexcept {
     try {
         ::png_destroy_read_struct(&_read, &_info, nullptr);
     } catch(...) {
     }
 }
 
-png_uint_32 png_read_info_struct::row_bytes(void) {
+png_uint_32 png_read_info_struct::row_bytes() {
     return png_uint_32(::png_get_rowbytes(_read, _info));
 }
 
-png_uint_32 png_read_info_struct::image_width(void) {
+png_uint_32 png_read_info_struct::image_width() {
     return ::png_get_image_width(_read, _info);
 }
 
-png_uint_32 png_read_info_struct::image_height(void) {
+png_uint_32 png_read_info_struct::image_height() {
     return ::png_get_image_height(_read, _info);
 }
 
-png_byte png_read_info_struct::bit_depth(void) {
+png_byte png_read_info_struct::bit_depth() {
     return ::png_get_bit_depth(_read, _info);
 }
 
-png_byte png_read_info_struct::channels(void) {
+png_byte png_read_info_struct::channels() {
     return ::png_get_channels(_read, _info);
 }
 
-png_byte png_read_info_struct::color_type(void) {
+png_byte png_read_info_struct::color_type() {
     return ::png_get_color_type(_read, _info);
 }
 
-void png_read_info_struct::set_palette_to_rgb(void) {
+void png_read_info_struct::set_palette_to_rgb() {
     ::png_set_palette_to_rgb(_read);
 }
 
-void png_read_info_struct::set_expand_gray_1_2_4_to_8(void) {
+void png_read_info_struct::set_expand_gray_1_2_4_to_8() {
     ::png_set_expand_gray_1_2_4_to_8(_read);
 }
 
-void png_read_info_struct::set_tRNS_to_alpha(void) {
+void png_read_info_struct::set_tRNS_to_alpha() {
     ::png_set_tRNS_to_alpha(_read);
 }
 
@@ -360,7 +360,7 @@ png_uint_32 png_read_info_struct::get_valid(png_uint_32 flag) {
     return ::png_get_valid(_read, _info, flag);
 }
 
-png_read_info_end_struct::png_read_info_end_struct(void)
+png_read_info_end_struct::png_read_info_end_struct()
   : png_read_info_struct()
   , _endi(::png_create_info_struct(_read)) {
     if(!_endi) {
@@ -368,7 +368,7 @@ png_read_info_end_struct::png_read_info_end_struct(void)
     }
 }
 
-png_read_info_end_struct::~png_read_info_end_struct(void) noexcept {
+png_read_info_end_struct::~png_read_info_end_struct() noexcept {
     try {
         ::png_destroy_read_struct(&_read, &_info, &_endi);
     } catch(...) {
@@ -424,7 +424,7 @@ png_reader::png_reader(std::istream& input)
     }
 }
 
-GLenum png_reader::gl_data_type(void) {
+GLenum png_reader::gl_data_type() {
     switch(_driver._png.bit_depth()) {
         case 1:
         case 2:
@@ -445,7 +445,7 @@ GLenum png_reader::gl_data_type(void) {
     return GL_NONE;
 }
 
-GLenum png_reader::gl_format(void) {
+GLenum png_reader::gl_format() {
     switch(_driver._png.color_type()) {
         case PNG_COLOR_TYPE_GRAY:
             return GL_RED;
@@ -460,7 +460,7 @@ GLenum png_reader::gl_format(void) {
     }
 }
 
-GLenum png_reader::gl_iformat(void) {
+GLenum png_reader::gl_iformat() {
     if(_driver._png.bit_depth() == 16) {
         if(has_rgba16) {
 #if defined(GL_RGBA16)

@@ -49,7 +49,7 @@ static void run_loop(GLFWwindow* window, int width, int height) {
                    "out vec3 vertLightDir;\n"
                    "out vec2 vertTexCoord;\n"
 
-                   "void main(void)\n"
+                   "void main()\n"
                    "{\n"
                    "	gl_Position = Modelview*Position;\n"
                    "	vertNormal = mat3(Modelview)*Normal;\n"
@@ -70,7 +70,7 @@ static void run_loop(GLFWwindow* window, int width, int height) {
       "in vec2 vertTexCoord;\n"
       "out vec4 fragColor;\n"
 
-      "void main(void)\n"
+      "void main()\n"
       "{\n"
       "	float d = 0.3*dot(vertNormal, normalize(vertLightDir));\n"
       "	float i = 0.6 + max(d, 0.0);\n"
@@ -317,7 +317,7 @@ static void run_loop(GLFWwindow* window, int width, int height) {
     }
 }
 
-static void init_and_run(void) {
+static void init_and_run() {
     if(!glfwInit()) {
         throw std::runtime_error("GLFW initialization error");
     } else {
@@ -354,7 +354,7 @@ static void init_and_run(void) {
     }
 }
 
-int main(void) {
+int main() {
     try {
         init_and_run();
         return 0;

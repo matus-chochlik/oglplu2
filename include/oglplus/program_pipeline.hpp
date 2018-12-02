@@ -25,8 +25,7 @@ struct program_pipeline_ops {
     static outcome<void>
     bind_program_pipeline(program_pipeline_name ppo) noexcept;
 
-    static outcome<program_pipeline_name>
-    program_pipeline_binding(void) noexcept;
+    static outcome<program_pipeline_name> program_pipeline_binding() noexcept;
 
     static outcome<void> use_program_stages(
       program_pipeline_name ppl,

@@ -28,7 +28,7 @@ public:
     uniform<GLfloat> offset_loc;
     uniform<GLfloat> scale_loc;
 
-    image_program(void) {
+    image_program() {
         shader vs(GL.vertex_shader);
         vs.source(
           glsl_literal("#version 140\n"
@@ -41,7 +41,7 @@ public:
 
                        "out vec2 vertTexCoord;\n"
 
-                       "void main(void)\n"
+                       "void main()\n"
                        "{\n"
                        "	gl_Position = Position;\n"
                        "	vertTexCoord = Scale*TexCoord + Offset;\n"
@@ -60,7 +60,7 @@ public:
 
                        "out vec4 fragColor;\n"
 
-                       "void main(void)\n"
+                       "void main()\n"
                        "{\n"
                        "	fragColor = texture(Tex, vertTexCoord);\n"
                        "}\n"));
@@ -206,7 +206,7 @@ public:
         }
     }
 
-    seconds_t<float> default_timeout(void) override {
+    seconds_t<float> default_timeout() override {
         return seconds_(20);
     }
 

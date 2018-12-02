@@ -34,11 +34,11 @@ public:
             throw std::runtime_error("Invalid GLX version");
     }
 
-    int Major(void) const {
+    int Major() const {
         return _major;
     }
 
-    int Minor(void) const {
+    int Minor() const {
         return _minor;
     }
 };

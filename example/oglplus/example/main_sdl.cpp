@@ -81,7 +81,7 @@ int example_main(
   oglplus::example_args& args,
   oglplus::example_params& params,
   oglplus::example_state& state) {
-    auto errstr = [&args](void) -> std::ostream& {
+    auto errstr = [&args]() -> std::ostream& {
         return std::cerr << args.command() << ": ";
     };
 

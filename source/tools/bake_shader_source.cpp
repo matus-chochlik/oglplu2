@@ -40,7 +40,7 @@ struct options {
     _str_param_t output_path;
     _sht_param_t shader_type;
 
-    options(void)
+    options()
       : input_path("-i", "--input", eagine::cstr_ref())
       , output_path("-o", "--output", eagine::cstr_ref("a.oglpshdr"))
       , shader_type("-t", "--shader-type", GL_NONE) {

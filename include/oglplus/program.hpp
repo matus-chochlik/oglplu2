@@ -262,8 +262,8 @@ struct obj_dsa_ops<tag::program> : obj_zero_dsa_ops<tag::program> {
     }
 #endif
 
-    outcome<transform_feedback_mode>
-    get_transform_feedback_buffer_mode(void) const noexcept {
+    outcome<transform_feedback_mode> get_transform_feedback_buffer_mode() const
+      noexcept {
         return _ops::get_program_transform_feedback_buffer_mode(*this);
     }
 
@@ -286,8 +286,8 @@ struct obj_dsa_ops<tag::program> : obj_zero_dsa_ops<tag::program> {
 #endif
 
 #if defined(GL_VERSION_4_3)
-    outcome<oper::compute_work_group_size>
-    get_compute_work_group_size(void) const noexcept {
+    outcome<oper::compute_work_group_size> get_compute_work_group_size() const
+      noexcept {
         return _ops::get_program_compute_work_group_size(*this);
     }
 #endif

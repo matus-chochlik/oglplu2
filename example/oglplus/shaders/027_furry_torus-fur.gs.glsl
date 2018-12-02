@@ -20,8 +20,7 @@ out vec3 geomFurDir;
 out vec3 geomLightDir;
 out vec3 geomColor;
 out float geomFurPart;
-void
-main(void) {
+void main() {
     geomColor = vertColor[0];
     geomNormal = vertNormal[0];
     geomFurPart = 0.0;
@@ -29,13 +28,14 @@ main(void) {
     float Wind = sin(4.0 * (VertPos.x + Time));
 
     for(int i = 0; i != PointCount; ++i) {
-	geomLightDir = normalize(LightPosition - VertPos.xyz);
-	geomFurDir = normalize(vertNormal[0] * 0.1 - vertOffset[0] * i * i * 0.3
-			       + vec3(Wind * i * i * 0.01, 0.0, 0.0));
-	gl_Position = CameraMatrix * VertPos;
-	EmitVertex();
-	geomFurPart += SegPart;
-	VertPos += vec4(geomFurDir, 0.0) * SegLen;
+        geomLightDir = normalize(LightPosition - VertPos.xyz);
+        geomFurDir = normalize(
+          vertNormal[0] * 0.1 - vertOffset[0] * i * i * 0.3 +
+          vec3(Wind * i * i * 0.01, 0.0, 0.0));
+        gl_Position = CameraMatrix * VertPos;
+        EmitVertex();
+        geomFurPart += SegPart;
+        VertPos += vec4(geomFurDir, 0.0) * SegLen;
     }
     EndPrimitive();
 }

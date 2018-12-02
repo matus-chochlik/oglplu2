@@ -14,7 +14,7 @@
 
 namespace oglplus {
 
-example_params::example_params(void) noexcept
+example_params::example_params() noexcept
   : _rand_seed(0)
   , _screenshot_time(3)
   , _fixed_fps(30)

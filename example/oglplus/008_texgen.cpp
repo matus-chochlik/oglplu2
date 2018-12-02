@@ -32,10 +32,10 @@ class example_render_graph : public texgen::render_graph {
 public:
     uniform<GLfloat> scale_loc;
 
-    example_render_graph(void);
+    example_render_graph();
 };
 
-example_render_graph::example_render_graph(void) {
+example_render_graph::example_render_graph() {
     using namespace texgen;
 
     uniform_node& uscale =
@@ -80,7 +80,7 @@ private:
     GLfloat scale, aspect;
 
 public:
-    example_texgen(void)
+    example_texgen()
       : scale(1.0f)
       , aspect(1.0f) {
         gl.uniform(erg.scale_loc, scale, scale);
@@ -116,7 +116,7 @@ public:
         }
     }
 
-    seconds_t<float> default_timeout(void) override {
+    seconds_t<float> default_timeout() override {
         return seconds_(30);
     }
 

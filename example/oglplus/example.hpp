@@ -17,9 +17,9 @@
 namespace oglplus {
 
 struct example {
-    virtual ~example(void) = default;
+    virtual ~example() = default;
 
-    virtual seconds_t<float> default_timeout(void) {
+    virtual seconds_t<float> default_timeout() {
         return seconds_(10);
     }
 

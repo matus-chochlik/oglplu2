@@ -29,7 +29,7 @@ class example_program : public program {
 public:
     uniform_location projection, modelview, light_pos, cube_tex;
 
-    example_program(void) {
+    example_program() {
         shader vs(GL.vertex_shader);
 
         vs.source(
@@ -47,7 +47,7 @@ public:
                        "out vec3 vertLightDir;\n"
                        "out vec2 vertTexCoord;\n"
 
-                       "void main(void)\n"
+                       "void main()\n"
                        "{\n"
                        "	gl_Position = Modelview*Position;\n"
                        "	vertNormal = mat3(Modelview)*Normal;\n"
@@ -69,7 +69,7 @@ public:
           "in vec2 vertTexCoord;\n"
           "out vec4 fragColor;\n"
 
-          "void main(void)\n"
+          "void main()\n"
           "{\n"
           "	float d=0.3*dot(vertNormal, normalize(vertLightDir));\n"
           "	float i=0.6 + max(d, 0.0);\n"
@@ -257,7 +257,7 @@ private:
     radians_t<float> rad;
 
 public:
-    example_recursive_cube(void)
+    example_recursive_cube()
       : tex_side(512)
       , rnd_tex(tex_side)
       , cube(prog)
@@ -276,7 +276,7 @@ public:
         gl.viewport(state.width(), state.height());
     }
 
-    seconds_t<float> default_timeout(void) override {
+    seconds_t<float> default_timeout() override {
         return seconds_(20);
     }
 

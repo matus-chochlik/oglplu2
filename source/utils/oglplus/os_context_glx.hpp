@@ -21,7 +21,7 @@ namespace oglplus {
 
 class offscreen_context_glx {
 private:
-    static const int* visual_attribs(void) noexcept {
+    static const int* visual_attribs() noexcept {
         static int vas[] = {GLX_X_RENDERABLE,
                             True,
                             GLX_DRAWABLE_TYPE,

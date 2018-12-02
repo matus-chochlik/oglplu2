@@ -52,14 +52,14 @@ private:
     bool _demo_mode;
 
 public:
-    example_params(void) noexcept;
+    example_params() noexcept;
 
     example_params& exec_command(eagine::valid_if_not_empty<cstr_ref> cmd) {
         _exec_cmd = cmd.value();
         return *this;
     }
 
-    cstr_ref exec_command(void) const noexcept {
+    cstr_ref exec_command() const noexcept {
         return _exec_cmd;
     }
 
@@ -86,11 +86,11 @@ public:
         return *this;
     }
 
-    cstr_ref screenshot_path(void) const noexcept {
+    cstr_ref screenshot_path() const noexcept {
         return _screenshot_path;
     }
 
-    bool doing_screenshot(void) const noexcept {
+    bool doing_screenshot() const noexcept {
         return !_screenshot_path.empty();
     }
 
@@ -99,7 +99,7 @@ public:
         return *this;
     }
 
-    seconds_t<float> screenshot_time(void) const noexcept {
+    seconds_t<float> screenshot_time() const noexcept {
         return seconds_(_screenshot_time);
     }
 
@@ -109,15 +109,15 @@ public:
         return *this;
     }
 
-    cstr_ref framedump_prefix(void) const noexcept {
+    cstr_ref framedump_prefix() const noexcept {
         return _framedump_prefix;
     }
 
-    bool doing_framedump(void) const noexcept {
+    bool doing_framedump() const noexcept {
         return !_framedump_prefix.empty();
     }
 
-    bool fixed_framerate(void) const noexcept {
+    bool fixed_framerate() const noexcept {
         return doing_screenshot() || doing_framedump();
     }
 
@@ -126,7 +126,7 @@ public:
         return *this;
     }
 
-    float frame_time(void) const noexcept {
+    float frame_time() const noexcept {
         return 1.0f / _fixed_fps;
     }
 
@@ -135,7 +135,7 @@ public:
         return *this;
     }
 
-    int window_x_pos(void) const noexcept {
+    int window_x_pos() const noexcept {
         return _x_pos;
     }
 
@@ -144,7 +144,7 @@ public:
         return *this;
     }
 
-    int window_y_pos(void) const noexcept {
+    int window_y_pos() const noexcept {
         return _y_pos;
     }
 
@@ -153,7 +153,7 @@ public:
         return *this;
     }
 
-    unsigned rand_seed(void) const noexcept {
+    unsigned rand_seed() const noexcept {
         return _rand_seed;
     }
 
@@ -162,7 +162,7 @@ public:
         return *this;
     }
 
-    bool compatibility_context(void) const noexcept {
+    bool compatibility_context() const noexcept {
         return _compat_ctxt;
     }
 
@@ -171,7 +171,7 @@ public:
         return *this;
     }
 
-    bool debugging_context(void) const noexcept {
+    bool debugging_context() const noexcept {
         return _debug_ctxt;
     }
 
@@ -180,7 +180,7 @@ public:
         return *this;
     }
 
-    bool auto_tiles(void) const noexcept {
+    bool auto_tiles() const noexcept {
         return _auto_tiles;
     }
 
@@ -189,7 +189,7 @@ public:
         return *this;
     }
 
-    int x_tiles(void) const noexcept {
+    int x_tiles() const noexcept {
         return _x_tiles;
     }
 
@@ -198,7 +198,7 @@ public:
         return *this;
     }
 
-    int y_tiles(void) const noexcept {
+    int y_tiles() const noexcept {
         return _y_tiles;
     }
 
@@ -207,7 +207,7 @@ public:
         return *this;
     }
 
-    bool demo_mode(void) const noexcept {
+    bool demo_mode() const noexcept {
         return _demo_mode;
     }
 
@@ -216,12 +216,12 @@ public:
         return *this;
     }
 
-    example_params& samples_dont_care(void) noexcept {
+    example_params& samples_dont_care() noexcept {
         _samples = 0;
         return *this;
     }
 
-    eagine::valid_if_positive<int> samples(void) const noexcept {
+    eagine::valid_if_positive<int> samples() const noexcept {
         return _samples;
     }
 
@@ -231,7 +231,7 @@ public:
         return *this;
     }
 
-    int color_bits(void) const noexcept {
+    int color_bits() const noexcept {
         return _color_bits;
     }
 
@@ -240,7 +240,7 @@ public:
         return *this;
     }
 
-    int alpha_bits(void) const noexcept {
+    int alpha_bits() const noexcept {
         return _alpha_bits;
     }
 
@@ -249,11 +249,11 @@ public:
         return *this;
     }
 
-    int depth_bits(void) const noexcept {
+    int depth_bits() const noexcept {
         return _depth_bits;
     }
 
-    bool depth_buffer(void) const noexcept {
+    bool depth_buffer() const noexcept {
         return _depth_bits > 0;
     }
 
@@ -262,11 +262,11 @@ public:
         return *this;
     }
 
-    int stencil_bits(void) const noexcept {
+    int stencil_bits() const noexcept {
         return _stencil_bits;
     }
 
-    bool stencil_buffer(void) const noexcept {
+    bool stencil_buffer() const noexcept {
         return _stencil_bits > 0;
     }
 };

@@ -43,21 +43,21 @@ public:
         temp._pimpl = nullptr;
     }
 
-    ~Object(void) {
+    ~Object() {
         if(_pimpl)
             _deleter(_pimpl);
     }
 
-    ObjectType* Get(void) const {
+    ObjectType* Get() const {
         assert(_pimpl);
         return _pimpl;
     }
 
-    operator ObjectType*(void)const {
+    operator ObjectType*() const {
         return Get();
     }
 
-    ObjectType* operator->(void)const {
+    ObjectType* operator->() const {
         return Get();
     }
 };
@@ -82,7 +82,7 @@ public:
 
 class ScreenNames : public std::vector<std::string> {
 public:
-    ScreenNames(void) {
+    ScreenNames() {
         char name[16];
         int display = 0;
         while(true) {
@@ -118,7 +118,7 @@ private:
     Deleter* _deleter;
 
 protected:
-    const Display& DisplayRef(void) const {
+    const Display& DisplayRef() const {
         return _display;
     }
 
@@ -146,17 +146,17 @@ public:
         temp._handle = 0;
     }
 
-    ~DisplayObject(void) {
+    ~DisplayObject() {
         if(_handle) {
             _deleter(_display, _handle);
         }
     }
 
-    HandleType Handle(void) const {
+    HandleType Handle() const {
         return _handle;
     }
 
-    operator HandleType(void) const {
+    operator HandleType() const {
         return Handle();
     }
 };
@@ -172,11 +172,11 @@ public:
       : _handle(derived.Handle()) {
     }
 
-    HandleType Handle(void) const {
+    HandleType Handle() const {
         return _handle;
     }
 
-    operator HandleType(void) const {
+    operator HandleType() const {
         return Handle();
     }
 };

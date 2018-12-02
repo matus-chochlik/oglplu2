@@ -16,15 +16,15 @@ bool example_arg::operator==(const example_param_tags& tags) const noexcept {
     return _arg == tags._stag || _arg == tags._ltag;
 }
 
-int example_args::argc(void) const noexcept {
+int example_args::argc() const noexcept {
     return _args.argc();
 }
 
-const char** example_args::argv(void) const noexcept {
+const char** example_args::argv() const noexcept {
     return _args.argv();
 }
 
-cstr_ref example_args::command(void) const noexcept {
+cstr_ref example_args::command() const noexcept {
     return _args.command();
 }
 

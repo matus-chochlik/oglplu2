@@ -9,8 +9,7 @@ in float geomFurPart;
 out vec3 fragColor;
 const vec3 LightColor = vec3(1.0, 1.0, 1.0);
 
-void
-main(void) {
+void main() {
     const float Ambient = 0.3;
     float FurLight = 1.0 - abs(dot(geomFurDir, geomLightDir));
     float ShapeLight = max(dot(geomNormal, geomLightDir) + 0.4, 0.0);

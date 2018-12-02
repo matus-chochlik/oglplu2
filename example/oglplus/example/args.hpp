@@ -56,7 +56,7 @@ public:
       , _value(initial) {
     }
 
-    operator const T&(void)const noexcept {
+    operator const T&() const noexcept {
         return _value.value();
     }
 };
@@ -90,11 +90,11 @@ public:
       , _errlog(log) {
     }
 
-    int argc(void) const noexcept;
+    int argc() const noexcept;
 
-    const char** argv(void) const noexcept;
+    const char** argv() const noexcept;
 
-    cstr_ref command(void) const noexcept;
+    cstr_ref command() const noexcept;
 
     bool parse_param(example_string_param& param) const;
 };

@@ -42,7 +42,7 @@ private:
     static constexpr const float max_scale = 10.0f;
 
 public:
-    example_mandelbrot(void)
+    example_mandelbrot()
       : offset_x(-0.5f)
       , offset_y(0.0f)
       , scale(1.0f)
@@ -55,7 +55,7 @@ public:
                        "in vec2 Position;\n"
                        "in vec2 Coord;\n"
                        "out vec2 vertCoord;\n"
-                       "void main(void)\n"
+                       "void main()\n"
                        "{\n"
                        "	vertCoord = Coord*Scale+Offset;\n"
                        "	gl_Position = vec4(Position, 0.0, 1.0);\n"
@@ -68,7 +68,7 @@ public:
           "uniform sampler1D gradient;\n"
           "in vec2 vertCoord;\n"
           "out vec4 fragColor;\n"
-          "void main(void)\n"
+          "void main()\n"
           "{\n"
           "	vec2 z = vec2(0.0, 0.0);\n"
           "	vec2 c = vertCoord;\n"
@@ -191,7 +191,7 @@ public:
         }
     }
 
-    seconds_t<float> default_timeout(void) override {
+    seconds_t<float> default_timeout() override {
         return seconds_(20);
     }
 

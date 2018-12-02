@@ -32,7 +32,7 @@ struct options {
 
     eagine::program_parameters all;
 
-    options(void)
+    options()
       : output_path("-o", "--output", "a.oglptex")
       , width("-w", "--width", 256)
       , height("-h", "--height", 256)

@@ -34,7 +34,7 @@ class example_program : public program {
 public:
     uniform_location projection;
 
-    example_program(void) {
+    example_program() {
         shader vs(GL.vertex_shader);
         vs.source(
           glsl_literal("#version 140\n"
@@ -49,7 +49,7 @@ public:
                        "out vec3 vertColor1;\n"
                        "out vec3 vertColor2;\n"
 
-                       "void main(void)\n"
+                       "void main()\n"
                        "{\n"
                        "	gl_Position = Projection*Position;\n"
                        "	vertColor1 = mix(BoxCoord,abs(Normal),0.5);\n"
@@ -72,7 +72,7 @@ public:
                        "	return float((int(tc.x)%2+int(tc.y)%2)%2);\n"
                        "}\n"
 
-                       "void main(void)\n"
+                       "void main()\n"
                        "{\n"
                        "	float c = pattern(vertCoord);\n"
                        "	fragColor = mix(vertColor1, vertColor2, c);\n"

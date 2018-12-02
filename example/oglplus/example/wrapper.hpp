@@ -30,20 +30,20 @@ private:
     std::chrono::time_point<clock_type> _now;
 
     std::vector<char> _pixel_data;
-    std::vector<char>& pixels(void);
+    std::vector<char>& pixels();
     std::vector<char> _textbuf;
     std::vector<char>& textbuf(std::size_t);
 
 public:
     example_wrapper(example_args&, example_params&, example_state&);
 
-    void destroy(void);
+    void destroy();
 
-    bool next_frame(void);
+    bool next_frame();
 
-    void update(void);
+    void update();
 
-    void render(void);
+    void render();
 
     void set_size(int width, int height);
 

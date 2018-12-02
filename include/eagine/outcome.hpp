@@ -264,7 +264,7 @@ public:
     }
 
     basic_outcome<T, ErrorData, HandlerPolicy, cancelled_handler>
-    ignore_error(void) noexcept {
+    ignore_error() noexcept {
         return {cancelled_handler<ErrorData, HandlerPolicy>(
                   std::move(this->_handler.data()), this->_handler.cancel()),
                 std::move(_value)};
