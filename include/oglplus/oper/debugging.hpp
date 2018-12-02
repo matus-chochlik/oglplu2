@@ -37,8 +37,8 @@ struct debugging {
       debug_output_severity severity,
       cstring_span message) noexcept;
 
-    static outcome<void> debug_message_callback(
-      GLDEBUGPROC callback, void* user_param) noexcept;
+    static outcome<void>
+    debug_message_callback(GLDEBUGPROC callback, void* user_param) noexcept;
 
     static outcome<void> get_debug_message_log(
       GLuint count,

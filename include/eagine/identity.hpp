@@ -27,8 +27,7 @@ struct identity {
 };
 
 template <typename T>
-static constexpr inline identity<T>
-make_identity(const T&) noexcept {
+static constexpr inline identity<T> make_identity(const T&) noexcept {
     return {};
 }
 

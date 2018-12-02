@@ -10,10 +10,10 @@
 #ifndef EAGINE_ZIP_ITERATOR_1509260923_HPP
 #define EAGINE_ZIP_ITERATOR_1509260923_HPP
 
-#include <iterator>
-#include <tuple>
 #include "std/type_traits.hpp"
 #include "std/utility.hpp"
+#include <iterator>
+#include <tuple>
 
 namespace eagine {
 
@@ -25,8 +25,8 @@ private:
     _iters_t _iters;
 
     template <std::size_t... I>
-    static inline auto _tie_deref(
-      const _iters_t& a, std::index_sequence<I...>) {
+    static inline auto
+    _tie_deref(const _iters_t& a, std::index_sequence<I...>) {
         return std::tie(*std::get<I>(a)...);
     }
 
@@ -36,20 +36,20 @@ private:
     }
 
     template <typename IT, typename Func, std::size_t... I>
-    static constexpr inline auto _fold_or_2(
-      IT& a, IT& b, Func func, std::index_sequence<I...>) {
+    static constexpr inline auto
+    _fold_or_2(IT& a, IT& b, Func func, std::index_sequence<I...>) {
         return (... || func(std::get<I>(a), std::get<I>(b)));
     }
 
     template <typename IT, typename Func, std::size_t... I>
-    static constexpr inline auto _fold_and_2(
-      IT& a, IT& b, Func func, std::index_sequence<I...>) {
+    static constexpr inline auto
+    _fold_and_2(IT& a, IT& b, Func func, std::index_sequence<I...>) {
         return (... && func(std::get<I>(a), std::get<I>(b)));
     }
 
     template <typename IT, typename Func, std::size_t... I>
-    static inline void _for_each_1(
-      IT& a, Func func, std::index_sequence<I...>) {
+    static inline void
+    _for_each_1(IT& a, Func func, std::index_sequence<I...>) {
         return (..., func(std::get<I>(a)));
     }
 
@@ -91,8 +91,7 @@ public:
 };
 
 template <typename... Iter>
-static inline zip_iterator<Iter...>
-zip_iters(Iter... i) {
+static inline zip_iterator<Iter...> zip_iters(Iter... i) {
     return {i...};
 }
 
@@ -116,8 +115,8 @@ private:
     }
 
     template <typename TUP, typename Func, std::size_t... I>
-    static inline void _deref_call(
-      TUP& tup, Func& func, std::index_sequence<I...>) {
+    static inline void
+    _deref_call(TUP& tup, Func& func, std::index_sequence<I...>) {
         func(std::get<I>(tup)...);
     }
 

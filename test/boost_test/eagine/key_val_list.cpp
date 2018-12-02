@@ -13,7 +13,7 @@ struct mock_kv_list_traits {
     typedef int conv_type;
     typedef int value_type;
 
-    static constexpr int terminator(void) {
+    static constexpr int terminator() {
         return -1;
     }
 };

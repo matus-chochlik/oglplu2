@@ -8,9 +8,9 @@
  */
 
 #include "params.hpp"
+#include <eagine/filesystem.hpp>
 #include <fstream>
 #include <sstream>
-#include <eagine/filesystem.hpp>
 
 namespace oglplus {
 
@@ -33,14 +33,12 @@ example_params::example_params(void) noexcept
   , _demo_mode(false) {
 }
 
-bool
-example_params::is_readable_file(cstr_ref path) const noexcept {
+bool example_params::is_readable_file(cstr_ref path) const noexcept {
     // TODO something more efficient?
     return std::ifstream(path.c_str()).good();
 }
 
-eagine::valid_if_not_empty<std::string>
-example_params::find_resource_file_path(
+eagine::valid_if_not_empty<std::string> example_params::find_resource_file_path(
   cstr_ref res_group, cstr_ref res_name) const noexcept {
     using eagine::filesystem::string_path;
 
@@ -97,14 +95,12 @@ resource_type_to_group_name(example_resource_type type) noexcept {
     return cstr_ref();
 }
 
-eagine::valid_if_not_empty<std::string>
-example_params::find_resource_file_path(
+eagine::valid_if_not_empty<std::string> example_params::find_resource_file_path(
   example_resource_type type, cstr_ref res_name) const noexcept {
     return find_resource_file_path(resource_type_to_group_name(type), res_name);
 }
 
-std::string
-example_params::get_resource_file_path(
+std::string example_params::get_resource_file_path(
   example_resource_type type, cstr_ref res_name) const {
     auto path = find_resource_file_path(type, res_name);
 

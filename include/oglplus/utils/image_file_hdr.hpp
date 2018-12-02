@@ -10,10 +10,10 @@
 #ifndef OGLPLUS_UTILS_IMAGE_FILE_HDR_1509260923_HPP
 #define OGLPLUS_UTILS_IMAGE_FILE_HDR_1509260923_HPP
 
-#include <array>
 #include <eagine/file_magic_number.hpp>
 #include <eagine/offset_ptr.hpp>
 #include <eagine/valid_if/positive.hpp>
+#include <array>
 
 namespace oglplus {
 

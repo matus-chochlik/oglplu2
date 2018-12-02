@@ -13,8 +13,7 @@ BOOST_AUTO_TEST_SUITE(math_matrix_tests_3)
 static eagine::test_random_generator rg;
 
 template <typename T, int M, int N, int K, bool RM1, bool RM2, bool V>
-void
-test_math_matrix_mult_TCRRMV(void) {
+void test_math_matrix_mult_TCRRMV() {
     T d1[M * N];
 
     for(int i = 0; i < (M * N); ++i) {
@@ -47,8 +46,7 @@ test_math_matrix_mult_TCRRMV(void) {
 }
 
 template <typename T, bool RM1, bool RM2, bool V>
-void
-test_math_matrix_mult_TRM1RM2V(void) {
+void test_math_matrix_mult_TRM1RM2V() {
     test_math_matrix_mult_TCRRMV<T, 1, 1, 1, RM1, RM2, V>();
     test_math_matrix_mult_TCRRMV<T, 1, 1, 2, RM1, RM2, V>();
     test_math_matrix_mult_TCRRMV<T, 1, 1, 3, RM1, RM2, V>();
@@ -201,15 +199,13 @@ test_math_matrix_mult_TRM1RM2V(void) {
 }
 
 template <typename T, bool RM, bool V>
-void
-test_math_matrix_mult_TRMV(void) {
+void test_math_matrix_mult_TRMV() {
     test_math_matrix_mult_TRM1RM2V<T, RM, true, V>();
     test_math_matrix_mult_TRM1RM2V<T, RM, false, V>();
 }
 
 template <typename T>
-void
-test_math_matrix_mult_T(void) {
+void test_math_matrix_mult_T() {
     test_math_matrix_mult_TRMV<T, true, true>();
     test_math_matrix_mult_TRMV<T, true, false>();
     test_math_matrix_mult_TRMV<T, false, true>();

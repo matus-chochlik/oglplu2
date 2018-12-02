@@ -20,14 +20,12 @@ border2d_output::border2d_output(node_intf& parent)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref
-border2d_output::type_name() {
+cstr_ref border2d_output::type_name() {
     return cstr_ref("Border2D");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-slot_data_type
-border2d_output::value_type() {
+slot_data_type border2d_output::value_type() {
     return input.value_type();
 }
 //------------------------------------------------------------------------------

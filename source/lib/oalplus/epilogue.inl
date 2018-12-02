@@ -8,4 +8,3 @@
  */
 
 #undef OALPLUS_IMPLEMENTING_LIBRARY
-

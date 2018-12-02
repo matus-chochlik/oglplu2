@@ -25,8 +25,7 @@
 static oglplus::constants GL;
 static oglplus::operations gl;
 
-static void
-handle_resize(int width, int height) {
+static void handle_resize(int width, int height) {
     gl.viewport(0, 0, width, height);
     const GLdouble asp = GLdouble(width) / height;
 
@@ -38,8 +37,7 @@ handle_resize(int width, int height) {
     gl.ortho(-w, +w, -h, +h, 0, 1);
 }
 
-static void
-run_loop(GLFWwindow* window, int width, int height) {
+static void run_loop(GLFWwindow* window, int width, int height) {
     using namespace oglplus;
 
     shader fs(GL.fragment_shader);
@@ -137,8 +135,7 @@ run_loop(GLFWwindow* window, int width, int height) {
     }
 }
 
-static void
-init_and_run(void) {
+static void init_and_run(void) {
     if(!glfwInit()) {
         throw std::runtime_error("GLFW initialization error");
     } else {
@@ -175,8 +172,7 @@ init_and_run(void) {
     }
 }
 
-int
-main(void) {
+int main(void) {
     try {
         init_and_run();
         return 0;

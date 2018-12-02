@@ -19,8 +19,7 @@ multi_input_output::multi_input_output(node_intf& parent)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-slot_data_type
-multi_input_output::common_param_type() {
+slot_data_type multi_input_output::common_param_type() {
     slot_data_type result = _input.value_type();
 
     for(auto i = _inputs.begin(); i != _inputs.end(); ++i) {
@@ -31,14 +30,12 @@ multi_input_output::common_param_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-span_size_t
-multi_input_node::input_count() {
+span_size_t multi_input_node::input_count() {
     return 1 + span_size(single_output()._inputs.size());
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-input_intf&
-multi_input_node::input(span_size_t index) {
+input_intf& multi_input_node::input(span_size_t index) {
     if(index == 0)
         return single_output()._input;
     assert(index < input_count());
@@ -63,8 +60,7 @@ multi_input_node::input_by_name(const cstr_ref& name) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-bool
-multi_input_node::can_add_input() {
+bool multi_input_node::can_add_input() {
     return true;
 }
 //------------------------------------------------------------------------------

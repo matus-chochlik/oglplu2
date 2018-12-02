@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include <algorithm>
 #include <oglplus/utils/gl_func.hpp>
+#include <algorithm>
 
 namespace oglplus {
 //------------------------------------------------------------------------------
@@ -23,16 +23,14 @@ drawing_state::primitive_restart_index(GLuint index) noexcept {
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_0)
-inline outcome<void>
-drawing_state::patch_parameter_i(
+inline outcome<void> drawing_state::patch_parameter_i(
   oglplus::patch_parameter param, GLint value) noexcept {
     OGLPLUS_GLFUNC(PatchParameteri)(GLenum(param), value);
     OGLPLUS_VERIFY(PatchParameteri, gl_enum_value(param), debug);
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-drawing_state::patch_parameter(
+inline outcome<void> drawing_state::patch_parameter(
   oglplus::patch_parameter param, span<const GLfloat> values) noexcept {
     OGLPLUS_GLFUNC(PatchParameterfv)(GLenum(param), values.data());
     OGLPLUS_VERIFY(PatchParameterfv, gl_enum_value(param), debug);
@@ -40,8 +38,7 @@ drawing_state::patch_parameter(
 }
 #endif
 //------------------------------------------------------------------------------
-inline outcome<void>
-drawing_ops::draw_arrays(
+inline outcome<void> drawing_ops::draw_arrays(
   primitive_type mode, GLint first, GLsizei count) noexcept {
     OGLPLUS_GLFUNC(DrawArrays)(GLenum(mode), first, count);
     OGLPLUS_VERIFY(DrawArrays, gl_enum_value(mode), debug);
@@ -49,8 +46,7 @@ drawing_ops::draw_arrays(
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_0)
-inline outcome<void>
-drawing_ops::multi_draw_arrays(
+inline outcome<void> drawing_ops::multi_draw_arrays(
   primitive_type mode,
   span<const GLint> first,
   span<const GLsizei> count) noexcept {
@@ -65,8 +61,7 @@ drawing_ops::multi_draw_arrays(
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_1)
-inline outcome<void>
-drawing_ops::draw_arrays_instanced(
+inline outcome<void> drawing_ops::draw_arrays_instanced(
   primitive_type mode, GLint first, GLsizei count, GLsizei primcount) noexcept {
     OGLPLUS_GLFUNC(DrawArraysInstanced)(GLenum(mode), first, count, primcount);
     OGLPLUS_VERIFY(DrawArraysInstanced, gl_enum_value(mode), debug);
@@ -75,8 +70,7 @@ drawing_ops::draw_arrays_instanced(
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_2)
-inline outcome<void>
-drawing_ops::draw_arrays_instanced_base_instance(
+inline outcome<void> drawing_ops::draw_arrays_instanced_base_instance(
   primitive_type mode,
   GLint first,
   GLsizei count,
@@ -90,8 +84,7 @@ drawing_ops::draw_arrays_instanced_base_instance(
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_0)
-inline outcome<void>
-drawing_ops::draw_arrays_indirect(
+inline outcome<void> drawing_ops::draw_arrays_indirect(
   primitive_type mode, const GLvoid* indirect) noexcept {
     OGLPLUS_GLFUNC(DrawArraysIndirect)(GLenum(mode), indirect);
     OGLPLUS_VERIFY(DrawArraysIndirect, gl_enum_value(mode), debug);
@@ -99,8 +92,7 @@ drawing_ops::draw_arrays_indirect(
 }
 #endif
 //------------------------------------------------------------------------------
-inline outcome<void>
-drawing_ops::draw_elements(
+inline outcome<void> drawing_ops::draw_elements(
   primitive_type mode,
   GLsizei count,
   index_type type,
@@ -110,15 +102,13 @@ drawing_ops::draw_elements(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-drawing_ops::draw_elements(
+inline outcome<void> drawing_ops::draw_elements(
   primitive_type mode, GLsizei count, index_type type) noexcept {
     return draw_elements(mode, count, type, nullptr);
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_0)
-inline outcome<void>
-drawing_ops::multi_draw_elements(
+inline outcome<void> drawing_ops::multi_draw_elements(
   primitive_type mode,
   span<const GLsizei> count,
   index_type type,
@@ -134,8 +124,7 @@ drawing_ops::multi_draw_elements(
 }
 #endif
 //------------------------------------------------------------------------------
-inline outcome<void>
-drawing_ops::draw_range_elements(
+inline outcome<void> drawing_ops::draw_range_elements(
   primitive_type mode,
   GLuint start,
   GLuint end,
@@ -148,8 +137,7 @@ drawing_ops::draw_range_elements(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-drawing_ops::draw_range_elements(
+inline outcome<void> drawing_ops::draw_range_elements(
   primitive_type mode,
   GLuint start,
   GLuint end,
@@ -159,8 +147,7 @@ drawing_ops::draw_range_elements(
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_1)
-inline outcome<void>
-drawing_ops::draw_elements_instanced(
+inline outcome<void> drawing_ops::draw_elements_instanced(
   primitive_type mode,
   GLsizei count,
   index_type type,
@@ -172,8 +159,7 @@ drawing_ops::draw_elements_instanced(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-drawing_ops::draw_elements_instanced(
+inline outcome<void> drawing_ops::draw_elements_instanced(
   primitive_type mode,
   GLsizei count,
   index_type type,
@@ -183,8 +169,7 @@ drawing_ops::draw_elements_instanced(
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_2)
-inline outcome<void>
-drawing_ops::draw_elements_base_vertex(
+inline outcome<void> drawing_ops::draw_elements_base_vertex(
   primitive_type mode,
   GLsizei count,
   index_type type,
@@ -196,8 +181,7 @@ drawing_ops::draw_elements_base_vertex(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-drawing_ops::draw_elements_base_vertex(
+inline outcome<void> drawing_ops::draw_elements_base_vertex(
   primitive_type mode,
   GLsizei count,
   index_type type,
@@ -205,8 +189,7 @@ drawing_ops::draw_elements_base_vertex(
     return draw_elements_base_vertex(mode, count, type, nullptr, basevertex);
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-drawing_ops::multi_draw_elements_base_vertex(
+inline outcome<void> drawing_ops::multi_draw_elements_base_vertex(
   primitive_type mode,
   span<const GLsizei> count,
   index_type type,
@@ -224,8 +207,7 @@ drawing_ops::multi_draw_elements_base_vertex(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-drawing_ops::draw_range_elements_base_vertex(
+inline outcome<void> drawing_ops::draw_range_elements_base_vertex(
   primitive_type mode,
   GLuint start,
   GLuint end,
@@ -239,8 +221,7 @@ drawing_ops::draw_range_elements_base_vertex(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-drawing_ops::draw_range_elements_base_vertex(
+inline outcome<void> drawing_ops::draw_range_elements_base_vertex(
   primitive_type mode,
   GLuint start,
   GLuint end,
@@ -251,8 +232,7 @@ drawing_ops::draw_range_elements_base_vertex(
       mode, start, end, count, type, nullptr, basevertex);
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-drawing_ops::draw_elements_instanced_base_vertex(
+inline outcome<void> drawing_ops::draw_elements_instanced_base_vertex(
   primitive_type mode,
   GLsizei count,
   index_type type,
@@ -265,8 +245,7 @@ drawing_ops::draw_elements_instanced_base_vertex(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-drawing_ops::draw_elements_instanced_base_vertex(
+inline outcome<void> drawing_ops::draw_elements_instanced_base_vertex(
   primitive_type mode,
   GLsizei count,
   index_type type,
@@ -278,8 +257,7 @@ drawing_ops::draw_elements_instanced_base_vertex(
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_2)
-inline outcome<void>
-drawing_ops::draw_elements_instanced_base_instance(
+inline outcome<void> drawing_ops::draw_elements_instanced_base_instance(
   primitive_type mode,
   GLsizei count,
   index_type type,
@@ -293,8 +271,7 @@ drawing_ops::draw_elements_instanced_base_instance(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-drawing_ops::draw_elements_instanced_base_instance(
+inline outcome<void> drawing_ops::draw_elements_instanced_base_instance(
   primitive_type mode,
   GLsizei count,
   index_type type,
@@ -340,16 +317,14 @@ drawing_ops::draw_elements_instanced_base_vertex_base_instance(
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_0)
-inline outcome<void>
-drawing_ops::draw_elements_indirect(
+inline outcome<void> drawing_ops::draw_elements_indirect(
   primitive_type mode, index_type type, const GLvoid* indirect) noexcept {
     OGLPLUS_GLFUNC(DrawElementsIndirect)(GLenum(mode), GLenum(type), indirect);
     OGLPLUS_VERIFY(DrawElementsIndirect, gl_enum_value(mode), debug);
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-drawing_ops::draw_transform_feedback(
+inline outcome<void> drawing_ops::draw_transform_feedback(
   primitive_type mode, transform_feedback_name xfb) noexcept {
     OGLPLUS_GLFUNC(DrawTransformFeedback)(GLenum(mode), get_raw_name(xfb));
     OGLPLUS_VERIFY(
@@ -357,8 +332,7 @@ drawing_ops::draw_transform_feedback(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-drawing_ops::draw_transform_feedback_stream(
+inline outcome<void> drawing_ops::draw_transform_feedback_stream(
   primitive_type mode, transform_feedback_name xfb, GLuint stream) noexcept {
     OGLPLUS_GLFUNC(DrawTransformFeedbackStream)
     (GLenum(mode), get_raw_name(xfb), stream);
@@ -371,8 +345,7 @@ drawing_ops::draw_transform_feedback_stream(
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_2)
-inline outcome<void>
-drawing_ops::draw_transform_feedback_instanced(
+inline outcome<void> drawing_ops::draw_transform_feedback_instanced(
   primitive_type mode,
   transform_feedback_name xfb,
   GLsizei primcount) noexcept {
@@ -383,8 +356,7 @@ drawing_ops::draw_transform_feedback_instanced(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-drawing_ops::draw_transform_feedback_stream_instanced(
+inline outcome<void> drawing_ops::draw_transform_feedback_stream_instanced(
   primitive_type mode,
   transform_feedback_name xfb,
   GLuint stream,

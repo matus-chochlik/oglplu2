@@ -14,14 +14,12 @@ BOOST_AUTO_TEST_SUITE(buffer_size_tests)
 
 static eagine::test_random_generator rg;
 
-static inline auto
-get_n(void) {
+static inline auto get_n() {
     return rg.get<eagine::span_size_t>(0, 1000000);
 }
 
 template <typename T>
-static inline auto
-sz(void) {
+static inline auto sz() {
     return eagine::span_size_t(sizeof(T));
 }
 

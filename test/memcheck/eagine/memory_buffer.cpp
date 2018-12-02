@@ -4,14 +4,13 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include <cassert>
-#include <eagine/memory/buffer.hpp>
 #include "../memcheck.inl"
+#include <eagine/memory/buffer.hpp>
+#include <cassert>
 
 static eagine::test_random_generator rg;
 
-void
-eagine_test_memory_buffer_1(void) {
+void eagine_test_memory_buffer_1() {
     using namespace eagine;
 
     memory::buffer buf;
@@ -46,8 +45,7 @@ eagine_test_memory_buffer_1(void) {
     }
 }
 
-int
-main(void) {
+int main() {
     eagine_test_memory_buffer_1();
     return 0;
 }

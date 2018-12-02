@@ -42,14 +42,12 @@ BOOST_AUTO_TEST_SUITE(units_si_tests_2)
 static eagine::test_random_generator rg;
 
 template <typename T>
-T
-get(void) {
+T get() {
     return rg.get<T>(1, 100);
 }
 
 template <typename T>
-void
-test_units_si_1(void) {
+void test_units_si_1() {
     using eagine::tagged_quantity;
     using namespace eagine::units;
 
@@ -98,8 +96,7 @@ BOOST_AUTO_TEST_CASE(units_si_1) {
 }
 
 template <typename T>
-void
-test_units_si_2(void) {
+void test_units_si_2() {
     using eagine::tagged_quantity;
     using namespace eagine::units;
 
@@ -164,8 +161,7 @@ BOOST_AUTO_TEST_CASE(units_si_2) {
 }
 
 template <typename T>
-void
-test_units_si_3(void) {
+void test_units_si_3() {
     using eagine::tagged_quantity;
     using namespace eagine::units;
 
@@ -239,8 +235,7 @@ BOOST_AUTO_TEST_CASE(units_si_3) {
 }
 
 template <typename T>
-void
-test_units_si_4(void) {
+void test_units_si_4() {
     using eagine::tagged_quantity;
     using namespace eagine::units;
 
@@ -265,8 +260,7 @@ BOOST_AUTO_TEST_CASE(units_si_4) {
 }
 
 template <typename T>
-void
-test_units_si_5(void) {
+void test_units_si_5() {
     using eagine::tagged_quantity;
     using namespace eagine::units;
 
@@ -294,8 +288,7 @@ BOOST_AUTO_TEST_CASE(units_si_5) {
 }
 
 template <typename T>
-void
-test_units_si_6(void) {
+void test_units_si_6() {
     using eagine::tagged_quantity;
     using namespace eagine::units;
 

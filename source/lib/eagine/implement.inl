@@ -8,4 +8,3 @@
  */
 
 #define EAGINE_IMPLEMENTING_LIBRARY 1
-

@@ -9,8 +9,8 @@
 #ifndef OGLPLUS_ERROR_ERROR_1509260923_HPP
 #define OGLPLUS_ERROR_ERROR_1509260923_HPP
 
-#include <stdexcept>
 #include "info.hpp"
+#include <stdexcept>
 
 namespace oglplus {
 

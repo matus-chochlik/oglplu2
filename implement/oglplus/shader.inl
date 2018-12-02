@@ -15,16 +15,14 @@ namespace oglplus {
 namespace oper {
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_1)
-inline outcome<void>
-shader_ops::release_shader_compiler() noexcept {
+inline outcome<void> shader_ops::release_shader_compiler() noexcept {
     OGLPLUS_GLFUNC(ReleaseShaderCompiler)();
     OGLPLUS_VERIFY_SIMPLE(ShaderSource, always);
     return {};
 }
 #endif
 //------------------------------------------------------------------------------
-inline outcome<void>
-shader_ops::shader_source(
+inline outcome<void> shader_ops::shader_source(
   shader_name shdr, const glsl_source_ref& source) noexcept {
     OGLPLUS_GLFUNC(ShaderSource)
     (get_raw_name(shdr), source.count(), source.parts(), source.lengths());
@@ -32,8 +30,7 @@ shader_ops::shader_source(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-shader_ops::compile_shader(shader_name shdr) noexcept {
+inline outcome<void> shader_ops::compile_shader(shader_name shdr) noexcept {
     OGLPLUS_GLFUNC(CompileShader)(get_raw_name(shdr));
     OGLPLUS_VERIFY(CompileShader, gl_object(shdr).info_log_of(shdr), always);
     return {};
@@ -48,8 +45,7 @@ shader_ops::report_shader_compile_error(shader_name shdr) noexcept {
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-shader_ops::get_shader_iv(
+inline outcome<void> shader_ops::get_shader_iv(
   shader_name shdr, shader_parameter para, span<GLint> values) noexcept {
     assert(values.size() > 0);
     OGLPLUS_GLFUNC(GetShaderiv)
@@ -59,8 +55,7 @@ shader_ops::get_shader_iv(
 }
 //------------------------------------------------------------------------------
 template <typename R, typename T>
-inline outcome<R>
-shader_ops::return_shader_i(
+inline outcome<R> shader_ops::return_shader_i(
   shader_name shdr, shader_parameter parameter) noexcept {
     GLint result = 0;
     return get_shader_iv(shdr, parameter, {&result, 1}).add(R(T(result)));
@@ -119,8 +114,7 @@ shader_ops::get_shader_info_log(shader_name shdr, span<char> dest) noexcept {
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_gen
 //------------------------------------------------------------------------------
-inline deferred_error_handler
-obj_gen_del_ops<tag::shader>::_gen(
+inline deferred_error_handler obj_gen_del_ops<tag::shader>::_gen(
   span<GLuint> names, shader_type type) noexcept {
     for(auto b = names.begin(), i = b, e = names.end(); i != e; ++i) {
         *i = OGLPLUS_GLFUNC(CreateShader)(GLenum(type));
@@ -141,8 +135,7 @@ obj_gen_del_ops<tag::shader>::_gen(
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_gen
 //------------------------------------------------------------------------------
-inline deferred_error_handler
-obj_gen_del_ops<tag::shader>::_create(
+inline deferred_error_handler obj_gen_del_ops<tag::shader>::_create(
   shader_type type, span<GLuint> names) noexcept {
     return _gen(names, type);
 }

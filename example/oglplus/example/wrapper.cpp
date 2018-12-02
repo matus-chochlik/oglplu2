@@ -20,8 +20,7 @@
 
 namespace oglplus {
 
-std::vector<char>&
-example_wrapper::pixels(void) {
+std::vector<char>& example_wrapper::pixels(void) {
     std::size_t size =
       std::size_t(_state.height().get() * _state.width().get() * 4);
 
@@ -32,8 +31,7 @@ example_wrapper::pixels(void) {
     return _pixel_data;
 }
 
-std::vector<char>&
-example_wrapper::textbuf(std::size_t size) {
+std::vector<char>& example_wrapper::textbuf(std::size_t size) {
     if(_textbuf.size() < size) {
         _textbuf.resize(size);
     }
@@ -75,13 +73,11 @@ example_wrapper::example_wrapper(
     }
 }
 
-void
-example_wrapper::destroy(void) {
+void example_wrapper::destroy(void) {
     _example.reset();
 }
 
-bool
-example_wrapper::next_frame(void) {
+bool example_wrapper::next_frame(void) {
     assert(_example);
 
     _state.advance_frame();
@@ -101,8 +97,7 @@ example_wrapper::next_frame(void) {
     }
 }
 
-void
-example_wrapper::update(void) {
+void example_wrapper::update(void) {
     assert(_example);
 
     if(_state.user_idle()) {
@@ -110,8 +105,7 @@ example_wrapper::update(void) {
     }
 }
 
-void
-example_wrapper::render(void) {
+void example_wrapper::render(void) {
     assert(_example);
 
     bool save_frame = _params.doing_framedump();
@@ -178,8 +172,7 @@ example_wrapper::render(void) {
     }
 }
 
-void
-example_wrapper::set_size(int width, int height) {
+void example_wrapper::set_size(int width, int height) {
     assert(_example);
 
     if(width < 1)
@@ -192,8 +185,7 @@ example_wrapper::set_size(int width, int height) {
     }
 }
 
-void
-example_wrapper::set_mouse_btn(int i, bool pressed) {
+void example_wrapper::set_mouse_btn(int i, bool pressed) {
     assert(_example);
 
     if(_state.set_mouse_btn(i, pressed)) {
@@ -202,8 +194,7 @@ example_wrapper::set_mouse_btn(int i, bool pressed) {
     }
 }
 
-void
-example_wrapper::set_mouse_pos(int x, int y) {
+void example_wrapper::set_mouse_pos(int x, int y) {
     assert(_example);
 
     if(_state.set_mouse_pos(x, y)) {
@@ -211,8 +202,7 @@ example_wrapper::set_mouse_pos(int x, int y) {
     }
 }
 
-void
-example_wrapper::set_mouse_wheel(int w) {
+void example_wrapper::set_mouse_wheel(int w) {
     assert(_example);
 
     if(_state.set_mouse_wheel(w)) {

@@ -22,14 +22,12 @@ random_output::random_output(node_intf& parent)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref
-random_output::type_name() {
+cstr_ref random_output::type_name() {
     return cstr_ref("Random");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-slot_data_type
-random_output::value_type() {
+slot_data_type random_output::value_type() {
     assert(dims >= 1 && dims <= 4);
     return make_data_type(scalar_data_type::float_, dims);
 }

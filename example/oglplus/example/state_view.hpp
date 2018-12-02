@@ -9,10 +9,10 @@
 #ifndef OGLPLUS_EXAMPLE_STATE_VIEW_1512120710_HPP
 #define OGLPLUS_EXAMPLE_STATE_VIEW_1512120710_HPP
 
-#include <cassert>
 #include <eagine/valid_if/positive.hpp>
 #include <eagine/value_with_history.hpp>
 #include <oglplus/utils/quantities.hpp>
+#include <cassert>
 
 namespace oglplus {
 

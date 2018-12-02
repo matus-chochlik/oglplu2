@@ -16,8 +16,7 @@ namespace eagine {
 namespace units {
 
 template <typename U, typename T>
-static inline tagged_quantity<T, U>
-quantity(const T& value) {
+static inline tagged_quantity<T, U> quantity(const T& value) {
     return tagged_quantity<T, U>(value);
 }
 

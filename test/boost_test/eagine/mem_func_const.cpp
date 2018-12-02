@@ -25,7 +25,7 @@ struct bar {
 struct baz {
     int i;
 
-    baz& inc(void) {
+    baz& inc() {
         ++i;
         return *this;
     }
@@ -39,7 +39,7 @@ BOOST_AUTO_TEST_CASE(mem_func_const_pointer_get) {
     typedef member_function_constant<int (bar::*)(int) const, &bar::foo> fubar1;
     typedef member_function_constant<float (bar::*)(int, float), &bar::foo>
       fubar2;
-    typedef member_function_constant<baz& (baz::*)(void), &baz::inc> incbaz;
+    typedef member_function_constant<baz& (baz::*)(), &baz::inc> incbaz;
 
     fubar1::pointer pfubar1 = fubar1::get();
     fubar2::pointer pfubar2 = fubar2::get();
@@ -63,7 +63,7 @@ BOOST_AUTO_TEST_CASE(mem_func_const_scope) {
     typedef member_function_constant<int (bar::*)(int) const, &bar::foo> fubar1;
     typedef member_function_constant<float (bar::*)(int, float), &bar::foo>
       fubar2;
-    typedef member_function_constant<baz& (baz::*)(void), &baz::inc> incbaz;
+    typedef member_function_constant<baz& (baz::*)(), &baz::inc> incbaz;
 
     BOOST_CHECK((std::is_same<bar, fubar1::scope>::value));
     BOOST_CHECK((std::is_same<bar, fubar2::scope>::value));
@@ -79,7 +79,7 @@ BOOST_AUTO_TEST_CASE(mem_func_const_make_free) {
     typedef member_function_constant<int (bar::*)(int) const, &bar::foo> fubar1;
     typedef member_function_constant<float (bar::*)(int, float), &bar::foo>
       fubar2;
-    typedef member_function_constant<baz& (baz::*)(void), &baz::inc> incbaz;
+    typedef member_function_constant<baz& (baz::*)(), &baz::inc> incbaz;
 
     bar br{123};
 

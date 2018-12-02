@@ -21,8 +21,8 @@ namespace oper {
 struct string_queries {
     static outcome<cstr_ref> get_string(string_query query) noexcept;
 
-    static outcome<cstr_ref> get_string(
-      string_query query, GLuint index) noexcept;
+    static outcome<cstr_ref>
+    get_string(string_query query, GLuint index) noexcept;
 
     static outcome<cstr_ref> get_extension_name(GLuint index) noexcept;
 };

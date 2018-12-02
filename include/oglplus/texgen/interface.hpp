@@ -9,13 +9,13 @@
 #ifndef OGLPLUS_TEXGEN_INTERFACE_1509260923_HPP
 #define OGLPLUS_TEXGEN_INTERFACE_1509260923_HPP
 
-#include <cstddef>
-#include <iosfwd>
-#include <eagine/optional_ref.hpp>
-#include <eagine/valid_if/between.hpp>
 #include "../utils/types.hpp"
 #include "data_type.hpp"
 #include "render_params.hpp"
+#include <eagine/optional_ref.hpp>
+#include <eagine/valid_if/between.hpp>
+#include <cstddef>
+#include <iosfwd>
 
 namespace oglplus {
 namespace texgen {
@@ -170,8 +170,8 @@ struct node_intf {
 
     virtual input_intf& input(span_size_t) = 0;
 
-    virtual eagine::optional_reference_wrapper<input_intf> input_by_name(
-      const cstr_ref&);
+    virtual eagine::optional_reference_wrapper<input_intf>
+    input_by_name(const cstr_ref&);
 
     virtual bool can_add_input() = 0;
 
@@ -183,8 +183,8 @@ struct node_intf {
 
     virtual output_intf& output(span_size_t) = 0;
 
-    virtual eagine::optional_reference_wrapper<output_intf> output_by_name(
-      const cstr_ref&);
+    virtual eagine::optional_reference_wrapper<output_intf>
+    output_by_name(const cstr_ref&);
 
     void disconnect_all();
 
@@ -289,13 +289,13 @@ public:
         return !is_valid();
     }
 
-    friend bool operator==(
-      const output_slot& a, const output_slot& b) noexcept {
+    friend bool
+    operator==(const output_slot& a, const output_slot& b) noexcept {
         return a.is_valid() && b.is_valid() && (a._pimpl == b._pimpl);
     }
 
-    friend bool operator!=(
-      const output_slot& a, const output_slot& b) noexcept {
+    friend bool
+    operator!=(const output_slot& a, const output_slot& b) noexcept {
         return a.is_valid() && b.is_valid() && (a._pimpl != b._pimpl);
     }
 

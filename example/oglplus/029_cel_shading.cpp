@@ -170,8 +170,7 @@ public:
     }
 };
 
-std::unique_ptr<example>
-make_example(
+std::unique_ptr<example> make_example(
   const example_args&,
   const example_params& params,
   const example_state_view& state) {
@@ -180,14 +179,12 @@ make_example(
       new icosahedron_example(state, params, temp_buffer));
 }
 
-void
-adjust_params(example_params& params) {
+void adjust_params(example_params& params) {
     params.depth_buffer(true);
     params.stencil_buffer(false);
 }
 
-bool
-is_example_param(const example_arg&) {
+bool is_example_param(const example_arg&) {
     return false;
 }
 

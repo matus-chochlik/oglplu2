@@ -26,18 +26,17 @@ public:
         this->get_the_member() = std::make_pair(v1, v2);
     }
 
-    T1 get_v1(void) {
+    T1 get_v1() {
         return eagine::get_member<selector>(*this).first;
     }
 
-    T2 get_v2(void) const {
+    T2 get_v2() const {
         return eagine::get_member<selector>(*this).second;
     }
 };
 
 template <typename T1, typename T2>
-void
-eagine_test_protected_member_1(void) {
+void eagine_test_protected_member_1() {
     for(int i = 0; i < 100; ++i) {
         T1 v1 = rg.get_any<T1>();
         T2 v2 = rg.get_any<T2>();
@@ -69,25 +68,24 @@ public:
         get_member<selector<3>>(*this) = v3;
     }
 
-    T1 get_v1(void) {
+    T1 get_v1() {
         using namespace eagine;
         return get_member<selector<1>>(*this);
     }
 
-    T2 get_v2(void) const {
+    T2 get_v2() const {
         using namespace eagine;
         return get_member<selector<2>>(*this);
     }
 
-    T3 get_v3(void) const {
+    T3 get_v3() const {
         using namespace eagine;
         return get_member<selector<3>>(*this);
     }
 };
 
 template <typename T1, typename T2, typename T3>
-void
-eagine_test_protected_member_2(void) {
+void eagine_test_protected_member_2() {
     for(int i = 0; i < 100; ++i) {
         T1 v1 = rg.get_any<T1>();
         T2 v2 = rg.get_any<T2>();

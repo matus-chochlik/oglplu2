@@ -10,13 +10,13 @@
 #ifndef EAGINE_TYPE_TO_VALUE_1509260923_HPP
 #define EAGINE_TYPE_TO_VALUE_1509260923_HPP
 
-#include <cassert>
-#include <utility>
 #include "identity.hpp"
 #include "instead_of.hpp"
 #include "iterator.hpp"
 #include "std/type_traits.hpp"
 #include "types.hpp"
+#include <cassert>
+#include <utility>
 
 namespace eagine {
 
@@ -150,8 +150,8 @@ struct type_to_value : type_to_value_unit<Value, Keys>... {
         return iterator(units() + size());
     }
 
-    friend bool operator==(
-      const type_to_value& a, const type_to_value& b) noexcept {
+    friend bool
+    operator==(const type_to_value& a, const type_to_value& b) noexcept {
         for(size_type i = 0; i < size(); ++i) {
             if(a[i] != b[i]) {
                 return false;
@@ -160,8 +160,8 @@ struct type_to_value : type_to_value_unit<Value, Keys>... {
         return true;
     }
 
-    friend bool operator!=(
-      const type_to_value& a, const type_to_value& b) noexcept {
+    friend bool
+    operator!=(const type_to_value& a, const type_to_value& b) noexcept {
         return !(a == b);
     }
 };

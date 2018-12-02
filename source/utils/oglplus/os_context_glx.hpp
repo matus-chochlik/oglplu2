@@ -8,6 +8,7 @@
 #ifndef UTILS_OGLPLUS_OS_CONTEXT_GLX_1107121519_HPP
 #define UTILS_OGLPLUS_OS_CONTEXT_GLX_1107121519_HPP
 
+#include "os_context_common.hpp"
 #include <oglplus/glx/context.hpp>
 #include <oglplus/glx/fb_configs.hpp>
 #include <oglplus/glx/pbuffer.hpp>
@@ -15,7 +16,6 @@
 #include <oglplus/x11/color_map.hpp>
 #include <oglplus/x11/display.hpp>
 #include <oglplus/x11/visual_info.hpp>
-#include "os_context_common.hpp"
 
 namespace oglplus {
 
@@ -46,8 +46,8 @@ private:
         return vas;
     }
 
-    static const int* pbuffer_attribs(
-      const offscreen_context_params& p) noexcept {
+    static const int*
+    pbuffer_attribs(const offscreen_context_params& p) noexcept {
         static int pbas[] = {
           GLX_PBUFFER_WIDTH, 64, GLX_PBUFFER_HEIGHT, 64, None};
         pbas[1] = p.width;

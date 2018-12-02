@@ -9,15 +9,14 @@
 #ifndef EAGINE_POSIX_MEMORY_MAP_1509260923_HPP
 #define EAGINE_POSIX_MEMORY_MAP_1509260923_HPP
 
-#include <sys/mman.h>
 #include "file_descriptor.hpp"
 #include "file_stat.hpp"
+#include <sys/mman.h>
 
 namespace eagine {
 namespace posix {
 
-static inline outcome<memory_block>
-mmap(
+static inline outcome<memory_block> mmap(
   void* addr,
   size_t len,
   int prot,
@@ -35,8 +34,7 @@ mmap(int prot, int flags, file_descriptor fdw) noexcept {
     return mmap(nullptr, size_t(file_size(fdw)), prot, flags, fdw, 0);
 }
 
-static inline outcome<void>
-munmap(memory_block blk) noexcept {
+static inline outcome<void> munmap(memory_block blk) noexcept {
     return error_if_not_zero(::munmap(blk.data(), std_size(blk.size())), -1);
 }
 

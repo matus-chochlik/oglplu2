@@ -9,9 +9,9 @@
 #ifndef OGLPLUS_TEXGEN_MULTI_INPUT_NODE_1509260923_HPP
 #define OGLPLUS_TEXGEN_MULTI_INPUT_NODE_1509260923_HPP
 
-#include <map>
 #include "base_node.hpp"
 #include "fallback_input.hpp"
+#include <map>
 
 namespace oglplus {
 namespace texgen {
@@ -37,15 +37,15 @@ public:
 
     input_intf& input(span_size_t) override;
 
-    eagine::optional_reference_wrapper<input_intf> input_by_name(
-      const cstr_ref&) override;
+    eagine::optional_reference_wrapper<input_intf>
+    input_by_name(const cstr_ref&) override;
 
     bool can_add_input() override;
 
     input_with_const_default<float[4]>& add_input(const cstr_ref&) override;
 
-    multi_input_node& add_input(
-      const cstr_ref& name, float x, float y, float z, float w) {
+    multi_input_node&
+    add_input(const cstr_ref& name, float x, float y, float z, float w) {
         add_input(name).fallback().set(x, y, z, w);
         return *this;
     }

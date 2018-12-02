@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_texture_compare_mode
 
-#include <cstring>
 #include "../../unit_test_begin.inl"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_texture_compare_mode_tests)
 

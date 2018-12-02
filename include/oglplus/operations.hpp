@@ -170,8 +170,8 @@ public:
     }
 #endif
 
-    static auto bind(
-      transform_feedback_target tgt, transform_feedback_name xfb) noexcept {
+    static auto
+    bind(transform_feedback_target tgt, transform_feedback_name xfb) noexcept {
         return bind_transform_feedback(tgt, xfb);
     }
 

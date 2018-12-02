@@ -21,14 +21,12 @@ glsl_output::glsl_output(
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref
-glsl_output::type_name() {
+cstr_ref glsl_output::type_name() {
     return cstr_ref("GLSL");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-slot_data_type
-glsl_output::value_type() {
+slot_data_type glsl_output::value_type() {
     return _type;
 }
 //------------------------------------------------------------------------------

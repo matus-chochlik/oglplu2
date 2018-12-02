@@ -13,7 +13,7 @@
 // clang-format on
 
 OGLPLUS_MOCK_GLFUNC(Begin, void(GLenum));
-OGLPLUS_MOCK_GLFUNC(End, void(void));
+OGLPLUS_MOCK_GLFUNC(End, void());
 
 OGLPLUS_MOCK_GLFUNC(Vertex2s, void(GLshort, GLshort));
 OGLPLUS_MOCK_GLFUNC(Vertex3s, void(GLshort, GLshort, GLshort));
@@ -127,8 +127,7 @@ BOOST_AUTO_TEST_SUITE(compat_drawing_tests)
 static eagine::test_random_generator rg;
 
 template <typename T>
-static T
-get(void) {
+static T get() {
     return rg.get_any<T>();
 }
 

@@ -15,8 +15,7 @@ BOOST_AUTO_TEST_SUITE(memory_address_tests)
 static eagine::test_random_generator rg;
 
 template <bool is_const>
-void
-eagine_test_memory_address_0(void) {
+void eagine_test_memory_address_0() {
     using namespace eagine;
 
     typedef const void* cptr;
@@ -75,8 +74,7 @@ BOOST_AUTO_TEST_CASE(memory_address_0) {
 }
 
 template <bool is_const>
-void
-eagine_test_memory_address_1(void) {
+void eagine_test_memory_address_1() {
     using namespace eagine;
 
     typedef const void* cptr;
@@ -131,8 +129,7 @@ BOOST_AUTO_TEST_CASE(memory_address_1) {
 }
 
 template <bool is_const>
-void
-eagine_test_memory_address_2(void) {
+void eagine_test_memory_address_2() {
     using namespace eagine;
 
     for(int i = 0; i < 100; ++i) {

@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_context_release_behavior
 
-#include <cstring>
 #include "../../unit_test_begin.inl"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_context_release_behavior_tests)
 

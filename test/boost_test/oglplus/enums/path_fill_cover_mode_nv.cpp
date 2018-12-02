@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE OGLPLUS_path_fill_cover_mode_nv
 
-#include <cstring>
 #include "../../unit_test_begin.inl"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_path_fill_cover_mode_nv_tests)
 

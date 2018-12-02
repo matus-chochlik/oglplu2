@@ -37,26 +37,26 @@ struct looking_at_y_up<matrix<T, 4, 4, RM, V>> {
       , _t(target) {
     }
 
-    static constexpr inline matrix<T, 4, 4, true, V> _make(
-      const _dT& x, const _dT& y, const _dT& z, const _dT& t) noexcept {
+    static constexpr inline matrix<T, 4, 4, true, V>
+    _make(const _dT& x, const _dT& y, const _dT& z, const _dT& t) noexcept {
         return matrix<T, 4, 4, true, V>{{{x[0], x[1], x[2], -dot(x, t)},
                                          {y[0], y[1], y[2], -dot(y, t)},
                                          {z[0], z[1], z[2], -dot(z, t)},
                                          {T(0), T(0), T(0), T(1)}}};
     }
 
-    static constexpr inline matrix<T, 4, 4, true, V> _make(
-      const _dT& y, const _dT& z, const _dT& t) noexcept {
+    static constexpr inline matrix<T, 4, 4, true, V>
+    _make(const _dT& y, const _dT& z, const _dT& t) noexcept {
         return _make(cross(y, z), y, z, t);
     }
 
-    static constexpr inline matrix<T, 4, 4, true, V> _make(
-      const _dT& z, const _dT& t) noexcept {
+    static constexpr inline matrix<T, 4, 4, true, V>
+    _make(const _dT& z, const _dT& t) noexcept {
         return _make(normalized(cross(z, t)), z, t);
     }
 
-    static constexpr inline matrix<T, 4, 4, true, V> _make(
-      const _dT& z) noexcept {
+    static constexpr inline matrix<T, 4, 4, true, V>
+    _make(const _dT& z) noexcept {
         return _make(z, _dT::make(z.z(), T(0), -z.x()));
     }
 

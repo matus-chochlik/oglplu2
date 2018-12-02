@@ -13,8 +13,7 @@ BOOST_AUTO_TEST_SUITE(math_vector_tests)
 static eagine::test_random_generator rg;
 
 template <typename T, bool V>
-void
-test_math_vector_default_ctr_TV(void) {
+void test_math_vector_default_ctr_TV() {
     eagine::math::vector<T, 1, V> v1;
     EAGINE_MAYBE_UNUSED(v1);
     eagine::math::vector<T, 2, V> v2;
@@ -40,8 +39,7 @@ test_math_vector_default_ctr_TV(void) {
 }
 
 template <typename T>
-void
-test_math_vector_default_ctr_T(void) {
+void test_math_vector_default_ctr_T() {
     test_math_vector_default_ctr_TV<T, true>();
     test_math_vector_default_ctr_TV<T, false>();
 }
@@ -53,8 +51,7 @@ BOOST_AUTO_TEST_CASE(math_vector_default_ctr) {
 }
 
 template <typename T, int N, bool V>
-void
-test_math_vector_zero_TNV(void) {
+void test_math_vector_zero_TNV() {
     auto v = eagine::math::vector<T, N, V>::zero();
     for(int i = 0; i < N; ++i) {
         BOOST_CHECK_EQUAL(v[i], T(0));
@@ -62,8 +59,7 @@ test_math_vector_zero_TNV(void) {
 }
 
 template <typename T, bool V>
-void
-test_math_vector_zero_TV(void) {
+void test_math_vector_zero_TV() {
     test_math_vector_zero_TNV<T, 1, V>();
     test_math_vector_zero_TNV<T, 2, V>();
     test_math_vector_zero_TNV<T, 3, V>();
@@ -78,8 +74,7 @@ test_math_vector_zero_TV(void) {
 }
 
 template <typename T>
-void
-test_math_vector_zero_T(void) {
+void test_math_vector_zero_T() {
     test_math_vector_zero_TV<T, true>();
     test_math_vector_zero_TV<T, false>();
 }
@@ -91,8 +86,7 @@ BOOST_AUTO_TEST_CASE(math_vector_zero) {
 }
 
 template <typename T, int N, bool V>
-void
-test_math_vector_fill_TNV(void) {
+void test_math_vector_fill_TNV() {
     T r = rg.get_any<T>();
     auto v = eagine::math::vector<T, N, V>::fill(r);
     for(int i = 0; i < N; ++i) {
@@ -101,8 +95,7 @@ test_math_vector_fill_TNV(void) {
 }
 
 template <typename T, bool V>
-void
-test_math_vector_fill_TV(void) {
+void test_math_vector_fill_TV() {
     test_math_vector_fill_TNV<T, 1, V>();
     test_math_vector_fill_TNV<T, 2, V>();
     test_math_vector_fill_TNV<T, 3, V>();
@@ -117,8 +110,7 @@ test_math_vector_fill_TV(void) {
 }
 
 template <typename T>
-void
-test_math_vector_fill_T(void) {
+void test_math_vector_fill_T() {
     test_math_vector_fill_TV<T, true>();
     test_math_vector_fill_TV<T, false>();
 }
@@ -130,8 +122,7 @@ BOOST_AUTO_TEST_CASE(math_vector_fill) {
 }
 
 template <typename T, int N, bool V>
-void
-test_math_vector_axis_TNV(void) {
+void test_math_vector_axis_TNV() {
     for(int j = 0; j < N; ++j) {
         T r = rg.get_any<T>();
         auto v = eagine::math::vector<T, N, V>::axis(j, r);
@@ -142,8 +133,7 @@ test_math_vector_axis_TNV(void) {
 }
 
 template <typename T, bool V>
-void
-test_math_vector_axis_TV(void) {
+void test_math_vector_axis_TV() {
     test_math_vector_axis_TNV<T, 1, V>();
     test_math_vector_axis_TNV<T, 2, V>();
     test_math_vector_axis_TNV<T, 3, V>();
@@ -158,8 +148,7 @@ test_math_vector_axis_TV(void) {
 }
 
 template <typename T>
-void
-test_math_vector_axis_T(void) {
+void test_math_vector_axis_T() {
     test_math_vector_axis_TV<T, true>();
     test_math_vector_axis_TV<T, false>();
 }
@@ -171,8 +160,7 @@ BOOST_AUTO_TEST_CASE(math_vector_axis_i) {
 }
 
 template <typename T, int I, int N, bool V>
-void
-test_math_vector_axis_TINV(void) {
+void test_math_vector_axis_TINV() {
     T r = rg.template get_any<T>();
 
     auto v = eagine::math::vector<T, N, V>::template axis<I>(r);
@@ -182,8 +170,7 @@ test_math_vector_axis_TINV(void) {
 }
 
 template <typename T, bool V>
-void
-test_math_vector_axis_TV_I(void) {
+void test_math_vector_axis_TV_I() {
     test_math_vector_axis_TINV<T, 0, 1, V>();
 
     test_math_vector_axis_TINV<T, 0, 2, V>();
@@ -230,8 +217,7 @@ test_math_vector_axis_TV_I(void) {
 }
 
 template <typename T>
-void
-test_math_vector_axis_T_I(void) {
+void test_math_vector_axis_T_I() {
     test_math_vector_axis_TV_I<T, true>();
     test_math_vector_axis_TV_I<T, false>();
 }
@@ -243,8 +229,7 @@ BOOST_AUTO_TEST_CASE(math_vector_axis_I) {
 }
 
 template <typename T, bool V>
-void
-test_math_vector_make_and_elem_TV(void) {
+void test_math_vector_make_and_elem_TV() {
     T r1 = rg.template get_any<T>();
     auto v1 = eagine::math::vector<T, 1, V>::make(r1);
     BOOST_CHECK_EQUAL(v1[0], r1);
@@ -308,8 +293,7 @@ test_math_vector_make_and_elem_TV(void) {
 }
 
 template <typename T>
-void
-test_math_vector_make_and_elem_T(void) {
+void test_math_vector_make_and_elem_T() {
     test_math_vector_make_and_elem_TV<T, true>();
     test_math_vector_make_and_elem_TV<T, false>();
 }
@@ -321,8 +305,7 @@ BOOST_AUTO_TEST_CASE(math_vector_make_and_elem) {
 }
 
 template <typename T, bool V>
-void
-test_math_vector_from_and_elem_TV(void) {
+void test_math_vector_from_and_elem_TV() {
     T r1 = rg.get_any<T>();
     auto v10 = eagine::math::vector<T, 1, V>::make(r1);
     BOOST_CHECK_EQUAL(v10[0], r1);
@@ -393,8 +376,7 @@ test_math_vector_from_and_elem_TV(void) {
 }
 
 template <typename T>
-void
-test_math_vector_from_and_elem_T(void) {
+void test_math_vector_from_and_elem_T() {
     test_math_vector_from_and_elem_TV<T, true>();
     test_math_vector_from_and_elem_TV<T, false>();
 }
@@ -406,8 +388,7 @@ BOOST_AUTO_TEST_CASE(math_vector_from_and_elem) {
 }
 
 template <typename T, bool V>
-void
-test_math_vector_from2_and_elem_TV(void) {
+void test_math_vector_from2_and_elem_TV() {
     T ra = rg.get_any<T>();
     auto v1a = eagine::math::vector<T, 1, V>::make(ra);
     BOOST_CHECK_EQUAL(v1a[0], ra);
@@ -486,8 +467,7 @@ test_math_vector_from2_and_elem_TV(void) {
 }
 
 template <typename T>
-void
-test_math_vector_from2_and_elem_T(void) {
+void test_math_vector_from2_and_elem_T() {
     test_math_vector_from2_and_elem_TV<T, true>();
     test_math_vector_from2_and_elem_TV<T, false>();
 }
@@ -499,8 +479,7 @@ BOOST_AUTO_TEST_CASE(math_vector_from2_and_elem) {
 }
 
 template <typename T, int N, bool V>
-void
-test_math_vector_from3_and_elem_TNV(void) {
+void test_math_vector_from3_and_elem_TNV() {
     T a[N];
     for(int i = 0; i < N; ++i) {
         a[i] = rg.get_any<T>();
@@ -514,8 +493,7 @@ test_math_vector_from3_and_elem_TNV(void) {
 }
 
 template <typename T, bool V>
-void
-test_math_vector_from3_and_elem_TV(void) {
+void test_math_vector_from3_and_elem_TV() {
     test_math_vector_from3_and_elem_TNV<T, 1, V>();
     test_math_vector_from3_and_elem_TNV<T, 2, V>();
     test_math_vector_from3_and_elem_TNV<T, 3, V>();
@@ -530,8 +508,7 @@ test_math_vector_from3_and_elem_TV(void) {
 }
 
 template <typename T>
-void
-test_math_vector_from3_and_elem_T(void) {
+void test_math_vector_from3_and_elem_T() {
     test_math_vector_from3_and_elem_TV<T, true>();
     test_math_vector_from3_and_elem_TV<T, false>();
 }
@@ -543,8 +520,7 @@ BOOST_AUTO_TEST_CASE(math_vector_from3_and_elem) {
 }
 
 template <typename T, int N, bool V>
-void
-test_math_vector_from4_and_elem_TNV(void) {
+void test_math_vector_from4_and_elem_TNV() {
     for(int j = 0; j < N; ++j) {
         T a[N];
         for(int i = 0; i < N - j; ++i) {
@@ -566,8 +542,7 @@ test_math_vector_from4_and_elem_TNV(void) {
 }
 
 template <typename T, bool V>
-void
-test_math_vector_from4_and_elem_TV(void) {
+void test_math_vector_from4_and_elem_TV() {
     test_math_vector_from4_and_elem_TNV<T, 1, V>();
     test_math_vector_from4_and_elem_TNV<T, 2, V>();
     test_math_vector_from4_and_elem_TNV<T, 3, V>();
@@ -582,8 +557,7 @@ test_math_vector_from4_and_elem_TV(void) {
 }
 
 template <typename T>
-void
-test_math_vector_from4_and_elem_T(void) {
+void test_math_vector_from4_and_elem_T() {
     test_math_vector_from4_and_elem_TV<T, true>();
     test_math_vector_from4_and_elem_TV<T, false>();
 }

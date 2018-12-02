@@ -26,8 +26,8 @@ struct rasterization_state {
     static outcome<face> get_cull_face_mode() noexcept;
 
 #if defined(GL_VERSION_4_5)
-    static outcome<void> clip_control(
-      clip_origin origin, clip_depth_mode depth) noexcept;
+    static outcome<void>
+    clip_control(clip_origin origin, clip_depth_mode depth) noexcept;
 #endif
 
     static outcome<void> depth_func(compare_function func) noexcept;
@@ -41,13 +41,13 @@ struct rasterization_state {
 #if defined(GL_DOUBLE)
     static outcome<void> depth_range(GLdouble near, GLdouble far) noexcept;
 
-    static outcome<void> depth_range(
-      GLuint index, GLdouble near, GLdouble far) noexcept;
+    static outcome<void>
+    depth_range(GLuint index, GLdouble near, GLdouble far) noexcept;
 #endif
 
 #if defined(GL_VERSION_3_0)
-    static outcome<void> polygon_mode(
-      face side, oglplus::polygon_mode mode) noexcept;
+    static outcome<void>
+    polygon_mode(face side, oglplus::polygon_mode mode) noexcept;
 
     // TODO getter
 #endif
@@ -55,8 +55,8 @@ struct rasterization_state {
     static outcome<void> polygon_offset(GLfloat factor, GLfloat units) noexcept;
 
 #if defined(GL_VERSION_4_6) || defined(GL_EXT_polygon_offset_clamp)
-    static outcome<void> polygon_offset_clamp(
-      GLfloat factor, GLfloat units, GLfloat clamp) noexcept;
+    static outcome<void>
+    polygon_offset_clamp(GLfloat factor, GLfloat units, GLfloat clamp) noexcept;
 #endif
 
     static outcome<GLfloat> get_polygon_offset_factor() noexcept;
@@ -76,11 +76,11 @@ struct rasterization_state {
 
     static outcome<GLfloat> get_point_size() noexcept;
 
-    static outcome<void> point_parameter(
-      oglplus::point_parameter param, GLfloat value) noexcept;
+    static outcome<void>
+    point_parameter(oglplus::point_parameter param, GLfloat value) noexcept;
 
-    static outcome<GLfloat> get_point_parameter(
-      oglplus::point_parameter param) noexcept;
+    static outcome<GLfloat>
+    get_point_parameter(oglplus::point_parameter param) noexcept;
 #endif
 
 #if defined(GL_VERSION_3_2) || defined(GL_ARB_provoking_vertex)

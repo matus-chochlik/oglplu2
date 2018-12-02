@@ -10,9 +10,9 @@
 #ifndef EAGINE_MEMOIZED_1509260923_HPP
 #define EAGINE_MEMOIZED_1509260923_HPP
 
+#include "callable_ref.hpp"
 #include <map>
 #include <tuple>
-#include "callable_ref.hpp"
 
 namespace eagine {
 

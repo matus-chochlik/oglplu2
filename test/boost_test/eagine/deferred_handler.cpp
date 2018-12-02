@@ -8,8 +8,7 @@
 #define BOOST_TEST_MODULE EAGINE_deferred_handler
 #include "../unit_test_begin.inl"
 
-void
-test_increment(int*& pi) {
+void test_increment(int*& pi) {
     ++(*pi);
 }
 
@@ -28,8 +27,7 @@ struct test_deferred_handler_policy {
     }
 };
 
-eagine::deferred_handler<int*>
-get_handler(int* pi) {
+eagine::deferred_handler<int*> get_handler(int* pi) {
     return {test_increment, pi};
 }
 

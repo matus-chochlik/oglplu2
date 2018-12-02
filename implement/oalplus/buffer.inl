@@ -6,14 +6,13 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include <cassert>
 #include <oalplus/utils/al_func.hpp>
+#include <cassert>
 
 namespace oalplus {
 namespace oper {
 //------------------------------------------------------------------------------
-inline outcome<void>
-buffer_ops::buffer_data(
+inline outcome<void> buffer_ops::buffer_data(
   buffer_name buf,
   data_format format,
   const buffer_data_spec& data,
@@ -28,8 +27,7 @@ buffer_ops::buffer_data(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-buffer_ops::get_buffer_iv(
+inline outcome<void> buffer_ops::get_buffer_iv(
   buffer_name buf, buffer_parameter param, span<ALint> values) noexcept {
     assert(values.size() > 0);
     OALPLUS_ALFUNC(GetBufferiv)
@@ -38,8 +36,7 @@ buffer_ops::get_buffer_iv(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-buffer_ops::get_buffer_fv(
+inline outcome<void> buffer_ops::get_buffer_fv(
   buffer_name buf, buffer_parameter param, span<ALfloat> values) noexcept {
     assert(values.size() > 0);
     OALPLUS_ALFUNC(GetBufferfv)
@@ -48,27 +45,23 @@ buffer_ops::get_buffer_fv(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<ALint>
-buffer_ops::buffer_size(buffer_name buf) noexcept {
+inline outcome<ALint> buffer_ops::buffer_size(buffer_name buf) noexcept {
     ALint result = 0;
     return get_buffer_iv(buf, buffer_parameter(AL_SIZE), {&result, 1}), result;
 }
 //------------------------------------------------------------------------------
-inline outcome<ALint>
-buffer_ops::buffer_bits(buffer_name buf) noexcept {
+inline outcome<ALint> buffer_ops::buffer_bits(buffer_name buf) noexcept {
     ALint result = 0;
     return get_buffer_iv(buf, buffer_parameter(AL_BITS), {&result, 1}), result;
 }
 //------------------------------------------------------------------------------
-inline outcome<ALint>
-buffer_ops::buffer_channels(buffer_name buf) noexcept {
+inline outcome<ALint> buffer_ops::buffer_channels(buffer_name buf) noexcept {
     ALint result = 0;
     return get_buffer_iv(buf, buffer_parameter(AL_CHANNELS), {&result, 1}),
            result;
 }
 //------------------------------------------------------------------------------
-inline outcome<ALfloat>
-buffer_ops::buffer_frequency(buffer_name buf) noexcept {
+inline outcome<ALfloat> buffer_ops::buffer_frequency(buffer_name buf) noexcept {
     ALfloat result = 0.f;
     return get_buffer_fv(buf, buffer_parameter(AL_FREQUENCY), {&result, 1}),
            result;
@@ -96,8 +89,7 @@ obj_gen_del_ops<tag::buffer>::_delete(span<ALuint> names) noexcept {
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_is_a
 //------------------------------------------------------------------------------
-inline outcome<bool>
-obj_gen_del_ops<tag::buffer>::_is_a(ALuint name) noexcept {
+inline outcome<bool> obj_gen_del_ops<tag::buffer>::_is_a(ALuint name) noexcept {
     ALboolean res = OALPLUS_ALFUNC(IsBuffer)(name);
     OALPLUS_VERIFY_SIMPLE(IsBuffer, debug);
     return res == AL_TRUE;

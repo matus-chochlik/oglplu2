@@ -17,8 +17,7 @@ BOOST_AUTO_TEST_SUITE(memory_align_alloc_tests)
 static eagine::test_random_generator rg;
 
 template <typename T>
-void
-eagine_test_memory_align_alloc_T(std::size_t n) {
+void eagine_test_memory_align_alloc_T(std::size_t n) {
     using namespace eagine;
 
     std::vector<char> buf1(32 * 1024);

@@ -10,11 +10,11 @@
 #ifndef EAGINE_SHAPES_VERTEX_ATTRIB_1509260923_HPP
 #define EAGINE_SHAPES_VERTEX_ATTRIB_1509260923_HPP
 
-#include <array>
 #include "../all_are_same.hpp"
 #include "../bitfield.hpp"
 #include "../std/type_traits.hpp"
 #include "../std/utility.hpp"
+#include <array>
 
 namespace eagine {
 namespace shapes {
@@ -97,8 +97,7 @@ operator+(
 
 // get_attrib_bits
 template <std::size_t N>
-static inline vertex_attrib_bits
-get_attrib_bits(
+static inline vertex_attrib_bits get_attrib_bits(
   const std::array<const vertex_attrib_and_location, N>& vaals) noexcept {
     vertex_attrib_bits res;
 

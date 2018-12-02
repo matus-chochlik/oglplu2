@@ -10,12 +10,12 @@
 #ifndef EAGINE_STRING_PATH_1509260923_HPP
 #define EAGINE_STRING_PATH_1509260923_HPP
 
-#include <string>
-#include <tuple>
 #include "identifier.hpp"
 #include "memory_block.hpp"
 #include "span.hpp"
 #include "string_list.hpp"
+#include <string>
+#include <tuple>
 
 namespace eagine {
 
@@ -49,8 +49,8 @@ private:
     }
 
     template <typename... Str>
-    static inline std::array<cstring_span, sizeof...(Str)> _pack_names(
-      const Str&... n) noexcept {
+    static inline std::array<cstring_span, sizeof...(Str)>
+    _pack_names(const Str&... n) noexcept {
         return {{_fix(n)...}};
     }
 
@@ -129,8 +129,8 @@ public:
         return a._str != b._str;
     }
 
-    friend bool operator<(
-      const basic_string_path& a, const basic_string_path& b) noexcept {
+    friend bool
+    operator<(const basic_string_path& a, const basic_string_path& b) noexcept {
         return a._str < b._str;
     }
 
@@ -139,8 +139,8 @@ public:
         return a._str <= b._str;
     }
 
-    friend bool operator>(
-      const basic_string_path& a, const basic_string_path& b) noexcept {
+    friend bool
+    operator>(const basic_string_path& a, const basic_string_path& b) noexcept {
         return a._str > b._str;
     }
 
@@ -149,8 +149,8 @@ public:
         return a._str >= b._str;
     }
 
-    friend basic_string_path operator+(
-      const basic_string_path& a, const basic_string_path& b) noexcept {
+    friend basic_string_path
+    operator+(const basic_string_path& a, const basic_string_path& b) noexcept {
         return basic_string_path(a, EAGINE_TAG(plus), b);
     }
 

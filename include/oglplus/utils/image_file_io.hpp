@@ -10,16 +10,15 @@
 #ifndef OGLPLUS_UTILS_IMAGE_FILE_IO_1509260923_HPP
 #define OGLPLUS_UTILS_IMAGE_FILE_IO_1509260923_HPP
 
-#include <iostream>
-#include <eagine/memory/align.hpp>
 #include "image_file_hdr.hpp"
 #include "memory_block.hpp"
 #include "types.hpp"
+#include <eagine/memory/align.hpp>
+#include <iostream>
 
 namespace oglplus {
 
-inline void
-write_and_pad_texture_image_data_header(
+inline void write_and_pad_texture_image_data_header(
   std::ostream& output,
   image_data_header& header,
   span_size_t pixel_data_size,
@@ -49,8 +48,7 @@ write_and_pad_texture_image_data_header(
     }
 }
 
-inline void
-write_and_pad_texture_image_data_header(
+inline void write_and_pad_texture_image_data_header(
   std::ostream& output,
   image_data_header& header,
   span_size_t pixel_data_size) {
@@ -64,8 +62,7 @@ write_and_pad_texture_image_data_header(
       output, header, pixel_data_size, spos);
 }
 
-inline void
-write_texture_image_data(
+inline void write_texture_image_data(
   std::ostream& output,
   image_data_header& header,
   const const_memory_block& pixels) {

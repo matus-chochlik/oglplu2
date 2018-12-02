@@ -10,10 +10,10 @@
 #ifndef OGLPLUS_UTILS_IMAGE_FILE_1509260923_HPP
 #define OGLPLUS_UTILS_IMAGE_FILE_1509260923_HPP
 
-#include <eagine/file_contents.hpp>
 #include "cstr_ref.hpp"
 #include "image_file_hdr.hpp"
 #include "image_spec.hpp"
+#include <eagine/file_contents.hpp>
 
 namespace oglplus {
 

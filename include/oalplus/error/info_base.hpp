@@ -16,7 +16,7 @@ namespace oalplus {
 template <typename Derived>
 class error_info_base {
 private:
-    Derived& _self(void) noexcept {
+    Derived& _self() noexcept {
         return *static_cast<Derived*>(this);
     }
 
@@ -44,33 +44,33 @@ private:
 public:
     constexpr error_info_base(ALenum al_err_code) noexcept;
 
-    constexpr error_info_base(void) noexcept
+    constexpr error_info_base() noexcept
       : error_info_base(ALenum(AL_NONE)) {
     }
 
     Derived& al_error_code(ALenum al_err_code) noexcept;
 
-    ALenum al_error_code(void) const noexcept;
+    ALenum al_error_code() const noexcept;
 
     Derived& al_library_name(const char* al_lb_name) noexcept;
 
-    const char* al_library_name(void) const noexcept;
+    const char* al_library_name() const noexcept;
 
     Derived& al_function_name(const char* al_fn_name) noexcept;
 
-    const char* al_function_name(void) const noexcept;
+    const char* al_function_name() const noexcept;
 
     Derived& source_function(const char* src_func) noexcept;
 
-    const char* source_function(void) const noexcept;
+    const char* source_function() const noexcept;
 
     Derived& source_file(const char* src_file) noexcept;
 
-    const char* source_file(void) const noexcept;
+    const char* source_file() const noexcept;
 
     Derived& source_line(unsigned src_line) noexcept;
 
-    unsigned source_line(void) const noexcept;
+    unsigned source_line() const noexcept;
 };
 
 } // namespace oalplus

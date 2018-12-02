@@ -13,8 +13,7 @@ namespace oglplus {
 namespace oper {
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_0)
-inline outcome<void>
-pixel_transfer_state::clamp_color(
+inline outcome<void> pixel_transfer_state::clamp_color(
   clamp_color_target target, boolean clamp) noexcept {
     OGLPLUS_GLFUNC(ClampColor)(GLenum(target), GLboolean(clamp));
     OGLPLUS_VERIFY(ClampColor, gl_enum_value(target), debug);
@@ -23,8 +22,7 @@ pixel_transfer_state::clamp_color(
 #endif
 //------------------------------------------------------------------------------
 template <typename T>
-inline outcome<void>
-pixel_transfer_ops::read_pixels(
+inline outcome<void> pixel_transfer_ops::read_pixels(
   GLint x,
   GLint y,
   GLsizei width,

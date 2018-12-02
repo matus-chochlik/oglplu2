@@ -12,14 +12,12 @@
 
 using namespace oglplus;
 
-void
-oglplus_framebuffer_test_1(void) {
+void oglplus_framebuffer_test_1() {
     oglplus_object_name_test<framebuffer_name>();
     oglplus_object_test<framebuffer>();
 }
 
-void
-oglplus_framebuffer_test_ops1(void) {
+void oglplus_framebuffer_test_ops1() {
     using namespace oglplus;
 
     oper::framebuffer_ops gl;

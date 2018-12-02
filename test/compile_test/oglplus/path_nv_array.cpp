@@ -14,8 +14,7 @@
 
 using namespace oglplus;
 
-void
-oglplus_path_nv_array_test_ops1(void) {
+void oglplus_path_nv_array_test_ops1() {
     paths_nv pnvs(4);
     oper::path_nv_array_ops gl;
 

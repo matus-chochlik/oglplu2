@@ -9,8 +9,8 @@
 #ifndef EAGINE_POSIX_FILE_STAT_1509260923_HPP
 #define EAGINE_POSIX_FILE_STAT_1509260923_HPP
 
-#include <sys/stat.h>
 #include "file_descriptor.hpp"
+#include <sys/stat.h>
 
 namespace eagine {
 namespace posix {
@@ -20,8 +20,7 @@ fstat(file_descriptor fd, struct ::stat& buf) noexcept {
     return error_if_not_zero(::fstat(get_raw_fd(fd), &buf), get_raw_fd(fd));
 }
 
-static inline outcome<off_t>
-file_size(file_descriptor fd) noexcept {
+static inline outcome<off_t> file_size(file_descriptor fd) noexcept {
     struct ::stat buf;
     buf.st_size = 0;
     outcome<void> result = fstat(fd, buf);

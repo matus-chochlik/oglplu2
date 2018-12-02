@@ -15,30 +15,25 @@ BOOST_AUTO_TEST_SUITE(vect_data_tests)
 
 static eagine::test_random_generator rg;
 
-static inline void
-_check_close(int a, int b, eagine::identity<int>) {
+static inline void _check_close(int a, int b, eagine::identity<int>) {
     BOOST_CHECK_EQUAL(a, b);
 }
 
-static inline void
-_check_close(float a, float b, eagine::identity<float>) {
+static inline void _check_close(float a, float b, eagine::identity<float>) {
     BOOST_CHECK_CLOSE(a, b, 0.1f);
 }
 
-static inline void
-_check_close(double a, double b, eagine::identity<double>) {
+static inline void _check_close(double a, double b, eagine::identity<double>) {
     BOOST_CHECK_CLOSE(a, b, 0.001);
 }
 
 template <typename T>
-static inline void
-_check_close(T a, T b) {
+static inline void _check_close(T a, T b) {
     _check_close(a, b, eagine::identity<T>());
 }
 
 template <typename T, bool V>
-void
-test_vect_data_default_construct_TV(void) {
+void test_vect_data_default_construct_TV() {
     typename eagine::vect::data<T, 1, V>::type v1;
     typename eagine::vect::data<T, 2, V>::type v2;
     typename eagine::vect::data<T, 3, V>::type v3;
@@ -59,8 +54,7 @@ test_vect_data_default_construct_TV(void) {
 }
 
 template <typename T>
-void
-test_vect_data_default_construct_T(void) {
+void test_vect_data_default_construct_T() {
     test_vect_data_default_construct_TV<T, true>();
     test_vect_data_default_construct_TV<T, false>();
 }
@@ -72,8 +66,7 @@ BOOST_AUTO_TEST_CASE(vect_data_default_construct) {
 }
 
 template <typename T, bool V>
-void
-test_vect_data_initialization_TV(void) {
+void test_vect_data_initialization_TV() {
     typename eagine::vect::data<T, 1, V>::type v1 = {T(1)};
     typename eagine::vect::data<T, 2, V>::type v2 = {T(1), T(2)};
     typename eagine::vect::data<T, 3, V>::type v3 = {T(1), T(2), T(3)};
@@ -98,8 +91,7 @@ test_vect_data_initialization_TV(void) {
 }
 
 template <typename T>
-void
-test_vect_data_initialization_T(void) {
+void test_vect_data_initialization_T() {
     test_vect_data_initialization_TV<T, true>();
     test_vect_data_initialization_TV<T, false>();
 }
@@ -111,8 +103,7 @@ BOOST_AUTO_TEST_CASE(vect_data_initialization) {
 }
 
 template <typename T, bool V1, bool V2>
-void
-test_vect_data_copy_construct_TV(void) {
+void test_vect_data_copy_construct_TV() {
     typename eagine::vect::data<T, 1, V1>::type v1 = {};
     typename eagine::vect::data<T, 1, V2>::type v1c = v1;
     typename eagine::vect::data<T, 2, V1>::type v2 = {};
@@ -141,8 +132,7 @@ test_vect_data_copy_construct_TV(void) {
 }
 
 template <typename T>
-void
-test_vect_data_copy_construct_T(void) {
+void test_vect_data_copy_construct_T() {
     test_vect_data_copy_construct_TV<T, true, true>();
     test_vect_data_copy_construct_TV<T, false, false>();
 }
@@ -154,8 +144,7 @@ BOOST_AUTO_TEST_CASE(vect_data_copy_construct) {
 }
 
 template <typename T, bool V>
-void
-test_vect_data_elements_TV(void) {
+void test_vect_data_elements_TV() {
     typename eagine::vect::data<T, 1, V>::type v1 = {T(1)};
     BOOST_CHECK_EQUAL(v1[0], T(1));
 
@@ -197,8 +186,7 @@ test_vect_data_elements_TV(void) {
 }
 
 template <typename T>
-void
-test_vect_data_elements_T(void) {
+void test_vect_data_elements_T() {
     test_vect_data_elements_TV<T, true>();
     test_vect_data_elements_TV<T, false>();
 }
@@ -210,8 +198,7 @@ BOOST_AUTO_TEST_CASE(vect_data_elements) {
 }
 
 template <typename T, int N, bool V>
-void
-test_vect_data_plus_TNV(void) {
+void test_vect_data_plus_TNV() {
     for(int k = 0; k < 1000; ++k) {
         T a[N], b[N];
         for(int i = 0; i < N; ++i) {
@@ -239,8 +226,7 @@ test_vect_data_plus_TNV(void) {
 }
 
 template <typename T, bool V>
-void
-test_vect_data_plus_TV(void) {
+void test_vect_data_plus_TV() {
     test_vect_data_plus_TNV<T, 1, V>();
     test_vect_data_plus_TNV<T, 2, V>();
     test_vect_data_plus_TNV<T, 3, V>();
@@ -252,8 +238,7 @@ test_vect_data_plus_TV(void) {
 }
 
 template <typename T>
-void
-test_vect_data_plus_T(void) {
+void test_vect_data_plus_T() {
     test_vect_data_plus_TV<T, true>();
     test_vect_data_plus_TV<T, false>();
 }
@@ -265,8 +250,7 @@ BOOST_AUTO_TEST_CASE(vect_data_plus) {
 }
 
 template <typename T, int N, bool V>
-void
-test_vect_data_minus_TNV(void) {
+void test_vect_data_minus_TNV() {
     for(int k = 0; k < 1000; ++k) {
         T a[N], b[N];
         for(int i = 0; i < N; ++i) {
@@ -293,8 +277,7 @@ test_vect_data_minus_TNV(void) {
 }
 
 template <typename T, bool V>
-void
-test_vect_data_minus_TV(void) {
+void test_vect_data_minus_TV() {
     test_vect_data_minus_TNV<T, 1, V>();
     test_vect_data_minus_TNV<T, 2, V>();
     test_vect_data_minus_TNV<T, 3, V>();
@@ -306,8 +289,7 @@ test_vect_data_minus_TV(void) {
 }
 
 template <typename T>
-void
-test_vect_data_minus_T(void) {
+void test_vect_data_minus_T() {
     test_vect_data_minus_TV<T, true>();
     test_vect_data_minus_TV<T, false>();
 }
@@ -319,8 +301,7 @@ BOOST_AUTO_TEST_CASE(vect_data_minus) {
 }
 
 template <typename T, int N, bool V>
-void
-test_vect_data_multiply_TNV(void) {
+void test_vect_data_multiply_TNV() {
     for(int k = 0; k < 1000; ++k) {
         T a[N], b[N];
         for(int i = 0; i < N; ++i) {
@@ -348,8 +329,7 @@ test_vect_data_multiply_TNV(void) {
 }
 
 template <typename T, bool V>
-void
-test_vect_data_multiply_TV(void) {
+void test_vect_data_multiply_TV() {
     test_vect_data_multiply_TNV<T, 1, V>();
     test_vect_data_multiply_TNV<T, 2, V>();
     test_vect_data_multiply_TNV<T, 3, V>();
@@ -361,8 +341,7 @@ test_vect_data_multiply_TV(void) {
 }
 
 template <typename T>
-void
-test_vect_data_multiply_T(void) {
+void test_vect_data_multiply_T() {
     test_vect_data_multiply_TV<T, true>();
     test_vect_data_multiply_TV<T, false>();
 }
@@ -374,8 +353,7 @@ BOOST_AUTO_TEST_CASE(vect_data_multiply) {
 }
 
 template <typename T, int N, bool V>
-void
-test_vect_data_divide_TNV(void) {
+void test_vect_data_divide_TNV() {
     for(int k = 0; k < 1000; ++k) {
         T a[N], b[N];
         for(int i = 0; i < N; ++i) {
@@ -404,8 +382,7 @@ test_vect_data_divide_TNV(void) {
 }
 
 template <typename T, bool V>
-void
-test_vect_data_divide_TV(void) {
+void test_vect_data_divide_TV() {
     test_vect_data_divide_TNV<T, 1, V>();
     test_vect_data_divide_TNV<T, 2, V>();
     test_vect_data_divide_TNV<T, 3, V>();
@@ -417,8 +394,7 @@ test_vect_data_divide_TV(void) {
 }
 
 template <typename T>
-void
-test_vect_data_divide_T(void) {
+void test_vect_data_divide_T() {
     test_vect_data_divide_TV<T, true>();
     test_vect_data_divide_TV<T, false>();
 }

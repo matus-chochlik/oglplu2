@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE EGLPLUS_renderable_type_bit
 
-#include <cstring>
 #include "../../unit_test_begin.inl"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_renderable_type_bit_tests)
 

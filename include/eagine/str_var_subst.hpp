@@ -10,13 +10,13 @@
 #ifndef EAGINE_STR_VAR_SUBST_1509260923_HPP
 #define EAGINE_STR_VAR_SUBST_1509260923_HPP
 
+#include "callable_ref.hpp"
+#include "config/basic.hpp"
+#include "span.hpp"
 #include <cassert>
 #include <map>
 #include <string>
 #include <vector>
-#include "callable_ref.hpp"
-#include "config/basic.hpp"
-#include "span.hpp"
 
 namespace eagine {
 
@@ -30,8 +30,7 @@ std::string substitute_variables(
   span<const std::string> strings,
   bool keep_untranslated = false);
 
-inline std::string
-substitute_variables(
+inline std::string substitute_variables(
   const std::string& str, const std::vector<std::string>& strings) {
     return substitute_variables(str, span<const std::string>{strings});
 }

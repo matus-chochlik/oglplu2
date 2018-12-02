@@ -8,4 +8,3 @@
  */
 
 #undef EGLPLUS_IMPLEMENTING_LIBRARY
-

@@ -12,24 +12,21 @@ namespace oglplus {
 //------------------------------------------------------------------------------
 namespace oper {
 //------------------------------------------------------------------------------
-inline outcome<void>
-stencil_test_state::stencil_func(
+inline outcome<void> stencil_test_state::stencil_func(
   compare_function func, GLint ref, GLuint mask) noexcept {
     OGLPLUS_GLFUNC(StencilFunc)(GLenum(func), ref, mask);
     OGLPLUS_VERIFY(StencilFunc, gl_enum_value(func), debug);
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-stencil_test_state::stencil_func_separate(
+inline outcome<void> stencil_test_state::stencil_func_separate(
   single_face face, compare_function func, GLint ref, GLuint mask) noexcept {
     OGLPLUS_GLFUNC(StencilFuncSeparate)(GLenum(face), GLenum(func), ref, mask);
     OGLPLUS_VERIFY(StencilFuncSeparate, gl_enum_value(func), debug);
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-stencil_test_state::stencil_op(
+inline outcome<void> stencil_test_state::stencil_op(
   stencil_operation sfail,
   stencil_operation dfail,
   stencil_operation dpass) noexcept {
@@ -38,8 +35,7 @@ stencil_test_state::stencil_op(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-stencil_test_state::stencil_op_separate(
+inline outcome<void> stencil_test_state::stencil_op_separate(
   single_face face,
   stencil_operation sfail,
   stencil_operation dfail,

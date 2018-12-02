@@ -12,8 +12,7 @@
 namespace oglplus {
 
 OGLPLUS_LIB_FUNC
-binding_query
-get_binding_query(program_pipeline_stage tgt) noexcept {
+binding_query get_binding_query(program_pipeline_stage tgt) noexcept {
     GLbitfield result = 0;
     switch(GLbitfield(tgt)) {
 #if defined(GL_COMPUTE_SHADER_BIT) && defined(GL_COMPUTE_SHADER)

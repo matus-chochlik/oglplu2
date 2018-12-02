@@ -9,10 +9,10 @@
 #ifndef OGLPLUS_ENUM_INDEXED_VALUE_NAMES_1509260923_HPP
 #define OGLPLUS_ENUM_INDEXED_VALUE_NAMES_1509260923_HPP
 
-#include <string>
 #include "../config/basic.hpp"
 #include "../utils/cstr_ref.hpp"
 #include "../utils/indexed_enum.hpp"
+#include <string>
 
 namespace oglplus {
 

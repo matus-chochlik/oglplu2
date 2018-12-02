@@ -9,10 +9,10 @@
 #ifndef OGLPLUS_OPER_VERTEX_ATTRIB_1509260923_HPP
 #define OGLPLUS_OPER_VERTEX_ATTRIB_1509260923_HPP
 
-#include <eagine/std/type_traits.hpp>
 #include "../utils/boolean.hpp"
 #include "../utils/vec_mat_traits.hpp"
 #include "../vertex_attrib.hpp"
+#include <eagine/std/type_traits.hpp>
 
 namespace oglplus {
 namespace oper {
@@ -122,8 +122,8 @@ struct vertex_attrib_ops {
     }
 
 #ifdef GL_VERSION_3_3
-    static outcome<void> divisor(
-      vertex_attrib_location va, GLuint div) noexcept {
+    static outcome<void>
+    divisor(vertex_attrib_location va, GLuint div) noexcept {
         OGLPLUS_GLFUNC(VertexAttribDivisor)(va.index(), div);
         OGLPLUS_VERIFY(VertexAttribDivisor, gl_index(va.index()), always);
         return {};

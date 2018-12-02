@@ -18,8 +18,8 @@
 #include <iostream>
 #include <stdexcept>
 
-void
-example_loop(oglplus::example_state& state, oglplus::example_wrapper& example) {
+void example_loop(
+  oglplus::example_state& state, oglplus::example_wrapper& example) {
     int w = state.width();
     int h = state.height();
     int x, y, z = 0;
@@ -77,8 +77,7 @@ example_loop(oglplus::example_state& state, oglplus::example_wrapper& example) {
     }
 }
 
-int
-example_main(
+int example_main(
   oglplus::example_args& args,
   oglplus::example_params& params,
   oglplus::example_state& state) {

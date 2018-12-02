@@ -12,8 +12,7 @@
 namespace oglplus {
 
 OGLPLUS_LIB_FUNC
-binding_query
-get_binding_query(texture_target tgt) noexcept {
+binding_query get_binding_query(texture_target tgt) noexcept {
     GLenum result = 0;
     switch(GLenum(tgt)) {
 #if defined(GL_TEXTURE_1D) && defined(GL_TEXTURE_BINDING_1D)

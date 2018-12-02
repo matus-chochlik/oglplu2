@@ -39,8 +39,7 @@ error_info_base<Derived>::al_error_code(ALenum al_err_code) noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename Derived>
-inline ALenum
-error_info_base<Derived>::al_error_code(void) const noexcept {
+inline ALenum error_info_base<Derived>::al_error_code() const noexcept {
     return _al_err_code;
 }
 //------------------------------------------------------------------------------
@@ -56,8 +55,7 @@ error_info_base<Derived>::al_library_name(const char* al_lb_name) noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename Derived>
-inline const char*
-error_info_base<Derived>::al_library_name(void) const noexcept {
+inline const char* error_info_base<Derived>::al_library_name() const noexcept {
 #if !OALPLUS_ERROR_NO_AL_LIB
     return _al_lb_name;
 #else
@@ -77,8 +75,7 @@ error_info_base<Derived>::al_function_name(const char* al_fn_name) noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename Derived>
-inline const char*
-error_info_base<Derived>::al_function_name(void) const noexcept {
+inline const char* error_info_base<Derived>::al_function_name() const noexcept {
 #if !OALPLUS_ERROR_NO_AL_FUNC
     return _al_fn_name;
 #else
@@ -98,8 +95,7 @@ error_info_base<Derived>::source_function(const char* src_func) noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename Derived>
-inline const char*
-error_info_base<Derived>::source_function(void) const noexcept {
+inline const char* error_info_base<Derived>::source_function() const noexcept {
 #if !OALPLUS_ERROR_NO_SRC_FUNC
     return _src_func;
 #else
@@ -119,8 +115,7 @@ error_info_base<Derived>::source_file(const char* src_file) noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename Derived>
-inline const char*
-error_info_base<Derived>::source_file(void) const noexcept {
+inline const char* error_info_base<Derived>::source_file() const noexcept {
 #if !OALPLUS_ERROR_NO_SRC_FILE
     return _src_file;
 #else
@@ -140,8 +135,7 @@ error_info_base<Derived>::source_line(unsigned src_line) noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename Derived>
-inline unsigned
-error_info_base<Derived>::source_line(void) const noexcept {
+inline unsigned error_info_base<Derived>::source_line() const noexcept {
 #if !OALPLUS_ERROR_NO_SRC_LINE
     return _src_line;
 #else

@@ -10,9 +10,9 @@
 #ifndef EAGINE_MEMORY_STACK_ALLOC_1509260923_HPP
 #define EAGINE_MEMORY_STACK_ALLOC_1509260923_HPP
 
-#include <cassert>
 #include "../std/type_traits.hpp"
 #include "byte_alloc.hpp"
+#include <cassert>
 
 namespace eagine {
 namespace memory {

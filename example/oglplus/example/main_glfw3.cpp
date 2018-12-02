@@ -28,13 +28,11 @@
 
 static int example_scroll_y = 0;
 
-void
-example_scroll_callback(GLFWwindow*, double /*x*/, double y) {
+void example_scroll_callback(GLFWwindow*, double /*x*/, double y) {
     example_scroll_y += int(std::ceil(y));
 }
 
-void
-example_loop(
+void example_loop(
   GLFWwindow* window,
   oglplus::example_state& state,
   oglplus::example_wrapper& example) {
@@ -76,8 +74,7 @@ example_loop(
     }
 }
 
-int
-example_main(
+int example_main(
   oglplus::example_args& args,
   oglplus::example_params& params,
   oglplus::example_state& state) {

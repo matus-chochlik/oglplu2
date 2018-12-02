@@ -8,4 +8,3 @@
  */
 
 #undef EAGINE_IMPLEMENTING_LIBRARY
-

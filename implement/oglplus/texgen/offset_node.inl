@@ -22,14 +22,12 @@ offset_output::offset_output(node_intf& parent)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref
-offset_output::type_name() {
+cstr_ref offset_output::type_name() {
     return cstr_ref("Offset");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-slot_data_type
-offset_output::value_type() {
+slot_data_type offset_output::value_type() {
     return input.value_type();
 }
 //------------------------------------------------------------------------------

@@ -8,16 +8,15 @@
 #define BOOST_TEST_MODULE EAGINE_memory_stack_alloc
 #include "../unit_test_begin.inl"
 
-#include <deque>
 #include <eagine/identity.hpp>
+#include <deque>
 
 BOOST_AUTO_TEST_SUITE(memory_stack_alloc_tests)
 
 static eagine::test_random_generator rg;
 
 template <typename T, typename Alloc>
-void
-eagine_test_memory_stack_alloc_TA(std::size_t n, Alloc& a) {
+void eagine_test_memory_stack_alloc_TA(std::size_t n, Alloc& a) {
     using namespace eagine;
 
     const span_size_t ao = span_align_of<T>();
@@ -59,8 +58,7 @@ eagine_test_memory_stack_alloc_TA(std::size_t n, Alloc& a) {
 }
 
 template <typename T>
-void
-eagine_test_memory_stack_alloc_TA(
+void eagine_test_memory_stack_alloc_TA(
   eagine::memory::block& b,
   std::size_t n,
   eagine::identity<eagine::memory::stack_byte_allocator<>>) {
@@ -74,8 +72,7 @@ eagine_test_memory_stack_alloc_TA(
 }
 
 template <typename Alloc>
-void
-eagine_test_memory_stack_alloc_A(void) {
+void eagine_test_memory_stack_alloc_A() {
     eagine::identity<Alloc> ai;
 
     static char buf[1024 * 1024];
@@ -105,8 +102,7 @@ BOOST_AUTO_TEST_CASE(memory_stack_alloc_2) {
 }
 
 template <typename T>
-void
-test_mem_stack_alloc_3_hlp(
+void test_mem_stack_alloc_3_hlp(
   std::deque<eagine::memory::owned_block>& blks,
   eagine::memory::stack_byte_allocator<>& a,
   std::size_t n) {

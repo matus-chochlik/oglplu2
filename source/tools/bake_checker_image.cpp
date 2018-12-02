@@ -5,11 +5,11 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#include <fstream>
 #include <eagine/program_args.hpp>
 #include <eagine/valid_if/positive.hpp>
 #include <oglplus/gl.hpp>
 #include <oglplus/utils/image_file_io.hpp>
+#include <fstream>
 
 #if defined(GL_R3_G3_B2) && defined(GL_UNSIGNED_BYTE_3_3_2)
 constexpr const bool has_r3g3b2 = true;
@@ -64,8 +64,7 @@ struct options {
     }
 };
 
-void
-write_output(std::ostream& output, const options& opts) {
+void write_output(std::ostream& output, const options& opts) {
     oglplus::image_data_header hdr(opts.width, opts.height, opts.depth);
     hdr.format = GL_RGB;
 
@@ -108,8 +107,7 @@ write_output(std::ostream& output, const options& opts) {
 
 int parse_options(int argc, const char** argv, options& opts);
 
-int
-main(int argc, const char** argv) {
+int main(int argc, const char** argv) {
     options opts;
 
     if(int err = parse_options(argc, argv, opts)) {
@@ -125,8 +123,7 @@ main(int argc, const char** argv) {
     return 0;
 }
 
-bool
-parse_argument(eagine::program_arg& a, options& opts) {
+bool parse_argument(eagine::program_arg& a, options& opts) {
     if(!opts.parse(a, std::cerr)) {
         std::cerr << "Failed to parse argument '" << a.get() << "'"
                   << std::endl;
@@ -135,8 +132,7 @@ parse_argument(eagine::program_arg& a, options& opts) {
     return true;
 }
 
-int
-parse_options(int argc, const char** argv, options& opts) {
+int parse_options(int argc, const char** argv, options& opts) {
     eagine::program_args args(argc, argv);
 
     for(eagine::program_arg a = args.first(); a; a = a.next()) {

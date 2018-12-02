@@ -30,8 +30,8 @@ template <>
 struct prog_var_loc_ops<tag::vertex_attrib> {
     typedef tag::vertex_attrib tag;
 
-    static outcome<prog_var_loc<tag>> get_location(
-      program_name prog, cstr_ref identifier) noexcept {
+    static outcome<prog_var_loc<tag>>
+    get_location(program_name prog, cstr_ref identifier) noexcept {
         GLint loc = OGLPLUS_GLFUNC(GetAttribLocation)(
           get_raw_name(prog), identifier.c_str());
         OGLPLUS_VERIFY(

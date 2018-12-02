@@ -215,13 +215,11 @@ public:
     }
 };
 
-bool
-is_example_param(const example_arg& a) {
+bool is_example_param(const example_arg& a) {
     return a == example_param_tags("-i", "--image");
 }
 
-std::unique_ptr<example>
-make_example(
+std::unique_ptr<example> make_example(
   const example_args& args, const example_params&, const example_state_view&) {
     example_string_param image_path("-i", "--image", "image.oglptex");
     args.parse_param(image_path);
@@ -229,8 +227,7 @@ make_example(
     return std::unique_ptr<example>(new image_file_example(image_path));
 }
 
-void
-adjust_params(example_params& params) {
+void adjust_params(example_params& params) {
     params.rand_seed(1234);
     params.depth_buffer(false);
     params.stencil_buffer(false);

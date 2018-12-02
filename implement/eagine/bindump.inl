@@ -7,18 +7,17 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
+#include <eagine/memory/address.hpp>
 #include <cctype>
 #include <iomanip>
 #include <iostream>
-#include <eagine/memory/address.hpp>
 
 namespace eagine {
 //------------------------------------------------------------------------------
 // bindump::_to_bin_b
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void
-bindump::_to_bin_b(std::ostream& out, byte b) {
+void bindump::_to_bin_b(std::ostream& out, byte b) {
     static const char bd[2] = {'0', '1'};
     for(unsigned o = 0; o < 4; ++o) {
         byte c = (b >> ((4 - o - 1) * 2));
@@ -29,8 +28,7 @@ bindump::_to_bin_b(std::ostream& out, byte b) {
 // ostream << bindump
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-std::ostream&
-operator<<(std::ostream& out, const bindump& hd) {
+std::ostream& operator<<(std::ostream& out, const bindump& hd) {
     out << std::endl;
 
     const byte* bgn = hd._mb.begin();

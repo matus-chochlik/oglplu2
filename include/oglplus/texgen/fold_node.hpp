@@ -9,9 +9,9 @@
 #ifndef OGLPLUS_TEXGEN_FOLD_NODE_1509260923_HPP
 #define OGLPLUS_TEXGEN_FOLD_NODE_1509260923_HPP
 
-#include <map>
 #include "fallback_input.hpp"
 #include "multi_input_node.hpp"
+#include <map>
 
 namespace oglplus {
 namespace texgen {
@@ -41,8 +41,8 @@ public:
 
     slot_data_type value_type() override;
 
-    std::ostream& definitions(
-      std::ostream& out, compile_context& ctxt) override;
+    std::ostream&
+    definitions(std::ostream& out, compile_context& ctxt) override;
 };
 
 class fold_node : public multi_input_node {

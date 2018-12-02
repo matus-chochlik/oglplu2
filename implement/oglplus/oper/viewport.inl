@@ -20,23 +20,20 @@ viewport_state::viewport(GLint x, GLint y, GLsizei w, GLsizei h) noexcept {
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-viewport_state::viewport(GLsizei w, GLsizei h) noexcept {
+inline outcome<void> viewport_state::viewport(GLsizei w, GLsizei h) noexcept {
     OGLPLUS_GLFUNC(Viewport)(0, 0, w, h);
     OGLPLUS_VERIFY_SIMPLE(Viewport, always);
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<viewport_extents>
-viewport_state::get_viewport() noexcept {
+inline outcome<viewport_extents> viewport_state::get_viewport() noexcept {
     viewport_extents result;
     return numeric_queries::get_float_v(numeric_query(GL_VIEWPORT), {result._v})
       .add(result);
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_1)
-inline outcome<void>
-viewport_state::viewport(
+inline outcome<void> viewport_state::viewport(
   viewport_index index, GLfloat x, GLfloat y, GLfloat w, GLfloat h) noexcept {
 #if !OGLPLUS_NO_LIMIT_CHECKS
     if(auto invalid_index = failure(check_below_limit(index))) {
@@ -48,8 +45,7 @@ viewport_state::viewport(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-viewport_state::viewport(
+inline outcome<void> viewport_state::viewport(
   viewport_index index, const viewport_extents& vpe) noexcept {
 #if !OGLPLUS_NO_LIMIT_CHECKS
     if(auto invalid_index = failure(check_below_limit(index))) {
@@ -61,8 +57,7 @@ viewport_state::viewport(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-viewport_state::viewport_array(
+inline outcome<void> viewport_state::viewport_array(
   viewport_index first, span<const GLfloat> vpe) noexcept {
     assert(vpe.size() % 4 == 0);
 #if !OGLPLUS_NO_LIMIT_CHECKS

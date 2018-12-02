@@ -65,19 +65,19 @@ public:
         return {_ops::buffer_data(*this, format, data, frequency), _self()};
     }
 
-    outcome<ALint> size(void) noexcept {
+    outcome<ALint> size() noexcept {
         return _ops::buffer_size(*this);
     }
 
-    outcome<ALint> bits(void) noexcept {
+    outcome<ALint> bits() noexcept {
         return _ops::buffer_bits(*this);
     }
 
-    outcome<ALint> channels(void) noexcept {
+    outcome<ALint> channels() noexcept {
         return _ops::buffer_channels(*this);
     }
 
-    outcome<ALfloat> frequency(void) noexcept {
+    outcome<ALfloat> frequency() noexcept {
         return _ops::buffer_frequency(*this);
     }
 };

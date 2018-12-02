@@ -22,14 +22,12 @@ map_output::map_output(node_intf& parent)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref
-map_output::type_name() {
+cstr_ref map_output::type_name() {
     return cstr_ref("Map");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-slot_data_type
-map_output::value_type() {
+slot_data_type map_output::value_type() {
     return input.value_type();
 }
 //------------------------------------------------------------------------------

@@ -8,16 +8,16 @@
 #ifndef EAGINE_TEST_RANDOM_1510290655_HPP
 #define EAGINE_TEST_RANDOM_1510290655_HPP
 
-#include <type_traits>
+#include <eagine/span.hpp>
+#include <eagine/string_span.hpp>
+#include <eagine/types.hpp>
 #include <array>
 #include <cctype>
 #include <limits>
 #include <random>
 #include <string>
+#include <type_traits>
 #include <vector>
-#include <eagine/span.hpp>
-#include <eagine/string_span.hpp>
-#include <eagine/types.hpp>
 
 namespace eagine {
 
@@ -26,7 +26,7 @@ private:
     std::mt19937 _re;
 
 public:
-    test_random_generator(void)
+    test_random_generator()
       : _re(std::random_device()()) {
     }
 
@@ -54,18 +54,18 @@ public:
     }
 
     template <typename T>
-    typename std::enable_if<std::is_floating_point<T>::value, T>::type get(
-      T min, T max) {
+    typename std::enable_if<std::is_floating_point<T>::value, T>::type
+    get(T min, T max) {
         return get_real<T>(min, max);
     }
 
     template <typename T>
-    T get_any(void) {
+    T get_any() {
         return get(
           std::numeric_limits<T>::min(), std::numeric_limits<T>::max());
     }
 
-    bool get_bool(void) {
+    bool get_bool() {
         return get_integer<int>(0, 1) == 1;
     }
 
@@ -125,8 +125,8 @@ public:
           min, max, [](char c) { return std::isprint(c) != 0; });
     }
 
-    std::string get_string_from(
-      std::size_t min, std::size_t max, cstring_span chars) {
+    std::string
+    get_string_from(std::size_t min, std::size_t max, cstring_span chars) {
         std::string result(get_std_size(min, max), '\0');
         for(char& c : result) {
             c = get_char_from(chars);

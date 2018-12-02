@@ -12,8 +12,8 @@
 #include "common_alut.hpp"
 #define BOOST_TEST_MODULE OALPLUS_alut_error_code
 
-#include <cstring>
 #include "../../unit_test_begin.inl"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_alut_error_code_tests)
 

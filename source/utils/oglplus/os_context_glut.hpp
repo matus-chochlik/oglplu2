@@ -8,8 +8,8 @@
 #ifndef UTILS_OGLPLUS_OS_CONTEXT_GLUT_1107121519_HPP
 #define UTILS_OGLPLUS_OS_CONTEXT_GLUT_1107121519_HPP
 
-#include <eagine/config/platform.hpp>
 #include "os_context_common.hpp"
+#include <eagine/config/platform.hpp>
 
 #if OGLPLUS_APPLE
 #include <GLUT/glut.h>

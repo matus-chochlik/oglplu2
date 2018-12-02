@@ -9,10 +9,10 @@
 #ifndef OGLPLUS_ERROR_FORMAT_1509260923_HPP
 #define OGLPLUS_ERROR_FORMAT_1509260923_HPP
 
-#include <iosfwd>
 #include "../utils/cstr_ref.hpp"
 #include "fwd.hpp"
 #include "info.hpp"
+#include <iosfwd>
 
 namespace oglplus {
 
@@ -40,8 +40,8 @@ std::ostream& format_error(
   const cstr_ref& n_a_str,
   std::ostream& out);
 
-std::ostream& format_error(
-  error& err, const cstr_ref& fmt_str, std::ostream& out);
+std::ostream&
+format_error(error& err, const cstr_ref& fmt_str, std::ostream& out);
 
 } // namespace oglplus
 

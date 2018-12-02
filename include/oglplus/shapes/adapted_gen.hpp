@@ -10,12 +10,12 @@
 #ifndef OGLPLUS_SHAPES_ADAPTED_GEN_1509260923_HPP
 #define OGLPLUS_SHAPES_ADAPTED_GEN_1509260923_HPP
 
-#include <memory>
+#include "../utils/span.hpp"
+#include "drawing.hpp"
 #include <eagine/memory/typed_block.hpp>
 #include <eagine/shapes/gen_base.hpp>
 #include <eagine/shapes/vertex_attrib.hpp>
-#include "../utils/span.hpp"
-#include "drawing.hpp"
+#include <memory>
 
 namespace oglplus {
 namespace shapes {

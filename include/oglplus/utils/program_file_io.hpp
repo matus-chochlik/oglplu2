@@ -10,16 +10,15 @@
 #ifndef OGLPLUS_UTILS_PROGRAM_FILE_IO_1509260923_HPP
 #define OGLPLUS_UTILS_PROGRAM_FILE_IO_1509260923_HPP
 
-#include <iostream>
-#include <eagine/memory/align.hpp>
 #include "memory_block.hpp"
 #include "program_file_hdr.hpp"
 #include "span.hpp"
+#include <eagine/memory/align.hpp>
+#include <iostream>
 
 namespace oglplus {
 
-inline void
-write_and_pad_shader_source_header(
+inline void write_and_pad_shader_source_header(
   std::ostream& output,
   shader_source_header& header,
   span_size_t source_text_size,
@@ -51,8 +50,7 @@ write_and_pad_shader_source_header(
     }
 }
 
-inline void
-write_shader_source(
+inline void write_shader_source(
   std::ostream& output,
   shader_source_header& header,
   const_memory_block source_text,
@@ -67,8 +65,7 @@ write_shader_source(
     spos += span_size(source_text.size() + 1);
 }
 
-inline void
-write_shader_source(
+inline void write_shader_source(
   std::ostream& output,
   shader_source_header& header,
   const_memory_block source_text) {
@@ -81,8 +78,7 @@ write_shader_source(
     write_shader_source(output, header, source_text, spos);
 }
 
-inline void
-write_and_pad_program_source_header(
+inline void write_and_pad_program_source_header(
   std::ostream& output,
   program_source_header& header,
   const span<const span_size_t>& shader_source_lengths,

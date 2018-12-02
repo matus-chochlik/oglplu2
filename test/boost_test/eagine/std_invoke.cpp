@@ -102,7 +102,7 @@ struct invk_test_3 {
         return (x + y) * z;
     }
 
-    auto baz(void) const {
+    auto baz() const {
         return -x;
     }
 };

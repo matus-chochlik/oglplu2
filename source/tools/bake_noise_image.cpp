@@ -5,13 +5,13 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#include <climits>
-#include <fstream>
-#include <random>
 #include <eagine/program_args.hpp>
 #include <eagine/valid_if/positive.hpp>
 #include <oglplus/gl.hpp>
 #include <oglplus/utils/image_file_io.hpp>
+#include <climits>
+#include <fstream>
+#include <random>
 
 struct options {
     typedef eagine::program_parameter<eagine::cstr_ref> _str_param_t;
@@ -81,8 +81,7 @@ struct options {
     }
 };
 
-void
-write_output(std::ostream& output, const options& opts) {
+void write_output(std::ostream& output, const options& opts) {
     oglplus::image_data_header hdr(opts.width, opts.height, opts.depth);
     switch(opts.components.value()) {
         case 1:
@@ -123,8 +122,7 @@ write_output(std::ostream& output, const options& opts) {
 
 int parse_options(int argc, const char** argv, options& opts);
 
-int
-main(int argc, const char** argv) {
+int main(int argc, const char** argv) {
     options opts;
 
     if(int err = parse_options(argc, argv, opts)) {
@@ -140,8 +138,7 @@ main(int argc, const char** argv) {
     return 0;
 }
 
-bool
-parse_argument(eagine::program_arg& a, options& opts) {
+bool parse_argument(eagine::program_arg& a, options& opts) {
 
     if(!opts.parse(a, std::cerr)) {
         std::cerr << "Failed to parse argument '" << a.get() << "'"
@@ -151,8 +148,7 @@ parse_argument(eagine::program_arg& a, options& opts) {
     return true;
 }
 
-int
-parse_options(int argc, const char** argv, options& opts) {
+int parse_options(int argc, const char** argv, options& opts) {
     eagine::program_args args(argc, argv);
 
     for(eagine::program_arg a = args.first(); a; a = a.next()) {

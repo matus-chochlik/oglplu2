@@ -9,12 +9,12 @@
 #ifndef EAGINE_ECS_CMP_STORAGE_1509260923_HPP
 #define EAGINE_ECS_CMP_STORAGE_1509260923_HPP
 
-#include <cassert>
 #include "../callable_ref.hpp"
 #include "entity_traits.hpp"
 #include "manipulator.hpp"
 #include "storage_caps.hpp"
 #include "storage_fwd.hpp"
+#include <cassert>
 
 namespace eagine {
 namespace ecs {
@@ -157,8 +157,8 @@ struct storage<Entity, Component, false> : base_storage<Entity, false> {
     virtual void for_each(
       callable_ref<void(entity_param, manipulator<const Component>&)>) = 0;
 
-    virtual void for_each(
-      callable_ref<void(entity_param, manipulator<Component>&)>) = 0;
+    virtual void
+    for_each(callable_ref<void(entity_param, manipulator<Component>&)>) = 0;
 };
 
 } // namespace ecs

@@ -14,8 +14,7 @@ BOOST_AUTO_TEST_SUITE(quantities_tests_2)
 static eagine::test_random_generator rg;
 
 template <typename T>
-void
-eagine_test_angles_1(void) {
+void eagine_test_angles_1() {
     using namespace eagine;
 
     BOOST_CHECK_SMALL(sin(radians_(0)), 0.0001);
@@ -39,8 +38,7 @@ BOOST_AUTO_TEST_CASE(quantities_1) {
 }
 
 template <typename T>
-void
-eagine_test_angles_2(void) {
+void eagine_test_angles_2() {
     using namespace eagine;
 
     for(int i = 0; i < 100; ++i) {

@@ -12,8 +12,7 @@ BOOST_AUTO_TEST_SUITE(identifier_tests)
 
 static eagine::test_random_generator rg;
 
-static void
-test_gen_ident(char* str, eagine::span_size_t n) {
+static void test_gen_ident(char* str, eagine::span_size_t n) {
 
     for(eagine::span_size_t i = 0; i < n; ++i) {
         str[i] = rg.get_char_from(eagine::identifier::encoding::chars());

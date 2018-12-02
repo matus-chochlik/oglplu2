@@ -12,8 +12,7 @@ namespace eagine {
 namespace memory {
 //------------------------------------------------------------------------------
 template <typename Alloc>
-inline block
-basic_allocation_arena<Alloc>::_do_allocate(
+inline block basic_allocation_arena<Alloc>::_do_allocate(
   const span_size_t size, const span_size_t align) {
     owned_block b = _alloc.allocate(size, align);
 
@@ -31,8 +30,7 @@ basic_allocation_arena<Alloc>::_do_allocate(
 }
 //------------------------------------------------------------------------------
 template <typename Alloc>
-inline void
-basic_allocation_arena<Alloc>::clear() {
+inline void basic_allocation_arena<Alloc>::clear() {
     assert(_blks.size() == _alns.size());
 
     for(std_size_t i = 0; i < _blks.size(); ++i) {
@@ -44,8 +42,7 @@ basic_allocation_arena<Alloc>::clear() {
 //------------------------------------------------------------------------------
 template <typename Alloc>
 template <typename T>
-inline block
-basic_allocation_arena<Alloc>::_allocate(
+inline block basic_allocation_arena<Alloc>::_allocate(
   const span_size_t count, const span_size_t align) {
     return _do_allocate(
       span_size_of<T>(count), std::max(align, span_align_of<T>()));
@@ -53,8 +50,7 @@ basic_allocation_arena<Alloc>::_allocate(
 //------------------------------------------------------------------------------
 template <typename Alloc>
 template <typename T>
-inline T*
-basic_allocation_arena<Alloc>::_make_n(
+inline T* basic_allocation_arena<Alloc>::_make_n(
   const span_size_t count, const span_size_t align) {
     return new(_allocate<T>(count, align).data()) T[std_size(count)];
 }
@@ -68,8 +64,7 @@ basic_allocation_arena<Alloc>::_make_1(const span_size_t align, Args&&... a) {
 //------------------------------------------------------------------------------
 template <typename Alloc>
 template <typename T>
-inline span<T>
-basic_allocation_arena<Alloc>::make_aligned_array(
+inline span<T> basic_allocation_arena<Alloc>::make_aligned_array(
   const span_size_t count, const span_size_t align) {
     if(count < 1) {
         return {};
@@ -84,8 +79,7 @@ basic_allocation_arena<Alloc>::make_aligned_array(
 //------------------------------------------------------------------------------
 template <typename Alloc>
 template <typename T, typename... Args>
-inline T&
-basic_allocation_arena<Alloc>::make_aligned(
+inline T& basic_allocation_arena<Alloc>::make_aligned(
   const span_size_t align, Args&&... args) {
     T* p = _make_1<T>(align, std::forward<Args>(args)...);
     if(!p) {

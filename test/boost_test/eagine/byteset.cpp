@@ -18,8 +18,7 @@ constexpr const unsigned char bmin = 0x04;
 constexpr const unsigned char bmax = 0x3F;
 
 template <std::size_t N>
-void
-do_test_byteset_1(const eagine::byteset<N>& bs) {
+void do_test_byteset_1(const eagine::byteset<N>& bs) {
     using namespace eagine;
 
     BOOST_CHECK_EQUAL(bs.size(), N);
@@ -92,8 +91,7 @@ BOOST_AUTO_TEST_CASE(byteset_1) {
 }
 
 template <std::size_t N>
-void
-do_test_byteset_2(
+void do_test_byteset_2(
   const eagine::byteset<N>& bs1, const eagine::byteset<N>& bs2) {
     using namespace eagine;
 

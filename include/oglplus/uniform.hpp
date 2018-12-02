@@ -9,13 +9,13 @@
 #ifndef OGLPLUS_UNIFORM_1509260923_HPP
 #define OGLPLUS_UNIFORM_1509260923_HPP
 
-#include <cassert>
-#include <vector>
 #include "prog_var/dsa_location.hpp"
 #include "prog_var/location.hpp"
 #include "prog_var/wrapper.hpp"
 #include "utils/identity.hpp"
 #include "utils/span.hpp"
+#include <cassert>
+#include <vector>
 
 namespace oglplus {
 namespace tag {
@@ -37,8 +37,8 @@ template <>
 struct prog_var_loc_ops<tag::uniform> {
     typedef tag::uniform tag;
 
-    static outcome<prog_var_loc<tag>> get_location(
-      program_name prog, cstr_ref identifier) noexcept {
+    static outcome<prog_var_loc<tag>>
+    get_location(program_name prog, cstr_ref identifier) noexcept {
         GLint loc = OGLPLUS_GLFUNC(GetUniformLocation)(
           get_raw_name(prog), identifier.c_str());
         OGLPLUS_VERIFY(

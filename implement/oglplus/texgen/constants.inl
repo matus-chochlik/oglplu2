@@ -13,8 +13,7 @@ namespace texgen {
 namespace expr {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-operator<<(std::ostream& out, const constant_id& e) {
+std::ostream& operator<<(std::ostream& out, const constant_id& e) {
     e.constant.expression(out, e.context);
     return out;
 }
@@ -22,14 +21,12 @@ operator<<(std::ostream& out, const constant_id& e) {
 } // namespace expr
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-slot_data_type
-base_constant::value_type() {
+slot_data_type base_constant::value_type() {
     return slot_data_type::float_;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::string
-base_constant::identifier() {
+std::string base_constant::identifier() {
     cstr_ref n = name();
     std::string result;
     result.reserve(std_size(7 + n.size()));
@@ -52,32 +49,27 @@ base_constant::definitions(std::ostream& out, compile_context& ctxt) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-base_constant::expression(std::ostream& out, compile_context&) {
+std::ostream& base_constant::expression(std::ostream& out, compile_context&) {
     return out << identifier();
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref
-constant_pi::name() const noexcept {
+cstr_ref constant_pi::name() const noexcept {
     return cstr_ref("pi");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-constant_pi::value(std::ostream& out, compile_context&) {
+std::ostream& constant_pi::value(std::ostream& out, compile_context&) {
     return out << "(atan(1.0)*4.0)";
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref
-constant_phi::name() const noexcept {
+cstr_ref constant_phi::name() const noexcept {
     return cstr_ref("phi");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-constant_phi::value(std::ostream& out, compile_context&) {
+std::ostream& constant_phi::value(std::ostream& out, compile_context&) {
     return out << "((1.0+sqrt(5.0))*0.5)";
 }
 //------------------------------------------------------------------------------

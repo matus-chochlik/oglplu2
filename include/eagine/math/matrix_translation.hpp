@@ -59,8 +59,7 @@ struct translation<matrix<T, 4, 4, RM, V>> {
 
 // multiply
 template <typename T, int N, bool RM1, bool RM2, bool V>
-static constexpr inline translation<matrix<T, N, N, RM1, V>>
-multiply(
+static constexpr inline translation<matrix<T, N, N, RM1, V>> multiply(
   const translation<matrix<T, N, N, RM1, V>>& a,
   const translation<matrix<T, N, N, RM2, V>>& b) noexcept {
     return {a._v + b._v};

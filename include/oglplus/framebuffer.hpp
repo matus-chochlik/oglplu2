@@ -31,17 +31,17 @@ binding_query get_binding_query(framebuffer_target tgt) noexcept;
 namespace oper {
 
 struct framebuffer_ops {
-    static outcome<void> bind_framebuffer(
-      framebuffer_target target, framebuffer_name fbo) noexcept;
+    static outcome<void>
+    bind_framebuffer(framebuffer_target target, framebuffer_name fbo) noexcept;
 
-    static outcome<framebuffer_name> framebuffer_binding(
-      framebuffer_target target) noexcept;
+    static outcome<framebuffer_name>
+    framebuffer_binding(framebuffer_target target) noexcept;
 
-    static outcome<framebuffer_status> check_framebuffer_status(
-      framebuffer_target target) noexcept;
+    static outcome<framebuffer_status>
+    check_framebuffer_status(framebuffer_target target) noexcept;
 
-    static outcome<bool> is_framebuffer_complete(
-      framebuffer_target target) noexcept;
+    static outcome<bool>
+    is_framebuffer_complete(framebuffer_target target) noexcept;
 
 #ifdef OGLPLUS_DSA_FRAMEBUFFER
     static outcome<framebuffer_status> check_framebuffer_status(
@@ -394,8 +394,8 @@ struct obj_dsa_ops<tag::framebuffer>
 
     typedef oper::framebuffer_ops _ops;
 
-    outcome<framebuffer_status> check_status(
-      framebuffer_target target) noexcept {
+    outcome<framebuffer_status>
+    check_status(framebuffer_target target) noexcept {
         return _ops::check_framebuffer_status(*this, target);
     }
 
@@ -436,13 +436,13 @@ struct obj_dsa_ops<tag::framebuffer>
     }
 #endif
 
-    outcome<obj_dsa_ops&> draw_buffer(
-      framebuffer_color_attachment buf) noexcept {
+    outcome<obj_dsa_ops&>
+    draw_buffer(framebuffer_color_attachment buf) noexcept {
         return {_ops::framebuffer_draw_buffer(*this, buf), *this};
     }
 
-    outcome<obj_dsa_ops&> read_buffer(
-      framebuffer_color_attachment buf) noexcept {
+    outcome<obj_dsa_ops&>
+    read_buffer(framebuffer_color_attachment buf) noexcept {
         return {_ops::framebuffer_read_buffer(*this, buf), *this};
     }
 
@@ -481,8 +481,8 @@ struct obj_dsa_ops<tag::framebuffer>
           *this};
     }
 
-    outcome<obj_dsa_ops&> invalidate_data(
-      enum_span<framebuffer_attachment> attchs) noexcept {
+    outcome<obj_dsa_ops&>
+    invalidate_data(enum_span<framebuffer_attachment> attchs) noexcept {
         return {_ops::invalidate_framebuffer_data(*this, attchs), *this};
     }
 

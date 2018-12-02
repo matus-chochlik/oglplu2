@@ -9,12 +9,12 @@
 #ifndef EAGINE_POSIX_FILE_DESC_SET_1509260923_HPP
 #define EAGINE_POSIX_FILE_DESC_SET_1509260923_HPP
 
-#include <sys/time.h>
-#include <sys/types.h>
-#include <unistd.h>
 #include "../optional_ref.hpp"
 #include "../valid_if/decl.hpp"
 #include "file_descriptor.hpp"
+#include <sys/time.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 namespace eagine {
 namespace posix {
@@ -96,8 +96,7 @@ public:
     }
 };
 
-static inline outcome<int>
-select(
+static inline outcome<int> select(
   int nfds,
   optional_reference_wrapper<file_descriptor_set> read_fds,
   optional_reference_wrapper<file_descriptor_set> write_fds,
@@ -119,8 +118,7 @@ select(
     return error_if_negative(res, -1);
 }
 
-static inline outcome<int>
-select(
+static inline outcome<int> select(
   optional_reference_wrapper<file_descriptor_set> read_fds,
   optional_reference_wrapper<file_descriptor_set> write_fds,
   optional_reference_wrapper<file_descriptor_set> except_fds,

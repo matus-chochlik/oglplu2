@@ -32,8 +32,7 @@ buffer_ops::buffer_binding(buffer_target target) noexcept {
       .add(buffer_name(GLuint(result)));
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-buffer_ops::bind_buffer_base(
+inline outcome<void> buffer_ops::bind_buffer_base(
   buffer_indexed_target target, GLuint index, buffer_name buf) noexcept {
     OGLPLUS_GLFUNC(BindBufferBase)(GLenum(target), index, get_raw_name(buf));
     OGLPLUS_VERIFY(
@@ -43,8 +42,7 @@ buffer_ops::bind_buffer_base(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-buffer_ops::bind_buffer_range(
+inline outcome<void> buffer_ops::bind_buffer_range(
   buffer_indexed_target target,
   GLuint index,
   buffer_name buf,
@@ -65,8 +63,7 @@ buffer_ops::bind_buffer_range(
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_4)
 template <typename S>
-inline outcome<void>
-buffer_ops::bind_buffers_base(
+inline outcome<void> buffer_ops::bind_buffers_base(
   buffer_indexed_target target,
   GLuint first,
   const object_names<tag::buffer, S>& buffers) noexcept {
@@ -83,8 +80,7 @@ buffer_ops::bind_buffers_base(
 }
 #endif
 //------------------------------------------------------------------------------
-inline outcome<void>
-buffer_ops::get_buffer_parameter_iv(
+inline outcome<void> buffer_ops::get_buffer_parameter_iv(
   buffer_target target,
   oglplus::buffer_parameter param,
   span<GLint> values) noexcept {
@@ -98,8 +94,7 @@ buffer_ops::get_buffer_parameter_iv(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-buffer_ops::get_buffer_parameter_i64v(
+inline outcome<void> buffer_ops::get_buffer_parameter_i64v(
   buffer_target target,
   oglplus::buffer_parameter param,
   span<GLint64> values) noexcept {
@@ -114,8 +109,7 @@ buffer_ops::get_buffer_parameter_i64v(
 }
 //------------------------------------------------------------------------------
 #if defined(GL_NV_shader_buffer_load)
-inline outcome<void>
-buffer_ops::get_buffer_parameter_ui64v(
+inline outcome<void> buffer_ops::get_buffer_parameter_ui64v(
   buffer_target target,
   oglplus::buffer_parameter param,
   span<GLuint64> values) noexcept {
@@ -131,8 +125,7 @@ buffer_ops::get_buffer_parameter_ui64v(
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
-inline outcome<void>
-buffer_ops::get_buffer_parameter_iv(
+inline outcome<void> buffer_ops::get_buffer_parameter_iv(
   buffer_name buf,
   oglplus::buffer_parameter param,
   span<GLint> values) noexcept {
@@ -154,8 +147,7 @@ buffer_ops::get_buffer_parameter_iv(
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5)
-inline outcome<void>
-buffer_ops::get_buffer_parameter_i64v(
+inline outcome<void> buffer_ops::get_buffer_parameter_i64v(
   buffer_name buf,
   oglplus::buffer_parameter param,
   span<GLint64> values) noexcept {
@@ -169,8 +161,7 @@ buffer_ops::get_buffer_parameter_i64v(
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_NV_shader_buffer_load)
-inline outcome<void>
-buffer_ops::get_buffer_parameter_ui64v(
+inline outcome<void> buffer_ops::get_buffer_parameter_ui64v(
   buffer_name buf,
   oglplus::buffer_parameter param,
   span<GLuint64> values) noexcept {
@@ -186,8 +177,7 @@ buffer_ops::get_buffer_parameter_ui64v(
 #endif
 //------------------------------------------------------------------------------
 template <typename R, typename T, typename BNT>
-inline outcome<R>
-buffer_ops::return_buffer_parameter_i(
+inline outcome<R> buffer_ops::return_buffer_parameter_i(
   const BNT& bnt, oglplus::buffer_parameter parameter) noexcept {
     GLint result = 0;
     return get_buffer_parameter_iv(bnt, parameter, {&result, 1})
@@ -195,15 +185,13 @@ buffer_ops::return_buffer_parameter_i(
 }
 //------------------------------------------------------------------------------
 template <typename BNT>
-inline outcome<GLint>
-buffer_ops::get_buffer_size(const BNT& bnt) noexcept {
+inline outcome<GLint> buffer_ops::get_buffer_size(const BNT& bnt) noexcept {
     return return_buffer_parameter_i<GLint, GLint>(
       bnt, oglplus::buffer_parameter(GL_BUFFER_SIZE));
 }
 //------------------------------------------------------------------------------
 template <typename BNT>
-inline outcome<boolean>
-buffer_ops::is_buffer_mapped(const BNT& bnt) noexcept {
+inline outcome<boolean> buffer_ops::is_buffer_mapped(const BNT& bnt) noexcept {
     return return_buffer_parameter_i<boolean, GLboolean>(
       bnt, oglplus::buffer_parameter(GL_BUFFER_MAPPED));
 }
@@ -217,8 +205,7 @@ buffer_ops::get_buffer_usage(const BNT& bnt) noexcept {
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_4) || defined(GL_ARB_buffer_storage)
 //------------------------------------------------------------------------------
-inline outcome<void>
-buffer_ops::buffer_storage(
+inline outcome<void> buffer_ops::buffer_storage(
   buffer_target target,
   const buffer_data_spec& data,
   enum_bitfield<buffer_storage_bits> flags) noexcept {
@@ -230,8 +217,7 @@ buffer_ops::buffer_storage(
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
-inline outcome<void>
-buffer_ops::buffer_storage(
+inline outcome<void> buffer_ops::buffer_storage(
   buffer_name buf,
   const buffer_data_spec& data,
   enum_bitfield<buffer_storage_bits> flags) noexcept {
@@ -265,8 +251,7 @@ buffer_ops::get_buffer_storage_flags(const BNT& bnt) noexcept {
 }
 #endif
 //------------------------------------------------------------------------------
-inline outcome<void>
-buffer_ops::buffer_data(
+inline outcome<void> buffer_ops::buffer_data(
   buffer_target target,
   const buffer_data_spec& data,
   oglplus::buffer_usage usage) noexcept {
@@ -277,8 +262,7 @@ buffer_ops::buffer_data(
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
-inline outcome<void>
-buffer_ops::buffer_data(
+inline outcome<void> buffer_ops::buffer_data(
   buffer_name buf,
   const buffer_data_spec& data,
   oglplus::buffer_usage usage) noexcept {
@@ -297,8 +281,7 @@ buffer_ops::buffer_data(
 }
 #endif
 //------------------------------------------------------------------------------
-inline outcome<void>
-buffer_ops::buffer_sub_data(
+inline outcome<void> buffer_ops::buffer_sub_data(
   buffer_target target,
   oglplus::buffer_size offset,
   const buffer_data_spec& data) noexcept {
@@ -309,8 +292,7 @@ buffer_ops::buffer_sub_data(
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
-inline outcome<void>
-buffer_ops::buffer_sub_data(
+inline outcome<void> buffer_ops::buffer_sub_data(
   buffer_name buf,
   oglplus::buffer_size offset,
   const buffer_data_spec& data) noexcept {
@@ -330,8 +312,7 @@ buffer_ops::buffer_sub_data(
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_1) || defined(GL_ARB_copy_buffer)
-inline outcome<void>
-buffer_ops::copy_buffer_sub_data(
+inline outcome<void> buffer_ops::copy_buffer_sub_data(
   buffer_target read_target,
   buffer_target write_target,
   oglplus::buffer_size read_offset,
@@ -348,8 +329,7 @@ buffer_ops::copy_buffer_sub_data(
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
-inline outcome<void>
-buffer_ops::copy_buffer_sub_data(
+inline outcome<void> buffer_ops::copy_buffer_sub_data(
   buffer_name read_buffer,
   buffer_name write_buffer,
   oglplus::buffer_size read_offset,
@@ -377,8 +357,7 @@ buffer_ops::copy_buffer_sub_data(
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_3)
-inline outcome<void>
-buffer_ops::clear_buffer_data(
+inline outcome<void> buffer_ops::clear_buffer_data(
   buffer_target target,
   pixel_data_internal_format internal_format,
   pixel_data_format format,
@@ -398,8 +377,7 @@ buffer_ops::clear_buffer_data(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-buffer_ops::clear_buffer_sub_data(
+inline outcome<void> buffer_ops::clear_buffer_sub_data(
   buffer_target target,
   pixel_data_internal_format internal_format,
   oglplus::buffer_size offset,
@@ -423,8 +401,7 @@ buffer_ops::clear_buffer_sub_data(
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
-inline outcome<void>
-buffer_ops::clear_buffer_data(
+inline outcome<void> buffer_ops::clear_buffer_data(
   buffer_name buf,
   pixel_data_internal_format internal_format,
   pixel_data_format format,
@@ -450,8 +427,7 @@ buffer_ops::clear_buffer_data(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-buffer_ops::clear_buffer_sub_data(
+inline outcome<void> buffer_ops::clear_buffer_sub_data(
   buffer_name buf,
   pixel_data_internal_format internal_format,
   oglplus::buffer_size offset,
@@ -490,8 +466,7 @@ buffer_ops::invalidate_buffer_data(buffer_name buf) noexcept {
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-buffer_ops::invalidate_buffer_sub_data(
+inline outcome<void> buffer_ops::invalidate_buffer_sub_data(
   buffer_name buf,
   oglplus::buffer_size offset,
   oglplus::buffer_size size) noexcept {
@@ -503,8 +478,7 @@ buffer_ops::invalidate_buffer_sub_data(
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_NV_shader_buffer_load)
-inline outcome<void>
-buffer_ops::make_buffer_resident(
+inline outcome<void> buffer_ops::make_buffer_resident(
   buffer_target target, access_specifier access) noexcept {
     OGLPLUS_GLFUNC(MakeBufferResidentNV)(GLenum(target), GLenum(access));
     OGLPLUS_VERIFY(
@@ -514,8 +488,7 @@ buffer_ops::make_buffer_resident(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-buffer_ops::make_buffer_resident(
+inline outcome<void> buffer_ops::make_buffer_resident(
   buffer_name buf, access_specifier access) noexcept {
     OGLPLUS_GLFUNC(MakeNamedBufferResidentNV)
     (get_raw_name(buf), GLenum(access));

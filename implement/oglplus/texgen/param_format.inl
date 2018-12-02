@@ -14,14 +14,12 @@ namespace texgen {
 namespace expr {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-operator<<(std::ostream& out, render_param_decl) {
+std::ostream& operator<<(std::ostream& out, render_param_decl) {
     return out << "(vec3 oglptg_nc, vec3 oglptg_vs, vec3 oglptg_vo)";
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-operator<<(std::ostream& out, render_param_pass e) {
+std::ostream& operator<<(std::ostream& out, render_param_pass e) {
     if(e.output.needs_params()) {
         out << "(oglptg_nc, oglptg_vs, oglptg_vo)";
     }
@@ -29,8 +27,7 @@ operator<<(std::ostream& out, render_param_pass e) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-operator<<(std::ostream& out, render_param_pass_voxel_offs e) {
+std::ostream& operator<<(std::ostream& out, render_param_pass_voxel_offs e) {
     if(e.output.needs_params()) {
         out << "(oglptg_nc, oglptg_vs, oglptg_vo+vec3(";
         out << e.offs[0] << ", ";
@@ -41,45 +38,38 @@ operator<<(std::ostream& out, render_param_pass_voxel_offs e) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-operator<<(std::ostream& out, normalized_coord) {
+std::ostream& operator<<(std::ostream& out, normalized_coord) {
     return out << "oglptg_nc";
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-operator<<(std::ostream& out, voxel_offset) {
+std::ostream& operator<<(std::ostream& out, voxel_offset) {
     return out << "oglptg_vo";
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-operator<<(std::ostream& out, norm_voxel_size) {
+std::ostream& operator<<(std::ostream& out, norm_voxel_size) {
     return out << "oglptg_vs";
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-operator<<(std::ostream& out, norm_voxel_offs x) {
+std::ostream& operator<<(std::ostream& out, norm_voxel_offs x) {
     return out << voxel_offset{x.output} << "*" << norm_voxel_size{x.output};
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-operator<<(std::ostream& out, norm_sample_coord x) {
+std::ostream& operator<<(std::ostream& out, norm_sample_coord x) {
     return out << normalized_coord{x.output} << "+"
                << norm_voxel_offs{x.output};
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-operator<<(std::ostream& out, nbors2d_offs) {
+std::ostream& operator<<(std::ostream& out, nbors2d_offs) {
     return out << "oglptgNbors2dCellOffs";
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-operator<<(std::ostream& out, nbors2d_offs_decl e) {
+std::ostream& operator<<(std::ostream& out, nbors2d_offs_decl e) {
     cstr_ref tag("nbors2d_cells");
     if(!e.context.has_tag(tag)) {
         out << "vec2 " << nbors2d_offs{} << "[8] = vec2[8](" << std::endl;
@@ -99,14 +89,12 @@ operator<<(std::ostream& out, nbors2d_offs_decl e) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-operator<<(std::ostream& out, nhood2d_offs) {
+std::ostream& operator<<(std::ostream& out, nhood2d_offs) {
     return out << "oglptgNhood2dCellOffs";
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-operator<<(std::ostream& out, nhood2d_offs_decl e) {
+std::ostream& operator<<(std::ostream& out, nhood2d_offs_decl e) {
     cstr_ref tag("nhood2d_cells");
     if(!e.context.has_tag(tag)) {
         out << "vec2 " << nhood2d_offs{} << "[9] = vec2[9](" << std::endl;

@@ -24,16 +24,14 @@ split_output::split_output(
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref
-split_output::type_name() {
+cstr_ref split_output::type_name() {
     const cstr_ref names[4] = {
       cstr_ref("Red"), cstr_ref("Green"), cstr_ref("Blue"), cstr_ref("Alpha")};
     return names[_index];
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-slot_data_type
-split_output::value_type() {
+slot_data_type split_output::value_type() {
     return make_data_type(elem_data_type(_input.value_type()), 1);
 }
 //------------------------------------------------------------------------------
@@ -61,8 +59,7 @@ split_output::definitions(std::ostream& out, compile_context& ctxt) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref
-split_node::type_name() {
+cstr_ref split_node::type_name() {
     return cstr_ref("Split");
 }
 //------------------------------------------------------------------------------
@@ -76,27 +73,23 @@ split_node::split_node()
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-span_size_t
-split_node::input_count() {
+span_size_t split_node::input_count() {
     return 1;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-input_intf&
-split_node::input(span_size_t index) {
+input_intf& split_node::input(span_size_t index) {
     assert(index < input_count());
     return _input;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-span_size_t
-split_node::output_count() {
+span_size_t split_node::output_count() {
     return 4u;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-output_intf&
-split_node::output(span_size_t index) {
+output_intf& split_node::output(span_size_t index) {
     if(index == 0)
         return _output_r;
     if(index == 1)

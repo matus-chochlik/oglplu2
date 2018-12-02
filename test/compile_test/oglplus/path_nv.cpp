@@ -15,14 +15,12 @@
 
 using namespace oglplus;
 
-void
-oglplus_path_nv_test_1(void) {
+void oglplus_path_nv_test_1() {
     oglplus_object_name_test<path_nv_name>();
     oglplus_object_test<path_nv>();
 }
 
-void
-oglplus_path_nv_test_ops1(void) {
+void oglplus_path_nv_test_ops1() {
     oper::path_nv_ops gl;
     path_nv pnv;
     path_nv_array<4> pnvs;

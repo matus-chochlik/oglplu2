@@ -9,11 +9,11 @@
 #ifndef OGLPLUS_TEXGEN_DATA_TYPE_1509260923_HPP
 #define OGLPLUS_TEXGEN_DATA_TYPE_1509260923_HPP
 
-#include <iosfwd>
-#include <eagine/valid_if/between.hpp>
 #include "../config/basic.hpp"
 #include "../utils/cstr_ref.hpp"
 #include "../utils/types.hpp"
+#include <eagine/valid_if/between.hpp>
+#include <iosfwd>
 
 namespace oglplus {
 namespace texgen {
@@ -108,11 +108,11 @@ span_size_t common_dims(slot_data_type a, slot_data_type b) noexcept;
 
 slot_data_type common_data_type(slot_data_type a, slot_data_type b) noexcept;
 
-std::ostream& conversion_prefix(
-  std::ostream& out, slot_data_type from, slot_data_type to);
+std::ostream&
+conversion_prefix(std::ostream& out, slot_data_type from, slot_data_type to);
 
-std::ostream& conversion_suffix(
-  std::ostream& out, slot_data_type from, slot_data_type to);
+std::ostream&
+conversion_suffix(std::ostream& out, slot_data_type from, slot_data_type to);
 
 std::ostream& conversion_suffix(
   std::ostream& out,

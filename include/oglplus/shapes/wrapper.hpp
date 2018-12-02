@@ -10,11 +10,11 @@
 #ifndef OGLPLUS_SHAPES_WRAPPER_1509260923_HPP
 #define OGLPLUS_SHAPES_WRAPPER_1509260923_HPP
 
-#include <cassert>
-#include <vector>
-#include <eagine/make_array.hpp>
 #include "drawing.hpp"
 #include "init.hpp"
+#include <eagine/make_array.hpp>
+#include <cassert>
+#include <vector>
 
 namespace oglplus {
 namespace shapes {

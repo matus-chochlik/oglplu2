@@ -32,8 +32,7 @@ struct mock_system::base_unit : base::mock_unit<BD> {};
 BOOST_AUTO_TEST_SUITE(units_scaled_unit_tests)
 
 template <template <class, class, class> class Tester>
-void
-do_units_arith_tests(void) {
+void do_units_arith_tests() {
     using namespace eagine::units;
 
     base::for_each_dim(Tester<scales::one, scales::one, mock_system>());

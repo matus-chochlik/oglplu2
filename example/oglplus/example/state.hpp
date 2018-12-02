@@ -9,9 +9,9 @@
 #ifndef OGLPLUS_EXAMPLE_STATE_1512120710_HPP
 #define OGLPLUS_EXAMPLE_STATE_1512120710_HPP
 
+#include "state_view.hpp"
 #include <cassert>
 #include <cmath>
-#include "state_view.hpp"
 
 namespace oglplus {
 

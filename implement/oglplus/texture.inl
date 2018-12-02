@@ -17,8 +17,7 @@ namespace oglplus {
 //------------------------------------------------------------------------------
 namespace oper {
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::active_texture(texture_unit unit) noexcept {
+inline outcome<void> texture_ops::active_texture(texture_unit unit) noexcept {
 #if !OGLPLUS_NO_LIMIT_CHECKS
     if(auto over_limit = failure(check_below_limit(unit))) {
         return std::move(over_limit);
@@ -29,8 +28,7 @@ texture_ops::active_texture(texture_unit unit) noexcept {
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<texture_unit>
-texture_ops::get_active_texture() noexcept {
+inline outcome<texture_unit> texture_ops::get_active_texture() noexcept {
     GLint result = 0;
     return numeric_queries::get_integer_v(
              numeric_query(GL_ACTIVE_TEXTURE), {&result, 1})
@@ -55,8 +53,7 @@ texture_ops::bind_texture_unit(texture_unit unit, texture_name tex) noexcept {
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_4)
 template <typename S>
-inline outcome<void>
-texture_ops::bind_textures(
+inline outcome<void> texture_ops::bind_textures(
   texture_unit first, const object_names<tag::texture, S>& textures) noexcept {
     OGLPLUS_GLFUNC(BindTextures)
     (GLuint(first.index()),
@@ -77,8 +74,7 @@ texture_ops::texture_binding(texture_target target) noexcept {
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_4)
-inline outcome<void>
-texture_ops::bind_image_texture(
+inline outcome<void> texture_ops::bind_image_texture(
   texture_unit unit,
   texture_name_only tnt,
   GLint level,
@@ -101,8 +97,7 @@ texture_ops::bind_image_texture(
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_2) || defined(GL_ARB_texture_storage)
-inline outcome<void>
-texture_ops::texture_storage_1d(
+inline outcome<void> texture_ops::texture_storage_1d(
   texture_target_only tnt,
   GLsizei levels,
   pixel_data_internal_format iformat,
@@ -116,8 +111,7 @@ texture_ops::texture_storage_1d(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::texture_storage_2d(
+inline outcome<void> texture_ops::texture_storage_2d(
   texture_target_only tnt,
   GLsizei levels,
   pixel_data_internal_format iformat,
@@ -132,8 +126,7 @@ texture_ops::texture_storage_2d(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::texture_storage_3d(
+inline outcome<void> texture_ops::texture_storage_3d(
   texture_target_only tnt,
   GLsizei levels,
   pixel_data_internal_format iformat,
@@ -151,8 +144,7 @@ texture_ops::texture_storage_3d(
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_3)
-inline outcome<void>
-texture_ops::texture_storage_2d_multisample(
+inline outcome<void> texture_ops::texture_storage_2d_multisample(
   texture_target_only tnt,
   GLsizei samples,
   pixel_data_internal_format iformat,
@@ -173,8 +165,7 @@ texture_ops::texture_storage_2d_multisample(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::texture_storage_3d_multisample(
+inline outcome<void> texture_ops::texture_storage_3d_multisample(
   texture_target_only tnt,
   GLsizei samples,
   pixel_data_internal_format iformat,
@@ -209,8 +200,7 @@ invalidate_texture_image(texture_target_only tnt, GLint level) noexcept {
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-invalidate_texture_sub_image(
+inline outcome<void> invalidate_texture_sub_image(
   texture_target_only tnt,
   GLint level,
   GLint xoffset,
@@ -237,8 +227,7 @@ invalidate_texture_sub_image(
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_2_0)
-inline outcome<void>
-texture_ops::copy_texture_sub_image_1d(
+inline outcome<void> texture_ops::copy_texture_sub_image_1d(
   texture_target_only tnt,
   GLint level,
   GLint xoffset,
@@ -255,8 +244,7 @@ texture_ops::copy_texture_sub_image_1d(
 }
 #endif
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::copy_texture_sub_image_2d(
+inline outcome<void> texture_ops::copy_texture_sub_image_2d(
   texture_target_only tnt,
   GLint level,
   GLint xoffset,
@@ -274,8 +262,7 @@ texture_ops::copy_texture_sub_image_2d(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::copy_texture_sub_image_3d(
+inline outcome<void> texture_ops::copy_texture_sub_image_3d(
   texture_target_only tnt,
   GLint level,
   GLint xoffset,
@@ -303,8 +290,7 @@ texture_ops::copy_texture_sub_image_3d(
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
-inline outcome<void>
-texture_ops::copy_texture_sub_image_1d(
+inline outcome<void> texture_ops::copy_texture_sub_image_1d(
   texture_name_only tnt,
   GLint level,
   GLint xoffset,
@@ -317,8 +303,7 @@ texture_ops::copy_texture_sub_image_1d(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::copy_texture_sub_image_2d(
+inline outcome<void> texture_ops::copy_texture_sub_image_2d(
   texture_name_only tnt,
   GLint level,
   GLint xoffset,
@@ -333,8 +318,7 @@ texture_ops::copy_texture_sub_image_2d(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::copy_texture_sub_image_3d(
+inline outcome<void> texture_ops::copy_texture_sub_image_3d(
   texture_name_only tnt,
   GLint level,
   GLint xoffset,
@@ -358,8 +342,7 @@ texture_ops::copy_texture_sub_image_3d(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::texture_storage_1d(
+inline outcome<void> texture_ops::texture_storage_1d(
   texture_name_only tnt,
   GLsizei levels,
   pixel_data_internal_format iformat,
@@ -371,8 +354,7 @@ texture_ops::texture_storage_1d(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::texture_storage_2d(
+inline outcome<void> texture_ops::texture_storage_2d(
   texture_name_only tnt,
   GLsizei levels,
   pixel_data_internal_format iformat,
@@ -385,8 +367,7 @@ texture_ops::texture_storage_2d(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::texture_storage_3d(
+inline outcome<void> texture_ops::texture_storage_3d(
   texture_name_only tnt,
   GLsizei levels,
   pixel_data_internal_format iformat,
@@ -402,8 +383,7 @@ texture_ops::texture_storage_3d(
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
-inline outcome<void>
-texture_ops::texture_storage_2d_multisample(
+inline outcome<void> texture_ops::texture_storage_2d_multisample(
   texture_name_only tnt,
   GLsizei samples,
   pixel_data_internal_format iformat,
@@ -424,8 +404,7 @@ texture_ops::texture_storage_2d_multisample(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::texture_storage_3d_multisample(
+inline outcome<void> texture_ops::texture_storage_3d_multisample(
   texture_name_only tnt,
   GLsizei samples,
   pixel_data_internal_format iformat,
@@ -450,8 +429,7 @@ texture_ops::texture_storage_3d_multisample(
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_4)
-inline outcome<void>
-texture_ops::clear_texture_image(
+inline outcome<void> texture_ops::clear_texture_image(
   texture_name_only tnt,
   GLint level,
   pixel_data_format format,
@@ -464,8 +442,7 @@ texture_ops::clear_texture_image(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::clear_texture_sub_image(
+inline outcome<void> texture_ops::clear_texture_sub_image(
   texture_name_only tnt,
   GLint level,
   GLint xoffset,
@@ -502,8 +479,7 @@ texture_ops::clear_texture_sub_image(
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_0)
-inline outcome<void>
-texture_ops::texture_image_1d(
+inline outcome<void> texture_ops::texture_image_1d(
   texture_target_only tnt,
   GLint level,
   pixel_data_internal_format iformat,
@@ -528,8 +504,7 @@ texture_ops::texture_image_1d(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::texture_image_1d(
+inline outcome<void> texture_ops::texture_image_1d(
   texture_target_only tnt,
   const image_spec& img,
   GLint level,
@@ -545,8 +520,7 @@ texture_ops::texture_image_1d(
       img.data());
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::texture_sub_image_1d(
+inline outcome<void> texture_ops::texture_sub_image_1d(
   texture_target_only tnt,
   GLint level,
   GLint xoffset,
@@ -569,8 +543,7 @@ texture_ops::texture_sub_image_1d(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::texture_sub_image_1d(
+inline outcome<void> texture_ops::texture_sub_image_1d(
   texture_target_only tnt,
   GLint xoffset,
   const image_spec& img,
@@ -579,8 +552,7 @@ texture_ops::texture_sub_image_1d(
       tnt, level, xoffset, img.width(), img.format(), img.type(), img.data());
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::compressed_texture_sub_image_1d(
+inline outcome<void> texture_ops::compressed_texture_sub_image_1d(
   texture_target_only tnt,
   GLint level,
   GLint xoffset,
@@ -603,8 +575,7 @@ texture_ops::compressed_texture_sub_image_1d(
 }
 #endif
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::texture_image_2d(
+inline outcome<void> texture_ops::texture_image_2d(
   texture_target_only tnt,
   GLint level,
   pixel_data_internal_format iformat,
@@ -631,8 +602,7 @@ texture_ops::texture_image_2d(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::texture_image_2d(
+inline outcome<void> texture_ops::texture_image_2d(
   texture_target_only tnt,
   const image_spec& img,
   GLint level,
@@ -649,8 +619,7 @@ texture_ops::texture_image_2d(
       img.data());
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::texture_sub_image_2d(
+inline outcome<void> texture_ops::texture_sub_image_2d(
   texture_target_only tnt,
   GLint level,
   GLint xoffset,
@@ -678,8 +647,7 @@ texture_ops::texture_sub_image_2d(
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_2)
-inline outcome<void>
-texture_ops::texture_image_2d_multisample(
+inline outcome<void> texture_ops::texture_image_2d_multisample(
   texture_target_only tnt,
   GLsizei samples,
   pixel_data_internal_format iformat,
@@ -701,8 +669,7 @@ texture_ops::texture_image_2d_multisample(
 }
 #endif
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::texture_sub_image_2d(
+inline outcome<void> texture_ops::texture_sub_image_2d(
   texture_target_only tnt,
   GLint xoffset,
   GLint yoffset,
@@ -720,8 +687,7 @@ texture_ops::texture_sub_image_2d(
       img.data());
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::compressed_texture_sub_image_2d(
+inline outcome<void> texture_ops::compressed_texture_sub_image_2d(
   texture_target_only tnt,
   GLint level,
   GLint xoffset,
@@ -747,8 +713,7 @@ texture_ops::compressed_texture_sub_image_2d(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::texture_image_3d(
+inline outcome<void> texture_ops::texture_image_3d(
   texture_target_only tnt,
   GLint level,
   pixel_data_internal_format iformat,
@@ -777,8 +742,7 @@ texture_ops::texture_image_3d(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::texture_image_3d(
+inline outcome<void> texture_ops::texture_image_3d(
   texture_target_only tnt,
   const image_spec& img,
   GLint level,
@@ -796,8 +760,7 @@ texture_ops::texture_image_3d(
       img.data());
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::texture_sub_image_3d(
+inline outcome<void> texture_ops::texture_sub_image_3d(
   texture_target_only tnt,
   GLint level,
   GLint xoffset,
@@ -829,8 +792,7 @@ texture_ops::texture_sub_image_3d(
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_2)
-inline outcome<void>
-texture_ops::texture_image_3d_multisample(
+inline outcome<void> texture_ops::texture_image_3d_multisample(
   texture_target_only tnt,
   GLsizei samples,
   pixel_data_internal_format iformat,
@@ -854,8 +816,7 @@ texture_ops::texture_image_3d_multisample(
 }
 #endif
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::texture_sub_image_3d(
+inline outcome<void> texture_ops::texture_sub_image_3d(
   texture_target_only tnt,
   GLint xoffset,
   GLint yoffset,
@@ -876,8 +837,7 @@ texture_ops::texture_sub_image_3d(
       img.data());
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::compressed_texture_sub_image_3d(
+inline outcome<void> texture_ops::compressed_texture_sub_image_3d(
   texture_target_only tnt,
   GLint level,
   GLint xoffset,
@@ -909,8 +869,7 @@ texture_ops::compressed_texture_sub_image_3d(
 //------------------------------------------------------------------------------
 #if defined(GL_EXT_direct_state_access)
 #if defined(GL_VERSION_3_0)
-inline outcome<void>
-texture_ops::texture_image_1d(
+inline outcome<void> texture_ops::texture_image_1d(
   texture_name_and_target tnt,
   GLint level,
   pixel_data_internal_format iformat,
@@ -936,8 +895,7 @@ texture_ops::texture_image_1d(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::texture_image_1d(
+inline outcome<void> texture_ops::texture_image_1d(
   texture_name_and_target tnt,
   const image_spec& img,
   GLint level,
@@ -953,8 +911,7 @@ texture_ops::texture_image_1d(
       img.data());
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::texture_sub_image_1d(
+inline outcome<void> texture_ops::texture_sub_image_1d(
   texture_name_and_target tnt,
   GLint level,
   GLint xoffset,
@@ -978,8 +935,7 @@ texture_ops::texture_sub_image_1d(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::texture_sub_image_1d(
+inline outcome<void> texture_ops::texture_sub_image_1d(
   texture_name_and_target tnt,
   GLint xoffset,
   const image_spec& img,
@@ -988,8 +944,7 @@ texture_ops::texture_sub_image_1d(
       tnt, level, xoffset, img.width(), img.format(), img.type(), img.data());
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::compressed_texture_sub_image_1d(
+inline outcome<void> texture_ops::compressed_texture_sub_image_1d(
   texture_name_and_target tnt,
   GLint level,
   GLint xoffset,
@@ -1013,8 +968,7 @@ texture_ops::compressed_texture_sub_image_1d(
 }
 #endif // GL_VERSION_3_0
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::texture_image_2d(
+inline outcome<void> texture_ops::texture_image_2d(
   texture_name_and_target tnt,
   GLint level,
   pixel_data_internal_format iformat,
@@ -1042,8 +996,7 @@ texture_ops::texture_image_2d(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::texture_image_2d(
+inline outcome<void> texture_ops::texture_image_2d(
   texture_name_and_target tnt,
   const image_spec& img,
   GLint level,
@@ -1060,8 +1013,7 @@ texture_ops::texture_image_2d(
       img.data());
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::texture_sub_image_2d(
+inline outcome<void> texture_ops::texture_sub_image_2d(
   texture_name_and_target tnt,
   GLint level,
   GLint xoffset,
@@ -1089,8 +1041,7 @@ texture_ops::texture_sub_image_2d(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::texture_sub_image_2d(
+inline outcome<void> texture_ops::texture_sub_image_2d(
   texture_name_and_target tnt,
   GLint xoffset,
   GLint yoffset,
@@ -1108,8 +1059,7 @@ texture_ops::texture_sub_image_2d(
       img.data());
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::compressed_texture_sub_image_2d(
+inline outcome<void> texture_ops::compressed_texture_sub_image_2d(
   texture_name_and_target tnt,
   GLint level,
   GLint xoffset,
@@ -1136,8 +1086,7 @@ texture_ops::compressed_texture_sub_image_2d(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::texture_image_3d(
+inline outcome<void> texture_ops::texture_image_3d(
   texture_name_and_target tnt,
   GLint level,
   pixel_data_internal_format iformat,
@@ -1167,8 +1116,7 @@ texture_ops::texture_image_3d(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::texture_image_3d(
+inline outcome<void> texture_ops::texture_image_3d(
   texture_name_and_target tnt,
   const image_spec& img,
   GLint level,
@@ -1186,8 +1134,7 @@ texture_ops::texture_image_3d(
       img.data());
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::texture_sub_image_3d(
+inline outcome<void> texture_ops::texture_sub_image_3d(
   texture_name_and_target tnt,
   GLint level,
   GLint xoffset,
@@ -1219,8 +1166,7 @@ texture_ops::texture_sub_image_3d(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::texture_sub_image_3d(
+inline outcome<void> texture_ops::texture_sub_image_3d(
   texture_name_and_target tnt,
   GLint xoffset,
   GLint yoffset,
@@ -1241,8 +1187,7 @@ texture_ops::texture_sub_image_3d(
       img.data());
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::compressed_texture_sub_image_3d(
+inline outcome<void> texture_ops::compressed_texture_sub_image_3d(
   texture_name_and_target tnt,
   GLint level,
   GLint xoffset,
@@ -1276,8 +1221,7 @@ texture_ops::compressed_texture_sub_image_3d(
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
-inline outcome<void>
-texture_ops::texture_sub_image_1d(
+inline outcome<void> texture_ops::texture_sub_image_1d(
   texture_name_only tnt,
   GLint level,
   GLint xoffset,
@@ -1298,8 +1242,7 @@ texture_ops::texture_sub_image_1d(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::texture_sub_image_1d(
+inline outcome<void> texture_ops::texture_sub_image_1d(
   texture_name_only tnt,
   GLint xoffset,
   const image_spec& img,
@@ -1308,8 +1251,7 @@ texture_ops::texture_sub_image_1d(
       tnt, level, xoffset, img.width(), img.format(), img.type(), img.data());
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::compressed_texture_sub_image_1d(
+inline outcome<void> texture_ops::compressed_texture_sub_image_1d(
   texture_name_only tnt,
   GLint level,
   GLint xoffset,
@@ -1331,8 +1273,7 @@ texture_ops::compressed_texture_sub_image_1d(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::texture_sub_image_2d(
+inline outcome<void> texture_ops::texture_sub_image_2d(
   texture_name_only tnt,
   GLint level,
   GLint xoffset,
@@ -1357,8 +1298,7 @@ texture_ops::texture_sub_image_2d(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::texture_sub_image_2d(
+inline outcome<void> texture_ops::texture_sub_image_2d(
   texture_name_only tnt,
   GLint xoffset,
   GLint yoffset,
@@ -1376,8 +1316,7 @@ texture_ops::texture_sub_image_2d(
       img.data());
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::compressed_texture_sub_image_2d(
+inline outcome<void> texture_ops::compressed_texture_sub_image_2d(
   texture_name_only tnt,
   GLint level,
   GLint xoffset,
@@ -1403,8 +1342,7 @@ texture_ops::compressed_texture_sub_image_2d(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::texture_sub_image_3d(
+inline outcome<void> texture_ops::texture_sub_image_3d(
   texture_name_only tnt,
   GLint level,
   GLint xoffset,
@@ -1433,8 +1371,7 @@ texture_ops::texture_sub_image_3d(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::texture_sub_image_3d(
+inline outcome<void> texture_ops::texture_sub_image_3d(
   texture_name_only tnt,
   GLint xoffset,
   GLint yoffset,
@@ -1455,8 +1392,7 @@ texture_ops::texture_sub_image_3d(
       img.data());
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::compressed_texture_sub_image_3d(
+inline outcome<void> texture_ops::compressed_texture_sub_image_3d(
   texture_name_only tnt,
   GLint level,
   GLint xoffset,
@@ -1492,8 +1428,7 @@ texture_ops::compressed_texture_sub_image_3d(
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_1)
-inline outcome<void>
-texture_ops::texture_buffer(
+inline outcome<void> texture_ops::texture_buffer(
   texture_target_only tnt,
   pixel_data_internal_format iformat,
   buffer_name buf) noexcept {
@@ -1509,8 +1444,7 @@ texture_ops::texture_buffer(
 }
 //------------------------------------------------------------------------------
 #if defined(GL_EXT_direct_state_access)
-inline outcome<void>
-texture_ops::texture_buffer(
+inline outcome<void> texture_ops::texture_buffer(
   texture_name_and_target tnt,
   pixel_data_internal_format iformat,
   buffer_name buf) noexcept {
@@ -1529,8 +1463,7 @@ texture_ops::texture_buffer(
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
-inline outcome<void>
-texture_ops::texture_buffer(
+inline outcome<void> texture_ops::texture_buffer(
   texture_name_only tnt,
   pixel_data_internal_format iformat,
   buffer_name buf) noexcept {
@@ -1545,8 +1478,7 @@ texture_ops::texture_buffer(
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_3)
-inline outcome<void>
-texture_ops::texture_buffer_range(
+inline outcome<void> texture_ops::texture_buffer_range(
   texture_target_only tnt,
   pixel_data_internal_format iformat,
   buffer_name buf,
@@ -1568,8 +1500,7 @@ texture_ops::texture_buffer_range(
 }
 //------------------------------------------------------------------------------
 #if defined(GL_EXT_direct_state_access)
-inline outcome<void>
-texture_ops::texture_buffer_range(
+inline outcome<void> texture_ops::texture_buffer_range(
   texture_name_and_target tnt,
   pixel_data_internal_format iformat,
   buffer_name buf,
@@ -1592,8 +1523,7 @@ texture_ops::texture_buffer_range(
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
-inline outcome<void>
-texture_ops::texture_buffer_range(
+inline outcome<void> texture_ops::texture_buffer_range(
   texture_name_only tnt,
   pixel_data_internal_format iformat,
   buffer_name buf,
@@ -1614,8 +1544,7 @@ texture_ops::texture_buffer_range(
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_3)
-inline outcome<void>
-texture_ops::texture_view(
+inline outcome<void> texture_ops::texture_view(
   texture_name newtex,
   texture_target target,
   texture_name origtex,
@@ -1658,8 +1587,7 @@ texture_ops::generate_texture_mipmap(texture_name_only tnt) noexcept {
 }
 #endif
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::texture_parameter_i(
+inline outcome<void> texture_ops::texture_parameter_i(
   texture_target_only tnt,
   oglplus::texture_parameter param,
   GLint value) noexcept {
@@ -1671,8 +1599,7 @@ texture_ops::texture_parameter_i(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::get_texture_parameter_iv(
+inline outcome<void> texture_ops::get_texture_parameter_iv(
   texture_target_only tnt,
   oglplus::texture_parameter param,
   span<GLint> values) noexcept {
@@ -1687,8 +1614,7 @@ texture_ops::get_texture_parameter_iv(
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_0) || defined(GL_ES_VERSION_3_1)
-inline outcome<void>
-texture_ops::get_texture_level_parameter_iv(
+inline outcome<void> texture_ops::get_texture_level_parameter_iv(
   texture_target_only tnt,
   GLint level,
   oglplus::texture_parameter param,
@@ -1706,8 +1632,7 @@ texture_ops::get_texture_level_parameter_iv(
 }
 #endif
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::texture_parameter_f(
+inline outcome<void> texture_ops::texture_parameter_f(
   texture_target_only tnt,
   oglplus::texture_parameter param,
   GLfloat value) noexcept {
@@ -1719,8 +1644,7 @@ texture_ops::texture_parameter_f(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::get_texture_parameter_fv(
+inline outcome<void> texture_ops::get_texture_parameter_fv(
   texture_target_only tnt,
   oglplus::texture_parameter param,
   span<GLfloat> values) noexcept {
@@ -1734,8 +1658,7 @@ texture_ops::get_texture_parameter_fv(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::texture_parameter_fv(
+inline outcome<void> texture_ops::texture_parameter_fv(
   texture_target_only tnt,
   oglplus::texture_parameter param,
   span<const GLfloat> values) noexcept {
@@ -1750,8 +1673,7 @@ texture_ops::texture_parameter_fv(
 }
 //------------------------------------------------------------------------------
 #ifdef GL_VERSION_4_5
-inline outcome<void>
-texture_ops::texture_parameter_i(
+inline outcome<void> texture_ops::texture_parameter_i(
   texture_name_only tnt,
   oglplus::texture_parameter param,
   GLint value) noexcept {
@@ -1762,8 +1684,7 @@ texture_ops::texture_parameter_i(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::get_texture_parameter_iv(
+inline outcome<void> texture_ops::get_texture_parameter_iv(
   texture_name_only tnt,
   oglplus::texture_parameter param,
   span<GLint> values) noexcept {
@@ -1776,8 +1697,7 @@ texture_ops::get_texture_parameter_iv(
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_0) || defined(GL_ES_VERSION_3_1)
-inline outcome<void>
-texture_ops::get_texture_level_parameter_iv(
+inline outcome<void> texture_ops::get_texture_level_parameter_iv(
   texture_name_only tnt,
   GLint level,
   oglplus::texture_parameter param,
@@ -1793,8 +1713,7 @@ texture_ops::get_texture_level_parameter_iv(
 }
 #endif
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::texture_parameter_f(
+inline outcome<void> texture_ops::texture_parameter_f(
   texture_name_only tnt,
   oglplus::texture_parameter param,
   GLfloat value) noexcept {
@@ -1805,8 +1724,7 @@ texture_ops::texture_parameter_f(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::get_texture_parameter_fv(
+inline outcome<void> texture_ops::get_texture_parameter_fv(
   texture_name_only tnt,
   oglplus::texture_parameter param,
   span<GLfloat> values) noexcept {
@@ -1818,8 +1736,7 @@ texture_ops::get_texture_parameter_fv(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::texture_parameter_fv(
+inline outcome<void> texture_ops::texture_parameter_fv(
   texture_name_only tnt,
   oglplus::texture_parameter param,
   span<const GLfloat> values) noexcept {
@@ -1833,8 +1750,7 @@ texture_ops::texture_parameter_fv(
 #endif
 //------------------------------------------------------------------------------
 #ifdef GL_EXT_direct_state_access
-inline outcome<void>
-texture_ops::texture_parameter_i(
+inline outcome<void> texture_ops::texture_parameter_i(
   texture_name_and_target tnt,
   oglplus::texture_parameter param,
   GLint value) noexcept {
@@ -1845,8 +1761,7 @@ texture_ops::texture_parameter_i(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::get_texture_parameter_iv(
+inline outcome<void> texture_ops::get_texture_parameter_iv(
   texture_name_and_target tnt,
   oglplus::texture_parameter param,
   span<GLint> values) noexcept {
@@ -1864,8 +1779,7 @@ texture_ops::get_texture_parameter_iv(
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_0) || defined(GL_ES_VERSION_3_1)
-inline outcome<void>
-texture_ops::get_texture_level_parameter_iv(
+inline outcome<void> texture_ops::get_texture_level_parameter_iv(
   texture_name_and_target tnt,
   GLint level,
   oglplus::texture_parameter param,
@@ -1885,8 +1799,7 @@ texture_ops::get_texture_level_parameter_iv(
 }
 #endif
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::texture_parameter_f(
+inline outcome<void> texture_ops::texture_parameter_f(
   texture_name_and_target tnt,
   oglplus::texture_parameter param,
   GLfloat value) noexcept {
@@ -1897,8 +1810,7 @@ texture_ops::texture_parameter_f(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::get_texture_parameter_fv(
+inline outcome<void> texture_ops::get_texture_parameter_fv(
   texture_name_and_target tnt,
   oglplus::texture_parameter param,
   span<GLfloat> values) noexcept {
@@ -1915,8 +1827,7 @@ texture_ops::get_texture_parameter_fv(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-texture_ops::texture_parameter_fv(
+inline outcome<void> texture_ops::texture_parameter_fv(
   texture_name_and_target tnt,
   oglplus::texture_parameter param,
   span<const GLfloat> values) noexcept {
@@ -1933,8 +1844,7 @@ texture_ops::texture_parameter_fv(
 #endif
 //------------------------------------------------------------------------------
 template <typename R, typename P, typename N, typename T>
-inline outcome<R>
-texture_ops::return_texture_parameter_i(
+inline outcome<R> texture_ops::return_texture_parameter_i(
   object_name_or_target<N, T> tnt,
   oglplus::texture_parameter parameter) noexcept {
     GLint result = 0;
@@ -1943,8 +1853,7 @@ texture_ops::return_texture_parameter_i(
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_0) || defined(GL_ES_VERSION_3_1)
 template <typename R, typename P, typename N, typename T>
-inline outcome<R>
-texture_ops::return_texture_level_parameter_i(
+inline outcome<R> texture_ops::return_texture_level_parameter_i(
   object_name_or_target<N, T> tnt,
   GLint level,
   oglplus::texture_parameter parameter) noexcept {
@@ -1955,8 +1864,7 @@ texture_ops::return_texture_level_parameter_i(
 #endif
 //------------------------------------------------------------------------------
 template <typename R, typename N, typename T>
-inline outcome<R>
-texture_ops::return_texture_parameter_f(
+inline outcome<R> texture_ops::return_texture_parameter_f(
   object_name_or_target<N, T> tnt,
   oglplus::texture_parameter parameter) noexcept {
     GLfloat result = 0;
@@ -2078,8 +1986,7 @@ texture_ops::is_texture_compressed(const TNT& tnt, GLint level) noexcept {
 //------------------------------------------------------------------------------
 #if defined(GL_TEXTURE_COMPRESSED_IMAGE_SIZE)
 template <typename TNT>
-inline outcome<GLsizei>
-texture_ops::get_texture_compressed_image_size(
+inline outcome<GLsizei> texture_ops::get_texture_compressed_image_size(
   const TNT& tnt, GLint level) noexcept {
     return return_texture_level_parameter_i<GLsizei, GLsizei>(
       _wrap(tnt),
@@ -2101,8 +2008,7 @@ texture_ops::get_texture_internal_format(const TNT& tnt, GLint level) noexcept {
 #endif
 //------------------------------------------------------------------------------
 template <typename TNT>
-inline outcome<void>
-texture_ops::texture_min_filter(
+inline outcome<void> texture_ops::texture_min_filter(
   const TNT& tnt, oglplus::texture_min_filter value) noexcept {
     return texture_parameter_i(
       _wrap(tnt),
@@ -2118,8 +2024,7 @@ texture_ops::get_texture_min_filter(const TNT& tnt) noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename TNT>
-inline outcome<void>
-texture_ops::texture_mag_filter(
+inline outcome<void> texture_ops::texture_mag_filter(
   const TNT& tnt, oglplus::texture_mag_filter value) noexcept {
     return texture_parameter_i(
       _wrap(tnt),
@@ -2135,8 +2040,7 @@ texture_ops::get_texture_mag_filter(const TNT& tnt) noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename TNT>
-inline outcome<void>
-texture_ops::texture_compare_func(
+inline outcome<void> texture_ops::texture_compare_func(
   const TNT& tnt, oglplus::compare_function value) noexcept {
     return texture_parameter_i(
       _wrap(tnt),
@@ -2152,8 +2056,7 @@ texture_ops::get_texture_compare_func(const TNT& tnt) noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename TNT>
-inline outcome<void>
-texture_ops::texture_compare_mode(
+inline outcome<void> texture_ops::texture_compare_mode(
   const TNT& tnt, oglplus::texture_compare_mode value) noexcept {
     return texture_parameter_i(
       _wrap(tnt),
@@ -2169,8 +2072,7 @@ texture_ops::get_texture_compare_mode(const TNT& tnt) noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename TNT>
-inline outcome<void>
-texture_ops::texture_wrap(
+inline outcome<void> texture_ops::texture_wrap(
   const TNT& tnt, texture_wrap_coord coord, texture_wrap_mode value) noexcept {
     return texture_parameter_i(
       _wrap(tnt),
@@ -2179,16 +2081,14 @@ texture_ops::texture_wrap(
 }
 //------------------------------------------------------------------------------
 template <typename TNT>
-inline outcome<texture_wrap_mode>
-texture_ops::get_texture_wrap(
+inline outcome<texture_wrap_mode> texture_ops::get_texture_wrap(
   const TNT& tnt, texture_wrap_coord coord) noexcept {
     return return_texture_parameter_i<texture_wrap_mode, GLenum>(
       _wrap(tnt), oglplus::texture_parameter(GLenum(coord)));
 }
 //------------------------------------------------------------------------------
 template <typename TNT>
-inline outcome<void>
-texture_ops::texture_swizzle(
+inline outcome<void> texture_ops::texture_swizzle(
   const TNT& tnt,
   texture_swizzle_coord coord,
   texture_swizzle_mode value) noexcept {
@@ -2199,8 +2099,7 @@ texture_ops::texture_swizzle(
 }
 //------------------------------------------------------------------------------
 template <typename TNT>
-inline outcome<texture_swizzle_mode>
-texture_ops::get_texture_swizzle(
+inline outcome<texture_swizzle_mode> texture_ops::get_texture_swizzle(
   const TNT& tnt, texture_swizzle_coord coord) noexcept {
     return return_texture_parameter_i<texture_swizzle_mode, GLenum>(
       _wrap(tnt), oglplus::texture_parameter(GLenum(coord)));
@@ -2252,8 +2151,7 @@ texture_ops::get_texture_max_lod(const TNT& tnt) noexcept {
 //------------------------------------------------------------------------------
 #if defined(GL_TEXTURE_BORDER_COLOR)
 template <typename TNT>
-inline outcome<void>
-texture_ops::texture_border_color(
+inline outcome<void> texture_ops::texture_border_color(
   const TNT& tnt, span<const GLfloat> c) noexcept {
     assert(c.size() >= 4);
     return texture_parameter_fv(
@@ -2262,8 +2160,7 @@ texture_ops::texture_border_color(
 #endif
 //------------------------------------------------------------------------------
 template <typename TNT>
-inline outcome<void>
-texture_ops::texture_border_color(
+inline outcome<void> texture_ops::texture_border_color(
   const TNT& tnt, GLfloat r, GLfloat g, GLfloat b, GLfloat a) noexcept {
     const GLfloat c[4] = {r, g, b, a};
     return texture_border_color(tnt, c);
@@ -2283,8 +2180,7 @@ obj_gen_del_ops<tag::texture>::_gen(span<GLuint> names) noexcept {
 // obj_gen_del_ops::_create
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5)
-inline deferred_error_handler
-obj_gen_del_ops<tag::texture>::_create(
+inline deferred_error_handler obj_gen_del_ops<tag::texture>::_create(
   texture_target target, span<GLuint> names) noexcept {
     OGLPLUS_GLFUNC(CreateTextures)
     (GLenum(target), GLsizei(names.size()), names.data());

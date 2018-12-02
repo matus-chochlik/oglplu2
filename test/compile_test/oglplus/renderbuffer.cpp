@@ -12,14 +12,12 @@
 
 using namespace oglplus;
 
-void
-oglplus_renderbuffer_test_1(void) {
+void oglplus_renderbuffer_test_1() {
     oglplus_object_name_test<renderbuffer_name>();
     oglplus_object_test<renderbuffer>();
 }
 
-void
-oglplus_renderbuffer_test_ops1(void) {
+void oglplus_renderbuffer_test_ops1() {
     oper::renderbuffer_ops gl;
     renderbuffer rbo;
     renderbuffer_array<4> rbos;

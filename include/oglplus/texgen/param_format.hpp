@@ -9,8 +9,8 @@
 #ifndef OGLPLUS_TEXGEN_PARAM_FORMAT_1509260923_HPP
 #define OGLPLUS_TEXGEN_PARAM_FORMAT_1509260923_HPP
 
-#include <iosfwd>
 #include "interface.hpp"
+#include <iosfwd>
 
 namespace oglplus {
 namespace texgen {

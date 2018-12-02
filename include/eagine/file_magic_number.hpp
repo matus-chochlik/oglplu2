@@ -9,9 +9,9 @@
 #ifndef EAGINE_FILE_MAGIC_NUMBER_1408161720_HPP
 #define EAGINE_FILE_MAGIC_NUMBER_1408161720_HPP
 
+#include "types.hpp"
 #include <array>
 #include <cstring>
-#include "types.hpp"
 
 namespace eagine {
 

@@ -58,38 +58,38 @@ public:
       : _p(a._p, EAGINE_TAG(plus), b._p) {
     }
 
-    friend inline bool operator==(
-      const string_path& a, const string_path& b) noexcept {
+    friend inline bool
+    operator==(const string_path& a, const string_path& b) noexcept {
         return a._p == b._p;
     }
 
-    friend inline bool operator!=(
-      const string_path& a, const string_path& b) noexcept {
+    friend inline bool
+    operator!=(const string_path& a, const string_path& b) noexcept {
         return a._p != b._p;
     }
 
-    friend inline bool operator<(
-      const string_path& a, const string_path& b) noexcept {
+    friend inline bool
+    operator<(const string_path& a, const string_path& b) noexcept {
         return a._p < b._p;
     }
 
-    friend inline bool operator<=(
-      const string_path& a, const string_path& b) noexcept {
+    friend inline bool
+    operator<=(const string_path& a, const string_path& b) noexcept {
         return a._p <= b._p;
     }
 
-    friend inline bool operator>(
-      const string_path& a, const string_path& b) noexcept {
+    friend inline bool
+    operator>(const string_path& a, const string_path& b) noexcept {
         return a._p > b._p;
     }
 
-    friend inline bool operator>=(
-      const string_path& a, const string_path& b) noexcept {
+    friend inline bool
+    operator>=(const string_path& a, const string_path& b) noexcept {
         return a._p >= b._p;
     }
 
-    friend inline string_path operator+(
-      const string_path& a, const string_path& b) noexcept {
+    friend inline string_path
+    operator+(const string_path& a, const string_path& b) noexcept {
         return string_path(a, b);
     }
 

@@ -10,8 +10,8 @@
 #ifndef EAGINE_UNITS_BASE_DIM_1512222148_HPP
 #define EAGINE_UNITS_BASE_DIM_1512222148_HPP
 
-#include <utility>
 #include "fwd.hpp"
+#include <utility>
 
 namespace eagine {
 namespace units {
@@ -39,8 +39,7 @@ struct amount_of_substance : dimension<amount_of_substance> {};
 struct amount_of_information : dimension<amount_of_information> {};
 
 template <typename Func>
-Func
-for_each_dim(Func func) {
+Func for_each_dim(Func func) {
     func(angle());
     func(solid_angle());
     func(length());
@@ -98,8 +97,7 @@ struct dim_num<amount_of_information> : int_constant<12> {};
 
 // get_number
 template <typename Derived>
-static constexpr inline int
-get_number(dimension<Derived>) noexcept {
+static constexpr inline int get_number(dimension<Derived>) noexcept {
     return dim_num_v<Derived>;
 }
 

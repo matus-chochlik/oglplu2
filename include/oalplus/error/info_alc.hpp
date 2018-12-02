@@ -26,21 +26,21 @@ private:
 public:
     constexpr error_info_alc(ALCdevice* device, ALenum alc_err_code) noexcept;
 
-    constexpr error_info_alc(void) noexcept
+    constexpr error_info_alc() noexcept
       : error_info_alc(nullptr, ALenum(AL_NONE)) {
     }
 
-    constexpr error_info_alc& no_info(void) noexcept {
+    constexpr error_info_alc& no_info() noexcept {
         return *this;
     }
 
     error_info_alc& alc_device(::ALCdevice* dev) noexcept;
 
-    ::ALCdevice* alc_device(void) const noexcept;
+    ::ALCdevice* alc_device() const noexcept;
 
     error_info_alc& alc_context(const ::ALCcontext* ctx) noexcept;
 
-    const ::ALCcontext* alc_context(void) const noexcept;
+    const ::ALCcontext* alc_context() const noexcept;
 };
 
 } // namespace oalplus

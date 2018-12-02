@@ -51,8 +51,8 @@ struct computing_ops {
     static outcome<void> dispatch_compute(
       GLuint x_groups, GLuint y_groups, GLuint z_groups) noexcept;
 
-    static outcome<void> dispatch_compute(
-      const compute_work_group_size& wgs) noexcept {
+    static outcome<void>
+    dispatch_compute(const compute_work_group_size& wgs) noexcept {
         return dispatch_compute(
           wgs.num_groups_x(), wgs.num_groups_y(), wgs.num_groups_z());
     }

@@ -5,9 +5,9 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
+#include <eagine/math/constants.hpp>
 #include <cassert>
 #include <cmath>
-#include <eagine/math/constants.hpp>
 
 #ifdef __clang__
 #pragma clang diagnostic push
@@ -18,8 +18,7 @@ namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-vertex_attrib_bits
-unit_sphere_gen::_attr_mask() noexcept {
+vertex_attrib_bits unit_sphere_gen::_attr_mask() noexcept {
     return vertex_attrib_kind::position | vertex_attrib_kind::normal |
            vertex_attrib_kind::tangential | vertex_attrib_kind::bitangential |
            vertex_attrib_kind::box_coord | vertex_attrib_kind::wrap_coord;
@@ -36,14 +35,12 @@ unit_sphere_gen::unit_sphere_gen(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t
-unit_sphere_gen::vertex_count() {
+span_size_t unit_sphere_gen::vertex_count() {
     return (_rings + 1) * (_sections + 1);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void
-unit_sphere_gen::positions(const span<float>& dest) noexcept {
+void unit_sphere_gen::positions(const span<float>& dest) noexcept {
     assert(has(vertex_attrib_kind::position));
     assert(dest.size() >= vertex_count() * 3);
 
@@ -65,8 +62,7 @@ unit_sphere_gen::positions(const span<float>& dest) noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void
-unit_sphere_gen::normals(const span<float>& dest) noexcept {
+void unit_sphere_gen::normals(const span<float>& dest) noexcept {
     assert(has(vertex_attrib_kind::normal));
     assert(dest.size() >= vertex_count() * 3);
 
@@ -88,8 +84,7 @@ unit_sphere_gen::normals(const span<float>& dest) noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void
-unit_sphere_gen::tangentials(const span<float>& dest) noexcept {
+void unit_sphere_gen::tangentials(const span<float>& dest) noexcept {
     assert(has(vertex_attrib_kind::tangential));
     assert(dest.size() >= vertex_count() * 3);
 
@@ -110,8 +105,7 @@ unit_sphere_gen::tangentials(const span<float>& dest) noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void
-unit_sphere_gen::bitangentials(const span<float>& dest) noexcept {
+void unit_sphere_gen::bitangentials(const span<float>& dest) noexcept {
     assert(has(vertex_attrib_kind::bitangential));
     assert(dest.size() >= vertex_count() * 3);
 
@@ -138,8 +132,7 @@ unit_sphere_gen::bitangentials(const span<float>& dest) noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void
-unit_sphere_gen::wrap_coords(const span<float>& dest) noexcept {
+void unit_sphere_gen::wrap_coords(const span<float>& dest) noexcept {
     assert(has(vertex_attrib_kind::wrap_coord));
     assert(dest.size() >= vertex_count() * 2);
 
@@ -157,8 +150,7 @@ unit_sphere_gen::wrap_coords(const span<float>& dest) noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void
-unit_sphere_gen::attrib_values(
+void unit_sphere_gen::attrib_values(
   vertex_attrib_kind attr, const span<float>& dest) {
     switch(attr) {
         case vertex_attrib_kind::position:
@@ -184,20 +176,17 @@ unit_sphere_gen::attrib_values(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-index_data_type
-unit_sphere_gen::index_type() {
+index_data_type unit_sphere_gen::index_type() {
     return index_data_type::unsigned_byte;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t
-unit_sphere_gen::index_count() {
+span_size_t unit_sphere_gen::index_count() {
     return _sections * ((_rings + 1) * 2 + (primitive_restart() ? 1 : 0));
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void
-unit_sphere_gen::indices(const span<unsigned>& dest) {
+void unit_sphere_gen::indices(const span<unsigned>& dest) {
     assert(dest.size() >= index_count());
 
     const auto pri = unsigned(index_count());
@@ -217,8 +206,7 @@ unit_sphere_gen::indices(const span<unsigned>& dest) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t
-unit_sphere_gen::operation_count() {
+span_size_t unit_sphere_gen::operation_count() {
     if(primitive_restart()) {
         return 1;
     } else {
@@ -227,8 +215,7 @@ unit_sphere_gen::operation_count() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void
-unit_sphere_gen::instructions(const span<draw_operation>& ops) {
+void unit_sphere_gen::instructions(const span<draw_operation>& ops) {
     assert(ops.size() >= operation_count());
 
     if(primitive_restart()) {

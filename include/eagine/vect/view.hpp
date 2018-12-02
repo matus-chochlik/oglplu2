@@ -18,13 +18,13 @@ namespace vect {
 template <typename T, int N, bool V>
 struct view {
 private:
-    static inline const T* _addr(
-      const data_t<T, N, V>& d, std::false_type) noexcept {
+    static inline const T*
+    _addr(const data_t<T, N, V>& d, std::false_type) noexcept {
         return d._v;
     }
 
-    static inline const T* _addr(
-      const data_t<T, N, V>& d, std::true_type) noexcept {
+    static inline const T*
+    _addr(const data_t<T, N, V>& d, std::true_type) noexcept {
         // TODO: strict aliasing?
         return reinterpret_cast<const T*>(&d);
     }

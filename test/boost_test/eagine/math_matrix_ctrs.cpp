@@ -23,8 +23,7 @@ BOOST_AUTO_TEST_SUITE(math_matrix_ctr_tests)
 static eagine::test_random_generator rg;
 
 template <typename MC>
-void
-test_math_matrix_ctr_MC(MC mc) {
+void test_math_matrix_ctr_MC(MC mc) {
     using namespace eagine::math;
 
     BOOST_ASSERT(is_matrix_constructor<MC>::value);
@@ -61,12 +60,11 @@ test_math_matrix_ctr_MC(MC mc) {
 }
 
 template <typename T, bool RM, bool V>
-void
-test_math_matrix_ctrs_TRMV(void) {
+void test_math_matrix_ctrs_TRMV() {
     using namespace eagine::math;
     using eagine::radians_;
 
-    auto r = [](void) { return rg.get<T>(1, 10000); };
+    auto r = []() { return rg.get<T>(1, 10000); };
 
     test_math_matrix_ctr_MC(identity<matrix<T, 4, 4, RM, V>>());
     test_math_matrix_ctr_MC(translation<matrix<T, 4, 4, RM, V>>(r(), r(), r()));
@@ -91,8 +89,7 @@ test_math_matrix_ctrs_TRMV(void) {
 }
 
 template <typename T>
-void
-test_math_matrix_ctrs_T(void) {
+void test_math_matrix_ctrs_T() {
     test_math_matrix_ctrs_TRMV<T, true, true>();
     test_math_matrix_ctrs_TRMV<T, true, false>();
     test_math_matrix_ctrs_TRMV<T, false, true>();

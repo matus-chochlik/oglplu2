@@ -9,9 +9,9 @@
 #ifndef EAGINE_POSIX_FILE_DESCRIPTOR_1509260923_HPP
 #define EAGINE_POSIX_FILE_DESCRIPTOR_1509260923_HPP
 
-#include <unistd.h>
 #include "../memory_block.hpp"
 #include "error.hpp"
+#include <unistd.h>
 
 namespace eagine {
 namespace posix {
@@ -79,8 +79,8 @@ public:
     owned_file_descriptor(const owned_file_descriptor&) = delete;
     owned_file_descriptor& operator=(const owned_file_descriptor&&) = delete;
 
-    friend inline void swap(
-      owned_file_descriptor& a, owned_file_descriptor& b) noexcept {
+    friend inline void
+    swap(owned_file_descriptor& a, owned_file_descriptor& b) noexcept {
         std::swap(a._fd, b._fd);
     }
 };
@@ -91,8 +91,7 @@ dup(file_descriptor from) noexcept {
     return error_if_negative(fd, fd).add(owned_file_descriptor(fd));
 }
 
-static inline outcome<void>
-close(owned_file_descriptor& fdw) noexcept {
+static inline outcome<void> close(owned_file_descriptor& fdw) noexcept {
     owned_file_descriptor tfdw = std::move(fdw);
     int fd = get_raw_fd(tfdw);
     return error_if_not_zero(::close(fd), fd);

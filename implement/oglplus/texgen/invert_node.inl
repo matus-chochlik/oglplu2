@@ -21,14 +21,12 @@ invert_output::invert_output(node_intf& parent)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref
-invert_output::type_name() {
+cstr_ref invert_output::type_name() {
     return cstr_ref("Invert");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-slot_data_type
-invert_output::value_type() {
+slot_data_type invert_output::value_type() {
     return input.value_type();
 }
 //------------------------------------------------------------------------------

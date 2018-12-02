@@ -10,12 +10,12 @@
 #ifndef OGLPLUS_UTILS_PROGRAM_FILE_1509260923_HPP
 #define OGLPLUS_UTILS_PROGRAM_FILE_1509260923_HPP
 
-#include <eagine/file_contents.hpp>
 #include "../enum/types.hpp"
 #include "../glsl/source_ref.hpp"
 #include "cstr_ref.hpp"
 #include "program_file_hdr.hpp"
 #include "string_span.hpp"
+#include <eagine/file_contents.hpp>
 
 namespace oglplus {
 

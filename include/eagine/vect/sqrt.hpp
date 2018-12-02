@@ -9,8 +9,8 @@
 #ifndef EAGINE_VECT_SQRT_1308281038_HPP
 #define EAGINE_VECT_SQRT_1308281038_HPP
 
-#include <cmath>
 #include "data.hpp"
+#include <cmath>
 
 namespace eagine {
 namespace vect {

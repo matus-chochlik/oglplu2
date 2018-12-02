@@ -35,8 +35,8 @@ public:
 
     slot_data_type value_type() override;
 
-    std::ostream& definitions(
-      std::ostream& out, compile_context& ctxt) override;
+    std::ostream&
+    definitions(std::ostream& out, compile_context& ctxt) override;
 };
 
 class coord_node : public single_output_node<coord_output> {

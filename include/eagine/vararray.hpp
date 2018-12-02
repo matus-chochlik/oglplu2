@@ -10,8 +10,8 @@
 #ifndef EAGINE_VARARRAY_1509260923_HPP
 #define EAGINE_VARARRAY_1509260923_HPP
 
-#include <cstdint>
 #include "std/type_traits.hpp"
+#include <cstdint>
 
 namespace eagine {
 

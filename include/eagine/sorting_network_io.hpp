@@ -5,8 +5,8 @@
 #ifndef EAGINE_SORTING_NETWORK_IO_1512222148_HPP
 #define EAGINE_SORTING_NETWORK_IO_1512222148_HPP
 
-#include <iostream>
 #include "sorting_network.hpp"
+#include <iostream>
 
 namespace eagine {
 

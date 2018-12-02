@@ -16,8 +16,7 @@
 
 BOOST_AUTO_TEST_SUITE(error_format_tests)
 
-oglplus::error_info
-get_error_info(void) {
+oglplus::error_info get_error_info() {
     using namespace oglplus;
     return std::move(oglplus::error_info()
                        .gl_library_name("GL")

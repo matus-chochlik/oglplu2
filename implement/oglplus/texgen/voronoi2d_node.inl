@@ -25,8 +25,7 @@ voronoi2d_output::voronoi2d_output(
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-short
-voronoi2d_output::order() const {
+short voronoi2d_output::order() const {
     switch(_type) {
         case voronoi_output_type::distance3:
             return 3;
@@ -43,8 +42,7 @@ voronoi2d_output::order() const {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref
-voronoi2d_output::type_abbr() const {
+cstr_ref voronoi2d_output::type_abbr() const {
     switch(_type) {
         case voronoi_output_type::distance1:
             return cstr_ref("Dist");
@@ -63,14 +61,12 @@ voronoi2d_output::type_abbr() const {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref
-voronoi2d_output::type_name() {
+cstr_ref voronoi2d_output::type_name() {
     return cstr_ref("Voronoi2d");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-slot_data_type
-voronoi2d_output::value_type() {
+slot_data_type voronoi2d_output::value_type() {
     switch(_type) {
         case voronoi_output_type::distance1:
         case voronoi_output_type::distance2:
@@ -86,8 +82,7 @@ voronoi2d_output::value_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref
-voronoi2d_output::name() noexcept {
+cstr_ref voronoi2d_output::name() noexcept {
     return type_abbr();
 }
 //------------------------------------------------------------------------------
@@ -251,20 +246,17 @@ voronoi2d_node::voronoi2d_node()
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref
-voronoi2d_node::type_name() {
+cstr_ref voronoi2d_node::type_name() {
     return cstr_ref("Voronoi2D");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-span_size_t
-voronoi2d_node::input_count() {
+span_size_t voronoi2d_node::input_count() {
     return 2;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-input_intf&
-voronoi2d_node::input(span_size_t index) {
+input_intf& voronoi2d_node::input(span_size_t index) {
     if(index == 0)
         return _input;
     assert(index < input_count());
@@ -272,14 +264,12 @@ voronoi2d_node::input(span_size_t index) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-span_size_t
-voronoi2d_node::output_count() {
+span_size_t voronoi2d_node::output_count() {
     return 6;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-output_intf&
-voronoi2d_node::output(span_size_t index) {
+output_intf& voronoi2d_node::output(span_size_t index) {
     if(index == 0)
         return _distance1;
     if(index == 1)

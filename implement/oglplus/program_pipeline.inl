@@ -14,16 +14,14 @@ namespace oglplus {
 namespace oper {
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_1) || defined(GL_ARB_separate_shared_objects)
-inline outcome<void>
-program_pipeline_ops::bind_program_pipeline(
+inline outcome<void> program_pipeline_ops::bind_program_pipeline(
   program_pipeline_name ppo) noexcept {
     OGLPLUS_GLFUNC(BindProgramPipeline)(get_raw_name(ppo));
     OGLPLUS_VERIFY(BindProgramPipeline, gl_object(ppo), debug);
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-program_pipeline_ops::use_program_stages(
+inline outcome<void> program_pipeline_ops::use_program_stages(
   program_pipeline_name ppl,
   enum_bitfield<program_pipeline_stage> stages,
   program_name prog) noexcept {
@@ -33,8 +31,7 @@ program_pipeline_ops::use_program_stages(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-program_pipeline_ops::active_shader_program(
+inline outcome<void> program_pipeline_ops::active_shader_program(
   program_pipeline_name ppl, program_name prog) noexcept {
     OGLPLUS_GLFUNC(ActiveShaderProgram)(get_raw_name(ppl), get_raw_name(prog));
     OGLPLUS_VERIFY(
@@ -42,8 +39,7 @@ program_pipeline_ops::active_shader_program(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-program_pipeline_ops::validate_program_pipeline(
+inline outcome<void> program_pipeline_ops::validate_program_pipeline(
   program_pipeline_name ppl) noexcept {
     OGLPLUS_GLFUNC(ValidateProgram)(get_raw_name(ppl));
     OGLPLUS_VERIFY(
@@ -76,8 +72,7 @@ program_pipeline_ops::program_pipeline_binding() noexcept {
 #endif
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-program_pipeline_ops::get_program_pipeline_iv(
+inline outcome<void> program_pipeline_ops::get_program_pipeline_iv(
   program_pipeline_name buf,
   oglplus::program_pipeline_parameter param,
   span<GLint> values) noexcept {
@@ -90,8 +85,7 @@ program_pipeline_ops::get_program_pipeline_iv(
 }
 //------------------------------------------------------------------------------
 template <typename R, typename T>
-inline outcome<R>
-program_pipeline_ops::return_program_pipeline_i(
+inline outcome<R> program_pipeline_ops::return_program_pipeline_i(
   program_pipeline_name ppl, program_pipeline_parameter parameter) noexcept {
     GLint result = 0;
     return get_program_pipeline_iv(ppl, parameter, {&result, 1}), R(T(result));
@@ -118,8 +112,7 @@ program_pipeline_ops::get_program_pipeline_info_log_length(
       ppl, program_pipeline_parameter(GL_INFO_LOG_LENGTH));
 }
 //------------------------------------------------------------------------------
-inline outcome<span<char>>
-program_pipeline_ops::get_program_pipeline_info_log(
+inline outcome<span<char>> program_pipeline_ops::get_program_pipeline_info_log(
   program_pipeline_name ppl, span<char> dest) noexcept {
     GLsizei reallen = 0;
     OGLPLUS_GLFUNC(GetProgramPipelineInfoLog)

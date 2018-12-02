@@ -10,11 +10,11 @@
 #ifndef EAGINE_OFFSET_PTR_1509260923_HPP
 #define EAGINE_OFFSET_PTR_1509260923_HPP
 
-#include <cassert>
 #include "memory/address.hpp"
 #include "memory_block.hpp"
 #include "span.hpp"
 #include "types.hpp"
+#include <cassert>
 
 namespace eagine {
 

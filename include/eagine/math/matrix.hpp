@@ -29,8 +29,8 @@ struct matrix {
     vect::data_t<T, RM ? C : R, V> _v[RM ? R : C];
 
     template <typename P, int... I>
-    static inline matrix _from_hlp(
-      const P* dt, span_size_t sz, _iseq<I...>) noexcept {
+    static inline matrix
+    _from_hlp(const P* dt, span_size_t sz, _iseq<I...>) noexcept {
         return matrix{
           {vect::from_array < T,
            RM ? C : R,
@@ -43,16 +43,16 @@ struct matrix {
     }
 
     template <typename P, int M, int N, bool W, int... I>
-    static inline matrix _from_hlp(
-      const matrix<P, M, N, RM, W>& m, _iseq<I...>) noexcept {
+    static inline matrix
+    _from_hlp(const matrix<P, M, N, RM, W>& m, _iseq<I...>) noexcept {
         return matrix{
           {vect::cast<P, (RM ? M : N), W, T, (RM ? C : R), V>::apply(
             m._v[I], T(0))...}};
     }
 
     template <typename P, int M, int N, bool W>
-    static inline std::enable_if_t<(C <= M) && (R <= N), matrix> from(
-      const matrix<P, M, N, RM, W>& m) noexcept {
+    static inline std::enable_if_t<(C <= M) && (R <= N), matrix>
+    from(const matrix<P, M, N, RM, W>& m) noexcept {
         return _from_hlp(m, _make_iseq < RM ? R : C > ());
     }
 
@@ -65,26 +65,22 @@ template <typename T, int C, int R, bool RM, bool V>
 struct is_row_major<matrix<T, C, R, RM, V>> : bool_constant<RM> {};
 
 template <typename T, int C, int R, bool RM, bool V>
-static constexpr inline int
-rows(const matrix<T, C, R, RM, V>&) noexcept {
+static constexpr inline int rows(const matrix<T, C, R, RM, V>&) noexcept {
     return R;
 }
 
 template <typename T, int C, int R, bool RM, bool V>
-static constexpr inline int
-columns(const matrix<T, C, R, RM, V>&) noexcept {
+static constexpr inline int columns(const matrix<T, C, R, RM, V>&) noexcept {
     return C;
 }
 
 template <typename T, int C, int R, bool RM, bool V>
-static constexpr inline bool
-row_major(const matrix<T, C, R, RM, V>&) noexcept {
+static constexpr inline bool row_major(const matrix<T, C, R, RM, V>&) noexcept {
     return RM;
 }
 
 template <typename T, int N, bool RM, bool V>
-static constexpr inline int
-dimension(const matrix<T, N, N, RM, V>&) noexcept {
+static constexpr inline int dimension(const matrix<T, N, N, RM, V>&) noexcept {
     return N;
 }
 
@@ -210,8 +206,7 @@ set_rm(matrix<T, C, R, true, V>& m, int ri, int ci, T v) noexcept {
 
 // transpose_tpl helper 4x4 matrix
 template <bool DstRM, typename T, bool V>
-static inline matrix<T, 4, 4, DstRM, V>
-transpose_tpl_hlp(
+static inline matrix<T, 4, 4, DstRM, V> transpose_tpl_hlp(
   const vect::data_t<T, 4, V>& q0,
   const vect::data_t<T, 4, V>& q1,
   const vect::data_t<T, 4, V>& q2,
@@ -236,12 +231,7 @@ transpose_tpl(const matrix<T, 4, 4, SrcRM, V>& m) noexcept {
 
 // transpose_tpl
 template <bool DstRM, bool SrcRM, typename T, int C, int R, bool V>
-static inline matrix<
-  T,
-  (DstRM == SrcRM ? R : C),
-  (DstRM == SrcRM ? C : R),
-  DstRM,
-  V>
+static inline matrix<T, (DstRM == SrcRM ? R : C), (DstRM == SrcRM ? C : R), DstRM, V>
 transpose_tpl(const matrix<T, C, R, SrcRM, V>& m) noexcept {
     static const bool S = (DstRM != SrcRM);
     matrix<T, (S ? C : R), (S ? R : C), DstRM, V> r;
@@ -343,8 +333,7 @@ row(const matrix<T, C, R, true, V>& m) noexcept {
 
 // row (Column-Major)
 template <int I, typename T, int C, int R, bool V>
-static inline vector<T, C, V>
-row(const matrix<T, C, R, false, V>& m) noexcept {
+static inline vector<T, C, V> row(const matrix<T, C, R, false, V>& m) noexcept {
     static_assert(I < R, "");
     return minor_vector<I>(m);
 }
@@ -455,8 +444,7 @@ struct multiplication_result<matrix<T, K, M, RM1, V>, matrix<T, N, K, RM2, V>>
 
 // multiply MxM
 template <typename T, int M, int N, int K, bool RM1, bool RM2, bool V>
-static inline matrix<T, N, M, RM1, V>
-multiply(
+static inline matrix<T, N, M, RM1, V> multiply(
   const matrix<T, K, M, RM1, V>& m1,
   const matrix<T, N, K, RM2, V>& m2) noexcept {
     matrix<T, N, M, RM1, V> m3;

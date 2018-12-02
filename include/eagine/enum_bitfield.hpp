@@ -88,23 +88,23 @@ struct enum_bitfield {
         return (_value & ev.value) == ev.value;
     }
 
-    friend constexpr inline bool operator==(
-      enum_bitfield a, enum_bitfield b) noexcept {
+    friend constexpr inline bool
+    operator==(enum_bitfield a, enum_bitfield b) noexcept {
         return a._value == b._value;
     }
 
-    friend constexpr inline bool operator!=(
-      enum_bitfield a, enum_bitfield b) noexcept {
+    friend constexpr inline bool
+    operator!=(enum_bitfield a, enum_bitfield b) noexcept {
         return a._value != b._value;
     }
 
-    friend constexpr inline enum_bitfield operator|(
-      enum_bitfield a, enum_bitfield b) noexcept {
+    friend constexpr inline enum_bitfield
+    operator|(enum_bitfield a, enum_bitfield b) noexcept {
         return enum_bitfield{a._value | b._value};
     }
 
-    friend constexpr inline enum_bitfield operator&(
-      enum_bitfield a, enum_bitfield b) noexcept {
+    friend constexpr inline enum_bitfield
+    operator&(enum_bitfield a, enum_bitfield b) noexcept {
         return enum_bitfield{a._value & b._value};
     }
 };

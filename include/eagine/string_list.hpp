@@ -10,18 +10,17 @@
 #ifndef EAGINE_STRING_LIST_1509260923_HPP
 #define EAGINE_STRING_LIST_1509260923_HPP
 
-#include <cassert>
-#include <iterator>
-#include <string>
 #include "multi_byte_seq.hpp"
 #include "range_algo.hpp"
 #include "string_span.hpp"
+#include <cassert>
+#include <iterator>
+#include <string>
 
 namespace eagine {
 namespace string_list {
 
-static inline std::string
-encode_length(span_size_t len) {
+static inline std::string encode_length(span_size_t len) {
     return mbs::encode_code_point(mbs::code_point_t(len)).value();
 }
 
@@ -40,8 +39,7 @@ element_value_size(const cstring_span& elem) noexcept {
     return element_value_size(elem, elem.size());
 }
 
-static inline span_size_t
-rev_seek_header_start(const cstring_span& elem) {
+static inline span_size_t rev_seek_header_start(const cstring_span& elem) {
     for(auto i = elem.rbegin(); i != elem.rend(); ++i) {
         if(mbs::is_valid_head_byte(byte(*i))) {
             return elem.rend() - i - 1;
@@ -50,15 +48,13 @@ rev_seek_header_start(const cstring_span& elem) {
     return 0;
 }
 
-static inline cstring_span
-front_value(const cstring_span& list) noexcept {
+static inline cstring_span front_value(const cstring_span& list) noexcept {
     const span_size_t k = element_header_size(list);
     const span_size_t l = element_value_size(list, k);
     return list.subspan(k, l);
 }
 
-static inline cstring_span
-back_value(const cstring_span& list) noexcept {
+static inline cstring_span back_value(const cstring_span& list) noexcept {
     const span_size_t i = rev_seek_header_start(list);
     const cstring_span head = list.subspan(i);
     const span_size_t k = element_header_size(head);
@@ -66,8 +62,7 @@ back_value(const cstring_span& list) noexcept {
     return list.subspan(i - l, l);
 }
 
-static inline cstring_span
-pop_back(const cstring_span& list) noexcept {
+static inline cstring_span pop_back(const cstring_span& list) noexcept {
     const span_size_t i = rev_seek_header_start(list);
     const cstring_span head = list.subspan(i);
     const span_size_t k = element_header_size(head);
@@ -105,13 +100,13 @@ private:
         return {s.data(), hs + vs + hs};
     }
 
-    static inline cstring_span _fit(
-      const char* ptr, span_size_t max_size) noexcept {
+    static inline cstring_span
+    _fit(const char* ptr, span_size_t max_size) noexcept {
         return _fit(cstring_span(ptr, max_size));
     }
 
-    static inline cstring_span _rev_fit(
-      const cstring_span& s, span_size_t rev_sz) noexcept {
+    static inline cstring_span
+    _rev_fit(const cstring_span& s, span_size_t rev_sz) noexcept {
         span_size_t hs = element_header_size(s);
         span_size_t vs = element_value_size(s, hs);
         assert(rev_sz >= hs + vs);
@@ -162,8 +157,7 @@ public:
 };
 
 template <typename Func>
-static inline void
-for_each_elem(const cstring_span& list, Func func) noexcept {
+static inline void for_each_elem(const cstring_span& list, Func func) noexcept {
     span_size_t i = 0;
     bool first = true;
     while(i < list.size()) {
@@ -175,8 +169,7 @@ for_each_elem(const cstring_span& list, Func func) noexcept {
 }
 
 template <typename Func>
-static inline void
-for_each(const cstring_span& list, Func func) noexcept {
+static inline void for_each(const cstring_span& list, Func func) noexcept {
     auto adapted_func = [&func](const element& elem, bool) {
         func(elem.value());
     };
@@ -201,8 +194,7 @@ rev_for_each_elem(const cstring_span& list, Func func) noexcept {
 }
 
 template <typename Func>
-static inline void
-rev_for_each(const cstring_span& list, Func func) noexcept {
+static inline void rev_for_each(const cstring_span& list, Func func) noexcept {
     auto adapted_func = [&func](const element& elem, bool) {
         func(elem.value());
     };

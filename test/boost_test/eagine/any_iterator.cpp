@@ -17,8 +17,7 @@ BOOST_AUTO_TEST_SUITE(any_iterator_tests)
 static eagine::test_random_generator rg;
 
 template <typename T>
-void
-test_any_iterator_1_I(
+void test_any_iterator_1_I(
   const eagine::any_std_forward_iterator<T>& b,
   const eagine::any_std_forward_iterator<T>& e) {
     std::vector<T> v(b, e);
@@ -27,8 +26,7 @@ test_any_iterator_1_I(
 }
 
 template <typename T>
-void
-test_any_iterator_1_T(void) {
+void test_any_iterator_1_T() {
     std::set<T> s;
     const int n = rg.get_int(10, 100);
 
@@ -46,8 +44,7 @@ BOOST_AUTO_TEST_CASE(any_iterator_1) {
 }
 
 template <typename T>
-void
-test_any_iterator_2_T(void) {
+void test_any_iterator_2_T() {
     using namespace eagine;
 
     std::vector<T> vec(rg.get<std::size_t>(10, 100));
@@ -78,8 +75,7 @@ BOOST_AUTO_TEST_CASE(any_iterator_2) {
 }
 
 template <typename T>
-void
-test_any_iterator_3_T(void) {
+void test_any_iterator_3_T() {
     using namespace eagine;
 
     std::vector<T> vec(rg.get<std::size_t>(10, 100));

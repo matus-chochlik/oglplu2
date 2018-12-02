@@ -16,8 +16,7 @@
 namespace oglplus {
 
 template <typename EnumValue>
-static inline auto
-enum_value_name(outcome<EnumValue> ocev) noexcept {
+static inline auto enum_value_name(outcome<EnumValue> ocev) noexcept {
     return enum_value_name(ocev.value());
 }
 

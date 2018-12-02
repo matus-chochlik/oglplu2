@@ -33,25 +33,25 @@ private:
 public:
     constexpr error_info(ALenum al_err_code) noexcept;
 
-    constexpr error_info(void) noexcept
+    constexpr error_info() noexcept
       : error_info(ALenum(AL_NONE)) {
     }
 
-    constexpr error_info& no_info(void) noexcept {
+    constexpr error_info& no_info() noexcept {
         return *this;
     }
 
     error_info& al_object(const any_object_name& obj) noexcept;
 
-    any_object_name al_object(void) const noexcept;
+    any_object_name al_object() const noexcept;
 
     error_info& index(ALuint idx) noexcept;
 
-    ALuint index(void) const noexcept;
+    ALuint index() const noexcept;
 
     error_info& al_enum_value(const any_enum_value& enum_val) noexcept;
 
-    const any_enum_value& al_enum_value(void) const noexcept;
+    const any_enum_value& al_enum_value() const noexcept;
 };
 
 } // namespace oalplus

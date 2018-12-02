@@ -12,14 +12,12 @@
 
 using namespace oglplus;
 
-void
-oglplus_query_test_1(void) {
+void oglplus_query_test_1() {
     oglplus_object_name_test<query_name>();
     oglplus_object_test<query>();
 }
 
-void
-oglplus_query_test_ops1(void) {
+void oglplus_query_test_ops1() {
     oper::query_ops gl;
     query qry;
     query_array<4> qrys;

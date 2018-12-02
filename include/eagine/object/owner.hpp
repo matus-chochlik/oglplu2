@@ -49,13 +49,13 @@ template <typename ObjTag>
 class object_owner : public owned<object_name_and_ops<ObjTag>> {
 public:
     template <typename Storage>
-    static inline auto gen_(
-      owned<object_names<ObjTag, Storage>>& names) noexcept {
+    static inline auto
+    gen_(owned<object_names<ObjTag, Storage>>& names) noexcept {
         return obj_lifetime_ops<ObjTag>::gen_objects(names);
     }
 
-    static inline auto gen_(
-      owned<object_name_and_ops<ObjTag>>& names) noexcept {
+    static inline auto
+    gen_(owned<object_name_and_ops<ObjTag>>& names) noexcept {
         return obj_lifetime_ops<ObjTag>::gen_objects(names);
     }
 
@@ -73,13 +73,13 @@ public:
     }
 
     template <typename Storage>
-    static inline auto delete_(
-      owned<object_names<ObjTag, Storage>>& names) noexcept {
+    static inline auto
+    delete_(owned<object_names<ObjTag, Storage>>& names) noexcept {
         return obj_lifetime_ops<ObjTag>::delete_objects(names);
     }
 
-    static inline auto delete_(
-      owned<object_name_and_ops<ObjTag>>& names) noexcept {
+    static inline auto
+    delete_(owned<object_name_and_ops<ObjTag>>& names) noexcept {
         return obj_lifetime_ops<ObjTag>::delete_objects(names);
     }
 

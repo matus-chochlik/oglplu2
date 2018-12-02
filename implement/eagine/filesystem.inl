@@ -15,8 +15,7 @@ namespace eagine {
 namespace filesystem {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-cstr_ref
-path_separator() noexcept {
+cstr_ref path_separator() noexcept {
 #if EAGINE_WINDOWS
     return cstr_ref("\\");
 #else
@@ -25,14 +24,12 @@ path_separator() noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-cstr_ref
-alt_path_separator() noexcept {
+cstr_ref alt_path_separator() noexcept {
     return cstr_ref("/");
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool
-has_alt_path_separator() noexcept {
+bool has_alt_path_separator() noexcept {
 #if EAGINE_WINDOWS
     return true;
 #else
@@ -41,27 +38,23 @@ has_alt_path_separator() noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-cstr_ref
-path_curdir() noexcept {
+cstr_ref path_curdir() noexcept {
     return cstr_ref(".");
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-cstr_ref
-path_pardir() noexcept {
+cstr_ref path_pardir() noexcept {
     return cstr_ref("..");
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-cstr_ref
-basename(const cstr_ref& path) noexcept {
+cstr_ref basename(const cstr_ref& path) noexcept {
     return ranges::slice_after_last(
       ranges::strip_suffix(path, path_separator()), path_separator());
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-cstr_ref
-dirname(const cstr_ref& path) noexcept {
+cstr_ref dirname(const cstr_ref& path) noexcept {
     return ranges::slice_before_last(
       ranges::strip_suffix(path, path_separator()), path_separator());
 }
@@ -118,8 +111,7 @@ string_path::string_path(str_span path_str)
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-string_path
-string_path::normalized() const {
+string_path string_path::normalized() const {
     string_path result;
 
     auto do_norm = [&result](const string_list::element& elem, bool first) {
@@ -149,8 +141,7 @@ string_path::normalized() const {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-string_path
-string_path::parent_path() const {
+string_path string_path::parent_path() const {
     string_path result(normalized());
     if(result.empty() || result.back() == path_pardir()) {
         result.push_back(path_pardir());
@@ -169,8 +160,7 @@ string_path::parent_path() const {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool
-string_path::is_root_name(const str_span& name) noexcept {
+bool string_path::is_root_name(const str_span& name) noexcept {
 #if EAGINE_WINDOWS
     return ranges::ends_with(name, cstr_ref(":"));
 #else
@@ -179,26 +169,22 @@ string_path::is_root_name(const str_span& name) noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool
-string_path::is_root_path() const noexcept {
+bool string_path::is_root_path() const noexcept {
     return (size() == 1) && is_root_name(front());
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool
-string_path::is_absolute() const noexcept {
+bool string_path::is_absolute() const noexcept {
     return !empty() && is_root_name(front());
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool
-string_path::is_relative() const noexcept {
+bool string_path::is_relative() const noexcept {
     return !is_absolute();
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-string_path
-current_working_directory() {
+string_path current_working_directory() {
     return string_path(posix::safe_getcwd().value());
 }
 //------------------------------------------------------------------------------

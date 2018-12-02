@@ -10,11 +10,11 @@
 #ifndef OGLPLUS_SHAPES_INIT_1509260923_HPP
 #define OGLPLUS_SHAPES_INIT_1509260923_HPP
 
-#include <eagine/any_iterator.hpp>
-#include <eagine/memory/buffer.hpp>
 #include "../buffer_name.hpp"
 #include "../vertex_array_name.hpp"
 #include "adapted_gen.hpp"
+#include <eagine/any_iterator.hpp>
+#include <eagine/memory/buffer.hpp>
 
 namespace oglplus {
 namespace shapes {

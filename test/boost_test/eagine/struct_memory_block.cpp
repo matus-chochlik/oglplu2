@@ -17,8 +17,7 @@ BOOST_AUTO_TEST_SUITE(struct_memory_block_tests)
 static eagine::test_random_generator rg;
 
 template <typename T>
-void
-eagine_test_struct_memory_block_1(void) {
+void eagine_test_struct_memory_block_1() {
     using namespace eagine;
 
     std::vector<unsigned char> buf(2 * span_size_of<T>());
@@ -42,8 +41,7 @@ BOOST_AUTO_TEST_CASE(struct_memory_block_1) {
 }
 
 template <typename T>
-void
-eagine_test_struct_memory_block_2_T(T& value) {
+void eagine_test_struct_memory_block_2_T(T& value) {
     using namespace eagine;
 
     structured_memory_block<T> smb(memory::block_of(value));
@@ -60,8 +58,7 @@ eagine_test_struct_memory_block_2_T(T& value) {
 }
 
 template <typename T>
-void
-eagine_test_struct_memory_block_2(T&& value) {
+void eagine_test_struct_memory_block_2(T&& value) {
     eagine_test_struct_memory_block_2_T<T>(value);
     eagine_test_struct_memory_block_2_T<const T>(value);
 }

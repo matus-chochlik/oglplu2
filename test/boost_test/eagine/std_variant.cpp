@@ -15,7 +15,7 @@ BOOST_AUTO_TEST_SUITE(std_variant_tests)
 static eagine::test_random_generator rg;
 
 struct test_throw_on_copy {
-    test_throw_on_copy(void) = default;
+    test_throw_on_copy() = default;
 
     [[noreturn]] test_throw_on_copy(const test_throw_on_copy&) {
         throw 0;
@@ -23,7 +23,7 @@ struct test_throw_on_copy {
 };
 
 struct test_throw_on_move {
-    test_throw_on_move(void) = default;
+    test_throw_on_move() = default;
 
     [[noreturn]] test_throw_on_move(test_throw_on_move&&) {
         throw 0;

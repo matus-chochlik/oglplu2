@@ -21,14 +21,12 @@ stripes_output::stripes_output(node_intf& parent)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref
-stripes_output::type_name() {
+cstr_ref stripes_output::type_name() {
     return cstr_ref("Stripes");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-slot_data_type
-stripes_output::value_type() {
+slot_data_type stripes_output::value_type() {
     return slot_data_type::float_;
 }
 //------------------------------------------------------------------------------

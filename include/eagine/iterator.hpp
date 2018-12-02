@@ -53,8 +53,8 @@ public:
         return res;
     }
 
-    friend Derived operator+(
-      basic_iterable_type a, difference_type d) noexcept {
+    friend Derived
+    operator+(basic_iterable_type a, difference_type d) noexcept {
         Derived res(a.self());
         res += d;
         return res;
@@ -76,45 +76,45 @@ public:
         return res;
     }
 
-    friend Derived operator-(
-      basic_iterable_type a, difference_type d) noexcept {
+    friend Derived
+    operator-(basic_iterable_type a, difference_type d) noexcept {
         Derived res(a.self());
         res -= d;
         return res;
     }
 
-    constexpr friend difference_type operator-(
-      basic_iterable_type a, basic_iterable_type b) noexcept {
+    constexpr friend difference_type
+    operator-(basic_iterable_type a, basic_iterable_type b) noexcept {
         return a._value - b._value;
     }
 
-    constexpr friend bool operator==(
-      basic_iterable_type a, basic_iterable_type b) noexcept {
+    constexpr friend bool
+    operator==(basic_iterable_type a, basic_iterable_type b) noexcept {
         return a._value == b._value;
     }
 
-    constexpr friend bool operator!=(
-      basic_iterable_type a, basic_iterable_type b) noexcept {
+    constexpr friend bool
+    operator!=(basic_iterable_type a, basic_iterable_type b) noexcept {
         return a._value != b._value;
     }
 
-    constexpr friend bool operator<(
-      basic_iterable_type a, basic_iterable_type b) noexcept {
+    constexpr friend bool
+    operator<(basic_iterable_type a, basic_iterable_type b) noexcept {
         return a._value < b._value;
     }
 
-    constexpr friend bool operator<=(
-      basic_iterable_type a, basic_iterable_type b) noexcept {
+    constexpr friend bool
+    operator<=(basic_iterable_type a, basic_iterable_type b) noexcept {
         return a._value <= b._value;
     }
 
-    constexpr friend bool operator>(
-      basic_iterable_type a, basic_iterable_type b) noexcept {
+    constexpr friend bool
+    operator>(basic_iterable_type a, basic_iterable_type b) noexcept {
         return a._value > b._value;
     }
 
-    constexpr friend bool operator>=(
-      basic_iterable_type a, basic_iterable_type b) noexcept {
+    constexpr friend bool
+    operator>=(basic_iterable_type a, basic_iterable_type b) noexcept {
         return a._value >= b._value;
     }
 };
@@ -242,8 +242,8 @@ private:
       Derived>
       _base;
 
-    static S _cast(
-      typename std::iterator_traits<Iterator>::reference r) noexcept {
+    static S
+    _cast(typename std::iterator_traits<Iterator>::reference r) noexcept {
         return static_cast<S>(r);
     }
 

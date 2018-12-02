@@ -16,8 +16,7 @@
 
 namespace oglplus {
 
-static inline shader
-build_shader(const shader_source_block& shdr_src) {
+static inline shader build_shader(const shader_source_block& shdr_src) {
     shader shdr(shdr_src.shader_type());
     shdr.source(shdr_src);
     shdr.compile();
@@ -34,8 +33,7 @@ build_program(program& prog, const program_source_block& prog_src) {
     prog.report_link_error();
 }
 
-static inline program
-build_program(const program_source_block& prog_src) {
+static inline program build_program(const program_source_block& prog_src) {
     program prog;
     build_program(prog, prog_src);
     return prog;

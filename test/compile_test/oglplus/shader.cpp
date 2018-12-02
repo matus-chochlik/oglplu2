@@ -12,14 +12,12 @@
 
 using namespace oglplus;
 
-void
-oglplus_shader_test_1(void) {
+void oglplus_shader_test_1() {
     oglplus_object_name_test<shader_name>();
     oglplus_object_test<shader>(shader_type(GL_VERTEX_SHADER));
 }
 
-void
-oglplus_shader_test_ops1(void) {
+void oglplus_shader_test_ops1() {
     oper::shader_ops gl;
     shader shdr(shader_type(GL_VERTEX_SHADER));
     shader_array<4> shdrs(shader_type(GL_FRAGMENT_SHADER));

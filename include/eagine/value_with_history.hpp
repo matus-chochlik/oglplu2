@@ -10,9 +10,9 @@
 #ifndef EAGINE_VALUE_WITH_HISTORY_1509260923_HPP
 #define EAGINE_VALUE_WITH_HISTORY_1509260923_HPP
 
-#include <cmath>
 #include "std/utility.hpp"
 #include "valid_if/decl.hpp"
+#include <cmath>
 
 namespace eagine {
 
@@ -88,8 +88,7 @@ public:
 };
 
 template <typename Transform, typename... T, std::size_t N>
-static inline auto
-transform_stored_values(
+static inline auto transform_stored_values(
   Transform transform_op, const value_with_history_storage<T, N>&... v) {
     value_with_history_storage<
       decltype(std::declval<Transform>()(std::declval<T>()...)),
@@ -103,8 +102,7 @@ transform_stored_values(
 }
 
 template <typename Delta, typename T, std::size_t N>
-static inline auto
-differentiate_stored_values(
+static inline auto differentiate_stored_values(
   Delta delta_op, const value_with_history_storage<T, N>& v) {
     value_with_history_storage<
       decltype(std::declval<Delta>()(std::declval<T>(), std::declval<T>())),
@@ -244,8 +242,7 @@ static inline auto operator*(
 }
 
 template <typename T1, typename T2, std::size_t N>
-static inline auto
-operator/(
+static inline auto operator/(
   const value_with_history<T1, N>& v1,
   const value_with_history<T2, N>& v2) noexcept {
     return transform(

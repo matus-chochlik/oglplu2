@@ -12,15 +12,13 @@
 BOOST_AUTO_TEST_SUITE(math_matrix_tests_2)
 
 template <typename T, int N, bool V, int K, int... I>
-static eagine::vect::data_t<T, N, V>
-get_test_math_matrix_vec(
+static eagine::vect::data_t<T, N, V> get_test_math_matrix_vec(
   std::integral_constant<int, K>, std::integer_sequence<int, I...>) {
     return eagine::vect::data_t<T, N, V>{T(K + I)...};
 }
 
 template <typename T, int C, int R, bool RM, bool V, int... J, int... I>
-void
-test_math_matrix_init_TCRRMVJI(
+void test_math_matrix_init_TCRRMVJI(
   std::integer_sequence<int, J...>, std::integer_sequence<int, I...>) {
     typedef eagine::math::matrix<T, C, R, RM, V> M;
 
@@ -36,8 +34,7 @@ test_math_matrix_init_TCRRMVJI(
 }
 
 template <typename T, int C, int R, bool RM, bool V>
-void
-test_math_matrix_init_TCRRMV(void) {
+void test_math_matrix_init_TCRRMV() {
     test_math_matrix_init_TCRRMVJI<T, C, R, RM, V>(
       std::make_integer_sequence < int,
       RM ? R : C > (),
@@ -46,8 +43,7 @@ test_math_matrix_init_TCRRMV(void) {
 }
 
 template <typename T, bool RM, bool V>
-void
-test_math_matrix_init_TRMV(void) {
+void test_math_matrix_init_TRMV() {
     test_math_matrix_init_TCRRMV<T, 1, 1, RM, V>();
     test_math_matrix_init_TCRRMV<T, 1, 2, RM, V>();
     test_math_matrix_init_TCRRMV<T, 1, 3, RM, V>();
@@ -80,8 +76,7 @@ test_math_matrix_init_TRMV(void) {
 }
 
 template <typename T>
-void
-test_math_matrix_init_T(void) {
+void test_math_matrix_init_T() {
     test_math_matrix_init_TRMV<T, true, true>();
     test_math_matrix_init_TRMV<T, true, false>();
     test_math_matrix_init_TRMV<T, false, true>();

@@ -10,10 +10,10 @@
 #ifndef EAGINE_FIXED_SIZE_STR_1509260923_HPP
 #define EAGINE_FIXED_SIZE_STR_1509260923_HPP
 
-#include <cstring>
 #include "cstr_ref.hpp"
 #include "int_constant.hpp"
 #include "types.hpp"
+#include <cstring>
 
 namespace eagine {
 
@@ -106,15 +106,13 @@ make_fixed_size_string(const char (&str)[N]) noexcept {
 }
 
 template <span_size_t N1, span_size_t N2>
-static inline fixed_size_string<N1 + N2 - 1>
-operator+(
+static inline fixed_size_string<N1 + N2 - 1> operator+(
   const fixed_size_string<N1>& s1, const fixed_size_string<N2>& s2) noexcept {
     return fixed_size_string<N1 + N2 - 1>(s1, s2);
 }
 
 template <int I>
-static inline auto
-to_fixed_size_string(
+static inline auto to_fixed_size_string(
   int_constant<I>, std::enable_if_t<(I >= 0) && (I < 10)>* = 0) noexcept {
     return fixed_size_string<2>(char('0' + I), '\0');
 }

@@ -12,8 +12,7 @@ BOOST_AUTO_TEST_SUITE(memoized_tests)
 
 static eagine::test_random_generator rg;
 
-unsigned long
-fib_calc(unsigned long n) {
+unsigned long fib_calc(unsigned long n) {
     unsigned long m[3] = {1, 1, 2};
     if(n < 3)
         return m[n];
@@ -65,8 +64,7 @@ BOOST_AUTO_TEST_CASE(memoized_fib) {
     }
 }
 
-unsigned long
-fact_calc(unsigned n) {
+unsigned long fact_calc(unsigned n) {
     unsigned long r = n;
     while(n-- > 1)
         r *= n;
@@ -93,8 +91,7 @@ BOOST_AUTO_TEST_CASE(memoized_fact) {
     }
 }
 
-unsigned long
-exp_calc(unsigned x, unsigned e) {
+unsigned long exp_calc(unsigned x, unsigned e) {
     unsigned long r = 1;
     while(e-- > 0)
         r *= x;

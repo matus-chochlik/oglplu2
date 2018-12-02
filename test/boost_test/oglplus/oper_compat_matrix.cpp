@@ -16,17 +16,17 @@ OGLPLUS_MOCK_GLFUNC(GetIntegerv, void(GLenum, GLint*))
 
 OGLPLUS_MOCK_GLFUNC(MatrixMode, void(GLenum))
 
-OGLPLUS_MOCK_GLFUNC(PushMatrix, void(void))
+OGLPLUS_MOCK_GLFUNC(PushMatrix, void())
 #ifdef GL_EXT_direct_state_access
 OGLPLUS_MOCK_GLFUNC(MatrixPushEXT, void(GLenum))
 #endif
 
-OGLPLUS_MOCK_GLFUNC(PopMatrix, void(void))
+OGLPLUS_MOCK_GLFUNC(PopMatrix, void())
 #ifdef GL_EXT_direct_state_access
 OGLPLUS_MOCK_GLFUNC(MatrixPopEXT, void(GLenum))
 #endif
 
-OGLPLUS_MOCK_GLFUNC(LoadIdentity, void(void))
+OGLPLUS_MOCK_GLFUNC(LoadIdentity, void())
 #ifdef GL_EXT_direct_state_access
 OGLPLUS_MOCK_GLFUNC(MatrixLoadIdentityEXT, void(GLenum))
 #endif
@@ -124,8 +124,7 @@ BOOST_AUTO_TEST_SUITE(compat_matrix_tests)
 static eagine::test_random_generator rg;
 
 template <typename T>
-static T
-get(void) {
+static T get() {
     return rg.get_any<T>();
 }
 

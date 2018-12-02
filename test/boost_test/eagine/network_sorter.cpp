@@ -15,8 +15,7 @@ BOOST_AUTO_TEST_SUITE(network_sorter_tests)
 static eagine::test_random_generator rg;
 
 template <typename T, std::size_t N, typename Cmp>
-void
-test_network_sorter_1_TNC(int n) {
+void test_network_sorter_1_TNC(int n) {
     using namespace eagine;
 
     for(int i = 0; i < n; ++i) {
@@ -33,15 +32,13 @@ test_network_sorter_1_TNC(int n) {
 }
 
 template <typename T, std::size_t N>
-void
-test_network_sorter_1_TN(int n) {
+void test_network_sorter_1_TN(int n) {
     test_network_sorter_1_TNC<T, N, std::less<T>>(n);
     test_network_sorter_1_TNC<T, N, std::greater<T>>(n);
 }
 
 template <std::size_t N>
-void
-test_network_sorter_1_N(int n) {
+void test_network_sorter_1_N(int n) {
     test_network_sorter_1_TN<int, N>(n);
     test_network_sorter_1_TN<float, N>(n);
     test_network_sorter_1_TN<double, N>(n);

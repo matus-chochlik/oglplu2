@@ -33,8 +33,7 @@ error_info::al_object(const any_object_name& obj_name) noexcept {
     return *this;
 }
 //------------------------------------------------------------------------------
-inline any_object_name
-error_info::al_object(void) const noexcept {
+inline any_object_name error_info::al_object() const noexcept {
 #if !OALPLUS_ERROR_NO_OBJECT
     return _obj_name;
 #else
@@ -42,8 +41,7 @@ error_info::al_object(void) const noexcept {
 #endif
 }
 //------------------------------------------------------------------------------
-inline error_info&
-error_info::index(ALuint idx) noexcept {
+inline error_info& error_info::index(ALuint idx) noexcept {
 #if !OALPLUS_ERROR_NO_INDEX
     _index = idx;
 #else
@@ -52,8 +50,7 @@ error_info::index(ALuint idx) noexcept {
     return *this;
 }
 //------------------------------------------------------------------------------
-inline ALuint
-error_info::index(void) const noexcept {
+inline ALuint error_info::index() const noexcept {
 #if !OALPLUS_ERROR_NO_INDEX
     return _index;
 #else
@@ -71,8 +68,7 @@ error_info::al_enum_value(const any_enum_value& enum_val) noexcept {
     return *this;
 }
 //------------------------------------------------------------------------------
-inline const any_enum_value&
-error_info::al_enum_value(void) const noexcept {
+inline const any_enum_value& error_info::al_enum_value() const noexcept {
 #if !OALPLUS_ERROR_NO_ENUM_VALUE
     return _enum_val;
 #else

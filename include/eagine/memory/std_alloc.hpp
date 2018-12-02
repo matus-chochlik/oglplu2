@@ -10,9 +10,9 @@
 #ifndef EAGINE_MEMORY_STD_ALLOC_1509260923_HPP
 #define EAGINE_MEMORY_STD_ALLOC_1509260923_HPP
 
-#include <memory>
 #include "default_alloc.hpp"
 #include "shared_alloc.hpp"
+#include <memory>
 
 namespace eagine {
 namespace memory {
@@ -93,13 +93,13 @@ public:
           acquire_block({p, span_size_of<T>(n)}), span_align_of<T>());
     }
 
-    friend bool operator==(
-      const std_allocator& a, const std_allocator& b) noexcept {
+    friend bool
+    operator==(const std_allocator& a, const std_allocator& b) noexcept {
         return (a._sba == b._sba);
     }
 
-    friend bool operator!=(
-      const std_allocator& a, const std_allocator& b) noexcept {
+    friend bool
+    operator!=(const std_allocator& a, const std_allocator& b) noexcept {
         return (a._sba != b._sba);
     }
 

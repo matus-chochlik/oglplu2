@@ -66,8 +66,8 @@ struct capability_state {
 #endif
 
 #if defined(GL_VERSION_4_5)
-    static outcome<graphics_reset_status> get_graphics_reset_status(
-      void) noexcept;
+    static outcome<graphics_reset_status>
+    get_graphics_reset_status(void) noexcept;
 #endif
 };
 

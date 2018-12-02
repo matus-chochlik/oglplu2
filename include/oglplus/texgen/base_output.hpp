@@ -9,9 +9,9 @@
 #ifndef OGLPLUS_TEXGEN_BASE_OUTPUT_1509260923_HPP
 #define OGLPLUS_TEXGEN_BASE_OUTPUT_1509260923_HPP
 
-#include <set>
 #include "interface.hpp"
 #include "param_format.hpp"
+#include <set>
 
 namespace oglplus {
 namespace texgen {

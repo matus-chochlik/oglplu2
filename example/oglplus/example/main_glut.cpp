@@ -172,8 +172,7 @@ private:
     }
 };
 
-int
-example_main(
+int example_main(
   oglplus::example_args& args,
   oglplus::example_params& params,
   oglplus::example_state& state) {

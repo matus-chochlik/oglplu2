@@ -13,14 +13,12 @@ BOOST_AUTO_TEST_SUITE(math_function_tests)
 static eagine::test_random_generator rg;
 
 template <typename T>
-T
-rndval(void) {
+T rndval() {
     return rg.get<T>(-1000, 1000);
 }
 
 template <typename T, typename... P>
-void
-test_math_function_min_max_Tv(P... v) {
+void test_math_function_min_max_Tv(P... v) {
     T a[sizeof...(P)] = {v...};
 
     using namespace eagine;
@@ -35,8 +33,7 @@ test_math_function_min_max_Tv(P... v) {
 }
 
 template <typename T>
-void
-test_math_function_minimum_T(void) {
+void test_math_function_minimum_T() {
     test_math_function_min_max_Tv<T>(rndval<T>(), rndval<T>());
     test_math_function_min_max_Tv<T>(rndval<T>(), rndval<T>(), rndval<T>());
     test_math_function_min_max_Tv<T>(
@@ -105,8 +102,7 @@ BOOST_AUTO_TEST_CASE(math_functions_binomial) {
 }
 
 template <typename T>
-void
-test_math_functions_bezier_1(int l) {
+void test_math_functions_bezier_1(int l) {
     using eagine::math::bezier;
 
     for(int i = 0; i < l; ++i) {
@@ -118,8 +114,7 @@ test_math_functions_bezier_1(int l) {
 }
 
 template <typename T>
-void
-test_math_functions_bezier_2(int l) {
+void test_math_functions_bezier_2(int l) {
     using eagine::math::bezier;
 
     for(int i = 0; i < l; ++i) {
@@ -132,8 +127,7 @@ test_math_functions_bezier_2(int l) {
 }
 
 template <typename T>
-void
-test_math_functions_bezier_3(int l) {
+void test_math_functions_bezier_3(int l) {
     using eagine::math::bezier;
 
     for(int i = 0; i < l; ++i) {
@@ -150,8 +144,7 @@ test_math_functions_bezier_3(int l) {
 }
 
 template <typename T>
-void
-test_math_functions_bezier_4(int l) {
+void test_math_functions_bezier_4(int l) {
     using eagine::math::bezier;
 
     for(int i = 0; i < l; ++i) {
@@ -170,8 +163,7 @@ test_math_functions_bezier_4(int l) {
 }
 
 template <typename T>
-void
-test_math_functions_bezier_5(int l) {
+void test_math_functions_bezier_5(int l) {
     using eagine::math::bezier;
 
     for(int i = 0; i < l; ++i) {
@@ -193,8 +185,7 @@ test_math_functions_bezier_5(int l) {
 }
 
 template <typename T>
-void
-test_math_functions_bezier(int l) {
+void test_math_functions_bezier(int l) {
     test_math_functions_bezier_1<T>(l);
     test_math_functions_bezier_2<T>(l);
     test_math_functions_bezier_3<T>(l);

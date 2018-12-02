@@ -11,8 +11,7 @@
 BOOST_AUTO_TEST_SUITE(memory_null_alloc_tests)
 
 template <typename T>
-void
-eagine_test_memory_null_alloc_1_T(std::size_t n) {
+void eagine_test_memory_null_alloc_1_T(std::size_t n) {
     using namespace eagine;
 
     memory::null_byte_allocator<> na;

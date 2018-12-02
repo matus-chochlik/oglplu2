@@ -21,8 +21,7 @@ unary_function_output::unary_function_output(
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref
-unary_function_output::type_name() {
+cstr_ref unary_function_output::type_name() {
     switch(_func) {
         case unary_function::radians:
             return cstr_ref("Radians");
@@ -71,8 +70,7 @@ unary_function_output::type_name() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-slot_data_type
-unary_function_output::value_type() {
+slot_data_type unary_function_output::value_type() {
     switch(_func) {
         case unary_function::length:
             return slot_data_type::float_;
@@ -175,8 +173,7 @@ binary_function_output::binary_function_output(
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref
-binary_function_output::type_name() {
+cstr_ref binary_function_output::type_name() {
     switch(_func) {
         case binary_function::equal:
             return cstr_ref("Equal");
@@ -217,8 +214,7 @@ binary_function_output::type_name() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-slot_data_type
-binary_function_output::value_type() {
+slot_data_type binary_function_output::value_type() {
     switch(_func) {
         case binary_function::distance:
             return slot_data_type::float_;

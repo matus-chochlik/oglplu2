@@ -10,9 +10,9 @@
 #ifndef EAGINE_MEMORY_C_REALLOC_1509260923_HPP
 #define EAGINE_MEMORY_C_REALLOC_1509260923_HPP
 
+#include "byte_alloc.hpp"
 #include <cassert>
 #include <limits>
-#include "byte_alloc.hpp"
 
 namespace eagine {
 namespace memory {
@@ -40,13 +40,13 @@ public:
 
     void deallocate(owned_block&& b, size_type) noexcept override;
 
-    bool can_reallocate(
-      const owned_block&, size_type, size_type) noexcept override {
+    bool
+    can_reallocate(const owned_block&, size_type, size_type) noexcept override {
         return true;
     }
 
-    owned_block reallocate(
-      owned_block&& b, size_type n, size_type a) noexcept override;
+    owned_block
+    reallocate(owned_block&& b, size_type n, size_type a) noexcept override;
 };
 
 } // namespace memory

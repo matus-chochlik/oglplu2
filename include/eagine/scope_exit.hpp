@@ -10,10 +10,10 @@
 #ifndef EAGINE_SCOPE_EXIT_1509260923_HPP
 #define EAGINE_SCOPE_EXIT_1509260923_HPP
 
-#include <exception>
 #include "callable_ref.hpp"
 #include "nothing.hpp"
 #include "std/type_traits.hpp"
+#include <exception>
 
 namespace eagine {
 
@@ -97,8 +97,7 @@ public:
 };
 
 template <typename Func>
-static inline func_on_scope_exit<Func>
-finally(Func func) {
+static inline func_on_scope_exit<Func> finally(Func func) {
     return func;
 }
 

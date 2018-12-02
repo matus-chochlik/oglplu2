@@ -15,15 +15,13 @@
 namespace oglplus {
 
 template <typename ErrorInfo>
-static inline void
-handle_gl_error(ErrorInfo& info) {
+static inline void handle_gl_error(ErrorInfo& info) {
     if(!std::uncaught_exception()) {
         throw error(std::move(info));
     }
 }
 
-static inline constexpr bool
-is_gl_error(GLenum ec) noexcept {
+static inline constexpr bool is_gl_error(GLenum ec) noexcept {
     return ec != GL_NO_ERROR;
 }
 

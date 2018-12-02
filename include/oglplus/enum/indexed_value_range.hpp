@@ -9,10 +9,10 @@
 #ifndef OGLPLUS_ENUM_INDEXED_VALUE_RANGE_1509260923_HPP
 #define OGLPLUS_ENUM_INDEXED_VALUE_RANGE_1509260923_HPP
 
-#include <cassert>
-#include <eagine/iterator.hpp>
 #include "../utils/indexed_enum.hpp"
 #include "../utils/limited_value.hpp"
+#include <eagine/iterator.hpp>
+#include <cassert>
 
 namespace oglplus {
 
@@ -66,8 +66,7 @@ public:
 template <
   typename LimitedValue,
   typename = std::enable_if_t<is_limited_value<LimitedValue>::value>>
-static inline limited_value_range<LimitedValue>
-enum_value_range() {
+static inline limited_value_range<LimitedValue> enum_value_range() {
     return {};
 }
 

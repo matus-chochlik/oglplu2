@@ -9,12 +9,12 @@
 #ifndef EAGINE_ECS_REL_STORAGE_1509260923_HPP
 #define EAGINE_ECS_REL_STORAGE_1509260923_HPP
 
-#include <cassert>
 #include "../callable_ref.hpp"
 #include "entity_traits.hpp"
 #include "manipulator.hpp"
 #include "storage_caps.hpp"
 #include "storage_fwd.hpp"
+#include <cassert>
 
 namespace eagine {
 namespace ecs {
@@ -127,8 +127,8 @@ struct storage<Entity, Relation, true> : base_storage<Entity, true> {
 
     using base_storage<Entity, true>::store;
 
-    virtual bool store(
-      entity_param subject, entity_param object, Relation&&) = 0;
+    virtual bool
+    store(entity_param subject, entity_param object, Relation&&) = 0;
 
     virtual void for_single(
       callable_ref<
@@ -161,13 +161,13 @@ struct storage<Entity, Relation, true> : base_storage<Entity, true> {
       callable_ref<void(entity_param, entity_param, manipulator<Relation>&)>,
       entity_param subject) = 0;
 
-    virtual void for_each(
-      callable_ref<
-        void(entity_param, entity_param, manipulator<const Relation>&)>) = 0;
+    virtual void
+    for_each(callable_ref<void(
+               entity_param, entity_param, manipulator<const Relation>&)>) = 0;
 
-    virtual void for_each(
-      callable_ref<
-        void(entity_param, entity_param, manipulator<Relation>&)>) = 0;
+    virtual void
+    for_each(callable_ref<
+             void(entity_param, entity_param, manipulator<Relation>&)>) = 0;
 };
 
 } // namespace ecs

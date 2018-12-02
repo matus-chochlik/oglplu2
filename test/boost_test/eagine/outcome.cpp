@@ -21,64 +21,54 @@ struct mock_error_data {
 template <typename T>
 using test_outcome = basic_outcome<T, mock_error_data>;
 
-void
-handle_error(mock_error_data& data) {
+void handle_error(mock_error_data& data) {
     if(!std::uncaught_exception()) {
         throw data;
     }
 }
 
-test_outcome<void>
-ok_void(void) {
+test_outcome<void> ok_void() {
     return {};
 }
 
-test_outcome<void>
-fail_void(int tag) {
+test_outcome<void> fail_void(int tag) {
     return make_deferred_handler(
       &handle_error, mock_error_data{__FILE__, __LINE__, tag});
 }
 
-test_outcome<void>
-foo_void(int tag) {
+test_outcome<void> foo_void(int tag) {
     if(tag == 0)
         return ok_void();
     else
         return fail_void(tag);
 }
 
-test_outcome<std::string>
-ok_string(void) {
+test_outcome<std::string> ok_string() {
     return {"ok"};
 }
 
-test_outcome<std::string>
-fail_string(int tag) {
+test_outcome<std::string> fail_string(int tag) {
     return make_deferred_handler(
       &handle_error, mock_error_data{__FILE__, __LINE__, tag});
 }
 
-test_outcome<std::string>
-foo_string(int tag) {
+test_outcome<std::string> foo_string(int tag) {
     if(tag == 0)
         return ok_string();
     else
         return fail_string(tag);
 }
 
-test_outcome<int&>
-ok_ref(int& ref) {
+test_outcome<int&> ok_ref(int& ref) {
     return {++ref};
 }
 
-test_outcome<int&>
-fail_ref(int&, int tag) {
+test_outcome<int&> fail_ref(int&, int tag) {
     return make_deferred_handler(
       &handle_error, mock_error_data{__FILE__, __LINE__, tag});
 }
 
-test_outcome<int&>
-foo_ref(int& ref, int tag) {
+test_outcome<int&> foo_ref(int& ref, int tag) {
     if(tag == 0)
         return ok_ref(ref);
     else

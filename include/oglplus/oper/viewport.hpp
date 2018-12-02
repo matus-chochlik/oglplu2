@@ -55,8 +55,8 @@ struct viewport_extents {
 };
 
 struct viewport_state {
-    static outcome<void> viewport(
-      GLint x, GLint y, GLsizei w, GLsizei h) noexcept;
+    static outcome<void>
+    viewport(GLint x, GLint y, GLsizei w, GLsizei h) noexcept;
 
     static outcome<void> viewport(GLsizei w, GLsizei h) noexcept;
 
@@ -70,14 +70,14 @@ struct viewport_state {
       GLfloat w,
       GLfloat h) noexcept;
 
-    static outcome<void> viewport(
-      viewport_index index, const viewport_extents& vpe) noexcept;
+    static outcome<void>
+    viewport(viewport_index index, const viewport_extents& vpe) noexcept;
 
-    static outcome<void> viewport_array(
-      viewport_index first, span<const GLfloat> vpe) noexcept;
+    static outcome<void>
+    viewport_array(viewport_index first, span<const GLfloat> vpe) noexcept;
 
-    static outcome<viewport_extents> get_viewport(
-      viewport_index index) noexcept;
+    static outcome<viewport_extents>
+    get_viewport(viewport_index index) noexcept;
 #endif
 };
 

@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE EGLPLUS_texture_format
 
-#include <cstring>
 #include "../../unit_test_begin.inl"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_texture_format_tests)
 

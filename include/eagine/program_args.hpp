@@ -9,16 +9,16 @@
 #ifndef EAGINE_PROGRAM_ARGS_1509260923_HPP
 #define EAGINE_PROGRAM_ARGS_1509260923_HPP
 
-#include <cassert>
-#include <memory>
-#include <sstream>
-#include <vector>
 #include "cstr_ref.hpp"
 #include "identity.hpp"
 #include "range_types.hpp"
 #include "span.hpp"
 #include "type_name.hpp"
 #include "valid_if/in_list.hpp"
+#include <cassert>
+#include <memory>
+#include <sstream>
+#include <vector>
 
 namespace eagine {
 
@@ -75,8 +75,8 @@ private:
     }
 
     template <typename X, typename P>
-    static inline void _log_invalid(
-      const valid_if<X, P>& vi, std::ostream& log) noexcept {
+    static inline void
+    _log_invalid(const valid_if<X, P>& vi, std::ostream& log) noexcept {
         vi.log_invalid(log);
     }
 
@@ -679,8 +679,8 @@ private:
 
     std::vector<std::unique_ptr<_intf>> _params;
 
-    static inline std::vector<std::unique_ptr<_intf>>& _insert(
-      std::vector<std::unique_ptr<_intf>>& dest) noexcept {
+    static inline std::vector<std::unique_ptr<_intf>>&
+    _insert(std::vector<std::unique_ptr<_intf>>& dest) noexcept {
         return dest;
     }
 
@@ -695,8 +695,8 @@ private:
     }
 
     template <typename... Intf>
-    static std::vector<std::unique_ptr<_intf>> _make(
-      std::unique_ptr<Intf>&&... params) {
+    static std::vector<std::unique_ptr<_intf>>
+    _make(std::unique_ptr<Intf>&&... params) {
         std::vector<std::unique_ptr<_intf>> result;
         result.reserve(sizeof...(params));
         return std::move(_insert(result, std::move(params)...));

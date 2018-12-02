@@ -10,9 +10,9 @@
 #ifndef EAGINE_ANY_ITERATOR_1509260923_HPP
 #define EAGINE_ANY_ITERATOR_1509260923_HPP
 
+#include "deep_copy_ptr.hpp"
 #include <cassert>
 #include <iterator>
-#include "deep_copy_ptr.hpp"
 
 namespace eagine {
 
@@ -79,13 +79,13 @@ public:
       : _pimpl(make_deep_copy_ptr<_impl<Iter>>(i)) {
     }
 
-    friend bool operator==(
-      const any_forward_iterator& a, const any_forward_iterator& b) {
+    friend bool
+    operator==(const any_forward_iterator& a, const any_forward_iterator& b) {
         return a._pimpl->_equal(b._pimpl.get());
     }
 
-    friend bool operator!=(
-      const any_forward_iterator& a, const any_forward_iterator& b) {
+    friend bool
+    operator!=(const any_forward_iterator& a, const any_forward_iterator& b) {
         return !a._pimpl->_equal(b._pimpl.get());
     }
 

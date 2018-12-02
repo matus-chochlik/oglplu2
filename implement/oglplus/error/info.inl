@@ -29,8 +29,7 @@ namespace oglplus {
 #if !OGLPLUS_ERROR_NO_EXTENDED_INFO
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-extended_error_info&
-error_info::_ext_info() const noexcept {
+extended_error_info& error_info::_ext_info() const noexcept {
     if(!_ext_info_ptr) {
         try {
             _ext_info_ptr.reset(new extended_error_info());
@@ -78,21 +77,18 @@ error_info::error_info(GLenum gl_err_code) noexcept
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-error_info&
-error_info::gl_error_code(GLenum gl_err_code) noexcept {
+error_info& error_info::gl_error_code(GLenum gl_err_code) noexcept {
     _gl_err_code = gl_err_code;
     return *this;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-GLenum
-error_info::gl_error_code() const noexcept {
+GLenum error_info::gl_error_code() const noexcept {
     return _gl_err_code;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-error_info&
-error_info::gl_library_name(const char* gl_lb_name) noexcept {
+error_info& error_info::gl_library_name(const char* gl_lb_name) noexcept {
 #if !OGLPLUS_ERROR_NO_GL_LIB
     _gl_lb_name = gl_lb_name;
 #else
@@ -102,8 +98,7 @@ error_info::gl_library_name(const char* gl_lb_name) noexcept {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-const char*
-error_info::gl_library_name() const noexcept {
+const char* error_info::gl_library_name() const noexcept {
 #if !OGLPLUS_ERROR_NO_GL_LIB
     return _gl_lb_name;
 #else
@@ -112,8 +107,7 @@ error_info::gl_library_name() const noexcept {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-error_info&
-error_info::gl_function_name(const char* gl_fn_name) noexcept {
+error_info& error_info::gl_function_name(const char* gl_fn_name) noexcept {
 #if !OGLPLUS_ERROR_NO_GL_FUNC
     _gl_fn_name = gl_fn_name;
 #else
@@ -123,8 +117,7 @@ error_info::gl_function_name(const char* gl_fn_name) noexcept {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-const char*
-error_info::gl_function_name() const noexcept {
+const char* error_info::gl_function_name() const noexcept {
 #if !OGLPLUS_ERROR_NO_GL_FUNC
     return _gl_fn_name;
 #else
@@ -133,8 +126,7 @@ error_info::gl_function_name() const noexcept {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-error_info&
-error_info::source_function(const char* src_func) noexcept {
+error_info& error_info::source_function(const char* src_func) noexcept {
 #if !OGLPLUS_ERROR_NO_SRC_FUNC
     _src_func = src_func;
 #else
@@ -144,8 +136,7 @@ error_info::source_function(const char* src_func) noexcept {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-const char*
-error_info::source_function() const noexcept {
+const char* error_info::source_function() const noexcept {
 #if !OGLPLUS_ERROR_NO_SRC_FUNC
     return _src_func;
 #else
@@ -154,8 +145,7 @@ error_info::source_function() const noexcept {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-error_info&
-error_info::source_file(const char* src_file) noexcept {
+error_info& error_info::source_file(const char* src_file) noexcept {
 #if !OGLPLUS_ERROR_NO_SRC_FILE
     _src_file = src_file;
 #else
@@ -165,8 +155,7 @@ error_info::source_file(const char* src_file) noexcept {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-const char*
-error_info::source_file() const noexcept {
+const char* error_info::source_file() const noexcept {
 #if !OGLPLUS_ERROR_NO_SRC_FILE
     return _src_file;
 #else
@@ -175,8 +164,7 @@ error_info::source_file() const noexcept {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-error_info&
-error_info::source_line(unsigned src_line) noexcept {
+error_info& error_info::source_line(unsigned src_line) noexcept {
 #if !OGLPLUS_ERROR_NO_SRC_LINE
     _src_line = src_line;
 #else
@@ -186,8 +174,7 @@ error_info::source_line(unsigned src_line) noexcept {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-unsigned
-error_info::source_line() const noexcept {
+unsigned error_info::source_line() const noexcept {
 #if !OGLPLUS_ERROR_NO_SRC_LINE
     return _src_line;
 #else
@@ -196,8 +183,7 @@ error_info::source_line() const noexcept {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-error_info&
-error_info::gl_object(const any_object_name& obj_name) noexcept {
+error_info& error_info::gl_object(const any_object_name& obj_name) noexcept {
 #if !OGLPLUS_ERROR_NO_OBJECT
     _obj_name = obj_name;
 #else
@@ -207,16 +193,14 @@ error_info::gl_object(const any_object_name& obj_name) noexcept {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-error_info&
-error_info::gl_object_binding(
+error_info& error_info::gl_object_binding(
   const any_object_type&, const any_enum_value&) noexcept {
     // TODO
     return *this;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-any_object_name
-error_info::gl_object() const noexcept {
+any_object_name error_info::gl_object() const noexcept {
 #if !OGLPLUS_ERROR_NO_OBJECT
     return _obj_name;
 #else
@@ -225,16 +209,14 @@ error_info::gl_object() const noexcept {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-error_info&
-error_info::gl_subject_binding(
+error_info& error_info::gl_subject_binding(
   const any_object_type&, const any_enum_value&) noexcept {
     // TODO
     return *this;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-error_info&
-error_info::gl_subject(const any_object_name& sub_name) noexcept {
+error_info& error_info::gl_subject(const any_object_name& sub_name) noexcept {
 #if !OGLPLUS_ERROR_NO_SUBJECT
     _ext_info()._sub_name = sub_name;
 #else
@@ -244,8 +226,7 @@ error_info::gl_subject(const any_object_name& sub_name) noexcept {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-any_object_name
-error_info::gl_subject() const noexcept {
+any_object_name error_info::gl_subject() const noexcept {
 #if !OGLPLUS_ERROR_NO_SUBJECT
     return _ext_info()._sub_name;
 #else
@@ -254,8 +235,7 @@ error_info::gl_subject() const noexcept {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-error_info&
-error_info::gl_index(GLuint idx) noexcept {
+error_info& error_info::gl_index(GLuint idx) noexcept {
 #if !OGLPLUS_ERROR_NO_INDEX
     _index = idx;
 #else
@@ -265,8 +245,7 @@ error_info::gl_index(GLuint idx) noexcept {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-GLuint
-error_info::gl_index() const noexcept {
+GLuint error_info::gl_index() const noexcept {
 #if !OGLPLUS_ERROR_NO_INDEX
     return _index;
 #else
@@ -275,8 +254,7 @@ error_info::gl_index() const noexcept {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-error_info&
-error_info::gl_enum_value(const any_enum_value& enum_val) noexcept {
+error_info& error_info::gl_enum_value(const any_enum_value& enum_val) noexcept {
 #if !OGLPLUS_ERROR_NO_ENUM_VALUE
     _enum_val = enum_val;
 #else
@@ -299,8 +277,7 @@ error_info::gl_enum_value(const any_indexed_enum_value& enum_val) noexcept {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-const any_enum_value&
-error_info::gl_enum_value() const noexcept {
+const any_enum_value& error_info::gl_enum_value() const noexcept {
 #if !OGLPLUS_ERROR_NO_ENUM_VALUE
     return _enum_val;
 #else
@@ -310,8 +287,7 @@ error_info::gl_enum_value() const noexcept {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-error_info&
-error_info::identifier(const cstring_span& ident) noexcept {
+error_info& error_info::identifier(const cstring_span& ident) noexcept {
 #if !OGLPLUS_ERROR_NO_IDENTIFIER
     try {
         _ext_info()._identifier.assign(ident.begin(), ident.end());
@@ -324,8 +300,7 @@ error_info::identifier(const cstring_span& ident) noexcept {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstring_span
-error_info::identifier() const noexcept {
+cstring_span error_info::identifier() const noexcept {
 #if !OGLPLUS_ERROR_NO_IDENTIFIER
     return _ext_info()._identifier;
 #else
@@ -334,8 +309,7 @@ error_info::identifier() const noexcept {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-error_info&
-error_info::info_log(const cstring_span& log) noexcept {
+error_info& error_info::info_log(const cstring_span& log) noexcept {
 #if !OGLPLUS_ERROR_NO_INFO_LOG
     try {
         _ext_info()._info_log.assign(log.begin(), log.end());
@@ -348,8 +322,7 @@ error_info::info_log(const cstring_span& log) noexcept {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-error_info&
-error_info::info_log_of(const any_object_name& obj) noexcept {
+error_info& error_info::info_log_of(const any_object_name& obj) noexcept {
 #if !OGLPLUS_ERROR_NO_INFO_LOG
     PFNGLGETPROGRAMIVPROC _GetObjectiv = nullptr;
     PFNGLGETPROGRAMINFOLOGPROC _GetObjectInfoLog = nullptr;
@@ -385,8 +358,7 @@ error_info::info_log_of(const any_object_name& obj) noexcept {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstring_span
-error_info::info_log() const noexcept {
+cstring_span error_info::info_log() const noexcept {
 #if !OGLPLUS_ERROR_NO_INFO_LOG
     return {_ext_info()._info_log};
 #else

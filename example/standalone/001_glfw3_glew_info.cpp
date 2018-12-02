@@ -21,8 +21,7 @@
 #include <iostream>
 #include <stdexcept>
 
-static void
-run(void) {
+static void run(void) {
     using namespace oglplus;
 
     operations gl;
@@ -45,8 +44,7 @@ run(void) {
     }
 }
 
-static void
-init_and_run(void) {
+static void init_and_run(void) {
     if(!glfwInit()) {
         throw std::runtime_error("GLFW initialization error");
     } else {
@@ -75,8 +73,7 @@ init_and_run(void) {
     }
 }
 
-int
-main(void) {
+int main(void) {
     try {
         init_and_run();
         return 0;

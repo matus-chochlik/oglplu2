@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE EGLPLUS_color_buffer_type
 
-#include <cstring>
 #include "../../unit_test_begin.inl"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_color_buffer_type_tests)
 

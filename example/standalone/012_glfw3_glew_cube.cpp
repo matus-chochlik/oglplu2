@@ -29,8 +29,7 @@
 static oglplus::constants GL;
 static oglplus::operations gl;
 
-static void
-handle_resize(
+static void handle_resize(
   int width, int height, const oglplus::uniform_location& projection) {
     gl.viewport(0, 0, width, height);
     GLfloat asp = GLfloat(width) / height;
@@ -44,8 +43,7 @@ handle_resize(
         oglplus::matrix_translation(0, 0, -2));
 }
 
-static void
-run_loop(GLFWwindow* window, int width, int height) {
+static void run_loop(GLFWwindow* window, int width, int height) {
     using namespace oglplus;
 
     shader vs(GL.vertex_shader);
@@ -255,8 +253,7 @@ run_loop(GLFWwindow* window, int width, int height) {
     }
 }
 
-static void
-init_and_run(void) {
+static void init_and_run(void) {
     if(!glfwInit()) {
         throw std::runtime_error("GLFW initialization error");
     } else {
@@ -293,8 +290,7 @@ init_and_run(void) {
     }
 }
 
-int
-main(void) {
+int main(void) {
     try {
         init_and_run();
         return 0;

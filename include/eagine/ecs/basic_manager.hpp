@@ -9,13 +9,13 @@
 #ifndef EAGINE_ECS_MANAGER_1509260923_HPP
 #define EAGINE_ECS_MANAGER_1509260923_HPP
 
-#include <memory>
 #include "../mp_list.hpp"
 #include "../std/type_traits.hpp"
 #include "../type_name.hpp"
 #include "cmp_storage.hpp"
 #include "component.hpp"
 #include "entity_traits.hpp"
+#include <memory>
 
 namespace eagine {
 namespace ecs {
@@ -90,13 +90,13 @@ private:
 
     component_uid_map<_base_cmp_storage_ptr_t> _cmp_storages;
 
-    component_uid_map<_base_cmp_storage_ptr_t>& _get_storages(
-      std::false_type) noexcept {
+    component_uid_map<_base_cmp_storage_ptr_t>&
+    _get_storages(std::false_type) noexcept {
         return _cmp_storages;
     }
 
-    const component_uid_map<_base_cmp_storage_ptr_t>& _get_storages(
-      std::false_type) const noexcept {
+    const component_uid_map<_base_cmp_storage_ptr_t>&
+    _get_storages(std::false_type) const noexcept {
         return _cmp_storages;
     }
 
@@ -105,13 +105,13 @@ private:
 
     component_uid_map<_base_rel_storage_ptr_t> _rel_storages;
 
-    component_uid_map<_base_rel_storage_ptr_t>& _get_storages(
-      std::true_type) noexcept {
+    component_uid_map<_base_rel_storage_ptr_t>&
+    _get_storages(std::true_type) noexcept {
         return _rel_storages;
     }
 
-    const component_uid_map<_base_rel_storage_ptr_t>& _get_storages(
-      std::true_type) const noexcept {
+    const component_uid_map<_base_rel_storage_ptr_t>&
+    _get_storages(std::true_type) const noexcept {
         return _rel_storages;
     }
 
@@ -200,19 +200,19 @@ private:
     template <typename Relation>
     bool _do_add_r(entity_param, entity_param, Relation&& relation);
 
-    bool _do_add_r(
-      entity_param, entity_param, component_uid_t, std::string (*)());
+    bool
+      _do_add_r(entity_param, entity_param, component_uid_t, std::string (*)());
 
-    bool _do_cpy(
-      entity_param f, entity_param t, component_uid_t, std::string (*)());
+    bool
+    _do_cpy(entity_param f, entity_param t, component_uid_t, std::string (*)());
 
-    bool _do_swp(
-      entity_param f, entity_param t, component_uid_t, std::string (*)());
+    bool
+    _do_swp(entity_param f, entity_param t, component_uid_t, std::string (*)());
 
     bool _do_rem_c(entity_param, component_uid_t, std::string (*)());
 
-    bool _do_rem_r(
-      entity_param, entity_param, component_uid_t, std::string (*)());
+    bool
+      _do_rem_r(entity_param, entity_param, component_uid_t, std::string (*)());
 
     template <typename C, typename Func>
     bool _call_for_single_c(entity_param, const Func&);
@@ -387,8 +387,8 @@ public:
     }
 
     template <typename Relation>
-    basic_manager& add_relation(
-      entity_param subject, entity_param object, Relation&& rel) {
+    basic_manager&
+    add_relation(entity_param subject, entity_param object, Relation&& rel) {
         _do_add_r(subject, object, std::move(rel));
         return *this;
     }
@@ -480,8 +480,8 @@ public:
     }
 
     template <typename Relation>
-    basic_manager& for_each(
-      const callable_ref<void(entity_param, entity_param)>& func) {
+    basic_manager&
+    for_each(const callable_ref<void(entity_param, entity_param)>& func) {
         _call_for_each_r<Relation>(func);
         return *this;
     }
@@ -495,9 +495,9 @@ public:
     }
 
     template <typename Relation>
-    basic_manager& for_each(
-      const callable_ref<
-        void(entity_param, entity_param, manipulator<Relation>&)>& func) {
+    basic_manager&
+    for_each(const callable_ref<
+             void(entity_param, entity_param, manipulator<Relation>&)>& func) {
         _call_for_each_r<Relation>(func);
         return *this;
     }

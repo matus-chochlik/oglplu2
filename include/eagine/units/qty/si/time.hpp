@@ -17,32 +17,27 @@ namespace eagine {
 namespace units {
 
 template <typename T>
-static inline auto
-milliseconds(const T& v) {
+static inline auto milliseconds(const T& v) {
     return quantity<millisecond>(v);
 }
 
 template <typename T>
-static inline auto
-seconds(const T& v) {
+static inline auto seconds(const T& v) {
     return quantity<second>(v);
 }
 
 template <typename T>
-static inline auto
-minutes(const T& v) {
+static inline auto minutes(const T& v) {
     return quantity<minute>(v);
 }
 
 template <typename T>
-static inline auto
-hours(const T& v) {
+static inline auto hours(const T& v) {
     return quantity<hour>(v);
 }
 
 template <typename T>
-static inline auto
-days(const T& v) {
+static inline auto days(const T& v) {
     return quantity<day>(v);
 }
 

@@ -24,8 +24,7 @@ using const_memory_block = memory::const_block;
 using owned_memory_block = memory::owned_block;
 
 template <typename T>
-static inline auto
-memory_block_of(T& x) noexcept {
+static inline auto memory_block_of(T& x) noexcept {
     return memory::block_of(x);
 }
 

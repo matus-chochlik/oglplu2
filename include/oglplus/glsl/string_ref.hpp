@@ -42,8 +42,8 @@ public:
     }
 };
 
-static inline glsl_string_ref operator"" _glsl(
-  const char* src_str, std::size_t n) noexcept {
+static inline glsl_string_ref
+operator"" _glsl(const char* src_str, std::size_t n) noexcept {
     return {src_str, span_size(n)};
 }
 

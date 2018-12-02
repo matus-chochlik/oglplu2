@@ -10,9 +10,9 @@
 #ifndef EAGINE_MEMORY_BLOCK_1510290655_HPP
 #define EAGINE_MEMORY_BLOCK_1510290655_HPP
 
+#include "address.hpp"
 #include <cstddef>
 #include <utility>
-#include "address.hpp"
 
 namespace eagine {
 namespace memory {
@@ -130,13 +130,13 @@ public:
         return *(begin() + i);
     }
 
-    friend bool operator==(
-      const basic_block& a, const basic_block& b) noexcept {
+    friend bool
+    operator==(const basic_block& a, const basic_block& b) noexcept {
         return (a._addr == b._addr) && (a._size == b._size);
     }
 
-    friend bool operator!=(
-      const basic_block& a, const basic_block& b) noexcept {
+    friend bool
+    operator!=(const basic_block& a, const basic_block& b) noexcept {
         return (a._addr != b._addr) || (a._size != b._size);
     }
 
@@ -172,8 +172,7 @@ typedef basic_block<false> block;
 typedef basic_block<true> const_block;
 
 template <typename T>
-static inline basic_block<std::is_const<T>::value>
-block_of(T& v) noexcept {
+static inline basic_block<std::is_const<T>::value> block_of(T& v) noexcept {
     return {&v, 1};
 }
 

@@ -14,8 +14,7 @@ namespace oglplus {
 namespace shapes {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-outcome<void>
-initialize_vao_and_buffers(
+outcome<void> initialize_vao_and_buffers(
   vertex_array_name vao,
   const eagine::any_copying_forward_range<buffer_name>& bufs,
   const span<const vertex_attrib_and_location>& vaals,

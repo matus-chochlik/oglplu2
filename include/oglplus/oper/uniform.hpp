@@ -9,10 +9,10 @@
 #ifndef OGLPLUS_OPER_UNIFORM_1509260923_HPP
 #define OGLPLUS_OPER_UNIFORM_1509260923_HPP
 
-#include <eagine/std/type_traits.hpp>
 #include "../uniform.hpp"
 #include "../utils/boolean.hpp"
 #include "../utils/vec_mat_traits.hpp"
+#include <eagine/std/type_traits.hpp>
 
 namespace oglplus {
 namespace oper {
@@ -155,8 +155,8 @@ struct uniform_ops {
       typename = std::enable_if_t<
         is_gl_data_type_v<X> || is_known_vector_type_v<X> ||
         is_known_matrix_type_v<X>>>
-    static inline outcome<void> uniform(
-      prog_var_loc<tag::uniform, D> loc, const X& x) noexcept {
+    static inline outcome<void>
+    uniform(prog_var_loc<tag::uniform, D> loc, const X& x) noexcept {
         return _uniform_vm(
           loc, x, is_known_vector_type<X>(), is_known_matrix_type<X>());
     }

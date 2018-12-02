@@ -25,8 +25,7 @@ honeycomb_output::honeycomb_output(
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref
-honeycomb_output::type_abbr() const {
+cstr_ref honeycomb_output::type_abbr() const {
     switch(_type) {
         case honeycomb_output_type::distance:
             return cstr_ref("Dist");
@@ -39,14 +38,12 @@ honeycomb_output::type_abbr() const {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref
-honeycomb_output::type_name() {
+cstr_ref honeycomb_output::type_name() {
     return cstr_ref("Honeycomb");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-slot_data_type
-honeycomb_output::value_type() {
+slot_data_type honeycomb_output::value_type() {
     switch(_type) {
         case honeycomb_output_type::cell_coord:
         case honeycomb_output_type::cell_center:
@@ -191,33 +188,28 @@ honeycomb_node::honeycomb_node()
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref
-honeycomb_node::type_name() {
+cstr_ref honeycomb_node::type_name() {
     return cstr_ref("Honeycomb");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-span_size_t
-honeycomb_node::input_count() {
+span_size_t honeycomb_node::input_count() {
     return 1;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-input_intf&
-honeycomb_node::input(span_size_t index) {
+input_intf& honeycomb_node::input(span_size_t index) {
     assert(index < input_count());
     return _cells;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-span_size_t
-honeycomb_node::output_count() {
+span_size_t honeycomb_node::output_count() {
     return 3;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-output_intf&
-honeycomb_node::output(span_size_t index) {
+output_intf& honeycomb_node::output(span_size_t index) {
     if(index == 0)
         return _cell_coord;
     if(index == 1)

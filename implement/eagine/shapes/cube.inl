@@ -16,28 +16,24 @@ namespace eagine {
 namespace shapes {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-vertex_attrib_bits
-unit_cube_gen::_attr_mask() noexcept {
+vertex_attrib_bits unit_cube_gen::_attr_mask() noexcept {
     return vertex_attrib_kind::position | vertex_attrib_kind::normal |
            vertex_attrib_kind::tangential | vertex_attrib_kind::bitangential |
            vertex_attrib_kind::box_coord;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-vertex_attrib_bits
-unit_cube_gen::_shared_attrs() noexcept {
+vertex_attrib_bits unit_cube_gen::_shared_attrs() noexcept {
     return vertex_attrib_kind::position | vertex_attrib_kind::box_coord;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-bool
-unit_cube_gen::_only_shared_attribs() const noexcept {
+bool unit_cube_gen::_only_shared_attribs() const noexcept {
     return !(attrib_bits() & ~_shared_attrs());
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t
-unit_cube_gen::_face_vert(
+span_size_t unit_cube_gen::_face_vert(
   span_size_t f, span_size_t t, span_size_t v) noexcept {
     assert(f < 6);
     assert(t < 2);
@@ -107,8 +103,7 @@ unit_cube_gen::unit_cube_gen(vertex_attrib_bits attr_bits) noexcept
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t
-unit_cube_gen::vertex_count() {
+span_size_t unit_cube_gen::vertex_count() {
     if(_only_shared_attribs()) {
         return 8;
     } else {
@@ -117,8 +112,7 @@ unit_cube_gen::vertex_count() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-int
-unit_cube_gen::_coord_c(span_size_t v, span_size_t c) noexcept {
+int unit_cube_gen::_coord_c(span_size_t v, span_size_t c) noexcept {
     assert(v < 8);
     assert(c < 3);
 
@@ -129,8 +123,7 @@ unit_cube_gen::_coord_c(span_size_t v, span_size_t c) noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void
-unit_cube_gen::positions(const span<float>& dest) noexcept {
+void unit_cube_gen::positions(const span<float>& dest) noexcept {
     span_size_t k = 0;
 
     assert(dest.size() >= vertex_count() * 3);
@@ -160,8 +153,7 @@ unit_cube_gen::positions(const span<float>& dest) noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-int
-unit_cube_gen::_normal_c(span_size_t f, span_size_t c) noexcept {
+int unit_cube_gen::_normal_c(span_size_t f, span_size_t c) noexcept {
     assert(f < 6);
     assert(c < 3);
 
@@ -183,8 +175,7 @@ unit_cube_gen::_normal_c(span_size_t f, span_size_t c) noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void
-unit_cube_gen::normals(const span<float>& dest) noexcept {
+void unit_cube_gen::normals(const span<float>& dest) noexcept {
     assert(has(vertex_attrib_kind::normal));
     assert(dest.size() >= vertex_count() * 3);
 
@@ -202,8 +193,7 @@ unit_cube_gen::normals(const span<float>& dest) noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-int
-unit_cube_gen::_tangential_c(span_size_t f, span_size_t c) noexcept {
+int unit_cube_gen::_tangential_c(span_size_t f, span_size_t c) noexcept {
     assert(f < 6);
     assert(c < 3);
 
@@ -225,8 +215,7 @@ unit_cube_gen::_tangential_c(span_size_t f, span_size_t c) noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void
-unit_cube_gen::tangentials(const span<float>& dest) noexcept {
+void unit_cube_gen::tangentials(const span<float>& dest) noexcept {
     assert(has(vertex_attrib_kind::tangential));
     assert(dest.size() >= vertex_count() * 3);
 
@@ -244,8 +233,7 @@ unit_cube_gen::tangentials(const span<float>& dest) noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-int
-unit_cube_gen::_bitangential_c(span_size_t f, span_size_t c) noexcept {
+int unit_cube_gen::_bitangential_c(span_size_t f, span_size_t c) noexcept {
     assert(f < 6);
     assert(c < 3);
 
@@ -267,8 +255,7 @@ unit_cube_gen::_bitangential_c(span_size_t f, span_size_t c) noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void
-unit_cube_gen::bitangentials(const span<float>& dest) noexcept {
+void unit_cube_gen::bitangentials(const span<float>& dest) noexcept {
     assert(has(vertex_attrib_kind::bitangential));
     assert(dest.size() >= vertex_count() * 3);
 
@@ -286,8 +273,7 @@ unit_cube_gen::bitangentials(const span<float>& dest) noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void
-unit_cube_gen::face_coords(const span<float>& dest) noexcept {
+void unit_cube_gen::face_coords(const span<float>& dest) noexcept {
     assert(has(vertex_attrib_kind::face_coord));
     assert(dest.size() >= vertex_count() * 3);
 
@@ -323,8 +309,8 @@ unit_cube_gen::face_coords(const span<float>& dest) noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void
-unit_cube_gen::attrib_values(vertex_attrib_kind attr, const span<float>& dest) {
+void unit_cube_gen::attrib_values(
+  vertex_attrib_kind attr, const span<float>& dest) {
     switch(attr) {
         case vertex_attrib_kind::position:
             positions(dest);
@@ -349,8 +335,7 @@ unit_cube_gen::attrib_values(vertex_attrib_kind attr, const span<float>& dest) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-index_data_type
-unit_cube_gen::index_type() {
+index_data_type unit_cube_gen::index_type() {
     if(_only_shared_attribs()) {
         return index_data_type::unsigned_byte;
     }
@@ -358,8 +343,7 @@ unit_cube_gen::index_type() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t
-unit_cube_gen::index_count() {
+span_size_t unit_cube_gen::index_count() {
     if(_only_shared_attribs()) {
         return 6 * 2 * 3;
     }
@@ -367,8 +351,7 @@ unit_cube_gen::index_count() {
 }
 //------------------------------------------------------------------------------
 template <typename T>
-inline void
-unit_cube_gen::_indices(const span<T>& dest) noexcept {
+inline void unit_cube_gen::_indices(const span<T>& dest) noexcept {
     assert(dest.size() >= index_count());
 
     span_size_t k = 0;
@@ -385,20 +368,17 @@ unit_cube_gen::_indices(const span<T>& dest) noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void
-unit_cube_gen::indices(const span<unsigned>& dest) {
+void unit_cube_gen::indices(const span<unsigned>& dest) {
     _indices(dest);
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-span_size_t
-unit_cube_gen::operation_count() {
+span_size_t unit_cube_gen::operation_count() {
     return 1;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void
-unit_cube_gen::instructions(const span<draw_operation>& ops) {
+void unit_cube_gen::instructions(const span<draw_operation>& ops) {
     assert(ops.size() >= operation_count());
 
     if(_only_shared_attribs()) {

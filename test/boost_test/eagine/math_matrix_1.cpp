@@ -13,15 +13,13 @@ BOOST_AUTO_TEST_SUITE(math_matrix_tests_1)
 static eagine::test_random_generator rg;
 
 template <typename T, int C, int R, bool RM, bool V, class Tester>
-void
-test_math_matrix_TCRRMV(const Tester& t) {
+void test_math_matrix_TCRRMV(const Tester& t) {
     auto test = t.template make<T, C, R, RM, V>();
     test();
 }
 
 template <typename T, bool RM, bool V, class Tester>
-void
-test_math_matrix_TRMV(const Tester& t) {
+void test_math_matrix_TRMV(const Tester& t) {
     test_math_matrix_TCRRMV<T, 1, 1, RM, V>(t);
     test_math_matrix_TCRRMV<T, 1, 2, RM, V>(t);
     test_math_matrix_TCRRMV<T, 1, 3, RM, V>(t);
@@ -54,8 +52,7 @@ test_math_matrix_TRMV(const Tester& t) {
 }
 
 template <typename T, class Tester>
-void
-test_math_matrix_T(const Tester& t) {
+void test_math_matrix_T(const Tester& t) {
     test_math_matrix_TRMV<T, true, true>(t);
     test_math_matrix_TRMV<T, true, false>(t);
     test_math_matrix_TRMV<T, false, true>(t);
@@ -63,8 +60,7 @@ test_math_matrix_T(const Tester& t) {
 }
 
 template <class Tester>
-void
-test_math_matrix(const Tester& t) {
+void test_math_matrix(const Tester& t) {
     test_math_matrix_T<float>(t);
     test_math_matrix_T<double>(t);
 }
@@ -72,7 +68,7 @@ test_math_matrix(const Tester& t) {
 struct matrix_default_ctr_tester {
     template <typename T, int C, int R, bool RM, bool V>
     struct _test {
-        void operator()(void) const {
+        void operator()() const {
             eagine::math::matrix<T, C, R, RM, V> m;
             BOOST_CHECK_EQUAL(rows(m), R);
             BOOST_CHECK_EQUAL(columns(m), C);
@@ -81,7 +77,7 @@ struct matrix_default_ctr_tester {
     };
 
     template <typename T, int C, int R, bool RM, bool V>
-    static _test<T, C, R, RM, V> make(void) {
+    static _test<T, C, R, RM, V> make() {
         return {};
     }
 };
@@ -94,7 +90,7 @@ BOOST_AUTO_TEST_CASE(math_matrix_default_ctr) {
 struct matrix_from1_tester {
     template <typename T, int C, int R, bool RM, bool V>
     struct _test {
-        void operator()(void) const {
+        void operator()() const {
             T d[C * R];
 
             for(int i = 0; i < (C * R); ++i) {
@@ -111,7 +107,7 @@ struct matrix_from1_tester {
     };
 
     template <typename T, int C, int R, bool RM, bool V>
-    static _test<T, C, R, RM, V> make(void) {
+    static _test<T, C, R, RM, V> make() {
         return {};
     }
 };
@@ -155,7 +151,7 @@ struct matrix_from2_tester {
             _call_test(_uint<M>(), _uint<N - 1>(), m);
         }
 
-        void operator()(void) const {
+        void operator()() const {
             T d[C * R];
 
             for(int i = 0; i < (C * R); ++i) {
@@ -168,7 +164,7 @@ struct matrix_from2_tester {
     };
 
     template <typename T, int C, int R, bool RM, bool V>
-    static _test<T, C, R, RM, V> make(void) {
+    static _test<T, C, R, RM, V> make() {
         return {};
     }
 };
@@ -181,7 +177,7 @@ BOOST_AUTO_TEST_CASE(math_matrix_from2) {
 struct matrix_get_set_tester {
     template <typename T, int C, int R, bool RM, bool V>
     struct _test {
-        void operator()(void) const {
+        void operator()() const {
             T d[C * R];
 
             for(int i = 0; i < (C * R); ++i) {
@@ -213,7 +209,7 @@ struct matrix_get_set_tester {
     };
 
     template <typename T, int C, int R, bool RM, bool V>
-    static _test<T, C, R, RM, V> make(void) {
+    static _test<T, C, R, RM, V> make() {
         return {};
     }
 };
@@ -226,7 +222,7 @@ BOOST_AUTO_TEST_CASE(math_matrix_get_set) {
 struct matrix_transpose_tester {
     template <typename T, int M, int N, bool RM, bool V>
     struct _test {
-        void operator()(void) const {
+        void operator()() const {
             T d[M * N];
 
             for(int i = 0; i < (M * N); ++i) {
@@ -245,7 +241,7 @@ struct matrix_transpose_tester {
     };
 
     template <typename T, int C, int R, bool RM, bool V>
-    static _test<T, C, R, RM, V> make(void) {
+    static _test<T, C, R, RM, V> make() {
         return {};
     }
 };
@@ -258,7 +254,7 @@ BOOST_AUTO_TEST_CASE(math_matrix_transpose) {
 struct matrix_reorder_tester {
     template <typename T, int M, int N, bool RM, bool V>
     struct _test {
-        void operator()(void) const {
+        void operator()() const {
             T d[M * N];
 
             for(int i = 0; i < (M * N); ++i) {
@@ -280,7 +276,7 @@ struct matrix_reorder_tester {
     };
 
     template <typename T, int C, int R, bool RM, bool V>
-    static _test<T, C, R, RM, V> make(void) {
+    static _test<T, C, R, RM, V> make() {
         return {};
     }
 };

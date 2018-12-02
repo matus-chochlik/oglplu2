@@ -9,10 +9,10 @@
 #ifndef OGLPLUS_TEXGEN_CONST_OUTPUT_1509260923_HPP
 #define OGLPLUS_TEXGEN_CONST_OUTPUT_1509260923_HPP
 
-#include <array>
-#include <eagine/std/type_traits.hpp>
 #include "base_output.hpp"
 #include "param_format.hpp"
+#include <eagine/std/type_traits.hpp>
+#include <array>
 
 namespace oglplus {
 namespace texgen {

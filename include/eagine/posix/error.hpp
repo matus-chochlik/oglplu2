@@ -9,9 +9,9 @@
 #ifndef EAGINE_POSIX_ERROR_1509260923_HPP
 #define EAGINE_POSIX_ERROR_1509260923_HPP
 
-#include <system_error>
-#include <cerrno>
 #include "../outcome.hpp"
+#include <cerrno>
+#include <system_error>
 
 namespace eagine {
 namespace posix {
@@ -48,31 +48,26 @@ struct error_handling_policy {
 template <typename T>
 using outcome = basic_outcome<T, error_info, error_handling_policy>;
 
-static inline outcome<void>
-error_outcome(int fd) noexcept {
+static inline outcome<void> error_outcome(int fd) noexcept {
     return outcome<void>(error_info(errno, fd));
 }
 
-static inline outcome<void>
-error_if(bool is_error, int fd) noexcept {
+static inline outcome<void> error_if(bool is_error, int fd) noexcept {
     return is_error ? error_outcome(fd) : outcome<void>();
 }
 
-static inline outcome<void>
-error_if_not_zero(int result, int fd) noexcept {
+static inline outcome<void> error_if_not_zero(int result, int fd) noexcept {
     return error_if(result != 0, fd);
 }
 
 template <typename T>
-static inline outcome<T>
-error_if_negative(T result, int fd) noexcept {
+static inline outcome<T> error_if_negative(T result, int fd) noexcept {
     return (result < T(0)) ? outcome<T>(error_info(errno, fd))
                            : outcome<T>(result);
 }
 
 template <typename T>
-static inline outcome<T>
-error_if_negative(T result) noexcept {
+static inline outcome<T> error_if_negative(T result) noexcept {
     return error_if_negative(result, -1);
 }
 

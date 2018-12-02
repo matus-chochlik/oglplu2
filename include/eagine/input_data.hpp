@@ -9,11 +9,11 @@
 #ifndef EAGINE_INPUT_DATA_1408161720_HPP
 #define EAGINE_INPUT_DATA_1408161720_HPP
 
-#include <iosfwd>
-#include <vector>
 #include "config/basic.hpp"
 #include "cstr_ref.hpp"
 #include "memory/buffer.hpp"
+#include <iosfwd>
+#include <vector>
 
 namespace eagine {
 

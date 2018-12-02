@@ -10,9 +10,9 @@
 #ifndef EAGINE_SHAPES_TRANSLATED_1509260923_HPP
 #define EAGINE_SHAPES_TRANSLATED_1509260923_HPP
 
-#include <array>
-#include <eagine/config/basic.hpp>
 #include "delegated.hpp"
+#include <eagine/config/basic.hpp>
+#include <array>
 
 namespace eagine {
 namespace shapes {
@@ -31,8 +31,8 @@ public:
       , _d{{dx, dy, dz}} {
     }
 
-    void attrib_values(
-      vertex_attrib_kind attr, const span<float>& dest) override {
+    void
+    attrib_values(vertex_attrib_kind attr, const span<float>& dest) override {
         delegated_gen::attrib_values(attr, dest);
 
         if(attr == vertex_attrib_kind::position) {

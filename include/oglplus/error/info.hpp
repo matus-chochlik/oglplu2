@@ -15,8 +15,8 @@
 #include "../utils/indexed_enum.hpp"
 
 #if !OGLPLUS_ERROR_NO_INFO_LOG
-#include <string>
 #include "../utils/string_span.hpp"
+#include <string>
 #endif
 
 #if !OGLPLUS_ERROR_NO_EXTENDED_INFO

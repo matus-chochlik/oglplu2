@@ -9,20 +9,18 @@
 #ifndef EAGINE_POSIX_SYSCONF_1509260923_HPP
 #define EAGINE_POSIX_SYSCONF_1509260923_HPP
 
-#include <unistd.h>
 #include "error.hpp"
+#include <unistd.h>
 
 namespace eagine {
 namespace posix {
 
-static inline outcome<long>
-system_config(int name) noexcept {
+static inline outcome<long> system_config(int name) noexcept {
     long res = ::sysconf(name);
     return {error_if_negative(res), res};
 }
 
-static inline outcome<long>
-page_size() noexcept {
+static inline outcome<long> page_size() noexcept {
     return system_config(_SC_PAGESIZE);
 }
 

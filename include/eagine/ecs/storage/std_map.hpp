@@ -9,11 +9,11 @@
 #ifndef EAGINE_ECS_STORAGE_STD_MAP_1509260923_HPP
 #define EAGINE_ECS_STORAGE_STD_MAP_1509260923_HPP
 
+#include "../cmp_storage.hpp"
+#include "../rel_storage.hpp"
 #include <cassert>
 #include <map>
 #include <set>
-#include "../cmp_storage.hpp"
-#include "../rel_storage.hpp"
 
 namespace eagine {
 namespace ecs {
@@ -91,8 +91,8 @@ private:
         return _iter_cast(i)._i->first;
     }
 
-    typename std::map<Entity, Component>::iterator _remove(
-      typename std::map<Entity, Component>::iterator p) {
+    typename std::map<Entity, Component>::iterator
+    _remove(typename std::map<Entity, Component>::iterator p) {
         assert(p != _components.end());
         _hidden.erase(p->first);
         return _components.erase(p);
@@ -279,9 +279,9 @@ public:
         }
     }
 
-    void for_each(
-      callable_ref<void(entity_param, manipulator<const Component>&)> func)
-      override {
+    void
+    for_each(callable_ref<void(entity_param, manipulator<const Component>&)>
+               func) override {
         concrete_manipulator<const Component> m(true /*can_remove*/);
         auto p = _components.begin();
         while(p != _components.end()) {
@@ -375,8 +375,8 @@ private:
         return *static_cast<_map_iter_t*>(i.ptr());
     }
 
-    typename std::map<_pair_t, Relation>::iterator _remove(
-      typename std::map<_pair_t, Relation>::iterator p) {
+    typename std::map<_pair_t, Relation>::iterator
+    _remove(typename std::map<_pair_t, Relation>::iterator p) {
         assert(p != _relations.end());
         return _relations.erase(p);
     }
@@ -502,8 +502,8 @@ public:
         }
     }
 
-    void for_each(
-      callable_ref<void(entity_param, entity_param)> func) override {
+    void
+    for_each(callable_ref<void(entity_param, entity_param)> func) override {
         for(auto& p : _relations) {
             func(p.first.first, p.first.second);
         }
@@ -544,9 +544,10 @@ public:
         }
     }
 
-    void for_each(callable_ref<void(
-                    entity_param, entity_param, manipulator<const Relation>&)>
-                    func) override {
+    void
+    for_each(callable_ref<void(
+               entity_param, entity_param, manipulator<const Relation>&)> func)
+      override {
         concrete_manipulator<const Relation> m(true /*can_remove*/);
         auto po = _relations.begin();
         while(po != _relations.end()) {

@@ -35,8 +35,7 @@ handle_resize(int width, int height, float l, float r, float b, float t) {
     gl.ortho(double(l), double(r), double(b), double(t), 0, 1);
 }
 
-static void
-run_loop(GLFWwindow* window, int width, int height) {
+static void run_loop(GLFWwindow* window, int width, int height) {
     using namespace oglplus;
 
     std::string text = "OpenGL®";
@@ -152,8 +151,7 @@ run_loop(GLFWwindow* window, int width, int height) {
     }
 }
 
-static void
-init_and_run(void) {
+static void init_and_run(void) {
     if(!glfwInit()) {
         throw std::runtime_error("GLFW initialization error");
     } else {
@@ -190,8 +188,7 @@ init_and_run(void) {
     }
 }
 
-int
-main(void) {
+int main(void) {
     try {
         init_and_run();
         return 0;

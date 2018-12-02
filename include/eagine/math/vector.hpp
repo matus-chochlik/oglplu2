@@ -9,8 +9,6 @@
 #ifndef EAGINE_MATH_VECTOR_1509260923_HPP
 #define EAGINE_MATH_VECTOR_1509260923_HPP
 
-#include <cassert>
-#include <utility>
 #include "../vec_mat_traits.hpp"
 #include "../vect/axis.hpp"
 #include "../vect/cast.hpp"
@@ -22,6 +20,8 @@
 #include "../vect/sqrt.hpp"
 #include "../vect/view.hpp"
 #include "scalar.hpp"
+#include <cassert>
+#include <utility>
 
 namespace eagine {
 namespace math {
@@ -87,14 +87,14 @@ struct vector {
       bool W,
       typename =
         std::enable_if_t<(!std::is_same_v<T, P> || (N != M) || (V != W))>>
-    static constexpr inline vector from(
-      const vector<P, M, W>& v, T d = T(0)) noexcept {
+    static constexpr inline vector
+    from(const vector<P, M, W>& v, T d = T(0)) noexcept {
         return vector{vect::cast<P, M, W, T, N, V>::apply(v._v, d)};
     }
 
     template <typename P, int M, bool W>
-    static constexpr inline vector from(
-      const vector<P, M, W>& v, const vector<T, N - M, W>& u) noexcept {
+    static constexpr inline vector
+    from(const vector<P, M, W>& v, const vector<T, N - M, W>& u) noexcept {
         return vector{vect::cast<P, M, W, T, N, V>::apply(v._v, u._v)};
     }
 
@@ -182,8 +182,8 @@ struct vector {
     }
 
     template <typename Vec = vector>
-    std::enable_if_t<scalar_type::is_vectorized::value, Vec>& operator*=(
-      _cspT c) noexcept {
+    std::enable_if_t<scalar_type::is_vectorized::value, Vec>&
+    operator*=(_cspT c) noexcept {
         _v = _v * c._v;
         return *this;
     }
@@ -229,27 +229,23 @@ struct vector {
 };
 
 template <typename T, int N, bool V>
-static constexpr inline span_size_t
-dimension(const vector<T, N, V>&) noexcept {
+static constexpr inline span_size_t dimension(const vector<T, N, V>&) noexcept {
     return span_size_t(N);
 }
 
 template <typename T, int N, bool V>
-static inline bool
-is_zero(const vector<T, N, V>& v) noexcept {
+static inline bool is_zero(const vector<T, N, V>& v) noexcept {
     return vect::is_zero<T, N, V>::apply(v._v);
 }
 
 template <typename T, int N, bool V>
-static constexpr inline scalar<T, N, V>
-_dot(
+static constexpr inline scalar<T, N, V> _dot(
   const vector<T, N, V>& a, const vector<T, N, V>& b, std::true_type) noexcept {
     return scalar<T, N, V>{vect::hsum<T, N, V>::apply(a._v * b._v)};
 }
 
 template <typename T, int N, bool V>
-static constexpr inline scalar<T, N, V>
-_dot(
+static constexpr inline scalar<T, N, V> _dot(
   const vector<T, N, V>& a,
   const vector<T, N, V>& b,
   std::false_type) noexcept {
@@ -264,8 +260,7 @@ dot(const vector<T, N, V>& a, const vector<T, N, V>& b) noexcept {
 
 // perpendicular
 template <typename T, bool V>
-static inline vector<T, 2, V>
-perpendicular(const vector<T, 2, V>& a) noexcept {
+static inline vector<T, 2, V> perpendicular(const vector<T, 2, V>& a) noexcept {
     return vector<T, 2, V>{{-a._v[1], a._v[0]}};
 }
 
@@ -306,15 +301,13 @@ length(const vector<T, N, V>& a) noexcept {
 }
 
 template <typename T, int N, bool V>
-static inline vector<T, N, V>
-_nmld(
+static inline vector<T, N, V> _nmld(
   const vector<T, N, V>& a, const scalar<T, N, V>& l, std::true_type) noexcept {
     return {vect::sdiv<T, N, V>::apply(a._v, l._v)};
 }
 
 template <typename T, int N, bool V>
-static inline vector<T, N, V>
-_nmld(
+static inline vector<T, N, V> _nmld(
   const vector<T, N, V>& a,
   const scalar<T, N, V>& l,
   std::false_type) noexcept {
@@ -322,8 +315,7 @@ _nmld(
 }
 
 template <typename T, int N, bool V>
-static inline vector<T, N, V>
-normalized(const vector<T, N, V>& a) noexcept {
+static inline vector<T, N, V> normalized(const vector<T, N, V>& a) noexcept {
     scalar<T, N, V> l = length(a);
     return _nmld(a, l, vect::has_vect_data<T, N, V>());
 }

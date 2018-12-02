@@ -30,8 +30,7 @@ operator|(render_param_bit a, render_param_bit b) noexcept {
     return {a, b};
 }
 
-static constexpr inline render_param_bits
-all_render_params() noexcept {
+static constexpr inline render_param_bits all_render_params() noexcept {
     return render_param_bit::normalized_coord | render_param_bit::voxel_size |
            render_param_bit::voxel_offset | render_param_bit::element_offset;
 }

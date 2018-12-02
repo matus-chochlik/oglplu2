@@ -13,8 +13,7 @@ BOOST_AUTO_TEST_SUITE(quantities_tests_1)
 static eagine::test_random_generator rg;
 
 template <typename T>
-void
-eagine_test_quantities_1(void) {
+void eagine_test_quantities_1() {
     using namespace eagine;
 
     T r1 = rg.get<T>(-1000, 1000);

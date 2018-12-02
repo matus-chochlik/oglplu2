@@ -7,18 +7,17 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
+#include <eagine/memory/address.hpp>
 #include <cctype>
 #include <iomanip>
 #include <iostream>
-#include <eagine/memory/address.hpp>
 
 namespace eagine {
 //------------------------------------------------------------------------------
 // hexdump::_to_hex_b
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void
-hexdump::_to_hex_b(std::ostream& out, byte b) {
+void hexdump::_to_hex_b(std::ostream& out, byte b) {
     static const char hd[16] = {'0',
                                 '1',
                                 '2',
@@ -41,8 +40,7 @@ hexdump::_to_hex_b(std::ostream& out, byte b) {
 // ostream << hexdump
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-std::ostream&
-operator<<(std::ostream& out, const hexdump& hd) {
+std::ostream& operator<<(std::ostream& out, const hexdump& hd) {
     out << std::endl;
 
     const byte* bgn = hd._mb.begin();

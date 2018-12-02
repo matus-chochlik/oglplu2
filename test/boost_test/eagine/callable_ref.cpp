@@ -10,8 +10,7 @@
 
 #include <type_traits>
 
-float
-foo(float a, float b, float c) {
+float foo(float a, float b, float c) {
     return (a - b) / (a + c);
 }
 
@@ -38,7 +37,7 @@ struct bar {
 struct baz {
     int i;
 
-    baz& inc(void) {
+    baz& inc() {
         ++i;
         return *this;
     }
@@ -134,8 +133,8 @@ BOOST_AUTO_TEST_CASE(callable_ref_baz_1) {
     using namespace eagine;
 
     baz bz{2};
-    callable_ref<baz&(void)> cr(
-      &bz, member_function_constant<baz& (baz::*)(void), &baz::inc>());
+    callable_ref<baz&()> cr(
+      &bz, member_function_constant<baz& (baz::*)(), &baz::inc>());
 
     BOOST_CHECK(bool(cr) == true);
     BOOST_CHECK(!(cr) == false);

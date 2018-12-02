@@ -47,15 +47,13 @@ public:
 };
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-const compile_context_impl&
-compile_context::_impl() const noexcept {
+const compile_context_impl& compile_context::_impl() const noexcept {
     assert(_pimpl != nullptr);
     return *_pimpl;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-compile_context_impl&
-compile_context::_impl() noexcept {
+compile_context_impl& compile_context::_impl() noexcept {
     assert(_pimpl != nullptr);
     return *_pimpl;
 }
@@ -71,50 +69,44 @@ compile_context::~compile_context() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-unsigned
-compile_context::glsl_version() const {
+unsigned compile_context::glsl_version() const {
     return _impl().glsl_version();
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-void
-compile_context::add_tag(const cstr_ref& tag) {
+void compile_context::add_tag(const cstr_ref& tag) {
     _impl().add_tag(
       std::string(tag.data(), std::string::size_type(tag.size())));
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-bool
-compile_context::has_tag(const cstr_ref& tag) const noexcept {
+bool compile_context::has_tag(const cstr_ref& tag) const noexcept {
     return _impl().has_tag(
       std::string(tag.data(), std::string::size_type(tag.size())));
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-void
-compile_context::remember_constant(const constant_intf& constant) {
+void compile_context::remember_constant(const constant_intf& constant) {
     cstr_ref n = constant.name();
     _impl().add_tag(n.str());
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-bool
-compile_context::remembers_constant(const constant_intf& constant) const
+bool compile_context::remembers_constant(const constant_intf& constant) const
   noexcept {
     cstr_ref n = constant.name();
     return _impl().has_tag(n.str());
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-void
-compile_context::remember_output(const output_intf& output) {
+void compile_context::remember_output(const output_intf& output) {
     return _impl().remember_output(
       reinterpret_cast<std::intptr_t>(std::addressof(output)));
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-bool
-compile_context::remembers_output(const output_intf& output) const noexcept {
+bool compile_context::remembers_output(const output_intf& output) const
+  noexcept {
     return _impl().remembers_output(
       reinterpret_cast<std::intptr_t>(std::addressof(output)));
 }
@@ -153,8 +145,7 @@ node_intf::output_by_name(const cstr_ref& name) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-void
-node_intf::disconnect_all() {
+void node_intf::disconnect_all() {
     for(span_size_t i = 0; i < input_count(); ++i) {
         input(i).disconnect();
     }
@@ -164,44 +155,37 @@ node_intf::disconnect_all() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-bool
-input_slot::is_connected(output_slot& output) {
+bool input_slot::is_connected(output_slot& output) {
     return _impl().is_connected(output._impl());
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-bool
-input_slot::connect(output_slot& output) {
+bool input_slot::connect(output_slot& output) {
     return _impl().connect(output._impl());
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-bool
-input_slot::disconnect(output_slot& output) {
+bool input_slot::disconnect(output_slot& output) {
     return _impl().disconnect(output._impl());
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-bool
-output_slot::is_connected(input_slot& input) {
+bool output_slot::is_connected(input_slot& input) {
     return _impl().is_connected(input._impl());
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-bool
-output_slot::connect(input_slot& input) {
+bool output_slot::connect(input_slot& input) {
     return _impl().connect(input._impl());
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-bool
-output_slot::disconnect(input_slot& input) {
+bool output_slot::disconnect(input_slot& input) {
     return _impl().disconnect(input._impl());
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-bool
-connect_output_to_input(output_intf& output, input_intf& input) {
+bool connect_output_to_input(output_intf& output, input_intf& input) {
     if(input.can_connect(output)) {
         if(output.connect(input)) {
             if(input.connect(output)) {
@@ -214,8 +198,7 @@ connect_output_to_input(output_intf& output, input_intf& input) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-bool
-disconnect_output_from_input(output_intf& output, input_intf& input) {
+bool disconnect_output_from_input(output_intf& output, input_intf& input) {
     if(input.is_connected(output)) {
         assert(output.is_connected(input));
         input.disconnect(output);

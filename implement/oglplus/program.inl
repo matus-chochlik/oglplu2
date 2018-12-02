@@ -28,8 +28,7 @@ program_ops::detach_shader(program_name prog, shader_name shdr) noexcept {
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-program_ops::link_program(program_name prog) noexcept {
+inline outcome<void> program_ops::link_program(program_name prog) noexcept {
     OGLPLUS_GLFUNC(LinkProgram)(get_raw_name(prog));
     OGLPLUS_VERIFY(LinkProgram, gl_object(prog).info_log_of(prog), always);
     return {};
@@ -44,8 +43,7 @@ program_ops::report_program_link_error(program_name prog) noexcept {
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-program_ops::validate_program(program_name prog) noexcept {
+inline outcome<void> program_ops::validate_program(program_name prog) noexcept {
     OGLPLUS_GLFUNC(ValidateProgram)(get_raw_name(prog));
     OGLPLUS_VERIFY(ValidateProgram, gl_object(prog).info_log_of(prog), always);
     return {};
@@ -60,15 +58,13 @@ program_ops::report_program_validate_error(program_name prog) noexcept {
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-program_ops::use_program(program_name prog) noexcept {
+inline outcome<void> program_ops::use_program(program_name prog) noexcept {
     OGLPLUS_GLFUNC(UseProgram)(get_raw_name(prog));
     OGLPLUS_VERIFY(UseProgram, gl_object(prog).info_log_of(prog), debug);
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<program_name>
-program_ops::current_program() noexcept {
+inline outcome<program_name> program_ops::current_program() noexcept {
 #ifdef GL_CURRENT_PROGRAM
     GLint result = 0;
     return numeric_queries::get_integer_v(
@@ -80,8 +76,7 @@ program_ops::current_program() noexcept {
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_1)
-inline outcome<void>
-program_ops::program_parameter_i(
+inline outcome<void> program_ops::program_parameter_i(
   program_name prog, program_parameter para, GLint value) noexcept {
     OGLPLUS_GLFUNC(ProgramParameteri)(get_raw_name(prog), GLenum(para), value);
     OGLPLUS_VERIFY(
@@ -89,8 +84,7 @@ program_ops::program_parameter_i(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-program_ops::program_binary_retrievable_hint(
+inline outcome<void> program_ops::program_binary_retrievable_hint(
   program_name prog, boolean value) noexcept {
     return program_parameter_i(
       prog,
@@ -110,8 +104,7 @@ program_ops::get_program_binary_length(program_name prog) noexcept {
       prog, program_parameter(GL_PROGRAM_BINARY_LENGTH));
 }
 //------------------------------------------------------------------------------
-inline outcome<memory_block>
-program_ops::get_program_binary(
+inline outcome<memory_block> program_ops::get_program_binary(
   program_name prog, GLenum& format, memory_block dest) noexcept {
     GLsizei reallen = 0;
     OGLPLUS_GLFUNC(GetProgramBinary)
@@ -120,8 +113,7 @@ program_ops::get_program_binary(
     return {eagine::ranges::head(dest, reallen)};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-program_ops::program_binary(
+inline outcome<void> program_ops::program_binary(
   program_name prog, GLenum format, const_memory_block binary) noexcept {
     OGLPLUS_GLFUNC(ProgramBinary)
     (get_raw_name(prog), format, binary.data(), GLsizei(binary.size()));
@@ -131,8 +123,7 @@ program_ops::program_binary(
 //------------------------------------------------------------------------------
 #endif // GL_VERSION_4_1
 //------------------------------------------------------------------------------
-inline outcome<void>
-program_ops::get_program_iv(
+inline outcome<void> program_ops::get_program_iv(
   program_name prog, program_parameter para, span<GLint> values) noexcept {
     assert(values.size() > 0);
     OGLPLUS_GLFUNC(GetProgramiv)
@@ -142,8 +133,7 @@ program_ops::get_program_iv(
 }
 //------------------------------------------------------------------------------
 template <typename R, typename T>
-inline outcome<R>
-program_ops::return_program_parameter_i(
+inline outcome<R> program_ops::return_program_parameter_i(
   program_name prog, program_parameter parameter) noexcept {
     GLint result = 0;
     return get_program_iv(prog, parameter, {&result, 1}), R(T(result));
@@ -188,15 +178,13 @@ program_ops::get_program_active_attributes(program_name prog) noexcept {
       prog, program_parameter(GL_ACTIVE_ATTRIBUTES));
 }
 //------------------------------------------------------------------------------
-inline outcome<GLsizei>
-program_ops::get_program_active_attribute_max_length(
+inline outcome<GLsizei> program_ops::get_program_active_attribute_max_length(
   program_name prog) noexcept {
     return return_program_parameter_i<GLsizei, GLsizei>(
       prog, program_parameter(GL_ACTIVE_ATTRIBUTE_MAX_LENGTH));
 }
 //------------------------------------------------------------------------------
-inline outcome<GLsizei>
-program_ops::get_active_attrib(
+inline outcome<GLsizei> program_ops::get_active_attrib(
   program_name prog,
   GLuint index,
   span<char> name,
@@ -229,8 +217,7 @@ program_ops::get_program_active_uniform_max_length(program_name prog) noexcept {
       prog, program_parameter(GL_ACTIVE_UNIFORM_MAX_LENGTH));
 }
 //------------------------------------------------------------------------------
-inline outcome<GLsizei>
-program_ops::get_active_uniform(
+inline outcome<GLsizei> program_ops::get_active_uniform(
   program_name prog,
   GLuint index,
   span<char> name,
@@ -252,8 +239,7 @@ program_ops::get_active_uniform(
 }
 //------------------------------------------------------------------------------
 #if defined(GL_ACTIVE_ATOMIC_COUNTER_BUFFERS)
-inline outcome<GLsizei>
-program_ops::get_program_active_atomic_counter_buffers(
+inline outcome<GLsizei> program_ops::get_program_active_atomic_counter_buffers(
   program_name prog) noexcept {
     return return_program_parameter_i<GLsizei, GLsizei>(
       prog, program_parameter(GL_ACTIVE_ATOMIC_COUNTER_BUFFERS));
@@ -303,8 +289,7 @@ program_ops::get_program_compute_work_group_size(program_name prog) noexcept {
 }
 #endif
 //------------------------------------------------------------------------------
-inline outcome<void>
-program_ops::bind_attrib_location(
+inline outcome<void> program_ops::bind_attrib_location(
   program_name prog, GLuint index, cstr_ref attr_name) noexcept {
     OGLPLUS_GLFUNC(BindAttribLocation)
     (get_raw_name(prog), index, attr_name.data());

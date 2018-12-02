@@ -62,8 +62,8 @@ struct perspective<matrix<T, 4, 4, RM, V>> {
         return _v[5];
     }
 
-    static inline perspective x(
-      radians_t<T> xfov, T aspect, T z_near, T z_far) noexcept {
+    static inline perspective
+    x(radians_t<T> xfov, T aspect, T z_near, T z_far) noexcept {
         assert(aspect > T(0));
         assert(T(xfov) > T(0));
 
@@ -76,8 +76,8 @@ struct perspective<matrix<T, 4, 4, RM, V>> {
         return perspective(x_left, x_right, y_bottom, y_top, z_near, z_far);
     }
 
-    static inline perspective y(
-      radians_t<T> yfov, T aspect, T z_near, T z_far) noexcept {
+    static inline perspective
+    y(radians_t<T> yfov, T aspect, T z_near, T z_far) noexcept {
         assert(aspect > T(0));
         assert(T(yfov) > T(0));
 

@@ -10,10 +10,10 @@
 #ifndef EAGINE_TAGGED_QUANTITY_1509260923_HPP
 #define EAGINE_TAGGED_QUANTITY_1509260923_HPP
 
-#include <cmath>
 #include "std/type_traits.hpp"
 #include "units/default.hpp"
 #include "units/traits.hpp"
+#include <cmath>
 
 #ifdef __clang__
 #pragma clang diagnostic push
@@ -139,14 +139,12 @@ static constexpr inline auto operator*(const T& v, U) {
 }
 
 template <typename UX, typename T, typename U>
-static inline auto
-convert_to(const tagged_quantity<T, U>& q) {
+static inline auto convert_to(const tagged_quantity<T, U>& q) {
     return q.template to<UX>();
 }
 
 template <typename T, typename U>
-static inline T
-value(const tagged_quantity<T, U>& q) {
+static inline T value(const tagged_quantity<T, U>& q) {
     return q.value();
 }
 
@@ -187,14 +185,12 @@ operator>=(const tagged_quantity<T1, U1>& a, const tagged_quantity<T2, U2>& b) {
 }
 
 template <typename T, typename U>
-constexpr inline auto
-operator+(const tagged_quantity<T, U>& a) {
+constexpr inline auto operator+(const tagged_quantity<T, U>& a) {
     return a;
 }
 
 template <typename T, typename U>
-constexpr inline auto
-operator-(const tagged_quantity<T, U>& a) {
+constexpr inline auto operator-(const tagged_quantity<T, U>& a) {
     return make_tagged_quantity<U>(-value(a));
 }
 
@@ -217,8 +213,8 @@ operator-(const tagged_quantity<T1, U1>& a, const tagged_quantity<T2, U2>& b) {
 }
 
 template <typename T1, typename U1, typename T2, typename U2>
-constexpr inline auto operator*(
-  const tagged_quantity<T1, U1>& a, const tagged_quantity<T2, U2>& b) {
+constexpr inline auto
+operator*(const tagged_quantity<T1, U1>& a, const tagged_quantity<T2, U2>& b) {
     typedef units::mul_l_operand_t<U1, U2> UO1;
     typedef units::mul_r_operand_t<U1, U2> UO2;
     typedef units::mul_result_t<U1, U2> UR;
@@ -267,8 +263,7 @@ template <
   typename U,
   typename T2,
   typename = std::enable_if_t<!units::is_unit_v<T2>>>
-constexpr inline auto
-operator/(const tagged_quantity<T1, U>& a, const T2& c) {
+constexpr inline auto operator/(const tagged_quantity<T1, U>& a, const T2& c) {
     return make_tagged_quantity<U>((1.f * value(a)) / c);
 }
 
@@ -277,8 +272,7 @@ template <
   typename U1,
   typename U2,
   typename = std::enable_if_t<units::is_unit_v<U2>>>
-constexpr inline auto
-operator/(const tagged_quantity<T1, U1>& a, U2) {
+constexpr inline auto operator/(const tagged_quantity<T1, U1>& a, U2) {
     return a / make_tagged_quantity<U2>(1);
 }
 

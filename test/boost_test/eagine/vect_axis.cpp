@@ -13,8 +13,7 @@ BOOST_AUTO_TEST_SUITE(vect_axis_tests)
 static eagine::test_random_generator rg;
 
 template <typename T, int I, int N, bool V>
-void
-test_vect_axis_apply_TINV(void) {
+void test_vect_axis_apply_TINV() {
     for(int k = 0; k < 1000; ++k) {
         T a = rg.get_any<T>();
 
@@ -28,8 +27,7 @@ test_vect_axis_apply_TINV(void) {
 }
 
 template <typename T, bool V>
-void
-test_vect_axis_apply_TV(void) {
+void test_vect_axis_apply_TV() {
     test_vect_axis_apply_TINV<T, 0, 2, V>();
     test_vect_axis_apply_TINV<T, 1, 2, V>();
     test_vect_axis_apply_TINV<T, 2, 2, V>();
@@ -81,8 +79,7 @@ test_vect_axis_apply_TV(void) {
 }
 
 template <typename T>
-void
-test_vect_axis_apply_T(void) {
+void test_vect_axis_apply_T() {
     test_vect_axis_apply_TV<T, true>();
     test_vect_axis_apply_TV<T, false>();
 }

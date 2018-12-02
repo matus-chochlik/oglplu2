@@ -13,8 +13,7 @@ namespace oglplus {
 //------------------------------------------------------------------------------
 namespace oper {
 //------------------------------------------------------------------------------
-inline outcome<void>
-named_string_state::named_string(
+inline outcome<void> named_string_state::named_string(
   oglplus::named_string_type type,
   cstring_span name,
   cstring_span value) noexcept {
@@ -43,8 +42,7 @@ named_string_state::is_named_string(cstring_span name) noexcept {
     return {boolean(result)};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-named_string_state::get_named_string_iv(
+inline outcome<void> named_string_state::get_named_string_iv(
   cstring_span name, named_string_param param, span<GLint> values) noexcept {
     assert(values.size() > 0);
     OGLPLUS_GLFUNC(GetNamedStringivARB)
@@ -69,8 +67,7 @@ named_string_state::get_named_string_type(cstring_span name) noexcept {
       .add(oglplus::named_string_type(GLenum(result)));
 }
 //------------------------------------------------------------------------------
-inline outcome<GLint>
-named_string_state::get_named_string(
+inline outcome<GLint> named_string_state::get_named_string(
   cstring_span name, span<GLchar> buf) noexcept {
     GLint reallen = 0;
     OGLPLUS_GLFUNC(GetNamedStringARB)

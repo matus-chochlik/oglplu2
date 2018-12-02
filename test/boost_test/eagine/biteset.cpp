@@ -18,8 +18,7 @@ constexpr const unsigned char bmin = 0x02;
 constexpr const unsigned char bmax = 0x0F;
 
 template <std::size_t N, std::size_t B>
-void
-do_test_biteset_1(const eagine::biteset<N, B>& bs) {
+void do_test_biteset_1(const eagine::biteset<N, B>& bs) {
     using namespace eagine;
 
     BOOST_CHECK_EQUAL(bs.size(), N);
@@ -31,8 +30,7 @@ do_test_biteset_1(const eagine::biteset<N, B>& bs) {
 }
 
 template <std::size_t B>
-void
-test_biteset_1(void) {
+void test_biteset_1() {
     using namespace eagine;
 
     for(int i = 0; i < 100; ++i) {
@@ -95,8 +93,7 @@ BOOST_AUTO_TEST_CASE(biteset_1) {
 }
 
 template <std::size_t N, std::size_t B>
-void
-do_test_biteset_2(
+void do_test_biteset_2(
   const eagine::biteset<N, B>& bs1, const eagine::biteset<N, B>& bs2) {
     using namespace eagine;
 
@@ -109,8 +106,7 @@ do_test_biteset_2(
 }
 
 template <std::size_t B>
-void
-test_biteset_2(void) {
+void test_biteset_2() {
     using namespace eagine;
 
     for(int i = 0; i < 100; ++i) {
@@ -185,8 +181,7 @@ BOOST_AUTO_TEST_CASE(biteset_2) {
 }
 
 template <std::size_t N, std::size_t B, typename T>
-void
-do_test_biteset_3(eagine::biteset<N, B, T>&& bs) {
+void do_test_biteset_3(eagine::biteset<N, B, T>&& bs) {
     using namespace eagine;
     using sz_t = typename eagine::biteset<N, B>::size_type;
 
@@ -232,8 +227,7 @@ do_test_biteset_3(eagine::biteset<N, B, T>&& bs) {
 }
 
 template <std::size_t B>
-void
-test_biteset_3(void) {
+void test_biteset_3() {
     using namespace eagine;
 
     for(int i = 0; i < 100; ++i) {
@@ -302,8 +296,7 @@ BOOST_AUTO_TEST_CASE(biteset_3) {
 }
 
 template <std::size_t N, std::size_t B, typename T>
-void
-do_test_biteset_4(eagine::biteset<N, B, T>&& bs) {
+void do_test_biteset_4(eagine::biteset<N, B, T>&& bs) {
     std::sort(bs.begin(), bs.end());
 
     const eagine::biteset<N, B, T>& cbs = bs;
@@ -312,8 +305,7 @@ do_test_biteset_4(eagine::biteset<N, B, T>&& bs) {
 }
 
 template <std::size_t B>
-void
-test_biteset_4(void) {
+void test_biteset_4() {
     using namespace eagine;
 
     for(int i = 0; i < 100; ++i) {

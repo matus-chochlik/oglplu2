@@ -38,13 +38,13 @@ struct shader_ops {
     static outcome<void> release_shader_compiler() noexcept;
 #endif
 
-    static outcome<void> shader_source(
-      shader_name shdr, const glsl_source_ref& source) noexcept;
+    static outcome<void>
+    shader_source(shader_name shdr, const glsl_source_ref& source) noexcept;
 
     static outcome<GLsizei> get_shader_source_length(shader_name shdr) noexcept;
 
-    static outcome<span<char>> get_shader_source(
-      shader_name shdr, span<char> dest) noexcept;
+    static outcome<span<char>>
+    get_shader_source(shader_name shdr, span<char> dest) noexcept;
 
     static outcome<void> compile_shader(shader_name shdr) noexcept;
 
@@ -54,21 +54,21 @@ struct shader_ops {
       shader_name shdr, shader_parameter param, span<GLint> values) noexcept;
 
     template <typename R, typename T>
-    static outcome<R> return_shader_i(
-      shader_name shdr, shader_parameter parameter) noexcept;
+    static outcome<R>
+    return_shader_i(shader_name shdr, shader_parameter parameter) noexcept;
 
     static outcome<shader_type> get_shader_type(shader_name shdr) noexcept;
 
     static outcome<boolean> get_shader_delete_status(shader_name shdr) noexcept;
 
-    static outcome<boolean> get_shader_compile_status(
-      shader_name shdr) noexcept;
+    static outcome<boolean>
+    get_shader_compile_status(shader_name shdr) noexcept;
 
-    static outcome<GLsizei> get_shader_info_log_length(
-      shader_name shdr) noexcept;
+    static outcome<GLsizei>
+    get_shader_info_log_length(shader_name shdr) noexcept;
 
-    static outcome<span<char>> get_shader_info_log(
-      shader_name shdr, span<char> dest) noexcept;
+    static outcome<span<char>>
+    get_shader_info_log(shader_name shdr, span<char> dest) noexcept;
 };
 
 } // namespace oper
@@ -124,11 +124,11 @@ struct obj_dsa_ops<tag::shader> : obj_zero_dsa_ops<tag::shader> {
 // obj_gen_del_ops
 template <>
 struct obj_gen_del_ops<tag::shader> {
-    static deferred_error_handler _gen(
-      span<GLuint> names, shader_type type) noexcept;
+    static deferred_error_handler
+    _gen(span<GLuint> names, shader_type type) noexcept;
 
-    static deferred_error_handler _create(
-      shader_type type, span<GLuint> names) noexcept;
+    static deferred_error_handler
+    _create(shader_type type, span<GLuint> names) noexcept;
 
     static deferred_error_handler _delete(span<GLuint> names) noexcept;
 

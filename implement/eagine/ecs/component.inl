@@ -11,15 +11,13 @@ namespace eagine {
 namespace ecs {
 //------------------------------------------------------------------------------
 template <>
-EAGINE_LIB_FUNC component_uid_t&
-component_uid_getter<false>::_curr_uid() {
+EAGINE_LIB_FUNC component_uid_t& component_uid_getter<false>::_curr_uid() {
     static component_uid_t uid = 0;
     return uid;
 }
 //------------------------------------------------------------------------------
 template <>
-EAGINE_LIB_FUNC component_uid_t&
-component_uid_getter<true>::_curr_uid() {
+EAGINE_LIB_FUNC component_uid_t& component_uid_getter<true>::_curr_uid() {
     static component_uid_t uid = 0;
     return uid;
 }

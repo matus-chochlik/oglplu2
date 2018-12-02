@@ -19,8 +19,7 @@
 namespace eglplus {
 
 EGLPLUS_LIB_FUNC
-cstr_ref
-get_enum_value_name(const any_enum_value& aev) noexcept {
+cstr_ref get_enum_value_name(const any_enum_value& aev) noexcept {
 #ifdef EGL_ALPHA_MASK_SIZE
     static const char s_ALPHA_MASK_SIZE[16] = "ALPHA_MASK_SIZE";
 #endif

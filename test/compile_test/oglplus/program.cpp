@@ -12,14 +12,12 @@
 
 using namespace oglplus;
 
-void
-oglplus_program_test_1(void) {
+void oglplus_program_test_1() {
     oglplus_object_name_test<program_name>();
     oglplus_object_test<program>();
 }
 
-void
-oglplus_program_test_ops1(void) {
+void oglplus_program_test_ops1() {
     oper::program_ops gl;
     program prog;
     program_array<4> progs;

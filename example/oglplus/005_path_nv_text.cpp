@@ -119,21 +119,18 @@ public:
     }
 };
 
-std::unique_ptr<example>
-make_example(
+std::unique_ptr<example> make_example(
   const example_args&, const example_params&, const example_state_view&) {
     return std::unique_ptr<example>(new example_clear());
 }
 
-void
-adjust_params(example_params& params) {
+void adjust_params(example_params& params) {
     params.compatibility_context(true);
     params.depth_buffer(false);
     params.stencil_buffer(true);
 }
 
-bool
-is_example_param(const example_arg&) {
+bool is_example_param(const example_arg&) {
     return false;
 }
 

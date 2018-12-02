@@ -18,8 +18,8 @@ namespace oper {
 
 struct object_lifetime_ops {
     template <typename ObjTag, typename Storage>
-    static inline outcome<void> gen_objects(
-      owned<object_names<ObjTag, Storage>>& names) noexcept {
+    static inline outcome<void>
+    gen_objects(owned<object_names<ObjTag, Storage>>& names) noexcept {
         return obj_lifetime_ops<ObjTag>::gen_objects(names);
     }
 
@@ -31,8 +31,8 @@ struct object_lifetime_ops {
     }
 
     template <typename ObjTag, typename Storage>
-    static inline outcome<void> delete_objects(
-      owned<object_names<ObjTag, Storage>>& names) noexcept {
+    static inline outcome<void>
+    delete_objects(owned<object_names<ObjTag, Storage>>& names) noexcept {
         return obj_lifetime_ops<ObjTag>::delete_objects(names);
     }
 

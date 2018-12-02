@@ -14,8 +14,7 @@
 BOOST_AUTO_TEST_SUITE(vararray_tests)
 
 template <typename T, typename S, S N>
-void
-test_vararray_1_TSN(void) {
+void test_vararray_1_TSN() {
     using namespace eagine;
 
     basic_vararray_store<T, S, N> vas;
@@ -43,8 +42,7 @@ test_vararray_1_TSN(void) {
 }
 
 template <typename T, typename S>
-void
-test_vararray_1_TS(void) {
+void test_vararray_1_TS() {
     test_vararray_1_TSN<T, S, 1>();
     test_vararray_1_TSN<T, S, 2>();
     test_vararray_1_TSN<T, S, 5>();
@@ -56,8 +54,7 @@ test_vararray_1_TS(void) {
 }
 
 template <typename T>
-void
-test_vararray_1_T(void) {
+void test_vararray_1_T() {
     test_vararray_1_TS<T, std::size_t>();
     test_vararray_1_TS<T, unsigned short>();
 }

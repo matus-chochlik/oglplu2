@@ -32,16 +32,14 @@ vertex_array_ops::vertex_array_binding() noexcept {
 #endif
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-vertex_array_ops::enable_vertex_array_attrib(
+inline outcome<void> vertex_array_ops::enable_vertex_array_attrib(
   vertex_attrib_location va) noexcept {
     OGLPLUS_GLFUNC(EnableVertexAttribArray)(va.index());
     OGLPLUS_VERIFY(EnableVertexAttribArray, gl_index(va.index()), always);
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-vertex_array_ops::disable_vertex_array_attrib(
+inline outcome<void> vertex_array_ops::disable_vertex_array_attrib(
   vertex_attrib_location va) noexcept {
     OGLPLUS_GLFUNC(DisableVertexAttribArray)(va.index());
     OGLPLUS_VERIFY(DisableVertexAttribArray, gl_index(va.index()), always);
@@ -49,8 +47,7 @@ vertex_array_ops::disable_vertex_array_attrib(
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
-inline outcome<void>
-vertex_array_ops::enable_vertex_array_attrib(
+inline outcome<void> vertex_array_ops::enable_vertex_array_attrib(
   vertex_array_name vao, vertex_attrib_location va) noexcept {
 #ifdef GL_VERSION_4_5
     OGLPLUS_GLFUNC(EnableVertexArrayAttrib)
@@ -67,8 +64,7 @@ vertex_array_ops::enable_vertex_array_attrib(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-vertex_array_ops::disable_vertex_array_attrib(
+inline outcome<void> vertex_array_ops::disable_vertex_array_attrib(
   vertex_array_name vao, vertex_attrib_location va) noexcept {
 #ifdef GL_VERSION_4_5
     OGLPLUS_GLFUNC(DisableVertexArrayAttrib)
@@ -86,8 +82,7 @@ vertex_array_ops::disable_vertex_array_attrib(
 }
 #endif
 //------------------------------------------------------------------------------
-inline outcome<void>
-vertex_array_ops::vertex_array_attrib_pointer(
+inline outcome<void> vertex_array_ops::vertex_array_attrib_pointer(
   vertex_attrib_location loc,
   GLint values_per_vertex,
   data_type type,
@@ -101,8 +96,7 @@ vertex_array_ops::vertex_array_attrib_pointer(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-vertex_array_ops::vertex_array_attrib_i_pointer(
+inline outcome<void> vertex_array_ops::vertex_array_attrib_i_pointer(
   vertex_attrib_location loc,
   GLint values_per_vertex,
   data_type type,
@@ -116,8 +110,7 @@ vertex_array_ops::vertex_array_attrib_i_pointer(
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_3) || defined(GL_ARB_vertex_attrib_binding)
-inline outcome<void>
-vertex_array_ops::vertex_array_vertex_buffer(
+inline outcome<void> vertex_array_ops::vertex_array_vertex_buffer(
   GLuint binding_index,
   buffer_name buf,
   buffer_size offset,
@@ -129,24 +122,21 @@ vertex_array_ops::vertex_array_vertex_buffer(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-vertex_array_ops::vertex_array_attrib_binding(
+inline outcome<void> vertex_array_ops::vertex_array_attrib_binding(
   vertex_attrib_location loc, GLuint binding_index) noexcept {
     OGLPLUS_GLFUNC(VertexAttribBinding)(loc.index(), binding_index);
     OGLPLUS_VERIFY(VertexAttribBinding, gl_index(binding_index), always);
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-vertex_array_ops::vertex_array_binding_divisor(
+inline outcome<void> vertex_array_ops::vertex_array_binding_divisor(
   GLuint binding_index, GLuint divisor) noexcept {
     OGLPLUS_GLFUNC(VertexBindingDivisor)(binding_index, divisor);
     OGLPLUS_VERIFY(VertexBindingDivisor, gl_index(binding_index), always);
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-vertex_array_ops::vertex_array_attrib_format(
+inline outcome<void> vertex_array_ops::vertex_array_attrib_format(
   vertex_attrib_location loc,
   GLint values_per_vertex,
   data_type type,
@@ -159,8 +149,7 @@ vertex_array_ops::vertex_array_attrib_format(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-vertex_array_ops::vertex_array_attrib_i_format(
+inline outcome<void> vertex_array_ops::vertex_array_attrib_i_format(
   vertex_attrib_location loc,
   GLint values_per_vertex,
   data_type type,
@@ -172,8 +161,7 @@ vertex_array_ops::vertex_array_attrib_i_format(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-vertex_array_ops::vertex_array_attrib_l_format(
+inline outcome<void> vertex_array_ops::vertex_array_attrib_l_format(
   vertex_attrib_location loc,
   GLint values_per_vertex,
   data_type type,
@@ -187,8 +175,7 @@ vertex_array_ops::vertex_array_attrib_l_format(
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5)
-inline outcome<void>
-vertex_array_ops::vertex_array_vertex_buffer(
+inline outcome<void> vertex_array_ops::vertex_array_vertex_buffer(
   vertex_array_name vao,
   vertex_attrib_location loc,
   buffer_name buf,
@@ -203,8 +190,7 @@ vertex_array_ops::vertex_array_vertex_buffer(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-vertex_array_ops::vertex_array_vertex_buffer(
+inline outcome<void> vertex_array_ops::vertex_array_vertex_buffer(
   vertex_array_name vao,
   GLuint binding_index,
   buffer_name buf,
@@ -223,8 +209,7 @@ vertex_array_ops::vertex_array_vertex_buffer(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-vertex_array_ops::vertex_array_attrib_binding(
+inline outcome<void> vertex_array_ops::vertex_array_attrib_binding(
   vertex_array_name vao,
   vertex_attrib_location loc,
   GLuint binding_index) noexcept {
@@ -235,8 +220,7 @@ vertex_array_ops::vertex_array_attrib_binding(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-vertex_array_ops::vertex_array_binding_divisor(
+inline outcome<void> vertex_array_ops::vertex_array_binding_divisor(
   vertex_array_name vao, GLuint binding_index, GLuint divisor) noexcept {
     OGLPLUS_GLFUNC(VertexArrayBindingDivisor)
     (get_raw_name(vao), binding_index, divisor);
@@ -247,8 +231,7 @@ vertex_array_ops::vertex_array_binding_divisor(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-vertex_array_ops::vertex_array_attrib_format(
+inline outcome<void> vertex_array_ops::vertex_array_attrib_format(
   vertex_array_name vao,
   vertex_attrib_location loc,
   GLint values_per_vertex,
@@ -269,8 +252,7 @@ vertex_array_ops::vertex_array_attrib_format(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-vertex_array_ops::vertex_array_attrib_i_format(
+inline outcome<void> vertex_array_ops::vertex_array_attrib_i_format(
   vertex_array_name vao,
   vertex_attrib_location loc,
   GLint values_per_vertex,
@@ -289,8 +271,7 @@ vertex_array_ops::vertex_array_attrib_i_format(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-vertex_array_ops::vertex_array_attrib_l_format(
+inline outcome<void> vertex_array_ops::vertex_array_attrib_l_format(
   vertex_array_name vao,
   vertex_attrib_location loc,
   GLint values_per_vertex,
@@ -311,8 +292,7 @@ vertex_array_ops::vertex_array_attrib_l_format(
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_EXT_direct_state_access)
-inline outcome<void>
-vertex_array_ops::vertex_array_attrib_offset(
+inline outcome<void> vertex_array_ops::vertex_array_attrib_offset(
   vertex_array_name vao,
   buffer_name buf,
   vertex_attrib_location loc,
@@ -337,8 +317,7 @@ vertex_array_ops::vertex_array_attrib_offset(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-vertex_array_ops::vertex_array_attrib_i_offset(
+inline outcome<void> vertex_array_ops::vertex_array_attrib_i_offset(
   vertex_array_name vao,
   buffer_name buf,
   vertex_attrib_location loc,
@@ -363,8 +342,7 @@ vertex_array_ops::vertex_array_attrib_i_offset(
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_NV_vertex_buffer_unified_memory)
-inline outcome<void>
-vertex_array_ops::buffer_address_range(
+inline outcome<void> vertex_array_ops::buffer_address_range(
   unified_array_address_nv uba,
   GLuint index,
   buffer_address addr,

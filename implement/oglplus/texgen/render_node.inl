@@ -24,8 +24,7 @@ namespace oglplus {
 namespace texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-void
-render_node::_init_screen() {
+void render_node::_init_screen() {
     operations gl;
     constants GL;
 
@@ -72,8 +71,7 @@ render_node::_init_screen() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-void
-render_node::_update_program() {
+void render_node::_update_program() {
     operations gl;
     constants GL;
 
@@ -137,8 +135,7 @@ render_node::~render_node() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-void
-render_node::draw_screen() {
+void render_node::draw_screen() {
     operations gl;
     constants GL;
 
@@ -146,8 +143,7 @@ render_node::draw_screen() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-render_node::make_fragment_shader_source(
+std::ostream& render_node::make_fragment_shader_source(
   std::ostream& out, compile_context& ctxt) {
     out << "#version " << ctxt.glsl_version() << std::endl;
 
@@ -175,34 +171,29 @@ render_node::make_fragment_shader_source(
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref
-render_node::type_name() {
+cstr_ref render_node::type_name() {
     return cstr_ref("Render");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-span_size_t
-render_node::input_count() {
+span_size_t render_node::input_count() {
     return 1;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-input_intf&
-render_node::input(span_size_t index) {
+input_intf& render_node::input(span_size_t index) {
     EAGINE_MAYBE_UNUSED(index);
     assert(index < input_count());
     return _input;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-void
-render_node::update_needed() {
+void render_node::update_needed() {
     _needs_update = true;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-void
-render_node::update_if_needed() {
+void render_node::update_if_needed() {
     if(_needs_update) {
         _update_program();
         _needs_update = false;
@@ -210,8 +201,7 @@ render_node::update_if_needed() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-bool
-render_node::render(const render_params& params) {
+bool render_node::render(const render_params& params) {
     if(_render_version < params.version) {
         update_if_needed();
 
@@ -251,8 +241,7 @@ render_node::render(const render_params& params) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-bool
-render_node::render() {
+bool render_node::render() {
     if(render(_render_params)) {
         ++_render_params.version;
         return true;
@@ -261,8 +250,7 @@ render_node::render() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-void
-render_node::set_divisions(
+void render_node::set_divisions(
   eagine::valid_if_positive<int> xdiv, eagine::valid_if_positive<int> ydiv) {
     _xdiv = xdiv.value_or(1);
     _ydiv = ydiv.value_or(1);
@@ -270,8 +258,7 @@ render_node::set_divisions(
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-void
-render_node::set_dimensions(
+void render_node::set_dimensions(
   eagine::valid_if_positive<int> width, eagine::valid_if_positive<int> height) {
     _render_params.width = width.value_or(1);
     _render_params.height = height.value_or(1);

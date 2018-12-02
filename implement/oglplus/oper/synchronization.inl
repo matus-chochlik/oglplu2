@@ -21,27 +21,23 @@ synchronization::fence_sync(sync_condition cond) noexcept {
     return {sync_object(result)};
 }
 //------------------------------------------------------------------------------
-inline outcome<sync_object>
-synchronization::fence_sync() noexcept {
+inline outcome<sync_object> synchronization::fence_sync() noexcept {
     return fence_sync(sync_condition(GL_SYNC_GPU_COMMANDS_COMPLETE));
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-synchronization::delete_sync(sync_object sync) noexcept {
+inline outcome<void> synchronization::delete_sync(sync_object sync) noexcept {
     OGLPLUS_GLFUNC(DeleteSync)(get_raw_handle(sync));
     OGLPLUS_VERIFY_SIMPLE(DeleteSync, debug);
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<boolean>
-synchronization::is_sync(sync_object sync) noexcept {
+inline outcome<boolean> synchronization::is_sync(sync_object sync) noexcept {
     GLboolean result = OGLPLUS_GLFUNC(IsSync)(get_raw_handle(sync));
     OGLPLUS_VERIFY_SIMPLE(IsSync, debug);
     return {boolean(result)};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-synchronization::get_sync_iv(
+inline outcome<void> synchronization::get_sync_iv(
   sync_object sync,
   oglplus::sync_parameter param,
   span<GLint> values) noexcept {
@@ -57,8 +53,7 @@ synchronization::get_sync_iv(
 }
 //------------------------------------------------------------------------------
 template <typename R, typename T>
-inline outcome<R>
-synchronization::return_sync_i(
+inline outcome<R> synchronization::return_sync_i(
   sync_object sync, sync_parameter parameter) noexcept {
     GLint result = 0;
     return get_sync_iv(sync, parameter, {&result, 1}).add(R(T(result)));
@@ -77,8 +72,7 @@ synchronization::is_sync_signaled(sync_object sync) noexcept {
       .add(boolean(result == GL_SIGNALED));
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-synchronization::wait_sync(sync_object sync) noexcept {
+inline outcome<void> synchronization::wait_sync(sync_object sync) noexcept {
     OGLPLUS_GLFUNC(WaitSync)(get_raw_handle(sync), 0, GL_TIMEOUT_IGNORED);
     OGLPLUS_VERIFY_SIMPLE(WaitSync, debug);
     return {};

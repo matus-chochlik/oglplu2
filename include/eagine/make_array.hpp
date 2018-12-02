@@ -10,9 +10,9 @@
 #ifndef EAGINE_MAKE_ARRAY_1509260923_HPP
 #define EAGINE_MAKE_ARRAY_1509260923_HPP
 
-#include <type_traits>
-#include <array>
 #include "all_are_same.hpp"
+#include <array>
+#include <type_traits>
 
 namespace eagine {
 

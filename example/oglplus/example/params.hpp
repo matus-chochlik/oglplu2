@@ -9,11 +9,11 @@
 #ifndef OGLPLUS_EXAMPLE_PARAMS_1512120710_HPP
 #define OGLPLUS_EXAMPLE_PARAMS_1512120710_HPP
 
-#include <cassert>
 #include <eagine/valid_if/not_empty.hpp>
 #include <eagine/valid_if/positive.hpp>
 #include <oglplus/utils/cstr_ref.hpp>
 #include <oglplus/utils/quantities.hpp>
+#include <cassert>
 
 namespace oglplus {
 
@@ -65,19 +65,21 @@ public:
 
     bool is_readable_file(cstr_ref path) const noexcept;
 
-    eagine::valid_if_not_empty<std::string> find_resource_file_path(
-      cstr_ref res_group, cstr_ref res_name) const noexcept;
+    eagine::valid_if_not_empty<std::string>
+    find_resource_file_path(cstr_ref res_group, cstr_ref res_name) const
+      noexcept;
 
-    eagine::valid_if_not_empty<std::string> find_resource_file_path(
-      cstr_ref res_name) const noexcept {
+    eagine::valid_if_not_empty<std::string>
+    find_resource_file_path(cstr_ref res_name) const noexcept {
         return find_resource_file_path(cstr_ref(), res_name);
     }
 
-    eagine::valid_if_not_empty<std::string> find_resource_file_path(
-      example_resource_type, cstr_ref res_name) const noexcept;
+    eagine::valid_if_not_empty<std::string>
+    find_resource_file_path(example_resource_type, cstr_ref res_name) const
+      noexcept;
 
-    std::string get_resource_file_path(
-      example_resource_type, cstr_ref res_name) const;
+    std::string
+    get_resource_file_path(example_resource_type, cstr_ref res_name) const;
 
     example_params& screenshot_path(eagine::valid_if_not_empty<cstr_ref> path) {
         _screenshot_path = path.value();
@@ -101,8 +103,8 @@ public:
         return seconds_(_screenshot_time);
     }
 
-    example_params& framedump_prefix(
-      eagine::valid_if_not_empty<cstr_ref> prefix) {
+    example_params&
+    framedump_prefix(eagine::valid_if_not_empty<cstr_ref> prefix) {
         _framedump_prefix = prefix.value();
         return *this;
     }

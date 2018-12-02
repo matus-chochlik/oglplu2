@@ -9,9 +9,9 @@
 #ifndef OGLPLUS_TEXGEN_SWIZZLE_NODE_1509260923_HPP
 #define OGLPLUS_TEXGEN_SWIZZLE_NODE_1509260923_HPP
 
-#include <string>
 #include "base_node.hpp"
 #include "fallback_input.hpp"
+#include <string>
 
 namespace oglplus {
 namespace texgen {
@@ -30,8 +30,8 @@ public:
 
     slot_data_type value_type() override;
 
-    std::ostream& definitions(
-      std::ostream& out, compile_context& ctxt) override;
+    std::ostream&
+    definitions(std::ostream& out, compile_context& ctxt) override;
 };
 
 class swizzle_node

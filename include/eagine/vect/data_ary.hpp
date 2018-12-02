@@ -10,11 +10,11 @@
 #ifndef EAGINE_VECT_DATA_ARY_1509260923_HPP
 #define EAGINE_VECT_DATA_ARY_1509260923_HPP
 
-#include <cstdint>
-#include <utility>
 #include "../std/type_traits.hpp"
 #include "config.hpp"
 #include "fwd.hpp"
+#include <cstdint>
+#include <utility>
 
 namespace eagine {
 namespace vect {
@@ -66,8 +66,8 @@ struct _ary_data {
         return a;
     }
 
-    friend _ary_data operator+(
-      const _ary_data& a, const _ary_data& b) noexcept {
+    friend _ary_data
+    operator+(const _ary_data& a, const _ary_data& b) noexcept {
         _ary_data c;
         for(int i = 0; i < N; ++i) {
             c._v[i] = a._v[i] + b._v[i];
@@ -75,8 +75,8 @@ struct _ary_data {
         return c;
     }
 
-    friend _ary_data operator-(
-      const _ary_data& a, const _ary_data& b) noexcept {
+    friend _ary_data
+    operator-(const _ary_data& a, const _ary_data& b) noexcept {
         _ary_data c;
         for(int i = 0; i < N; ++i) {
             c._v[i] = a._v[i] - b._v[i];
@@ -84,8 +84,8 @@ struct _ary_data {
         return c;
     }
 
-    friend _ary_data operator*(
-      const _ary_data& a, const _ary_data& b) noexcept {
+    friend _ary_data
+    operator*(const _ary_data& a, const _ary_data& b) noexcept {
         _ary_data c;
         for(int i = 0; i < N; ++i) {
             c._v[i] = a._v[i] * b._v[i];
@@ -93,8 +93,8 @@ struct _ary_data {
         return c;
     }
 
-    friend _ary_data operator/(
-      const _ary_data& a, const _ary_data& b) noexcept {
+    friend _ary_data
+    operator/(const _ary_data& a, const _ary_data& b) noexcept {
         _ary_data c;
         for(int i = 0; i < N; ++i) {
             c._v[i] = a._v[i] / b._v[i];

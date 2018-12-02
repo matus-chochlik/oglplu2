@@ -10,10 +10,10 @@
 #ifndef EAGINE_OUTCOME_1509260923_HPP
 #define EAGINE_OUTCOME_1509260923_HPP
 
-#include <cassert>
-#include <utility>
 #include "deferred_handler.hpp"
 #include "selector.hpp"
+#include <cassert>
+#include <utility>
 
 namespace eagine {
 
@@ -178,9 +178,8 @@ public:
     }
 
     template <typename T>
-      basic_outcome<T, ErrorData, HandlerPolicy, deferred_handler> add(
-        T value) &&
-      noexcept;
+      basic_outcome<T, ErrorData, HandlerPolicy, deferred_handler>
+      add(T value) && noexcept;
 
     deferred_handler<ErrorData, HandlerPolicy> release_handler() noexcept {
         return std::move(_handler);
@@ -264,8 +263,8 @@ public:
       , _value(val) {
     }
 
-    basic_outcome<T, ErrorData, HandlerPolicy, cancelled_handler> ignore_error(
-      void) noexcept {
+    basic_outcome<T, ErrorData, HandlerPolicy, cancelled_handler>
+    ignore_error(void) noexcept {
         return {cancelled_handler<ErrorData, HandlerPolicy>(
                   std::move(this->_handler.data()), this->_handler.cancel()),
                 std::move(_value)};
@@ -322,8 +321,7 @@ outcome_cast(basic_outcome<U, ErrorData, HandlerPolicy>&& that) noexcept {
 }
 
 template <typename T, typename U, typename ErrorData, typename HandlerPolicy>
-static inline basic_outcome<T, ErrorData, HandlerPolicy>
-outcome_conversion(
+static inline basic_outcome<T, ErrorData, HandlerPolicy> outcome_conversion(
   basic_outcome<U, ErrorData, HandlerPolicy>&& that, T (*convert)(U)) noexcept {
     if(that.failed()) {
         return {that.release_handler()};

@@ -13,8 +13,7 @@ namespace oglplus {
 namespace oper {
 //------------------------------------------------------------------------------
 template <typename S>
-inline outcome<void>
-path_nv_array_ops::path_glyphs(
+inline outcome<void> path_nv_array_ops::path_glyphs(
   const object_names<tag::path_nv, S>& paths,
   path_font_target_nv font_target,
   cstr_ref font_name,
@@ -40,8 +39,7 @@ path_nv_array_ops::path_glyphs(
 }
 //------------------------------------------------------------------------------
 template <typename S, typename T>
-inline outcome<void>
-path_nv_array_ops::path_glyphs(
+inline outcome<void> path_nv_array_ops::path_glyphs(
   const object_names<tag::path_nv, S>& paths,
   path_font_target_nv font_target,
   cstr_ref font_name,
@@ -67,8 +65,7 @@ path_nv_array_ops::path_glyphs(
 }
 //------------------------------------------------------------------------------
 template <typename S>
-inline outcome<void>
-path_nv_array_ops::path_glyph_range(
+inline outcome<void> path_nv_array_ops::path_glyph_range(
   const object_names<tag::path_nv, S>& paths,
   path_font_target_nv font_target,
   cstr_ref font_name,
@@ -94,8 +91,7 @@ path_nv_array_ops::path_glyph_range(
 }
 //------------------------------------------------------------------------------
 template <typename S, typename T>
-inline outcome<void>
-path_nv_array_ops::get_path_spacing(
+inline outcome<void> path_nv_array_ops::get_path_spacing(
   path_list_mode_nv list_mode,
   span<T> indices,
   const object_names<tag::path_nv, S>& paths,
@@ -121,8 +117,7 @@ path_nv_array_ops::get_path_spacing(
 }
 //------------------------------------------------------------------------------
 template <typename S>
-inline outcome<void>
-path_nv_array_ops::get_path_spacing(
+inline outcome<void> path_nv_array_ops::get_path_spacing(
   path_list_mode_nv list_mode,
   cstring_span indices,
   const object_names<tag::path_nv, S>& paths,
@@ -146,8 +141,7 @@ path_nv_array_ops::get_path_spacing(
 }
 //------------------------------------------------------------------------------
 template <typename S, typename T>
-inline outcome<void>
-path_nv_array_ops::get_path_metrics(
+inline outcome<void> path_nv_array_ops::get_path_metrics(
   enum_bitfield<path_metric_query_nv> query_mask,
   span<T> indices,
   const object_names<tag::path_nv, S>& paths,
@@ -168,8 +162,7 @@ path_nv_array_ops::get_path_metrics(
 }
 //------------------------------------------------------------------------------
 template <typename S>
-inline outcome<void>
-path_nv_array_ops::get_path_metrics(
+inline outcome<void> path_nv_array_ops::get_path_metrics(
   enum_bitfield<path_metric_query_nv> query_mask,
   cstring_span indices,
   const object_names<tag::path_nv, S>& paths,
@@ -188,8 +181,7 @@ path_nv_array_ops::get_path_metrics(
 }
 //------------------------------------------------------------------------------
 template <typename S>
-inline outcome<void>
-path_nv_array_ops::get_path_metric_range(
+inline outcome<void> path_nv_array_ops::get_path_metric_range(
   enum_bitfield<path_metric_query_nv> query_mask,
   const object_names<tag::path_nv, S>& paths,
   GLsizei num_paths,
@@ -206,8 +198,7 @@ path_nv_array_ops::get_path_metric_range(
 }
 //------------------------------------------------------------------------------
 template <typename S, typename T>
-inline outcome<void>
-path_nv_array_ops::stencil_fill_path_instanced(
+inline outcome<void> path_nv_array_ops::stencil_fill_path_instanced(
   span<T> indices,
   const object_names<tag::path_nv, S>& paths,
   path_fill_mode_nv mode,
@@ -231,8 +222,7 @@ path_nv_array_ops::stencil_fill_path_instanced(
 }
 //------------------------------------------------------------------------------
 template <typename S>
-inline outcome<void>
-path_nv_array_ops::stencil_fill_path_instanced(
+inline outcome<void> path_nv_array_ops::stencil_fill_path_instanced(
   cstring_span indices,
   const object_names<tag::path_nv, S>& paths,
   path_fill_mode_nv mode,
@@ -256,8 +246,7 @@ path_nv_array_ops::stencil_fill_path_instanced(
 }
 //------------------------------------------------------------------------------
 template <typename S, typename T>
-inline outcome<void>
-path_nv_array_ops::cover_fill_path_instanced(
+inline outcome<void> path_nv_array_ops::cover_fill_path_instanced(
   span<T> indices,
   const object_names<tag::path_nv, S>& paths,
   path_fill_cover_mode_nv mode,
@@ -279,8 +268,7 @@ path_nv_array_ops::cover_fill_path_instanced(
 }
 //------------------------------------------------------------------------------
 template <typename S>
-inline outcome<void>
-path_nv_array_ops::cover_fill_path_instanced(
+inline outcome<void> path_nv_array_ops::cover_fill_path_instanced(
   cstring_span indices,
   const object_names<tag::path_nv, S>& paths,
   path_fill_cover_mode_nv mode,
@@ -302,8 +290,7 @@ path_nv_array_ops::cover_fill_path_instanced(
 }
 //------------------------------------------------------------------------------
 template <typename S, typename T>
-inline outcome<void>
-path_nv_array_ops::stencil_stroke_path_instanced(
+inline outcome<void> path_nv_array_ops::stencil_stroke_path_instanced(
   span<T> indices,
   const object_names<tag::path_nv, S>& paths,
   GLint reference,
@@ -324,8 +311,7 @@ path_nv_array_ops::stencil_stroke_path_instanced(
 }
 //------------------------------------------------------------------------------
 template <typename S>
-inline outcome<void>
-path_nv_array_ops::stencil_stroke_path_instanced(
+inline outcome<void> path_nv_array_ops::stencil_stroke_path_instanced(
   cstring_span indices,
   const object_names<tag::path_nv, S>& paths,
   GLint reference,
@@ -346,8 +332,7 @@ path_nv_array_ops::stencil_stroke_path_instanced(
 }
 //------------------------------------------------------------------------------
 template <typename S, typename T>
-inline outcome<void>
-path_nv_array_ops::cover_stroke_path_instanced(
+inline outcome<void> path_nv_array_ops::cover_stroke_path_instanced(
   span<T> indices,
   const object_names<tag::path_nv, S>& paths,
   path_stroke_cover_mode_nv mode,
@@ -369,8 +354,7 @@ path_nv_array_ops::cover_stroke_path_instanced(
 }
 //------------------------------------------------------------------------------
 template <typename S>
-inline outcome<void>
-path_nv_array_ops::cover_stroke_path_instanced(
+inline outcome<void> path_nv_array_ops::cover_stroke_path_instanced(
   cstring_span indices,
   const object_names<tag::path_nv, S>& paths,
   path_stroke_cover_mode_nv mode,

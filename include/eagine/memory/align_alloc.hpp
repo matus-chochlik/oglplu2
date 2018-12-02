@@ -10,13 +10,13 @@
 #ifndef EAGINE_MEMORY_ALIGN_ALLOC_1509260923_HPP
 #define EAGINE_MEMORY_ALIGN_ALLOC_1509260923_HPP
 
-#include <array>
-#include <cassert>
 #include "../instead_of.hpp"
 #include "../int_constant.hpp"
 #include "../std/utility.hpp"
 #include "default_alloc.hpp"
 #include "shared_alloc.hpp"
+#include <array>
+#include <cassert>
 
 namespace eagine {
 namespace memory {
@@ -80,8 +80,8 @@ public:
         return _get_alloc(a).max_size(a);
     }
 
-    tribool has_allocated(
-      const owned_block& b, span_size_t a) noexcept override {
+    tribool
+    has_allocated(const owned_block& b, span_size_t a) noexcept override {
         for(std::size_t i = 0; i < _aligned_alloc.size(); ++i) {
             if(_aligned_alloc[i].has_allocated(b, a)) {
                 return true;

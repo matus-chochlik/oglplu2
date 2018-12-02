@@ -125,7 +125,7 @@ BOOST_AUTO_TEST_CASE(error_handling_3) {
     int passed = 0;
 
     try {
-        auto fn = [](void) -> deferred_error_handler {
+        auto fn = []() -> deferred_error_handler {
             return deferred_error_handler(
               std::move(error_info()
                           .gl_library_name("WGL")

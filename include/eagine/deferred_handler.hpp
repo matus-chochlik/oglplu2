@@ -36,16 +36,16 @@ struct default_deferred_handler_policy {
 
     default_deferred_handler_policy(const default_deferred_handler_policy&) =
       delete;
-    default_deferred_handler_policy& operator=(
-      const default_deferred_handler_policy&) = delete;
+    default_deferred_handler_policy&
+    operator=(const default_deferred_handler_policy&) = delete;
 
     default_deferred_handler_policy(
       default_deferred_handler_policy&& temp) noexcept
       : _handler(temp._release_handler()) {
     }
 
-    default_deferred_handler_policy& operator=(
-      default_deferred_handler_policy&& temp) noexcept {
+    default_deferred_handler_policy&
+    operator=(default_deferred_handler_policy&& temp) noexcept {
         this->_handler = temp._release_handler();
         return *this;
     }

@@ -23,8 +23,7 @@
 
 using namespace oglplus;
 
-void
-oglplus_object_common_test(void) {
+void oglplus_object_common_test() {
     using namespace oglplus;
 
     oper::object_common_ops gl;
@@ -71,8 +70,7 @@ oglplus_object_common_test(void) {
 #endif
 }
 
-void
-oglplus_numeric_queries_test(void) {
+void oglplus_numeric_queries_test() {
     using namespace oglplus;
 
     oper::numeric_queries gl;
@@ -121,8 +119,7 @@ oglplus_numeric_queries_test(void) {
 #endif
 }
 
-void
-oglplus_internal_format_queries_test(void) {
+void oglplus_internal_format_queries_test() {
     using namespace oglplus;
 
     oper::internal_format_queries gl;
@@ -202,8 +199,7 @@ oglplus_internal_format_queries_test(void) {
 #endif
 }
 
-void
-oglplus_viewport_test(void) {
+void oglplus_viewport_test() {
     using namespace oglplus;
 
     oper::viewport_state gl;
@@ -220,8 +216,7 @@ oglplus_viewport_test(void) {
 #endif
 }
 
-void
-oglplus_synchronization_test(void) {
+void oglplus_synchronization_test() {
     using namespace oglplus;
 
     oper::synchronization gl;
@@ -251,8 +246,7 @@ oglplus_synchronization_test(void) {
 #endif
 }
 
-void
-oglplus_debugging_test(void) {
+void oglplus_debugging_test() {
     using namespace oglplus;
 
 #if defined(GL_VERSION_4_3)
@@ -282,8 +276,7 @@ oglplus_debugging_test(void) {
 #endif
 }
 
-void
-oglplus_buffer_clearing_state_test(void) {
+void oglplus_buffer_clearing_state_test() {
     using namespace oglplus;
 
     oper::buffer_clearing_state gl;
@@ -301,8 +294,7 @@ oglplus_buffer_clearing_state_test(void) {
     EAGINE_MAYBE_UNUSED(cs);
 }
 
-void
-oglplus_buffer_clearing_ops_test(void) {
+void oglplus_buffer_clearing_ops_test() {
     using namespace oglplus;
 
     oper::buffer_clearing_ops gl;
@@ -310,8 +302,7 @@ oglplus_buffer_clearing_ops_test(void) {
     gl.clear(enum_bitfield<buffer_select_bits>(0));
 }
 
-void
-oglplus_capability_state_test(void) {
+void oglplus_capability_state_test() {
     using namespace oglplus;
 
     oper::capability_state gl;
@@ -352,8 +343,7 @@ oglplus_capability_state_test(void) {
 #endif
 }
 
-void
-oglplus_blending_state_test(void) {
+void oglplus_blending_state_test() {
     using namespace oglplus;
 
     oper::blending_state gl;
@@ -385,8 +375,7 @@ oglplus_blending_state_test(void) {
 #endif
 }
 
-void
-oglplus_computing_ops_test(void) {
+void oglplus_computing_ops_test() {
     using namespace oglplus;
 
     oper::computing_ops gl;
@@ -402,8 +391,7 @@ oglplus_computing_ops_test(void) {
 #endif
 }
 
-void
-oglplus_drawing_state_test(void) {
+void oglplus_drawing_state_test() {
     using namespace oglplus;
 
     oper::drawing_state gl;
@@ -420,8 +408,7 @@ oglplus_drawing_state_test(void) {
 #endif
 }
 
-void
-oglplus_drawing_ops_test(void) {
+void oglplus_drawing_ops_test() {
     using namespace oglplus;
 
     oper::drawing_ops gl;
@@ -507,8 +494,7 @@ oglplus_drawing_ops_test(void) {
 #endif
 }
 
-void
-oglplus_compatibility_drawing_test(void) {
+void oglplus_compatibility_drawing_test() {
     using namespace oglplus;
 
 #if defined(GL_ARB_compatibility)
@@ -579,8 +565,7 @@ oglplus_compatibility_drawing_test(void) {
 #endif
 }
 
-void
-oglplus_compatibility_matrix_test(void) {
+void oglplus_compatibility_matrix_test() {
     using namespace oglplus;
 
 #if defined(GL_ARB_compatibility)
@@ -707,8 +692,7 @@ oglplus_compatibility_matrix_test(void) {
 #endif
 }
 
-void
-oglplus_scissor_state_test(void) {
+void oglplus_scissor_state_test() {
     using namespace oglplus;
 
     oper::scissor_state gl;
@@ -720,8 +704,7 @@ oglplus_scissor_state_test(void) {
 #endif
 }
 
-void
-oglplus_rasterization_state_test(void) {
+void oglplus_rasterization_state_test() {
     using namespace oglplus;
 
     oper::rasterization_state gl;

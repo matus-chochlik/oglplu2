@@ -5,12 +5,12 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#include <fstream>
 #include <eagine/file_contents.hpp>
 #include <eagine/program_args.hpp>
 #include <eagine/valid_if/not_empty.hpp>
 #include <oglplus/gl.hpp>
 #include <oglplus/utils/program_file_io.hpp>
+#include <fstream>
 
 struct options {
     typedef eagine::program_parameter<
@@ -109,8 +109,7 @@ struct options {
     }
 };
 
-void
-read_shader_source_texts(
+void read_shader_source_texts(
   std::vector<eagine::file_contents>& source_texts,
   std::vector<GLenum>& shader_types,
   GLenum shader_type,
@@ -121,8 +120,7 @@ read_shader_source_texts(
     }
 }
 
-void
-write_output(std::ostream& output, const options& opts) {
+void write_output(std::ostream& output, const options& opts) {
     std::vector<eagine::file_contents> source_texts;
     std::vector<GLenum> shader_types;
 
@@ -187,8 +185,7 @@ write_output(std::ostream& output, const options& opts) {
 
 int parse_options(int argc, const char** argv, options& opts);
 
-int
-run(int argc, const char** argv) {
+int run(int argc, const char** argv) {
     options opts;
 
     if(int err = parse_options(argc, argv, opts)) {
@@ -204,8 +201,7 @@ run(int argc, const char** argv) {
     return 0;
 }
 
-int
-main(int argc, const char** argv) {
+int main(int argc, const char** argv) {
 
     try {
         return run(argc, argv);
@@ -215,8 +211,7 @@ main(int argc, const char** argv) {
     return 1;
 }
 
-bool
-parse_argument(eagine::program_arg& a, options& opts) {
+bool parse_argument(eagine::program_arg& a, options& opts) {
 
     if(!opts.parse(a, std::cerr)) {
         std::cerr << "Failed to parse argument '" << a.get() << "'"
@@ -226,8 +221,7 @@ parse_argument(eagine::program_arg& a, options& opts) {
     return true;
 }
 
-int
-parse_options(int argc, const char** argv, options& opts) {
+int parse_options(int argc, const char** argv, options& opts) {
 
     eagine::program_args args(argc, argv);
 

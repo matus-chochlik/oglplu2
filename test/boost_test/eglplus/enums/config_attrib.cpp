@@ -12,8 +12,8 @@
 #include "common.hpp"
 #define BOOST_TEST_MODULE EGLPLUS_config_attrib
 
-#include <cstring>
 #include "../../unit_test_begin.inl"
+#include <cstring>
 
 BOOST_AUTO_TEST_SUITE(enum_config_attrib_tests)
 

@@ -19,8 +19,7 @@
 namespace oalplus {
 
 OALPLUS_LIB_FUNC
-cstr_ref
-get_enum_value_name(const any_enum_value& aev) noexcept {
+cstr_ref get_enum_value_name(const any_enum_value& aev) noexcept {
 #ifdef AL_BITS
     static const char s_BITS[5] = "BITS";
 #endif

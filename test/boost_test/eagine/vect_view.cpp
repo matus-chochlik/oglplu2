@@ -13,8 +13,7 @@ BOOST_AUTO_TEST_SUITE(vect_view_tests)
 static eagine::test_random_generator rg;
 
 template <typename T, int N, bool V>
-void
-test_vect_view_TNV(void) {
+void test_vect_view_TNV() {
     typename eagine::vect::data<T, N, V>::type v = {};
 
     for(int i = 0; i < N; ++i) {
@@ -31,8 +30,7 @@ test_vect_view_TNV(void) {
 }
 
 template <typename T, bool V>
-void
-test_vect_view_TV(void) {
+void test_vect_view_TV() {
     test_vect_view_TNV<T, 2, V>();
     test_vect_view_TNV<T, 3, V>();
     test_vect_view_TNV<T, 4, V>();
@@ -47,8 +45,7 @@ test_vect_view_TV(void) {
 }
 
 template <typename T>
-void
-test_vect_view_T(void) {
+void test_vect_view_T() {
     test_vect_view_TV<T, true>();
     test_vect_view_TV<T, false>();
 }

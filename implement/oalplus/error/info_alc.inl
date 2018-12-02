@@ -31,8 +31,7 @@ error_info_alc::alc_device(::ALCdevice* alc_dev) noexcept {
     return *this;
 }
 //------------------------------------------------------------------------------
-inline ::ALCdevice*
-error_info_alc::alc_device(void) const noexcept {
+inline ::ALCdevice* error_info_alc::alc_device() const noexcept {
 #if !OALPLUS_ERROR_NO_DEVICE
     return _device;
 #else
@@ -50,8 +49,7 @@ error_info_alc::alc_context(const ::ALCcontext* alc_ctx) noexcept {
     return *this;
 }
 //------------------------------------------------------------------------------
-inline const ::ALCcontext*
-error_info_alc::alc_context(void) const noexcept {
+inline const ::ALCcontext* error_info_alc::alc_context() const noexcept {
 #if !OALPLUS_ERROR_NO_CONTEXT
     return _context;
 #else

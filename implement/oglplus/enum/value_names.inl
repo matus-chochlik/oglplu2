@@ -19,8 +19,7 @@
 namespace oglplus {
 
 OGLPLUS_LIB_FUNC
-cstr_ref
-get_enum_value_name(const any_enum_value& aev) noexcept {
+cstr_ref get_enum_value_name(const any_enum_value& aev) noexcept {
 #ifdef GL_ACCUM_ADJACENT_PAIRS_NV
     static const char s_ACCUM_ADJACENT_PAIRS_NV[24] = "ACCUM_ADJACENT_PAIRS_NV";
 #endif

@@ -10,11 +10,11 @@
 #ifndef EAGINE_FLAT_MAP_1509260923_HPP
 #define EAGINE_FLAT_MAP_1509260923_HPP
 
+#include "types.hpp"
 #include <algorithm>
 #include <stdexcept>
 #include <utility>
 #include <vector>
-#include "types.hpp"
 
 namespace eagine {
 
@@ -230,8 +230,8 @@ private:
         return {p, (p == e) || (k != p->first)};
     }
 
-    std::pair<typename _vec_t::iterator, bool> _find_insert_pos(
-      typename _vec_t::iterator p, const Key& k) {
+    std::pair<typename _vec_t::iterator, bool>
+    _find_insert_pos(typename _vec_t::iterator p, const Key& k) {
         typename _vec_t::iterator b = _vec.begin();
         typename _vec_t::iterator e = _vec.end();
         if(p == e) {

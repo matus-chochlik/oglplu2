@@ -20,14 +20,12 @@ wrap_output::wrap_output(node_intf& parent)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref
-wrap_output::type_name() {
+cstr_ref wrap_output::type_name() {
     return cstr_ref("Wrap");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-slot_data_type
-wrap_output::value_type() {
+slot_data_type wrap_output::value_type() {
     return input.value_type();
 }
 //------------------------------------------------------------------------------

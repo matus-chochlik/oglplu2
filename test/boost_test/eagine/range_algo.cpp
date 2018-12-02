@@ -8,17 +8,16 @@
 #define BOOST_TEST_MODULE EAGINE_range_algo
 #include "../unit_test_begin.inl"
 
-#include <vector>
 #include <eagine/cstr_ref.hpp>
 #include <eagine/span.hpp>
+#include <vector>
 
 BOOST_AUTO_TEST_SUITE(range_algo_tests)
 
 static eagine::test_random_generator rg;
 
 template <typename T>
-void
-test_range_equal_1(eagine::span<T> rng1, eagine::span<T> rng2) {
+void test_range_equal_1(eagine::span<T> rng1, eagine::span<T> rng2) {
     using namespace eagine;
 
     bool are_equal = (rng1.size() == rng2.size());
@@ -31,8 +30,7 @@ test_range_equal_1(eagine::span<T> rng1, eagine::span<T> rng2) {
 }
 
 template <typename T>
-void
-test_range_equal_1(T min, T max, bool are) {
+void test_range_equal_1(T min, T max, bool are) {
     std::vector<T> v1(rg.get_std_size(20, 100));
     std::vector<T> v2(v1.size());
 
@@ -48,8 +46,7 @@ test_range_equal_1(T min, T max, bool are) {
 }
 
 template <typename T>
-void
-test_range_equal_1(T min, T max) {
+void test_range_equal_1(T min, T max) {
     test_range_equal_1(min, max, true);
     test_range_equal_1(min, max, false);
 
@@ -64,8 +61,7 @@ BOOST_AUTO_TEST_CASE(range_algo_equal_1) {
 }
 
 template <typename T>
-void
-test_range_slice_r_p_s_1(
+void test_range_slice_r_p_s_1(
   eagine::span<T> rng, eagine::span_size_t p, eagine::span_size_t s) {
     using namespace eagine;
 
@@ -82,8 +78,7 @@ test_range_slice_r_p_s_1(
 }
 
 template <typename T>
-void
-test_range_slice_r_p_s_1(eagine::span<T> rng) {
+void test_range_slice_r_p_s_1(eagine::span<T> rng) {
     using namespace eagine;
 
     test_range_slice_r_p_s_1(rng, 0, 0);
@@ -110,8 +105,7 @@ test_range_slice_r_p_s_1(eagine::span<T> rng) {
 }
 
 template <typename T>
-void
-test_range_slice_r_p_s_1(T min, T max) {
+void test_range_slice_r_p_s_1(T min, T max) {
     for(int i = 0; i < 10; ++i) {
         std::vector<T> v(rg.get_std_size(20, 100));
         for(T& x : v) {
@@ -127,8 +121,7 @@ BOOST_AUTO_TEST_CASE(range_algo_slice_r_p_s_1) {
 }
 
 template <typename T>
-void
-test_range_slice_r_p_1(eagine::span<T> rng, eagine::span_size_t p) {
+void test_range_slice_r_p_1(eagine::span<T> rng, eagine::span_size_t p) {
     using namespace eagine;
 
     span<T> slc = ranges::slice(rng, p);
@@ -143,8 +136,7 @@ test_range_slice_r_p_1(eagine::span<T> rng, eagine::span_size_t p) {
 }
 
 template <typename T>
-void
-test_range_slice_r_p_1(eagine::span<T> rng) {
+void test_range_slice_r_p_1(eagine::span<T> rng) {
     using namespace eagine;
 
     test_range_slice_r_p_1(rng, 0);
@@ -158,8 +150,7 @@ test_range_slice_r_p_1(eagine::span<T> rng) {
 }
 
 template <typename T>
-void
-test_range_slice_r_p_1(T min, T max) {
+void test_range_slice_r_p_1(T min, T max) {
     for(int i = 0; i < 10; ++i) {
         std::vector<T> v(rg.get_std_size(20, 100));
         for(T& x : v) {
@@ -175,8 +166,7 @@ BOOST_AUTO_TEST_CASE(range_algo_slice_r_p_1) {
 }
 
 template <typename T>
-void
-test_range_head_1(eagine::span<T> rng, eagine::span_size_t l) {
+void test_range_head_1(eagine::span<T> rng, eagine::span_size_t l) {
     using namespace eagine;
 
     span<T> rng2 = ranges::head(rng, l);
@@ -191,8 +181,7 @@ test_range_head_1(eagine::span<T> rng, eagine::span_size_t l) {
 }
 
 template <typename T>
-void
-test_range_head_1(eagine::span<T> rng) {
+void test_range_head_1(eagine::span<T> rng) {
     using namespace eagine;
 
     test_range_head_1(rng, 0);
@@ -206,8 +195,7 @@ test_range_head_1(eagine::span<T> rng) {
 }
 
 template <typename T>
-void
-test_range_head_1(T min, T max) {
+void test_range_head_1(T min, T max) {
     for(int i = 0; i < 10; ++i) {
         std::vector<T> v(rg.get_std_size(20, 100));
         for(T& x : v) {
@@ -223,8 +211,7 @@ BOOST_AUTO_TEST_CASE(range_algo_head_1) {
 }
 
 template <typename T>
-void
-test_range_tail_1(eagine::span<T> rng, eagine::span_size_t l) {
+void test_range_tail_1(eagine::span<T> rng, eagine::span_size_t l) {
     using namespace eagine;
 
     span<T> rng2 = ranges::tail(rng, l);
@@ -243,8 +230,7 @@ test_range_tail_1(eagine::span<T> rng, eagine::span_size_t l) {
 }
 
 template <typename T>
-void
-test_range_tail_1(eagine::span<T> rng) {
+void test_range_tail_1(eagine::span<T> rng) {
     using namespace eagine;
 
     test_range_tail_1(rng, 0);
@@ -258,8 +244,7 @@ test_range_tail_1(eagine::span<T> rng) {
 }
 
 template <typename T>
-void
-test_range_tail_1(T min, T max) {
+void test_range_tail_1(T min, T max) {
     for(int i = 0; i < 10; ++i) {
         std::vector<T> v(rg.get_std_size(20, 100));
         for(T& x : v) {
@@ -275,8 +260,7 @@ BOOST_AUTO_TEST_CASE(range_algo_tail_1) {
 }
 
 template <typename T>
-void
-test_range_starts_with_1(eagine::span<T> rng1, eagine::span<T> rng2) {
+void test_range_starts_with_1(eagine::span<T> rng1, eagine::span<T> rng2) {
     using namespace eagine;
 
     span_size_t n = rng2.size();
@@ -291,8 +275,7 @@ test_range_starts_with_1(eagine::span<T> rng1, eagine::span<T> rng2) {
 }
 
 template <typename T>
-void
-test_range_starts_with_1(T min, T max, bool does) {
+void test_range_starts_with_1(T min, T max, bool does) {
     std::vector<T> v1(rg.get_std_size(20, 100));
     std::vector<T> v2(rg.get_std_size(0, v1.size()));
 
@@ -316,8 +299,7 @@ test_range_starts_with_1(T min, T max, bool does) {
 }
 
 template <typename T>
-void
-test_range_starts_with_1(T min, T max) {
+void test_range_starts_with_1(T min, T max) {
     test_range_starts_with_1<T>(min, max, false);
     test_range_starts_with_1<T>(min, max, true);
 
@@ -332,8 +314,7 @@ BOOST_AUTO_TEST_CASE(range_algo_starts_with_1) {
 }
 
 template <typename T>
-void
-test_range_ends_with_1(eagine::span<T> rng1, eagine::span<T> rng2) {
+void test_range_ends_with_1(eagine::span<T> rng1, eagine::span<T> rng2) {
     using namespace eagine;
 
     span_size_t n = rng2.size();
@@ -350,8 +331,7 @@ test_range_ends_with_1(eagine::span<T> rng1, eagine::span<T> rng2) {
 }
 
 template <typename T>
-void
-test_range_ends_with_1(T min, T max, bool does) {
+void test_range_ends_with_1(T min, T max, bool does) {
     std::vector<T> v1(rg.get_std_size(20, 100));
     std::vector<T> v2(rg.get_std_size(0, v1.size()));
 
@@ -376,8 +356,7 @@ test_range_ends_with_1(T min, T max, bool does) {
 }
 
 template <typename T>
-void
-test_range_ends_with_1(T min, T max) {
+void test_range_ends_with_1(T min, T max) {
     test_range_ends_with_1<T>(min, max, false);
     test_range_ends_with_1<T>(min, max, true);
 
@@ -392,8 +371,7 @@ BOOST_AUTO_TEST_CASE(range_algo_ends_with_1) {
 }
 
 template <typename T>
-void
-test_range_find_pos_1(eagine::span<T> rng1, eagine::span<T> rng2) {
+void test_range_find_pos_1(eagine::span<T> rng1, eagine::span<T> rng2) {
     using namespace eagine;
 
     if(auto f = ranges::find_pos(rng1, rng2)) {
@@ -414,8 +392,7 @@ test_range_find_pos_1(eagine::span<T> rng1, eagine::span<T> rng2) {
 }
 
 template <typename T>
-void
-test_range_find_pos_1(T min, T max, bool has) {
+void test_range_find_pos_1(T min, T max, bool has) {
     typedef typename std::vector<T>::size_type sz_t;
 
     sz_t l1 = rg.get<sz_t>(20, 100);
@@ -451,8 +428,7 @@ test_range_find_pos_1(T min, T max, bool has) {
 }
 
 template <typename T>
-void
-test_range_find_pos_1(T min, T max) {
+void test_range_find_pos_1(T min, T max) {
     test_range_find_pos_1(min, max, true);
     test_range_find_pos_1(min, max, false);
 
@@ -467,8 +443,7 @@ BOOST_AUTO_TEST_CASE(range_algo_find_pos_1) {
 }
 
 template <typename T>
-void
-test_range_rfind_pos_1(eagine::span<T> rng1, eagine::span<T> rng2) {
+void test_range_rfind_pos_1(eagine::span<T> rng1, eagine::span<T> rng2) {
     using namespace eagine;
 
     if(auto f = ranges::rfind_pos(rng1, rng2)) {
@@ -489,8 +464,7 @@ test_range_rfind_pos_1(eagine::span<T> rng1, eagine::span<T> rng2) {
 }
 
 template <typename T>
-void
-test_range_rfind_pos_1(T min, T max, bool has) {
+void test_range_rfind_pos_1(T min, T max, bool has) {
     typedef typename std::vector<T>::size_type sz_t;
 
     sz_t l1 = rg.get<sz_t>(20, 100);
@@ -526,8 +500,7 @@ test_range_rfind_pos_1(T min, T max, bool has) {
 }
 
 template <typename T>
-void
-test_range_rfind_pos_1(T min, T max) {
+void test_range_rfind_pos_1(T min, T max) {
     test_range_rfind_pos_1(min, max, true);
     test_range_rfind_pos_1(min, max, false);
 
@@ -542,8 +515,7 @@ BOOST_AUTO_TEST_CASE(range_algo_rfind_pos_1) {
 }
 
 template <typename T>
-void
-test_range_find_1(eagine::span<T> rng1, eagine::span<T> rng2) {
+void test_range_find_1(eagine::span<T> rng1, eagine::span<T> rng2) {
     using namespace eagine;
 
     eagine::span<T> rng3 = ranges::find(rng1, rng2);
@@ -563,8 +535,7 @@ test_range_find_1(eagine::span<T> rng1, eagine::span<T> rng2) {
 }
 
 template <typename T>
-void
-test_range_find_1(T min, T max, bool has) {
+void test_range_find_1(T min, T max, bool has) {
     typedef typename std::vector<T>::size_type sz_t;
 
     sz_t l1 = rg.get<sz_t>(20, 100);
@@ -600,8 +571,7 @@ test_range_find_1(T min, T max, bool has) {
 }
 
 template <typename T>
-void
-test_range_find_1(T min, T max) {
+void test_range_find_1(T min, T max) {
     test_range_find_1(min, max, true);
     test_range_find_1(min, max, false);
 
@@ -616,8 +586,7 @@ BOOST_AUTO_TEST_CASE(range_algo_find_1) {
 }
 
 template <typename T>
-void
-test_range_strip_prefix_1(eagine::span<T> rng1, eagine::span<T> rng2) {
+void test_range_strip_prefix_1(eagine::span<T> rng1, eagine::span<T> rng2) {
     using namespace eagine;
 
     bool empty_prefix = rng2.empty();
@@ -638,8 +607,7 @@ test_range_strip_prefix_1(eagine::span<T> rng1, eagine::span<T> rng2) {
 }
 
 template <typename T>
-void
-test_range_strip_prefix_1(T min, T max, bool has) {
+void test_range_strip_prefix_1(T min, T max, bool has) {
     std::vector<T> v1(rg.get_std_size(20, 100));
     std::vector<T> v2(rg.get_std_size(0, v1.size()));
 
@@ -663,8 +631,7 @@ test_range_strip_prefix_1(T min, T max, bool has) {
 }
 
 template <typename T>
-void
-test_range_strip_prefix_1(T min, T max) {
+void test_range_strip_prefix_1(T min, T max) {
     test_range_strip_prefix_1(min, max, true);
     test_range_strip_prefix_1(min, max, false);
 
@@ -679,8 +646,7 @@ BOOST_AUTO_TEST_CASE(range_algo_strip_prefix_1) {
 }
 
 template <typename T>
-void
-test_range_strip_suffix_1(eagine::span<T> rng1, eagine::span<T> rng2) {
+void test_range_strip_suffix_1(eagine::span<T> rng1, eagine::span<T> rng2) {
     using namespace eagine;
 
     bool empty_suffix = rng2.empty();
@@ -701,8 +667,7 @@ test_range_strip_suffix_1(eagine::span<T> rng1, eagine::span<T> rng2) {
 }
 
 template <typename T>
-void
-test_range_strip_suffix_1(T min, T max, bool has) {
+void test_range_strip_suffix_1(T min, T max, bool has) {
     std::vector<T> v1(rg.get_std_size(20, 100));
     std::vector<T> v2(rg.get_std_size(0, v1.size()));
 
@@ -727,8 +692,7 @@ test_range_strip_suffix_1(T min, T max, bool has) {
 }
 
 template <typename T>
-void
-test_range_strip_suffix_1(T min, T max) {
+void test_range_strip_suffix_1(T min, T max) {
     test_range_strip_suffix_1(min, max, true);
     test_range_strip_suffix_1(min, max, false);
 

@@ -10,15 +10,14 @@
 #ifndef EAGINE_MEMORY_COPY_1510290655_HPP
 #define EAGINE_MEMORY_COPY_1510290655_HPP
 
+#include "block.hpp"
 #include <cassert>
 #include <cstring>
-#include "block.hpp"
 
 namespace eagine {
 namespace memory {
 
-static inline block
-copy(const_block source, block dest) {
+static inline block copy(const_block source, block dest) {
     assert(dest.size() >= source.size());
     std::memcpy(dest.data(), source.data(), std_size(source.size()));
     return block(dest.data(), source.size());

@@ -14,8 +14,8 @@ template <>
 struct prog_var_get_set_ops<tag::uniform, GLuint64> {
 
 #if defined(GL_NV_shader_buffer_load)
-    static outcome<void> set(
-      identity<GLuint64EXT>, uniform_location u, GLuint64EXT v0) noexcept {
+    static outcome<void>
+    set(identity<GLuint64EXT>, uniform_location u, GLuint64EXT v0) noexcept {
         OGLPLUS_GLFUNC(Uniformui64NV)(u.location(), v0);
         OGLPLUS_VERIFY_SIMPLE(Uniformui64NV, debug);
         return {};
@@ -80,8 +80,8 @@ struct prog_var_get_set_ops<tag::uniform, GLuint64> {
 #endif // NV_shader_buffer_load
 
 #if defined(GL_ARB_bindless_texture)
-    static outcome<void> set_handle(
-      identity<GLuint64>, uniform_location u, GLuint64 v0) noexcept {
+    static outcome<void>
+    set_handle(identity<GLuint64>, uniform_location u, GLuint64 v0) noexcept {
         OGLPLUS_GLFUNC(UniformHandleui64ARB)(u.location(), v0);
         OGLPLUS_VERIFY_SIMPLE(UniformHandleui64ARB, debug);
         return {};

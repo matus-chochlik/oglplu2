@@ -19,11 +19,11 @@ namespace oglplus {
 namespace oper {
 
 struct state_nv_ops {
-    static outcome<void> state_capture(
-      state_nv_name ste, old_primitive_type mode) noexcept;
+    static outcome<void>
+    state_capture(state_nv_name ste, old_primitive_type mode) noexcept;
 
-    static outcome<GLuint> get_command_header(
-      command_token_nv token_id, GLuint size) noexcept;
+    static outcome<GLuint>
+    get_command_header(command_token_nv token_id, GLuint size) noexcept;
 
     static outcome<GLushort> get_stage_index(shader_type stage) noexcept;
 

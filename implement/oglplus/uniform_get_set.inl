@@ -15,15 +15,15 @@ namespace oglplus {
 template <>
 struct prog_var_get_set_ops<tag::uniform, GLint> {
 
-    static outcome<void> set(
-      identity<GLint>, uniform_location u, GLint v0) noexcept {
+    static outcome<void>
+    set(identity<GLint>, uniform_location u, GLint v0) noexcept {
         OGLPLUS_GLFUNC(Uniform1i)(u.location(), v0);
         OGLPLUS_VERIFY_SIMPLE(Uniform1i, debug);
         return {};
     }
 
-    static outcome<void> set(
-      identity<GLint>, uniform_location u, GLint v0, GLint v1) noexcept {
+    static outcome<void>
+    set(identity<GLint>, uniform_location u, GLint v0, GLint v1) noexcept {
         OGLPLUS_GLFUNC(Uniform2i)(u.location(), v0, v1);
         OGLPLUS_VERIFY_SIMPLE(Uniform2i, debug);
         return {};
@@ -102,8 +102,8 @@ struct prog_var_get_set_ops<tag::uniform, GLint> {
 
 #if defined(GL_VERSION_4_1) || defined(GL_ARB_separate_shader_objects)
 
-    static outcome<void> set(
-      identity<GLint>, program_uniform_location pu, GLint v0) noexcept {
+    static outcome<void>
+    set(identity<GLint>, program_uniform_location pu, GLint v0) noexcept {
         OGLPLUS_GLFUNC(ProgramUniform1i)
         (get_raw_name(pu.program()), pu.location(), v0);
         OGLPLUS_VERIFY(ProgramUniform1i, gl_object(pu.program()), debug);
@@ -203,15 +203,15 @@ struct prog_var_get_set_ops<tag::uniform, GLint> {
 template <>
 struct prog_var_get_set_ops<tag::uniform, GLuint> {
 
-    static outcome<void> set(
-      identity<GLuint>, uniform_location u, GLuint v0) noexcept {
+    static outcome<void>
+    set(identity<GLuint>, uniform_location u, GLuint v0) noexcept {
         OGLPLUS_GLFUNC(Uniform1ui)(u.location(), v0);
         OGLPLUS_VERIFY_SIMPLE(Uniform1ui, debug);
         return {};
     }
 
-    static outcome<void> set(
-      identity<GLuint>, uniform_location u, GLuint v0, GLuint v1) noexcept {
+    static outcome<void>
+    set(identity<GLuint>, uniform_location u, GLuint v0, GLuint v1) noexcept {
         OGLPLUS_GLFUNC(Uniform2ui)(u.location(), v0, v1);
         OGLPLUS_VERIFY_SIMPLE(Uniform2ui, debug);
         return {};
@@ -290,8 +290,8 @@ struct prog_var_get_set_ops<tag::uniform, GLuint> {
 
 #if defined(GL_VERSION_4_1) || defined(GL_ARB_separate_shader_objects)
 
-    static outcome<void> set(
-      identity<GLuint>, program_uniform_location pu, GLuint v0) noexcept {
+    static outcome<void>
+    set(identity<GLuint>, program_uniform_location pu, GLuint v0) noexcept {
         OGLPLUS_GLFUNC(ProgramUniform1ui)
         (get_raw_name(pu.program()), pu.location(), v0);
         OGLPLUS_VERIFY(ProgramUniform1ui, gl_object(pu.program()), debug);
@@ -391,8 +391,8 @@ struct prog_var_get_set_ops<tag::uniform, GLuint> {
 template <>
 struct prog_var_get_set_ops<tag::uniform, GLfloat> {
 
-    static outcome<void> set(
-      identity<GLfloat>, uniform_location u, GLfloat v0) noexcept {
+    static outcome<void>
+    set(identity<GLfloat>, uniform_location u, GLfloat v0) noexcept {
         OGLPLUS_GLFUNC(Uniform1f)(u.location(), v0);
         OGLPLUS_VERIFY_SIMPLE(Uniform1f, debug);
         return {};
@@ -604,8 +604,8 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat> {
 
 #if defined(GL_VERSION_4_1) || defined(GL_ARB_separate_shader_objects)
 
-    static outcome<void> set(
-      identity<GLfloat>, program_uniform_location pu, GLfloat v0) noexcept {
+    static outcome<void>
+    set(identity<GLfloat>, program_uniform_location pu, GLfloat v0) noexcept {
         OGLPLUS_GLFUNC(ProgramUniform1f)
         (get_raw_name(pu.program()), pu.location(), v0);
         OGLPLUS_VERIFY(ProgramUniform1f, gl_object(pu.program()), debug);
@@ -841,8 +841,8 @@ struct prog_var_get_set_ops<tag::uniform, GLfloat> {
 template <>
 struct prog_var_get_set_ops<tag::uniform, GLdouble> {
 
-    static outcome<void> set(
-      identity<GLdouble>, uniform_location u, GLdouble v0) noexcept {
+    static outcome<void>
+    set(identity<GLdouble>, uniform_location u, GLdouble v0) noexcept {
         OGLPLUS_GLFUNC(Uniform1d)(u.location(), v0);
         OGLPLUS_VERIFY_SIMPLE(Uniform1d, debug);
         return {};
@@ -1057,8 +1057,8 @@ struct prog_var_get_set_ops<tag::uniform, GLdouble> {
 
 #if defined(GL_VERSION_4_1) || defined(GL_ARB_separate_shader_objects)
 
-    static outcome<void> set(
-      identity<GLdouble>, program_uniform_location pu, GLdouble v0) noexcept {
+    static outcome<void>
+    set(identity<GLdouble>, program_uniform_location pu, GLdouble v0) noexcept {
         OGLPLUS_GLFUNC(ProgramUniform1d)
         (get_raw_name(pu.program()), pu.location(), v0);
         OGLPLUS_VERIFY(ProgramUniform1d, gl_object(pu.program()), debug);

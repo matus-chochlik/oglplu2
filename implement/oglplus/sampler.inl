@@ -22,8 +22,7 @@ sampler_ops::bind_sampler(texture_unit unit, sampler_name sam) noexcept {
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_4)
 template <typename S>
-inline outcome<void>
-sampler_ops::bind_samplers(
+inline outcome<void> sampler_ops::bind_samplers(
   texture_unit first, const object_names<tag::sampler, S>& samplers) noexcept {
     OGLPLUS_GLFUNC(BindSamplers)
     (GLuint(first.index()),
@@ -45,8 +44,7 @@ sampler_ops::sampler_binding(texture_unit unit) noexcept {
       .add(sampler_name(GLuint(result)));
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-sampler_ops::sampler_parameter_i(
+inline outcome<void> sampler_ops::sampler_parameter_i(
   sampler_name sam, oglplus::sampler_parameter param, GLint value) noexcept {
     OGLPLUS_GLFUNC(SamplerParameteri)(get_raw_name(sam), GLenum(param), value);
     OGLPLUS_VERIFY(
@@ -54,8 +52,7 @@ sampler_ops::sampler_parameter_i(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-sampler_ops::get_sampler_parameter_iv(
+inline outcome<void> sampler_ops::get_sampler_parameter_iv(
   sampler_name sam,
   oglplus::sampler_parameter param,
   span<GLint> values) noexcept {
@@ -67,8 +64,7 @@ sampler_ops::get_sampler_parameter_iv(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-sampler_ops::sampler_parameter_f(
+inline outcome<void> sampler_ops::sampler_parameter_f(
   sampler_name sam, oglplus::sampler_parameter param, GLfloat value) noexcept {
     OGLPLUS_GLFUNC(SamplerParameterf)(get_raw_name(sam), GLenum(param), value);
     OGLPLUS_VERIFY(
@@ -76,8 +72,7 @@ sampler_ops::sampler_parameter_f(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-sampler_ops::get_sampler_parameter_fv(
+inline outcome<void> sampler_ops::get_sampler_parameter_fv(
   sampler_name sam,
   oglplus::sampler_parameter param,
   span<GLfloat> values) noexcept {
@@ -90,23 +85,20 @@ sampler_ops::get_sampler_parameter_fv(
 }
 //------------------------------------------------------------------------------
 template <typename R, typename T>
-inline outcome<R>
-sampler_ops::return_sampler_parameter_i(
+inline outcome<R> sampler_ops::return_sampler_parameter_i(
   sampler_name sam, sampler_parameter parameter) noexcept {
     GLint result = 0;
     return get_sampler_parameter_iv(sam, parameter, {&result, 1}), R(T(result));
 }
 //------------------------------------------------------------------------------
 template <typename R>
-inline outcome<R>
-sampler_ops::return_sampler_parameter_f(
+inline outcome<R> sampler_ops::return_sampler_parameter_f(
   sampler_name sam, sampler_parameter parameter) noexcept {
     GLfloat result = 0;
     return get_sampler_parameter_fv(sam, parameter, {&result, 1}), R(result);
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-sampler_ops::sampler_min_filter(
+inline outcome<void> sampler_ops::sampler_min_filter(
   sampler_name sam, texture_min_filter value) noexcept {
     return sampler_parameter_i(
       sam, sampler_parameter(GL_TEXTURE_MIN_FILTER), GLint(GLenum(value)));
@@ -118,8 +110,7 @@ sampler_ops::get_sampler_min_filter(sampler_name sam) noexcept {
       sam, sampler_parameter(GL_TEXTURE_MIN_FILTER));
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-sampler_ops::sampler_mag_filter(
+inline outcome<void> sampler_ops::sampler_mag_filter(
   sampler_name sam, texture_mag_filter value) noexcept {
     return sampler_parameter_i(
       sam, sampler_parameter(GL_TEXTURE_MAG_FILTER), GLint(GLenum(value)));
@@ -131,8 +122,7 @@ sampler_ops::get_sampler_mag_filter(sampler_name sam) noexcept {
       sam, sampler_parameter(GL_TEXTURE_MAG_FILTER));
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-sampler_ops::sampler_compare_mode(
+inline outcome<void> sampler_ops::sampler_compare_mode(
   sampler_name sam, texture_compare_mode value) noexcept {
     return sampler_parameter_i(
       sam, sampler_parameter(GL_TEXTURE_COMPARE_MODE), GLint(GLenum(value)));
@@ -144,8 +134,7 @@ sampler_ops::get_sampler_compare_mode(sampler_name sam) noexcept {
       sam, sampler_parameter(GL_TEXTURE_COMPARE_MODE));
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-sampler_ops::sampler_compare_func(
+inline outcome<void> sampler_ops::sampler_compare_func(
   sampler_name sam, compare_function value) noexcept {
     return sampler_parameter_i(
       sam, sampler_parameter(GL_TEXTURE_COMPARE_FUNC), GLint(GLenum(value)));
@@ -157,8 +146,7 @@ sampler_ops::get_sampler_compare_func(sampler_name sam) noexcept {
       sam, sampler_parameter(GL_TEXTURE_COMPARE_FUNC));
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-sampler_ops::sampler_wrap(
+inline outcome<void> sampler_ops::sampler_wrap(
   sampler_name sam,
   texture_wrap_coord coord,
   texture_wrap_mode value) noexcept {
@@ -166,15 +154,13 @@ sampler_ops::sampler_wrap(
       sam, sampler_parameter(GLenum(coord)), GLint(GLenum(value)));
 }
 //------------------------------------------------------------------------------
-inline outcome<texture_wrap_mode>
-sampler_ops::get_sampler_wrap(
+inline outcome<texture_wrap_mode> sampler_ops::get_sampler_wrap(
   sampler_name sam, texture_wrap_coord coord) noexcept {
     return return_sampler_parameter_i<texture_wrap_mode, GLenum>(
       sam, sampler_parameter(GLenum(coord)));
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-sampler_ops::sampler_wrap_s(
+inline outcome<void> sampler_ops::sampler_wrap_s(
   sampler_name sam, texture_wrap_mode value) noexcept {
     return sampler_parameter_i(
       sam, sampler_parameter(GL_TEXTURE_WRAP_S), GLint(GLenum(value)));
@@ -186,8 +172,7 @@ sampler_ops::get_sampler_wrap_s(sampler_name sam) noexcept {
       sam, sampler_parameter(GL_TEXTURE_WRAP_S));
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-sampler_ops::sampler_wrap_t(
+inline outcome<void> sampler_ops::sampler_wrap_t(
   sampler_name sam, texture_wrap_mode value) noexcept {
     return sampler_parameter_i(
       sam, sampler_parameter(GL_TEXTURE_WRAP_T), GLint(GLenum(value)));
@@ -199,8 +184,7 @@ sampler_ops::get_sampler_wrap_t(sampler_name sam) noexcept {
       sam, sampler_parameter(GL_TEXTURE_WRAP_T));
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-sampler_ops::sampler_wrap_r(
+inline outcome<void> sampler_ops::sampler_wrap_r(
   sampler_name sam, texture_wrap_mode value) noexcept {
     return sampler_parameter_i(
       sam, sampler_parameter(GL_TEXTURE_WRAP_R), GLint(GLenum(value)));

@@ -15,8 +15,7 @@ BOOST_AUTO_TEST_SUITE(vect_shuffle_tests)
 static eagine::test_random_generator rg;
 
 template <typename T, int N, bool V, int... I>
-void
-test_vect_shuffle_TNVI(void) {
+void test_vect_shuffle_TNVI() {
     std::array<int, N> n = {{I...}};
 
     for(int k = 0; k < 10; ++k) {
@@ -40,8 +39,7 @@ test_vect_shuffle_TNVI(void) {
 }
 
 template <typename T, bool V>
-void
-test_vect_shuffle_TV(void) {
+void test_vect_shuffle_TV() {
     test_vect_shuffle_TNVI<T, 2, V, 0, 0>();
     test_vect_shuffle_TNVI<T, 2, V, 0, 1>();
     test_vect_shuffle_TNVI<T, 2, V, 1, 0>();
@@ -202,8 +200,7 @@ test_vect_shuffle_TV(void) {
 }
 
 template <typename T>
-void
-test_vect_shuffle_T(void) {
+void test_vect_shuffle_T() {
     test_vect_shuffle_TV<T, true>();
     test_vect_shuffle_TV<T, false>();
 }
@@ -221,8 +218,7 @@ BOOST_AUTO_TEST_CASE(vect_shuffle_double) {
 }
 
 template <typename T, int N, bool V, int... I>
-void
-test_vect_shuffle2_TNVI(void) {
+void test_vect_shuffle2_TNVI() {
     std::array<int, N> n = {{I...}};
 
     for(int k = 0; k < 10; ++k) {
@@ -249,8 +245,7 @@ test_vect_shuffle2_TNVI(void) {
 }
 
 template <typename T, bool V>
-void
-test_vect_shuffle2_TV(void) {
+void test_vect_shuffle2_TV() {
     test_vect_shuffle2_TNVI<T, 2, V, 0, 2>();
     test_vect_shuffle2_TNVI<T, 2, V, 1, 2>();
     test_vect_shuffle2_TNVI<T, 2, V, 1, 0>();
@@ -309,8 +304,7 @@ test_vect_shuffle2_TV(void) {
 }
 
 template <typename T>
-void
-test_vect_shuffle2_T(void) {
+void test_vect_shuffle2_T() {
     test_vect_shuffle2_TV<T, true>();
     test_vect_shuffle2_TV<T, false>();
 }

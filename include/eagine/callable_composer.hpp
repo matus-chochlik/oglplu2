@@ -51,8 +51,7 @@ struct callable_composer<Func, Funcs...>
 };
 
 template <typename... Funcs>
-static inline callable_composer<Funcs...>
-compose_callables(Funcs&&... funcs) {
+static inline callable_composer<Funcs...> compose_callables(Funcs&&... funcs) {
     return {funcs...};
 }
 

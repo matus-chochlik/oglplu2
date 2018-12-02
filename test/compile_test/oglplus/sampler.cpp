@@ -12,14 +12,12 @@
 
 using namespace oglplus;
 
-void
-oglplus_sampler_test_1(void) {
+void oglplus_sampler_test_1() {
     oglplus_object_name_test<sampler_name>();
     oglplus_object_test<sampler>();
 }
 
-void
-oglplus_sampler_test_ops1(void) {
+void oglplus_sampler_test_ops1() {
     oper::sampler_ops gl;
     sampler sam;
     sampler_array<4> sams;

@@ -52,18 +52,18 @@ struct indexed_enum_value {
         return value_type(Base + _index);
     }
 
-    friend constexpr inline bool operator==(
-      indexed_enum_value a, indexed_enum_value b) noexcept {
+    friend constexpr inline bool
+    operator==(indexed_enum_value a, indexed_enum_value b) noexcept {
         return a._index == b._index;
     }
 
-    friend constexpr inline bool operator!=(
-      indexed_enum_value a, indexed_enum_value b) noexcept {
+    friend constexpr inline bool
+    operator!=(indexed_enum_value a, indexed_enum_value b) noexcept {
         return a._index != b._index;
     }
 
-    friend constexpr inline bool operator<(
-      indexed_enum_value a, indexed_enum_value b) noexcept {
+    friend constexpr inline bool
+    operator<(indexed_enum_value a, indexed_enum_value b) noexcept {
         return a._index < b._index;
     }
 
@@ -107,13 +107,13 @@ struct any_indexed_enum_value {
         return _base_id == ~T(0);
     }
 
-    friend constexpr inline bool operator==(
-      any_indexed_enum_value a, any_indexed_enum_value b) noexcept {
+    friend constexpr inline bool
+    operator==(any_indexed_enum_value a, any_indexed_enum_value b) noexcept {
         return (a._index == b._index) && (a._base_id == b._base_id);
     }
 
-    friend constexpr inline bool operator!=(
-      any_indexed_enum_value a, any_indexed_enum_value b) noexcept {
+    friend constexpr inline bool
+    operator!=(any_indexed_enum_value a, any_indexed_enum_value b) noexcept {
         return (a._index != b._index) || (a._base_id |= b._base_id);
     }
 
@@ -127,8 +127,7 @@ struct any_indexed_enum_value {
 };
 
 template <typename T, unsigned LibId>
-static constexpr inline bool
-same_enum_class(
+static constexpr inline bool same_enum_class(
   any_indexed_enum_value<T, LibId> a,
   any_indexed_enum_value<T, LibId> b) noexcept {
     return a._base_id == b._base_id;

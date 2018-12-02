@@ -14,8 +14,7 @@
 BOOST_AUTO_TEST_SUITE(units_dimension_tests_1)
 
 template <typename Dimension, typename BaseDim, typename TestedBD>
-void
-test_units_dimension_pow1_d_bd(void) {
+void test_units_dimension_pow1_d_bd() {
     BOOST_CHECK_EQUAL(
       get_pow_of_dim(TestedBD(), Dimension()),
       (std::is_same<BaseDim, TestedBD>::value ? 1 : 0));

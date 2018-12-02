@@ -19,14 +19,12 @@ coord_output::coord_output(node_intf& parent, coord_type func)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref
-coord_output::type_name() {
+cstr_ref coord_output::type_name() {
     return cstr_ref("Coord");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-slot_data_type
-coord_output::value_type() {
+slot_data_type coord_output::value_type() {
     return slot_data_type::float_3;
 }
 //------------------------------------------------------------------------------

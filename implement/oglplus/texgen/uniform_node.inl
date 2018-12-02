@@ -21,8 +21,7 @@ uniform_output::uniform_output(node_intf& parent, slot_data_type type)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-void
-uniform_output::bind_location() {
+void uniform_output::bind_location() {
     std::stringstream id;
     append_id(id);
     id << "u";
@@ -32,14 +31,12 @@ uniform_output::bind_location() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref
-uniform_output::type_name() {
+cstr_ref uniform_output::type_name() {
     return cstr_ref("Uniform");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-slot_data_type
-uniform_output::value_type() {
+slot_data_type uniform_output::value_type() {
     return _value_type;
 }
 //------------------------------------------------------------------------------
@@ -73,8 +70,7 @@ uniform_node::uniform_node()
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-void
-uniform_node::prepare() {
+void uniform_node::prepare() {
     _output.bind_location();
 }
 //------------------------------------------------------------------------------

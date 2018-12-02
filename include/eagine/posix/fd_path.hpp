@@ -9,17 +9,16 @@
 #ifndef EAGINE_POSIX_FD_PATH_1509260923_HPP
 #define EAGINE_POSIX_FD_PATH_1509260923_HPP
 
-#include <string>
-#include <utility>
 #include "dir.hpp"
 #include "file.hpp"
 #include "file_stat.hpp"
+#include <string>
+#include <utility>
 
 namespace eagine {
 namespace posix {
 
-static inline outcome<std::string>
-fd_abs_path(file_descriptor_owner curr_fd) {
+static inline outcome<std::string> fd_abs_path(file_descriptor_owner curr_fd) {
     typedef std::pair<dev_t, ino_t> inode_id;
     struct stat fst;
 
@@ -71,8 +70,7 @@ fd_abs_path(file_descriptor_owner curr_fd) {
     return {path};
 }
 
-static inline outcome<std::string>
-safe_getcwd() {
+static inline outcome<std::string> safe_getcwd() {
     outcome<owned_file_descriptor> res = open(".", 0);
     if(res.failed()) {
         return res.release_handler();

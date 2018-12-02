@@ -11,8 +11,7 @@
 namespace eagine {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-std::string
-substitute_variables(
+std::string substitute_variables(
   const std::string& str,
   const callable_ref<std::string(const std::string&)>& translate,
   bool keep_untranslated) {
@@ -73,8 +72,7 @@ substitute_variables(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-std::string
-substitute_variables(
+std::string substitute_variables(
   const std::string& str,
   span<const std::string> strings,
   bool keep_untranslated) {
@@ -90,8 +88,7 @@ substitute_variables(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-std::string
-substitute_variables(
+std::string substitute_variables(
   const std::string& str,
   const std::map<std::string, std::string>& dictionary,
   bool keep_untranslated) {
@@ -107,8 +104,7 @@ substitute_variables(
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-std::string
-environment_variable_map::_translate(const std::string& name) {
+std::string environment_variable_map::_translate(const std::string& name) {
     const char* ptr = ::getenv(name.c_str());
     return ptr ? std::string(ptr) : std::string();
 }

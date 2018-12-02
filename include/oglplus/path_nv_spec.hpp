@@ -13,9 +13,9 @@
 #error NV_path_rendering API is not defined
 #endif
 
+#include "enum/types.hpp"
 #include <cassert>
 #include <vector>
-#include "enum/types.hpp"
 
 namespace oglplus {
 namespace oper {

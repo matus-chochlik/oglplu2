@@ -7,10 +7,10 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#include <fstream>
-#include <vector>
 #include <eagine/memory/copy.hpp>
 #include <eagine/scope_exit.hpp>
+#include <fstream>
+#include <vector>
 
 namespace eagine {
 //------------------------------------------------------------------------------
@@ -35,8 +35,7 @@ do_read_stream_data(std::istream& input, memory::buffer& dest) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void
-read_stream_data(std::istream& input, memory::buffer& dest) {
+void read_stream_data(std::istream& input, memory::buffer& dest) {
     std::ios_base::iostate oldexc = input.exceptions();
     auto reset_exc = finally([&input, oldexc] { input.exceptions(oldexc); });
     input.exceptions(std::ios::failbit | std::ios::badbit);
@@ -45,8 +44,7 @@ read_stream_data(std::istream& input, memory::buffer& dest) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void
-read_file_data(const cstr_ref& path, memory::buffer& dest) {
+void read_file_data(const cstr_ref& path, memory::buffer& dest) {
     std::ifstream file;
     std::ios_base::iostate oldexc = file.exceptions();
     auto reset_exc = finally([&file, oldexc] { file.exceptions(oldexc); });

@@ -7,13 +7,13 @@
 #ifndef TEST_EAGINE_HELPER_MOCK_OBJECT_HPP
 #define TEST_EAGINE_HELPER_MOCK_OBJECT_HPP
 
-#include <set>
-#include <stdexcept>
 #include <eagine/deferred_handler.hpp>
 #include <eagine/nothing.hpp>
 #include <eagine/object/name.hpp>
 #include <eagine/object/owner.hpp>
 #include <eagine/outcome.hpp>
+#include <set>
+#include <stdexcept>
 
 namespace eagine {
 namespace tag {
@@ -26,19 +26,18 @@ struct mock_error_info {
     const char* op_name;
 };
 
-[[noreturn]] static inline void
-mock_handle_error(mock_error_info& mei) {
+[[noreturn]] static inline void mock_handle_error(mock_error_info& mei) {
     throw std::runtime_error(mei.op_name);
 }
 
 struct mock_obj_gen_del_ops {
-    static std::set<unsigned>& _assigned(void) noexcept {
+    static std::set<unsigned>& _assigned() noexcept {
         static std::set<unsigned> _ns;
         return _ns;
     }
 
-    static deferred_handler<mock_error_info> _gen(
-      span<unsigned> names) noexcept {
+    static deferred_handler<mock_error_info>
+    _gen(span<unsigned> names) noexcept {
         unsigned next = 1;
 
         for(unsigned& name : names) {
@@ -51,8 +50,8 @@ struct mock_obj_gen_del_ops {
         return {};
     }
 
-    static deferred_handler<mock_error_info> _delete(
-      span<unsigned> names) noexcept {
+    static deferred_handler<mock_error_info>
+    _delete(span<unsigned> names) noexcept {
         for(unsigned name : names) {
             if(_assigned().find(name) == _assigned().end()) {
                 return {mock_handle_error, mock_error_info{"delete"}};
@@ -79,11 +78,11 @@ struct object_traits<tag::mock_object> {
     template <typename ObjTag>
     using dsa_ops_t = object_name<ObjTag>;
 
-    static constexpr inline unsigned invalid_name(void) noexcept {
+    static constexpr inline unsigned invalid_name() noexcept {
         return ~unsigned(0);
     }
 
-    static constexpr inline unsigned get_type(void) noexcept {
+    static constexpr inline unsigned get_type() noexcept {
         return 12345u;
     }
 };

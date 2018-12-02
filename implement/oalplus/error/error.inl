@@ -12,8 +12,7 @@ namespace oalplus {
 #if !OALPLUS_LINK_LIBRARY || defined(OALPLUS_IMPLEMENTING_LIBRARY)
 //------------------------------------------------------------------------------
 OALPLUS_LIB_FUNC
-std::string
-error::_make_msg(error_info& info) {
+std::string error::_make_msg(error_info& info) {
     return ::alGetString(info.al_error_code());
 }
 //------------------------------------------------------------------------------

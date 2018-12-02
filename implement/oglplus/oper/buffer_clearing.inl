@@ -12,23 +12,20 @@ namespace oglplus {
 //------------------------------------------------------------------------------
 namespace oper {
 //------------------------------------------------------------------------------
-inline outcome<void>
-buffer_clearing_state::clear_color(
+inline outcome<void> buffer_clearing_state::clear_color(
   GLfloat r, GLfloat g, GLfloat b, GLfloat a) noexcept {
     OGLPLUS_GLFUNC(ClearColor)(r, g, b, a);
     OGLPLUS_VERIFY_SIMPLE(ClearColor, always);
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-buffer_clearing_state::clear_depth(GLfloat d) noexcept {
+inline outcome<void> buffer_clearing_state::clear_depth(GLfloat d) noexcept {
     OGLPLUS_GLFUNC(ClearDepthf)(d);
     OGLPLUS_VERIFY_SIMPLE(ClearDepthf, always);
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-buffer_clearing_state::clear_stencil(GLint s) noexcept {
+inline outcome<void> buffer_clearing_state::clear_stencil(GLint s) noexcept {
     OGLPLUS_GLFUNC(ClearStencil)(s);
     OGLPLUS_VERIFY_SIMPLE(ClearStencil, always);
     return {};

@@ -9,10 +9,10 @@
 #ifndef EAGINE_POSIX_DIR_DESCRIPTOR_1509260923_HPP
 #define EAGINE_POSIX_DIR_DESCRIPTOR_1509260923_HPP
 
-#include <sys/types.h>
-#include <dirent.h>
-#include <unistd.h>
 #include "error.hpp"
+#include <dirent.h>
+#include <sys/types.h>
+#include <unistd.h>
 
 #ifdef __clang__
 #pragma clang diagnostic push
@@ -109,14 +109,13 @@ public:
     owned_dir_descriptor(const owned_dir_descriptor&) = delete;
     owned_dir_descriptor& operator=(const owned_dir_descriptor&&) = delete;
 
-    friend inline void swap(
-      owned_dir_descriptor& a, owned_dir_descriptor& b) noexcept {
+    friend inline void
+    swap(owned_dir_descriptor& a, owned_dir_descriptor& b) noexcept {
         std::swap(a._dp, b._dp);
     }
 };
 
-static inline outcome<owned_dir_descriptor>
-dup(dir_descriptor from) noexcept {
+static inline outcome<owned_dir_descriptor> dup(dir_descriptor from) noexcept {
     int fd = ::dup(::dirfd(get_raw_dp(from)));
     if(fd < 0) {
         return error_outcome(fd).add(owned_dir_descriptor(nullptr));
@@ -125,8 +124,7 @@ dup(dir_descriptor from) noexcept {
     return error_if(dp == nullptr, -1).add(owned_dir_descriptor(dp));
 }
 
-static inline outcome<void>
-closedir(owned_dir_descriptor& dpw) noexcept {
+static inline outcome<void> closedir(owned_dir_descriptor& dpw) noexcept {
     owned_dir_descriptor tdpw = std::move(dpw);
     DIR* dp = get_raw_dp(tdpw);
     return error_if_not_zero(::closedir(dp), -1);

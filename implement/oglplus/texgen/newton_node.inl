@@ -19,20 +19,17 @@ newton_output::newton_output(node_intf& parent, newton_function func)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref
-newton_output::type_name() {
+cstr_ref newton_output::type_name() {
     return cstr_ref("Newton");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-slot_data_type
-newton_output::value_type() {
+slot_data_type newton_output::value_type() {
     return slot_data_type::float_;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref
-newton_output::_func_name() const {
+cstr_ref newton_output::_func_name() const {
     if(_function == newton_function::xe3minus1) {
         return cstr_ref("fXe3Minus1");
     } else if(_function == newton_function::xe4minus1) {

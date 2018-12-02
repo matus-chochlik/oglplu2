@@ -9,9 +9,9 @@
 #ifndef OGLPLUS_GLSL_SOURCE_REF_1509260923_HPP
 #define OGLPLUS_GLSL_SOURCE_REF_1509260923_HPP
 
+#include "../utils/types.hpp"
 #include <cassert>
 #include <cstddef>
-#include "../utils/types.hpp"
 
 namespace oglplus {
 

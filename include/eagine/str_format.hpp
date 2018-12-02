@@ -10,9 +10,9 @@
 #ifndef EAGINE_STR_FORMAT_1509260923_HPP
 #define EAGINE_STR_FORMAT_1509260923_HPP
 
-#include <string>
 #include "config/basic.hpp"
 #include "span.hpp"
+#include <string>
 
 namespace eagine {
 
@@ -91,8 +91,7 @@ operator%(format_string_and_list<N>&& fsal, std::string&& val) noexcept {
     return {std::move(fsal), std::move(val)};
 }
 
-static inline format_string_and_list<0>
-format(std::string&& fmt_str) noexcept {
+static inline format_string_and_list<0> format(std::string&& fmt_str) noexcept {
     return {fmt_str};
 }
 

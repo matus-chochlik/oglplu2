@@ -13,15 +13,13 @@ BOOST_AUTO_TEST_SUITE(math_vector_op_tests)
 static eagine::test_random_generator rg;
 
 template <typename T, int N, bool V>
-void
-test_math_vector_dimension_TNV(void) {
+void test_math_vector_dimension_TNV() {
     eagine::math::vector<T, N, V> v;
     BOOST_CHECK_EQUAL(dimension(v), N);
 }
 
 template <typename T, bool V>
-void
-test_math_vector_dimension_TV(void) {
+void test_math_vector_dimension_TV() {
     test_math_vector_dimension_TNV<T, 1, V>();
     test_math_vector_dimension_TNV<T, 2, V>();
     test_math_vector_dimension_TNV<T, 3, V>();
@@ -35,8 +33,7 @@ test_math_vector_dimension_TV(void) {
 }
 
 template <typename T>
-void
-test_math_vector_dimension_T(void) {
+void test_math_vector_dimension_T() {
     test_math_vector_dimension_TV<T, true>();
     test_math_vector_dimension_TV<T, false>();
 }
@@ -48,8 +45,7 @@ BOOST_AUTO_TEST_CASE(math_vector_dimension) {
 }
 
 template <typename T, int N, bool V>
-void
-test_math_vector_dot_TNV(void) {
+void test_math_vector_dot_TNV() {
     T a[N], b[N];
     T d = T(0);
 
@@ -67,8 +63,7 @@ test_math_vector_dot_TNV(void) {
 }
 
 template <typename T, bool V>
-void
-test_math_vector_dot_TV(void) {
+void test_math_vector_dot_TV() {
     test_math_vector_dot_TNV<T, 1, V>();
     test_math_vector_dot_TNV<T, 2, V>();
     test_math_vector_dot_TNV<T, 3, V>();
@@ -82,8 +77,7 @@ test_math_vector_dot_TV(void) {
 }
 
 template <typename T>
-void
-test_math_vector_dot_T(void) {
+void test_math_vector_dot_T() {
     test_math_vector_dot_TV<T, true>();
     test_math_vector_dot_TV<T, false>();
 }
@@ -95,8 +89,7 @@ BOOST_AUTO_TEST_CASE(math_vector_dot) {
 }
 
 template <typename T, int N, bool V>
-void
-test_math_vector_magnitude_TNV(void) {
+void test_math_vector_magnitude_TNV() {
     T a[N];
     T m = T(0);
 
@@ -112,8 +105,7 @@ test_math_vector_magnitude_TNV(void) {
 }
 
 template <typename T, bool V>
-void
-test_math_vector_magnitude_TV(void) {
+void test_math_vector_magnitude_TV() {
     test_math_vector_magnitude_TNV<T, 1, V>();
     test_math_vector_magnitude_TNV<T, 2, V>();
     test_math_vector_magnitude_TNV<T, 3, V>();
@@ -127,8 +119,7 @@ test_math_vector_magnitude_TV(void) {
 }
 
 template <typename T>
-void
-test_math_vector_magnitude_T(void) {
+void test_math_vector_magnitude_T() {
     test_math_vector_magnitude_TV<T, true>();
     test_math_vector_magnitude_TV<T, false>();
 }

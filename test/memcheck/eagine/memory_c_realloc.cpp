@@ -4,8 +4,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include <eagine/memory/c_realloc.hpp>
 #include "../memcheck.inl"
+#include <eagine/memory/c_realloc.hpp>
 
 #include <cassert>
 #include <deque>
@@ -13,8 +13,7 @@
 static eagine::test_random_generator rg;
 
 template <typename T>
-void
-eagine_test_memory_c_realloc_1_T(std::size_t n) {
+void eagine_test_memory_c_realloc_1_T(std::size_t n) {
     using namespace eagine;
 
     memory::c_byte_reallocator<> a;
@@ -61,8 +60,7 @@ eagine_test_memory_c_realloc_1_T(std::size_t n) {
     a.release();
 }
 
-void
-eagine_test_memory_c_realloc_1(void) {
+void eagine_test_memory_c_realloc_1() {
     std::size_t f[2] = {0, 1};
 
     for(int i = 0; i < 16; ++i) {
@@ -77,8 +75,7 @@ eagine_test_memory_c_realloc_1(void) {
     }
 }
 
-int
-main(void) {
+int main() {
     eagine_test_memory_c_realloc_1();
     return 0;
 }

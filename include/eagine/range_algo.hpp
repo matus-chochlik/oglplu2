@@ -20,14 +20,12 @@ namespace ranges {
 
 // equal
 template <typename Range1, typename Range2>
-static inline bool
-equal(const Range1& rng1, const Range2& rng2) noexcept {
+static inline bool equal(const Range1& rng1, const Range2& rng2) noexcept {
     return rng1 == rng2;
 }
 
 template <typename Range>
-static inline Range
-subrange(
+static inline Range subrange(
   const Range& rng,
   valid_range_position<Range> bgn,
   valid_range_position<Range> end) {
@@ -35,8 +33,7 @@ subrange(
 }
 
 template <typename Range>
-static inline Range
-slice(
+static inline Range slice(
   const Range& rng,
   any_range_position<Range> pos,
   any_range_position<Range> len) {
@@ -50,8 +47,7 @@ slice(
 }
 
 template <typename Range>
-static inline Range
-slice(const Range& rng, any_range_position<Range> pos) {
+static inline Range slice(const Range& rng, any_range_position<Range> pos) {
     if(pos.value() > rng.size()) {
         pos = rng.size();
     }
@@ -59,14 +55,12 @@ slice(const Range& rng, any_range_position<Range> pos) {
 }
 
 template <typename Range>
-static inline Range
-head(const Range& rng, any_range_position<Range> len) {
+static inline Range head(const Range& rng, any_range_position<Range> len) {
     return slice(rng, 0, len);
 }
 
 template <typename Range>
-static inline Range
-tail(const Range& rng, any_range_position<Range> len) {
+static inline Range tail(const Range& rng, any_range_position<Range> len) {
     if(len.value() > rng.size()) {
         len = rng.size();
     }
@@ -74,14 +68,12 @@ tail(const Range& rng, any_range_position<Range> len) {
 }
 
 template <typename Range1, typename Range2>
-static inline bool
-starts_with(const Range1& rng, const Range2& with) {
+static inline bool starts_with(const Range1& rng, const Range2& with) {
     return equal(head(rng, with.size()), with);
 }
 
 template <typename Range1, typename Range2>
-static inline bool
-ends_with(const Range1& rng, const Range2& with) {
+static inline bool ends_with(const Range1& rng, const Range2& with) {
     return equal(tail(rng, with.size()), with);
 }
 
@@ -135,14 +127,12 @@ rfind_pos(const Range1& where, const Range2& what) {
 }
 
 template <typename Range1, typename Range2>
-static inline bool
-contains(const Range1& where, const Range2& what) {
+static inline bool contains(const Range1& where, const Range2& what) {
     return find_pos(where, what).is_valid();
 }
 
 template <typename Range1, typename Range2>
-static inline Range1
-find(const Range1& where, const Range2& what) {
+static inline Range1 find(const Range1& where, const Range2& what) {
     if(auto pos = find_pos(where, what)) {
         return slice(where, pos.value());
     }
@@ -150,8 +140,7 @@ find(const Range1& where, const Range2& what) {
 }
 
 template <typename Range1, typename Range2>
-static inline Range1
-strip_prefix(const Range1& rng, const Range2& prefix) {
+static inline Range1 strip_prefix(const Range1& rng, const Range2& prefix) {
     range_index_t<Range1> ofs = 0;
     if(starts_with(rng, prefix)) {
         ofs = prefix.size();
@@ -160,8 +149,7 @@ strip_prefix(const Range1& rng, const Range2& prefix) {
 }
 
 template <typename Range1, typename Range2>
-static inline Range1
-strip_suffix(const Range1& rng, const Range2& suffix) {
+static inline Range1 strip_suffix(const Range1& rng, const Range2& suffix) {
     range_index_t<Range1> ofs = rng.size();
     if(ends_with(rng, suffix)) {
         ofs = ofs - suffix.size();
@@ -170,20 +158,17 @@ strip_suffix(const Range1& rng, const Range2& suffix) {
 }
 
 template <typename Range1, typename Range2>
-static inline Range1
-slice_before(const Range1& rng, const Range2& what) {
+static inline Range1 slice_before(const Range1& rng, const Range2& what) {
     return slice(rng, 0, find_pos(rng, what).value_or(rng.size()));
 }
 
 template <typename Range1, typename Range2>
-static inline Range1
-slice_before_last(const Range1& rng, const Range2& what) {
+static inline Range1 slice_before_last(const Range1& rng, const Range2& what) {
     return slice(rng, 0, rfind_pos(rng, what).value_or(0));
 }
 
 template <typename Range1, typename Range2>
-static inline Range1
-slice_after(const Range1& rng, const Range2& what) {
+static inline Range1 slice_after(const Range1& rng, const Range2& what) {
     if(auto pos = find_pos(rng, what)) {
         return slice(rng, pos.value() + what.size());
     }
@@ -191,8 +176,7 @@ slice_after(const Range1& rng, const Range2& what) {
 }
 
 template <typename Range1, typename Range2>
-static inline Range1
-slice_after_last(const Range1& rng, const Range2& what) {
+static inline Range1 slice_after_last(const Range1& rng, const Range2& what) {
     if(auto pos = rfind_pos(rng, what)) {
         return slice(rng, pos.value() + what.size());
     }
@@ -227,8 +211,7 @@ slice_inside(const Range1& rng, const Range2& bgn, const Range3& end) {
 }
 
 template <typename Range1, typename Range2>
-static inline span_size_t
-count(Range1 where, const Range2& what) {
+static inline span_size_t count(Range1 where, const Range2& what) {
     span_size_t result = 0;
     while(auto p = find_pos(where, what)) {
         ++result;
@@ -238,8 +221,7 @@ count(Range1 where, const Range2& what) {
 }
 
 template <typename Range1, typename Range2, typename UnaryOperation>
-static inline UnaryOperation
-for_each_delimited(
+static inline UnaryOperation for_each_delimited(
   const Range1& str, const Range2& delim, UnaryOperation unary_op) {
     Range1 tmp = str;
     while(auto p = find_pos(tmp, delim)) {
@@ -251,8 +233,7 @@ for_each_delimited(
 }
 
 template <typename Range1, typename Range2, typename BinaryOperation>
-static inline BinaryOperation
-for_each_delimiter(
+static inline BinaryOperation for_each_delimiter(
   const Range1& str, const Range2& delim, BinaryOperation binary_op) {
     Range1 tmp = str;
     if(auto p1 = find_pos(tmp, delim)) {
@@ -282,8 +263,7 @@ template <
   typename Range1,
   typename Range2,
   typename Transform>
-static inline BackInsertionSequence&
-split_into(
+static inline BackInsertionSequence& split_into(
   BackInsertionSequence& dest,
   const Range1& rng,
   const Range2& delim,
@@ -295,8 +275,7 @@ split_into(
 }
 
 template <typename BackInsertionSequence, typename Range1, typename Range2>
-static inline BackInsertionSequence&
-split_into(
+static inline BackInsertionSequence& split_into(
   BackInsertionSequence& dest, const Range1& rng, const Range2& delim) {
     return split_into(dest, rng, delim, [](const auto& x) {
         return typename BackInsertionSequence::value_type(x);

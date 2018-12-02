@@ -12,14 +12,12 @@
 
 using namespace oglplus;
 
-void
-oglplus_vertex_array_test_1(void) {
+void oglplus_vertex_array_test_1() {
     oglplus_object_name_test<vertex_array_name>();
     oglplus_object_test<vertex_array>();
 }
 
-void
-oglplus_vertex_array_test_ops1(void) {
+void oglplus_vertex_array_test_ops1() {
     using namespace oglplus;
 
     oper::vertex_array_ops gl;

@@ -9,9 +9,9 @@
 #ifndef OGLPLUS_DATA_TYPE_1509260923_HPP
 #define OGLPLUS_DATA_TYPE_1509260923_HPP
 
-#include <eagine/std/type_traits.hpp>
 #include "enum/types.hpp"
 #include "utils/identity.hpp"
+#include <eagine/std/type_traits.hpp>
 
 namespace oglplus {
 
@@ -25,64 +25,56 @@ template <
   typename T,
   typename =
     std::enable_if_t<std::is_same_v<T, char> && !std::is_same_v<T, GLbyte>>>
-static constexpr inline data_type
-get_data_type(identity<T>) noexcept {
+static constexpr inline data_type get_data_type(identity<T>) noexcept {
     return data_type(GL_BYTE);
 }
 
 template <>
 struct is_gl_data_type<GLbyte> : std::true_type {};
 
-static constexpr inline data_type
-get_data_type(identity<GLbyte>) noexcept {
+static constexpr inline data_type get_data_type(identity<GLbyte>) noexcept {
     return data_type(GL_BYTE);
 }
 
 template <>
 struct is_gl_data_type<GLubyte> : std::true_type {};
 
-static constexpr inline data_type
-get_data_type(identity<GLubyte>) noexcept {
+static constexpr inline data_type get_data_type(identity<GLubyte>) noexcept {
     return data_type(GL_UNSIGNED_BYTE);
 }
 
 template <>
 struct is_gl_data_type<GLshort> : std::true_type {};
 
-static constexpr inline data_type
-get_data_type(identity<GLshort>) noexcept {
+static constexpr inline data_type get_data_type(identity<GLshort>) noexcept {
     return data_type(GL_SHORT);
 }
 
 template <>
 struct is_gl_data_type<GLushort> : std::true_type {};
 
-static constexpr inline data_type
-get_data_type(identity<GLushort>) noexcept {
+static constexpr inline data_type get_data_type(identity<GLushort>) noexcept {
     return data_type(GL_UNSIGNED_SHORT);
 }
 
 template <>
 struct is_gl_data_type<GLint> : std::true_type {};
 
-static constexpr inline data_type
-get_data_type(identity<GLint>) noexcept {
+static constexpr inline data_type get_data_type(identity<GLint>) noexcept {
     return data_type(GL_INT);
 }
 
 template <>
 struct is_gl_data_type<GLuint> : std::true_type {};
 
-static constexpr inline data_type
-get_data_type(identity<GLuint>) noexcept {
+static constexpr inline data_type get_data_type(identity<GLuint>) noexcept {
     return data_type(GL_UNSIGNED_INT);
 }
 
 template <>
 struct is_gl_data_type<GLfloat> : std::true_type {};
 
-static constexpr inline data_type
-get_data_type(identity<GLfloat>) noexcept {
+static constexpr inline data_type get_data_type(identity<GLfloat>) noexcept {
     return data_type(GL_FLOAT);
 }
 
@@ -90,15 +82,13 @@ get_data_type(identity<GLfloat>) noexcept {
 template <>
 struct is_gl_data_type<GLdouble> : std::true_type {};
 
-static constexpr inline data_type
-get_data_type(identity<GLdouble>) noexcept {
+static constexpr inline data_type get_data_type(identity<GLdouble>) noexcept {
     return data_type(GL_DOUBLE);
 }
 #endif
 
 template <typename T>
-static constexpr inline data_type
-get_data_type() noexcept {
+static constexpr inline data_type get_data_type() noexcept {
     return get_data_type(identity<std::remove_cv_t<T>>());
 }
 

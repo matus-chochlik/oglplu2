@@ -13,8 +13,7 @@ BOOST_AUTO_TEST_SUITE(vect_hsum_tests)
 static eagine::test_random_generator rg;
 
 template <typename T, int N, bool V>
-void
-test_vect_hsum_TNV(void) {
+void test_vect_hsum_TNV() {
     for(int k = 0; k < 10; ++k) {
         T s = T(0);
 
@@ -36,8 +35,7 @@ test_vect_hsum_TNV(void) {
 }
 
 template <typename T, bool V>
-void
-test_vect_hsum_TV(void) {
+void test_vect_hsum_TV() {
     test_vect_hsum_TNV<T, 2, V>();
     test_vect_hsum_TNV<T, 3, V>();
     test_vect_hsum_TNV<T, 4, V>();
@@ -52,8 +50,7 @@ test_vect_hsum_TV(void) {
 }
 
 template <typename T>
-void
-test_vect_hsum_T(void) {
+void test_vect_hsum_T() {
     test_vect_hsum_TV<T, true>();
     test_vect_hsum_TV<T, false>();
 }

@@ -171,8 +171,7 @@ public:
     GLenum gl_iformat(void);
 };
 
-void
-convert_image(
+void convert_image(
   std::istream& input, std::ostream& output, const options& /*opts*/
 ) {
     png_reader reader(input);
@@ -205,8 +204,7 @@ convert_image(
 
 int parse_options(int argc, const char** argv, options& opts);
 
-int
-main(int argc, const char** argv) {
+int main(int argc, const char** argv) {
     options opts;
 
     if(int err = parse_options(argc, argv, opts)) {
@@ -232,8 +230,7 @@ main(int argc, const char** argv) {
     return 0;
 }
 
-bool
-parse_argument(eagine::program_arg& a, options& opts) {
+bool parse_argument(eagine::program_arg& a, options& opts) {
     if(!opts.parse(a, std::cerr)) {
         std::cerr << "Failed to parse argument '" << a.get() << "'"
                   << std::endl;
@@ -242,8 +239,7 @@ parse_argument(eagine::program_arg& a, options& opts) {
     return true;
 }
 
-int
-parse_options(int argc, const char** argv, options& opts) {
+int parse_options(int argc, const char** argv, options& opts) {
     eagine::program_args args(argc, argv);
 
     for(eagine::program_arg a = args.first(); a; a = a.next()) {
@@ -287,8 +283,7 @@ png_read_struct::_handle_error(::png_structp, const char* message) {
     throw ::std::runtime_error(message);
 }
 
-void
-png_read_struct::_handle_warning(::png_structp, const char* message) {
+void png_read_struct::_handle_warning(::png_structp, const char* message) {
     ::std::cerr << "libpng warning: " << message << ::std::endl;
 }
 
@@ -325,53 +320,43 @@ png_read_info_struct::~png_read_info_struct(void) noexcept {
     }
 }
 
-png_uint_32
-png_read_info_struct::row_bytes(void) {
+png_uint_32 png_read_info_struct::row_bytes(void) {
     return png_uint_32(::png_get_rowbytes(_read, _info));
 }
 
-png_uint_32
-png_read_info_struct::image_width(void) {
+png_uint_32 png_read_info_struct::image_width(void) {
     return ::png_get_image_width(_read, _info);
 }
 
-png_uint_32
-png_read_info_struct::image_height(void) {
+png_uint_32 png_read_info_struct::image_height(void) {
     return ::png_get_image_height(_read, _info);
 }
 
-png_byte
-png_read_info_struct::bit_depth(void) {
+png_byte png_read_info_struct::bit_depth(void) {
     return ::png_get_bit_depth(_read, _info);
 }
 
-png_byte
-png_read_info_struct::channels(void) {
+png_byte png_read_info_struct::channels(void) {
     return ::png_get_channels(_read, _info);
 }
 
-png_byte
-png_read_info_struct::color_type(void) {
+png_byte png_read_info_struct::color_type(void) {
     return ::png_get_color_type(_read, _info);
 }
 
-void
-png_read_info_struct::set_palette_to_rgb(void) {
+void png_read_info_struct::set_palette_to_rgb(void) {
     ::png_set_palette_to_rgb(_read);
 }
 
-void
-png_read_info_struct::set_expand_gray_1_2_4_to_8(void) {
+void png_read_info_struct::set_expand_gray_1_2_4_to_8(void) {
     ::png_set_expand_gray_1_2_4_to_8(_read);
 }
 
-void
-png_read_info_struct::set_tRNS_to_alpha(void) {
+void png_read_info_struct::set_tRNS_to_alpha(void) {
     ::png_set_tRNS_to_alpha(_read);
 }
 
-png_uint_32
-png_read_info_struct::get_valid(png_uint_32 flag) {
+png_uint_32 png_read_info_struct::get_valid(png_uint_32 flag) {
     return ::png_get_valid(_read, _info, flag);
 }
 
@@ -390,21 +375,18 @@ png_read_info_end_struct::~png_read_info_end_struct(void) noexcept {
     }
 }
 
-void
-png_read_driver::_read_data(
+void png_read_driver::_read_data(
   ::png_structp png, ::png_bytep data, ::png_size_t size) {
     ::png_voidp p = ::png_get_io_ptr(png);
     assert(p != 0);
     (reinterpret_cast<png_reader*>(p))->do_read_data(data, size);
 }
 
-int
-png_read_driver::_read_user_chunk(::png_structp, ::png_unknown_chunkp) {
+int png_read_driver::_read_user_chunk(::png_structp, ::png_unknown_chunkp) {
     return 0;
 }
 
-void
-png_read_driver::_read_row(::png_bytep data) {
+void png_read_driver::_read_row(::png_bytep data) {
     ::png_read_row(_png._read, data, nullptr);
 }
 
@@ -442,8 +424,7 @@ png_reader::png_reader(std::istream& input)
     }
 }
 
-GLenum
-png_reader::gl_data_type(void) {
+GLenum png_reader::gl_data_type(void) {
     switch(_driver._png.bit_depth()) {
         case 1:
         case 2:
@@ -464,8 +445,7 @@ png_reader::gl_data_type(void) {
     return GL_NONE;
 }
 
-GLenum
-png_reader::gl_format(void) {
+GLenum png_reader::gl_format(void) {
     switch(_driver._png.color_type()) {
         case PNG_COLOR_TYPE_GRAY:
             return GL_RED;
@@ -480,8 +460,7 @@ png_reader::gl_format(void) {
     }
 }
 
-GLenum
-png_reader::gl_iformat(void) {
+GLenum png_reader::gl_iformat(void) {
     if(_driver._png.bit_depth() == 16) {
         if(has_rgba16) {
 #if defined(GL_RGBA16)
@@ -515,8 +494,7 @@ png_reader::gl_iformat(void) {
     return GL_NONE;
 }
 
-void
-png_reader::do_read_data(::png_bytep data, ::png_size_t size) {
+void png_reader::do_read_data(::png_bytep data, ::png_size_t size) {
     _input.read(reinterpret_cast<char*>(data), std::streamsize(size));
     if(!_input.good()) {
         throw std::runtime_error("Unable to read PNG data");

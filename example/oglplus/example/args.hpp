@@ -9,9 +9,9 @@
 #ifndef OGLPLUS_EXAMPLE_ARGS_1512120710_HPP
 #define OGLPLUS_EXAMPLE_ARGS_1512120710_HPP
 
-#include <iosfwd>
 #include <eagine/valid_if/not_empty.hpp>
 #include <oglplus/utils/cstr_ref.hpp>
+#include <iosfwd>
 
 namespace eagine {
 

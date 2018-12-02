@@ -11,8 +11,7 @@
 BOOST_AUTO_TEST_SUITE(math_scalar_tests)
 
 template <typename T, bool V>
-void
-test_math_scalar_default_ctr_TV(void) {
+void test_math_scalar_default_ctr_TV() {
     eagine::math::scalar<T, 1, V> s1;
     EAGINE_MAYBE_UNUSED(s1);
     eagine::math::scalar<T, 2, V> s2;
@@ -38,8 +37,7 @@ test_math_scalar_default_ctr_TV(void) {
 }
 
 template <typename T>
-void
-test_math_scalar_default_ctr_T(void) {
+void test_math_scalar_default_ctr_T() {
     test_math_scalar_default_ctr_TV<T, true>();
     test_math_scalar_default_ctr_TV<T, false>();
 }
@@ -51,8 +49,7 @@ BOOST_AUTO_TEST_CASE(math_scalar_default_ctr) {
 }
 
 template <typename T, bool V>
-void
-test_math_scalar_make_and_conv_TV(void) {
+void test_math_scalar_make_and_conv_TV() {
     auto s1 = eagine::math::scalar<T, 1, V>::make(1);
     T s1v = s1;
     BOOST_CHECK_EQUAL(s1v, T(1));
@@ -99,8 +96,7 @@ test_math_scalar_make_and_conv_TV(void) {
 }
 
 template <typename T>
-void
-test_math_scalar_make_and_conv_T(void) {
+void test_math_scalar_make_and_conv_T() {
     test_math_scalar_make_and_conv_TV<T, true>();
     test_math_scalar_make_and_conv_TV<T, false>();
 }
@@ -112,8 +108,7 @@ BOOST_AUTO_TEST_CASE(math_scalar_make_and_conv) {
 }
 
 template <typename T, bool V>
-void
-test_math_scalar_copy_ctr_TV(void) {
+void test_math_scalar_copy_ctr_TV() {
     auto s1 = eagine::math::scalar<T, 1, V>::make(1);
     eagine::math::scalar<T, 1, V> s1c = s1;
     BOOST_CHECK_EQUAL(s1c, T(1));
@@ -160,8 +155,7 @@ test_math_scalar_copy_ctr_TV(void) {
 }
 
 template <typename T>
-void
-test_math_scalar_copy_ctr_T(void) {
+void test_math_scalar_copy_ctr_T() {
     test_math_scalar_copy_ctr_TV<T, true>();
     test_math_scalar_copy_ctr_TV<T, false>();
 }

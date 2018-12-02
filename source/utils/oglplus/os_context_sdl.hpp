@@ -8,9 +8,9 @@
 #ifndef UTILS_OGLPLUS_OS_CONTEXT_SDL_1107121519_HPP
 #define UTILS_OGLPLUS_OS_CONTEXT_SDL_1107121519_HPP
 
+#include "os_context_common.hpp"
 #include <SDL/SDL.h>
 #include <stdexcept>
-#include "os_context_common.hpp"
 
 namespace oglplus {
 

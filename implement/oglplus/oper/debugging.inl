@@ -13,8 +13,7 @@ namespace oglplus {
 namespace oper {
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_3)
-inline outcome<void>
-debugging::push_debug_group(
+inline outcome<void> debugging::push_debug_group(
   debug_output_source source, GLuint id, cstring_span message) noexcept {
     OGLPLUS_GLFUNC(PushDebugGroup)
     (GLenum(source), id, GLsizei(message.size()), message.data());
@@ -22,15 +21,13 @@ debugging::push_debug_group(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-debugging::pop_debug_group() noexcept {
+inline outcome<void> debugging::pop_debug_group() noexcept {
     OGLPLUS_GLFUNC(PopDebugGroup)();
     OGLPLUS_VERIFY_SIMPLE(PopDebugGroup, debug);
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-debugging::debug_message_control(
+inline outcome<void> debugging::debug_message_control(
   debug_output_source source,
   debug_output_type type,
   debug_output_severity severity,
@@ -47,8 +44,7 @@ debugging::debug_message_control(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-debugging::debug_message_insert(
+inline outcome<void> debugging::debug_message_insert(
   debug_output_source source,
   debug_output_type type,
   GLuint id,
@@ -65,16 +61,14 @@ debugging::debug_message_insert(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-debugging::debug_message_callback(
+inline outcome<void> debugging::debug_message_callback(
   GLDEBUGPROC callback, void* user_param) noexcept {
     OGLPLUS_GLFUNC(DebugMessageCallback)(callback, user_param);
     OGLPLUS_VERIFY_SIMPLE(DebugMessageCallback, debug);
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-debugging::get_debug_message_log(
+inline outcome<void> debugging::get_debug_message_log(
   GLuint count,
   span<debug_output_source> sources,
   span<debug_output_type> types,

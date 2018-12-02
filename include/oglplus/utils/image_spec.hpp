@@ -10,11 +10,11 @@
 #ifndef OGLPLUS_UTILS_IMAGE_SPEC_1509260923_HPP
 #define OGLPLUS_UTILS_IMAGE_SPEC_1509260923_HPP
 
-#include <cassert>
 #include "../data_type.hpp"
 #include "../enum/types.hpp"
 #include "memory_block.hpp"
 #include "span.hpp"
+#include <cassert>
 
 namespace oglplus {
 

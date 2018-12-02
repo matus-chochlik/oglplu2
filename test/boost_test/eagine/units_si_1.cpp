@@ -175,8 +175,7 @@ BOOST_AUTO_TEST_CASE(units_si_time_1) {
 }
 
 template <typename U1, typename U2>
-void
-test_units_unit_si_2(double r) {
+void test_units_unit_si_2(double r) {
     using namespace eagine;
 
     for(int i = 0; i < 100; ++i) {

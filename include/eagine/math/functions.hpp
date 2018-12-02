@@ -9,48 +9,42 @@
 #ifndef EAGINE_MATH_FUNCTIONS_1509260923_HPP
 #define EAGINE_MATH_FUNCTIONS_1509260923_HPP
 
+#include "../std/type_traits.hpp"
 #include <cassert>
 #include <cmath>
-#include "../std/type_traits.hpp"
 
 namespace eagine {
 namespace math {
 
 // minimum
 template <typename T>
-static constexpr inline T
-minimum(T a, T b) noexcept {
+static constexpr inline T minimum(T a, T b) noexcept {
     return a < b ? a : b;
 }
 
 template <typename T, typename... P>
-static constexpr inline T
-minimum(T a, T b, T c, P... d) noexcept {
+static constexpr inline T minimum(T a, T b, T c, P... d) noexcept {
     return minimum(minimum(a, b), c, d...);
 }
 
 // maximum
 template <typename T>
-static constexpr inline T
-maximum(T a, T b) noexcept {
+static constexpr inline T maximum(T a, T b) noexcept {
     return a > b ? a : b;
 }
 
 template <typename T, typename... P>
-static constexpr inline T
-maximum(T a, T b, T c, P... d) noexcept {
+static constexpr inline T maximum(T a, T b, T c, P... d) noexcept {
     return maximum(maximum(a, b), c, d...);
 }
 
 // factorial
-static constexpr inline int
-factorial(int n) noexcept {
+static constexpr inline int factorial(int n) noexcept {
     return n > 0 ? n * factorial(n - 1) : 1;
 }
 
 // binomial
-static constexpr inline int
-binomial(int n, int k) noexcept {
+static constexpr inline int binomial(int n, int k) noexcept {
     return ((n >= 0) && (k >= 0) && (k <= n))
              ? (factorial(n) / (factorial(k) * factorial(n - k)))
              : 0;
@@ -82,8 +76,7 @@ public:
 };
 
 template <typename T, typename... P>
-static constexpr inline T
-bezier(T t, P... p) noexcept {
+static constexpr inline T bezier(T t, P... p) noexcept {
     return bezier_t<T, sizeof...(P)>()(t, p...);
 }
 

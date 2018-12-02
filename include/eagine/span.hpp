@@ -37,8 +37,7 @@ using gsl::make_span;
 using gsl::span;
 
 template <typename T>
-static inline span<const T>
-make_span(std::initializer_list<T> il) noexcept {
+static inline span<const T> make_span(std::initializer_list<T> il) noexcept {
     return {il.begin(), span_size_t(il.size())};
 }
 

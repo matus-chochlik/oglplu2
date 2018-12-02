@@ -37,11 +37,11 @@ struct named_string_state {
 
     static outcome<GLint> get_named_string_length(cstring_span name) noexcept;
 
-    static outcome<named_string_type> get_named_string_type(
-      cstring_span name) noexcept;
+    static outcome<named_string_type>
+    get_named_string_type(cstring_span name) noexcept;
 
-    static outcome<GLint> get_named_string(
-      cstring_span name, span<GLchar> buf) noexcept;
+    static outcome<GLint>
+    get_named_string(cstring_span name, span<GLchar> buf) noexcept;
 #endif
 };
 

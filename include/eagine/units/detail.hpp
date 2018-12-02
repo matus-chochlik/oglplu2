@@ -374,8 +374,8 @@ struct _sc_unit_sc_hlp {
     }
 
     template <typename Dir, typename T, typename D, int E>
-    static constexpr inline auto _hlp2(
-      Dir, T v, dim_pow<D, int_constant<E>>) noexcept {
+    static constexpr inline auto
+    _hlp2(Dir, T v, dim_pow<D, int_constant<E>>) noexcept {
         typedef typename System ::template base_unit<D>::type SBU;
         typedef scales::scale_of_t<SBU> BS;
 
@@ -386,8 +386,8 @@ struct _sc_unit_sc_hlp {
     }
 
     template <typename Dir, typename T, typename D, typename P, typename Dims>
-    static constexpr inline auto _hlp(
-      Dir dir, T v, dims<dim_pow<D, P>, Dims>) noexcept {
+    static constexpr inline auto
+    _hlp(Dir dir, T v, dims<dim_pow<D, P>, Dims>) noexcept {
         return _hlp(dir, _hlp2(dir, v, dim_pow<D, P>()), Dims());
     }
 };

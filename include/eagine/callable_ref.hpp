@@ -10,10 +10,10 @@
 #ifndef EAGINE_CALLABLE_REF_1509260923_HPP
 #define EAGINE_CALLABLE_REF_1509260923_HPP
 
-#include <cassert>
 #include "mem_func_const.hpp"
 #include "std/type_traits.hpp"
 #include "std/utility.hpp"
+#include <cassert>
 
 namespace eagine {
 

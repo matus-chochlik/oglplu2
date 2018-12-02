@@ -26,22 +26,19 @@ rasterization_state::get_front_face() noexcept {
       GLenum(numeric_queries::get_integer(numeric_query(GL_FRONT_FACE))));
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-rasterization_state::cull_face(face mode) noexcept {
+inline outcome<void> rasterization_state::cull_face(face mode) noexcept {
     OGLPLUS_GLFUNC(CullFace)(GLenum(mode));
     OGLPLUS_VERIFY(CullFace, gl_enum_value(mode), debug);
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<face>
-rasterization_state::get_cull_face_mode() noexcept {
+inline outcome<face> rasterization_state::get_cull_face_mode() noexcept {
     return face(
       GLenum(numeric_queries::get_integer(numeric_query(GL_CULL_FACE_MODE))));
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5)
-inline outcome<void>
-rasterization_state::clip_control(
+inline outcome<void> rasterization_state::clip_control(
   clip_origin origin, clip_depth_mode depth) noexcept {
     OGLPLUS_GLFUNC(ClipControl)(GLenum(origin), GLenum(depth));
     OGLPLUS_VERIFY(ClipControl, gl_enum_value(origin), debug);
@@ -79,8 +76,7 @@ rasterization_state::depth_range(GLdouble near, GLdouble far) noexcept {
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-rasterization_state::depth_range(
+inline outcome<void> rasterization_state::depth_range(
   GLuint index, GLdouble near, GLdouble far) noexcept {
     OGLPLUS_GLFUNC(DepthRangeIndexed)(index, near, far);
     OGLPLUS_VERIFY(DepthRangeIndexed, gl_index(index), debug);
@@ -89,8 +85,7 @@ rasterization_state::depth_range(
 #endif
 //------------------------------------------------------------------------------
 #ifdef GL_VERSION_3_0
-inline outcome<void>
-rasterization_state::polygon_mode(
+inline outcome<void> rasterization_state::polygon_mode(
   face side, oglplus::polygon_mode mode) noexcept {
     OGLPLUS_GLFUNC(PolygonMode)(GLenum(side), GLenum(mode));
     OGLPLUS_VERIFY(PolygonMode, gl_enum_value(mode), debug);
@@ -106,8 +101,7 @@ rasterization_state::polygon_offset(GLfloat factor, GLfloat units) noexcept {
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_6) || defined(GL_EXT_polygon_offset_clamp)
-inline outcome<void>
-rasterization_state::polygon_offset_clamp(
+inline outcome<void> rasterization_state::polygon_offset_clamp(
   GLfloat factor, GLfloat units, GLfloat clamp) noexcept {
 #if defined(GL_VERSION_4_6)
     OGLPLUS_GLFUNC(PolygonOffsetClamp)(factor, units, clamp);
@@ -142,41 +136,35 @@ rasterization_state::get_polygon_offset_clamp() noexcept {
 }
 #endif
 //------------------------------------------------------------------------------
-inline outcome<void>
-rasterization_state::line_width(GLfloat value) noexcept {
+inline outcome<void> rasterization_state::line_width(GLfloat value) noexcept {
     OGLPLUS_GLFUNC(LineWidth)(value);
     OGLPLUS_VERIFY_SIMPLE(LineWidth, debug);
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<GLfloat>
-rasterization_state::get_line_width() noexcept {
+inline outcome<GLfloat> rasterization_state::get_line_width() noexcept {
     return numeric_queries::get_float(numeric_query(GL_LINE_WIDTH));
 }
 //------------------------------------------------------------------------------
 #ifdef GL_VERSION_3_0
-inline outcome<void>
-rasterization_state::point_size(GLfloat value) noexcept {
+inline outcome<void> rasterization_state::point_size(GLfloat value) noexcept {
     OGLPLUS_GLFUNC(PointSize)(value);
     OGLPLUS_VERIFY_SIMPLE(PointSize, debug);
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<GLfloat>
-rasterization_state::get_point_size() noexcept {
+inline outcome<GLfloat> rasterization_state::get_point_size() noexcept {
     return numeric_queries::get_float(numeric_query(GL_POINT_SIZE));
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-rasterization_state::point_parameter(
+inline outcome<void> rasterization_state::point_parameter(
   oglplus::point_parameter param, GLfloat value) noexcept {
     OGLPLUS_GLFUNC(PointParameterf)(GLenum(param), value);
     OGLPLUS_VERIFY(PointParameterf, gl_enum_value(param), debug);
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<GLfloat>
-rasterization_state::get_point_parameter(
+inline outcome<GLfloat> rasterization_state::get_point_parameter(
   oglplus::point_parameter param) noexcept {
     return numeric_queries::get_float(numeric_query(GLenum(param)));
 }

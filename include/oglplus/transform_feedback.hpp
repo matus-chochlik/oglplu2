@@ -27,11 +27,11 @@ struct transform_feedback_ops {
     static outcome<void> bind_transform_feedback(
       transform_feedback_target target, transform_feedback_name xfb) noexcept;
 
-    static outcome<transform_feedback_name> transform_feedback_binding(
-      transform_feedback_target target) noexcept;
+    static outcome<transform_feedback_name>
+    transform_feedback_binding(transform_feedback_target target) noexcept;
 
-    static outcome<void> begin_transform_feedback(
-      transform_feedback_primitive_type) noexcept;
+    static outcome<void>
+      begin_transform_feedback(transform_feedback_primitive_type) noexcept;
 
     static outcome<void> end_transform_feedback() noexcept;
 
@@ -57,14 +57,14 @@ struct transform_feedback_ops {
       GLuint index,
       span<GLint64> values) noexcept;
 
-    static outcome<boolean> transform_feedback_active(
-      transform_feedback_name xfb) noexcept;
+    static outcome<boolean>
+    transform_feedback_active(transform_feedback_name xfb) noexcept;
 
-    static outcome<boolean> transform_feedback_paused(
-      transform_feedback_name xfb) noexcept;
+    static outcome<boolean>
+    transform_feedback_paused(transform_feedback_name xfb) noexcept;
 
-    static outcome<buffer_name> transform_feedback_buffer_binding(
-      transform_feedback_name xfb) noexcept;
+    static outcome<buffer_name>
+    transform_feedback_buffer_binding(transform_feedback_name xfb) noexcept;
 
     static outcome<GLint64> transform_feedback_buffer_start(
       transform_feedback_name xfb, GLuint index) noexcept;

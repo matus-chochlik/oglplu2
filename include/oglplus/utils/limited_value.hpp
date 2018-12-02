@@ -58,8 +58,7 @@ struct is_limited_value : std::false_type {};
 template <GLenum Query, typename T>
 struct is_limited_value<limited_value<Query, T>> : std::true_type {};
 
-static inline outcome<GLint>
-get_integer_limit(limit_query lq) noexcept {
+static inline outcome<GLint> get_integer_limit(limit_query lq) noexcept {
     GLint value = 0;
     OGLPLUS_GLFUNC(GetIntegerv)(GLenum(lq), &value);
     OGLPLUS_VERIFY(GetIntegerv, gl_enum_value(lq), debug);
@@ -70,8 +69,7 @@ template <
   GLenum Query,
   typename T,
   typename = std::enable_if_t<std::is_integral_v<T>>>
-static inline outcome<T>
-get_limit(identity<limited_value<Query, T>>) noexcept {
+static inline outcome<T> get_limit(identity<limited_value<Query, T>>) noexcept {
     return outcome_cast<T>(get_integer_limit(limit_query(Query)));
 }
 
@@ -86,20 +84,17 @@ get_limit(identity<limited_value<Query, indexed_enum_value<Base>>>) noexcept {
 template <
   typename LimitedValue,
   typename = std::enable_if_t<is_limited_value<LimitedValue>::value>>
-static inline auto
-limit() noexcept {
+static inline auto limit() noexcept {
     return get_limit(identity<LimitedValue>());
 }
 
 template <GLenum Query, typename T>
-static inline bool
-exceeds_limit(limited_value<Query, T> lv, T limit) noexcept {
+static inline bool exceeds_limit(limited_value<Query, T> lv, T limit) noexcept {
     return T(lv) >= limit;
 }
 
 template <GLenum Query, GLenum Base>
-static inline bool
-exceeds_limit(
+static inline bool exceeds_limit(
   limited_value<Query, indexed_enum_value<Base>> lv,
   indexed_enum_value<Base> limit) noexcept {
     return lv.index() >= limit.index();

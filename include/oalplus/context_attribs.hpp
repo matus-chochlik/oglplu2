@@ -9,8 +9,8 @@
 #ifndef OALPLUS_CONTEXT_ATTRIBS_1509260923_HPP
 #define OALPLUS_CONTEXT_ATTRIBS_1509260923_HPP
 
-#include <eagine/key_val_list.hpp>
 #include "enum/values_alc.hpp"
+#include <eagine/key_val_list.hpp>
 
 namespace oalplus {
 
@@ -19,7 +19,7 @@ struct context_attrib_traits {
     typedef ALCenum conv_type;
     typedef ALCint value_type;
 
-    static constexpr inline ALCint terminator(void) noexcept {
+    static constexpr inline ALCint terminator() noexcept {
         return 0;
     }
 };

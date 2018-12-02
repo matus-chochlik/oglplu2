@@ -9,8 +9,8 @@
 #ifndef OGLPLUS_GLSL_CONTAINER_1509260923_HPP
 #define OGLPLUS_GLSL_CONTAINER_1509260923_HPP
 
-#include <string>
 #include "string_ref.hpp"
+#include <string>
 
 namespace oglplus {
 

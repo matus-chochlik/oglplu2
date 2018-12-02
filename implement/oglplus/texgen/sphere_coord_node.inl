@@ -18,14 +18,12 @@ sphere_coord_output::sphere_coord_output(node_intf& parent)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref
-sphere_coord_output::type_name() {
+cstr_ref sphere_coord_output::type_name() {
     return cstr_ref("SphereCoord");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-slot_data_type
-sphere_coord_output::value_type() {
+slot_data_type sphere_coord_output::value_type() {
     return slot_data_type::float_4;
 }
 //------------------------------------------------------------------------------

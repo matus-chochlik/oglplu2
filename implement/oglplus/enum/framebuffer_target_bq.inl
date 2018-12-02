@@ -12,8 +12,7 @@
 namespace oglplus {
 
 OGLPLUS_LIB_FUNC
-binding_query
-get_binding_query(framebuffer_target tgt) noexcept {
+binding_query get_binding_query(framebuffer_target tgt) noexcept {
     GLenum result = 0;
     switch(GLenum(tgt)) {
 #if defined(GL_DRAW_FRAMEBUFFER) && defined(GL_DRAW_FRAMEBUFFER_BINDING)

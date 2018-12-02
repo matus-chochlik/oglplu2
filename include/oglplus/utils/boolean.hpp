@@ -10,8 +10,8 @@
 #ifndef OGLPLUS_UTILS_BOOLEAN_1509260923_HPP
 #define OGLPLUS_UTILS_BOOLEAN_1509260923_HPP
 
-#include <cassert>
 #include "../enum/types.hpp"
+#include <cassert>
 
 namespace oglplus {
 

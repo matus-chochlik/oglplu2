@@ -10,10 +10,10 @@
 #ifndef EAGINE_STATIC_VARIANT_1509260923_HPP
 #define EAGINE_STATIC_VARIANT_1509260923_HPP
 
-#include <functional>
-#include <tuple>
 #include "memory/address.hpp"
 #include "std/type_traits.hpp"
+#include <functional>
+#include <tuple>
 
 namespace eagine {
 

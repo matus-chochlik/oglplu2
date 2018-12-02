@@ -10,10 +10,10 @@
 #ifndef EAGINE_MEMORY_BYTE_ALLOC_1509260923_HPP
 #define EAGINE_MEMORY_BYTE_ALLOC_1509260923_HPP
 
-#include <cstdint>
 #include "../tribool.hpp"
 #include "../types.hpp"
 #include "block.hpp"
+#include <cstdint>
 
 namespace eagine {
 namespace memory {
@@ -37,18 +37,18 @@ struct byte_allocator : block_owner {
 
     virtual size_type max_size(size_type a) noexcept = 0;
 
-    virtual tribool has_allocated(
-      const owned_block& b, size_type a = 0) noexcept = 0;
+    virtual tribool
+    has_allocated(const owned_block& b, size_type a = 0) noexcept = 0;
 
     virtual owned_block allocate(size_type n, size_type a) noexcept = 0;
 
     virtual void deallocate(owned_block&& b, size_type a = 0) noexcept = 0;
 
-    virtual bool can_reallocate(
-      const owned_block& b, size_type n, size_type a) noexcept = 0;
+    virtual bool
+    can_reallocate(const owned_block& b, size_type n, size_type a) noexcept = 0;
 
-    virtual owned_block reallocate(
-      owned_block&& b, size_type n, size_type a) noexcept = 0;
+    virtual owned_block
+    reallocate(owned_block&& b, size_type n, size_type a) noexcept = 0;
 
     void do_reallocate(owned_block& b, size_type n, size_type a) noexcept {
         if(b.size() != n) {
@@ -83,11 +83,11 @@ private:
 public:
     byte_alloc_ref_count_policy(const byte_alloc_ref_count_policy&) = delete;
 
-    byte_alloc_ref_count_policy& operator=(const byte_alloc_ref_count_policy&) =
-      delete;
+    byte_alloc_ref_count_policy&
+    operator=(const byte_alloc_ref_count_policy&) = delete;
 
-    byte_alloc_ref_count_policy& operator=(byte_alloc_ref_count_policy&& tmp) =
-      delete;
+    byte_alloc_ref_count_policy&
+    operator=(byte_alloc_ref_count_policy&& tmp) = delete;
 
     byte_alloc_ref_count_policy() noexcept
       : _ref_count(1) {
@@ -149,13 +149,13 @@ public:
         return _policy.release(this);
     }
 
-    bool can_reallocate(
-      const owned_block&, size_type, size_type) noexcept override {
+    bool
+    can_reallocate(const owned_block&, size_type, size_type) noexcept override {
         return false;
     }
 
-    owned_block reallocate(
-      owned_block&& b, size_type, size_type) noexcept override {
+    owned_block
+    reallocate(owned_block&& b, size_type, size_type) noexcept override {
         return std::move(b);
     }
 

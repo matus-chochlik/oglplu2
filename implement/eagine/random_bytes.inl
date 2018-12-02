@@ -6,18 +6,17 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/config/basic.hpp>
 #include <algorithm>
 #include <climits>
 #include <random>
-#include <eagine/config/basic.hpp>
 
 namespace eagine {
 //------------------------------------------------------------------------------
 // demangle_type_name
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void
-fill_with_random_bytes(const span<unsigned char>& buffer) {
+void fill_with_random_bytes(const span<unsigned char>& buffer) {
     const unsigned mask = ((1 << CHAR_BIT) - 1);
 
     std::random_device rd;

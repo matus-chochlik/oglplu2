@@ -27,11 +27,11 @@ namespace oglplus {
 namespace oper {
 
 struct program_ops {
-    static outcome<void> attach_shader(
-      program_name prog, shader_name shdr) noexcept;
+    static outcome<void>
+    attach_shader(program_name prog, shader_name shdr) noexcept;
 
-    static outcome<void> detach_shader(
-      program_name prog, shader_name shdr) noexcept;
+    static outcome<void>
+    detach_shader(program_name prog, shader_name shdr) noexcept;
 
     static outcome<void> link_program(program_name prog) noexcept;
 
@@ -39,8 +39,8 @@ struct program_ops {
 
     static outcome<void> validate_program(program_name prog) noexcept;
 
-    static outcome<void> report_program_validate_error(
-      program_name prog) noexcept;
+    static outcome<void>
+    report_program_validate_error(program_name prog) noexcept;
 
     static outcome<void> use_program(program_name prog) noexcept;
 
@@ -50,14 +50,14 @@ struct program_ops {
     static outcome<void> program_parameter_i(
       program_name prog, program_parameter param, GLint value) noexcept;
 
-    static outcome<void> program_binary_retrievable_hint(
-      program_name prog, boolean value) noexcept;
+    static outcome<void>
+    program_binary_retrievable_hint(program_name prog, boolean value) noexcept;
 
-    static outcome<void> program_separable(
-      program_name prog, boolean value) noexcept;
+    static outcome<void>
+    program_separable(program_name prog, boolean value) noexcept;
 
-    static outcome<GLsizei> get_program_binary_length(
-      program_name prog) noexcept;
+    static outcome<GLsizei>
+    get_program_binary_length(program_name prog) noexcept;
 
     static outcome<memory_block> get_program_binary(
       program_name prog, GLenum& format, memory_block dest) noexcept;
@@ -73,25 +73,25 @@ struct program_ops {
     static outcome<R> return_program_parameter_i(
       program_name, program_parameter parameter) noexcept;
 
-    static outcome<boolean> get_program_delete_status(
-      program_name prog) noexcept;
+    static outcome<boolean>
+    get_program_delete_status(program_name prog) noexcept;
 
     static outcome<boolean> get_program_link_status(program_name prog) noexcept;
 
-    static outcome<boolean> get_program_validate_status(
-      program_name prog) noexcept;
+    static outcome<boolean>
+    get_program_validate_status(program_name prog) noexcept;
 
-    static outcome<GLsizei> get_program_info_log_length(
-      program_name prog) noexcept;
+    static outcome<GLsizei>
+    get_program_info_log_length(program_name prog) noexcept;
 
-    static outcome<span<char>> get_program_info_log(
-      program_name prog, span<char> dest) noexcept;
+    static outcome<span<char>>
+    get_program_info_log(program_name prog, span<char> dest) noexcept;
 
-    static outcome<GLuint> get_program_active_attributes(
-      program_name prog) noexcept;
+    static outcome<GLuint>
+    get_program_active_attributes(program_name prog) noexcept;
 
-    static outcome<GLsizei> get_program_active_attribute_max_length(
-      program_name prog) noexcept;
+    static outcome<GLsizei>
+    get_program_active_attribute_max_length(program_name prog) noexcept;
 
     static outcome<GLsizei> get_active_attrib(
       program_name prog,
@@ -100,11 +100,11 @@ struct program_ops {
       GLint& size,
       sl_data_type& type) noexcept;
 
-    static outcome<GLuint> get_program_active_uniforms(
-      program_name prog) noexcept;
+    static outcome<GLuint>
+    get_program_active_uniforms(program_name prog) noexcept;
 
-    static outcome<GLsizei> get_program_active_uniform_max_length(
-      program_name prog) noexcept;
+    static outcome<GLsizei>
+    get_program_active_uniform_max_length(program_name prog) noexcept;
 
     static outcome<GLsizei> get_active_uniform(
       program_name prog,
@@ -114,31 +114,31 @@ struct program_ops {
       sl_data_type& type) noexcept;
 
 #if defined(GL_ACTIVE_ATOMIC_COUNTER_BUFFERS)
-    static outcome<GLsizei> get_program_active_atomic_counter_buffers(
-      program_name prog) noexcept;
+    static outcome<GLsizei>
+    get_program_active_atomic_counter_buffers(program_name prog) noexcept;
 #endif
 
     static outcome<transform_feedback_mode>
     get_program_transform_feedback_buffer_mode(program_name prog) noexcept;
 
 #if defined(GL_VERSION_3_2)
-    static outcome<GLsizei> get_program_geometry_vertices_out(
-      program_name prog) noexcept;
+    static outcome<GLsizei>
+    get_program_geometry_vertices_out(program_name prog) noexcept;
 #endif
 
 #if defined(GL_VERSION_3_2)
-    static outcome<primitive_type> get_program_geometry_input_type(
-      program_name prog) noexcept;
+    static outcome<primitive_type>
+    get_program_geometry_input_type(program_name prog) noexcept;
 #endif
 
 #if defined(GL_VERSION_3_2)
-    static outcome<primitive_type> get_program_geometry_output_type(
-      program_name prog) noexcept;
+    static outcome<primitive_type>
+    get_program_geometry_output_type(program_name prog) noexcept;
 #endif
 
 #if defined(GL_VERSION_4_3)
-    static outcome<compute_work_group_size> get_program_compute_work_group_size(
-      program_name prog) noexcept;
+    static outcome<compute_work_group_size>
+    get_program_compute_work_group_size(program_name prog) noexcept;
 #endif
     // TODO other parameters
 
@@ -198,8 +198,8 @@ struct obj_dsa_ops<tag::program> : obj_zero_dsa_ops<tag::program> {
         return _ops::get_program_binary_length(*this);
     }
 
-    outcome<memory_block> get_binary(
-      GLenum& format, memory_block dest) noexcept {
+    outcome<memory_block>
+    get_binary(GLenum& format, memory_block dest) noexcept {
         return _ops::get_program_binary(*this, format, dest);
     }
 
@@ -262,8 +262,8 @@ struct obj_dsa_ops<tag::program> : obj_zero_dsa_ops<tag::program> {
     }
 #endif
 
-    outcome<transform_feedback_mode> get_transform_feedback_buffer_mode(
-      void) const noexcept {
+    outcome<transform_feedback_mode>
+    get_transform_feedback_buffer_mode(void) const noexcept {
         return _ops::get_program_transform_feedback_buffer_mode(*this);
     }
 
@@ -286,8 +286,8 @@ struct obj_dsa_ops<tag::program> : obj_zero_dsa_ops<tag::program> {
 #endif
 
 #if defined(GL_VERSION_4_3)
-    outcome<oper::compute_work_group_size> get_compute_work_group_size(
-      void) const noexcept {
+    outcome<oper::compute_work_group_size>
+    get_compute_work_group_size(void) const noexcept {
         return _ops::get_program_compute_work_group_size(*this);
     }
 #endif

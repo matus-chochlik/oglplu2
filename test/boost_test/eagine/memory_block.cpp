@@ -15,8 +15,7 @@ BOOST_AUTO_TEST_SUITE(memory_block_tests)
 static eagine::test_random_generator rg;
 
 template <bool is_const>
-void
-eagine_test_memory_block_0(void) {
+void eagine_test_memory_block_0() {
     using namespace eagine;
 
     basic_memory_block<is_const> bmb;
@@ -36,8 +35,7 @@ BOOST_AUTO_TEST_CASE(memory_block_0) {
 }
 
 template <bool is_const>
-void
-eagine_test_memory_block_1(void) {
+void eagine_test_memory_block_1() {
     using namespace eagine;
 
     basic_memory_block<false> bmb1;
@@ -58,8 +56,7 @@ BOOST_AUTO_TEST_CASE(memory_block_1) {
 }
 
 template <bool is_const>
-void
-eagine_test_memory_block_2(void) {
+void eagine_test_memory_block_2() {
     using namespace eagine;
 
     int x;
@@ -90,8 +87,7 @@ BOOST_AUTO_TEST_CASE(memory_block_2) {
 }
 
 template <bool is_const>
-void
-eagine_test_memory_block_3(void) {
+void eagine_test_memory_block_3() {
     using namespace eagine;
 
     double x[42];
@@ -122,8 +118,7 @@ BOOST_AUTO_TEST_CASE(memory_block_3) {
 }
 
 template <bool is_const>
-void
-eagine_test_memory_block_4(void) {
+void eagine_test_memory_block_4() {
     using namespace eagine;
 
     double x[42];
@@ -154,8 +149,7 @@ BOOST_AUTO_TEST_CASE(memory_block_4) {
 }
 
 template <bool is_const>
-void
-eagine_test_memory_block_5(void) {
+void eagine_test_memory_block_5() {
     using namespace eagine;
 
     byte x[256];
@@ -184,8 +178,7 @@ BOOST_AUTO_TEST_CASE(memory_block_5) {
 }
 
 template <bool is_const>
-void
-eagine_test_memory_block_6(void) {
+void eagine_test_memory_block_6() {
     using namespace eagine;
 
     unsigned x[10];
@@ -227,8 +220,7 @@ BOOST_AUTO_TEST_CASE(memory_block_6) {
 }
 
 template <typename T>
-void
-eagine_test_memory_block_7(void) {
+void eagine_test_memory_block_7() {
     using namespace eagine;
 
     std::vector<unsigned char> x(rg.get<std::size_t>(100, 1000));
@@ -252,8 +244,7 @@ BOOST_AUTO_TEST_CASE(memory_block_7) {
 }
 
 template <typename T>
-void
-eagine_test_memory_block_8(void) {
+void eagine_test_memory_block_8() {
     using namespace eagine;
 
     std::vector<T> x(rg.get<std::size_t>(100, 1000));

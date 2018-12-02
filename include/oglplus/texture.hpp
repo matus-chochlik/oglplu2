@@ -66,12 +66,12 @@ public:
 
     static outcome<texture_unit> get_active_texture() noexcept;
 
-    static outcome<void> bind_texture(
-      texture_target target, texture_name tex) noexcept;
+    static outcome<void>
+    bind_texture(texture_target target, texture_name tex) noexcept;
 
 #if defined(GL_VERSION_4_5)
-    static outcome<void> bind_texture_unit(
-      texture_unit unit, texture_name tex) noexcept;
+    static outcome<void>
+    bind_texture_unit(texture_unit unit, texture_name tex) noexcept;
 #endif
 
 #if defined(GL_VERSION_4_4)
@@ -81,8 +81,8 @@ public:
       const object_names<tag::texture, S>& textures) noexcept;
 #endif
 
-    static outcome<texture_name> texture_binding(
-      texture_target target) noexcept;
+    static outcome<texture_name>
+    texture_binding(texture_target target) noexcept;
 
 #if defined(GL_VERSION_4_2)
     static outcome<void> bind_image_texture(
@@ -138,8 +138,8 @@ public:
 #endif
 
 #if defined(GL_VERSION_4_3)
-    static outcome<void> invalidate_texture_image(
-      texture_target_only tnt, GLint level) noexcept;
+    static outcome<void>
+    invalidate_texture_image(texture_target_only tnt, GLint level) noexcept;
 
     static outcome<void> invalidate_texture_sub_image(
       texture_target_only tnt,
@@ -720,12 +720,12 @@ public:
       GLuint numlayers) noexcept;
 #endif
 
-    static outcome<void> generate_texture_mipmap(
-      texture_target_only tnt) noexcept;
+    static outcome<void>
+    generate_texture_mipmap(texture_target_only tnt) noexcept;
 
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
-    static outcome<void> generate_texture_mipmap(
-      texture_name_only tnt) noexcept;
+    static outcome<void>
+    generate_texture_mipmap(texture_name_only tnt) noexcept;
 #endif
 
     static outcome<void> texture_parameter_i(
@@ -854,89 +854,89 @@ public:
 #if defined(GL_VERSION_3_0) || defined(GL_ES_VERSION_3_1)
     // texture_width
     template <typename TNT>
-    static outcome<GLsizei> get_texture_width(
-      const TNT& tnt, GLint level = 0) noexcept;
+    static outcome<GLsizei>
+    get_texture_width(const TNT& tnt, GLint level = 0) noexcept;
 
     // texture_height
     template <typename TNT>
-    static outcome<GLsizei> get_texture_height(
-      const TNT& tnt, GLint level = 0) noexcept;
+    static outcome<GLsizei>
+    get_texture_height(const TNT& tnt, GLint level = 0) noexcept;
 
     // texture_depth
     template <typename TNT>
-    static outcome<GLsizei> get_texture_depth(
-      const TNT& tnt, GLint level = 0) noexcept;
+    static outcome<GLsizei>
+    get_texture_depth(const TNT& tnt, GLint level = 0) noexcept;
 
     // texture_red_type
     template <typename TNT>
-    static outcome<pixel_data_type> get_texture_red_type(
-      const TNT& tnt) noexcept;
+    static outcome<pixel_data_type>
+    get_texture_red_type(const TNT& tnt) noexcept;
 
     // texture_red_size
     template <typename TNT>
-    static outcome<GLsizei> get_texture_red_size(
-      const TNT& tnt, GLint level = 0) noexcept;
+    static outcome<GLsizei>
+    get_texture_red_size(const TNT& tnt, GLint level = 0) noexcept;
 
     // texture_green_type
     template <typename TNT>
-    static outcome<pixel_data_type> get_texture_green_type(
-      const TNT& tnt) noexcept;
+    static outcome<pixel_data_type>
+    get_texture_green_type(const TNT& tnt) noexcept;
 
     // texture_green_size
     template <typename TNT>
-    static outcome<GLsizei> get_texture_green_size(
-      const TNT& tnt, GLint level = 0) noexcept;
+    static outcome<GLsizei>
+    get_texture_green_size(const TNT& tnt, GLint level = 0) noexcept;
 
     // texture_blue_type
     template <typename TNT>
-    static outcome<pixel_data_type> get_texture_blue_type(
-      const TNT& tnt) noexcept;
+    static outcome<pixel_data_type>
+    get_texture_blue_type(const TNT& tnt) noexcept;
 
     // texture_blue_size
     template <typename TNT>
-    static outcome<GLsizei> get_texture_blue_size(
-      const TNT& tnt, GLint level = 0) noexcept;
+    static outcome<GLsizei>
+    get_texture_blue_size(const TNT& tnt, GLint level = 0) noexcept;
 
     // texture_alpha_type
     template <typename TNT>
-    static outcome<pixel_data_type> get_texture_alpha_type(
-      const TNT& tnt) noexcept;
+    static outcome<pixel_data_type>
+    get_texture_alpha_type(const TNT& tnt) noexcept;
 
     // texture_alpha_size
     template <typename TNT>
-    static outcome<GLsizei> get_texture_alpha_size(
-      const TNT& tnt, GLint level = 0) noexcept;
+    static outcome<GLsizei>
+    get_texture_alpha_size(const TNT& tnt, GLint level = 0) noexcept;
 
     // texture_depth_type
     template <typename TNT>
-    static outcome<pixel_data_type> get_texture_depth_type(
-      const TNT& tnt) noexcept;
+    static outcome<pixel_data_type>
+    get_texture_depth_type(const TNT& tnt) noexcept;
 
     // texture_depth_size
     template <typename TNT>
-    static outcome<GLsizei> get_texture_depth_size(
-      const TNT& tnt, GLint level = 0) noexcept;
+    static outcome<GLsizei>
+    get_texture_depth_size(const TNT& tnt, GLint level = 0) noexcept;
 
     // texture_stencil_size
     template <typename TNT>
-    static outcome<GLsizei> get_texture_stencil_size(
-      const TNT& tnt, GLint level = 0) noexcept;
+    static outcome<GLsizei>
+    get_texture_stencil_size(const TNT& tnt, GLint level = 0) noexcept;
 
     // texture_shared_size
     template <typename TNT>
-    static outcome<GLsizei> get_texture_shared_size(
-      const TNT& tnt, GLint level = 0) noexcept;
+    static outcome<GLsizei>
+    get_texture_shared_size(const TNT& tnt, GLint level = 0) noexcept;
 
     // texture_compressed
     template <typename TNT>
-    static outcome<boolean> is_texture_compressed(
-      const TNT& tnt, GLint level = 0) noexcept;
+    static outcome<boolean>
+    is_texture_compressed(const TNT& tnt, GLint level = 0) noexcept;
 
 #if defined(GL_TEXTURE_COMPRESSED_IMAGE_SIZE)
     // texture_compressed_image_size
     template <typename TNT>
-    static outcome<GLsizei> get_texture_compressed_image_size(
-      const TNT& tnt, GLint level = 0) noexcept;
+    static outcome<GLsizei>
+    get_texture_compressed_image_size(const TNT& tnt, GLint level = 0) noexcept;
 #endif
 
     // texture_internal_format
@@ -951,8 +951,8 @@ public:
       const TNT& tnt, oglplus::texture_min_filter value) noexcept;
 
     template <typename TNT>
-    static outcome<oglplus::texture_min_filter> get_texture_min_filter(
-      const TNT& tnt) noexcept;
+    static outcome<oglplus::texture_min_filter>
+    get_texture_min_filter(const TNT& tnt) noexcept;
 
     // texture_mag_filter
     template <typename TNT>
@@ -960,8 +960,8 @@ public:
       const TNT& tnt, oglplus::texture_mag_filter value) noexcept;
 
     template <typename TNT>
-    static outcome<oglplus::texture_mag_filter> get_texture_mag_filter(
-      const TNT& tnt) noexcept;
+    static outcome<oglplus::texture_mag_filter>
+    get_texture_mag_filter(const TNT& tnt) noexcept;
 
     // texture_compare_func
     template <typename TNT>
@@ -969,8 +969,8 @@ public:
       const TNT& tnt, oglplus::compare_function value) noexcept;
 
     template <typename TNT>
-    static outcome<oglplus::compare_function> get_texture_compare_func(
-      const TNT& tnt) noexcept;
+    static outcome<oglplus::compare_function>
+    get_texture_compare_func(const TNT& tnt) noexcept;
 
     // texture_compare_mode
     template <typename TNT>
@@ -978,8 +978,8 @@ public:
       const TNT& tnt, oglplus::texture_compare_mode value) noexcept;
 
     template <typename TNT>
-    static outcome<oglplus::texture_compare_mode> get_texture_compare_mode(
-      const TNT& tnt) noexcept;
+    static outcome<oglplus::texture_compare_mode>
+    get_texture_compare_mode(const TNT& tnt) noexcept;
 
     // texture_wrap
     template <typename TNT>
@@ -989,8 +989,8 @@ public:
       texture_wrap_mode value) noexcept;
 
     template <typename TNT>
-    static outcome<texture_wrap_mode> get_texture_wrap(
-      const TNT& tnt, texture_wrap_coord coord) noexcept;
+    static outcome<texture_wrap_mode>
+    get_texture_wrap(const TNT& tnt, texture_wrap_coord coord) noexcept;
 
     // texture_swizzle
     template <typename TNT>
@@ -1000,14 +1000,14 @@ public:
       texture_swizzle_mode value) noexcept;
 
     template <typename TNT>
-    static outcome<texture_swizzle_mode> get_texture_swizzle(
-      const TNT& tnt, texture_swizzle_coord coord) noexcept;
+    static outcome<texture_swizzle_mode>
+    get_texture_swizzle(const TNT& tnt, texture_swizzle_coord coord) noexcept;
 
 #if defined(GL_TEXTURE_LOD_BIAS)
     // texture_lod_bias
     template <typename TNT>
-    static outcome<void> texture_lod_bias(
-      const TNT& tnt, GLfloat value) noexcept;
+    static outcome<void>
+    texture_lod_bias(const TNT& tnt, GLfloat value) noexcept;
 
     template <typename TNT>
     static outcome<GLfloat> get_texture_lod_bias(const TNT& tnt) noexcept;
@@ -1015,16 +1015,16 @@ public:
 
     // texture_min_lod
     template <typename TNT>
-    static outcome<void> texture_min_lod(
-      const TNT& tnt, GLfloat value) noexcept;
+    static outcome<void>
+    texture_min_lod(const TNT& tnt, GLfloat value) noexcept;
 
     template <typename TNT>
     static outcome<GLfloat> get_texture_min_lod(const TNT& tnt) noexcept;
 
     // texture_max_lod
     template <typename TNT>
-    static outcome<void> texture_max_lod(
-      const TNT& tnt, GLfloat value) noexcept;
+    static outcome<void>
+    texture_max_lod(const TNT& tnt, GLfloat value) noexcept;
 
     template <typename TNT>
     static outcome<GLfloat> get_texture_max_lod(const TNT& tnt) noexcept;
@@ -1032,8 +1032,8 @@ public:
 #if defined(GL_TEXTURE_BORDER_COLOR)
     // texture_border_color
     template <typename TNT>
-    static outcome<void> texture_border_color(
-      const TNT& tnt, span<const GLfloat> c) noexcept;
+    static outcome<void>
+    texture_border_color(const TNT& tnt, span<const GLfloat> c) noexcept;
 #endif
 
     template <typename TNT>
@@ -1089,8 +1089,8 @@ private:
         return _do_get_tnt(_base());
     }
 
-    friend inline _tnt wrap_object_name_or_target(
-      const obj_member_ops& tex) noexcept {
+    friend inline _tnt
+    wrap_object_name_or_target(const obj_member_ops& tex) noexcept {
         return tex._get_tnt();
     }
 
@@ -1243,8 +1243,8 @@ public:
     }
 
 #if defined(GL_VERSION_3_1)
-    outcome<Derived&> buffer_(
-      pixel_data_internal_format iformat, buffer_name buf) noexcept {
+    outcome<Derived&>
+    buffer_(pixel_data_internal_format iformat, buffer_name buf) noexcept {
         return {_ops::texture_buffer(_get_tnt(), iformat, buf), _self()};
     }
 #endif
@@ -1332,8 +1332,8 @@ public:
     }
 #endif
 
-    outcome<oglplus::pixel_data_internal_format> get_internal_format(
-      GLint level = 0) const noexcept {
+    outcome<oglplus::pixel_data_internal_format>
+    get_internal_format(GLint level = 0) const noexcept {
         return _ops::get_texture_internal_format(_get_tnt(), level);
     }
 #endif
@@ -1362,8 +1362,8 @@ public:
         return _ops::get_texture_compare_func(_get_tnt());
     }
 
-    outcome<Derived&> compare_mode(
-      oglplus::texture_compare_mode value) noexcept {
+    outcome<Derived&>
+    compare_mode(oglplus::texture_compare_mode value) noexcept {
         return {_ops::texture_compare_mode(_get_tnt(), value), _self()};
     }
 
@@ -1371,8 +1371,8 @@ public:
         return _ops::get_texture_compare_mode(_get_tnt());
     }
 
-    outcome<Derived&> wrap(
-      texture_wrap_coord coord, texture_wrap_mode value) noexcept {
+    outcome<Derived&>
+    wrap(texture_wrap_coord coord, texture_wrap_mode value) noexcept {
         return {_ops::texture_wrap(_get_tnt(), coord, value), _self()};
     }
 
@@ -1381,8 +1381,8 @@ public:
         return _ops::get_texture_wrap(_get_tnt(), coord);
     }
 
-    outcome<Derived&> swizzle(
-      texture_swizzle_coord coord, texture_swizzle_mode value) noexcept {
+    outcome<Derived&>
+    swizzle(texture_swizzle_coord coord, texture_swizzle_mode value) noexcept {
         return {_ops::texture_swizzle(_get_tnt(), coord, value), _self()};
     }
 
@@ -1462,8 +1462,8 @@ struct obj_gen_del_ops<tag::texture> {
     static deferred_error_handler _gen(span<GLuint> names) noexcept;
 
 #if defined(GL_VERSION_4_5)
-    static deferred_error_handler _create(
-      texture_target target, span<GLuint> names) noexcept;
+    static deferred_error_handler
+    _create(texture_target target, span<GLuint> names) noexcept;
 #endif
 
     static deferred_error_handler _delete(span<GLuint> names) noexcept;

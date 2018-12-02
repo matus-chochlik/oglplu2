@@ -18,16 +18,16 @@ namespace oglplus {
 namespace oper {
 
 struct scissor_state {
-    static outcome<void> scissor(
-      GLint x, GLint y, GLsizei w, GLsizei h) noexcept {
+    static outcome<void>
+    scissor(GLint x, GLint y, GLsizei w, GLsizei h) noexcept {
         OGLPLUS_GLFUNC(Scissor)(x, y, w, h);
         OGLPLUS_VERIFY_SIMPLE(Scissor, debug);
         return {};
     }
 
 #if defined(GL_VERSION_4_1)
-    static outcome<void> scissor(
-      GLuint index, GLint x, GLint y, GLsizei w, GLsizei h) noexcept {
+    static outcome<void>
+    scissor(GLuint index, GLint x, GLint y, GLsizei w, GLsizei h) noexcept {
         OGLPLUS_GLFUNC(ScissorIndexed)(index, x, y, w, h);
         OGLPLUS_VERIFY(ScissorIndexed, gl_index(index), debug);
         return {};

@@ -14,8 +14,7 @@ BOOST_AUTO_TEST_SUITE(vect_diff_tests)
 static eagine::test_random_generator rg;
 
 template <typename T, int N, bool V>
-void
-test_vect_diff_TNV_1(void) {
+void test_vect_diff_TNV_1() {
     for(int k = 0; k < 1000; ++k) {
         T a[N];
 
@@ -38,8 +37,7 @@ test_vect_diff_TNV_1(void) {
 }
 
 template <typename T, bool V>
-void
-test_vect_diff_TV_1(void) {
+void test_vect_diff_TV_1() {
     test_vect_diff_TNV_1<T, 2, V>();
     test_vect_diff_TNV_1<T, 3, V>();
     test_vect_diff_TNV_1<T, 4, V>();
@@ -52,8 +50,7 @@ test_vect_diff_TV_1(void) {
 }
 
 template <typename T>
-void
-test_vect_diff_T_1(void) {
+void test_vect_diff_T_1() {
     test_vect_diff_TV_1<T, true>();
     test_vect_diff_TV_1<T, false>();
 }

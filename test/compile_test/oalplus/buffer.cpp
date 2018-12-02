@@ -12,14 +12,12 @@
 
 using namespace oalplus;
 
-void
-oalplus_buffer_test_1(void) {
+void oalplus_buffer_test_1() {
     oalplus_object_name_test<buffer_name>();
     oalplus_object_test<buffer>();
 }
 
-void
-oalplus_buffer_test_ops_1(void) {
+void oalplus_buffer_test_ops_1() {
     using namespace oalplus;
 
     oper::buffer_ops al;

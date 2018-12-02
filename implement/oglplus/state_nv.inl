@@ -12,16 +12,14 @@ namespace oglplus {
 //------------------------------------------------------------------------------
 namespace oper {
 //------------------------------------------------------------------------------
-inline outcome<void>
-state_nv_ops::state_capture(
+inline outcome<void> state_nv_ops::state_capture(
   state_nv_name ste, old_primitive_type mode) noexcept {
     OGLPLUS_GLFUNC(StateCaptureNV)(get_raw_name(ste), GLenum(mode));
     OGLPLUS_VERIFY(StateCaptureNV, gl_enum_value(mode).gl_object(ste), always);
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<GLuint>
-state_nv_ops::get_command_header(
+inline outcome<GLuint> state_nv_ops::get_command_header(
   command_token_nv token_id, GLuint size) noexcept {
     GLuint result =
       OGLPLUS_GLFUNC(GetCommandHeaderNV)(GLenum(token_id), GLenum(size));

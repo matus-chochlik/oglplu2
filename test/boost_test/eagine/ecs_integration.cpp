@@ -16,7 +16,7 @@ struct name_surname : eagine::ecs::component<name_surname> {
     std::string first_name;
     std::string family_name;
 
-    name_surname(void) = default;
+    name_surname() = default;
 
     name_surname(std::string fn, std::string sn)
       : first_name(std::move(fn))
@@ -30,7 +30,7 @@ struct name_surname_manip
     using eagine::ecs::basic_manipulator<name_surname, Const>::
       basic_manipulator;
 
-    const std::string& get_first_name(void) const {
+    const std::string& get_first_name() const {
         return this->read().first_name;
     }
 
@@ -42,7 +42,7 @@ struct name_surname_manip
         return this->is_valid() && this->read().family_name == str;
     }
 
-    const std::string& get_family_name(void) const {
+    const std::string& get_family_name() const {
         return this->read().family_name;
     }
 
@@ -55,7 +55,7 @@ struct measurements : eagine::ecs::component<measurements> {
     float height_m;
     float weight_kg;
 
-    measurements(void) = default;
+    measurements() = default;
 
     measurements(float h, float w)
       : height_m(h)
@@ -73,7 +73,7 @@ struct measurements_manip
         return this->is_valid() && std::abs(this->read().height_m - v) < 0.01f;
     }
 
-    float get_height_m(void) const {
+    float get_height_m() const {
         return this->read().height_m;
     }
 
@@ -82,7 +82,7 @@ struct measurements_manip
         this->write().height_m = v;
     }
 
-    float get_weight_kg(void) const {
+    float get_weight_kg() const {
         return this->read().weight_kg;
     }
 
@@ -102,7 +102,7 @@ template <>
 struct entity_traits<std::string> {
     typedef const std::string& parameter_type;
 
-    static inline std::string minimum(void) noexcept {
+    static inline std::string minimum() noexcept {
         return {};
     }
 };

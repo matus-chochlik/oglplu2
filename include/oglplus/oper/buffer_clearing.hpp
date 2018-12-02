@@ -48,8 +48,8 @@ struct rgba_value {
 };
 
 struct buffer_clearing_state {
-    static outcome<void> clear_color(
-      GLfloat r, GLfloat g, GLfloat b, GLfloat a) noexcept;
+    static outcome<void>
+    clear_color(GLfloat r, GLfloat g, GLfloat b, GLfloat a) noexcept;
 
     static outcome<void> clear_color(const rgba_value& cc) noexcept {
         return clear_color(cc.red(), cc.green(), cc.blue(), cc.alpha());

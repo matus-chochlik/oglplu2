@@ -17,8 +17,7 @@ struct E : C {};
 BOOST_AUTO_TEST_SUITE(all_are_same_tests)
 
 template <typename T1, typename T2, typename T3, typename T4>
-void
-test_all_are_same_1T(void) {
+void test_all_are_same_1T() {
     using eagine::all_are_same;
 
     BOOST_CHECK(all_are_same<T1>::value);
@@ -41,8 +40,7 @@ test_all_are_same_1T(void) {
 }
 
 template <typename T1, typename T2, typename T3, typename T4>
-void
-test_all_are_same_1(void) {
+void test_all_are_same_1() {
     test_all_are_same_1T<T1, T1, T1, T1>();
     test_all_are_same_1T<T2, T2, T2, T2>();
     test_all_are_same_1T<T3, T3, T3, T3>();
@@ -62,8 +60,7 @@ BOOST_AUTO_TEST_CASE(all_are_same_1) {
 }
 
 template <typename T1, typename T2, typename T3, typename T4>
-void
-test_all_are_derived_from_1T(void) {
+void test_all_are_derived_from_1T() {
     using eagine::all_are_derived_from;
 
     BOOST_CHECK(all_are_derived_from<T1>::value);
@@ -86,8 +83,7 @@ test_all_are_derived_from_1T(void) {
 }
 
 template <typename T1, typename T2, typename T3, typename T4>
-void
-test_all_are_derived_from_1(void) {
+void test_all_are_derived_from_1() {
     test_all_are_derived_from_1T<T1, T1, T1, T1>();
     test_all_are_derived_from_1T<T2, T2, T2, T2>();
     test_all_are_derived_from_1T<T3, T3, T3, T3>();
@@ -107,8 +103,7 @@ BOOST_AUTO_TEST_CASE(all_are_derived_from_1) {
 }
 
 template <typename T1, typename T2, typename T3, typename T4>
-void
-test_all_are_convertible_to_1T(void) {
+void test_all_are_convertible_to_1T() {
     using eagine::all_are_convertible_to;
 
     BOOST_CHECK(all_are_convertible_to<T1>::value);
@@ -134,8 +129,7 @@ test_all_are_convertible_to_1T(void) {
 }
 
 template <typename T1, typename T2, typename T3, typename T4>
-void
-test_all_are_convertible_to_1(void) {
+void test_all_are_convertible_to_1() {
     test_all_are_convertible_to_1T<T1, T1, T1, T1>();
     test_all_are_convertible_to_1T<T2, T2, T2, T2>();
     test_all_are_convertible_to_1T<T3, T3, T3, T3>();

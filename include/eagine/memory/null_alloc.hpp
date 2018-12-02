@@ -10,8 +10,8 @@
 #ifndef EAGINE_MEMORY_NULL_ALLOC_1509260923_HPP
 #define EAGINE_MEMORY_NULL_ALLOC_1509260923_HPP
 
-#include <cassert>
 #include "byte_alloc.hpp"
+#include <cassert>
 
 namespace eagine {
 namespace memory {

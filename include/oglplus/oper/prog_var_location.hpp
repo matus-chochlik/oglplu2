@@ -20,8 +20,8 @@ namespace oper {
 
 struct prog_var_location_ops {
     template <typename VarTag>
-    static inline outcome<prog_var_loc<VarTag>> get_location(
-      program_name prog, const cstr_ref& identifier) noexcept {
+    static inline outcome<prog_var_loc<VarTag>>
+    get_location(program_name prog, const cstr_ref& identifier) noexcept {
         return prog_var_loc_ops<VarTag>::get_location(prog, identifier);
     }
 

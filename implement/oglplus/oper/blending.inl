@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include <algorithm>
 #include <oglplus/utils/gl_func.hpp>
+#include <algorithm>
 
 namespace oglplus {
 //------------------------------------------------------------------------------
@@ -21,8 +21,7 @@ blending_state::blend_equation(oglplus::blend_equation equation) noexcept {
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_0)
-inline outcome<void>
-blending_state::blend_equation(
+inline outcome<void> blending_state::blend_equation(
   GLuint buf, oglplus::blend_equation equation) noexcept {
     OGLPLUS_GLFUNC(BlendEquationi)(buf, GLenum(equation));
     OGLPLUS_VERIFY(BlendEquation, gl_enum_value(equation).gl_index(buf), debug);
@@ -30,8 +29,7 @@ blending_state::blend_equation(
 }
 #endif
 //------------------------------------------------------------------------------
-inline outcome<void>
-blending_state::blend_equation_separate(
+inline outcome<void> blending_state::blend_equation_separate(
   oglplus::blend_equation modeRGB, oglplus::blend_equation modeAlpha) noexcept {
     OGLPLUS_GLFUNC(BlendEquationSeparate)(GLenum(modeRGB), GLenum(modeAlpha));
     OGLPLUS_VERIFY(BlendEquationSeparate, gl_enum_value(modeRGB), debug);
@@ -39,8 +37,7 @@ blending_state::blend_equation_separate(
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_0)
-inline outcome<void>
-blending_state::blend_equation_separate(
+inline outcome<void> blending_state::blend_equation_separate(
   GLuint buf,
   oglplus::blend_equation modeRGB,
   oglplus::blend_equation modeAlpha) noexcept {
@@ -51,8 +48,7 @@ blending_state::blend_equation_separate(
 }
 #endif
 //------------------------------------------------------------------------------
-inline outcome<void>
-blending_state::blend_func(
+inline outcome<void> blending_state::blend_func(
   blend_function sfactor, blend_function dfactor) noexcept {
     OGLPLUS_GLFUNC(BlendFunc)(GLenum(sfactor), GLenum(dfactor));
     OGLPLUS_VERIFY(BlendFunc, gl_enum_value(sfactor), debug);
@@ -60,8 +56,7 @@ blending_state::blend_func(
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_0)
-inline outcome<void>
-blending_state::blend_func(
+inline outcome<void> blending_state::blend_func(
   GLuint buf, blend_function sfactor, blend_function dfactor) noexcept {
     OGLPLUS_GLFUNC(BlendFunci)(buf, GLenum(sfactor), GLenum(dfactor));
     OGLPLUS_VERIFY(BlendFunci, gl_enum_value(sfactor).gl_index(buf), debug);
@@ -69,8 +64,7 @@ blending_state::blend_func(
 }
 #endif
 //------------------------------------------------------------------------------
-inline outcome<void>
-blending_state::blend_func_separate(
+inline outcome<void> blending_state::blend_func_separate(
   blend_function srcRGB,
   blend_function dstRGB,
   blend_function srcAlpha,
@@ -82,8 +76,7 @@ blending_state::blend_func_separate(
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_0)
-inline outcome<void>
-blending_state::blend_func_separate(
+inline outcome<void> blending_state::blend_func_separate(
   GLuint buf,
   blend_function srcRGB,
   blend_function dstRGB,

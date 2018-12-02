@@ -10,8 +10,8 @@
 #ifndef EAGINE_DEEP_COPY_PTR_1509260923_HPP
 #define EAGINE_DEEP_COPY_PTR_1509260923_HPP
 
-#include <memory>
 #include "std/type_traits.hpp"
+#include <memory>
 
 namespace eagine {
 
@@ -79,8 +79,7 @@ public:
 };
 
 template <typename T, typename... P>
-static inline deep_copy_ptr<T>
-make_deep_copy_ptr(P&&... p) {
+static inline deep_copy_ptr<T> make_deep_copy_ptr(P&&... p) {
     return std::unique_ptr<T>(new T(std::forward<P>(p)...));
 }
 

@@ -12,8 +12,7 @@
 namespace oglplus {
 
 OGLPLUS_LIB_FUNC
-binding_query
-get_binding_query(transform_feedback_target tgt) noexcept {
+binding_query get_binding_query(transform_feedback_target tgt) noexcept {
     GLenum result = 0;
     switch(GLenum(tgt)) {
 #if defined(GL_TRANSFORM_FEEDBACK) && defined(GL_TRANSFORM_FEEDBACK_BINDING)

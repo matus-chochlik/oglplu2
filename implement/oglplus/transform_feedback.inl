@@ -17,8 +17,7 @@ namespace oglplus {
 //------------------------------------------------------------------------------
 namespace oper {
 //------------------------------------------------------------------------------
-inline outcome<void>
-transform_feedback_ops::bind_transform_feedback(
+inline outcome<void> transform_feedback_ops::bind_transform_feedback(
   transform_feedback_target target, transform_feedback_name xfb) noexcept {
     OGLPLUS_GLFUNC(BindTransformFeedback)(GLenum(target), get_raw_name(xfb));
     OGLPLUS_VERIFY(
@@ -35,16 +34,14 @@ transform_feedback_ops::transform_feedback_binding(
       .add(transform_feedback_name(GLuint(result)));
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-transform_feedback_ops::begin_transform_feedback(
+inline outcome<void> transform_feedback_ops::begin_transform_feedback(
   transform_feedback_primitive_type mode) noexcept {
     OGLPLUS_GLFUNC(BeginTransformFeedback)(GLenum(mode));
     OGLPLUS_VERIFY(BeginTransformFeedback, gl_enum_value(mode), debug);
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-transform_feedback_ops::end_transform_feedback() noexcept {
+inline outcome<void> transform_feedback_ops::end_transform_feedback() noexcept {
     OGLPLUS_GLFUNC(EndTransformFeedback)();
     OGLPLUS_VERIFY_SIMPLE(EndTransformFeedback, debug);
     return {};
@@ -65,8 +62,7 @@ transform_feedback_ops::resume_transform_feedback() noexcept {
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
-inline outcome<void>
-transform_feedback_ops::get_transform_feedback_iv(
+inline outcome<void> transform_feedback_ops::get_transform_feedback_iv(
   transform_feedback_name xfb,
   transform_feedback_parameter param,
   span<GLint> values) noexcept {
@@ -78,8 +74,7 @@ transform_feedback_ops::get_transform_feedback_iv(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-transform_feedback_ops::get_transform_feedback_iv(
+inline outcome<void> transform_feedback_ops::get_transform_feedback_iv(
   transform_feedback_name xfb,
   transform_feedback_parameter param,
   GLuint index,
@@ -94,8 +89,7 @@ transform_feedback_ops::get_transform_feedback_iv(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-transform_feedback_ops::get_transform_feedback_i64v(
+inline outcome<void> transform_feedback_ops::get_transform_feedback_i64v(
   transform_feedback_name xfb,
   transform_feedback_parameter param,
   GLuint index,
@@ -110,8 +104,7 @@ transform_feedback_ops::get_transform_feedback_i64v(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<boolean>
-transform_feedback_ops::transform_feedback_active(
+inline outcome<boolean> transform_feedback_ops::transform_feedback_active(
   transform_feedback_name xfb) noexcept {
     GLint result = 0;
     return get_transform_feedback_iv(
@@ -121,8 +114,7 @@ transform_feedback_ops::transform_feedback_active(
       .add(boolean(GLboolean(result)));
 }
 //------------------------------------------------------------------------------
-inline outcome<boolean>
-transform_feedback_ops::transform_feedback_paused(
+inline outcome<boolean> transform_feedback_ops::transform_feedback_paused(
   transform_feedback_name xfb) noexcept {
     GLint result = 0;
     return get_transform_feedback_iv(
@@ -143,8 +135,7 @@ transform_feedback_ops::transform_feedback_buffer_binding(
       .add(buffer_name(GLuint(result)));
 }
 //------------------------------------------------------------------------------
-inline outcome<GLint64>
-transform_feedback_ops::transform_feedback_buffer_start(
+inline outcome<GLint64> transform_feedback_ops::transform_feedback_buffer_start(
   transform_feedback_name xfb, GLuint index) noexcept {
     GLint64 result = 0;
     return get_transform_feedback_i64v(
@@ -155,8 +146,7 @@ transform_feedback_ops::transform_feedback_buffer_start(
       .add(result);
 }
 //------------------------------------------------------------------------------
-inline outcome<GLint64>
-transform_feedback_ops::transform_feedback_buffer_size(
+inline outcome<GLint64> transform_feedback_ops::transform_feedback_buffer_size(
   transform_feedback_name xfb, GLuint index) noexcept {
     GLint64 result = 0;
     return get_transform_feedback_i64v(
@@ -167,8 +157,7 @@ transform_feedback_ops::transform_feedback_buffer_size(
       .add(result);
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-transform_feedback_ops::transform_feedback_buffer_base(
+inline outcome<void> transform_feedback_ops::transform_feedback_buffer_base(
   transform_feedback_name xfb, GLuint index, buffer_name buf) noexcept {
     OGLPLUS_GLFUNC(TransformFeedbackBufferBase)
     (get_raw_name(xfb), index, get_raw_name(buf));
@@ -179,8 +168,7 @@ transform_feedback_ops::transform_feedback_buffer_base(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-transform_feedback_ops::transform_feedback_buffer_range(
+inline outcome<void> transform_feedback_ops::transform_feedback_buffer_range(
   transform_feedback_name xfb,
   GLuint index,
   buffer_name buf,

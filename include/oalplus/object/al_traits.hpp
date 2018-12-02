@@ -21,7 +21,7 @@ struct al_obj_tag;
 
 template <typename ObjTag>
 struct obj_dsa_ops : object_name<ObjTag> {
-    obj_dsa_ops(void) = default;
+    obj_dsa_ops() = default;
 
     obj_dsa_ops(object_name<ObjTag> name) noexcept
       : object_name<ObjTag>(name) {
@@ -42,11 +42,11 @@ struct object_traits<oalplus::tag::al_obj_tag<Tag>> {
     template <typename ObjTag>
     using dsa_ops_t = oalplus::obj_dsa_ops<ObjTag>;
 
-    static inline constexpr ALuint invalid_name(void) noexcept {
+    static inline constexpr ALuint invalid_name() noexcept {
         return ~ALuint(0);
     }
 
-    static inline constexpr ALenum get_type(void) noexcept {
+    static inline constexpr ALenum get_type() noexcept {
         return Tag;
     }
 };

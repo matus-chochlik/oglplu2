@@ -8,4 +8,3 @@
  */
 
 #define EGLPLUS_IMPLEMENTING_LIBRARY 1
-

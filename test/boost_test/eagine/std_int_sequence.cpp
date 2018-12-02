@@ -11,8 +11,7 @@
 BOOST_AUTO_TEST_SUITE(std_int_sequence_tests)
 
 template <typename Int, Int... I>
-void
-test_int_sequence_1I(std::integer_sequence<Int, I...>) {
+void test_int_sequence_1I(std::integer_sequence<Int, I...>) {
     const Int a[sizeof...(I)] = {I...};
 
     for(std::size_t i = 0; i < sizeof...(I); ++i) {
@@ -21,8 +20,7 @@ test_int_sequence_1I(std::integer_sequence<Int, I...>) {
 }
 
 template <typename Int>
-void
-test_int_sequence_1(void) {
+void test_int_sequence_1() {
     test_int_sequence_1I(std::make_integer_sequence<Int, 1>());
     test_int_sequence_1I(std::make_integer_sequence<Int, 2>());
     test_int_sequence_1I(std::make_integer_sequence<Int, 3>());
@@ -47,8 +45,7 @@ BOOST_AUTO_TEST_CASE(int_sequence_1) {
 }
 
 template <std::size_t... I>
-void
-test_int_sequence_2I(std::index_sequence<I...>) {
+void test_int_sequence_2I(std::index_sequence<I...>) {
     const std::size_t a[sizeof...(I)] = {I...};
 
     for(std::size_t i = 0; i < sizeof...(I); ++i) {

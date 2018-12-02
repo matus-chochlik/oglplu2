@@ -38,7 +38,7 @@ BOOST_AUTO_TEST_CASE(glsl_source_ref_2) {
     const std::size_t n = 6;
     const char* s[n] = {"#version 150\n",
                         "vec4 in Position;\n",
-                        "void main(void)\n",
+                        "void main()\n",
                         "{\n",
                         "	gl_Position = Position;\n",
                         "}\n"};

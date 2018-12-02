@@ -10,11 +10,11 @@
 #ifndef EAGINE_VALID_IF_BASE_1509260923_HPP
 #define EAGINE_VALID_IF_BASE_1509260923_HPP
 
+#include "../std/type_traits.hpp"
+#include "../std/utility.hpp"
 #include <cassert>
 #include <sstream>
 #include <stdexcept>
-#include "../std/type_traits.hpp"
-#include "../std/utility.hpp"
 
 namespace eagine {
 
@@ -97,8 +97,8 @@ public:
         return is_valid(p...);
     }
 
-    constexpr friend bool operator==(
-      const basic_valid_if& a, const basic_valid_if& b) noexcept {
+    constexpr friend bool
+    operator==(const basic_valid_if& a, const basic_valid_if& b) noexcept {
         return (a._value == b._value) && a.is_valid() && b.is_valid();
     }
 
@@ -151,8 +151,8 @@ public:
     }
 
     template <typename Func>
-    std::enable_if_t<std::is_same_v<std::result_of_t<Func(T)>, void>> then(
-      const Func& func, P... p) const {
+    std::enable_if_t<std::is_same_v<std::result_of_t<Func(T)>, void>>
+    then(const Func& func, P... p) const {
         if(is_valid(p...)) {
             func(value(p...));
         }

@@ -9,8 +9,8 @@
 #ifndef OGLPLUS_TEXGEN_CONSTANTS_1509260923_HPP
 #define OGLPLUS_TEXGEN_CONSTANTS_1509260923_HPP
 
-#include <string>
 #include "interface.hpp"
+#include <string>
 
 namespace oglplus {
 namespace texgen {

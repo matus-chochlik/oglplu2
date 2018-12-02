@@ -8,4 +8,3 @@
  */
 
 #define OALPLUS_IMPLEMENTING_LIBRARY 1
-

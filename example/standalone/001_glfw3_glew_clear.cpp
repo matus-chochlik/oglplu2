@@ -19,8 +19,7 @@
 #include <iostream>
 #include <stdexcept>
 
-static void
-run_loop(GLFWwindow* window, int width, int height) {
+static void run_loop(GLFWwindow* window, int width, int height) {
     using namespace oglplus;
 
     constants GL;
@@ -58,8 +57,7 @@ run_loop(GLFWwindow* window, int width, int height) {
     }
 }
 
-static void
-init_and_run(void) {
+static void init_and_run(void) {
     if(!glfwInit()) {
         throw std::runtime_error("GLFW initialization error");
     } else {
@@ -96,8 +94,7 @@ init_and_run(void) {
     }
 }
 
-int
-main(void) {
+int main(void) {
     try {
         init_and_run();
         return 0;

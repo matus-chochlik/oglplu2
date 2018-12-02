@@ -18,13 +18,13 @@ struct obj_lifetime_ops {
     typedef typename object_traits<ObjTag>::gen_del_ops gen_del_ops;
 
     template <typename Storage>
-    static inline auto gen_objects(
-      owned<object_names<ObjTag, Storage>>& names) noexcept {
+    static inline auto
+    gen_objects(owned<object_names<ObjTag, Storage>>& names) noexcept {
         return gen_del_ops::_gen(get_raw_names(names));
     }
 
-    static inline auto gen_objects(
-      owned<object_name_and_ops<ObjTag>>& name) noexcept {
+    static inline auto
+    gen_objects(owned<object_name_and_ops<ObjTag>>& name) noexcept {
         return gen_del_ops::_gen(get_raw_names(name));
     }
 
@@ -41,13 +41,13 @@ struct obj_lifetime_ops {
     }
 
     template <typename Storage>
-    static inline auto delete_objects(
-      owned<object_names<ObjTag, Storage>>& names) noexcept {
+    static inline auto
+    delete_objects(owned<object_names<ObjTag, Storage>>& names) noexcept {
         return gen_del_ops::_delete(get_raw_names(names));
     }
 
-    static inline auto delete_objects(
-      owned<object_name_and_ops<ObjTag>>& name) noexcept {
+    static inline auto
+    delete_objects(owned<object_name_and_ops<ObjTag>>& name) noexcept {
         return gen_del_ops::_delete(get_raw_names(name));
     }
 

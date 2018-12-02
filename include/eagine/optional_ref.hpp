@@ -25,8 +25,8 @@ public:
     }
 
     optional_reference_wrapper(const optional_reference_wrapper&) = default;
-    optional_reference_wrapper& operator=(const optional_reference_wrapper&) =
-      default;
+    optional_reference_wrapper&
+    operator=(const optional_reference_wrapper&) = default;
 
     constexpr optional_reference_wrapper(nothing_t) noexcept
       : _ptr(nullptr) {

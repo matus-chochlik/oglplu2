@@ -32,8 +32,7 @@ bool parse_arg(
   oglplus::example_state& state,
   oglplus::example_params& params);
 
-int
-main(int argc, const char** argv) {
+int main(int argc, const char** argv) {
     eagine::program_args args(argc, argv);
 
     using namespace oglplus;
@@ -79,16 +78,14 @@ main(int argc, const char** argv) {
     return 1;
 }
 
-bool
-example_knows_arg(const eagine::program_arg& arg) {
+bool example_knows_arg(const eagine::program_arg& arg) {
     using namespace oglplus;
     return is_example_param(example_arg(arg)) ||
            is_example_param(example_arg(arg.prev()));
 }
 
 template <typename T, typename Errstr>
-bool
-consume_next_arg(
+bool consume_next_arg(
   eagine::program_arg& a, T& dest, const char* value_type, Errstr& errstr) {
     auto handle_missing = [&value_type,
                            &errstr](const eagine::cstr_ref& arg_tag) {
@@ -105,8 +102,7 @@ consume_next_arg(
     return a.do_consume_next(dest, handle_missing, handle_invalid);
 }
 
-bool
-parse_arg(
+bool parse_arg(
   eagine::program_arg& a,
   oglplus::example_state& state,
   oglplus::example_params& params) {

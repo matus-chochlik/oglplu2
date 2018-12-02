@@ -10,11 +10,11 @@
 #ifndef EAGINE_FILE_CONTENTS_1509260923_HPP
 #define EAGINE_FILE_CONTENTS_1509260923_HPP
 
-#include <memory>
 #include "config/basic.hpp"
 #include "cstr_ref.hpp"
 #include "protected_member.hpp"
 #include "struct_memory_block.hpp"
+#include <memory>
 
 namespace eagine {
 

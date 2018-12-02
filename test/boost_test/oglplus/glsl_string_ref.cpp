@@ -21,7 +21,7 @@ BOOST_AUTO_TEST_CASE(glsl_string_ref_1) {
     const char* s =
       "#version 150\n"
       "vec4 in Position;\n"
-      "void main(void)\n"
+      "void main()\n"
       "{\n"
       "	gl_Position = Position;\n"
       "}\n";
@@ -39,7 +39,7 @@ BOOST_AUTO_TEST_CASE(glsl_string_ref_1) {
         *sr.parts(),
         "#version 150\n"
         "vec4 in Position;\n"
-        "void main(void)\n"
+        "void main()\n"
         "{\n"
         "	gl_Position = Position;\n"
         "}\n") == 0);
@@ -53,7 +53,7 @@ BOOST_AUTO_TEST_CASE(glsl_literal_1) {
     glsl_literal l(
       "#version 150\n"
       "vec4 in Position;\n"
-      "void main(void)\n"
+      "void main()\n"
       "{\n"
       "	gl_Position = Position;\n"
       "}\n");
@@ -68,7 +68,7 @@ BOOST_AUTO_TEST_CASE(glsl_literal_1) {
         *sr.parts(),
         "#version 150\n"
         "vec4 in Position;\n"
-        "void main(void)\n"
+        "void main()\n"
         "{\n"
         "	gl_Position = Position;\n"
         "}\n") == 0);

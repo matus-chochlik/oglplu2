@@ -12,8 +12,7 @@ namespace oglplus {
 namespace texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref
-data_type_name(slot_data_type type) noexcept {
+cstr_ref data_type_name(slot_data_type type) noexcept {
     switch(type) {
         case slot_data_type::bool_:
             return cstr_ref("bool");
@@ -44,8 +43,7 @@ data_type_name(slot_data_type type) noexcept {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-scalar_data_type
-elem_data_type(slot_data_type type) noexcept {
+scalar_data_type elem_data_type(slot_data_type type) noexcept {
     switch(type) {
         case slot_data_type::bool_:
         case slot_data_type::bool_2:
@@ -67,8 +65,7 @@ elem_data_type(slot_data_type type) noexcept {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-span_size_t
-data_type_dims(slot_data_type type) noexcept {
+span_size_t data_type_dims(slot_data_type type) noexcept {
     switch(type) {
         case slot_data_type::bool_:
         case slot_data_type::int_:
@@ -91,8 +88,7 @@ data_type_dims(slot_data_type type) noexcept {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-slot_data_type
-make_data_type(
+slot_data_type make_data_type(
   scalar_data_type type,
   eagine::valid_if_between<span_size_t, 1, 4> dims) noexcept {
     switch(type) {
@@ -134,24 +130,21 @@ make_data_type(
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-scalar_data_type
-common_elem_type(slot_data_type a, slot_data_type b) noexcept {
+scalar_data_type common_elem_type(slot_data_type a, slot_data_type b) noexcept {
     scalar_data_type ta = elem_data_type(a);
     scalar_data_type tb = elem_data_type(b);
     return int(ta) > int(tb) ? ta : tb;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-span_size_t
-common_dims(slot_data_type a, slot_data_type b) noexcept {
+span_size_t common_dims(slot_data_type a, slot_data_type b) noexcept {
     span_size_t da = data_type_dims(a);
     span_size_t db = data_type_dims(b);
     return da > db ? da : db;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-slot_data_type
-common_data_type(slot_data_type a, slot_data_type b) noexcept {
+slot_data_type common_data_type(slot_data_type a, slot_data_type b) noexcept {
     if(a == b)
         return a;
 
@@ -184,8 +177,7 @@ conversion_suffix(std::ostream& out, slot_data_type from, slot_data_type to) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-conversion_suffix(
+std::ostream& conversion_suffix(
   std::ostream& out,
   slot_data_type from,
   slot_data_type to,
@@ -214,20 +206,17 @@ conversion_suffix(
 namespace expr {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-operator<<(std::ostream& out, conversion_prefix e) {
+std::ostream& operator<<(std::ostream& out, conversion_prefix e) {
     return oglplus::texgen::conversion_prefix(out, e.from, e.to);
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-operator<<(std::ostream& out, conversion_suffix e) {
+std::ostream& operator<<(std::ostream& out, conversion_suffix e) {
     return oglplus::texgen::conversion_suffix(out, e.from, e.to);
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-operator<<(std::ostream& out, conversion_suffix_v e) {
+std::ostream& operator<<(std::ostream& out, conversion_suffix_v e) {
     return oglplus::texgen::conversion_suffix(
       out, e.from, e.to, e.val[0], e.val[1], e.val[2], e.val[3]);
 }

@@ -12,8 +12,7 @@ namespace oglplus {
 //------------------------------------------------------------------------------
 namespace oper {
 //------------------------------------------------------------------------------
-inline outcome<void>
-command_list_nv_ops::command_list_segments(
+inline outcome<void> command_list_nv_ops::command_list_segments(
   command_list_nv_name clst, GLuint segments) noexcept {
     OGLPLUS_GLFUNC(CommandListSegmentsNV)(get_raw_name(clst), segments);
     OGLPLUS_VERIFY(CommandListSegmentsNV, gl_object(clst), always);

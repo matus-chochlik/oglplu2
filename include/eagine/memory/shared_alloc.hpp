@@ -10,12 +10,12 @@
 #ifndef EAGINE_MEMORY_SHARED_ALLOC_1509260923_HPP
 #define EAGINE_MEMORY_SHARED_ALLOC_1509260923_HPP
 
-#include <new>
-#include <typeinfo>
-#include <utility>
 #include "../nothing.hpp"
 #include "../std/type_traits.hpp"
 #include "byte_alloc.hpp"
+#include <new>
+#include <typeinfo>
+#include <utility>
 
 namespace eagine {
 namespace memory {
@@ -83,15 +83,15 @@ public:
       : basic_shared_byte_alloc(_get_new(std::forward<X>(x))) {
     }
 
-    basic_shared_byte_alloc& operator=(
-      const basic_shared_byte_alloc& that) noexcept {
+    basic_shared_byte_alloc&
+    operator=(const basic_shared_byte_alloc& that) noexcept {
         _cleanup();
         _pballoc = that._copy();
         return *this;
     }
 
-    basic_shared_byte_alloc& operator=(
-      basic_shared_byte_alloc&& that) noexcept {
+    basic_shared_byte_alloc&
+    operator=(basic_shared_byte_alloc&& that) noexcept {
         _cleanup();
         _pballoc = that._release();
         return *this;
@@ -129,8 +129,8 @@ public:
         assert(b.empty());
     }
 
-    bool can_reallocate(
-      const owned_block& b, size_type n, size_type a) noexcept {
+    bool
+    can_reallocate(const owned_block& b, size_type n, size_type a) noexcept {
         return _pballoc ? _pballoc->can_reallocate(b, n, a) : (n == b.size());
     }
 

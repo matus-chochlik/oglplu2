@@ -19,11 +19,11 @@ namespace oglplus {
 namespace oper {
 
 struct command_list_nv_ops {
-    static outcome<void> command_list_segments(
-      command_list_nv_name clst, GLuint segments) noexcept;
+    static outcome<void>
+    command_list_segments(command_list_nv_name clst, GLuint segments) noexcept;
 
-    static outcome<void> compile_command_list(
-      command_list_nv_name clst) noexcept;
+    static outcome<void>
+    compile_command_list(command_list_nv_name clst) noexcept;
 
     static outcome<void> call_command_list(command_list_nv_name clst) noexcept;
 

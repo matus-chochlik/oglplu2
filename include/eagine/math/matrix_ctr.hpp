@@ -64,8 +64,7 @@ template <
     is_matrix_constructor<MC1>::value && is_matrix_constructor<MC2>::value &&
     are_multiplicable<constructed_matrix_t<MC1>, constructed_matrix_t<MC2>>::
       value>>
-static inline auto
-multiply(const MC1& mc1, const MC2& mc2) noexcept {
+static inline auto multiply(const MC1& mc1, const MC2& mc2) noexcept {
     return multiply(construct_matrix<true>(mc1), construct_matrix<false>(mc2));
 }
 
@@ -114,8 +113,9 @@ struct compound_view_maker<math::convertible_matrix_constructor<MC>> {
         }
     };
 
-    inline _result_type operator()(
-      const math::convertible_matrix_constructor<MC>& mc) const noexcept {
+    inline _result_type
+    operator()(const math::convertible_matrix_constructor<MC>& mc) const
+      noexcept {
         return _result_type{mc()};
     }
 };

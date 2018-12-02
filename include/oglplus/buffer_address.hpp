@@ -21,8 +21,7 @@ struct buffer_address {
     }
 };
 
-static inline GLuint64EXT
-get_raw_address(buffer_address ba) noexcept {
+static inline GLuint64EXT get_raw_address(buffer_address ba) noexcept {
     return ba._addr;
 }
 

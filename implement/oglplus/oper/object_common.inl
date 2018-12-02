@@ -15,15 +15,13 @@ namespace oglplus {
 namespace oper {
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_3)
-inline outcome<GLsizei>
-object_common_ops::get_max_label_length() noexcept {
+inline outcome<GLsizei> object_common_ops::get_max_label_length() noexcept {
     return GLsizei(
       numeric_queries::get_integer(numeric_query(GL_MAX_LABEL_LENGTH)));
 }
 //------------------------------------------------------------------------------
 template <GLenum ObjectType>
-inline outcome<void>
-object_common_ops::object_label(
+inline outcome<void> object_common_ops::object_label(
   object_name<oglplus::tag::gl_obj_tag<ObjectType>> obj,
   cstring_span label) noexcept {
     OGLPLUS_GLFUNC(ObjectLabel)
@@ -35,8 +33,7 @@ object_common_ops::object_label(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-object_common_ops::object_label(
+inline outcome<void> object_common_ops::object_label(
   const sync_object& sync, cstring_span label) noexcept {
     OGLPLUS_GLFUNC(ObjectPtrLabel)
     (const_cast<GLsync*>(&get_raw_handle(sync)),
@@ -47,8 +44,7 @@ object_common_ops::object_label(
 }
 //------------------------------------------------------------------------------
 template <GLenum ObjectType>
-inline outcome<cstring_span>
-object_common_ops::get_object_label(
+inline outcome<cstring_span> object_common_ops::get_object_label(
   object_name<oglplus::tag::gl_obj_tag<ObjectType>> obj,
   string_span storage) noexcept {
     GLsizei realLen = 0;
@@ -62,8 +58,7 @@ object_common_ops::get_object_label(
     return {eagine::ranges::head(storage, realLen)};
 }
 //------------------------------------------------------------------------------
-inline outcome<cstring_span>
-object_common_ops::get_object_label(
+inline outcome<cstring_span> object_common_ops::get_object_label(
   const sync_object& sync, string_span storage) noexcept {
     GLsizei realLen = 0;
     OGLPLUS_GLFUNC(GetObjectPtrLabel)

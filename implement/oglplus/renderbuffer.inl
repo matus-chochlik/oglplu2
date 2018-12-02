@@ -17,8 +17,7 @@ namespace oglplus {
 //------------------------------------------------------------------------------
 namespace oper {
 //------------------------------------------------------------------------------
-inline outcome<void>
-renderbuffer_ops::bind_renderbuffer(
+inline outcome<void> renderbuffer_ops::bind_renderbuffer(
   renderbuffer_target target, renderbuffer_name rbo) noexcept {
     OGLPLUS_GLFUNC(BindRenderbuffer)(GLenum(target), get_raw_name(rbo));
     OGLPLUS_VERIFY(
@@ -34,8 +33,7 @@ renderbuffer_ops::renderbuffer_binding(renderbuffer_target target) noexcept {
       .add(renderbuffer_name(GLuint(result)));
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-renderbuffer_ops::renderbuffer_storage(
+inline outcome<void> renderbuffer_ops::renderbuffer_storage(
   renderbuffer_target target,
   pixel_data_internal_format ifmt,
   GLsizei width,
@@ -50,8 +48,7 @@ renderbuffer_ops::renderbuffer_storage(
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
-inline outcome<void>
-renderbuffer_ops::renderbuffer_storage(
+inline outcome<void> renderbuffer_ops::renderbuffer_storage(
   renderbuffer_name rbo,
   pixel_data_internal_format ifmt,
   GLsizei width,
@@ -72,8 +69,7 @@ renderbuffer_ops::renderbuffer_storage(
 }
 #endif
 //------------------------------------------------------------------------------
-inline outcome<void>
-renderbuffer_ops::renderbuffer_storage_multisample(
+inline outcome<void> renderbuffer_ops::renderbuffer_storage_multisample(
   renderbuffer_target target,
   GLsizei samples,
   pixel_data_internal_format ifmt,
@@ -89,8 +85,7 @@ renderbuffer_ops::renderbuffer_storage_multisample(
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
-inline outcome<void>
-renderbuffer_ops::renderbuffer_storage_multisample(
+inline outcome<void> renderbuffer_ops::renderbuffer_storage_multisample(
   renderbuffer_name rbo,
   GLsizei samples,
   pixel_data_internal_format ifmt,
@@ -112,8 +107,7 @@ renderbuffer_ops::renderbuffer_storage_multisample(
 }
 #endif
 //------------------------------------------------------------------------------
-inline outcome<void>
-renderbuffer_ops::get_renderbuffer_parameter_iv(
+inline outcome<void> renderbuffer_ops::get_renderbuffer_parameter_iv(
   renderbuffer_target target,
   oglplus::renderbuffer_parameter param,
   span<GLint> values) noexcept {
@@ -128,8 +122,7 @@ renderbuffer_ops::get_renderbuffer_parameter_iv(
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
-inline outcome<void>
-renderbuffer_ops::get_renderbuffer_parameter_iv(
+inline outcome<void> renderbuffer_ops::get_renderbuffer_parameter_iv(
   renderbuffer_name buf,
   oglplus::renderbuffer_parameter param,
   span<GLint> values) noexcept {
@@ -151,8 +144,7 @@ renderbuffer_ops::get_renderbuffer_parameter_iv(
 #endif
 //------------------------------------------------------------------------------
 template <typename R, typename T, typename RNT>
-inline outcome<R>
-renderbuffer_ops::return_renderbuffer_parameter_i(
+inline outcome<R> renderbuffer_ops::return_renderbuffer_parameter_i(
   const RNT& rnt, oglplus::renderbuffer_parameter parameter) noexcept {
     GLint result = 0;
     return get_renderbuffer_parameter_iv(rnt, parameter, {&result, 1}),

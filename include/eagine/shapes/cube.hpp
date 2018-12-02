@@ -10,9 +10,9 @@
 #ifndef EAGINE_SHAPES_CUBE_1509260923_HPP
 #define EAGINE_SHAPES_CUBE_1509260923_HPP
 
-#include <cassert>
-#include <eagine/config/basic.hpp>
 #include "gen_base.hpp"
+#include <eagine/config/basic.hpp>
+#include <cassert>
 
 namespace eagine {
 namespace shapes {
@@ -38,8 +38,8 @@ private:
     template <typename T>
     void _indices(const span<T>& dest) noexcept;
 
-    static span_size_t _face_vert(
-      span_size_t f, span_size_t t, span_size_t v) noexcept;
+    static span_size_t
+    _face_vert(span_size_t f, span_size_t t, span_size_t v) noexcept;
 
 public:
     unit_cube_gen(vertex_attrib_bits attr_bits) noexcept;
@@ -56,8 +56,8 @@ public:
 
     void face_coords(const span<float>& dest) noexcept;
 
-    void attrib_values(
-      vertex_attrib_kind attr, const span<float>& dest) override;
+    void
+    attrib_values(vertex_attrib_kind attr, const span<float>& dest) override;
 
     index_data_type index_type() override;
 

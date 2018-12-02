@@ -9,8 +9,8 @@
 #ifndef OGLPLUS_MATH_MATRIX_1509260923_HPP
 #define OGLPLUS_MATH_MATRIX_1509260923_HPP
 
-#include <eagine/math/tmat.hpp>
 #include "config.hpp"
+#include <eagine/math/tmat.hpp>
 
 namespace oglplus {
 

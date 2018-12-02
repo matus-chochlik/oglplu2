@@ -71,8 +71,7 @@ template <typename C>
 struct compound_view_maker;
 
 template <typename C>
-static inline auto
-element_view(const C& c) noexcept {
+static inline auto element_view(const C& c) noexcept {
     return compound_view_maker<C>()(c);
 }
 
@@ -84,8 +83,7 @@ struct compound_view_maker<T[N]> {
 };
 
 template <typename T, span_size_t N>
-static inline auto
-element_view(T (&v)[N]) noexcept {
+static inline auto element_view(T (&v)[N]) noexcept {
     return compound_view_maker<T[N]>()(v);
 }
 
@@ -97,8 +95,7 @@ struct compound_view_maker<T[C][R]> {
 };
 
 template <typename T, span_size_t C, span_size_t R>
-static inline auto
-element_view(T (&m)[C][R]) noexcept {
+static inline auto element_view(T (&m)[C][R]) noexcept {
     return compound_view_maker<T[C][R]>()(m);
 }
 

@@ -12,8 +12,7 @@ namespace oglplus {
 #if !OGLPLUS_LINK_LIBRARY || defined(OGLPLUS_IMPLEMENTING_LIBRARY)
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::string
-error::_make_msg(error_info& info) {
+std::string error::_make_msg(error_info& info) {
     switch(info.gl_error_code()) {
         case GL_OUT_OF_MEMORY:
             return {"OpenGL out of memory"};

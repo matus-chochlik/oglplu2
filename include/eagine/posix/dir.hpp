@@ -9,10 +9,10 @@
 #ifndef EAGINE_POSIX_DIR_1509260923_HPP
 #define EAGINE_POSIX_DIR_1509260923_HPP
 
-#include <fcntl.h>
 #include "../cstr_ref.hpp"
 #include "dir_descriptor.hpp"
 #include "file_descriptor.hpp"
+#include <fcntl.h>
 
 namespace eagine {
 namespace posix {
@@ -29,8 +29,7 @@ fdopendir(file_descriptor fd) noexcept {
     return error_if(dp == nullptr, -1).add(owned_dir_descriptor(dp));
 }
 
-static inline outcome<file_descriptor>
-dirfd(dir_descriptor dd) noexcept {
+static inline outcome<file_descriptor> dirfd(dir_descriptor dd) noexcept {
     int dfd = ::dirfd(get_raw_dp(dd));
     return error_if_negative(dfd, dfd).add(file_descriptor(dfd));
 }

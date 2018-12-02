@@ -26,14 +26,12 @@ combine_output::combine_output(node_intf& parent)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref
-combine_output::type_name() {
+cstr_ref combine_output::type_name() {
     return cstr_ref("Combine");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-scalar_data_type
-combine_output::component_type() {
+scalar_data_type combine_output::component_type() {
     return elem_data_type(common_data_type(
       common_data_type(
         input_r.output().value_type(), input_g.output().value_type()),
@@ -42,14 +40,12 @@ combine_output::component_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-slot_data_type
-combine_output::value_type() {
+slot_data_type combine_output::value_type() {
     return make_data_type(component_type(), 4);
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::string
-combine_output::_input_expr(
+std::string combine_output::_input_expr(
   _input_t& input, slot_data_type type, compile_context& ctxt) {
     std::stringstream res;
 
@@ -104,14 +100,12 @@ combine_output::definitions(std::ostream& out, compile_context& ctxt) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-span_size_t
-combine_node::input_count() {
+span_size_t combine_node::input_count() {
     return 4;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-input_intf&
-combine_node::input(span_size_t index) {
+input_intf& combine_node::input(span_size_t index) {
     if(index == 0)
         return _output.input_r;
     if(index == 1)

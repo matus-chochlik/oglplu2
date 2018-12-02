@@ -33,8 +33,8 @@ struct identity<matrix<T, R, C, RM, V>> {
     using _make_useq = std::make_integer_sequence<int, N>;
 
     template <int... I>
-    static constexpr inline matrix<T, R, C, RM, V> _identity(
-      _useq<I...>) noexcept {
+    static constexpr inline matrix<T, R, C, RM, V>
+    _identity(_useq<I...>) noexcept {
         return {{vect::axis < T, RM ? C : R, I, V > ::apply(1)...}};
     }
 
@@ -46,8 +46,7 @@ struct identity<matrix<T, R, C, RM, V>> {
 
 // multiply
 template <typename T, int C, int R, bool RM1, bool RM2, bool V>
-static constexpr inline identity<matrix<T, C, R, RM1, V>>
-multiply(
+static constexpr inline identity<matrix<T, C, R, RM1, V>> multiply(
   const identity<matrix<T, C, R, RM1, V>>&,
   const identity<matrix<T, C, R, RM2, V>>&) noexcept {
     return {};

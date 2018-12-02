@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include <limits>
 #include "int_constant.hpp"
+#include <limits>
 
 #ifndef EAGINE_IS_WITHIN_LIMITS_1509260923_HPP
 #define EAGINE_IS_WITHIN_LIMITS_1509260923_HPP
@@ -83,8 +83,7 @@ struct within_limits<T, T> {
 };
 
 template <typename Dst, typename Src>
-static constexpr inline bool
-is_within_limits(Src value) noexcept {
+static constexpr inline bool is_within_limits(Src value) noexcept {
     return implicitly_within_limits<Dst, Src>::value ||
            within_limits<Dst, Src>::check(value);
 }

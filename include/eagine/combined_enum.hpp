@@ -69,18 +69,18 @@ public:
         return IndexedEnum(_value);
     }
 
-    friend constexpr inline bool operator==(
-      combined_enum_value a, combined_enum_value b) noexcept {
+    friend constexpr inline bool
+    operator==(combined_enum_value a, combined_enum_value b) noexcept {
         return a._value == b._value;
     }
 
-    friend constexpr inline bool operator!=(
-      combined_enum_value a, combined_enum_value b) noexcept {
+    friend constexpr inline bool
+    operator!=(combined_enum_value a, combined_enum_value b) noexcept {
         return a._value != b._value;
     }
 
-    friend constexpr inline bool operator<(
-      combined_enum_value a, combined_enum_value b) noexcept {
+    friend constexpr inline bool
+    operator<(combined_enum_value a, combined_enum_value b) noexcept {
         return a._value < b._value;
     }
 };

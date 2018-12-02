@@ -12,14 +12,12 @@
 
 using namespace oglplus;
 
-void
-oglplus_texture_test_1(void) {
+void oglplus_texture_test_1() {
     oglplus_object_name_test<texture_name>();
     oglplus_object_test<texture>();
 }
 
-void
-oglplus_texture_test_ops1(void) {
+void oglplus_texture_test_ops1() {
     using namespace oglplus;
 
     oper::texture_ops gl;

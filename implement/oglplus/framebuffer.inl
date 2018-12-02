@@ -17,8 +17,7 @@ namespace oglplus {
 //------------------------------------------------------------------------------
 namespace oper {
 //------------------------------------------------------------------------------
-inline outcome<void>
-framebuffer_ops::bind_framebuffer(
+inline outcome<void> framebuffer_ops::bind_framebuffer(
   framebuffer_target target, framebuffer_name fbo) noexcept {
     OGLPLUS_GLFUNC(BindFramebuffer)(GLenum(target), get_raw_name(fbo));
     OGLPLUS_VERIFY(
@@ -52,8 +51,7 @@ framebuffer_ops::is_framebuffer_complete(framebuffer_target target) noexcept {
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
-inline outcome<framebuffer_status>
-framebuffer_ops::check_framebuffer_status(
+inline outcome<framebuffer_status> framebuffer_ops::check_framebuffer_status(
   framebuffer_name fbo, framebuffer_target target) noexcept {
 #ifdef GL_VERSION_4_5
     GLenum result = OGLPLUS_GLFUNC(CheckNamedFramebufferStatus)(
@@ -70,8 +68,7 @@ framebuffer_ops::check_framebuffer_status(
     return {framebuffer_status(result)};
 }
 //------------------------------------------------------------------------------
-inline outcome<bool>
-framebuffer_ops::is_framebuffer_complete(
+inline outcome<bool> framebuffer_ops::is_framebuffer_complete(
   framebuffer_name fb, framebuffer_target target) noexcept {
     return outcome_conversion<bool, framebuffer_status>(
       check_framebuffer_status(fb, target),
@@ -82,8 +79,7 @@ framebuffer_ops::is_framebuffer_complete(
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_3)
-inline outcome<void>
-framebuffer_ops::framebuffer_parameter_i(
+inline outcome<void> framebuffer_ops::framebuffer_parameter_i(
   framebuffer_target fb_target,
   framebuffer_parameter param,
   GLint value) noexcept {
@@ -95,8 +91,7 @@ framebuffer_ops::framebuffer_parameter_i(
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5)
-inline outcome<void>
-framebuffer_ops::framebuffer_parameter_i(
+inline outcome<void> framebuffer_ops::framebuffer_parameter_i(
   framebuffer_name fbo, framebuffer_parameter param, GLint value) noexcept {
     OGLPLUS_GLFUNC(NamedFramebufferParameteri)
     (get_raw_name(fbo), GLenum(param), value);
@@ -106,8 +101,7 @@ framebuffer_ops::framebuffer_parameter_i(
 }
 #endif
 //------------------------------------------------------------------------------
-inline outcome<void>
-framebuffer_ops::framebuffer_renderbuffer(
+inline outcome<void> framebuffer_ops::framebuffer_renderbuffer(
   framebuffer_target fb_target,
   framebuffer_attachment fb_attach,
   renderbuffer_target rb_target,
@@ -123,8 +117,7 @@ framebuffer_ops::framebuffer_renderbuffer(
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
-inline outcome<void>
-framebuffer_ops::framebuffer_renderbuffer(
+inline outcome<void> framebuffer_ops::framebuffer_renderbuffer(
   framebuffer_name fbo,
   framebuffer_attachment fb_attach,
   renderbuffer_target rb_target,
@@ -151,8 +144,7 @@ framebuffer_ops::framebuffer_renderbuffer(
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_0)
-inline outcome<void>
-framebuffer_ops::framebuffer_texture_1d(
+inline outcome<void> framebuffer_ops::framebuffer_texture_1d(
   framebuffer_target fb_target,
   framebuffer_attachment fb_attach,
   texture_target tx_target,
@@ -170,8 +162,7 @@ framebuffer_ops::framebuffer_texture_1d(
 }
 //------------------------------------------------------------------------------
 #if defined(GL_EXT_direct_state_access)
-inline outcome<void>
-framebuffer_ops::framebuffer_texture_1d(
+inline outcome<void> framebuffer_ops::framebuffer_texture_1d(
   framebuffer_name fbo,
   framebuffer_attachment fb_attach,
   texture_target tx_target,
@@ -194,8 +185,7 @@ framebuffer_ops::framebuffer_texture_1d(
 #endif
 #endif // GL_VERSION_3_0
 //------------------------------------------------------------------------------
-inline outcome<void>
-framebuffer_ops::framebuffer_texture_2d(
+inline outcome<void> framebuffer_ops::framebuffer_texture_2d(
   framebuffer_target fb_target,
   framebuffer_attachment fb_attach,
   texture_target tx_target,
@@ -213,8 +203,7 @@ framebuffer_ops::framebuffer_texture_2d(
 }
 //------------------------------------------------------------------------------
 #if defined(GL_EXT_direct_state_access)
-inline outcome<void>
-framebuffer_ops::framebuffer_texture_2d(
+inline outcome<void> framebuffer_ops::framebuffer_texture_2d(
   framebuffer_name fbo,
   framebuffer_attachment fb_attach,
   texture_target tx_target,
@@ -237,8 +226,7 @@ framebuffer_ops::framebuffer_texture_2d(
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_0)
-inline outcome<void>
-framebuffer_ops::framebuffer_texture_3d(
+inline outcome<void> framebuffer_ops::framebuffer_texture_3d(
   framebuffer_target fb_target,
   framebuffer_attachment fb_attach,
   texture_target tx_target,
@@ -258,8 +246,7 @@ framebuffer_ops::framebuffer_texture_3d(
 }
 //------------------------------------------------------------------------------
 #if defined(GL_EXT_direct_state_access)
-inline outcome<void>
-framebuffer_ops::framebuffer_texture_3d(
+inline outcome<void> framebuffer_ops::framebuffer_texture_3d(
   framebuffer_name fbo,
   framebuffer_attachment fb_attach,
   texture_target tx_target,
@@ -285,8 +272,7 @@ framebuffer_ops::framebuffer_texture_3d(
 #endif // GL_VERSION_3_0
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_0)
-inline outcome<void>
-framebuffer_ops::framebuffer_texture_layer(
+inline outcome<void> framebuffer_ops::framebuffer_texture_layer(
   framebuffer_target fb_target,
   framebuffer_attachment fb_attach,
   texture_name tex,
@@ -300,8 +286,7 @@ framebuffer_ops::framebuffer_texture_layer(
 }
 //------------------------------------------------------------------------------
 #ifdef OGLPLUS_DSA_FRAMEBUFFER
-inline outcome<void>
-framebuffer_ops::framebuffer_texture_layer(
+inline outcome<void> framebuffer_ops::framebuffer_texture_layer(
   framebuffer_name fbo,
   framebuffer_attachment fb_attach,
   texture_name tex,
@@ -327,8 +312,7 @@ framebuffer_ops::framebuffer_texture_layer(
 #endif // GL_VERSION_3_0
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_2)
-inline outcome<void>
-framebuffer_ops::framebuffer_texture(
+inline outcome<void> framebuffer_ops::framebuffer_texture(
   framebuffer_target fb_target,
   framebuffer_attachment fb_attach,
   texture_name tex,
@@ -341,8 +325,7 @@ framebuffer_ops::framebuffer_texture(
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
-inline outcome<void>
-framebuffer_ops::framebuffer_texture(
+inline outcome<void> framebuffer_ops::framebuffer_texture(
   framebuffer_name fbo,
   framebuffer_attachment fb_attach,
   texture_name tex,
@@ -367,8 +350,7 @@ framebuffer_ops::framebuffer_texture(
 #endif // GL_VERSION_3_2
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_0)
-inline outcome<void>
-framebuffer_ops::draw_buffer(color_buffer buf) noexcept {
+inline outcome<void> framebuffer_ops::draw_buffer(color_buffer buf) noexcept {
     OGLPLUS_GLFUNC(DrawBuffer)(GLenum(buf));
     OGLPLUS_VERIFY(DrawBuffer, gl_enum_value(buf), debug);
     return {};
@@ -382,8 +364,7 @@ framebuffer_ops::draw_buffers(enum_span<color_buffer> bufs) noexcept {
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
-inline outcome<void>
-framebuffer_ops::framebuffer_draw_buffer(
+inline outcome<void> framebuffer_ops::framebuffer_draw_buffer(
   framebuffer_name fbo, framebuffer_color_attachment buf) noexcept {
 #ifdef GL_VERSION_4_5
     OGLPLUS_GLFUNC(NamedFramebufferDrawBuffer)
@@ -400,8 +381,7 @@ framebuffer_ops::framebuffer_draw_buffer(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-framebuffer_ops::framebuffer_draw_buffers(
+inline outcome<void> framebuffer_ops::framebuffer_draw_buffers(
   framebuffer_name fbo, enum_span<framebuffer_attachment> bufs) noexcept {
 #ifdef GL_VERSION_4_5
     OGLPLUS_GLFUNC(NamedFramebufferDrawBuffers)
@@ -420,16 +400,14 @@ framebuffer_ops::framebuffer_draw_buffers(
 #endif
 #endif // GL_VERSION_3_0
 //------------------------------------------------------------------------------
-inline outcome<void>
-framebuffer_ops::read_buffer(color_buffer buf) noexcept {
+inline outcome<void> framebuffer_ops::read_buffer(color_buffer buf) noexcept {
     OGLPLUS_GLFUNC(ReadBuffer)(GLenum(buf));
     OGLPLUS_VERIFY(ReadBuffer, gl_enum_value(buf), debug);
     return {};
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5) || defined(GL_EXT_direct_state_access)
-inline outcome<void>
-framebuffer_ops::framebuffer_read_buffer(
+inline outcome<void> framebuffer_ops::framebuffer_read_buffer(
   framebuffer_name fbo, framebuffer_color_attachment buf) noexcept {
 #ifdef GL_VERSION_4_5
     OGLPLUS_GLFUNC(NamedFramebufferReadBuffer)
@@ -448,8 +426,7 @@ framebuffer_ops::framebuffer_read_buffer(
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_0)
-inline outcome<void>
-framebuffer_ops::clear_buffer(
+inline outcome<void> framebuffer_ops::clear_buffer(
   framebuffer_buffer buf,
   GLint draw_buffer,
   span<const GLint> values) noexcept {
@@ -459,8 +436,7 @@ framebuffer_ops::clear_buffer(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-framebuffer_ops::clear_buffer(
+inline outcome<void> framebuffer_ops::clear_buffer(
   framebuffer_buffer buf,
   GLint draw_buffer,
   span<const GLuint> values) noexcept {
@@ -470,8 +446,7 @@ framebuffer_ops::clear_buffer(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-framebuffer_ops::clear_buffer(
+inline outcome<void> framebuffer_ops::clear_buffer(
   framebuffer_buffer buf,
   GLint draw_buffer,
   span<const GLfloat> values) noexcept {
@@ -481,8 +456,7 @@ framebuffer_ops::clear_buffer(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-framebuffer_ops::clear_buffer(
+inline outcome<void> framebuffer_ops::clear_buffer(
   framebuffer_buffer buf,
   GLint draw_buffer,
   GLfloat depth,
@@ -493,8 +467,7 @@ framebuffer_ops::clear_buffer(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-framebuffer_ops::blit_framebuffer(
+inline outcome<void> framebuffer_ops::blit_framebuffer(
   GLint srcX0,
   GLint srcY0,
   GLint srcX1,
@@ -522,8 +495,7 @@ framebuffer_ops::blit_framebuffer(
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_3)
-inline outcome<void>
-framebuffer_ops::invalidate_framebuffer_data(
+inline outcome<void> framebuffer_ops::invalidate_framebuffer_data(
   framebuffer_target tgt,
   enum_span<framebuffer_attachment> attachments) noexcept {
     OGLPLUS_GLFUNC(InvalidateFramebuffer)
@@ -532,8 +504,7 @@ framebuffer_ops::invalidate_framebuffer_data(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-framebuffer_ops::invalidate_framebuffer_sub_data(
+inline outcome<void> framebuffer_ops::invalidate_framebuffer_sub_data(
   framebuffer_target tgt,
   enum_span<framebuffer_attachment> attachments,
   GLint x,
@@ -554,8 +525,7 @@ framebuffer_ops::invalidate_framebuffer_sub_data(
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5)
-inline outcome<void>
-framebuffer_ops::clear_framebuffer(
+inline outcome<void> framebuffer_ops::clear_framebuffer(
   framebuffer_name fbo,
   framebuffer_buffer buf,
   GLint draw_buffer,
@@ -569,8 +539,7 @@ framebuffer_ops::clear_framebuffer(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-framebuffer_ops::clear_framebuffer(
+inline outcome<void> framebuffer_ops::clear_framebuffer(
   framebuffer_name fbo,
   framebuffer_buffer buf,
   GLint draw_buffer,
@@ -584,8 +553,7 @@ framebuffer_ops::clear_framebuffer(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-framebuffer_ops::clear_framebuffer(
+inline outcome<void> framebuffer_ops::clear_framebuffer(
   framebuffer_name fbo,
   framebuffer_buffer buf,
   GLint draw_buffer,
@@ -603,8 +571,7 @@ framebuffer_ops::clear_framebuffer(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-framebuffer_ops::clear_framebuffer(
+inline outcome<void> framebuffer_ops::clear_framebuffer(
   framebuffer_name fbo,
   framebuffer_buffer buf,
   GLint draw_buffer,
@@ -619,8 +586,7 @@ framebuffer_ops::clear_framebuffer(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-framebuffer_ops::invalidate_framebuffer_data(
+inline outcome<void> framebuffer_ops::invalidate_framebuffer_data(
   framebuffer_name fbo,
   enum_span<framebuffer_attachment> attachments) noexcept {
     OGLPLUS_GLFUNC(InvalidateNamedFramebufferData)
@@ -629,8 +595,7 @@ framebuffer_ops::invalidate_framebuffer_data(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-framebuffer_ops::invalidate_framebuffer_sub_data(
+inline outcome<void> framebuffer_ops::invalidate_framebuffer_sub_data(
   framebuffer_name fbo,
   enum_span<framebuffer_attachment> attachments,
   GLint x,
@@ -649,8 +614,7 @@ framebuffer_ops::invalidate_framebuffer_sub_data(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-framebuffer_ops::blit_framebuffer(
+inline outcome<void> framebuffer_ops::blit_framebuffer(
   framebuffer_name srcfbo,
   framebuffer_name dstfbo,
   GLint srcX0,

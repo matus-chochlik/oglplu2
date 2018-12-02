@@ -18,8 +18,8 @@ namespace oper {
 
 struct pixel_transfer_state {
 #if defined(GL_VERSION_3_0)
-    static outcome<void> clamp_color(
-      clamp_color_target target, boolean clamp) noexcept;
+    static outcome<void>
+    clamp_color(clamp_color_target target, boolean clamp) noexcept;
 #endif
 };
 

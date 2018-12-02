@@ -51,8 +51,7 @@ using valid_range_position = valid_if_le_size_ge0<R, range_index_t<R>>;
 
 // convert to range index type
 template <typename R, typename T>
-static constexpr inline range_index_t<R>
-range_index(T i) noexcept {
+static constexpr inline range_index_t<R> range_index(T i) noexcept {
     return safe_size_t_cast<range_index_t<R>>(i);
 }
 

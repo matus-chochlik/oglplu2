@@ -12,8 +12,7 @@ namespace oglplus {
 //------------------------------------------------------------------------------
 namespace oper {
 //------------------------------------------------------------------------------
-inline outcome<void>
-buffer_masking_state::color_mask(
+inline outcome<void> buffer_masking_state::color_mask(
   boolean r, boolean g, boolean b, boolean a) noexcept {
     OGLPLUS_GLFUNC(ColorMask)
     (GLboolean(r), GLboolean(g), GLboolean(b), GLboolean(a));
@@ -30,8 +29,7 @@ buffer_masking_state::color_mask(const rgba_mask& m) noexcept {
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_0)
-inline outcome<void>
-buffer_masking_state::color_mask_i(
+inline outcome<void> buffer_masking_state::color_mask_i(
   GLuint buffer, boolean r, boolean g, boolean b, boolean a) noexcept {
     OGLPLUS_GLFUNC(ColorMaski)
     (buffer, GLboolean(r), GLboolean(g), GLboolean(b), GLboolean(a));
@@ -52,46 +50,40 @@ buffer_masking_state::color_mask_i(GLuint buffer, const rgba_mask& m) noexcept {
 }
 #endif
 //------------------------------------------------------------------------------
-inline outcome<void>
-buffer_masking_state::depth_mask(boolean mask) noexcept {
+inline outcome<void> buffer_masking_state::depth_mask(boolean mask) noexcept {
     OGLPLUS_GLFUNC(DepthMask)(GLboolean(mask));
     OGLPLUS_VERIFY_SIMPLE(DepthMask, debug);
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-buffer_masking_state::stencil_mask(GLuint mask) noexcept {
+inline outcome<void> buffer_masking_state::stencil_mask(GLuint mask) noexcept {
     OGLPLUS_GLFUNC(StencilMask)(mask);
     OGLPLUS_VERIFY_SIMPLE(StencilMask, debug);
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-buffer_masking_state::stencil_mask_separate(
+inline outcome<void> buffer_masking_state::stencil_mask_separate(
   single_face face, GLuint mask) noexcept {
     OGLPLUS_GLFUNC(StencilMaskSeparate)(GLenum(face), mask);
     OGLPLUS_VERIFY_SIMPLE(StencilMaskSeparate, debug);
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<rgba_mask>
-buffer_masking_state::get_color_writemask() noexcept {
+inline outcome<rgba_mask> buffer_masking_state::get_color_writemask() noexcept {
     rgba_mask result;
     OGLPLUS_GLFUNC(GetBooleanv)(GL_COLOR_WRITEMASK, result._v);
     OGLPLUS_VERIFY_SIMPLE(GetBooleanv, debug);
     return {result};
 }
 //------------------------------------------------------------------------------
-inline outcome<boolean>
-buffer_masking_state::get_depth_writemask() noexcept {
+inline outcome<boolean> buffer_masking_state::get_depth_writemask() noexcept {
     GLboolean result;
     OGLPLUS_GLFUNC(GetBooleanv)(GL_DEPTH_WRITEMASK, &result);
     OGLPLUS_VERIFY_SIMPLE(GetBooleanv, debug);
     return {result};
 }
 //------------------------------------------------------------------------------
-inline outcome<boolean>
-buffer_masking_state::get_stencil_writemask() noexcept {
+inline outcome<boolean> buffer_masking_state::get_stencil_writemask() noexcept {
     GLboolean result;
     OGLPLUS_GLFUNC(GetBooleanv)(GL_STENCIL_WRITEMASK, &result);
     OGLPLUS_VERIFY_SIMPLE(GetBooleanv, debug);

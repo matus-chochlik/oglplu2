@@ -20,8 +20,7 @@ numeric_queries::get_integer_v(binding_query query, span<GLint> data) noexcept {
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-numeric_queries::get_boolean_v(
+inline outcome<void> numeric_queries::get_boolean_v(
   numeric_query query, span<GLboolean> data) noexcept {
     assert(data.size() > 0);
     OGLPLUS_GLFUNC(GetBooleanv)(GLenum(query), data.data());
@@ -50,8 +49,7 @@ numeric_queries::get_integer(numeric_query query) noexcept {
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_2)
-inline outcome<void>
-numeric_queries::get_integer64_v(
+inline outcome<void> numeric_queries::get_integer64_v(
   numeric_query query, span<GLint64> data) noexcept {
     assert(data.size() > 0);
     OGLPLUS_GLFUNC(GetInteger64v)(GLenum(query), data.data());
@@ -81,8 +79,7 @@ numeric_queries::get_float(numeric_query query) noexcept {
 }
 //------------------------------------------------------------------------------
 #if defined(GL_DOUBLE)
-inline outcome<void>
-numeric_queries::get_double_v(
+inline outcome<void> numeric_queries::get_double_v(
   numeric_query query, span<GLdouble> data) noexcept {
     assert(data.size() > 0);
     OGLPLUS_GLFUNC(GetDoublev)(GLenum(query), data.data());
@@ -98,8 +95,7 @@ numeric_queries::get_double(numeric_query query) noexcept {
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_0)
-inline outcome<void>
-numeric_queries::get_boolean_v(
+inline outcome<void> numeric_queries::get_boolean_v(
   numeric_query query, GLuint index, span<GLboolean> data) noexcept {
     assert(data.size() > 0);
     OGLPLUS_GLFUNC(GetBooleani_v)(GLenum(query), index, data.data());
@@ -113,8 +109,7 @@ numeric_queries::get_boolean(numeric_query query, GLuint index) noexcept {
     return get_boolean_v(query, index, {&result, 1}).add(boolean(result));
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-numeric_queries::get_integer_v(
+inline outcome<void> numeric_queries::get_integer_v(
   numeric_query query, GLuint index, span<GLint> data) noexcept {
     assert(data.size() > 0);
     OGLPLUS_GLFUNC(GetIntegeri_v)(GLenum(query), index, data.data());
@@ -130,8 +125,7 @@ numeric_queries::get_integer(numeric_query query, GLuint index) noexcept {
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_2)
-inline outcome<void>
-numeric_queries::get_integer64_v(
+inline outcome<void> numeric_queries::get_integer64_v(
   numeric_query query, GLuint index, span<GLint64> data) noexcept {
     assert(data.size() > 0);
     OGLPLUS_GLFUNC(GetInteger64i_v)(GLenum(query), index, data.data());
@@ -148,8 +142,7 @@ numeric_queries::get_integer64(numeric_query query, GLuint index) noexcept {
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_1)
-inline outcome<void>
-numeric_queries::get_float_v(
+inline outcome<void> numeric_queries::get_float_v(
   numeric_query query, GLuint index, span<GLfloat> data) noexcept {
     assert(data.size() > 0);
     OGLPLUS_GLFUNC(GetFloati_v)(GLenum(query), index, data.data());
@@ -163,8 +156,7 @@ numeric_queries::get_float(numeric_query query, GLuint index) noexcept {
     return get_float_v(query, index, {&result, 1}).add(result);
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-numeric_queries::get_double_v(
+inline outcome<void> numeric_queries::get_double_v(
   numeric_query query, GLuint index, span<GLdouble> data) noexcept {
     assert(data.size() > 0);
     OGLPLUS_GLFUNC(GetDoublei_v)(GLenum(query), index, data.data());

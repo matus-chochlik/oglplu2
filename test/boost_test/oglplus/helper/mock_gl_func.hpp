@@ -16,8 +16,7 @@ using mock_gl_function = eagine::mock_function<Sig>;
 
 using eagine::mock_ptr;
 
-static inline GLenum
-mock_glGetError(void) noexcept {
+static inline GLenum mock_glGetError() noexcept {
     return GL_NO_ERROR;
 }
 

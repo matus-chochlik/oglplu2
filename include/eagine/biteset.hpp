@@ -10,14 +10,14 @@
 #ifndef EAGINE_BITESET_1509260923_HPP
 #define EAGINE_BITESET_1509260923_HPP
 
+#include "byteset.hpp"
+#include "int_constant.hpp"
+#include "std/type_traits.hpp"
 #include <cassert>
 #include <climits>
 #include <cstdint>
 #include <iterator>
 #include <utility>
-#include "byteset.hpp"
-#include "int_constant.hpp"
-#include "std/type_traits.hpp"
 
 namespace eagine {
 
@@ -447,43 +447,43 @@ public:
         return {*this, N};
     }
 
-    constexpr inline biteset_value_proxy<const biteset> operator[](
-      size_type i) const noexcept {
+    constexpr inline biteset_value_proxy<const biteset>
+    operator[](size_type i) const noexcept {
         return {*this, i};
     }
 
-    constexpr inline biteset_value_proxy<biteset> operator[](
-      size_type i) noexcept {
+    constexpr inline biteset_value_proxy<biteset>
+    operator[](size_type i) noexcept {
         return {*this, i};
     }
 
-    friend constexpr inline bool operator==(
-      const biteset& a, const biteset& b) noexcept {
+    friend constexpr inline bool
+    operator==(const biteset& a, const biteset& b) noexcept {
         return a.bytes() == b.bytes();
     }
 
-    friend constexpr inline bool operator!=(
-      const biteset& a, const biteset& b) noexcept {
+    friend constexpr inline bool
+    operator!=(const biteset& a, const biteset& b) noexcept {
         return a.bytes() != b.bytes();
     }
 
-    friend constexpr inline bool operator<(
-      const biteset& a, const biteset& b) noexcept {
+    friend constexpr inline bool
+    operator<(const biteset& a, const biteset& b) noexcept {
         return a.bytes() < b.bytes();
     }
 
-    friend constexpr inline bool operator<=(
-      const biteset& a, const biteset& b) noexcept {
+    friend constexpr inline bool
+    operator<=(const biteset& a, const biteset& b) noexcept {
         return a.bytes() <= b.bytes();
     }
 
-    friend constexpr inline bool operator>(
-      const biteset& a, const biteset& b) noexcept {
+    friend constexpr inline bool
+    operator>(const biteset& a, const biteset& b) noexcept {
         return a.bytes() > b.bytes();
     }
 
-    friend constexpr inline bool operator>=(
-      const biteset& a, const biteset& b) noexcept {
+    friend constexpr inline bool
+    operator>=(const biteset& a, const biteset& b) noexcept {
         return a.bytes() >= b.bytes();
     }
 
@@ -494,13 +494,13 @@ public:
 private:
     _bytes_t _bytes;
 
-    static constexpr inline std::size_t _min_s(
-      std::size_t x, std::size_t y) noexcept {
+    static constexpr inline std::size_t
+    _min_s(std::size_t x, std::size_t y) noexcept {
         return (x < y) ? x : y;
     }
 
-    static constexpr inline _byte_t _extract_init_bits(
-      T init, std::size_t ofs, std::size_t len) noexcept {
+    static constexpr inline _byte_t
+    _extract_init_bits(T init, std::size_t ofs, std::size_t len) noexcept {
         return _byte_t(init >> (_bite_s - ofs - len)) & _byte_t((1 << len) - 1);
     }
 
@@ -572,15 +572,15 @@ private:
           size_constant<1>{});
     }
 
-    static constexpr inline _byte_t _get_byte(
-      const T (&init)[N], std::size_t i) noexcept {
+    static constexpr inline _byte_t
+    _get_byte(const T (&init)[N], std::size_t i) noexcept {
         return (B == _byte_s)
                  ? _byte_t(init[i])
                  : _get_byte_bits(init, (i + 0) * _byte_s, (i + 1) * _byte_s);
     }
 
-    static constexpr inline T _extract_cell_bits(
-      _byte_t by, std::size_t ofs, std::size_t len) noexcept {
+    static constexpr inline T
+    _extract_cell_bits(_byte_t by, std::size_t ofs, std::size_t len) noexcept {
         return T(by >> (_byte_s - ofs - len)) & T((1 << len) - 1);
     }
 
@@ -716,8 +716,8 @@ private:
     }
 
     template <std::size_t... I>
-    static constexpr inline _bytes_t _do_make_bytes(
-      const T (&init)[N], std::index_sequence<I...>) noexcept {
+    static constexpr inline _bytes_t
+    _do_make_bytes(const T (&init)[N], std::index_sequence<I...>) noexcept {
         return _bytes_t{_get_byte(init, size_constant<I>{})...};
     }
 

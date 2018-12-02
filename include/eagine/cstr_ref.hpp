@@ -10,12 +10,12 @@
 #ifndef EAGINE_UTILS_CSTR_REF_1509260923_HPP
 #define EAGINE_UTILS_CSTR_REF_1509260923_HPP
 
+#include "config/platform.hpp"
+#include "string_span.hpp"
 #include <cassert>
 #include <cstring>
 #include <iosfwd>
 #include <string>
-#include "config/platform.hpp"
-#include "string_span.hpp"
 #if EAGINE_APPLE
 #include <ostream>
 #endif
@@ -97,20 +97,17 @@ public:
 #pragma clang diagnostic pop
 #endif
 
-static inline bool
-operator==(const cstr_ref& a, const cstr_ref& b) noexcept {
+static inline bool operator==(const cstr_ref& a, const cstr_ref& b) noexcept {
     return static_cast<const cstring_span&>(a) ==
            static_cast<const cstring_span&>(b);
 }
 
-static inline bool
-operator!=(const cstr_ref& a, const cstr_ref& b) noexcept {
+static inline bool operator!=(const cstr_ref& a, const cstr_ref& b) noexcept {
     return static_cast<const cstring_span&>(a) !=
            static_cast<const cstring_span&>(b);
 }
 
-static inline std::ostream&
-operator<<(std::ostream& out, const cstr_ref& str) {
+static inline std::ostream& operator<<(std::ostream& out, const cstr_ref& str) {
     str.write_to_stream(out);
     return out;
 }

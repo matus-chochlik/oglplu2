@@ -10,8 +10,8 @@
 #ifndef OGLPLUS_SHAPES_SPHERE_1509260923_HPP
 #define OGLPLUS_SHAPES_SPHERE_1509260923_HPP
 
-#include <eagine/shapes/sphere.hpp>
 #include "adapted_gen.hpp"
+#include <eagine/shapes/sphere.hpp>
 
 namespace oglplus {
 namespace shapes {

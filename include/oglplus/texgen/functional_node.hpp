@@ -57,8 +57,8 @@ public:
 
     slot_data_type value_type() override;
 
-    std::ostream& definitions(
-      std::ostream& out, compile_context& ctxt) override;
+    std::ostream&
+    definitions(std::ostream& out, compile_context& ctxt) override;
 };
 
 class unary_function_node
@@ -117,8 +117,8 @@ public:
 
     slot_data_type value_type() override;
 
-    std::ostream& definitions(
-      std::ostream& out, compile_context& ctxt) override;
+    std::ostream&
+    definitions(std::ostream& out, compile_context& ctxt) override;
 };
 
 class binary_function_node

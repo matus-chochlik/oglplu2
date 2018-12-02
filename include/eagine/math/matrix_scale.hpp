@@ -45,8 +45,7 @@ struct scale<matrix<T, 4, 4, RM, V>> {
 
 // multiply
 template <typename T, int N, bool RM1, bool RM2, bool V>
-static constexpr inline scale<matrix<T, N, N, RM1, V>>
-multiply(
+static constexpr inline scale<matrix<T, N, N, RM1, V>> multiply(
   const scale<matrix<T, N, N, RM1, V>>& a,
   const scale<matrix<T, N, N, RM2, V>>& b) noexcept {
     return {a._v * b._v};
@@ -87,8 +86,7 @@ struct uniform_scale<matrix<T, 4, 4, RM, V>> {
 
 // multiply
 template <typename T, int N, bool RM1, bool RM2, bool V>
-static constexpr inline uniform_scale<matrix<T, N, N, RM1, V>>
-multiply(
+static constexpr inline uniform_scale<matrix<T, N, N, RM1, V>> multiply(
   const uniform_scale<matrix<T, N, N, RM1, V>>& a,
   const uniform_scale<matrix<T, N, N, RM2, V>>& b) noexcept {
     return {a._v * b._v};

@@ -12,8 +12,7 @@
 namespace oglplus {
 
 OGLPLUS_LIB_FUNC
-binding_query
-get_binding_query(renderbuffer_target tgt) noexcept {
+binding_query get_binding_query(renderbuffer_target tgt) noexcept {
     GLenum result = 0;
     switch(GLenum(tgt)) {
 #if defined(GL_RENDERBUFFER) && defined(GL_RENDERBUFFER_BINDING)

@@ -14,8 +14,7 @@ BOOST_AUTO_TEST_SUITE(memory_shared_alloc_tests)
 static eagine::test_random_generator rg;
 
 template <typename T>
-void
-eagine_test_memory_shared_alloc_1_T(void) {
+void eagine_test_memory_shared_alloc_1_T() {
     using namespace eagine;
 
     memory::shared_byte_allocator a;
@@ -54,8 +53,7 @@ BOOST_AUTO_TEST_CASE(memory_shared_alloc_1) {
 }
 
 template <typename T>
-void
-eagine_test_memory_shared_alloc_2_T(std::size_t n) {
+void eagine_test_memory_shared_alloc_2_T(std::size_t n) {
     using namespace eagine;
 
     memory::shared_byte_allocator a((memory::c_byte_reallocator<>()));

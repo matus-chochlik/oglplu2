@@ -9,10 +9,10 @@
 #ifndef EAGINE_ECS_COMPONENT_1509260923_HPP
 #define EAGINE_ECS_COMPONENT_1509260923_HPP
 
-#include <cstddef>
-#include <vector>
 #include "../config/basic.hpp"
 #include "../std/type_traits.hpp"
+#include <cstddef>
+#include <vector>
 
 namespace eagine {
 namespace ecs {
@@ -65,8 +65,7 @@ using relation = entity_data<Derived, true>;
 
 // get_component_uid
 template <typename X>
-static inline component_uid_t
-get_component_uid() {
+static inline component_uid_t get_component_uid() {
     typedef std::remove_const_t<std::remove_reference_t<X>> Component;
     return Component::_uid();
 }

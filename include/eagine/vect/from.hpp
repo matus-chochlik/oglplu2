@@ -9,9 +9,9 @@
 #ifndef EAGINE_VECT_FROM_1509260923_HPP
 #define EAGINE_VECT_FROM_1509260923_HPP
 
-#include <cassert>
 #include "../types.hpp"
 #include "data.hpp"
+#include <cassert>
 
 namespace eagine {
 namespace vect {

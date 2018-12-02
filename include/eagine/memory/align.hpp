@@ -36,8 +36,7 @@ is_aligned_to(std::nullptr_t, span_size_t) noexcept {
 }
 
 template <typename T>
-static constexpr inline bool
-is_aligned_as(span_size_t addr) noexcept {
+static constexpr inline bool is_aligned_as(span_size_t addr) noexcept {
     return is_aligned_to(addr, span_align_of<T>());
 }
 

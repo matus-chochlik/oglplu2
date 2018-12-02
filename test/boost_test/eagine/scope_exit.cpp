@@ -8,8 +8,8 @@
 #define BOOST_TEST_MODULE EAGINE_scope_exit
 #include "../unit_test_begin.inl"
 
-#include <type_traits>
 #include <exception>
+#include <type_traits>
 
 BOOST_AUTO_TEST_SUITE(scope_exit_tests)
 
@@ -17,7 +17,7 @@ BOOST_AUTO_TEST_CASE(scope_exit_f) {
     using namespace eagine;
 
     int i = 10, passed = 0;
-    auto inc_i = [&i](void) { ++i; };
+    auto inc_i = [&i]() { ++i; };
 
     {
         BOOST_CHECK_EQUAL(i, 10);
@@ -51,7 +51,7 @@ BOOST_AUTO_TEST_CASE(scope_exit_t) {
     using namespace eagine;
 
     int i = 11, passed = 0;
-    auto inc_i = [&i](void) { ++i; };
+    auto inc_i = [&i]() { ++i; };
 
     {
         BOOST_CHECK_EQUAL(i, 11);
@@ -91,7 +91,7 @@ BOOST_AUTO_TEST_CASE(scope_exit_n) {
     using namespace eagine;
 
     int i = 41, passed = 0;
-    auto inc_i = [&i](void) { ++i; };
+    auto inc_i = [&i]() { ++i; };
 
     {
         BOOST_CHECK_EQUAL(i, 41);
@@ -142,14 +142,14 @@ BOOST_AUTO_TEST_CASE(func_on_scope_exit) {
 
     {
         BOOST_CHECK_EQUAL(i, 41);
-        auto fse = finally([&i](void) { i += 2; });
+        auto fse = finally([&i]() { i += 2; });
         BOOST_CHECK_EQUAL(i, 41);
         ++passed;
     }
     BOOST_CHECK_EQUAL(i, 43);
     {
         BOOST_CHECK_EQUAL(i, 43);
-        auto fse = finally([&i](void) { i += 2; });
+        auto fse = finally([&i]() { i += 2; });
         BOOST_CHECK_EQUAL(i, 43);
         ++passed;
         fse.cancel();
@@ -157,7 +157,7 @@ BOOST_AUTO_TEST_CASE(func_on_scope_exit) {
     BOOST_CHECK_EQUAL(i, 43);
     try {
         BOOST_CHECK_EQUAL(i, 43);
-        auto fse = finally([&i](void) { --i; });
+        auto fse = finally([&i]() { --i; });
         BOOST_CHECK_EQUAL(i, 43);
         ++passed;
 
@@ -168,7 +168,7 @@ BOOST_AUTO_TEST_CASE(func_on_scope_exit) {
     }
     try {
         BOOST_CHECK_EQUAL(i, 42);
-        auto fse = finally([&i](void) { --i; });
+        auto fse = finally([&i]() { --i; });
         BOOST_CHECK_EQUAL(i, 42);
         ++passed;
         fse.cancel();

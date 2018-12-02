@@ -15,15 +15,13 @@
 namespace oalplus {
 
 template <typename ErrorInfo>
-static inline void
-handle_al_error(ErrorInfo& info) {
+static inline void handle_al_error(ErrorInfo& info) {
     if(!std::uncaught_exception()) {
         throw error(std::move(info));
     }
 }
 
-static inline constexpr bool
-is_al_error(ALenum ec) noexcept {
+static inline constexpr bool is_al_error(ALenum ec) noexcept {
     return ec != AL_NO_ERROR;
 }
 

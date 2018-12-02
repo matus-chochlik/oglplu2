@@ -27,8 +27,7 @@
 #include <stdexcept>
 // clang-format on
 
-void
-example_loop(
+void example_loop(
   const oglplus::x11::Display& display,
   const oglplus::x11::Window& win,
   const oglplus::glx::Context& ctx,
@@ -92,8 +91,7 @@ example_loop(
     }
 }
 
-int
-example_main(
+int example_main(
   oglplus::example_args& args,
   oglplus::example_params& params,
   oglplus::example_state& state) {

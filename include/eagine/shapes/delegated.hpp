@@ -10,9 +10,9 @@
 #ifndef EAGINE_SHAPES_DELEGATED_1509260923_HPP
 #define EAGINE_SHAPES_DELEGATED_1509260923_HPP
 
-#include <memory>
-#include <eagine/config/basic.hpp>
 #include "gen_base.hpp"
+#include <eagine/config/basic.hpp>
+#include <memory>
 
 namespace eagine {
 namespace shapes {
@@ -34,8 +34,8 @@ public:
         return _gen->values_per_vertex(attr);
     }
 
-    void attrib_values(
-      vertex_attrib_kind attr, const span<float>& dest) override {
+    void
+    attrib_values(vertex_attrib_kind attr, const span<float>& dest) override {
         _gen->attrib_values(attr, dest);
     }
 

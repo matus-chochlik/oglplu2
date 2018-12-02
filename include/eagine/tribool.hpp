@@ -102,14 +102,12 @@ public:
     }
 };
 
-constexpr inline tribool
-operator&&(tribool a, tribool b) noexcept {
+constexpr inline tribool operator&&(tribool a, tribool b) noexcept {
     return !a ? tribool{false}
               : a ? b : !b ? tribool{false} : tribool{indeterminate};
 }
 
-constexpr inline tribool
-operator||(tribool a, tribool b) noexcept {
+constexpr inline tribool operator||(tribool a, tribool b) noexcept {
     return a ? tribool{true}
              : !a ? b : b ? tribool{true} : tribool{indeterminate};
 }

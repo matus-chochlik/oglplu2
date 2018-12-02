@@ -13,8 +13,7 @@ BOOST_AUTO_TEST_SUITE(vect_from_tests)
 static eagine::test_random_generator rg;
 
 template <typename T, int N, bool V>
-void
-test_vect_from_array_TNV(void) {
+void test_vect_from_array_TNV() {
     T a[N];
     for(int i = 0; i < N; ++i) {
         a[i] = rg.get_any<T>();
@@ -29,8 +28,7 @@ test_vect_from_array_TNV(void) {
 }
 
 template <typename T, bool V>
-void
-test_vect_from_array_TV(void) {
+void test_vect_from_array_TV() {
     test_vect_from_array_TNV<T, 2, V>();
     test_vect_from_array_TNV<T, 3, V>();
     test_vect_from_array_TNV<T, 4, V>();
@@ -41,8 +39,7 @@ test_vect_from_array_TV(void) {
 }
 
 template <typename T>
-void
-test_vect_from_array_T(void) {
+void test_vect_from_array_T() {
     test_vect_from_array_TV<T, true>();
     test_vect_from_array_TV<T, false>();
 }
@@ -56,8 +53,7 @@ BOOST_AUTO_TEST_CASE(vect_from_array) {
 }
 
 template <typename T, int N, int M, bool V>
-void
-test_vect_from_saafv_TNMV(void) {
+void test_vect_from_saafv_TNMV() {
     static_assert(M <= N, "");
 
     T a[M];
@@ -78,8 +74,7 @@ test_vect_from_saafv_TNMV(void) {
 }
 
 template <typename T, bool V>
-void
-test_vect_from_saafv_TV(void) {
+void test_vect_from_saafv_TV() {
     test_vect_from_saafv_TNMV<T, 2, 1, V>();
     test_vect_from_saafv_TNMV<T, 2, 2, V>();
 
@@ -124,8 +119,7 @@ test_vect_from_saafv_TV(void) {
 }
 
 template <typename T>
-void
-test_vect_from_saafv_T(void) {
+void test_vect_from_saafv_T() {
     test_vect_from_saafv_TV<T, true>();
     test_vect_from_saafv_TV<T, false>();
 }

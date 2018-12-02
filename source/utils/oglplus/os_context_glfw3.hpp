@@ -8,9 +8,9 @@
 #ifndef UTILS_OGLPLUS_OS_CONTEXT_GLFW3_1107121519_HPP
 #define UTILS_OGLPLUS_OS_CONTEXT_GLFW3_1107121519_HPP
 
+#include "os_context_common.hpp"
 #include <GLFW/glfw3.h>
 #include <stdexcept>
-#include "os_context_common.hpp"
 
 namespace oglplus {
 

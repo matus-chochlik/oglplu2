@@ -10,10 +10,10 @@
 #ifndef EAGINE_ATTRIB_LIST_1509260923_HPP
 #define EAGINE_ATTRIB_LIST_1509260923_HPP
 
-#include <array>
 #include "span.hpp"
 #include "std/type_traits.hpp"
 #include "std/utility.hpp"
+#include <array>
 
 namespace eagine {
 
@@ -139,23 +139,21 @@ public:
         return {data(), size()};
     }
 
-    constexpr key_value_list<Traits, N + 2> append(
-      const key_value_list_element<Traits>& key_val) const noexcept {
+    constexpr key_value_list<Traits, N + 2>
+    append(const key_value_list_element<Traits>& key_val) const noexcept {
         return {_base, key_val._key, key_val._value};
     }
 };
 
 template <typename Traits>
-static constexpr inline key_value_list<Traits, 4>
-operator+(
+static constexpr inline key_value_list<Traits, 4> operator+(
   const key_value_list_element<Traits>& l,
   const key_value_list_element<Traits>& r) noexcept {
     return key_value_list<Traits, 2>(l).append(r);
 }
 
 template <typename Traits, std::size_t N>
-static constexpr inline key_value_list<Traits, N + 2>
-operator+(
+static constexpr inline key_value_list<Traits, N + 2> operator+(
   const key_value_list<Traits, N>& l,
   const key_value_list_element<Traits>& r) noexcept {
     return l.append(r);

@@ -10,8 +10,8 @@
 #ifndef OGLPLUS_SHAPES_TORUS_1509260923_HPP
 #define OGLPLUS_SHAPES_TORUS_1509260923_HPP
 
-#include <eagine/shapes/torus.hpp>
 #include "adapted_gen.hpp"
+#include <eagine/shapes/torus.hpp>
 
 namespace oglplus {
 namespace shapes {

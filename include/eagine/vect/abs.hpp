@@ -9,8 +9,8 @@
 #ifndef EAGINE_VECT_ABS_1509260923_HPP
 #define EAGINE_VECT_ABS_1509260923_HPP
 
-#include <cmath>
 #include "data.hpp"
+#include <cmath>
 
 namespace eagine {
 namespace vect {

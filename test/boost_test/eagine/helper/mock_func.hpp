@@ -7,9 +7,9 @@
 #ifndef TEST_EAGINE_HELPER_MOCK_FUNC_HPP
 #define TEST_EAGINE_HELPER_MOCK_FUNC_HPP
 
+#include <oglplus/utils/nothing.hpp>
 #include <cassert>
 #include <cstring>
-#include <oglplus/utils/nothing.hpp>
 
 namespace eagine {
 
@@ -17,7 +17,7 @@ template <typename T>
 struct mock_ptr {
     T* _p;
 
-    constexpr mock_ptr(void)
+    constexpr mock_ptr()
       : _p(nullptr) {
     }
 
@@ -69,7 +69,7 @@ public:
       : mock_function_base(func_name, std::tuple<P...>()) {
     }
 
-    mock_function<R(P...)>& self(void) {
+    mock_function<R(P...)>& self() {
         return static_cast<mock_function<R(P...)>&>(*this);
     }
 
@@ -79,7 +79,7 @@ public:
         return self();
     }
 
-    mock_function<R(P...)>& reset_called(void) {
+    mock_function<R(P...)>& reset_called() {
         _func_called = 0;
         return self();
     }
@@ -90,11 +90,11 @@ public:
         return self();
     }
 
-    bool was_called(void) const {
+    bool was_called() const {
         return _func_called > 0;
     }
 
-    bool all_ok_exclusive(void) const {
+    bool all_ok_exclusive() const {
         return (_func_called == 1) && (_func_ok) && (_params_ok);
     }
 };
@@ -151,7 +151,7 @@ public:
         assert(!_mf.all_ok_exclusive());
     }
 
-    explicit operator bool(void) const {
+    explicit operator bool() const {
         return _mf.all_ok_exclusive();
     }
 };
@@ -175,7 +175,7 @@ public:
         assert(!_mf.all_ok_exclusive());
     }
 
-    explicit operator bool(void) const {
+    explicit operator bool() const {
         return _mf.all_ok_exclusive();
     }
 };

@@ -23,8 +23,8 @@ struct drawing_state {
 #endif
 
 #if defined(GL_VERSION_4_0)
-    static outcome<void> patch_parameter_i(
-      oglplus::patch_parameter param, GLint value) noexcept;
+    static outcome<void>
+    patch_parameter_i(oglplus::patch_parameter param, GLint value) noexcept;
 
     static outcome<void> patch_parameter(
       oglplus::patch_parameter param, span<const GLfloat> values) noexcept;
@@ -32,8 +32,8 @@ struct drawing_state {
 };
 
 struct drawing_ops {
-    static outcome<void> draw_arrays(
-      primitive_type mode, GLint first, GLsizei count) noexcept;
+    static outcome<void>
+    draw_arrays(primitive_type mode, GLint first, GLsizei count) noexcept;
 
 #if defined(GL_VERSION_3_0)
     static outcome<void> multi_draw_arrays(
@@ -60,8 +60,8 @@ struct drawing_ops {
 #endif
 
 #if defined(GL_VERSION_4_0)
-    static outcome<void> draw_arrays_indirect(
-      primitive_type mode, const GLvoid* indirect) noexcept;
+    static outcome<void>
+    draw_arrays_indirect(primitive_type mode, const GLvoid* indirect) noexcept;
 #endif
 
     static outcome<void> draw_elements(
@@ -70,8 +70,8 @@ struct drawing_ops {
       index_type type,
       const GLvoid* indices) noexcept;
 
-    static outcome<void> draw_elements(
-      primitive_type mode, GLsizei count, index_type type) noexcept;
+    static outcome<void>
+    draw_elements(primitive_type mode, GLsizei count, index_type type) noexcept;
 
 #if defined(GL_VERSION_3_0)
     static outcome<void> multi_draw_elements(

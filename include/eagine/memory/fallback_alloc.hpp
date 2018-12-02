@@ -55,8 +55,8 @@ public:
         return (mfbk > mdft) ? mfbk : mdft;
     }
 
-    tribool has_allocated(
-      const owned_block& b, span_size_t a) noexcept override {
+    tribool
+    has_allocated(const owned_block& b, span_size_t a) noexcept override {
         return _dft.has_allocated(b, a) || _fbk.has_allocated(b, a);
     }
 

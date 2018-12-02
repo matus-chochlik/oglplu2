@@ -6,21 +6,20 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/maybe_unused.hpp>
+#include <oglplus/error/error.hpp>
+#include <oglplus/object/ios.hpp>
 #include <algorithm>
 #include <cassert>
 #include <cstring>
 #include <iostream>
 #include <iterator>
 #include <stdexcept>
-#include <eagine/maybe_unused.hpp>
-#include <oglplus/error/error.hpp>
-#include <oglplus/object/ios.hpp>
 
 namespace oglplus {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-format_error_info(
+std::ostream& format_error_info(
   const error_info& info,
   const cstr_ref& msg_str,
   const cstr_ref& fmt_str,
@@ -150,8 +149,7 @@ format_error_info(
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-format_error_info(
+std::ostream& format_error_info(
   const error_info& info,
   const cstr_ref& msg_str,
   const cstr_ref& fmt_str,
@@ -160,15 +158,13 @@ format_error_info(
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-format_error_info(
+std::ostream& format_error_info(
   const error_info& info, const cstr_ref& fmt_str, std::ostream& out) {
     return format_error_info(info, "", fmt_str, "[N/A]", out);
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-format_error(
+std::ostream& format_error(
   error& err,
   const cstr_ref& fmt_str,
   const cstr_ref& n_a_str,

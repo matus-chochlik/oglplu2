@@ -63,8 +63,8 @@ public:
         return a._bits != b._bits;
     }
 
-    friend constexpr inline bitfield operator|(
-      bitfield a, bitfield b) noexcept {
+    friend constexpr inline bitfield
+    operator|(bitfield a, bitfield b) noexcept {
         return bitfield(BF{a._bits} | BF{b._bits});
     }
 
@@ -73,8 +73,8 @@ public:
         return *this;
     }
 
-    friend constexpr inline bitfield operator&(
-      bitfield a, bitfield b) noexcept {
+    friend constexpr inline bitfield
+    operator&(bitfield a, bitfield b) noexcept {
         return bitfield{a._bits & b._bits};
     }
 

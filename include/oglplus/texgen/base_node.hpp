@@ -9,10 +9,10 @@
 #ifndef OGLPLUS_TEXGEN_BASE_NODE_1509260923_HPP
 #define OGLPLUS_TEXGEN_BASE_NODE_1509260923_HPP
 
-#include <cassert>
-#include <eagine/maybe_unused.hpp>
 #include "base_output.hpp"
 #include "interface.hpp"
+#include <eagine/maybe_unused.hpp>
+#include <cassert>
 
 namespace oglplus {
 namespace texgen {

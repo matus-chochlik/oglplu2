@@ -20,14 +20,12 @@ blur2d_output::blur2d_output(node_intf& parent)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref
-blur2d_output::type_name() {
+cstr_ref blur2d_output::type_name() {
     return cstr_ref("Blur2D");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-slot_data_type
-blur2d_output::value_type() {
+slot_data_type blur2d_output::value_type() {
     return input.value_type();
 }
 //------------------------------------------------------------------------------

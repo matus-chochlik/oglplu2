@@ -13,8 +13,7 @@ namespace oglplus {
 namespace oper {
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_2)
-inline outcome<void>
-internal_format_queries::get_internal_format_iv(
+inline outcome<void> internal_format_queries::get_internal_format_iv(
   internal_format_target target,
   pixel_data_internal_format iformat,
   internal_format_parameter query,
@@ -31,8 +30,7 @@ internal_format_queries::get_internal_format_iv(
 }
 //------------------------------------------------------------------------------
 template <typename Result, typename Temp>
-inline outcome<Result>
-internal_format_queries::return_internal_format_i(
+inline outcome<Result> internal_format_queries::return_internal_format_i(
   internal_format_target target,
   pixel_data_internal_format iformat,
   internal_format_parameter param) noexcept {
@@ -44,8 +42,7 @@ internal_format_queries::return_internal_format_i(
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_3)
-inline outcome<void>
-internal_format_queries::get_internal_format_i64v(
+inline outcome<void> internal_format_queries::get_internal_format_i64v(
   internal_format_target target,
   pixel_data_internal_format iformat,
   internal_format_parameter query,
@@ -62,8 +59,7 @@ internal_format_queries::get_internal_format_i64v(
 }
 //------------------------------------------------------------------------------
 template <typename Result, typename Temp>
-inline outcome<Result>
-internal_format_queries::return_internal_format_i64(
+inline outcome<Result> internal_format_queries::return_internal_format_i64(
   internal_format_target target,
   pixel_data_internal_format iformat,
   internal_format_parameter param) noexcept {
@@ -73,22 +69,19 @@ internal_format_queries::return_internal_format_i64(
       .add(Result(Temp(result)));
 }
 //------------------------------------------------------------------------------
-inline outcome<boolean>
-internal_format_queries::is_internal_format_supported(
+inline outcome<boolean> internal_format_queries::is_internal_format_supported(
   internal_format_target target, pixel_data_internal_format iformat) noexcept {
     return return_internal_format_i<boolean, GLboolean>(
       target, iformat, internal_format_parameter(GL_INTERNALFORMAT_SUPPORTED));
 }
 //------------------------------------------------------------------------------
-inline outcome<boolean>
-internal_format_queries::is_internal_format_preferred(
+inline outcome<boolean> internal_format_queries::is_internal_format_preferred(
   internal_format_target target, pixel_data_internal_format iformat) noexcept {
     return return_internal_format_i<boolean, GLboolean>(
       target, iformat, internal_format_parameter(GL_INTERNALFORMAT_PREFERRED));
 }
 //------------------------------------------------------------------------------
-inline outcome<boolean>
-internal_format_queries::is_internal_format_compressed(
+inline outcome<boolean> internal_format_queries::is_internal_format_compressed(
   internal_format_target target, pixel_data_internal_format iformat) noexcept {
     return return_internal_format_i<boolean, GLboolean>(
       target, iformat, internal_format_parameter(GL_TEXTURE_COMPRESSED));
@@ -143,8 +136,7 @@ internal_format_queries::get_internal_format_framebuffer_renderable_support(
       target, iformat, internal_format_parameter(GL_FRAMEBUFFER_RENDERABLE));
 }
 //------------------------------------------------------------------------------
-inline outcome<support_level>
-internal_format_queries::
+inline outcome<support_level> internal_format_queries::
   get_internal_format_framebuffer_renderable_layered_support(
     internal_format_target target,
     pixel_data_internal_format iformat) noexcept {

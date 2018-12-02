@@ -10,13 +10,13 @@
 #ifndef EAGINE_MEMORY_ALLOC_ARENA_1510290655_HPP
 #define EAGINE_MEMORY_ALLOC_ARENA_1510290655_HPP
 
+#include "../span.hpp"
+#include "../string_span.hpp"
+#include "c_realloc.hpp"
 #include <algorithm>
 #include <cassert>
 #include <utility>
 #include <vector>
-#include "../span.hpp"
-#include "../string_span.hpp"
-#include "c_realloc.hpp"
 
 namespace eagine {
 namespace memory {
@@ -69,8 +69,8 @@ public:
     }
 
     template <typename T>
-    span<T> make_aligned_array(
-      const span_size_t count, const span_size_t align);
+    span<T>
+    make_aligned_array(const span_size_t count, const span_size_t align);
 
     template <typename T>
     span<T> make_array(const span_size_t count) {
@@ -90,8 +90,8 @@ public:
     }
 
     template <typename T, typename U, span_size_t N>
-    span<T> copy_aligned_array(
-      basic_string_span<U, N> src, const span_size_t align) {
+    span<T>
+    copy_aligned_array(basic_string_span<U, N> src, const span_size_t align) {
         span<T> dst = make_aligned_array<T>(src.size(), align);
         std::copy(src.begin(), src.end(), dst.begin());
         return dst;

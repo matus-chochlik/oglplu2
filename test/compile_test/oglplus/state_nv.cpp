@@ -15,14 +15,12 @@
 
 using namespace oglplus;
 
-void
-oglplus_state_nv_test_1(void) {
+void oglplus_state_nv_test_1() {
     oglplus_object_name_test<state_nv_name>();
     oglplus_object_test<state_nv>();
 }
 
-void
-oglplus_state_nv_test_ops1(void) {
+void oglplus_state_nv_test_ops1() {
     oper::state_nv_ops gl;
     state_nv ste;
     state_nv_array<4> stes;

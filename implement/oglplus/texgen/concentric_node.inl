@@ -21,14 +21,12 @@ concentric_output::concentric_output(node_intf& parent)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref
-concentric_output::type_name() {
+cstr_ref concentric_output::type_name() {
     return cstr_ref("Concentric");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-slot_data_type
-concentric_output::value_type() {
+slot_data_type concentric_output::value_type() {
     return slot_data_type::float_;
 }
 //------------------------------------------------------------------------------
@@ -66,14 +64,12 @@ pixel_concentric_output::pixel_concentric_output(node_intf& parent)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref
-pixel_concentric_output::type_name() {
+cstr_ref pixel_concentric_output::type_name() {
     return cstr_ref("PixelChecker");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-slot_data_type
-pixel_concentric_output::value_type() {
+slot_data_type pixel_concentric_output::value_type() {
     return slot_data_type::float_;
 }
 //------------------------------------------------------------------------------

@@ -38,14 +38,14 @@ private:
     typedef data_param_t<T, N, V> _dpT;
 
     template <int... I>
-    static constexpr inline _dT _do_apply(
-      _dpT v, shuffle_mask<I...>, std::false_type) noexcept {
+    static constexpr inline _dT
+    _do_apply(_dpT v, shuffle_mask<I...>, std::false_type) noexcept {
         return data_t<T, N, V>{v[I]...};
     }
 
     template <int... I>
-    static constexpr inline _dT _do_apply(
-      _dpT v, shuffle_mask<I...>, std::true_type) noexcept {
+    static constexpr inline _dT
+    _do_apply(_dpT v, shuffle_mask<I...>, std::true_type) noexcept {
 #if EAGINE_USE_SIMD && defined(__clang__)
         return _dT(__builtin_shufflevector(v, v, I...));
 #elif EAGINE_USE_SIMD && defined(__GNUC__)
@@ -58,8 +58,8 @@ private:
 
 public:
     template <int... I>
-    static constexpr inline _dT apply(
-      _dpT v, shuffle_mask<I...> m = {}) noexcept {
+    static constexpr inline _dT
+    apply(_dpT v, shuffle_mask<I...> m = {}) noexcept {
         return _do_apply(v, m, has_vect_data<T, N, V>());
     }
 };
@@ -110,8 +110,8 @@ private:
 
 public:
     template <int... I>
-    static inline _dT apply(
-      _dpT v1, _dpT v2, shuffle_mask<I...> m = {}) noexcept {
+    static inline _dT
+    apply(_dpT v1, _dpT v2, shuffle_mask<I...> m = {}) noexcept {
         return _do_apply(v1, v2, m, _int<N>(), has_vect_data<T, N, V>());
     }
 };

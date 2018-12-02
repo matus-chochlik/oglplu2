@@ -10,11 +10,11 @@
 #ifndef EAGINE_ENUM_RANGE_1509260923_HPP
 #define EAGINE_ENUM_RANGE_1509260923_HPP
 
+#include "enum_class.hpp"
+#include "iterator.hpp"
 #include <cassert>
 #include <cstdint>
 #include <utility>
-#include "enum_class.hpp"
-#include "iterator.hpp"
 
 namespace eagine {
 

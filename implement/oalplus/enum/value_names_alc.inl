@@ -19,8 +19,7 @@
 namespace oalplus {
 
 OALPLUS_LIB_FUNC
-cstr_ref
-get_enum_value_name(const any_enum_value_alc& aev) noexcept {
+cstr_ref get_enum_value_name(const any_enum_value_alc& aev) noexcept {
 #ifdef ALC_FREQUENCY
     static const char s_FREQUENCY[10] = "FREQUENCY";
 #endif

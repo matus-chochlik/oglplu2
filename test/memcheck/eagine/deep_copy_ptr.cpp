@@ -4,8 +4,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include <eagine/deep_copy_ptr.hpp>
 #include "../memcheck.inl"
+#include <eagine/deep_copy_ptr.hpp>
 
 #include <vector>
 
@@ -19,7 +19,7 @@ struct test_copyable {
       : value(v) {
     }
 
-    std::unique_ptr<test_copyable> copy(void) {
+    std::unique_ptr<test_copyable> copy() {
         return new test_copyable(value);
     }
 
@@ -32,11 +32,11 @@ template <typename T>
 struct test_copyable_intf {
     typedef test_copyable_intf this_class;
 
-    test_copyable_intf(void) = default;
+    test_copyable_intf() = default;
     test_copyable_intf(const test_copyable_intf&) = default;
-    virtual ~test_copyable_intf(void) = default;
+    virtual ~test_copyable_intf() = default;
 
-    virtual std::unique_ptr<test_copyable_intf<T>> copy(void) = 0;
+    virtual std::unique_ptr<test_copyable_intf<T>> copy() = 0;
 
     virtual bool equal(const test_copyable_intf&) const = 0;
 
@@ -53,7 +53,7 @@ struct test_copyable_impl : test_copyable_intf<T> {
       : value(v) {
     }
 
-    std::unique_ptr<test_copyable_intf<T>> copy(void) override {
+    std::unique_ptr<test_copyable_intf<T>> copy() override {
         return std::unique_ptr<test_copyable_intf<T>>(
           new test_copyable_impl(value));
     }
@@ -66,8 +66,7 @@ struct test_copyable_impl : test_copyable_intf<T> {
 static eagine::test_random_generator rg;
 
 template <typename I, typename T>
-void
-test_deep_copy_ptr_1(void) {
+void test_deep_copy_ptr_1() {
     using namespace eagine;
 
     for(unsigned r = 0; r < 10; ++r) {
@@ -82,8 +81,7 @@ test_deep_copy_ptr_1(void) {
     }
 }
 
-int
-main(void) {
+int main() {
     using namespace eagine;
 
     test_deep_copy_ptr_1<int, int>();

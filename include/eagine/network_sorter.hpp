@@ -5,10 +5,10 @@
 #ifndef EAGINE_NETWORK_SORTER_1512222148_HPP
 #define EAGINE_NETWORK_SORTER_1512222148_HPP
 
+#include "sorting_network.hpp"
 #include <array>
 #include <cassert>
 #include <utility>
-#include "sorting_network.hpp"
 
 namespace eagine {
 
@@ -30,8 +30,8 @@ private:
         return _before(a, b) ? b : a;
     }
 
-    inline const T& _min_max_cpy(
-      const T& a, const T& b, bool min, bool max) const {
+    inline const T&
+    _min_max_cpy(const T& a, const T& b, bool min, bool max) const {
         return min ? _min(a, b) : max ? _max(a, b) : a;
     }
 

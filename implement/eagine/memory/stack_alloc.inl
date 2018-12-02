@@ -11,22 +11,19 @@ namespace eagine {
 namespace memory {
 //------------------------------------------------------------------------------
 template <typename T>
-inline const_block
-base_stack_allocator<T>::_store() const noexcept {
+inline const_block base_stack_allocator<T>::_store() const noexcept {
     assert(_btm <= _top);
     return const_block(_btm, _top);
 }
 //------------------------------------------------------------------------------
 template <typename T>
-inline const_block
-base_stack_allocator<T>::_allocated() const noexcept {
+inline const_block base_stack_allocator<T>::_allocated() const noexcept {
     assert(_btm <= _pos);
     return const_block(_btm, _pos);
 }
 //------------------------------------------------------------------------------
 template <typename T>
-inline const_block
-base_stack_allocator<T>::_available() const noexcept {
+inline const_block base_stack_allocator<T>::_available() const noexcept {
     assert(_pos <= _top);
     return const_block(_pos, _top);
 }
@@ -88,8 +85,7 @@ base_stack_allocator<T>::has_allocated(const owned_block& b) const noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename T>
-inline owned_block
-base_stack_allocator<T>::allocate(size_type n) noexcept {
+inline owned_block base_stack_allocator<T>::allocate(size_type n) noexcept {
     if(n > max_size()) {
         return {};
     }
@@ -131,8 +127,7 @@ base_stack_allocator<T>::truncate(owned_block&& b, size_type nn) noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename T>
-inline void
-base_stack_allocator<T>::deallocate(owned_block&& b) noexcept {
+inline void base_stack_allocator<T>::deallocate(owned_block&& b) noexcept {
     pointer p = static_cast<pointer>(b.addr());
     size_type n = b.size();
     release_block(std::move(b));
@@ -163,8 +158,8 @@ base_stack_allocator<T>::deallocate(owned_block&& b) noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename Policy>
-inline bool
-stack_byte_allocator_only<Policy>::equal(byte_allocator* a) const noexcept {
+inline bool stack_byte_allocator_only<Policy>::equal(byte_allocator* a) const
+  noexcept {
     stack_byte_allocator_only* sba =
       dynamic_cast<stack_byte_allocator_only*>(a);
 
@@ -191,16 +186,15 @@ stack_byte_allocator_only<Policy>::allocate(size_type n, size_type a) noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename Policy>
-inline void
-stack_byte_allocator_only<Policy>::deallocate(
+inline void stack_byte_allocator_only<Policy>::deallocate(
   owned_block&& b, size_type) noexcept {
     assert(_alloc.has_allocated(b));
     this->release_block(std::move(b));
 }
 //------------------------------------------------------------------------------
 template <typename Policy>
-inline bool
-stack_byte_allocator<Policy>::equal(byte_allocator* a) const noexcept {
+inline bool stack_byte_allocator<Policy>::equal(byte_allocator* a) const
+  noexcept {
     stack_byte_allocator* sba = dynamic_cast<stack_byte_allocator*>(a);
 
     return (sba != nullptr) && (this->_alloc == sba->_alloc);
@@ -248,23 +242,21 @@ stack_byte_allocator<Policy>::deallocate(owned_block&& b, size_type) noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename Policy>
-inline bool
-stack_aligned_byte_allocator<Policy>::equal(byte_allocator* a) const noexcept {
+inline bool stack_aligned_byte_allocator<Policy>::equal(byte_allocator* a) const
+  noexcept {
     auto* sba = dynamic_cast<_this_class*>(a);
 
     return (sba != nullptr) && (this->_alloc == sba->_alloc);
 }
 //------------------------------------------------------------------------------
 template <typename Policy>
-inline tribool
-stack_aligned_byte_allocator<Policy>::has_allocated(
+inline tribool stack_aligned_byte_allocator<Policy>::has_allocated(
   const owned_block& b, span_size_t) noexcept {
     return _alloc.has_allocated(b);
 }
 //------------------------------------------------------------------------------
 template <typename Policy>
-inline owned_block
-stack_aligned_byte_allocator<Policy>::allocate(
+inline owned_block stack_aligned_byte_allocator<Policy>::allocate(
   size_type n, size_type a) noexcept {
     auto b = _alloc.allocate(n);
 
@@ -274,8 +266,7 @@ stack_aligned_byte_allocator<Policy>::allocate(
 }
 //------------------------------------------------------------------------------
 template <typename Policy>
-inline void
-stack_aligned_byte_allocator<Policy>::deallocate(
+inline void stack_aligned_byte_allocator<Policy>::deallocate(
   owned_block&& b, size_type a) noexcept {
     assert(b.is_aligned_to(a));
     _alloc.deallocate(std::move(b));
@@ -304,8 +295,7 @@ stack_aligned_byte_allocator<Policy>::accomodate_self() noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename Policy>
-inline void
-stack_aligned_byte_allocator<Policy>::eject_self() noexcept {
+inline void stack_aligned_byte_allocator<Policy>::eject_self() noexcept {
     if(span_size_t m = _own_end_misalign(this)) {
         byte* p = reinterpret_cast<byte*>(this);
         p += sizeof(_this_class);

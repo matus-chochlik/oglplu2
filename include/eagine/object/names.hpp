@@ -9,13 +9,13 @@
 #ifndef EAGINE_OBJECT_NAMES_1509260923_HPP
 #define EAGINE_OBJECT_NAMES_1509260923_HPP
 
+#include "../iterator.hpp"
+#include "../range_types.hpp"
+#include "name.hpp"
 #include <algorithm>
 #include <array>
 #include <cassert>
 #include <vector>
-#include "../iterator.hpp"
-#include "../range_types.hpp"
-#include "name.hpp"
 
 namespace eagine {
 
@@ -141,19 +141,19 @@ public:
         return _names.end();
     }
 
-    friend inline constexpr typename _traits::name_type get_raw_name(
-      const object_name_container& ctr) noexcept {
+    friend inline constexpr typename _traits::name_type
+    get_raw_name(const object_name_container& ctr) noexcept {
         assert(ctr._names.size() > 0);
         return *ctr._names.data();
     }
 
-    friend inline span<typename _traits::name_type> get_raw_names(
-      object_name_container& ctr) noexcept {
+    friend inline span<typename _traits::name_type>
+    get_raw_names(object_name_container& ctr) noexcept {
         return {ctr._names};
     }
 
-    friend inline span<const typename _traits::name_type> get_raw_names(
-      const object_name_container& ctr) noexcept {
+    friend inline span<const typename _traits::name_type>
+    get_raw_names(const object_name_container& ctr) noexcept {
         return {ctr._names};
     }
 };
@@ -246,14 +246,14 @@ public:
         return iterator(_name_type(_base + _size));
     }
 
-    friend inline constexpr typename _traits::name_type get_raw_name(
-      const object_name_fake_array& onfa) noexcept {
+    friend inline constexpr typename _traits::name_type
+    get_raw_name(const object_name_fake_array& onfa) noexcept {
         assert(onfa.size() > 0);
         return onfa._base;
     }
 
-    friend inline object_name_base_and_count_view<_name_type> get_raw_names(
-      object_name_fake_array& onfa) noexcept {
+    friend inline object_name_base_and_count_view<_name_type>
+    get_raw_names(object_name_fake_array& onfa) noexcept {
         return {onfa._base, onfa._size};
     }
 };

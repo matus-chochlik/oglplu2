@@ -10,8 +10,8 @@
 #ifndef OGLPLUS_SHAPES_CUBE_1509260923_HPP
 #define OGLPLUS_SHAPES_CUBE_1509260923_HPP
 
-#include <eagine/shapes/cube.hpp>
 #include "adapted_gen.hpp"
+#include <eagine/shapes/cube.hpp>
 
 namespace oglplus {
 namespace shapes {

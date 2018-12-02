@@ -29,8 +29,8 @@ c_byte_reallocator<Policy>::allocate(size_type n, size_type a) noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename Policy>
-void
-c_byte_reallocator<Policy>::deallocate(owned_block&& b, size_type) noexcept {
+void c_byte_reallocator<Policy>::deallocate(
+  owned_block&& b, size_type) noexcept {
     if(!b.empty()) {
         std::free(b.data());
         this->release_block(std::move(b));
@@ -38,8 +38,7 @@ c_byte_reallocator<Policy>::deallocate(owned_block&& b, size_type) noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename Policy>
-owned_block
-c_byte_reallocator<Policy>::reallocate(
+owned_block c_byte_reallocator<Policy>::reallocate(
   owned_block&& b, size_type n, size_type a) noexcept {
     assert(a > 0);
 

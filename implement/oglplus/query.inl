@@ -19,8 +19,7 @@ query_ops::begin_query(query_target target, query_name qry) noexcept {
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-query_ops::end_query(query_target target) noexcept {
+inline outcome<void> query_ops::end_query(query_target target) noexcept {
     OGLPLUS_GLFUNC(EndQuery)(GLenum(target));
     OGLPLUS_VERIFY(EndQuery, gl_enum_value(target), debug);
     return {};
@@ -28,8 +27,7 @@ query_ops::end_query(query_target target) noexcept {
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_0)
 //------------------------------------------------------------------------------
-inline outcome<void>
-query_ops::begin_query_indexed(
+inline outcome<void> query_ops::begin_query_indexed(
   query_target target, GLuint index, query_name qry) noexcept {
     OGLPLUS_GLFUNC(BeginQueryIndexed)(GLenum(target), index, get_raw_name(qry));
     OGLPLUS_VERIFY(
@@ -49,8 +47,7 @@ query_ops::end_query_indexed(query_target target, GLuint index) noexcept {
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_0)
-inline outcome<void>
-query_ops::begin_conditional_render(
+inline outcome<void> query_ops::begin_conditional_render(
   query_name qry, conditional_render_mode mode) noexcept {
     OGLPLUS_GLFUNC(BeginConditionalRender)(get_raw_name(qry), GLenum(mode));
     OGLPLUS_VERIFY(
@@ -58,8 +55,7 @@ query_ops::begin_conditional_render(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-query_ops::end_conditional_render() noexcept {
+inline outcome<void> query_ops::end_conditional_render() noexcept {
     OGLPLUS_GLFUNC(EndConditionalRender)();
     OGLPLUS_VERIFY_SIMPLE(EndConditionalRender, debug);
     return {};
@@ -74,15 +70,13 @@ query_ops::query_counter(query_name qry, query_target target) noexcept {
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-query_ops::query_timestamp(query_name qry) noexcept {
+inline outcome<void> query_ops::query_timestamp(query_name qry) noexcept {
     return query_counter(qry, query_target(GL_TIMESTAMP));
 }
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_0)
-inline outcome<void>
-query_ops::get_query_object_iv(
+inline outcome<void> query_ops::get_query_object_iv(
   query_name qry, oglplus::query_parameter param, span<GLint> values) noexcept {
     assert(values.size() > 0);
     OGLPLUS_GLFUNC(GetQueryObjectiv)
@@ -92,8 +86,7 @@ query_ops::get_query_object_iv(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-query_ops::get_query_object_uiv(
+inline outcome<void> query_ops::get_query_object_uiv(
   query_name qry,
   oglplus::query_parameter param,
   span<GLuint> values) noexcept {
@@ -107,8 +100,7 @@ query_ops::get_query_object_uiv(
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_3_3) || defined(GL_ARB_timer_query)
-inline outcome<void>
-query_ops::get_query_object_i64v(
+inline outcome<void> query_ops::get_query_object_i64v(
   query_name qry,
   oglplus::query_parameter param,
   span<GLint64> values) noexcept {
@@ -120,8 +112,7 @@ query_ops::get_query_object_i64v(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-query_ops::get_query_object_ui64v(
+inline outcome<void> query_ops::get_query_object_ui64v(
   query_name qry,
   oglplus::query_parameter param,
   span<GLuint64> values) noexcept {
@@ -188,8 +179,7 @@ obj_gen_del_ops<tag::query>::_gen(span<GLuint> names) noexcept {
 // obj_gen_del_ops::_create
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5)
-inline deferred_error_handler
-obj_gen_del_ops<tag::query>::_create(
+inline deferred_error_handler obj_gen_del_ops<tag::query>::_create(
   query_target target, span<GLuint> names) noexcept {
     OGLPLUS_GLFUNC(CreateQueries)
     (GLenum(target), GLsizei(names.size()), names.data());

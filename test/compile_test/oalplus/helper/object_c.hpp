@@ -10,14 +10,12 @@
 #include "../../../compile_test/eagine/helper/object_c.hpp"
 
 template <typename ObjectName>
-void
-oalplus_object_name_test(void) {
+void oalplus_object_name_test() {
     eagine_object_name_test<ObjectName>();
 }
 
 template <typename Object>
-void
-oalplus_object_test(void) {
+void oalplus_object_test() {
     eagine_object_test<Object>();
 }
 
