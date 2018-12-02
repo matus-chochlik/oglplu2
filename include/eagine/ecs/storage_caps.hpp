@@ -33,33 +33,33 @@ private:
     typedef bitfield<storage_cap_bit> _base;
 
 public:
-    storage_caps(void) = default;
+    storage_caps() = default;
 
     storage_caps(bitfield<storage_cap_bit> base)
       : _base(base) {
     }
 
-    bool can_hide(void) const noexcept {
+    bool can_hide() const noexcept {
         return has(storage_cap_bit::hide);
     }
 
-    bool can_copy(void) const noexcept {
+    bool can_copy() const noexcept {
         return has(storage_cap_bit::hide);
     }
 
-    bool can_swap(void) const noexcept {
+    bool can_swap() const noexcept {
         return has(storage_cap_bit::hide);
     }
 
-    bool can_remove(void) const noexcept {
+    bool can_remove() const noexcept {
         return has(storage_cap_bit::remove);
     }
 
-    bool can_store(void) const noexcept {
+    bool can_store() const noexcept {
         return has(storage_cap_bit::store);
     }
 
-    bool can_modify(void) const noexcept {
+    bool can_modify() const noexcept {
         return has(storage_cap_bit::modify);
     }
 };

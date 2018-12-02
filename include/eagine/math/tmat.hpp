@@ -22,7 +22,7 @@ private:
     typedef matrix<T, C, R, RM, V> _base;
 
 public:
-    constexpr inline tmat(void) noexcept
+    constexpr inline tmat() noexcept
       : _base(identity<_base>()) {
     }
 

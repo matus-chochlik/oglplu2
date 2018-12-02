@@ -30,7 +30,7 @@ protected:
     }
 
 public:
-    basic_manipulator(void) noexcept
+    basic_manipulator() noexcept
       : _ptr(nullptr) {
     }
 
@@ -38,16 +38,16 @@ public:
       : _ptr(&cmp) {
     }
 
-    bool is_valid(void) const noexcept {
+    bool is_valid() const noexcept {
         return _ptr != nullptr;
     }
 
-    const Component& read(void) const {
+    const Component& read() const {
         assert(is_valid());
         return *_ptr;
     }
 
-    Component& write(void) {
+    Component& write() {
         assert(is_valid());
         return *_ptr;
     }
@@ -64,7 +64,7 @@ protected:
     }
 
 public:
-    basic_manipulator(void) noexcept
+    basic_manipulator() noexcept
       : _ptr(nullptr) {
     }
 
@@ -72,11 +72,11 @@ public:
       : _ptr(&cmp) {
     }
 
-    bool is_valid(void) const noexcept {
+    bool is_valid() const noexcept {
         return _ptr != nullptr;
     }
 
-    const Component& read(void) const {
+    const Component& read() const {
         assert(_ptr != nullptr);
         return *_ptr;
     }
@@ -138,7 +138,7 @@ public:
       , _added(false) {
     }
 
-    bool can_add(void) const noexcept {
+    bool can_add() const noexcept {
         return _add_place != nullptr;
     }
 
@@ -150,11 +150,11 @@ public:
         _added = true;
     }
 
-    bool can_remove(void) const noexcept {
+    bool can_remove() const noexcept {
         return _can_rem && this->is_valid();
     }
 
-    void remove(void) {
+    void remove() {
         _removed = true;
     }
 };
@@ -170,11 +170,11 @@ public:
         this->_removed = false;
     }
 
-    bool add_requested(void) const noexcept {
+    bool add_requested() const noexcept {
         return this->_added;
     }
 
-    bool remove_requested(void) const noexcept {
+    bool remove_requested() const noexcept {
         return this->_removed;
     }
 };

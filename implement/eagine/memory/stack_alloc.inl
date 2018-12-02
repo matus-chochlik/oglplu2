@@ -12,21 +12,21 @@ namespace memory {
 //------------------------------------------------------------------------------
 template <typename T>
 inline const_block
-base_stack_allocator<T>::_store(void) const noexcept {
+base_stack_allocator<T>::_store() const noexcept {
     assert(_btm <= _top);
     return const_block(_btm, _top);
 }
 //------------------------------------------------------------------------------
 template <typename T>
 inline const_block
-base_stack_allocator<T>::_allocated(void) const noexcept {
+base_stack_allocator<T>::_allocated() const noexcept {
     assert(_btm <= _pos);
     return const_block(_btm, _pos);
 }
 //------------------------------------------------------------------------------
 template <typename T>
 inline const_block
-base_stack_allocator<T>::_available(void) const noexcept {
+base_stack_allocator<T>::_available() const noexcept {
     assert(_pos <= _top);
     return const_block(_pos, _top);
 }
@@ -47,7 +47,7 @@ inline base_stack_allocator<T>::base_stack_allocator(
 }
 //------------------------------------------------------------------------------
 template <typename T>
-inline base_stack_allocator<T>::base_stack_allocator(void) noexcept
+inline base_stack_allocator<T>::base_stack_allocator() noexcept
   : _btm(nullptr)
   , _top(nullptr)
   , _pos(nullptr)
@@ -71,7 +71,7 @@ inline base_stack_allocator<T>::base_stack_allocator(const block& blk) noexcept
 }
 //------------------------------------------------------------------------------
 template <typename T>
-inline base_stack_allocator<T>::~base_stack_allocator(void) noexcept {
+inline base_stack_allocator<T>::~base_stack_allocator() noexcept {
     if(!std::is_trivially_destructible<T>()) {
         assert(_allocated().empty());
     }
@@ -293,7 +293,7 @@ stack_aligned_byte_allocator<Policy>::_own_end_misalign(_this_class* p) const
 //------------------------------------------------------------------------------
 template <typename Policy>
 inline byte_allocator*
-stack_aligned_byte_allocator<Policy>::accomodate_self(void) noexcept {
+stack_aligned_byte_allocator<Policy>::accomodate_self() noexcept {
     auto* ba = this->accomodate_derived(*this);
 
     if(span_size_t m = _own_end_misalign(ba)) {
@@ -305,7 +305,7 @@ stack_aligned_byte_allocator<Policy>::accomodate_self(void) noexcept {
 //------------------------------------------------------------------------------
 template <typename Policy>
 inline void
-stack_aligned_byte_allocator<Policy>::eject_self(void) noexcept {
+stack_aligned_byte_allocator<Policy>::eject_self() noexcept {
     if(span_size_t m = _own_end_misalign(this)) {
         byte* p = reinterpret_cast<byte*>(this);
         p += sizeof(_this_class);

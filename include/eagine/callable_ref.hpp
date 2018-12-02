@@ -24,9 +24,9 @@ template <typename RV, typename... P>
 class callable_ref<RV(P...)> {
 private:
     void* _data;
-    void (*_func)(void);
+    void (*_func)();
 
-    typedef void (*_func_t)(void);
+    typedef void (*_func_t)();
     typedef RV (*_func_pt)(P...);
     typedef RV (*_func_vpt)(void*, P...);
 
@@ -45,7 +45,7 @@ private:
     }
 
 public:
-    constexpr callable_ref(void) noexcept
+    constexpr callable_ref() noexcept
       : _data(nullptr)
       , _func(nullptr) {
     }
@@ -93,15 +93,15 @@ public:
         assert(_func != nullptr);
     }
 
-    constexpr bool is_valid(void) const noexcept {
+    constexpr bool is_valid() const noexcept {
         return _func != nullptr;
     }
 
-    explicit constexpr operator bool(void) const noexcept {
+    explicit constexpr operator bool() const noexcept {
         return is_valid();
     }
 
-    constexpr bool operator!(void) const noexcept {
+    constexpr bool operator!() const noexcept {
         return !is_valid();
     }
 

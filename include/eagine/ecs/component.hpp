@@ -24,10 +24,10 @@ typedef unsigned component_uid_t;
 template <bool IsRelation>
 class component_uid_getter {
 private:
-    static component_uid_t& _curr_uid(void);
+    static component_uid_t& _curr_uid();
 
 public:
-    static inline component_uid_t new_uid(void) {
+    static inline component_uid_t new_uid() {
         return _curr_uid()++;
     }
 };
@@ -35,13 +35,13 @@ public:
 // component_uid
 template <typename Derived, bool IsRelation>
 struct component_uid {
-    static component_uid_t value(void) {
+    static component_uid_t value() {
         static component_uid_t cid =
           component_uid_getter<IsRelation>::new_uid();
         return cid;
     }
 
-    component_uid_t operator()(void) const {
+    component_uid_t operator()() const {
         return value();
     }
 };
@@ -66,7 +66,7 @@ using relation = entity_data<Derived, true>;
 // get_component_uid
 template <typename X>
 static inline component_uid_t
-get_component_uid(void) {
+get_component_uid() {
     typedef std::remove_const_t<std::remove_reference_t<X>> Component;
     return Component::_uid();
 }
@@ -78,25 +78,25 @@ private:
     std::vector<T> _storage;
 
 public:
-    component_uid_map(void) = default;
+    component_uid_map() = default;
 
     typedef typename std::vector<T>::iterator iterator;
     typedef typename std::vector<T>::const_iterator const_iterator;
     typedef typename std::vector<T>::difference_type difference_type;
 
-    const_iterator begin(void) const {
+    const_iterator begin() const {
         return _storage.begin();
     }
 
-    iterator begin(void) {
+    iterator begin() {
         return _storage.begin();
     }
 
-    const_iterator end(void) const {
+    const_iterator end() const {
         return _storage.end();
     }
 
-    iterator end(void) {
+    iterator end() {
         return _storage.end();
     }
 

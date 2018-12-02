@@ -21,13 +21,13 @@ template <typename VT, typename RT, typename PT, typename DT>
 class any_forward_iterator {
 private:
     struct _intf {
-        _intf(void) = default;
+        _intf() = default;
         _intf(const _intf&) = default;
-        virtual ~_intf(void) = default;
+        virtual ~_intf() = default;
 
-        virtual std::unique_ptr<_intf> copy(void) = 0;
-        virtual RT _deref(void) = 0;
-        virtual void _advance(void) = 0;
+        virtual std::unique_ptr<_intf> copy() = 0;
+        virtual RT _deref() = 0;
+        virtual void _advance() = 0;
         virtual bool _equal(_intf*) = 0;
     };
 
@@ -39,15 +39,15 @@ private:
           : _i(i) {
         }
 
-        std::unique_ptr<_intf> copy(void) override {
+        std::unique_ptr<_intf> copy() override {
             return std::unique_ptr<_intf>(new _impl(*this));
         }
 
-        RT _deref(void) override {
+        RT _deref() override {
             return *_i;
         }
 
-        void _advance(void) override {
+        void _advance() override {
             ++_i;
         }
 
@@ -68,7 +68,7 @@ public:
 
     typedef std::forward_iterator_tag iterator_category;
 
-    any_forward_iterator(void) = default;
+    any_forward_iterator() = default;
     any_forward_iterator(any_forward_iterator&&) = default;
     any_forward_iterator(const any_forward_iterator&) = default;
     any_forward_iterator& operator=(const any_forward_iterator&) = default;
@@ -89,11 +89,11 @@ public:
         return !a._pimpl->_equal(b._pimpl.get());
     }
 
-    reference operator*(void)const {
+    reference operator*() const {
         return _pimpl->_deref();
     }
 
-    any_forward_iterator& operator++(void) {
+    any_forward_iterator& operator++() {
         _pimpl->_advance();
         return *this;
     }
@@ -132,11 +132,11 @@ public:
       : any_forward_iterator_range(range.begin(), range.end()) {
     }
 
-    iterator begin(void) const {
+    iterator begin() const {
         return _bgn;
     }
 
-    iterator end(void) const {
+    iterator end() const {
         return _end;
     }
 };

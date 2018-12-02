@@ -39,17 +39,17 @@ public:
         assert(_map);
     }
 
-    void reset(void) override {
+    void reset() override {
         assert(_map);
         _i = _map->begin();
     }
 
-    bool done(void) override {
+    bool done() override {
         assert(_map);
         return _i == _map->end();
     }
 
-    void next(void) override {
+    void next() override {
         assert(!done());
         ++_i;
     }
@@ -69,7 +69,7 @@ public:
         return false;
     }
 
-    Entity current(void) override {
+    Entity current() override {
         return _i->first;
     }
 };
@@ -102,12 +102,12 @@ public:
     typedef entity_param_t<Entity> entity_param;
     typedef component_storage_iterator<Entity> iterator_t;
 
-    storage_caps capabilities(void) override {
+    storage_caps capabilities() override {
         return storage_caps{storage_cap_bit::hide | storage_cap_bit::remove |
                             storage_cap_bit::store | storage_cap_bit::modify};
     }
 
-    iterator_t new_iterator(void) override {
+    iterator_t new_iterator() override {
         return iterator_t(new _map_iter_t(_components));
     }
 
@@ -338,26 +338,26 @@ public:
         assert(_map);
     }
 
-    void reset(void) override {
+    void reset() override {
         assert(_map);
         _i = _map->begin();
     }
 
-    bool done(void) override {
+    bool done() override {
         assert(_map);
         return _i == _map->end();
     }
 
-    void next(void) override {
+    void next() override {
         assert(!done());
         ++_i;
     }
 
-    Entity subject(void) override {
+    Entity subject() override {
         return _i->first.first;
     }
 
-    Entity object(void) override {
+    Entity object() override {
         return _i->first.second;
     }
 };
@@ -385,12 +385,12 @@ public:
     typedef entity_param_t<Entity> entity_param;
     typedef relation_storage_iterator<Entity> iterator_t;
 
-    storage_caps capabilities(void) override {
+    storage_caps capabilities() override {
         return storage_caps{storage_cap_bit::remove | storage_cap_bit::store |
                             storage_cap_bit::modify};
     }
 
-    iterator_t new_iterator(void) override {
+    iterator_t new_iterator() override {
         return iterator_t(new _map_iter_t(_relations));
     }
 

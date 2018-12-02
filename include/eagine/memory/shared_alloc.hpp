@@ -38,7 +38,7 @@ private:
         return nullptr;
     }
 
-    void _cleanup(void) noexcept {
+    void _cleanup() noexcept {
         if(_pballoc) {
             if(_pballoc->release()) {
                 _pballoc->eject_self();
@@ -46,13 +46,13 @@ private:
         }
     }
 
-    byte_allocator* _release(void) noexcept {
+    byte_allocator* _release() noexcept {
         byte_allocator* result = _pballoc;
         _pballoc = nullptr;
         return result;
     }
 
-    byte_allocator* _copy(void) const noexcept {
+    byte_allocator* _copy() const noexcept {
         return _pballoc ? _pballoc->duplicate() : nullptr;
     }
 
@@ -64,7 +64,7 @@ public:
     typedef byte value_type;
     typedef span_size_t size_type;
 
-    basic_shared_byte_alloc(void) noexcept
+    basic_shared_byte_alloc() noexcept
       : basic_shared_byte_alloc(nullptr) {
     }
 
@@ -97,15 +97,15 @@ public:
         return *this;
     }
 
-    ~basic_shared_byte_alloc(void) noexcept {
+    ~basic_shared_byte_alloc() noexcept {
         _cleanup();
     }
 
-    explicit operator bool(void) const noexcept {
+    explicit operator bool() const noexcept {
         return _pballoc != nullptr;
     }
 
-    bool operator!(void) const noexcept {
+    bool operator!() const noexcept {
         return _pballoc == nullptr;
     }
 
@@ -167,7 +167,7 @@ public:
     }
 
     template <typename ByteAlloc>
-    ByteAlloc& as(void) {
+    ByteAlloc& as() {
 
         ByteAlloc* pa = dynamic_cast<ByteAlloc*>(_pballoc);
         if(pa == nullptr) {

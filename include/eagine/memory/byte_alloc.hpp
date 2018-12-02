@@ -23,15 +23,15 @@ struct byte_allocator : block_owner {
     typedef byte value_type;
     typedef span_size_t size_type;
 
-    byte_allocator(void) = default;
+    byte_allocator() = default;
     byte_allocator(const byte_allocator&) = default;
     byte_allocator& operator=(const byte_allocator&) = default;
 
-    virtual ~byte_allocator(void) noexcept = default;
+    virtual ~byte_allocator() noexcept = default;
 
-    virtual byte_allocator* duplicate(void) noexcept = 0;
+    virtual byte_allocator* duplicate() noexcept = 0;
 
-    virtual bool release(void) noexcept = 0;
+    virtual bool release() noexcept = 0;
 
     virtual bool equal(byte_allocator* a) const noexcept = 0;
 
@@ -61,7 +61,7 @@ struct byte_allocator : block_owner {
         }
     }
 
-    virtual void eject_self(void) noexcept = 0;
+    virtual void eject_self() noexcept = 0;
 };
 
 // byte_alloc_managed_policy
@@ -89,7 +89,7 @@ public:
     byte_alloc_ref_count_policy& operator=(byte_alloc_ref_count_policy&& tmp) =
       delete;
 
-    byte_alloc_ref_count_policy(void) noexcept
+    byte_alloc_ref_count_policy() noexcept
       : _ref_count(1) {
     }
 
@@ -98,7 +98,7 @@ public:
         tmp._ref_count = 0;
     }
 
-    ~byte_alloc_ref_count_policy(void) noexcept {
+    ~byte_alloc_ref_count_policy() noexcept {
         assert(_ref_count == 0);
     }
 
@@ -127,25 +127,25 @@ private:
 
     typedef DerivedTpl<Args..., Policy> Derived;
 
-    Derived& derived(void) {
+    Derived& derived() {
         return *static_cast<Derived*>(this);
     }
 
 public:
     typedef span_size_t size_type;
 
-    byte_allocator_impl(void) = default;
+    byte_allocator_impl() = default;
     byte_allocator_impl(byte_allocator_impl&&) = default;
     byte_allocator_impl(const byte_allocator_impl&) = delete;
 
     byte_allocator_impl& operator=(byte_allocator_impl&&) = default;
     byte_allocator_impl& operator=(const byte_allocator_impl&) = delete;
 
-    byte_allocator* duplicate(void) noexcept override {
+    byte_allocator* duplicate() noexcept override {
         return _policy.duplicate(this);
     }
 
-    bool release(void) noexcept override {
+    bool release() noexcept override {
         return _policy.release(this);
     }
 
@@ -171,11 +171,11 @@ public:
         tmp.deallocate(acquire_block(block_of(that)), span_align_of<Final>());
     }
 
-    Derived* accomodate_self(void) noexcept {
+    Derived* accomodate_self() noexcept {
         return accomodate_derived(derived());
     }
 
-    void eject_self(void) noexcept override {
+    void eject_self() noexcept override {
         eject_derived(derived());
     }
 };

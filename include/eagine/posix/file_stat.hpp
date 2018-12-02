@@ -37,7 +37,7 @@ public:
         fstat(fdw, _st);
     }
 
-    auto size(void) const noexcept {
+    auto size() const noexcept {
         return _st.st_size;
     }
 };

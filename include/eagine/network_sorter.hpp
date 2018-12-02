@@ -49,11 +49,11 @@ public:
           _sn.max(r, i, j));
     }
 
-    span_size_t size(void) const noexcept {
+    span_size_t size() const noexcept {
         return _sn.size();
     }
 
-    span_size_t rounds(void) const noexcept {
+    span_size_t rounds() const noexcept {
         return _sn.rounds();
     }
 };
@@ -76,11 +76,11 @@ public:
 
     using basic_network_sorter<T, N, Compare, Network>::rounds;
 
-    bool done(void) const noexcept {
+    bool done() const noexcept {
         return _round >= rounds();
     }
 
-    bool next_round(void) noexcept {
+    bool next_round() noexcept {
         return !done() && (++_round < rounds());
     }
 
@@ -95,7 +95,7 @@ public:
         return sort_single(_round, i);
     }
 
-    network_sorter& sort_round(void) {
+    network_sorter& sort_round() {
         assert(!done());
         for(span_size_t i = 0; i < span_size(N); ++i) {
             sort_single(i);
@@ -103,17 +103,17 @@ public:
         return *this;
     }
 
-    network_sorter& sort(void) {
+    network_sorter& sort() {
         while(sort_round().next_round()) {
         }
         return *this;
     }
 
-    const std::array<T, N>& result(void) const noexcept {
+    const std::array<T, N>& result() const noexcept {
         return _a[rounds() % 2];
     }
 
-    const std::array<T, N>& operator()(void) {
+    const std::array<T, N>& operator()() {
         return sort().result();
     }
 };

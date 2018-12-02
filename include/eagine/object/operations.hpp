@@ -21,7 +21,7 @@ private:
       _base;
 
 public:
-    object_zero_and_ops(void) = default;
+    object_zero_and_ops() = default;
 };
 
 template <typename ObjTag>

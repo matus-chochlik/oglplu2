@@ -76,16 +76,16 @@ public:
           _idx_seq{});
     }
 
-    zip_iterator& operator++(void) {
+    zip_iterator& operator++() {
         _for_each_1(_iters, [](auto& i) { ++i; }, _idx_seq{});
         return *this;
     }
 
-    auto operator*(void)const {
+    auto operator*() const {
         return _tie_deref(_iters, _idx_seq{});
     }
 
-    auto operator*(void) {
+    auto operator*() {
         return _tie_deref(_iters, _idx_seq{});
     }
 };
@@ -126,17 +126,17 @@ public:
       : _rrefs(ranges...) {
     }
 
-    auto begin(void) {
+    auto begin() {
         return _zip_bgn(_rrefs, _idx_seq{});
     }
-    auto begin(void) const {
+    auto begin() const {
         return _zip_bgn(_rrefs, _idx_seq{});
     }
 
-    auto end(void) {
+    auto end() {
         return _zip_end(_rrefs, _idx_seq{});
     }
-    auto end(void) const {
+    auto end() const {
         return _zip_end(_rrefs, _idx_seq{});
     }
 

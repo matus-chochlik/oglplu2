@@ -28,7 +28,7 @@ private:
     friend class fixed_size_string;
 
 public:
-    fixed_size_string(void) noexcept {
+    fixed_size_string() noexcept {
         std::memset(_str, '\0', N);
     }
 
@@ -57,44 +57,44 @@ public:
     typedef char* iterator;
     typedef const char* const_iterator;
 
-    bool empty(void) const noexcept {
+    bool empty() const noexcept {
         return _str[0] == '\0';
     }
 
-    span_size_t size(void) const noexcept {
+    span_size_t size() const noexcept {
         return N - 1;
     }
 
-    const char* data(void) const noexcept {
+    const char* data() const noexcept {
         return _str;
     }
 
-    const char* c_str(void) const noexcept {
+    const char* c_str() const noexcept {
         assert(_str[N - 1] == '\0');
         return data();
     }
 
-    iterator begin(void) noexcept {
+    iterator begin() noexcept {
         return _str;
     }
 
-    const_iterator begin(void) const noexcept {
+    const_iterator begin() const noexcept {
         return _str;
     }
 
-    iterator end(void) noexcept {
+    iterator end() noexcept {
         return _str + N - 1;
     }
 
-    const_iterator end(void) const noexcept {
+    const_iterator end() const noexcept {
         return _str + N - 1;
     }
 
-    cstr_ref ref(void) const noexcept {
+    cstr_ref ref() const noexcept {
         return cstr_ref(_str, N - 1);
     }
 
-    operator cstr_ref(void) const noexcept {
+    operator cstr_ref() const noexcept {
         return ref();
     }
 };

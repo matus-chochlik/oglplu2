@@ -25,14 +25,14 @@ private:
     std::vector<value_type> _values;
 
 public:
-    enum_list(void) = default;
+    enum_list() = default;
 
     template <typename... EnumValues>
     constexpr inline enum_list(EnumValues... evs) noexcept
       : _values{{value_type(evs)...}} {
     }
 
-    span<const typename EnumClass::value_type> values(void) const noexcept {
+    span<const typename EnumClass::value_type> values() const noexcept {
         return {_values};
     }
 };
@@ -40,7 +40,7 @@ public:
 template <typename EnumClass>
 struct enum_span : span<const typename EnumClass::value_type> {
 
-    enum_span(void) = default;
+    enum_span() = default;
 
     enum_span(const enum_list<EnumClass>& enums) noexcept
       : span<const typename EnumClass::value_type>(enums.values()) {

@@ -62,11 +62,11 @@ public:
         temp._ptr = nullptr;
     }
 
-    bool is_valid(void) const noexcept {
+    bool is_valid() const noexcept {
         return (_ptr != nullptr) && (_pos < _ptr->size());
     }
 
-    value_type get(void) const noexcept {
+    value_type get() const noexcept {
         assert(is_valid());
         return _ptr->get(_pos);
     }
@@ -87,7 +87,7 @@ public:
         other.set(b);
     }
 
-    operator value_type(void) const noexcept {
+    operator value_type() const noexcept {
         return get();
     }
 
@@ -188,7 +188,7 @@ public:
         swap(_pos, other._pos);
     }
 
-    derived& operator++(void) noexcept {
+    derived& operator++() noexcept {
         ++_pos;
         return *static_cast<derived*>(this);
     }
@@ -199,7 +199,7 @@ public:
         return that;
     }
 
-    derived& operator--(void) noexcept {
+    derived& operator--() noexcept {
         --_pos;
         return *static_cast<derived*>(this);
     }
@@ -266,12 +266,12 @@ protected:
       , _pos(pos) {
     }
 
-    biteset_iterator_base(void) noexcept
+    biteset_iterator_base() noexcept
       : _ptr(nullptr)
       , _pos(0) {
     }
 
-    bool is_valid(void) const noexcept {
+    bool is_valid() const noexcept {
         return (_ptr != nullptr) && (_pos < _ptr->size());
     }
 
@@ -315,9 +315,9 @@ public:
       : _base(bs, pos) {
     }
 
-    biteset_iterator(void) = default;
+    biteset_iterator() = default;
 
-    const_proxy operator*(void)const noexcept {
+    const_proxy operator*() const noexcept {
         assert(is_valid());
         return {*_ptr, _pos};
     }
@@ -349,29 +349,29 @@ public:
       : _base(bs, pos) {
     }
 
-    biteset_iterator(void) noexcept
+    biteset_iterator() noexcept
       : _base() {
     }
 
     biteset_iterator(const biteset_iterator&) = default;
     biteset_iterator& operator=(const biteset_iterator&) = default;
 
-    proxy operator*(void)noexcept {
+    proxy operator*() noexcept {
         assert(is_valid());
         return {*_ptr, _pos};
     }
 
-    const_proxy operator*(void)const noexcept {
+    const_proxy operator*() const noexcept {
         assert(is_valid());
         return {*_ptr, _pos};
     }
 
-    proxy operator->(void)noexcept {
+    proxy operator->() noexcept {
         assert(is_valid());
         return {*_ptr, &_pos};
     }
 
-    const_proxy operator->(void)const noexcept {
+    const_proxy operator->() const noexcept {
         assert(is_valid());
         return {*_ptr, &_pos};
     }
@@ -406,7 +406,7 @@ public:
     using iterator = biteset_iterator<biteset>;
     using const_iterator = biteset_iterator<const biteset>;
 
-    constexpr biteset(void) noexcept
+    constexpr biteset() noexcept
       : _bytes{} {
     }
 
@@ -419,7 +419,7 @@ public:
       : _bytes{_make_bytes(T(p)...)} {
     }
 
-    constexpr inline size_type size(void) const noexcept {
+    constexpr inline size_type size() const noexcept {
         return N;
     }
 
@@ -431,19 +431,19 @@ public:
         _set_cell(std::size_t(i), value);
     }
 
-    const_iterator begin(void) const noexcept {
+    const_iterator begin() const noexcept {
         return {*this, 0};
     }
 
-    const_iterator end(void) const noexcept {
+    const_iterator end() const noexcept {
         return {*this, N};
     }
 
-    iterator begin(void) noexcept {
+    iterator begin() noexcept {
         return {*this, 0};
     }
 
-    iterator end(void) noexcept {
+    iterator end() noexcept {
         return {*this, N};
     }
 
@@ -487,7 +487,7 @@ public:
         return a.bytes() >= b.bytes();
     }
 
-    constexpr const _bytes_t& bytes(void) const noexcept {
+    constexpr const _bytes_t& bytes() const noexcept {
         return _bytes;
     }
 

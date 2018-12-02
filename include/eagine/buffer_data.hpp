@@ -22,7 +22,7 @@ private:
     const void* _data;
 
 public:
-    buffer_data_spec(void) noexcept
+    buffer_data_spec() noexcept
       : _size()
       , _data(nullptr) {
     }
@@ -50,19 +50,19 @@ public:
       , _data(av.data()) {
     }
 
-    bool empty(void) const noexcept {
+    bool empty() const noexcept {
         return _size.get() == 0;
     }
 
-    buffer_size<S> size(void) const noexcept {
+    buffer_size<S> size() const noexcept {
         return _size;
     }
 
-    const void* data(void) const noexcept {
+    const void* data() const noexcept {
         return _data;
     }
 
-    span<const byte> view(void) const noexcept {
+    span<const byte> view() const noexcept {
         return {static_cast<const byte*>(_data),
                 static_cast<std::ptrdiff_t>(_size)};
     }

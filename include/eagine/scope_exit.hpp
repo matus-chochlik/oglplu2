@@ -20,7 +20,7 @@ namespace eagine {
 template <typename OnException = nothing_t>
 class on_scope_exit {
 public:
-    typedef callable_ref<void(void)> action_type;
+    typedef callable_ref<void()> action_type;
 
 private:
     action_type _action;
@@ -66,15 +66,15 @@ public:
     on_scope_exit(on_scope_exit&&) = default;
     on_scope_exit& operator=(on_scope_exit&&) = default;
 
-    ~on_scope_exit(void) noexcept(false) {
+    ~on_scope_exit() noexcept(false) {
         _invoke(OnException());
     }
 
-    action_type release(void) noexcept {
+    action_type release() noexcept {
         return std::move(_action);
     }
 
-    void cancel(void) noexcept {
+    void cancel() noexcept {
         _action = action_type();
     }
 };
@@ -91,7 +91,7 @@ public:
       , _ose(_func) {
     }
 
-    void cancel(void) noexcept {
+    void cancel() noexcept {
         _ose.cancel();
     }
 };

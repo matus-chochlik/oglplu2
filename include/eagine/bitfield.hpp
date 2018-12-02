@@ -23,7 +23,7 @@ private:
 public:
     typedef BF value_type;
 
-    constexpr bitfield(void) noexcept
+    constexpr bitfield() noexcept
       : _bits(0) {
     }
 
@@ -39,15 +39,15 @@ public:
       : _bits(BF(_bit_a) | BF(_bit_b)) {
     }
 
-    explicit constexpr inline operator bool(void) const noexcept {
+    explicit constexpr inline operator bool() const noexcept {
         return _bits != BF(0);
     }
 
-    constexpr inline bool operator!(void) const noexcept {
+    constexpr inline bool operator!() const noexcept {
         return _bits == BF(0);
     }
 
-    explicit constexpr inline operator value_type(void) const noexcept {
+    explicit constexpr inline operator value_type() const noexcept {
         return _bits;
     }
 

@@ -71,13 +71,13 @@ span_size(T v) noexcept {
 
 template <typename T>
 static constexpr inline span_size_t
-span_align_of(void) noexcept {
+span_align_of() noexcept {
     return span_size(alignof(T));
 }
 
 template <typename T>
 static constexpr inline span_size_t
-span_size_of(void) noexcept {
+span_size_of() noexcept {
     return span_size(sizeof(T));
 }
 

@@ -25,7 +25,7 @@ private:
     span_size_t _rings;
     span_size_t _sections;
 
-    static vertex_attrib_bits _attr_mask(void) noexcept;
+    static vertex_attrib_bits _attr_mask() noexcept;
 
 public:
     unit_sphere_gen(
@@ -37,7 +37,7 @@ public:
       : unit_sphere_gen(attr_bits, 12, 18) {
     }
 
-    span_size_t vertex_count(void) override;
+    span_size_t vertex_count() override;
 
     void positions(const span<float>& dest) noexcept;
 
@@ -52,13 +52,13 @@ public:
     void attrib_values(
       vertex_attrib_kind attr, const span<float>& dest) override;
 
-    index_data_type index_type(void) override;
+    index_data_type index_type() override;
 
-    span_size_t index_count(void) override;
+    span_size_t index_count() override;
 
     void indices(const span<unsigned>& dest) override;
 
-    span_size_t operation_count(void) override;
+    span_size_t operation_count() override;
 
     void instructions(const span<draw_operation>& ops) override;
 };

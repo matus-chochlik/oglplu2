@@ -25,7 +25,7 @@ private:
     const int _variant_id;
 
     template <typename X>
-    const X& _as(void) const noexcept {
+    const X& _as() const noexcept {
         return *static_cast<const X*>(memory::as_address(this) + Offset);
     }
 
@@ -60,15 +60,15 @@ private:
     }
 
 public:
-    constexpr static_variant(void) noexcept
+    constexpr static_variant() noexcept
       : _variant_id(-1) {
     }
 
-    constexpr bool is_valid(void) const noexcept {
+    constexpr bool is_valid() const noexcept {
         return _variant_id >= 0;
     }
 
-    constexpr int variant_id(void) const noexcept {
+    constexpr int variant_id() const noexcept {
         return _variant_id;
     }
 

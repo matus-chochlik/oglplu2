@@ -51,7 +51,7 @@ public:
         _memo.erase(T(p...));
     }
 
-    void clear(void) {
+    void clear() {
         _memo.clear();
     }
 };

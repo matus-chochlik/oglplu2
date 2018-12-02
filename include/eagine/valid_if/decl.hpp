@@ -19,7 +19,7 @@ namespace eagine {
 struct valid_flag_policy {
     bool _is_valid;
 
-    constexpr valid_flag_policy(void) noexcept
+    constexpr valid_flag_policy() noexcept
       : _is_valid(false) {
     }
 
@@ -49,7 +49,7 @@ class valid_if : public basic_valid_if<T, Policy, DoLog> {
 private:
     using _base_t = basic_valid_if<T, Policy, DoLog>;
 
-    _base_t& _base(void) noexcept {
+    _base_t& _base() noexcept {
         return *this;
     }
 
@@ -71,11 +71,11 @@ public:
         return *this;
     }
 
-    explicit operator bool(void) const noexcept {
+    explicit operator bool() const noexcept {
         return is_valid();
     }
 
-    bool operator!(void) const noexcept {
+    bool operator!() const noexcept {
         return !is_valid();
     }
 
@@ -99,11 +99,11 @@ public:
         return value_or(fallback);
     }
 
-    const T& operator*(void)const noexcept {
+    const T& operator*() const noexcept {
         return value();
     }
 
-    const T* operator->(void)const noexcept {
+    const T* operator->() const noexcept {
         return &value();
     }
 

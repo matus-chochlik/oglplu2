@@ -57,7 +57,7 @@ struct scalar {
         return _v;
     }
 
-    constexpr inline operator T(void) const noexcept {
+    constexpr inline operator T() const noexcept {
         return _get(is_vectorized());
     }
 

@@ -22,7 +22,7 @@ private:
     S _v;
 
 public:
-    constexpr inline buffer_size(void) noexcept
+    constexpr inline buffer_size() noexcept
       : _v(0) {
     }
 
@@ -40,16 +40,16 @@ public:
       : _v(S(span_size_of<T>() * span_size(s.size()))) {
     }
 
-    constexpr inline S get(void) const noexcept {
+    constexpr inline S get() const noexcept {
         return _v;
     }
 
-    constexpr inline operator S(void) const noexcept {
+    constexpr inline operator S() const noexcept {
         return _v;
     }
 
     template <typename T>
-    explicit constexpr inline operator T(void) const {
+    explicit constexpr inline operator T() const {
         return T(_v);
     }
 

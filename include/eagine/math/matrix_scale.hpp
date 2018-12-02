@@ -35,7 +35,7 @@ struct scale<matrix<T, 4, 4, RM, V>> {
       : _v{vx, vy, vz} {
     }
 
-    constexpr inline matrix<T, 4, 4, RM, V> operator()(void) const noexcept {
+    constexpr inline matrix<T, 4, 4, RM, V> operator()() const noexcept {
         return matrix<T, 4, 4, RM, V>{{{_v[0], T(0), T(0), T(0)},
                                        {T(0), _v[1], T(0), T(0)},
                                        {T(0), T(0), _v[2], T(0)},
@@ -77,7 +77,7 @@ struct uniform_scale<matrix<T, 4, 4, RM, V>> {
       : _v(v) {
     }
 
-    constexpr inline matrix<T, 4, 4, RM, V> operator()(void) const noexcept {
+    constexpr inline matrix<T, 4, 4, RM, V> operator()() const noexcept {
         return matrix<T, 4, 4, RM, V>{{{_v, T(0), T(0), T(0)},
                                        {T(0), _v, T(0), T(0)},
                                        {T(0), T(0), _v, T(0)},

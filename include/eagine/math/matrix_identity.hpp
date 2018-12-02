@@ -38,7 +38,7 @@ struct identity<matrix<T, R, C, RM, V>> {
         return {{vect::axis < T, RM ? C : R, I, V > ::apply(1)...}};
     }
 
-    constexpr inline matrix<T, R, C, RM, V> operator()(void) const noexcept {
+    constexpr inline matrix<T, R, C, RM, V> operator()() const noexcept {
         typedef _make_useq<RM ? R : C> _riS;
         return _identity(_riS());
     }

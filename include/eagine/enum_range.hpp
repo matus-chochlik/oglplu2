@@ -52,15 +52,15 @@ public:
     typedef transforming_iterator<const T*, _ec_t, _ec_t, _ec_t (*)(T) noexcept>
       iterator;
 
-    size_type size(void) const noexcept {
+    size_type size() const noexcept {
         return size_type(_end - _begin);
     }
 
-    iterator begin(void) const noexcept {
+    iterator begin() const noexcept {
         return iterator(_begin, &_wrap_enum);
     }
 
-    iterator end(void) const noexcept {
+    iterator end() const noexcept {
         return iterator(_end, &_wrap_enum);
     }
 };

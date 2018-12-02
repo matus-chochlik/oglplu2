@@ -26,7 +26,7 @@ private:
     object_name<ObjTag> _name;
 
 public:
-    object_name_const_iterator(void) = default;
+    object_name_const_iterator() = default;
 
     object_name_const_iterator(Iterator iter) noexcept
       : _iter(iter) {
@@ -41,12 +41,12 @@ public:
         swap(_name, that._name);
     }
 
-    object_name_const_iterator& operator++(void) {
+    object_name_const_iterator& operator++() {
         ++_iter;
         return *this;
     }
 
-    reference operator*(void) {
+    reference operator*() {
         _name = object_name<ObjTag>(*_iter);
         return _name;
     }
@@ -83,14 +83,14 @@ private:
         fill(begin(names), end(names), _traits::invalid_name());
     }
 
-    auto _release_names(void) noexcept {
+    auto _release_names() noexcept {
         Container names = std::move(_names);
         _invalidate_names(_names);
         return names;
     }
 
 public:
-    object_name_container(void) noexcept {
+    object_name_container() noexcept {
         _invalidate_names(_names);
     }
 
@@ -110,11 +110,11 @@ public:
         std::swap(this->_names, that._names);
     }
 
-    bool empty(void) const noexcept {
+    bool empty() const noexcept {
         return _names.empty();
     }
 
-    span_size_t size(void) const noexcept {
+    span_size_t size() const noexcept {
         return span_size(_names.size());
     }
 
@@ -133,11 +133,11 @@ public:
       typename Container::const_iterator>
       iterator;
 
-    iterator begin(void) const noexcept {
+    iterator begin() const noexcept {
         return _names.begin();
     }
 
-    iterator end(void) const noexcept {
+    iterator end() const noexcept {
         return _names.end();
     }
 
@@ -171,7 +171,7 @@ public:
       , _size(count) {
     }
 
-    NameT base(void) const noexcept {
+    NameT base() const noexcept {
         assert(_pbase);
         return *_pbase;
     }
@@ -181,7 +181,7 @@ public:
         *_pbase = name;
     }
 
-    span_size_t size(void) const noexcept {
+    span_size_t size() const noexcept {
         return _size;
     }
 };
@@ -196,7 +196,7 @@ private:
     span_size_t _size;
 
 public:
-    constexpr object_name_fake_array(void) noexcept
+    constexpr object_name_fake_array() noexcept
       : _base(_traits::invalid_name())
       , _size(0) {
     }
@@ -211,11 +211,11 @@ public:
         std::swap(this->_size, that._size);
     }
 
-    bool empty(void) const noexcept {
+    bool empty() const noexcept {
         return !(_size > 0);
     }
 
-    span_size_t size(void) const noexcept {
+    span_size_t size() const noexcept {
         return _size;
     }
 
@@ -238,11 +238,11 @@ public:
       object_name<ObjTag>>
       iterator;
 
-    iterator begin(void) const noexcept {
+    iterator begin() const noexcept {
         return iterator(_base);
     }
 
-    iterator end(void) const noexcept {
+    iterator end() const noexcept {
         return iterator(_name_type(_base + _size));
     }
 

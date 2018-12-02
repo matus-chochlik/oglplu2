@@ -21,17 +21,17 @@ namespace ecs {
 
 template <typename Entity>
 struct storage_iterator_intf<Entity, true> {
-    virtual ~storage_iterator_intf(void) = default;
+    virtual ~storage_iterator_intf() = default;
 
-    virtual void reset(void) = 0;
+    virtual void reset() = 0;
 
-    virtual bool done(void) = 0;
+    virtual bool done() = 0;
 
-    virtual void next(void) = 0;
+    virtual void next() = 0;
 
-    virtual Entity subject(void) = 0;
+    virtual Entity subject() = 0;
 
-    virtual Entity object(void) = 0;
+    virtual Entity object() = 0;
 };
 
 template <typename Entity>
@@ -52,43 +52,43 @@ public:
         tmp._i = nullptr;
     }
 
-    ~storage_iterator(void) noexcept {
+    ~storage_iterator() noexcept {
         assert(_i == nullptr);
     }
 
-    storage_iterator_intf<Entity, true>* release(void) {
+    storage_iterator_intf<Entity, true>* release() {
         storage_iterator_intf<Entity, true>* p = _i;
         _i = nullptr;
         return p;
     }
 
-    storage_iterator_intf<Entity, true>* ptr(void) noexcept {
+    storage_iterator_intf<Entity, true>* ptr() noexcept {
         assert(_i);
         return _i;
     }
 
-    storage_iterator_intf<Entity, true>& get(void) noexcept {
+    storage_iterator_intf<Entity, true>& get() noexcept {
         assert(_i);
         return *_i;
     }
 
-    void reset(void) {
+    void reset() {
         get().reset();
     }
 
-    bool done(void) {
+    bool done() {
         return get().done();
     }
 
-    void next(void) {
+    void next() {
         get().next();
     }
 
-    Entity subject(void) {
+    Entity subject() {
         return get().subject();
     }
 
-    Entity object(void) {
+    Entity object() {
         return get().object();
     }
 };
@@ -98,11 +98,11 @@ struct base_storage<Entity, true> {
     typedef entity_param_t<Entity> entity_param;
     typedef storage_iterator<Entity, true> iterator_t;
 
-    virtual ~base_storage(void) = default;
+    virtual ~base_storage() = default;
 
-    virtual storage_caps capabilities(void) = 0;
+    virtual storage_caps capabilities() = 0;
 
-    virtual iterator_t new_iterator(void) = 0;
+    virtual iterator_t new_iterator() = 0;
 
     virtual void delete_iterator(iterator_t&&) = 0;
 

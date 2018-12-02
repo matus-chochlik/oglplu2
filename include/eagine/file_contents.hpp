@@ -19,9 +19,9 @@
 namespace eagine {
 
 struct file_contents_intf {
-    virtual ~file_contents_intf(void) = default;
+    virtual ~file_contents_intf() = default;
 
-    virtual const_memory_block block(void) noexcept = 0;
+    virtual const_memory_block block() noexcept = 0;
 };
 
 class file_contents {
@@ -29,7 +29,7 @@ private:
     std::shared_ptr<file_contents_intf> _pimpl;
 
 public:
-    file_contents(void) = default;
+    file_contents() = default;
     file_contents(const file_contents&) = default;
     file_contents(file_contents&&) = default;
     file_contents& operator=(const file_contents&) = default;
@@ -37,15 +37,15 @@ public:
 
     file_contents(const cstr_ref& path);
 
-    bool is_loaded(void) const noexcept {
+    bool is_loaded() const noexcept {
         return bool(_pimpl);
     }
 
-    const_memory_block block(void) const noexcept {
+    const_memory_block block() const noexcept {
         return bool(_pimpl) ? _pimpl->block() : const_memory_block();
     }
 
-    operator const_memory_block(void) const noexcept {
+    operator const_memory_block() const noexcept {
         return block();
     }
 };

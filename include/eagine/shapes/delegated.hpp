@@ -26,7 +26,7 @@ public:
       : _gen(std::move(gen)) {
     }
 
-    span_size_t vertex_count(void) override {
+    span_size_t vertex_count() override {
         return _gen->vertex_count();
     }
 
@@ -39,11 +39,11 @@ public:
         _gen->attrib_values(attr, dest);
     }
 
-    index_data_type index_type(void) override {
+    index_data_type index_type() override {
         return _gen->index_type();
     }
 
-    span_size_t index_count(void) override {
+    span_size_t index_count() override {
         return _gen->index_count();
     }
 
@@ -51,7 +51,7 @@ public:
         _gen->indices(dest);
     }
 
-    span_size_t operation_count(void) override {
+    span_size_t operation_count() override {
         return _gen->operation_count();
     }
 

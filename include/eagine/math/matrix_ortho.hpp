@@ -37,46 +37,46 @@ struct ortho<matrix<T, 4, 4, RM, V>> {
       : _v{x_left, x_right, y_bottom, y_top, z_near, z_far} {
     }
 
-    constexpr inline T _x_left(void) const {
+    constexpr inline T _x_left() const {
         return _v[0];
     }
-    constexpr inline T _x_right(void) const {
+    constexpr inline T _x_right() const {
         return _v[1];
     }
-    constexpr inline T _y_bottom(void) const {
+    constexpr inline T _y_bottom() const {
         return _v[2];
     }
-    constexpr inline T _y_top(void) const {
+    constexpr inline T _y_top() const {
         return _v[3];
     }
-    constexpr inline T _z_near(void) const {
+    constexpr inline T _z_near() const {
         return _v[4];
     }
-    constexpr inline T _z_far(void) const {
+    constexpr inline T _z_far() const {
         return _v[5];
     }
 
-    constexpr inline T _m00(void) const noexcept {
+    constexpr inline T _m00() const noexcept {
         return T(2) / (_x_right() - _x_left());
     }
 
-    constexpr inline T _m11(void) const noexcept {
+    constexpr inline T _m11() const noexcept {
         return T(2) / (_y_top() - _y_bottom());
     }
 
-    constexpr inline T _m22(void) const noexcept {
+    constexpr inline T _m22() const noexcept {
         return -T(2) / (_z_far() - _z_near());
     }
 
-    constexpr inline T _m30(void) const noexcept {
+    constexpr inline T _m30() const noexcept {
         return -(_x_right() + _x_left()) / (_x_right() - _x_left());
     }
 
-    constexpr inline T _m31(void) const noexcept {
+    constexpr inline T _m31() const noexcept {
         return -(_y_top() + _y_bottom()) / (_y_top() - _y_bottom());
     }
 
-    constexpr inline T _m32(void) const noexcept {
+    constexpr inline T _m32() const noexcept {
         return -(_z_far() + _z_near()) / (_z_far() - _z_near());
     }
 
@@ -96,7 +96,7 @@ struct ortho<matrix<T, 4, 4, RM, V>> {
                                           {_m30(), _m31(), _m32(), T(1)}}};
     }
 
-    constexpr inline matrix<T, 4, 4, RM, V> operator()(void) const noexcept {
+    constexpr inline matrix<T, 4, 4, RM, V> operator()() const noexcept {
         return _make(bool_constant<RM>());
     }
 };

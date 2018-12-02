@@ -37,7 +37,7 @@ struct reflection_I<matrix<T, 4, 4, RM, V>, I> {
         return (I == i) ? _v : T(1);
     }
 
-    constexpr inline matrix<T, 4, 4, RM, V> operator()(void) const noexcept {
+    constexpr inline matrix<T, 4, 4, RM, V> operator()() const noexcept {
         return matrix<T, 4, 4, RM, V>{{{v(0), T(0), T(0), T(0)},
                                        {T(0), v(1), T(0), T(0)},
                                        {T(0), T(0), v(2), T(0)},

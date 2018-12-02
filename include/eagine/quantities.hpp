@@ -48,7 +48,7 @@ right_angles_(T value) noexcept {
 }
 
 static constexpr inline auto
-right_angle_(void) noexcept {
+right_angle_() noexcept {
     return right_angles_(1);
 }
 

@@ -40,7 +40,7 @@ private:
         return address(_rawptr(&that));
     }
 
-    address _this_addr(void) const noexcept {
+    address _this_addr() const noexcept {
         return _that_addr(*this);
     }
 
@@ -57,7 +57,7 @@ private:
     }
 
 public:
-    constexpr inline basic_offset_ptr(void) noexcept
+    constexpr inline basic_offset_ptr() noexcept
       : _offs{0} {
     }
 
@@ -90,70 +90,70 @@ public:
         return *this = basic_offset_ptr(adr);
     }
 
-    constexpr inline bool is_null(void) const noexcept {
+    constexpr inline bool is_null() const noexcept {
         return _offs == offset_type(0);
     }
 
-    explicit constexpr inline operator bool(void) const noexcept {
+    explicit constexpr inline operator bool() const noexcept {
         return !is_null();
     }
 
-    constexpr inline bool operator!(void) const noexcept {
+    constexpr inline bool operator!() const noexcept {
         return is_null();
     }
 
-    offset_type offset(void) const noexcept {
+    offset_type offset() const noexcept {
         return _offs;
     }
 
-    address addr(void) noexcept {
+    address addr() noexcept {
         return is_null() ? address() : address(_this_addr(), _offs);
     }
 
-    const_address addr(void) const noexcept {
+    const_address addr() const noexcept {
         return is_null() ? address() : address(_this_addr(), _offs);
     }
 
-    pointer data(void) noexcept {
+    pointer data() noexcept {
         return static_cast<pointer>(addr());
     }
 
-    const_pointer data(void) const noexcept {
+    const_pointer data() const noexcept {
         return static_cast<const_pointer>(addr());
     }
 
-    pointer get(void) noexcept {
+    pointer get() noexcept {
         return data();
     }
 
-    const_pointer get(void) const noexcept {
+    const_pointer get() const noexcept {
         return data();
     }
 
-    operator pointer(void) noexcept {
+    operator pointer() noexcept {
         return get();
     }
 
-    operator const_pointer(void) const noexcept {
+    operator const_pointer() const noexcept {
         return get();
     }
 
-    reference operator*(void)noexcept {
+    reference operator*() noexcept {
         assert(!is_null());
         return *get();
     }
 
-    const_reference operator*(void)const noexcept {
+    const_reference operator*() const noexcept {
         assert(!is_null());
         return *get();
     }
 
-    pointer operator->(void)noexcept {
+    pointer operator->() noexcept {
         assert(!is_null());
         return get();
     }
 
-    const_pointer operator->(void)const noexcept {
+    const_pointer operator->() const noexcept {
         assert(!is_null());
         return get();
     }
@@ -185,7 +185,7 @@ private:
     basic_offset_ptr<T, offset_type> _optr;
 
 public:
-    constexpr inline basic_offset_array(void) noexcept
+    constexpr inline basic_offset_array() noexcept
       : _size{0} {
     }
 
@@ -220,51 +220,51 @@ public:
         return *this = basic_offset_array(adr, len);
     }
 
-    constexpr inline size_type size(void) const noexcept {
+    constexpr inline size_type size() const noexcept {
         return _size;
     }
 
-    offset_type offset(void) const noexcept {
+    offset_type offset() const noexcept {
         return _optr.offset();
     }
 
-    address addr(void) noexcept {
+    address addr() noexcept {
         return _optr.addr();
     }
 
-    iterator data(void) noexcept {
+    iterator data() noexcept {
         return _optr.data();
     }
 
-    iterator begin(void) noexcept {
+    iterator begin() noexcept {
         return _optr.data();
     }
 
-    iterator end(void) noexcept {
+    iterator end() noexcept {
         return begin() + size();
     }
 
-    memory::const_address addr(void) const noexcept {
+    memory::const_address addr() const noexcept {
         return _optr.addr();
     }
 
-    const_iterator data(void) const noexcept {
+    const_iterator data() const noexcept {
         return _optr.data();
     }
 
-    const_iterator begin(void) const noexcept {
+    const_iterator begin() const noexcept {
         return _optr.data();
     }
 
-    const_iterator end(void) const noexcept {
+    const_iterator end() const noexcept {
         return begin() + size();
     }
 
-    const_memory_block block(void) const noexcept {
+    const_memory_block block() const noexcept {
         return {data(), size()};
     }
 
-    memory_block block(void) noexcept {
+    memory_block block() noexcept {
         return {data(), size()};
     }
 
@@ -302,7 +302,7 @@ public:
       : _ptrarray(pa) {
     }
 
-    size_type size(void) const noexcept {
+    size_type size() const noexcept {
         return _ptrarray.size();
     }
 

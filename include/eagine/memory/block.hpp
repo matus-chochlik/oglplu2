@@ -56,7 +56,7 @@ public:
       , _size(size_) {
     }
 
-    constexpr basic_block(void) noexcept
+    constexpr basic_block() noexcept
       : _addr(nullptr)
       , _size(0) {
     }
@@ -83,45 +83,45 @@ public:
       , _size(b.size()) {
     }
 
-    basic_block& reset(void) noexcept {
+    basic_block& reset() noexcept {
         _addr = nullptr;
         _size = 0;
         return *this;
     }
 
-    size_type size(void) const noexcept {
+    size_type size() const noexcept {
         return _size;
     }
 
-    bool empty(void) const noexcept {
+    bool empty() const noexcept {
         return !(size() > 0);
     }
 
-    explicit operator bool(void) const noexcept {
+    explicit operator bool() const noexcept {
         return _addr != nullptr && !empty();
     }
 
-    bool operator!(void) const noexcept {
+    bool operator!() const noexcept {
         return _addr == nullptr || empty();
     }
 
-    iterator data(void) const noexcept {
+    iterator data() const noexcept {
         return static_cast<iterator>(_addr);
     }
 
-    basic_address<IsConst> addr(void) const noexcept {
+    basic_address<IsConst> addr() const noexcept {
         return basic_address<IsConst>(_addr);
     }
 
-    basic_address<IsConst> end_addr(void) const noexcept {
+    basic_address<IsConst> end_addr() const noexcept {
         return basic_address<IsConst>(addr(), _size);
     }
 
-    iterator begin(void) const noexcept {
+    iterator begin() const noexcept {
         return static_cast<iterator>(_addr);
     }
 
-    iterator end(void) const noexcept {
+    iterator end() const noexcept {
         return begin() + size();
     }
 
@@ -145,12 +145,12 @@ public:
     }
 
     template <typename T>
-    bool is_aligned_as(void) const noexcept {
+    bool is_aligned_as() const noexcept {
         return addr().template is_aligned_as<T>();
     }
 
     template <typename T>
-    bool is_enough_for(void) const noexcept {
+    bool is_enough_for() const noexcept {
         return size() >= span_size(sizeof(T));
     }
 
@@ -204,13 +204,13 @@ protected:
     using block::reset;
 
 public:
-    owned_block(void) = default;
+    owned_block() = default;
     owned_block(owned_block&&) = default;
     owned_block& operator=(owned_block&&) = default;
     owned_block(const owned_block&) = delete;
     owned_block& operator=(const owned_block&) = delete;
 
-    ~owned_block(void) noexcept {
+    ~owned_block() noexcept {
         assert(empty());
     }
 };

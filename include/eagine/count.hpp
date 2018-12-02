@@ -18,17 +18,17 @@ private:
     Int _c;
 
 public:
-    constexpr inline count_t(void) noexcept
+    constexpr inline count_t() noexcept
       : _c(0) {
     }
 
     typedef Int value_type;
 
-    constexpr value_type value(void) const noexcept {
+    constexpr value_type value() const noexcept {
         return _c;
     }
 
-    constexpr operator value_type(void) const noexcept {
+    constexpr operator value_type() const noexcept {
         return _c;
     }
 

@@ -43,7 +43,7 @@ public:
       : format_string_and_list_base(std::move(fmt_str)) {
     }
 
-    operator std::string(void) const {
+    operator std::string() const {
         return _fmt({});
     }
 };
@@ -63,7 +63,7 @@ public:
         _list[N - 1] = std::move(val);
     }
 
-    operator std::string(void) const {
+    operator std::string() const {
         return _fmt({_list});
     }
 };
@@ -80,7 +80,7 @@ public:
         _list[0] = std::move(val);
     }
 
-    operator std::string(void) const {
+    operator std::string() const {
         return _fmt({_list});
     }
 };

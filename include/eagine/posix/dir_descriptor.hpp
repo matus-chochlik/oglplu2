@@ -33,7 +33,7 @@ protected:
     DIR* _dp;
 
 public:
-    constexpr inline dir_descriptor(void) noexcept
+    constexpr inline dir_descriptor() noexcept
       : _dp(nullptr) {
     }
 
@@ -55,15 +55,15 @@ public:
         return *this;
     }
 
-    constexpr bool is_valid(void) const noexcept {
+    constexpr bool is_valid() const noexcept {
         return _dp != nullptr;
     }
 
-    explicit constexpr operator bool(void) const noexcept {
+    explicit constexpr operator bool() const noexcept {
         return is_valid();
     }
 
-    constexpr bool operator!(void) const noexcept {
+    constexpr bool operator!() const noexcept {
         return !is_valid();
     }
 
@@ -137,7 +137,7 @@ private:
     owned_dir_descriptor _odd;
 
 public:
-    dir_descriptor_owner(void) = default;
+    dir_descriptor_owner() = default;
 
     dir_descriptor_owner(owned_dir_descriptor&& odd) noexcept
       : _odd(std::move(odd)) {
@@ -168,18 +168,18 @@ public:
         return *this;
     }
 
-    ~dir_descriptor_owner(void) noexcept {
+    ~dir_descriptor_owner() noexcept {
         try {
             ::closedir(get_raw_dp(_odd));
         } catch(...) {
         }
     }
 
-    dir_descriptor get(void) const noexcept {
+    dir_descriptor get() const noexcept {
         return _odd;
     }
 
-    operator dir_descriptor(void) const noexcept {
+    operator dir_descriptor() const noexcept {
         return get();
     }
 };

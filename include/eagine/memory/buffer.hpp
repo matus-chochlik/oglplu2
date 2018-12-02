@@ -28,7 +28,7 @@ private:
     owned_block _storage;
     shared_byte_allocator _alloc;
 
-    bool _is_ok(void) const noexcept {
+    bool _is_ok() const noexcept {
         return bool(_alloc) && size() <= capacity();
     }
 
@@ -43,29 +43,29 @@ public:
       , _alloc(default_byte_allocator()) {
     }
 
-    buffer(void)
+    buffer()
       : buffer(alignof(long double)) {
     }
 
     buffer(const buffer&) = delete;
 
-    ~buffer(void) noexcept {
+    ~buffer() noexcept {
         free();
     }
 
-    auto addr(void) const noexcept {
+    auto addr() const noexcept {
         return _storage.addr();
     }
 
-    pointer data(void) const noexcept {
+    pointer data() const noexcept {
         return _storage.data();
     }
 
-    span_size_t size(void) const noexcept {
+    span_size_t size() const noexcept {
         return _size;
     }
 
-    span_size_t capacity(void) const noexcept {
+    span_size_t capacity() const noexcept {
         return _storage.size();
     }
 
@@ -82,17 +82,17 @@ public:
         assert(_is_ok());
     }
 
-    void free(void) {
+    void free() {
         _alloc.deallocate(std::move(_storage), _align);
         _size = 0;
     }
 
-    operator block(void) noexcept {
+    operator block() noexcept {
         assert(_is_ok());
         return {_storage.begin(), _size};
     }
 
-    operator const_block(void) const noexcept {
+    operator const_block() const noexcept {
         assert(_is_ok());
         return {_storage.begin(), _size};
     }

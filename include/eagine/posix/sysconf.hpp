@@ -22,7 +22,7 @@ system_config(int name) noexcept {
 }
 
 static inline outcome<long>
-page_size(void) noexcept {
+page_size() noexcept {
     return system_config(_SC_PAGESIZE);
 }
 

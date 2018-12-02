@@ -86,7 +86,7 @@ struct orbiting_y_up<matrix<T, 4, 4, RM, V>> {
         return reorder(_make(std::true_type()));
     }
 
-    constexpr inline matrix<T, 4, 4, RM, V> operator()(void) const noexcept {
+    constexpr inline matrix<T, 4, 4, RM, V> operator()() const noexcept {
         return _make(bool_constant<RM>());
     }
 };

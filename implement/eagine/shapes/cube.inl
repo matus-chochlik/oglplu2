@@ -17,7 +17,7 @@ namespace shapes {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 vertex_attrib_bits
-unit_cube_gen::_attr_mask(void) noexcept {
+unit_cube_gen::_attr_mask() noexcept {
     return vertex_attrib_kind::position | vertex_attrib_kind::normal |
            vertex_attrib_kind::tangential | vertex_attrib_kind::bitangential |
            vertex_attrib_kind::box_coord;
@@ -25,13 +25,13 @@ unit_cube_gen::_attr_mask(void) noexcept {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 vertex_attrib_bits
-unit_cube_gen::_shared_attrs(void) noexcept {
+unit_cube_gen::_shared_attrs() noexcept {
     return vertex_attrib_kind::position | vertex_attrib_kind::box_coord;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool
-unit_cube_gen::_only_shared_attribs(void) const noexcept {
+unit_cube_gen::_only_shared_attribs() const noexcept {
     return !(attrib_bits() & ~_shared_attrs());
 }
 //------------------------------------------------------------------------------
@@ -108,7 +108,7 @@ unit_cube_gen::unit_cube_gen(vertex_attrib_bits attr_bits) noexcept
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 span_size_t
-unit_cube_gen::vertex_count(void) {
+unit_cube_gen::vertex_count() {
     if(_only_shared_attribs()) {
         return 8;
     } else {
@@ -350,7 +350,7 @@ unit_cube_gen::attrib_values(vertex_attrib_kind attr, const span<float>& dest) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 index_data_type
-unit_cube_gen::index_type(void) {
+unit_cube_gen::index_type() {
     if(_only_shared_attribs()) {
         return index_data_type::unsigned_byte;
     }
@@ -359,7 +359,7 @@ unit_cube_gen::index_type(void) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 span_size_t
-unit_cube_gen::index_count(void) {
+unit_cube_gen::index_count() {
     if(_only_shared_attribs()) {
         return 6 * 2 * 3;
     }
@@ -392,7 +392,7 @@ unit_cube_gen::indices(const span<unsigned>& dest) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 span_size_t
-unit_cube_gen::operation_count(void) {
+unit_cube_gen::operation_count() {
     return 1;
 }
 //------------------------------------------------------------------------------

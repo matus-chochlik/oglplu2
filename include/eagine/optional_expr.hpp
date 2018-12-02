@@ -23,7 +23,7 @@ private:
     L _l;
     R _r;
 
-    const Derived& _self(void) const noexcept {
+    const Derived& _self() const noexcept {
         return *static_cast<const Derived*>(this);
     }
 
@@ -58,11 +58,11 @@ private:
     }
 
 protected:
-    auto _get_l(void) const {
+    auto _get_l() const {
         return _get(_l);
     }
 
-    auto _get_r(void) const {
+    auto _get_r() const {
         return _get(_r);
     }
 
@@ -72,19 +72,19 @@ public:
       , _r(r) {
     }
 
-    bool is_valid(void) const noexcept {
+    bool is_valid() const noexcept {
         return _is_valid(_l) && _is_valid(_r);
     }
 
-    explicit operator bool(void) const noexcept {
+    explicit operator bool() const noexcept {
         return is_valid();
     }
 
-    bool operator!(void) const noexcept {
+    bool operator!() const noexcept {
         return !is_valid();
     }
 
-    auto value(void) const {
+    auto value() const {
         assert(is_valid());
         return _self().evaluate();
     }
@@ -109,7 +109,7 @@ public:
     using nary_optional_expr<optional_binary_slash_expr, L, R>::
       nary_optional_expr;
 
-    auto evaluate(void) const {
+    auto evaluate() const {
         return this->_get_l() / this->_get_r();
     }
 };

@@ -42,9 +42,9 @@ template <typename Traits>
 struct key_value_list_base<Traits, 0> {
     typedef typename Traits::value_type value_type;
 
-    key_value_list_base(void) = default;
+    key_value_list_base() = default;
 
-    static const value_type* data(void) noexcept {
+    static const value_type* data() noexcept {
         static const value_type term = Traits::terminator();
         return &term;
     }
@@ -70,7 +70,7 @@ struct key_value_list_base<Traits, 2> {
       : _elements{{value_type(conv_type(key)), value, Traits::terminator()}} {
     }
 
-    const value_type* data(void) const noexcept {
+    const value_type* data() const noexcept {
         return _elements.data();
     }
 };
@@ -98,7 +98,7 @@ struct key_value_list_base {
                    Traits::terminator()}} {
     }
 
-    const value_type* data(void) const noexcept {
+    const value_type* data() const noexcept {
         return _elements.data();
     }
 };
@@ -113,7 +113,7 @@ private:
     key_value_list_base<Traits, N> _base;
 
 public:
-    key_value_list(void) = default;
+    key_value_list() = default;
 
     template <std::size_t M, typename = std::enable_if_t<M + 2 == N>>
     constexpr key_value_list(
@@ -127,15 +127,15 @@ public:
       : _base(head._key, head._value) {
     }
 
-    static constexpr inline span_size_t size(void) noexcept {
+    static constexpr inline span_size_t size() noexcept {
         return span_size(N + 1);
     }
 
-    const value_type* data(void) const noexcept {
+    const value_type* data() const noexcept {
         return _base.data();
     }
 
-    span<const value_type> get(void) const noexcept {
+    span<const value_type> get() const noexcept {
         return {data(), size()};
     }
 

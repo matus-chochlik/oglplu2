@@ -42,7 +42,7 @@ struct draw_operation {
     bool primitive_restart : 1;
     bool cw_face_winding : 1;
 
-    constexpr draw_operation(void) noexcept
+    constexpr draw_operation() noexcept
       : mode(primitive_type::points)
       , idx_type(index_data_type::none)
       , first(0)

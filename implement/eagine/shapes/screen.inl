@@ -17,7 +17,7 @@ namespace shapes {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 vertex_attrib_bits
-unit_screen_gen::_attr_mask(void) noexcept {
+unit_screen_gen::_attr_mask() noexcept {
     return vertex_attrib_kind::position | vertex_attrib_kind::normal |
            vertex_attrib_kind::tangential | vertex_attrib_kind::bitangential |
            vertex_attrib_kind::wrap_coord | vertex_attrib_kind::face_coord |
@@ -31,7 +31,7 @@ unit_screen_gen::unit_screen_gen(vertex_attrib_bits attr_bits) noexcept
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 span_size_t
-unit_screen_gen::vertex_count(void) {
+unit_screen_gen::vertex_count() {
     return 4;
 }
 //------------------------------------------------------------------------------
@@ -183,13 +183,13 @@ unit_screen_gen::attrib_values(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 index_data_type
-unit_screen_gen::index_type(void) {
+unit_screen_gen::index_type() {
     return index_data_type::none;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 span_size_t
-unit_screen_gen::index_count(void) {
+unit_screen_gen::index_count() {
     return 0;
 }
 //------------------------------------------------------------------------------
@@ -200,7 +200,7 @@ unit_screen_gen::indices(const span<unsigned>&) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 span_size_t
-unit_screen_gen::operation_count(void) {
+unit_screen_gen::operation_count() {
     return 1;
 }
 //------------------------------------------------------------------------------

@@ -44,7 +44,7 @@ mgr_handle_cmp_not_reg(std::string&& c_name) {
 template <typename Entity>
 template <typename Data, bool IsR>
 storage<Entity, Data, IsR>&
-basic_manager<Entity>::_find_storage(void) {
+basic_manager<Entity>::_find_storage() {
     auto pb_storage = _get_storages<IsR>().find(get_component_uid<Data>());
 
     typedef storage<Entity, Data, IsR> S;
@@ -58,7 +58,7 @@ basic_manager<Entity>::_find_storage(void) {
         }
     }
     if(!pd_storage) {
-        std::string (*get_name)(void) = _cmp_name_getter<Data>();
+        std::string (*get_name)() = _cmp_name_getter<Data>();
         detail::mgr_handle_cmp_not_reg(get_name());
         EAGINE_ABORT("Logic error!");
     }
@@ -71,7 +71,7 @@ inline void
 basic_manager<Entity>::_do_reg_stg_type(
   std::unique_ptr<base_storage<Entity, IsRelation>>&& storage,
   component_uid_t cid,
-  std::string (*get_name)(void)) {
+  std::string (*get_name)()) {
     assert(bool(storage));
 
     auto& storages = _get_storages<IsRelation>();
@@ -88,7 +88,7 @@ template <typename Entity>
 template <bool IsRelation>
 inline void
 basic_manager<Entity>::_do_unr_stg_type(
-  component_uid_t cid, std::string (*get_name)(void)) {
+  component_uid_t cid, std::string (*get_name)()) {
     auto& storages = _get_storages<IsRelation>();
     auto p_storage = storages.find(cid);
 
@@ -120,7 +120,7 @@ basic_manager<Entity>::_apply_on_base_stg(
   Result fallback,
   const Func& func,
   component_uid_t cid,
-  std::string (*get_name)(void)) const {
+  std::string (*get_name)()) const {
     auto& storages = _get_storages<IsRelation>();
     auto p_storage = storages.find(cid);
 
@@ -156,7 +156,7 @@ template <typename Entity>
 template <bool IsRelation>
 inline storage_caps
 basic_manager<Entity>::_get_stg_type_caps(
-  component_uid_t cid, std::string (*get_name)(void)) const {
+  component_uid_t cid, std::string (*get_name)()) const {
     return _apply_on_base_stg<IsRelation>(
       storage_caps(),
       [](auto& b_storage) -> storage_caps { return b_storage->capabilities(); },
@@ -167,9 +167,7 @@ basic_manager<Entity>::_get_stg_type_caps(
 template <typename Entity>
 inline bool
 basic_manager<Entity>::_does_have_c(
-  entity_param_t<Entity> ent,
-  component_uid_t cid,
-  std::string (*get_name)(void)) {
+  entity_param_t<Entity> ent, component_uid_t cid, std::string (*get_name)()) {
     return _apply_on_base_stg<false>(
       false,
       [&ent](auto& b_storage) -> bool { return b_storage->has(ent); },
@@ -183,7 +181,7 @@ basic_manager<Entity>::_does_have_r(
   entity_param_t<Entity> subject,
   entity_param_t<Entity> object,
   component_uid_t cid,
-  std::string (*get_name)(void)) {
+  std::string (*get_name)()) {
     return _apply_on_base_stg<true>(
       false,
       [&subject, &object](auto& b_storage) -> bool {
@@ -196,9 +194,7 @@ basic_manager<Entity>::_does_have_r(
 template <typename Entity>
 inline bool
 basic_manager<Entity>::_is_hidn(
-  entity_param_t<Entity> ent,
-  component_uid_t cid,
-  std::string (*get_name)(void)) {
+  entity_param_t<Entity> ent, component_uid_t cid, std::string (*get_name)()) {
     return _apply_on_base_stg<false>(
       false,
       [&ent](auto& b_storage) -> bool { return b_storage->hidden(ent); },
@@ -209,9 +205,7 @@ basic_manager<Entity>::_is_hidn(
 template <typename Entity>
 inline bool
 basic_manager<Entity>::_do_show(
-  entity_param_t<Entity> ent,
-  component_uid_t cid,
-  std::string (*get_name)(void)) {
+  entity_param_t<Entity> ent, component_uid_t cid, std::string (*get_name)()) {
     return _apply_on_base_stg<false>(
       false,
       [&ent](auto& b_storage) -> bool { return b_storage->show(ent); },
@@ -222,9 +216,7 @@ basic_manager<Entity>::_do_show(
 template <typename Entity>
 inline bool
 basic_manager<Entity>::_do_hide(
-  entity_param_t<Entity> ent,
-  component_uid_t cid,
-  std::string (*get_name)(void)) {
+  entity_param_t<Entity> ent, component_uid_t cid, std::string (*get_name)()) {
     return _apply_on_base_stg<false>(
       false,
       [&ent](auto& b_storage) -> bool { return b_storage->hide(ent); },
@@ -262,7 +254,7 @@ basic_manager<Entity>::_do_add_r(
   entity_param subject,
   entity_param object,
   component_uid_t cid,
-  std::string (*get_name)(void)) {
+  std::string (*get_name)()) {
     return _apply_on_base_stg<true>(
       false,
       [&subject, &object](auto& b_storage) -> bool {
@@ -278,7 +270,7 @@ basic_manager<Entity>::_do_cpy(
   entity_param_t<Entity> from,
   entity_param_t<Entity> to,
   component_uid_t cid,
-  std::string (*get_name)(void)) {
+  std::string (*get_name)()) {
     return _apply_on_base_stg<false>(
       false,
       [&from, &to](auto& b_storage) -> bool {
@@ -294,7 +286,7 @@ basic_manager<Entity>::_do_swp(
   entity_param_t<Entity> e1,
   entity_param_t<Entity> e2,
   component_uid_t cid,
-  std::string (*get_name)(void)) {
+  std::string (*get_name)()) {
     return _apply_on_base_stg<false>(
       false,
       [&e1, &e2](auto& b_storage) -> bool {
@@ -308,9 +300,7 @@ basic_manager<Entity>::_do_swp(
 template <typename Entity>
 inline bool
 basic_manager<Entity>::_do_rem_c(
-  entity_param_t<Entity> ent,
-  component_uid_t cid,
-  std::string (*get_name)(void)) {
+  entity_param_t<Entity> ent, component_uid_t cid, std::string (*get_name)()) {
     return _apply_on_base_stg<false>(
       false,
       [&ent](auto& b_storage) -> bool { return b_storage->remove(ent); },
@@ -324,7 +314,7 @@ basic_manager<Entity>::_do_rem_r(
   entity_param_t<Entity> subj,
   entity_param_t<Entity> obj,
   component_uid_t cid,
-  std::string (*get_name)(void)) {
+  std::string (*get_name)()) {
     return _apply_on_base_stg<true>(
       false,
       [&subj, &obj](auto& b_storage) -> bool {
@@ -402,15 +392,15 @@ protected:
         assert(std::is_const<C>::value || _storage.capabilities().can_modify());
     }
 
-    ~_manager_for_each_c_m_base(void) {
+    ~_manager_for_each_c_m_base() {
         _storage.delete_iterator(std::move(_iter));
     }
 
-    bool _done(void) {
+    bool _done() {
         return _iter.done();
     }
 
-    entity_param_t<Entity> _current(void) {
+    entity_param_t<Entity> _current() {
         return _curr;
     }
 
@@ -470,7 +460,7 @@ public:
       , _func(func) {
     }
 
-    bool done(void) {
+    bool done() {
         return this->_done();
     }
 
@@ -478,7 +468,7 @@ public:
         this->_next_if(m);
     }
 
-    Entity min_entity(void) {
+    Entity min_entity() {
         return this->_current();
     }
 
@@ -521,7 +511,7 @@ public:
       , _rest(func, r...) {
     }
 
-    bool done(void) {
+    bool done() {
         return this->_done() && _rest.done();
     }
 
@@ -530,7 +520,7 @@ public:
         this->_next_if(m);
     }
 
-    Entity min_entity(void) {
+    Entity min_entity() {
         if(_rest.done()) {
             assert(!this->_done());
             return this->_current();
@@ -544,7 +534,7 @@ public:
         return (m < c) ? m : c;
     }
 
-    void next(void) {
+    void next() {
         next_if_min(min_entity());
     }
 
@@ -566,7 +556,7 @@ public:
         }
     }
 
-    void apply(void) {
+    void apply() {
         static_assert(sizeof...(CL) == 0, "");
         assert(!done());
 
@@ -604,7 +594,7 @@ protected:
     using _manager_for_each_c_m_base<Entity, C>::_done;
     using _manager_for_each_c_m_base<Entity, C>::_current;
 
-    bool _next(void) {
+    bool _next() {
         if(_current() >= _iter.current()) {
             _iter.next();
         }
@@ -644,7 +634,7 @@ public:
       , _func(func) {
     }
 
-    bool done(void) {
+    bool done() {
         return this->_done();
     }
 
@@ -652,11 +642,11 @@ public:
         return this->_find(m);
     }
 
-    Entity max_entity(void) {
+    Entity max_entity() {
         return this->_current();
     }
 
-    bool next(void) {
+    bool next() {
         return this->_next();
     }
 
@@ -690,7 +680,7 @@ public:
       , _rest(func, r...) {
     }
 
-    bool done(void) {
+    bool done() {
         return this->_done() || _rest.done();
     }
 
@@ -698,18 +688,18 @@ public:
         return _rest.sync_to(m) && this->_find(m);
     }
 
-    Entity max_entity(void) {
+    Entity max_entity() {
         Entity m = _rest.max_entity();
         Entity c = this->_current();
         return (m > c) ? m : c;
     }
 
-    bool sync(void) {
+    bool sync() {
         static_assert(sizeof...(CL) == 0, "");
         return sync_to(max_entity());
     }
 
-    bool next(void) {
+    bool next() {
         return _rest.next() && this->_next();
     }
 
@@ -722,7 +712,7 @@ public:
         this->_apply(hlpr);
     }
 
-    void apply(void) {
+    void apply() {
         static_assert(sizeof...(CL) == 0, "");
         assert(!done());
 

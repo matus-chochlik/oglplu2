@@ -57,13 +57,13 @@ private:
     using _idx_t =
       std::array<std::array<std::size_t, N>, _base::num_rounds_for(N)>;
 
-    static _idx_t _make_idx(void) {
+    static _idx_t _make_idx() {
         _idx_t result;
         _base::_fill_idx(result.data());
         return result;
     }
 
-    static _idx_t& _get_idx(void) {
+    static _idx_t& _get_idx() {
         static _idx_t idx = _make_idx();
         return idx;
     }
@@ -73,11 +73,11 @@ private:
     }
 
 public:
-    static constexpr inline span_size_t size(void) noexcept {
+    static constexpr inline span_size_t size() noexcept {
         return N;
     }
 
-    static constexpr inline span_size_t rounds(void) noexcept {
+    static constexpr inline span_size_t rounds() noexcept {
         return _base::num_rounds_for(N);
     }
 
@@ -109,7 +109,7 @@ private:
     using _base = manual_sorting_network_base<N>;
 
 public:
-    static constexpr inline span_size_t size(void) noexcept {
+    static constexpr inline span_size_t size() noexcept {
         return N;
     }
 
@@ -128,7 +128,7 @@ template <>
 struct manual_sorting_network_base<1> {
     static constexpr bool is_specialized = true;
 
-    static constexpr inline span_size_t rounds(void) noexcept {
+    static constexpr inline span_size_t rounds() noexcept {
         return 1;
     }
 
@@ -142,7 +142,7 @@ template <>
 struct manual_sorting_network_base<2> {
     static constexpr bool is_specialized = true;
 
-    static constexpr inline span_size_t rounds(void) noexcept {
+    static constexpr inline span_size_t rounds() noexcept {
         return 1;
     }
 
@@ -156,7 +156,7 @@ template <>
 struct manual_sorting_network_base<3> {
     static constexpr bool is_specialized = true;
 
-    static constexpr inline span_size_t rounds(void) noexcept {
+    static constexpr inline span_size_t rounds() noexcept {
         return 3;
     }
 
@@ -174,11 +174,11 @@ template <>
 struct manual_sorting_network_base<4> {
     static constexpr bool is_specialized = true;
 
-    static constexpr inline span_size_t size(void) noexcept {
+    static constexpr inline span_size_t size() noexcept {
         return 4;
     }
 
-    static constexpr inline span_size_t rounds(void) noexcept {
+    static constexpr inline span_size_t rounds() noexcept {
         return 3;
     }
 
@@ -197,11 +197,11 @@ template <>
 struct manual_sorting_network_base<5> {
     static constexpr bool is_specialized = true;
 
-    static constexpr inline span_size_t size(void) noexcept {
+    static constexpr inline span_size_t size() noexcept {
         return 5;
     }
 
-    static constexpr inline span_size_t rounds(void) noexcept {
+    static constexpr inline span_size_t rounds() noexcept {
         return 5;
     }
 
@@ -223,11 +223,11 @@ template <>
 struct manual_sorting_network_base<6> {
     static constexpr bool is_specialized = true;
 
-    static constexpr inline span_size_t size(void) noexcept {
+    static constexpr inline span_size_t size() noexcept {
         return 6;
     }
 
-    static constexpr inline span_size_t rounds(void) noexcept {
+    static constexpr inline span_size_t rounds() noexcept {
         return 5;
     }
 
@@ -249,11 +249,11 @@ template <>
 struct manual_sorting_network_base<7> {
     static constexpr bool is_specialized = true;
 
-    static constexpr inline span_size_t size(void) noexcept {
+    static constexpr inline span_size_t size() noexcept {
         return 7;
     }
 
-    static constexpr inline span_size_t rounds(void) noexcept {
+    static constexpr inline span_size_t rounds() noexcept {
         return 6;
     }
 
@@ -276,11 +276,11 @@ template <>
 struct manual_sorting_network_base<8> {
     static constexpr bool is_specialized = true;
 
-    static constexpr inline span_size_t size(void) noexcept {
+    static constexpr inline span_size_t size() noexcept {
         return 8;
     }
 
-    static constexpr inline span_size_t rounds(void) noexcept {
+    static constexpr inline span_size_t rounds() noexcept {
         return 6;
     }
 
@@ -303,11 +303,11 @@ template <>
 struct manual_sorting_network_base<9> {
     static constexpr bool is_specialized = true;
 
-    static constexpr inline span_size_t size(void) noexcept {
+    static constexpr inline span_size_t size() noexcept {
         return 9;
     }
 
-    static constexpr inline span_size_t rounds(void) noexcept {
+    static constexpr inline span_size_t rounds() noexcept {
         return 7;
     }
 
@@ -331,11 +331,11 @@ template <>
 struct manual_sorting_network_base<10> {
     static constexpr bool is_specialized = true;
 
-    static constexpr inline span_size_t size(void) noexcept {
+    static constexpr inline span_size_t size() noexcept {
         return 10;
     }
 
-    static constexpr inline span_size_t rounds(void) noexcept {
+    static constexpr inline span_size_t rounds() noexcept {
         return 7;
     }
 
@@ -361,11 +361,11 @@ template <>
 struct manual_sorting_network_base<11> {
     static constexpr bool is_specialized = true;
 
-    static constexpr inline span_size_t size(void) noexcept {
+    static constexpr inline span_size_t size() noexcept {
         return 11;
     }
 
-    static constexpr inline span_size_t rounds(void) noexcept {
+    static constexpr inline span_size_t rounds() noexcept {
         return 8;
     }
 
@@ -392,11 +392,11 @@ template <>
 struct manual_sorting_network_base<12> {
     static constexpr bool is_specialized = true;
 
-    static constexpr inline span_size_t size(void) noexcept {
+    static constexpr inline span_size_t size() noexcept {
         return 12;
     }
 
-    static constexpr inline span_size_t rounds(void) noexcept {
+    static constexpr inline span_size_t rounds() noexcept {
         return 8;
     }
 
@@ -422,11 +422,11 @@ template <>
 struct manual_sorting_network_base<14> {
     static constexpr bool is_specialized = true;
 
-    static constexpr inline span_size_t size(void) noexcept {
+    static constexpr inline span_size_t size() noexcept {
         return 14;
     }
 
-    static constexpr inline span_size_t rounds(void) noexcept {
+    static constexpr inline span_size_t rounds() noexcept {
         return 9;
     }
 
@@ -453,11 +453,11 @@ template <>
 struct manual_sorting_network_base<16> {
     static constexpr bool is_specialized = true;
 
-    static constexpr inline span_size_t size(void) noexcept {
+    static constexpr inline span_size_t size() noexcept {
         return 16;
     }
 
-    static constexpr inline span_size_t rounds(void) noexcept {
+    static constexpr inline span_size_t rounds() noexcept {
         return 9;
     }
 

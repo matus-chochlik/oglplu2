@@ -24,7 +24,7 @@ protected:
     }
 
 public:
-    owned(void) = default;
+    owned() = default;
 
     owned(const owned&) = delete;
     owned& operator=(const owned&) = delete;
@@ -36,7 +36,7 @@ public:
 template <typename ObjTag>
 class owned<object_name_and_ops<ObjTag>> : public object_name_and_ops<ObjTag> {
 public:
-    owned(void) = default;
+    owned() = default;
 
     owned(const owned&) = delete;
     owned& operator=(const owned&) = delete;
@@ -83,7 +83,7 @@ public:
         return obj_lifetime_ops<ObjTag>::delete_objects(names);
     }
 
-    object_owner(void)
+    object_owner()
       : owned<object_name_and_ops<ObjTag>>() {
         gen_(*this);
     }
@@ -100,7 +100,7 @@ public:
     object_owner(object_owner&&) = default;
     object_owner& operator=(object_owner&&) = default;
 
-    ~object_owner(void) {
+    ~object_owner() {
         try {
             delete_(*this);
         } catch(...) {
@@ -111,7 +111,7 @@ public:
         return obj_lifetime_ops<ObjTag>::is_object(name);
     }
 
-    auto is_object(void) const noexcept {
+    auto is_object() const noexcept {
         return is_object(*this);
     }
 };

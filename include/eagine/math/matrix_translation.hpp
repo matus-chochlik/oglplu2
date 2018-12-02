@@ -52,7 +52,7 @@ struct translation<matrix<T, 4, 4, RM, V>> {
                                           {_v[0], _v[1], _v[2], T(1)}}};
     }
 
-    constexpr inline matrix<T, 4, 4, RM, V> operator()(void) const noexcept {
+    constexpr inline matrix<T, 4, 4, RM, V> operator()() const noexcept {
         return _make(bool_constant<RM>());
     }
 };

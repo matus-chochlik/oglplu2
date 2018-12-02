@@ -24,7 +24,7 @@ struct generator_params {
     bool allow_fans;
     bool allow_primitive_restart;
 
-    generator_params(void) noexcept
+    generator_params() noexcept
       : allow_strips(true)
       , allow_fans(true)
       , allow_primitive_restart(false) {
@@ -32,24 +32,24 @@ struct generator_params {
 };
 
 struct generator_intf {
-    generator_intf(void) = default;
+    generator_intf() = default;
     generator_intf(const generator_intf&) = default;
-    virtual ~generator_intf(void) = default;
+    virtual ~generator_intf() = default;
 
-    virtual span_size_t vertex_count(void) = 0;
+    virtual span_size_t vertex_count() = 0;
 
     virtual span_size_t values_per_vertex(vertex_attrib_kind attr) = 0;
 
     virtual void attrib_values(
       vertex_attrib_kind attr, const span<float>& dest) = 0;
 
-    virtual index_data_type index_type(void) = 0;
+    virtual index_data_type index_type() = 0;
 
-    virtual span_size_t index_count(void) = 0;
+    virtual span_size_t index_count() = 0;
 
     virtual void indices(const span<unsigned>& dest) = 0;
 
-    virtual span_size_t operation_count(void) = 0;
+    virtual span_size_t operation_count() = 0;
 
     virtual void instructions(const span<draw_operation>& dest) = 0;
 };
@@ -65,23 +65,23 @@ protected:
     }
 
 public:
-    vertex_attrib_bits attrib_bits(void) const noexcept {
+    vertex_attrib_bits attrib_bits() const noexcept {
         return _attr_bits;
     }
 
-    generator_params& parameters(void) noexcept {
+    generator_params& parameters() noexcept {
         return _params;
     }
 
-    bool strips_allowed(void) const noexcept {
+    bool strips_allowed() const noexcept {
         return _params.allow_strips;
     }
 
-    bool fans_allowed(void) const noexcept {
+    bool fans_allowed() const noexcept {
         return _params.allow_fans;
     }
 
-    bool primitive_restart(void) const noexcept {
+    bool primitive_restart() const noexcept {
         return _params.allow_primitive_restart;
     }
 

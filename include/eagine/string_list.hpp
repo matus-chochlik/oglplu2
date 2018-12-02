@@ -91,10 +91,10 @@ push_back(std::string& list, const cstring_span& value) noexcept {
 
 class element : public cstring_span {
 private:
-    cstring_span& _base(void) {
+    cstring_span& _base() {
         return *this;
     }
-    const cstring_span& _base(void) const {
+    const cstring_span& _base() const {
         return *this;
     }
 
@@ -132,31 +132,31 @@ public:
       : cstring_span(_rev_fit(ptr, rev_sz, foot_sz)) {
     }
 
-    span_size_t header_size(void) const noexcept {
+    span_size_t header_size() const noexcept {
         return element_header_size(_base());
     }
 
-    cstring_span header(void) const noexcept {
+    cstring_span header() const noexcept {
         return {data(), header_size()};
     }
 
-    span_size_t value_size(void) const noexcept {
+    span_size_t value_size() const noexcept {
         return element_value_size(header());
     }
 
-    const char* value_data(void) const noexcept {
+    const char* value_data() const noexcept {
         return data() + header_size();
     }
 
-    cstring_span value(void) const noexcept {
+    cstring_span value() const noexcept {
         return {value_data(), value_size()};
     }
 
-    span_size_t footer_size(void) const noexcept {
+    span_size_t footer_size() const noexcept {
         return element_header_size(_base());
     }
 
-    cstring_span footer(void) const noexcept {
+    cstring_span footer() const noexcept {
         return {data() + header_size() + value_size(), header_size()};
     }
 };
@@ -260,12 +260,12 @@ private:
     Iter _pos;
     mutable cstring_span _tmp;
 
-    byte _b(void) const noexcept {
+    byte _b() const noexcept {
         assert(_pos != nullptr);
         return byte(*_pos);
     }
 
-    span_size_t _len_len(void) const noexcept {
+    span_size_t _len_len() const noexcept {
         byte b = _b();
         assert(mbs::is_valid_head_byte(b));
         return mbs::do_decode_sequence_length(b).value();
@@ -276,7 +276,7 @@ private:
         return mbs::do_decode_code_point(mbs::make_cbyte_span(el), ll);
     }
 
-    void _update(void) const {
+    void _update() const {
         if(_pos != nullptr && (_tmp.size() == 0)) {
             span_size_t ll = _len_len();
             span_size_t vl = _val_len(ll);
@@ -291,7 +291,7 @@ public:
     typedef const value_type* pointer;
     typedef std::forward_iterator_tag iterator_category;
 
-    iterator(void) noexcept
+    iterator() noexcept
       : _pos(nullptr) {
     }
 
@@ -311,19 +311,19 @@ public:
         return a._pos < b._pos;
     }
 
-    reference operator*(void)const noexcept {
+    reference operator*() const noexcept {
         assert(_pos != nullptr);
         _update();
         return _tmp;
     }
 
-    pointer operator->(void)const noexcept {
+    pointer operator->() const noexcept {
         assert(_pos != nullptr);
         _update();
         return &_tmp;
     }
 
-    iterator& operator++(void) noexcept {
+    iterator& operator++() noexcept {
         assert(_pos != nullptr);
         span_size_t ll = _len_len();
         span_size_t vl = _val_len(ll);
@@ -345,19 +345,19 @@ private:
     mutable Iter _pos;
     mutable cstring_span _tmp;
 
-    byte _b(void) const noexcept {
+    byte _b() const noexcept {
         assert(_pos != nullptr);
         return byte(*_pos);
     }
 
-    void _rseek_head(void) const noexcept {
+    void _rseek_head() const noexcept {
         assert(_pos != nullptr);
         while(!mbs::is_valid_head_byte(_b())) {
             --_pos;
         }
     }
 
-    span_size_t _len_len(void) const noexcept {
+    span_size_t _len_len() const noexcept {
         byte b = _b();
         assert(mbs::is_valid_head_byte(b));
         return mbs::do_decode_sequence_length(b).value();
@@ -368,7 +368,7 @@ private:
         return mbs::do_decode_code_point(mbs::make_cbyte_span(el), ll);
     }
 
-    void _update(void) const {
+    void _update() const {
         if(_pos != nullptr && (_tmp.size() == 0)) {
             _rseek_head();
             span_size_t ll = _len_len();
@@ -384,7 +384,7 @@ public:
     typedef const value_type* pointer;
     typedef std::forward_iterator_tag iterator_category;
 
-    rev_iterator(void) noexcept
+    rev_iterator() noexcept
       : _pos(nullptr) {
     }
 
@@ -404,19 +404,19 @@ public:
         return a._pos > b._pos;
     }
 
-    reference operator*(void)const noexcept {
+    reference operator*() const noexcept {
         assert(_pos != nullptr);
         _update();
         return _tmp;
     }
 
-    pointer operator->(void)const noexcept {
+    pointer operator->() const noexcept {
         assert(_pos != nullptr);
         _update();
         return &_tmp;
     }
 
-    rev_iterator& operator++(void) noexcept {
+    rev_iterator& operator++() noexcept {
         assert(_pos != nullptr);
         _rseek_head();
         span_size_t ll = _len_len();

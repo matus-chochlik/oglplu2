@@ -49,7 +49,7 @@ public:
       : _blk(mmap(prot, flags, fdw)) {
     }
 
-    ~memory_mapped_file(void) noexcept {
+    ~memory_mapped_file() noexcept {
         if(_blk) {
             try {
                 ::munmap(_blk.data(), std_size(_blk.size()));
@@ -58,7 +58,7 @@ public:
         }
     }
 
-    memory_block block(void) noexcept {
+    memory_block block() noexcept {
         return _blk;
     }
 };

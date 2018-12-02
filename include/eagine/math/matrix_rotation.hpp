@@ -67,7 +67,7 @@ struct rotation_I<matrix<T, 4, 4, RM, V>, I> {
                                        {T(0), T(0), T(0), T(1)}}};
     }
 
-    constexpr inline matrix<T, 4, 4, RM, V> operator()(void) const {
+    constexpr inline matrix<T, 4, 4, RM, V> operator()() const {
         typedef int_constant<I> _axis;
         return _make(cos(_v), sin(_v) * (RM ? 1 : -1), _axis());
     }

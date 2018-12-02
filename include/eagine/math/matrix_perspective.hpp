@@ -38,27 +38,27 @@ struct perspective<matrix<T, 4, 4, RM, V>> {
       : _v{x_left, x_right, y_bottom, y_top, z_near, z_far} {
     }
 
-    constexpr inline T _x_left(void) const noexcept {
+    constexpr inline T _x_left() const noexcept {
         return _v[0];
     }
 
-    constexpr inline T _x_right(void) const noexcept {
+    constexpr inline T _x_right() const noexcept {
         return _v[1];
     }
 
-    constexpr inline T _y_bottom(void) const noexcept {
+    constexpr inline T _y_bottom() const noexcept {
         return _v[2];
     }
 
-    constexpr inline T _y_top(void) const noexcept {
+    constexpr inline T _y_top() const noexcept {
         return _v[3];
     }
 
-    constexpr inline T _z_near(void) const noexcept {
+    constexpr inline T _z_near() const noexcept {
         return _v[4];
     }
 
-    constexpr inline T _z_far(void) const noexcept {
+    constexpr inline T _z_far() const noexcept {
         return _v[5];
     }
 
@@ -90,31 +90,31 @@ struct perspective<matrix<T, 4, 4, RM, V>> {
         return perspective(x_left, x_right, y_bottom, y_top, z_near, z_far);
     }
 
-    constexpr inline T _m00(void) const noexcept {
+    constexpr inline T _m00() const noexcept {
         return (T(2) * _z_near()) / (_x_right() - _x_left());
     }
 
-    constexpr inline T _m11(void) const noexcept {
+    constexpr inline T _m11() const noexcept {
         return (T(2) * _z_near()) / (_y_top() - _y_bottom());
     }
 
-    constexpr inline T _m22(void) const noexcept {
+    constexpr inline T _m22() const noexcept {
         return -(_z_far() + _z_near()) / (_z_far() - _z_near());
     }
 
-    constexpr inline T _m20(void) const noexcept {
+    constexpr inline T _m20() const noexcept {
         return (_x_right() + _x_left()) / (_x_right() - _x_left());
     }
 
-    constexpr inline T _m21(void) const noexcept {
+    constexpr inline T _m21() const noexcept {
         return (_y_top() + _y_bottom()) / (_y_top() - _y_bottom());
     }
 
-    constexpr inline T _m23(void) const noexcept {
+    constexpr inline T _m23() const noexcept {
         return -T(1);
     }
 
-    constexpr inline T _m32(void) const noexcept {
+    constexpr inline T _m32() const noexcept {
         return -(T(2) * _z_far() * _z_near()) / (_z_far() - _z_near());
     }
 
@@ -134,7 +134,7 @@ struct perspective<matrix<T, 4, 4, RM, V>> {
                                           {T(0), T(0), _m32(), T(0)}}};
     }
 
-    constexpr inline matrix<T, 4, 4, RM, V> operator()(void) const noexcept {
+    constexpr inline matrix<T, 4, 4, RM, V> operator()() const noexcept {
         return _make(bool_constant<RM>());
     }
 };

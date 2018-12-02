@@ -62,13 +62,13 @@ public:
     typedef valid_if<file_descriptor, fd_set_valid_fd_policy>
       valid_file_descriptor;
 
-    file_descriptor_set(void) noexcept
+    file_descriptor_set() noexcept
       : _min(FD_SETSIZE)
       , _max(-1) {
         FD_ZERO(&_fds);
     }
 
-    optionally_valid<int> nfds(void) const noexcept {
+    optionally_valid<int> nfds() const noexcept {
         return {_max + 1, (_max >= 0) && (_max < FD_SETSIZE)};
     }
 

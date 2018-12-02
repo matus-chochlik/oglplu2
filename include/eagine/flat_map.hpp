@@ -90,25 +90,25 @@ struct flat_map_ops {
 template <typename Key, typename Val, typename Cmp, typename Derived>
 class flat_map_view_crtp {
 private:
-    const Derived& _self(void) const {
+    const Derived& _self() const {
         return *static_cast<const Derived*>(this);
     }
 
-    Derived& _self(void) {
+    Derived& _self() {
         return *static_cast<Derived*>(this);
     }
 
-    auto _b(void) const {
+    auto _b() const {
         return _self().begin();
     }
-    auto _b(void) {
+    auto _b() {
         return _self().begin();
     }
 
-    auto _e(void) const {
+    auto _e() const {
         return _self().end();
     }
-    auto _e(void) {
+    auto _e() {
         return _self().end();
     }
 
@@ -126,19 +126,19 @@ public:
     typedef Cmp key_compare;
     typedef typename _ops_t::value_compare value_compare;
 
-    const key_compare& key_comp(void) const {
+    const key_compare& key_comp() const {
         return _ops.value_comp.key_comp;
     }
 
-    const value_compare& value_comp(void) const {
+    const value_compare& value_comp() const {
         return _ops.value_comp;
     }
 
-    bool empty(void) const {
+    bool empty() const {
         return _ops.empty(_b(), _e());
     }
 
-    auto size(void) const {
+    auto size() const {
         return _ops.size(_b(), _e());
     }
 
@@ -279,7 +279,7 @@ public:
     using _base::lower_bound;
     using _base::value_comp;
 
-    flat_map(void) = default;
+    flat_map() = default;
     flat_map(const flat_map&) = default;
     flat_map(flat_map&&) = default;
     flat_map& operator=(const flat_map&) = default;
@@ -303,15 +303,15 @@ public:
         std::sort(_vec.begin(), _vec.end(), value_comp());
     }
 
-    bool empty(void) const {
+    bool empty() const {
         return _vec.empty();
     }
 
-    size_type size(void) const {
+    size_type size() const {
         return _vec.size();
     }
 
-    size_type max_size(void) const {
+    size_type max_size() const {
         return _vec.max_size();
     }
 
@@ -319,23 +319,23 @@ public:
         _vec.reserve(sz);
     }
 
-    void clear(void) {
+    void clear() {
         _vec.clear();
     }
 
-    iterator begin(void) {
+    iterator begin() {
         return _cast(_vec.begin());
     }
 
-    const_iterator begin(void) const {
+    const_iterator begin() const {
         return _cast(_vec.begin());
     }
 
-    iterator end(void) {
+    iterator end() {
         return _cast(_vec.end());
     }
 
-    const_iterator end(void) const {
+    const_iterator end() const {
         return _cast(_vec.end());
     }
 

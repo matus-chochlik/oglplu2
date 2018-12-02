@@ -61,7 +61,7 @@ public:
     typedef string_list::iterator<const char*> iterator;
     typedef string_list::rev_iterator<const char*> reverse_iterator;
 
-    basic_string_path(void) noexcept
+    basic_string_path() noexcept
       : _size{0} {
     }
 
@@ -154,17 +154,17 @@ public:
         return basic_string_path(a, EAGINE_TAG(plus), b);
     }
 
-    bool empty(void) const noexcept {
+    bool empty() const noexcept {
         assert((size() == 0) == _str.empty());
         return _str.empty();
     }
 
-    void clear(void) {
+    void clear() {
         _size = 0;
         _str.clear();
     }
 
-    size_type size(void) const noexcept {
+    size_type size() const noexcept {
         return _size;
     }
 
@@ -181,12 +181,12 @@ public:
         _str.reserve(std_size(s));
     }
 
-    str_span front(void) const noexcept {
+    str_span front() const noexcept {
         assert(!empty());
         return string_list::front_value(_str);
     }
 
-    str_span back(void) const noexcept {
+    str_span back() const noexcept {
         assert(!empty());
         return string_list::back_value(_str);
     }
@@ -201,26 +201,26 @@ public:
         ++_size;
     }
 
-    void pop_back(void) {
+    void pop_back() {
         assert(!empty());
         _str.resize(std_size(string_list::pop_back(_str).size()));
         --_size;
     }
 
-    iterator begin(void) const noexcept {
+    iterator begin() const noexcept {
         return empty() ? iterator() : iterator(_str.data());
     }
 
-    iterator end(void) const noexcept {
+    iterator end() const noexcept {
         return empty() ? iterator() : iterator(_str.data() + _str.size());
     }
 
-    reverse_iterator rbegin(void) const noexcept {
+    reverse_iterator rbegin() const noexcept {
         return empty() ? reverse_iterator()
                        : reverse_iterator(_str.data() + _str.size() - 1);
     }
 
-    reverse_iterator rend(void) const noexcept {
+    reverse_iterator rend() const noexcept {
         return empty() ? reverse_iterator() : reverse_iterator(_str.data() - 1);
     }
 
@@ -248,7 +248,7 @@ public:
         return string_list::join(make_span(_str), sep, trail_sep);
     }
 
-    memory::const_block block(void) noexcept {
+    memory::const_block block() noexcept {
         return memory::const_block(_str.data(), span_size(_str.size()));
     }
 };

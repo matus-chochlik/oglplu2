@@ -25,7 +25,7 @@ struct member_function_constant<RV (C::*)(P...), Ptr> {
     typedef C scope;
     typedef std::false_type is_const;
 
-    static constexpr pointer get(void) noexcept {
+    static constexpr pointer get() noexcept {
         return Ptr;
     }
 
@@ -33,7 +33,7 @@ struct member_function_constant<RV (C::*)(P...), Ptr> {
         return (c->*Ptr)(std::forward<P>(a)...);
     }
 
-    static free_pointer make_free(void) noexcept {
+    static free_pointer make_free() noexcept {
         return &free_func;
     }
 };
@@ -46,7 +46,7 @@ struct member_function_constant<RV (C::*)(P...) const, Ptr> {
     typedef C scope;
     typedef std::true_type is_const;
 
-    static constexpr pointer get(void) noexcept {
+    static constexpr pointer get() noexcept {
         return Ptr;
     }
 
@@ -54,7 +54,7 @@ struct member_function_constant<RV (C::*)(P...) const, Ptr> {
         return (c->*Ptr)(std::forward<P>(a)...);
     }
 
-    static free_pointer make_free(void) noexcept {
+    static free_pointer make_free() noexcept {
         return &free_func;
     }
 };

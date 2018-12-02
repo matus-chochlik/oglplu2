@@ -25,7 +25,7 @@ struct error_info {
       , file_desc(fd) {
     }
 
-    constexpr error_info(void) noexcept
+    constexpr error_info() noexcept
       : error_code(0)
       , file_desc(-1) {
     }

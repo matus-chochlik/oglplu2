@@ -52,7 +52,7 @@ struct enum_bitfield {
 
     value_type _value;
 
-    constexpr inline enum_bitfield(void) noexcept
+    constexpr inline enum_bitfield() noexcept
       : _value(0) {
     }
 
@@ -78,7 +78,7 @@ struct enum_bitfield {
       : _value(eb._bits) {
     }
 
-    explicit constexpr inline operator value_type(void) const noexcept {
+    explicit constexpr inline operator value_type() const noexcept {
         return _value;
     }
 

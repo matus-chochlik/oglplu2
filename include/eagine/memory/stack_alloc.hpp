@@ -29,11 +29,11 @@ private:
     T* _min;
     span_size_t _dif;
 
-    const_block _store(void) const noexcept;
+    const_block _store() const noexcept;
 
-    const_block _allocated(void) const noexcept;
+    const_block _allocated() const noexcept;
 
-    const_block _available(void) const noexcept;
+    const_block _available() const noexcept;
 
 public:
     typedef T value_type;
@@ -48,19 +48,19 @@ public:
 
     base_stack_allocator(base_stack_allocator&& tmp) noexcept;
 
-    base_stack_allocator(void) noexcept;
+    base_stack_allocator() noexcept;
 
     base_stack_allocator(const block& blk, span_size_t align) noexcept;
 
     base_stack_allocator(const block& blk) noexcept;
 
-    ~base_stack_allocator(void) noexcept;
+    ~base_stack_allocator() noexcept;
 
-    size_type max_size(void) const noexcept {
+    size_type max_size() const noexcept {
         return _available().size();
     }
 
-    size_type allocated_size(void) const noexcept {
+    size_type allocated_size() const noexcept {
         return _allocated().size();
     }
 
@@ -182,9 +182,9 @@ public:
 
     span_size_t _own_end_misalign(_this_class* p) const noexcept;
 
-    byte_allocator* accomodate_self(void) noexcept;
+    byte_allocator* accomodate_self() noexcept;
 
-    void eject_self(void) noexcept override;
+    void eject_self() noexcept override;
 };
 
 } // namespace memory

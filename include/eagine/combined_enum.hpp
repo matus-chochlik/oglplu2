@@ -33,7 +33,7 @@ public:
 
     value_type _value;
 
-    combined_enum_value(void) = default;
+    combined_enum_value() = default;
 
     template <
       typename Classes,
@@ -57,15 +57,15 @@ public:
       : _value(value) {
     }
 
-    explicit constexpr inline operator value_type(void) const noexcept {
+    explicit constexpr inline operator value_type() const noexcept {
         return _value;
     }
 
-    explicit operator Enum(void) const noexcept {
+    explicit operator Enum() const noexcept {
         return Enum(_value);
     }
 
-    explicit operator IndexedEnum(void) const noexcept {
+    explicit operator IndexedEnum() const noexcept {
         return IndexedEnum(_value);
     }
 

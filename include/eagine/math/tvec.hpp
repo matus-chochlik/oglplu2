@@ -20,7 +20,7 @@ template <typename T, int N, bool V>
 struct tvec : vector<T, N, V> {
     typedef vector<T, N, V> _base;
 
-    constexpr inline tvec(void) noexcept
+    constexpr inline tvec() noexcept
       : _base(_base::zero()) {
     }
 

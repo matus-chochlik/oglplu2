@@ -36,7 +36,7 @@ public:
         return (c >= std::uint8_t(sizeof...(C)));
     }
 
-    static inline cstring_span chars(void) {
+    static inline cstring_span chars() {
         static const char s[] = {C..., '\0'};
         return {s, s + sizeof...(C)};
     }
@@ -164,23 +164,23 @@ public:
     using iterator = const char*;
     using const_iterator = iterator;
 
-    const char* data(void) const noexcept {
+    const char* data() const noexcept {
         return _str.data();
     }
 
-    size_type size(void) const noexcept {
+    size_type size() const noexcept {
         return size_type(_len);
     }
 
-    const_iterator begin(void) const {
+    const_iterator begin() const {
         return _str.data();
     }
 
-    const_iterator end(void) const {
+    const_iterator end() const {
         return _str.data() + size();
     }
 
-    std::string str(void) const {
+    std::string str() const {
         return {_str.data(), _len};
     }
 
@@ -207,18 +207,18 @@ public:
     using value_type = char;
     using name_type = identifier_name<M>;
 
-    basic_identifier(void) = default;
+    basic_identifier() = default;
 
     template <std::size_t L, typename = std::enable_if_t<(L <= M + 1)>>
     constexpr inline basic_identifier(const char (&init)[L]) noexcept
       : _bites{_make_bites(init, std::make_index_sequence<M>{})} {
     }
 
-    static constexpr inline size_type max_size(void) noexcept {
+    static constexpr inline size_type max_size() noexcept {
         return size_type(M);
     }
 
-    constexpr inline size_type size(void) const noexcept {
+    constexpr inline size_type size() const noexcept {
         return size_type(_get_size(0));
     }
 
@@ -226,15 +226,15 @@ public:
         return value_type(encoding::decode(_bites[idx]));
     }
 
-    constexpr inline UIntT value(void) const noexcept {
+    constexpr inline UIntT value() const noexcept {
         return _bites.bytes().template as<UIntT>();
     }
 
-    constexpr inline name_type name(void) const noexcept {
+    constexpr inline name_type name() const noexcept {
         return _get_name(std::make_index_sequence<M>{});
     }
 
-    inline std::string str(void) const {
+    inline std::string str() const {
         return name().str();
     }
 

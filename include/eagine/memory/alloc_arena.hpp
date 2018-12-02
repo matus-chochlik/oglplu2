@@ -40,7 +40,7 @@ private:
     T* _make_1(const span_size_t align, Args&&... args);
 
 public:
-    basic_allocation_arena(void) = default;
+    basic_allocation_arena() = default;
 
     template <typename... P>
     explicit basic_allocation_arena(P&&... p)
@@ -51,16 +51,16 @@ public:
       : _alloc(std::move(alloc)) {
     }
 
-    ~basic_allocation_arena(void) {
+    ~basic_allocation_arena() {
         clear();
     }
 
-    bool empty(void) const noexcept {
+    bool empty() const noexcept {
         assert(_blks.empty() == _alns.empty());
         return _blks.empty();
     }
 
-    void clear(void);
+    void clear();
 
     block allocate(span_size_t size, span_size_t align) {
         _blks.push_back(_alloc.allocate(size, align));

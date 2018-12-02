@@ -53,7 +53,7 @@ private:
     T _values[N];
 
 public:
-    constexpr inline value_with_history_storage(void) = default;
+    constexpr inline value_with_history_storage() = default;
 
     template <typename... I>
     constexpr inline value_with_history_storage(I&&... initial)
@@ -74,13 +74,13 @@ public:
         _values[i] = value;
     }
 
-    void make_history(void) noexcept {
+    void make_history() noexcept {
         for(std::size_t i = 1; i < N; ++i) {
             _values[N - i] = _values[N - i - 1];
         }
     }
 
-    void sync(void) noexcept {
+    void sync() noexcept {
         for(std::size_t i = 1; i < N; ++i) {
             _values[i] = _values[0];
         }
@@ -130,7 +130,7 @@ private:
     value_with_history_storage<T, N> _values;
 
 protected:
-    value_with_history_storage<T, N>& values(void) noexcept {
+    value_with_history_storage<T, N>& values() noexcept {
         return _values;
     }
 
@@ -150,7 +150,7 @@ protected:
         return true;
     }
 
-    value_with_history(void) = default;
+    value_with_history() = default;
 
     inline explicit value_with_history(const T& initial) noexcept
       : _values(initial) {
@@ -167,19 +167,19 @@ public:
       : _values{std::forward<I>(initial)...} {
     }
 
-    const value_with_history_storage<T, N>& values(void) const noexcept {
+    const value_with_history_storage<T, N>& values() const noexcept {
         return _values;
     }
 
-    auto get(void) const noexcept {
+    auto get() const noexcept {
         return values().get(0);
     }
 
-    auto value(void) const noexcept {
+    auto value() const noexcept {
         return values().get(0);
     }
 
-    auto old_value(void) const noexcept {
+    auto old_value() const noexcept {
         return values().get(1);
     }
 
@@ -187,20 +187,20 @@ public:
         return old ? old_value() : value();
     }
 
-    operator T(void) const noexcept {
+    operator T() const noexcept {
         return value();
     }
 
     template <typename U, typename... P>
-    operator valid_if<U, P...>(void) const noexcept {
+    operator valid_if<U, P...>() const noexcept {
         return {U(value())};
     }
 
-    auto delta(void) const noexcept {
+    auto delta() const noexcept {
         return value_with_history_delta(value(), old_value());
     }
 
-    auto deltas(void) const noexcept {
+    auto deltas() const noexcept {
         return value_with_history<decltype(delta()), N - 1>(
           differentiate_stored_values(
             [](const T& n, const T& o) {
@@ -209,20 +209,20 @@ public:
             values()));
     }
 
-    auto distance(void) const noexcept {
+    auto distance() const noexcept {
         return value_with_history_distance(value(), old_value());
     }
 
-    bool changed(void) const noexcept {
+    bool changed() const noexcept {
         return value_with_history_changed(old_value(), value());
     }
 
     template <typename U>
-    auto as(void) const {
+    auto as() const {
         return value_with_history<U, N>(convert_stored_values<U>(values()));
     }
 
-    void sync(void) {
+    void sync() {
         this->values().sync();
     }
 };

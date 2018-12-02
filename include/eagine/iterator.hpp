@@ -19,7 +19,7 @@ class basic_iterable_type {
 protected:
     T _value;
 
-    Derived& self(void) noexcept {
+    Derived& self() noexcept {
         return *static_cast<Derived*>(this);
     }
 
@@ -27,17 +27,17 @@ public:
     typedef T value_type;
     typedef std::ptrdiff_t difference_type;
 
-    basic_iterable_type(void) = default;
+    basic_iterable_type() = default;
 
     constexpr basic_iterable_type(T value) noexcept
       : _value(value) {
     }
 
-    explicit constexpr operator T(void) const noexcept {
+    explicit constexpr operator T() const noexcept {
         return _value;
     }
 
-    Derived& operator++(void) noexcept {
+    Derived& operator++() noexcept {
         ++_value;
         return self();
     }
@@ -60,7 +60,7 @@ public:
         return res;
     }
 
-    Derived& operator--(void) noexcept {
+    Derived& operator--() noexcept {
         --_value;
         return self();
     }
@@ -128,7 +128,7 @@ public:
 
     using basic_iterable_type<T, Derived>::basic_iterable_type;
 
-    const T& operator*(void)const noexcept {
+    const T& operator*() const noexcept {
         return this->_value;
     }
 };
@@ -153,12 +153,12 @@ private:
 
     mutable S _tempval;
 
-    const _base& _base_iter(void) const noexcept {
+    const _base& _base_iter() const noexcept {
         return *this;
     }
 
 public:
-    basic_transforming_iterator(void) = default;
+    basic_transforming_iterator() = default;
 
     basic_transforming_iterator(Iterator iter, Transform transf)
       : _base(iter)
@@ -170,7 +170,7 @@ public:
     typedef const T& reference;
     typedef const T* pointer;
 
-    const T& operator*(void)const {
+    const T& operator*() const {
         _tempval = _transf(**_base_iter());
         return _tempval;
     }
@@ -183,12 +183,12 @@ private:
     typedef basic_selfref_iterator<Iterator, Derived> _base;
     Transform _transf;
 
-    const _base& _base_iter(void) const noexcept {
+    const _base& _base_iter() const noexcept {
         return *this;
     }
 
 public:
-    basic_transforming_iterator(void) = default;
+    basic_transforming_iterator() = default;
 
     basic_transforming_iterator(Iterator iter, Transform transf)
       : _base(iter)
@@ -199,11 +199,11 @@ public:
     typedef const T& reference;
     typedef const T* pointer;
 
-    T& operator*(void) {
+    T& operator*() {
         return _transf(**_base_iter());
     }
 
-    const T& operator*(void)const {
+    const T& operator*() const {
         return _transf(**_base_iter());
     }
 };

@@ -31,7 +31,7 @@ struct enum_value<T, mp_list<Classes...>> {
       : value(val) {
     }
 
-    explicit constexpr inline operator T(void) const noexcept {
+    explicit constexpr inline operator T() const noexcept {
         return value;
     }
 };
@@ -50,7 +50,7 @@ struct enum_class {
 
     value_type _value;
 
-    enum_class(void) = default;
+    enum_class() = default;
 
     template <
       typename Classes,
@@ -68,11 +68,11 @@ struct enum_class {
       : _value(value) {
     }
 
-    constexpr inline operator Self(void) const noexcept {
+    constexpr inline operator Self() const noexcept {
         return Self(_value);
     }
 
-    explicit constexpr inline operator value_type(void) const noexcept {
+    explicit constexpr inline operator value_type() const noexcept {
         return _value;
     }
 
@@ -100,7 +100,7 @@ template <unsigned LibId>
 struct any_enum_class {
     unsigned _type_id;
 
-    constexpr inline any_enum_class(void) noexcept
+    constexpr inline any_enum_class() noexcept
       : _type_id(~unsigned(0)) {
     }
 
@@ -114,11 +114,11 @@ struct any_enum_class {
       : _type_id(aev._type_id) {
     }
 
-    explicit constexpr inline operator bool(void) const noexcept {
+    explicit constexpr inline operator bool() const noexcept {
         return _type_id != ~unsigned(0);
     }
 
-    constexpr inline bool operator!(void) const noexcept {
+    constexpr inline bool operator!() const noexcept {
         return _type_id == ~unsigned(0);
     }
 
@@ -138,7 +138,7 @@ struct any_enum_value {
     long _value;
     unsigned _type_id;
 
-    constexpr inline any_enum_value(void) noexcept
+    constexpr inline any_enum_value() noexcept
       : _value(0)
       , _type_id(~unsigned(0)) {
     }
@@ -149,11 +149,11 @@ struct any_enum_value {
       , _type_id(Id) {
     }
 
-    explicit constexpr inline operator bool(void) const noexcept {
+    explicit constexpr inline operator bool() const noexcept {
         return _type_id != ~unsigned(0);
     }
 
-    constexpr inline bool operator!(void) const noexcept {
+    constexpr inline bool operator!() const noexcept {
         return _type_id == ~unsigned(0);
     }
 

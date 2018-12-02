@@ -17,15 +17,15 @@
 namespace eagine {
 namespace filesystem {
 
-cstr_ref path_separator(void) noexcept;
+cstr_ref path_separator() noexcept;
 
-cstr_ref alt_path_separator(void) noexcept;
+cstr_ref alt_path_separator() noexcept;
 
-bool has_alt_path_separator(void) noexcept;
+bool has_alt_path_separator() noexcept;
 
-cstr_ref path_curdir(void) noexcept;
+cstr_ref path_curdir() noexcept;
 
-cstr_ref path_pardir(void) noexcept;
+cstr_ref path_pardir() noexcept;
 
 cstr_ref basename(const cstr_ref& path) noexcept;
 
@@ -41,7 +41,7 @@ public:
     typedef basic_string_path::iterator iterator;
     typedef basic_string_path::reverse_iterator reverse_iterator;
 
-    string_path(void) = default;
+    string_path() = default;
 
     string_path(
       const str_span& path_str, const str_span& sep, const str_span& alt_sep);
@@ -93,19 +93,19 @@ public:
         return string_path(a, b);
     }
 
-    inline bool empty(void) const noexcept {
+    inline bool empty() const noexcept {
         return _p.empty();
     }
 
-    inline size_type size(void) const noexcept {
+    inline size_type size() const noexcept {
         return _p.size();
     }
 
-    inline str_span front(void) const noexcept {
+    inline str_span front() const noexcept {
         return _p.front();
     }
 
-    inline str_span back(void) const noexcept {
+    inline str_span back() const noexcept {
         return _p.back();
     }
 
@@ -114,48 +114,48 @@ public:
         return *this;
     }
 
-    inline void pop_back(void) {
+    inline void pop_back() {
         _p.pop_back();
     }
 
-    inline iterator begin(void) const {
+    inline iterator begin() const {
         return _p.begin();
     }
 
-    inline iterator end(void) const {
+    inline iterator end() const {
         return _p.end();
     }
 
-    inline reverse_iterator rbegin(void) const {
+    inline reverse_iterator rbegin() const {
         return _p.rbegin();
     }
 
-    inline reverse_iterator rend(void) const {
+    inline reverse_iterator rend() const {
         return _p.rend();
     }
 
-    inline std::string str(void) const {
+    inline std::string str() const {
         return _p.as_string(path_separator(), false);
     }
 
-    inline std::string dir_str(void) const {
+    inline std::string dir_str() const {
         return empty() ? std::string() : _p.as_string(path_separator(), true);
     }
 
-    string_path normalized(void) const;
+    string_path normalized() const;
 
-    string_path parent_path(void) const;
+    string_path parent_path() const;
 
     static bool is_root_name(const str_span& name) noexcept;
 
-    bool is_root_path(void) const noexcept;
+    bool is_root_path() const noexcept;
 
-    bool is_absolute(void) const noexcept;
+    bool is_absolute() const noexcept;
 
-    bool is_relative(void) const noexcept;
+    bool is_relative() const noexcept;
 };
 
-string_path current_working_directory(void);
+string_path current_working_directory();
 
 } // namespace filesystem
 } // namespace eagine

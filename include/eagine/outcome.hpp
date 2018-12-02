@@ -26,17 +26,17 @@ private:
     T _val;
 
 public:
-    basic_outcome_storage(void) = default;
+    basic_outcome_storage() = default;
 
     constexpr basic_outcome_storage(T val) noexcept
       : _val(std::move(val)) {
     }
 
-    constexpr const T& get(void) const noexcept {
+    constexpr const T& get() const noexcept {
         return _val;
     }
 
-    T& ref(void) noexcept {
+    T& ref() noexcept {
         return _val;
     }
 
@@ -55,7 +55,7 @@ private:
     T* _ref;
 
 public:
-    constexpr basic_outcome_storage(void) noexcept
+    constexpr basic_outcome_storage() noexcept
       : _ref(nullptr) {
     }
 
@@ -63,7 +63,7 @@ public:
       : _ref(&ref) {
     }
 
-    T& get(void) const noexcept {
+    T& get() const noexcept {
         assert(_ref != nullptr);
         return *_ref;
     }
@@ -90,7 +90,7 @@ protected:
     cancelled_handler<ErrorData, HandlerPolicy> _handler;
 
 public:
-    basic_outcome(void) = default;
+    basic_outcome() = default;
     basic_outcome(basic_outcome&&) = default;
 
     constexpr basic_outcome(
@@ -98,23 +98,23 @@ public:
       : _handler(std::move(handler)) {
     }
 
-    ErrorData& handler_data(void) noexcept {
+    ErrorData& handler_data() noexcept {
         return _handler.data();
     }
 
-    const ErrorData& handler_data(void) const noexcept {
+    const ErrorData& handler_data() const noexcept {
         return _handler.data();
     }
 
-    bool failed(void) const noexcept {
+    bool failed() const noexcept {
         return bool(_handler);
     }
 
-    bool succeeded(void) const noexcept {
+    bool succeeded() const noexcept {
         return !_handler;
     }
 
-    bool done_without_error(void) noexcept {
+    bool done_without_error() noexcept {
         return !_handler.cancel();
     }
 };
@@ -137,7 +137,7 @@ public:
       , _value(std::move(val_stor)) {
     }
 
-    T value(void) {
+    T value() {
         assert(this->succeeded());
         return _value.get();
     }
@@ -146,12 +146,12 @@ public:
         return this->succeeded() ? _value.get() : fallback;
     }
 
-    T&& rvalue(void) {
+    T&& rvalue() {
         assert(this->succeeded());
         return std::move(_value.ref());
     }
 
-    operator T &&(void) {
+    operator T &&() {
         return rvalue();
     }
 
@@ -169,7 +169,7 @@ protected:
     deferred_handler<ErrorData, HandlerPolicy> _handler;
 
 public:
-    basic_outcome(void) = default;
+    basic_outcome() = default;
     basic_outcome(basic_outcome&&) = default;
 
     constexpr basic_outcome(
@@ -182,25 +182,25 @@ public:
         T value) &&
       noexcept;
 
-    deferred_handler<ErrorData, HandlerPolicy> release_handler(void) noexcept {
+    deferred_handler<ErrorData, HandlerPolicy> release_handler() noexcept {
         return std::move(_handler);
     }
 
-    ErrorData& handler_data(void) noexcept {
+    ErrorData& handler_data() noexcept {
         return _handler.data();
     }
 
-    const ErrorData& handler_data(void) const noexcept {
+    const ErrorData& handler_data() const noexcept {
         return _handler.data();
     }
 
     basic_outcome<void, ErrorData, HandlerPolicy, cancelled_handler>
-    ignore_error(void) noexcept {
+    ignore_error() noexcept {
         return cancelled_handler<ErrorData, HandlerPolicy>(
           std::move(_handler.data()), _handler.cancel());
     }
 
-    void trigger_error(void) {
+    void trigger_error() {
         _handler.trigger();
     }
 
@@ -210,15 +210,15 @@ public:
         return handler_func(_handler.data());
     }
 
-    bool failed(void) const noexcept {
+    bool failed() const noexcept {
         return bool(_handler);
     }
 
-    bool succeeded(void) const noexcept {
+    bool succeeded() const noexcept {
         return !_handler;
     }
 
-    bool done_without_error(void) noexcept {
+    bool done_without_error() noexcept {
         return !_handler.cancel();
     }
 };
@@ -271,7 +271,7 @@ public:
                 std::move(_value)};
     }
 
-    void trigger_error(void) {
+    void trigger_error() {
         this->_handler.trigger();
     }
 
@@ -281,17 +281,17 @@ public:
         return handler_func(this->_handler.data());
     }
 
-    T value(void) {
+    T value() {
         trigger_error();
         return _value.get();
     }
 
-    T&& rvalue(void) {
+    T&& rvalue() {
         trigger_error();
         return std::move(_value.ref());
     }
 
-    operator T &&(void) {
+    operator T &&() {
         return rvalue();
     }
 
@@ -347,11 +347,11 @@ public:
       : basic_outcome<T, ErrorData, HandlerPolicy>(std::move(o)) {
     }
 
-    explicit operator bool(void) const noexcept {
+    explicit operator bool() const noexcept {
         return this->succeeded();
     }
 
-    bool operator!(void) const noexcept {
+    bool operator!() const noexcept {
         return this->failed();
     }
 };
@@ -371,11 +371,11 @@ public:
       : basic_outcome<T, ErrorData, HandlerPolicy>(std::move(o)) {
     }
 
-    explicit operator bool(void) const noexcept {
+    explicit operator bool() const noexcept {
         return this->failed();
     }
 
-    bool operator!(void) const noexcept {
+    bool operator!() const noexcept {
         return this->succeeded();
     }
 };

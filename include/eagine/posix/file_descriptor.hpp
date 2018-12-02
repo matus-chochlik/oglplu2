@@ -21,7 +21,7 @@ protected:
     int _fd;
 
 public:
-    constexpr inline file_descriptor(void) noexcept
+    constexpr inline file_descriptor() noexcept
       : _fd(-1) {
     }
 
@@ -43,15 +43,15 @@ public:
         return *this;
     }
 
-    constexpr bool is_valid(void) const noexcept {
+    constexpr bool is_valid() const noexcept {
         return _fd >= 0;
     }
 
-    explicit constexpr operator bool(void) const noexcept {
+    explicit constexpr operator bool() const noexcept {
         return is_valid();
     }
 
-    constexpr bool operator!(void) const noexcept {
+    constexpr bool operator!() const noexcept {
         return !is_valid();
     }
 
@@ -115,7 +115,7 @@ private:
     owned_file_descriptor _ofd;
 
 public:
-    file_descriptor_owner(void) = default;
+    file_descriptor_owner() = default;
 
     file_descriptor_owner(owned_file_descriptor&& ofd) noexcept
       : _ofd(std::move(ofd)) {
@@ -146,18 +146,18 @@ public:
         return *this;
     }
 
-    ~file_descriptor_owner(void) noexcept {
+    ~file_descriptor_owner() noexcept {
         try {
             ::close(get_raw_fd(_ofd));
         } catch(...) {
         }
     }
 
-    file_descriptor get(void) const noexcept {
+    file_descriptor get() const noexcept {
         return _ofd;
     }
 
-    operator file_descriptor(void) const noexcept {
+    operator file_descriptor() const noexcept {
         return get();
     }
 };

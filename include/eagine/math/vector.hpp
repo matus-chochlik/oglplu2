@@ -42,7 +42,7 @@ struct vector {
     typedef const vector& _cpT;
     typedef const scalar_type& _cspT;
 
-    static inline vector zero(void) noexcept {
+    static inline vector zero() noexcept {
         return vector{vect::fill<T, N, V>::apply(T(0))};
     }
 
@@ -51,7 +51,7 @@ struct vector {
     }
 
     template <int I>
-    static inline vector axis(void) noexcept {
+    static inline vector axis() noexcept {
         return vector{vect::axis<T, N, I, V>::apply(T(1))};
     }
 
@@ -111,25 +111,25 @@ struct vector {
     }
 
     template <int M = N>
-    constexpr inline std::enable_if_t<(M > 0), T> x(void) const noexcept {
+    constexpr inline std::enable_if_t<(M > 0), T> x() const noexcept {
         static_assert(M == N, "");
         return _v[0];
     }
 
     template <int M = N>
-    constexpr inline std::enable_if_t<(M > 1), T> y(void) const noexcept {
+    constexpr inline std::enable_if_t<(M > 1), T> y() const noexcept {
         static_assert(M == N, "");
         return _v[1];
     }
 
     template <int M = N>
-    constexpr inline std::enable_if_t<(M > 2), T> z(void) const noexcept {
+    constexpr inline std::enable_if_t<(M > 2), T> z() const noexcept {
         static_assert(M == N, "");
         return _v[2];
     }
 
     template <int M = N>
-    constexpr inline std::enable_if_t<(M > 3), T> w(void) const noexcept {
+    constexpr inline std::enable_if_t<(M > 3), T> w() const noexcept {
         static_assert(M == N, "");
         return _v[3];
     }

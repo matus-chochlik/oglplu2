@@ -26,7 +26,7 @@ struct indexed_enum_value {
 
     unsigned _index;
 
-    indexed_enum_value(void) = default;
+    indexed_enum_value() = default;
 
     constexpr inline indexed_enum_value(
       indexed_enum_base<T, Base, LibId>) noexcept
@@ -48,7 +48,7 @@ struct indexed_enum_value {
       : _index(unsigned(value - Base)) {
     }
 
-    explicit constexpr inline operator value_type(void) const noexcept {
+    explicit constexpr inline operator value_type() const noexcept {
         return value_type(Base + _index);
     }
 
@@ -67,11 +67,11 @@ struct indexed_enum_value {
         return a._index < b._index;
     }
 
-    static constexpr inline T base(void) noexcept {
+    static constexpr inline T base() noexcept {
         return Base;
     }
 
-    constexpr inline unsigned index(void) const noexcept {
+    constexpr inline unsigned index() const noexcept {
         return _index;
     }
 };
@@ -87,7 +87,7 @@ struct any_indexed_enum_value {
     unsigned _index;
     T _base_id;
 
-    constexpr inline any_indexed_enum_value(void) noexcept
+    constexpr inline any_indexed_enum_value() noexcept
       : _index(0u)
       , _base_id(~T(0)) {
     }
@@ -99,11 +99,11 @@ struct any_indexed_enum_value {
       , _base_id(Base) {
     }
 
-    explicit constexpr inline operator bool(void) const noexcept {
+    explicit constexpr inline operator bool() const noexcept {
         return _base_id != ~T(0);
     }
 
-    constexpr inline bool operator!(void) const noexcept {
+    constexpr inline bool operator!() const noexcept {
         return _base_id == ~T(0);
     }
 
@@ -117,11 +117,11 @@ struct any_indexed_enum_value {
         return (a._index != b._index) || (a._base_id |= b._base_id);
     }
 
-    constexpr inline T base(void) const noexcept {
+    constexpr inline T base() const noexcept {
         return _base_id;
     }
 
-    constexpr inline unsigned index(void) const noexcept {
+    constexpr inline unsigned index() const noexcept {
         return _index;
     }
 };

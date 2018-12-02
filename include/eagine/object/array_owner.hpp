@@ -18,12 +18,12 @@ namespace eagine {
 template <typename ObjTag, std::size_t N>
 class object_array_owner : public owned<object_name_array<ObjTag, N>> {
 private:
-    const object_name_array<ObjTag, N>& _ona(void) const {
+    const object_name_array<ObjTag, N>& _ona() const {
         return *this;
     }
 
 public:
-    object_array_owner(void)
+    object_array_owner()
       : owned<object_name_array<ObjTag, N>>() {
         obj_lifetime_ops<ObjTag>::gen_objects(*this);
     }
@@ -36,7 +36,7 @@ public:
     object_array_owner(object_array_owner&&) = default;
     object_array_owner& operator=(object_array_owner&&) = default;
 
-    ~object_array_owner(void) {
+    ~object_array_owner() {
         try {
             obj_lifetime_ops<ObjTag>::delete_objects(*this);
         } catch(...) {
@@ -51,7 +51,7 @@ public:
 template <typename ObjTag>
 class object_vector_owner : public owned<object_name_vector<ObjTag>> {
 private:
-    const object_name_vector<ObjTag>& _ona(void) const {
+    const object_name_vector<ObjTag>& _ona() const {
         return *this;
     }
 
@@ -69,7 +69,7 @@ public:
     object_vector_owner(object_vector_owner&&) = default;
     object_vector_owner& operator=(object_vector_owner&&) = default;
 
-    ~object_vector_owner(void) {
+    ~object_vector_owner() {
         try {
             obj_lifetime_ops<ObjTag>::delete_objects(*this);
         } catch(...) {

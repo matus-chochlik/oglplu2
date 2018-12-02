@@ -69,7 +69,7 @@ public:
     }
 
     template <typename... C>
-    component_relation<Entity, mp_list<PL..., mp_list<C...>>> cross(void) {
+    component_relation<Entity, mp_list<PL..., mp_list<C...>>> cross() {
         return {_m};
     }
 
@@ -117,13 +117,13 @@ private:
 
     template <bool IsR>
     component_uid_map<std::unique_ptr<base_storage<Entity, IsR>>>&
-    _get_storages(void) noexcept {
+    _get_storages() noexcept {
         return _get_storages(std::integral_constant<bool, IsR>());
     }
 
     template <bool IsR>
     const component_uid_map<std::unique_ptr<base_storage<Entity, IsR>>>&
-    _get_storages(void) const noexcept {
+    _get_storages() const noexcept {
         return _get_storages(std::integral_constant<bool, IsR>());
     }
 
@@ -134,7 +134,7 @@ private:
     static inline void _eat(P...) {
     }
 
-    static constexpr inline unsigned _count_true(void) {
+    static constexpr inline unsigned _count_true() {
         return 0;
     }
 
@@ -144,20 +144,20 @@ private:
     }
 
     template <typename C>
-    static inline std::string (*_cmp_name_getter(void))(void) {
+    static inline std::string (*_cmp_name_getter())() {
         return &type_name<C>;
     }
 
     template <typename Data, bool IsR>
-    storage<Entity, Data, IsR>& _find_storage(void);
+    storage<Entity, Data, IsR>& _find_storage();
 
     template <typename C>
-    component_storage<Entity, C>& _find_cmp_storage(void) {
+    component_storage<Entity, C>& _find_cmp_storage() {
         return _find_storage<C, false>();
     }
 
     template <typename R>
-    relation_storage<Entity, R>& _find_rel_storage(void) {
+    relation_storage<Entity, R>& _find_rel_storage() {
         return _find_storage<R, true>();
     }
 
@@ -165,35 +165,34 @@ private:
     void _do_reg_stg_type(
       std::unique_ptr<base_storage<Entity, IsR>>&&,
       component_uid_t,
-      std::string (*)(void));
+      std::string (*)());
 
     template <bool IsR>
-    void _do_unr_stg_type(component_uid_t, std::string (*)(void));
+    void _do_unr_stg_type(component_uid_t, std::string (*)());
 
     template <bool IsR>
     bool _does_know_stg_type(component_uid_t) const;
 
     template <bool IsR, typename Result, typename Func>
     Result _apply_on_base_stg(
-      Result, const Func&, component_uid_t, std::string (*)(void)) const;
+      Result, const Func&, component_uid_t, std::string (*)()) const;
 
     template <typename D, bool IsR, typename Result, typename Func>
     Result _apply_on_stg(Result, const Func&) const;
 
     template <bool IsR>
-    storage_caps _get_stg_type_caps(
-      component_uid_t, std::string (*)(void)) const;
+    storage_caps _get_stg_type_caps(component_uid_t, std::string (*)()) const;
 
-    bool _does_have_c(entity_param, component_uid_t, std::string (*)(void));
+    bool _does_have_c(entity_param, component_uid_t, std::string (*)());
 
     bool _does_have_r(
-      entity_param, entity_param, component_uid_t, std::string (*)(void));
+      entity_param, entity_param, component_uid_t, std::string (*)());
 
-    bool _is_hidn(entity_param, component_uid_t, std::string (*)(void));
+    bool _is_hidn(entity_param, component_uid_t, std::string (*)());
 
-    bool _do_show(entity_param, component_uid_t, std::string (*)(void));
+    bool _do_show(entity_param, component_uid_t, std::string (*)());
 
-    bool _do_hide(entity_param, component_uid_t, std::string (*)(void));
+    bool _do_hide(entity_param, component_uid_t, std::string (*)());
 
     template <typename Component>
     bool _do_add_c(entity_param, Component&& component);
@@ -202,18 +201,18 @@ private:
     bool _do_add_r(entity_param, entity_param, Relation&& relation);
 
     bool _do_add_r(
-      entity_param, entity_param, component_uid_t, std::string (*)(void));
+      entity_param, entity_param, component_uid_t, std::string (*)());
 
     bool _do_cpy(
-      entity_param f, entity_param t, component_uid_t, std::string (*)(void));
+      entity_param f, entity_param t, component_uid_t, std::string (*)());
 
     bool _do_swp(
-      entity_param f, entity_param t, component_uid_t, std::string (*)(void));
+      entity_param f, entity_param t, component_uid_t, std::string (*)());
 
-    bool _do_rem_c(entity_param, component_uid_t, std::string (*)(void));
+    bool _do_rem_c(entity_param, component_uid_t, std::string (*)());
 
     bool _do_rem_r(
-      entity_param, entity_param, component_uid_t, std::string (*)(void));
+      entity_param, entity_param, component_uid_t, std::string (*)());
 
     template <typename C, typename Func>
     bool _call_for_single_c(entity_param, const Func&);
@@ -234,7 +233,7 @@ private:
     T _do_get_c(T C::*, entity_param, T);
 
 public:
-    basic_manager(void) = default;
+    basic_manager() = default;
 
     template <typename Component>
     void register_component_type(
@@ -277,35 +276,35 @@ public:
     }
 
     template <typename Component>
-    void unregister_component_type(void) {
+    void unregister_component_type() {
         _do_unr_stg_type<false>(
           get_component_uid<Component>(), _cmp_name_getter<Component>());
     }
 
     template <typename Relation>
-    void unregister_relation_type(void) {
+    void unregister_relation_type() {
         _do_unr_stg_type<true>(
           get_component_uid<Relation>(), _cmp_name_getter<Relation>());
     }
 
     template <typename Component>
-    bool knows_component_type(void) const {
+    bool knows_component_type() const {
         return _does_know_stg_type<false>(get_component_uid<Component>());
     }
 
     template <typename Relation>
-    bool knows_relation_type(void) const {
+    bool knows_relation_type() const {
         return _does_know_stg_type<true>(get_component_uid<Relation>());
     }
 
     template <typename Component>
-    storage_caps component_storage_caps(void) const {
+    storage_caps component_storage_caps() const {
         return _get_stg_type_caps<false>(
           get_component_uid<Component>(), _cmp_name_getter<Component>());
     }
 
     template <typename Relation>
-    storage_caps relation_storage_caps(void) const {
+    storage_caps relation_storage_caps() const {
         return _get_stg_type_caps<true>(
           get_component_uid<Relation>(), _cmp_name_getter<Relation>());
     }
@@ -534,7 +533,7 @@ public:
     }
 
     template <typename... Components>
-    component_relation<Entity, mp_list<mp_list<Components...>>> select(void) {
+    component_relation<Entity, mp_list<mp_list<Components...>>> select() {
         return {*this};
     }
 };

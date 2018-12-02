@@ -24,7 +24,7 @@ private:
     shared_byte_allocator _sba;
 
 public:
-    const shared_byte_allocator& _get_sba(void) const {
+    const shared_byte_allocator& _get_sba() const {
         return _sba;
     }
 
@@ -50,12 +50,12 @@ public:
       : _sba(std::move(sba)) {
     }
 
-    std_allocator(void) noexcept
+    std_allocator() noexcept
       : _sba(default_byte_allocator()) {
     }
 
     template <typename ByteAlloc>
-    ByteAlloc& as(void) {
+    ByteAlloc& as() {
         return _sba.as<ByteAlloc>();
     }
 
@@ -67,7 +67,7 @@ public:
         return std::allocator<T>().address(r);
     }
 
-    size_type max_size(void) const noexcept {
+    size_type max_size() const noexcept {
         return _sba.max_size(alignof(T));
     }
 

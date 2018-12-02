@@ -25,7 +25,7 @@ struct _ary_data {
 
     typedef _ary_data type;
 
-    _ary_data(void) = default;
+    _ary_data() = default;
     _ary_data(const _ary_data& that) = default;
     _ary_data& operator=(const _ary_data& that) = default;
 

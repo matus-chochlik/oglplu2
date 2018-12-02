@@ -36,11 +36,11 @@ private:
     }
 
 public:
-    constexpr explicit operator bool(void) const noexcept {
+    constexpr explicit operator bool() const noexcept {
         return _value != _value_t::_false;
     }
 
-    constexpr bool operator!(void) const noexcept {
+    constexpr bool operator!() const noexcept {
         return _value != _value_t::_true;
     }
 
@@ -55,7 +55,7 @@ private:
     _value_t _value;
 
 public:
-    constexpr tribool(void) noexcept
+    constexpr tribool() noexcept
       : _value(_value_t::_false) {
     }
 
@@ -73,19 +73,19 @@ public:
                      : value ? _value_t::_true : _value_t::_false) {
     }
 
-    constexpr explicit operator bool(void) const noexcept {
+    constexpr explicit operator bool() const noexcept {
         return _value == _value_t::_true;
     }
 
-    constexpr bool operator!(void) const noexcept {
+    constexpr bool operator!() const noexcept {
         return _value == _value_t::_false;
     }
 
-    constexpr bool operator*(void)const noexcept {
+    constexpr bool operator*() const noexcept {
         return _value == _value_t::_unknown;
     }
 
-    constexpr weakbool operator~(void) const noexcept {
+    constexpr weakbool operator~() const noexcept {
         return weakbool{_value};
     }
 

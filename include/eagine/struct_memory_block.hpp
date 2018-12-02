@@ -21,12 +21,12 @@ private:
     memory::basic_block<std::is_const_v<T>> _blk;
 
     template <typename X = T, typename = std::enable_if_t<!std::is_const_v<X>>>
-    X* _ptr(void) noexcept {
+    X* _ptr() noexcept {
         assert(is_valid_block(_blk));
         return static_cast<X*>(_blk.addr());
     }
 
-    const T* _cptr(void) const noexcept {
+    const T* _cptr() const noexcept {
         assert(is_valid_block(_blk));
         return static_cast<const T*>(_blk.addr());
     }
@@ -46,22 +46,22 @@ public:
     template <
       typename X = T,
       typename = std::enable_if_t<!std::is_const_v<X> && std::is_same_v<X, T>>>
-    X& get(void) noexcept {
+    X& get() noexcept {
         return *_ptr();
     }
 
     template <
       typename X = T,
       typename = std::enable_if_t<!std::is_const_v<X> && std::is_same_v<X, T>>>
-    X* operator->(void)noexcept {
+    X* operator->() noexcept {
         return _ptr();
     }
 
-    const T& get(void) const noexcept {
+    const T& get() const noexcept {
         return *_cptr();
     }
 
-    const T* operator->(void)const noexcept {
+    const T* operator->() const noexcept {
         return _cptr();
     }
 };

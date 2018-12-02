@@ -38,9 +38,7 @@ private:
       typename VT = typename C::value_type,
       typename ST = typename C::size_type>
     static std::true_type _is_v_c(
-      C*,
-      const VT* (C::*)(void)const = &C::data,
-      ST (C::*)(void) const = &C::size);
+      C*, const VT* (C::*)() const = &C::data, ST (C::*)() const = &C::size);
 
     template <typename X>
     struct _is_compatible_container
@@ -49,7 +47,7 @@ private:
 public:
     using size_type = span_size_t;
 
-    cstr_ref(void) = default;
+    cstr_ref() = default;
 
     cstr_ref(const char* cstr, span_size_t n) noexcept
       : _base(cstr, (n > 0 && cstr[n - 1] == '\0') ? n - 1 : n) {
@@ -71,11 +69,11 @@ public:
       : cstr_ref(cont.data(), span_size(cont.size())) {
     }
 
-    bool empty(void) const noexcept {
+    bool empty() const noexcept {
         return size() == 0;
     }
 
-    const char* c_str(void) const noexcept {
+    const char* c_str() const noexcept {
         if(data() == nullptr) {
             return "";
         }
@@ -83,7 +81,7 @@ public:
         return data();
     }
 
-    std::string str(void) const {
+    std::string str() const {
         return {data(), std_size(size())};
     }
 

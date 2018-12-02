@@ -32,7 +32,7 @@ public:
     using iterator = value_type*;
     using const_iterator = const value_type*;
 
-    constexpr byteset(void) = default;
+    constexpr byteset() = default;
 
     template <
       typename... B,
@@ -44,19 +44,19 @@ public:
       : _bytes{value_type(b)...} {
     }
 
-    pointer data(void) noexcept {
+    pointer data() noexcept {
         return _bytes;
     }
 
-    constexpr const_pointer data(void) const noexcept {
+    constexpr const_pointer data() const noexcept {
         return _bytes;
     }
 
-    constexpr size_type size(void) const noexcept {
+    constexpr size_type size() const noexcept {
         return N;
     }
 
-    const_memory_block block(void) const noexcept {
+    const_memory_block block() const noexcept {
         return {data(), size()};
     }
 
@@ -68,35 +68,35 @@ public:
         return _bytes[i];
     }
 
-    constexpr reference front(void) noexcept {
+    constexpr reference front() noexcept {
         return _bytes[0];
     }
 
-    constexpr const_reference front(void) const noexcept {
+    constexpr const_reference front() const noexcept {
         return _bytes[0];
     }
 
-    constexpr reference back(void) noexcept {
+    constexpr reference back() noexcept {
         return _bytes[N - 1];
     }
 
-    constexpr const_reference back(void) const noexcept {
+    constexpr const_reference back() const noexcept {
         return _bytes[N - 1];
     }
 
-    iterator begin(void) noexcept {
+    iterator begin() noexcept {
         return _bytes + 0;
     }
 
-    iterator end(void) noexcept {
+    iterator end() noexcept {
         return _bytes + N;
     }
 
-    constexpr const_iterator begin(void) const noexcept {
+    constexpr const_iterator begin() const noexcept {
         return _bytes + 0;
     }
 
-    constexpr const_iterator end(void) const noexcept {
+    constexpr const_iterator end() const noexcept {
         return _bytes + N;
     }
 

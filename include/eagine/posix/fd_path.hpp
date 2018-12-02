@@ -72,7 +72,7 @@ fd_abs_path(file_descriptor_owner curr_fd) {
 }
 
 static inline outcome<std::string>
-safe_getcwd(void) {
+safe_getcwd() {
     outcome<owned_file_descriptor> res = open(".", 0);
     if(res.failed()) {
         return res.release_handler();

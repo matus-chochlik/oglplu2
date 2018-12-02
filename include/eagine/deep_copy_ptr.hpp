@@ -37,12 +37,12 @@ template <typename T>
 class deep_copy_ptr : public std::unique_ptr<T> {
 private:
     typedef std::unique_ptr<T> _base;
-    _base& _self(void) noexcept {
+    _base& _self() noexcept {
         return *this;
     }
 
 public:
-    deep_copy_ptr(void) = default;
+    deep_copy_ptr() = default;
     deep_copy_ptr(deep_copy_ptr&&) = default;
     deep_copy_ptr& operator=(deep_copy_ptr&&) = default;
 

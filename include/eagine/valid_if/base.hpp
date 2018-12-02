@@ -37,7 +37,7 @@ protected:
         return _value;
     }
 
-    constexpr inline const T& _get_value(void) const noexcept {
+    constexpr inline const T& _get_value() const noexcept {
         return _value;
     }
 
@@ -61,7 +61,7 @@ public:
     basic_valid_if& operator=(basic_valid_if&&) = default;
     basic_valid_if& operator=(const basic_valid_if&) = default;
 
-    ~basic_valid_if(void) = default;
+    ~basic_valid_if() = default;
 
     constexpr inline basic_valid_if(T val) noexcept
       : Policy()

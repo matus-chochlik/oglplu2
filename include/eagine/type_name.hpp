@@ -26,7 +26,7 @@ type_name(const T&) noexcept {
 
 template <typename T>
 static inline std::string
-type_name(void) noexcept {
+type_name() noexcept {
     return demangle_type_name(typeid(T).name());
 }
 

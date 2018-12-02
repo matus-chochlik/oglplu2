@@ -18,19 +18,19 @@ namespace shapes {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 vertex_attrib_bits
-unit_icosahedron_gen::_attr_mask(void) noexcept {
+unit_icosahedron_gen::_attr_mask() noexcept {
     return vertex_attrib_kind::position | vertex_attrib_kind::box_coord;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 vertex_attrib_bits
-unit_icosahedron_gen::_shared_attrs(void) noexcept {
+unit_icosahedron_gen::_shared_attrs() noexcept {
     return vertex_attrib_kind::position | vertex_attrib_kind::box_coord;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool
-unit_icosahedron_gen::_only_shared_attribs(void) const noexcept {
+unit_icosahedron_gen::_only_shared_attribs() const noexcept {
     return !(attrib_bits() & ~_shared_attrs());
 }
 //------------------------------------------------------------------------------
@@ -42,7 +42,7 @@ unit_icosahedron_gen::unit_icosahedron_gen(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 span_size_t
-unit_icosahedron_gen::vertex_count(void) {
+unit_icosahedron_gen::vertex_count() {
     return 12;
 }
 //------------------------------------------------------------------------------
@@ -108,13 +108,13 @@ unit_icosahedron_gen::attrib_values(
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 index_data_type
-unit_icosahedron_gen::index_type(void) {
+unit_icosahedron_gen::index_type() {
     return index_data_type::unsigned_byte;
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 span_size_t
-unit_icosahedron_gen::index_count(void) {
+unit_icosahedron_gen::index_count() {
     return 20 * 3;
 }
 //------------------------------------------------------------------------------
@@ -198,7 +198,7 @@ unit_icosahedron_gen::indices(const span<unsigned>& dest) {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 span_size_t
-unit_icosahedron_gen::operation_count(void) {
+unit_icosahedron_gen::operation_count() {
     return 1;
 }
 //------------------------------------------------------------------------------

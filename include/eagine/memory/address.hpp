@@ -30,7 +30,7 @@ private:
     pointer _addr;
 
 public:
-    constexpr basic_address(void) noexcept
+    constexpr basic_address() noexcept
       : _addr(nullptr) {
     }
 
@@ -62,27 +62,27 @@ public:
       : _addr(pointer(a)) {
     }
 
-    bool is_null(void) const noexcept {
+    bool is_null() const noexcept {
         return _addr == nullptr;
     }
 
-    explicit operator bool(void) const noexcept {
+    explicit operator bool() const noexcept {
         return !is_null();
     }
 
-    bool operator!(void) const noexcept {
+    bool operator!() const noexcept {
         return is_null();
     }
 
-    byte_pointer ptr(void) const noexcept {
+    byte_pointer ptr() const noexcept {
         return static_cast<byte_pointer>(_addr);
     }
 
-    pointer get(void) const noexcept {
+    pointer get() const noexcept {
         return _addr;
     }
 
-    explicit operator pointer(void) const noexcept {
+    explicit operator pointer() const noexcept {
         return _addr;
     }
 
@@ -90,12 +90,12 @@ public:
       typename T,
       typename = std::enable_if_t<
         !std::is_void<T>::value && (std::is_const<T>::value || !IsConst)>>
-    explicit operator T*(void)const noexcept {
+    explicit operator T*() const noexcept {
         assert(is_aligned_as<T>());
         return static_cast<T*>(_addr);
     }
 
-    std::intptr_t value(void) const noexcept {
+    std::intptr_t value() const noexcept {
         return reinterpret_cast<std::intptr_t>(_addr);
     }
 
@@ -108,7 +108,7 @@ public:
     }
 
     template <typename T>
-    bool is_aligned_as(void) const noexcept {
+    bool is_aligned_as() const noexcept {
         return memory::is_aligned_as<T>(value());
     }
 

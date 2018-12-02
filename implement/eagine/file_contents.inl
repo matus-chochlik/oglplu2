@@ -26,7 +26,7 @@ public:
         read_file_data(path, _buf);
     }
 
-    const_memory_block block(void) noexcept override {
+    const_memory_block block() noexcept override {
         return _buf;
     }
 };
@@ -42,7 +42,7 @@ public:
       : _mmf(fd, PROT_READ, MAP_SHARED) {
     }
 
-    const_memory_block block(void) noexcept override {
+    const_memory_block block() noexcept override {
         return _mmf.block();
     }
 };

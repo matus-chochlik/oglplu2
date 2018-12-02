@@ -23,14 +23,14 @@ private:
     typedef typename _traits::name_type _name_type;
     _name_type _name;
 
-    _name_type _release_name(void) noexcept {
+    _name_type _release_name() noexcept {
         auto name = _name;
         _name = _traits::invalid_name();
         return name;
     }
 
 public:
-    constexpr object_names(void) noexcept
+    constexpr object_names() noexcept
       : _name(_traits::invalid_name()) {
     }
 
@@ -57,15 +57,15 @@ public:
         return *this;
     }
 
-    constexpr inline bool is_valid(void) const noexcept {
+    constexpr inline bool is_valid() const noexcept {
         return _name != _traits::invalid_name();
     }
 
-    explicit constexpr inline operator bool(void) const noexcept {
+    explicit constexpr inline operator bool() const noexcept {
         return is_valid();
     }
 
-    constexpr inline bool operator!(void) const noexcept {
+    constexpr inline bool operator!() const noexcept {
         return !is_valid();
     }
 
@@ -114,7 +114,7 @@ public:
 
 template <typename ObjTag>
 struct object_zero_name : object_name<ObjTag> {
-    constexpr inline object_zero_name(void) noexcept
+    constexpr inline object_zero_name() noexcept
       : object_name<ObjTag>(0) {
     }
 
@@ -129,7 +129,7 @@ template <typename TypeT, TypeT InvalidType>
 struct any_object_type {
     TypeT _type;
 
-    constexpr inline any_object_type(void) noexcept
+    constexpr inline any_object_type() noexcept
       : _type(InvalidType) {
     }
 
@@ -138,15 +138,15 @@ struct any_object_type {
       : _type(object_traits<ObjTag>::get_type()) {
     }
 
-    constexpr inline bool is_valid(void) const noexcept {
+    constexpr inline bool is_valid() const noexcept {
         return (_type != InvalidType);
     }
 
-    explicit constexpr inline operator bool(void) const noexcept {
+    explicit constexpr inline operator bool() const noexcept {
         return is_valid();
     }
 
-    constexpr inline bool operator!(void) const noexcept {
+    constexpr inline bool operator!() const noexcept {
         return !is_valid();
     }
 
@@ -166,7 +166,7 @@ struct any_object_name {
     NameT _name;
     TypeT _type;
 
-    constexpr inline any_object_name(void) noexcept
+    constexpr inline any_object_name() noexcept
       : _name(InvalidName)
       , _type(InvalidType) {
     }
@@ -177,15 +177,15 @@ struct any_object_name {
       , _type(object_traits<ObjTag>::get_type()) {
     }
 
-    constexpr inline bool is_valid(void) const noexcept {
+    constexpr inline bool is_valid() const noexcept {
         return (_name != InvalidName) && (_type != InvalidType);
     }
 
-    explicit constexpr inline operator bool(void) const noexcept {
+    explicit constexpr inline operator bool() const noexcept {
         return is_valid();
     }
 
-    constexpr inline bool operator!(void) const noexcept {
+    constexpr inline bool operator!() const noexcept {
         return !is_valid();
     }
 
@@ -199,8 +199,7 @@ struct any_object_name {
         return (a._name != b._name) || (a._type != b._type);
     }
 
-    constexpr inline any_object_type<TypeT, InvalidType> type(void) const
-      noexcept {
+    constexpr inline any_object_type<TypeT, InvalidType> type() const noexcept {
         return {_type};
     }
 

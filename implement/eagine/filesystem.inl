@@ -16,7 +16,7 @@ namespace filesystem {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 cstr_ref
-path_separator(void) noexcept {
+path_separator() noexcept {
 #if EAGINE_WINDOWS
     return cstr_ref("\\");
 #else
@@ -26,13 +26,13 @@ path_separator(void) noexcept {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 cstr_ref
-alt_path_separator(void) noexcept {
+alt_path_separator() noexcept {
     return cstr_ref("/");
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool
-has_alt_path_separator(void) noexcept {
+has_alt_path_separator() noexcept {
 #if EAGINE_WINDOWS
     return true;
 #else
@@ -42,13 +42,13 @@ has_alt_path_separator(void) noexcept {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 cstr_ref
-path_curdir(void) noexcept {
+path_curdir() noexcept {
     return cstr_ref(".");
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 cstr_ref
-path_pardir(void) noexcept {
+path_pardir() noexcept {
     return cstr_ref("..");
 }
 //------------------------------------------------------------------------------
@@ -119,7 +119,7 @@ string_path::string_path(str_span path_str)
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 string_path
-string_path::normalized(void) const {
+string_path::normalized() const {
     string_path result;
 
     auto do_norm = [&result](const string_list::element& elem, bool first) {
@@ -150,7 +150,7 @@ string_path::normalized(void) const {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 string_path
-string_path::parent_path(void) const {
+string_path::parent_path() const {
     string_path result(normalized());
     if(result.empty() || result.back() == path_pardir()) {
         result.push_back(path_pardir());
@@ -180,25 +180,25 @@ string_path::is_root_name(const str_span& name) noexcept {
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool
-string_path::is_root_path(void) const noexcept {
+string_path::is_root_path() const noexcept {
     return (size() == 1) && is_root_name(front());
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool
-string_path::is_absolute(void) const noexcept {
+string_path::is_absolute() const noexcept {
     return !empty() && is_root_name(front());
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 bool
-string_path::is_relative(void) const noexcept {
+string_path::is_relative() const noexcept {
     return !is_absolute();
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
 string_path
-current_working_directory(void) {
+current_working_directory() {
     return string_path(posix::safe_getcwd().value());
 }
 //------------------------------------------------------------------------------

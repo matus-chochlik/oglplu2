@@ -78,7 +78,7 @@ struct convertible_matrix_constructor : MC {
       : MC(std::forward<P>(p)...) {
     }
 
-    operator constructed_matrix_t<MC>(void) const noexcept {
+    operator constructed_matrix_t<MC>() const noexcept {
         return MC::operator()();
     }
 };
@@ -108,7 +108,7 @@ struct compound_view_maker<math::convertible_matrix_constructor<MC>> {
         typedef typename M::element_type T;
         M _m;
 
-        operator span<const T>(void) const noexcept {
+        operator span<const T>() const noexcept {
             compound_view_maker<M> cvm;
             return cvm(_m);
         }

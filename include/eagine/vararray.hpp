@@ -39,7 +39,7 @@ private:
     value_type _data[1];
 
 public:
-    constexpr basic_vararray(void)
+    constexpr basic_vararray()
       : _size(0) {
     }
 
@@ -47,30 +47,30 @@ public:
         return alloc_unit_c(n) * sizeof(alloc_unit_t);
     }
 
-    std::size_t instance_size(void) const noexcept {
+    std::size_t instance_size() const noexcept {
         return instance_size(_size);
     }
 
-    size_type size(void) const noexcept {
+    size_type size() const noexcept {
         return _size;
     }
 
     typedef T* iterator;
     typedef const T* const_iterator;
 
-    iterator begin(void) noexcept {
+    iterator begin() noexcept {
         return _data;
     }
 
-    iterator end(void) noexcept {
+    iterator end() noexcept {
         return begin() + size();
     }
 
-    const_iterator begin(void) const noexcept {
+    const_iterator begin() const noexcept {
         return _data;
     }
 
-    const_iterator end(void) const noexcept {
+    const_iterator end() const noexcept {
         return begin() + size();
     }
 };
@@ -86,15 +86,15 @@ private:
     T _data[N];
 
 public:
-    constexpr basic_vararray_store(void) noexcept
+    constexpr basic_vararray_store() noexcept
       : _size(N) {
     }
 
-    operator basic_vararray<T, S>&(void) {
+    operator basic_vararray<T, S>&() {
         return *reinterpret_cast<basic_vararray<T, S>*>(this);
     }
 
-    operator const basic_vararray<T, S>&(void)const {
+    operator const basic_vararray<T, S>&() const {
         return *reinterpret_cast<const basic_vararray<T, S>*>(this);
     }
 };

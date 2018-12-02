@@ -104,12 +104,12 @@ head_data_mask(const valid_sequence_length len) noexcept {
 }
 
 static constexpr inline always_valid<byte>
-tail_code_mask(void) noexcept {
+tail_code_mask() noexcept {
     return 0xC0;
 }
 
 static constexpr inline always_valid<byte>
-tail_data_mask(void) noexcept {
+tail_data_mask() noexcept {
     return 0x3F;
 }
 
@@ -125,7 +125,7 @@ head_code(const valid_sequence_length len) noexcept {
 }
 
 static constexpr inline always_valid<byte>
-tail_code(void) noexcept {
+tail_code() noexcept {
     return 0x80;
 }
 

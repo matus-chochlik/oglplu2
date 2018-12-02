@@ -32,7 +32,7 @@ basic_allocation_arena<Alloc>::_do_allocate(
 //------------------------------------------------------------------------------
 template <typename Alloc>
 inline void
-basic_allocation_arena<Alloc>::clear(void) {
+basic_allocation_arena<Alloc>::clear() {
     assert(_blks.size() == _alns.size());
 
     for(std_size_t i = 0; i < _blks.size(); ++i) {

@@ -37,15 +37,15 @@ protected:
     }
 
 public:
-    const cstr_ref& short_tag(void) const noexcept {
+    const cstr_ref& short_tag() const noexcept {
         return _short_tag;
     }
 
-    const cstr_ref& long_tag(void) const noexcept {
+    const cstr_ref& long_tag() const noexcept {
         return _long_tag;
     }
 
-    const cstr_ref& description(void) const noexcept {
+    const cstr_ref& description() const noexcept {
         return _description;
     }
 
@@ -109,11 +109,11 @@ public:
       , _value(initial) {
     }
 
-    T& ref(void) noexcept {
+    T& ref() noexcept {
         return _value;
     }
 
-    bool has_valid_value(void) const noexcept {
+    bool has_valid_value() const noexcept {
         return _is_valid(_value);
     }
 
@@ -131,11 +131,11 @@ public:
         return true;
     }
 
-    const auto& value(void) const noexcept {
+    const auto& value() const noexcept {
         return _get_value(_value);
     }
 
-    operator const T&(void)const noexcept {
+    operator const T&() const noexcept {
         return _value;
     }
 };
@@ -156,15 +156,15 @@ public:
       , _aliased(that) {
     }
 
-    T& ref(void) noexcept {
+    T& ref() noexcept {
         return _aliased.ref();
     }
 
-    const auto& value(void) const noexcept {
+    const auto& value() const noexcept {
         return _aliased.value();
     }
 
-    operator const T&(void)const noexcept {
+    operator const T&() const noexcept {
         return static_cast<const T&>(_aliased);
     }
 };
@@ -181,11 +181,11 @@ public:
       , _count(0) {
     }
 
-    void increment(void) noexcept {
+    void increment() noexcept {
         ++_count;
     }
 
-    bool has_valid_value(void) const noexcept {
+    bool has_valid_value() const noexcept {
         return true;
     }
 
@@ -197,7 +197,7 @@ public:
         return true;
     }
 
-    span_size_t value(void) const noexcept {
+    span_size_t value() const noexcept {
         return _count;
     }
 };
@@ -262,7 +262,7 @@ private:
     }
 
 public:
-    program_arg(void) noexcept
+    program_arg() noexcept
       : _argi(0)
       , _argc(0)
       , _argv(nullptr) {
@@ -270,31 +270,31 @@ public:
 
     typedef cstr_ref value_type;
 
-    bool is_valid(void) const noexcept {
+    bool is_valid() const noexcept {
         return (0 < _argi) && (_argi < _argc) && (_argv != nullptr) &&
                (_argv[_argi] != nullptr);
     }
 
-    operator bool(void) const noexcept {
+    operator bool() const noexcept {
         return is_valid();
     }
 
-    bool operator!(void) const noexcept {
+    bool operator!() const noexcept {
         return !is_valid();
     }
 
-    value_type get(void) const noexcept {
+    value_type get() const noexcept {
         if(is_valid()) {
             return value_type(_argv[_argi]);
         }
         return value_type();
     }
 
-    std::string get_string(void) const {
+    std::string get_string() const {
         return get().str();
     }
 
-    operator value_type(void) const noexcept {
+    operator value_type() const noexcept {
         return get();
     }
 
@@ -306,15 +306,15 @@ public:
         return is_tag(param.short_tag(), param.long_tag());
     }
 
-    bool is_help_arg(void) const noexcept {
+    bool is_help_arg() const noexcept {
         return is_tag(cstr_ref("-h"), cstr_ref("--help"));
     }
 
-    program_arg next(void) const noexcept {
+    program_arg next() const noexcept {
         return program_arg(_argi + 1, _argc, _argv);
     }
 
-    program_arg prev(void) const noexcept {
+    program_arg prev() const noexcept {
         return program_arg(_argi - 1, _argc, _argv);
     }
 
@@ -587,17 +587,17 @@ public:
 class program_parameters {
 private:
     struct _intf {
-        virtual ~_intf(void) = default;
+        virtual ~_intf() = default;
 
         virtual bool parse(program_arg&, std::ostream&) = 0;
 
-        virtual bool has_valid_value(void) const = 0;
+        virtual bool has_valid_value() const = 0;
         virtual bool validate(std::ostream&) const = 0;
 
-        virtual const cstr_ref& short_tag(void) const = 0;
-        virtual const cstr_ref& long_tag(void) const = 0;
-        virtual const cstr_ref& description(void) const = 0;
-        virtual const cstr_ref& placeholder(void) const = 0;
+        virtual const cstr_ref& short_tag() const = 0;
+        virtual const cstr_ref& long_tag() const = 0;
+        virtual const cstr_ref& description() const = 0;
+        virtual const cstr_ref& placeholder() const = 0;
     };
 
     template <typename T>
@@ -605,12 +605,12 @@ private:
         program_parameter<T>* _pparam;
         cstr_ref _plchldr;
 
-        program_parameter<T>& _param(void) noexcept {
+        program_parameter<T>& _param() noexcept {
             assert(_pparam != nullptr);
             return *_pparam;
         }
 
-        const program_parameter<T>& _param(void) const noexcept {
+        const program_parameter<T>& _param() const noexcept {
             assert(_pparam != nullptr);
             return *_pparam;
         }
@@ -652,7 +652,7 @@ private:
             return arg.parse_param(_param(), log);
         }
 
-        bool has_valid_value(void) const override {
+        bool has_valid_value() const override {
             return _param().has_valid_value();
         }
 
@@ -660,19 +660,19 @@ private:
             return _param().validate(log);
         }
 
-        const cstr_ref& short_tag(void) const override {
+        const cstr_ref& short_tag() const override {
             return _param().short_tag();
         }
 
-        const cstr_ref& long_tag(void) const override {
+        const cstr_ref& long_tag() const override {
             return _param().long_tag();
         }
 
-        const cstr_ref& description(void) const override {
+        const cstr_ref& description() const override {
             return _param().description();
         }
 
-        const cstr_ref& placeholder(void) const override {
+        const cstr_ref& placeholder() const override {
             return _plchldr;
         }
     };
@@ -708,7 +708,7 @@ public:
       : _params(_make(std::unique_ptr<_intf>(new _impl<T>(params))...)) {
     }
 
-    span_size_t size(void) const noexcept {
+    span_size_t size() const noexcept {
         return span_size(_params.size());
     }
 
@@ -787,7 +787,7 @@ private:
     const char** _argv;
 
 public:
-    program_args(void) noexcept
+    program_args() noexcept
       : _argc(0)
       , _argv(nullptr) {
     }
@@ -806,23 +806,23 @@ public:
     typedef int size_type;
     typedef valid_range_index<program_args> valid_index;
 
-    int argc(void) const noexcept {
+    int argc() const noexcept {
         return _argc;
     }
 
-    const char** argv(void) const noexcept {
+    const char** argv() const noexcept {
         return _argv;
     }
 
-    bool empty(void) const noexcept {
+    bool empty() const noexcept {
         return _argc <= 0;
     }
 
-    bool none(void) const noexcept {
+    bool none() const noexcept {
         return _argc <= 1;
     }
 
-    int size(void) const noexcept {
+    int size() const noexcept {
         return _argc;
     }
 
@@ -840,11 +840,11 @@ public:
         return get(pos);
     }
 
-    value_type command(void) const noexcept {
+    value_type command() const noexcept {
         return get(0);
     }
 
-    program_arg first(void) const noexcept {
+    program_arg first() const noexcept {
         return program_arg(1, _argc, _argv);
     }
 

@@ -19,13 +19,13 @@ template <typename Data>
 struct default_deferred_handler_policy {
     void (*_handler)(Data&);
 
-    void (*_release_handler(void) noexcept)(Data&) {
+    void (*_release_handler() noexcept)(Data&) {
         void (*handler)(Data&) = _handler;
         _handler = nullptr;
         return handler;
     }
 
-    constexpr inline default_deferred_handler_policy(void) noexcept
+    constexpr inline default_deferred_handler_policy() noexcept
       : _handler(nullptr) {
     }
 
@@ -71,7 +71,7 @@ private:
     bool _error;
 
 public:
-    constexpr inline cancelled_handler(void) noexcept
+    constexpr inline cancelled_handler() noexcept
       : _data()
       , _error(true) {
     }
@@ -90,23 +90,23 @@ public:
       , _error(had_error) {
     }
 
-    explicit operator bool(void) const noexcept {
+    explicit operator bool() const noexcept {
         return _error;
     }
 
-    bool operator!(void) const noexcept {
+    bool operator!() const noexcept {
         return !_error;
     }
 
-    bool cancel(void) noexcept {
+    bool cancel() noexcept {
         return _error;
     }
 
-    Data& data(void) noexcept {
+    Data& data() noexcept {
         return _data;
     }
 
-    const Data& data(void) const noexcept {
+    const Data& data() const noexcept {
         return _data;
     }
 };
@@ -120,7 +120,7 @@ private:
     Data _data;
 
 public:
-    constexpr inline deferred_handler(void) noexcept
+    constexpr inline deferred_handler() noexcept
       : _handler()
       , _data() {
     }
@@ -163,21 +163,21 @@ public:
         return *this;
     }
 
-    ~deferred_handler(void) noexcept(false) {
+    ~deferred_handler() noexcept(false) {
         if(_handler.is_valid(_data)) {
             _handler.invoke(_data);
         }
     }
 
-    explicit operator bool(void) const noexcept {
+    explicit operator bool() const noexcept {
         return _handler.is_valid(_data);
     }
 
-    bool operator!(void) const noexcept {
+    bool operator!() const noexcept {
         return !_handler.is_valid(_data);
     }
 
-    bool cancel(void) noexcept {
+    bool cancel() noexcept {
         if(_handler.is_valid(_data)) {
             _handler.cancel(_data);
             return true;
@@ -185,7 +185,7 @@ public:
         return false;
     }
 
-    void trigger(void) {
+    void trigger() {
         if(_handler.is_valid(_data)) {
             HandlerPolicy handler = std::move(_handler);
             try {
@@ -198,11 +198,11 @@ public:
         }
     }
 
-    Data& data(void) noexcept {
+    Data& data() noexcept {
         return _data;
     }
 
-    const Data& data(void) const noexcept {
+    const Data& data() const noexcept {
         return _data;
     }
 };

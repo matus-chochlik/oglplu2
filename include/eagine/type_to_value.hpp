@@ -24,25 +24,25 @@ template <typename Value>
 struct type_to_value_unit_base {
     Value _value;
 
-    type_to_value_unit_base(void) = default;
+    type_to_value_unit_base() = default;
 
     template <typename T>
     type_to_value_unit_base(T&& value)
       : _value(std::forward<T>(value)) {
     }
 
-    operator Value&(void)noexcept {
+    operator Value&() noexcept {
         return _value;
     }
 
-    operator const Value&(void)const noexcept {
+    operator const Value&() const noexcept {
         return _value;
     }
 };
 
 template <typename Value, typename Key>
 struct type_to_value_unit : type_to_value_unit_base<Value> {
-    type_to_value_unit(void) = default;
+    type_to_value_unit() = default;
 
     template <typename T>
     type_to_value_unit(T&& value)
@@ -55,7 +55,7 @@ struct type_to_value : type_to_value_unit<Value, Keys>... {
     typedef Value value_type;
     typedef std::ptrdiff_t size_type;
 
-    type_to_value(void) = default;
+    type_to_value() = default;
 
     type_to_value(instead_of_t<Keys, Value>... values)
       : type_to_value_unit<Value, Keys>(values)... {
@@ -68,11 +68,11 @@ struct type_to_value : type_to_value_unit<Value, Keys>... {
       : type_to_value_unit<Value, Keys>(transform(identity<Keys>()))... {
     }
 
-    static constexpr inline size_type size(void) noexcept {
+    static constexpr inline size_type size() noexcept {
         return sizeof...(Keys);
     }
 
-    type_to_value_unit_base<Value>* units(void) noexcept {
+    type_to_value_unit_base<Value>* units() noexcept {
         static_assert(
           sizeof(type_to_value) ==
             sizeof(type_to_value_unit_base<Value>) * sizeof...(Keys),
@@ -81,7 +81,7 @@ struct type_to_value : type_to_value_unit<Value, Keys>... {
         return reinterpret_cast<ub_t*>(this);
     }
 
-    const type_to_value_unit_base<Value>* units(void) const noexcept {
+    const type_to_value_unit_base<Value>* units() const noexcept {
         static_assert(
           sizeof(type_to_value) ==
             sizeof(type_to_value_unit_base<Value>) * sizeof...(Keys),
@@ -101,22 +101,22 @@ struct type_to_value : type_to_value_unit<Value, Keys>... {
     }
 
     template <typename Key>
-    type_to_value_unit<Value, Key>& unit(void) noexcept {
+    type_to_value_unit<Value, Key>& unit() noexcept {
         return *this;
     }
 
     template <typename Key>
-    const type_to_value_unit<Value, Key>& unit(void) const noexcept {
+    const type_to_value_unit<Value, Key>& unit() const noexcept {
         return *this;
     }
 
     template <typename Key>
-    Value& ref(void) noexcept {
+    Value& ref() noexcept {
         return unit<Key>();
     }
 
     template <typename Key>
-    const Value& ref(void) const noexcept {
+    const Value& ref() const noexcept {
         return unit<Key>();
     }
 
@@ -142,11 +142,11 @@ struct type_to_value : type_to_value_unit<Value, Keys>... {
       Value&>
       iterator;
 
-    iterator begin(void) noexcept {
+    iterator begin() noexcept {
         return iterator(units());
     }
 
-    iterator end(void) noexcept {
+    iterator end() noexcept {
         return iterator(units() + size());
     }
 

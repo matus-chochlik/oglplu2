@@ -41,7 +41,7 @@ public:
     typedef U unit_type;
     typedef T value_type;
 
-    tagged_quantity(void) = default;
+    tagged_quantity() = default;
 
     explicit constexpr inline tagged_quantity(T v) noexcept
       : _v(v) {
@@ -59,18 +59,18 @@ public:
     template <
       typename UX,
       typename = std::enable_if_t<units::is_convertible_v<U, UX>>>
-    constexpr inline auto to(void) const noexcept {
+    constexpr inline auto to() const noexcept {
         return make_tagged_quantity<UX>(units::value_conv<U, UX>()(_v));
     }
 
-    constexpr inline T value(void) const noexcept {
+    constexpr inline T value() const noexcept {
         return _v;
     }
 
     template <
       typename X,
       typename = std::enable_if_t<std::is_convertible_v<T, X>>>
-    explicit constexpr inline operator X(void) const noexcept {
+    explicit constexpr inline operator X() const noexcept {
         return X(_v);
     }
 

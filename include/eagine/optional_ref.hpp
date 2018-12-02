@@ -36,24 +36,24 @@ public:
       : _ptr(nullptr) {
     }
 
-    bool is_valid(void) const noexcept {
+    bool is_valid() const noexcept {
         return _ptr != nullptr;
     }
 
-    explicit operator bool(void) const noexcept {
+    explicit operator bool() const noexcept {
         return is_valid();
     }
 
-    bool operator!(void) const noexcept {
+    bool operator!() const noexcept {
         return !is_valid();
     }
 
-    T& get(void) const noexcept {
+    T& get() const noexcept {
         assert(is_valid());
         return *_ptr;
     }
 
-    operator T&(void)const noexcept {
+    operator T&() const noexcept {
         return get();
     }
 };
