@@ -17,7 +17,15 @@ static eagine::test_random_generator rg;
 struct test_throw_on_copy {
     test_throw_on_copy() = default;
 
+    [[noreturn]] test_throw_on_copy(test_throw_on_copy&&) {
+        throw 0;
+    }
+    test_throw_on_copy& operator=(test_throw_on_copy&&) = delete;
+
     [[noreturn]] test_throw_on_copy(const test_throw_on_copy&) {
+        throw 0;
+    }
+    [[noreturn]] test_throw_on_copy& operator=(const test_throw_on_copy&) {
         throw 0;
     }
 };
@@ -25,7 +33,13 @@ struct test_throw_on_copy {
 struct test_throw_on_move {
     test_throw_on_move() = default;
 
+    test_throw_on_move(const test_throw_on_move&) = delete;
+    test_throw_on_move& operator=(const test_throw_on_move&) = delete;
+
     [[noreturn]] test_throw_on_move(test_throw_on_move&&) {
+        throw 0;
+    }
+    [[noreturn]] test_throw_on_move& operator=(test_throw_on_move&&) {
         throw 0;
     }
 };
@@ -296,7 +310,8 @@ BOOST_AUTO_TEST_CASE(variant_9) {
 
     try {
         BOOST_CHECK_EQUAL(passed, 0);
-        v1 = test_throw_on_copy{};
+        const test_throw_on_copy ttoc{};
+        v1 = ttoc;
         BOOST_CHECK_MESSAGE(false, "Copy should have thrown");
     } catch(int) {
         ++passed;
@@ -332,12 +347,9 @@ BOOST_AUTO_TEST_CASE(variant_10) {
 
     BOOST_CHECK_EQUAL(passed, 1);
 
-    BOOST_CHECK(v1.valueless_by_exception());
     BOOST_CHECK(!v2.valueless_by_exception());
     BOOST_CHECK(std::holds_alternative<test_throw_on_copy>(v2));
     BOOST_CHECK(!std::holds_alternative<test_throw_on_copy>(v1));
-    BOOST_CHECK(!std::holds_alternative<int>(v1));
-    BOOST_CHECK_EQUAL(v1.index(), std::variant_npos);
     BOOST_CHECK_EQUAL(v2.index(), 0);
 }
 
