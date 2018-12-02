@@ -25,7 +25,7 @@ struct image_data_header {
 
     eagine::offset_array<const GLubyte> pixels;
 
-    constexpr image_data_header(void) noexcept
+    constexpr image_data_header() noexcept
       : width(0)
       , height(0)
       , depth(0)

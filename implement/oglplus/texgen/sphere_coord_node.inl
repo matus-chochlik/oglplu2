@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include <iostream>
 #include <oglplus/texgen/constants.hpp>
+#include <iostream>
 
 namespace oglplus {
 namespace texgen {
@@ -19,13 +19,13 @@ sphere_coord_output::sphere_coord_output(node_intf& parent)
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 cstr_ref
-sphere_coord_output::type_name(void) {
+sphere_coord_output::type_name() {
     return cstr_ref("SphereCoord");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 slot_data_type
-sphere_coord_output::value_type(void) {
+sphere_coord_output::value_type() {
     return slot_data_type::float_4;
 }
 //------------------------------------------------------------------------------

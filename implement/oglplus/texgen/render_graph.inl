@@ -13,18 +13,18 @@ namespace oglplus {
 namespace texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-render_graph::render_graph(void)
+render_graph::render_graph()
   : _render_node(new render_node()) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-render_graph::~render_graph(void) {
+render_graph::~render_graph() {
     disconnect_all();
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 void
-render_graph::disconnect_all(void) {
+render_graph::disconnect_all() {
     for(std::unique_ptr<node_intf>& node : _anon_nodes) {
         assert(node);
         node->disconnect_all();
@@ -51,7 +51,7 @@ render_graph::add_node(std::string name, std::unique_ptr<node_intf>&& node) {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 render_node&
-render_graph::renderer(void) {
+render_graph::renderer() {
     assert(_render_node);
     return *_render_node;
 }
@@ -65,7 +65,7 @@ render_graph::set_dimensions(
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 void
-render_graph::render(void) {
+render_graph::render() {
     renderer().render();
 }
 //------------------------------------------------------------------------------
@@ -285,7 +285,7 @@ render_graph::connect(
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 bool
-render_graph::finalize(void) {
+render_graph::finalize() {
     renderer().update_if_needed();
     return true;
 }

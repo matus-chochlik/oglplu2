@@ -23,7 +23,7 @@ debugging::push_debug_group(
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-debugging::pop_debug_group(void) noexcept {
+debugging::pop_debug_group() noexcept {
     OGLPLUS_GLFUNC(PopDebugGroup)();
     OGLPLUS_VERIFY_SIMPLE(PopDebugGroup, debug);
     return {};

@@ -60,15 +60,37 @@ ForEachMacros:
   - Q_FOREACH
   - BOOST_FOREACH
 IncludeBlocks:   Preserve
-IncludeCategories: 
-  - Regex:           '^(<(eagine|oglplus|oalplus|eglplus)/)'
-    Priority:        4
-  - Regex:           '^(".*)'
-    Priority:        5
-  - Regex:           '<[[:alnum:].]+>'
-    Priority:        2
-  - Regex:           '.*'
+IncludeCategories:
+  - Regex:           '^".*"$'
     Priority:        1
+  - Regex:           '^<eagine/config'
+    Priority:        10
+  - Regex:           '^<eagine/'
+    Priority:        11
+  - Regex:           '^<eglplus/egl.hpp'
+    Priority:        20
+  - Regex:           '^<eglplus/config'
+    Priority:        21
+  - Regex:           '^<eglplus/'
+    Priority:        22
+  - Regex:           '^<oglplus/gl.hpp>$'
+    Priority:        30
+  - Regex:           '^<oglplus/(glx|x11)/'
+    Priority:        31
+  - Regex:           '^<oglplus/config'
+    Priority:        32
+  - Regex:           '^<oglplus/'
+    Priority:        33
+  - Regex:           '^<oalplus/oal.hpp'
+    Priority:        40
+  - Regex:           '^<oalplus/config'
+    Priority:        41
+  - Regex:           '^<oalplus/'
+    Priority:        42
+  - Regex:           '<[[:alnum:]][/_[:alnum:].]+>'
+    Priority:        90
+  - Regex:           '(<[[:alnum:]][_[:alnum:]]+>)'
+    Priority:        100
 IncludeIsMainRegex: '(Test)?$'
 IndentCaseLabels: true
 IndentPPDirectives: None

@@ -41,7 +41,7 @@ public:
       : _gen(_copy_gen(gen)) {
     }
 
-    span_size_t vertex_count(void) const {
+    span_size_t vertex_count() const {
         return _gen->vertex_count();
     }
 
@@ -65,19 +65,19 @@ public:
           attrib, eagine::memory::make_span_of<GLfloat>(data));
     }
 
-    bool indexed(void) const {
+    bool indexed() const {
         return _gen->index_count() > 0;
     }
 
-    span_size_t index_count(void) const {
+    span_size_t index_count() const {
         return _gen->index_count();
     }
 
-    span_size_t index_type_size(void) const {
+    span_size_t index_type_size() const {
         return _index_type_size(_gen->index_type());
     }
 
-    span_size_t index_data_block_size(void) const {
+    span_size_t index_data_block_size() const {
         return index_count() * index_type_size();
     }
 
@@ -86,7 +86,7 @@ public:
         _gen->indices(eagine::memory::make_span_of<GLuint>(data));
     }
 
-    span_size_t operation_count(void) const {
+    span_size_t operation_count() const {
         return _gen->operation_count();
     }
 

@@ -47,13 +47,13 @@ base_output::already_defined(compile_context& context) {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 cstr_ref
-base_output::name(void) noexcept {
+base_output::name() noexcept {
     return cstr_ref("Output");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 render_param_bits
-base_output::required_params(void) {
+base_output::required_params() {
     return all_render_params();
 }
 //------------------------------------------------------------------------------
@@ -97,13 +97,13 @@ base_output::disconnect(input_intf& input) {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 void
-base_output::disconnect_all(void) {
+base_output::disconnect_all() {
     _inputs.clear();
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 void
-base_output::notify_connected(void) {
+base_output::notify_connected() {
     for(auto* input : _inputs) {
         assert(input != nullptr);
         input->update_needed();
@@ -112,7 +112,7 @@ base_output::notify_connected(void) {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 void
-base_output::prepare_parent(void) {
+base_output::prepare_parent() {
     parent().prepare();
 }
 //------------------------------------------------------------------------------
@@ -124,7 +124,7 @@ base_output::render_parent(const render_params& params) {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 std::intptr_t
-base_output::get_id(void) const noexcept {
+base_output::get_id() const noexcept {
     return reinterpret_cast<std::intptr_t>(this);
 }
 //------------------------------------------------------------------------------

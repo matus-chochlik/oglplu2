@@ -20,7 +20,7 @@ namespace oper {
 
 struct object_common_ops {
 #if defined(GL_VERSION_4_3)
-    static outcome<GLsizei> get_max_label_length(void) noexcept;
+    static outcome<GLsizei> get_max_label_length() noexcept;
 
     template <GLenum ObjectType>
     static outcome<void> object_label(

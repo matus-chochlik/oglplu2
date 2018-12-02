@@ -23,13 +23,13 @@ template <GLenum Query, typename T>
 struct limited_value {
     T _value;
 
-    limited_value(void) = default;
+    limited_value() = default;
 
     constexpr limited_value(T value) noexcept
       : _value(value) {
     }
 
-    explicit constexpr operator T(void) const noexcept {
+    explicit constexpr operator T() const noexcept {
         return _value;
     }
 };
@@ -37,7 +37,7 @@ struct limited_value {
 template <GLenum Query, GLenum Base>
 struct limited_value<Query, indexed_enum_value<Base>>
   : indexed_enum_value<Base> {
-    limited_value(void) = default;
+    limited_value() = default;
 
     constexpr limited_value(oglplus::indexed_enum_value<Base> iev) noexcept
       : oglplus::indexed_enum_value<Base>(iev) {
@@ -87,7 +87,7 @@ template <
   typename LimitedValue,
   typename = std::enable_if_t<is_limited_value<LimitedValue>::value>>
 static inline auto
-limit(void) noexcept {
+limit() noexcept {
     return get_limit(identity<LimitedValue>());
 }
 

@@ -22,7 +22,7 @@ private:
 
     coord_type _type;
 
-    cstr_ref _func_name(void) const;
+    cstr_ref _func_name() const;
 
 public:
     coord_output(node_intf& parent, coord_type);
@@ -31,9 +31,9 @@ public:
       : coord_output(parent, coord_type::normalized) {
     }
 
-    cstr_ref type_name(void) override;
+    cstr_ref type_name() override;
 
-    slot_data_type value_type(void) override;
+    slot_data_type value_type() override;
 
     std::ostream& definitions(
       std::ostream& out, compile_context& ctxt) override;

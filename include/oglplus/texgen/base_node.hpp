@@ -10,6 +10,7 @@
 #define OGLPLUS_TEXGEN_BASE_NODE_1509260923_HPP
 
 #include <cassert>
+#include <eagine/maybe_unused.hpp>
 #include "base_output.hpp"
 #include "interface.hpp"
 
@@ -21,36 +22,36 @@ private:
     span_size_t _render_input;
 
 public:
-    base_node(void) noexcept
+    base_node() noexcept
       : _render_input(0) {
     }
 
-    span_size_t input_count(void) override;
+    span_size_t input_count() override;
 
     input_intf& input(span_size_t) override;
 
-    bool can_add_input(void) override;
+    bool can_add_input() override;
 
     input_intf& add_input(const cstr_ref&) override;
 
-    span_size_t output_count(void) override;
+    span_size_t output_count() override;
 
     output_intf& output(span_size_t) override;
 
-    void update_needed(void) override;
+    void update_needed() override;
 
-    void prepare(void) override;
+    void prepare() override;
 
     bool render(const render_params&) override;
 };
 
 class base_single_output_node : public base_node {
 public:
-    virtual base_output& single_output(void) = 0;
+    virtual base_output& single_output() = 0;
 
-    cstr_ref type_name(void) override;
+    cstr_ref type_name() override;
 
-    span_size_t output_count(void) override;
+    span_size_t output_count() override;
 
     output_intf& output(span_size_t index) override;
 };
@@ -66,7 +67,7 @@ public:
       : _output(*this, std::forward<P>(p)...) {
     }
 
-    base_output& single_output(void) override {
+    base_output& single_output() override {
         return _output;
     }
 };
@@ -76,12 +77,12 @@ class unary_single_output_node : public single_output_node<Output> {
 public:
     using single_output_node<Output>::single_output_node;
 
-    span_size_t input_count(void) override {
+    span_size_t input_count() override {
         return 1;
     }
 
     input_intf& input(span_size_t index) override {
-        (void)index;
+        EAGINE_MAYBE_UNUSED(index);
         assert(index < input_count());
         return this->_output.*Input1;
     }
@@ -97,7 +98,7 @@ class binary_single_output_node : public single_output_node<Output> {
 public:
     using single_output_node<Output>::single_output_node;
 
-    span_size_t input_count(void) override {
+    span_size_t input_count() override {
         return 2;
     }
 

@@ -21,7 +21,7 @@ struct debugging {
     static outcome<void> push_debug_group(
       debug_output_source source, GLuint id, cstring_span message) noexcept;
 
-    static outcome<void> pop_debug_group(void) noexcept;
+    static outcome<void> pop_debug_group() noexcept;
 
     static outcome<void> debug_message_control(
       debug_output_source source,

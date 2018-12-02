@@ -19,11 +19,11 @@ namespace oper {
 struct rasterization_state {
     static outcome<void> front_face(face_orientation orientation) noexcept;
 
-    static outcome<face_orientation> get_front_face(void) noexcept;
+    static outcome<face_orientation> get_front_face() noexcept;
 
     static outcome<void> cull_face(face mode) noexcept;
 
-    static outcome<face> get_cull_face_mode(void) noexcept;
+    static outcome<face> get_cull_face_mode() noexcept;
 
 #if defined(GL_VERSION_4_5)
     static outcome<void> clip_control(
@@ -32,7 +32,7 @@ struct rasterization_state {
 
     static outcome<void> depth_func(compare_function func) noexcept;
 
-    static outcome<compare_function> get_depth_func(void) noexcept;
+    static outcome<compare_function> get_depth_func() noexcept;
 
 #if defined(GL_VERSION_4_1)
     static outcome<void> depth_range_f(GLfloat near, GLfloat far) noexcept;
@@ -59,22 +59,22 @@ struct rasterization_state {
       GLfloat factor, GLfloat units, GLfloat clamp) noexcept;
 #endif
 
-    static outcome<GLfloat> get_polygon_offset_factor(void) noexcept;
+    static outcome<GLfloat> get_polygon_offset_factor() noexcept;
 
-    static outcome<GLfloat> get_polygon_offset_units(void) noexcept;
+    static outcome<GLfloat> get_polygon_offset_units() noexcept;
 
 #if defined(GL_VERSION_4_6) || defined(GL_EXT_polygon_offset_clamp)
-    static outcome<GLfloat> get_polygon_offset_clamp(void) noexcept;
+    static outcome<GLfloat> get_polygon_offset_clamp() noexcept;
 #endif
 
     static outcome<void> line_width(GLfloat value) noexcept;
 
-    static outcome<GLfloat> get_line_width(void) noexcept;
+    static outcome<GLfloat> get_line_width() noexcept;
 
 #if defined(GL_VERSION_3_0)
     static outcome<void> point_size(GLfloat value) noexcept;
 
-    static outcome<GLfloat> get_point_size(void) noexcept;
+    static outcome<GLfloat> get_point_size() noexcept;
 
     static outcome<void> point_parameter(
       oglplus::point_parameter param, GLfloat value) noexcept;
@@ -86,13 +86,13 @@ struct rasterization_state {
 #if defined(GL_VERSION_3_2) || defined(GL_ARB_provoking_vertex)
     static outcome<void> provoking_vertex(provoke_mode mode) noexcept;
 
-    static outcome<provoke_mode> get_provoking_vertex(void) noexcept;
+    static outcome<provoke_mode> get_provoking_vertex() noexcept;
 #endif
 
 #if defined(GL_VERSION_4_0)
     static outcome<void> min_sample_shading(GLfloat value) noexcept;
 
-    static outcome<GLfloat> get_min_sample_shading_value(void) noexcept;
+    static outcome<GLfloat> get_min_sample_shading_value() noexcept;
 #endif
 };
 

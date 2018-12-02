@@ -6,9 +6,9 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include <oglplus/gl_fixed.hpp>
 #include "state.hpp"
 #include "wrapper.hpp"
+#include <oglplus/gl.hpp>
 
 #include <eagine/program_args.hpp>
 #include <eagine/scope_exit.hpp>

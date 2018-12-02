@@ -44,7 +44,7 @@ struct program_ops {
 
     static outcome<void> use_program(program_name prog) noexcept;
 
-    static outcome<program_name> current_program(void) noexcept;
+    static outcome<program_name> current_program() noexcept;
 
 #if defined(GL_VERSION_4_1)
     static outcome<void> program_parameter_i(
@@ -169,19 +169,19 @@ struct obj_dsa_ops<tag::program> : obj_zero_dsa_ops<tag::program> {
         return {_ops::detach_shader(*this, shdr), *this};
     }
 
-    outcome<obj_dsa_ops&> link(void) noexcept {
+    outcome<obj_dsa_ops&> link() noexcept {
         return {_ops::link_program(*this), *this};
     }
 
-    outcome<obj_dsa_ops&> validate(void) noexcept {
+    outcome<obj_dsa_ops&> validate() noexcept {
         return {_ops::validate_program(*this), *this};
     }
 
-    outcome<obj_dsa_ops&> report_link_error(void) noexcept {
+    outcome<obj_dsa_ops&> report_link_error() noexcept {
         return {_ops::report_program_link_error(*this), *this};
     }
 
-    outcome<obj_dsa_ops&> report_validate_error(void) noexcept {
+    outcome<obj_dsa_ops&> report_validate_error() noexcept {
         return {_ops::report_program_validate_error(*this), *this};
     }
 
@@ -194,7 +194,7 @@ struct obj_dsa_ops<tag::program> : obj_zero_dsa_ops<tag::program> {
         return {_ops::program_separable(*this, value), *this};
     }
 
-    outcome<GLsizei> get_binary_length(void) noexcept {
+    outcome<GLsizei> get_binary_length() noexcept {
         return _ops::get_program_binary_length(*this);
     }
 
@@ -208,19 +208,19 @@ struct obj_dsa_ops<tag::program> : obj_zero_dsa_ops<tag::program> {
     }
 #endif
 
-    outcome<boolean> get_delete_status(void) const noexcept {
+    outcome<boolean> get_delete_status() const noexcept {
         return _ops::get_program_delete_status(*this);
     }
 
-    outcome<boolean> get_link_status(void) const noexcept {
+    outcome<boolean> get_link_status() const noexcept {
         return _ops::get_program_link_status(*this);
     }
 
-    outcome<boolean> get_validate_status(void) const noexcept {
+    outcome<boolean> get_validate_status() const noexcept {
         return _ops::get_program_validate_status(*this);
     }
 
-    outcome<GLsizei> get_info_log_length(void) const noexcept {
+    outcome<GLsizei> get_info_log_length() const noexcept {
         return _ops::get_program_info_log_length(*this);
     }
 
@@ -228,11 +228,11 @@ struct obj_dsa_ops<tag::program> : obj_zero_dsa_ops<tag::program> {
         return _ops::get_program_info_log(*this, dest);
     }
 
-    outcome<GLuint> get_active_attributes(void) const noexcept {
+    outcome<GLuint> get_active_attributes() const noexcept {
         return _ops::get_program_active_attributes(*this);
     }
 
-    outcome<GLsizei> get_active_attribute_max_length(void) const noexcept {
+    outcome<GLsizei> get_active_attribute_max_length() const noexcept {
         return _ops::get_program_active_attribute_max_length(*this);
     }
 
@@ -242,11 +242,11 @@ struct obj_dsa_ops<tag::program> : obj_zero_dsa_ops<tag::program> {
         return _ops::get_active_attrib(*this, index, name, size, type);
     }
 
-    outcome<GLuint> get_active_uniforms(void) const noexcept {
+    outcome<GLuint> get_active_uniforms() const noexcept {
         return _ops::get_program_active_uniforms(*this);
     }
 
-    outcome<GLsizei> get_active_uniform_max_length(void) const noexcept {
+    outcome<GLsizei> get_active_uniform_max_length() const noexcept {
         return _ops::get_program_active_uniform_max_length(*this);
     }
 
@@ -257,7 +257,7 @@ struct obj_dsa_ops<tag::program> : obj_zero_dsa_ops<tag::program> {
     }
 
 #if defined(GL_ACTIVE_ATOMIC_COUNTER_BUFFERS)
-    outcome<GLsizei> get_active_atomic_counter_buffers(void) const noexcept {
+    outcome<GLsizei> get_active_atomic_counter_buffers() const noexcept {
         return _ops::get_program_active_atomic_counter_buffers(*this);
     }
 #endif
@@ -268,19 +268,19 @@ struct obj_dsa_ops<tag::program> : obj_zero_dsa_ops<tag::program> {
     }
 
 #if defined(GL_VERSION_3_2)
-    outcome<GLsizei> get_geometry_vertices_out(void) const noexcept {
+    outcome<GLsizei> get_geometry_vertices_out() const noexcept {
         return _ops::get_program_geometry_vertices_out(*this);
     }
 #endif
 
 #if defined(GL_VERSION_3_2)
-    outcome<primitive_type> get_geometry_input_type(void) const noexcept {
+    outcome<primitive_type> get_geometry_input_type() const noexcept {
         return _ops::get_program_geometry_input_type(*this);
     }
 #endif
 
 #if defined(GL_VERSION_3_2)
-    outcome<primitive_type> get_geometry_output_type(void) const noexcept {
+    outcome<primitive_type> get_geometry_output_type() const noexcept {
         return _ops::get_program_geometry_output_type(*this);
     }
 #endif

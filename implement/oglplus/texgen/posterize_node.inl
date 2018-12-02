@@ -23,13 +23,13 @@ posterize_output::posterize_output(node_intf& parent)
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 cstr_ref
-posterize_output::type_name(void) {
+posterize_output::type_name() {
     return cstr_ref("Posterize");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 slot_data_type
-posterize_output::value_type(void) {
+posterize_output::value_type() {
     return input.value_type();
 }
 //------------------------------------------------------------------------------

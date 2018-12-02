@@ -5,7 +5,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 // clang-format off
-#include <oglplus/gl_fixed.hpp>
+#include <oglplus/gl.hpp>
 #include <oglplus/utils/image_spec.hpp>
 #include <oglplus/utils/span.hpp>
 #define BOOST_TEST_MODULE OGLPLUS_utils_image_spec

@@ -21,7 +21,7 @@ vertex_array_ops::bind_vertex_array(vertex_array_name vao) noexcept {
 }
 //------------------------------------------------------------------------------
 inline outcome<vertex_array_name>
-vertex_array_ops::vertex_array_binding(void) noexcept {
+vertex_array_ops::vertex_array_binding() noexcept {
 #ifdef GL_VERTEX_ARRAY_BINDING
     GLint result = 0;
     return numeric_queries::get_integer_v(

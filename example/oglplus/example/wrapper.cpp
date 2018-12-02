@@ -8,15 +8,15 @@
  */
 
 #include "wrapper.hpp"
+#include "state.hpp"
+#include <oglplus/gl.hpp>
+#include <oglplus/utils/span.hpp>
 #include <cassert>
 #include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <sstream>
 #include <stdexcept>
-#include <oglplus/gl_fixed.hpp>
-#include <oglplus/utils/span.hpp>
-#include "state.hpp"
 
 namespace oglplus {
 

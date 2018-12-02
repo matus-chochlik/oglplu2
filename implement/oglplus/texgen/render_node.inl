@@ -6,9 +6,6 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include <cassert>
-#include <iostream>
-#include <sstream>
 #include <eagine/maybe_unused.hpp>
 #include <oglplus/buffer.hpp>
 #include <oglplus/glsl/string_ref.hpp>
@@ -16,6 +13,9 @@
 #include <oglplus/program.hpp>
 #include <oglplus/shader.hpp>
 #include <oglplus/vertex_array.hpp>
+#include <cassert>
+#include <iostream>
+#include <sstream>
 
 #include <oglplus/constants.hpp>
 #include <oglplus/operations.hpp>
@@ -25,7 +25,7 @@ namespace texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 void
-render_node::_init_screen(void) {
+render_node::_init_screen() {
     operations gl;
     constants GL;
 
@@ -73,7 +73,7 @@ render_node::_init_screen(void) {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 void
-render_node::_update_program(void) {
+render_node::_update_program() {
     operations gl;
     constants GL;
 
@@ -87,7 +87,7 @@ render_node::_update_program(void) {
                    "in vec2 Position;\n"
                    "in vec2 Coordinate;\n"
                    "out vec3 oglptg_nc;\n"
-                   "void main(void)\n"
+                   "void main()\n"
                    "{\n"
                    "	gl_Position = vec4(Position, 0.0, 1.0);\n"
                    "	oglptg_nc = vec3(Coordinate, 0.0);\n"
@@ -114,7 +114,7 @@ render_node::_update_program(void) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-render_node::render_node(void)
+render_node::render_node()
   : _input(*this, cstr_ref("Input"), 0.5f, 0.5f, 0.5f, 1.0f)
   , _xdiv(1)
   , _ydiv(1)
@@ -127,7 +127,7 @@ render_node::render_node(void)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-render_node::~render_node(void) {
+render_node::~render_node() {
     if(_prog)
         program::delete_(_prog);
     if(_data)
@@ -138,7 +138,7 @@ render_node::~render_node(void) {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 void
-render_node::draw_screen(void) {
+render_node::draw_screen() {
     operations gl;
     constants GL;
 
@@ -159,7 +159,7 @@ render_node::make_fragment_shader_source(
     out << "const vec3 oglptg_vo = vec3(0);" << std::endl;
     out << std::endl;
 
-    out << "void main(void)" << std::endl;
+    out << "void main()" << std::endl;
     out << "{" << std::endl;
     out << "	oglptg_out = ";
 
@@ -176,13 +176,13 @@ render_node::make_fragment_shader_source(
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 cstr_ref
-render_node::type_name(void) {
+render_node::type_name() {
     return cstr_ref("Render");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 span_size_t
-render_node::input_count(void) {
+render_node::input_count() {
     return 1;
 }
 //------------------------------------------------------------------------------
@@ -196,13 +196,13 @@ render_node::input(span_size_t index) {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 void
-render_node::update_needed(void) {
+render_node::update_needed() {
     _needs_update = true;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 void
-render_node::update_if_needed(void) {
+render_node::update_if_needed() {
     if(_needs_update) {
         _update_program();
         _needs_update = false;
@@ -252,7 +252,7 @@ render_node::render(const render_params& params) {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 bool
-render_node::render(void) {
+render_node::render() {
     if(render(_render_params)) {
         ++_render_params.version;
         return true;

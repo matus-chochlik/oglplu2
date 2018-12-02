@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #ifdef GL_ARB_compatibility
-#include <cassert>
 #include <oglplus/utils/gl_func.hpp>
+#include <cassert>
 
 namespace oglplus {
 //------------------------------------------------------------------------------
@@ -22,7 +22,7 @@ compatibility_matrix::matrix_mode(old_matrix_mode mode) noexcept {
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-compatibility_matrix::push_matrix(void) noexcept {
+compatibility_matrix::push_matrix() noexcept {
     OGLPLUS_GLFUNC(PushMatrix)();
     OGLPLUS_VERIFY_SIMPLE(PushMatrix, debug);
     return {};
@@ -38,7 +38,7 @@ compatibility_matrix::push_matrix(old_matrix_mode mode) noexcept {
 #endif
 //------------------------------------------------------------------------------
 inline outcome<void>
-compatibility_matrix::pop_matrix(void) noexcept {
+compatibility_matrix::pop_matrix() noexcept {
     OGLPLUS_GLFUNC(PopMatrix)();
     OGLPLUS_VERIFY_SIMPLE(PopMatrix, debug);
     return {};
@@ -54,7 +54,7 @@ compatibility_matrix::pop_matrix(old_matrix_mode mode) noexcept {
 #endif
 //------------------------------------------------------------------------------
 inline outcome<void>
-compatibility_matrix::load_identity(void) noexcept {
+compatibility_matrix::load_identity() noexcept {
     OGLPLUS_GLFUNC(LoadIdentity)();
     OGLPLUS_VERIFY_SIMPLE(LoadIdentity, debug);
     return {};

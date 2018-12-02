@@ -75,7 +75,7 @@ buffer_masking_state::stencil_mask_separate(
 }
 //------------------------------------------------------------------------------
 inline outcome<rgba_mask>
-buffer_masking_state::get_color_writemask(void) noexcept {
+buffer_masking_state::get_color_writemask() noexcept {
     rgba_mask result;
     OGLPLUS_GLFUNC(GetBooleanv)(GL_COLOR_WRITEMASK, result._v);
     OGLPLUS_VERIFY_SIMPLE(GetBooleanv, debug);
@@ -83,7 +83,7 @@ buffer_masking_state::get_color_writemask(void) noexcept {
 }
 //------------------------------------------------------------------------------
 inline outcome<boolean>
-buffer_masking_state::get_depth_writemask(void) noexcept {
+buffer_masking_state::get_depth_writemask() noexcept {
     GLboolean result;
     OGLPLUS_GLFUNC(GetBooleanv)(GL_DEPTH_WRITEMASK, &result);
     OGLPLUS_VERIFY_SIMPLE(GetBooleanv, debug);
@@ -91,7 +91,7 @@ buffer_masking_state::get_depth_writemask(void) noexcept {
 }
 //------------------------------------------------------------------------------
 inline outcome<boolean>
-buffer_masking_state::get_stencil_writemask(void) noexcept {
+buffer_masking_state::get_stencil_writemask() noexcept {
     GLboolean result;
     OGLPLUS_GLFUNC(GetBooleanv)(GL_STENCIL_WRITEMASK, &result);
     OGLPLUS_VERIFY_SIMPLE(GetBooleanv, debug);
@@ -99,7 +99,7 @@ buffer_masking_state::get_stencil_writemask(void) noexcept {
 }
 //------------------------------------------------------------------------------
 inline outcome<boolean>
-buffer_masking_state::get_stencil_back_writemask(void) noexcept {
+buffer_masking_state::get_stencil_back_writemask() noexcept {
     GLboolean result;
     OGLPLUS_GLFUNC(GetBooleanv)(GL_STENCIL_BACK_WRITEMASK, &result);
     OGLPLUS_VERIFY_SIMPLE(GetBooleanv, debug);

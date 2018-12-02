@@ -5,7 +5,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 // clang-format off
-#include <oglplus/gl_fixed.hpp>
+#include <oglplus/gl.hpp>
 #include <oglplus/error/format.hpp>
 #define BOOST_TEST_MODULE OGLPLUS_error_format
 #include "../unit_test_begin.inl"

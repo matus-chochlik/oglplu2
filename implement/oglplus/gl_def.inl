@@ -23,7 +23,7 @@ api_initializer::api_initializer(int, int) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-api_initializer::~api_initializer(void) {
+api_initializer::~api_initializer() {
 }
 //------------------------------------------------------------------------------
 #elif OGLPLUS_USE_GLEW
@@ -38,7 +38,7 @@ api_initializer::api_initializer(int, int) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-api_initializer::~api_initializer(void) {
+api_initializer::~api_initializer() {
 }
 //------------------------------------------------------------------------------
 #elif OGLPLUS_USE_GL3W
@@ -55,7 +55,7 @@ api_initializer::api_initializer(int gl_ver_major, int gl_ver_minor) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-api_initializer::~api_initializer(void) {
+api_initializer::~api_initializer() {
 }
 //------------------------------------------------------------------------------
 #endif

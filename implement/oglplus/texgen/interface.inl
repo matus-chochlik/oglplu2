@@ -21,11 +21,11 @@ private:
     std::set<std::intptr_t> _outputs;
 
 public:
-    compile_context_impl(void)
+    compile_context_impl()
       : _glsl_version(150) {
     }
 
-    unsigned glsl_version(void) const noexcept {
+    unsigned glsl_version() const noexcept {
         return _glsl_version;
     }
 
@@ -48,31 +48,31 @@ public:
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 const compile_context_impl&
-compile_context::_impl(void) const noexcept {
+compile_context::_impl() const noexcept {
     assert(_pimpl != nullptr);
     return *_pimpl;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 compile_context_impl&
-compile_context::_impl(void) noexcept {
+compile_context::_impl() noexcept {
     assert(_pimpl != nullptr);
     return *_pimpl;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-compile_context::compile_context(void)
+compile_context::compile_context()
   : _pimpl(new compile_context_impl()) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-compile_context::~compile_context(void) {
+compile_context::~compile_context() {
     delete _pimpl;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 unsigned
-compile_context::glsl_version(void) const {
+compile_context::glsl_version() const {
     return _impl().glsl_version();
 }
 //------------------------------------------------------------------------------
@@ -154,7 +154,7 @@ node_intf::output_by_name(const cstr_ref& name) {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 void
-node_intf::disconnect_all(void) {
+node_intf::disconnect_all() {
     for(span_size_t i = 0; i < input_count(); ++i) {
         input(i).disconnect();
     }

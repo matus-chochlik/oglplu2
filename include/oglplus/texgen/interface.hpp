@@ -31,16 +31,16 @@ class compile_context {
 private:
     compile_context_impl* _pimpl;
 
-    const compile_context_impl& _impl(void) const noexcept;
+    const compile_context_impl& _impl() const noexcept;
 
-    compile_context_impl& _impl(void) noexcept;
+    compile_context_impl& _impl() noexcept;
 
 public:
-    compile_context(void);
+    compile_context();
     compile_context(const compile_context&) = delete;
-    ~compile_context(void);
+    ~compile_context();
 
-    unsigned glsl_version(void) const;
+    unsigned glsl_version() const;
 
     void add_tag(const cstr_ref& tag);
     bool has_tag(const cstr_ref& tag) const noexcept;
@@ -53,11 +53,11 @@ public:
 };
 
 struct constant_intf {
-    virtual ~constant_intf(void) = default;
+    virtual ~constant_intf() = default;
 
-    virtual cstr_ref name(void) const noexcept = 0;
+    virtual cstr_ref name() const noexcept = 0;
 
-    virtual slot_data_type value_type(void) = 0;
+    virtual slot_data_type value_type() = 0;
 
     virtual std::ostream& definitions(std::ostream&, compile_context&) = 0;
 
@@ -65,14 +65,14 @@ struct constant_intf {
 };
 
 struct input_intf {
-    input_intf(void) = default;
+    input_intf() = default;
     input_intf(input_intf&&) = default;
     input_intf(const input_intf&) = default;
 
-    virtual ~input_intf(void) noexcept {
+    virtual ~input_intf() noexcept {
     }
 
-    virtual cstr_ref name(void) noexcept = 0;
+    virtual cstr_ref name() noexcept = 0;
 
     virtual bool accepts_value_type(slot_data_type) = 0;
 
@@ -80,7 +80,7 @@ struct input_intf {
 
     virtual std::ostream& expression(std::ostream&, compile_context&) = 0;
 
-    virtual bool is_connected(void) = 0;
+    virtual bool is_connected() = 0;
 
     virtual bool is_connected(output_intf&) = 0;
 
@@ -88,11 +88,11 @@ struct input_intf {
 
     virtual bool connect(output_intf&) = 0;
 
-    virtual void disconnect(void) = 0;
+    virtual void disconnect() = 0;
 
     virtual bool disconnect(output_intf&) = 0;
 
-    virtual output_intf& connected_output(void) = 0;
+    virtual output_intf& connected_output() = 0;
 
     virtual bool set_default_value(
       eagine::valid_if_between<span_size_t, 0, 3> c, float v) = 0;
@@ -115,28 +115,28 @@ struct input_intf {
                set_default_value(3, z) && set_default_value(4, w);
     }
 
-    virtual void update_needed(void) = 0;
+    virtual void update_needed() = 0;
 
-    virtual void prepare_connected(void) = 0;
+    virtual void prepare_connected() = 0;
 
     virtual bool render_connected(const render_params&) = 0;
 };
 
 struct output_intf {
-    output_intf(void) = default;
+    output_intf() = default;
     output_intf(output_intf&&) = default;
     output_intf(const output_intf&) = default;
 
-    virtual ~output_intf(void) noexcept {
+    virtual ~output_intf() noexcept {
     }
 
-    virtual cstr_ref name(void) noexcept = 0;
+    virtual cstr_ref name() noexcept = 0;
 
-    virtual slot_data_type value_type(void) = 0;
+    virtual slot_data_type value_type() = 0;
 
-    virtual render_param_bits required_params(void) = 0;
+    virtual render_param_bits required_params() = 0;
 
-    virtual bool needs_params(void) {
+    virtual bool needs_params() {
         return bool(required_params());
     }
 
@@ -150,11 +150,11 @@ struct output_intf {
 
     virtual bool disconnect(input_intf&) = 0;
 
-    virtual void disconnect_all(void) = 0;
+    virtual void disconnect_all() = 0;
 
-    virtual void notify_connected(void) = 0;
+    virtual void notify_connected() = 0;
 
-    virtual void prepare_parent(void) = 0;
+    virtual void prepare_parent() = 0;
 
     virtual bool render_parent(const render_params&) = 0;
 };
@@ -163,36 +163,36 @@ bool connect_output_to_input(output_intf& output, input_intf& input);
 bool disconnect_output_from_input(output_intf& output, input_intf& input);
 
 struct node_intf {
-    virtual ~node_intf(void) noexcept {
+    virtual ~node_intf() noexcept {
     }
 
-    virtual span_size_t input_count(void) = 0;
+    virtual span_size_t input_count() = 0;
 
     virtual input_intf& input(span_size_t) = 0;
 
     virtual eagine::optional_reference_wrapper<input_intf> input_by_name(
       const cstr_ref&);
 
-    virtual bool can_add_input(void) = 0;
+    virtual bool can_add_input() = 0;
 
     virtual input_intf& add_input(const cstr_ref&) = 0;
 
     std::ostream& input_definitions(std::ostream&, compile_context&);
 
-    virtual span_size_t output_count(void) = 0;
+    virtual span_size_t output_count() = 0;
 
     virtual output_intf& output(span_size_t) = 0;
 
     virtual eagine::optional_reference_wrapper<output_intf> output_by_name(
       const cstr_ref&);
 
-    void disconnect_all(void);
+    void disconnect_all();
 
-    virtual cstr_ref type_name(void) = 0;
+    virtual cstr_ref type_name() = 0;
 
-    virtual void update_needed(void) = 0;
+    virtual void update_needed() = 0;
 
-    virtual void prepare(void) = 0;
+    virtual void prepare() = 0;
 
     virtual bool render(const render_params&) = 0;
 };
@@ -205,32 +205,32 @@ private:
     friend class output_slot;
     input_intf* _pimpl;
 
-    input_intf& _impl(void) noexcept {
+    input_intf& _impl() noexcept {
         assert(is_valid());
         return *_pimpl;
     }
 
-    const input_intf& _impl(void) const noexcept {
+    const input_intf& _impl() const noexcept {
         assert(is_valid());
         return *_pimpl;
     }
 
 public:
-    input_slot(void) = default;
+    input_slot() = default;
 
     input_slot(input_intf& impl)
       : _pimpl(&impl) {
     }
 
-    bool is_valid(void) const noexcept {
+    bool is_valid() const noexcept {
         return _pimpl != nullptr;
     }
 
-    explicit inline operator bool(void) const noexcept {
+    explicit inline operator bool() const noexcept {
         return is_valid();
     }
 
-    bool operator!(void) const noexcept {
+    bool operator!() const noexcept {
         return !is_valid();
     }
 
@@ -246,7 +246,7 @@ public:
         return a.is_valid() && b.is_valid() && (a._pimpl < b._pimpl);
     }
 
-    cstr_ref name(void) noexcept {
+    cstr_ref name() noexcept {
         return _impl().name();
     }
 
@@ -265,27 +265,27 @@ private:
     friend class input_slot;
     output_intf* _pimpl;
 
-    output_intf& _impl(void) noexcept {
+    output_intf& _impl() noexcept {
         assert(is_valid());
         return *_pimpl;
     }
 
 public:
-    output_slot(void) = default;
+    output_slot() = default;
 
     output_slot(output_intf& impl)
       : _pimpl(&impl) {
     }
 
-    bool is_valid(void) const noexcept {
+    bool is_valid() const noexcept {
         return _pimpl != nullptr;
     }
 
-    explicit inline operator bool(void) const noexcept {
+    explicit inline operator bool() const noexcept {
         return is_valid();
     }
 
-    bool operator!(void) const noexcept {
+    bool operator!() const noexcept {
         return !is_valid();
     }
 
@@ -303,11 +303,11 @@ public:
         return a.is_valid() && b.is_valid() && (a._pimpl < b._pimpl);
     }
 
-    cstr_ref name(void) noexcept {
+    cstr_ref name() noexcept {
         return _impl().name();
     }
 
-    slot_data_type value_type(void) {
+    slot_data_type value_type() {
         return _impl().value_type();
     }
 
@@ -324,7 +324,7 @@ public:
     bool connect(input_slot&);
     bool disconnect(input_slot&);
 
-    void notify_connected(void) {
+    void notify_connected() {
         _impl().notify_connected();
     }
 };

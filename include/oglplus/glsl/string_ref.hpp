@@ -29,7 +29,7 @@ public:
       : glsl_string_ref(str.data(), span_size(str.size())) {
     }
 
-    operator glsl_source_ref(void) const noexcept {
+    operator glsl_source_ref() const noexcept {
         return glsl_source_ref(1, &_src_str, &_length);
     }
 };

@@ -40,15 +40,15 @@ public:
       : image_dimensions(w, 1) {
     }
 
-    GLsizei width(void) const noexcept {
+    GLsizei width() const noexcept {
         return _width;
     }
 
-    GLsizei height(void) const noexcept {
+    GLsizei height() const noexcept {
         return _height;
     }
 
-    GLsizei depth(void) const noexcept {
+    GLsizei depth() const noexcept {
         return _depth;
     }
 };
@@ -70,11 +70,11 @@ public:
       , _internal_format(pixel_data_internal_format(GLenum(fmt))) {
     }
 
-    pixel_data_format format(void) const noexcept {
+    pixel_data_format format() const noexcept {
         return _format;
     }
 
-    pixel_data_internal_format internal_format(void) const noexcept {
+    pixel_data_internal_format internal_format() const noexcept {
         return _internal_format;
     }
 };
@@ -103,15 +103,15 @@ public:
         assert(_elem_size > 0);
     }
 
-    pixel_data_type type(void) const noexcept {
+    pixel_data_type type() const noexcept {
         return _type;
     }
 
-    const_memory_block data(void) const noexcept {
+    const_memory_block data() const noexcept {
         return _pixels;
     }
 
-    span_size_t elem_size(void) const noexcept {
+    span_size_t elem_size() const noexcept {
         return _elem_size;
     }
 };

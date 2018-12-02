@@ -29,9 +29,9 @@ public:
       , _output(nullptr) {
     }
 
-    ~base_input(void) noexcept override;
+    ~base_input() noexcept override;
 
-    node_intf& parent(void) noexcept {
+    node_intf& parent() noexcept {
         return _parent;
     }
 
@@ -39,9 +39,9 @@ public:
         _name = name;
     }
 
-    cstr_ref name(void) noexcept override;
+    cstr_ref name() noexcept override;
 
-    bool is_connected(void) noexcept override;
+    bool is_connected() noexcept override;
 
     bool is_connected(output_intf&) override;
 
@@ -51,18 +51,18 @@ public:
 
     bool connect(output_intf&) override;
 
-    void disconnect(void) override;
+    void disconnect() override;
 
     bool disconnect(output_intf&) override;
 
-    output_intf& connected_output(void) override;
+    output_intf& connected_output() override;
 
     bool set_default_value(
       eagine::valid_if_between<span_size_t, 0, 3> cmp, float val) override;
 
-    void update_needed(void) override;
+    void update_needed() override;
 
-    void prepare_connected(void) override;
+    void prepare_connected() override;
 
     bool render_connected(const render_params&) override;
 };

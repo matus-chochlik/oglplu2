@@ -23,13 +23,13 @@ operator<<(std::ostream& out, const constant_id& e) {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 slot_data_type
-base_constant::value_type(void) {
+base_constant::value_type() {
     return slot_data_type::float_;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 std::string
-base_constant::identifier(void) {
+base_constant::identifier() {
     cstr_ref n = name();
     std::string result;
     result.reserve(std_size(7 + n.size()));
@@ -59,7 +59,7 @@ base_constant::expression(std::ostream& out, compile_context&) {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 cstr_ref
-constant_pi::name(void) const noexcept {
+constant_pi::name() const noexcept {
     return cstr_ref("pi");
 }
 //------------------------------------------------------------------------------
@@ -71,7 +71,7 @@ constant_pi::value(std::ostream& out, compile_context&) {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 cstr_ref
-constant_phi::name(void) const noexcept {
+constant_phi::name() const noexcept {
     return cstr_ref("phi");
 }
 //------------------------------------------------------------------------------

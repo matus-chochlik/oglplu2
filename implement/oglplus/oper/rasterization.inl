@@ -21,7 +21,7 @@ rasterization_state::front_face(face_orientation orientation) noexcept {
 }
 //------------------------------------------------------------------------------
 inline outcome<face_orientation>
-rasterization_state::get_front_face(void) noexcept {
+rasterization_state::get_front_face() noexcept {
     return face_orientation(
       GLenum(numeric_queries::get_integer(numeric_query(GL_FRONT_FACE))));
 }
@@ -34,7 +34,7 @@ rasterization_state::cull_face(face mode) noexcept {
 }
 //------------------------------------------------------------------------------
 inline outcome<face>
-rasterization_state::get_cull_face_mode(void) noexcept {
+rasterization_state::get_cull_face_mode() noexcept {
     return face(
       GLenum(numeric_queries::get_integer(numeric_query(GL_CULL_FACE_MODE))));
 }
@@ -57,7 +57,7 @@ rasterization_state::depth_func(compare_function func) noexcept {
 }
 //------------------------------------------------------------------------------
 inline outcome<compare_function>
-rasterization_state::get_depth_func(void) noexcept {
+rasterization_state::get_depth_func() noexcept {
     return compare_function(
       GLenum(numeric_queries::get_integer(numeric_query(GL_DEPTH_FUNC))));
 }
@@ -121,18 +121,18 @@ rasterization_state::polygon_offset_clamp(
 #endif
 //------------------------------------------------------------------------------
 inline outcome<GLfloat>
-rasterization_state::get_polygon_offset_factor(void) noexcept {
+rasterization_state::get_polygon_offset_factor() noexcept {
     return numeric_queries::get_float(numeric_query(GL_POLYGON_OFFSET_FACTOR));
 }
 //------------------------------------------------------------------------------
 inline outcome<GLfloat>
-rasterization_state::get_polygon_offset_units(void) noexcept {
+rasterization_state::get_polygon_offset_units() noexcept {
     return numeric_queries::get_float(numeric_query(GL_POLYGON_OFFSET_UNITS));
 }
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_6) || defined(GL_EXT_polygon_offset_clamp)
 inline outcome<GLfloat>
-rasterization_state::get_polygon_offset_clamp(void) noexcept {
+rasterization_state::get_polygon_offset_clamp() noexcept {
 #if defined(GL_POLYGON_OFFSET_CLAMP)
     return numeric_queries::get_float(numeric_query(GL_POLYGON_OFFSET_CLAMP));
 #elif defined(GL_POLYGON_OFFSET_CLAMP_EXT)
@@ -150,7 +150,7 @@ rasterization_state::line_width(GLfloat value) noexcept {
 }
 //------------------------------------------------------------------------------
 inline outcome<GLfloat>
-rasterization_state::get_line_width(void) noexcept {
+rasterization_state::get_line_width() noexcept {
     return numeric_queries::get_float(numeric_query(GL_LINE_WIDTH));
 }
 //------------------------------------------------------------------------------
@@ -163,7 +163,7 @@ rasterization_state::point_size(GLfloat value) noexcept {
 }
 //------------------------------------------------------------------------------
 inline outcome<GLfloat>
-rasterization_state::get_point_size(void) noexcept {
+rasterization_state::get_point_size() noexcept {
     return numeric_queries::get_float(numeric_query(GL_POINT_SIZE));
 }
 //------------------------------------------------------------------------------
@@ -191,7 +191,7 @@ rasterization_state::provoking_vertex(provoke_mode mode) noexcept {
 }
 //------------------------------------------------------------------------------
 inline outcome<provoke_mode>
-rasterization_state::get_provoking_vertex(void) noexcept {
+rasterization_state::get_provoking_vertex() noexcept {
     return provoke_mode(
       GLenum(numeric_queries::get_integer(numeric_query(GL_PROVOKING_VERTEX))));
 }
@@ -206,7 +206,7 @@ rasterization_state::min_sample_shading(GLfloat value) noexcept {
 }
 //------------------------------------------------------------------------------
 inline outcome<GLfloat>
-rasterization_state::get_min_sample_shading_value(void) noexcept {
+rasterization_state::get_min_sample_shading_value() noexcept {
     return numeric_queries::get_float(
       numeric_query(GL_MIN_SAMPLE_SHADING_VALUE));
 }

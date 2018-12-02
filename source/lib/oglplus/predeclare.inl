@@ -8,6 +8,6 @@
  */
 
 // clang-format off
-#include <oglplus/gl_fixed.hpp>
+#include <oglplus/gl.hpp>
 #include "error.inl"
 // clang-format on

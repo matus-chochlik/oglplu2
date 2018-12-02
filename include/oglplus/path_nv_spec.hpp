@@ -62,7 +62,7 @@ private:
     }
 
 public:
-    path_nv_spec(void) = default;
+    path_nv_spec() = default;
     path_nv_spec(path_nv_spec&&) = default;
     path_nv_spec& operator=(path_nv_spec&&) = default;
 
@@ -75,11 +75,11 @@ public:
         return _append(GLubyte(command), coords);
     }
 
-    path_nv_spec& close(void) {
+    path_nv_spec& close() {
         return _add(GL_CLOSE_PATH_NV);
     }
 
-    path_nv_spec& restart(void) {
+    path_nv_spec& restart() {
         return _add(GL_RESTART_PATH_NV);
     }
 
@@ -212,7 +212,7 @@ public:
     }
 
 #if defined(GL_NV_path_rendering_shared_edge)
-    path_nv_spec& shared_edge(void) {
+    path_nv_spec& shared_edge() {
         assert(!_commands.empty());
         _commands.back() |= GL_SHARED_EDGE_NV;
         return *this;

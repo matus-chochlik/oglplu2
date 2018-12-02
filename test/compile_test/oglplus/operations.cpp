@@ -5,7 +5,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 // clang-format off
-#include <oglplus/gl_fixed.hpp>
+#include <oglplus/gl.hpp>
 #include <eagine/maybe_unused.hpp>
 #include <oglplus/buffer_name.hpp>
 #include <oglplus/framebuffer_name.hpp>

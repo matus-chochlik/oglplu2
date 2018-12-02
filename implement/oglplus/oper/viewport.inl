@@ -28,7 +28,7 @@ viewport_state::viewport(GLsizei w, GLsizei h) noexcept {
 }
 //------------------------------------------------------------------------------
 inline outcome<viewport_extents>
-viewport_state::get_viewport(void) noexcept {
+viewport_state::get_viewport() noexcept {
     viewport_extents result;
     return numeric_queries::get_float_v(numeric_query(GL_VIEWPORT), {result._v})
       .add(result);

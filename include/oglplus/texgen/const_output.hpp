@@ -28,11 +28,11 @@ public:
       : base_output(parent) {
     }
 
-    cstr_ref type_name(void) noexcept override {
+    cstr_ref type_name() noexcept override {
         return cstr_ref("Const");
     }
 
-    render_param_bits required_params(void) override {
+    render_param_bits required_params() override {
         return render_param_bits();
     }
 };
@@ -69,7 +69,7 @@ public:
         return false;
     }
 
-    slot_data_type value_type(void) noexcept override {
+    slot_data_type value_type() noexcept override {
         return get_data_type_v<T[N]>;
     }
 

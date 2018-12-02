@@ -36,10 +36,10 @@ private:
     bool _primitive_restart : 1;
     bool _cw_face_winding : 1;
 
-    const void* _idx_ptr(void) const noexcept;
+    const void* _idx_ptr() const noexcept;
 
 public:
-    constexpr draw_operation(void) noexcept
+    constexpr draw_operation() noexcept
       : _mode(primitive_type(GL_NONE))
       , _idx_type(data_type(GL_NONE))
       , _first(0)
@@ -52,9 +52,9 @@ public:
 
     draw_operation(const eagine::shapes::draw_operation& draw_op) noexcept;
 
-    bool indexed(void) const noexcept;
+    bool indexed() const noexcept;
 
-    outcome<void> draw(void) const noexcept;
+    outcome<void> draw() const noexcept;
 };
 
 outcome<void> draw_using_instructions(

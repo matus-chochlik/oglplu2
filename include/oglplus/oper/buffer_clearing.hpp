@@ -21,7 +21,7 @@ namespace oper {
 struct rgba_value {
     GLfloat _v[4];
 
-    rgba_value(void) = default;
+    rgba_value() = default;
 
     rgba_value(GLfloat r, GLfloat g, GLfloat b, GLfloat a) {
         _v[0] = r;
@@ -30,19 +30,19 @@ struct rgba_value {
         _v[3] = a;
     }
 
-    GLfloat red(void) const noexcept {
+    GLfloat red() const noexcept {
         return _v[0];
     }
 
-    GLfloat green(void) const noexcept {
+    GLfloat green() const noexcept {
         return _v[1];
     }
 
-    GLfloat blue(void) const noexcept {
+    GLfloat blue() const noexcept {
         return _v[2];
     }
 
-    GLfloat alpha(void) const noexcept {
+    GLfloat alpha() const noexcept {
         return _v[3];
     }
 };
@@ -67,11 +67,11 @@ struct buffer_clearing_state {
 
     static outcome<void> clear_stencil(GLint s) noexcept;
 
-    static outcome<rgba_value> get_color_clear_value(void) noexcept;
+    static outcome<rgba_value> get_color_clear_value() noexcept;
 
-    static outcome<GLfloat> get_depth_clear_value(void) noexcept;
+    static outcome<GLfloat> get_depth_clear_value() noexcept;
 
-    static outcome<GLint> get_stencil_clear_value(void) noexcept;
+    static outcome<GLint> get_stencil_clear_value() noexcept;
 };
 
 struct buffer_clearing_ops {

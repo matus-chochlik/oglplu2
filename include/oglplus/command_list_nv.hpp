@@ -43,11 +43,11 @@ struct obj_dsa_ops<tag::command_list_nv>
         return {_ops::command_list_segments(*this, nseg), *this};
     }
 
-    outcome<obj_dsa_ops&> compile(void) noexcept {
+    outcome<obj_dsa_ops&> compile() noexcept {
         return {_ops::compile_command_list(*this), *this};
     }
 
-    outcome<obj_dsa_ops&> call(void) noexcept {
+    outcome<obj_dsa_ops&> call() noexcept {
         return {_ops::call_command_list(*this), *this};
     }
 };

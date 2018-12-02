@@ -21,9 +21,9 @@ public:
 
     concentric_output(node_intf& parent);
 
-    cstr_ref type_name(void) override;
+    cstr_ref type_name() override;
 
-    slot_data_type value_type(void) override;
+    slot_data_type value_type() override;
 
     std::ostream& definitions(
       std::ostream& out, compile_context& ctxt) override;
@@ -45,9 +45,9 @@ class pixel_concentric_output : public base_output {
 public:
     pixel_concentric_output(node_intf& parent);
 
-    cstr_ref type_name(void) override;
+    cstr_ref type_name() override;
 
-    slot_data_type value_type(void) override;
+    slot_data_type value_type() override;
 
     std::ostream& definitions(
       std::ostream& out, compile_context& ctxt) override;

@@ -21,7 +21,7 @@ struct gl_obj_tag {};
 
 template <typename ObjTag>
 struct obj_zero_dsa_ops : object_zero_name<ObjTag> {
-    obj_zero_dsa_ops(void) = default;
+    obj_zero_dsa_ops() = default;
 
     obj_zero_dsa_ops(object_name<ObjTag> name) noexcept
       : object_zero_name<ObjTag>(name) {
@@ -30,7 +30,7 @@ struct obj_zero_dsa_ops : object_zero_name<ObjTag> {
 
 template <typename ObjTag>
 struct obj_dsa_ops : obj_zero_dsa_ops<ObjTag> {
-    obj_dsa_ops(void) = default;
+    obj_dsa_ops() = default;
 
     obj_dsa_ops(object_name<ObjTag> name) noexcept
       : obj_zero_dsa_ops<ObjTag>(name) {
@@ -51,7 +51,7 @@ struct gl_object_traits {
     template <typename ObjTag>
     using dsa_ops_t = obj_dsa_ops<ObjTag>;
 
-    static inline constexpr GLuint invalid_name(void) noexcept {
+    static inline constexpr GLuint invalid_name() noexcept {
         return ~GLuint(0);
     }
 };
@@ -63,7 +63,7 @@ namespace eagine {
 template <GLenum Tag>
 struct object_traits<oglplus::tag::gl_obj_tag<Tag>>
   : oglplus::gl_object_traits<oglplus::tag::gl_obj_tag<Tag>> {
-    static inline constexpr GLenum get_type(void) noexcept {
+    static inline constexpr GLenum get_type() noexcept {
         return Tag;
     }
 };

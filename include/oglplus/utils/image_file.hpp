@@ -34,16 +34,16 @@ public:
       : _header(std::move(fc)) {
     }
 
-    bool is_valid(void) const noexcept {
+    bool is_valid() const noexcept {
         return _header->magic.is_valid();
     }
 
-    image_dimensions dimensions(void) const noexcept {
+    image_dimensions dimensions() const noexcept {
         return image_dimensions(
           _header->width, _header->height, _header->depth);
     }
 
-    image_pixel_format pixel_format(void) const noexcept {
+    image_pixel_format pixel_format() const noexcept {
         return image_pixel_format(
           pixel_data_format(_header->format),
           pixel_data_internal_format(_header->internal_format));
@@ -54,14 +54,14 @@ public:
         return image_pixel_format(pixel_data_format(_header->format), ifmt);
     }
 
-    image_pixel_data pixel_data(void) const noexcept {
+    image_pixel_data pixel_data() const noexcept {
         return image_pixel_data(
           pixel_data_type(_header->data_type),
           eagine::memory::data_block_of(_header->pixels),
           sizeof(GLubyte));
     }
 
-    inline image_spec spec(void) const noexcept {
+    inline image_spec spec() const noexcept {
         return image_spec(dimensions(), pixel_format(), pixel_data());
     }
 
@@ -69,7 +69,7 @@ public:
         return image_spec(dimensions(), pixel_format(ifmt), pixel_data());
     }
 
-    inline operator image_spec(void) const noexcept {
+    inline operator image_spec() const noexcept {
         return spec();
     }
 };

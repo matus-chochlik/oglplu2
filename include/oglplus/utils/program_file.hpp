@@ -32,20 +32,20 @@ public:
       , _size(GLsizei(_header->source_text.size())) {
     }
 
-    bool is_valid(void) const noexcept {
+    bool is_valid() const noexcept {
         return _header->magic.is_valid();
     }
 
-    auto shader_type(void) const noexcept {
+    auto shader_type() const noexcept {
         return oglplus::shader_type(_header->shader_type);
     }
 
-    cstr_ref source_text(void) const noexcept {
+    cstr_ref source_text() const noexcept {
         return {_header->source_text.data(),
                 cstr_ref::size_type(_header->source_text.size())};
     }
 
-    operator glsl_source_ref(void) const noexcept {
+    operator glsl_source_ref() const noexcept {
         return glsl_source_ref(1, &_text, &_size);
     }
 };
@@ -79,11 +79,11 @@ public:
       , _sources(_header->shader_sources) {
     }
 
-    bool is_valid(void) const noexcept {
+    bool is_valid() const noexcept {
         return _header->magic.is_valid();
     }
 
-    span_size_t shader_source_count(void) const noexcept {
+    span_size_t shader_source_count() const noexcept {
         assert(is_valid());
         return _sources.size();
     }

@@ -48,21 +48,21 @@ struct capability_state {
 
     static outcome<boolean> is_enabled(client_capability cap) noexcept;
 
-    static outcome<GLint> get_red_bits(void) noexcept;
+    static outcome<GLint> get_red_bits() noexcept;
 
-    static outcome<GLint> get_green_bits(void) noexcept;
+    static outcome<GLint> get_green_bits() noexcept;
 
-    static outcome<GLint> get_blue_bits(void) noexcept;
+    static outcome<GLint> get_blue_bits() noexcept;
 
-    static outcome<GLint> get_alpha_bits(void) noexcept;
+    static outcome<GLint> get_alpha_bits() noexcept;
 
-    static outcome<GLint> get_depth_bits(void) noexcept;
+    static outcome<GLint> get_depth_bits() noexcept;
 
-    static outcome<GLint> get_stencil_bits(void) noexcept;
+    static outcome<GLint> get_stencil_bits() noexcept;
 
-    static outcome<boolean> has_doublebuffer(void) noexcept;
+    static outcome<boolean> has_doublebuffer() noexcept;
 
-    static outcome<boolean> is_stereo(void) noexcept;
+    static outcome<boolean> is_stereo() noexcept;
 #endif
 
 #if defined(GL_VERSION_4_5)

@@ -37,9 +37,9 @@ public:
       : fold_output(parent, fold_function::multiply) {
     }
 
-    cstr_ref type_name(void) override;
+    cstr_ref type_name() override;
 
-    slot_data_type value_type(void) override;
+    slot_data_type value_type() override;
 
     std::ostream& definitions(
       std::ostream& out, compile_context& ctxt) override;
@@ -50,9 +50,9 @@ private:
     fold_output _output;
 
 public:
-    fold_node(void);
+    fold_node();
 
-    fold_output& single_output(void) override {
+    fold_output& single_output() override {
         return _output;
     }
 

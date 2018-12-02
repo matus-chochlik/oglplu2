@@ -68,7 +68,7 @@ program_ops::use_program(program_name prog) noexcept {
 }
 //------------------------------------------------------------------------------
 inline outcome<program_name>
-program_ops::current_program(void) noexcept {
+program_ops::current_program() noexcept {
 #ifdef GL_CURRENT_PROGRAM
     GLint result = 0;
     return numeric_queries::get_integer_v(

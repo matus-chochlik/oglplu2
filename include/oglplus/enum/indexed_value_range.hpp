@@ -39,7 +39,7 @@ public:
         assert(Base <= _limit);
     }
 
-    limited_value_range(void)
+    limited_value_range()
       : limited_value_range(get_limit(identity<_lv_t>()).value()) {
     }
 
@@ -50,15 +50,15 @@ public:
       _lv_t (*)(GLenum) noexcept>
       iterator;
 
-    size_type size(void) const noexcept {
+    size_type size() const noexcept {
         return _limit - Base;
     }
 
-    iterator begin(void) const noexcept {
+    iterator begin() const noexcept {
         return iterator(Base, &_wrap_enum);
     }
 
-    iterator end(void) const noexcept {
+    iterator end() const noexcept {
         return iterator(_limit, &_wrap_enum);
     }
 };
@@ -67,7 +67,7 @@ template <
   typename LimitedValue,
   typename = std::enable_if_t<is_limited_value<LimitedValue>::value>>
 static inline limited_value_range<LimitedValue>
-enum_value_range(void) {
+enum_value_range() {
     return {};
 }
 

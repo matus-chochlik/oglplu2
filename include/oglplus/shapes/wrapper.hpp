@@ -38,12 +38,12 @@ public:
         initialize_vao_and_buffers(_vao, _bufs, vaals, _ops, gen, data);
     }
 
-    outcome<void> use(void) noexcept {
+    outcome<void> use() noexcept {
         oper::vertex_array_ops gl;
         return gl.bind_vertex_array(_vao);
     }
 
-    outcome<void> draw(void) const noexcept {
+    outcome<void> draw() const noexcept {
         return draw_using_instructions(make_span(_ops));
     }
 };

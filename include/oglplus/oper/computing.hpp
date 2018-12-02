@@ -23,23 +23,23 @@ struct compute_work_group_size {
         _v[2] = num_z;
     }
 
-    GLsizei num_groups_x(void) const noexcept {
+    GLsizei num_groups_x() const noexcept {
         return GLsizei(_v[0]);
     }
 
-    GLsizei num_groups_y(void) const noexcept {
+    GLsizei num_groups_y() const noexcept {
         return GLsizei(_v[1]);
     }
 
-    GLsizei num_groups_z(void) const noexcept {
+    GLsizei num_groups_z() const noexcept {
         return GLsizei(_v[2]);
     }
 
-    span<const GLint> num_groups(void) const noexcept {
+    span<const GLint> num_groups() const noexcept {
         return {_v, 3};
     }
 
-    span<GLint> num_groups(void) noexcept {
+    span<GLint> num_groups() noexcept {
         return {_v, 3};
     }
 

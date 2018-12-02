@@ -26,9 +26,9 @@ public:
     swizzle_output(node_intf& parent);
     swizzle_output(node_intf& parent, const std::string& swizzle);
 
-    cstr_ref type_name(void) override;
+    cstr_ref type_name() override;
 
-    slot_data_type value_type(void) override;
+    slot_data_type value_type() override;
 
     std::ostream& definitions(
       std::ostream& out, compile_context& ctxt) override;
@@ -40,7 +40,7 @@ class swizzle_node
       decltype(swizzle_output::input),
       &swizzle_output::input> {
 public:
-    swizzle_node(void) = default;
+    swizzle_node() = default;
 
     swizzle_node& set_swizzle(const std::string& swizzle) {
         if(is_valid_swizzle(cstr_ref(swizzle))) {

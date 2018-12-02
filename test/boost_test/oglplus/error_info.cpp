@@ -17,7 +17,7 @@
 #define OGLPLUS_ERROR_NO_INFO_LOG 0
 
 // clang-format off
-#include <oglplus/gl_fixed.hpp>
+#include <oglplus/gl.hpp>
 #include <oglplus/error/info.hpp>
 #define BOOST_TEST_MODULE OGLPLUS_error_info
 #include "../unit_test_begin.inl"

@@ -18,12 +18,12 @@ class prog_var_loc<VarTag, true> : public prog_var_loc<VarTag, false> {
 private:
     GLuint _prog;
 
-    static constexpr inline GLuint _invalid_prog(void) noexcept {
+    static constexpr inline GLuint _invalid_prog() noexcept {
         return 0u;
     }
 
 public:
-    constexpr prog_var_loc(void) noexcept
+    constexpr prog_var_loc() noexcept
       : prog_var_loc<VarTag>()
       , _prog(_invalid_prog()) {
     }
@@ -33,19 +33,19 @@ public:
       , _prog(get_raw_name(prog)) {
     }
 
-    constexpr program_name program(void) const noexcept {
+    constexpr program_name program() const noexcept {
         return program_name(_prog);
     }
 
-    constexpr bool is_bound(void) const noexcept {
+    constexpr bool is_bound() const noexcept {
         return _prog != _invalid_prog();
     }
 
-    constexpr explicit operator bool(void) const noexcept {
+    constexpr explicit operator bool() const noexcept {
         return this->is_bound() && this->is_active();
     }
 
-    constexpr bool operator!(void) const noexcept {
+    constexpr bool operator!() const noexcept {
         return !this->is_bound() || !this->is_active();
     }
 

@@ -98,7 +98,7 @@ get_data_type(identity<GLdouble>) noexcept {
 
 template <typename T>
 static constexpr inline data_type
-get_data_type(void) noexcept {
+get_data_type() noexcept {
     return get_data_type(identity<std::remove_cv_t<T>>());
 }
 

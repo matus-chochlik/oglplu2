@@ -23,19 +23,19 @@ struct compatibility_matrix {
 #ifdef GL_ARB_compatibility
     static outcome<void> matrix_mode(old_matrix_mode mode) noexcept;
 
-    static outcome<void> push_matrix(void) noexcept;
+    static outcome<void> push_matrix() noexcept;
 
 #ifdef GL_EXT_direct_state_access
     static outcome<void> push_matrix(old_matrix_mode mode) noexcept;
 #endif
 
-    static outcome<void> pop_matrix(void) noexcept;
+    static outcome<void> pop_matrix() noexcept;
 
 #ifdef GL_EXT_direct_state_access
     static outcome<void> pop_matrix(old_matrix_mode mode) noexcept;
 #endif
 
-    static outcome<void> load_identity(void) noexcept;
+    static outcome<void> load_identity() noexcept;
 
 #ifdef GL_EXT_direct_state_access
     static outcome<void> load_identity(old_matrix_mode mode) noexcept;

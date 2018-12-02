@@ -14,7 +14,7 @@ namespace texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 span_size_t
-base_node::input_count(void) {
+base_node::input_count() {
     return 0;
 }
 //------------------------------------------------------------------------------
@@ -29,7 +29,7 @@ base_node::input(span_size_t) {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 bool
-base_node::can_add_input(void) {
+base_node::can_add_input() {
     return false;
 }
 //------------------------------------------------------------------------------
@@ -42,7 +42,7 @@ base_node::add_input(const cstr_ref&) {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 span_size_t
-base_node::output_count(void) {
+base_node::output_count() {
     return 0;
 }
 //------------------------------------------------------------------------------
@@ -57,7 +57,7 @@ base_node::output(span_size_t) {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 void
-base_node::update_needed(void) {
+base_node::update_needed() {
     for(span_size_t i = 0, n = output_count(); i < n; ++i) {
         output(i).notify_connected();
     }
@@ -65,7 +65,7 @@ base_node::update_needed(void) {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 void
-base_node::prepare(void) {
+base_node::prepare() {
     for(span_size_t i = 0, n = input_count(); i < n; ++i) {
         input(i).prepare_connected();
     }
@@ -88,13 +88,13 @@ base_node::render(const render_params& params) {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 cstr_ref
-base_single_output_node::type_name(void) {
+base_single_output_node::type_name() {
     return single_output().type_name();
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 span_size_t
-base_single_output_node::output_count(void) {
+base_single_output_node::output_count() {
     return 1;
 }
 //------------------------------------------------------------------------------

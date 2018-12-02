@@ -16,7 +16,7 @@ namespace oper {
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_3)
 inline outcome<GLsizei>
-object_common_ops::get_max_label_length(void) noexcept {
+object_common_ops::get_max_label_length() noexcept {
     return GLsizei(
       numeric_queries::get_integer(numeric_query(GL_MAX_LABEL_LENGTH)));
 }

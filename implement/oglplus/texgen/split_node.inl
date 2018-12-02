@@ -25,7 +25,7 @@ split_output::split_output(
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 cstr_ref
-split_output::type_name(void) {
+split_output::type_name() {
     const cstr_ref names[4] = {
       cstr_ref("Red"), cstr_ref("Green"), cstr_ref("Blue"), cstr_ref("Alpha")};
     return names[_index];
@@ -33,7 +33,7 @@ split_output::type_name(void) {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 slot_data_type
-split_output::value_type(void) {
+split_output::value_type() {
     return make_data_type(elem_data_type(_input.value_type()), 1);
 }
 //------------------------------------------------------------------------------
@@ -62,12 +62,12 @@ split_output::definitions(std::ostream& out, compile_context& ctxt) {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 cstr_ref
-split_node::type_name(void) {
+split_node::type_name() {
     return cstr_ref("Split");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-split_node::split_node(void)
+split_node::split_node()
   : _input(*this, cstr_ref("Input"))
   , _output_r(*this, _input, 0)
   , _output_g(*this, _input, 1)
@@ -77,7 +77,7 @@ split_node::split_node(void)
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 span_size_t
-split_node::input_count(void) {
+split_node::input_count() {
     return 1;
 }
 //------------------------------------------------------------------------------
@@ -90,7 +90,7 @@ split_node::input(span_size_t index) {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 span_size_t
-split_node::output_count(void) {
+split_node::output_count() {
     return 4u;
 }
 //------------------------------------------------------------------------------

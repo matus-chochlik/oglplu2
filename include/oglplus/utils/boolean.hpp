@@ -18,7 +18,7 @@ namespace oglplus {
 struct boolean {
     GLboolean _v;
 
-    constexpr boolean(void) noexcept
+    constexpr boolean() noexcept
       : _v(GL_FALSE) {
     }
 
@@ -35,15 +35,15 @@ struct boolean {
       : _v(GLboolean(v)) {
     }
 
-    explicit constexpr inline operator bool(void) const noexcept {
+    explicit constexpr inline operator bool() const noexcept {
         return _v == GL_TRUE;
     }
 
-    constexpr inline bool operator!(void) const noexcept {
+    constexpr inline bool operator!() const noexcept {
         return _v == GL_FALSE;
     }
 
-    constexpr inline operator GLboolean(void) const noexcept {
+    constexpr inline operator GLboolean() const noexcept {
         return _v;
     }
 };

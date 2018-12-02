@@ -6,9 +6,9 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include <cassert>
 #include <eagine/range_algo.hpp>
 #include <oglplus/utils/gl_func.hpp>
+#include <cassert>
 
 namespace oglplus {
 //------------------------------------------------------------------------------
@@ -16,7 +16,7 @@ namespace oper {
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_1)
 inline outcome<void>
-shader_ops::release_shader_compiler(void) noexcept {
+shader_ops::release_shader_compiler() noexcept {
     OGLPLUS_GLFUNC(ReleaseShaderCompiler)();
     OGLPLUS_VERIFY_SIMPLE(ShaderSource, always);
     return {};

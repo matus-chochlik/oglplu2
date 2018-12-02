@@ -23,13 +23,13 @@ complement_output::complement_output(node_intf& parent)
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 cstr_ref
-complement_output::type_name(void) {
+complement_output::type_name() {
     return cstr_ref("Complement");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 slot_data_type
-complement_output::value_type(void) {
+complement_output::value_type() {
     return make_data_type(elem_data_type(input.value_type()), 4);
 }
 //------------------------------------------------------------------------------

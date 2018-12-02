@@ -285,7 +285,7 @@ public:
 #endif // GL_VERSION_4_5
 
 #if defined(GL_VERSION_4_3) || defined(GL_ARB_invalidate_subdata)
-    outcome<Derived&> invalidate_data(void) noexcept {
+    outcome<Derived&> invalidate_data() noexcept {
         return {_ops::invalidate_buffer_data(*this), _self()};
     }
 
@@ -295,15 +295,15 @@ public:
     }
 #endif
 
-    outcome<GLint> get_size(void) const noexcept {
+    outcome<GLint> get_size() const noexcept {
         return _ops::get_buffer_size(*this);
     }
 
-    outcome<boolean> is_mapped(void) const noexcept {
+    outcome<boolean> is_mapped() const noexcept {
         return _ops::is_buffer_mapped(*this);
     }
 
-    outcome<buffer_usage> get_usage(void) const noexcept {
+    outcome<buffer_usage> get_usage() const noexcept {
         return _ops::get_buffer_usage(*this);
     }
 
@@ -314,11 +314,11 @@ public:
         return {_ops::buffer_storage(*this, data, flags), _self()};
     }
 
-    outcome<boolean> has_immutable_storage(void) const noexcept {
+    outcome<boolean> has_immutable_storage() const noexcept {
         return _ops::has_buffer_immutable_storage(*this);
     }
 
-    outcome<enum_bitfield<buffer_storage_bits>> get_storage_flags(void) const
+    outcome<enum_bitfield<buffer_storage_bits>> get_storage_flags() const
       noexcept {
         return _ops::get_buffer_storage_flags(*this);
     }
@@ -329,15 +329,15 @@ public:
         return _ops::make_buffer_resident(*this, access);
     }
 
-    outcome<void> make_non_resident(void) noexcept {
+    outcome<void> make_non_resident() noexcept {
         return _ops::make_buffer_non_resident(*this);
     }
 
-    outcome<boolean> is_resident(void) const noexcept {
+    outcome<boolean> is_resident() const noexcept {
         return _ops::is_buffer_resident(*this);
     }
 
-    outcome<buffer_address> get_gpu_address(void) const noexcept {
+    outcome<buffer_address> get_gpu_address() const noexcept {
         return _ops::get_buffer_gpu_address(*this);
     }
 #endif

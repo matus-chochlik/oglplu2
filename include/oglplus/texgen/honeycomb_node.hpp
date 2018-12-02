@@ -25,7 +25,7 @@ private:
     honeycomb_direction& _direction;
     honeycomb_output_type _type;
 
-    cstr_ref type_abbr(void) const;
+    cstr_ref type_abbr() const;
 
 public:
     honeycomb_output(
@@ -34,9 +34,9 @@ public:
       honeycomb_direction& direction,
       honeycomb_output_type type);
 
-    cstr_ref type_name(void) override;
+    cstr_ref type_name() override;
 
-    slot_data_type value_type(void) override;
+    slot_data_type value_type() override;
 
     std::ostream& definitions(
       std::ostream& out, compile_context& ctxt) override;
@@ -54,20 +54,20 @@ private:
     honeycomb_output _distance;
 
 public:
-    honeycomb_node(void);
+    honeycomb_node();
 
     honeycomb_node& set_cell_count(float x, float y) {
         _cells.fallback().set(x, y);
         return *this;
     }
 
-    cstr_ref type_name(void) override;
+    cstr_ref type_name() override;
 
-    span_size_t input_count(void) override;
+    span_size_t input_count() override;
 
     input_intf& input(span_size_t index) override;
 
-    span_size_t output_count(void) override;
+    span_size_t output_count() override;
 
     output_intf& output(span_size_t index) override;
 };

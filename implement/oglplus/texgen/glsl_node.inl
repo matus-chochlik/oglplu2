@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include <iostream>
 #include <eagine/str_var_subst.hpp>
+#include <iostream>
 
 namespace oglplus {
 namespace texgen {
@@ -22,13 +22,13 @@ glsl_output::glsl_output(
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 cstr_ref
-glsl_output::type_name(void) {
+glsl_output::type_name() {
     return cstr_ref("GLSL");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 slot_data_type
-glsl_output::value_type(void) {
+glsl_output::value_type() {
     return _type;
 }
 //------------------------------------------------------------------------------
@@ -79,7 +79,7 @@ glsl_output::definitions(std::ostream& out, compile_context& ctxt) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-glsl_node::glsl_node(void)
+glsl_node::glsl_node()
   : _output(*this) {
 }
 //------------------------------------------------------------------------------

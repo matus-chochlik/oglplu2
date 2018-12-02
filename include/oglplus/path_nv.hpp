@@ -302,7 +302,7 @@ public:
         return {_ops::cover_stroke_path(*this, mode), _self()};
     }
 
-    outcome<GLfloat> get_computed_length(void) const noexcept {
+    outcome<GLfloat> get_computed_length() const noexcept {
         return _ops::get_path_computed_length(*this);
     }
 
@@ -310,7 +310,7 @@ public:
         return {_ops::path_stroke_width(*this, value), _self()};
     }
 
-    outcome<GLfloat> get_stroke_width(void) const noexcept {
+    outcome<GLfloat> get_stroke_width() const noexcept {
         return _ops::get_path_stroke_width(*this);
     }
 
@@ -318,7 +318,7 @@ public:
         return {_ops::path_miter_limit(*this, value), _self()};
     }
 
-    outcome<GLfloat> get_miter_limit(void) const noexcept {
+    outcome<GLfloat> get_miter_limit() const noexcept {
         return _ops::get_path_miter_limit(*this);
     }
 
@@ -326,7 +326,7 @@ public:
         return {_ops::path_join_style(*this, value), _self()};
     }
 
-    outcome<path_join_style_nv> get_join_style(void) noexcept {
+    outcome<path_join_style_nv> get_join_style() noexcept {
         return _ops::get_path_join_style(*this);
     }
 
@@ -334,7 +334,7 @@ public:
         return {_ops::path_initial_end_cap(*this, value), _self()};
     }
 
-    outcome<path_cap_style_nv> get_initial_end_cap(void) noexcept {
+    outcome<path_cap_style_nv> get_initial_end_cap() noexcept {
         return _ops::get_path_initial_end_cap(*this);
     }
 
@@ -342,7 +342,7 @@ public:
         return {_ops::path_terminal_end_cap(*this, value), _self()};
     }
 
-    outcome<path_cap_style_nv> get_terminal_end_cap(void) noexcept {
+    outcome<path_cap_style_nv> get_terminal_end_cap() noexcept {
         return _ops::get_path_terminal_end_cap(*this);
     }
 
@@ -350,7 +350,7 @@ public:
         return {_ops::path_initial_dash_cap(*this, value), _self()};
     }
 
-    outcome<path_cap_style_nv> get_initial_dash_cap(void) noexcept {
+    outcome<path_cap_style_nv> get_initial_dash_cap() noexcept {
         return _ops::get_path_initial_dash_cap(*this);
     }
 
@@ -358,7 +358,7 @@ public:
         return {_ops::path_terminal_dash_cap(*this, value), _self()};
     }
 
-    outcome<path_cap_style_nv> get_terminal_dash_cap(void) noexcept {
+    outcome<path_cap_style_nv> get_terminal_dash_cap() noexcept {
         return _ops::get_path_terminal_dash_cap(*this);
     }
 
@@ -366,7 +366,7 @@ public:
         return {_ops::path_dash_offset(*this, value), _self()};
     }
 
-    outcome<GLfloat> get_dash_offset(void) const noexcept {
+    outcome<GLfloat> get_dash_offset() const noexcept {
         return _ops::get_path_dash_offset(*this);
     }
 
@@ -375,7 +375,7 @@ public:
         return {_ops::path_dash_offset_reset(*this, value), _self()};
     }
 
-    outcome<path_dash_offset_reset_nv> get_dash_offset_reset(void) noexcept {
+    outcome<path_dash_offset_reset_nv> get_dash_offset_reset() noexcept {
         return _ops::get_path_dash_offset_reset(*this);
     }
 

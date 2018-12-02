@@ -64,7 +64,7 @@ private:
 public:
     static outcome<void> active_texture(texture_unit unit) noexcept;
 
-    static outcome<texture_unit> get_active_texture(void) noexcept;
+    static outcome<texture_unit> get_active_texture() noexcept;
 
     static outcome<void> bind_texture(
       texture_target target, texture_name tex) noexcept;
@@ -1048,11 +1048,11 @@ struct obj_member_ops<tag::texture, Derived, Base> : Base {
 private:
     typedef oper::texture_ops _ops;
 
-    Derived& _self(void) noexcept {
+    Derived& _self() noexcept {
         return *static_cast<Derived*>(this);
     }
 
-    const Base& _base(void) const noexcept {
+    const Base& _base() const noexcept {
         return *static_cast<const Base*>(this);
     }
 
@@ -1085,7 +1085,7 @@ private:
 #else
     typedef texture_target_only _tnt;
 #endif
-    _tnt _get_tnt(void) const noexcept {
+    _tnt _get_tnt() const noexcept {
         return _do_get_tnt(_base());
     }
 
@@ -1274,7 +1274,7 @@ public:
         return _ops::get_texture_depth(_get_tnt(), level);
     }
 
-    outcome<pixel_data_type> get_red_type(void) const noexcept {
+    outcome<pixel_data_type> get_red_type() const noexcept {
         return _ops::get_texture_red_type(_get_tnt());
     }
 
@@ -1282,7 +1282,7 @@ public:
         return _ops::get_texture_red_size(_get_tnt(), level);
     }
 
-    outcome<pixel_data_type> get_green_type(void) const noexcept {
+    outcome<pixel_data_type> get_green_type() const noexcept {
         return _ops::get_texture_green_type(_get_tnt());
     }
 
@@ -1290,7 +1290,7 @@ public:
         return _ops::get_texture_green_size(_get_tnt(), level);
     }
 
-    outcome<pixel_data_type> get_blue_type(void) const noexcept {
+    outcome<pixel_data_type> get_blue_type() const noexcept {
         return _ops::get_texture_blue_type(_get_tnt());
     }
 
@@ -1298,7 +1298,7 @@ public:
         return _ops::get_texture_blue_size(_get_tnt(), level);
     }
 
-    outcome<pixel_data_type> get_alpha_type(void) const noexcept {
+    outcome<pixel_data_type> get_alpha_type() const noexcept {
         return _ops::get_texture_alpha_type(_get_tnt());
     }
 
@@ -1306,7 +1306,7 @@ public:
         return _ops::get_texture_alpha_size(_get_tnt(), level);
     }
 
-    outcome<pixel_data_type> get_depth_type(void) const noexcept {
+    outcome<pixel_data_type> get_depth_type() const noexcept {
         return _ops::get_texture_depth_type(_get_tnt());
     }
 
@@ -1342,7 +1342,7 @@ public:
         return {_ops::texture_min_filter(_get_tnt(), value), _self()};
     }
 
-    outcome<oglplus::texture_min_filter> get_min_filter(void) const noexcept {
+    outcome<oglplus::texture_min_filter> get_min_filter() const noexcept {
         return _ops::get_texture_min_filter(_get_tnt());
     }
 
@@ -1350,7 +1350,7 @@ public:
         return {_ops::texture_mag_filter(_get_tnt(), value), _self()};
     }
 
-    outcome<oglplus::texture_mag_filter> get_mag_filter(void) const noexcept {
+    outcome<oglplus::texture_mag_filter> get_mag_filter() const noexcept {
         return _ops::get_texture_mag_filter(_get_tnt());
     }
 
@@ -1358,7 +1358,7 @@ public:
         return {_ops::texture_compare_func(_get_tnt(), value), _self()};
     }
 
-    outcome<oglplus::compare_function> get_compare_func(void) const noexcept {
+    outcome<oglplus::compare_function> get_compare_func() const noexcept {
         return _ops::get_texture_compare_func(_get_tnt());
     }
 
@@ -1367,8 +1367,7 @@ public:
         return {_ops::texture_compare_mode(_get_tnt(), value), _self()};
     }
 
-    outcome<oglplus::texture_compare_mode> get_compare_mode(void) const
-      noexcept {
+    outcome<oglplus::texture_compare_mode> get_compare_mode() const noexcept {
         return _ops::get_texture_compare_mode(_get_tnt());
     }
 
@@ -1397,7 +1396,7 @@ public:
         return {_ops::texture_lod_bias(_get_tnt(), value), _self()};
     }
 
-    outcome<GLfloat> get_lod_bias(void) const noexcept {
+    outcome<GLfloat> get_lod_bias() const noexcept {
         return _ops::get_texture_lod_bias(_get_tnt());
     }
 #endif
@@ -1406,7 +1405,7 @@ public:
         return {_ops::texture_min_lod(_get_tnt(), value), _self()};
     }
 
-    outcome<GLfloat> get_min_lod(void) const noexcept {
+    outcome<GLfloat> get_min_lod() const noexcept {
         return _ops::get_texture_min_lod(_get_tnt());
     }
 
@@ -1414,7 +1413,7 @@ public:
         return {_ops::texture_max_lod(_get_tnt(), value), _self()};
     }
 
-    outcome<GLfloat> get_max_lod(void) const noexcept {
+    outcome<GLfloat> get_max_lod() const noexcept {
         return _ops::get_texture_max_lod(_get_tnt());
     }
 };

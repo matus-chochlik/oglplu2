@@ -10,6 +10,7 @@
 #define OGLPLUS_TEXGEN_INVERT_NODE_1509260923_HPP
 
 #include "base_node.hpp"
+#include "base_output.hpp"
 #include "fallback_input.hpp"
 
 namespace oglplus {
@@ -21,9 +22,9 @@ public:
 
     invert_output(node_intf& parent);
 
-    cstr_ref type_name(void) override;
+    cstr_ref type_name() override;
 
-    slot_data_type value_type(void) override;
+    slot_data_type value_type() override;
 
     std::ostream& definitions(
       std::ostream& out, compile_context& ctxt) override;

@@ -26,9 +26,9 @@ public:
 
     wrap_output(node_intf& parent);
 
-    cstr_ref type_name(void) override;
+    cstr_ref type_name() override;
 
-    slot_data_type value_type(void) override;
+    slot_data_type value_type() override;
 
     std::ostream& definitions(
       std::ostream& out, compile_context& ctxt) override;
@@ -40,7 +40,7 @@ class wrap_node
       decltype(wrap_output::input),
       &wrap_output::input> {
 public:
-    wrap_node(void) = default;
+    wrap_node() = default;
 
     wrap_node& set_mode(wrap_mode mode) {
         _output.mode = mode;

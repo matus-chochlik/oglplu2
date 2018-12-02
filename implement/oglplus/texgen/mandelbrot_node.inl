@@ -21,13 +21,13 @@ mandelbrot_output::mandelbrot_output(node_intf& parent)
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 cstr_ref
-mandelbrot_output::type_name(void) {
+mandelbrot_output::type_name() {
     return cstr_ref("Mandelbrot");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 slot_data_type
-mandelbrot_output::value_type(void) {
+mandelbrot_output::value_type() {
     return slot_data_type::float_2;
 }
 //------------------------------------------------------------------------------

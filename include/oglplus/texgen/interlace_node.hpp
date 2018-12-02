@@ -30,9 +30,9 @@ public:
       : interlace_output(parent, interlace_mode::rows) {
     }
 
-    cstr_ref type_name(void) override;
+    cstr_ref type_name() override;
 
-    slot_data_type value_type(void) override;
+    slot_data_type value_type() override;
 
     std::ostream& definitions(
       std::ostream& out, compile_context& ctxt) override;

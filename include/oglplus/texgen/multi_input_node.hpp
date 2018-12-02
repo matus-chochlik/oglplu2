@@ -26,21 +26,21 @@ protected:
 public:
     multi_input_output(node_intf& parent);
 
-    slot_data_type common_param_type(void);
+    slot_data_type common_param_type();
 };
 
 class multi_input_node : public base_single_output_node {
 public:
-    virtual multi_input_output& single_output(void) override = 0;
+    virtual multi_input_output& single_output() override = 0;
 
-    span_size_t input_count(void) override;
+    span_size_t input_count() override;
 
     input_intf& input(span_size_t) override;
 
     eagine::optional_reference_wrapper<input_intf> input_by_name(
       const cstr_ref&) override;
 
-    bool can_add_input(void) override;
+    bool can_add_input() override;
 
     input_with_const_default<float[4]>& add_input(const cstr_ref&) override;
 

@@ -22,7 +22,7 @@ struct stencil_func_args {
     GLint _refv;
     GLuint _mask;
 
-    stencil_func_args(void) = default;
+    stencil_func_args() = default;
 
     stencil_func_args(
       compare_function func,
@@ -33,15 +33,15 @@ struct stencil_func_args {
       , _mask(mask) {
     }
 
-    compare_function func(void) const noexcept {
+    compare_function func() const noexcept {
         return _func;
     }
 
-    GLint ref(void) const noexcept {
+    GLint ref() const noexcept {
         return _refv;
     }
 
-    GLuint value_mask(void) const noexcept {
+    GLuint value_mask() const noexcept {
         return _mask;
     }
 };
@@ -51,7 +51,7 @@ struct stencil_operations {
     stencil_operation _dfail;
     stencil_operation _dpass;
 
-    stencil_operations(void) = default;
+    stencil_operations() = default;
 
     stencil_operations(
       stencil_operation sfail,
@@ -62,15 +62,15 @@ struct stencil_operations {
       , _dpass(dpass) {
     }
 
-    stencil_operation stencil_fail(void) const noexcept {
+    stencil_operation stencil_fail() const noexcept {
         return _sfail;
     }
 
-    stencil_operation depth_fail(void) const noexcept {
+    stencil_operation depth_fail() const noexcept {
         return _dfail;
     }
 
-    stencil_operation depth_pass(void) const noexcept {
+    stencil_operation depth_pass() const noexcept {
         return _dpass;
     }
 };

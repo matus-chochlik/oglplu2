@@ -30,8 +30,8 @@ private:
 
     uniform_location _voxel_size;
 
-    void _init_screen(void);
-    void _update_program(void);
+    void _init_screen();
+    void _update_program();
 
     bool _needs_update;
 
@@ -41,27 +41,27 @@ private:
     render_params _render_params;
 
 public:
-    render_node(void);
+    render_node();
     render_node(const render_node&) = delete;
-    ~render_node(void) override;
+    ~render_node() override;
 
     std::ostream& make_fragment_shader_source(std::ostream&, compile_context&);
 
-    void draw_screen(void);
+    void draw_screen();
 
-    cstr_ref type_name(void) override;
+    cstr_ref type_name() override;
 
-    span_size_t input_count(void) override;
+    span_size_t input_count() override;
 
     input_intf& input(span_size_t index) override;
 
-    void update_needed(void) override;
+    void update_needed() override;
 
-    void update_if_needed(void);
+    void update_if_needed();
 
     bool render(const render_params&) override;
 
-    bool render(void);
+    bool render();
 
     void set_divisions(
       eagine::valid_if_positive<int> xdiv, eagine::valid_if_positive<int> ydiv);

@@ -34,7 +34,7 @@ public:
       , _fallback(parent, std::forward<P>(p)...) {
     }
 
-    FallbackOutput& fallback(void) noexcept {
+    FallbackOutput& fallback() noexcept {
         return _fallback;
     }
 
@@ -42,7 +42,7 @@ public:
         return true;
     }
 
-    output_intf& output(void) {
+    output_intf& output() {
         if(is_connected()) {
             return connected_output();
         } else {
@@ -55,7 +55,7 @@ public:
         return fallback().set_default_value(c.value(), v);
     }
 
-    slot_data_type value_type(void) {
+    slot_data_type value_type() {
         return output().value_type();
     }
 

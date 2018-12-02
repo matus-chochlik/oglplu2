@@ -5,7 +5,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 // clang-format off
-#include <oglplus/gl_fixed.hpp>
+#include <oglplus/gl.hpp>
 #include <oglplus/data_type.hpp>
 #include <oglplus/enum/values.hpp>
 #include <oglplus/enum/value_defs.inl>

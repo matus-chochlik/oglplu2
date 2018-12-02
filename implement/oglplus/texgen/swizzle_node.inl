@@ -55,13 +55,13 @@ swizzle_output::swizzle_output(node_intf& parent)
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 cstr_ref
-swizzle_output::type_name(void) {
+swizzle_output::type_name() {
     return cstr_ref("Swizzle");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 slot_data_type
-swizzle_output::value_type(void) {
+swizzle_output::value_type() {
     return make_data_type(
       elem_data_type(input.value_type()), span_size(swizzle.size()));
 }

@@ -24,13 +24,13 @@ mix_output::mix_output(node_intf& parent)
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 cstr_ref
-mix_output::type_name(void) {
+mix_output::type_name() {
     return cstr_ref("Mix");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 slot_data_type
-mix_output::value_type(void) {
+mix_output::value_type() {
     return common_data_type(zero.value_type(), one.value_type());
 }
 //------------------------------------------------------------------------------
@@ -72,7 +72,7 @@ mix_output::definitions(std::ostream& out, compile_context& ctxt) {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 span_size_t
-mix_node::input_count(void) {
+mix_node::input_count() {
     return 3;
 }
 //------------------------------------------------------------------------------

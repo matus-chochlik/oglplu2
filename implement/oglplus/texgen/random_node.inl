@@ -6,10 +6,10 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/math/constants.hpp>
 #include <cassert>
 #include <iostream>
 #include <string>
-#include <eagine/math/constants.hpp>
 
 namespace oglplus {
 namespace texgen {
@@ -23,13 +23,13 @@ random_output::random_output(node_intf& parent)
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 cstr_ref
-random_output::type_name(void) {
+random_output::type_name() {
     return cstr_ref("Random");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 slot_data_type
-random_output::value_type(void) {
+random_output::value_type() {
     assert(dims >= 1 && dims <= 4);
     return make_data_type(scalar_data_type::float_, dims);
 }

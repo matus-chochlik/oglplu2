@@ -9,7 +9,7 @@
 
 // clang-format off
 #include "prologue.inl"
-#include <oglplus/gl_fixed.hpp>
+#include <oglplus/gl.hpp>
 #include "implement.inl"
 #include "error.inl"
 #include "epilogue.inl"

@@ -35,7 +35,7 @@ namespace oper {
 
 struct shader_ops {
 #if defined(GL_VERSION_4_1)
-    static outcome<void> release_shader_compiler(void) noexcept;
+    static outcome<void> release_shader_compiler() noexcept;
 #endif
 
     static outcome<void> shader_source(
@@ -80,7 +80,7 @@ struct obj_dsa_ops<tag::shader> : obj_zero_dsa_ops<tag::shader> {
 
     using obj_zero_dsa_ops<tag::shader>::obj_zero_dsa_ops;
 
-    outcome<shader_type> get_type(void) const noexcept {
+    outcome<shader_type> get_type() const noexcept {
         return _ops::get_shader_type(*this);
     }
 
@@ -88,7 +88,7 @@ struct obj_dsa_ops<tag::shader> : obj_zero_dsa_ops<tag::shader> {
         return {_ops::shader_source(*this, source), *this};
     }
 
-    outcome<GLsizei> get_source_length(void) const noexcept {
+    outcome<GLsizei> get_source_length() const noexcept {
         return _ops::get_shader_source_length(*this);
     }
 
@@ -96,23 +96,23 @@ struct obj_dsa_ops<tag::shader> : obj_zero_dsa_ops<tag::shader> {
         return _ops::get_shader_source(*this, dest);
     }
 
-    outcome<obj_dsa_ops&> compile(void) noexcept {
+    outcome<obj_dsa_ops&> compile() noexcept {
         return {_ops::compile_shader(*this), *this};
     }
 
-    outcome<obj_dsa_ops&> report_compile_error(void) noexcept {
+    outcome<obj_dsa_ops&> report_compile_error() noexcept {
         return {_ops::report_shader_compile_error(*this), *this};
     }
 
-    outcome<boolean> get_compile_status(void) const noexcept {
+    outcome<boolean> get_compile_status() const noexcept {
         return _ops::get_shader_compile_status(*this);
     }
 
-    outcome<boolean> get_delete_status(void) const noexcept {
+    outcome<boolean> get_delete_status() const noexcept {
         return _ops::get_shader_delete_status(*this);
     }
 
-    outcome<GLsizei> get_info_log_length(void) const noexcept {
+    outcome<GLsizei> get_info_log_length() const noexcept {
         return _ops::get_shader_info_log_length(*this);
     }
 

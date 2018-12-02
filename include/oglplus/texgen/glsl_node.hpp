@@ -30,9 +30,9 @@ public:
       : glsl_output(parent, "vec4(0.0)", slot_data_type::float_4) {
     }
 
-    cstr_ref type_name(void) override;
+    cstr_ref type_name() override;
 
-    slot_data_type value_type(void) override;
+    slot_data_type value_type() override;
 
     std::ostream& definitions(
       std::ostream& out, compile_context& ctxt) override;
@@ -43,9 +43,9 @@ private:
     glsl_output _output;
 
 public:
-    glsl_node(void);
+    glsl_node();
 
-    glsl_output& single_output(void) override {
+    glsl_output& single_output() override {
         return _output;
     }
 

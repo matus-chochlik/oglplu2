@@ -19,7 +19,7 @@ namespace oglplus {
 #if defined(GL_VERSION_3_2) || defined(GL_ARB_sync)
 struct sync_object {
 public:
-    inline sync_object(void) noexcept
+    inline sync_object() noexcept
       : _handle{} {
     }
 
@@ -47,7 +47,7 @@ namespace oper {
 
 struct synchronization {
 #if defined(GL_VERSION_4_5)
-    static outcome<void> texture_barrier(void) noexcept {
+    static outcome<void> texture_barrier() noexcept {
         OGLPLUS_GLFUNC(TextureBarrier)();
         OGLPLUS_VERIFY_SIMPLE(TextureBarrier, debug);
         return {};
@@ -72,13 +72,13 @@ struct synchronization {
     }
 #endif
 
-    static outcome<void> flush(void) noexcept {
+    static outcome<void> flush() noexcept {
         OGLPLUS_GLFUNC(Flush)();
         OGLPLUS_VERIFY_SIMPLE(Flush, debug);
         return {};
     }
 
-    static outcome<void> finish(void) noexcept {
+    static outcome<void> finish() noexcept {
         OGLPLUS_GLFUNC(Finish)();
         OGLPLUS_VERIFY_SIMPLE(Finish, debug);
         return {};
@@ -87,7 +87,7 @@ struct synchronization {
 #if defined(GL_VERSION_3_2) || defined(GL_ARB_sync)
     static outcome<sync_object> fence_sync(sync_condition cond) noexcept;
 
-    static outcome<sync_object> fence_sync(void) noexcept;
+    static outcome<sync_object> fence_sync() noexcept;
 
     static outcome<void> delete_sync(sync_object sync) noexcept;
 

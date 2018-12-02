@@ -31,23 +31,23 @@ struct viewport_extents {
         _v[3] = h;
     }
 
-    viewport_extents(void) noexcept
+    viewport_extents() noexcept
       : viewport_extents(0.f, 0.f, 0.f, 0.f) {
     }
 
-    GLfloat x(void) const noexcept {
+    GLfloat x() const noexcept {
         return _v[0];
     }
 
-    GLfloat y(void) const noexcept {
+    GLfloat y() const noexcept {
         return _v[1];
     }
 
-    GLfloat width(void) const noexcept {
+    GLfloat width() const noexcept {
         return _v[2];
     }
 
-    GLfloat height(void) const noexcept {
+    GLfloat height() const noexcept {
         return _v[3];
     }
 
@@ -60,7 +60,7 @@ struct viewport_state {
 
     static outcome<void> viewport(GLsizei w, GLsizei h) noexcept;
 
-    static outcome<viewport_extents> get_viewport(void) noexcept;
+    static outcome<viewport_extents> get_viewport() noexcept;
 
 #if defined(GL_VERSION_4_1)
     static outcome<void> viewport(

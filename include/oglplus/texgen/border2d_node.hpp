@@ -25,9 +25,9 @@ public:
 
     border2d_output(node_intf& parent);
 
-    cstr_ref type_name(void) override;
+    cstr_ref type_name() override;
 
-    slot_data_type value_type(void) override;
+    slot_data_type value_type() override;
 
     std::ostream& definitions(
       std::ostream& out, compile_context& ctxt) override;
@@ -39,7 +39,7 @@ class border2d_node
       decltype(border2d_output::input),
       &border2d_output::input> {
 public:
-    border2d_node(void) = default;
+    border2d_node() = default;
 
     border2d_node& set_type(border2d_mode mode) {
         _output.mode = mode;

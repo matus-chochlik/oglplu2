@@ -30,15 +30,15 @@ public:
         assert(_parts != nullptr);
     }
 
-    inline GLsizei count(void) const noexcept {
+    inline GLsizei count() const noexcept {
         return _count;
     }
 
-    inline const GLchar** parts(void) const noexcept {
+    inline const GLchar** parts() const noexcept {
         return _parts;
     }
 
-    inline const GLint* lengths(void) const noexcept {
+    inline const GLint* lengths() const noexcept {
         return _lengths;
     }
 };

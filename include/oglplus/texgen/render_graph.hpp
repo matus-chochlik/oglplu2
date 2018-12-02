@@ -81,10 +81,10 @@ private:
     std::unique_ptr<render_node> _render_node;
 
 public:
-    render_graph(void);
-    ~render_graph(void);
+    render_graph();
+    ~render_graph();
 
-    void disconnect_all(void);
+    void disconnect_all();
 
     void add_anonymous_node(std::unique_ptr<node_intf>&&);
 
@@ -108,12 +108,12 @@ public:
         return *ptr;
     }
 
-    render_node& renderer(void);
+    render_node& renderer();
 
     void set_dimensions(
       eagine::valid_if_positive<int> w, eagine::valid_if_positive<int> h);
 
-    void render(void);
+    void render();
 
     // find node
     eagine::optional_reference_wrapper<node_intf> find_node(
@@ -198,7 +198,7 @@ public:
     bool connect(
       const std::string& output_node_name, const std::string& input_node_name);
 
-    bool finalize(void);
+    bool finalize();
 };
 
 } // namespace texgen

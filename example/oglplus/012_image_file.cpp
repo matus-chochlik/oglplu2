@@ -8,7 +8,7 @@
  */
 
 // clang-format off
-#include <oglplus/gl_fixed.hpp>
+#include <oglplus/gl.hpp>
 #include <oglplus/constants.hpp>
 #include <oglplus/operations.hpp>
 #include <oglplus/glsl/string_ref.hpp>

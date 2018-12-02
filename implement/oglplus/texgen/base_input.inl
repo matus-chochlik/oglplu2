@@ -14,18 +14,18 @@ namespace texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 cstr_ref
-base_input::name(void) noexcept {
+base_input::name() noexcept {
     return _name;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-base_input::~base_input(void) noexcept {
+base_input::~base_input() noexcept {
     assert(!is_connected());
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 bool
-base_input::is_connected(void) noexcept {
+base_input::is_connected() noexcept {
     return _output != nullptr;
 }
 //------------------------------------------------------------------------------
@@ -69,7 +69,7 @@ base_input::connect(output_intf& output) {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 void
-base_input::disconnect(void) {
+base_input::disconnect() {
     _output = nullptr;
     parent().update_needed();
 }
@@ -86,7 +86,7 @@ base_input::disconnect(output_intf& output) {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 output_intf&
-base_input::connected_output(void) {
+base_input::connected_output() {
     assert(is_connected());
     return *_output;
 }
@@ -100,13 +100,13 @@ base_input::set_default_value(
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 void
-base_input::update_needed(void) {
+base_input::update_needed() {
     parent().update_needed();
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 void
-base_input::prepare_connected(void) {
+base_input::prepare_connected() {
     if(is_connected()) {
         return connected_output().prepare_parent();
     }

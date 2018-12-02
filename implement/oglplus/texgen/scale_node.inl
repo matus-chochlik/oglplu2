@@ -23,13 +23,13 @@ scale_output::scale_output(node_intf& parent)
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 cstr_ref
-scale_output::type_name(void) {
+scale_output::type_name() {
     return cstr_ref("Scale");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 slot_data_type
-scale_output::value_type(void) {
+scale_output::value_type() {
     return input.value_type();
 }
 //------------------------------------------------------------------------------

@@ -22,13 +22,13 @@ spheres_output::spheres_output(node_intf& parent)
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 cstr_ref
-spheres_output::type_name(void) {
+spheres_output::type_name() {
     return cstr_ref("Spheres");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 slot_data_type
-spheres_output::value_type(void) {
+spheres_output::value_type() {
     return slot_data_type::float_;
 }
 //------------------------------------------------------------------------------

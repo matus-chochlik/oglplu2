@@ -31,7 +31,7 @@ namespace oper {
 struct vertex_array_ops {
     static outcome<void> bind_vertex_array(vertex_array_name vao) noexcept;
 
-    static outcome<vertex_array_name> vertex_array_binding(void) noexcept;
+    static outcome<vertex_array_name> vertex_array_binding() noexcept;
 
     static outcome<void> enable_vertex_array_attrib(
       vertex_attrib_location va) noexcept;
@@ -359,11 +359,11 @@ public:
       , _loc(loc) {
     }
 
-    outcome<vertex_array_attrib&> enable(void) noexcept {
+    outcome<vertex_array_attrib&> enable() noexcept {
         return {_ops::enable_vertex_array_attrib(_vao, _loc), *this};
     }
 
-    outcome<vertex_array_attrib&> disable(void) noexcept {
+    outcome<vertex_array_attrib&> disable() noexcept {
         return {_ops::disable_vertex_array_attrib(_vao, _loc), *this};
     }
 

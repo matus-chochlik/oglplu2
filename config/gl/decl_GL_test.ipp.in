@@ -16,12 +16,12 @@ oglplus_config_test_gl_func(Func func) {
 
 #define OGLPLUS_CONFIG_ASSERT_GL_FUNC(NAME)                              \
     if(!oglplus_config_test_gl_func(NAME)) {                             \
-	std::cerr << "Required function: " << #NAME << " not available." \
-		  << std::endl;                                          \
-	++missing_gl_symbols;                                            \
+        std::cerr << "Required function: " << #NAME << " not available." \
+                  << std::endl;                                          \
+        ++missing_gl_symbols;                                            \
     }
 
 #define OGLPLUS_CONFIG_MISSING_GL_CONST(NAME)                        \
     std::cerr << "Required constant: " << #NAME << " not available." \
-	      << std::endl;                                          \
+              << std::endl;                                          \
     ++missing_gl_symbols;

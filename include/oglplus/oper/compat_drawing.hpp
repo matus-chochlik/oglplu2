@@ -29,7 +29,7 @@ struct compatibility_drawing {
         return {};
     }
 
-    static outcome<void> end(void) noexcept {
+    static outcome<void> end() noexcept {
         OGLPLUS_GLFUNC(End)();
         OGLPLUS_VERIFY_SIMPLE(End, debug);
         return {};

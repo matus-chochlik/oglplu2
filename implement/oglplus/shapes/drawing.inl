@@ -82,19 +82,19 @@ draw_operation::draw_operation(
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 bool
-draw_operation::indexed(void) const noexcept {
+draw_operation::indexed() const noexcept {
     return GLenum(_idx_type) != GL_NONE;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 const void*
-draw_operation::_idx_ptr(void) const noexcept {
+draw_operation::_idx_ptr() const noexcept {
     return static_cast<const GLubyte*>(nullptr) + _first;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 outcome<void>
-draw_operation::draw(void) const noexcept {
+draw_operation::draw() const noexcept {
     OGLPLUS_GLFUNC(FrontFace)(_cw_face_winding ? GL_CW : GL_CCW);
 
     if(indexed()) {

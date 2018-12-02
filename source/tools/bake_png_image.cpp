@@ -5,16 +5,16 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
+#include <eagine/program_args.hpp>
+#include <eagine/valid_if/not_empty.hpp>
+#include <oglplus/gl.hpp>
+#include <oglplus/utils/image_file_io.hpp>
 #include <cassert>
 #include <fstream>
 #include <iostream>
 #include <png.h>
 #include <stdexcept>
 #include <vector>
-#include <eagine/program_args.hpp>
-#include <eagine/valid_if/not_empty.hpp>
-#include <oglplus/gl.hpp>
-#include <oglplus/utils/image_file_io.hpp>
 
 #ifdef GL_RGBA16
 constexpr const bool has_rgba16 = true;

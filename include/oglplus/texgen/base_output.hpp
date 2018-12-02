@@ -33,15 +33,15 @@ public:
       : _parent(parent) {
     }
 
-    node_intf& parent(void) noexcept {
+    node_intf& parent() noexcept {
         return _parent;
     }
 
-    virtual cstr_ref type_name(void) = 0;
+    virtual cstr_ref type_name() = 0;
 
-    cstr_ref name(void) noexcept override;
+    cstr_ref name() noexcept override;
 
-    render_param_bits required_params(void) override;
+    render_param_bits required_params() override;
 
     std::ostream& definitions(std::ostream&, compile_context&) override;
 
@@ -53,19 +53,19 @@ public:
 
     bool disconnect(input_intf&) override;
 
-    void disconnect_all(void) override;
+    void disconnect_all() override;
 
     virtual bool set_default_value(span_size_t, float) {
         return false;
     }
 
-    void notify_connected(void) override;
+    void notify_connected() override;
 
-    void prepare_parent(void) override;
+    void prepare_parent() override;
 
     bool render_parent(const render_params&) override;
 
-    std::intptr_t get_id(void) const noexcept;
+    std::intptr_t get_id() const noexcept;
 
     void append_id(std::ostream&, const cstr_ref&);
     void append_id(std::ostream&);

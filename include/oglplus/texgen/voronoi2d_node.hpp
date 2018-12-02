@@ -30,9 +30,9 @@ private:
     input_with_const_default<float[2]>& _cells;
     voronoi_output_type _type;
 
-    short order(void) const;
+    short order() const;
 
-    cstr_ref type_abbr(void) const;
+    cstr_ref type_abbr() const;
 
 public:
     voronoi2d_output(
@@ -41,11 +41,11 @@ public:
       input_with_const_default<float[2]>&,
       voronoi_output_type type);
 
-    cstr_ref type_name(void) override;
+    cstr_ref type_name() override;
 
-    cstr_ref name(void) noexcept override;
+    cstr_ref name() noexcept override;
 
-    slot_data_type value_type(void) override;
+    slot_data_type value_type() override;
 
     std::ostream& definitions(
       std::ostream& out, compile_context& ctxt) override;
@@ -66,20 +66,20 @@ private:
     voronoi2d_output _input_cell_center;
 
 public:
-    voronoi2d_node(void);
+    voronoi2d_node();
 
     voronoi2d_node& set_cell_count(float x, float y) {
         _cells.fallback().set(x, y);
         return *this;
     }
 
-    cstr_ref type_name(void) override;
+    cstr_ref type_name() override;
 
-    span_size_t input_count(void) override;
+    span_size_t input_count() override;
 
     input_intf& input(span_size_t index) override;
 
-    span_size_t output_count(void) override;
+    span_size_t output_count() override;
 
     output_intf& output(span_size_t index) override;
 };

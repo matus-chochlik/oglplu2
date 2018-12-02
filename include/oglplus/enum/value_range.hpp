@@ -25,7 +25,7 @@ template <
   typename EnumClass,
   typename = std::enable_if_t<is_enum_class<typename EnumClass::type>::value>>
 static inline enumerated_value_range<typename EnumClass::type>
-enum_value_range(void) noexcept {
+enum_value_range() noexcept {
     return enumerated_value_range<typename EnumClass::type>(
       get_enum_value_range(typename EnumClass::type()));
 }

@@ -22,13 +22,13 @@ interlace_output::interlace_output(node_intf& parent, interlace_mode mode)
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 cstr_ref
-interlace_output::type_name(void) {
+interlace_output::type_name() {
     return cstr_ref("Interlace");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 slot_data_type
-interlace_output::value_type(void) {
+interlace_output::value_type() {
     return slot_data_type::float_;
 }
 //------------------------------------------------------------------------------

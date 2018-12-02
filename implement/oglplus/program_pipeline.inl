@@ -65,7 +65,7 @@ program_pipeline_ops::report_program_pipeline_validate_error(
 }
 //------------------------------------------------------------------------------
 inline outcome<program_pipeline_name>
-program_pipeline_ops::program_pipeline_binding(void) noexcept {
+program_pipeline_ops::program_pipeline_binding() noexcept {
 #ifdef GL_PROGRAM_PIPELINE_BINDING
     GLint result = 0;
     return numeric_queries::get_integer_v(

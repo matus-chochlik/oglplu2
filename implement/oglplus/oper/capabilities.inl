@@ -103,49 +103,49 @@ capability_state::is_enabled(client_capability cap) noexcept {
 }
 //------------------------------------------------------------------------------
 inline outcome<GLint>
-capability_state::get_red_bits(void) noexcept {
+capability_state::get_red_bits() noexcept {
     return numeric_queries::get_integer(numeric_query(GL_RED_BITS));
 }
 //------------------------------------------------------------------------------
 inline outcome<GLint>
-capability_state::get_green_bits(void) noexcept {
+capability_state::get_green_bits() noexcept {
     return numeric_queries::get_integer(numeric_query(GL_GREEN_BITS));
 }
 //------------------------------------------------------------------------------
 inline outcome<GLint>
-capability_state::get_blue_bits(void) noexcept {
+capability_state::get_blue_bits() noexcept {
     return numeric_queries::get_integer(numeric_query(GL_BLUE_BITS));
 }
 //------------------------------------------------------------------------------
 inline outcome<GLint>
-capability_state::get_alpha_bits(void) noexcept {
+capability_state::get_alpha_bits() noexcept {
     return numeric_queries::get_integer(numeric_query(GL_ALPHA_BITS));
 }
 //------------------------------------------------------------------------------
 inline outcome<GLint>
-capability_state::get_depth_bits(void) noexcept {
+capability_state::get_depth_bits() noexcept {
     return numeric_queries::get_integer(numeric_query(GL_DEPTH_BITS));
 }
 //------------------------------------------------------------------------------
 inline outcome<GLint>
-capability_state::get_stencil_bits(void) noexcept {
+capability_state::get_stencil_bits() noexcept {
     return numeric_queries::get_integer(numeric_query(GL_STENCIL_BITS));
 }
 //------------------------------------------------------------------------------
 inline outcome<boolean>
-capability_state::has_doublebuffer(void) noexcept {
+capability_state::has_doublebuffer() noexcept {
     return numeric_queries::get_boolean(numeric_query(GL_DOUBLEBUFFER));
 }
 //------------------------------------------------------------------------------
 inline outcome<boolean>
-capability_state::is_stereo(void) noexcept {
+capability_state::is_stereo() noexcept {
     return numeric_queries::get_boolean(numeric_query(GL_STEREO));
 }
 #endif
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_5)
 inline outcome<graphics_reset_status>
-get_graphics_reset_status(void) noexcept {
+get_graphics_reset_status() noexcept {
     GLenum result = OGLPLUS_GLFUNC(GetGraphicsResetStatus)();
     OGLPLUS_VERIFY_SIMPLE(GetGraphicsResetStatus, always);
     return {graphics_reset_status(result)};

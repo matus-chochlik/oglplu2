@@ -6,7 +6,7 @@
  */
 // clang-format off
 #include "helper/object_c.hpp"
-#include <oglplus/gl_fixed.hpp>
+#include <oglplus/gl.hpp>
 #include <oglplus/framebuffer.hpp>
 // clang-format on
 

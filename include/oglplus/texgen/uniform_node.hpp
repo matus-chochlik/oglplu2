@@ -26,15 +26,15 @@ private:
 public:
     uniform_output(node_intf& parent, slot_data_type type);
 
-    void bind_location(void);
+    void bind_location();
 
-    uniform_location get_location(void) const {
+    uniform_location get_location() const {
         return _location;
     }
 
-    cstr_ref type_name(void) override;
+    cstr_ref type_name() override;
 
-    slot_data_type value_type(void) override;
+    slot_data_type value_type() override;
 
     std::ostream& definitions(
       std::ostream& out, compile_context& ctxt) override;
@@ -43,7 +43,7 @@ public:
 class uniform_node : public single_output_node<uniform_output> {
 public:
     uniform_node(slot_data_type);
-    uniform_node(void);
+    uniform_node();
 
     uniform_node& set_value_type(slot_data_type type) {
         _output._value_type = type;
@@ -51,16 +51,16 @@ public:
     }
 
     template <typename T>
-    uniform_node& set_value_type(void) {
+    uniform_node& set_value_type() {
         set_value_type(get_data_type_v<T>);
         return *this;
     }
 
-    uniform_location get_uniform_location(void) const {
+    uniform_location get_uniform_location() const {
         return _output.get_location();
     }
 
-    void prepare(void) override;
+    void prepare() override;
 };
 
 } // namespace texgen

@@ -19,14 +19,14 @@ class prog_var_loc<VarTag, false> {
 protected:
     GLint _loc;
 
-    static constexpr inline GLint _invalid_loc(void) noexcept {
+    static constexpr inline GLint _invalid_loc() noexcept {
         return -1;
     }
 
 public:
     typedef VarTag tag;
 
-    constexpr prog_var_loc(void) noexcept
+    constexpr prog_var_loc() noexcept
       : _loc(_invalid_loc()) {
     }
 
@@ -34,26 +34,26 @@ public:
       : _loc(loc) {
     }
 
-    constexpr GLint location(void) const noexcept {
+    constexpr GLint location() const noexcept {
         return _loc;
     }
 
-    GLuint index(void) const noexcept {
+    GLuint index() const noexcept {
         if(_loc < 0) {
             return GL_INVALID_INDEX;
         }
         return GLuint(_loc);
     }
 
-    constexpr bool is_active(void) const noexcept {
+    constexpr bool is_active() const noexcept {
         return _loc >= 0;
     }
 
-    explicit constexpr operator bool(void) const noexcept {
+    explicit constexpr operator bool() const noexcept {
         return is_active();
     }
 
-    constexpr bool operator!(void) const noexcept {
+    constexpr bool operator!() const noexcept {
         return !is_active();
     }
 

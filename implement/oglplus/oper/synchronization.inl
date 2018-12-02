@@ -22,7 +22,7 @@ synchronization::fence_sync(sync_condition cond) noexcept {
 }
 //------------------------------------------------------------------------------
 inline outcome<sync_object>
-synchronization::fence_sync(void) noexcept {
+synchronization::fence_sync() noexcept {
     return fence_sync(sync_condition(GL_SYNC_GPU_COMMANDS_COMPLETE));
 }
 //------------------------------------------------------------------------------

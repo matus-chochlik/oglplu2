@@ -36,7 +36,7 @@ struct query_ops {
     static outcome<void> begin_conditional_render(
       query_name, conditional_render_mode mode) noexcept;
 
-    static outcome<void> end_conditional_render(void) noexcept;
+    static outcome<void> end_conditional_render() noexcept;
 #endif
 
 #if defined(GL_VERSION_3_3) || defined(GL_ARB_timer_query)
@@ -108,12 +108,12 @@ struct obj_dsa_ops<tag::query> : obj_zero_dsa_ops<tag::query> {
         return _ops::query_counter(*this, target);
     }
 
-    outcome<void> timestamp(void) noexcept {
+    outcome<void> timestamp() noexcept {
         return _ops::query_timestamp(*this);
     }
 #endif
 
-    outcome<boolean> result_available(void) const noexcept {
+    outcome<boolean> result_available() const noexcept {
         return _ops::query_result_available(*this);
     }
 

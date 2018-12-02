@@ -44,21 +44,21 @@ transform_feedback_ops::begin_transform_feedback(
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-transform_feedback_ops::end_transform_feedback(void) noexcept {
+transform_feedback_ops::end_transform_feedback() noexcept {
     OGLPLUS_GLFUNC(EndTransformFeedback)();
     OGLPLUS_VERIFY_SIMPLE(EndTransformFeedback, debug);
     return {};
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-transform_feedback_ops::pause_transform_feedback(void) noexcept {
+transform_feedback_ops::pause_transform_feedback() noexcept {
     OGLPLUS_GLFUNC(PauseTransformFeedback)();
     OGLPLUS_VERIFY_SIMPLE(PauseTransformFeedback, debug);
     return {};
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-transform_feedback_ops::resume_transform_feedback(void) noexcept {
+transform_feedback_ops::resume_transform_feedback() noexcept {
     OGLPLUS_GLFUNC(ResumeTransformFeedback)();
     OGLPLUS_VERIFY_SIMPLE(ResumeTransformFeedback, debug);
     return {};

@@ -24,9 +24,9 @@ std::ostream& operator<<(std::ostream& out, const constant_id&);
 
 class base_constant : public constant_intf {
 public:
-    std::string identifier(void);
+    std::string identifier();
 
-    slot_data_type value_type(void) override;
+    slot_data_type value_type() override;
 
     virtual std::ostream& value(std::ostream&, compile_context&) = 0;
 
@@ -37,14 +37,14 @@ public:
 
 class constant_pi : public base_constant {
 public:
-    cstr_ref name(void) const noexcept override;
+    cstr_ref name() const noexcept override;
 
     std::ostream& value(std::ostream&, compile_context&) override;
 };
 
 class constant_phi : public base_constant {
 public:
-    cstr_ref name(void) const noexcept override;
+    cstr_ref name() const noexcept override;
 
     std::ostream& value(std::ostream&, compile_context&) override;
 };

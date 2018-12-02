@@ -118,6 +118,8 @@ def FlagsForFile(filename, ** kwargs):
 
     if ext in [".hpp", ".inl", ".cpp", ".h"]:
         final_opts += ['-include', 'include/oglplus/gl.hpp']
+        final_opts += ['-include', 'include/oalplus/al.hpp']
+        final_opts += ['-include', 'include/eglplus/egl.hpp']
 
     if ext == ".inl":
         def repl(x): return 'include' if name == 'implement' else name

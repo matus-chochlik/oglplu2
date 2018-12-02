@@ -59,7 +59,7 @@ query_ops::begin_conditional_render(
 }
 //------------------------------------------------------------------------------
 inline outcome<void>
-query_ops::end_conditional_render(void) noexcept {
+query_ops::end_conditional_render() noexcept {
     OGLPLUS_GLFUNC(EndConditionalRender)();
     OGLPLUS_VERIFY_SIMPLE(EndConditionalRender, debug);
     return {};

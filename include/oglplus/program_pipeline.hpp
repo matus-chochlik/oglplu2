@@ -86,23 +86,23 @@ struct obj_dsa_ops<tag::program_pipeline>
         return {_ops::active_shader_program(*this, prog), *this};
     }
 
-    outcome<obj_dsa_ops&> validate(void) noexcept {
+    outcome<obj_dsa_ops&> validate() noexcept {
         return {_ops::validate_program_pipeline(*this), *this};
     }
 
-    outcome<boolean> get_validate_status(void) const noexcept {
+    outcome<boolean> get_validate_status() const noexcept {
         return _ops::get_program_pipeline_validate_status(*this);
     }
 
-    outcome<obj_dsa_ops&> report_validate_error(void) noexcept {
+    outcome<obj_dsa_ops&> report_validate_error() noexcept {
         return {_ops::report_program_pipeline_validate_error(*this), *this};
     }
 
-    outcome<program_name> get_active_program(void) const noexcept {
+    outcome<program_name> get_active_program() const noexcept {
         return _ops::get_program_pipeline_active_program(*this);
     }
 
-    outcome<GLsizei> get_info_log_length(void) const noexcept {
+    outcome<GLsizei> get_info_log_length() const noexcept {
         return _ops::get_program_pipeline_info_log_length(*this);
     }
 

@@ -133,7 +133,7 @@ struct obj_dsa_ops<tag::sampler> : obj_zero_dsa_ops<tag::sampler> {
         return {_ops::sampler_min_filter(*this, value), *this};
     }
 
-    outcome<texture_min_filter> get_min_filter(void) const noexcept {
+    outcome<texture_min_filter> get_min_filter() const noexcept {
         return _ops::get_sampler_min_filter(*this);
     }
 
@@ -141,7 +141,7 @@ struct obj_dsa_ops<tag::sampler> : obj_zero_dsa_ops<tag::sampler> {
         return {_ops::sampler_mag_filter(*this, value), *this};
     }
 
-    outcome<texture_mag_filter> get_mag_filter(void) const noexcept {
+    outcome<texture_mag_filter> get_mag_filter() const noexcept {
         return _ops::get_sampler_mag_filter(*this);
     }
 
@@ -149,7 +149,7 @@ struct obj_dsa_ops<tag::sampler> : obj_zero_dsa_ops<tag::sampler> {
         return {_ops::sampler_compare_mode(*this, value), *this};
     }
 
-    outcome<texture_compare_mode> get_compare_mode(void) const noexcept {
+    outcome<texture_compare_mode> get_compare_mode() const noexcept {
         return _ops::get_sampler_compare_mode(*this);
     }
 
@@ -157,7 +157,7 @@ struct obj_dsa_ops<tag::sampler> : obj_zero_dsa_ops<tag::sampler> {
         return {_ops::sampler_compare_func(*this, value), *this};
     }
 
-    outcome<compare_function> get_compare_func(void) const noexcept {
+    outcome<compare_function> get_compare_func() const noexcept {
         return _ops::get_sampler_compare_func(*this);
     }
 
@@ -175,7 +175,7 @@ struct obj_dsa_ops<tag::sampler> : obj_zero_dsa_ops<tag::sampler> {
         return {_ops::sampler_wrap_s(*this, value), *this};
     }
 
-    outcome<texture_wrap_mode> get_wrap_s(void) const noexcept {
+    outcome<texture_wrap_mode> get_wrap_s() const noexcept {
         return _ops::get_sampler_wrap_s(*this);
     }
 
@@ -183,7 +183,7 @@ struct obj_dsa_ops<tag::sampler> : obj_zero_dsa_ops<tag::sampler> {
         return {_ops::sampler_wrap_t(*this, value), *this};
     }
 
-    outcome<texture_wrap_mode> get_wrap_t(void) const noexcept {
+    outcome<texture_wrap_mode> get_wrap_t() const noexcept {
         return _ops::get_sampler_wrap_t(*this);
     }
 
@@ -191,7 +191,7 @@ struct obj_dsa_ops<tag::sampler> : obj_zero_dsa_ops<tag::sampler> {
         return {_ops::sampler_wrap_r(*this, value), *this};
     }
 
-    outcome<texture_wrap_mode> get_wrap_r(void) const noexcept {
+    outcome<texture_wrap_mode> get_wrap_r() const noexcept {
         return _ops::get_sampler_wrap_r(*this);
     }
 
@@ -200,7 +200,7 @@ struct obj_dsa_ops<tag::sampler> : obj_zero_dsa_ops<tag::sampler> {
         return {_ops::sampler_lod_bias(*this, value), *this};
     }
 
-    outcome<GLfloat> get_lod_bias(void) const noexcept {
+    outcome<GLfloat> get_lod_bias() const noexcept {
         return _ops::get_sampler_lod_bias(*this);
     }
 #endif
@@ -209,7 +209,7 @@ struct obj_dsa_ops<tag::sampler> : obj_zero_dsa_ops<tag::sampler> {
         return {_ops::sampler_min_lod(*this, value), *this};
     }
 
-    outcome<GLfloat> get_min_lod(void) const noexcept {
+    outcome<GLfloat> get_min_lod() const noexcept {
         return _ops::get_sampler_min_lod(*this);
     }
 
@@ -217,7 +217,7 @@ struct obj_dsa_ops<tag::sampler> : obj_zero_dsa_ops<tag::sampler> {
         return {_ops::sampler_max_lod(*this, value), *this};
     }
 
-    outcome<GLfloat> get_max_lod(void) const noexcept {
+    outcome<GLfloat> get_max_lod() const noexcept {
         return _ops::get_sampler_max_lod(*this);
     }
 };

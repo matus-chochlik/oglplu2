@@ -35,7 +35,7 @@ buffer_clearing_state::clear_stencil(GLint s) noexcept {
 }
 //------------------------------------------------------------------------------
 inline outcome<rgba_value>
-buffer_clearing_state::get_color_clear_value(void) noexcept {
+buffer_clearing_state::get_color_clear_value() noexcept {
     rgba_value result;
     OGLPLUS_GLFUNC(GetFloatv)(GL_COLOR_CLEAR_VALUE, result._v);
     OGLPLUS_VERIFY_SIMPLE(GetFloatv, debug);
@@ -43,7 +43,7 @@ buffer_clearing_state::get_color_clear_value(void) noexcept {
 }
 //------------------------------------------------------------------------------
 inline outcome<GLfloat>
-buffer_clearing_state::get_depth_clear_value(void) noexcept {
+buffer_clearing_state::get_depth_clear_value() noexcept {
     GLfloat result;
     OGLPLUS_GLFUNC(GetFloatv)(GL_DEPTH_CLEAR_VALUE, &result);
     OGLPLUS_VERIFY_SIMPLE(GetFloatv, debug);
@@ -51,7 +51,7 @@ buffer_clearing_state::get_depth_clear_value(void) noexcept {
 }
 //------------------------------------------------------------------------------
 inline outcome<GLint>
-buffer_clearing_state::get_stencil_clear_value(void) noexcept {
+buffer_clearing_state::get_stencil_clear_value() noexcept {
     GLint result;
     OGLPLUS_GLFUNC(GetIntegerv)(GL_STENCIL_CLEAR_VALUE, &result);
     OGLPLUS_VERIFY_SIMPLE(GetIntegerv, debug);

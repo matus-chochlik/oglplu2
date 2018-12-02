@@ -6,7 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include <oglplus/gl_fixed.hpp>
+// clang-format off
+#include <oglplus/gl.hpp>
 #include "state.hpp"
 #include "wrapper.hpp"
 
@@ -24,6 +25,7 @@
 
 #include <iostream>
 #include <stdexcept>
+// clang-format on
 
 void
 example_loop(

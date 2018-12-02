@@ -23,7 +23,7 @@ private:
 public:
     error(error_info&& info);
 
-    const error_info& info(void) const noexcept {
+    const error_info& info() const noexcept {
         return _info;
     }
 };

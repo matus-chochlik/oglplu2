@@ -20,7 +20,7 @@ namespace oper {
 struct rgba_mask {
     GLboolean _v[4];
 
-    rgba_mask(void) = default;
+    rgba_mask() = default;
 
     rgba_mask(boolean r, boolean g, boolean b, boolean a) noexcept {
         _v[0] = GLboolean(r);
@@ -29,19 +29,19 @@ struct rgba_mask {
         _v[3] = GLboolean(a);
     }
 
-    boolean red(void) const noexcept {
+    boolean red() const noexcept {
         return boolean{_v[0]};
     }
 
-    boolean green(void) const noexcept {
+    boolean green() const noexcept {
         return boolean{_v[1]};
     }
 
-    boolean blue(void) const noexcept {
+    boolean blue() const noexcept {
         return boolean{_v[2]};
     }
 
-    boolean alpha(void) const noexcept {
+    boolean alpha() const noexcept {
         return boolean{_v[3]};
     }
 };
@@ -67,13 +67,13 @@ struct buffer_masking_state {
     static outcome<void> stencil_mask_separate(
       single_face face, GLuint mask) noexcept;
 
-    static outcome<rgba_mask> get_color_writemask(void) noexcept;
+    static outcome<rgba_mask> get_color_writemask() noexcept;
 
-    static outcome<boolean> get_depth_writemask(void) noexcept;
+    static outcome<boolean> get_depth_writemask() noexcept;
 
-    static outcome<boolean> get_stencil_writemask(void) noexcept;
+    static outcome<boolean> get_stencil_writemask() noexcept;
 
-    static outcome<boolean> get_stencil_back_writemask(void) noexcept;
+    static outcome<boolean> get_stencil_back_writemask() noexcept;
 
     // TODO: getters
 };

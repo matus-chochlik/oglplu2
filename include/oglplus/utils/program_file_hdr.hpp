@@ -21,7 +21,7 @@ struct shader_source_header {
     eagine::offset_array<const char> source_text;
     GLenum shader_type;
 
-    constexpr shader_source_header(void) noexcept
+    constexpr shader_source_header() noexcept
       : shader_type(GL_NONE) {
     }
 };
@@ -31,7 +31,7 @@ struct program_source_header {
     eagine::offset_array<const eagine::offset_ptr<const shader_source_header>>
       shader_sources;
 
-    constexpr program_source_header(void) noexcept {
+    constexpr program_source_header() noexcept {
     }
 };
 

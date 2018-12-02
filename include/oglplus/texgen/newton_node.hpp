@@ -22,7 +22,7 @@ private:
 
     newton_function _function;
 
-    cstr_ref _func_name(void) const;
+    cstr_ref _func_name() const;
 
 public:
     newton_output(node_intf& parent, newton_function);
@@ -31,9 +31,9 @@ public:
       : newton_output(parent, newton_function::xe3minus1) {
     }
 
-    cstr_ref type_name(void) override;
+    cstr_ref type_name() override;
 
-    slot_data_type value_type(void) override;
+    slot_data_type value_type() override;
 
     std::ostream& definitions(
       std::ostream& out, compile_context& ctxt) override;

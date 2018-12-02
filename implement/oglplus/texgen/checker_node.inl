@@ -22,13 +22,13 @@ checker_output::checker_output(node_intf& parent)
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 cstr_ref
-checker_output::type_name(void) {
+checker_output::type_name() {
     return cstr_ref("Checker");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 slot_data_type
-checker_output::value_type(void) {
+checker_output::value_type() {
     return slot_data_type::float_;
 }
 //------------------------------------------------------------------------------
@@ -67,13 +67,13 @@ pixel_checker_output::pixel_checker_output(node_intf& parent)
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 cstr_ref
-pixel_checker_output::type_name(void) {
+pixel_checker_output::type_name() {
     return cstr_ref("PixelChecker");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 slot_data_type
-pixel_checker_output::value_type(void) {
+pixel_checker_output::value_type() {
     return slot_data_type::float_;
 }
 //------------------------------------------------------------------------------

@@ -30,7 +30,7 @@ texture_ops::active_texture(texture_unit unit) noexcept {
 }
 //------------------------------------------------------------------------------
 inline outcome<texture_unit>
-texture_ops::get_active_texture(void) noexcept {
+texture_ops::get_active_texture() noexcept {
     GLint result = 0;
     return numeric_queries::get_integer_v(
              numeric_query(GL_ACTIVE_TEXTURE), {&result, 1})

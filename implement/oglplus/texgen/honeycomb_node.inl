@@ -26,7 +26,7 @@ honeycomb_output::honeycomb_output(
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 cstr_ref
-honeycomb_output::type_abbr(void) const {
+honeycomb_output::type_abbr() const {
     switch(_type) {
         case honeycomb_output_type::distance:
             return cstr_ref("Dist");
@@ -40,13 +40,13 @@ honeycomb_output::type_abbr(void) const {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 cstr_ref
-honeycomb_output::type_name(void) {
+honeycomb_output::type_name() {
     return cstr_ref("Honeycomb");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 slot_data_type
-honeycomb_output::value_type(void) {
+honeycomb_output::value_type() {
     switch(_type) {
         case honeycomb_output_type::cell_coord:
         case honeycomb_output_type::cell_center:
@@ -181,7 +181,7 @@ honeycomb_output::expression(std::ostream& out, compile_context&) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-honeycomb_node::honeycomb_node(void)
+honeycomb_node::honeycomb_node()
   : base_node()
   , _cells(*this, cstr_ref("Cells"), 32.f, 32.f)
   , _direction(honeycomb_direction::vertical)
@@ -192,13 +192,13 @@ honeycomb_node::honeycomb_node(void)
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 cstr_ref
-honeycomb_node::type_name(void) {
+honeycomb_node::type_name() {
     return cstr_ref("Honeycomb");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 span_size_t
-honeycomb_node::input_count(void) {
+honeycomb_node::input_count() {
     return 1;
 }
 //------------------------------------------------------------------------------
@@ -211,7 +211,7 @@ honeycomb_node::input(span_size_t index) {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 span_size_t
-honeycomb_node::output_count(void) {
+honeycomb_node::output_count() {
     return 3;
 }
 //------------------------------------------------------------------------------

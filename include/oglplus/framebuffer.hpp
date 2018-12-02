@@ -336,11 +336,11 @@ struct object_binding<tag::framebuffer>
 
     typedef oper::framebuffer_ops _ops;
 
-    outcome<framebuffer_status> check_status(void) noexcept {
+    outcome<framebuffer_status> check_status() noexcept {
         return _ops::check_framebuffer_status(*this);
     }
 
-    outcome<bool> is_complete(void) noexcept {
+    outcome<bool> is_complete() noexcept {
         return _ops::is_framebuffer_complete(*this);
     }
 

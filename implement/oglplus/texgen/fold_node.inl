@@ -20,7 +20,7 @@ fold_output::fold_output(node_intf& parent, fold_function fn)
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 cstr_ref
-fold_output::type_name(void) {
+fold_output::type_name() {
     switch(_func) {
         case fold_function::add:
             return cstr_ref("Add");
@@ -36,7 +36,7 @@ fold_output::type_name(void) {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 slot_data_type
-fold_output::value_type(void) {
+fold_output::value_type() {
     return common_param_type();
 }
 //------------------------------------------------------------------------------
@@ -108,7 +108,7 @@ fold_output::definitions(std::ostream& out, compile_context& ctxt) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-fold_node::fold_node(void)
+fold_node::fold_node()
   : _output(*this) {
 }
 //------------------------------------------------------------------------------

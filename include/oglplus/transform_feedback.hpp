@@ -33,11 +33,11 @@ struct transform_feedback_ops {
     static outcome<void> begin_transform_feedback(
       transform_feedback_primitive_type) noexcept;
 
-    static outcome<void> end_transform_feedback(void) noexcept;
+    static outcome<void> end_transform_feedback() noexcept;
 
-    static outcome<void> pause_transform_feedback(void) noexcept;
+    static outcome<void> pause_transform_feedback() noexcept;
 
-    static outcome<void> resume_transform_feedback(void) noexcept;
+    static outcome<void> resume_transform_feedback() noexcept;
 
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
     static outcome<void> get_transform_feedback_iv(
@@ -92,7 +92,7 @@ struct obj_zero_dsa_ops<tag::transform_feedback>
   : object_zero_name<tag::transform_feedback> {
     typedef oper::transform_feedback_ops _ops;
 
-    obj_zero_dsa_ops(void) = default;
+    obj_zero_dsa_ops() = default;
 
     obj_zero_dsa_ops(transform_feedback_name name) noexcept
       : object_zero_name<tag::transform_feedback>(name) {
@@ -102,15 +102,15 @@ struct obj_zero_dsa_ops<tag::transform_feedback>
         return _ops::begin_transform_feedback(mode);
     }
 
-    outcome<void> end(void) noexcept {
+    outcome<void> end() noexcept {
         return _ops::end_transform_feedback();
     }
 
-    outcome<void> pause(void) noexcept {
+    outcome<void> pause() noexcept {
         return _ops::pause_transform_feedback();
     }
 
-    outcome<void> resume(void) noexcept {
+    outcome<void> resume() noexcept {
         return _ops::resume_transform_feedback();
     }
 };
@@ -124,15 +124,15 @@ struct obj_dsa_ops<tag::transform_feedback>
     using obj_zero_dsa_ops<tag::transform_feedback>::obj_zero_dsa_ops;
 
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
-    outcome<boolean> active(void) const noexcept {
+    outcome<boolean> active() const noexcept {
         return _ops::transform_feedback_active(*this);
     }
 
-    outcome<boolean> paused(void) const noexcept {
+    outcome<boolean> paused() const noexcept {
         return _ops::transform_feedback_paused(*this);
     }
 
-    outcome<buffer_name> buffer_binding(void) const noexcept {
+    outcome<buffer_name> buffer_binding() const noexcept {
         return _ops::transform_feedback_buffer_binding(*this);
     }
 
