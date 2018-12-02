@@ -9,8 +9,17 @@
 #ifndef OALPLUS_AL_1509260923_HPP
 #define OALPLUS_AL_1509260923_HPP
 
+#if defined(EAGINE_YCM)
+#if __has_include(<AL/al.h>)
+#include <AL/al.h>
+#endif
+#if __has_include(<AL/alc.h>)
+#include <AL/alc.h>
+#endif
+#else // EAGINE_YCM
 #include <AL/al.h>
 #include <AL/alc.h>
+#endif // EAGINE_YCM
 // TODO
 
 #endif // include guard

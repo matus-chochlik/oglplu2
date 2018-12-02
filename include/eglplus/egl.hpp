@@ -9,7 +9,13 @@
 #ifndef OALPLUS_EGL_1509260923_HPP
 #define OALPLUS_EGL_1509260923_HPP
 
+#if defined(EAGINE_YCM)
+#if __has_include(<EGL/egl.h>)
 #include <EGL/egl.h>
+#endif
+#else // EAGINE_YCM
+#include <EGL/egl.h>
+#endif // EAGINE_YCM
 // TODO
 
 #endif // include guard

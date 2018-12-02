@@ -46,6 +46,7 @@ def binaryDir():
     return os.path.join(thisDir(), "_build")
 #------------------------------------------------------------------------------#
 compiler_opts = [
+    '-DEAGINE_YCM',
     '-pedantic',
     '-Wall',
     '-Weverything',
