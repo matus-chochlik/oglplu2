@@ -44,8 +44,8 @@ bool base_output::already_defined(compile_context& context) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref base_output::name() noexcept {
-    return cstr_ref("Output");
+string_view base_output::name() noexcept {
+    return string_view("Output");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -115,7 +115,7 @@ std::intptr_t base_output::get_id() const noexcept {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-void base_output::append_id(std::ostream& out, const cstr_ref& name) {
+void base_output::append_id(std::ostream& out, string_view name) {
     out << "oglptg" << name << get_id();
 }
 //------------------------------------------------------------------------------

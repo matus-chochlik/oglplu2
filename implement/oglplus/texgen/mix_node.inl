@@ -17,14 +17,14 @@ namespace texgen {
 OGLPLUS_LIB_FUNC
 mix_output::mix_output(node_intf& parent)
   : base_output(parent)
-  , zero(parent, cstr_ref("Zero"), 0.f, 0.f, 0.f, 0.f)
-  , one(parent, cstr_ref("One"), 1.f, 1.f, 1.f, 1.f)
-  , value(parent, cstr_ref("Value"), 0.5f) {
+  , zero(parent, string_view("Zero"), 0.f, 0.f, 0.f, 0.f)
+  , one(parent, string_view("One"), 1.f, 1.f, 1.f, 1.f)
+  , value(parent, string_view("Value"), 0.5f) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref mix_output::type_name() {
-    return cstr_ref("Mix");
+string_view mix_output::type_name() {
+    return string_view("Mix");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC

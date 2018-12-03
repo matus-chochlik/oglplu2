@@ -32,8 +32,8 @@ public:
       : _values{{value_type(evs)...}} {
     }
 
-    span<const typename EnumClass::value_type> values() const noexcept {
-        return {_values};
+    auto values() const noexcept {
+        return view(_values);
     }
 };
 

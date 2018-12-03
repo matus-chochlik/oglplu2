@@ -7,19 +7,18 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_MEMORY_ADDRESS_1510290655_HPP
-#define EAGINE_MEMORY_ADDRESS_1510290655_HPP
+#ifndef EAGINE_MEMORY_ADDRESS_HPP
+#define EAGINE_MEMORY_ADDRESS_HPP
 
 #include "../assert.hpp"
 #include "../std/type_traits.hpp"
 #include "../types.hpp"
 #include "align.hpp"
-#include <cassert>
 #include <cstddef>
 
 namespace eagine {
 namespace memory {
-
+//------------------------------------------------------------------------------
 template <bool IsConst>
 class basic_address {
 public:
@@ -87,7 +86,7 @@ public:
     template <
       typename T,
       typename = std::enable_if_t<
-        !std::is_void<T>::value && (std::is_const<T>::value || !IsConst)>>
+        !std::is_void_v<T> && (std::is_const_v<T> || !IsConst)>>
     constexpr explicit operator T*() const noexcept {
         return EAGINE_CONSTEXPR_ASSERT(
           is_aligned_as<T>(), static_cast<T*>(_addr));
@@ -106,8 +105,8 @@ public:
     }
 
     template <typename T>
-    constexpr bool is_aligned_as() const noexcept {
-        return memory::is_aligned_as<T>(value());
+    constexpr bool is_aligned_as(identity<T> tid = {}) const noexcept {
+        return memory::is_aligned_as<T>(value(), tid);
     }
 
     constexpr friend inline bool
@@ -155,73 +154,94 @@ public:
         return {a, -o};
     }
 };
-
+//------------------------------------------------------------------------------
 typedef basic_address<true> const_address;
 typedef basic_address<false> address;
-
+//------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline basic_address<std::is_const<T>::value>
+static constexpr inline basic_address<std::is_const_v<T>>
 as_address(T* addr) noexcept {
-    return basic_address<std::is_const<T>::value>(addr);
+    return basic_address<std::is_const_v<T>>(addr);
 }
-
+//------------------------------------------------------------------------------
 static constexpr inline span_size_t
 misalignment(const_address addr, span_size_t alignment) noexcept {
     return addr.misalignment(alignment);
 }
-
+//------------------------------------------------------------------------------
 static constexpr inline span_size_t
 misalignment(const void* ptr, span_size_t alignment) noexcept {
     return misalignment(as_address(ptr), alignment);
 }
-
+//------------------------------------------------------------------------------
 static constexpr inline bool
 is_aligned_to(const_address addr, span_size_t alignment) noexcept {
     return addr.is_aligned_to(alignment);
 }
-
+//------------------------------------------------------------------------------
 static constexpr inline bool
 is_aligned_to(const void* ptr, span_size_t alignment) noexcept {
     return is_aligned_to(as_address(ptr), alignment);
 }
-
+//------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline bool is_aligned_as(const_address addr) noexcept {
-    return addr.template is_aligned_as<T>();
+static constexpr inline bool
+is_aligned_as(const_address addr, identity<T> tid = {}) noexcept {
+    return addr.is_aligned_as(tid);
 }
-
+//------------------------------------------------------------------------------
+static constexpr inline span_size_t
+align_up_offs(span_size_t align, span_size_t misalign) noexcept {
+    return (misalign ? align - misalign : 0);
+}
+//------------------------------------------------------------------------------
 template <bool IsConst>
-static inline basic_address<IsConst> align_up(
+static constexpr inline auto align_up_by(
+  basic_address<IsConst> addr, span_size_t offs, span_size_t max) noexcept {
+    return EAGINE_CONSTEXPR_ASSERT(
+      (offs <= max), basic_address<IsConst>(addr, offs));
+}
+//------------------------------------------------------------------------------
+template <bool IsConst>
+static constexpr inline basic_address<IsConst> align_up(
   basic_address<IsConst> addr, span_size_t align, span_size_t max) noexcept {
-    auto ma = misalignment(addr, align);
-    ma = (ma ? align - ma : 0);
-
-    assert(span_size(ma) <= max);
-    return {addr, ma};
+    return align_up_by(
+      addr, align_up_offs(align, misalignment(addr, align)), max);
 }
-
+//------------------------------------------------------------------------------
+static constexpr inline span_size_t
+align_down_offs(span_size_t, span_size_t misalign) noexcept {
+    return misalign;
+}
+//------------------------------------------------------------------------------
 template <bool IsConst>
-static inline basic_address<IsConst> align_down(
+static constexpr inline auto align_down_by(
+  basic_address<IsConst> addr, span_size_t offs, span_size_t max) noexcept {
+    return EAGINE_CONSTEXPR_ASSERT(
+      (offs <= max), basic_address<IsConst>(addr, -offs));
+}
+//------------------------------------------------------------------------------
+template <bool IsConst>
+static constexpr inline basic_address<IsConst> align_down(
   basic_address<IsConst> addr, span_size_t align, span_size_t max) noexcept {
-    auto ma = misalignment(addr, align);
-
-    assert(span_size(ma) <= max);
-    return {addr, -ma};
+    return align_down_by(
+      addr, align_down_offs(align, misalignment(addr, align)), max);
 }
-
+//------------------------------------------------------------------------------
 template <bool IsConst>
-static inline basic_address<IsConst>
+static constexpr inline basic_address<IsConst>
 align_down(basic_address<IsConst> addr, span_size_t align) noexcept {
     return align_down(addr, align, addr.value());
 }
-
+//------------------------------------------------------------------------------
 static inline const byte* align_down(const byte* ptr, span_size_t align) {
     return align_down(const_address(ptr), align).ptr();
 }
-
+//------------------------------------------------------------------------------
 template <typename T>
-static inline T* align_up_to(
-  basic_address<std::is_const<T>::value> addr,
+static constexpr inline T* align_up_to(
+  basic_address<std::is_const_v<T>> addr,
+  identity<T> = {},
   span_size_t align = span_align_of<T>(),
   span_size_t max = span_size_of<T>()) noexcept {
     if(align < span_align_of<T>()) {
@@ -230,10 +250,11 @@ static inline T* align_up_to(
 
     return static_cast<T*>(align_up(addr, align, max));
 }
-
+//------------------------------------------------------------------------------
 template <typename T>
-static inline T* align_down_to(
-  basic_address<std::is_const<T>::value> addr,
+static constexpr inline T* align_down_to(
+  basic_address<std::is_const_v<T>> addr,
+  identity<T> = {},
   span_size_t align = span_align_of<T>(),
   span_size_t max = span_size_of<T>()) noexcept {
     if(align < span_align_of<T>()) {
@@ -242,8 +263,8 @@ static inline T* align_down_to(
 
     return static_cast<T*>(align_down(addr, align, max));
 }
-
+//------------------------------------------------------------------------------
 } // namespace memory
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_MEMORY_ADDRESS_HPP

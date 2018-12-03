@@ -22,7 +22,7 @@ private:
     memory::buffer _buf;
 
 public:
-    buffered_file_contents(const cstr_ref& path) {
+    buffered_file_contents(string_view path) {
         read_file_data(path, _buf);
     }
 
@@ -48,7 +48,7 @@ public:
 };
 //------------------------------------------------------------------------------
 inline std::shared_ptr<file_contents_intf>
-make_file_contents_impl(const cstr_ref& path) {
+make_file_contents_impl(string_view path) {
     posix::file_descriptor_owner fd(posix::open(path, 0));
     auto size = posix::file_size(fd);
     auto pgsize = posix::page_size();
@@ -66,7 +66,7 @@ make_file_contents_impl(const cstr_ref& path) {
 #else
 //------------------------------------------------------------------------------
 inline std::shared_ptr<file_contents_intf>
-make_file_contents_impl(const cstr_ref& path) {
+make_file_contents_impl(string_view path) {
     return std::make_shared<buffered_file_contents>(path);
 }
 //------------------------------------------------------------------------------
@@ -75,7 +75,7 @@ make_file_contents_impl(const cstr_ref& path) {
 // file_contents::file_contents
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-file_contents::file_contents(const cstr_ref& path)
+file_contents::file_contents(string_view path)
   : _pimpl(make_file_contents_impl(path)) {
 }
 //------------------------------------------------------------------------------

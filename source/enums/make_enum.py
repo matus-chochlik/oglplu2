@@ -360,7 +360,7 @@ def action_impl_enum_value_names_inl(options):
 	print_line(options, "namespace %s {" % options.library)
 	print_newline(options)
 	print_line(options, "%s_LIB_FUNC" % options.library_uc)
-	print_line(options, "cstr_ref")
+	print_line(options, "string_view")
 	print_line(options, "get_enum_value_name(const any_enum_value%s& aev)" %
 		options.lib_suffix
 	)

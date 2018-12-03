@@ -17,13 +17,13 @@ namespace texgen {
 OGLPLUS_LIB_FUNC
 map_output::map_output(node_intf& parent)
   : base_output(parent)
-  , input(parent, cstr_ref("Input"), 0.5f, 0.5f, 0.5f, 0.5f)
-  , coord(parent, cstr_ref("Coord"), 0.f, 0.f, 0.f) {
+  , input(parent, string_view("Input"), 0.5f, 0.5f, 0.5f, 0.5f)
+  , coord(parent, string_view("Coord"), 0.f, 0.f, 0.f) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref map_output::type_name() {
-    return cstr_ref("Map");
+string_view map_output::type_name() {
+    return string_view("Map");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC

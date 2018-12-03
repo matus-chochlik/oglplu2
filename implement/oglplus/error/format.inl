@@ -21,9 +21,9 @@ namespace oglplus {
 OGLPLUS_LIB_FUNC
 std::ostream& format_error_info(
   const error_info& info,
-  const cstr_ref& msg_str,
-  const cstr_ref& fmt_str,
-  const cstr_ref& n_a_str,
+  string_view msg_str,
+  string_view fmt_str,
+  string_view n_a_str,
   std::ostream& out) {
     auto i = fmt_str.begin();
     const auto e = fmt_str.end();
@@ -151,31 +151,27 @@ std::ostream& format_error_info(
 OGLPLUS_LIB_FUNC
 std::ostream& format_error_info(
   const error_info& info,
-  const cstr_ref& msg_str,
-  const cstr_ref& fmt_str,
+  string_view msg_str,
+  string_view fmt_str,
   std::ostream& out) {
     return format_error_info(info, msg_str, fmt_str, "[N/A]", out);
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 std::ostream& format_error_info(
-  const error_info& info, const cstr_ref& fmt_str, std::ostream& out) {
+  const error_info& info, string_view fmt_str, std::ostream& out) {
     return format_error_info(info, "", fmt_str, "[N/A]", out);
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 std::ostream& format_error(
-  error& err,
-  const cstr_ref& fmt_str,
-  const cstr_ref& n_a_str,
-  std::ostream& out) {
+  error& err, string_view fmt_str, string_view n_a_str, std::ostream& out) {
     return format_error_info(
-      err.info(), cstr_ref(err.what()), fmt_str, n_a_str, out);
+      err.info(), string_view(err.what()), fmt_str, n_a_str, out);
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-format_error(error& err, const cstr_ref& fmt_str, std::ostream& out) {
+std::ostream& format_error(error& err, string_view fmt_str, std::ostream& out) {
     return format_error(err, fmt_str, "[N/A]", out);
 }
 //------------------------------------------------------------------------------

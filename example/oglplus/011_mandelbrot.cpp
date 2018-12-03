@@ -140,7 +140,7 @@ public:
           0,
           GL.rgb,
           GL.float_,
-          memory_block_of(gradient_data));
+          as_bytes(view(gradient_data)));
 
         gl.disable(GL.depth_test);
     }

@@ -19,8 +19,8 @@ coord_output::coord_output(node_intf& parent, coord_type func)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref coord_output::type_name() {
-    return cstr_ref("Coord");
+string_view coord_output::type_name() {
+    return string_view("Coord");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC

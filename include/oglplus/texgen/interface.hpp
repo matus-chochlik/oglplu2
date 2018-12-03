@@ -42,8 +42,8 @@ public:
 
     unsigned glsl_version() const;
 
-    void add_tag(const cstr_ref& tag);
-    bool has_tag(const cstr_ref& tag) const noexcept;
+    void add_tag(string_view tag);
+    bool has_tag(string_view tag) const noexcept;
 
     void remember_constant(const constant_intf&);
     bool remembers_constant(const constant_intf&) const noexcept;
@@ -55,7 +55,7 @@ public:
 struct constant_intf {
     virtual ~constant_intf() = default;
 
-    virtual cstr_ref name() const noexcept = 0;
+    virtual string_view name() const noexcept = 0;
 
     virtual slot_data_type value_type() = 0;
 
@@ -72,7 +72,7 @@ struct input_intf {
     virtual ~input_intf() noexcept {
     }
 
-    virtual cstr_ref name() noexcept = 0;
+    virtual string_view name() noexcept = 0;
 
     virtual bool accepts_value_type(slot_data_type) = 0;
 
@@ -130,7 +130,7 @@ struct output_intf {
     virtual ~output_intf() noexcept {
     }
 
-    virtual cstr_ref name() noexcept = 0;
+    virtual string_view name() noexcept = 0;
 
     virtual slot_data_type value_type() = 0;
 
@@ -171,11 +171,11 @@ struct node_intf {
     virtual input_intf& input(span_size_t) = 0;
 
     virtual eagine::optional_reference_wrapper<input_intf>
-    input_by_name(const cstr_ref&);
+      input_by_name(string_view);
 
     virtual bool can_add_input() = 0;
 
-    virtual input_intf& add_input(const cstr_ref&) = 0;
+    virtual input_intf& add_input(string_view) = 0;
 
     std::ostream& input_definitions(std::ostream&, compile_context&);
 
@@ -184,11 +184,11 @@ struct node_intf {
     virtual output_intf& output(span_size_t) = 0;
 
     virtual eagine::optional_reference_wrapper<output_intf>
-    output_by_name(const cstr_ref&);
+      output_by_name(string_view);
 
     void disconnect_all();
 
-    virtual cstr_ref type_name() = 0;
+    virtual string_view type_name() = 0;
 
     virtual void update_needed() = 0;
 
@@ -246,7 +246,7 @@ public:
         return a.is_valid() && b.is_valid() && (a._pimpl < b._pimpl);
     }
 
-    cstr_ref name() noexcept {
+    string_view name() noexcept {
         return _impl().name();
     }
 
@@ -303,7 +303,7 @@ public:
         return a.is_valid() && b.is_valid() && (a._pimpl < b._pimpl);
     }
 
-    cstr_ref name() noexcept {
+    string_view name() noexcept {
         return _impl().name();
     }
 

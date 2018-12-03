@@ -16,57 +16,57 @@ OGLPLUS_LIB_FUNC
 unary_function_output::unary_function_output(
   node_intf& parent, unary_function fn)
   : base_output(parent)
-  , _input(parent, cstr_ref("Input"), 0.5f, 0.5f, 0.5f, 0.5f)
+  , _input(parent, string_view("Input"), 0.5f, 0.5f, 0.5f, 0.5f)
   , _func(fn) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref unary_function_output::type_name() {
+string_view unary_function_output::type_name() {
     switch(_func) {
         case unary_function::radians:
-            return cstr_ref("Radians");
+            return string_view("Radians");
         case unary_function::degrees:
-            return cstr_ref("Degrees");
+            return string_view("Degrees");
         case unary_function::sin:
-            return cstr_ref("Sin");
+            return string_view("Sin");
         case unary_function::cos:
-            return cstr_ref("Cos");
+            return string_view("Cos");
         case unary_function::tan:
-            return cstr_ref("Tan");
+            return string_view("Tan");
         case unary_function::asin:
-            return cstr_ref("ASin");
+            return string_view("ASin");
         case unary_function::acos:
-            return cstr_ref("ACos");
+            return string_view("ACos");
         case unary_function::atan:
-            return cstr_ref("ATan");
+            return string_view("ATan");
         case unary_function::abs:
-            return cstr_ref("Abs");
+            return string_view("Abs");
         case unary_function::sign:
-            return cstr_ref("Sign");
+            return string_view("Sign");
         case unary_function::sqrt:
-            return cstr_ref("Sqrt");
+            return string_view("Sqrt");
         case unary_function::inversesqrt:
-            return cstr_ref("InverseSqrt");
+            return string_view("InverseSqrt");
         case unary_function::floor:
-            return cstr_ref("Floor");
+            return string_view("Floor");
         case unary_function::ceil:
-            return cstr_ref("Ceil");
+            return string_view("Ceil");
         case unary_function::exp:
-            return cstr_ref("Exp");
+            return string_view("Exp");
         case unary_function::exp2:
-            return cstr_ref("Exp2");
+            return string_view("Exp2");
         case unary_function::log:
-            return cstr_ref("Log");
+            return string_view("Log");
         case unary_function::log2:
-            return cstr_ref("Log2");
+            return string_view("Log2");
         case unary_function::negate:
-            return cstr_ref("Negate");
+            return string_view("Negate");
         case unary_function::length:
-            return cstr_ref("Length");
+            return string_view("Length");
         case unary_function::none:
             break;
     }
-    return cstr_ref("UnaryFunction");
+    return string_view("UnaryFunction");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -167,50 +167,50 @@ OGLPLUS_LIB_FUNC
 binary_function_output::binary_function_output(
   node_intf& parent, binary_function fn)
   : base_output(parent)
-  , _input_a(parent, cstr_ref("A"), 0.f, 0.f, 0.f, 0.f)
-  , _input_b(parent, cstr_ref("B"), 1.f, 1.f, 1.f, 1.f)
+  , _input_a(parent, string_view("A"), 0.f, 0.f, 0.f, 0.f)
+  , _input_b(parent, string_view("B"), 1.f, 1.f, 1.f, 1.f)
   , _func(fn) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref binary_function_output::type_name() {
+string_view binary_function_output::type_name() {
     switch(_func) {
         case binary_function::equal:
-            return cstr_ref("Equal");
+            return string_view("Equal");
         case binary_function::not_equal:
-            return cstr_ref("NotEqual");
+            return string_view("NotEqual");
         case binary_function::less:
-            return cstr_ref("Less");
+            return string_view("Less");
         case binary_function::less_equal:
-            return cstr_ref("LessEqual");
+            return string_view("LessEqual");
         case binary_function::greater:
-            return cstr_ref("Greater");
+            return string_view("Greater");
         case binary_function::greater_equal:
-            return cstr_ref("GreaterEqual");
+            return string_view("GreaterEqual");
         case binary_function::add:
-            return cstr_ref("Add");
+            return string_view("Add");
         case binary_function::subtract:
-            return cstr_ref("Subtract");
+            return string_view("Subtract");
         case binary_function::multiply:
-            return cstr_ref("Multiply");
+            return string_view("Multiply");
         case binary_function::divide:
-            return cstr_ref("Divide");
+            return string_view("Divide");
         case binary_function::modulo:
-            return cstr_ref("Modulo");
+            return string_view("Modulo");
         case binary_function::max:
-            return cstr_ref("Max");
+            return string_view("Max");
         case binary_function::min:
-            return cstr_ref("Min");
+            return string_view("Min");
         case binary_function::distance:
-            return cstr_ref("Distance");
+            return string_view("Distance");
         case binary_function::power:
-            return cstr_ref("Power");
+            return string_view("Power");
         case binary_function::dot:
-            return cstr_ref("Dot");
+            return string_view("Dot");
         case binary_function::average:
-            return cstr_ref("average");
+            return string_view("average");
     }
-    return cstr_ref("BinaryFunction");
+    return string_view("BinaryFunction");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC

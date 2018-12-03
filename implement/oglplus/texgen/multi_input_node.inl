@@ -15,7 +15,7 @@ namespace texgen {
 OGLPLUS_LIB_FUNC
 multi_input_output::multi_input_output(node_intf& parent)
   : base_output(parent)
-  , _input(parent, cstr_ref("Input"), 0.f, 0.f, 0.f, 0.f) {
+  , _input(parent, string_view("Input"), 0.f, 0.f, 0.f, 0.f) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -51,8 +51,9 @@ input_intf& multi_input_node::input(span_size_t index) {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 eagine::optional_reference_wrapper<input_intf>
-multi_input_node::input_by_name(const cstr_ref& name) {
-    auto p = single_output()._inputs.find(name.str());
+multi_input_node::input_by_name(string_view name) {
+    // TODO: string / span compare
+    auto p = single_output()._inputs.find(name.to_string());
     if(p != single_output()._inputs.end()) {
         return p->second;
     }
@@ -66,11 +67,11 @@ bool multi_input_node::can_add_input() {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 input_with_const_default<float[4]>&
-multi_input_node::add_input(const cstr_ref& name) {
+multi_input_node::add_input(string_view name) {
     auto p = single_output()._inputs.emplace(
-      name.str(),
+      name.to_string(),
       input_with_const_default<float[4]>(*this, name, 0.f, 0.f, 0.f, 0.f));
-    p.first->second.set_name(cstr_ref(
+    p.first->second.set_name(string_view(
       p.first->first.data(), eagine::span_size_t(p.first->first.size())));
     return p.first->second;
 }

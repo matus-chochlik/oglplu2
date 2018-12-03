@@ -17,12 +17,12 @@ namespace texgen {
 OGLPLUS_LIB_FUNC
 concentric_output::concentric_output(node_intf& parent)
   : base_output(parent)
-  , repeat(parent, cstr_ref("Repeat"), 8.f, 8.f, 8.f) {
+  , repeat(parent, string_view("Repeat"), 8.f, 8.f, 8.f) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref concentric_output::type_name() {
-    return cstr_ref("Concentric");
+string_view concentric_output::type_name() {
+    return string_view("Concentric");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -64,8 +64,8 @@ pixel_concentric_output::pixel_concentric_output(node_intf& parent)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref pixel_concentric_output::type_name() {
-    return cstr_ref("PixelChecker");
+string_view pixel_concentric_output::type_name() {
+    return string_view("PixelChecker");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC

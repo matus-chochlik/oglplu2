@@ -44,7 +44,7 @@ template <typename T>
 void eagine_test_struct_memory_block_2_T(T& value) {
     using namespace eagine;
 
-    structured_memory_block<T> smb(memory::block_of(value));
+    structured_memory_block<T> smb(as_bytes(coverOne(value)));
 
     BOOST_CHECK_EQUAL(smb.get().first.first, value.first.first);
     BOOST_CHECK_EQUAL(smb.get().first.second, value.first.second);

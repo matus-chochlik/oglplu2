@@ -7,16 +7,18 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef OGLPLUS_UTILS_STRING_SPAN_1509260923_HPP
-#define OGLPLUS_UTILS_STRING_SPAN_1509260923_HPP
+#ifndef OGLPLUS_UTILS_STRING_SPAN_HPP
+#define OGLPLUS_UTILS_STRING_SPAN_HPP
 
+#include "span.hpp"
 #include <eagine/string_span.hpp>
 
 namespace oglplus {
 
-using eagine::cstring_span;
+using eagine::c_str;
 using eagine::string_span;
+using eagine::string_view;
 
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_UTILS_STRING_SPAN_HPP

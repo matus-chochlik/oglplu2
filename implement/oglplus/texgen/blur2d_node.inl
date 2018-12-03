@@ -16,12 +16,12 @@ namespace texgen {
 OGLPLUS_LIB_FUNC
 blur2d_output::blur2d_output(node_intf& parent)
   : base_output(parent)
-  , input(parent, cstr_ref("Input"), 0.5f, 0.5f, 0.5f, 0.5f) {
+  , input(parent, string_view("Input"), 0.5f, 0.5f, 0.5f, 0.5f) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref blur2d_output::type_name() {
-    return cstr_ref("Blur2D");
+string_view blur2d_output::type_name() {
+    return string_view("Blur2D");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC

@@ -21,7 +21,7 @@ void eagine_test_memory_fallback_alloc_T(std::size_t n) {
 
     static char buf[1024];
 
-    memory::block b = memory::block_of(buf);
+    memory::block b = as_bytes(cover(buf));
 
     memory::byte_allocator_with_fallback<> a(
       (memory::stack_byte_allocator<>(b)));
@@ -35,7 +35,7 @@ void eagine_test_memory_fallback_alloc_T(std::size_t n) {
 
     BOOST_CHECK(!b1.empty());
     BOOST_CHECK(b1.size() >= sz);
-    BOOST_CHECK(b1.is_aligned_to(ao));
+    BOOST_CHECK(b1.addr().is_aligned_to(ao));
 
     BOOST_CHECK(a.has_allocated(b1, ao));
 
@@ -53,7 +53,7 @@ void eagine_test_memory_fallback_alloc_T(std::size_t n) {
 
     for(memory::owned_block& blk : blks) {
         BOOST_CHECK(blks.back().size() >= span_size_of<T>());
-        BOOST_CHECK(blks.back().is_aligned_to(ao));
+        BOOST_CHECK(blks.back().addr().is_aligned_to(ao));
         BOOST_CHECK(!!a.has_allocated(blk, ao));
     }
 

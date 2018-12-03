@@ -18,11 +18,11 @@ private:
     Int _c;
 
 public:
+    typedef Int value_type;
+
     constexpr inline count_t() noexcept
       : _c(0) {
     }
-
-    typedef Int value_type;
 
     constexpr value_type value() const noexcept {
         return _c;
@@ -33,7 +33,7 @@ public:
     }
 
     template <typename... P>
-    void operator()(const P&...) noexcept {
+    constexpr void operator()(const P&...) noexcept {
         ++_c;
     }
 };

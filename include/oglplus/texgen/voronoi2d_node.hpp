@@ -32,7 +32,7 @@ private:
 
     short order() const;
 
-    cstr_ref type_abbr() const;
+    string_view type_abbr() const;
 
 public:
     voronoi2d_output(
@@ -41,9 +41,9 @@ public:
       input_with_const_default<float[2]>&,
       voronoi_output_type type);
 
-    cstr_ref type_name() override;
+    string_view type_name() override;
 
-    cstr_ref name() noexcept override;
+    string_view name() noexcept override;
 
     slot_data_type value_type() override;
 
@@ -73,7 +73,7 @@ public:
         return *this;
     }
 
-    cstr_ref type_name() override;
+    string_view type_name() override;
 
     span_size_t input_count() override;
 

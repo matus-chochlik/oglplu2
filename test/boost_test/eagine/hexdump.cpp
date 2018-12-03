@@ -19,7 +19,7 @@ BOOST_AUTO_TEST_CASE(hexdump_1) {
 
     std::stringstream out;
 
-    out << hexdump(memory_block_of(buf));
+    out << hexdump(as_bytes(view(buf)));
 
     BOOST_CHECK(!out.str().empty());
 }

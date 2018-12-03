@@ -61,7 +61,7 @@ example_wrapper::example_wrapper(
 
         if(
           std::strncmp(
-            _params.framedump_prefix().c_str(),
+            c_str(_params.framedump_prefix()),
             _textbuf.data(),
             _textbuf.size()) != 0) {
             throw std::runtime_error("Expected frame-dump prefix on stdin");

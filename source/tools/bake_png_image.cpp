@@ -25,7 +25,7 @@ constexpr const bool has_rgba16 = false;
 // program options
 struct options {
     typedef eagine::program_parameter<
-      eagine::valid_if_not_empty<eagine::cstr_ref>>
+      eagine::valid_if_not_empty<eagine::string_view>>
       _str_param_t;
 
     _str_param_t input_path;
@@ -34,8 +34,8 @@ struct options {
     eagine::program_parameters all;
 
     options()
-      : input_path("-i", "--input", eagine::cstr_ref())
-      , output_path("-o", "--output", eagine::cstr_ref("a.oglptex"))
+      : input_path("-i", "--input", eagine::string_view())
+      , output_path("-o", "--output", eagine::string_view("a.oglptex"))
       , all(input_path, output_path) {
         input_path.description(
           "Path to existing PNG input file, or '-' for standard input.");
@@ -211,20 +211,22 @@ int main(int argc, const char** argv) {
         return err;
     }
 
-    bool from_stdin = opts.input_path.value() == eagine::cstr_ref("-");
-    bool to_stdout = opts.output_path.value() == eagine::cstr_ref("-");
+    bool from_stdin =
+      are_equal(opts.input_path.value(), eagine::string_view("-"));
+    bool to_stdout =
+      are_equal(opts.output_path.value(), eagine::string_view("-"));
 
     if(from_stdin && to_stdout) {
         convert_image(std::cin, std::cout, opts);
     } else if(from_stdin) {
-        std::ofstream output_file(opts.output_path.value().c_str());
+        std::ofstream output_file(c_str(opts.output_path.value()));
         convert_image(std::cin, output_file, opts);
     } else if(to_stdout) {
-        std::ifstream input_file(opts.input_path.value().c_str());
+        std::ifstream input_file(c_str(opts.input_path.value()));
         convert_image(input_file, std::cout, opts);
     } else {
-        std::ifstream input_file(opts.input_path.value().c_str());
-        std::ofstream output_file(opts.output_path.value().c_str());
+        std::ifstream input_file(c_str(opts.input_path.value()));
+        std::ofstream output_file(c_str(opts.output_path.value()));
         convert_image(input_file, output_file, opts);
     }
     return 0;

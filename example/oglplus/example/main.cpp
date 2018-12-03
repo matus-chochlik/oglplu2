@@ -16,7 +16,7 @@
 
 #include <oglplus/error/error.hpp>
 #include <oglplus/error/format.hpp>
-#include <oglplus/utils/cstr_ref.hpp>
+#include <oglplus/utils/string_span.hpp>
 #include <eagine/program_args.hpp>
 
 #include <iostream>
@@ -88,14 +88,14 @@ template <typename T, typename Errstr>
 bool consume_next_arg(
   eagine::program_arg& a, T& dest, const char* value_type, Errstr& errstr) {
     auto handle_missing = [&value_type,
-                           &errstr](const eagine::cstr_ref& arg_tag) {
+                           &errstr](const eagine::string_view arg_tag) {
         errstr() << "Missing " << value_type << " after '" << arg_tag << "'."
                  << std::endl;
     };
     auto handle_invalid = [&value_type, &errstr](
-                            const eagine::cstr_ref& arg_tag,
-                            const eagine::cstr_ref& arg_val,
-                            const eagine::cstr_ref& log_str) {
+                            const eagine::string_view arg_tag,
+                            const eagine::string_view arg_val,
+                            const eagine::string_view log_str) {
         errstr() << "Invalid " << value_type << " '" << arg_val << "' after '"
                  << arg_tag << "'. " << log_str << std::endl;
     };
@@ -118,7 +118,7 @@ bool parse_arg(
                      << "together with --framedump." << std::endl;
             return false;
         }
-        valid_if_not_empty<cstr_ref> path;
+        valid_if_not_empty<string_view> path;
         if(consume_next_arg(a, path, "path", errstr)) {
             params.screenshot_path(path);
         } else
@@ -129,7 +129,7 @@ bool parse_arg(
                      << "together with --screenshot ." << std::endl;
             return false;
         }
-        valid_if_not_empty<cstr_ref> prefix;
+        valid_if_not_empty<string_view> prefix;
         if(consume_next_arg(a, prefix, "prefix", errstr)) {
             params.framedump_prefix(prefix);
         } else

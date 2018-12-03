@@ -106,19 +106,19 @@ BOOST_AUTO_TEST_CASE(buffer_size_4) {
     using namespace eagine;
     {
         const char bla[4] = "bla";
-        buffer_size<int> st(make_span(bla));
+        buffer_size<int> st(view(bla));
         BOOST_CHECK_EQUAL(st.get(), int(sz<char>() * 4));
         BOOST_CHECK_EQUAL(int(st), int(sz<char>() * 4));
     }
     {
         const unsigned short csv[7] = {1, 2, 3, 4, 5, 6, 7};
-        buffer_size<long> st(make_span(csv));
+        buffer_size<long> st(view(csv));
         BOOST_CHECK_EQUAL(st.get(), long(sz<short>() * 7));
         BOOST_CHECK_EQUAL(long(st), long(sz<short>() * 7));
     }
     {
         const int civ[10] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-        buffer_size<unsigned> st(make_span(civ));
+        buffer_size<unsigned> st(view(civ));
         BOOST_CHECK_EQUAL(st.get(), unsigned(sz<int>() * 10));
         BOOST_CHECK_EQUAL(unsigned(st), unsigned(sz<int>() * 10));
     }

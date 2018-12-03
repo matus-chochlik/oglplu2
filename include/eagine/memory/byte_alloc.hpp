@@ -37,18 +37,18 @@ struct byte_allocator : block_owner {
 
     virtual size_type max_size(size_type a) noexcept = 0;
 
-    virtual tribool
-    has_allocated(const owned_block& b, size_type a = 0) noexcept = 0;
+    virtual tribool has_allocated(
+      const owned_block& b, size_type a = 0) noexcept = 0;
 
     virtual owned_block allocate(size_type n, size_type a) noexcept = 0;
 
     virtual void deallocate(owned_block&& b, size_type a = 0) noexcept = 0;
 
-    virtual bool
-    can_reallocate(const owned_block& b, size_type n, size_type a) noexcept = 0;
+    virtual bool can_reallocate(
+      const owned_block& b, size_type n, size_type a) noexcept = 0;
 
-    virtual owned_block
-    reallocate(owned_block&& b, size_type n, size_type a) noexcept = 0;
+    virtual owned_block reallocate(
+      owned_block&& b, size_type n, size_type a) noexcept = 0;
 
     void do_reallocate(owned_block& b, size_type n, size_type a) noexcept {
         if(b.size() != n) {
@@ -83,11 +83,11 @@ private:
 public:
     byte_alloc_ref_count_policy(const byte_alloc_ref_count_policy&) = delete;
 
-    byte_alloc_ref_count_policy&
-    operator=(const byte_alloc_ref_count_policy&) = delete;
+    byte_alloc_ref_count_policy& operator=(const byte_alloc_ref_count_policy&) =
+      delete;
 
-    byte_alloc_ref_count_policy&
-    operator=(byte_alloc_ref_count_policy&& tmp) = delete;
+    byte_alloc_ref_count_policy& operator=(byte_alloc_ref_count_policy&& tmp) =
+      delete;
 
     byte_alloc_ref_count_policy() noexcept
       : _ref_count(1) {
@@ -149,26 +149,30 @@ public:
         return _policy.release(this);
     }
 
-    bool
-    can_reallocate(const owned_block&, size_type, size_type) noexcept override {
+    bool can_reallocate(
+      const owned_block&, size_type, size_type) noexcept override {
         return false;
     }
 
-    owned_block
-    reallocate(owned_block&& b, size_type, size_type) noexcept override {
+    owned_block reallocate(
+      owned_block&& b, size_type, size_type) noexcept override {
         return std::move(b);
     }
 
     template <typename Final>
     static Final* accomodate_derived(Final& that) noexcept {
-        block b = that.allocate(span_size_of<Final>(), span_align_of<Final>());
-        return new(b.begin()) Final(std::move(that));
+        owned_block ob =
+          that.allocate(span_size_of<Final>(), span_align_of<Final>());
+        Final* const result = new(ob.begin()) Final(std::move(that));
+        release_block(std::move(ob));
+        return result;
     }
 
     template <typename Final>
     static void eject_derived(Final& that) noexcept {
         Final tmp = std::move(that);
-        tmp.deallocate(acquire_block(block_of(that)), span_align_of<Final>());
+        tmp.deallocate(
+          acquire_block(as_bytes(coverOne(that))), span_align_of<Final>());
     }
 
     Derived* accomodate_self() noexcept {

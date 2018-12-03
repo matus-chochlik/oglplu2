@@ -20,7 +20,7 @@ BOOST_AUTO_TEST_CASE(fixed_size_string_default) {
     BOOST_ASSERT(s.c_str() != nullptr);
     BOOST_CHECK(s.c_str()[0] == '\0');
 
-    eagine::cstring_span v = s;
+    eagine::string_view v = s;
     BOOST_CHECK_EQUAL(v.size(), 0);
     BOOST_CHECK(v.begin() == v.end());
 }
@@ -36,7 +36,7 @@ BOOST_AUTO_TEST_CASE(fixed_size_string_chars) {
     BOOST_ASSERT(std::strcmp(s.c_str(), "abc") == 0);
     BOOST_CHECK(s.c_str()[s.size()] == '\0');
 
-    eagine::cstring_span v = s;
+    eagine::string_view v = s;
     BOOST_CHECK_EQUAL(v.size(), std::strlen("abc"));
     BOOST_CHECK(v.begin() != v.end());
 }
@@ -54,7 +54,7 @@ BOOST_AUTO_TEST_CASE(fixed_size_string_literal) {
     BOOST_ASSERT(std::strcmp(s.c_str(), l) == 0);
     BOOST_CHECK(s.c_str()[s.size()] == '\0');
 
-    eagine::cstring_span v = s;
+    eagine::string_view v = s;
     BOOST_CHECK_EQUAL(v.size(), std::strlen(l));
     BOOST_CHECK(v.begin() != v.end());
 }
@@ -74,7 +74,7 @@ BOOST_AUTO_TEST_CASE(fixed_size_string_concat) {
     BOOST_ASSERT(std::strcmp(s.c_str(), "onetwothreefour") == 0);
     BOOST_CHECK(s.c_str()[s.size()] == '\0');
 
-    eagine::cstring_span v = s;
+    eagine::string_view v = s;
     BOOST_CHECK_EQUAL(v.size(), std::strlen("onetwothreefour"));
     BOOST_CHECK(v.begin() != v.end());
 }

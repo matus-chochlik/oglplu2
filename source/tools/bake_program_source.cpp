@@ -14,11 +14,11 @@
 
 struct options {
     typedef eagine::program_parameter<
-      eagine::valid_if_not_empty<eagine::cstr_ref>>
+      eagine::valid_if_not_empty<eagine::string_view>>
       _str_param_t;
 
     typedef eagine::program_parameter<
-      std::vector<eagine::valid_if_not_empty<eagine::cstr_ref>>>
+      std::vector<eagine::valid_if_not_empty<eagine::string_view>>>
       _str_list_param_t;
 
     _str_list_param_t vertex_shader_paths;
@@ -55,7 +55,7 @@ struct options {
 #ifdef GL_COMPUTE_SHADER
       , compute_shader_paths("-ce", "--compute", {})
 #endif
-      , output_path("-o", "--output", eagine::cstr_ref("a.oglpprog"))
+      , output_path("-o", "--output", eagine::string_view("a.oglpprog"))
       , all(
           vertex_shader_paths,
 #ifdef GL_GEOMETRY_SHADER
@@ -113,7 +113,7 @@ void read_shader_source_texts(
   std::vector<eagine::file_contents>& source_texts,
   std::vector<GLenum>& shader_types,
   GLenum shader_type,
-  const std::vector<eagine::valid_if_not_empty<eagine::cstr_ref>>& paths) {
+  const std::vector<eagine::valid_if_not_empty<eagine::string_view>>& paths) {
     for(const auto& path : paths) {
         source_texts.push_back(eagine::file_contents(path.value()));
         shader_types.push_back(shader_type);
@@ -172,7 +172,8 @@ void write_output(std::ostream& output, const options& opts) {
     eagine::span_size_t spos = 0;
     oglplus::program_source_header hdr;
 
-    oglplus::write_and_pad_program_source_header(output, hdr, slens, spos);
+    oglplus::write_and_pad_program_source_header(
+      output, hdr, eagine::view(slens), spos);
 
     assert(shader_types.size() == source_texts.size());
 
@@ -192,10 +193,10 @@ int run(int argc, const char** argv) {
         return err;
     }
 
-    if(opts.output_path.value() == eagine::cstr_ref("-")) {
+    if(are_equal(opts.output_path.value(), eagine::string_view("-"))) {
         write_output(std::cout, opts);
     } else {
-        std::ofstream output_file(opts.output_path.value().c_str());
+        std::ofstream output_file(c_str(opts.output_path.value()));
         write_output(output_file, opts);
     }
     return 0;

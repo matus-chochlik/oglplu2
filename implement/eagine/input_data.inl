@@ -21,7 +21,7 @@ do_read_stream_data(std::istream& input, memory::buffer& dest) {
         dest.resize(memory::buffer::size_type(input.tellg()));
         input.seekg(0, std::ios::beg);
         input.read(
-          static_cast<char*>(dest.data()),
+          static_cast<char*>(dest.addr()),
           static_cast<std::streamsize>(dest.size()));
     } catch(std::ios_base::failure&) {
         std::vector<char> temp;
@@ -30,7 +30,7 @@ do_read_stream_data(std::istream& input, memory::buffer& dest) {
           std::istreambuf_iterator<char>(input),
           std::istreambuf_iterator<char>());
         dest.resize(memory::buffer::size_type(temp.size()));
-        memory::copy(memory::data_block_of(temp), dest);
+        memory::copy(as_bytes(cover(temp)), dest);
     }
 }
 //------------------------------------------------------------------------------
@@ -44,12 +44,12 @@ void read_stream_data(std::istream& input, memory::buffer& dest) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void read_file_data(const cstr_ref& path, memory::buffer& dest) {
+void read_file_data(string_view path, memory::buffer& dest) {
     std::ifstream file;
     std::ios_base::iostate oldexc = file.exceptions();
     auto reset_exc = finally([&file, oldexc] { file.exceptions(oldexc); });
     file.exceptions(std::ios::failbit | std::ios::badbit);
-    file.open(path.c_str(), std::ios::in | std::ios::binary);
+    file.open(c_str(path), std::ios::in | std::ios::binary);
 
     do_read_stream_data(file, dest);
 }

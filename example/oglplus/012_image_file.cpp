@@ -81,7 +81,7 @@ public:
 
 class image_texture : public texture {
 public:
-    image_texture(const cstr_ref& image_path) {
+    image_texture(string_view image_path) {
         gl.bind(GL.texture_2d, *this);
         gl.texture_min_filter(GL.texture_2d, GL.linear);
         gl.texture_mag_filter(GL.texture_2d, GL.linear);
@@ -139,7 +139,7 @@ private:
     static constexpr const float max_scale = 5.00f;
 
 public:
-    image_file_example(const cstr_ref& image_path)
+    image_file_example(string_view image_path)
       : tex(image_path)
       , screen(prog)
       , ofs_x_dir(1.f)

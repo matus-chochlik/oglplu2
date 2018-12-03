@@ -17,13 +17,13 @@ namespace texgen {
 OGLPLUS_LIB_FUNC
 scale_output::scale_output(node_intf& parent)
   : base_output(parent)
-  , input(parent, cstr_ref("Input"), 0.5f, 0.5f, 0.5f, 0.5f)
-  , scale(parent, cstr_ref("Scale"), 1.f, 1.f, 1.f) {
+  , input(parent, string_view("Input"), 0.5f, 0.5f, 0.5f, 0.5f)
+  , scale(parent, string_view("Scale"), 1.f, 1.f, 1.f) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref scale_output::type_name() {
-    return cstr_ref("Scale");
+string_view scale_output::type_name() {
+    return string_view("Scale");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -41,7 +41,7 @@ scale_output::definitions(std::ostream& out, compile_context& ctxt) {
     opening_expr(out, ctxt);
 
     slot_data_type v3 = slot_data_type::float_3;
-    cstr_ref o("1");
+    string_view o("1");
 
     out << "\t vec3 s = ";
     out << expr::conversion_prefix{scale.value_type(), v3};

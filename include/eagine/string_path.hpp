@@ -18,7 +18,7 @@
 #include <tuple>
 
 namespace eagine {
-
+//------------------------------------------------------------------------------
 class basic_string_path {
 private:
     span_size_t _size;
@@ -38,10 +38,10 @@ private:
         assert(span_size(_str.size()) == len);
     }
 
-    static inline cstring_span _fix(cstring_span str) noexcept {
+    static inline string_view _fix(string_view str) noexcept {
         while(str.size() > 0) {
             if(str[str.size() - 1] == '\0') {
-                str = cstring_span(str.data(), str.size() - 1);
+                str = string_view(str.data(), str.size() - 1);
             } else
                 break;
         }
@@ -49,14 +49,14 @@ private:
     }
 
     template <typename... Str>
-    static inline std::array<cstring_span, sizeof...(Str)>
+    static inline std::array<string_view, sizeof...(Str)>
     _pack_names(const Str&... n) noexcept {
         return {{_fix(n)...}};
     }
 
 public:
-    typedef cstring_span value_type;
-    typedef cstring_span str_span;
+    typedef string_view value_type;
+    typedef string_view str_span;
     typedef span_size_t size_type;
     typedef string_list::iterator<const char*> iterator;
     typedef string_list::rev_iterator<const char*> reverse_iterator;
@@ -110,13 +110,13 @@ public:
 
     template <std::size_t N>
     explicit basic_string_path(const std::array<str_span, N>& names)
-      : basic_string_path(make_span(names)) {
+      : basic_string_path(view(names)) {
     }
 
     template <typename... Str>
     explicit basic_string_path(
       EAGINE_TAG_TYPE(from_pack), const str_span& name, const Str&... names)
-      : basic_string_path(_pack_names(name, make_span(names)...)) {
+      : basic_string_path(_pack_names(name, view(names)...)) {
     }
 
     friend bool operator==(
@@ -226,33 +226,33 @@ public:
 
     template <typename Func>
     void for_each_elem(Func func) const {
-        string_list::for_each_elem(make_span(_str), func);
+        string_list::for_each_elem(view(_str), func);
     }
 
     template <typename Func>
     void for_each(Func func) const {
-        string_list::for_each(make_span(_str), func);
+        string_list::for_each(view(_str), func);
     }
 
     template <typename Func>
     void rev_for_each_elem(Func func) const {
-        string_list::rev_for_each_elem(make_span(_str), func);
+        string_list::rev_for_each_elem(view(_str), func);
     }
 
     template <typename Func>
     void rev_for_each(Func func) const {
-        string_list::rev_for_each(make_span(_str), func);
+        string_list::rev_for_each(view(_str), func);
     }
 
     std::string as_string(const str_span& sep, bool trail_sep) const {
-        return string_list::join(make_span(_str), sep, trail_sep);
+        return string_list::join(view(_str), sep, trail_sep);
     }
 
     memory::const_block block() noexcept {
-        return memory::const_block(_str.data(), span_size(_str.size()));
+        return as_bytes(view(_str));
     }
 };
-
+//------------------------------------------------------------------------------
 } // namespace eagine
 
 #endif // include guard

@@ -17,13 +17,13 @@ namespace texgen {
 OGLPLUS_LIB_FUNC
 posterize_output::posterize_output(node_intf& parent)
   : base_output(parent)
-  , input(parent, cstr_ref("Input"), 0.5f, 0.5f, 0.5f, 0.5f)
-  , levels(parent, cstr_ref("Levels"), 4.f, 4.f, 4.f, 4.f) {
+  , input(parent, string_view("Input"), 0.5f, 0.5f, 0.5f, 0.5f)
+  , levels(parent, string_view("Levels"), 4.f, 4.f, 4.f, 4.f) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref posterize_output::type_name() {
-    return cstr_ref("Posterize");
+string_view posterize_output::type_name() {
+    return string_view("Posterize");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -41,7 +41,7 @@ posterize_output::definitions(std::ostream& out, compile_context& ctxt) {
     opening_expr(out, ctxt);
 
     slot_data_type vt = value_type();
-    const cstr_ref f("4.0");
+    string_view f("4.0");
 
     out << "\t" << data_type_name(vt) << " lvls = ";
     out << expr::conversion_prefix{levels.value_type(), vt};

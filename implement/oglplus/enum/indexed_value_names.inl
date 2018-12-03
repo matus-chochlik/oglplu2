@@ -11,7 +11,8 @@
 namespace oglplus {
 
 OGLPLUS_LIB_FUNC
-cstr_ref get_enum_value_name_cstr(const any_indexed_enum_value& aiev) noexcept {
+string_view
+get_enum_value_name_cstr(const any_indexed_enum_value& aiev) noexcept {
     switch(aiev._base_id) {
 #ifdef GL_TEXTURE0
         case GL_TEXTURE0:

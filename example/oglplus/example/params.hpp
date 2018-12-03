@@ -11,8 +11,8 @@
 
 #include <eagine/valid_if/not_empty.hpp>
 #include <eagine/valid_if/positive.hpp>
-#include <oglplus/utils/cstr_ref.hpp>
 #include <oglplus/utils/quantities.hpp>
+#include <oglplus/utils/string_span.hpp>
 #include <cassert>
 
 namespace oglplus {
@@ -27,9 +27,9 @@ class example_params {
 private:
     unsigned _rand_seed;
 
-    cstr_ref _exec_cmd;
-    cstr_ref _framedump_prefix;
-    cstr_ref _screenshot_path;
+    string_view _exec_cmd;
+    string_view _framedump_prefix;
+    string_view _screenshot_path;
     float _screenshot_time;
     float _fixed_fps;
 
@@ -54,39 +54,40 @@ private:
 public:
     example_params() noexcept;
 
-    example_params& exec_command(eagine::valid_if_not_empty<cstr_ref> cmd) {
+    example_params& exec_command(eagine::valid_if_not_empty<string_view> cmd) {
         _exec_cmd = cmd.value();
         return *this;
     }
 
-    cstr_ref exec_command() const noexcept {
+    string_view exec_command() const noexcept {
         return _exec_cmd;
     }
 
-    bool is_readable_file(cstr_ref path) const noexcept;
+    bool is_readable_file(string_view path) const noexcept;
 
     eagine::valid_if_not_empty<std::string>
-    find_resource_file_path(cstr_ref res_group, cstr_ref res_name) const
+    find_resource_file_path(string_view res_group, string_view res_name) const
       noexcept;
 
     eagine::valid_if_not_empty<std::string>
-    find_resource_file_path(cstr_ref res_name) const noexcept {
-        return find_resource_file_path(cstr_ref(), res_name);
+    find_resource_file_path(string_view res_name) const noexcept {
+        return find_resource_file_path(string_view(), res_name);
     }
 
     eagine::valid_if_not_empty<std::string>
-    find_resource_file_path(example_resource_type, cstr_ref res_name) const
+    find_resource_file_path(example_resource_type, string_view res_name) const
       noexcept;
 
     std::string
-    get_resource_file_path(example_resource_type, cstr_ref res_name) const;
+    get_resource_file_path(example_resource_type, string_view res_name) const;
 
-    example_params& screenshot_path(eagine::valid_if_not_empty<cstr_ref> path) {
+    example_params&
+    screenshot_path(eagine::valid_if_not_empty<string_view> path) {
         _screenshot_path = path.value();
         return *this;
     }
 
-    cstr_ref screenshot_path() const noexcept {
+    string_view screenshot_path() const noexcept {
         return _screenshot_path;
     }
 
@@ -104,12 +105,12 @@ public:
     }
 
     example_params&
-    framedump_prefix(eagine::valid_if_not_empty<cstr_ref> prefix) {
+    framedump_prefix(eagine::valid_if_not_empty<string_view> prefix) {
         _framedump_prefix = prefix.value();
         return *this;
     }
 
-    cstr_ref framedump_prefix() const noexcept {
+    string_view framedump_prefix() const noexcept {
         return _framedump_prefix;
     }
 

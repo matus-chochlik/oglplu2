@@ -26,7 +26,8 @@ static inline outcome<memory_block> mmap(
     void* result = ::mmap(addr, len, prot, flags, get_raw_fd(fdw), offs);
     return (result == MAP_FAILED)
              ? outcome<memory_block>(error_info(errno, get_raw_fd(fdw)))
-             : outcome<memory_block>(memory_block(result, span_size(len)));
+             : outcome<memory_block>(
+                 memory_block(memory::address(result), span_size(len)));
 }
 
 static inline outcome<memory_block>

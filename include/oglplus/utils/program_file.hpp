@@ -12,41 +12,68 @@
 
 #include "../enum/types.hpp"
 #include "../glsl/source_ref.hpp"
-#include "cstr_ref.hpp"
 #include "program_file_hdr.hpp"
+#include "span.hpp"
 #include "string_span.hpp"
 #include <eagine/file_contents.hpp>
 
 namespace oglplus {
 
-class shader_source_block {
+class shader_source_view {
 private:
-    eagine::structured_memory_block<const shader_source_header> _header;
-    mutable const GLchar* _text;
-    const GLsizei _size;
+    using _h = shader_source_header;
+
+    eagine::extracted<const shader_source_header> _header;
+    mutable const GLchar* _text = nullptr;
+    const GLsizei _size = 0;
 
 public:
-    shader_source_block(eagine::const_memory_block blk)
-      : _header(blk)
-      , _text(reinterpret_cast<const GLchar*>(_header->source_text.data()))
-      , _size(GLsizei(_header->source_text.size())) {
+    shader_source_view(
+      eagine::extracted<const shader_source_header> hdr) noexcept
+      : _header(hdr)
+      , _text(accomodate<const GLchar>(_header[&_h::source_text].or_default())
+                .data())
+      , _size(eagine::limit_cast<GLsizei>(
+          _header[&_h::source_text].or_default().size())) {
+    }
+
+    shader_source_view(eagine::memory::offset_ptr<const _h> ptr)
+      : shader_source_view(extract(ptr)) {
+    }
+
+    shader_source_view(eagine::memory::const_block blk)
+      : shader_source_view(extract(accomodate<const _h>(blk))) {
     }
 
     bool is_valid() const noexcept {
-        return _header->magic.is_valid();
+        return _header.is_valid() && _header->magic.is_valid();
     }
 
     auto shader_type() const noexcept {
-        return oglplus::shader_type(_header->shader_type);
+        return oglplus::shader_type(_header[&_h::shader_type] / GL_NONE);
     }
 
-    cstr_ref source_text() const noexcept {
-        return {_header->source_text.data(),
-                cstr_ref::size_type(_header->source_text.size())};
+    string_view source_text() const noexcept {
+        return {
+          _header->source_text.data(), span_size(_header->source_text.size())};
     }
 
     operator glsl_source_ref() const noexcept {
         return glsl_source_ref(1, &_text, &_size);
+    }
+}; // namespace oglplus
+
+class shader_source_block : public shader_source_view {
+private:
+    eagine::memory::const_block _block;
+
+    auto _header() const noexcept {
+        return extract(accomodate<const shader_source_header>(_block));
+    }
+
+public:
+    shader_source_block(eagine::const_memory_block blk)
+      : shader_source_view(blk) {
     }
 };
 
@@ -59,24 +86,22 @@ public:
       , shader_source_block(get_the_member()) {
     }
 
-    shader_source_file(const cstr_ref& path)
+    shader_source_file(string_view path)
       : shader_source_file(eagine::file_contents(path)) {
     }
 
     shader_source_file(const std::string& path)
-      : shader_source_file(cstr_ref(path)) {
+      : shader_source_file(string_view(path)) {
     }
 };
 
 class program_source_block {
 private:
     eagine::structured_memory_block<const program_source_header> _header;
-    eagine::offset_ptr_array_facade<const shader_source_header> _sources;
 
 public:
     program_source_block(eagine::const_memory_block blk)
-      : _header(blk)
-      , _sources(_header->shader_sources) {
+      : _header(blk) {
     }
 
     bool is_valid() const noexcept {
@@ -85,26 +110,26 @@ public:
 
     span_size_t shader_source_count() const noexcept {
         assert(is_valid());
-        return _sources.size();
+        return _header->shader_sources.size();
     }
 
-    shader_source_block shader_source(span_size_t index) const noexcept {
+    shader_source_view shader_source(span_size_t index) const noexcept {
         assert(is_valid());
         assert(index < shader_source_count());
-        return eagine::memory::block_of(_sources[index]);
+        return {_header->shader_sources[index]};
     }
 
     oglplus::shader_type shader_type(span_size_t index) const noexcept {
         assert(is_valid());
         assert(index < shader_source_count());
-        return oglplus::shader_type(_sources[index].shader_type);
+        return oglplus::shader_type(
+          _header->shader_sources[index]->shader_type);
     }
 
-    cstr_ref shader_source_text(span_size_t index) const noexcept {
+    string_view shader_source_text(span_size_t index) const noexcept {
         assert(is_valid());
         assert(index < shader_source_count());
-        return {_sources[index].source_text.data(),
-                cstr_ref::size_type(_sources[index].source_text.size())};
+        return {_header->shader_sources[index]->source_text};
     }
 };
 
@@ -117,12 +142,12 @@ public:
       , program_source_block(get_the_member()) {
     }
 
-    program_source_file(const cstr_ref& path)
+    program_source_file(string_view path)
       : program_source_file(eagine::file_contents(path)) {
     }
 
     program_source_file(const std::string& path)
-      : program_source_file(cstr_ref(path)) {
+      : program_source_file(string_view(path)) {
     }
 };
 

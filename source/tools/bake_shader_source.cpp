@@ -15,7 +15,7 @@
 
 struct options {
     typedef eagine::program_parameter<
-      eagine::valid_if_not_empty<eagine::cstr_ref>>
+      eagine::valid_if_not_empty<eagine::string_view>>
       _str_param_t;
 
     typedef eagine::program_parameter<eagine::valid_if_one_of<
@@ -41,8 +41,8 @@ struct options {
     _sht_param_t shader_type;
 
     options()
-      : input_path("-i", "--input", eagine::cstr_ref())
-      , output_path("-o", "--output", eagine::cstr_ref("a.oglpshdr"))
+      : input_path("-i", "--input", eagine::string_view())
+      , output_path("-o", "--output", eagine::string_view("a.oglpshdr"))
       , shader_type("-t", "--shader-type", GL_NONE) {
     }
 
@@ -78,22 +78,22 @@ struct options {
     }
 
     bool parse(eagine::program_arg& a, std::ostream& log) {
-        const eagine::cstr_ref shader_type_names[] = {"vertex",
+        const eagine::string_view shader_type_names[] = {"vertex",
 #ifdef GL_GEOMETRY_SHADER
-                                                      "geometry",
+                                                         "geometry",
 #endif
 #ifdef GL_TESS_CONTROL_SHADER
-                                                      "tess_control",
+                                                         "tess_control",
 #endif
 #ifdef GL_TESS_EVALUATION_SHADER
-                                                      "tess_evaluation",
+                                                         "tess_evaluation",
 #endif
 #ifdef GL_COMPUTE_SHADER
-                                                      "compute",
+                                                         "compute",
 #endif
-                                                      "fragment"};
-        const eagine::span<const eagine::cstr_ref> shtnames =
-          eagine::make_span(shader_type_names);
+                                                         "fragment"};
+        const eagine::span<const eagine::string_view> shtnames =
+          eagine::view(shader_type_names);
 
         const GLenum shader_type_values[] = {GL_VERTEX_SHADER,
 #ifdef GL_GEOMETRY_SHADER
@@ -110,7 +110,7 @@ struct options {
 #endif
                                              GL_FRAGMENT_SHADER};
         const eagine::span<const GLenum> shtvalues =
-          eagine::make_span(shader_type_values);
+          eagine::view(shader_type_values);
 
         return a.parse_param(output_path, log) ||
                a.parse_param(input_path, log) ||
@@ -138,20 +138,22 @@ int run(int argc, const char** argv) {
         return err;
     }
 
-    bool from_stdin = opts.input_path.value() == eagine::cstr_ref("-");
-    bool to_stdout = opts.output_path.value() == eagine::cstr_ref("-");
+    bool from_stdin =
+      are_equal(opts.input_path.value(), eagine::string_view("-"));
+    bool to_stdout =
+      are_equal(opts.output_path.value(), eagine::string_view("-"));
 
     if(from_stdin && to_stdout) {
         write_output(std::cin, std::cout, opts);
     } else if(from_stdin) {
-        std::ofstream output_file(opts.output_path.value().c_str());
+        std::ofstream output_file(c_str(opts.output_path.value()));
         write_output(std::cin, output_file, opts);
     } else if(to_stdout) {
-        std::ifstream input_file(opts.input_path.value().c_str());
+        std::ifstream input_file(c_str(opts.input_path.value()));
         write_output(input_file, std::cout, opts);
     } else {
-        std::ifstream input_file(opts.input_path.value().c_str());
-        std::ofstream output_file(opts.output_path.value().c_str());
+        std::ifstream input_file(c_str(opts.input_path.value()));
+        std::ofstream output_file(c_str(opts.output_path.value()));
         write_output(input_file, output_file, opts);
     }
     return 0;

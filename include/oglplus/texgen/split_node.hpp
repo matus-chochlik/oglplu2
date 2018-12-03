@@ -27,7 +27,7 @@ public:
       input_with_const_default<float[4]>& input,
       eagine::valid_if_between<span_size_t, 0, 3> index);
 
-    cstr_ref type_name() override;
+    string_view type_name() override;
 
     slot_data_type value_type() override;
 
@@ -46,7 +46,7 @@ private:
 public:
     split_node();
 
-    cstr_ref type_name() override;
+    string_view type_name() override;
 
     span_size_t input_count() override;
 

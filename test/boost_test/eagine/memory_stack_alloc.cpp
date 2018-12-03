@@ -46,7 +46,7 @@ void eagine_test_memory_stack_alloc_TA(std::size_t n, Alloc& a) {
 
     for(memory::owned_block& blk : blks) {
         BOOST_CHECK(blks.back().size() >= span_size_of<T>());
-        BOOST_CHECK(blks.back().is_aligned_to(ao));
+        BOOST_CHECK(blks.back().addr().is_aligned_to(ao));
         BOOST_CHECK(a.has_allocated(blk, ao));
     }
 
@@ -77,7 +77,7 @@ void eagine_test_memory_stack_alloc_A() {
 
     static char buf[1024 * 1024];
 
-    eagine::memory::block b = eagine::memory::block_of(buf);
+    eagine::memory::block b = as_bytes(eagine::cover(buf));
 
     std::size_t f[2] = {0, 1};
 
@@ -115,7 +115,7 @@ BOOST_AUTO_TEST_CASE(memory_stack_alloc_3) {
 
     static char buf[1024 * 1024];
 
-    memory::stack_byte_allocator<> a(memory::block_of(buf));
+    memory::stack_byte_allocator<> a(as_bytes(cover(buf)));
 
     std::deque<memory::owned_block> blks;
 

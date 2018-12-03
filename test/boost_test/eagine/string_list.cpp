@@ -36,7 +36,7 @@ BOOST_AUTO_TEST_CASE(string_list_elem_1) {
     BOOST_CHECK_EQUAL(e1.header_size(), 1);
     BOOST_CHECK_EQUAL(e1.footer_size(), 1);
     BOOST_CHECK_EQUAL(e1.value_size(), 1);
-    BOOST_CHECK(e1.value() == cstring_span("A"));
+    BOOST_CHECK(e1.value() == string_view("A"));
 }
 
 BOOST_AUTO_TEST_CASE(string_list_elem_2) {
@@ -66,7 +66,7 @@ BOOST_AUTO_TEST_CASE(string_list_elem_2) {
     BOOST_CHECK_EQUAL(e2.header_size(), 1);
     BOOST_CHECK_EQUAL(e2.footer_size(), 1);
     BOOST_CHECK_EQUAL(e2.value_size(), 16);
-    BOOST_CHECK(e2.value() == cstring_span("ABCDEFGHIJKLMNOP"));
+    BOOST_CHECK(e2.value() == string_view("ABCDEFGHIJKLMNOP"));
 }
 
 BOOST_AUTO_TEST_CASE(string_list_elem_3) {
@@ -95,7 +95,7 @@ BOOST_AUTO_TEST_CASE(string_list_elem_3) {
     BOOST_CHECK_EQUAL(e3.value_size(), 128);
 
     std::string ss3(128, 'x');
-    BOOST_CHECK(e3.value() == cstring_span(ss3));
+    BOOST_CHECK(e3.value() == string_view(ss3));
 }
 
 BOOST_AUTO_TEST_CASE(string_list_for_each_elem_1) {
@@ -104,7 +104,7 @@ BOOST_AUTO_TEST_CASE(string_list_for_each_elem_1) {
     const char s1[25] = {0x01, 'A', 0x01, 0x02, 'b', 'C', 0x02, 0x03, 'D',
                          'e',  'F', 0x03, 0x04, 'g', 'H', 'i',  'J',  0x04,
                          0x05, 'K', 'l',  'M',  'n', 'O', 0x05};
-    const cstring_span ss1(s1, 25);
+    string_view ss1(s1, 25);
 
     int i = 1;
     string_list::for_each_elem(ss1, [&i](string_list::element e, bool first) {
@@ -125,7 +125,7 @@ BOOST_AUTO_TEST_CASE(string_list_rev_for_each_elem_1) {
     const char s1[25] = {0x01, 'A', 0x01, 0x02, 'b', 'C', 0x02, 0x03, 'D',
                          'e',  'F', 0x03, 0x04, 'g', 'H', 'i',  'J',  0x04,
                          0x05, 'K', 'l',  'M',  'n', 'O', 0x05};
-    const cstring_span ss1(s1, 25);
+    string_view ss1(s1, 25);
 
     int i = 5;
     string_list::rev_for_each_elem(
@@ -147,15 +147,15 @@ BOOST_AUTO_TEST_CASE(string_list_for_each_1) {
     const char s1[25] = {0x01, 'a', 0x01, 0x02, 'B', 'c', 0x02, 0x03, 'd',
                          'E',  'f', 0x03, 0x04, 'G', 'h', 'I',  'j',  0x04,
                          0x05, 'k', 'L',  'm',  'N', 'o', 0x05};
-    const cstring_span ss1(s1, 25);
+    string_view ss1(s1, 25);
 
     int i = 1;
     string_list::for_each(
-      ss1, [&i](cstring_span s) { BOOST_CHECK_EQUAL(s.size(), i++); });
+      ss1, [&i](string_view s) { BOOST_CHECK_EQUAL(s.size(), i++); });
 
     std::string ts;
     string_list::for_each(
-      ss1, [&ts](cstring_span s) { ts.append(s.data(), std_size(s.size())); });
+      ss1, [&ts](string_view s) { ts.append(s.data(), std_size(s.size())); });
     BOOST_CHECK_EQUAL(ts, "aBcdEfGhIjkLmNo");
 }
 
@@ -165,15 +165,15 @@ BOOST_AUTO_TEST_CASE(string_list_rev_for_each_1) {
     const char s1[25] = {0x01, 'a', 0x01, 0x02, 'B', 'c', 0x02, 0x03, 'd',
                          'E',  'f', 0x03, 0x04, 'G', 'h', 'I',  'j',  0x04,
                          0x05, 'k', 'L',  'm',  'N', 'o', 0x05};
-    const cstring_span ss1(s1, 25);
+    string_view ss1(s1, 25);
 
     int i = 5;
     string_list::rev_for_each(
-      ss1, [&i](cstring_span s) { BOOST_CHECK_EQUAL(s.size(), i--); });
+      ss1, [&i](string_view s) { BOOST_CHECK_EQUAL(s.size(), i--); });
 
     std::string ts;
     string_list::rev_for_each(
-      ss1, [&ts](cstring_span s) { ts.append(s.data(), std_size(s.size())); });
+      ss1, [&ts](string_view s) { ts.append(s.data(), std_size(s.size())); });
     BOOST_CHECK_EQUAL(ts, "kLmNoGhIjdEfBca");
 }
 
@@ -183,8 +183,8 @@ BOOST_AUTO_TEST_CASE(string_list_join_1) {
     const char s1[25] = {0x01, 'A', 0x01, 0x02, 'B', 'C', 0x02, 0x03, 'D',
                          'E',  'F', 0x03, 0x04, 'G', 'H', 'I',  'J',  0x04,
                          0x05, 'K', 'L',  'M',  'N', 'O', 0x05};
-    const cstring_span ss1(s1, 25);
-    const cstring_span sep("");
+    string_view ss1(s1, 25);
+    string_view sep("");
 
     BOOST_CHECK_EQUAL(string_list::join(ss1, sep), "ABCDEFGHIJKLMNO");
 }
@@ -195,8 +195,8 @@ BOOST_AUTO_TEST_CASE(string_list_join_2) {
     const char s1[25] = {0x01, 'A', 0x01, 0x02, 'B', 'C', 0x02, 0x03, 'D',
                          'E',  'F', 0x03, 0x04, 'G', 'H', 'I',  'J',  0x04,
                          0x05, 'K', 'L',  'M',  'N', 'O', 0x05};
-    const cstring_span ss1(s1, 25);
-    const cstring_span sep("/");
+    string_view ss1(s1, 25);
+    string_view sep("/");
 
     BOOST_CHECK_EQUAL(
       string_list::join(ss1, sep, true), "A/BC/DEF/GHIJ/KLMNO/");
@@ -208,8 +208,8 @@ BOOST_AUTO_TEST_CASE(string_list_join_3) {
     const char s1[25] = {0x01, 'A', 0x01, 0x02, 'B', 'C', 0x02, 0x03, 'D',
                          'E',  'F', 0x03, 0x04, 'G', 'H', 'I',  'J',  0x04,
                          0x05, 'K', 'L',  'M',  'N', 'O', 0x05};
-    const cstring_span ss1(s1, 25);
-    const cstring_span sep("...");
+    string_view ss1(s1, 25);
+    string_view sep("...");
 
     BOOST_CHECK_EQUAL(
       string_list::join(ss1, sep, false), "A...BC...DEF...GHIJ...KLMNO");

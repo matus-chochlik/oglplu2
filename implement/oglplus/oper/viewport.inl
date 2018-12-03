@@ -13,8 +13,8 @@ namespace oglplus {
 //------------------------------------------------------------------------------
 namespace oper {
 //------------------------------------------------------------------------------
-inline outcome<void>
-viewport_state::viewport(GLint x, GLint y, GLsizei w, GLsizei h) noexcept {
+inline outcome<void> viewport_state::viewport(
+  GLint x, GLint y, GLsizei w, GLsizei h) noexcept {
     OGLPLUS_GLFUNC(Viewport)(x, y, w, h);
     OGLPLUS_VERIFY_SIMPLE(Viewport, always);
     return {};
@@ -28,7 +28,8 @@ inline outcome<void> viewport_state::viewport(GLsizei w, GLsizei h) noexcept {
 //------------------------------------------------------------------------------
 inline outcome<viewport_extents> viewport_state::get_viewport() noexcept {
     viewport_extents result;
-    return numeric_queries::get_float_v(numeric_query(GL_VIEWPORT), {result._v})
+    return numeric_queries::get_float_v(
+             numeric_query(GL_VIEWPORT), cover(result._v))
       .add(result);
 }
 //------------------------------------------------------------------------------
@@ -71,8 +72,8 @@ inline outcome<void> viewport_state::viewport_array(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<viewport_extents>
-viewport_state::get_viewport(viewport_index index) noexcept {
+inline outcome<viewport_extents> viewport_state::get_viewport(
+  viewport_index index) noexcept {
     viewport_extents result;
 #if !OGLPLUS_NO_LIMIT_CHECKS
     if(auto invalid_index = failure(check_below_limit(index))) {
@@ -80,7 +81,7 @@ viewport_state::get_viewport(viewport_index index) noexcept {
     }
 #endif
     return numeric_queries::get_float_v(
-             numeric_query(GL_VIEWPORT), GLuint(index), {result._v})
+             numeric_query(GL_VIEWPORT), GLuint(index), cover(result._v))
       .add(result);
 }
 #endif

@@ -18,7 +18,7 @@ constexpr const bool has_r3g3b2 = false;
 #endif
 
 struct options {
-    typedef eagine::program_parameter<eagine::cstr_ref> _str_param_t;
+    typedef eagine::program_parameter<eagine::string_view> _str_param_t;
     typedef eagine::program_parameter<eagine::valid_if_positive<GLsizei>>
       _int_param_t;
 
@@ -114,10 +114,10 @@ int main(int argc, const char** argv) {
         return err;
     }
 
-    if(opts.output_path.value() == eagine::cstr_ref("-")) {
+    if(are_equal(opts.output_path.value(), eagine::string_view("-"))) {
         write_output(std::cout, opts);
     } else {
-        std::ofstream output_file(opts.output_path.value().c_str());
+        std::ofstream output_file(c_str(opts.output_path.value()));
         write_output(output_file, opts);
     }
     return 0;

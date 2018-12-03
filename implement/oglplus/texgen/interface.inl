@@ -17,6 +17,7 @@ class compile_context_impl {
 private:
     unsigned _glsl_version;
 
+    // TODO: string / string_view compare
     std::set<std::string> _tags;
     std::set<std::intptr_t> _outputs;
 
@@ -29,12 +30,12 @@ public:
         return _glsl_version;
     }
 
-    void add_tag(const std::string& tag) {
-        _tags.insert(tag);
+    void add_tag(string_view tag) {
+        _tags.insert(tag.to_string());
     }
 
-    bool has_tag(const std::string& tag) const noexcept {
-        return _tags.find(tag) != _tags.end();
+    bool has_tag(string_view tag) const noexcept {
+        return _tags.find(tag.to_string()) != _tags.end();
     }
 
     void remember_output(std::intptr_t oid) {
@@ -74,28 +75,24 @@ unsigned compile_context::glsl_version() const {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-void compile_context::add_tag(const cstr_ref& tag) {
-    _impl().add_tag(
-      std::string(tag.data(), std::string::size_type(tag.size())));
+void compile_context::add_tag(string_view tag) {
+    _impl().add_tag(tag);
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-bool compile_context::has_tag(const cstr_ref& tag) const noexcept {
-    return _impl().has_tag(
-      std::string(tag.data(), std::string::size_type(tag.size())));
+bool compile_context::has_tag(string_view tag) const noexcept {
+    return _impl().has_tag(tag);
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 void compile_context::remember_constant(const constant_intf& constant) {
-    cstr_ref n = constant.name();
-    _impl().add_tag(n.str());
+    _impl().add_tag(constant.name());
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 bool compile_context::remembers_constant(const constant_intf& constant) const
   noexcept {
-    cstr_ref n = constant.name();
-    return _impl().has_tag(n.str());
+    return _impl().has_tag(constant.name());
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -122,10 +119,10 @@ node_intf::input_definitions(std::ostream& out, compile_context& ctxt) {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 eagine::optional_reference_wrapper<input_intf>
-node_intf::input_by_name(const cstr_ref& name) {
+node_intf::input_by_name(string_view name) {
     for(span_size_t i = 0, n = input_count(); i < n; ++i) {
         input_intf& inp = input(i);
-        if(inp.name() == name) {
+        if(are_equal(inp.name(), name)) {
             return inp;
         }
     }
@@ -134,10 +131,10 @@ node_intf::input_by_name(const cstr_ref& name) {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 eagine::optional_reference_wrapper<output_intf>
-node_intf::output_by_name(const cstr_ref& name) {
+node_intf::output_by_name(string_view name) {
     for(span_size_t i = 0, n = output_count(); i < n; ++i) {
         output_intf& outp = output(i);
-        if(outp.name() == name) {
+        if(are_equal(outp.name(), name)) {
             return outp;
         }
     }

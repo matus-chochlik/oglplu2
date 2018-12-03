@@ -17,12 +17,12 @@ namespace texgen {
 OGLPLUS_LIB_FUNC
 spheres_output::spheres_output(node_intf& parent)
   : base_output(parent)
-  , repeat(parent, cstr_ref("Repeat"), 8.f, 8.f, 8.f) {
+  , repeat(parent, string_view("Repeat"), 8.f, 8.f, 8.f) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref spheres_output::type_name() {
-    return cstr_ref("Spheres");
+string_view spheres_output::type_name() {
+    return string_view("Spheres");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC

@@ -38,9 +38,9 @@ struct prog_var_loc_ops<tag::uniform> {
     typedef tag::uniform tag;
 
     static outcome<prog_var_loc<tag>>
-    get_location(program_name prog, cstr_ref identifier) noexcept {
+    get_location(program_name prog, string_view identifier) noexcept {
         GLint loc = OGLPLUS_GLFUNC(GetUniformLocation)(
-          get_raw_name(prog), identifier.c_str());
+          get_raw_name(prog), c_str(identifier));
         OGLPLUS_VERIFY(
           GetUniformLocation, identifier(identifier).gl_object(prog), always);
 
@@ -49,7 +49,7 @@ struct prog_var_loc_ops<tag::uniform> {
 
     static outcome<span<prog_var_loc<tag>>> get_indices(
       program_name prog,
-      span<cstr_ref> identifiers,
+      span<string_view> identifiers,
       span<prog_var_loc<tag>> indices) noexcept {
         assert(identifiers.size() == indices.size());
 
@@ -57,7 +57,7 @@ struct prog_var_loc_ops<tag::uniform> {
         std::vector<GLuint> results(indices.size());
 
         for(span_size_t i = 0; i < identifiers.size(); ++i) {
-            names[i] = identifiers[i].c_str();
+            names[i] = c_str(identifiers[i]);
         }
 
         OGLPLUS_GLFUNC(GetUniformIndices)

@@ -148,15 +148,15 @@ public:
 
     const any_enum_value& gl_enum_value() const noexcept;
 
-    error_info& identifier(const cstring_span& log) noexcept;
+    error_info& identifier(string_view log) noexcept;
 
-    cstring_span identifier() const noexcept;
+    string_view identifier() const noexcept;
 
-    error_info& info_log(const cstring_span& log) noexcept;
+    error_info& info_log(string_view log) noexcept;
 
     error_info& info_log_of(const any_object_name& obj) noexcept;
 
-    cstring_span info_log() const noexcept;
+    string_view info_log() const noexcept;
 };
 
 } // namespace oglplus

@@ -21,7 +21,7 @@ BOOST_AUTO_TEST_CASE(utils_image_spec_1) {
 
     static GLfloat x[64];
 
-    image_spec is({64}, {pixel_data_format(GL_RED)}, make_span(x));
+    image_spec is({64}, {pixel_data_format(GL_RED)}, view(x));
 
     BOOST_CHECK_EQUAL(is.width(), 64);
     BOOST_CHECK_EQUAL(is.height(), 1);
@@ -40,7 +40,7 @@ BOOST_AUTO_TEST_CASE(utils_image_spec_2) {
 
     static GLint x[32 * 64 * 2];
 
-    image_spec is({32, 64}, {pixel_data_format(GL_RG)}, make_span(x));
+    image_spec is({32, 64}, {pixel_data_format(GL_RG)}, view(x));
 
     BOOST_CHECK_EQUAL(is.width(), 32);
     BOOST_CHECK_EQUAL(is.height(), 64);
@@ -59,7 +59,7 @@ BOOST_AUTO_TEST_CASE(utils_image_spec_3) {
 
     static GLubyte x[16 * 32 * 64 * 3];
 
-    image_spec is({16, 32, 64}, {pixel_data_format(GL_RGB)}, make_span(x));
+    image_spec is({16, 32, 64}, {pixel_data_format(GL_RGB)}, view(x));
 
     BOOST_CHECK_EQUAL(is.width(), 16);
     BOOST_CHECK_EQUAL(is.height(), 32);
@@ -78,7 +78,7 @@ BOOST_AUTO_TEST_CASE(utils_image_spec_4) {
 
     static GLuint x[64 * 64 * 64 * 4];
 
-    image_spec is({64, 64, 64}, {pixel_data_format(GL_RGBA)}, make_span(x));
+    image_spec is({64, 64, 64}, {pixel_data_format(GL_RGBA)}, view(x));
 
     BOOST_CHECK_EQUAL(is.width(), 64);
     BOOST_CHECK_EQUAL(is.height(), 64);

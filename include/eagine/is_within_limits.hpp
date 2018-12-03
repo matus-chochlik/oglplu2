@@ -11,8 +11,8 @@
 #include <limits>
 #include <utility>
 
-#ifndef EAGINE_IS_WITHIN_LIMITS_1509260923_HPP
-#define EAGINE_IS_WITHIN_LIMITS_1509260923_HPP
+#ifndef EAGINE_IS_WITHIN_LIMITS_HPP
+#define EAGINE_IS_WITHIN_LIMITS_HPP
 
 namespace eagine {
 //------------------------------------------------------------------------------
@@ -100,4 +100,4 @@ limit_cast(Src value) noexcept {
 //------------------------------------------------------------------------------
 } // namespace eagine
 
-#endif // EAGINE_IS_WITHIN_LIMITS_1509260923_HPP
+#endif // EAGINE_IS_WITHIN_LIMITS_HPP

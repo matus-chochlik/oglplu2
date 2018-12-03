@@ -17,7 +17,6 @@ namespace oglplus {
 using eagine::basic_memory_block;
 using eagine::const_memory_block;
 using eagine::memory_block;
-using eagine::memory_block_of;
 
 } // namespace oglplus
 

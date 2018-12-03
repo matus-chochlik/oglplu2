@@ -143,10 +143,10 @@ struct program_ops {
     // TODO other parameters
 
     static outcome<void> bind_attrib_location(
-      program_name prog, GLuint index, cstr_ref attr_name) noexcept;
+      program_name prog, GLuint index, string_view attr_name) noexcept;
 
     static outcome<void> bind_attrib_location(
-      program_uniform_location location, cstr_ref attr_name) noexcept {
+      program_uniform_location location, string_view attr_name) noexcept {
         return bind_attrib_location(
           location.program(), location.index(), attr_name);
     }

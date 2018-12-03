@@ -20,12 +20,12 @@ c_byte_reallocator<Policy>::allocate(size_type n, size_type a) noexcept {
         return {};
     }
 
-    void* p = std::malloc(std_size(n));
+    address p = as_address(std::malloc(std_size(n)));
 
     // TODO fix if misaligned ?
     assert(is_aligned_to(p, a));
 
-    return this->acquire_block({p, n});
+    return this->acquire_block(block(p, n));
 }
 //------------------------------------------------------------------------------
 template <typename Policy>
@@ -47,7 +47,7 @@ owned_block c_byte_reallocator<Policy>::reallocate(
         return {};
     }
 
-    void* p = std::realloc(b.data(), std_size(n));
+    address p = as_address(std::realloc(b.data(), std_size(n)));
 
     this->release_block(std::move(b));
 

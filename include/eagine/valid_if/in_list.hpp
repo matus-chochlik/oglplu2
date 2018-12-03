@@ -19,15 +19,13 @@ template <typename T, typename Range>
 struct valid_if_in_list_policy {
     Range _choices = {};
 
-    valid_if_in_list_policy() = default;
-
     valid_if_in_list_policy(const Range& choices)
       : _choices(choices) {
     }
 
     bool operator()(const T& value) const noexcept {
         for(const T& choice : _choices) {
-            if(value == choice) {
+            if(are_equal(value, choice)) {
                 return true;
             }
         }
@@ -35,10 +33,10 @@ struct valid_if_in_list_policy {
     }
 
     struct do_log {
-        const Range* _choices;
+        Range _choices;
 
         inline do_log(const valid_if_in_list_policy<T, Range>& p) noexcept
-          : _choices(&p._choices) {
+          : _choices(p._choices) {
         }
 
         template <typename Log>
@@ -47,7 +45,7 @@ struct valid_if_in_list_policy {
                 << "other than one of the values [";
 
             bool first = true;
-            for(const T& choice : *_choices) {
+            for(const T& choice : _choices) {
                 log << (first ? "" : ", ") << "'" << choice << "'";
                 first = false;
             }

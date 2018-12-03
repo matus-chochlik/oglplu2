@@ -9,10 +9,12 @@
 #ifndef EAGINE_PROGRAM_ARGS_1509260923_HPP
 #define EAGINE_PROGRAM_ARGS_1509260923_HPP
 
-#include "cstr_ref.hpp"
 #include "identity.hpp"
+#include "program_args.hpp"
 #include "range_types.hpp"
 #include "span.hpp"
+#include "std/type_traits.hpp"
+#include "string_span.hpp"
 #include "type_name.hpp"
 #include "valid_if/in_list.hpp"
 #include <cassert>
@@ -21,40 +23,41 @@
 #include <vector>
 
 namespace eagine {
-
+//------------------------------------------------------------------------------
 class program_args;
-
+//------------------------------------------------------------------------------
 class basic_program_parameter {
 protected:
-    cstr_ref _short_tag;
-    cstr_ref _long_tag;
-    cstr_ref _description;
+    string_view _short_tag;
+    string_view _long_tag;
+    string_view _description;
 
-    basic_program_parameter(
-      const cstr_ref& short_tag, const cstr_ref& long_tag) noexcept
+    constexpr basic_program_parameter(
+      string_view short_tag, string_view long_tag) noexcept
       : _short_tag(short_tag)
       , _long_tag(long_tag) {
     }
 
 public:
-    const cstr_ref& short_tag() const noexcept {
+    constexpr string_view short_tag() const noexcept {
         return _short_tag;
     }
 
-    const cstr_ref& long_tag() const noexcept {
+    constexpr string_view long_tag() const noexcept {
         return _long_tag;
     }
 
-    const cstr_ref& description() const noexcept {
+    constexpr string_view description() const noexcept {
         return _description;
     }
 
-    basic_program_parameter& description(cstr_ref help_str) noexcept {
+    constexpr basic_program_parameter& description(
+      string_view help_str) noexcept {
         _description = help_str;
         return *this;
     }
 };
-
+//------------------------------------------------------------------------------
 template <typename T>
 class program_parameter : public basic_program_parameter {
 private:
@@ -75,8 +78,8 @@ private:
     }
 
     template <typename X, typename P>
-    static inline void
-    _log_invalid(const valid_if<X, P>& vi, std::ostream& log) noexcept {
+    static inline void _log_invalid(
+      const valid_if<X, P>& vi, std::ostream& log) noexcept {
         vi.log_invalid(log);
     }
 
@@ -102,9 +105,7 @@ private:
 
 public:
     program_parameter(
-      const cstr_ref& short_tag,
-      const cstr_ref& long_tag,
-      const T& initial) noexcept
+      string_view short_tag, string_view long_tag, const T& initial) noexcept
       : basic_program_parameter(short_tag, long_tag)
       , _value(initial) {
     }
@@ -149,8 +150,8 @@ public:
     program_parameter_alias(const program_parameter_alias&) = delete;
 
     program_parameter_alias(
-      const cstr_ref& short_tag,
-      const cstr_ref& long_tag,
+      string_view short_tag,
+      string_view long_tag,
       program_parameter<T>& that) noexcept
       : basic_program_parameter(short_tag, long_tag)
       , _aliased(that) {
@@ -175,8 +176,7 @@ private:
     span_size_t _count;
 
 public:
-    program_parameter(
-      const cstr_ref& short_tag, const cstr_ref& long_tag) noexcept
+    program_parameter(string_view short_tag, string_view long_tag) noexcept
       : basic_program_parameter(short_tag, long_tag)
       , _count(0) {
     }
@@ -224,7 +224,7 @@ private:
         return !((ss >> dest).fail() || !ss.eof());
     }
 
-    bool _do_parse(cstr_ref& dest, const std::ostream&) {
+    bool _do_parse(string_view& dest, const std::ostream&) {
         dest = get();
         return true;
     }
@@ -268,7 +268,7 @@ public:
       , _argv(nullptr) {
     }
 
-    typedef cstr_ref value_type;
+    typedef string_view value_type;
 
     bool is_valid() const noexcept {
         return (0 < _argi) && (_argi < _argc) && (_argv != nullptr) &&
@@ -291,15 +291,15 @@ public:
     }
 
     std::string get_string() const {
-        return get().str();
+        return get().to_string();
     }
 
     operator value_type() const noexcept {
         return get();
     }
 
-    bool is_tag(cstr_ref short_tag, cstr_ref long_tag) const noexcept {
-        return (get() == short_tag) || (get() == long_tag);
+    bool is_tag(string_view short_tag, string_view long_tag) const noexcept {
+        return are_equal(get(), short_tag) || are_equal(get(), long_tag);
     }
 
     bool is_tag_param(const basic_program_parameter& param) const {
@@ -307,7 +307,7 @@ public:
     }
 
     bool is_help_arg() const noexcept {
-        return is_tag(cstr_ref("-h"), cstr_ref("--help"));
+        return is_tag(string_view("-h"), string_view("--help"));
     }
 
     program_arg next() const noexcept {
@@ -336,19 +336,18 @@ public:
     }
 
     auto missing_handler(std::ostream& errorlog) {
-        return [&errorlog](const cstr_ref& arg_tag) {
+        return [&errorlog](string_view arg_tag) {
             errorlog << "Missing value after '" << arg_tag << "'." << std::endl;
         };
     }
 
     auto invalid_handler(std::ostream& errorlog) {
-        return [&errorlog](
-                 const cstr_ref& arg_tag,
-                 const cstr_ref& arg_val,
-                 const cstr_ref& log_str) {
-            errorlog << "Invalid value '" << arg_val << "' after '" << arg_tag
-                     << "'. " << log_str << std::endl;
-        };
+        return
+          [&errorlog](
+            string_view arg_tag, string_view arg_val, string_view log_str) {
+              errorlog << "Invalid value '" << arg_val << "' after '" << arg_tag
+                       << "'. " << log_str << std::endl;
+          };
     }
 
     template <typename T, typename MissingFunc, typename InvalidFunc>
@@ -360,7 +359,8 @@ public:
                 *this = next();
                 return true;
             } else {
-                handle_invalid(get(), next().get(), cstr_ref(parse_log.str()));
+                handle_invalid(
+                  get(), next().get(), string_view(parse_log.str()));
             }
         } else {
             handle_missing(get());
@@ -444,7 +444,7 @@ public:
     template <typename T, typename C, class MissingFunc, class InvalidFunc>
     bool do_parse_param(
       program_parameter<T>& param,
-      const span<const C>& choices,
+      span<const C> choices,
       MissingFunc handle_missing,
       InvalidFunc handle_invalid) {
         if(is_tag_param(param)) {
@@ -457,7 +457,7 @@ public:
     template <typename T, typename C>
     bool parse_param(
       program_parameter<T>& param,
-      const span<const C>& choices,
+      span<const C> choices,
       std::ostream& errorlog) {
         auto if_missing = missing_handler(errorlog);
         auto if_invalid = invalid_handler(errorlog);
@@ -467,16 +467,16 @@ public:
     template <typename T, typename MissingFunc, typename InvalidFunc>
     bool do_consume_next(
       T& dest,
-      const span<const cstr_ref>& symbols,
+      const span<const string_view>& symbols,
       const span<const T>& translations,
       MissingFunc handle_missing,
       InvalidFunc handle_invalid) {
         assert(symbols.size() <= translations.size());
 
-        cstr_ref parsed;
+        string_view parsed;
         if(do_consume_next(parsed, symbols, handle_missing, handle_invalid)) {
             for(span_size_t i = 0, n = symbols.size(); i < n; ++i) {
-                if(parsed == symbols[i]) {
+                if(are_equal(parsed, symbols[i])) {
                     dest = translations[i];
                     return true;
                 }
@@ -488,7 +488,7 @@ public:
     template <typename T, typename P, class MissingFunc, class InvalidFunc>
     bool do_consume_next(
       valid_if<T, P>& dest,
-      const span<const cstr_ref>& symbols,
+      const span<const string_view>& symbols,
       const span<const T>& translations,
       MissingFunc handle_missing,
       InvalidFunc handle_invalid) {
@@ -506,7 +506,7 @@ public:
     template <typename T, typename R>
     bool consume_next(
       T& dest,
-      const span<const cstr_ref>& symbols,
+      const span<const string_view>& symbols,
       const span<const R>& translations,
       std::ostream& errorlog) {
         auto if_missing = missing_handler(errorlog);
@@ -518,7 +518,7 @@ public:
     template <typename T, typename R, class MissingFunc, class InvalidFunc>
     bool do_parse_param(
       program_parameter<T>& param,
-      const span<const cstr_ref>& symbols,
+      const span<const string_view>& symbols,
       const span<const R>& translations,
       MissingFunc handle_missing,
       InvalidFunc handle_invalid) {
@@ -536,7 +536,7 @@ public:
     template <typename T, typename R>
     bool parse_param(
       program_parameter<T>& param,
-      const span<const cstr_ref>& symbols,
+      const span<const string_view>& symbols,
       const span<const R>& translations,
       std::ostream& errorlog) {
         auto if_missing = missing_handler(errorlog);
@@ -548,7 +548,7 @@ public:
     template <typename T, typename R, class MissingFunc, class InvalidFunc>
     bool do_parse_param(
       program_parameter_alias<T>& param,
-      const span<const cstr_ref>& symbols,
+      const span<const string_view>& symbols,
       const span<const R>& translations,
       MissingFunc handle_missing,
       InvalidFunc handle_invalid) {
@@ -566,7 +566,7 @@ public:
     template <typename T, typename R>
     bool parse_param(
       program_parameter_alias<T>& param,
-      const span<const cstr_ref>& symbols,
+      const span<const string_view>& symbols,
       const span<const R>& translations,
       std::ostream& errorlog) {
         auto if_missing = missing_handler(errorlog);
@@ -576,11 +576,11 @@ public:
     }
 
     bool operator==(const value_type& v) const noexcept {
-        return get() == v;
+        return are_equal(get(), v);
     }
 
     bool operator!=(const value_type& v) const noexcept {
-        return get() != v;
+        return are_equal(get(), v);
     }
 };
 
@@ -594,16 +594,16 @@ private:
         virtual bool has_valid_value() const = 0;
         virtual bool validate(std::ostream&) const = 0;
 
-        virtual const cstr_ref& short_tag() const = 0;
-        virtual const cstr_ref& long_tag() const = 0;
-        virtual const cstr_ref& description() const = 0;
-        virtual const cstr_ref& placeholder() const = 0;
+        virtual string_view short_tag() const = 0;
+        virtual string_view long_tag() const = 0;
+        virtual string_view description() const = 0;
+        virtual string_view placeholder() const = 0;
     };
 
     template <typename T>
     struct _impl : _intf {
         program_parameter<T>* _pparam;
-        cstr_ref _plchldr;
+        string_view _plchldr;
 
         program_parameter<T>& _param() noexcept {
             assert(_pparam != nullptr);
@@ -616,30 +616,30 @@ private:
         }
 
         template <typename X>
-        static cstr_ref _plchldr_name(identity<X>) noexcept {
+        static string_view _plchldr_name(identity<X>) noexcept {
             if(std::is_same_v<X, bool>) {
-                return cstr_ref("BOOLEAN");
+                return string_view("BOOLEAN");
             }
-            if(std::is_same_v<X, cstr_ref>) {
-                return cstr_ref("STRING");
+            if(std::is_same_v<X, string_view>) {
+                return string_view("STRING");
             }
             if(std::is_integral_v<X>) {
-                return cstr_ref("INTEGER");
+                return string_view("INTEGER");
             }
             if(std::is_floating_point_v<X>) {
-                return cstr_ref("FLOAT");
+                return string_view("FLOAT");
             }
             // TODO: be more precise depending on X
-            return cstr_ref("VALUE");
+            return string_view("VALUE");
         }
 
         template <typename X, typename P, typename L>
-        static cstr_ref _plchldr_name(identity<valid_if<X, P, L>>) noexcept {
+        static string_view _plchldr_name(identity<valid_if<X, P, L>>) noexcept {
             return _plchldr_name(identity<X>());
         }
 
         template <typename X, typename A>
-        static cstr_ref _plchldr_name(identity<std::vector<X, A>>) noexcept {
+        static string_view _plchldr_name(identity<std::vector<X, A>>) noexcept {
             return _plchldr_name(identity<X>());
         }
 
@@ -660,27 +660,27 @@ private:
             return _param().validate(log);
         }
 
-        const cstr_ref& short_tag() const override {
+        string_view short_tag() const override {
             return _param().short_tag();
         }
 
-        const cstr_ref& long_tag() const override {
+        string_view long_tag() const override {
             return _param().long_tag();
         }
 
-        const cstr_ref& description() const override {
+        string_view description() const override {
             return _param().description();
         }
 
-        const cstr_ref& placeholder() const override {
+        string_view placeholder() const override {
             return _plchldr;
         }
     };
 
     std::vector<std::unique_ptr<_intf>> _params;
 
-    static inline std::vector<std::unique_ptr<_intf>>&
-    _insert(std::vector<std::unique_ptr<_intf>>& dest) noexcept {
+    static inline std::vector<std::unique_ptr<_intf>>& _insert(
+      std::vector<std::unique_ptr<_intf>>& dest) noexcept {
         return dest;
     }
 
@@ -695,8 +695,8 @@ private:
     }
 
     template <typename... Intf>
-    static std::vector<std::unique_ptr<_intf>>
-    _make(std::unique_ptr<Intf>&&... params) {
+    static std::vector<std::unique_ptr<_intf>> _make(
+      std::unique_ptr<Intf>&&... params) {
         std::vector<std::unique_ptr<_intf>> result;
         result.reserve(sizeof...(params));
         return std::move(_insert(result, std::move(params)...));
@@ -731,7 +731,7 @@ public:
         return all_ok;
     }
 
-    std::ostream& print_usage(std::ostream& out, const cstr_ref& command) {
+    std::ostream& print_usage(std::ostream& out, string_view command) {
         out << "Usage: " << command;
 
         span_size_t stag_maxl = 0;
@@ -802,7 +802,7 @@ public:
       , _argv(args) {
     }
 
-    typedef cstr_ref value_type;
+    typedef string_view value_type;
     typedef int size_type;
     typedef valid_range_index<program_args> valid_index;
 

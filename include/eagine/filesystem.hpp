@@ -11,25 +11,25 @@
 #define EAGINE_FILESYSTEM_1509260923_HPP
 
 #include "config/basic.hpp"
-#include "cstr_ref.hpp"
 #include "string_path.hpp"
+#include "string_span.hpp"
 
 namespace eagine {
 namespace filesystem {
 
-cstr_ref path_separator() noexcept;
+string_view path_separator() noexcept;
 
-cstr_ref alt_path_separator() noexcept;
+string_view alt_path_separator() noexcept;
 
 bool has_alt_path_separator() noexcept;
 
-cstr_ref path_curdir() noexcept;
+string_view path_curdir() noexcept;
 
-cstr_ref path_pardir() noexcept;
+string_view path_pardir() noexcept;
 
-cstr_ref basename(const cstr_ref& path) noexcept;
+string_view basename(string_view path) noexcept;
 
-cstr_ref dirname(const cstr_ref& path) noexcept;
+string_view dirname(string_view path) noexcept;
 
 class string_path {
 private:
@@ -51,7 +51,7 @@ public:
     explicit string_path(str_span path_str);
 
     explicit string_path(const std::string& path_str)
-      : string_path(make_span(path_str)) {
+      : string_path(string_view(path_str)) {
     }
 
     string_path(const string_path& a, const string_path& b)

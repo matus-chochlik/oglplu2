@@ -10,9 +10,9 @@
 #ifndef OGLPLUS_UTILS_IMAGE_FILE_1509260923_HPP
 #define OGLPLUS_UTILS_IMAGE_FILE_1509260923_HPP
 
-#include "cstr_ref.hpp"
 #include "image_file_hdr.hpp"
 #include "image_spec.hpp"
+#include "string_span.hpp"
 #include <eagine/file_contents.hpp>
 
 namespace oglplus {
@@ -22,12 +22,12 @@ private:
     eagine::structured_file_content<image_data_header> _header;
 
 public:
-    texture_image_file(const cstr_ref& path)
+    texture_image_file(string_view path)
       : _header(path) {
     }
 
     texture_image_file(const std::string& path)
-      : _header(cstr_ref(path)) {
+      : _header(string_view(path)) {
     }
 
     texture_image_file(eagine::file_contents&& fc)
@@ -57,7 +57,7 @@ public:
     image_pixel_data pixel_data() const noexcept {
         return image_pixel_data(
           pixel_data_type(_header->data_type),
-          eagine::memory::data_block_of(_header->pixels),
+          as_bytes(_header->pixels),
           sizeof(GLubyte));
     }
 

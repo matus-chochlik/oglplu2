@@ -53,7 +53,7 @@ public:
       : unary_function_output(parent, unary_function::none) {
     }
 
-    cstr_ref type_name() override;
+    string_view type_name() override;
 
     slot_data_type value_type() override;
 
@@ -113,7 +113,7 @@ public:
       : binary_function_output(parent, binary_function::average) {
     }
 
-    cstr_ref type_name() override;
+    string_view type_name() override;
 
     slot_data_type value_type() override;
 

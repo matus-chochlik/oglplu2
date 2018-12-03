@@ -32,7 +32,7 @@ std::string substitute_variables(
 
 inline std::string substitute_variables(
   const std::string& str, const std::vector<std::string>& strings) {
-    return substitute_variables(str, span<const std::string>{strings});
+    return substitute_variables(str, view(strings));
 }
 
 std::string substitute_variables(

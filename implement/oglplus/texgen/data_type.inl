@@ -12,34 +12,34 @@ namespace oglplus {
 namespace texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref data_type_name(slot_data_type type) noexcept {
+string_view data_type_name(slot_data_type type) noexcept {
     switch(type) {
         case slot_data_type::bool_:
-            return cstr_ref("bool");
+            return string_view("bool");
         case slot_data_type::bool_2:
-            return cstr_ref("bvec2");
+            return string_view("bvec2");
         case slot_data_type::bool_3:
-            return cstr_ref("bvec3");
+            return string_view("bvec3");
         case slot_data_type::bool_4:
-            return cstr_ref("bvec4");
+            return string_view("bvec4");
         case slot_data_type::int_:
-            return cstr_ref("int");
+            return string_view("int");
         case slot_data_type::int_2:
-            return cstr_ref("ivec2");
+            return string_view("ivec2");
         case slot_data_type::int_3:
-            return cstr_ref("ivec3");
+            return string_view("ivec3");
         case slot_data_type::int_4:
-            return cstr_ref("ivec4");
+            return string_view("ivec4");
         case slot_data_type::float_:
-            return cstr_ref("float");
+            return string_view("float");
         case slot_data_type::float_2:
-            return cstr_ref("vec2");
+            return string_view("vec2");
         case slot_data_type::float_3:
-            return cstr_ref("vec3");
+            return string_view("vec3");
         case slot_data_type::float_4:
-            return cstr_ref("vec4");
+            return string_view("vec4");
     }
-    return cstr_ref("_unknown_type_");
+    return string_view("_unknown_type_");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -181,10 +181,10 @@ std::ostream& conversion_suffix(
   std::ostream& out,
   slot_data_type from,
   slot_data_type to,
-  cstr_ref x,
-  cstr_ref y,
-  cstr_ref z,
-  cstr_ref w) {
+  string_view x,
+  string_view y,
+  string_view z,
+  string_view w) {
     if(from != to) {
         span_size_t df = data_type_dims(from);
         span_size_t dt = data_type_dims(to);

@@ -49,7 +49,7 @@ public:
 
     void draw_screen();
 
-    cstr_ref type_name() override;
+    string_view type_name() override;
 
     span_size_t input_count() override;
 

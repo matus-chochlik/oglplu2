@@ -15,6 +15,7 @@
 
 namespace eagine {
 
+// TODO: remove this
 template <typename T>
 class structured_memory_block {
 private:
@@ -33,8 +34,8 @@ private:
 
 public:
     static bool is_valid_block(const_memory_block blk) noexcept {
-        return (blk.data() != nullptr) && (blk.is_aligned_as<T>()) &&
-               (blk.is_enough_for<T>());
+        return !blk.empty() && (blk.is_aligned_as<T>()) &&
+               (can_accomodate(blk, identity<T>()));
     }
 
     structured_memory_block(

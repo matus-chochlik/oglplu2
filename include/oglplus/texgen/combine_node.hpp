@@ -28,7 +28,7 @@ public:
 
     combine_output(node_intf& parent);
 
-    cstr_ref type_name() override;
+    string_view type_name() override;
 
     scalar_data_type component_type();
 

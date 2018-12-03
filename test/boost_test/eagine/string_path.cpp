@@ -26,12 +26,12 @@ BOOST_AUTO_TEST_CASE(string_path_1) {
         for(int j = 0, k = rg.get_int(10, 100); j < k; ++j) {
             std::string n(
               rg.get<std::string::size_type>(0, 8196), rg.get<char>('A', 'Z'));
-            bsp.push_back(cstring_span(n));
+            bsp.push_back(string_view(n));
             ++s;
 
             BOOST_CHECK_EQUAL(bsp.size(), s);
             BOOST_CHECK_EQUAL(bsp.back().size(), n.size());
-            BOOST_CHECK(bsp.back() == cstring_span(n));
+            BOOST_CHECK(bsp.back() == string_view(n));
 
             if((rg.get_int(0, 9) == 0) && !bsp.empty()) {
                 bsp.pop_back();
@@ -66,23 +66,23 @@ BOOST_AUTO_TEST_CASE(string_path_2) {
             auto n = rg.get<std::string::size_type>(0, 8196);
             char c = rg.get<char>('A', 'Z');
             std::string s(n, c);
-            bsp.push_back(cstring_span(s));
+            bsp.push_back(string_view(s));
 
-            BOOST_CHECK(bsp.back() == cstring_span(s));
+            BOOST_CHECK(bsp.back() == string_view(s));
             BOOST_CHECK(!bsp.empty());
         }
 
         std::stack<std::string> stk;
         bsp.for_each([&stk](basic_string_path::value_type s) {
             stk.push(std::string(s.begin(), s.end()));
-            BOOST_CHECK(s == cstring_span(stk.top()));
+            BOOST_CHECK(s == string_view(stk.top()));
         });
 
         BOOST_CHECK_EQUAL(bsp.size(), stk.size());
 
         bsp.rev_for_each([&stk](basic_string_path::value_type s) {
             BOOST_ASSERT(!stk.empty());
-            BOOST_CHECK(s == cstring_span(stk.top()));
+            BOOST_CHECK(s == string_view(stk.top()));
             stk.pop();
         });
 
@@ -100,23 +100,23 @@ BOOST_AUTO_TEST_CASE(string_path_3) {
             auto n = rg.get<std::string::size_type>(0, 8196);
             char c = rg.get<char>('A', 'Z');
             std::string s(n, c);
-            bsp.push_back(cstring_span(s));
+            bsp.push_back(string_view(s));
 
-            BOOST_CHECK(bsp.back() == cstring_span(s));
+            BOOST_CHECK(bsp.back() == string_view(s));
             BOOST_CHECK(!bsp.empty());
         }
 
         std::stack<std::string> stk;
         for(auto p = bsp.begin(); p != bsp.end(); ++p) {
             stk.push(std::string((*p).begin(), p->end()));
-            BOOST_CHECK(*p == cstring_span(stk.top()));
+            BOOST_CHECK(*p == string_view(stk.top()));
         }
 
         BOOST_CHECK_EQUAL(bsp.size(), stk.size());
 
         for(auto p = bsp.rbegin(); p != bsp.rend(); ++p) {
             BOOST_ASSERT(!stk.empty());
-            BOOST_CHECK(*p == cstring_span(stk.top()));
+            BOOST_CHECK(*p == string_view(stk.top()));
             stk.pop();
         }
         BOOST_CHECK(stk.empty());

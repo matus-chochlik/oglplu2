@@ -19,7 +19,7 @@ BOOST_AUTO_TEST_CASE(bindump_1) {
 
     std::stringstream out;
 
-    out << bindump(memory_block_of(buf));
+    out << bindump(as_bytes(view(buf)));
 
     BOOST_CHECK(!out.str().empty());
 }

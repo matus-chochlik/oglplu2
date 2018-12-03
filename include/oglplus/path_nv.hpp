@@ -29,8 +29,8 @@ struct path_nv_ops {
       span<const T> coords) noexcept;
 
     template <typename T>
-    static outcome<void>
-    path_commands(path_nv_name path, const path_nv_spec<T>& spec) noexcept;
+    static outcome<void> path_commands(
+      path_nv_name path, const path_nv_spec<T>& spec) noexcept;
 
     template <typename T>
     static outcome<void> path_sub_commands(
@@ -48,26 +48,26 @@ struct path_nv_ops {
       const path_nv_spec<T>& spec) noexcept;
 
     template <typename T>
-    static outcome<void>
-    path_coords(path_nv_name path, span<const T> coords) noexcept;
+    static outcome<void> path_coords(
+      path_nv_name path, span<const T> coords) noexcept;
 
     static outcome<void> path_string(
       path_nv_name, path_format_nv format, span<const char> path_str) noexcept;
 
-    static outcome<void>
-    path_svg_string(path_nv_name, span<const char> path_str) noexcept;
+    static outcome<void> path_svg_string(
+      path_nv_name, span<const char> path_str) noexcept;
 
-    static outcome<void>
-    path_ps_string(path_nv_name, span<const char> path_str) noexcept;
+    static outcome<void> path_ps_string(
+      path_nv_name, span<const char> path_str) noexcept;
 
     static outcome<boolean> is_point_in_fill_path(
       path_nv_name, GLuint mask, GLfloat x, GLfloat y) noexcept;
 
-    static outcome<boolean>
-    is_point_in_stroke_path(path_nv_name, GLfloat x, GLfloat y) noexcept;
+    static outcome<boolean> is_point_in_stroke_path(
+      path_nv_name, GLfloat x, GLfloat y) noexcept;
 
-    static outcome<GLfloat>
-    get_path_length(path_nv_name, GLsizei start_seg, GLsizei num_segs) noexcept;
+    static outcome<GLfloat> get_path_length(
+      path_nv_name, GLsizei start_seg, GLsizei num_segs) noexcept;
 
     static outcome<boolean> point_along_path(
       path_nv_name,
@@ -82,14 +82,14 @@ struct path_nv_ops {
     static outcome<void> stencil_fill_path(
       path_nv_name, path_fill_mode_nv mode, GLuint mask) noexcept;
 
-    static outcome<void>
-    cover_fill_path(path_nv_name, path_fill_cover_mode_nv mode) noexcept;
+    static outcome<void> cover_fill_path(
+      path_nv_name, path_fill_cover_mode_nv mode) noexcept;
 
-    static outcome<void>
-    stencil_stroke_path(path_nv_name, GLint reference, GLuint mask) noexcept;
+    static outcome<void> stencil_stroke_path(
+      path_nv_name, GLint reference, GLuint mask) noexcept;
 
-    static outcome<void>
-    cover_stroke_path(path_nv_name, path_stroke_cover_mode_nv mode) noexcept;
+    static outcome<void> cover_stroke_path(
+      path_nv_name, path_stroke_cover_mode_nv mode) noexcept;
 
     static outcome<void> path_parameter_i(
       path_nv_name path,
@@ -112,17 +112,17 @@ struct path_nv_ops {
       span<GLfloat> values) noexcept;
 
     template <typename R, typename T>
-    static outcome<R>
-    return_path_parameter_i(path_nv_name, path_parameter_nv param) noexcept;
+    static outcome<R> return_path_parameter_i(
+      path_nv_name, path_parameter_nv param) noexcept;
 
     template <typename R>
-    static outcome<R>
-    return_path_parameter_f(path_nv_name, path_parameter_nv param) noexcept;
+    static outcome<R> return_path_parameter_f(
+      path_nv_name, path_parameter_nv param) noexcept;
 
     static outcome<GLfloat> get_path_computed_length(path_nv_name) noexcept;
 
-    static outcome<void>
-    path_stroke_width(path_nv_name, GLfloat value) noexcept;
+    static outcome<void> path_stroke_width(
+      path_nv_name, GLfloat value) noexcept;
 
     static outcome<GLfloat> get_path_stroke_width(path_nv_name) noexcept;
 
@@ -130,35 +130,35 @@ struct path_nv_ops {
 
     static outcome<GLfloat> get_path_miter_limit(path_nv_name) noexcept;
 
-    static outcome<void>
-    path_join_style(path_nv_name, path_join_style_nv value) noexcept;
+    static outcome<void> path_join_style(
+      path_nv_name, path_join_style_nv value) noexcept;
 
-    static outcome<path_join_style_nv>
-      get_path_join_style(path_nv_name) noexcept;
+    static outcome<path_join_style_nv> get_path_join_style(
+      path_nv_name) noexcept;
 
-    static outcome<void>
-    path_initial_end_cap(path_nv_name, path_cap_style_nv value) noexcept;
+    static outcome<void> path_initial_end_cap(
+      path_nv_name, path_cap_style_nv value) noexcept;
 
-    static outcome<path_cap_style_nv>
-      get_path_initial_end_cap(path_nv_name) noexcept;
+    static outcome<path_cap_style_nv> get_path_initial_end_cap(
+      path_nv_name) noexcept;
 
-    static outcome<void>
-    path_terminal_end_cap(path_nv_name, path_cap_style_nv value) noexcept;
+    static outcome<void> path_terminal_end_cap(
+      path_nv_name, path_cap_style_nv value) noexcept;
 
-    static outcome<path_cap_style_nv>
-      get_path_terminal_end_cap(path_nv_name) noexcept;
+    static outcome<path_cap_style_nv> get_path_terminal_end_cap(
+      path_nv_name) noexcept;
 
-    static outcome<void>
-    path_initial_dash_cap(path_nv_name, path_cap_style_nv value) noexcept;
+    static outcome<void> path_initial_dash_cap(
+      path_nv_name, path_cap_style_nv value) noexcept;
 
-    static outcome<path_cap_style_nv>
-      get_path_initial_dash_cap(path_nv_name) noexcept;
+    static outcome<path_cap_style_nv> get_path_initial_dash_cap(
+      path_nv_name) noexcept;
 
-    static outcome<void>
-    path_terminal_dash_cap(path_nv_name, path_cap_style_nv value) noexcept;
+    static outcome<void> path_terminal_dash_cap(
+      path_nv_name, path_cap_style_nv value) noexcept;
 
-    static outcome<path_cap_style_nv>
-      get_path_terminal_dash_cap(path_nv_name) noexcept;
+    static outcome<path_cap_style_nv> get_path_terminal_dash_cap(
+      path_nv_name) noexcept;
 
     static outcome<void> path_dash_offset(path_nv_name, GLfloat value) noexcept;
 
@@ -167,14 +167,14 @@ struct path_nv_ops {
     static outcome<void> path_dash_offset_reset(
       path_nv_name, path_dash_offset_reset_nv value) noexcept;
 
-    static outcome<path_dash_offset_reset_nv>
-      get_path_dash_offset_reset(path_nv_name) noexcept;
+    static outcome<path_dash_offset_reset_nv> get_path_dash_offset_reset(
+      path_nv_name) noexcept;
 
-    static outcome<void>
-    path_dash_array(path_nv_name, span<const GLfloat> dashes) noexcept;
+    static outcome<void> path_dash_array(
+      path_nv_name, span<const GLfloat> dashes) noexcept;
 
-    static outcome<void>
-    copy_path(path_nv_name dst_path, path_nv_name src_path) noexcept;
+    static outcome<void> copy_path(
+      path_nv_name dst_path, path_nv_name src_path) noexcept;
 
     static outcome<void> interpolate_path(
       path_nv_name dst_path,
@@ -205,8 +205,8 @@ protected:
 
 public:
     template <typename T>
-    outcome<Derived&>
-    commands(span<const GLubyte> cmds, span<const T> crds) noexcept {
+    outcome<Derived&> commands(
+      span<const GLubyte> cmds, span<const T> crds) noexcept {
         return {_ops::path_commands(*this, cmds, crds), _self()};
     }
 
@@ -240,8 +240,8 @@ public:
         return {_ops::path_coords(*this, crds), _self()};
     }
 
-    outcome<Derived&>
-    string(path_format_nv format, span<const char> path_str) noexcept {
+    outcome<Derived&> string(
+      path_format_nv format, span<const char> path_str) noexcept {
         return {_ops::path_string(*this, format, path_str), _self()};
     }
 
@@ -253,8 +253,8 @@ public:
         return {_ops::path_ps_string(*this, path_str), _self()};
     }
 
-    outcome<boolean>
-    is_point_in_fill(GLuint mask, GLfloat x, GLfloat y) noexcept {
+    outcome<boolean> is_point_in_fill(
+      GLuint mask, GLfloat x, GLfloat y) noexcept {
         return _ops::is_point_in_fill_path(*this, mask, x, y);
     }
 
@@ -285,8 +285,8 @@ public:
           ref_tg_y);
     }
 
-    outcome<Derived&>
-    stencil_fill(path_fill_mode_nv mode, GLuint mask) noexcept {
+    outcome<Derived&> stencil_fill(
+      path_fill_mode_nv mode, GLuint mask) noexcept {
         return {_ops::stencil_fill_path(*this, mode, mask), _self()};
     }
 
@@ -370,8 +370,8 @@ public:
         return _ops::get_path_dash_offset(*this);
     }
 
-    outcome<Derived&>
-    dash_offset_reset(path_dash_offset_reset_nv value) noexcept {
+    outcome<Derived&> dash_offset_reset(
+      path_dash_offset_reset_nv value) noexcept {
         return {_ops::path_dash_offset_reset(*this, value), _self()};
     }
 
@@ -387,7 +387,7 @@ public:
     outcome<Derived&> dashes(T... dshs) noexcept {
         const std::size_t N = sizeof...(T);
         const GLfloat da[N] = {GLfloat(dshs)...};
-        return dash_array(da);
+        return dash_array(view(da));
     }
 
     outcome<Derived&> copy_from(path_nv_name src_path) noexcept {
@@ -425,13 +425,13 @@ template <>
 struct obj_gen_del_ops<tag::path_nv> {
     static deferred_error_handler _gen(span<GLuint> names) noexcept;
 
-    static deferred_error_handler
-    _gen(object_name_base_and_count_view<GLuint> names) noexcept;
+    static deferred_error_handler _gen(
+      object_name_base_and_count_view<GLuint> names) noexcept;
 
     static deferred_error_handler _delete(span<GLuint> names) noexcept;
 
-    static deferred_error_handler
-    _delete(object_name_base_and_count_view<GLuint> names) noexcept;
+    static deferred_error_handler _delete(
+      object_name_base_and_count_view<GLuint> names) noexcept;
 
     static outcome<boolean> _is_a(GLuint name) noexcept;
 };

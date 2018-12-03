@@ -14,7 +14,7 @@
 #include <random>
 
 struct options {
-    typedef eagine::program_parameter<eagine::cstr_ref> _str_param_t;
+    typedef eagine::program_parameter<eagine::string_view> _str_param_t;
     typedef eagine::valid_if_positive<GLsizei> _pos_int_t;
     typedef eagine::program_parameter<_pos_int_t> _int_param_t;
     typedef eagine::program_parameter_alias<_pos_int_t> _int_alias_t;
@@ -65,13 +65,13 @@ struct options {
     }
 
     bool parse(eagine::program_arg& a, std::ostream& log) {
-        const eagine::cstr_ref fmtnamevals[] = {"R8", "RG8", "RGB8", "RGBA8"};
-        const eagine::span<const eagine::cstr_ref> fmtnames =
-          eagine::make_span(fmtnamevals);
+        const eagine::string_view fmtnamevals[] = {
+          "R8", "RG8", "RGB8", "RGBA8"};
+        const eagine::span<const eagine::string_view> fmtnames =
+          eagine::view(fmtnamevals);
 
         const GLsizei cmpbytevals[] = {1, 2, 3, 4};
-        const eagine::span<const GLsizei> cmpbytes =
-          eagine::make_span(cmpbytevals);
+        const eagine::span<const GLsizei> cmpbytes = eagine::view(cmpbytevals);
 
         return a.parse_param(output_path, log) ||
                a.parse_param(components, cmpbytes, log) ||
@@ -129,10 +129,10 @@ int main(int argc, const char** argv) {
         return err;
     }
 
-    if(opts.output_path.value() == eagine::cstr_ref("-")) {
+    if(are_equal(opts.output_path.value(), eagine::string_view("-"))) {
         write_output(std::cout, opts);
     } else {
-        std::ofstream output_file(opts.output_path.value().c_str());
+        std::ofstream output_file(c_str(opts.output_path.value()));
         write_output(output_file, opts);
     }
     return 0;

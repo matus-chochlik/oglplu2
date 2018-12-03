@@ -77,7 +77,7 @@ public:
         return get_integer<unsigned char>(min, max);
     }
 
-    char get_char_from(cstring_span chars) {
+    char get_char_from(string_view chars) {
         return chars[get_span_size(0, chars.size() - 1)];
     }
 
@@ -126,7 +126,7 @@ public:
     }
 
     std::string
-    get_string_from(std::size_t min, std::size_t max, cstring_span chars) {
+    get_string_from(std::size_t min, std::size_t max, string_view chars) {
         std::string result(get_std_size(min, max), '\0');
         for(char& c : result) {
             c = get_char_from(chars);

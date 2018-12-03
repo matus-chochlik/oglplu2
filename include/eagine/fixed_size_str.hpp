@@ -10,8 +10,8 @@
 #ifndef EAGINE_FIXED_SIZE_STR_1509260923_HPP
 #define EAGINE_FIXED_SIZE_STR_1509260923_HPP
 
-#include "cstr_ref.hpp"
 #include "int_constant.hpp"
+#include "string_span.hpp"
 #include "types.hpp"
 #include <cstring>
 
@@ -90,12 +90,12 @@ public:
         return _str + N - 1;
     }
 
-    cstr_ref ref() const noexcept {
-        return cstr_ref(_str, N - 1);
+    string_view view() const noexcept {
+        return {_str, N - 1};
     }
 
-    operator cstr_ref() const noexcept {
-        return ref();
+    operator string_view() const noexcept {
+        return view();
     }
 };
 

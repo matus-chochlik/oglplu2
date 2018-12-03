@@ -31,7 +31,7 @@ inline outcome<void> path_nv_ops::path_commands(
 template <typename T>
 inline outcome<void> path_nv_ops::path_commands(
   path_nv_name path, const path_nv_spec<T>& spec) noexcept {
-    return path_commands<T>(path, spec._commands, spec._coords);
+    return path_commands<T>(path, view(spec._commands), view(spec._coords));
 }
 //------------------------------------------------------------------------------
 template <typename T>
@@ -65,8 +65,8 @@ inline outcome<void> path_nv_ops::path_sub_commands(
 }
 //------------------------------------------------------------------------------
 template <typename T>
-inline outcome<void>
-path_nv_ops::path_coords(path_nv_name path, span<const T> coords) noexcept {
+inline outcome<void> path_nv_ops::path_coords(
+  path_nv_name path, span<const T> coords) noexcept {
     OGLPLUS_GLFUNC(PathCoordsNV)
     (get_raw_name(path),
      GLsizei(coords.size()),
@@ -89,13 +89,13 @@ inline outcome<void> path_nv_ops::path_string(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-path_nv_ops::path_svg_string(path_nv_name path, span<const char> str) noexcept {
+inline outcome<void> path_nv_ops::path_svg_string(
+  path_nv_name path, span<const char> str) noexcept {
     return path_string(path, path_format_nv(GL_PATH_FORMAT_SVG_NV), str);
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-path_nv_ops::path_ps_string(path_nv_name path, span<const char> str) noexcept {
+inline outcome<void> path_nv_ops::path_ps_string(
+  path_nv_name path, span<const char> str) noexcept {
     return path_string(path, path_format_nv(GL_PATH_FORMAT_PS_NV), str);
 }
 //------------------------------------------------------------------------------
@@ -229,32 +229,32 @@ inline outcome<R> path_nv_ops::return_path_parameter_f(
     return get_path_parameter_fv(path, parameter, {&result, 1}), R(result);
 }
 //------------------------------------------------------------------------------
-inline outcome<GLfloat>
-path_nv_ops::get_path_computed_length(path_nv_name path) noexcept {
+inline outcome<GLfloat> path_nv_ops::get_path_computed_length(
+  path_nv_name path) noexcept {
     return return_path_parameter_f<GLfloat>(
       path, path_parameter_nv(GL_PATH_COMPUTED_LENGTH_NV));
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-path_nv_ops::path_stroke_width(path_nv_name path, GLfloat value) noexcept {
+inline outcome<void> path_nv_ops::path_stroke_width(
+  path_nv_name path, GLfloat value) noexcept {
     return path_parameter_f(
       path, path_parameter_nv(GL_PATH_STROKE_WIDTH_NV), value);
 }
 //------------------------------------------------------------------------------
-inline outcome<GLfloat>
-path_nv_ops::get_path_stroke_width(path_nv_name path) noexcept {
+inline outcome<GLfloat> path_nv_ops::get_path_stroke_width(
+  path_nv_name path) noexcept {
     return return_path_parameter_f<GLfloat>(
       path, path_parameter_nv(GL_PATH_STROKE_WIDTH_NV));
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-path_nv_ops::path_miter_limit(path_nv_name path, GLfloat value) noexcept {
+inline outcome<void> path_nv_ops::path_miter_limit(
+  path_nv_name path, GLfloat value) noexcept {
     return path_parameter_f(
       path, path_parameter_nv(GL_PATH_MITER_LIMIT_NV), value);
 }
 //------------------------------------------------------------------------------
-inline outcome<GLfloat>
-path_nv_ops::get_path_miter_limit(path_nv_name path) noexcept {
+inline outcome<GLfloat> path_nv_ops::get_path_miter_limit(
+  path_nv_name path) noexcept {
     return return_path_parameter_f<GLfloat>(
       path, path_parameter_nv(GL_PATH_MITER_LIMIT_NV));
 }
@@ -265,8 +265,8 @@ inline outcome<void> path_nv_ops::path_join_style(
       path, path_parameter_nv(GL_PATH_JOIN_STYLE_NV), GLint(GLenum(value)));
 }
 //------------------------------------------------------------------------------
-inline outcome<path_join_style_nv>
-path_nv_ops::get_path_join_style(path_nv_name path) noexcept {
+inline outcome<path_join_style_nv> path_nv_ops::get_path_join_style(
+  path_nv_name path) noexcept {
     return return_path_parameter_i<path_join_style_nv, GLenum>(
       path, path_parameter_nv(GL_PATH_JOIN_STYLE_NV));
 }
@@ -279,8 +279,8 @@ inline outcome<void> path_nv_ops::path_initial_dash_cap(
       GLint(GLenum(value)));
 }
 //------------------------------------------------------------------------------
-inline outcome<path_cap_style_nv>
-path_nv_ops::get_path_initial_dash_cap(path_nv_name path) noexcept {
+inline outcome<path_cap_style_nv> path_nv_ops::get_path_initial_dash_cap(
+  path_nv_name path) noexcept {
     return return_path_parameter_i<path_cap_style_nv, GLenum>(
       path, path_parameter_nv(GL_PATH_INITIAL_DASH_CAP_NV));
 }
@@ -293,20 +293,20 @@ inline outcome<void> path_nv_ops::path_terminal_dash_cap(
       GLint(GLenum(value)));
 }
 //------------------------------------------------------------------------------
-inline outcome<path_cap_style_nv>
-path_nv_ops::get_path_terminal_dash_cap(path_nv_name path) noexcept {
+inline outcome<path_cap_style_nv> path_nv_ops::get_path_terminal_dash_cap(
+  path_nv_name path) noexcept {
     return return_path_parameter_i<path_cap_style_nv, GLenum>(
       path, path_parameter_nv(GL_PATH_TERMINAL_DASH_CAP_NV));
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-path_nv_ops::path_dash_offset(path_nv_name path, GLfloat value) noexcept {
+inline outcome<void> path_nv_ops::path_dash_offset(
+  path_nv_name path, GLfloat value) noexcept {
     return path_parameter_f(
       path, path_parameter_nv(GL_PATH_DASH_OFFSET_NV), value);
 }
 //------------------------------------------------------------------------------
-inline outcome<GLfloat>
-path_nv_ops::get_path_dash_offset(path_nv_name path) noexcept {
+inline outcome<GLfloat> path_nv_ops::get_path_dash_offset(
+  path_nv_name path) noexcept {
     return return_path_parameter_f<GLfloat>(
       path, path_parameter_nv(GL_PATH_DASH_OFFSET_NV));
 }
@@ -334,8 +334,8 @@ inline outcome<void> path_nv_ops::path_dash_array(
     return {};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-path_nv_ops::copy_path(path_nv_name dst_path, path_nv_name src_path) noexcept {
+inline outcome<void> path_nv_ops::copy_path(
+  path_nv_name dst_path, path_nv_name src_path) noexcept {
     OGLPLUS_GLFUNC(CopyPathNV)(get_raw_name(dst_path), get_raw_name(src_path));
     OGLPLUS_VERIFY(CopyPathNV, gl_subject(src_path).gl_object(dst_path), debug);
     return {};
@@ -377,8 +377,8 @@ inline outcome<void> path_nv_ops::transform_path(
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_gen
 //------------------------------------------------------------------------------
-inline deferred_error_handler
-obj_gen_del_ops<tag::path_nv>::_gen(span<GLuint> names) noexcept {
+inline deferred_error_handler obj_gen_del_ops<tag::path_nv>::_gen(
+  span<GLuint> names) noexcept {
     GLuint base = OGLPLUS_GLFUNC(GenPathsNV)(GLsizei(names.size()));
     for(span_size_t i = 0; i < names.size(); ++i) {
         names[i] = base + GLuint(i);
@@ -396,8 +396,8 @@ inline deferred_error_handler obj_gen_del_ops<tag::path_nv>::_gen(
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_delete
 //------------------------------------------------------------------------------
-inline deferred_error_handler
-obj_gen_del_ops<tag::path_nv>::_delete(span<GLuint> names) noexcept {
+inline deferred_error_handler obj_gen_del_ops<tag::path_nv>::_delete(
+  span<GLuint> names) noexcept {
     if(names.begin() != names.end()) {
         OGLPLUS_GLFUNC(DeletePathsNV)(*names.begin(), GLsizei(names.size()));
         OGLPLUS_VERIFY_SIMPLE(DeletePathsNV, debug);
@@ -416,8 +416,8 @@ inline deferred_error_handler obj_gen_del_ops<tag::path_nv>::_delete(
 //------------------------------------------------------------------------------
 // obj_gen_del_ops::_is_a
 //------------------------------------------------------------------------------
-inline outcome<boolean>
-obj_gen_del_ops<tag::path_nv>::_is_a(GLuint name) noexcept {
+inline outcome<boolean> obj_gen_del_ops<tag::path_nv>::_is_a(
+  GLuint name) noexcept {
     GLboolean res = OGLPLUS_GLFUNC(IsPathNV)(name);
     OGLPLUS_VERIFY_SIMPLE(IsPathNV, debug);
     return boolean(res);

@@ -18,7 +18,7 @@ class sphere_coord_output : public base_output {
 public:
     sphere_coord_output(node_intf& parent);
 
-    cstr_ref type_name() override;
+    string_view type_name() override;
 
     slot_data_type value_type() override;
 

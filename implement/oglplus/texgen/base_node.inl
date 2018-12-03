@@ -31,7 +31,7 @@ bool base_node::can_add_input() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-input_intf& base_node::add_input(const cstr_ref&) {
+input_intf& base_node::add_input(string_view) {
     EAGINE_ABORT("Node cannot add any inputs");
     return input(0);
 }
@@ -78,7 +78,7 @@ bool base_node::render(const render_params& params) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref base_single_output_node::type_name() {
+string_view base_single_output_node::type_name() {
     return single_output().type_name();
 }
 //------------------------------------------------------------------------------

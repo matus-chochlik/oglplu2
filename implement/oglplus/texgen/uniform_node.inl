@@ -27,12 +27,12 @@ void uniform_output::bind_location() {
     id << "u";
 
     _location = prog_var_loc_ops<tag::uniform>::get_location(
-      oper::program_ops::current_program(), cstr_ref(id.str()));
+      oper::program_ops::current_program(), string_view(id.str()));
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref uniform_output::type_name() {
-    return cstr_ref("Uniform");
+string_view uniform_output::type_name() {
+    return string_view("Uniform");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC

@@ -22,7 +22,7 @@ public:
 
     posterize_output(node_intf& parent);
 
-    cstr_ref type_name() override;
+    string_view type_name() override;
 
     slot_data_type value_type() override;
 

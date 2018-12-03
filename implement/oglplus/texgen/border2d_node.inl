@@ -16,12 +16,12 @@ OGLPLUS_LIB_FUNC
 border2d_output::border2d_output(node_intf& parent)
   : base_output(parent)
   , mode(border2d_mode::max)
-  , input(parent, cstr_ref("Input"), 0.5f, 0.5f, 0.5f, 0.5f) {
+  , input(parent, string_view("Input"), 0.5f, 0.5f, 0.5f, 0.5f) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref border2d_output::type_name() {
-    return cstr_ref("Border2D");
+string_view border2d_output::type_name() {
+    return string_view("Border2D");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -46,15 +46,15 @@ border2d_output::definitions(std::ostream& out, compile_context& ctxt) {
     out << "\t" << data_type_name(value_type());
     out << " r = " << data_type_name(value_type()) << "(";
 
-    cstr_ref func_name;
+    string_view func_name;
     switch(mode) {
         case border2d_mode::max:
             out << "0.0";
-            func_name = cstr_ref("max");
+            func_name = string_view("max");
             break;
         case border2d_mode::min:
             out << "1.0";
-            func_name = cstr_ref("min");
+            func_name = string_view("min");
             break;
     }
 

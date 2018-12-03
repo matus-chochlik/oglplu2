@@ -23,13 +23,13 @@ private:
 public:
     fallback_input(fallback_input&&) = default;
 
-    fallback_input(node_intf& parent, const cstr_ref& name)
+    fallback_input(node_intf& parent, string_view name)
       : base_input(parent, name)
       , _fallback(parent) {
     }
 
     template <typename... P>
-    fallback_input(node_intf& parent, const cstr_ref& name, P&&... p)
+    fallback_input(node_intf& parent, string_view name, P&&... p)
       : base_input(parent, name)
       , _fallback(parent, std::forward<P>(p)...) {
     }
