@@ -11,6 +11,7 @@
 
 #include <cassert>
 
+#define EAGINE_CONSTEXPR_ASSERT(...) assert(__VA_ARGS__)
 #define EAGINE_ABORT(MSG) assert(!bool(MSG))
 #define EAGINE_UNREACHABLE(MSG) EAGINE_ABORT(MSG)
 

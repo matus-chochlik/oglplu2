@@ -6,6 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include "assert.hpp"
 #include "int_constant.hpp"
 #include <limits>
 
@@ -13,7 +14,7 @@
 #define EAGINE_IS_WITHIN_LIMITS_1509260923_HPP
 
 namespace eagine {
-
+//------------------------------------------------------------------------------
 template <typename Dst, typename Src>
 struct implicitly_within_limits
   : bool_constant<(
@@ -24,7 +25,7 @@ struct implicitly_within_limits
 
 template <typename Dst>
 struct implicitly_within_limits<Dst, bool> : std::is_integral<Dst> {};
-
+//------------------------------------------------------------------------------
 template <
   typename Dst,
   typename Src,
@@ -37,7 +38,7 @@ struct within_limits_num {
         return implicitly_within_limits<Dst, Src>::value;
     }
 };
-
+//------------------------------------------------------------------------------
 template <typename Dst, typename Src, bool IsInt, bool IsSig>
 struct within_limits_num<Dst, Src, IsInt, IsInt, IsSig, IsSig> {
     static constexpr inline bool check(Src value) noexcept {
@@ -46,7 +47,7 @@ struct within_limits_num<Dst, Src, IsInt, IsInt, IsSig, IsSig> {
         return (dnl::min() <= value) && (value <= dnl::max());
     }
 };
-
+//------------------------------------------------------------------------------
 template <typename Dst, typename Src, bool IsInt>
 struct within_limits_num<Dst, Src, IsInt, IsInt, false, true> {
     static constexpr inline bool check(Src value) noexcept {
@@ -55,7 +56,7 @@ struct within_limits_num<Dst, Src, IsInt, IsInt, false, true> {
         return (value < Src(0)) ? false : (value < dnl::max());
     }
 };
-
+//------------------------------------------------------------------------------
 template <typename Dst, typename Src, bool IsInt>
 struct within_limits_num<Dst, Src, IsInt, IsInt, true, false> {
     static constexpr inline bool check(Src value) noexcept {
@@ -64,7 +65,7 @@ struct within_limits_num<Dst, Src, IsInt, IsInt, true, false> {
         return (value < dnl::max());
     }
 };
-
+//------------------------------------------------------------------------------
 template <typename Dst, typename Src>
 struct within_limits
   : within_limits_num<
@@ -74,20 +75,26 @@ struct within_limits
       std::is_integral_v<Src>,
       std::is_signed_v<Dst>,
       std::is_signed_v<Src>> {};
-
+//------------------------------------------------------------------------------
 template <typename T>
 struct within_limits<T, T> {
     static constexpr inline bool check(T&) noexcept {
         return true;
     }
 };
-
+//------------------------------------------------------------------------------
 template <typename Dst, typename Src>
 static constexpr inline bool is_within_limits(Src value) noexcept {
     return implicitly_within_limits<Dst, Src>::value ||
            within_limits<Dst, Src>::check(value);
 }
-
+//------------------------------------------------------------------------------
+template <typename Dst, typename Src>
+static constexpr inline bool checked_convert(Src value) noexcept {
+    EAGINE_CONSTEXPR_ASSERT(is_within_limits<Dst>(value));
+    return Dst(value);
+}
+//------------------------------------------------------------------------------
 } // namespace eagine
 
 #endif // EAGINE_IS_WITHIN_LIMITS_1509260923_HPP
