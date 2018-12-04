@@ -10,6 +10,7 @@
 #ifndef EAGINE_FILE_CONTENTS_1509260923_HPP
 #define EAGINE_FILE_CONTENTS_1509260923_HPP
 
+#include "branch_predict.hpp"
 #include "config/basic.hpp"
 #include "cstr_ref.hpp"
 #include "protected_member.hpp"
@@ -42,7 +43,8 @@ public:
     }
 
     const_memory_block block() const noexcept {
-        return bool(_pimpl) ? _pimpl->block() : const_memory_block();
+        return bool(EAGINE_LIKELY(_pimpl)) ? _pimpl->block()
+                                           : const_memory_block();
     }
 
     operator const_memory_block() const noexcept {

@@ -10,25 +10,41 @@
 #ifndef EAGINE_VALID_IF_BASE_1509260923_HPP
 #define EAGINE_VALID_IF_BASE_1509260923_HPP
 
+#include "../assert.hpp"
+#include "../branch_predict.hpp"
 #include "../std/type_traits.hpp"
 #include "../std/utility.hpp"
-#include <cassert>
 #include <sstream>
 #include <stdexcept>
 
 namespace eagine {
 
-template <typename T, typename Policy, typename DoLog, typename... P>
-class basic_valid_if
-  : private Policy
-  , private DoLog {
-private:
-    T _value = {};
+template <typename T>
+class basic_valid_if_value {
+public:
+    constexpr basic_valid_if_value(T value) noexcept(
+      noexcept(T(std::declval<T&&>())))
+      : _value{std::move(value)} {
+    }
 
-    const Policy& _policy() const noexcept {
+    constexpr basic_valid_if_value() noexcept = default;
+
+    constexpr basic_valid_if_value(basic_valid_if_value&&) = default;
+
+    constexpr basic_valid_if_value(const basic_valid_if_value&) = default;
+
+    basic_valid_if_value& operator=(basic_valid_if_value&&) = default;
+    basic_valid_if_value& operator=(const basic_valid_if_value&) = default;
+
+    ~basic_valid_if_value() noexcept = default;
+
+    basic_valid_if_value& operator=(const T& v) {
+        _value = v;
         return *this;
     }
-    const DoLog& _do_log() const noexcept {
+
+    basic_valid_if_value& operator=(T&& v) {
+        _value = std::move(v);
         return *this;
     }
 
@@ -41,48 +57,42 @@ protected:
         return _value;
     }
 
+private:
+    T _value = {};
+};
+
+template <typename T, typename Policy, typename DoLog, typename... P>
+class basic_valid_if
+  : public basic_valid_if_value<T>
+  , private Policy
+  , private DoLog {
+private:
+    const Policy& _policy() const noexcept {
+        return *this;
+    }
+    const DoLog& _do_log() const noexcept {
+        return *this;
+    }
+
     explicit constexpr basic_valid_if(Policy policy) noexcept
       : Policy(policy)
-      , DoLog(_policy())
-      , _value() {
+      , DoLog(_policy()) {
     }
 
 public:
     constexpr basic_valid_if() noexcept
-      : Policy()
-      , DoLog(_policy())
-      , _value() {
+      : DoLog(_policy()) {
     }
 
-    constexpr basic_valid_if(basic_valid_if&&) = default;
-
-    constexpr basic_valid_if(const basic_valid_if&) = default;
-
-    basic_valid_if& operator=(basic_valid_if&&) = default;
-    basic_valid_if& operator=(const basic_valid_if&) = default;
-
-    ~basic_valid_if() = default;
-
     constexpr inline basic_valid_if(T val) noexcept
-      : Policy()
-      , DoLog(_policy())
-      , _value(val) {
+      : basic_valid_if_value<T>(std::move(val))
+      , DoLog(_policy()) {
     }
 
     constexpr inline basic_valid_if(T val, Policy policy) noexcept
-      : Policy(std::move(policy))
-      , DoLog(_policy())
-      , _value(val) {
-    }
-
-    basic_valid_if& operator=(const T& v) {
-        _value = v;
-        return *this;
-    }
-
-    basic_valid_if& operator=(T&& v) {
-        _value = std::move(v);
-        return *this;
+      : basic_valid_if_value<T>(std::move(val))
+      , Policy(std::move(policy))
+      , DoLog(_policy()) {
     }
 
     constexpr bool is_valid(const T& val, P... p) const noexcept {
@@ -90,7 +100,7 @@ public:
     }
 
     constexpr bool is_valid(P... p) const noexcept {
-        return is_valid(_value, p...);
+        return is_valid(this->_get_value(), p...);
     }
 
     constexpr bool has_value(P... p) const noexcept {
@@ -99,7 +109,8 @@ public:
 
     constexpr friend bool
     operator==(const basic_valid_if& a, const basic_valid_if& b) noexcept {
-        return (a._value == b._value) && a.is_valid() && b.is_valid();
+        return (a._get_value() == b._get_value()) && a.is_valid() &&
+               b.is_valid();
     }
 
     template <typename Log>
@@ -110,13 +121,14 @@ public:
 
     template <typename Log>
     void log_invalid(Log& log, P... p) const {
-        log_invalid(log, _value, p...);
+        log_invalid(log, this->_get_value(), p...);
     }
 
     template <typename Func>
     basic_valid_if& call_if_invalid(Func func, P... p) {
-        if(!is_valid(p...))
-            func(_do_log(), _value, p...);
+        if(!is_valid(p...)) {
+            func(_do_log(), this->_get_value(), p...);
+        }
         return *this;
     }
 
@@ -130,37 +142,37 @@ public:
 
     T& value(P... p) {
         throw_if_invalid(p...);
-        return _value;
+        return this->_ref_value();
     }
 
     const T& value(P... p) const {
         throw_if_invalid(p...);
-        return _value;
+        return this->_get_value();
     }
 
-    T& value_or(T& fallback, P... p) noexcept {
-        return is_valid(p...) ? _ref_value() : fallback;
+    auto& value_or(T& fallback, P... p) noexcept {
+        return EAGINE_LIKELY(is_valid(p...)) ? this->_ref_value() : fallback;
     }
 
-    constexpr const T& value_or(const T& fallback, P... p) const noexcept {
-        return is_valid(p...) ? _get_value() : fallback;
+    constexpr const auto& value_or(const T& fallback, P... p) const noexcept {
+        return EAGINE_LIKELY(is_valid(p...)) ? this->_get_value() : fallback;
     }
 
-    constexpr const T& value_anyway(P...) const noexcept {
-        return _get_value();
+    constexpr const auto& value_anyway(P...) const noexcept {
+        return this->_get_value();
     }
 
     template <typename Func>
     std::enable_if_t<std::is_same_v<std::result_of_t<Func(T)>, void>>
     then(const Func& func, P... p) const {
-        if(is_valid(p...)) {
+        if(EAGINE_LIKELY(is_valid(p...))) {
             func(value(p...));
         }
     }
 
     template <typename Func>
     constexpr inline auto transformed(Func func, P... p) const noexcept {
-        return func(_get_value(), is_valid(p...));
+        return func(this->_get_value(), is_valid(p...));
     }
 };
 

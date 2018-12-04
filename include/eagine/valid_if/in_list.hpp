@@ -17,7 +17,9 @@ namespace eagine {
 // in range
 template <typename T, typename Range>
 struct valid_if_in_list_policy {
-    Range _choices;
+    Range _choices = {};
+
+    valid_if_in_list_policy() = default;
 
     valid_if_in_list_policy(const Range& choices)
       : _choices(choices) {

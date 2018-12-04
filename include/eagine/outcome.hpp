@@ -10,6 +10,7 @@
 #ifndef EAGINE_OUTCOME_1509260923_HPP
 #define EAGINE_OUTCOME_1509260923_HPP
 
+#include "branch_predict.hpp"
 #include "deferred_handler.hpp"
 #include "selector.hpp"
 #include <cassert>
@@ -143,7 +144,7 @@ public:
     }
 
     T value_or(const T& fallback) {
-        return this->succeeded() ? _value.get() : fallback;
+        return EAGINE_LIKELY(this->succeeded()) ? _value.get() : fallback;
     }
 
     T&& rvalue() {
@@ -157,7 +158,7 @@ public:
 
     template <typename Func>
     void then(Func func) noexcept {
-        if(this->succeeded()) {
+        if(EAGINE_LIKELY(this->succeeded())) {
             _value.apply(func);
         }
     }

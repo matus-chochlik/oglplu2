@@ -9,6 +9,7 @@
 #include "assert.hpp"
 #include "int_constant.hpp"
 #include <limits>
+#include <utility>
 
 #ifndef EAGINE_IS_WITHIN_LIMITS_1509260923_HPP
 #define EAGINE_IS_WITHIN_LIMITS_1509260923_HPP
@@ -90,9 +91,10 @@ static constexpr inline bool is_within_limits(Src value) noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename Dst, typename Src>
-static constexpr inline bool checked_convert(Src value) noexcept {
-    EAGINE_CONSTEXPR_ASSERT(is_within_limits<Dst>(value));
-    return Dst(value);
+static constexpr inline std::enable_if_t<std::is_convertible_v<Src, Dst>, bool>
+checked_convert(Src value) noexcept {
+    return EAGINE_CONSTEXPR_ASSERT(
+      is_within_limits<Dst>(value), Dst(std::move(value)));
 }
 //------------------------------------------------------------------------------
 } // namespace eagine
