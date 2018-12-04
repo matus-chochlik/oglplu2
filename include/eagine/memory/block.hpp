@@ -10,6 +10,7 @@
 #ifndef EAGINE_MEMORY_BLOCK_1510290655_HPP
 #define EAGINE_MEMORY_BLOCK_1510290655_HPP
 
+#include "../assert.hpp"
 #include "address.hpp"
 #include <cstddef>
 #include <utility>
@@ -29,40 +30,36 @@ public:
     typedef span_size_t size_type;
 
 private:
-    pointer _addr;
-    size_type _size;
+    pointer _addr = nullptr;
+    size_type _size = {0};
 
     template <typename T>
-    static span_size_t _positive_distance(T* a, T* b) noexcept {
-        assert(a <= b);
-        return span_size(b - a);
+    static constexpr span_size_t _positive_distance(T* a, T* b) noexcept {
+        return EAGINE_CONSTEXPR_ASSERT(a <= b, span_size(b - a));
     }
 
 public:
     template <typename T>
-    basic_block(T* a, span_size_t count) noexcept
+    constexpr basic_block(T* a, span_size_t count) noexcept
       : _addr(static_cast<pointer>(a))
       , _size(span_size_of<T>(count)) {
     }
 
     template <typename T>
-    basic_block(T* a, T* b) noexcept
+    constexpr basic_block(T* a, T* b) noexcept
       : _addr(static_cast<pointer>(a))
       , _size(span_size_of<T>(_positive_distance(a, b))) {
     }
 
-    basic_block(pointer addr_, size_type size_) noexcept
+    constexpr basic_block(pointer addr_, size_type size_) noexcept
       : _addr(addr_)
       , _size(size_) {
     }
 
-    constexpr basic_block() noexcept
-      : _addr(nullptr)
-      , _size(0) {
-    }
+    constexpr basic_block() noexcept = default;
 
-    basic_block(const basic_block&) = default;
-    basic_block& operator=(const basic_block&) = default;
+    constexpr basic_block(const basic_block&) noexcept = default;
+    constexpr basic_block& operator=(const basic_block&) noexcept = default;
 
     basic_block(basic_block&& temp) noexcept
       : _addr(temp._addr)
@@ -89,23 +86,23 @@ public:
         return *this;
     }
 
-    size_type size() const noexcept {
+    constexpr size_type size() const noexcept {
         return _size;
     }
 
-    bool empty() const noexcept {
+    constexpr bool empty() const noexcept {
         return !(size() > 0);
     }
 
-    explicit operator bool() const noexcept {
+    constexpr explicit operator bool() const noexcept {
         return _addr != nullptr && !empty();
     }
 
-    bool operator!() const noexcept {
+    constexpr bool operator!() const noexcept {
         return _addr == nullptr || empty();
     }
 
-    iterator data() const noexcept {
+    constexpr iterator data() const noexcept {
         return static_cast<iterator>(_addr);
     }
 
@@ -117,25 +114,24 @@ public:
         return basic_address<IsConst>(addr(), _size);
     }
 
-    iterator begin() const noexcept {
+    constexpr iterator begin() const noexcept {
         return static_cast<iterator>(_addr);
     }
 
-    iterator end() const noexcept {
+    constexpr iterator end() const noexcept {
         return begin() + size();
     }
 
-    reference operator[](span_size_t i) noexcept {
-        assert(i < size());
-        return *(begin() + i);
+    constexpr reference operator[](span_size_t i) noexcept {
+        return EAGINE_CONSTEXPR_ASSERT(i < size(), *(begin() + i));
     }
 
-    friend bool
+    constexpr friend bool
     operator==(const basic_block& a, const basic_block& b) noexcept {
         return (a._addr == b._addr) && (a._size == b._size);
     }
 
-    friend bool
+    constexpr friend bool
     operator!=(const basic_block& a, const basic_block& b) noexcept {
         return (a._addr != b._addr) || (a._size != b._size);
     }
