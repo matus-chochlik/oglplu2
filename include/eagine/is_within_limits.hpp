@@ -92,7 +92,7 @@ static constexpr inline bool is_within_limits(Src value) noexcept {
 //------------------------------------------------------------------------------
 template <typename Dst, typename Src>
 static constexpr inline std::enable_if_t<std::is_convertible_v<Src, Dst>, bool>
-checked_convert(Src value) noexcept {
+limit_cast(Src value) noexcept {
     return EAGINE_CONSTEXPR_ASSERT(
       is_within_limits<Dst>(value), Dst(std::move(value)));
 }
