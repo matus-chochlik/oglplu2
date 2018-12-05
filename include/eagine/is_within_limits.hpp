@@ -52,9 +52,10 @@ struct within_limits_num<Dst, Src, IsInt, IsInt, IsSig, IsSig> {
 template <typename Dst, typename Src, bool IsInt>
 struct within_limits_num<Dst, Src, IsInt, IsInt, false, true> {
     static constexpr inline bool check(Src value) noexcept {
-        using dnl = std::numeric_limits<Dst>;
+        using Dnl = std::numeric_limits<Dst>;
+        using Tmp = std::make_unsigned_t<Src>;
 
-        return (value < Src(0)) ? false : (value < dnl::max());
+        return (value < Src(0)) ? false : (Tmp(value) < Dnl::max());
     }
 };
 //------------------------------------------------------------------------------
@@ -91,7 +92,7 @@ static constexpr inline bool is_within_limits(Src value) noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename Dst, typename Src>
-static constexpr inline std::enable_if_t<std::is_convertible_v<Src, Dst>, bool>
+static constexpr inline std::enable_if_t<std::is_convertible_v<Src, Dst>, Dst>
 limit_cast(Src value) noexcept {
     return EAGINE_CONSTEXPR_ASSERT(
       is_within_limits<Dst>(value), Dst(std::move(value)));
