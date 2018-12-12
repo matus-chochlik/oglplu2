@@ -16,7 +16,7 @@ namespace eagine {
 // demangle_type_name
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void fill_with_random_bytes(const span<unsigned char>& buffer) {
+void fill_with_random_bytes(span<unsigned char> buffer) {
     const unsigned mask = ((1 << CHAR_BIT) - 1);
 
     std::random_device rd;

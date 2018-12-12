@@ -32,7 +32,7 @@ public:
     base_wrapper(
       eagine::memory::buffer& data,
       const adapted_generator& gen,
-      const span<const vertex_attrib_and_location>& vaals)
+      span<const vertex_attrib_and_location> vaals)
       : _bufs()
       , _ops(std_size(gen.operation_count())) {
         assert(vaals.size() >= span_size(N));

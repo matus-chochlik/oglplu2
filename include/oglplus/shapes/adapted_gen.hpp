@@ -90,7 +90,7 @@ public:
         return _gen->operation_count();
     }
 
-    void instructions(const span<draw_operation>& ops) const;
+    void instructions(span<draw_operation> ops) const;
 };
 
 template <typename Generator>

@@ -43,7 +43,7 @@ span_size_t unit_icosahedron_gen::vertex_count() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void unit_icosahedron_gen::positions(const span<float>& dest) noexcept {
+void unit_icosahedron_gen::positions(span<float> dest) noexcept {
     assert(dest.size() >= vertex_count() * 3);
 
     span_size_t k = 0;
@@ -84,7 +84,7 @@ void unit_icosahedron_gen::positions(const span<float>& dest) noexcept {
 }
 //------------------------------------------------------------------------------
 void unit_icosahedron_gen::attrib_values(
-  vertex_attrib_kind attr, const span<float>& dest) {
+  vertex_attrib_kind attr, span<float> dest) {
     switch(attr) {
         case vertex_attrib_kind::position:
             positions(dest);
@@ -111,7 +111,7 @@ span_size_t unit_icosahedron_gen::index_count() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void unit_icosahedron_gen::indices(const span<unsigned>& dest) {
+void unit_icosahedron_gen::indices(span<unsigned> dest) {
     assert(dest.size() >= index_count());
 
     span_size_t k = 0;
@@ -193,7 +193,7 @@ span_size_t unit_icosahedron_gen::operation_count() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void unit_icosahedron_gen::instructions(const span<draw_operation>& ops) {
+void unit_icosahedron_gen::instructions(span<draw_operation> ops) {
     assert(ops.size() >= operation_count());
 
     draw_operation& op = ops[0];

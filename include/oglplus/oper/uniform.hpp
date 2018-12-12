@@ -89,7 +89,7 @@ struct uniform_ops {
     static inline outcome<void> uniform(
       prog_var_wrapper<prog_var_loc<tag::uniform, D>, T[N]> loc,
       GLsizei count,
-      const span<const T>& v) noexcept {
+      span<const T> v) noexcept {
         return oglplus::prog_var_get_set_ops<tag::uniform, T>::set(
           identity<T[N]>(), loc, count, v);
     }
@@ -99,7 +99,7 @@ struct uniform_ops {
       prog_var_wrapper<prog_var_loc<tag::uniform, D>, T[C][R]> loc,
       GLsizei count,
       boolean transpose,
-      const span<const T>& v) noexcept {
+      span<const T> v) noexcept {
         return oglplus::prog_var_get_set_ops<tag::uniform, T>::set(
           identity<T[C][R]>(), loc, count, transpose, v);
     }
@@ -155,8 +155,8 @@ struct uniform_ops {
       typename = std::enable_if_t<
         is_gl_data_type_v<X> || is_known_vector_type_v<X> ||
         is_known_matrix_type_v<X>>>
-    static inline outcome<void>
-    uniform(prog_var_loc<tag::uniform, D> loc, const X& x) noexcept {
+    static inline outcome<void> uniform(
+      prog_var_loc<tag::uniform, D> loc, const X& x) noexcept {
         return _uniform_vm(
           loc, x, is_known_vector_type<X>(), is_known_matrix_type<X>());
     }

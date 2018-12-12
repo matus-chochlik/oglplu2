@@ -40,18 +40,17 @@ struct generator_intf {
 
     virtual span_size_t values_per_vertex(vertex_attrib_kind attr) = 0;
 
-    virtual void
-    attrib_values(vertex_attrib_kind attr, const span<float>& dest) = 0;
+    virtual void attrib_values(vertex_attrib_kind attr, span<float> dest) = 0;
 
     virtual index_data_type index_type() = 0;
 
     virtual span_size_t index_count() = 0;
 
-    virtual void indices(const span<unsigned>& dest) = 0;
+    virtual void indices(span<unsigned> dest) = 0;
 
     virtual span_size_t operation_count() = 0;
 
-    virtual void instructions(const span<draw_operation>& dest) = 0;
+    virtual void instructions(span<draw_operation> dest) = 0;
 };
 
 class generator_base : public generator_intf {
@@ -97,7 +96,7 @@ public:
         return vertex_count() * values_per_vertex(attr);
     }
 
-    void attrib_values(vertex_attrib_kind, const span<float>&) override {
+    void attrib_values(vertex_attrib_kind, span<float>) override {
         EAGINE_UNREACHABLE(
           "Generator failed to handle the specified attribute kind.");
     }
@@ -110,8 +109,7 @@ protected:
     }
 
 public:
-    void
-    attrib_values(vertex_attrib_kind attr, const span<float>& dest) override {
+    void attrib_values(vertex_attrib_kind attr, span<float> dest) override {
         if(attr == vertex_attrib_kind::box_coord) {
             this->attrib_values(vertex_attrib_kind::position, dest);
             for(float& x : dest) {

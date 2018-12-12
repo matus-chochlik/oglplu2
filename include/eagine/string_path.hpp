@@ -25,7 +25,7 @@ private:
     std::string _str;
 
     template <typename Str>
-    void _init(const span<Str>& names) {
+    void _init(span<Str> names) {
         span_size_t len = 2 * names.size();
         for(const auto& name : names) {
             len += span_size(name.size());
@@ -49,8 +49,8 @@ private:
     }
 
     template <typename... Str>
-    static inline std::array<string_view, sizeof...(Str)>
-    _pack_names(const Str&... n) noexcept {
+    static inline std::array<string_view, sizeof...(Str)> _pack_names(
+      const Str&... n) noexcept {
         return {{_fix(n)...}};
     }
 
@@ -103,7 +103,7 @@ public:
       , _str(a._str + b._str) {
     }
 
-    explicit basic_string_path(const span<const str_span>& names)
+    explicit basic_string_path(span<const str_span> names)
       : _size(0) {
         _init(names);
     }
@@ -129,8 +129,8 @@ public:
         return a._str != b._str;
     }
 
-    friend bool
-    operator<(const basic_string_path& a, const basic_string_path& b) noexcept {
+    friend bool operator<(
+      const basic_string_path& a, const basic_string_path& b) noexcept {
         return a._str < b._str;
     }
 
@@ -139,8 +139,8 @@ public:
         return a._str <= b._str;
     }
 
-    friend bool
-    operator>(const basic_string_path& a, const basic_string_path& b) noexcept {
+    friend bool operator>(
+      const basic_string_path& a, const basic_string_path& b) noexcept {
         return a._str > b._str;
     }
 
@@ -149,8 +149,8 @@ public:
         return a._str >= b._str;
     }
 
-    friend basic_string_path
-    operator+(const basic_string_path& a, const basic_string_path& b) noexcept {
+    friend basic_string_path operator+(
+      const basic_string_path& a, const basic_string_path& b) noexcept {
         return basic_string_path(a, EAGINE_TAG(plus), b);
     }
 

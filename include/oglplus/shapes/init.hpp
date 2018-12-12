@@ -22,8 +22,8 @@ namespace shapes {
 outcome<void> initialize_vao_and_buffers(
   vertex_array_name vao,
   const eagine::any_copying_forward_range<buffer_name>& bufs,
-  const span<const vertex_attrib_and_location>& vaals,
-  const span<draw_operation>& ops,
+  span<const vertex_attrib_and_location> vaals,
+  span<draw_operation> ops,
   const adapted_generator& gen,
   eagine::memory::buffer& data);
 

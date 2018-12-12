@@ -23,7 +23,7 @@ inline valid_sequence_length do_decode_sequence_length(const byte b) noexcept {
 inline bool is_valid_encoding(const valid_cbyte_span& vseq) noexcept {
     if(auto len = decode_sequence_length(vseq)) {
         const span_size_t l = len.value();
-        const span<const byte>& seq = vseq.value(l - 1);
+        span<const byte> seq = vseq.value(l - 1);
 
         if(!is_valid_head_byte(seq[0], l)) {
             return false;
@@ -49,8 +49,8 @@ do_decode_code_point_head(
             (mask.is_valid() && bitshift.is_valid())};
 }
 //------------------------------------------------------------------------------
-static constexpr inline optionally_valid<code_point_t>
-decode_code_point_head(const byte b, const valid_sequence_length l) noexcept {
+static constexpr inline optionally_valid<code_point_t> decode_code_point_head(
+  const byte b, const valid_sequence_length l) noexcept {
     return do_decode_code_point_head(
       b, head_data_mask(l), head_data_bitshift(l));
 }
@@ -76,7 +76,7 @@ static constexpr inline optionally_valid<code_point_t> decode_code_point_tail(
 inline code_point_t do_decode_code_point(
   const valid_cbyte_span& vsrc, const valid_sequence_length vl) noexcept {
     const span_size_t l = vl.value();
-    const span<const byte>& src = vsrc.value(l - 1);
+    span<const byte> src = vsrc.value(l - 1);
 
     code_point_t cp = decode_code_point_head(src[0], vl).value();
 
@@ -118,7 +118,7 @@ inline void do_encode_code_point(
   const valid_byte_span& vdest,
   const valid_sequence_length vl) noexcept {
     const span_size_t l = vl.value();
-    const span<byte>& dest = vdest.value(l - 1);
+    span<byte> dest = vdest.value(l - 1);
 
     code_point_t val = cp.value();
 
@@ -129,8 +129,8 @@ inline void do_encode_code_point(
     }
 }
 //------------------------------------------------------------------------------
-inline valid_sequence_length
-encode_code_point(const code_point cp, const valid_byte_span& dest) noexcept {
+inline valid_sequence_length encode_code_point(
+  const code_point cp, const valid_byte_span& dest) noexcept {
     auto len = required_sequence_length(cp.value());
     do_encode_code_point(cp, dest, len);
     return len;
@@ -146,8 +146,8 @@ inline valid_if_not_empty<std::string> encode_code_point(code_point cp) {
     return {};
 }
 //------------------------------------------------------------------------------
-inline optionally_valid<span_size_t>
-encoding_bytes_required(const span<const code_point_t>& cps) noexcept {
+inline optionally_valid<span_size_t> encoding_bytes_required(
+  span<const code_point_t> cps) noexcept {
     span_size_t result = 0;
     for(code_point_t cp : cps) {
         if(auto len = required_sequence_length(cp)) {
@@ -158,8 +158,8 @@ encoding_bytes_required(const span<const code_point_t>& cps) noexcept {
     return {result, true};
 }
 //------------------------------------------------------------------------------
-inline optionally_valid<span_size_t>
-encoding_bytes_required(const span<const code_point>& cps) noexcept {
+inline optionally_valid<span_size_t> encoding_bytes_required(
+  span<const code_point> cps) noexcept {
     span_size_t result = 0;
     for(code_point cp : cps) {
         if(cp.is_valid()) {
@@ -173,8 +173,8 @@ encoding_bytes_required(const span<const code_point>& cps) noexcept {
     return {result, true};
 }
 //------------------------------------------------------------------------------
-inline optionally_valid<span_size_t>
-decoding_code_points_required(const valid_cbyte_span& bytes) noexcept {
+inline optionally_valid<span_size_t> decoding_code_points_required(
+  const valid_cbyte_span& bytes) noexcept {
     span_size_t result = 0;
 
     auto i = bytes.value(0).begin();
@@ -193,7 +193,7 @@ decoding_code_points_required(const valid_cbyte_span& bytes) noexcept {
 }
 //------------------------------------------------------------------------------
 inline bool encode_code_points(
-  const span<const code_point>& cps, const valid_byte_span& bytes) noexcept {
+  span<const code_point> cps, const valid_byte_span& bytes) noexcept {
     span_size_t i = 0;
 
     for(code_point cp : cps) {
@@ -213,8 +213,8 @@ inline bool encode_code_points(
     return true;
 }
 //------------------------------------------------------------------------------
-inline bool
-decode_code_points(const valid_cbyte_span& bytes, const span<code_point>& cps) {
+inline bool decode_code_points(
+  const valid_cbyte_span& bytes, span<code_point> cps) {
     span_size_t i = 0;
 
     for(code_point& cp : cps) {

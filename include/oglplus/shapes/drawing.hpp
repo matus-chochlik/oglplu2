@@ -57,8 +57,7 @@ public:
     outcome<void> draw() const noexcept;
 };
 
-outcome<void>
-draw_using_instructions(const span<const draw_operation>& ops) noexcept;
+outcome<void> draw_using_instructions(span<const draw_operation> ops) noexcept;
 
 } // namespace shapes
 } // namespace oglplus

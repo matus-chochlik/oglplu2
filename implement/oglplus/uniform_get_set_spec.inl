@@ -14,8 +14,8 @@ template <>
 struct prog_var_get_set_ops<tag::uniform, GLuint64> {
 
 #if defined(GL_NV_shader_buffer_load)
-    static outcome<void>
-    set(identity<GLuint64EXT>, uniform_location u, GLuint64EXT v0) noexcept {
+    static outcome<void> set(
+      identity<GLuint64EXT>, uniform_location u, GLuint64EXT v0) noexcept {
         OGLPLUS_GLFUNC(Uniformui64NV)(u.location(), v0);
         OGLPLUS_VERIFY_SIMPLE(Uniformui64NV, debug);
         return {};
@@ -25,7 +25,7 @@ struct prog_var_get_set_ops<tag::uniform, GLuint64> {
       identity<GLuint64EXT>,
       uniform_location u,
       GLsizei count,
-      const span<const GLuint64EXT>& v) noexcept {
+      span<const GLuint64EXT> v) noexcept {
         assert(count >= 0);
         assert(v.size() >= span_size_t(count));
         OGLPLUS_GLFUNC(Uniformui64vNV)(u.location(), count, v.data());
@@ -38,7 +38,7 @@ struct prog_var_get_set_ops<tag::uniform, GLuint64> {
       identity<GLuint64EXT[N]>,
       uniform_location u,
       GLsizei count,
-      const span<const GLuint64EXT>& v) noexcept {
+      span<const GLuint64EXT> v) noexcept {
         return set(identity<GLuint64EXT>(), u, N * count, v);
     }
 
@@ -58,7 +58,7 @@ struct prog_var_get_set_ops<tag::uniform, GLuint64> {
       identity<GLuint64EXT>,
       program_uniform_location pu,
       GLsizei count,
-      const span<const GLuint64EXT>& v) noexcept {
+      span<const GLuint64EXT> v) noexcept {
         assert(count >= 0);
         assert(v.size() >= span_size_t(count));
         OGLPLUS_GLFUNC(ProgramUniformui64vNV)
@@ -72,7 +72,7 @@ struct prog_var_get_set_ops<tag::uniform, GLuint64> {
       identity<GLuint64EXT[N]>,
       program_uniform_location pu,
       GLsizei count,
-      const span<const GLuint64EXT>& v) noexcept {
+      span<const GLuint64EXT> v) noexcept {
         return set(identity<GLuint64EXT>(), pu, N * count, v);
     }
 #endif
@@ -80,8 +80,8 @@ struct prog_var_get_set_ops<tag::uniform, GLuint64> {
 #endif // NV_shader_buffer_load
 
 #if defined(GL_ARB_bindless_texture)
-    static outcome<void>
-    set_handle(identity<GLuint64>, uniform_location u, GLuint64 v0) noexcept {
+    static outcome<void> set_handle(
+      identity<GLuint64>, uniform_location u, GLuint64 v0) noexcept {
         OGLPLUS_GLFUNC(UniformHandleui64ARB)(u.location(), v0);
         OGLPLUS_VERIFY_SIMPLE(UniformHandleui64ARB, debug);
         return {};
@@ -91,7 +91,7 @@ struct prog_var_get_set_ops<tag::uniform, GLuint64> {
       identity<GLuint64>,
       uniform_location u,
       GLsizei count,
-      const span<const GLuint64>& v) noexcept {
+      span<const GLuint64> v) noexcept {
         assert(count >= 0);
         assert(v.size() >= span_size_t(count));
         OGLPLUS_GLFUNC(UniformHandleui64vNV)(u.location(), count, v.data());
@@ -112,7 +112,7 @@ struct prog_var_get_set_ops<tag::uniform, GLuint64> {
       identity<GLuint64>,
       program_uniform_location pu,
       GLsizei count,
-      const span<const GLuint64>& v) noexcept {
+      span<const GLuint64> v) noexcept {
         assert(count >= 0);
         assert(v.size() >= span_size_t(count));
         OGLPLUS_GLFUNC(ProgramUniformHandleui64vNV)

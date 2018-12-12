@@ -34,7 +34,7 @@ span_size_t unit_screen_gen::vertex_count() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void unit_screen_gen::positions(const span<float>& dest) noexcept {
+void unit_screen_gen::positions(span<float> dest) noexcept {
     assert(dest.size() >= vertex_count() * 3);
 
     /*
@@ -69,7 +69,7 @@ void unit_screen_gen::positions(const span<float>& dest) noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void unit_screen_gen::normals(const span<float>& dest) noexcept {
+void unit_screen_gen::normals(span<float> dest) noexcept {
     assert(has(vertex_attrib_kind::normal));
     assert(dest.size() >= vertex_count() * 3);
 
@@ -84,7 +84,7 @@ void unit_screen_gen::normals(const span<float>& dest) noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void unit_screen_gen::tangentials(const span<float>& dest) noexcept {
+void unit_screen_gen::tangentials(span<float> dest) noexcept {
     assert(has(vertex_attrib_kind::tangential));
     assert(dest.size() >= vertex_count() * 3);
 
@@ -99,7 +99,7 @@ void unit_screen_gen::tangentials(const span<float>& dest) noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void unit_screen_gen::bitangentials(const span<float>& dest) noexcept {
+void unit_screen_gen::bitangentials(span<float> dest) noexcept {
     assert(has(vertex_attrib_kind::bitangential));
     assert(dest.size() >= vertex_count() * 3);
 
@@ -114,7 +114,7 @@ void unit_screen_gen::bitangentials(const span<float>& dest) noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void unit_screen_gen::face_coords(const span<float>& dest) noexcept {
+void unit_screen_gen::face_coords(span<float> dest) noexcept {
     assert(has(vertex_attrib_kind::face_coord));
     assert(dest.size() >= vertex_count() * 3);
 
@@ -150,8 +150,7 @@ void unit_screen_gen::face_coords(const span<float>& dest) noexcept {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void unit_screen_gen::attrib_values(
-  vertex_attrib_kind attr, const span<float>& dest) {
+void unit_screen_gen::attrib_values(vertex_attrib_kind attr, span<float> dest) {
     switch(attr) {
         case vertex_attrib_kind::position:
             positions(dest);
@@ -184,7 +183,7 @@ span_size_t unit_screen_gen::index_count() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void unit_screen_gen::indices(const span<unsigned>&) {
+void unit_screen_gen::indices(span<unsigned>) {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
@@ -193,7 +192,7 @@ span_size_t unit_screen_gen::operation_count() {
 }
 //------------------------------------------------------------------------------
 EAGINE_LIB_FUNC
-void unit_screen_gen::instructions(const span<draw_operation>& ops) {
+void unit_screen_gen::instructions(span<draw_operation> ops) {
     assert(ops.size() >= operation_count());
 
     draw_operation& op = ops[0];

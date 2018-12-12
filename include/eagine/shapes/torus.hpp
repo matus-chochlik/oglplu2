@@ -49,28 +49,27 @@ public:
 
     span_size_t vertex_count() override;
 
-    void positions(const span<float>& dest) noexcept;
+    void positions(span<float> dest) noexcept;
 
-    void normals(const span<float>& dest) noexcept;
+    void normals(span<float> dest) noexcept;
 
-    void tangentials(const span<float>& dest) noexcept;
+    void tangentials(span<float> dest) noexcept;
 
-    void bitangentials(const span<float>& dest) noexcept;
+    void bitangentials(span<float> dest) noexcept;
 
-    void wrap_coords(const span<float>& dest) noexcept;
+    void wrap_coords(span<float> dest) noexcept;
 
-    void
-    attrib_values(vertex_attrib_kind attr, const span<float>& dest) override;
+    void attrib_values(vertex_attrib_kind attr, span<float> dest) override;
 
     index_data_type index_type() override;
 
     span_size_t index_count() override;
 
-    void indices(const span<unsigned>& dest) override;
+    void indices(span<unsigned> dest) override;
 
     span_size_t operation_count() override;
 
-    void instructions(const span<draw_operation>& ops) override;
+    void instructions(span<draw_operation> ops) override;
 };
 
 } // namespace shapes

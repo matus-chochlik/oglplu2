@@ -81,7 +81,7 @@ inline void write_shader_source(
 inline void write_and_pad_program_source_header(
   std::ostream& output,
   program_source_header& header,
-  const span<const span_size_t>& shader_source_lengths,
+  span<const span_size_t> shader_source_lengths,
   span_size_t& spos) {
     using eagine::memory::is_aligned_as;
     while(!is_aligned_as<program_source_header>(spos)) {

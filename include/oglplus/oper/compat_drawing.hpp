@@ -45,16 +45,15 @@ struct compatibility_drawing {
         return {};
     }
 
-    static outcome<void>
-    vertex_s(GLshort x, GLshort y, GLshort z, GLshort w) noexcept {
+    static outcome<void> vertex_s(
+      GLshort x, GLshort y, GLshort z, GLshort w) noexcept {
         OGLPLUS_GLFUNC(Vertex4s)(x, y, z, w);
         return {};
     }
 
-    static outcome<void>
-    vertex(const span<const GLshort>& v, span_size_t n) noexcept;
+    static outcome<void> vertex(span<const GLshort> v, span_size_t n) noexcept;
 
-    static outcome<void> vertex(const span<const GLshort>& v) noexcept {
+    static outcome<void> vertex(span<const GLshort> v) noexcept {
         return vertex(v, v.size());
     }
 
@@ -73,10 +72,9 @@ struct compatibility_drawing {
         return {};
     }
 
-    static outcome<void>
-    vertex(const span<const GLint>& v, span_size_t n) noexcept;
+    static outcome<void> vertex(span<const GLint> v, span_size_t n) noexcept;
 
-    static outcome<void> vertex(const span<const GLint>& v) noexcept {
+    static outcome<void> vertex(span<const GLint> v) noexcept {
         return vertex(v, v.size());
     }
 
@@ -90,16 +88,15 @@ struct compatibility_drawing {
         return {};
     }
 
-    static outcome<void>
-    vertex_f(GLfloat x, GLfloat y, GLfloat z, GLfloat w) noexcept {
+    static outcome<void> vertex_f(
+      GLfloat x, GLfloat y, GLfloat z, GLfloat w) noexcept {
         OGLPLUS_GLFUNC(Vertex4f)(x, y, z, w);
         return {};
     }
 
-    static outcome<void>
-    vertex(const span<const GLfloat>& v, span_size_t n) noexcept;
+    static outcome<void> vertex(span<const GLfloat> v, span_size_t n) noexcept;
 
-    static outcome<void> vertex(const span<const GLfloat>& v) noexcept {
+    static outcome<void> vertex(span<const GLfloat> v) noexcept {
         return vertex(v, v.size());
     }
 
@@ -113,16 +110,15 @@ struct compatibility_drawing {
         return {};
     }
 
-    static outcome<void>
-    vertex_d(GLdouble x, GLdouble y, GLdouble z, GLdouble w) noexcept {
+    static outcome<void> vertex_d(
+      GLdouble x, GLdouble y, GLdouble z, GLdouble w) noexcept {
         OGLPLUS_GLFUNC(Vertex4d)(x, y, z, w);
         return {};
     }
 
-    static outcome<void>
-    vertex(const span<const GLdouble>& v, span_size_t n) noexcept;
+    static outcome<void> vertex(span<const GLdouble> v, span_size_t n) noexcept;
 
-    static outcome<void> vertex(const span<const GLdouble>& v) noexcept {
+    static outcome<void> vertex(span<const GLdouble> v) noexcept {
         return vertex(v, v.size());
     }
 
@@ -131,16 +127,15 @@ struct compatibility_drawing {
         return {};
     }
 
-    static outcome<void>
-    color_ub(GLubyte r, GLubyte g, GLubyte b, GLubyte a) noexcept {
+    static outcome<void> color_ub(
+      GLubyte r, GLubyte g, GLubyte b, GLubyte a) noexcept {
         OGLPLUS_GLFUNC(Color4ub)(r, g, b, a);
         return {};
     }
 
-    static outcome<void>
-    color(const span<const GLubyte>& v, span_size_t n) noexcept;
+    static outcome<void> color(span<const GLubyte> v, span_size_t n) noexcept;
 
-    static outcome<void> color(const span<const GLubyte>& v) noexcept {
+    static outcome<void> color(span<const GLubyte> v) noexcept {
         return color(v, v.size());
     }
 
@@ -154,10 +149,9 @@ struct compatibility_drawing {
         return {};
     }
 
-    static outcome<void>
-    color(const span<const GLint>& v, span_size_t n) noexcept;
+    static outcome<void> color(span<const GLint> v, span_size_t n) noexcept;
 
-    static outcome<void> color(const span<const GLint>& v) noexcept {
+    static outcome<void> color(span<const GLint> v) noexcept {
         return color(v, v.size());
     }
 
@@ -166,16 +160,15 @@ struct compatibility_drawing {
         return {};
     }
 
-    static outcome<void>
-    color_f(GLfloat r, GLfloat g, GLfloat b, GLfloat a) noexcept {
+    static outcome<void> color_f(
+      GLfloat r, GLfloat g, GLfloat b, GLfloat a) noexcept {
         OGLPLUS_GLFUNC(Color4f)(r, g, b, a);
         return {};
     }
 
-    static outcome<void>
-    color(const span<const GLfloat>& v, span_size_t n) noexcept;
+    static outcome<void> color(span<const GLfloat> v, span_size_t n) noexcept;
 
-    static outcome<void> color(const span<const GLfloat>& v) noexcept {
+    static outcome<void> color(span<const GLfloat> v) noexcept {
         return color(v, v.size());
     }
 
@@ -184,16 +177,15 @@ struct compatibility_drawing {
         return {};
     }
 
-    static outcome<void>
-    color_d(GLdouble r, GLdouble g, GLdouble b, GLdouble a) noexcept {
+    static outcome<void> color_d(
+      GLdouble r, GLdouble g, GLdouble b, GLdouble a) noexcept {
         OGLPLUS_GLFUNC(Color4d)(r, g, b, a);
         return {};
     }
 
-    static outcome<void>
-    color(const span<const GLdouble>& v, span_size_t n) noexcept;
+    static outcome<void> color(span<const GLdouble> v, span_size_t n) noexcept;
 
-    static outcome<void> color(const span<const GLdouble>& v) noexcept {
+    static outcome<void> color(span<const GLdouble> v) noexcept {
         return color(v, v.size());
     }
 
@@ -212,16 +204,16 @@ struct compatibility_drawing {
         return {};
     }
 
-    static outcome<void>
-    tex_coord_s(GLshort s, GLshort t, GLshort r, GLshort q) noexcept {
+    static outcome<void> tex_coord_s(
+      GLshort s, GLshort t, GLshort r, GLshort q) noexcept {
         OGLPLUS_GLFUNC(TexCoord4s)(s, t, r, q);
         return {};
     }
 
-    static outcome<void>
-    tex_coord(const span<const GLshort>& v, span_size_t n) noexcept;
+    static outcome<void> tex_coord(
+      span<const GLshort> v, span_size_t n) noexcept;
 
-    static outcome<void> tex_coord(const span<const GLshort>& v) noexcept {
+    static outcome<void> tex_coord(span<const GLshort> v) noexcept {
         return tex_coord(v, v.size());
     }
 
@@ -240,16 +232,15 @@ struct compatibility_drawing {
         return {};
     }
 
-    static outcome<void>
-    tex_coord_i(GLint s, GLint t, GLint r, GLint q) noexcept {
+    static outcome<void> tex_coord_i(
+      GLint s, GLint t, GLint r, GLint q) noexcept {
         OGLPLUS_GLFUNC(TexCoord4i)(s, t, r, q);
         return {};
     }
 
-    static outcome<void>
-    tex_coord(const span<const GLint>& v, span_size_t n) noexcept;
+    static outcome<void> tex_coord(span<const GLint> v, span_size_t n) noexcept;
 
-    static outcome<void> tex_coord(const span<const GLint>& v) noexcept {
+    static outcome<void> tex_coord(span<const GLint> v) noexcept {
         return tex_coord(v, v.size());
     }
 
@@ -268,16 +259,16 @@ struct compatibility_drawing {
         return {};
     }
 
-    static outcome<void>
-    tex_coord_f(GLfloat s, GLfloat t, GLfloat r, GLfloat q) noexcept {
+    static outcome<void> tex_coord_f(
+      GLfloat s, GLfloat t, GLfloat r, GLfloat q) noexcept {
         OGLPLUS_GLFUNC(TexCoord4f)(s, t, r, q);
         return {};
     }
 
-    static outcome<void>
-    tex_coord(const span<const GLfloat>& v, span_size_t n) noexcept;
+    static outcome<void> tex_coord(
+      span<const GLfloat> v, span_size_t n) noexcept;
 
-    static outcome<void> tex_coord(const span<const GLfloat>& v) noexcept {
+    static outcome<void> tex_coord(span<const GLfloat> v) noexcept {
         return tex_coord(v, v.size());
     }
 
@@ -291,22 +282,22 @@ struct compatibility_drawing {
         return {};
     }
 
-    static outcome<void>
-    tex_coord_d(GLdouble s, GLdouble t, GLdouble r) noexcept {
+    static outcome<void> tex_coord_d(
+      GLdouble s, GLdouble t, GLdouble r) noexcept {
         OGLPLUS_GLFUNC(TexCoord3d)(s, t, r);
         return {};
     }
 
-    static outcome<void>
-    tex_coord_d(GLdouble s, GLdouble t, GLdouble r, GLdouble q) noexcept {
+    static outcome<void> tex_coord_d(
+      GLdouble s, GLdouble t, GLdouble r, GLdouble q) noexcept {
         OGLPLUS_GLFUNC(TexCoord4d)(s, t, r, q);
         return {};
     }
 
-    static outcome<void>
-    tex_coord(const span<const GLdouble>& v, span_size_t n) noexcept;
+    static outcome<void> tex_coord(
+      span<const GLdouble> v, span_size_t n) noexcept;
 
-    static outcome<void> tex_coord(const span<const GLdouble>& v) noexcept {
+    static outcome<void> tex_coord(span<const GLdouble> v) noexcept {
         return tex_coord(v, v.size());
     }
 #endif // ARB_compatibility

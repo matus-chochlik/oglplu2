@@ -406,7 +406,7 @@ public:
     template <typename T, typename MissingFunc, typename InvalidFunc>
     bool do_consume_next(
       T& dest,
-      const span<const T>& choices,
+      span<const T> choices,
       MissingFunc handle_missing,
       InvalidFunc handle_invalid) {
         valid_if_in_list<T, span<const T>> temp(T(), choices);
@@ -420,7 +420,7 @@ public:
     template <typename T, typename P, class MissingFunc, class InvalidFunc>
     bool do_consume_next(
       valid_if<T, P>& dest,
-      const span<const T>& choices,
+      span<const T> choices,
       MissingFunc handle_missing,
       InvalidFunc handle_invalid) {
         T temp;
@@ -434,8 +434,7 @@ public:
     }
 
     template <typename T, typename C>
-    bool consume_next(
-      T& dest, const span<const C>& choices, std::ostream& errorlog) {
+    bool consume_next(T& dest, span<const C> choices, std::ostream& errorlog) {
         auto if_missing = missing_handler(errorlog);
         auto if_invalid = invalid_handler(errorlog);
         return do_consume_next(dest, choices, if_missing, if_invalid);
@@ -467,8 +466,8 @@ public:
     template <typename T, typename MissingFunc, typename InvalidFunc>
     bool do_consume_next(
       T& dest,
-      const span<const string_view>& symbols,
-      const span<const T>& translations,
+      span<const string_view> symbols,
+      span<const T> translations,
       MissingFunc handle_missing,
       InvalidFunc handle_invalid) {
         assert(symbols.size() <= translations.size());
@@ -488,8 +487,8 @@ public:
     template <typename T, typename P, class MissingFunc, class InvalidFunc>
     bool do_consume_next(
       valid_if<T, P>& dest,
-      const span<const string_view>& symbols,
-      const span<const T>& translations,
+      span<const string_view> symbols,
+      span<const T> translations,
       MissingFunc handle_missing,
       InvalidFunc handle_invalid) {
         T temp;
@@ -506,8 +505,8 @@ public:
     template <typename T, typename R>
     bool consume_next(
       T& dest,
-      const span<const string_view>& symbols,
-      const span<const R>& translations,
+      span<const string_view> symbols,
+      span<const R> translations,
       std::ostream& errorlog) {
         auto if_missing = missing_handler(errorlog);
         auto if_invalid = invalid_handler(errorlog);
@@ -518,8 +517,8 @@ public:
     template <typename T, typename R, class MissingFunc, class InvalidFunc>
     bool do_parse_param(
       program_parameter<T>& param,
-      const span<const string_view>& symbols,
-      const span<const R>& translations,
+      span<const string_view> symbols,
+      span<const R> translations,
       MissingFunc handle_missing,
       InvalidFunc handle_invalid) {
         if(is_tag_param(param)) {
@@ -536,8 +535,8 @@ public:
     template <typename T, typename R>
     bool parse_param(
       program_parameter<T>& param,
-      const span<const string_view>& symbols,
-      const span<const R>& translations,
+      span<const string_view> symbols,
+      span<const R> translations,
       std::ostream& errorlog) {
         auto if_missing = missing_handler(errorlog);
         auto if_invalid = invalid_handler(errorlog);
@@ -548,8 +547,8 @@ public:
     template <typename T, typename R, class MissingFunc, class InvalidFunc>
     bool do_parse_param(
       program_parameter_alias<T>& param,
-      const span<const string_view>& symbols,
-      const span<const R>& translations,
+      span<const string_view> symbols,
+      span<const R> translations,
       MissingFunc handle_missing,
       InvalidFunc handle_invalid) {
         if(is_tag_param(param)) {
@@ -566,8 +565,8 @@ public:
     template <typename T, typename R>
     bool parse_param(
       program_parameter_alias<T>& param,
-      const span<const string_view>& symbols,
-      const span<const R>& translations,
+      span<const string_view> symbols,
+      span<const R> translations,
       std::ostream& errorlog) {
         auto if_missing = missing_handler(errorlog);
         auto if_invalid = invalid_handler(errorlog);

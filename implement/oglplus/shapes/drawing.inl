@@ -12,8 +12,8 @@ namespace oglplus {
 namespace shapes {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-primitive_type
-draw_operation::_translate(eagine::shapes::primitive_type mode) noexcept {
+primitive_type draw_operation::_translate(
+  eagine::shapes::primitive_type mode) noexcept {
     switch(mode) {
         case eagine::shapes::primitive_type::points:
             return primitive_type(GL_POINTS);
@@ -34,8 +34,8 @@ draw_operation::_translate(eagine::shapes::primitive_type mode) noexcept {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-data_type
-draw_operation::_translate(eagine::shapes::index_data_type type) noexcept {
+data_type draw_operation::_translate(
+  eagine::shapes::index_data_type type) noexcept {
     switch(type) {
         // TODO currently all indices are GLuint
         case eagine::shapes::index_data_type::unsigned_byte:
@@ -51,8 +51,8 @@ draw_operation::_translate(eagine::shapes::index_data_type type) noexcept {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-span_size_t
-draw_operation::_byte_mult(eagine::shapes::index_data_type type) noexcept {
+span_size_t draw_operation::_byte_mult(
+  eagine::shapes::index_data_type type) noexcept {
     switch(type) {
         // TODO currently all indices are GLuint
         case eagine::shapes::index_data_type::unsigned_byte:
@@ -107,8 +107,7 @@ outcome<void> draw_operation::draw() const noexcept {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-outcome<void>
-draw_using_instructions(const span<const draw_operation>& ops) noexcept {
+outcome<void> draw_using_instructions(span<const draw_operation> ops) noexcept {
     for(const draw_operation& op : ops) {
         if(auto res = failure(op.draw())) {
             return std::move(res);
