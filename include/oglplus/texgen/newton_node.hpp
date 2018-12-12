@@ -22,7 +22,7 @@ private:
 
     newton_function _function;
 
-    cstr_ref _func_name() const;
+    string_view _func_name() const;
 
 public:
     newton_output(node_intf& parent, newton_function);
@@ -31,7 +31,7 @@ public:
       : newton_output(parent, newton_function::xe3minus1) {
     }
 
-    cstr_ref type_name() override;
+    string_view type_name() override;
 
     slot_data_type value_type() override;
 

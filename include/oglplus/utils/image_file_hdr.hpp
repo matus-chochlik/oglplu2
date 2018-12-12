@@ -11,7 +11,7 @@
 #define OGLPLUS_UTILS_IMAGE_FILE_HDR_1509260923_HPP
 
 #include <eagine/file_magic_number.hpp>
-#include <eagine/offset_ptr.hpp>
+#include <eagine/memory/offset_span.hpp>
 #include <eagine/valid_if/positive.hpp>
 #include <array>
 
@@ -23,7 +23,7 @@ struct image_data_header {
     GLenum format, internal_format;
     GLenum data_type;
 
-    eagine::offset_array<const GLubyte> pixels;
+    eagine::memory::offset_span<const GLubyte> pixels;
 
     constexpr image_data_header() noexcept
       : width(0)

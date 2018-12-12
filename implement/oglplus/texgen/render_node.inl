@@ -113,7 +113,7 @@ void render_node::_update_program() {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 render_node::render_node()
-  : _input(*this, cstr_ref("Input"), 0.5f, 0.5f, 0.5f, 1.0f)
+  : _input(*this, string_view("Input"), 0.5f, 0.5f, 0.5f, 1.0f)
   , _xdiv(1)
   , _ydiv(1)
   , _tile(0)
@@ -171,8 +171,8 @@ std::ostream& render_node::make_fragment_shader_source(
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref render_node::type_name() {
-    return cstr_ref("Render");
+string_view render_node::type_name() {
+    return string_view("Render");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC

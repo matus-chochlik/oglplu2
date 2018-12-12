@@ -13,7 +13,7 @@ namespace oglplus {
 namespace texgen {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref base_input::name() noexcept {
+string_view base_input::name() noexcept {
     return _name;
 }
 //------------------------------------------------------------------------------

@@ -19,7 +19,7 @@ namespace oper {
 struct debugging {
 #if defined(GL_VERSION_4_3)
     static outcome<void> push_debug_group(
-      debug_output_source source, GLuint id, cstring_span message) noexcept;
+      debug_output_source source, GLuint id, string_view message) noexcept;
 
     static outcome<void> pop_debug_group() noexcept;
 
@@ -35,7 +35,7 @@ struct debugging {
       debug_output_type type,
       GLuint id,
       debug_output_severity severity,
-      cstring_span message) noexcept;
+      string_view message) noexcept;
 
     static outcome<void>
     debug_message_callback(GLDEBUGPROC callback, void* user_param) noexcept;

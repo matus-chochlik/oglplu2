@@ -32,7 +32,7 @@ public:
 
     bool can_add_input() override;
 
-    input_intf& add_input(const cstr_ref&) override;
+    input_intf& add_input(string_view) override;
 
     span_size_t output_count() override;
 
@@ -49,7 +49,7 @@ class base_single_output_node : public base_node {
 public:
     virtual base_output& single_output() = 0;
 
-    cstr_ref type_name() override;
+    string_view type_name() override;
 
     span_size_t output_count() override;
 

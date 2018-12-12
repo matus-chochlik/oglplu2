@@ -17,13 +17,13 @@ namespace texgen {
 class base_input : public input_intf {
 private:
     node_intf& _parent;
-    cstr_ref _name;
+    string_view _name;
     output_intf* _output;
 
 public:
     base_input(base_input&&) = default;
 
-    base_input(node_intf& par_node, const cstr_ref& name_str) noexcept
+    base_input(node_intf& par_node, string_view name_str) noexcept
       : _parent(par_node)
       , _name(name_str)
       , _output(nullptr) {
@@ -35,11 +35,11 @@ public:
         return _parent;
     }
 
-    void set_name(const cstr_ref& name) noexcept {
+    void set_name(string_view name) noexcept {
         _name = name;
     }
 
-    cstr_ref name() noexcept override;
+    string_view name() noexcept override;
 
     bool is_connected() noexcept override;
 

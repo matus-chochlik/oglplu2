@@ -13,7 +13,7 @@
 #include <cassert>
 
 #define EAGINE_CONSTEXPR_ASSERT(CHECK, RESULT) \
-    ((EAGINE_LIKELY(CHECK) ? void(0) : [] { assert(!#CHECK); }()), RESULT)
+    ((EAGINE_LIKELY(CHECK) ? void(0) : [] { assert(!bool(#CHECK)); }()), RESULT)
 
 #define EAGINE_ABORT(MSG) assert(!bool(MSG))
 #define EAGINE_UNREACHABLE(MSG) EAGINE_ABORT(MSG)

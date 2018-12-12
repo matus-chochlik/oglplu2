@@ -25,17 +25,17 @@ struct object_common_ops {
     template <GLenum ObjectType>
     static outcome<void> object_label(
       object_name<oglplus::tag::gl_obj_tag<ObjectType>> obj,
-      cstring_span label) noexcept;
+      string_view label) noexcept;
 
     static outcome<void>
-    object_label(const sync_object& obj, cstring_span label) noexcept;
+    object_label(const sync_object& obj, string_view label) noexcept;
 
     template <GLenum ObjectType>
-    static outcome<cstring_span> get_object_label(
+    static outcome<string_view> get_object_label(
       object_name<oglplus::tag::gl_obj_tag<ObjectType>> obj,
       string_span storage) noexcept;
 
-    static outcome<cstring_span>
+    static outcome<string_view>
     get_object_label(const sync_object& obj, string_span label) noexcept;
 #endif
 };

@@ -10,7 +10,7 @@
 #define OGLPLUS_TEXGEN_DATA_TYPE_1509260923_HPP
 
 #include "../config/basic.hpp"
-#include "../utils/cstr_ref.hpp"
+#include "../utils/string_span.hpp"
 #include "../utils/types.hpp"
 #include <eagine/valid_if/between.hpp>
 #include <iosfwd>
@@ -92,7 +92,7 @@ struct get_data_type<float[4]>
 template <typename T>
 constexpr slot_data_type get_data_type_v = get_data_type<T>::value;
 
-cstr_ref data_type_name(slot_data_type) noexcept;
+string_view data_type_name(slot_data_type) noexcept;
 
 scalar_data_type elem_data_type(slot_data_type) noexcept;
 
@@ -118,10 +118,10 @@ std::ostream& conversion_suffix(
   std::ostream& out,
   slot_data_type from,
   slot_data_type to,
-  cstr_ref x,
-  cstr_ref y,
-  cstr_ref z,
-  cstr_ref w);
+  string_view x,
+  string_view y,
+  string_view z,
+  string_view w);
 
 namespace expr {
 
@@ -140,7 +140,7 @@ std::ostream& operator<<(std::ostream&, conversion_suffix);
 struct conversion_suffix_v {
     slot_data_type from;
     slot_data_type to;
-    cstr_ref val[4];
+    string_view val[4];
 };
 std::ostream& operator<<(std::ostream&, conversion_suffix_v);
 

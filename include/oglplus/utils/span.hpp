@@ -15,8 +15,11 @@
 
 namespace oglplus {
 
-using eagine::make_span;
+using eagine::cover;
 using eagine::span;
+using eagine::view;
+using eagine::memory::accomodate;
+using eagine::memory::can_accomodate;
 
 } // namespace oglplus
 

@@ -17,12 +17,12 @@ namespace texgen {
 OGLPLUS_LIB_FUNC
 stripes_output::stripes_output(node_intf& parent)
   : base_output(parent)
-  , repeat(parent, cstr_ref("Repeat"), 8.f, 8.f, 8.f) {
+  , repeat(parent, string_view("Repeat"), 8.f, 8.f, 8.f) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref stripes_output::type_name() {
-    return cstr_ref("Stripes");
+string_view stripes_output::type_name() {
+    return string_view("Stripes");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC

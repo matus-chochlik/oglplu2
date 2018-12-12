@@ -19,7 +19,7 @@
 namespace oalplus {
 
 OALPLUS_LIB_FUNC
-cstr_ref get_enum_value_name(const any_enum_value_alut& aev) noexcept {
+string_view get_enum_value_name(const any_enum_value_alut& aev) noexcept {
 #ifdef ALUT_ERROR_ALC_ERROR_ON_ENTRY
     static const char s_ERROR_ALC_ERROR_ON_ENTRY[25] =
       "ERROR_ALC_ERROR_ON_ENTRY";

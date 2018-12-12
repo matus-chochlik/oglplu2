@@ -10,7 +10,7 @@
 #define OGLPLUS_EXAMPLE_ARGS_1512120710_HPP
 
 #include <eagine/valid_if/not_empty.hpp>
-#include <oglplus/utils/cstr_ref.hpp>
+#include <oglplus/utils/string_span.hpp>
 #include <iosfwd>
 
 namespace eagine {
@@ -27,14 +27,14 @@ class example_args;
 
 class example_param_tags {
 protected:
-    cstr_ref _stag;
-    cstr_ref _ltag;
+    string_view _stag;
+    string_view _ltag;
 
     friend class example_arg;
     friend class example_args;
 
 public:
-    example_param_tags(cstr_ref stag, cstr_ref ltag) noexcept
+    example_param_tags(string_view stag, string_view ltag) noexcept
       : _stag(stag)
       , _ltag(ltag) {
     }
@@ -51,7 +51,7 @@ private:
     friend class example_args;
 
 public:
-    example_param(cstr_ref stag, cstr_ref ltag, T initial)
+    example_param(string_view stag, string_view ltag, T initial)
       : example_param_tags(stag, ltag)
       , _value(initial) {
     }
@@ -61,7 +61,7 @@ public:
     }
 };
 
-typedef example_param<eagine::valid_if_not_empty<cstr_ref>>
+typedef example_param<eagine::valid_if_not_empty<string_view>>
   example_string_param;
 
 class example_arg {
@@ -94,7 +94,7 @@ public:
 
     const char** argv() const noexcept;
 
-    cstr_ref command() const noexcept;
+    string_view command() const noexcept;
 
     bool parse_param(example_string_param& param) const;
 };

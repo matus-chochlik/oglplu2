@@ -31,9 +31,9 @@ struct prog_var_loc_ops<tag::vertex_attrib> {
     typedef tag::vertex_attrib tag;
 
     static outcome<prog_var_loc<tag>>
-    get_location(program_name prog, cstr_ref identifier) noexcept {
+    get_location(program_name prog, string_view identifier) noexcept {
         GLint loc = OGLPLUS_GLFUNC(GetAttribLocation)(
-          get_raw_name(prog), identifier.c_str());
+          get_raw_name(prog), c_str(identifier));
         OGLPLUS_VERIFY(
           GetAttribLocation, identifier(identifier).gl_object(prog), always);
 

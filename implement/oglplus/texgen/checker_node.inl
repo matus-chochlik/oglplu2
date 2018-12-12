@@ -17,12 +17,12 @@ namespace texgen {
 OGLPLUS_LIB_FUNC
 checker_output::checker_output(node_intf& parent)
   : base_output(parent)
-  , repeat(parent, cstr_ref("Repeat"), 8.f, 8.f, 8.f) {
+  , repeat(parent, string_view("Repeat"), 8.f, 8.f, 8.f) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref checker_output::type_name() {
-    return cstr_ref("Checker");
+string_view checker_output::type_name() {
+    return string_view("Checker");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -64,8 +64,8 @@ pixel_checker_output::pixel_checker_output(node_intf& parent)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref pixel_checker_output::type_name() {
-    return cstr_ref("PixelChecker");
+string_view pixel_checker_output::type_name() {
+    return string_view("PixelChecker");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC

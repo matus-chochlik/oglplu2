@@ -10,36 +10,35 @@
 #ifndef EAGINE_STRING_LIST_1509260923_HPP
 #define EAGINE_STRING_LIST_1509260923_HPP
 
+#include "memory/span_algo.hpp"
 #include "multi_byte_seq.hpp"
-#include "range_algo.hpp"
 #include "string_span.hpp"
 #include <cassert>
 #include <iterator>
 #include <string>
+#include <tuple>
 
 namespace eagine {
 namespace string_list {
-
+//------------------------------------------------------------------------------
 static inline std::string encode_length(span_size_t len) {
     return mbs::encode_code_point(mbs::code_point_t(len)).value();
 }
-
-static inline span_size_t
-element_header_size(const cstring_span& elem) noexcept {
+//------------------------------------------------------------------------------
+static inline span_size_t element_header_size(string_view elem) noexcept {
     return mbs::decode_sequence_length(mbs::make_cbyte_span(elem)).value();
 }
-
+//------------------------------------------------------------------------------
 static inline span_size_t
-element_value_size(const cstring_span& elem, span_size_t l) noexcept {
+element_value_size(string_view elem, span_size_t l) noexcept {
     return mbs::do_decode_code_point(mbs::make_cbyte_span(elem), l);
 }
-
-static inline span_size_t
-element_value_size(const cstring_span& elem) noexcept {
+//------------------------------------------------------------------------------
+static inline span_size_t element_value_size(string_view elem) noexcept {
     return element_value_size(elem, elem.size());
 }
-
-static inline span_size_t rev_seek_header_start(const cstring_span& elem) {
+//------------------------------------------------------------------------------
+static inline span_size_t rev_seek_header_start(string_view elem) {
     for(auto i = elem.rbegin(); i != elem.rend(); ++i) {
         if(mbs::is_valid_head_byte(byte(*i))) {
             return elem.rend() - i - 1;
@@ -47,32 +46,31 @@ static inline span_size_t rev_seek_header_start(const cstring_span& elem) {
     }
     return 0;
 }
-
-static inline cstring_span front_value(const cstring_span& list) noexcept {
+//------------------------------------------------------------------------------
+static inline string_view front_value(string_view list) noexcept {
     const span_size_t k = element_header_size(list);
     const span_size_t l = element_value_size(list, k);
-    return list.subspan(k, l);
+    return subspan(list, k, l);
 }
-
-static inline cstring_span back_value(const cstring_span& list) noexcept {
+//------------------------------------------------------------------------------
+static inline string_view back_value(string_view list) noexcept {
     const span_size_t i = rev_seek_header_start(list);
-    const cstring_span head = list.subspan(i);
-    const span_size_t k = element_header_size(head);
-    const span_size_t l = element_value_size(head, k);
-    return list.subspan(i - l, l);
+    string_view header = skip(list, i);
+    const span_size_t k = element_header_size(header);
+    const span_size_t l = element_value_size(header, k);
+    return subspan(list, i - l, l);
 }
-
-static inline cstring_span pop_back(const cstring_span& list) noexcept {
+//------------------------------------------------------------------------------
+static inline string_view pop_back(string_view list) noexcept {
     const span_size_t i = rev_seek_header_start(list);
-    const cstring_span head = list.subspan(i);
-    const span_size_t k = element_header_size(head);
-    const span_size_t l = element_value_size(head, k);
+    string_view header = skip(list, i);
+    const span_size_t k = element_header_size(header);
+    const span_size_t l = element_value_size(header, k);
     assert(i >= k + l);
-    return list.subspan(0, i - k - l);
+    return head(list, i - k - l);
 }
-
-static inline void
-push_back(std::string& list, const cstring_span& value) noexcept {
+//------------------------------------------------------------------------------
+static inline void push_back(std::string& list, string_view value) noexcept {
     const span_size_t vl = value.size();
     const std::string elen = encode_length(vl);
     const std::size_t nl = list.size() + elen.size() * 2 + std_size(vl);
@@ -83,55 +81,55 @@ push_back(std::string& list, const cstring_span& value) noexcept {
     list.append(value.data(), std_size(vl));
     list.append(elen);
 }
-
-class element : public cstring_span {
+//------------------------------------------------------------------------------
+class element : public string_view {
 private:
-    cstring_span& _base() {
+    string_view _base() {
         return *this;
     }
-    const cstring_span& _base() const {
+    string_view _base() const {
         return *this;
     }
 
-    static inline cstring_span _fit(const cstring_span& s) noexcept {
+    static inline string_view _fit(string_view s) noexcept {
         span_size_t hs = element_header_size(s);
         span_size_t vs = element_value_size(s, hs);
         assert(s.size() >= hs + vs + hs);
         return {s.data(), hs + vs + hs};
     }
 
-    static inline cstring_span
+    static inline string_view
     _fit(const char* ptr, span_size_t max_size) noexcept {
-        return _fit(cstring_span(ptr, max_size));
+        return _fit(string_view(ptr, max_size));
     }
 
-    static inline cstring_span
-    _rev_fit(const cstring_span& s, span_size_t rev_sz) noexcept {
+    static inline string_view
+    _rev_fit(string_view s, span_size_t rev_sz) noexcept {
         span_size_t hs = element_header_size(s);
         span_size_t vs = element_value_size(s, hs);
         assert(rev_sz >= hs + vs);
         return {s.data() - hs - vs, hs + vs + hs};
     }
 
-    static inline cstring_span _rev_fit(
+    static inline string_view _rev_fit(
       const char* ptr, span_size_t rev_sz, span_size_t foot_sz) noexcept {
-        return _rev_fit(cstring_span(ptr, foot_sz), rev_sz);
+        return _rev_fit(string_view(ptr, foot_sz), rev_sz);
     }
 
 public:
     element(const char* ptr, span_size_t max_size) noexcept
-      : cstring_span(_fit(ptr, max_size)) {
+      : string_view(_fit(ptr, max_size)) {
     }
 
     element(const char* ptr, span_size_t rev_sz, span_size_t foot_sz) noexcept
-      : cstring_span(_rev_fit(ptr, rev_sz, foot_sz)) {
+      : string_view(_rev_fit(ptr, rev_sz, foot_sz)) {
     }
 
     span_size_t header_size() const noexcept {
         return element_header_size(_base());
     }
 
-    cstring_span header() const noexcept {
+    string_view header() const noexcept {
         return {data(), header_size()};
     }
 
@@ -143,7 +141,7 @@ public:
         return data() + header_size();
     }
 
-    cstring_span value() const noexcept {
+    string_view value() const noexcept {
         return {value_data(), value_size()};
     }
 
@@ -151,13 +149,13 @@ public:
         return element_header_size(_base());
     }
 
-    cstring_span footer() const noexcept {
+    string_view footer() const noexcept {
         return {data() + header_size() + value_size(), header_size()};
     }
 };
-
+//------------------------------------------------------------------------------
 template <typename Func>
-static inline void for_each_elem(const cstring_span& list, Func func) noexcept {
+static inline void for_each_elem(string_view list, Func func) noexcept {
     span_size_t i = 0;
     bool first = true;
     while(i < list.size()) {
@@ -167,18 +165,16 @@ static inline void for_each_elem(const cstring_span& list, Func func) noexcept {
         first = false;
     }
 }
-
+//------------------------------------------------------------------------------
 template <typename Func>
-static inline void for_each(const cstring_span& list, Func func) noexcept {
-    auto adapted_func = [&func](const element& elem, bool) {
-        func(elem.value());
-    };
+static inline void for_each(string_view list, Func func) noexcept {
+    auto adapted_func = [&func](
+                          const element& elem, bool) { func(elem.value()); };
     for_each_elem(list, adapted_func);
 }
-
+//------------------------------------------------------------------------------
 template <typename Func>
-static inline void
-rev_for_each_elem(const cstring_span& list, Func func) noexcept {
+static inline void rev_for_each_elem(string_view list, Func func) noexcept {
     span_size_t i = list.size() - 1;
     bool first = true;
     while(i > 0) {
@@ -192,28 +188,27 @@ rev_for_each_elem(const cstring_span& list, Func func) noexcept {
         first = false;
     }
 }
-
+//------------------------------------------------------------------------------
 template <typename Func>
-static inline void rev_for_each(const cstring_span& list, Func func) noexcept {
-    auto adapted_func = [&func](const element& elem, bool) {
-        func(elem.value());
-    };
+static inline void rev_for_each(string_view list, Func func) noexcept {
+    auto adapted_func = [&func](
+                          const element& elem, bool) { func(elem.value()); };
     rev_for_each_elem(list, adapted_func);
 }
-
+//------------------------------------------------------------------------------
 static inline std::tuple<std::string, span_size_t>
-split(const cstring_span& str, const cstring_span& sep) {
+split(string_view str, string_view sep) {
     std::string res;
     span_size_t cnt = 0;
-    ranges::for_each_delimited(str, sep, [&res, &cnt](const auto& x) {
+    for_each_delimited(str, sep, [&res, &cnt](const auto& x) {
         push_back(res, x);
         ++cnt;
     });
     return std::make_tuple(res, cnt);
 }
-
+//------------------------------------------------------------------------------
 static inline std::string
-join(const cstring_span& list, const cstring_span& sep, bool trail_sep) {
+join(string_view list, string_view sep, bool trail_sep) {
     span_size_t slen = sep.size();
     span_size_t len = trail_sep ? slen : 0;
     auto get_len = [&len, slen](const element& elem, bool first) {
@@ -240,17 +235,16 @@ join(const cstring_span& list, const cstring_span& sep, bool trail_sep) {
 
     return res;
 }
-
-static inline std::string
-join(const cstring_span& list, const cstring_span& sep) {
+//------------------------------------------------------------------------------
+static inline std::string join(string_view list, string_view sep) {
     return join(list, sep, false);
 }
-
+//------------------------------------------------------------------------------
 template <typename Iter>
 class iterator {
 private:
     Iter _pos;
-    mutable cstring_span _tmp;
+    mutable string_view _tmp;
 
     byte _b() const noexcept {
         assert(_pos != nullptr);
@@ -264,7 +258,7 @@ private:
     }
 
     span_size_t _val_len(span_size_t ll) const noexcept {
-        cstring_span el{_pos, ll};
+        string_view el{_pos, ll};
         return mbs::do_decode_code_point(mbs::make_cbyte_span(el), ll);
     }
 
@@ -272,13 +266,13 @@ private:
         if(_pos != nullptr && (_tmp.size() == 0)) {
             span_size_t ll = _len_len();
             span_size_t vl = _val_len(ll);
-            _tmp = cstring_span{_pos + ll, vl};
+            _tmp = string_view{_pos + ll, vl};
         }
     }
 
 public:
     typedef std::ptrdiff_t difference_type;
-    typedef cstring_span value_type;
+    typedef string_view value_type;
     typedef const value_type& reference;
     typedef const value_type* pointer;
     typedef std::forward_iterator_tag iterator_category;
@@ -320,7 +314,7 @@ public:
         span_size_t ll = _len_len();
         span_size_t vl = _val_len(ll);
         _pos += ll + vl + ll;
-        _tmp = cstring_span();
+        _tmp = string_view();
         return *this;
     }
 
@@ -330,12 +324,12 @@ public:
         return result;
     }
 };
-
+//------------------------------------------------------------------------------
 template <typename Iter>
 class rev_iterator {
 private:
     mutable Iter _pos;
-    mutable cstring_span _tmp;
+    mutable string_view _tmp;
 
     byte _b() const noexcept {
         assert(_pos != nullptr);
@@ -356,7 +350,7 @@ private:
     }
 
     span_size_t _val_len(span_size_t ll) const noexcept {
-        cstring_span el{_pos, ll};
+        string_view el{_pos, ll};
         return mbs::do_decode_code_point(mbs::make_cbyte_span(el), ll);
     }
 
@@ -365,13 +359,13 @@ private:
             _rseek_head();
             span_size_t ll = _len_len();
             span_size_t vl = _val_len(ll);
-            _tmp = cstring_span{_pos - vl, vl};
+            _tmp = string_view{_pos - vl, vl};
         }
     }
 
 public:
     typedef std::ptrdiff_t difference_type;
-    typedef cstring_span value_type;
+    typedef string_view value_type;
     typedef const value_type& reference;
     typedef const value_type* pointer;
     typedef std::forward_iterator_tag iterator_category;
@@ -414,7 +408,7 @@ public:
         span_size_t ll = _len_len();
         span_size_t vl = _val_len(ll);
         _pos -= ll + vl + 1;
-        _tmp = cstring_span();
+        _tmp = string_view();
         return *this;
     }
 
@@ -424,7 +418,7 @@ public:
         return result;
     }
 };
-
+//------------------------------------------------------------------------------
 } // namespace string_list
 } // namespace eagine
 

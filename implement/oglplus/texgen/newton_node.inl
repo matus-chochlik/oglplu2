@@ -19,8 +19,8 @@ newton_output::newton_output(node_intf& parent, newton_function func)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref newton_output::type_name() {
-    return cstr_ref("Newton");
+string_view newton_output::type_name() {
+    return string_view("Newton");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -29,13 +29,13 @@ slot_data_type newton_output::value_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref newton_output::_func_name() const {
+string_view newton_output::_func_name() const {
     if(_function == newton_function::xe3minus1) {
-        return cstr_ref("fXe3Minus1");
+        return string_view("fXe3Minus1");
     } else if(_function == newton_function::xe4minus1) {
-        return cstr_ref("fXe4Minus1");
+        return string_view("fXe4Minus1");
     }
-    return cstr_ref();
+    return string_view();
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -46,7 +46,7 @@ newton_output::definitions(std::ostream& result, compile_context& context) {
 
     input_defs(result, context);
 
-    cstr_ref tag("complex_div");
+    string_view tag("complex_div");
     if(!context.has_tag(tag)) {
         result << "vec2 oglptgComplexDiv(vec2 a, vec2 b)";
         result << std::endl;
@@ -69,7 +69,7 @@ newton_output::definitions(std::ostream& result, compile_context& context) {
     }
 
     if(_function == newton_function::xe3minus1) {
-        tag = cstr_ref("complex_xe3minus1");
+        tag = string_view("complex_xe3minus1");
         if(!context.has_tag(tag)) {
             result << "vec2 oglptgNewton_";
             result << _func_name() << "(vec2 n)";
@@ -106,7 +106,7 @@ newton_output::definitions(std::ostream& result, compile_context& context) {
             context.add_tag(tag);
         }
     } else if(_function == newton_function::xe4minus1) {
-        tag = cstr_ref("complex_xe4minus1");
+        tag = string_view("complex_xe4minus1");
         if(!context.has_tag(tag)) {
             result << "vec2 oglptgNewton_";
             result << _func_name() << "(vec2 n)";

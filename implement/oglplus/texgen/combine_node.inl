@@ -19,15 +19,15 @@ namespace texgen {
 OGLPLUS_LIB_FUNC
 combine_output::combine_output(node_intf& parent)
   : base_output(parent)
-  , input_r(parent, cstr_ref("Red"))
-  , input_g(parent, cstr_ref("Green"))
-  , input_b(parent, cstr_ref("Blue"))
-  , input_a(parent, cstr_ref("Alpha")) {
+  , input_r(parent, string_view("Red"))
+  , input_g(parent, string_view("Green"))
+  , input_b(parent, string_view("Blue"))
+  , input_a(parent, string_view("Alpha")) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref combine_output::type_name() {
-    return cstr_ref("Combine");
+string_view combine_output::type_name() {
+    return string_view("Combine");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC

@@ -37,9 +37,9 @@ public:
         return _parent;
     }
 
-    virtual cstr_ref type_name() = 0;
+    virtual string_view type_name() = 0;
 
-    cstr_ref name() noexcept override;
+    string_view name() noexcept override;
 
     render_param_bits required_params() override;
 
@@ -67,7 +67,7 @@ public:
 
     std::intptr_t get_id() const noexcept;
 
-    void append_id(std::ostream&, const cstr_ref&);
+    void append_id(std::ostream&, string_view);
     void append_id(std::ostream&);
 };
 

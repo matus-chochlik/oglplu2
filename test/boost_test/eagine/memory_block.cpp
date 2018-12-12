@@ -61,7 +61,7 @@ void eagine_test_memory_block_2() {
 
     int x;
 
-    basic_memory_block<is_const> bmb = memory::block_of(x);
+    basic_memory_block<is_const> bmb = as_bytes(coverOne(x));
 
     BOOST_CHECK(bool(bmb));
     BOOST_CHECK(!!bmb);
@@ -92,7 +92,7 @@ void eagine_test_memory_block_3() {
 
     double x[42];
 
-    basic_memory_block<is_const> bmb = memory::block_of(x);
+    basic_memory_block<is_const> bmb = as_bytes(cover(x));
 
     BOOST_CHECK(bool(bmb));
     BOOST_CHECK(!!bmb);
@@ -122,8 +122,9 @@ void eagine_test_memory_block_4() {
     using namespace eagine;
 
     double x[42];
+    double* px = &x[0];
 
-    basic_memory_block<is_const> bmb(x, 42);
+    basic_memory_block<is_const> bmb(px, 42);
 
     BOOST_CHECK(bool(bmb));
     BOOST_CHECK(!!bmb);
@@ -158,7 +159,7 @@ void eagine_test_memory_block_5() {
         b = rg.get<byte>(0x00, 0xFF);
     }
 
-    basic_memory_block<is_const> bmb = memory::block_of(x);
+    basic_memory_block<is_const> bmb = memory::cover(x);
 
     BOOST_CHECK(bool(bmb));
     BOOST_CHECK(!!bmb);
@@ -183,7 +184,7 @@ void eagine_test_memory_block_6() {
 
     unsigned x[10];
 
-    basic_memory_block<is_const> bmb1 = memory::block_of(x);
+    basic_memory_block<is_const> bmb1 = memory::cover(x);
 
     BOOST_CHECK(bool(bmb1));
     BOOST_CHECK(!!bmb1);
@@ -205,11 +206,11 @@ void eagine_test_memory_block_6() {
     BOOST_CHECK(bmb2.empty());
     BOOST_CHECK(!bmb3.empty());
 
-    basic_memory_block<is_const> bmb4 = memory_block_of(x);
+    basic_memory_block<is_const> bmb4 = cover(x);
 
-    BOOST_CHECK(bmb1 == bmb2);
-    BOOST_CHECK(bmb2 != bmb3);
-    BOOST_CHECK(bmb3 == bmb4);
+    BOOST_CHECK((are_equal(bmb1, bmb2)));
+    BOOST_CHECK((!are_equal(bmb2, bmb3)));
+    BOOST_CHECK((are_equal(bmb3, bmb4)));
 }
 
 BOOST_AUTO_TEST_CASE(memory_block_6) {
@@ -227,7 +228,7 @@ void eagine_test_memory_block_7() {
 
     memory_block b(x.data(), span_size(x.size()));
 
-    span<T> s = make_span_of<T>(b);
+    span<T> s = eagine::memory::accomodate<T>(b);
 
     BOOST_CHECK_EQUAL(s.size(), x.size() / sizeof(T));
 }
@@ -249,7 +250,7 @@ void eagine_test_memory_block_8() {
 
     std::vector<T> x(rg.get<std::size_t>(100, 1000));
 
-    memory_block b = eagine::memory::data_block_of(x);
+    memory_block b = as_bytes(eagine::memory::cover(x));
 
     BOOST_CHECK_EQUAL(b.size(), x.size() * sizeof(T));
 }

@@ -35,8 +35,8 @@ public:
       : _v(S(span_size_of<T>() * count)) {
     }
 
-    template <typename T, span_size_t N>
-    constexpr inline buffer_size(const span<T, N>& s) noexcept
+    template <typename T, typename P, typename Z>
+    constexpr inline buffer_size(memory::basic_span<T, P, Z> s) noexcept
       : _v(S(span_size_of<T>() * span_size(s.size()))) {
     }
 

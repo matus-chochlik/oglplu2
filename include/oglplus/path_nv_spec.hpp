@@ -58,7 +58,7 @@ private:
     path_nv_spec& _add(GLubyte command, C... c) {
         const std::size_t N = sizeof...(C);
         const T coords[N] = {T(c)...};
-        return _append(command, coords);
+        return _append(command, view(coords));
     }
 
 public:

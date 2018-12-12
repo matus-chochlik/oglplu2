@@ -17,13 +17,13 @@ namespace texgen {
 OGLPLUS_LIB_FUNC
 offset_output::offset_output(node_intf& parent)
   : base_output(parent)
-  , input(parent, cstr_ref("Input"), 0.5f, 0.5f, 0.5f, 0.5f)
-  , offset(parent, cstr_ref("Offset"), 0.f, 0.f, 0.f) {
+  , input(parent, string_view("Input"), 0.5f, 0.5f, 0.5f, 0.5f)
+  , offset(parent, string_view("Offset"), 0.f, 0.f, 0.f) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref offset_output::type_name() {
-    return cstr_ref("Offset");
+string_view offset_output::type_name() {
+    return string_view("Offset");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC

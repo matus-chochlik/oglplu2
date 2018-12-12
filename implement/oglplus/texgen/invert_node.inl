@@ -17,12 +17,12 @@ namespace texgen {
 OGLPLUS_LIB_FUNC
 invert_output::invert_output(node_intf& parent)
   : base_output(parent)
-  , input(parent, cstr_ref("Input"), 0.5f, 0.5f, 0.5f, 0.5f) {
+  , input(parent, string_view("Input"), 0.5f, 0.5f, 0.5f, 0.5f) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref invert_output::type_name() {
-    return cstr_ref("Invert");
+string_view invert_output::type_name() {
+    return string_view("Invert");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC

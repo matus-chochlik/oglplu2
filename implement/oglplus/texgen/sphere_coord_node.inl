@@ -18,8 +18,8 @@ sphere_coord_output::sphere_coord_output(node_intf& parent)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref sphere_coord_output::type_name() {
-    return cstr_ref("SphereCoord");
+string_view sphere_coord_output::type_name() {
+    return string_view("SphereCoord");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC

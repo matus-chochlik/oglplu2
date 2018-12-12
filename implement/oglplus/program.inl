@@ -6,7 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include <eagine/range_algo.hpp>
+#include <eagine/memory/span_algo.hpp>
 #include <oglplus/oper/numeric_queries.hpp>
 #include <oglplus/utils/gl_func.hpp>
 
@@ -110,7 +110,7 @@ inline outcome<memory_block> program_ops::get_program_binary(
     OGLPLUS_GLFUNC(GetProgramBinary)
     (get_raw_name(prog), GLsizei(dest.size()), &reallen, &format, dest.data());
     OGLPLUS_VERIFY(GetProgramBinary, gl_object(prog), always);
-    return {eagine::ranges::head(dest, reallen)};
+    return {head(dest, reallen)};
 }
 //------------------------------------------------------------------------------
 inline outcome<void> program_ops::program_binary(
@@ -169,7 +169,7 @@ program_ops::get_program_info_log(program_name prog, span<char> dest) noexcept {
     OGLPLUS_GLFUNC(GetProgramInfoLog)
     (get_raw_name(prog), GLsizei(dest.size()), &reallen, dest.data());
     OGLPLUS_VERIFY(GetProgramInfoLog, gl_object(prog), always);
-    return {eagine::ranges::head(dest, reallen)};
+    return {head(dest, reallen)};
 }
 //------------------------------------------------------------------------------
 inline outcome<GLuint>
@@ -290,7 +290,7 @@ program_ops::get_program_compute_work_group_size(program_name prog) noexcept {
 #endif
 //------------------------------------------------------------------------------
 inline outcome<void> program_ops::bind_attrib_location(
-  program_name prog, GLuint index, cstr_ref attr_name) noexcept {
+  program_name prog, GLuint index, string_view attr_name) noexcept {
     OGLPLUS_GLFUNC(BindAttribLocation)
     (get_raw_name(prog), index, attr_name.data());
     OGLPLUS_VERIFY(BindAttribLocation, gl_object(prog).gl_index(index), always);

@@ -32,7 +32,7 @@ public:
         return _location;
     }
 
-    cstr_ref type_name() override;
+    string_view type_name() override;
 
     slot_data_type value_type() override;
 

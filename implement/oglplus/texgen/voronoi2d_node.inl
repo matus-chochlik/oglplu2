@@ -42,27 +42,27 @@ short voronoi2d_output::order() const {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref voronoi2d_output::type_abbr() const {
+string_view voronoi2d_output::type_abbr() const {
     switch(_type) {
         case voronoi_output_type::distance1:
-            return cstr_ref("Dist");
+            return string_view("Dist");
         case voronoi_output_type::distance2:
-            return cstr_ref("Dist2");
+            return string_view("Dist2");
         case voronoi_output_type::distance3:
-            return cstr_ref("Dist3");
+            return string_view("Dist3");
         case voronoi_output_type::cell_coord:
-            return cstr_ref("CCrd");
+            return string_view("CCrd");
         case voronoi_output_type::cell_center:
-            return cstr_ref("CCtr");
+            return string_view("CCtr");
         case voronoi_output_type::input_cell_center:
-            return cstr_ref("InCell");
+            return string_view("InCell");
     }
-    return cstr_ref();
+    return string_view();
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref voronoi2d_output::type_name() {
-    return cstr_ref("Voronoi2d");
+string_view voronoi2d_output::type_name() {
+    return string_view("Voronoi2d");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -82,7 +82,7 @@ slot_data_type voronoi2d_output::value_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref voronoi2d_output::name() noexcept {
+string_view voronoi2d_output::name() noexcept {
     return type_abbr();
 }
 //------------------------------------------------------------------------------
@@ -234,8 +234,8 @@ voronoi2d_output::expression(std::ostream& out, compile_context&) {
 OGLPLUS_LIB_FUNC
 voronoi2d_node::voronoi2d_node()
   : base_node()
-  , _input(*this, cstr_ref("Input"), 0.5f, 0.5f)
-  , _cells(*this, cstr_ref("Cells"), 32.f, 32.f)
+  , _input(*this, string_view("Input"), 0.5f, 0.5f)
+  , _cells(*this, string_view("Cells"), 32.f, 32.f)
   , _distance1(*this, _input, _cells, voronoi_output_type::distance1)
   , _distance2(*this, _input, _cells, voronoi_output_type::distance2)
   , _distance3(*this, _input, _cells, voronoi_output_type::distance3)
@@ -246,8 +246,8 @@ voronoi2d_node::voronoi2d_node()
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref voronoi2d_node::type_name() {
-    return cstr_ref("Voronoi2D");
+string_view voronoi2d_node::type_name() {
+    return string_view("Voronoi2D");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC

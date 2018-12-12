@@ -9,7 +9,7 @@
 #ifndef EAGINE_POSIX_FILE_1509260923_HPP
 #define EAGINE_POSIX_FILE_1509260923_HPP
 
-#include "../cstr_ref.hpp"
+#include "../string_span.hpp"
 #include "file_descriptor.hpp"
 #include <fcntl.h>
 
@@ -17,8 +17,8 @@ namespace eagine {
 namespace posix {
 
 static inline outcome<owned_file_descriptor>
-open(const cstr_ref& path, int flags) noexcept {
-    int fd = ::open(path.c_str(), flags);
+open(string_view path, int flags) noexcept {
+    int fd = ::open(c_str(path), flags);
     return error_if_negative(fd, fd).add(owned_file_descriptor(fd));
 }
 

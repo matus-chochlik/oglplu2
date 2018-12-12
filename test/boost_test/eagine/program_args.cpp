@@ -28,7 +28,7 @@ BOOST_AUTO_TEST_CASE(program_args_1) {
         BOOST_ASSERT(bool(a));
         BOOST_ASSERT(!!a);
         BOOST_ASSERT(i < int(array_size(argv)));
-        BOOST_CHECK_EQUAL(a.get(), cstr_ref(argv[i]));
+        BOOST_CHECK_EQUAL(a.get(), string_view(argv[i]));
         BOOST_CHECK_EQUAL(a.get(), pa.get(i));
         BOOST_CHECK_EQUAL(a.get(), pa[i]);
 

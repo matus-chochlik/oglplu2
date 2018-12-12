@@ -24,9 +24,11 @@ split_output::split_output(
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref split_output::type_name() {
-    const cstr_ref names[4] = {
-      cstr_ref("Red"), cstr_ref("Green"), cstr_ref("Blue"), cstr_ref("Alpha")};
+string_view split_output::type_name() {
+    string_view names[4] = {string_view("Red"),
+                            string_view("Green"),
+                            string_view("Blue"),
+                            string_view("Alpha")};
     return names[_index];
 }
 //------------------------------------------------------------------------------
@@ -59,13 +61,13 @@ split_output::definitions(std::ostream& out, compile_context& ctxt) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref split_node::type_name() {
-    return cstr_ref("Split");
+string_view split_node::type_name() {
+    return string_view("Split");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 split_node::split_node()
-  : _input(*this, cstr_ref("Input"))
+  : _input(*this, string_view("Input"))
   , _output_r(*this, _input, 0)
   , _output_g(*this, _input, 1)
   , _output_b(*this, _input, 2)

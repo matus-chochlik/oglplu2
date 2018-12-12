@@ -6,7 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#include <eagine/range_algo.hpp>
+#include <eagine/memory/span_algo.hpp>
 #include <oglplus/oper/numeric_queries.hpp>
 #include <oglplus/utils/gl_func.hpp>
 
@@ -23,7 +23,7 @@ inline outcome<GLsizei> object_common_ops::get_max_label_length() noexcept {
 template <GLenum ObjectType>
 inline outcome<void> object_common_ops::object_label(
   object_name<oglplus::tag::gl_obj_tag<ObjectType>> obj,
-  cstring_span label) noexcept {
+  string_view label) noexcept {
     OGLPLUS_GLFUNC(ObjectLabel)
     (ObjectType,
      get_raw_name(obj),
@@ -34,7 +34,7 @@ inline outcome<void> object_common_ops::object_label(
 }
 //------------------------------------------------------------------------------
 inline outcome<void> object_common_ops::object_label(
-  const sync_object& sync, cstring_span label) noexcept {
+  const sync_object& sync, string_view label) noexcept {
     OGLPLUS_GLFUNC(ObjectPtrLabel)
     (const_cast<GLsync*>(&get_raw_handle(sync)),
      GLsizei(label.size()),
@@ -44,7 +44,7 @@ inline outcome<void> object_common_ops::object_label(
 }
 //------------------------------------------------------------------------------
 template <GLenum ObjectType>
-inline outcome<cstring_span> object_common_ops::get_object_label(
+inline outcome<string_view> object_common_ops::get_object_label(
   object_name<oglplus::tag::gl_obj_tag<ObjectType>> obj,
   string_span storage) noexcept {
     GLsizei realLen = 0;
@@ -55,10 +55,10 @@ inline outcome<cstring_span> object_common_ops::get_object_label(
      &realLen,
      storage.data());
     OGLPLUS_VERIFY(GetObjectLabel, gl_object(obj), debug);
-    return {eagine::ranges::head(storage, realLen)};
+    return {head(storage, realLen)};
 }
 //------------------------------------------------------------------------------
-inline outcome<cstring_span> object_common_ops::get_object_label(
+inline outcome<string_view> object_common_ops::get_object_label(
   const sync_object& sync, string_span storage) noexcept {
     GLsizei realLen = 0;
     OGLPLUS_GLFUNC(GetObjectPtrLabel)
@@ -67,7 +67,7 @@ inline outcome<cstring_span> object_common_ops::get_object_label(
      &realLen,
      storage.data());
     OGLPLUS_VERIFY_SIMPLE(GetObjectPtrLabel, debug);
-    return {eagine::ranges::head(storage, realLen)};
+    return {head(storage, realLen)};
 }
 #endif
 //------------------------------------------------------------------------------

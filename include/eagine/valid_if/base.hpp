@@ -95,6 +95,51 @@ public:
       , DoLog(_policy()) {
     }
 
+    constexpr basic_valid_if(const basic_valid_if& that)
+      : basic_valid_if_value<T>(
+          static_cast<const basic_valid_if_value<T>&>(that))
+      , Policy(static_cast<const Policy&>(that))
+      , DoLog(_policy()) {
+    }
+
+    basic_valid_if(basic_valid_if&& that) noexcept
+      : basic_valid_if_value<T>(static_cast<basic_valid_if_value<T>&&>(that))
+      , Policy(static_cast<Policy&&>(that))
+      , DoLog(_policy()) {
+    }
+
+    basic_valid_if& operator=(const basic_valid_if& that) {
+        if(this != std::addressof(that)) {
+            static_cast<basic_valid_if_value<T>&>(*this) =
+              static_cast<const basic_valid_if_value<T>&>(that);
+            static_cast<Policy&>(*this) = static_cast<const Policy&>(that);
+            static_cast<DoLog&>(*this) = DoLog(_policy());
+        }
+        return *this;
+    }
+
+    basic_valid_if& operator=(basic_valid_if&& that) noexcept {
+        if(this != std::addressof(that)) {
+            static_cast<basic_valid_if_value<T>&>(*this) =
+              static_cast<basic_valid_if_value<T>&&>(that);
+            static_cast<Policy&>(*this) = static_cast<Policy&&>(that);
+            static_cast<DoLog&>(*this) = DoLog(_policy());
+        }
+        return *this;
+    }
+
+    basic_valid_if& operator=(const T& value) {
+        static_cast<basic_valid_if_value<T>&>(*this) =
+          static_cast<const basic_valid_if_value<T>&>(value);
+        return *this;
+    }
+
+    basic_valid_if& operator=(T& value) {
+        static_cast<basic_valid_if_value<T>&>(*this) =
+          static_cast<basic_valid_if_value<T>&&>(value);
+        return *this;
+    }
+
     constexpr bool is_valid(const T& val, P... p) const noexcept {
         return _policy()(val, p...);
     }
@@ -107,8 +152,8 @@ public:
         return is_valid(p...);
     }
 
-    constexpr friend bool
-    operator==(const basic_valid_if& a, const basic_valid_if& b) noexcept {
+    constexpr friend bool operator==(
+      const basic_valid_if& a, const basic_valid_if& b) noexcept {
         return (a._get_value() == b._get_value()) && a.is_valid() &&
                b.is_valid();
     }
@@ -163,8 +208,8 @@ public:
     }
 
     template <typename Func>
-    std::enable_if_t<std::is_same_v<std::result_of_t<Func(T)>, void>>
-    then(const Func& func, P... p) const {
+    std::enable_if_t<std::is_same_v<std::result_of_t<Func(T)>, void>> then(
+      const Func& func, P... p) const {
         if(EAGINE_LIKELY(is_valid(p...))) {
             func(value(p...));
         }

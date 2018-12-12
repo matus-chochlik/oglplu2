@@ -37,7 +37,7 @@ public:
       : fold_output(parent, fold_function::multiply) {
     }
 
-    cstr_ref type_name() override;
+    string_view type_name() override;
 
     slot_data_type value_type() override;
 

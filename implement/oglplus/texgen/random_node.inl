@@ -17,13 +17,13 @@ namespace texgen {
 OGLPLUS_LIB_FUNC
 random_output::random_output(node_intf& parent)
   : base_output(parent)
-  , seed(parent, cstr_ref("Seed"), 1.f, 1.f, 1.f)
+  , seed(parent, string_view("Seed"), 1.f, 1.f, 1.f)
   , dims(3) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref random_output::type_name() {
-    return cstr_ref("Random");
+string_view random_output::type_name() {
+    return string_view("Random");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC

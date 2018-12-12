@@ -13,7 +13,7 @@
 #include "../error/outcome.hpp"
 #include "../prog_var/dsa_location.hpp"
 #include "../utils/boolean.hpp"
-#include "../utils/cstr_ref.hpp"
+#include "../utils/string_span.hpp"
 
 namespace oglplus {
 namespace oper {
@@ -21,7 +21,7 @@ namespace oper {
 struct prog_var_location_ops {
     template <typename VarTag>
     static inline outcome<prog_var_loc<VarTag>>
-    get_location(program_name prog, const cstr_ref& identifier) noexcept {
+    get_location(program_name prog, string_view identifier) noexcept {
         return prog_var_loc_ops<VarTag>::get_location(prog, identifier);
     }
 
@@ -29,7 +29,7 @@ struct prog_var_location_ops {
     static inline outcome<boolean> query_location(
       prog_var_loc<VarTag>& pvl,
       program_name prog,
-      const cstr_ref& identifier) noexcept {
+      string_view identifier) noexcept {
         auto loc = success(get_location<VarTag>(prog, identifier));
         if(loc) {
             pvl = loc;
@@ -40,7 +40,7 @@ struct prog_var_location_ops {
 
     template <typename VarTag>
     static inline outcome<boolean> query_location(
-      dsa_prog_var_loc<VarTag>& pvl, const cstr_ref& identifier) noexcept {
+      dsa_prog_var_loc<VarTag>& pvl, string_view identifier) noexcept {
         return query_location(pvl, pvl.program(), identifier);
     }
 };

@@ -21,12 +21,7 @@ private:
 
 public:
     complement_input(
-      node_intf& parent,
-      const cstr_ref& name,
-      float r,
-      float g,
-      float b,
-      float a)
+      node_intf& parent, string_view name, float r, float g, float b, float a)
       : _base(parent, name, r, g, b, a) {
     }
 
@@ -42,7 +37,7 @@ public:
 
     complement_output(node_intf& parent);
 
-    cstr_ref type_name() override;
+    string_view type_name() override;
 
     slot_data_type value_type() override;
 

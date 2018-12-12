@@ -36,7 +36,7 @@ public:
         return (c >= std::uint8_t(sizeof...(C)));
     }
 
-    static inline cstring_span chars() {
+    static inline string_view chars() {
         static const char s[] = {C..., '\0'};
         return {s, s + sizeof...(C)};
     }

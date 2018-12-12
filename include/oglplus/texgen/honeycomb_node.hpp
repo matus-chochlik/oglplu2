@@ -25,7 +25,7 @@ private:
     honeycomb_direction& _direction;
     honeycomb_output_type _type;
 
-    cstr_ref type_abbr() const;
+    string_view type_abbr() const;
 
 public:
     honeycomb_output(
@@ -34,7 +34,7 @@ public:
       honeycomb_direction& direction,
       honeycomb_output_type type);
 
-    cstr_ref type_name() override;
+    string_view type_name() override;
 
     slot_data_type value_type() override;
 
@@ -61,7 +61,7 @@ public:
         return *this;
     }
 
-    cstr_ref type_name() override;
+    string_view type_name() override;
 
     span_size_t input_count() override;
 

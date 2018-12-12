@@ -16,12 +16,12 @@ OGLPLUS_LIB_FUNC
 wrap_output::wrap_output(node_intf& parent)
   : base_output(parent)
   , mode(wrap_mode::repeat)
-  , input(parent, cstr_ref("Input")) {
+  , input(parent, string_view("Input")) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref wrap_output::type_name() {
-    return cstr_ref("Wrap");
+string_view wrap_output::type_name() {
+    return string_view("Wrap");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC

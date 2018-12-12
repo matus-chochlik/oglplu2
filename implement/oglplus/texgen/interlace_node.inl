@@ -21,8 +21,8 @@ interlace_output::interlace_output(node_intf& parent, interlace_mode mode)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref interlace_output::type_name() {
-    return cstr_ref("Interlace");
+string_view interlace_output::type_name() {
+    return string_view("Interlace");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC

@@ -25,21 +25,21 @@ honeycomb_output::honeycomb_output(
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref honeycomb_output::type_abbr() const {
+string_view honeycomb_output::type_abbr() const {
     switch(_type) {
         case honeycomb_output_type::distance:
-            return cstr_ref("Dist");
+            return string_view("Dist");
         case honeycomb_output_type::cell_coord:
-            return cstr_ref("CCrd");
+            return string_view("CCrd");
         case honeycomb_output_type::cell_center:
-            return cstr_ref("CCtr");
+            return string_view("CCtr");
     }
-    return cstr_ref();
+    return string_view();
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref honeycomb_output::type_name() {
-    return cstr_ref("Honeycomb");
+string_view honeycomb_output::type_name() {
+    return string_view("Honeycomb");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -180,7 +180,7 @@ honeycomb_output::expression(std::ostream& out, compile_context&) {
 OGLPLUS_LIB_FUNC
 honeycomb_node::honeycomb_node()
   : base_node()
-  , _cells(*this, cstr_ref("Cells"), 32.f, 32.f)
+  , _cells(*this, string_view("Cells"), 32.f, 32.f)
   , _direction(honeycomb_direction::vertical)
   , _cell_coord(*this, _cells, _direction, honeycomb_output_type::cell_coord)
   , _cell_center(*this, _cells, _direction, honeycomb_output_type::cell_center)
@@ -188,8 +188,8 @@ honeycomb_node::honeycomb_node()
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref honeycomb_node::type_name() {
-    return cstr_ref("Honeycomb");
+string_view honeycomb_node::type_name() {
+    return string_view("Honeycomb");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC

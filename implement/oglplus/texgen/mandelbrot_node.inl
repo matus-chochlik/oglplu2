@@ -20,8 +20,8 @@ mandelbrot_output::mandelbrot_output(node_intf& parent)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref mandelbrot_output::type_name() {
-    return cstr_ref("Mandelbrot");
+string_view mandelbrot_output::type_name() {
+    return string_view("Mandelbrot");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC

@@ -22,7 +22,7 @@ private:
 
     coord_type _type;
 
-    cstr_ref _func_name() const;
+    string_view _func_name() const;
 
 public:
     coord_output(node_intf& parent, coord_type);
@@ -31,7 +31,7 @@ public:
       : coord_output(parent, coord_type::normalized) {
     }
 
-    cstr_ref type_name() override;
+    string_view type_name() override;
 
     slot_data_type value_type() override;
 

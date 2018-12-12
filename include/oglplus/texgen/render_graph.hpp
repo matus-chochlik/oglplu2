@@ -24,8 +24,7 @@ public:
     using Node::Node;
 
     // TODO throw connect error
-    render_graph_node<Node>&
-    connect(const cstr_ref& inp_name, output_intf& out) {
+    render_graph_node<Node>& connect(string_view inp_name, output_intf& out) {
         if(auto inp = this->input_by_name(inp_name)) {
             connect_output_to_input(out, inp);
         }
@@ -33,7 +32,7 @@ public:
     }
 
     render_graph_node<Node>&
-    connect(const cstr_ref& inp_name, node_intf& out_node, span_size_t oidx) {
+    connect(string_view inp_name, node_intf& out_node, span_size_t oidx) {
         if(oidx < out_node.output_count()) {
             return connect(inp_name, out_node.output(oidx));
         }
@@ -41,7 +40,7 @@ public:
     }
 
     render_graph_node<Node>&
-    connect(const cstr_ref& inp_name, node_intf& out_node) {
+    connect(string_view inp_name, node_intf& out_node) {
         return connect(inp_name, out_node, 0);
     }
 
@@ -127,10 +126,10 @@ public:
     find_node_output(node_intf& node, span_size_t index);
 
     eagine::optional_reference_wrapper<input_intf>
-    find_node_input(node_intf& node, const cstr_ref& iname);
+    find_node_input(node_intf& node, string_view iname);
 
     eagine::optional_reference_wrapper<output_intf>
-    find_node_output(node_intf& node, const cstr_ref& oname);
+    find_node_output(node_intf& node, string_view oname);
 
     eagine::optional_reference_wrapper<input_intf>
     find_node_input(const std::string& node_name, span_size_t index);
@@ -139,10 +138,10 @@ public:
     find_node_output(const std::string& node_name, span_size_t index);
 
     eagine::optional_reference_wrapper<input_intf>
-    find_node_input(const std::string& node_name, const cstr_ref& iname);
+    find_node_input(const std::string& node_name, string_view iname);
 
     eagine::optional_reference_wrapper<output_intf>
-    find_node_output(const std::string& node_name, const cstr_ref& oname);
+    find_node_output(const std::string& node_name, string_view oname);
 
     // connect to renderer
     bool connect_to_renderer(output_intf& output);
@@ -166,12 +165,12 @@ public:
 
     bool connect(
       node_intf& output_node,
-      const cstr_ref& oname,
+      string_view oname,
       node_intf& input_node,
-      const cstr_ref& iname);
+      string_view iname);
 
-    bool connect(
-      node_intf& output_node, node_intf& input_node, const cstr_ref& iname);
+    bool
+    connect(node_intf& output_node, node_intf& input_node, string_view iname);
 
     bool connect(
       const std::string& output_node_name,
@@ -186,14 +185,14 @@ public:
 
     bool connect(
       const std::string& output_node_name,
-      const cstr_ref& oname,
+      string_view oname,
       const std::string& input_node_name,
-      const cstr_ref& iname);
+      string_view iname);
 
     bool connect(
       const std::string& output_node_name,
       const std::string& input_node_name,
-      const cstr_ref& iname);
+      string_view iname);
 
     bool connect(
       const std::string& output_node_name, const std::string& input_node_name);

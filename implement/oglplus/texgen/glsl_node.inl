@@ -21,8 +21,8 @@ glsl_output::glsl_output(
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref glsl_output::type_name() {
-    return cstr_ref("GLSL");
+string_view glsl_output::type_name() {
+    return string_view("GLSL");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC

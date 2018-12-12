@@ -12,19 +12,19 @@
 #include "../enum/types.hpp"
 #include "../error/handling.hpp"
 #include "../error/outcome.hpp"
-#include "../utils/cstr_ref.hpp"
 #include "../utils/gl_func.hpp"
+#include "../utils/string_span.hpp"
 
 namespace oglplus {
 namespace oper {
 
 struct string_queries {
-    static outcome<cstr_ref> get_string(string_query query) noexcept;
+    static outcome<string_view> get_string(string_query query) noexcept;
 
-    static outcome<cstr_ref>
+    static outcome<string_view>
     get_string(string_query query, GLuint index) noexcept;
 
-    static outcome<cstr_ref> get_extension_name(GLuint index) noexcept;
+    static outcome<string_view> get_extension_name(GLuint index) noexcept;
 };
 
 } // namespace oper

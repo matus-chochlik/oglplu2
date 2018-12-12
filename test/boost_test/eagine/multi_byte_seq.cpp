@@ -26,12 +26,12 @@ BOOST_AUTO_TEST_CASE(multi_byte_seq_1) {
         bytes.resize(std_size(l));
         while(cp < mbs::max_code_point(l).value()) {
 
-            BOOST_CHECK(mbs::encode_code_point(cp, make_span(bytes)));
+            BOOST_CHECK(mbs::encode_code_point(cp, cover(bytes)));
             BOOST_CHECK(
-              mbs::is_valid_encoding(mbs::make_cbyte_span(make_span(bytes))));
+              mbs::is_valid_encoding(mbs::make_cbyte_span(view(bytes))));
 
-            cp2 = mbs::decode_code_point(mbs::make_cbyte_span(make_span(bytes)))
-                    .value();
+            cp2 =
+              mbs::decode_code_point(mbs::make_cbyte_span(view(bytes))).value();
 
             BOOST_CHECK_EQUAL(cp, cp2);
 
@@ -58,8 +58,7 @@ BOOST_AUTO_TEST_CASE(multi_byte_seq_2) {
             } while(!cp.is_valid());
         }
 
-        bytes.resize(
-          std_size(mbs::encoding_bytes_required(make_span(cps)).value()));
+        bytes.resize(std_size(mbs::encoding_bytes_required(view(cps)).value()));
 
         BOOST_CHECK(mbs::encode_code_points(make_span(cps), make_span(bytes)));
 

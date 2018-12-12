@@ -12,21 +12,21 @@ namespace oglplus {
 //------------------------------------------------------------------------------
 namespace oper {
 //------------------------------------------------------------------------------
-inline outcome<cstr_ref>
+inline outcome<string_view>
 string_queries::get_string(string_query query) noexcept {
     const GLubyte* result = OGLPLUS_GLFUNC(GetString)(GLenum(query));
     OGLPLUS_VERIFY(GetString, gl_enum_value(query), always);
-    return {cstr_ref(reinterpret_cast<const char*>(result))};
+    return {string_view(reinterpret_cast<const char*>(result))};
 }
 //------------------------------------------------------------------------------
-inline outcome<cstr_ref>
+inline outcome<string_view>
 string_queries::get_string(string_query query, GLuint index) noexcept {
     const GLubyte* result = OGLPLUS_GLFUNC(GetStringi)(GLenum(query), index);
     OGLPLUS_VERIFY(GetStringi, gl_enum_value(query).gl_index(index), always);
-    return {cstr_ref(reinterpret_cast<const char*>(result))};
+    return {string_view(reinterpret_cast<const char*>(result))};
 }
 //------------------------------------------------------------------------------
-inline outcome<cstr_ref>
+inline outcome<string_view>
 string_queries::get_extension_name(GLuint index) noexcept {
     return get_string(string_query(GL_EXTENSIONS), index);
 }

@@ -28,8 +28,8 @@ public:
       : base_output(parent) {
     }
 
-    cstr_ref type_name() noexcept override {
-        return cstr_ref("Const");
+    string_view type_name() noexcept override {
+        return string_view("Const");
     }
 
     render_param_bits required_params() override {

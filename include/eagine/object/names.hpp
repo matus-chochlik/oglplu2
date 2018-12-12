@@ -147,14 +147,13 @@ public:
         return *ctr._names.data();
     }
 
-    friend inline span<typename _traits::name_type>
-    get_raw_names(object_name_container& ctr) noexcept {
-        return {ctr._names};
+    friend inline auto get_raw_names(object_name_container& ctr) noexcept {
+        return cover(ctr._names);
     }
 
-    friend inline span<const typename _traits::name_type>
+    friend inline auto
     get_raw_names(const object_name_container& ctr) noexcept {
-        return {ctr._names};
+        return view(ctr._names);
     }
 };
 

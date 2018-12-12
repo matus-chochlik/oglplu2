@@ -287,7 +287,7 @@ const any_enum_value& error_info::gl_enum_value() const noexcept {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-error_info& error_info::identifier(const cstring_span& ident) noexcept {
+error_info& error_info::identifier(string_view ident) noexcept {
 #if !OGLPLUS_ERROR_NO_IDENTIFIER
     try {
         _ext_info()._identifier.assign(ident.begin(), ident.end());
@@ -300,7 +300,7 @@ error_info& error_info::identifier(const cstring_span& ident) noexcept {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstring_span error_info::identifier() const noexcept {
+string_view error_info::identifier() const noexcept {
 #if !OGLPLUS_ERROR_NO_IDENTIFIER
     return _ext_info()._identifier;
 #else
@@ -309,7 +309,7 @@ cstring_span error_info::identifier() const noexcept {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-error_info& error_info::info_log(const cstring_span& log) noexcept {
+error_info& error_info::info_log(string_view log) noexcept {
 #if !OGLPLUS_ERROR_NO_INFO_LOG
     try {
         _ext_info()._info_log.assign(log.begin(), log.end());
@@ -358,7 +358,7 @@ error_info& error_info::info_log_of(const any_object_name& obj) noexcept {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstring_span error_info::info_log() const noexcept {
+string_view error_info::info_log() const noexcept {
 #if !OGLPLUS_ERROR_NO_INFO_LOG
     return {_ext_info()._info_log};
 #else

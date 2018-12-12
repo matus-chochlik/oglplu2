@@ -15,7 +15,7 @@
 #include <oglplus/math/vector.hpp>
 #include <oglplus/operations.hpp>
 
-#include <eagine/range_algo.hpp>
+#include <eagine/memory/span_algo.hpp>
 #include <eagine/scope_exit.hpp>
 
 #include <GLFW/glfw3.h>
@@ -26,8 +26,8 @@
 static oglplus::constants GL;
 static oglplus::operations gl;
 
-static void
-handle_resize(int width, int height, float l, float r, float b, float t) {
+static void handle_resize(
+  int width, int height, float l, float r, float b, float t) {
     gl.viewport(0, 0, width, height);
 
     gl.matrix_mode(GL.projection);
@@ -46,7 +46,7 @@ static void run_loop(GLFWwindow* window, int width, int height) {
       GL.standard_font_name_nv,
       "Sans",
       GL.bold_bit_nv,
-      make_span(text.data(), span_size(text.size())),
+      view(text),
       GL.use_missing_glyph_nv,
       ~0u,
       64);
@@ -56,15 +56,14 @@ static void run_loop(GLFWwindow* window, int width, int height) {
 
     text_path.get_spacing(
       GL.accum_adjacent_pairs_nv,
-      span<GLuint>(indices),
+      view(indices),
       1.0f,
       1.0f,
       GL.translate_x_nv,
-      eagine::ranges::slice(span<GLfloat>(spacings), 1, 8));
+      slice(cover(spacings), 1, 8));
 
-    const auto glyph_indices = eagine::ranges::head(span<GLuint>(indices), 7);
-    const auto glyph_spacings =
-      eagine::ranges::head(span<GLfloat>(spacings), 8);
+    const auto glyph_indices = head(view(indices), 7);
+    const auto glyph_spacings = head(view(spacings), 8);
 
     const GLfloat text_left = *glyph_spacings.begin();
     const GLfloat text_right = *glyph_spacings.rbegin();
@@ -75,7 +74,7 @@ static void run_loop(GLFWwindow* window, int width, int height) {
       GL.font_x_min_bounds_bit_nv | GL.font_y_max_bounds_bit_nv,
       1,
       0,
-      font_min_max);
+      cover(font_min_max));
 
     gl.clear_color(vec4(1.0f, 1.0f, 1.0f, 0.0f));
     gl.clear_stencil(0);

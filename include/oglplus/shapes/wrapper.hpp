@@ -13,6 +13,7 @@
 #include "drawing.hpp"
 #include "init.hpp"
 #include <eagine/make_array.hpp>
+#include <eagine/memory/buffer.hpp>
 #include <cassert>
 #include <vector>
 
@@ -35,7 +36,7 @@ public:
       : _bufs()
       , _ops(std_size(gen.operation_count())) {
         assert(vaals.size() >= span_size(N));
-        initialize_vao_and_buffers(_vao, _bufs, vaals, _ops, gen, data);
+        initialize_vao_and_buffers(_vao, _bufs, vaals, cover(_ops), gen, data);
     }
 
     outcome<void> use() noexcept {
@@ -44,19 +45,13 @@ public:
     }
 
     outcome<void> draw() const noexcept {
-        return draw_using_instructions(make_span(_ops));
+        return draw_using_instructions(view(_ops));
     }
 };
 
 // wrapper
 template <std::size_t N>
 class wrapper : public base_wrapper<N> {
-private:
-    static inline span<const vertex_attrib_and_location> _make_span(
-      const std::array<const vertex_attrib_and_location, N>& a) noexcept {
-        return {a.data(), span_size(a.size())};
-    }
-
 public:
     template <typename Generator, typename... P>
     wrapper(
@@ -68,7 +63,7 @@ public:
           tmp_buf,
           Generator(
             eagine::shapes::get_attrib_bits(vaals), std::forward<P>(p)...),
-          _make_span(vaals)) {
+          view(vaals)) {
     }
 };
 

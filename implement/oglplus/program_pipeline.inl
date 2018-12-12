@@ -118,7 +118,7 @@ inline outcome<span<char>> program_pipeline_ops::get_program_pipeline_info_log(
     OGLPLUS_GLFUNC(GetProgramPipelineInfoLog)
     (get_raw_name(ppl), GLsizei(dest.size()), &reallen, dest.data());
     OGLPLUS_VERIFY(GetProgramPipelineInfoLog, gl_object(ppl), always);
-    return {eagine::ranges::head(dest, reallen)};
+    return {head(dest, reallen)};
 }
 //------------------------------------------------------------------------------
 #endif

@@ -21,7 +21,7 @@ public:
 
     concentric_output(node_intf& parent);
 
-    cstr_ref type_name() override;
+    string_view type_name() override;
 
     slot_data_type value_type() override;
 
@@ -45,7 +45,7 @@ class pixel_concentric_output : public base_output {
 public:
     pixel_concentric_output(node_intf& parent);
 
-    cstr_ref type_name() override;
+    string_view type_name() override;
 
     slot_data_type value_type() override;
 

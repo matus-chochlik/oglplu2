@@ -19,7 +19,7 @@
 namespace oglplus {
 
 OGLPLUS_LIB_FUNC
-cstr_ref get_enum_value_name(const any_enum_value& aev) noexcept {
+string_view get_enum_value_name(const any_enum_value& aev) noexcept {
 #ifdef GL_ACCUM_ADJACENT_PAIRS_NV
     static const char s_ACCUM_ADJACENT_PAIRS_NV[24] = "ACCUM_ADJACENT_PAIRS_NV";
 #endif
@@ -6403,8 +6403,8 @@ cstr_ref get_enum_value_name(const any_enum_value& aev) noexcept {
 #endif
 #ifdef GL_MAX_COMBINED_IMAGE_UNITS_AND_FRAGMENT_OUTPUTS
                 case GL_MAX_COMBINED_IMAGE_UNITS_AND_FRAGMENT_OUTPUTS:
-                    return {s_MAX_COMBINED_IMAGE_UNITS_AND_FRAGMENT_OUTPUTS,
-                            45};
+                    return {
+                      s_MAX_COMBINED_IMAGE_UNITS_AND_FRAGMENT_OUTPUTS, 45};
 #endif
 #ifdef GL_MAX_COMBINED_TESS_CONTROL_UNIFORM_COMPONENTS
                 case GL_MAX_COMBINED_TESS_CONTROL_UNIFORM_COMPONENTS:
@@ -6412,8 +6412,8 @@ cstr_ref get_enum_value_name(const any_enum_value& aev) noexcept {
 #endif
 #ifdef GL_MAX_COMBINED_TESS_EVALUATION_UNIFORM_COMPONENTS
                 case GL_MAX_COMBINED_TESS_EVALUATION_UNIFORM_COMPONENTS:
-                    return {s_MAX_COMBINED_TESS_EVALUATION_UNIFORM_COMPONENTS,
-                            47};
+                    return {
+                      s_MAX_COMBINED_TESS_EVALUATION_UNIFORM_COMPONENTS, 47};
 #endif
 #ifdef GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS
                 case GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS:
@@ -6697,8 +6697,8 @@ cstr_ref get_enum_value_name(const any_enum_value& aev) noexcept {
 #endif
 #ifdef GL_MAX_TRANSFORM_FEEDBACK_INTERLEAVED_COMPONENTS
                 case GL_MAX_TRANSFORM_FEEDBACK_INTERLEAVED_COMPONENTS:
-                    return {s_MAX_TRANSFORM_FEEDBACK_INTERLEAVED_COMPONENTS,
-                            45};
+                    return {
+                      s_MAX_TRANSFORM_FEEDBACK_INTERLEAVED_COMPONENTS, 45};
 #endif
 #ifdef GL_MAX_TRANSFORM_FEEDBACK_SEPARATE_ATTRIBS
                 case GL_MAX_TRANSFORM_FEEDBACK_SEPARATE_ATTRIBS:

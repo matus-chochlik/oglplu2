@@ -12,8 +12,8 @@
 
 #include "branch_predict.hpp"
 #include "config/basic.hpp"
-#include "cstr_ref.hpp"
 #include "protected_member.hpp"
+#include "string_span.hpp"
 #include "struct_memory_block.hpp"
 #include <memory>
 
@@ -22,7 +22,7 @@ namespace eagine {
 struct file_contents_intf {
     virtual ~file_contents_intf() = default;
 
-    virtual const_memory_block block() noexcept = 0;
+    virtual memory::const_block block() noexcept = 0;
 };
 
 class file_contents {
@@ -36,18 +36,18 @@ public:
     file_contents& operator=(const file_contents&) = default;
     file_contents& operator=(file_contents&&) = default;
 
-    file_contents(const cstr_ref& path);
+    file_contents(string_view path);
 
     bool is_loaded() const noexcept {
         return bool(_pimpl);
     }
 
-    const_memory_block block() const noexcept {
+    memory::const_block block() const noexcept {
         return bool(EAGINE_LIKELY(_pimpl)) ? _pimpl->block()
-                                           : const_memory_block();
+                                           : memory::const_block();
     }
 
-    operator const_memory_block() const noexcept {
+    operator memory::const_block() const noexcept {
         return block();
     }
 };
@@ -57,7 +57,7 @@ class structured_file_content
   : protected_member<file_contents>
   , public structured_memory_block<const T> {
 public:
-    structured_file_content(const cstr_ref& path)
+    structured_file_content(string_view path)
       : protected_member<file_contents>(path)
       , structured_memory_block<const T>(get_the_member()) {
     }

@@ -13,10 +13,10 @@
 
 namespace oalplus {
 
-cstr_ref get_enum_value_name(const any_enum_value_alut&) noexcept;
+string_view get_enum_value_name(const any_enum_value_alut&) noexcept;
 
 template <typename EnumClass, typename T, unsigned EnumId>
-static inline cstr_ref
+static inline string_view
 enum_value_name(enum_class_alut<EnumClass, T, EnumId> val) noexcept {
     return ::oalplus::get_enum_value_name(val);
 }

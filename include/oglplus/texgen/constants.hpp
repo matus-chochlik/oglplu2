@@ -37,14 +37,14 @@ public:
 
 class constant_pi : public base_constant {
 public:
-    cstr_ref name() const noexcept override;
+    string_view name() const noexcept override;
 
     std::ostream& value(std::ostream&, compile_context&) override;
 };
 
 class constant_phi : public base_constant {
 public:
-    cstr_ref name() const noexcept override;
+    string_view name() const noexcept override;
 
     std::ostream& value(std::ostream&, compile_context&) override;
 };

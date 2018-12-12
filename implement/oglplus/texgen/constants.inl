@@ -27,7 +27,7 @@ slot_data_type base_constant::value_type() {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 std::string base_constant::identifier() {
-    cstr_ref n = name();
+    string_view n = name();
     std::string result;
     result.reserve(std_size(7 + n.size()));
     result.append("oglptg_");
@@ -54,8 +54,8 @@ std::ostream& base_constant::expression(std::ostream& out, compile_context&) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref constant_pi::name() const noexcept {
-    return cstr_ref("pi");
+string_view constant_pi::name() const noexcept {
+    return string_view("pi");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
@@ -64,8 +64,8 @@ std::ostream& constant_pi::value(std::ostream& out, compile_context&) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref constant_phi::name() const noexcept {
-    return cstr_ref("phi");
+string_view constant_phi::name() const noexcept {
+    return string_view("phi");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC

@@ -21,6 +21,10 @@ struct valid_if_le_size_ge0_policy {
         return (T(0) <= x) && (x <= c.size());
     }
 
+    bool operator()(T x, const C& c, T o) const {
+        return (T(0) <= x) && (x <= c.size() - o);
+    }
+
     struct do_log {
         template <typename X>
         constexpr inline do_log(X&&) noexcept {

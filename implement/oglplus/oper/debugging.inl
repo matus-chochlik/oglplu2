@@ -14,7 +14,7 @@ namespace oper {
 //------------------------------------------------------------------------------
 #if defined(GL_VERSION_4_3)
 inline outcome<void> debugging::push_debug_group(
-  debug_output_source source, GLuint id, cstring_span message) noexcept {
+  debug_output_source source, GLuint id, string_view message) noexcept {
     OGLPLUS_GLFUNC(PushDebugGroup)
     (GLenum(source), id, GLsizei(message.size()), message.data());
     OGLPLUS_VERIFY(PushDebugGroup, gl_enum_value(source), debug);
@@ -49,7 +49,7 @@ inline outcome<void> debugging::debug_message_insert(
   debug_output_type type,
   GLuint id,
   debug_output_severity severity,
-  cstring_span message) noexcept {
+  string_view message) noexcept {
     OGLPLUS_GLFUNC(DebugMessageInsert)
     (GLenum(source),
      GLenum(type),

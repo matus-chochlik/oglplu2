@@ -70,7 +70,7 @@ std::ostream& operator<<(std::ostream& out, nbors2d_offs) {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 std::ostream& operator<<(std::ostream& out, nbors2d_offs_decl e) {
-    cstr_ref tag("nbors2d_cells");
+    string_view tag("nbors2d_cells");
     if(!e.context.has_tag(tag)) {
         out << "vec2 " << nbors2d_offs{} << "[8] = vec2[8](" << std::endl;
         out << "\tvec2(-1,-1)," << std::endl;
@@ -95,7 +95,7 @@ std::ostream& operator<<(std::ostream& out, nhood2d_offs) {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 std::ostream& operator<<(std::ostream& out, nhood2d_offs_decl e) {
-    cstr_ref tag("nhood2d_cells");
+    string_view tag("nhood2d_cells");
     if(!e.context.has_tag(tag)) {
         out << "vec2 " << nhood2d_offs{} << "[9] = vec2[9](" << std::endl;
         out << "\tvec2(-1,-1)," << std::endl;

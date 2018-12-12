@@ -19,18 +19,18 @@ fold_output::fold_output(node_intf& parent, fold_function fn)
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-cstr_ref fold_output::type_name() {
+string_view fold_output::type_name() {
     switch(_func) {
         case fold_function::add:
-            return cstr_ref("Add");
+            return string_view("Add");
         case fold_function::multiply:
-            return cstr_ref("Multiply");
+            return string_view("Multiply");
         case fold_function::max:
-            return cstr_ref("Max");
+            return string_view("Max");
         case fold_function::min:
-            return cstr_ref("Min");
+            return string_view("Min");
     }
-    return cstr_ref("Fold");
+    return string_view("Fold");
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC

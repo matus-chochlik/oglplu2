@@ -12,7 +12,7 @@
 
 #include "../utils/span.hpp"
 #include "drawing.hpp"
-#include <eagine/memory/typed_block.hpp>
+#include <eagine/memory/block.hpp>
 #include <eagine/shapes/gen_base.hpp>
 #include <eagine/shapes/vertex_attrib.hpp>
 #include <memory>
@@ -59,10 +59,10 @@ public:
     }
 
     void attrib_data(
-      vertex_attrib_kind attrib, const eagine::memory::block& data) const {
+      vertex_attrib_kind attrib, eagine::memory::block data) const {
         // TODO other attrib data types
         _gen->attrib_values(
-          attrib, eagine::memory::make_span_of<GLfloat>(data));
+          attrib, accomodate(data, eagine::identity<GLfloat>()));
     }
 
     bool indexed() const {
@@ -81,9 +81,9 @@ public:
         return index_count() * index_type_size();
     }
 
-    void index_data(const eagine::memory::block& data) const {
+    void index_data(eagine::memory::block data) const {
         // TODO other index data types, see also drawing
-        _gen->indices(eagine::memory::make_span_of<GLuint>(data));
+        _gen->indices(accomodate(data, eagine::identity<GLuint>()));
     }
 
     span_size_t operation_count() const {

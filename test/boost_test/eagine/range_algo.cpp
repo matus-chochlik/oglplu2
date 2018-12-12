@@ -8,7 +8,6 @@
 #define BOOST_TEST_MODULE EAGINE_range_algo
 #include "../unit_test_begin.inl"
 
-#include <eagine/cstr_ref.hpp>
 #include <eagine/span.hpp>
 #include <vector>
 

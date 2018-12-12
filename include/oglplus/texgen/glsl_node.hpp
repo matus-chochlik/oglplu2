@@ -30,7 +30,7 @@ public:
       : glsl_output(parent, "vec4(0.0)", slot_data_type::float_4) {
     }
 
-    cstr_ref type_name() override;
+    string_view type_name() override;
 
     slot_data_type value_type() override;
 

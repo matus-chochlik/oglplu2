@@ -16,7 +16,7 @@
 namespace oglplus {
 namespace texgen {
 
-bool is_valid_swizzle(const cstr_ref&) noexcept;
+bool is_valid_swizzle(string_view) noexcept;
 
 class swizzle_output : public base_output {
 public:
@@ -26,7 +26,7 @@ public:
     swizzle_output(node_intf& parent);
     swizzle_output(node_intf& parent, const std::string& swizzle);
 
-    cstr_ref type_name() override;
+    string_view type_name() override;
 
     slot_data_type value_type() override;
 
@@ -43,7 +43,7 @@ public:
     swizzle_node() = default;
 
     swizzle_node& set_swizzle(const std::string& swizzle) {
-        if(is_valid_swizzle(cstr_ref(swizzle))) {
+        if(is_valid_swizzle(string_view(swizzle))) {
             _output.swizzle = swizzle;
         }
         return *this;

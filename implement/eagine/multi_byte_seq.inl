@@ -6,6 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <array>
 
 namespace eagine {
 namespace mbs {
@@ -138,7 +139,7 @@ encode_code_point(const code_point cp, const valid_byte_span& dest) noexcept {
 inline valid_if_not_empty<std::string> encode_code_point(code_point cp) {
     if(auto len = required_sequence_length(cp.value())) {
         std::array<byte, 7> tmp;
-        do_encode_code_point(cp, make_byte_span(make_span(tmp)), len.value());
+        do_encode_code_point(cp, make_byte_span(cover(tmp)), len.value());
         return {std::string(
           reinterpret_cast<const char*>(tmp.data()), std_size(len.value()))};
     }
@@ -217,8 +218,8 @@ decode_code_points(const valid_cbyte_span& bytes, const span<code_point>& cps) {
     span_size_t i = 0;
 
     for(code_point& cp : cps) {
-        span<const byte> sub{bytes.value(i).data() + i,
-                             bytes.value(i).size() - i};
+        span<const byte> sub{
+          bytes.value(i).data() + i, bytes.value(i).size() - i};
         if(auto len = decode_sequence_length(sub)) {
             cp = do_decode_code_point(sub, len.value());
 

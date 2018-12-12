@@ -10,7 +10,7 @@
 #define OGLPLUS_PROG_VAR_WRAPPER_1509260923_HPP
 
 #include "../program_name.hpp"
-#include "../utils/cstr_ref.hpp"
+#include "../utils/string_span.hpp"
 #include "fwd.hpp"
 
 namespace oglplus {
@@ -29,7 +29,7 @@ public:
       : prog_var_loc<VarTag>(loc) {
     }
 
-    prog_var_wrapper(program_name prog, const cstr_ref& identifier)
+    prog_var_wrapper(program_name prog, string_view identifier)
       : prog_var_loc<VarTag>(_loc_ops::get_location(prog, identifier)) {
     }
 };
@@ -49,7 +49,7 @@ public:
       : dsa_prog_var_loc<VarTag>(loc) {
     }
 
-    prog_var_wrapper(program_name prog, const cstr_ref& identifier)
+    prog_var_wrapper(program_name prog, string_view identifier)
       : dsa_prog_var_loc<VarTag>(
           prog, _loc_ops::get_location(prog, identifier)) {
     }

@@ -101,7 +101,7 @@ struct vertex_attrib_ops {
     template <typename T, span_size_t N, bool D>
     static inline outcome<void> vertex_attrib(
       prog_var_wrapper<prog_var_loc<tag::vertex_attrib, D>, T[N]> loc,
-      const span<const T>& v,
+      span<const T> v,
       bool check_error) noexcept {
         return oglplus::prog_var_get_set_ops<tag::vertex_attrib, T>::set(
           identity<T[N]>(), loc, check_error, v);
@@ -122,8 +122,8 @@ struct vertex_attrib_ops {
     }
 
 #ifdef GL_VERSION_3_3
-    static outcome<void>
-    divisor(vertex_attrib_location va, GLuint div) noexcept {
+    static outcome<void> divisor(
+      vertex_attrib_location va, GLuint div) noexcept {
         OGLPLUS_GLFUNC(VertexAttribDivisor)(va.index(), div);
         OGLPLUS_VERIFY(VertexAttribDivisor, gl_index(va.index()), always);
         return {};

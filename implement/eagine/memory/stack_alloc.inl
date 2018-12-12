@@ -55,8 +55,8 @@ inline base_stack_allocator<T>::base_stack_allocator() noexcept
 template <typename T>
 inline base_stack_allocator<T>::base_stack_allocator(
   const block& blk, span_size_t align) noexcept
-  : _btm(align_up_to<T>(blk.addr(), align))
-  , _top(align_down_to<T>(blk.end_addr(), align))
+  : _btm(align_up_to(blk.addr(), identity<T>(), align))
+  , _top(align_down_to(blk.end_addr(), identity<T>(), align))
   , _pos(_btm)
   , _min(_btm)
   , _dif(0) {
