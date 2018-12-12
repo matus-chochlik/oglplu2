@@ -11,7 +11,7 @@
 #define EAGINE_HEXDUMP_1509260923_HPP
 
 #include "config/basic.hpp"
-#include "memory_block.hpp"
+#include "memory/block.hpp"
 #include "types.hpp"
 #include <iosfwd>
 
@@ -19,13 +19,13 @@ namespace eagine {
 
 class hexdump {
 private:
-    const_memory_block _mb;
+    memory::const_block _mb;
     bool _offs;
 
     static void _to_hex_b(std::ostream& out, byte b);
 
 public:
-    hexdump(const const_memory_block& mb, bool offs = true) noexcept
+    hexdump(memory::const_block mb, bool offs = true) noexcept
       : _mb(mb)
       , _offs(offs) {
     }

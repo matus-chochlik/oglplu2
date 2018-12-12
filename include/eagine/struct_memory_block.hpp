@@ -10,7 +10,7 @@
 #ifndef EAGINE_STRUCT_MEMORY_BLOCK_1509260923_HPP
 #define EAGINE_STRUCT_MEMORY_BLOCK_1509260923_HPP
 
-#include "memory_block.hpp"
+#include "memory/block.hpp"
 #include "std/type_traits.hpp"
 
 namespace eagine {
@@ -33,7 +33,7 @@ private:
     }
 
 public:
-    static bool is_valid_block(const_memory_block blk) noexcept {
+    static bool is_valid_block(memory::const_block blk) noexcept {
         return !blk.empty() && (blk.is_aligned_as<T>()) &&
                (can_accomodate(blk, identity<T>()));
     }

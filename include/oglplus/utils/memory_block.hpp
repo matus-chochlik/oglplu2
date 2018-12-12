@@ -10,13 +10,12 @@
 #ifndef OGLPLUS_UTILS_MEMORY_BLOCK_1509260923_HPP
 #define OGLPLUS_UTILS_MEMORY_BLOCK_1509260923_HPP
 
-#include <eagine/memory_block.hpp>
+#include <eagine/memory/block.hpp>
 
 namespace oglplus {
 
-using eagine::basic_memory_block;
-using eagine::const_memory_block;
-using eagine::memory_block;
+using const_memory_block = eagine::memory::const_block;
+using memory_block = eagine::memory::block;
 
 } // namespace oglplus
 

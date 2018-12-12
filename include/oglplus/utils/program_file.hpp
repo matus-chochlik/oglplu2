@@ -12,6 +12,7 @@
 
 #include "../enum/types.hpp"
 #include "../glsl/source_ref.hpp"
+#include "memory_block.hpp"
 #include "program_file_hdr.hpp"
 #include "span.hpp"
 #include "string_span.hpp"
@@ -72,7 +73,7 @@ private:
     }
 
 public:
-    shader_source_block(eagine::const_memory_block blk)
+    shader_source_block(const_memory_block blk)
       : shader_source_view(blk) {
     }
 };
@@ -100,7 +101,7 @@ private:
     eagine::structured_memory_block<const program_source_header> _header;
 
 public:
-    program_source_block(eagine::const_memory_block blk)
+    program_source_block(const_memory_block blk)
       : _header(blk) {
     }
 

@@ -10,7 +10,7 @@
 #define EAGINE_UTILS_BUFFER_DATA_1509260923_HPP
 
 #include "buffer_size.hpp"
-#include "memory_block.hpp"
+#include "memory/block.hpp"
 #include "types.hpp"
 
 namespace eagine {
@@ -27,7 +27,7 @@ public:
       , _data(nullptr) {
     }
 
-    buffer_data_spec(const memory_block& blk) noexcept
+    buffer_data_spec(const memory::block& blk) noexcept
       : _size(S(blk.size()))
       , _data(blk.data()) {
     }
@@ -63,8 +63,8 @@ public:
     }
 
     span<const byte> view() const noexcept {
-        return {static_cast<const byte*>(_data),
-                static_cast<std::ptrdiff_t>(_size)};
+        return {
+          static_cast<const byte*>(_data), static_cast<std::ptrdiff_t>(_size)};
     }
 };
 

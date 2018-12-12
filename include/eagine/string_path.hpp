@@ -11,7 +11,7 @@
 #define EAGINE_STRING_PATH_1509260923_HPP
 
 #include "identifier.hpp"
-#include "memory_block.hpp"
+#include "memory/block.hpp"
 #include "span.hpp"
 #include "string_list.hpp"
 #include <string>

@@ -26,7 +26,7 @@ public:
         read_file_data(path, _buf);
     }
 
-    const_memory_block block() noexcept override {
+    memory::const_block block() noexcept override {
         return _buf;
     }
 };
@@ -42,13 +42,13 @@ public:
       : _mmf(fd, PROT_READ, MAP_SHARED) {
     }
 
-    const_memory_block block() noexcept override {
+    memory::const_block block() noexcept override {
         return _mmf.block();
     }
 };
 //------------------------------------------------------------------------------
-inline std::shared_ptr<file_contents_intf>
-make_file_contents_impl(string_view path) {
+inline std::shared_ptr<file_contents_intf> make_file_contents_impl(
+  string_view path) {
     posix::file_descriptor_owner fd(posix::open(path, 0));
     auto size = posix::file_size(fd);
     auto pgsize = posix::page_size();
@@ -65,8 +65,8 @@ make_file_contents_impl(string_view path) {
 //------------------------------------------------------------------------------
 #else
 //------------------------------------------------------------------------------
-inline std::shared_ptr<file_contents_intf>
-make_file_contents_impl(string_view path) {
+inline std::shared_ptr<file_contents_intf> make_file_contents_impl(
+  string_view path) {
     return std::make_shared<buffered_file_contents>(path);
 }
 //------------------------------------------------------------------------------

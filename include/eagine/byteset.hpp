@@ -10,7 +10,7 @@
 #ifndef EAGINE_BYTESET_1509260923_HPP
 #define EAGINE_BYTESET_1509260923_HPP
 
-#include "memory_block.hpp"
+#include "memory/block.hpp"
 #include "std/type_traits.hpp"
 #include "std/utility.hpp"
 #include "types.hpp"
@@ -56,7 +56,7 @@ public:
         return N;
     }
 
-    const_memory_block block() const noexcept {
+    memory::const_block block() const noexcept {
         return {data(), size()};
     }
 
@@ -100,38 +100,38 @@ public:
         return _bytes + N;
     }
 
-    friend constexpr inline int
-    compare(const byteset& a, const byteset& b) noexcept {
+    friend constexpr inline int compare(
+      const byteset& a, const byteset& b) noexcept {
         return _do_cmp(a, b, std::make_index_sequence<N>{});
     }
 
-    friend constexpr inline bool
-    operator==(const byteset& a, const byteset& b) noexcept {
+    friend constexpr inline bool operator==(
+      const byteset& a, const byteset& b) noexcept {
         return compare(a, b) == 0;
     }
 
-    friend constexpr inline bool
-    operator!=(const byteset& a, const byteset& b) noexcept {
+    friend constexpr inline bool operator!=(
+      const byteset& a, const byteset& b) noexcept {
         return compare(a, b) != 0;
     }
 
-    friend constexpr inline bool
-    operator<(const byteset& a, const byteset& b) noexcept {
+    friend constexpr inline bool operator<(
+      const byteset& a, const byteset& b) noexcept {
         return compare(a, b) < 0;
     }
 
-    friend constexpr inline bool
-    operator<=(const byteset& a, const byteset& b) noexcept {
+    friend constexpr inline bool operator<=(
+      const byteset& a, const byteset& b) noexcept {
         return compare(a, b) <= 0;
     }
 
-    friend constexpr inline bool
-    operator>(const byteset& a, const byteset& b) noexcept {
+    friend constexpr inline bool operator>(
+      const byteset& a, const byteset& b) noexcept {
         return compare(a, b) > 0;
     }
 
-    friend constexpr inline bool
-    operator>=(const byteset& a, const byteset& b) noexcept {
+    friend constexpr inline bool operator>=(
+      const byteset& a, const byteset& b) noexcept {
         return compare(a, b) >= 0;
     }
 
@@ -157,14 +157,14 @@ private:
         return (a == b) ? 0 : (a < b) ? -1 : 1;
     }
 
-    static constexpr inline int
-    _do_cmp(const byteset&, const byteset&, std::index_sequence<>) noexcept {
+    static constexpr inline int _do_cmp(
+      const byteset&, const byteset&, std::index_sequence<>) noexcept {
         return 0;
     }
 
     template <std::size_t I, std::size_t... In>
-    static constexpr inline int
-    _do_cmp(const byteset& a, const byteset& b, std::index_sequence<I, In...>) {
+    static constexpr inline int _do_cmp(
+      const byteset& a, const byteset& b, std::index_sequence<I, In...>) {
         return (a._bytes[I] == b._bytes[I])
                  ? _do_cmp(a, b, std::index_sequence<In...>{})
                  : _cmp_byte(a._bytes[I], b._bytes[I]);

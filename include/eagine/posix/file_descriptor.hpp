@@ -9,7 +9,7 @@
 #ifndef EAGINE_POSIX_FILE_DESCRIPTOR_1509260923_HPP
 #define EAGINE_POSIX_FILE_DESCRIPTOR_1509260923_HPP
 
-#include "../memory_block.hpp"
+#include "../memory/block.hpp"
 #include "error.hpp"
 #include <unistd.h>
 
@@ -79,14 +79,14 @@ public:
     owned_file_descriptor(const owned_file_descriptor&) = delete;
     owned_file_descriptor& operator=(const owned_file_descriptor&&) = delete;
 
-    friend inline void
-    swap(owned_file_descriptor& a, owned_file_descriptor& b) noexcept {
+    friend inline void swap(
+      owned_file_descriptor& a, owned_file_descriptor& b) noexcept {
         std::swap(a._fd, b._fd);
     }
 };
 
-static inline outcome<owned_file_descriptor>
-dup(file_descriptor from) noexcept {
+static inline outcome<owned_file_descriptor> dup(
+  file_descriptor from) noexcept {
     int fd = ::dup(get_raw_fd(from));
     return error_if_negative(fd, fd).add(owned_file_descriptor(fd));
 }
@@ -97,14 +97,14 @@ static inline outcome<void> close(owned_file_descriptor& fdw) noexcept {
     return error_if_not_zero(::close(fd), fd);
 }
 
-static inline outcome<ssize_t>
-read(file_descriptor fd, memory_block buf) noexcept {
+static inline outcome<ssize_t> read(
+  file_descriptor fd, memory::block buf) noexcept {
     return error_if_negative(
       ::read(get_raw_fd(fd), buf.data(), size_t(buf.size())), get_raw_fd(fd));
 }
 
-static inline outcome<ssize_t>
-write(file_descriptor fd, const_memory_block buf) noexcept {
+static inline outcome<ssize_t> write(
+  file_descriptor fd, memory::const_block buf) noexcept {
     return error_if_negative(
       ::write(get_raw_fd(fd), buf.data(), size_t(buf.size())), get_raw_fd(fd));
 }
