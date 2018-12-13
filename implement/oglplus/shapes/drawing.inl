@@ -6,6 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/memory/null_ptr.hpp>
 #include <oglplus/utils/gl_func.hpp>
 
 namespace oglplus {
@@ -87,7 +88,7 @@ bool draw_operation::indexed() const noexcept {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 const void* draw_operation::_idx_ptr() const noexcept {
-    return static_cast<const GLubyte*>(nullptr) + _first;
+    return eagine::memory::typed_nullptr<const GLubyte> + _first;
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC

@@ -7,6 +7,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/maybe_unused.hpp>
+#include <eagine/memory/null_ptr.hpp>
 #include <oglplus/buffer.hpp>
 #include <oglplus/glsl/string_ref.hpp>
 #include <oglplus/math/vector.hpp>
@@ -27,6 +28,8 @@ OGLPLUS_LIB_FUNC
 void render_node::_init_screen() {
     operations gl;
     constants GL;
+
+    using eagine::memory::typed_nullptr;
 
     if(_data)
         buffer::delete_(_data);
@@ -61,12 +64,12 @@ void render_node::_init_screen() {
 
     vertex_attrib_location va_p(0);
     gl.vertex_array_attrib_pointer(
-      va_p, 2, GL.float_, false, 0, static_cast<GLfloat*>(nullptr) + 0);
+      va_p, 2, GL.float_, false, 0, typed_nullptr<GLfloat*> + 0);
     gl.enable_vertex_array_attrib(va_p);
 
     vertex_attrib_location va_c(1);
     gl.vertex_array_attrib_pointer(
-      va_c, 2, GL.float_, false, 0, static_cast<GLfloat*>(nullptr) + 8);
+      va_c, 2, GL.float_, false, 0, typed_nullptr<GLfloat*> + 8);
     gl.enable_vertex_array_attrib(va_c);
 }
 //------------------------------------------------------------------------------

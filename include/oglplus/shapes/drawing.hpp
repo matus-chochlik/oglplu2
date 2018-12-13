@@ -31,9 +31,9 @@ private:
     data_type _idx_type;
     GLint _first;
     GLsizei _count;
-    GLuint _phase;
-    GLuint _primitive_restart_index;
-    bool _primitive_restart : 1;
+    [[maybe_unused]] GLuint _phase;
+    [[maybe_unused]] GLuint _primitive_restart_index;
+    [[maybe_unused]] bool _primitive_restart : 1;
     bool _cw_face_winding : 1;
 
     const void* _idx_ptr() const noexcept;
