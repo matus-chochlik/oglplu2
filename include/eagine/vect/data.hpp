@@ -24,7 +24,7 @@ struct data
       _has_vec_data<T, N>::value && V,
       _vec_data<T, N>,
       _ary_data<T, N>> {
-    typedef T value_type;
+    using value_type = T;
     static constexpr int size = N;
 };
 

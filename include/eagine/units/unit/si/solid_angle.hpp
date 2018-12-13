@@ -36,7 +36,7 @@ template <>
 struct si::base_unit<base::solid_angle> : base::steradian {};
 
 // steradian
-typedef unit<solid_angle, si> steradian;
+using steradian = unit<solid_angle, si>;
 
 } // namespace units
 } // namespace eagine

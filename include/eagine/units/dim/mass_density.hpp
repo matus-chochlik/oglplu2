@@ -15,7 +15,7 @@
 namespace eagine {
 namespace units {
 
-typedef decltype(mass() / volume()) mass_density;
+using mass_density = decltype(mass() / volume());
 
 template <>
 struct dim_name<mass_density> {

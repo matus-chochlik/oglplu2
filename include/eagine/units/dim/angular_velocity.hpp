@@ -15,7 +15,7 @@
 namespace eagine {
 namespace units {
 
-typedef decltype(angle() / time()) angular_velocity;
+using angular_velocity = decltype(angle() / time());
 
 template <>
 struct dim_name<angular_velocity> {

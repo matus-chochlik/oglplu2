@@ -36,13 +36,12 @@ template <>
 struct si::base_unit<base::luminous_intensity> : base::candela {};
 
 // candela
-typedef unit<luminous_intensity, si> candela;
+using candela = unit<luminous_intensity, si>;
 
 // derived
-typedef make_scaled_base_dim_unit_t<
+using kilocandela = make_scaled_base_dim_unit_t<
   base::scaled_unit<scales::kilo, base::candela>,
-  si>
-  kilocandela;
+  si>;
 
 } // namespace units
 } // namespace eagine

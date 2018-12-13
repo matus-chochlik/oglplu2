@@ -21,7 +21,7 @@ namespace eagine {
 namespace units {
 
 // volt
-typedef unit<electric_tension, si> volt;
+using volt = unit<electric_tension, si>;
 
 template <>
 struct unit_name<volt> {
@@ -34,8 +34,8 @@ struct unit_symbol<volt> {
 };
 
 // derived
-typedef make_scaled_unit_t<scales::milli, volt> millivolt;
-typedef make_scaled_unit_t<scales::kilo, volt> kilovolt;
+using millivolt = make_scaled_unit_t<scales::milli, volt>;
+using kilovolt = make_scaled_unit_t<scales::kilo, volt>;
 // TODO
 
 } // namespace units

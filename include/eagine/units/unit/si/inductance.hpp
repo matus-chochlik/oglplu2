@@ -21,7 +21,7 @@ namespace eagine {
 namespace units {
 
 // henry
-typedef unit<inductance, si> henry;
+using henry = unit<inductance, si>;
 
 template <>
 struct unit_name<henry> {
@@ -34,8 +34,8 @@ struct unit_symbol<henry> {
 };
 
 // derived
-typedef make_scaled_unit_t<scales::milli, henry> millihenry;
-typedef make_scaled_unit_t<scales::kilo, henry> kilohenry;
+using millihenry = make_scaled_unit_t<scales::milli, henry>;
+using kilohenry = make_scaled_unit_t<scales::kilo, henry>;
 // TODO
 
 } // namespace units

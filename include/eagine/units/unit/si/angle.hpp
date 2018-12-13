@@ -30,8 +30,8 @@ struct unit_symbol<radian> {
 };
 
 // degree
-typedef scaled_unit<scales::divided<scales::pi, scales::constant<180>>, radian>
-  degree;
+using degree =
+  scaled_unit<scales::divided<scales::pi, scales::constant<180>>, radian>;
 
 template <>
 struct unit_name<degree> {
@@ -44,8 +44,8 @@ struct unit_symbol<degree> {
 };
 
 // gradian
-typedef scaled_unit<scales::divided<scales::pi, scales::constant<200>>, radian>
-  gradian;
+using gradian =
+  scaled_unit<scales::divided<scales::pi, scales::constant<200>>, radian>;
 
 template <>
 struct unit_name<gradian> {
@@ -58,10 +58,8 @@ struct unit_symbol<gradian> {
 };
 
 // quarter
-typedef scaled_unit<
-  scales::multiplied<scales::pi, scales::rational<1, 2>>,
-  radian>
-  quarter;
+using quarter =
+  scaled_unit<scales::multiplied<scales::pi, scales::rational<1, 2>>, radian>;
 
 template <>
 struct unit_name<quarter> {
@@ -74,8 +72,8 @@ struct unit_symbol<quarter> {
 };
 
 // turn
-typedef scaled_unit<scales::multiplied<scales::constant<2>, scales::pi>, radian>
-  turn;
+using turn =
+  scaled_unit<scales::multiplied<scales::constant<2>, scales::pi>, radian>;
 
 template <>
 struct unit_name<turn> {
@@ -94,18 +92,16 @@ template <>
 struct si::base_unit<base::angle> : base::radian {};
 
 // radian
-typedef unit<angle, si> radian;
+using radian = unit<angle, si>;
 
 // derived
-typedef make_scaled_base_dim_unit_t<base::degree, si> degree;
-typedef make_scaled_base_dim_unit_t<base::gradian, si> gradian;
-typedef make_scaled_base_dim_unit_t<base::quarter, si> quarter;
-typedef make_scaled_base_dim_unit_t<base::turn, si> turn;
+using degree = make_scaled_base_dim_unit_t<base::degree, si>;
+using gradian = make_scaled_base_dim_unit_t<base::gradian, si>;
+using quarter = make_scaled_base_dim_unit_t<base::quarter, si>;
+using turn = make_scaled_base_dim_unit_t<base::turn, si>;
 
-typedef make_scaled_base_dim_unit_t<
-  base::scaled_unit<scales::pi, base::radian>,
-  si>
-  pi_rad;
+using pi_rad =
+  make_scaled_base_dim_unit_t<base::scaled_unit<scales::pi, base::radian>, si>;
 
 } // namespace units
 } // namespace eagine

@@ -17,7 +17,7 @@ namespace vect {
 
 template <typename T, int N, bool V>
 struct sqrt {
-    typedef data_t<T, N, V> _dT;
+    using _dT = data_t<T, N, V>;
 
     static _dT apply(_dT v) noexcept {
         for(int i = 0; i < N; ++i) {

@@ -22,7 +22,7 @@ namespace vect {
 template <typename T, int N, bool V>
 struct esum {
 private:
-    typedef data_param_t<T, N, V> _dpT;
+    using _dpT = data_param_t<T, N, V>;
 
     template <int U>
     using _int = int_constant<U>;

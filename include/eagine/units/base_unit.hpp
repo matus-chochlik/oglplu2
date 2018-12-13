@@ -25,9 +25,9 @@ struct unit_symbol;
 
 template <typename Dimension, typename Derived>
 struct unit {
-    typedef Dimension dimension;
-    typedef scales::one scale;
-    typedef Derived type;
+    using dimension = Dimension;
+    using scale = scales::one;
+    using type = Derived;
 };
 
 } // namespace base

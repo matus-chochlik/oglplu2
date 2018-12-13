@@ -15,7 +15,7 @@
 namespace eagine {
 namespace units {
 
-typedef decltype(number_of_cycles() / time()) frequency;
+using frequency = decltype(number_of_cycles() / time());
 
 template <>
 struct dim_name<frequency> {

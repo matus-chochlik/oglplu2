@@ -26,7 +26,7 @@ template <>
 struct si::base_unit<base::number_of_cycles> : base::count_of_cycles {};
 
 // hertz
-typedef unit<frequency, si> hertz;
+using hertz = unit<frequency, si>;
 
 template <>
 struct unit_name<hertz> {
@@ -39,9 +39,9 @@ struct unit_symbol<hertz> {
 };
 
 // derived
-typedef make_scaled_unit_t<scales::kilo, hertz> kilohertz;
-typedef make_scaled_unit_t<scales::mega, hertz> megahertz;
-typedef make_scaled_unit_t<scales::giga, hertz> gigahertz;
+using kilohertz = make_scaled_unit_t<scales::kilo, hertz>;
+using megahertz = make_scaled_unit_t<scales::mega, hertz>;
+using gigahertz = make_scaled_unit_t<scales::giga, hertz>;
 // TODO
 
 } // namespace units

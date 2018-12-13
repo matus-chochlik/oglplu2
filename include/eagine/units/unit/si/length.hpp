@@ -35,28 +35,22 @@ template <>
 struct si::base_unit<base::length> : base::meter {};
 
 // kilometer
-typedef unit<length, si> meter;
+using meter = unit<length, si>;
 
 // derived
-typedef make_scaled_base_dim_unit_t<
-  base::scaled_unit<scales::kilo, base::meter>,
-  si>
-  kilometer;
+using kilometer =
+  make_scaled_base_dim_unit_t<base::scaled_unit<scales::kilo, base::meter>, si>;
 
-typedef make_scaled_base_dim_unit_t<
-  base::scaled_unit<scales::deci, base::meter>,
-  si>
-  decimeter;
+using decimeter =
+  make_scaled_base_dim_unit_t<base::scaled_unit<scales::deci, base::meter>, si>;
 
-typedef make_scaled_base_dim_unit_t<
+using centimeter = make_scaled_base_dim_unit_t<
   base::scaled_unit<scales::centi, base::meter>,
-  si>
-  centimeter;
+  si>;
 
-typedef make_scaled_base_dim_unit_t<
+using millimeter = make_scaled_base_dim_unit_t<
   base::scaled_unit<scales::milli, base::meter>,
-  si>
-  millimeter;
+  si>;
 
 } // namespace units
 } // namespace eagine

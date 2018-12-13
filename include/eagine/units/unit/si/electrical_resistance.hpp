@@ -19,7 +19,7 @@ namespace eagine {
 namespace units {
 
 // ohm
-typedef unit<electrical_resistance, si> ohm;
+using ohm = unit<electrical_resistance, si>;
 
 template <>
 struct unit_name<ohm> {
@@ -32,8 +32,8 @@ struct unit_symbol<ohm> {
 };
 
 // derived
-typedef make_scaled_unit_t<scales::milli, ohm> milliohm;
-typedef make_scaled_unit_t<scales::kilo, ohm> kiloohm;
+using milliohm = make_scaled_unit_t<scales::milli, ohm>;
+using kiloohm = make_scaled_unit_t<scales::kilo, ohm>;
 // TODO
 
 } // namespace units

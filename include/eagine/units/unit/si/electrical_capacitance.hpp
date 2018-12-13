@@ -19,7 +19,7 @@ namespace eagine {
 namespace units {
 
 // farad
-typedef unit<electrical_capacitance, si> farad;
+using farad = unit<electrical_capacitance, si>;
 
 template <>
 struct unit_name<farad> {
@@ -32,9 +32,9 @@ struct unit_symbol<farad> {
 };
 
 // derived
-typedef make_scaled_unit_t<scales::micro, farad> microfarad;
-typedef make_scaled_unit_t<scales::milli, farad> millifarad;
-typedef make_scaled_unit_t<scales::kilo, farad> kilofarad;
+using microfarad = make_scaled_unit_t<scales::micro, farad>;
+using millifarad = make_scaled_unit_t<scales::milli, farad>;
+using kilofarad = make_scaled_unit_t<scales::kilo, farad>;
 // TODO
 
 } // namespace units

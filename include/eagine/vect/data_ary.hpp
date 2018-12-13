@@ -23,7 +23,7 @@ template <typename T, int N>
 struct _ary_data {
     T _v[N];
 
-    typedef _ary_data type;
+    using type = _ary_data;
 
     _ary_data() = default;
     _ary_data(const _ary_data& that) = default;
@@ -66,8 +66,8 @@ struct _ary_data {
         return a;
     }
 
-    friend _ary_data
-    operator+(const _ary_data& a, const _ary_data& b) noexcept {
+    friend _ary_data operator+(
+      const _ary_data& a, const _ary_data& b) noexcept {
         _ary_data c;
         for(int i = 0; i < N; ++i) {
             c._v[i] = a._v[i] + b._v[i];
@@ -75,8 +75,8 @@ struct _ary_data {
         return c;
     }
 
-    friend _ary_data
-    operator-(const _ary_data& a, const _ary_data& b) noexcept {
+    friend _ary_data operator-(
+      const _ary_data& a, const _ary_data& b) noexcept {
         _ary_data c;
         for(int i = 0; i < N; ++i) {
             c._v[i] = a._v[i] - b._v[i];
@@ -84,8 +84,8 @@ struct _ary_data {
         return c;
     }
 
-    friend _ary_data
-    operator*(const _ary_data& a, const _ary_data& b) noexcept {
+    friend _ary_data operator*(
+      const _ary_data& a, const _ary_data& b) noexcept {
         _ary_data c;
         for(int i = 0; i < N; ++i) {
             c._v[i] = a._v[i] * b._v[i];
@@ -93,8 +93,8 @@ struct _ary_data {
         return c;
     }
 
-    friend _ary_data
-    operator/(const _ary_data& a, const _ary_data& b) noexcept {
+    friend _ary_data operator/(
+      const _ary_data& a, const _ary_data& b) noexcept {
         _ary_data c;
         for(int i = 0; i < N; ++i) {
             c._v[i] = a._v[i] / b._v[i];
@@ -105,12 +105,12 @@ struct _ary_data {
 
 template <typename T, int N>
 struct _ary_cref {
-    typedef const _ary_data<T, N>& type;
+    using type = const _ary_data<T, N>&;
 };
 
 template <typename T>
 struct _ary_data<T, 0u> {
-    typedef _ary_data type;
+    using type = _ary_data;
 
     T operator[](int i) const;
 };

@@ -21,7 +21,7 @@ namespace eagine {
 namespace units {
 
 // tesla
-typedef unit<magnetic_field_strength, si> tesla;
+using tesla = unit<magnetic_field_strength, si>;
 
 template <>
 struct unit_name<tesla> {
@@ -34,7 +34,7 @@ struct unit_symbol<tesla> {
 };
 
 // derived
-typedef make_scaled_unit_t<scales::milli, tesla> millitesla;
+using millitesla = make_scaled_unit_t<scales::milli, tesla>;
 // TODO
 
 } // namespace units

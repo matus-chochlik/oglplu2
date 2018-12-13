@@ -16,7 +16,7 @@
 namespace eagine {
 namespace units {
 
-typedef decltype(electric_charge() / electric_tension()) electrical_capacitance;
+using electrical_capacitance = decltype(electric_charge() / electric_tension());
 
 template <>
 struct dim_name<electrical_capacitance> {

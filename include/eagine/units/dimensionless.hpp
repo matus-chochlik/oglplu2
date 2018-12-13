@@ -16,7 +16,7 @@
 namespace eagine {
 namespace units {
 
-typedef bits::dimless dimensionless;
+using dimensionless = bits::dimless;
 
 template <>
 struct dim_name<dimensionless> {

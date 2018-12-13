@@ -22,16 +22,16 @@ namespace units {
 
 template <typename Dims, typename Scales, typename System>
 struct scaled_dim_unit {
-    typedef Dims dimension;
-    typedef Scales scales;
-    typedef System system;
-    typedef scaled_dim_unit type;
+    using dimension = Dims;
+    using scales = Scales;
+    using system = System;
+    using type = scaled_dim_unit;
 
     struct scale {
-        typedef scale type;
+        using type = scale;
 
-        typedef bits::_sc_unit_sc_hlp<Scales, System> _impl;
-        typedef bits::dim_pow<nothing_t, int_constant<0>> _ndp;
+        using _impl = bits::_sc_unit_sc_hlp<Scales, System>;
+        using _ndp = bits::dim_pow<nothing_t, int_constant<0>>;
 
         template <typename T>
         static constexpr inline auto mul(T v) {

@@ -26,10 +26,10 @@ template <>
 struct si::base_unit<base::number_of_decays> : base::count_of_decays {};
 
 // count of decays
-typedef unit<number_of_decays, si> count_of_decays;
+using count_of_decays = unit<number_of_decays, si>;
 
 // becquerel
-typedef unit<radioactivity, si> becquerel;
+using becquerel = unit<radioactivity, si>;
 
 template <>
 struct unit_name<becquerel> {
@@ -42,9 +42,9 @@ struct unit_symbol<becquerel> {
 };
 
 // derived
-typedef make_scaled_unit_t<scales::kilo, becquerel> kilobecquerel;
-typedef make_scaled_unit_t<scales::mega, becquerel> megabecquerel;
-typedef make_scaled_unit_t<scales::giga, becquerel> gigabecquerel;
+using kilobecquerel = make_scaled_unit_t<scales::kilo, becquerel>;
+using megabecquerel = make_scaled_unit_t<scales::mega, becquerel>;
+using gigabecquerel = make_scaled_unit_t<scales::giga, becquerel>;
 // TODO
 
 } // namespace units

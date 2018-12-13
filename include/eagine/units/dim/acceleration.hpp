@@ -15,7 +15,7 @@
 namespace eagine {
 namespace units {
 
-typedef decltype(velocity() / time()) acceleration;
+using acceleration = decltype(velocity() / time());
 
 template <>
 struct dim_name<acceleration> {

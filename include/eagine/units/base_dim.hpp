@@ -20,7 +20,7 @@ namespace base {
 // dimension
 template <typename Derived>
 struct dimension {
-    typedef Derived type;
+    using type = Derived;
 };
 
 struct angle : dimension<angle> {};

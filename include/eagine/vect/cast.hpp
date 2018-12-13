@@ -21,8 +21,8 @@ struct cast;
 
 template <typename T, int N, bool V>
 struct cast<T, N, V, T, N, V> {
-    static constexpr inline data_t<T, N, V>
-    apply(data_param_t<T, N, V> v, T) noexcept {
+    static constexpr inline data_t<T, N, V> apply(
+      data_param_t<T, N, V> v, T) noexcept {
         return v;
     }
 };
@@ -57,13 +57,13 @@ public:
     static constexpr inline data_t<TT, NT, VT> apply(
       data_param_t<TF, NF, VF> v,
       data_param_t<TT, (NT > NF) ? NT - NF : 0, VT> d) noexcept {
-        typedef _make_idx_seq<(NT > NF) ? NF : NT> is;
-        typedef _make_idx_seq<(NT > NF) ? NT - NF : 0> ds;
+        using is = _make_idx_seq<(NT > NF) ? NF : NT>;
+        using ds = _make_idx_seq<(NT > NF) ? NT - NF : 0>;
         return _cast(v, d, is(), ds());
     }
 
-    static constexpr inline data_t<TT, NT, VT>
-    apply(data_param_t<TF, NF, VF> v, TT d) noexcept {
+    static constexpr inline data_t<TT, NT, VT> apply(
+      data_param_t<TF, NF, VF> v, TT d) noexcept {
         return apply(v, fill < TT, (NT > NF) ? NT - NF : 0, VT > ::apply(d));
     }
 };

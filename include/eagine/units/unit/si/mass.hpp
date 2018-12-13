@@ -29,7 +29,7 @@ struct unit_symbol<gram> {
 };
 
 // tonne
-typedef scaled_unit<scales::mega, gram> tonne;
+using tonne = scaled_unit<scales::mega, gram>;
 
 template <>
 struct unit_name<tonne> {
@@ -49,20 +49,16 @@ struct si::base_unit<base::mass>
   : base::scaled_unit<scales::kilo, base::gram> {};
 
 // kilogram
-typedef unit<mass, si> kilogram;
+using kilogram = unit<mass, si>;
 
 // derived
-typedef make_scaled_base_dim_unit_t<
-  base::scaled_unit<scales::one, base::gram>,
-  si>
-  gram;
+using gram =
+  make_scaled_base_dim_unit_t<base::scaled_unit<scales::one, base::gram>, si>;
 
-typedef make_scaled_base_dim_unit_t<
-  base::scaled_unit<scales::milli, base::gram>,
-  si>
-  milligram;
+using milligram =
+  make_scaled_base_dim_unit_t<base::scaled_unit<scales::milli, base::gram>, si>;
 
-typedef make_scaled_base_dim_unit_t<base::tonne, si> tonne;
+using tonne = make_scaled_base_dim_unit_t<base::tonne, si>;
 
 } // namespace units
 } // namespace eagine

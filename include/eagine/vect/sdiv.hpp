@@ -16,8 +16,8 @@ namespace vect {
 
 template <typename T, int N, bool V>
 struct sdiv {
-    typedef data_t<T, N, V> _dT;
-    typedef data_param_t<T, N, V> _dpT;
+    using _dT = data_t<T, N, V>;
+    using _dpT = data_param_t<T, N, V>;
 
     static constexpr inline _dT apply(_dpT a, _dpT b) noexcept {
         return a / b;
@@ -29,8 +29,8 @@ struct sdiv {
 
 template <typename T, bool V>
 struct sdiv<T, 3, V> {
-    typedef data_t<T, 3, V> _dT;
-    typedef data_param_t<T, 3, V> _dpT;
+    using _dT = data_t<T, 3, V>;
+    using _dpT = data_param_t<T, 3, V>;
 
     static constexpr inline _dT _hlp(_dpT a, _dpT b, std::true_type) noexcept {
         return a / _dT{b[0], b[1], b[2], T(1)};

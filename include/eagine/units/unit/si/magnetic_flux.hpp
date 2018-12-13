@@ -21,7 +21,7 @@ namespace eagine {
 namespace units {
 
 // weber
-typedef unit<magnetic_flux, si> weber;
+using weber = unit<magnetic_flux, si>;
 
 template <>
 struct unit_name<weber> {
@@ -34,8 +34,8 @@ struct unit_symbol<weber> {
 };
 
 // derived
-typedef make_scaled_unit_t<scales::milli, weber> milliweber;
-typedef make_scaled_unit_t<scales::kilo, weber> kiloweber;
+using milliweber = make_scaled_unit_t<scales::milli, weber>;
+using kiloweber = make_scaled_unit_t<scales::kilo, weber>;
 // TODO
 
 } // namespace units

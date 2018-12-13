@@ -19,7 +19,7 @@ namespace eagine {
 namespace units {
 
 // coulomb
-typedef unit<electric_charge, si> coulomb;
+using coulomb = unit<electric_charge, si>;
 
 template <>
 struct unit_name<coulomb> {
@@ -32,8 +32,8 @@ struct unit_symbol<coulomb> {
 };
 
 // derived
-typedef make_scaled_unit_t<scales::milli, coulomb> millicoulomb;
-typedef make_scaled_unit_t<scales::kilo, coulomb> kilocoulomb;
+using millicoulomb = make_scaled_unit_t<scales::milli, coulomb>;
+using kilocoulomb = make_scaled_unit_t<scales::kilo, coulomb>;
 // TODO
 
 } // namespace units

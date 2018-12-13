@@ -17,8 +17,8 @@ namespace vect {
 template <typename T, int N, bool V>
 struct hsum {
 private:
-    typedef data_t<T, N, V> _dT;
-    typedef data_param_t<T, 1, V> _dpT;
+    using _dT = data_t<T, N, V>;
+    using _dpT = data_param_t<T, 1, V>;
 
     template <int U>
     using _int = int_constant<U>;

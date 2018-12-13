@@ -42,20 +42,20 @@ template <typename Dim, typename BaseDim>
 using base_dimension_power = bits::get_pow<Dim, BaseDim>;
 
 // basic dimensions
-typedef dimension<base::angle, 1> angle;
-typedef dimension<base::solid_angle, 1> solid_angle;
+using angle = dimension<base::angle, 1>;
+using solid_angle = dimension<base::solid_angle, 1>;
 
-typedef dimension<base::length, 1> length;
-typedef dimension<base::mass, 1> mass;
-typedef dimension<base::time, 1> time;
+using length = dimension<base::length, 1>;
+using mass = dimension<base::mass, 1>;
+using time = dimension<base::time, 1>;
 
-typedef dimension<base::temperature, 1> temperature;
-typedef dimension<base::electric_current, 1> electric_current;
-typedef dimension<base::number_of_cycles, 1> number_of_cycles;
-typedef dimension<base::number_of_decays, 1> number_of_decays;
-typedef dimension<base::luminous_intensity, 1> luminous_intensity;
-typedef dimension<base::amount_of_substance, 1> amount_of_substance;
-typedef dimension<base::amount_of_information, 1> amount_of_information;
+using temperature = dimension<base::temperature, 1>;
+using electric_current = dimension<base::electric_current, 1>;
+using number_of_cycles = dimension<base::number_of_cycles, 1>;
+using number_of_decays = dimension<base::number_of_decays, 1>;
+using luminous_intensity = dimension<base::luminous_intensity, 1>;
+using amount_of_substance = dimension<base::amount_of_substance, 1>;
+using amount_of_information = dimension<base::amount_of_information, 1>;
 
 template <typename BaseDim>
 struct dim_name<dimension<BaseDim, 1>> : base::dim_name<BaseDim> {};

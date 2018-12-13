@@ -16,7 +16,7 @@
 namespace eagine {
 namespace units {
 
-typedef decltype(force() / area()) pressure;
+using pressure = decltype(force() / area());
 
 template <>
 struct dim_name<pressure> {

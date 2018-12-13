@@ -15,7 +15,7 @@
 namespace eagine {
 namespace units {
 
-typedef decltype(length() * length() * length()) volume;
+using volume = decltype(length() * length() * length());
 
 template <>
 struct dim_name<volume> {

@@ -19,7 +19,7 @@ namespace eagine {
 namespace units {
 
 // siemens
-typedef unit<electrical_conductance, si> siemens;
+using siemens = unit<electrical_conductance, si>;
 
 template <>
 struct unit_name<siemens> {
@@ -32,7 +32,7 @@ struct unit_symbol<siemens> {
 };
 
 // derived
-typedef make_scaled_unit_t<scales::milli, siemens> millisiemens;
+using millisiemens = make_scaled_unit_t<scales::milli, siemens>;
 // TODO
 
 } // namespace units

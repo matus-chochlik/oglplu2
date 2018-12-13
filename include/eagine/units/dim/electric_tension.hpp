@@ -15,7 +15,7 @@
 namespace eagine {
 namespace units {
 
-typedef decltype(power() / electric_current()) electric_tension;
+using electric_tension = decltype(power() / electric_current());
 
 template <>
 struct dim_name<electric_tension> {

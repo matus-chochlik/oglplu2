@@ -20,7 +20,7 @@ namespace eagine {
 namespace units {
 
 // pascal
-typedef unit<pressure, si> pascal;
+using pascal = unit<pressure, si>;
 
 template <>
 struct unit_name<pascal> {
@@ -33,8 +33,8 @@ struct unit_symbol<pascal> {
 };
 
 // derived
-typedef make_scaled_unit_t<scales::kilo, pascal> kilopascal;
-typedef make_scaled_unit_t<scales::mega, pascal> megapascal;
+using kilopascal = make_scaled_unit_t<scales::kilo, pascal>;
+using megapascal = make_scaled_unit_t<scales::mega, pascal>;
 // TODO
 
 } // namespace units

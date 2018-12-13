@@ -29,14 +29,14 @@ struct scale_symbol;
 
 template <typename X>
 struct scale_of {
-    typedef typename X::scale type;
+    using type = typename X::scale;
 };
 
 template <typename X>
 using scale_of_t = typename scale_of<X>::type;
 
 struct one {
-    typedef one type;
+    using type = one;
 
     template <typename T>
     static constexpr inline T mul(T v) {
@@ -63,7 +63,7 @@ struct scale_of<nothing_t> : one {};
 
 template <int I>
 struct constant {
-    typedef constant type;
+    using type = constant;
 
     template <typename T>
     static constexpr inline auto mul(T v) {
@@ -78,7 +78,7 @@ struct constant {
 
 template <int Num, int Den>
 struct rational {
-    typedef rational type;
+    using type = rational;
 
     template <typename T>
     static constexpr inline auto mul(T v) {
@@ -93,7 +93,7 @@ struct rational {
 
 template <int X, int Y>
 struct power {
-    typedef power type;
+    using type = power;
 
     template <typename T>
     static constexpr inline auto mul(T v) {
@@ -110,7 +110,7 @@ struct power {
 
 template <typename S>
 struct inverted {
-    typedef inverted type;
+    using type = inverted;
 
     template <typename T>
     static constexpr inline auto mul(T v) {
@@ -125,7 +125,7 @@ struct inverted {
 
 template <typename S1, typename S2>
 struct multiplied {
-    typedef multiplied type;
+    using type = multiplied;
 
     template <typename T>
     static constexpr inline auto mul(T v) {
@@ -140,7 +140,7 @@ struct multiplied {
 
 template <typename S1, typename S2>
 struct divided {
-    typedef divided type;
+    using type = divided;
 
     template <typename T>
     static constexpr inline auto mul(T v) {
@@ -155,11 +155,11 @@ struct divided {
 
 template <typename S1, typename S2>
 struct recombined : multiplied<S1, S2> {
-    typedef recombined type;
+    using type = recombined;
 };
 
 // nano
-typedef power<1000, -3> nano;
+using nano = power<1000, -3>;
 
 template <>
 struct scale_name<nano> {
@@ -171,7 +171,7 @@ struct scale_symbol<nano> {
 };
 
 // micro
-typedef power<1000, -2> micro;
+using micro = power<1000, -2>;
 
 template <>
 struct scale_name<micro> {
@@ -183,7 +183,7 @@ struct scale_symbol<micro> {
 };
 
 // milli
-typedef power<1000, -1> milli;
+using milli = power<1000, -1>;
 
 template <>
 struct scale_name<milli> {
@@ -195,7 +195,7 @@ struct scale_symbol<milli> {
 };
 
 // centi
-typedef power<10, -2> centi;
+using centi = power<10, -2>;
 
 template <>
 struct scale_name<centi> {
@@ -207,7 +207,7 @@ struct scale_symbol<centi> {
 };
 
 // deci
-typedef power<10, -1> deci;
+using deci = power<10, -1>;
 
 template <>
 struct scale_name<deci> {
@@ -219,7 +219,7 @@ struct scale_symbol<deci> {
 };
 
 // deca
-typedef power<10, 1> deca;
+using deca = power<10, 1>;
 
 template <>
 struct scale_name<deca> {
@@ -231,7 +231,7 @@ struct scale_symbol<deca> {
 };
 
 // hecto
-typedef power<10, 2> hecto;
+using hecto = power<10, 2>;
 
 template <>
 struct scale_name<hecto> {
@@ -243,7 +243,7 @@ struct scale_symbol<hecto> {
 };
 
 // kilo
-typedef power<1000, 1> kilo;
+using kilo = power<1000, 1>;
 
 template <>
 struct scale_name<kilo> {
@@ -255,7 +255,7 @@ struct scale_symbol<kilo> {
 };
 
 // mega
-typedef power<1000, 2> mega;
+using mega = power<1000, 2>;
 
 template <>
 struct scale_name<mega> {
@@ -267,7 +267,7 @@ struct scale_symbol<mega> {
 };
 
 // giga
-typedef power<1000, 3> giga;
+using giga = power<1000, 3>;
 
 template <>
 struct scale_name<giga> {
@@ -279,7 +279,7 @@ struct scale_symbol<giga> {
 };
 
 // tera
-typedef power<1000, 4> tera;
+using tera = power<1000, 4>;
 
 template <>
 struct scale_name<tera> {
@@ -291,7 +291,7 @@ struct scale_symbol<tera> {
 };
 
 // kibi
-typedef power<1024, 1> kibi;
+using kibi = power<1024, 1>;
 
 template <>
 struct scale_name<kibi> {
@@ -303,7 +303,7 @@ struct scale_symbol<kibi> {
 };
 
 // mebi
-typedef power<1024, 2> mebi;
+using mebi = power<1024, 2>;
 
 template <>
 struct scale_name<mebi> {
@@ -315,7 +315,7 @@ struct scale_symbol<mebi> {
 };
 
 // gibi
-typedef power<1024, 3> gibi;
+using gibi = power<1024, 3>;
 
 template <>
 struct scale_name<gibi> {
@@ -327,7 +327,7 @@ struct scale_symbol<gibi> {
 };
 
 // tebi
-typedef power<1024, 4> tebi;
+using tebi = power<1024, 4>;
 
 template <>
 struct scale_name<tebi> {
@@ -340,7 +340,7 @@ struct scale_symbol<tebi> {
 
 // pi
 struct pi {
-    typedef pi type;
+    using type = pi;
 
     template <typename T>
     static constexpr inline auto mul(T v) {

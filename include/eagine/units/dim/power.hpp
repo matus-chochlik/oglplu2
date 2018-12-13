@@ -15,7 +15,7 @@
 namespace eagine {
 namespace units {
 
-typedef decltype(energy() / time()) power;
+using power = decltype(energy() / time());
 
 template <>
 struct dim_name<power> {

@@ -20,7 +20,7 @@ namespace eagine {
 namespace units {
 
 // watt
-typedef unit<power, si> watt;
+using watt = unit<power, si>;
 
 template <>
 struct unit_name<watt> {
@@ -33,8 +33,8 @@ struct unit_symbol<watt> {
 };
 
 // derived
-typedef make_scaled_unit_t<scales::kilo, watt> kilowatt;
-typedef make_scaled_unit_t<scales::mega, watt> megawatt;
+using kilowatt = make_scaled_unit_t<scales::kilo, watt>;
+using megawatt = make_scaled_unit_t<scales::mega, watt>;
 // TODO
 
 } // namespace units

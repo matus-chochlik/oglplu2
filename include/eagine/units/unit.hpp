@@ -26,10 +26,10 @@ struct unit_symbol;
 // unit
 template <typename Dims, typename System>
 struct unit {
-    typedef Dims dimension;
-    typedef System system;
-    typedef scales::one scale;
-    typedef unit type;
+    using dimension = Dims;
+    using system = System;
+    using scale = scales::one;
+    using type = unit;
 };
 
 // is_convertible

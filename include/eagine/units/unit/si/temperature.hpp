@@ -35,18 +35,16 @@ template <>
 struct si::base_unit<base::temperature> : base::kelvin {};
 
 // kelvin
-typedef unit<temperature, si> kelvin;
+using kelvin = unit<temperature, si>;
 
 // derived
-typedef make_scaled_base_dim_unit_t<
+using millikelvin = make_scaled_base_dim_unit_t<
   base::scaled_unit<scales::milli, base::kelvin>,
-  si>
-  millikelvin;
+  si>;
 
-typedef make_scaled_base_dim_unit_t<
+using kilokelvin = make_scaled_base_dim_unit_t<
   base::scaled_unit<scales::kilo, base::kelvin>,
-  si>
-  kilokelvin;
+  si>;
 
 } // namespace units
 } // namespace eagine

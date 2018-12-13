@@ -15,8 +15,8 @@
 namespace eagine {
 namespace units {
 
-typedef decltype(
-  electric_current() / electric_tension()) electrical_conductance;
+using electrical_conductance =
+  decltype(electric_current() / electric_tension());
 
 template <>
 struct dim_name<electrical_conductance> {

@@ -20,7 +20,7 @@ namespace eagine {
 namespace units {
 
 // joule
-typedef unit<energy, si> joule;
+using joule = unit<energy, si>;
 
 template <>
 struct unit_name<joule> {
@@ -33,8 +33,8 @@ struct unit_symbol<joule> {
 };
 
 // derived
-typedef make_scaled_unit_t<scales::kilo, joule> kilojoule;
-typedef make_scaled_unit_t<scales::mega, joule> megajoule;
+using kilojoule = make_scaled_unit_t<scales::kilo, joule>;
+using megajoule = make_scaled_unit_t<scales::mega, joule>;
 // TODO
 
 } // namespace units

@@ -20,7 +20,7 @@ namespace eagine {
 namespace units {
 
 // newton
-typedef unit<force, si> newton;
+using newton = unit<force, si>;
 
 template <>
 struct unit_name<newton> {
@@ -33,8 +33,8 @@ struct unit_symbol<newton> {
 };
 
 // derived
-typedef make_scaled_unit_t<scales::kilo, newton> kilonewton;
-typedef make_scaled_unit_t<scales::mega, newton> meganewton;
+using kilonewton = make_scaled_unit_t<scales::kilo, newton>;
+using meganewton = make_scaled_unit_t<scales::mega, newton>;
 // TODO
 
 } // namespace units

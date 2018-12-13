@@ -15,7 +15,7 @@
 namespace eagine {
 namespace units {
 
-typedef decltype(force() * length()) energy;
+using energy = decltype(force() * length());
 
 template <>
 struct dim_name<energy> {

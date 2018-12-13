@@ -16,7 +16,7 @@
 namespace eagine {
 namespace units {
 
-typedef decltype(magnetic_flux() / area()) magnetic_field_strength;
+using magnetic_field_strength = decltype(magnetic_flux() / area());
 
 template <>
 struct dim_name<magnetic_field_strength> {

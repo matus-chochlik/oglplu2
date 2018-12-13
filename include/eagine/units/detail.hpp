@@ -30,17 +30,17 @@ using collapse_tail_t = typename collapse_tail<X>::type;
 // dim_pow
 template <typename Dim, typename Pow>
 struct dim_pow {
-    typedef Dim dim;
-    typedef Pow pow;
+    using dim = Dim;
+    using pow = Pow;
 };
 
 // dims
 template <typename Head, typename Tail>
 struct dims {
-    typedef dims type;
+    using type = dims;
 };
 
-typedef dims<nothing_t, nothing_t> dimless;
+using dimless = dims<nothing_t, nothing_t>;
 
 template <>
 struct collapse_tail<dims<nothing_t, nothing_t>> : nothing_t {};
@@ -66,8 +66,8 @@ struct pow_of_dim<D1, dims<dim_pow<D2, P>, T>> : pow_of_dim<D1, T> {};
 
 // get_pow_of_dim
 template <typename D, typename H, typename T>
-static constexpr inline int
-get_pow_of_dim(base::dimension<D>, dims<H, T>) noexcept {
+static constexpr inline int get_pow_of_dim(
+  base::dimension<D>, dims<H, T>) noexcept {
     return pow_of_dim_v<D, dims<H, T>>;
 }
 
@@ -222,7 +222,7 @@ struct uni_sca;
 
 template <typename Head, typename Tail>
 struct unit_scales {
-    typedef unit_scales type;
+    using type = unit_scales;
 };
 
 template <>
@@ -374,10 +374,10 @@ struct _sc_unit_sc_hlp {
     }
 
     template <typename Dir, typename T, typename D, int E>
-    static constexpr inline auto
-    _hlp2(Dir, T v, dim_pow<D, int_constant<E>>) noexcept {
-        typedef typename System ::template base_unit<D>::type SBU;
-        typedef scales::scale_of_t<SBU> BS;
+    static constexpr inline auto _hlp2(
+      Dir, T v, dim_pow<D, int_constant<E>>) noexcept {
+        using SBU = typename System ::template base_unit<D>::type;
+        using BS = scales::scale_of_t<SBU>;
 
         return _pow(
           v,
@@ -386,8 +386,8 @@ struct _sc_unit_sc_hlp {
     }
 
     template <typename Dir, typename T, typename D, typename P, typename Dims>
-    static constexpr inline auto
-    _hlp(Dir dir, T v, dims<dim_pow<D, P>, Dims>) noexcept {
+    static constexpr inline auto _hlp(
+      Dir dir, T v, dims<dim_pow<D, P>, Dims>) noexcept {
         return _hlp(dir, _hlp2(dir, v, dim_pow<D, P>()), Dims());
     }
 };

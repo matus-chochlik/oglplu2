@@ -15,7 +15,7 @@
 namespace eagine {
 namespace units {
 
-typedef decltype(number_of_decays() / time()) radioactivity;
+using radioactivity = decltype(number_of_decays() / time());
 
 template <>
 struct dim_name<radioactivity> {

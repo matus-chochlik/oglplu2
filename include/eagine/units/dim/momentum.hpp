@@ -15,7 +15,7 @@
 namespace eagine {
 namespace units {
 
-typedef decltype(velocity() * mass()) momentum;
+using momentum = decltype(velocity() * mass());
 
 template <>
 struct dim_name<momentum> {

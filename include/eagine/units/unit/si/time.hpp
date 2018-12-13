@@ -29,7 +29,7 @@ struct unit_symbol<second> {
 };
 
 // minute
-typedef scaled_unit<scales::constant<60>, second> minute;
+using minute = scaled_unit<scales::constant<60>, second>;
 
 template <>
 struct unit_name<minute> {
@@ -41,7 +41,7 @@ struct unit_symbol<minute> {
 };
 
 // hour
-typedef scaled_unit<scales::constant<3600>, second> hour;
+using hour = scaled_unit<scales::constant<3600>, second>;
 
 template <>
 struct unit_name<hour> {
@@ -53,7 +53,7 @@ struct unit_symbol<hour> {
 };
 
 // day
-typedef scaled_unit<scales::constant<86400>, second> day;
+using day = scaled_unit<scales::constant<86400>, second>;
 
 template <>
 struct unit_name<day> {
@@ -70,16 +70,16 @@ struct unit_symbol<day> {
 template <>
 struct si::base_unit<base::time> : base::second {};
 
-typedef unit<time, si> second;
+using second = unit<time, si>;
 
 // derived
-typedef make_scaled_base_dim_unit_t<
+using millisecond = make_scaled_base_dim_unit_t<
   base::scaled_unit<scales::milli, base::second>,
-  si>
-  millisecond;
-typedef make_scaled_base_dim_unit_t<base::minute, si> minute;
-typedef make_scaled_base_dim_unit_t<base::hour, si> hour;
-typedef make_scaled_base_dim_unit_t<base::day, si> day;
+  si>;
+
+using minute = make_scaled_base_dim_unit_t<base::minute, si>;
+using hour = make_scaled_base_dim_unit_t<base::hour, si>;
+using day = make_scaled_base_dim_unit_t<base::day, si>;
 
 } // namespace units
 } // namespace eagine

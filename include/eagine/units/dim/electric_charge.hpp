@@ -15,7 +15,7 @@
 namespace eagine {
 namespace units {
 
-typedef decltype(electric_current() * time()) electric_charge;
+using electric_charge = decltype(electric_current() * time());
 
 template <>
 struct dim_name<electric_charge> {

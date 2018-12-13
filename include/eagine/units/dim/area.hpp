@@ -15,7 +15,7 @@
 namespace eagine {
 namespace units {
 
-typedef decltype(length() * length()) area;
+using area = decltype(length() * length());
 
 template <>
 struct dim_name<area> {

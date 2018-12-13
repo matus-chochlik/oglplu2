@@ -29,7 +29,7 @@ struct unit_symbol<bit> {
 };
 
 // byte
-typedef scaled_unit<scales::constant<8>, bit> byte;
+using byte = scaled_unit<scales::constant<8>, bit>;
 
 template <>
 struct unit_name<byte> {
@@ -46,40 +46,35 @@ struct unit_symbol<byte> {
 template <>
 struct si::base_unit<base::amount_of_information> : base::bit {};
 
-typedef unit<amount_of_information, si> bit;
+using bit = unit<amount_of_information, si>;
 
-typedef make_scaled_base_dim_unit_t<
+using byte = make_scaled_base_dim_unit_t<
   base::scaled_unit<scales::constant<8>, base::bit>,
-  si>
-  byte;
+  si>;
 
-typedef make_scaled_base_dim_unit_t<
+using kilobyte = make_scaled_base_dim_unit_t<
   base::scaled_unit<
     scales::recombined<scales::kilo, scales::constant<8>>,
     base::bit>,
-  si>
-  kilobyte;
+  si>;
 
-typedef make_scaled_base_dim_unit_t<
+using kibibyte = make_scaled_base_dim_unit_t<
   base::scaled_unit<
     scales::recombined<scales::kibi, scales::constant<8>>,
     base::bit>,
-  si>
-  kibibyte;
+  si>;
 
-typedef make_scaled_base_dim_unit_t<
+using megabyte = make_scaled_base_dim_unit_t<
   base::scaled_unit<
     scales::recombined<scales::mega, scales::constant<8>>,
     base::bit>,
-  si>
-  megabyte;
+  si>;
 
-typedef make_scaled_base_dim_unit_t<
+using mebibyte = make_scaled_base_dim_unit_t<
   base::scaled_unit<
     scales::recombined<scales::mebi, scales::constant<8>>,
     base::bit>,
-  si>
-  mebibyte;
+  si>;
 
 } // namespace units
 } // namespace eagine

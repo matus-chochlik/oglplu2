@@ -15,7 +15,7 @@
 namespace eagine {
 namespace units {
 
-typedef decltype(magnetic_flux() / electric_current()) inductance;
+using inductance = decltype(magnetic_flux() / electric_current());
 
 template <>
 struct dim_name<inductance> {

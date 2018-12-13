@@ -34,22 +34,22 @@ using mask_t = typename mask<T, N, V>::type;
 template <typename T, int N, bool V>
 struct shuffle {
 private:
-    typedef data_t<T, N, V> _dT;
-    typedef data_param_t<T, N, V> _dpT;
+    using _dT = data_t<T, N, V>;
+    using _dpT = data_param_t<T, N, V>;
 
     template <int... I>
-    static constexpr inline _dT
-    _do_apply(_dpT v, shuffle_mask<I...>, std::false_type) noexcept {
+    static constexpr inline _dT _do_apply(
+      _dpT v, shuffle_mask<I...>, std::false_type) noexcept {
         return data_t<T, N, V>{v[I]...};
     }
 
     template <int... I>
-    static constexpr inline _dT
-    _do_apply(_dpT v, shuffle_mask<I...>, std::true_type) noexcept {
+    static constexpr inline _dT _do_apply(
+      _dpT v, shuffle_mask<I...>, std::true_type) noexcept {
 #if EAGINE_USE_SIMD && defined(__clang__)
         return _dT(__builtin_shufflevector(v, v, I...));
 #elif EAGINE_USE_SIMD && defined(__GNUC__)
-        typedef mask_t<T, N, V> _mT;
+        using _mT = mask_t<T, N, V>;
         return __builtin_shuffle(v, _mT{I...});
 #else
         return _do_apply(v, shuffle_mask<I...>(), std::false_type());
@@ -58,8 +58,8 @@ private:
 
 public:
     template <int... I>
-    static constexpr inline _dT
-    apply(_dpT v, shuffle_mask<I...> m = {}) noexcept {
+    static constexpr inline _dT apply(
+      _dpT v, shuffle_mask<I...> m = {}) noexcept {
         return _do_apply(v, m, has_vect_data<T, N, V>());
     }
 };
@@ -67,8 +67,8 @@ public:
 template <typename T, int N, bool V>
 struct shuffle2 {
 private:
-    typedef data_t<T, N, V> _dT;
-    typedef data_param_t<T, N, V> _dpT;
+    using _dT = data_t<T, N, V>;
+    using _dpT = data_param_t<T, N, V>;
 
     template <int U>
     using _int = int_constant<U>;
@@ -86,7 +86,7 @@ private:
 #if EAGINE_USE_SIMD && defined(__clang__)
         return _dT(__builtin_shufflevector(v1, v2, I...));
 #elif EAGINE_USE_SIMD && defined(__GNUC__)
-        typedef mask_t<T, N, V> _mT;
+        using _mT = mask_t<T, N, V>;
         return __builtin_shuffle(v1, v2, _mT{I...});
 #else
         return _do_apply(
@@ -100,7 +100,7 @@ private:
 #if EAGINE_USE_SIMD && defined(__clang__)
         return _dT(__builtin_shufflevector(v1, v2, I >= 3 ? I + 1 : I...));
 #elif EAGINE_USE_SIMD && defined(__GNUC__)
-        typedef mask_t<T, N, V> _mT;
+        using _mT = mask_t<T, N, V>;
         return __builtin_shuffle(v1, v2, _mT{(I >= 3 ? I + 1 : I)...});
 #else
         return _do_apply(
@@ -110,8 +110,8 @@ private:
 
 public:
     template <int... I>
-    static inline _dT
-    apply(_dpT v1, _dpT v2, shuffle_mask<I...> m = {}) noexcept {
+    static inline _dT apply(
+      _dpT v1, _dpT v2, shuffle_mask<I...> m = {}) noexcept {
         return _do_apply(v1, v2, m, _int<N>(), has_vect_data<T, N, V>());
     }
 };

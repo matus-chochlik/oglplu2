@@ -34,12 +34,10 @@ struct unit_symbol<mole> {
 template <>
 struct si::base_unit<base::amount_of_substance> : base::mole {};
 
-typedef unit<amount_of_substance, si> mole;
+using mole = unit<amount_of_substance, si>;
 
-typedef make_scaled_base_dim_unit_t<
-  base::scaled_unit<scales::kilo, base::mole>,
-  si>
-  kilomole;
+using kilomole =
+  make_scaled_base_dim_unit_t<base::scaled_unit<scales::kilo, base::mole>, si>;
 
 } // namespace units
 } // namespace eagine

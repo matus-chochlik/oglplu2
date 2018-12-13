@@ -15,7 +15,7 @@
 namespace eagine {
 namespace units {
 
-typedef decltype(acceleration() * mass()) force;
+using force = decltype(acceleration() * mass());
 
 template <>
 struct dim_name<force> {
