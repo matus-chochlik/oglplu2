@@ -19,8 +19,8 @@ namespace memory {
 
 class buffer {
 public:
-    typedef typename block::size_type size_type;
-    typedef typename block::pointer pointer;
+    using size_type = typename block::size_type;
+    using pointer = typename block::pointer;
 
 private:
     span_size_t _size;

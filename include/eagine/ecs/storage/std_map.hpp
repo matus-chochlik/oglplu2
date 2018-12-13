@@ -25,8 +25,8 @@ template <typename Entity, typename Component>
 class std_map_cmp_storage_iterator
   : public component_storage_iterator_intf<Entity> {
 private:
-    typedef typename std::map<Entity, Component> _map_t;
-    typedef typename _map_t::iterator _iter_t;
+    using _map_t = typename std::map<Entity, Component>;
+    using _iter_t = typename _map_t::iterator;
     _map_t* _map;
     _iter_t _i;
 
@@ -80,7 +80,7 @@ private:
     std::map<Entity, Component> _components;
     std::set<Entity> _hidden;
 
-    typedef std_map_cmp_storage_iterator<Entity, Component> _map_iter_t;
+    using _map_iter_t = std_map_cmp_storage_iterator<Entity, Component>;
 
     _map_iter_t& _iter_cast(component_storage_iterator<Entity>& i) noexcept {
         assert(dynamic_cast<_map_iter_t*>(i.ptr()) != nullptr);
@@ -91,16 +91,16 @@ private:
         return _iter_cast(i)._i->first;
     }
 
-    typename std::map<Entity, Component>::iterator
-    _remove(typename std::map<Entity, Component>::iterator p) {
+    typename std::map<Entity, Component>::iterator _remove(
+      typename std::map<Entity, Component>::iterator p) {
         assert(p != _components.end());
         _hidden.erase(p->first);
         return _components.erase(p);
     }
 
 public:
-    typedef entity_param_t<Entity> entity_param;
-    typedef component_storage_iterator<Entity> iterator_t;
+    using entity_param = entity_param_t<Entity>;
+    using iterator_t = component_storage_iterator<Entity>;
 
     storage_caps capabilities() override {
         return storage_caps{storage_cap_bit::hide | storage_cap_bit::remove |
@@ -279,9 +279,9 @@ public:
         }
     }
 
-    void
-    for_each(callable_ref<void(entity_param, manipulator<const Component>&)>
-               func) override {
+    void for_each(
+      callable_ref<void(entity_param, manipulator<const Component>&)> func)
+      override {
         concrete_manipulator<const Component> m(true /*can_remove*/);
         auto p = _components.begin();
         while(p != _components.end()) {
@@ -323,9 +323,9 @@ template <typename Entity, typename Relation>
 class std_map_rel_storage_iterator
   : public relation_storage_iterator_intf<Entity> {
 private:
-    typedef std::pair<Entity, Entity> _pair_t;
-    typedef typename std::map<_pair_t, Relation> _map_t;
-    typedef typename _map_t::iterator _iter_t;
+    using _pair_t = std::pair<Entity, Entity>;
+    using _map_t = typename std::map<_pair_t, Relation>;
+    using _iter_t = typename _map_t::iterator;
     _map_t* _map;
     _iter_t _i;
 
@@ -365,25 +365,25 @@ public:
 template <typename Entity, typename Relation>
 class std_map_rel_storage : public relation_storage<Entity, Relation> {
 private:
-    typedef std::pair<Entity, Entity> _pair_t;
+    using _pair_t = std::pair<Entity, Entity>;
     std::map<_pair_t, Relation> _relations;
 
-    typedef std_map_rel_storage_iterator<Entity, Relation> _map_iter_t;
+    using _map_iter_t = std_map_rel_storage_iterator<Entity, Relation>;
 
     _map_iter_t& _iter_cast(relation_storage_iterator<Entity>& i) noexcept {
         assert(dynamic_cast<_map_iter_t*>(i.ptr()) != nullptr);
         return *static_cast<_map_iter_t*>(i.ptr());
     }
 
-    typename std::map<_pair_t, Relation>::iterator
-    _remove(typename std::map<_pair_t, Relation>::iterator p) {
+    typename std::map<_pair_t, Relation>::iterator _remove(
+      typename std::map<_pair_t, Relation>::iterator p) {
         assert(p != _relations.end());
         return _relations.erase(p);
     }
 
 public:
-    typedef entity_param_t<Entity> entity_param;
-    typedef relation_storage_iterator<Entity> iterator_t;
+    using entity_param = entity_param_t<Entity>;
+    using iterator_t = relation_storage_iterator<Entity>;
 
     storage_caps capabilities() override {
         return storage_caps{storage_cap_bit::remove | storage_cap_bit::store |
@@ -502,8 +502,8 @@ public:
         }
     }
 
-    void
-    for_each(callable_ref<void(entity_param, entity_param)> func) override {
+    void for_each(
+      callable_ref<void(entity_param, entity_param)> func) override {
         for(auto& p : _relations) {
             func(p.first.first, p.first.second);
         }
@@ -544,10 +544,9 @@ public:
         }
     }
 
-    void
-    for_each(callable_ref<void(
-               entity_param, entity_param, manipulator<const Relation>&)> func)
-      override {
+    void for_each(callable_ref<void(
+                    entity_param, entity_param, manipulator<const Relation>&)>
+                    func) override {
         concrete_manipulator<const Relation> m(true /*can_remove*/);
         auto po = _relations.begin();
         while(po != _relations.end()) {

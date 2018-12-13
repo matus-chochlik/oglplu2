@@ -280,8 +280,8 @@ png_header_validator::png_header_validator(std::istream& input) {
     }
 }
 
-[[noreturn]] void
-png_read_struct::_handle_error(::png_structp, const char* message) {
+[[noreturn]] void png_read_struct::_handle_error(
+  ::png_structp, const char* message) {
     throw ::std::runtime_error(message);
 }
 
@@ -380,7 +380,7 @@ png_read_info_end_struct::~png_read_info_end_struct() noexcept {
 void png_read_driver::_read_data(
   ::png_structp png, ::png_bytep data, ::png_size_t size) {
     ::png_voidp p = ::png_get_io_ptr(png);
-    assert(p != 0);
+    assert(p != nullptr);
     (reinterpret_cast<png_reader*>(p))->do_read_data(data, size);
 }
 
@@ -396,7 +396,8 @@ png_read_driver::png_read_driver(png_reader& reader)
   : _png(reader._png) {
     ::png_set_read_fn(_png._read, &reader, &_read_data);
     ::png_set_read_user_chunk_fn(_png._read, &reader, &_read_user_chunk);
-    ::png_set_keep_unknown_chunks(_png._read, PNG_HANDLE_CHUNK_NEVER, 0, 0);
+    ::png_set_keep_unknown_chunks(
+      _png._read, PNG_HANDLE_CHUNK_NEVER, nullptr, 0);
 
     const size_t sig_size = 8;
     ::png_set_sig_bytes(_png._read, sig_size);

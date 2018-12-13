@@ -20,18 +20,18 @@ namespace math {
 
 template <typename T, int N, bool V>
 struct scalar {
-    typedef scalar type;
+    using type = scalar;
 
-    typedef T value_type;
+    using value_type = T;
 
-    typedef vect::has_vect_data_t<T, N, V> is_vectorized;
+    using is_vectorized = vect::has_vect_data_t<T, N, V>;
 
-    typedef std::conditional_t<is_vectorized::value, vect::data_t<T, N, V>, T>
-      data_type;
+    using data_type =
+      std::conditional_t<is_vectorized::value, vect::data_t<T, N, V>, T>;
 
     data_type _v;
 
-    typedef const scalar& _cpT;
+    using _cpT = const scalar&;
 
     static constexpr inline scalar _from(data_type v) noexcept {
         return scalar{v};

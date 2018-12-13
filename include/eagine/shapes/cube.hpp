@@ -19,7 +19,7 @@ namespace shapes {
 
 class unit_cube_gen : public centered_unit_shape_generator_base {
 private:
-    typedef centered_unit_shape_generator_base _base;
+    using _base = centered_unit_shape_generator_base;
 
     static vertex_attrib_bits _attr_mask() noexcept;
 

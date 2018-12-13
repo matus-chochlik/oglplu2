@@ -20,8 +20,8 @@ namespace memory {
 
 // byte_allocator
 struct byte_allocator : block_owner {
-    typedef byte value_type;
-    typedef span_size_t size_type;
+    using value_type = byte;
+    using size_type = span_size_t;
 
     byte_allocator() = default;
     byte_allocator(const byte_allocator&) = default;
@@ -113,7 +113,7 @@ public:
 };
 
 // default_byte_allocator_policy
-typedef byte_alloc_ref_count_policy default_byte_allocator_policy;
+using default_byte_allocator_policy = byte_alloc_ref_count_policy;
 
 // byte_allocator_impl
 template <
@@ -125,14 +125,14 @@ class byte_allocator_impl : public byte_allocator {
 private:
     Policy _policy;
 
-    typedef DerivedTpl<Args..., Policy> Derived;
+    using Derived = DerivedTpl<Args..., Policy>;
 
     Derived& derived() {
         return *static_cast<Derived*>(this);
     }
 
 public:
-    typedef span_size_t size_type;
+    using size_type = span_size_t;
 
     byte_allocator_impl() = default;
     byte_allocator_impl(byte_allocator_impl&&) = default;

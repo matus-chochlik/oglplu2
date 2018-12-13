@@ -14,7 +14,7 @@ namespace ecs {
 
 template <typename Entity>
 struct entity_traits {
-    typedef Entity parameter_type;
+    using parameter_type = Entity;
 
     static inline Entity minimum() noexcept {
         return Entity();

@@ -84,7 +84,7 @@ public:
 
 template <typename Component, bool Const>
 struct get_manipulator {
-    typedef basic_manipulator<Component, Const> type;
+    using type = basic_manipulator<Component, Const>;
 };
 
 template <typename Component>
@@ -97,7 +97,7 @@ private:
       std::remove_const_t<Component>,
       std::is_const<Component>::value>::type;
 
-    typedef std::remove_const_t<Component> _nonconstC;
+    using _nonconstC = std::remove_const_t<Component>;
     std::remove_const_t<Component>* _add_place;
 
 protected:

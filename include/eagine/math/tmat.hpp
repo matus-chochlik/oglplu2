@@ -19,7 +19,7 @@ namespace math {
 template <typename T, int C, int R, bool RM, bool V>
 struct tmat : matrix<T, C, R, RM, V> {
 private:
-    typedef matrix<T, C, R, RM, V> _base;
+    using _base = matrix<T, C, R, RM, V>;
 
 public:
     constexpr inline tmat() noexcept

@@ -29,11 +29,11 @@ enum class vertex_attrib_kind : unsigned {
     face_coord = 1 << 6
 };
 
-typedef bitfield<vertex_attrib_kind> vertex_attrib_bits;
+using vertex_attrib_bits = bitfield<vertex_attrib_kind>;
 
 // vertex_attrib_kind | vertex_attrib_kind
-static constexpr inline vertex_attrib_bits
-operator|(vertex_attrib_kind a, vertex_attrib_kind b) noexcept {
+static constexpr inline vertex_attrib_bits operator|(
+  vertex_attrib_kind a, vertex_attrib_kind b) noexcept {
     return {a, b};
 }
 
@@ -48,8 +48,8 @@ struct vertex_attrib_and_location {
 };
 
 // vertex_attrib_kind | location
-static constexpr inline vertex_attrib_and_location
-operator|(vertex_attrib_kind attrib, int location) noexcept {
+static constexpr inline vertex_attrib_and_location operator|(
+  vertex_attrib_kind attrib, int location) noexcept {
     return {attrib, location};
 }
 
@@ -109,8 +109,8 @@ static inline vertex_attrib_bits get_attrib_bits(
 }
 
 // attrib_values_per_vertex
-static inline span_size_t
-attrib_values_per_vertex(vertex_attrib_kind attr) noexcept {
+static inline span_size_t attrib_values_per_vertex(
+  vertex_attrib_kind attr) noexcept {
     switch(attr) {
         case vertex_attrib_kind::position:
         case vertex_attrib_kind::normal:

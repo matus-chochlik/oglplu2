@@ -27,8 +27,8 @@ static void run() {
     operations gl;
 
     for(auto str_query : enum_value_range<string_query>()) {
-        std::cout << enum_value_name(str_query) << ": " << std::endl;
-        //<< gl.get_string(str_query) << std::endl;
+        std::cout << enum_value_name(str_query) << ": "
+                  << gl.get_string(str_query).value() << std::endl;
     }
 
     std::cout << "EXTENSIONS:" << std::endl;
@@ -55,7 +55,7 @@ static void init_and_run() {
         int width = 800, height = 600;
 
         GLFWwindow* window =
-          glfwCreateWindow(width, height, "OGLplus example", NULL, NULL);
+          glfwCreateWindow(width, height, "OGLplus example", nullptr, nullptr);
 
         if(!window) {
             throw std::runtime_error("Error creating GLFW window");

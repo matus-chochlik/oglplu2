@@ -32,8 +32,8 @@ public:
       : _iter(iter) {
     }
 
-    typedef object_name<ObjTag> value_type;
-    typedef const object_name<ObjTag>& reference;
+    using value_type = object_name<ObjTag>;
+    using reference = const object_name<ObjTag>&;
 
     void swap(object_name_const_iterator& that) noexcept {
         using std::swap;
@@ -73,7 +73,7 @@ public:
 template <typename ObjTag, typename Container>
 class object_name_container {
 private:
-    typedef object_traits<ObjTag> _traits;
+    using _traits = object_traits<ObjTag>;
     Container _names;
 
     static void _invalidate_names(Container& names) {
@@ -128,10 +128,8 @@ public:
         return object_name<ObjTag>(_names.at(i));
     }
 
-    typedef object_name_const_iterator<
-      ObjTag,
-      typename Container::const_iterator>
-      iterator;
+    using iterator =
+      object_name_const_iterator<ObjTag, typename Container::const_iterator>;
 
     iterator begin() const noexcept {
         return _names.begin();
@@ -141,8 +139,8 @@ public:
         return _names.end();
     }
 
-    friend inline constexpr typename _traits::name_type
-    get_raw_name(const object_name_container& ctr) noexcept {
+    friend inline constexpr typename _traits::name_type get_raw_name(
+      const object_name_container& ctr) noexcept {
         assert(ctr._names.size() > 0);
         return *ctr._names.data();
     }
@@ -151,8 +149,8 @@ public:
         return cover(ctr._names);
     }
 
-    friend inline auto
-    get_raw_names(const object_name_container& ctr) noexcept {
+    friend inline auto get_raw_names(
+      const object_name_container& ctr) noexcept {
         return view(ctr._names);
     }
 };
@@ -188,8 +186,8 @@ public:
 template <typename ObjTag>
 class object_name_fake_array {
 private:
-    typedef object_traits<ObjTag> _traits;
-    typedef object_name_t<ObjTag> _name_type;
+    using _traits = object_traits<ObjTag>;
+    using _name_type = object_name_t<ObjTag>;
 
     _name_type _base;
     span_size_t _size;
@@ -231,11 +229,10 @@ public:
         return object_name<ObjTag>(_name_type(_base + index));
     }
 
-    typedef noexcept_casting_iterator<
+    using iterator = noexcept_casting_iterator<
       selfref_iterator<_name_type>,
       const object_name<ObjTag>,
-      object_name<ObjTag>>
-      iterator;
+      object_name<ObjTag>>;
 
     iterator begin() const noexcept {
         return iterator(_base);
@@ -245,14 +242,14 @@ public:
         return iterator(_name_type(_base + _size));
     }
 
-    friend inline constexpr typename _traits::name_type
-    get_raw_name(const object_name_fake_array& onfa) noexcept {
+    friend inline constexpr typename _traits::name_type get_raw_name(
+      const object_name_fake_array& onfa) noexcept {
         assert(onfa.size() > 0);
         return onfa._base;
     }
 
-    friend inline object_name_base_and_count_view<_name_type>
-    get_raw_names(object_name_fake_array& onfa) noexcept {
+    friend inline object_name_base_and_count_view<_name_type> get_raw_names(
+      object_name_fake_array& onfa) noexcept {
         return {onfa._base, onfa._size};
     }
 };

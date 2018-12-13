@@ -61,8 +61,8 @@ private:
     }
 
 public:
-    typedef byte value_type;
-    typedef span_size_t size_type;
+    using value_type = byte;
+    using size_type = span_size_t;
 
     basic_shared_byte_alloc() noexcept
       : basic_shared_byte_alloc(nullptr) {
@@ -83,15 +83,15 @@ public:
       : basic_shared_byte_alloc(_get_new(std::forward<X>(x))) {
     }
 
-    basic_shared_byte_alloc&
-    operator=(const basic_shared_byte_alloc& that) noexcept {
+    basic_shared_byte_alloc& operator=(
+      const basic_shared_byte_alloc& that) noexcept {
         _cleanup();
         _pballoc = that._copy();
         return *this;
     }
 
-    basic_shared_byte_alloc&
-    operator=(basic_shared_byte_alloc&& that) noexcept {
+    basic_shared_byte_alloc& operator=(
+      basic_shared_byte_alloc&& that) noexcept {
         _cleanup();
         _pballoc = that._release();
         return *this;
@@ -129,8 +129,8 @@ public:
         assert(b.empty());
     }
 
-    bool
-    can_reallocate(const owned_block& b, size_type n, size_type a) noexcept {
+    bool can_reallocate(
+      const owned_block& b, size_type n, size_type a) noexcept {
         return _pballoc ? _pballoc->can_reallocate(b, n, a) : (n == b.size());
     }
 
@@ -177,7 +177,7 @@ public:
     }
 };
 
-typedef basic_shared_byte_alloc<nothing_t> shared_byte_allocator;
+using shared_byte_allocator = basic_shared_byte_alloc<nothing_t>;
 
 } // namespace memory
 } // namespace eagine

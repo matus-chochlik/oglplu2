@@ -18,7 +18,7 @@ namespace eagine {
 namespace ecs {
 
 // component unique identifier
-typedef unsigned component_uid_t;
+using component_uid_t = unsigned;
 
 // component_uid_getter
 template <bool IsRelation>
@@ -66,7 +66,7 @@ using relation = entity_data<Derived, true>;
 // get_component_uid
 template <typename X>
 static inline component_uid_t get_component_uid() {
-    typedef std::remove_const_t<std::remove_reference_t<X>> Component;
+    using Component = std::remove_const_t<std::remove_reference_t<X>>;
     return Component::_uid();
 }
 
@@ -79,9 +79,9 @@ private:
 public:
     component_uid_map() = default;
 
-    typedef typename std::vector<T>::iterator iterator;
-    typedef typename std::vector<T>::const_iterator const_iterator;
-    typedef typename std::vector<T>::difference_type difference_type;
+    using iterator = typename std::vector<T>::iterator;
+    using const_iterator = typename std::vector<T>::const_iterator;
+    using difference_type = typename std::vector<T>::difference_type;
 
     const_iterator begin() const {
         return _storage.begin();

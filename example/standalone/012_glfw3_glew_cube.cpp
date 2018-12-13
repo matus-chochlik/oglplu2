@@ -272,7 +272,7 @@ static void init_and_run() {
         int width = 800, height = 600;
 
         GLFWwindow* window =
-          glfwCreateWindow(width, height, "OGLplus example", NULL, NULL);
+          glfwCreateWindow(width, height, "OGLplus example", nullptr, nullptr);
 
         if(!window) {
             throw std::runtime_error("Error creating GLFW window");

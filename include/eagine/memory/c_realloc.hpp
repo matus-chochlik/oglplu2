@@ -22,7 +22,7 @@ template <typename Policy = default_byte_allocator_policy>
 class c_byte_reallocator
   : public byte_allocator_impl<Policy, c_byte_reallocator> {
 public:
-    typedef span_size_t size_type;
+    using size_type = span_size_t;
 
     bool equal(byte_allocator* a) const noexcept override {
         return dynamic_cast<c_byte_reallocator*>(a) != nullptr;
@@ -40,13 +40,13 @@ public:
 
     void deallocate(owned_block&& b, size_type) noexcept override;
 
-    bool
-    can_reallocate(const owned_block&, size_type, size_type) noexcept override {
+    bool can_reallocate(
+      const owned_block&, size_type, size_type) noexcept override {
         return true;
     }
 
-    owned_block
-    reallocate(owned_block&& b, size_type n, size_type a) noexcept override;
+    owned_block reallocate(
+      owned_block&& b, size_type n, size_type a) noexcept override;
 };
 
 } // namespace memory

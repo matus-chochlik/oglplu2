@@ -22,7 +22,7 @@ public:
     GC(const Display& display, const Pixmap& pixmap)
       : DisplayObject<::GC>(
           display,
-          ::XCreateGC(display, pixmap, 0, NULL),
+          ::XCreateGC(display, pixmap, 0, nullptr),
           ::XFreeGC,
           "Error creating X GC (graphics context)") {
     }

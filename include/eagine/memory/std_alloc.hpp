@@ -28,17 +28,17 @@ public:
         return _sba;
     }
 
-    typedef T value_type;
-    typedef span_size_t size_type;
+    using value_type = T;
+    using size_type = span_size_t;
 
-    typedef std::true_type propagate_on_container_move_assignment;
-    typedef std::true_type propagate_on_container_copy_assignment;
-    typedef std::true_type propagate_on_container_swap;
-    typedef std::false_type is_always_equal;
+    using propagate_on_container_move_assignment = std::true_type;
+    using propagate_on_container_copy_assignment = std::true_type;
+    using propagate_on_container_swap = std::true_type;
+    using is_always_equal = std::false_type;
 
     template <typename U>
     struct rebind {
-        typedef std_allocator<U> other;
+        using other = std_allocator<U>;
     };
 
     template <typename U>
@@ -93,13 +93,13 @@ public:
           acquire_block({p, span_size_of<T>(n)}), span_align_of<T>());
     }
 
-    friend bool
-    operator==(const std_allocator& a, const std_allocator& b) noexcept {
+    friend bool operator==(
+      const std_allocator& a, const std_allocator& b) noexcept {
         return (a._sba == b._sba);
     }
 
-    friend bool
-    operator!=(const std_allocator& a, const std_allocator& b) noexcept {
+    friend bool operator!=(
+      const std_allocator& a, const std_allocator& b) noexcept {
         return (a._sba != b._sba);
     }
 

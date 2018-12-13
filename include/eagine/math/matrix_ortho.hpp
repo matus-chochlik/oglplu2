@@ -25,7 +25,7 @@ struct is_matrix_constructor<ortho<matrix<T, N, N, RM, V>>> : std::true_type {};
 // ortho matrix 4x4
 template <typename T, bool RM, bool V>
 struct ortho<matrix<T, 4, 4, RM, V>> {
-    typedef vect::data_t<T, 6, V> _dT;
+    using _dT = vect::data_t<T, 6, V>;
     _dT _v;
 
     constexpr ortho(const _dT& v) noexcept
@@ -103,8 +103,8 @@ struct ortho<matrix<T, 4, 4, RM, V>> {
 
 // reorder_mat_ctr(ortho)
 template <typename T, int N, bool RM, bool V>
-static constexpr inline ortho<matrix<T, N, N, !RM, V>>
-reorder_mat_ctr(const ortho<matrix<T, N, N, RM, V>>& c) noexcept {
+static constexpr inline ortho<matrix<T, N, N, !RM, V>> reorder_mat_ctr(
+  const ortho<matrix<T, N, N, RM, V>>& c) noexcept {
     return {c._v};
 }
 

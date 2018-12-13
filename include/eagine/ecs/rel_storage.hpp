@@ -95,8 +95,8 @@ public:
 
 template <typename Entity>
 struct base_storage<Entity, true> {
-    typedef entity_param_t<Entity> entity_param;
-    typedef storage_iterator<Entity, true> iterator_t;
+    using entity_param = entity_param_t<Entity>;
+    using iterator_t = storage_iterator<Entity, true>;
 
     virtual ~base_storage() = default;
 
@@ -122,13 +122,13 @@ struct base_storage<Entity, true> {
 
 template <typename Entity, typename Relation>
 struct storage<Entity, Relation, true> : base_storage<Entity, true> {
-    typedef entity_param_t<Entity> entity_param;
-    typedef storage_iterator<Entity, true> iterator_t;
+    using entity_param = entity_param_t<Entity>;
+    using iterator_t = storage_iterator<Entity, true>;
 
     using base_storage<Entity, true>::store;
 
-    virtual bool
-    store(entity_param subject, entity_param object, Relation&&) = 0;
+    virtual bool store(
+      entity_param subject, entity_param object, Relation&&) = 0;
 
     virtual void for_single(
       callable_ref<
@@ -161,13 +161,13 @@ struct storage<Entity, Relation, true> : base_storage<Entity, true> {
       callable_ref<void(entity_param, entity_param, manipulator<Relation>&)>,
       entity_param subject) = 0;
 
-    virtual void
-    for_each(callable_ref<void(
-               entity_param, entity_param, manipulator<const Relation>&)>) = 0;
+    virtual void for_each(
+      callable_ref<
+        void(entity_param, entity_param, manipulator<const Relation>&)>) = 0;
 
-    virtual void
-    for_each(callable_ref<
-             void(entity_param, entity_param, manipulator<Relation>&)>) = 0;
+    virtual void for_each(
+      callable_ref<
+        void(entity_param, entity_param, manipulator<Relation>&)>) = 0;
 };
 
 } // namespace ecs

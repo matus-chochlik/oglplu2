@@ -18,7 +18,7 @@ namespace math {
 // tvec
 template <typename T, int N, bool V>
 struct tvec : vector<T, N, V> {
-    typedef vector<T, N, V> _base;
+    using _base = vector<T, N, V>;
 
     constexpr inline tvec() noexcept
       : _base(_base::zero()) {

@@ -36,7 +36,7 @@ public:
       , _fbk(std::move(fbk)) {
     }
 
-    typedef span_size_t size_type;
+    using size_type = span_size_t;
 
     bool equal(byte_allocator* a) const noexcept override {
         byte_allocator_with_fallback* pa =
@@ -55,8 +55,8 @@ public:
         return (mfbk > mdft) ? mfbk : mdft;
     }
 
-    tribool
-    has_allocated(const owned_block& b, span_size_t a) noexcept override {
+    tribool has_allocated(
+      const owned_block& b, span_size_t a) noexcept override {
         return _dft.has_allocated(b, a) || _fbk.has_allocated(b, a);
     }
 

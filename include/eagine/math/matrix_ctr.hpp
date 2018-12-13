@@ -103,8 +103,8 @@ struct canonical_compound_type<math::convertible_matrix_constructor<MC>>
 template <typename MC>
 struct compound_view_maker<math::convertible_matrix_constructor<MC>> {
     struct _result_type {
-        typedef math::constructed_matrix_t<MC> M;
-        typedef typename M::element_type T;
+        using M = math::constructed_matrix_t<MC>;
+        using T = typename M::element_type;
         M _m;
 
         operator span<const T>() const noexcept {
@@ -113,9 +113,8 @@ struct compound_view_maker<math::convertible_matrix_constructor<MC>> {
         }
     };
 
-    inline _result_type
-    operator()(const math::convertible_matrix_constructor<MC>& mc) const
-      noexcept {
+    inline _result_type operator()(
+      const math::convertible_matrix_constructor<MC>& mc) const noexcept {
         return _result_type{mc()};
     }
 };

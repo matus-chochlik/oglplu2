@@ -20,7 +20,7 @@ template <typename Policy = default_byte_allocator_policy>
 class null_byte_allocator
   : public byte_allocator_impl<Policy, null_byte_allocator> {
 public:
-    typedef span_size_t size_type;
+    using size_type = span_size_t;
 
     bool equal(byte_allocator* a) const noexcept override {
         return dynamic_cast<null_byte_allocator*>(a) != nullptr;

@@ -17,8 +17,8 @@ template <typename ObjTag>
 class object_zero_and_ops
   : public object_traits<ObjTag>::template zero_dsa_ops_t<ObjTag> {
 private:
-    typedef typename object_traits<ObjTag>::template zero_dsa_ops_t<ObjTag>
-      _base;
+    using _base =
+      typename object_traits<ObjTag>::template zero_dsa_ops_t<ObjTag>;
 
 public:
     object_zero_and_ops() = default;
@@ -28,7 +28,7 @@ template <typename ObjTag>
 class object_name_and_ops
   : public object_traits<ObjTag>::template dsa_ops_t<ObjTag> {
 private:
-    typedef typename object_traits<ObjTag>::template dsa_ops_t<ObjTag> _base;
+    using _base = typename object_traits<ObjTag>::template dsa_ops_t<ObjTag>;
 
 public:
     using _base::_base;

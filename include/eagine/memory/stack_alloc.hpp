@@ -36,13 +36,13 @@ private:
     const_block _available() const noexcept;
 
 public:
-    typedef T value_type;
-    typedef T* pointer;
-    typedef const T* const_pointer;
-    typedef T& reference;
-    typedef const T& const_reference;
-    typedef span_size_t size_type;
-    typedef std::ptrdiff_t difference_type;
+    using value_type = T;
+    using pointer = T*;
+    using const_pointer = const T*;
+    using reference = T&;
+    using const_reference = const T&;
+    using size_type = span_size_t;
+    using difference_type = std::ptrdiff_t;
 
     base_stack_allocator(const base_stack_allocator&) = delete;
 
@@ -93,8 +93,8 @@ private:
     base_stack_allocator<byte> _alloc;
 
 public:
-    typedef byte value_type;
-    typedef span_size_t size_type;
+    using value_type = byte;
+    using size_type = span_size_t;
 
     stack_byte_allocator_only(stack_byte_allocator_only&&) = default;
     stack_byte_allocator_only(const block& blk)
@@ -124,8 +124,8 @@ private:
     base_stack_allocator<byte> _alloc;
 
 public:
-    typedef byte value_type;
-    typedef span_size_t size_type;
+    using value_type = byte;
+    using size_type = span_size_t;
 
     stack_byte_allocator(stack_byte_allocator&&) = default;
     stack_byte_allocator(const block& blk)
@@ -155,11 +155,11 @@ private:
     span_size_t _align;
 
     base_stack_allocator<byte> _alloc;
-    typedef stack_aligned_byte_allocator _this_class;
+    using _this_class = stack_aligned_byte_allocator;
 
 public:
-    typedef byte value_type;
-    typedef span_size_t size_type;
+    using value_type = byte;
+    using size_type = span_size_t;
 
     stack_aligned_byte_allocator(stack_aligned_byte_allocator&&) = default;
 

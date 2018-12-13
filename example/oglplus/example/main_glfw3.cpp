@@ -99,7 +99,7 @@ int example_main(
         glfwWindowHint(GLFW_SAMPLES, params.samples() / GLFW_DONT_CARE);
 
         GLFWwindow* window = glfwCreateWindow(
-          state.width(), state.height(), "OGLplus example", NULL, NULL);
+          state.width(), state.height(), "OGLplus example", nullptr, nullptr);
 
         if(!window) {
             errstr() << "Failed to create GLFW window" << std::endl;

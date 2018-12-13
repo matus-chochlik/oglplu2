@@ -23,14 +23,14 @@ enum class storage_cap_bit : unsigned short {
     modify = 1 << 5
 };
 
-static inline bitfield<storage_cap_bit>
-operator|(storage_cap_bit a, storage_cap_bit b) noexcept {
+static inline bitfield<storage_cap_bit> operator|(
+  storage_cap_bit a, storage_cap_bit b) noexcept {
     return {a, b};
 }
 
 class storage_caps : public bitfield<storage_cap_bit> {
 private:
-    typedef bitfield<storage_cap_bit> _base;
+    using _base = bitfield<storage_cap_bit>;
 
 public:
     storage_caps() = default;

@@ -24,7 +24,7 @@ public:
             throw std::runtime_error("Failed to initialize GLFW3.");
         }
 
-        window = glfwCreateWindow(p.width, p.height, p.title, NULL, NULL);
+        window = glfwCreateWindow(p.width, p.height, p.title, nullptr, nullptr);
 
         if(!window) {
             glfwTerminate();

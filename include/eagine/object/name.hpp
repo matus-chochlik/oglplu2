@@ -19,8 +19,8 @@ namespace eagine {
 template <typename ObjTag>
 class object_names<ObjTag, object_name_t<ObjTag>> {
 private:
-    typedef object_traits<ObjTag> _traits;
-    typedef typename _traits::name_type _name_type;
+    using _traits = object_traits<ObjTag>;
+    using _name_type = typename _traits::name_type;
     _name_type _name;
 
     _name_type _release_name() noexcept {
@@ -69,33 +69,33 @@ public:
         return !is_valid();
     }
 
-    friend constexpr inline bool
-    operator==(object_names a, object_names b) noexcept {
+    friend constexpr inline bool operator==(
+      object_names a, object_names b) noexcept {
         return a._name == b._name;
     }
 
-    friend constexpr inline bool
-    operator!=(object_names a, object_names b) noexcept {
+    friend constexpr inline bool operator!=(
+      object_names a, object_names b) noexcept {
         return a._name != b._name;
     }
 
-    friend constexpr inline bool
-    operator<(object_names a, object_names b) noexcept {
+    friend constexpr inline bool operator<(
+      object_names a, object_names b) noexcept {
         return a._name < b._name;
     }
 
-    friend constexpr inline bool
-    operator>(object_names a, object_names b) noexcept {
+    friend constexpr inline bool operator>(
+      object_names a, object_names b) noexcept {
         return a._name > b._name;
     }
 
-    friend constexpr inline bool
-    operator<=(object_names a, object_names b) noexcept {
+    friend constexpr inline bool operator<=(
+      object_names a, object_names b) noexcept {
         return a._name <= b._name;
     }
 
-    friend constexpr inline bool
-    operator>=(object_names a, object_names b) noexcept {
+    friend constexpr inline bool operator>=(
+      object_names a, object_names b) noexcept {
         return a._name >= b._name;
     }
 
@@ -150,13 +150,13 @@ struct any_object_type {
         return !is_valid();
     }
 
-    friend constexpr inline bool
-    operator==(const any_object_type& a, const any_object_type& b) noexcept {
+    friend constexpr inline bool operator==(
+      const any_object_type& a, const any_object_type& b) noexcept {
         return (a._type == b._type);
     }
 
-    friend constexpr inline bool
-    operator!=(const any_object_type& a, const any_object_type& b) noexcept {
+    friend constexpr inline bool operator!=(
+      const any_object_type& a, const any_object_type& b) noexcept {
         return (a._type != b._type);
     }
 };
@@ -189,13 +189,13 @@ struct any_object_name {
         return !is_valid();
     }
 
-    friend constexpr inline bool
-    operator==(const any_object_name& a, const any_object_name& b) noexcept {
+    friend constexpr inline bool operator==(
+      const any_object_name& a, const any_object_name& b) noexcept {
         return (a._name == b._name) && (a._type == b._type);
     }
 
-    friend constexpr inline bool
-    operator!=(const any_object_name& a, const any_object_name& b) noexcept {
+    friend constexpr inline bool operator!=(
+      const any_object_name& a, const any_object_name& b) noexcept {
         return (a._name != b._name) || (a._type != b._type);
     }
 
@@ -208,8 +208,8 @@ struct any_object_name {
         return _type == object_traits<ObjTag>::get_type();
     }
 
-    friend inline constexpr NameT
-    get_raw_name(const any_object_name& aon) noexcept {
+    friend inline constexpr NameT get_raw_name(
+      const any_object_name& aon) noexcept {
         return aon._name;
     }
 };

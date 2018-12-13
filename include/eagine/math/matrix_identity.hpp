@@ -33,13 +33,13 @@ struct identity<matrix<T, R, C, RM, V>> {
     using _make_useq = std::make_integer_sequence<int, N>;
 
     template <int... I>
-    static constexpr inline matrix<T, R, C, RM, V>
-    _identity(_useq<I...>) noexcept {
+    static constexpr inline matrix<T, R, C, RM, V> _identity(
+      _useq<I...>) noexcept {
         return {{vect::axis < T, RM ? C : R, I, V > ::apply(1)...}};
     }
 
     constexpr inline matrix<T, R, C, RM, V> operator()() const noexcept {
-        typedef _make_useq<RM ? R : C> _riS;
+        using _riS = _make_useq<RM ? R : C>;
         return _identity(_riS());
     }
 };
@@ -63,8 +63,8 @@ template <
   typename = std::enable_if_t<
     is_matrix_constructor<MC>::value &&
     are_multiplicable<constructed_matrix_t<MC>, matrix<T, C, R, RM, V>>::value>>
-static constexpr inline MC
-multiply(const MC& mc, const identity<matrix<T, C, R, RM, V>>&) noexcept {
+static constexpr inline MC multiply(
+  const MC& mc, const identity<matrix<T, C, R, RM, V>>&) noexcept {
     return mc;
 }
 
@@ -78,15 +78,15 @@ template <
   typename = std::enable_if_t<
     is_matrix_constructor<MC>::value &&
     are_multiplicable<matrix<T, C, R, RM, V>, constructed_matrix_t<MC>>::value>>
-static constexpr inline MC
-multiply(const identity<matrix<T, C, R, RM, V>>&, const MC& mc) noexcept {
+static constexpr inline MC multiply(
+  const identity<matrix<T, C, R, RM, V>>&, const MC& mc) noexcept {
     return mc;
 }
 
 // reorder_mat_ctr(identity)
 template <typename T, int R, int C, bool RM, bool V>
-static constexpr inline identity<matrix<T, R, C, !RM, V>>
-reorder_mat_ctr(const identity<matrix<T, R, C, RM, V>>&) noexcept {
+static constexpr inline identity<matrix<T, R, C, !RM, V>> reorder_mat_ctr(
+  const identity<matrix<T, R, C, RM, V>>&) noexcept {
     return {};
 }
 

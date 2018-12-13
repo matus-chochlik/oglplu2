@@ -15,7 +15,7 @@
 namespace eagine {
 namespace memory {
 
-typedef c_byte_reallocator<> default_byte_allocator;
+using default_byte_allocator = c_byte_reallocator<>;
 
 } // namespace memory
 } // namespace eagine

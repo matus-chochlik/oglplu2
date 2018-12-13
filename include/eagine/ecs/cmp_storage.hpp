@@ -95,8 +95,8 @@ public:
 
 template <typename Entity>
 struct base_storage<Entity, false> {
-    typedef entity_param_t<Entity> entity_param;
-    typedef storage_iterator<Entity, false> iterator_t;
+    using entity_param = entity_param_t<Entity>;
+    using iterator_t = storage_iterator<Entity, false>;
 
     virtual ~base_storage() = default;
 
@@ -131,8 +131,8 @@ struct base_storage<Entity, false> {
 
 template <typename Entity, typename Component>
 struct storage<Entity, Component, false> : base_storage<Entity, false> {
-    typedef entity_param_t<Entity> entity_param;
-    typedef storage_iterator<Entity, false> iterator_t;
+    using entity_param = entity_param_t<Entity>;
+    using iterator_t = storage_iterator<Entity, false>;
 
     virtual bool store(entity_param, Component&&) = 0;
 
@@ -157,8 +157,8 @@ struct storage<Entity, Component, false> : base_storage<Entity, false> {
     virtual void for_each(
       callable_ref<void(entity_param, manipulator<const Component>&)>) = 0;
 
-    virtual void
-    for_each(callable_ref<void(entity_param, manipulator<Component>&)>) = 0;
+    virtual void for_each(
+      callable_ref<void(entity_param, manipulator<Component>&)>) = 0;
 };
 
 } // namespace ecs

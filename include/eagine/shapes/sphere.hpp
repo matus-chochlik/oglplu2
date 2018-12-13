@@ -20,7 +20,7 @@ namespace shapes {
 
 class unit_sphere_gen : public centered_unit_shape_generator_base {
 private:
-    typedef centered_unit_shape_generator_base _base;
+    using _base = centered_unit_shape_generator_base;
 
     span_size_t _rings;
     span_size_t _sections;

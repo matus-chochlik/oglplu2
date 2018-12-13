@@ -26,7 +26,7 @@ struct is_matrix_constructor<perspective<matrix<T, N, N, RM, V>>>
 // perspective matrix 4x4
 template <typename T, bool RM, bool V>
 struct perspective<matrix<T, 4, 4, RM, V>> {
-    typedef vect::data_t<T, 6, V> _dT;
+    using _dT = vect::data_t<T, 6, V>;
     _dT _v;
 
     constexpr perspective(const _dT& v) noexcept
@@ -62,8 +62,8 @@ struct perspective<matrix<T, 4, 4, RM, V>> {
         return _v[5];
     }
 
-    static inline perspective
-    x(radians_t<T> xfov, T aspect, T z_near, T z_far) noexcept {
+    static inline perspective x(
+      radians_t<T> xfov, T aspect, T z_near, T z_far) noexcept {
         assert(aspect > T(0));
         assert(T(xfov) > T(0));
 
@@ -76,8 +76,8 @@ struct perspective<matrix<T, 4, 4, RM, V>> {
         return perspective(x_left, x_right, y_bottom, y_top, z_near, z_far);
     }
 
-    static inline perspective
-    y(radians_t<T> yfov, T aspect, T z_near, T z_far) noexcept {
+    static inline perspective y(
+      radians_t<T> yfov, T aspect, T z_near, T z_far) noexcept {
         assert(aspect > T(0));
         assert(T(yfov) > T(0));
 
@@ -141,8 +141,8 @@ struct perspective<matrix<T, 4, 4, RM, V>> {
 
 // reorder_mat_ctr(perspective)
 template <typename T, int N, bool RM, bool V>
-static constexpr inline perspective<matrix<T, N, N, !RM, V>>
-reorder_mat_ctr(const perspective<matrix<T, N, N, RM, V>>& c) noexcept {
+static constexpr inline perspective<matrix<T, N, N, !RM, V>> reorder_mat_ctr(
+  const perspective<matrix<T, N, N, RM, V>>& c) noexcept {
     return {c._v};
 }
 
