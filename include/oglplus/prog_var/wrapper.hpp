@@ -18,10 +18,10 @@ namespace oglplus {
 template <typename VarTag, typename T>
 class prog_var_wrapper<prog_var_loc<VarTag>, T> : public prog_var_loc<VarTag> {
 private:
-    typedef prog_var_loc_ops<VarTag> _loc_ops;
+    using _loc_ops = prog_var_loc_ops<VarTag>;
 
 public:
-    typedef T value_type;
+    using value_type = T;
 
     prog_var_wrapper() = default;
 
@@ -38,10 +38,10 @@ template <typename VarTag, typename T>
 class prog_var_wrapper<dsa_prog_var_loc<VarTag>, T>
   : public dsa_prog_var_loc<VarTag> {
 private:
-    typedef prog_var_loc_ops<VarTag> _loc_ops;
+    using _loc_ops = prog_var_loc_ops<VarTag>;
 
 public:
-    typedef T value_type;
+    using value_type = T;
 
     prog_var_wrapper() = default;
 

@@ -52,7 +52,7 @@ private:
         return *static_cast<Derived*>(this);
     }
 
-    typedef oper::buffer_ops _ops;
+    using _ops = oper::buffer_ops;
 
 protected:
     using Base::Base;

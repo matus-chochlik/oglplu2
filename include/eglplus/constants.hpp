@@ -13,7 +13,7 @@
 
 namespace eglplus {
 
-typedef enum_values constants;
+using constants = enum_values;
 
 } // namespace eglplus
 

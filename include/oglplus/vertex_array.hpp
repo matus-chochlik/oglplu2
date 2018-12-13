@@ -33,11 +33,11 @@ struct vertex_array_ops {
 
     static outcome<vertex_array_name> vertex_array_binding() noexcept;
 
-    static outcome<void>
-    enable_vertex_array_attrib(vertex_attrib_location va) noexcept;
+    static outcome<void> enable_vertex_array_attrib(
+      vertex_attrib_location va) noexcept;
 
-    static outcome<void>
-    disable_vertex_array_attrib(vertex_attrib_location va) noexcept;
+    static outcome<void> disable_vertex_array_attrib(
+      vertex_attrib_location va) noexcept;
 
 #ifdef OGLPLUS_DSA_VERTEX_ARRAY
     static outcome<void> enable_vertex_array_attrib(
@@ -72,8 +72,8 @@ struct vertex_array_ops {
     static outcome<void> vertex_array_attrib_binding(
       vertex_attrib_location loc, GLuint binding_index) noexcept;
 
-    static outcome<void>
-    vertex_array_binding_divisor(GLuint binding_index, GLuint divisor) noexcept;
+    static outcome<void> vertex_array_binding_divisor(
+      GLuint binding_index, GLuint divisor) noexcept;
 
     static outcome<void> vertex_array_attrib_format(
       vertex_attrib_location loc,
@@ -175,15 +175,15 @@ struct vertex_array_ops {
 
 template <>
 struct object_binding<tag::vertex_array> {
-    typedef oper::vertex_array_ops _ops;
+    using _ops = oper::vertex_array_ops;
 
-    outcome<object_binding&>
-    enable_attrib(vertex_attrib_location loc) noexcept {
+    outcome<object_binding&> enable_attrib(
+      vertex_attrib_location loc) noexcept {
         return {_ops::enable_vertex_array_attrib(loc), *this};
     }
 
-    outcome<object_binding&>
-    disable_attrib(vertex_attrib_location loc) noexcept {
+    outcome<object_binding&> disable_attrib(
+      vertex_attrib_location loc) noexcept {
         return {_ops::disable_vertex_array_attrib(loc), *this};
     }
 
@@ -248,7 +248,7 @@ struct object_binding<tag::vertex_array> {
 template <>
 struct obj_dsa_ops<tag::vertex_array> : obj_zero_dsa_ops<tag::vertex_array> {
 
-    typedef oper::vertex_array_ops _ops;
+    using _ops = oper::vertex_array_ops;
 
     using obj_zero_dsa_ops<tag::vertex_array>::obj_zero_dsa_ops;
 
@@ -338,10 +338,10 @@ struct obj_dsa_ops<tag::vertex_array> : obj_zero_dsa_ops<tag::vertex_array> {
     }
 #endif
 
-    outcome<obj_dsa_ops&>
-    binding_divisor(GLuint index, GLuint divisor) noexcept {
-        return {_ops::vertex_array_binding_divisor(*this, index, divisor),
-                *this};
+    outcome<obj_dsa_ops&> binding_divisor(
+      GLuint index, GLuint divisor) noexcept {
+        return {
+          _ops::vertex_array_binding_divisor(*this, index, divisor), *this};
     }
 };
 
@@ -350,7 +350,7 @@ private:
     vertex_array_name _vao;
     vertex_attrib_location _loc;
 
-    typedef oper::vertex_array_ops _ops;
+    using _ops = oper::vertex_array_ops;
 
 public:
     vertex_array_attrib(
@@ -368,8 +368,8 @@ public:
     }
 
 #if defined(GL_VERSION_4_5) || defined(GL_ARB_direct_state_access)
-    outcome<vertex_array_attrib&>
-    vertex_buffer(buffer_name buf, GLintptr offset, GLsizei stride) noexcept {
+    outcome<vertex_array_attrib&> vertex_buffer(
+      buffer_name buf, GLintptr offset, GLsizei stride) noexcept {
         return {
           _ops::vertex_array_vertex_buffer(_vao, _loc, buf, offset, stride),
           *this};

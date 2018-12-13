@@ -31,17 +31,17 @@ binding_query get_binding_query(framebuffer_target tgt) noexcept;
 namespace oper {
 
 struct framebuffer_ops {
-    static outcome<void>
-    bind_framebuffer(framebuffer_target target, framebuffer_name fbo) noexcept;
+    static outcome<void> bind_framebuffer(
+      framebuffer_target target, framebuffer_name fbo) noexcept;
 
-    static outcome<framebuffer_name>
-    framebuffer_binding(framebuffer_target target) noexcept;
+    static outcome<framebuffer_name> framebuffer_binding(
+      framebuffer_target target) noexcept;
 
-    static outcome<framebuffer_status>
-    check_framebuffer_status(framebuffer_target target) noexcept;
+    static outcome<framebuffer_status> check_framebuffer_status(
+      framebuffer_target target) noexcept;
 
-    static outcome<bool>
-    is_framebuffer_complete(framebuffer_target target) noexcept;
+    static outcome<bool> is_framebuffer_complete(
+      framebuffer_target target) noexcept;
 
 #ifdef OGLPLUS_DSA_FRAMEBUFFER
     static outcome<framebuffer_status> check_framebuffer_status(
@@ -300,7 +300,7 @@ private:
         return *static_cast<Derived*>(this);
     }
 
-    typedef oper::framebuffer_ops _ops;
+    using _ops = oper::framebuffer_ops;
 
 protected:
     using Base::Base;
@@ -317,8 +317,8 @@ public:
 #if defined(GL_VERSION_3_2)
     outcome<Derived&> texture(
       framebuffer_attachment fb_attch, texture_name tex, GLint level) noexcept {
-        return {_ops::framebuffer_texture(*this, fb_attch, tex, level),
-                _self()};
+        return {
+          _ops::framebuffer_texture(*this, fb_attch, tex, level), _self()};
     }
 #endif
 };
@@ -334,7 +334,7 @@ struct object_binding<tag::framebuffer>
       object_binding<tag::framebuffer>,
       framebuffer_target>::obj_member_ops;
 
-    typedef oper::framebuffer_ops _ops;
+    using _ops = oper::framebuffer_ops;
 
     outcome<framebuffer_status> check_status() noexcept {
         return _ops::check_framebuffer_status(*this);
@@ -392,10 +392,10 @@ struct obj_dsa_ops<tag::framebuffer>
       obj_dsa_ops<tag::framebuffer>,
       obj_zero_dsa_ops<tag::framebuffer>>::obj_member_ops;
 
-    typedef oper::framebuffer_ops _ops;
+    using _ops = oper::framebuffer_ops;
 
-    outcome<framebuffer_status>
-    check_status(framebuffer_target target) noexcept {
+    outcome<framebuffer_status> check_status(
+      framebuffer_target target) noexcept {
         return _ops::check_framebuffer_status(*this, target);
     }
 
@@ -436,13 +436,13 @@ struct obj_dsa_ops<tag::framebuffer>
     }
 #endif
 
-    outcome<obj_dsa_ops&>
-    draw_buffer(framebuffer_color_attachment buf) noexcept {
+    outcome<obj_dsa_ops&> draw_buffer(
+      framebuffer_color_attachment buf) noexcept {
         return {_ops::framebuffer_draw_buffer(*this, buf), *this};
     }
 
-    outcome<obj_dsa_ops&>
-    read_buffer(framebuffer_color_attachment buf) noexcept {
+    outcome<obj_dsa_ops&> read_buffer(
+      framebuffer_color_attachment buf) noexcept {
         return {_ops::framebuffer_read_buffer(*this, buf), *this};
     }
 
@@ -451,24 +451,24 @@ struct obj_dsa_ops<tag::framebuffer>
       framebuffer_buffer buf,
       GLint draw_buffer,
       span<const GLint> values) noexcept {
-        return {_ops::clear_framebuffer(*this, buf, draw_buffer, values),
-                *this};
+        return {
+          _ops::clear_framebuffer(*this, buf, draw_buffer, values), *this};
     }
 
     outcome<obj_dsa_ops&> clear_buffer(
       framebuffer_buffer buf,
       GLint draw_buffer,
       span<const GLuint> values) noexcept {
-        return {_ops::clear_framebuffer(*this, buf, draw_buffer, values),
-                *this};
+        return {
+          _ops::clear_framebuffer(*this, buf, draw_buffer, values), *this};
     }
 
     outcome<obj_dsa_ops&> clear_buffer(
       framebuffer_buffer buf,
       GLint draw_buffer,
       span<const GLfloat> values) noexcept {
-        return {_ops::clear_framebuffer(*this, buf, draw_buffer, values),
-                *this};
+        return {
+          _ops::clear_framebuffer(*this, buf, draw_buffer, values), *this};
     }
 
     outcome<obj_dsa_ops&> clear_buffer(
@@ -481,8 +481,8 @@ struct obj_dsa_ops<tag::framebuffer>
           *this};
     }
 
-    outcome<obj_dsa_ops&>
-    invalidate_data(enum_span<framebuffer_attachment> attchs) noexcept {
+    outcome<obj_dsa_ops&> invalidate_data(
+      enum_span<framebuffer_attachment> attchs) noexcept {
         return {_ops::invalidate_framebuffer_data(*this, attchs), *this};
     }
 

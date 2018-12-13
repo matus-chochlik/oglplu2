@@ -17,7 +17,7 @@ namespace texgen {
 
 class combine_output : public base_output {
 private:
-    typedef input_with_const_default<float[1]> _input_t;
+    using _input_t = input_with_const_default<float[1]>;
     std::string _input_expr(_input_t&, slot_data_type, compile_context&);
 
 public:
@@ -34,8 +34,8 @@ public:
 
     slot_data_type value_type() override;
 
-    std::ostream&
-    definitions(std::ostream& out, compile_context& ctxt) override;
+    std::ostream& definitions(
+      std::ostream& out, compile_context& ctxt) override;
 };
 
 class combine_node : public single_output_node<combine_output> {

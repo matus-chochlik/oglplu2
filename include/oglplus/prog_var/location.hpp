@@ -24,7 +24,7 @@ protected:
     }
 
 public:
-    typedef VarTag tag;
+    using tag = VarTag;
 
     constexpr prog_var_loc() noexcept
       : _loc(_invalid_loc()) {

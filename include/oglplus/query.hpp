@@ -19,8 +19,8 @@ namespace oglplus {
 namespace oper {
 
 struct query_ops {
-    static outcome<void>
-    begin_query(query_target target, query_name qry) noexcept;
+    static outcome<void> begin_query(
+      query_target target, query_name qry) noexcept;
 
     static outcome<void> end_query(query_target target) noexcept;
 
@@ -28,20 +28,20 @@ struct query_ops {
     static outcome<void> begin_query_indexed(
       query_target target, GLuint index, query_name qry) noexcept;
 
-    static outcome<void>
-    end_query_indexed(query_target target, GLuint index) noexcept;
+    static outcome<void> end_query_indexed(
+      query_target target, GLuint index) noexcept;
 #endif
 
 #if defined(GL_VERSION_3_0)
-    static outcome<void>
-    begin_conditional_render(query_name, conditional_render_mode mode) noexcept;
+    static outcome<void> begin_conditional_render(
+      query_name, conditional_render_mode mode) noexcept;
 
     static outcome<void> end_conditional_render() noexcept;
 #endif
 
 #if defined(GL_VERSION_3_3) || defined(GL_ARB_timer_query)
-    static outcome<void>
-    query_counter(query_name qry, query_target target) noexcept;
+    static outcome<void> query_counter(
+      query_name qry, query_target target) noexcept;
 
     static outcome<void> query_timestamp(query_name qry) noexcept;
 #endif
@@ -81,8 +81,8 @@ struct query_ops {
 #if defined(GL_VERSION_3_3) || defined(GL_ARB_timer_query)
     static outcome<void> query_result(query_name qry, GLint64& result) noexcept;
 
-    static outcome<void>
-    query_result(query_name qry, GLuint64& result) noexcept;
+    static outcome<void> query_result(
+      query_name qry, GLuint64& result) noexcept;
 #endif
 };
 
@@ -91,7 +91,7 @@ struct query_ops {
 // obj_dsa_ops
 template <>
 struct obj_dsa_ops<tag::query> : obj_zero_dsa_ops<tag::query> {
-    typedef oper::query_ops _ops;
+    using _ops = oper::query_ops;
 
     using obj_zero_dsa_ops<tag::query>::obj_zero_dsa_ops;
 
@@ -143,8 +143,8 @@ struct obj_gen_del_ops<tag::query> {
     static deferred_error_handler _gen(span<GLuint> names) noexcept;
 
 #if defined(GL_VERSION_4_5)
-    static deferred_error_handler
-    _create(query_target target, span<GLuint> names) noexcept;
+    static deferred_error_handler _create(
+      query_target target, span<GLuint> names) noexcept;
 #endif
 
     static deferred_error_handler _delete(span<GLuint> names) noexcept;

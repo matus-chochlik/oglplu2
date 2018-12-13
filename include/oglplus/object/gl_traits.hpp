@@ -39,11 +39,11 @@ struct obj_dsa_ops : obj_zero_dsa_ops<ObjTag> {
 
 template <typename Tag>
 struct gl_object_traits {
-    typedef Tag tag;
+    using tag = Tag;
 
-    typedef GLuint name_type;
+    using name_type = GLuint;
 
-    typedef obj_gen_del_ops<tag> gen_del_ops;
+    using gen_del_ops = obj_gen_del_ops<tag>;
 
     template <typename ObjTag>
     using zero_dsa_ops_t = obj_zero_dsa_ops<ObjTag>;

@@ -44,7 +44,7 @@ template <typename Data, bool IsR>
 storage<Entity, Data, IsR>& basic_manager<Entity>::_find_storage() {
     auto pb_storage = _get_storages<IsR>().find(get_component_uid<Data>());
 
-    typedef storage<Entity, Data, IsR> S;
+    using S = storage<Entity, Data, IsR>;
     S* pd_storage = nullptr;
 
     if(pb_storage != _get_storages<IsR>().end()) {
@@ -96,8 +96,8 @@ inline void basic_manager<Entity>::_do_unr_stg_type(
 //------------------------------------------------------------------------------
 template <typename Entity>
 template <bool IsRelation>
-inline bool
-basic_manager<Entity>::_does_know_stg_type(component_uid_t cid) const {
+inline bool basic_manager<Entity>::_does_know_stg_type(
+  component_uid_t cid) const {
     auto& storages = _get_storages<IsRelation>();
     auto p_storage = storages.find(cid);
 
@@ -130,12 +130,12 @@ inline Result basic_manager<Entity>::_apply_on_base_stg(
 //------------------------------------------------------------------------------
 template <typename Entity>
 template <typename Component, bool IsRelation, typename Result, typename Func>
-inline Result
-basic_manager<Entity>::_apply_on_stg(Result fallback, const Func& func) const {
+inline Result basic_manager<Entity>::_apply_on_stg(
+  Result fallback, const Func& func) const {
     return _apply_on_base_stg<IsRelation>(
       fallback,
       [&func](auto& b_storage) -> Result {
-          typedef storage<Entity, Component, IsRelation> S;
+          using S = storage<Entity, Component, IsRelation>;
 
           S* ct_storage = dynamic_cast<S*>(b_storage.get());
           assert(ct_storage);
@@ -307,15 +307,14 @@ inline bool basic_manager<Entity>::_do_rem_r(
 //------------------------------------------------------------------------------
 template <typename Entity>
 template <typename T, typename C>
-inline T
-basic_manager<Entity>::_do_get_c(T C::*mvp, entity_param_t<Entity> ent, T res) {
+inline T basic_manager<Entity>::_do_get_c(
+  T C::*mvp, entity_param_t<Entity> ent, T res) {
     assert(mvp);
 
-    typedef manipulator<const C> MC;
+    using MC = manipulator<const C>;
 
-    auto getter = [mvp, &res](entity_param_t<Entity>, MC& cmp) {
-        res = cmp.read().*mvp;
-    };
+    auto getter = [mvp, &res](
+                    entity_param_t<Entity>, MC& cmp) { res = cmp.read().*mvp; };
     callable_ref<void(entity_param_t<Entity>, MC&)> func(getter);
 
     _call_for_single_c<C>(ent, func);

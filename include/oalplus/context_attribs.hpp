@@ -15,9 +15,9 @@
 namespace oalplus {
 
 struct context_attrib_traits {
-    typedef context_attrib key_type;
-    typedef ALCenum conv_type;
-    typedef ALCint value_type;
+    using key_type = context_attrib;
+    using conv_type = ALCenum;
+    using value_type = ALCint;
 
     static constexpr inline ALCint terminator() noexcept {
         return 0;
@@ -30,13 +30,13 @@ using context_attribs = eagine::key_value_list<context_attrib_traits, N>;
 using context_attrib_value =
   eagine::key_value_list_element<context_attrib_traits>;
 
-static constexpr inline context_attrib_value
-operator|(context_attrib key, ALint value) noexcept {
+static constexpr inline context_attrib_value operator|(
+  context_attrib key, ALint value) noexcept {
     return {key, value};
 }
 
-static constexpr inline context_attrib_value
-operator|(context_attrib key, bool value) noexcept {
+static constexpr inline context_attrib_value operator|(
+  context_attrib key, bool value) noexcept {
     return {key, value ? ALC_TRUE : ALC_FALSE};
 }
 

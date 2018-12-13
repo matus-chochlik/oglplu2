@@ -27,7 +27,7 @@ using renderbuffer_name = object_name<tag::renderbuffer>;
 
 template <>
 struct get_obj_binding_point<tag::renderbuffer> {
-    typedef renderbuffer_target type;
+    using type = renderbuffer_target;
 };
 
 } // namespace oglplus

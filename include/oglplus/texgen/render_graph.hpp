@@ -31,16 +31,16 @@ public:
         return *this;
     }
 
-    render_graph_node<Node>&
-    connect(string_view inp_name, node_intf& out_node, span_size_t oidx) {
+    render_graph_node<Node>& connect(
+      string_view inp_name, node_intf& out_node, span_size_t oidx) {
         if(oidx < out_node.output_count()) {
             return connect(inp_name, out_node.output(oidx));
         }
         return *this;
     }
 
-    render_graph_node<Node>&
-    connect(string_view inp_name, node_intf& out_node) {
+    render_graph_node<Node>& connect(
+      string_view inp_name, node_intf& out_node) {
         return connect(inp_name, out_node, 0);
     }
 
@@ -51,8 +51,8 @@ public:
         return *this;
     }
 
-    render_graph_node<Node>&
-    connect(span_size_t iidx, node_intf& out_node, span_size_t oidx) {
+    render_graph_node<Node>& connect(
+      span_size_t iidx, node_intf& out_node, span_size_t oidx) {
         if(oidx < out_node.output_count()) {
             return connect(iidx, out_node.output(oidx));
         }
@@ -74,7 +74,7 @@ public:
 
 class render_graph {
 private:
-    typedef std::unique_ptr<node_intf> _node_ptr_t;
+    using _node_ptr_t = std::unique_ptr<node_intf>;
     std::vector<_node_ptr_t> _anon_nodes;
     std::map<std::string, _node_ptr_t> _nodes;
     std::unique_ptr<render_node> _render_node;
@@ -115,33 +115,33 @@ public:
     void render();
 
     // find node
-    eagine::optional_reference_wrapper<node_intf>
-    find_node(const std::string& node_name);
+    eagine::optional_reference_wrapper<node_intf> find_node(
+      const std::string& node_name);
 
     // find input / output
-    eagine::optional_reference_wrapper<input_intf>
-    find_node_input(node_intf& node, span_size_t index);
+    eagine::optional_reference_wrapper<input_intf> find_node_input(
+      node_intf& node, span_size_t index);
 
-    eagine::optional_reference_wrapper<output_intf>
-    find_node_output(node_intf& node, span_size_t index);
+    eagine::optional_reference_wrapper<output_intf> find_node_output(
+      node_intf& node, span_size_t index);
 
-    eagine::optional_reference_wrapper<input_intf>
-    find_node_input(node_intf& node, string_view iname);
+    eagine::optional_reference_wrapper<input_intf> find_node_input(
+      node_intf& node, string_view iname);
 
-    eagine::optional_reference_wrapper<output_intf>
-    find_node_output(node_intf& node, string_view oname);
+    eagine::optional_reference_wrapper<output_intf> find_node_output(
+      node_intf& node, string_view oname);
 
-    eagine::optional_reference_wrapper<input_intf>
-    find_node_input(const std::string& node_name, span_size_t index);
+    eagine::optional_reference_wrapper<input_intf> find_node_input(
+      const std::string& node_name, span_size_t index);
 
-    eagine::optional_reference_wrapper<output_intf>
-    find_node_output(const std::string& node_name, span_size_t index);
+    eagine::optional_reference_wrapper<output_intf> find_node_output(
+      const std::string& node_name, span_size_t index);
 
-    eagine::optional_reference_wrapper<input_intf>
-    find_node_input(const std::string& node_name, string_view iname);
+    eagine::optional_reference_wrapper<input_intf> find_node_input(
+      const std::string& node_name, string_view iname);
 
-    eagine::optional_reference_wrapper<output_intf>
-    find_node_output(const std::string& node_name, string_view oname);
+    eagine::optional_reference_wrapper<output_intf> find_node_output(
+      const std::string& node_name, string_view oname);
 
     // connect to renderer
     bool connect_to_renderer(output_intf& output);
@@ -169,8 +169,8 @@ public:
       node_intf& input_node,
       string_view iname);
 
-    bool
-    connect(node_intf& output_node, node_intf& input_node, string_view iname);
+    bool connect(
+      node_intf& output_node, node_intf& input_node, string_view iname);
 
     bool connect(
       const std::string& output_node_name,

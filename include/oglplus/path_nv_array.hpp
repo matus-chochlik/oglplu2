@@ -172,7 +172,7 @@ private:
         return *static_cast<Derived*>(this);
     }
 
-    typedef oper::path_nv_array_ops _ops;
+    using _ops = oper::path_nv_array_ops;
 
 protected:
     using Base::Base;

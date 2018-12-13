@@ -15,29 +15,25 @@
 namespace oglplus {
 
 #ifdef GL_TEXTURE0
-typedef limited_value<
+using texture_unit = limited_value<
   GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS,
-  indexed_enum_value<GL_TEXTURE0>>
-  texture_unit;
+  indexed_enum_value<GL_TEXTURE0>>;
 #endif
 
 #ifdef GL_DRAW_BUFFER0
-typedef limited_value<GL_MAX_DRAW_BUFFERS, indexed_enum_value<GL_DRAW_BUFFER0>>
-  draw_buffer;
+using draw_buffer =
+  limited_value<GL_MAX_DRAW_BUFFERS, indexed_enum_value<GL_DRAW_BUFFER0>>;
 #endif
 
 #ifdef GL_CLIP_DISTANCE0
-typedef limited_value<
-  GL_MAX_CLIP_DISTANCES,
-  indexed_enum_value<GL_CLIP_DISTANCE0>>
-  clip_plane;
+using clip_plane =
+  limited_value<GL_MAX_CLIP_DISTANCES, indexed_enum_value<GL_CLIP_DISTANCE0>>;
 #endif
 
 #ifdef GL_COLOR_ATTACHMENT0
-typedef limited_value<
+using framebuffer_color_attachment = limited_value<
   GL_MAX_COLOR_ATTACHMENTS,
-  indexed_enum_value<GL_COLOR_ATTACHMENT0>>
-  framebuffer_color_attachment;
+  indexed_enum_value<GL_COLOR_ATTACHMENT0>>;
 #endif
 
 } // namespace oglplus

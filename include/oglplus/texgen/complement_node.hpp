@@ -17,7 +17,7 @@ namespace texgen {
 
 class complement_input : public input_with_const_default<float[4]> {
 private:
-    typedef input_with_const_default<float[4]> _base;
+    using _base = input_with_const_default<float[4]>;
 
 public:
     complement_input(
@@ -41,8 +41,8 @@ public:
 
     slot_data_type value_type() override;
 
-    std::ostream&
-    definitions(std::ostream& out, compile_context& ctxt) override;
+    std::ostream& definitions(
+      std::ostream& out, compile_context& ctxt) override;
 };
 
 class complement_node

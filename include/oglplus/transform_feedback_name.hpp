@@ -27,7 +27,7 @@ using transform_feedback_name = object_name<tag::transform_feedback>;
 
 template <>
 struct get_obj_binding_point<tag::transform_feedback> {
-    typedef transform_feedback_target type;
+    using type = transform_feedback_target;
 };
 
 } // namespace oglplus

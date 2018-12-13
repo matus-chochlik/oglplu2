@@ -27,7 +27,7 @@ using texture_name = object_name<tag::texture>;
 
 template <>
 struct get_obj_binding_point<tag::texture> {
-    typedef texture_target type;
+    using type = texture_target;
 };
 
 } // namespace oglplus

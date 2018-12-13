@@ -31,8 +31,8 @@ binding_query get_binding_query(buffer_target tgt) noexcept;
 namespace oper {
 
 struct buffer_ops {
-    static outcome<void>
-    bind_buffer(buffer_target target, buffer_name buf) noexcept;
+    static outcome<void> bind_buffer(
+      buffer_target target, buffer_name buf) noexcept;
 
     static outcome<buffer_name> buffer_binding(buffer_target target) noexcept;
 
@@ -103,8 +103,8 @@ struct buffer_ops {
     static outcome<boolean> is_buffer_mapped(const BNT& bnt) noexcept;
 
     template <typename BNT>
-    static outcome<oglplus::buffer_usage>
-    get_buffer_usage(const BNT& bnt) noexcept;
+    static outcome<oglplus::buffer_usage> get_buffer_usage(
+      const BNT& bnt) noexcept;
 
 #if defined(GL_VERSION_4_4) || defined(GL_ARB_buffer_storage)
     static outcome<void> buffer_storage(
@@ -120,12 +120,12 @@ struct buffer_ops {
 #endif
 
     template <typename BNT>
-    static outcome<boolean>
-    has_buffer_immutable_storage(const BNT& bnt) noexcept;
+    static outcome<boolean> has_buffer_immutable_storage(
+      const BNT& bnt) noexcept;
 
     template <typename BNT>
-    static outcome<enum_bitfield<buffer_storage_bits>>
-    get_buffer_storage_flags(const BNT& bnt) noexcept;
+    static outcome<enum_bitfield<buffer_storage_bits>> get_buffer_storage_flags(
+      const BNT& bnt) noexcept;
 #endif
 
     static outcome<void> buffer_data(
@@ -214,11 +214,11 @@ struct buffer_ops {
 #endif
 
 #if defined(GL_NV_shader_buffer_load)
-    static outcome<void>
-    make_buffer_resident(buffer_target tgt, access_specifier access) noexcept;
+    static outcome<void> make_buffer_resident(
+      buffer_target tgt, access_specifier access) noexcept;
 
-    static outcome<void>
-    make_buffer_resident(buffer_name buf, access_specifier access) noexcept;
+    static outcome<void> make_buffer_resident(
+      buffer_name buf, access_specifier access) noexcept;
 
     static outcome<void> make_buffer_non_resident(buffer_target tgt) noexcept;
 
@@ -228,11 +228,11 @@ struct buffer_ops {
 
     static outcome<boolean> is_buffer_resident(buffer_name buf) noexcept;
 
-    static outcome<buffer_address>
-    get_buffer_gpu_address(buffer_target tgt) noexcept;
+    static outcome<buffer_address> get_buffer_gpu_address(
+      buffer_target tgt) noexcept;
 
-    static outcome<buffer_address>
-    get_buffer_gpu_address(buffer_name buf) noexcept;
+    static outcome<buffer_address> get_buffer_gpu_address(
+      buffer_name buf) noexcept;
 #endif
 };
 
@@ -245,19 +245,19 @@ private:
         return *static_cast<Derived*>(this);
     }
 
-    typedef oper::buffer_ops _ops;
+    using _ops = oper::buffer_ops;
 
 protected:
     using Base::Base;
 
 public:
-    outcome<Derived&>
-    data(const buffer_data_spec& data, buffer_usage usage) noexcept {
+    outcome<Derived&> data(
+      const buffer_data_spec& data, buffer_usage usage) noexcept {
         return {_ops::buffer_data(*this, data, usage), _self()};
     }
 
-    outcome<Derived&>
-    sub_data(buffer_size offset, const buffer_data_spec& data) noexcept {
+    outcome<Derived&> sub_data(
+      buffer_size offset, const buffer_data_spec& data) noexcept {
         return {_ops::buffer_sub_data(*this, offset, data), _self()};
     }
 
@@ -289,8 +289,8 @@ public:
         return {_ops::invalidate_buffer_data(*this), _self()};
     }
 
-    outcome<Derived&>
-    invalidate_sub_data(buffer_size offset, buffer_size size) noexcept {
+    outcome<Derived&> invalidate_sub_data(
+      buffer_size offset, buffer_size size) noexcept {
         return {_ops::invalidate_buffer_sub_data(*this, offset, size), _self()};
     }
 #endif

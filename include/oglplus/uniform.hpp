@@ -35,10 +35,10 @@ using program_uniform = prog_var_wrapper<program_uniform_location, T>;
 
 template <>
 struct prog_var_loc_ops<tag::uniform> {
-    typedef tag::uniform tag;
+    using tag = tag::uniform;
 
-    static outcome<prog_var_loc<tag>>
-    get_location(program_name prog, string_view identifier) noexcept {
+    static outcome<prog_var_loc<tag>> get_location(
+      program_name prog, string_view identifier) noexcept {
         GLint loc = OGLPLUS_GLFUNC(GetUniformLocation)(
           get_raw_name(prog), c_str(identifier));
         OGLPLUS_VERIFY(

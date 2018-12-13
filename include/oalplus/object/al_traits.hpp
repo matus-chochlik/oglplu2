@@ -34,10 +34,10 @@ namespace eagine {
 
 template <ALenum Tag>
 struct object_traits<oalplus::tag::al_obj_tag<Tag>> {
-    typedef ALuint name_type;
-    typedef oalplus::tag::al_obj_tag<Tag> tag;
+    using name_type = ALuint;
+    using tag = oalplus::tag::al_obj_tag<Tag>;
 
-    typedef oalplus::obj_gen_del_ops<tag> gen_del_ops;
+    using gen_del_ops = oalplus::obj_gen_del_ops<tag>;
 
     template <typename ObjTag>
     using dsa_ops_t = oalplus::obj_dsa_ops<ObjTag>;

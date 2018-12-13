@@ -24,15 +24,15 @@ class limited_value_range<limited_value<Query, indexed_enum_value<Base>>> {
 private:
     GLenum _limit;
 
-    typedef limited_value<Query, indexed_enum_value<Base>> _lv_t;
+    using _lv_t = limited_value<Query, indexed_enum_value<Base>>;
 
     static _lv_t _wrap_enum(GLenum e) noexcept {
         return _lv_t{e};
     }
 
 public:
-    typedef _lv_t value_type;
-    typedef span_size_t size_type;
+    using value_type = _lv_t;
+    using size_type = span_size_t;
 
     limited_value_range(_lv_t limit) noexcept
       : _limit(GLenum(limit)) {
@@ -43,12 +43,11 @@ public:
       : limited_value_range(get_limit(identity<_lv_t>()).value()) {
     }
 
-    typedef eagine::transforming_iterator<
+    using iterator = eagine::transforming_iterator<
       eagine::selfref_iterator<GLenum>,
       _lv_t,
       _lv_t,
-      _lv_t (*)(GLenum) noexcept>
-      iterator;
+      _lv_t (*)(GLenum) noexcept>;
 
     size_type size() const noexcept {
         return _limit - Base;

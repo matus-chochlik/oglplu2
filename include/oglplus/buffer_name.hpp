@@ -27,7 +27,7 @@ using buffer_name = object_name<tag::buffer>;
 
 template <>
 struct get_obj_binding_point<tag::buffer> {
-    typedef buffer_target type;
+    using type = buffer_target;
 };
 
 } // namespace oglplus

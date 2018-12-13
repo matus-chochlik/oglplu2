@@ -27,7 +27,7 @@ using framebuffer_name = object_name<tag::framebuffer>;
 
 template <>
 struct get_obj_binding_point<tag::framebuffer> {
-    typedef framebuffer_target type;
+    using type = framebuffer_target;
 };
 
 } // namespace oglplus

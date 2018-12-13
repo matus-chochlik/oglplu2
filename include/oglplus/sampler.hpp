@@ -21,8 +21,8 @@ namespace oglplus {
 namespace oper {
 
 struct sampler_ops {
-    static outcome<void>
-    bind_sampler(texture_unit unit, sampler_name sam) noexcept;
+    static outcome<void> bind_sampler(
+      texture_unit unit, sampler_name sam) noexcept;
 
 #if defined(GL_VERSION_4_4)
     template <typename S>
@@ -53,70 +53,70 @@ struct sampler_ops {
     static outcome<R> return_sampler_parameter_f(
       sampler_name sam, sampler_parameter parameter) noexcept;
 
-    static outcome<void>
-    sampler_min_filter(sampler_name sam, texture_min_filter value) noexcept;
+    static outcome<void> sampler_min_filter(
+      sampler_name sam, texture_min_filter value) noexcept;
 
-    static outcome<texture_min_filter>
-    get_sampler_min_filter(sampler_name sam) noexcept;
+    static outcome<texture_min_filter> get_sampler_min_filter(
+      sampler_name sam) noexcept;
 
-    static outcome<void>
-    sampler_mag_filter(sampler_name sam, texture_mag_filter value) noexcept;
+    static outcome<void> sampler_mag_filter(
+      sampler_name sam, texture_mag_filter value) noexcept;
 
-    static outcome<texture_mag_filter>
-    get_sampler_mag_filter(sampler_name sam) noexcept;
+    static outcome<texture_mag_filter> get_sampler_mag_filter(
+      sampler_name sam) noexcept;
 
-    static outcome<void>
-    sampler_compare_mode(sampler_name sam, texture_compare_mode value) noexcept;
+    static outcome<void> sampler_compare_mode(
+      sampler_name sam, texture_compare_mode value) noexcept;
 
-    static outcome<texture_compare_mode>
-    get_sampler_compare_mode(sampler_name sam) noexcept;
+    static outcome<texture_compare_mode> get_sampler_compare_mode(
+      sampler_name sam) noexcept;
 
-    static outcome<void>
-    sampler_compare_func(sampler_name sam, compare_function value) noexcept;
+    static outcome<void> sampler_compare_func(
+      sampler_name sam, compare_function value) noexcept;
 
-    static outcome<compare_function>
-    get_sampler_compare_func(sampler_name sam) noexcept;
+    static outcome<compare_function> get_sampler_compare_func(
+      sampler_name sam) noexcept;
 
     static outcome<void> sampler_wrap(
       sampler_name sam,
       texture_wrap_coord coord,
       texture_wrap_mode value) noexcept;
 
-    static outcome<texture_wrap_mode>
-    get_sampler_wrap(sampler_name sam, texture_wrap_coord coord) noexcept;
+    static outcome<texture_wrap_mode> get_sampler_wrap(
+      sampler_name sam, texture_wrap_coord coord) noexcept;
 
-    static outcome<void>
-    sampler_wrap_s(sampler_name sam, texture_wrap_mode value) noexcept;
+    static outcome<void> sampler_wrap_s(
+      sampler_name sam, texture_wrap_mode value) noexcept;
 
-    static outcome<texture_wrap_mode>
-    get_sampler_wrap_s(sampler_name sam) noexcept;
+    static outcome<texture_wrap_mode> get_sampler_wrap_s(
+      sampler_name sam) noexcept;
 
-    static outcome<void>
-    sampler_wrap_t(sampler_name sam, texture_wrap_mode value) noexcept;
+    static outcome<void> sampler_wrap_t(
+      sampler_name sam, texture_wrap_mode value) noexcept;
 
-    static outcome<texture_wrap_mode>
-    get_sampler_wrap_t(sampler_name sam) noexcept;
+    static outcome<texture_wrap_mode> get_sampler_wrap_t(
+      sampler_name sam) noexcept;
 
-    static outcome<void>
-    sampler_wrap_r(sampler_name sam, texture_wrap_mode value) noexcept;
+    static outcome<void> sampler_wrap_r(
+      sampler_name sam, texture_wrap_mode value) noexcept;
 
-    static outcome<texture_wrap_mode>
-    get_sampler_wrap_r(sampler_name sam) noexcept;
+    static outcome<texture_wrap_mode> get_sampler_wrap_r(
+      sampler_name sam) noexcept;
 
 #if defined(GL_TEXTURE_LOD_BIAS)
-    static outcome<void>
-    sampler_lod_bias(sampler_name sam, GLfloat value) noexcept;
+    static outcome<void> sampler_lod_bias(
+      sampler_name sam, GLfloat value) noexcept;
 
     static outcome<GLfloat> get_sampler_lod_bias(sampler_name sam) noexcept;
 #endif
 
-    static outcome<void>
-    sampler_min_lod(sampler_name sam, GLfloat value) noexcept;
+    static outcome<void> sampler_min_lod(
+      sampler_name sam, GLfloat value) noexcept;
 
     static outcome<GLfloat> get_sampler_min_lod(sampler_name sam) noexcept;
 
-    static outcome<void>
-    sampler_max_lod(sampler_name sam, GLfloat value) noexcept;
+    static outcome<void> sampler_max_lod(
+      sampler_name sam, GLfloat value) noexcept;
 
     static outcome<GLfloat> get_sampler_max_lod(sampler_name sam) noexcept;
 };
@@ -125,7 +125,7 @@ struct sampler_ops {
 
 template <>
 struct obj_dsa_ops<tag::sampler> : obj_zero_dsa_ops<tag::sampler> {
-    typedef oper::sampler_ops _ops;
+    using _ops = oper::sampler_ops;
 
     using obj_zero_dsa_ops<tag::sampler>::obj_zero_dsa_ops;
 
@@ -161,8 +161,8 @@ struct obj_dsa_ops<tag::sampler> : obj_zero_dsa_ops<tag::sampler> {
         return _ops::get_sampler_compare_func(*this);
     }
 
-    outcome<obj_dsa_ops&>
-    wrap(texture_wrap_coord coord, texture_wrap_mode value) noexcept {
+    outcome<obj_dsa_ops&> wrap(
+      texture_wrap_coord coord, texture_wrap_mode value) noexcept {
         return {_ops::sampler_wrap(*this, coord, value), *this};
     }
 

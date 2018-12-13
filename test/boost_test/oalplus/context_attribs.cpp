@@ -15,7 +15,7 @@ BOOST_AUTO_TEST_SUITE(context_attribs_tests)
 BOOST_AUTO_TEST_CASE(context_attribs_1) {
     using namespace oalplus;
 
-    typedef context_attrib_value cav;
+    using cav = context_attrib_value;
     enum_values_alc ALC;
 
     context_attribs<0> a0;

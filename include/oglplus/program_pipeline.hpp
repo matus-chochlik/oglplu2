@@ -22,8 +22,8 @@ namespace oper {
 
 struct program_pipeline_ops {
 #if defined(GL_VERSION_4_1) || defined(GL_ARB_separate_shared_objects)
-    static outcome<void>
-    bind_program_pipeline(program_pipeline_name ppo) noexcept;
+    static outcome<void> bind_program_pipeline(
+      program_pipeline_name ppo) noexcept;
 
     static outcome<program_pipeline_name> program_pipeline_binding() noexcept;
 
@@ -35,11 +35,11 @@ struct program_pipeline_ops {
     static outcome<void> active_shader_program(
       program_pipeline_name ppl, program_name prog) noexcept;
 
-    static outcome<void>
-    validate_program_pipeline(program_pipeline_name ppl) noexcept;
+    static outcome<void> validate_program_pipeline(
+      program_pipeline_name ppl) noexcept;
 
-    static outcome<void>
-    report_program_pipeline_validate_error(program_pipeline_name ppl) noexcept;
+    static outcome<void> report_program_pipeline_validate_error(
+      program_pipeline_name ppl) noexcept;
 
     static outcome<void> get_program_pipeline_iv(
       program_pipeline_name buf,
@@ -50,14 +50,14 @@ struct program_pipeline_ops {
     static outcome<R> return_program_pipeline_i(
       program_pipeline_name ppl, program_pipeline_parameter parameter) noexcept;
 
-    static outcome<boolean>
-    get_program_pipeline_validate_status(program_pipeline_name ppl) noexcept;
+    static outcome<boolean> get_program_pipeline_validate_status(
+      program_pipeline_name ppl) noexcept;
 
-    static outcome<program_name>
-    get_program_pipeline_active_program(program_pipeline_name ppl) noexcept;
+    static outcome<program_name> get_program_pipeline_active_program(
+      program_pipeline_name ppl) noexcept;
 
-    static outcome<GLsizei>
-    get_program_pipeline_info_log_length(program_pipeline_name ppl) noexcept;
+    static outcome<GLsizei> get_program_pipeline_info_log_length(
+      program_pipeline_name ppl) noexcept;
 
     static outcome<span<char>> get_program_pipeline_info_log(
       program_pipeline_name ppl, span<char> dest) noexcept;
@@ -70,7 +70,7 @@ struct program_pipeline_ops {
 template <>
 struct obj_dsa_ops<tag::program_pipeline>
   : obj_zero_dsa_ops<tag::program_pipeline> {
-    typedef oper::program_pipeline_ops _ops;
+    using _ops = oper::program_pipeline_ops;
 
     using obj_zero_dsa_ops<tag::program_pipeline>::obj_zero_dsa_ops;
 

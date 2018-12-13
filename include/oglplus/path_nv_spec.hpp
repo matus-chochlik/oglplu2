@@ -32,7 +32,7 @@ private:
 
     friend oper::path_nv_ops;
 
-    typedef CoordType T;
+    using T = CoordType;
 
     path_nv_spec& _add(GLubyte command) {
         _commands.push_back(command);

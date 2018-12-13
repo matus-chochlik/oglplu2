@@ -31,8 +31,8 @@ struct renderbuffer_ops {
     static outcome<void> bind_renderbuffer(
       renderbuffer_target target, renderbuffer_name rbo) noexcept;
 
-    static outcome<renderbuffer_name>
-    renderbuffer_binding(renderbuffer_target target) noexcept;
+    static outcome<renderbuffer_name> renderbuffer_binding(
+      renderbuffer_target target) noexcept;
 
     static outcome<void> renderbuffer_storage(
       renderbuffer_target tgt,
@@ -89,30 +89,30 @@ struct renderbuffer_ops {
     static outcome<GLsizei> get_renderbuffer_red_size(const RNT& rnt) noexcept;
 
     template <typename RNT>
-    static outcome<GLsizei>
-    get_renderbuffer_green_size(const RNT& rnt) noexcept;
+    static outcome<GLsizei> get_renderbuffer_green_size(
+      const RNT& rnt) noexcept;
 
     template <typename RNT>
     static outcome<GLsizei> get_renderbuffer_blue_size(const RNT& rnt) noexcept;
 
     template <typename RNT>
-    static outcome<GLsizei>
-    get_renderbuffer_alpha_size(const RNT& rnt) noexcept;
+    static outcome<GLsizei> get_renderbuffer_alpha_size(
+      const RNT& rnt) noexcept;
 
     template <typename RNT>
-    static outcome<GLsizei>
-    get_renderbuffer_depth_size(const RNT& rnt) noexcept;
+    static outcome<GLsizei> get_renderbuffer_depth_size(
+      const RNT& rnt) noexcept;
 
     template <typename RNT>
-    static outcome<GLsizei>
-    get_renderbuffer_stencil_size(const RNT& rnt) noexcept;
+    static outcome<GLsizei> get_renderbuffer_stencil_size(
+      const RNT& rnt) noexcept;
 
     template <typename RNT>
     static outcome<GLsizei> get_renderbuffer_samples(const RNT& rnt) noexcept;
 
     template <typename RNT>
-    static outcome<pixel_data_internal_format>
-    get_renderbuffer_internal_format(const RNT& rnt) noexcept;
+    static outcome<pixel_data_internal_format> get_renderbuffer_internal_format(
+      const RNT& rnt) noexcept;
 };
 
 } // namespace oper
@@ -124,7 +124,7 @@ private:
         return *static_cast<Derived*>(this);
     }
 
-    typedef oper::renderbuffer_ops _ops;
+    using _ops = oper::renderbuffer_ops;
 
 protected:
     using Base::Base;
@@ -132,8 +132,8 @@ protected:
 public:
     outcome<Derived&> storage(
       pixel_data_internal_format ifmt, GLsizei width, GLsizei height) noexcept {
-        return {_ops::renderbuffer_storage(*this, ifmt, width, height),
-                _self()};
+        return {
+          _ops::renderbuffer_storage(*this, ifmt, width, height), _self()};
     }
 
     outcome<Derived&> storage_multisample(

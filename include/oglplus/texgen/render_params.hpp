@@ -23,10 +23,10 @@ enum class render_param_bit : int {
     element_offset = 1 << 3
 };
 
-typedef eagine::bitfield<render_param_bit> render_param_bits;
+using render_param_bits = eagine::bitfield<render_param_bit>;
 
-static constexpr inline render_param_bits
-operator|(render_param_bit a, render_param_bit b) noexcept {
+static constexpr inline render_param_bits operator|(
+  render_param_bit a, render_param_bit b) noexcept {
     return {a, b};
 }
 

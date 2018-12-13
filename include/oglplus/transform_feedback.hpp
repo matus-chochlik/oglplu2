@@ -27,11 +27,11 @@ struct transform_feedback_ops {
     static outcome<void> bind_transform_feedback(
       transform_feedback_target target, transform_feedback_name xfb) noexcept;
 
-    static outcome<transform_feedback_name>
-    transform_feedback_binding(transform_feedback_target target) noexcept;
+    static outcome<transform_feedback_name> transform_feedback_binding(
+      transform_feedback_target target) noexcept;
 
-    static outcome<void>
-      begin_transform_feedback(transform_feedback_primitive_type) noexcept;
+    static outcome<void> begin_transform_feedback(
+      transform_feedback_primitive_type) noexcept;
 
     static outcome<void> end_transform_feedback() noexcept;
 
@@ -57,14 +57,14 @@ struct transform_feedback_ops {
       GLuint index,
       span<GLint64> values) noexcept;
 
-    static outcome<boolean>
-    transform_feedback_active(transform_feedback_name xfb) noexcept;
+    static outcome<boolean> transform_feedback_active(
+      transform_feedback_name xfb) noexcept;
 
-    static outcome<boolean>
-    transform_feedback_paused(transform_feedback_name xfb) noexcept;
+    static outcome<boolean> transform_feedback_paused(
+      transform_feedback_name xfb) noexcept;
 
-    static outcome<buffer_name>
-    transform_feedback_buffer_binding(transform_feedback_name xfb) noexcept;
+    static outcome<buffer_name> transform_feedback_buffer_binding(
+      transform_feedback_name xfb) noexcept;
 
     static outcome<GLint64> transform_feedback_buffer_start(
       transform_feedback_name xfb, GLuint index) noexcept;
@@ -90,7 +90,7 @@ struct transform_feedback_ops {
 template <>
 struct obj_zero_dsa_ops<tag::transform_feedback>
   : object_zero_name<tag::transform_feedback> {
-    typedef oper::transform_feedback_ops _ops;
+    using _ops = oper::transform_feedback_ops;
 
     obj_zero_dsa_ops() = default;
 
@@ -119,7 +119,7 @@ struct obj_zero_dsa_ops<tag::transform_feedback>
 template <>
 struct obj_dsa_ops<tag::transform_feedback>
   : obj_zero_dsa_ops<tag::transform_feedback> {
-    typedef oper::transform_feedback_ops _ops;
+    using _ops = oper::transform_feedback_ops;
 
     using obj_zero_dsa_ops<tag::transform_feedback>::obj_zero_dsa_ops;
 
