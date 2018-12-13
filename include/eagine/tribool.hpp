@@ -26,7 +26,7 @@ class tribool;
 
 class weakbool {
 private:
-    typedef _tribool_value_t _value_t;
+    using _value_t = _tribool_value_t;
     _value_t _value;
 
     friend class tribool;
@@ -51,7 +51,7 @@ public:
 
 class tribool {
 private:
-    typedef _tribool_value_t _value_t;
+    using _value_t = _tribool_value_t;
     _value_t _value;
 
 public:

@@ -20,7 +20,7 @@ struct any_indexed_enum_value;
 
 template <typename T, T Base, unsigned LibId>
 struct indexed_enum_value {
-    typedef T value_type;
+    using value_type = T;
     static constexpr const unsigned lib_id = LibId;
     static constexpr const T base_value = Base;
 
@@ -52,18 +52,18 @@ struct indexed_enum_value {
         return value_type(Base + _index);
     }
 
-    friend constexpr inline bool
-    operator==(indexed_enum_value a, indexed_enum_value b) noexcept {
+    friend constexpr inline bool operator==(
+      indexed_enum_value a, indexed_enum_value b) noexcept {
         return a._index == b._index;
     }
 
-    friend constexpr inline bool
-    operator!=(indexed_enum_value a, indexed_enum_value b) noexcept {
+    friend constexpr inline bool operator!=(
+      indexed_enum_value a, indexed_enum_value b) noexcept {
         return a._index != b._index;
     }
 
-    friend constexpr inline bool
-    operator<(indexed_enum_value a, indexed_enum_value b) noexcept {
+    friend constexpr inline bool operator<(
+      indexed_enum_value a, indexed_enum_value b) noexcept {
         return a._index < b._index;
     }
 
@@ -77,8 +77,8 @@ struct indexed_enum_value {
 };
 
 template <typename T, T Base, unsigned LibId>
-static inline indexed_enum_value<T, Base, LibId>
-operator+(indexed_enum_base<T, Base, LibId>, unsigned index) noexcept {
+static inline indexed_enum_value<T, Base, LibId> operator+(
+  indexed_enum_base<T, Base, LibId>, unsigned index) noexcept {
     return indexed_enum_value<T, Base, LibId>{index, 0};
 }
 
@@ -107,13 +107,13 @@ struct any_indexed_enum_value {
         return _base_id == ~T(0);
     }
 
-    friend constexpr inline bool
-    operator==(any_indexed_enum_value a, any_indexed_enum_value b) noexcept {
+    friend constexpr inline bool operator==(
+      any_indexed_enum_value a, any_indexed_enum_value b) noexcept {
         return (a._index == b._index) && (a._base_id == b._base_id);
     }
 
-    friend constexpr inline bool
-    operator!=(any_indexed_enum_value a, any_indexed_enum_value b) noexcept {
+    friend constexpr inline bool operator!=(
+      any_indexed_enum_value a, any_indexed_enum_value b) noexcept {
         return (a._index != b._index) || (a._base_id |= b._base_id);
     }
 

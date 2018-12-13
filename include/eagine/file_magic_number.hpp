@@ -28,8 +28,8 @@ private:
     }
 
 public:
-    typedef const char value_type;
-    typedef span_size_t size_type;
+    using value_type = const char;
+    using size_type = span_size_t;
 
     constexpr file_magic_number() noexcept
       : _magic_number(_make_magic_number()) {

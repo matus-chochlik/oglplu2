@@ -13,7 +13,7 @@ namespace eagine {
 
 template <typename Src, typename Dst>
 struct instead_of {
-    typedef Dst type;
+    using type = Dst;
 
     static constexpr inline Dst value(Dst val) noexcept {
         return val;

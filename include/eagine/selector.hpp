@@ -16,7 +16,7 @@ namespace eagine {
 
 template <std::uint64_t I>
 struct selector {
-    typedef selector type;
+    using type = selector;
 };
 
 } // namespace eagine

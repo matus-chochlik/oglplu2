@@ -24,8 +24,8 @@ protected:
     }
 
 public:
-    typedef T value_type;
-    typedef std::ptrdiff_t difference_type;
+    using value_type = T;
+    using difference_type = std::ptrdiff_t;
 
     basic_iterable_type() = default;
 
@@ -53,8 +53,8 @@ public:
         return res;
     }
 
-    friend Derived
-    operator+(basic_iterable_type a, difference_type d) noexcept {
+    friend Derived operator+(
+      basic_iterable_type a, difference_type d) noexcept {
         Derived res(a.self());
         res += d;
         return res;
@@ -76,45 +76,45 @@ public:
         return res;
     }
 
-    friend Derived
-    operator-(basic_iterable_type a, difference_type d) noexcept {
+    friend Derived operator-(
+      basic_iterable_type a, difference_type d) noexcept {
         Derived res(a.self());
         res -= d;
         return res;
     }
 
-    constexpr friend difference_type
-    operator-(basic_iterable_type a, basic_iterable_type b) noexcept {
+    constexpr friend difference_type operator-(
+      basic_iterable_type a, basic_iterable_type b) noexcept {
         return a._value - b._value;
     }
 
-    constexpr friend bool
-    operator==(basic_iterable_type a, basic_iterable_type b) noexcept {
+    constexpr friend bool operator==(
+      basic_iterable_type a, basic_iterable_type b) noexcept {
         return a._value == b._value;
     }
 
-    constexpr friend bool
-    operator!=(basic_iterable_type a, basic_iterable_type b) noexcept {
+    constexpr friend bool operator!=(
+      basic_iterable_type a, basic_iterable_type b) noexcept {
         return a._value != b._value;
     }
 
-    constexpr friend bool
-    operator<(basic_iterable_type a, basic_iterable_type b) noexcept {
+    constexpr friend bool operator<(
+      basic_iterable_type a, basic_iterable_type b) noexcept {
         return a._value < b._value;
     }
 
-    constexpr friend bool
-    operator<=(basic_iterable_type a, basic_iterable_type b) noexcept {
+    constexpr friend bool operator<=(
+      basic_iterable_type a, basic_iterable_type b) noexcept {
         return a._value <= b._value;
     }
 
-    constexpr friend bool
-    operator>(basic_iterable_type a, basic_iterable_type b) noexcept {
+    constexpr friend bool operator>(
+      basic_iterable_type a, basic_iterable_type b) noexcept {
         return a._value > b._value;
     }
 
-    constexpr friend bool
-    operator>=(basic_iterable_type a, basic_iterable_type b) noexcept {
+    constexpr friend bool operator>=(
+      basic_iterable_type a, basic_iterable_type b) noexcept {
         return a._value >= b._value;
     }
 };
@@ -122,9 +122,9 @@ public:
 template <typename T, typename Derived>
 class basic_selfref_iterator : public basic_iterable_type<T, Derived> {
 public:
-    typedef const T& reference;
-    typedef const T* pointer;
-    typedef std::random_access_iterator_tag iterator_category;
+    using reference = const T&;
+    using pointer = const T*;
+    using iterator_category = std::random_access_iterator_tag;
 
     using basic_iterable_type<T, Derived>::basic_iterable_type;
 
@@ -148,7 +148,7 @@ template <
 class basic_transforming_iterator
   : public basic_selfref_iterator<Iterator, Derived> {
 private:
-    typedef basic_selfref_iterator<Iterator, Derived> _base;
+    using _base = basic_selfref_iterator<Iterator, Derived>;
     Transform _transf;
 
     mutable S _tempval;
@@ -166,9 +166,9 @@ public:
       , _tempval() {
     }
 
-    typedef T value_type;
-    typedef const T& reference;
-    typedef const T* pointer;
+    using value_type = T;
+    using reference = const T&;
+    using pointer = const T*;
 
     const T& operator*() const {
         _tempval = _transf(**_base_iter());
@@ -180,7 +180,7 @@ template <typename Iterator, typename T, typename Transform, typename Derived>
 class basic_transforming_iterator<Iterator, T, T&, Transform, Derived>
   : public basic_selfref_iterator<Iterator, Derived> {
 private:
-    typedef basic_selfref_iterator<Iterator, Derived> _base;
+    using _base = basic_selfref_iterator<Iterator, Derived>;
     Transform _transf;
 
     const _base& _base_iter() const noexcept {
@@ -195,9 +195,9 @@ public:
       , _transf(transf) {
     }
 
-    typedef T value_type;
-    typedef const T& reference;
-    typedef const T* pointer;
+    using value_type = T;
+    using reference = const T&;
+    using pointer = const T*;
 
     T& operator*() {
         return _transf(**_base_iter());
@@ -242,8 +242,8 @@ private:
       Derived>
       _base;
 
-    static S
-    _cast(typename std::iterator_traits<Iterator>::reference r) noexcept {
+    static S _cast(
+      typename std::iterator_traits<Iterator>::reference r) noexcept {
         return static_cast<S>(r);
     }
 

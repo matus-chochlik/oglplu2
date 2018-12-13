@@ -36,31 +36,31 @@ public:
         return (c >= std::uint8_t(sizeof...(C)));
     }
 
-    static inline string_view chars() {
+    static inline auto chars() {
         static const char s[] = {C..., '\0'};
-        return {s, s + sizeof...(C)};
+        return string_view(s, span_size(sizeof...(C)));
     }
 
 private:
-    static constexpr inline std::uint8_t
-    _do_encode(char, std::uint8_t, mp_string<>) noexcept {
+    static constexpr inline std::uint8_t _do_encode(
+      char, std::uint8_t, mp_string<>) noexcept {
         return std::uint8_t(sizeof...(C));
     }
 
     template <char H, char... T>
-    static constexpr inline std::uint8_t
-    _do_encode(char c, std::uint8_t i, mp_string<H, T...>) noexcept {
+    static constexpr inline std::uint8_t _do_encode(
+      char c, std::uint8_t i, mp_string<H, T...>) noexcept {
         return (c == H) ? i : _do_encode(c, i + 1, mp_string<T...>{});
     }
 
-    static constexpr inline char
-    _do_decode(std::uint8_t, mp_string<>) noexcept {
+    static constexpr inline char _do_decode(
+      std::uint8_t, mp_string<>) noexcept {
         return '\0';
     }
 
     template <char H, char... T>
-    static constexpr inline char
-    _do_decode(std::uint8_t i, mp_string<H, T...>) noexcept {
+    static constexpr inline char _do_decode(
+      std::uint8_t i, mp_string<H, T...>) noexcept {
         return (i == (sizeof...(C) - sizeof...(T) - 1))
                  ? H
                  : _do_decode(i, mp_string<T...>{});
@@ -190,8 +190,8 @@ private:
 };
 
 template <std::size_t M>
-static inline std::ostream&
-operator<<(std::ostream& out, const identifier_name<M>& n) {
+static inline std::ostream& operator<<(
+  std::ostream& out, const identifier_name<M>& n) {
     return out.write(n.data(), std::streamsize(n.size()));
 }
 
@@ -238,33 +238,33 @@ public:
         return name().str();
     }
 
-    friend constexpr inline bool
-    operator==(const basic_identifier& a, const basic_identifier& b) noexcept {
+    friend constexpr inline bool operator==(
+      const basic_identifier& a, const basic_identifier& b) noexcept {
         return a._bites == b._bites;
     }
 
-    friend constexpr inline bool
-    operator!=(const basic_identifier& a, const basic_identifier& b) noexcept {
+    friend constexpr inline bool operator!=(
+      const basic_identifier& a, const basic_identifier& b) noexcept {
         return a._bites != b._bites;
     }
 
-    friend constexpr inline bool
-    operator<(const basic_identifier& a, const basic_identifier& b) noexcept {
+    friend constexpr inline bool operator<(
+      const basic_identifier& a, const basic_identifier& b) noexcept {
         return a._bites < b._bites;
     }
 
-    friend constexpr inline bool
-    operator<=(const basic_identifier& a, const basic_identifier& b) noexcept {
+    friend constexpr inline bool operator<=(
+      const basic_identifier& a, const basic_identifier& b) noexcept {
         return a._bites <= b._bites;
     }
 
-    friend constexpr inline bool
-    operator>(const basic_identifier& a, const basic_identifier& b) noexcept {
+    friend constexpr inline bool operator>(
+      const basic_identifier& a, const basic_identifier& b) noexcept {
         return a._bites > b._bites;
     }
 
-    friend constexpr inline bool
-    operator>=(const basic_identifier& a, const basic_identifier& b) noexcept {
+    friend constexpr inline bool operator>=(
+      const basic_identifier& a, const basic_identifier& b) noexcept {
         return a._bites >= b._bites;
     }
 
@@ -272,8 +272,8 @@ private:
     biteset<M, B, std::uint8_t> _bites;
 
     template <std::size_t L, std::size_t... I>
-    static constexpr inline auto
-    _make_bites(const char (&init)[L], std::index_sequence<I...>) noexcept {
+    static constexpr inline auto _make_bites(
+      const char (&init)[L], std::index_sequence<I...>) noexcept {
         return biteset<M, B, std::uint8_t>{
           encoding::encode((I < L) ? init[(I < L) ? I : 0] : '\0')...};
     }

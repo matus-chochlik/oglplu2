@@ -18,7 +18,7 @@ namespace eagine {
 // mp_string
 template <char... C>
 struct mp_string {
-    typedef mp_string type;
+    using type = mp_string;
 
     typedef const char value_type[sizeof...(C) + 1];
     static constexpr const char value[sizeof...(C) + 1] = {C..., '\0'};

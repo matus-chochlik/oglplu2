@@ -19,11 +19,11 @@ struct member_function_constant;
 
 template <typename RV, typename C, typename... P, RV (C::*Ptr)(P...)>
 struct member_function_constant<RV (C::*)(P...), Ptr> {
-    typedef RV (C::*pointer)(P...);
-    typedef RV (*free_pointer)(C*, P...);
-    typedef RV result_type;
-    typedef C scope;
-    typedef std::false_type is_const;
+    using pointer = RV (C::*)(P...);
+    using free_pointer = RV (*)(C*, P...);
+    using result_type = RV;
+    using scope = C;
+    using is_const = std::false_type;
 
     static constexpr pointer get() noexcept {
         return Ptr;
@@ -40,11 +40,11 @@ struct member_function_constant<RV (C::*)(P...), Ptr> {
 
 template <typename RV, typename C, typename... P, RV (C::*Ptr)(P...) const>
 struct member_function_constant<RV (C::*)(P...) const, Ptr> {
-    typedef RV (C::*pointer)(P...) const;
-    typedef RV (*free_pointer)(const C*, P...);
-    typedef RV result_type;
-    typedef C scope;
-    typedef std::true_type is_const;
+    using pointer = RV (C::*)(P...) const;
+    using free_pointer = RV (*)(const C*, P...);
+    using result_type = RV;
+    using scope = C;
+    using is_const = std::true_type;
 
     static constexpr pointer get() noexcept {
         return Ptr;

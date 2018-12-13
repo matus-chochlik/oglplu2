@@ -20,7 +20,7 @@ namespace eagine {
 template <typename OnException = nothing_t>
 class on_scope_exit {
 public:
-    typedef callable_ref<void()> action_type;
+    using action_type = callable_ref<void()>;
 
 private:
     action_type _action;

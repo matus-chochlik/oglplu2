@@ -22,8 +22,8 @@ class memoized;
 template <typename R, typename... P>
 class memoized<R(P...)> {
 private:
-    typedef std::tuple<P...> T;
-    typedef std::pair<T, R> E;
+    using T = std::tuple<P...>;
+    using E = std::pair<T, R>;
     std::map<T, R> _memo;
     callable_ref<R(P..., memoized&)> _func;
 

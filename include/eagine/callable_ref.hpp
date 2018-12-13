@@ -26,9 +26,9 @@ private:
     void* _data;
     void (*_func)();
 
-    typedef void (*_func_t)();
-    typedef RV (*_func_pt)(P...);
-    typedef RV (*_func_vpt)(void*, P...);
+    using _func_t = void (*)();
+    using _func_pt = RV (*)(P...);
+    using _func_vpt = RV (*)(void*, P...);
 
     template <typename C>
     static RV _cls_fn_call_op(void* that, P... p) {

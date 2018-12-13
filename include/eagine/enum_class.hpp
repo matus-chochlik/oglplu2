@@ -21,9 +21,9 @@ struct enum_value;
 
 template <typename T, typename... Classes>
 struct enum_value<T, mp_list<Classes...>> {
-    typedef enum_value type;
+    using type = enum_value;
 
-    typedef T value_type;
+    using value_type = T;
 
     const T value;
 
@@ -41,9 +41,9 @@ struct any_enum_value;
 
 template <typename Self, typename T, unsigned LibId, unsigned Id>
 struct enum_class {
-    typedef enum_class type;
+    using type = enum_class;
 
-    typedef T value_type;
+    using value_type = T;
 
     static constexpr const unsigned lib_id = LibId;
     static constexpr const unsigned id = Id;
@@ -76,13 +76,13 @@ struct enum_class {
         return _value;
     }
 
-    friend constexpr inline bool
-    operator==(enum_class a, enum_class b) noexcept {
+    friend constexpr inline bool operator==(
+      enum_class a, enum_class b) noexcept {
         return a._value == b._value;
     }
 
-    friend constexpr inline bool
-    operator!=(enum_class a, enum_class b) noexcept {
+    friend constexpr inline bool operator!=(
+      enum_class a, enum_class b) noexcept {
         return a._value != b._value;
     }
 };
@@ -122,13 +122,13 @@ struct any_enum_class {
         return _type_id == ~unsigned(0);
     }
 
-    friend bool
-    operator==(const any_enum_class& a, const any_enum_class& b) noexcept {
+    friend bool operator==(
+      const any_enum_class& a, const any_enum_class& b) noexcept {
         return a._type_id == b._type_id;
     }
 
-    friend bool
-    operator!=(const any_enum_class& a, const any_enum_class& b) noexcept {
+    friend bool operator!=(
+      const any_enum_class& a, const any_enum_class& b) noexcept {
         return a._type_id != b._type_id;
     }
 };
@@ -157,20 +157,20 @@ struct any_enum_value {
         return _type_id == ~unsigned(0);
     }
 
-    friend bool
-    operator==(const any_enum_value& a, const any_enum_value& b) noexcept {
+    friend bool operator==(
+      const any_enum_value& a, const any_enum_value& b) noexcept {
         return (a._value == b._value) && (a._type_id == b._type_id);
     }
 
-    friend bool
-    operator!=(const any_enum_value& a, const any_enum_value& b) noexcept {
+    friend bool operator!=(
+      const any_enum_value& a, const any_enum_value& b) noexcept {
         return (a._value != b._value) || (a._type_id != b._type_id);
     }
 };
 
 template <unsigned LibId>
-static constexpr inline bool
-same_enum_class(any_enum_class<LibId> a, any_enum_class<LibId> b) noexcept {
+static constexpr inline bool same_enum_class(
+  any_enum_class<LibId> a, any_enum_class<LibId> b) noexcept {
     return a._type_id == b._type_id;
 }
 

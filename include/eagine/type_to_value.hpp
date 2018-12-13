@@ -52,8 +52,8 @@ struct type_to_value_unit : type_to_value_unit_base<Value> {
 
 template <typename Value, typename... Keys>
 struct type_to_value : type_to_value_unit<Value, Keys>... {
-    typedef Value value_type;
-    typedef std::ptrdiff_t size_type;
+    using value_type = Value;
+    using size_type = std::ptrdiff_t;
 
     type_to_value() = default;
 
@@ -77,7 +77,7 @@ struct type_to_value : type_to_value_unit<Value, Keys>... {
           sizeof(type_to_value) ==
             sizeof(type_to_value_unit_base<Value>) * sizeof...(Keys),
           "Unable to reinterpret this as array of units");
-        typedef type_to_value_unit_base<Value> ub_t;
+        using ub_t = type_to_value_unit_base<Value>;
         return reinterpret_cast<ub_t*>(this);
     }
 
@@ -86,7 +86,7 @@ struct type_to_value : type_to_value_unit<Value, Keys>... {
           sizeof(type_to_value) ==
             sizeof(type_to_value_unit_base<Value>) * sizeof...(Keys),
           "Unable to reinterpret this as array of units");
-        typedef type_to_value_unit_base<Value> ub_t;
+        using ub_t = type_to_value_unit_base<Value>;
         return reinterpret_cast<const ub_t*>(this);
     }
 
@@ -150,8 +150,8 @@ struct type_to_value : type_to_value_unit<Value, Keys>... {
         return iterator(units() + size());
     }
 
-    friend bool
-    operator==(const type_to_value& a, const type_to_value& b) noexcept {
+    friend bool operator==(
+      const type_to_value& a, const type_to_value& b) noexcept {
         for(size_type i = 0; i < size(); ++i) {
             if(a[i] != b[i]) {
                 return false;
@@ -160,8 +160,8 @@ struct type_to_value : type_to_value_unit<Value, Keys>... {
         return true;
     }
 
-    friend bool
-    operator!=(const type_to_value& a, const type_to_value& b) noexcept {
+    friend bool operator!=(
+      const type_to_value& a, const type_to_value& b) noexcept {
         return !(a == b);
     }
 };

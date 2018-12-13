@@ -16,7 +16,7 @@ namespace eagine {
 
 template <typename... C>
 struct mp_list {
-    typedef mp_list type;
+    using type = mp_list;
 };
 
 template <typename TL>

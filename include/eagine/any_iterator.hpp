@@ -61,12 +61,12 @@ private:
     deep_copy_ptr<_intf> _pimpl;
 
 public:
-    typedef VT value_type;
-    typedef RT reference;
-    typedef PT pointer;
-    typedef DT difference_type;
+    using value_type = VT;
+    using reference = RT;
+    using pointer = PT;
+    using difference_type = DT;
 
-    typedef std::forward_iterator_tag iterator_category;
+    using iterator_category = std::forward_iterator_tag;
 
     any_forward_iterator() = default;
     any_forward_iterator(any_forward_iterator&&) = default;
@@ -79,13 +79,13 @@ public:
       : _pimpl(make_deep_copy_ptr<_impl<Iter>>(i)) {
     }
 
-    friend bool
-    operator==(const any_forward_iterator& a, const any_forward_iterator& b) {
+    friend bool operator==(
+      const any_forward_iterator& a, const any_forward_iterator& b) {
         return a._pimpl->_equal(b._pimpl.get());
     }
 
-    friend bool
-    operator!=(const any_forward_iterator& a, const any_forward_iterator& b) {
+    friend bool operator!=(
+      const any_forward_iterator& a, const any_forward_iterator& b) {
         return !a._pimpl->_equal(b._pimpl.get());
     }
 
@@ -120,7 +120,7 @@ private:
     any_forward_iterator<VT, RT, PT, DT> _bgn, _end;
 
 public:
-    typedef any_forward_iterator<VT, RT, PT, DT> iterator;
+    using iterator = any_forward_iterator<VT, RT, PT, DT>;
 
     any_forward_iterator_range(iterator b, iterator e)
       : _bgn(std::move(b))

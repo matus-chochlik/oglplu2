@@ -19,7 +19,6 @@ namespace eagine {
 class format_string_and_list_base {
 private:
     std::string _fmt_str;
-    typedef span<const std::string> _span_t;
 
 protected:
     format_string_and_list_base(std::string&& fmt_str) noexcept
@@ -30,7 +29,7 @@ protected:
       : _fmt_str(std::move(that._fmt_str)) {
     }
 
-    std::string _fmt(const _span_t& values) const;
+    std::string _fmt(span<const std::string> values) const;
 };
 
 template <span_size_t N>
@@ -81,13 +80,13 @@ public:
     }
 
     operator std::string() const {
-        return _fmt({_list});
+        return _fmt(view(_list));
     }
 };
 
 template <span_size_t N>
-static inline format_string_and_list<N + 1>
-operator%(format_string_and_list<N>&& fsal, std::string&& val) noexcept {
+static inline format_string_and_list<N + 1> operator%(
+  format_string_and_list<N>&& fsal, std::string&& val) noexcept {
     return {std::move(fsal), std::move(val)};
 }
 

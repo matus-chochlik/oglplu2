@@ -27,15 +27,15 @@ private:
     const T* _begin;
     const T* _end;
 
-    typedef enum_class<EnumClass, T, LibId, EnumId> _ec_t;
+    using _ec_t = enum_class<EnumClass, T, LibId, EnumId>;
 
     static _ec_t _wrap_enum(T e) noexcept {
         return _ec_t{e};
     }
 
 public:
-    typedef _ec_t value_type;
-    typedef span_size_t size_type;
+    using value_type = _ec_t;
+    using size_type = span_size_t;
 
     explicit enumerated_value_range(span<const T> v) noexcept
       : _begin(v.data())

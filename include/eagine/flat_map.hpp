@@ -20,7 +20,7 @@ namespace eagine {
 
 template <typename Key, typename Val, typename Cmp>
 struct flat_map_ops {
-    typedef std::pair<const Key, Val> value_type;
+    using value_type = std::pair<const Key, Val>;
     struct value_compare {
         Cmp key_comp;
         bool operator()(const value_type& a, const value_type& b) const {
@@ -113,18 +113,18 @@ private:
     }
 
 protected:
-    typedef flat_map_ops<Key, Val, Cmp> _ops_t;
+    using _ops_t = flat_map_ops<Key, Val, Cmp>;
     _ops_t _ops;
 
 public:
-    typedef Key key_type;
-    typedef Val mapped_type;
-    typedef std::pair<const Key, Val> value_type;
-    typedef value_type& reference;
-    typedef const value_type& const_reference;
+    using key_type = Key;
+    using mapped_type = Val;
+    using value_type = std::pair<const Key, Val>;
+    using reference = value_type&;
+    using const_reference = const value_type&;
 
-    typedef Cmp key_compare;
-    typedef typename _ops_t::value_compare value_compare;
+    using key_compare = Cmp;
+    using value_compare = typename _ops_t::value_compare;
 
     const key_compare& key_comp() const {
         return _ops.value_comp.key_comp;
@@ -202,8 +202,8 @@ private:
       flat_map<Key, Val, Cmp, Allocator>>
       _base;
 
-    typedef std::vector<std::pair<const Key, Val>, Allocator> _cvec_t;
-    typedef std::vector<std::pair<Key, Val>, Allocator> _vec_t;
+    using _cvec_t = std::vector<std::pair<const Key, Val>, Allocator>;
+    using _vec_t = std::vector<std::pair<Key, Val>, Allocator>;
     _vec_t _vec;
 
     typename _cvec_t::const_iterator _cast(typename _vec_t::const_iterator i) {
@@ -230,8 +230,8 @@ private:
         return {p, (p == e) || (k != p->first)};
     }
 
-    std::pair<typename _vec_t::iterator, bool>
-    _find_insert_pos(typename _vec_t::iterator p, const Key& k) {
+    std::pair<typename _vec_t::iterator, bool> _find_insert_pos(
+      typename _vec_t::iterator p, const Key& k) {
         typename _vec_t::iterator b = _vec.begin();
         typename _vec_t::iterator e = _vec.end();
         if(p == e) {
@@ -269,11 +269,11 @@ public:
     using typename _base::key_type;
     using typename _base::mapped_type;
     using typename _base::value_type;
-    typedef typename _vec_t::size_type size_type;
-    typedef typename _vec_t::difference_type difference_type;
-    typedef typename _cvec_t::iterator iterator;
-    typedef typename _cvec_t::const_iterator const_iterator;
-    typedef Allocator allocator_type;
+    using size_type = typename _vec_t::size_type;
+    using difference_type = typename _vec_t::difference_type;
+    using iterator = typename _cvec_t::iterator;
+    using const_iterator = typename _cvec_t::const_iterator;
+    using allocator_type = Allocator;
 
     using _base::key_comp;
     using _base::lower_bound;

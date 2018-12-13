@@ -34,8 +34,8 @@ private:
       V& visit,
       std::integral_constant<int, I>,
       std::integral_constant<int, I>) const {
-        typedef std::tuple<T...> TT;
-        typedef typename std::tuple_element<I, TT>::type TI;
+        using TT = std::tuple<T...>;
+        using TI = typename std::tuple_element<I, TT>::type;
         return visit(_as<TI>());
     }
 
@@ -84,14 +84,14 @@ public:
 };
 
 template <typename Visitor, std::ptrdiff_t Offset, typename... T>
-static inline auto
-apply_visitor(Visitor& visitor, const static_variant<Offset, T...>& var) {
+static inline auto apply_visitor(
+  Visitor& visitor, const static_variant<Offset, T...>& var) {
     return var.template accept_visitor(std::ref(visitor));
 }
 
 template <typename Visitor, std::ptrdiff_t Offset, typename... T>
-static inline auto
-apply_visitor(Visitor visitor, const static_variant<Offset, T...>& var) {
+static inline auto apply_visitor(
+  Visitor visitor, const static_variant<Offset, T...>& var) {
     return var.template accept_visitor(std::ref(visitor));
 }
 

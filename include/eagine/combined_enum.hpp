@@ -27,7 +27,7 @@ private:
       "");
 
 public:
-    typedef typename Enum::value_type value_type;
+    using value_type = typename Enum::value_type;
     static constexpr const unsigned lib_id = Enum::lib_id;
     static constexpr const value_type base_value = IndexedEnum::base_value;
 
@@ -69,18 +69,18 @@ public:
         return IndexedEnum(_value);
     }
 
-    friend constexpr inline bool
-    operator==(combined_enum_value a, combined_enum_value b) noexcept {
+    friend constexpr inline bool operator==(
+      combined_enum_value a, combined_enum_value b) noexcept {
         return a._value == b._value;
     }
 
-    friend constexpr inline bool
-    operator!=(combined_enum_value a, combined_enum_value b) noexcept {
+    friend constexpr inline bool operator!=(
+      combined_enum_value a, combined_enum_value b) noexcept {
         return a._value != b._value;
     }
 
-    friend constexpr inline bool
-    operator<(combined_enum_value a, combined_enum_value b) noexcept {
+    friend constexpr inline bool operator<(
+      combined_enum_value a, combined_enum_value b) noexcept {
         return a._value < b._value;
     }
 };
