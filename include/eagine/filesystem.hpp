@@ -36,10 +36,10 @@ private:
     basic_string_path _p;
 
 public:
-    typedef basic_string_path::size_type size_type;
-    typedef basic_string_path::str_span str_span;
-    typedef basic_string_path::iterator iterator;
-    typedef basic_string_path::reverse_iterator reverse_iterator;
+    using size_type = basic_string_path::size_type;
+    using str_span = basic_string_path::str_span;
+    using iterator = basic_string_path::iterator;
+    using reverse_iterator = basic_string_path::reverse_iterator;
 
     string_path() = default;
 
@@ -58,38 +58,38 @@ public:
       : _p(a._p, EAGINE_TAG(plus), b._p) {
     }
 
-    friend inline bool
-    operator==(const string_path& a, const string_path& b) noexcept {
+    friend inline bool operator==(
+      const string_path& a, const string_path& b) noexcept {
         return a._p == b._p;
     }
 
-    friend inline bool
-    operator!=(const string_path& a, const string_path& b) noexcept {
+    friend inline bool operator!=(
+      const string_path& a, const string_path& b) noexcept {
         return a._p != b._p;
     }
 
-    friend inline bool
-    operator<(const string_path& a, const string_path& b) noexcept {
+    friend inline bool operator<(
+      const string_path& a, const string_path& b) noexcept {
         return a._p < b._p;
     }
 
-    friend inline bool
-    operator<=(const string_path& a, const string_path& b) noexcept {
+    friend inline bool operator<=(
+      const string_path& a, const string_path& b) noexcept {
         return a._p <= b._p;
     }
 
-    friend inline bool
-    operator>(const string_path& a, const string_path& b) noexcept {
+    friend inline bool operator>(
+      const string_path& a, const string_path& b) noexcept {
         return a._p > b._p;
     }
 
-    friend inline bool
-    operator>=(const string_path& a, const string_path& b) noexcept {
+    friend inline bool operator>=(
+      const string_path& a, const string_path& b) noexcept {
         return a._p >= b._p;
     }
 
-    friend inline string_path
-    operator+(const string_path& a, const string_path& b) noexcept {
+    friend inline string_path operator+(
+      const string_path& a, const string_path& b) noexcept {
         return string_path(a, b);
     }
 

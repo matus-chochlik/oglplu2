@@ -21,7 +21,7 @@
 namespace eagine {
 
 // byte type
-typedef unsigned char byte;
+using byte = unsigned char;
 
 // alignment type used by std
 using std_align_t = std::size_t;

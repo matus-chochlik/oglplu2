@@ -195,12 +195,8 @@ class flat_map
       Cmp,
       flat_map<Key, Val, Cmp, Allocator>> {
 private:
-    typedef flat_map_view_crtp<
-      Key,
-      Val,
-      Cmp,
-      flat_map<Key, Val, Cmp, Allocator>>
-      _base;
+    using _base =
+      flat_map_view_crtp<Key, Val, Cmp, flat_map<Key, Val, Cmp, Allocator>>;
 
     using _cvec_t = std::vector<std::pair<const Key, Val>, Allocator>;
     using _vec_t = std::vector<std::pair<Key, Val>, Allocator>;

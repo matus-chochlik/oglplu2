@@ -234,13 +234,12 @@ class basic_noexcept_casting_iterator
       S (*)(typename std::iterator_traits<Iterator>::reference) noexcept,
       Derived> {
 private:
-    typedef basic_transforming_iterator<
+    using _base = basic_transforming_iterator<
       Iterator,
       T,
       S,
       S (*)(typename std::iterator_traits<Iterator>::reference) noexcept,
-      Derived>
-      _base;
+      Derived>;
 
     static S _cast(
       typename std::iterator_traits<Iterator>::reference r) noexcept {

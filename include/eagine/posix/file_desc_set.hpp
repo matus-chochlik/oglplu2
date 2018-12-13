@@ -59,8 +59,8 @@ private:
     }
 
 public:
-    typedef valid_if<file_descriptor, fd_set_valid_fd_policy>
-      valid_file_descriptor;
+    using valid_file_descriptor =
+      valid_if<file_descriptor, fd_set_valid_fd_policy>;
 
     file_descriptor_set() noexcept
       : _min(FD_SETSIZE)

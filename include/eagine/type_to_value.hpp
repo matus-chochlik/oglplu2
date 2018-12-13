@@ -136,11 +136,8 @@ struct type_to_value : type_to_value_unit<Value, Keys>... {
         return ref(pos);
     }
 
-    typedef noexcept_casting_iterator<
-      type_to_value_unit_base<Value>*,
-      Value,
-      Value&>
-      iterator;
+    using iterator =
+      noexcept_casting_iterator<type_to_value_unit_base<Value>*, Value, Value&>;
 
     iterator begin() noexcept {
         return iterator(units());

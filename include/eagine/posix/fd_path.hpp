@@ -19,7 +19,7 @@ namespace eagine {
 namespace posix {
 
 static inline outcome<std::string> fd_abs_path(file_descriptor_owner curr_fd) {
-    typedef std::pair<dev_t, ino_t> inode_id;
+    using inode_id = std::pair<dev_t, ino_t>;
     struct stat fst;
 
     if(auto res = failure(fstat(file_descriptor_owner(open("/", 0)), fst))) {

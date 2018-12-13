@@ -49,8 +49,8 @@ public:
           span<const T>{static_cast<const T*>(p.first), p.second}) {
     }
 
-    typedef transforming_iterator<const T*, _ec_t, _ec_t, _ec_t (*)(T) noexcept>
-      iterator;
+    using iterator =
+      transforming_iterator<const T*, _ec_t, _ec_t, _ec_t (*)(T) noexcept>;
 
     size_type size() const noexcept {
         return size_type(_end - _begin);

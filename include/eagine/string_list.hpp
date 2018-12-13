@@ -29,8 +29,8 @@ static inline span_size_t element_header_size(string_view elem) noexcept {
     return mbs::decode_sequence_length(mbs::make_cbyte_span(elem)).value();
 }
 //------------------------------------------------------------------------------
-static inline span_size_t
-element_value_size(string_view elem, span_size_t l) noexcept {
+static inline span_size_t element_value_size(
+  string_view elem, span_size_t l) noexcept {
     return mbs::do_decode_code_point(mbs::make_cbyte_span(elem), l);
 }
 //------------------------------------------------------------------------------
@@ -98,13 +98,13 @@ private:
         return {s.data(), hs + vs + hs};
     }
 
-    static inline string_view
-    _fit(const char* ptr, span_size_t max_size) noexcept {
+    static inline string_view _fit(
+      const char* ptr, span_size_t max_size) noexcept {
         return _fit(string_view(ptr, max_size));
     }
 
-    static inline string_view
-    _rev_fit(string_view s, span_size_t rev_sz) noexcept {
+    static inline string_view _rev_fit(
+      string_view s, span_size_t rev_sz) noexcept {
         span_size_t hs = element_header_size(s);
         span_size_t vs = element_value_size(s, hs);
         assert(rev_sz >= hs + vs);
@@ -196,8 +196,8 @@ static inline void rev_for_each(string_view list, Func func) noexcept {
     rev_for_each_elem(list, adapted_func);
 }
 //------------------------------------------------------------------------------
-static inline std::tuple<std::string, span_size_t>
-split(string_view str, string_view sep) {
+static inline std::tuple<std::string, span_size_t> split(
+  string_view str, string_view sep) {
     std::string res;
     span_size_t cnt = 0;
     for_each_delimited(str, sep, [&res, &cnt](const auto& x) {
@@ -207,8 +207,8 @@ split(string_view str, string_view sep) {
     return std::make_tuple(res, cnt);
 }
 //------------------------------------------------------------------------------
-static inline std::string
-join(string_view list, string_view sep, bool trail_sep) {
+static inline std::string join(
+  string_view list, string_view sep, bool trail_sep) {
     span_size_t slen = sep.size();
     span_size_t len = trail_sep ? slen : 0;
     auto get_len = [&len, slen](const element& elem, bool first) {
@@ -271,11 +271,11 @@ private:
     }
 
 public:
-    typedef std::ptrdiff_t difference_type;
-    typedef string_view value_type;
-    typedef const value_type& reference;
-    typedef const value_type* pointer;
-    typedef std::forward_iterator_tag iterator_category;
+    using difference_type = std::ptrdiff_t;
+    using value_type = string_view;
+    using reference = const value_type&;
+    using pointer = const value_type*;
+    using iterator_category = std::forward_iterator_tag;
 
     iterator() noexcept
       : _pos(nullptr) {
@@ -364,11 +364,11 @@ private:
     }
 
 public:
-    typedef std::ptrdiff_t difference_type;
-    typedef string_view value_type;
-    typedef const value_type& reference;
-    typedef const value_type* pointer;
-    typedef std::forward_iterator_tag iterator_category;
+    using difference_type = std::ptrdiff_t;
+    using value_type = string_view;
+    using reference = const value_type&;
+    using pointer = const value_type*;
+    using iterator_category = std::forward_iterator_tag;
 
     rev_iterator() noexcept
       : _pos(nullptr) {

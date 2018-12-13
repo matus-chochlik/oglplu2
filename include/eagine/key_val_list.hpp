@@ -22,8 +22,8 @@ class key_value_list;
 
 template <typename Traits>
 struct key_value_list_element {
-    typedef typename Traits::key_type key_type;
-    typedef typename Traits::value_type value_type;
+    using key_type = typename Traits::key_type;
+    using value_type = typename Traits::value_type;
 
     key_type _key;
     value_type _value;
@@ -40,7 +40,7 @@ struct key_value_list_base;
 
 template <typename Traits>
 struct key_value_list_base<Traits, 0> {
-    typedef typename Traits::value_type value_type;
+    using value_type = typename Traits::value_type;
 
     key_value_list_base() = default;
 
@@ -54,9 +54,9 @@ template <typename Traits>
 struct key_value_list_base<Traits, 2> {
     std::array<typename Traits::value_type, 3> _elements;
 
-    typedef typename Traits::key_type key_type;
-    typedef typename Traits::conv_type conv_type;
-    typedef typename Traits::value_type value_type;
+    using key_type = typename Traits::key_type;
+    using conv_type = typename Traits::conv_type;
+    using value_type = typename Traits::value_type;
 
     constexpr key_value_list_base(key_type key, value_type value) noexcept
       : _elements{{value_type(conv_type(key)), value, Traits::terminator()}} {
@@ -79,9 +79,9 @@ template <typename Traits, std::size_t N>
 struct key_value_list_base {
     std::array<typename Traits::value_type, N + 1> _elements;
 
-    typedef typename Traits::key_type key_type;
-    typedef typename Traits::conv_type conv_type;
-    typedef typename Traits::value_type value_type;
+    using key_type = typename Traits::key_type;
+    using conv_type = typename Traits::conv_type;
+    using value_type = typename Traits::value_type;
 
     template <
       std::size_t M,
@@ -106,8 +106,8 @@ struct key_value_list_base {
 template <typename Traits, std::size_t N>
 class key_value_list {
 public:
-    typedef typename Traits::key_type key_type;
-    typedef typename Traits::value_type value_type;
+    using key_type = typename Traits::key_type;
+    using value_type = typename Traits::value_type;
 
 private:
     key_value_list_base<Traits, N> _base;
@@ -139,8 +139,8 @@ public:
         return {data(), size()};
     }
 
-    constexpr key_value_list<Traits, N + 2>
-    append(const key_value_list_element<Traits>& key_val) const noexcept {
+    constexpr key_value_list<Traits, N + 2> append(
+      const key_value_list_element<Traits>& key_val) const noexcept {
         return {_base, key_val._key, key_val._value};
     }
 };

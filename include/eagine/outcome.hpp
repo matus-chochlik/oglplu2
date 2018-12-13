@@ -124,8 +124,8 @@ template <typename T, typename ErrorData, typename HandlerPolicy>
 class basic_outcome<T, ErrorData, HandlerPolicy, cancelled_handler>
   : public basic_outcome<void, ErrorData, HandlerPolicy, cancelled_handler> {
 private:
-    typedef basic_outcome<void, ErrorData, HandlerPolicy, cancelled_handler>
-      _base;
+    using _base =
+      basic_outcome<void, ErrorData, HandlerPolicy, cancelled_handler>;
     basic_outcome_storage<T> _value;
 
 public:
@@ -179,8 +179,9 @@ public:
     }
 
     template <typename T>
-      basic_outcome<T, ErrorData, HandlerPolicy, deferred_handler>
-      add(T value) && noexcept;
+      basic_outcome<T, ErrorData, HandlerPolicy, deferred_handler> add(
+        T value) &&
+      noexcept;
 
     deferred_handler<ErrorData, HandlerPolicy> release_handler() noexcept {
         return std::move(_handler);
@@ -227,8 +228,8 @@ template <typename T, typename ErrorData, typename HandlerPolicy>
 class basic_outcome<T, ErrorData, HandlerPolicy, deferred_handler>
   : public basic_outcome<void, ErrorData, HandlerPolicy, deferred_handler> {
 private:
-    typedef basic_outcome<void, ErrorData, HandlerPolicy, deferred_handler>
-      _base;
+    using _base =
+      basic_outcome<void, ErrorData, HandlerPolicy, deferred_handler>;
     basic_outcome_storage<T> _value;
 
 public:
@@ -313,8 +314,8 @@ template <typename ErrorData, typename HandlerPolicy>
 }
 
 template <typename T, typename U, typename ErrorData, typename HandlerPolicy>
-static inline basic_outcome<T, ErrorData, HandlerPolicy>
-outcome_cast(basic_outcome<U, ErrorData, HandlerPolicy>&& that) noexcept {
+static inline basic_outcome<T, ErrorData, HandlerPolicy> outcome_cast(
+  basic_outcome<U, ErrorData, HandlerPolicy>&& that) noexcept {
     if(that.failed()) {
         return {that.release_handler()};
     }
@@ -331,8 +332,8 @@ static inline basic_outcome<T, ErrorData, HandlerPolicy> outcome_conversion(
 }
 
 template <typename T, typename ErrorData, typename HandlerPolicy, typename Func>
-static inline basic_outcome<T, ErrorData, HandlerPolicy>&&
-operator|(basic_outcome<T, ErrorData, HandlerPolicy>&& bo, Func func) noexcept {
+static inline basic_outcome<T, ErrorData, HandlerPolicy>&& operator|(
+  basic_outcome<T, ErrorData, HandlerPolicy>&& bo, Func func) noexcept {
     bo.then(func);
     return std::move(bo);
 }
@@ -356,8 +357,8 @@ public:
 };
 
 template <typename T, typename ErrorData, typename HandlerPolicy>
-static inline basic_positive_outcome<T, ErrorData, HandlerPolicy>
-success(basic_outcome<T, ErrorData, HandlerPolicy>&& o) noexcept {
+static inline basic_positive_outcome<T, ErrorData, HandlerPolicy> success(
+  basic_outcome<T, ErrorData, HandlerPolicy>&& o) noexcept {
     return std::move(o);
 }
 
@@ -380,8 +381,8 @@ public:
 };
 
 template <typename T, typename ErrorData, typename HandlerPolicy>
-static inline basic_negative_outcome<T, ErrorData, HandlerPolicy>
-failure(basic_outcome<T, ErrorData, HandlerPolicy>&& o) noexcept {
+static inline basic_negative_outcome<T, ErrorData, HandlerPolicy> failure(
+  basic_outcome<T, ErrorData, HandlerPolicy>&& o) noexcept {
     return std::move(o);
 }
 

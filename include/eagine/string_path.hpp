@@ -55,11 +55,11 @@ private:
     }
 
 public:
-    typedef string_view value_type;
-    typedef string_view str_span;
-    typedef span_size_t size_type;
-    typedef string_list::iterator<const char*> iterator;
-    typedef string_list::rev_iterator<const char*> reverse_iterator;
+    using value_type = string_view;
+    using str_span = string_view;
+    using size_type = span_size_t;
+    using iterator = string_list::iterator<const char*>;
+    using reverse_iterator = string_list::rev_iterator<const char*>;
 
     basic_string_path() noexcept
       : _size{0} {

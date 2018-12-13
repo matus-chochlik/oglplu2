@@ -19,10 +19,10 @@ namespace eagine {
 template <typename T, typename S>
 class basic_vararray {
 public:
-    typedef T value_type;
-    typedef S size_type;
+    using value_type = T;
+    using size_type = S;
 
-    typedef std::conditional_t<alignof(T) >= alignof(S), T, S> alloc_unit_t;
+    using alloc_unit_t = std::conditional_t<alignof(T) >= alignof(S), T, S>;
 
     static std::size_t alloc_unit_c(std::size_t n) noexcept {
         if(alignof(T) >= alignof(S)) {
@@ -55,8 +55,8 @@ public:
         return _size;
     }
 
-    typedef T* iterator;
-    typedef const T* const_iterator;
+    using iterator = T*;
+    using const_iterator = const T*;
 
     iterator begin() noexcept {
         return _data;

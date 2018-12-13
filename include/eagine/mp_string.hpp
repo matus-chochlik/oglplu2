@@ -20,7 +20,7 @@ template <char... C>
 struct mp_string {
     using type = mp_string;
 
-    typedef const char value_type[sizeof...(C) + 1];
+    using value_type = const char[sizeof...(C) + 1];
     static constexpr const char value[sizeof...(C) + 1] = {C..., '\0'};
 };
 

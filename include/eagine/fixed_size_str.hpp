@@ -53,9 +53,9 @@ public:
         std::strncpy(_str + N1 - 1, s2._str, N2);
     }
 
-    typedef span_size_t size_type;
-    typedef char* iterator;
-    typedef const char* const_iterator;
+    using size_type = span_size_t;
+    using iterator = char*;
+    using const_iterator = const char*;
 
     bool empty() const noexcept {
         return _str[0] == '\0';
@@ -100,8 +100,8 @@ public:
 };
 
 template <span_size_t N>
-static inline fixed_size_string<N>
-make_fixed_size_string(const char (&str)[N]) noexcept {
+static inline fixed_size_string<N> make_fixed_size_string(
+  const char (&str)[N]) noexcept {
     return fixed_size_string<N>(str);
 }
 
@@ -118,15 +118,15 @@ static inline auto to_fixed_size_string(
 }
 
 template <int I>
-static inline auto
-to_fixed_size_string(int_constant<I>, std::enable_if_t<(I > 9)>* = 0) noexcept {
+static inline auto to_fixed_size_string(
+  int_constant<I>, std::enable_if_t<(I > 9)>* = 0) noexcept {
     return to_fixed_size_string(int_constant<I / 10>()) +
            fixed_size_string<2>(char('0' + I % 10), '\0');
 }
 
 template <int I>
-static inline auto
-to_fixed_size_string(int_constant<I>, std::enable_if_t<(I < 0)>* = 0) noexcept {
+static inline auto to_fixed_size_string(
+  int_constant<I>, std::enable_if_t<(I < 0)>* = 0) noexcept {
     return fixed_size_string<2>("-") + to_fixed_size_string(int_constant<-I>());
 }
 

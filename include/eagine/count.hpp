@@ -18,7 +18,7 @@ private:
     Int _c;
 
 public:
-    typedef Int value_type;
+    using value_type = Int;
 
     constexpr inline count_t() noexcept
       : _c(0) {

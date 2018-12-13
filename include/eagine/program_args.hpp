@@ -202,7 +202,7 @@ public:
     }
 };
 
-typedef program_parameter<void> program_option;
+using program_option = program_parameter<void>;
 
 class program_arg {
 private:
@@ -268,7 +268,7 @@ public:
       , _argv(nullptr) {
     }
 
-    typedef string_view value_type;
+    using value_type = string_view;
 
     bool is_valid() const noexcept {
         return (0 < _argi) && (_argi < _argc) && (_argv != nullptr) &&
@@ -801,9 +801,9 @@ public:
       , _argv(args) {
     }
 
-    typedef string_view value_type;
-    typedef int size_type;
-    typedef valid_range_index<program_args> valid_index;
+    using value_type = string_view;
+    using size_type = int;
+    using valid_index = valid_range_index<program_args>;
 
     int argc() const noexcept {
         return _argc;
