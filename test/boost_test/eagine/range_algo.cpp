@@ -392,7 +392,7 @@ void test_range_find_pos_1(eagine::span<T> rng1, eagine::span<T> rng2) {
 
 template <typename T>
 void test_range_find_pos_1(T min, T max, bool has) {
-    typedef typename std::vector<T>::size_type sz_t;
+    using sz_t = typename std::vector<T>::size_type;
 
     sz_t l1 = rg.get<sz_t>(20, 100);
     sz_t l2 = rg.get<sz_t>(0, l1);
@@ -464,7 +464,7 @@ void test_range_rfind_pos_1(eagine::span<T> rng1, eagine::span<T> rng2) {
 
 template <typename T>
 void test_range_rfind_pos_1(T min, T max, bool has) {
-    typedef typename std::vector<T>::size_type sz_t;
+    using sz_t = typename std::vector<T>::size_type;
 
     sz_t l1 = rg.get<sz_t>(20, 100);
     sz_t l2 = rg.get<sz_t>(0, l1);
@@ -535,7 +535,7 @@ void test_range_find_1(eagine::span<T> rng1, eagine::span<T> rng2) {
 
 template <typename T>
 void test_range_find_1(T min, T max, bool has) {
-    typedef typename std::vector<T>::size_type sz_t;
+    using sz_t = typename std::vector<T>::size_type;
 
     sz_t l1 = rg.get<sz_t>(20, 100);
     sz_t l2 = rg.get<sz_t>(0, l1);

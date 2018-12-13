@@ -20,7 +20,7 @@ static eagine::vect::data_t<T, N, V> get_test_math_matrix_vec(
 template <typename T, int C, int R, bool RM, bool V, int... J, int... I>
 void test_math_matrix_init_TCRRMVJI(
   std::integer_sequence<int, J...>, std::integer_sequence<int, I...>) {
-    typedef eagine::math::matrix<T, C, R, RM, V> M;
+    using M = eagine::math::matrix<T, C, R, RM, V>;
 
     M m = {{get_test_math_matrix_vec < T,
             RM ? C : R,

@@ -18,9 +18,9 @@ constexpr const bool has_r3g3b2 = false;
 #endif
 
 struct options {
-    typedef eagine::program_parameter<eagine::string_view> _str_param_t;
-    typedef eagine::program_parameter<eagine::valid_if_positive<GLsizei>>
-      _int_param_t;
+    using _str_param_t = eagine::program_parameter<eagine::string_view>;
+    using _int_param_t =
+      eagine::program_parameter<eagine::valid_if_positive<GLsizei>>;
 
     _str_param_t output_path;
     _int_param_t width;

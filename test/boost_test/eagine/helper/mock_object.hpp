@@ -36,8 +36,8 @@ struct mock_obj_gen_del_ops {
         return _ns;
     }
 
-    static deferred_handler<mock_error_info>
-    _gen(span<unsigned> names) noexcept {
+    static deferred_handler<mock_error_info> _gen(
+      span<unsigned> names) noexcept {
         unsigned next = 1;
 
         for(unsigned& name : names) {
@@ -50,8 +50,8 @@ struct mock_obj_gen_del_ops {
         return {};
     }
 
-    static deferred_handler<mock_error_info>
-    _delete(span<unsigned> names) noexcept {
+    static deferred_handler<mock_error_info> _delete(
+      span<unsigned> names) noexcept {
         for(unsigned name : names) {
             if(_assigned().find(name) == _assigned().end()) {
                 return {mock_handle_error, mock_error_info{"delete"}};
@@ -68,9 +68,9 @@ struct mock_obj_gen_del_ops {
 
 template <>
 struct object_traits<tag::mock_object> {
-    typedef unsigned name_type;
+    using name_type = unsigned;
 
-    typedef mock_obj_gen_del_ops gen_del_ops;
+    using gen_del_ops = mock_obj_gen_del_ops;
 
     template <typename ObjTag>
     using dsa_zero_ops_t = object_name<ObjTag>;

@@ -9,9 +9,9 @@
 #include "../unit_test_begin.inl"
 
 struct mock_kv_list_traits {
-    typedef char key_type;
-    typedef int conv_type;
-    typedef int value_type;
+    using key_type = char;
+    using conv_type = int;
+    using value_type = int;
 
     static constexpr int terminator() {
         return -1;
@@ -72,7 +72,7 @@ BOOST_AUTO_TEST_CASE(key_val_list_2) {
     using namespace eagine;
 
     test_key_val_list<0> l0;
-    typedef test_kv kv;
+    using kv = test_kv;
 
     test_key_val_list<2> l2 = l0 + kv('A', 1);
     BOOST_CHECK_EQUAL(l2.size(), 3);
@@ -115,7 +115,7 @@ BOOST_AUTO_TEST_CASE(key_val_list_2) {
 BOOST_AUTO_TEST_CASE(key_val_list_3) {
     using namespace eagine;
 
-    typedef test_kv kv;
+    using kv = test_kv;
 
     test_key_val_list<2> l2 = kv('0', 1);
     BOOST_CHECK_EQUAL(l2.size(), 3);

@@ -20,7 +20,7 @@ BOOST_AUTO_TEST_CASE(flat_map_1) {
 
     std::map<int, std::size_t> sm;
 
-    typedef std::pair<const int, std::size_t> p_t;
+    using p_t = std::pair<const int, std::size_t>;
 
     std::vector<p_t> d;
 
@@ -59,7 +59,7 @@ BOOST_AUTO_TEST_CASE(flat_map_2) {
     std::map<int, std::size_t> sm;
     flat_map<int, std::size_t> fm;
 
-    typedef std::pair<const int, std::size_t> p_t;
+    using p_t = std::pair<const int, std::size_t>;
 
     std::hash<int> h;
 
@@ -94,7 +94,7 @@ BOOST_AUTO_TEST_CASE(flat_map_3) {
     std::map<int, std::size_t> sm;
     flat_map<int, std::size_t> fm;
 
-    typedef std::pair<const int, std::size_t> p_t;
+    using p_t = std::pair<const int, std::size_t>;
 
     std::hash<int> h;
 
@@ -129,7 +129,7 @@ BOOST_AUTO_TEST_CASE(flat_map_4) {
     std::map<int, std::size_t> sm;
     flat_map<int, std::size_t> fm;
 
-    typedef std::pair<const int, std::size_t> p_t;
+    using p_t = std::pair<const int, std::size_t>;
 
     std::hash<int> h;
 
@@ -164,7 +164,7 @@ BOOST_AUTO_TEST_CASE(flat_map_5) {
     std::map<int, std::size_t> sm;
     flat_map<int, std::size_t> fm;
 
-    typedef std::pair<const int, std::size_t> p_t;
+    using p_t = std::pair<const int, std::size_t>;
 
     std::hash<int> h;
 
@@ -199,7 +199,7 @@ BOOST_AUTO_TEST_CASE(flat_map_6) {
     std::map<int, std::size_t> sm;
     flat_map<int, std::size_t> fm;
 
-    typedef std::pair<const int, std::size_t> p_t;
+    using p_t = std::pair<const int, std::size_t>;
     std::vector<int> ks;
 
     std::hash<int> h;

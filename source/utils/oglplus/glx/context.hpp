@@ -31,7 +31,7 @@ private:
       bool debugging,
       bool compatibility,
       ::GLXContext share_context = ::GLXContext(nullptr)) {
-        typedef GLXContext (*glXCreateContextAttribsARBProc)(
+        using glXCreateContextAttribsARBProc = GLXContext (*)(
           ::Display*, ::GLXFBConfig, ::GLXContext, Bool, const int*);
 
         glXCreateContextAttribsARBProc glXCreateContextAttribsARB = nullptr;

@@ -17,8 +17,8 @@ BOOST_AUTO_TEST_SUITE(mp_list_tests)
 
 BOOST_AUTO_TEST_CASE(mp_list_contains) {
     using namespace eagine;
-    typedef mp_list<type_A, type_B, type_C> lABC;
-    typedef mp_list<type_D, type_C, type_B> lDCB;
+    using lABC = mp_list<type_A, type_B, type_C>;
+    using lDCB = mp_list<type_D, type_C, type_B>;
 
     BOOST_CHECK((mp_contains<lABC, type_A>::value));
     BOOST_CHECK((mp_contains<lABC, type_B>::value));
@@ -33,10 +33,10 @@ BOOST_AUTO_TEST_CASE(mp_list_contains) {
 
 BOOST_AUTO_TEST_CASE(mp_list_1) {
     using namespace eagine;
-    typedef mp_list<type_A, type_B, type_C> lABC;
-    typedef mp_list<type_D, type_C, type_B> lDCB;
+    using lABC = mp_list<type_A, type_B, type_C>;
+    using lDCB = mp_list<type_D, type_C, type_B>;
 
-    typedef mp_union_t<lABC, lDCB> lBC;
+    using lBC = mp_union_t<lABC, lDCB>;
 
     BOOST_CHECK((!mp_contains<lBC, type_A>::value));
     BOOST_CHECK((mp_contains<lBC, type_B>::value));

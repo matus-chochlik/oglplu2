@@ -14,11 +14,10 @@
 #include <fstream>
 
 struct options {
-    typedef eagine::program_parameter<
-      eagine::valid_if_not_empty<eagine::string_view>>
-      _str_param_t;
+    using _str_param_t = eagine::program_parameter<
+      eagine::valid_if_not_empty<eagine::string_view>>;
 
-    typedef eagine::program_parameter<eagine::valid_if_one_of<
+    using _sht_param_t = eagine::program_parameter<eagine::valid_if_one_of<
       GLenum,
       GL_VERTEX_SHADER,
 #ifdef GL_GEOMETRY_SHADER
@@ -33,8 +32,7 @@ struct options {
 #ifdef GL_COMPUTE_SHADER
       GL_COMPUTE_SHADER,
 #endif
-      GL_FRAGMENT_SHADER>>
-      _sht_param_t;
+      GL_FRAGMENT_SHADER>>;
 
     _str_param_t input_path;
     _str_param_t output_path;

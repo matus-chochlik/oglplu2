@@ -61,8 +61,8 @@ public:
     }
 };
 
-typedef example_param<eagine::valid_if_not_empty<string_view>>
-  example_string_param;
+using example_string_param =
+  example_param<eagine::valid_if_not_empty<string_view>>;
 
 class example_arg {
 private:

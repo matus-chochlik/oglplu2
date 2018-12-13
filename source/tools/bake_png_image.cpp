@@ -24,9 +24,8 @@ constexpr const bool has_rgba16 = false;
 
 // program options
 struct options {
-    typedef eagine::program_parameter<
-      eagine::valid_if_not_empty<eagine::string_view>>
-      _str_param_t;
+    using _str_param_t = eagine::program_parameter<
+      eagine::valid_if_not_empty<eagine::string_view>>;
 
     _str_param_t input_path;
     _str_param_t output_path;

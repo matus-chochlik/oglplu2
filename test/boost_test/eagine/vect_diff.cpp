@@ -26,8 +26,8 @@ void test_vect_diff_TNV_1() {
             v[i] = a[i];
         }
 
-        typedef eagine::vect::diff<T, N, V> _diff;
-        typedef eagine::vect::esum<T, N, V> _esum;
+        using _diff = eagine::vect::diff<T, N, V>;
+        using _esum = eagine::vect::esum<T, N, V>;
 
         BOOST_CHECK_EQUAL(_esum::apply(_diff::apply(u, u)), T(0));
         BOOST_CHECK_EQUAL(_esum::apply(_diff::apply(v, u)), T(0));

@@ -25,7 +25,7 @@ private:
 
     bool _screenshot_done;
 
-    typedef std::chrono::system_clock clock_type;
+    using clock_type = std::chrono::system_clock;
     const std::chrono::time_point<clock_type> _start;
     std::chrono::time_point<clock_type> _now;
 

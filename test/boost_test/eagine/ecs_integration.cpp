@@ -100,7 +100,7 @@ namespace ecs {
 
 template <>
 struct entity_traits<std::string> {
-    typedef const std::string& parameter_type;
+    using parameter_type = const std::string&;
 
     static inline std::string minimum() noexcept {
         return {};
@@ -109,12 +109,12 @@ struct entity_traits<std::string> {
 
 template <bool Const>
 struct get_manipulator<name_surname, Const> {
-    typedef name_surname_manip<Const> type;
+    using type = name_surname_manip<Const>;
 };
 
 template <bool Const>
 struct get_manipulator<measurements, Const> {
-    typedef measurements_manip<Const> type;
+    using type = measurements_manip<Const>;
 };
 
 } // namespace ecs
@@ -124,7 +124,7 @@ BOOST_AUTO_TEST_SUITE(ecs_tests)
 
 BOOST_AUTO_TEST_CASE(ecs_test_component_storage_reg) {
     using namespace eagine::ecs;
-    typedef std::string entity;
+    using entity = std::string;
 
     basic_manager<entity> m;
 
@@ -150,7 +150,7 @@ BOOST_AUTO_TEST_CASE(ecs_test_component_storage_reg) {
 
 BOOST_AUTO_TEST_CASE(ecs_test_relation_storage_reg) {
     using namespace eagine::ecs;
-    typedef std::string entity;
+    using entity = std::string;
 
     basic_manager<entity> m;
 
@@ -176,7 +176,7 @@ BOOST_AUTO_TEST_CASE(ecs_test_relation_storage_reg) {
 
 BOOST_AUTO_TEST_CASE(ecs_test_component_manip_1) {
     using namespace eagine::ecs;
-    typedef std::string entity;
+    using entity = std::string;
 
     basic_manager<entity> mgr;
 
@@ -312,7 +312,7 @@ BOOST_AUTO_TEST_CASE(ecs_test_component_manip_1) {
 
 BOOST_AUTO_TEST_CASE(ecs_test_relation_manip_1) {
     using namespace eagine::ecs;
-    typedef std::string entity;
+    using entity = std::string;
 
     basic_manager<entity> sso; // space soap opera
 

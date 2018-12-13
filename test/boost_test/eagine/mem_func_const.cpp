@@ -36,10 +36,10 @@ BOOST_AUTO_TEST_SUITE(mem_func_const_tests)
 BOOST_AUTO_TEST_CASE(mem_func_const_pointer_get) {
     using namespace eagine;
 
-    typedef member_function_constant<int (bar::*)(int) const, &bar::foo> fubar1;
-    typedef member_function_constant<float (bar::*)(int, float), &bar::foo>
-      fubar2;
-    typedef member_function_constant<baz& (baz::*)(), &baz::inc> incbaz;
+    using fubar1 = member_function_constant<int (bar::*)(int) const, &bar::foo>;
+    using fubar2 =
+      member_function_constant<float (bar::*)(int, float), &bar::foo>;
+    using incbaz = member_function_constant<baz& (baz::*)(), &baz::inc>;
 
     fubar1::pointer pfubar1 = fubar1::get();
     fubar2::pointer pfubar2 = fubar2::get();
@@ -60,10 +60,10 @@ BOOST_AUTO_TEST_CASE(mem_func_const_pointer_get) {
 BOOST_AUTO_TEST_CASE(mem_func_const_scope) {
     using namespace eagine;
 
-    typedef member_function_constant<int (bar::*)(int) const, &bar::foo> fubar1;
-    typedef member_function_constant<float (bar::*)(int, float), &bar::foo>
-      fubar2;
-    typedef member_function_constant<baz& (baz::*)(), &baz::inc> incbaz;
+    using fubar1 = member_function_constant<int (bar::*)(int) const, &bar::foo>;
+    using fubar2 =
+      member_function_constant<float (bar::*)(int, float), &bar::foo>;
+    using incbaz = member_function_constant<baz& (baz::*)(), &baz::inc>;
 
     BOOST_CHECK((std::is_same<bar, fubar1::scope>::value));
     BOOST_CHECK((std::is_same<bar, fubar2::scope>::value));
@@ -76,10 +76,10 @@ BOOST_AUTO_TEST_CASE(mem_func_const_scope) {
 BOOST_AUTO_TEST_CASE(mem_func_const_make_free) {
     using namespace eagine;
 
-    typedef member_function_constant<int (bar::*)(int) const, &bar::foo> fubar1;
-    typedef member_function_constant<float (bar::*)(int, float), &bar::foo>
-      fubar2;
-    typedef member_function_constant<baz& (baz::*)(), &baz::inc> incbaz;
+    using fubar1 = member_function_constant<int (bar::*)(int) const, &bar::foo>;
+    using fubar2 =
+      member_function_constant<float (bar::*)(int, float), &bar::foo>;
+    using incbaz = member_function_constant<baz& (baz::*)(), &baz::inc>;
 
     bar br{123};
 

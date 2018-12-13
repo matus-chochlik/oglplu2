@@ -18,8 +18,8 @@ template <bool is_const>
 void eagine_test_memory_address_0() {
     using namespace eagine;
 
-    typedef const void* cptr;
-    typedef typename std::conditional<is_const, cptr, void*>::type ptr;
+    using cptr = const void*;
+    using ptr = typename std::conditional<is_const, cptr, void*>::type;
 
     memory::basic_address<is_const> bma1;
     memory::basic_address<is_const> bma2(nullptr);
@@ -77,8 +77,8 @@ template <bool is_const>
 void eagine_test_memory_address_1() {
     using namespace eagine;
 
-    typedef const void* cptr;
-    typedef typename std::conditional<is_const, cptr, void*>::type ptr;
+    using cptr = const void*;
+    using ptr = typename std::conditional<is_const, cptr, void*>::type;
 
     char c;
     int i;

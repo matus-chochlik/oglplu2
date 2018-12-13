@@ -64,12 +64,12 @@ void render_node::_init_screen() {
 
     vertex_attrib_location va_p(0);
     gl.vertex_array_attrib_pointer(
-      va_p, 2, GL.float_, false, 0, typed_nullptr<GLfloat*> + 0);
+      va_p, 2, GL.float_, false, 0, typed_nullptr<GLfloat> + 0);
     gl.enable_vertex_array_attrib(va_p);
 
     vertex_attrib_location va_c(1);
     gl.vertex_array_attrib_pointer(
-      va_c, 2, GL.float_, false, 0, typed_nullptr<GLfloat*> + 8);
+      va_c, 2, GL.float_, false, 0, typed_nullptr<GLfloat> + 8);
     gl.enable_vertex_array_attrib(va_c);
 }
 //------------------------------------------------------------------------------

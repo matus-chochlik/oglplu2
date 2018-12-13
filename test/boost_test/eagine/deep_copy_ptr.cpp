@@ -14,7 +14,7 @@ template <typename T>
 struct test_copyable {
     T value;
 
-    typedef test_copyable this_class;
+    using this_class = test_copyable;
 
     test_copyable(T v)
       : value(v) {
@@ -31,7 +31,7 @@ struct test_copyable {
 
 template <typename T>
 struct test_copyable_intf {
-    typedef test_copyable_intf this_class;
+    using this_class = test_copyable_intf;
 
     test_copyable_intf() = default;
     test_copyable_intf(const test_copyable_intf&) = default;

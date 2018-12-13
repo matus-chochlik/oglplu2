@@ -13,13 +13,11 @@
 #include <fstream>
 
 struct options {
-    typedef eagine::program_parameter<
-      eagine::valid_if_not_empty<eagine::string_view>>
-      _str_param_t;
+    using _str_param_t = eagine::program_parameter<
+      eagine::valid_if_not_empty<eagine::string_view>>;
 
-    typedef eagine::program_parameter<
-      std::vector<eagine::valid_if_not_empty<eagine::string_view>>>
-      _str_list_param_t;
+    using _str_list_param_t = eagine::program_parameter<
+      std::vector<eagine::valid_if_not_empty<eagine::string_view>>>;
 
     _str_list_param_t vertex_shader_paths;
 #ifdef GL_GEOMETRY_SHADER

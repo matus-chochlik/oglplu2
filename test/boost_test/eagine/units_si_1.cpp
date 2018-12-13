@@ -26,12 +26,12 @@ BOOST_AUTO_TEST_CASE(units_si_information_1) {
     using eagine::tagged_quantity;
     using namespace eagine::units;
 
-    typedef tagged_quantity<float, bit> q_b;
-    typedef tagged_quantity<float, byte> q_B;
-    typedef tagged_quantity<float, kilobyte> q_kB;
-    typedef tagged_quantity<float, kibibyte> q_KiB;
-    typedef tagged_quantity<float, megabyte> q_MB;
-    typedef tagged_quantity<float, mebibyte> q_MiB;
+    using q_b = tagged_quantity<float, bit>;
+    using q_B = tagged_quantity<float, byte>;
+    using q_kB = tagged_quantity<float, kilobyte>;
+    using q_KiB = tagged_quantity<float, kibibyte>;
+    using q_MB = tagged_quantity<float, megabyte>;
+    using q_MiB = tagged_quantity<float, mebibyte>;
 
     BOOST_CHECK_CLOSE(value(q_b(1)), value(q_b(q_B(1) / 8)), 0.01);
     BOOST_CHECK_CLOSE(value(q_B(1)), value(q_B(q_b(1) * 8)), 0.01);
@@ -51,12 +51,12 @@ BOOST_AUTO_TEST_CASE(units_si_angle_1) {
     using namespace eagine;
     using namespace eagine::units;
 
-    typedef tagged_quantity<float, pi_rad> q_pi_rad;
-    typedef tagged_quantity<float, radian> q_rad;
-    typedef tagged_quantity<float, degree> q_deg;
-    typedef tagged_quantity<float, gradian> q_grad;
-    typedef tagged_quantity<float, quarter> q_Q;
-    typedef tagged_quantity<float, turn> q_T;
+    using q_pi_rad = tagged_quantity<float, pi_rad>;
+    using q_rad = tagged_quantity<float, radian>;
+    using q_deg = tagged_quantity<float, degree>;
+    using q_grad = tagged_quantity<float, gradian>;
+    using q_Q = tagged_quantity<float, quarter>;
+    using q_T = tagged_quantity<float, turn>;
 
 #ifdef M_PI
     static const auto pi = M_PI;
@@ -84,10 +84,10 @@ BOOST_AUTO_TEST_CASE(units_si_mass_1) {
     using namespace eagine;
     using namespace eagine::units;
 
-    typedef tagged_quantity<float, gram> q_g;
-    typedef tagged_quantity<float, milligram> q_mg;
-    typedef tagged_quantity<float, kilogram> q_kg;
-    typedef tagged_quantity<float, tonne> q_t;
+    using q_g = tagged_quantity<float, gram>;
+    using q_mg = tagged_quantity<float, milligram>;
+    using q_kg = tagged_quantity<float, kilogram>;
+    using q_t = tagged_quantity<float, tonne>;
 
     BOOST_CHECK_CLOSE(value(q_mg(1)), value(q_mg(q_g(1) / 1000)), 0.01);
     BOOST_CHECK_CLOSE(value(q_kg(1)), value(q_kg(q_g(1) * 1000)), 0.01);
@@ -102,10 +102,10 @@ BOOST_AUTO_TEST_CASE(units_si_length_1) {
     using namespace eagine;
     using namespace eagine::units;
 
-    typedef tagged_quantity<float, meter> q_m;
-    typedef tagged_quantity<float, millimeter> q_mm;
-    typedef tagged_quantity<float, centimeter> q_cm;
-    typedef tagged_quantity<float, kilometer> q_km;
+    using q_m = tagged_quantity<float, meter>;
+    using q_mm = tagged_quantity<float, millimeter>;
+    using q_cm = tagged_quantity<float, centimeter>;
+    using q_km = tagged_quantity<float, kilometer>;
 
     BOOST_CHECK_CLOSE(value(q_mm(1)), value(q_mm(q_m(1) / 1000)), 0.01);
     BOOST_CHECK_CLOSE(value(q_m(1)), value(q_m(q_km(1) / 1000)), 0.01);
@@ -125,9 +125,9 @@ BOOST_AUTO_TEST_CASE(units_si_temperature_1) {
     using namespace eagine;
     using namespace eagine::units;
 
-    typedef tagged_quantity<float, kelvin> q_K;
-    typedef tagged_quantity<float, millikelvin> q_mK;
-    typedef tagged_quantity<float, kilokelvin> q_kK;
+    using q_K = tagged_quantity<float, kelvin>;
+    using q_mK = tagged_quantity<float, millikelvin>;
+    using q_kK = tagged_quantity<float, kilokelvin>;
 
     BOOST_CHECK_CLOSE(value(q_mK(1)), value(q_mK(q_K(1) / 1000)), 0.01);
     BOOST_CHECK_CLOSE(value(q_kK(1)), value(q_kK(q_K(1) * 1000)), 0.01);
@@ -138,8 +138,8 @@ BOOST_AUTO_TEST_CASE(units_si_luminous_intensity_1) {
     using namespace eagine;
     using namespace eagine::units;
 
-    typedef tagged_quantity<float, candela> q_cd;
-    typedef tagged_quantity<float, kilocandela> q_kcd;
+    using q_cd = tagged_quantity<float, candela>;
+    using q_kcd = tagged_quantity<float, kilocandela>;
 
     BOOST_CHECK_CLOSE(value(q_kcd(1)), value(q_kcd(q_cd(1) * 1000)), 0.01);
     BOOST_CHECK_CLOSE(value(q_cd(1)), value(q_cd(q_kcd(1) / 1000)), 0.01);
@@ -149,8 +149,8 @@ BOOST_AUTO_TEST_CASE(units_si_amount_of_substance_1) {
     using namespace eagine;
     using namespace eagine::units;
 
-    typedef tagged_quantity<float, mole> q_mol;
-    typedef tagged_quantity<float, kilomole> q_kmol;
+    using q_mol = tagged_quantity<float, mole>;
+    using q_kmol = tagged_quantity<float, kilomole>;
 
     BOOST_CHECK_CLOSE(value(q_kmol(1)), value(q_kmol(q_mol(1) * 1000)), 0.01);
     BOOST_CHECK_CLOSE(value(q_mol(1)), value(q_mol(q_kmol(1) / 1000)), 0.01);
@@ -160,11 +160,11 @@ BOOST_AUTO_TEST_CASE(units_si_time_1) {
     using namespace eagine;
     using namespace eagine::units;
 
-    typedef tagged_quantity<float, millisecond> q_ms;
-    typedef tagged_quantity<float, second> q_s;
-    typedef tagged_quantity<float, minute> q_min;
-    typedef tagged_quantity<float, hour> q_hr;
-    typedef tagged_quantity<float, day> q_D;
+    using q_ms = tagged_quantity<float, millisecond>;
+    using q_s = tagged_quantity<float, second>;
+    using q_min = tagged_quantity<float, minute>;
+    using q_hr = tagged_quantity<float, hour>;
+    using q_D = tagged_quantity<float, day>;
 
     BOOST_CHECK_CLOSE(value(q_ms(1)), value(q_ms(q_s(1) / 1000)), 0.01);
     BOOST_CHECK_CLOSE(value(q_s(1)), value(q_s(q_min(1) / 60)), 0.01);
@@ -181,8 +181,8 @@ void test_units_unit_si_2(double r) {
     for(int i = 0; i < 100; ++i) {
         double x = rg.get<double>(-10, 10);
 
-        typedef tagged_quantity<double, U1> q_U1;
-        typedef tagged_quantity<double, U2> q_U2;
+        using q_U1 = tagged_quantity<double, U1>;
+        using q_U2 = tagged_quantity<double, U2>;
 
         q_U1 q1(x);
         q_U2 q2(x / r);

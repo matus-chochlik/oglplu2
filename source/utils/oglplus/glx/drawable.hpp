@@ -16,7 +16,7 @@
 namespace oglplus {
 namespace glx {
 
-typedef x11::BaseDisplayObject<::GLXDrawable> Drawable;
+using Drawable = x11::BaseDisplayObject<::GLXDrawable>;
 
 } // namespace glx
 } // namespace oglplus

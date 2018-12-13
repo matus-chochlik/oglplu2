@@ -24,7 +24,7 @@ struct units_unit_add_tester {
     void operator()(BD) const {
         using namespace eagine::units;
 
-        typedef dimension<BD, 1> D;
+        using D = dimension<BD, 1>;
 
         unit<D, mock_system> a, b;
         unit<D, mock_system> c = a + b;
@@ -43,7 +43,7 @@ struct units_unit_sub_tester {
     void operator()(BD) const {
         using namespace eagine::units;
 
-        typedef dimension<BD, 1> D;
+        using D = dimension<BD, 1>;
 
         unit<D, mock_system> a, b;
         unit<D, mock_system> c = a - b;
@@ -63,9 +63,9 @@ struct units_unit_mul_tester {
     void operator()(BD2) const {
         using namespace eagine::units;
 
-        typedef dimension<BD1, 1> D1;
-        typedef dimension<BD2, 1> D2;
-        typedef decltype(D1() * D2()) D;
+        using D1 = dimension<BD1, 1>;
+        using D2 = dimension<BD2, 1>;
+        using D = decltype(D1() * D2());
 
         unit<D1, mock_system> a;
         unit<D2, mock_system> b;
@@ -95,9 +95,9 @@ struct units_unit_div_tester {
     void operator()(BD2) const {
         using namespace eagine::units;
 
-        typedef dimension<BD1, 1> D1;
-        typedef dimension<BD2, 1> D2;
-        typedef decltype(D1() / D2()) D;
+        using D1 = dimension<BD1, 1>;
+        using D2 = dimension<BD2, 1>;
+        using D = decltype(D1() / D2());
 
         unit<D1, mock_system> a;
         unit<D2, mock_system> b;

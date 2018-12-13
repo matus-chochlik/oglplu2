@@ -14,11 +14,11 @@
 #include <random>
 
 struct options {
-    typedef eagine::program_parameter<eagine::string_view> _str_param_t;
-    typedef eagine::valid_if_positive<GLsizei> _pos_int_t;
-    typedef eagine::program_parameter<_pos_int_t> _int_param_t;
-    typedef eagine::program_parameter_alias<_pos_int_t> _int_alias_t;
-    typedef eagine::program_option _opt_param_t;
+    using _str_param_t = eagine::program_parameter<eagine::string_view>;
+    using _pos_int_t = eagine::valid_if_positive<GLsizei>;
+    using _int_param_t = eagine::program_parameter<_pos_int_t>;
+    using _int_alias_t = eagine::program_parameter_alias<_pos_int_t>;
+    using _opt_param_t = eagine::program_option;
 
     _str_param_t output_path;
     _int_param_t components;

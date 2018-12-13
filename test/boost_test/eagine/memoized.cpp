@@ -30,7 +30,7 @@ unsigned long fib_calc(unsigned long n) {
 BOOST_AUTO_TEST_CASE(memoized_fib) {
     using namespace eagine;
 
-    typedef unsigned long N;
+    using N = unsigned long;
 
     memoized<N(N)> fib_memo([](N _n, eagine::memoized<N(N)>& m) -> N {
         if(_n < 2)
@@ -72,8 +72,8 @@ unsigned long fact_calc(unsigned n) {
 }
 
 BOOST_AUTO_TEST_CASE(memoized_fact) {
-    typedef unsigned M;
-    typedef unsigned long N;
+    using M = unsigned;
+    using N = unsigned long;
 
     using namespace eagine;
 
@@ -101,8 +101,8 @@ unsigned long exp_calc(unsigned x, unsigned e) {
 BOOST_AUTO_TEST_CASE(memoized_exp) {
     using namespace eagine;
 
-    typedef unsigned M;
-    typedef unsigned long N;
+    using M = unsigned;
+    using N = unsigned long;
 
     memoized<N(M, M)> exp_memo(
       [](M _x, M _e, eagine::memoized<N(M, M)>& m) -> N {
