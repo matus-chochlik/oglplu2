@@ -188,7 +188,7 @@ public:
     }
 
     constexpr inline iterator end() const noexcept {
-        return _addr + _size;
+        return begin() + size();
     }
 
     constexpr inline auto rbegin() const noexcept {
@@ -231,19 +231,38 @@ public:
                that.encloses(addr()) || that.encloses(end_addr());
     }
 
-    constexpr inline value_type& ref(size_type index) const noexcept {
+    inline value_type& ref(size_type index) noexcept {
+        return EAGINE_CONSTEXPR_ASSERT(index < size(), _addr[index]);
+    }
+
+    constexpr inline std::add_const_t<value_type>& ref(size_type index) const
+      noexcept {
         return EAGINE_CONSTEXPR_ASSERT(index < size(), _addr[index]);
     }
 
     template <typename Int>
-    constexpr inline std::enable_if_t<std::is_integral_v<Int>, value_type&>
-    element(Int index) const noexcept {
+    inline std::enable_if_t<std::is_integral_v<Int>, value_type&> element(
+      Int index) noexcept {
         return ref(span_size(index));
     }
 
     template <typename Int>
-    constexpr inline std::enable_if_t<std::is_integral_v<Int>, value_type&>
-    operator[](Int index) const noexcept {
+    constexpr inline std::
+      enable_if_t<std::is_integral_v<Int>, std::add_const_t<value_type>&>
+      element(Int index) const noexcept {
+        return ref(span_size(index));
+    }
+
+    template <typename Int>
+    inline std::enable_if_t<std::is_integral_v<Int>, value_type&> operator[](
+      Int index) noexcept {
+        return element(index);
+    }
+
+    template <typename Int>
+    constexpr inline std::
+      enable_if_t<std::is_integral_v<Int>, std::add_const_t<value_type>&>
+      operator[](Int index) const noexcept {
         return element(index);
     }
 

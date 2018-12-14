@@ -89,8 +89,8 @@ public:
     template <typename T, typename P, typename S>
     image_pixel_data(eagine::memory::basic_span<T, P, S> pix_view) noexcept
       : _type(pixel_data_type(GLenum(get_data_type<T>())))
-      , _pixels(pix_view.data(), span_size(pix_view.size()))
-      , _elem_size(sizeof(T)) {
+      , _pixels(as_bytes(view(pix_view)))
+      , _elem_size(span_size(sizeof(T))) {
     }
 
     image_pixel_data(

@@ -23,7 +23,7 @@ BOOST_AUTO_TEST_CASE(random_bytes_1) {
     std::vector<unsigned char> bytes(n);
     std::vector<std::size_t> counts(s, 0);
 
-    fill_with_random_bytes(bytes);
+    fill_with_random_bytes(cover(bytes));
 
     for(auto b : bytes) {
         ++counts[b];

@@ -122,7 +122,7 @@ public:
         return is_null();
     }
 
-    offset_type offset() const noexcept {
+    constexpr offset_type offset() const noexcept {
         return _offs;
     }
 
@@ -130,7 +130,7 @@ public:
         return is_null() ? address() : address(_this_addr(), _offs);
     }
 
-    const_address addr() const noexcept {
+    constexpr const_address addr() const noexcept {
         return is_null() ? address() : address(_this_addr(), _offs);
     }
 
@@ -138,7 +138,7 @@ public:
         return static_cast<pointer>(addr());
     }
 
-    const_pointer data() const noexcept {
+    constexpr const_pointer data() const noexcept {
         return static_cast<const_pointer>(addr());
     }
 
@@ -146,7 +146,7 @@ public:
         return data();
     }
 
-    const_pointer get() const noexcept {
+    constexpr const_pointer get() const noexcept {
         return data();
     }
 
@@ -154,7 +154,7 @@ public:
         return get();
     }
 
-    operator const_pointer() const noexcept {
+    constexpr operator const_pointer() const noexcept {
         return get();
     }
 
@@ -163,7 +163,7 @@ public:
         return *get();
     }
 
-    const_reference operator*() const noexcept {
+    constexpr const_reference operator*() const noexcept {
         assert(!is_null());
         return *get();
     }
@@ -173,9 +173,27 @@ public:
         return get();
     }
 
-    const_pointer operator->() const noexcept {
+    constexpr const_pointer operator->() const noexcept {
         assert(!is_null());
         return get();
+    }
+
+    basic_offset_ptr& operator++() noexcept {
+        return *this = basic_offset_ptr(get() + 1);
+    }
+
+    basic_offset_ptr& operator--() noexcept {
+        return *this = basic_offset_ptr(get() - 1);
+    }
+
+    reference operator[](offset_type index) noexcept {
+        assert(!is_null());
+        return get()[index];
+    }
+
+    constexpr const_reference operator[](offset_type index) const noexcept {
+        assert(!is_null());
+        return get()[index];
     }
 };
 //------------------------------------------------------------------------------
