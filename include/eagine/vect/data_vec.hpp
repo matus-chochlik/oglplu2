@@ -23,74 +23,74 @@ namespace vect {
 // int8_t
 template <>
 struct _vec_data<int8_t, 8> {
-    typedef int8_t type __attribute__((vector_size(8)));
+    using type __attribute__((vector_size(8))) = int8_t;
 };
 
 // int16_t
 template <>
 struct _vec_data<int16_t, 4> {
-    typedef int16_t type __attribute__((vector_size(8)));
+    using type __attribute__((vector_size(8))) = int16_t;
 };
 
 // int32_t
 template <>
 struct _vec_data<int32_t, 2> {
-    typedef int32_t type __attribute__((vector_size(8)));
+    using type __attribute__((vector_size(8))) = int32_t;
 };
 
 template <>
 struct _vec_data<int32_t, 4> {
-    typedef int32_t type __attribute__((vector_size(16)));
+    using type __attribute__((vector_size(16))) = int32_t;
 };
 
 // int64_t
 template <>
 struct _vec_data<int64_t, 2> {
-    typedef int64_t type __attribute__((vector_size(16)));
+    using type __attribute__((vector_size(16))) = int64_t;
 };
 
 template <>
 struct _vec_data<int64_t, 4> {
-    typedef int64_t type __attribute__((vector_size(32)));
+    using type __attribute__((vector_size(32))) = int64_t;
 };
 
 // float
 template <>
 struct _vec_data<float, 2> {
-    typedef float type __attribute__((vector_size(8)));
+    using type __attribute__((vector_size(8))) = float;
 };
 
 template <>
 struct _vec_data<float, 3> {
-    typedef float type __attribute__((vector_size(16)));
+    using type __attribute__((vector_size(16))) = float;
 };
 
 template <>
 struct _vec_data<float, 4> {
-    typedef float type __attribute__((vector_size(16)));
+    using type __attribute__((vector_size(16))) = float;
 };
 
 // double
 template <>
 struct _vec_data<double, 2> {
-    typedef double type __attribute__((vector_size(16)));
+    using type __attribute__((vector_size(16))) = double;
 };
 
 template <>
 struct _vec_data<double, 3> {
-    typedef double type __attribute__((vector_size(32)));
+    using type __attribute__((vector_size(32))) = double;
 };
 
 template <>
 struct _vec_data<double, 4> {
-    typedef double type __attribute__((vector_size(32)));
+    using type __attribute__((vector_size(32))) = double;
 };
 
 #elif defined(__GNUC__)
 
 template <typename T, int N>
 struct _gnuc_vec_data {
-    typedef T type __attribute__((vector_size(sizeof(T) * N)));
+    using type __attribute__((vector_size(sizeof(T) * N))) = T;
 };
 
 template <typename T>
