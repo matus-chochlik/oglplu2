@@ -28,7 +28,7 @@ void eagine_test_memory_stack_alloc_TA(std::size_t n, Alloc& a) {
 
     BOOST_CHECK(!b1.empty());
     BOOST_CHECK(b1.size() >= sz);
-    BOOST_CHECK(b1.is_aligned_to(ao));
+    BOOST_CHECK(is_aligned_to(b1.addr(), ao));
 
     BOOST_CHECK(a.has_allocated(b1, ao));
 
@@ -46,7 +46,7 @@ void eagine_test_memory_stack_alloc_TA(std::size_t n, Alloc& a) {
 
     for(memory::owned_block& blk : blks) {
         BOOST_CHECK(blks.back().size() >= span_size_of<T>());
-        BOOST_CHECK(blks.back().addr().is_aligned_to(ao));
+        BOOST_CHECK(is_aligned_to(blks.back().addr(), ao));
         BOOST_CHECK(a.has_allocated(blk, ao));
     }
 

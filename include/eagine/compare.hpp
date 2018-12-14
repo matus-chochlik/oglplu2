@@ -18,7 +18,7 @@ namespace eagine {
 //------------------------------------------------------------------------------
 template <typename L, typename R>
 struct equal_cmp_any {
-    static constexpr inline bool check(const L& l, const R& r) noexcept {
+    static constexpr inline auto check(const L& l, const R& r) noexcept {
         return l == r;
     }
 };
@@ -74,7 +74,7 @@ template <typename T>
 using cmp_decay_to_t = typename cmp_decay_to<T>::type;
 //------------------------------------------------------------------------------
 template <typename L, typename R>
-static constexpr inline bool are_equal(const L& l, const R& r) noexcept {
+static constexpr inline auto are_equal(const L& l, const R& r) noexcept {
     return equal_cmp<cmp_decay_to_t<L>, cmp_decay_to_t<R>>::check(l, r);
 }
 //------------------------------------------------------------------------------

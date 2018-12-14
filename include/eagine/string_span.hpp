@@ -53,7 +53,8 @@ public:
     template <
       typename Str,
       typename = std::enable_if_t<
-        has_span_data_member_v<Str> && has_span_size_member_v<Str>>>
+        memory::has_span_data_member_v<Str> &&
+        memory::has_span_size_member_v<Str>>>
     constexpr basic_string_span(Str& str) noexcept
       : base(static_cast<P>(str.data()), limit_cast<S>(str.size())) {
     }
@@ -61,7 +62,8 @@ public:
     template <
       typename Str,
       typename = std::enable_if_t<
-        has_span_data_member_v<Str> && has_span_size_member_v<Str>>>
+        memory::has_span_data_member_v<Str> &&
+        memory::has_span_size_member_v<Str>>>
     constexpr basic_string_span(const Str& str) noexcept
       : base(static_cast<P>(str.data()), limit_cast<S>(str.size())) {
     }

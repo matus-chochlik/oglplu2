@@ -35,7 +35,44 @@ using rebind_pointer_t = typename rebind_pointer<Ptr, U>::type;
 template <typename T, typename U>
 struct rebind_pointer<T*, U> : identity<U*> {};
 //------------------------------------------------------------------------------
-// basic_spa
+// has_span_size_member
+//------------------------------------------------------------------------------
+struct _has_span_size_member_base {
+    template <typename X, typename S = decltype(std::declval<X>().size())>
+    static bool_constant<std::is_integral_v<S>> _detect(X*);
+
+    static std::false_type _detect(...);
+};
+//------------------------------------------------------------------------------
+template <typename T>
+struct has_span_size_member
+  : public decltype(
+      _has_span_size_member_base::_detect(static_cast<T*>(nullptr))) {};
+//------------------------------------------------------------------------------
+template <typename T>
+constexpr bool has_span_size_member_v = has_span_size_member<T>::value;
+//------------------------------------------------------------------------------
+// has_span_data_member
+//------------------------------------------------------------------------------
+struct _has_span_data_member_base {
+    template <
+      typename X,
+      typename P = decltype(std::declval<X>().data()),
+      typename PT = typename std::pointer_traits<P>::element_type>
+    static std::true_type _detect(X*);
+
+    static std::false_type _detect(...);
+};
+//------------------------------------------------------------------------------
+template <typename T>
+struct has_span_data_member
+  : public decltype(
+      _has_span_data_member_base::_detect(static_cast<T*>(nullptr))) {};
+//------------------------------------------------------------------------------
+template <typename T>
+constexpr bool has_span_data_member_v = has_span_data_member<T>::value;
+//------------------------------------------------------------------------------
+// basic_span
 //------------------------------------------------------------------------------
 template <
   typename ValueType,
@@ -277,6 +314,24 @@ static constexpr inline const_span<T> view(
   std::initializer_list<T> il) noexcept {
     return view(il.begin(), il.size());
 }
+//------------------------------------------------------------------------------
+template <
+  typename C,
+  typename =
+    std::enable_if_t<has_span_data_member_v<C> && has_span_size_member_v<C>>>
+static constexpr inline auto view(C& container) noexcept {
+    return view(container.data(), container.size());
+}
+//------------------------------------------------------------------------------
+template <
+  typename C,
+  typename =
+    std::enable_if_t<has_span_data_member_v<C> && has_span_size_member_v<C>>>
+static constexpr inline auto cover(C& container) noexcept {
+    return cover(container.data(), container.size());
+}
+//------------------------------------------------------------------------------
+// accomodate
 //------------------------------------------------------------------------------
 template <typename T, typename B, typename P, typename S>
 static constexpr inline bool can_accomodate(

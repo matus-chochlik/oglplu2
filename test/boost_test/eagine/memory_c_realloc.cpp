@@ -29,7 +29,7 @@ void eagine_test_memory_c_realloc_1_T(std::size_t n) {
 
     BOOST_CHECK_EQUAL(b1.empty(), n == 0);
     BOOST_CHECK(b1.size() >= sz);
-    BOOST_CHECK(b1.is_aligned_to(ao));
+    BOOST_CHECK(is_aligned_to(b1.addr(), ao));
 
     BOOST_CHECK(!!a.has_allocated(b1, ao));
 
@@ -47,7 +47,7 @@ void eagine_test_memory_c_realloc_1_T(std::size_t n) {
     }
 
     BOOST_CHECK(blks.back().size() >= span_size_of<T>());
-    BOOST_CHECK(blks.back().is_aligned_to(ao));
+    BOOST_CHECK(is_aligned_to(blks.back().addr(), ao));
 
     for(memory::owned_block& blk : blks) {
         BOOST_CHECK(!!a.has_allocated(blk, ao));

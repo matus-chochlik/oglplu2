@@ -27,7 +27,7 @@ void eagine_test_memory_c_realloc_1_T(std::size_t n) {
 
     assert(b1.empty() != bool(n));
     assert(b1.size() >= sz);
-    assert(b1.is_aligned_to(ao));
+    assert(is_aligned_to(b1.addr(), ao));
 
     assert(!!a.has_allocated(b1, ao));
 
@@ -45,7 +45,7 @@ void eagine_test_memory_c_realloc_1_T(std::size_t n) {
     }
 
     assert(blks.back().size() >= span_size_of<T>());
-    assert(blks.back().is_aligned_to(ao));
+    assert(is_aligned_to(blks.back().addr(), ao));
 
     for(memory::owned_block& blk : blks) {
         assert(!!a.has_allocated(blk, ao));
