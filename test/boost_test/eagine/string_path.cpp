@@ -151,8 +151,8 @@ BOOST_AUTO_TEST_CASE(string_path_5) {
 
     BOOST_ASSERT(!bsp.empty());
     BOOST_CHECK_EQUAL(bsp.size(), 4);
-    BOOST_CHECK(are_equal(bsp.front(), view("")));
-    BOOST_CHECK(are_equal(bsp.back(), view("bin")));
+    BOOST_CHECK(are_equal(bsp.front(), string_view("")));
+    BOOST_CHECK(are_equal(bsp.back(), string_view("bin")));
 
     BOOST_CHECK_EQUAL(bsp.as_string("::", false), "::usr::local::bin");
 

@@ -17,8 +17,8 @@ namespace eagine {
 namespace memory {
 //------------------------------------------------------------------------------
 template <typename T, typename P, typename S>
-static constexpr inline P
-clamp_span_iterator(basic_span<T, P, S> s, P p) noexcept {
+static constexpr inline P clamp_span_iterator(
+  basic_span<T, P, S> s, P p) noexcept {
     return (p < s.begin()) ? s.begin() : (p > s.end()) ? s.end() : p;
 }
 //------------------------------------------------------------------------------
@@ -37,32 +37,32 @@ subspan(basic_span<T, P, S> s, B b, E e) noexcept {
 }
 //------------------------------------------------------------------------------
 template <typename T, typename P, typename S, typename I, typename L>
-static constexpr inline basic_span<T, P, S>
-slice(basic_span<T, P, S> s, I i, L l) noexcept {
+static constexpr inline basic_span<T, P, S> slice(
+  basic_span<T, P, S> s, I i, L l) noexcept {
     return {clamp_span_position(s, i), clamp_span_position(s, i + l)};
 }
 //------------------------------------------------------------------------------
 template <typename T, typename P, typename S, typename L>
-static constexpr inline basic_span<T, P, S>
-skip(basic_span<T, P, S> s, L l) noexcept {
+static constexpr inline basic_span<T, P, S> skip(
+  basic_span<T, P, S> s, L l) noexcept {
     return slice(s, l, s.size() - l);
 }
 //------------------------------------------------------------------------------
 template <typename T, typename P, typename S, typename L>
-static constexpr inline basic_span<T, P, S>
-snip(basic_span<T, P, S> s, L l) noexcept {
+static constexpr inline basic_span<T, P, S> snip(
+  basic_span<T, P, S> s, L l) noexcept {
     return head(s, s.size() - l);
 }
 //------------------------------------------------------------------------------
 template <typename T, typename P, typename S, typename L>
-static constexpr inline basic_span<T, P, S>
-head(basic_span<T, P, S> s, L l) noexcept {
+static constexpr inline basic_span<T, P, S> head(
+  basic_span<T, P, S> s, L l) noexcept {
     return slice(s, S(0), l);
 }
 //------------------------------------------------------------------------------
 template <typename T, typename P, typename S, typename L>
-static constexpr inline basic_span<T, P, S>
-tail(basic_span<T, P, S> s, L l) noexcept {
+static constexpr inline basic_span<T, P, S> tail(
+  basic_span<T, P, S> s, L l) noexcept {
     return skip(s, s.size() - l);
 }
 //------------------------------------------------------------------------------
@@ -73,8 +73,8 @@ template <
   typename T2,
   typename P2,
   typename S2>
-static constexpr inline bool
-starts_with(basic_span<T1, P1, S1> spn, basic_span<T2, P2, S2> with) {
+static constexpr inline bool starts_with(
+  basic_span<T1, P1, S1> spn, basic_span<T2, P2, S2> with) {
     return are_equal(head(spn, with.size()), with);
 }
 //------------------------------------------------------------------------------
@@ -85,8 +85,8 @@ template <
   typename T2,
   typename P2,
   typename S2>
-static constexpr inline bool
-ends_with(basic_span<T1, P1, S1> spn, basic_span<T2, P2, S2> with) {
+static constexpr inline bool ends_with(
+  basic_span<T1, P1, S1> spn, basic_span<T2, P2, S2> with) {
     return are_equal(tail(spn, with.size()), with);
 }
 //------------------------------------------------------------------------------
@@ -97,8 +97,8 @@ template <
   typename T2,
   typename P2,
   typename S2>
-static constexpr inline basic_span<T1, P1, S1>
-strip_prefix(basic_span<T1, P1, S1> spn, basic_span<T2, P2, S2> prefix) {
+static constexpr inline basic_span<T1, P1, S1> strip_prefix(
+  basic_span<T1, P1, S1> spn, basic_span<T2, P2, S2> prefix) {
     return starts_with(spn, prefix) ? skip(spn, prefix.size()) : spn;
 }
 //------------------------------------------------------------------------------
@@ -109,8 +109,8 @@ template <
   typename T2,
   typename P2,
   typename S2>
-static constexpr inline basic_span<T1, P1, S1>
-strip_suffix(basic_span<T1, P1, S1> spn, basic_span<T2, P2, S2> suffix) {
+static constexpr inline basic_span<T1, P1, S1> strip_suffix(
+  basic_span<T1, P1, S1> spn, basic_span<T2, P2, S2> suffix) {
     return ends_with(spn, suffix) ? snip(spn, suffix.size()) : spn;
 }
 //------------------------------------------------------------------------------
@@ -121,8 +121,8 @@ template <
   typename T2,
   typename P2,
   typename S2>
-static constexpr inline S1
-contains(basic_span<T1, P1, S1> spn, basic_span<T2, P2, S2> what) noexcept {
+static constexpr inline S1 contains(
+  basic_span<T1, P1, S1> spn, basic_span<T2, P2, S2> what) noexcept {
     for(S1 i = 0; i < spn.size(); ++i) {
         if(starts_with(skip(spn, i), what)) {
             return true;
@@ -176,8 +176,23 @@ template <
   typename T2,
   typename P2,
   typename S2>
-static inline basic_span<T1, P1, S1>
-slice_before(basic_span<T1, P1, S1> spn, basic_span<T2, P2, S2> what) {
+static inline basic_span<T1, P1, S1> find(
+  basic_span<T1, P1, S1> where, basic_span<T2, P2, S2> what) {
+    if(auto pos = find_position(where, what)) {
+        return skip(where, pos.value());
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
+template <
+  typename T1,
+  typename P1,
+  typename S1,
+  typename T2,
+  typename P2,
+  typename S2>
+static inline basic_span<T1, P1, S1> slice_before(
+  basic_span<T1, P1, S1> spn, basic_span<T2, P2, S2> what) {
     return head(spn, find_position(spn, what).value_or(spn.size()));
 }
 //------------------------------------------------------------------------------
@@ -188,8 +203,8 @@ template <
   typename T2,
   typename P2,
   typename S2>
-static inline basic_span<T1, P1, S1>
-slice_after(basic_span<T1, P1, S1> spn, basic_span<T2, P2, S2> what) {
+static inline basic_span<T1, P1, S1> slice_after(
+  basic_span<T1, P1, S1> spn, basic_span<T2, P2, S2> what) {
     return skip(
       spn, find_position(spn, what).value_or(spn.size()) + what.size());
 }
@@ -201,8 +216,8 @@ template <
   typename T2,
   typename P2,
   typename S2>
-static inline basic_span<T1, P1, S1>
-slice_before_last(basic_span<T1, P1, S1> spn, basic_span<T2, P2, S2> what) {
+static inline basic_span<T1, P1, S1> slice_before_last(
+  basic_span<T1, P1, S1> spn, basic_span<T2, P2, S2> what) {
     return head(spn, reverse_find_position(spn, what).value_or(spn.size()));
 }
 //------------------------------------------------------------------------------
@@ -213,8 +228,8 @@ template <
   typename T2,
   typename P2,
   typename S2>
-static inline basic_span<T1, P1, S1>
-slice_after_last(basic_span<T1, P1, S1> spn, basic_span<T2, P2, S2> what) {
+static inline basic_span<T1, P1, S1> slice_after_last(
+  basic_span<T1, P1, S1> spn, basic_span<T2, P2, S2> what) {
     return skip(
       spn, reverse_find_position(spn, what).value_or(spn.size()) + what.size());
 }
