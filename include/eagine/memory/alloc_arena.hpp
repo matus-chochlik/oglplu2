@@ -69,36 +69,23 @@ public:
     }
 
     template <typename T>
-    span<T>
-    make_aligned_array(const span_size_t count, const span_size_t align);
+    span<T> make_aligned_array(
+      const span_size_t count, const span_size_t align);
 
     template <typename T>
     span<T> make_array(const span_size_t count) {
         return make_aligned_array<T>(count, 1);
     }
 
-    template <typename T, typename U, span_size_t N>
-    span<T> copy_aligned_array(span<U, N> src, const span_size_t align) {
+    template <typename T, typename U>
+    span<T> copy_aligned_array(span<U> src, const span_size_t align) {
         span<T> dst = make_aligned_array<T>(src.size(), align);
         std::copy(src.begin(), src.end(), dst.begin());
         return dst;
     }
 
-    template <typename T, typename U, span_size_t N>
-    span<T> copy_array(span<U, N> src) {
-        return copy_aligned_array<T>(src, 1);
-    }
-
-    template <typename T, typename U, span_size_t N>
-    span<T>
-    copy_aligned_array(basic_string_span<U, N> src, const span_size_t align) {
-        span<T> dst = make_aligned_array<T>(src.size(), align);
-        std::copy(src.begin(), src.end(), dst.begin());
-        return dst;
-    }
-
-    template <typename T, typename U, span_size_t N>
-    span<T> copy_array(basic_string_span<U, N> src) {
+    template <typename T, typename U>
+    span<T> copy_array(span<U> src) {
         return copy_aligned_array<T>(src, 1);
     }
 

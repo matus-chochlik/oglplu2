@@ -31,7 +31,7 @@ BOOST_AUTO_TEST_CASE(string_path_1) {
 
             BOOST_CHECK_EQUAL(bsp.size(), s);
             BOOST_CHECK_EQUAL(bsp.back().size(), n.size());
-            BOOST_CHECK(bsp.back() == string_view(n));
+            BOOST_CHECK(are_equal(bsp.back(), string_view(n)));
 
             if((rg.get_int(0, 9) == 0) && !bsp.empty()) {
                 bsp.pop_back();
@@ -68,21 +68,21 @@ BOOST_AUTO_TEST_CASE(string_path_2) {
             std::string s(n, c);
             bsp.push_back(string_view(s));
 
-            BOOST_CHECK(bsp.back() == string_view(s));
+            BOOST_CHECK(are_equal(bsp.back(), string_view(s)));
             BOOST_CHECK(!bsp.empty());
         }
 
         std::stack<std::string> stk;
         bsp.for_each([&stk](basic_string_path::value_type s) {
             stk.push(std::string(s.begin(), s.end()));
-            BOOST_CHECK(s == string_view(stk.top()));
+            BOOST_CHECK(are_equal(s, string_view(stk.top())));
         });
 
         BOOST_CHECK_EQUAL(bsp.size(), stk.size());
 
         bsp.rev_for_each([&stk](basic_string_path::value_type s) {
             BOOST_ASSERT(!stk.empty());
-            BOOST_CHECK(s == string_view(stk.top()));
+            BOOST_CHECK(are_equal(s, string_view(stk.top())));
             stk.pop();
         });
 
@@ -102,21 +102,21 @@ BOOST_AUTO_TEST_CASE(string_path_3) {
             std::string s(n, c);
             bsp.push_back(string_view(s));
 
-            BOOST_CHECK(bsp.back() == string_view(s));
+            BOOST_CHECK(are_equal(bsp.back(), string_view(s)));
             BOOST_CHECK(!bsp.empty());
         }
 
         std::stack<std::string> stk;
         for(auto p = bsp.begin(); p != bsp.end(); ++p) {
             stk.push(std::string((*p).begin(), p->end()));
-            BOOST_CHECK(*p == string_view(stk.top()));
+            BOOST_CHECK(are_equal(*p, string_view(stk.top())));
         }
 
         BOOST_CHECK_EQUAL(bsp.size(), stk.size());
 
         for(auto p = bsp.rbegin(); p != bsp.rend(); ++p) {
             BOOST_ASSERT(!stk.empty());
-            BOOST_CHECK(*p == string_view(stk.top()));
+            BOOST_CHECK(are_equal(*p, string_view(stk.top())));
             stk.pop();
         }
         BOOST_CHECK(stk.empty());
@@ -151,8 +151,8 @@ BOOST_AUTO_TEST_CASE(string_path_5) {
 
     BOOST_ASSERT(!bsp.empty());
     BOOST_CHECK_EQUAL(bsp.size(), 4);
-    BOOST_CHECK(bsp.front() == "");
-    BOOST_CHECK(bsp.back() == "bin");
+    BOOST_CHECK(are_equal(bsp.front(), view("")));
+    BOOST_CHECK(are_equal(bsp.back(), view("bin")));
 
     BOOST_CHECK_EQUAL(bsp.as_string("::", false), "::usr::local::bin");
 

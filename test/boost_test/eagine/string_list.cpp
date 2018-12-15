@@ -36,7 +36,7 @@ BOOST_AUTO_TEST_CASE(string_list_elem_1) {
     BOOST_CHECK_EQUAL(e1.header_size(), 1);
     BOOST_CHECK_EQUAL(e1.footer_size(), 1);
     BOOST_CHECK_EQUAL(e1.value_size(), 1);
-    BOOST_CHECK(e1.value() == string_view("A"));
+    BOOST_CHECK(are_equal(e1.value(), string_view("A")));
 }
 
 BOOST_AUTO_TEST_CASE(string_list_elem_2) {
@@ -66,7 +66,7 @@ BOOST_AUTO_TEST_CASE(string_list_elem_2) {
     BOOST_CHECK_EQUAL(e2.header_size(), 1);
     BOOST_CHECK_EQUAL(e2.footer_size(), 1);
     BOOST_CHECK_EQUAL(e2.value_size(), 16);
-    BOOST_CHECK(e2.value() == string_view("ABCDEFGHIJKLMNOP"));
+    BOOST_CHECK(are_equal(e2.value(), string_view("ABCDEFGHIJKLMNOP")));
 }
 
 BOOST_AUTO_TEST_CASE(string_list_elem_3) {
@@ -95,7 +95,7 @@ BOOST_AUTO_TEST_CASE(string_list_elem_3) {
     BOOST_CHECK_EQUAL(e3.value_size(), 128);
 
     std::string ss3(128, 'x');
-    BOOST_CHECK(e3.value() == string_view(ss3));
+    BOOST_CHECK(are_equal(e3.value(), string_view(ss3)));
 }
 
 BOOST_AUTO_TEST_CASE(string_list_for_each_elem_1) {

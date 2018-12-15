@@ -288,12 +288,12 @@ using const_span = span<std::add_const_t<T>>;
 //------------------------------------------------------------------------------
 template <typename T>
 static constexpr inline const_span<T> viewOne(const T& value) noexcept {
-    return {std::addressof(value), span_size(sizeof(value))};
+    return {std::addressof(value), span_size(1)};
 }
 //------------------------------------------------------------------------------
 template <typename T>
 static constexpr inline span_if_mutable<T> coverOne(T& value) noexcept {
-    return {std::addressof(value), span_size(sizeof(value))};
+    return {std::addressof(value), span_size(1)};
 }
 //------------------------------------------------------------------------------
 template <typename T, typename S>

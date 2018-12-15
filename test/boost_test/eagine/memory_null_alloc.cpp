@@ -24,7 +24,7 @@ void eagine_test_memory_null_alloc_1_T(std::size_t n) {
     memory::owned_block b1 = na.allocate(sz, ao);
 
     BOOST_CHECK(b1.empty());
-    BOOST_CHECK(b1.is_aligned_to(ao));
+    BOOST_CHECK(is_aligned_to(b1.addr(), ao));
 
     BOOST_CHECK(!!na.has_allocated(b1, ao));
 

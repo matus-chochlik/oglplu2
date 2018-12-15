@@ -19,16 +19,17 @@ static eagine::test_random_generator rg;
 template <typename T>
 void eagine_test_memory_align_alloc_T(std::size_t n) {
     using namespace eagine;
+    using eagine::memory::cover;
 
     std::vector<char> buf1(32 * 1024);
     std::vector<char> buf2(64 * 1024);
     std::vector<char> buf4(128 * 1024);
     std::vector<char> buf8(256 * 1024);
 
-    memory::block blk1(buf1.data(), span_size(buf1.size()));
-    memory::block blk2(buf2.data(), span_size(buf2.size()));
-    memory::block blk4(buf4.data(), span_size(buf4.size()));
-    memory::block blk8(buf8.data(), span_size(buf8.size()));
+    memory::block blk1(as_bytes(cover(buf1)));
+    memory::block blk2(as_bytes(cover(buf2)));
+    memory::block blk4(as_bytes(cover(buf4)));
+    memory::block blk8(as_bytes(cover(buf8)));
 
     memory::multi_align_byte_allocator<std::index_sequence<1, 2, 4, 8>> a(
       memory::stack_aligned_byte_allocator<>(blk1, 1),
@@ -45,7 +46,7 @@ void eagine_test_memory_align_alloc_T(std::size_t n) {
 
     BOOST_CHECK(!b1.empty());
     BOOST_CHECK(b1.size() >= sz);
-    BOOST_CHECK(b1.is_aligned_to(ao));
+    BOOST_CHECK(is_aligned_to(b1.addr(), ao));
 
     BOOST_CHECK(a.has_allocated(b1, ao));
 
@@ -63,7 +64,7 @@ void eagine_test_memory_align_alloc_T(std::size_t n) {
 
     for(memory::owned_block& blk : blks) {
         BOOST_CHECK(blks.back().size() >= span_size_of<T>());
-        BOOST_CHECK(blks.back().is_aligned_to(ao));
+        BOOST_CHECK(is_aligned_to(blks.back().addr(), ao));
         BOOST_CHECK(!!a.has_allocated(blk, ao));
     }
 

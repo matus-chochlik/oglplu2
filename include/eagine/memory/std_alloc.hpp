@@ -78,7 +78,7 @@ public:
             throw std::bad_alloc();
         }
 
-        assert(b.is_aligned_to(span_align_of<T>()));
+        assert(is_aligned_to(b.addr(), span_align_of<T>()));
         assert(b.size() >= span_size_of<T>(n));
 
         T* p = static_cast<T*>(b.addr());
@@ -90,7 +90,8 @@ public:
 
     void deallocate(T* p, size_type n) {
         _sba.deallocate(
-          acquire_block({p, span_size_of<T>(n)}), span_align_of<T>());
+          acquire_block(as_bytes(cover(p, span_size_of<T>(n)))),
+          span_align_of<T>());
     }
 
     friend bool operator==(

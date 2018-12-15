@@ -20,7 +20,7 @@ inline block basic_allocation_arena<Alloc>::_do_allocate(
         return {};
     }
 
-    assert(b.is_aligned_to(align));
+    assert(is_aligned_to(b.addr(), align));
     assert(b.size() >= size);
 
     _blks.push_back(std::move(b));
@@ -57,8 +57,8 @@ inline T* basic_allocation_arena<Alloc>::_make_n(
 //------------------------------------------------------------------------------
 template <typename Alloc>
 template <typename T, typename... Args>
-inline T*
-basic_allocation_arena<Alloc>::_make_1(const span_size_t align, Args&&... a) {
+inline T* basic_allocation_arena<Alloc>::_make_1(
+  const span_size_t align, Args&&... a) {
     return new(_allocate<T>(1, align).data()) T(std::forward<Args>(a)...);
 }
 //------------------------------------------------------------------------------

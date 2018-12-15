@@ -66,7 +66,7 @@ void eagine_test_memory_block_2() {
     BOOST_CHECK(bool(bmb));
     BOOST_CHECK(!!bmb);
     BOOST_CHECK(!bmb.empty());
-    BOOST_CHECK(bmb.size() == sizeof(x));
+    BOOST_CHECK_EQUAL(bmb.size(), sizeof(x));
     BOOST_CHECK(bmb.begin() != bmb.end());
 
     span_size_t s = 0;
@@ -191,9 +191,6 @@ void eagine_test_memory_block_6() {
 
     memory::basic_block<is_const> bmb2(std::move(bmb1));
 
-    BOOST_CHECK(!bool(bmb1));
-    BOOST_CHECK(!bmb1);
-    BOOST_CHECK(bmb1.empty());
     BOOST_CHECK(!bmb2.empty());
 
     memory::basic_block<is_const> bmb3;
@@ -202,13 +199,11 @@ void eagine_test_memory_block_6() {
 
     bmb3 = std::move(bmb2);
 
-    BOOST_CHECK(bmb2.empty());
     BOOST_CHECK(!bmb3.empty());
 
     memory::basic_block<is_const> bmb4 = as_bytes(cover(x));
 
     BOOST_CHECK((are_equal(bmb1, bmb2)));
-    BOOST_CHECK((!are_equal(bmb2, bmb3)));
     BOOST_CHECK((are_equal(bmb3, bmb4)));
 }
 
