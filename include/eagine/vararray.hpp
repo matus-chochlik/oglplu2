@@ -35,13 +35,11 @@ public:
     }
 
 private:
-    const size_type _size;
-    value_type _data[1];
+    const size_type _size = 0;
+    value_type _data[1] = {};
 
 public:
-    constexpr basic_vararray()
-      : _size(0) {
-    }
+    constexpr basic_vararray() noexcept = default;
 
     static std::size_t instance_size(size_type n) noexcept {
         return alloc_unit_c(n) * sizeof(alloc_unit_t);
@@ -82,13 +80,11 @@ using vararray = basic_vararray<T, std::size_t>;
 template <typename T, typename S, S N>
 class basic_vararray_store {
 private:
-    const S _size;
-    T _data[N];
+    const S _size = N;
+    T _data[N] = {};
 
 public:
-    constexpr basic_vararray_store() noexcept
-      : _size(N) {
-    }
+    constexpr basic_vararray_store() noexcept = default;
 
     operator basic_vararray<T, S>&() {
         return *reinterpret_cast<basic_vararray<T, S>*>(this);
