@@ -16,7 +16,6 @@
 #include <cassert>
 #include <map>
 #include <string>
-#include <vector>
 
 namespace eagine {
 
@@ -29,11 +28,6 @@ std::string substitute_variables(
   const std::string& str,
   span<const std::string> strings,
   bool keep_untranslated = false);
-
-inline std::string substitute_variables(
-  const std::string& str, const std::vector<std::string>& strings) {
-    return substitute_variables(str, view(strings));
-}
 
 std::string substitute_variables(
   const std::string& str,

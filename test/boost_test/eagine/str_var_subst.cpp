@@ -141,7 +141,8 @@ BOOST_AUTO_TEST_CASE(str_var_subst_4) {
 BOOST_AUTO_TEST_CASE(str_var_subst_5) {
     using namespace eagine;
 
-    std::vector<std::string> ss{"A", "B", "C", "D", "E"};
+    std::vector<std::string> ssv{"A", "B", "C", "D", "E"};
+    auto ss = view(ssv);
 
     BOOST_CHECK_EQUAL(substitute_variables(std::string(), ss), std::string());
 
