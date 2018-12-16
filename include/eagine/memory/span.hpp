@@ -272,6 +272,11 @@ private:
 };
 //------------------------------------------------------------------------------
 template <typename T, typename P, typename S>
+constexpr bool is_zero_terminated(basic_span<T, P, S> spn) noexcept {
+    return spn.empty() ? false : *spn.end() == T(0);
+}
+//------------------------------------------------------------------------------
+template <typename T, typename P, typename S>
 static constexpr inline basic_span<T, T*, S> absolute(
   basic_span<T, P, S> spn) noexcept {
     return {spn};

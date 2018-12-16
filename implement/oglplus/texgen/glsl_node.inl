@@ -31,15 +31,15 @@ slot_data_type glsl_output::value_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-glsl_output::definitions(std::ostream& out, compile_context& ctxt) {
+std::ostream& glsl_output::definitions(
+  std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt))
         return out;
 
     input_defs(out, ctxt);
     opening_expr(out, ctxt);
 
-    std::map<std::string, std::string> dict;
+    std::map<std::string, std::string, eagine::str_view_less> dict;
 
     dict["NORMALIZED_COORDS"] = "oglptg_nc";
     dict["NC"] = "oglptg_nc";

@@ -72,13 +72,6 @@ public:
     using base::empty;
     using base::size;
 
-    constexpr bool is_zero_terminated() const noexcept {
-        if(empty()) {
-            return false;
-        }
-        return data()[size()] == C(0);
-    }
-
     constexpr std_view_type std_view() const {
         return {data(), std_size_t(size())};
     }
@@ -92,12 +85,58 @@ public:
     }
 };
 //------------------------------------------------------------------------------
+using string_span = basic_string_span<char>;
+using string_view = basic_string_span<const char>;
+//------------------------------------------------------------------------------
+template <typename C, typename P, typename S>
+static constexpr inline std::basic_string_view<std::remove_const_t<C>> std_view(
+  memory::basic_span<C, P, S> spn) noexcept {
+    return {spn.data(), std_size_t(spn.size())};
+}
+//------------------------------------------------------------------------------
+template <typename C, typename P, typename S>
+static constexpr inline std::basic_string<std::remove_const_t<C>> to_string(
+  memory::basic_span<C, P, S> spn) noexcept {
+    return {spn.data(), std_size_t(spn.size())};
+}
+//------------------------------------------------------------------------------
+template <typename C, typename T, typename A, typename P, typename S>
+static constexpr inline std::basic_string<C, T, A>& append_to(
+  std::basic_string<C, T, A>& str,
+  memory::basic_span<const C, P, S> spn) noexcept {
+    str.append(spn.data(), std_size(spn.size()));
+    return str;
+}
+//------------------------------------------------------------------------------
+// are_equal helper
+//------------------------------------------------------------------------------
 template <typename T, typename P, typename S>
 struct cmp_decay_to<basic_string_span<T, P, S>>
   : identity<memory::basic_span<T, P, S>> {};
 //------------------------------------------------------------------------------
-using string_span = basic_string_span<char>;
-using string_view = basic_string_span<const char>;
+// less
+//------------------------------------------------------------------------------
+template <typename Str, typename Spn>
+struct basic_str_view_less {
+    using is_transparent = std::true_type;
+
+    constexpr inline bool operator()(const Str& l, const Str& r) const
+      noexcept {
+        return l < r;
+    }
+
+    constexpr inline bool operator()(const Str& l, Spn r) const noexcept {
+        return std::strncmp(l.data(), r.data(), std_size(r.size())) < 0;
+    }
+
+    constexpr inline bool operator()(Spn l, const Str& r) const noexcept {
+        return std::strncmp(l.data(), r.data(), std_size(l.size())) < 0;
+    }
+};
+//------------------------------------------------------------------------------
+using str_view_less = basic_str_view_less<std::string, string_view>;
+//------------------------------------------------------------------------------
+// c_str
 //------------------------------------------------------------------------------
 template <typename C, typename P, typename S>
 class basic_c_str {
@@ -105,8 +144,8 @@ public:
     using string_type = std::basic_string<std::remove_const_t<C>>;
 
     constexpr basic_c_str(basic_string_span<C, P, S> s)
-      : _span{s}
-      , _str{s.is_zero_terminated() ? string_type{} : s.to_string()} {
+      : _span{is_zero_terminated(s) ? s : basic_string_span<C, P, S>{}}
+      , _str{is_zero_terminated(s) ? string_type{} : s.to_string()} {
     }
 
     constexpr P c_str() const noexcept {

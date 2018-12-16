@@ -13,7 +13,7 @@ BOOST_AUTO_TEST_SUITE(str_var_subst_tests)
 BOOST_AUTO_TEST_CASE(str_var_subst_1) {
     using namespace eagine;
 
-    std::map<std::string, std::string> empty;
+    std::map<std::string, std::string, str_view_less> empty;
 
     BOOST_CHECK_EQUAL(
       substitute_variables(std::string(), empty), std::string());
@@ -34,7 +34,7 @@ BOOST_AUTO_TEST_CASE(str_var_subst_1) {
 BOOST_AUTO_TEST_CASE(str_var_subst_2) {
     using namespace eagine;
 
-    std::map<std::string, std::string> dict;
+    std::map<std::string, std::string, str_view_less> dict;
     dict["A"] = "1";
     dict["B"] = "2";
     dict["C"] = "3";
@@ -66,12 +66,15 @@ BOOST_AUTO_TEST_CASE(str_var_subst_2) {
       substitute_variables(std::string("{${E}+${F}}"), dict),
       std::string("{+}"));
 
+    variable_substitution_options opts;
+    opts.keep_untranslated = false;
     BOOST_CHECK_EQUAL(
-      substitute_variables(std::string("{${E}+${F}}"), dict, false),
+      substitute_variables(std::string("{${E}+${F}}"), dict, opts),
       std::string("{+}"));
 
+    opts.keep_untranslated = true;
     BOOST_CHECK_EQUAL(
-      substitute_variables(std::string("{${E}+${F}}"), dict, true),
+      substitute_variables(std::string("{${E}+${F}}"), dict, opts),
       std::string("{${E}+${F}}"));
 
     BOOST_CHECK_EQUAL(
@@ -79,18 +82,19 @@ BOOST_AUTO_TEST_CASE(str_var_subst_2) {
       std::string("1_2-3+4"));
 
     BOOST_CHECK_EQUAL(
-      substitute_variables(std::string("${A}_${E}_${D}"), dict, true),
+      substitute_variables(std::string("${A}_${E}_${D}"), dict, opts),
       std::string("1_${E}_4"));
 
+    opts.keep_untranslated = false;
     BOOST_CHECK_EQUAL(
-      substitute_variables(std::string("${A}_${E}_${D}"), dict, false),
+      substitute_variables(std::string("${A}_${E}_${D}"), dict, opts),
       std::string("1__4"));
 }
 
 BOOST_AUTO_TEST_CASE(str_var_subst_3) {
     using namespace eagine;
 
-    std::map<std::string, std::string> dict;
+    std::map<std::string, std::string, str_view_less> dict;
     dict["A"] = "1";
     dict["B"] = "2";
     dict["1+2"] = "C";
@@ -154,8 +158,10 @@ BOOST_AUTO_TEST_CASE(str_var_subst_5) {
       substitute_variables(std::string("${1}${3}${5}${7}"), ss),
       std::string("ACE"));
 
+    variable_substitution_options opts;
+    opts.keep_untranslated = true;
     BOOST_CHECK_EQUAL(
-      substitute_variables(std::string("${1}${3}${5}${7}"), ss, true),
+      substitute_variables(std::string("${1}${3}${5}${7}"), ss, opts),
       std::string("ACE${7}"));
 
     BOOST_CHECK_EQUAL(
@@ -166,7 +172,7 @@ BOOST_AUTO_TEST_CASE(str_var_subst_5) {
       substitute_variables(std::string("${7}${11}${13}"), ss), std::string());
 
     BOOST_CHECK_EQUAL(
-      substitute_variables(std::string("${7}${11}${13}"), ss, true),
+      substitute_variables(std::string("${7}${11}${13}"), ss, opts),
       std::string("${7}${11}${13}"));
 
     BOOST_CHECK_EQUAL(

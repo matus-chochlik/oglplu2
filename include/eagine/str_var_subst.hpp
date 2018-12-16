@@ -7,36 +7,48 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_STR_VAR_SUBST_1509260923_HPP
-#define EAGINE_STR_VAR_SUBST_1509260923_HPP
+#ifndef EAGINE_STR_VAR_SUBST_HPP
+#define EAGINE_STR_VAR_SUBST_HPP
 
 #include "callable_ref.hpp"
 #include "config/basic.hpp"
-#include "span.hpp"
-#include <cassert>
+#include "string_span.hpp"
 #include <map>
 #include <string>
 
 namespace eagine {
-
+//------------------------------------------------------------------------------
+struct variable_substitution_options {
+    bool keep_untranslated = false;
+    char leading_sign = '$';
+    char opening_bracket = '{';
+    char closing_bracket = '}';
+};
+//------------------------------------------------------------------------------
+std::string& substitute_variables_into(
+  std::string& dst,
+  string_view src,
+  const callable_ref<optionally_valid<string_view>(string_view)>& translate,
+  variable_substitution_options = {});
+//------------------------------------------------------------------------------
 std::string substitute_variables(
-  const std::string& str,
-  const callable_ref<std::string(const std::string&)>& translate,
-  bool keep_untranslated = false);
-
+  string_view src,
+  const callable_ref<optionally_valid<string_view>(string_view)>& translate,
+  variable_substitution_options = {});
+//------------------------------------------------------------------------------
 std::string substitute_variables(
   const std::string& str,
   span<const std::string> strings,
-  bool keep_untranslated = false);
-
+  variable_substitution_options = {});
+//------------------------------------------------------------------------------
 std::string substitute_variables(
   const std::string& str,
-  const std::map<std::string, std::string>& dictionary,
-  bool keep_untranslated = false);
-
+  const std::map<std::string, std::string, str_view_less>& dictionary,
+  variable_substitution_options = {});
+//------------------------------------------------------------------------------
 class string_variable_map {
 private:
-    std::map<std::string, std::string> _dict;
+    std::map<std::string, std::string, str_view_less> _dict;
 
 public:
     string_variable_map& set(std::string name, std::string value) {
@@ -52,25 +64,11 @@ public:
         return substitute_variables(str, _dict);
     }
 };
-
-class environment_variable_map {
-private:
-    static std::string _translate(const std::string&);
-
-public:
-    std::string subst_variables(const std::string& str) const {
-        return substitute_variables(str, _translate);
-    }
-
-    std::string operator()(const std::string& str) const {
-        return substitute_variables(str, _translate);
-    }
-};
-
+//------------------------------------------------------------------------------
 } // namespace eagine
 
 #if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)
 #include <eagine/str_var_subst.inl>
 #endif
 
-#endif // include guard
+#endif // EAGINE_STR_VAR_SUBST_HPP

@@ -55,6 +55,12 @@ static constexpr inline basic_span<T, P, S> snip(
 }
 //------------------------------------------------------------------------------
 template <typename T, typename P, typename S, typename L>
+static constexpr inline basic_span<T, P, S> shrink(
+  basic_span<T, P, S> s, L l) noexcept {
+    return snip(skip(s, l), l);
+}
+//------------------------------------------------------------------------------
+template <typename T, typename P, typename S, typename L>
 static constexpr inline basic_span<T, P, S> head(
   basic_span<T, P, S> s, L l) noexcept {
     return slice(s, S(0), l);
@@ -150,6 +156,19 @@ static constexpr inline optionally_valid<S1> find_position(
     return {};
 }
 //------------------------------------------------------------------------------
+template <typename T, typename P, typename S, typename E>
+static constexpr inline optionally_valid<S> find_element(
+  basic_span<T, P, S> spn, E what) noexcept {
+    auto pos = S(0);
+    while(pos < spn.size()) {
+        if(are_equal(spn[pos], what)) {
+            return {pos, true};
+        }
+        ++pos;
+    }
+    return {};
+}
+//------------------------------------------------------------------------------
 template <
   typename T1,
   typename P1,
@@ -232,6 +251,28 @@ static inline basic_span<T1, P1, S1> slice_after_last(
   basic_span<T1, P1, S1> spn, basic_span<T2, P2, S2> what) {
     return skip(
       spn, reverse_find_position(spn, what).value_or(spn.size()) + what.size());
+}
+//------------------------------------------------------------------------------
+template <typename T, typename P, typename S, typename B>
+static inline basic_span<T, P, S> slice_inside_brackets(
+  basic_span<T, P, S> spn, B left, B right) noexcept {
+
+    if(auto found = find_element(spn, left)) {
+        spn = skip(spn, found.value());
+        int depth = 1;
+        auto pos = S(1);
+        while((pos < spn.size()) && (depth > 0)) {
+            if(are_equal(spn[pos], left)) {
+                ++depth;
+            } else if(are_equal(spn[pos], right)) {
+                --depth;
+            }
+            ++pos;
+        }
+        return shrink(head(spn, pos), 1);
+    }
+
+    return {};
 }
 //------------------------------------------------------------------------------
 template <
