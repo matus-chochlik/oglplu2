@@ -24,7 +24,7 @@ const char** example_args::argv() const noexcept {
     return _args.argv();
 }
 
-string_view example_args::command() const noexcept {
+string_view example_args::command() const noexcept { // NOLINT
     return _args.command();
 }
 

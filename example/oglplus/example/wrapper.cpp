@@ -21,8 +21,8 @@
 namespace oglplus {
 
 std::vector<char>& example_wrapper::pixels() {
-    std::size_t size =
-      std::size_t(_state.height().get() * _state.width().get() * 4);
+    const auto size =
+      std_size(_state.height().get() * _state.width().get() * 4);
 
     if(_pixel_data.size() < size) {
         _pixel_data.resize(size);

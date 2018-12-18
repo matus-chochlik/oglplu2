@@ -79,7 +79,7 @@ void write_output(std::ostream& output, const options& opts) {
     }
     const GLsizei channels = has_r3g3b2 ? 1 : 3;
 
-    const auto size = eagine::span_size_t(
+    const auto size = eagine::span_size(
       opts.width.value() * opts.height.value() * opts.depth.value() * channels);
 
     oglplus::write_and_pad_texture_image_data_header(output, hdr, size);
@@ -108,17 +108,21 @@ void write_output(std::ostream& output, const options& opts) {
 int parse_options(int argc, const char** argv, options& opts);
 
 int main(int argc, const char** argv) {
-    options opts;
+    try {
+        options opts;
 
-    if(int err = parse_options(argc, argv, opts)) {
-        return err;
-    }
+        if(int err = parse_options(argc, argv, opts)) {
+            return err;
+        }
 
-    if(are_equal(opts.output_path.value(), eagine::string_view("-"))) {
-        write_output(std::cout, opts);
-    } else {
-        std::ofstream output_file(c_str(opts.output_path.value()));
-        write_output(output_file, opts);
+        if(are_equal(opts.output_path.value(), eagine::string_view("-"))) {
+            write_output(std::cout, opts);
+        } else {
+            std::ofstream output_file(c_str(opts.output_path.value()));
+            write_output(output_file, opts);
+        }
+    } catch(std::exception& err) {
+        std::cerr << "error: " << err.what() << std::endl;
     }
     return 0;
 }

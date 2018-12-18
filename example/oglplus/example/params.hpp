@@ -65,24 +65,22 @@ public:
 
     bool is_readable_file(string_view path) const noexcept;
 
-    eagine::valid_if_not_empty<std::string>
-    find_resource_file_path(string_view res_group, string_view res_name) const
-      noexcept;
+    eagine::valid_if_not_empty<std::string> find_resource_file_path(
+      string_view res_group, string_view res_name) const;
 
-    eagine::valid_if_not_empty<std::string>
-    find_resource_file_path(string_view res_name) const noexcept {
+    eagine::valid_if_not_empty<std::string> find_resource_file_path(
+      string_view res_name) const {
         return find_resource_file_path(string_view(), res_name);
     }
 
-    eagine::valid_if_not_empty<std::string>
-    find_resource_file_path(example_resource_type, string_view res_name) const
-      noexcept;
+    eagine::valid_if_not_empty<std::string> find_resource_file_path(
+      example_resource_type, string_view res_name) const;
 
-    std::string
-    get_resource_file_path(example_resource_type, string_view res_name) const;
+    std::string get_resource_file_path(
+      example_resource_type, string_view res_name) const;
 
-    example_params&
-    screenshot_path(eagine::valid_if_not_empty<string_view> path) {
+    example_params& screenshot_path(
+      eagine::valid_if_not_empty<string_view> path) {
         _screenshot_path = path.value();
         return *this;
     }
@@ -104,8 +102,8 @@ public:
         return seconds_(_screenshot_time);
     }
 
-    example_params&
-    framedump_prefix(eagine::valid_if_not_empty<string_view> prefix) {
+    example_params& framedump_prefix(
+      eagine::valid_if_not_empty<string_view> prefix) {
         _framedump_prefix = prefix.value();
         return *this;
     }

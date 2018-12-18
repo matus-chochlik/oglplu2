@@ -11,7 +11,16 @@ if(OPENAL_FOUND)
 	)
 
 	add_library(oalplus EXCLUDE_FROM_ALL ${OALPLUS_LIB_SOURCES})
-	set_property(TARGET oalplus PROPERTY FOLDER "Library/OALplus")
+	set_properties(
+		oalplus
+		PROPERTIES FOLDER "Library/OALplus"
+	)
+	if(CLANG_TIDY_PROG)
+		set_target_properties(
+			oalplus
+			PROPERTIES CXX_CLANG_TIDY "${CLANG_TIDY_PROG}"
+		)
+	endif()
 
 	target_link_libraries(oalplus eagine)
 endif()

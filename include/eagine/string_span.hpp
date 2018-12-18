@@ -96,14 +96,13 @@ static constexpr inline std::basic_string_view<std::remove_const_t<C>> std_view(
 //------------------------------------------------------------------------------
 template <typename C, typename P, typename S>
 static constexpr inline std::basic_string<std::remove_const_t<C>> to_string(
-  memory::basic_span<C, P, S> spn) noexcept {
+  memory::basic_span<C, P, S> spn) {
     return {spn.data(), std_size_t(spn.size())};
 }
 //------------------------------------------------------------------------------
 template <typename C, typename T, typename A, typename P, typename S>
 static constexpr inline std::basic_string<C, T, A>& append_to(
-  std::basic_string<C, T, A>& str,
-  memory::basic_span<const C, P, S> spn) noexcept {
+  std::basic_string<C, T, A>& str, memory::basic_span<const C, P, S> spn) {
     str.append(spn.data(), std_size(spn.size()));
     return str;
 }

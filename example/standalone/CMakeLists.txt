@@ -23,10 +23,10 @@ function(standalone_example_common EXAMPLE_NAME)
 		target_link_libraries(${EXAMPLE_NAME} ${${DEP}_LIBRARIES})
 	endforeach()
 
-	if(CLANG_TIDY_EXE)
+	if(CLANG_TIDY_PROG)
 		set_property(
 			TARGET ${EXAMPLE_NAME}
-			PROPERTY CXX_CLANG_TIDY "${CLANG_TIDY_EXE}"
+			PROPERTY CXX_CLANG_TIDY "${CLANG_TIDY_PROG}"
 		)
 	endif()
 

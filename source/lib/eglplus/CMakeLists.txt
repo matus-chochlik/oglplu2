@@ -11,7 +11,16 @@ if(EGL_FOUND)
 	)
 
 	add_library(eglplus EXCLUDE_FROM_ALL ${EGLPLUS_LIB_SOURCES})
-	set_property(TARGET eglplus PROPERTY FOLDER "Library/EGLplus")
+	set_target_properties(
+		eglplus
+		PROPERTIES FOLDER "Library/EGLplus"
+	)
+	if(CLANG_TIDY_PROG)
+		set_target_properties(
+			eglplus
+			PROPERTIES CXX_CLANG_TIDY "${CLANG_TIDY_PROG}"
+		)
+	endif()
 
 	target_link_libraries(eglplus eagine)
 endif()

@@ -68,8 +68,8 @@ private:
         return true;
     }
 
-    template <typename X, typename P>
-    static inline bool _is_valid(const valid_if<X, P>& vi) noexcept {
+    template <typename X, typename P, typename L>
+    static inline bool _is_valid(const valid_if<X, P, L>& vi) noexcept {
         return vi.is_valid();
     }
 
@@ -77,9 +77,9 @@ private:
     static inline void _log_invalid(const X&, const std::ostream&) noexcept {
     }
 
-    template <typename X, typename P>
+    template <typename X, typename P, typename L>
     static inline void _log_invalid(
-      const valid_if<X, P>& vi, std::ostream& log) noexcept {
+      const valid_if<X, P, L>& vi, std::ostream& log) noexcept {
         vi.log_invalid(log);
     }
 
@@ -93,13 +93,13 @@ private:
         return val;
     }
 
-    template <typename X, typename P>
-    static X& _get_value(valid_if<X, P>& vi) noexcept {
+    template <typename X, typename P, typename L>
+    static X& _get_value(valid_if<X, P, L>& vi) noexcept {
         return vi.value();
     }
 
-    template <typename X, typename P>
-    static const X& _get_value(const valid_if<X, P>& vi) noexcept {
+    template <typename X, typename P, typename L>
+    static const X& _get_value(const valid_if<X, P, L>& vi) noexcept {
         return vi.value();
     }
 
@@ -234,9 +234,9 @@ private:
         return true;
     }
 
-    template <typename T, typename P>
-    bool _do_parse(valid_if<T, P>& dest, std::ostream& parse_log) {
-        T value;
+    template <typename T, typename P, typename L>
+    bool _do_parse(valid_if<T, P, L>& dest, std::ostream& parse_log) {
+        T value = {};
         if(parse(value, parse_log)) {
             if(dest.is_valid(value)) {
                 dest = std::move(value);
@@ -417,13 +417,18 @@ public:
         return false;
     }
 
-    template <typename T, typename P, class MissingFunc, class InvalidFunc>
+    template <
+      typename T,
+      typename P,
+      typename L,
+      class MissingFunc,
+      class InvalidFunc>
     bool do_consume_next(
-      valid_if<T, P>& dest,
+      valid_if<T, P, L>& dest,
       span<const T> choices,
       MissingFunc handle_missing,
       InvalidFunc handle_invalid) {
-        T temp;
+        T temp = {};
         if(do_consume_next(temp, choices, handle_missing, handle_invalid)) {
             if(dest.is_valid(temp)) {
                 dest = std::move(temp);
@@ -484,9 +489,14 @@ public:
         return false;
     }
 
-    template <typename T, typename P, class MissingFunc, class InvalidFunc>
+    template <
+      typename T,
+      typename P,
+      typename L,
+      class MissingFunc,
+      class InvalidFunc>
     bool do_consume_next(
-      valid_if<T, P>& dest,
+      valid_if<T, P, L>& dest,
       span<const string_view> symbols,
       span<const T> translations,
       MissingFunc handle_missing,

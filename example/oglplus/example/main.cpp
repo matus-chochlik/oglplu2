@@ -33,28 +33,28 @@ bool parse_arg(
   oglplus::example_params& params);
 
 int main(int argc, const char** argv) {
-    eagine::program_args args(argc, argv);
-
-    using namespace oglplus;
-
-    example_params params;
-    example_state state;
-
-    oglplus::adjust_params(params);
-
-    state.set_size(800, 600);
-
-    params.exec_command(args.command());
-
-    for(auto a = args.first(); a; a = a.next()) {
-        if(!parse_arg(a, state, params)) {
-            return 1;
-        }
-    }
-
-    state.set_tiles(params.x_tiles(), params.y_tiles());
-
     try {
+        eagine::program_args args(argc, argv);
+
+        using namespace oglplus;
+
+        example_params params;
+        example_state state;
+
+        oglplus::adjust_params(params);
+
+        state.set_size(800, 600);
+
+        params.exec_command(args.command());
+
+        for(auto a = args.first(); a; a = a.next()) {
+            if(!parse_arg(a, state, params)) {
+                return 1;
+            }
+        }
+
+        state.set_tiles(params.x_tiles(), params.y_tiles());
+
         example_args eargs(args, std::cerr);
         return example_main(eargs, params, state);
     } catch(oglplus::error& gle) {
@@ -141,13 +141,13 @@ bool parse_arg(
         } else
             return false;
     } else if(a == "--window-x") {
-        int x;
+        int x = {};
         if(consume_next_arg(a, x, "integer", errstr)) {
             params.window_x_pos(x);
         } else
             return false;
     } else if(a == "--window-y") {
-        int y;
+        int y = {};
         if(consume_next_arg(a, y, "integer", errstr)) {
             params.window_y_pos(y);
         } else

@@ -23,7 +23,10 @@ endif()
 
 # add a target for the examples
 add_custom_target(oglplus-examples ALL)
-set_property(TARGET oglplus-examples PROPERTY FOLDER "Example/OGLplus")
+set_target_properties(
+	oglplus-examples
+	PROPERTIES FOLDER "Example/OGLplus"
+)
 
 unset(OGLPLUS_EXAMPLE_HARNESS_ADDITIONAL_SOURCES)
 
@@ -86,7 +89,17 @@ add_all_dependencies(main_${OGLPLUS_EXAMPLE_HARNESS} oglplus_example_harness)
 # TODO
 #add_oglplus_lib_dependencies(oglplus_example_harness)
 # set the solution folder
-set_property(TARGET oglplus_example_harness PROPERTY FOLDER "Example/OGLplus")
+set_target_properties(
+	oglplus_example_harness
+	PROPERTIES FOLDER "Example/OGLplus"
+)
+
+if(CLANG_TIDY_PROG)
+	set_target_properties(
+		oglplus_example_harness
+		PROPERTIES CXX_CLANG_TIDY "${CLANG_TIDY_PROG}"
+	)
+endif()
 
 # helper function used in the directories containing examples
 function(add_examples LIBRARY EXAMPLE_PATTERN COMMON_LIBS)
@@ -106,15 +119,21 @@ function(add_examples LIBRARY EXAMPLE_PATTERN COMMON_LIBS)
 			target_link_libraries(${TARGET_NAME} ${COMMON_LIBS})
 			add_all_dependencies(${TARGET_NAME})
 			add_dependencies("${LIBRARY}-examples" ${TARGET_NAME})
-			set_property(
-				TARGET ${TARGET_NAME}
-				PROPERTY FOLDER "Example/OGLplus"
+			set_target_properties(
+				${TARGET_NAME}
+				PROPERTIES FOLDER "Example/OGLplus"
 			)
+			if(CLANG_TIDY_EXE)
+				set_target_properties(
+					${TARGET_NAME}
+					PROPERTIES CXX_CLANG_TIDY "${CLANG_TIDY_EXE}"
+				)
+			endif()
 			if(${WIN32})
 				if("${OGLPLUS_EXAMPLE_HARNESS}" STREQUAL "wxgl")
-					set_property(
-						TARGET ${TARGET_NAME}
-						PROPERTY WIN32_EXECUTABLE true
+					set_target_propertes(
+						${TARGET_NAME}
+						PROPERTIES WIN32_EXECUTABLE true
 					)
 				endif()
 			endif()
@@ -151,9 +170,9 @@ function(add_program_source DIR PROG_NAME)
 	)
 	add_custom_target(bake-${PROG_NAME}-program_source DEPENDS ${OUTPUT})
 	add_dependencies(glsl_program_sources bake-${PROG_NAME}-program_source)
-	set_property(
-		TARGET bake-${PROG_NAME}-program_source
-		PROPERTY FOLDER "Example/OGLplus/GPUPrograms"
+	set_target_properties(
+		bake-${PROG_NAME}-program_source
+		PROPERTIES FOLDER "Example/OGLplus/GPUPrograms"
 	)
 endfunction()
 
@@ -185,9 +204,9 @@ function(add_shader_source DIR SHDR_NAME)
 		)
 		add_custom_target(bake-${SHDR_NAME}-shader_source DEPENDS ${OUTPUT})
 		add_dependencies(glsl_shader_sources bake-${SHDR_NAME}-shader_source)
-		set_property(
-			TARGET bake-${SHDR_NAME}-shader_source
-			PROPERTY FOLDER "Example/OGLplus/GPUPrograms"
+		set_target_properties(
+			bake-${SHDR_NAME}-shader_source
+			PROPERTIES FOLDER "Example/OGLplus/GPUPrograms"
 		)
 	endif()
 endfunction()

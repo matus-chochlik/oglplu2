@@ -4,7 +4,7 @@
 #   http://www.boost.org/LICENSE_1_0.txt
 #
 find_program(
-	CLANG_TIDY_EXE
+	CLANG_TIDY_PROG
 	NAMES clang-tidy-7 clang-tidy
 	DOC "Path to clang-tidy executable"
 )

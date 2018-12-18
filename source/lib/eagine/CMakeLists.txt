@@ -14,5 +14,14 @@ set(EAGINE_LIB_SOURCES
 )
 
 add_library(eagine EXCLUDE_FROM_ALL ${EAGINE_LIB_SOURCES})
-set_property(TARGET eagine PROPERTY FOLDER "Library/EAGine")
+set_target_properties(
+	eagine 
+	PROPERTIES FOLDER "Library/EAGine"
+)
+if(CLANG_TIDY_PROG)
+	set_target_properties(
+		eagine
+		PROPERTIES CXX_CLANG_TIDY "${CLANG_TIDY_PROG}"
+	)
+endif()
 

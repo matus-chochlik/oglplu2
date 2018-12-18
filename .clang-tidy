@@ -1,4 +1,5 @@
-Checks:          'clang-diagnostic-*,clang-analyzer-*,bugprone-*,cert-*,hicpp-*'
+#Checks:          'clang-diagnostic-*,clang-analyzer-*,bugprone-*,cert-*,hicpp-*'
+Checks:          'clang-diagnostic-*,clang-analyzer-*,bugprone-*'
 WarningsAsErrors: '*'
 HeaderFilterRegex: ''
 AnalyzeTemporaryDtors: false

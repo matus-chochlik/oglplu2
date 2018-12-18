@@ -204,29 +204,33 @@ void convert_image(
 int parse_options(int argc, const char** argv, options& opts);
 
 int main(int argc, const char** argv) {
-    options opts;
+    try {
+        options opts;
 
-    if(int err = parse_options(argc, argv, opts)) {
-        return err;
-    }
+        if(int err = parse_options(argc, argv, opts)) {
+            return err;
+        }
 
-    bool from_stdin =
-      are_equal(opts.input_path.value(), eagine::string_view("-"));
-    bool to_stdout =
-      are_equal(opts.output_path.value(), eagine::string_view("-"));
+        bool from_stdin =
+          are_equal(opts.input_path.value(), eagine::string_view("-"));
+        bool to_stdout =
+          are_equal(opts.output_path.value(), eagine::string_view("-"));
 
-    if(from_stdin && to_stdout) {
-        convert_image(std::cin, std::cout, opts);
-    } else if(from_stdin) {
-        std::ofstream output_file(c_str(opts.output_path.value()));
-        convert_image(std::cin, output_file, opts);
-    } else if(to_stdout) {
-        std::ifstream input_file(c_str(opts.input_path.value()));
-        convert_image(input_file, std::cout, opts);
-    } else {
-        std::ifstream input_file(c_str(opts.input_path.value()));
-        std::ofstream output_file(c_str(opts.output_path.value()));
-        convert_image(input_file, output_file, opts);
+        if(from_stdin && to_stdout) {
+            convert_image(std::cin, std::cout, opts);
+        } else if(from_stdin) {
+            std::ofstream output_file(c_str(opts.output_path.value()));
+            convert_image(std::cin, output_file, opts);
+        } else if(to_stdout) {
+            std::ifstream input_file(c_str(opts.input_path.value()));
+            convert_image(input_file, std::cout, opts);
+        } else {
+            std::ifstream input_file(c_str(opts.input_path.value()));
+            std::ofstream output_file(c_str(opts.output_path.value()));
+            convert_image(input_file, output_file, opts);
+        }
+    } catch(std::exception& err) {
+        std::cerr << "error: " << err.what() << std::endl;
     }
     return 0;
 }

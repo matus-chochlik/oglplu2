@@ -39,7 +39,7 @@ bool example_params::is_readable_file(string_view path) const noexcept {
 }
 
 eagine::valid_if_not_empty<std::string> example_params::find_resource_file_path(
-  string_view res_group, string_view res_name) const noexcept {
+  string_view res_group, string_view res_name) const {
     using eagine::filesystem::string_path;
 
     string_path relpath;
@@ -70,8 +70,8 @@ eagine::valid_if_not_empty<std::string> example_params::find_resource_file_path(
     return {result};
 }
 
-static inline string_view
-resource_type_to_desc(example_resource_type type) noexcept {
+static inline string_view resource_type_to_desc(
+  example_resource_type type) noexcept {
     switch(type) {
         case example_resource_type::texture_image:
             return string_view("texture image");
@@ -82,8 +82,8 @@ resource_type_to_desc(example_resource_type type) noexcept {
     }
     return string_view();
 }
-static inline string_view
-resource_type_to_group_name(example_resource_type type) noexcept {
+static inline string_view resource_type_to_group_name(
+  example_resource_type type) noexcept {
     switch(type) {
         case example_resource_type::texture_image:
             return string_view("textures");
@@ -96,7 +96,7 @@ resource_type_to_group_name(example_resource_type type) noexcept {
 }
 
 eagine::valid_if_not_empty<std::string> example_params::find_resource_file_path(
-  example_resource_type type, string_view res_name) const noexcept {
+  example_resource_type type, string_view res_name) const {
     return find_resource_file_path(resource_type_to_group_name(type), res_name);
 }
 
