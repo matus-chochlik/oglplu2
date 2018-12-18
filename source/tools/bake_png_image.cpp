@@ -66,7 +66,7 @@ class png_read_driver;
 // png_read_struct
 class png_read_struct {
 protected:
-    ::png_structp _read;
+    ::png_structp _read = {};
 
     [[noreturn]] static void _handle_error(::png_structp, const char* msg);
 
@@ -76,18 +76,26 @@ protected:
 
 public:
     png_read_struct();
+    png_read_struct(png_read_struct&&) noexcept = default;
+    png_read_struct(const png_read_struct&) noexcept = default;
+    png_read_struct& operator=(png_read_struct&&) = delete;
+    png_read_struct& operator=(const png_read_struct&) = delete;
     ~png_read_struct() noexcept;
 };
 
 // png_read_info_struct
 class png_read_info_struct : public png_read_struct {
 protected:
-    ::png_infop _info;
+    ::png_infop _info = {};
 
     friend class png_read_driver;
 
 public:
     png_read_info_struct();
+    png_read_info_struct(png_read_info_struct&&) noexcept = default;
+    png_read_info_struct(const png_read_info_struct&) noexcept = default;
+    png_read_info_struct& operator=(png_read_info_struct&&) = delete;
+    png_read_info_struct& operator=(const png_read_info_struct&) = delete;
     ~png_read_info_struct() noexcept;
 
     png_uint_32 row_bytes();
@@ -106,12 +114,18 @@ public:
 // png_read_info_end_struct
 class png_read_info_end_struct : public png_read_info_struct {
 protected:
-    ::png_infop _endi;
+    ::png_infop _endi = {};
 
     friend class png_read_driver;
 
 public:
     png_read_info_end_struct();
+    png_read_info_end_struct(png_read_info_end_struct&&) noexcept = default;
+    png_read_info_end_struct(const png_read_info_end_struct&) noexcept =
+      default;
+    png_read_info_end_struct& operator=(png_read_info_end_struct&&) = delete;
+    png_read_info_end_struct& operator=(const png_read_info_end_struct&) =
+      delete;
     ~png_read_info_end_struct() noexcept;
 };
 
@@ -278,7 +292,7 @@ png_header_validator::png_header_validator(std::istream& input) {
         throw std::runtime_error("Unable to read PNG signature");
     }
 
-    if(::png_sig_cmp(sig, 0, sig_size) != 0) {
+    if(::png_sig_cmp(static_cast<::png_byte*>(sig), 0, sig_size) != 0) {
         throw std::runtime_error("Invalid PNG signature");
     }
 }
@@ -383,7 +397,7 @@ png_read_info_end_struct::~png_read_info_end_struct() noexcept {
 void png_read_driver::_read_data(
   ::png_structp png, ::png_bytep data, ::png_size_t size) {
     ::png_voidp p = ::png_get_io_ptr(png);
-    assert(p != nullptr);
+    assert(p != nullptr); // NOLINT
     (reinterpret_cast<png_reader*>(p))->do_read_data(data, size);
 }
 
@@ -412,7 +426,7 @@ png_reader::png_reader(std::istream& input)
   , _validator(_input)
   , _driver(*this) {
     switch(_driver._png.color_type()) {
-        case PNG_COLOR_TYPE_PALETTE: {
+        case PNG_COLOR_TYPE_PALETTE: { // NOLINT
             _driver._png.set_palette_to_rgb();
             break;
         }
@@ -457,10 +471,10 @@ GLenum png_reader::gl_format() {
             return GL_RED;
         case PNG_COLOR_TYPE_GRAY_ALPHA:
             return GL_RG;
-        case PNG_COLOR_TYPE_PALETTE:
-        case PNG_COLOR_TYPE_RGB:
+        case PNG_COLOR_TYPE_PALETTE: // NOLINT
+        case PNG_COLOR_TYPE_RGB:     // NOLINT
             return GL_RGB;
-        case PNG_COLOR_TYPE_RGB_ALPHA:
+        case PNG_COLOR_TYPE_RGB_ALPHA: // NOLINT
             return GL_RGBA;
         default: { throw std::runtime_error("Unsupported PNG color type"); }
     }

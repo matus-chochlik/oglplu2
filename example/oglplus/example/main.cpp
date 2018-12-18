@@ -121,8 +121,9 @@ bool parse_arg(
         valid_if_not_empty<string_view> path;
         if(consume_next_arg(a, path, "path", errstr)) {
             params.screenshot_path(path);
-        } else
+        } else {
             return false;
+        }
     } else if(a == "--framedump") {
         if(params.doing_screenshot()) {
             errstr() << "Cannot specify --framedump"
@@ -132,38 +133,44 @@ bool parse_arg(
         valid_if_not_empty<string_view> prefix;
         if(consume_next_arg(a, prefix, "prefix", errstr)) {
             params.framedump_prefix(prefix);
-        } else
+        } else {
             return false;
+        }
     } else if(a == "--fixed-fps") {
         valid_if_positive<float> fps;
         if(consume_next_arg(a, fps, "float", errstr)) {
             params.fixed_fps(fps);
-        } else
+        } else {
             return false;
+        }
     } else if(a == "--window-x") {
         int x = {};
         if(consume_next_arg(a, x, "integer", errstr)) {
             params.window_x_pos(x);
-        } else
+        } else {
             return false;
+        }
     } else if(a == "--window-y") {
         int y = {};
         if(consume_next_arg(a, y, "integer", errstr)) {
             params.window_y_pos(y);
-        } else
+        } else {
             return false;
+        }
     } else if(a == "--width") {
         valid_if_positive<int> w;
         if(consume_next_arg(a, w, "integer", errstr)) {
             state.set_width(w);
-        } else
+        } else {
             return false;
+        }
     } else if(a == "--height") {
         valid_if_positive<int> h;
         if(consume_next_arg(a, h, "integer", errstr)) {
             state.set_height(h);
-        } else
+        } else {
             return false;
+        }
     } else if(a == "--hd") {
         state.set_size(1280, 720);
     } else if(a == "--full-hd") {
@@ -172,14 +179,16 @@ bool parse_arg(
         valid_if_positive<int> x;
         if(consume_next_arg(a, x, "integer", errstr)) {
             params.x_tiles(x);
-        } else
+        } else {
             return false;
+        }
     } else if(a == "--y-tiles") {
         valid_if_positive<int> y;
         if(consume_next_arg(a, y, "integer", errstr)) {
             params.y_tiles(y);
-        } else
+        } else {
             return false;
+        }
     } else if(a == "--demo") {
         params.demo_mode(true);
     } else if(!example_knows_arg(a)) {

@@ -40,7 +40,7 @@ void example_loop(
     int x, y, z = 0;
 
     while(true) {
-        while(display.NextEvent(event))
+        while(display.NextEvent(event)) {
             switch(event.type) {
                 case ClientMessage:
                 case DestroyNotify: {
@@ -80,6 +80,7 @@ void example_loop(
                 }
                 default:;
             }
+        }
 
         example.update();
         example.render();

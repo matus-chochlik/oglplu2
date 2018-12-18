@@ -110,7 +110,7 @@ void write_output(std::ostream& output, const options& opts) {
 
     oglplus::write_and_pad_texture_image_data_header(output, hdr, size);
 
-    const unsigned mask = ((1 << CHAR_BIT) - 1);
+    const unsigned mask = ((1u << unsigned(CHAR_BIT)) - 1u);
 
     std::random_device rd;
     std::independent_bits_engine<std::mt19937, CHAR_BIT, unsigned> ibe(rd());

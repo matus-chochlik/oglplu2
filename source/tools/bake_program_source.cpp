@@ -113,7 +113,7 @@ void read_shader_source_texts(
   GLenum shader_type,
   const std::vector<eagine::valid_if_not_empty<eagine::string_view>>& paths) {
     for(const auto& path : paths) {
-        source_texts.push_back(eagine::file_contents(path.value()));
+        source_texts.emplace_back(eagine::file_contents(path.value()));
         shader_types.push_back(shader_type);
     }
 }

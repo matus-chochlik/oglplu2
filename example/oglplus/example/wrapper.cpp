@@ -127,8 +127,9 @@ void example_wrapper::render() {
             glFlush();
 
         } while(!_state.next_tile());
-    } else
+    } else {
         _example->render(_state);
+    }
 
     if(save_frame) {
         glReadPixels(
@@ -175,10 +176,12 @@ void example_wrapper::render() {
 void example_wrapper::set_size(int width, int height) {
     assert(_example);
 
-    if(width < 1)
+    if(width < 1) {
         width = 1;
-    if(height < 1)
+    }
+    if(height < 1) {
         height = 1;
+    }
 
     if(_state.set_size(width, height)) {
         _example->resize(_state);
