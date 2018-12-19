@@ -26,6 +26,8 @@ void oglplus_transform_feedback_test_ops1() {
     transform_feedback_primitive_type xfbm(GL_TRIANGLES);
     buffer_name buf(1);
 
+    EAGINE_MAYBE_UNUSED(buf);
+
     gl.bind_transform_feedback(tgt, xfb);
     gl.transform_feedback_binding(tgt);
 

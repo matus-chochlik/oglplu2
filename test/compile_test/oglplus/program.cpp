@@ -27,6 +27,7 @@ void oglplus_program_test_ops1() {
     GLint size;
     GLenum format;
 
+    EAGINE_MAYBE_UNUSED(blk);
     EAGINE_MAYBE_UNUSED(format);
 
     gl.attach_shader(prog, shdr);

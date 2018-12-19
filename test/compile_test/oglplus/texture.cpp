@@ -31,6 +31,10 @@ void oglplus_texture_test_ops1() {
     buffer_size offs, size;
     buffer_data_spec data;
 
+    EAGINE_MAYBE_UNUSED(buf);
+    EAGINE_MAYBE_UNUSED(offs);
+    EAGINE_MAYBE_UNUSED(size);
+
     pixel_data_internal_format ifmt(GL_RGBA);
     pixel_data_format fmt(GL_RGBA);
     pixel_data_type typ(GL_UNSIGNED_BYTE);
