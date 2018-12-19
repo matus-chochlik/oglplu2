@@ -13,7 +13,7 @@
 #include "identity.hpp"
 #include "nothing.hpp"
 #include "span.hpp"
-#include "std/type_traits.hpp"
+#include <type_traits>
 
 namespace eagine {
 

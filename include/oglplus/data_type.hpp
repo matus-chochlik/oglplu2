@@ -11,7 +11,7 @@
 
 #include "enum/types.hpp"
 #include "utils/identity.hpp"
-#include <eagine/std/type_traits.hpp>
+#include <type_traits>
 
 namespace oglplus {
 

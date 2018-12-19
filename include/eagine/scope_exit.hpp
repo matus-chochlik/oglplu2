@@ -12,8 +12,8 @@
 
 #include "callable_ref.hpp"
 #include "nothing.hpp"
-#include "std/type_traits.hpp"
 #include <exception>
+#include <type_traits>
 
 namespace eagine {
 

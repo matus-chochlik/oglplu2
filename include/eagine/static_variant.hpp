@@ -11,9 +11,9 @@
 #define EAGINE_STATIC_VARIANT_1509260923_HPP
 
 #include "memory/address.hpp"
-#include "std/type_traits.hpp"
 #include <functional>
 #include <tuple>
+#include <type_traits>
 
 namespace eagine {
 

@@ -10,8 +10,8 @@
 #define EAGINE_ECS_COMPONENT_1509260923_HPP
 
 #include "../config/basic.hpp"
-#include "../std/type_traits.hpp"
 #include <cstddef>
+#include <type_traits>
 #include <vector>
 
 namespace eagine {

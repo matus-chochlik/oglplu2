@@ -9,9 +9,9 @@
 #ifndef EAGINE_MEMORY_SPAN_ALGO_HPP
 #define EAGINE_MEMORY_SPAN_ALGO_HPP
 
-#include "../std/type_traits.hpp"
 #include "span.hpp"
 #include <algorithm>
+#include <type_traits>
 
 namespace eagine {
 namespace memory {

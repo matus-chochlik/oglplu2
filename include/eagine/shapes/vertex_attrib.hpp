@@ -12,9 +12,9 @@
 
 #include "../all_are_same.hpp"
 #include "../bitfield.hpp"
-#include "../std/type_traits.hpp"
 #include "../std/utility.hpp"
 #include <array>
+#include <type_traits>
 
 namespace eagine {
 namespace shapes {

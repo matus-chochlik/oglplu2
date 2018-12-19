@@ -10,12 +10,12 @@
 #define EAGINE_ECS_MANAGER_1509260923_HPP
 
 #include "../mp_list.hpp"
-#include "../std/type_traits.hpp"
 #include "../type_name.hpp"
 #include "cmp_storage.hpp"
 #include "component.hpp"
 #include "entity_traits.hpp"
 #include <memory>
+#include <type_traits>
 
 namespace eagine {
 namespace ecs {

@@ -10,10 +10,10 @@
 #ifndef EAGINE_VECT_DATA_ARY_1509260923_HPP
 #define EAGINE_VECT_DATA_ARY_1509260923_HPP
 
-#include "../std/type_traits.hpp"
 #include "config.hpp"
 #include "fwd.hpp"
 #include <cstdint>
+#include <type_traits>
 #include <utility>
 
 namespace eagine {

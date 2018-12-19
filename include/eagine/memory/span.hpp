@@ -15,11 +15,11 @@
 #include "../extract.hpp"
 #include "../identity.hpp"
 #include "../int_constant.hpp"
-#include "../std/type_traits.hpp"
 #include "../types.hpp"
 #include "address.hpp"
 #include <initializer_list>
 #include <iterator>
+#include <type_traits>
 
 namespace eagine {
 namespace memory {

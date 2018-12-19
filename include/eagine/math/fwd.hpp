@@ -9,7 +9,7 @@
 #ifndef EAGINE_MATH_FWD_1509260923_HPP
 #define EAGINE_MATH_FWD_1509260923_HPP
 
-#include "../std/type_traits.hpp"
+#include <type_traits>
 
 namespace eagine {
 namespace math {

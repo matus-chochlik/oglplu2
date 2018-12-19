@@ -10,7 +10,7 @@
 #ifndef EAGINE_INT_CONSTANT_1509260923_HPP
 #define EAGINE_INT_CONSTANT_1509260923_HPP
 
-#include "std/type_traits.hpp"
+#include <type_traits>
 
 namespace eagine {
 

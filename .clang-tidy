@@ -1,4 +1,4 @@
-Checks:          'clang-diagnostic-*,clang-analyzer-*,bugprone-*,cert-*,hicpp-*,-hicpp-explicit-conversions,-hicpp-no-array-decay,-hicpp-signed-bitwise'
+Checks:          'clang-diagnostic-*,clang-analyzer-*,bugprone-*,cert-*,hicpp-*,-hicpp-explicit-conversions,-hicpp-no-array-decay,-hicpp-signed-bitwise,modernize-*,performance-*'
 WarningsAsErrors: '*'
 HeaderFilterRegex: ''
 AnalyzeTemporaryDtors: false

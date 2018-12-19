@@ -12,7 +12,7 @@
 
 #include "enum_class.hpp"
 #include "indexed_enum.hpp"
-#include "std/type_traits.hpp"
+#include <type_traits>
 
 namespace eagine {
 

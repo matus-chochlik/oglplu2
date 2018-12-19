@@ -10,10 +10,10 @@
 #ifndef EAGINE_TAGGED_QUANTITY_1509260923_HPP
 #define EAGINE_TAGGED_QUANTITY_1509260923_HPP
 
-#include "std/type_traits.hpp"
 #include "units/default.hpp"
 #include "units/traits.hpp"
 #include <cmath>
+#include <type_traits>
 
 #ifdef __clang__
 #pragma clang diagnostic push

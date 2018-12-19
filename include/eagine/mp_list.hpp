@@ -10,7 +10,7 @@
 #ifndef EAGINE_MP_LIST_1509260923_HPP
 #define EAGINE_MP_LIST_1509260923_HPP
 
-#include "std/type_traits.hpp"
+#include <type_traits>
 
 namespace eagine {
 

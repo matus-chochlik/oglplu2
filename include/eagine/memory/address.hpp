@@ -11,10 +11,10 @@
 #define EAGINE_MEMORY_ADDRESS_HPP
 
 #include "../assert.hpp"
-#include "../std/type_traits.hpp"
 #include "../types.hpp"
 #include "align.hpp"
 #include <cstddef>
+#include <type_traits>
 
 namespace eagine {
 namespace memory {

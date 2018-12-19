@@ -12,7 +12,7 @@
 #include "../utils/boolean.hpp"
 #include "../utils/vec_mat_traits.hpp"
 #include "../vertex_attrib.hpp"
-#include <eagine/std/type_traits.hpp>
+#include <type_traits>
 
 namespace oglplus {
 namespace oper {

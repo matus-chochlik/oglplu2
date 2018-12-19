@@ -11,9 +11,9 @@
 #define EAGINE_MEMORY_SHARED_ALLOC_1509260923_HPP
 
 #include "../nothing.hpp"
-#include "../std/type_traits.hpp"
 #include "byte_alloc.hpp"
 #include <new>
+#include <type_traits>
 #include <typeinfo>
 #include <utility>
 

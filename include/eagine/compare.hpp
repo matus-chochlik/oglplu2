@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include "identity.hpp"
-#include "std/type_traits.hpp"
 #include <limits>
+#include <type_traits>
 #include <utility>
 
 #ifndef EAGINE_COMPARE_HPP

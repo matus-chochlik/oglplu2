@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include "is_within_limits.hpp"
-#include "std/type_traits.hpp"
 #include <algorithm>
+#include <type_traits>
 
 #ifndef EAGINE_ARGS_WITHIN_LIMITS_1509260923_HPP
 #define EAGINE_ARGS_WITHIN_LIMITS_1509260923_HPP
@@ -23,20 +23,20 @@ static constexpr inline std::
 }
 //------------------------------------------------------------------------------
 template <typename RV, typename... Params, typename... Args>
-static inline bool
-args_within_limits(RV (*)(Params...), const Args&... args) noexcept {
+static inline bool args_within_limits(
+  RV (*)(Params...), const Args&... args) noexcept {
     return args_within_limits_of<Params...>(args...);
 }
 //------------------------------------------------------------------------------
 template <typename RV, typename Cls, typename... Params, typename... Args>
-static inline bool
-args_within_limits(RV (Cls::*)(Params...), const Args&... args) noexcept {
+static inline bool args_within_limits(
+  RV (Cls::*)(Params...), const Args&... args) noexcept {
     return args_within_limits_of<Params...>(args...);
 }
 //------------------------------------------------------------------------------
 template <typename RV, typename Cls, typename... Params, typename... Args>
-static inline bool
-args_within_limits(RV (Cls::*)(Params...) const, const Args&... args) noexcept {
+static inline bool args_within_limits(
+  RV (Cls::*)(Params...) const, const Args&... args) noexcept {
     return args_within_limits_of<Params...>(args...);
 }
 //------------------------------------------------------------------------------

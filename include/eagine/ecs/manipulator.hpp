@@ -9,8 +9,8 @@
 #ifndef EAGINE_ECS_MANIPULATOR_1509260923_HPP
 #define EAGINE_ECS_MANIPULATOR_1509260923_HPP
 
-#include "../std/type_traits.hpp"
 #include <cassert>
+#include <type_traits>
 #include <utility>
 
 namespace eagine {

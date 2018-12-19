@@ -13,9 +13,9 @@
 #include "identity.hpp"
 #include "instead_of.hpp"
 #include "iterator.hpp"
-#include "std/type_traits.hpp"
 #include "types.hpp"
 #include <cassert>
+#include <type_traits>
 #include <utility>
 
 namespace eagine {

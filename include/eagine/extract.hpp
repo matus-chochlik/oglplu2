@@ -11,7 +11,7 @@
 #define EAGINE_EXTRACT_HPP
 
 #include "assert.hpp"
-#include "std/type_traits.hpp"
+#include <type_traits>
 #include <utility>
 
 namespace eagine {

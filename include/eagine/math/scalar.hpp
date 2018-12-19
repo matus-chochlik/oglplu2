@@ -10,10 +10,10 @@
 #define EAGINE_MATH_SCALAR_1509260923_HPP
 
 #include "../identity.hpp"
-#include "../std/type_traits.hpp"
 #include "../vect/data.hpp"
 #include "../vect/fill.hpp"
 #include "fwd.hpp"
+#include <type_traits>
 
 namespace eagine {
 namespace math {

@@ -11,7 +11,7 @@
 
 #include "identity.hpp"
 #include "span.hpp"
-#include "std/type_traits.hpp"
+#include <type_traits>
 
 namespace eagine {
 
@@ -53,8 +53,8 @@ public:
         return T(_v);
     }
 
-    friend constexpr inline buffer_size
-    operator+(buffer_size a, buffer_size b) noexcept {
+    friend constexpr inline buffer_size operator+(
+      buffer_size a, buffer_size b) noexcept {
         return buffer_size{a._v + b._v};
     }
 };

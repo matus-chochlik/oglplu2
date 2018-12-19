@@ -10,8 +10,8 @@
 #ifndef EAGINE_DEEP_COPY_PTR_1509260923_HPP
 #define EAGINE_DEEP_COPY_PTR_1509260923_HPP
 
-#include "std/type_traits.hpp"
 #include <memory>
+#include <type_traits>
 
 namespace eagine {
 

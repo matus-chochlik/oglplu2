@@ -12,11 +12,11 @@
 
 #include "identity.hpp"
 #include "is_within_limits.hpp"
-#include "std/type_traits.hpp"
 #include "valid_if/nonnegative.hpp"
 #include <cassert>
 #include <cstdint>
 #include <limits>
+#include <type_traits>
 
 namespace eagine {
 

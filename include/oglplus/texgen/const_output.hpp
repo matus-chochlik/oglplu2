@@ -11,8 +11,8 @@
 
 #include "base_output.hpp"
 #include "param_format.hpp"
-#include <eagine/std/type_traits.hpp>
 #include <array>
+#include <type_traits>
 
 namespace oglplus {
 namespace texgen {
