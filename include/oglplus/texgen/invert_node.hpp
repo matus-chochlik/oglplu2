@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_TEXGEN_INVERT_NODE_1509260923_HPP
-#define OGLPLUS_TEXGEN_INVERT_NODE_1509260923_HPP
+#ifndef OGLPLUS_TEXGEN_INVERT_NODE_HPP
+#define OGLPLUS_TEXGEN_INVERT_NODE_HPP
 
 #include "base_node.hpp"
 #include "base_output.hpp"
@@ -42,4 +42,4 @@ using invert_node = unary_single_output_node<
 #include <oglplus/texgen/invert_node.inl>
 #endif
 
-#endif // include guard
+#endif // OGLPLUS_TEXGEN_INVERT_NODE_HPP

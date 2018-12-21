@@ -45,8 +45,7 @@ private:
     }
 
 public:
-    constexpr callable_ref() noexcept {
-    }
+    constexpr callable_ref() noexcept = default;
 
     callable_ref(RV (*func)(P...)) noexcept
       : _data(nullptr)

@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_GL_1509260923_HPP
-#define OGLPLUS_GL_1509260923_HPP
+#ifndef OGLPLUS_GL_HPP
+#define OGLPLUS_GL_HPP
 
 #include <oglplus/gl_def.hpp>
 #if __has_include(<oglplus/config/fix_gl_version.hpp>)

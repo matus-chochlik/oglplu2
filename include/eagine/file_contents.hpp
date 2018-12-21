@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_FILE_CONTENTS_1509260923_HPP
-#define EAGINE_FILE_CONTENTS_1509260923_HPP
+#ifndef EAGINE_FILE_CONTENTS_HPP
+#define EAGINE_FILE_CONTENTS_HPP
 
 #include "branch_predict.hpp"
 #include "config/basic.hpp"
@@ -74,4 +74,4 @@ public:
 #include <eagine/file_contents.inl>
 #endif
 
-#endif // include guard
+#endif // EAGINE_FILE_CONTENTS_HPP

@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_RANDOM_BYTES_1408161720_HPP
-#define EAGINE_RANDOM_BYTES_1408161720_HPP
+#ifndef EAGINE_RANDOM_BYTES_HPP
+#define EAGINE_RANDOM_BYTES_HPP
 
 #include "span.hpp"
 
@@ -21,4 +21,4 @@ void fill_with_random_bytes(span<unsigned char> buffer);
 #include <eagine/random_bytes.inl>
 #endif
 
-#endif // include guard
+#endif // EAGINE_RANDOM_BYTES_HPP

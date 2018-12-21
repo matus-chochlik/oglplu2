@@ -24,8 +24,7 @@ struct generator_params {
     bool allow_fans{true};
     bool allow_primitive_restart{false};
 
-    generator_params() noexcept {
-    }
+    generator_params() noexcept = default;
 };
 
 struct generator_intf {

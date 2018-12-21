@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_INPUT_DATA_1408161720_HPP
-#define EAGINE_INPUT_DATA_1408161720_HPP
+#ifndef EAGINE_INPUT_DATA_HPP
+#define EAGINE_INPUT_DATA_HPP
 
 #include "config/basic.hpp"
 #include "memory/buffer.hpp"
@@ -26,4 +26,4 @@ void read_file_data(string_view path, memory::buffer& dest);
 #include <eagine/input_data.inl>
 #endif
 
-#endif // include guard
+#endif // EAGINE_INPUT_DATA_HPP

@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_STRING_PATH_1509260923_HPP
-#define EAGINE_STRING_PATH_1509260923_HPP
+#ifndef EAGINE_STRING_PATH_HPP
+#define EAGINE_STRING_PATH_HPP
 
 #include "identifier.hpp"
 #include "memory/block.hpp"
@@ -16,13 +16,14 @@
 #include "string_list.hpp"
 #include <string>
 #include <tuple>
+#include <utility>
 
 namespace eagine {
 //------------------------------------------------------------------------------
 class basic_string_path {
 private:
-    span_size_t _size;
-    std::string _str;
+    span_size_t _size{0};
+    std::string _str{};
 
     template <typename Str>
     void _init(span<Str> names) {
@@ -42,8 +43,9 @@ private:
         while(str.size() > 0) {
             if(str[str.size() - 1] == '\0') {
                 str = string_view(str.data(), str.size() - 1);
-            } else
+            } else {
                 break;
+            }
         }
         return str;
     }
@@ -75,19 +77,13 @@ public:
       , _str(str.data(), std_size(str.size())) {
     }
 
-    basic_string_path(const std::string& str, span_size_t size)
-      : _size{size}
-      , _str(str) {
-    }
-
-    basic_string_path(std::string&& str, span_size_t size)
+    basic_string_path(std::string str, span_size_t size)
       : _size{size}
       , _str(std::move(str)) {
     }
 
     basic_string_path(std::tuple<std::string, span_size_t>&& init)
-      : basic_string_path(
-          std::move(std::get<0>(init)), std::move(std::get<1>(init))) {
+      : basic_string_path(std::move(std::get<0>(init)), std::get<1>(init)) {
     }
 
     basic_string_path(
@@ -255,4 +251,4 @@ public:
 //------------------------------------------------------------------------------
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_STRING_PATH_HPP

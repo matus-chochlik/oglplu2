@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OALPLUS_OBJECT_OWNER_1509260923_HPP
-#define OALPLUS_OBJECT_OWNER_1509260923_HPP
+#ifndef OALPLUS_OBJECT_OWNER_HPP
+#define OALPLUS_OBJECT_OWNER_HPP
 
 #include "../utils/span.hpp"
 #include <eagine/object/owner.hpp>
@@ -18,4 +18,4 @@ using eagine::object_owner;
 
 } // namespace oalplus
 
-#endif // include guard
+#endif // OALPLUS_OBJECT_OWNER_HPP

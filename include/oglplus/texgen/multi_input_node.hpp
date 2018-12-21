@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_TEXGEN_MULTI_INPUT_NODE_1509260923_HPP
-#define OGLPLUS_TEXGEN_MULTI_INPUT_NODE_1509260923_HPP
+#ifndef OGLPLUS_TEXGEN_MULTI_INPUT_NODE_HPP
+#define OGLPLUS_TEXGEN_MULTI_INPUT_NODE_HPP
 
 #include "base_node.hpp"
 #include "fallback_input.hpp"
@@ -31,7 +31,7 @@ public:
 
 class multi_input_node : public base_single_output_node {
 public:
-    virtual multi_input_output& single_output() override = 0;
+    multi_input_output& single_output() override = 0;
 
     span_size_t input_count() override;
 
@@ -63,4 +63,4 @@ public:
 #include <oglplus/texgen/multi_input_node.inl>
 #endif
 
-#endif // include guard
+#endif // OGLPLUS_TEXGEN_MULTI_INPUT_NODE_HPP

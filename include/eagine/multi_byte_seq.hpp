@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_MULTI_BYTE_SEQ_1509260923_HPP
-#define EAGINE_MULTI_BYTE_SEQ_1509260923_HPP
+#ifndef EAGINE_MULTI_BYTE_SEQ_HPP
+#define EAGINE_MULTI_BYTE_SEQ_HPP
 
 #include "span.hpp"
 #include "string_span.hpp"
@@ -53,7 +53,7 @@ static inline valid_cbyte_span make_cbyte_span(span<const char> s) noexcept {
 }
 
 static constexpr inline valid_if_not_zero<code_point_t> max_code_point(
-  const valid_sequence_length len) noexcept {
+  const valid_sequence_length& len) noexcept {
     return len == 1 ? 0x0000007F :           //  7b
              len == 2 ? 0x000007FF :         // 11b
                len == 3 ? 0x0000FFFF :       // 16b
@@ -64,19 +64,19 @@ static constexpr inline valid_if_not_zero<code_point_t> max_code_point(
 }
 
 static constexpr inline valid_span_size head_data_bitshift(
-  const valid_sequence_length len) noexcept {
+  const valid_sequence_length& len) noexcept {
     return {len.is_valid() ? (len.value_anyway() - 1) * 6 : -1};
 }
 
 static constexpr inline valid_span_size tail_data_bitshift(
-  const valid_sequence_length idx, const valid_sequence_length len) noexcept {
+  const valid_sequence_length& idx, const valid_sequence_length& len) noexcept {
     return {(idx.is_valid() && len.is_valid())
               ? (len.value_anyway() - idx.value_anyway() - 1) * 6
               : -1};
 }
 
 static constexpr inline valid_if_not_zero<byte> head_code_mask(
-  const valid_sequence_length len) noexcept {
+  const valid_sequence_length& len) noexcept {
     return len == 1
              ? 0x80
              : len == 2
@@ -94,7 +94,7 @@ static constexpr inline optionally_valid<byte> inverted_byte(
 }
 
 static constexpr inline optionally_valid<byte> head_data_mask(
-  const valid_sequence_length len) noexcept {
+  const valid_sequence_length& len) noexcept {
     return inverted_byte(head_code_mask(len));
 }
 
@@ -113,7 +113,7 @@ static constexpr inline optionally_valid<byte> head_code_from_mask(
 }
 
 static constexpr inline optionally_valid<byte> head_code(
-  const valid_sequence_length len) noexcept {
+  const valid_sequence_length& len) noexcept {
     return head_code_from_mask(head_code_mask(len));
 }
 
@@ -132,7 +132,7 @@ static constexpr inline bool is_valid_masked_code(
 }
 
 static constexpr inline bool is_valid_head_byte(
-  const byte b, const valid_sequence_length l) noexcept {
+  const byte b, const valid_sequence_length& l) noexcept {
     return is_valid_masked_code(b, head_code_mask(l), head_code(l));
 }
 
@@ -144,8 +144,8 @@ static constexpr inline bool is_valid_head_byte(const byte b) noexcept {
 
 static constexpr inline bool is_valid_tail_byte(
   const byte b,
-  const valid_sequence_length,
-  const valid_sequence_length) noexcept {
+  const valid_sequence_length&,
+  const valid_sequence_length&) noexcept {
     return is_valid_masked_code(b, tail_code_mask(), tail_code());
 }
 
@@ -210,4 +210,4 @@ bool decode_code_points(const valid_cbyte_span& bytes, span<code_point> cps);
 
 #include <eagine/multi_byte_seq.inl>
 
-#endif // include guard
+#endif // EAGINE_MULTI_BYTE_SEQ_HPP

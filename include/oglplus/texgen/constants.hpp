@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_TEXGEN_CONSTANTS_1509260923_HPP
-#define OGLPLUS_TEXGEN_CONSTANTS_1509260923_HPP
+#ifndef OGLPLUS_TEXGEN_CONSTANTS_HPP
+#define OGLPLUS_TEXGEN_CONSTANTS_HPP
 
 #include "interface.hpp"
 #include <string>
@@ -56,4 +56,4 @@ public:
 #include <oglplus/texgen/constants.inl>
 #endif
 
-#endif // include guard
+#endif // OGLPLUS_TEXGEN_CONSTANTS_HPP

@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_TEXGEN_CONCENTRIC_NODE_1509260923_HPP
-#define OGLPLUS_TEXGEN_CONCENTRIC_NODE_1509260923_HPP
+#ifndef OGLPLUS_TEXGEN_CONCENTRIC_NODE_HPP
+#define OGLPLUS_TEXGEN_CONCENTRIC_NODE_HPP
 
 #include "base_node.hpp"
 #include "fallback_input.hpp"
@@ -62,4 +62,4 @@ using pixel_concentric_node = single_output_node<pixel_concentric_output>;
 #include <oglplus/texgen/concentric_node.inl>
 #endif
 
-#endif // include guard
+#endif // OGLPLUS_TEXGEN_CONCENTRIC_NODE_HPP

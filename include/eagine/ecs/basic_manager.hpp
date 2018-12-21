@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_ECS_MANAGER_1509260923_HPP
-#define EAGINE_ECS_MANAGER_1509260923_HPP
+#ifndef EAGINE_ECS_BASIC_MANAGER_HPP
+#define EAGINE_ECS_BASIC_MANAGER_HPP
 
 #include "../mp_list.hpp"
 #include "../type_name.hpp"
@@ -389,7 +389,7 @@ public:
     template <typename Relation>
     basic_manager& add_relation(
       entity_param subject, entity_param object, Relation&& rel) {
-        _do_add_r(subject, object, std::move(rel));
+        _do_add_r(subject, object, std::forward<Relation>(rel));
         return *this;
     }
 
@@ -543,4 +543,4 @@ public:
 
 #include <eagine/ecs/basic_manager.inl>
 
-#endif // include guard
+#endif // EAGINE_ECS_BASIC_MANAGER_HPP

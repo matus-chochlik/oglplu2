@@ -181,7 +181,6 @@ OGLPLUS_LIB_FUNC
 honeycomb_node::honeycomb_node()
   : base_node()
   , _cells(*this, string_view("Cells"), 32.f, 32.f)
-  , _direction(honeycomb_direction::vertical)
   , _cell_coord(*this, _cells, _direction, honeycomb_output_type::cell_coord)
   , _cell_center(*this, _cells, _direction, honeycomb_output_type::cell_center)
   , _distance(*this, _cells, _direction, honeycomb_output_type::distance) {

@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_TEXGEN_BASE_NODE_1509260923_HPP
-#define OGLPLUS_TEXGEN_BASE_NODE_1509260923_HPP
+#ifndef OGLPLUS_TEXGEN_BASE_NODE_HPP
+#define OGLPLUS_TEXGEN_BASE_NODE_HPP
 
 #include "base_output.hpp"
 #include "interface.hpp"
@@ -19,11 +19,10 @@ namespace texgen {
 
 class base_node : public node_intf {
 private:
-    span_size_t _render_input;
+    span_size_t _render_input{0};
 
 public:
-    base_node() noexcept
-      : _render_input(0) {
+    base_node() noexcept {
     }
 
     span_size_t input_count() override;
@@ -116,4 +115,4 @@ public:
 #include <oglplus/texgen/base_node.inl>
 #endif
 
-#endif // include guard
+#endif // OGLPLUS_TEXGEN_BASE_NODE_HPP

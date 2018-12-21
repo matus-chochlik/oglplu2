@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_SHAPES_TORUS_1509260923_HPP
-#define EAGINE_SHAPES_TORUS_1509260923_HPP
+#ifndef EAGINE_SHAPES_TORUS_HPP
+#define EAGINE_SHAPES_TORUS_HPP
 
 #include "../config/basic.hpp"
 #include "../valid_if/ge0_lt1.hpp"
@@ -40,7 +40,7 @@ public:
       vertex_attrib_bits attr_bits,
       valid_if_greater_than<int, 4> rings,
       valid_if_greater_than<int, 3> sections) noexcept
-      : unit_torus_gen(attr_bits, rings, sections, 0.5f) {
+      : unit_torus_gen(attr_bits, std::move(rings), std::move(sections), 0.5f) {
     }
 
     unit_torus_gen(vertex_attrib_bits attr_bits) noexcept
@@ -77,6 +77,7 @@ public:
 
 #if !EAGINE_LINK_LIBRARY || defined(EAGINE_IMPLEMENTING_LIBRARY)
 #include <eagine/shapes/torus.inl>
+#include <utility>
 #endif
 
-#endif // include guard
+#endif // EAGINE_SHAPES_TORUS_HPP

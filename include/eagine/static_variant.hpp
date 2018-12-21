@@ -60,8 +60,7 @@ private:
     }
 
 public:
-    constexpr static_variant() noexcept {
-    }
+    constexpr static_variant() noexcept = default;
 
     constexpr bool is_valid() const noexcept {
         return _variant_id >= 0;

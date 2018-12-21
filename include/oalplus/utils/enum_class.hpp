@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef OALPLUS_UTILS_ENUM_CLASS_1509260923_HPP
-#define OALPLUS_UTILS_ENUM_CLASS_1509260923_HPP
+#ifndef OALPLUS_UTILS_ENUM_CLASS_HPP
+#define OALPLUS_UTILS_ENUM_CLASS_HPP
 
 #include <eagine/enum_bitfield.hpp>
 #include <eagine/enum_class.hpp>
@@ -57,4 +57,4 @@ same_enum_class(any_enum_class_alut a, any_enum_class_alut b) noexcept {
 
 } // namespace oalplus
 
-#endif // include guard
+#endif // OALPLUS_UTILS_ENUM_CLASS_HPP

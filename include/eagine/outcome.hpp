@@ -27,7 +27,9 @@ private:
     T _val;
 
 public:
-    basic_outcome_storage() = default;
+    constexpr basic_outcome_storage() noexcept
+      : _val{} {
+    }
 
     constexpr basic_outcome_storage(T val) noexcept
       : _val(std::move(val)) {
@@ -53,12 +55,10 @@ public:
 template <typename T>
 class basic_outcome_storage<T&> {
 private:
-    T* _ref;
+    T* _ref = nullptr;
 
 public:
-    constexpr basic_outcome_storage() noexcept
-      : _ref(nullptr) {
-    }
+    constexpr basic_outcome_storage() noexcept = default;
 
     basic_outcome_storage(T& ref) noexcept
       : _ref(&ref) {

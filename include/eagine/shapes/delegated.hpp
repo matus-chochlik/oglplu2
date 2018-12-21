@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_SHAPES_DELEGATED_1509260923_HPP
-#define EAGINE_SHAPES_DELEGATED_1509260923_HPP
+#ifndef EAGINE_SHAPES_DELEGATED_HPP
+#define EAGINE_SHAPES_DELEGATED_HPP
 
 #include "gen_base.hpp"
 #include <eagine/config/basic.hpp>
@@ -62,4 +62,4 @@ public:
 } // namespace shapes
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_SHAPES_DELEGATED_HPP

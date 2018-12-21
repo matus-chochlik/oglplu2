@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_TEXGEN_PARAM_FORMAT_1509260923_HPP
-#define OGLPLUS_TEXGEN_PARAM_FORMAT_1509260923_HPP
+#ifndef OGLPLUS_TEXGEN_PARAM_FORMAT_HPP
+#define OGLPLUS_TEXGEN_PARAM_FORMAT_HPP
 
 #include "interface.hpp"
 #include <iosfwd>
@@ -81,4 +81,4 @@ std::ostream& operator<<(std::ostream& out, nbors2d_offs_decl);
 #include <oglplus/texgen/param_format.inl>
 #endif
 
-#endif // include guard
+#endif // OGLPLUS_TEXGEN_PARAM_FORMAT_HPP

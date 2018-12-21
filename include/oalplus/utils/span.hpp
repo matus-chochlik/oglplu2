@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef OALPLUS_UTILS_SPAN_1509260923_HPP
-#define OALPLUS_UTILS_SPAN_1509260923_HPP
+#ifndef OALPLUS_UTILS_SPAN_HPP
+#define OALPLUS_UTILS_SPAN_HPP
 
 #include <eagine/span.hpp>
 
@@ -19,4 +19,4 @@ using eagine::span_size_t;
 
 } // namespace oalplus
 
-#endif // include guard
+#endif // OALPLUS_UTILS_SPAN_HPP

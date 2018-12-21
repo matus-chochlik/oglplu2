@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef OGLPLUS_UTILS_NOTHING_1509260923_HPP
-#define OGLPLUS_UTILS_NOTHING_1509260923_HPP
+#ifndef OGLPLUS_UTILS_NOTHING_HPP
+#define OGLPLUS_UTILS_NOTHING_HPP
 
 #include <eagine/nothing.hpp>
 
@@ -19,4 +19,4 @@ using eagine::nothing_t;
 
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_UTILS_NOTHING_HPP

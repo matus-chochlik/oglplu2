@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_FILESYSTEM_1509260923_HPP
-#define EAGINE_FILESYSTEM_1509260923_HPP
+#ifndef EAGINE_FILESYSTEM_HPP
+#define EAGINE_FILESYSTEM_HPP
 
 #include "config/basic.hpp"
 #include "string_path.hpp"
@@ -164,4 +164,4 @@ string_path current_working_directory();
 #include <eagine/filesystem.inl>
 #endif
 
-#endif // include guard
+#endif // EAGINE_FILESYSTEM_HPP

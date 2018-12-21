@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_DATA_BAKING_1509260923_HPP
-#define EAGINE_DATA_BAKING_1509260923_HPP
+#ifndef EAGINE_DATA_BAKING_HPP
+#define EAGINE_DATA_BAKING_HPP
 
 #include "memory/alloc_arena.hpp"
 #include "memory/stack_alloc.hpp"
@@ -28,4 +28,4 @@ public:
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_DATA_BAKING_HPP

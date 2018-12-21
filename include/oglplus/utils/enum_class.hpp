@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef OGLPLUS_UTILS_ENUM_CLASS_1509260923_HPP
-#define OGLPLUS_UTILS_ENUM_CLASS_1509260923_HPP
+#ifndef OGLPLUS_UTILS_ENUM_CLASS_HPP
+#define OGLPLUS_UTILS_ENUM_CLASS_HPP
 
 #include <eagine/enum_bitfield.hpp>
 #include <eagine/enum_class.hpp>
@@ -37,4 +37,4 @@ using eagine::enum_span;
 
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_UTILS_ENUM_CLASS_HPP

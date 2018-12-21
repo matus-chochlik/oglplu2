@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_TEXGEN_INTERFACE_1509260923_HPP
-#define OGLPLUS_TEXGEN_INTERFACE_1509260923_HPP
+#ifndef OGLPLUS_TEXGEN_INTERFACE_HPP
+#define OGLPLUS_TEXGEN_INTERFACE_HPP
 
 #include "../utils/types.hpp"
 #include "data_type.hpp"
@@ -69,8 +69,7 @@ struct input_intf {
     input_intf(input_intf&&) = default;
     input_intf(const input_intf&) = default;
 
-    virtual ~input_intf() noexcept {
-    }
+    virtual ~input_intf() noexcept = default;
 
     virtual string_view name() noexcept = 0;
 
@@ -127,8 +126,7 @@ struct output_intf {
     output_intf(output_intf&&) = default;
     output_intf(const output_intf&) = default;
 
-    virtual ~output_intf() noexcept {
-    }
+    virtual ~output_intf() noexcept = default;
 
     virtual string_view name() noexcept = 0;
 
@@ -163,8 +161,7 @@ bool connect_output_to_input(output_intf& output, input_intf& input);
 bool disconnect_output_from_input(output_intf& output, input_intf& input);
 
 struct node_intf {
-    virtual ~node_intf() noexcept {
-    }
+    virtual ~node_intf() noexcept = default;
 
     virtual span_size_t input_count() = 0;
 
@@ -336,4 +333,4 @@ public:
 #include <oglplus/texgen/interface.inl>
 #endif
 
-#endif // include guard
+#endif // OGLPLUS_TEXGEN_INTERFACE_HPP

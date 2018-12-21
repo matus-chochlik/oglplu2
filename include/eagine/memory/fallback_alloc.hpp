@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_MEMORY_FALLBACK_ALLOC_1509260923_HPP
-#define EAGINE_MEMORY_FALLBACK_ALLOC_1509260923_HPP
+#ifndef EAGINE_MEMORY_FALLBACK_ALLOC_HPP
+#define EAGINE_MEMORY_FALLBACK_ALLOC_HPP
 
 #include "../assert.hpp"
 #include "default_alloc.hpp"
@@ -39,8 +39,7 @@ public:
     using size_type = span_size_t;
 
     bool equal(byte_allocator* a) const noexcept override {
-        byte_allocator_with_fallback* pa =
-          dynamic_cast<byte_allocator_with_fallback*>(a);
+        auto* pa = dynamic_cast<byte_allocator_with_fallback*>(a);
 
         if(a != nullptr) {
             return (_dft == pa->_dft) && (_fbk == pa->_fbk);
@@ -80,12 +79,13 @@ public:
         } else if(!!_fbk.has_allocated(b, a)) {
             _fbk_size -= b.size();
             _fbk.deallocate(std::move(b), a);
-        } else
+        } else {
             EAGINE_ABORT("Pointer not allocated by this allocator!");
+        }
     }
 };
 
 } // namespace memory
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_MEMORY_FALLBACK_ALLOC_HPP

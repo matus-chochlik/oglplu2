@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef OGLPLUS_UTILS_IDENTITY_1509260923_HPP
-#define OGLPLUS_UTILS_IDENTITY_1509260923_HPP
+#ifndef OGLPLUS_UTILS_IDENTITY_HPP
+#define OGLPLUS_UTILS_IDENTITY_HPP
 
 #include <eagine/identity.hpp>
 
@@ -19,4 +19,4 @@ using eagine::make_identity;
 
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_UTILS_IDENTITY_HPP

@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_TEXGEN_RENDER_PARAMS_1509260923_HPP
-#define OGLPLUS_TEXGEN_RENDER_PARAMS_1509260923_HPP
+#ifndef OGLPLUS_TEXGEN_RENDER_PARAMS_HPP
+#define OGLPLUS_TEXGEN_RENDER_PARAMS_HPP
 
 #include <eagine/bitfield.hpp>
 
@@ -44,4 +44,4 @@ struct render_params {
 } // namespace texgen
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_TEXGEN_RENDER_PARAMS_HPP

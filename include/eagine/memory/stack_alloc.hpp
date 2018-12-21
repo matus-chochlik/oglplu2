@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_MEMORY_STACK_ALLOC_1509260923_HPP
-#define EAGINE_MEMORY_STACK_ALLOC_1509260923_HPP
+#ifndef EAGINE_MEMORY_STACK_ALLOC_HPP
+#define EAGINE_MEMORY_STACK_ALLOC_HPP
 
 #include "byte_alloc.hpp"
 #include <cassert>
@@ -27,7 +27,7 @@ private:
     T* _top;
     T* _pos;
     T* _min;
-    span_size_t _dif;
+    span_size_t _dif{0};
 
     const_block _store() const noexcept;
 
@@ -192,4 +192,4 @@ public:
 
 #include <eagine/memory/stack_alloc.inl>
 
-#endif // include guard
+#endif // EAGINE_MEMORY_STACK_ALLOC_HPP

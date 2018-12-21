@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EGLPLUS_UTILS_MP_LIST_1509260923_HPP
-#define EGLPLUS_UTILS_MP_LIST_1509260923_HPP
+#ifndef EGLPLUS_UTILS_MP_LIST_HPP
+#define EGLPLUS_UTILS_MP_LIST_HPP
 
 #include <eagine/mp_list.hpp>
 
@@ -18,4 +18,4 @@ using eagine::mp_list;
 
 } // namespace eglplus
 
-#endif // include guard
+#endif // EGLPLUS_UTILS_MP_LIST_HPP

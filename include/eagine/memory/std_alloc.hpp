@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_MEMORY_STD_ALLOC_1509260923_HPP
-#define EAGINE_MEMORY_STD_ALLOC_1509260923_HPP
+#ifndef EAGINE_MEMORY_STD_ALLOC_HPP
+#define EAGINE_MEMORY_STD_ALLOC_HPP
 
 #include "default_alloc.hpp"
 #include "shared_alloc.hpp"
@@ -118,4 +118,4 @@ public:
 } // namespace memory
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_MEMORY_STD_ALLOC_HPP

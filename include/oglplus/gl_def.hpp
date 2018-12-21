@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_GL_DEF_1509260923_HPP
-#define OGLPLUS_GL_DEF_1509260923_HPP
+#ifndef OGLPLUS_GL_DEF_HPP
+#define OGLPLUS_GL_DEF_HPP
 
 #ifdef __clang__
 #pragma clang diagnostic push
@@ -108,4 +108,4 @@ struct api_initializer {
 #include <oglplus/gl_def.inl>
 #endif
 
-#endif // include guard
+#endif // OGLPLUS_GL_DEF_HPP

@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_BINDUMP_1509260923_HPP
-#define EAGINE_BINDUMP_1509260923_HPP
+#ifndef EAGINE_BINDUMP_HPP
+#define EAGINE_BINDUMP_HPP
 
 #include "config/basic.hpp"
 #include "memory/block.hpp"
@@ -39,4 +39,4 @@ public:
 #include <eagine/bindump.inl>
 #endif
 
-#endif // include guard
+#endif // EAGINE_BINDUMP_HPP

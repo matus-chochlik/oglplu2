@@ -19,8 +19,7 @@ namespace eagine {
 struct valid_flag_policy {
     bool _is_valid{false};
 
-    constexpr valid_flag_policy() noexcept {
-    }
+    constexpr valid_flag_policy() noexcept = default;
 
     constexpr valid_flag_policy(bool is_valid) noexcept
       : _is_valid(is_valid) {

@@ -55,8 +55,7 @@ private:
     _value_t _value{_value_t::_false};
 
 public:
-    constexpr tribool() noexcept {
-    }
+    constexpr tribool() noexcept = default;
 
     constexpr tribool(bool value) noexcept
       : _value(value ? _value_t::_true : _value_t::_false) {

@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_TEXGEN_HONEYCOMB_NODE_1509260923_HPP
-#define OGLPLUS_TEXGEN_HONEYCOMB_NODE_1509260923_HPP
+#ifndef OGLPLUS_TEXGEN_HONEYCOMB_NODE_HPP
+#define OGLPLUS_TEXGEN_HONEYCOMB_NODE_HPP
 
 #include "base_node.hpp"
 #include "fallback_input.hpp"
@@ -47,7 +47,7 @@ public:
 class honeycomb_node : public base_node {
 private:
     input_with_const_default<float[2]> _cells;
-    honeycomb_direction _direction;
+    honeycomb_direction _direction{honeycomb_direction::vertical};
 
     honeycomb_output _cell_coord;
     honeycomb_output _cell_center;
@@ -79,4 +79,4 @@ public:
 #include <oglplus/texgen/honeycomb_node.inl>
 #endif
 
-#endif // include guard
+#endif // OGLPLUS_TEXGEN_HONEYCOMB_NODE_HPP

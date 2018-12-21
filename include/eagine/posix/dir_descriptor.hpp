@@ -33,8 +33,7 @@ protected:
     DIR* _dp{nullptr};
 
 public:
-    constexpr inline dir_descriptor() noexcept {
-    }
+    constexpr inline dir_descriptor() noexcept = default;
 
     explicit inline dir_descriptor(DIR* dp) noexcept
       : _dp(dp) {

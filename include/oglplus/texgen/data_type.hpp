@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_TEXGEN_DATA_TYPE_1509260923_HPP
-#define OGLPLUS_TEXGEN_DATA_TYPE_1509260923_HPP
+#ifndef OGLPLUS_TEXGEN_DATA_TYPE_HPP
+#define OGLPLUS_TEXGEN_DATA_TYPE_HPP
 
 #include "../config/basic.hpp"
 #include "../utils/string_span.hpp"
@@ -152,4 +152,4 @@ std::ostream& operator<<(std::ostream&, conversion_suffix_v);
 #include <oglplus/texgen/data_type.inl>
 #endif
 
-#endif // include guard
+#endif // OGLPLUS_TEXGEN_DATA_TYPE_HPP

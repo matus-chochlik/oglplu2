@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_OPER_NAMED_STRING_1509260923_HPP
-#define OGLPLUS_OPER_NAMED_STRING_1509260923_HPP
+#ifndef OGLPLUS_OPER_NAMED_STRING_HPP
+#define OGLPLUS_OPER_NAMED_STRING_HPP
 
 #ifdef GL_ARB_shading_language_include
 #include "../enum/types.hpp"
@@ -50,4 +50,4 @@ struct named_string_state {
 
 #include <oglplus/oper/named_string.inl>
 
-#endif // include guard
+#endif // OGLPLUS_OPER_NAMED_STRING_HPP

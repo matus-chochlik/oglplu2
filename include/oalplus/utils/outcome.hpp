@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef OALPLUS_UTILS_OUTCOME_1509260923_HPP
-#define OALPLUS_UTILS_OUTCOME_1509260923_HPP
+#ifndef OALPLUS_UTILS_OUTCOME_HPP
+#define OALPLUS_UTILS_OUTCOME_HPP
 
 #include <eagine/outcome.hpp>
 
@@ -21,4 +21,4 @@ using eagine::success;
 
 } // namespace oalplus
 
-#endif // include guard
+#endif // OALPLUS_UTILS_OUTCOME_HPP

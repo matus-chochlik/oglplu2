@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_MEMORY_BUFFER_1510290655_HPP
-#define EAGINE_MEMORY_BUFFER_1510290655_HPP
+#ifndef EAGINE_MEMORY_BUFFER_HPP
+#define EAGINE_MEMORY_BUFFER_HPP
 
 #include "block.hpp"
 #include "default_alloc.hpp"
@@ -101,4 +101,4 @@ public:
 } // namespace memory
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_MEMORY_BUFFER_HPP

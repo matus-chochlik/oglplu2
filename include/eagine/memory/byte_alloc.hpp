@@ -89,8 +89,7 @@ public:
     byte_alloc_ref_count_policy& operator=(byte_alloc_ref_count_policy&& tmp) =
       delete;
 
-    byte_alloc_ref_count_policy() noexcept {
-    }
+    byte_alloc_ref_count_policy() noexcept = default;
 
     byte_alloc_ref_count_policy(byte_alloc_ref_count_policy&& tmp) noexcept
       : _ref_count(tmp._ref_count) {

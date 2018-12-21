@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_TEXGEN_SPHERE_COORD_NODE_1509260923_HPP
-#define OGLPLUS_TEXGEN_SPHERE_COORD_NODE_1509260923_HPP
+#ifndef OGLPLUS_TEXGEN_SPHERE_COORD_NODE_HPP
+#define OGLPLUS_TEXGEN_SPHERE_COORD_NODE_HPP
 
 #include "base_node.hpp"
 
@@ -35,4 +35,4 @@ using sphere_coord_node = single_output_node<sphere_coord_output>;
 #include <oglplus/texgen/sphere_coord_node.inl>
 #endif
 
-#endif // include guard
+#endif // OGLPLUS_TEXGEN_SPHERE_COORD_NODE_HPP

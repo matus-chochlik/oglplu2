@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_SHAPES_SPHERE_1509260923_HPP
-#define EAGINE_SHAPES_SPHERE_1509260923_HPP
+#ifndef EAGINE_SHAPES_SPHERE_HPP
+#define EAGINE_SHAPES_SPHERE_HPP
 
 #include "../config/basic.hpp"
 #include "../valid_if/greater_than.hpp"
@@ -69,4 +69,4 @@ public:
 #include <eagine/shapes/sphere.inl>
 #endif
 
-#endif // include guard
+#endif // EAGINE_SHAPES_SPHERE_HPP

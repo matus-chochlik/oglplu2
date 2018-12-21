@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef OGLPLUS_UTILS_QUANTITIES_1509260923_HPP
-#define OGLPLUS_UTILS_QUANTITIES_1509260923_HPP
+#ifndef OGLPLUS_UTILS_QUANTITIES_HPP
+#define OGLPLUS_UTILS_QUANTITIES_HPP
 
 #include <eagine/quantities.hpp>
 
@@ -29,4 +29,4 @@ using eagine::degrees_t;
 
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_UTILS_QUANTITIES_HPP

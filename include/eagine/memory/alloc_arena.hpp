@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_MEMORY_ALLOC_ARENA_1510290655_HPP
-#define EAGINE_MEMORY_ALLOC_ARENA_1510290655_HPP
+#ifndef EAGINE_MEMORY_ALLOC_ARENA_HPP
+#define EAGINE_MEMORY_ALLOC_ARENA_HPP
 
 #include "../span.hpp"
 #include "../string_span.hpp"
@@ -111,4 +111,4 @@ using system_allocation_arena =
 
 #include <eagine/memory/alloc_arena.inl>
 
-#endif // include guard
+#endif // EAGINE_MEMORY_ALLOC_ARENA_HPP

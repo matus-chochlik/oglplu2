@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_SHAPES_CUBE_1509260923_HPP
-#define EAGINE_SHAPES_CUBE_1509260923_HPP
+#ifndef EAGINE_SHAPES_CUBE_HPP
+#define EAGINE_SHAPES_CUBE_HPP
 
 #include "gen_base.hpp"
 #include <eagine/config/basic.hpp>
@@ -76,4 +76,4 @@ public:
 #include <eagine/shapes/cube.inl>
 #endif
 
-#endif // include guard
+#endif // EAGINE_SHAPES_CUBE_HPP

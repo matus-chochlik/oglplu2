@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_ECS_COMPONENT_1509260923_HPP
-#define EAGINE_ECS_COMPONENT_1509260923_HPP
+#ifndef EAGINE_ECS_COMPONENT_HPP
+#define EAGINE_ECS_COMPONENT_HPP
 
 #include "../config/basic.hpp"
 #include <cstddef>
@@ -102,15 +102,17 @@ public:
     const_iterator find(component_uid_t cid) const {
         if(cid < _storage.size()) {
             return _storage.begin() + difference_type(cid);
-        } else
+        } else {
             return _storage.end();
+        }
     }
 
     iterator find(component_uid_t cid) {
         if(cid < _storage.size()) {
             return _storage.begin() + difference_type(cid);
-        } else
+        } else {
             return _storage.end();
+        }
     }
 
     void erase(iterator pos) {
@@ -132,4 +134,4 @@ public:
 #include <eagine/ecs/component.inl>
 #endif
 
-#endif // include guard
+#endif // EAGINE_ECS_COMPONENT_HPP

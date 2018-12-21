@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef OGLPLUS_UTILS_VEC_MAT_TRAITS_1509260923_HPP
-#define OGLPLUS_UTILS_VEC_MAT_TRAITS_1509260923_HPP
+#ifndef OGLPLUS_UTILS_VEC_MAT_TRAITS_HPP
+#define OGLPLUS_UTILS_VEC_MAT_TRAITS_HPP
 
 #include <eagine/vec_mat_traits.hpp>
 
@@ -30,4 +30,4 @@ using eagine::is_row_major;
 
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_UTILS_VEC_MAT_TRAITS_HPP

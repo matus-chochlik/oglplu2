@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_SHAPES_TRANSLATED_1509260923_HPP
-#define EAGINE_SHAPES_TRANSLATED_1509260923_HPP
+#ifndef EAGINE_SHAPES_TRANSLATED_HPP
+#define EAGINE_SHAPES_TRANSLATED_HPP
 
 #include "delegated.hpp"
 #include <eagine/config/basic.hpp>
@@ -35,11 +35,12 @@ public:
         delegated_gen::attrib_values(attr, dest);
 
         if(attr == vertex_attrib_kind::position) {
-            for(span_size_t v = 0, n = vertex_count(); v < n; ++v)
+            for(span_size_t v = 0, n = vertex_count(); v < n; ++v) {
                 for(span_size_t c = 0, m = values_per_vertex(attr); c < m;
                     ++c) {
                     dest[v * m + c] += _d[c];
                 }
+            }
         }
     }
 };
@@ -47,4 +48,4 @@ public:
 } // namespace shapes
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_SHAPES_TRANSLATED_HPP

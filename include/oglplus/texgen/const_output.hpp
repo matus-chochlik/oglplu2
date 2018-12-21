@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_TEXGEN_CONST_OUTPUT_1509260923_HPP
-#define OGLPLUS_TEXGEN_CONST_OUTPUT_1509260923_HPP
+#ifndef OGLPLUS_TEXGEN_CONST_OUTPUT_HPP
+#define OGLPLUS_TEXGEN_CONST_OUTPUT_HPP
 
 #include "base_output.hpp"
 #include "param_format.hpp"
@@ -87,4 +87,4 @@ public:
 } // namespace texgen
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_TEXGEN_CONST_OUTPUT_HPP

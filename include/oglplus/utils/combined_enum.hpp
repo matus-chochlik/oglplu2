@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef OGLPLUS_UTILS_COMBINED_ENUM_1509260923_HPP
-#define OGLPLUS_UTILS_COMBINED_ENUM_1509260923_HPP
+#ifndef OGLPLUS_UTILS_COMBINED_ENUM_HPP
+#define OGLPLUS_UTILS_COMBINED_ENUM_HPP
 
 #include <eagine/combined_enum.hpp>
 
@@ -18,4 +18,4 @@ using eagine::combined_enum_value;
 
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_UTILS_COMBINED_ENUM_HPP

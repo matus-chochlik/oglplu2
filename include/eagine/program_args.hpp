@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_PROGRAM_ARGS_1509260923_HPP
-#define EAGINE_PROGRAM_ARGS_1509260923_HPP
+#ifndef EAGINE_PROGRAM_ARGS_HPP
+#define EAGINE_PROGRAM_ARGS_HPP
 
 #include "identity.hpp"
 #include "program_args.hpp"
@@ -20,6 +20,7 @@
 #include <memory>
 #include <sstream>
 #include <type_traits>
+#include <utility>
 #include <vector>
 
 namespace eagine {
@@ -206,9 +207,9 @@ using program_option = program_parameter<void>;
 
 class program_arg {
 private:
-    int _argi;
-    int _argc;
-    const char** _argv;
+    int _argi{0};
+    int _argc{0};
+    const char** _argv{nullptr};
 
     program_arg(int argi, int argc, const char** argv) noexcept
       : _argi(argi)
@@ -262,10 +263,7 @@ private:
     }
 
 public:
-    program_arg() noexcept
-      : _argi(0)
-      , _argc(0)
-      , _argv(nullptr) {
+    program_arg() noexcept {
     }
 
     using value_type = string_view;
@@ -775,14 +773,16 @@ public:
 
         for(const auto& param : _params) {
             padl = 4 + stag_maxl - param->short_tag().size();
-            while(padl-- > 0)
+            while(padl-- > 0) {
                 out << " ";
+            }
             out << param->short_tag() << "|";
 
             out << param->long_tag();
             padl = ltag_maxl - param->long_tag().size();
-            while(padl-- > 0)
+            while(padl-- > 0) {
                 out << " ";
+            }
             out << ": " << param->description() << std::endl;
         }
 
@@ -792,13 +792,11 @@ public:
 
 class program_args {
 private:
-    int _argc;
-    const char** _argv;
+    int _argc{0};
+    const char** _argv{nullptr};
 
 public:
-    program_args() noexcept
-      : _argc(0)
-      , _argv(nullptr) {
+    program_args() noexcept {
     }
 
     program_args(span_size_t argn, char** args) noexcept
@@ -846,7 +844,7 @@ public:
     }
 
     value_type operator[](valid_index pos) const noexcept {
-        return get(pos);
+        return get(std::move(pos));
     }
 
     value_type command() const noexcept {
@@ -870,4 +868,4 @@ public:
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_PROGRAM_ARGS_HPP

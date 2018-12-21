@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_STRING_LIST_1509260923_HPP
-#define EAGINE_STRING_LIST_1509260923_HPP
+#ifndef EAGINE_STRING_LIST_HPP
+#define EAGINE_STRING_LIST_HPP
 
 #include "memory/span_algo.hpp"
 #include "multi_byte_seq.hpp"
@@ -212,8 +212,9 @@ static inline std::string join(
     span_size_t slen = sep.size();
     span_size_t len = trail_sep ? slen : 0;
     auto get_len = [&len, slen](const element& elem, bool first) {
-        if(!first)
+        if(!first) {
             len += slen;
+        }
         len += elem.value_size();
     };
     for_each_elem(list, get_len);
@@ -222,8 +223,9 @@ static inline std::string join(
     res.reserve(std_size(len));
 
     auto fill = [&res, sep](const element& elem, bool first) {
-        if(!first)
+        if(!first) {
             res.append(sep.data(), std_size(sep.size()));
+        }
         res.append(elem.value_data(), std_size(elem.value_size()));
     };
     for_each_elem(list, fill);
@@ -318,7 +320,7 @@ public:
         return *this;
     }
 
-    iterator operator++(int) noexcept {
+    const iterator operator++(int) noexcept {
         iterator result = *this;
         ++(*this);
         return result;
@@ -412,7 +414,7 @@ public:
         return *this;
     }
 
-    rev_iterator operator++(int) noexcept {
+    const rev_iterator operator++(int) noexcept {
         rev_iterator result = *this;
         ++(*this);
         return result;
@@ -422,4 +424,4 @@ public:
 } // namespace string_list
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_STRING_LIST_HPP

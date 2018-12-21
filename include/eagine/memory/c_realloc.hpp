@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_MEMORY_C_REALLOC_1509260923_HPP
-#define EAGINE_MEMORY_C_REALLOC_1509260923_HPP
+#ifndef EAGINE_MEMORY_C_REALLOC_HPP
+#define EAGINE_MEMORY_C_REALLOC_HPP
 
 #include "byte_alloc.hpp"
 #include <cassert>
@@ -54,4 +54,4 @@ public:
 
 #include <eagine/memory/c_realloc.inl>
 
-#endif // include guard
+#endif // EAGINE_MEMORY_C_REALLOC_HPP

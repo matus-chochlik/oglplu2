@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef OGLPLUS_UTILS_SPAN_1509260923_HPP
-#define OGLPLUS_UTILS_SPAN_1509260923_HPP
+#ifndef OGLPLUS_UTILS_SPAN_HPP
+#define OGLPLUS_UTILS_SPAN_HPP
 
 #include "types.hpp"
 #include <eagine/span.hpp>
@@ -23,4 +23,4 @@ using eagine::memory::can_accomodate;
 
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_UTILS_SPAN_HPP

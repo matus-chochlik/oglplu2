@@ -21,8 +21,7 @@ protected:
     int _fd{-1};
 
 public:
-    constexpr inline file_descriptor() noexcept {
-    }
+    constexpr inline file_descriptor() noexcept = default;
 
     explicit constexpr inline file_descriptor(int fd) noexcept
       : _fd(fd) {

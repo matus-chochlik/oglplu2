@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_TEXGEN_FALLBACK_INPUT_1509260923_HPP
-#define OGLPLUS_TEXGEN_FALLBACK_INPUT_1509260923_HPP
+#ifndef OGLPLUS_TEXGEN_FALLBACK_INPUT_HPP
+#define OGLPLUS_TEXGEN_FALLBACK_INPUT_HPP
 
 #include "base_input.hpp"
 #include "const_output.hpp"
@@ -76,4 +76,4 @@ using input_with_const_default = fallback_input<constant_output<T>>;
 } // namespace texgen
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_TEXGEN_FALLBACK_INPUT_HPP

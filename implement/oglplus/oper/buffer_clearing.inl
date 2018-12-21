@@ -41,7 +41,7 @@ buffer_clearing_state::get_color_clear_value() noexcept {
 //------------------------------------------------------------------------------
 inline outcome<GLfloat>
 buffer_clearing_state::get_depth_clear_value() noexcept {
-    GLfloat result;
+    auto result = GLfloat(0);
     OGLPLUS_GLFUNC(GetFloatv)(GL_DEPTH_CLEAR_VALUE, &result);
     OGLPLUS_VERIFY_SIMPLE(GetFloatv, debug);
     return {result};
@@ -49,14 +49,14 @@ buffer_clearing_state::get_depth_clear_value() noexcept {
 //------------------------------------------------------------------------------
 inline outcome<GLint>
 buffer_clearing_state::get_stencil_clear_value() noexcept {
-    GLint result;
+    auto result = GLint(0);
     OGLPLUS_GLFUNC(GetIntegerv)(GL_STENCIL_CLEAR_VALUE, &result);
     OGLPLUS_VERIFY_SIMPLE(GetIntegerv, debug);
     return {result};
 }
 //------------------------------------------------------------------------------
-inline outcome<void>
-buffer_clearing_ops::clear(enum_bitfield<buffer_select_bits> bits) noexcept {
+inline outcome<void> buffer_clearing_ops::clear(
+  enum_bitfield<buffer_select_bits> bits) noexcept {
     OGLPLUS_GLFUNC(Clear)(GLbitfield(bits));
     OGLPLUS_VERIFY_SIMPLE(Clear, debug);
     return {};

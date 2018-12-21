@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_TEXGEN_BASE_INPUT_1509260923_HPP
-#define OGLPLUS_TEXGEN_BASE_INPUT_1509260923_HPP
+#ifndef OGLPLUS_TEXGEN_BASE_INPUT_HPP
+#define OGLPLUS_TEXGEN_BASE_INPUT_HPP
 
 #include "interface.hpp"
 
@@ -74,4 +74,4 @@ public:
 #include <oglplus/texgen/base_input.inl>
 #endif
 
-#endif // include guard
+#endif // OGLPLUS_TEXGEN_BASE_INPUT_HPP

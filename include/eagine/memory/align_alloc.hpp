@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_MEMORY_ALIGN_ALLOC_1509260923_HPP
-#define EAGINE_MEMORY_ALIGN_ALLOC_1509260923_HPP
+#ifndef EAGINE_MEMORY_ALIGN_ALLOC_HPP
+#define EAGINE_MEMORY_ALIGN_ALLOC_HPP
 
 #include "../instead_of.hpp"
 #include "../int_constant.hpp"
@@ -103,4 +103,4 @@ public:
 } // namespace memory
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_MEMORY_ALIGN_ALLOC_HPP

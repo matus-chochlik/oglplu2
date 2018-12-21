@@ -9,6 +9,12 @@ macro(add_compile_test LIBRARY TEST_NAME)
 		EXCLUDE_FROM_ALL
 		${TEST_NAME}.cpp
 	)
+	if(CLANG_TIDY_PROG)
+		set_target_properties(
+			${LIBRARY}-${TEST_NAME}-compile_test
+			PROPERTIES CXX_CLANG_TIDY "${CLANG_TIDY_PROG}"
+		)
+	endif()
 	add_test(
 		${LIBRARY}-${TEST_NAME}-compile_test
 		"${CMAKE_COMMAND}"

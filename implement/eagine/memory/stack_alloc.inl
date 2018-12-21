@@ -48,8 +48,7 @@ inline base_stack_allocator<T>::base_stack_allocator() noexcept
   : _btm(nullptr)
   , _top(nullptr)
   , _pos(nullptr)
-  , _min(nullptr)
-  , _dif(0) {
+  , _min(nullptr) {
 }
 //------------------------------------------------------------------------------
 template <typename T>

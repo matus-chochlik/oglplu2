@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EGLPLUS_UTILS_SPAN_1509260923_HPP
-#define EGLPLUS_UTILS_SPAN_1509260923_HPP
+#ifndef EGLPLUS_UTILS_SPAN_HPP
+#define EGLPLUS_UTILS_SPAN_HPP
 
 #include <eagine/span.hpp>
 
@@ -19,4 +19,4 @@ using eagine::span_size_t;
 
 } // namespace eglplus
 
-#endif // include guard
+#endif // EGLPLUS_UTILS_SPAN_HPP

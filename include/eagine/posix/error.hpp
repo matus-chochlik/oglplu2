@@ -25,8 +25,7 @@ struct error_info {
       , file_desc(fd) {
     }
 
-    constexpr error_info() noexcept {
-    }
+    constexpr error_info() noexcept = default;
 };
 
 struct error_handling_policy {
