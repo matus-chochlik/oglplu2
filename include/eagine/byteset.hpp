@@ -11,10 +11,10 @@
 #define EAGINE_BYTESET_1509260923_HPP
 
 #include "memory/block.hpp"
-#include "std/utility.hpp"
 #include "types.hpp"
 #include <climits>
 #include <type_traits>
+#include <utility>
 
 namespace eagine {
 

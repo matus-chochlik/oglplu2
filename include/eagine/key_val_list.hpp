@@ -11,9 +11,9 @@
 #define EAGINE_ATTRIB_LIST_1509260923_HPP
 
 #include "span.hpp"
-#include "std/utility.hpp"
 #include <array>
 #include <type_traits>
+#include <utility>
 
 namespace eagine {
 

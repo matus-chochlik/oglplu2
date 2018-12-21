@@ -10,8 +10,8 @@
 #ifndef EAGINE_VECT_CAST_1509260923_HPP
 #define EAGINE_VECT_CAST_1509260923_HPP
 
-#include "../std/utility.hpp"
 #include "fill.hpp"
+#include <utility>
 
 namespace eagine {
 namespace vect {

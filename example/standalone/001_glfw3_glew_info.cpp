@@ -26,7 +26,7 @@ static void run() {
 
     operations gl;
 
-    for(auto str_query : enum_value_range<string_query>()) {
+    for(const auto& str_query : enum_value_range<string_query>()) {
         std::cout << enum_value_name(str_query) << ": "
                   << gl.get_string(str_query).value() << std::endl;
     }

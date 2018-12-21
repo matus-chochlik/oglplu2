@@ -12,11 +12,11 @@
 
 #include "../instead_of.hpp"
 #include "../int_constant.hpp"
-#include "../std/utility.hpp"
 #include "default_alloc.hpp"
 #include "shared_alloc.hpp"
 #include <array>
 #include <cassert>
+#include <utility>
 
 namespace eagine {
 namespace memory {

@@ -9,8 +9,8 @@
 #ifndef EAGINE_MATH_MATRIX_1509260923_HPP
 #define EAGINE_MATH_MATRIX_1509260923_HPP
 
-#include "../std/utility.hpp"
 #include "vector.hpp"
+#include <utility>
 
 namespace eagine {
 namespace math {

@@ -5,7 +5,7 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 #include <eagine/math/matrix.hpp>
-#include <eagine/std/utility.hpp>
+#include <utility>
 #define BOOST_TEST_MODULE EAGINE_math_matrix_2
 #include "../unit_test_begin.inl"
 

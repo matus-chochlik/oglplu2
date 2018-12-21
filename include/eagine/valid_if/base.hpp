@@ -12,10 +12,10 @@
 
 #include "../assert.hpp"
 #include "../branch_predict.hpp"
-#include "../std/utility.hpp"
 #include <sstream>
 #include <stdexcept>
 #include <type_traits>
+#include <utility>
 
 namespace eagine {
 
