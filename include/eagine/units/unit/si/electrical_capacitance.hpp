@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_UNIT_SI_ELECTRICAL_CAPACITANCE_1512222148_HPP
-#define EAGINE_UNITS_UNIT_SI_ELECTRICAL_CAPACITANCE_1512222148_HPP
+#ifndef EAGINE_UNITS_UNIT_SI_ELECTRICAL_CAPACITANCE_HPP
+#define EAGINE_UNITS_UNIT_SI_ELECTRICAL_CAPACITANCE_HPP
 
 #include "../../dim/electrical_capacitance.hpp"
 #include "common.hpp"
@@ -40,4 +40,4 @@ using kilofarad = make_scaled_unit_t<scales::kilo, farad>;
 } // namespace units
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_UNITS_UNIT_SI_ELECTRICAL_CAPACITANCE_HPP

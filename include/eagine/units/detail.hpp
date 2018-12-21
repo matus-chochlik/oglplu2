@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_DETAIL_1512222148_HPP
-#define EAGINE_UNITS_DETAIL_1512222148_HPP
+#ifndef EAGINE_UNITS_DETAIL_HPP
+#define EAGINE_UNITS_DETAIL_HPP
 
 #include "../identity.hpp"
 #include "../mp_arithmetic.hpp"
@@ -396,4 +396,4 @@ struct _sc_unit_sc_hlp {
 } // namespace units
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_UNITS_DETAIL_HPP

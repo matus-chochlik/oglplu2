@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_INDEXED_ENUM_1509260923_HPP
-#define EAGINE_INDEXED_ENUM_1509260923_HPP
+#ifndef EAGINE_INDEXED_ENUM_HPP
+#define EAGINE_INDEXED_ENUM_HPP
 
 namespace eagine {
 
@@ -84,12 +84,11 @@ static inline indexed_enum_value<T, Base, LibId> operator+(
 
 template <typename T, unsigned LibId>
 struct any_indexed_enum_value {
-    unsigned _index;
+    unsigned _index{0u};
     T _base_id;
 
     constexpr inline any_indexed_enum_value() noexcept
-      : _index(0u)
-      , _base_id(~T(0)) {
+      : _base_id(~T(0)) {
     }
 
     template <T Base>
@@ -135,4 +134,4 @@ static constexpr inline bool same_enum_class(
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_INDEXED_ENUM_HPP

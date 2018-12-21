@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_UNIT_SI_ENERGY_1512222148_HPP
-#define EAGINE_UNITS_UNIT_SI_ENERGY_1512222148_HPP
+#ifndef EAGINE_UNITS_UNIT_SI_ENERGY_HPP
+#define EAGINE_UNITS_UNIT_SI_ENERGY_HPP
 
 #include "../../dim/energy.hpp"
 #include "common.hpp"
@@ -40,4 +40,4 @@ using megajoule = make_scaled_unit_t<scales::mega, joule>;
 } // namespace units
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_UNITS_UNIT_SI_ENERGY_HPP

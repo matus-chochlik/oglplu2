@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_ATTRIB_LIST_1509260923_HPP
-#define EAGINE_ATTRIB_LIST_1509260923_HPP
+#ifndef EAGINE_KEY_VAL_LIST_HPP
+#define EAGINE_KEY_VAL_LIST_HPP
 
 #include "span.hpp"
 #include <array>
@@ -161,4 +161,4 @@ static constexpr inline key_value_list<Traits, N + 2> operator+(
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_KEY_VAL_LIST_HPP

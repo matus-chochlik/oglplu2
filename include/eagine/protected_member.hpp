@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_PROTECTED_MEMBER_1509260923_HPP
-#define EAGINE_PROTECTED_MEMBER_1509260923_HPP
+#ifndef EAGINE_PROTECTED_MEMBER_HPP
+#define EAGINE_PROTECTED_MEMBER_HPP
 
 #include "identity.hpp"
 #include <utility>
@@ -51,4 +51,4 @@ static inline const T& get_member(
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_PROTECTED_MEMBER_HPP

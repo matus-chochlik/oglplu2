@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_SHAPES_GEN_BASE_1509260923_HPP
-#define EAGINE_SHAPES_GEN_BASE_1509260923_HPP
+#ifndef EAGINE_SHAPES_GEN_BASE_HPP
+#define EAGINE_SHAPES_GEN_BASE_HPP
 
 #include "../assert.hpp"
 #include "../span.hpp"
@@ -20,14 +20,11 @@ namespace eagine {
 namespace shapes {
 
 struct generator_params {
-    bool allow_strips;
-    bool allow_fans;
-    bool allow_primitive_restart;
+    bool allow_strips{true};
+    bool allow_fans{true};
+    bool allow_primitive_restart{false};
 
-    generator_params() noexcept
-      : allow_strips(true)
-      , allow_fans(true)
-      , allow_primitive_restart(false) {
+    generator_params() noexcept {
     }
 };
 
@@ -124,4 +121,4 @@ public:
 } // namespace shapes
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_SHAPES_GEN_BASE_HPP

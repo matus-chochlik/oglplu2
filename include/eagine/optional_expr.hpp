@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_OPTIONAL_EXPR_1509260923_HPP
-#define EAGINE_OPTIONAL_EXPR_1509260923_HPP
+#ifndef EAGINE_OPTIONAL_EXPR_HPP
+#define EAGINE_OPTIONAL_EXPR_HPP
 
 #include "valid_if/decl.hpp"
 
@@ -122,4 +122,4 @@ operator/(const T1& v1, const valid_if<T2, P2>& v2) noexcept {
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_OPTIONAL_EXPR_HPP

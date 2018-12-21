@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_MP_STRINGS_1509260923_HPP
-#define EAGINE_MP_STRINGS_1509260923_HPP
+#ifndef EAGINE_MP_STRINGS_HPP
+#define EAGINE_MP_STRINGS_HPP
 
 #include "mp_string.hpp"
 
@@ -116,4 +116,4 @@ struct mp_subscript<'-'> : mp_string<char(0xE2), char(0x82), char(0x8B)> {};
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_MP_STRINGS_HPP

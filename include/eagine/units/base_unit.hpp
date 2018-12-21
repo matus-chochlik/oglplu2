@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_BASE_UNIT_1512222148_HPP
-#define EAGINE_UNITS_BASE_UNIT_1512222148_HPP
+#ifndef EAGINE_UNITS_BASE_UNIT_HPP
+#define EAGINE_UNITS_BASE_UNIT_HPP
 
 #include "base_dim.hpp"
 #include "scales.hpp"
@@ -34,4 +34,4 @@ struct unit {
 } // namespace units
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_UNITS_BASE_UNIT_HPP

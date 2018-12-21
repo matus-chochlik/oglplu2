@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_UNIT_SI_PRESSURE_1512222148_HPP
-#define EAGINE_UNITS_UNIT_SI_PRESSURE_1512222148_HPP
+#ifndef EAGINE_UNITS_UNIT_SI_PRESSURE_HPP
+#define EAGINE_UNITS_UNIT_SI_PRESSURE_HPP
 
 #include "../../dim/pressure.hpp"
 #include "common.hpp"
@@ -40,4 +40,4 @@ using megapascal = make_scaled_unit_t<scales::mega, pascal>;
 } // namespace units
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_UNITS_UNIT_SI_PRESSURE_HPP

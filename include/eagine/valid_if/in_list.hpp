@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_VALID_IF_IN_LIST_1509260923_HPP
-#define EAGINE_VALID_IF_IN_LIST_1509260923_HPP
+#ifndef EAGINE_VALID_IF_IN_LIST_HPP
+#define EAGINE_VALID_IF_IN_LIST_HPP
 
 #include "decl.hpp"
 
@@ -59,4 +59,4 @@ using valid_if_in_list = valid_if<T, valid_if_in_list_policy<T, Range>>;
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_VALID_IF_IN_LIST_HPP

@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_MEMORY_COPY_1510290655_HPP
-#define EAGINE_MEMORY_COPY_1510290655_HPP
+#ifndef EAGINE_MEMORY_COPY_HPP
+#define EAGINE_MEMORY_COPY_HPP
 
 #include "block.hpp"
 #include <cassert>
@@ -26,4 +26,4 @@ static inline block copy(const_block source, block dest) {
 } // namespace memory
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_MEMORY_COPY_HPP

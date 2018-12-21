@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_MATH_TMAT_1509260923_HPP
-#define EAGINE_MATH_TMAT_1509260923_HPP
+#ifndef EAGINE_MATH_TMAT_HPP
+#define EAGINE_MATH_TMAT_HPP
 
 #include "../all_are_same.hpp"
 #include "matrix.hpp"
@@ -96,4 +96,4 @@ struct is_row_major<math::tmat<T, C, R, RM, V>> : bool_constant<RM> {};
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_MATH_TMAT_HPP

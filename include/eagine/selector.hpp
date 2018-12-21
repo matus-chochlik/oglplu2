@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_SELECTOR_1509260923_HPP
-#define EAGINE_SELECTOR_1509260923_HPP
+#ifndef EAGINE_SELECTOR_HPP
+#define EAGINE_SELECTOR_HPP
 
 #include <cstdint>
 
@@ -21,4 +21,4 @@ struct selector {
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_SELECTOR_HPP

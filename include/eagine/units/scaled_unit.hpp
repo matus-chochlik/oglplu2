@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_SCALED_UNIT_1512222148_HPP
-#define EAGINE_UNITS_SCALED_UNIT_1512222148_HPP
+#ifndef EAGINE_UNITS_SCALED_UNIT_HPP
+#define EAGINE_UNITS_SCALED_UNIT_HPP
 
 // clang-format off
 #include "dimension.hpp"
@@ -244,4 +244,4 @@ struct div_result<scaled_dim_unit<D1, US1, S>, scaled_dim_unit<D2, US2, S>>
 } // namespace units
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_UNITS_SCALED_UNIT_HPP

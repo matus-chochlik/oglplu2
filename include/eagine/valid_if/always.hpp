@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_VALID_IF_ALWAYS_1509260923_HPP
-#define EAGINE_VALID_IF_ALWAYS_1509260923_HPP
+#ifndef EAGINE_VALID_IF_ALWAYS_HPP
+#define EAGINE_VALID_IF_ALWAYS_HPP
 
 #include "decl.hpp"
 
@@ -37,4 +37,4 @@ using always_valid = valid_if<T, always_valid_policy>;
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_VALID_IF_ALWAYS_HPP

@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_VALID_IF_DECL_1509260923_HPP
-#define EAGINE_VALID_IF_DECL_1509260923_HPP
+#ifndef EAGINE_VALID_IF_DECL_HPP
+#define EAGINE_VALID_IF_DECL_HPP
 
 #include "../assert.hpp"
 #include "../tribool.hpp"
@@ -17,10 +17,9 @@
 namespace eagine {
 
 struct valid_flag_policy {
-    bool _is_valid;
+    bool _is_valid{false};
 
-    constexpr valid_flag_policy() noexcept
-      : _is_valid(false) {
+    constexpr valid_flag_policy() noexcept {
     }
 
     constexpr valid_flag_policy(bool is_valid) noexcept
@@ -179,4 +178,4 @@ using optionally_valid = valid_if<T, valid_flag_policy>;
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_VALID_IF_DECL_HPP

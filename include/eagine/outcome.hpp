@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_OUTCOME_1509260923_HPP
-#define EAGINE_OUTCOME_1509260923_HPP
+#ifndef EAGINE_OUTCOME_HPP
+#define EAGINE_OUTCOME_HPP
 
 #include "branch_predict.hpp"
 #include "deferred_handler.hpp"
@@ -388,4 +388,4 @@ static inline basic_negative_outcome<T, ErrorData, HandlerPolicy> failure(
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_OUTCOME_HPP

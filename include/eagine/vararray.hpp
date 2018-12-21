@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_VARARRAY_1509260923_HPP
-#define EAGINE_VARARRAY_1509260923_HPP
+#ifndef EAGINE_VARARRAY_HPP
+#define EAGINE_VARARRAY_HPP
 
 #include <cstdint>
 #include <type_traits>
@@ -100,4 +100,4 @@ using vararray_store = basic_vararray_store<T, std::size_t, N>;
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_VARARRAY_HPP

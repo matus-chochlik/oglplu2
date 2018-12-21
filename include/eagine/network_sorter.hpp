@@ -2,8 +2,8 @@
  *  @file eagine/network_sorter.hpp
  */
 
-#ifndef EAGINE_NETWORK_SORTER_1512222148_HPP
-#define EAGINE_NETWORK_SORTER_1512222148_HPP
+#ifndef EAGINE_NETWORK_SORTER_HPP
+#define EAGINE_NETWORK_SORTER_HPP
 
 #include "sorting_network.hpp"
 #include <array>
@@ -120,4 +120,4 @@ public:
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_NETWORK_SORTER_HPP

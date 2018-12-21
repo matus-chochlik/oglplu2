@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_MATH_TVEC_1509260923_HPP
-#define EAGINE_MATH_TVEC_1509260923_HPP
+#ifndef EAGINE_MATH_TVEC_HPP
+#define EAGINE_MATH_TVEC_HPP
 
 #include "../all_are_same.hpp"
 #include "vector.hpp"
@@ -96,4 +96,4 @@ struct compound_view_maker<math::tvec<T, N, V>> {
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_MATH_TVEC_HPP

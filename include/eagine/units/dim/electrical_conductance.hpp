@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_DIM_ELECTRICAL_CONDUCTANCE_1512222148_HPP
-#define EAGINE_UNITS_DIM_ELECTRICAL_CONDUCTANCE_1512222148_HPP
+#ifndef EAGINE_UNITS_DIM_ELECTRICAL_CONDUCTANCE_HPP
+#define EAGINE_UNITS_DIM_ELECTRICAL_CONDUCTANCE_HPP
 
 #include "electric_tension.hpp"
 
@@ -26,4 +26,4 @@ struct dim_name<electrical_conductance> {
 } // namespace units
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_UNITS_DIM_ELECTRICAL_CONDUCTANCE_HPP

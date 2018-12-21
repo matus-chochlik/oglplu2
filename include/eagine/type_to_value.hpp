@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_TYPE_TO_VALUE_1509260923_HPP
-#define EAGINE_TYPE_TO_VALUE_1509260923_HPP
+#ifndef EAGINE_TYPE_TO_VALUE_HPP
+#define EAGINE_TYPE_TO_VALUE_HPP
 
 #include "identity.hpp"
 #include "instead_of.hpp"
@@ -165,4 +165,4 @@ struct type_to_value : type_to_value_unit<Value, Keys>... {
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_TYPE_TO_VALUE_HPP

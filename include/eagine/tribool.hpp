@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_TRIBOOL_1509260923_HPP
-#define EAGINE_TRIBOOL_1509260923_HPP
+#ifndef EAGINE_TRIBOOL_HPP
+#define EAGINE_TRIBOOL_HPP
 
 namespace eagine {
 
@@ -52,11 +52,10 @@ public:
 class tribool {
 private:
     using _value_t = _tribool_value_t;
-    _value_t _value;
+    _value_t _value{_value_t::_false};
 
 public:
-    constexpr tribool() noexcept
-      : _value(_value_t::_false) {
+    constexpr tribool() noexcept {
     }
 
     constexpr tribool(bool value) noexcept
@@ -114,4 +113,4 @@ constexpr inline tribool operator||(tribool a, tribool b) noexcept {
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_TRIBOOL_HPP

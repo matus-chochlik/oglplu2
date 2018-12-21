@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_POSIX_FILE_STAT_1509260923_HPP
-#define EAGINE_POSIX_FILE_STAT_1509260923_HPP
+#ifndef EAGINE_POSIX_FILE_STAT_HPP
+#define EAGINE_POSIX_FILE_STAT_HPP
 
 #include "file_descriptor.hpp"
 #include <sys/stat.h>
@@ -21,7 +21,7 @@ fstat(file_descriptor fd, struct ::stat& buf) noexcept {
 }
 
 static inline outcome<off_t> file_size(file_descriptor fd) noexcept {
-    struct ::stat buf;
+    struct ::stat buf {};
     buf.st_size = 0;
     outcome<void> result = fstat(fd, buf);
     return std::move(result).add(buf.st_size);
@@ -29,7 +29,7 @@ static inline outcome<off_t> file_size(file_descriptor fd) noexcept {
 
 class file_stat {
 private:
-    struct ::stat _st;
+    struct ::stat _st {};
 
 public:
     file_stat(file_descriptor fdw) {
@@ -44,4 +44,4 @@ public:
 } // namespace posix
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_POSIX_FILE_STAT_HPP

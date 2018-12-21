@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_RANGE_ALGO_1509260923_HPP
-#define EAGINE_RANGE_ALGO_1509260923_HPP
+#ifndef EAGINE_RANGE_ALGO_HPP
+#define EAGINE_RANGE_ALGO_HPP
 
 #include "compare.hpp"
 #include "count.hpp"
@@ -173,4 +173,4 @@ static inline BackInsertionSequence split(
 } // namespace ranges
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_RANGE_ALGO_HPP

@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_STRUCT_MEMORY_BLOCK_1509260923_HPP
-#define EAGINE_STRUCT_MEMORY_BLOCK_1509260923_HPP
+#ifndef EAGINE_STRUCT_MEMORY_BLOCK_HPP
+#define EAGINE_STRUCT_MEMORY_BLOCK_HPP
 
 #include "memory/block.hpp"
 #include <type_traits>
@@ -69,4 +69,4 @@ public:
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_STRUCT_MEMORY_BLOCK_HPP

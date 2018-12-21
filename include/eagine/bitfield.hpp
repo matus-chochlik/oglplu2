@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_BITFIELD_1509260923_HPP
-#define EAGINE_BITFIELD_1509260923_HPP
+#ifndef EAGINE_BITFIELD_HPP
+#define EAGINE_BITFIELD_HPP
 
 #include <type_traits>
 
@@ -90,4 +90,4 @@ public:
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_BITFIELD_HPP

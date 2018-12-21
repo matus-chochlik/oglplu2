@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_POSIX_SYSCONF_1509260923_HPP
-#define EAGINE_POSIX_SYSCONF_1509260923_HPP
+#ifndef EAGINE_POSIX_SYSCONF_HPP
+#define EAGINE_POSIX_SYSCONF_HPP
 
 #include "error.hpp"
 #include <unistd.h>
@@ -27,4 +27,4 @@ static inline outcome<long> page_size() noexcept {
 } // namespace posix
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_POSIX_SYSCONF_HPP

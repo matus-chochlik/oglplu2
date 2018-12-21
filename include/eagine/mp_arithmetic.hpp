@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_MP_ARITHMETIC_1509260923_HPP
-#define EAGINE_MP_ARITHMETIC_1509260923_HPP
+#ifndef EAGINE_MP_ARITHMETIC_HPP
+#define EAGINE_MP_ARITHMETIC_HPP
 
 #include <type_traits>
 
@@ -56,4 +56,4 @@ struct mp_negate<std::integral_constant<Int, I1>>
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_MP_ARITHMETIC_HPP

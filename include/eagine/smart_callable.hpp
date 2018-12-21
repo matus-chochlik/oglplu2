@@ -1,3 +1,6 @@
+#ifndef EAGINE_SMART_CALLABLE_HPP
+#define EAGINE_SMART_CALLABLE_HPP
+
 /**
  *  @file eagine/smart_callable.hpp
  *
@@ -91,3 +94,5 @@ safe_call(RV (*function)(Params...)) noexcept {
 } // namespace eagine
 
 #endif // EAGINE_SMART_CALLABLE_1509260923_HPP
+
+#endif

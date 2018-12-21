@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_DEFERRED_HANDLER_1509260923_HPP
-#define EAGINE_DEFERRED_HANDLER_1509260923_HPP
+#ifndef EAGINE_DEFERRED_HANDLER_HPP
+#define EAGINE_DEFERRED_HANDLER_HPP
 
 #include <cassert>
 #include <utility>
@@ -68,12 +68,11 @@ template <typename Data, typename HandlerPolicy>
 class cancelled_handler {
 private:
     Data _data;
-    bool _error;
+    bool _error{true};
 
 public:
     constexpr inline cancelled_handler() noexcept
-      : _data()
-      , _error(true) {
+      : _data() {
     }
 
     cancelled_handler(cancelled_handler&&) = default;
@@ -215,4 +214,4 @@ make_deferred_handler(void (*handler)(Data&), Data data) noexcept {
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_DEFERRED_HANDLER_HPP

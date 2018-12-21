@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_UNIT_SI_ELECTRIC_CURRENT_1512222148_HPP
-#define EAGINE_UNITS_UNIT_SI_ELECTRIC_CURRENT_1512222148_HPP
+#ifndef EAGINE_UNITS_UNIT_SI_ELECTRIC_CURRENT_HPP
+#define EAGINE_UNITS_UNIT_SI_ELECTRIC_CURRENT_HPP
 
 #include "common.hpp"
 
@@ -49,4 +49,4 @@ using milliampere = make_scaled_base_dim_unit_t<
 } // namespace units
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_UNITS_UNIT_SI_ELECTRIC_CURRENT_HPP

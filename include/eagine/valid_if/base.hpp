@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_VALID_IF_BASE_1509260923_HPP
-#define EAGINE_VALID_IF_BASE_1509260923_HPP
+#ifndef EAGINE_VALID_IF_BASE_HPP
+#define EAGINE_VALID_IF_BASE_HPP
 
 #include "../assert.hpp"
 #include "../branch_predict.hpp"
@@ -223,4 +223,4 @@ public:
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_VALID_IF_BASE_HPP

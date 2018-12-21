@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_MATH_INTERPOLATE_1509260923_HPP
-#define EAGINE_MATH_INTERPOLATE_1509260923_HPP
+#ifndef EAGINE_MATH_INTERPOLATE_HPP
+#define EAGINE_MATH_INTERPOLATE_HPP
 
 #include "constants.hpp"
 
@@ -51,4 +51,4 @@ static inline auto smooth_oscillate(const T& a, C coef) {
 #pragma clang diagnostic pop
 #endif
 
-#endif // include guard
+#endif // EAGINE_MATH_INTERPOLATE_HPP

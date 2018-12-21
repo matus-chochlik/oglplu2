@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_INTERLEAVED_CALL_1509260923_HPP
-#define EAGINE_INTERLEAVED_CALL_1509260923_HPP
+#ifndef EAGINE_INTERLEAVED_CALL_HPP
+#define EAGINE_INTERLEAVED_CALL_HPP
 
 #include <utility>
 
@@ -30,10 +30,11 @@ public:
 
     template <typename... P>
     auto operator()(P&&... p) {
-        if(!_first)
+        if(!_first) {
             _sep_func();
-        else
+        } else {
             _first = false;
+        }
         return _func(std::forward<P>(p)...);
     }
 };
@@ -46,4 +47,4 @@ make_interleaved(Func func, SepFunc sep_func) {
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_INTERLEAVED_CALL_HPP

@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_VECT_FROM_1509260923_HPP
-#define EAGINE_VECT_FROM_1509260923_HPP
+#ifndef EAGINE_VECT_FROM_HPP
+#define EAGINE_VECT_FROM_HPP
 
 #include "../types.hpp"
 #include "data.hpp"
@@ -97,4 +97,4 @@ struct from_saafv {
 } // namespace vect
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_VECT_FROM_HPP

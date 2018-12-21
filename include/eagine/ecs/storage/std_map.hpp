@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_ECS_STORAGE_STD_MAP_1509260923_HPP
-#define EAGINE_ECS_STORAGE_STD_MAP_1509260923_HPP
+#ifndef EAGINE_ECS_STORAGE_STD_MAP_HPP
+#define EAGINE_ECS_STORAGE_STD_MAP_HPP
 
 #include "../cmp_storage.hpp"
 #include "../rel_storage.hpp"
@@ -55,16 +55,20 @@ public:
     }
 
     bool find(Entity e) override {
-        if(done())
+        if(done()) {
             return false;
-        if(e == _i->first)
+        }
+        if(e == _i->first) {
             return true;
-        if(e < _i->first)
+        }
+        if(e < _i->first) {
             return false;
+        }
 
         while(++_i != _map->end()) {
-            if(_i->first == e)
+            if(_i->first == e) {
                 return true;
+            }
         }
         return false;
     }
@@ -150,11 +154,13 @@ public:
     }
 
     bool copy(entity_param ef, entity_param et) override {
-        if(is_hidden(ef))
+        if(is_hidden(ef)) {
             return false;
+        }
         auto pf = _components.find(ef);
-        if(pf == _components.end())
+        if(pf == _components.end()) {
             return false;
+        }
         return store(et, Component(pf->second));
     }
 
@@ -167,20 +173,24 @@ public:
         if(pa != _components.end() && pb != _components.end()) {
             using std::swap;
             swap(pa->second, pb->second);
-            if(ha && !hb)
+            if(ha && !hb) {
                 show(ea);
-            if(hb && !ha)
+            }
+            if(hb && !ha) {
                 show(eb);
+            }
         } else if(pa != _components.end()) {
             store(eb, std::move(pa->second));
             remove(ea);
-            if(ha)
+            if(ha) {
                 hide(eb);
+            }
         } else if(pb != _components.end()) {
             store(ea, std::move(pb->second));
             remove(eb);
-            if(hb)
+            if(hb) {
                 hide(ea);
+            }
         }
         return true;
     }
@@ -290,10 +300,12 @@ public:
                 func(p->first, m);
                 if(m.remove_requested()) {
                     p = _remove(p);
-                } else
+                } else {
                     ++p;
-            } else
+                }
+            } else {
                 ++p;
+            }
         }
     }
 
@@ -308,10 +320,12 @@ public:
                 func(p->first, m);
                 if(m.remove_requested()) {
                     p = _remove(p);
-                } else
+                } else {
                     ++p;
-            } else
+                }
+            } else {
                 ++p;
+            }
         }
     }
 };
@@ -521,8 +535,9 @@ public:
             func(subject, po->first.second, m);
             if(m.remove_requested()) {
                 po = _remove(po);
-            } else
+            } else {
                 ++po;
+            }
         }
     }
 
@@ -539,8 +554,9 @@ public:
             func(subject, po->first.second, m);
             if(m.remove_requested()) {
                 po = _remove(po);
-            } else
+            } else {
                 ++po;
+            }
         }
     }
 
@@ -554,8 +570,9 @@ public:
             func(po->first.first, po->first.second, m);
             if(m.remove_requested()) {
                 po = _remove(po);
-            } else
+            } else {
                 ++po;
+            }
         }
     }
 
@@ -570,8 +587,9 @@ public:
             func(po->first.first, po->first.second, m);
             if(m.remove_requested()) {
                 po = _remove(po);
-            } else
+            } else {
                 ++po;
+            }
         }
     }
 };
@@ -579,4 +597,4 @@ public:
 } // namespace ecs
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_ECS_STORAGE_STD_MAP_HPP

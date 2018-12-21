@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_VECT_SHUFFLE_1509260923_HPP
-#define EAGINE_VECT_SHUFFLE_1509260923_HPP
+#ifndef EAGINE_VECT_SHUFFLE_HPP
+#define EAGINE_VECT_SHUFFLE_HPP
 
 #include "data.hpp"
 
@@ -119,4 +119,4 @@ public:
 } // namespace vect
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_VECT_SHUFFLE_HPP

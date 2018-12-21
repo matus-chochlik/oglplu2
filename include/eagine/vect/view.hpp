@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_VECT_VIEW_1509260923_HPP
-#define EAGINE_VECT_VIEW_1509260923_HPP
+#ifndef EAGINE_VECT_VIEW_HPP
+#define EAGINE_VECT_VIEW_HPP
 
 #include "../span.hpp"
 #include "data.hpp"
@@ -31,13 +31,13 @@ private:
 
 public:
     static inline span<const T> apply(const data_t<T, N, V>& d) noexcept {
-        static_assert(sizeof(T[N]) == sizeof(data_t<T, N, V>), "");
+        static_assert(sizeof(T[N]) == sizeof(data_t<T, N, V>));
         return {_addr(d, has_vect_data<T, N, V>()), N};
     }
 
     template <int M>
     static inline span<const T> apply(const data_t<T, N, V> (&d)[M]) noexcept {
-        static_assert(sizeof(T[N][M]) == sizeof(data_t<T, N, V>[M]), "");
+        static_assert(sizeof(T[N][M]) == sizeof(data_t<T, N, V>[M]));
         return {_addr(d[0], has_vect_data<T, N, V>()), N * M};
     }
 };
@@ -45,4 +45,4 @@ public:
 } // namespace vect
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_VECT_VIEW_HPP

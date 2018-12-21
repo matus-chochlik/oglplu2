@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_FLAT_MAP_1509260923_HPP
-#define EAGINE_FLAT_MAP_1509260923_HPP
+#ifndef EAGINE_FLAT_MAP_HPP
+#define EAGINE_FLAT_MAP_HPP
 
 #include "types.hpp"
 #include <algorithm>
@@ -74,8 +74,9 @@ struct flat_map_ops {
     template <typename I>
     auto& at(I b, I e, const Key& key) const {
         b = find(b, e, key);
-        if(b == e)
+        if(b == e) {
             throw std::out_of_range("Invalid flat map key");
+        }
         return b->second;
     }
 
@@ -363,4 +364,4 @@ public:
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_FLAT_MAP_HPP

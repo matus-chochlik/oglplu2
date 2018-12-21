@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_ECS_CMP_STORAGE_1509260923_HPP
-#define EAGINE_ECS_CMP_STORAGE_1509260923_HPP
+#ifndef EAGINE_ECS_CMP_STORAGE_HPP
+#define EAGINE_ECS_CMP_STORAGE_HPP
 
 #include "../callable_ref.hpp"
 #include "entity_traits.hpp"
@@ -164,4 +164,4 @@ struct storage<Entity, Component, false> : base_storage<Entity, false> {
 } // namespace ecs
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_ECS_CMP_STORAGE_HPP

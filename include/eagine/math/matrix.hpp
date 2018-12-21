@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_MATH_MATRIX_1509260923_HPP
-#define EAGINE_MATH_MATRIX_1509260923_HPP
+#ifndef EAGINE_MATH_MATRIX_HPP
+#define EAGINE_MATH_MATRIX_HPP
 
 #include "vector.hpp"
 #include <utility>
@@ -236,10 +236,11 @@ transpose_tpl(const matrix<T, C, R, SrcRM, V>& m) noexcept {
     static const bool S = (DstRM != SrcRM);
     matrix<T, (S ? C : R), (S ? R : C), DstRM, V> r;
 
-    for(int i = 0; i < R; ++i)
+    for(int i = 0; i < R; ++i) {
         for(int j = 0; j < C; ++j) {
             set_rm(r, S ? i : j, S ? j : i, get_rm(m, i, j));
         }
+    }
 
     return r;
 }
@@ -327,14 +328,14 @@ static inline std::enable_if_t<(I < 4), vector<T, 4, V>> minor_vector(
 template <int I, typename T, int C, int R, bool V>
 static constexpr inline vector<T, C, V> row(
   const matrix<T, C, R, true, V>& m) noexcept {
-    static_assert(I < R, "");
+    static_assert(I < R);
     return major_vector<I>(m);
 }
 
 // row (Column-Major)
 template <int I, typename T, int C, int R, bool V>
 static inline vector<T, C, V> row(const matrix<T, C, R, false, V>& m) noexcept {
-    static_assert(I < R, "");
+    static_assert(I < R);
     return minor_vector<I>(m);
 }
 
@@ -350,8 +351,9 @@ static inline vector<T, C, V> _row_hlp(
 template <typename T, int R, int C, bool RM, bool V, int I>
 static inline vector<T, C, V> _row_hlp(
   const matrix<T, C, R, RM, V>& m, int_constant<I>, int i) noexcept {
-    if(I == i)
+    if(I == i) {
         return row<I>(m);
+    }
     return _row_hlp(m, int_constant<I - 1>(), i);
 }
 
@@ -388,8 +390,9 @@ static inline vector<T, R, V> _col_hlp(
 template <typename T, int C, int R, bool RM, bool V, int I>
 static inline vector<T, R, V> _col_hlp(
   const matrix<T, C, R, RM, V>& m, int_constant<I>, int i) noexcept {
-    if(I == i)
+    if(I == i) {
         return column<I>(m);
+    }
     return _col_hlp(m, int_constant<I - 1>(), i);
 }
 
@@ -449,7 +452,7 @@ static inline matrix<T, N, M, RM1, V> multiply(
   const matrix<T, N, K, RM2, V>& m2) noexcept {
     matrix<T, N, M, RM1, V> m3;
 
-    for(int i = 0; i < M; ++i)
+    for(int i = 0; i < M; ++i) {
         for(int j = 0; j < N; ++j) {
             T s = T(0);
 
@@ -459,6 +462,7 @@ static inline matrix<T, N, M, RM1, V> multiply(
 
             set_rm(m3, i, j, s);
         }
+    }
     return m3;
 }
 
@@ -496,4 +500,4 @@ struct is_row_major<math::matrix<T, C, R, RM, V>> : bool_constant<RM> {};
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_MATH_MATRIX_HPP

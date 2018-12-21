@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_FWD_1512222148_HPP
-#define EAGINE_UNITS_FWD_1512222148_HPP
+#ifndef EAGINE_UNITS_FWD_HPP
+#define EAGINE_UNITS_FWD_HPP
 
 #include "../int_constant.hpp"
 #include "../nothing.hpp"
@@ -146,4 +146,4 @@ constexpr bool is_convertible_v = is_convertible<U1, U2>::value;
 } // namespace units
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_UNITS_FWD_HPP

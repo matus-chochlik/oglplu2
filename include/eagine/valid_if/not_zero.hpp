@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_VALID_IF_NOT_ZERO_1509260923_HPP
-#define EAGINE_VALID_IF_NOT_ZERO_1509260923_HPP
+#ifndef EAGINE_VALID_IF_NOT_ZERO_HPP
+#define EAGINE_VALID_IF_NOT_ZERO_HPP
 
 #include "decl.hpp"
 
@@ -47,4 +47,4 @@ static inline nonzero_t<T> nonzero(T v) noexcept {
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_VALID_IF_NOT_ZERO_HPP

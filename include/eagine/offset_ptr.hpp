@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_OFFSET_PTR_1509260923_HPP
-#define EAGINE_OFFSET_PTR_1509260923_HPP
+#ifndef EAGINE_OFFSET_PTR_HPP
+#define EAGINE_OFFSET_PTR_HPP
 
 #include "memory/offset_ptr.hpp"
 
@@ -24,4 +24,4 @@ using short_offset_ptr = basic_offset_ptr<Pointee, short>;
 //------------------------------------------------------------------------------
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_OFFSET_PTR_HPP

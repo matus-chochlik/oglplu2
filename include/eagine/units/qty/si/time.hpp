@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_QTY_SI_TIME_1512222148_HPP
-#define EAGINE_UNITS_QTY_SI_TIME_1512222148_HPP
+#ifndef EAGINE_UNITS_QTY_SI_TIME_HPP
+#define EAGINE_UNITS_QTY_SI_TIME_HPP
 
 #include "../../quantity.hpp"
 #include "../../unit/si/time.hpp"
@@ -44,4 +44,4 @@ static inline auto days(const T& v) {
 } // namespace units
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_UNITS_QTY_SI_TIME_HPP

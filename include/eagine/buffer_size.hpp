@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_UTILS_BUFFER_SIZE_1509260923_HPP
-#define EAGINE_UTILS_BUFFER_SIZE_1509260923_HPP
+#ifndef EAGINE_BUFFER_SIZE_HPP
+#define EAGINE_BUFFER_SIZE_HPP
 
 #include "identity.hpp"
 #include "span.hpp"
@@ -18,7 +18,7 @@ namespace eagine {
 template <typename S>
 class buffer_size {
 private:
-    static_assert(std::is_integral_v<S>, "");
+    static_assert(std::is_integral_v<S>);
     S _v;
 
 public:
@@ -61,4 +61,4 @@ public:
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_BUFFER_SIZE_HPP

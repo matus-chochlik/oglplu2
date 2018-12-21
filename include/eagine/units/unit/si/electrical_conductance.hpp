@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_UNIT_SI_ELECTRICAL_CONDUCTANCE_1512222148_HPP
-#define EAGINE_UNITS_UNIT_SI_ELECTRICAL_CONDUCTANCE_1512222148_HPP
+#ifndef EAGINE_UNITS_UNIT_SI_ELECTRICAL_CONDUCTANCE_HPP
+#define EAGINE_UNITS_UNIT_SI_ELECTRICAL_CONDUCTANCE_HPP
 
 #include "../../dim/electrical_conductance.hpp"
 #include "common.hpp"
@@ -38,4 +38,4 @@ using millisiemens = make_scaled_unit_t<scales::milli, siemens>;
 } // namespace units
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_UNITS_UNIT_SI_ELECTRICAL_CONDUCTANCE_HPP

@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_MEMORY_BYTE_ALLOC_1509260923_HPP
-#define EAGINE_MEMORY_BYTE_ALLOC_1509260923_HPP
+#ifndef EAGINE_MEMORY_BYTE_ALLOC_HPP
+#define EAGINE_MEMORY_BYTE_ALLOC_HPP
 
 #include "../tribool.hpp"
 #include "../types.hpp"
@@ -78,7 +78,7 @@ struct byte_alloc_managed_policy {
 // byte_alloc_ref_count_policy
 class byte_alloc_ref_count_policy {
 private:
-    span_size_t _ref_count;
+    span_size_t _ref_count{1};
 
 public:
     byte_alloc_ref_count_policy(const byte_alloc_ref_count_policy&) = delete;
@@ -89,8 +89,7 @@ public:
     byte_alloc_ref_count_policy& operator=(byte_alloc_ref_count_policy&& tmp) =
       delete;
 
-    byte_alloc_ref_count_policy() noexcept
-      : _ref_count(1) {
+    byte_alloc_ref_count_policy() noexcept {
     }
 
     byte_alloc_ref_count_policy(byte_alloc_ref_count_policy&& tmp) noexcept
@@ -163,7 +162,7 @@ public:
     static Final* accomodate_derived(Final& that) noexcept {
         owned_block ob =
           that.allocate(span_size_of<Final>(), span_align_of<Final>());
-        Final* const result = new(ob.begin()) Final(std::move(that));
+        auto* const result = new(ob.begin()) Final(std::move(that));
         release_block(std::move(ob));
         return result;
     }
@@ -187,4 +186,4 @@ public:
 } // namespace memory
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_MEMORY_BYTE_ALLOC_HPP

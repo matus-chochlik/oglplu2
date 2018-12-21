@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_VECT_HSUM_1509260923_HPP
-#define EAGINE_VECT_HSUM_1509260923_HPP
+#ifndef EAGINE_VECT_HSUM_HPP
+#define EAGINE_VECT_HSUM_HPP
 
 #include "shuffle.hpp"
 
@@ -33,7 +33,7 @@ private:
 
     template <int M, bool B>
     static _dT _hlp(_dT v, _int<M>, _bool<B>) noexcept {
-        static_assert(M == N, "");
+        static_assert(M == N);
 
         for(int i = 1; i < N; ++i) {
             v[i] += v[i - 1];
@@ -95,4 +95,4 @@ public:
 } // namespace vect
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_VECT_HSUM_HPP

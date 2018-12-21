@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_MP_STRING_1509260923_HPP
-#define EAGINE_MP_STRING_1509260923_HPP
+#ifndef EAGINE_MP_STRING_HPP
+#define EAGINE_MP_STRING_HPP
 
 #include "int_constant.hpp"
 #include <utility>
@@ -145,4 +145,4 @@ using mp_make_string_t = typename mp_make_string<S>::type;
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_MP_STRING_HPP

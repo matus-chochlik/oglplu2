@@ -1,3 +1,6 @@
+#ifndef EAGINE_UNITS_UNIT_SI_COMMON_HPP
+#define EAGINE_UNITS_UNIT_SI_COMMON_HPP
+
 /**
  *  @file eagine/units/unit/si/common.hpp
  *
@@ -39,3 +42,5 @@ struct si::base_unit<base::dimension<Dim>> : si::base_unit<Dim> {};
 } // namespace eagine
 
 #endif // include guard
+
+#endif

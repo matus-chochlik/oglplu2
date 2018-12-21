@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_TRAITS_1512222148_HPP
-#define EAGINE_UNITS_TRAITS_1512222148_HPP
+#ifndef EAGINE_UNITS_TRAITS_HPP
+#define EAGINE_UNITS_TRAITS_HPP
 
 #include "default.hpp"
 
@@ -54,4 +54,4 @@ struct same_dimension<scaled_dim_unit<D, US1, S>, scaled_dim_unit<D, US2, S>>
 } // namespace units
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_UNITS_TRAITS_HPP

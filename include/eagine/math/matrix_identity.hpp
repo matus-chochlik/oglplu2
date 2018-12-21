@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_MATH_MATRIX_IDENTITY_1509260923_HPP
-#define EAGINE_MATH_MATRIX_IDENTITY_1509260923_HPP
+#ifndef EAGINE_MATH_MATRIX_IDENTITY_HPP
+#define EAGINE_MATH_MATRIX_IDENTITY_HPP
 
 #include "matrix_ctr.hpp"
 
@@ -93,4 +93,4 @@ static constexpr inline identity<matrix<T, R, C, !RM, V>> reorder_mat_ctr(
 } // namespace math
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_MATH_MATRIX_IDENTITY_HPP

@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_MATH_MATRIX_CTR_1509260923_HPP
-#define EAGINE_MATH_MATRIX_CTR_1509260923_HPP
+#ifndef EAGINE_MATH_MATRIX_CTR_HPP
+#define EAGINE_MATH_MATRIX_CTR_HPP
 
 #include "../nothing.hpp"
 #include "matrix.hpp"
@@ -70,7 +70,7 @@ static inline auto multiply(const MC1& mc1, const MC2& mc2) noexcept {
 
 template <typename MC>
 struct convertible_matrix_constructor : MC {
-    static_assert(is_matrix_constructor<MC>::value, "");
+    static_assert(is_matrix_constructor<MC>::value);
 
     template <typename... P>
     convertible_matrix_constructor(P&&... p)
@@ -125,4 +125,4 @@ struct is_row_major<math::convertible_matrix_constructor<MC>>
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_MATH_MATRIX_CTR_HPP

@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_MATH_MATRIX_TRANSLATION_1509260923_HPP
-#define EAGINE_MATH_MATRIX_TRANSLATION_1509260923_HPP
+#ifndef EAGINE_MATH_MATRIX_TRANSLATION_HPP
+#define EAGINE_MATH_MATRIX_TRANSLATION_HPP
 
 #include "matrix_ctr.hpp"
 
@@ -80,4 +80,4 @@ using matrix_translation =
 } // namespace math
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_MATH_MATRIX_TRANSLATION_HPP

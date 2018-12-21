@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_DIM_VELOCITY_1512222148_HPP
-#define EAGINE_UNITS_DIM_VELOCITY_1512222148_HPP
+#ifndef EAGINE_UNITS_DIM_VELOCITY_HPP
+#define EAGINE_UNITS_DIM_VELOCITY_HPP
 
 #include "../dimension.hpp"
 
@@ -25,4 +25,4 @@ struct dim_name<velocity> {
 } // namespace units
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_UNITS_DIM_VELOCITY_HPP

@@ -1,3 +1,6 @@
+#ifndef EAGINE_ARGS_WITHIN_LIMITS_HPP
+#define EAGINE_ARGS_WITHIN_LIMITS_HPP
+
 /**
  *  @file eagine/args_within_limits.hpp
  *
@@ -42,3 +45,5 @@ static inline bool args_within_limits(
 } // namespace eagine
 
 #endif // EAGINE_ARGS_WITHIN_LIMITS_1509260923_HPP
+
+#endif

@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_DEEP_COPY_PTR_1509260923_HPP
-#define EAGINE_DEEP_COPY_PTR_1509260923_HPP
+#ifndef EAGINE_DEEP_COPY_PTR_HPP
+#define EAGINE_DEEP_COPY_PTR_HPP
 
 #include <memory>
 #include <type_traits>
@@ -85,4 +85,4 @@ static inline deep_copy_ptr<T> make_deep_copy_ptr(P&&... p) {
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_DEEP_COPY_PTR_HPP

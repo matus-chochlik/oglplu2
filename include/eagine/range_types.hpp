@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_RANGE_TYPES_1509260923_HPP
-#define EAGINE_RANGE_TYPES_1509260923_HPP
+#ifndef EAGINE_RANGE_TYPES_HPP
+#define EAGINE_RANGE_TYPES_HPP
 
 #include "types.hpp"
 #include "valid_if/le_size_ge0.hpp"
@@ -40,4 +40,4 @@ static constexpr inline range_index_t<R> range_index(T i) noexcept {
 //------------------------------------------------------------------------------
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_RANGE_TYPES_HPP

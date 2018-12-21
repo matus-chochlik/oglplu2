@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_UNIT_SI_LUMINOUS_INTENSITY_1512222148_HPP
-#define EAGINE_UNITS_UNIT_SI_LUMINOUS_INTENSITY_1512222148_HPP
+#ifndef EAGINE_UNITS_UNIT_SI_LUMINOUS_INTENSITY_HPP
+#define EAGINE_UNITS_UNIT_SI_LUMINOUS_INTENSITY_HPP
 
 #include "common.hpp"
 
@@ -46,4 +46,4 @@ using kilocandela = make_scaled_base_dim_unit_t<
 } // namespace units
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_UNITS_UNIT_SI_LUMINOUS_INTENSITY_HPP

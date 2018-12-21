@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_VECT_ESUM_1509260923_HPP
-#define EAGINE_VECT_ESUM_1509260923_HPP
+#ifndef EAGINE_VECT_ESUM_HPP
+#define EAGINE_VECT_ESUM_HPP
 
 #include "config.hpp"
 #if EAGINE_VECT_OPTS
@@ -32,7 +32,7 @@ private:
 
     template <int M, bool B>
     static inline T _hlp(_dpT v, _int<M>, _bool<B>) noexcept {
-        static_assert(M == N, "");
+        static_assert(M == N);
         T r = T(0);
 
         for(int i = 0; i < N; ++i) {
@@ -49,7 +49,7 @@ private:
 
     template <int M>
     static inline T _hlp(_dpT v, _int<M>, std::true_type) noexcept {
-        static_assert(M == N, "");
+        static_assert(M == N);
         return hsum<T, N, V>::apply(v)[N - 1];
     }
 #endif
@@ -62,4 +62,4 @@ public:
 } // namespace vect
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_VECT_ESUM_HPP

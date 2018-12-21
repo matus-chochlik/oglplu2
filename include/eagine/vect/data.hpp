@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_VECT_DATA_1509260923_HPP
-#define EAGINE_VECT_DATA_1509260923_HPP
+#ifndef EAGINE_VECT_DATA_HPP
+#define EAGINE_VECT_DATA_HPP
 
 #include "data_ary.hpp"
 #if EAGINE_USE_SIMD
@@ -50,4 +50,4 @@ struct param<data<T, N, V>> : data_param<T, N, V> {};
 } // namespace vect
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_VECT_DATA_HPP

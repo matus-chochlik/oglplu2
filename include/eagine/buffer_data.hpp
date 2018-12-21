@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_UTILS_BUFFER_DATA_1509260923_HPP
-#define EAGINE_UTILS_BUFFER_DATA_1509260923_HPP
+#ifndef EAGINE_BUFFER_DATA_HPP
+#define EAGINE_BUFFER_DATA_HPP
 
 #include "buffer_size.hpp"
 #include "memory/block.hpp"
@@ -19,12 +19,11 @@ template <typename S>
 class buffer_data_spec {
 private:
     buffer_size<S> _size;
-    const void* _data;
+    const void* _data{nullptr};
 
 public:
     buffer_data_spec() noexcept
-      : _size()
-      , _data(nullptr) {
+      : _size() {
     }
 
     buffer_data_spec(const memory::block& blk) noexcept
@@ -70,4 +69,4 @@ public:
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_BUFFER_DATA_HPP

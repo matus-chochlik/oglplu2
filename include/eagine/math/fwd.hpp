@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_MATH_FWD_1509260923_HPP
-#define EAGINE_MATH_FWD_1509260923_HPP
+#ifndef EAGINE_MATH_FWD_HPP
+#define EAGINE_MATH_FWD_HPP
 
 #include <type_traits>
 
@@ -41,4 +41,4 @@ struct multiplication_result;
 } // namespace math
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_MATH_FWD_HPP

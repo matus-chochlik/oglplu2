@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_POSIX_FILE_DESCRIPTOR_1509260923_HPP
-#define EAGINE_POSIX_FILE_DESCRIPTOR_1509260923_HPP
+#ifndef EAGINE_POSIX_FILE_DESCRIPTOR_HPP
+#define EAGINE_POSIX_FILE_DESCRIPTOR_HPP
 
 #include "../memory/block.hpp"
 #include "error.hpp"
@@ -18,11 +18,10 @@ namespace posix {
 
 class file_descriptor {
 protected:
-    int _fd;
+    int _fd{-1};
 
 public:
-    constexpr inline file_descriptor() noexcept
-      : _fd(-1) {
+    constexpr inline file_descriptor() noexcept {
     }
 
     explicit constexpr inline file_descriptor(int fd) noexcept
@@ -164,4 +163,4 @@ public:
 } // namespace posix
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_POSIX_FILE_DESCRIPTOR_HPP

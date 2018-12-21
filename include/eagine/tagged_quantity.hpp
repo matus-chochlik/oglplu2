@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_TAGGED_QUANTITY_1509260923_HPP
-#define EAGINE_TAGGED_QUANTITY_1509260923_HPP
+#ifndef EAGINE_TAGGED_QUANTITY_HPP
+#define EAGINE_TAGGED_QUANTITY_HPP
 
 #include "units/default.hpp"
 #include "units/traits.hpp"
@@ -31,7 +31,7 @@ static constexpr tagged_quantity<T, U> make_tagged_quantity(const T& value);
 template <typename T, typename U>
 class tagged_quantity {
 private:
-    static_assert(std::is_arithmetic_v<T>, "");
+    static_assert(std::is_arithmetic_v<T>);
     T _v;
 
     template <typename, typename>
@@ -282,4 +282,4 @@ constexpr inline auto operator/(const tagged_quantity<T1, U1>& a, U2) {
 #pragma clang diagnostic pop
 #endif
 
-#endif // include guard
+#endif // EAGINE_TAGGED_QUANTITY_HPP

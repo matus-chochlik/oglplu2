@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_UNIT_1512222148_HPP
-#define EAGINE_UNITS_UNIT_1512222148_HPP
+#ifndef EAGINE_UNITS_UNIT_HPP
+#define EAGINE_UNITS_UNIT_HPP
 
 #include "default.hpp"
 #include "detail.hpp"
@@ -108,4 +108,4 @@ static constexpr inline std::
 } // namespace units
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_UNITS_UNIT_HPP

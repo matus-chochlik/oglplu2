@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_VALID_IF_ONE_OF_1509260923_HPP
-#define EAGINE_VALID_IF_ONE_OF_1509260923_HPP
+#ifndef EAGINE_VALID_IF_ONE_OF_HPP
+#define EAGINE_VALID_IF_ONE_OF_HPP
 
 #include "decl.hpp"
 
@@ -53,4 +53,4 @@ using valid_if_one_of = valid_if<T, valid_if_one_of_policy<T, C...>>;
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_VALID_IF_ONE_OF_HPP

@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_OBJECT_NAMES_1509260923_HPP
-#define EAGINE_OBJECT_NAMES_1509260923_HPP
+#ifndef EAGINE_OBJECT_NAMES_HPP
+#define EAGINE_OBJECT_NAMES_HPP
 
 #include "../iterator.hpp"
 #include "../range_types.hpp"
@@ -190,12 +190,11 @@ private:
     using _name_type = object_name_t<ObjTag>;
 
     _name_type _base;
-    span_size_t _size;
+    span_size_t _size{0};
 
 public:
     constexpr object_name_fake_array() noexcept
-      : _base(_traits::invalid_name())
-      , _size(0) {
+      : _base(_traits::invalid_name()) {
     }
 
     constexpr object_name_fake_array(span_size_t count) noexcept
@@ -272,4 +271,4 @@ using object_name_vector =
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_OBJECT_NAMES_HPP

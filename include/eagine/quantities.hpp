@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_QUANTITIES_1509260923_HPP
-#define EAGINE_QUANTITIES_1509260923_HPP
+#ifndef EAGINE_QUANTITIES_HPP
+#define EAGINE_QUANTITIES_HPP
 
 #include "math/constants.hpp"
 #include "tagged_quantity.hpp"
@@ -98,4 +98,4 @@ static constexpr inline degrees_t<T> degrees_(T value) noexcept {
 #pragma clang diagnostic pop
 #endif
 
-#endif // include guard
+#endif // EAGINE_QUANTITIES_HPP

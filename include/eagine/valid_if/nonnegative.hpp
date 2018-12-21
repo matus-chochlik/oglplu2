@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_VALID_IF_NONNEGATIVE_1509260923_HPP
-#define EAGINE_VALID_IF_NONNEGATIVE_1509260923_HPP
+#ifndef EAGINE_VALID_IF_NONNEGATIVE_HPP
+#define EAGINE_VALID_IF_NONNEGATIVE_HPP
 
 #include "decl.hpp"
 
@@ -40,4 +40,4 @@ using valid_if_nonnegative = valid_if<T, valid_if_nonneg_policy<T>>;
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_VALID_IF_NONNEGATIVE_HPP

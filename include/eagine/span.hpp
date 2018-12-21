@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_SPAN_1509260923_HPP
-#define EAGINE_SPAN_1509260923_HPP
+#ifndef EAGINE_SPAN_HPP
+#define EAGINE_SPAN_HPP
 
 #include "memory/span.hpp"
 #include <iosfwd>
@@ -59,4 +59,4 @@ static inline std::
 //------------------------------------------------------------------------------
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_SPAN_HPP

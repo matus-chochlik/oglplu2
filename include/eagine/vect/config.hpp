@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_VECT_CONFIG_1308281038_HPP
-#define EAGINE_VECT_CONFIG_1308281038_HPP
+#ifndef EAGINE_VECT_CONFIG_HPP
+#define EAGINE_VECT_CONFIG_HPP
 
 #ifndef EAGINE_USE_SIMD
 
@@ -23,4 +23,4 @@
 #define EAGINE_VECT_OPTS 1
 #endif
 
-#endif // include guard
+#endif // EAGINE_VECT_CONFIG_HPP

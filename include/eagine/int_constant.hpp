@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_INT_CONSTANT_1509260923_HPP
-#define EAGINE_INT_CONSTANT_1509260923_HPP
+#ifndef EAGINE_INT_CONSTANT_HPP
+#define EAGINE_INT_CONSTANT_HPP
 
 #include <type_traits>
 
@@ -28,4 +28,4 @@ using size_constant = std::integral_constant<std::size_t, S>;
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_INT_CONSTANT_HPP

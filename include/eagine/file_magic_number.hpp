@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_FILE_MAGIC_NUMBER_1408161720_HPP
-#define EAGINE_FILE_MAGIC_NUMBER_1408161720_HPP
+#ifndef EAGINE_FILE_MAGIC_NUMBER_HPP
+#define EAGINE_FILE_MAGIC_NUMBER_HPP
 
 #include "types.hpp"
 #include <array>
@@ -53,4 +53,4 @@ public:
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_FILE_MAGIC_NUMBER_HPP

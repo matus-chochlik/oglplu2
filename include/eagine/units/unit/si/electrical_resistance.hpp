@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_UNIT_SI_ELECTRICAL_RESISTANCE_1512222148_HPP
-#define EAGINE_UNITS_UNIT_SI_ELECTRICAL_RESISTANCE_1512222148_HPP
+#ifndef EAGINE_UNITS_UNIT_SI_ELECTRICAL_RESISTANCE_HPP
+#define EAGINE_UNITS_UNIT_SI_ELECTRICAL_RESISTANCE_HPP
 
 #include "../../dim/electrical_resistance.hpp"
 #include "common.hpp"
@@ -39,4 +39,4 @@ using kiloohm = make_scaled_unit_t<scales::kilo, ohm>;
 } // namespace units
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_UNITS_UNIT_SI_ELECTRICAL_RESISTANCE_HPP

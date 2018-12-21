@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_POSIX_FILE_1509260923_HPP
-#define EAGINE_POSIX_FILE_1509260923_HPP
+#ifndef EAGINE_POSIX_FILE_HPP
+#define EAGINE_POSIX_FILE_HPP
 
 #include "../string_span.hpp"
 #include "file_descriptor.hpp"
@@ -25,4 +25,4 @@ open(string_view path, int flags) noexcept {
 } // namespace posix
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_POSIX_FILE_HPP

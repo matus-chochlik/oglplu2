@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_TYPES_1509260923_HPP
-#define EAGINE_TYPES_1509260923_HPP
+#ifndef EAGINE_TYPES_HPP
+#define EAGINE_TYPES_HPP
 
 #include "identity.hpp"
 #include "is_within_limits.hpp"
@@ -68,4 +68,4 @@ static constexpr inline span_size_t span_size_of(
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_TYPES_HPP

@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_SCOPE_EXIT_1509260923_HPP
-#define EAGINE_SCOPE_EXIT_1509260923_HPP
+#ifndef EAGINE_SCOPE_EXIT_HPP
+#define EAGINE_SCOPE_EXIT_HPP
 
 #include "callable_ref.hpp"
 #include "nothing.hpp"
@@ -27,7 +27,7 @@ private:
 
     void _invoke(std::true_type) const {
         if(_action) {
-            if(std::uncaught_exception()) {
+            if(std::uncaught_exceptions()) {
                 try {
                     _action();
                 } catch(...) {
@@ -38,7 +38,7 @@ private:
 
     void _invoke(std::false_type) const {
         if(_action) {
-            if(!std::uncaught_exception()) {
+            if(!std::uncaught_exceptions()) {
                 _action();
             }
         }
@@ -103,4 +103,4 @@ static inline func_on_scope_exit<Func> finally(Func func) {
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_SCOPE_EXIT_HPP

@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_FIXED_SIZE_STR_1509260923_HPP
-#define EAGINE_FIXED_SIZE_STR_1509260923_HPP
+#ifndef EAGINE_FIXED_SIZE_STR_HPP
+#define EAGINE_FIXED_SIZE_STR_HPP
 
 #include "int_constant.hpp"
 #include "string_span.hpp"
@@ -22,7 +22,7 @@ class fixed_size_string {
 private:
     static_assert(N > 0, "Zero-length fixed size strings are not supported");
 
-    char _str[N];
+    char _str[N] = {};
 
     template <span_size_t>
     friend class fixed_size_string;
@@ -132,4 +132,4 @@ static inline auto to_fixed_size_string(
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_FIXED_SIZE_STR_HPP

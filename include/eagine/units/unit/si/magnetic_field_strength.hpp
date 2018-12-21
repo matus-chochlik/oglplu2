@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_UNIT_SI_MAGNETIC_FIELD_STRENGTH_1512222148_HPP
-#define EAGINE_UNITS_UNIT_SI_MAGNETIC_FIELD_STRENGTH_1512222148_HPP
+#ifndef EAGINE_UNITS_UNIT_SI_MAGNETIC_FIELD_STRENGTH_HPP
+#define EAGINE_UNITS_UNIT_SI_MAGNETIC_FIELD_STRENGTH_HPP
 
 #include "../../dim/magnetic_field_strength.hpp"
 #include "common.hpp"
@@ -40,4 +40,4 @@ using millitesla = make_scaled_unit_t<scales::milli, tesla>;
 } // namespace units
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_UNITS_UNIT_SI_MAGNETIC_FIELD_STRENGTH_HPP

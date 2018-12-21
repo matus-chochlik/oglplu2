@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_ENUM_SPAN_1509260923_HPP
-#define EAGINE_ENUM_SPAN_1509260923_HPP
+#ifndef EAGINE_ENUM_SPAN_HPP
+#define EAGINE_ENUM_SPAN_HPP
 
 #include "enum_class.hpp"
 #include "span.hpp"
@@ -49,4 +49,4 @@ struct enum_span : span<const typename EnumClass::value_type> {
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_ENUM_SPAN_HPP

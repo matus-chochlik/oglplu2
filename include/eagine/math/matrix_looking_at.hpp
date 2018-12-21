@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_MATH_MATRIX_LOOKING_AT_1509260923_HPP
-#define EAGINE_MATH_MATRIX_LOOKING_AT_1509260923_HPP
+#ifndef EAGINE_MATH_MATRIX_LOOKING_AT_HPP
+#define EAGINE_MATH_MATRIX_LOOKING_AT_HPP
 
 #include "../quantities.hpp"
 #include "matrix_ctr.hpp"
@@ -90,4 +90,4 @@ using matrix_looking_at_y_up =
 } // namespace math
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_MATH_MATRIX_LOOKING_AT_HPP

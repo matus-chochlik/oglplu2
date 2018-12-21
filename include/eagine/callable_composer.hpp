@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_CALLABLE_COMPOSER_1509260923_HPP
-#define EAGINE_CALLABLE_COMPOSER_1509260923_HPP
+#ifndef EAGINE_CALLABLE_COMPOSER_HPP
+#define EAGINE_CALLABLE_COMPOSER_HPP
 
 #include <utility>
 
@@ -57,4 +57,4 @@ static inline callable_composer<Funcs...> compose_callables(Funcs&&... funcs) {
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_CALLABLE_COMPOSER_HPP

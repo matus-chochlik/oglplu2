@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_COMBINED_ENUM_1509260923_HPP
-#define EAGINE_COMBINED_ENUM_1509260923_HPP
+#ifndef EAGINE_COMBINED_ENUM_HPP
+#define EAGINE_COMBINED_ENUM_HPP
 
 #include "enum_class.hpp"
 #include "indexed_enum.hpp"
@@ -21,10 +21,8 @@ struct combined_enum_value {
 private:
     static_assert(
       Enum::lib_id == IndexedEnum::lib_id &&
-        std::is_same_v<
-          typename Enum::value_type,
-          typename IndexedEnum::value_type>,
-      "");
+      std::
+        is_same_v<typename Enum::value_type, typename IndexedEnum::value_type>);
 
 public:
     using value_type = typename Enum::value_type;
@@ -87,4 +85,4 @@ public:
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_COMBINED_ENUM_HPP

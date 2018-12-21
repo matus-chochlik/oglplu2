@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_POSIX_DIR_DESCRIPTOR_1509260923_HPP
-#define EAGINE_POSIX_DIR_DESCRIPTOR_1509260923_HPP
+#ifndef EAGINE_POSIX_DIR_DESCRIPTOR_HPP
+#define EAGINE_POSIX_DIR_DESCRIPTOR_HPP
 
 #include "error.hpp"
 #include <dirent.h>
@@ -30,11 +30,10 @@ namespace posix {
 class dir_descriptor {
 
 protected:
-    DIR* _dp;
+    DIR* _dp{nullptr};
 
 public:
-    constexpr inline dir_descriptor() noexcept
-      : _dp(nullptr) {
+    constexpr inline dir_descriptor() noexcept {
     }
 
     explicit inline dir_descriptor(DIR* dp) noexcept
@@ -69,7 +68,7 @@ public:
 
     template <typename Func>
     outcome<void> for_each_entry(Func func) {
-        ::dirent entry;
+        ::dirent entry{};
         ::dirent* pent = nullptr;
 
         do {
@@ -77,8 +76,9 @@ public:
                 return error_outcome(-1);
             }
             if(pent != nullptr) {
-                if(!func(entry))
+                if(!func(entry)) {
                     break;
+                }
             }
         } while(pent != nullptr);
 
@@ -193,4 +193,4 @@ public:
 #pragma clang diagnostic pop
 #endif
 
-#endif // include guard
+#endif // EAGINE_POSIX_DIR_DESCRIPTOR_HPP

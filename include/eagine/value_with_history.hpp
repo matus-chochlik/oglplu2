@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_VALUE_WITH_HISTORY_1509260923_HPP
-#define EAGINE_VALUE_WITH_HISTORY_1509260923_HPP
+#ifndef EAGINE_VALUE_WITH_HISTORY_HPP
+#define EAGINE_VALUE_WITH_HISTORY_HPP
 
 #include "valid_if/decl.hpp"
 #include <cmath>
@@ -285,4 +285,4 @@ public:
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_VALUE_WITH_HISTORY_HPP

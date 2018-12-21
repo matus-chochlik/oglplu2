@@ -2,8 +2,8 @@
  *  @file eagine/sorting_network_io.hpp
  */
 
-#ifndef EAGINE_SORTING_NETWORK_IO_1512222148_HPP
-#define EAGINE_SORTING_NETWORK_IO_1512222148_HPP
+#ifndef EAGINE_SORTING_NETWORK_IO_HPP
+#define EAGINE_SORTING_NETWORK_IO_HPP
 
 #include "sorting_network.hpp"
 #include <iostream>
@@ -60,4 +60,4 @@ print_sorting_network(std::ostream& out, const SortingNetwork& sn) {
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_SORTING_NETWORK_IO_HPP

@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_ECS_MANIPULATOR_1509260923_HPP
-#define EAGINE_ECS_MANIPULATOR_1509260923_HPP
+#ifndef EAGINE_ECS_MANIPULATOR_HPP
+#define EAGINE_ECS_MANIPULATOR_HPP
 
 #include <cassert>
 #include <type_traits>
@@ -182,4 +182,4 @@ public:
 } // namespace ecs
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_ECS_MANIPULATOR_HPP

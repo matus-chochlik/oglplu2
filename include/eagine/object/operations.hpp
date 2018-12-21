@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_OBJECT_OPERATIONS_1509260923_HPP
-#define EAGINE_OBJECT_OPERATIONS_1509260923_HPP
+#ifndef EAGINE_OBJECT_OPERATIONS_HPP
+#define EAGINE_OBJECT_OPERATIONS_HPP
 
 #include "name.hpp"
 
@@ -36,4 +36,4 @@ public:
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_OBJECT_OPERATIONS_HPP

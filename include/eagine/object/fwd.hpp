@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_OBJECT_FWD_1509260923_HPP
-#define EAGINE_OBJECT_FWD_1509260923_HPP
+#ifndef EAGINE_OBJECT_FWD_HPP
+#define EAGINE_OBJECT_FWD_HPP
 
 #include "../nothing.hpp"
 
@@ -58,4 +58,4 @@ struct any_object_name;
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_OBJECT_FWD_HPP

@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_BYTESET_1509260923_HPP
-#define EAGINE_BYTESET_1509260923_HPP
+#ifndef EAGINE_BYTESET_HPP
+#define EAGINE_BYTESET_HPP
 
 #include "memory/block.hpp"
 #include "types.hpp"
@@ -173,4 +173,4 @@ private:
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_BYTESET_HPP

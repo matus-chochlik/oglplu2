@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_VALID_IF_WITHIN_LIMITS_1509260923_HPP
-#define EAGINE_VALID_IF_WITHIN_LIMITS_1509260923_HPP
+#ifndef EAGINE_VALID_IF_WITHIN_LIMITS_HPP
+#define EAGINE_VALID_IF_WITHIN_LIMITS_HPP
 
 #include "../is_within_limits.hpp"
 #include "decl.hpp"
@@ -42,4 +42,4 @@ using valid_if_within_limits =
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_VALID_IF_WITHIN_LIMITS_HPP

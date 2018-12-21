@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_MEMORY_SHARED_ALLOC_1509260923_HPP
-#define EAGINE_MEMORY_SHARED_ALLOC_1509260923_HPP
+#ifndef EAGINE_MEMORY_SHARED_ALLOC_HPP
+#define EAGINE_MEMORY_SHARED_ALLOC_HPP
 
 #include "../nothing.hpp"
 #include "byte_alloc.hpp"
@@ -24,7 +24,7 @@ namespace memory {
 template <typename Base>
 class basic_shared_byte_alloc : public Base {
 private:
-    byte_allocator* _pballoc;
+    byte_allocator* _pballoc = nullptr;
 
     template <typename X>
     static byte_allocator* _get_new(
@@ -169,7 +169,7 @@ public:
     template <typename ByteAlloc>
     ByteAlloc& as() {
 
-        ByteAlloc* pa = dynamic_cast<ByteAlloc*>(_pballoc);
+        auto* pa = dynamic_cast<ByteAlloc*>(_pballoc);
         if(pa == nullptr) {
             throw std::bad_cast();
         }
@@ -182,4 +182,4 @@ using shared_byte_allocator = basic_shared_byte_alloc<nothing_t>;
 } // namespace memory
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_MEMORY_SHARED_ALLOC_HPP

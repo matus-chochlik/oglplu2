@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_ECS_ENTITY_TRAITS_1509260923_HPP
-#define EAGINE_ECS_ENTITY_TRAITS_1509260923_HPP
+#ifndef EAGINE_ECS_ENTITY_TRAITS_HPP
+#define EAGINE_ECS_ENTITY_TRAITS_HPP
 
 namespace eagine {
 namespace ecs {
@@ -27,4 +27,4 @@ using entity_param_t = typename entity_traits<Entity>::parameter_type;
 } // namespace ecs
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_ECS_ENTITY_TRAITS_HPP

@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_MEMOIZED_1509260923_HPP
-#define EAGINE_MEMOIZED_1509260923_HPP
+#ifndef EAGINE_MEMOIZED_HPP
+#define EAGINE_MEMOIZED_HPP
 
 #include "callable_ref.hpp"
 #include <map>
@@ -58,4 +58,4 @@ public:
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_MEMOIZED_HPP

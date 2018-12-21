@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_STATIC_VARIANT_1509260923_HPP
-#define EAGINE_STATIC_VARIANT_1509260923_HPP
+#ifndef EAGINE_STATIC_VARIANT_HPP
+#define EAGINE_STATIC_VARIANT_HPP
 
 #include "memory/address.hpp"
 #include <functional>
@@ -22,7 +22,7 @@ struct static_variant {
 private:
     static_assert(sizeof...(T) > 0, "No types in static_variant!");
 
-    const int _variant_id;
+    const int _variant_id{-1};
 
     template <typename X>
     const X& _as() const noexcept {
@@ -60,8 +60,7 @@ private:
     }
 
 public:
-    constexpr static_variant() noexcept
-      : _variant_id(-1) {
+    constexpr static_variant() noexcept {
     }
 
     constexpr bool is_valid() const noexcept {
@@ -97,4 +96,4 @@ static inline auto apply_visitor(
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_STATIC_VARIANT_HPP

@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_MATH_VECTOR_1509260923_HPP
-#define EAGINE_MATH_VECTOR_1509260923_HPP
+#ifndef EAGINE_MATH_VECTOR_HPP
+#define EAGINE_MATH_VECTOR_HPP
 
 #include "../vec_mat_traits.hpp"
 #include "../vect/axis.hpp"
@@ -112,25 +112,25 @@ struct vector {
 
     template <int M = N>
     constexpr inline std::enable_if_t<(M > 0), T> x() const noexcept {
-        static_assert(M == N, "");
+        static_assert(M == N);
         return _v[0];
     }
 
     template <int M = N>
     constexpr inline std::enable_if_t<(M > 1), T> y() const noexcept {
-        static_assert(M == N, "");
+        static_assert(M == N);
         return _v[1];
     }
 
     template <int M = N>
     constexpr inline std::enable_if_t<(M > 2), T> z() const noexcept {
-        static_assert(M == N, "");
+        static_assert(M == N);
         return _v[2];
     }
 
     template <int M = N>
     constexpr inline std::enable_if_t<(M > 3), T> w() const noexcept {
-        static_assert(M == N, "");
+        static_assert(M == N);
         return _v[3];
     }
 
@@ -344,4 +344,4 @@ struct compound_view_maker<math::vector<T, N, V>> {
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_MATH_VECTOR_HPP

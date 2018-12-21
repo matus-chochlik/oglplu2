@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_COUNT_1509260923_HPP
-#define EAGINE_COUNT_1509260923_HPP
+#ifndef EAGINE_COUNT_HPP
+#define EAGINE_COUNT_HPP
 
 namespace eagine {
 
@@ -40,4 +40,4 @@ public:
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_COUNT_HPP

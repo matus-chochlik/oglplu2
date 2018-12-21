@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_MAKE_ARRAY_1509260923_HPP
-#define EAGINE_MAKE_ARRAY_1509260923_HPP
+#ifndef EAGINE_MAKE_ARRAY_HPP
+#define EAGINE_MAKE_ARRAY_HPP
 
 #include "all_are_same.hpp"
 #include <array>
@@ -27,4 +27,4 @@ static constexpr inline std::
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_MAKE_ARRAY_HPP

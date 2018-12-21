@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_UNIT_SI_FREQUENCY_1512222148_HPP
-#define EAGINE_UNITS_UNIT_SI_FREQUENCY_1512222148_HPP
+#ifndef EAGINE_UNITS_UNIT_SI_FREQUENCY_HPP
+#define EAGINE_UNITS_UNIT_SI_FREQUENCY_HPP
 
 #include "../../dim/frequency.hpp"
 #include "common.hpp"
@@ -47,4 +47,4 @@ using gigahertz = make_scaled_unit_t<scales::giga, hertz>;
 } // namespace units
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_UNITS_UNIT_SI_FREQUENCY_HPP

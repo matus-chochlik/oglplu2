@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_VECT_FILL_1509260923_HPP
-#define EAGINE_VECT_FILL_1509260923_HPP
+#ifndef EAGINE_VECT_FILL_HPP
+#define EAGINE_VECT_FILL_HPP
 
 #include "data.hpp"
 
@@ -74,4 +74,4 @@ struct fill<T, 8, V> {
 } // namespace vect
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_VECT_FILL_HPP

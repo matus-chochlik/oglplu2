@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_MATH_IO_1509260923_HPP
-#define EAGINE_MATH_IO_1509260923_HPP
+#ifndef EAGINE_MATH_IO_HPP
+#define EAGINE_MATH_IO_HPP
 
 #include "matrix.hpp"
 #include "vector.hpp"
@@ -70,4 +70,4 @@ operator<<(std::ostream& o, const matrix<T, C, R, false, V>& m) {
 } // namespace math
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_MATH_IO_HPP

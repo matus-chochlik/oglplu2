@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_DEFAULT_1512222148_HPP
-#define EAGINE_UNITS_DEFAULT_1512222148_HPP
+#ifndef EAGINE_UNITS_DEFAULT_HPP
+#define EAGINE_UNITS_DEFAULT_HPP
 
 #include "../identity.hpp"
 #include "fwd.hpp"
@@ -44,4 +44,4 @@ struct value_conv<U, U> : trivial_value_conv {};
 } // namespace units
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_UNITS_DEFAULT_HPP

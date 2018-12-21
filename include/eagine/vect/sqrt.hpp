@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_VECT_SQRT_1308281038_HPP
-#define EAGINE_VECT_SQRT_1308281038_HPP
+#ifndef EAGINE_VECT_SQRT_HPP
+#define EAGINE_VECT_SQRT_HPP
 
 #include "data.hpp"
 #include <cmath>
@@ -31,4 +31,4 @@ struct sqrt {
 } // namespace vect
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_VECT_SQRT_HPP

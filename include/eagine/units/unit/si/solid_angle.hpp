@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_UNIT_SI_SOLID_ANGLE_1512222148_HPP
-#define EAGINE_UNITS_UNIT_SI_SOLID_ANGLE_1512222148_HPP
+#ifndef EAGINE_UNITS_UNIT_SI_SOLID_ANGLE_HPP
+#define EAGINE_UNITS_UNIT_SI_SOLID_ANGLE_HPP
 
 #include "common.hpp"
 
@@ -41,4 +41,4 @@ using steradian = unit<solid_angle, si>;
 } // namespace units
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_UNITS_UNIT_SI_SOLID_ANGLE_HPP

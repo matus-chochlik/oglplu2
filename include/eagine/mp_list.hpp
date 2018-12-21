@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_MP_LIST_1509260923_HPP
-#define EAGINE_MP_LIST_1509260923_HPP
+#ifndef EAGINE_MP_LIST_HPP
+#define EAGINE_MP_LIST_HPP
 
 #include <type_traits>
 
@@ -72,4 +72,4 @@ using mp_union_t = typename mp_union<TL1, TL2>::type;
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_MP_LIST_HPP

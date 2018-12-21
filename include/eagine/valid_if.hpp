@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_VALID_IF_1509260923_HPP
-#define EAGINE_VALID_IF_1509260923_HPP
+#ifndef EAGINE_VALID_IF_HPP
+#define EAGINE_VALID_IF_HPP
 
 #include "valid_if/always.hpp"
 #include "valid_if/between.hpp"
@@ -28,4 +28,4 @@
 #include "valid_if/one_of.hpp"
 #include "valid_if/positive.hpp"
 
-#endif // include guard
+#endif // EAGINE_VALID_IF_HPP

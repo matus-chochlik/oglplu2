@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_NOTHING_1509260923_HPP
-#define EAGINE_NOTHING_1509260923_HPP
+#ifndef EAGINE_NOTHING_HPP
+#define EAGINE_NOTHING_HPP
 
 namespace eagine {
 
@@ -20,4 +20,4 @@ static constexpr nothing_t nothing = {};
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_NOTHING_HPP

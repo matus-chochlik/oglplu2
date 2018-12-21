@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_MATH_CONSTANTS_1509260923_HPP
-#define EAGINE_MATH_CONSTANTS_1509260923_HPP
+#ifndef EAGINE_MATH_CONSTANTS_HPP
+#define EAGINE_MATH_CONSTANTS_HPP
 
 #include <cmath>
 
@@ -25,4 +25,4 @@ static const auto phi = (1.0 + std::sqrt(5.0)) * 0.5;
 } // namespace math
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_MATH_CONSTANTS_HPP

@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_CALLABLE_REF_1509260923_HPP
-#define EAGINE_CALLABLE_REF_1509260923_HPP
+#ifndef EAGINE_CALLABLE_REF_HPP
+#define EAGINE_CALLABLE_REF_HPP
 
 #include "mem_func_const.hpp"
 #include <cassert>
@@ -23,8 +23,8 @@ class callable_ref;
 template <typename RV, typename... P>
 class callable_ref<RV(P...)> {
 private:
-    void* _data;
-    void (*_func)();
+    void* _data{nullptr};
+    void (*_func)(){nullptr};
 
     using _func_t = void (*)();
     using _func_pt = RV (*)(P...);
@@ -45,9 +45,7 @@ private:
     }
 
 public:
-    constexpr callable_ref() noexcept
-      : _data(nullptr)
-      , _func(nullptr) {
+    constexpr callable_ref() noexcept {
     }
 
     callable_ref(RV (*func)(P...)) noexcept
@@ -119,4 +117,4 @@ public:
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_CALLABLE_REF_HPP

@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_VECT_DATA_VEC_1509260923_HPP
-#define EAGINE_VECT_DATA_VEC_1509260923_HPP
+#ifndef EAGINE_VECT_DATA_VEC_HPP
+#define EAGINE_VECT_DATA_VEC_HPP
 
 #include "config.hpp"
 #include "fwd.hpp"
@@ -186,4 +186,4 @@ struct _has_vec_data<double, N>
 } // namespace vect
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_VECT_DATA_VEC_HPP

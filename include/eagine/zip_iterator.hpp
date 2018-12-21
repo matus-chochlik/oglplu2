@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_ZIP_ITERATOR_1509260923_HPP
-#define EAGINE_ZIP_ITERATOR_1509260923_HPP
+#ifndef EAGINE_ZIP_ITERATOR_HPP
+#define EAGINE_ZIP_ITERATOR_HPP
 
 #include <iterator>
 #include <tuple>
@@ -155,4 +155,4 @@ static inline zipped_range_refs<Range...> zip_ranges(
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_ZIP_ITERATOR_HPP

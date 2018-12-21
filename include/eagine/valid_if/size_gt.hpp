@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_VALID_IF_SIZE_GT_1509260923_HPP
-#define EAGINE_VALID_IF_SIZE_GT_1509260923_HPP
+#ifndef EAGINE_VALID_IF_SIZE_GT_HPP
+#define EAGINE_VALID_IF_SIZE_GT_HPP
 
 #include "in_class.hpp"
 
@@ -39,4 +39,4 @@ using valid_if_size_gt = in_class_valid_if<C, T, valid_if_size_gt_policy<C, T>>;
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_VALID_IF_SIZE_GT_HPP

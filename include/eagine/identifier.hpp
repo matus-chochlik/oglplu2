@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_IDENTIFIER_1509260923_HPP
-#define EAGINE_IDENTIFIER_1509260923_HPP
+#ifndef EAGINE_IDENTIFIER_HPP
+#define EAGINE_IDENTIFIER_HPP
 
 #include "biteset.hpp"
 #include "fixed_size_str.hpp"
@@ -303,4 +303,4 @@ using identifier =
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_IDENTIFIER_HPP

@@ -3,8 +3,8 @@
  *
  */
 
-#ifndef EAGINE_UNITS_BASE_SCALED_UNIT_1512222148_HPP
-#define EAGINE_UNITS_BASE_SCALED_UNIT_1512222148_HPP
+#ifndef EAGINE_UNITS_BASE_SCALED_UNIT_HPP
+#define EAGINE_UNITS_BASE_SCALED_UNIT_HPP
 
 #include "base_unit.hpp"
 
@@ -23,4 +23,4 @@ struct scaled_unit {
 } // namespace units
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_UNITS_BASE_SCALED_UNIT_HPP

@@ -55,6 +55,7 @@ void oglplus_object_common_test() {
     gl.object_label(tex, "test texture");
     gl.object_label(rbo, "test renderbuffer");
     gl.object_label(fbo, "test framebuffer");
+    gl.object_label(qry, "test query object");
     gl.object_label(syn, "test sync object");
 
     gl.get_object_label(buf, dest);
@@ -66,6 +67,7 @@ void oglplus_object_common_test() {
     gl.get_object_label(tex, dest);
     gl.get_object_label(rbo, dest);
     gl.get_object_label(fbo, dest);
+    gl.get_object_label(qry, dest);
     gl.get_object_label(syn, dest);
 #endif
 }

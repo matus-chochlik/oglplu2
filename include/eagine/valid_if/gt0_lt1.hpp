@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_VALID_IF_GT0_LT1_1509260923_HPP
-#define EAGINE_VALID_IF_GT0_LT1_1509260923_HPP
+#ifndef EAGINE_VALID_IF_GT0_LT1_HPP
+#define EAGINE_VALID_IF_GT0_LT1_HPP
 
 #include "decl.hpp"
 
@@ -39,4 +39,4 @@ using valid_if_gt0_lt1 = valid_if<T, valid_if_gt0_lt1_policy<T>>;
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_VALID_IF_GT0_LT1_HPP

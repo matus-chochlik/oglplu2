@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_ENUM_CLASS_1509260923_HPP
-#define EAGINE_ENUM_CLASS_1509260923_HPP
+#ifndef EAGINE_ENUM_CLASS_HPP
+#define EAGINE_ENUM_CLASS_HPP
 
 #include "mp_list.hpp"
 #include <cassert>
@@ -135,12 +135,11 @@ struct any_enum_class {
 
 template <unsigned LibId>
 struct any_enum_value {
-    long _value;
+    long _value{0};
     unsigned _type_id;
 
     constexpr inline any_enum_value() noexcept
-      : _value(0)
-      , _type_id(~unsigned(0)) {
+      : _type_id(~unsigned(0)) {
     }
 
     template <typename Self, typename T, unsigned Id>
@@ -176,4 +175,4 @@ static constexpr inline bool same_enum_class(
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_ENUM_CLASS_HPP

@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_VALID_IF_IN_CLASS_1509260923_HPP
-#define EAGINE_VALID_IF_IN_CLASS_1509260923_HPP
+#ifndef EAGINE_VALID_IF_IN_CLASS_HPP
+#define EAGINE_VALID_IF_IN_CLASS_HPP
 
 #include "decl.hpp"
 
@@ -24,4 +24,4 @@ using in_class_valid_if = basic_valid_if<T, Policy, DoLog, const C&>;
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_VALID_IF_IN_CLASS_HPP

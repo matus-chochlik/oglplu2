@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_UNIT_SI_ANGLE_1512222148_HPP
-#define EAGINE_UNITS_UNIT_SI_ANGLE_1512222148_HPP
+#ifndef EAGINE_UNITS_UNIT_SI_ANGLE_HPP
+#define EAGINE_UNITS_UNIT_SI_ANGLE_HPP
 
 #include "common.hpp"
 
@@ -106,4 +106,4 @@ using pi_rad =
 } // namespace units
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_UNITS_UNIT_SI_ANGLE_HPP

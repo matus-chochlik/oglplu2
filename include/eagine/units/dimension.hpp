@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_DIMENSION_1512222148_HPP
-#define EAGINE_UNITS_DIMENSION_1512222148_HPP
+#ifndef EAGINE_UNITS_DIMENSION_HPP
+#define EAGINE_UNITS_DIMENSION_HPP
 
 #include "base_dim.hpp"
 #include "detail.hpp"
@@ -63,4 +63,4 @@ struct dim_name<dimension<BaseDim, 1>> : base::dim_name<BaseDim> {};
 } // namespace units
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_UNITS_DIMENSION_HPP

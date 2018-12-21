@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_IDENTITY_1509260923_HPP
-#define EAGINE_IDENTITY_1509260923_HPP
+#ifndef EAGINE_IDENTITY_HPP
+#define EAGINE_IDENTITY_HPP
 
 #include <type_traits>
 
@@ -33,4 +33,4 @@ static constexpr inline identity<T> make_identity(const T&) noexcept {
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_IDENTITY_HPP

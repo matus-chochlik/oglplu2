@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_MEM_FUNC_CONST_1509260923_HPP
-#define EAGINE_MEM_FUNC_CONST_1509260923_HPP
+#ifndef EAGINE_MEM_FUNC_CONST_HPP
+#define EAGINE_MEM_FUNC_CONST_HPP
 
 #include <utility>
 
@@ -61,4 +61,4 @@ struct member_function_constant<RV (C::*)(P...) const, Ptr> {
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_MEM_FUNC_CONST_HPP

@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_UNIT_SI_TIME_1512222148_HPP
-#define EAGINE_UNITS_UNIT_SI_TIME_1512222148_HPP
+#ifndef EAGINE_UNITS_UNIT_SI_TIME_HPP
+#define EAGINE_UNITS_UNIT_SI_TIME_HPP
 
 #include "common.hpp"
 
@@ -84,4 +84,4 @@ using day = make_scaled_base_dim_unit_t<base::day, si>;
 } // namespace units
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_UNITS_UNIT_SI_TIME_HPP

@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_VECT_CAST_1509260923_HPP
-#define EAGINE_VECT_CAST_1509260923_HPP
+#ifndef EAGINE_VECT_CAST_HPP
+#define EAGINE_VECT_CAST_HPP
 
 #include "fill.hpp"
 #include <utility>
@@ -71,4 +71,4 @@ public:
 } // namespace vect
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_VECT_CAST_HPP

@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_POSIX_ERROR_1509260923_HPP
-#define EAGINE_POSIX_ERROR_1509260923_HPP
+#ifndef EAGINE_POSIX_ERROR_HPP
+#define EAGINE_POSIX_ERROR_HPP
 
 #include "../outcome.hpp"
 #include <cerrno>
@@ -17,17 +17,15 @@ namespace eagine {
 namespace posix {
 
 struct error_info {
-    int error_code;
-    int file_desc;
+    int error_code{0};
+    int file_desc{-1};
 
     constexpr error_info(int code, int fd) noexcept
       : error_code(code)
       , file_desc(fd) {
     }
 
-    constexpr error_info() noexcept
-      : error_code(0)
-      , file_desc(-1) {
+    constexpr error_info() noexcept {
     }
 };
 
@@ -74,4 +72,4 @@ static inline outcome<T> error_if_negative(T result) noexcept {
 } // namespace posix
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_POSIX_ERROR_HPP

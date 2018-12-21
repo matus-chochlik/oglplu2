@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_DIM_MASS_DENSITY_1512222148_HPP
-#define EAGINE_UNITS_DIM_MASS_DENSITY_1512222148_HPP
+#ifndef EAGINE_UNITS_DIM_MASS_DENSITY_HPP
+#define EAGINE_UNITS_DIM_MASS_DENSITY_HPP
 
 #include "volume.hpp"
 
@@ -25,4 +25,4 @@ struct dim_name<mass_density> {
 } // namespace units
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_UNITS_DIM_MASS_DENSITY_HPP

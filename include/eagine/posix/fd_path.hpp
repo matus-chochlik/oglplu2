@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_POSIX_FD_PATH_1509260923_HPP
-#define EAGINE_POSIX_FD_PATH_1509260923_HPP
+#ifndef EAGINE_POSIX_FD_PATH_HPP
+#define EAGINE_POSIX_FD_PATH_HPP
 
 #include "dir.hpp"
 #include "file.hpp"
@@ -20,7 +20,7 @@ namespace posix {
 
 static inline outcome<std::string> fd_abs_path(file_descriptor_owner curr_fd) {
     using inode_id = std::pair<dev_t, ino_t>;
-    struct stat fst;
+    struct stat fst {};
 
     if(auto res = failure(fstat(file_descriptor_owner(open("/", 0)), fst))) {
         return res.release_handler();
@@ -81,4 +81,4 @@ static inline outcome<std::string> safe_getcwd() {
 } // namespace posix
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_POSIX_FD_PATH_HPP

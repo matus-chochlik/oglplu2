@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UTILS_ITERATOR_1509260923_HPP
-#define EAGINE_UTILS_ITERATOR_1509260923_HPP
+#ifndef EAGINE_ITERATOR_HPP
+#define EAGINE_ITERATOR_HPP
 
 #include <iterator>
 
@@ -47,7 +47,7 @@ public:
         return self();
     }
 
-    Derived operator++(int) noexcept {
+    const Derived operator++(int) noexcept {
         Derived res(self());
         ++_value;
         return res;
@@ -70,7 +70,7 @@ public:
         return self();
     }
 
-    Derived operator--(int) noexcept {
+    const Derived operator--(int) noexcept {
         Derived res(self());
         --_value;
         return res;
@@ -269,4 +269,4 @@ struct noexcept_casting_iterator
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_ITERATOR_HPP

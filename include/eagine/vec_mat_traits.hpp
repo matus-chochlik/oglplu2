@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_VEC_MAT_TRAITS_1509260923_HPP
-#define EAGINE_VEC_MAT_TRAITS_1509260923_HPP
+#ifndef EAGINE_VEC_MAT_TRAITS_HPP
+#define EAGINE_VEC_MAT_TRAITS_HPP
 
 #include "identity.hpp"
 #include "nothing.hpp"
@@ -104,4 +104,4 @@ struct is_row_major : std::false_type {};
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_VEC_MAT_TRAITS_HPP

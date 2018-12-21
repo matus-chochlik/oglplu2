@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_VECT_DATA_ARY_1509260923_HPP
-#define EAGINE_VECT_DATA_ARY_1509260923_HPP
+#ifndef EAGINE_VECT_DATA_ARY_HPP
+#define EAGINE_VECT_DATA_ARY_HPP
 
 #include "config.hpp"
 #include "fwd.hpp"
@@ -118,4 +118,4 @@ struct _ary_data<T, 0u> {
 } // namespace vect
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_VECT_DATA_ARY_HPP

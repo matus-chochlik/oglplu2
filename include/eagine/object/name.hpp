@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_OBJECT_NAME_1509260923_HPP
-#define EAGINE_OBJECT_NAME_1509260923_HPP
+#ifndef EAGINE_OBJECT_NAME_HPP
+#define EAGINE_OBJECT_NAME_HPP
 
 #include "../span.hpp"
 #include "fwd.hpp"
@@ -223,4 +223,4 @@ static constexpr inline bool same_object_type(
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_OBJECT_NAME_HPP
