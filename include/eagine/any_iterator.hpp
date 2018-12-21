@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_ANY_ITERATOR_1509260923_HPP
-#define EAGINE_ANY_ITERATOR_1509260923_HPP
+#ifndef EAGINE_ANY_ITERATOR_HPP
+#define EAGINE_ANY_ITERATOR_HPP
 
 #include "deep_copy_ptr.hpp"
 #include <cassert>
@@ -22,7 +22,10 @@ class any_forward_iterator {
 private:
     struct _intf {
         _intf() = default;
+        _intf(_intf&&) noexcept = default;
         _intf(const _intf&) = default;
+        _intf& operator=(_intf&&) = delete;
+        _intf& operator=(const _intf&) = delete;
         virtual ~_intf() = default;
 
         virtual std::unique_ptr<_intf> copy() = 0;
@@ -52,7 +55,7 @@ private:
         }
 
         bool _equal(_intf* intf) override {
-            _impl* that = dynamic_cast<_impl*>(intf);
+            auto* that = dynamic_cast<_impl*>(intf);
             assert(that != nullptr);
             return this->_i == that->_i;
         }
@@ -69,10 +72,11 @@ public:
     using iterator_category = std::forward_iterator_tag;
 
     any_forward_iterator() = default;
-    any_forward_iterator(any_forward_iterator&&) = default;
+    any_forward_iterator(any_forward_iterator&&) noexcept = default;
     any_forward_iterator(const any_forward_iterator&) = default;
     any_forward_iterator& operator=(const any_forward_iterator&) = default;
-    any_forward_iterator& operator=(any_forward_iterator&&) = default;
+    any_forward_iterator& operator=(any_forward_iterator&&) noexcept = default;
+    ~any_forward_iterator() noexcept = default;
 
     template <typename Iter>
     any_forward_iterator(Iter i)
@@ -98,7 +102,7 @@ public:
         return *this;
     }
 
-    any_forward_iterator operator++(int) {
+    const any_forward_iterator operator++(int) {
         any_forward_iterator i = *this;
         _pimpl->_advance();
         return i;
@@ -151,4 +155,4 @@ using any_copying_forward_range =
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_ANY_ITERATOR_HPP

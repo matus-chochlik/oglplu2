@@ -8,7 +8,6 @@
  */
 #include "is_within_limits.hpp"
 #include <algorithm>
-#include <type_traits>
 
 #ifndef EAGINE_ARGS_WITHIN_LIMITS_1509260923_HPP
 #define EAGINE_ARGS_WITHIN_LIMITS_1509260923_HPP

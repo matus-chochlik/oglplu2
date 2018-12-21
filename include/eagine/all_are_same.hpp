@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_ALL_ARE_SAME_1509260923_HPP
-#define EAGINE_ALL_ARE_SAME_1509260923_HPP
+#ifndef EAGINE_ALL_ARE_SAME_HPP
+#define EAGINE_ALL_ARE_SAME_HPP
 
 #include <type_traits>
 
@@ -49,4 +49,4 @@ constexpr bool all_are_convertible_to_v =
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_ALL_ARE_SAME_HPP

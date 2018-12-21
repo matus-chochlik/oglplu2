@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_CONFIG_PLATFORM_1509260923_HPP
-#define EAGINE_CONFIG_PLATFORM_1509260923_HPP
+#ifndef EAGINE_CONFIG_PLATFORM_HPP
+#define EAGINE_CONFIG_PLATFORM_HPP
 
 #ifndef EAGINE_POSIX
 #if defined(__unix__) || (defined(__APPLE__) && defined(__MACH__))
@@ -33,4 +33,4 @@
 #endif
 #endif
 
-#endif // include guard
+#endif // EAGINE_CONFIG_PLATFORM_HPP

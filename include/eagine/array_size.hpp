@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_ARRAY_SIZE_1509260923_HPP
-#define EAGINE_ARRAY_SIZE_1509260923_HPP
+#ifndef EAGINE_ARRAY_SIZE_HPP
+#define EAGINE_ARRAY_SIZE_HPP
 
 #include "types.hpp"
 
@@ -21,4 +21,4 @@ static constexpr inline span_size_t array_size(const T (&)[N]) noexcept {
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_ARRAY_SIZE_HPP

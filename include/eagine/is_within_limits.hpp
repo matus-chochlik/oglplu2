@@ -6,13 +6,14 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#ifndef EAGINE_IS_WITHIN_LIMITS_HPP
+#define EAGINE_IS_WITHIN_LIMITS_HPP
+
 #include "assert.hpp"
 #include "int_constant.hpp"
 #include <limits>
+#include <type_traits>
 #include <utility>
-
-#ifndef EAGINE_IS_WITHIN_LIMITS_HPP
-#define EAGINE_IS_WITHIN_LIMITS_HPP
 
 namespace eagine {
 //------------------------------------------------------------------------------

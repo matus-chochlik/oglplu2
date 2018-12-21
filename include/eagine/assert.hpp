@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_ASSERT_1408161720_HPP
-#define EAGINE_ASSERT_1408161720_HPP
+#ifndef EAGINE_ASSERT_HPP
+#define EAGINE_ASSERT_HPP
 
 #include "branch_predict.hpp"
 #include <cassert>
@@ -18,4 +18,4 @@
 #define EAGINE_ABORT(MSG) assert(!bool(MSG))
 #define EAGINE_UNREACHABLE(MSG) EAGINE_ABORT(MSG)
 
-#endif // include guard
+#endif // EAGINE_ASSERT_HPP

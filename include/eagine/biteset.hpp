@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_BITESET_1509260923_HPP
-#define EAGINE_BITESET_1509260923_HPP
+#ifndef EAGINE_BITESET_HPP
+#define EAGINE_BITESET_HPP
 
 #include "byteset.hpp"
 #include "int_constant.hpp"
@@ -46,6 +46,8 @@ public:
     using value_type = typename BiS::value_type;
     using self = biteset_value_proxy_base;
     using derived = biteset_value_proxy<BiS>;
+
+    ~biteset_value_proxy_base() noexcept = default;
 
     biteset_value_proxy_base(BiS& bs, size_type pos) noexcept
       : _ptr(&bs)
@@ -129,12 +131,16 @@ public:
     using size_type = typename _base::size_type;
     using self = biteset_value_proxy;
 
+    ~biteset_value_proxy() noexcept = default;
+
     biteset_value_proxy(const biteset<N, B, T>& bs, size_type pos) noexcept
       : _base(bs, pos) {
     }
 
-    biteset_value_proxy(biteset_value_proxy&&) = default;
+    biteset_value_proxy(biteset_value_proxy&&) noexcept = default;
+    biteset_value_proxy(const biteset_value_proxy&) = delete;
     biteset_value_proxy& operator=(biteset_value_proxy&&) = default;
+    biteset_value_proxy& operator=(const biteset_value_proxy&) = delete;
 };
 
 template <std::size_t N, std::size_t B, typename T>
@@ -193,7 +199,7 @@ public:
         return *static_cast<derived*>(this);
     }
 
-    derived operator++(int) noexcept {
+    const derived operator++(int) noexcept {
         derived that = *static_cast<derived*>(this);
         ++_pos;
         return that;
@@ -204,7 +210,7 @@ public:
         return *static_cast<derived*>(this);
     }
 
-    derived operator--(int) noexcept {
+    const derived operator--(int) noexcept {
         derived that = *static_cast<derived*>(this);
         --_pos;
         return that;
@@ -730,4 +736,4 @@ private:
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_BITESET_HPP

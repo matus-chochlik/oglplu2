@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_CONFIG_BASIC_1509260923_HPP
-#define EAGINE_CONFIG_BASIC_1509260923_HPP
+#ifndef EAGINE_CONFIG_BASIC_HPP
+#define EAGINE_CONFIG_BASIC_HPP
 
 #if __has_include(<eagine/config/site.hpp>)
 #include <eagine/config/site.hpp>
@@ -27,4 +27,4 @@
 #define EAGINE_LIB_FUNC inline
 #endif
 
-#endif // include guard
+#endif // EAGINE_CONFIG_BASIC_HPP
