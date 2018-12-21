@@ -650,4 +650,4 @@ struct enum_values {
 }; // struct enum_values
 } // namespace eglplus
 
-#endif // include guard
+#endif // EGLPLUS_EGL_ENUM_VALUES_HPP

@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_OPER_COMPATIBILITY_1509260923_HPP
-#define OGLPLUS_OPER_COMPATIBILITY_1509260923_HPP
+#ifndef OGLPLUS_OPER_COMPATIBILITY_HPP
+#define OGLPLUS_OPER_COMPATIBILITY_HPP
 
 #ifdef GL_ARB_compatibility
 #include "../enum/types.hpp"
@@ -35,4 +35,4 @@ struct compatibility
 } // namespace oper
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_OPER_COMPATIBILITY_HPP

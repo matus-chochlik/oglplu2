@@ -549,4 +549,4 @@ struct view_compatibility_class
 
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_GL_ENUM_TYPES_HPP

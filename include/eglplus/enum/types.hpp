@@ -106,4 +106,4 @@ struct vg_colorspace : enum_class<vg_colorspace, EGLenum, 21> {
 
 } // namespace eglplus
 
-#endif // include guard
+#endif // EGLPLUS_EGL_ENUM_TYPES_HPP

@@ -46,4 +46,4 @@ struct string_query : enum_class<string_query, ALenum, 6> {
 
 } // namespace oalplus
 
-#endif // include guard
+#endif // OALPLUS_AL_ENUM_TYPES_HPP

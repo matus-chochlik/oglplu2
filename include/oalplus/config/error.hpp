@@ -1,3 +1,6 @@
+#ifndef OALPLUS_CONFIG_ERROR_HPP
+#define OALPLUS_CONFIG_ERROR_HPP
+
 /**
  *  @file oalplus/config/error.hpp
  *  @brief Error reporting-related compile-time configuration options
@@ -56,3 +59,5 @@
 #endif
 
 #endif // include guard
+
+#endif

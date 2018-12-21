@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_BUFFER_ADDRESS_1509260923_HPP
-#define OGLPLUS_BUFFER_ADDRESS_1509260923_HPP
+#ifndef OGLPLUS_BUFFER_ADDRESS_HPP
+#define OGLPLUS_BUFFER_ADDRESS_HPP
 
 #if defined(GL_NV_shader_buffer_load)
 
@@ -29,4 +29,4 @@ static inline GLuint64EXT get_raw_address(buffer_address ba) noexcept {
 
 #endif // NV_shader_buffer_load
 
-#endif // include guard
+#endif // OGLPLUS_BUFFER_ADDRESS_HPP

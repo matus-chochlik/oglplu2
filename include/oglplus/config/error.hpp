@@ -1,3 +1,6 @@
+#ifndef OGLPLUS_CONFIG_ERROR_HPP
+#define OGLPLUS_CONFIG_ERROR_HPP
+
 /**
  *  @file oglplus/config/error.hpp
  *  @brief Error reporting-related compile-time configuration options
@@ -65,3 +68,5 @@
      OGLPLUS_ERROR_NO_INFO_LOG)
 
 #endif // include guard
+
+#endif

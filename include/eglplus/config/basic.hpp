@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EGLPLUS_CONFIG_BASIC_1509260923_HPP
-#define EGLPLUS_CONFIG_BASIC_1509260923_HPP
+#ifndef EGLPLUS_CONFIG_BASIC_HPP
+#define EGLPLUS_CONFIG_BASIC_HPP
 
 // TODO
 
@@ -21,4 +21,4 @@
 #define EGLPLUS_LIB_FUNC inline
 #endif
 
-#endif // include guard
+#endif // EGLPLUS_CONFIG_BASIC_HPP

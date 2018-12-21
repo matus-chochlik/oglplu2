@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OALPLUS_ERROR_FWD_1509260923_HPP
-#define OALPLUS_ERROR_FWD_1509260923_HPP
+#ifndef OALPLUS_ERROR_FWD_HPP
+#define OALPLUS_ERROR_FWD_HPP
 
 namespace oalplus {
 
@@ -16,4 +16,4 @@ class error;
 
 } // namespace oalplus
 
-#endif // include guard
+#endif // OALPLUS_ERROR_FWD_HPP

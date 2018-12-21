@@ -15,8 +15,8 @@
 namespace eglplus {
 
 EGLPLUS_LIB_FUNC
-std::pair<const void*, span_size_t>
-get_enum_value_range(const any_enum_class& aec) noexcept {
+std::pair<const void*, span_size_t> get_enum_value_range(
+  const any_enum_class& aec) noexcept {
     switch(aec._type_id) {
         case 0: /* color_buffer_type */
         {

@@ -15,8 +15,8 @@
 namespace oalplus {
 
 OALPLUS_LIB_FUNC
-std::pair<const void*, span_size_t>
-get_enum_value_range(const any_enum_class_alut& aec) noexcept {
+std::pair<const void*, span_size_t> get_enum_value_range(
+  const any_enum_class_alut& aec) noexcept {
     switch(aec._type_id) {
         case 0: /* alut_error_code */
         {

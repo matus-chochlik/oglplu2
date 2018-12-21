@@ -22,4 +22,4 @@ struct alut_error_code : enum_class_alut<alut_error_code, ALenum, 0> {
 
 } // namespace oalplus
 
-#endif // include guard
+#endif // OALPLUS_ALUT_ENUM_TYPES_HPP

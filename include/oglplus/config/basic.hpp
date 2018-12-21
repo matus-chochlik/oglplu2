@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_CONFIG_BASIC_1509260923_HPP
-#define OGLPLUS_CONFIG_BASIC_1509260923_HPP
+#ifndef OGLPLUS_CONFIG_BASIC_HPP
+#define OGLPLUS_CONFIG_BASIC_HPP
 
 #if __has_include(<oglplus/config/site.hpp>)
 #include <oglplus/config/site.hpp>
@@ -51,4 +51,4 @@
 #define OGLPLUS_USE_GLUT 0
 #endif
 
-#endif // include guard
+#endif // OGLPLUS_CONFIG_BASIC_HPP

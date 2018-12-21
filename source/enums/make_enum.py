@@ -49,6 +49,13 @@ def print_incl_guard(options, name):
 		name
 	))
 
+def print_incl_guard_end(options, name):
+	print_line(options, "#endif // %s_%s_%s" % (
+		options.library_uc,
+		options.base_lib_prefix,
+		name
+	))
+
 def update_input_options(options, input_path):
 
 	options.rel_input = os.path.relpath(input_path, options.root_dir)
@@ -218,7 +225,7 @@ def action_incl_enum_types_hpp(options):
 
 	print_line(options, "} // namespace %s" % options.library)
 	print_newline(options)
-	print_line(options, "#endif // include guard")
+	print_incl_guard_end(options, "ENUM_TYPES_HPP")
 
 
 def action_incl_enum_values_hpp(options):
@@ -273,7 +280,7 @@ def action_incl_enum_values_hpp(options):
 	print_line(options, "};// struct enum_values")
 	print_line(options, "} // namespace %s" % options.library)
 	print_newline(options)
-	print_line(options, "#endif // include guard")
+	print_incl_guard_end(options, "ENUM_VALUES_HPP")
 
 
 def action_impl_enum_value_defs_inl(options):

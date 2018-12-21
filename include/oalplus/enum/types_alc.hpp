@@ -26,4 +26,4 @@ struct context_attrib : enum_class_alc<context_attrib, ALCenum, 1> {
 
 } // namespace oalplus
 
-#endif // include guard
+#endif // OALPLUS_ALC_ENUM_TYPES_HPP

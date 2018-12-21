@@ -189,4 +189,4 @@ struct enum_values {
 }; // struct enum_values
 } // namespace oalplus
 
-#endif // include guard
+#endif // OALPLUS_AL_ENUM_VALUES_HPP

@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OALPLUS_CONFIG_BASIC_1509260923_HPP
-#define OALPLUS_CONFIG_BASIC_1509260923_HPP
+#ifndef OALPLUS_CONFIG_BASIC_HPP
+#define OALPLUS_CONFIG_BASIC_HPP
 
 // TODO
 #ifndef OALPLUS_LOW_PROFILE
@@ -24,4 +24,4 @@
 #define OALPLUS_LIB_FUNC inline
 #endif
 
-#endif // include guard
+#endif // OALPLUS_CONFIG_BASIC_HPP

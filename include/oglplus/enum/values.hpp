@@ -8125,4 +8125,4 @@ struct enum_values {
 }; // struct enum_values
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_GL_ENUM_VALUES_HPP
