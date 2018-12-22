@@ -18,9 +18,9 @@ namespace eagine {
 using memory::span;
 //------------------------------------------------------------------------------
 using memory::cover;
-using memory::coverOne;
+using memory::cover_one;
 using memory::view;
-using memory::viewOne;
+using memory::view_one;
 //------------------------------------------------------------------------------
 template <typename T, typename P, typename S, typename Output>
 static inline Output& list_to_stream(
@@ -40,7 +40,9 @@ static inline Output& list_to_stream(
 //------------------------------------------------------------------------------
 template <typename T, typename Output>
 static inline Output& write_to_stream(Output& out, span<T> s) {
-    return out.write(s.data(), s.size());
+    return out.write(
+      reinterpret_cast<const char*>(s.data()),
+      limit_cast<std::streamsize>(s.size()));
 }
 //------------------------------------------------------------------------------
 template <typename T, typename P, typename S>

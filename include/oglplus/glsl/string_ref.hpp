@@ -12,7 +12,7 @@
 #include "source_ref.hpp"
 
 namespace oglplus {
-
+//------------------------------------------------------------------------------
 class glsl_string_ref {
 private:
     mutable const GLchar* _src_str;
@@ -33,7 +33,7 @@ public:
         return glsl_source_ref(1, &_src_str, &_length);
     }
 };
-
+//------------------------------------------------------------------------------
 class glsl_literal : public glsl_string_ref {
 public:
     template <span_size_t N>
@@ -41,12 +41,12 @@ public:
       : glsl_string_ref(src_str, N) {
     }
 };
-
-static inline glsl_string_ref
-operator"" _glsl(const char* src_str, std::size_t n) noexcept {
+//------------------------------------------------------------------------------
+static inline glsl_string_ref operator"" _glsl(
+  const char* src_str, std::size_t n) noexcept {
     return {src_str, span_size(n)};
 }
-
+//------------------------------------------------------------------------------
 } // namespace oglplus
 
 #endif // include guard

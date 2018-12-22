@@ -6,6 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/maybe_unused.hpp>
 
 namespace eagine {
 namespace memory {
@@ -257,6 +258,7 @@ inline tribool stack_aligned_byte_allocator<Policy>::has_allocated(
 template <typename Policy>
 inline owned_block stack_aligned_byte_allocator<Policy>::allocate(
   size_type n, size_type a) noexcept {
+    EAGINE_MAYBE_UNUSED(a);
     auto b = _alloc.allocate(n);
 
     assert(is_aligned_to(b.addr(), a));
@@ -267,6 +269,7 @@ inline owned_block stack_aligned_byte_allocator<Policy>::allocate(
 template <typename Policy>
 inline void stack_aligned_byte_allocator<Policy>::deallocate(
   owned_block&& b, size_type a) noexcept {
+    EAGINE_MAYBE_UNUSED(a);
     assert(is_aligned_to(b.addr(), a));
     _alloc.deallocate(std::move(b));
 }

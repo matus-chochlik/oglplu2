@@ -39,6 +39,11 @@ private:
     template <typename T, typename... Args>
     T* _make_1(const span_size_t align, Args&&... args);
 
+protected:
+    const Alloc& allocator() const {
+        return _alloc;
+    }
+
 public:
     basic_allocation_arena() = default;
 
@@ -77,16 +82,18 @@ public:
         return make_aligned_array<T>(count, 1);
     }
 
-    template <typename T, typename U>
-    span<T> copy_aligned_array(span<U> src, const span_size_t align) {
-        span<T> dst = make_aligned_array<T>(src.size(), align);
+    template <typename T, typename P, typename S>
+    span<std::remove_const_t<T>> copy_aligned_array(
+      basic_span<T, P, S> src, const span_size_t align) {
+        auto dst =
+          make_aligned_array<std::remove_const_t<T>>(src.size(), align);
         std::copy(src.begin(), src.end(), dst.begin());
         return dst;
     }
 
-    template <typename T, typename U>
-    span<T> copy_array(span<U> src) {
-        return copy_aligned_array<T>(src, 1);
+    template <typename T, typename P, typename S>
+    span<std::remove_const_t<T>> copy_array(basic_span<T, P, S> src) {
+        return copy_aligned_array<T>(src, span_size(alignof(T)));
     }
 
     template <typename T, typename... Args>
@@ -94,7 +101,8 @@ public:
 
     template <typename T, typename... Args>
     T& make(Args&&... args) {
-        return make_aligned<T>(1, std::forward<Args>(args)...);
+        return make_aligned<T>(
+          span_size(alignof(T)), std::forward<Args>(args)...);
     }
 
     template <typename T>

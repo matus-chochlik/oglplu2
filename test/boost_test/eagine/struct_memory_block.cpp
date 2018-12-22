@@ -23,15 +23,16 @@ void eagine_test_struct_memory_block_1() {
     std::vector<unsigned char> buf(2 * span_size_of<T>());
 
     for(int i = 0; i < 100; ++i) {
-        memory_block blk(
+        memory::const_block blk(
           buf.data(), rg.get<span_size_t>(0, span_size(buf.size()) - 1));
 
         BOOST_CHECK_EQUAL(
-          structured_memory_block<T>::is_valid_block(blk),
+          structured_memory_block<const T>::is_valid_block(blk),
           blk.size() >= span_size(span_size_of<T>()));
     }
     BOOST_CHECK_EQUAL(
-      structured_memory_block<T>::is_valid_block(memory_block()), false);
+      structured_memory_block<const T>::is_valid_block(memory::const_block()),
+      false);
 }
 
 BOOST_AUTO_TEST_CASE(struct_memory_block_1) {
@@ -44,7 +45,7 @@ template <typename T>
 void eagine_test_struct_memory_block_2_T(T& value) {
     using namespace eagine;
 
-    structured_memory_block<T> smb(as_bytes(coverOne(value)));
+    structured_memory_block<const T> smb(as_bytes(view_one(value)));
 
     BOOST_CHECK_EQUAL(smb.get().first.first, value.first.first);
     BOOST_CHECK_EQUAL(smb.get().first.second, value.first.second);

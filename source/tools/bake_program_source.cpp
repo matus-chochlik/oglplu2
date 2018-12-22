@@ -5,13 +5,15 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
+#include <eagine/data_baking.hpp>
 #include <eagine/file_contents.hpp>
 #include <eagine/program_args.hpp>
 #include <eagine/valid_if/not_empty.hpp>
 #include <oglplus/gl.hpp>
-#include <oglplus/utils/program_file_io.hpp>
+#include <oglplus/utils/program_file_hdr.hpp>
 #include <fstream>
-
+#include <iostream>
+//------------------------------------------------------------------------------
 struct options {
     using _str_param_t = eagine::program_parameter<
       eagine::valid_if_not_empty<eagine::string_view>>;
@@ -106,18 +108,19 @@ struct options {
         return all.parse(arg, log);
     }
 };
-
+//------------------------------------------------------------------------------
 void read_shader_source_texts(
   std::vector<eagine::file_contents>& source_texts,
   std::vector<GLenum>& shader_types,
   GLenum shader_type,
   const std::vector<eagine::valid_if_not_empty<eagine::string_view>>& paths) {
+
     for(const auto& path : paths) {
         source_texts.emplace_back(eagine::file_contents(path.value()));
         shader_types.push_back(shader_type);
     }
 }
-
+//------------------------------------------------------------------------------
 void write_output(std::ostream& output, const options& opts) {
     std::vector<eagine::file_contents> source_texts;
     std::vector<GLenum> shader_types;
@@ -163,27 +166,45 @@ void write_output(std::ostream& output, const options& opts) {
     std::vector<eagine::span_size_t> slens;
     slens.reserve(source_texts.size());
 
+    auto required_size = eagine::span_size(
+      sizeof(oglplus::program_source_header) +
+      source_texts.size() *
+        (sizeof(eagine::memory::offset_ptr<oglplus::shader_source_header>) +
+         sizeof(oglplus::shader_source_header)));
+
     for(auto& source_text : source_texts) {
         slens.push_back(source_text.block().size());
+        required_size += slens.back() * 2;
     }
 
-    eagine::span_size_t spos = 0;
-    oglplus::program_source_header hdr;
+    eagine::memory::buffer buf;
+    buf.resize(required_size);
 
-    oglplus::write_and_pad_program_source_header(
-      output, hdr, eagine::view(slens), spos);
+    eagine::data_bake_arena bakery(buf);
 
-    assert(shader_types.size() == source_texts.size());
+    auto& prog_src_hdr = bakery.make<oglplus::program_source_header>();
 
-    for(eagine::std_size_t i = 0, n = shader_types.size(); i < n; ++i) {
-        oglplus::shader_source_header shdr;
-        shdr.shader_type = shader_types[i];
-        oglplus::write_shader_source(output, shdr, source_texts[i]);
+    auto ssh_ptrs = bakery.make_array<
+      eagine::memory::offset_ptr<const oglplus::shader_source_header>>(
+      eagine::span_size(source_texts.size()));
+
+    prog_src_hdr.shader_sources = ssh_ptrs;
+
+    for(eagine::std_size_t i = 0; i < shader_types.size(); ++i) {
+        auto& shdr_src_hdr = bakery.make<oglplus::shader_source_header>();
+
+        shdr_src_hdr.shader_type = shader_types[i];
+        shdr_src_hdr.source_text = bakery.copy_array(
+          eagine::memory::accomodate<const GLchar>(source_texts[i].block()));
+
+        ssh_ptrs[i] = &shdr_src_hdr;
     }
+
+    eagine::write_to_stream(output, bakery.baked_data());
 }
-
+//------------------------------------------------------------------------------
 int parse_options(int argc, const char** argv, options& opts);
-
+//------------------------------------------------------------------------------
 int run(int argc, const char** argv) {
     options opts;
 
@@ -199,7 +220,7 @@ int run(int argc, const char** argv) {
     }
     return 0;
 }
-
+//------------------------------------------------------------------------------
 int main(int argc, const char** argv) {
 
     try {
@@ -209,7 +230,7 @@ int main(int argc, const char** argv) {
     }
     return 1;
 }
-
+//------------------------------------------------------------------------------
 bool parse_argument(eagine::program_arg& a, options& opts) {
 
     if(!opts.parse(a, std::cerr)) {
@@ -219,7 +240,7 @@ bool parse_argument(eagine::program_arg& a, options& opts) {
     }
     return true;
 }
-
+//------------------------------------------------------------------------------
 int parse_options(int argc, const char** argv, options& opts) {
 
     eagine::program_args args(argc, argv);
@@ -241,3 +262,4 @@ int parse_options(int argc, const char** argv, options& opts) {
 
     return 0;
 }
+//------------------------------------------------------------------------------

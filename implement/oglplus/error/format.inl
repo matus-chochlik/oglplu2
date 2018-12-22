@@ -133,7 +133,7 @@ std::ostream& format_error_info(
             } else if(parsed_fallback) {
                 out << fallback;
             } else {
-                out << n_a_str;
+                out << "0x" << std::hex << GLenum(info.gl_enum_value()._value);
             }
         } else if(placeholder == "gl_index") {
             print(info.gl_index(), info.invalid_index());

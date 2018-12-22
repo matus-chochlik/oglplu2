@@ -16,10 +16,11 @@
 
 namespace eagine {
 namespace memory {
-
+//------------------------------------------------------------------------------
 // base_stack_allocator
 // non-rebindable non-copyable stack allocator
 // use with care!
+//------------------------------------------------------------------------------
 template <typename T>
 class base_stack_allocator : public block_owner {
 private:
@@ -60,6 +61,10 @@ public:
         return _available().size();
     }
 
+    const_block allocated() const noexcept {
+        return _allocated();
+    }
+
     size_type allocated_size() const noexcept {
         return _allocated().size();
     }
@@ -84,8 +89,9 @@ public:
         return false;
     }
 };
-
+//------------------------------------------------------------------------------
 // stack_byte_allocator_only
+//------------------------------------------------------------------------------
 template <typename Policy = default_byte_allocator_policy>
 class stack_byte_allocator_only
   : public byte_allocator_impl<Policy, stack_byte_allocator_only> {
@@ -107,6 +113,10 @@ public:
         return _alloc.max_size();
     }
 
+    const_block allocated() const noexcept {
+        return _alloc.allocated();
+    }
+
     tribool has_allocated(const owned_block& b, span_size_t) noexcept override {
         return _alloc.has_allocated(b);
     }
@@ -115,8 +125,9 @@ public:
 
     void deallocate(owned_block&& b, size_type) noexcept override;
 };
-
+//------------------------------------------------------------------------------
 // stack_byte_allocator
+//------------------------------------------------------------------------------
 template <typename Policy = default_byte_allocator_policy>
 class stack_byte_allocator
   : public byte_allocator_impl<Policy, stack_byte_allocator> {
@@ -146,8 +157,9 @@ public:
 
     void deallocate(owned_block&& b, size_type) noexcept override;
 };
-
+//------------------------------------------------------------------------------
 // stack_aligned_byte_allocator
+//------------------------------------------------------------------------------
 template <typename Policy = default_byte_allocator_policy>
 class stack_aligned_byte_allocator
   : public byte_allocator_impl<Policy, stack_aligned_byte_allocator> {
@@ -186,7 +198,7 @@ public:
 
     void eject_self() noexcept override;
 };
-
+//------------------------------------------------------------------------------
 } // namespace memory
 } // namespace eagine
 

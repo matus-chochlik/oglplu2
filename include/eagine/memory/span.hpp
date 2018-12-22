@@ -292,13 +292,23 @@ template <typename T>
 using const_span = span<std::add_const_t<T>>;
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline const_span<T> viewOne(const T& value) noexcept {
+static constexpr inline const_span<T> view_one(const T& value) noexcept {
     return {std::addressof(value), span_size(1)};
 }
 //------------------------------------------------------------------------------
 template <typename T>
-static constexpr inline span_if_mutable<T> coverOne(T& value) noexcept {
+static constexpr inline span_if_mutable<T> cover_one(T& value) noexcept {
     return {std::addressof(value), span_size(1)};
+}
+//------------------------------------------------------------------------------
+template <typename T>
+static constexpr inline const_span<T> view_one(const T* pointer) noexcept {
+    return {pointer, span_size(1)};
+}
+//------------------------------------------------------------------------------
+template <typename T>
+static constexpr inline span_if_mutable<T> cover_one(T* pointer) noexcept {
+    return {pointer, span_size(1)};
 }
 //------------------------------------------------------------------------------
 template <typename T, typename S>
@@ -357,11 +367,25 @@ static constexpr inline auto cover(C& container) noexcept {
 //------------------------------------------------------------------------------
 // accomodate
 //------------------------------------------------------------------------------
+template <typename T, typename S>
+static constexpr inline bool can_accomodate_between(
+  T* bgn, T* end, S count) noexcept {
+    return S(end - bgn) >= count;
+}
+//------------------------------------------------------------------------------
+template <typename T, typename B, typename P, typename S>
+static constexpr inline bool can_accomodate(
+  basic_span<B, P, S> blk, S count, identity<T> tid = {}) noexcept {
+    return can_accomodate_between(
+      align_up_to(blk.begin_addr(), tid),
+      align_down_to(blk.end_addr(), tid),
+      count);
+}
+//------------------------------------------------------------------------------
 template <typename T, typename B, typename P, typename S>
 static constexpr inline bool can_accomodate(
   basic_span<B, P, S> blk, identity<T> tid = {}) noexcept {
-    return (align_down_to(blk.end_addr(), tid) -
-            align_up_to(blk.begin_addr(), tid)) >= span_size_of(tid);
+    return can_accomodate(blk, S(1), tid);
 }
 //------------------------------------------------------------------------------
 template <typename T, typename B, typename P, typename S>

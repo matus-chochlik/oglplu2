@@ -61,7 +61,7 @@ void eagine_test_memory_block_2() {
 
     int x;
 
-    memory::basic_block<is_const> bmb = as_bytes(coverOne(x));
+    memory::basic_block<is_const> bmb = as_bytes(cover_one(x));
 
     BOOST_CHECK(bool(bmb));
     BOOST_CHECK(!!bmb);

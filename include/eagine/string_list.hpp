@@ -10,6 +10,7 @@
 #ifndef EAGINE_STRING_LIST_HPP
 #define EAGINE_STRING_LIST_HPP
 
+#include "maybe_unused.hpp"
 #include "memory/span_algo.hpp"
 #include "multi_byte_seq.hpp"
 #include "string_span.hpp"
@@ -108,6 +109,7 @@ private:
         span_size_t hs = element_header_size(s);
         span_size_t vs = element_value_size(s, hs);
         assert(rev_sz >= hs + vs);
+        EAGINE_MAYBE_UNUSED(rev_sz);
         return {s.data() - hs - vs, hs + vs + hs};
     }
 

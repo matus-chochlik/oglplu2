@@ -15,7 +15,7 @@
 #include <array>
 
 namespace oglplus {
-
+//------------------------------------------------------------------------------
 struct shader_source_header {
     eagine::file_magic_number<'o', 'g', 'l', '+', 's', 'h', 'd', 'r'> magic;
     eagine::memory::offset_span<const char> source_text = {};
@@ -23,7 +23,7 @@ struct shader_source_header {
 
     constexpr shader_source_header() noexcept = default;
 };
-
+//------------------------------------------------------------------------------
 struct program_source_header {
     eagine::file_magic_number<'o', 'g', 'l', '+', 'p', 'r', 'o', 'g'> magic;
     eagine::memory::offset_span<
@@ -32,7 +32,7 @@ struct program_source_header {
 
     constexpr program_source_header() noexcept = default;
 };
-
+//------------------------------------------------------------------------------
 } // namespace oglplus
 
 #endif // include guard

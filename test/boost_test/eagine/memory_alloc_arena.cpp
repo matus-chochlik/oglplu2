@@ -154,8 +154,7 @@ BOOST_AUTO_TEST_CASE(memory_owning_alloc_3) {
             std::vector<int> src(rg.get_std_size(1, 32));
             rg.fill(src);
 
-            span<int> dst =
-              alc.copy_aligned_array<int>(view(src), alignof(int));
+            span<int> dst = alc.copy_aligned_array(view(src), alignof(int));
 
             BOOST_CHECK_EQUAL(src.size(), dst.size());
             BOOST_CHECK(std::equal(src.begin(), src.end(), dst.begin()));
@@ -182,7 +181,7 @@ BOOST_AUTO_TEST_CASE(memory_owning_alloc_4) {
             std::string src(rg.get_string(1, 32));
 
             span<char> dst =
-              alc.copy_aligned_array<char>(string_view(src), alignof(char));
+              alc.copy_aligned_array(string_view(src), alignof(char));
 
             BOOST_CHECK_EQUAL(src.size(), dst.size());
             BOOST_CHECK(std::equal(src.begin(), src.end(), dst.begin()));

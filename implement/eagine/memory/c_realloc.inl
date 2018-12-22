@@ -6,15 +6,17 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/maybe_unused.hpp>
 #include <cstdlib>
 
 namespace eagine {
 namespace memory {
 //------------------------------------------------------------------------------
 template <typename Policy>
-inline owned_block
-c_byte_reallocator<Policy>::allocate(size_type n, size_type a) noexcept {
+inline owned_block c_byte_reallocator<Policy>::allocate(
+  size_type n, size_type a) noexcept {
     assert(a > 0);
+    EAGINE_MAYBE_UNUSED(a);
 
     if(n == 0) {
         return {};

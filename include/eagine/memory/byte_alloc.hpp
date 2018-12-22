@@ -170,7 +170,7 @@ public:
     static void eject_derived(Final& that) noexcept {
         Final tmp = std::move(that);
         tmp.deallocate(
-          acquire_block(as_bytes(coverOne(that))), span_align_of<Final>());
+          acquire_block(as_bytes(cover_one(that))), span_align_of<Final>());
     }
 
     Derived* accomodate_self() noexcept {

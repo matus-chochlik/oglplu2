@@ -15,7 +15,6 @@
 
 namespace eagine {
 
-// TODO: remove this
 template <typename T>
 class structured_memory_block {
 private:

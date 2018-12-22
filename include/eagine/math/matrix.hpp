@@ -9,6 +9,7 @@
 #ifndef EAGINE_MATH_MATRIX_HPP
 #define EAGINE_MATH_MATRIX_HPP
 
+#include "../maybe_unused.hpp"
 #include "vector.hpp"
 #include <utility>
 
@@ -344,6 +345,7 @@ template <typename T, int C, int R, bool RM, bool V>
 static inline vector<T, C, V> _row_hlp(
   const matrix<T, C, R, RM, V>& m, int_constant<0u>, int i) noexcept {
     assert(i == 0u);
+    EAGINE_MAYBE_UNUSED(i);
     return row<0u>(m);
 }
 
@@ -383,6 +385,7 @@ template <typename T, int C, int R, bool RM, bool V>
 static inline vector<T, R, V> _col_hlp(
   const matrix<T, C, R, RM, V>& m, int_constant<0u>, int i) noexcept {
     assert(i == 0);
+    EAGINE_MAYBE_UNUSED(i);
     return column<0>(m);
 }
 

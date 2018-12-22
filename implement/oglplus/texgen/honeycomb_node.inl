@@ -6,6 +6,7 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#include <eagine/maybe_unused.hpp>
 #include <cassert>
 #include <iostream>
 
@@ -55,8 +56,8 @@ slot_data_type honeycomb_output::value_type() {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-honeycomb_output::definitions(std::ostream& out, compile_context& ctxt) {
+std::ostream& honeycomb_output::definitions(
+  std::ostream& out, compile_context& ctxt) {
     if(already_defined(ctxt))
         return out;
 
@@ -171,8 +172,8 @@ honeycomb_output::definitions(std::ostream& out, compile_context& ctxt) {
 }
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
-std::ostream&
-honeycomb_output::expression(std::ostream& out, compile_context&) {
+std::ostream& honeycomb_output::expression(
+  std::ostream& out, compile_context&) {
     append_id(out);
     return out << type_abbr();
 }
@@ -198,6 +199,7 @@ span_size_t honeycomb_node::input_count() {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 input_intf& honeycomb_node::input(span_size_t index) {
+    EAGINE_MAYBE_UNUSED(index);
     assert(index < input_count());
     return _cells;
 }
