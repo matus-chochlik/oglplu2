@@ -5,14 +5,16 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
+#include <eagine/data_baking.hpp>
 #include <eagine/input_data.hpp>
 #include <eagine/program_args.hpp>
 #include <eagine/valid_if/not_empty.hpp>
 #include <eagine/valid_if/one_of.hpp>
 #include <oglplus/gl.hpp>
-#include <oglplus/utils/program_file_io.hpp>
+#include <oglplus/utils/program_file_hdr.hpp>
 #include <fstream>
-
+#include <iostream>
+//------------------------------------------------------------------------------
 struct options {
     using _str_param_t = eagine::program_parameter<
       eagine::valid_if_not_empty<eagine::string_view>>;
@@ -115,20 +117,33 @@ struct options {
                a.parse_param(shader_type, shtnames, shtvalues, log);
     }
 };
-
+//------------------------------------------------------------------------------
 void write_output(
   std::istream& input, std::ostream& output, const options& opts) {
     oglplus::shader_source_header hdr;
-    hdr.shader_type = opts.shader_type.value();
 
     eagine::memory::buffer source_text;
     eagine::read_stream_data(input, source_text);
 
-    write_shader_source(output, hdr, source_text);
+    eagine::memory::buffer buf;
+    buf.resize(
+      eagine::span_size(sizeof(oglplus::shader_source_header)) +
+      source_text.size() * 2);
+
+    eagine::data_bake_arena bakery(buf);
+
+    auto& shdr_src_hdr = bakery.make<oglplus::shader_source_header>();
+
+    shdr_src_hdr.shader_type = opts.shader_type.value();
+    shdr_src_hdr.source_text =
+      bakery.copy_array(eagine::memory::accomodate<const GLchar>(
+        eagine::memory::const_block(source_text)));
+
+    eagine::write_to_stream(output, bakery.baked_data());
 }
-
+//------------------------------------------------------------------------------
 int parse_options(int argc, const char** argv, options& opts);
-
+//------------------------------------------------------------------------------
 int run(int argc, const char** argv) {
     options opts;
 
@@ -156,7 +171,7 @@ int run(int argc, const char** argv) {
     }
     return 0;
 }
-
+//------------------------------------------------------------------------------
 int main(int argc, const char** argv) {
 
     try {
@@ -166,7 +181,7 @@ int main(int argc, const char** argv) {
     }
     return 1;
 }
-
+//------------------------------------------------------------------------------
 bool parse_argument(eagine::program_arg& a, options& opts) {
 
     if(!opts.parse(a, std::cerr)) {
@@ -176,7 +191,7 @@ bool parse_argument(eagine::program_arg& a, options& opts) {
     }
     return true;
 }
-
+//------------------------------------------------------------------------------
 int parse_options(int argc, const char** argv, options& opts) {
 
     eagine::program_args args(argc, argv);
@@ -198,3 +213,4 @@ int parse_options(int argc, const char** argv, options& opts) {
 
     return 0;
 }
+//------------------------------------------------------------------------------

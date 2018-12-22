@@ -367,25 +367,24 @@ static constexpr inline auto cover(C& container) noexcept {
 //------------------------------------------------------------------------------
 // accomodate
 //------------------------------------------------------------------------------
-template <typename T, typename S>
 static constexpr inline bool can_accomodate_between(
-  T* bgn, T* end, S count) noexcept {
-    return S(end - bgn) >= count;
+  const_address bgn, const_address end, span_size_t size) noexcept {
+    return (end - bgn) >= size;
 }
 //------------------------------------------------------------------------------
 template <typename T, typename B, typename P, typename S>
 static constexpr inline bool can_accomodate(
-  basic_span<B, P, S> blk, S count, identity<T> tid = {}) noexcept {
+  basic_span<B, P, S> blk, span_size_t count, identity<T> tid = {}) noexcept {
     return can_accomodate_between(
-      align_up_to(blk.begin_addr(), tid),
-      align_down_to(blk.end_addr(), tid),
-      count);
+      align_up(blk.begin_addr(), span_align_of(tid), span_align_of(tid)),
+      align_down(blk.end_addr(), span_align_of(tid), span_align_of(tid)),
+      count * span_size_of(tid));
 }
 //------------------------------------------------------------------------------
 template <typename T, typename B, typename P, typename S>
 static constexpr inline bool can_accomodate(
   basic_span<B, P, S> blk, identity<T> tid = {}) noexcept {
-    return can_accomodate(blk, S(1), tid);
+    return can_accomodate(blk, 1, tid);
 }
 //------------------------------------------------------------------------------
 template <typename T, typename B, typename P, typename S>
