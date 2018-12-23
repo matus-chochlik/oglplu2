@@ -93,8 +93,8 @@ struct orbiting_y_up<matrix<T, 4, 4, RM, V>> {
 
 // reorder_mat_ctr(orbiting_y_up)
 template <typename T, int N, bool RM, bool V>
-static constexpr inline orbiting_y_up<matrix<T, N, N, !RM, V>>
-reorder_mat_ctr(const orbiting_y_up<matrix<T, N, N, RM, V>>& c) noexcept {
+static constexpr inline orbiting_y_up<matrix<T, N, N, !RM, V>> reorder_mat_ctr(
+  const orbiting_y_up<matrix<T, N, N, RM, V>>& c) noexcept {
     return {c._t, c._x, c._y, c._z, c._r};
 }
 

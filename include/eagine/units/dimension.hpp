@@ -17,10 +17,6 @@
 namespace eagine {
 namespace units {
 
-// dim_name
-template <typename Dim>
-struct dim_name;
-
 // multiplication
 template <typename D1, typename D2>
 static inline std::

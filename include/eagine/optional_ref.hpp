@@ -7,33 +7,37 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_OPTIONAL_REF_1509260923_HPP
-#define EAGINE_OPTIONAL_REF_1509260923_HPP
+#ifndef EAGINE_OPTIONAL_REF_HPP
+#define EAGINE_OPTIONAL_REF_HPP
 
 #include "nothing.hpp"
+#include <cassert>
+#include <memory>
 
 namespace eagine {
-
+//------------------------------------------------------------------------------
 template <typename T>
 class optional_reference_wrapper {
 private:
-    T* _ptr;
+    T* _ptr = nullptr;
 
 public:
     optional_reference_wrapper(T& ref) noexcept
       : _ptr(std::addressof(ref)) {
     }
 
+    optional_reference_wrapper(optional_reference_wrapper&&) noexcept = default;
     optional_reference_wrapper(const optional_reference_wrapper&) = default;
-    optional_reference_wrapper&
-    operator=(const optional_reference_wrapper&) = default;
+    optional_reference_wrapper& operator=(
+      optional_reference_wrapper&&) noexcept = default;
+    optional_reference_wrapper& operator=(const optional_reference_wrapper&) =
+      default;
+    ~optional_reference_wrapper() noexcept = default;
 
-    constexpr optional_reference_wrapper(nothing_t) noexcept
-      : _ptr(nullptr) {
+    constexpr optional_reference_wrapper(nothing_t) noexcept {
     }
 
-    constexpr optional_reference_wrapper(std::nullptr_t) noexcept
-      : _ptr(nullptr) {
+    constexpr optional_reference_wrapper(std::nullptr_t) noexcept {
     }
 
     bool is_valid() const noexcept {
@@ -57,7 +61,7 @@ public:
         return get();
     }
 };
-
+//------------------------------------------------------------------------------
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_OPTIONAL_REF_HPP

@@ -7,11 +7,12 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_SHAPES_VERTEX_ATTRIB_1509260923_HPP
-#define EAGINE_SHAPES_VERTEX_ATTRIB_1509260923_HPP
+#ifndef EAGINE_SHAPES_VERTEX_ATTRIB_HPP
+#define EAGINE_SHAPES_VERTEX_ATTRIB_HPP
 
 #include "../all_are_same.hpp"
 #include "../bitfield.hpp"
+#include "../types.hpp"
 #include <array>
 #include <type_traits>
 #include <utility>
@@ -128,4 +129,4 @@ static inline span_size_t attrib_values_per_vertex(
 } // namespace shapes
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_SHAPES_VERTEX_ATTRIB_HPP

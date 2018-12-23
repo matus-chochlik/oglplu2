@@ -1,6 +1,3 @@
-#ifndef EAGINE_SMART_CALLABLE_HPP
-#define EAGINE_SMART_CALLABLE_HPP
-
 /**
  *  @file eagine/smart_callable.hpp
  *
@@ -9,12 +6,12 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#ifndef EAGINE_SMART_CALLABLE_HPP
+#define EAGINE_SMART_CALLABLE_HPP
+
 #include "args_within_limits.hpp"
 #include "assert.hpp"
 #include "valid_if/decl.hpp"
-
-#ifndef EAGINE_SMART_CALLABLE_1509260923_HPP
-#define EAGINE_SMART_CALLABLE_1509260923_HPP
 
 namespace eagine {
 //------------------------------------------------------------------------------
@@ -80,19 +77,17 @@ private:
 };
 //------------------------------------------------------------------------------
 template <typename RV, typename... Params>
-static constexpr inline smart_callable<false, RV (*)(Params...)>
-smart_call(RV (*function)(Params...)) noexcept {
+static constexpr inline smart_callable<false, RV (*)(Params...)> smart_call(
+  RV (*function)(Params...)) noexcept {
     return {function};
 }
 //------------------------------------------------------------------------------
 template <typename RV, typename... Params>
-static constexpr inline smart_callable<true, RV (*)(Params...)>
-safe_call(RV (*function)(Params...)) noexcept {
+static constexpr inline smart_callable<true, RV (*)(Params...)> safe_call(
+  RV (*function)(Params...)) noexcept {
     return {function};
 }
 //------------------------------------------------------------------------------
 } // namespace eagine
 
-#endif // EAGINE_SMART_CALLABLE_1509260923_HPP
-
-#endif
+#endif // EAGINE_SMART_CALLABLE_HPP

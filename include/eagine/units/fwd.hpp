@@ -36,11 +36,20 @@ namespace base {
 template <typename Derived>
 struct dimension;
 
+template <typename Dimension>
+struct dim_name;
+
 template <typename Dimension, typename Derived>
 struct unit;
 
 template <typename Scale, typename Unit>
 struct scaled_unit;
+
+template <typename Unit>
+struct unit_name;
+
+template <typename Unit>
+struct unit_symbol;
 
 } // namespace base
 
@@ -142,6 +151,9 @@ struct is_convertible;
 
 template <typename U1, typename U2>
 constexpr bool is_convertible_v = is_convertible<U1, U2>::value;
+
+template <typename Dim>
+struct dim_name;
 
 } // namespace units
 } // namespace eagine

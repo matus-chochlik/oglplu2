@@ -101,9 +101,6 @@ static constexpr inline int get_number(dimension<Derived>) noexcept {
     return dim_num_v<Derived>;
 }
 
-template <typename Dimension>
-struct dim_name;
-
 template <>
 struct dim_name<angle> {
     static constexpr const char mp_str[] = "angle";

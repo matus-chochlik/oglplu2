@@ -7,10 +7,11 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_UNITS_SCALES_1512222148_HPP
-#define EAGINE_UNITS_SCALES_1512222148_HPP
+#ifndef EAGINE_UNITS_SCALES_HPP
+#define EAGINE_UNITS_SCALES_HPP
 
 #include "../math/constants.hpp"
+#include "../nothing.hpp"
 
 #ifdef __clang__
 #pragma clang diagnostic push
@@ -20,18 +21,18 @@
 namespace eagine {
 namespace units {
 namespace scales {
-
+//------------------------------------------------------------------------------
 template <typename X>
 struct scale_name;
-
+//------------------------------------------------------------------------------
 template <typename X>
 struct scale_symbol;
-
+//------------------------------------------------------------------------------
 template <typename X>
 struct scale_of {
     using type = typename X::scale;
 };
-
+//------------------------------------------------------------------------------
 template <typename X>
 using scale_of_t = typename scale_of<X>::type;
 
@@ -48,7 +49,7 @@ struct one {
         return v;
     }
 };
-
+//------------------------------------------------------------------------------
 template <>
 struct scale_name<one> {
     static constexpr const char mp_str[] = "";
@@ -57,7 +58,7 @@ template <>
 struct scale_symbol<one> {
     static constexpr const char mp_str[] = "";
 };
-
+//------------------------------------------------------------------------------
 template <>
 struct scale_of<nothing_t> : one {};
 
@@ -75,7 +76,7 @@ struct constant {
         return v / float(I);
     }
 };
-
+//------------------------------------------------------------------------------
 template <int Num, int Den>
 struct rational {
     using type = rational;
@@ -90,7 +91,7 @@ struct rational {
         return (v * Den) / float(Num);
     }
 };
-
+//------------------------------------------------------------------------------
 template <int X, int Y>
 struct power {
     using type = power;
@@ -107,7 +108,7 @@ struct power {
         return v / pow(X, Y);
     }
 };
-
+//------------------------------------------------------------------------------
 template <typename S>
 struct inverted {
     using type = inverted;
@@ -122,7 +123,7 @@ struct inverted {
         return S::mul(v);
     }
 };
-
+//------------------------------------------------------------------------------
 template <typename S1, typename S2>
 struct multiplied {
     using type = multiplied;
@@ -137,7 +138,7 @@ struct multiplied {
         return S2::div(S1::div(v));
     }
 };
-
+//------------------------------------------------------------------------------
 template <typename S1, typename S2>
 struct divided {
     using type = divided;
@@ -152,12 +153,12 @@ struct divided {
         return S2::mul(S1::div(v));
     }
 };
-
+//------------------------------------------------------------------------------
 template <typename S1, typename S2>
 struct recombined : multiplied<S1, S2> {
     using type = recombined;
 };
-
+//------------------------------------------------------------------------------
 // nano
 using nano = power<1000, -3>;
 
@@ -169,7 +170,7 @@ template <>
 struct scale_symbol<nano> {
     static constexpr const char mp_str[] = "n";
 };
-
+//------------------------------------------------------------------------------
 // micro
 using micro = power<1000, -2>;
 
@@ -181,7 +182,7 @@ template <>
 struct scale_symbol<micro> {
     static constexpr const char mp_str[3] = {char(0xCE), char(0xBC), '\0'};
 };
-
+//------------------------------------------------------------------------------
 // milli
 using milli = power<1000, -1>;
 
@@ -193,7 +194,7 @@ template <>
 struct scale_symbol<milli> {
     static constexpr const char mp_str[] = "m";
 };
-
+//------------------------------------------------------------------------------
 // centi
 using centi = power<10, -2>;
 
@@ -205,7 +206,7 @@ template <>
 struct scale_symbol<centi> {
     static constexpr const char mp_str[] = "c";
 };
-
+//------------------------------------------------------------------------------
 // deci
 using deci = power<10, -1>;
 
@@ -217,7 +218,7 @@ template <>
 struct scale_symbol<deci> {
     static constexpr const char mp_str[] = "d";
 };
-
+//------------------------------------------------------------------------------
 // deca
 using deca = power<10, 1>;
 
@@ -229,7 +230,7 @@ template <>
 struct scale_symbol<deca> {
     static constexpr const char mp_str[] = "dc";
 };
-
+//------------------------------------------------------------------------------
 // hecto
 using hecto = power<10, 2>;
 
@@ -241,7 +242,7 @@ template <>
 struct scale_symbol<hecto> {
     static constexpr const char mp_str[] = "h";
 };
-
+//------------------------------------------------------------------------------
 // kilo
 using kilo = power<1000, 1>;
 
@@ -253,7 +254,7 @@ template <>
 struct scale_symbol<kilo> {
     static constexpr const char mp_str[] = "k";
 };
-
+//------------------------------------------------------------------------------
 // mega
 using mega = power<1000, 2>;
 
@@ -265,7 +266,7 @@ template <>
 struct scale_symbol<mega> {
     static constexpr const char mp_str[] = "M";
 };
-
+//------------------------------------------------------------------------------
 // giga
 using giga = power<1000, 3>;
 
@@ -277,7 +278,7 @@ template <>
 struct scale_symbol<giga> {
     static constexpr const char mp_str[] = "G";
 };
-
+//------------------------------------------------------------------------------
 // tera
 using tera = power<1000, 4>;
 
@@ -289,7 +290,7 @@ template <>
 struct scale_symbol<tera> {
     static constexpr const char mp_str[] = "T";
 };
-
+//------------------------------------------------------------------------------
 // kibi
 using kibi = power<1024, 1>;
 
@@ -301,7 +302,7 @@ template <>
 struct scale_symbol<kibi> {
     static constexpr const char mp_str[] = "Ki";
 };
-
+//------------------------------------------------------------------------------
 // mebi
 using mebi = power<1024, 2>;
 
@@ -313,7 +314,7 @@ template <>
 struct scale_symbol<mebi> {
     static constexpr const char mp_str[] = "Mi";
 };
-
+//------------------------------------------------------------------------------
 // gibi
 using gibi = power<1024, 3>;
 
@@ -325,7 +326,7 @@ template <>
 struct scale_symbol<gibi> {
     static constexpr const char mp_str[] = "Gi";
 };
-
+//------------------------------------------------------------------------------
 // tebi
 using tebi = power<1024, 4>;
 
@@ -337,7 +338,7 @@ template <>
 struct scale_symbol<tebi> {
     static constexpr const char mp_str[] = "Ti";
 };
-
+//------------------------------------------------------------------------------
 // pi
 struct pi {
     using type = pi;
@@ -361,7 +362,7 @@ template <>
 struct scale_symbol<pi> {
     static constexpr const char mp_str[] = {char(0xCF), char(0x80), '\0'};
 };
-
+//------------------------------------------------------------------------------
 } // namespace scales
 } // namespace units
 } // namespace eagine
@@ -370,4 +371,4 @@ struct scale_symbol<pi> {
 #pragma clang diagnostic pop
 #endif
 
-#endif // include guard
+#endif // EAGINE_UNITS_SCALES_HPP

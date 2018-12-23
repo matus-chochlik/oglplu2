@@ -1,6 +1,3 @@
-#ifndef EAGINE_ARGS_WITHIN_LIMITS_HPP
-#define EAGINE_ARGS_WITHIN_LIMITS_HPP
-
 /**
  *  @file eagine/args_within_limits.hpp
  *
@@ -9,11 +6,11 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
+#ifndef EAGINE_ARGS_WITHIN_LIMITS_HPP
+#define EAGINE_ARGS_WITHIN_LIMITS_HPP
+
 #include "is_within_limits.hpp"
 #include <algorithm>
-
-#ifndef EAGINE_ARGS_WITHIN_LIMITS_1509260923_HPP
-#define EAGINE_ARGS_WITHIN_LIMITS_1509260923_HPP
 
 namespace eagine {
 //------------------------------------------------------------------------------
@@ -44,6 +41,4 @@ static inline bool args_within_limits(
 //------------------------------------------------------------------------------
 } // namespace eagine
 
-#endif // EAGINE_ARGS_WITHIN_LIMITS_1509260923_HPP
-
-#endif
+#endif // EAGINE_ARGS_WITHIN_LIMITS_HPP

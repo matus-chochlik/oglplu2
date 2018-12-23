@@ -7,20 +7,21 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_ENUM_RANGE_1509260923_HPP
-#define EAGINE_ENUM_RANGE_1509260923_HPP
+#ifndef EAGINE_ENUM_RANGE_HPP
+#define EAGINE_ENUM_RANGE_HPP
 
 #include "enum_class.hpp"
 #include "iterator.hpp"
+#include "memory/span.hpp"
 #include <cassert>
 #include <cstdint>
 #include <utility>
 
 namespace eagine {
-
+//------------------------------------------------------------------------------
 template <typename EnumClass>
 class enumerated_value_range;
-
+//------------------------------------------------------------------------------
 template <typename EnumClass, typename T, unsigned LibId, unsigned EnumId>
 class enumerated_value_range<enum_class<EnumClass, T, LibId, EnumId>> {
 private:
@@ -37,7 +38,7 @@ public:
     using value_type = _ec_t;
     using size_type = span_size_t;
 
-    explicit enumerated_value_range(span<const T> v) noexcept
+    explicit enumerated_value_range(memory::span<const T> v) noexcept
       : _begin(v.data())
       , _end(v.data() + v.size()) {
         assert(_begin <= _end);
@@ -46,7 +47,7 @@ public:
     explicit enumerated_value_range(
       std::pair<const void*, size_type> p) noexcept
       : enumerated_value_range(
-          span<const T>{static_cast<const T*>(p.first), p.second}) {
+          memory::span<const T>{static_cast<const T*>(p.first), p.second}) {
     }
 
     using iterator =
@@ -64,7 +65,7 @@ public:
         return iterator(_end, &_wrap_enum);
     }
 };
-
+//------------------------------------------------------------------------------
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_ENUM_RANGE_HPP

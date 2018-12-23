@@ -17,12 +17,6 @@ namespace eagine {
 namespace units {
 namespace base {
 
-template <typename Unit>
-struct unit_name;
-
-template <typename Unit>
-struct unit_symbol;
-
 template <typename Dimension, typename Derived>
 struct unit {
     using dimension = Dimension;

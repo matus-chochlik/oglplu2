@@ -1,6 +1,3 @@
-#ifndef EAGINE_UNITS_UNIT_SI_COMMON_HPP
-#define EAGINE_UNITS_UNIT_SI_COMMON_HPP
-
 /**
  *  @file eagine/units/unit/si/common.hpp
  *
@@ -9,10 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#pragma once
-
-#ifndef EAGINE_UNITS_UNIT_SI_COMMON_1512222148_HPP
-#define EAGINE_UNITS_UNIT_SI_COMMON_1512222148_HPP
+#ifndef EAGINE_UNITS_UNIT_SI_COMMON_HPP
+#define EAGINE_UNITS_UNIT_SI_COMMON_HPP
 
 #include "../../base_dim.hpp"
 #include "../../base_scaled_unit.hpp"
@@ -41,6 +36,4 @@ struct si::base_unit<base::dimension<Dim>> : si::base_unit<Dim> {};
 } // namespace units
 } // namespace eagine
 
-#endif // include guard
-
-#endif
+#endif // EAGINE_UNITS_UNIT_SI_COMMON_HPP

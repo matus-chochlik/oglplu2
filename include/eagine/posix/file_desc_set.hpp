@@ -6,19 +6,20 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EAGINE_POSIX_FILE_DESC_SET_1509260923_HPP
-#define EAGINE_POSIX_FILE_DESC_SET_1509260923_HPP
+#ifndef EAGINE_POSIX_FILE_DESC_SET_HPP
+#define EAGINE_POSIX_FILE_DESC_SET_HPP
 
 #include "../optional_ref.hpp"
 #include "../valid_if/decl.hpp"
 #include "file_descriptor.hpp"
+#include <memory>
 #include <sys/time.h>
 #include <sys/types.h>
 #include <unistd.h>
 
 namespace eagine {
 namespace posix {
-
+//------------------------------------------------------------------------------
 struct fd_set_valid_fd_policy {
     bool operator()(file_descriptor fd) const noexcept {
         return (get_raw_fd(fd) >= 0) && (get_raw_fd(fd) < FD_SETSIZE);
@@ -43,11 +44,11 @@ struct fd_set_valid_fd_policy {
         }
     };
 };
-
+//------------------------------------------------------------------------------
 class file_descriptor_set {
 private:
-    fd_set _fds;
-    int _min, _max;
+    fd_set _fds{};
+    int _min{0}, _max{0};
 
     void _update(int fd) {
         if(_min > fd) {
@@ -65,7 +66,7 @@ public:
     file_descriptor_set() noexcept
       : _min(FD_SETSIZE)
       , _max(-1) {
-        FD_ZERO(&_fds);
+        FD_ZERO(&_fds); // NOLINT (hicpp-no-assembler)
     }
 
     optionally_valid<int> nfds() const noexcept {
@@ -95,7 +96,7 @@ public:
         return &fds._fds;
     }
 };
-
+//------------------------------------------------------------------------------
 static inline outcome<int> select(
   int nfds,
   optional_reference_wrapper<file_descriptor_set> read_fds,
@@ -103,11 +104,11 @@ static inline outcome<int> select(
   optional_reference_wrapper<file_descriptor_set> except_fds,
   long timeout_sec,
   long timeout_nanosec) noexcept {
-    struct timespec timeout;
+    struct timespec timeout {};
     timeout.tv_sec = timeout_sec;
     timeout.tv_nsec = timeout_nanosec;
 
-    int res = ::pselect(
+    const int res = ::pselect(
       nfds,
       read_fds ? get_raw_fd_set(read_fds) : nullptr,
       write_fds ? get_raw_fd_set(write_fds) : nullptr,
@@ -117,7 +118,7 @@ static inline outcome<int> select(
 
     return error_if_negative(res, -1);
 }
-
+//------------------------------------------------------------------------------
 static inline outcome<int> select(
   optional_reference_wrapper<file_descriptor_set> read_fds,
   optional_reference_wrapper<file_descriptor_set> write_fds,
@@ -130,8 +131,8 @@ static inline outcome<int> select(
       [&nfds](optional_reference_wrapper<file_descriptor_set> fds) {
           if(fds.is_valid()) {
               if(auto fdsn = fds.get().nfds()) {
-                  if(nfds < fdsn.value()) {
-                      nfds = fdsn.value();
+                  if(nfds < fdsn.value_or(0)) {
+                      nfds = fdsn.value_or(0);
                   }
               }
           }
@@ -143,8 +144,8 @@ static inline outcome<int> select(
     return posix::select(
       nfds, read_fds, write_fds, except_fds, timeout_sec, timeout_nsec);
 }
-
+//------------------------------------------------------------------------------
 } // namespace posix
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_POSIX_FILE_DESC_SET_HPP
