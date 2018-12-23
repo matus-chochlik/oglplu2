@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_EXAMPLE_ARGS_1512120710_HPP
-#define OGLPLUS_EXAMPLE_ARGS_1512120710_HPP
+#ifndef OGLPLUS_EXAMPLE_ARGS_HPP
+#define OGLPLUS_EXAMPLE_ARGS_HPP
 
 #include <eagine/valid_if/not_empty.hpp>
 #include <oglplus/utils/string_span.hpp>
@@ -101,4 +101,4 @@ public:
 
 } // namespace oglplus
 
-#endif
+#endif // OGLPLUS_EXAMPLE_ARGS_HPP

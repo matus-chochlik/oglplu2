@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_EXAMPLE_WRAPPER_1512120710_HPP
-#define OGLPLUS_EXAMPLE_WRAPPER_1512120710_HPP
+#ifndef OGLPLUS_EXAMPLE_WRAPPER_HPP
+#define OGLPLUS_EXAMPLE_WRAPPER_HPP
 
 #include "../example.hpp"
 #include <cassert>
@@ -56,4 +56,4 @@ public:
 
 } // namespace oglplus
 
-#endif
+#endif // OGLPLUS_EXAMPLE_WRAPPER_HPP

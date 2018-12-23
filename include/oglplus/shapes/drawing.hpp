@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef OGLPLUS_SHAPES_DRAWING_1509260923_HPP
-#define OGLPLUS_SHAPES_DRAWING_1509260923_HPP
+#ifndef OGLPLUS_SHAPES_DRAWING_HPP
+#define OGLPLUS_SHAPES_DRAWING_HPP
 
 #include "../config/basic.hpp"
 #include "../enum/types.hpp"
@@ -29,10 +29,10 @@ private:
 
     primitive_type _mode;
     data_type _idx_type;
-    GLint _first;
-    GLsizei _count;
-    [[maybe_unused]] GLuint _phase;
-    [[maybe_unused]] GLuint _primitive_restart_index;
+    GLint _first{0};
+    GLsizei _count{0};
+    [[maybe_unused]] GLuint _phase{0};
+    [[maybe_unused]] GLuint _primitive_restart_index{0};
     [[maybe_unused]] bool _primitive_restart : 1;
     bool _cw_face_winding : 1;
 
@@ -42,10 +42,6 @@ public:
     constexpr draw_operation() noexcept
       : _mode(primitive_type(GL_NONE))
       , _idx_type(data_type(GL_NONE))
-      , _first(0)
-      , _count(0)
-      , _phase(0)
-      , _primitive_restart_index(0)
       , _primitive_restart(false)
       , _cw_face_winding(false) {
     }
@@ -66,4 +62,4 @@ outcome<void> draw_using_instructions(span<const draw_operation> ops) noexcept;
 #include <oglplus/shapes/drawing.inl>
 #endif
 
-#endif // include guard
+#endif // OGLPLUS_SHAPES_DRAWING_HPP

@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OALPLUS_BUFFER_1509260923_HPP
-#define OALPLUS_BUFFER_1509260923_HPP
+#ifndef OALPLUS_BUFFER_HPP
+#define OALPLUS_BUFFER_HPP
 
 #include "buffer_name.hpp"
 #include "enum/types.hpp"
@@ -109,4 +109,4 @@ using buffer = object_owner<tag::buffer>;
 
 #include <oalplus/buffer.inl>
 
-#endif // include guard
+#endif // OALPLUS_BUFFER_HPP

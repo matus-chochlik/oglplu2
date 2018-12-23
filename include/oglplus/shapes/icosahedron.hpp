@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef OGLPLUS_SHAPES_ICOSAHEDRON_1509260923_HPP
-#define OGLPLUS_SHAPES_ICOSAHEDRON_1509260923_HPP
+#ifndef OGLPLUS_SHAPES_ICOSAHEDRON_HPP
+#define OGLPLUS_SHAPES_ICOSAHEDRON_HPP
 
 #include "adapted_gen.hpp"
 #include <eagine/shapes/icosahedron.hpp>
@@ -22,4 +22,4 @@ using unit_icosahedron_gen =
 } // namespace shapes
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_SHAPES_ICOSAHEDRON_HPP

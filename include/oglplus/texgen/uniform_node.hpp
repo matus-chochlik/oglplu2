@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_TEXGEN_UNIFORM_NODE_1509260923_HPP
-#define OGLPLUS_TEXGEN_UNIFORM_NODE_1509260923_HPP
+#ifndef OGLPLUS_TEXGEN_UNIFORM_NODE_HPP
+#define OGLPLUS_TEXGEN_UNIFORM_NODE_HPP
 
 #include "../uniform.hpp"
 #include "base_node.hpp"
@@ -36,8 +36,8 @@ public:
 
     slot_data_type value_type() override;
 
-    std::ostream&
-    definitions(std::ostream& out, compile_context& ctxt) override;
+    std::ostream& definitions(
+      std::ostream& out, compile_context& ctxt) override;
 };
 
 class uniform_node : public single_output_node<uniform_output> {
@@ -70,4 +70,4 @@ public:
 #include <oglplus/texgen/uniform_node.inl>
 #endif
 
-#endif // include guard
+#endif // OGLPLUS_TEXGEN_UNIFORM_NODE_HPP

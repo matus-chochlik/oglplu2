@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_EXAMPLE_STATE_1512120710_HPP
-#define OGLPLUS_EXAMPLE_STATE_1512120710_HPP
+#ifndef OGLPLUS_EXAMPLE_STATE_HPP
+#define OGLPLUS_EXAMPLE_STATE_HPP
 
 #include "state_view.hpp"
 #include <cassert>
@@ -129,4 +129,4 @@ public:
 
 } // namespace oglplus
 
-#endif
+#endif // OGLPLUS_EXAMPLE_STATE_HPP

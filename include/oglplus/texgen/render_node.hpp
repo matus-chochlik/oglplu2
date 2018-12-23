@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_TEXGEN_RENDER_NODE_1509260923_HPP
-#define OGLPLUS_TEXGEN_RENDER_NODE_1509260923_HPP
+#ifndef OGLPLUS_TEXGEN_RENDER_NODE_HPP
+#define OGLPLUS_TEXGEN_RENDER_NODE_HPP
 
 #include "../buffer.hpp"
 #include "../program.hpp"
@@ -35,9 +35,9 @@ private:
 
     bool _needs_update;
 
-    int _xdiv, _ydiv, _tile;
+    int _xdiv{1}, _ydiv{1}, _tile{0};
 
-    unsigned _render_version;
+    unsigned _render_version{0};
     render_params _render_params;
 
 public:
@@ -78,4 +78,4 @@ public:
 #include <oglplus/texgen/render_node.inl>
 #endif
 
-#endif // include guard
+#endif // OGLPLUS_TEXGEN_RENDER_NODE_HPP

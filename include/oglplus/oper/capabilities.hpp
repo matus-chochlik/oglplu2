@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_OPER_CAPABILITIES_1509260923_HPP
-#define OGLPLUS_OPER_CAPABILITIES_1509260923_HPP
+#ifndef OGLPLUS_OPER_CAPABILITIES_HPP
+#define OGLPLUS_OPER_CAPABILITIES_HPP
 
 #include "../enum/indexed_types.hpp"
 #include "../enum/types.hpp"
@@ -75,4 +75,4 @@ struct capability_state {
 
 #include <oglplus/oper/capabilities.inl>
 
-#endif // include guard
+#endif // OGLPLUS_OPER_CAPABILITIES_HPP

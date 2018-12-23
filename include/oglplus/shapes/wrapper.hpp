@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef OGLPLUS_SHAPES_WRAPPER_1509260923_HPP
-#define OGLPLUS_SHAPES_WRAPPER_1509260923_HPP
+#ifndef OGLPLUS_SHAPES_WRAPPER_HPP
+#define OGLPLUS_SHAPES_WRAPPER_HPP
 
 #include "drawing.hpp"
 #include "init.hpp"
@@ -99,4 +99,4 @@ public:
 } // namespace shapes
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_SHAPES_WRAPPER_HPP

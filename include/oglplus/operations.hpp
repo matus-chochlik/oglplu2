@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_OPERATIONS_1509260923_HPP
-#define OGLPLUS_OPERATIONS_1509260923_HPP
+#ifndef OGLPLUS_OPERATIONS_HPP
+#define OGLPLUS_OPERATIONS_HPP
 
 #include "oper/blending.hpp"
 #include "oper/buffer_clearing.hpp"
@@ -170,8 +170,8 @@ public:
     }
 #endif
 
-    static auto
-    bind(transform_feedback_target tgt, transform_feedback_name xfb) noexcept {
+    static auto bind(
+      transform_feedback_target tgt, transform_feedback_name xfb) noexcept {
         return bind_transform_feedback(tgt, xfb);
     }
 
@@ -186,4 +186,4 @@ public:
 
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_OPERATIONS_HPP

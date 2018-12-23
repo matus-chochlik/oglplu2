@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_EXAMPLE_1512120710_HPP
-#define OGLPLUS_EXAMPLE_1512120710_HPP
+#ifndef OGLPLUS_EXAMPLE_OGLPLUS_EXAMPLE_HPP
+#define OGLPLUS_EXAMPLE_OGLPLUS_EXAMPLE_HPP
 
 #include "example/args.hpp"
 #include "example/params.hpp"
@@ -48,4 +48,4 @@ extern bool is_example_param(const example_arg&);
 
 } // namespace oglplus
 
-#endif
+#endif // OGLPLUS_EXAMPLE_OGLPLUS_EXAMPLE_HPP

@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef OGLPLUS_SHAPES_ADAPTED_GEN_1509260923_HPP
-#define OGLPLUS_SHAPES_ADAPTED_GEN_1509260923_HPP
+#ifndef OGLPLUS_SHAPES_ADAPTED_GEN_HPP
+#define OGLPLUS_SHAPES_ADAPTED_GEN_HPP
 
 #include "../utils/span.hpp"
 #include "drawing.hpp"
@@ -109,4 +109,4 @@ public:
 #include <oglplus/shapes/adapted_gen.inl>
 #endif
 
-#endif // include guard
+#endif // OGLPLUS_SHAPES_ADAPTED_GEN_HPP

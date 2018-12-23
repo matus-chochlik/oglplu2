@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_OPER_COMPAT_MATRIX_1509260923_HPP
-#define OGLPLUS_OPER_COMPAT_MATRIX_1509260923_HPP
+#ifndef OGLPLUS_OPER_COMPAT_MATRIX_HPP
+#define OGLPLUS_OPER_COMPAT_MATRIX_HPP
 
 #include "../enum/types.hpp"
 #include "../error/handling.hpp"
@@ -44,12 +44,12 @@ struct compatibility_matrix {
     static outcome<void> load_matrix(span<const GLfloat> mat) noexcept;
 
 #ifdef GL_EXT_direct_state_access
-    static outcome<void>
-    load_matrix(old_matrix_mode mode, span<const GLfloat> mat) noexcept;
+    static outcome<void> load_matrix(
+      old_matrix_mode mode, span<const GLfloat> mat) noexcept;
 #endif
 
-    static outcome<void>
-    load_transpose_matrix(span<const GLfloat> mat) noexcept;
+    static outcome<void> load_transpose_matrix(
+      span<const GLfloat> mat) noexcept;
 
 #ifdef GL_EXT_direct_state_access
     static outcome<void> load_transpose_matrix(
@@ -59,12 +59,12 @@ struct compatibility_matrix {
     static outcome<void> load_matrix(span<const GLdouble> mat) noexcept;
 
 #ifdef GL_EXT_direct_state_access
-    static outcome<void>
-    load_matrix(old_matrix_mode mode, span<const GLdouble> mat) noexcept;
+    static outcome<void> load_matrix(
+      old_matrix_mode mode, span<const GLdouble> mat) noexcept;
 #endif
 
-    static outcome<void>
-    load_transpose_matrix(span<const GLdouble> mat) noexcept;
+    static outcome<void> load_transpose_matrix(
+      span<const GLdouble> mat) noexcept;
 
 #ifdef GL_EXT_direct_state_access
     static outcome<void> load_transpose_matrix(
@@ -74,20 +74,20 @@ struct compatibility_matrix {
     static outcome<void> translate_f(GLfloat x, GLfloat y, GLfloat z) noexcept;
 
 #ifdef GL_EXT_direct_state_access
-    static outcome<void>
-    translate_f(old_matrix_mode mode, GLfloat x, GLfloat y, GLfloat z) noexcept;
+    static outcome<void> translate_f(
+      old_matrix_mode mode, GLfloat x, GLfloat y, GLfloat z) noexcept;
 #endif
 
-    static outcome<void>
-    translate_d(GLdouble x, GLdouble y, GLdouble z) noexcept;
+    static outcome<void> translate_d(
+      GLdouble x, GLdouble y, GLdouble z) noexcept;
 
 #ifdef GL_EXT_direct_state_access
     static outcome<void> translate_d(
       old_matrix_mode mode, GLdouble x, GLdouble y, GLdouble z) noexcept;
 #endif
 
-    static outcome<void>
-    rotate_f(degrees_t<GLfloat> a, GLfloat x, GLfloat y, GLfloat z) noexcept;
+    static outcome<void> rotate_f(
+      degrees_t<GLfloat> a, GLfloat x, GLfloat y, GLfloat z) noexcept;
 
 #ifdef GL_EXT_direct_state_access
     static outcome<void> rotate_f(
@@ -113,15 +113,15 @@ struct compatibility_matrix {
     static outcome<void> scale_f(GLfloat x, GLfloat y, GLfloat z) noexcept;
 
 #ifdef GL_EXT_direct_state_access
-    static outcome<void>
-    scale_f(old_matrix_mode mode, GLfloat x, GLfloat y, GLfloat z) noexcept;
+    static outcome<void> scale_f(
+      old_matrix_mode mode, GLfloat x, GLfloat y, GLfloat z) noexcept;
 #endif
 
     static outcome<void> scale_d(GLdouble x, GLdouble y, GLdouble z) noexcept;
 
 #ifdef GL_EXT_direct_state_access
-    static outcome<void>
-    scale_d(old_matrix_mode mode, GLdouble x, GLdouble y, GLdouble z) noexcept;
+    static outcome<void> scale_d(
+      old_matrix_mode mode, GLdouble x, GLdouble y, GLdouble z) noexcept;
 #endif
 
     static outcome<void> ortho(
@@ -178,4 +178,4 @@ struct compatibility_matrix {
 
 #include <oglplus/oper/compat_matrix.inl>
 
-#endif // include guard
+#endif // OGLPLUS_OPER_COMPAT_MATRIX_HPP

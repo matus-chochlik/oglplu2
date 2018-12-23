@@ -116,11 +116,7 @@ void render_node::_update_program() {
 //------------------------------------------------------------------------------
 OGLPLUS_LIB_FUNC
 render_node::render_node()
-  : _input(*this, string_view("Input"), 0.5f, 0.5f, 0.5f, 1.0f)
-  , _xdiv(1)
-  , _ydiv(1)
-  , _tile(0)
-  , _render_version(0) {
+  : _input(*this, string_view("Input"), 0.5f, 0.5f, 0.5f, 1.0f) {
     _render_params.version = 0;
     _render_params.width = 1;
     _render_params.height = 1;

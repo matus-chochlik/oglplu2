@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_TEXGEN_RENDER_GRAPH_1509260923_HPP
-#define OGLPLUS_TEXGEN_RENDER_GRAPH_1509260923_HPP
+#ifndef OGLPLUS_TEXGEN_RENDER_GRAPH_HPP
+#define OGLPLUS_TEXGEN_RENDER_GRAPH_HPP
 
 #include "render_node.hpp"
 #include <map>
@@ -91,8 +91,7 @@ public:
 
     template <typename NodeType, typename... P>
     render_graph_node<NodeType>& add_new_anon(P&&... p) {
-        render_graph_node<NodeType>* ptr =
-          new render_graph_node<NodeType>(std::forward<P>(p)...);
+        auto* ptr = new render_graph_node<NodeType>(std::forward<P>(p)...);
         assert(ptr);
         add_anonymous_node(_node_ptr_t(ptr));
         return *ptr;
@@ -100,8 +99,7 @@ public:
 
     template <typename NodeType, typename... P>
     render_graph_node<NodeType>& add_new(std::string name, P&&... p) {
-        render_graph_node<NodeType>* ptr =
-          new render_graph_node<NodeType>(std::forward<P>(p)...);
+        auto* ptr = new render_graph_node<NodeType>(std::forward<P>(p)...);
         assert(ptr);
         add_node(std::move(name), _node_ptr_t(ptr));
         return *ptr;
@@ -207,4 +205,4 @@ public:
 #include <oglplus/texgen/render_graph.inl>
 #endif
 
-#endif // include guard
+#endif // OGLPLUS_TEXGEN_RENDER_GRAPH_HPP

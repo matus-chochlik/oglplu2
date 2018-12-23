@@ -5,8 +5,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef EAGINE_TEST_RANDOM_1510290655_HPP
-#define EAGINE_TEST_RANDOM_1510290655_HPP
+#ifndef EAGINE_TEST_RANDOM_HPP
+#define EAGINE_TEST_RANDOM_HPP
 
 #include <eagine/span.hpp>
 #include <eagine/string_span.hpp>
@@ -54,8 +54,8 @@ public:
     }
 
     template <typename T>
-    typename std::enable_if<std::is_floating_point<T>::value, T>::type
-    get(T min, T max) {
+    typename std::enable_if<std::is_floating_point<T>::value, T>::type get(
+      T min, T max) {
         return get_real<T>(min, max);
     }
 
@@ -125,8 +125,8 @@ public:
           min, max, [](char c) { return std::isprint(c) != 0; });
     }
 
-    std::string
-    get_string_from(std::size_t min, std::size_t max, string_view chars) {
+    std::string get_string_from(
+      std::size_t min, std::size_t max, string_view chars) {
         std::string result(get_std_size(min, max), '\0');
         for(char& c : result) {
             c = get_char_from(chars);
@@ -163,4 +163,4 @@ public:
 
 } // namespace eagine
 
-#endif // include guard
+#endif // EAGINE_TEST_RANDOM_HPP

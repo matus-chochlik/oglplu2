@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef OGLPLUS_SHAPES_INIT_1509260923_HPP
-#define OGLPLUS_SHAPES_INIT_1509260923_HPP
+#ifndef OGLPLUS_SHAPES_INIT_HPP
+#define OGLPLUS_SHAPES_INIT_HPP
 
 #include "../buffer_name.hpp"
 #include "../vertex_array_name.hpp"
@@ -34,4 +34,4 @@ outcome<void> initialize_vao_and_buffers(
 #include <oglplus/shapes/init.inl>
 #endif
 
-#endif // include guard
+#endif // OGLPLUS_SHAPES_INIT_HPP

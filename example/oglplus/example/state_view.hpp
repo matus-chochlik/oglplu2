@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_EXAMPLE_STATE_VIEW_1512120710_HPP
-#define OGLPLUS_EXAMPLE_STATE_VIEW_1512120710_HPP
+#ifndef OGLPLUS_EXAMPLE_STATE_VIEW_HPP
+#define OGLPLUS_EXAMPLE_STATE_VIEW_HPP
 
 #include <eagine/valid_if/positive.hpp>
 #include <eagine/value_with_history.hpp>
@@ -174,4 +174,4 @@ class example_state;
 
 } // namespace oglplus
 
-#endif
+#endif // OGLPLUS_EXAMPLE_STATE_VIEW_HPP
