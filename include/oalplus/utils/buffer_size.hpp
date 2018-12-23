@@ -6,9 +6,10 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OALPLUS_UTILS_BUFFER_SIZE_1509260923_HPP
-#define OALPLUS_UTILS_BUFFER_SIZE_1509260923_HPP
+#ifndef OALPLUS_UTILS_BUFFER_SIZE_HPP
+#define OALPLUS_UTILS_BUFFER_SIZE_HPP
 
+#include "../al.hpp"
 #include <eagine/buffer_size.hpp>
 
 namespace oalplus {
@@ -17,4 +18,4 @@ using buffer_size = eagine::buffer_size<ALsizei>;
 
 } // namespace oalplus
 
-#endif // include guard
+#endif // OALPLUS_UTILS_BUFFER_SIZE_HPP

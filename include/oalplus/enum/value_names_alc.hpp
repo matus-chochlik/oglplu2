@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OALPLUS_ENUM_VALUE_NAMES_ALC_1509260923_HPP
-#define OALPLUS_ENUM_VALUE_NAMES_ALC_1509260923_HPP
+#ifndef OALPLUS_ENUM_VALUE_NAMES_ALC_HPP
+#define OALPLUS_ENUM_VALUE_NAMES_ALC_HPP
 
 #include "value_names.hpp"
 
@@ -16,8 +16,8 @@ namespace oalplus {
 string_view get_enum_value_name(const any_enum_value_alc&) noexcept;
 
 template <typename EnumClass, typename T, unsigned EnumId>
-static inline string_view
-enum_value_name(enum_class_alc<EnumClass, T, EnumId> val) noexcept {
+static inline string_view enum_value_name(
+  enum_class_alc<EnumClass, T, EnumId> val) noexcept {
     return ::oalplus::get_enum_value_name(val);
 }
 
@@ -27,4 +27,4 @@ enum_value_name(enum_class_alc<EnumClass, T, EnumId> val) noexcept {
 #include <oalplus/enum/value_names_alc.inl>
 #endif
 
-#endif // include guard
+#endif // OALPLUS_ENUM_VALUE_NAMES_ALC_HPP

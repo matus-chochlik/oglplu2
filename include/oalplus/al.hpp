@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OALPLUS_AL_1509260923_HPP
-#define OALPLUS_AL_1509260923_HPP
+#ifndef OALPLUS_AL_HPP
+#define OALPLUS_AL_HPP
 
 #if defined(EAGINE_YCM)
 #if __has_include(<AL/al.h>)
@@ -22,4 +22,4 @@
 #endif // EAGINE_YCM
 // TODO
 
-#endif // include guard
+#endif // OALPLUS_AL_HPP

@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OALPLUS_ERROR_ERROR_ALC_1509260923_HPP
-#define OALPLUS_ERROR_ERROR_ALC_1509260923_HPP
+#ifndef OALPLUS_ERROR_ERROR_ALC_HPP
+#define OALPLUS_ERROR_ERROR_ALC_HPP
 
 #include "info_alc.hpp"
 #include <stdexcept>
@@ -32,4 +32,4 @@ public:
 
 #include <oalplus/error/error_alc.inl>
 
-#endif // include guard
+#endif // OALPLUS_ERROR_ERROR_ALC_HPP

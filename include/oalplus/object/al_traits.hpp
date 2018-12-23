@@ -6,9 +6,10 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OALPLUS_OBJECT_AL_TRAITS_1509260923_HPP
-#define OALPLUS_OBJECT_AL_TRAITS_1509260923_HPP
+#ifndef OALPLUS_OBJECT_AL_TRAITS_HPP
+#define OALPLUS_OBJECT_AL_TRAITS_HPP
 
+#include "../al.hpp"
 #include "fwd.hpp"
 
 namespace oalplus {
@@ -53,4 +54,4 @@ struct object_traits<oalplus::tag::al_obj_tag<Tag>> {
 
 } // namespace eagine
 
-#endif // include guard
+#endif // OALPLUS_OBJECT_AL_TRAITS_HPP

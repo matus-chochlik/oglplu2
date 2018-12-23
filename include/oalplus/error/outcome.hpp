@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef OALPLUS_ERROR_OUTCOME_1509260923_HPP
-#define OALPLUS_ERROR_OUTCOME_1509260923_HPP
+#ifndef OALPLUS_ERROR_OUTCOME_HPP
+#define OALPLUS_ERROR_OUTCOME_HPP
 
 #include "../utils/outcome.hpp"
 #include "handling.hpp"
@@ -20,4 +20,4 @@ using outcome = basic_outcome<T, error_info, al_error_handling_policy>;
 
 } // namespace oalplus
 
-#endif // include guard
+#endif // OALPLUS_ERROR_OUTCOME_HPP

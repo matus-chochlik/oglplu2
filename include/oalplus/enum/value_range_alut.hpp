@@ -6,15 +6,15 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OALPLUS_ENUM_VALUE_RANGE_ALUT_1509260923_HPP
-#define OALPLUS_ENUM_VALUE_RANGE_ALUT_1509260923_HPP
+#ifndef OALPLUS_ENUM_VALUE_RANGE_ALUT_HPP
+#define OALPLUS_ENUM_VALUE_RANGE_ALUT_HPP
 
 #include "value_range.hpp"
 
 namespace oalplus {
 
-std::pair<const void*, span_size_t>
-get_enum_value_range(const any_enum_class_alut&) noexcept;
+std::pair<const void*, span_size_t> get_enum_value_range(
+  const any_enum_class_alut&) noexcept;
 
 } // namespace oalplus
 
@@ -22,4 +22,4 @@ get_enum_value_range(const any_enum_class_alut&) noexcept;
 #include <oalplus/enum/value_range_alut.inl>
 #endif
 
-#endif // include guard
+#endif // OALPLUS_ENUM_VALUE_RANGE_ALUT_HPP

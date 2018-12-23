@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OALPLUS_BUFFER_NAME_1509260923_HPP
-#define OALPLUS_BUFFER_NAME_1509260923_HPP
+#ifndef OALPLUS_BUFFER_NAME_HPP
+#define OALPLUS_BUFFER_NAME_HPP
 
 #include "object/al_name.hpp"
 
@@ -22,4 +22,4 @@ using buffer_name = object_name<tag::buffer>;
 
 } // namespace oalplus
 
-#endif // include guard
+#endif // OALPLUS_BUFFER_NAME_HPP

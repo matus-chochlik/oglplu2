@@ -6,18 +6,19 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef EGLPLUS_ENUM_VALUE_RANGE_1509260923_HPP
-#define EGLPLUS_ENUM_VALUE_RANGE_1509260923_HPP
+#ifndef EGLPLUS_ENUM_VALUE_RANGE_HPP
+#define EGLPLUS_ENUM_VALUE_RANGE_HPP
 
 #include "../config/basic.hpp"
+#include "../egl.hpp"
 #include "../utils/enum_class.hpp"
 #include "../utils/span.hpp"
 #include <eagine/enum_range.hpp>
 
 namespace eglplus {
 
-std::pair<const void*, span_size_t>
-get_enum_value_range(const any_enum_class&) noexcept;
+std::pair<const void*, span_size_t> get_enum_value_range(
+  const any_enum_class&) noexcept;
 
 using eagine::enumerated_value_range;
 
@@ -36,4 +37,4 @@ enum_value_range() noexcept {
 #include <eglplus/enum/value_range.inl>
 #endif
 
-#endif // include guard
+#endif // EGLPLUS_ENUM_VALUE_RANGE_HPP

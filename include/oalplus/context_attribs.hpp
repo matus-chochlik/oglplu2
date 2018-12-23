@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OALPLUS_CONTEXT_ATTRIBS_1509260923_HPP
-#define OALPLUS_CONTEXT_ATTRIBS_1509260923_HPP
+#ifndef OALPLUS_CONTEXT_ATTRIBS_HPP
+#define OALPLUS_CONTEXT_ATTRIBS_HPP
 
 #include "enum/values_alc.hpp"
 #include <eagine/key_val_list.hpp>
@@ -42,4 +42,4 @@ static constexpr inline context_attrib_value operator|(
 
 } // namespace oalplus
 
-#endif // include guard
+#endif // OALPLUS_CONTEXT_ATTRIBS_HPP

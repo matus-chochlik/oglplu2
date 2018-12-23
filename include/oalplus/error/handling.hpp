@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OALPLUS_ERROR_HANDLING_1509260923_HPP
-#define OALPLUS_ERROR_HANDLING_1509260923_HPP
+#ifndef OALPLUS_ERROR_HANDLING_HPP
+#define OALPLUS_ERROR_HANDLING_HPP
 
 #include "../utils/deferred_handler.hpp"
 #include "error.hpp"
@@ -16,7 +16,7 @@ namespace oalplus {
 
 template <typename ErrorInfo>
 static inline void handle_al_error(ErrorInfo& info) {
-    if(!std::uncaught_exception()) {
+    if(!std::uncaught_exceptions()) {
         throw error(std::move(info));
     }
 }
@@ -65,9 +65,11 @@ using deferred_error_handler =
 
 #define OALPLUS_VERIFY(ALFUNC, ERROR_INFO, SEVERITY) \
     OALPLUS_RETURN_HANDLER_IF_AL_ERROR(              \
-      OALPLUS_AL_GET_ERROR(), ERROR_INFO.al_function_name(#ALFUNC), SEVERITY)
+      OALPLUS_AL_GET_ERROR(),                        \
+      (ERROR_INFO).al_function_name(#ALFUNC),        \
+      SEVERITY)
 
 #define OALPLUS_VERIFY_SIMPLE(ALFUNC, SEVERITY) \
     OALPLUS_VERIFY(ALFUNC, no_info(), SEVERITY)
 
-#endif // include guard
+#endif // OALPLUS_ERROR_HANDLING_HPP

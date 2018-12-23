@@ -6,9 +6,10 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OALPLUS_ERROR_INFO_BASE_1509260923_HPP
-#define OALPLUS_ERROR_INFO_BASE_1509260923_HPP
+#ifndef OALPLUS_ERROR_INFO_BASE_HPP
+#define OALPLUS_ERROR_INFO_BASE_HPP
 
+#include "../al.hpp"
 #include "../config/error.hpp"
 
 namespace oalplus {
@@ -77,4 +78,4 @@ public:
 
 #include <oalplus/error/info_base.inl>
 
-#endif // include guard
+#endif // OALPLUS_ERROR_INFO_BASE_HPP
