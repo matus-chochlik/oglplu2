@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_ENUM_INDEXED_VALUES_1509260923_HPP
-#define OGLPLUS_ENUM_INDEXED_VALUES_1509260923_HPP
+#ifndef OGLPLUS_ENUM_INDEXED_VALUES_HPP
+#define OGLPLUS_ENUM_INDEXED_VALUES_HPP
 
 #include "indexed_types.hpp"
 
@@ -35,4 +35,4 @@ struct indexed_enum_values {
 
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_ENUM_INDEXED_VALUES_HPP

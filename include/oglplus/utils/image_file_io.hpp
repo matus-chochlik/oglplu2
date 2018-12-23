@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef OGLPLUS_UTILS_IMAGE_FILE_IO_1509260923_HPP
-#define OGLPLUS_UTILS_IMAGE_FILE_IO_1509260923_HPP
+#ifndef OGLPLUS_UTILS_IMAGE_FILE_IO_HPP
+#define OGLPLUS_UTILS_IMAGE_FILE_IO_HPP
 
 #include "image_file_hdr.hpp"
 #include "memory_block.hpp"
@@ -31,7 +31,7 @@ inline void write_and_pad_texture_image_data_header(
 
     const span_size_t size = 64;
     span_size_t done = 0;
-    assert(size >= span_size(sizeof(image_data_header)));
+    static_assert(size >= span_size(sizeof(image_data_header)), "");
 
     eagine::memory::const_address hdraddr(&header);
 
@@ -76,4 +76,4 @@ inline void write_texture_image_data(
 
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_UTILS_IMAGE_FILE_IO_HPP

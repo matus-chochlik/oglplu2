@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_OPER_VERTEX_ATTRIB_1509260923_HPP
-#define OGLPLUS_OPER_VERTEX_ATTRIB_1509260923_HPP
+#ifndef OGLPLUS_OPER_VERTEX_ATTRIB_HPP
+#define OGLPLUS_OPER_VERTEX_ATTRIB_HPP
 
 #include "../utils/boolean.hpp"
 #include "../utils/vec_mat_traits.hpp"
@@ -134,4 +134,4 @@ struct vertex_attrib_ops {
 } // namespace oper
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_OPER_VERTEX_ATTRIB_HPP

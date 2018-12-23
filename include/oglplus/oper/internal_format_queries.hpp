@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_OPER_INTERNAL_FORMAT_QUERIES_1509260923_HPP
-#define OGLPLUS_OPER_INTERNAL_FORMAT_QUERIES_1509260923_HPP
+#ifndef OGLPLUS_OPER_INTERNAL_FORMAT_QUERIES_HPP
+#define OGLPLUS_OPER_INTERNAL_FORMAT_QUERIES_HPP
 
 #include "../enum/types.hpp"
 #include "../error/handling.hpp"
@@ -115,4 +115,4 @@ struct internal_format_queries {
 
 #include <oglplus/oper/internal_format_queries.inl>
 
-#endif // include guard
+#endif // OGLPLUS_OPER_INTERNAL_FORMAT_QUERIES_HPP

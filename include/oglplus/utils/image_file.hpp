@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef OGLPLUS_UTILS_IMAGE_FILE_1509260923_HPP
-#define OGLPLUS_UTILS_IMAGE_FILE_1509260923_HPP
+#ifndef OGLPLUS_UTILS_IMAGE_FILE_HPP
+#define OGLPLUS_UTILS_IMAGE_FILE_HPP
 
 #include "image_file_hdr.hpp"
 #include "image_spec.hpp"
@@ -76,4 +76,4 @@ public:
 
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_UTILS_IMAGE_FILE_HPP

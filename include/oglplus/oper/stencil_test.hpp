@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_OPER_STENCIL_TEST_1509260923_HPP
-#define OGLPLUS_OPER_STENCIL_TEST_1509260923_HPP
+#ifndef OGLPLUS_OPER_STENCIL_TEST_HPP
+#define OGLPLUS_OPER_STENCIL_TEST_HPP
 
 #include "../enum/types.hpp"
 #include "../error/handling.hpp"
@@ -126,4 +126,4 @@ struct stencil_test_state {
 
 #include <oglplus/oper/stencil_test.inl>
 
-#endif // include guard
+#endif // OGLPLUS_OPER_STENCIL_TEST_HPP

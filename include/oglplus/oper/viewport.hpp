@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_OPER_VIEWPORT_1509260923_HPP
-#define OGLPLUS_OPER_VIEWPORT_1509260923_HPP
+#ifndef OGLPLUS_OPER_VIEWPORT_HPP
+#define OGLPLUS_OPER_VIEWPORT_HPP
 
 #include "../enum/types.hpp"
 #include "../error/handling.hpp"
@@ -51,12 +51,12 @@ struct viewport_extents {
         return _v[3];
     }
 
-    GLfloat _v[4];
+    GLfloat _v[4]{};
 };
 
 struct viewport_state {
-    static outcome<void>
-    viewport(GLint x, GLint y, GLsizei w, GLsizei h) noexcept;
+    static outcome<void> viewport(
+      GLint x, GLint y, GLsizei w, GLsizei h) noexcept;
 
     static outcome<void> viewport(GLsizei w, GLsizei h) noexcept;
 
@@ -70,14 +70,14 @@ struct viewport_state {
       GLfloat w,
       GLfloat h) noexcept;
 
-    static outcome<void>
-    viewport(viewport_index index, const viewport_extents& vpe) noexcept;
+    static outcome<void> viewport(
+      viewport_index index, const viewport_extents& vpe) noexcept;
 
-    static outcome<void>
-    viewport_array(viewport_index first, span<const GLfloat> vpe) noexcept;
+    static outcome<void> viewport_array(
+      viewport_index first, span<const GLfloat> vpe) noexcept;
 
-    static outcome<viewport_extents>
-    get_viewport(viewport_index index) noexcept;
+    static outcome<viewport_extents> get_viewport(
+      viewport_index index) noexcept;
 #endif
 };
 
@@ -86,4 +86,4 @@ struct viewport_state {
 
 #include <oglplus/oper/viewport.inl>
 
-#endif // include guard
+#endif // OGLPLUS_OPER_VIEWPORT_HPP

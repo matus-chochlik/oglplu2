@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_OPER_BLENDING_1509260923_HPP
-#define OGLPLUS_OPER_BLENDING_1509260923_HPP
+#ifndef OGLPLUS_OPER_BLENDING_HPP
+#define OGLPLUS_OPER_BLENDING_HPP
 
 #include "../enum/types.hpp"
 #include "../error/handling.hpp"
@@ -17,12 +17,12 @@ namespace oglplus {
 namespace oper {
 
 struct blending_state {
-    static outcome<void>
-    blend_equation(oglplus::blend_equation equation) noexcept;
+    static outcome<void> blend_equation(
+      oglplus::blend_equation equation) noexcept;
 
 #if defined(GL_VERSION_4_0)
-    static outcome<void>
-    blend_equation(GLuint buf, oglplus::blend_equation equation) noexcept;
+    static outcome<void> blend_equation(
+      GLuint buf, oglplus::blend_equation equation) noexcept;
 #endif
 
     static outcome<void> blend_equation_separate(
@@ -36,8 +36,8 @@ struct blending_state {
       oglplus::blend_equation modeAlpha) noexcept;
 #endif
 
-    static outcome<void>
-    blend_func(blend_function sfactor, blend_function dfactor) noexcept;
+    static outcome<void> blend_func(
+      blend_function sfactor, blend_function dfactor) noexcept;
 
     static outcome<void> blend_func_separate(
       blend_function srcRGB,
@@ -63,4 +63,4 @@ struct blending_state {
 
 #include <oglplus/oper/blending.inl>
 
-#endif // include guard
+#endif // OGLPLUS_OPER_BLENDING_HPP

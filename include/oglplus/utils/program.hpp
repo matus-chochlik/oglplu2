@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef OGLPLUS_UTILS_PROGRAM_1509260923_HPP
-#define OGLPLUS_UTILS_PROGRAM_1509260923_HPP
+#ifndef OGLPLUS_UTILS_PROGRAM_HPP
+#define OGLPLUS_UTILS_PROGRAM_HPP
 
 #include "../program.hpp"
 #include "../shader.hpp"
@@ -41,4 +41,4 @@ static inline program build_program(const program_source_block& prog_src) {
 //------------------------------------------------------------------------------
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_UTILS_PROGRAM_HPP

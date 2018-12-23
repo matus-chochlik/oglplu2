@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_OPER_BUFFER_CLEARING_1509260923_HPP
-#define OGLPLUS_OPER_BUFFER_CLEARING_1509260923_HPP
+#ifndef OGLPLUS_OPER_BUFFER_CLEARING_HPP
+#define OGLPLUS_OPER_BUFFER_CLEARING_HPP
 
 #include "../enum/types.hpp"
 #include "../error/handling.hpp"
@@ -19,7 +19,7 @@ namespace oglplus {
 namespace oper {
 
 struct rgba_value {
-    GLfloat _v[4];
+    GLfloat _v[4]{};
 
     rgba_value() = default;
 
@@ -48,8 +48,8 @@ struct rgba_value {
 };
 
 struct buffer_clearing_state {
-    static outcome<void>
-    clear_color(GLfloat r, GLfloat g, GLfloat b, GLfloat a) noexcept;
+    static outcome<void> clear_color(
+      GLfloat r, GLfloat g, GLfloat b, GLfloat a) noexcept;
 
     static outcome<void> clear_color(const rgba_value& cc) noexcept {
         return clear_color(cc.red(), cc.green(), cc.blue(), cc.alpha());
@@ -83,4 +83,4 @@ struct buffer_clearing_ops {
 
 #include <oglplus/oper/buffer_clearing.inl>
 
-#endif // include guard
+#endif // OGLPLUS_OPER_BUFFER_CLEARING_HPP

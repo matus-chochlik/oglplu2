@@ -6,12 +6,13 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_OPER_SYNCHRONIZATION_1509260923_HPP
-#define OGLPLUS_OPER_SYNCHRONIZATION_1509260923_HPP
+#ifndef OGLPLUS_OPER_SYNCHRONIZATION_HPP
+#define OGLPLUS_OPER_SYNCHRONIZATION_HPP
 
 #include "../enum/types.hpp"
 #include "../error/handling.hpp"
 #include "../error/outcome.hpp"
+#include "../utils/boolean.hpp"
 #include "../utils/gl_func.hpp"
 
 namespace oglplus {
@@ -55,8 +56,8 @@ struct synchronization {
 #endif
 
 #if defined(GL_VERSION_4_2) || defined(GL_ARB_shader_image_load_store)
-    static outcome<void>
-    memory_barrier(enum_bitfield<memory_barrier_bits> bits) noexcept {
+    static outcome<void> memory_barrier(
+      enum_bitfield<memory_barrier_bits> bits) noexcept {
         OGLPLUS_GLFUNC(MemoryBarrier)(GLbitfield(bits));
         OGLPLUS_VERIFY_SIMPLE(MemoryBarrier, debug);
         return {};
@@ -64,8 +65,8 @@ struct synchronization {
 #endif
 
 #if defined(GL_ES_VERSION_3_1)
-    static outcome<void>
-    memory_barrier_by_region(enum_bitfield<memory_barrier_bits> bits) noexcept {
+    static outcome<void> memory_barrier_by_region(
+      enum_bitfield<memory_barrier_bits> bits) noexcept {
         OGLPLUS_GLFUNC(MemoryBarrierByRegion)(GLbitfield(bits));
         OGLPLUS_VERIFY_SIMPLE(MemoryBarrierByRegion, debug);
         return {};
@@ -99,8 +100,8 @@ struct synchronization {
       span<GLint> values) noexcept;
 
     template <typename R, typename T>
-    static outcome<R>
-    return_sync_i(sync_object sync, sync_parameter param) noexcept;
+    static outcome<R> return_sync_i(
+      sync_object sync, sync_parameter param) noexcept;
 
     static outcome<sync_status> get_sync_status(sync_object sync) noexcept;
 
@@ -115,4 +116,4 @@ struct synchronization {
 
 #include <oglplus/oper/synchronization.inl>
 
-#endif // include guard
+#endif // OGLPLUS_OPER_SYNCHRONIZATION_HPP

@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef OGLPLUS_UTILS_INDEXED_ENUM_1509260923_HPP
-#define OGLPLUS_UTILS_INDEXED_ENUM_1509260923_HPP
+#ifndef OGLPLUS_UTILS_INDEXED_ENUM_HPP
+#define OGLPLUS_UTILS_INDEXED_ENUM_HPP
 
 #include <eagine/indexed_enum.hpp>
 
@@ -24,4 +24,4 @@ using any_indexed_enum_value = eagine::any_indexed_enum_value<GLenum, 0>;
 
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_UTILS_INDEXED_ENUM_HPP

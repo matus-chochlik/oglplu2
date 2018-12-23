@@ -6,20 +6,21 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_OPER_PIXEL_TRANSFER_1509260923_HPP
-#define OGLPLUS_OPER_PIXEL_TRANSFER_1509260923_HPP
+#ifndef OGLPLUS_OPER_PIXEL_TRANSFER_HPP
+#define OGLPLUS_OPER_PIXEL_TRANSFER_HPP
 
 #include "../enum/types.hpp"
 #include "../error/handling.hpp"
 #include "../error/outcome.hpp"
+#include "../utils/boolean.hpp"
 
 namespace oglplus {
 namespace oper {
 
 struct pixel_transfer_state {
 #if defined(GL_VERSION_3_0)
-    static outcome<void>
-    clamp_color(clamp_color_target target, boolean clamp) noexcept;
+    static outcome<void> clamp_color(
+      clamp_color_target target, boolean clamp) noexcept;
 #endif
 };
 
@@ -40,4 +41,4 @@ struct pixel_transfer_ops {
 
 #include <oglplus/oper/pixel_transfer.inl>
 
-#endif // include guard
+#endif // OGLPLUS_OPER_PIXEL_TRANSFER_HPP

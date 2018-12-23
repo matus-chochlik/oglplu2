@@ -6,13 +6,13 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_PROG_VAR_DSA_LOCATION_1509260923_HPP
-#define OGLPLUS_PROG_VAR_DSA_LOCATION_1509260923_HPP
+#ifndef OGLPLUS_PROG_VAR_DSA_LOCATION_HPP
+#define OGLPLUS_PROG_VAR_DSA_LOCATION_HPP
 
 #include "location.hpp"
 
 namespace oglplus {
-
+//------------------------------------------------------------------------------
 template <typename VarTag>
 class prog_var_loc<VarTag, true> : public prog_var_loc<VarTag, false> {
 private:
@@ -57,7 +57,7 @@ public:
         return (a._prog != b._prog) || (a._loc != b._loc);
     }
 };
-
+//------------------------------------------------------------------------------
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_PROG_VAR_DSA_LOCATION_HPP

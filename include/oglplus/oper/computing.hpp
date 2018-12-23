@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_OPER_COMPUTING_1509260923_HPP
-#define OGLPLUS_OPER_COMPUTING_1509260923_HPP
+#ifndef OGLPLUS_OPER_COMPUTING_HPP
+#define OGLPLUS_OPER_COMPUTING_HPP
 
 #include "../enum/types.hpp"
 #include "../error/handling.hpp"
@@ -43,7 +43,7 @@ struct compute_work_group_size {
         return {_v, 3};
     }
 
-    GLint _v[3];
+    GLint _v[3]{};
 };
 
 struct computing_ops {
@@ -51,8 +51,8 @@ struct computing_ops {
     static outcome<void> dispatch_compute(
       GLuint x_groups, GLuint y_groups, GLuint z_groups) noexcept;
 
-    static outcome<void>
-    dispatch_compute(const compute_work_group_size& wgs) noexcept {
+    static outcome<void> dispatch_compute(
+      const compute_work_group_size& wgs) noexcept {
         return dispatch_compute(
           wgs.num_groups_x(), wgs.num_groups_y(), wgs.num_groups_z());
     }
@@ -68,4 +68,4 @@ struct computing_ops {
 
 #include <oglplus/oper/computing.inl>
 
-#endif // include guard
+#endif // OGLPLUS_OPER_COMPUTING_HPP

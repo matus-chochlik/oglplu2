@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef OGLPLUS_UTILS_PROGRAM_FILE_HDR_1509260923_HPP
-#define OGLPLUS_UTILS_PROGRAM_FILE_HDR_1509260923_HPP
+#ifndef OGLPLUS_UTILS_PROGRAM_FILE_HDR_HPP
+#define OGLPLUS_UTILS_PROGRAM_FILE_HDR_HPP
 
 #include <eagine/file_magic_number.hpp>
 #include <eagine/memory/offset_span.hpp>
@@ -35,4 +35,4 @@ struct program_source_header {
 //------------------------------------------------------------------------------
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_UTILS_PROGRAM_FILE_HDR_HPP

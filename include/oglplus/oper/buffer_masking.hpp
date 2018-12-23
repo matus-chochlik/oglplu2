@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_OPER_BUFFER_MASKING_1509260923_HPP
-#define OGLPLUS_OPER_BUFFER_MASKING_1509260923_HPP
+#ifndef OGLPLUS_OPER_BUFFER_MASKING_HPP
+#define OGLPLUS_OPER_BUFFER_MASKING_HPP
 
 #include "../enum/types.hpp"
 #include "../error/handling.hpp"
@@ -18,7 +18,7 @@ namespace oglplus {
 namespace oper {
 
 struct rgba_mask {
-    GLboolean _v[4];
+    GLboolean _v[4] = {};
 
     rgba_mask() = default;
 
@@ -47,8 +47,8 @@ struct rgba_mask {
 };
 
 struct buffer_masking_state {
-    static outcome<void>
-    color_mask(boolean r, boolean g, boolean b, boolean a) noexcept;
+    static outcome<void> color_mask(
+      boolean r, boolean g, boolean b, boolean a) noexcept;
 
     static outcome<void> color_mask(const rgba_mask& m) noexcept;
 
@@ -56,16 +56,16 @@ struct buffer_masking_state {
     static outcome<void> color_mask_i(
       GLuint buffer, boolean r, boolean g, boolean b, boolean a) noexcept;
 
-    static outcome<void>
-    color_mask_i(GLuint buffer, const rgba_mask& m) noexcept;
+    static outcome<void> color_mask_i(
+      GLuint buffer, const rgba_mask& m) noexcept;
 #endif
 
     static outcome<void> depth_mask(boolean mask) noexcept;
 
     static outcome<void> stencil_mask(GLuint mask) noexcept;
 
-    static outcome<void>
-    stencil_mask_separate(single_face face, GLuint mask) noexcept;
+    static outcome<void> stencil_mask_separate(
+      single_face face, GLuint mask) noexcept;
 
     static outcome<rgba_mask> get_color_writemask() noexcept;
 
@@ -83,4 +83,4 @@ struct buffer_masking_state {
 
 #include <oglplus/oper/buffer_masking.inl>
 
-#endif // include guard
+#endif // OGLPLUS_OPER_BUFFER_MASKING_HPP

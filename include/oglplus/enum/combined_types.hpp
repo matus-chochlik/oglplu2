@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_ENUM_COMBINED_TYPES_1509260923_HPP
-#define OGLPLUS_ENUM_COMBINED_TYPES_1509260923_HPP
+#ifndef OGLPLUS_ENUM_COMBINED_TYPES_HPP
+#define OGLPLUS_ENUM_COMBINED_TYPES_HPP
 
 #include "../utils/combined_enum.hpp"
 #include "indexed_types.hpp"
@@ -21,4 +21,4 @@ using framebuffer_attachment = combined_enum_value<
 
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_ENUM_COMBINED_TYPES_HPP

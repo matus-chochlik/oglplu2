@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef OGLPLUS_UTILS_LIMITED_VALUE_1509260923_HPP
-#define OGLPLUS_UTILS_LIMITED_VALUE_1509260923_HPP
+#ifndef OGLPLUS_UTILS_LIMITED_VALUE_HPP
+#define OGLPLUS_UTILS_LIMITED_VALUE_HPP
 
 #include "../enum/types.hpp"
 #include "../error/handling.hpp"
@@ -74,8 +74,8 @@ static inline outcome<T> get_limit(identity<limited_value<Query, T>>) noexcept {
 }
 
 template <GLenum Query, GLenum Base>
-static inline outcome<indexed_enum_value<Base>>
-get_limit(identity<limited_value<Query, indexed_enum_value<Base>>>) noexcept {
+static inline outcome<indexed_enum_value<Base>> get_limit(
+  identity<limited_value<Query, indexed_enum_value<Base>>>) noexcept {
     return outcome_cast<indexed_enum_value<Base>>(
       get_limit(identity<limited_value<Query, GLenum>>()) |
       [](GLenum& val) { val += Base; });
@@ -100,8 +100,8 @@ static inline bool exceeds_limit(
     return lv.index() >= limit.index();
 }
 
-static inline deferred_error_handler
-handle_above_limit(limit_query lq) noexcept {
+static inline deferred_error_handler handle_above_limit(
+  limit_query lq) noexcept {
     return deferred_error_handler(std::move(error_info(GL_INVALID_VALUE)
                                               .gl_enum_value(lq)
                                               .source_file(__FILE__)
@@ -109,8 +109,8 @@ handle_above_limit(limit_query lq) noexcept {
 }
 
 template <GLenum Query, typename T>
-static inline outcome<void>
-check_below_limit(limited_value<Query, T> lv) noexcept {
+static inline outcome<void> check_below_limit(
+  limited_value<Query, T> lv) noexcept {
     outcome<T> lim = get_limit(make_identity(lv));
     if(lim.failed()) {
         return lim.release_handler();
@@ -123,4 +123,4 @@ check_below_limit(limited_value<Query, T> lv) noexcept {
 
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_UTILS_LIMITED_VALUE_HPP

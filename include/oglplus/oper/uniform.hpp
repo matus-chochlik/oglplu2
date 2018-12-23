@@ -6,9 +6,10 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_OPER_UNIFORM_1509260923_HPP
-#define OGLPLUS_OPER_UNIFORM_1509260923_HPP
+#ifndef OGLPLUS_OPER_UNIFORM_HPP
+#define OGLPLUS_OPER_UNIFORM_HPP
 
+#include "../data_type.hpp"
 #include "../uniform.hpp"
 #include "../utils/boolean.hpp"
 #include "../utils/vec_mat_traits.hpp"
@@ -165,4 +166,4 @@ struct uniform_ops {
 } // namespace oper
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_OPER_UNIFORM_HPP

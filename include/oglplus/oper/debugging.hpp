@@ -6,12 +6,13 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_OPER_DEBUGGING_1509260923_HPP
-#define OGLPLUS_OPER_DEBUGGING_1509260923_HPP
+#ifndef OGLPLUS_OPER_DEBUGGING_HPP
+#define OGLPLUS_OPER_DEBUGGING_HPP
 
 #include "../enum/types.hpp"
 #include "../error/handling.hpp"
 #include "../error/outcome.hpp"
+#include "../utils/boolean.hpp"
 
 namespace oglplus {
 namespace oper {
@@ -37,8 +38,8 @@ struct debugging {
       debug_output_severity severity,
       string_view message) noexcept;
 
-    static outcome<void>
-    debug_message_callback(GLDEBUGPROC callback, void* user_param) noexcept;
+    static outcome<void> debug_message_callback(
+      GLDEBUGPROC callback, void* user_param) noexcept;
 
     static outcome<void> get_debug_message_log(
       GLuint count,
@@ -56,4 +57,4 @@ struct debugging {
 
 #include <oglplus/oper/debugging.inl>
 
-#endif // include guard
+#endif // OGLPLUS_OPER_DEBUGGING_HPP

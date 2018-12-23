@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_ENUM_INDEXED_VALUE_RANGE_1509260923_HPP
-#define OGLPLUS_ENUM_INDEXED_VALUE_RANGE_1509260923_HPP
+#ifndef OGLPLUS_ENUM_INDEXED_VALUE_RANGE_HPP
+#define OGLPLUS_ENUM_INDEXED_VALUE_RANGE_HPP
 
 #include "../utils/indexed_enum.hpp"
 #include "../utils/limited_value.hpp"
@@ -22,7 +22,7 @@ class limited_value_range;
 template <GLenum Query, GLenum Base>
 class limited_value_range<limited_value<Query, indexed_enum_value<Base>>> {
 private:
-    GLenum _limit;
+    GLenum _limit{};
 
     using _lv_t = limited_value<Query, indexed_enum_value<Base>>;
 
@@ -71,4 +71,4 @@ static inline limited_value_range<LimitedValue> enum_value_range() {
 
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_ENUM_INDEXED_VALUE_RANGE_HPP
