@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_QUERY_1509260923_HPP
-#define OGLPLUS_QUERY_1509260923_HPP
+#ifndef OGLPLUS_QUERY_HPP
+#define OGLPLUS_QUERY_HPP
 
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
@@ -160,4 +160,4 @@ using query_array = object_array_owner<tag::query, N>;
 
 #include <oglplus/query.inl>
 
-#endif // include guard
+#endif // OGLPLUS_QUERY_HPP

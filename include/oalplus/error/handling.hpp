@@ -65,9 +65,7 @@ using deferred_error_handler =
 
 #define OALPLUS_VERIFY(ALFUNC, ERROR_INFO, SEVERITY) \
     OALPLUS_RETURN_HANDLER_IF_AL_ERROR(              \
-      OALPLUS_AL_GET_ERROR(),                        \
-      (ERROR_INFO).al_function_name(#ALFUNC),        \
-      SEVERITY)
+      OALPLUS_AL_GET_ERROR(), ERROR_INFO.al_function_name(#ALFUNC), SEVERITY)
 
 #define OALPLUS_VERIFY_SIMPLE(ALFUNC, SEVERITY) \
     OALPLUS_VERIFY(ALFUNC, no_info(), SEVERITY)

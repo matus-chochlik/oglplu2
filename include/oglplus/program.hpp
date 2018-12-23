@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_PROGRAM_1509260923_HPP
-#define OGLPLUS_PROGRAM_1509260923_HPP
+#ifndef OGLPLUS_PROGRAM_HPP
+#define OGLPLUS_PROGRAM_HPP
 
 #include "enum/types.hpp"
 #include "error/handling.hpp"
@@ -315,4 +315,4 @@ static const object_zero_and_ops<tag::program> no_program = {};
 
 #include <oglplus/program.inl>
 
-#endif // include guard
+#endif // OGLPLUS_PROGRAM_HPP

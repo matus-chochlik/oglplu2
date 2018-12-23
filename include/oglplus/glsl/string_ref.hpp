@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_GLSL_STRING_REF_1509260923_HPP
-#define OGLPLUS_GLSL_STRING_REF_1509260923_HPP
+#ifndef OGLPLUS_GLSL_STRING_REF_HPP
+#define OGLPLUS_GLSL_STRING_REF_HPP
 
 #include "source_ref.hpp"
 
@@ -15,8 +15,8 @@ namespace oglplus {
 //------------------------------------------------------------------------------
 class glsl_string_ref {
 private:
-    mutable const GLchar* _src_str;
-    GLint _length;
+    mutable const GLchar* _src_str{};
+    GLint _length{};
 
 public:
     glsl_string_ref(const char* src_str, span_size_t n) noexcept
@@ -49,4 +49,4 @@ static inline glsl_string_ref operator"" _glsl(
 //------------------------------------------------------------------------------
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_GLSL_STRING_REF_HPP

@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_OPER_OBJECT_LIFETIME_1509260923_HPP
-#define OGLPLUS_OPER_OBJECT_LIFETIME_1509260923_HPP
+#ifndef OGLPLUS_OPER_OBJECT_LIFETIME_HPP
+#define OGLPLUS_OPER_OBJECT_LIFETIME_HPP
 
 #include "../error/handling.hpp"
 #include "../error/outcome.hpp"
@@ -45,4 +45,4 @@ struct object_lifetime_ops {
 } // namespace oper
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_OPER_OBJECT_LIFETIME_HPP

@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_ENUM_VALUE_NAMES_1509260923_HPP
-#define OGLPLUS_ENUM_VALUE_NAMES_1509260923_HPP
+#ifndef OGLPLUS_ENUM_VALUE_NAMES_HPP
+#define OGLPLUS_ENUM_VALUE_NAMES_HPP
 
 #include "../config/basic.hpp"
 #include "../utils/enum_class.hpp"
@@ -29,4 +29,4 @@ enum_value_name(enum_class<EnumClass, T, EnumId> val) noexcept {
 #include <oglplus/enum/value_names.inl>
 #endif
 
-#endif // include guard
+#endif // OGLPLUS_ENUM_VALUE_NAMES_HPP

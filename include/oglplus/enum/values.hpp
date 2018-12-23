@@ -9,8 +9,8 @@
 //  See accompanying file LICENSE_1_0.txt or copy at
 //   http://www.boost.org/LICENSE_1_0.txt
 //
-#ifndef OGLPLUS_GL_ENUM_VALUES_HPP
-#define OGLPLUS_GL_ENUM_VALUES_HPP
+#ifndef OGLPLUS_ENUM_VALUES_HPP
+#define OGLPLUS_ENUM_VALUES_HPP
 
 #include "../utils/mp_list.hpp"
 #include "types.hpp"
@@ -8125,4 +8125,4 @@ struct enum_values {
 }; // struct enum_values
 } // namespace oglplus
 
-#endif // OGLPLUS_GL_ENUM_VALUES_HPP
+#endif // OGLPLUS_ENUM_VALUES_HPP

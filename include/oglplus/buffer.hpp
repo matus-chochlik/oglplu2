@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_BUFFER_1509260923_HPP
-#define OGLPLUS_BUFFER_1509260923_HPP
+#ifndef OGLPLUS_BUFFER_HPP
+#define OGLPLUS_BUFFER_HPP
 
 #include "buffer_address.hpp"
 #include "buffer_name.hpp"
@@ -394,4 +394,4 @@ static const object_zero_and_ops<tag::buffer> no_buffer = {};
 #undef OGLPLUS_DSA_BUFFER
 #endif
 
-#endif // include guard
+#endif // OGLPLUS_BUFFER_HPP

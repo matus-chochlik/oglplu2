@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_FRAMEBUFFER_1509260923_HPP
-#define OGLPLUS_FRAMEBUFFER_1509260923_HPP
+#ifndef OGLPLUS_FRAMEBUFFER_HPP
+#define OGLPLUS_FRAMEBUFFER_HPP
 
 #include "enum/combined_types.hpp"
 #include "error/handling.hpp"
@@ -528,4 +528,4 @@ static const object_zero_and_ops<tag::framebuffer> default_framebuffer = {};
 #undef OGLPLUS_DSA_FRAMEBUFFER
 #endif
 
-#endif // include guard
+#endif // OGLPLUS_FRAMEBUFFER_HPP

@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_MATH_MATRIX_CTRS_1509260923_HPP
-#define OGLPLUS_MATH_MATRIX_CTRS_1509260923_HPP
+#ifndef OGLPLUS_MATH_MATRIX_CTRS_HPP
+#define OGLPLUS_MATH_MATRIX_CTRS_HPP
 
 #include <eagine/math/matrix_reflection.hpp>
 #include <eagine/math/matrix_rotation.hpp>
@@ -63,4 +63,4 @@ using matrix_perspective =
 
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_MATH_MATRIX_CTRS_HPP

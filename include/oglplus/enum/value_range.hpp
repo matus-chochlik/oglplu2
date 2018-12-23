@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_ENUM_VALUE_RANGE_1509260923_HPP
-#define OGLPLUS_ENUM_VALUE_RANGE_1509260923_HPP
+#ifndef OGLPLUS_ENUM_VALUE_RANGE_HPP
+#define OGLPLUS_ENUM_VALUE_RANGE_HPP
 
 #include "../config/basic.hpp"
 #include "../utils/enum_class.hpp"
@@ -36,4 +36,4 @@ enum_value_range() noexcept {
 #include <oglplus/enum/value_range.inl>
 #endif
 
-#endif // include guard
+#endif // OGLPLUS_ENUM_VALUE_RANGE_HPP

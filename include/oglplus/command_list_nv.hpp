@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_COMMAND_LIST_NV_1509260923_HPP
-#define OGLPLUS_COMMAND_LIST_NV_1509260923_HPP
+#ifndef OGLPLUS_COMMAND_LIST_NV_HPP
+#define OGLPLUS_COMMAND_LIST_NV_HPP
 
 #include "command_list_nv_name.hpp"
 #include "error/handling.hpp"
@@ -69,4 +69,4 @@ using command_list_nv_array = object_array_owner<tag::command_list_nv, N>;
 
 #include <oglplus/command_list_nv.inl>
 
-#endif // include guard
+#endif // OGLPLUS_COMMAND_LIST_NV_HPP

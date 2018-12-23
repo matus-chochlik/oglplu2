@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_STATE_NV_1509260923_HPP
-#define OGLPLUS_STATE_NV_1509260923_HPP
+#ifndef OGLPLUS_STATE_NV_HPP
+#define OGLPLUS_STATE_NV_HPP
 
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
@@ -60,4 +60,4 @@ using state_nv_array = object_array_owner<tag::state_nv, N>;
 
 #include <oglplus/state_nv.inl>
 
-#endif // include guard
+#endif // OGLPLUS_STATE_NV_HPP

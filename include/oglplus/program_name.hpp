@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_PROGRAM_NAME_1509260923_HPP
-#define OGLPLUS_PROGRAM_NAME_1509260923_HPP
+#ifndef OGLPLUS_PROGRAM_NAME_HPP
+#define OGLPLUS_PROGRAM_NAME_HPP
 
 #include "shader.hpp"
 
@@ -26,4 +26,4 @@ using program_name = object_name<tag::program>;
 
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_PROGRAM_NAME_HPP

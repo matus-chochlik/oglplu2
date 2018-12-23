@@ -6,14 +6,15 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_TEXTURE_HANDLE_1509260923_HPP
-#define OGLPLUS_TEXTURE_HANDLE_1509260923_HPP
+#ifndef OGLPLUS_TEXTURE_HANDLE_HPP
+#define OGLPLUS_TEXTURE_HANDLE_HPP
 
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
 #include "object/owner.hpp"
 #include "sampler_name.hpp"
 #include "texture_name.hpp"
+#include "utils/boolean.hpp"
 #include "utils/gl_func.hpp"
 
 namespace oglplus {
@@ -120,4 +121,4 @@ struct texture_handle_ops {
 
 #include <oglplus/texture_handle.inl>
 
-#endif // include guard
+#endif // OGLPLUS_TEXTURE_HANDLE_HPP

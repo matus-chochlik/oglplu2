@@ -7,8 +7,8 @@
  *   http://www.boost.org/LICENSE_1_0.txt
  */
 
-#ifndef OGLPLUS_UTILS_BOOLEAN_1509260923_HPP
-#define OGLPLUS_UTILS_BOOLEAN_1509260923_HPP
+#ifndef OGLPLUS_UTILS_BOOLEAN_HPP
+#define OGLPLUS_UTILS_BOOLEAN_HPP
 
 #include "../enum/types.hpp"
 #include <cassert>
@@ -16,11 +16,9 @@
 namespace oglplus {
 
 struct boolean {
-    GLboolean _v;
+    GLboolean _v{GL_FALSE};
 
-    constexpr boolean() noexcept
-      : _v(GL_FALSE) {
-    }
+    constexpr boolean() noexcept = default;
 
     explicit inline boolean(GLboolean v) noexcept
       : _v(v) {
@@ -50,4 +48,4 @@ struct boolean {
 
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_UTILS_BOOLEAN_HPP

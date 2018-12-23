@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_ERROR_INFO_1509260923_HPP
-#define OGLPLUS_ERROR_INFO_1509260923_HPP
+#ifndef OGLPLUS_ERROR_INFO_HPP
+#define OGLPLUS_ERROR_INFO_HPP
 
 #include "../config/error.hpp"
 #include "../object/gl_name.hpp"
@@ -39,8 +39,7 @@ struct extended_error_info {
     std::string _identifier;
 #endif
 
-    extended_error_info() noexcept {
-    }
+    extended_error_info() noexcept = default;
 };
 #endif
 
@@ -165,4 +164,4 @@ public:
 #include <oglplus/error/info.inl>
 #endif
 
-#endif // include guard
+#endif // OGLPLUS_ERROR_INFO_HPP

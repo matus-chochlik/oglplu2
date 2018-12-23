@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_SAMPLER_1509260923_HPP
-#define OGLPLUS_SAMPLER_1509260923_HPP
+#ifndef OGLPLUS_SAMPLER_HPP
+#define OGLPLUS_SAMPLER_HPP
 
 #include "enum/indexed_types.hpp"
 #include "error/handling.hpp"
@@ -245,4 +245,4 @@ static const object_zero_and_ops<tag::sampler> no_sampler = {};
 
 #include <oglplus/sampler.inl>
 
-#endif // include guard
+#endif // OGLPLUS_SAMPLER_HPP

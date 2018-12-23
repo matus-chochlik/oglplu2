@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_PROGRAM_PIPELINE_1509260923_HPP
-#define OGLPLUS_PROGRAM_PIPELINE_1509260923_HPP
+#ifndef OGLPLUS_PROGRAM_PIPELINE_HPP
+#define OGLPLUS_PROGRAM_PIPELINE_HPP
 
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
@@ -137,4 +137,4 @@ static const object_zero_and_ops<tag::program_pipeline> no_program_pipeline =
 
 #include <oglplus/program_pipeline.inl>
 
-#endif // include guard
+#endif // OGLPLUS_PROGRAM_PIPELINE_HPP

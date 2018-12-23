@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_GLSL_CONTAINER_1509260923_HPP
-#define OGLPLUS_GLSL_CONTAINER_1509260923_HPP
+#ifndef OGLPLUS_GLSL_CONTAINER_HPP
+#define OGLPLUS_GLSL_CONTAINER_HPP
 
 #include "string_ref.hpp"
 #include <string>
@@ -45,4 +45,4 @@ using glsl_string = glsl_container<std::string>;
 
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_GLSL_CONTAINER_HPP

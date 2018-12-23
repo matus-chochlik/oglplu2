@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_ERROR_FORMAT_1509260923_HPP
-#define OGLPLUS_ERROR_FORMAT_1509260923_HPP
+#ifndef OGLPLUS_ERROR_FORMAT_HPP
+#define OGLPLUS_ERROR_FORMAT_HPP
 
 #include "../utils/string_span.hpp"
 #include "fwd.hpp"
@@ -45,4 +45,4 @@ std::ostream& format_error(error& err, string_view fmt_str, std::ostream& out);
 #include <oglplus/error/format.inl>
 #endif
 
-#endif // include guard
+#endif // OGLPLUS_ERROR_FORMAT_HPP

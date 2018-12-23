@@ -22,8 +22,7 @@ private:
     span_size_t _render_input{0};
 
 public:
-    base_node() noexcept {
-    }
+    base_node() noexcept = default;
 
     span_size_t input_count() override;
 

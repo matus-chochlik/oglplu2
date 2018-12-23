@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_TEXTURE_1509260923_HPP
-#define OGLPLUS_TEXTURE_1509260923_HPP
+#ifndef OGLPLUS_TEXTURE_HPP
+#define OGLPLUS_TEXTURE_HPP
 
 #include "buffer_name.hpp"
 #include "enum/indexed_types.hpp"
@@ -1480,4 +1480,4 @@ static const object_zero_and_ops<tag::texture> default_texture = {};
 
 #include <oglplus/texture.inl>
 
-#endif // include guard
+#endif // OGLPLUS_TEXTURE_HPP

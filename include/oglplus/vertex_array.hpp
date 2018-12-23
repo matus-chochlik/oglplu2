@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_VERTEX_ARRAY_1509260923_HPP
-#define OGLPLUS_VERTEX_ARRAY_1509260923_HPP
+#ifndef OGLPLUS_VERTEX_ARRAY_HPP
+#define OGLPLUS_VERTEX_ARRAY_HPP
 
 #include "buffer_address.hpp"
 #include "buffer_name.hpp"
@@ -355,7 +355,7 @@ private:
 public:
     vertex_array_attrib(
       vertex_array_name vao, vertex_attrib_location loc) noexcept
-      : _vao(vao)
+      : _vao(std::move(vao))
       , _loc(loc) {
     }
 
@@ -462,9 +462,10 @@ static const object_zero_and_ops<tag::vertex_array> no_vertex_array = {};
 } // namespace oglplus
 
 #include <oglplus/vertex_array.inl>
+#include <utility>
 
 #ifdef OGLPLUS_DSA_VERTEX_ARRAY
 #undef OGLPLUS_DSA_VERTEX_ARRAY
 #endif
 
-#endif // include guard
+#endif // OGLPLUS_VERTEX_ARRAY_HPP

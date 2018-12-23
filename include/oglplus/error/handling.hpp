@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_ERROR_HANDLING_1509260923_HPP
-#define OGLPLUS_ERROR_HANDLING_1509260923_HPP
+#ifndef OGLPLUS_ERROR_HANDLING_HPP
+#define OGLPLUS_ERROR_HANDLING_HPP
 
 #include "../utils/deferred_handler.hpp"
 #include "error.hpp"
@@ -16,7 +16,7 @@ namespace oglplus {
 
 template <typename ErrorInfo>
 static inline void handle_gl_error(ErrorInfo& info) {
-    if(!std::uncaught_exception()) {
+    if(!std::uncaught_exceptions()) {
         throw error(std::move(info));
     }
 }
@@ -87,4 +87,4 @@ using deferred_error_handler =
 #define OGLPLUS_REPORT_ERROR(GLFUNC, ERROR_CODE, ERROR_INFO, SEVERITY) \
     OGLPLUS_REPORT_ERROR_STR(#GLFUNC, ERROR_CODE, ERROR_INFO, SEVERITY)
 
-#endif // include guard
+#endif // OGLPLUS_ERROR_HANDLING_HPP

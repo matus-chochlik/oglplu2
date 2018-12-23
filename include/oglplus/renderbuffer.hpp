@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_RENDERBUFFER_1509260923_HPP
-#define OGLPLUS_RENDERBUFFER_1509260923_HPP
+#ifndef OGLPLUS_RENDERBUFFER_HPP
+#define OGLPLUS_RENDERBUFFER_HPP
 
 #include "error/handling.hpp"
 #include "error/outcome.hpp"
@@ -241,4 +241,4 @@ static const object_zero_and_ops<tag::renderbuffer> no_renderbuffer = {};
 #undef OGLPLUS_DSA_RENDERBUFFER
 #endif
 
-#endif // include guard
+#endif // OGLPLUS_RENDERBUFFER_HPP

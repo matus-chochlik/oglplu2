@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_UNIFORM_1509260923_HPP
-#define OGLPLUS_UNIFORM_1509260923_HPP
+#ifndef OGLPLUS_UNIFORM_HPP
+#define OGLPLUS_UNIFORM_HPP
 
 #include "prog_var/dsa_location.hpp"
 #include "prog_var/location.hpp"
@@ -80,4 +80,4 @@ struct prog_var_loc_ops<tag::uniform> {
 #include <oglplus/uniform_get_set.inl>
 #include <oglplus/uniform_get_set_spec.inl>
 
-#endif // include guard
+#endif // OGLPLUS_UNIFORM_HPP

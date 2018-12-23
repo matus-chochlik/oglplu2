@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_CONSTANTS_1509260923_HPP
-#define OGLPLUS_CONSTANTS_1509260923_HPP
+#ifndef OGLPLUS_CONSTANTS_HPP
+#define OGLPLUS_CONSTANTS_HPP
 
 #include "enum/indexed_values.hpp"
 #include "enum/values.hpp"
@@ -27,4 +27,4 @@ struct constants
 
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_CONSTANTS_HPP

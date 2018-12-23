@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_PATH_NV_1509260923_HPP
-#define OGLPLUS_PATH_NV_1509260923_HPP
+#ifndef OGLPLUS_PATH_NV_HPP
+#define OGLPLUS_PATH_NV_HPP
 
 #include "data_type.hpp"
 #include "error/handling.hpp"
@@ -447,4 +447,4 @@ static const object_zero_and_ops<tag::path_nv> no_path_nv = {};
 
 #include <oglplus/path_nv.inl>
 
-#endif // include guard
+#endif // OGLPLUS_PATH_NV_HPP

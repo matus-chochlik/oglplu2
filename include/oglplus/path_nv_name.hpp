@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_PATH_NV_NAME_1509260923_HPP
-#define OGLPLUS_PATH_NV_NAME_1509260923_HPP
+#ifndef OGLPLUS_PATH_NV_NAME_HPP
+#define OGLPLUS_PATH_NV_NAME_HPP
 
 #ifndef GL_NV_path_rendering
 #error NV_path_rendering API is not defined
@@ -52,4 +52,4 @@ using path_nv_name = object_name<tag::path_nv>;
 
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_PATH_NV_NAME_HPP

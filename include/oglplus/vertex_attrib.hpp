@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_VERTEX_ATTRIB_1509260923_HPP
-#define OGLPLUS_VERTEX_ATTRIB_1509260923_HPP
+#ifndef OGLPLUS_VERTEX_ATTRIB_HPP
+#define OGLPLUS_VERTEX_ATTRIB_HPP
 
 #include "prog_var/location.hpp"
 #include "prog_var/wrapper.hpp"
@@ -45,4 +45,4 @@ struct prog_var_loc_ops<tag::vertex_attrib> {
 
 #include <oglplus/vertex_attrib_get_set.inl>
 
-#endif // include guard
+#endif // OGLPLUS_VERTEX_ATTRIB_HPP

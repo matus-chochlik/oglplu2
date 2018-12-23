@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_TRANSFORM_FEEDBACK_1509260923_HPP
-#define OGLPLUS_TRANSFORM_FEEDBACK_1509260923_HPP
+#ifndef OGLPLUS_TRANSFORM_FEEDBACK_HPP
+#define OGLPLUS_TRANSFORM_FEEDBACK_HPP
 
 #include "buffer_name.hpp"
 #include "error/handling.hpp"
@@ -183,4 +183,4 @@ static const object_zero_and_ops<tag::transform_feedback>
 
 #include <oglplus/transform_feedback.inl>
 
-#endif // include guard
+#endif // OGLPLUS_TRANSFORM_FEEDBACK_HPP

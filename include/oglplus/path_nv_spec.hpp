@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_PATH_NV_SPEC_1509260923_HPP
-#define OGLPLUS_PATH_NV_SPEC_1509260923_HPP
+#ifndef OGLPLUS_PATH_NV_SPEC_HPP
+#define OGLPLUS_PATH_NV_SPEC_HPP
 
 #ifndef GL_NV_path_rendering
 #error NV_path_rendering API is not defined
@@ -47,7 +47,7 @@ private:
         return *this;
     }
 
-    path_nv_spec& _append(GLubyte command, span<const T> coords) {
+    path_nv_spec& _append(GLubyte command, eagine::span<const T> coords) {
         _commands.push_back(command);
         _coords.insert(_coords.end(), coords.begin(), coords.end());
 
@@ -71,7 +71,7 @@ public:
         _coords.reserve(coord_cap);
     }
 
-    path_nv_spec& add(path_command_nv command, span<const T> coords) {
+    path_nv_spec& add(path_command_nv command, eagine::span<const T> coords) {
         return _append(GLubyte(command), coords);
     }
 
@@ -222,4 +222,4 @@ public:
 
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_PATH_NV_SPEC_HPP

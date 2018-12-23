@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_MATH_VECTOR_1509260923_HPP
-#define OGLPLUS_MATH_VECTOR_1509260923_HPP
+#ifndef OGLPLUS_MATH_VECTOR_HPP
+#define OGLPLUS_MATH_VECTOR_HPP
 
 #include "config.hpp"
 #include <eagine/math/tvec.hpp>
@@ -27,4 +27,4 @@ using vec4 = tvec<GLfloat, 4>;
 
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_MATH_VECTOR_HPP

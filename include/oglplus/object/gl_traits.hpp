@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_OBJECT_GL_TRAITS_1509260923_HPP
-#define OGLPLUS_OBJECT_GL_TRAITS_1509260923_HPP
+#ifndef OGLPLUS_OBJECT_GL_TRAITS_HPP
+#define OGLPLUS_OBJECT_GL_TRAITS_HPP
 
 #include "fwd.hpp"
 
@@ -70,4 +70,4 @@ struct object_traits<oglplus::tag::gl_obj_tag<Tag>>
 
 } // namespace eagine
 
-#endif // include guard
+#endif // OGLPLUS_OBJECT_GL_TRAITS_HPP

@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_CONSTANT_DEFS_1509260923_HPP
-#define OGLPLUS_CONSTANT_DEFS_1509260923_HPP
+#ifndef OGLPLUS_CONSTANT_DEFS_HPP
+#define OGLPLUS_CONSTANT_DEFS_HPP
 
 // clang-format off
 #include <oglplus/utils/mp_list.hpp>
@@ -17,4 +17,4 @@
 #include <oglplus/enum/value_defs.inl>
 // clang-format on
 
-#endif // include guard
+#endif // OGLPLUS_CONSTANT_DEFS_HPP

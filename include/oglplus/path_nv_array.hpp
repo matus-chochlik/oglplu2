@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_PATH_NV_ARRAY_1509260923_HPP
-#define OGLPLUS_PATH_NV_ARRAY_1509260923_HPP
+#ifndef OGLPLUS_PATH_NV_ARRAY_HPP
+#define OGLPLUS_PATH_NV_ARRAY_HPP
 
 #include "path_nv.hpp"
 #include "utils/string_span.hpp"
@@ -411,4 +411,4 @@ public:
 
 #include <oglplus/path_nv_array.inl>
 
-#endif // include guard
+#endif // OGLPLUS_PATH_NV_ARRAY_HPP

@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_BUFFER_NAME_1509260923_HPP
-#define OGLPLUS_BUFFER_NAME_1509260923_HPP
+#ifndef OGLPLUS_BUFFER_NAME_HPP
+#define OGLPLUS_BUFFER_NAME_HPP
 
 #include "enum/types.hpp"
 #include "object/gl_name.hpp"
@@ -32,4 +32,4 @@ struct get_obj_binding_point<tag::buffer> {
 
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_BUFFER_NAME_HPP

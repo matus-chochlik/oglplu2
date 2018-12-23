@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_SHADER_1509260923_HPP
-#define OGLPLUS_SHADER_1509260923_HPP
+#ifndef OGLPLUS_SHADER_HPP
+#define OGLPLUS_SHADER_HPP
 
 #include "enum/types.hpp"
 #include "error/handling.hpp"
@@ -143,4 +143,4 @@ using shader_array = object_array_owner<tag::shader, N>;
 
 #include <oglplus/shader.inl>
 
-#endif // include guard
+#endif // OGLPLUS_SHADER_HPP

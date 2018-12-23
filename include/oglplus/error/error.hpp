@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_ERROR_ERROR_1509260923_HPP
-#define OGLPLUS_ERROR_ERROR_1509260923_HPP
+#ifndef OGLPLUS_ERROR_ERROR_HPP
+#define OGLPLUS_ERROR_ERROR_HPP
 
 #include "info.hpp"
 #include <stdexcept>
@@ -32,4 +32,4 @@ public:
 
 #include <oglplus/error/error.inl>
 
-#endif // include guard
+#endif // OGLPLUS_ERROR_ERROR_HPP

@@ -6,11 +6,11 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_OBJECT_GL_NAMES_1509260923_HPP
-#define OGLPLUS_OBJECT_GL_NAMES_1509260923_HPP
+#ifndef OGLPLUS_OBJECT_GL_NAMES_HPP
+#define OGLPLUS_OBJECT_GL_NAMES_HPP
 
 #include "fwd.hpp"
 #include "gl_traits.hpp"
 #include <eagine/object/names.hpp>
 
-#endif // include guard
+#endif // OGLPLUS_OBJECT_GL_NAMES_HPP

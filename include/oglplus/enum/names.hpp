@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_ENUM_NAMES_1509260923_HPP
-#define OGLPLUS_ENUM_NAMES_1509260923_HPP
+#ifndef OGLPLUS_ENUM_NAMES_HPP
+#define OGLPLUS_ENUM_NAMES_HPP
 
 #include "../error/outcome.hpp"
 #include "indexed_value_names.hpp"
@@ -22,4 +22,4 @@ static inline auto enum_value_name(outcome<EnumValue> ocev) noexcept {
 
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_ENUM_NAMES_HPP

@@ -65,13 +65,11 @@ using deferred_error_handler_alc =
     OALPLUS_RETURN_ALC_HANDLER_IF(           \
       oalplus::is_alc_error, DEVICE, ERROR_CODE, ERROR_INFO, SEVERITY)
 
-#define OALPLUS_VERIFY_ALC(ALFUNC, DEVICE, ERROR_INFO, SEVERITY) \
-    OALPLUS_RETURN_HANDLER_IF_ALC_ERROR(                         \
-      DEVICE,                                                    \
-      OALPLUS_ALC_GET_ERROR(DEVICE),                             \
-      (ERROR_INFO)                                               \
-        .al_library_name("ALC")                                  \
-        .ERROR_INFO.al_function_name(#ALFUNC),                   \
+#define OALPLUS_VERIFY_ALC(ALFUNC, DEVICE, ERROR_INFO, SEVERITY)              \
+    OALPLUS_RETURN_HANDLER_IF_ALC_ERROR(                                      \
+      DEVICE,                                                                 \
+      OALPLUS_ALC_GET_ERROR(DEVICE),                                          \
+      ERROR_INFO.al_library_name("ALC").ERROR_INFO.al_function_name(#ALFUNC), \
       SEVERITY)
 
 #define OALPLUS_VERIFY_SIMPLE_ALC(ALCFUNC, DEVICE, SEVERITY) \

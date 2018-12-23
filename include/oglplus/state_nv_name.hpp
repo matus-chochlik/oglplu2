@@ -6,8 +6,8 @@
  *  See accompanying file LICENSE_1_0.txt or copy at
  *   http://www.boost.org/LICENSE_1_0.txt
  */
-#ifndef OGLPLUS_STATE_NV_NAME_1509260923_HPP
-#define OGLPLUS_STATE_NV_NAME_1509260923_HPP
+#ifndef OGLPLUS_STATE_NV_NAME_HPP
+#define OGLPLUS_STATE_NV_NAME_HPP
 
 #ifndef GL_NV_command_list
 #error NV_command_list API is not defined
@@ -26,4 +26,4 @@ using state_nv_name = object_name<tag::state_nv>;
 
 } // namespace oglplus
 
-#endif // include guard
+#endif // OGLPLUS_STATE_NV_NAME_HPP
